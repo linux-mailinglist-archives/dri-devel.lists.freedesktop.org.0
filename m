@@ -1,63 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7EF8C3893EB
-	for <lists+dri-devel@lfdr.de>; Wed, 19 May 2021 18:38:08 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C50183893F8
+	for <lists+dri-devel@lfdr.de>; Wed, 19 May 2021 18:40:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 251E46EE1F;
-	Wed, 19 May 2021 16:38:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 428996E204;
+	Wed, 19 May 2021 16:40:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com
- [IPv6:2607:f8b0:4864:20::102c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2A8606EE1F
- for <dri-devel@lists.freedesktop.org>; Wed, 19 May 2021 16:38:05 +0000 (UTC)
-Received: by mail-pj1-x102c.google.com with SMTP id
- g6-20020a17090adac6b029015d1a9a6f1aso3776740pjx.1
- for <dri-devel@lists.freedesktop.org>; Wed, 19 May 2021 09:38:05 -0700 (PDT)
+Received: from mail-oo1-xc29.google.com (mail-oo1-xc29.google.com
+ [IPv6:2607:f8b0:4864:20::c29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1891A6E204;
+ Wed, 19 May 2021 16:40:32 +0000 (UTC)
+Received: by mail-oo1-xc29.google.com with SMTP id
+ i8-20020a4aa1080000b0290201edd785e7so3143101ool.1; 
+ Wed, 19 May 2021 09:40:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=v+2QREdqW2HXIwZy26xgUhGlmKXeoRbwSm4QcONeIpU=;
- b=pHUUvOpLxOsB9gtmQbg684yPP+rRIWe0/r/Ncbzz4fu7JNy3d5QMGVq42G+3AEAkSo
- 6vc7oKhxqvTRZ7ViOa34GHKWwI/xWro1rWaWiMcsj1eoWOaxTOU6oKed95XASr+o6A20
- 1SVk/ud52YHiDEarh8WdIwT/nPzVf9MAwei0wKmdEavIyDRdbXDGehsxI7p7ElsXzJ3O
- aj+LcnwDdmz3a3gBhJ+t84FCltWv7ED9NQss75E/o5cN5gVd1A5cGxv1x0bA8zXKlu7i
- FW8gw30hLc7TsERPCjAegD7/Hagetz9hwzsxiHOMXxn9YKGF0u+nMRXvQ4L+K7cuLyj3
- Cdmw==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=zNCfFA3iTUAR7nfw2vDgYPSNzR16vnK0bYbOgvyHvMI=;
+ b=ElwNI54ICQy3kLGRhcPRnjiEVKd3grPlIaCHCbVvlnT7UyBehL+duguyaJuDEGeNla
+ LIdGAtPIvVlErfA8WvAp5FJCC1FFRQt4/WlVJTp+Pcoiqg/57+940JXyVdZuB3a7iq2L
+ NYwE0kpUTx16BXX+vhmGwwPtFTiQiM+Pvd23jNVrj7OWYXvkP4vzj3xXV2BWXLBhQEJk
+ N94EiZmPdTZNWD9NgsXHy9t0wyAPIjVJfY6UH9Ytw+qWHWgABlkV0tfKGImOI5juAq+K
+ 1wljiSP3B0bzUNflsGoTfpCOITy/YKmiw5Z4UgEjl2iPk7QSQD9jjDv7zhUQ248Kpizr
+ 7Huw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=v+2QREdqW2HXIwZy26xgUhGlmKXeoRbwSm4QcONeIpU=;
- b=q53CS8OCv31DmOU40+pt+ppTvOvv1FmhVdM0jbgSCYTZcI7sWzmkWymgAUXRWqLURz
- LsTIFiBrhQIFwD73d37FVtq9qj1OMtk41mWhjY/5MDNAmEwRUaKFSzk0e9enP0dCYlkU
- 8bHDXDe9Ju43EsElBXh6x+R9PZMl9vJNCkrrMelrteZ62q4reCCsR9RNgajHiRgD2+l0
- UZlHDq++J20tBGJuKKFlsCDhmz9T/pcH4uPcvAJj6N9MLwIFBXRlWMo2tzBCV66POXrB
- JtbG+lTxW/CqX+ps74XOSGY9iL76L8NB+MrcrVFyvwHOLdFxeug57X+xNZHi0H3Xlc+2
- /zCA==
-X-Gm-Message-State: AOAM530ukCBMXSAYA+Ljm1UxlnV0yxsxgFDAJFhtlqB82QQM0CyDaxCR
- 5Fs605XfWfA9jBMGk1kkv0F9LbxNz2+l9g==
-X-Google-Smtp-Source: ABdhPJxnB/0xdDQwHlxTqGn1NC7r4k7Qfc9yYV97bbmsiNLU9A7Z8xr/P/iKC6w4Um8yS3gR753qhA==
-X-Received: by 2002:a17:902:dacf:b029:ee:ac0e:d0fe with SMTP id
- q15-20020a170902dacfb02900eeac0ed0femr465178plx.30.1621442284613; 
- Wed, 19 May 2021 09:38:04 -0700 (PDT)
-Received: from arch2.localdomain ([182.68.112.122])
- by smtp.gmail.com with ESMTPSA id y1sm1442606pfn.13.2021.05.19.09.38.02
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 19 May 2021 09:38:04 -0700 (PDT)
-From: Deepak Rawat <drawat.floss@gmail.com>
-To: dri-devel@lists.freedesktop.org,
-	linux-hyperv@vger.kernel.org
-Subject: [PATCH v5 3/3] MAINTAINERS: Add maintainer for hyperv video device
-Date: Wed, 19 May 2021 09:37:39 -0700
-Message-Id: <20210519163739.1312-3-drawat.floss@gmail.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210519163739.1312-1-drawat.floss@gmail.com>
-References: <20210519163739.1312-1-drawat.floss@gmail.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=zNCfFA3iTUAR7nfw2vDgYPSNzR16vnK0bYbOgvyHvMI=;
+ b=kna1SQJQjqwAsb0dROpt1tjq8ghchPP+M2W8H3P8kSGJD6qMNZQxpmZy5ctqVpDEEA
+ UdiTYaSWmbucNI6kkTv7lHBHjTKIS5bNEot2RoEv0k+6mkXDAyZ+Ng4fEcO2/w6hZuD6
+ gOSPBFz30ZR452pKvlgL8Mvxny11V6+hcjF9MpFhj50hDmM2I/nLEDqfrLDeIh9OEgI5
+ +2vZ2lGimxNlObCGb3Gi8sZnsMy4mlI4xNrQJZ0FE+cZYFWZkQcd+pzVROxYuuAIx3RS
+ iz7u6Elq0L4jW62TVZtDHEhtsuOB5LLj+Q7SDTjd2HOBCP/KgStdyQjXQKz7dj7NYOtM
+ dhwg==
+X-Gm-Message-State: AOAM532o5LB8ok+hDl+O0GjR549OBxbg/SP0jnrQklM4CIo5ad8wACbW
+ 3DNaovREIwv3csDJ2AQEk6THxgw+vUvsGB9c4mM=
+X-Google-Smtp-Source: ABdhPJw+067c2L/99GOWZARWXw0ORPgXXpEmAbt8nOwAFfgxloS+AgmpmBOVRQ9uXbAXbjRbOfYF6KedqOaKfQta3Fk=
+X-Received: by 2002:a4a:d085:: with SMTP id i5mr142853oor.61.1621442431315;
+ Wed, 19 May 2021 09:40:31 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <e606930c73029f16673849c57acac061dd923866.1621412009.git.mchehab+huawei@kernel.org>
+ <f0589aff-a776-0715-e421-0d9a8cf2cc25@infradead.org>
+In-Reply-To: <f0589aff-a776-0715-e421-0d9a8cf2cc25@infradead.org>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Wed, 19 May 2021 12:40:19 -0400
+Message-ID: <CADnq5_OjJTfwhbEBMFoM-zux8CPDgQhi_6FHpcFYVXYn+CZR7w@mail.gmail.com>
+Subject: Re: [PATCH 1/3] gpu: drm: replace occurrences of invalid character
+To: Randy Dunlap <rdunlap@infradead.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,38 +65,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Deepak Rawat <drawat.floss@gmail.com>, Dexuan Cui <decui@microsoft.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Michael Kelley <mikelley@microsoft.com>
+Cc: Bhaskar Chowdhury <unixbhaskar@gmail.com>,
+ Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ LKML <linux-kernel@vger.kernel.org>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ Chris Wilson <chris@chris-wilson.co.uk>, David Airlie <airlied@linux.ie>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Alex Deucher <alexander.deucher@amd.com>, Evan Quan <evan.quan@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Michal Wajdeczko <michal.wajdeczko@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Maintainer for hyperv synthetic video device.
+Pushed out to drm-misc-next.  Also fixed up Michel's name.
 
-Signed-off-by: Deepak Rawat <drawat.floss@gmail.com>
----
- MAINTAINERS | 8 ++++++++
- 1 file changed, 8 insertions(+)
+Alex
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 41f2b2b85b6d..dbe4ed540e11 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -6084,6 +6084,14 @@ T:	git git://anongit.freedesktop.org/drm/drm-misc
- F:	Documentation/devicetree/bindings/display/hisilicon/
- F:	drivers/gpu/drm/hisilicon/
- 
-+DRM DRIVER FOR HYPERV SYNTHETIC VIDEO DEVICE
-+M:	Deepak Rawat <drawat.floss@gmail.com>
-+L:	linux-hyperv@vger.kernel.org
-+L:	dri-devel@lists.freedesktop.org
-+S:	Maintained
-+T:	git git://anongit.freedesktop.org/drm/drm-misc
-+F:	drivers/gpu/drm/hyperv
-+
- DRM DRIVERS FOR LIMA
- M:	Qiang Yu <yuq825@gmail.com>
- L:	dri-devel@lists.freedesktop.org
--- 
-2.31.1
-
+On Wed, May 19, 2021 at 11:56 AM Randy Dunlap <rdunlap@infradead.org> wrote=
+:
+>
+> On 5/19/21 1:15 AM, Mauro Carvalho Chehab wrote:
+> > There are some places at drm that ended receiving a
+> > REPLACEMENT CHARACTER U+fffd ('=EF=BF=BD'), probably because of
+> > some bad charset conversion.
+> >
+> > Fix them by using what it seems       to be the proper
+> > character.
+> >
+> > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+>
+> Acked-by: Randy Dunlap <rdunlap@infradead.org>
+>
+> Thanks.
+>
+> > ---
+> >  drivers/gpu/drm/amd/include/atombios.h       | 10 +++++-----
+> >  drivers/gpu/drm/i915/gt/intel_gpu_commands.h |  2 +-
+> >  drivers/gpu/drm/i915/i915_gpu_error.h        |  2 +-
+> >  drivers/gpu/drm/r128/r128_drv.h              |  2 +-
+> >  4 files changed, 8 insertions(+), 8 deletions(-)
+> >
+>
+> --
+> ~Randy
+>
