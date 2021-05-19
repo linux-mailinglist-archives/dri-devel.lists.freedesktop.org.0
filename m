@@ -2,62 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C26F3892DF
-	for <lists+dri-devel@lfdr.de>; Wed, 19 May 2021 17:44:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 23BF93892F2
+	for <lists+dri-devel@lfdr.de>; Wed, 19 May 2021 17:48:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6F0D46EE02;
-	Wed, 19 May 2021 15:44:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BE2806EE04;
+	Wed, 19 May 2021 15:48:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com
- [IPv6:2a00:1450:4864:20::32d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D87526EE02
- for <dri-devel@lists.freedesktop.org>; Wed, 19 May 2021 15:44:23 +0000 (UTC)
-Received: by mail-wm1-x32d.google.com with SMTP id
- l18-20020a1ced120000b029014c1adff1edso3707262wmh.4
- for <dri-devel@lists.freedesktop.org>; Wed, 19 May 2021 08:44:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=4nu3OSdvPAQ7VkA5Lu/t0kQYvXnt9HghzAhj6ZR5wXc=;
- b=KW4jncRtsVJ0qOZ8xXM9WdklXP/wPTxhSi5g4UQZUOyLMg5rF0WFjn6wOI3G5tB1X+
- wvH5LtDvcBr0gj+jyw9Y3DzVQek2meyK5G0iRkndiLobnkoEtVdKkjvUNIeTGF5xJ29D
- HeXVJcFy+WVxXf8muJp4RNBPVa9e2hShFmstZsEZLy7NWK0rJCnuDNTHdAGXh3vhGGwD
- V+zB7FaW6abbE218yv3F3NKmajccjq4im07xAPAB2M6E8GOjs6wzmBmDrChrbi/4PGUR
- WH/qzpOQISHnWW7+DMT4j9Emc+1TFBFXtARDDrlJX7Mm7im/5w68aG63BPt+IFfe6XyF
- xqiA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=4nu3OSdvPAQ7VkA5Lu/t0kQYvXnt9HghzAhj6ZR5wXc=;
- b=H7OYrJlNSJYM//yvPYnS/lN3fF61jgwVB7w6Xt4Ces+V6X9IItKqefLWDdWX9T5ixP
- 7zNZKYuZ9xMzqyHKIrY3f7wI9EF3MYf2ML7NZHORhSlsbWslQodvuD17B3CnT2spiO9E
- 0BmEoYqxkLWChhPLmwX8OX+jiKXGZrHTCjV72T5nDSFvaqLPObvBpR2SXX4vYXCPa6NO
- 2AGB8jRtUQz2fXE5ayCqPOu/e/wWY6/ZmPKH45JYmax5Mkn+ptFrwDUPNXAGZuIhH0Rl
- hlVUZbB3JjPIJXZeQmClVHoYTxRM7gCjbBu+ulwivWJL43PPAq5O+l5Z3zAwzfYw/ZBf
- w62w==
-X-Gm-Message-State: AOAM530zmOzdMv/0YdcQeWEH2HtD2admtaTbGBto0MM7fYaOrx7jckwk
- yOC2DwkXAzO1XJYKj2bxvMTxMA==
-X-Google-Smtp-Source: ABdhPJxm3DicWObRp7AE2/siDsEzYxCeS+fBjpBkSEKmMtJQ29aNWO0Wp4a8UD/rCQih9Wz3T4VICQ==
-X-Received: by 2002:a1c:f70d:: with SMTP id v13mr11921329wmh.183.1621439061770; 
- Wed, 19 May 2021 08:44:21 -0700 (PDT)
-Received: from maple.lan (cpc141216-aztw34-2-0-cust174.18-1.cable.virginm.net.
- [80.7.220.175])
- by smtp.gmail.com with ESMTPSA id q1sm6200684wmq.48.2021.05.19.08.44.20
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 19 May 2021 08:44:21 -0700 (PDT)
-Date: Wed, 19 May 2021 16:44:19 +0100
-From: Daniel Thompson <daniel.thompson@linaro.org>
-To: Juerg Haefliger <juerg.haefliger@canonical.com>
-Subject: Re: [PATCH v2] backlight: Kconfig whitespace and indentation cleanups
-Message-ID: <20210519154419.n74hcf7lnqvmuuvf@maple.lan>
-References: <20210517095839.81833-1-juergh@canonical.com>
- <20210519110300.17918-1-juergh@canonical.com>
+Received: from netline-mail3.netline.ch (mail.netline.ch [148.251.143.180])
+ by gabe.freedesktop.org (Postfix) with ESMTP id E78396EE04
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 May 2021 15:48:21 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by netline-mail3.netline.ch (Postfix) with ESMTP id 8C51C20201D;
+ Wed, 19 May 2021 17:48:20 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at netline-mail3.netline.ch
+Received: from netline-mail3.netline.ch ([127.0.0.1])
+ by localhost (netline-mail3.netline.ch [127.0.0.1]) (amavisd-new, port 10024)
+ with LMTP id d3njkECqm17W; Wed, 19 May 2021 17:48:20 +0200 (CEST)
+Received: from thor (24.99.2.85.dynamic.wline.res.cust.swisscom.ch
+ [85.2.99.24])
+ by netline-mail3.netline.ch (Postfix) with ESMTPA id 2D63320201A;
+ Wed, 19 May 2021 17:48:20 +0200 (CEST)
+Received: from [::1] by thor with esmtp (Exim 4.94.2)
+ (envelope-from <michel@daenzer.net>)
+ id 1ljOQk-000jkV-T1; Wed, 19 May 2021 17:48:18 +0200
+To: Jason Ekstrand <jason@jlekstrand.net>
+References: <20210517141129.2225-1-christian.koenig@amd.com>
+ <YKKF4jOvM4gJT6a4@phenom.ffwll.local>
+ <5a3e9500-9d6b-a865-5385-fde43da2bf66@gmail.com>
+ <CAKMK7uF=y44e9-0-4MBj3jRBdCqMaLgKutTMeBWCbySRnPR4KQ@mail.gmail.com>
+ <CAOFGe960UMe4=Xxcoha9R2Y74ma3Pp4Z0DF6PM+SJ2sjq2DBXg@mail.gmail.com>
+ <CAKMK7uGtTT+59hRi3PB1WHPES3YJAPYBvbT74vo9PApNE0i7MQ@mail.gmail.com>
+ <fee06c2d-27fb-1af4-6222-8f277b36c951@gmail.com>
+ <CAKMK7uHLipx_oH-s5PB6pUUZ_JXCyciaY7sDLfK__-2fvSPCKA@mail.gmail.com>
+ <f2eb6751-2f82-9b23-f57e-548de5b729de@gmail.com>
+ <CAKMK7uHdsGjADQ9zwgrYsuhHdxFGkuH--DdOsaqej6OD1AbX-w@mail.gmail.com>
+ <CAOFGe97FDc7Y9APymQQZZMApDXsJkbcS0N5jh+3s-w-Ligipug@mail.gmail.com>
+ <14524566-8854-4bc0-9f70-b7219c9fccfc@daenzer.net>
+ <CAOFGe96VttW2VzAnx13ZXLBGcEDJMehGuOFifcr+pcbEOa-Brw@mail.gmail.com>
+From: =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel@daenzer.net>
+Subject: Re: [RFC] Add DMA_RESV_USAGE flags
+Message-ID: <6f3e2628-7b39-417c-3bd2-c837c5367458@daenzer.net>
+Date: Wed, 19 May 2021 17:48:18 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210519110300.17918-1-juergh@canonical.com>
+In-Reply-To: <CAOFGe96VttW2VzAnx13ZXLBGcEDJMehGuOFifcr+pcbEOa-Brw@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-CA
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,67 +63,67 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Jingoo Han <jingoohan1@gmail.com>,
- Juerg Haefliger <juergh@canonical.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Lee Jones <lee.jones@linaro.org>
+Cc: "moderated list:DMA BUFFER SHARING FRAMEWORK"
+ <linaro-mm-sig@lists.linaro.org>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, May 19, 2021 at 01:03:00PM +0200, Juerg Haefliger wrote:
-> Remove leading whitespaces, replace multi spaces with tabs, and fix help
-> text indentation.
+On 2021-05-19 5:21 p.m., Jason Ekstrand wrote:
+> On Wed, May 19, 2021 at 5:52 AM Michel Dänzer <michel@daenzer.net> wrote:
+>>
+>> On 2021-05-19 12:06 a.m., Jason Ekstrand wrote:
+>>> On Tue, May 18, 2021 at 4:17 PM Daniel Vetter <daniel@ffwll.ch> wrote:
+>>>>
+>>>> On Tue, May 18, 2021 at 7:40 PM Christian König
+>>>> <ckoenig.leichtzumerken@gmail.com> wrote:
+>>>>>
+>>>>> Am 18.05.21 um 18:48 schrieb Daniel Vetter:
+>>>>>> On Tue, May 18, 2021 at 2:49 PM Christian König
+>>>>>> <ckoenig.leichtzumerken@gmail.com> wrote:
+>>>>>>
+>>>>>>> And as long as we are all inside amdgpu we also don't have any oversync,
+>>>>>>> the issue only happens when we share dma-bufs with i915 (radeon and
+>>>>>>> AFAIK nouveau does the right thing as well).
+>>>>>> Yeah because then you can't use the amdgpu dma_resv model anymore and
+>>>>>> have to use the one atomic helpers use. Which is also the one that
+>>>>>> e.g. Jason is threathening to bake in as uapi with his dma_buf ioctl,
+>>>>>> so as soon as that lands and someone starts using it, something has to
+>>>>>> adapt _anytime_ you have a dma-buf hanging around. Not just when it's
+>>>>>> shared with another device.
+>>>>>
+>>>>> Yeah, and that is exactly the reason why I will NAK this uAPI change.
+>>>>>
+>>>>> This doesn't works for amdgpu at all for the reasons outlined above.
+>>>>
+>>>> Uh that's really not how uapi works. "my driver is right, everyone
+>>>> else is wrong" is not how cross driver contracts are defined. If that
+>>>> means a perf impact until you've fixed your rules, that's on you.
+>>>>
+>>>> Also you're a few years too late with nacking this, it's already uapi
+>>>> in the form of the dma-buf poll() support.
+>>>
+>>> ^^  My fancy new ioctl doesn't expose anything that isn't already
+>>> there.  It just lets you take a snap-shot of a wait instead of doing
+>>> an active wait which might end up with more fences added depending on
+>>> interrupts and retries.  The dma-buf poll waits on all fences for
+>>> POLLOUT and only the exclusive fence for POLLIN.  It's already uAPI.
+>>
+>> Note that the dma-buf poll support could be useful to Wayland compositors for the same purpose as Jason's new ioctl (only using client buffers which have finished drawing for an output frame, to avoid missing a refresh cycle due to client drawing), *if* it didn't work differently with amdgpu.
+>>
+>> Am I understanding correctly that Jason's new ioctl would also work differently with amdgpu as things stand currently? If so, that would be a real bummer and might hinder adoption of the ioctl by Wayland compositors.
 > 
-> Signed-off-by: Juerg Haefliger <juergh@canonical.com>
+> My new ioctl has identical semantics to poll().  It just lets you take
+> a snapshot in time to wait on later instead of waiting on whatever
+> happens to be set right now.  IMO, having identical semantics to
+> poll() isn't something we want to change.
 
-Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
+Agreed.
+
+I'd argue then that making amdgpu poll semantics match those of other drivers is a pre-requisite for the new ioctl, otherwise it seems unlikely that the ioctl will be widely adopted.
 
 
-Daniel.
-
-> ---
->  drivers/video/backlight/Kconfig | 22 +++++++++++-----------
->  1 file changed, 11 insertions(+), 11 deletions(-)
-> 
-> diff --git a/drivers/video/backlight/Kconfig b/drivers/video/backlight/Kconfig
-> index d83c87b902c1..c887338de386 100644
-> --- a/drivers/video/backlight/Kconfig
-> +++ b/drivers/video/backlight/Kconfig
-> @@ -128,12 +128,12 @@ config LCD_HX8357
->  	  If you have a HX-8357 LCD panel, say Y to enable its LCD control
->  	  driver.
->  
-> -  config LCD_OTM3225A
-> -  	tristate "ORISE Technology OTM3225A support"
-> -  	depends on SPI
-> -  	help
-> -  	  If you have a panel based on the OTM3225A controller
-> -  	  chip then say y to include a driver for it.
-> +config LCD_OTM3225A
-> +	tristate "ORISE Technology OTM3225A support"
-> +	depends on SPI
-> +	help
-> +	  If you have a panel based on the OTM3225A controller
-> +	  chip then say y to include a driver for it.
->  
->  endif # LCD_CLASS_DEVICE
->  
-> @@ -269,11 +269,11 @@ config BACKLIGHT_MAX8925
->  	  WLED output, say Y here to enable this driver.
->  
->  config BACKLIGHT_APPLE
-> -       tristate "Apple Backlight Driver"
-> -       depends on X86 && ACPI
-> -       help
-> -	 If you have an Intel-based Apple say Y to enable a driver for its
-> -	 backlight.
-> +	tristate "Apple Backlight Driver"
-> +	depends on X86 && ACPI
-> +	help
-> +	  If you have an Intel-based Apple say Y to enable a driver for its
-> +	  backlight.
->  
->  config BACKLIGHT_TOSA
->  	tristate "Sharp SL-6000 Backlight Driver"
-> -- 
-> 2.27.0
-> 
+-- 
+Earthling Michel Dänzer               |               https://redhat.com
+Libre software enthusiast             |             Mesa and X developer
