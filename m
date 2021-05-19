@@ -1,120 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5BA338853D
-	for <lists+dri-devel@lfdr.de>; Wed, 19 May 2021 05:29:15 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5601238859A
+	for <lists+dri-devel@lfdr.de>; Wed, 19 May 2021 05:39:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E8BA36ECD1;
-	Wed, 19 May 2021 03:29:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 75D6D6EA73;
+	Wed, 19 May 2021 03:39:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam12on2064.outbound.protection.outlook.com [40.107.243.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B6CB86ECD1;
- Wed, 19 May 2021 03:29:10 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=GrJOfO7hLM6iD09Vxosl+nPxnSTtNQziqrgjVfLDh5vkKBgDZ1JM63lVcjpiv4xZXtKr8af7YWQM5wGca0Bq/qE0fGyHz86n6YJywQbnWorPyZ3bJhYtk95znqm0yfaylJBRGPzbqIeof/DiYBjGu29Dp7GdfPAb72jhuOD4alUXWjDcqXCNQFOQCOnW+2ct3IKMF1GmYpXgSDrjTlrVxpar90s/Gur76v4UCb9SrFlLt3sOd70kLs2pjdwBSyVibeY1o+Kpu1Q0pCvFEtSYhVWgjcgc55Vpza2EOhU3hAsVpOonAtIHDLtKbUbZ2XXAtsQciWosusklvrKWlNIcaA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=lDf/k2KMi1Uh+Jct7VOkEKJ/0oNNOt4kXbFaqZGO+88=;
- b=MWt9yzajOp4pVt+2j1S+xM4U0AVBbsQWN7hE3UnXDZLDxkqFVCq0/i79Vra6ZVFX5PlcBfRk7DlDgXEf1C7pjbp+WVpPWbwT2ECaaaT+6FZJp8eRPjG6e2mbDL90rjNUpCz7cQuNATnzIvKPBg2smRiMfL+rIAUM6O17ZN980T2rKDMWVAGnJOrvU/IAB1ymLzMR8HHc44mL7FK47f0G+ZQ+IXRIoyj6VCCdyiYb9o8HzsNPYve1JqR69QLDuG5Ey2LaasLWYQohLqrnRhLdnId3lddPtGEqjWnoBnlpz/IU67FgRz3hPS/lq6QjIi2QsyhoA/lUNqiz7Tyjk3Oh2A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=lDf/k2KMi1Uh+Jct7VOkEKJ/0oNNOt4kXbFaqZGO+88=;
- b=4KOBd5QtGAK0O4tuT0Hp8fIOCTJTEUSguEc8taTEXr0n8OFFZLTxdyfR7VSQinBEB8XrKSh1wPhDzjbzy583bOPFe002t3n8K8o4Rlt/MMz5d9hg7QV7r03SRcnOHJmUaNOKWnrKuER6oFA5mfG51YP+jrEDJZ3cCpJMKeEMHxY=
-Authentication-Results: ffwll.ch; dkim=none (message not signed)
- header.d=none;ffwll.ch; dmarc=none action=none header.from=amd.com;
-Received: from BN9PR12MB5129.namprd12.prod.outlook.com (2603:10b6:408:136::12)
- by BN9PR12MB5227.namprd12.prod.outlook.com (2603:10b6:408:100::6)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4129.26; Wed, 19 May
- 2021 03:29:09 +0000
-Received: from BN9PR12MB5129.namprd12.prod.outlook.com
- ([fe80::3c78:e58b:fba7:b8dd]) by BN9PR12MB5129.namprd12.prod.outlook.com
- ([fe80::3c78:e58b:fba7:b8dd%6]) with mapi id 15.20.4129.033; Wed, 19 May 2021
- 03:29:09 +0000
-Subject: Re: [RFC PATCH 1/2] drm/amdgpu: Fix memory corruption due to swapout
- and swapin
-To: xinhui pan <xinhui.pan@amd.com>, amd-gfx@lists.freedesktop.org
-References: <20210519022852.16766-1-xinhui.pan@amd.com>
-From: Felix Kuehling <felix.kuehling@amd.com>
-Organization: AMD Inc.
-Message-ID: <c7f28ef7-c0a1-ff76-2b48-4559a8e0e593@amd.com>
-Date: Tue, 18 May 2021 23:29:07 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-In-Reply-To: <20210519022852.16766-1-xinhui.pan@amd.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-Originating-IP: [165.204.55.251]
-X-ClientProxiedBy: YT2PR01CA0021.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b01:38::26) To BN9PR12MB5129.namprd12.prod.outlook.com
- (2603:10b6:408:136::12)
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ED2066EA73;
+ Wed, 19 May 2021 03:39:08 +0000 (UTC)
+IronPort-SDR: 6kXgNeNTDVNgW1sye/S9GzXi2HS70E/NR9gk0mtNIASt/gdRDc7drI9L+vIVJ6o3ntm8EQGyBk
+ 8MLlrlR9i8dQ==
+X-IronPort-AV: E=McAfee;i="6200,9189,9988"; a="197789524"
+X-IronPort-AV: E=Sophos;i="5.82,311,1613462400"; d="scan'208";a="197789524"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 May 2021 20:39:08 -0700
+IronPort-SDR: dwwlsOPj4kz077+9Yc6WStYOcC0fDI2WwKhxDnura0dhk7VJHlFJUDVybUjXqabrcdCGreJ6VD
+ vbrBwKD7+3Wg==
+X-IronPort-AV: E=Sophos;i="5.82,311,1613462400"; d="scan'208";a="439775571"
+Received: from unknown (HELO sdutt-i7) ([10.165.21.147])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 May 2021 20:39:08 -0700
+Date: Tue, 18 May 2021 20:31:55 -0700
+From: Matthew Brost <matthew.brost@intel.com>
+To: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Subject: Re: [RFC PATCH 03/97] drm/i915/gt: Move CS interrupt handler to the
+ backend
+Message-ID: <20210519033153.GB2378@sdutt-i7>
+References: <20210506191451.77768-1-matthew.brost@intel.com>
+ <20210506191451.77768-4-matthew.brost@intel.com>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [172.27.226.80] (165.204.55.251) by
- YT2PR01CA0021.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:b01:38::26) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4108.30 via Frontend Transport; Wed, 19 May 2021 03:29:08 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: f5ba8050-192e-49cc-cc2c-08d91a764348
-X-MS-TrafficTypeDiagnostic: BN9PR12MB5227:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <BN9PR12MB5227B9190992E6C8C7ED82C5922B9@BN9PR12MB5227.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:663;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: mMzWgPQP9EFy9uhC4OiSk9k4B+TC+r4GOkaQ6agOUBfRQRHnif+GEJzw+Ts34IkKE+AoPItwXW87PH8F1p+YwjjhgVhqyefxOIR4GxMYgP4FBIdEbRthXklTVKS3E2pmuT8XkReOAZPQRyDK9JBE2PYg/UTsaM8heQXZPItwOz6vSvFsZUWOh2O+UVzpn+uM25f9z6T0AZeWUJB5lLfd9HoczDkYkD4QwMTUogwNcJavmQPgIbVyZ+s7cee97LIlTOwbVk1RjM5baUqh2YK9O9rurkQGnFaX7lQiCJEDTIpWqAYHOy8vdcMSxmyTzEJbHJA+UmPiPRjBjR+HiTTSfDexbdhyVq7sk510GEMzZhmIDabwpmenBLCFOKpB9KjQmvcqQgff1+wm8Jui27NZhloGlt0EQcqcaI2bUeq4lBtahPPb7vwNoMcPnNIkJVQy2VKuuB1PwIdjpSoFVLTc65GS10V3d/fodnTPrmoS2dRIjmVOC7mmiU/Ndwtkz3ToaQc9QokD66OWyDc3g8dKmhOnauzCkvFAEB8AVjlXlgCNOcMXlDwbOzdGgQNQ+Z40HNCzd4Zej2ZEb2rcAG7oixIEQ1RVGdUXBbQNEbZ/4zDFiAO+s7JSmljydcqINAO49AuYlRyt9X5gsJ24iYoDeKaAXPIjM+80sU+wUt2Hb3jM6kA1XTQXQ9W1YQxwQbuuPt+VJbKl6NfIJxwaT5IiaON+Kl16fiPA0XPazBkCFZ0MgXum1Ib3rhxGNqTDAcKd
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BN9PR12MB5129.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(136003)(366004)(39860400002)(346002)(376002)(396003)(4326008)(2616005)(66556008)(31686004)(5660300002)(83380400001)(956004)(66476007)(86362001)(66946007)(66574015)(52116002)(186003)(36756003)(16526019)(36916002)(8936002)(2906002)(26005)(38100700002)(53546011)(8676002)(6486002)(966005)(31696002)(478600001)(316002)(38350700002)(44832011)(16576012)(45980500001)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?aTNyb0F1UWhscUszSkZDSmlXWGFWL0xYOE95aW1QNUQyMTJCMkRTeC9rTEdv?=
- =?utf-8?B?YVdiOG1tMmtJMk5lZ0hwWkVqTHVDalNyTS80NldTV2lnWEJWSjEzNVhzeS94?=
- =?utf-8?B?eWRNZlo2Q2RMcW03M1ZVWHl6dmR5WkpGRjJKSVdlTytmZ2psVklNN2VhNFZD?=
- =?utf-8?B?bXl2aDB6N1Q3ZE9yOGJBbUFiem5ONlB4MWh0bDZqZERNdi8yYkNJQUdGV3ls?=
- =?utf-8?B?KzIrRW9xVXBVK2t0T2ZFaWZsM1lEckJNUjFxV1dDampITWtmd29rUGNlbll1?=
- =?utf-8?B?RjJEM09UTTNoZDhsNWdROE95cm4xV1c0aW5acmZDd0pmUGFhRFk2WHZERE1i?=
- =?utf-8?B?ZkJES1F3S2xNa1BEc1hyTjFUcEJyQWhIYTdHS3ZhdUNRQ09rdnQ1NStPWmFk?=
- =?utf-8?B?UEowejFYblBqVklBTTVmenBNZG4wUUkxbzVFcWNFYXNUN3NxcGU5VFQwTFUw?=
- =?utf-8?B?TVpCN3hidTFyM2p4dlBkRHNmZmErNnVaL1NjTlV3WmMrZG8wbVgrUFZXRjRI?=
- =?utf-8?B?ejR0VHFGYXpzajdFTFZJa05JV0Zmc1FZV3czckRnYkM3N0tNYm93QTFiKy94?=
- =?utf-8?B?cHFNODlqeUtoK0h6RXc5N0YzZkZYbGlxcENEVGZlQ2FVbWFWZWdOOUhwQWVX?=
- =?utf-8?B?WWZjMnVGbFBta2VUTlgrc2gvbFVKaGxqL1JRaThrQWdqaEtxN3B6VmpHakE0?=
- =?utf-8?B?TEpyL3FBTkYzek53TzgrSWJOZlZoNTJIcDVETlI2Z2s0V1VzRkxvUkFNbENP?=
- =?utf-8?B?aDdDblR4aGdNTHdTdiswd21GTEd5eHJwYkVPaU1mVHYvVEdjSk1ta29CL1A5?=
- =?utf-8?B?aEE0VHZWSWxOV3ErY3QvV1gwbmZXS0FhV28vZjl4QkRwdUR5NndVQzZCamp2?=
- =?utf-8?B?WTJFcGxNcnQxM1JZWGFGaVJGVnN1NTc2THliQTJJVElYZS9rR29oMW8vYjRR?=
- =?utf-8?B?WG5jRlRCMFhkZGRqL1JQa2ZYU2RaQVZNRkx1bTdRZ3JBNkVYZ1plbGlZYjg1?=
- =?utf-8?B?WXhjVTkwU1ppRFQvRkFHUGtGbURmcWtGZzBZTnVCUWZha25QaXMvdXZ0UVdq?=
- =?utf-8?B?VHFxV0wwdkNKWm94WURZVy9KZ1hFajRsMHpaT0ZFWHgyeUdrVFBpQTV1aTZS?=
- =?utf-8?B?RUpRYnIxR1hFY3NCUmx6WUlVZ0Q1UW5wZ0MxWXFRYzF6QWEyK0ptMlBENGFp?=
- =?utf-8?B?VFRpSzlUNTJHaVdkVVAyRFczZVN2N0dKZml0SzF0UzF1MmdFangrNXJWT256?=
- =?utf-8?B?NGlqK1ViaUJUcENvODViUjF4SHBKNi90QWtVeWVDZ1ZRZkRYaVhrV3lpbFBC?=
- =?utf-8?B?MER6WDQ2azZtWlRVQkpUbGRXdDQxdXRpSHlWZHZrcGpDQW0wS2c1R3o5RC9w?=
- =?utf-8?B?ajFoNXptVHV2VzBhRjBhTHp5MlN3ZFVWN0lzb3c0NWExaWVEYzF5TmFrTGNx?=
- =?utf-8?B?aXNMWGVtTnE0ckExWm9JQTEwc3NHbUVzQTk0bWhtNWtDUWlWSDBBVEE5R2pS?=
- =?utf-8?B?RkpMZjIyZ2hWK1ZpWFBhdUVrWEo1RkNrRkZhR01ZQzNOdEQ4SUdFSW9PUTU2?=
- =?utf-8?B?cjk0V3l2M2h0NGgzeTBiRDhyU3VKa3lTNU4wR1YyL3FaMHJlNGVVa2pweFVh?=
- =?utf-8?B?QW5YcEwzWUVzbXZjL3krUWp1MFFXdkRzRGNJK0U2RnNIQVBrYUxtUS9ONURi?=
- =?utf-8?B?TGZPNXdGOWh3N0RlRGxwSi81N3NmSGFnaDFINE5oYjBPeVcrNWFDQ0o0S0Fv?=
- =?utf-8?Q?qEtGRIHav0VOrK64cODZT+HTC8CZsD9moeeGFfG?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f5ba8050-192e-49cc-cc2c-08d91a764348
-X-MS-Exchange-CrossTenant-AuthSource: BN9PR12MB5129.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 May 2021 03:29:08.8934 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: zqI5SYrunimSujT+obTMPWRHE3np3+uI2VEMKBH9kvDO2I361C30Is8/t/5HazDMoDzwK8oGYn/hajqYZrvsNw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN9PR12MB5227
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210506191451.77768-4-matthew.brost@intel.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -127,111 +50,469 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: alexander.deucher@amd.com, christian.koenig@amd.com,
- dri-devel@lists.freedesktop.org
+Cc: tvrtko.ursulin@intel.com, daniele.ceraolospurio@intel.com,
+ jason.ekstrand@intel.com, jon.bloomfield@intel.com, daniel.vetter@intel.com,
+ john.c.harrison@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Swapping SG BOs makes no sense, because TTM doesn't own the pages of 
-this type of BO.
+On Thu, May 06, 2021 at 12:13:17PM -0700, Matthew Brost wrote:
+> From: Chris Wilson <chris@chris-wilson.co.uk>
+> 
+> The different submission backends each have their own preferred
+> behaviour and interrupt setup. Let each handle their own interrupts.
+> 
+> This becomes more useful later as we to extract the use of auxiliary
+> state in the interrupt handler that is backend specific.
+> 
+> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+> Signed-off-by: Chris Wilson <chris@chris-wilson.co.uk>
+> Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 
-Last I checked, userptr BOs (and other SG BOs) were protected from 
-swapout by the fact that they would not be added to the swap-LRU. But it 
-looks like Christian just removed the swap-LRU. I guess this broke that 
-protection:
+Reviewed-by: Matthew Brost <matthew.brost@intel.com>
 
-commit 2cb51d22d70b18eaf339abf9758bf0b7608da65c
-Author: Christian König <christian.koenig@amd.com>
-Date:   Tue Oct 6 16:30:09 2020 +0200
-
-     drm/ttm: remove swap LRU v3
-
-     Instead evict round robin from each devices SYSTEM and TT domain.
-
-     v2: reorder num_pages access reported by Dan's script
-     v3: fix rebase fallout, num_pages should be 32bit
-
-     Signed-off-by: Christian König <christian.koenig@amd.com>
-     Tested-by: Nirmoy Das <nirmoy.das@amd.com>
-     Reviewed-by: Huang Rui <ray.huang@amd.com>
-     Reviewed-by: Matthew Auld <matthew.auld@intel.com>
-     Link: https://patchwork.freedesktop.org/patch/424009/
-
-Regards,
-   Felix
-
-
-On 2021-05-18 10:28 p.m., xinhui pan wrote:
-> cpu 1                                           cpu 2
-> kfd alloc BO A(userptr)                         alloc BO B(GTT)
->      ->init -> validate				-> init -> validate -> populate
->      init_user_pages				  -> swapout BO A //hit ttm pages limit
-> 	-> get_user_pages (fill up ttm->pages)
-> 	 -> validate -> populate
->            -> swapin BO A // Now hit the BUG
->
-> We know that get_user_pages may race with swapout on same BO.
-> Threre are some issues I have met.
-> 1) memory corruption.
-> This is because we do a swap before memory is setup. ttm_tt_swapout()
-> just create a swap_storage with its content being 0x0. So when we setup
-> memory after the swapout. The following swapin makes the memory
-> corrupted.
->
-> 2) panic
-> When swapout happes with get_user_pages, they touch ttm->pages without
-> anylock. It causes memory corruption too. But I hit page fault mostly.
->
-> Signed-off-by: xinhui pan <xinhui.pan@amd.com>
 > ---
->   drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c | 16 +++++++++++++++-
->   1 file changed, 15 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
-> index 928e8d57cd08..42460e4480f8 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
-> @@ -835,6 +835,7 @@ static int init_user_pages(struct kgd_mem *mem, uint64_t user_addr)
->   	struct amdkfd_process_info *process_info = mem->process_info;
->   	struct amdgpu_bo *bo = mem->bo;
->   	struct ttm_operation_ctx ctx = { true, false };
-> +	struct page **pages;
->   	int ret = 0;
->   
->   	mutex_lock(&process_info->lock);
-> @@ -852,7 +853,13 @@ static int init_user_pages(struct kgd_mem *mem, uint64_t user_addr)
->   		goto out;
->   	}
->   
-> -	ret = amdgpu_ttm_tt_get_user_pages(bo, bo->tbo.ttm->pages);
-> +	pages = kvmalloc_array(bo->tbo.ttm->num_pages,
-> +			sizeof(struct page *),
-> +			GFP_KERNEL | __GFP_ZERO);
-> +	if (!pages)
-> +		goto unregister_out;
+>  drivers/gpu/drm/i915/gt/intel_engine_cs.c     |  7 ++
+>  drivers/gpu/drm/i915/gt/intel_engine_types.h  | 14 +---
+>  .../drm/i915/gt/intel_execlists_submission.c  | 41 ++++++++++
+>  drivers/gpu/drm/i915/gt/intel_gt_irq.c        | 82 ++++++-------------
+>  drivers/gpu/drm/i915/gt/intel_gt_irq.h        | 23 ++++++
+>  .../gpu/drm/i915/gt/intel_ring_submission.c   |  8 ++
+>  drivers/gpu/drm/i915/gt/intel_rps.c           |  2 +-
+>  .../gpu/drm/i915/gt/uc/intel_guc_submission.c | 11 ++-
+>  drivers/gpu/drm/i915/i915_irq.c               | 10 ++-
+>  9 files changed, 124 insertions(+), 74 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/gt/intel_engine_cs.c b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
+> index 0618379b68ca..828e1669f92c 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_engine_cs.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
+> @@ -255,6 +255,11 @@ static void intel_engine_sanitize_mmio(struct intel_engine_cs *engine)
+>  	intel_engine_set_hwsp_writemask(engine, ~0u);
+>  }
+>  
+> +static void nop_irq_handler(struct intel_engine_cs *engine, u16 iir)
+> +{
+> +	GEM_DEBUG_WARN_ON(iir);
+> +}
 > +
-> +	ret = amdgpu_ttm_tt_get_user_pages(bo, pages);
->   	if (ret) {
->   		pr_err("%s: Failed to get user pages: %d\n", __func__, ret);
->   		goto unregister_out;
-> @@ -863,6 +870,12 @@ static int init_user_pages(struct kgd_mem *mem, uint64_t user_addr)
->   		pr_err("%s: Failed to reserve BO\n", __func__);
->   		goto release_out;
->   	}
+>  static int intel_engine_setup(struct intel_gt *gt, enum intel_engine_id id)
+>  {
+>  	const struct engine_info *info = &intel_engines[id];
+> @@ -292,6 +297,8 @@ static int intel_engine_setup(struct intel_gt *gt, enum intel_engine_id id)
+>  	engine->hw_id = info->hw_id;
+>  	engine->guc_id = MAKE_GUC_ID(info->class, info->instance);
+>  
+> +	engine->irq_handler = nop_irq_handler;
 > +
-> +	WARN_ON_ONCE(bo->tbo.ttm->page_flags & TTM_PAGE_FLAG_SWAPPED);
+>  	engine->class = info->class;
+>  	engine->instance = info->instance;
+>  	__sprint_engine_name(engine);
+> diff --git a/drivers/gpu/drm/i915/gt/intel_engine_types.h b/drivers/gpu/drm/i915/gt/intel_engine_types.h
+> index 883bafc44902..9ef349cd5cea 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_engine_types.h
+> +++ b/drivers/gpu/drm/i915/gt/intel_engine_types.h
+> @@ -402,6 +402,7 @@ struct intel_engine_cs {
+>  	u32		irq_enable_mask; /* bitmask to enable ring interrupt */
+>  	void		(*irq_enable)(struct intel_engine_cs *engine);
+>  	void		(*irq_disable)(struct intel_engine_cs *engine);
+> +	void		(*irq_handler)(struct intel_engine_cs *engine, u16 iir);
+>  
+>  	void		(*sanitize)(struct intel_engine_cs *engine);
+>  	int		(*resume)(struct intel_engine_cs *engine);
+> @@ -481,10 +482,9 @@ struct intel_engine_cs {
+>  #define I915_ENGINE_HAS_PREEMPTION   BIT(2)
+>  #define I915_ENGINE_HAS_SEMAPHORES   BIT(3)
+>  #define I915_ENGINE_HAS_TIMESLICES   BIT(4)
+> -#define I915_ENGINE_NEEDS_BREADCRUMB_TASKLET BIT(5)
+> -#define I915_ENGINE_IS_VIRTUAL       BIT(6)
+> -#define I915_ENGINE_HAS_RELATIVE_MMIO BIT(7)
+> -#define I915_ENGINE_REQUIRES_CMD_PARSER BIT(8)
+> +#define I915_ENGINE_IS_VIRTUAL       BIT(5)
+> +#define I915_ENGINE_HAS_RELATIVE_MMIO BIT(6)
+> +#define I915_ENGINE_REQUIRES_CMD_PARSER BIT(7)
+>  	unsigned int flags;
+>  
+>  	/*
+> @@ -593,12 +593,6 @@ intel_engine_has_timeslices(const struct intel_engine_cs *engine)
+>  	return engine->flags & I915_ENGINE_HAS_TIMESLICES;
+>  }
+>  
+> -static inline bool
+> -intel_engine_needs_breadcrumb_tasklet(const struct intel_engine_cs *engine)
+> -{
+> -	return engine->flags & I915_ENGINE_NEEDS_BREADCRUMB_TASKLET;
+> -}
+> -
+>  static inline bool
+>  intel_engine_is_virtual(const struct intel_engine_cs *engine)
+>  {
+> diff --git a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
+> index 9d2da5ccaef6..8db200422950 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
+> @@ -118,6 +118,7 @@
+>  #include "intel_engine_stats.h"
+>  #include "intel_execlists_submission.h"
+>  #include "intel_gt.h"
+> +#include "intel_gt_irq.h"
+>  #include "intel_gt_pm.h"
+>  #include "intel_gt_requests.h"
+>  #include "intel_lrc.h"
+> @@ -2384,6 +2385,45 @@ static void execlists_submission_tasklet(struct tasklet_struct *t)
+>  	rcu_read_unlock();
+>  }
+>  
+> +static void execlists_irq_handler(struct intel_engine_cs *engine, u16 iir)
+> +{
+> +	bool tasklet = false;
 > +
-> +	memcpy(bo->tbo.ttm->pages,
-> +			pages,
-> +			sizeof(struct page*) * bo->tbo.ttm->num_pages);
->   	amdgpu_bo_placement_from_domain(bo, mem->domain);
->   	ret = ttm_bo_validate(&bo->tbo, &bo->placement, &ctx);
->   	if (ret)
-> @@ -872,6 +885,7 @@ static int init_user_pages(struct kgd_mem *mem, uint64_t user_addr)
->   release_out:
->   	amdgpu_ttm_tt_get_user_pages_done(bo->tbo.ttm);
->   unregister_out:
-> +	kvfree(pages);
->   	if (ret)
->   		amdgpu_mn_unregister(bo);
->   out:
+> +	if (unlikely(iir & GT_CS_MASTER_ERROR_INTERRUPT)) {
+> +		u32 eir;
+> +
+> +		/* Upper 16b are the enabling mask, rsvd for internal errors */
+> +		eir = ENGINE_READ(engine, RING_EIR) & GENMASK(15, 0);
+> +		ENGINE_TRACE(engine, "CS error: %x\n", eir);
+> +
+> +		/* Disable the error interrupt until after the reset */
+> +		if (likely(eir)) {
+> +			ENGINE_WRITE(engine, RING_EMR, ~0u);
+> +			ENGINE_WRITE(engine, RING_EIR, eir);
+> +			WRITE_ONCE(engine->execlists.error_interrupt, eir);
+> +			tasklet = true;
+> +		}
+> +	}
+> +
+> +	if (iir & GT_WAIT_SEMAPHORE_INTERRUPT) {
+> +		WRITE_ONCE(engine->execlists.yield,
+> +			   ENGINE_READ_FW(engine, RING_EXECLIST_STATUS_HI));
+> +		ENGINE_TRACE(engine, "semaphore yield: %08x\n",
+> +			     engine->execlists.yield);
+> +		if (del_timer(&engine->execlists.timer))
+> +			tasklet = true;
+> +	}
+> +
+> +	if (iir & GT_CONTEXT_SWITCH_INTERRUPT)
+> +		tasklet = true;
+> +
+> +	if (iir & GT_RENDER_USER_INTERRUPT)
+> +		intel_engine_signal_breadcrumbs(engine);
+> +
+> +	if (tasklet)
+> +		tasklet_hi_schedule(&engine->execlists.tasklet);
+> +}
+> +
+>  static void __execlists_kick(struct intel_engine_execlists *execlists)
+>  {
+>  	/* Kick the tasklet for some interrupt coalescing and reset handling */
+> @@ -3133,6 +3173,7 @@ logical_ring_default_vfuncs(struct intel_engine_cs *engine)
+>  		 * until a more refined solution exists.
+>  		 */
+>  	}
+> +	intel_engine_set_irq_handler(engine, execlists_irq_handler);
+>  
+>  	engine->flags |= I915_ENGINE_SUPPORTS_STATS;
+>  	if (!intel_vgpu_active(engine->i915)) {
+> diff --git a/drivers/gpu/drm/i915/gt/intel_gt_irq.c b/drivers/gpu/drm/i915/gt/intel_gt_irq.c
+> index 9fc6c912a4e5..d29126c458ba 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_gt_irq.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_gt_irq.c
+> @@ -20,48 +20,6 @@ static void guc_irq_handler(struct intel_guc *guc, u16 iir)
+>  		intel_guc_to_host_event_handler(guc);
+>  }
+>  
+> -static void
+> -cs_irq_handler(struct intel_engine_cs *engine, u32 iir)
+> -{
+> -	bool tasklet = false;
+> -
+> -	if (unlikely(iir & GT_CS_MASTER_ERROR_INTERRUPT)) {
+> -		u32 eir;
+> -
+> -		/* Upper 16b are the enabling mask, rsvd for internal errors */
+> -		eir = ENGINE_READ(engine, RING_EIR) & GENMASK(15, 0);
+> -		ENGINE_TRACE(engine, "CS error: %x\n", eir);
+> -
+> -		/* Disable the error interrupt until after the reset */
+> -		if (likely(eir)) {
+> -			ENGINE_WRITE(engine, RING_EMR, ~0u);
+> -			ENGINE_WRITE(engine, RING_EIR, eir);
+> -			WRITE_ONCE(engine->execlists.error_interrupt, eir);
+> -			tasklet = true;
+> -		}
+> -	}
+> -
+> -	if (iir & GT_WAIT_SEMAPHORE_INTERRUPT) {
+> -		WRITE_ONCE(engine->execlists.yield,
+> -			   ENGINE_READ_FW(engine, RING_EXECLIST_STATUS_HI));
+> -		ENGINE_TRACE(engine, "semaphore yield: %08x\n",
+> -			     engine->execlists.yield);
+> -		if (del_timer(&engine->execlists.timer))
+> -			tasklet = true;
+> -	}
+> -
+> -	if (iir & GT_CONTEXT_SWITCH_INTERRUPT)
+> -		tasklet = true;
+> -
+> -	if (iir & GT_RENDER_USER_INTERRUPT) {
+> -		intel_engine_signal_breadcrumbs(engine);
+> -		tasklet |= intel_engine_needs_breadcrumb_tasklet(engine);
+> -	}
+> -
+> -	if (tasklet)
+> -		tasklet_hi_schedule(&engine->execlists.tasklet);
+> -}
+> -
+>  static u32
+>  gen11_gt_engine_identity(struct intel_gt *gt,
+>  			 const unsigned int bank, const unsigned int bit)
+> @@ -122,7 +80,7 @@ gen11_engine_irq_handler(struct intel_gt *gt, const u8 class,
+>  		engine = NULL;
+>  
+>  	if (likely(engine))
+> -		return cs_irq_handler(engine, iir);
+> +		return intel_engine_cs_irq(engine, iir);
+>  
+>  	WARN_ONCE(1, "unhandled engine interrupt class=0x%x, instance=0x%x\n",
+>  		  class, instance);
+> @@ -275,9 +233,12 @@ void gen11_gt_irq_postinstall(struct intel_gt *gt)
+>  void gen5_gt_irq_handler(struct intel_gt *gt, u32 gt_iir)
+>  {
+>  	if (gt_iir & GT_RENDER_USER_INTERRUPT)
+> -		intel_engine_signal_breadcrumbs(gt->engine_class[RENDER_CLASS][0]);
+> +		intel_engine_cs_irq(gt->engine_class[RENDER_CLASS][0],
+> +				    gt_iir);
+> +
+>  	if (gt_iir & ILK_BSD_USER_INTERRUPT)
+> -		intel_engine_signal_breadcrumbs(gt->engine_class[VIDEO_DECODE_CLASS][0]);
+> +		intel_engine_cs_irq(gt->engine_class[VIDEO_DECODE_CLASS][0],
+> +				    gt_iir);
+>  }
+>  
+>  static void gen7_parity_error_irq_handler(struct intel_gt *gt, u32 iir)
+> @@ -301,11 +262,16 @@ static void gen7_parity_error_irq_handler(struct intel_gt *gt, u32 iir)
+>  void gen6_gt_irq_handler(struct intel_gt *gt, u32 gt_iir)
+>  {
+>  	if (gt_iir & GT_RENDER_USER_INTERRUPT)
+> -		intel_engine_signal_breadcrumbs(gt->engine_class[RENDER_CLASS][0]);
+> +		intel_engine_cs_irq(gt->engine_class[RENDER_CLASS][0],
+> +				    gt_iir);
+> +
+>  	if (gt_iir & GT_BSD_USER_INTERRUPT)
+> -		intel_engine_signal_breadcrumbs(gt->engine_class[VIDEO_DECODE_CLASS][0]);
+> +		intel_engine_cs_irq(gt->engine_class[VIDEO_DECODE_CLASS][0],
+> +				    gt_iir >> 12);
+> +
+>  	if (gt_iir & GT_BLT_USER_INTERRUPT)
+> -		intel_engine_signal_breadcrumbs(gt->engine_class[COPY_ENGINE_CLASS][0]);
+> +		intel_engine_cs_irq(gt->engine_class[COPY_ENGINE_CLASS][0],
+> +				    gt_iir >> 22);
+>  
+>  	if (gt_iir & (GT_BLT_CS_ERROR_INTERRUPT |
+>  		      GT_BSD_CS_ERROR_INTERRUPT |
+> @@ -324,10 +290,10 @@ void gen8_gt_irq_handler(struct intel_gt *gt, u32 master_ctl)
+>  	if (master_ctl & (GEN8_GT_RCS_IRQ | GEN8_GT_BCS_IRQ)) {
+>  		iir = raw_reg_read(regs, GEN8_GT_IIR(0));
+>  		if (likely(iir)) {
+> -			cs_irq_handler(gt->engine_class[RENDER_CLASS][0],
+> -				       iir >> GEN8_RCS_IRQ_SHIFT);
+> -			cs_irq_handler(gt->engine_class[COPY_ENGINE_CLASS][0],
+> -				       iir >> GEN8_BCS_IRQ_SHIFT);
+> +			intel_engine_cs_irq(gt->engine_class[RENDER_CLASS][0],
+> +					    iir >> GEN8_RCS_IRQ_SHIFT);
+> +			intel_engine_cs_irq(gt->engine_class[COPY_ENGINE_CLASS][0],
+> +					    iir >> GEN8_BCS_IRQ_SHIFT);
+>  			raw_reg_write(regs, GEN8_GT_IIR(0), iir);
+>  		}
+>  	}
+> @@ -335,10 +301,10 @@ void gen8_gt_irq_handler(struct intel_gt *gt, u32 master_ctl)
+>  	if (master_ctl & (GEN8_GT_VCS0_IRQ | GEN8_GT_VCS1_IRQ)) {
+>  		iir = raw_reg_read(regs, GEN8_GT_IIR(1));
+>  		if (likely(iir)) {
+> -			cs_irq_handler(gt->engine_class[VIDEO_DECODE_CLASS][0],
+> -				       iir >> GEN8_VCS0_IRQ_SHIFT);
+> -			cs_irq_handler(gt->engine_class[VIDEO_DECODE_CLASS][1],
+> -				       iir >> GEN8_VCS1_IRQ_SHIFT);
+> +			intel_engine_cs_irq(gt->engine_class[VIDEO_DECODE_CLASS][0],
+> +					    iir >> GEN8_VCS0_IRQ_SHIFT);
+> +			intel_engine_cs_irq(gt->engine_class[VIDEO_DECODE_CLASS][1],
+> +					    iir >> GEN8_VCS1_IRQ_SHIFT);
+>  			raw_reg_write(regs, GEN8_GT_IIR(1), iir);
+>  		}
+>  	}
+> @@ -346,8 +312,8 @@ void gen8_gt_irq_handler(struct intel_gt *gt, u32 master_ctl)
+>  	if (master_ctl & GEN8_GT_VECS_IRQ) {
+>  		iir = raw_reg_read(regs, GEN8_GT_IIR(3));
+>  		if (likely(iir)) {
+> -			cs_irq_handler(gt->engine_class[VIDEO_ENHANCEMENT_CLASS][0],
+> -				       iir >> GEN8_VECS_IRQ_SHIFT);
+> +			intel_engine_cs_irq(gt->engine_class[VIDEO_ENHANCEMENT_CLASS][0],
+> +					    iir >> GEN8_VECS_IRQ_SHIFT);
+>  			raw_reg_write(regs, GEN8_GT_IIR(3), iir);
+>  		}
+>  	}
+> diff --git a/drivers/gpu/drm/i915/gt/intel_gt_irq.h b/drivers/gpu/drm/i915/gt/intel_gt_irq.h
+> index f667e976fb2b..41cad38668c5 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_gt_irq.h
+> +++ b/drivers/gpu/drm/i915/gt/intel_gt_irq.h
+> @@ -8,6 +8,8 @@
+>  
+>  #include <linux/types.h>
+>  
+> +#include "intel_engine_types.h"
+> +
+>  struct intel_gt;
+>  
+>  #define GEN8_GT_IRQS (GEN8_GT_RCS_IRQ | \
+> @@ -39,4 +41,25 @@ void gen8_gt_irq_handler(struct intel_gt *gt, u32 master_ctl);
+>  void gen8_gt_irq_reset(struct intel_gt *gt);
+>  void gen8_gt_irq_postinstall(struct intel_gt *gt);
+>  
+> +static inline void intel_engine_cs_irq(struct intel_engine_cs *engine, u16 iir)
+> +{
+> +	if (iir)
+> +		engine->irq_handler(engine, iir);
+> +}
+> +
+> +static inline void
+> +intel_engine_set_irq_handler(struct intel_engine_cs *engine,
+> +			     void (*fn)(struct intel_engine_cs *engine,
+> +					u16 iir))
+> +{
+> +	/*
+> +	 * As the interrupt is live as allocate and setup the engines,
+> +	 * err on the side of caution and apply barriers to updating
+> +	 * the irq handler callback. This assures that when we do use
+> +	 * the engine, we will receive interrupts only to ourselves,
+> +	 * and not lose any.
+> +	 */
+> +	smp_store_mb(engine->irq_handler, fn);
+> +}
+> +
+>  #endif /* INTEL_GT_IRQ_H */
+> diff --git a/drivers/gpu/drm/i915/gt/intel_ring_submission.c b/drivers/gpu/drm/i915/gt/intel_ring_submission.c
+> index 5f4f7f1df48f..2b6dffcc2262 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_ring_submission.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_ring_submission.c
+> @@ -12,6 +12,7 @@
+>  #include "intel_breadcrumbs.h"
+>  #include "intel_context.h"
+>  #include "intel_gt.h"
+> +#include "intel_gt_irq.h"
+>  #include "intel_reset.h"
+>  #include "intel_ring.h"
+>  #include "shmem_utils.h"
+> @@ -1017,10 +1018,17 @@ static void ring_release(struct intel_engine_cs *engine)
+>  	intel_timeline_put(engine->legacy.timeline);
+>  }
+>  
+> +static void irq_handler(struct intel_engine_cs *engine, u16 iir)
+> +{
+> +	intel_engine_signal_breadcrumbs(engine);
+> +}
+> +
+>  static void setup_irq(struct intel_engine_cs *engine)
+>  {
+>  	struct drm_i915_private *i915 = engine->i915;
+>  
+> +	intel_engine_set_irq_handler(engine, irq_handler);
+> +
+>  	if (INTEL_GEN(i915) >= 6) {
+>  		engine->irq_enable = gen6_irq_enable;
+>  		engine->irq_disable = gen6_irq_disable;
+> diff --git a/drivers/gpu/drm/i915/gt/intel_rps.c b/drivers/gpu/drm/i915/gt/intel_rps.c
+> index 405d814e9040..97cab1b99871 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_rps.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_rps.c
+> @@ -1774,7 +1774,7 @@ void gen6_rps_irq_handler(struct intel_rps *rps, u32 pm_iir)
+>  		return;
+>  
+>  	if (pm_iir & PM_VEBOX_USER_INTERRUPT)
+> -		intel_engine_signal_breadcrumbs(gt->engine[VECS0]);
+> +		intel_engine_cs_irq(gt->engine[VECS0], pm_iir >> 10);
+>  
+>  	if (pm_iir & PM_VEBOX_CS_ERROR_INTERRUPT)
+>  		DRM_DEBUG("Command parser error, pm_iir 0x%08x\n", pm_iir);
+> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> index 17b551a0c89f..335719f17490 100644
+> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> @@ -11,6 +11,7 @@
+>  #include "gt/intel_context.h"
+>  #include "gt/intel_engine_pm.h"
+>  #include "gt/intel_gt.h"
+> +#include "gt/intel_gt_irq.h"
+>  #include "gt/intel_gt_pm.h"
+>  #include "gt/intel_lrc.h"
+>  #include "gt/intel_mocs.h"
+> @@ -264,6 +265,14 @@ static void guc_submission_tasklet(struct tasklet_struct *t)
+>  	spin_unlock_irqrestore(&engine->active.lock, flags);
+>  }
+>  
+> +static void cs_irq_handler(struct intel_engine_cs *engine, u16 iir)
+> +{
+> +	if (iir & GT_RENDER_USER_INTERRUPT) {
+> +		intel_engine_signal_breadcrumbs(engine);
+> +		tasklet_hi_schedule(&engine->execlists.tasklet);
+> +	}
+> +}
+> +
+>  static void guc_reset_prepare(struct intel_engine_cs *engine)
+>  {
+>  	struct intel_engine_execlists * const execlists = &engine->execlists;
+> @@ -645,7 +654,6 @@ static void guc_default_vfuncs(struct intel_engine_cs *engine)
+>  	}
+>  	engine->set_default_submission = guc_set_default_submission;
+>  
+> -	engine->flags |= I915_ENGINE_NEEDS_BREADCRUMB_TASKLET;
+>  	engine->flags |= I915_ENGINE_HAS_PREEMPTION;
+>  
+>  	/*
+> @@ -681,6 +689,7 @@ static void rcs_submission_override(struct intel_engine_cs *engine)
+>  static inline void guc_default_irqs(struct intel_engine_cs *engine)
+>  {
+>  	engine->irq_keep_mask = GT_RENDER_USER_INTERRUPT;
+> +	intel_engine_set_irq_handler(engine, cs_irq_handler);
+>  }
+>  
+>  int intel_guc_submission_setup(struct intel_engine_cs *engine)
+> diff --git a/drivers/gpu/drm/i915/i915_irq.c b/drivers/gpu/drm/i915/i915_irq.c
+> index f6967a93ec7a..d58118806299 100644
+> --- a/drivers/gpu/drm/i915/i915_irq.c
+> +++ b/drivers/gpu/drm/i915/i915_irq.c
+> @@ -4014,7 +4014,7 @@ static irqreturn_t i8xx_irq_handler(int irq, void *arg)
+>  		intel_uncore_write16(&dev_priv->uncore, GEN2_IIR, iir);
+>  
+>  		if (iir & I915_USER_INTERRUPT)
+> -			intel_engine_signal_breadcrumbs(dev_priv->gt.engine[RCS0]);
+> +			intel_engine_cs_irq(dev_priv->gt.engine[RCS0], iir);
+>  
+>  		if (iir & I915_MASTER_ERROR_INTERRUPT)
+>  			i8xx_error_irq_handler(dev_priv, eir, eir_stuck);
+> @@ -4122,7 +4122,7 @@ static irqreturn_t i915_irq_handler(int irq, void *arg)
+>  		intel_uncore_write(&dev_priv->uncore, GEN2_IIR, iir);
+>  
+>  		if (iir & I915_USER_INTERRUPT)
+> -			intel_engine_signal_breadcrumbs(dev_priv->gt.engine[RCS0]);
+> +			intel_engine_cs_irq(dev_priv->gt.engine[RCS0], iir);
+>  
+>  		if (iir & I915_MASTER_ERROR_INTERRUPT)
+>  			i9xx_error_irq_handler(dev_priv, eir, eir_stuck);
+> @@ -4267,10 +4267,12 @@ static irqreturn_t i965_irq_handler(int irq, void *arg)
+>  		intel_uncore_write(&dev_priv->uncore, GEN2_IIR, iir);
+>  
+>  		if (iir & I915_USER_INTERRUPT)
+> -			intel_engine_signal_breadcrumbs(dev_priv->gt.engine[RCS0]);
+> +			intel_engine_cs_irq(dev_priv->gt.engine[RCS0],
+> +					    iir);
+>  
+>  		if (iir & I915_BSD_USER_INTERRUPT)
+> -			intel_engine_signal_breadcrumbs(dev_priv->gt.engine[VCS0]);
+> +			intel_engine_cs_irq(dev_priv->gt.engine[VCS0],
+> +					    iir >> 25);
+>  
+>  		if (iir & I915_MASTER_ERROR_INTERRUPT)
+>  			i9xx_error_irq_handler(dev_priv, eir, eir_stuck);
+> -- 
+> 2.28.0
+> 
