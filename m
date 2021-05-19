@@ -2,39 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E9073889B6
-	for <lists+dri-devel@lfdr.de>; Wed, 19 May 2021 10:49:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 379193889CA
+	for <lists+dri-devel@lfdr.de>; Wed, 19 May 2021 10:52:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 103206ECE8;
-	Wed, 19 May 2021 08:49:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6C0716ECF0;
+	Wed, 19 May 2021 08:51:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8F3686ECE8;
- Wed, 19 May 2021 08:49:48 +0000 (UTC)
-IronPort-SDR: 02m4kXmbJFW8i6Na++34LZgcNR6X4PCr396g2rKxXYJSt/uJPdHb7dM70Mno4uVvA6n7M/WRo9
- KQ3jZuFE7/PA==
-X-IronPort-AV: E=McAfee;i="6200,9189,9988"; a="264842315"
-X-IronPort-AV: E=Sophos;i="5.82,312,1613462400"; d="scan'208";a="264842315"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 May 2021 01:49:47 -0700
-IronPort-SDR: A3ZuhPoIvJIIdAoaTqts9TxeYrNEf8KE5EMeiILZ3gJCoV+i9djmJYQoUZoL+LRZoPm1PmY9Iq
- JTjcnVdLXZpg==
-X-IronPort-AV: E=Sophos;i="5.82,312,1613462400"; d="scan'208";a="473401082"
-Received: from akrolak-mobl.ger.corp.intel.com (HELO localhost)
- ([10.249.37.74])
- by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 May 2021 01:49:44 -0700
-From: Jani Nikula <jani.nikula@intel.com>
-To: dim-tools@lists.freedesktop.org
-Subject: [drm-rerere PATCH] nightly.conf: drop amd branches from drm-tip
-Date: Wed, 19 May 2021 11:49:32 +0300
-Message-Id: <20210519084932.8666-1-jani.nikula@intel.com>
-X-Mailer: git-send-email 2.20.1
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A2BCD6ECEE
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 May 2021 08:51:51 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 5A3B560C3F;
+ Wed, 19 May 2021 08:51:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1621414311;
+ bh=Xxq1uGAbMGFgeGY3ywEv0OBhOMcnDBc4Aw7rV293abg=;
+ h=From:To:Cc:Subject:Date:From;
+ b=HDXmH4kOj1Ffc8/2cPIVagMkwv75xN8kuE4Rn2GW4zUfWOy+/uoxuQky8Dxr9RDVR
+ fVbJMLGgIq+XN+7alWCEcvtKmIWWeiFvOiQyJ9+cMJ+eSmjCj1liIls/T2ERP28sI/
+ Mx2fxh/6TMjsCdbJkuDfE+YtP5rjlL4GYJEyhOZQoAdSbeHyiSWV4ePGv7ROh0zXu8
+ AjzAbT5IYTV7AdlhASpd63KP0Dt2giApS3oj5J8fG1nIer7c4N9j0aGbYuzwaHItI1
+ /kiR1YGrJsdKvu92/Jkc0v9EXHz/fFBf6YBUXpnf+fLICsbgPu9SeBtSBORPjhj95H
+ lVUyUg6TpgwrA==
+Received: by mail.kernel.org with local (Exim 4.94.2)
+ (envelope-from <mchehab@kernel.org>)
+ id 1ljHvh-007gXv-8w; Wed, 19 May 2021 10:51:49 +0200
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>
+Subject: [PATCH 00/10] Documentation build warning fixes
+Date: Wed, 19 May 2021 10:51:37 +0200
+Message-Id: <cover.1621413933.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -48,68 +48,62 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: jani.nikula@intel.com, Daniel Vetter <daniel.vetter@ffwll.ch>,
-	intel-gfx@lists.freedesktop.org, Xinhui <Xinhui.Pan@amd.com>,
-	dri-devel@lists.freedesktop.org,
-	Alex Deucher <alexander.deucher@amd.com>,
-	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-	Pan@freedesktop.org
+Cc: linux-iio@vger.kernel.org, Daniel Thompson <daniel.thompson@linaro.org>,
+ kvm@vger.kernel.org, alsa-devel@alsa-project.org,
+ Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-gpio@vger.kernel.org,
+ patches@opensource.cirrus.com, Jingoo Han <jingoohan1@gmail.com>,
+ Lee Jones <lee.jones@linaro.org>, Jonathan Cameron <jic23@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-We've had a stale repo for amd in drm-tip since around v4.15 i.e. for
-more than three years. Nobody seems to notice or care. Drop the amd
-branches from drm-tip.
+Hi Jon,
 
-Having the current amd branches in drm-tip would be nice to have, if
-only to have a common drm integration tree. However, maintaining that
-has a cost due to the inevitable conflicts. We can add the branches back
-if and when there's interest in sharing the burden.
+This small series contain a series of fixes for the documentation. it is
+against your docs-next branch.
 
-Cc: Alex Deucher <alexander.deucher@amd.com>
-Cc: Christian König <christian.koenig@amd.com>
-Cc: Pan, Xinhui <Xinhui.Pan@amd.com>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-Signed-off-by: Jani Nikula <jani.nikula@intel.com>
----
- nightly.conf | 9 ---------
- 1 file changed, 9 deletions(-)
+Three of the patches fix duplicated symbols at the ABI documents.
+There are still some ABI warnings from IIO, but all but one were
+already fixed at linux-next. So, hopefully, after having everything
+merged, the ABI warnings will be solved.
 
-diff --git a/nightly.conf b/nightly.conf
-index 9211550ef75c..35fb1d9ba600 100644
---- a/nightly.conf
-+++ b/nightly.conf
-@@ -40,12 +40,6 @@ git://anongit.freedesktop.org/drm-misc
- https://anongit.freedesktop.org/git/drm/drm-misc
- https://anongit.freedesktop.org/git/drm/drm-misc.git
- "
--drm_tip_repos[drm-amd]="
--ssh://git.freedesktop.org/git/drm/drm-amd
--git://anongit.freedesktop.org/drm/drm-amd
--https://anongit.freedesktop.org/git/drm/drm-amd
--https://anongit.freedesktop.org/git/drm/drm-amd.git
--"
- drm_tip_repos[drm]="
- ssh://git.freedesktop.org/git/drm/drm
- git://anongit.freedesktop.org/drm/drm
-@@ -76,17 +70,14 @@ drm_tip_config=(
- 	"drm			drm-fixes"
- 	"drm-misc		drm-misc-fixes"
- 	"drm-intel		drm-intel-fixes"
--	"drm-amd		drm-amd-fixes"
- 
- 	"drm			drm-next"
- 	"drm-misc		drm-misc-next-fixes"
- 	"drm-intel		drm-intel-next-fixes"
--	"drm-amd		drm-amd-next-fixes"
- 
- 	"drm-misc		drm-misc-next"
- 	"drm-intel		drm-intel-next"
- 	"drm-intel		drm-intel-gt-next"
--	"drm-amd		drm-amd-next"
- 
- 	"sound-upstream		for-linus"
- 	"sound-upstream		for-next"
+Mauro Carvalho Chehab (10):
+  docs: update sysfs-platform_profile.rst reference
+  docs: vcpu-requests.rst: fix reference for atomic ops
+  docs: translations/zh_CN: fix a typo at 8.Conclusion.rst
+  docs: sched-bwc.rst: fix a typo on a doc name
+  docs: update pin-control.rst references
+  docs: virt: api.rst: fix a pointer to SGX documentation
+  docs: ABI: iommu: remove duplicated definition for
+    sysfs-kernel-iommu_groups
+  docs: ABI: sysfs-class-backlight: unify ambient light zone nodes
+  docs: ABI: sysfs-class-led-trigger-pattern: remove repeat duplication
+  iio: documentation: fix a typo
+
+ Documentation/ABI/testing/sysfs-bus-iio       |   4 +-
+ .../ABI/testing/sysfs-class-backlight         | 100 ++++++++++++++++++
+ .../ABI/testing/sysfs-class-backlight-adp5520 |  31 ------
+ .../ABI/testing/sysfs-class-backlight-adp8860 |  37 -------
+ .../sysfs-class-backlight-driver-adp8870      |  32 ------
+ .../testing/sysfs-class-led-driver-el15203000 |   9 --
+ .../testing/sysfs-class-led-trigger-pattern   |   3 +
+ .../ABI/testing/sysfs-kernel-iommu_groups     |  12 +--
+ Documentation/scheduler/sched-bwc.rst         |   2 +-
+ .../zh_CN/process/8.Conclusion.rst            |   2 +-
+ Documentation/virt/kvm/api.rst                |   2 +-
+ Documentation/virt/kvm/vcpu-requests.rst      |   2 +-
+ include/linux/device.h                        |   2 +-
+ include/linux/mfd/madera/pdata.h              |   2 +-
+ include/linux/pinctrl/pinconf-generic.h       |   2 +-
+ include/linux/platform_profile.h              |   2 +-
+ 16 files changed, 117 insertions(+), 127 deletions(-)
+ delete mode 100644 Documentation/ABI/testing/sysfs-class-backlight-adp5520
+ delete mode 100644 Documentation/ABI/testing/sysfs-class-backlight-adp8860
+ delete mode 100644 Documentation/ABI/testing/sysfs-class-backlight-driver-adp8870
+ delete mode 100644 Documentation/ABI/testing/sysfs-class-led-driver-el15203000
+
 -- 
-2.20.1
+2.31.1
+
 
