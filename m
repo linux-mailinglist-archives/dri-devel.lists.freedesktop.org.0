@@ -2,56 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0671C389376
-	for <lists+dri-devel@lfdr.de>; Wed, 19 May 2021 18:16:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF08C3893BB
+	for <lists+dri-devel@lfdr.de>; Wed, 19 May 2021 18:27:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9833C6EE12;
-	Wed, 19 May 2021 16:16:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 723C46EE14;
+	Wed, 19 May 2021 16:27:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AD8596EE0F;
- Wed, 19 May 2021 16:16:13 +0000 (UTC)
-IronPort-SDR: D2VT0kvJyrZ58R1WX+Yz7w5bHuO8Xa+UB0XTxYM6ZgXp1pN+4KybWYowTYsoDXdSATJCq7JGEJ
- nLFc+Krvt8LQ==
-X-IronPort-AV: E=McAfee;i="6200,9189,9989"; a="201063318"
-X-IronPort-AV: E=Sophos;i="5.82,313,1613462400"; d="scan'208";a="201063318"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 May 2021 09:16:07 -0700
-IronPort-SDR: QJO5a5py9Yij6FH11k4P+DQndNdJBbOrgAAprs2MeXjWyX+1bSML/jOYEnMsoSSf/ABysqF1mY
- +wMZLjUnUNDw==
-X-IronPort-AV: E=Sophos;i="5.82,313,1613462400"; d="scan'208";a="544620966"
-Received: from leiderma-mobl1.ger.corp.intel.com (HELO [10.213.194.66])
- ([10.213.194.66])
- by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 May 2021 09:16:05 -0700
-Subject: Re: [PATCH 0/7] Per client engine busyness
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-To: Daniel Stone <daniel@fooishbar.org>
-References: <c6c61179-5b4b-4e0b-6e57-ec4839ca3268@linux.intel.com>
- <b2203d34-2de3-7c58-de2f-bf6fafc3f67c@amd.com>
- <6cf2f14a-6a16-5ea3-d307-004faad4cc79@linux.intel.com>
- <a2b03603-eb3e-7bef-a799-c15cfb1a8e0b@amd.com>
- <YKJ+F4KqEiQQYkRz@phenom.ffwll.local>
- <BYAPR12MB2840C633CF05C1F29263F5BCF42D9@BYAPR12MB2840.namprd12.prod.outlook.com>
- <c85fc53f-d25b-464c-d411-eed4a509a009@linux.intel.com>
- <BYAPR12MB28409E25DEFD3DD620E596ABF42D9@BYAPR12MB2840.namprd12.prod.outlook.com>
- <BYAPR12MB284090FAC1C6E149F0A1A0ECF42D9@BYAPR12MB2840.namprd12.prod.outlook.com>
- <mysJHURIfWxBRBabIlnunj7LZNkkRQ-Knu_o6v7GZI4xCwGMZXn0rvjscl-aTT_d-ttlAQgJOG3gP95DBd_dxCPQNfguTSdrltxPrKt2FGs=@emersion.fr>
- <7f8fc38a-cd25-aa1f-fa2d-5d3334edb3d2@linux.intel.com>
- <CAPj87rOL7SEVXoH1rWH9ypj7idRmVPLXzmEsdVqFdVjsMh5PbA@mail.gmail.com>
- <71428a10-4b2f-dbbf-7678-7487f9eda6a5@linux.intel.com>
-Organization: Intel Corporation UK Plc
-Message-ID: <c22608a4-b84c-a3a4-0df1-448312b1292e@linux.intel.com>
-Date: Wed, 19 May 2021 17:16:03 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B38EE6EE14
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 May 2021 16:27:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1621441629;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=nGnpvPgbrDN+JDIydAmxeVfjxeD6fg7sVHqQMUXSv7o=;
+ b=dkMXmxietD8GPqM4ylKK1scMdaL3y/DzmNlEtcW9YXlfi18Q3NwK5GHy1/1l9Dr+Mmxzwz
+ u4ThB/Oj6cRtLHHWDn3Fb4QuGNsHRd7jROKTk+OkmdiQr3yH2GglCAo3xC6Oouk2itW50b
+ hLMF4LbkbxjVJLgk7CwfSUifz3FOjaI=
+Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
+ [209.85.219.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-534-ETEeZrsZO0WwSDRaUDFXZw-1; Wed, 19 May 2021 12:27:05 -0400
+X-MC-Unique: ETEeZrsZO0WwSDRaUDFXZw-1
+Received: by mail-qv1-f72.google.com with SMTP id
+ b1-20020a0c9b010000b02901c4bcfbaa53so10753070qve.19
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 May 2021 09:27:05 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:message-id:subject:from:reply-to:to:date
+ :in-reply-to:references:organization:user-agent:mime-version
+ :content-transfer-encoding;
+ bh=nGnpvPgbrDN+JDIydAmxeVfjxeD6fg7sVHqQMUXSv7o=;
+ b=Jnqw0/o4taDAv59r5oUql2YD1v4tjQMQ1M7tQC/Ipau/HmE8PlpWa8jesclKZ6iHDe
+ 57tH4MKleC7r2i0xtJry+Eh6qzA0PM++cIKuJEnk6anCA3H/r6vUVd7N8HO/XUndz/OZ
+ y0TrDWHQHgX1Ta843Or6mCmYOM1SBUc/S/eeXNX3kujv0+8HnwHuZrfcQFCKNlFjPdED
+ OSV4dwNa6bLhzLFUxpttQqzkDht0qkareowYVQHXjkzzCfizNQQZjjVNzNX/jKQfqSDx
+ Xe39C84lT5t0iSxV9u/V9FpAEgApoaxJjQ3KAEYBWWTkQbEKGcdaLdCCaro9qilCvBT3
+ 1gGw==
+X-Gm-Message-State: AOAM532T3H+8ufruVzmBuv9V1jELSEDtIMr6mTgKWek8msutrZSDXXQ6
+ qFbw5wh3soG7dILQIOFTAv4HO2rSYrR5NPNBbAuT6gR3IEUCp2y5hFakGr1Fby5q1MUJALievwU
+ aDF4tnfegP7NlgKLvte2d5LygJLqi
+X-Received: by 2002:ae9:ef14:: with SMTP id d20mr132277qkg.107.1621441624440; 
+ Wed, 19 May 2021 09:27:04 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzxxhWDl0Wrh3EwbniSsRrVjhhrSiaiOxzCbltW98bS6gYPpFU5nR/3zpxDikzE/i/6y4FaOw==
+X-Received: by 2002:ae9:ef14:: with SMTP id d20mr132265qkg.107.1621441624268; 
+ Wed, 19 May 2021 09:27:04 -0700 (PDT)
+Received: from Whitewolf.lyude.net
+ (pool-108-49-102-102.bstnma.fios.verizon.net. [108.49.102.102])
+ by smtp.gmail.com with ESMTPSA id z187sm97109qkb.129.2021.05.19.09.27.03
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 19 May 2021 09:27:03 -0700 (PDT)
+Message-ID: <57b373372cb64e8a48d12e033a23e7711332b0ec.camel@redhat.com>
+Subject: Re: [PATCH] drm/i915: Force DPCD backlight mode for Samsung 16727
+ panel
+From: Lyude Paul <lyude@redhat.com>
+To: Aaron Ma <aaron.ma@canonical.com>, jani.nikula@intel.com,
+ airlied@linux.ie,  maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ daniel@ffwll.ch,  dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Date: Wed, 19 May 2021 12:27:03 -0400
+In-Reply-To: <20210519095305.47133-1-aaron.ma@canonical.com>
+References: <20210519095305.47133-1-aaron.ma@canonical.com>
+Organization: Red Hat
+User-Agent: Evolution 3.38.4 (3.38.4-1.fc33)
 MIME-Version: 1.0
-In-Reply-To: <71428a10-4b2f-dbbf-7678-7487f9eda6a5@linux.intel.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lyude@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,57 +88,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "jhubbard@nvidia.com" <jhubbard@nvidia.com>,
- "nouveau@lists.freedesktop.org" <nouveau@lists.freedesktop.org>,
- Intel Graphics Development <Intel-gfx@lists.freedesktop.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>, "Koenig,
- Christian" <Christian.Koenig@amd.com>,
- "aritger@nvidia.com" <aritger@nvidia.com>, "Nieto,
- David M" <David.Nieto@amd.com>
+Reply-To: lyude@redhat.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Seems reasonable to me:
 
-On 18/05/2021 10:40, Tvrtko Ursulin wrote:
+Reviewed-by: Lyude Paul <lyude@redhat.com>
+
+On Wed, 2021-05-19 at 17:53 +0800, Aaron Ma wrote:
+> Another Samsung OLED panel needs DPCD to get control of backlight.
+> Kernel 5.12+ support the backlight via:
+> commit: <4a8d79901d5b> ("drm/i915/dp: Enable Intel's HDR backlight interface
+> (only SDR for now)")
+> Only make backlight work on lower versions of kernel.
 > 
-> On 18/05/2021 10:16, Daniel Stone wrote:
->> Hi,
->>
->> On Tue, 18 May 2021 at 10:09, Tvrtko Ursulin
->> <tvrtko.ursulin@linux.intel.com> wrote:
->>> I was just wondering if stat(2) and a chrdev major check would be a
->>> solid criteria to more efficiently (compared to parsing the text
->>> content) detect drm files while walking procfs.
->>
->> Maybe I'm missing something, but is the per-PID walk actually a
->> measurable performance issue rather than just a bit unpleasant?
+> Closes: https://gitlab.freedesktop.org/drm/intel/-/issues/3474
+> Cc: stable@vger.kernel.org # 5.11-
+> Signed-off-by: Aaron Ma <aaron.ma@canonical.com>
+> ---
+>  drivers/gpu/drm/drm_dp_helper.c | 1 +
+>  1 file changed, 1 insertion(+)
 > 
-> Per pid and per each open fd.
-> 
-> As said in the other thread what bothers me a bit in this scheme is that 
-> the cost of obtaining GPU usage scales based on non-GPU criteria.
-> 
-> For use case of a top-like tool which shows all processes this is a 
-> smaller additional cost, but then for a gpu-top like tool it is somewhat 
-> higher.
+> diff --git a/drivers/gpu/drm/drm_dp_helper.c b/drivers/gpu/drm/drm_dp_helper.c
+> index 5bd0934004e3..7b91d8a76cd6 100644
+> --- a/drivers/gpu/drm/drm_dp_helper.c
+> +++ b/drivers/gpu/drm/drm_dp_helper.c
+> @@ -1960,6 +1960,7 @@ static const struct edid_quirk edid_quirk_list[] = {
+>         { MFG(0x4d, 0x10), PROD_ID(0xe6, 0x14),
+> BIT(DP_QUIRK_FORCE_DPCD_BACKLIGHT) },
+>         { MFG(0x4c, 0x83), PROD_ID(0x47, 0x41),
+> BIT(DP_QUIRK_FORCE_DPCD_BACKLIGHT) },
+>         { MFG(0x09, 0xe5), PROD_ID(0xde, 0x08),
+> BIT(DP_QUIRK_FORCE_DPCD_BACKLIGHT) },
+> +       { MFG(0x4c, 0x83), PROD_ID(0x57, 0x41),
+> BIT(DP_QUIRK_FORCE_DPCD_BACKLIGHT) },
+>  };
+>  
+>  #undef MFG
 
-To further expand, not only cost would scale per pid multiplies per open 
-fd, but to detect which of the fds are DRM I see these three options:
+-- 
+Sincerely,
+   Lyude Paul (she/her)
+   Software Engineer at Red Hat
+   
+Note: I deal with a lot of emails and have a lot of bugs on my plate. If you've
+asked me a question, are waiting for a review/merge on a patch, etc. and I
+haven't responded in a while, please feel free to send me another email to check
+on my status. I don't bite!
 
-1) Open and parse fdinfo.
-2) Name based matching ie /dev/dri/.. something.
-3) Stat the symlink target and check for DRM major.
-
-All sound quite sub-optimal to me.
-
-Name based matching is probably the least evil on system resource usage 
-(Keeping the dentry cache too hot? Too many syscalls?), even though 
-fundamentally I don't it is the right approach.
-
-What happens with dup(2) is another question.
-
-Does anyone have any feedback on the /proc/<pid>/gpu idea at all?
-
-Regards,
-
-Tvrtko
