@@ -2,67 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69B6238905B
-	for <lists+dri-devel@lfdr.de>; Wed, 19 May 2021 16:15:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 29D2B389102
+	for <lists+dri-devel@lfdr.de>; Wed, 19 May 2021 16:33:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1E2316EDCA;
-	Wed, 19 May 2021 14:15:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D426E6EDCE;
+	Wed, 19 May 2021 14:33:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x532.google.com (mail-ed1-x532.google.com
- [IPv6:2a00:1450:4864:20::532])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CCF316EDC5;
- Wed, 19 May 2021 14:15:12 +0000 (UTC)
-Received: by mail-ed1-x532.google.com with SMTP id h16so15551909edr.6;
- Wed, 19 May 2021 07:15:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-transfer-encoding:content-language;
- bh=TtP8WVW+tcp98Fr66u48tzo0yVxMukLz/us7XyyQfO0=;
- b=L3fd4Ue0cwgbLoLKhQ0G1QwPmmtSSs0L+08FFlHNTTc3XxvGzkcE59S22AlHvuGBno
- MWgkJzcAeHdJKWqnCJmrBGDNYJx5dca9GGbXyBdy10DwiiL0xli+qbDu95FEFKhS12hh
- ydthdRpENL5mo7MFuIgzVmzoD1hsyXggBWcx8zpE66J2ps4NHqSinXjh7Y/I7rkk88+1
- PiH+1aYmU5w7obWmZ4CFZzpMXYe6oUECKkO79DLhjD+AQrLc4fyNqpPcJfs5IqbN19Ja
- JWnf9n608wLrgMvBmxcZYRS9GYMnxufXBV6fAE+/AnOU5jEQgfSc+3fupuZeQfVyfsew
- cmJA==
+Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com
+ [IPv6:2a00:1450:4864:20::331])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 929276EDCE
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 May 2021 14:33:30 +0000 (UTC)
+Received: by mail-wm1-x331.google.com with SMTP id
+ l11-20020a05600c4f0bb029017a7cd488f5so821764wmq.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 May 2021 07:33:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=DCQ/kFDivgK7GQNYhLKETXZZY70HNicwNr4SprqTshM=;
+ b=thuJugNL923dMzFnEsVGIaIZZZrP03SU5WUwFJ/UlId06Fx0wC6czVpNH8MRjBrVSH
+ Fw8hYXX9gbUBKkxhZupMKfoUnEiSlS+eFGv6OO33TLzo37AfZaxLMXQyPvdaGVrPAEYl
+ CP49oxYDuaVorakDyLwZExpae5Z2LY0E1rD+AlhDeq7o7KctgMKZn54BiGptgXqaaF2I
+ sO54wDuqUU/+iFx+/PASGI7pk9Szld6LZf50aDCv/nlUIYbK3z60Mk4Y8270ZqAb5/JO
+ a4zp2vBSKO8uZrejZTUQa+FKV58G5yoRd3C2teZ0nEdcxOzc24Momse6vpHa+yZ0de8r
+ U0bw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-transfer-encoding
- :content-language;
- bh=TtP8WVW+tcp98Fr66u48tzo0yVxMukLz/us7XyyQfO0=;
- b=HaQD/Ou6uMavE2pG95HnLUqMz25ZwTLLKEjr+Z/Kv21RVrXYPBpwYTTAqvCb9Q53To
- tbluXzMsAAQN4ISA6UdTU0Z1L/1xAuiyc7RM3Q8WoiYcZKWIziL2itJcBt36X4pwg1fA
- QxrcV7Gxj5o3MPAJbbor3Gnpx72FM84T9ccjtyM/tAoboAKMJgirKGiiW4z9UTdYSrt8
- FkYJSyh2UFrumWZwWJJYXsWYavsIlVXFg3JHRnVNSsxcHxk0xdCrHMOJ1IA8bjRrrNcz
- PZiL0uRVaMPVfd61nXlYEdi4S1+J+hI+JxxBm9g5MCKfteqA+w9nhfW6vHeirDfv5hBn
- E5Mg==
-X-Gm-Message-State: AOAM531FwynJjEcQfte9va/4x3dk4pSlOeVXJUWQfy/scif5X6OgngdI
- h0OcwEIpyiVBA3tCprYImwI=
-X-Google-Smtp-Source: ABdhPJzJUFi4X4JkOfXlS4GBwyBhso5zyGqdyI0xZ4exkwDbf4pf9WqJu+3fM53IHc7WvecZOLXQPw==
-X-Received: by 2002:aa7:d413:: with SMTP id z19mr14809405edq.37.1621433711484; 
- Wed, 19 May 2021 07:15:11 -0700 (PDT)
-Received: from ?IPv6:2a02:908:1252:fb60:8e28:1d3:41f3:e15a?
- ([2a02:908:1252:fb60:8e28:1d3:41f3:e15a])
- by smtp.gmail.com with ESMTPSA id c3sm16593506edn.16.2021.05.19.07.15.10
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 19 May 2021 07:15:11 -0700 (PDT)
-Subject: Re: [PATCH] drm/sched: Avoid data corruptions
-To: Andrey Grodzovsky <andrey.grodzovsky@amd.com>,
- dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- linux-pci@vger.kernel.org, daniel.vetter@ffwll.ch, Harry.Wentland@amd.com
-References: <fa81de6a-e272-66cf-61d8-5bb2d0ebcb03@gmail.com>
- <20210519141407.88444-1-andrey.grodzovsky@amd.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-Message-ID: <ce0d6f1c-4cb6-e21f-28c5-93531b687976@gmail.com>
-Date: Wed, 19 May 2021 16:15:10 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=DCQ/kFDivgK7GQNYhLKETXZZY70HNicwNr4SprqTshM=;
+ b=p8w6GVlFlTxthMQbtixiY8I+eaOUO1iuYFqoKuquiXEinAqqME4h2OkX+sOpDvUOtI
+ EDg5J81tcUoN4vvJCjBTmhBpf8uMYgkMyMEpe4/6cv5iKPgCe+aU32XZlxxVNHZxJFz8
+ VdmtFRYTh4iDgJXHdgOvDnvWjVgjmQq2lpZjweTsaRdFsc1XIsZTP16fJG23+sxmyPJw
+ i92JUkzkuM1Do66Q3lrUkaYa7A6YGUr8L1vDbb7CYINeeyPGzbXJuK8ZM+T8Og7ty3nI
+ 403v9pHGtftWS/342BqooGNEKsl3ic2gDvn7V0sXVw5sHPug80ldz0UI1ef9/X6XRsO5
+ vElA==
+X-Gm-Message-State: AOAM533F1H28OviC2oyoM4EIi39VUJ9kSVjUVJXUs0MX+74b1196l2HA
+ zNuptmppTDGr657hnIfXF/tn7Q==
+X-Google-Smtp-Source: ABdhPJx4JB1bRalzDlI4ShWWTZFpYU2OBLRYrTfkbbKxLsPeJCa1PyVKw840yKYR+zYU6HfFI6ZKhA==
+X-Received: by 2002:a7b:c742:: with SMTP id w2mr11918923wmk.76.1621434809298; 
+ Wed, 19 May 2021 07:33:29 -0700 (PDT)
+Received: from dell ([91.110.221.215])
+ by smtp.gmail.com with ESMTPSA id y3sm2894271wrh.28.2021.05.19.07.33.28
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 19 May 2021 07:33:28 -0700 (PDT)
+Date: Wed, 19 May 2021 15:33:27 +0100
+From: Lee Jones <lee.jones@linaro.org>
+To: Andy Shevchenko <andy.shevchenko@gmail.com>
+Subject: Re: [PATCH v1 1/1] backlight: lm3630a_bl: Put fwnode in error case
+ during ->probe()
+Message-ID: <20210519143327.GE2415519@dell>
+References: <20210510095716.3302910-1-andy.shevchenko@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20210519141407.88444-1-andrey.grodzovsky@amd.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+In-Reply-To: <20210510095716.3302910-1-andy.shevchenko@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,42 +71,30 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alexander.Deucher@amd.com, gregkh@linuxfoundation.org, helgaas@kernel.org,
- Felix.Kuehling@amd.com
+Cc: linux-fbdev@vger.kernel.org, Jingoo Han <jingoohan1@gmail.com>,
+ Daniel Thompson <daniel.thompson@linaro.org>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Dan Murphy <dmurphy@ti.com>,
+ Brian Masney <masneyb@onstation.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 19.05.21 um 16:14 schrieb Andrey Grodzovsky:
-> Wait for all dependencies of a job  to complete before
-> killing it to avoid data corruptions.
->
-> Signed-off-by: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
+On Mon, 10 May 2021, Andy Shevchenko wrote:
 
-Reviewed-by: Christian König <christian.koenig@amd.com>
-
+> device_for_each_child_node() bumps a reference counting of a returned variable.
+> We have to balance it whenever we return to the caller.
+> 
+> Fixes: 8fbce8efe15cd ("backlight: lm3630a: Add firmware node support")
+> Cc: Brian Masney <masneyb@onstation.org>
+> Cc: Dan Murphy <dmurphy@ti.com>
+> Signed-off-by: Andy Shevchenko <andy.shevchenko@gmail.com>
 > ---
->   drivers/gpu/drm/scheduler/sched_entity.c | 5 +++++
->   1 file changed, 5 insertions(+)
->
-> diff --git a/drivers/gpu/drm/scheduler/sched_entity.c b/drivers/gpu/drm/scheduler/sched_entity.c
-> index 2e93e881b65f..d5cf61972558 100644
-> --- a/drivers/gpu/drm/scheduler/sched_entity.c
-> +++ b/drivers/gpu/drm/scheduler/sched_entity.c
-> @@ -222,11 +222,16 @@ static void drm_sched_entity_kill_jobs_cb(struct dma_fence *f,
->   static void drm_sched_entity_kill_jobs(struct drm_sched_entity *entity)
->   {
->   	struct drm_sched_job *job;
-> +	struct dma_fence *f;
->   	int r;
->   
->   	while ((job = to_drm_sched_job(spsc_queue_pop(&entity->job_queue)))) {
->   		struct drm_sched_fence *s_fence = job->s_fence;
->   
-> +		/* Wait for all dependencies to avoid data corruptions */
-> +		while ((f = job->sched->ops->dependency(job, entity)))
-> +			dma_fence_wait(f);
-> +
->   		drm_sched_fence_scheduled(s_fence);
->   		dma_fence_set_error(&s_fence->finished, -ESRCH);
->   
+>  drivers/video/backlight/lm3630a_bl.c | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
 
+Applied, thanks.
+
+-- 
+Lee Jones [李琼斯]
+Senior Technical Lead - Developer Services
+Linaro.org │ Open source software for Arm SoCs
+Follow Linaro: Facebook | Twitter | Blog
