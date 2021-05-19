@@ -1,90 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5CC23388F40
-	for <lists+dri-devel@lfdr.de>; Wed, 19 May 2021 15:37:34 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id ED7DF388F7B
+	for <lists+dri-devel@lfdr.de>; Wed, 19 May 2021 15:49:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F16406E588;
-	Wed, 19 May 2021 13:37:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0BA506EDBE;
+	Wed, 19 May 2021 13:49:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [216.205.24.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E326D6E588
- for <dri-devel@lists.freedesktop.org>; Wed, 19 May 2021 13:37:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621431447;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=bU4pryl0+5U5KV31mW2OweQfTQ6FVvGmzl3RdTyAV38=;
- b=EMrNeZLxc1QI1CtG/j+3AQR4VhE1xcRFAw7YN6Dyfnq+5MjdjG7s6ynzrAhNl+6j+c2CKn
- h1Q+cWcHkjS6tYyvhE2Pa7PtGLljixmI99efF/mqPjMksaHsWh9KSmcPn6gvKDhxYkxj+Y
- f3xco9nx9Iezpu1nTfNz+Ow8IgFObdY=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-393-8nGNQvrIN9-lcij4ilNSrw-1; Wed, 19 May 2021 09:37:25 -0400
-X-MC-Unique: 8nGNQvrIN9-lcij4ilNSrw-1
-Received: by mail-ed1-f69.google.com with SMTP id
- w22-20020a05640234d6b029038d04376b6aso7656856edc.21
- for <dri-devel@lists.freedesktop.org>; Wed, 19 May 2021 06:37:25 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=bU4pryl0+5U5KV31mW2OweQfTQ6FVvGmzl3RdTyAV38=;
- b=FwMeKODzEb69R5D6lDJDcwR+JLWSBpyU5b5av+Ra9DfHJEd14xDPCLZ1Cdjb/xOppN
- tNRLQTbFwWOiWXggnWtlTz/3kgnVlMInd/fsWEO1Y1Q5mGAFpBzTm2FX8P9+2dnUfFNy
- rofWDm9UYPg1qcfUXdck2RJJr4snn/DCI6Y67sRsPGiFdpYm6pkr5DcUNbpU8ShYdAQT
- IgU7qPrcNqI5+8oPAwWoJNHS3tUWY4O1fZ47oGE020gdkd9Y30PiaZ2lMbHZzwKSpxx/
- lg9OJTQCu8pe0y9sla8TuzrMBb7hzEzqvZJuqJvyMGlGCg9DtO5YNn6ojoZy/ef+AubR
- nZFA==
-X-Gm-Message-State: AOAM531ogHqOFcO32bzkfBYALuew/GLtqnANx0EgunJhnHc0IUKx5xUB
- e8/ePIavYGQ003fuX4afo1b6DZT2eeoBKN+MS0Af/8h+DqP/KLjjJqnErOkKgPoluTHRwSTNIQT
- N8ewmH1M1fJi3fxv1N+4NGJ6TYxaJ
-X-Received: by 2002:a05:6402:3098:: with SMTP id
- de24mr14306457edb.339.1621431444237; 
- Wed, 19 May 2021 06:37:24 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxtmP5ppUfGnIYTS3emu23ErVRxU0Y2zdN/m68QRjcWJURyvbcDG+r+AD2UiWx7vPUAM3F1gg==
-X-Received: by 2002:a05:6402:3098:: with SMTP id
- de24mr14306432edb.339.1621431444058; 
- Wed, 19 May 2021 06:37:24 -0700 (PDT)
-Received: from x1.localdomain
- (2001-1c00-0c1e-bf00-1054-9d19-e0f0-8214.cable.dynamic.v6.ziggo.nl.
- [2001:1c00:c1e:bf00:1054:9d19:e0f0:8214])
- by smtp.gmail.com with ESMTPSA id a7sm4664820edr.15.2021.05.19.06.37.23
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 19 May 2021 06:37:23 -0700 (PDT)
-Subject: Re: [PATCH 9/9] platform/x86/intel_cht_int33fe: Correct "displayport"
- fwnode reference
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@linux.ie>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Guenter Roeck <linux@roeck-us.net>,
- Heikki Krogerus <heikki.krogerus@linux.intel.com>
-References: <20210503154647.142551-1-hdegoede@redhat.com>
- <20210503154647.142551-10-hdegoede@redhat.com>
-From: Hans de Goede <hdegoede@redhat.com>
-Message-ID: <2d02c9ba-1385-41cf-6150-ca8ed5e835ba@redhat.com>
-Date: Wed, 19 May 2021 15:37:23 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 522E16EDB5;
+ Wed, 19 May 2021 13:49:42 +0000 (UTC)
+IronPort-SDR: wNAyyVg3W8t/hTvwbIIh9P9XW/ZsjzTPwgVmqQolc6TotRt/a7B4UyCMhN96sKE75ih7eJoQIu
+ Gy2/pn8fkM5w==
+X-IronPort-AV: E=McAfee;i="6200,9189,9988"; a="264894876"
+X-IronPort-AV: E=Sophos;i="5.82,313,1613462400"; d="scan'208";a="264894876"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 May 2021 06:49:40 -0700
+IronPort-SDR: UNEGgVbRVYJ05Y31/m10gll8TMclz+JnQzgfeEGArV+giMYQ2QmzIgZGZrbl4ny8GeUwfzcsB0
+ I5CpgtNk31JA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.82,313,1613462400"; d="scan'208";a="405596999"
+Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.171])
+ by fmsmga007.fm.intel.com with SMTP; 19 May 2021 06:49:36 -0700
+Received: by stinkbox (sSMTP sendmail emulation);
+ Wed, 19 May 2021 16:49:35 +0300
+Date: Wed, 19 May 2021 16:49:35 +0300
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Pekka Paalanen <ppaalanen@gmail.com>
+Subject: Re: New uAPI for color management proposal and feedback request
+Message-ID: <YKUXbwkUIwvO/OqK@intel.com>
+References: <8c0d7ad8-7ade-bf8a-0414-cc795fbb6aa2@tuxedocomputers.com>
+ <YJvSUCCPvWz7y/r7@intel.com> <20210519123405.4d3218a7@eldfell>
 MIME-Version: 1.0
-In-Reply-To: <20210503154647.142551-10-hdegoede@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hdegoede@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210519123405.4d3218a7@eldfell>
+X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,50 +52,144 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx <intel-gfx@lists.freedesktop.org>, linux-usb@vger.kernel.org,
- dri-devel@lists.freedesktop.org, platform-driver-x86@vger.kernel.org
+Cc: "Deucher, Alexander" <alexander.deucher@amd.com>,
+ intel-gfx@lists.freedesktop.org, amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ Werner Sembach <wse@tuxedocomputers.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
-
-On 5/3/21 5:46 PM, Hans de Goede wrote:
-> The Type-C connector on these devices is connected to DP-2 not DP-1,
-> so the reference must be to the DD04 child-node of the GPU, rather
-> then the DD02 child-node.
+On Wed, May 19, 2021 at 12:34:05PM +0300, Pekka Paalanen wrote:
+> On Wed, 12 May 2021 16:04:16 +0300
+> Ville Syrjälä <ville.syrjala@linux.intel.com> wrote:
 > 
-> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
-
-Since this is pretty much independent from the rest of the series,
-I'll take this upstream through the pdx86 tree.
-
-I've added this to my review-hans branch now, and it will get added
-to for-next from there.
-
-Regards,
-
-Hans
-
-
-
-> ---
->  drivers/platform/x86/intel_cht_int33fe_typec.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+> > On Wed, May 12, 2021 at 02:06:56PM +0200, Werner Sembach wrote:
+> > > Hello,
+> > > 
+> > > In addition to the existing "max bpc", and "Broadcast RGB/output_csc" drm properties I propose 4 new properties:
+> > > "preferred pixel encoding", "active color depth", "active color range", and "active pixel encoding"
+> > > 
+> > > 
+> > > Motivation:
+> > > 
+> > > Current monitors have a variety pixel encodings available: RGB, YCbCr 4:4:4, YCbCr 4:2:2, YCbCr 4:2:0.
+> > > 
+> > > In addition they might be full or limited RGB range and the monitors accept different bit depths.
+> > > 
+> > > Currently the kernel driver for AMD and Intel GPUs automatically configure the color settings automatically with little
+> > > to no influence of the user. However there are several real world scenarios where the user might disagree with the
+> > > default chosen by the drivers and wants to set his or her own preference.
+> > > 
+> > > Some examples:
+> > > 
+> > > 1. While RGB and YCbCr 4:4:4 in theory carry the same amount of color information, some screens might look better on one
+> > > than the other because of bad internal conversion. The driver currently however has a fixed default that is chosen if
+> > > available (RGB for Intel and YCbCr 4:4:4 for AMD). The only way to change this currently is by editing and overloading
+> > > the edid reported by the monitor to the kernel.
+> > > 
+> > > 2. RGB and YCbCr 4:4:4 need a higher port clock then YCbCr 4:2:0. Some hardware might report that it supports the higher
+> > > port clock, but because of bad shielding on the PC, the cable, or the monitor the screen cuts out every few seconds when
+> > > RGB or YCbCr 4:4:4 encoding is used, while YCbCr 4:2:0 might just work fine without changing hardware. The drivers
+> > > currently however always default to the "best available" option even if it might be broken.
+> > > 
+> > > 3. Some screens natively only supporting 8-bit color, simulate 10-Bit color by rapidly switching between 2 adjacent
+> > > colors. They advertise themselves to the kernel as 10-bit monitors but the user might not like the "fake" 10-bit effect
+> > > and prefer running at the native 8-bit per color.
+> > > 
+> > > 4. Some screens are falsely classified as full RGB range wile they actually use limited RGB range. This results in
+> > > washed out colors in dark and bright scenes. A user override can be helpful to manually fix this issue when it occurs.
+> > > 
+> > > There already exist several requests, discussion, and patches regarding the thematic:
+> > > 
+> > > - https://gitlab.freedesktop.org/drm/amd/-/issues/476
+> > > 
+> > > - https://gitlab.freedesktop.org/drm/amd/-/issues/1548
+> > > 
+> > > - https://lkml.org/lkml/2021/5/7/695
+> > > 
+> > > - https://lkml.org/lkml/2021/5/11/416
+> > > 
 > 
-> diff --git a/drivers/platform/x86/intel_cht_int33fe_typec.c b/drivers/platform/x86/intel_cht_int33fe_typec.c
-> index b61bad9cc8d2..d59544167430 100644
-> --- a/drivers/platform/x86/intel_cht_int33fe_typec.c
-> +++ b/drivers/platform/x86/intel_cht_int33fe_typec.c
-> @@ -168,8 +168,8 @@ static int cht_int33fe_setup_dp(struct cht_int33fe_data *data)
->  		return -ENODEV;
->  	}
->  
-> -	/* Then the DP child device node */
-> -	data->dp = device_get_named_child_node(&pdev->dev, "DD02");
-> +	/* Then the DP-2 child device node */
-> +	data->dp = device_get_named_child_node(&pdev->dev, "DD04");
->  	pci_dev_put(pdev);
->  	if (!data->dp)
->  		return -ENODEV;
+> ...
 > 
+> > > Adoption:
+> > > 
+> > > A KDE dev wants to implement the settings in the KDE settings GUI:
+> > > https://gitlab.freedesktop.org/drm/amd/-/issues/476#note_912370
+> > > 
+> > > Tuxedo Computers (my employer) wants to implement the settings desktop environment agnostic in Tuxedo Control Center. I
+> > > will start work on this in parallel to implementing the new kernel code.  
+> > 
+> > I suspect everyone would be happier to accept new uapi if we had
+> > multiple compositors signed up to implement it.
+> 
+> I think having Weston support for these would be good, but for now it
+> won't be much of an UI: just weston.ini to set, and the log to see what
+> happened.
+> 
+> However, knowing what happened is going to be important for color
+> calibration auditing:
+> https://gitlab.freedesktop.org/wayland/weston/-/issues/467
+> 
+> Yes, please, very much for read-only properties for the feedback part.
+> Properties that both userspace and kernel will write are hard to deal
+> with in general.
+> 
+> Btw. "max bpc" I can kind of guess that conversion from framebuffer
+> format to the wire bpc happens automatically and only as the final
+> step,
 
+Well, there could be dithering and whatnot also involved. So it's
+not super well specified atm either.
+
+> but "Broadcast RGB" is more complicated: is the output from the
+> abstract pixel pipeline sent as-is and "Broadcast RGB" is just another
+> inforframe bit to the monitor, or does "Broadcast RGB" setting actually
+> change what happens in the pixel pipeline *and* set infoframe bits?
+
+It does indeed compress the actual pixel data. There was once a patch
+porposed to introduce a new enum value that only sets the infoframe and
+thus would allow userspace to pass through already limited range data.
+Shouldn't be hard to resurrect that if needed.
+
+> 
+> My vague recollection is that framebuffer was always assumed to be in
+> full range, and then if "Broadcast RGB" was set to limited range, the
+> driver would mangle the pixel pipeline to convert from full to limited
+> range. This means that it would be impossible to have limited range
+> data in a framebuffer, or there might be a double-conversion by
+> userspace programming a LUT for limited->full and then the driver
+> adding full->limited. I'm also confused how full/limited works when
+> framebuffer is in RGB/YCbCr and the monitor wire format is in RGB/YCbCr
+> and there may be RGB->YCbCR or YCbCR->RGB conversions going on - or
+> maybe even FB YCbCR -> RGB -> DEGAMMA -> CTM -> GAMMA -> YCbCR.
+> 
+> I wish someone drew a picture of the KMS abstract pixel pipeline with
+> all the existing KMS properties in it. :-)
+
+Here's an ugly one for i915:
+
+    (input RGB vs. YCbCr?)
+[FB] -> [YCbCr?] -> [YCbCr->RGB conversion     ] -> [plane blending] -> ...
+      |             [YCbCr color range/encoding] |
+      \ [RGB?] ----------------------------------/
+
+                                           (output RGB limited vs. RGB full vs. YCbCr?)
+... -> [DEGAMMA_LUT] -> [CTM] -> [GAMMA_LUT] -> [YCbCr?] -> [RGB->YCbCr conversion      ] -> [to port]
+                                              |             [always BT.709/limited range]
+                                              \ [RGB?] -> ...
+
+... -> [RGB passthrough             ] -> [to port]
+     | [Broadcast RGB=full or       ]
+     | [Broadcast RGB=auto + IT mode]
+     |
+     \ [RGB full->limited conversion] -> [to port]
+       [Broadcast RGB=limited or    ]
+       [Broadcast RGB=auto + CE mode]
+
+I guess having something like that in the docs would be nice. Not sure
+if there's a way to make something that looks decent for html/etc.
+
+-- 
+Ville Syrjälä
+Intel
