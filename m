@@ -2,63 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29D2B389102
-	for <lists+dri-devel@lfdr.de>; Wed, 19 May 2021 16:33:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E9E753891CD
+	for <lists+dri-devel@lfdr.de>; Wed, 19 May 2021 16:46:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D426E6EDCE;
-	Wed, 19 May 2021 14:33:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7F1226EDD5;
+	Wed, 19 May 2021 14:46:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com
- [IPv6:2a00:1450:4864:20::331])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 929276EDCE
- for <dri-devel@lists.freedesktop.org>; Wed, 19 May 2021 14:33:30 +0000 (UTC)
-Received: by mail-wm1-x331.google.com with SMTP id
- l11-20020a05600c4f0bb029017a7cd488f5so821764wmq.0
- for <dri-devel@lists.freedesktop.org>; Wed, 19 May 2021 07:33:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=DCQ/kFDivgK7GQNYhLKETXZZY70HNicwNr4SprqTshM=;
- b=thuJugNL923dMzFnEsVGIaIZZZrP03SU5WUwFJ/UlId06Fx0wC6czVpNH8MRjBrVSH
- Fw8hYXX9gbUBKkxhZupMKfoUnEiSlS+eFGv6OO33TLzo37AfZaxLMXQyPvdaGVrPAEYl
- CP49oxYDuaVorakDyLwZExpae5Z2LY0E1rD+AlhDeq7o7KctgMKZn54BiGptgXqaaF2I
- sO54wDuqUU/+iFx+/PASGI7pk9Szld6LZf50aDCv/nlUIYbK3z60Mk4Y8270ZqAb5/JO
- a4zp2vBSKO8uZrejZTUQa+FKV58G5yoRd3C2teZ0nEdcxOzc24Momse6vpHa+yZ0de8r
- U0bw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=DCQ/kFDivgK7GQNYhLKETXZZY70HNicwNr4SprqTshM=;
- b=p8w6GVlFlTxthMQbtixiY8I+eaOUO1iuYFqoKuquiXEinAqqME4h2OkX+sOpDvUOtI
- EDg5J81tcUoN4vvJCjBTmhBpf8uMYgkMyMEpe4/6cv5iKPgCe+aU32XZlxxVNHZxJFz8
- VdmtFRYTh4iDgJXHdgOvDnvWjVgjmQq2lpZjweTsaRdFsc1XIsZTP16fJG23+sxmyPJw
- i92JUkzkuM1Do66Q3lrUkaYa7A6YGUr8L1vDbb7CYINeeyPGzbXJuK8ZM+T8Og7ty3nI
- 403v9pHGtftWS/342BqooGNEKsl3ic2gDvn7V0sXVw5sHPug80ldz0UI1ef9/X6XRsO5
- vElA==
-X-Gm-Message-State: AOAM533F1H28OviC2oyoM4EIi39VUJ9kSVjUVJXUs0MX+74b1196l2HA
- zNuptmppTDGr657hnIfXF/tn7Q==
-X-Google-Smtp-Source: ABdhPJx4JB1bRalzDlI4ShWWTZFpYU2OBLRYrTfkbbKxLsPeJCa1PyVKw840yKYR+zYU6HfFI6ZKhA==
-X-Received: by 2002:a7b:c742:: with SMTP id w2mr11918923wmk.76.1621434809298; 
- Wed, 19 May 2021 07:33:29 -0700 (PDT)
-Received: from dell ([91.110.221.215])
- by smtp.gmail.com with ESMTPSA id y3sm2894271wrh.28.2021.05.19.07.33.28
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 19 May 2021 07:33:28 -0700 (PDT)
-Date: Wed, 19 May 2021 15:33:27 +0100
-From: Lee Jones <lee.jones@linaro.org>
-To: Andy Shevchenko <andy.shevchenko@gmail.com>
-Subject: Re: [PATCH v1 1/1] backlight: lm3630a_bl: Put fwnode in error case
- during ->probe()
-Message-ID: <20210519143327.GE2415519@dell>
-References: <20210510095716.3302910-1-andy.shevchenko@gmail.com>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A4C586EDD5
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 May 2021 14:46:43 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id 1367E6105A
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 May 2021 14:46:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1621435603;
+ bh=AUQVXMs5LBLcgZiLoG5ztNSP3G96NHF1rabfqPPPZKk=;
+ h=From:To:Subject:Date:From;
+ b=oLW/ZkOlm8YraHgfHBWf39UfEbB+sMnE2ifZ5w1EQeY+1ZhBMg9NxS7PhrF40AqcX
+ XAAJYjS8cAjvCjRUHlXzyELd4vwpSk8S0rb7IRVqWU2TIfw8XYD3l+ojoDXtGelqSL
+ hLGljZBMNLlCOPqL+PAtl7okzdTcFSqezQaDLUzQHAhnnnnLsZs9rvNho8gQbAIswG
+ Te4vlRpGyNLGNrErwZJjzOpcCcM9KRSBhNwYuDACtdrRSRRs6ktqSXNaf7OBaMQ1Up
+ 9L2BM6iHq9X055oZfbqdoFitjmVQ/BxqjcbdBvi/fT8gt92aMzlOO2G2KRJoJiYMl2
+ NyfuZ0OAxNHBQ==
+Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
+ id 075896125F; Wed, 19 May 2021 14:46:43 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 213145] New: AMDGPU resets, timesout and crashes after "*ERROR*
+ Waiting for fences timed out!"
+Date: Wed, 19 May 2021 14:46:42 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: high
+X-Bugzilla-Who: tgayoso@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_id short_desc product version
+ cf_kernel_version rep_platform op_sys cf_tree bug_status bug_severity
+ priority component assigned_to reporter cf_regression attachments.created
+Message-ID: <bug-213145-2300@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210510095716.3302910-1-andy.shevchenko@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,30 +66,98 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Jingoo Han <jingoohan1@gmail.com>,
- Daniel Thompson <daniel.thompson@linaro.org>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Dan Murphy <dmurphy@ti.com>,
- Brian Masney <masneyb@onstation.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 10 May 2021, Andy Shevchenko wrote:
+https://bugzilla.kernel.org/show_bug.cgi?id=3D213145
 
-> device_for_each_child_node() bumps a reference counting of a returned variable.
-> We have to balance it whenever we return to the caller.
-> 
-> Fixes: 8fbce8efe15cd ("backlight: lm3630a: Add firmware node support")
-> Cc: Brian Masney <masneyb@onstation.org>
-> Cc: Dan Murphy <dmurphy@ti.com>
-> Signed-off-by: Andy Shevchenko <andy.shevchenko@gmail.com>
-> ---
->  drivers/video/backlight/lm3630a_bl.c | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
+            Bug ID: 213145
+           Summary: AMDGPU resets, timesout and crashes after "*ERROR*
+                    Waiting for fences timed out!"
+           Product: Drivers
+           Version: 2.5
+    Kernel Version: 5.10.37 and 5.10.38
+          Hardware: x86-64
+                OS: Linux
+              Tree: Mainline
+            Status: NEW
+          Severity: high
+          Priority: P1
+         Component: Video(DRI - non Intel)
+          Assignee: drivers_video-dri@kernel-bugs.osdl.org
+          Reporter: tgayoso@gmail.com
+        Regression: No
 
-Applied, thanks.
+Created attachment 296867
+  --> https://bugzilla.kernel.org/attachment.cgi?id=3D296867&action=3Dedit
+lspci output
 
--- 
-Lee Jones [李琼斯]
-Senior Technical Lead - Developer Services
-Linaro.org │ Open source software for Arm SoCs
-Follow Linaro: Facebook | Twitter | Blog
+AMDGPU driver crashes randomly corrupting screen and freezing X with:
+
+
+[   60.449781] [drm:0xffffffffc25a7a57] *ERROR* Waiting for fences timed ou=
+t!
+[   60.971941] [drm:0xffffffffc25281ae] *ERROR* ring gfx timeout, signaled
+seq=3D3658, emitted seq=3D3660
+[   60.971946] [drm:0xffffffffc25281cb] *ERROR* Process information: process
+Xorg pid 1192 thread Xorg:cs0 pid 1193
+[   60.971952] amdgpu 0000:05:00.0: amdgpu: GPU reset begin!
+
+... (some output suppressed for clarity, look at attached dmesg, please).=20
+
+[   61.800343] amdgpu 0000:05:00.0: amdgpu: recover vram bo from shadow sta=
+rt
+[   61.800346] amdgpu 0000:05:00.0: amdgpu: recover vram bo from shadow done
+[   61.800348] [drm] Skip scheduling IBs!
+[   61.800350] [drm] Skip scheduling IBs!
+[   61.800382] [drm] Skip scheduling IBs!
+[   61.800398] amdgpu 0000:05:00.0: amdgpu: GPU reset(2) succeeded!
+[   61.800566] [drm] Skip scheduling IBs!
+[   61.800580] [drm] Skip scheduling IBs!
+[   61.800627] [drm] Skip scheduling IBs!
+[   61.801012] [drm] Skip scheduling IBs!
+[   61.801024] [drm] Skip scheduling IBs!
+[   61.801052] [drm] Skip scheduling IBs!
+[   61.801062] [drm] Skip scheduling IBs!
+[   61.801096] [drm] Skip scheduling IBs!
+[   61.801105] [drm] Skip scheduling IBs!
+[   61.801137] [drm] Skip scheduling IBs!
+[   61.801806] [drm:0xffffffffc24219b8] *ERROR* Failed to initialize parser
+-125!
+[   61.808746] [drm:0xffffffffc24219b8] *ERROR* Failed to initialize parser
+-125!
+[   61.809392] [drm:0xffffffffc24219b8] *ERROR* Failed to initialize parser
+-125!
+[   61.809764] [drm:0xffffffffc24219b8] *ERROR* Failed to initialize parser
+-125!
+[   61.810389] [drm:0xffffffffc24219b8] *ERROR* Failed to initialize parser
+-125!
+[   61.810866] [drm:0xffffffffc24219b8] *ERROR* Failed to initialize parser
+-125!
+[   61.812529] [drm:0xffffffffc24219b8] *ERROR* Failed to initialize parser
+-125!
+[   61.813359] [drm:0xffffffffc24219b8] *ERROR* Failed to initialize parser
+-125!
+[   61.814770] [drm:0xffffffffc24219b8] *ERROR* Failed to initialize parser
+-125!
+[   61.816488] [drm:0xffffffffc24219b8] *ERROR* Failed to initialize parser
+-125!
+[   62.541982] ucsi_acpi USBC000:00: PPM init failed (-110)
+[   67.004898] amdgpu_cs_ioctl: 1467 callbacks suppressed
+
+
+
+
+Hardware: ASUS TUF506IU laptop (dual GPU Renoir and Nvidia GeForce GTX 1660=
+ Ti
+Mobile)
+
+Detailed hardware in lspci.txt.=20
+Detailed modules in lsmod.txt.=20
+Kernle config attached in Kernel_config.
+
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
