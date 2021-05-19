@@ -2,54 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23BF93892F2
-	for <lists+dri-devel@lfdr.de>; Wed, 19 May 2021 17:48:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD8C3389317
+	for <lists+dri-devel@lfdr.de>; Wed, 19 May 2021 17:56:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BE2806EE04;
-	Wed, 19 May 2021 15:48:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 104EE6EE0D;
+	Wed, 19 May 2021 15:56:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from netline-mail3.netline.ch (mail.netline.ch [148.251.143.180])
- by gabe.freedesktop.org (Postfix) with ESMTP id E78396EE04
- for <dri-devel@lists.freedesktop.org>; Wed, 19 May 2021 15:48:21 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by netline-mail3.netline.ch (Postfix) with ESMTP id 8C51C20201D;
- Wed, 19 May 2021 17:48:20 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at netline-mail3.netline.ch
-Received: from netline-mail3.netline.ch ([127.0.0.1])
- by localhost (netline-mail3.netline.ch [127.0.0.1]) (amavisd-new, port 10024)
- with LMTP id d3njkECqm17W; Wed, 19 May 2021 17:48:20 +0200 (CEST)
-Received: from thor (24.99.2.85.dynamic.wline.res.cust.swisscom.ch
- [85.2.99.24])
- by netline-mail3.netline.ch (Postfix) with ESMTPA id 2D63320201A;
- Wed, 19 May 2021 17:48:20 +0200 (CEST)
-Received: from [::1] by thor with esmtp (Exim 4.94.2)
- (envelope-from <michel@daenzer.net>)
- id 1ljOQk-000jkV-T1; Wed, 19 May 2021 17:48:18 +0200
-To: Jason Ekstrand <jason@jlekstrand.net>
-References: <20210517141129.2225-1-christian.koenig@amd.com>
- <YKKF4jOvM4gJT6a4@phenom.ffwll.local>
- <5a3e9500-9d6b-a865-5385-fde43da2bf66@gmail.com>
- <CAKMK7uF=y44e9-0-4MBj3jRBdCqMaLgKutTMeBWCbySRnPR4KQ@mail.gmail.com>
- <CAOFGe960UMe4=Xxcoha9R2Y74ma3Pp4Z0DF6PM+SJ2sjq2DBXg@mail.gmail.com>
- <CAKMK7uGtTT+59hRi3PB1WHPES3YJAPYBvbT74vo9PApNE0i7MQ@mail.gmail.com>
- <fee06c2d-27fb-1af4-6222-8f277b36c951@gmail.com>
- <CAKMK7uHLipx_oH-s5PB6pUUZ_JXCyciaY7sDLfK__-2fvSPCKA@mail.gmail.com>
- <f2eb6751-2f82-9b23-f57e-548de5b729de@gmail.com>
- <CAKMK7uHdsGjADQ9zwgrYsuhHdxFGkuH--DdOsaqej6OD1AbX-w@mail.gmail.com>
- <CAOFGe97FDc7Y9APymQQZZMApDXsJkbcS0N5jh+3s-w-Ligipug@mail.gmail.com>
- <14524566-8854-4bc0-9f70-b7219c9fccfc@daenzer.net>
- <CAOFGe96VttW2VzAnx13ZXLBGcEDJMehGuOFifcr+pcbEOa-Brw@mail.gmail.com>
-From: =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel@daenzer.net>
-Subject: Re: [RFC] Add DMA_RESV_USAGE flags
-Message-ID: <6f3e2628-7b39-417c-3bd2-c837c5367458@daenzer.net>
-Date: Wed, 19 May 2021 17:48:18 +0200
+Received: from bombadil.infradead.org (bombadil.infradead.org
+ [IPv6:2607:7c80:54:e::133])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1A4EB6EE0B;
+ Wed, 19 May 2021 15:56:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+ Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
+ Subject:Sender:Reply-To:Content-ID:Content-Description;
+ bh=GCiO5jtPmcXxtuD2cYz4lG/3Yt3JBlECnMVfp0AvOxQ=; b=RAptUpFt5PkVRnPKRgjbxl9670
+ 5WPlJcxK0CFHlUd7Z+x2UZeVDeCeXQxPUyJj+WPPAFZkU5UAv+8NrGBdwPcft52DICFAmwXACMFNs
+ ZLzimhPgjudhWjPWLzf+0N+D6YsKw8lFG9Js43cvA3Osh97QRPOt8hzV6E6Gqu0F8K9QE0IO759Kf
+ AdNJHdPPtDmLA/mOyIhXzqWVrPlZaLFc+eewZ87vS5NRb2Vhr0UifYAjKULtIjLVu4Pkr4Yh1o2cl
+ oogv7P4f1wVw2aRewWVZ1H3aAPehsezMVcJXH/dpGBLIXcrkSpjc8ZZzFNwVpabKx17STrUzJy98j
+ KKJTJ7hg==;
+Received: from [2601:1c0:6280:3f0::7376]
+ by bombadil.infradead.org with esmtpsa (Exim 4.94 #2 (Red Hat Linux))
+ id 1ljOYk-00Fbf9-Fy; Wed, 19 May 2021 15:56:34 +0000
+Subject: Re: [PATCH 1/3] gpu: drm: replace occurrences of invalid character
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+ David Airlie <airlied@linux.ie>
+References: <e606930c73029f16673849c57acac061dd923866.1621412009.git.mchehab+huawei@kernel.org>
+From: Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <f0589aff-a776-0715-e421-0d9a8cf2cc25@infradead.org>
+Date: Wed, 19 May 2021 08:56:30 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.10.0
 MIME-Version: 1.0
-In-Reply-To: <CAOFGe96VttW2VzAnx13ZXLBGcEDJMehGuOFifcr+pcbEOa-Brw@mail.gmail.com>
+In-Reply-To: <e606930c73029f16673849c57acac061dd923866.1621412009.git.mchehab+huawei@kernel.org>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-CA
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -63,67 +52,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "moderated list:DMA BUFFER SHARING FRAMEWORK"
- <linaro-mm-sig@lists.linaro.org>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
- dri-devel <dri-devel@lists.freedesktop.org>
+Cc: Bhaskar Chowdhury <unixbhaskar@gmail.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Chris Wilson <chris@chris-wilson.co.uk>,
+ amd-gfx@lists.freedesktop.org, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Alex Deucher <alexander.deucher@amd.com>, Evan Quan <evan.quan@amd.com>,
+ intel-gfx@lists.freedesktop.org,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ Michal Wajdeczko <michal.wajdeczko@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2021-05-19 5:21 p.m., Jason Ekstrand wrote:
-> On Wed, May 19, 2021 at 5:52 AM Michel Dänzer <michel@daenzer.net> wrote:
->>
->> On 2021-05-19 12:06 a.m., Jason Ekstrand wrote:
->>> On Tue, May 18, 2021 at 4:17 PM Daniel Vetter <daniel@ffwll.ch> wrote:
->>>>
->>>> On Tue, May 18, 2021 at 7:40 PM Christian König
->>>> <ckoenig.leichtzumerken@gmail.com> wrote:
->>>>>
->>>>> Am 18.05.21 um 18:48 schrieb Daniel Vetter:
->>>>>> On Tue, May 18, 2021 at 2:49 PM Christian König
->>>>>> <ckoenig.leichtzumerken@gmail.com> wrote:
->>>>>>
->>>>>>> And as long as we are all inside amdgpu we also don't have any oversync,
->>>>>>> the issue only happens when we share dma-bufs with i915 (radeon and
->>>>>>> AFAIK nouveau does the right thing as well).
->>>>>> Yeah because then you can't use the amdgpu dma_resv model anymore and
->>>>>> have to use the one atomic helpers use. Which is also the one that
->>>>>> e.g. Jason is threathening to bake in as uapi with his dma_buf ioctl,
->>>>>> so as soon as that lands and someone starts using it, something has to
->>>>>> adapt _anytime_ you have a dma-buf hanging around. Not just when it's
->>>>>> shared with another device.
->>>>>
->>>>> Yeah, and that is exactly the reason why I will NAK this uAPI change.
->>>>>
->>>>> This doesn't works for amdgpu at all for the reasons outlined above.
->>>>
->>>> Uh that's really not how uapi works. "my driver is right, everyone
->>>> else is wrong" is not how cross driver contracts are defined. If that
->>>> means a perf impact until you've fixed your rules, that's on you.
->>>>
->>>> Also you're a few years too late with nacking this, it's already uapi
->>>> in the form of the dma-buf poll() support.
->>>
->>> ^^  My fancy new ioctl doesn't expose anything that isn't already
->>> there.  It just lets you take a snap-shot of a wait instead of doing
->>> an active wait which might end up with more fences added depending on
->>> interrupts and retries.  The dma-buf poll waits on all fences for
->>> POLLOUT and only the exclusive fence for POLLIN.  It's already uAPI.
->>
->> Note that the dma-buf poll support could be useful to Wayland compositors for the same purpose as Jason's new ioctl (only using client buffers which have finished drawing for an output frame, to avoid missing a refresh cycle due to client drawing), *if* it didn't work differently with amdgpu.
->>
->> Am I understanding correctly that Jason's new ioctl would also work differently with amdgpu as things stand currently? If so, that would be a real bummer and might hinder adoption of the ioctl by Wayland compositors.
+On 5/19/21 1:15 AM, Mauro Carvalho Chehab wrote:
+> There are some places at drm that ended receiving a
+> REPLACEMENT CHARACTER U+fffd ('�'), probably because of
+> some bad charset conversion.
 > 
-> My new ioctl has identical semantics to poll().  It just lets you take
-> a snapshot in time to wait on later instead of waiting on whatever
-> happens to be set right now.  IMO, having identical semantics to
-> poll() isn't something we want to change.
+> Fix them by using what it seems	to be the proper
+> character.
+> 
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-Agreed.
+Acked-by: Randy Dunlap <rdunlap@infradead.org>
 
-I'd argue then that making amdgpu poll semantics match those of other drivers is a pre-requisite for the new ioctl, otherwise it seems unlikely that the ioctl will be widely adopted.
+Thanks.
 
+> ---
+>  drivers/gpu/drm/amd/include/atombios.h       | 10 +++++-----
+>  drivers/gpu/drm/i915/gt/intel_gpu_commands.h |  2 +-
+>  drivers/gpu/drm/i915/i915_gpu_error.h        |  2 +-
+>  drivers/gpu/drm/r128/r128_drv.h              |  2 +-
+>  4 files changed, 8 insertions(+), 8 deletions(-)
+> 
 
 -- 
-Earthling Michel Dänzer               |               https://redhat.com
-Libre software enthusiast             |             Mesa and X developer
+~Randy
+
