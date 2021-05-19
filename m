@@ -2,43 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B13E389440
-	for <lists+dri-devel@lfdr.de>; Wed, 19 May 2021 18:58:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E53A389490
+	for <lists+dri-devel@lfdr.de>; Wed, 19 May 2021 19:19:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E0D1C6EE42;
-	Wed, 19 May 2021 16:58:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 766576EE4A;
+	Wed, 19 May 2021 17:19:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 69A886EE41;
- Wed, 19 May 2021 16:58:36 +0000 (UTC)
-IronPort-SDR: wk07bX0DPrlB8RuIrEoCCvMroIzPitqmcjDwF4686ocZO5RrszJzhH7/vE7+MQZP5pm+Uk77PY
- hxBM4xhrHJqg==
-X-IronPort-AV: E=McAfee;i="6200,9189,9989"; a="200718408"
-X-IronPort-AV: E=Sophos;i="5.82,313,1613462400"; d="scan'208";a="200718408"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 May 2021 09:58:35 -0700
-IronPort-SDR: 8pUyxRqzJaNu0HR471A8vmXbvqew0uf6TM0yZeeVGzT2dfDIy2DmgH5Tx6Ovn3fD/P+hEzQmCY
- rkNj8kO/Zs5g==
-X-IronPort-AV: E=Sophos;i="5.82,313,1613462400"; d="scan'208";a="542708719"
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7FE976E226;
+ Wed, 19 May 2021 17:19:11 +0000 (UTC)
+IronPort-SDR: S3ww105FgO5mDB70YkxBzJSO/FIebscDmENTtAdXwFSIo1x4SXpwCzvwI8YG3BPXtpr98e9NkP
+ mwCqAe5sbldQ==
+X-IronPort-AV: E=McAfee;i="6200,9189,9989"; a="262260634"
+X-IronPort-AV: E=Sophos;i="5.82,313,1613462400"; d="scan'208";a="262260634"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 May 2021 10:19:10 -0700
+IronPort-SDR: rtCJf+98fUlUN2UF4L69myAjc1P98z1jn94UCRIyRKSlcLjCXJwVNAb4ZM5piVbYrZ3kBQJWk8
+ i0csLwnBJBNA==
+X-IronPort-AV: E=Sophos;i="5.82,313,1613462400"; d="scan'208";a="439814842"
 Received: from unknown (HELO sdutt-i7) ([10.165.21.147])
- by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 May 2021 09:58:35 -0700
-Date: Wed, 19 May 2021 09:51:22 -0700
+ by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 May 2021 10:19:09 -0700
+Date: Wed, 19 May 2021 10:11:57 -0700
 From: Matthew Brost <matthew.brost@intel.com>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>
-Subject: Re: [Mesa-dev] [RFC 2/2] drm/doc/rfc: i915 new parallel submission
+To: Daniel Vetter <daniel@ffwll.ch>
+Subject: Re: [Intel-gfx] [RFC 2/2] drm/doc/rfc: i915 new parallel submission
  uAPI plan
-Message-ID: <20210519165121.GA2585@sdutt-i7>
+Message-ID: <20210519171157.GA5202@sdutt-i7>
 References: <20210518235830.133834-1-matthew.brost@intel.com>
  <20210518235830.133834-3-matthew.brost@intel.com>
- <5b8ab744-4906-945d-cbca-1ce4c40f2fcb@gmail.com>
+ <YKTyDNyVgmR3z1H5@phenom.ffwll.local>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <5b8ab744-4906-945d-cbca-1ce4c40f2fcb@gmail.com>
+In-Reply-To: <YKTyDNyVgmR3z1H5@phenom.ffwll.local>
 User-Agent: Mutt/1.9.4 (2018-02-28)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -52,59 +51,22 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: tony.ye@intel.com, tvrtko.ursulin@intel.com,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- jason.ekstrand@intel.com, michal.mrozek@intel.com,
- daniele.ceraolospurio@intel.com, jon.bloomfield@intel.com,
- daniel.vetter@intel.com, mesa-dev@lists.freedesktop.org, karl@freedesktop.org,
- christian.koenig@amd.com, john.c.harrison@intel.com
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ jason.ekstrand@intel.com, daniel.vetter@intel.com,
+ mesa-dev@lists.freedesktop.org, karl@freedesktop.org, christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, May 19, 2021 at 01:45:39PM +0200, Christian König wrote:
-> Oh, yeah we call that gang submit on the AMD side.
-> 
-> Had already some internal discussions how to implement this, but so far
-> couldn't figure out how to cleanly introduce that into the DRM scheduler.
-> 
-> Can you briefly describe in a few words how that is supposed to work on the
-> Intel side?
-> 
-
-Sure, I've done a quick PoC internally and have been able to hook this
-into the DRM scheduler.
-
-Basically each BB still maps to a single job as each job is somewhat
-unique (e.g. each job has its own ring, lrc, seqno, etc...). However all
-the jobs configured to run in parallel map to a single sched_entity
-which maintains the order each job was generated from the execbuf IOCTL
-(1 - N). When the backend receives jobs 1 to N - 1 it basically just
-updates some internal state. When the backend sees job N (last job) it
-actually does the submit for jobs 1 - N which with GuC submission is a
-simple command moving the LRC tail of the N jobs.
-
-Daniel has suggested that we create a single job for the NN BBs but that
-would be huge rework to the internals of the i915 and likely won't
-happen by the time this code first lands.
-
-Also worth noting one way a job isn't really a treated individually is
-the excl slot with dma-resv. In that case we create a composite fence of
-all jobs (dma_fence_array).
-
-Matt
-
-> Thanks,
-> Christian.
-> 
-> Am 19.05.21 um 01:58 schrieb Matthew Brost:
+On Wed, May 19, 2021 at 01:10:04PM +0200, Daniel Vetter wrote:
+> On Tue, May 18, 2021 at 04:58:30PM -0700, Matthew Brost wrote:
 > > Add entry fpr i915 new parallel submission uAPI plan.
 > > 
 > > v2:
-> >   (Daniel Vetter):
-> >    - Expand logical order explaination
-> >    - Add dummy header
-> >    - Only allow N BBs in execbuf IOCTL
-> >    - Configure parallel submission per slot not per gem context
+> >  (Daniel Vetter):
+> >   - Expand logical order explaination
+> >   - Add dummy header
+> >   - Only allow N BBs in execbuf IOCTL
+> >   - Configure parallel submission per slot not per gem context
 > > 
 > > Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 > > Cc: Tony Ye <tony.ye@intel.com>
@@ -113,10 +75,10 @@ Matt
 > > Cc: Jason Ekstrand <jason@jlekstrand.net>
 > > Signed-off-by: Matthew Brost <matthew.brost@intel.com>
 > > ---
-> >   Documentation/gpu/rfc/i915_parallel_execbuf.h | 144 ++++++++++++++++++
-> >   Documentation/gpu/rfc/i915_scheduler.rst      |  53 ++++++-
-> >   2 files changed, 196 insertions(+), 1 deletion(-)
-> >   create mode 100644 Documentation/gpu/rfc/i915_parallel_execbuf.h
+> >  Documentation/gpu/rfc/i915_parallel_execbuf.h | 144 ++++++++++++++++++
+> >  Documentation/gpu/rfc/i915_scheduler.rst      |  53 ++++++-
+> >  2 files changed, 196 insertions(+), 1 deletion(-)
+> >  create mode 100644 Documentation/gpu/rfc/i915_parallel_execbuf.h
 > > 
 > > diff --git a/Documentation/gpu/rfc/i915_parallel_execbuf.h b/Documentation/gpu/rfc/i915_parallel_execbuf.h
 > > new file mode 100644
@@ -156,6 +118,12 @@ Matt
 > > +	__u16 width;		/* number of contexts per parallel engine */
 > > +	__u16 num_siblings;	/* number of siblings per context */
 > > +	__u16 mbz16;
+> 
+> Ok the big picture looks reasonable now, the flags still confuse me.
+> 
+
+Yea, it is a bit confusing.
+
 > > +/*
 > > + * Default placement behvavior (currently unsupported):
 > > + *
@@ -208,6 +176,44 @@ Matt
 > > + * those resources to be scheduled in parallel, and possibly across multiple
 > > + * engine classes.
 > > + */
+> 
+> So I don't really get what this does compared to setting the flag below.
+> Is this just about running the batchbuffers the wrong way round, i.e. if
+> you have (simplest case)
+> 
+> width=2, num_sibglings=1, engines=CS[0], CS[1]
+> 
+> Then both
+> CS[0], CS[1]
+> and
+> CS[1], CS[0]
+> are possible options for running 2 batches? Iow, the backend is allowed to
+> run the batchbuffers the wrong way round, which gains us nothing, since we
+> assume the batches take equally long and engines interchangeable. There is
+> no scheduling scenario where this additional flexibility can help.
+> 
+> Also we don't have flags to select the only available and then specify an
+> entire pipe dream about what the non-flag mode does, without an
+> implementation. What is this about?
+> 
+> If it's just "because bonded allowed this" then I think we should just
+> unceremonously ditch this. Bummer for the nice kerenldoc you wrote, but
+> welp.
+> 
+
+High level the flags came out of internal discussions how this interface
+should look. The default placement behavior is theoretically possible
+with execlists but has no use cases. The GuC supports / current use
+cases are a subset of what is possible with I915_PARALLEL_IMPLICT_BONDS.
+
+Argued about for months and this is where we landed. At the end of the
+day I think we needed to show that this interface supports more
+placement rules than what the GuC supports / current use cases to future
+proof this interface.
+
+For what is it worth it seems kinda backwards that we landed on the
+default behavior not being supported in our current stack / HW.
+
 > > +
 > > +/*
 > > + * I915_PARALLEL_IMPLICT_BONDS - Create implict bonds between each context.
@@ -249,6 +255,37 @@ Matt
 > > + * bonding configurations but currently doesn't support this extension.
 > > + */
 > > +#define I915_PARALLEL_IMPLICT_BONDS			(1<<0)
+> 
+> Does this map to intel_context_set_nopreempt(), so we could implement it
+> also in execlist?
+>
+
+intel_context_set_nopreempt is preempt is part of how this would be
+implemented for execlists. For GuC submission there is a algorithm
+between the i915 and GuC that inserts same preemption points between
+each set of N batches. I believe the rules are if context 1 can
+preempted the rest of the contexts (2 - N) can safely be preempted. A go
+/ join algorithm, implemented with semaphores, around the batches
+makes sure the i915 adheres to these rules.
+ 
+> Also is this just an artifact of the implementation, or is this somehow
+> required functionality for userspace, i.e. the workload fails if e.g. GuC
+> decides to preempt all LRC of a parallel virtual engine? Of course just
+> preempting one is a bit a bug (but execlist I think happily does that).
+>
+
+I think it is part of the implementation / HW limitations. Basically if
+N batches are running in parallel if one of the batches gets preempted
+it can hang all the other batches even if it gets restarted. Again the
+idea behind this is only preempt any of these contexts between each set
+of N batches. The GuC has no concept of batches only contexts hence the
+aforementioned algorithm to insert same preemption points between each
+set of batches.
+
+Matt
+ 
+> Cheers, Daniel
+> 
 > > +/*
 > > + * Do not allow BBs to be preempted mid BB rather insert coordinated preemption
 > > + * points on all hardware contexts between each set of BBs. An example use case
@@ -273,8 +310,9 @@ Matt
 > > --- a/Documentation/gpu/rfc/i915_scheduler.rst
 > > +++ b/Documentation/gpu/rfc/i915_scheduler.rst
 > > @@ -82,4 +82,55 @@ https://spec.oneapi.com/level-zero/latest/core/api.html#ze-command-queue-priorit
-> >   New parallel submission uAPI
-> >   ============================
+> >  
+> >  New parallel submission uAPI
+> >  ============================
 > > -Details to come in a following patch.
 > > +The existing bonding uAPI is completely broken with GuC submission because
 > > +whether a submission is a single context submit or parallel submit isn't known
@@ -328,4 +366,15 @@ Matt
 > > +submitted and how it has been configured by 'set_parallel' or other extensions.
 > > +No uAPI changes in the execbuf IOCTL but worth mentioning the new behavior of
 > > +the IOCTL.
+> > -- 
+> > 2.28.0
+> > 
+> > _______________________________________________
+> > Intel-gfx mailing list
+> > Intel-gfx@lists.freedesktop.org
+> > https://lists.freedesktop.org/mailman/listinfo/intel-gfx
 > 
+> -- 
+> Daniel Vetter
+> Software Engineer, Intel Corporation
+> http://blog.ffwll.ch
