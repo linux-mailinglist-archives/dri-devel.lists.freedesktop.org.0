@@ -1,58 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B098388950
-	for <lists+dri-devel@lfdr.de>; Wed, 19 May 2021 10:24:19 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3346F388993
+	for <lists+dri-devel@lfdr.de>; Wed, 19 May 2021 10:40:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 04CAF6ECDE;
-	Wed, 19 May 2021 08:24:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C201D6ECE0;
+	Wed, 19 May 2021 08:40:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com
- [IPv6:2a00:1450:4864:20::331])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 914E66ECDE
- for <dri-devel@lists.freedesktop.org>; Wed, 19 May 2021 08:24:15 +0000 (UTC)
-Received: by mail-wm1-x331.google.com with SMTP id
- f6-20020a1c1f060000b0290175ca89f698so2904055wmf.5
- for <dri-devel@lists.freedesktop.org>; Wed, 19 May 2021 01:24:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=pt9LL0+CuDm+kdoZO8QVUQbhMgcl5obcxGIsILddiNI=;
- b=MQ9aFrBz0PeaXFmhxuJJKRsXWsV4ojKWOestex1JmpswITEMtO7NyCITY+f/B6cfEd
- YuaJOcN4AJzF/aASgepJ5vLaUTnCWQGxKO2WN7amvEcX41c5CUOL0a+UegdDJJS99tcR
- 1QmoE4V0/6jWslb0qdA4Hn0PMftILf1T7rg6E=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=pt9LL0+CuDm+kdoZO8QVUQbhMgcl5obcxGIsILddiNI=;
- b=fyTM+SIkYKFMkI1Ivsi4Y+4g/+vNA4eFsocH/Kltwe4ZdJnhsvkHHjHlYraUcro+Ap
- /g1RKP+cjfRxFG8TzGP2L+o9Mnl3+sd+SszqHFTRwJXA3msTkJnT4z+vqE5TVlXgp1F6
- oFFEPAVpU+NQO8wAxlg3If8rXkNCj6GFxm3F8GU3LTxKKefthi3MGbzZ2WJsPS23YCaR
- OdABwqLG2lJbWQvOZCZl3WEttj7768nWL69Jd+mM2vHEoA/I0Tnw+pr7fnbDIyoRfpcl
- lRofPdrhXytVhzJtoIPisOFEjPnR1jZsGwySRyEoyMm8dD+zSXRyBUBywRjJQwvtHorQ
- syYw==
-X-Gm-Message-State: AOAM531RA80o710N0czP89npq8StTYDkN9BebFyO6GLplJ/y2n6J+dx9
- 1npti2jPtgDWg4bmxDYG9V6wN96Yj5kCXA==
-X-Google-Smtp-Source: ABdhPJy60MiCzS26siZjbWIAx4MDQVgb7vOKb6uiXB4Ce87EFFEx9z+DjmAN9pkVppwvnVbK/nrSBQ==
-X-Received: by 2002:a05:600c:896:: with SMTP id
- l22mr10257596wmp.164.1621412654302; 
- Wed, 19 May 2021 01:24:14 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id v18sm29602687wro.18.2021.05.19.01.24.13
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 19 May 2021 01:24:13 -0700 (PDT)
-From: Daniel Vetter <daniel.vetter@ffwll.ch>
-To: DRI Development <dri-devel@lists.freedesktop.org>
-Subject: [PATCH] drm/ttm: Explain why ttm_bo_add_move_fence uses a shared slot
-Date: Wed, 19 May 2021 10:24:09 +0200
-Message-Id: <20210519082409.672016-1-daniel.vetter@ffwll.ch>
-X-Mailer: git-send-email 2.31.0
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 009596E19C;
+ Wed, 19 May 2021 08:40:36 +0000 (UTC)
+IronPort-SDR: aZYDvOuuBZHcspxgE/ve8EuwhN7l9eV6ckYK2i85czRwi8iRPtJ4KFh8nvFxsoShHheX/qFi+y
+ Hloke28pWYvQ==
+X-IronPort-AV: E=McAfee;i="6200,9189,9988"; a="197833152"
+X-IronPort-AV: E=Sophos;i="5.82,312,1613462400"; 
+ d="asc'?scan'208";a="197833152"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 May 2021 01:40:36 -0700
+IronPort-SDR: MrY+2h+hx37IZuK0QZzf3fgPh/EwjpJGvVRy80M9V3FlmN9mBTrade7HXKASObdfWqYjnWyHla
+ YemORb5h6hSA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.82,312,1613462400"; 
+ d="asc'?scan'208";a="627534596"
+Received: from zhen-hp.sh.intel.com (HELO zhen-hp) ([10.239.160.147])
+ by fmsmga006.fm.intel.com with ESMTP; 19 May 2021 01:40:33 -0700
+Date: Wed, 19 May 2021 16:21:23 +0800
+From: Zhenyu Wang <zhenyuw@linux.intel.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: Re: [PATCH] drm/i915/gvt: remove local storage of debugfs file
+Message-ID: <20210519082123.GI4589@zhen-hp.sh.intel.com>
+References: <20210518161705.3697143-1-gregkh@linuxfoundation.org>
+ <YKPrRW+zBC8Wmjgz@kroah.com>
+ <20210519080313.GH4589@zhen-hp.sh.intel.com>
+ <YKTM1tQ7SMPnYgiV@kroah.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha1;
+ protocol="application/pgp-signature"; boundary="q6mBvMCt6oafMx9a"
+Content-Disposition: inline
+In-Reply-To: <YKTM1tQ7SMPnYgiV@kroah.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,42 +53,76 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, Huang Rui <ray.huang@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
- Daniel Vetter <daniel.vetter@intel.com>,
- Christian Koenig <christian.koenig@amd.com>
+Reply-To: Zhenyu Wang <zhenyuw@linux.intel.com>
+Cc: David Airlie <airlied@linux.ie>, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ intel-gvt-dev@lists.freedesktop.org, Zhi Wang <zhi.a.wang@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Motivated because I got confused and Christian confirmed why this
-works. I think this is non-obvious enough that it merits a slightly
-longer comment.
 
-Cc: Christian König <ckoenig.leichtzumerken@gmail.com>
-Cc: Christian Koenig <christian.koenig@amd.com>
-Cc: Huang Rui <ray.huang@amd.com>
-Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
----
- drivers/gpu/drm/ttm/ttm_bo.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+--q6mBvMCt6oafMx9a
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
-index ca1b098b6a56..51a94fd63bd7 100644
---- a/drivers/gpu/drm/ttm/ttm_bo.c
-+++ b/drivers/gpu/drm/ttm/ttm_bo.c
-@@ -682,7 +682,9 @@ int ttm_mem_evict_first(struct ttm_device *bdev,
- }
- 
- /*
-- * Add the last move fence to the BO and reserve a new shared slot.
-+ * Add the last move fence to the BO and reserve a new shared slot. We only use
-+ * a shared slot to avoid unecessary sync and rely on the subsequent bo move to
-+ * either stall or use an exclusive fence respectively set bo->moving.
-  */
- static int ttm_bo_add_move_fence(struct ttm_buffer_object *bo,
- 				 struct ttm_resource_manager *man,
--- 
-2.31.0
+On 2021.05.19 10:31:18 +0200, Greg Kroah-Hartman wrote:
+> On Wed, May 19, 2021 at 04:03:13PM +0800, Zhenyu Wang wrote:
+> > On 2021.05.18 18:28:53 +0200, Greg Kroah-Hartman wrote:
+> > > On Tue, May 18, 2021 at 06:17:05PM +0200, Greg Kroah-Hartman wrote:
+> > > > There is no need to keep the dentry around for the debugfs kvmgt ca=
+che
+> > > > file, as we can just look it up when we want to remove it later on.
+> > > > Simplify the structure by removing the dentry and relying on debugfs
+> > > > to find the dentry to remove when we want to.
+> > > >=20
+> > > > By doing this change, we remove the last in-kernel user that was st=
+oring
+> > > > the result of debugfs_create_long(), so that api can be cleaned up.
+> > > >=20
+> > > > Cc: Zhenyu Wang <zhenyuw@linux.intel.com>
+> > > > Cc: Zhi Wang <zhi.a.wang@intel.com>
+> > > > Cc: Jani Nikula <jani.nikula@linux.intel.com>
+> > > > Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+> > > > Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
+> > > > Cc: David Airlie <airlied@linux.ie>
+> > > > Cc: Daniel Vetter <daniel@ffwll.ch>
+> > > > Cc: intel-gvt-dev@lists.freedesktop.org
+> > > > Cc: intel-gfx@lists.freedesktop.org
+> > > > Cc: dri-devel@lists.freedesktop.org
+> > > > Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> > > > ---
+> > > >  drivers/gpu/drm/i915/gvt/kvmgt.c | 11 +++++------
+> > > >  1 file changed, 5 insertions(+), 6 deletions(-)
+> > >=20
+> > > Note, I can take this through my debugfs tree if wanted, that way I c=
+an
+> > > clean up the debugfs_create_long() api at the same time.  Otherwise i=
+t's
+> > > fine, I can wait until next -rc1 for that to happen.
+> > >=20
+> >=20
+> > It's fine with me to go through debugfs tree. Just double check that re=
+cent
+> > kvmgt change would not cause conflict with this as well.
+>=20
+> How can I check that?  I'll be glad to take this through my tree, we can
+> handle the merge issues later for 5.14-rc1 :)
+>=20
 
+Current kvmgt change in merge queue is just https://patchwork.freedesktop.o=
+rg/patch/433536/?series=3D89995&rev=3D2
+It applies fine with debugfs change.
+
+
+--q6mBvMCt6oafMx9a
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iF0EARECAB0WIQTXuabgHDW6LPt9CICxBBozTXgYJwUCYKTKfgAKCRCxBBozTXgY
+J2A8AJ47qrLT92YbMGpq+0Oh7RBcZmKNaQCghT4HV9a6e0VBuuJd0a9WrealPM0=
+=OD41
+-----END PGP SIGNATURE-----
+
+--q6mBvMCt6oafMx9a--
