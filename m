@@ -1,65 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A04F33891FF
-	for <lists+dri-devel@lfdr.de>; Wed, 19 May 2021 16:51:55 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 595AB38922A
+	for <lists+dri-devel@lfdr.de>; Wed, 19 May 2021 17:04:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C47D56EDE2;
-	Wed, 19 May 2021 14:51:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AA1AC6EDE7;
+	Wed, 19 May 2021 15:04:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x32a.google.com (mail-ot1-x32a.google.com
- [IPv6:2607:f8b0:4864:20::32a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A4C4F6EDE1
- for <dri-devel@lists.freedesktop.org>; Wed, 19 May 2021 14:51:52 +0000 (UTC)
-Received: by mail-ot1-x32a.google.com with SMTP id
- 36-20020a9d0ba70000b02902e0a0a8fe36so11961341oth.8
- for <dri-devel@lists.freedesktop.org>; Wed, 19 May 2021 07:51:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=FTJFgBVyDmUOEWvTRev7q14+qgObUW0H7ne5i0Gbe6Y=;
- b=S9tVdEtrJGHa2o7lEkJCl4ciWBJIW+7y7XAxPg2JtJRWL8oEtOofCj7Kd+s7C/rIBr
- X/N8xkmpWtnyWt1DKO7+61sttUWb96XaXea/B1XI7p/WQnRVkFodqInkdzVDOGszpRe4
- bpJLlyQD9AEUc4m7DCFI/fKCMPXeM+YTcp1d73LC5Eq2i6Zs/OdFoDQ388kT3FuKiZDB
- dsyJ9WRYzho23HSpVRA74CioM2IFz/p6ya/SE2EPNaHHGbHjx6SKcHx+OuMx087PBb3/
- MqM61FpRqZKf8ve9BqJGm1gC0KM3eQ3qrqTWLKksOYf2pqrZGeeweNHmboD1YyD6ExZR
- Wt4A==
+Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com
+ [IPv6:2a00:1450:4864:20::633])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3D2566EDE7
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 May 2021 15:04:46 +0000 (UTC)
+Received: by mail-ej1-x633.google.com with SMTP id n2so20440234ejy.7
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 May 2021 08:04:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=jlekstrand-net.20150623.gappssmtp.com; s=20150623;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=AIh3LPxhFUPUIJHux8vcxGYsWFeEVlxPbplmJRkb4OU=;
+ b=qrIa0Nm9V/t9pk6g1i6yexCNcwW//lGzLTXb4MCUaGrntJtk0iaY1IHYr9t3wpY5vI
+ Qe3lFBH4xbWIwutLCRQ7VrCmX0P+SC/TuZYnJrVTtyKA5aqFpikfOBT+PdOmrHuSQ6Vd
+ cfWJ/TvI0kv3WyryGyqgFGImvdiQh8jyIQtjsN44jsIyBH4RtSw7yCCBhV+3vo/34DEF
+ d3pEYu3CnzYJB0q2xRIKlxYLayV/Z8QNMaxUqs0wRgafs3sVH6fFl10L3mtVOBX+qccp
+ iWYanUUnfTwIUVS7WyEMjRxkD4Kp4xASvRzsTGQC8qDAmwEzdyXapOb3f6eGAnIFnUO2
+ CxNg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=FTJFgBVyDmUOEWvTRev7q14+qgObUW0H7ne5i0Gbe6Y=;
- b=O9zsSuafLOhLHEgX4Xdrzw3dY6Q1crA4O5e4770A2PXSKNyD2EnTOwFN882uPAx35U
- d4SB+Ye4WXoxpxMsZ2U43q2ibKrOKtS+Vvx8U0QZecdR8U5I4O/FoEuf7sYCmtFRuBeS
- Nj22ep7m6BCK2zH25Kj4QWZlZRhZv+7WS6+AQcqKooxLrzHJBjgMe0CfmItrkXygB0Ob
- RdE764YXkWZ55sLAW/VG3Y2bwSNueFe60T0NAw0cFHFjw+GNDgStoWV4XFYR9iGGcgkh
- eiFlQ3QnePjx3juyAVK8XC3VdVnW6AAFAEZmS60D6CPsInGCsAAGZMzRQS9CXnVaKPPX
- qpHg==
-X-Gm-Message-State: AOAM532weDoiyZkmIciDpP74msdaQT+8spkEPxzQQYRY1061646Vtxfh
- q4Tobhyi/qQ5EyUuzxKOcWJhkQ==
-X-Google-Smtp-Source: ABdhPJzY4rU2tPVJy8SezcMhmTeANCYark26o2ccH2Eo3RpalK98eq0y6YRbfDXggAfXeWgxMe1aUg==
-X-Received: by 2002:a05:6830:1594:: with SMTP id
- i20mr9168662otr.279.1621435911905; 
- Wed, 19 May 2021 07:51:51 -0700 (PDT)
-Received: from yoga (104-57-184-186.lightspeed.austtx.sbcglobal.net.
- [104.57.184.186])
- by smtp.gmail.com with ESMTPSA id 67sm4571702otp.68.2021.05.19.07.51.51
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 19 May 2021 07:51:51 -0700 (PDT)
-Date: Wed, 19 May 2021 09:51:49 -0500
-From: Bjorn Andersson <bjorn.andersson@linaro.org>
-To: abhinavk@codeaurora.org
-Subject: Re: [Freedreno] [PATCH 0/4] drm/msm/dp: Add support for SC8180x eDP
- controller
-Message-ID: <20210519145149.GX2484@yoga>
-References: <20210511042043.592802-1-bjorn.andersson@linaro.org>
- <40f6aefd3fa341e2bec2060106389be7@codeaurora.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=AIh3LPxhFUPUIJHux8vcxGYsWFeEVlxPbplmJRkb4OU=;
+ b=Kl1rxXrSF317KrFu7QMJ1a/nffbHwlDoqrIbE8/tLDsQn2mf2cDu03HrdUdWTvMQh9
+ N+tJ25ec1Q3bzGM4gysT0NAQfqQEr2uubyWHq9YvqV+xfLxGhECEwUlvx8VP6M4KzvJZ
+ Ito5K7SxJY0e95AW89QKS2olnnVyAZ9PZD8caDO26gJTuzpG9U/KMytzJFskePnjghxp
+ BJ5cwBnyupNaNMhF3U+sbD3+D6KUVnr10bxXQO5VHbOuSS7vm5vafKYLmrlbMmGqQhHh
+ 15Us7uxnrDkoRojSWkVsUmwz8UdwZw4lZ0I+l4rsD+Xd3DHVpWpAM3wqFZApmelpas6Q
+ qiYA==
+X-Gm-Message-State: AOAM532spBKw8P9Gk5F5FY89TWLh14NscrnVVFu7ppJQ38xdHC80xbSP
+ I/5aVvFAE/mExHjCteqY6KRfEUmSMat+yD93Zgk4kg==
+X-Google-Smtp-Source: ABdhPJy4po16yJDUE4DJ+brqx3On5vbmYSffXxAApMOaW490uyvlp7No8jeNdKyh9YxrKjsAGiz8RqBgxQkalrV4rPg=
+X-Received: by 2002:a17:907:781a:: with SMTP id
+ la26mr13095156ejc.435.1621436684760; 
+ Wed, 19 May 2021 08:04:44 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <40f6aefd3fa341e2bec2060106389be7@codeaurora.org>
+References: <20210519074323.665872-1-daniel.vetter@ffwll.ch>
+In-Reply-To: <20210519074323.665872-1-daniel.vetter@ffwll.ch>
+From: Jason Ekstrand <jason@jlekstrand.net>
+Date: Wed, 19 May 2021 10:04:33 -0500
+Message-ID: <CAOFGe971P6K5_dQyNQtnZK3vp-3ax97-6Z9O87+5BFR+kiKmjg@mail.gmail.com>
+Subject: Re: [PATCH 1/2] drm/i915/cmdparser: No-op failed batches on all
+ platforms
+To: Daniel Vetter <daniel.vetter@ffwll.ch>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,89 +64,133 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
- linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
- Tanmay Shah <tanmay@codeaurora.org>, Stephen Boyd <swboyd@chromium.org>,
- dri-devel@lists.freedesktop.org,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, sbillaka@codeaurora.org,
- Sean Paul <sean@poorly.run>, Chandan Uddaraju <chandanu@codeaurora.org>
+Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ stable@vger.kernel.org, Jason Ekstrand <jason.ekstrand@intel.com>,
+ Jon Bloomfield <jon.bloomfield@intel.com>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Marcin Slusarz <marcin.slusarz@intel.com>,
+ Daniel Vetter <daniel.vetter@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue 18 May 22:41 CDT 2021, abhinavk@codeaurora.org wrote:
+On Wed, May 19, 2021 at 2:43 AM Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
+>
+> On gen9 for blt cmd parser we relied on the magic fence error
+> propagation which:
+> - doesn't work on gen7, because there's no scheduler with ringbuffers
+>   there yet
+> - fence error propagation can be weaponized to attack other things, so
+>   not a good design idea
+>
+> Instead of magic, do the same thing on gen9 as on gen7.
 
-> Hi Bjorn
-> 
-> I had a quick glance on the series and before getting to other things wanted
-> to know how you are initializing two different connectors for
-> DP & EDP resp.
-> 
-> The connector type for DP should be DRM_MODE_CONNECTOR_DisplayPort and eDP
-> should be DRM_MODE_CONNECTOR_eDP.
+I think the commit message could be improved.  Maybe something like this?
 
-As far as I've been able to conclude there is no eDP support in the
-upstream DPU driver; an encoder of type DRM_MODE_ENCODER_TMDS will only
-attach to INTF_DP.
+When we re-introduced the command parser on Gen9 platforms to protect
+against BLT CS register writes, we did things a bit differently than
+on previous platforms.  On Gen7 platforms, if a batch contains
+unsupported commands, we smash the start of the shadow batch to
+MI_BATCH_BUFFER_END to cancel the batch.  If it's mostly ok
+(-EACCESS), we trampoline to run in unprivileged mode and let the
+limited HW parser handle security.  On Gen9, we only care about
+rejecting batches because we don't trust the HW parser for a few cases
+so we don't need this second trampoline case.
 
-> We need both to be created so that both EDP and DP can be supported
-> concurrently.
-> 
+However, instead of stopping there and avoiding the trampoline, we
+chose to avoid executing the new batch all together on Gen9 by use of
+dma-fence error propagation.  When the batch parser fails, it returns
+a non-zero error and we would propgate that through the chain of
+fences and trust the scheduler to know to cancel anything dependent on
+a fence with an error.  However, fence error propagation is sketchy at
+best and can be weaponized to attack other things so it's not really a
+good design.  This commit restores a bit of the Gen7 functionality on
+Gen9 (smashing the start of the shadow batch to MI_BB_END) so that
+it's always safe to run the batch post-parser.  A later commit will
+get rid of the error propagation nonsense.
 
-Further more the DP controller driver has a global variable to track
-state and the INTF-picker will always pick the interface of index 0 when
-setting up the DP controller.
+>
+> Kudos to Jason for figuring this out.
+>
+> Fixes: 9e31c1fe45d5 ("drm/i915: Propagate errors on awaiting already signaled fences")
+> Cc: <stable@vger.kernel.org> # v5.6+
+> Cc: Jason Ekstrand <jason.ekstrand@intel.com>
+> Cc: Marcin Slusarz <marcin.slusarz@intel.com>
+> Cc: Jon Bloomfield <jon.bloomfield@intel.com>
+> Relates: https://gitlab.freedesktop.org/drm/intel/-/issues/3080
+> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+> ---
+>  drivers/gpu/drm/i915/i915_cmd_parser.c | 34 +++++++++++++-------------
+>  1 file changed, 17 insertions(+), 17 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/i915/i915_cmd_parser.c b/drivers/gpu/drm/i915/i915_cmd_parser.c
+> index 5b4b2bd46e7c..2d3336ab7ba3 100644
+> --- a/drivers/gpu/drm/i915/i915_cmd_parser.c
+> +++ b/drivers/gpu/drm/i915/i915_cmd_parser.c
+> @@ -1509,6 +1509,12 @@ int intel_engine_cmd_parser(struct intel_engine_cs *engine,
+>                 }
+>         }
+>
+> +       /* Batch unsafe to execute with privileges, cancel! */
+> +       if (ret) {
+> +               cmd = page_mask_bits(shadow->obj->mm.mapping);
+> +               *cmd = MI_BATCH_BUFFER_END;
+> +       }
+> +
+>         if (trampoline) {
+>                 /*
+>                  * With the trampoline, the shadow is executed twice.
+> @@ -1524,26 +1530,20 @@ int intel_engine_cmd_parser(struct intel_engine_cs *engine,
+>                  */
+>                 *batch_end = MI_BATCH_BUFFER_END;
 
-> Will these changes work for concurrent eDP and DP case?
-> 
+Bit of a bike shed but, given the new structure of the code, I think
+it makes it more clear if we do
 
-The proposed changes are all that I need to get eDP working on my
-sc8180x laptop. But the DPU code does not currently support more than a
-single DP interface - and that has to be on the first INTF_DP that the
-DPU driver knows about.
+if (ret == -EACCESS) {
+   /* stuff */
+   __gen6_emit_bb_start(...);
+} else {
+   *batch_end = MI_BATCH_BUFFER_END;
+}
 
-But this is a limitation we should fix, rather than claiming that you
-can only have one of each. Further more, afaict the sc7280 DP controller
-can do both DP and eDP, so it would make sense not to distinguish the
-interfaces as eDP or DP - just because the product in mind will use eDP.
+That way it's clear that we're making a choice between firing off the
+client batch in privileged mode and ending early.
 
-
-PS. I've currently disabled the eDP interface on my laptop and am
-working on trying to get Type-C DP working. Once that's in place I'd
-need a better INTF/encoder picker - because the current model of just
-picking INTF_DP 0 (or in a sequential fashion) won't work.
-
-Regards,
-Bjorn
-
-> Thanks
-> 
-> Abhinav
-> 
-> On 2021-05-10 21:20, Bjorn Andersson wrote:
-> > The first patch in the series is somewhat unrelated to the support, but
-> > simplifies reasoning and debugging of timing related issues.
-> > 
-> > The second patch introduces support for dealing with different register
-> > block
-> > layouts, which is used in the forth patch to describe the hardware
-> > blocks found
-> > in the SC8180x eDP block.
-> > 
-> > The third patch configures the INTF_CONFIG register, which carries the
-> > configuration for widebus handling. As with the DPU the bootloader
-> > enables
-> > widebus and we need to disable it, or implement support for adjusting
-> > the
-> > timing.
-> > 
-> > Bjorn Andersson (4):
-> >   drm/msm/dp: Simplify the mvid/nvid calculation
-> >   drm/msm/dp: Store each subblock in the io region
-> >   drm/msm/dp: Initialize the INTF_CONFIG register
-> >   drm/msm/dp: Add support for SC8180x eDP
-> > 
-> >  drivers/gpu/drm/msm/dp/dp_catalog.c | 99 +++++++----------------------
-> >  drivers/gpu/drm/msm/dp/dp_display.c |  1 +
-> >  drivers/gpu/drm/msm/dp/dp_parser.c  | 22 +++++++
-> >  drivers/gpu/drm/msm/dp/dp_parser.h  |  8 +++
-> >  4 files changed, 53 insertions(+), 77 deletions(-)
+>
+> -               if (ret) {
+> -                       /* Batch unsafe to execute with privileges, cancel! */
+> -                       cmd = page_mask_bits(shadow->obj->mm.mapping);
+> -                       *cmd = MI_BATCH_BUFFER_END;
+> +               /* If batch is unsafe but valid, jump to the original */
+> +               if (ret == -EACCES) {
+> +                       unsigned int flags;
+>
+> -                       /* If batch is unsafe but valid, jump to the original */
+> -                       if (ret == -EACCES) {
+> -                               unsigned int flags;
+> +                       flags = MI_BATCH_NON_SECURE_I965;
+> +                       if (IS_HASWELL(engine->i915))
+> +                               flags = MI_BATCH_NON_SECURE_HSW;
+>
+> -                               flags = MI_BATCH_NON_SECURE_I965;
+> -                               if (IS_HASWELL(engine->i915))
+> -                                       flags = MI_BATCH_NON_SECURE_HSW;
+> +                       GEM_BUG_ON(!IS_GEN_RANGE(engine->i915, 6, 7));
+> +                       __gen6_emit_bb_start(batch_end,
+> +                                            batch_addr,
+> +                                            flags);
+>
+> -                               GEM_BUG_ON(!IS_GEN_RANGE(engine->i915, 6, 7));
+> -                               __gen6_emit_bb_start(batch_end,
+> -                                                    batch_addr,
+> -                                                    flags);
+> -
+> -                               ret = 0; /* allow execution */
+> -                       }
+> +                       ret = 0; /* allow execution */
+>                 }
+>         }
+>
+> --
+> 2.31.0
+>
