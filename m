@@ -1,71 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6359389695
-	for <lists+dri-devel@lfdr.de>; Wed, 19 May 2021 21:24:25 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 792E23896ED
+	for <lists+dri-devel@lfdr.de>; Wed, 19 May 2021 21:44:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1A7856EE6E;
-	Wed, 19 May 2021 19:24:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4C92B6EE77;
+	Wed, 19 May 2021 19:44:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x429.google.com (mail-pf1-x429.google.com
- [IPv6:2607:f8b0:4864:20::429])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B99D86EE6E;
- Wed, 19 May 2021 19:24:18 +0000 (UTC)
-Received: by mail-pf1-x429.google.com with SMTP id g18so8935345pfr.2;
- Wed, 19 May 2021 12:24:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=47JQ73C0NJdLVL+El8Yu9LZib8r+sSTJ+nf9zBKe9o0=;
- b=CToMN5sVOeaSvxsFwh30mnX1cEfbujdvLOsJoVGXyNK5xIClhHeY9+5gjOfAEdXX3G
- eU6qVJByg68kQ/w6JlnavFgIe+nfjuKKhbAsZxJHLIoUmLJC+FNQXwfuXltAASilweQx
- t+08hp5u1PLu1TqToQLVPh129PwSHFiJcf7M+I2aRakLaRJ2reqCHrxjRIjxuLTiBnzU
- obYFCXVysXAW0hEOj/ZFRzKi1W/0ELgGhGTgBKGpo2iX5m/PP/BptzsrBt+DoXhRmi5/
- WDDfuoHSDbRwV59E2nqJbeAwXtBih5h7WjHhxwWGM7Qsk3IgYQx+mCus3GhZ5jZ2T7eK
- 2tug==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=47JQ73C0NJdLVL+El8Yu9LZib8r+sSTJ+nf9zBKe9o0=;
- b=lCXZ+R/yGHd57PyMhgc3vPDjmfpl9ZdzdCK09e3SSu6QD7esb1HEE5BzK0GxYK3y9w
- YWA9nuh5m1Lf79wFXWLQhQF+xMa/pjQ35c1lN4wJ2JkJyQCKB+yOQ5TnXdwE4rFO2wUY
- xk8lp2+uOpmO2EpmUg7bSXUCFjy9/NByBa6695BOrlEHgvcr9cmRyCtPvoLAt2Al7hIq
- GYqPgk/KIe9YO/E44fDB+Vj3c/3q3h84t0/0LIY/wxAdofc96/DPuLEoa1kjcoM1LeYW
- JPm4V3DUJfmrxaO4LDbHD9HGG8p3pQQdHcvJN+5JKdW+xxvUCNw/xLawJyiQamqHWcg8
- SAqg==
-X-Gm-Message-State: AOAM530+zgNE2HCcdR5A8clja6SFdhwA6KKLZKl8aiv7e2ttBlKczInk
- uj0+UAFysELO/ro7qFy2ivA=
-X-Google-Smtp-Source: ABdhPJzJyhu29XiaIUqubYuVceyIJwVsMCRuIXu8+2duk9EuCth6A3fkL6TVyZT/YsIkYQB5Otc01Q==
-X-Received: by 2002:a62:1d52:0:b029:2dd:ee:1439 with SMTP id
- d79-20020a621d520000b02902dd00ee1439mr573310pfd.57.1621452258195; 
- Wed, 19 May 2021 12:24:18 -0700 (PDT)
-Received: from [10.230.29.202] ([192.19.223.252])
- by smtp.gmail.com with ESMTPSA id gj21sm4690007pjb.49.2021.05.19.12.24.13
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 19 May 2021 12:24:17 -0700 (PDT)
-Subject: Re: [PATCH v7 02/15] swiotlb: Refactor swiotlb_create_debugfs
-To: Claire Chang <tientzu@chromium.org>, Rob Herring <robh+dt@kernel.org>,
- mpe@ellerman.id.au, Joerg Roedel <joro@8bytes.org>,
- Will Deacon <will@kernel.org>, Frank Rowand <frowand.list@gmail.com>,
- Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>, boris.ostrovsky@oracle.com,
- jgross@suse.com, Christoph Hellwig <hch@lst.de>,
- Marek Szyprowski <m.szyprowski@samsung.com>
-References: <20210518064215.2856977-1-tientzu@chromium.org>
- <20210518064215.2856977-3-tientzu@chromium.org>
-From: Florian Fainelli <f.fainelli@gmail.com>
-Message-ID: <d4a3ee6d-55be-1a60-9092-66b444dc9dda@gmail.com>
-Date: Wed, 19 May 2021 12:24:11 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Firefox/78.0 Thunderbird/78.10.2
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9340D6EE77
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 May 2021 19:44:32 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id 23871611BD
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 May 2021 19:44:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1621453472;
+ bh=hppE3aJ+SjGoRiSvwuWCXu7R0osxPBY5bjeKfbsD9lA=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=j8XEJEViQjTaD6U7LfHyRzXaxlns5F57HcgLUKzwvNE5jX2CWMo3cvzdz12H/7ui5
+ JJ+FCKwExmtzjKbQ5nQDY7gagdv09wvQ8c57who272QRQy9ba5sFooR/G5sRA0SkMQ
+ OJfNPtxDiQ/ukWggotqkc1/w7FkBZVk/HMUVCJGArLxaN49XDZrkHYeQJ/0MU8Vqq9
+ 3KhIg+wso7RC4i1lIMuwkCy3IyCg7NljUy/VbOK9S9J7eW0f80WUUu28T0odwgp8nU
+ fAfDYugFnFzC+4U26uy+j/u8eC373IWgYGNjgTRzC4L6sYD+ofIQmH838SHtpko9bW
+ dWI5w3qsUW47w==
+Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
+ id 1AE3B61262; Wed, 19 May 2021 19:44:32 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 211277] sometimes crash at s2ram-wake (Ryzen 3500U): amdgpu,
+ drm, commit_tail, amdgpu_dm_atomic_commit_tail
+Date: Wed, 19 May 2021 19:44:31 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: me@jeromec.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: attachments.created
+Message-ID: <bug-211277-2300-P0u5xSmDHV@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-211277-2300@https.bugzilla.kernel.org/>
+References: <bug-211277-2300@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-In-Reply-To: <20210518064215.2856977-3-tientzu@chromium.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,36 +66,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: heikki.krogerus@linux.intel.com, thomas.hellstrom@linux.intel.com,
- peterz@infradead.org, dri-devel@lists.freedesktop.org,
- chris@chris-wilson.co.uk, grant.likely@arm.com, paulus@samba.org,
- mingo@kernel.org, jxgao@google.com, sstabellini@kernel.org,
- Saravana Kannan <saravanak@google.com>, xypron.glpk@gmx.de,
- "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>,
- Bartosz Golaszewski <bgolaszewski@baylibre.com>, bskeggs@redhat.com,
- linux-pci@vger.kernel.org, xen-devel@lists.xenproject.org,
- Thierry Reding <treding@nvidia.com>, intel-gfx@lists.freedesktop.org,
- matthew.auld@intel.com, linux-devicetree <devicetree@vger.kernel.org>,
- airlied@linux.ie, Robin Murphy <robin.murphy@arm.com>,
- Nicolas Boichat <drinkcat@chromium.org>, rodrigo.vivi@intel.com,
- bhelgaas@google.com, Dan Williams <dan.j.williams@intel.com>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Greg KH <gregkh@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>,
- lkml <linux-kernel@vger.kernel.org>, tfiga@chromium.org,
- "list@263.net:IOMMU DRIVERS" <iommu@lists.linux-foundation.org>,
- Jim Quinlan <james.quinlan@broadcom.com>, linuxppc-dev@lists.ozlabs.org,
- bauerman@linux.ibm.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+https://bugzilla.kernel.org/show_bug.cgi?id=3D211277
 
+--- Comment #28 from Jerome C (me@jeromec.com) ---
+Created attachment 296877
+  --> https://bugzilla.kernel.org/attachment.cgi?id=3D296877&action=3Dedit
+AMDGPU fence info
 
-On 5/17/2021 11:42 PM, Claire Chang wrote:
-> Split the debugfs creation to make the code reusable for supporting
-> different bounce buffer pools, e.g. restricted DMA pool.
-> 
-> Signed-off-by: Claire Chang <tientzu@chromium.org>
+(In reply to James Zhu from comment #27)
+> Hi Jeromec, thanks for your feedback, can you also add drm.debug=3D0x1ff
+> modprobe? I need log: case 1 dmesg and
+> /sys/kernel/debug/dri/0/amdgpu_fence_info (if you can). James.
 
-Reviewed-by: Florian Fainelli <f.fainelli@gmail.com>
--- 
-Florian
+I've tested text mode and gui/drm mode with "drm.debug=3D0x1ff" set and fou=
+nd no
+crashes... when "drm.debug=3D0x1ff" is unset... the crashes/timeouts are ba=
+ck...
+I think this is why your unable to reproduce the problem...
+
+I've never known debug option(s) to remove issue(s)... oh well
+
+I've added the contents of the file
+"/sys/kernel/debug/dri/0/amdgpu_fence_info".
+
+The file contains 4 different boot states ( vcn on/off, drm debug on/off )
+clearly marked/seperated in the attached file
+
+I'm using 5.12.5 now but I also tried this on 5.12.4. Usually the crashes
+happen within 50 suspensions/resumes but today I left it to do over 2000
+suspensions/resumes just to make sure...
+
+I know you asked for a log but I spent so much time on this ( other things =
+too
+), it wasn't on my mind so I'll get that by Friday, if you still need it
+ofcourse
+
+thanks
+
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
