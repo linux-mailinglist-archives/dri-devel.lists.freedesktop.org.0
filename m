@@ -1,68 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47C553889E4
-	for <lists+dri-devel@lfdr.de>; Wed, 19 May 2021 10:53:47 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FDBF388ABE
+	for <lists+dri-devel@lfdr.de>; Wed, 19 May 2021 11:34:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DB1336ECEF;
-	Wed, 19 May 2021 08:53:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AFFCA6ECF6;
+	Wed, 19 May 2021 09:34:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com
- [IPv6:2a00:1450:4864:20::134])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 62EBA6ECE9;
- Wed, 19 May 2021 08:53:42 +0000 (UTC)
-Received: by mail-lf1-x134.google.com with SMTP id r5so17903740lfr.5;
- Wed, 19 May 2021 01:53:42 -0700 (PDT)
+Received: from mail-lj1-x233.google.com (mail-lj1-x233.google.com
+ [IPv6:2a00:1450:4864:20::233])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1D4D26E243;
+ Wed, 19 May 2021 09:34:11 +0000 (UTC)
+Received: by mail-lj1-x233.google.com with SMTP id e11so14790337ljn.13;
+ Wed, 19 May 2021 02:34:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=date:from:to:cc:subject:message-id:in-reply-to:references
- :mime-version; bh=UEcEyDKGWc5BqkdIaL+KY18rDaFnEJEqEe+FVsf32e4=;
- b=pm/UKKRV9gwmB0Uu5gCiTQpFvJcZacaRAVe6USMnJD+vZf8FioX9Qm4ahmhiGvwZfm
- czyYuk+XzzzcvLwboCPNjltLmCK2rE7QFppt36mvZ/rerY0+4f/JZdnb8Bm8/ksrEoOK
- eSLJJRakrkbzJoA0q1bzvjtFX7JF6gMj4lEtBLg7zkm4S6isg1CfajfiHeQLcQwhzYIV
- an8JVbPE1xVstS20QK5TnPaJAsWaSI3LL0MzG1JkRovPmbtG65FWqWlXvhNZyq3CoDxH
- +IY/E7Min6W/pn8AbR37r3JtMj6UJ0lnPtKnSetmyCsYo+RAI5gA60guiV3jcglkiLaa
- yayQ==
+ :mime-version; bh=M4/CJdize/QPrExYkYoO17mX9iuO/FeUCuYX4ZYy1Eg=;
+ b=ctT/5/xc2v60tfVBuU70gynhEus2tJ7LfF9eRAMDp4bVW23Cr0l+KtN+5BqZP9MDJ4
+ nhFID3wbcOoaTIuqXJhDPpKEdteb8QGiPnlr9VVU3PRP88NgwKd5xrphibllssFumL5B
+ lbarigZtnY7bBYjDsn4CHr+fsE0C1xS0PMwZ9+Ru+bw4u0yFzfxLIVwUEFb/xTfGzaVR
+ dHLdX8oKXAyKrv8ZzE4BU7zttHSXAT5Q4x0nue05f3FbMts075JF2zrA9otR/UGAsfry
+ Ntuj5MKev/hi78YRQFiwRcON0VVHn3tMUCBmgLzquPEAs+WHanljz02CsKwNDN9xbFa2
+ Xqug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
  :references:mime-version;
- bh=UEcEyDKGWc5BqkdIaL+KY18rDaFnEJEqEe+FVsf32e4=;
- b=XYUCgywAch3vsNCEWlHW8tB6bv2astfHgeQnAQT6nnX0QTQdoi43hDeVVe88A9KTuV
- /RLnEOTHajy9c7+sM3Xt/c8Lg1A70MujOYXWMKU7mlPTHdTouTkTv2QZm9d2/mOErhMx
- ErkqCYwU1hCLKxDUSZ7vtcpeMXBp+iVE+NLKeVImeJ/M8RPEzqCQ9x4NK5x22RwQOqWb
- RVaLR24c9oGqTkDPdfj2cvuvEY/blgBYfmhXIkHHYkh45+JHJSAa4GuIkxudd/i/Q7Fc
- PuekXFFSzCI2ihzw9cf1B5UzSyQOrPzXeY3Td5AKBTZerqg5zhVLitUUX702dmhuUCzt
- lSZg==
-X-Gm-Message-State: AOAM533Lc9DHcvB5KmatY+L9zUVypy1kuNmKpL/xwiGB3mrmzATAlxcU
- ocZnxv5sSojaw4GJbQP9dyE=
-X-Google-Smtp-Source: ABdhPJysBcXgR6Z/CIwY+Iwz/ekfBPu1hqkHTuicaAnUGj/RQs5cJ78qD9xNPIqA69DvrReWO0S/PQ==
-X-Received: by 2002:a05:6512:3f2a:: with SMTP id
- y42mr7492369lfa.234.1621414420727; 
- Wed, 19 May 2021 01:53:40 -0700 (PDT)
+ bh=M4/CJdize/QPrExYkYoO17mX9iuO/FeUCuYX4ZYy1Eg=;
+ b=jCNSGBSEB6VJSkSTi+FDlAs/DQxyVYdx9wKdvE4TWzQhCIy6B/oFlUWibQqWasqHCG
+ ptc2shoeP0EViGbUrY/AiuFP0uinFJsScxXVO0c01s+i4rEHi2H42b9xbllDcqr0BvMj
+ YyFUYhrWN6a6nZYNxroE+qHk4VQqIHKgOux/LvVunDcO1VmnWiH3yLJJKCbG3BnipfRm
+ YtQNjdY6f5Z8MsKceR0rfXmS9y2KNhRGmFEeqeLqIUpQgYp0XuRsIUB8Ju3OxpAUXjfu
+ fuCzWEHdYiVjwqGl4nYsCTu9k4oEhL/o301W8YJFsnCqxVIc1cskRaUNM36QZxCWbW0R
+ 8EbQ==
+X-Gm-Message-State: AOAM5309yh03kAvDSY0WtfSSZHtrEy2rNmf0kvbLQxGMH15zy0Zat1ZB
+ RRUd0tTgvkiUcs6Y0qpOrEw=
+X-Google-Smtp-Source: ABdhPJyRQECAfrcbN5v3yeUw8aJU5JkoSFeNQDtliwjRgoR1Spo74K9d5cjC0Neq19S1JoMcJAUfkA==
+X-Received: by 2002:a2e:a7c7:: with SMTP id x7mr7907151ljp.417.1621416849423; 
+ Wed, 19 May 2021 02:34:09 -0700 (PDT)
 Received: from eldfell ([194.136.85.206])
- by smtp.gmail.com with ESMTPSA id o8sm3537006ljp.49.2021.05.19.01.53.39
+ by smtp.gmail.com with ESMTPSA id n8sm450380lfi.60.2021.05.19.02.34.08
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 19 May 2021 01:53:40 -0700 (PDT)
-Date: Wed, 19 May 2021 11:53:37 +0300
+ Wed, 19 May 2021 02:34:09 -0700 (PDT)
+Date: Wed, 19 May 2021 12:34:05 +0300
 From: Pekka Paalanen <ppaalanen@gmail.com>
-To: Harry Wentland <harry.wentland@amd.com>
-Subject: Re: [RFC PATCH 0/3] A drm_plane API to support HDR planes
-Message-ID: <20210519115337.3194fa11@eldfell>
-In-Reply-To: <9d4ec9c3-6716-7c80-97d5-dd3c5c50ab51@amd.com>
-References: <20210426173852.484368-1-harry.wentland@amd.com>
- <20210427175005.5b92badc@eldfell>
- <e51a3067-a0b3-16e4-5996-bd8527b7536b@amd.com>
- <20210517115726.4fc1c710@eldfell>
- <5f6abaaa45bb7f77110d9f87c9824e3f@sebastianwick.net>
- <b0834be8-9023-0fde-f15d-8c44f72e7702@amd.com>
- <20210518105615.212b84e4@eldfell>
- <9d4ec9c3-6716-7c80-97d5-dd3c5c50ab51@amd.com>
+To: Ville =?UTF-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
+Subject: Re: New uAPI for color management proposal and feedback request
+Message-ID: <20210519123405.4d3218a7@eldfell>
+In-Reply-To: <YJvSUCCPvWz7y/r7@intel.com>
+References: <8c0d7ad8-7ade-bf8a-0414-cc795fbb6aa2@tuxedocomputers.com>
+ <YJvSUCCPvWz7y/r7@intel.com>
 X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- boundary="Sig_/GXzH8+oBwyxuqn61yuPy7Uc"; protocol="application/pgp-signature"
+ boundary="Sig_/AozgflNR6L4c7UMgl=YE5w="; protocol="application/pgp-signature"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,178 +68,157 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Deepak.Sharma@amd.com, amd-gfx@lists.freedesktop.org, mcasas@google.com,
- Shashank.Sharma@amd.com, dri-devel@lists.freedesktop.org, Shirish.S@amd.com,
- Sebastian Wick <sebastian@sebastianwick.net>, Krunoslav.Kovac@amd.com,
- hersenxs.wu@amd.com, Vitaly Prosyak <vitaly.prosyak@amd.com>,
- laurentiu.palcu@oss.nxp.com, Bhawanpreet.Lakha@amd.com,
- Nicholas.Kazlauskas@amd.com
+Cc: "Deucher, Alexander" <alexander.deucher@amd.com>,
+ intel-gfx@lists.freedesktop.org, amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ Werner Sembach <wse@tuxedocomputers.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/GXzH8+oBwyxuqn61yuPy7Uc
-Content-Type: text/plain; charset=US-ASCII
+--Sig_/AozgflNR6L4c7UMgl=YE5w=
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, 18 May 2021 10:19:25 -0400
-Harry Wentland <harry.wentland@amd.com> wrote:
+On Wed, 12 May 2021 16:04:16 +0300
+Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com> wrote:
 
-> On 2021-05-18 3:56 a.m., Pekka Paalanen wrote:
-> > On Mon, 17 May 2021 15:39:03 -0400
-> > Vitaly Prosyak <vitaly.prosyak@amd.com> wrote:
-> >  =20
-> >> On 2021-05-17 12:48 p.m., Sebastian Wick wrote: =20
+> On Wed, May 12, 2021 at 02:06:56PM +0200, Werner Sembach wrote:
+> > Hello,
+> >=20
+> > In addition to the existing "max bpc", and "Broadcast RGB/output_csc" d=
+rm properties I propose 4 new properties:
+> > "preferred pixel encoding", "active color depth", "active color range",=
+ and "active pixel encoding"
+> >=20
+> >=20
+> > Motivation:
+> >=20
+> > Current monitors have a variety pixel encodings available: RGB, YCbCr 4=
+:4:4, YCbCr 4:2:2, YCbCr 4:2:0.
+> >=20
+> > In addition they might be full or limited RGB range and the monitors ac=
+cept different bit depths.
+> >=20
+> > Currently the kernel driver for AMD and Intel GPUs automatically config=
+ure the color settings automatically with little
+> > to no influence of the user. However there are several real world scena=
+rios where the user might disagree with the
+> > default chosen by the drivers and wants to set his or her own preferenc=
+e.
+> >=20
+> > Some examples:
+> >=20
+> > 1. While RGB and YCbCr 4:4:4 in theory carry the same amount of color i=
+nformation, some screens might look better on one
+> > than the other because of bad internal conversion. The driver currently=
+ however has a fixed default that is chosen if
+> > available (RGB for Intel and YCbCr 4:4:4 for AMD). The only way to chan=
+ge this currently is by editing and overloading
+> > the edid reported by the monitor to the kernel.
+> >=20
+> > 2. RGB and YCbCr 4:4:4 need a higher port clock then YCbCr 4:2:0. Some =
+hardware might report that it supports the higher
+> > port clock, but because of bad shielding on the PC, the cable, or the m=
+onitor the screen cuts out every few seconds when
+> > RGB or YCbCr 4:4:4 encoding is used, while YCbCr 4:2:0 might just work =
+fine without changing hardware. The drivers
+> > currently however always default to the "best available" option even if=
+ it might be broken.
+> >=20
+> > 3. Some screens natively only supporting 8-bit color, simulate 10-Bit c=
+olor by rapidly switching between 2 adjacent
+> > colors. They advertise themselves to the kernel as 10-bit monitors but =
+the user might not like the "fake" 10-bit effect
+> > and prefer running at the native 8-bit per color.
+> >=20
+> > 4. Some screens are falsely classified as full RGB range wile they actu=
+ally use limited RGB range. This results in
+> > washed out colors in dark and bright scenes. A user override can be hel=
+pful to manually fix this issue when it occurs.
+> >=20
+> > There already exist several requests, discussion, and patches regarding=
+ the thematic:
+> >=20
+> > - https://gitlab.freedesktop.org/drm/amd/-/issues/476
+> >=20
+> > - https://gitlab.freedesktop.org/drm/amd/-/issues/1548
+> >=20
+> > - https://lkml.org/lkml/2021/5/7/695
+> >=20
+> > - https://lkml.org/lkml/2021/5/11/416
+> >=20
 
 ...
 
-> >>> I suspect that this is not about tone mapping at all. The use cases
-> >>> listed always have the display in PQ mode and just assume that no
-> >>> content exceeds the PQ limitations. Then you can simply bring all
-> >>> content to the color space with a matrix multiplication and then map =
-the
-> >>> linear light content somewhere into the PQ range. Tone mapping is
-> >>> performed in the display only. =20
+> > Adoption:
 > >=20
-> > The use cases do use the word "desktop" though. Harry, could you expand
-> > on this, are you seeking a design that is good for generic desktop
-> > compositors too, or one that is more tailored to "embedded" video
-> > player systems taking the most advantage of (potentially
-> > fixed-function) hardware?
-> >  =20
+> > A KDE dev wants to implement the settings in the KDE settings GUI:
+> > https://gitlab.freedesktop.org/drm/amd/-/issues/476#note_912370
+> >=20
+> > Tuxedo Computers (my employer) wants to implement the settings desktop =
+environment agnostic in Tuxedo Control Center. I
+> > will start work on this in parallel to implementing the new kernel code=
+. =20
 >=20
-> The goal is to enable this on a generic desktop, such as generic Wayland
-> implementations or ChromeOS. We're not looking for a custom solution for
-> some embedded systems, though the solution we end up with should obviously
-> not prevent an implementation on embedded video players.
+> I suspect everyone would be happier to accept new uapi if we had
+> multiple compositors signed up to implement it.
 
-(There is a TL;DR: at the end.)
+I think having Weston support for these would be good, but for now it
+won't be much of an UI: just weston.ini to set, and the log to see what
+happened.
 
-Echoing a little bit what Sebastian already said, I believe there are
-two sides to this again:
-- color management in the traditional sense
-- modern standardised display technology
+However, knowing what happened is going to be important for color
+calibration auditing:
+https://gitlab.freedesktop.org/wayland/weston/-/issues/467
 
-It was perhaps too harsh to say that generic Wayland compositors cannot
-use enum-based color-related UAPI. Sometimes they could, sometimes it
-won't be good enough.
+Yes, please, very much for read-only properties for the feedback part.
+Properties that both userspace and kernel will write are hard to deal
+with in general.
 
-Traditional color management assumes that no two monitors are the same,
-even if they are the same make, model, and manufacturing batch, and are
-driven exactly the same way. Hence, all monitors may require
-calibration (adjusting monitor knobs), and/or they may require
-profiling (measuring the light emission with a special hardware device
-designed for that). Also the viewing environment has an effect.
+Btw. "max bpc" I can kind of guess that conversion from framebuffer
+format to the wire bpc happens automatically and only as the final
+step, but "Broadcast RGB" is more complicated: is the output from the
+abstract pixel pipeline sent as-is and "Broadcast RGB" is just another
+inforframe bit to the monitor, or does "Broadcast RGB" setting actually
+change what happens in the pixel pipeline *and* set infoframe bits?
 
-For profiling to be at all meaningful, calibration must be fixed. This
-means that there must be no dynamic on-the-fly adaptation done in the
-monitor, in the display hardware, or in the kernel. That is a tall
-order that I guess is going to be less and less achievable, especially
-with HDR monitors.
+My vague recollection is that framebuffer was always assumed to be in
+full range, and then if "Broadcast RGB" was set to limited range, the
+driver would mangle the pixel pipeline to convert from full to limited
+range. This means that it would be impossible to have limited range
+data in a framebuffer, or there might be a double-conversion by
+userspace programming a LUT for limited->full and then the driver
+adding full->limited. I'm also confused how full/limited works when
+framebuffer is in RGB/YCbCr and the monitor wire format is in RGB/YCbCr
+and there may be RGB->YCbCR or YCbCR->RGB conversions going on - or
+maybe even FB YCbCR -> RGB -> DEGAMMA -> CTM -> GAMMA -> YCbCR.
 
-The other side is where the end user trusts the standards, and trusts
-that the drivers and the hardware do what they are specified to do.
-This is where you can trust that the monitor does the tone-mapping magic
-right.
-
-Weston needs to support both approaches, because we want to prove our
-new approach to traditional color management, but we also want to
-support HDR, and if possible, do both at the same time. Doing both at
-the same time is what we think foremost, because it's also the hardest
-thing to achieve. If that can be done, then everything else works out
-too.
-
-However, this should not exclude the possibility to trust standards and
-monitor magic, when the end user wants it.
-
-It's also possible that a monitor simply doesn't support a mode that
-would enable fully color managed HDR, so Weston will need to be able to
-drive monitors with e.g. BT.2020/PQ data eventually. It's just not the
-first goal we have.
-
-This debate is a little bit ironic. The Wayland approach to traditional
-color management is that end users should trust the display server to
-do the right thing, where before people only trusted the individual
-apps using a specific CMS implementation. The display server was the
-untrusted one that should just get out of the way and not touch
-anything. Now I'm arguing that I don't want to trust monitor magic, who
-knows what atrocities it does to my picture! But take the next logical
-step, and one would be arguing that end users should trust also
-monitors to do the right thing. :-)
-
-The above has two catches:
-
-- Do you actually trust hardware manufacturers and marketers and EDID?
-  Monitors have secret sauce you can't inspect nor change.
-
-- You feed a single video stream to a monitor, in a single format,
-  encoding and color space. The display server OTOH gets an arbitrary
-  number of input video streams in arbitrary formats, encodings, and
-  color spaces, and it needs to composite them into one.
-
-Composition is hard. It's not enough to know what kind of signals you
-take in and what kind of signal you must output. You also need to know
-what the end user wants from the result: the render intent.
-
-Even if we trust the monitor magic to do the right thing in
-interpreting and displaying our output signal, we still need to know
-what the end user wants from the composition, and we need to control
-the composition formula to achieve that.
-
-TL;DR:
-
-I would summarise my comments so far into these:
-
-- Telling the kernel the color spaces and letting it come up with
-  whatever color transformation formula from those is not enough,
-  because it puts the render intent policy decision in the kernel.
-
-- Telling the kernel what color transformations need to be done is
-  good, if it is clearly defined.
-
-- Using an enum-based UAPI to tell the kernel what color
-  transformations needs to be done (e.g. which EOTF or EOTF^-1 to apply
-  at a step in the abstract pipeline) is very likely ok for many
-  Wayland compositors in most cases, but may not be sufficient for all
-  use cases. Of course, one is always bound by what hardware can do, so
-  not a big deal.
-
-- You may need to define mutually exclusive KMS properties (referring
-  to my email in another branch of this email tree).
-
-- I'm not sure I (we?) can meaningfully review things like "SDR boost"
-  property until we know ourselves how to composite different types of
-  content together. Maybe someone else could.
-
-Does this help or raise thoughts?
-
-The work on Weston CM&HDR right now is aiming to get it up to a point
-where we can start nicely testing different compositing approaches and
-methods and parameters, and I expect that will also feed back into the
-Wayland CM&HDR protocol design as well.
+I wish someone drew a picture of the KMS abstract pixel pipeline with
+all the existing KMS properties in it. :-)
 
 
 Thanks,
 pq
 
---Sig_/GXzH8+oBwyxuqn61yuPy7Uc
+--Sig_/AozgflNR6L4c7UMgl=YE5w=
 Content-Type: application/pgp-signature
 Content-Description: OpenPGP digital signature
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmCk0hEACgkQI1/ltBGq
-qqdcrxAAmyFaG6gyK/MNdGRjSKtgHyPQzJhVRQOUjKfwOD5GIIWm3tr30wF36Kn8
-c00/jxQQqm0xrewJikJMgNdsS0WYaTTuMC+M3cxi2gmf3tDBSOCgLP0rrAuI+5he
-kPnQTGplsq/dGluJTPC7AWx4HJvlZflyoheHIIhq2Rq0/FZYwRsW4dntZqJWaPlQ
-GBoXvFmHmXdpGSvWkK1CRkRwjjlZQ1IjnRP9qTXjNz15c+9vSsqiQaQSVPrLryRA
-jrvyPZj8F05D76QGXO+0NAaW0AXsfb6m3rx4tJekSExAanQUOZInjYBi69MY0WSv
-gGaI6+3k2e1Qtg3F8aFXbcfYOzoB8qjjbnIdxvSUNCBm71M4EGI2dpMbem4dP8qo
-61v4WnZ/0qigDhtxKmF6l9kYAT7oTA1vTKm6TjYVG5s9VRkfLb9yU4KyundaYCIY
-Ffk+wLpVHb+ZT5Ut2mgDzYrlt+t8GpOSdpMh3rf0GYQeaAife8nMt0kEiXUCbPdq
-zz/dSoT9MpWw2l1e5IYhb0H/nu65r34aiapfx2Z8SZdREQHZt0fSJdbrLUtOD2D0
-EdTu6O9eItIt4wFrgSp5wXOUKnQoh1iS2x85aid3HRveYxpKxKO3l63FJvPyxVzo
-941VnyYq9Y8v31h3Glkt3PvwpZ7Pu8UV2hOxpOVWhGHgseJJ1Gw=
-=ZcZj
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmCk240ACgkQI1/ltBGq
+qqevjxAAhqOqJwTNqTH43n9o45nT828CVJEhixDW68u5frawVH93+7DA2UqiTLVL
+cmwFOF+9mH2H2qOI0rCGZuPlUzeWhLFgKWTiKbjApRw69Jc+IVZo10Odm49tdcnI
+068nF/02vvO7jrCTZ/F1wjHXSBg6vwBATrefIhjS7h4QP/6IaDI/5F1xqwPehsnz
+p+FDG5Vh4cIqSkgFSbzNAl+r3nyiiaYbfVaZpbJwYpXC9Jzse2J9kSuaa03WPnSR
+OsbhhQV//nj9z2YWIvpAAYQg6RXQMeVrmNP3F/V3woByZ/1SHj+0upYtYFY/gCMz
+aNiWfv+ryD03k4HmZCcu4bQX5/X6neOUMVyo2zBSLORhRiFdIO6+hpzRLhW3JZN5
+URbJmnms+XXFB+6L5iOpBvZnUn5Nn9RYZqdq+84Hu4qA35Q7Q7VNPz59OUJpK+ew
+SvylMv3Ryt5WyRC7bIYxrNNIVHScXhu7et4S4euE2frnz+ef+wIHAQU/ufKnj7mt
+0dctUeYdngW5ks9Jdt/e+jz0W9wAYNW5gkcR5MtdWHh/mI3V5eKNo0v0q22VHi7z
+dflGuJNgy6wTL+vvIkoA0d+4Fs193Mm8rlXQScZxEzTFwlIGjrKfOAibq2rbifOh
+T8fF0EdwePkbiaa4yNuo0TGrQYRvi6HyfjIzxmwUK84EwA6F6Jg=
+=RQOw
 -----END PGP SIGNATURE-----
 
---Sig_/GXzH8+oBwyxuqn61yuPy7Uc--
+--Sig_/AozgflNR6L4c7UMgl=YE5w=--
