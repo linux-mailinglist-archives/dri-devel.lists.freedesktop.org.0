@@ -1,41 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8BB538833D
-	for <lists+dri-devel@lfdr.de>; Wed, 19 May 2021 01:40:59 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 20DA53883CC
+	for <lists+dri-devel@lfdr.de>; Wed, 19 May 2021 02:33:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E3DDF6E10F;
-	Tue, 18 May 2021 23:40:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9620A6ECB7;
+	Wed, 19 May 2021 00:32:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EB23F6E0ED;
- Tue, 18 May 2021 23:40:42 +0000 (UTC)
-IronPort-SDR: AdDQjxXn2rQVeNMhjTnFIm9AEP9V3k+46AosuKI5//ET1dmY8WzzY7UwZn5wcH2Q+SvjDGqq6y
- YL2MoqKKR2nA==
-X-IronPort-AV: E=McAfee;i="6200,9189,9988"; a="286378181"
-X-IronPort-AV: E=Sophos;i="5.82,310,1613462400"; d="scan'208";a="286378181"
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 850266E115;
+ Wed, 19 May 2021 00:32:55 +0000 (UTC)
+IronPort-SDR: 52Rgk0QnxUAxNoRkJhWfKbhEZH2AwT9+jiHdAu9CI5N+cdQRyD5LdtIOb+MWn/glWRg04mu04t
+ cd1QIz7o7jIw==
+X-IronPort-AV: E=McAfee;i="6200,9189,9988"; a="188266514"
+X-IronPort-AV: E=Sophos;i="5.82,310,1613462400"; d="scan'208";a="188266514"
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 May 2021 16:40:40 -0700
-IronPort-SDR: lI6gfPJVUDrqQsVFaJKPh4aEJpKMy3jJDq8svQ4AvxxF1HGqewrkyPbbDAYasSTkYDb8Uv7rbe
- XYRaMQUJB2CQ==
-X-IronPort-AV: E=Sophos;i="5.82,310,1613462400"; d="scan'208";a="439698317"
-Received: from dhiatt-server.jf.intel.com ([10.54.81.3])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 May 2021 17:32:54 -0700
+IronPort-SDR: oUDE/Yi5SCDorstDvWQH7xaKlrVB3Qoywb+0Qlbne1hOR4NjmGlTm7XqlOVV50T0+xi0omkiXJ
+ Ix+K7K+R8cTQ==
+X-IronPort-AV: E=Sophos;i="5.82,310,1613462400"; d="scan'208";a="439713847"
+Received: from unknown (HELO sdutt-i7) ([10.165.21.147])
  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 May 2021 16:40:39 -0700
+ 18 May 2021 17:32:53 -0700
+Date: Tue, 18 May 2021 17:25:40 -0700
 From: Matthew Brost <matthew.brost@intel.com>
-To: <intel-gfx@lists.freedesktop.org>,
-	<dri-devel@lists.freedesktop.org>
-Subject: [RFC 2/2] drm/doc/rfc: i915 new parallel submission uAPI plan
-Date: Tue, 18 May 2021 16:58:30 -0700
-Message-Id: <20210518235830.133834-3-matthew.brost@intel.com>
-X-Mailer: git-send-email 2.28.0
-In-Reply-To: <20210518235830.133834-1-matthew.brost@intel.com>
-References: <20210518235830.133834-1-matthew.brost@intel.com>
+To: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Subject: Re: [RFC PATCH 01/97] drm/i915/gt: Move engine setup out of
+ set_default_submission
+Message-ID: <20210519002540.GA14725@sdutt-i7>
+References: <20210506191451.77768-1-matthew.brost@intel.com>
+ <20210506191451.77768-2-matthew.brost@intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210506191451.77768-2-matthew.brost@intel.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,247 +50,194 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: matthew.brost@intel.com, tony.ye@intel.com,
-	tvrtko.ursulin@intel.com, daniele.ceraolospurio@intel.com,
-	jason.ekstrand@intel.com, michal.mrozek@intel.com,
-	jon.bloomfield@intel.com, karl@freedesktop.org,
-	mesa-dev@lists.freedesktop.org, daniel.vetter@intel.com,
-	christian.koenig@amd.com, john.c.harrison@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add entry fpr i915 new parallel submission uAPI plan.
+On Thu, May 06, 2021 at 12:13:15PM -0700, Matthew Brost wrote:
+> From: Chris Wilson <chris@chris-wilson.co.uk>
+> 
+> Now that we no longer switch back and forth between guc and execlists,
+> we no longer need to restore the backend's vfunc and can leave them set
+> after initialisation. The only catch is that we lose the submission on
+> wedging and still need to reset the submit_request vfunc on unwedging.
+> 
+> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+> Signed-off-by: Chris Wilson <chris@chris-wilson.co.uk>
+> Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 
-v2:
- (Daniel Vetter):
-  - Expand logical order explaination
-  - Add dummy header
-  - Only allow N BBs in execbuf IOCTL
-  - Configure parallel submission per slot not per gem context
+Reviewed-by: Matthew Brost <matthew.brost@intel.com>
 
-Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-Cc: Tony Ye <tony.ye@intel.com>
-CC: Carl Zhang <carl.zhang@intel.com>
-Cc: Daniel Vetter <daniel.vetter@intel.com>
-Cc: Jason Ekstrand <jason@jlekstrand.net>
-Signed-off-by: Matthew Brost <matthew.brost@intel.com>
----
- Documentation/gpu/rfc/i915_parallel_execbuf.h | 144 ++++++++++++++++++
- Documentation/gpu/rfc/i915_scheduler.rst      |  53 ++++++-
- 2 files changed, 196 insertions(+), 1 deletion(-)
- create mode 100644 Documentation/gpu/rfc/i915_parallel_execbuf.h
-
-diff --git a/Documentation/gpu/rfc/i915_parallel_execbuf.h b/Documentation/gpu/rfc/i915_parallel_execbuf.h
-new file mode 100644
-index 000000000000..8c64b983ccad
---- /dev/null
-+++ b/Documentation/gpu/rfc/i915_parallel_execbuf.h
-@@ -0,0 +1,144 @@
-+#define I915_CONTEXT_ENGINES_EXT_PARALLEL_SUBMIT 2 /* see i915_context_engines_parallel_submit */
-+
-+/*
-+ * i915_context_engines_parallel_submit:
-+ *
-+ * Setup a slot to allow multiple BBs to be submitted in a single execbuf IOCTL.
-+ * Those BBs will then be scheduled to run on the GPU in parallel. Multiple
-+ * hardware contexts are created internally in the i915 run these BBs. Once a
-+ * slot is configured for N BBs only N BBs can be submitted in each execbuf
-+ * IOCTL and this is implict behavior (e.g. the user doesn't tell the execbuf
-+ * IOCTL there are N BBs, the execbuf IOCTL know how many BBs there are based on
-+ * the slots configuration).
-+ *
-+ * Their are two currently defined ways to control the placement of the
-+ * hardware contexts on physical engines: default behavior (no flags) and
-+ * I915_PARALLEL_IMPLICT_BONDS (a flag). More flags may be added the in the
-+ * future as new hardware / use cases arise. Details of how to use this
-+ * interface below above the flags.
-+ *
-+ * Returns -EINVAL if hardware context placement configuration invalid or if the
-+ * placement configuration isn't supported on the platform / submission
-+ * interface.
-+ * Returns -ENODEV if extension isn't supported on the platform / submission
-+ * inteface.
-+ */
-+struct i915_context_engines_parallel_submit {
-+	struct i915_user_extension base;
-+
-+	__u16 engine_index;	/* slot for parallel engine */
-+	__u16 width;		/* number of contexts per parallel engine */
-+	__u16 num_siblings;	/* number of siblings per context */
-+	__u16 mbz16;
-+/*
-+ * Default placement behvavior (currently unsupported):
-+ *
-+ * Rather than restricting parallel submission to a single class with a
-+ * logically contiguous placement (I915_PARALLEL_IMPLICT_BONDS), add a mode that
-+ * enables parallel submission across multiple engine classes. In this case each
-+ * context's logical engine mask indicates where that context can placed. It is
-+ * implied in this mode that all contexts have mutual exclusive placement (e.g.
-+ * if one context is running CS0 no other contexts can run on CS0).
-+ *
-+ * Example 1 pseudo code:
-+ * CSX[Y] = engine class X, logical instance Y
-+ * INVALID = I915_ENGINE_CLASS_INVALID, I915_ENGINE_CLASS_INVALID_NONE
-+ * set_engines(INVALID)
-+ * set_parallel(engine_index=0, width=2, num_siblings=2,
-+ *		engines=CS0[0],CS0[1],CS1[0],CS1[1])
-+ *
-+ * Results in the following valid placements:
-+ * CS0[0], CS1[0]
-+ * CS0[0], CS1[1]
-+ * CS0[1], CS1[0]
-+ * CS0[1], CS1[1]
-+ *
-+ * This can also be though of as 2 virtual engines:
-+ * VE[0] = CS0[0], CS0[1]
-+ * VE[1] = CS1[0], CS1[1]
-+ *
-+ * Example 2 pseudo code:
-+ * CS[X] = generic engine of same class, logical instance X
-+ * INVALID = I915_ENGINE_CLASS_INVALID, I915_ENGINE_CLASS_INVALID_NONE
-+ * set_engines(INVALID)
-+ * set_parallel(engine_index=0, width=2, num_siblings=3,
-+ *		engines=CS[0],CS[1],CS[2],CS[0],CS[1],CS[2])
-+ *
-+ * Results in the following valid placements:
-+ * CS[0], CS[1]
-+ * CS[0], CS[2]
-+ * CS[1], CS[0]
-+ * CS[1], CS[2]
-+ * CS[2], CS[0]
-+ * CS[2], CS[1]
-+ *
-+ *
-+ * This can also be though of as 2 virtual engines:
-+ * VE[0] = CS[0], CS[1], CS[2]
-+ * VE[1] = CS[0], CS[1], CS[2]
-+
-+ * This enables a use case where all engines are created equally, we don't care
-+ * where they are scheduled, we just want a certain number of resources, for
-+ * those resources to be scheduled in parallel, and possibly across multiple
-+ * engine classes.
-+ */
-+
-+/*
-+ * I915_PARALLEL_IMPLICT_BONDS - Create implict bonds between each context.
-+ * Each context must have the same number sibling and bonds are implictly create
-+ * of the siblings.
-+ *
-+ * All of the below examples are in logical space.
-+ *
-+ * Example 1 pseudo code:
-+ * CS[X] = generic engine of same class, logical instance X
-+ * INVALID = I915_ENGINE_CLASS_INVALID, I915_ENGINE_CLASS_INVALID_NONE
-+ * set_engines(INVALID)
-+ * set_parallel(engine_index=0, width=2, num_siblings=1,
-+ *		engines=CS[0],CS[1], flags=I915_PARALLEL_IMPLICT_BONDS)
-+ *
-+ * Results in the following valid placements:
-+ * CS[0], CS[1]
-+ *
-+ * Example 2 pseudo code:
-+ * CS[X] = generic engine of same class, logical instance X
-+ * INVALID = I915_ENGINE_CLASS_INVALID, I915_ENGINE_CLASS_INVALID_NONE
-+ * set_engines(INVALID)
-+ * set_parallel(engine_index=0, width=2, num_siblings=2,
-+ *		engines=CS[0],CS[2],CS[1],CS[3], flags=I915_PARALLEL_IMPLICT_BONDS)
-+ *
-+ * Results in the following valid placements:
-+ * CS[0], CS[1]
-+ * CS[2], CS[3]
-+ *
-+ * This can also be though of as 2 virtual engines:
-+ * VE[0] = CS[0], CS[2]
-+ * VE[1] = CS[1], CS[3]
-+ *
-+ * This enables a use case where all engines are not equal and certain placement
-+ * rules are required (i.e. split-frame requires all contexts to be placed in a
-+ * logically contiguous order on the VCS engines on gen11+ platforms). This use
-+ * case (logically contiguous placement, within a single engine class) is
-+ * supported when using GuC submission. Execlist mode could support all possible
-+ * bonding configurations but currently doesn't support this extension.
-+ */
-+#define I915_PARALLEL_IMPLICT_BONDS			(1<<0)
-+/*
-+ * Do not allow BBs to be preempted mid BB rather insert coordinated preemption
-+ * points on all hardware contexts between each set of BBs. An example use case
-+ * of this feature is split-frame on gen11+ hardware. When using this feature a
-+ * BB must be submitted on each hardware context in the parallel gem context.
-+ * The execbuf2 IOCTL enforces the user adheres to policy.
-+ */
-+#define I915_PARALLEL_NO_PREEMPT_MID_BATCH		(1<<1)
-+#define __I915_PARALLEL_UNKNOWN_FLAGS	(-(I915_PARALLEL_NO_PREEMPT_MID_BATCH << 1))
-+	__u64 flags;		/* all undefined flags must be zero */
-+	__u64 mbz64[3];		/* reserved for future use; must be zero */
-+
-+	/*
-+	 * width (i) * num_siblings (j) in length
-+	 * index = j + i * num_siblings
-+	 */
-+	struct i915_engine_class_instance engines[0];
-+} __attribute__ ((packed));
-+
-diff --git a/Documentation/gpu/rfc/i915_scheduler.rst b/Documentation/gpu/rfc/i915_scheduler.rst
-index 7faa46cde088..64c539486ee4 100644
---- a/Documentation/gpu/rfc/i915_scheduler.rst
-+++ b/Documentation/gpu/rfc/i915_scheduler.rst
-@@ -82,4 +82,55 @@ https://spec.oneapi.com/level-zero/latest/core/api.html#ze-command-queue-priorit
- 
- New parallel submission uAPI
- ============================
--Details to come in a following patch.
-+The existing bonding uAPI is completely broken with GuC submission because
-+whether a submission is a single context submit or parallel submit isn't known
-+until execbuf time activated via the I915_SUBMIT_FENCE. To submit multiple
-+contexts in parallel with the GuC the context must be explictly registered with
-+N contexts and all N contexts must be submitted in a single command to the GuC.
-+These interfaces doesn't support dynamically changing between N contexts as the
-+bonding uAPI does. Hence the need for a new parallel submission interface. Also
-+the legacy bonding uAPI is quite confusing and not intuitive at all.
-+
-+The new parallel submission uAPI consists of 3 parts:
-+
-+* Export engines logical mapping
-+* A 'set_parallel' extension to configure contexts for parallel
-+  submission
-+* Extend execbuf2 IOCTL to support submitting N BBs in a single IOCTL
-+
-+Export engines logical mapping
-+------------------------------
-+Certain use cases require BBs to be placed on engine instances in logical order
-+(e.g. split-frame on gen11+). The logical mapping of engine instances can change
-+based on fusing. Rather than making UMDs be aware of fusing, simply expose the
-+logical mapping with the existing query engine info IOCTL. Also the GuC
-+submission interface currently only supports submitting multiple contexts to
-+engines in logical order which is a new requirement compared to execlists.
-+Lastly, all current platforms have at most 2 instances and the logical order is
-+the same a uABI order. This will change on platforms with more than 2 instances.
-+
-+A single bit will be added to drm_i915_engine_info.flags indicating that the
-+logical instance has been returned and a new field,
-+drm_i915_engine_info.logical_instance, returns the logical instance.
-+
-+A 'set_parallel' extension to configure contexts for parallel submission
-+------------------------------------------------------------------------
-+The 'set_parallel' extension configures a slot for parallel submission of N BBs.
-+It is setup step that should be called before using any of the contexts. See
-+I915_CONTEXT_ENGINES_EXT_LOAD_BALANCE or I915_CONTEXT_ENGINES_EXT_BOND for
-+similar existing examples. Once a slot is configured for parallel submission the
-+execbuf2 IOCTL can be called submiting N BBs in a single IOCTL. Initially only
-+support GuC submission. Execlist support can be added later if needed.
-+
-+Add I915_CONTEXT_ENGINES_EXT_PARALLEL_SUBMIT and
-+i915_context_engines_parallel_submit to the uAPI to implement this extension.
-+
-+Extend execbuf2 IOCTL to support submitting N BBs in a single IOCTL
-+-------------------------------------------------------------------
-+Contexts that have been configured with the 'set_parallel' extension are allowed
-+to submit N BBs in a single execbuf2 IOCTL. The BBs are either the last N
-+objects in the drm_i915_gem_exec_object2 list or the first N if
-+I915_EXEC_BATCH_FIRST is set. The number of BBs is implict based on the slot
-+submitted and how it has been configured by 'set_parallel' or other extensions.
-+No uAPI changes in the execbuf IOCTL but worth mentioning the new behavior of
-+the IOCTL.
--- 
-2.28.0
-
+> ---
+>  .../drm/i915/gt/intel_execlists_submission.c  | 46 ++++++++---------
+>  .../gpu/drm/i915/gt/intel_ring_submission.c   |  4 --
+>  .../gpu/drm/i915/gt/uc/intel_guc_submission.c | 50 ++++++++-----------
+>  3 files changed, 44 insertions(+), 56 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
+> index de124870af44..1108c193ab65 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
+> @@ -3076,29 +3076,6 @@ static void execlists_set_default_submission(struct intel_engine_cs *engine)
+>  	engine->submit_request = execlists_submit_request;
+>  	engine->schedule = i915_schedule;
+>  	engine->execlists.tasklet.callback = execlists_submission_tasklet;
+> -
+> -	engine->reset.prepare = execlists_reset_prepare;
+> -	engine->reset.rewind = execlists_reset_rewind;
+> -	engine->reset.cancel = execlists_reset_cancel;
+> -	engine->reset.finish = execlists_reset_finish;
+> -
+> -	engine->park = execlists_park;
+> -	engine->unpark = NULL;
+> -
+> -	engine->flags |= I915_ENGINE_SUPPORTS_STATS;
+> -	if (!intel_vgpu_active(engine->i915)) {
+> -		engine->flags |= I915_ENGINE_HAS_SEMAPHORES;
+> -		if (can_preempt(engine)) {
+> -			engine->flags |= I915_ENGINE_HAS_PREEMPTION;
+> -			if (IS_ACTIVE(CONFIG_DRM_I915_TIMESLICE_DURATION))
+> -				engine->flags |= I915_ENGINE_HAS_TIMESLICES;
+> -		}
+> -	}
+> -
+> -	if (intel_engine_has_preemption(engine))
+> -		engine->emit_bb_start = gen8_emit_bb_start;
+> -	else
+> -		engine->emit_bb_start = gen8_emit_bb_start_noarb;
+>  }
+>  
+>  static void execlists_shutdown(struct intel_engine_cs *engine)
+> @@ -3129,6 +3106,14 @@ logical_ring_default_vfuncs(struct intel_engine_cs *engine)
+>  	engine->cops = &execlists_context_ops;
+>  	engine->request_alloc = execlists_request_alloc;
+>  
+> +	engine->reset.prepare = execlists_reset_prepare;
+> +	engine->reset.rewind = execlists_reset_rewind;
+> +	engine->reset.cancel = execlists_reset_cancel;
+> +	engine->reset.finish = execlists_reset_finish;
+> +
+> +	engine->park = execlists_park;
+> +	engine->unpark = NULL;
+> +
+>  	engine->emit_flush = gen8_emit_flush_xcs;
+>  	engine->emit_init_breadcrumb = gen8_emit_init_breadcrumb;
+>  	engine->emit_fini_breadcrumb = gen8_emit_fini_breadcrumb_xcs;
+> @@ -3149,6 +3134,21 @@ logical_ring_default_vfuncs(struct intel_engine_cs *engine)
+>  		 * until a more refined solution exists.
+>  		 */
+>  	}
+> +
+> +	engine->flags |= I915_ENGINE_SUPPORTS_STATS;
+> +	if (!intel_vgpu_active(engine->i915)) {
+> +		engine->flags |= I915_ENGINE_HAS_SEMAPHORES;
+> +		if (can_preempt(engine)) {
+> +			engine->flags |= I915_ENGINE_HAS_PREEMPTION;
+> +			if (IS_ACTIVE(CONFIG_DRM_I915_TIMESLICE_DURATION))
+> +				engine->flags |= I915_ENGINE_HAS_TIMESLICES;
+> +		}
+> +	}
+> +
+> +	if (intel_engine_has_preemption(engine))
+> +		engine->emit_bb_start = gen8_emit_bb_start;
+> +	else
+> +		engine->emit_bb_start = gen8_emit_bb_start_noarb;
+>  }
+>  
+>  static void logical_ring_default_irqs(struct intel_engine_cs *engine)
+> diff --git a/drivers/gpu/drm/i915/gt/intel_ring_submission.c b/drivers/gpu/drm/i915/gt/intel_ring_submission.c
+> index 9585546556ee..5f4f7f1df48f 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_ring_submission.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_ring_submission.c
+> @@ -989,14 +989,10 @@ static void gen6_bsd_submit_request(struct i915_request *request)
+>  static void i9xx_set_default_submission(struct intel_engine_cs *engine)
+>  {
+>  	engine->submit_request = i9xx_submit_request;
+> -
+> -	engine->park = NULL;
+> -	engine->unpark = NULL;
+>  }
+>  
+>  static void gen6_bsd_set_default_submission(struct intel_engine_cs *engine)
+>  {
+> -	i9xx_set_default_submission(engine);
+>  	engine->submit_request = gen6_bsd_submit_request;
+>  }
+>  
+> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> index 92688a9b6717..f72faa0b8339 100644
+> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> @@ -608,35 +608,6 @@ static int guc_resume(struct intel_engine_cs *engine)
+>  static void guc_set_default_submission(struct intel_engine_cs *engine)
+>  {
+>  	engine->submit_request = guc_submit_request;
+> -	engine->schedule = i915_schedule;
+> -	engine->execlists.tasklet.callback = guc_submission_tasklet;
+> -
+> -	engine->reset.prepare = guc_reset_prepare;
+> -	engine->reset.rewind = guc_reset_rewind;
+> -	engine->reset.cancel = guc_reset_cancel;
+> -	engine->reset.finish = guc_reset_finish;
+> -
+> -	engine->flags |= I915_ENGINE_NEEDS_BREADCRUMB_TASKLET;
+> -	engine->flags |= I915_ENGINE_HAS_PREEMPTION;
+> -
+> -	/*
+> -	 * TODO: GuC supports timeslicing and semaphores as well, but they're
+> -	 * handled by the firmware so some minor tweaks are required before
+> -	 * enabling.
+> -	 *
+> -	 * engine->flags |= I915_ENGINE_HAS_TIMESLICES;
+> -	 * engine->flags |= I915_ENGINE_HAS_SEMAPHORES;
+> -	 */
+> -
+> -	engine->emit_bb_start = gen8_emit_bb_start;
+> -
+> -	/*
+> -	 * For the breadcrumb irq to work we need the interrupts to stay
+> -	 * enabled. However, on all platforms on which we'll have support for
+> -	 * GuC submission we don't allow disabling the interrupts at runtime, so
+> -	 * we're always safe with the current flow.
+> -	 */
+> -	GEM_BUG_ON(engine->irq_enable || engine->irq_disable);
+>  }
+>  
+>  static void guc_release(struct intel_engine_cs *engine)
+> @@ -658,6 +629,13 @@ static void guc_default_vfuncs(struct intel_engine_cs *engine)
+>  	engine->cops = &guc_context_ops;
+>  	engine->request_alloc = guc_request_alloc;
+>  
+> +	engine->schedule = i915_schedule;
+> +
+> +	engine->reset.prepare = guc_reset_prepare;
+> +	engine->reset.rewind = guc_reset_rewind;
+> +	engine->reset.cancel = guc_reset_cancel;
+> +	engine->reset.finish = guc_reset_finish;
+> +
+>  	engine->emit_flush = gen8_emit_flush_xcs;
+>  	engine->emit_init_breadcrumb = gen8_emit_init_breadcrumb;
+>  	engine->emit_fini_breadcrumb = gen8_emit_fini_breadcrumb_xcs;
+> @@ -666,6 +644,20 @@ static void guc_default_vfuncs(struct intel_engine_cs *engine)
+>  		engine->emit_flush = gen12_emit_flush_xcs;
+>  	}
+>  	engine->set_default_submission = guc_set_default_submission;
+> +
+> +	engine->flags |= I915_ENGINE_NEEDS_BREADCRUMB_TASKLET;
+> +	engine->flags |= I915_ENGINE_HAS_PREEMPTION;
+> +
+> +	/*
+> +	 * TODO: GuC supports timeslicing and semaphores as well, but they're
+> +	 * handled by the firmware so some minor tweaks are required before
+> +	 * enabling.
+> +	 *
+> +	 * engine->flags |= I915_ENGINE_HAS_TIMESLICES;
+> +	 * engine->flags |= I915_ENGINE_HAS_SEMAPHORES;
+> +	 */
+> +
+> +	engine->emit_bb_start = gen8_emit_bb_start;
+>  }
+>  
+>  static void rcs_submission_override(struct intel_engine_cs *engine)
+> -- 
+> 2.28.0
+> 
