@@ -2,93 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91A9D388CE5
-	for <lists+dri-devel@lfdr.de>; Wed, 19 May 2021 13:35:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 23639388D25
+	for <lists+dri-devel@lfdr.de>; Wed, 19 May 2021 13:44:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 014A26E1B7;
-	Wed, 19 May 2021 11:35:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AA0166ED65;
+	Wed, 19 May 2021 11:44:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM02-SN1-obe.outbound.protection.outlook.com
- (mail-sn1anam02on2043.outbound.protection.outlook.com [40.107.96.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0CC206E1B7;
- Wed, 19 May 2021 11:35:20 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=IJdOuKJgkt2AxFELWVjV922sdRIV5EKiKo3L3OVVQDoNxNJ8HpNfDRC6G3nj29mdmKLQDoRid1emLuOFtHrct9MeMdeaq/mSdeOlN2uzm+nZwdO3mnEdVrmL4s1Co5ZQV36essMrA6oKaclaYiHdyBvbvB3hw2bh/a/CTAIWncrdBbQegQGt/sRx9HFQdZKRGFpERG3SrmHqsCnMKJMqcQPGS1plkQvZc21iqibv5nENe6TfdAD3KiiUuPVJu6makXwdckbDkOINttX8wUYBLfNoFLHP8pk3t8eWNEYspVdasVGwETkYBpEkp4Zto+cs2ayEYCIY7zjqsQ4TLSLjqQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=r6CQ8755svoCY2YPzo7oiuSSdcZXJ08tTxYmaeR7asI=;
- b=ay7Us3y8jMpJQuJOKFcoB8g//sGOwMkBGx+Vmwn8BT9MWjJuCenCJ7YJL520h12bNhLkO3GHNc80/gCNd6WMneF/Hli2/hoQrcR65l9ZZu+gJJt/7sTKr4JliPZA8xxwFEK/42Vaht8PP+bfKlXt/rJtGyiq+3Bgx/8M/XkNzkYfGXCk0CbejbJ7suhdtExyP3+wCwX8fxiJp9QEcpqQYRkusqqScII3ubsHlc/PFbsjODkj2prhkL+u76A5PxAoCgG9veCX97UqMfjnx+O3yABGKGkXdj7PtbNCMK6GXd2lEde3J8P5Iop6uzixuWFT9RjDJYOMxZJiIGrSKENHdQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.112.34) smtp.rcpttodomain=infradead.org smtp.mailfrom=nvidia.com;
- dmarc=pass (p=none sp=none pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=r6CQ8755svoCY2YPzo7oiuSSdcZXJ08tTxYmaeR7asI=;
- b=by/wMgPtjZALmJA9/n94mno2jV65Y8VWuRQ/4yWsH+1SUmi+GbymPZyCnBsSh2rZlQa6i2CWJemu5LDWq5ytsByzDxhEzYAaz6cC9OZFwJX4KQo/YPlM4yxs7g86Wf4vIE4BfmredPIo5wHfP7ktwXRneG9QZKlKqdgrgQ468ZCjtowELXWGtURgWy9aIDtdDRxNxFMDZg+bbCafS7RIcB1fGNgO+36CX58GVKva3Xzqkyje6dBIgdHV6khvKbjxQWc511J43BXqbeLLy3bM9BlxuzGpxVi8GGO2OON1nRwrmZ0cVVtDIbtLXXRpdijdXj/9HfbwQ6LrELzp9J9NTg==
-Received: from MWHPR04CA0056.namprd04.prod.outlook.com (2603:10b6:300:6c::18)
- by MWHPR12MB1344.namprd12.prod.outlook.com (2603:10b6:300:9::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4129.25; Wed, 19 May
- 2021 11:35:18 +0000
-Received: from CO1NAM11FT016.eop-nam11.prod.protection.outlook.com
- (2603:10b6:300:6c:cafe::32) by MWHPR04CA0056.outlook.office365.com
- (2603:10b6:300:6c::18) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4129.32 via Frontend
- Transport; Wed, 19 May 2021 11:35:18 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.112.34)
- smtp.mailfrom=nvidia.com; infradead.org; dkim=none (message not signed)
- header.d=none;infradead.org; dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.112.34 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.112.34; helo=mail.nvidia.com;
-Received: from mail.nvidia.com (216.228.112.34) by
- CO1NAM11FT016.mail.protection.outlook.com (10.13.175.141) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.20.4129.25 via Frontend Transport; Wed, 19 May 2021 11:35:16 +0000
-Received: from nvdebian.localnet (172.20.145.6) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Wed, 19 May
- 2021 11:35:12 +0000
-From: Alistair Popple <apopple@nvidia.com>
-To: Peter Xu <peterx@redhat.com>
-Subject: Re: [PATCH v8 5/8] mm: Device exclusive memory access
-Date: Wed, 19 May 2021 21:35:10 +1000
-Message-ID: <2217153.lfGrokb94b@nvdebian>
-In-Reply-To: <YKP5Dj4Q/riGGc43@t490s>
-References: <20210407084238.20443-1-apopple@nvidia.com>
- <47694715.suB6H4Uo8R@nvdebian> <YKP5Dj4Q/riGGc43@t490s>
+Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com
+ [IPv6:2a00:1450:4864:20::530])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 78F1C6ED65
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 May 2021 11:43:59 +0000 (UTC)
+Received: by mail-ed1-x530.google.com with SMTP id s6so14938900edu.10
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 May 2021 04:43:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-transfer-encoding:content-language;
+ bh=a+xs7gpgFG84sVsyJ8w8M4m/W+0WFDGnzuSDF+jSX1s=;
+ b=gKTWZNSZrtwwmwgnHVkMOHIa6MjfOEqMRREbxcDwYsGzTy+8e/zdJOWdc20C45NkbK
+ LAmqq/YX56tTVNhIxs4qGkElzgJrXQnIpLtt3GNAsqIuUZPGKS9+ZJVT3RT/Z3Y2mnqY
+ NCRee6c8msVvucgtiTGtTgGcwJBiGXYi4Gn8n1UjC89StlOF0rkcAyOrlUdC9zXc+BSu
+ G2CHOEavCVZNqN19CMgt0b/4ESPlU8LqHZcatYuTNqaknRshT3D8NuyKVuMBOYsTKHma
+ I3zLlFVKKobuX8qxJqgqAe23ArGLW3Jna9iU5vR7mpVu6o+Y4aaUeR92XOB5PfSGt7jf
+ wTHw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-transfer-encoding
+ :content-language;
+ bh=a+xs7gpgFG84sVsyJ8w8M4m/W+0WFDGnzuSDF+jSX1s=;
+ b=jY0k3wv+YXQgQaXf+QBUx76OllKQWfU6+NSm+J/Wio+wSmq5x5Etd4Ww2RthztAL7p
+ KlHh9d5HKIiPr7BXubuJR3NN7ANGsTSFe+x3KqiYpzzmkhPsycHiJyO0jcJhwQfAcgJR
+ gj5yzuiXGmNgkpHs7LqXTZvidwwD1o6Lww1htSufwzERnEJ5d+lBsnTPdXX1Qf0Y3lXa
+ hmvuNbh3OngAkhbSD67K7xVt8ozAGeElDt85hF2x8EeyNqnQPgdqACwqQDEPnTJ0pvnR
+ UBflwC/+E+ihSfj/G053ojKf2/pHml7HtS+PHDL5jXZ6qdeeZeLoK+ZdKDBwDxe9Fdku
+ Va0A==
+X-Gm-Message-State: AOAM532wjBayHawR8bQ+1ch47KRpXQ33iyv0akJxQzl1XhrK+i2knrZ/
+ rI4c1SKwiMmYTv3rBmoNWC4=
+X-Google-Smtp-Source: ABdhPJysgroPTJTctedbEW2ZxzU5IBQo1KpZz9VoA65KzXYVktBHZqd+i/eBtoI+jdI7MambQbHZYA==
+X-Received: by 2002:a05:6402:337:: with SMTP id
+ q23mr13651748edw.215.1621424638125; 
+ Wed, 19 May 2021 04:43:58 -0700 (PDT)
+Received: from ?IPv6:2a02:908:1252:fb60:8e28:1d3:41f3:e15a?
+ ([2a02:908:1252:fb60:8e28:1d3:41f3:e15a])
+ by smtp.gmail.com with ESMTPSA id me15sm12384980ejb.71.2021.05.19.04.43.57
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 19 May 2021 04:43:57 -0700 (PDT)
+Subject: Re: [RFC] Add DMA_RESV_USAGE flags
+To: Jason Ekstrand <jason@jlekstrand.net>, Daniel Vetter <daniel@ffwll.ch>
+References: <20210517141129.2225-1-christian.koenig@amd.com>
+ <YKKF4jOvM4gJT6a4@phenom.ffwll.local>
+ <5a3e9500-9d6b-a865-5385-fde43da2bf66@gmail.com>
+ <CAKMK7uF=y44e9-0-4MBj3jRBdCqMaLgKutTMeBWCbySRnPR4KQ@mail.gmail.com>
+ <CAOFGe960UMe4=Xxcoha9R2Y74ma3Pp4Z0DF6PM+SJ2sjq2DBXg@mail.gmail.com>
+ <CAKMK7uGtTT+59hRi3PB1WHPES3YJAPYBvbT74vo9PApNE0i7MQ@mail.gmail.com>
+ <fee06c2d-27fb-1af4-6222-8f277b36c951@gmail.com>
+ <CAKMK7uHLipx_oH-s5PB6pUUZ_JXCyciaY7sDLfK__-2fvSPCKA@mail.gmail.com>
+ <f2eb6751-2f82-9b23-f57e-548de5b729de@gmail.com>
+ <CAKMK7uHdsGjADQ9zwgrYsuhHdxFGkuH--DdOsaqej6OD1AbX-w@mail.gmail.com>
+ <CAOFGe97FDc7Y9APymQQZZMApDXsJkbcS0N5jh+3s-w-Ligipug@mail.gmail.com>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+Message-ID: <d305f41f-263d-5612-9f37-5a1442a60649@gmail.com>
+Date: Wed, 19 May 2021 13:43:56 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-X-Originating-IP: [172.20.145.6]
-X-ClientProxiedBy: HQMAIL107.nvidia.com (172.20.187.13) To
- HQMAIL107.nvidia.com (172.20.187.13)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 692c5b3a-c6ab-4ca3-4599-08d91aba2cc5
-X-MS-TrafficTypeDiagnostic: MWHPR12MB1344:
-X-Microsoft-Antispam-PRVS: <MWHPR12MB1344AAE4231E74FF10FAAFDADF2B9@MWHPR12MB1344.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 9ekHdPF+vHBadjByZ9hZjOBIDdDlIVEiAfR0VFvn9KQYS0rw339RYUHumf26lWPrreSlD+5z5a4sekSSddyigATjQsysKrXmZ1J51DQP2bdqh1QiIvl23bmlX/H27XbRGk9lWpM03nQaPitMBB7M0brEuwxUiDCN9iItYUyoyrGGY3ivN0kAwpgSrWtBScKRYRzqhxlx8swELIuOJ6fTUcFmWY82uh1FdvlBXAwSSMluNkaXxKiTZPYtx7VIUlfCkknAN2k1Mx1I/J7DSdEgZIMqgHhJZxxbUfrbNlu73/P28OMrfS8rNSmLPndKgV3jKxz5K3AjCVhhiUKTMDr3WOVRRCVqOoCIwwJnbk+JtIlXEuKJzCbZ4PBCKEmpUTWd2cI6s2+aq9WaNMI5XB42VzUJpoXxX7WCIx89RtukmvoN1hSe61W6ud1RBKzVgGgz1V3IkXg8bNSggU14pCvMT2KaWMxWXPdyL78rtruHPbc7wjKYmg6fKzmKgA/+vh8g2QNj9iDggpsBRnKpLcZN+GeZ5UieDlx2nKLrL5Qu/ASCh0RGMO3a8MWc92pj2U11vgCykX50/UjYAK3YK1ewiQxSX2sc8P5On3SAcfwqqMqcc+2Td0qs4Nzd2Jj3kRC/XRwpmWHzsbydBOXv/NFThELLZ+QcUpoXs9X3VNblaiPdLaIcIyo6sKog787xSeUzIxPLN2lCp3RAK7qdR+QjN19XRcPTXEvKQOR2ah7CcZsKuN2yZBxDsAo3uBZK56ztcqDYevM7hy9jMWYKFssK3w==
-X-Forefront-Antispam-Report: CIP:216.228.112.34; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:mail.nvidia.com; PTR:schybrid03.nvidia.com; CAT:NONE;
- SFS:(4636009)(396003)(39860400002)(376002)(136003)(346002)(36840700001)(46966006)(36906005)(70206006)(36860700001)(426003)(70586007)(336012)(478600001)(33716001)(186003)(8676002)(82310400003)(356005)(966005)(16526019)(82740400003)(4326008)(86362001)(7636003)(9686003)(7416002)(9576002)(47076005)(8936002)(26005)(54906003)(316002)(83380400001)(5660300002)(2906002)(6916009)(39026012);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 May 2021 11:35:16.6041 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 692c5b3a-c6ab-4ca3-4599-08d91aba2cc5
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a; Ip=[216.228.112.34];
- Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT016.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR12MB1344
+In-Reply-To: <CAOFGe97FDc7Y9APymQQZZMApDXsJkbcS0N5jh+3s-w-Ligipug@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -101,61 +83,173 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: rcampbell@nvidia.com, willy@infradead.org, linux-doc@vger.kernel.org,
- nouveau@lists.freedesktop.org, bsingharora@gmail.com,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- hch@infradead.org, linux-mm@kvack.org, jglisse@redhat.com, bskeggs@redhat.com,
- jgg@nvidia.com, jhubbard@nvidia.com, akpm@linux-foundation.org,
- Christoph Hellwig <hch@lst.de>
+Cc: "moderated list:DMA BUFFER SHARING FRAMEWORK"
+ <linaro-mm-sig@lists.linaro.org>, dri-devel <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wednesday, 19 May 2021 3:27:42 AM AEST Peter Xu wrote:
-> > > The odd part is the remote GUP should have walked the page table
-> > > already, so since the target here is the vaddr to replace, the 1st page
-> > > table walk should be able to both trylock/lock the page, then modify
-> > > the pte with pgtable lock held, return the locked page, then walk the
-> > > rmap again to remove all the rest of the ptes that are mapping to this
-> > > page.  In that case before we call the rmap_walk() we know this must be
-> > > the page we want to take care of, and no one will be able to restore
-> > > the original mm pte either (as we're with the page lock).  Then we
-> > > don't need this check, neither do we need ttp->address.
-> > 
-> > If I am understanding you correctly I think this would be similar to the
-> > approach that was taken in v2. However it pretty much ended up being just
-> > an open-coded version of gup which is useful anyway to fault the page in.
-> I see.  For easier reference this is v2 patch 1:
-> 
-> https://lore.kernel.org/lkml/20210219020750.16444-2-apopple@nvidia.com/
+Am 19.05.21 um 00:06 schrieb Jason Ekstrand:
+> [SNIP]
+>>> E.g. we can't add a fence which doesn't wait for the exclusive one as
+>>> shared.
+>> Ok I think that's a real problem, and  guess it's also related to all
+>> the ttm privatization tricks and all that. So essentially we'd need
+>> the opposite of ttm_bo->moving, as in you can't ignore it, but
+>> otherwise it completely ignores all the userspace implicit fence
+>> stuff.
+> Would you mind explaining it to the rest of the class?  I get the need
+> to do a TLB flush after a BO is removed from the processes address
+> space and I get that it may be super-heavy and that it has to be
+> delayed.  I also get that the driver needs to hold a reference to the
+> underlying pages until that TLB flush is done.  What I don't get is
+> what this has to do with the exclusive fence.  Why can't the driver
+> just gather up all the dma_resv fences on the current object (or,
+> better yet, just the ones from the current amdgpu process) and wait on
+> them all?  Why does it need to insert an exclusive fence that then
+> clogs up the whole works?
 
-Sorry, I should have been clearer and just included that reference for you.
+Because we have mixed up resource management with implicit syncing.
 
-> Indeed that looks like it, it's just that instead of grabbing the page only
-> in hmm_exclusive_pmd() we can do the pte modification along the way to seal
-> the whole thing (address/pte & page).  I saw Christoph and Jason commented
-> in that patch, but not regarding to this approach.  So is there a reason
-> that you switched?  Do you think it'll work?
+When I sum up all fences in (for example) a dma_fence_array container 
+and add that as explicit fence to the dma_resv object resource 
+management will do what I want and wait for everything to finish before 
+moving or freeing the buffer. But implicit sync will just horrible over 
+sync and wait for stuff it shouldn't wait for in the first place.
 
-I think the approach you are describing is similar to what 
-migrate_vma_collect()/migrate_vma_unamp() does now and I think it could be 
-made to work. I ended up going with the GUP+unmap approach in part because 
-Christoph suggested it but primarily because it required less code especially 
-given we needed to call something to fault the page in/break COW anyway (or 
-extend what was there to call handle_mm_fault(), etc.).
+When I add the fence as shared fence I can run into the problem the the 
+TLB flush might finish before the exclusive fence. Which is not allowed 
+according to the DMA-buf fencing rules.
 
-> I have no strong opinion either, it's just not crystal clear why we'd need
-> that ttp->address at all for a rmap walk along with that "valid" field.
+We currently have some rather crude workarounds to make use cases like 
+this work as expected. E.g. by using a 
+dma_fence_chain()/dma_fence_array() and/or adding the explusive fence to 
+the shared fences etc etc...
 
-It's purely to ensure the PTE pointing to the GUP page was replaced with an 
-exclusive swap entry and that the mapping didn't change between calls.
+>>>>>>> Let's say that you have a buffer which is shared between two drivers A
+>>>>>>> and B and let's say driver A has thrown a fence on it just to ensure
+>>>>>>> that the BO doesn't get swapped out to disk until it's at a good
+>>>>>>> stopping point.  Then driver B comes along and wants to throw a
+>>>>>>> write-fence on it.  Suddenly, your memory fence from driver A causes
+>>>>>>> driver B to have to stall waiting for a "good" time to throw in a
+>>>>>>> fence.  It sounds like this is the sort of scenario that Christian is
+>>>>>>> running into.  And, yes, with certain Vulkan drivers being a bit
+>>>>>>> sloppy about exactly when they throw in write fences, I could see it
+>>>>>>> being a real problem.
+>>>>>> Yes this is a potential problem, and on the i915 side we need to do
+>>>>>> some shuffling here most likely. Especially due to discrete, but the
+>>>>>> problem is pre-existing. tbh I forgot about the implications here
+>>>>>> until I pondered this again yesterday evening.
+>>>>>>
+>>>>>> But afaiui the amdgpu code and winsys in mesa, this isn't (yet) the
+>>>>>> problem amd vk drivers have. The issue is that with amdgpu, all you
+>>>>>> supply are the following bits at CS time:
+>>>>>> - list of always mapped private buffers, which is implicit and O(1) in
+>>>>>> the kernel fastpath
+>>>>>> - additional list of shared buffers that are used by the current CS
+>>>>>>
+>>>>>> I didn't check how exactly that works wrt winsys buffer ownership, but
+>>>>>> the thing is that on the kernel side _any_ buffer in there is treated
+>>>>>> as a implicit sync'ed write. Which means if you render your winsys
+>>>>>> with a bunch of command submission split over 3d and compute pipes,
+>>>>>> you end up with horrendous amounts of oversync.
+>>>>> What are you talking about? We have no sync at all for submissions from
+>>>>> the same client.
+>>>> Yes. Except when the buffer is shared with another driver, at which
+>>>> point you sync a _lot_ and feel the pain.
+>>> Yes, exactly that's the problem.
+>>>
+>>> We basically don't know during CS if a BO is shared or not.
+>>>
+>>> We do know that during importing or exporting the BO thought.
+>> No you don't. Or at least that's massively awkward, see Jason's reply.
+> Please.  In Vulkan, we know explicitly whether or not any BO will ever
+> be shared and, if a BO is ever flagged as shared even though it's not,
+> that's the app being stupid and they can eat the perf hit.
 
-> Meanwhile it should be slightly less efficient too to go with current
-> approach, especially when the page array gets huge, I think: since there'll
-> be longer time we do GUP before doing the rmap walk, so higher possibility
-> that the GUPed pages got replaced for whatever reason.  Then the call to
-> make_device_exclusive_range() will fail as a whole just for a single page
-> replacement within the range.
+Yeah, that's not a problem at all. We already have the per BO flag in 
+amdgpu for this as well.
 
+> In GL, things are more wishy-washy but GL has so many stupid cases where we
+> have to throw a buffer away and re-allocate that one more isn't going
+> to be all that bad.  Even there, you could do something where you add
+> an in-fence to the BO export operation so that the driver knows when
+> to switch from the shared internal dma_resv to the external one
+> without having to create a new BO and copy.
 
+Hui what? What do you mean with in-fence here?
 
+> [SNIP]
+>> Yeah but why does your userspace not know when a bo is used?
+> We always know when a BO is exported because we're the ones doing the
+> export call.  Always.  Of course, we don't know if that BO is shared
+> with another driver or re-imported back into the same one but is that
+> really the case we're optimizing for?
+
+Yes, unfortunately. Exactly that's one of the reasons we couldn't go 
+with the per CS per BO flag if it should be shared or exclusive.
+
+>> Or very bluntly, why cant radv do what anv does (or amdvlk if you care
+>> more about that, it's the same)? What's missing with lots of blantant
+>> lying?
+> I'm also not buying this.  You keep claiming that userspace doesn't
+> know but GL definitely does know and Vulkan knows well enough.  You
+> say that it's motivated by Vulkan and use RADV as an example but the
+> only reason why the RADV guys haven't followed the ANV design is to
+> work around limitations in amdgpu.  We shouldn't then use RADV to
+> justify why this is the right uAPI and why i915 is wrong.
+
+Well, I never said that this is because of RADV. The main motivation we 
+had is because of MM engines, e.g. VA-API, VDPAU and OpenMax.
+
+And when we expose a BO with the DMA-buf functions we simply doesn't 
+know in userspace if that is then re-imported into VA-API or send to a 
+different process.
+
+>>> [SNIP]
+>>> Yeah, and that is exactly the reason why I will NAK this uAPI change.
+>>>
+>>> This doesn't works for amdgpu at all for the reasons outlined above.
+>> Uh that's really not how uapi works. "my driver is right, everyone
+>> else is wrong" is not how cross driver contracts are defined. If that
+>> means a perf impact until you've fixed your rules, that's on you.
+>>
+>> Also you're a few years too late with nacking this, it's already uapi
+>> in the form of the dma-buf poll() support.
+> ^^  My fancy new ioctl doesn't expose anything that isn't already
+> there.  It just lets you take a snap-shot of a wait instead of doing
+> an active wait which might end up with more fences added depending on
+> interrupts and retries.  The dma-buf poll waits on all fences for
+> POLLOUT and only the exclusive fence for POLLIN.  It's already uAPI.
+
+Well that's not the stuff I'm concerned about. But rather that you want 
+to add that as exclusive fence from the shared ones once more.
+
+This prevents the TLB flush case I've outlined from working correctly.
+
+>>>> So the way I see things right now:
+>>>> - exclusive fence slot is for implicit sync. kmd should only set it
+>>>> when userspace indicates, otherwise you will suffer. Explicit syncing
+>>>> userspace needs to tell the kernel with a flag in the CS ioctl when it
+>>>> should sync against this exclusive fence and when it should ignore it,
+>>>> otherwise you'll suffer badly once more.
+>>> That is not sufficient. The explicit sync slot is for kernel internal
+>>> memory management.
+>> Then we need to split it. But what I discussed with Thomas Hellstrom
+>> is that at least for anything except p2p dma-buf ttm_bo->moving should
+>> be enough.
+> This is starting to sound like maybe roughly the right direction to me
+> but I'm still unclear on exactly what problem we're trying to solve
+> for TLB invalidates.  I'd like to understand that better before giving
+> strong opinions.  I'm also not super-familiar with ttm_bo->moving but
+> it sounds like we need some third category of fence somewhere.
+
+Well I would rather say that we should separate the use cases.
+
+E.g. clear APIs for resource management vs. implicit sync.
+
+Christian.
+
+>
+> --Jason
+>
 
