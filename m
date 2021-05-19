@@ -2,54 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 595AB38922A
-	for <lists+dri-devel@lfdr.de>; Wed, 19 May 2021 17:04:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD4F3389232
+	for <lists+dri-devel@lfdr.de>; Wed, 19 May 2021 17:06:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AA1AC6EDE7;
-	Wed, 19 May 2021 15:04:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A144E6EDF0;
+	Wed, 19 May 2021 15:06:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com
- [IPv6:2a00:1450:4864:20::633])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3D2566EDE7
- for <dri-devel@lists.freedesktop.org>; Wed, 19 May 2021 15:04:46 +0000 (UTC)
-Received: by mail-ej1-x633.google.com with SMTP id n2so20440234ejy.7
- for <dri-devel@lists.freedesktop.org>; Wed, 19 May 2021 08:04:46 -0700 (PDT)
+Received: from mail-ed1-x533.google.com (mail-ed1-x533.google.com
+ [IPv6:2a00:1450:4864:20::533])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2A6846EE08
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 May 2021 15:06:54 +0000 (UTC)
+Received: by mail-ed1-x533.google.com with SMTP id r11so15716853edt.13
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 May 2021 08:06:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=jlekstrand-net.20150623.gappssmtp.com; s=20150623;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=AIh3LPxhFUPUIJHux8vcxGYsWFeEVlxPbplmJRkb4OU=;
- b=qrIa0Nm9V/t9pk6g1i6yexCNcwW//lGzLTXb4MCUaGrntJtk0iaY1IHYr9t3wpY5vI
- Qe3lFBH4xbWIwutLCRQ7VrCmX0P+SC/TuZYnJrVTtyKA5aqFpikfOBT+PdOmrHuSQ6Vd
- cfWJ/TvI0kv3WyryGyqgFGImvdiQh8jyIQtjsN44jsIyBH4RtSw7yCCBhV+3vo/34DEF
- d3pEYu3CnzYJB0q2xRIKlxYLayV/Z8QNMaxUqs0wRgafs3sVH6fFl10L3mtVOBX+qccp
- iWYanUUnfTwIUVS7WyEMjRxkD4Kp4xASvRzsTGQC8qDAmwEzdyXapOb3f6eGAnIFnUO2
- CxNg==
+ :cc; bh=J+AedYZJkbOKp6nFVAINBDzhfLoYklzsCTYadR3CbeM=;
+ b=XnS5rx4QBHPJDHwJ/Si0eoQ9CBnlABWDS5R9+V8lTwjGVdtC1QGIJfx9lv0pecF2Xn
+ 0xKNXN+fgyfMWKuZEHVOUL8bxNEDQp75l3b8BgkJmi0l6qThP3FGkLxa+INDxWYdbx5+
+ q9OzZPxgTo+MtkPfb8vCDqIqO4Jme8wEinXsi0XU2niaH64AEpv2cF5ZGkKwEx0RqSIE
+ cevBNa41Vq91ERoZ/JNKVWTvidl1JVKpacUx/i5XQ0PMQTl/r4MRPo9RRLbTUG5+QCJQ
+ b76anT1CEaLasN1bd9/YD/3TOizAmBb0kzkVXb6ULfP9JEmLzn/qjWzPZO6X9qkuWx2z
+ +3RA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=AIh3LPxhFUPUIJHux8vcxGYsWFeEVlxPbplmJRkb4OU=;
- b=Kl1rxXrSF317KrFu7QMJ1a/nffbHwlDoqrIbE8/tLDsQn2mf2cDu03HrdUdWTvMQh9
- N+tJ25ec1Q3bzGM4gysT0NAQfqQEr2uubyWHq9YvqV+xfLxGhECEwUlvx8VP6M4KzvJZ
- Ito5K7SxJY0e95AW89QKS2olnnVyAZ9PZD8caDO26gJTuzpG9U/KMytzJFskePnjghxp
- BJ5cwBnyupNaNMhF3U+sbD3+D6KUVnr10bxXQO5VHbOuSS7vm5vafKYLmrlbMmGqQhHh
- 15Us7uxnrDkoRojSWkVsUmwz8UdwZw4lZ0I+l4rsD+Xd3DHVpWpAM3wqFZApmelpas6Q
- qiYA==
-X-Gm-Message-State: AOAM532spBKw8P9Gk5F5FY89TWLh14NscrnVVFu7ppJQ38xdHC80xbSP
- I/5aVvFAE/mExHjCteqY6KRfEUmSMat+yD93Zgk4kg==
-X-Google-Smtp-Source: ABdhPJy4po16yJDUE4DJ+brqx3On5vbmYSffXxAApMOaW490uyvlp7No8jeNdKyh9YxrKjsAGiz8RqBgxQkalrV4rPg=
-X-Received: by 2002:a17:907:781a:: with SMTP id
- la26mr13095156ejc.435.1621436684760; 
- Wed, 19 May 2021 08:04:44 -0700 (PDT)
+ bh=J+AedYZJkbOKp6nFVAINBDzhfLoYklzsCTYadR3CbeM=;
+ b=MsdPURMd9UbC1M59HEFH/CuO5Exk2iXv/l8coDI2aqeoIclR/eehniw/PgyxF3GW8C
+ qtGNGVRykJEfLqsutVjQdbWH0//N0VcCt3ic69BQXxotAJr8fqnmg1i3GEwZxuc6GNW0
+ YB1S8tyHj3EYYUMlDLLMCjLO3JG9vXyUj2vAkkr7QQTBZhkPNUtIes82DCoTKn23WJdO
+ FQ2nk8or2ikp+SP0tdl9Bjhs1bC6vs42Xj2mxNtKo/nRWrZ7KeIhcmoc2ehln06W7ubB
+ utimZyA6MhbHt8XZmirgbxfNAhD1r1elqhfZLi/CgWSEEBQfcigmJChYwQNMHzQ0mH36
+ 95vA==
+X-Gm-Message-State: AOAM532mjHONJLaFc5XdXtXl4mWHF3iWPSxvOWxGiQ6R54caFTjgRsl0
+ Tl+mZs+nC9mTlihi3wNwFHnqy9RI/vz/hfJUfWM9Vg==
+X-Google-Smtp-Source: ABdhPJwhcCJKrgx1tq8XuO4wAj5TbZemTD4aL5TN5XgYn5xGeAi+RERByHHVmUMQrVfrZ9dl/lFplEoqHoDwK9Unt9Q=
+X-Received: by 2002:aa7:cc19:: with SMTP id q25mr14840930edt.56.1621436812652; 
+ Wed, 19 May 2021 08:06:52 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210519074323.665872-1-daniel.vetter@ffwll.ch>
-In-Reply-To: <20210519074323.665872-1-daniel.vetter@ffwll.ch>
+References: <20210519074323.665872-2-daniel.vetter@ffwll.ch>
+ <20210519101523.688398-1-daniel.vetter@ffwll.ch>
+In-Reply-To: <20210519101523.688398-1-daniel.vetter@ffwll.ch>
 From: Jason Ekstrand <jason@jlekstrand.net>
-Date: Wed, 19 May 2021 10:04:33 -0500
-Message-ID: <CAOFGe971P6K5_dQyNQtnZK3vp-3ax97-6Z9O87+5BFR+kiKmjg@mail.gmail.com>
-Subject: Re: [PATCH 1/2] drm/i915/cmdparser: No-op failed batches on all
- platforms
+Date: Wed, 19 May 2021 10:06:40 -0500
+Message-ID: <CAOFGe968OKdHu9BL0hU6KWM3J5Fc6popg4GJ5kEDd-3bf4HjJw@mail.gmail.com>
+Subject: Re: [PATCH] Revert "drm/i915: Propagate errors on awaiting already
+ signaled fences"
 To: Daniel Vetter <daniel.vetter@ffwll.ch>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -68,129 +68,89 @@ Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
  stable@vger.kernel.org, Jason Ekstrand <jason.ekstrand@intel.com>,
  Jon Bloomfield <jon.bloomfield@intel.com>,
  DRI Development <dri-devel@lists.freedesktop.org>,
- Marcin Slusarz <marcin.slusarz@intel.com>,
- Daniel Vetter <daniel.vetter@intel.com>
+ Marcin Slusarz <marcin.slusarz@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, May 19, 2021 at 2:43 AM Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
->
-> On gen9 for blt cmd parser we relied on the magic fence error
-> propagation which:
-> - doesn't work on gen7, because there's no scheduler with ringbuffers
->   there yet
-> - fence error propagation can be weaponized to attack other things, so
->   not a good design idea
->
-> Instead of magic, do the same thing on gen9 as on gen7.
+Once we no longer rely on error propagation, I think there's a lot we
+can rip out.
 
-I think the commit message could be improved.  Maybe something like this?
+--Jason
 
-When we re-introduced the command parser on Gen9 platforms to protect
-against BLT CS register writes, we did things a bit differently than
-on previous platforms.  On Gen7 platforms, if a batch contains
-unsupported commands, we smash the start of the shadow batch to
-MI_BATCH_BUFFER_END to cancel the batch.  If it's mostly ok
-(-EACCESS), we trampoline to run in unprivileged mode and let the
-limited HW parser handle security.  On Gen9, we only care about
-rejecting batches because we don't trust the HW parser for a few cases
-so we don't need this second trampoline case.
-
-However, instead of stopping there and avoiding the trampoline, we
-chose to avoid executing the new batch all together on Gen9 by use of
-dma-fence error propagation.  When the batch parser fails, it returns
-a non-zero error and we would propgate that through the chain of
-fences and trust the scheduler to know to cancel anything dependent on
-a fence with an error.  However, fence error propagation is sketchy at
-best and can be weaponized to attack other things so it's not really a
-good design.  This commit restores a bit of the Gen7 functionality on
-Gen9 (smashing the start of the shadow batch to MI_BB_END) so that
-it's always safe to run the batch post-parser.  A later commit will
-get rid of the error propagation nonsense.
-
+On Wed, May 19, 2021 at 5:15 AM Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
 >
-> Kudos to Jason for figuring this out.
+> From: Jason Ekstrand <jason@jlekstrand.net>
 >
-> Fixes: 9e31c1fe45d5 ("drm/i915: Propagate errors on awaiting already signaled fences")
+> This reverts commit 9e31c1fe45d555a948ff66f1f0e3fe1f83ca63f7.  Ever
+> since that commit, we've been having issues where a hang in one client
+> can propagate to another.  In particular, a hang in an app can propagate
+> to the X server which causes the whole desktop to lock up.
+>
+> Error propagation along fences sound like a good idea, but as your bug
+> shows, surprising consequences, since propagating errors across security
+> boundaries is not a good thing.
+>
+> What we do have is track the hangs on the ctx, and report information to
+> userspace using RESET_STATS. That's how arb_robustness works. Also, if my
+> understanding is still correct, the EIO from execbuf is when your context
+> is banned (because not recoverable or too many hangs). And in all these
+> cases it's up to userspace to figure out what is all impacted and should
+> be reported to the application, that's not on the kernel to guess and
+> automatically propagate.
+>
+> What's more, we're also building more features on top of ctx error
+> reporting with RESET_STATS ioctl: Encrypted buffers use the same, and the
+> userspace fence wait also relies on that mechanism. So it is the path
+> going forward for reporting gpu hangs and resets to userspace.
+>
+> So all together that's why I think we should just bury this idea again as
+> not quite the direction we want to go to, hence why I think the revert is
+> the right option here.Signed-off-by: Jason Ekstrand <jason.ekstrand@intel.com>
+>
+> v2: Augment commit message. Also restore Jason's sob that I
+> accidentally lost.
+>
+> Signed-off-by: Jason Ekstrand <jason.ekstrand@intel.com> (v1)
+> Reported-by: Marcin Slusarz <marcin.slusarz@intel.com>
 > Cc: <stable@vger.kernel.org> # v5.6+
 > Cc: Jason Ekstrand <jason.ekstrand@intel.com>
 > Cc: Marcin Slusarz <marcin.slusarz@intel.com>
 > Cc: Jon Bloomfield <jon.bloomfield@intel.com>
-> Relates: https://gitlab.freedesktop.org/drm/intel/-/issues/3080
-> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+> Closes: https://gitlab.freedesktop.org/drm/intel/-/issues/3080
+> Fixes: 9e31c1fe45d5 ("drm/i915: Propagate errors on awaiting already signaled fences")
+> Signed-off-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 > ---
->  drivers/gpu/drm/i915/i915_cmd_parser.c | 34 +++++++++++++-------------
->  1 file changed, 17 insertions(+), 17 deletions(-)
+>  drivers/gpu/drm/i915/i915_request.c | 8 ++------
+>  1 file changed, 2 insertions(+), 6 deletions(-)
 >
-> diff --git a/drivers/gpu/drm/i915/i915_cmd_parser.c b/drivers/gpu/drm/i915/i915_cmd_parser.c
-> index 5b4b2bd46e7c..2d3336ab7ba3 100644
-> --- a/drivers/gpu/drm/i915/i915_cmd_parser.c
-> +++ b/drivers/gpu/drm/i915/i915_cmd_parser.c
-> @@ -1509,6 +1509,12 @@ int intel_engine_cmd_parser(struct intel_engine_cs *engine,
->                 }
->         }
+> diff --git a/drivers/gpu/drm/i915/i915_request.c b/drivers/gpu/drm/i915/i915_request.c
+> index 970d8f4986bb..b796197c0772 100644
+> --- a/drivers/gpu/drm/i915/i915_request.c
+> +++ b/drivers/gpu/drm/i915/i915_request.c
+> @@ -1426,10 +1426,8 @@ i915_request_await_execution(struct i915_request *rq,
 >
-> +       /* Batch unsafe to execute with privileges, cancel! */
-> +       if (ret) {
-> +               cmd = page_mask_bits(shadow->obj->mm.mapping);
-> +               *cmd = MI_BATCH_BUFFER_END;
-> +       }
-> +
->         if (trampoline) {
+>         do {
+>                 fence = *child++;
+> -               if (test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->flags)) {
+> -                       i915_sw_fence_set_error_once(&rq->submit, fence->error);
+> +               if (test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->flags))
+>                         continue;
+> -               }
+>
+>                 if (fence->context == rq->fence.context)
+>                         continue;
+> @@ -1527,10 +1525,8 @@ i915_request_await_dma_fence(struct i915_request *rq, struct dma_fence *fence)
+>
+>         do {
+>                 fence = *child++;
+> -               if (test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->flags)) {
+> -                       i915_sw_fence_set_error_once(&rq->submit, fence->error);
+> +               if (test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->flags))
+>                         continue;
+> -               }
+>
 >                 /*
->                  * With the trampoline, the shadow is executed twice.
-> @@ -1524,26 +1530,20 @@ int intel_engine_cmd_parser(struct intel_engine_cs *engine,
->                  */
->                 *batch_end = MI_BATCH_BUFFER_END;
-
-Bit of a bike shed but, given the new structure of the code, I think
-it makes it more clear if we do
-
-if (ret == -EACCESS) {
-   /* stuff */
-   __gen6_emit_bb_start(...);
-} else {
-   *batch_end = MI_BATCH_BUFFER_END;
-}
-
-That way it's clear that we're making a choice between firing off the
-client batch in privileged mode and ending early.
-
->
-> -               if (ret) {
-> -                       /* Batch unsafe to execute with privileges, cancel! */
-> -                       cmd = page_mask_bits(shadow->obj->mm.mapping);
-> -                       *cmd = MI_BATCH_BUFFER_END;
-> +               /* If batch is unsafe but valid, jump to the original */
-> +               if (ret == -EACCES) {
-> +                       unsigned int flags;
->
-> -                       /* If batch is unsafe but valid, jump to the original */
-> -                       if (ret == -EACCES) {
-> -                               unsigned int flags;
-> +                       flags = MI_BATCH_NON_SECURE_I965;
-> +                       if (IS_HASWELL(engine->i915))
-> +                               flags = MI_BATCH_NON_SECURE_HSW;
->
-> -                               flags = MI_BATCH_NON_SECURE_I965;
-> -                               if (IS_HASWELL(engine->i915))
-> -                                       flags = MI_BATCH_NON_SECURE_HSW;
-> +                       GEM_BUG_ON(!IS_GEN_RANGE(engine->i915, 6, 7));
-> +                       __gen6_emit_bb_start(batch_end,
-> +                                            batch_addr,
-> +                                            flags);
->
-> -                               GEM_BUG_ON(!IS_GEN_RANGE(engine->i915, 6, 7));
-> -                               __gen6_emit_bb_start(batch_end,
-> -                                                    batch_addr,
-> -                                                    flags);
-> -
-> -                               ret = 0; /* allow execution */
-> -                       }
-> +                       ret = 0; /* allow execution */
->                 }
->         }
->
+>                  * Requests on the same timeline are explicitly ordered, along
 > --
 > 2.31.0
 >
