@@ -1,32 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99FF03893ED
-	for <lists+dri-devel@lfdr.de>; Wed, 19 May 2021 18:38:12 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 68E5F3893EF
+	for <lists+dri-devel@lfdr.de>; Wed, 19 May 2021 18:38:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A31EC6EE20;
-	Wed, 19 May 2021 16:38:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 104DC6EE22;
+	Wed, 19 May 2021 16:38:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from youngberry.canonical.com (youngberry.canonical.com
- [91.189.89.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C363E6ECF5
- for <dri-devel@lists.freedesktop.org>; Wed, 19 May 2021 09:53:28 +0000 (UTC)
-Received: from [222.129.39.165] (helo=localhost.localdomain)
- by youngberry.canonical.com with esmtpsa (TLS1.2) tls
- TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256 (Exim 4.93)
- (envelope-from <aaron.ma@canonical.com>)
- id 1ljItC-0005Op-D3; Wed, 19 May 2021 09:53:19 +0000
-From: Aaron Ma <aaron.ma@canonical.com>
-To: lyude@redhat.com, jani.nikula@intel.com, airlied@linux.ie,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, daniel@ffwll.ch,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- aaron.ma@canonical.com
-Subject: [PATCH] drm/i915: Force DPCD backlight mode for Samsung 16727 panel
-Date: Wed, 19 May 2021 17:53:05 +0800
-Message-Id: <20210519095305.47133-1-aaron.ma@canonical.com>
-X-Mailer: git-send-email 2.25.1
+X-Greylist: delayed 467 seconds by postgrey-1.36 at gabe;
+ Wed, 19 May 2021 12:13:02 UTC
+Received: from lucky1.263xmail.com (lucky1.263xmail.com [211.157.147.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F28E66ED84
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 May 2021 12:13:02 +0000 (UTC)
+Received: from localhost (unknown [192.168.167.32])
+ by lucky1.263xmail.com (Postfix) with ESMTP id 0C4FFD1806;
+ Thu, 20 May 2021 03:52:12 +0800 (CST)
+X-MAIL-GRAY: 0
+X-MAIL-DELIVERY: 1
+X-ADDR-CHECKED4: 1
+X-ANTISPAM-LEVEL: 2
+X-ABS-CHECKED: 0
+Received: from localhost.localdomain (unknown [111.207.172.18])
+ by smtp.263.net (postfix) whith ESMTP id
+ P30809T139673931085568S1621425646703999_; 
+ Wed, 19 May 2021 20:01:00 +0800 (CST)
+X-IP-DOMAINF: 1
+X-UNIQUE-TAG: <d8bd1af7ca0da760329237065e3fea88>
+X-RL-SENDER: songqiang@uniontech.com
+X-SENDER: songqiang@uniontech.com
+X-LOGIN-NAME: songqiang@uniontech.com
+X-FST-TO: sam@ravnborg.org
+X-RCPT-COUNT: 12
+X-SENDER-IP: 111.207.172.18
+X-ATTACHMENT-NUM: 0
+X-System-Flag: 0
+From: songqiang <songqiang@uniontech.com>
+To: sam@ravnborg.org, b.zolnierkie@samsung.com,
+ penguin-kernel@i-love.sakura.ne.jp, george.kennedy@oracle.com,
+ arnd@arndb.de, tzimmermann@suse.de, jgg@ziepe.ca, willy@infradead.org
+Subject: [PATCH] drivers/video/fbdev/core/fbmem.c: add pointer judgment
+Date: Wed, 19 May 2021 20:00:28 +0800
+Message-Id: <20210519120028.7350-1-songqiang@uniontech.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Mailman-Approved-At: Wed, 19 May 2021 16:38:09 +0000
@@ -42,33 +59,32 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: linux-fbdev@vger.kernel.org, songqiang <songqiang@uniontech.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Another Samsung OLED panel needs DPCD to get control of backlight.
-Kernel 5.12+ support the backlight via:
-commit: <4a8d79901d5b> ("drm/i915/dp: Enable Intel's HDR backlight interface (only SDR for now)")
-Only make backlight work on lower versions of kernel.
-
-Closes: https://gitlab.freedesktop.org/drm/intel/-/issues/3474
-Cc: stable@vger.kernel.org # 5.11-
-Signed-off-by: Aaron Ma <aaron.ma@canonical.com>
+Signed-off-by: songqiang <songqiang@uniontech.com>
 ---
- drivers/gpu/drm/drm_dp_helper.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/video/fbdev/core/fbmem.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/drivers/gpu/drm/drm_dp_helper.c b/drivers/gpu/drm/drm_dp_helper.c
-index 5bd0934004e3..7b91d8a76cd6 100644
---- a/drivers/gpu/drm/drm_dp_helper.c
-+++ b/drivers/gpu/drm/drm_dp_helper.c
-@@ -1960,6 +1960,7 @@ static const struct edid_quirk edid_quirk_list[] = {
- 	{ MFG(0x4d, 0x10), PROD_ID(0xe6, 0x14), BIT(DP_QUIRK_FORCE_DPCD_BACKLIGHT) },
- 	{ MFG(0x4c, 0x83), PROD_ID(0x47, 0x41), BIT(DP_QUIRK_FORCE_DPCD_BACKLIGHT) },
- 	{ MFG(0x09, 0xe5), PROD_ID(0xde, 0x08), BIT(DP_QUIRK_FORCE_DPCD_BACKLIGHT) },
-+	{ MFG(0x4c, 0x83), PROD_ID(0x57, 0x41), BIT(DP_QUIRK_FORCE_DPCD_BACKLIGHT) },
- };
+diff --git a/drivers/video/fbdev/core/fbmem.c b/drivers/video/fbdev/core/fbmem.c
+index 072780b0e570..6036ab849475 100644
+--- a/drivers/video/fbdev/core/fbmem.c
++++ b/drivers/video/fbdev/core/fbmem.c
+@@ -1859,6 +1859,9 @@ void fb_set_suspend(struct fb_info *info, int state)
+ {
+ 	WARN_CONSOLE_UNLOCKED();
  
- #undef MFG
++	if (!info) {
++		return;
++	}
+ 	if (state) {
+ 		fbcon_suspended(info);
+ 		info->state = FBINFO_STATE_SUSPENDED;
 -- 
-2.25.1
+2.20.1
+
+
 
