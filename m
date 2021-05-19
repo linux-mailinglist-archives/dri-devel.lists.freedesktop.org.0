@@ -2,63 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04904388B97
-	for <lists+dri-devel@lfdr.de>; Wed, 19 May 2021 12:21:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 68EA5388BA2
+	for <lists+dri-devel@lfdr.de>; Wed, 19 May 2021 12:26:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5F5F16E29D;
-	Wed, 19 May 2021 10:21:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 923D16ED09;
+	Wed, 19 May 2021 10:26:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com
- [IPv6:2a00:1450:4864:20::332])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3753F6E29D
- for <dri-devel@lists.freedesktop.org>; Wed, 19 May 2021 10:21:45 +0000 (UTC)
-Received: by mail-wm1-x332.google.com with SMTP id u133so6977554wmg.1
- for <dri-devel@lists.freedesktop.org>; Wed, 19 May 2021 03:21:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:mail-followup-to:references
- :mime-version:content-disposition:in-reply-to;
- bh=agmM9r0ocVor9/dELzPhDyxV/Q6g4/KHl3BaIRPfQMo=;
- b=Q6r5E6/JTJ/+6maNrSQPa/GSrHfkMCdUNc4pqocJv5EXGNMDrowwxW1txNa/5N/+xk
- GYwR8lgHZ/BFD65gvsud0SnoBSz3HfCltufKq3dO9clYMX2s9Tcy+dbP2wX4TL8a2nNe
- n88muJcwXgf0oVKFKyBM87UMvPIeEOJKEJsJw=
+Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com
+ [IPv6:2a00:1450:4864:20::32b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CC89C6ED09
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 May 2021 10:26:29 +0000 (UTC)
+Received: by mail-wm1-x32b.google.com with SMTP id
+ z137-20020a1c7e8f0000b02901774f2a7dc4so3052262wmc.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 May 2021 03:26:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=fooishbar-org.20150623.gappssmtp.com; s=20150623;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=UNWZLY2sTCYamgAowtBHln7nVdejVdVpAEw+f3DRPJk=;
+ b=P1KnO21ed4MQSUKyuRhv+tr9JnmCSQApne9R71xwVWbgBJZTk194JMXdlih56MmjLI
+ GJqLV8ifdvdDI0xbkVl7h0P8Kre3UmZY2o9caMH0vgqyMNAcQnmXXGOcB/PWkHueuzZ0
+ /JBq8y788fOUTRxsqVNVgL0KEU8ONXfOlXEG0TR77AyUAuPtqZYXpDFWaIjAmR5eYkM4
+ Fg0Jp5vJpcacbAeMOYMfV07nCq4ZZ6MeBf90aVlUA0pauITMIpZC+8JE9AmRhzEAntqT
+ mh50IjFo0RhLmPickBSBI6PgbT+kFPa9sMBFdrRkR6Qv0HUZ7l9Yxy8eBFik+pJiuOOu
+ eRkg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id
- :mail-followup-to:references:mime-version:content-disposition
- :in-reply-to;
- bh=agmM9r0ocVor9/dELzPhDyxV/Q6g4/KHl3BaIRPfQMo=;
- b=bRFPQdJ4UOWt/NTFD4rMnmbIllOCfjtCfL9v/OCLkajwx5+UIcNjQI0qdw+RTD6+DL
- RIq7YGDyc7DYebeKOt4mxLEjRCbWkbEg2FVebmDBwgCoAF4hMHLnIw/n6zsuI6/h2Bfs
- J5bC7UL/Yyiz0xsNCeCVsfDosIJMbJBYLFaDO01w4jf2ypHuw8zSDwQ5rDplL8z482RO
- 2JmTJ1+F2flaxYtVK9o98hBYN+GG8K3LdRAze84bKIuIa+nLiGqkaXEzJ7SLRBlmFnca
- tg7bTzs+rVC6x3Br3ixQKPkYiwXSImN3uIIp1riQ8mpmRM9GsYVrW7q9bXXeevYtcOqn
- cinA==
-X-Gm-Message-State: AOAM533yiAtlnnsw6GU08zl2bNaGXrdGaXF4dgamo8I/sVm1g5T/XTmh
- gsyeVoNQtde6fy7kzhgj6nAmrsVimC1wCA==
-X-Google-Smtp-Source: ABdhPJyrrNplyPF4l7h+AsOBRZFblqke572pHjkUgJUA7dvxQHAp9nrQ62XQOtKxwOeNoU38M3wWtw==
-X-Received: by 2002:a7b:cc19:: with SMTP id f25mr10714124wmh.153.1621419703930; 
- Wed, 19 May 2021 03:21:43 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id q13sm23556881wrw.56.2021.05.19.03.21.43
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 19 May 2021 03:21:43 -0700 (PDT)
-Date: Wed, 19 May 2021 12:21:41 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Zou Wei <zou_wei@huawei.com>
-Subject: Re: [PATCH -next] drm: Fix missing unlock and free on error in
- drm_legacy_addbufs_pci()
-Message-ID: <YKTmta3l0barePvJ@phenom.ffwll.local>
-Mail-Followup-To: Zou Wei <zou_wei@huawei.com>,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, airlied@linux.ie, joseph.kogut@gmail.com,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <1621341302-112089-1-git-send-email-zou_wei@huawei.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=UNWZLY2sTCYamgAowtBHln7nVdejVdVpAEw+f3DRPJk=;
+ b=E7phAelBqzlpfOUmLzSTzwJ7xSkaeQJaaxM4FomzD1gN3a2F3Og/HiqhP86xFC9bgI
+ KRM/lL21uCh95qD+ydTqQEDz54/qaTpxBPDk0WNVBurjv4fBuEGYAw+zFQy78Iw/t4SX
+ OjWQTkT3eP0b/BY6x34/Ir3IfdXusJ4a9vhmnCJjy7y3wQWpdijttCoVsbt0YDD96rM1
+ 1hMWkVI2ulPxUZOJ+6eNTel8RDZvptrX86tRUS7t8i+tYOppB8UA9dyQqPtK3r9lG6uN
+ BM04omgD5o7FEzv6B4A7O7QtQhbEv3zpn0k1oj56tjq/W09+GnoOwKn+lkY7R5ACXilY
+ oijg==
+X-Gm-Message-State: AOAM5321nKLzR68ULyFNhKLhlMjKf8oLpXuHoJ0LQ5Iqi1BbXRv4tWSS
+ hUKeEFTesHMgXQmpo4VMiM2Uy/jhUyyr95B4ypCyWZDyv4fjiQ==
+X-Google-Smtp-Source: ABdhPJwx7p33qgoP2Gq6aFqA3MEgTPSyRXNhTqF6swhKVtXukZjHSkkr8SXDB5EFLveieQH/fd5CaMKw8Buoz782IqI=
+X-Received: by 2002:a05:600c:4b88:: with SMTP id
+ e8mr5442267wmp.98.1621419988471; 
+ Wed, 19 May 2021 03:26:28 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1621341302-112089-1-git-send-email-zou_wei@huawei.com>
-X-Operating-System: Linux phenom 5.10.32scarlett+ 
+References: <8tBryxsjXiKtYZP4whnTumr2AsWx9X1xPmwFAdp5Nc@cp4-web-037.plabs.ch>
+In-Reply-To: <8tBryxsjXiKtYZP4whnTumr2AsWx9X1xPmwFAdp5Nc@cp4-web-037.plabs.ch>
+From: Daniel Stone <daniel@fooishbar.org>
+Date: Wed, 19 May 2021 11:26:17 +0100
+Message-ID: <CAPj87rNCozpNP=dZAF8CPSc9_pFmLx02qpfh1c+GnxADptDJjQ@mail.gmail.com>
+Subject: Re: [PATCH 3/3] drm: document minimum kernel version for
+ DRM_CLIENT_CAP_*
+To: Simon Ser <contact@emersion.fr>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,53 +65,21 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: joseph.kogut@gmail.com, tzimmermann@suse.de, airlied@linux.ie,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: Daniel Stone <daniels@collabora.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, May 18, 2021 at 08:35:02PM +0800, Zou Wei wrote:
-> Add the missing unlock and free before return from function
-> drm_legacy_addbufs_pci() in the error handling case.
-> 
-> Fixes: 70556e24e18e ("drm: remove usage of drm_pci_alloc/free")
-> Reported-by: Hulk Robot <hulkci@huawei.com>
-> Signed-off-by: Zou Wei <zou_wei@huawei.com>
+Hi Simon,
 
-Applied to drm-misc-next, thanks for your patch.
--Daniel
+On Tue, 18 May 2021 at 12:15, Simon Ser <contact@emersion.fr> wrote:
+> The kernel versions including the following commits are referenced:
+> [...]
 
-> ---
->  drivers/gpu/drm/drm_bufs.c | 10 +++++++++-
->  1 file changed, 9 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/drm_bufs.c b/drivers/gpu/drm/drm_bufs.c
-> index 4805726..c23d7f7 100644
-> --- a/drivers/gpu/drm/drm_bufs.c
-> +++ b/drivers/gpu/drm/drm_bufs.c
-> @@ -984,8 +984,16 @@ int drm_legacy_addbufs_pci(struct drm_device *dev,
->  
->  	while (entry->buf_count < count) {
->  		dmah = kmalloc(sizeof(drm_dma_handle_t), GFP_KERNEL);
-> -		if (!dmah)
-> +		if (!dmah) {
-> +			/* Set count correctly so we free the proper amount. */
-> +			entry->buf_count = count;
-> +			entry->seg_count = count;
-> +			drm_cleanup_buf_error(dev, entry);
-> +			kfree(temp_pagelist);
-> +			mutex_unlock(&dev->struct_mutex);
-> +			atomic_dec(&dev->buf_alloc);
->  			return -ENOMEM;
-> +		}
->  
->  		dmah->size = total;
->  		dmah->vaddr = dma_alloc_coherent(dev->dev,
-> -- 
-> 2.6.2
-> 
+Thanks a lot for writing this up! I trust your ability to drive git
+log/blame/describe so didn't bother double-checking the version
+numbers. So this is:
+Acked-by: Daniel Stone <daniels@collabora.com>
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Cheers,
+Daniel
