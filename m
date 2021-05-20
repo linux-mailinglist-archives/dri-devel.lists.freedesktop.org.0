@@ -2,80 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1334C38A881
-	for <lists+dri-devel@lfdr.de>; Thu, 20 May 2021 12:50:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C16938A90D
+	for <lists+dri-devel@lfdr.de>; Thu, 20 May 2021 12:58:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 067696E0E7;
-	Thu, 20 May 2021 10:50:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 13BE56F3DA;
+	Thu, 20 May 2021 10:57:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com
- [IPv6:2a00:1450:4864:20::629])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 91CAC6E0E7
- for <dri-devel@lists.freedesktop.org>; Thu, 20 May 2021 10:50:40 +0000 (UTC)
-Received: by mail-ej1-x629.google.com with SMTP id gb17so6506290ejc.8
- for <dri-devel@lists.freedesktop.org>; Thu, 20 May 2021 03:50:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-transfer-encoding:content-language;
- bh=XFbYliOMvEOd6Jdc+WdGEi50t9JwV69wEL+rjEJw1lU=;
- b=pv2fuF/JjWey1AGPwtFyjAId/YS4C95+TABL872sENlgJDxDRR8TtU8l5OQOGGKC12
- Z682EfoVATVUC3pNH+q5JNd3N6ZQtMA5Pq+UhAUX0BKy7e+vK/znjam294AqXsxb8Y/8
- So0SXNPysor4oVRSzeKCnuut6xJFRfHQA3pkJ1TdImzyutXqstaY8qk3wXz5nnPCXDUP
- DlbfFpkXQgCXtKsEYUqZboWa9s/zH3vIgW4RL3NRQE2KzOrCD5Ydpis+J5RmXAD5lRa7
- 7rbLeSr1X9ELa6xeZWJ0AWH3aMn05DcGy9S0emPqaSndeL39hfyyjWG2VL7Qvc65+lDH
- X7LA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-transfer-encoding
- :content-language;
- bh=XFbYliOMvEOd6Jdc+WdGEi50t9JwV69wEL+rjEJw1lU=;
- b=WdqyDItB5pPcfExG7ycYCUnyuZmmJkbd6v1GqoIN2pRPL5Bg3umktoqdMOvngIHeNY
- Rrt66b5Sszi56HFCXJla7XLxLF9kyeq3Z9TBgJwKaWWYua4IS+Fl7V+6H3h+ozM8++MC
- SRHdsVFYIupeiD+C5Gr0eSn5O0gb+O/h3ajxAroSlJB1Q5GJuZpC63ITS728+LdRjyM+
- X9R7gXcLJwdooalQz+pRjR9mZNWhcl6WmMMNj+dA36cvtFTnIeT+6O2dT8U9q962vQw9
- QyZL0I4VyyU7ueBpkwXeIPHvt3QGA6EMe5Y9Nf9Mcvj/oJg12OWkZFJLh9kk9GmwyHJE
- Nscw==
-X-Gm-Message-State: AOAM533XA3CoavBHWw34v4Hyb2Z9rq8MeZCH6mYs45brpIHCGilRw2mn
- TyS2izXjMVYSjvrQOKAkpn+gWmpn0Xc=
-X-Google-Smtp-Source: ABdhPJy/SqfEqs49QjaJpeGi8v7+MFrugju3RkGwVg6UdjqEtMviHtlZ6ae8ojpzYiJeNfj9OdMdlA==
-X-Received: by 2002:a17:907:76e8:: with SMTP id
- kg8mr3836195ejc.130.1621507839133; 
- Thu, 20 May 2021 03:50:39 -0700 (PDT)
-Received: from ?IPv6:2a02:908:1252:fb60:4635:589e:67a4:e02a?
- ([2a02:908:1252:fb60:4635:589e:67a4:e02a])
- by smtp.gmail.com with ESMTPSA id b16sm1368456edu.53.2021.05.20.03.50.37
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 20 May 2021 03:50:38 -0700 (PDT)
-Subject: Re: [RFC] Add DMA_RESV_USAGE flags
-To: Daniel Vetter <daniel@ffwll.ch>, =?UTF-8?Q?Michel_D=c3=a4nzer?=
- <michel@daenzer.net>
-References: <20210517141129.2225-1-christian.koenig@amd.com>
- <YKKF4jOvM4gJT6a4@phenom.ffwll.local>
- <5a3e9500-9d6b-a865-5385-fde43da2bf66@gmail.com>
- <CAKMK7uF=y44e9-0-4MBj3jRBdCqMaLgKutTMeBWCbySRnPR4KQ@mail.gmail.com>
- <CAOFGe960UMe4=Xxcoha9R2Y74ma3Pp4Z0DF6PM+SJ2sjq2DBXg@mail.gmail.com>
- <CAKMK7uGtTT+59hRi3PB1WHPES3YJAPYBvbT74vo9PApNE0i7MQ@mail.gmail.com>
- <fee06c2d-27fb-1af4-6222-8f277b36c951@gmail.com>
- <CAKMK7uHLipx_oH-s5PB6pUUZ_JXCyciaY7sDLfK__-2fvSPCKA@mail.gmail.com>
- <f2eb6751-2f82-9b23-f57e-548de5b729de@gmail.com>
- <CAKMK7uHdsGjADQ9zwgrYsuhHdxFGkuH--DdOsaqej6OD1AbX-w@mail.gmail.com>
- <CAOFGe97FDc7Y9APymQQZZMApDXsJkbcS0N5jh+3s-w-Ligipug@mail.gmail.com>
- <14524566-8854-4bc0-9f70-b7219c9fccfc@daenzer.net>
- <CAOFGe96VttW2VzAnx13ZXLBGcEDJMehGuOFifcr+pcbEOa-Brw@mail.gmail.com>
- <6f3e2628-7b39-417c-3bd2-c837c5367458@daenzer.net>
- <CAKMK7uFMQGth19OjWmeNGTeVFoAqxK2tYXYrvme+NuCSNLxLUQ@mail.gmail.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-Message-ID: <a8d0acd9-6a0e-58bb-1f2d-e85f00ad9677@gmail.com>
-Date: Thu, 20 May 2021 12:50:37 +0200
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 44E486E237;
+ Thu, 20 May 2021 10:57:51 +0000 (UTC)
+IronPort-SDR: 7ST+mX/t3qMfG/jMSwlPqwNN2PgCIRWe8+FoQiB0oi4uoQoKGV0Ge9qFsHoqWJIPp19KWUPEVJ
+ 0xnVKG2dmFrQ==
+X-IronPort-AV: E=McAfee;i="6200,9189,9989"; a="201253547"
+X-IronPort-AV: E=Sophos;i="5.82,313,1613462400"; d="scan'208";a="201253547"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 May 2021 03:57:49 -0700
+IronPort-SDR: +oXgSXW6UWIvLNV6LiMtndiFBJM/JbHxvznt/XB6i1GofyCh+dEmV7UG57bHS104oqmN7GikPN
+ gw3aVlTrMYRg==
+X-IronPort-AV: E=Sophos;i="5.82,313,1613462400"; d="scan'208";a="440401267"
+Received: from fgrogers-mobl.ger.corp.intel.com (HELO [10.213.241.97])
+ ([10.213.241.97])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 May 2021 03:57:46 -0700
+Subject: Re: [Intel-gfx] [RFC 2/2] drm/doc/rfc: i915 new parallel submission
+ uAPI plan
+To: Daniel Vetter <daniel@ffwll.ch>, Matthew Brost <matthew.brost@intel.com>
+References: <20210518235830.133834-1-matthew.brost@intel.com>
+ <20210518235830.133834-3-matthew.brost@intel.com>
+ <YKTyDNyVgmR3z1H5@phenom.ffwll.local> <20210519171157.GA5202@sdutt-i7>
+ <CAKMK7uG1qCcpwBFaUf06daY6gnxmNbNcZbBX+Yxb64qZkBMF8g@mail.gmail.com>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+Message-ID: <b7542e1c-6631-d486-ae16-6aef3213d7bc@linux.intel.com>
+Date: Thu, 20 May 2021 11:57:44 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <CAKMK7uFMQGth19OjWmeNGTeVFoAqxK2tYXYrvme+NuCSNLxLUQ@mail.gmail.com>
+In-Reply-To: <CAKMK7uG1qCcpwBFaUf06daY6gnxmNbNcZbBX+Yxb64qZkBMF8g@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
 Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,107 +56,238 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "moderated list:DMA BUFFER SHARING FRAMEWORK"
- <linaro-mm-sig@lists.linaro.org>, dri-devel <dri-devel@lists.freedesktop.org>,
- Jason Ekstrand <jason@jlekstrand.net>
+Cc: intel-gfx <intel-gfx@lists.freedesktop.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Jason Ekstrand <jason.ekstrand@intel.com>,
+ Mesa Dev <mesa-dev@lists.freedesktop.org>,
+ Daniel Vetter <daniel.vetter@intel.com>, karl@freedesktop.org,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 20.05.21 um 09:55 schrieb Daniel Vetter:
-> On Wed, May 19, 2021 at 5:48 PM Michel Dänzer <michel@daenzer.net> wrote:
->> On 2021-05-19 5:21 p.m., Jason Ekstrand wrote:
->>> On Wed, May 19, 2021 at 5:52 AM Michel Dänzer <michel@daenzer.net> wrote:
->>>> On 2021-05-19 12:06 a.m., Jason Ekstrand wrote:
->>>>> On Tue, May 18, 2021 at 4:17 PM Daniel Vetter <daniel@ffwll.ch> wrote:
->>>>>> On Tue, May 18, 2021 at 7:40 PM Christian König
->>>>>> <ckoenig.leichtzumerken@gmail.com> wrote:
->>>>>>> Am 18.05.21 um 18:48 schrieb Daniel Vetter:
->>>>>>>> On Tue, May 18, 2021 at 2:49 PM Christian König
->>>>>>>> <ckoenig.leichtzumerken@gmail.com> wrote:
->>>>>>>>
->>>>>>>>> And as long as we are all inside amdgpu we also don't have any oversync,
->>>>>>>>> the issue only happens when we share dma-bufs with i915 (radeon and
->>>>>>>>> AFAIK nouveau does the right thing as well).
->>>>>>>> Yeah because then you can't use the amdgpu dma_resv model anymore and
->>>>>>>> have to use the one atomic helpers use. Which is also the one that
->>>>>>>> e.g. Jason is threathening to bake in as uapi with his dma_buf ioctl,
->>>>>>>> so as soon as that lands and someone starts using it, something has to
->>>>>>>> adapt _anytime_ you have a dma-buf hanging around. Not just when it's
->>>>>>>> shared with another device.
->>>>>>> Yeah, and that is exactly the reason why I will NAK this uAPI change.
->>>>>>>
->>>>>>> This doesn't works for amdgpu at all for the reasons outlined above.
->>>>>> Uh that's really not how uapi works. "my driver is right, everyone
->>>>>> else is wrong" is not how cross driver contracts are defined. If that
->>>>>> means a perf impact until you've fixed your rules, that's on you.
->>>>>>
->>>>>> Also you're a few years too late with nacking this, it's already uapi
->>>>>> in the form of the dma-buf poll() support.
->>>>> ^^  My fancy new ioctl doesn't expose anything that isn't already
->>>>> there.  It just lets you take a snap-shot of a wait instead of doing
->>>>> an active wait which might end up with more fences added depending on
->>>>> interrupts and retries.  The dma-buf poll waits on all fences for
->>>>> POLLOUT and only the exclusive fence for POLLIN.  It's already uAPI.
->>>> Note that the dma-buf poll support could be useful to Wayland compositors for the same purpose as Jason's new ioctl (only using client buffers which have finished drawing for an output frame, to avoid missing a refresh cycle due to client drawing), *if* it didn't work differently with amdgpu.
->>>>
->>>> Am I understanding correctly that Jason's new ioctl would also work differently with amdgpu as things stand currently? If so, that would be a real bummer and might hinder adoption of the ioctl by Wayland compositors.
->>> My new ioctl has identical semantics to poll().  It just lets you take
->>> a snapshot in time to wait on later instead of waiting on whatever
->>> happens to be set right now.  IMO, having identical semantics to
->>> poll() isn't something we want to change.
->> Agreed.
+
+On 20/05/2021 10:54, Daniel Vetter wrote:
+> On Wed, May 19, 2021 at 7:19 PM Matthew Brost <matthew.brost@intel.com> wrote:
 >>
->> I'd argue then that making amdgpu poll semantics match those of other drivers is a pre-requisite for the new ioctl, otherwise it seems unlikely that the ioctl will be widely adopted.
-> This seems backwards, because that means useful improvements in all
-> other drivers are stalled until amdgpu is fixed.
+>> On Wed, May 19, 2021 at 01:10:04PM +0200, Daniel Vetter wrote:
+>>> On Tue, May 18, 2021 at 04:58:30PM -0700, Matthew Brost wrote:
+>>>> Add entry fpr i915 new parallel submission uAPI plan.
+>>>>
+>>>> v2:
+>>>>   (Daniel Vetter):
+>>>>    - Expand logical order explaination
+>>>>    - Add dummy header
+>>>>    - Only allow N BBs in execbuf IOCTL
+>>>>    - Configure parallel submission per slot not per gem context
+>>>>
+>>>> Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+>>>> Cc: Tony Ye <tony.ye@intel.com>
+>>>> CC: Carl Zhang <carl.zhang@intel.com>
+>>>> Cc: Daniel Vetter <daniel.vetter@intel.com>
+>>>> Cc: Jason Ekstrand <jason@jlekstrand.net>
+>>>> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+>>>> ---
+>>>>   Documentation/gpu/rfc/i915_parallel_execbuf.h | 144 ++++++++++++++++++
+>>>>   Documentation/gpu/rfc/i915_scheduler.rst      |  53 ++++++-
+>>>>   2 files changed, 196 insertions(+), 1 deletion(-)
+>>>>   create mode 100644 Documentation/gpu/rfc/i915_parallel_execbuf.h
+>>>>
+>>>> diff --git a/Documentation/gpu/rfc/i915_parallel_execbuf.h b/Documentation/gpu/rfc/i915_parallel_execbuf.h
+>>>> new file mode 100644
+>>>> index 000000000000..8c64b983ccad
+>>>> --- /dev/null
+>>>> +++ b/Documentation/gpu/rfc/i915_parallel_execbuf.h
+>>>> @@ -0,0 +1,144 @@
+>>>> +#define I915_CONTEXT_ENGINES_EXT_PARALLEL_SUBMIT 2 /* see i915_context_engines_parallel_submit */
+>>>> +
+>>>> +/*
+>>>> + * i915_context_engines_parallel_submit:
+>>>> + *
+>>>> + * Setup a slot to allow multiple BBs to be submitted in a single execbuf IOCTL.
+>>>> + * Those BBs will then be scheduled to run on the GPU in parallel. Multiple
+>>>> + * hardware contexts are created internally in the i915 run these BBs. Once a
+>>>> + * slot is configured for N BBs only N BBs can be submitted in each execbuf
+>>>> + * IOCTL and this is implict behavior (e.g. the user doesn't tell the execbuf
+>>>> + * IOCTL there are N BBs, the execbuf IOCTL know how many BBs there are based on
+>>>> + * the slots configuration).
+>>>> + *
+>>>> + * Their are two currently defined ways to control the placement of the
+>>>> + * hardware contexts on physical engines: default behavior (no flags) and
+>>>> + * I915_PARALLEL_IMPLICT_BONDS (a flag). More flags may be added the in the
+>>>> + * future as new hardware / use cases arise. Details of how to use this
+>>>> + * interface below above the flags.
+>>>> + *
+>>>> + * Returns -EINVAL if hardware context placement configuration invalid or if the
+>>>> + * placement configuration isn't supported on the platform / submission
+>>>> + * interface.
+>>>> + * Returns -ENODEV if extension isn't supported on the platform / submission
+>>>> + * inteface.
+>>>> + */
+>>>> +struct i915_context_engines_parallel_submit {
+>>>> +   struct i915_user_extension base;
+>>>> +
+>>>> +   __u16 engine_index;     /* slot for parallel engine */
+>>>> +   __u16 width;            /* number of contexts per parallel engine */
+>>>> +   __u16 num_siblings;     /* number of siblings per context */
+>>>> +   __u16 mbz16;
+>>>
+>>> Ok the big picture looks reasonable now, the flags still confuse me.
+>>>
+>>
+>> Yea, it is a bit confusing.
+>>
+>>>> +/*
+>>>> + * Default placement behvavior (currently unsupported):
+>>>> + *
+>>>> + * Rather than restricting parallel submission to a single class with a
+>>>> + * logically contiguous placement (I915_PARALLEL_IMPLICT_BONDS), add a mode that
+>>>> + * enables parallel submission across multiple engine classes. In this case each
+>>>> + * context's logical engine mask indicates where that context can placed. It is
+>>>> + * implied in this mode that all contexts have mutual exclusive placement (e.g.
+>>>> + * if one context is running CS0 no other contexts can run on CS0).
+>>>> + *
+>>>> + * Example 1 pseudo code:
+>>>> + * CSX[Y] = engine class X, logical instance Y
+>>>> + * INVALID = I915_ENGINE_CLASS_INVALID, I915_ENGINE_CLASS_INVALID_NONE
+>>>> + * set_engines(INVALID)
+>>>> + * set_parallel(engine_index=0, width=2, num_siblings=2,
+>>>> + *         engines=CS0[0],CS0[1],CS1[0],CS1[1])
+>>>> + *
+>>>> + * Results in the following valid placements:
+>>>> + * CS0[0], CS1[0]
+>>>> + * CS0[0], CS1[1]
+>>>> + * CS0[1], CS1[0]
+>>>> + * CS0[1], CS1[1]
+>>>> + *
+>>>> + * This can also be though of as 2 virtual engines:
+>>>> + * VE[0] = CS0[0], CS0[1]
+>>>> + * VE[1] = CS1[0], CS1[1]
+>>>> + *
+>>>> + * Example 2 pseudo code:
+>>>> + * CS[X] = generic engine of same class, logical instance X
+>>>> + * INVALID = I915_ENGINE_CLASS_INVALID, I915_ENGINE_CLASS_INVALID_NONE
+>>>> + * set_engines(INVALID)
+>>>> + * set_parallel(engine_index=0, width=2, num_siblings=3,
+>>>> + *         engines=CS[0],CS[1],CS[2],CS[0],CS[1],CS[2])
+>>>> + *
+>>>> + * Results in the following valid placements:
+>>>> + * CS[0], CS[1]
+>>>> + * CS[0], CS[2]
+>>>> + * CS[1], CS[0]
+>>>> + * CS[1], CS[2]
+>>>> + * CS[2], CS[0]
+>>>> + * CS[2], CS[1]
+>>>> + *
+>>>> + *
+>>>> + * This can also be though of as 2 virtual engines:
+>>>> + * VE[0] = CS[0], CS[1], CS[2]
+>>>> + * VE[1] = CS[0], CS[1], CS[2]
+>>>> +
+>>>> + * This enables a use case where all engines are created equally, we don't care
+>>>> + * where they are scheduled, we just want a certain number of resources, for
+>>>> + * those resources to be scheduled in parallel, and possibly across multiple
+>>>> + * engine classes.
+>>>> + */
+>>>
+>>> So I don't really get what this does compared to setting the flag below.
+>>> Is this just about running the batchbuffers the wrong way round, i.e. if
+>>> you have (simplest case)
+>>>
+>>> width=2, num_sibglings=1, engines=CS[0], CS[1]
+>>>
+>>> Then both
+>>> CS[0], CS[1]
+>>> and
+>>> CS[1], CS[0]
+>>> are possible options for running 2 batches? Iow, the backend is allowed to
+>>> run the batchbuffers the wrong way round, which gains us nothing, since we
+>>> assume the batches take equally long and engines interchangeable. There is
+>>> no scheduling scenario where this additional flexibility can help.
+>>>
+>>> Also we don't have flags to select the only available and then specify an
+>>> entire pipe dream about what the non-flag mode does, without an
+>>> implementation. What is this about?
+>>>
+>>> If it's just "because bonded allowed this" then I think we should just
+>>> unceremonously ditch this. Bummer for the nice kerenldoc you wrote, but
+>>> welp.
+>>>
+>>
+>> High level the flags came out of internal discussions how this interface
+>> should look. The default placement behavior is theoretically possible
+>> with execlists but has no use cases. The GuC supports / current use
+>> cases are a subset of what is possible with I915_PARALLEL_IMPLICT_BONDS.
+>>
+>> Argued about for months and this is where we landed. At the end of the
+>> day I think we needed to show that this interface supports more
+>> placement rules than what the GuC supports / current use cases to future
+>> proof this interface.
+>>
+>> For what is it worth it seems kinda backwards that we landed on the
+>> default behavior not being supported in our current stack / HW.
+> 
+> Yeah I think that should be inverted, doesn't make sense.
+> 
+> What I still don't get (and I've read Tvrtko's reply with the example)
+> is what exactly is the difference between implicit and not implicit
+> mode? Can you do a single example where the only difference is whether
+> this flag is set, and then explain with that what are the actual
+> differences in scheduling options that the backend is allowed to pick
+> for the set of N patches?
+> 
+> I'm feeling a bit dense, but I'm really not seeing what's even going on here :-(
 
-Well there is nothing to fix in amdgpu, what we need to is to come up 
-with an DMA-buf implicit syncing model which works for everyone.
+2-wide compute context:
 
-I've pointed this problem out at FOSDEM roughly 6 years ago, before 
-DMA-buf was even merged upstream and way before amdgpu even existed. And 
-the response was yeah, maybe we need to look at this as well.
+  .engine_map([-1, -1])
+  .load_balance(0: [cs0, cs1, cs2, cs3]) // place virtual engine at slot 0
+  .load_balance(1: [cs0, cs1, cs2, cs3])
+  .set_parallel()
 
-Over the years I've mentioned now at least 5 times that this isn't going 
-to work in some situations and came up with different approaches how to 
-fix it.
+This tells the scheduler any two of the four possible engines can be used. cs0 + cs3 is fine, cs3 + cs1 also, ... any. Only implicit rule is they have to be different and that works for all.
 
-And you still have the nerves to tell me that this isn't a problem and 
-we should fix amdgpu instead? Sorry, but I'm really running out of ideas 
-how to explain why this isn't working for everybody.
+2-wide "implicit bonds mode" aka media fixed function limitation:
 
-That amdgpu wants to be special is true, but it is a fundamental problem 
-that we have designed the implicit sync in DMA-buf only around the needs 
-of DRM drivers at that time instead of going a step back and saying hey 
-what would be an approach which works for everyone.
+  .engine_map([-1, -1])
+  .load_balance(0: [cs0, cs2])
+  .load_balance(1: [cs1, cs3])
+  .set_parallel(flags = implicit_bond)
 
-You just need to apply my example from FOSDEM with ring buffers in a 
-single BO to the DMA-buf implicit sync model and immediately see how it 
-falls apart.
+Think of implicit flag creating a "link" between vertical columns in each virtual engine slot. So valid pairs end up cs0 + cs1 and cs2 + cs3 only.
 
-> I think we need agreement on what the rules are, reasonable plan to
-> get there, and then that should be enough to unblock work in the wider
-> community. Holding the community at large hostage because one driver
-> is different is really not great.
+You can also think of the implicit flag as a shortcut to avoid specifying bonds via the existing extension. In which case context setup would be written along the lines of:
 
-Well forcing a drivers into a synchronization model not ideal for their 
-hardware isn't great either.
+  .engine_map([-1, -1])
+  .load_balance(0: [cs0, cs2])
+  .load_balance(1: [cs1, cs3])
+  .bond(1: master = cs0, bond = [cs1])
+  .bond(1: master = cs2, bond = [cs3])
+  .set_parallel()
 
-The patches I provided at least clean up the naming convention and 
-provide clean interfaces for iterating over the shared fence container. 
-On top of that use case driven APIs can be implemented.
+So the implicit flag is just a shortcut to avoid typing the bonds. Not really needed as explained in my previous reply.
 
-And yes I'm perfectly aware that this means that we need to touch all 
-drivers and memory management handlers, but I'm pretty sure that 
-untangling implicit synchronization from resource management is worth 
-the effort no matter what changes to the sync model we are going to do.
+This was at least the "old" set_parallel. I see this latest RFC changed things a bit which I don't really follow yet.
+
+It's not perfect but needs to add very little (just one context extension, on top of multi batch execbuf which is needed anyways), doesn't need to deprecate anything, didn't require rewrites of the UMD, and it all works today and in the future.
+
+I did not really like this new uapi for all the reasons I listed already, but as not many people were seeing the advantage of not churning on the uapi, if we are churning already I did suggests a different idea. I mean if we are churning we might as well go full in. So that proposal, which didn't get any traction, was along the lines of:
+
+  .engine_map([-1])
+  .load_balance_wide(0: width=2, engines=[[cs0, cs2], [cs1, cs3]])
+
+This would create an explicit wide virtual engine which should work for GuC fine I think. For execlists it may require a bit of extra glue but I don't think too much.
+
+Advantage is there is one engine in the map now and it is N-wide by definition.
+
+Since no one did bite on that idea back then, I didn't really pursue is to see if it works for all use cases. But I think it should even if it probably requires further thinking to be sure.
+
+If we apply it to compute use case..
+
+  .engine_map([-1])
+  .load_balance_wide(0: width=2, engines=[[cs0, cs1, cs2, cs3], [cs0, cs1, cs2, cs3]])
+
+This means the only implicit wart in there is that cs0 + cs0 obviously shouldn't be picked. But that should be fine both for execlists and hopefully for the GuC.
 
 Regards,
-Christian.
 
-
-> I've just finished the subsystem review of everything, and thus far
-> only found some minor bugs without practical significance. I'll fix
-> those and then send out a series.
-> -Daniel
-
+Tvrtko
