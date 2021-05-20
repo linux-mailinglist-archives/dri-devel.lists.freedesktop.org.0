@@ -2,62 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50E98389F25
-	for <lists+dri-devel@lfdr.de>; Thu, 20 May 2021 09:51:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2667E389F2C
+	for <lists+dri-devel@lfdr.de>; Thu, 20 May 2021 09:55:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B143F6EF3F;
-	Thu, 20 May 2021 07:51:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B88E96F37F;
+	Thu, 20 May 2021 07:55:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com
- [IPv6:2a00:1450:4864:20::243])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E31DC6EF38
- for <dri-devel@lists.freedesktop.org>; Thu, 20 May 2021 07:51:27 +0000 (UTC)
-Received: by mail-lj1-x243.google.com with SMTP id s25so18556051ljo.11
- for <dri-devel@lists.freedesktop.org>; Thu, 20 May 2021 00:51:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:in-reply-to:references
- :mime-version; bh=gel51XWd9NtGUEe3j1eRY44VnFFOXWInaJv9QHx6M7w=;
- b=fNit6Lrr6UHkH5PVK8T/6Ah6Gs7HUfduY8elrA+RFpNOcAXgMGoazUS/a1uT2acB95
- Fp4LDkEhyUOYIVaaO0Lxi4RWDnrdApfwPxwdVcR6WNWf7o5/rvPUX87pqhMVlN/Mv1OI
- LNkniyVIsn3YfLg/XBkKqSL0sNSMJDu5Ml1YiZZWNA3Ud1rQ6JBLySckSzSeB1rR2lDm
- T1pCEyBT5qwv18zeeBxxomJ9CHGEb3aIvgG2y3lEd4ATTXGYrxNBf9o+UUEfdeJNqgL+
- juiqMrYH7ZwchtO7UIBHYy3SpQKgp+G5x3S2Eh4Gdy3DBZ1Px40vrLqePEeE+1LaCTA0
- UhJw==
+Received: from mail-ot1-x330.google.com (mail-ot1-x330.google.com
+ [IPv6:2607:f8b0:4864:20::330])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 026AE6F37F
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 May 2021 07:55:30 +0000 (UTC)
+Received: by mail-ot1-x330.google.com with SMTP id
+ v19-20020a0568301413b0290304f00e3d88so14092145otp.4
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 May 2021 00:55:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=7VsX7/Yz8gqq5F5QEcaTsRmC1RVegDqVZLxieNcvL5Y=;
+ b=a/Tz6gVwAOCMl1U31XbJwz20OWk9IAZsktmDv5Gj+dqcefIzeuJ3KSa4mgmQRQVlwq
+ oCvt2Jry/uKyMhMHZYbCvoeG2kyr0iFlZeMUTSpCI/++fyCiAuXYZQzUBeCzoGYwtIdi
+ GWXzAaG8gTPNTJTRaxDqPyBImkKyRVb0pOlfw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version;
- bh=gel51XWd9NtGUEe3j1eRY44VnFFOXWInaJv9QHx6M7w=;
- b=amXT/LD73mYXuLDYdXx5WLeI77mrV3YBeo4xSMIrFPncmsjUCComMKIb3HZ5o6vULX
- +jODmHPXVaIdeDljKivR9DP5lI58+xDlgoYMLCjA2wXeNNj8vOSPZURLHS9/E01UTaST
- hEJAK7GGAuDjPSliD+Ufr0m48x0tpi26ANJsqN0yygciREpRCOFx5p+tpmKbdrPE0crC
- EMAz7MaPvUmuQ8oWGw3WwtxykHfbWBms8ec/6cVDUij+5c6rNuyDSXM1o4RplVzq1OLK
- R0DSDB5tiaP1EIiCTzkQ31C4Cc/txkg4PKCCs/Io2f4ct5SXq/6GkiRyIFoVWG/Gy5ol
- YmQg==
-X-Gm-Message-State: AOAM5338fClgtXyWVc5ow9cBIeJOeoZ5Sa/bhrZ+52xA5qGAN3knr737
- d1rJ9IR7Oj1aSrUnuZcW50o=
-X-Google-Smtp-Source: ABdhPJw43dWKbFZOpyo4VLZTfLB5V+tT6sicTDhfmmin80XCaoGfB7qT0b2f28c8SXyJx7LTgn7o+w==
-X-Received: by 2002:a2e:7605:: with SMTP id r5mr2121015ljc.414.1621497086262; 
- Thu, 20 May 2021 00:51:26 -0700 (PDT)
-Received: from eldfell ([194.136.85.206])
- by smtp.gmail.com with ESMTPSA id p36sm216761lfa.227.2021.05.20.00.51.25
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 20 May 2021 00:51:25 -0700 (PDT)
-Date: Thu, 20 May 2021 10:51:15 +0300
-From: Pekka Paalanen <ppaalanen@gmail.com>
-To: Leandro Ribeiro <leandro.ribeiro@collabora.com>
-Subject: Re: [PATCH 2/2] drm/doc: document drm_mode_get_plane
-Message-ID: <20210520105115.78f49054@eldfell>
-In-Reply-To: <cb41184d-8625-698f-1cd6-5f3d6728debf@collabora.com>
-References: <20210428213651.55467-1-leandro.ribeiro@collabora.com>
- <20210428213651.55467-3-leandro.ribeiro@collabora.com>
- <20210506121003.4ab918bb@eldfell>
- <cb41184d-8625-698f-1cd6-5f3d6728debf@collabora.com>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=7VsX7/Yz8gqq5F5QEcaTsRmC1RVegDqVZLxieNcvL5Y=;
+ b=G4YKi3BK4DKCBNBRWkPdYuSTt9KSizUdJ8y/fCUIr9EEAf0dc5vDyZf4n4SV0lw9b0
+ 7WoN6cr7XVNe07OB1Lw2UvYZEOCgSF2szXOi/7eGDm04HCtosxTFxnrrXs0q0mfmTB2D
+ GTou/YeZmXtOyV7uIHrFBbkdlL3FJ608/Ox04ndI2pL+Dw0u2C2w1pN/IQ6DVO86i/5S
+ Ycvfa9kRI9uJX/6cB5qLF6j8iZLXuEHpQL5Fp0mSbJl/CFF99BndM20IMyPqO14ggvBw
+ KNRb4jktLCZW/D4V8NChTkYIGg4VAtGJwClYNZMuMuYcVkevSDlH3eTjcLNCGHN+Gpix
+ lSDw==
+X-Gm-Message-State: AOAM533LiEH/eohIj7A5FWKiRYBO4QjCjB/KnksKHbsyxCoATGsQSxoS
+ EfC/0TbytZLFMwZ1b0UfqW7PFZv8ySnyqNDRZiz/+w==
+X-Google-Smtp-Source: ABdhPJw5oxqOn0U5fVq3qtSCcJm4kDUr02ifSMeE3D/j/nbnWJxtqoD/DWDHCg+55DhKPZAvCoXZl4teZNeKUdtM1sI=
+X-Received: by 2002:a9d:4101:: with SMTP id o1mr2915523ote.281.1621497330332; 
+ Thu, 20 May 2021 00:55:30 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- boundary="Sig_/5BEvK1WAHi9T3VYJ397Np1v"; protocol="application/pgp-signature"
+References: <20210517141129.2225-1-christian.koenig@amd.com>
+ <YKKF4jOvM4gJT6a4@phenom.ffwll.local>
+ <5a3e9500-9d6b-a865-5385-fde43da2bf66@gmail.com>
+ <CAKMK7uF=y44e9-0-4MBj3jRBdCqMaLgKutTMeBWCbySRnPR4KQ@mail.gmail.com>
+ <CAOFGe960UMe4=Xxcoha9R2Y74ma3Pp4Z0DF6PM+SJ2sjq2DBXg@mail.gmail.com>
+ <CAKMK7uGtTT+59hRi3PB1WHPES3YJAPYBvbT74vo9PApNE0i7MQ@mail.gmail.com>
+ <fee06c2d-27fb-1af4-6222-8f277b36c951@gmail.com>
+ <CAKMK7uHLipx_oH-s5PB6pUUZ_JXCyciaY7sDLfK__-2fvSPCKA@mail.gmail.com>
+ <f2eb6751-2f82-9b23-f57e-548de5b729de@gmail.com>
+ <CAKMK7uHdsGjADQ9zwgrYsuhHdxFGkuH--DdOsaqej6OD1AbX-w@mail.gmail.com>
+ <CAOFGe97FDc7Y9APymQQZZMApDXsJkbcS0N5jh+3s-w-Ligipug@mail.gmail.com>
+ <14524566-8854-4bc0-9f70-b7219c9fccfc@daenzer.net>
+ <CAOFGe96VttW2VzAnx13ZXLBGcEDJMehGuOFifcr+pcbEOa-Brw@mail.gmail.com>
+ <6f3e2628-7b39-417c-3bd2-c837c5367458@daenzer.net>
+In-Reply-To: <6f3e2628-7b39-417c-3bd2-c837c5367458@daenzer.net>
+From: Daniel Vetter <daniel@ffwll.ch>
+Date: Thu, 20 May 2021 09:55:19 +0200
+Message-ID: <CAKMK7uFMQGth19OjWmeNGTeVFoAqxK2tYXYrvme+NuCSNLxLUQ@mail.gmail.com>
+Subject: Re: [RFC] Add DMA_RESV_USAGE flags
+To: =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel@daenzer.net>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,161 +74,102 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, kernel@collabora.com, dri-devel@lists.freedesktop.org
+Cc: "moderated list:DMA BUFFER SHARING FRAMEWORK"
+ <linaro-mm-sig@lists.linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Jason Ekstrand <jason@jlekstrand.net>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/5BEvK1WAHi9T3VYJ397Np1v
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
-
-On Wed, 19 May 2021 10:30:40 -0300
-Leandro Ribeiro <leandro.ribeiro@collabora.com> wrote:
-
-> On 5/6/21 6:10 AM, Pekka Paalanen wrote:
-> > On Wed, 28 Apr 2021 18:36:51 -0300
-> > Leandro Ribeiro <leandro.ribeiro@collabora.com> wrote:
-> >  =20
-> >> Add a small description and document struct fields of
-> >> drm_mode_get_plane.
+On Wed, May 19, 2021 at 5:48 PM Michel D=C3=A4nzer <michel@daenzer.net> wro=
+te:
+>
+> On 2021-05-19 5:21 p.m., Jason Ekstrand wrote:
+> > On Wed, May 19, 2021 at 5:52 AM Michel D=C3=A4nzer <michel@daenzer.net>=
+ wrote:
 > >>
-> >> Signed-off-by: Leandro Ribeiro <leandro.ribeiro@collabora.com> =20
-> >=20
-> > Hi,
-> >=20
-> > thanks a lot for revising these.
-> >  =20
-> >> ---
-> >>  include/uapi/drm/drm_mode.h | 22 ++++++++++++++++++++++
-> >>  1 file changed, 22 insertions(+)
+> >> On 2021-05-19 12:06 a.m., Jason Ekstrand wrote:
+> >>> On Tue, May 18, 2021 at 4:17 PM Daniel Vetter <daniel@ffwll.ch> wrote=
+:
+> >>>>
+> >>>> On Tue, May 18, 2021 at 7:40 PM Christian K=C3=B6nig
+> >>>> <ckoenig.leichtzumerken@gmail.com> wrote:
+> >>>>>
+> >>>>> Am 18.05.21 um 18:48 schrieb Daniel Vetter:
+> >>>>>> On Tue, May 18, 2021 at 2:49 PM Christian K=C3=B6nig
+> >>>>>> <ckoenig.leichtzumerken@gmail.com> wrote:
+> >>>>>>
+> >>>>>>> And as long as we are all inside amdgpu we also don't have any ov=
+ersync,
+> >>>>>>> the issue only happens when we share dma-bufs with i915 (radeon a=
+nd
+> >>>>>>> AFAIK nouveau does the right thing as well).
+> >>>>>> Yeah because then you can't use the amdgpu dma_resv model anymore =
+and
+> >>>>>> have to use the one atomic helpers use. Which is also the one that
+> >>>>>> e.g. Jason is threathening to bake in as uapi with his dma_buf ioc=
+tl,
+> >>>>>> so as soon as that lands and someone starts using it, something ha=
+s to
+> >>>>>> adapt _anytime_ you have a dma-buf hanging around. Not just when i=
+t's
+> >>>>>> shared with another device.
+> >>>>>
+> >>>>> Yeah, and that is exactly the reason why I will NAK this uAPI chang=
+e.
+> >>>>>
+> >>>>> This doesn't works for amdgpu at all for the reasons outlined above=
+.
+> >>>>
+> >>>> Uh that's really not how uapi works. "my driver is right, everyone
+> >>>> else is wrong" is not how cross driver contracts are defined. If tha=
+t
+> >>>> means a perf impact until you've fixed your rules, that's on you.
+> >>>>
+> >>>> Also you're a few years too late with nacking this, it's already uap=
+i
+> >>>> in the form of the dma-buf poll() support.
+> >>>
+> >>> ^^  My fancy new ioctl doesn't expose anything that isn't already
+> >>> there.  It just lets you take a snap-shot of a wait instead of doing
+> >>> an active wait which might end up with more fences added depending on
+> >>> interrupts and retries.  The dma-buf poll waits on all fences for
+> >>> POLLOUT and only the exclusive fence for POLLIN.  It's already uAPI.
 > >>
-> >> diff --git a/include/uapi/drm/drm_mode.h b/include/uapi/drm/drm_mode.h
-> >> index a5e76aa06ad5..8fa6495cd948 100644
-> >> --- a/include/uapi/drm/drm_mode.h
-> >> +++ b/include/uapi/drm/drm_mode.h
-> >> @@ -312,16 +312,38 @@ struct drm_mode_set_plane {
-> >>  	__u32 src_w;
-> >>  };
+> >> Note that the dma-buf poll support could be useful to Wayland composit=
+ors for the same purpose as Jason's new ioctl (only using client buffers wh=
+ich have finished drawing for an output frame, to avoid missing a refresh c=
+ycle due to client drawing), *if* it didn't work differently with amdgpu.
 > >>
-> >> +/**
-> >> + * struct drm_mode_get_plane - Get plane metadata.
-> >> + *
-> >> + * Userspace can perform a GETPLANE ioctl to retrieve information abo=
-ut a
-> >> + * plane.
-> >> + */
-> >>  struct drm_mode_get_plane {
-> >> +	/** @plane_id: Object ID of the plane. */ =20
-> >=20
-> > This is an "in" field, right?
-> >=20
-> > "in" meaning that userspace sets it to the ID of the plane it wants
-> > information on.
-> >=20
-> > "out" field is a field written by the kernel as a response.
-> >=20
-> > I'm not sure if the kernel has a habit of documenting these, because we
-> > use libdrm to abstract this so users do not need to care, but I think
-> > it would be nice.
-> >  =20
->=20
-> In a quick look, I couldn't find anything. But I can change the phrasing
-> to the following:
->=20
-> "@plane_id: Object ID of the plane whose information should be
-> retrieved. IN field, set by userspace."
-
-I think "set by userspace" or "set by caller" would be enough.
-
-
-> >>  	__u32 plane_id;
-> >>
-> >> +	/** @crtc_id: Object ID of the current CRTC. */
-> >>  	__u32 crtc_id;
-> >> +	/** @fb_id: Object ID of the current fb. */
-> >>  	__u32 fb_id;
-> >>
-> >> +	/**
-> >> +	 * @possible_crtcs: Bitmask of CRTC's compatible with the plane. CRT=
-C's
-> >> +	 * are created and they receive an index, which corresponds to their
-> >> +	 * position in the bitmask. CRTC with index 0 will be in bit 0, and =
-so
-> >> +	 * on. To learn how to find out the index of a certain CRTC, please =
-see
-> >> +	 * :ref:`crtc_index`. =20
-> >=20
-> > This could be shortened to something like bit N corresponds to CRTC
-> > index N, and make "CRTC index N" a hyperlink.
-> >  =20
->=20
-> Nice, I'll apply this change.
->=20
-> >> +	 */
-> >>  	__u32 possible_crtcs;
-> >> +	/** @gamma_size: Number of entries of the legacy gamma lookup table.=
- */
-> >>  	__u32 gamma_size;
-> >>
-> >> +	/** @count_format_types: Number of formats. */
-> >>  	__u32 count_format_types;
-> >> +	/**
-> >> +	 * @format_type_ptr: Pointer to ``__u32`` array of formats that are
-> >> +	 * supported by the plane. These formats do not require modifiers.
-> >> +	 */
-> >>  	__u64 format_type_ptr; =20
-> >=20
-> > The count/ptr fields have an interesting usage pattern, which I suppose
-> > is common for all DRM ioctls. Makes me wonder if it should be documente=
-d.
-> >=20
-> > AFAIU, count is in+out field: when set to 0, the kernel uses it to
-> > return the count needed. Then userspace allocates space and calls the
-> > ioctl again with the right count and ptr set to point to the allocated
-> > array of count elements. This is so that kernel never allocates memory
-> > on behalf of userspace for the return data, making things much simpler
-> > at the cost of maybe needing to call the ioctl twice to first figure
-> > out long the array should be.
-> >=20
-> > This can be seen in libdrm code for drmModeGetPlane().
+> >> Am I understanding correctly that Jason's new ioctl would also work di=
+fferently with amdgpu as things stand currently? If so, that would be a rea=
+l bummer and might hinder adoption of the ioctl by Wayland compositors.
 > >
-> > There is certainly no point in explaining all that here, that is too
-> > much. But if there was a way to annotate the count member as in+out,
-> > that would be nice. And the ptr member as "in".
-> >  =20
->=20
-> This is documented in the description of struct drm_mode_get_connector:
->=20
-> https://www.kernel.org/doc/html/latest/gpu/drm-uapi.html#c.drm_mode_get_c=
-onnector
->=20
-> Would be enough to have something similar in struct drm_mode_get_plane?
+> > My new ioctl has identical semantics to poll().  It just lets you take
+> > a snapshot in time to wait on later instead of waiting on whatever
+> > happens to be set right now.  IMO, having identical semantics to
+> > poll() isn't something we want to change.
+>
+> Agreed.
+>
+> I'd argue then that making amdgpu poll semantics match those of other dri=
+vers is a pre-requisite for the new ioctl, otherwise it seems unlikely that=
+ the ioctl will be widely adopted.
 
-That would be really nice!
+This seems backwards, because that means useful improvements in all
+other drivers are stalled until amdgpu is fixed.
 
+I think we need agreement on what the rules are, reasonable plan to
+get there, and then that should be enough to unblock work in the wider
+community. Holding the community at large hostage because one driver
+is different is really not great.
 
-Thanks,
-pq
-
---Sig_/5BEvK1WAHi9T3VYJ397Np1v
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmCmFPMACgkQI1/ltBGq
-qqdj2RAAtDXkDaI9+uuQRaynV0Nq9XQNJOUgPu/0K5m3vvPe6l5b6QqryrJYRhYr
-t3O/TpcwLmucJ2NGyY+Nyetbbya1xstIG+LT735MOrzEFCN55P0px5nxU2zYpqD2
-PDVa0txi6OZYZDMd4p/+Ox3XJymCOYg85zrxzuCwq3jxC4egiz9ZZ0BuDZP1KGau
-K5wBrWYtj++TALdvjdS5NzlrXRu33VRFlXLUz0Qg9ptzSNi3N2Xz9Xt1uY2ZIGme
-S+NnIqb3ETP5Re1s8xFxFbaSNwxleAKUaCPdv4c39qRWXRXEdNL8aLRGp0CGUyhI
-a52yQKqxMxru3XvDqdcx30l3kEZDbnv7MBF0e3f/haM5MuFdl4Mc2DiGigYXciIj
-9/hlmkPM6wVmd4OCqumvFulpDVLfcGfSSyoc2bffXZoXOU7L1ETV6LoUkvxXFtGQ
-kJn6O8+/T4izcDnc9s4xyKAzw7tDaXnv5s9Ee1xLsM4CR0ufxAz4WArrSncpmWhK
-GYh5krms+qBb1gVRuvKjt0k2ht6i85/yN2x8wtJ4i6sX7jC90PRQWFq2PMcnpiLh
-9JM7bSPah9Zc4FyP2PfNBMX/ErVlvhx11sPMMnXY4AgTf/EqTZr9VT0ug9JqusHy
-e8+rIANIN25zRfhi08BwM9+2XiHhTCoxtrnR6h/HoGmDGIMKjUg=
-=M3EE
------END PGP SIGNATURE-----
-
---Sig_/5BEvK1WAHi9T3VYJ397Np1v--
+I've just finished the subsystem review of everything, and thus far
+only found some minor bugs without practical significance. I'll fix
+those and then send out a series.
+-Daniel
+--=20
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
