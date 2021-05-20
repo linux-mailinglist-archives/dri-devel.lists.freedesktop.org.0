@@ -1,37 +1,68 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 840D738ABCD
-	for <lists+dri-devel@lfdr.de>; Thu, 20 May 2021 13:31:11 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 60D6838AC44
+	for <lists+dri-devel@lfdr.de>; Thu, 20 May 2021 13:37:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 70EF86F3FE;
-	Thu, 20 May 2021 11:31:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4922A6F3FB;
+	Thu, 20 May 2021 11:37:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5A9D76F3FE
- for <dri-devel@lists.freedesktop.org>; Thu, 20 May 2021 11:31:06 +0000 (UTC)
-Received: from pendragon.lan (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id AD4C7D41;
- Thu, 20 May 2021 13:31:03 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1621510264;
- bh=00Yw5HQerCSsg0Wc2kD6gfUeKHXBE1N8aG835OP6AJk=;
- h=From:To:Cc:Subject:Date:From;
- b=NL+9FMeBAG7ImIspcupKBbUd9ujItMRpcwONTbstqqf9UJOVXpx4wtafeErtm6yXs
- TWOtBDp8XthVEmTrSj8l7RF8inVRYDbiFq3P40jrzFf+r8WGmBevncm9poB9KQudlv
- ttGcZGIvoyAR/3N3YaAcEDzMBCD0ey6xK+UsQbew=
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v3] drm: xlnx: zynqmp: Add zynqmp_disp_layer_is_video() to
- simplify the code
-Date: Thu, 20 May 2021 14:30:57 +0300
-Message-Id: <20210520113057.13069-1-laurent.pinchart@ideasonboard.com>
-X-Mailer: git-send-email 2.28.1
+Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com
+ [IPv6:2a00:1450:4864:20::630])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9C2A96F3FB
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 May 2021 11:37:49 +0000 (UTC)
+Received: by mail-ej1-x630.google.com with SMTP id et19so17673711ejc.4
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 May 2021 04:37:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-transfer-encoding:content-language;
+ bh=YU7uy+eLr3JgvI0Mg+wNNHPaABadqB4/+n4tkR57F+U=;
+ b=sy3e6y4oO9T6b8KGNTSlXW3UJ/9ArPgWQdD7pVfK4aE4M55Iq7qZZJX/RemBZynnGa
+ 52aJHotILFJ75GuaniWpPfF2u4InijILQKvE1kol1+R6mZqijKPwgyzNJDywloux19SE
+ FulNoaIqgZe9VoMKnWAIvCqYknTD/r+zI3MrOjgxQ353ebnwV3l4N9kYy/LnGkkfBeY3
+ WyMG1yXs9w7ldbG6I4QJMUb9iGx1apjnX4JfhmqYnTvRindZWQD+8OYzGr9M1aXLh9Dt
+ DWEa9YrElqjSQTi+2ubL+qSjQAZkCRDcGCH/Nm1fMR8FCI7pdtz+esruU2wwG9ywbSuw
+ L6NA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-transfer-encoding
+ :content-language;
+ bh=YU7uy+eLr3JgvI0Mg+wNNHPaABadqB4/+n4tkR57F+U=;
+ b=bvd3g1B7GXoXV0EJq5PNtssPrcOrYy7E9jGFHUnHB6xO2Hu9bkCAn54nxODh81xwL5
+ 33IYwpV1EBM/aVxVG2LssWZHdCwteLiJiIBXMIsaBfaVnTYK4TOjKJQvAWmFjW7HiWAf
+ DgTbggnYpAGpWuIRRWMUbMqlEvi3CgvOLTFAdqaosBD8DymvQAZ064LPFop1IKAwhvj6
+ YrYP6owUJvwpcKkNvpIq3Jg7bRH5+Co1otGXbPQpIGoW1llKCGFaUniOlImWbNHYR9Rl
+ I+tduQjK+DItKdwyJqo0Y5jZ+oKQGzGnBgpqIT5ikXQ6aBvgvTtD64jzzb/7EsvHiByb
+ sKIw==
+X-Gm-Message-State: AOAM533tw7BK3PCC9UKD//Bm/RVwlZakq/7O/R1ei9pxXbZzSo7VoIO0
+ 63L85ORWgBQXu4KNLqrAm96aUDBKdpo=
+X-Google-Smtp-Source: ABdhPJwPku/XxIofkvipXBJ0frLNj8I21MkPqDawsE3bjXbjlbtFV1ip7VmkfXerfz57fD/+E8iPvw==
+X-Received: by 2002:a17:906:e2d9:: with SMTP id
+ gr25mr4329387ejb.373.1621510668312; 
+ Thu, 20 May 2021 04:37:48 -0700 (PDT)
+Received: from ?IPv6:2a02:908:1252:fb60:4635:589e:67a4:e02a?
+ ([2a02:908:1252:fb60:4635:589e:67a4:e02a])
+ by smtp.gmail.com with ESMTPSA id s2sm1381221edu.89.2021.05.20.04.37.47
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 20 May 2021 04:37:47 -0700 (PDT)
+Subject: Re: [PATCH] dma-buf: fix unintended pin/unpin warnings
+To: Daniel Vetter <daniel@ffwll.ch>, Alex Deucher <alexdeucher@gmail.com>
+References: <20210517115705.2141-1-christian.koenig@amd.com>
+ <CADnq5_O7EBT7tdsuq00K-T2j=HEq34hLEpsbME4157wcGZyTBg@mail.gmail.com>
+ <YKKERxNX+OmIgwlL@phenom.ffwll.local>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+Message-ID: <a7396a42-995a-80bf-4f51-c203a62096e7@gmail.com>
+Date: Thu, 20 May 2021 13:37:47 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
+In-Reply-To: <YKKERxNX+OmIgwlL@phenom.ffwll.local>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -44,172 +75,94 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Paul Cercueil <paul@crapouillou.net>,
- Michal Simek <michal.simek@xilinx.com>,
- Quanyang Wang <quanyang.wang@windriver.com>
+Cc: Maling list - DRI developers <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Quanyang Wang <quanyang.wang@windriver.com>
+Am 17.05.21 um 16:57 schrieb Daniel Vetter:
+> On Mon, May 17, 2021 at 10:09:13AM -0400, Alex Deucher wrote:
+>> On Mon, May 17, 2021 at 7:57 AM Christian König
+>> <ckoenig.leichtzumerken@gmail.com> wrote:
+>>> DMA-buf internal users call the pin/unpin functions without having a
+>>> dynamic attachment. Avoid the warning and backtrace in the logs.
+>>>
+>>> Signed-off-by: Christian König <christian.koenig@amd.com>
+>>> Bugs: https://gitlab.freedesktop.org/drm/intel/-/issues/3481
+>>> Fixes: c545781e1c55 ("dma-buf: doc polish for pin/unpin")
+>>> CC: stable@kernel.org
+>> Reviewed-by: Alex Deucher <alexander.deucher@amd.com>
+> Hm this means we're losing the dma_resv_assert_held check, do we have that
+> in amdgpu callbacks to make sure we're not accidentally breaking stuff
+> later on?
 
-Add a new function zynqmp_disp_layer_is_video() to simplify the code
-that judges if a layer is the video layer.
+Mhm, well this is just for calling the pin/unpin internally from the 
+DMA-buf framework itself.
 
-Acked-by: Paul Cercueil <paul@crapouillou.net>
-Signed-off-by: Quanyang Wang <quanyang.wang@windriver.com>
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-[Renamed is_layer_vid() to zynqmp_disp_layer_is_video()]]
-Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
----
- drivers/gpu/drm/xlnx/zynqmp_disp.c | 39 +++++++++++++++++-------------
- 1 file changed, 22 insertions(+), 17 deletions(-)
+Need to double check, but I think all those cases either have a 
+dma_resv_assert_held() or are locking the reservation themselves before 
+calling the function.
 
-diff --git a/drivers/gpu/drm/xlnx/zynqmp_disp.c b/drivers/gpu/drm/xlnx/zynqmp_disp.c
-index 01c6ce7784dd..a578ab3d5f89 100644
---- a/drivers/gpu/drm/xlnx/zynqmp_disp.c
-+++ b/drivers/gpu/drm/xlnx/zynqmp_disp.c
-@@ -434,30 +434,35 @@ static void zynqmp_disp_avbuf_write(struct zynqmp_disp_avbuf *avbuf,
- 	writel(val, avbuf->base + reg);
- }
- 
-+static bool zynqmp_disp_layer_is_video(const struct zynqmp_disp_layer *layer)
-+{
-+	return layer->id == ZYNQMP_DISP_LAYER_VID;
-+}
-+
- /**
-  * zynqmp_disp_avbuf_set_format - Set the input format for a layer
-  * @avbuf: Audio/video buffer manager
-- * @layer: The layer ID
-+ * @layer: The layer
-  * @fmt: The format information
-  *
-  * Set the video buffer manager format for @layer to @fmt.
-  */
- static void zynqmp_disp_avbuf_set_format(struct zynqmp_disp_avbuf *avbuf,
--					 enum zynqmp_disp_layer_id layer,
-+					 struct zynqmp_disp_layer *layer,
- 					 const struct zynqmp_disp_format *fmt)
- {
- 	unsigned int i;
- 	u32 val;
- 
- 	val = zynqmp_disp_avbuf_read(avbuf, ZYNQMP_DISP_AV_BUF_FMT);
--	val &= layer == ZYNQMP_DISP_LAYER_VID
-+	val &= zynqmp_disp_layer_is_video(layer)
- 	    ? ~ZYNQMP_DISP_AV_BUF_FMT_NL_VID_MASK
- 	    : ~ZYNQMP_DISP_AV_BUF_FMT_NL_GFX_MASK;
- 	val |= fmt->buf_fmt;
- 	zynqmp_disp_avbuf_write(avbuf, ZYNQMP_DISP_AV_BUF_FMT, val);
- 
- 	for (i = 0; i < ZYNQMP_DISP_AV_BUF_NUM_SF; i++) {
--		unsigned int reg = layer == ZYNQMP_DISP_LAYER_VID
-+		unsigned int reg = zynqmp_disp_layer_is_video(layer)
- 				 ? ZYNQMP_DISP_AV_BUF_VID_COMP_SF(i)
- 				 : ZYNQMP_DISP_AV_BUF_GFX_COMP_SF(i);
- 
-@@ -573,19 +578,19 @@ static void zynqmp_disp_avbuf_disable_audio(struct zynqmp_disp_avbuf *avbuf)
- /**
-  * zynqmp_disp_avbuf_enable_video - Enable a video layer
-  * @avbuf: Audio/video buffer manager
-- * @layer: The layer ID
-+ * @layer: The layer
-  * @mode: Operating mode of layer
-  *
-  * Enable the video/graphics buffer for @layer.
-  */
- static void zynqmp_disp_avbuf_enable_video(struct zynqmp_disp_avbuf *avbuf,
--					   enum zynqmp_disp_layer_id layer,
-+					   struct zynqmp_disp_layer *layer,
- 					   enum zynqmp_disp_layer_mode mode)
- {
- 	u32 val;
- 
- 	val = zynqmp_disp_avbuf_read(avbuf, ZYNQMP_DISP_AV_BUF_OUTPUT);
--	if (layer == ZYNQMP_DISP_LAYER_VID) {
-+	if (zynqmp_disp_layer_is_video(layer)) {
- 		val &= ~ZYNQMP_DISP_AV_BUF_OUTPUT_VID1_MASK;
- 		if (mode == ZYNQMP_DISP_LAYER_NONLIVE)
- 			val |= ZYNQMP_DISP_AV_BUF_OUTPUT_VID1_MEM;
-@@ -605,17 +610,17 @@ static void zynqmp_disp_avbuf_enable_video(struct zynqmp_disp_avbuf *avbuf,
- /**
-  * zynqmp_disp_avbuf_disable_video - Disable a video layer
-  * @avbuf: Audio/video buffer manager
-- * @layer: The layer ID
-+ * @layer: The layer
-  *
-  * Disable the video/graphics buffer for @layer.
-  */
- static void zynqmp_disp_avbuf_disable_video(struct zynqmp_disp_avbuf *avbuf,
--					    enum zynqmp_disp_layer_id layer)
-+					    struct zynqmp_disp_layer *layer)
- {
- 	u32 val;
- 
- 	val = zynqmp_disp_avbuf_read(avbuf, ZYNQMP_DISP_AV_BUF_OUTPUT);
--	if (layer == ZYNQMP_DISP_LAYER_VID) {
-+	if (zynqmp_disp_layer_is_video(layer)) {
- 		val &= ~ZYNQMP_DISP_AV_BUF_OUTPUT_VID1_MASK;
- 		val |= ZYNQMP_DISP_AV_BUF_OUTPUT_VID1_NONE;
- 	} else {
-@@ -807,7 +812,7 @@ static void zynqmp_disp_blend_layer_set_csc(struct zynqmp_disp_blend *blend,
- 		}
- 	}
- 
--	if (layer->id == ZYNQMP_DISP_LAYER_VID)
-+	if (zynqmp_disp_layer_is_video(layer))
- 		reg = ZYNQMP_DISP_V_BLEND_IN1CSC_COEFF(0);
- 	else
- 		reg = ZYNQMP_DISP_V_BLEND_IN2CSC_COEFF(0);
-@@ -818,7 +823,7 @@ static void zynqmp_disp_blend_layer_set_csc(struct zynqmp_disp_blend *blend,
- 		zynqmp_disp_blend_write(blend, reg + 8, coeffs[i + swap[2]]);
- 	}
- 
--	if (layer->id == ZYNQMP_DISP_LAYER_VID)
-+	if (zynqmp_disp_layer_is_video(layer))
- 		reg = ZYNQMP_DISP_V_BLEND_IN1CSC_OFFSET(0);
- 	else
- 		reg = ZYNQMP_DISP_V_BLEND_IN2CSC_OFFSET(0);
-@@ -1025,7 +1030,7 @@ zynqmp_disp_layer_find_format(struct zynqmp_disp_layer *layer,
-  */
- static void zynqmp_disp_layer_enable(struct zynqmp_disp_layer *layer)
- {
--	zynqmp_disp_avbuf_enable_video(&layer->disp->avbuf, layer->id,
-+	zynqmp_disp_avbuf_enable_video(&layer->disp->avbuf, layer,
- 				       ZYNQMP_DISP_LAYER_NONLIVE);
- 	zynqmp_disp_blend_layer_enable(&layer->disp->blend, layer);
- 
-@@ -1046,7 +1051,7 @@ static void zynqmp_disp_layer_disable(struct zynqmp_disp_layer *layer)
- 	for (i = 0; i < layer->drm_fmt->num_planes; i++)
- 		dmaengine_terminate_sync(layer->dmas[i].chan);
- 
--	zynqmp_disp_avbuf_disable_video(&layer->disp->avbuf, layer->id);
-+	zynqmp_disp_avbuf_disable_video(&layer->disp->avbuf, layer);
- 	zynqmp_disp_blend_layer_disable(&layer->disp->blend, layer);
- }
- 
-@@ -1067,7 +1072,7 @@ static void zynqmp_disp_layer_set_format(struct zynqmp_disp_layer *layer,
- 	layer->disp_fmt = zynqmp_disp_layer_find_format(layer, info->format);
- 	layer->drm_fmt = info;
- 
--	zynqmp_disp_avbuf_set_format(&layer->disp->avbuf, layer->id,
-+	zynqmp_disp_avbuf_set_format(&layer->disp->avbuf, layer,
- 				     layer->disp_fmt);
- 
- 	/*
-@@ -1244,8 +1249,8 @@ static int zynqmp_disp_create_planes(struct zynqmp_disp *disp)
- 			drm_formats[j] = layer->info->formats[j].drm_fmt;
- 
- 		/* Graphics layer is primary, and video layer is overlay. */
--		type = i == ZYNQMP_DISP_LAYER_GFX
--		     ? DRM_PLANE_TYPE_PRIMARY : DRM_PLANE_TYPE_OVERLAY;
-+		type = zynqmp_disp_layer_is_video(layer)
-+		     ? DRM_PLANE_TYPE_OVERLAY : DRM_PLANE_TYPE_PRIMARY;
- 		ret = drm_universal_plane_init(disp->drm, &layer->plane, 0,
- 					       &zynqmp_disp_plane_funcs,
- 					       drm_formats,
--- 
-Regards,
+But yeah, rather good point.
 
-Laurent Pinchart
+Christian.
+
+>
+> But yeah lgtm, Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+>
+>>> ---
+>>>   drivers/dma-buf/dma-buf.c | 10 +++++-----
+>>>   1 file changed, 5 insertions(+), 5 deletions(-)
+>>>
+>>> diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+>>> index f264b70c383e..eadd1eaa2fb5 100644
+>>> --- a/drivers/dma-buf/dma-buf.c
+>>> +++ b/drivers/dma-buf/dma-buf.c
+>>> @@ -760,7 +760,7 @@ dma_buf_dynamic_attach(struct dma_buf *dmabuf, struct device *dev,
+>>>
+>>>                  if (dma_buf_is_dynamic(attach->dmabuf)) {
+>>>                          dma_resv_lock(attach->dmabuf->resv, NULL);
+>>> -                       ret = dma_buf_pin(attach);
+>>> +                       ret = dmabuf->ops->pin(attach);
+>>>                          if (ret)
+>>>                                  goto err_unlock;
+>>>                  }
+>>> @@ -786,7 +786,7 @@ dma_buf_dynamic_attach(struct dma_buf *dmabuf, struct device *dev,
+>>>
+>>>   err_unpin:
+>>>          if (dma_buf_is_dynamic(attach->dmabuf))
+>>> -               dma_buf_unpin(attach);
+>>> +               dmabuf->ops->unpin(attach);
+>>>
+>>>   err_unlock:
+>>>          if (dma_buf_is_dynamic(attach->dmabuf))
+>>> @@ -843,7 +843,7 @@ void dma_buf_detach(struct dma_buf *dmabuf, struct dma_buf_attachment *attach)
+>>>                  __unmap_dma_buf(attach, attach->sgt, attach->dir);
+>>>
+>>>                  if (dma_buf_is_dynamic(attach->dmabuf)) {
+>>> -                       dma_buf_unpin(attach);
+>>> +                       dmabuf->ops->unpin(attach);
+>>>                          dma_resv_unlock(attach->dmabuf->resv);
+>>>                  }
+>>>          }
+>>> @@ -956,7 +956,7 @@ struct sg_table *dma_buf_map_attachment(struct dma_buf_attachment *attach,
+>>>          if (dma_buf_is_dynamic(attach->dmabuf)) {
+>>>                  dma_resv_assert_held(attach->dmabuf->resv);
+>>>                  if (!IS_ENABLED(CONFIG_DMABUF_MOVE_NOTIFY)) {
+>>> -                       r = dma_buf_pin(attach);
+>>> +                       r = attach->dmabuf->ops->pin(attach);
+>>>                          if (r)
+>>>                                  return ERR_PTR(r);
+>>>                  }
+>>> @@ -968,7 +968,7 @@ struct sg_table *dma_buf_map_attachment(struct dma_buf_attachment *attach,
+>>>
+>>>          if (IS_ERR(sg_table) && dma_buf_is_dynamic(attach->dmabuf) &&
+>>>               !IS_ENABLED(CONFIG_DMABUF_MOVE_NOTIFY))
+>>> -               dma_buf_unpin(attach);
+>>> +               attach->dmabuf->ops->unpin(attach);
+>>>
+>>>          if (!IS_ERR(sg_table) && attach->dmabuf->ops->cache_sgt_mapping) {
+>>>                  attach->sgt = sg_table;
+>>> --
+>>> 2.25.1
+>>>
 
