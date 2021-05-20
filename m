@@ -1,69 +1,74 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5DCF38B18B
-	for <lists+dri-devel@lfdr.de>; Thu, 20 May 2021 16:19:02 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id AFBC538B1A3
+	for <lists+dri-devel@lfdr.de>; Thu, 20 May 2021 16:24:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C33576E2D8;
-	Thu, 20 May 2021 14:18:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2B9576E122;
+	Thu, 20 May 2021 14:24:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com
- [IPv6:2a00:1450:4864:20::434])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E4CEA897F0
- for <dri-devel@lists.freedesktop.org>; Thu, 20 May 2021 14:18:50 +0000 (UTC)
-Received: by mail-wr1-x434.google.com with SMTP id d11so17834041wrw.8
- for <dri-devel@lists.freedesktop.org>; Thu, 20 May 2021 07:18:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=6cjqDgsjlb939a5FXNuoX938nrSVIobNIUSNGLgi4Ek=;
- b=JK/jDT+GAtvKHGz/8weLBxkyH+AlV/BH1HpLgwxjTjEHNsmozM1Itet5YlUn4hq4wE
- 0IMNkT2yLQAGEiZDEiRJDSPY1OZFuH2PlaO0qVRm86O04mjOWM0C6WvdsSMFPkqLHKPQ
- gcUq2F8QtAo9vcWJ5OEurycPvHabW0S7OwJUc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=6cjqDgsjlb939a5FXNuoX938nrSVIobNIUSNGLgi4Ek=;
- b=ZPoHwoNCqDlTwWMlXx+oOwCiqwoPAH3+YR52mHgsUheiadvXNa/pn2CnnPxZzmS+qk
- DSEz4tP7feMYlYQQk3Q0aCnqLWsy8CjKt0TtUYRdK1469mQvBn08kLrbyYmp6GUhrlwB
- MtrPwCrhNaNCMSxWLYMmr0WY5T+vO6H11yJI7MUHbtbSQB/MGN3nOGki5bBH86xPrWNQ
- VvbNlKeIn1KUG7h+HGhUxU/wWTfu8NRf/yDs0YWeAvQQrVjtz7u9vG8x9tnO4L1WXjkq
- Kk7mSq+tsKT1TS+3J5m6fkchZn8v8Ai33Bp343+ZCeOkU3wQpGJ4lypQtt8YU1zFbBHU
- a6Rg==
-X-Gm-Message-State: AOAM532sfCH1ztGmmIb0h5QNLhuALqgQ63f9cQTONCFua4dzoUkL9VO1
- 4LZRgug5B/oxVgdzznqJTCw0/A==
-X-Google-Smtp-Source: ABdhPJzUy9ly8p+SLiavJ9BKitIr/u1yhyT0YsuMn67VcX04qwQ3j5s9wv1SqM2pmt52VJ2SM9FgGw==
-X-Received: by 2002:a5d:64a3:: with SMTP id m3mr4528664wrp.172.1621520329643; 
- Thu, 20 May 2021 07:18:49 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id g128sm2855701wme.0.2021.05.20.07.18.48
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 20 May 2021 07:18:49 -0700 (PDT)
-Date: Thu, 20 May 2021 16:18:47 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Michel =?iso-8859-1?Q?D=E4nzer?= <michel@daenzer.net>
-Subject: Re: [RFC] Add DMA_RESV_USAGE flags
-Message-ID: <YKZvx0UXYnJrfVw4@phenom.ffwll.local>
-References: <fee06c2d-27fb-1af4-6222-8f277b36c951@gmail.com>
- <CAKMK7uHLipx_oH-s5PB6pUUZ_JXCyciaY7sDLfK__-2fvSPCKA@mail.gmail.com>
- <f2eb6751-2f82-9b23-f57e-548de5b729de@gmail.com>
- <CAKMK7uHdsGjADQ9zwgrYsuhHdxFGkuH--DdOsaqej6OD1AbX-w@mail.gmail.com>
- <CAOFGe97FDc7Y9APymQQZZMApDXsJkbcS0N5jh+3s-w-Ligipug@mail.gmail.com>
- <14524566-8854-4bc0-9f70-b7219c9fccfc@daenzer.net>
- <CAOFGe96VttW2VzAnx13ZXLBGcEDJMehGuOFifcr+pcbEOa-Brw@mail.gmail.com>
- <6f3e2628-7b39-417c-3bd2-c837c5367458@daenzer.net>
- <CAKMK7uFMQGth19OjWmeNGTeVFoAqxK2tYXYrvme+NuCSNLxLUQ@mail.gmail.com>
- <7cbba7b7-d7e5-9c76-c747-4e39542268a2@daenzer.net>
+Received: from new1-smtp.messagingengine.com (new1-smtp.messagingengine.com
+ [66.111.4.221])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EE8296E122
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 May 2021 14:24:47 +0000 (UTC)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
+ by mailnew.nyi.internal (Postfix) with ESMTP id B655E58068D;
+ Thu, 20 May 2021 10:24:46 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute6.internal (MEProxy); Thu, 20 May 2021 10:24:46 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+ from:to:cc:subject:date:message-id:mime-version:content-type
+ :content-transfer-encoding; s=fm2; bh=1/how1Tfl6M09wSZZyVVHwoB/P
+ KKCH26nXncHFVr5cc=; b=egXFsoDO9GESqHLWfu5KQBaICV2oYEdXo+yZJ2RDiX
+ KDkmWRnD2RjXsNvImlNoK00Dnyowi3RvmInCD5Tni2ogtBDyz3fvBQxFoM+oniWq
+ t8tz/k+IUbVVOof7LtZeb5qoicwTDXC8T8GUp0jNateM2Rt7KftzRXqtjjvQx6QY
+ 8xwqy5FOJp9pNjI2hK8vTsRHj2aeEGz2nIzYpJZJnCc0aPA/uPN50qRgtJFaq8ez
+ XuTgJulSHWqsM1rMHoZn8urLX8dsVOWZ3QbbLG89alA532Dil7Qtzot+XxUBi6cr
+ jn+AMiyMGniBv2BFdjHHQZ0AUKFUeCZQd5+U+7F/pE0Q==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-transfer-encoding:content-type
+ :date:from:message-id:mime-version:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=1/how1
+ Tfl6M09wSZZyVVHwoB/PKKCH26nXncHFVr5cc=; b=edfP7NzhJNKfx4qFCAgEfd
+ KcvwqDcmdEn/5C0xIQrY7vR7urOdyMWqrUiQIYikR4q+AJxeOKzzsUyOwvHeC7NT
+ eize2c/mTmP3oY7w914Q2nkgQ4nCDo/3ko3tH1QA0JbtLFVPEKB3yicZMYS+KcMX
+ ZDocGrJRnxy/Liph+CsyCBVw6ESG9eHQlPqqfbQpHLTAZ+b52kHw6a0lTLpnXAwO
+ NBMERHTNh8d2gJXnvT6ZByDZy5kS1zGnqWzV6NkYrwLbnTFDSvvuG0Xv5e74Beh5
+ vkvHLZdfHKKV+WSeiKvm6VISpccF3alaY1TN7mb1IX+b4AzK6pNYgSi9fc93P26w
+ ==
+X-ME-Sender: <xms:JnGmYNJSI29htRdREyR_jCKpQUUDEd9K7ev4ptLS_9b94E1C0OfNmA>
+ <xme:JnGmYJILAcwH6NrG21pJClh7qD3lPXrzZojsoW3mngmsH7DiZZeVOq4hCvpE9eOva
+ xbMbvPHWaGCU2tkRuQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvdejuddgjeejucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhephffvufffkffogggtgfesthekredtredtjeenucfhrhhomhepofgrgihimhgv
+ ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
+ gvrhhnpeehvdfgueejgfefhfelfeejtdetuddvffdttefggfeftdfgffekleefjedvgeei
+ hfenucfkphepledtrdekledrieekrdejieenucevlhhushhtvghrufhiiigvpedtnecurf
+ grrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:JnGmYFtxzwpklmUH_yPwz0ycKXvoyjuRsWW1DsHHTr6EC6mE7WZCIw>
+ <xmx:JnGmYOZx8qjTsq9XVYYnG45CE4TsbLVt8W3IE_x69j4aWjY6RIpXNQ>
+ <xmx:JnGmYEbn2nEhSkXq-5j8QTsUW1DDlCo-2jwR1g1F1c7mwSDDXBqb9w>
+ <xmx:LnGmYGyh_kQW94dEwv4Lp56jSEi1G_JLNIJjZUzw7hINvLxEU40z3Q>
+Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
+ [90.89.68.76]) by mail.messagingengine.com (Postfix) with ESMTPA;
+ Thu, 20 May 2021 10:24:38 -0400 (EDT)
+From: Maxime Ripard <maxime@cerno.tech>
+To: dri-devel@lists.freedesktop.org, Daniel Vetter <daniel.vetter@intel.com>,
+ David Airlie <airlied@linux.ie>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <maxime@cerno.tech>
+Subject: [PATCH v2] Documentation: gpu: Mention the requirements for new
+ properties
+Date: Thu, 20 May 2021 16:24:35 +0200
+Message-Id: <20210520142435.267873-1-maxime@cerno.tech>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <7cbba7b7-d7e5-9c76-c747-4e39542268a2@daenzer.net>
-X-Operating-System: Linux phenom 5.10.32scarlett+ 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,107 +81,198 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "moderated list:DMA BUFFER SHARING FRAMEWORK"
- <linaro-mm-sig@lists.linaro.org>,
- Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Jason Ekstrand <jason@jlekstrand.net>
+Cc: Xinliang Liu <xinliang.liu@linaro.org>,
+ Anitha Chrisanthus <anitha.chrisanthus@intel.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>, Jerome Brunet <jbrunet@baylibre.com>,
+ Kevin Hilman <khilman@baylibre.com>,
+ Ludovic Desroches <ludovic.desroches@microchip.com>,
+ NXP Linux Team <linux-imx@nxp.com>, Sascha Hauer <s.hauer@pengutronix.de>,
+ Roland Scheidegger <sroland@vmware.com>, Sean Paul <sean@poorly.run>,
+ Hyun Kwon <hyun.kwon@xilinx.com>, Andrew Jeffery <andrew@aj.id.au>,
+ Seung-Woo Kim <sw0312.kim@samsung.com>,
+ =?UTF-8?q?Noralf=20Tr=C3=B8nnes?= <noralf@tronnes.org>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>, linux-doc@vger.kernel.org,
+ Edmund Dea <edmund.j.dea@intel.com>, Thierry Reding <thierry.reding@gmail.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+ Steven Price <steven.price@arm.com>,
+ VMware Graphics <linux-graphics-maintainer@vmware.com>,
+ Ben Skeggs <bskeggs@redhat.com>,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+ Boris Brezillon <bbrezillon@kernel.org>, Sandy Huang <hjc@rock-chips.com>,
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Haneen Mohammed <hamohammed.sa@gmail.com>,
+ Neil Armstrong <narmstrong@baylibre.com>, Melissa Wen <melissa.srw@gmail.com>,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ Benjamin Gaignard <benjamin.gaignard@linaro.org>,
+ Sam Ravnborg <sam@ravnborg.org>, Jonathan Corbet <corbet@lwn.net>,
+ Xinwei Kong <kong.kongxinwei@hisilicon.com>, Chen-Yu Tsai <wens@csie.org>,
+ Joel Stanley <joel@jms.id.au>,
+ Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
+ Chen Feng <puck.chen@hisilicon.com>, Alison Wang <alison.wang@nxp.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tomeu Vizoso <tomeu.vizoso@collabora.com>, Tomi Valkeinen <tomba@kernel.org>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Tian Tao <tiantao6@hisilicon.com>, Shawn Guo <shawnguo@kernel.org>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, Liviu Dudau <liviu.dudau@arm.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ Paul Cercueil <paul@crapouillou.net>, Andrzej Hajda <a.hajda@samsung.com>,
+ Huang Rui <ray.huang@amd.com>, Marek Vasut <marex@denx.de>,
+ Joonyoung Shim <jy0922.shim@samsung.com>,
+ Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>,
+ Russell King <linux@armlinux.org.uk>,
+ Philippe Cornu <philippe.cornu@foss.st.com>,
+ Hans de Goede <hdegoede@redhat.com>, Matthias Brugger <matthias.bgg@gmail.com>,
+ Jernej Skrabec <jernej.skrabec@siol.net>,
+ Yannick Fertre <yannick.fertre@foss.st.com>,
+ Nicolas Ferre <nicolas.ferre@microchip.com>,
+ Robert Foss <robert.foss@linaro.org>, Qiang Yu <yuq825@gmail.com>,
+ Jyri Sarha <jyri.sarha@iki.fi>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, May 20, 2021 at 10:13:38AM +0200, Michel D‰nzer wrote:
-> On 2021-05-20 9:55 a.m., Daniel Vetter wrote:
-> > On Wed, May 19, 2021 at 5:48 PM Michel D‰nzer <michel@daenzer.net> wrote:
-> >>
-> >> On 2021-05-19 5:21 p.m., Jason Ekstrand wrote:
-> >>> On Wed, May 19, 2021 at 5:52 AM Michel D‰nzer <michel@daenzer.net> wrote:
-> >>>>
-> >>>> On 2021-05-19 12:06 a.m., Jason Ekstrand wrote:
-> >>>>> On Tue, May 18, 2021 at 4:17 PM Daniel Vetter <daniel@ffwll.ch> wrote:
-> >>>>>>
-> >>>>>> On Tue, May 18, 2021 at 7:40 PM Christian Kˆnig
-> >>>>>> <ckoenig.leichtzumerken@gmail.com> wrote:
-> >>>>>>>
-> >>>>>>> Am 18.05.21 um 18:48 schrieb Daniel Vetter:
-> >>>>>>>> On Tue, May 18, 2021 at 2:49 PM Christian Kˆnig
-> >>>>>>>> <ckoenig.leichtzumerken@gmail.com> wrote:
-> >>>>>>>>
-> >>>>>>>>> And as long as we are all inside amdgpu we also don't have any oversync,
-> >>>>>>>>> the issue only happens when we share dma-bufs with i915 (radeon and
-> >>>>>>>>> AFAIK nouveau does the right thing as well).
-> >>>>>>>> Yeah because then you can't use the amdgpu dma_resv model anymore and
-> >>>>>>>> have to use the one atomic helpers use. Which is also the one that
-> >>>>>>>> e.g. Jason is threathening to bake in as uapi with his dma_buf ioctl,
-> >>>>>>>> so as soon as that lands and someone starts using it, something has to
-> >>>>>>>> adapt _anytime_ you have a dma-buf hanging around. Not just when it's
-> >>>>>>>> shared with another device.
-> >>>>>>>
-> >>>>>>> Yeah, and that is exactly the reason why I will NAK this uAPI change.
-> >>>>>>>
-> >>>>>>> This doesn't works for amdgpu at all for the reasons outlined above.
-> >>>>>>
-> >>>>>> Uh that's really not how uapi works. "my driver is right, everyone
-> >>>>>> else is wrong" is not how cross driver contracts are defined. If that
-> >>>>>> means a perf impact until you've fixed your rules, that's on you.
-> >>>>>>
-> >>>>>> Also you're a few years too late with nacking this, it's already uapi
-> >>>>>> in the form of the dma-buf poll() support.
-> >>>>>
-> >>>>> ^^  My fancy new ioctl doesn't expose anything that isn't already
-> >>>>> there.  It just lets you take a snap-shot of a wait instead of doing
-> >>>>> an active wait which might end up with more fences added depending on
-> >>>>> interrupts and retries.  The dma-buf poll waits on all fences for
-> >>>>> POLLOUT and only the exclusive fence for POLLIN.  It's already uAPI.
-> >>>>
-> >>>> Note that the dma-buf poll support could be useful to Wayland compositors for the same purpose as Jason's new ioctl (only using client buffers which have finished drawing for an output frame, to avoid missing a refresh cycle due to client drawing), *if* it didn't work differently with amdgpu.
-> >>>>
-> >>>> Am I understanding correctly that Jason's new ioctl would also work differently with amdgpu as things stand currently? If so, that would be a real bummer and might hinder adoption of the ioctl by Wayland compositors.
-> >>>
-> >>> My new ioctl has identical semantics to poll().  It just lets you take
-> >>> a snapshot in time to wait on later instead of waiting on whatever
-> >>> happens to be set right now.  IMO, having identical semantics to
-> >>> poll() isn't something we want to change.
-> >>
-> >> Agreed.
-> >>
-> >> I'd argue then that making amdgpu poll semantics match those of other drivers is a pre-requisite for the new ioctl, otherwise it seems unlikely that the ioctl will be widely adopted.
-> > 
-> > This seems backwards, because that means useful improvements in all
-> > other drivers are stalled until amdgpu is fixed.
-> > 
-> > I think we need agreement on what the rules are, reasonable plan to
-> > get there, and then that should be enough to unblock work in the wider
-> > community. Holding the community at large hostage because one driver
-> > is different is really not great.
-> 
-> I think we're in violent agreement. :) The point I was trying to make is
-> that amdgpu really needs to be fixed to be consistent with other drivers
-> ASAP.
+New KMS properties come with a bunch of requirements to avoid each
+driver from running their own, inconsistent, set of properties,
+eventually leading to issues like property conflicts, inconsistencies
+between drivers and semantics, etc.
 
-It's not that easy at all. I think best case we're looking at about a one
-year plan to get this into shape, taking into account usual release/distro
-update latencies.
+Let's document what we expect.
 
-Best case.
+Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>
+Cc: Alexandre Torgue <alexandre.torgue@foss.st.com>
+Cc: Alex Deucher <alexander.deucher@amd.com>
+Cc: Alison Wang <alison.wang@nxp.com>
+Cc: Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
+Cc: Andrew Jeffery <andrew@aj.id.au>
+Cc: Andrzej Hajda <a.hajda@samsung.com>
+Cc: Anitha Chrisanthus <anitha.chrisanthus@intel.com>
+Cc: Benjamin Gaignard <benjamin.gaignard@linaro.org>
+Cc: Ben Skeggs <bskeggs@redhat.com>
+Cc: Boris Brezillon <bbrezillon@kernel.org>
+Cc: Brian Starkey <brian.starkey@arm.com>
+Cc: Chen Feng <puck.chen@hisilicon.com>
+Cc: Chen-Yu Tsai <wens@csie.org>
+Cc: Christian Gmeiner <christian.gmeiner@gmail.com>
+Cc: "Christian K√∂nig" <christian.koenig@amd.com>
+Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Cc: Edmund Dea <edmund.j.dea@intel.com>
+Cc: Eric Anholt <eric@anholt.net>
+Cc: Fabio Estevam <festevam@gmail.com>
+Cc: Gerd Hoffmann <kraxel@redhat.com>
+Cc: Haneen Mohammed <hamohammed.sa@gmail.com>
+Cc: Hans de Goede <hdegoede@redhat.com>
+Cc: "Heiko St√ºbner" <heiko@sntech.de>
+Cc: Huang Rui <ray.huang@amd.com>
+Cc: Hyun Kwon <hyun.kwon@xilinx.com>
+Cc: Inki Dae <inki.dae@samsung.com>
+Cc: Jani Nikula <jani.nikula@linux.intel.com>
+Cc: Jernej Skrabec <jernej.skrabec@siol.net>
+Cc: Jerome Brunet <jbrunet@baylibre.com>
+Cc: Joel Stanley <joel@jms.id.au>
+Cc: John Stultz <john.stultz@linaro.org>
+Cc: Jonas Karlman <jonas@kwiboo.se>
+Cc: Jonathan Hunter <jonathanh@nvidia.com>
+Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+Cc: Joonyoung Shim <jy0922.shim@samsung.com>
+Cc: Jyri Sarha <jyri.sarha@iki.fi>
+Cc: Kevin Hilman <khilman@baylibre.com>
+Cc: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
+Cc: Kyungmin Park <kyungmin.park@samsung.com>
+Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+Cc: Linus Walleij <linus.walleij@linaro.org>
+Cc: Liviu Dudau <liviu.dudau@arm.com>
+Cc: Lucas Stach <l.stach@pengutronix.de>
+Cc: Ludovic Desroches <ludovic.desroches@microchip.com>
+Cc: Marek Vasut <marex@denx.de>
+Cc: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
+Cc: Matthias Brugger <matthias.bgg@gmail.com>
+Cc: Maxime Coquelin <mcoquelin.stm32@gmail.com>
+Cc: Maxime Ripard <mripard@kernel.org>
+Cc: Melissa Wen <melissa.srw@gmail.com>
+Cc: Neil Armstrong <narmstrong@baylibre.com>
+Cc: Nicolas Ferre <nicolas.ferre@microchip.com>
+Cc: "Noralf Tr√∏nnes" <noralf@tronnes.org>
+Cc: NXP Linux Team <linux-imx@nxp.com>
+Cc: Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>
+Cc: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
+Cc: Paul Cercueil <paul@crapouillou.net>
+Cc: Pengutronix Kernel Team <kernel@pengutronix.de>
+Cc: Philippe Cornu <philippe.cornu@foss.st.com>
+Cc: Philipp Zabel <p.zabel@pengutronix.de>
+Cc: Qiang Yu <yuq825@gmail.com>
+Cc: Rob Clark <robdclark@gmail.com>
+Cc: Robert Foss <robert.foss@linaro.org>
+Cc: Rob Herring <robh@kernel.org>
+Cc: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>
+Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: Roland Scheidegger <sroland@vmware.com>
+Cc: Russell King <linux@armlinux.org.uk>
+Cc: Sam Ravnborg <sam@ravnborg.org>
+Cc: Sandy Huang <hjc@rock-chips.com>
+Cc: Sascha Hauer <s.hauer@pengutronix.de>
+Cc: Sean Paul <sean@poorly.run>
+Cc: Seung-Woo Kim <sw0312.kim@samsung.com>
+Cc: Shawn Guo <shawnguo@kernel.org>
+Cc: Stefan Agner <stefan@agner.ch>
+Cc: Steven Price <steven.price@arm.com>
+Cc: Sumit Semwal <sumit.semwal@linaro.org>
+Cc: Thierry Reding <thierry.reding@gmail.com>
+Cc: Tian Tao <tiantao6@hisilicon.com>
+Cc: Tomeu Vizoso <tomeu.vizoso@collabora.com>
+Cc: Tomi Valkeinen <tomba@kernel.org>
+Cc: VMware Graphics <linux-graphics-maintainer@vmware.com>
+Cc: Xinliang Liu <xinliang.liu@linaro.org>
+Cc: Xinwei Kong <kong.kongxinwei@hisilicon.com>
+Cc: Yannick Fertre <yannick.fertre@foss.st.com>
+Cc: Zack Rusin <zackr@vmware.com>
+Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 
-But also it's not a really big issue, since this shouldn't stop
-compositors from using poll on dma-buf fd or the sync_file stuff from
-Jason: The use-case for this in compositors is to avoid a single client
-stalling the entire desktop. If a driver lies by not setting the exclusive
-fence when expected, you simply don't get this stall avoidance benefit of
-misbehaving clients. But also this needs a gpu scheduler and higher
-priority for the compositor (or a lot of hw planes so you can composite
-with them alone), so it's all fairly academic issue.
+---
 
-Iow amdgpu being different on these wont cause any actual issues I think.
+Changes from v2:
+  - Typos and wording reported by Daniel and Alex
+---
+ Documentation/gpu/drm-kms.rst | 19 +++++++++++++++++++
+ 1 file changed, 19 insertions(+)
 
-The only case that does break is when the compositor does an mmap on the
-dma-buf fd and relies on poll to indicate when the rendering is done. Not
-even sure amdgpu supports mmap on dma-buf or not. That's the only case I
-could think of which would result in actual corruption anywhere, and not
-just stalls when no one expects them.
--Daniel
+diff --git a/Documentation/gpu/drm-kms.rst b/Documentation/gpu/drm-kms.rst
+index 87e5023e3f55..c28b464dd397 100644
+--- a/Documentation/gpu/drm-kms.rst
++++ b/Documentation/gpu/drm-kms.rst
+@@ -463,6 +463,25 @@ KMS Properties
+ This section of the documentation is primarily aimed at user-space developers.
+ For the driver APIs, see the other sections.
+ 
++Requirements
++------------
++
++KMS drivers might need to add extra properties to support new features.
++Each new property introduced in a driver need to meet a few
++requirements, in addition to the one mentioned above.:
++
++- It must be standardized, with some documentation to describe how the
++  property can be used.
++
++- It must provide a generic helper in the core code to register that
++  property on the object it attaches to.
++
++- Its content must be decoded by the core and provided in the object's
++  associated state structure. That includes anything drivers might want to
++  precompute, like :c:type:`struct drm_clip_rect <drm_clip_rect>` for planes.
++
++- An IGT test must be submitted where reasonable.
++
+ Property Types and Blob Property Support
+ ----------------------------------------
+ 
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+2.31.1
+
