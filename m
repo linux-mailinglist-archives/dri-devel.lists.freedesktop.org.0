@@ -2,62 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17A7A38B172
-	for <lists+dri-devel@lfdr.de>; Thu, 20 May 2021 16:13:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A5DCF38B18B
+	for <lists+dri-devel@lfdr.de>; Thu, 20 May 2021 16:19:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 02C826E0CE;
-	Thu, 20 May 2021 14:13:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C33576E2D8;
+	Thu, 20 May 2021 14:18:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com
- [IPv6:2a00:1450:4864:20::32d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E21586E0CE
- for <dri-devel@lists.freedesktop.org>; Thu, 20 May 2021 14:13:41 +0000 (UTC)
-Received: by mail-wm1-x32d.google.com with SMTP id
- f19-20020a05600c1553b02901794fafcfefso4891535wmg.2
- for <dri-devel@lists.freedesktop.org>; Thu, 20 May 2021 07:13:41 -0700 (PDT)
+Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com
+ [IPv6:2a00:1450:4864:20::434])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E4CEA897F0
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 May 2021 14:18:50 +0000 (UTC)
+Received: by mail-wr1-x434.google.com with SMTP id d11so17834041wrw.8
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 May 2021 07:18:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:content-transfer-encoding:in-reply-to;
- bh=JikLFJayP2FVBAv1MOBuowMA6XuEHXFNSz/Dei3FdQs=;
- b=bAk+xVbH1mkL+lis3lXp6+mK5wqbpKCqMnAsW6nfLpHYavvm6UW1iQE4GrnicIzh1z
- CN1ELKMNVmiyiuWumVQfqpjC3YtgIS0Sh8XbyjAyMpUnvb/UaOBYzLWxRiN2rwGtaJrq
- G5/JtibN2kQxm762sp9HLmh4kDkNT7gYLKnV0=
+ bh=6cjqDgsjlb939a5FXNuoX938nrSVIobNIUSNGLgi4Ek=;
+ b=JK/jDT+GAtvKHGz/8weLBxkyH+AlV/BH1HpLgwxjTjEHNsmozM1Itet5YlUn4hq4wE
+ 0IMNkT2yLQAGEiZDEiRJDSPY1OZFuH2PlaO0qVRm86O04mjOWM0C6WvdsSMFPkqLHKPQ
+ gcUq2F8QtAo9vcWJ5OEurycPvHabW0S7OwJUc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:content-transfer-encoding
  :in-reply-to;
- bh=JikLFJayP2FVBAv1MOBuowMA6XuEHXFNSz/Dei3FdQs=;
- b=aWI7DDLfUvbejmPXKHP//NaYMOy1H5x7yLEsCr+an/F47RHikcjsQDpZmXYv9g5j9Q
- JffzuAkaNEJjAXVUCKDsh4NGZWmR7ih1HWOwtVWXACQajxfoABhOZZuYGKwDMafPmuFF
- ZcaKXKOwGbn9vado8a2iSe6L4O12lIuAM1HjriYMruUs/QNe5yvL1GWYSCE9TOTwNquj
- OE6/acd4e8qEjG9oQB1rAl2DnDJolVebKxL1PAKWGlqQ1D7DOYVf07Lni1h3rYhEFVOe
- 0OmbkyIcm3xR5iBry9OkVUk1ge3537cHtyFsZWIdpfOeeuwdJ5on6dd91sTnxCUa5YXt
- O7hQ==
-X-Gm-Message-State: AOAM531c/mZ9O1y+8LeCTx4Pdbjwd/xzcBO88aJTyyfALQn3Ukil+N3e
- 9Qfq4+VTVWi2iRNQ5F1wmi32FA==
-X-Google-Smtp-Source: ABdhPJxY4HxOkgjBNcmmRuE95+WBgzbxVsWLgBn6fNJNfMnEzwuCJyDyV9l+0jYQAJzpsQuHoLR5wg==
-X-Received: by 2002:a1c:730b:: with SMTP id d11mr4193412wmb.20.1621520020604; 
- Thu, 20 May 2021 07:13:40 -0700 (PDT)
+ bh=6cjqDgsjlb939a5FXNuoX938nrSVIobNIUSNGLgi4Ek=;
+ b=ZPoHwoNCqDlTwWMlXx+oOwCiqwoPAH3+YR52mHgsUheiadvXNa/pn2CnnPxZzmS+qk
+ DSEz4tP7feMYlYQQk3Q0aCnqLWsy8CjKt0TtUYRdK1469mQvBn08kLrbyYmp6GUhrlwB
+ MtrPwCrhNaNCMSxWLYMmr0WY5T+vO6H11yJI7MUHbtbSQB/MGN3nOGki5bBH86xPrWNQ
+ VvbNlKeIn1KUG7h+HGhUxU/wWTfu8NRf/yDs0YWeAvQQrVjtz7u9vG8x9tnO4L1WXjkq
+ Kk7mSq+tsKT1TS+3J5m6fkchZn8v8Ai33Bp343+ZCeOkU3wQpGJ4lypQtt8YU1zFbBHU
+ a6Rg==
+X-Gm-Message-State: AOAM532sfCH1ztGmmIb0h5QNLhuALqgQ63f9cQTONCFua4dzoUkL9VO1
+ 4LZRgug5B/oxVgdzznqJTCw0/A==
+X-Google-Smtp-Source: ABdhPJzUy9ly8p+SLiavJ9BKitIr/u1yhyT0YsuMn67VcX04qwQ3j5s9wv1SqM2pmt52VJ2SM9FgGw==
+X-Received: by 2002:a5d:64a3:: with SMTP id m3mr4528664wrp.172.1621520329643; 
+ Thu, 20 May 2021 07:18:49 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id i5sm3554575wrw.29.2021.05.20.07.13.39
+ by smtp.gmail.com with ESMTPSA id g128sm2855701wme.0.2021.05.20.07.18.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 20 May 2021 07:13:40 -0700 (PDT)
-Date: Thu, 20 May 2021 16:13:38 +0200
+ Thu, 20 May 2021 07:18:49 -0700 (PDT)
+Date: Thu, 20 May 2021 16:18:47 +0200
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>
-Subject: Re: [PATCH] dma-buf: fix unintended pin/unpin warnings
-Message-ID: <YKZukmJ3WAnvll5q@phenom.ffwll.local>
-References: <20210517115705.2141-1-christian.koenig@amd.com>
- <CADnq5_O7EBT7tdsuq00K-T2j=HEq34hLEpsbME4157wcGZyTBg@mail.gmail.com>
- <YKKERxNX+OmIgwlL@phenom.ffwll.local>
- <a7396a42-995a-80bf-4f51-c203a62096e7@gmail.com>
+To: Michel =?iso-8859-1?Q?D=E4nzer?= <michel@daenzer.net>
+Subject: Re: [RFC] Add DMA_RESV_USAGE flags
+Message-ID: <YKZvx0UXYnJrfVw4@phenom.ffwll.local>
+References: <fee06c2d-27fb-1af4-6222-8f277b36c951@gmail.com>
+ <CAKMK7uHLipx_oH-s5PB6pUUZ_JXCyciaY7sDLfK__-2fvSPCKA@mail.gmail.com>
+ <f2eb6751-2f82-9b23-f57e-548de5b729de@gmail.com>
+ <CAKMK7uHdsGjADQ9zwgrYsuhHdxFGkuH--DdOsaqej6OD1AbX-w@mail.gmail.com>
+ <CAOFGe97FDc7Y9APymQQZZMApDXsJkbcS0N5jh+3s-w-Ligipug@mail.gmail.com>
+ <14524566-8854-4bc0-9f70-b7219c9fccfc@daenzer.net>
+ <CAOFGe96VttW2VzAnx13ZXLBGcEDJMehGuOFifcr+pcbEOa-Brw@mail.gmail.com>
+ <6f3e2628-7b39-417c-3bd2-c837c5367458@daenzer.net>
+ <CAKMK7uFMQGth19OjWmeNGTeVFoAqxK2tYXYrvme+NuCSNLxLUQ@mail.gmail.com>
+ <7cbba7b7-d7e5-9c76-c747-4e39542268a2@daenzer.net>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <a7396a42-995a-80bf-4f51-c203a62096e7@gmail.com>
+In-Reply-To: <7cbba7b7-d7e5-9c76-c747-4e39542268a2@daenzer.net>
 X-Operating-System: Linux phenom 5.10.32scarlett+ 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -71,110 +76,106 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Maling list - DRI developers <dri-devel@lists.freedesktop.org>
+Cc: "moderated list:DMA BUFFER SHARING FRAMEWORK"
+ <linaro-mm-sig@lists.linaro.org>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Jason Ekstrand <jason@jlekstrand.net>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, May 20, 2021 at 01:37:47PM +0200, Christian König wrote:
-> Am 17.05.21 um 16:57 schrieb Daniel Vetter:
-> > On Mon, May 17, 2021 at 10:09:13AM -0400, Alex Deucher wrote:
-> > > On Mon, May 17, 2021 at 7:57 AM Christian König
-> > > <ckoenig.leichtzumerken@gmail.com> wrote:
-> > > > DMA-buf internal users call the pin/unpin functions without having a
-> > > > dynamic attachment. Avoid the warning and backtrace in the logs.
-> > > > 
-> > > > Signed-off-by: Christian König <christian.koenig@amd.com>
-> > > > Bugs: https://gitlab.freedesktop.org/drm/intel/-/issues/3481
-> > > > Fixes: c545781e1c55 ("dma-buf: doc polish for pin/unpin")
-> > > > CC: stable@kernel.org
-> > > Reviewed-by: Alex Deucher <alexander.deucher@amd.com>
-> > Hm this means we're losing the dma_resv_assert_held check, do we have that
-> > in amdgpu callbacks to make sure we're not accidentally breaking stuff
-> > later on?
+On Thu, May 20, 2021 at 10:13:38AM +0200, Michel Dänzer wrote:
+> On 2021-05-20 9:55 a.m., Daniel Vetter wrote:
+> > On Wed, May 19, 2021 at 5:48 PM Michel Dänzer <michel@daenzer.net> wrote:
+> >>
+> >> On 2021-05-19 5:21 p.m., Jason Ekstrand wrote:
+> >>> On Wed, May 19, 2021 at 5:52 AM Michel Dänzer <michel@daenzer.net> wrote:
+> >>>>
+> >>>> On 2021-05-19 12:06 a.m., Jason Ekstrand wrote:
+> >>>>> On Tue, May 18, 2021 at 4:17 PM Daniel Vetter <daniel@ffwll.ch> wrote:
+> >>>>>>
+> >>>>>> On Tue, May 18, 2021 at 7:40 PM Christian König
+> >>>>>> <ckoenig.leichtzumerken@gmail.com> wrote:
+> >>>>>>>
+> >>>>>>> Am 18.05.21 um 18:48 schrieb Daniel Vetter:
+> >>>>>>>> On Tue, May 18, 2021 at 2:49 PM Christian König
+> >>>>>>>> <ckoenig.leichtzumerken@gmail.com> wrote:
+> >>>>>>>>
+> >>>>>>>>> And as long as we are all inside amdgpu we also don't have any oversync,
+> >>>>>>>>> the issue only happens when we share dma-bufs with i915 (radeon and
+> >>>>>>>>> AFAIK nouveau does the right thing as well).
+> >>>>>>>> Yeah because then you can't use the amdgpu dma_resv model anymore and
+> >>>>>>>> have to use the one atomic helpers use. Which is also the one that
+> >>>>>>>> e.g. Jason is threathening to bake in as uapi with his dma_buf ioctl,
+> >>>>>>>> so as soon as that lands and someone starts using it, something has to
+> >>>>>>>> adapt _anytime_ you have a dma-buf hanging around. Not just when it's
+> >>>>>>>> shared with another device.
+> >>>>>>>
+> >>>>>>> Yeah, and that is exactly the reason why I will NAK this uAPI change.
+> >>>>>>>
+> >>>>>>> This doesn't works for amdgpu at all for the reasons outlined above.
+> >>>>>>
+> >>>>>> Uh that's really not how uapi works. "my driver is right, everyone
+> >>>>>> else is wrong" is not how cross driver contracts are defined. If that
+> >>>>>> means a perf impact until you've fixed your rules, that's on you.
+> >>>>>>
+> >>>>>> Also you're a few years too late with nacking this, it's already uapi
+> >>>>>> in the form of the dma-buf poll() support.
+> >>>>>
+> >>>>> ^^  My fancy new ioctl doesn't expose anything that isn't already
+> >>>>> there.  It just lets you take a snap-shot of a wait instead of doing
+> >>>>> an active wait which might end up with more fences added depending on
+> >>>>> interrupts and retries.  The dma-buf poll waits on all fences for
+> >>>>> POLLOUT and only the exclusive fence for POLLIN.  It's already uAPI.
+> >>>>
+> >>>> Note that the dma-buf poll support could be useful to Wayland compositors for the same purpose as Jason's new ioctl (only using client buffers which have finished drawing for an output frame, to avoid missing a refresh cycle due to client drawing), *if* it didn't work differently with amdgpu.
+> >>>>
+> >>>> Am I understanding correctly that Jason's new ioctl would also work differently with amdgpu as things stand currently? If so, that would be a real bummer and might hinder adoption of the ioctl by Wayland compositors.
+> >>>
+> >>> My new ioctl has identical semantics to poll().  It just lets you take
+> >>> a snapshot in time to wait on later instead of waiting on whatever
+> >>> happens to be set right now.  IMO, having identical semantics to
+> >>> poll() isn't something we want to change.
+> >>
+> >> Agreed.
+> >>
+> >> I'd argue then that making amdgpu poll semantics match those of other drivers is a pre-requisite for the new ioctl, otherwise it seems unlikely that the ioctl will be widely adopted.
+> > 
+> > This seems backwards, because that means useful improvements in all
+> > other drivers are stalled until amdgpu is fixed.
+> > 
+> > I think we need agreement on what the rules are, reasonable plan to
+> > get there, and then that should be enough to unblock work in the wider
+> > community. Holding the community at large hostage because one driver
+> > is different is really not great.
 > 
-> Mhm, well this is just for calling the pin/unpin internally from the DMA-buf
-> framework itself.
+> I think we're in violent agreement. :) The point I was trying to make is
+> that amdgpu really needs to be fixed to be consistent with other drivers
+> ASAP.
 
-It's both, but currently I think no users for it (since it would be
-pinning for display).
+It's not that easy at all. I think best case we're looking at about a one
+year plan to get this into shape, taking into account usual release/distro
+update latencies.
 
-Maybe we could do __ internal wrappers to keep the lockdep checks?
+Best case.
 
-> Need to double check, but I think all those cases either have a
-> dma_resv_assert_held() or are locking the reservation themselves before
-> calling the function.
+But also it's not a really big issue, since this shouldn't stop
+compositors from using poll on dma-buf fd or the sync_file stuff from
+Jason: The use-case for this in compositors is to avoid a single client
+stalling the entire desktop. If a driver lies by not setting the exclusive
+fence when expected, you simply don't get this stall avoidance benefit of
+misbehaving clients. But also this needs a gpu scheduler and higher
+priority for the compositor (or a lot of hw planes so you can composite
+with them alone), so it's all fairly academic issue.
 
-Yeah right now it's still all good, but that changes easily :-)
+Iow amdgpu being different on these wont cause any actual issues I think.
 
-> But yeah, rather good point.
-
-Do you plan to type something that I can ack?
+The only case that does break is when the compositor does an mmap on the
+dma-buf fd and relies on poll to indicate when the rendering is done. Not
+even sure amdgpu supports mmap on dma-buf or not. That's the only case I
+could think of which would result in actual corruption anywhere, and not
+just stalls when no one expects them.
 -Daniel
-
-> 
-> Christian.
-> 
-> > 
-> > But yeah lgtm, Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-> > 
-> > > > ---
-> > > >   drivers/dma-buf/dma-buf.c | 10 +++++-----
-> > > >   1 file changed, 5 insertions(+), 5 deletions(-)
-> > > > 
-> > > > diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-> > > > index f264b70c383e..eadd1eaa2fb5 100644
-> > > > --- a/drivers/dma-buf/dma-buf.c
-> > > > +++ b/drivers/dma-buf/dma-buf.c
-> > > > @@ -760,7 +760,7 @@ dma_buf_dynamic_attach(struct dma_buf *dmabuf, struct device *dev,
-> > > > 
-> > > >                  if (dma_buf_is_dynamic(attach->dmabuf)) {
-> > > >                          dma_resv_lock(attach->dmabuf->resv, NULL);
-> > > > -                       ret = dma_buf_pin(attach);
-> > > > +                       ret = dmabuf->ops->pin(attach);
-> > > >                          if (ret)
-> > > >                                  goto err_unlock;
-> > > >                  }
-> > > > @@ -786,7 +786,7 @@ dma_buf_dynamic_attach(struct dma_buf *dmabuf, struct device *dev,
-> > > > 
-> > > >   err_unpin:
-> > > >          if (dma_buf_is_dynamic(attach->dmabuf))
-> > > > -               dma_buf_unpin(attach);
-> > > > +               dmabuf->ops->unpin(attach);
-> > > > 
-> > > >   err_unlock:
-> > > >          if (dma_buf_is_dynamic(attach->dmabuf))
-> > > > @@ -843,7 +843,7 @@ void dma_buf_detach(struct dma_buf *dmabuf, struct dma_buf_attachment *attach)
-> > > >                  __unmap_dma_buf(attach, attach->sgt, attach->dir);
-> > > > 
-> > > >                  if (dma_buf_is_dynamic(attach->dmabuf)) {
-> > > > -                       dma_buf_unpin(attach);
-> > > > +                       dmabuf->ops->unpin(attach);
-> > > >                          dma_resv_unlock(attach->dmabuf->resv);
-> > > >                  }
-> > > >          }
-> > > > @@ -956,7 +956,7 @@ struct sg_table *dma_buf_map_attachment(struct dma_buf_attachment *attach,
-> > > >          if (dma_buf_is_dynamic(attach->dmabuf)) {
-> > > >                  dma_resv_assert_held(attach->dmabuf->resv);
-> > > >                  if (!IS_ENABLED(CONFIG_DMABUF_MOVE_NOTIFY)) {
-> > > > -                       r = dma_buf_pin(attach);
-> > > > +                       r = attach->dmabuf->ops->pin(attach);
-> > > >                          if (r)
-> > > >                                  return ERR_PTR(r);
-> > > >                  }
-> > > > @@ -968,7 +968,7 @@ struct sg_table *dma_buf_map_attachment(struct dma_buf_attachment *attach,
-> > > > 
-> > > >          if (IS_ERR(sg_table) && dma_buf_is_dynamic(attach->dmabuf) &&
-> > > >               !IS_ENABLED(CONFIG_DMABUF_MOVE_NOTIFY))
-> > > > -               dma_buf_unpin(attach);
-> > > > +               attach->dmabuf->ops->unpin(attach);
-> > > > 
-> > > >          if (!IS_ERR(sg_table) && attach->dmabuf->ops->cache_sgt_mapping) {
-> > > >                  attach->sgt = sg_table;
-> > > > --
-> > > > 2.25.1
-> > > > 
-> 
-
 -- 
 Daniel Vetter
 Software Engineer, Intel Corporation
