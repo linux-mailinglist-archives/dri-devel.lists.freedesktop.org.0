@@ -2,55 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A358E38B7A2
-	for <lists+dri-devel@lfdr.de>; Thu, 20 May 2021 21:31:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C33B38B7B1
+	for <lists+dri-devel@lfdr.de>; Thu, 20 May 2021 21:41:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 60AA66F518;
-	Thu, 20 May 2021 19:31:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B67456F53E;
+	Thu, 20 May 2021 19:41:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb2f.google.com (mail-yb1-xb2f.google.com
- [IPv6:2607:f8b0:4864:20::b2f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8E8136F52C
- for <dri-devel@lists.freedesktop.org>; Thu, 20 May 2021 19:30:46 +0000 (UTC)
-Received: by mail-yb1-xb2f.google.com with SMTP id f9so24353227ybo.6
- for <dri-devel@lists.freedesktop.org>; Thu, 20 May 2021 12:30:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=ar6byVVqK1lRvgLic9qsfKVrGRqd/nf6HO0KI5j0j7Y=;
- b=unZRQZQT4/xG3FpO3Qvabhk7GtClO/EQX8NrK+CX8mvFkiQa5TBKByzoSB9YvynKp3
- wA78WE5VlE1cFOyQDnI/mFxF/4vPge3E5maZKQwrxGPJ77DLmQPTTfnFSDYgz9h/dGk7
- 9NGIJS0g0ARLDQIZw5T9Koi3k3mI8lRs9mg9FFhdCibrO5tH9jW6eMYopX9ZtNQjBNee
- IbUNtzyGCGGCoEWI3pfbj2D6gjdROJ2rsWg2Pn01Ty6hESjZajhVy7i7UBQIWPm/rJFA
- rVxU6dq0z0t+76SD7PsWv3X+0Q3J3SISwxcHy6bB9vMsPkhRDJ77JUbuTSD3BctDTtiG
- xb3A==
+Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com
+ [IPv6:2a00:1450:4864:20::42e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 62B376F53A
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 May 2021 19:41:24 +0000 (UTC)
+Received: by mail-wr1-x42e.google.com with SMTP id j14so17072177wrq.5
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 May 2021 12:41:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=cLBIo/bnhUcvpVtVawf7Ezin28nghP0UIeAJBEcq0ts=;
+ b=XbRsgDw5WkZufkUXzG/ZvZX74cowP5uM5DuwKaNtcI5rv+B/SoysFB/M+DaYDfxnjR
+ umgch2IUPKCnapM1kM7sIQFT5ykgQTAkT7yblH9VTJQ034LDHNWcwVDFH0AZMRo5LM+A
+ fJmG2oPnga1yUqz1o0+IZTkN2tWCkw8N/Oajs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=ar6byVVqK1lRvgLic9qsfKVrGRqd/nf6HO0KI5j0j7Y=;
- b=WkU9z0crvvbV/tpa7PynbcSWv13tF32WRu+cDM99/SpjtipEtI+9Yqq//UPtp/9cmR
- 3d8AGGYwsQfNo/9MViMwHXjccnT3/n/VrvOpPlNCPbr1ceZTtMOTE94Wwm+gDSfWo9yE
- kpUtjKIEJQL/XnNw0XFBjyIJLsjF24oSqhOUPQpaFZg2zovMF3b+/BSV6dpyPxdUBLX7
- DZ96wRl953nMsZkC/fmk4PylLd20qR3nmHcKlCBG9pO+GbLl+L4SAFibo3nGJ9/rbZdN
- Cas37Dh2Yzu6EO+cRhd7AE6wmnJ1/dPABCHwUAbWYjQ5av0tz/6MaOEtEv3AoGuzxlcN
- 3X8g==
-X-Gm-Message-State: AOAM530b9SnjgeF8s3M5uQ+ov2KrOcIGWSTpysZUJNCPMT7RRT2lEQeA
- CrPJseg4i/NJgQaU2lT5Wx/Id4Owl6H0VHqZdk2deg==
-X-Google-Smtp-Source: ABdhPJxpYOKGwUniY64mHhJrUUD46UWR7FL11JhqYySHKRMSD1AvlOq8F1sramRfgpdMzWznP9AXEMMiLxmDs65ILyA=
-X-Received: by 2002:a25:2fca:: with SMTP id v193mr9594447ybv.412.1621539045424; 
- Thu, 20 May 2021 12:30:45 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=cLBIo/bnhUcvpVtVawf7Ezin28nghP0UIeAJBEcq0ts=;
+ b=nbrNLppG0XSdk1ZVNtWg9qhGlkNL4vDjhe2Rvn0ioihBdZS7OmSCDowcOGe7xQ8VtN
+ HAliEZAdIoxG5pM+Ddg0LBwusl5RQe9CiSyjvnmXaPLfX+deNCyo0bpmyapFadWPmRWZ
+ ZnO20R0cvfY+wsfpIg6xhwNykPIjW21hPRwz/in3hnbbkom6k+R50hiOuXZPPE9oR7oa
+ 51IxqeP2IhJwnQSNG6CXTo7OiOFjzkvGh63arhsSqBio7PgCrK6erEE9Qo8kkDl1lVc5
+ TZd+X4HmNKp5kMg9J+7BuoZ5UG4+Jtq7f0AjJUhMIiBKykQQp63MDau2o0oeYO/9qrnj
+ CXKw==
+X-Gm-Message-State: AOAM531ZvE/KUW+7UAM4IsUzpsFks14yfAP1YOrrj7icJFzgkYDpNcrj
+ 9I8uUmWOP67sVGWnszk52SbEsQ==
+X-Google-Smtp-Source: ABdhPJyp1V0s70eZneLEr5TOD3q8Ctz8URZKWRENnTSfzCj+NU143AkaRNvIw6A82lt1mHdPg3akMg==
+X-Received: by 2002:a5d:5407:: with SMTP id g7mr5901694wrv.207.1621539683077; 
+ Thu, 20 May 2021 12:41:23 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id z12sm4674398wmc.5.2021.05.20.12.41.22
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 20 May 2021 12:41:22 -0700 (PDT)
+Date: Thu, 20 May 2021 21:41:20 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Subject: Re: [Intel-gfx] [RFC 2/2] drm/doc/rfc: i915 new parallel submission
+ uAPI plan
+Message-ID: <YKa7YEs56ZMoOTGf@phenom.ffwll.local>
+References: <20210518235830.133834-1-matthew.brost@intel.com>
+ <20210518235830.133834-3-matthew.brost@intel.com>
+ <YKTyDNyVgmR3z1H5@phenom.ffwll.local>
+ <20210519171157.GA5202@sdutt-i7>
+ <CAKMK7uG1qCcpwBFaUf06daY6gnxmNbNcZbBX+Yxb64qZkBMF8g@mail.gmail.com>
+ <b7542e1c-6631-d486-ae16-6aef3213d7bc@linux.intel.com>
 MIME-Version: 1.0
-References: <20210520002519.3538432-1-swboyd@chromium.org>
- <CAGETcx-jK3pBNRYevPmRhw1TALHNjtM5dSxCdEuB+2sBH32rtQ@mail.gmail.com>
- <CAE-0n522QRUfQOSGmYS59AbFdx2kmtz-CNszdWfLnPCbMkCryA@mail.gmail.com>
-In-Reply-To: <CAE-0n522QRUfQOSGmYS59AbFdx2kmtz-CNszdWfLnPCbMkCryA@mail.gmail.com>
-From: Saravana Kannan <saravanak@google.com>
-Date: Thu, 20 May 2021 12:30:09 -0700
-Message-ID: <CAGETcx-mRrqC_sGiBk+wx8RtwjJjXf0KJo+ejU6SweEBiATaLw@mail.gmail.com>
-Subject: Re: [PATCH 0/7] component: Make into an aggregate bus
-To: Stephen Boyd <swboyd@chromium.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <b7542e1c-6631-d486-ae16-6aef3213d7bc@linux.intel.com>
+X-Operating-System: Linux phenom 5.10.32scarlett+ 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,92 +71,268 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Rafael J. Wysocki" <rafael@kernel.org>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- LKML <linux-kernel@vger.kernel.org>,
+Cc: Matthew Brost <matthew.brost@intel.com>,
+ intel-gfx <intel-gfx@lists.freedesktop.org>,
  dri-devel <dri-devel@lists.freedesktop.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Russell King <rmk+kernel@arm.linux.org.uk>,
- freedreno <freedreno@lists.freedesktop.org>
+ Jason Ekstrand <jason.ekstrand@intel.com>,
+ Mesa Dev <mesa-dev@lists.freedesktop.org>,
+ Daniel Vetter <daniel.vetter@intel.com>, karl@freedesktop.org,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, May 19, 2021 at 6:41 PM Stephen Boyd <swboyd@chromium.org> wrote:
->
-> Quoting Saravana Kannan (2021-05-19 18:27:50)
-> > On Wed, May 19, 2021 at 5:25 PM Stephen Boyd <swboyd@chromium.org> wrote:
-> > >
-> > > This series is from discussion we had on reordering the device lists for
-> > > drm shutdown paths[1]. I've introduced an 'aggregate' bus that we put
-> > > the aggregate device onto and then we probe the device once all the
-> > > components are probed and call component_add(). The probe/remove hooks
-> > > are where the bind/unbind calls go, and then a shutdown hook is added
-> > > that can be used to shutdown the drm display pipeline at the right time.
-> > >
-> > > This works for me on my sc7180 board, but I'm currently struggling with
-> > > the last patch where we migrate the msm driver. It runs into a runtime
-> > > PM problem where the parent device isn't runtime PM enabled yet. I'm
-> > > still trying to figure out a clean solution there. Moving runtime PM
-> > > around breaks boot and I think that's because the power domain is off.
-> > >
-> > > Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-> > > Cc: "Rafael J. Wysocki" <rafael@kernel.org>
-> > > Cc: Rob Clark <robdclark@gmail.com>
-> > > Cc: Russell King <rmk+kernel@arm.linux.org.uk>
-> > > Cc: Saravana Kannan <saravanak@google.com>
-> > >
-> > > [1] https://lore.kernel.org/r/20210508074118.1621729-1-swboyd@chromium.org
-> > >
-> >
-> > I skimmed through the series and in general the idea is good, but I'm
-> > not sure why each component user needs to be converted/"modern" before
-> > it can make use of the benefits of this series. Why not just have
-> > wrapper functions around the component ops that the new aggregate bus
-> > driver can just call? That'll give all the existing component users
-> > the new ability to use the new ops without having to have two
-> > versions.
->
-> The existing users can only have one or the other. Either use the ops
-> structure or use the struct aggregate_driver. What benefits of this
-> series are they not gaining?
+On Thu, May 20, 2021 at 11:57:44AM +0100, Tvrtko Ursulin wrote:
+> 
+> On 20/05/2021 10:54, Daniel Vetter wrote:
+> > On Wed, May 19, 2021 at 7:19 PM Matthew Brost <matthew.brost@intel.com> wrote:
+> > > 
+> > > On Wed, May 19, 2021 at 01:10:04PM +0200, Daniel Vetter wrote:
+> > > > On Tue, May 18, 2021 at 04:58:30PM -0700, Matthew Brost wrote:
+> > > > > Add entry fpr i915 new parallel submission uAPI plan.
+> > > > > 
+> > > > > v2:
+> > > > >   (Daniel Vetter):
+> > > > >    - Expand logical order explaination
+> > > > >    - Add dummy header
+> > > > >    - Only allow N BBs in execbuf IOCTL
+> > > > >    - Configure parallel submission per slot not per gem context
+> > > > > 
+> > > > > Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+> > > > > Cc: Tony Ye <tony.ye@intel.com>
+> > > > > CC: Carl Zhang <carl.zhang@intel.com>
+> > > > > Cc: Daniel Vetter <daniel.vetter@intel.com>
+> > > > > Cc: Jason Ekstrand <jason@jlekstrand.net>
+> > > > > Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+> > > > > ---
+> > > > >   Documentation/gpu/rfc/i915_parallel_execbuf.h | 144 ++++++++++++++++++
+> > > > >   Documentation/gpu/rfc/i915_scheduler.rst      |  53 ++++++-
+> > > > >   2 files changed, 196 insertions(+), 1 deletion(-)
+> > > > >   create mode 100644 Documentation/gpu/rfc/i915_parallel_execbuf.h
+> > > > > 
+> > > > > diff --git a/Documentation/gpu/rfc/i915_parallel_execbuf.h b/Documentation/gpu/rfc/i915_parallel_execbuf.h
+> > > > > new file mode 100644
+> > > > > index 000000000000..8c64b983ccad
+> > > > > --- /dev/null
+> > > > > +++ b/Documentation/gpu/rfc/i915_parallel_execbuf.h
+> > > > > @@ -0,0 +1,144 @@
+> > > > > +#define I915_CONTEXT_ENGINES_EXT_PARALLEL_SUBMIT 2 /* see i915_context_engines_parallel_submit */
+> > > > > +
+> > > > > +/*
+> > > > > + * i915_context_engines_parallel_submit:
+> > > > > + *
+> > > > > + * Setup a slot to allow multiple BBs to be submitted in a single execbuf IOCTL.
+> > > > > + * Those BBs will then be scheduled to run on the GPU in parallel. Multiple
+> > > > > + * hardware contexts are created internally in the i915 run these BBs. Once a
+> > > > > + * slot is configured for N BBs only N BBs can be submitted in each execbuf
+> > > > > + * IOCTL and this is implict behavior (e.g. the user doesn't tell the execbuf
+> > > > > + * IOCTL there are N BBs, the execbuf IOCTL know how many BBs there are based on
+> > > > > + * the slots configuration).
+> > > > > + *
+> > > > > + * Their are two currently defined ways to control the placement of the
+> > > > > + * hardware contexts on physical engines: default behavior (no flags) and
+> > > > > + * I915_PARALLEL_IMPLICT_BONDS (a flag). More flags may be added the in the
+> > > > > + * future as new hardware / use cases arise. Details of how to use this
+> > > > > + * interface below above the flags.
+> > > > > + *
+> > > > > + * Returns -EINVAL if hardware context placement configuration invalid or if the
+> > > > > + * placement configuration isn't supported on the platform / submission
+> > > > > + * interface.
+> > > > > + * Returns -ENODEV if extension isn't supported on the platform / submission
+> > > > > + * inteface.
+> > > > > + */
+> > > > > +struct i915_context_engines_parallel_submit {
+> > > > > +   struct i915_user_extension base;
+> > > > > +
+> > > > > +   __u16 engine_index;     /* slot for parallel engine */
+> > > > > +   __u16 width;            /* number of contexts per parallel engine */
+> > > > > +   __u16 num_siblings;     /* number of siblings per context */
+> > > > > +   __u16 mbz16;
+> > > > 
+> > > > Ok the big picture looks reasonable now, the flags still confuse me.
+> > > > 
+> > > 
+> > > Yea, it is a bit confusing.
+> > > 
+> > > > > +/*
+> > > > > + * Default placement behvavior (currently unsupported):
+> > > > > + *
+> > > > > + * Rather than restricting parallel submission to a single class with a
+> > > > > + * logically contiguous placement (I915_PARALLEL_IMPLICT_BONDS), add a mode that
+> > > > > + * enables parallel submission across multiple engine classes. In this case each
+> > > > > + * context's logical engine mask indicates where that context can placed. It is
+> > > > > + * implied in this mode that all contexts have mutual exclusive placement (e.g.
+> > > > > + * if one context is running CS0 no other contexts can run on CS0).
+> > > > > + *
+> > > > > + * Example 1 pseudo code:
+> > > > > + * CSX[Y] = engine class X, logical instance Y
+> > > > > + * INVALID = I915_ENGINE_CLASS_INVALID, I915_ENGINE_CLASS_INVALID_NONE
+> > > > > + * set_engines(INVALID)
+> > > > > + * set_parallel(engine_index=0, width=2, num_siblings=2,
+> > > > > + *         engines=CS0[0],CS0[1],CS1[0],CS1[1])
+> > > > > + *
+> > > > > + * Results in the following valid placements:
+> > > > > + * CS0[0], CS1[0]
+> > > > > + * CS0[0], CS1[1]
+> > > > > + * CS0[1], CS1[0]
+> > > > > + * CS0[1], CS1[1]
+> > > > > + *
+> > > > > + * This can also be though of as 2 virtual engines:
+> > > > > + * VE[0] = CS0[0], CS0[1]
+> > > > > + * VE[1] = CS1[0], CS1[1]
+> > > > > + *
+> > > > > + * Example 2 pseudo code:
+> > > > > + * CS[X] = generic engine of same class, logical instance X
+> > > > > + * INVALID = I915_ENGINE_CLASS_INVALID, I915_ENGINE_CLASS_INVALID_NONE
+> > > > > + * set_engines(INVALID)
+> > > > > + * set_parallel(engine_index=0, width=2, num_siblings=3,
+> > > > > + *         engines=CS[0],CS[1],CS[2],CS[0],CS[1],CS[2])
+> > > > > + *
+> > > > > + * Results in the following valid placements:
+> > > > > + * CS[0], CS[1]
+> > > > > + * CS[0], CS[2]
+> > > > > + * CS[1], CS[0]
+> > > > > + * CS[1], CS[2]
+> > > > > + * CS[2], CS[0]
+> > > > > + * CS[2], CS[1]
+> > > > > + *
+> > > > > + *
+> > > > > + * This can also be though of as 2 virtual engines:
+> > > > > + * VE[0] = CS[0], CS[1], CS[2]
+> > > > > + * VE[1] = CS[0], CS[1], CS[2]
+> > > > > +
+> > > > > + * This enables a use case where all engines are created equally, we don't care
+> > > > > + * where they are scheduled, we just want a certain number of resources, for
+> > > > > + * those resources to be scheduled in parallel, and possibly across multiple
+> > > > > + * engine classes.
+> > > > > + */
+> > > > 
+> > > > So I don't really get what this does compared to setting the flag below.
+> > > > Is this just about running the batchbuffers the wrong way round, i.e. if
+> > > > you have (simplest case)
+> > > > 
+> > > > width=2, num_sibglings=1, engines=CS[0], CS[1]
+> > > > 
+> > > > Then both
+> > > > CS[0], CS[1]
+> > > > and
+> > > > CS[1], CS[0]
+> > > > are possible options for running 2 batches? Iow, the backend is allowed to
+> > > > run the batchbuffers the wrong way round, which gains us nothing, since we
+> > > > assume the batches take equally long and engines interchangeable. There is
+> > > > no scheduling scenario where this additional flexibility can help.
+> > > > 
+> > > > Also we don't have flags to select the only available and then specify an
+> > > > entire pipe dream about what the non-flag mode does, without an
+> > > > implementation. What is this about?
+> > > > 
+> > > > If it's just "because bonded allowed this" then I think we should just
+> > > > unceremonously ditch this. Bummer for the nice kerenldoc you wrote, but
+> > > > welp.
+> > > > 
+> > > 
+> > > High level the flags came out of internal discussions how this interface
+> > > should look. The default placement behavior is theoretically possible
+> > > with execlists but has no use cases. The GuC supports / current use
+> > > cases are a subset of what is possible with I915_PARALLEL_IMPLICT_BONDS.
+> > > 
+> > > Argued about for months and this is where we landed. At the end of the
+> > > day I think we needed to show that this interface supports more
+> > > placement rules than what the GuC supports / current use cases to future
+> > > proof this interface.
+> > > 
+> > > For what is it worth it seems kinda backwards that we landed on the
+> > > default behavior not being supported in our current stack / HW.
+> > 
+> > Yeah I think that should be inverted, doesn't make sense.
+> > 
+> > What I still don't get (and I've read Tvrtko's reply with the example)
+> > is what exactly is the difference between implicit and not implicit
+> > mode? Can you do a single example where the only difference is whether
+> > this flag is set, and then explain with that what are the actual
+> > differences in scheduling options that the backend is allowed to pick
+> > for the set of N patches?
+> > 
+> > I'm feeling a bit dense, but I'm really not seeing what's even going on here :-(
+> 
+> 2-wide compute context:
+> 
+>  .engine_map([-1, -1])
+>  .load_balance(0: [cs0, cs1, cs2, cs3]) // place virtual engine at slot 0
+>  .load_balance(1: [cs0, cs1, cs2, cs3])
+>  .set_parallel()
+> 
+> This tells the scheduler any two of the four possible engines can be used. cs0 + cs3 is fine, cs3 + cs1 also, ... any. Only implicit rule is they have to be different and that works for all.
+> 
+> 2-wide "implicit bonds mode" aka media fixed function limitation:
+> 
+>  .engine_map([-1, -1])
+>  .load_balance(0: [cs0, cs2])
+>  .load_balance(1: [cs1, cs3])
+>  .set_parallel(flags = implicit_bond)
+> 
+> Think of implicit flag creating a "link" between vertical columns in each virtual engine slot. So valid pairs end up cs0 + cs1 and cs2 + cs3 only.
+> 
+> You can also think of the implicit flag as a shortcut to avoid specifying bonds via the existing extension. In which case context setup would be written along the lines of:
+> 
+>  .engine_map([-1, -1])
+>  .load_balance(0: [cs0, cs2])
+>  .load_balance(1: [cs1, cs3])
+>  .bond(1: master = cs0, bond = [cs1])
+>  .bond(1: master = cs2, bond = [cs3])
+>  .set_parallel()
+> 
+> So the implicit flag is just a shortcut to avoid typing the bonds. Not really needed as explained in my previous reply.
 
-As I mentioned earlier, if we add device links between the aggregate
-device (consumer) and all the component devices (suppliers), it'll
-take care of a lot of the ordering issues (probe, suspend, runtime PM)
-and dependency issues (unbind the master device if a component driver
-unbinds). It'll allow us to delete a lot of the code in the component
-framework too. I can send the patch for the device links once your
-series settles. So having two implementations comes in the way of a
-clean up and code improvement because we'll have to keep a lot of the
-component code for the purpose of the "legacy" ops.
+Ah now I get both what this means, why it exists and where it's all come
+from. With the backstory makes a bunch more sense now. Thanks for
+explaining again.
 
-> > That'll also allow us to do other improvements (I have some
-> > in mind) that'll apply to all the component users instead of only the
-> > converted ones.
->
-> What do you have in mind? I didn't want to convert drivers over to the
-> new way of doing things without making them consciously change their
-> code.
+> This was at least the "old" set_parallel. I see this latest RFC changed
+> things a bit which I don't really follow yet.
+> 
+> It's not perfect but needs to add very little (just one context
+> extension, on top of multi batch execbuf which is needed anyways),
+> doesn't need to deprecate anything, didn't require rewrites of the UMD,
+> and it all works today and in the future.
+> 
+> I did not really like this new uapi for all the reasons I listed
+> already, but as not many people were seeing the advantage of not
+> churning on the uapi, if we are churning already I did suggests a
+> different idea. I mean if we are churning we might as well go full in.
+> So that proposal, which didn't get any traction, was along the lines of:
+> 
+>  .engine_map([-1])
+>  .load_balance_wide(0: width=2, engines=[[cs0, cs2], [cs1, cs3]])
+> 
+> This would create an explicit wide virtual engine which should work for
+> GuC fine I think. For execlists it may require a bit of extra glue but I
+> don't think too much.
+> 
+> Advantage is there is one engine in the map now and it is N-wide by
+> definition.
+> 
+> Since no one did bite on that idea back then, I didn't really pursue is
+> to see if it works for all use cases. But I think it should even if it
+> probably requires further thinking to be sure.
+> 
+> If we apply it to compute use case..
+> 
+>  .engine_map([-1])
+>  .load_balance_wide(0: width=2, engines=[[cs0, cs1, cs2, cs3], [cs0, cs1, cs2, cs3]])
+> 
+> This means the only implicit wart in there is that cs0 + cs0 obviously
+> shouldn't be picked. But that should be fine both for execlists and
+> hopefully for the GuC.
 
-What ordering/behavior would you be changing with the new ops? If the
-new shutdown ops isn't used, it really shouldn't change anything. Put
-another way, if we ignore your msm driver changes, we should be able
-to switch to having a real device for the "master" without making any
-functional change. If you are causing any functional change with the
-new ops, maybe you can key it off a flag that needs to be set? That
-way, we'll have one API/ops but still be backward compatible if you
-are worried about breaking existing users?
+Yeah. Another option would be to simply allow any valid pair to be listed.
+Gets maybe a bit too long for full combinatorials. Or we do an N-out-of-M
+load balance, and you just specifiy the one vector for the engine set that
+gets fully combined.
 
-> Otherwise I worry it will break things in random, subtle ways. The
-> last patch, as I mentioned above in the cover, causes warnings because
-> the display driver is enabling runtime PM in an odd spot as part of the
-> bind callback of the aggregate/master. That should move out of there and
-> into the msm_pdev driver that registers the aggregate from what I can
-> tell.
-
-Can you give more context? I think if you create device links with
-RPM_ACTIVE and PM_RUNTIME flags, it should ensure runtime PM
-correctness.
-
--Saravana
+Either way I think simple to add if/when compute comes around and asks for
+it.
+-Daniel
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
