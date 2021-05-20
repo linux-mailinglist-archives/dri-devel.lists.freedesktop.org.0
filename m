@@ -2,59 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 034BC389FAD
-	for <lists+dri-devel@lfdr.de>; Thu, 20 May 2021 10:18:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 080E2389FC1
+	for <lists+dri-devel@lfdr.de>; Thu, 20 May 2021 10:27:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CFBAC6F388;
-	Thu, 20 May 2021 08:17:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C22AE6E408;
+	Thu, 20 May 2021 08:27:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x22c.google.com (mail-lj1-x22c.google.com
- [IPv6:2a00:1450:4864:20::22c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CDAEB6F388
- for <dri-devel@lists.freedesktop.org>; Thu, 20 May 2021 08:17:55 +0000 (UTC)
-Received: by mail-lj1-x22c.google.com with SMTP id 131so18664058ljj.3
- for <dri-devel@lists.freedesktop.org>; Thu, 20 May 2021 01:17:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:in-reply-to:references
- :mime-version; bh=jppl03SNYb103HqRquUsAvmCMEsdjUVXEBFQx7Jwn1o=;
- b=dFTsdKUdOe2c1LEHdhV88YTdIHBEBZhUo+S9pe45OZDwH/MKslcDLDONs0UNCsjnnZ
- b5Uxdpn5g75628RvaLmvaUhZp7DBn74Re7bWWSc2JIFy5lygXKWNXYb1K830dske4Ll7
- uNWJs+uT/C/axgSqOGcJ7N8Zd4rGtuCtlkwcg4ncgNCEYTXG2n2XKlJ0AP6UkjeC6JoJ
- kaQAfDEZ088uBYXWzcDuTCoyf9IH5+wcDVIDmDybR0HVxlCzClzAcFQBMitRM4TXg0mu
- itR2N2BFdfj9T9jxdUcDmEFIZvlzNiKFBEDPp2T0dunMI7KxyB++yh0rVu1CiF3y9EI9
- cLfQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version;
- bh=jppl03SNYb103HqRquUsAvmCMEsdjUVXEBFQx7Jwn1o=;
- b=l5H1alcIRxkZz2os5r6wUK8TqSrkm4mj4/VUEBiTW2wzLqievfnMo3tgCN/9pVhe5n
- Vz3R20PvCl5m0HPWPwE2q2soF8nOjuQZMiT8570L1KhtCkKiFhF57FPLDJL23BjzEQFd
- zYjLkPVYgGfomUMNRlDTz/Q5CtrJ7Ee9uSLgLSkcA3hfuZq86aPYCPlDdwGrqTSkVge+
- S/tqZ5JFR7eOSaTYB7qjCW4h0D8CgqsfVvsdjYhZ9oPtckIbsY0dj+55Itc/a8XZUVSC
- 85HWjPpMusX+FUiJ6m2Yy/f6/VtAfOmQBIZ+YPrhEMpZCHKcLaOgDInZBkACLOjhjJT5
- JYCA==
-X-Gm-Message-State: AOAM530I55wnfFg+bfccZC9xcWyKLP9HPFwl1e1xF1ozfMRrX3eAwaSQ
- Zxzn/ZIPXJ5y9O5SvPPdXUI=
-X-Google-Smtp-Source: ABdhPJxcx27rkOTJEJtFn/usmCAY6dT/otsdBwiLBcyBRmikOERe1mbowxKET3RL8lMs9dW4wzV2ig==
-X-Received: by 2002:a2e:760c:: with SMTP id r12mr2185709ljc.299.1621498674316; 
- Thu, 20 May 2021 01:17:54 -0700 (PDT)
-Received: from eldfell ([194.136.85.206])
- by smtp.gmail.com with ESMTPSA id a25sm200082ljp.11.2021.05.20.01.17.53
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 20 May 2021 01:17:54 -0700 (PDT)
-Date: Thu, 20 May 2021 11:17:50 +0300
-From: Pekka Paalanen <ppaalanen@gmail.com>
-To: Simon Ser <contact@emersion.fr>
-Subject: Re: [PATCH 1/3] drm: reference mode flags in DRM_CLIENT_CAP_* docs
-Message-ID: <20210520111750.0950243b@eldfell>
-In-Reply-To: <Yjo91Qsg0kYg3xGZAkEOSYjNm3YGkjElS6wObR59vz0@cp4-web-027.plabs.ch>
-References: <Yjo91Qsg0kYg3xGZAkEOSYjNm3YGkjElS6wObR59vz0@cp4-web-027.plabs.ch>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+Received: from youngberry.canonical.com (youngberry.canonical.com
+ [91.189.89.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BD70F6E408;
+ Thu, 20 May 2021 08:26:51 +0000 (UTC)
+Received: from 1.general.cking.uk.vpn ([10.172.193.212])
+ by youngberry.canonical.com with esmtpsa (TLS1.2) tls
+ TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256 (Exim 4.93)
+ (envelope-from <colin.king@canonical.com>)
+ id 1lje14-0001aS-9X; Thu, 20 May 2021 08:26:50 +0000
+From: Colin Ian King <colin.king@canonical.com>
+Subject: re: drm/amdgpu/acpi: unify ATCS handling (v2) [uninitialized variable
+ error]
+To: Alex Deucher <alexander.deucher@amd.com>
+Message-ID: <89aaa652-7e9b-dee1-cb8a-2fb11212a100@canonical.com>
+Date: Thu, 20 May 2021 09:26:49 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- boundary="Sig_/t7Kd9XegLVehme9mmsU+y8d"; protocol="application/pgp-signature"
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,84 +42,190 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, Daniel Stone <daniels@collabora.com>
+Cc: David Airlie <airlied@linux.ie>, Xinhui.Pan@amd.com,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ amd-gfx mailing list <amd-gfx@lists.freedesktop.org>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/t7Kd9XegLVehme9mmsU+y8d
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+Hi,
 
-On Tue, 18 May 2021 11:14:42 +0000
-Simon Ser <contact@emersion.fr> wrote:
+Static analysis on linux-next with Coverity has detected an issue in
+drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c with the following commit:
 
-> In the docs for DRM_CLIENT_CAP_STEREO_3D and
-> DRM_CLIENT_CAP_ASPECT_RATIO, reference the DRM_MODE_FLAG_* defines
-> that get set when the cap is enabled.
->=20
-> Signed-off-by: Simon Ser <contact@emersion.fr>
-> Cc: Daniel Vetter <daniel@ffwll.ch>
-> Cc: Daniel Stone <daniels@collabora.com>
-> Cc: Pekka Paalanen <ppaalanen@gmail.com>
-> ---
->  include/uapi/drm/drm.h | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
->=20
-> diff --git a/include/uapi/drm/drm.h b/include/uapi/drm/drm.h
-> index 67b94bc3c885..1c947227f72b 100644
-> --- a/include/uapi/drm/drm.h
-> +++ b/include/uapi/drm/drm.h
-> @@ -777,9 +777,9 @@ struct drm_get_cap {
->  /**
->   * DRM_CLIENT_CAP_STEREO_3D
->   *
-> - * if set to 1, the DRM core will expose the stereo 3D capabilities of t=
-he
-> + * If set to 1, the DRM core will expose the stereo 3D capabilities of t=
-he
->   * monitor by advertising the supported 3D layouts in the flags of struct
-> - * drm_mode_modeinfo.
-> + * drm_mode_modeinfo. See ``DRM_MODE_FLAG_3D_*``.
->   */
->  #define DRM_CLIENT_CAP_STEREO_3D	1
-> =20
-> @@ -804,6 +804,7 @@ struct drm_get_cap {
->   * DRM_CLIENT_CAP_ASPECT_RATIO
->   *
->   * If set to 1, the DRM core will provide aspect ratio information in mo=
-des.
-> + * See ``DRM_MODE_FLAG_PIC_AR_*``.
->   */
->  #define DRM_CLIENT_CAP_ASPECT_RATIO    4
-> =20
+commit c1c4d8efdddec8a0ccc8525b29740640bd652ce8
+Author: Alex Deucher <alexander.deucher@amd.com>
+Date:   Wed May 19 15:47:42 2021 -0400
 
-Good.
-
-Acked-by: Pekka Paalanen <pekka.paalanen@collabora.com>
+    drm/amdgpu/acpi: unify ATCS handling (v2)
 
 
-Thanks,
-pq
+The analysis is as follows:
 
---Sig_/t7Kd9XegLVehme9mmsU+y8d
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
 
------BEGIN PGP SIGNATURE-----
+805int amdgpu_acpi_init(struct amdgpu_device *adev)
+806{
+807        acpi_handle handle, atif_handle, atcs_handle;
+808        struct amdgpu_atif *atif;
+809        struct amdgpu_atcs *atcs;
 
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmCmGy4ACgkQI1/ltBGq
-qqcUyg//dabh5643PcKch/5i6y91wuUznmXtFcmE64+jpGLOnDwHjX5JDYj6c3Im
-FZpwg1lG2l1pc0rbualGF0nt2nDznRgmVxxvVD5gD8In2ecTsOF6ltoBvPjBiIu4
-AuZ8cG6SvQWiAHHrKJ2SbZcFW0+Rj4fH47a5ZNjLhXVj0Vf9hI93XlwnYLkhhVOy
-Dq74++1cKWA073YfO8LfiPigK6QgrxYHrTl+4/ZUKp/U+ioC6d8l3WWC6AcVX0fG
-4pEghx3ATMXtfV04sL+p1vBHOTgDFygMENxUSaUA4yLFul4XCdtL4qCP+gZ7ykaT
-YTTGMBpwFRN2Qun+mymTmfp2+cQilG0mhapjjGoC6Ty2zIfhX82Q24UP84yBzW8U
-MtI1WAs9kEGcp5W+d1DuZa3MCL8nlXi4ourDK++Z/hK7Ifj0lFkehIDXA+m3ctYL
-rMMDHTfFsaMnX9Ecnnu+WoxcKTJ4wlHunFZd9q0saSE7cVD7Wg9BdIZXSH14lyPU
-QqQzBeSa5S54Kp8jUwt08K6PLuklvEHJrfZrMX/FW/uKevXWW21wRkdSomlLuvRu
-htZEoNTeMDm58r+Xv43U+KQAelUm5v9YZfPGb5RMB19BnXuFWRbupqcmGJLtScG1
-lEvchU/DW18DboViMzZ7mU91xPM0QqZFwta+emB9NO3UEDugQcU=
-=pZKX
------END PGP SIGNATURE-----
+   1. var_decl: Declaring variable ret without initializer.
 
---Sig_/t7Kd9XegLVehme9mmsU+y8d--
+810        int ret;
+811
+812        /* Get the device handle */
+
+   2. Condition is_acpi_device_node(__to_acpi_device_node_fwnode),
+taking true branch.
+   3. Condition 0 /* !!(!__builtin_types_compatible_p() &&
+!__builtin_types_compatible_p()) */, taking false branch.
+
+813        handle = ACPI_HANDLE(&adev->pdev->dev);
+814
+
+   4. Condition !adev->bios, taking false branch.
+   5. Condition !handle, taking false branch.
+
+815        if (!adev->bios || !handle)
+816                return 0;
+817
+818        /* Probe for ATIF, and initialize it if found */
+819        atif_handle = amdgpu_atif_probe_handle(handle);
+
+   6. Condition !atif_handle, taking true branch.
+820        if (!atif_handle)
+   7. Jumping to label atcs.
+
+821                goto atcs;
+822
+823        atif = kzalloc(sizeof(*atif), GFP_KERNEL);
+824        if (!atif) {
+825                DRM_WARN("Not enough memory to initialize ATIF\n");
+826                goto atcs;
+827        }
+828        atif->handle = atif_handle;
+829
+830        /* Call the ATIF method */
+831        ret = amdgpu_atif_verify_interface(atif);
+832        if (ret) {
+833                DRM_DEBUG_DRIVER("Call to ATIF verify_interface
+failed: %d\n", ret);
+834                kfree(atif);
+835                goto atcs;
+836        }
+837        adev->atif = atif;
+838
+839#if defined(CONFIG_BACKLIGHT_CLASS_DEVICE) ||
+defined(CONFIG_BACKLIGHT_CLASS_DEVICE_MODULE)
+840        if (atif->notifications.brightness_change) {
+841                if (amdgpu_device_has_dc_support(adev)) {
+842#if defined(CONFIG_DRM_AMD_DC)
+843                        struct amdgpu_display_manager *dm = &adev->dm;
+844                        if (dm->backlight_dev)
+845                                atif->bd = dm->backlight_dev;
+846#endif
+847                } else {
+848                        struct drm_encoder *tmp;
+849
+850                        /* Find the encoder controlling the brightness */
+851                        list_for_each_entry(tmp,
+&adev_to_drm(adev)->mode_config.encoder_list,
+852                                            head) {
+853                                struct amdgpu_encoder *enc =
+to_amdgpu_encoder(tmp);
+854
+855                                if ((enc->devices &
+(ATOM_DEVICE_LCD_SUPPORT)) &&
+856                                    enc->enc_priv) {
+857                                        struct
+amdgpu_encoder_atom_dig *dig = enc->enc_priv;
+858                                        if (dig->bl_dev) {
+859                                                atif->bd = dig->bl_dev;
+860                                                break;
+861                                        }
+862                                }
+863                        }
+864                }
+865        }
+866#endif
+867
+868        if (atif->functions.sbios_requests &&
+!atif->functions.system_params) {
+869                /* XXX check this workraround, if sbios request
+function is
+870                 * present we have to see how it's configured in the
+system
+871                 * params
+872                 */
+873                atif->functions.system_params = true;
+874        }
+875
+876        if (atif->functions.system_params) {
+877                ret = amdgpu_atif_get_notification_params(atif);
+878                if (ret) {
+879                        DRM_DEBUG_DRIVER("Call to GET_SYSTEM_PARAMS
+failed: %d\n",
+880                                        ret);
+881                        /* Disable notification */
+882                        atif->notification_cfg.enabled = false;
+883                }
+884        }
+885
+886        if (atif->functions.query_backlight_transfer_characteristics) {
+887                ret = amdgpu_atif_query_backlight_caps(atif);
+888                if (ret) {
+889                        DRM_DEBUG_DRIVER("Call to
+QUERY_BACKLIGHT_TRANSFER_CHARACTERISTICS failed: %d\n",
+890                                        ret);
+891                        atif->backlight_caps.caps_valid = false;
+892                }
+893        } else {
+894                atif->backlight_caps.caps_valid = false;
+895        }
+896
+897atcs:
+898        /* Probe for ATCS, and initialize it if found */
+899        atcs_handle = amdgpu_atcs_probe_handle(handle);
+
+   8. Condition !atcs_handle, taking true branch.
+900        if (!atcs_handle)
+   9. Jumping to label out.
+
+901                goto out;
+902
+903        atcs = kzalloc(sizeof(*atcs), GFP_KERNEL);
+     CID 114228: Uninitialized pointer read (UNINIT) [select issue]
+904        if (!atif) {
+905                DRM_WARN("Not enough memory to initialize ATCS\n");
+906                goto out;
+907        }
+908        atcs->handle = atcs_handle;
+909
+910        /* Call the ATCS method */
+911        ret = amdgpu_atcs_verify_interface(atcs);
+912        if (ret) {
+913                DRM_DEBUG_DRIVER("Call to ATCS verify_interface
+failed: %d\n", ret);
+914                kfree(atcs);
+915                goto out;
+916        }
+917        adev->atcs = atcs;
+918
+919out:
+920        adev->acpi_nb.notifier_call = amdgpu_acpi_event;
+921        register_acpi_notifier(&adev->acpi_nb);
+922
+
+  Uninitialized scalar variable (UNINIT)
+  10. uninit_use: Using uninitialized value ret.
+
+923        return ret;
+924}
+
+The chain of gotos end up with an uninitialized ret being returned on an
+error condition. I was sure what value to assign to ret for this error
+case, so I'm reporting this issue.
+
+Colin
