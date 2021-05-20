@@ -1,56 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C531F38B85C
-	for <lists+dri-devel@lfdr.de>; Thu, 20 May 2021 22:26:03 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7058D38B86A
+	for <lists+dri-devel@lfdr.de>; Thu, 20 May 2021 22:29:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E28FB6F545;
-	Thu, 20 May 2021 20:25:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 439156F546;
+	Thu, 20 May 2021 20:29:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x534.google.com (mail-ed1-x534.google.com
- [IPv6:2a00:1450:4864:20::534])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5E7D06F545
- for <dri-devel@lists.freedesktop.org>; Thu, 20 May 2021 20:25:57 +0000 (UTC)
-Received: by mail-ed1-x534.google.com with SMTP id g7so8701906edm.4
- for <dri-devel@lists.freedesktop.org>; Thu, 20 May 2021 13:25:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=googlemail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=L6+wHMIa16BIAfcr0/AspV73VlTuSsDUuM2FpOlowOc=;
- b=O9qoQYrizwrGO33O23Eh/taGb21Uq+Sf41L3WzruURauHfByuEuoJ1UE1mSl0b+3i4
- NSD8MlBu7ZqxAXskQNYjyW0Cf3HNjspL2OeWNALMprYILIwuDFRwj/iD5XNMi4tftycW
- EsknKdePJnUKRI7GwYUV4vgaiBNKlvfZYpI3YgA+pOtRuOdBwCcz6pJyixy1j6tnjTwA
- xc2nWDa5LBBVMSo3KVFY7ratdf/2jGMvaBkcjlxZeGivKjGwBBF3BqIOAyT5GGFYupwY
- OXfUcXE+pz37Vs2ya5wtU7hZnc0G6kQwzloGCssXZuruhVK/nWdQ7GD3YjcBN8DK7xpf
- IPdg==
+Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com
+ [IPv6:2a00:1450:4864:20::32b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1DAD36F546
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 May 2021 20:28:59 +0000 (UTC)
+Received: by mail-wm1-x32b.google.com with SMTP id t206so9943610wmf.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 May 2021 13:28:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=pzIrqo0iPF0+HXbP98gGMjsMEkhBnb1ZZRdolfv5z30=;
+ b=jbzf0PMJoTx3jdmZHO7iUwJNO/P9LnoOVHyVn06+q8qwmpPsmA5slB0UXyWu3X9BFS
+ 5Mywo3uJSJ9Rz0rOU67+po2jgJGbsXi8R0S8kUnqgt1wBEi7QKL80lUlNhIqYSqq8hSl
+ M7lN9OFX0DDiioIlAc3X2TfLDu3C/U1wsTcik=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=L6+wHMIa16BIAfcr0/AspV73VlTuSsDUuM2FpOlowOc=;
- b=jYZUwEDVdJhZrB637IjZZAAsFRDqK3mKS65Fjl1xZeE6xs1vq5jmz/S7DD47thrmWt
- 2irEbt8qLsMiW8Xbl/QP11XYQDdm3s5ed/Ys3LzGRuZB5cA7a51+3FKTLsgbrqcS3/HY
- P3VJpnigpes0R3KUlW1wyOgh7f7YsfXtvj8YVsqmSYYCoxMwcfgs6ZmVwX7EYCtxVu3i
- 3fC+ZeTyMcPuuvGPb8VyTBA4H/kDh+ZN5oBiP19dSZbdyUb5rVKWeiTqRPadLe7O8n1S
- bylkQoe9F1Z9qg4ZLxjGkJPeYqiNDx6mD6MVW+O9b+DIjTBm99RTrjRiYQdDQU2sJcCo
- dstQ==
-X-Gm-Message-State: AOAM532Kv10uysakMPMDqboiOyKA+gfFkvsmVZIM4yGeD9lD9yE3CM9v
- NDfo9UcA+e5DG4ySVdcqQ9zJRX2drTYphy5P77M=
-X-Google-Smtp-Source: ABdhPJw8pr02cKMNKMU/gav1Jo5Bo/EIho2tm3jRn7MMn/JFbkOi35Bg7rsUYA+POgIEX4ds0rT2SCk9e8a1tOYJReE=
-X-Received: by 2002:a05:6402:190e:: with SMTP id
- e14mr6952362edz.146.1621542356228; 
- Thu, 20 May 2021 13:25:56 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=pzIrqo0iPF0+HXbP98gGMjsMEkhBnb1ZZRdolfv5z30=;
+ b=iN5X+9zJj7DD96K+lwiQJjmcladLbmtgp9TggBSoV1v9lSTAM3mH/bksssSsUVcMy0
+ kWB6+jfv+EkWLCbHo0sqmjVL73Fw+q488GwtiVp5tQGapUUDwYcJ/nKG/LZCKWk+2dNW
+ Afx12bFRglv+fugPqJwdTIpLl/3jIPKo03NCjq+aNCfemtDCte1YcM+CjHaD+fdONOev
+ bYpa1NLUc+Yb2NMhUhtnZvdSuv6DEYbprO3Lete/ODDD8pFDdBHPj8UGemluM/vtLcEE
+ o3EnCJNrUIJNtKGTDnXJY6RitZQBq6MrVSz32K6pmwjyIAhnCdqvL6uKs/CAbx9KyF71
+ fwJg==
+X-Gm-Message-State: AOAM533AyQ3QNDpSp9Dv4FuDB0qO3qUise165vdZm3grmLxiP4kpuc8E
+ /bVPKoVKFtMsR67izAOOR+gCuw==
+X-Google-Smtp-Source: ABdhPJzDti4Btph6sXtOL+2GdKhmlFbkFs8CjrB34SM+DrfT8knDdmX7iovhT9IMFTfpzs4MCy9fTA==
+X-Received: by 2002:a05:600c:2219:: with SMTP id
+ z25mr5306207wml.78.1621542537805; 
+ Thu, 20 May 2021 13:28:57 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id z66sm11236243wmc.4.2021.05.20.13.28.56
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 20 May 2021 13:28:57 -0700 (PDT)
+Date: Thu, 20 May 2021 22:28:55 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Subject: Re: [PATCH] drm/ttm: Explain why ttm_bo_add_move_fence uses a shared
+ slot
+Message-ID: <YKbGh65vB6e69Q1v@phenom.ffwll.local>
+References: <20210519082409.672016-1-daniel.vetter@ffwll.ch>
+ <ac723ad9-e2e3-38e7-e178-db0246cdffa0@amd.com>
 MIME-Version: 1.0
-References: <20210430082744.3638743-1-narmstrong@baylibre.com>
-In-Reply-To: <20210430082744.3638743-1-narmstrong@baylibre.com>
-From: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
-Date: Thu, 20 May 2021 22:25:45 +0200
-Message-ID: <CAFBinCC0aaMUbBkJ4bjhFa0A+sZH1muyW6kqAQYfjjXOkrNPGg@mail.gmail.com>
-Subject: Re: [PATCH] drm/meson: fix shutdown crash when component not probed
-To: Neil Armstrong <narmstrong@baylibre.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <ac723ad9-e2e3-38e7-e178-db0246cdffa0@amd.com>
+X-Operating-System: Linux phenom 5.10.32scarlett+ 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,53 +70,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-amlogic@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Cc: Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Huang Rui <ray.huang@amd.com>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ Daniel Vetter <daniel.vetter@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Neil,
+On Wed, May 19, 2021 at 12:43:49PM +0200, Christian König wrote:
+> Am 19.05.21 um 10:24 schrieb Daniel Vetter:
+> > Motivated because I got confused and Christian confirmed why this
+> > works. I think this is non-obvious enough that it merits a slightly
+> > longer comment.
+> > 
+> > Cc: Christian König <ckoenig.leichtzumerken@gmail.com>
+> > Cc: Christian Koenig <christian.koenig@amd.com>
+> > Cc: Huang Rui <ray.huang@amd.com>
+> > Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+> > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+> 
+> Reviewed-by: Christian König <christian.koenig@amd.com>
 
-since this has not received any Reviewed-by yet I tried my best to
-review it myself
+Applied to drm-misc-next, thanks for reviewing.
+-Daniel
 
-On Fri, Apr 30, 2021 at 10:28 AM Neil Armstrong <narmstrong@baylibre.com> wrote:
-[...]
-> --- a/drivers/gpu/drm/meson/meson_drv.c
-> +++ b/drivers/gpu/drm/meson/meson_drv.c
-> @@ -485,11 +485,12 @@ static int meson_probe_remote(struct platform_device *pdev,
->  static void meson_drv_shutdown(struct platform_device *pdev)
->  {
->         struct meson_drm *priv = dev_get_drvdata(&pdev->dev);
-this part made it hard for me because I was wondering where the
-matching dev_set_drvdata call is
-it turns out platform_set_drvdata is used instead, meaning for me it
-would have been easier to understand if platform_get_drvdata was used
-here
-that's however nothing which has changed with this patch
+> 
+> > ---
+> >   drivers/gpu/drm/ttm/ttm_bo.c | 4 +++-
+> >   1 file changed, 3 insertions(+), 1 deletion(-)
+> > 
+> > diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
+> > index ca1b098b6a56..51a94fd63bd7 100644
+> > --- a/drivers/gpu/drm/ttm/ttm_bo.c
+> > +++ b/drivers/gpu/drm/ttm/ttm_bo.c
+> > @@ -682,7 +682,9 @@ int ttm_mem_evict_first(struct ttm_device *bdev,
+> >   }
+> >   /*
+> > - * Add the last move fence to the BO and reserve a new shared slot.
+> > + * Add the last move fence to the BO and reserve a new shared slot. We only use
+> > + * a shared slot to avoid unecessary sync and rely on the subsequent bo move to
+> > + * either stall or use an exclusive fence respectively set bo->moving.
+> >    */
+> >   static int ttm_bo_add_move_fence(struct ttm_buffer_object *bo,
+> >   				 struct ttm_resource_manager *man,
+> 
 
-> -       struct drm_device *drm = priv->drm;
->
-> -       DRM_DEBUG_DRIVER("\n");
-> -       drm_kms_helper_poll_fini(drm);
-> -       drm_atomic_helper_shutdown(drm);
-> +       if (!priv)
-> +               return;
-> +
-> +       drm_kms_helper_poll_fini(priv->drm);
-> +       drm_atomic_helper_shutdown(priv->drm);
->  }
-then this part finally made sense to me (as non-drm person), as
-platform_set_drvdata comes near the end of meson_drv_bind_master (so
-any errors would cause the drvdata to be NULL).
-
-with this I can also give me:
-Reviewed-by: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
-in addition to my:
-Tested-by: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
-
-Can you please queue this up for -fixes or do we need to ask someone to do it?
-
-
-Best regards,
-Martin
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
