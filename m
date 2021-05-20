@@ -1,57 +1,75 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9730A389DEB
-	for <lists+dri-devel@lfdr.de>; Thu, 20 May 2021 08:29:07 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CA81389E07
+	for <lists+dri-devel@lfdr.de>; Thu, 20 May 2021 08:38:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 46D436E116;
-	Thu, 20 May 2021 06:29:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7391E6E15D;
+	Thu, 20 May 2021 06:38:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 1540 seconds by postgrey-1.36 at gabe;
- Thu, 20 May 2021 06:29:01 UTC
-Received: from regular1.263xmail.com (regular1.263xmail.com [211.150.70.196])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 350BC6E15D
- for <dri-devel@lists.freedesktop.org>; Thu, 20 May 2021 06:27:55 +0000 (UTC)
-Received: from localhost (unknown [192.168.167.247])
- by regular1.263xmail.com (Postfix) with ESMTP id B0A391FB8;
- Thu, 20 May 2021 14:27:47 +0800 (CST)
-X-MAIL-GRAY: 0
-X-MAIL-DELIVERY: 1
-X-ADDR-CHECKED4: 1
-X-ANTISPAM-LEVEL: 2
-X-SKE-CHECKED: 1
-X-ABS-CHECKED: 1
-Received: from localhost (unknown [192.168.166.217])
- by smtp.263.net (postfix) whith ESMTP id
- P32553T140108913764096S1621492067881460_; 
- Thu, 20 May 2021 14:27:47 +0800 (CST)
-X-UNIQUE-TAG: <b199005e64efdcb2d4acaa92dc0a447c>
-X-RL-SENDER: songqiang@uniontech.com
-X-SENDER: songqiang@uniontech.com
-X-LOGIN-NAME: wmsendmail@net263.com
-X-FST-TO: songqiang@uniontech.com
-X-RCPT-COUNT: 12
-X-SENDER-IP: 192.168.166.217
-X-ATTACHMENT-NUM: 0
-X-System-Flag: 0
-Date: Thu, 20 May 2021 14:27:47 +0800 (CST)
-From: =?UTF-8?B?5a6L5by6?= <songqiang@uniontech.com>
-To: =?UTF-8?B?5a6L5by6IA==?= <songqiang@uniontech.com>, 
- =?UTF-8?B?TWF0dGhldyBXaWxjb3gg?= <willy@infradead.org>
-Message-ID: <1234593972.46083.1621492067815.JavaMail.xmail@localhost.localdomain>
-References: <20210519120028.7350-1-songqiang@uniontech.com>,
- <YKUBtiOTE7zJHAjI@casper.infradead.org>,
- <1049640176.41531.1621490295842.JavaMail.xmail@localhost.localdomain>
-Subject: =?UTF-8?B?UmU6UmU6UmU6IFtQQVRDSF0gZHJpdmVycy92aWRlby9mYmRldi9jb3JlL2ZibWVtLmM6IGFkZCBwb2ludGVyIGp1ZGdtZW50?=
+Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com
+ [IPv6:2a00:1450:4864:20::62f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 973C66E0C2;
+ Thu, 20 May 2021 06:38:23 +0000 (UTC)
+Received: by mail-ej1-x62f.google.com with SMTP id s22so23257947ejv.12;
+ Wed, 19 May 2021 23:38:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-transfer-encoding:content-language;
+ bh=C9Tk1zVB3fkBXFq3ypvt2ie/otB+BGm4QeNHXQoiMMU=;
+ b=hqH+/r+9veaA88HKG/CY0NX/dUwgoNGEE5B/bWPzF3Ty+p2JKVz4cnpdBqQ5Es35Pi
+ 5GK3gmTRuFUM/TBr2K1KH6B6pknJ/Bjwfrz/XCche18Wc6gHMUzE79Qsddi+Q4Rz0FN7
+ 74wx0aafkbCmVYDzedcV6vAUOWKA4Uit6aW1QkyvvrMArXHIGA0Kzv7H8PQCz6EVHcKZ
+ gd4rxVmGixD5uwsR7sKDrxtsvSI3iFv4HJgFzv+AO65Ci8fM6zG+6GnY6PVEWgglXxEs
+ v36vpFAWwnMka/CETBcsjUurv/785BLOSN7h+Y80QCjw7j++hWfVQsYGXcRHeYw2nGCw
+ O0UA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-transfer-encoding
+ :content-language;
+ bh=C9Tk1zVB3fkBXFq3ypvt2ie/otB+BGm4QeNHXQoiMMU=;
+ b=WQ3t6zIy/f0XU2PiPMTJZsWEkZRxkKn8LHCSgJtLFgpA50HGgbrQWL279Osdtvp1zi
+ /+TcYve198FbYibfTSNx/e8+bcybOzBGD4z9k2e32Xhl1CBMrGX9wyDjBfiDReiGGLZf
+ 3cgLVnVxcZAuBPslGH9+RvLLotVJ4YgHY0o6FMfZLDFR+R2cjKpo+ppd8bXvnL1rYfnH
+ g3fUjYnNMwmxnNQmPmbcailFvtceKVar4biBgvpxd5rynEo0JejmKjfvbveg5h10DNnE
+ giQY/6EbVEO6ZUc+WuDOdgkBaUeUfPXCLJDnMKQnALYPtOaSkwmmggmjTKrTba8oDlcd
+ +pNg==
+X-Gm-Message-State: AOAM532jqBylmsEwzMFrXMukkmzDN6OcG6rz0WF+7Jv2mcp74UN6QTZm
+ g4jeYb4ej3vUX1Q77SXNAZ5IundBEVI=
+X-Google-Smtp-Source: ABdhPJxaTPnmZxYNVyPoon+wxLZa8TRl6NvKFqSgxz92QMhuaRnh2zJfsJvevS/p0ompxV/VpusmSA==
+X-Received: by 2002:a17:906:a88c:: with SMTP id
+ ha12mr3094905ejb.129.1621492702253; 
+ Wed, 19 May 2021 23:38:22 -0700 (PDT)
+Received: from ?IPv6:2a02:908:1252:fb60:4635:589e:67a4:e02a?
+ ([2a02:908:1252:fb60:4635:589e:67a4:e02a])
+ by smtp.gmail.com with ESMTPSA id g22sm898022ejz.46.2021.05.19.23.38.21
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 19 May 2021 23:38:21 -0700 (PDT)
+Subject: =?UTF-8?B?UmU6IOWbnuWkjTog5Zue5aSNOiBbUkZDIFBBVENIIDEvMl0gZHJtL2Ft?=
+ =?UTF-8?Q?dgpu=3a_Fix_memory_corruption_due_to_swapout_and_swapin?=
+To: "Pan, Xinhui" <Xinhui.Pan@amd.com>,
+ "Kuehling, Felix" <Felix.Kuehling@amd.com>,
+ "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>
+References: <20210519022852.16766-1-xinhui.pan@amd.com>
+ <c7f28ef7-c0a1-ff76-2b48-4559a8e0e593@amd.com>
+ <BN9PR12MB5163D9CC209C0B9B02CD8A5B872B9@BN9PR12MB5163.namprd12.prod.outlook.com>
+ <DM4PR12MB5165E11F06A62127A32E9F0B872B9@DM4PR12MB5165.namprd12.prod.outlook.com>
+ <075eaedb-ca07-83fa-7c1f-6b94ae5a4e6e@gmail.com>
+ <0dad9214-57f4-f36f-40b1-7e7f7f52d1b2@amd.com>
+ <DM4PR12MB51652DBFDA7E81FE3853662F872A9@DM4PR12MB5165.namprd12.prod.outlook.com>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+Message-ID: <406aa290-d48b-3ba6-ac06-3a1f416fddcf@gmail.com>
+Date: Thu, 20 May 2021 08:38:20 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-Content-Type: text/html;  charset=utf-8
-Content-Transfer-Encoding: base64
-X-Send-Individually: 0
-X-Reply-Previous-EmailId: 
-X-SENDER-IP: 111.207.172.18
-X-Priority: 3
+In-Reply-To: <DM4PR12MB51652DBFDA7E81FE3853662F872A9@DM4PR12MB5165.namprd12.prod.outlook.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,175 +82,202 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?B?amdnIA==?= <jgg@ziepe.ca>,
- =?UTF-8?B?bGludXgtZmJkZXYg?= <linux-fbdev@vger.kernel.org>,
- =?UTF-8?B?YXJuZCA=?= <arnd@arndb.de>,
- =?UTF-8?B?Yi56b2xuaWVya2llIA==?= <b.zolnierkie@samsung.com>,
- =?UTF-8?B?cGVuZ3Vpbi1rZXJuZWwg?= <penguin-kernel@i-love.sakura.ne.jp>,
- =?UTF-8?B?bGludXgta2VybmVsIA==?= <linux-kernel@vger.kernel.org>,
- =?UTF-8?B?ZHJpLWRldmVsIA==?= <dri-devel@lists.freedesktop.org>,
- =?UTF-8?B?Z2VvcmdlLmtlbm5lZHkg?= <george.kennedy@oracle.com>,
- =?UTF-8?B?dHppbW1lcm1hbm4g?= <tzimmermann@suse.de>,
- =?UTF-8?B?c2FtIA==?= <sam@ravnborg.org>
+Cc: "Deucher, Alexander" <Alexander.Deucher@amd.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, "Koenig,
+ Christian" <Christian.Koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-PHN0eWxlPnRhYmxlLmN1c3RvbVRhYmxlQ2xhc3NOYW1lIHttYXJnaW4tYm90dG9tOiAxMHB4O2Jv
-cmRlci1jb2xsYXBzZTogY29sbGFwc2U7ZGlzcGxheTogdGFibGU7fS5jdXN0b21UYWJsZUNsYXNz
-TmFtZSB0ZCwgLmN1c3RvbVRhYmxlQ2xhc3NOYW1lIHRoIHtib3JkZXI6IDFweCBzb2xpZCAjZGRk
-O308L3N0eWxlPjxkaXYgaWQ9IndyaXRlLWN1c3RvbS13cml0ZSIgdGFiaW5kZXg9IjAiIHN0eWxl
-PSJmb250LXNpemU6IDE0cHg7IGZvbnQtZmFtaWx5OiDlrovkvZM7IG91dGxpbmU6IG5vbmU7Ij48
-cCBzdHlsZT0ibWFyZ2luOjBweDsiPjxicj48c3BhbiBzdHlsZT0iZm9udC1mYW1pbHk6IHZlcmRh
-bmEsIFRhaG9tYSwgQXJpYWwsIOWui+S9kywgc2Fucy1zZXJpZjsgZm9udC1zaXplOiAxNnB4OyI+
-SSBmaW5kIG51bGwgcG9pbnRlciBidWcgd2hlbiBJIGRlYnVnIHRoZSBrZXJuZWwgb2YgbG9vbmdz
-b24gaW4gbWlwc++8jEkgdGhpbmsgdGhlIGZ1bmN0aW9uJm5ic3A7ZmJfc2V0X3N1c3BlbmQoKSBh
-ZGRpbmcgcG9pbnRlciBqdWRnbWVudCB3aWxsIG1vcmUgZnJpZW5kbHkuPC9zcGFuPjxicj48L3A+
-PC9kaXY+PHAgc3R5bGU9Im1hcmdpbjowcHg7Ij48YnI+PC9wPjxwIHN0eWxlPSJtYXJnaW46MHB4
-OyI+WyZuYnNwOyAxMDEuNDA5MTAxXSBQTTogaGliZXJuYXRpb24gZW50cnkmbmJzcDsgJm5ic3A7
-ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7PC9wPjxwIHN0eWxlPSJt
-YXJnaW46MHB4OyI+WyZuYnNwOyAxMDEuNTI2MzY1XSBQTTogU3luY2luZyBmaWxlc3lzdGVtcyAu
-Li4mbmJzcDs8L3A+PHAgc3R5bGU9Im1hcmdpbjowcHg7Ij5bJm5ic3A7IDEwMS41NDMwMDhdIFBN
-OiBkb25lLjwvcD48cCBzdHlsZT0ibWFyZ2luOjBweDsiPlsmbmJzcDsgMTAxLjU0NTI4N10gRnJl
-ZXppbmcgdXNlciBzcGFjZSBwcm9jZXNzZXMgLi4uIChlbGFwc2VkIDAuMDAxIHNlY29uZHMpIGRv
-bmUuPC9wPjxwIHN0eWxlPSJtYXJnaW46MHB4OyI+WyZuYnNwOyAxMDEuNTUzNzIyXSBPT00ga2ls
-bGVyIGRpc2FibGVkLjwvcD48cCBzdHlsZT0ibWFyZ2luOjBweDsiPlsmbmJzcDsgMTAxLjU1Njk4
-OF0gUE06IFByZWFsbG9jYXRpbmcgaW1hZ2UgbWVtb3J5Li4uIGRvbmUgKGFsbG9jYXRlZCA3OTgx
-OSBwYWdlcyk8L3A+PHAgc3R5bGU9Im1hcmdpbjowcHg7Ij5bJm5ic3A7IDEwMS43MDk1OTVdIFBN
-OiBBbGxvY2F0ZWQgMTI3NzEwNCBrYnl0ZXMgaW4gMC4xNCBzZWNvbmRzICg5MTIyLjE3IE1CL3Mp
-PC9wPjxwIHN0eWxlPSJtYXJnaW46MHB4OyI+WyZuYnNwOyAxMDEuNzE2MTc5XSBGcmVlemluZyBy
-ZW1haW5pbmcgZnJlZXphYmxlIHRhc2tzIC4uLiAoZWxhcHNlZCAwLjAwMSBzZWNvbmRzKSBkb25l
-LjwvcD48cCBzdHlsZT0ibWFyZ2luOjBweDsiPlsmbmJzcDsgMTAxLjc2MTMzOF0gQ1BVIDEgVW5h
-YmxlIHRvIGhhbmRsZSBrZXJuZWwgcGFnaW5nIHJlcXVlc3QgYXQgdmlydHVhbCBhZGRyZXNzIDAw
-MDAwMDAwMDAwMDAzZTAsIGVwYyA9PSBmZmZmZmZmZjgxMDY4ZTEwLCByYSA9PSBmZmZmZmZmZjgx
-MDY4ZTBjPGJyPjwvcD48cCBzdHlsZT0ibWFyZ2luOjBweDsiPlsmbmJzcDsgMTAxLjc3NzYwMl0g
-T29wc1sjMV06PC9wPjxwIHN0eWxlPSJtYXJnaW46MHB4OyI+WyZuYnNwOyAxMDEuNzc5ODU4XSBD
-UFU6IDEgUElEOiAxMDk5IENvbW06IGt3b3JrZXIvdTg6NiBUYWludGVkOiBHJm5ic3A7ICZuYnNw
-OyAmbmJzcDsgJm5ic3A7IFcmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7NC4xOS4w
-LWxvb25nc29uLTMtZGVza3RvcCAjNDM8L3A+PHAgc3R5bGU9Im1hcmdpbjowcHg7Ij5bJm5ic3A7
-IDEwMS43ODkzNjhdIEhhcmR3YXJlIG5hbWU6IERhaHVhIERILUhEQzUwMDBML00yMDAxLCBCSU9T
-IEw0Sjc0QjAwNkRIVDAzMTggVjQuMCAwMy8xOC8yMDIxIDE2OjQ0OjMzPC9wPjxwIHN0eWxlPSJt
-YXJnaW46MHB4OyI+WyZuYnNwOyAxMDEuNzk4MjgyXSBXb3JrcXVldWU6IGV2ZW50c191bmJvdW5k
-IGFzeW5jX3J1bl9lbnRyeV9mbjwvcD48cCBzdHlsZT0ibWFyZ2luOjBweDsiPlsmbmJzcDsgMTAx
-LjgwMzU1N10gXCQgMCZuYnNwOyAmbmJzcDs6IDAwMDAwMDAwMDAwMDAwMDAgMDAwMDAwMDAwMDAw
-MDAwMSAwMDAwMDAwMDAwMDAwMDAxIDAwMDAwMDAwMDAwMDAwMDA8L3A+PHAgc3R5bGU9Im1hcmdp
-bjowcHg7Ij5bJm5ic3A7IDEwMS44MTE1MTNdIFwkIDQmbmJzcDsgJm5ic3A7OiBmZmZmZmZmZjgy
-MjQyNmYwIDAwMDAwMDAwMDAwMDAwMDEgOTgwMDAwMDAwNzU0YjUxMCAwMDAwMDAwMDAwMDAwMDAw
-PC9wPjxwIHN0eWxlPSJtYXJnaW46MHB4OyI+WyZuYnNwOyAxMDEuODE5NDY4XSBcJCA4Jm5ic3A7
-ICZuYnNwOzogMDAwMDAwMDAwMDAwMDMxZCAyMDJjNzk2NjY5NzQ2ZjZlIDMxMjAyYzc5NjY2OTc0
-NmYgZmZmZmZmZmY4MjIyMDAwMDwvcD48cCBzdHlsZT0ibWFyZ2luOjBweDsiPlsmbmJzcDsgMTAx
-LjgyNzQyM10gXCQxMiZuYnNwOyAmbmJzcDs6IDAwMDAwMDAwMDAwMDAwMDEgZmZmZmZmZmY4MjQ0
-YmExNSBmZmZmZmZmZmZmZmZmZmZmIDAwMDAwMDAwMDAwMDAwMzA8L3A+PHAgc3R5bGU9Im1hcmdp
-bjowcHg7Ij5bJm5ic3A7IDEwMS44MzUzNzhdIFwkMTYmbmJzcDsgJm5ic3A7OiAwMDAwMDAwMDAw
-MDAwMDAwIGZmZmZmZmZmODAzOGJkNDAgZmZmZmZmZmZjMDA3MDAwMCAwMDAwMDAwMDAwMDAwMDAx
-PC9wPjxwIHN0eWxlPSJtYXJnaW46MHB4OyI+WyZuYnNwOyAxMDEuODQzMzMzXSBcJDIwJm5ic3A7
-ICZuYnNwOzogZmZmZmZmZmZjMDA2Y2JjMCA5ODAwMDAwMjVkODRiMDQwIDk4MDAwMDAyNTUxNmYy
-ZTAgOTgwMDAwMDI1NTE2ZjMwMDwvcD48cCBzdHlsZT0ibWFyZ2luOjBweDsiPlsmbmJzcDsgMTAx
-Ljg1MTI4OF0gXCQyNCZuYnNwOyAmbmJzcDs6IDAwMDAwMDAwMDAwMDAwMDAgZmZmZmZmZmY4MTFm
-ZDg4MCZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJz
-cDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNw
-OyAmbmJzcDsmbmJzcDs8L3A+PHAgc3R5bGU9Im1hcmdpbjowcHg7Ij5bJm5ic3A7IDEwMS44NTky
-NDRdIFwkMjgmbmJzcDsgJm5ic3A7OiA5ODAwMDAwMjVkMDdjMDAwIDk4MDAwMDAyNWQwN2ZjNDAg
-ZmZmZmZmZmZjMDA3MDAwMCBmZmZmZmZmZjgxMDY4ZTBjPC9wPjxwIHN0eWxlPSJtYXJnaW46MHB4
-OyI+WyZuYnNwOyAxMDEuODY3MTk5XSBIaSZuYnNwOyAmbmJzcDsgOiAwMDAwMDAwMDAwYjgwN2Yy
-PC9wPjxwIHN0eWxlPSJtYXJnaW46MHB4OyI+WyZuYnNwOyAxMDEuODcwNzQ2XSBMbyZuYnNwOyAm
-bmJzcDsgOiBmMWE5ZmJlNzZkNjVjZDA2PC9wPjxwIHN0eWxlPSJtYXJnaW46MHB4OyI+WyZuYnNw
-OyAxMDEuODc0Mjk4XSBlcGMmbmJzcDsgJm5ic3A7OiBmZmZmZmZmZjgxMDY4ZTEwIGZiX3NldF9z
-dXNwZW5kKzB4NTAvMHg4MDwvcD48cCBzdHlsZT0ibWFyZ2luOjBweDsiPlsmbmJzcDsgMTAxLjg4
-MDAwNl0gcmEmbmJzcDsgJm5ic3A7IDogZmZmZmZmZmY4MTA2OGUwYyBmYl9zZXRfc3VzcGVuZCsw
-eDRjLzB4ODA8L3A+PHAgc3R5bGU9Im1hcmdpbjowcHg7Ij5bJm5ic3A7IDEwMS44ODU3MTJdIFN0
-YXR1czogNTQwMGNjZTMgS1ggU1ggVVggS0VSTkVMIEVYTCBJRSZuYnNwOzwvcD48cCBzdHlsZT0i
-bWFyZ2luOjBweDsiPlsmbmJzcDsgMTAxLjg5MDY0NV0gQ2F1c2UgOiAxMDgwMDAwYyAoRXhjQ29k
-ZSAwMyk8L3A+PHAgc3R5bGU9Im1hcmdpbjowcHg7Ij5bJm5ic3A7IDEwMS44OTQ2MjNdIEJhZFZB
-IDogMDAwMDAwMDAwMDAwMDNlMDwvcD48cCBzdHlsZT0ibWFyZ2luOjBweDsiPlsmbmJzcDsgMTAx
-Ljg5ODE3MF0gUHJJZCZuYnNwOyA6IDAwMTRjMDA0IChJQ1QgTG9vbmdzb24tMyk8L3A+PHAgc3R5
-bGU9Im1hcmdpbjowcHg7Ij5bJm5ic3A7IDEwMS45MDI0OTRdIE1vZHVsZXMgbGlua2VkIGluOiBm
-dXNlIGJsdWV0b290aCBlY2RoX2dlbmVyaWMgc2hhMjU2X2dlbmVyaWMgY2ZnODAyMTEgcmZraWxs
-IHZmYXQgZmF0IHNlcmlvX3JhdyB1aW9fcGRydl9nZW5pcnEgYmluZm10X21pc2MgaXBfdGQ8L3A+
-PHAgc3R5bGU9Im1hcmdpbjowcHg7Ij5bJm5ic3A7IDEwMS45MTg0MTRdIFByb2Nlc3Mga3dvcmtl
-ci91ODo2IChwaWQ6IDEwOTksIHRocmVhZGluZm89MDAwMDAwMDBiMDI3M2JiYSwgdGFzaz0wMDAw
-MDAwMGI3NTUxZWMxLCB0bHM9MDAwMDAwMDAwMDAwMDAwMCk8L3A+PHAgc3R5bGU9Im1hcmdpbjow
-cHg7Ij5bJm5ic3A7IDEwMS45MjkwNDVdIFN0YWNrIDogMDAwMDAwMDAwMDAwMDAwMCA2YzYzNWY3
-NDczNjk2YzVmIDk4MDAwMDAyNTUxNmYzMDggZmZmZmZmZmZjMDA2MWFhMDwvcD48cCBzdHlsZT0i
-bWFyZ2luOjBweDsiPlsmbmJzcDsgMTAxLjkzNzAwMV0mbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJz
-cDsgJm5ic3A7ZmZmZmZmZmZjMDA3MDAwMCBmZmZmZmZmZmMwMDZkN2MwIGZmZmZmZmZmYzAwNmNl
-MDAgMDAwMDAwMDAwMDAwMDAwMDwvcD48cCBzdHlsZT0ibWFyZ2luOjBweDsiPlsmbmJzcDsgMTAx
-Ljk0NDk1NV0mbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7OTgwMDAwMDI1YzA1NjA5
-OCBmZmZmZmZmZmMwMDcwMjM4IGZmZmZmZmZmODM0OTAwMDAgMDAwMDAwMDAwMDAwMDAwMTwvcD48
-cCBzdHlsZT0ibWFyZ2luOjBweDsiPlsmbmJzcDsgMTAxLjk1MjkxMF0mbmJzcDsgJm5ic3A7ICZu
-YnNwOyAmbmJzcDsgJm5ic3A7OTgwMDAwMDI1YzA1NjBmOCAwMDAwMDAwMDAwMDAwMDAwIGZmZmZm
-ZmZmODIyMTg4MzAgZmZmZmZmZmY4MjI5MDAwMDwvcD48cCBzdHlsZT0ibWFyZ2luOjBweDsiPlsm
-bmJzcDsgMTAxLjk2MDg2NV0mbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7OTgwMDAw
-MDI1Y2ZiODQ4MCBmZmZmZmZmZmMwMDYxYzU4IDAwMDAwMDAwMDAwMDAwMDEgZmZmZmZmZmY4MTAw
-OGZkNDwvcD48cCBzdHlsZT0ibWFyZ2luOjBweDsiPlsmbmJzcDsgMTAxLjk2ODgxOV0mbmJzcDsg
-Jm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7OTgwMDAwMDI1YzA1NjA5OCA5ODAwMDAwMjVjMDU2
-MjIwIDAwMDAwMDAwMDAwMDAwMDAgZmZmZmZmZmY4MTAwOGY0MDwvcD48cCBzdHlsZT0ibWFyZ2lu
-OjBweDsiPlsmbmJzcDsgMTAxLjk3Njc3NF0mbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5i
-c3A7MDAwMDAwMDAwMDAwMDAwMCBmZmZmZmZmZjgxNTM3N2UwIDk4MDAwMDAyNWMwNTYwZjggOTgw
-MDAwMDI1YzA1NjA5ODwvcD48cCBzdHlsZT0ibWFyZ2luOjBweDsiPlsmbmJzcDsgMTAxLjk4NDcy
-OV0mbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7MDAwMDAwMDAwMDAwMDAwMCBmZmZm
-ZmZmZjgxNTM5NjA4IGZmZmZmZmZmODIyMTg4MzAgOTgwMDAwMDI1YzA1NjA5ODwvcD48cCBzdHls
-ZT0ibWFyZ2luOjBweDsiPlsmbmJzcDsgMTAxLjk5MjY4NF0mbmJzcDsgJm5ic3A7ICZuYnNwOyAm
-bmJzcDsgJm5ic3A7ZmZmZmZmZmY4MzQ5MDAwMCBmZmZmZmZmZjgyMzcwMDAwIDk4MDAwMDAyNWMw
-MTgwMDAgOTgwMDAwMDI1YzAxYzAwMDwvcD48cCBzdHlsZT0ibWFyZ2luOjBweDsiPlsmbmJzcDsg
-MTAyLjAwMDYzOF0mbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7MDAwMDAwMDAwMDAw
-MDAwMCBmZmZmZmZmZjgxNTM5YWFjIDk4MDAwMDAyNWQwN2ZkNjggOTgwMDAwMDFjYWNkMGZhMDwv
-cD48cCBzdHlsZT0ibWFyZ2luOjBweDsiPlsmbmJzcDsgMTAyLjAwODU5M10mbmJzcDsgJm5ic3A7
-ICZuYnNwOyAmbmJzcDsgJm5ic3A7Li4uPC9wPjxwIHN0eWxlPSJtYXJnaW46MHB4OyI+WyZuYnNw
-OyAxMDIuMDExMDE4XSBDYWxsIFRyYWNlOjwvcD48cCBzdHlsZT0ibWFyZ2luOjBweDsiPlsmbmJz
-cDsgMTAyLjAxMzQ0M10gWyZsdDtmZmZmZmZmZjgxMDY4ZTEwJmd0O10gZmJfc2V0X3N1c3BlbmQr
-MHg1MC8weDgwPC9wPjxwIHN0eWxlPSJtYXJnaW46MHB4OyI+WyZuYnNwOyAxMDIuMDE4ODE5XSBb
-Jmx0O2ZmZmZmZmZmYzAwNjFhYTAmZ3Q7XSBsb29uZ3Nvbl9kcm1fc3VzcGVuZCsweDFhMC8weDM0
-MCBbbG9vbmdzb25dPC9wPjxwIHN0eWxlPSJtYXJnaW46MHB4OyI+WyZuYnNwOyAxMDIuMDI1ODI3
-XSBbJmx0O2ZmZmZmZmZmYzAwNjFjNTgmZ3Q7XSBsb29uZ3Nvbl9wbW9wc19mcmVlemUrMHgxOC8w
-eDQwIFtsb29uZ3Nvbl08L3A+PHAgc3R5bGU9Im1hcmdpbjowcHg7Ij5bJm5ic3A7IDEwMi4wMzI3
-NDhdIFsmbHQ7ZmZmZmZmZmY4MTAwOGZkNCZndDtdIHBjaV9wbV9mcmVlemUrMHg5NC8weDI0MDwv
-cD48cCBzdHlsZT0ibWFyZ2luOjBweDsiPlsmbmJzcDsgMTAyLjAzODExNF0gWyZsdDtmZmZmZmZm
-ZjgxNTM3N2UwJmd0O10gZHBtX3J1bl9jYWxsYmFjay5pc3JhLjUrMHgyMC8weDE0MDwvcD48cCBz
-dHlsZT0ibWFyZ2luOjBweDsiPlsmbmJzcDsgMTAyLjA0NDM0MV0gWyZsdDtmZmZmZmZmZjgxNTM5
-NjA4Jmd0O10gX19kZXZpY2Vfc3VzcGVuZCsweDJjOC8weDc0MDwvcD48cCBzdHlsZT0ibWFyZ2lu
-OjBweDsiPlsmbmJzcDsgMTAyLjA1MDA0OV0gWyZsdDtmZmZmZmZmZjgxNTM5YWFjJmd0O10gYXN5
-bmNfc3VzcGVuZCsweDJjLzB4MWMwPC9wPjxwIHN0eWxlPSJtYXJnaW46MHB4OyI+WyZuYnNwOyAx
-MDIuMDU1NDExXSBbJmx0O2ZmZmZmZmZmODAzMTU3Y2MmZ3Q7XSBhc3luY19ydW5fZW50cnlfZm4r
-MHg4Yy8weDI4MDwvcD48cCBzdHlsZT0ibWFyZ2luOjBweDsiPlsmbmJzcDsgMTAyLjA2MTIwN10g
-WyZsdDtmZmZmZmZmZjgwMmZlYTNjJmd0O10gcHJvY2Vzc19vbmVfd29yaysweDQzYy8weDk4MDwv
-cD48cCBzdHlsZT0ibWFyZ2luOjBweDsiPlsmbmJzcDsgMTAyLjA2NjkxNV0gWyZsdDtmZmZmZmZm
-ZjgwMmZmMmE0Jmd0O10gd29ya2VyX3RocmVhZCsweDMyNC8weGMwMDwvcD48cCBzdHlsZT0ibWFy
-Z2luOjBweDsiPlsmbmJzcDsgMTAyLjA3MjM2NF0gWyZsdDtmZmZmZmZmZjgwMzBjZGUwJmd0O10g
-a3RocmVhZCsweDFlMC8weDIwMDwvcD48cCBzdHlsZT0ibWFyZ2luOjBweDsiPlsmbmJzcDsgMTAy
-LjA3NzI5Nl0gWyZsdDtmZmZmZmZmZjgwMjIwNjg4Jmd0O10gcmV0X2Zyb21fa2VybmVsX3RocmVh
-ZCsweDE0LzB4MWM8L3A+PHAgc3R5bGU9Im1hcmdpbjowcHg7Ij5bJm5ic3A7IDEwMi4wODMzNTBd
-IENvZGU6IDBjNDFhMGEwJm5ic3A7IDI0MDQwMDAyJm5ic3A7IDI0MDIwMDAxICZsdDthZTAyMDNl
-MCZndDsgZGZiZjAwMTgmbmJzcDsgZGZiMDAwMTAmbmJzcDsgMDNlMDAwMDgmbmJzcDsgNjdiZDAw
-MjAmbmJzcDsgMDAwMDAwMDAmbmJzcDs8L3A+PHAgc3R5bGU9Im1hcmdpbjowcHg7Ij5bJm5ic3A7
-IDEwMi4wOTMwMzhdJm5ic3A7PC9wPjxwIHN0eWxlPSJtYXJnaW46MHB4OyI+WyZuYnNwOyAxMDIu
-MDk0NTMxXSAtLS1bIGVuZCB0cmFjZSAzZWQ4YTQzZmE4Y2YzMDc3IF0tLS08L3A+PHAgc3R5bGU9
-Im1hcmdpbjowcHg7Ij48YnI+PC9wPjxwIHN0eWxlPSJtYXJnaW46MHB4OyI+Jm5ic3A7PC9wPjxk
-aXYgc3R5bGU9InBhZGRpbmc6NXB4O3BhZGRpbmctbGVmdDowcHg7Ym9yZGVyLXRvcDpzb2xpZCAj
-OTk5IDEuMHB0O2ZvbnQtZmFtaWx5OiBhcmlhbDsgZm9udC1zaXplOjEycHg7bWFyZ2luLWJvdHRv
-bToyMHB4OyI+PHAgc3R5bGU9Im1hcmdpbjowcHg7Ij48c3Ryb25nPkZyb206PC9zdHJvbmc+ICJN
-YXR0aGV3IFdpbGNveCAmbHQ7d2lsbHlAaW5mcmFkZWFkLm9yZyZndDsiPC9wPjxwIHN0eWxlPSJt
-YXJnaW46MHB4OyI+PHN0cm9uZz5Ubzo8L3N0cm9uZz4gInNvbmdxaWFuZyAmbHQ7c29uZ3FpYW5n
-QHVuaW9udGVjaC5jb20mZ3Q7IjwvcD48cCBzdHlsZT0ibWFyZ2luOjBweDsiPjxzdHJvbmc+Q0M6
-PC9zdHJvbmc+ICJzYW0gJmx0O3NhbUByYXZuYm9yZy5vcmcmZ3Q7IiwiYi56b2xuaWVya2llICZs
-dDtiLnpvbG5pZXJraWVAc2Ftc3VuZy5jb20mZ3Q7IiwicGVuZ3Vpbi1rZXJuZWwgJmx0O3Blbmd1
-aW4ta2VybmVsQGktbG92ZS5zYWt1cmEubmUuanAmZ3Q7IiwiZ2VvcmdlLmtlbm5lZHkgJmx0O2dl
-b3JnZS5rZW5uZWR5QG9yYWNsZS5jb20mZ3Q7IiwiYXJuZCAmbHQ7YXJuZEBhcm5kYi5kZSZndDsi
-LCJ0emltbWVybWFubiAmbHQ7dHppbW1lcm1hbm5Ac3VzZS5kZSZndDsiLCJqZ2cgJmx0O2pnZ0B6
-aWVwZS5jYSZndDsiLCJkcmktZGV2ZWwgJmx0O2RyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5v
-cmcmZ3Q7IiwibGludXgtZmJkZXYgJmx0O2xpbnV4LWZiZGV2QHZnZXIua2VybmVsLm9yZyZndDsi
-LCJsaW51eC1rZXJuZWwgJmx0O2xpbnV4LWtlcm5lbEB2Z2VyLmtlcm5lbC5vcmcmZ3Q7IjwvcD48
-cCBzdHlsZT0ibWFyZ2luOjBweDsiPjxzdHJvbmc+U2VudDo8L3N0cm9uZz4gMjAyMS0wNS0xOSAy
-MDoxNjwvcD48cCBzdHlsZT0ibWFyZ2luOjBweDsiPjxzdHJvbmc+U3ViamVjdDo8L3N0cm9uZz4g
-UmU6IFtQQVRDSF0gZHJpdmVycy92aWRlby9mYmRldi9jb3JlL2ZibWVtLmM6IGFkZCBwb2ludGVy
-IGp1ZGdtZW50PC9wPjwvZGl2PjxwIHN0eWxlPSJtYXJnaW46MHB4OyI+T24gV2VkLCBNYXkgMTks
-IDIwMjEgYXQgMDg6MDA6MjhQTSArMDgwMCwgc29uZ3FpYW5nIHdyb3RlOiAmbmJzcDs8YnI+Jmd0
-OyBTaWduZWQtb2ZmLWJ5OiBzb25ncWlhbmcgJmx0O3NvbmdxaWFuZ0B1bmlvbnRlY2guY29tJmd0
-OyAmbmJzcDs8YnI+Jmd0OyAtLS0gJm5ic3A7PGJyPiAmbmJzcDs8YnI+WW91IG5lZWQgdG8gZXhw
-bGFpbjogJm5ic3A7PGJyPiAmbmJzcDs8YnI+IC0gV2h5IHlvdSB0aGluayB0aGlzIHBhdGNoIGlz
-IG5lZWRlZCAmbmJzcDs8YnI+IC0gRGlkIHlvdSBvYnNlcnZlIGEgcHJvYmxlbSBhdCBydW50aW1l
-PyAmbmJzcDs8YnI+IC0gSXMgdGhpcyB0aGUgb3V0cHV0IGZyb20gc29tZSBjaGVja2luZyB0b29s
-PyAmbmJzcDs8YnI+IC0gV2h5IHRoaXMgaXMgdGhlIHJpZ2h0IHdheSB0byBhZGRyZXNzIHRoZSBw
-cm9ibGVtICZuYnNwOzxicj4gJm5ic3A7PGJyPiAmbmJzcDs8YnI+ICZuYnNwOzxicj4gJm5ic3A7
-PGJyPiA8L3A+
+The problem is that ttm_bo_type_sg doesn't allocate a page array for the 
+TT object.
 
+Christian.
+
+Am 20.05.21 um 04:58 schrieb Pan, Xinhui:
+> [AMD Official Use Only]
+>
+> I am not sure if we can create a ttm_bo_type_sg bo for userptr. But I have another idea now. we can use flag AMDGPU_AMDKFD_CREATE_USERPTR_BO to create the userptr bo.
+> ________________________________________
+> 发件人: Kuehling, Felix <Felix.Kuehling@amd.com>
+> 发送时间: 2021年5月19日 23:11
+> 收件人: Christian König; Pan, Xinhui; amd-gfx@lists.freedesktop.org
+> 抄送: Deucher, Alexander; daniel@ffwll.ch; Koenig, Christian; dri-devel@lists.freedesktop.org
+> 主题: Re: 回复: [RFC PATCH 1/2] drm/amdgpu: Fix memory corruption due to swapout and swapin
+>
+> Looks like we're creating the userptr BO as ttm_bo_type_device. I guess
+> we should be using ttm_bo_type_sg? BTW, amdgpu_gem_userptr_ioctl also
+> uses ttm_bo_type_device.
+>
+> Regards,
+>    Felix
+>
+>
+> Am 2021-05-19 um 6:01 a.m. schrieb Christian König:
+>> I'm scratching my head how that is even possible.
+>>
+>> See when a BO is created in the system domain it is just an empty
+>> hull, e.g. without backing store and allocated pages.
+>>
+>> So the swapout function will just ignore it.
+>>
+>> Christian.
+>>
+>> Am 19.05.21 um 07:07 schrieb Pan, Xinhui:
+>>> [AMD Official Use Only]
+>>>
+>>> I have reverted Chris'  patch, still hit this failure.
+>>> Just see two lines in Chris' patch. Any BO in cpu domian would be
+>>> swapout first. That is why we hit this issue frequently now. But the
+>>> bug is there long time ago.
+>>>
+>>> -       for (i = 0; i < TTM_MAX_BO_PRIORITY; ++i) {
+>>> -               list_for_each_entry(bo, &glob->swap_lru[i], swap) {
+>>> [snip]
+>>> +       for (i = TTM_PL_SYSTEM; i < TTM_NUM_MEM_TYPES; ++i) {
+>>> +               for (j = 0; j < TTM_MAX_BO_PRIORITY; ++j) {
+>>>
+>>>
+>>> ________________________________________
+>>> 发件人: Pan, Xinhui <Xinhui.Pan@amd.com>
+>>> 发送时间: 2021年5月19日 12:09
+>>> 收件人: Kuehling, Felix; amd-gfx@lists.freedesktop.org
+>>> 抄送: Deucher, Alexander; Koenig, Christian;
+>>> dri-devel@lists.freedesktop.org; daniel@ffwll.ch
+>>> 主题: 回复: [RFC PATCH 1/2] drm/amdgpu: Fix memory corruption due to
+>>> swapout and swapin
+>>>
+>>> yes, we really dont swapout SG BOs.
+>>> The problems is that before we validate a userptr BO, we create this
+>>> BO in CPU domain by default. So this BO has chance to swapout.
+>>>
+>>> we set flag TTM_PAGE_FLAG_SG on userptr BO in popluate() which is too
+>>> late.
+>>> I have not try to revert Chris' patch as I think it desnt help. Or I
+>>> can have a try later.
+>>>
+>>> ________________________________________
+>>> 发件人: Kuehling, Felix <Felix.Kuehling@amd.com>
+>>> 发送时间: 2021年5月19日 11:29
+>>> 收件人: Pan, Xinhui; amd-gfx@lists.freedesktop.org
+>>> 抄送: Deucher, Alexander; Koenig, Christian;
+>>> dri-devel@lists.freedesktop.org; daniel@ffwll.ch
+>>> 主题: Re: [RFC PATCH 1/2] drm/amdgpu: Fix memory corruption due to
+>>> swapout and swapin
+>>>
+>>> Swapping SG BOs makes no sense, because TTM doesn't own the pages of
+>>> this type of BO.
+>>>
+>>> Last I checked, userptr BOs (and other SG BOs) were protected from
+>>> swapout by the fact that they would not be added to the swap-LRU. But it
+>>> looks like Christian just removed the swap-LRU. I guess this broke that
+>>> protection:
+>>>
+>>> commit 2cb51d22d70b18eaf339abf9758bf0b7608da65c
+>>> Author: Christian König <christian.koenig@amd.com>
+>>> Date:   Tue Oct 6 16:30:09 2020 +0200
+>>>
+>>>        drm/ttm: remove swap LRU v3
+>>>
+>>>        Instead evict round robin from each devices SYSTEM and TT domain.
+>>>
+>>>        v2: reorder num_pages access reported by Dan's script
+>>>        v3: fix rebase fallout, num_pages should be 32bit
+>>>
+>>>        Signed-off-by: Christian König <christian.koenig@amd.com>
+>>>        Tested-by: Nirmoy Das <nirmoy.das@amd.com>
+>>>        Reviewed-by: Huang Rui <ray.huang@amd.com>
+>>>        Reviewed-by: Matthew Auld <matthew.auld@intel.com>
+>>>        Link: https://patchwork.freedesktop.org/patch/424009/
+>>>
+>>> Regards,
+>>>      Felix
+>>>
+>>>
+>>> On 2021-05-18 10:28 p.m., xinhui pan wrote:
+>>>> cpu 1                                           cpu 2
+>>>> kfd alloc BO A(userptr)                         alloc BO B(GTT)
+>>>>        ->init -> validate                               -> init ->
+>>>> validate -> populate
+>>>>        init_user_pages                            -> swapout BO A
+>>>> //hit ttm pages limit
+>>>>         -> get_user_pages (fill up ttm->pages)
+>>>>          -> validate -> populate
+>>>>              -> swapin BO A // Now hit the BUG
+>>>>
+>>>> We know that get_user_pages may race with swapout on same BO.
+>>>> Threre are some issues I have met.
+>>>> 1) memory corruption.
+>>>> This is because we do a swap before memory is setup. ttm_tt_swapout()
+>>>> just create a swap_storage with its content being 0x0. So when we setup
+>>>> memory after the swapout. The following swapin makes the memory
+>>>> corrupted.
+>>>>
+>>>> 2) panic
+>>>> When swapout happes with get_user_pages, they touch ttm->pages without
+>>>> anylock. It causes memory corruption too. But I hit page fault mostly.
+>>>>
+>>>> Signed-off-by: xinhui pan <xinhui.pan@amd.com>
+>>>> ---
+>>>>     drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c | 16
+>>>> +++++++++++++++-
+>>>>     1 file changed, 15 insertions(+), 1 deletion(-)
+>>>>
+>>>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
+>>>> b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
+>>>> index 928e8d57cd08..42460e4480f8 100644
+>>>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
+>>>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
+>>>> @@ -835,6 +835,7 @@ static int init_user_pages(struct kgd_mem *mem,
+>>>> uint64_t user_addr)
+>>>>         struct amdkfd_process_info *process_info = mem->process_info;
+>>>>         struct amdgpu_bo *bo = mem->bo;
+>>>>         struct ttm_operation_ctx ctx = { true, false };
+>>>> +     struct page **pages;
+>>>>         int ret = 0;
+>>>>
+>>>>         mutex_lock(&process_info->lock);
+>>>> @@ -852,7 +853,13 @@ static int init_user_pages(struct kgd_mem *mem,
+>>>> uint64_t user_addr)
+>>>>                 goto out;
+>>>>         }
+>>>>
+>>>> -     ret = amdgpu_ttm_tt_get_user_pages(bo, bo->tbo.ttm->pages);
+>>>> +     pages = kvmalloc_array(bo->tbo.ttm->num_pages,
+>>>> +                     sizeof(struct page *),
+>>>> +                     GFP_KERNEL | __GFP_ZERO);
+>>>> +     if (!pages)
+>>>> +             goto unregister_out;
+>>>> +
+>>>> +     ret = amdgpu_ttm_tt_get_user_pages(bo, pages);
+>>>>         if (ret) {
+>>>>                 pr_err("%s: Failed to get user pages: %d\n",
+>>>> __func__, ret);
+>>>>                 goto unregister_out;
+>>>> @@ -863,6 +870,12 @@ static int init_user_pages(struct kgd_mem *mem,
+>>>> uint64_t user_addr)
+>>>>                 pr_err("%s: Failed to reserve BO\n", __func__);
+>>>>                 goto release_out;
+>>>>         }
+>>>> +
+>>>> +     WARN_ON_ONCE(bo->tbo.ttm->page_flags & TTM_PAGE_FLAG_SWAPPED);
+>>>> +
+>>>> +     memcpy(bo->tbo.ttm->pages,
+>>>> +                     pages,
+>>>> +                     sizeof(struct page*) * bo->tbo.ttm->num_pages);
+>>>>         amdgpu_bo_placement_from_domain(bo, mem->domain);
+>>>>         ret = ttm_bo_validate(&bo->tbo, &bo->placement, &ctx);
+>>>>         if (ret)
+>>>> @@ -872,6 +885,7 @@ static int init_user_pages(struct kgd_mem *mem,
+>>>> uint64_t user_addr)
+>>>>     release_out:
+>>>>         amdgpu_ttm_tt_get_user_pages_done(bo->tbo.ttm);
+>>>>     unregister_out:
+>>>> +     kvfree(pages);
+>>>>         if (ret)
+>>>>                 amdgpu_mn_unregister(bo);
+>>>>     out:
+>>> _______________________________________________
+>>> amd-gfx mailing list
+>>> amd-gfx@lists.freedesktop.org
+>>> https://lists.freedesktop.org/mailman/listinfo/amd-gfx
 
