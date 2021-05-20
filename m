@@ -2,144 +2,125 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0CEB38A995
-	for <lists+dri-devel@lfdr.de>; Thu, 20 May 2021 13:04:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AEA1B38AA43
+	for <lists+dri-devel@lfdr.de>; Thu, 20 May 2021 13:12:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A78636E0A5;
-	Thu, 20 May 2021 11:04:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AAB686F3F4;
+	Thu, 20 May 2021 11:12:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 1061 seconds by postgrey-1.36 at gabe;
- Thu, 20 May 2021 11:04:28 UTC
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com
- [205.220.166.238])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 450746E0A5
- for <dri-devel@lists.freedesktop.org>; Thu, 20 May 2021 11:04:27 +0000 (UTC)
-Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
- by mx0a-0064b401.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 14KAhtQu002695; Thu, 20 May 2021 03:46:37 -0700
-Received: from nam11-bn8-obe.outbound.protection.outlook.com
- (mail-bn8nam11lp2169.outbound.protection.outlook.com [104.47.58.169])
- by mx0a-0064b401.pphosted.com with ESMTP id 38ngvn06s4-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 20 May 2021 03:46:37 -0700
+Received: from NAM02-SN1-obe.outbound.protection.outlook.com
+ (mail-sn1anam02on2078.outbound.protection.outlook.com [40.107.96.78])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1E0CA6F3F2;
+ Thu, 20 May 2021 11:12:08 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=GzHrQeq9DPz+9oiey6KXOuAbtKA6iL5CBWHgl+oqIGFXqGh3TLHdVLZugo8YMgBnydDlNX+plCi62y++kUyuRmC6bIuPr/6bYNqCZhL6TlQLkXxMyNGPEfeKnD1Jx23w93Pwv18d6CWaHY2NGIKbY3iUbAVJc/G3r4QVNu4fqzoqGr3TJlRGmrj9Bb9E0mf374On1ikiwDr4yDlcSZwZwq12lTMjih1NSEoO28JjyRDLARZzc9SgKejqwbxS8//2UMfq+qWxfxn9in6pLqnJU6wuXcFABG44uKpyZgD0drBlufhDZdKxLwkRd72tlXVz1PL0dwpmeDwZrZ5YLJnGew==
+ b=etNLx2DfvoXa/W6f6C2oAfBFFQf+D3KX59QancKv0UfEJJ/U4VvA9Jd4SfypAPZ1+S4B4khf3jA73wyeMFGiq+o617f3DRvnJJyIUPBpfQuLdx7j90Z0idpKqEspRU3A6bZP60bX593DLjx7w81ADQP2E4uKUTsIkcz+5u4x8YPPXUm0wY4/JGSqbhmbIAMBe3S5eX4Gjk7X0MgD63uvHFW1B5mblPxJBnLRlCxUGGxpOdm9vOAF7DjMKQrATLkgS5ptBcZ9btzKWgXdwqLXI5+cL9ly+UKj/zYOOxhKE9v7rB0nWMmBqWwa024H6cpe4v0VGM4AMfu0fGi8JkU/8Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=a/q6yN4/pFgmR+xqTWJX7Ug2CJ4cPhUpFNGFsHdM5O8=;
- b=DdjwnMHEdBo6XH34vaCGHjAtdjI3X91FPdLxk2sE/T6e0rXqDy9/2E25fXD+US7v/6vJA7kVYKtdppglzPwro6BNXoKuYrnV4eWz6KGgR1AcFJtwgT4HWKb/IXL92FQIF7yJEnbWG46rZCT43hm0A1BEjR7ftfGE72X/Yb3m9u20gCnSB2r4/OQ1DjZgIUyNZL5QJnW/4AeAKLw3cdq5w41rWf8KTAz7XYX5y6q4fQE+JfI5BQwvqsaDsOiu/OFeGCFz3noX7Q703ujIUUInOGxXWpobzBKWEbMjWNTAZ3vdslxC79VzMIEtv3j3kdH0esN8qESJezQBnrt0G0q+cw==
+ bh=bbyrPbc47VTve4DWXO19HPfC0dkZgfQmIHy/oUvlEY4=;
+ b=eEJxewKSk59Hcj9a1vFfKJlma44zuU9Cp18y+9LfIAG57ygWY36KhyGCvUHsYMfZYLcqYjtzAgzh2q5o32CQGjd/lzIwizMFAUnuPXP0uTQBRNq5LvuHUySdP1o3oIzuoPXtNKi/TCgeXhb+nbl0pZ1yT5uRscxvGn120RYZSslrsYccbpRXyjUFjUzNHt7EwbPJ0p1+8JO/tu4Esx2FYXtA6JqbHQuGzGnfEb/+bXd536/CvdYIGqq8/XgbAkxDoW5prXzvVWfgVRNmcxTv4VaQ7Npk2w+mv3FEgHp6h/AMZ0pyMl39P+nonqu9VmVn8ZWvSUfjYjnP0rR6q5+MZw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=windriversystems.onmicrosoft.com;
- s=selector2-windriversystems-onmicrosoft-com;
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=a/q6yN4/pFgmR+xqTWJX7Ug2CJ4cPhUpFNGFsHdM5O8=;
- b=AlEbyE20jxa+WUHQ0iKoygCHGWX4DtZ3+vPHhVVSV2hmTF3HyLd34x973CI0eVA5BbIx9zyVAZ/OBjeOFJmwh/rPAYCdtZMq97zmA0qN6cT3DgOvN4+qsMsdnlKlwcrLw51Tg6n0bqXceYOrqq5m8Nk0X4g02wC9+0+4Pu1GNzY=
-Authentication-Results: vger.kernel.org; dkim=none (message not signed)
- header.d=none;vger.kernel.org; dmarc=none action=none
- header.from=windriver.com;
-Received: from CY4PR11MB0071.namprd11.prod.outlook.com (2603:10b6:910:7a::30)
- by CY4PR1101MB2152.namprd11.prod.outlook.com (2603:10b6:910:23::19)
+ bh=bbyrPbc47VTve4DWXO19HPfC0dkZgfQmIHy/oUvlEY4=;
+ b=qesklrrKlKS82cWrZR/2tnCDqdFkmMWoD5LSTgwsYMrE1QHNFBhL2wvjkx5Vvbh5iwZYXD1P1mCyzm5NVFy37ukPvdyfPeOKbCgqAq7YnEees7d5zBV93StdMLhoY+xLyNTXsi6MA7kC6AzIhjuRlesbizLt2i6PJSplXsLkcck=
+Authentication-Results: intel.com; dkim=none (message not signed)
+ header.d=none;intel.com; dmarc=none action=none header.from=amd.com;
+Received: from MN2PR12MB3775.namprd12.prod.outlook.com (2603:10b6:208:159::19)
+ by BL0PR12MB2420.namprd12.prod.outlook.com (2603:10b6:207:4c::23)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4129.26; Thu, 20 May
- 2021 10:46:35 +0000
-Received: from CY4PR11MB0071.namprd11.prod.outlook.com
- ([fe80::cccf:6e19:b547:da8b]) by CY4PR11MB0071.namprd11.prod.outlook.com
- ([fe80::cccf:6e19:b547:da8b%6]) with mapi id 15.20.4129.032; Thu, 20 May 2021
- 10:46:35 +0000
-Subject: Re: [V2][PATCH 2/2] drm: xlnx: consolidate the functions which
- programming AUDIO_VIDEO_SELECT register
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-References: <20210518095019.3855369-1-quanyang.wang@windriver.com>
- <20210518095019.3855369-3-quanyang.wang@windriver.com>
- <YKYyUof3HPEFXQYc@pendragon.ideasonboard.com>
-From: "quanyang.wang" <quanyang.wang@windriver.com>
-Message-ID: <d028fb6c-6669-fedb-a4a0-fa570b1bf626@windriver.com>
-Date: Thu, 20 May 2021 18:45:00 +0800
+ 2021 11:12:05 +0000
+Received: from MN2PR12MB3775.namprd12.prod.outlook.com
+ ([fe80::6d4d:4674:1cf6:8d34]) by MN2PR12MB3775.namprd12.prod.outlook.com
+ ([fe80::6d4d:4674:1cf6:8d34%6]) with mapi id 15.20.4150.023; Thu, 20 May 2021
+ 11:12:05 +0000
+Subject: Re: [Mesa-dev] [RFC 2/2] drm/doc/rfc: i915 new parallel submission
+ uAPI plan
+To: Matthew Brost <matthew.brost@intel.com>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+References: <20210518235830.133834-1-matthew.brost@intel.com>
+ <20210518235830.133834-3-matthew.brost@intel.com>
+ <5b8ab744-4906-945d-cbca-1ce4c40f2fcb@gmail.com>
+ <20210519165121.GA2585@sdutt-i7>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Message-ID: <521a34ba-52d4-a9c2-97bb-48873174fc49@amd.com>
+Date: Thu, 20 May 2021 13:11:59 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
-In-Reply-To: <YKYyUof3HPEFXQYc@pendragon.ideasonboard.com>
+ Thunderbird/78.8.1
+In-Reply-To: <20210519165121.GA2585@sdutt-i7>
 Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [60.247.85.82]
-X-ClientProxiedBy: SJ0PR05CA0186.namprd05.prod.outlook.com
- (2603:10b6:a03:330::11) To CY4PR11MB0071.namprd11.prod.outlook.com
- (2603:10b6:910:7a::30)
+X-Originating-IP: [2a02:908:1252:fb60:4635:589e:67a4:e02a]
+X-ClientProxiedBy: AM4PR0101CA0078.eurprd01.prod.exchangelabs.com
+ (2603:10a6:200:41::46) To MN2PR12MB3775.namprd12.prod.outlook.com
+ (2603:10b6:208:159::19)
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [128.224.162.199] (60.247.85.82) by
- SJ0PR05CA0186.namprd05.prod.outlook.com (2603:10b6:a03:330::11) with
+Received: from [IPv6:2a02:908:1252:fb60:4635:589e:67a4:e02a]
+ (2a02:908:1252:fb60:4635:589e:67a4:e02a) by
+ AM4PR0101CA0078.eurprd01.prod.exchangelabs.com (2603:10a6:200:41::46) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4173.12 via Frontend
- Transport; Thu, 20 May 2021 10:46:32 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4150.23 via Frontend
+ Transport; Thu, 20 May 2021 11:12:02 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 4639350d-175e-4c32-9da7-08d91b7c895b
-X-MS-TrafficTypeDiagnostic: CY4PR1101MB2152:
-X-Microsoft-Antispam-PRVS: <CY4PR1101MB215259A66633BAD6AF2CFE64F02A9@CY4PR1101MB2152.namprd11.prod.outlook.com>
+X-MS-Office365-Filtering-Correlation-Id: b18ebcb2-ecec-4c20-4593-08d91b80194f
+X-MS-TrafficTypeDiagnostic: BL0PR12MB2420:
+X-Microsoft-Antispam-PRVS: <BL0PR12MB2420EFC95344159C0D6898EF832A9@BL0PR12MB2420.namprd12.prod.outlook.com>
 X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: yFEnJ1EDNrFp6YqPRiEab2oy0HuseD+HfFC+pmLZwoN4BMKTWOkSBE5ibzll/SWxt490i9HmUp9puzHanCENL4BW/LxNJJf/cPz71sU4EsyrT+V2ftmnFTSgbiy3V8HtS27lz/WZWodX0t3jqvF2TCRsBQukYe0mRgLtiJxID5derCecExEyqwWz670Cx+JBH3hkOvb6f+bIDNsy5Hm1vgcd+n9rkCCv9cKDi98nBUU/01X+12STZAEnt1C0HS9fDXdzX/hYom4KFlPTKe4N3eZnXtg4Pj+Gl6mfi3oRT20Zaq4rZCOlUmjeguLaT3KvYgH6qkQaEbj2k6lIe3lvBU0NHgRtN/NMWJ1vvUeHuzCSplglDAAX9Ql48MDw9byAIjq3J12Bsh2c27xUVCWbYvsuszATm2VSWpwIHwMppk0JXgA1au3p6FYkeN/Wm8gTWPHs1zbETTW2Qam4yUyMTRu4nwDFxPh26EGqLvQ4MvIU+kd2LPLVT86GPpqpJggFL+B1o9itVCOy4XT3PEGjz01CDQQpBLx6ZyUZBobZv/MRdfosrB1POztGD81tb+aQqkpQOf+JWXYjFWue6K+xhyyfLsTilKwCJ5JMCgFxaiwunpubDTNEexpC/Fv6RhV0iiv7a2UGjoGaL06dcEkdFlHu/98kvYM+u5COvb30OwCjGKLlfENHCjkEvUbRLaTTbYmowkRYAR6eDtAwwQpCeyV+3wY4XnMX5JiVsJM/ElkCphcmB1xbZfqCw6nIE9RC
+X-Microsoft-Antispam-Message-Info: bz8XV9JyNh/IjviI7QP2u4SwZi8XWMtR/UQN0umGBgoiyRyb3b7cVoRSQbZvi8U0KyZLptYRgFX2A0QZ4O3oy5ZZtYW+27ieOpt5EBS74/uy1knLgavC6KXpYNLam1ZPCizZCr7+K6IhqlpshZbM4sc+yeW5+0j7B7QVwia2+IscDtUFNDUynHGED/FKx9H20OQ++9+OCHxIntyGh+keiUD40oZ2ZNmTo5pa9k/SQApzMITSkwJ4FpQU9XXIy01KMSzApslXNDb4vpN1gjCoyK3wegcaPDSSKYCwmW7oTNe4MynS+ylhHEjbU0osi2nRh2qNewBp3hR2lB90XKz/l5+mX28X/5ErtVnIau0BnlBqzxny08GWNbmoNRvXWgX4fgk+cE7fQS/dtkoIVx1XfjOiF8nMCsq+hbRHgTjROcnec5mLHmocAK42tICJSXn/JDi+34da0Bn7Vqa/tu0z8IJOM8GLX9xCc4YBEmBuQtMQFtflkxGz0vyDecsSdJRSBqJnOxw6rn7qR+KQwCrVI2oksCIk5q4vkGGcpHOYc8uhnvJUmCCAo8Sd4xSh83oyBownD8tfISGLV30H1sDs0er/kU5vUJwVbKm3oN64eXO5A9/vs2SUPD+PYRDX9lXEqgQau4jY7ckA9w00ijxixkrpi9Bk2Ln/6zgMiqZ5w4uAIhj5wAUK+UeP831iOKtSXud+BMgsaOQ0SZWSY/g4jY0n1nO1C3gWRb5BN4NQafX4dyHXPqMOPnhdYz0hu1mQJmX66Grg/Art3Z31vrusXQ5FAXS2U6pPIxHL2lvw8Zo=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CY4PR11MB0071.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(39840400004)(136003)(396003)(376002)(346002)(83380400001)(2616005)(478600001)(6706004)(66476007)(6666004)(2906002)(30864003)(86362001)(31696002)(54906003)(16576012)(53546011)(26005)(6916009)(66556008)(36756003)(66946007)(186003)(316002)(956004)(52116002)(38100700002)(38350700002)(8936002)(31686004)(6486002)(8676002)(5660300002)(4326008)(16526019)(78286007)(43740500002)(45980500001);
+ IPV:NLI; SFV:NSPM; H:MN2PR12MB3775.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(346002)(136003)(376002)(396003)(39860400002)(366004)(316002)(110136005)(16526019)(45080400002)(30864003)(186003)(36756003)(5660300002)(478600001)(2616005)(966005)(6486002)(8936002)(38100700002)(7416002)(4326008)(8676002)(2906002)(83380400001)(66574015)(31696002)(6666004)(52116002)(66556008)(86362001)(31686004)(66476007)(66946007)(43740500002);
  DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?RXFYUkppMFZGWGExdGFvOTZnT3FYWGNpenk1RHNhSEx2NWljWnR4b3I5Tk1o?=
- =?utf-8?B?cWNodWZOVWw1ZE9QNElqWmU0d080dWNOUkkvbkpGdHpoTGlMd0tIMUFOU2ov?=
- =?utf-8?B?LzFjZUtmMDBvUG8wb2VPWThlaVRpdEI3V3FmNGRvdG1TM2dGbWQ3REdYWkEy?=
- =?utf-8?B?MEdpTFphOXpxQkVTbG5MM1gvUGw3SXR5QjFxSHEzMU9na1R6RjdjZTdzSmRM?=
- =?utf-8?B?NlBYTzZvWm9YVFkraEFta3R0YU1wSlRIc3ZTOXh1WlE3VExFNmRBV043cXor?=
- =?utf-8?B?Q1U5UnVvSTU0MVhVejZHaE1WdHNOa1NyZS9tVStRMkNvbzdJclp5ZTZON0RX?=
- =?utf-8?B?b3ZYeXg0aWJndUQ3WlZIMWdPUHBYeXVNTHpLSEFwTlpMSnd0Q0FPUmVXbEpr?=
- =?utf-8?B?ZlBESVlsZVlpYmZ5MW5hcHJIemRqSGc4RDFvZzc3SkQyUDE5R1VyelFmQ0lu?=
- =?utf-8?B?ZFN5TjNoRmlHNmVVUURab0RHTDltL3dpeFAwNWo2UlVBR2hhZW1vVnZpZ3A3?=
- =?utf-8?B?dXY3QzhQUmIvQUFOblZnSFZncGpQWE1QUHlCSDRuQzhreDhXQU5rRXhDZG0x?=
- =?utf-8?B?bzd5S1orNVVVM0NMU3dqb3BCdkkwbGpUbW1PaHo5QUxWZWQwbDkyT2owaUFr?=
- =?utf-8?B?T29KRGtZdHZ4bDNURG5WM2ZGdzVudVJRNDhVWTJUOUU1bGxZNHY5MXEzcGw2?=
- =?utf-8?B?cVVsdGtxYWxwMHdheFlBeHlmSmc5OTVQZmk2TDRiVmJWa0pYRzR3WE5HamMr?=
- =?utf-8?B?eUhIWHlVQTNEUnlaNW5zbnlBVlJwQ09veDl5RVhQbHRsQTRVbU1rQmdwMzNw?=
- =?utf-8?B?QzhmNzlFR2FxV0lxWjFLNDhDL2VEbTRsVWtUZTlmMGVBV2JSQm9HaFhzNk80?=
- =?utf-8?B?WFVaMmFneXVORkdPT3JsLzIwVTVLYTVseWpYUXh0UWs0VzNSRGVBM0RzalFG?=
- =?utf-8?B?VlkxbmprTGZGaHZBeUFhVUU0ZXBSZ0ZKRmlhMUl3YlBncVQ0Qm1rcExsT1VH?=
- =?utf-8?B?N1VuYUdwcVZPVWV6aU5HSXMxcEMvK2pYL2NtMlpQZGdMbjNhclBZNzRxaU9W?=
- =?utf-8?B?Vnl4MGZ3ZlVDanhWMCtRU21CMFJHMnJMeEpsZk93TTBpSnZ5SW0wVUJGM3Uv?=
- =?utf-8?B?ZEFuRC9OU2ZkaGFVeVpCTzFGS1pJa242c2tieFJXanI3WWRFTC9iVEFxem05?=
- =?utf-8?B?ekJUUGNlM1ZPUUs1SVZSZzRSSFIwVjdQaWhYWCtYT1RjTTkraVNYdnJWb2lS?=
- =?utf-8?B?WVprVXpPa0EvRzEyL1c3MmthdkRzY0JDdVV0SVRFMm1NQU9NK09MbExuWnlQ?=
- =?utf-8?B?TUNUVFN2ZURQandTSzlaU0tVRWcyVzNOc2J4b1FhREhaYmo4bTNOOS9DVzY0?=
- =?utf-8?B?NUZhc1JEZlFOcjhGd2cxeS96NzU4aUh3cFZtLys2V2xMMCt5eDJ5NE9BbHR1?=
- =?utf-8?B?ODNra2VmYWxaTk45L2MxTFBFYTZRd3E4TWg1cmQ1eGtjRExscVh0RXF0dno3?=
- =?utf-8?B?azM3UnowYXQ5enJZbm5MR3ZaZ1BvUVNWNUtvZmYwY1JkUEtBYU82am9sLzE2?=
- =?utf-8?B?cmVzV01WSXU1b2RoS1dXeE5wVmFmemU2NW9CRlRvRnJaNndIbUI3d3k0OXZW?=
- =?utf-8?B?cUQ1TDUzQm9iV3k3aWdnVlhvL0tER3pKOHNlTllEeVNkKzFJZFhnRDBxYms3?=
- =?utf-8?B?UFFML3JXVlhPclJoVFR4TlcxeUYzeVV3Vk03SUlkT1cwaW93S3VGOXM4SGQ2?=
- =?utf-8?Q?MsUufB3T6r/DMMLsLn7mmL6pGdmwcFPoKSvbNOf?=
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4639350d-175e-4c32-9da7-08d91b7c895b
-X-MS-Exchange-CrossTenant-AuthSource: CY4PR11MB0071.namprd11.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?cFhOOW5PYnNFL3NnWFhzRTVUYkcrek1qeW1XYTlzSVBldUM4WS92aERqWjRI?=
+ =?utf-8?B?ZlFSK0Q1UFNaVldXSmVJNXFTUm1LcHphR0wvL0NTSWFydFZLZXFYRXpBc0dG?=
+ =?utf-8?B?ZWxtUmVTZjI1OXdaWHJOS1VUZ0R0SjNDT0JTbHY0eGNMVFlPeGU5cC9aeGha?=
+ =?utf-8?B?czllOCsvaEdlN0ZDaXgxcFVPTm91M3MzUnJtWlRoTlNFQmxlVXg4M1dTWmp4?=
+ =?utf-8?B?a2IrbXpoU09zeUJnQk1ZWGlQdUJMS0R4eEtvM20zMzVRRlJBbm5MU1BwSWZT?=
+ =?utf-8?B?clQrZ1huK0FYQmVaSFFJbFpCaHhYNGlnMnJzejRhN3IrbURaRDFoblIzZkR1?=
+ =?utf-8?B?Z3NVK3d2Q1YwTkZLd294Qm1abm02OVpDVSt3ckJZdy9tOTF6V0RScWJFbFZG?=
+ =?utf-8?B?RUUzamlSVW5xcFlTT2E1T0UycGhucEQrUkpVMS9xcFNpMHJ1TWR3aXF0dTUy?=
+ =?utf-8?B?alR2aTVGQTl6MmxpbmRpTys0SFlxSDJmUFVBbGo0c21HT1pmM1NSOWpLWkFi?=
+ =?utf-8?B?aE1ZMit5RHpuTDd5QmdpL3VNTGNkMTZuOEFwWkJzckJyWkloaHhsRkh1cEFM?=
+ =?utf-8?B?a28xSHVoTHZEd3pYeUZFSnBQUVcyTnFqWnN3SDVHV2NiV2ZIMlJtZGtWdm5D?=
+ =?utf-8?B?cmRsaEJBaGhmbU51UzM0b2JaRGhLV1p4YmR1bUxwNUtKcDFYTnBqRW5NNDJ3?=
+ =?utf-8?B?S3FodFFIZDk4RmxZUlNLQkVRaGdkUmJrWGU3OXdDNHJ3Nm9BVEdvSkMvaUxR?=
+ =?utf-8?B?N3VtKzFzbHk0K3BmbGoxdUoxSC8vSE9RdWhLTmZHeVBvcG50ZC8zUWxpOHVY?=
+ =?utf-8?B?Qm1KZ0dLUGdQOVFYempYUU1JeGdtK3E3SEw3cHozb21YQTFiclNuWnZxRjR5?=
+ =?utf-8?B?OWZFMHREQnA3dmtvTkoybmp2Z1hmeFdBaUxUZnRDRTNMV1ZyUlBLc1pEQ0tE?=
+ =?utf-8?B?NDFKRUNMeXc5Zk5hczVwRFFHRFZzMEthMXBlSWlTVUt6RWxFNWVlNzhCelZM?=
+ =?utf-8?B?RlMwUDNxc2NlekZBMHN4NUtIWmJiMzRUaG8zZm9EUHdzeDlkd3NpR0IvRU1P?=
+ =?utf-8?B?dlhPVytUc0Fab0dsSC9Lb2Z3MlNFbDR2YnJCNEJrUS96OEpBem90dVBGa1B0?=
+ =?utf-8?B?OXE2ekY3RXY5L0t0Nmxsdk9RVytYY0FJc0JjQUZaTHc3UU13UlhPdVJ3b3E5?=
+ =?utf-8?B?S2FnY2dpT1ZzTVNkcSszaGp1RERqZWkzUEVObXJVdzd4d014ZStGU0w1Y0Nw?=
+ =?utf-8?B?c3g2ZlVxazNCaUhvaGhDRWVWc0IyVjhTL1FieGMzSE4wdGRNdVFlUitBbXF4?=
+ =?utf-8?B?c1I5Njc0VWJWNmQ3LzJUV0MyNnUwcW1XclJaVDFteTVCOER5NElvclNvVERX?=
+ =?utf-8?B?TGlMbXl4OEVkYUtCUEYvQWlFUmxzQkFQaEpxOWxsMjBVYnNlOXJzOVRJR3dN?=
+ =?utf-8?B?Yjh5ZXc5MzlvZE80bFpsT1ZiME9wUmY3OE5OQW9FMU1nU3BNZGtmS2dsd2M4?=
+ =?utf-8?B?YzcxbG50QWV6YVRSMWw5R3VDSUFZNnhESjJZN3VCVjIyckdVV3g2NHJ2R2cx?=
+ =?utf-8?B?NVUvUHhhSWM5TzVRZUV6TXBBSGdrVUJvOEk2S21oc1ZMSmR3UVBvQ3BPZDdG?=
+ =?utf-8?B?YjVLZnNpNXArMlBCZHpCUWVkTlMxNnJDa2Qwdzg4cVJjcFptbW9IVTBRSWhL?=
+ =?utf-8?B?MVdsK012bmdONklzbWtwZzNJVzl3QWxZWDRsYmx0eEFUR0ZXdFpJNGVkODNs?=
+ =?utf-8?B?TitJa2VwTWI5VDNSQnU0eFVtWm9jbGNkalF5K1U4NUE2V3hpamFxNm9TdTN5?=
+ =?utf-8?B?Q0ZBRk1oM0FKR3poYlNhaFdGQ3VGK1hzcFdpU0tKMUZoamZTSm5PRWgvVXNy?=
+ =?utf-8?Q?ThRF71XuccF45?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b18ebcb2-ecec-4c20-4593-08d91b80194f
+X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3775.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 May 2021 10:46:34.9400 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 May 2021 11:12:04.8672 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: he4glwHtj4zHK10wxqVBb63zudzsLftBySL6mt57HxWkhGNDqxa0SWnMjg8AzAk/FjUG1CfufBiLS7GvUudRJeM2ah9Qm3I3Rx6kHFhlhZs=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR1101MB2152
-X-Proofpoint-ORIG-GUID: 4Lgvw8xKpM0y7glVCqyImBM9EVRnJ7XI
-X-Proofpoint-GUID: 4Lgvw8xKpM0y7glVCqyImBM9EVRnJ7XI
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.761
- definitions=2021-05-20_03:2021-05-20,
- 2021-05-19 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0
- lowpriorityscore=0 impostorscore=0 spamscore=0 phishscore=0 bulkscore=0
- mlxscore=0 clxscore=1015 mlxlogscore=999 adultscore=0 priorityscore=1501
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2104190000 definitions=main-2105200081
+X-MS-Exchange-CrossTenant-UserPrincipalName: bRmBG09i5QU6oUCTA88kfS8LHjCbDkTAaaKCICoBTKJ/8Lex6xfvrYJt0x/ZCCiJ
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL0PR12MB2420
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -152,379 +133,288 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Hyun Kwon <hyun.kwon@xilinx.com>, David Airlie <airlied@linux.ie>,
- Michal Simek <michal.simek@xilinx.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Paul Cercueil <paul@crapouillou.net>,
- linux-arm-kernel@lists.infradead.org
+Cc: tony.ye@intel.com, tvrtko.ursulin@intel.com,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ jason.ekstrand@intel.com, michal.mrozek@intel.com,
+ daniele.ceraolospurio@intel.com, jon.bloomfield@intel.com,
+ daniel.vetter@intel.com, mesa-dev@lists.freedesktop.org, karl@freedesktop.org,
+ john.c.harrison@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Laurent,
-Thank you for your review.
-
-On 5/20/21 5:56 PM, Laurent Pinchart wrote:
-> Hi Quanyang,
-> 
-> Thank you for the patch.
-> 
-> On Tue, May 18, 2021 at 05:50:19PM +0800, quanyang.wang@windriver.com wrote:
->> From: Quanyang Wang <quanyang.wang@windriver.com>
+Am 19.05.21 um 18:51 schrieb Matthew Brost:
+> On Wed, May 19, 2021 at 01:45:39PM +0200, Christian König wrote:
+>> Oh, yeah we call that gang submit on the AMD side.
 >>
->> For now, the functions zynqmp_disp_avbuf_enable/disable_audio and
->> zynqmp_disp_avbuf_enable/disable_video are all programming the register
->> AV_BUF_OUTPUT_AUDIO_VIDEO_SELECT to select the output for audio or video.
->> And in the future, many drm properties (like video_tpg, audio_tpg,
->> audio_pl, etc) also need to access it. So let's introduce some variables
->> of enum type and consolidate the code to unify handling this.
+>> Had already some internal discussions how to implement this, but so far
+>> couldn't figure out how to cleanly introduce that into the DRM scheduler.
 >>
->> Signed-off-by: Quanyang Wang <quanyang.wang@windriver.com>
->> ---
->>   drivers/gpu/drm/xlnx/zynqmp_disp.c      | 168 ++++++++++++++----------
->>   drivers/gpu/drm/xlnx/zynqmp_disp_regs.h |  23 +---
->>   2 files changed, 106 insertions(+), 85 deletions(-)
+>> Can you briefly describe in a few words how that is supposed to work on the
+>> Intel side?
 >>
->> diff --git a/drivers/gpu/drm/xlnx/zynqmp_disp.c b/drivers/gpu/drm/xlnx/zynqmp_disp.c
->> index eefb278e24c6..3672d2f5665b 100644
->> --- a/drivers/gpu/drm/xlnx/zynqmp_disp.c
->> +++ b/drivers/gpu/drm/xlnx/zynqmp_disp.c
->> @@ -102,12 +102,39 @@ enum zynqmp_disp_layer_id {
->>   
->>   /**
->>    * enum zynqmp_disp_layer_mode - Layer mode
->> - * @ZYNQMP_DISP_LAYER_NONLIVE: non-live (memory) mode
->> + * @ZYNQMP_DISP_LAYER_MEM: memory mode
->>    * @ZYNQMP_DISP_LAYER_LIVE: live (stream) mode
->> + * @ZYNQMP_DISP_LAYER_TPG: tpg mode (only for video layer)
->> + * @ZYNQMP_DISP_LAYER_DISABLE: disable mode
-> 
-> "Disable" isn't really a mode :-S
-Yes, as per Register Reference for AV_BUF_OUTPUT_AUDIO_VIDEO_SELECT
-VID_STREAM2_SEL	3:2	rw	0x2	STREAM2 Enable
-				00: Disable graphics from memory/live
-				01: Enable graphics from memory
-				10: Enable graphics from live
-				11: None
-VID_STREAM1_SEL	1:0	rw	STREAM1 Select:
-				0: Live Video
-				1: Video from memory
-				2: Pattern Generator
-				3: None (black frames)
+> Sure, I've done a quick PoC internally and have been able to hook this
+> into the DRM scheduler.
+>
+> Basically each BB still maps to a single job as each job is somewhat
+> unique (e.g. each job has its own ring, lrc, seqno, etc...). However all
+> the jobs configured to run in parallel map to a single sched_entity
+> which maintains the order each job was generated from the execbuf IOCTL
+> (1 - N). When the backend receives jobs 1 to N - 1 it basically just
+> updates some internal state. When the backend sees job N (last job) it
+> actually does the submit for jobs 1 - N which with GuC submission is a
+> simple command moving the LRC tail of the N jobs.
+>
+> Daniel has suggested that we create a single job for the NN BBs but that
+> would be huge rework to the internals of the i915 and likely won't
+> happen by the time this code first lands.
+>
+> Also worth noting one way a job isn't really a treated individually is
+> the excl slot with dma-resv. In that case we create a composite fence of
+> all jobs (dma_fence_array).
 
-The NONE mode maybe better.
-> 
->>    */
->>   enum zynqmp_disp_layer_mode {
->> -	ZYNQMP_DISP_LAYER_NONLIVE,
->> -	ZYNQMP_DISP_LAYER_LIVE
->> +	ZYNQMP_DISP_LAYER_MEM,
->> +	ZYNQMP_DISP_LAYER_LIVE,
->> +	ZYNQMP_DISP_LAYER_TPG,
->> +	ZYNQMP_DISP_LAYER_DISABLE
->> +};
->> +
->> +enum avbuf_vid_mode {
->> +	VID_MODE_LIVE,
->> +	VID_MODE_MEM,
->> +	VID_MODE_TPG,
->> +	VID_MODE_NONE
->> +};
-> 
-> I don't like this much. The enum here doesn't clearly show that the
-> values correspond to hardware register values. I'd rather address this
-> in drivers/gpu/drm/xlnx/zynqmp_disp_regs.h, see below for a proposal.
-The value of LIVE/MEM/TPG is different from two layer.
-In Video layer, 0 is live, 1 is mem, 2 is tpg and 3 is blackscreen.
-But for gfx mode, 0 is disable, 1 is mem, 2 is live and 3 is blackscreen.
-If we define ZYNQMP_DISP_AV_BUF_OUTPUT_LIVE is 0, it only works for 
-video layer but not graphic layer. So I define one enumeration type to 
-abstract the both layer mode and also define two enumeration for each 
-layer in order to write enumeration vairables directly to register.
-> 
->> +
->> +enum avbuf_gfx_mode {
->> +	GFX_MODE_DISABLE,
->> +	GFX_MODE_MEM,
->> +	GFX_MODE_LIVE,
->> +	GFX_MODE_NONE
->> +};
->> +
->> +enum avbuf_aud_mode {
->> +	AUD1_MODE_LIVE,
->> +	AUD1_MODE_MEM,
->> +	AUD1_MODE_TPG,
->> +	AUD1_MODE_DISABLE,
->> +	AUD2_MODE_DISABLE,
->> +	AUD2_MODE_ENABLE
-> 
-> Combining AUD1 and AUD2 in the same enum, with the
-> " - AUD2_MODE_DISABLE" below, is really a hack. Let's keep
-> hardware-related valeus in drivers/gpu/drm/xlnx/zynqmp_disp_regs.h.
-OK, I will revert this part.
-> 
-> Overall I'm not really fond of this rework I'm afraid, I think the
-> result is way less readable. Given that this isn't required yet as
-> support for the TPG or the PL input isn't part of this series, unless it
-> can be rewritten in a better way already, I'd prefer dropping this patch
-> for now and including it in a series that enables TPG or PL input.
-Yes, I agree. It's not a good time to add this patch now. I will rewrite 
-it in a better way. Please drop this patch.
+Yeah, that's something we have discussed as well.
 
-> 
-> I also think it could be beneficial to split the patch in two, it seems
-> to do a bit too much.
-Would you please give some suggestions?
-> 
->>   };
->>   
->>   /**
->> @@ -542,92 +569,102 @@ static void zynqmp_disp_avbuf_disable_channels(struct zynqmp_disp_avbuf *avbuf)
->>   }
->>   
->>   /**
->> - * zynqmp_disp_avbuf_enable_audio - Enable audio
->> + * zynqmp_disp_avbuf_output_select - Select the buffer manager outputs
->>    * @avbuf: Audio/video buffer manager
->> + * @layer: The layer
->> + * @mode: The mode for this layer
->>    *
->> - * Enable all audio buffers with a non-live (memory) source.
->> + * Select the buffer manager outputs for @layer.
->>    */
->> -static void zynqmp_disp_avbuf_enable_audio(struct zynqmp_disp_avbuf *avbuf)
->> +static void zynqmp_disp_avbuf_output_select(struct zynqmp_disp_avbuf *avbuf,
->> +					   struct zynqmp_disp_layer *layer,
->> +					   u32 mode)
->>   {
->> -	u32 val;
->> +	u32 reg;
->>   
->> -	val = zynqmp_disp_avbuf_read(avbuf, ZYNQMP_DISP_AV_BUF_OUTPUT);
->> -	val &= ~ZYNQMP_DISP_AV_BUF_OUTPUT_AUD1_MASK;
->> -	val |= ZYNQMP_DISP_AV_BUF_OUTPUT_AUD1_MEM;
->> -	val |= ZYNQMP_DISP_AV_BUF_OUTPUT_AUD2_EN;
->> -	zynqmp_disp_avbuf_write(avbuf, ZYNQMP_DISP_AV_BUF_OUTPUT, val);
->> +	reg = zynqmp_disp_avbuf_read(avbuf, ZYNQMP_DISP_AV_BUF_OUTPUT);
->> +
->> +	/* Select audio mode when the layer is NULL */
-> 
-> This is also a hack, I don't really like it. I'd much prefer keeping
-> audio handling in separate functions.
-OK, I will keep the audio functions.
-Thanks,
-Quanyang
-> 
->> +	if (layer == NULL) {
->> +		if (mode >= AUD2_MODE_DISABLE) {
->> +			reg &= ~ZYNQMP_DISP_AV_BUF_OUTPUT_AUD2_MASK;
->> +			reg |= FIELD_PREP(ZYNQMP_DISP_AV_BUF_OUTPUT_AUD2_MASK,
->> +					(mode - AUD2_MODE_DISABLE));
->> +		} else {
->> +			reg &= ~ZYNQMP_DISP_AV_BUF_OUTPUT_AUD1_MASK;
->> +			reg |= FIELD_PREP(ZYNQMP_DISP_AV_BUF_OUTPUT_AUD1_MASK, mode);
->> +		}
->> +	} else if (is_layer_vid(layer)) {
->> +		reg &= ~ZYNQMP_DISP_AV_BUF_OUTPUT_VID1_MASK;
->> +		reg |= FIELD_PREP(ZYNQMP_DISP_AV_BUF_OUTPUT_VID1_MASK, mode);
->> +	} else {
->> +		reg &= ~ZYNQMP_DISP_AV_BUF_OUTPUT_VID2_MASK;
->> +		reg |= FIELD_PREP(ZYNQMP_DISP_AV_BUF_OUTPUT_VID2_MASK, mode);
->> +	}
->> +
->> +	zynqmp_disp_avbuf_write(avbuf, ZYNQMP_DISP_AV_BUF_OUTPUT, reg);
->>   }
->>   
->>   /**
->> - * zynqmp_disp_avbuf_disable_audio - Disable audio
->> + * zynqmp_disp_avbuf_enable_audio - Enable audio
->>    * @avbuf: Audio/video buffer manager
->>    *
->> - * Disable all audio buffers.
->> + * Enable all audio buffers.
->>    */
->> -static void zynqmp_disp_avbuf_disable_audio(struct zynqmp_disp_avbuf *avbuf)
->> +static void zynqmp_disp_avbuf_enable_audio(struct zynqmp_disp_avbuf *avbuf)
->>   {
->> -	u32 val;
->> -
->> -	val = zynqmp_disp_avbuf_read(avbuf, ZYNQMP_DISP_AV_BUF_OUTPUT);
->> -	val &= ~ZYNQMP_DISP_AV_BUF_OUTPUT_AUD1_MASK;
->> -	val |= ZYNQMP_DISP_AV_BUF_OUTPUT_AUD1_DISABLE;
->> -	val &= ~ZYNQMP_DISP_AV_BUF_OUTPUT_AUD2_EN;
->> -	zynqmp_disp_avbuf_write(avbuf, ZYNQMP_DISP_AV_BUF_OUTPUT, val);
->> +	zynqmp_disp_avbuf_output_select(avbuf, NULL, AUD1_MODE_MEM);
->> +	zynqmp_disp_avbuf_output_select(avbuf, NULL, AUD2_MODE_ENABLE);
->>   }
->>   
->>   /**
->> - * zynqmp_disp_avbuf_enable_video - Enable a video layer
->> + * zynqmp_disp_avbuf_disable_audio - Disable audio
->>    * @avbuf: Audio/video buffer manager
->> - * @layer: The layer
->> - * @mode: Operating mode of layer
->>    *
->> - * Enable the video/graphics buffer for @layer.
->> + * Disable all audio buffers.
->>    */
->> -static void zynqmp_disp_avbuf_enable_video(struct zynqmp_disp_avbuf *avbuf,
->> -					   struct zynqmp_disp_layer *layer,
->> -					   enum zynqmp_disp_layer_mode mode)
->> +static void zynqmp_disp_avbuf_disable_audio(struct zynqmp_disp_avbuf *avbuf)
->>   {
->> -	u32 val;
->> -
->> -	val = zynqmp_disp_avbuf_read(avbuf, ZYNQMP_DISP_AV_BUF_OUTPUT);
->> -	if (is_layer_vid(layer)) {
->> -		val &= ~ZYNQMP_DISP_AV_BUF_OUTPUT_VID1_MASK;
->> -		if (mode == ZYNQMP_DISP_LAYER_NONLIVE)
->> -			val |= ZYNQMP_DISP_AV_BUF_OUTPUT_VID1_MEM;
->> -		else
->> -			val |= ZYNQMP_DISP_AV_BUF_OUTPUT_VID1_LIVE;
->> -	} else {
->> -		val &= ~ZYNQMP_DISP_AV_BUF_OUTPUT_VID2_MASK;
->> -		val |= ZYNQMP_DISP_AV_BUF_OUTPUT_VID2_MEM;
->> -		if (mode == ZYNQMP_DISP_LAYER_NONLIVE)
->> -			val |= ZYNQMP_DISP_AV_BUF_OUTPUT_VID2_MEM;
->> -		else
->> -			val |= ZYNQMP_DISP_AV_BUF_OUTPUT_VID2_LIVE;
->> -	}
->> -	zynqmp_disp_avbuf_write(avbuf, ZYNQMP_DISP_AV_BUF_OUTPUT, val);
->> +	zynqmp_disp_avbuf_output_select(avbuf, NULL, AUD1_MODE_DISABLE);
->> +	zynqmp_disp_avbuf_output_select(avbuf, NULL, AUD2_MODE_DISABLE);
->>   }
->>   
->>   /**
->> - * zynqmp_disp_avbuf_disable_video - Disable a video layer
->> - * @avbuf: Audio/video buffer manager
->> + * zynqmp_disp_avbuf_set_layer_output - Set layer output
->>    * @layer: The layer
->> + * @mode: The layer mode
->>    *
->> - * Disable the video/graphics buffer for @layer.
->> + * Set output for @layer
->>    */
->> -static void zynqmp_disp_avbuf_disable_video(struct zynqmp_disp_avbuf *avbuf,
->> -					    struct zynqmp_disp_layer *layer)
->> +static void zynqmp_disp_avbuf_set_layer_output(struct zynqmp_disp_layer *layer,
->> +					   enum zynqmp_disp_layer_mode mode)
->>   {
->> -	u32 val;
->> -
->> -	val = zynqmp_disp_avbuf_read(avbuf, ZYNQMP_DISP_AV_BUF_OUTPUT);
->> -	if (is_layer_vid(layer)) {
->> -		val &= ~ZYNQMP_DISP_AV_BUF_OUTPUT_VID1_MASK;
->> -		val |= ZYNQMP_DISP_AV_BUF_OUTPUT_VID1_NONE;
->> -	} else {
->> -		val &= ~ZYNQMP_DISP_AV_BUF_OUTPUT_VID2_MASK;
->> -		val |= ZYNQMP_DISP_AV_BUF_OUTPUT_VID2_DISABLE;
->> +	struct zynqmp_disp *disp = layer->disp;
->> +	int val;
->> +
->> +	switch (mode) {
->> +	case ZYNQMP_DISP_LAYER_LIVE:
->> +		val = is_layer_vid(layer) ? VID_MODE_LIVE : GFX_MODE_LIVE;
->> +		break;
->> +	case ZYNQMP_DISP_LAYER_MEM:
->> +		val = is_layer_vid(layer) ? VID_MODE_MEM : GFX_MODE_MEM;
->> +		break;
->> +	case ZYNQMP_DISP_LAYER_TPG:
->> +		if (!is_layer_vid(layer)) {
->> +			dev_err(disp->dev, "gfx layer has no tpg mode\n");
->> +			return;
->> +		}
->> +		val = VID_MODE_TPG;
->> +		break;
->> +	case ZYNQMP_DISP_LAYER_DISABLE:
->> +		val = is_layer_vid(layer) ? VID_MODE_NONE : GFX_MODE_DISABLE;
->> +		break;
->> +	default:
->> +		dev_err(disp->dev, "invalid layer mode\n");
->> +		return;
->>   	}
->> -	zynqmp_disp_avbuf_write(avbuf, ZYNQMP_DISP_AV_BUF_OUTPUT, val);
->> +
->> +	zynqmp_disp_avbuf_output_select(&disp->avbuf, layer, val);
->>   }
->>   
->>   /**
->> @@ -1030,11 +1067,10 @@ zynqmp_disp_layer_find_format(struct zynqmp_disp_layer *layer,
->>    */
->>   static void zynqmp_disp_layer_enable(struct zynqmp_disp_layer *layer)
->>   {
->> -	zynqmp_disp_avbuf_enable_video(&layer->disp->avbuf, layer,
->> -				       ZYNQMP_DISP_LAYER_NONLIVE);
->> +	zynqmp_disp_avbuf_set_layer_output(layer, ZYNQMP_DISP_LAYER_MEM);
->>   	zynqmp_disp_blend_layer_enable(&layer->disp->blend, layer);
->>   
->> -	layer->mode = ZYNQMP_DISP_LAYER_NONLIVE;
->> +	layer->mode = ZYNQMP_DISP_LAYER_MEM;
->>   }
->>   
->>   /**
->> @@ -1051,7 +1087,7 @@ static void zynqmp_disp_layer_disable(struct zynqmp_disp_layer *layer)
->>   	for (i = 0; i < layer->drm_fmt->num_planes; i++)
->>   		dmaengine_terminate_sync(layer->dmas[i].chan);
->>   
->> -	zynqmp_disp_avbuf_disable_video(&layer->disp->avbuf, layer);
->> +	zynqmp_disp_avbuf_set_layer_output(layer, ZYNQMP_DISP_LAYER_DISABLE);
->>   	zynqmp_disp_blend_layer_disable(&layer->disp->blend, layer);
->>   }
->>   
->> diff --git a/drivers/gpu/drm/xlnx/zynqmp_disp_regs.h b/drivers/gpu/drm/xlnx/zynqmp_disp_regs.h
->> index f92a006d5070..4316e324102d 100644
->> --- a/drivers/gpu/drm/xlnx/zynqmp_disp_regs.h
->> +++ b/drivers/gpu/drm/xlnx/zynqmp_disp_regs.h
->> @@ -118,25 +118,10 @@
->>   #define ZYNQMP_DISP_AV_BUF_STC_SNAPSHOT0		0x60
->>   #define ZYNQMP_DISP_AV_BUF_STC_SNAPSHOT1		0x64
->>   #define ZYNQMP_DISP_AV_BUF_OUTPUT			0x70
->> -#define ZYNQMP_DISP_AV_BUF_OUTPUT_VID1_SHIFT		0
->> -#define ZYNQMP_DISP_AV_BUF_OUTPUT_VID1_MASK		(0x3 << 0)
->> -#define ZYNQMP_DISP_AV_BUF_OUTPUT_VID1_LIVE		(0 << 0)
->> -#define ZYNQMP_DISP_AV_BUF_OUTPUT_VID1_MEM		(1 << 0)
->> -#define ZYNQMP_DISP_AV_BUF_OUTPUT_VID1_PATTERN		(2 << 0)
->> -#define ZYNQMP_DISP_AV_BUF_OUTPUT_VID1_NONE		(3 << 0)
->> -#define ZYNQMP_DISP_AV_BUF_OUTPUT_VID2_SHIFT		2
->> -#define ZYNQMP_DISP_AV_BUF_OUTPUT_VID2_MASK		(0x3 << 2)
->> -#define ZYNQMP_DISP_AV_BUF_OUTPUT_VID2_DISABLE		(0 << 2)
->> -#define ZYNQMP_DISP_AV_BUF_OUTPUT_VID2_MEM		(1 << 2)
->> -#define ZYNQMP_DISP_AV_BUF_OUTPUT_VID2_LIVE		(2 << 2)
->> -#define ZYNQMP_DISP_AV_BUF_OUTPUT_VID2_NONE		(3 << 2)
->> -#define ZYNQMP_DISP_AV_BUF_OUTPUT_AUD1_SHIFT		4
->> -#define ZYNQMP_DISP_AV_BUF_OUTPUT_AUD1_MASK		(0x3 << 4)
->> -#define ZYNQMP_DISP_AV_BUF_OUTPUT_AUD1_PL		(0 << 4)
->> -#define ZYNQMP_DISP_AV_BUF_OUTPUT_AUD1_MEM		(1 << 4)
->> -#define ZYNQMP_DISP_AV_BUF_OUTPUT_AUD1_PATTERN		(2 << 4)
->> -#define ZYNQMP_DISP_AV_BUF_OUTPUT_AUD1_DISABLE		(3 << 4)
->> -#define ZYNQMP_DISP_AV_BUF_OUTPUT_AUD2_EN		BIT(6)
->> +#define ZYNQMP_DISP_AV_BUF_OUTPUT_VID1_MASK		GENMASK(1, 0)
->> +#define ZYNQMP_DISP_AV_BUF_OUTPUT_VID2_MASK		GENMASK(3, 2)
->> +#define ZYNQMP_DISP_AV_BUF_OUTPUT_AUD1_MASK		GENMASK(5, 4)
->> +#define ZYNQMP_DISP_AV_BUF_OUTPUT_AUD2_MASK		BIT(6)
->>   #define ZYNQMP_DISP_AV_BUF_HCOUNT_VCOUNT_INT0		0x74
->>   #define ZYNQMP_DISP_AV_BUF_HCOUNT_VCOUNT_INT1		0x78
->>   #define ZYNQMP_DISP_AV_BUF_PATTERN_GEN_SELECT		0x100
-> 
-> Following my comment above, let's write this
-> 
-> #define ZYNQMP_DISP_AV_BUF_OUTPUT_LIVE			0
-> #define ZYNQMP_DISP_AV_BUF_OUTPUT_MEM			1
-> #define ZYNQMP_DISP_AV_BUF_OUTPUT_PATTERN		2
-> #define ZYNQMP_DISP_AV_BUF_OUTPUT_NONE			3
-> #define ZYNQMP_DISP_AV_BUF_OUTPUT_VID1(v)		((v) << 0)
-> #define ZYNQMP_DISP_AV_BUF_OUTPUT_VID1_MASK		GENMASK(1, 0)
-> #define ZYNQMP_DISP_AV_BUF_OUTPUT_VID2(v)		((v) << 2)
-> #define ZYNQMP_DISP_AV_BUF_OUTPUT_VID2_MASK		GENMASK(3, 2)
-> #define ZYNQMP_DISP_AV_BUF_OUTPUT_VID3(v)		((v) << 4)
-> #define ZYNQMP_DISP_AV_BUF_OUTPUT_VID3_MASK		GENMASK(5, 4)
-> #define ZYNQMP_DISP_AV_BUF_OUTPUT_VID4(v)		((v) << 6)
-> #define ZYNQMP_DISP_AV_BUF_OUTPUT_VID4_MASK		GENMASK(7, 6)
-> 
-> Or possibly better,
-> 
-> #define ZYNQMP_DISP_AV_BUF_OUTPUT_LIVE			0
-> #define ZYNQMP_DISP_AV_BUF_OUTPUT_MEM			1
-> #define ZYNQMP_DISP_AV_BUF_OUTPUT_PATTERN		2
-> #define ZYNQMP_DISP_AV_BUF_OUTPUT_NONE			3
-> #define ZYNQMP_DISP_AV_BUF_OUTPUT_VID(n, v)		((v) << ((n) * 2))
-> #define ZYNQMP_DISP_AV_BUF_OUTPUT_VID_MASK(n)		GENMASK((n)+1, (n))
-> 
+How do you prevent the scheduler from over committing to a single ring 
+buffer in this scenario?
+
+Christian.
+
+>
+> Matt
+>
+>> Thanks,
+>> Christian.
+>>
+>> Am 19.05.21 um 01:58 schrieb Matthew Brost:
+>>> Add entry fpr i915 new parallel submission uAPI plan.
+>>>
+>>> v2:
+>>>    (Daniel Vetter):
+>>>     - Expand logical order explaination
+>>>     - Add dummy header
+>>>     - Only allow N BBs in execbuf IOCTL
+>>>     - Configure parallel submission per slot not per gem context
+>>>
+>>> Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+>>> Cc: Tony Ye <tony.ye@intel.com>
+>>> CC: Carl Zhang <carl.zhang@intel.com>
+>>> Cc: Daniel Vetter <daniel.vetter@intel.com>
+>>> Cc: Jason Ekstrand <jason@jlekstrand.net>
+>>> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+>>> ---
+>>>    Documentation/gpu/rfc/i915_parallel_execbuf.h | 144 ++++++++++++++++++
+>>>    Documentation/gpu/rfc/i915_scheduler.rst      |  53 ++++++-
+>>>    2 files changed, 196 insertions(+), 1 deletion(-)
+>>>    create mode 100644 Documentation/gpu/rfc/i915_parallel_execbuf.h
+>>>
+>>> diff --git a/Documentation/gpu/rfc/i915_parallel_execbuf.h b/Documentation/gpu/rfc/i915_parallel_execbuf.h
+>>> new file mode 100644
+>>> index 000000000000..8c64b983ccad
+>>> --- /dev/null
+>>> +++ b/Documentation/gpu/rfc/i915_parallel_execbuf.h
+>>> @@ -0,0 +1,144 @@
+>>> +#define I915_CONTEXT_ENGINES_EXT_PARALLEL_SUBMIT 2 /* see i915_context_engines_parallel_submit */
+>>> +
+>>> +/*
+>>> + * i915_context_engines_parallel_submit:
+>>> + *
+>>> + * Setup a slot to allow multiple BBs to be submitted in a single execbuf IOCTL.
+>>> + * Those BBs will then be scheduled to run on the GPU in parallel. Multiple
+>>> + * hardware contexts are created internally in the i915 run these BBs. Once a
+>>> + * slot is configured for N BBs only N BBs can be submitted in each execbuf
+>>> + * IOCTL and this is implict behavior (e.g. the user doesn't tell the execbuf
+>>> + * IOCTL there are N BBs, the execbuf IOCTL know how many BBs there are based on
+>>> + * the slots configuration).
+>>> + *
+>>> + * Their are two currently defined ways to control the placement of the
+>>> + * hardware contexts on physical engines: default behavior (no flags) and
+>>> + * I915_PARALLEL_IMPLICT_BONDS (a flag). More flags may be added the in the
+>>> + * future as new hardware / use cases arise. Details of how to use this
+>>> + * interface below above the flags.
+>>> + *
+>>> + * Returns -EINVAL if hardware context placement configuration invalid or if the
+>>> + * placement configuration isn't supported on the platform / submission
+>>> + * interface.
+>>> + * Returns -ENODEV if extension isn't supported on the platform / submission
+>>> + * inteface.
+>>> + */
+>>> +struct i915_context_engines_parallel_submit {
+>>> +	struct i915_user_extension base;
+>>> +
+>>> +	__u16 engine_index;	/* slot for parallel engine */
+>>> +	__u16 width;		/* number of contexts per parallel engine */
+>>> +	__u16 num_siblings;	/* number of siblings per context */
+>>> +	__u16 mbz16;
+>>> +/*
+>>> + * Default placement behvavior (currently unsupported):
+>>> + *
+>>> + * Rather than restricting parallel submission to a single class with a
+>>> + * logically contiguous placement (I915_PARALLEL_IMPLICT_BONDS), add a mode that
+>>> + * enables parallel submission across multiple engine classes. In this case each
+>>> + * context's logical engine mask indicates where that context can placed. It is
+>>> + * implied in this mode that all contexts have mutual exclusive placement (e.g.
+>>> + * if one context is running CS0 no other contexts can run on CS0).
+>>> + *
+>>> + * Example 1 pseudo code:
+>>> + * CSX[Y] = engine class X, logical instance Y
+>>> + * INVALID = I915_ENGINE_CLASS_INVALID, I915_ENGINE_CLASS_INVALID_NONE
+>>> + * set_engines(INVALID)
+>>> + * set_parallel(engine_index=0, width=2, num_siblings=2,
+>>> + *		engines=CS0[0],CS0[1],CS1[0],CS1[1])
+>>> + *
+>>> + * Results in the following valid placements:
+>>> + * CS0[0], CS1[0]
+>>> + * CS0[0], CS1[1]
+>>> + * CS0[1], CS1[0]
+>>> + * CS0[1], CS1[1]
+>>> + *
+>>> + * This can also be though of as 2 virtual engines:
+>>> + * VE[0] = CS0[0], CS0[1]
+>>> + * VE[1] = CS1[0], CS1[1]
+>>> + *
+>>> + * Example 2 pseudo code:
+>>> + * CS[X] = generic engine of same class, logical instance X
+>>> + * INVALID = I915_ENGINE_CLASS_INVALID, I915_ENGINE_CLASS_INVALID_NONE
+>>> + * set_engines(INVALID)
+>>> + * set_parallel(engine_index=0, width=2, num_siblings=3,
+>>> + *		engines=CS[0],CS[1],CS[2],CS[0],CS[1],CS[2])
+>>> + *
+>>> + * Results in the following valid placements:
+>>> + * CS[0], CS[1]
+>>> + * CS[0], CS[2]
+>>> + * CS[1], CS[0]
+>>> + * CS[1], CS[2]
+>>> + * CS[2], CS[0]
+>>> + * CS[2], CS[1]
+>>> + *
+>>> + *
+>>> + * This can also be though of as 2 virtual engines:
+>>> + * VE[0] = CS[0], CS[1], CS[2]
+>>> + * VE[1] = CS[0], CS[1], CS[2]
+>>> +
+>>> + * This enables a use case where all engines are created equally, we don't care
+>>> + * where they are scheduled, we just want a certain number of resources, for
+>>> + * those resources to be scheduled in parallel, and possibly across multiple
+>>> + * engine classes.
+>>> + */
+>>> +
+>>> +/*
+>>> + * I915_PARALLEL_IMPLICT_BONDS - Create implict bonds between each context.
+>>> + * Each context must have the same number sibling and bonds are implictly create
+>>> + * of the siblings.
+>>> + *
+>>> + * All of the below examples are in logical space.
+>>> + *
+>>> + * Example 1 pseudo code:
+>>> + * CS[X] = generic engine of same class, logical instance X
+>>> + * INVALID = I915_ENGINE_CLASS_INVALID, I915_ENGINE_CLASS_INVALID_NONE
+>>> + * set_engines(INVALID)
+>>> + * set_parallel(engine_index=0, width=2, num_siblings=1,
+>>> + *		engines=CS[0],CS[1], flags=I915_PARALLEL_IMPLICT_BONDS)
+>>> + *
+>>> + * Results in the following valid placements:
+>>> + * CS[0], CS[1]
+>>> + *
+>>> + * Example 2 pseudo code:
+>>> + * CS[X] = generic engine of same class, logical instance X
+>>> + * INVALID = I915_ENGINE_CLASS_INVALID, I915_ENGINE_CLASS_INVALID_NONE
+>>> + * set_engines(INVALID)
+>>> + * set_parallel(engine_index=0, width=2, num_siblings=2,
+>>> + *		engines=CS[0],CS[2],CS[1],CS[3], flags=I915_PARALLEL_IMPLICT_BONDS)
+>>> + *
+>>> + * Results in the following valid placements:
+>>> + * CS[0], CS[1]
+>>> + * CS[2], CS[3]
+>>> + *
+>>> + * This can also be though of as 2 virtual engines:
+>>> + * VE[0] = CS[0], CS[2]
+>>> + * VE[1] = CS[1], CS[3]
+>>> + *
+>>> + * This enables a use case where all engines are not equal and certain placement
+>>> + * rules are required (i.e. split-frame requires all contexts to be placed in a
+>>> + * logically contiguous order on the VCS engines on gen11+ platforms). This use
+>>> + * case (logically contiguous placement, within a single engine class) is
+>>> + * supported when using GuC submission. Execlist mode could support all possible
+>>> + * bonding configurations but currently doesn't support this extension.
+>>> + */
+>>> +#define I915_PARALLEL_IMPLICT_BONDS			(1<<0)
+>>> +/*
+>>> + * Do not allow BBs to be preempted mid BB rather insert coordinated preemption
+>>> + * points on all hardware contexts between each set of BBs. An example use case
+>>> + * of this feature is split-frame on gen11+ hardware. When using this feature a
+>>> + * BB must be submitted on each hardware context in the parallel gem context.
+>>> + * The execbuf2 IOCTL enforces the user adheres to policy.
+>>> + */
+>>> +#define I915_PARALLEL_NO_PREEMPT_MID_BATCH		(1<<1)
+>>> +#define __I915_PARALLEL_UNKNOWN_FLAGS	(-(I915_PARALLEL_NO_PREEMPT_MID_BATCH << 1))
+>>> +	__u64 flags;		/* all undefined flags must be zero */
+>>> +	__u64 mbz64[3];		/* reserved for future use; must be zero */
+>>> +
+>>> +	/*
+>>> +	 * width (i) * num_siblings (j) in length
+>>> +	 * index = j + i * num_siblings
+>>> +	 */
+>>> +	struct i915_engine_class_instance engines[0];
+>>> +} __attribute__ ((packed));
+>>> +
+>>> diff --git a/Documentation/gpu/rfc/i915_scheduler.rst b/Documentation/gpu/rfc/i915_scheduler.rst
+>>> index 7faa46cde088..64c539486ee4 100644
+>>> --- a/Documentation/gpu/rfc/i915_scheduler.rst
+>>> +++ b/Documentation/gpu/rfc/i915_scheduler.rst
+>>> @@ -82,4 +82,55 @@ https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Fspec.oneapi.com%2Flevel-zero%2Flatest%2Fcore%2Fapi.html%23ze-command-queue-priorit&amp;data=04%7C01%7Cchristian.koenig%40amd.com%7C49a7557f4e494090755608d91ae758a6%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637570403202969375%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&amp;sdata=dn3PVdxYQpkpWIru5eAXHgbfuLDkppAA5daV5sHQF7s%3D&amp;reserved=0
+>>>    New parallel submission uAPI
+>>>    ============================
+>>> -Details to come in a following patch.
+>>> +The existing bonding uAPI is completely broken with GuC submission because
+>>> +whether a submission is a single context submit or parallel submit isn't known
+>>> +until execbuf time activated via the I915_SUBMIT_FENCE. To submit multiple
+>>> +contexts in parallel with the GuC the context must be explictly registered with
+>>> +N contexts and all N contexts must be submitted in a single command to the GuC.
+>>> +These interfaces doesn't support dynamically changing between N contexts as the
+>>> +bonding uAPI does. Hence the need for a new parallel submission interface. Also
+>>> +the legacy bonding uAPI is quite confusing and not intuitive at all.
+>>> +
+>>> +The new parallel submission uAPI consists of 3 parts:
+>>> +
+>>> +* Export engines logical mapping
+>>> +* A 'set_parallel' extension to configure contexts for parallel
+>>> +  submission
+>>> +* Extend execbuf2 IOCTL to support submitting N BBs in a single IOCTL
+>>> +
+>>> +Export engines logical mapping
+>>> +------------------------------
+>>> +Certain use cases require BBs to be placed on engine instances in logical order
+>>> +(e.g. split-frame on gen11+). The logical mapping of engine instances can change
+>>> +based on fusing. Rather than making UMDs be aware of fusing, simply expose the
+>>> +logical mapping with the existing query engine info IOCTL. Also the GuC
+>>> +submission interface currently only supports submitting multiple contexts to
+>>> +engines in logical order which is a new requirement compared to execlists.
+>>> +Lastly, all current platforms have at most 2 instances and the logical order is
+>>> +the same a uABI order. This will change on platforms with more than 2 instances.
+>>> +
+>>> +A single bit will be added to drm_i915_engine_info.flags indicating that the
+>>> +logical instance has been returned and a new field,
+>>> +drm_i915_engine_info.logical_instance, returns the logical instance.
+>>> +
+>>> +A 'set_parallel' extension to configure contexts for parallel submission
+>>> +------------------------------------------------------------------------
+>>> +The 'set_parallel' extension configures a slot for parallel submission of N BBs.
+>>> +It is setup step that should be called before using any of the contexts. See
+>>> +I915_CONTEXT_ENGINES_EXT_LOAD_BALANCE or I915_CONTEXT_ENGINES_EXT_BOND for
+>>> +similar existing examples. Once a slot is configured for parallel submission the
+>>> +execbuf2 IOCTL can be called submiting N BBs in a single IOCTL. Initially only
+>>> +support GuC submission. Execlist support can be added later if needed.
+>>> +
+>>> +Add I915_CONTEXT_ENGINES_EXT_PARALLEL_SUBMIT and
+>>> +i915_context_engines_parallel_submit to the uAPI to implement this extension.
+>>> +
+>>> +Extend execbuf2 IOCTL to support submitting N BBs in a single IOCTL
+>>> +-------------------------------------------------------------------
+>>> +Contexts that have been configured with the 'set_parallel' extension are allowed
+>>> +to submit N BBs in a single execbuf2 IOCTL. The BBs are either the last N
+>>> +objects in the drm_i915_gem_exec_object2 list or the first N if
+>>> +I915_EXEC_BATCH_FIRST is set. The number of BBs is implict based on the slot
+>>> +submitted and how it has been configured by 'set_parallel' or other extensions.
+>>> +No uAPI changes in the execbuf IOCTL but worth mentioning the new behavior of
+>>> +the IOCTL.
+
