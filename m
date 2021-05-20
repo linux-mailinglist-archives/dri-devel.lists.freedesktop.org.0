@@ -2,62 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB2E7389F52
-	for <lists+dri-devel@lfdr.de>; Thu, 20 May 2021 09:58:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DFFE389F5C
+	for <lists+dri-devel@lfdr.de>; Thu, 20 May 2021 09:59:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3189B6F381;
-	Thu, 20 May 2021 07:58:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9363A6F383;
+	Thu, 20 May 2021 07:59:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com
- [IPv6:2a00:1450:4864:20::12a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 502D36F380;
- Thu, 20 May 2021 07:58:31 +0000 (UTC)
-Received: by mail-lf1-x12a.google.com with SMTP id x19so23134515lfa.2;
- Thu, 20 May 2021 00:58:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:in-reply-to:references
- :mime-version; bh=Ztf4fG3go4pm6O5hMpKy38HSIWUlz9iqc0r333NE9fQ=;
- b=slC88OHO4mwnrW9AfLCA9z1uEPWGQC/5yLI3DmMl84kIA5awpqjSN91gtkU9K4f/H+
- TIDfAAaPl0LuzYwPQV6YadmfnqVWIAjuPPs4snUfGG9dI3/g+EsmO71bJ/jh80kF0sJ0
- kQcX1Hetvn85F4suC5Oe6UCRJw4uleoMbUwAucUmIMK9iqh2cCRLco1GHwvKMxiP9hbL
- hcq2WcyPG55YX6PSHx0fyMcaH4hh0gVSkaf+Cu3z1RU45zsHDzCJc4/Ij0O6uel4LLRX
- d94Ldi1amEGatqlxbaQuHdOp5LHZaz2pjH1BewTLkDNcIIti7BJHS/exOCspu6/eSfX9
- CBYQ==
+Received: from mail-ot1-x333.google.com (mail-ot1-x333.google.com
+ [IPv6:2607:f8b0:4864:20::333])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C49296F383
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 May 2021 07:59:10 +0000 (UTC)
+Received: by mail-ot1-x333.google.com with SMTP id
+ i23-20020a9d68d70000b02902dc19ed4c15so14148693oto.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 May 2021 00:59:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=ipFaHv6yNLS2dNTaUeBWxHaSlyBgNw5MXhT4rzrbWF0=;
+ b=QoLbcxVt1ipsD7jABPLDJcU/hbS2zM6x7VWw9lIZOs5DMbV5XGkflzgQ++U6EoQf38
+ E7nV8MOhTyDNhxcZhgh5/9ai5+qUZSFqjNCUjzG83locSRYGoqdeG13REdtU4CmYPDdg
+ h+V2LDcs84pmplFsBgmfwcjs2SlNengUh7uAI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version;
- bh=Ztf4fG3go4pm6O5hMpKy38HSIWUlz9iqc0r333NE9fQ=;
- b=snuAJvQ3O7RJTD1K6KEHl2R1M8oM1Kzh2gmiNN3y0Oz+Rla3Pw2kYRIA1cLVQjv/Ly
- 7mXyaHiLHRYJFg7pMofU4/1emuaph2U1FmyOqxXuHh27eXpkR2UHpZ3GG8MSXRn9DcAK
- KDfRJ2AmP8Zq5Av4+M6cvfSTmbFMC64NJQFcI42jGi45xjG79PXjEBlj/uWO9mdHu7ED
- S4PVQk7zVBvVe3FMxWkR4iMS9mClv1j5oUXrvd54p4qdab7tQ4CpnOb7T0ZfuoAGcVn/
- Dp2zmJHJMwrSVPgx2nRH4nif0A/WPhwipsMBWS8iWibXfosgIwJJ7/b7wByOI60yPJZ5
- 8PWQ==
-X-Gm-Message-State: AOAM530TyXg+rkN/ODMZZnU/OsqbOjLb93W2PHiBT/xua2kOPsJYMANO
- HzjToRpEdCQEA66Bu+A6XAg=
-X-Google-Smtp-Source: ABdhPJyv2TtDkGTqIrn4pkdWXB+nVoCr/LdpTXAOp/BvuSfa+3PDB8zlGhTGgi3WU1LX2RPm/h3p4Q==
-X-Received: by 2002:ac2:544f:: with SMTP id d15mr2505747lfn.465.1621497509657; 
- Thu, 20 May 2021 00:58:29 -0700 (PDT)
-Received: from eldfell ([194.136.85.206])
- by smtp.gmail.com with ESMTPSA id y24sm197087lfg.232.2021.05.20.00.58.28
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 20 May 2021 00:58:29 -0700 (PDT)
-Date: Thu, 20 May 2021 10:58:26 +0300
-From: Pekka Paalanen <ppaalanen@gmail.com>
-To: Ville =?UTF-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>, Werner
- Sembach <wse@tuxedocomputers.com>
-Subject: Re: New uAPI for color management proposal and feedback request
-Message-ID: <20210520105826.7659a49a@eldfell>
-In-Reply-To: <YKUXbwkUIwvO/OqK@intel.com>
-References: <8c0d7ad8-7ade-bf8a-0414-cc795fbb6aa2@tuxedocomputers.com>
- <YJvSUCCPvWz7y/r7@intel.com> <20210519123405.4d3218a7@eldfell>
- <YKUXbwkUIwvO/OqK@intel.com>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=ipFaHv6yNLS2dNTaUeBWxHaSlyBgNw5MXhT4rzrbWF0=;
+ b=LGXpiU3ZR8JbUfWGamT76iCOoLgSth5y3Y5BTFdeqILuzvuB+Oe+hdZFmvhQW0s2oc
+ 9xqGdFWrAyjEN4TprAQ8bbqKbhILPCzVTyXT4job0Jyu8vA9L2AY7ozHsYicLrQDKZqi
+ uMNtMB1VeamzofkbH/9Fd+SNpZ1UvHXEMzZPSijT7lYESltiSDfIvMsSz/L4neZ/JCs8
+ D0wgIRNRuNCDxMrXCz27ukT87PA4M4WKYSL+AmXMvCYxfmPCHe1MI384oZPPjWQI5Dij
+ v+s/zj3cSPI2n4VInxOwJZMSncGc9USOLoieqsBC/7vELq0gEPysevCfEthANltc/qmA
+ Z1TA==
+X-Gm-Message-State: AOAM533At/0KA2O7wZqlvWUW/py1vWkl1fGb3Ggb/24wwZz+9uWNCHOc
+ U0Oth+jnUH6aVtQybDbdJE8AGql+LYP0OUlUx390rQ==
+X-Google-Smtp-Source: ABdhPJwBkS6iF6fYtM5g4TjErCWQMLJ7mVMLddQbEE1GqUf1j6imvSfj+FzO7Q0sHW7WQUJ0dWzdeN8q4Oj7v0GJtXY=
+X-Received: by 2002:a9d:4101:: with SMTP id o1mr2923190ote.281.1621497550021; 
+ Thu, 20 May 2021 00:59:10 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- boundary="Sig_/JM4T.u/0gZTQJI0lx_jyo8a"; protocol="application/pgp-signature"
+References: <20210517141129.2225-1-christian.koenig@amd.com>
+ <YKKF4jOvM4gJT6a4@phenom.ffwll.local>
+ <5a3e9500-9d6b-a865-5385-fde43da2bf66@gmail.com>
+ <CAKMK7uF=y44e9-0-4MBj3jRBdCqMaLgKutTMeBWCbySRnPR4KQ@mail.gmail.com>
+ <CAOFGe960UMe4=Xxcoha9R2Y74ma3Pp4Z0DF6PM+SJ2sjq2DBXg@mail.gmail.com>
+ <CAKMK7uGtTT+59hRi3PB1WHPES3YJAPYBvbT74vo9PApNE0i7MQ@mail.gmail.com>
+ <fee06c2d-27fb-1af4-6222-8f277b36c951@gmail.com>
+ <CAKMK7uHLipx_oH-s5PB6pUUZ_JXCyciaY7sDLfK__-2fvSPCKA@mail.gmail.com>
+ <f2eb6751-2f82-9b23-f57e-548de5b729de@gmail.com>
+ <CAKMK7uHdsGjADQ9zwgrYsuhHdxFGkuH--DdOsaqej6OD1AbX-w@mail.gmail.com>
+ <ee36b7f8-070b-39da-48f5-d546f2c0ceb8@gmail.com>
+In-Reply-To: <ee36b7f8-070b-39da-48f5-d546f2c0ceb8@gmail.com>
+From: Daniel Vetter <daniel@ffwll.ch>
+Date: Thu, 20 May 2021 09:58:59 +0200
+Message-ID: <CAKMK7uG4y4xz1HFZAvWNng97HtkpVs0YX2+Yv7i0cU3Sqj2+Ew@mail.gmail.com>
+Subject: Re: [RFC] Add DMA_RESV_USAGE flags
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,207 +71,269 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Deucher, Alexander" <alexander.deucher@amd.com>,
- intel-gfx@lists.freedesktop.org, amd-gfx list <amd-gfx@lists.freedesktop.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>
+Cc: "moderated list:DMA BUFFER SHARING FRAMEWORK"
+ <linaro-mm-sig@lists.linaro.org>, dri-devel <dri-devel@lists.freedesktop.org>,
+ Jason Ekstrand <jason@jlekstrand.net>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/JM4T.u/0gZTQJI0lx_jyo8a
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+On Wed, May 19, 2021 at 1:24 PM Christian K=C3=B6nig
+<ckoenig.leichtzumerken@gmail.com> wrote:
+>
+> Am 18.05.21 um 23:17 schrieb Daniel Vetter:
+> > [SNIP]
+> >> The problem in this case is not starting a new CS, but synchronizing t=
+o
+> >> the existing ones.
+> >>
+> >> See a heavy TLB flush is made completely out of sync. E.g. it doesn't
+> >> want to wait for any previous operation.
+> >>
+> >> In other words imagine the following example:
+> >> 1. Both process A and B have a BO mapped.
+> >> 2. Process A is heavily using the BO and doing all kind of rendering.
+> >> 3. Process B is unmapping the BO.
+> >>
+> >> Now that process B unmaps the BO needs to trigger page table updates a=
+nd
+> >> a heavy TLB flush, but since this can take really long we want to do i=
+t
+> >> asynchronously on the hardware.
+> >>
+> >> With the current approach you basically can't do that because you can'=
+t
+> >> note that a fence should not participate in synchronization at all.
+> >>
+> >> E.g. we can't add a fence which doesn't wait for the exclusive one as
+> >> shared.
+> > Ok I think that's a real problem, and  guess it's also related to all
+> > the ttm privatization tricks and all that. So essentially we'd need
+> > the opposite of ttm_bo->moving, as in you can't ignore it, but
+> > otherwise it completely ignores all the userspace implicit fence
+> > stuff.
+>
+> It goes into that direction, but doesn't sounds like the full solution
+> either.
+>
+> [SNIP]
+> > Can we please stop with the "amdgpu is right, everyone else is wrong" a=
+pproach?
+>
+> Well the approach I do here is not "amdgpu is right, everyone else is
+> wrong". But rather we had DRM uAPI for i915, nouveau and radeon and
+> unfortunately leaked that into DMA-buf without much thinking about it.
+>
+> I'm also not saying that the approach amdgpu is right. It's just what
+> amdgpu needs in it's CS interface.
+>
+> What I'm saying is that DMA-buf is a device driver independent subsystem
+> and we shouldn't make any assumption which come from just a handful of
+> DRM driver on it's implicit sync implementation.
+>
+> > Like I'm pretty much going to type up the patch that does a full drm
+> > subsytem audit of everything and whack amdgpu into compliance. Perf
+> > hit be damned, you had a few years to fix this with better uapi. Or I
+> > find out that there's a giant inconsistent mess, but at least we'd
+> > gain some clarity about where exactly we are here and maybe what to do
+> > next.
+>
+> Ok to let us move forward please take a look at the first patches of the
+> set. It cleans up quite a bunch of the mess we have in there before even
+> coming to adding flags to the shared slots.
+>
+> I think you will agree on that we should do is cleaning up the use cases
+> further and separate implicit sync from resource management.
 
-On Wed, 19 May 2021 16:49:35 +0300
-Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com> wrote:
+Just replying on this because I'm a bit busy with reviewing everything
+we have in upstream right now.
 
-> On Wed, May 19, 2021 at 12:34:05PM +0300, Pekka Paalanen wrote:
-> > On Wed, 12 May 2021 16:04:16 +0300
-> > Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com> wrote:
-> >  =20
-> > > On Wed, May 12, 2021 at 02:06:56PM +0200, Werner Sembach wrote: =20
-> > > > Hello,
-> > > >=20
-> > > > In addition to the existing "max bpc", and "Broadcast RGB/output_cs=
-c" drm properties I propose 4 new properties:
-> > > > "preferred pixel encoding", "active color depth", "active color ran=
-ge", and "active pixel encoding"
-> > > >=20
-> > > >=20
-> > > > Motivation:
-> > > >=20
-> > > > Current monitors have a variety pixel encodings available: RGB, YCb=
-Cr 4:4:4, YCbCr 4:2:2, YCbCr 4:2:0.
-> > > >=20
-> > > > In addition they might be full or limited RGB range and the monitor=
-s accept different bit depths.
-> > > >=20
-> > > > Currently the kernel driver for AMD and Intel GPUs automatically co=
-nfigure the color settings automatically with little
-> > > > to no influence of the user. However there are several real world s=
-cenarios where the user might disagree with the
-> > > > default chosen by the drivers and wants to set his or her own prefe=
-rence.
-> > > >=20
-> > > > Some examples:
-> > > >=20
-> > > > 1. While RGB and YCbCr 4:4:4 in theory carry the same amount of col=
-or information, some screens might look better on one
-> > > > than the other because of bad internal conversion. The driver curre=
-ntly however has a fixed default that is chosen if
-> > > > available (RGB for Intel and YCbCr 4:4:4 for AMD). The only way to =
-change this currently is by editing and overloading
-> > > > the edid reported by the monitor to the kernel.
-> > > >=20
-> > > > 2. RGB and YCbCr 4:4:4 need a higher port clock then YCbCr 4:2:0. S=
-ome hardware might report that it supports the higher
-> > > > port clock, but because of bad shielding on the PC, the cable, or t=
-he monitor the screen cuts out every few seconds when
-> > > > RGB or YCbCr 4:4:4 encoding is used, while YCbCr 4:2:0 might just w=
-ork fine without changing hardware. The drivers
-> > > > currently however always default to the "best available" option eve=
-n if it might be broken.
-> > > >=20
-> > > > 3. Some screens natively only supporting 8-bit color, simulate 10-B=
-it color by rapidly switching between 2 adjacent
-> > > > colors. They advertise themselves to the kernel as 10-bit monitors =
-but the user might not like the "fake" 10-bit effect
-> > > > and prefer running at the native 8-bit per color.
-> > > >=20
-> > > > 4. Some screens are falsely classified as full RGB range wile they =
-actually use limited RGB range. This results in
-> > > > washed out colors in dark and bright scenes. A user override can be=
- helpful to manually fix this issue when it occurs.
-> > > >=20
-> > > > There already exist several requests, discussion, and patches regar=
-ding the thematic:
-> > > >=20
-> > > > - https://gitlab.freedesktop.org/drm/amd/-/issues/476
-> > > >=20
-> > > > - https://gitlab.freedesktop.org/drm/amd/-/issues/1548
-> > > >=20
-> > > > - https://lkml.org/lkml/2021/5/7/695
-> > > >=20
-> > > > - https://lkml.org/lkml/2021/5/11/416
-> > > >  =20
-> >=20
-> > ...
-> >  =20
-> > > > Adoption:
-> > > >=20
-> > > > A KDE dev wants to implement the settings in the KDE settings GUI:
-> > > > https://gitlab.freedesktop.org/drm/amd/-/issues/476#note_912370
-> > > >=20
-> > > > Tuxedo Computers (my employer) wants to implement the settings desk=
-top environment agnostic in Tuxedo Control Center. I
-> > > > will start work on this in parallel to implementing the new kernel =
-code.   =20
-> > >=20
-> > > I suspect everyone would be happier to accept new uapi if we had
-> > > multiple compositors signed up to implement it. =20
-> >=20
-> > I think having Weston support for these would be good, but for now it
-> > won't be much of an UI: just weston.ini to set, and the log to see what
-> > happened.
-> >=20
-> > However, knowing what happened is going to be important for color
-> > calibration auditing:
-> > https://gitlab.freedesktop.org/wayland/weston/-/issues/467
-> >=20
-> > Yes, please, very much for read-only properties for the feedback part.
-> > Properties that both userspace and kernel will write are hard to deal
-> > with in general.
-> >=20
-> > Btw. "max bpc" I can kind of guess that conversion from framebuffer
-> > format to the wire bpc happens automatically and only as the final
-> > step, =20
->=20
-> Well, there could be dithering and whatnot also involved. So it's
-> not super well specified atm either.
+I agree there's some useful stuff in there, but we have a fundamental
+disagreement on how this works. That needs to be resolved first, and
+as part of that we need to come up with a plan how to get everyone on
+the same page.
 
-I tend to forget that dithering is a thing. I guess it could be
-temporal and/or spatial depending on hardware?
+Then next thing is a plan how to get the various issues you're raising
+around dma_resv rules sorted out.
 
-> > but "Broadcast RGB" is more complicated: is the output from the
-> > abstract pixel pipeline sent as-is and "Broadcast RGB" is just another
-> > inforframe bit to the monitor, or does "Broadcast RGB" setting actually
-> > change what happens in the pixel pipeline *and* set infoframe bits? =20
->=20
-> It does indeed compress the actual pixel data. There was once a patch
-> porposed to introduce a new enum value that only sets the infoframe and
-> thus would allow userspace to pass through already limited range data.
-> Shouldn't be hard to resurrect that if needed.
+Once we have that, and only then, does it imo make sense to
+review/merge cleanup patches. As long as we have fundamental
+disagreements along the lines like we have here there's no point.
 
-Right, thanks for confirming. I mentioned this mostly for Werner to
-point out that existing properties might do surprising things.
-Especially if one has looked at HDR related properties which only set
-infoframe bits and nothing more.
+I should have a patch set maybe tomorrow or early next week with my
+results of the drm subsystem review of how exactly dma_resv is used
+currently. Thus far it's a few pages of code analysis, but not yet
+complete. Also I found some smaller issues in a few places, so the
+discussion is going to involve a few more people until we're settled
+here :-/
 
-> > My vague recollection is that framebuffer was always assumed to be in
-> > full range, and then if "Broadcast RGB" was set to limited range, the
-> > driver would mangle the pixel pipeline to convert from full to limited
-> > range. This means that it would be impossible to have limited range
-> > data in a framebuffer, or there might be a double-conversion by
-> > userspace programming a LUT for limited->full and then the driver
-> > adding full->limited. I'm also confused how full/limited works when
-> > framebuffer is in RGB/YCbCr and the monitor wire format is in RGB/YCbCr
-> > and there may be RGB->YCbCR or YCbCR->RGB conversions going on - or
-> > maybe even FB YCbCR -> RGB -> DEGAMMA -> CTM -> GAMMA -> YCbCR.
-> >=20
-> > I wish someone drew a picture of the KMS abstract pixel pipeline with
-> > all the existing KMS properties in it. :-) =20
->=20
-> Here's an ugly one for i915:
->=20
->     (input RGB vs. YCbCr?)
-> [FB] -> [YCbCr?] -> [YCbCr->RGB conversion     ] -> [plane blending] -> .=
-..
->       |             [YCbCr color range/encoding] |
->       \ [RGB?] ----------------------------------/
->=20
->                                            (output RGB limited vs. RGB fu=
-ll vs. YCbCr?)
-> ... -> [DEGAMMA_LUT] -> [CTM] -> [GAMMA_LUT] -> [YCbCr?] -> [RGB->YCbCr c=
-onversion      ] -> [to port]
->                                               |             [always BT.70=
-9/limited range]
->                                               \ [RGB?] -> ...
->=20
-> ... -> [RGB passthrough             ] -> [to port]
->      | [Broadcast RGB=3Dfull or       ]
->      | [Broadcast RGB=3Dauto + IT mode]
->      |
->      \ [RGB full->limited conversion] -> [to port]
->        [Broadcast RGB=3Dlimited or    ]
->        [Broadcast RGB=3Dauto + CE mode]
->=20
-> I guess having something like that in the docs would be nice. Not sure
-> if there's a way to make something that looks decent for html/etc.
-
-It would be super useful indeed.
+Cheers, Daniel
 
 
-Thanks,
-pq
+> In other words we forbid touching the exclusive and shared fences
+> directly and have separate APIs for resource management and implicit sync=
+.
+>
+> This makes sense anyway, no matter what implicit synchronization
+> framework we will install underneath.
+>
+> Regards,
+> Christian.
+>
+> > -Daniel
+> >
+> >> Regards,
+> >> Christian.
+> >>
+> >>> After that I think we can look at what exact oversync issue remains
+> >>> and why and solve it, but until we have this this just feels like
+> >>> another rehash of "amgpu insist its own dma_resv interpration is the
+> >>> right one and everyone else should move one over".
+> >>>
+> >>> Or maybe I've just become real garbage at reading random driver code,
+> >>> wouldn't be the first time :-)
+> >>>
+> >>> Cheers, Daniel
+> >>>
+> >>>> Regards,
+> >>>> Christian.
+> >>>>
+> >>>>> Cheers, Daniel
+> >>>>>
+> >>>>>> --Jason
+> >>>>>>
+> >>>>>>
+> >>>>>>>> That's also the reason the Valve guys came up with a solution wh=
+ere each
+> >>>>>>>> BO gets a flag for explicit sync, but that only works for export=
+s and
+> >>>>>>>> not for imports.
+> >>>>>>>>
+> >>>>>>>>> I915 and iirc msm has explicit flags for this, panfrost was des=
+igned to
+> >>>>>>>>> support this correctly from the start (also with flags I think)=
+. That's at
+> >>>>>>>>> least what I remember from all the discussions at XDC and #dri-=
+devel, but
+> >>>>>>>>> didn't check the code again to give you the list of uapi flags =
+you need
+> >>>>>>>>> for each driver.
+> >>>>>>>>>
+> >>>>>>>>> The other piece is making sure you're only picking up implicit =
+fences when
+> >>>>>>>>> you should, and not any later ones, for which Jason has a solut=
+ion:
+> >>>>>>>>>
+> >>>>>>>>> https://lore.kernel.org/dri-devel/20210317221940.2146688-1-jaso=
+n@jlekstrand.net/
+> >>>>>>>> Yes, I helped with that as well. But I think that this is just a=
+nother
+> >>>>>>>> workaround without really addressing the underlying problem.
+> >>>>>>>>
+> >>>>>>>>> If amdgpu isn't using those, then you will suffer from
+> >>>>>>>>> over-synchronization in vulkan and pay a price. The entire poin=
+t of vulkan
+> >>>>>>>>> is that you pick up sync points very explicitly, and we also ne=
+ed to have
+> >>>>>>>>> very explicit uapi for userspace to pick up/set the implicit fe=
+nces.
+> >>>>>>>>>
+> >>>>>>>>> Trying to paper over this with more implicit magic is imo just =
+wrong, and
+> >>>>>>>>> definitely not the long term explicit sync model we want.
+> >>>>>>>> I completely disagree.
+> >>>>>>>>
+> >>>>>>>> In my opinion the implicit sync model we have for dma_resv curre=
+ntly is
+> >>>>>>>> just not well designed at all, since it always requires cooperat=
+ion from
+> >>>>>>>> userspace.
+> >>>>>>>>
+> >>>>>>>> In other words you need to know when to enable implicit sync in
+> >>>>>>>> userspace and that information is simply not present all of the =
+time.
+> >>>>>>>>
+> >>>>>>>> What we have done here is just keeping the old reader/writer fla=
+gs i915,
+> >>>>>>>> radeon and nouveau once had and pushed that out to everybody els=
+e making
+> >>>>>>>> the assumption that everybody would follow that without document=
+ing the
+> >>>>>>>> actual rules of engagement you need to follow here.
+> >>>>>>>>
+> >>>>>>>> That was a really big mistake and we should try to fix that soon=
+er or
+> >>>>>>>> later. The only other clean alternative I see is to use a flag o=
+n the
+> >>>>>>>> exporter to tell the importer if it should sync to shared fences=
+ or not.
+> >>>>>>>>
+> >>>>>>>> Additional to that I'm perfectly fine with implicit sync. Explic=
+it sync
+> >>>>>>>> certainly has some use cases as well, but I don't see it as an a=
+bsolute
+> >>>>>>>> advantage over the implicit model.
+> >>>>>>> Ok this stops making sense. Somehow you claim userspace doesn't k=
+now
+> >>>>>>> when to sync, but somehow the kernel does? By guessing, and getti=
+ng it
+> >>>>>>> wrong mostly, except for the one case that you benchmarked?
+> >>>>>>>
+> >>>>>>> Aside from silly userspace which exports a buffer to a dma-buf, b=
+ut
+> >>>>>>> then never imports it anywhere else, there isn't a case I know of
+> >>>>>>> where the kernel actually knows more than userspace. But there's =
+lots
+> >>>>>>> of cases where the kernel definitely knows less, especially if
+> >>>>>>> userspace doesn't tell it about what's going on with each renderi=
+ng
+> >>>>>>> and buffer.
+> >>>>>>>
+> >>>>>>> So here's the 2 things you need to make this work like every othe=
+r driver:
+> >>>>>>>
+> >>>>>>> 1. A way to set the explicit fence on a buffer. CS ioctl is perfe=
+ctly
+> >>>>>>> fine, but also can be seperate. Userspace uses this only on a) sh=
+ared
+> >>>>>>> buffers b) when there's a flush/swap on that shared buffer. Not w=
+hen
+> >>>>>>> rendering any of the interim stuff, that only leads to oversync.
+> >>>>>>> Anything non-shared is handled explicitly in userspace (at least =
+for
+> >>>>>>> modern-ish drivers). This is the only thing that ever sets an
+> >>>>>>> exclusive fence (aside from ttm moving buffers around ofc).
+> >>>>>>>
+> >>>>>>> 2. A way to sync with the implicit fences, either all of them (fo=
+r
+> >>>>>>> upcoming write access) or just the write fence (for read access).=
+ At
+> >>>>>>> first we thought it's good enough to do this in the CS ioctl, but
+> >>>>>>> that's a wee bit too late, hence the patches from Jason. My
+> >>>>>>> understanding is that vulkan converts this into an vk syncobj/fen=
+ce of
+> >>>>>>> some sorts, so really can't make this more explicit and intention=
+al
+> >>>>>>> than that.
+> >>>>>>>
+> >>>>>>> None of this is something the kernel has the slightest idea about=
+ when
+> >>>>>>> it happens, so you have to have explicit uapi for it. Trying to f=
+ake
+> >>>>>>> it in the kernel just doesn't work.
+> >>>>>>> -Daniel
+> >>>>>>> --
+> >>>>>>> Daniel Vetter
+> >>>>>>> Software Engineer, Intel Corporation
+> >>>>>>> http://blog.ffwll.ch
+> >>>>> --
+> >>>>> Daniel Vetter
+> >>>>> Software Engineer, Intel Corporation
+> >>>>> http://blog.ffwll.ch
+> >
+>
 
---Sig_/JM4T.u/0gZTQJI0lx_jyo8a
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
 
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmCmFqIACgkQI1/ltBGq
-qqfN4g//VzHs7kX1GmLPY7Ou3CRJaj0CyDzpwLN0djwSFXNvbQgSCDttMy+rz+UT
-e/pk3lLTY79o8dWPcbFTM/QM6BQXLTS7OtiJfLhv4eNIU5t6Edl1w2QcTh9A6MKS
-bRjC4Ju3uzSL3nczmYr55Gwy1Jodt2iM0bV80Dcbi724x6v18dXbiyvP7O/vzFOJ
-Km12/kE8TgNUqURVmbX6u7SubqTAZx7hbzKTQB0OOofC6F0K1brH9c/jHIr4V4cB
-jkqJCMttJ+iwXo6PeqRxMw2gyu4L/9qQay+uPDonzhpQlY51v77JftCsNBO0Yrex
-VVDRRbpRTFPMt+lTvzTxWy8XwR8rXy2KHVH6w02EsplbV/62Fz9VbO1NmGYiUlYb
-B4gZDgUOj1UnghRiCbW5DYta66h3o+w6sDJmJLNFwXUdqw2nvYAK8fSEtqWhV9zQ
-I3U12y6GsoFyruVfoFSas5zYe3kcxArwYZVq/8DUTFvGBoqLyzLU10bpQcMtoVAH
-2b1FeldcRzMZCvwGxCgO2ShucTiJZ/0ZNdeSKkfMy4u9WWUuPRcGIqwqPrs0Mx3y
-Nf71Pyvj8Q5Cz3LhtyCLWi5ldN+DSO5YS6hxiskwv/VLIgR4rDuRwwYWimnm/D5g
-VeF159yw20v6wQ75cNIJZfSwI5QVcnWu+l1y2FOH173meXJEk38=
-=KBhL
------END PGP SIGNATURE-----
-
---Sig_/JM4T.u/0gZTQJI0lx_jyo8a--
+--=20
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
