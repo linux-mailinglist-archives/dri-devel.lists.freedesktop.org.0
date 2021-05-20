@@ -1,41 +1,82 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B092338A3DD
-	for <lists+dri-devel@lfdr.de>; Thu, 20 May 2021 11:56:42 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id DB72B38A438
+	for <lists+dri-devel@lfdr.de>; Thu, 20 May 2021 12:00:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 811266F3A9;
-	Thu, 20 May 2021 09:56:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C804E6F3A8;
+	Thu, 20 May 2021 10:00:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A2FBD6F3A8
- for <dri-devel@lists.freedesktop.org>; Thu, 20 May 2021 09:56:38 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
- [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8CB35D41;
- Thu, 20 May 2021 11:56:36 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1621504597;
- bh=cEBH9tdYt+NxPtjOhJevZR8ZUlp0k7XB8/0Ut+i8WMc=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Sq3GbuSmw0/2+jFUNOsrc8428erqibstxzJ6BBf9oyasIdgwTxY0TWV+AbNsYJUk3
- uo27VgAXqlkUyf++8m+Aj1pMG71WyT9sSj/VjcYbKcw2L2yzFzzRaIuZEXweogdNWI
- Qt2owAl1imI2obHdr+s5LtvP8F8qv/Ijgc+djks8=
-Date: Thu, 20 May 2021 12:56:34 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: quanyang.wang@windriver.com
-Subject: Re: [V2][PATCH 2/2] drm: xlnx: consolidate the functions which
- programming AUDIO_VIDEO_SELECT register
-Message-ID: <YKYyUof3HPEFXQYc@pendragon.ideasonboard.com>
-References: <20210518095019.3855369-1-quanyang.wang@windriver.com>
- <20210518095019.3855369-3-quanyang.wang@windriver.com>
+Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com
+ [IPv6:2a00:1450:4864:20::52e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8949A6F3A8
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 May 2021 10:00:53 +0000 (UTC)
+Received: by mail-ed1-x52e.google.com with SMTP id h16so18691395edr.6
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 May 2021 03:00:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-transfer-encoding:content-language;
+ bh=3M+oi/O5PNaK1CoEoVeTrQPUtn5HClRQ4IqV6H7ywB0=;
+ b=ECutEpYoSLJwIfLB40YxiH9/53GrDenulWP48XFUNPAqBD+38dYmu2Z5vvcxBUYgQb
+ XjjgS07z6tEKkXNtmvugPXQXaHnzXKfpbzIljS1eQONR8c3aFBDsTtXrXp2fP49pcZ+g
+ QC4bFjMB2LGQEBgKRaesKl0TnsWJq6UYMMMgghYSY6eThgw64sP0N4IVvgv91hIxoMEA
+ l58d2sxPYZlDYuEOn46uT7ku1oYuRDoIl3+E4UCyyyKJKNs2PjIHNzsCD5mrXPYdFdci
+ JIxUq8wibAQd5eNkhkux7qnftJGXk9728g6rPSU5FMf1AGiXS5cH3H20YX5ABKg2yGMl
+ kuDA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-transfer-encoding
+ :content-language;
+ bh=3M+oi/O5PNaK1CoEoVeTrQPUtn5HClRQ4IqV6H7ywB0=;
+ b=pXYoE7kaLDhCekX6SbUgvWCS73PLeqKqYAjMyaiNdjNVdLGjqQ+I8cQmJzVMGkNXlM
+ qaWD68yhzx0MiDoCmhD/FWhQOQmPSIRpbmBgseQ8+T4v4l3YjJJQ0dWAS3dJ2/DnwG8B
+ a8gESw2Q/dz/+wlAHYhcMojuFDNjXWoAnMjTvw9heQNZzh2PvammY9JO9T2IRAkAY3uM
+ GQaXAeBgfM9yDeA/HWmEAfSNnSiwFVYIJ0suhL3Eme0jZFoAWMOh690uxhjuG98VolDl
+ zHoQeSuypUvYVzr7ElgoNMFFON5BgPg+stRgNjP4yXUPwV3Ggh3hEVJaXmzRsLflisp+
+ zh+g==
+X-Gm-Message-State: AOAM532uetTIo83Y58ZyMHOBK3Jf5x6iuzgi/0QWk6sL+Y8vUvxYkh8q
+ X81XBXjGWCHxFHabjryHhVg=
+X-Google-Smtp-Source: ABdhPJyqzuQkZv+kPIgzMRzUKSnXiPG1wP7UO8Izi4/lkmucYVMWVA+waqVJ2TbfWhVCoCkjRVp5Bw==
+X-Received: by 2002:a05:6402:2793:: with SMTP id
+ b19mr3993069ede.191.1621504852223; 
+ Thu, 20 May 2021 03:00:52 -0700 (PDT)
+Received: from ?IPv6:2a02:908:1252:fb60:4635:589e:67a4:e02a?
+ ([2a02:908:1252:fb60:4635:589e:67a4:e02a])
+ by smtp.gmail.com with ESMTPSA id di7sm1226481edb.34.2021.05.20.03.00.51
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 20 May 2021 03:00:51 -0700 (PDT)
+Subject: Re: [RFC] Add DMA_RESV_USAGE flags
+To: =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel@daenzer.net>,
+ Daniel Vetter <daniel@ffwll.ch>
+References: <20210517141129.2225-1-christian.koenig@amd.com>
+ <YKKF4jOvM4gJT6a4@phenom.ffwll.local>
+ <5a3e9500-9d6b-a865-5385-fde43da2bf66@gmail.com>
+ <CAKMK7uF=y44e9-0-4MBj3jRBdCqMaLgKutTMeBWCbySRnPR4KQ@mail.gmail.com>
+ <CAOFGe960UMe4=Xxcoha9R2Y74ma3Pp4Z0DF6PM+SJ2sjq2DBXg@mail.gmail.com>
+ <CAKMK7uGtTT+59hRi3PB1WHPES3YJAPYBvbT74vo9PApNE0i7MQ@mail.gmail.com>
+ <fee06c2d-27fb-1af4-6222-8f277b36c951@gmail.com>
+ <CAKMK7uHLipx_oH-s5PB6pUUZ_JXCyciaY7sDLfK__-2fvSPCKA@mail.gmail.com>
+ <f2eb6751-2f82-9b23-f57e-548de5b729de@gmail.com>
+ <CAKMK7uHdsGjADQ9zwgrYsuhHdxFGkuH--DdOsaqej6OD1AbX-w@mail.gmail.com>
+ <CAOFGe97FDc7Y9APymQQZZMApDXsJkbcS0N5jh+3s-w-Ligipug@mail.gmail.com>
+ <14524566-8854-4bc0-9f70-b7219c9fccfc@daenzer.net>
+ <CAOFGe96VttW2VzAnx13ZXLBGcEDJMehGuOFifcr+pcbEOa-Brw@mail.gmail.com>
+ <6f3e2628-7b39-417c-3bd2-c837c5367458@daenzer.net>
+ <CAKMK7uFMQGth19OjWmeNGTeVFoAqxK2tYXYrvme+NuCSNLxLUQ@mail.gmail.com>
+ <7cbba7b7-d7e5-9c76-c747-4e39542268a2@daenzer.net>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+Message-ID: <4aa3ee97-f860-999f-9874-2b89b29c9634@gmail.com>
+Date: Thu, 20 May 2021 12:00:50 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20210518095019.3855369-3-quanyang.wang@windriver.com>
+In-Reply-To: <7cbba7b7-d7e5-9c76-c747-4e39542268a2@daenzer.net>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,350 +89,75 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Hyun Kwon <hyun.kwon@xilinx.com>, David Airlie <airlied@linux.ie>,
- Michal Simek <michal.simek@xilinx.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Paul Cercueil <paul@crapouillou.net>,
- linux-arm-kernel@lists.infradead.org
+Cc: "moderated list:DMA BUFFER SHARING FRAMEWORK"
+ <linaro-mm-sig@lists.linaro.org>, Jason Ekstrand <jason@jlekstrand.net>,
+ dri-devel <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Quanyang,
+Am 20.05.21 um 10:13 schrieb Michel Dänzer:
+> On 2021-05-20 9:55 a.m., Daniel Vetter wrote:
+>> On Wed, May 19, 2021 at 5:48 PM Michel Dänzer <michel@daenzer.net> wrote:
+>>> On 2021-05-19 5:21 p.m., Jason Ekstrand wrote:
+>>>> On Wed, May 19, 2021 at 5:52 AM Michel Dänzer <michel@daenzer.net> wrote:
+>>>>> On 2021-05-19 12:06 a.m., Jason Ekstrand wrote:
+>>>>>> On Tue, May 18, 2021 at 4:17 PM Daniel Vetter <daniel@ffwll.ch> wrote:
+>>>>>>> On Tue, May 18, 2021 at 7:40 PM Christian König
+>>>>>>> <ckoenig.leichtzumerken@gmail.com> wrote:
+>>>>>>>> Am 18.05.21 um 18:48 schrieb Daniel Vetter:
+>>>>>>>>> On Tue, May 18, 2021 at 2:49 PM Christian König
+>>>>>>>>> <ckoenig.leichtzumerken@gmail.com> wrote:
+>>>>>>>>>
+>>>>>>>>>> And as long as we are all inside amdgpu we also don't have any oversync,
+>>>>>>>>>> the issue only happens when we share dma-bufs with i915 (radeon and
+>>>>>>>>>> AFAIK nouveau does the right thing as well).
+>>>>>>>>> Yeah because then you can't use the amdgpu dma_resv model anymore and
+>>>>>>>>> have to use the one atomic helpers use. Which is also the one that
+>>>>>>>>> e.g. Jason is threathening to bake in as uapi with his dma_buf ioctl,
+>>>>>>>>> so as soon as that lands and someone starts using it, something has to
+>>>>>>>>> adapt _anytime_ you have a dma-buf hanging around. Not just when it's
+>>>>>>>>> shared with another device.
+>>>>>>>> Yeah, and that is exactly the reason why I will NAK this uAPI change.
+>>>>>>>>
+>>>>>>>> This doesn't works for amdgpu at all for the reasons outlined above.
+>>>>>>> Uh that's really not how uapi works. "my driver is right, everyone
+>>>>>>> else is wrong" is not how cross driver contracts are defined. If that
+>>>>>>> means a perf impact until you've fixed your rules, that's on you.
+>>>>>>>
+>>>>>>> Also you're a few years too late with nacking this, it's already uapi
+>>>>>>> in the form of the dma-buf poll() support.
+>>>>>> ^^  My fancy new ioctl doesn't expose anything that isn't already
+>>>>>> there.  It just lets you take a snap-shot of a wait instead of doing
+>>>>>> an active wait which might end up with more fences added depending on
+>>>>>> interrupts and retries.  The dma-buf poll waits on all fences for
+>>>>>> POLLOUT and only the exclusive fence for POLLIN.  It's already uAPI.
+>>>>> Note that the dma-buf poll support could be useful to Wayland compositors for the same purpose as Jason's new ioctl (only using client buffers which have finished drawing for an output frame, to avoid missing a refresh cycle due to client drawing), *if* it didn't work differently with amdgpu.
+>>>>>
+>>>>> Am I understanding correctly that Jason's new ioctl would also work differently with amdgpu as things stand currently? If so, that would be a real bummer and might hinder adoption of the ioctl by Wayland compositors.
+>>>> My new ioctl has identical semantics to poll().  It just lets you take
+>>>> a snapshot in time to wait on later instead of waiting on whatever
+>>>> happens to be set right now.  IMO, having identical semantics to
+>>>> poll() isn't something we want to change.
+>>> Agreed.
+>>>
+>>> I'd argue then that making amdgpu poll semantics match those of other drivers is a pre-requisite for the new ioctl, otherwise it seems unlikely that the ioctl will be widely adopted.
+>> This seems backwards, because that means useful improvements in all
+>> other drivers are stalled until amdgpu is fixed.
+>>
+>> I think we need agreement on what the rules are, reasonable plan to
+>> get there, and then that should be enough to unblock work in the wider
+>> community. Holding the community at large hostage because one driver
+>> is different is really not great.
+> I think we're in violent agreement. :) The point I was trying to make is that amdgpu really needs to be fixed to be consistent with other drivers ASAP.
 
-Thank you for the patch.
+Well from my point of view I rather think that the rules of DMA-buf 
+implicit sync should be fixed, cause those are based on an ancient DRM 
+approach.
 
-On Tue, May 18, 2021 at 05:50:19PM +0800, quanyang.wang@windriver.com wrote:
-> From: Quanyang Wang <quanyang.wang@windriver.com>
-> 
-> For now, the functions zynqmp_disp_avbuf_enable/disable_audio and
-> zynqmp_disp_avbuf_enable/disable_video are all programming the register
-> AV_BUF_OUTPUT_AUDIO_VIDEO_SELECT to select the output for audio or video.
-> And in the future, many drm properties (like video_tpg, audio_tpg,
-> audio_pl, etc) also need to access it. So let's introduce some variables
-> of enum type and consolidate the code to unify handling this.
-> 
-> Signed-off-by: Quanyang Wang <quanyang.wang@windriver.com>
-> ---
->  drivers/gpu/drm/xlnx/zynqmp_disp.c      | 168 ++++++++++++++----------
->  drivers/gpu/drm/xlnx/zynqmp_disp_regs.h |  23 +---
->  2 files changed, 106 insertions(+), 85 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/xlnx/zynqmp_disp.c b/drivers/gpu/drm/xlnx/zynqmp_disp.c
-> index eefb278e24c6..3672d2f5665b 100644
-> --- a/drivers/gpu/drm/xlnx/zynqmp_disp.c
-> +++ b/drivers/gpu/drm/xlnx/zynqmp_disp.c
-> @@ -102,12 +102,39 @@ enum zynqmp_disp_layer_id {
->  
->  /**
->   * enum zynqmp_disp_layer_mode - Layer mode
-> - * @ZYNQMP_DISP_LAYER_NONLIVE: non-live (memory) mode
-> + * @ZYNQMP_DISP_LAYER_MEM: memory mode
->   * @ZYNQMP_DISP_LAYER_LIVE: live (stream) mode
-> + * @ZYNQMP_DISP_LAYER_TPG: tpg mode (only for video layer)
-> + * @ZYNQMP_DISP_LAYER_DISABLE: disable mode
+And I'm seriously not accepting any changes to amdgpu involving per BO 
+flags for CS.
 
-"Disable" isn't really a mode :-S
-
->   */
->  enum zynqmp_disp_layer_mode {
-> -	ZYNQMP_DISP_LAYER_NONLIVE,
-> -	ZYNQMP_DISP_LAYER_LIVE
-> +	ZYNQMP_DISP_LAYER_MEM,
-> +	ZYNQMP_DISP_LAYER_LIVE,
-> +	ZYNQMP_DISP_LAYER_TPG,
-> +	ZYNQMP_DISP_LAYER_DISABLE
-> +};
-> +
-> +enum avbuf_vid_mode {
-> +	VID_MODE_LIVE,
-> +	VID_MODE_MEM,
-> +	VID_MODE_TPG,
-> +	VID_MODE_NONE
-> +};
-
-I don't like this much. The enum here doesn't clearly show that the
-values correspond to hardware register values. I'd rather address this
-in drivers/gpu/drm/xlnx/zynqmp_disp_regs.h, see below for a proposal.
-
-> +
-> +enum avbuf_gfx_mode {
-> +	GFX_MODE_DISABLE,
-> +	GFX_MODE_MEM,
-> +	GFX_MODE_LIVE,
-> +	GFX_MODE_NONE
-> +};
-> +
-> +enum avbuf_aud_mode {
-> +	AUD1_MODE_LIVE,
-> +	AUD1_MODE_MEM,
-> +	AUD1_MODE_TPG,
-> +	AUD1_MODE_DISABLE,
-> +	AUD2_MODE_DISABLE,
-> +	AUD2_MODE_ENABLE
-
-Combining AUD1 and AUD2 in the same enum, with the
-" - AUD2_MODE_DISABLE" below, is really a hack. Let's keep
-hardware-related valeus in drivers/gpu/drm/xlnx/zynqmp_disp_regs.h.
-
-Overall I'm not really fond of this rework I'm afraid, I think the
-result is way less readable. Given that this isn't required yet as
-support for the TPG or the PL input isn't part of this series, unless it
-can be rewritten in a better way already, I'd prefer dropping this patch
-for now and including it in a series that enables TPG or PL input.
-
-I also think it could be beneficial to split the patch in two, it seems
-to do a bit too much.
-
->  };
->  
->  /**
-> @@ -542,92 +569,102 @@ static void zynqmp_disp_avbuf_disable_channels(struct zynqmp_disp_avbuf *avbuf)
->  }
->  
->  /**
-> - * zynqmp_disp_avbuf_enable_audio - Enable audio
-> + * zynqmp_disp_avbuf_output_select - Select the buffer manager outputs
->   * @avbuf: Audio/video buffer manager
-> + * @layer: The layer
-> + * @mode: The mode for this layer
->   *
-> - * Enable all audio buffers with a non-live (memory) source.
-> + * Select the buffer manager outputs for @layer.
->   */
-> -static void zynqmp_disp_avbuf_enable_audio(struct zynqmp_disp_avbuf *avbuf)
-> +static void zynqmp_disp_avbuf_output_select(struct zynqmp_disp_avbuf *avbuf,
-> +					   struct zynqmp_disp_layer *layer,
-> +					   u32 mode)
->  {
-> -	u32 val;
-> +	u32 reg;
->  
-> -	val = zynqmp_disp_avbuf_read(avbuf, ZYNQMP_DISP_AV_BUF_OUTPUT);
-> -	val &= ~ZYNQMP_DISP_AV_BUF_OUTPUT_AUD1_MASK;
-> -	val |= ZYNQMP_DISP_AV_BUF_OUTPUT_AUD1_MEM;
-> -	val |= ZYNQMP_DISP_AV_BUF_OUTPUT_AUD2_EN;
-> -	zynqmp_disp_avbuf_write(avbuf, ZYNQMP_DISP_AV_BUF_OUTPUT, val);
-> +	reg = zynqmp_disp_avbuf_read(avbuf, ZYNQMP_DISP_AV_BUF_OUTPUT);
-> +
-> +	/* Select audio mode when the layer is NULL */
-
-This is also a hack, I don't really like it. I'd much prefer keeping
-audio handling in separate functions.
-
-> +	if (layer == NULL) {
-> +		if (mode >= AUD2_MODE_DISABLE) {
-> +			reg &= ~ZYNQMP_DISP_AV_BUF_OUTPUT_AUD2_MASK;
-> +			reg |= FIELD_PREP(ZYNQMP_DISP_AV_BUF_OUTPUT_AUD2_MASK,
-> +					(mode - AUD2_MODE_DISABLE));
-> +		} else {
-> +			reg &= ~ZYNQMP_DISP_AV_BUF_OUTPUT_AUD1_MASK;
-> +			reg |= FIELD_PREP(ZYNQMP_DISP_AV_BUF_OUTPUT_AUD1_MASK, mode);
-> +		}
-> +	} else if (is_layer_vid(layer)) {
-> +		reg &= ~ZYNQMP_DISP_AV_BUF_OUTPUT_VID1_MASK;
-> +		reg |= FIELD_PREP(ZYNQMP_DISP_AV_BUF_OUTPUT_VID1_MASK, mode);
-> +	} else {
-> +		reg &= ~ZYNQMP_DISP_AV_BUF_OUTPUT_VID2_MASK;
-> +		reg |= FIELD_PREP(ZYNQMP_DISP_AV_BUF_OUTPUT_VID2_MASK, mode);
-> +	}
-> +
-> +	zynqmp_disp_avbuf_write(avbuf, ZYNQMP_DISP_AV_BUF_OUTPUT, reg);
->  }
->  
->  /**
-> - * zynqmp_disp_avbuf_disable_audio - Disable audio
-> + * zynqmp_disp_avbuf_enable_audio - Enable audio
->   * @avbuf: Audio/video buffer manager
->   *
-> - * Disable all audio buffers.
-> + * Enable all audio buffers.
->   */
-> -static void zynqmp_disp_avbuf_disable_audio(struct zynqmp_disp_avbuf *avbuf)
-> +static void zynqmp_disp_avbuf_enable_audio(struct zynqmp_disp_avbuf *avbuf)
->  {
-> -	u32 val;
-> -
-> -	val = zynqmp_disp_avbuf_read(avbuf, ZYNQMP_DISP_AV_BUF_OUTPUT);
-> -	val &= ~ZYNQMP_DISP_AV_BUF_OUTPUT_AUD1_MASK;
-> -	val |= ZYNQMP_DISP_AV_BUF_OUTPUT_AUD1_DISABLE;
-> -	val &= ~ZYNQMP_DISP_AV_BUF_OUTPUT_AUD2_EN;
-> -	zynqmp_disp_avbuf_write(avbuf, ZYNQMP_DISP_AV_BUF_OUTPUT, val);
-> +	zynqmp_disp_avbuf_output_select(avbuf, NULL, AUD1_MODE_MEM);
-> +	zynqmp_disp_avbuf_output_select(avbuf, NULL, AUD2_MODE_ENABLE);
->  }
->  
->  /**
-> - * zynqmp_disp_avbuf_enable_video - Enable a video layer
-> + * zynqmp_disp_avbuf_disable_audio - Disable audio
->   * @avbuf: Audio/video buffer manager
-> - * @layer: The layer
-> - * @mode: Operating mode of layer
->   *
-> - * Enable the video/graphics buffer for @layer.
-> + * Disable all audio buffers.
->   */
-> -static void zynqmp_disp_avbuf_enable_video(struct zynqmp_disp_avbuf *avbuf,
-> -					   struct zynqmp_disp_layer *layer,
-> -					   enum zynqmp_disp_layer_mode mode)
-> +static void zynqmp_disp_avbuf_disable_audio(struct zynqmp_disp_avbuf *avbuf)
->  {
-> -	u32 val;
-> -
-> -	val = zynqmp_disp_avbuf_read(avbuf, ZYNQMP_DISP_AV_BUF_OUTPUT);
-> -	if (is_layer_vid(layer)) {
-> -		val &= ~ZYNQMP_DISP_AV_BUF_OUTPUT_VID1_MASK;
-> -		if (mode == ZYNQMP_DISP_LAYER_NONLIVE)
-> -			val |= ZYNQMP_DISP_AV_BUF_OUTPUT_VID1_MEM;
-> -		else
-> -			val |= ZYNQMP_DISP_AV_BUF_OUTPUT_VID1_LIVE;
-> -	} else {
-> -		val &= ~ZYNQMP_DISP_AV_BUF_OUTPUT_VID2_MASK;
-> -		val |= ZYNQMP_DISP_AV_BUF_OUTPUT_VID2_MEM;
-> -		if (mode == ZYNQMP_DISP_LAYER_NONLIVE)
-> -			val |= ZYNQMP_DISP_AV_BUF_OUTPUT_VID2_MEM;
-> -		else
-> -			val |= ZYNQMP_DISP_AV_BUF_OUTPUT_VID2_LIVE;
-> -	}
-> -	zynqmp_disp_avbuf_write(avbuf, ZYNQMP_DISP_AV_BUF_OUTPUT, val);
-> +	zynqmp_disp_avbuf_output_select(avbuf, NULL, AUD1_MODE_DISABLE);
-> +	zynqmp_disp_avbuf_output_select(avbuf, NULL, AUD2_MODE_DISABLE);
->  }
->  
->  /**
-> - * zynqmp_disp_avbuf_disable_video - Disable a video layer
-> - * @avbuf: Audio/video buffer manager
-> + * zynqmp_disp_avbuf_set_layer_output - Set layer output
->   * @layer: The layer
-> + * @mode: The layer mode
->   *
-> - * Disable the video/graphics buffer for @layer.
-> + * Set output for @layer
->   */
-> -static void zynqmp_disp_avbuf_disable_video(struct zynqmp_disp_avbuf *avbuf,
-> -					    struct zynqmp_disp_layer *layer)
-> +static void zynqmp_disp_avbuf_set_layer_output(struct zynqmp_disp_layer *layer,
-> +					   enum zynqmp_disp_layer_mode mode)
->  {
-> -	u32 val;
-> -
-> -	val = zynqmp_disp_avbuf_read(avbuf, ZYNQMP_DISP_AV_BUF_OUTPUT);
-> -	if (is_layer_vid(layer)) {
-> -		val &= ~ZYNQMP_DISP_AV_BUF_OUTPUT_VID1_MASK;
-> -		val |= ZYNQMP_DISP_AV_BUF_OUTPUT_VID1_NONE;
-> -	} else {
-> -		val &= ~ZYNQMP_DISP_AV_BUF_OUTPUT_VID2_MASK;
-> -		val |= ZYNQMP_DISP_AV_BUF_OUTPUT_VID2_DISABLE;
-> +	struct zynqmp_disp *disp = layer->disp;
-> +	int val;
-> +
-> +	switch (mode) {
-> +	case ZYNQMP_DISP_LAYER_LIVE:
-> +		val = is_layer_vid(layer) ? VID_MODE_LIVE : GFX_MODE_LIVE;
-> +		break;
-> +	case ZYNQMP_DISP_LAYER_MEM:
-> +		val = is_layer_vid(layer) ? VID_MODE_MEM : GFX_MODE_MEM;
-> +		break;
-> +	case ZYNQMP_DISP_LAYER_TPG:
-> +		if (!is_layer_vid(layer)) {
-> +			dev_err(disp->dev, "gfx layer has no tpg mode\n");
-> +			return;
-> +		}
-> +		val = VID_MODE_TPG;
-> +		break;
-> +	case ZYNQMP_DISP_LAYER_DISABLE:
-> +		val = is_layer_vid(layer) ? VID_MODE_NONE : GFX_MODE_DISABLE;
-> +		break;
-> +	default:
-> +		dev_err(disp->dev, "invalid layer mode\n");
-> +		return;
->  	}
-> -	zynqmp_disp_avbuf_write(avbuf, ZYNQMP_DISP_AV_BUF_OUTPUT, val);
-> +
-> +	zynqmp_disp_avbuf_output_select(&disp->avbuf, layer, val);
->  }
->  
->  /**
-> @@ -1030,11 +1067,10 @@ zynqmp_disp_layer_find_format(struct zynqmp_disp_layer *layer,
->   */
->  static void zynqmp_disp_layer_enable(struct zynqmp_disp_layer *layer)
->  {
-> -	zynqmp_disp_avbuf_enable_video(&layer->disp->avbuf, layer,
-> -				       ZYNQMP_DISP_LAYER_NONLIVE);
-> +	zynqmp_disp_avbuf_set_layer_output(layer, ZYNQMP_DISP_LAYER_MEM);
->  	zynqmp_disp_blend_layer_enable(&layer->disp->blend, layer);
->  
-> -	layer->mode = ZYNQMP_DISP_LAYER_NONLIVE;
-> +	layer->mode = ZYNQMP_DISP_LAYER_MEM;
->  }
->  
->  /**
-> @@ -1051,7 +1087,7 @@ static void zynqmp_disp_layer_disable(struct zynqmp_disp_layer *layer)
->  	for (i = 0; i < layer->drm_fmt->num_planes; i++)
->  		dmaengine_terminate_sync(layer->dmas[i].chan);
->  
-> -	zynqmp_disp_avbuf_disable_video(&layer->disp->avbuf, layer);
-> +	zynqmp_disp_avbuf_set_layer_output(layer, ZYNQMP_DISP_LAYER_DISABLE);
->  	zynqmp_disp_blend_layer_disable(&layer->disp->blend, layer);
->  }
->  
-> diff --git a/drivers/gpu/drm/xlnx/zynqmp_disp_regs.h b/drivers/gpu/drm/xlnx/zynqmp_disp_regs.h
-> index f92a006d5070..4316e324102d 100644
-> --- a/drivers/gpu/drm/xlnx/zynqmp_disp_regs.h
-> +++ b/drivers/gpu/drm/xlnx/zynqmp_disp_regs.h
-> @@ -118,25 +118,10 @@
->  #define ZYNQMP_DISP_AV_BUF_STC_SNAPSHOT0		0x60
->  #define ZYNQMP_DISP_AV_BUF_STC_SNAPSHOT1		0x64
->  #define ZYNQMP_DISP_AV_BUF_OUTPUT			0x70
-> -#define ZYNQMP_DISP_AV_BUF_OUTPUT_VID1_SHIFT		0
-> -#define ZYNQMP_DISP_AV_BUF_OUTPUT_VID1_MASK		(0x3 << 0)
-> -#define ZYNQMP_DISP_AV_BUF_OUTPUT_VID1_LIVE		(0 << 0)
-> -#define ZYNQMP_DISP_AV_BUF_OUTPUT_VID1_MEM		(1 << 0)
-> -#define ZYNQMP_DISP_AV_BUF_OUTPUT_VID1_PATTERN		(2 << 0)
-> -#define ZYNQMP_DISP_AV_BUF_OUTPUT_VID1_NONE		(3 << 0)
-> -#define ZYNQMP_DISP_AV_BUF_OUTPUT_VID2_SHIFT		2
-> -#define ZYNQMP_DISP_AV_BUF_OUTPUT_VID2_MASK		(0x3 << 2)
-> -#define ZYNQMP_DISP_AV_BUF_OUTPUT_VID2_DISABLE		(0 << 2)
-> -#define ZYNQMP_DISP_AV_BUF_OUTPUT_VID2_MEM		(1 << 2)
-> -#define ZYNQMP_DISP_AV_BUF_OUTPUT_VID2_LIVE		(2 << 2)
-> -#define ZYNQMP_DISP_AV_BUF_OUTPUT_VID2_NONE		(3 << 2)
-> -#define ZYNQMP_DISP_AV_BUF_OUTPUT_AUD1_SHIFT		4
-> -#define ZYNQMP_DISP_AV_BUF_OUTPUT_AUD1_MASK		(0x3 << 4)
-> -#define ZYNQMP_DISP_AV_BUF_OUTPUT_AUD1_PL		(0 << 4)
-> -#define ZYNQMP_DISP_AV_BUF_OUTPUT_AUD1_MEM		(1 << 4)
-> -#define ZYNQMP_DISP_AV_BUF_OUTPUT_AUD1_PATTERN		(2 << 4)
-> -#define ZYNQMP_DISP_AV_BUF_OUTPUT_AUD1_DISABLE		(3 << 4)
-> -#define ZYNQMP_DISP_AV_BUF_OUTPUT_AUD2_EN		BIT(6)
-> +#define ZYNQMP_DISP_AV_BUF_OUTPUT_VID1_MASK		GENMASK(1, 0)
-> +#define ZYNQMP_DISP_AV_BUF_OUTPUT_VID2_MASK		GENMASK(3, 2)
-> +#define ZYNQMP_DISP_AV_BUF_OUTPUT_AUD1_MASK		GENMASK(5, 4)
-> +#define ZYNQMP_DISP_AV_BUF_OUTPUT_AUD2_MASK		BIT(6)
->  #define ZYNQMP_DISP_AV_BUF_HCOUNT_VCOUNT_INT0		0x74
->  #define ZYNQMP_DISP_AV_BUF_HCOUNT_VCOUNT_INT1		0x78
->  #define ZYNQMP_DISP_AV_BUF_PATTERN_GEN_SELECT		0x100
-
-Following my comment above, let's write this
-
-#define ZYNQMP_DISP_AV_BUF_OUTPUT_LIVE			0
-#define ZYNQMP_DISP_AV_BUF_OUTPUT_MEM			1
-#define ZYNQMP_DISP_AV_BUF_OUTPUT_PATTERN		2
-#define ZYNQMP_DISP_AV_BUF_OUTPUT_NONE			3
-#define ZYNQMP_DISP_AV_BUF_OUTPUT_VID1(v)		((v) << 0)
-#define ZYNQMP_DISP_AV_BUF_OUTPUT_VID1_MASK		GENMASK(1, 0)
-#define ZYNQMP_DISP_AV_BUF_OUTPUT_VID2(v)		((v) << 2)
-#define ZYNQMP_DISP_AV_BUF_OUTPUT_VID2_MASK		GENMASK(3, 2)
-#define ZYNQMP_DISP_AV_BUF_OUTPUT_VID3(v)		((v) << 4)
-#define ZYNQMP_DISP_AV_BUF_OUTPUT_VID3_MASK		GENMASK(5, 4)
-#define ZYNQMP_DISP_AV_BUF_OUTPUT_VID4(v)		((v) << 6)
-#define ZYNQMP_DISP_AV_BUF_OUTPUT_VID4_MASK		GENMASK(7, 6)
-
-Or possibly better,
-
-#define ZYNQMP_DISP_AV_BUF_OUTPUT_LIVE			0
-#define ZYNQMP_DISP_AV_BUF_OUTPUT_MEM			1
-#define ZYNQMP_DISP_AV_BUF_OUTPUT_PATTERN		2
-#define ZYNQMP_DISP_AV_BUF_OUTPUT_NONE			3
-#define ZYNQMP_DISP_AV_BUF_OUTPUT_VID(n, v)		((v) << ((n) * 2))
-#define ZYNQMP_DISP_AV_BUF_OUTPUT_VID_MASK(n)		GENMASK((n)+1, (n))
--- 
 Regards,
+Christian.
 
-Laurent Pinchart
+
