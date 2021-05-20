@@ -1,62 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF6A238AD6D
-	for <lists+dri-devel@lfdr.de>; Thu, 20 May 2021 14:03:41 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CBC438AD67
+	for <lists+dri-devel@lfdr.de>; Thu, 20 May 2021 14:03:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 53B066F41C;
-	Thu, 20 May 2021 12:03:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E450B89BE8;
+	Thu, 20 May 2021 12:03:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com
- [IPv6:2a00:1450:4864:20::42e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 789E488B6C
+Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com
+ [IPv6:2a00:1450:4864:20::42c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E692E89129
  for <dri-devel@lists.freedesktop.org>; Thu, 20 May 2021 12:03:15 +0000 (UTC)
-Received: by mail-wr1-x42e.google.com with SMTP id j14so15648271wrq.5
+Received: by mail-wr1-x42c.google.com with SMTP id p7so13653598wru.10
  for <dri-devel@lists.freedesktop.org>; Thu, 20 May 2021 05:03:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=RiZqS9+1VsUhQi4zCxRm7Qw/CQ+SCMejCROZ7vBDCII=;
- b=LeaXNvmDhLUKi4BpNVSHVz+CuQI0q/bnPzQUee6sPiX5zlHptWrRN5TnlO/9eMmO3d
- RGyObjyUw2hvL4jVWFP4RlE1K8EJBpiwCVh/smcZB4ORsXMIqkXNyj8uczuQitGuKpUB
- O3p1wIPaBo1bMpEqD4d4dUsMjy5nfPwOQK/cxGLjSwb0Wz8xA8F9z7vlGzuZ+Gva+5TY
- TnXjJCpxlD+w5dkect5TfTUzDdZPuSx7aS7Ao4r801uP97zZSNfdf3DjpugBhJ9+GSHT
- W5kWvP2N271CNZ3lHnoSg7bM25HzaEzuWdI/q5c+IPdKq6MHCj0ivH65XU2V5JsV2PG0
- SfYg==
+ bh=LEQDjer3vbO3TY4ZLRkV2RG2nkyiXc42+Td4BCQWM9s=;
+ b=Ki/5vsccVM8UHJjBDGFEOMuTjOicSQZ1oz/OgLD4xv2Mx1VnM2VGHXxQik26n7huqz
+ z+M0QggmLyEdbh5Z6f5cvjF26hkbqkjqZdRsDY/uCBFP9XHELAfxkgmlEHLWuxPcKDl0
+ +ueptwbIz3rdVJVYcrJrmXoJISOoWkn/qWGuX0w8/oNZzsrv8zDCSW3V+lYoFDY+4mwx
+ DdAQ44Bz3ymEqFpMxp+VFW/PuXEBgA6+C2u6IQfhVS7FCXUKQIRax56FYq3e5u94hjxV
+ uJWLg8jT4C+/uABqpXoJ1pHREuWwxGXHwSP+D7wfEOuHJtO2jUvCHoNKxlCDoschLjdq
+ N70w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=RiZqS9+1VsUhQi4zCxRm7Qw/CQ+SCMejCROZ7vBDCII=;
- b=LeyW0CzTz2nG7iRZY7ic1LSFs9mXGZz8Tr3Gi/l/p0cId2LZa7hMhpu4i3sJ6I2ek9
- rIVSp7HWzz8ALDw1KZu8q94/G6STw0cgFPB+fBBtCj6/8EudICRxoEay2ldCJwWrD7FW
- mqL+NlbY3cc0kP7S9LRk879ok6CkSOFhp1bp5Kr3gyX0U3kIum+l+EQ1RFcnHL+p9pkK
- v9fN3f8wBjup5FofeIoQx7c6fw8LGVwtxZNxXw5IOkL2efOqY7aM6elvJXquKmRaffwh
- UML5y9VN1qKnnzHyC2Ba1PkpSk+e9OICZOGHl2/gcgGjlT3FGx9252ays7jABfF+iPq0
- kwSw==
-X-Gm-Message-State: AOAM533wveqxFkUXnRcOyYvH+9Hxh/umwGnRVY4vQyVw3/GACszuTi5e
- Bv7SUWcYEeUQSQwBn1o5blMrmA==
-X-Google-Smtp-Source: ABdhPJwNbytM3HbZfJrhsQBc/jh4ZR3fXPG/OAOnPVHn358PMshvhBLhygc8EHr8vcYofNRgWWb9Ww==
-X-Received: by 2002:a05:6000:1286:: with SMTP id
- f6mr3803164wrx.226.1621512193588; 
- Thu, 20 May 2021 05:03:13 -0700 (PDT)
+ bh=LEQDjer3vbO3TY4ZLRkV2RG2nkyiXc42+Td4BCQWM9s=;
+ b=Trhi9b2fckW5NNwpqNVJreLogJOdO+iyLxwCSNh8n4dW2UTL8jo5ippTbsL6sHhBzq
+ aUK7Vkb7HRE+jT9IXDy9Fv+xvbY0d3VC51L5mAEBa4RAK6DPBI+x8U1lsMB6JnGR87YR
+ TchyxsYJXNWZZMEQhRcHETf0DwMMQTIElvLy6fmE2MnBs+wm4ABoi/gwE6tkkvWLjIlF
+ a+3SM3IcAboU07D4k7hQ1AOMLu9s4WoNM+u4aSTenmvPA5gVgR9uEAlBoNlbsE9K6XXL
+ 1YnXvdi7kgveb6JviP/EYeOgPHkr+v0CnU/oNXnB7vNNwBd2O5vyBjMe2zYo3Ahspj4h
+ UHvQ==
+X-Gm-Message-State: AOAM53354ZWM257H7VARFq3drrmpoouuQD6ELB6hwDb1l4niDzO8zwcx
+ V7cAo2DDVdAddFfV8TLd31lHnA==
+X-Google-Smtp-Source: ABdhPJw4bICpRBMx5HeraldCYJJDz2R+rg+I59syE9V7H9hsq2MLfMyrxB9ejwWsFz74csOg7ggUcA==
+X-Received: by 2002:a5d:44cb:: with SMTP id z11mr3998746wrr.159.1621512194487; 
+ Thu, 20 May 2021 05:03:14 -0700 (PDT)
 Received: from dell.default ([91.110.221.215])
- by smtp.gmail.com with ESMTPSA id j10sm2886332wrt.32.2021.05.20.05.03.12
+ by smtp.gmail.com with ESMTPSA id j10sm2886332wrt.32.2021.05.20.05.03.13
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 20 May 2021 05:03:13 -0700 (PDT)
+ Thu, 20 May 2021 05:03:14 -0700 (PDT)
 From: Lee Jones <lee.jones@linaro.org>
 To: lee.jones@linaro.org
-Subject: [PATCH 21/38] drm/amd/include/aldebaran_ip_offset: Mark top-level
- IP_BASE as __maybe_unused
-Date: Thu, 20 May 2021 13:02:31 +0100
-Message-Id: <20210520120248.3464013-22-lee.jones@linaro.org>
+Subject: [PATCH 22/38] drm/msm/disp/dpu1/dpu_plane: Fix a couple of naming
+ issues
+Date: Thu, 20 May 2021 13:02:32 +0100
+Message-Id: <20210520120248.3464013-23-lee.jones@linaro.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210520120248.3464013-1-lee.jones@linaro.org>
 References: <20210520120248.3464013-1-lee.jones@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -70,57 +68,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Hawking Zhang <Hawking.Zhang@amd.com>
+Cc: freedreno@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
+ linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Sean Paul <sean@poorly.run>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Fixes the following W=1 kernel build warning(s):
 
- drivers/gpu/drm/amd/amdgpu/../include/aldebaran_ip_offset.h:259:29: warning: ‘XGMI2_BASE’ defined but not used [-Wunused-const-variable=]
- drivers/gpu/drm/amd/amdgpu/../include/aldebaran_ip_offset.h:252:29: warning: ‘XGMI1_BASE’ defined but not used [-Wunused-const-variable=]
- drivers/gpu/drm/amd/amdgpu/../include/aldebaran_ip_offset.h:245:29: warning: ‘XGMI0_BASE’ defined but not used [-Wunused-const-variable=]
- drivers/gpu/drm/amd/amdgpu/../include/aldebaran_ip_offset.h:238:29: warning: ‘WAFL1_BASE’ defined but not used [-Wunused-const-variable=]
- drivers/gpu/drm/amd/amdgpu/../include/aldebaran_ip_offset.h:231:29: warning: ‘WAFL0_BASE’ defined but not used [-Wunused-const-variable=]
- drivers/gpu/drm/amd/amdgpu/../include/aldebaran_ip_offset.h:161:29: warning: ‘PCIE0_BASE’ defined but not used [-Wunused-const-variable=]
- drivers/gpu/drm/amd/amdgpu/../include/aldebaran_ip_offset.h:119:29: warning: ‘L2IMU0_BASE’ defined but not used [-Wunused-const-variable=]
- drivers/gpu/drm/amd/amdgpu/../include/aldebaran_ip_offset.h:112:29: warning: ‘L1IMUPCIE0_BASE’ defined but not used [-Wunused-const-variable=]
- drivers/gpu/drm/amd/amdgpu/../include/aldebaran_ip_offset.h:105:29: warning: ‘L1IMUIOAGR0_BASE’ defined but not used [-Wunused-const-variable=]
- drivers/gpu/drm/amd/amdgpu/../include/aldebaran_ip_offset.h:98:29: warning: ‘IOHC0_BASE’ defined but not used [-Wunused-const-variable=]
- drivers/gpu/drm/amd/amdgpu/../include/aldebaran_ip_offset.h:91:29: warning: ‘IOAPIC0_BASE’ defined but not used [-Wunused-const-variable=]
- drivers/gpu/drm/amd/amdgpu/../include/aldebaran_ip_offset.h:84:29: warning: ‘IOAGR0_BASE’ defined but not used [-Wunused-const-variable=]
- drivers/gpu/drm/amd/amdgpu/../include/aldebaran_ip_offset.h:63:29: warning: ‘FUSE_BASE’ defined but not used [-Wunused-const-variable=]
- drivers/gpu/drm/amd/amdgpu/../include/aldebaran_ip_offset.h:49:29: warning: ‘DBGU_IO0_BASE’ defined but not used [-Wunused-const-variable=]
- drivers/gpu/drm/amd/amdgpu/../include/aldebaran_ip_offset.h:42:29: warning: ‘CLK_BASE’ defined but not used [-Wunused-const-variable=]
+ drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c:373: warning: expecting prototype for _dpu_plane_set_panic_lut(). Prototype was for _dpu_plane_set_danger_lut() instead
+ drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c:498: warning: expecting prototype for _dpu_plane_set_vbif_qos(). Prototype was for _dpu_plane_set_qos_remap() instead
 
-Cc: Alex Deucher <alexander.deucher@amd.com>
-Cc: "Christian König" <christian.koenig@amd.com>
+Cc: Rob Clark <robdclark@gmail.com>
+Cc: Sean Paul <sean@poorly.run>
 Cc: David Airlie <airlied@linux.ie>
 Cc: Daniel Vetter <daniel@ffwll.ch>
-Cc: Hawking Zhang <Hawking.Zhang@amd.com>
-Cc: amd-gfx@lists.freedesktop.org
+Cc: linux-arm-msm@vger.kernel.org
 Cc: dri-devel@lists.freedesktop.org
+Cc: freedreno@lists.freedesktop.org
 Signed-off-by: Lee Jones <lee.jones@linaro.org>
 ---
- drivers/gpu/drm/amd/include/aldebaran_ip_offset.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/include/aldebaran_ip_offset.h b/drivers/gpu/drm/amd/include/aldebaran_ip_offset.h
-index 644ffec2b0ce8..cdd426b41c20e 100644
---- a/drivers/gpu/drm/amd/include/aldebaran_ip_offset.h
-+++ b/drivers/gpu/drm/amd/include/aldebaran_ip_offset.h
-@@ -30,7 +30,7 @@ struct IP_BASE_INSTANCE {
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+index 7a993547eb751..ed05a7ab58f53 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+@@ -364,7 +364,7 @@ static void _dpu_plane_set_qos_lut(struct drm_plane *plane,
+ }
  
- struct IP_BASE {
-     struct IP_BASE_INSTANCE instance[MAX_INSTANCE];
--};
-+} __maybe_unused;
+ /**
+- * _dpu_plane_set_panic_lut - set danger/safe LUT of the given plane
++ * _dpu_plane_set_danger_lut - set danger/safe LUT of the given plane
+  * @plane:		Pointer to drm plane
+  * @fb:			Pointer to framebuffer associated with the given plane
+  */
+@@ -491,7 +491,7 @@ static void _dpu_plane_set_ot_limit(struct drm_plane *plane,
+ }
  
- static const struct IP_BASE ATHUB_BASE = { { { { 0x00000C20, 0x02408C00, 0, 0, 0, 0 } },
-                                         { { 0, 0, 0, 0, 0, 0 } },
+ /**
+- * _dpu_plane_set_vbif_qos - set vbif QoS for the given plane
++ * _dpu_plane_set_qos_remap - set vbif QoS for the given plane
+  * @plane:		Pointer to drm plane
+  */
+ static void _dpu_plane_set_qos_remap(struct drm_plane *plane)
 -- 
 2.31.1
 
