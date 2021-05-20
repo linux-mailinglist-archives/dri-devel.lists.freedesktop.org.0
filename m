@@ -2,142 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E1A338B3E5
-	for <lists+dri-devel@lfdr.de>; Thu, 20 May 2021 18:00:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E4BE138B37A
+	for <lists+dri-devel@lfdr.de>; Thu, 20 May 2021 17:46:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 273166E165;
-	Thu, 20 May 2021 16:00:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A544389A1F;
+	Thu, 20 May 2021 15:46:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 3416 seconds by postgrey-1.36 at gabe;
- Thu, 20 May 2021 16:00:33 UTC
-Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com
- [185.132.182.106])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 05A396E165
- for <dri-devel@lists.freedesktop.org>; Thu, 20 May 2021 16:00:32 +0000 (UTC)
-Received: from pps.filterd (m0046668.ppops.net [127.0.0.1])
- by mx07-00178001.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 14KF3LuM008069; Thu, 20 May 2021 17:03:29 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=st.com;
- h=from : to : cc : subject
- : date : message-id : references : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=STMicroelectronics;
- bh=HFZ3hGTUJPDXtqlMMSLvGPOUCkEK05NcNkAviSBcM3U=;
- b=UYwt8OWzr/Geuk3n+7XFR03++h+vh7hsitrgYzvTsa0RBimGTW5ZeDS+nJBIBkGZBv+L
- FH9OXSn+gWam/KtN9hcrdsO/tLsv0863i2HpMXVpGoBearFk/CSRdiZy8QDJdH6/bfhi
- yImuTe49CRBUTrHsuDzTJciW/4rVIX+TzxczEHTY/xIix4hmJWHe7cMrg4E2POJL0Pn8
- DNkZuCwxdmZo4nT4dp8KEo/ZWkl6ajbbguvzp2Lj4HZFacQEl1vVrNKlUV1vCN8Wkt7q
- wYW4u0MF83mFDJ8lx/39jbSaQis/gdbXpb0/i4ioM3NJIe9NSHnZQ7gl+VjE5ISuBLmx qQ== 
-Received: from eur04-he1-obe.outbound.protection.outlook.com
- (mail-he1eur04lp2059.outbound.protection.outlook.com [104.47.13.59])
- by mx07-00178001.pphosted.com with ESMTP id 38nnfdjkmb-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 20 May 2021 17:03:25 +0200
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=K7uDz6VlyBCrU0o8QHX3Ywk/zAwTCg8YG0RyizuEdy1Zi7XKO93rmLFrvq0O73/lJwYhpyvCyY4VOL908KbPchEbAYETkYB9Onr6hl0mfwMRG/tUdtwREe/BjhV6A461gzbuL3st1Kapk3T1CTx5YmhaCSY0QsqjsL5ElI+p/oEXYfqzmyEwEwniVPHcws/fZ2v6PiEXBiAnIizDND2WePZ0DDjFSMJFbZgksatxDNnOJH/AR/oqCdweOzjJDnV/aouh6DEJumMmKtbHRPn15n1Fy4bprYm/uFX1MxNU+nnLV778lQRT/z8b/S6MJllsfGK6j2StTFG+GLUb5F9h2w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=HFZ3hGTUJPDXtqlMMSLvGPOUCkEK05NcNkAviSBcM3U=;
- b=HO61fo2y9VKBYRRrxaWbLfXEuKj/YgjV6gxKoeEQ1oo9oR83aQA8rmsuA5THZXlhjotnHb7T8WNPGK289NLCdIVkPoCjHBz2sKbvuEmNRTa9oSMNWdr13M5BihZERyT+bLWSlPsjKrQf7q9+HkdrI7U1to52+4Q+ezsy3DEijYRYsGQcQw2VmcHq4go4VzkMEnZb8j1Z7QkuyqiFp5GtZ0jmRzuHhpZkWX9v0+p8LHIG8XM1dRmJdCZ1gnqtX56ogRYKuWsC8mlUVQfzYhJQeUWe+Lw4VExnAhCT9AuGFRe+vbx9tOY6hV4bdhR2lvyfYpa150cT7j/FWKP+XIbN8A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=st.com; dmarc=pass action=none header.from=st.com; dkim=pass
- header.d=st.com; arc=none
-Received: from AM9PR10MB4119.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:1fb::17)
- by AM0PR10MB3124.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:208:18d::14)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4150.23; Thu, 20 May
- 2021 14:48:09 +0000
-Received: from AM9PR10MB4119.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::7d09:c28c:b46e:1ed]) by AM9PR10MB4119.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::7d09:c28c:b46e:1ed%7]) with mapi id 15.20.4129.033; Thu, 20 May 2021
- 14:48:09 +0000
-From: Fabien DESSENNE <fabien.dessenne@st.com>
-To: Lee Jones <lee.jones@linaro.org>
-Subject: RE: [PATCH 09/38] drm/sti/sti_hqvdp: Fix incorrectly named function
- 'sti_hqvdp_vtg_cb()'
-Thread-Topic: [PATCH 09/38] drm/sti/sti_hqvdp: Fix incorrectly named function
- 'sti_hqvdp_vtg_cb()'
-Thread-Index: AQHXTXAZAdUhrqEkJ067JyTDnkMhfqrsc0uA
-Date: Thu, 20 May 2021 14:48:09 +0000
-Message-ID: <AM9PR10MB4119A23A74E9E55CD12B26029A2A9@AM9PR10MB4119.EURPRD10.PROD.OUTLOOK.COM>
-References: <20210520120248.3464013-1-lee.jones@linaro.org>
- <20210520120248.3464013-10-lee.jones@linaro.org>
-In-Reply-To: <20210520120248.3464013-10-lee.jones@linaro.org>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: MSIP_Label_23add6c0-cfdb-4bb9-b90f-bf23b83aa6c0_Enabled=true;
- MSIP_Label_23add6c0-cfdb-4bb9-b90f-bf23b83aa6c0_SetDate=2021-05-20T14:48:07Z; 
- MSIP_Label_23add6c0-cfdb-4bb9-b90f-bf23b83aa6c0_Method=Standard;
- MSIP_Label_23add6c0-cfdb-4bb9-b90f-bf23b83aa6c0_Name=23add6c0-cfdb-4bb9-b90f-bf23b83aa6c0;
- MSIP_Label_23add6c0-cfdb-4bb9-b90f-bf23b83aa6c0_SiteId=75e027c9-20d5-47d5-b82f-77d7cd041e8f;
- MSIP_Label_23add6c0-cfdb-4bb9-b90f-bf23b83aa6c0_ActionId=d720fe1a-616f-401c-abfc-1bf96b2c5cc0;
- MSIP_Label_23add6c0-cfdb-4bb9-b90f-bf23b83aa6c0_ContentBits=2
-authentication-results: linaro.org; dkim=none (message not signed)
- header.d=none;linaro.org; dmarc=none action=none header.from=st.com;
-x-originating-ip: [165.225.76.51]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 168db0c8-7443-4954-5eca-08d91b9e4961
-x-ms-traffictypediagnostic: AM0PR10MB3124:
-x-microsoft-antispam-prvs: <AM0PR10MB3124229236F9C6B8E3232C9F9A2A9@AM0PR10MB3124.EURPRD10.PROD.OUTLOOK.COM>
-x-ms-oob-tlc-oobclassifiers: OLM:4303;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: bxdPAupIiTZR76GBRUYjDZmjQpIVACRk9SH88oQMtaXgWIlHzeeIpF+Y8X/WrMLwgCnSrumUcT0cOu4I9dfAIz+8vfbP1sTSlDVU2UD93fm5Pz6amHZRHS3ITEWgy/K6/aY/CCnkeAIuUniQc3ADdKJaNmbP0yoKSNHZCQylsE6r73Z3Wkq8gWjI0VkztDAURooh+IkDGBZU++JKZBt1QnVZvtT9wfAYea1SkDcBnlYN0TsHAUTJjX90CV+PmQl4NqlnIjGKS2X37UTh1WmtvuxxD87x3LjoBh1GZ4TUnhvK1GgafxJZsxLK3JODM24FshAM79QWsBUzBbKUUlaBavKh+psPgQ+9elojW2bl1qBUaS4GNrRHipkvL96g2OsNk5h6iS+b8ymxL3twEvNfjbi2wFXtgox1Kf9RkaPSVPO8LZh1zchpeXQYmJo3wjQHVodUrT7vv74PsQWSJO3NroBN2J0rHYyMcr+emRuodU/eN+PXoPSD1ZCx+4aDAcfSAr73wEy9lXuP48rgP54d/ApLXV5eU5jAflo9Z3zRvhzLT0i6gQ3ZZMCCEBR//f8Kj/hK6md+vWqLOAGpWuf/Y13OlNi/mapWHS47HUZCuL4=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM9PR10MB4119.EURPRD10.PROD.OUTLOOK.COM; PTR:; CAT:NONE;
- SFS:(4636009)(39850400004)(376002)(136003)(396003)(366004)(346002)(9686003)(52536014)(66556008)(186003)(7696005)(6916009)(86362001)(66476007)(83380400001)(66446008)(53546011)(33656002)(6506007)(76116006)(64756008)(66946007)(55236004)(478600001)(8676002)(316002)(54906003)(8936002)(38100700002)(122000001)(55016002)(5660300002)(71200400001)(4326008)(2906002)(26005);
- DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata: =?us-ascii?Q?JX0G63z45g+jq+0NToZpxu8CDoGLzCSrmjQqwIY7/d1DoiF5RRBVbDIR3/Pb?=
- =?us-ascii?Q?TQLlqTTsWl2Ar+PxfPrcebu8pTUxnYbl2/A2myhL40fZP62zGKe8a3g7sKrc?=
- =?us-ascii?Q?iwfE372uMtJyhf8Z+il7o2/fmJMTubBLOrRe7cZhXzkWAMnERb2VPKoyg7gq?=
- =?us-ascii?Q?D1AbuGqWTcZahFdS+xEvi/5UR0tbjoP971wLB/+PaA+7u+TV9HCplLlBedQ+?=
- =?us-ascii?Q?cSDW90R95riSm2H4JxOF1Tg2wVc2v1Bsw4VDX/D93mqqN0lfAEoOAyl3QfCF?=
- =?us-ascii?Q?Cov/m38Pi/s/2Ek+vo2hZaMD7BqrVKlA70RBbcNJseBfGdhvpUGxraN8VR+A?=
- =?us-ascii?Q?Y3fw78XGbyJzRuG+uyMIGNCkMIDPA1QO4XKmCLBEYdWIiGjPLZYiiAKKYWzH?=
- =?us-ascii?Q?8VY5xqlCJYOo0+GEn+ZnjK2udqZM6alBbzy0ui62G10WFxR1x4e+eqS39Q64?=
- =?us-ascii?Q?wAazIXptbGgugo9fM+4nJ4ICqvsJUAj9auDFUtDHJzvxRMGKytgF7JbQHQ2b?=
- =?us-ascii?Q?KNuWBg0zs6169D/ylASf6Xe2QL7D2LXflSFRwjMqksgmsFLmxPaSllzV/Piz?=
- =?us-ascii?Q?fiqSi0RlKiUrmobke+RqZPMf13/5KMjlMV2/faJzFwZgbh6MSHreDPr8loMv?=
- =?us-ascii?Q?tGw73NFG3WRVrrvAK/BflkOiTjqCNJepBonrNNz0dLsTxpv/ziJtZg4b8npQ?=
- =?us-ascii?Q?yjIXAdVlGzIT6jgDzEgWgsAYpMbh8n7Ni6l9lrVQArEih/X7dagvsMA5oGrI?=
- =?us-ascii?Q?or3OH1n5A0CqypxskXaGw4IpVcTuNdGRP/cCSah4UvlxciGV8Ttxy+BtAVtO?=
- =?us-ascii?Q?n4M3OT4tcGVbfeFOKLyPh2cw1m9TFTbIOuEXZcdKpSa/wdeekBacP4uxe5Dx?=
- =?us-ascii?Q?I6HSLLr6/oXawJH4RlpQeaMEEKB+QBQD3PIobkhq1IUVksRqCaq9uUoenkAC?=
- =?us-ascii?Q?Mk/i14ED6Yo6NF8p2dvvZ+oj/vS5K8OgFRGYX4X7TASnSm1R1IhSOXA9NQS/?=
- =?us-ascii?Q?VvDInldhAaUnZoe7JOiy+mKUP1M+Ofl25BzteNTV4slBC/p81Z3D5xBSyT6O?=
- =?us-ascii?Q?d5QqqCiIMKYc+U4UqsShUUnjI75GDJN4ETLY69VgeO3m5h6gD5UNIC6ve6QJ?=
- =?us-ascii?Q?8EU6QStdjfmgXmMJyWXv2YMLQJiS6DEnpdGBDG+2wFFEUWn46AsHrOROdDID?=
- =?us-ascii?Q?EGMIXy93L3nNvr8qBx2/07Gu1QfOoOTQiIw8tX8lMCob7KgN9Aano7x54wxM?=
- =?us-ascii?Q?RpuGwmsUdALxijsmJrPIM7aQ4mX4EjfJGZH83UfVaM3Vblre3em4Z6WXC+87?=
- =?us-ascii?Q?Bwaku6BI02MUzZEhOKoiQGgs?=
-x-ms-exchange-transport-forked: True
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2DABC6E40B;
+ Thu, 20 May 2021 15:46:44 +0000 (UTC)
+IronPort-SDR: RxQ7n5zrnAAPb6OpmNp7Sn8pizYw1QHryLnR5ti8L8hv6sonAfmLQSWuWbZOG9e8oHU/qR7cKI
+ 5ftqEXuYxDdQ==
+X-IronPort-AV: E=McAfee;i="6200,9189,9989"; a="222349312"
+X-IronPort-AV: E=Sophos;i="5.82,313,1613462400"; d="scan'208";a="222349312"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 May 2021 08:46:43 -0700
+IronPort-SDR: XkeDosH7L2Q7O4+K5e1L6SIYESuRG9f87EF+TKzfe1nNod2COiuFm1yFvSkQMtNMfVCMPsrao0
+ 4sBSkFO2490g==
+X-IronPort-AV: E=Sophos;i="5.82,313,1613462400"; d="scan'208";a="440501562"
+Received: from unknown (HELO sdutt-i7) ([10.165.21.147])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 May 2021 08:46:43 -0700
+Date: Thu, 20 May 2021 08:39:31 -0700
+From: Matthew Brost <matthew.brost@intel.com>
+To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Subject: Re: [Mesa-dev] [RFC 2/2] drm/doc/rfc: i915 new parallel submission
+ uAPI plan
+Message-ID: <20210520153931.GA7971@sdutt-i7>
+References: <20210518235830.133834-1-matthew.brost@intel.com>
+ <20210518235830.133834-3-matthew.brost@intel.com>
+ <5b8ab744-4906-945d-cbca-1ce4c40f2fcb@gmail.com>
+ <20210519165121.GA2585@sdutt-i7>
+ <521a34ba-52d4-a9c2-97bb-48873174fc49@amd.com>
 MIME-Version: 1.0
-X-OriginatorOrg: ST.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: AM9PR10MB4119.EURPRD10.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: 168db0c8-7443-4954-5eca-08d91b9e4961
-X-MS-Exchange-CrossTenant-originalarrivaltime: 20 May 2021 14:48:09.8053 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 75e027c9-20d5-47d5-b82f-77d7cd041e8f
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 6YASYrkkhSpdYVurBucAMFl+fhhOgoZQT9olNCf1jX7o7p4Mz8ssxAzHchpXgvoTKR0Njosw+hftKRaDacjWLA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR10MB3124
-X-Proofpoint-GUID: da3_ND3nYSOtsGynu6xIkl7I3eEzSRQ2
-X-Proofpoint-ORIG-GUID: da3_ND3nYSOtsGynu6xIkl7I3eEzSRQ2
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.761
- definitions=2021-05-20_03:2021-05-20,
- 2021-05-20 signatures=0
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
- suspectscore=0
- clxscore=1011 phishscore=0 mlxlogscore=999 malwarescore=0 bulkscore=0
- spamscore=0 priorityscore=1501 impostorscore=0 mlxscore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2104190000 definitions=main-2105200103
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <521a34ba-52d4-a9c2-97bb-48873174fc49@amd.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -150,67 +54,300 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Benjamin Gaignard <benjamin.gaignard@linaro.org>,
- David Airlie <airlied@linux.ie>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Cc: tony.ye@intel.com, tvrtko.ursulin@intel.com,
+ Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ jason.ekstrand@intel.com, michal.mrozek@intel.com,
+ daniele.ceraolospurio@intel.com, jon.bloomfield@intel.com,
+ daniel.vetter@intel.com, mesa-dev@lists.freedesktop.org, karl@freedesktop.org,
+ john.c.harrison@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Lee
+On Thu, May 20, 2021 at 01:11:59PM +0200, Christian König wrote:
+> Am 19.05.21 um 18:51 schrieb Matthew Brost:
+> > On Wed, May 19, 2021 at 01:45:39PM +0200, Christian König wrote:
+> > > Oh, yeah we call that gang submit on the AMD side.
+> > > 
+> > > Had already some internal discussions how to implement this, but so far
+> > > couldn't figure out how to cleanly introduce that into the DRM scheduler.
+> > > 
+> > > Can you briefly describe in a few words how that is supposed to work on the
+> > > Intel side?
+> > > 
+> > Sure, I've done a quick PoC internally and have been able to hook this
+> > into the DRM scheduler.
+> > 
+> > Basically each BB still maps to a single job as each job is somewhat
+> > unique (e.g. each job has its own ring, lrc, seqno, etc...). However all
+> > the jobs configured to run in parallel map to a single sched_entity
+> > which maintains the order each job was generated from the execbuf IOCTL
+> > (1 - N). When the backend receives jobs 1 to N - 1 it basically just
+> > updates some internal state. When the backend sees job N (last job) it
+> > actually does the submit for jobs 1 - N which with GuC submission is a
+> > simple command moving the LRC tail of the N jobs.
+> > 
+> > Daniel has suggested that we create a single job for the NN BBs but that
+> > would be huge rework to the internals of the i915 and likely won't
+> > happen by the time this code first lands.
+> > 
+> > Also worth noting one way a job isn't really a treated individually is
+> > the excl slot with dma-resv. In that case we create a composite fence of
+> > all jobs (dma_fence_array).
+> 
+> Yeah, that's something we have discussed as well.
+> 
+> How do you prevent the scheduler from over committing to a single ring
+> buffer in this scenario?
+> 
 
-Thank you for the patch
+Each job has its own ring, the execbuf IOCTL throttles itself for each
+job if there isn't space in the ring. This is exactly the same as
+non-parallel submits.
 
-BR
-Fabien
+I think this is what you were asking? If not, maybe try explaining the
+question a bit more.
 
+Matt
 
-ST Restricted
-
-> -----Original Message-----
-> From: Lee Jones <lee.jones@linaro.org>
-> Sent: jeudi 20 mai 2021 14:02
-> To: lee.jones@linaro.org
-> Cc: linux-kernel@vger.kernel.org; Benjamin Gaignard
-> <benjamin.gaignard@linaro.org>; David Airlie <airlied@linux.ie>; Daniel V=
-etter
-> <daniel@ffwll.ch>; Philipp Zabel <p.zabel@pengutronix.de>; Fabien DESSENN=
-E
-> <fabien.dessenne@st.com>; dri-devel@lists.freedesktop.org
-> Subject: [PATCH 09/38] drm/sti/sti_hqvdp: Fix incorrectly named function
-> 'sti_hqvdp_vtg_cb()'
->=20
-> Fixes the following W=3D1 kernel build warning(s):
->=20
->  drivers/gpu/drm/sti/sti_hqvdp.c:796: warning: expecting prototype for
-> sti_vdp_vtg_cb(). Prototype was for sti_hqvdp_vtg_cb() instead
->=20
-> Cc: Benjamin Gaignard <benjamin.gaignard@linaro.org>
-> Cc: David Airlie <airlied@linux.ie>
-> Cc: Daniel Vetter <daniel@ffwll.ch>
-> Cc: Philipp Zabel <p.zabel@pengutronix.de>
-> Cc: Fabien Dessenne <fabien.dessenne@st.com>
-> Cc: dri-devel@lists.freedesktop.org
-> Signed-off-by: Lee Jones <lee.jones@linaro.org>
-Reviewed-by: Fabien Dessenne <fabien.dessenne@foss.st.com>
-
-> ---
->  drivers/gpu/drm/sti/sti_hqvdp.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/drivers/gpu/drm/sti/sti_hqvdp.c b/drivers/gpu/drm/sti/sti_hq=
-vdp.c
-> index edbb99f53de19..d09b08995b12a 100644
-> --- a/drivers/gpu/drm/sti/sti_hqvdp.c
-> +++ b/drivers/gpu/drm/sti/sti_hqvdp.c
-> @@ -782,7 +782,7 @@ static void sti_hqvdp_disable(struct sti_hqvdp *hqvdp=
-)  }
->=20
->  /**
-> - * sti_vdp_vtg_cb
-> + * sti_hqvdp_vtg_cb
->   * @nb: notifier block
->   * @evt: event message
->   * @data: private data
-> --
-> 2.31.1
+> Christian.
+> 
+> > 
+> > Matt
+> > 
+> > > Thanks,
+> > > Christian.
+> > > 
+> > > Am 19.05.21 um 01:58 schrieb Matthew Brost:
+> > > > Add entry fpr i915 new parallel submission uAPI plan.
+> > > > 
+> > > > v2:
+> > > >    (Daniel Vetter):
+> > > >     - Expand logical order explaination
+> > > >     - Add dummy header
+> > > >     - Only allow N BBs in execbuf IOCTL
+> > > >     - Configure parallel submission per slot not per gem context
+> > > > 
+> > > > Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+> > > > Cc: Tony Ye <tony.ye@intel.com>
+> > > > CC: Carl Zhang <carl.zhang@intel.com>
+> > > > Cc: Daniel Vetter <daniel.vetter@intel.com>
+> > > > Cc: Jason Ekstrand <jason@jlekstrand.net>
+> > > > Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+> > > > ---
+> > > >    Documentation/gpu/rfc/i915_parallel_execbuf.h | 144 ++++++++++++++++++
+> > > >    Documentation/gpu/rfc/i915_scheduler.rst      |  53 ++++++-
+> > > >    2 files changed, 196 insertions(+), 1 deletion(-)
+> > > >    create mode 100644 Documentation/gpu/rfc/i915_parallel_execbuf.h
+> > > > 
+> > > > diff --git a/Documentation/gpu/rfc/i915_parallel_execbuf.h b/Documentation/gpu/rfc/i915_parallel_execbuf.h
+> > > > new file mode 100644
+> > > > index 000000000000..8c64b983ccad
+> > > > --- /dev/null
+> > > > +++ b/Documentation/gpu/rfc/i915_parallel_execbuf.h
+> > > > @@ -0,0 +1,144 @@
+> > > > +#define I915_CONTEXT_ENGINES_EXT_PARALLEL_SUBMIT 2 /* see i915_context_engines_parallel_submit */
+> > > > +
+> > > > +/*
+> > > > + * i915_context_engines_parallel_submit:
+> > > > + *
+> > > > + * Setup a slot to allow multiple BBs to be submitted in a single execbuf IOCTL.
+> > > > + * Those BBs will then be scheduled to run on the GPU in parallel. Multiple
+> > > > + * hardware contexts are created internally in the i915 run these BBs. Once a
+> > > > + * slot is configured for N BBs only N BBs can be submitted in each execbuf
+> > > > + * IOCTL and this is implict behavior (e.g. the user doesn't tell the execbuf
+> > > > + * IOCTL there are N BBs, the execbuf IOCTL know how many BBs there are based on
+> > > > + * the slots configuration).
+> > > > + *
+> > > > + * Their are two currently defined ways to control the placement of the
+> > > > + * hardware contexts on physical engines: default behavior (no flags) and
+> > > > + * I915_PARALLEL_IMPLICT_BONDS (a flag). More flags may be added the in the
+> > > > + * future as new hardware / use cases arise. Details of how to use this
+> > > > + * interface below above the flags.
+> > > > + *
+> > > > + * Returns -EINVAL if hardware context placement configuration invalid or if the
+> > > > + * placement configuration isn't supported on the platform / submission
+> > > > + * interface.
+> > > > + * Returns -ENODEV if extension isn't supported on the platform / submission
+> > > > + * inteface.
+> > > > + */
+> > > > +struct i915_context_engines_parallel_submit {
+> > > > +	struct i915_user_extension base;
+> > > > +
+> > > > +	__u16 engine_index;	/* slot for parallel engine */
+> > > > +	__u16 width;		/* number of contexts per parallel engine */
+> > > > +	__u16 num_siblings;	/* number of siblings per context */
+> > > > +	__u16 mbz16;
+> > > > +/*
+> > > > + * Default placement behvavior (currently unsupported):
+> > > > + *
+> > > > + * Rather than restricting parallel submission to a single class with a
+> > > > + * logically contiguous placement (I915_PARALLEL_IMPLICT_BONDS), add a mode that
+> > > > + * enables parallel submission across multiple engine classes. In this case each
+> > > > + * context's logical engine mask indicates where that context can placed. It is
+> > > > + * implied in this mode that all contexts have mutual exclusive placement (e.g.
+> > > > + * if one context is running CS0 no other contexts can run on CS0).
+> > > > + *
+> > > > + * Example 1 pseudo code:
+> > > > + * CSX[Y] = engine class X, logical instance Y
+> > > > + * INVALID = I915_ENGINE_CLASS_INVALID, I915_ENGINE_CLASS_INVALID_NONE
+> > > > + * set_engines(INVALID)
+> > > > + * set_parallel(engine_index=0, width=2, num_siblings=2,
+> > > > + *		engines=CS0[0],CS0[1],CS1[0],CS1[1])
+> > > > + *
+> > > > + * Results in the following valid placements:
+> > > > + * CS0[0], CS1[0]
+> > > > + * CS0[0], CS1[1]
+> > > > + * CS0[1], CS1[0]
+> > > > + * CS0[1], CS1[1]
+> > > > + *
+> > > > + * This can also be though of as 2 virtual engines:
+> > > > + * VE[0] = CS0[0], CS0[1]
+> > > > + * VE[1] = CS1[0], CS1[1]
+> > > > + *
+> > > > + * Example 2 pseudo code:
+> > > > + * CS[X] = generic engine of same class, logical instance X
+> > > > + * INVALID = I915_ENGINE_CLASS_INVALID, I915_ENGINE_CLASS_INVALID_NONE
+> > > > + * set_engines(INVALID)
+> > > > + * set_parallel(engine_index=0, width=2, num_siblings=3,
+> > > > + *		engines=CS[0],CS[1],CS[2],CS[0],CS[1],CS[2])
+> > > > + *
+> > > > + * Results in the following valid placements:
+> > > > + * CS[0], CS[1]
+> > > > + * CS[0], CS[2]
+> > > > + * CS[1], CS[0]
+> > > > + * CS[1], CS[2]
+> > > > + * CS[2], CS[0]
+> > > > + * CS[2], CS[1]
+> > > > + *
+> > > > + *
+> > > > + * This can also be though of as 2 virtual engines:
+> > > > + * VE[0] = CS[0], CS[1], CS[2]
+> > > > + * VE[1] = CS[0], CS[1], CS[2]
+> > > > +
+> > > > + * This enables a use case where all engines are created equally, we don't care
+> > > > + * where they are scheduled, we just want a certain number of resources, for
+> > > > + * those resources to be scheduled in parallel, and possibly across multiple
+> > > > + * engine classes.
+> > > > + */
+> > > > +
+> > > > +/*
+> > > > + * I915_PARALLEL_IMPLICT_BONDS - Create implict bonds between each context.
+> > > > + * Each context must have the same number sibling and bonds are implictly create
+> > > > + * of the siblings.
+> > > > + *
+> > > > + * All of the below examples are in logical space.
+> > > > + *
+> > > > + * Example 1 pseudo code:
+> > > > + * CS[X] = generic engine of same class, logical instance X
+> > > > + * INVALID = I915_ENGINE_CLASS_INVALID, I915_ENGINE_CLASS_INVALID_NONE
+> > > > + * set_engines(INVALID)
+> > > > + * set_parallel(engine_index=0, width=2, num_siblings=1,
+> > > > + *		engines=CS[0],CS[1], flags=I915_PARALLEL_IMPLICT_BONDS)
+> > > > + *
+> > > > + * Results in the following valid placements:
+> > > > + * CS[0], CS[1]
+> > > > + *
+> > > > + * Example 2 pseudo code:
+> > > > + * CS[X] = generic engine of same class, logical instance X
+> > > > + * INVALID = I915_ENGINE_CLASS_INVALID, I915_ENGINE_CLASS_INVALID_NONE
+> > > > + * set_engines(INVALID)
+> > > > + * set_parallel(engine_index=0, width=2, num_siblings=2,
+> > > > + *		engines=CS[0],CS[2],CS[1],CS[3], flags=I915_PARALLEL_IMPLICT_BONDS)
+> > > > + *
+> > > > + * Results in the following valid placements:
+> > > > + * CS[0], CS[1]
+> > > > + * CS[2], CS[3]
+> > > > + *
+> > > > + * This can also be though of as 2 virtual engines:
+> > > > + * VE[0] = CS[0], CS[2]
+> > > > + * VE[1] = CS[1], CS[3]
+> > > > + *
+> > > > + * This enables a use case where all engines are not equal and certain placement
+> > > > + * rules are required (i.e. split-frame requires all contexts to be placed in a
+> > > > + * logically contiguous order on the VCS engines on gen11+ platforms). This use
+> > > > + * case (logically contiguous placement, within a single engine class) is
+> > > > + * supported when using GuC submission. Execlist mode could support all possible
+> > > > + * bonding configurations but currently doesn't support this extension.
+> > > > + */
+> > > > +#define I915_PARALLEL_IMPLICT_BONDS			(1<<0)
+> > > > +/*
+> > > > + * Do not allow BBs to be preempted mid BB rather insert coordinated preemption
+> > > > + * points on all hardware contexts between each set of BBs. An example use case
+> > > > + * of this feature is split-frame on gen11+ hardware. When using this feature a
+> > > > + * BB must be submitted on each hardware context in the parallel gem context.
+> > > > + * The execbuf2 IOCTL enforces the user adheres to policy.
+> > > > + */
+> > > > +#define I915_PARALLEL_NO_PREEMPT_MID_BATCH		(1<<1)
+> > > > +#define __I915_PARALLEL_UNKNOWN_FLAGS	(-(I915_PARALLEL_NO_PREEMPT_MID_BATCH << 1))
+> > > > +	__u64 flags;		/* all undefined flags must be zero */
+> > > > +	__u64 mbz64[3];		/* reserved for future use; must be zero */
+> > > > +
+> > > > +	/*
+> > > > +	 * width (i) * num_siblings (j) in length
+> > > > +	 * index = j + i * num_siblings
+> > > > +	 */
+> > > > +	struct i915_engine_class_instance engines[0];
+> > > > +} __attribute__ ((packed));
+> > > > +
+> > > > diff --git a/Documentation/gpu/rfc/i915_scheduler.rst b/Documentation/gpu/rfc/i915_scheduler.rst
+> > > > index 7faa46cde088..64c539486ee4 100644
+> > > > --- a/Documentation/gpu/rfc/i915_scheduler.rst
+> > > > +++ b/Documentation/gpu/rfc/i915_scheduler.rst
+> > > > @@ -82,4 +82,55 @@ https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Fspec.oneapi.com%2Flevel-zero%2Flatest%2Fcore%2Fapi.html%23ze-command-queue-priorit&amp;data=04%7C01%7Cchristian.koenig%40amd.com%7C49a7557f4e494090755608d91ae758a6%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637570403202969375%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&amp;sdata=dn3PVdxYQpkpWIru5eAXHgbfuLDkppAA5daV5sHQF7s%3D&amp;reserved=0
+> > > >    New parallel submission uAPI
+> > > >    ============================
+> > > > -Details to come in a following patch.
+> > > > +The existing bonding uAPI is completely broken with GuC submission because
+> > > > +whether a submission is a single context submit or parallel submit isn't known
+> > > > +until execbuf time activated via the I915_SUBMIT_FENCE. To submit multiple
+> > > > +contexts in parallel with the GuC the context must be explictly registered with
+> > > > +N contexts and all N contexts must be submitted in a single command to the GuC.
+> > > > +These interfaces doesn't support dynamically changing between N contexts as the
+> > > > +bonding uAPI does. Hence the need for a new parallel submission interface. Also
+> > > > +the legacy bonding uAPI is quite confusing and not intuitive at all.
+> > > > +
+> > > > +The new parallel submission uAPI consists of 3 parts:
+> > > > +
+> > > > +* Export engines logical mapping
+> > > > +* A 'set_parallel' extension to configure contexts for parallel
+> > > > +  submission
+> > > > +* Extend execbuf2 IOCTL to support submitting N BBs in a single IOCTL
+> > > > +
+> > > > +Export engines logical mapping
+> > > > +------------------------------
+> > > > +Certain use cases require BBs to be placed on engine instances in logical order
+> > > > +(e.g. split-frame on gen11+). The logical mapping of engine instances can change
+> > > > +based on fusing. Rather than making UMDs be aware of fusing, simply expose the
+> > > > +logical mapping with the existing query engine info IOCTL. Also the GuC
+> > > > +submission interface currently only supports submitting multiple contexts to
+> > > > +engines in logical order which is a new requirement compared to execlists.
+> > > > +Lastly, all current platforms have at most 2 instances and the logical order is
+> > > > +the same a uABI order. This will change on platforms with more than 2 instances.
+> > > > +
+> > > > +A single bit will be added to drm_i915_engine_info.flags indicating that the
+> > > > +logical instance has been returned and a new field,
+> > > > +drm_i915_engine_info.logical_instance, returns the logical instance.
+> > > > +
+> > > > +A 'set_parallel' extension to configure contexts for parallel submission
+> > > > +------------------------------------------------------------------------
+> > > > +The 'set_parallel' extension configures a slot for parallel submission of N BBs.
+> > > > +It is setup step that should be called before using any of the contexts. See
+> > > > +I915_CONTEXT_ENGINES_EXT_LOAD_BALANCE or I915_CONTEXT_ENGINES_EXT_BOND for
+> > > > +similar existing examples. Once a slot is configured for parallel submission the
+> > > > +execbuf2 IOCTL can be called submiting N BBs in a single IOCTL. Initially only
+> > > > +support GuC submission. Execlist support can be added later if needed.
+> > > > +
+> > > > +Add I915_CONTEXT_ENGINES_EXT_PARALLEL_SUBMIT and
+> > > > +i915_context_engines_parallel_submit to the uAPI to implement this extension.
+> > > > +
+> > > > +Extend execbuf2 IOCTL to support submitting N BBs in a single IOCTL
+> > > > +-------------------------------------------------------------------
+> > > > +Contexts that have been configured with the 'set_parallel' extension are allowed
+> > > > +to submit N BBs in a single execbuf2 IOCTL. The BBs are either the last N
+> > > > +objects in the drm_i915_gem_exec_object2 list or the first N if
+> > > > +I915_EXEC_BATCH_FIRST is set. The number of BBs is implict based on the slot
+> > > > +submitted and how it has been configured by 'set_parallel' or other extensions.
+> > > > +No uAPI changes in the execbuf IOCTL but worth mentioning the new behavior of
+> > > > +the IOCTL.
+> 
