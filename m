@@ -2,33 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43A64389E45
-	for <lists+dri-devel@lfdr.de>; Thu, 20 May 2021 08:51:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A151389E47
+	for <lists+dri-devel@lfdr.de>; Thu, 20 May 2021 08:51:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4F8AC6EEAD;
-	Thu, 20 May 2021 06:50:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 31D266EEAE;
+	Thu, 20 May 2021 06:50:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E85F96EEAE
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DE5236EEAD
  for <dri-devel@lists.freedesktop.org>; Thu, 20 May 2021 06:50:54 +0000 (UTC)
 Received: from pendragon.lan (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 98C1FD31;
- Thu, 20 May 2021 08:50:52 +0200 (CEST)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0FF3AD41;
+ Thu, 20 May 2021 08:50:53 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1621493452;
- bh=v3Vu6quVKrr1NnYuMwDm2STCc4CKzv9XPpREFWKebSs=;
- h=From:To:Cc:Subject:Date:From;
- b=cvjSm5wfQudgmwFSJRE1+molF48g9H2Jm6WKAlHKqUY6AbIi/8G3JFXTetIBrTZHR
- lxNk/fI9/m6JsXy7wSThexHZNK5dvzZIOxgNGoXPHjDG2JILuVIukqT1RvBYHvpUkM
- NFem5hZCst77F2S7qo5WmDQRvU1Yip39/X3/6yH8=
+ s=mail; t=1621493453;
+ bh=vSRVp1Sw6lrtgoMwUrvLyBrc/uM7bCRjftCbURz8V6g=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=gmGfVziRNmqCPDTFtz0pARJMAW3hKNh0VFYVGomACnQXPw6k3cICMm1NKtTgE41z+
+ 2gp9zbPGRqy0d1ktn2ZBNgFiJd2USwpz3o/By+/cRaEfk8w1HkSrs5t70WQOPJguCw
+ 4AvX0DiRZ/Ale7B3Fwkbb7oVUsWz7pyXvdh+YBGA=
 From: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v3 0/4] Converter R-Car DU to the DRM bridge connector helper
-Date: Thu, 20 May 2021 09:50:42 +0300
-Message-Id: <20210520065046.28978-1-laurent.pinchart+renesas@ideasonboard.com>
+Subject: [PATCH v3 1/4] drm: bridge: dw-hdmi: Attach to next bridge if
+ available
+Date: Thu, 20 May 2021 09:50:43 +0300
+Message-Id: <20210520065046.28978-2-laurent.pinchart+renesas@ideasonboard.com>
 X-Mailer: git-send-email 2.28.1
+In-Reply-To: <20210520065046.28978-1-laurent.pinchart+renesas@ideasonboard.com>
+References: <20210520065046.28978-1-laurent.pinchart+renesas@ideasonboard.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -48,50 +51,122 @@ Cc: linux-renesas-soc@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello,
+On all platforms except i.MX and Rockchip, the dw-hdmi DT bindings
+require a video output port connected to an HDMI sink (most likely an
+HDMI connector, in rare cases another bridges converting HDMI to another
+protocol). For those platforms, retrieve the next bridge and attach it
+from the dw-hdmi bridge attach handler.
 
-This patch series converts the R-Car DU driver to use the DRM bridge
-connector helper drm_bridge_connector_init().
+Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Reviewed-by: Neil Armstrong <narmstrong@baylibre.com>
+---
+Changes since v1:
 
-The bulk of the v1 series was converting the adv7511, simple-bridge and
-dw-hdmi drivers to make connector creation optional (through the
-DRM_BRIDGE_ATTACH_NO_CONNECTOR flag), and have already been merged. v2
-included the remaining patches and has bitrotten. v3 rebased the code
-and should be ready for merge.
+- Make missing endpoint a fatal error
+---
+ drivers/gpu/drm/bridge/synopsys/dw-hdmi.c | 54 ++++++++++++++++++++++-
+ include/drm/bridge/dw_hdmi.h              |  2 +
+ 2 files changed, 55 insertions(+), 1 deletion(-)
 
-Patch 1/4 adds support to the dw-hdmi driver to attach to a downstream
-bridge if one is specified in DT. As the DT port number corresponding to
-the video output differs between platforms that integrate the dw-hdmi
-(some of them even don't have a video output port, which should probably
-be fixed, but that's out of scope for this series), the port number has
-to be specified by the platform glue layer.
-
-Patch 2/4 then addresses the rcar-lvds driver. Instead of implementing
-direct support for DRM_BRIDGE_ATTACH_NO_CONNECTOR, it simply removes
-code that shouldn't have been in the driver in the first place by
-switching to the panel bridge helper.
-
-Patch 3/4 specifies the port number in the R-Car dw-hdmi glue layer, as
-required by 1/4.
-
-Patch 4/4 finally makes use of the drm_bridge_connector_init() helper.
-
-The series has been tested on the Renesas R-Car Salvator-XS and Draak
-boards with the VGA, HDMI and LVDS outputs.
-
-Laurent Pinchart (4):
-  drm: bridge: dw-hdmi: Attach to next bridge if available
-  drm: rcar-du: lvds: Convert to DRM panel bridge helper
-  drm: rcar-du: dw-hdmi: Set output port number
-  drm: rcar-du: Use drm_bridge_connector_init() helper
-
- drivers/gpu/drm/bridge/synopsys/dw-hdmi.c |  54 +++++++++-
- drivers/gpu/drm/rcar-du/rcar_du_encoder.c |  26 ++++-
- drivers/gpu/drm/rcar-du/rcar_dw_hdmi.c    |   1 +
- drivers/gpu/drm/rcar-du/rcar_lvds.c       | 120 +++-------------------
- include/drm/bridge/dw_hdmi.h              |   2 +
- 5 files changed, 89 insertions(+), 114 deletions(-)
-
+diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
+index e7c7c9b9c646..f9065ca4cd88 100644
+--- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
++++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
+@@ -143,6 +143,7 @@ struct dw_hdmi_phy_data {
+ struct dw_hdmi {
+ 	struct drm_connector connector;
+ 	struct drm_bridge bridge;
++	struct drm_bridge *next_bridge;
+ 
+ 	unsigned int version;
+ 
+@@ -2775,7 +2776,8 @@ static int dw_hdmi_bridge_attach(struct drm_bridge *bridge,
+ 	struct dw_hdmi *hdmi = bridge->driver_private;
+ 
+ 	if (flags & DRM_BRIDGE_ATTACH_NO_CONNECTOR)
+-		return 0;
++		return drm_bridge_attach(bridge->encoder, hdmi->next_bridge,
++					 bridge, flags);
+ 
+ 	return dw_hdmi_connector_create(hdmi);
+ }
+@@ -3160,6 +3162,52 @@ static void dw_hdmi_init_hw(struct dw_hdmi *hdmi)
+ /* -----------------------------------------------------------------------------
+  * Probe/remove API, used from platforms based on the DRM bridge API.
+  */
++
++static int dw_hdmi_parse_dt(struct dw_hdmi *hdmi)
++{
++	struct device_node *endpoint;
++	struct device_node *remote;
++
++	if (!hdmi->plat_data->output_port)
++		return 0;
++
++	endpoint = of_graph_get_endpoint_by_regs(hdmi->dev->of_node,
++						 hdmi->plat_data->output_port,
++						 -1);
++	if (!endpoint) {
++		/*
++		 * On platforms whose bindings don't make the output port
++		 * mandatory (such as Rockchip) the plat_data->output_port
++		 * field isn't set, so it's safe to make this a fatal error.
++		 */
++		dev_err(hdmi->dev, "Missing endpoint in port@%u\n",
++			hdmi->plat_data->output_port);
++		return -ENODEV;
++	}
++
++	remote = of_graph_get_remote_port_parent(endpoint);
++	of_node_put(endpoint);
++	if (!remote) {
++		dev_err(hdmi->dev, "Endpoint in port@%u unconnected\n",
++			hdmi->plat_data->output_port);
++		return -ENODEV;
++	}
++
++	if (!of_device_is_available(remote)) {
++		dev_err(hdmi->dev, "port@%u remote device is disabled\n",
++			hdmi->plat_data->output_port);
++		of_node_put(remote);
++		return -ENODEV;
++	}
++
++	hdmi->next_bridge = of_drm_find_bridge(remote);
++	of_node_put(remote);
++	if (!hdmi->next_bridge)
++		return -EPROBE_DEFER;
++
++	return 0;
++}
++
+ struct dw_hdmi *dw_hdmi_probe(struct platform_device *pdev,
+ 			      const struct dw_hdmi_plat_data *plat_data)
+ {
+@@ -3196,6 +3244,10 @@ struct dw_hdmi *dw_hdmi_probe(struct platform_device *pdev,
+ 	mutex_init(&hdmi->cec_notifier_mutex);
+ 	spin_lock_init(&hdmi->audio_lock);
+ 
++	ret = dw_hdmi_parse_dt(hdmi);
++	if (ret < 0)
++		return ERR_PTR(ret);
++
+ 	ddc_node = of_parse_phandle(np, "ddc-i2c-bus", 0);
+ 	if (ddc_node) {
+ 		hdmi->ddc = of_get_i2c_adapter_by_node(ddc_node);
+diff --git a/include/drm/bridge/dw_hdmi.h b/include/drm/bridge/dw_hdmi.h
+index 6a5716655619..2a1f85f9a8a3 100644
+--- a/include/drm/bridge/dw_hdmi.h
++++ b/include/drm/bridge/dw_hdmi.h
+@@ -126,6 +126,8 @@ struct dw_hdmi_phy_ops {
+ struct dw_hdmi_plat_data {
+ 	struct regmap *regm;
+ 
++	unsigned int output_port;
++
+ 	unsigned long input_bus_encoding;
+ 	bool use_drm_infoframe;
+ 	bool ycbcr_420_allowed;
 -- 
 Regards,
 
