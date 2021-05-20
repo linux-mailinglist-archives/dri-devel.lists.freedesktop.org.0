@@ -1,56 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09E9E38B772
-	for <lists+dri-devel@lfdr.de>; Thu, 20 May 2021 21:23:37 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7057938B777
+	for <lists+dri-devel@lfdr.de>; Thu, 20 May 2021 21:24:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C9B626F509;
-	Thu, 20 May 2021 19:23:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7A1A86E431;
+	Thu, 20 May 2021 19:24:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x234.google.com (mail-oi1-x234.google.com
- [IPv6:2607:f8b0:4864:20::234])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D62E88979E;
- Thu, 20 May 2021 19:23:31 +0000 (UTC)
-Received: by mail-oi1-x234.google.com with SMTP id c3so17425082oic.8;
- Thu, 20 May 2021 12:23:31 -0700 (PDT)
+Received: from mail-ot1-x32a.google.com (mail-ot1-x32a.google.com
+ [IPv6:2607:f8b0:4864:20::32a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EE5CF6E431;
+ Thu, 20 May 2021 19:24:05 +0000 (UTC)
+Received: by mail-ot1-x32a.google.com with SMTP id
+ u25-20020a0568302319b02902ac3d54c25eso15904225ote.1; 
+ Thu, 20 May 2021 12:24:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=k8jbqnkIhb6Scb2ilNgSqrLUoD8EKnp1ewooO1thaYY=;
- b=ky35ahVtuQfQMvjOeiiTTPbXaYneyr4RFONeMzlHZyexsj5rX8XhdDpXsJiz3dYVul
- wYEKc3B8k42wdypOpMotQdOBiW6RXqUf466s1oEBZQU6IkBUzqApaFH279BKcODv9hry
- PkF70uZo9+I53o7qHAZUR34SlhlZoBHznh7PXCQFdZ4P27ZO3q0mS1oAkkk6diq9K7wA
- H0TVgKnJXqieJQMfk5bah0AGLFSycfWfD1VdIj7QrdhLZc3kUcsgrJHYSJ5WnDM3V1ln
- buTBOgiEZaYLxzGvxv+fah+PD2XV36vh3/drhElt98f6HpQPL7x3i7dthMbIZ7mDX0/o
- QpRg==
+ bh=uDEsiQtbchmRIITN3UCJ9tWbvJK1S8JafoWC9Tf39fo=;
+ b=cT527s+sufXiRjfevP2Z86/uo3kcGD/J3zfs21rZAvE9FxI/yXy4JxlWbMvo3xV8nw
+ 31J9i5dKdSOAY8W5i7n7sVEz/f45QGFodvdQ2PgvkF1O64CrRQ3LuSf7N8zMu4nU5bmd
+ dPksVTTUuwMI9AaXqhPaWyFaaf/U5KkmA2c/sKtwJB3uQDoYEKf39Oq4ks//qmm7Bg3M
+ mzcyotkXXBQBsJDlz72MxszK2dLyM+zdIfVTREUOyfRIEoYKUV991fUHX6XB2gD8qVpp
+ s3EIUQpeY3jMSwMKdj5lwwbAgFDIq3vwDq8hYHKLM14ibVCSYstqzQKIFjZYvWLxL0Qk
+ Wi1A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=k8jbqnkIhb6Scb2ilNgSqrLUoD8EKnp1ewooO1thaYY=;
- b=qRd/go/MhSE4SEa6QuL4gEbhzZhp6+Bu++aC1RzlSro0TRUymgD686xWDrsmRNB6a9
- xrm+4cy9b6Jn3c/pQv0qU7hQUEcpV74YP+UW4YVOneY+7HwPcHxA1J1V6csnlBy2Ploz
- MsL6UAuHtXDeGeCJGD6wF6BdESQjD05AWysucqAce3seLXE9WNMxHa1D9WjKyIiuSvay
- evh3xNiKQTKZAlFVK4msJykNBfBAnKT1zqZPuqXp/A4QQRhPKgGzYriYqPGMkADSfJUI
- mSOtJG9gJSTL+h25PI+YPXvvVQ4aT2czqpXk3WHcjv+fE4vkAsSQdmkeRm6NVApVHGgD
- U52g==
-X-Gm-Message-State: AOAM532WB9eZsCV5nrlGyxFxDTk5q5uEUYQLKo4T7IC4xh6SloDNXvc0
- SSBd2reB0g4WPoXUyQ3P9//S7qSwrBYfv8M3Qvk=
-X-Google-Smtp-Source: ABdhPJy+NQtM83k5lhJDRCaPOOpyGysTMYGPd3KkfE/RldWsZC16fzPXRl9aFd4m2P2dyrXamOmLBaNBTAo1U4tUMGA=
-X-Received: by 2002:a05:6808:249:: with SMTP id
- m9mr4210776oie.120.1621538611248; 
- Thu, 20 May 2021 12:23:31 -0700 (PDT)
+ bh=uDEsiQtbchmRIITN3UCJ9tWbvJK1S8JafoWC9Tf39fo=;
+ b=GSd8yWJShOJ0PIdsqN2lQWZWj2tCI5y9Tx3avb4RG7Qd6WzJeOMeLtgB2mF5JkLM/N
+ ZY07BYQCsmqyQu1kc5h/uzLWJXPWuxTduqVK1qkv4zU9bHW/56su4EzTZy+0IEfvmbZc
+ KmPKZxL1/zy9tCWHDfGnefMgli59tXSwCIvjJeAjbXl8r92K9uQl+4Ts30lLNG7RuRVR
+ ObUW+7hkwum2U648lmUMoxtoXNX1BVADyBqrEwTIEp8V9nKaPQnaE2ASBPOcos5h7ZVA
+ 8d4Q7leb6yctsb4vPVHAjhsgZoYR9wyZzTY/lCaUCfwOAttYbSV+qwODPUT7MisoSeHg
+ V2sQ==
+X-Gm-Message-State: AOAM530fitopju49gOQOacZ3UpNobBtwmjxzP0bNa/soMBxuDbxKZHsO
+ QDkhAv49YBvBO1nI2J2Soo8MFbrskZNU5yrlDgs=
+X-Google-Smtp-Source: ABdhPJyzye1K6JHvOg90QPOZBsYe6gdLyPfrjFwT1au75ov5XHlqzFhSAKtHadiPVsL4JEI9JtvR32tUOIE95DLglKc=
+X-Received: by 2002:a9d:57cd:: with SMTP id q13mr5126794oti.23.1621538645387; 
+ Thu, 20 May 2021 12:24:05 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210520120248.3464013-1-lee.jones@linaro.org>
- <20210520120248.3464013-33-lee.jones@linaro.org>
-In-Reply-To: <20210520120248.3464013-33-lee.jones@linaro.org>
+ <20210520120248.3464013-34-lee.jones@linaro.org>
+In-Reply-To: <20210520120248.3464013-34-lee.jones@linaro.org>
 From: Alex Deucher <alexdeucher@gmail.com>
-Date: Thu, 20 May 2021 15:23:20 -0400
-Message-ID: <CADnq5_OMyd3JpAhjAsBmZGCNTqWTV4ZSOcvTv6jJCAokBg0y=Q@mail.gmail.com>
-Subject: Re: [PATCH 32/38] drm/amd/amdgpu/sdma_v4_0: Realign functions with
- their headers
+Date: Thu, 20 May 2021 15:23:54 -0400
+Message-ID: <CADnq5_N-V0uGfGtwTQGhQrT+ex7jG0t3ipu4+EBxzAEq6m_Jug@mail.gmail.com>
+Subject: Re: [PATCH 33/38] drm/amd/amdgpu/sdma_v5_0: Fix typo in function name
 To: Lee Jones <lee.jones@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -78,16 +77,13 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Applied.  Thanks!
 
-On Thu, May 20, 2021 at 8:03 AM Lee Jones <lee.jones@linaro.org> wrote:
+On Thu, May 20, 2021 at 8:04 AM Lee Jones <lee.jones@linaro.org> wrote:
 >
 > Fixes the following W=3D1 kernel build warning(s):
 >
->  drivers/gpu/drm/amd/amdgpu/sdma_v4_0.c:764: warning: expecting prototype=
- for sdma_v4_0_page_ring_set_wptr(). Prototype was for sdma_v4_0_ring_set_w=
-ptr() instead
->  drivers/gpu/drm/amd/amdgpu/sdma_v4_0.c:830: warning: expecting prototype=
- for sdma_v4_0_ring_set_wptr(). Prototype was for sdma_v4_0_page_ring_set_w=
-ptr() instead
+>  drivers/gpu/drm/amd/amdgpu/sdma_v5_0.c:563: warning: expecting prototype=
+ for sdma_v_0_ctx_switch_enable(). Prototype was for sdma_v5_0_ctx_switch_e=
+nable() instead
 >
 > Cc: Alex Deucher <alexander.deucher@amd.com>
 > Cc: "Christian K=C3=B6nig" <christian.koenig@amd.com>
@@ -100,34 +96,26 @@ ptr() instead
 > Cc: linaro-mm-sig@lists.linaro.org
 > Signed-off-by: Lee Jones <lee.jones@linaro.org>
 > ---
->  drivers/gpu/drm/amd/amdgpu/sdma_v4_0.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+>  drivers/gpu/drm/amd/amdgpu/sdma_v5_0.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> diff --git a/drivers/gpu/drm/amd/amdgpu/sdma_v4_0.c b/drivers/gpu/drm/amd=
-/amdgpu/sdma_v4_0.c
-> index d197185f77890..ae5464e2535a8 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/sdma_v4_0.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/sdma_v4_0.c
-> @@ -754,7 +754,7 @@ static uint64_t sdma_v4_0_ring_get_wptr(struct amdgpu=
-_ring *ring)
+> diff --git a/drivers/gpu/drm/amd/amdgpu/sdma_v5_0.c b/drivers/gpu/drm/amd=
+/amdgpu/sdma_v5_0.c
+> index 75d7310f84392..2a2b9d50afb70 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/sdma_v5_0.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/sdma_v5_0.c
+> @@ -571,7 +571,7 @@ static void sdma_v5_0_rlc_stop(struct amdgpu_device *=
+adev)
 >  }
 >
 >  /**
-> - * sdma_v4_0_page_ring_set_wptr - commit the write pointer
-> + * sdma_v4_0_ring_set_wptr - commit the write pointer
+> - * sdma_v_0_ctx_switch_enable - stop the async dma engines context switc=
+h
+> + * sdma_v5_0_ctx_switch_enable - stop the async dma engines context swit=
+ch
 >   *
->   * @ring: amdgpu ring pointer
->   *
-> @@ -820,7 +820,7 @@ static uint64_t sdma_v4_0_page_ring_get_wptr(struct a=
-mdgpu_ring *ring)
->  }
->
->  /**
-> - * sdma_v4_0_ring_set_wptr - commit the write pointer
-> + * sdma_v4_0_page_ring_set_wptr - commit the write pointer
->   *
->   * @ring: amdgpu ring pointer
->   *
+>   * @adev: amdgpu_device pointer
+>   * @enable: enable/disable the DMA MEs context switch.
 > --
 > 2.31.1
 >
