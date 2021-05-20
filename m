@@ -1,57 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE038389F95
-	for <lists+dri-devel@lfdr.de>; Thu, 20 May 2021 10:13:47 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 423E9389FA5
+	for <lists+dri-devel@lfdr.de>; Thu, 20 May 2021 10:16:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 116126E053;
-	Thu, 20 May 2021 08:13:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 56D766E1A5;
+	Thu, 20 May 2021 08:16:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from netline-mail3.netline.ch (mail.netline.ch [148.251.143.180])
- by gabe.freedesktop.org (Postfix) with ESMTP id DCD1A6E053
- for <dri-devel@lists.freedesktop.org>; Thu, 20 May 2021 08:13:42 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by netline-mail3.netline.ch (Postfix) with ESMTP id D9A4B20201B;
- Thu, 20 May 2021 10:13:41 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at netline-mail3.netline.ch
-Received: from netline-mail3.netline.ch ([127.0.0.1])
- by localhost (netline-mail3.netline.ch [127.0.0.1]) (amavisd-new, port 10024)
- with LMTP id hQOBkSBqNF1s; Thu, 20 May 2021 10:13:40 +0200 (CEST)
-Received: from thor (24.99.2.85.dynamic.wline.res.cust.swisscom.ch
- [85.2.99.24])
- by netline-mail3.netline.ch (Postfix) with ESMTPA id 417EA20201A;
- Thu, 20 May 2021 10:13:40 +0200 (CEST)
-Received: from localhost ([::1]) by thor with esmtp (Exim 4.94.2)
- (envelope-from <michel@daenzer.net>)
- id 1ljdoJ-000oxZ-3q; Thu, 20 May 2021 10:13:39 +0200
-To: Daniel Vetter <daniel@ffwll.ch>
-References: <20210517141129.2225-1-christian.koenig@amd.com>
- <YKKF4jOvM4gJT6a4@phenom.ffwll.local>
- <5a3e9500-9d6b-a865-5385-fde43da2bf66@gmail.com>
- <CAKMK7uF=y44e9-0-4MBj3jRBdCqMaLgKutTMeBWCbySRnPR4KQ@mail.gmail.com>
- <CAOFGe960UMe4=Xxcoha9R2Y74ma3Pp4Z0DF6PM+SJ2sjq2DBXg@mail.gmail.com>
- <CAKMK7uGtTT+59hRi3PB1WHPES3YJAPYBvbT74vo9PApNE0i7MQ@mail.gmail.com>
- <fee06c2d-27fb-1af4-6222-8f277b36c951@gmail.com>
- <CAKMK7uHLipx_oH-s5PB6pUUZ_JXCyciaY7sDLfK__-2fvSPCKA@mail.gmail.com>
- <f2eb6751-2f82-9b23-f57e-548de5b729de@gmail.com>
- <CAKMK7uHdsGjADQ9zwgrYsuhHdxFGkuH--DdOsaqej6OD1AbX-w@mail.gmail.com>
- <CAOFGe97FDc7Y9APymQQZZMApDXsJkbcS0N5jh+3s-w-Ligipug@mail.gmail.com>
- <14524566-8854-4bc0-9f70-b7219c9fccfc@daenzer.net>
- <CAOFGe96VttW2VzAnx13ZXLBGcEDJMehGuOFifcr+pcbEOa-Brw@mail.gmail.com>
- <6f3e2628-7b39-417c-3bd2-c837c5367458@daenzer.net>
- <CAKMK7uFMQGth19OjWmeNGTeVFoAqxK2tYXYrvme+NuCSNLxLUQ@mail.gmail.com>
-From: =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel@daenzer.net>
-Subject: Re: [RFC] Add DMA_RESV_USAGE flags
-Message-ID: <7cbba7b7-d7e5-9c76-c747-4e39542268a2@daenzer.net>
-Date: Thu, 20 May 2021 10:13:38 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.0
+Received: from youngberry.canonical.com (youngberry.canonical.com
+ [91.189.89.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EA39B6E1A5;
+ Thu, 20 May 2021 08:16:48 +0000 (UTC)
+Received: from 1.general.cking.uk.vpn ([10.172.193.212] helo=localhost)
+ by youngberry.canonical.com with esmtpsa (TLS1.2) tls
+ TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256 (Exim 4.93)
+ (envelope-from <colin.king@canonical.com>)
+ id 1ljdrK-0000s2-AR; Thu, 20 May 2021 08:16:46 +0000
+From: Colin King <colin.king@canonical.com>
+To: Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Xinhui.Pan@amd.com, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Subject: [PATCH][next] drm/amdgpu/acpi: Fix null check on memory allocation
+Date: Thu, 20 May 2021 09:16:46 +0100
+Message-Id: <20210520081646.6296-1-colin.king@canonical.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-In-Reply-To: <CAKMK7uFMQGth19OjWmeNGTeVFoAqxK2tYXYrvme+NuCSNLxLUQ@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-CA
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -65,81 +43,35 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "moderated list:DMA BUFFER SHARING FRAMEWORK"
- <linaro-mm-sig@lists.linaro.org>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
- Jason Ekstrand <jason@jlekstrand.net>,
- dri-devel <dri-devel@lists.freedesktop.org>
+Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2021-05-20 9:55 a.m., Daniel Vetter wrote:
-> On Wed, May 19, 2021 at 5:48 PM Michel Dänzer <michel@daenzer.net> wrote:
->>
->> On 2021-05-19 5:21 p.m., Jason Ekstrand wrote:
->>> On Wed, May 19, 2021 at 5:52 AM Michel Dänzer <michel@daenzer.net> wrote:
->>>>
->>>> On 2021-05-19 12:06 a.m., Jason Ekstrand wrote:
->>>>> On Tue, May 18, 2021 at 4:17 PM Daniel Vetter <daniel@ffwll.ch> wrote:
->>>>>>
->>>>>> On Tue, May 18, 2021 at 7:40 PM Christian König
->>>>>> <ckoenig.leichtzumerken@gmail.com> wrote:
->>>>>>>
->>>>>>> Am 18.05.21 um 18:48 schrieb Daniel Vetter:
->>>>>>>> On Tue, May 18, 2021 at 2:49 PM Christian König
->>>>>>>> <ckoenig.leichtzumerken@gmail.com> wrote:
->>>>>>>>
->>>>>>>>> And as long as we are all inside amdgpu we also don't have any oversync,
->>>>>>>>> the issue only happens when we share dma-bufs with i915 (radeon and
->>>>>>>>> AFAIK nouveau does the right thing as well).
->>>>>>>> Yeah because then you can't use the amdgpu dma_resv model anymore and
->>>>>>>> have to use the one atomic helpers use. Which is also the one that
->>>>>>>> e.g. Jason is threathening to bake in as uapi with his dma_buf ioctl,
->>>>>>>> so as soon as that lands and someone starts using it, something has to
->>>>>>>> adapt _anytime_ you have a dma-buf hanging around. Not just when it's
->>>>>>>> shared with another device.
->>>>>>>
->>>>>>> Yeah, and that is exactly the reason why I will NAK this uAPI change.
->>>>>>>
->>>>>>> This doesn't works for amdgpu at all for the reasons outlined above.
->>>>>>
->>>>>> Uh that's really not how uapi works. "my driver is right, everyone
->>>>>> else is wrong" is not how cross driver contracts are defined. If that
->>>>>> means a perf impact until you've fixed your rules, that's on you.
->>>>>>
->>>>>> Also you're a few years too late with nacking this, it's already uapi
->>>>>> in the form of the dma-buf poll() support.
->>>>>
->>>>> ^^  My fancy new ioctl doesn't expose anything that isn't already
->>>>> there.  It just lets you take a snap-shot of a wait instead of doing
->>>>> an active wait which might end up with more fences added depending on
->>>>> interrupts and retries.  The dma-buf poll waits on all fences for
->>>>> POLLOUT and only the exclusive fence for POLLIN.  It's already uAPI.
->>>>
->>>> Note that the dma-buf poll support could be useful to Wayland compositors for the same purpose as Jason's new ioctl (only using client buffers which have finished drawing for an output frame, to avoid missing a refresh cycle due to client drawing), *if* it didn't work differently with amdgpu.
->>>>
->>>> Am I understanding correctly that Jason's new ioctl would also work differently with amdgpu as things stand currently? If so, that would be a real bummer and might hinder adoption of the ioctl by Wayland compositors.
->>>
->>> My new ioctl has identical semantics to poll().  It just lets you take
->>> a snapshot in time to wait on later instead of waiting on whatever
->>> happens to be set right now.  IMO, having identical semantics to
->>> poll() isn't something we want to change.
->>
->> Agreed.
->>
->> I'd argue then that making amdgpu poll semantics match those of other drivers is a pre-requisite for the new ioctl, otherwise it seems unlikely that the ioctl will be widely adopted.
-> 
-> This seems backwards, because that means useful improvements in all
-> other drivers are stalled until amdgpu is fixed.
-> 
-> I think we need agreement on what the rules are, reasonable plan to
-> get there, and then that should be enough to unblock work in the wider
-> community. Holding the community at large hostage because one driver
-> is different is really not great.
+From: Colin Ian King <colin.king@canonical.com>
 
-I think we're in violent agreement. :) The point I was trying to make is that amdgpu really needs to be fixed to be consistent with other drivers ASAP.
+The current null check is checking the wrong pointer atif. Fix this
+to check the correct pointer atcs.
 
+Addresses-Coverity: ("Uninitialized pointer read")
+Fixes: c1c4d8efddde ("drm/amdgpu/acpi: unify ATCS handling (v2)")
+Signed-off-by: Colin Ian King <colin.king@canonical.com>
+---
+ drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c
+index c39f447df21d..b3ee7fb72b81 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c
+@@ -901,7 +901,7 @@ int amdgpu_acpi_init(struct amdgpu_device *adev)
+ 		goto out;
+ 
+ 	atcs = kzalloc(sizeof(*atcs), GFP_KERNEL);
+-	if (!atif) {
++	if (!atcs) {
+ 		DRM_WARN("Not enough memory to initialize ATCS\n");
+ 		goto out;
+ 	}
 -- 
-Earthling Michel Dänzer               |               https://redhat.com
-Libre software enthusiast             |             Mesa and X developer
+2.31.1
+
