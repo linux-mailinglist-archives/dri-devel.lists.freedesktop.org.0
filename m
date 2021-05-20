@@ -2,59 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8397638AD6F
-	for <lists+dri-devel@lfdr.de>; Thu, 20 May 2021 14:03:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A063138AD60
+	for <lists+dri-devel@lfdr.de>; Thu, 20 May 2021 14:03:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C3ADD6F425;
-	Thu, 20 May 2021 12:03:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 17F9A89483;
+	Thu, 20 May 2021 12:03:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com
- [IPv6:2a00:1450:4864:20::42d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 02D726F416
+Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com
+ [IPv6:2a00:1450:4864:20::434])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EAFB36F421
  for <dri-devel@lists.freedesktop.org>; Thu, 20 May 2021 12:03:12 +0000 (UTC)
-Received: by mail-wr1-x42d.google.com with SMTP id a4so17423768wrr.2
- for <dri-devel@lists.freedesktop.org>; Thu, 20 May 2021 05:03:11 -0700 (PDT)
+Received: by mail-wr1-x434.google.com with SMTP id c14so15602160wrx.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 May 2021 05:03:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=+O8/a75/EGow+S0U9CZ37LWYZF774zelw+e2XQOlCh4=;
- b=gsBnLdFU3oWNrhBa7vRRPNx39MdLikfhn452GGaIU18fvdoduwwMRM9C+jHWfpHLG9
- asVi6CrO78KKTlAiG+ngvTFyUgyaBK40x+j1EFFzYUN/gBT5MLGRT+o3S4rM1KUhRDNr
- VNRGo+47UnuHxYBOnz7SDcKktAUQGAqmGiitTy1r8G7PmSeABWb7xpVQoaSHH6X2mn/D
- uk17KLc0dTNLuTb/hq/d4/0mrcwHCwbAUkvEDihJd275xN3cauoi+RLBNzzOCdoeXkxn
- /Lnz5++iI42RAKRrYhhgjk/uarilYfwMpXYh6Hm84M1L9gH/+vRrAnjNFWoyOxTqmOQA
- iCnQ==
+ bh=pO5grwrsv4uMOhYf2ygGyZPPYt+9rmeszEZndYds2GE=;
+ b=CT/EoTRfYVBMyN8Wzm8oIU6O8z4y0prNiAf2aGwl18sXL6nhs3Qa7lndrhUsKNpDNh
+ lCPNbGFn1y4DmrNr28zOZrehZnATaWcMml5I3ocbHsxIkMeGsS2ZekSj2cVrN+8vUzOw
+ sSuN90me/VUxRRa8I4hU3JwltTu8JZT90S3shAULwt0mBG7O/wb97drPL8NKXIltu6i1
+ xMypzDARp+sAyjtdEKK0npV7sP1RPbELatr9TgObyh9m8es+7Kw3VdkkU6K40xJaPQ+1
+ xWb2/INEkfii3jkvbu7kRkEciU+eiCKAPTU1Y2Tw9wyaA2n+N8KCQ/gjqjtc8BKAZsBm
+ I3UA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=+O8/a75/EGow+S0U9CZ37LWYZF774zelw+e2XQOlCh4=;
- b=eMRU/ViHGE97c5/rjpxEz/NDqDOSKTUv2PqAjXhPJCyWxmLZHjr1FKW8eZFGfKRmWb
- jiBZI+D4p6fmNpYB8gwAjvuRcmQeo/uZHRnNx3Zk2z0NVsdTSMW8ioreFhh+2wsHJeG9
- MsAXJ5aH+5Aary07xAskHlBfYHqQiGyJBOdA5uz12WJqsX8Wzvk3PUR611NlKwSzREVR
- fRM2fnX5Cq+7ILNN2eSMp+hsQ5zVrbCIfekX7LIh/gmUQbfXyIoXJJWDOQqYTXP036JF
- 9Ftthu/NubKZiypz98Kth0CVSBRH3i2nS3vi4i5LRf9YUQqIoHQjrzs5E3rAfhHzFoHX
- INLA==
-X-Gm-Message-State: AOAM533K5ZxcLRdn5C5q6mL83xITijO9pP0vY949PUh++jRamJOPcuTz
- 94k6K/OrR3h93GLy+BJJdc/bXQ==
-X-Google-Smtp-Source: ABdhPJywOjK6LWPAbdN260/ypqhrfZeMF3DGR/bIZOUiENHJWFfNcRpEc9oztHcV087mXa+zxKX92Q==
-X-Received: by 2002:a5d:50c7:: with SMTP id f7mr4037940wrt.189.1621512190493; 
- Thu, 20 May 2021 05:03:10 -0700 (PDT)
+ bh=pO5grwrsv4uMOhYf2ygGyZPPYt+9rmeszEZndYds2GE=;
+ b=bg7E1Ha3TkFDRSYPV7obID17tymVBQhxJPjhDtjJjl0ImAdptBLQRyEf0Xo1EP7vg5
+ cXosijTs3h6USDQ+p2TP66+UxG+KTHdww8iDCic+TAcrZvBJhIpC9oiskpIchl0BOOsM
+ YPEYELy+GJ51c4LBpHM2qa81qCQKqKJc3usQ0Swl3BEaYipKxaQXD9WuHMi7F2Cw1EqN
+ K1R3npsBiGXgO7DI+8KX714hpXc5LsRCP59T+TuDKsGO0SyCdogKundOOvrCpbZdq8+U
+ g49L84QYenKCnAh/sP79Co0EJwjTIdQSXv6W4UEA+YM1JoUgNqt2kOWOkKxoLb4wyrnA
+ IOgQ==
+X-Gm-Message-State: AOAM531ao9tQsVd8zcF4HyXkZhIWAT4aUtCcWBApW5WonTpMdVZPtIKP
+ /fqBGikzoYJfwxcDj12LxQCR/A==
+X-Google-Smtp-Source: ABdhPJyVGLD3pIUwDllaOAyh0KECeEj9Z5MxF/PEDD5PRs/ZcnbIVDDHh9VW+4L3f/5KCoQgYjwlxg==
+X-Received: by 2002:adf:e0c6:: with SMTP id m6mr4105302wri.66.1621512191654;
+ Thu, 20 May 2021 05:03:11 -0700 (PDT)
 Received: from dell.default ([91.110.221.215])
- by smtp.gmail.com with ESMTPSA id j10sm2886332wrt.32.2021.05.20.05.03.09
+ by smtp.gmail.com with ESMTPSA id j10sm2886332wrt.32.2021.05.20.05.03.10
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 20 May 2021 05:03:10 -0700 (PDT)
+ Thu, 20 May 2021 05:03:11 -0700 (PDT)
 From: Lee Jones <lee.jones@linaro.org>
 To: lee.jones@linaro.org
-Subject: [PATCH 18/38] drm/msm/disp/dpu1/dpu_hw_interrupts: Demote a bunch of
- kernel-doc abuses
-Date: Thu, 20 May 2021 13:02:28 +0100
-Message-Id: <20210520120248.3464013-19-lee.jones@linaro.org>
+Subject: [PATCH 19/38] drm/radeon/cik: Fix incorrectly named function
+ 'cik_irq_suspend()'
+Date: Thu, 20 May 2021 13:02:29 +0100
+Message-Id: <20210520120248.3464013-20-lee.jones@linaro.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210520120248.3464013-1-lee.jones@linaro.org>
 References: <20210520120248.3464013-1-lee.jones@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -68,190 +69,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Krishna Manikandan <mkrishn@codeaurora.org>,
- David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, Sean Paul <sean@poorly.run>
+Cc: David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org,
+ Alex Deucher <alexander.deucher@amd.com>, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Fixes the following W=1 kernel build warning(s):
 
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c:17: warning: expecting prototype for Register offsets in MDSS register file for the interrupt registers(). Prototype was for MDP_SSPP_TOP0_OFF() instead
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c:35: warning: expecting prototype for WB interrupt status bit definitions(). Prototype was for DPU_INTR_WB_0_DONE() instead
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c:42: warning: expecting prototype for WDOG timer interrupt status bit definitions(). Prototype was for DPU_INTR_WD_TIMER_0_DONE() instead
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c:51: warning: expecting prototype for Pingpong interrupt status bit definitions(). Prototype was for DPU_INTR_PING_PONG_0_DONE() instead
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c:71: warning: expecting prototype for Interface interrupt status bit definitions(). Prototype was for DPU_INTR_INTF_0_UNDERRUN() instead
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c:85: warning: expecting prototype for Pingpong Secondary interrupt status bit definitions(). Prototype was for DPU_INTR_PING_PONG_S0_AUTOREFRESH_DONE() instead
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c:94: warning: expecting prototype for Pingpong TEAR detection interrupt status bit definitions(). Prototype was for DPU_INTR_PING_PONG_0_TEAR_DETECTED() instead
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c:102: warning: expecting prototype for Pingpong TE detection interrupt status bit definitions(). Prototype was for DPU_INTR_PING_PONG_0_TE_DETECTED() instead
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c:110: warning: expecting prototype for Ctl start interrupt status bit definitions(). Prototype was for DPU_INTR_CTL_0_START() instead
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c:119: warning: expecting prototype for Concurrent WB overflow interrupt status bit definitions(). Prototype was for DPU_INTR_CWB_2_OVERFLOW() instead
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c:125: warning: expecting prototype for Histogram VIG done interrupt status bit definitions(). Prototype was for DPU_INTR_HIST_VIG_0_DONE() instead
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c:133: warning: expecting prototype for Histogram VIG reset Sequence done interrupt status bit definitions(). Prototype was for DPU_INTR_HIST_VIG_0_RSTSEQ_DONE() instead
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c:141: warning: expecting prototype for Histogram DSPP done interrupt status bit definitions(). Prototype was for DPU_INTR_HIST_DSPP_0_DONE() instead
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c:149: warning: expecting prototype for Histogram DSPP reset Sequence done interrupt status bit definitions(). Prototype was for DPU_INTR_HIST_DSPP_0_RSTSEQ_DONE() instead
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c:157: warning: expecting prototype for INTF interrupt status bit definitions(). Prototype was for DPU_INTR_VIDEO_INTO_STATIC() instead
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c:170: warning: expecting prototype for AD4 interrupt status bit definitions(). Prototype was for DPU_INTR_BACKLIGHT_UPDATED() instead
+ drivers/gpu/drm/radeon/cik.c:7450: warning: expecting prototype for cik_irq_disable(). Prototype was for cik_irq_suspend() instead
 
-Cc: Rob Clark <robdclark@gmail.com>
-Cc: Sean Paul <sean@poorly.run>
+Cc: Alex Deucher <alexander.deucher@amd.com>
+Cc: "Christian König" <christian.koenig@amd.com>
 Cc: David Airlie <airlied@linux.ie>
 Cc: Daniel Vetter <daniel@ffwll.ch>
-Cc: Krishna Manikandan <mkrishn@codeaurora.org>
-Cc: linux-arm-msm@vger.kernel.org
+Cc: Sumit Semwal <sumit.semwal@linaro.org>
+Cc: amd-gfx@lists.freedesktop.org
 Cc: dri-devel@lists.freedesktop.org
-Cc: freedreno@lists.freedesktop.org
+Cc: linux-media@vger.kernel.org
+Cc: linaro-mm-sig@lists.linaro.org
 Signed-off-by: Lee Jones <lee.jones@linaro.org>
 ---
- .../gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c | 32 +++++++++----------
- 1 file changed, 16 insertions(+), 16 deletions(-)
+ drivers/gpu/drm/radeon/cik.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c
-index 48c96b8121268..aaf251741dc27 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c
-@@ -10,7 +10,7 @@
- #include "dpu_hw_util.h"
- #include "dpu_hw_mdss.h"
+diff --git a/drivers/gpu/drm/radeon/cik.c b/drivers/gpu/drm/radeon/cik.c
+index 42a8afa839cbb..73ea5189dfb1a 100644
+--- a/drivers/gpu/drm/radeon/cik.c
++++ b/drivers/gpu/drm/radeon/cik.c
+@@ -7439,7 +7439,7 @@ static void cik_irq_disable(struct radeon_device *rdev)
+ }
  
--/**
-+/*
-  * Register offsets in MDSS register file for the interrupt registers
-  * w.r.t. to the MDP base
-  */
-@@ -29,14 +29,14 @@
- #define MDP_INTF_1_OFF_REV_7xxx             0x35000
- #define MDP_INTF_5_OFF_REV_7xxx             0x39000
- 
--/**
-+/*
-  * WB interrupt status bit definitions
-  */
- #define DPU_INTR_WB_0_DONE BIT(0)
- #define DPU_INTR_WB_1_DONE BIT(1)
- #define DPU_INTR_WB_2_DONE BIT(4)
- 
--/**
-+/*
-  * WDOG timer interrupt status bit definitions
-  */
- #define DPU_INTR_WD_TIMER_0_DONE BIT(2)
-@@ -45,7 +45,7 @@
- #define DPU_INTR_WD_TIMER_3_DONE BIT(6)
- #define DPU_INTR_WD_TIMER_4_DONE BIT(7)
- 
--/**
-+/*
-  * Pingpong interrupt status bit definitions
-  */
- #define DPU_INTR_PING_PONG_0_DONE BIT(8)
-@@ -65,7 +65,7 @@
- #define DPU_INTR_PING_PONG_2_AUTOREFRESH_DONE BIT(22)
- #define DPU_INTR_PING_PONG_3_AUTOREFRESH_DONE BIT(23)
- 
--/**
-+/*
-  * Interface interrupt status bit definitions
-  */
- #define DPU_INTR_INTF_0_UNDERRUN BIT(24)
-@@ -79,7 +79,7 @@
- #define DPU_INTR_INTF_3_VSYNC BIT(31)
- #define DPU_INTR_INTF_5_VSYNC BIT(23)
- 
--/**
-+/*
-  * Pingpong Secondary interrupt status bit definitions
-  */
- #define DPU_INTR_PING_PONG_S0_AUTOREFRESH_DONE BIT(0)
-@@ -88,7 +88,7 @@
- #define DPU_INTR_PING_PONG_S0_TEAR_DETECTED BIT(22)
- #define DPU_INTR_PING_PONG_S0_TE_DETECTED BIT(28)
- 
--/**
-+/*
-  * Pingpong TEAR detection interrupt status bit definitions
-  */
- #define DPU_INTR_PING_PONG_0_TEAR_DETECTED BIT(16)
-@@ -96,7 +96,7 @@
- #define DPU_INTR_PING_PONG_2_TEAR_DETECTED BIT(18)
- #define DPU_INTR_PING_PONG_3_TEAR_DETECTED BIT(19)
- 
--/**
-+/*
-  * Pingpong TE detection interrupt status bit definitions
-  */
- #define DPU_INTR_PING_PONG_0_TE_DETECTED BIT(24)
-@@ -104,7 +104,7 @@
- #define DPU_INTR_PING_PONG_2_TE_DETECTED BIT(26)
- #define DPU_INTR_PING_PONG_3_TE_DETECTED BIT(27)
- 
--/**
-+/*
-  * Ctl start interrupt status bit definitions
-  */
- #define DPU_INTR_CTL_0_START BIT(9)
-@@ -113,13 +113,13 @@
- #define DPU_INTR_CTL_3_START BIT(12)
- #define DPU_INTR_CTL_4_START BIT(13)
- 
--/**
-+/*
-  * Concurrent WB overflow interrupt status bit definitions
-  */
- #define DPU_INTR_CWB_2_OVERFLOW BIT(14)
- #define DPU_INTR_CWB_3_OVERFLOW BIT(15)
- 
--/**
-+/*
-  * Histogram VIG done interrupt status bit definitions
-  */
- #define DPU_INTR_HIST_VIG_0_DONE BIT(0)
-@@ -127,7 +127,7 @@
- #define DPU_INTR_HIST_VIG_2_DONE BIT(8)
- #define DPU_INTR_HIST_VIG_3_DONE BIT(10)
- 
--/**
-+/*
-  * Histogram VIG reset Sequence done interrupt status bit definitions
-  */
- #define DPU_INTR_HIST_VIG_0_RSTSEQ_DONE BIT(1)
-@@ -135,7 +135,7 @@
- #define DPU_INTR_HIST_VIG_2_RSTSEQ_DONE BIT(9)
- #define DPU_INTR_HIST_VIG_3_RSTSEQ_DONE BIT(11)
- 
--/**
-+/*
-  * Histogram DSPP done interrupt status bit definitions
-  */
- #define DPU_INTR_HIST_DSPP_0_DONE BIT(12)
-@@ -143,7 +143,7 @@
- #define DPU_INTR_HIST_DSPP_2_DONE BIT(20)
- #define DPU_INTR_HIST_DSPP_3_DONE BIT(22)
- 
--/**
-+/*
-  * Histogram DSPP reset Sequence done interrupt status bit definitions
-  */
- #define DPU_INTR_HIST_DSPP_0_RSTSEQ_DONE BIT(13)
-@@ -151,7 +151,7 @@
- #define DPU_INTR_HIST_DSPP_2_RSTSEQ_DONE BIT(21)
- #define DPU_INTR_HIST_DSPP_3_RSTSEQ_DONE BIT(23)
- 
--/**
-+/*
-  * INTF interrupt status bit definitions
-  */
- #define DPU_INTR_VIDEO_INTO_STATIC BIT(0)
-@@ -164,7 +164,7 @@
- #define DPU_INTR_DSICMD_2_OUTOF_STATIC BIT(7)
- #define DPU_INTR_PROG_LINE BIT(8)
- 
--/**
-+/*
-  * AD4 interrupt status bit definitions
-  */
- #define DPU_INTR_BACKLIGHT_UPDATED BIT(0)
+ /**
+- * cik_irq_disable - disable interrupts for suspend
++ * cik_irq_suspend - disable interrupts for suspend
+  *
+  * @rdev: radeon_device pointer
+  *
 -- 
 2.31.1
 
