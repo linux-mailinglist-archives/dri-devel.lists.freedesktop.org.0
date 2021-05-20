@@ -1,55 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B007338AD70
-	for <lists+dri-devel@lfdr.de>; Thu, 20 May 2021 14:03:45 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A906838AD74
+	for <lists+dri-devel@lfdr.de>; Thu, 20 May 2021 14:03:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A2EE06F421;
-	Thu, 20 May 2021 12:03:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 48B236F41B;
+	Thu, 20 May 2021 12:03:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com
- [IPv6:2a00:1450:4864:20::436])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C5FE78915F
- for <dri-devel@lists.freedesktop.org>; Thu, 20 May 2021 12:03:16 +0000 (UTC)
-Received: by mail-wr1-x436.google.com with SMTP id a4so17424026wrr.2
- for <dri-devel@lists.freedesktop.org>; Thu, 20 May 2021 05:03:16 -0700 (PDT)
+Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com
+ [IPv6:2a00:1450:4864:20::32e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 020BC88905
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 May 2021 12:03:18 +0000 (UTC)
+Received: by mail-wm1-x32e.google.com with SMTP id
+ n17-20020a7bc5d10000b0290169edfadac9so5280669wmk.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 May 2021 05:03:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=aa3gg5EuMa9A5nk5o0d0T8SZ6WR+4Hli7trc1GNqVzE=;
- b=P/8FbvIM/h7Ij52WQCkLtGbmLfZt2AIUofpELl7aKx9cVVKxRhCPQWSTqLoL+D5ek0
- 3e7FpGFtcDBnwmpnAo9QDgzBiqYfUul8fsWJeAdJ7gqxXWD3KfNPqhNmL0hOBgD8iCLs
- RHzl84pChy/3XbBLbG+ny0C3LSao4HP+jP1MS08fMA09Bv1MtJYVhGkCT6RL8+WsnmG6
- 2IpoNRsoY7lJhmH+oP52+LkzipwOSevCUEQlu28ZqIaOJy+zUHSR8XzhYCrK4pomOiQM
- H9hu5ChdIaJPBw6CSJrYMjgHUW9+6vQGnmLJfH42Xr7yZ3VgkiBDkOTrowlpSuVIksnb
- 9qlg==
+ bh=+fmZglR54ll04aap/nnrS1lTMmfuDtfEf2wXqJX6PX0=;
+ b=ovUuBIpidetnGOoSyQualmIn8fZ/i0UtYvGw3trII7Y8HUSva2w3aKXILZI3TNQoTq
+ cGX973y1nw9iyAPD/T6ZLlSmDs6LUAvNrTbiLiqtEwiWwkegm+qkApuZZqKss6d5oeCz
+ 8h/YpzebuSZkEhunQpCVEDiE5fm4VjYhzR+4CXlHHGDwWwtDi5VRyt3DHu95k6ufJks3
+ Snu0++kd82BETGmIUFSYJkr0kwMzPOs8qagvuxn3Klw10mKm0lW6CwjPlyhi/KHN1RDy
+ dftAbTbwEIo5qNGZWjVG5hM//kJX7lDw+n1oU9wYzzfblnJKWdb6h7OhK4+tBxk1otrg
+ Rn4w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=aa3gg5EuMa9A5nk5o0d0T8SZ6WR+4Hli7trc1GNqVzE=;
- b=IA4k/hpJSaWA20b+J1b8JqjgeOyVtuEqXCTYFgKtCSy1/nasA+w8kRcdL3QIDQl89v
- MaVsR9+h/0hic1juOEe019DxbsLsYz1wQ5syGsWEPUuzt7+if+OjFEo4xsTB1N2XQALi
- XlGNew23xzBsTOY8pDy+CgGHY5BtDsnvp9I+fIlPvc3dGqkSn9A/XUxZ0QdUTuNNAxoc
- HtFsr6QVsyS+N5HMPoDERzrOXUGmfpM5y4QciN9gFDOvIRuClTjCZXWl5XGwFzL1WEKu
- eVkAFI+o+oM4NeF7AQqqlLeRVso8wAzzykY1dMyeSRJjetnzSffFV4lM0j2e0+W0saN9
- MZig==
-X-Gm-Message-State: AOAM531f7gV7ONmZVOafz53W7es4kWriUssRG3DLDOSEG0snyqGfOZLG
- RjT5CQXubnxtuTtGC+rnkIje2Q==
-X-Google-Smtp-Source: ABdhPJxcm94XcnPIlXpI+aoOcisifK8IL9R99fLfefdLdPJx9Qsa0SXHZUEbROwc7y4h4Dww96AGxA==
-X-Received: by 2002:a5d:50c7:: with SMTP id f7mr4038472wrt.189.1621512195526; 
- Thu, 20 May 2021 05:03:15 -0700 (PDT)
+ bh=+fmZglR54ll04aap/nnrS1lTMmfuDtfEf2wXqJX6PX0=;
+ b=AxyLNOHDlHPM2QKVMNOCSU1fEmBq9QGSUg9Q4CdB/3fh/Blsh02JU8pPTS0bQcqXZG
+ Ok64KXqv2xOwaiGiq7aBfUMmaJbQqcZFR7zwUMkcK7pTtOECBzt41mK9xeeZbiF7l3w8
+ bk787oykXOoO4ksmKfIk+fSCgLUAVrxe5jv4ZXxZJRe8WCvwhpoJtYeee5GuPsBuLunK
+ pgDi2uNE+lgFLu0Mn01pJaFFqSkzclTN0rCtGILO4f4xrVS2/8LWX/3q+jRaimRfmc3q
+ ZbDVdgyxa96wSlc7kxdHglulH7tAM56vI3JK5YJcUACydWMuJ0FC5BisnxaPa/4k4IUB
+ vuHw==
+X-Gm-Message-State: AOAM532nNSKIJhGzByeyljdSSJqcKr5CrwGSKTpz7AkBtLY/tHEqDTBT
+ 77L81R1+Kmk/MXLM4zmB6/uF7g==
+X-Google-Smtp-Source: ABdhPJw8kaYI5LLeHaobAMA/X+5SKA38x92KIomeDesCAADoarpEPLvyZ1HDdbjflDFVnFg5Iwu2fw==
+X-Received: by 2002:a1c:6503:: with SMTP id z3mr3279429wmb.72.1621512196541;
+ Thu, 20 May 2021 05:03:16 -0700 (PDT)
 Received: from dell.default ([91.110.221.215])
- by smtp.gmail.com with ESMTPSA id j10sm2886332wrt.32.2021.05.20.05.03.14
+ by smtp.gmail.com with ESMTPSA id j10sm2886332wrt.32.2021.05.20.05.03.15
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 20 May 2021 05:03:15 -0700 (PDT)
+ Thu, 20 May 2021 05:03:16 -0700 (PDT)
 From: Lee Jones <lee.jones@linaro.org>
 To: lee.jones@linaro.org
-Subject: [PATCH 23/38] drm/amd/amdgpu/gmc_v7_0: Fix potential copy/paste issue
-Date: Thu, 20 May 2021 13:02:33 +0100
-Message-Id: <20210520120248.3464013-24-lee.jones@linaro.org>
+Subject: [PATCH 24/38] drm/amd/amdgpu/mmhub_v9_4: Fix naming disparity with
+ 'mmhub_v9_4_set_fault_enable_default()'
+Date: Thu, 20 May 2021 13:02:34 +0100
+Message-Id: <20210520120248.3464013-25-lee.jones@linaro.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210520120248.3464013-1-lee.jones@linaro.org>
 References: <20210520120248.3464013-1-lee.jones@linaro.org>
@@ -77,7 +79,7 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Fixes the following W=1 kernel build warning(s):
 
- drivers/gpu/drm/amd/amdgpu/gmc_v7_0.c:526: warning: expecting prototype for gmc_v8_0_set_fault_enable_default(). Prototype was for gmc_v7_0_set_fault_enable_default() instead
+ drivers/gpu/drm/amd/amdgpu/mmhub_v9_4.c:446: warning: expecting prototype for mmhub_v1_0_set_fault_enable_default(). Prototype was for mmhub_v9_4_set_fault_enable_default() instead
 
 Cc: Alex Deucher <alexander.deucher@amd.com>
 Cc: "Christian König" <christian.koenig@amd.com>
@@ -87,19 +89,19 @@ Cc: amd-gfx@lists.freedesktop.org
 Cc: dri-devel@lists.freedesktop.org
 Signed-off-by: Lee Jones <lee.jones@linaro.org>
 ---
- drivers/gpu/drm/amd/amdgpu/gmc_v7_0.c | 2 +-
+ drivers/gpu/drm/amd/amdgpu/mmhub_v9_4.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/gmc_v7_0.c b/drivers/gpu/drm/amd/amdgpu/gmc_v7_0.c
-index 210ada2289ec9..8e282169f99eb 100644
---- a/drivers/gpu/drm/amd/amdgpu/gmc_v7_0.c
-+++ b/drivers/gpu/drm/amd/amdgpu/gmc_v7_0.c
-@@ -516,7 +516,7 @@ static void gmc_v7_0_get_vm_pte(struct amdgpu_device *adev,
+diff --git a/drivers/gpu/drm/amd/amdgpu/mmhub_v9_4.c b/drivers/gpu/drm/amd/amdgpu/mmhub_v9_4.c
+index 47c8dd9d1c78e..c4ef822bbe8c5 100644
+--- a/drivers/gpu/drm/amd/amdgpu/mmhub_v9_4.c
++++ b/drivers/gpu/drm/amd/amdgpu/mmhub_v9_4.c
+@@ -436,7 +436,7 @@ static void mmhub_v9_4_gart_disable(struct amdgpu_device *adev)
  }
  
  /**
-- * gmc_v8_0_set_fault_enable_default - update VM fault handling
-+ * gmc_v7_0_set_fault_enable_default - update VM fault handling
+- * mmhub_v1_0_set_fault_enable_default - update GART/VM fault handling
++ * mmhub_v9_4_set_fault_enable_default - update GART/VM fault handling
   *
   * @adev: amdgpu_device pointer
   * @value: true redirects VM faults to the default page
