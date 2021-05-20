@@ -2,55 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5CD0E38B66C
-	for <lists+dri-devel@lfdr.de>; Thu, 20 May 2021 20:59:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36FBE38B672
+	for <lists+dri-devel@lfdr.de>; Thu, 20 May 2021 21:00:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 63BE46F4CB;
-	Thu, 20 May 2021 18:59:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 821146F4CE;
+	Thu, 20 May 2021 19:00:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x329.google.com (mail-ot1-x329.google.com
- [IPv6:2607:f8b0:4864:20::329])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AC0256F4CB
- for <dri-devel@lists.freedesktop.org>; Thu, 20 May 2021 18:59:03 +0000 (UTC)
-Received: by mail-ot1-x329.google.com with SMTP id
- r26-20020a056830121ab02902a5ff1c9b81so15789201otp.11
- for <dri-devel@lists.freedesktop.org>; Thu, 20 May 2021 11:59:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=dMH8paZbMD/P3ANx+uV5my+Ut2BSGoI4lUNA1erm+40=;
- b=T1aocE9MmvdWLUTaZX6Zr03oC0SnhF99GgdanDIQcQ2BoHY7TNcf1ztGejIuvd/Xge
- 81LWz80/BdSIG2u3oe3RYIekh2zVOJr0aVO4TxPkAFSeqAe/Ecz9G9BWO++OT8KeneR4
- +sFSp8yN7i9tY99RtrYp4cvEs83t7nInX5ar/B37tJv71roa4kq+/PJ/CC2R6CqCjyRH
- QCaOtVJwhZM0lrjYN7aPJu7WuOZ4tcgL9QvZyMlNMqUHW0k+iQw7YGxNvDuKlhaWBUzj
- LonciF/gFSzqaxP1uCErmbuugXEwUoxGzGqfqCu5rVRPf/0LIXEFEKHX8RFWpT8TFG7u
- WidQ==
+Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com
+ [IPv6:2607:f8b0:4864:20::1033])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EAF266F4DF
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 May 2021 19:00:14 +0000 (UTC)
+Received: by mail-pj1-x1033.google.com with SMTP id
+ ne24-20020a17090b3758b029015f2dafecb0so4625949pjb.4
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 May 2021 12:00:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=jlekstrand-net.20150623.gappssmtp.com; s=20150623;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=7eeUApV58YscRHlKze5RofJ7gCwLmXCkwBudl2y3vto=;
+ b=l3HVjEQjAKeGw+rLVz7OP0AoPJPQQjHepgRE5NAhpc4Mssh9/qwyu1LaEgeoEP3VUy
+ C3W4uVB69MsdewPUmPJsQV3XxfVsT5MVOsfarEFhKp/cMdoOX0g/G++IuqYdZPp+UOy5
+ MCl4f1xeaOU0V506ySZOq3N79bWKdpkY8q/EuQohDJM+gA5jI2VtJQ0qyMID4Nj/sG79
+ DnHQJ8JR3Qnsm7xcZg8wiyQp5KjbrOdEJ5wNRBJ/ZSl9tiJbYlLsbWXXQLkoK6Yw2btO
+ ZfpLcXjvAQ1vk6ql4liSsEkLgz4RAOhNUdM6FPOzMTCRsiTeAvVHAZ0aY6dXrU2Jboz0
+ rO0w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=dMH8paZbMD/P3ANx+uV5my+Ut2BSGoI4lUNA1erm+40=;
- b=Tjrsxw6mHs/T/6Sj8sNeV/HjyMSWVEIpDeDnyb4tSL+VQmRzHgH8CBfCFbNN7sGAja
- apggdOoNyorQKt2NO+B2QmnJrCMrDz7A2o56AYt9+MK+/morZjIOsWaUP9PjheRKzREq
- 2nY6M/SiIwiThgbgMqI8vsr2un2LCtJ8IIursURzGnjBxGzKUFkrAoGZdpZiBc3Wytov
- k0iaJspvJ08EsAHpWyFNyhLVGaKAnex0GzC85YH2uFc3AazuMFhzg9WX+JrFY7apbRpR
- F+w4nP/4SzPoPrm70Nd5s6oSd56EVMZwPS+aIEBrY6HhAe4/4q0Mz52gZEuDdDaijYJ5
- tDWg==
-X-Gm-Message-State: AOAM532fMEUj9b4T/pu+CPsm14DmF1DI/5AwAO9CHJUJZT7rpzZNx9bu
- zzKk2QA1sBQBCA2z2uP4bDX4fXPyGTMcitdmEOw=
-X-Google-Smtp-Source: ABdhPJxQZSpurrf2XJVUawSq+g2mvlD6Jo293mjKCpffeEmhs06EEyovileXa+/XFpIcY1c1/P/P+3be5i8vSQcHGkY=
-X-Received: by 2002:a9d:74c6:: with SMTP id a6mr5080330otl.132.1621537143037; 
- Thu, 20 May 2021 11:59:03 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=7eeUApV58YscRHlKze5RofJ7gCwLmXCkwBudl2y3vto=;
+ b=r1ztXmcglJ7ITI2Pcx3lukYe5LYmr3rG/1KbvgaoNZaiAt6QUovxZi5Y+L8c9pVKIq
+ aGU5pTkVvWbnXm3cy2vNhazjF8fsGAA6ogUjxpXD8ctExzmlGumcFcC5Yja9ODxuzfd9
+ DC7yMzNg4EgyzfRx23eKB1YyTBJGn9Oh7y9IUeSZkW6+klcuGtjykGbqlBFl6mfd3UKH
+ FPh8QdqXqNKJ+Lu9Cy9wO/e0qgoqo1DUAHojVEYQjYXs0bTzNlmqRwvfT39pkBjOeOL1
+ 1E4Dbd+sZwvwxDvJmwMJ7f1Y2UTHW5Ma18Gm4braFACP7PuZdNZE0TE3VPITFqYiVidy
+ hIyw==
+X-Gm-Message-State: AOAM532DGmnJOdqfBB+/H/+hKcKW8G3j/jqvQuPMgHZCq1qS3ERvrrRi
+ 1NhbH1Mz1z76+ooZPAW1GMkf2q94OxukyQ==
+X-Google-Smtp-Source: ABdhPJzMmF+YBoK+NtRwQ87CnExQTzz5igUOi0W+9Y742lhsir8AhZb5ogCiHauYeEIT9kALh2aNCA==
+X-Received: by 2002:a17:90a:c7d5:: with SMTP id
+ gf21mr6723642pjb.87.1621537212974; 
+ Thu, 20 May 2021 12:00:12 -0700 (PDT)
+Received: from omlet.lan (jfdmzpr03-ext.jf.intel.com. [134.134.139.72])
+ by smtp.gmail.com with ESMTPSA id v2sm2455072pfm.134.2021.05.20.12.00.10
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 20 May 2021 12:00:12 -0700 (PDT)
+From: Jason Ekstrand <jason@jlekstrand.net>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH 0/4] dma-buf: Add an API for exporting sync files (v8)
+Date: Thu, 20 May 2021 14:00:03 -0500
+Message-Id: <20210520190007.534046-1-jason@jlekstrand.net>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-References: <20210519135723.525997-1-kai.heng.feng@canonical.com>
- <CADnq5_OstgUmLxa4DU2s19m5E1zScKY0Pe=644BvBTp=LAPvJg@mail.gmail.com>
-In-Reply-To: <CADnq5_OstgUmLxa4DU2s19m5E1zScKY0Pe=644BvBTp=LAPvJg@mail.gmail.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Thu, 20 May 2021 14:58:52 -0400
-Message-ID: <CADnq5_MdCHrCKV6sjSwbknscDh1pUm-OMzxmFSwhnnDpZcTeUw@mail.gmail.com>
-Subject: Re: [PATCH] vgaarb: Use ACPI HID name to find integrated GPU
-To: Kai-Heng Feng <kai.heng.feng@canonical.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,110 +69,74 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dave Airlie <airlied@linux.ie>, open list <linux-kernel@vger.kernel.org>,
- "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, "Deucher,
- Alexander" <alexander.deucher@amd.com>
+Cc: Daniel Stone <daniels@collabora.com>,
+ =?UTF-8?q?Michel=20D=C3=A4nzer?= <michel@daenzer.net>,
+ Jason Ekstrand <jason@jlekstrand.net>, Dave Airlie <airlied@redhat.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Pushed to drm-misc-next.  Thanks!
+This is mostly a re-send of v8 only with a fourth patch which contains the
+sync file import ioctl that I had in the original series.  I've not updated
+the IGT tests yet for sync file import.  This resend is mostly intended to
+aid in discussions around implicit sync in general.  I'll write up some IGT
+tests if there is serious interest in patch 4.  I can also update the Mesa
+MR to use it for Vulkan.
 
-Alex
+-------------------------------------------
 
-On Wed, May 19, 2021 at 12:45 PM Alex Deucher <alexdeucher@gmail.com> wrote:
->
-> On Wed, May 19, 2021 at 9:57 AM Kai-Heng Feng
-> <kai.heng.feng@canonical.com> wrote:
-> >
-> > Commit 3d42f1ddc47a ("vgaarb: Keep adding VGA device in queue") assumes
-> > the first device is an integrated GPU. However, on AMD platforms an
-> > integrated GPU can have higher PCI device number than a discrete GPU.
-> >
-> > Integrated GPU on ACPI platform generally has _DOD and _DOS method, so
-> > use that as predicate to find integrated GPU. If the new strategy
-> > doesn't work, fallback to use the first device as boot VGA.
-> >
-> > Signed-off-by: Kai-Heng Feng <kai.heng.feng@canonical.com>
->
-> Reviewed-by: Alex Deucher <alexander.deucher@amd.com>
->
-> Unless there are any other comments, I'll apply it tomorrow.
->
-> Alex
->
-> > ---
-> >  drivers/gpu/vga/vgaarb.c | 31 ++++++++++++++++++++++++++-----
-> >  1 file changed, 26 insertions(+), 5 deletions(-)
-> >
-> > diff --git a/drivers/gpu/vga/vgaarb.c b/drivers/gpu/vga/vgaarb.c
-> > index 5180c5687ee5..949fde433ea2 100644
-> > --- a/drivers/gpu/vga/vgaarb.c
-> > +++ b/drivers/gpu/vga/vgaarb.c
-> > @@ -50,6 +50,7 @@
-> >  #include <linux/screen_info.h>
-> >  #include <linux/vt.h>
-> >  #include <linux/console.h>
-> > +#include <linux/acpi.h>
-> >
-> >  #include <linux/uaccess.h>
-> >
-> > @@ -1450,9 +1451,23 @@ static struct miscdevice vga_arb_device = {
-> >         MISC_DYNAMIC_MINOR, "vga_arbiter", &vga_arb_device_fops
-> >  };
-> >
-> > +#if defined(CONFIG_ACPI)
-> > +static bool vga_arb_integrated_gpu(struct device *dev)
-> > +{
-> > +       struct acpi_device *adev = ACPI_COMPANION(dev);
-> > +
-> > +       return adev && !strcmp(acpi_device_hid(adev), ACPI_VIDEO_HID);
-> > +}
-> > +#else
-> > +static bool vga_arb_integrated_gpu(struct device *dev)
-> > +{
-> > +       return false;
-> > +}
-> > +#endif
-> > +
-> >  static void __init vga_arb_select_default_device(void)
-> >  {
-> > -       struct pci_dev *pdev;
-> > +       struct pci_dev *pdev, *found = NULL;
-> >         struct vga_device *vgadev;
-> >
-> >  #if defined(CONFIG_X86) || defined(CONFIG_IA64)
-> > @@ -1505,20 +1520,26 @@ static void __init vga_arb_select_default_device(void)
-> >  #endif
-> >
-> >         if (!vga_default_device()) {
-> > -               list_for_each_entry(vgadev, &vga_list, list) {
-> > +               list_for_each_entry_reverse(vgadev, &vga_list, list) {
-> >                         struct device *dev = &vgadev->pdev->dev;
-> >                         u16 cmd;
-> >
-> >                         pdev = vgadev->pdev;
-> >                         pci_read_config_word(pdev, PCI_COMMAND, &cmd);
-> >                         if (cmd & (PCI_COMMAND_IO | PCI_COMMAND_MEMORY)) {
-> > -                               vgaarb_info(dev, "setting as boot device (VGA legacy resources not available)\n");
-> > -                               vga_set_default_device(pdev);
-> > -                               break;
-> > +                               found = pdev;
-> > +                               if (vga_arb_integrated_gpu(dev))
-> > +                                       break;
-> >                         }
-> >                 }
-> >         }
-> >
-> > +       if (found) {
-> > +               vgaarb_info(&found->dev, "setting as boot device (VGA legacy resources not available)\n");
-> > +               vga_set_default_device(found);
-> > +               return;
-> > +       }
-> > +
-> >         if (!vga_default_device()) {
-> >                 vgadev = list_first_entry_or_null(&vga_list,
-> >                                                   struct vga_device, list);
-> > --
-> > 2.31.1
-> >
+Modern userspace APIs like Vulkan are built on an explicit
+synchronization model.  This doesn't always play nicely with the
+implicit synchronization used in the kernel and assumed by X11 and
+Wayland.  The client -> compositor half of the synchronization isn't too
+bad, at least on intel, because we can control whether or not i915
+synchronizes on the buffer and whether or not it's considered written.
+
+The harder part is the compositor -> client synchronization when we get
+the buffer back from the compositor.  We're required to be able to
+provide the client with a VkSemaphore and VkFence representing the point
+in time where the window system (compositor and/or display) finished
+using the buffer.  With current APIs, it's very hard to do this in such
+a way that we don't get confused by the Vulkan driver's access of the
+buffer.  In particular, once we tell the kernel that we're rendering to
+the buffer again, any CPU waits on the buffer or GPU dependencies will
+wait on some of the client rendering and not just the compositor.
+
+This new IOCTL solves this problem by allowing us to get a snapshot of
+the implicit synchronization state of a given dma-buf in the form of a
+sync file.  It's effectively the same as a poll() or I915_GEM_WAIT only,
+instead of CPU waiting directly, it encapsulates the wait operation, at
+the current moment in time, in a sync_file so we can check/wait on it
+later.  As long as the Vulkan driver does the sync_file export from the
+dma-buf before we re-introduce it for rendering, it will only contain
+fences from the compositor or display.  This allows to accurately turn
+it into a VkFence or VkSemaphore without any over- synchronization.
+
+Mesa MR: https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/4037
+IGT tests: https://lists.freedesktop.org/archives/igt-dev/2021-March/029825.html
+
+Cc: Christian König <christian.koenig@amd.com>
+Cc: Michel Dänzer <michel@daenzer.net>
+Cc: Dave Airlie <airlied@redhat.com>
+Cc: Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>
+Cc: Daniel Stone <daniels@collabora.com>
+
+Christian König (1):
+  dma-buf: add dma_fence_array_for_each (v2)
+
+Jason Ekstrand (3):
+  dma-buf: add dma_resv_get_singleton_rcu (v4)
+  dma-buf: Add an API for exporting sync files (v9)
+  RFC: dma-buf: Add an API for importing sync files (v6)
+
+ drivers/dma-buf/dma-buf.c         |  94 +++++++++++++++++++++++
+ drivers/dma-buf/dma-fence-array.c |  27 +++++++
+ drivers/dma-buf/dma-resv.c        | 122 ++++++++++++++++++++++++++++++
+ include/linux/dma-fence-array.h   |  17 +++++
+ include/linux/dma-resv.h          |   3 +
+ include/uapi/linux/dma-buf.h      |  25 ++++++
+ 6 files changed, 288 insertions(+)
+
+-- 
+2.31.1
+
