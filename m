@@ -1,56 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F6DF38B752
-	for <lists+dri-devel@lfdr.de>; Thu, 20 May 2021 21:20:25 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E286938B75A
+	for <lists+dri-devel@lfdr.de>; Thu, 20 May 2021 21:21:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E01966F503;
-	Thu, 20 May 2021 19:20:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9533B6F507;
+	Thu, 20 May 2021 19:21:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x230.google.com (mail-oi1-x230.google.com
- [IPv6:2607:f8b0:4864:20::230])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4ADBD6F501;
- Thu, 20 May 2021 19:20:19 +0000 (UTC)
-Received: by mail-oi1-x230.google.com with SMTP id z3so17423149oib.5;
- Thu, 20 May 2021 12:20:19 -0700 (PDT)
+Received: from mail-oo1-xc2c.google.com (mail-oo1-xc2c.google.com
+ [IPv6:2607:f8b0:4864:20::c2c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 766916F500;
+ Thu, 20 May 2021 19:21:01 +0000 (UTC)
+Received: by mail-oo1-xc2c.google.com with SMTP id
+ e27-20020a056820061bb029020da48eed5cso4029829oow.10; 
+ Thu, 20 May 2021 12:21:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=PfgwTVkMgiwTa2ZUJi4Rqpy4DzXkVzihsc1UndFlxZA=;
- b=NKXl/O4Ah4nhqRZkqVf7JWT06B7xn241Wl6InCIzbJbLIuLi4vfTnaDrtlDTjxDQVi
- n30NCGYnAoGxnSG/VWuWTQ+YK7PcX9F9m5Xpy8FvszrYZNU3ITT17+QkEfw/+eCQ+Pkt
- mLk4rneTHZwhebapO0piSnDF2/cEBjYQY/NbDQitSmHZSiZ11NWAPqW8C3iOPpcFafJN
- qCP9cMoArj2JNtrRctLNjX6fyLtrTmYEkwu0AHzbJOi4N+RnXc2su55cSnse9MAWxLBJ
- z0h7NrAKCgvhrjjYExJ3ftsS1HKoD+9OnT8mPmjAez+Vncw+mZOevxqJhe1TsUGEAEbS
- mq9g==
+ bh=jFT2vUjneyK4vqRQTSud440oIlDIOlBm9ntEGOINv5Y=;
+ b=D/khYlkLs8eViqkgfzspKIJORMK1dqfOo1QORFPm78nkMtTSIa1UQj6LQt0fIE6ssK
+ O9lGaXHlOXL0EV3fv5Y7a3jr8Zi4S3yLbWxTmBOLNyY0PZvYryPpLCycq/h5tkzT2HuY
+ 3jV0KhJ1nlMefUkBn7EhcQ3JcPl/mvqQg2LfwO2IHXEmlwsyszD2SCOp6Oxpo90sUv48
+ 07FSiNdFZFri7Qmk2zpc9QYfYxH+jElnevL3fMYQsO5uiR4P7O5gYqgVfynSMG3iWNAI
+ ffhBH8v2gU5bqy03nFTAr4jH8Vf9/R3ruvrIfz59jVqo0gHklxN+Pv9gT1P4hByy4TNd
+ rnKA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=PfgwTVkMgiwTa2ZUJi4Rqpy4DzXkVzihsc1UndFlxZA=;
- b=OXg0BI1/007PQW2R32UChj4yZnWguun+NMudKFz3udskPsce/hMNMjWg+ejEQ4CmPI
- uHXbPyIP9MQiIUJqToLEG98PIkP3ILTPLqPyX50yXCVYcAWQQJBkxrAVIxKs5O4LjMN9
- RtyO3wTWBgqIODXVrh97M9U/pnl7jVNkzTSUp6ho4B/sbBoad0srTrRt6LeXLqbh8GYx
- vmz5pT82Nmkrv7wlOnev46/ojiBOPiNa+pnGnkWVuhsZjqNU+NSRPy1H1oYiOGXsfotn
- 0f3KweDqe5whA8rcjlx6mNF4OUYV4Gcrc6eH+gaXcJpoWDoXRHbvBWRoiFDuPytIFLSP
- WsUg==
-X-Gm-Message-State: AOAM530ee/Q1j8MKKCnGQQDMrW88MExKfy/B3L6lg+8rWSiJ6c5IGpW9
- jnm3YyUYVWLn2ukSzRtEb69hn/YkqSyOWhTsh7c=
-X-Google-Smtp-Source: ABdhPJwvc46ikCv5xL8krtN+XasKLQNxgGwSb0z9zUHEbeOTG8SunshtMqXtCUQ8+ULgPYLiJCxGyKV39ZYg0zNwFbc=
-X-Received: by 2002:a05:6808:249:: with SMTP id
- m9mr4203881oie.120.1621538418645; 
- Thu, 20 May 2021 12:20:18 -0700 (PDT)
+ bh=jFT2vUjneyK4vqRQTSud440oIlDIOlBm9ntEGOINv5Y=;
+ b=J3dqYhzER5uWhzi+1os5ZXiWWLxTP9ZJG9X46axwnjCPZoUYNrh3wIhnj7E/yWlhJw
+ lStOqjT2APkWW2dWUZujB47VzLAXXxJCWanDmVpwY2xR/7rwpTzPf34AWj5ab0vBsY7l
+ IldvJQiEbKMHaaqaZ2hBv0nYc7YRcm5UW5ddTmwKoZ8nmM+FPbaUmQ6yjyY+Ui4BFjpn
+ Tg1shMi1vAEYmRxeT6677HY1cBkcL+HiyqbgKS2EJ+n8URyLEo48xK9WueRZUsp5szr1
+ fYckow1KjJoLRJ/T62U+KMUkQzc41C0LhSdPUgjtMrvZ+Ni1askK9prlZECVPCrRbWLh
+ d58g==
+X-Gm-Message-State: AOAM533MiDoCD3BMi7k75YKgSPH9MC8RWhQtF1XulOWCfjrPM4CdWahv
+ EoLgb4IbK7kwQvRW1CLF5nDRiNJluPoClddLc/g=
+X-Google-Smtp-Source: ABdhPJwJQXId/bdVgc0jHCEOn9JarUKc13A1Cej/AgWqhMN32NoS8pW18t/ZaSTqNE9XaYPco1cgGarYCI/JzluP2as=
+X-Received: by 2002:a4a:d543:: with SMTP id q3mr4945275oos.72.1621538460855;
+ Thu, 20 May 2021 12:21:00 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210520120248.3464013-1-lee.jones@linaro.org>
- <20210520120248.3464013-27-lee.jones@linaro.org>
-In-Reply-To: <20210520120248.3464013-27-lee.jones@linaro.org>
+ <20210520120248.3464013-30-lee.jones@linaro.org>
+In-Reply-To: <20210520120248.3464013-30-lee.jones@linaro.org>
 From: Alex Deucher <alexdeucher@gmail.com>
-Date: Thu, 20 May 2021 15:20:07 -0400
-Message-ID: <CADnq5_PaefTWkWnOPTJMTgL-zocXtB9wGnK30PiZG2iNAA=oOw@mail.gmail.com>
-Subject: Re: [PATCH 26/38] drm/amd/amdgpu/gmc_v10_0: Fix potential copy/paste
- issue
+Date: Thu, 20 May 2021 15:20:49 -0400
+Message-ID: <CADnq5_PjnKC8qRMY7+TGfi2mpOXpiF-0bkm6VfB9+aqgi3bWmA@mail.gmail.com>
+Subject: Re: [PATCH 29/38] drm/radeon/r100: Realign doc header with function
+ 'r100_cs_packet_parse_vline()'
 To: Lee Jones <lee.jones@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -78,14 +78,13 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Applied.  Thanks!
 
-Alex
-
 On Thu, May 20, 2021 at 8:03 AM Lee Jones <lee.jones@linaro.org> wrote:
 >
 > Fixes the following W=3D1 kernel build warning(s):
 >
->  drivers/gpu/drm/amd/amdgpu/gmc_v10_0.c:955: warning: expecting prototype=
- for gmc_v8_0_gart_fini(). Prototype was for gmc_v10_0_gart_fini() instead
+>  drivers/gpu/drm/radeon/r100.c:1423: warning: expecting prototype for r10=
+0_cs_packet_next_vline(). Prototype was for r100_cs_packet_parse_vline() in=
+stead
 >
 > Cc: Alex Deucher <alexander.deucher@amd.com>
 > Cc: "Christian K=C3=B6nig" <christian.koenig@amd.com>
@@ -98,23 +97,24 @@ On Thu, May 20, 2021 at 8:03 AM Lee Jones <lee.jones@linaro.org> wrote:
 > Cc: linaro-mm-sig@lists.linaro.org
 > Signed-off-by: Lee Jones <lee.jones@linaro.org>
 > ---
->  drivers/gpu/drm/amd/amdgpu/gmc_v10_0.c | 2 +-
+>  drivers/gpu/drm/radeon/r100.c | 2 +-
 >  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> diff --git a/drivers/gpu/drm/amd/amdgpu/gmc_v10_0.c b/drivers/gpu/drm/amd=
-/amdgpu/gmc_v10_0.c
-> index f02dc904e4cfe..105ed1bf4a88c 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/gmc_v10_0.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/gmc_v10_0.c
-> @@ -947,7 +947,7 @@ static int gmc_v10_0_sw_init(void *handle)
+> diff --git a/drivers/gpu/drm/radeon/r100.c b/drivers/gpu/drm/radeon/r100.=
+c
+> index fcfcaec25a9ef..3c4e7c15fd159 100644
+> --- a/drivers/gpu/drm/radeon/r100.c
+> +++ b/drivers/gpu/drm/radeon/r100.c
+> @@ -1406,7 +1406,7 @@ int r100_cs_parse_packet0(struct radeon_cs_parser *=
+p,
 >  }
 >
 >  /**
-> - * gmc_v8_0_gart_fini - vm fini callback
-> + * gmc_v10_0_gart_fini - vm fini callback
+> - * r100_cs_packet_next_vline() - parse userspace VLINE packet
+> + * r100_cs_packet_parse_vline() - parse userspace VLINE packet
+>   * @p:         parser structure holding parsing context.
 >   *
->   * @adev: amdgpu_device pointer
->   *
+>   * Userspace sends a special sequence for VLINE waits.
 > --
 > 2.31.1
 >
