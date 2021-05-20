@@ -2,57 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0262389F1A
-	for <lists+dri-devel@lfdr.de>; Thu, 20 May 2021 09:49:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 50E98389F25
+	for <lists+dri-devel@lfdr.de>; Thu, 20 May 2021 09:51:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 764F36EF31;
-	Thu, 20 May 2021 07:49:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B143F6EF3F;
+	Thu, 20 May 2021 07:51:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5F1176EF31
- for <dri-devel@lists.freedesktop.org>; Thu, 20 May 2021 07:49:47 +0000 (UTC)
-Received: from mail-wm1-f53.google.com ([209.85.128.53]) by
- mrelayeu.kundenserver.de (mreue011 [213.165.67.97]) with ESMTPSA (Nemesis) id
- 1M7sYM-1lnTBb1LBS-0053Cr for <dri-devel@lists.freedesktop.org>; Thu, 20 May
- 2021 09:49:45 +0200
-Received: by mail-wm1-f53.google.com with SMTP id
- f75-20020a1c1f4e0000b0290171001e7329so4602934wmf.1
- for <dri-devel@lists.freedesktop.org>; Thu, 20 May 2021 00:49:44 -0700 (PDT)
-X-Gm-Message-State: AOAM5326Igtw5FrokxUOE8MCaPntP8kB3S98jVXMwmD8z9KRkOaR0s8e
- 4DT3w/cdNWBfLkU/icOpJWU4wFcyJiHj2nLxMk4=
-X-Google-Smtp-Source: ABdhPJzTnFiyItuVXHf2Goa+uE3iwf9aQon2dCDtZRjZ/2Qcnq1b1x03TFmZZogoXxw8ZVwpVrjaamoTcjQg4uj+qBY=
-X-Received: by 2002:a7b:c849:: with SMTP id c9mr2699323wml.84.1621496984686;
- Thu, 20 May 2021 00:49:44 -0700 (PDT)
+Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com
+ [IPv6:2a00:1450:4864:20::243])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E31DC6EF38
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 May 2021 07:51:27 +0000 (UTC)
+Received: by mail-lj1-x243.google.com with SMTP id s25so18556051ljo.11
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 May 2021 00:51:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:in-reply-to:references
+ :mime-version; bh=gel51XWd9NtGUEe3j1eRY44VnFFOXWInaJv9QHx6M7w=;
+ b=fNit6Lrr6UHkH5PVK8T/6Ah6Gs7HUfduY8elrA+RFpNOcAXgMGoazUS/a1uT2acB95
+ Fp4LDkEhyUOYIVaaO0Lxi4RWDnrdApfwPxwdVcR6WNWf7o5/rvPUX87pqhMVlN/Mv1OI
+ LNkniyVIsn3YfLg/XBkKqSL0sNSMJDu5Ml1YiZZWNA3Ud1rQ6JBLySckSzSeB1rR2lDm
+ T1pCEyBT5qwv18zeeBxxomJ9CHGEb3aIvgG2y3lEd4ATTXGYrxNBf9o+UUEfdeJNqgL+
+ juiqMrYH7ZwchtO7UIBHYy3SpQKgp+G5x3S2Eh4Gdy3DBZ1Px40vrLqePEeE+1LaCTA0
+ UhJw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version;
+ bh=gel51XWd9NtGUEe3j1eRY44VnFFOXWInaJv9QHx6M7w=;
+ b=amXT/LD73mYXuLDYdXx5WLeI77mrV3YBeo4xSMIrFPncmsjUCComMKIb3HZ5o6vULX
+ +jODmHPXVaIdeDljKivR9DP5lI58+xDlgoYMLCjA2wXeNNj8vOSPZURLHS9/E01UTaST
+ hEJAK7GGAuDjPSliD+Ufr0m48x0tpi26ANJsqN0yygciREpRCOFx5p+tpmKbdrPE0crC
+ EMAz7MaPvUmuQ8oWGw3WwtxykHfbWBms8ec/6cVDUij+5c6rNuyDSXM1o4RplVzq1OLK
+ R0DSDB5tiaP1EIiCTzkQ31C4Cc/txkg4PKCCs/Io2f4ct5SXq/6GkiRyIFoVWG/Gy5ol
+ YmQg==
+X-Gm-Message-State: AOAM5338fClgtXyWVc5ow9cBIeJOeoZ5Sa/bhrZ+52xA5qGAN3knr737
+ d1rJ9IR7Oj1aSrUnuZcW50o=
+X-Google-Smtp-Source: ABdhPJw43dWKbFZOpyo4VLZTfLB5V+tT6sicTDhfmmin80XCaoGfB7qT0b2f28c8SXyJx7LTgn7o+w==
+X-Received: by 2002:a2e:7605:: with SMTP id r5mr2121015ljc.414.1621497086262; 
+ Thu, 20 May 2021 00:51:26 -0700 (PDT)
+Received: from eldfell ([194.136.85.206])
+ by smtp.gmail.com with ESMTPSA id p36sm216761lfa.227.2021.05.20.00.51.25
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 20 May 2021 00:51:25 -0700 (PDT)
+Date: Thu, 20 May 2021 10:51:15 +0300
+From: Pekka Paalanen <ppaalanen@gmail.com>
+To: Leandro Ribeiro <leandro.ribeiro@collabora.com>
+Subject: Re: [PATCH 2/2] drm/doc: document drm_mode_get_plane
+Message-ID: <20210520105115.78f49054@eldfell>
+In-Reply-To: <cb41184d-8625-698f-1cd6-5f3d6728debf@collabora.com>
+References: <20210428213651.55467-1-leandro.ribeiro@collabora.com>
+ <20210428213651.55467-3-leandro.ribeiro@collabora.com>
+ <20210506121003.4ab918bb@eldfell>
+ <cb41184d-8625-698f-1cd6-5f3d6728debf@collabora.com>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-References: <20210519120028.7350-1-songqiang@uniontech.com>
- <YKUBtiOTE7zJHAjI@casper.infradead.org>
- <1049640176.41531.1621490295842.JavaMail.xmail@localhost.localdomain>
-In-Reply-To: <1049640176.41531.1621490295842.JavaMail.xmail@localhost.localdomain>
-From: Arnd Bergmann <arnd@arndb.de>
-Date: Thu, 20 May 2021 09:48:29 +0200
-X-Gmail-Original-Message-ID: <CAK8P3a2Pt+e3fbfWxJru7O-Np9u2u-_cVZqd5xBejLSraFYALQ@mail.gmail.com>
-Message-ID: <CAK8P3a2Pt+e3fbfWxJru7O-Np9u2u-_cVZqd5xBejLSraFYALQ@mail.gmail.com>
-Subject: Re: Re: [PATCH] drivers/video/fbdev/core/fbmem.c: add pointer judgment
-To: =?UTF-8?B?5a6L5by6?= <songqiang@uniontech.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:6MHCwM0IqxuE7KVRA2Xba0jmaFdO8DSUjH/+EUwoTc8gdZJk7kV
- mehyYqsR6sQaqUaKUQ+McrL/2KZNg0sX+VGxsEy0H4TZVrV7WjO5o10Rnk5rN/6O7cEO+Tv
- Qf66jReE2i/4qvd7QvuCJP9fIdjC1zz413PHFVMmNRYpNLv9OSSLGHwmfCI1VK2B7Zq5EIV
- LXyfMjZ3BpHoXd/kV2rvg==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:QGa0eehsvTw=:lxH6YEj3LPpTGL3D+Qno4z
- w9KAZd/1uZ0cQGRXZd/zkMiwT6CR0Murb4hewg48GvObZ/rEjoX9S4AgeJZ5DjjWBqgq83D/m
- rgr5tr8tFIoB/BFwc8pVLiET4B2aO2/k2OhmeQp+PgJX/qajlbkd0TSNqpII9JzZ4IBMUEFHB
- MqS6lph1ALPO7ztnesBArbytqX6aeVDOmzHtgMPxoC55YZuEyp9zP21NzKA1FpRcdDxIWE3di
- yzyun4Tkr01zFJRQWHuZ7k8hCT3mQDUsGkG5qWK3QcxAzIXCD0iiHNw9R+66U39eVWjbg7bmL
- XeDiN6/MifAKcBm0etB+xLX0RHTm2lA+xa/p5T+k8m2z7nB3ylmpHH1yzNM/Mwx4eBP8FvKPH
- QYRiR84zG2G1f/lFQioTNqRAPK/rlwClYX1tqSGD/3chtYW+dOgZPfnXTWGxh1TyIvpZ/2zoK
- jROwL6CnmfAqa/6PdvNJXgsYfl4QHbUg9mV1j/uAR+KDpWtbyfMR/QzBLV8BGF0eSgKyNDsE/
- MEgeAs1CAuSJIAUPH3c1oVohFivXwRjgCckHUCHOEHw2p+FJdxglIpxOdjnJ5fUq8em+7zZ4Y
- JFgWPpheTN8DA0VT2DLjIoPTU2z3HJzGwp3iop+clXkbox5XVIUbfH6ppY6cABSPSEJJ119My
- HyYM=
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ boundary="Sig_/5BEvK1WAHi9T3VYJ397Np1v"; protocol="application/pgp-signature"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,58 +70,161 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: jgg <jgg@ziepe.ca>, linux-fbdev <linux-fbdev@vger.kernel.org>,
- "b.zolnierkie" <b.zolnierkie@samsung.com>,
- penguin-kernel <penguin-kernel@i-love.sakura.ne.jp>,
- linux-kernel <linux-kernel@vger.kernel.org>,
- Matthew Wilcox <willy@infradead.org>,
- "george.kennedy" <george.kennedy@oracle.com>,
- dri-devel <dri-devel@lists.freedesktop.org>, tzimmermann <tzimmermann@suse.de>,
- sam <sam@ravnborg.org>
+Cc: airlied@linux.ie, kernel@collabora.com, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
->  > On Wed, May 19, 2021 at 08:00:28PM +0800, songqiang wrote:
-> > Signed-off-by: songqiang <songqiang@uniontech.com>
-> From: "Matthew Wilcox <willy@infradead.org>"
-> > You need to explain:
+--Sig_/5BEvK1WAHi9T3VYJ397Np1v
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
+
+On Wed, 19 May 2021 10:30:40 -0300
+Leandro Ribeiro <leandro.ribeiro@collabora.com> wrote:
+
+> On 5/6/21 6:10 AM, Pekka Paalanen wrote:
+> > On Wed, 28 Apr 2021 18:36:51 -0300
+> > Leandro Ribeiro <leandro.ribeiro@collabora.com> wrote:
+> >  =20
+> >> Add a small description and document struct fields of
+> >> drm_mode_get_plane.
+> >>
+> >> Signed-off-by: Leandro Ribeiro <leandro.ribeiro@collabora.com> =20
+> >=20
+> > Hi,
+> >=20
+> > thanks a lot for revising these.
+> >  =20
+> >> ---
+> >>  include/uapi/drm/drm_mode.h | 22 ++++++++++++++++++++++
+> >>  1 file changed, 22 insertions(+)
+> >>
+> >> diff --git a/include/uapi/drm/drm_mode.h b/include/uapi/drm/drm_mode.h
+> >> index a5e76aa06ad5..8fa6495cd948 100644
+> >> --- a/include/uapi/drm/drm_mode.h
+> >> +++ b/include/uapi/drm/drm_mode.h
+> >> @@ -312,16 +312,38 @@ struct drm_mode_set_plane {
+> >>  	__u32 src_w;
+> >>  };
+> >>
+> >> +/**
+> >> + * struct drm_mode_get_plane - Get plane metadata.
+> >> + *
+> >> + * Userspace can perform a GETPLANE ioctl to retrieve information abo=
+ut a
+> >> + * plane.
+> >> + */
+> >>  struct drm_mode_get_plane {
+> >> +	/** @plane_id: Object ID of the plane. */ =20
+> >=20
+> > This is an "in" field, right?
+> >=20
+> > "in" meaning that userspace sets it to the ID of the plane it wants
+> > information on.
+> >=20
+> > "out" field is a field written by the kernel as a response.
+> >=20
+> > I'm not sure if the kernel has a habit of documenting these, because we
+> > use libdrm to abstract this so users do not need to care, but I think
+> > it would be nice.
+> >  =20
+>=20
+> In a quick look, I couldn't find anything. But I can change the phrasing
+> to the following:
+>=20
+> "@plane_id: Object ID of the plane whose information should be
+> retrieved. IN field, set by userspace."
+
+I think "set by userspace" or "set by caller" would be enough.
+
+
+> >>  	__u32 plane_id;
+> >>
+> >> +	/** @crtc_id: Object ID of the current CRTC. */
+> >>  	__u32 crtc_id;
+> >> +	/** @fb_id: Object ID of the current fb. */
+> >>  	__u32 fb_id;
+> >>
+> >> +	/**
+> >> +	 * @possible_crtcs: Bitmask of CRTC's compatible with the plane. CRT=
+C's
+> >> +	 * are created and they receive an index, which corresponds to their
+> >> +	 * position in the bitmask. CRTC with index 0 will be in bit 0, and =
+so
+> >> +	 * on. To learn how to find out the index of a certain CRTC, please =
+see
+> >> +	 * :ref:`crtc_index`. =20
+> >=20
+> > This could be shortened to something like bit N corresponds to CRTC
+> > index N, and make "CRTC index N" a hyperlink.
+> >  =20
+>=20
+> Nice, I'll apply this change.
+>=20
+> >> +	 */
+> >>  	__u32 possible_crtcs;
+> >> +	/** @gamma_size: Number of entries of the legacy gamma lookup table.=
+ */
+> >>  	__u32 gamma_size;
+> >>
+> >> +	/** @count_format_types: Number of formats. */
+> >>  	__u32 count_format_types;
+> >> +	/**
+> >> +	 * @format_type_ptr: Pointer to ``__u32`` array of formats that are
+> >> +	 * supported by the plane. These formats do not require modifiers.
+> >> +	 */
+> >>  	__u64 format_type_ptr; =20
+> >=20
+> > The count/ptr fields have an interesting usage pattern, which I suppose
+> > is common for all DRM ioctls. Makes me wonder if it should be documente=
+d.
+> >=20
+> > AFAIU, count is in+out field: when set to 0, the kernel uses it to
+> > return the count needed. Then userspace allocates space and calls the
+> > ioctl again with the right count and ptr set to point to the allocated
+> > array of count elements. This is so that kernel never allocates memory
+> > on behalf of userspace for the return data, making things much simpler
+> > at the cost of maybe needing to call the ioctl twice to first figure
+> > out long the array should be.
+> >=20
+> > This can be seen in libdrm code for drmModeGetPlane().
 > >
-> > - Why you think this patch is needed
-> > - Did you observe a problem at runtime?
-> > - Is this the output from some checking tool?
-> > - Why this is the right way to address the problem
->
-On Thu, May 20, 2021 at 7:58 AM =E5=AE=8B=E5=BC=BA <songqiang@uniontech.com=
-> wrote:
->
-> I find null pointer bug when I debug the kernel of loongson=EF=BC=8CI thi=
-nk the function fb_set_suspend()
-> add pointer judgment will more friendly.
+> > There is certainly no point in explaining all that here, that is too
+> > much. But if there was a way to annotate the count member as in+out,
+> > that would be nice. And the ptr member as "in".
+> >  =20
+>=20
+> This is documented in the description of struct drm_mode_get_connector:
+>=20
+> https://www.kernel.org/doc/html/latest/gpu/drm-uapi.html#c.drm_mode_get_c=
+onnector
+>=20
+> Would be enough to have something similar in struct drm_mode_get_plane?
 
-When replying to emails on the list, please remember
-
-- avoid top-posting, see https://git-send-email.io/top-posting.html
-- use plain text email, html replies get dropped by many mailing lists.
-
-The information from your reply should be part of the patch description whe=
-n
-you send a patch, see
-https://www.kernel.org/doc/html/v4.17/process/submitting-patches.html
+That would be really nice!
 
 
-> [  102.011018] Call Trace:
->
-> [  102.013443] [<ffffffff81068e10>] fb_set_suspend+0x50/0x80
-> [  102.018819] [<ffffffffc0061aa0>] loongson_drm_suspend+0x1a0/0x340 [loo=
-ngson]
-> [  102.025827] [<ffffffffc0061c58>] loongson_pmops_freeze+0x18/0x40 [loon=
-gson]
-> [  102.032748] [<ffffffff81008fd4>] pci_pm_freeze+0x94/0x240
-> [  102.038114] [<ffffffff815377e0>] dpm_run_callback.isra.5+0x20/0x140
-> [  102.044341] [<ffffffff81539608>] __device_suspend+0x2c8/0x740
+Thanks,
+pq
 
-It looks like the check would actually belong into the loongson_drm driver.
-The driver is not upstream yet, but I assume you have the source for it, so
-try to fix the bug there and send the patch to the owners of that driver.
+--Sig_/5BEvK1WAHi9T3VYJ397Np1v
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
 
-       Arnd
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmCmFPMACgkQI1/ltBGq
+qqdj2RAAtDXkDaI9+uuQRaynV0Nq9XQNJOUgPu/0K5m3vvPe6l5b6QqryrJYRhYr
+t3O/TpcwLmucJ2NGyY+Nyetbbya1xstIG+LT735MOrzEFCN55P0px5nxU2zYpqD2
+PDVa0txi6OZYZDMd4p/+Ox3XJymCOYg85zrxzuCwq3jxC4egiz9ZZ0BuDZP1KGau
+K5wBrWYtj++TALdvjdS5NzlrXRu33VRFlXLUz0Qg9ptzSNi3N2Xz9Xt1uY2ZIGme
+S+NnIqb3ETP5Re1s8xFxFbaSNwxleAKUaCPdv4c39qRWXRXEdNL8aLRGp0CGUyhI
+a52yQKqxMxru3XvDqdcx30l3kEZDbnv7MBF0e3f/haM5MuFdl4Mc2DiGigYXciIj
+9/hlmkPM6wVmd4OCqumvFulpDVLfcGfSSyoc2bffXZoXOU7L1ETV6LoUkvxXFtGQ
+kJn6O8+/T4izcDnc9s4xyKAzw7tDaXnv5s9Ee1xLsM4CR0ufxAz4WArrSncpmWhK
+GYh5krms+qBb1gVRuvKjt0k2ht6i85/yN2x8wtJ4i6sX7jC90PRQWFq2PMcnpiLh
+9JM7bSPah9Zc4FyP2PfNBMX/ErVlvhx11sPMMnXY4AgTf/EqTZr9VT0ug9JqusHy
+e8+rIANIN25zRfhi08BwM9+2XiHhTCoxtrnR6h/HoGmDGIMKjUg=
+=M3EE
+-----END PGP SIGNATURE-----
+
+--Sig_/5BEvK1WAHi9T3VYJ397Np1v--
