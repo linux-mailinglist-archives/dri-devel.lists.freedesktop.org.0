@@ -1,56 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97E4238AD52
-	for <lists+dri-devel@lfdr.de>; Thu, 20 May 2021 14:03:04 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C0A338AD51
+	for <lists+dri-devel@lfdr.de>; Thu, 20 May 2021 14:03:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 141276F40C;
-	Thu, 20 May 2021 12:02:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 478E76F40F;
+	Thu, 20 May 2021 12:02:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com
- [IPv6:2a00:1450:4864:20::436])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5D6BC6F405
- for <dri-devel@lists.freedesktop.org>; Thu, 20 May 2021 12:02:54 +0000 (UTC)
-Received: by mail-wr1-x436.google.com with SMTP id p7so13652214wru.10
- for <dri-devel@lists.freedesktop.org>; Thu, 20 May 2021 05:02:54 -0700 (PDT)
+Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com
+ [IPv6:2a00:1450:4864:20::433])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 713666F409
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 May 2021 12:02:55 +0000 (UTC)
+Received: by mail-wr1-x433.google.com with SMTP id z17so17369632wrq.7
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 May 2021 05:02:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Gorhgp6A/JFLcLopPzVqEwuJgKOF4GUxJ0EbzsMlIrw=;
- b=DXAd2Cbmarjx32hRY0bCPUAuvAnlgW3AWRT/xVZNr8kCPXSByJXcsb+WRz3G5GS+pQ
- thEIPZ5g5m6vLshkZQvxmcGaXjvcI4oZhUtocbfMXaVxxNNNPOZLvWzliVMnTrLFje5y
- G5dTLLV2xex/mlTG+UDIVIUV97SCmZ4aTLqOKkYlrDpPyTTtdtmjdUOF3D45cdnog6rR
- Hr2z+K1bhuRkuFpXBZNOKXPUGzEF1Met2wSoYe0w0r5nfkK2GWYjVBM/Xks/ynTXf8/m
- y4eBvtnrSb0ioUWBKUvEYWqIzeaB6yLlLI55MpZUZp31h8lYD0AD8x3UTdQZ8NsXdOdI
- F4/w==
+ bh=M9bRhyWuFVpQrG3EHXZKnG7o8XLPNhfRhn1oXXk6SrQ=;
+ b=QaDnKQSjqkn4QePQ0kTBrTEKLV+PNzIkhCzxkhxaW35b4yBqqXr3JAf9xItUI0vKWe
+ Js3oOcCnYQiz4GqAqe9hxOEemuXQTEDmd/znBNGSK59deuLoC7nthIUoc77gmSCawcJ8
+ 320dOYQ0xsXbI26zQTnXM/IQwZp1H5ab4Ry+t+x7/JIFfzx3oWi1H39yjMALjl2izvFO
+ 4LnRKWtHelBgXlRfdi7r8PnDSlhr8TIPOav+gTWfognB4aetD9mqEwjrz3m7b2vMRXCb
+ RDe+COrlBT2sTQqzbMwIo/xev3HvQp7tpU4xct1F1FwqKvRwUFm81cxoIs0rIbIlc5gD
+ ZNDw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Gorhgp6A/JFLcLopPzVqEwuJgKOF4GUxJ0EbzsMlIrw=;
- b=Vs44x+zLjdVJPKjsaCqfYH60o+0E6VvzRqguXLoEJhRDXrXzy6oDRXCDc/YqgZXBR6
- eW5XyfgqHEBLVpiC1gQ5sqtKHPBEsy/+nouLuK5KZAT8wpabu3wH4//l1HqOtCfyuLeq
- TJFkB6uUXpCG1XJh3X+qSUbVSQLlK0CXEYHVOuVp2vGFydyZzneoUeC4glKcmMOtVIxb
- 7XPeRukMpLiSkUjyFOLOAFHai64jShHrPQb3oIS7kpz50uXeol730vU1ySkM15OvHzUt
- VXg5QNAB2XkfJpXpwknhpAKtpbs8QtmwPxPvgZ+1b+/T4K+1+W0Tm9zMI6WYa297PW8b
- vg4w==
-X-Gm-Message-State: AOAM530dvjMaCs/AtrgEwWCs19k2nL8x9vK3ces/JkSpc3H8aHYeiGau
- rGFt3ETsTtD2yjMGfAAapmeGKQ==
-X-Google-Smtp-Source: ABdhPJzh4BHbXGyx8cGFDsWQ6g9jPqTsOOVJGdjgVjcIBXa/i0FJFZTo8q2m6mCyS360dD9BWrucRA==
-X-Received: by 2002:a5d:5382:: with SMTP id d2mr3785609wrv.367.1621512173034; 
- Thu, 20 May 2021 05:02:53 -0700 (PDT)
+ bh=M9bRhyWuFVpQrG3EHXZKnG7o8XLPNhfRhn1oXXk6SrQ=;
+ b=W467lQuZgol+Odg8WeDfAAq9uoETjqD7tlJHKAvyzo743y4wsQMO4fU4SrqLuuCjSc
+ ih61b1ZhM/4hU+2CtvljRFRBU0g42ph8AXREKo4Cs/dRXco6ULWVDrdw7b0BO1C8iw9m
+ 2oUNf9EPnFVEWEK7K+llgkdMPhDVDpBxqLAmvdsawuVSACrk5W0DzxR380hsKytc3dpr
+ 3FeS3a9miuFEznhj2TiwjXg/chzqYYFxK0/0tiAh6UKYVu5F5LhVTlL5KKfYfzAgxvnl
+ LZHpPjeXCr+55ss7n3QTFKh/49srdNnw37z38/fv1WeHG/BA3xZzCVpKSHwjovoVk08A
+ UKbA==
+X-Gm-Message-State: AOAM5309l2Fc78EvkrePggnwM9VoSFq3M2opbGkgSI8sioOdTw3FUgj4
+ mcrdc44fI4X83Kef/o3MKLtD6Q==
+X-Google-Smtp-Source: ABdhPJzX6gO6eOjIxe2DAvFcz7ewe9ss6bBrbbFuU+mLxlW7zGh+iN0tC3I42VZoxeDplwiMFfSTxQ==
+X-Received: by 2002:adf:9cc1:: with SMTP id h1mr3818529wre.135.1621512174148; 
+ Thu, 20 May 2021 05:02:54 -0700 (PDT)
 Received: from dell.default ([91.110.221.215])
- by smtp.gmail.com with ESMTPSA id j10sm2886332wrt.32.2021.05.20.05.02.52
+ by smtp.gmail.com with ESMTPSA id j10sm2886332wrt.32.2021.05.20.05.02.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 20 May 2021 05:02:52 -0700 (PDT)
+ Thu, 20 May 2021 05:02:53 -0700 (PDT)
 From: Lee Jones <lee.jones@linaro.org>
 To: lee.jones@linaro.org
-Subject: [PATCH 01/38] drm/mediatek/mtk_disp_color: Strip incorrect doc and
- demote header
-Date: Thu, 20 May 2021 13:02:11 +0100
-Message-Id: <20210520120248.3464013-2-lee.jones@linaro.org>
+Subject: [PATCH 02/38] drm/mediatek/mtk_disp_gamma: Strip and demote
+ non-conformant kernel-doc header
+Date: Thu, 20 May 2021 13:02:12 +0100
+Message-Id: <20210520120248.3464013-3-lee.jones@linaro.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210520120248.3464013-1-lee.jones@linaro.org>
 References: <20210520120248.3464013-1-lee.jones@linaro.org>
@@ -77,9 +77,10 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Fixes the following W=1 kernel build warning(s):
 
- drivers/gpu/drm/mediatek/mtk_disp_color.c:45: warning: Function parameter or member 'clk' not described in 'mtk_disp_color'
- drivers/gpu/drm/mediatek/mtk_disp_color.c:45: warning: Function parameter or member 'regs' not described in 'mtk_disp_color'
- drivers/gpu/drm/mediatek/mtk_disp_color.c:45: warning: Function parameter or member 'cmdq_reg' not described in 'mtk_disp_color'
+ drivers/gpu/drm/mediatek/mtk_disp_gamma.c:42: warning: Function parameter or member 'clk' not described in 'mtk_disp_gamma'
+ drivers/gpu/drm/mediatek/mtk_disp_gamma.c:42: warning: Function parameter or member 'regs' not described in 'mtk_disp_gamma'
+ drivers/gpu/drm/mediatek/mtk_disp_gamma.c:42: warning: Function parameter or member 'cmdq_reg' not described in 'mtk_disp_gamma'
+ drivers/gpu/drm/mediatek/mtk_disp_gamma.c:42: warning: Function parameter or member 'data' not described in 'mtk_disp_gamma'
 
 Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>
 Cc: Philipp Zabel <p.zabel@pengutronix.de>
@@ -91,24 +92,25 @@ Cc: linux-mediatek@lists.infradead.org
 Cc: linux-arm-kernel@lists.infradead.org
 Signed-off-by: Lee Jones <lee.jones@linaro.org>
 ---
- drivers/gpu/drm/mediatek/mtk_disp_color.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ drivers/gpu/drm/mediatek/mtk_disp_gamma.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_disp_color.c b/drivers/gpu/drm/mediatek/mtk_disp_color.c
-index 63f411ab393b7..6f4c80bbc0eb6 100644
---- a/drivers/gpu/drm/mediatek/mtk_disp_color.c
-+++ b/drivers/gpu/drm/mediatek/mtk_disp_color.c
-@@ -30,9 +30,8 @@ struct mtk_disp_color_data {
- 	unsigned int color_offset;
+diff --git a/drivers/gpu/drm/mediatek/mtk_disp_gamma.c b/drivers/gpu/drm/mediatek/mtk_disp_gamma.c
+index 3ebf91e0ab412..3a5815ab40795 100644
+--- a/drivers/gpu/drm/mediatek/mtk_disp_gamma.c
++++ b/drivers/gpu/drm/mediatek/mtk_disp_gamma.c
+@@ -29,10 +29,8 @@ struct mtk_disp_gamma_data {
+ 	bool has_dither;
  };
  
 -/**
 +/*
-  * struct mtk_disp_color - DISP_COLOR driver structure
-- * @ddp_comp: structure containing type enum and hardware resources
-  * @crtc: associated crtc to report irq events to
-  * @data: platform colour driver data
+  * struct mtk_disp_gamma - DISP_GAMMA driver structure
+- * @ddp_comp - structure containing type enum and hardware resources
+- * @crtc - associated crtc to report irq events to
   */
+ struct mtk_disp_gamma {
+ 	struct clk *clk;
 -- 
 2.31.1
 
