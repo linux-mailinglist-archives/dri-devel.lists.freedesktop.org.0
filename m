@@ -1,46 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6312389A64
-	for <lists+dri-devel@lfdr.de>; Thu, 20 May 2021 02:19:19 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 73B3E389A74
+	for <lists+dri-devel@lfdr.de>; Thu, 20 May 2021 02:25:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C47496E2E1;
-	Thu, 20 May 2021 00:19:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0415F6E4BA;
+	Thu, 20 May 2021 00:25:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ozlabs.org (ozlabs.org [IPv6:2401:3900:2:1::2])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6D8246E112;
- Thu, 20 May 2021 00:19:15 +0000 (UTC)
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
- SHA256) (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4Flr2R3dkPz9sWF;
- Thu, 20 May 2021 10:19:10 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=canb.auug.org.au;
- s=201702; t=1621469952;
- bh=CyvXAwtCsY9kS6t3E/YGwieNDin0H6EWJN+FUPoEw60=;
- h=Date:From:To:Cc:Subject:From;
- b=EPhm4xsDbtZWuJ4UutZHdBqVZhbjfJZcZlk75xXnoL/Ou5uIJligJUloaAXBF/UWR
- pM+HJ0AL1/ec+sWbxYdQB0p9E/X34aPSZFLwygjPX9g3l+Ra/z02k/F1Exmhvr4Xph
- ztjW7RacsU3XDSifXGEJsXJLAMxkZ29dnQzJxLzBauqX/rA5VqEBvC6X2rb1Ubrchs
- eLesIt0H5j3w321piyPjjqEVJhRSYoIjBmi+R1clYBkqpdg/IN6Xw0RvdIKlfc/+nW
- vMXq1V4ODfvPABf3/4YVVLbAcxeKkoBmD06TvyxQrCCv3TI6xaZl+QFVmwlUI0ctpP
- xByRD7BF0G6cw==
-Date: Thu, 20 May 2021 10:19:10 +1000
-From: Stephen Rothwell <sfr@canb.auug.org.au>
-To: Daniel Vetter <daniel.vetter@ffwll.ch>, Jani Nikula
- <jani.nikula@linux.intel.com>, Joonas Lahtinen
- <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Intel Graphics <intel-gfx@lists.freedesktop.org>, DRI
- <dri-devel@lists.freedesktop.org>, Linus Torvalds
- <torvalds@linux-foundation.org>
-Subject: linux-next: manual merge of the drm-intel tree with Linus' tree
-Message-ID: <20210520101910.26606a78@canb.auug.org.au>
+Received: from mail-pl1-x630.google.com (mail-pl1-x630.google.com
+ [IPv6:2607:f8b0:4864:20::630])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 867876E33F
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 May 2021 00:25:21 +0000 (UTC)
+Received: by mail-pl1-x630.google.com with SMTP id z4so5812846plg.8
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 May 2021 17:25:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=HnUlRSyazCKo9xmvcnsazZcLuVKlbVM14ntknUcnp7c=;
+ b=lppee0aykW6DYsEq7WnlEJbxTzvXzKJZXA4Qci82EhIxzNrqkndVPltAPRRrIfjq4z
+ Jgc1SlTGuIp/GPyI+PPl8PhKEreGx4dRNFDMme/gHvgkY9T4MFHnMK5bg6FWiXoVn/M2
+ /uaDGv8cnGuege3fZ3SZLURqHSRmzAZBFQ0e4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=HnUlRSyazCKo9xmvcnsazZcLuVKlbVM14ntknUcnp7c=;
+ b=pA+1IQ0LdwqVKmasq19zyOyJeeuwtViCKJVhdT+3ue0K7hDkwvI/NqHdaZFKXbpGIm
+ 8RpeVdKkf0H3mfZZhUXkcuVth+5DqLkOprL2IF6E/AD5iJlPOd8dXbdMJqyKadhPoQ4J
+ 8Bu5kxNrV5Ec86e7kNwCRBUm5Y7PWx/SGlQFmn2+FszB+dMjGhnKuDrIOCxweh90RuC2
+ d0rfbL4Uegj9BsAhsMolD5G4QTxuqugC3Nq4Agzsy+6Z4qk6SAbH5I04iLpSdKg8N2YI
+ gkFiX2AR0kAnoWykmRDCX+u+dURylrHxjnEY4oN4PhjG2j8pbG8czwbgzoGKiS4FfjQ2
+ R1Pw==
+X-Gm-Message-State: AOAM532oKPOMdQd44iQipvWjBQoQxXVwJj3fhcoXP0bcYdn5IsckqLd4
+ sSsu3UuOxdaLB1Js9eXd8M95VI0Xj/emqA==
+X-Google-Smtp-Source: ABdhPJwC3IwDI2gFp43UHpOegES+CCjEkSMmtGwVPcBzLAlKbgcBury8x7ZAosf/PakNL9RQbOsijQ==
+X-Received: by 2002:a17:902:d4c3:b029:ee:ae62:9fb7 with SMTP id
+ o3-20020a170902d4c3b02900eeae629fb7mr2675752plg.8.1621470321058; 
+ Wed, 19 May 2021 17:25:21 -0700 (PDT)
+Received: from smtp.gmail.com ([2620:15c:202:201:200b:db75:4e6c:8b96])
+ by smtp.gmail.com with ESMTPSA id i14sm398904pfk.130.2021.05.19.17.25.20
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 19 May 2021 17:25:20 -0700 (PDT)
+From: Stephen Boyd <swboyd@chromium.org>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: [PATCH 0/7] component: Make into an aggregate bus
+Date: Wed, 19 May 2021 17:25:12 -0700
+Message-Id: <20210520002519.3538432-1-swboyd@chromium.org>
+X-Mailer: git-send-email 2.31.1.751.gd2f1c929bd-goog
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_//x1luGM18fkh2=2Mp.I+b59";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,79 +63,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux Next Mailing List <linux-next@vger.kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- =?UTF-8?B?Sm9zw6k=?= Roberto de Souza <jose.souza@intel.com>,
- James Ausmus <james.ausmus@intel.com>
+Cc: Saravana Kannan <saravanak@google.com>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Russell King <rmk+kernel@arm.linux.org.uk>, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_//x1luGM18fkh2=2Mp.I+b59
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+This series is from discussion we had on reordering the device lists for
+drm shutdown paths[1]. I've introduced an 'aggregate' bus that we put
+the aggregate device onto and then we probe the device once all the
+components are probed and call component_add(). The probe/remove hooks
+are where the bind/unbind calls go, and then a shutdown hook is added
+that can be used to shutdown the drm display pipeline at the right time.
 
-Hi all,
+This works for me on my sc7180 board, but I'm currently struggling with
+the last patch where we migrate the msm driver. It runs into a runtime
+PM problem where the parent device isn't runtime PM enabled yet. I'm
+still trying to figure out a clean solution there. Moving runtime PM
+around breaks boot and I think that's because the power domain is off.
 
-Today's linux-next merge of the drm-intel tree got a conflict in:
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>
+Cc: Rob Clark <robdclark@gmail.com>
+Cc: Russell King <rmk+kernel@arm.linux.org.uk>
+Cc: Saravana Kannan <saravanak@google.com>
 
-  drivers/gpu/drm/i915/i915_mm.c
+[1] https://lore.kernel.org/r/20210508074118.1621729-1-swboyd@chromium.org
 
-between commit:
+Stephen Boyd (7):
+  component: Drop 'dev' argument to component_match_realloc()
+  component: Rename 'dev' to 'parent'
+  component: Introduce struct aggregate_device
+  component: Introduce the aggregate bus_type
+  component: Use dev.parent instead of adev->parent
+  component: Move struct aggregate_device out to header file
+  drm/msm: Migrate to aggregate driver
 
-  293837b9ac8d ("Revert "i915: fix remap_io_sg to verify the pgprot"")
+ drivers/base/component.c      | 614 ++++++++++++++++++++++------------
+ drivers/gpu/drm/msm/msm_drv.c |  47 +--
+ include/linux/component.h     |  73 +++-
+ 3 files changed, 487 insertions(+), 247 deletions(-)
 
-from Linus' tree and commit:
 
-  ec279384c6a0 ("drm/i915: Initialize err in remap_io_sg()")
+base-commit: 6efb943b8616ec53a5e444193dccf1af9ad627b5
+-- 
+https://chromeos.dev
 
-from the drm-intel tree.
-
-I fixed it up (see below) and can carry the fix as necessary. This
-is now fixed as far as linux-next is concerned, but any non trivial
-conflicts should be mentioned to your upstream maintainer when your tree
-is submitted for merging.  You may also want to consider cooperating
-with the maintainer of the conflicting tree to minimise any particularly
-complex conflicts.
-
---=20
-Cheers,
-Stephen Rothwell
-
-diff --cc drivers/gpu/drm/i915/i915_mm.c
-index 9a777b0ff59b,25576fa73ff0..000000000000
---- a/drivers/gpu/drm/i915/i915_mm.c
-+++ b/drivers/gpu/drm/i915/i915_mm.c
-@@@ -82,13 -46,8 +82,13 @@@ int remap_io_sg(struct vm_area_struct *
-  		unsigned long addr, unsigned long size,
-  		struct scatterlist *sgl, resource_size_t iobase)
-  {
- -	unsigned long pfn, len, remapped =3D 0;
- +	struct remap_pfn r =3D {
- +		.mm =3D vma->vm_mm,
- +		.prot =3D vma->vm_page_prot,
- +		.sgt =3D __sgt_iter(sgl, use_dma(iobase)),
- +		.iobase =3D iobase,
- +	};
-- 	int err;
-+ 	int err =3D 0;
- =20
-  	/* We rely on prevalidation of the io-mapping to skip track_pfn(). */
-  	GEM_BUG_ON((vma->vm_flags & EXPECTED_FLAGS) !=3D EXPECTED_FLAGS);
-
---Sig_//x1luGM18fkh2=2Mp.I+b59
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmClqv4ACgkQAVBC80lX
-0Gx8rgf/fSYYr/Ro3uJFgGbnX2mFMuvsbi+Xj2mZk67meSrj/6/9Og9vGYkA3+IM
-dzt1XqDdBbzWjvzKmztfsOvV8wcbdiQEKxKekUt7DsWi3aOZX+fiBBseXn8UHLE7
-GTgRv9vvcahtF0AEaJ1D7kuOIFfDCHSSSc+Kqnq1TZ/t1TaIvAmLEziKqvK8mH22
-VNo4G0Dg5H0gDKj6LxNDtKjnt44Iq/2As4RYRUqbh+VW/CVNAwFwYcD/3Wdawpny
-ZaLMlfzisQuORMaA14xmTlqiWZf5+lIcjvzlYs1jByzcDFh01nekYlFUnG39QLnO
-kau0Md6k/yQvicUoe4o3CB7MtdcdEw==
-=kS7t
------END PGP SIGNATURE-----
-
---Sig_//x1luGM18fkh2=2Mp.I+b59--
