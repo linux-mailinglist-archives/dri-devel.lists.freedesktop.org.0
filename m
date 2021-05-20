@@ -1,54 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B524338B1C6
-	for <lists+dri-devel@lfdr.de>; Thu, 20 May 2021 16:31:05 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C9AC38B23A
+	for <lists+dri-devel@lfdr.de>; Thu, 20 May 2021 16:50:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4F0246F45A;
-	Thu, 20 May 2021 14:31:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B67336F487;
+	Thu, 20 May 2021 14:50:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from netline-mail3.netline.ch (mail.netline.ch [148.251.143.180])
- by gabe.freedesktop.org (Postfix) with ESMTP id 661E36F45F
- for <dri-devel@lists.freedesktop.org>; Thu, 20 May 2021 14:31:01 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by netline-mail3.netline.ch (Postfix) with ESMTP id 2C09D20201C;
- Thu, 20 May 2021 16:31:00 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at netline-mail3.netline.ch
-Received: from netline-mail3.netline.ch ([127.0.0.1])
- by localhost (netline-mail3.netline.ch [127.0.0.1]) (amavisd-new, port 10024)
- with LMTP id 7BmQALa4TkK6; Thu, 20 May 2021 16:30:59 +0200 (CEST)
-Received: from thor (24.99.2.85.dynamic.wline.res.cust.swisscom.ch
- [85.2.99.24])
- by netline-mail3.netline.ch (Postfix) with ESMTPA id C01E020201A;
- Thu, 20 May 2021 16:30:59 +0200 (CEST)
-Received: from localhost ([::1]) by thor with esmtp (Exim 4.94.2)
- (envelope-from <michel@daenzer.net>)
- id 1ljjhS-0010zu-HC; Thu, 20 May 2021 16:30:58 +0200
-To: Daniel Vetter <daniel@ffwll.ch>
-References: <fee06c2d-27fb-1af4-6222-8f277b36c951@gmail.com>
- <CAKMK7uHLipx_oH-s5PB6pUUZ_JXCyciaY7sDLfK__-2fvSPCKA@mail.gmail.com>
- <f2eb6751-2f82-9b23-f57e-548de5b729de@gmail.com>
- <CAKMK7uHdsGjADQ9zwgrYsuhHdxFGkuH--DdOsaqej6OD1AbX-w@mail.gmail.com>
- <CAOFGe97FDc7Y9APymQQZZMApDXsJkbcS0N5jh+3s-w-Ligipug@mail.gmail.com>
- <14524566-8854-4bc0-9f70-b7219c9fccfc@daenzer.net>
- <CAOFGe96VttW2VzAnx13ZXLBGcEDJMehGuOFifcr+pcbEOa-Brw@mail.gmail.com>
- <6f3e2628-7b39-417c-3bd2-c837c5367458@daenzer.net>
- <CAKMK7uFMQGth19OjWmeNGTeVFoAqxK2tYXYrvme+NuCSNLxLUQ@mail.gmail.com>
- <7cbba7b7-d7e5-9c76-c747-4e39542268a2@daenzer.net>
- <YKZvx0UXYnJrfVw4@phenom.ffwll.local>
-From: =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel@daenzer.net>
-Subject: Re: [RFC] Add DMA_RESV_USAGE flags
-Message-ID: <9fcd6de3-a1f3-f7f8-e6c8-c7d69c18fad0@daenzer.net>
-Date: Thu, 20 May 2021 16:30:58 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.0
+Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com
+ [IPv6:2a00:1450:4864:20::42b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AACC46F479;
+ Thu, 20 May 2021 14:50:23 +0000 (UTC)
+Received: by mail-wr1-x42b.google.com with SMTP id i17so17949209wrq.11;
+ Thu, 20 May 2021 07:50:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=Pw/S3DhRfs9hqIwXkjoQ53ij2Leive6HtbA3MFyHCVA=;
+ b=hwiIauTkRs1gkN7GptgkaSNYGZrP3Ui4s0V1lP3VcpU9RdwFWgPVtzMNlwAMoyPI9s
+ I3PU2aWE4CfRaH9vhiYZHL4ZGUUoS8qUrgEV10VObwtOqCMXgORXcqrLFvBKxrSZjk7U
+ Qy1ReiQyV5LNQNzkjF6irBDS4DxFx32SHBvWepatsCspmxetBEaXfREFdmHe269HmmRt
+ v/p+fLWYleQBkV2+rMjMpiJGHWoFBON/jYuJop49t+TmRKFFYAZccBHEeboTIKls3dmz
+ Lu25yodi2wA30N77koIcqpHBweSntl6WcktpsTVQQkL4mmoicBJglBDbb9I8RA0NJFLq
+ oLrg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=Pw/S3DhRfs9hqIwXkjoQ53ij2Leive6HtbA3MFyHCVA=;
+ b=VrbGW+TX+zUZTS3rUKu1N6FNRmt79451iqTmW++q1oU9satUzGXSjeFtLidGoqjCth
+ L+iC8c5zoW6ynoWyNh1Lz7SF5UN2jUOoFo1MNzx+KxFEo0Xi/AS9oVwG4tQItWnVkdjQ
+ DNoimclPQ8dM19c4PqetmWVpOc7sVbOMrF4q3pvZ8W6LvveIMQOC3UyZJLRcsLxnJHIk
+ G5m9um64BRu0GSg4S56q2keKPjjdqMMdRP8myvZlO3NnAS+A6G+d9MuPiLwrq9khtHSF
+ JcSe+FdDLGIqTeMyTUlv68+YX4oIv2pIBuHDD8lsZfVbIcjmHng7mUrqRrljpQy1TFQy
+ bQKw==
+X-Gm-Message-State: AOAM533LwxE/eW3AWH0yrZ+v4aIcd+rwSML0gJVSE0L2Nx5BGV8REOPs
+ FJG2Cb2hikhjCqo8xjIlr08kvVg+EK4msbu9Lro=
+X-Google-Smtp-Source: ABdhPJyqpa5z8S7zPqUU/Sw+yjCc4qC8hKSJNQRRZDc71DjdMxDOwRF7Ke51/NMtAhuN4Tw9Wv81UvtjRWmRVbsahmU=
+X-Received: by 2002:adf:fa46:: with SMTP id y6mr4810707wrr.83.1621522222321;
+ Thu, 20 May 2021 07:50:22 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <YKZvx0UXYnJrfVw4@phenom.ffwll.local>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-CA
-Content-Transfer-Encoding: 8bit
+References: <20210519183855.1523927-1-robdclark@gmail.com>
+ <20210519183855.1523927-2-robdclark@gmail.com>
+ <8dcdc8d5-176c-f0ad-0d54-6466e9e68a0a@amd.com>
+ <CAF6AEGtg_VnxYrj94AfbAfViK1v8U0ZJyfJjS4taVLMF=YVy+w@mail.gmail.com>
+ <d65acf46-4c3b-4903-6222-0b81915d355d@amd.com>
+In-Reply-To: <d65acf46-4c3b-4903-6222-0b81915d355d@amd.com>
+From: Rob Clark <robdclark@gmail.com>
+Date: Thu, 20 May 2021 07:54:05 -0700
+Message-ID: <CAF6AEGvm1tFwpfyJrX1bTGoHg_wzKKLQvSk2qLHf3XeqvEzDPA@mail.gmail.com>
+Subject: Re: [RFC 1/3] dma-fence: Add boost fence op
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,102 +67,139 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "moderated list:DMA BUFFER SHARING FRAMEWORK"
- <linaro-mm-sig@lists.linaro.org>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
- Jason Ekstrand <jason@jlekstrand.net>,
- dri-devel <dri-devel@lists.freedesktop.org>
+Cc: Rob Clark <robdclark@chromium.org>,
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ open list <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
+ freedreno <freedreno@lists.freedesktop.org>,
+ "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2021-05-20 4:18 p.m., Daniel Vetter wrote:
-> On Thu, May 20, 2021 at 10:13:38AM +0200, Michel Dänzer wrote:
->> On 2021-05-20 9:55 a.m., Daniel Vetter wrote:
->>> On Wed, May 19, 2021 at 5:48 PM Michel Dänzer <michel@daenzer.net> wrote:
->>>>
->>>> On 2021-05-19 5:21 p.m., Jason Ekstrand wrote:
->>>>> On Wed, May 19, 2021 at 5:52 AM Michel Dänzer <michel@daenzer.net> wrote:
->>>>>>
->>>>>> On 2021-05-19 12:06 a.m., Jason Ekstrand wrote:
->>>>>>> On Tue, May 18, 2021 at 4:17 PM Daniel Vetter <daniel@ffwll.ch> wrote:
->>>>>>>>
->>>>>>>> On Tue, May 18, 2021 at 7:40 PM Christian König
->>>>>>>> <ckoenig.leichtzumerken@gmail.com> wrote:
->>>>>>>>>
->>>>>>>>> Am 18.05.21 um 18:48 schrieb Daniel Vetter:
->>>>>>>>>> On Tue, May 18, 2021 at 2:49 PM Christian König
->>>>>>>>>> <ckoenig.leichtzumerken@gmail.com> wrote:
->>>>>>>>>>
->>>>>>>>>>> And as long as we are all inside amdgpu we also don't have any oversync,
->>>>>>>>>>> the issue only happens when we share dma-bufs with i915 (radeon and
->>>>>>>>>>> AFAIK nouveau does the right thing as well).
->>>>>>>>>> Yeah because then you can't use the amdgpu dma_resv model anymore and
->>>>>>>>>> have to use the one atomic helpers use. Which is also the one that
->>>>>>>>>> e.g. Jason is threathening to bake in as uapi with his dma_buf ioctl,
->>>>>>>>>> so as soon as that lands and someone starts using it, something has to
->>>>>>>>>> adapt _anytime_ you have a dma-buf hanging around. Not just when it's
->>>>>>>>>> shared with another device.
->>>>>>>>>
->>>>>>>>> Yeah, and that is exactly the reason why I will NAK this uAPI change.
->>>>>>>>>
->>>>>>>>> This doesn't works for amdgpu at all for the reasons outlined above.
->>>>>>>>
->>>>>>>> Uh that's really not how uapi works. "my driver is right, everyone
->>>>>>>> else is wrong" is not how cross driver contracts are defined. If that
->>>>>>>> means a perf impact until you've fixed your rules, that's on you.
->>>>>>>>
->>>>>>>> Also you're a few years too late with nacking this, it's already uapi
->>>>>>>> in the form of the dma-buf poll() support.
->>>>>>>
->>>>>>> ^^  My fancy new ioctl doesn't expose anything that isn't already
->>>>>>> there.  It just lets you take a snap-shot of a wait instead of doing
->>>>>>> an active wait which might end up with more fences added depending on
->>>>>>> interrupts and retries.  The dma-buf poll waits on all fences for
->>>>>>> POLLOUT and only the exclusive fence for POLLIN.  It's already uAPI.
->>>>>>
->>>>>> Note that the dma-buf poll support could be useful to Wayland compositors for the same purpose as Jason's new ioctl (only using client buffers which have finished drawing for an output frame, to avoid missing a refresh cycle due to client drawing), *if* it didn't work differently with amdgpu.
->>>>>>
->>>>>> Am I understanding correctly that Jason's new ioctl would also work differently with amdgpu as things stand currently? If so, that would be a real bummer and might hinder adoption of the ioctl by Wayland compositors.
->>>>>
->>>>> My new ioctl has identical semantics to poll().  It just lets you take
->>>>> a snapshot in time to wait on later instead of waiting on whatever
->>>>> happens to be set right now.  IMO, having identical semantics to
->>>>> poll() isn't something we want to change.
->>>>
->>>> Agreed.
->>>>
->>>> I'd argue then that making amdgpu poll semantics match those of other drivers is a pre-requisite for the new ioctl, otherwise it seems unlikely that the ioctl will be widely adopted.
->>>
->>> This seems backwards, because that means useful improvements in all
->>> other drivers are stalled until amdgpu is fixed.
->>>
->>> I think we need agreement on what the rules are, reasonable plan to
->>> get there, and then that should be enough to unblock work in the wider
->>> community. Holding the community at large hostage because one driver
->>> is different is really not great.
->>
->> I think we're in violent agreement. :) The point I was trying to make is
->> that amdgpu really needs to be fixed to be consistent with other drivers
->> ASAP.
-> 
-> It's not that easy at all. I think best case we're looking at about a one
-> year plan to get this into shape, taking into account usual release/distro
-> update latencies.
-> 
-> Best case.
-> 
-> But also it's not a really big issue, since this shouldn't stop
-> compositors from using poll on dma-buf fd or the sync_file stuff from
-> Jason: The use-case for this in compositors is to avoid a single client
-> stalling the entire desktop. If a driver lies by not setting the exclusive
-> fence when expected, you simply don't get this stall avoidance benefit of
-> misbehaving clients. But also this needs a gpu scheduler and higher
-> priority for the compositor (or a lot of hw planes so you can composite
-> with them alone), so it's all fairly academic issue.
+On Thu, May 20, 2021 at 7:11 AM Christian K=C3=B6nig
+<christian.koenig@amd.com> wrote:
+>
+>
+>
+> Am 20.05.21 um 16:07 schrieb Rob Clark:
+> > On Wed, May 19, 2021 at 11:47 PM Christian K=C3=B6nig
+> > <christian.koenig@amd.com> wrote:
+> >> Uff, that looks very hardware specific to me.
+> > Howso?  I'm not sure I agree.. and even if it was not useful for some
+> > hw, it should be useful for enough drivers (and harm no drivers), so I
+> > still think it is a good idea
+> >
+> > The fallback plan is to go the i915 route and stop using atomic
+> > helpers and do the same thing inside the driver, but that doesn't help
+> > any of the cases where you have a separate kms and gpu driver.
+>
+> Yeah, that's certainly not something we want.
+>
+> >> As far as I can see you can also implement completely inside the backe=
+nd
+> >> by starting a timer on enable_signaling, don't you?
+> > Not really.. I mean, the fact that something waited on a fence could
+> > be a useful input signal to gpu freq governor, but it is entirely
+> > insufficient..
+> >
+> > If the cpu is spending a lot of time waiting on a fence, cpufreq will
+> > clock down so you spend less time waiting.  And no problem has been
+> > solved.  You absolutely need the concept of a missed deadline, and a
+> > timer doesn't give you that.
+>
+> Ok then I probably don't understand the use case here.
+>
+> What exactly do you try to solve?
 
-AFAIK current AMD GPUs have everything needed to make this work, it would just need to be hooked up for high priority EGL contexts (which at least mutter already uses when available) in amdgpu & radeonsi.
+Basically situations where you are ping-ponging between GPU and CPU..
+for example if you are double buffering instead of triple buffering,
+and doing vblank sync'd pageflips.  The GPU, without any extra signal,
+could get stuck at 30fps and a low gpu freq, because it ends up idle
+while waiting for an extra vblank cycle for the next back-buffer to
+become available.  Whereas if it boosted up to a higher freq and
+stopped missing a vblank deadline, it would be less idle due to
+getting the next back-buffer sooner (due to not missing a vblank
+deadline).
 
+BR,
+-R
 
--- 
-Earthling Michel Dänzer               |               https://redhat.com
-Libre software enthusiast             |             Mesa and X developer
+> Thanks,
+> Christian.
+>
+> >
+> > BR,
+> > -R
+> >
+> >> Christian.
+> >>
+> >> Am 19.05.21 um 20:38 schrieb Rob Clark:
+> >>> From: Rob Clark <robdclark@chromium.org>
+> >>>
+> >>> Add a way to hint to the fence signaler that a fence waiter has misse=
+d a
+> >>> deadline waiting on the fence.
+> >>>
+> >>> In some cases, missing a vblank can result in lower gpu utilization,
+> >>> when really we want to go in the opposite direction and boost gpu fre=
+q.
+> >>> The boost callback gives some feedback to the fence signaler that we
+> >>> are missing deadlines, so it can take this into account in it's freq/
+> >>> utilization calculations.
+> >>>
+> >>> Signed-off-by: Rob Clark <robdclark@chromium.org>
+> >>> ---
+> >>>    include/linux/dma-fence.h | 26 ++++++++++++++++++++++++++
+> >>>    1 file changed, 26 insertions(+)
+> >>>
+> >>> diff --git a/include/linux/dma-fence.h b/include/linux/dma-fence.h
+> >>> index 9f12efaaa93a..172702521acc 100644
+> >>> --- a/include/linux/dma-fence.h
+> >>> +++ b/include/linux/dma-fence.h
+> >>> @@ -231,6 +231,17 @@ struct dma_fence_ops {
+> >>>        signed long (*wait)(struct dma_fence *fence,
+> >>>                            bool intr, signed long timeout);
+> >>>
+> >>> +     /**
+> >>> +      * @boost:
+> >>> +      *
+> >>> +      * Optional callback, to indicate that a fence waiter missed a =
+deadline.
+> >>> +      * This can serve as a signal that (if possible) whatever signa=
+ls the
+> >>> +      * fence should boost it's clocks.
+> >>> +      *
+> >>> +      * This can be called in any context that can call dma_fence_wa=
+it().
+> >>> +      */
+> >>> +     void (*boost)(struct dma_fence *fence);
+> >>> +
+> >>>        /**
+> >>>         * @release:
+> >>>         *
+> >>> @@ -586,6 +597,21 @@ static inline signed long dma_fence_wait(struct =
+dma_fence *fence, bool intr)
+> >>>        return ret < 0 ? ret : 0;
+> >>>    }
+> >>>
+> >>> +/**
+> >>> + * dma_fence_boost - hint from waiter that it missed a deadline
+> >>> + *
+> >>> + * @fence: the fence that caused the missed deadline
+> >>> + *
+> >>> + * This function gives a hint from a fence waiter that a deadline wa=
+s
+> >>> + * missed, so that the fence signaler can factor this in to device
+> >>> + * power state decisions
+> >>> + */
+> >>> +static inline void dma_fence_boost(struct dma_fence *fence)
+> >>> +{
+> >>> +     if (fence->ops->boost)
+> >>> +             fence->ops->boost(fence);
+> >>> +}
+> >>> +
+> >>>    struct dma_fence *dma_fence_get_stub(void);
+> >>>    u64 dma_fence_context_alloc(unsigned num);
+> >>>
+>
