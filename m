@@ -1,56 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7FDE38AD55
-	for <lists+dri-devel@lfdr.de>; Thu, 20 May 2021 14:03:10 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7528C38AD56
+	for <lists+dri-devel@lfdr.de>; Thu, 20 May 2021 14:03:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F1FE26F409;
-	Thu, 20 May 2021 12:03:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E038D6F412;
+	Thu, 20 May 2021 12:03:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com
- [IPv6:2a00:1450:4864:20::42a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 679296F409
- for <dri-devel@lists.freedesktop.org>; Thu, 20 May 2021 12:02:59 +0000 (UTC)
-Received: by mail-wr1-x42a.google.com with SMTP id v12so17385396wrq.6
- for <dri-devel@lists.freedesktop.org>; Thu, 20 May 2021 05:02:59 -0700 (PDT)
+Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com
+ [IPv6:2a00:1450:4864:20::332])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3BA756F409
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 May 2021 12:03:00 +0000 (UTC)
+Received: by mail-wm1-x332.google.com with SMTP id 62so7996809wmb.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 May 2021 05:03:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=78IZFmK5jsA34hqJO0M2qv8hujM84El09YurAWZwzJM=;
- b=C3JKjuJQ/+v/Ste8TDqUSd4/bIawR7HpQPO4KJjFthaE/uBvkhh4qP6g2l5yuS0pwx
- iNnrjxChg/Yt3beNIYy+LBnkLUHs8jePy9TlojGGjsFsL6sPzdc4J9ynGCM/tuFlIKNt
- cs+xIFK5prHwgSpGNLUzj9B5hW40fM6R/psgmFycgziUAAExNQbKnRQR63SfqJIEB2Pn
- eGljaSNS9P2K/kuxjjU9yGQNRx6BO9BpNKXCtjCvNJFM9LBGGQI4eHizABCNlimVW2Ix
- hL028sHfiqtvLELAFZTHn6CowpRzuK/KmcqFE4aTjj0teNVZTlGDufkdnGo2jjusUFMn
- EQHQ==
+ bh=KjGrcIOD2Z+Nhsp7UBZvNxk73/3NibtTsjxqFhOCaZQ=;
+ b=FMzN/CHJmshI/NQz++l0IJRPt4s1P1GNc6wJzd8MPovbpNd3uiwbNxSWzv0C2eZLBx
+ K9VQ1GT03tkGy9oMFZ8cj8IAixY2iWf8gxxujQf1tHI4Sc4CEECTE4C/OwQ2SefBLGdP
+ aRNftdpa0v3glpO8xyg96cLd/6ggfX+p0JOOCrUbzooZf+vDMu/hcfMywf7C5j2m/eJi
+ 45c4ECLS6Eqz0sdbzM+twmrT7UcDJKdCbKYAMuEhsP9FMVlIALqeK2iUCVA751o7ixHS
+ RchM6Whnl7jbMPOWjMKJCB87oX3FOAMNLmZU9kOY+3CnN6Q09hg669xcyLPmHcNDCLs1
+ dA0Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=78IZFmK5jsA34hqJO0M2qv8hujM84El09YurAWZwzJM=;
- b=o9T0r9rDBCTUwgP0n4rk/Xa1hSdibkfIwvp4/H/0pGIaCCo8gkha+w0cnvFAe8TNLT
- 8ugTnbK2yT5Dj6xym9gdDy4r+AMS5laJJQhXSNtLFdjBfmgN0dcoUNHS4yd4sZ5iA2eX
- Q3HpUK9RyxtN474FQlxDe3S3kPDdDZ4kNHCOKeSLb6IlDzUZbgPtXub325Afc9f/rwRb
- r3SIbW1r4WgM9PqkZIRkFqGUzjY01H0oSw6/5mtA2PTKpVE8XL/y4z8xotXi+yy2kL5a
- jJRQbyTAPE0pbPsFxPyOqBvoy93rLRT/V+X5riEpyez0Nxxk6u10E6vjNzYgFaKpJGDo
- y0rA==
-X-Gm-Message-State: AOAM53141hFOwQhqlhD/kNH1v/prqorWKIIJ197sPWaDluNqAgiUDvMa
- 1pUBKGvjsSS+uu3QekLaxrzWxA==
-X-Google-Smtp-Source: ABdhPJyjfJJwF+BNH0YP0v8lGpULEjGckiTSXpzTJVGakyu6jwlqugBIAGeCfvDjLTMGMM31/ZxzOw==
-X-Received: by 2002:adf:ed46:: with SMTP id u6mr3884135wro.295.1621512178168; 
- Thu, 20 May 2021 05:02:58 -0700 (PDT)
+ bh=KjGrcIOD2Z+Nhsp7UBZvNxk73/3NibtTsjxqFhOCaZQ=;
+ b=Jx8VGSgX07Jn1dnu7Ugj0Fl9W+mgT0adZM0BsHRHsgLneZGoLZKjv8Vh/N+X2hjd/l
+ UMfCuwuR1CKlqAEG4T/YeCFcRTE8w0sEABiOkRE0JZhecY0F2CUHpx82baeUtJteK8Tp
+ +QX3C0hTnCQofBm1rr/j+TzPixNm5hxAcyuDZ/bX0DkDbWf3PHs/7lwlo7e5oGcEESec
+ UjxABZ12bB84cNYWoIB6M6CMPCGoH521UDxL+S/09s+sLWiPh+9MaDq7CBsMuVV/tWme
+ mKcI5ar5mRUiLjBUCz6T5BPH08LGPDqfb713+uzKXS1OclaHVVtOJXzGydHfT/sqWB8h
+ wcBA==
+X-Gm-Message-State: AOAM530Lg8RDbZQwnvVmuHMFFdO/Laj4MmtCbCh4LbLDz5vOT6wG0YOZ
+ 6rPMttQyAtrjXDlZIiUdtSpcBA==
+X-Google-Smtp-Source: ABdhPJzNdV9+m6nHyvdbqHHabPl5Op3KfzG1NQxvE17uSmjINQosUXEbnYAxNUNtSPcxc0ddIs75sQ==
+X-Received: by 2002:a1c:cc12:: with SMTP id h18mr3234734wmb.141.1621512179138; 
+ Thu, 20 May 2021 05:02:59 -0700 (PDT)
 Received: from dell.default ([91.110.221.215])
- by smtp.gmail.com with ESMTPSA id j10sm2886332wrt.32.2021.05.20.05.02.57
+ by smtp.gmail.com with ESMTPSA id j10sm2886332wrt.32.2021.05.20.05.02.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 20 May 2021 05:02:57 -0700 (PDT)
+ Thu, 20 May 2021 05:02:58 -0700 (PDT)
 From: Lee Jones <lee.jones@linaro.org>
 To: lee.jones@linaro.org
-Subject: [PATCH 06/38] drm/sti/sti_hdmi_tx3g4c28phy: Provide function names
- for kernel-doc headers
-Date: Thu, 20 May 2021 13:02:16 +0100
-Message-Id: <20210520120248.3464013-7-lee.jones@linaro.org>
+Subject: [PATCH 07/38] drm/sti/sti_hda: Provide missing function names
+Date: Thu, 20 May 2021 13:02:17 +0100
+Message-Id: <20210520120248.3464013-8-lee.jones@linaro.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210520120248.3464013-1-lee.jones@linaro.org>
 References: <20210520120248.3464013-1-lee.jones@linaro.org>
@@ -70,47 +69,57 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Benjamin Gaignard <benjamin.gaignard@linaro.org>,
  David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Vincent Abriou <vincent.abriou@st.com>
+ dri-devel@lists.freedesktop.org, Fabien Dessenne <fabien.dessenne@st.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Fixes the following W=1 kernel build warning(s):
 
- drivers/gpu/drm/sti/sti_hdmi_tx3g4c28phy.c:77: warning: expecting prototype for Start hdmi phy macro cell tx3g4c28(). Prototype was for sti_hdmi_tx3g4c28phy_start() instead
- drivers/gpu/drm/sti/sti_hdmi_tx3g4c28phy.c:187: warning: expecting prototype for Stop hdmi phy macro cell tx3g4c28(). Prototype was for sti_hdmi_tx3g4c28phy_stop() instead
+ drivers/gpu/drm/sti/sti_hda.c:283: warning: expecting prototype for Search for a video mode in the supported modes table(). Prototype was for hda_get_mode_idx() instead
+ drivers/gpu/drm/sti/sti_hda.c:301: warning: expecting prototype for Enable the HD DACS(). Prototype was for hda_enable_hd_dacs() instead
+ drivers/gpu/drm/sti/sti_hda.c:383: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
 
 Cc: Benjamin Gaignard <benjamin.gaignard@linaro.org>
 Cc: David Airlie <airlied@linux.ie>
 Cc: Daniel Vetter <daniel@ffwll.ch>
-Cc: Vincent Abriou <vincent.abriou@st.com>
+Cc: Fabien Dessenne <fabien.dessenne@st.com>
 Cc: dri-devel@lists.freedesktop.org
 Signed-off-by: Lee Jones <lee.jones@linaro.org>
 ---
- drivers/gpu/drm/sti/sti_hdmi_tx3g4c28phy.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/sti/sti_hda.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/sti/sti_hdmi_tx3g4c28phy.c b/drivers/gpu/drm/sti/sti_hdmi_tx3g4c28phy.c
-index d5f94dca0d323..d25ecd4f4b673 100644
---- a/drivers/gpu/drm/sti/sti_hdmi_tx3g4c28phy.c
-+++ b/drivers/gpu/drm/sti/sti_hdmi_tx3g4c28phy.c
-@@ -67,7 +67,7 @@ static struct hdmi_phy_config hdmiphy_config[NB_HDMI_PHY_CONFIG] = {
- };
- 
- /**
-- * Start hdmi phy macro cell tx3g4c28
-+ * sti_hdmi_tx3g4c28phy_start - Start hdmi phy macro cell tx3g4c28
-  *
-  * @hdmi: pointer on the hdmi internal structure
-  *
-@@ -179,7 +179,7 @@ static bool sti_hdmi_tx3g4c28phy_start(struct sti_hdmi *hdmi)
+diff --git a/drivers/gpu/drm/sti/sti_hda.c b/drivers/gpu/drm/sti/sti_hda.c
+index 5c2b650b561d5..03f3377f918c0 100644
+--- a/drivers/gpu/drm/sti/sti_hda.c
++++ b/drivers/gpu/drm/sti/sti_hda.c
+@@ -272,7 +272,7 @@ static void hda_write(struct sti_hda *hda, u32 val, int offset)
  }
  
  /**
-- * Stop hdmi phy macro cell tx3g4c28
-+ * sti_hdmi_tx3g4c28phy_stop - Stop hdmi phy macro cell tx3g4c28
+- * Search for a video mode in the supported modes table
++ * hda_get_mode_idx - Search for a video mode in the supported modes table
   *
-  * @hdmi: pointer on the hdmi internal structure
-  */
+  * @mode: mode being searched
+  * @idx: index of the found mode
+@@ -292,7 +292,7 @@ static bool hda_get_mode_idx(struct drm_display_mode mode, int *idx)
+ }
+ 
+ /**
+- * Enable the HD DACS
++ * hda_enable_hd_dacs - Enable the HD DACS
+  *
+  * @hda: pointer to HD analog structure
+  * @enable: true if HD DACS need to be enabled, else false
+@@ -380,7 +380,7 @@ static void hda_debugfs_init(struct sti_hda *hda, struct drm_minor *minor)
+ }
+ 
+ /**
+- * Configure AWG, writing instructions
++ * sti_hda_configure_awg - Configure AWG, writing instructions
+  *
+  * @hda: pointer to HD analog structure
+  * @awg_instr: pointer to AWG instructions table
 -- 
 2.31.1
 
