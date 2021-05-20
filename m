@@ -2,55 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F31138B747
-	for <lists+dri-devel@lfdr.de>; Thu, 20 May 2021 21:19:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F6DF38B752
+	for <lists+dri-devel@lfdr.de>; Thu, 20 May 2021 21:20:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2DA126F4FF;
-	Thu, 20 May 2021 19:19:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E01966F503;
+	Thu, 20 May 2021 19:20:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x330.google.com (mail-ot1-x330.google.com
- [IPv6:2607:f8b0:4864:20::330])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 657566F4FE;
- Thu, 20 May 2021 19:19:32 +0000 (UTC)
-Received: by mail-ot1-x330.google.com with SMTP id
- 80-20020a9d08560000b0290333e9d2b247so5303777oty.7; 
- Thu, 20 May 2021 12:19:32 -0700 (PDT)
+Received: from mail-oi1-x230.google.com (mail-oi1-x230.google.com
+ [IPv6:2607:f8b0:4864:20::230])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4ADBD6F501;
+ Thu, 20 May 2021 19:20:19 +0000 (UTC)
+Received: by mail-oi1-x230.google.com with SMTP id z3so17423149oib.5;
+ Thu, 20 May 2021 12:20:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=aOvxK05c6d3wLnFR8rUhQpFTkZU71eE9Pa/GUWPK6jA=;
- b=owH4E/XC406vIhUhSMWKPP8GyzYF1Mz7lVEo7LkRN7q76QG2sgiTXc/BMDNCWHxBV4
- 5eIsWYI7Y06NM/nbZzTqTwVgMR6e8YFBUz8XTPxQBPhyv3tFmpVR3RADDLFn/rle8h4F
- cgPWUwXLPvFpOIo1cn5flHD7ieUjHUAv6/HsOUwVVqpU86IpKOeB18jJnXudzBMq47UQ
- VPs5Yt225e/0F5nRXeHuJE4+W5aRuoeIjCpuhmlNqTumAygglz9UidSgkiAqqtjWNv/0
- hSyBN5GXNzwhnfyOAUTEDHzsRiqdagH47HqhiF/mc6JMZlohcD9b9BkPYTAz4T7J96Gl
- QLYA==
+ bh=PfgwTVkMgiwTa2ZUJi4Rqpy4DzXkVzihsc1UndFlxZA=;
+ b=NKXl/O4Ah4nhqRZkqVf7JWT06B7xn241Wl6InCIzbJbLIuLi4vfTnaDrtlDTjxDQVi
+ n30NCGYnAoGxnSG/VWuWTQ+YK7PcX9F9m5Xpy8FvszrYZNU3ITT17+QkEfw/+eCQ+Pkt
+ mLk4rneTHZwhebapO0piSnDF2/cEBjYQY/NbDQitSmHZSiZ11NWAPqW8C3iOPpcFafJN
+ qCP9cMoArj2JNtrRctLNjX6fyLtrTmYEkwu0AHzbJOi4N+RnXc2su55cSnse9MAWxLBJ
+ z0h7NrAKCgvhrjjYExJ3ftsS1HKoD+9OnT8mPmjAez+Vncw+mZOevxqJhe1TsUGEAEbS
+ mq9g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=aOvxK05c6d3wLnFR8rUhQpFTkZU71eE9Pa/GUWPK6jA=;
- b=jCRvR4Ru4tIdJ8fRQNgLMrmJMje57B2s+kjtBj8rT4G+VakzL54lmhE6Dc9uajJn7I
- d0odIghMSrmPCniakRG4cdgWLGgV8H4BITBKeUOf+aGND1xHZr8SwmKxPkkixOUlQlbo
- 90n5unsYNH+zyY78sYbcCx/K/VB0xQgf9lrtnyIU8noMHFt/goIb3eYrR0oVKFV04N5r
- sFxy2Rb3g+gItyn0bApw/0QCK7Tdf1OLAJqO3dxl+h1vLDaVhEW9TMBrylqK1xyud8I+
- Uf2MyFEEfaEcU0vT/JsF/fz7HaQzAUa2usk3IcOqpICn+ciO/V7er+k9OtiC9bFYs3t4
- kJGw==
-X-Gm-Message-State: AOAM5316S+SC69S/1SjT/fk5iE39H6Y66sizwUsSEc6+Dwb42dRzmsWj
- e5nQ/CXCMD4gRfe+Rq5OKYUbDwQuyXJHJDCztSA=
-X-Google-Smtp-Source: ABdhPJyH4iCQKcDPVu6k2YTOnGw2ittRAY+dS0HMOZ25P+LVhK/V3vl3eDM4n+HZ6KmurXcebwFwKqKfjYKus3pdk1U=
-X-Received: by 2002:a9d:74c6:: with SMTP id a6mr5144353otl.132.1621538371730; 
- Thu, 20 May 2021 12:19:31 -0700 (PDT)
+ bh=PfgwTVkMgiwTa2ZUJi4Rqpy4DzXkVzihsc1UndFlxZA=;
+ b=OXg0BI1/007PQW2R32UChj4yZnWguun+NMudKFz3udskPsce/hMNMjWg+ejEQ4CmPI
+ uHXbPyIP9MQiIUJqToLEG98PIkP3ILTPLqPyX50yXCVYcAWQQJBkxrAVIxKs5O4LjMN9
+ RtyO3wTWBgqIODXVrh97M9U/pnl7jVNkzTSUp6ho4B/sbBoad0srTrRt6LeXLqbh8GYx
+ vmz5pT82Nmkrv7wlOnev46/ojiBOPiNa+pnGnkWVuhsZjqNU+NSRPy1H1oYiOGXsfotn
+ 0f3KweDqe5whA8rcjlx6mNF4OUYV4Gcrc6eH+gaXcJpoWDoXRHbvBWRoiFDuPytIFLSP
+ WsUg==
+X-Gm-Message-State: AOAM530ee/Q1j8MKKCnGQQDMrW88MExKfy/B3L6lg+8rWSiJ6c5IGpW9
+ jnm3YyUYVWLn2ukSzRtEb69hn/YkqSyOWhTsh7c=
+X-Google-Smtp-Source: ABdhPJwvc46ikCv5xL8krtN+XasKLQNxgGwSb0z9zUHEbeOTG8SunshtMqXtCUQ8+ULgPYLiJCxGyKV39ZYg0zNwFbc=
+X-Received: by 2002:a05:6808:249:: with SMTP id
+ m9mr4203881oie.120.1621538418645; 
+ Thu, 20 May 2021 12:20:18 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210520120248.3464013-1-lee.jones@linaro.org>
- <20210520120248.3464013-25-lee.jones@linaro.org>
-In-Reply-To: <20210520120248.3464013-25-lee.jones@linaro.org>
+ <20210520120248.3464013-27-lee.jones@linaro.org>
+In-Reply-To: <20210520120248.3464013-27-lee.jones@linaro.org>
 From: Alex Deucher <alexdeucher@gmail.com>
-Date: Thu, 20 May 2021 15:19:20 -0400
-Message-ID: <CADnq5_OtCr6KeYBOr-chNZRKuUOEE96B5WZN_mu2A2H_JutjeA@mail.gmail.com>
-Subject: Re: [PATCH 24/38] drm/amd/amdgpu/mmhub_v9_4: Fix naming disparity
- with 'mmhub_v9_4_set_fault_enable_default()'
+Date: Thu, 20 May 2021 15:20:07 -0400
+Message-ID: <CADnq5_PaefTWkWnOPTJMTgL-zocXtB9wGnK30PiZG2iNAA=oOw@mail.gmail.com>
+Subject: Re: [PATCH 26/38] drm/amd/amdgpu/gmc_v10_0: Fix potential copy/paste
+ issue
 To: Lee Jones <lee.jones@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -68,48 +68,53 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: David Airlie <airlied@linux.ie>, LKML <linux-kernel@vger.kernel.org>,
  Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
  amd-gfx list <amd-gfx@lists.freedesktop.org>,
  Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ linux-media <linux-media@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Applied.  Thanks!
 
+Alex
+
 On Thu, May 20, 2021 at 8:03 AM Lee Jones <lee.jones@linaro.org> wrote:
 >
 > Fixes the following W=3D1 kernel build warning(s):
 >
->  drivers/gpu/drm/amd/amdgpu/mmhub_v9_4.c:446: warning: expecting prototyp=
-e for mmhub_v1_0_set_fault_enable_default(). Prototype was for mmhub_v9_4_s=
-et_fault_enable_default() instead
+>  drivers/gpu/drm/amd/amdgpu/gmc_v10_0.c:955: warning: expecting prototype=
+ for gmc_v8_0_gart_fini(). Prototype was for gmc_v10_0_gart_fini() instead
 >
 > Cc: Alex Deucher <alexander.deucher@amd.com>
 > Cc: "Christian K=C3=B6nig" <christian.koenig@amd.com>
 > Cc: David Airlie <airlied@linux.ie>
 > Cc: Daniel Vetter <daniel@ffwll.ch>
+> Cc: Sumit Semwal <sumit.semwal@linaro.org>
 > Cc: amd-gfx@lists.freedesktop.org
 > Cc: dri-devel@lists.freedesktop.org
+> Cc: linux-media@vger.kernel.org
+> Cc: linaro-mm-sig@lists.linaro.org
 > Signed-off-by: Lee Jones <lee.jones@linaro.org>
 > ---
->  drivers/gpu/drm/amd/amdgpu/mmhub_v9_4.c | 2 +-
+>  drivers/gpu/drm/amd/amdgpu/gmc_v10_0.c | 2 +-
 >  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> diff --git a/drivers/gpu/drm/amd/amdgpu/mmhub_v9_4.c b/drivers/gpu/drm/am=
-d/amdgpu/mmhub_v9_4.c
-> index 47c8dd9d1c78e..c4ef822bbe8c5 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/mmhub_v9_4.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/mmhub_v9_4.c
-> @@ -436,7 +436,7 @@ static void mmhub_v9_4_gart_disable(struct amdgpu_dev=
-ice *adev)
+> diff --git a/drivers/gpu/drm/amd/amdgpu/gmc_v10_0.c b/drivers/gpu/drm/amd=
+/amdgpu/gmc_v10_0.c
+> index f02dc904e4cfe..105ed1bf4a88c 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/gmc_v10_0.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/gmc_v10_0.c
+> @@ -947,7 +947,7 @@ static int gmc_v10_0_sw_init(void *handle)
 >  }
 >
 >  /**
-> - * mmhub_v1_0_set_fault_enable_default - update GART/VM fault handling
-> + * mmhub_v9_4_set_fault_enable_default - update GART/VM fault handling
+> - * gmc_v8_0_gart_fini - vm fini callback
+> + * gmc_v10_0_gart_fini - vm fini callback
 >   *
 >   * @adev: amdgpu_device pointer
->   * @value: true redirects VM faults to the default page
+>   *
 > --
 > 2.31.1
 >
