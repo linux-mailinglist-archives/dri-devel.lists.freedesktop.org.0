@@ -1,55 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7528C38AD56
-	for <lists+dri-devel@lfdr.de>; Thu, 20 May 2021 14:03:12 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 16AA738AD57
+	for <lists+dri-devel@lfdr.de>; Thu, 20 May 2021 14:03:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E038D6F412;
-	Thu, 20 May 2021 12:03:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2E3946F413;
+	Thu, 20 May 2021 12:03:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com
  [IPv6:2a00:1450:4864:20::332])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3BA756F409
- for <dri-devel@lists.freedesktop.org>; Thu, 20 May 2021 12:03:00 +0000 (UTC)
-Received: by mail-wm1-x332.google.com with SMTP id 62so7996809wmb.3
- for <dri-devel@lists.freedesktop.org>; Thu, 20 May 2021 05:03:00 -0700 (PDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 54EEA6F410
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 May 2021 12:03:01 +0000 (UTC)
+Received: by mail-wm1-x332.google.com with SMTP id u133so9024471wmg.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 May 2021 05:03:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=KjGrcIOD2Z+Nhsp7UBZvNxk73/3NibtTsjxqFhOCaZQ=;
- b=FMzN/CHJmshI/NQz++l0IJRPt4s1P1GNc6wJzd8MPovbpNd3uiwbNxSWzv0C2eZLBx
- K9VQ1GT03tkGy9oMFZ8cj8IAixY2iWf8gxxujQf1tHI4Sc4CEECTE4C/OwQ2SefBLGdP
- aRNftdpa0v3glpO8xyg96cLd/6ggfX+p0JOOCrUbzooZf+vDMu/hcfMywf7C5j2m/eJi
- 45c4ECLS6Eqz0sdbzM+twmrT7UcDJKdCbKYAMuEhsP9FMVlIALqeK2iUCVA751o7ixHS
- RchM6Whnl7jbMPOWjMKJCB87oX3FOAMNLmZU9kOY+3CnN6Q09hg669xcyLPmHcNDCLs1
- dA0Q==
+ bh=AV8ypLVFqPQaG8ImkTPidzOwU8OZuMCnDE642RmrYdM=;
+ b=l1KGBAOdFAJXHL9C42nmDEfceS+WjToud0zWjfRH0biJ5jNv5OhIHeoNPhmNOOyuUX
+ +oSJJcPdUvUgMG2YMk7jnebNSoOL3gM0+pOm6HCsFP/o/fQvDvwsbjHKXxOWWV6TfSIX
+ DX71uO0VzV3eQsX7KE6NBBMdxJbPf4XwYZGVo42cDwAxYh6kYH92oaedI/+q0PMjd6qO
+ w8bKh6yNKmBUA0kl/X3q5tAQbcpAsITn/tEgXretQFP0QU/vO05BM05/PHOteGzj9Kit
+ n6WC7E3bw+hDgpyYo9dzc7KcJ4lgDklPoVEO2qyryxuW6QBaL4f7VrWK9oDIkWCnkRWZ
+ N/OA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=KjGrcIOD2Z+Nhsp7UBZvNxk73/3NibtTsjxqFhOCaZQ=;
- b=Jx8VGSgX07Jn1dnu7Ugj0Fl9W+mgT0adZM0BsHRHsgLneZGoLZKjv8Vh/N+X2hjd/l
- UMfCuwuR1CKlqAEG4T/YeCFcRTE8w0sEABiOkRE0JZhecY0F2CUHpx82baeUtJteK8Tp
- +QX3C0hTnCQofBm1rr/j+TzPixNm5hxAcyuDZ/bX0DkDbWf3PHs/7lwlo7e5oGcEESec
- UjxABZ12bB84cNYWoIB6M6CMPCGoH521UDxL+S/09s+sLWiPh+9MaDq7CBsMuVV/tWme
- mKcI5ar5mRUiLjBUCz6T5BPH08LGPDqfb713+uzKXS1OclaHVVtOJXzGydHfT/sqWB8h
- wcBA==
-X-Gm-Message-State: AOAM530Lg8RDbZQwnvVmuHMFFdO/Laj4MmtCbCh4LbLDz5vOT6wG0YOZ
- 6rPMttQyAtrjXDlZIiUdtSpcBA==
-X-Google-Smtp-Source: ABdhPJzNdV9+m6nHyvdbqHHabPl5Op3KfzG1NQxvE17uSmjINQosUXEbnYAxNUNtSPcxc0ddIs75sQ==
-X-Received: by 2002:a1c:cc12:: with SMTP id h18mr3234734wmb.141.1621512179138; 
- Thu, 20 May 2021 05:02:59 -0700 (PDT)
+ bh=AV8ypLVFqPQaG8ImkTPidzOwU8OZuMCnDE642RmrYdM=;
+ b=GOD9/a4UCUvatuj0kRoaoxowkk/CvUOWR00JrVFCYtFEDdAzRpJFkiHF+eUwQvgTcR
+ jzeol5ZGIy6Kc1WGOnzew7ag7tH3orojhdRZA3nucr8XPiSPu59oR1I8A2OO/xd1lI/p
+ pkq+GZVzE6dJe7KO3mFXB+OcIpaw4Mq1lbhHeiYrVW/T4cGANOt456k7GNcpn6D3Xqfj
+ nyHqbDvcrgeTrkxBZ3CkztRYpem4b1BaEtdnePWRJVFCtMyrLpjSFQu+D29rqsJuSBXQ
+ Fwk7Khjb3mxVC3CS2T3OmrVWcZauBwSHFMHKtDr+cTFcuW84WSzBHyPmcsImQGH30i5E
+ x9Sw==
+X-Gm-Message-State: AOAM5335k5s9SCb2YsHY5kqIa0Lh/O32xtXkoE0jEmaFXJUEdvSsbE1D
+ 2syejhq+98pXJVeSzgjL5bEsh18iv6+7ow==
+X-Google-Smtp-Source: ABdhPJw0Ik9gZa9FezJAqTaG8yftjhBqljFO2Y9prWkBU+rdxAoQzfK8s97SDz4K/ZlbgkOqXNHHsg==
+X-Received: by 2002:a1c:a949:: with SMTP id s70mr3815822wme.30.1621512180085; 
+ Thu, 20 May 2021 05:03:00 -0700 (PDT)
 Received: from dell.default ([91.110.221.215])
- by smtp.gmail.com with ESMTPSA id j10sm2886332wrt.32.2021.05.20.05.02.58
+ by smtp.gmail.com with ESMTPSA id j10sm2886332wrt.32.2021.05.20.05.02.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 20 May 2021 05:02:58 -0700 (PDT)
+ Thu, 20 May 2021 05:02:59 -0700 (PDT)
 From: Lee Jones <lee.jones@linaro.org>
 To: lee.jones@linaro.org
-Subject: [PATCH 07/38] drm/sti/sti_hda: Provide missing function names
-Date: Thu, 20 May 2021 13:02:17 +0100
-Message-Id: <20210520120248.3464013-8-lee.jones@linaro.org>
+Subject: [PATCH 08/38] drm/sti/sti_tvout: Provide a bunch of missing function
+ names
+Date: Thu, 20 May 2021 13:02:18 +0100
+Message-Id: <20210520120248.3464013-9-lee.jones@linaro.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210520120248.3464013-1-lee.jones@linaro.org>
 References: <20210520120248.3464013-1-lee.jones@linaro.org>
@@ -69,57 +70,118 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Benjamin Gaignard <benjamin.gaignard@linaro.org>,
  David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Fabien Dessenne <fabien.dessenne@st.com>
+ dri-devel@lists.freedesktop.org, Vincent Abriou <vincent.abriou@st.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Fixes the following W=1 kernel build warning(s):
 
- drivers/gpu/drm/sti/sti_hda.c:283: warning: expecting prototype for Search for a video mode in the supported modes table(). Prototype was for hda_get_mode_idx() instead
- drivers/gpu/drm/sti/sti_hda.c:301: warning: expecting prototype for Enable the HD DACS(). Prototype was for hda_enable_hd_dacs() instead
- drivers/gpu/drm/sti/sti_hda.c:383: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+ drivers/gpu/drm/sti/sti_tvout.c:166: warning: expecting prototype for Set the clipping mode of a VIP(). Prototype was for tvout_vip_set_color_order() instead
+ drivers/gpu/drm/sti/sti_tvout.c:187: warning: expecting prototype for Set the clipping mode of a VIP(). Prototype was for tvout_vip_set_clip_mode() instead
+ drivers/gpu/drm/sti/sti_tvout.c:203: warning: expecting prototype for Set the rounded value of a VIP(). Prototype was for tvout_vip_set_rnd() instead
+ drivers/gpu/drm/sti/sti_tvout.c:223: warning: expecting prototype for Select the VIP input(). Prototype was for tvout_vip_set_sel_input() instead
+ drivers/gpu/drm/sti/sti_tvout.c:258: warning: expecting prototype for Select the input video signed or unsigned(). Prototype was for tvout_vip_set_in_vid_fmt() instead
+ drivers/gpu/drm/sti/sti_tvout.c:274: warning: expecting prototype for Set preformatter matrix(). Prototype was for tvout_preformatter_set_matrix() instead
+ drivers/gpu/drm/sti/sti_tvout.c:299: warning: expecting prototype for Start VIP block for DVO output(). Prototype was for tvout_dvo_start() instead
+ drivers/gpu/drm/sti/sti_tvout.c:353: warning: expecting prototype for Start VIP block for HDMI output(). Prototype was for tvout_hdmi_start() instead
+ drivers/gpu/drm/sti/sti_tvout.c:402: warning: expecting prototype for Start HDF VIP and HD DAC(). Prototype was for tvout_hda_start() instead
 
 Cc: Benjamin Gaignard <benjamin.gaignard@linaro.org>
 Cc: David Airlie <airlied@linux.ie>
 Cc: Daniel Vetter <daniel@ffwll.ch>
-Cc: Fabien Dessenne <fabien.dessenne@st.com>
+Cc: Philipp Zabel <p.zabel@pengutronix.de>
+Cc: Vincent Abriou <vincent.abriou@st.com>
 Cc: dri-devel@lists.freedesktop.org
 Signed-off-by: Lee Jones <lee.jones@linaro.org>
 ---
- drivers/gpu/drm/sti/sti_hda.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/sti/sti_tvout.c | 18 +++++++++---------
+ 1 file changed, 9 insertions(+), 9 deletions(-)
 
-diff --git a/drivers/gpu/drm/sti/sti_hda.c b/drivers/gpu/drm/sti/sti_hda.c
-index 5c2b650b561d5..03f3377f918c0 100644
---- a/drivers/gpu/drm/sti/sti_hda.c
-+++ b/drivers/gpu/drm/sti/sti_hda.c
-@@ -272,7 +272,7 @@ static void hda_write(struct sti_hda *hda, u32 val, int offset)
+diff --git a/drivers/gpu/drm/sti/sti_tvout.c b/drivers/gpu/drm/sti/sti_tvout.c
+index df3817f0fd302..2499715a69b79 100644
+--- a/drivers/gpu/drm/sti/sti_tvout.c
++++ b/drivers/gpu/drm/sti/sti_tvout.c
+@@ -153,7 +153,7 @@ static void tvout_write(struct sti_tvout *tvout, u32 val, int offset)
  }
  
  /**
-- * Search for a video mode in the supported modes table
-+ * hda_get_mode_idx - Search for a video mode in the supported modes table
+- * Set the clipping mode of a VIP
++ * tvout_vip_set_color_order - Set the clipping mode of a VIP
   *
-  * @mode: mode being searched
-  * @idx: index of the found mode
-@@ -292,7 +292,7 @@ static bool hda_get_mode_idx(struct drm_display_mode mode, int *idx)
+  * @tvout: tvout structure
+  * @reg: register to set
+@@ -177,7 +177,7 @@ static void tvout_vip_set_color_order(struct sti_tvout *tvout, int reg,
  }
  
  /**
-- * Enable the HD DACS
-+ * hda_enable_hd_dacs - Enable the HD DACS
+- * Set the clipping mode of a VIP
++ * tvout_vip_set_clip_mode - Set the clipping mode of a VIP
   *
-  * @hda: pointer to HD analog structure
-  * @enable: true if HD DACS need to be enabled, else false
-@@ -380,7 +380,7 @@ static void hda_debugfs_init(struct sti_hda *hda, struct drm_minor *minor)
+  * @tvout: tvout structure
+  * @reg: register to set
+@@ -193,7 +193,7 @@ static void tvout_vip_set_clip_mode(struct sti_tvout *tvout, int reg, u32 range)
  }
  
  /**
-- * Configure AWG, writing instructions
-+ * sti_hda_configure_awg - Configure AWG, writing instructions
+- * Set the rounded value of a VIP
++ * tvout_vip_set_rnd - Set the rounded value of a VIP
   *
-  * @hda: pointer to HD analog structure
-  * @awg_instr: pointer to AWG instructions table
+  * @tvout: tvout structure
+  * @reg: register to set
+@@ -209,7 +209,7 @@ static void tvout_vip_set_rnd(struct sti_tvout *tvout, int reg, u32 rnd)
+ }
+ 
+ /**
+- * Select the VIP input
++ * tvout_vip_set_sel_input - Select the VIP input
+  *
+  * @tvout: tvout structure
+  * @reg: register to set
+@@ -247,7 +247,7 @@ static void tvout_vip_set_sel_input(struct sti_tvout *tvout,
+ }
+ 
+ /**
+- * Select the input video signed or unsigned
++ * tvout_vip_set_in_vid_fmt - Select the input video signed or unsigned
+  *
+  * @tvout: tvout structure
+  * @reg: register to set
+@@ -264,7 +264,7 @@ static void tvout_vip_set_in_vid_fmt(struct sti_tvout *tvout,
+ }
+ 
+ /**
+- * Set preformatter matrix
++ * tvout_preformatter_set_matrix - Set preformatter matrix
+  *
+  * @tvout: tvout structure
+  * @mode: display mode structure
+@@ -289,7 +289,7 @@ static void tvout_preformatter_set_matrix(struct sti_tvout *tvout,
+ }
+ 
+ /**
+- * Start VIP block for DVO output
++ * tvout_dvo_start - Start VIP block for DVO output
+  *
+  * @tvout: pointer on tvout structure
+  * @main_path: true if main path has to be used in the vip configuration
+@@ -343,7 +343,7 @@ static void tvout_dvo_start(struct sti_tvout *tvout, bool main_path)
+ }
+ 
+ /**
+- * Start VIP block for HDMI output
++ * tvout_hdmi_start - Start VIP block for HDMI output
+  *
+  * @tvout: pointer on tvout structure
+  * @main_path: true if main path has to be used in the vip configuration
+@@ -392,7 +392,7 @@ static void tvout_hdmi_start(struct sti_tvout *tvout, bool main_path)
+ }
+ 
+ /**
+- * Start HDF VIP and HD DAC
++ * tvout_hda_start - Start HDF VIP and HD DAC
+  *
+  * @tvout: pointer on tvout structure
+  * @main_path: true if main path has to be used in the vip configuration
 -- 
 2.31.1
 
