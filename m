@@ -2,55 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A219038B78B
-	for <lists+dri-devel@lfdr.de>; Thu, 20 May 2021 21:27:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C0AB38B792
+	for <lists+dri-devel@lfdr.de>; Thu, 20 May 2021 21:28:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 46A266F515;
-	Thu, 20 May 2021 19:27:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0E0DE6F517;
+	Thu, 20 May 2021 19:28:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x331.google.com (mail-ot1-x331.google.com
- [IPv6:2607:f8b0:4864:20::331])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1B8F96F515;
- Thu, 20 May 2021 19:27:03 +0000 (UTC)
-Received: by mail-ot1-x331.google.com with SMTP id
- 36-20020a9d0ba70000b02902e0a0a8fe36so15845675oth.8; 
- Thu, 20 May 2021 12:27:03 -0700 (PDT)
+Received: from mail-oo1-xc29.google.com (mail-oo1-xc29.google.com
+ [IPv6:2607:f8b0:4864:20::c29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0992C6F516;
+ Thu, 20 May 2021 19:28:02 +0000 (UTC)
+Received: by mail-oo1-xc29.google.com with SMTP id
+ v13-20020a4ac00d0000b029020b43b918eeso4039301oop.9; 
+ Thu, 20 May 2021 12:28:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=R+7fnEf5+D7P9bpLMhivSuEMA6+dJMHLKzG/8S3WGrk=;
- b=nEhTq9xZXBPLnP+28MBTDWiVpvaDNpWS2ZczCd0MemXJVUJDan/EB/QsRfKAVgHtqk
- 9nedqwj7u2ThftbxV3kJpB9OW8gj97IZqSFADRpdpIzl9HLYGeXI4dxnSvPPv2mSjEIw
- 0Skpj/hMdFgEXs/rps5GO5c17N/bDNgorozvQVsNP6BT52pdghhkTLuFRiU1fNlvultR
- m6UPNyKCBP5ybL7fSglsonYILWwqbEcxt4bC2xslsC3YUeaNHWtoRwJCZSZBpyHTVqtb
- ILeKIYMHcxzh3G2SsDba2+szf1x8008VtB6zbIi7eIndnVQmP6qEUWbe0JAKbJpChE1R
- KGWA==
+ bh=4k80R92raKX44try8NOlI5SNEciXr8tCWt15U235ZOY=;
+ b=u5HMyC2dzOhRwetk6bFz5gxLMOhluu4CAuFx5YJ9V3fbc/xw/CgL5YRqYjhGiyTW5n
+ 3AqF3gy2HlXhnwJ0kZfowlu0bDBzz2toiJdGn95DqPqVNTsAq0ZvJ8Q+HfHXnQFAJuEF
+ B+gCJPmEySu7ANm9VWs7g6r1aM2vci0dafOoH+ksiVn0CwsVL6/mH8ppdwz8MJ+DT1dH
+ cN2WQhb020RIVtBZqgNHNS43F6T9b8ou7Tw2j7gfAgwHfcUZzHUmMxfsECPsBFofyL2r
+ nzo8wZzOG+rq6dVItNbWteQlyBTRaS5mpPUPrcawglZWe15fu50Our5mUlnK1SJ8Yxdo
+ NrVw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=R+7fnEf5+D7P9bpLMhivSuEMA6+dJMHLKzG/8S3WGrk=;
- b=iGsW8jNcYqIyU99ogV5q624KQC2Ia//CKeUoomA7s971GFxarFNu4E7ESSt4qQN+bx
- vsfUFYnyvx+Tm228YOkKS5h6pSBgMUHDv8ySThIQ+eL5Lgikl41d8qmx+bCR6T0Pd1/3
- 9thfmL5V5vtwZMRpjksmjqDrx2TK5Hhu5Itsj/W9VhQJ1fstsOdsTHl0aa/ziLyGWLuU
- Xn0ZILP5o+ulf5eRttiEGYNQrhaesv5lz4MKKZOW03bLXY/zsM/BQZ0AT/SgGvIsbMMM
- ymlrvG6CB5pNe/W1MpNZGOkvxiLa91B1/8PfIA9VaW7LUA9xbhCq1xtQD4gFQztyObBI
- Bo7w==
-X-Gm-Message-State: AOAM533sRQbxIrIFCbiOdtNhZWGk9cUbdZwxGZR37a+peIVT4k0mGTlf
- lSEUa2StGWwLvCdrPm7b5lhOL9Mv/jD3yGxcCkw=
-X-Google-Smtp-Source: ABdhPJwoiZrUETM2yFPXjegPd7djCrTKyeTo6WbivlDrp6LYzG0wufjvHh04Km1QUNibBmSLKIy7aZ+maj5RPBkeb/I=
-X-Received: by 2002:a9d:74c6:: with SMTP id a6mr5162050otl.132.1621538822372; 
- Thu, 20 May 2021 12:27:02 -0700 (PDT)
+ bh=4k80R92raKX44try8NOlI5SNEciXr8tCWt15U235ZOY=;
+ b=XNNeTunGN9J3S58R5ygvSPe52uDTGD4mmgU38AwB+tNWzcCa0RjfK3KCKiZygD9YBb
+ baguhCmE7mzkfmmWPkI8CnFy64dU/HZVlbI1O6gTfIgsN7ksAOxGb1PryAOnqLdWp79h
+ mj1LyzClvTUlIvcrR/xPYG039u3B33wSsIkvdvdnlZkBigXOFAkLtjyg8JUCEM7G6zSq
+ XHHCjdLIiVnSR3+0vx3IALX/cXcUaiyOp2W+hy/TDJkKntqA7Tf1nHD2asr/0Tcw4MaH
+ iQV8JEmL4laIIMSMP226tt4t1NbAazvIrduGPf1151gYC7jsChYgmJK5KqGrz8Z0En9z
+ tZfA==
+X-Gm-Message-State: AOAM5323Hl4lEvqWVpbzufa8QEMfUZkKj0doxtsPKCh2l2yXlf5V1HZT
+ Bv1y5qm27J2Pt6Oji/7/oKJbbaYG3v1xugFewCuboUuw
+X-Google-Smtp-Source: ABdhPJw/G1SAe+q/1vmFaWI1wZ9doKKFcivmwBNweNkYvrpMqu9DHVkQfhze30Eo9Oia8iZcUi5SWEhoaNXsk7+gfII=
+X-Received: by 2002:a4a:d085:: with SMTP id i5mr4993114oor.61.1621538882348;
+ Thu, 20 May 2021 12:28:02 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210520120248.3464013-1-lee.jones@linaro.org>
- <20210520120248.3464013-39-lee.jones@linaro.org>
-In-Reply-To: <20210520120248.3464013-39-lee.jones@linaro.org>
+ <20210520120248.3464013-35-lee.jones@linaro.org>
+In-Reply-To: <20210520120248.3464013-35-lee.jones@linaro.org>
 From: Alex Deucher <alexdeucher@gmail.com>
-Date: Thu, 20 May 2021 15:26:51 -0400
-Message-ID: <CADnq5_NLnfGYuoz8+1z=q1Y90Re_XCkDHREoMZW2so0gk-hwwA@mail.gmail.com>
-Subject: Re: [PATCH 38/38] drm/amd/amdgpu/smuio_v13_0: Realign
- 'smuio_v13_0_is_host_gpu_xgmi_supported()' header
+Date: Thu, 20 May 2021 15:27:51 -0400
+Message-ID: <CADnq5_NqMsveaWdJGzGzx4OZ3wkHso=3T+r2RXwYBAbsFSLSOg@mail.gmail.com>
+Subject: Re: [PATCH 34/38] drm/amd/amdgpu/amdgpu_vce: Fix a few incorrectly
+ named functions
 To: Lee Jones <lee.jones@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -68,52 +68,104 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: David Airlie <airlied@linux.ie>, LKML <linux-kernel@vger.kernel.org>,
  Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
  amd-gfx list <amd-gfx@lists.freedesktop.org>,
  Alex Deucher <alexander.deucher@amd.com>,
  =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Hawking Zhang <Hawking.Zhang@amd.com>
+ linux-media <linux-media@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Applied.  Thanks!
 
-On Thu, May 20, 2021 at 8:03 AM Lee Jones <lee.jones@linaro.org> wrote:
+On Thu, May 20, 2021 at 8:04 AM Lee Jones <lee.jones@linaro.org> wrote:
 >
 > Fixes the following W=3D1 kernel build warning(s):
 >
->  drivers/gpu/drm/amd/amdgpu/smuio_v13_0.c:99: warning: expecting prototyp=
-e for smuio_v13_0_supports_host_gpu_xgmi(). Prototype was for smuio_v13_0_i=
-s_host_gpu_xgmi_supported() instead
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_vce.c:98: warning: expecting prototype=
+ for amdgpu_vce_init(). Prototype was for amdgpu_vce_sw_init() instead
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_vce.c:214: warning: expecting prototyp=
+e for amdgpu_vce_fini(). Prototype was for amdgpu_vce_sw_fini() instead
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_vce.c:590: warning: expecting prototyp=
+e for amdgpu_vce_cs_validate_bo(). Prototype was for amdgpu_vce_validate_bo=
+() instead
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_vce.c:724: warning: expecting prototyp=
+e for amdgpu_vce_cs_parse(). Prototype was for amdgpu_vce_ring_parse_cs() i=
+nstead
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_vce.c:960: warning: expecting prototyp=
+e for amdgpu_vce_cs_parse_vm(). Prototype was for amdgpu_vce_ring_parse_cs_=
+vm() instead
 >
 > Cc: Alex Deucher <alexander.deucher@amd.com>
 > Cc: "Christian K=C3=B6nig" <christian.koenig@amd.com>
 > Cc: David Airlie <airlied@linux.ie>
 > Cc: Daniel Vetter <daniel@ffwll.ch>
-> Cc: Hawking Zhang <Hawking.Zhang@amd.com>
+> Cc: Sumit Semwal <sumit.semwal@linaro.org>
 > Cc: amd-gfx@lists.freedesktop.org
 > Cc: dri-devel@lists.freedesktop.org
+> Cc: linux-media@vger.kernel.org
+> Cc: linaro-mm-sig@lists.linaro.org
 > Signed-off-by: Lee Jones <lee.jones@linaro.org>
 > ---
->  drivers/gpu/drm/amd/amdgpu/smuio_v13_0.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_vce.c | 10 +++++-----
+>  1 file changed, 5 insertions(+), 5 deletions(-)
 >
-> diff --git a/drivers/gpu/drm/amd/amdgpu/smuio_v13_0.c b/drivers/gpu/drm/a=
-md/amdgpu/smuio_v13_0.c
-> index 3c47c94846d6d..39b7c206770f6 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/smuio_v13_0.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/smuio_v13_0.c
-> @@ -106,7 +106,7 @@ static u32 smuio_v13_0_get_socket_id(struct amdgpu_de=
-vice *adev)
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vce.c b/drivers/gpu/drm/am=
+d/amdgpu/amdgpu_vce.c
+> index ea6a62f67e380..7ad83da613edd 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vce.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vce.c
+> @@ -87,7 +87,7 @@ static int amdgpu_vce_get_destroy_msg(struct amdgpu_rin=
+g *ring, uint32_t handle,
+>                                       bool direct, struct dma_fence **fen=
+ce);
+>
+>  /**
+> - * amdgpu_vce_init - allocate memory, load vce firmware
+> + * amdgpu_vce_sw_init - allocate memory, load vce firmware
+>   *
+>   * @adev: amdgpu_device pointer
+>   * @size: size for the new BO
+> @@ -204,7 +204,7 @@ int amdgpu_vce_sw_init(struct amdgpu_device *adev, un=
+signed long size)
 >  }
 >
 >  /**
-> - * smuio_v13_0_supports_host_gpu_xgmi - detect xgmi interface between cp=
-u and gpu/s.
-> + * smuio_v13_0_is_host_gpu_xgmi_supported - detect xgmi interface betwee=
-n cpu and gpu/s.
+> - * amdgpu_vce_fini - free memory
+> + * amdgpu_vce_sw_fini - free memory
 >   *
->   * @adev: amdgpu device pointer
+>   * @adev: amdgpu_device pointer
 >   *
+> @@ -574,7 +574,7 @@ static int amdgpu_vce_get_destroy_msg(struct amdgpu_r=
+ing *ring, uint32_t handle,
+>  }
+>
+>  /**
+> - * amdgpu_vce_cs_validate_bo - make sure not to cross 4GB boundary
+> + * amdgpu_vce_validate_bo - make sure not to cross 4GB boundary
+>   *
+>   * @p: parser context
+>   * @ib_idx: indirect buffer to use
+> @@ -715,7 +715,7 @@ static int amdgpu_vce_validate_handle(struct amdgpu_c=
+s_parser *p,
+>  }
+>
+>  /**
+> - * amdgpu_vce_cs_parse - parse and validate the command stream
+> + * amdgpu_vce_ring_parse_cs - parse and validate the command stream
+>   *
+>   * @p: parser context
+>   * @ib_idx: indirect buffer to use
+> @@ -951,7 +951,7 @@ int amdgpu_vce_ring_parse_cs(struct amdgpu_cs_parser =
+*p, uint32_t ib_idx)
+>  }
+>
+>  /**
+> - * amdgpu_vce_cs_parse_vm - parse the command stream in VM mode
+> + * amdgpu_vce_ring_parse_cs_vm - parse the command stream in VM mode
+>   *
+>   * @p: parser context
+>   * @ib_idx: indirect buffer to use
 > --
 > 2.31.1
 >
