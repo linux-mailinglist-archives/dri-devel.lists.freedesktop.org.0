@@ -2,48 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0270338BF33
-	for <lists+dri-devel@lfdr.de>; Fri, 21 May 2021 08:22:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5CF9A38C01C
+	for <lists+dri-devel@lfdr.de>; Fri, 21 May 2021 08:56:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BDB726F5BA;
-	Fri, 21 May 2021 06:22:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DC8626EB3C;
+	Fri, 21 May 2021 06:56:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A33A16F5BA
- for <dri-devel@lists.freedesktop.org>; Fri, 21 May 2021 06:22:45 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPS id 64CF2613B6;
- Fri, 21 May 2021 06:22:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1621578165;
- bh=j32Fr6T+MmMXcheT4XMEXRjvwY2kAnZ0pgTlhrxSqnQ=;
- h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
- b=Ora9y2gbL4DPDrAj+J4Ud1ijs79htl3ix3+pHhoGjEpOe0jA7teLESTMC4G705Ti0
- rvxl3enqX3yIiOTou1CpYIPzPqsVBxr3u1aVRfoId1UG7p7JiQTMYkC6XIfmOGiJBB
- v9ZWaTDj+LQuCjUkWOnwWXLRpHGw79N2Sh65Jq6zKlocXbVxyPnbfkzlB0TdCt7Pkr
- 3mcL+l3QCrb6kCS3lzgqBESVccYcst37k/EO3g/96+tddho7jOXQbYW5qZuw2g+bQM
- 9OBhHlB0tjVyNBTo/CR/wP41d8c1lJCobx1niWdECSp9ZKywjuqxifU4Gf+cCG+Bc3
- Fj5b9bL0PEs3Q==
-Received: from pdx-korg-docbuild-2.ci.codeaurora.org (localhost.localdomain
- [127.0.0.1])
- by pdx-korg-docbuild-2.ci.codeaurora.org (Postfix) with ESMTP id 5166860967;
- Fri, 21 May 2021 06:22:45 +0000 (UTC)
-Subject: Re: [git pull] drm fixes for 5.13-rc3
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <CAPM=9tzqfc9Xx9bpbp2fKKij=+YYGYG=pSzeVQG=H1pmZf0tBA@mail.gmail.com>
-References: <CAPM=9tzqfc9Xx9bpbp2fKKij=+YYGYG=pSzeVQG=H1pmZf0tBA@mail.gmail.com>
-X-PR-Tracked-List-Id: Direct Rendering Infrastructure - Development
- <dri-devel.lists.freedesktop.org>
-X-PR-Tracked-Message-Id: <CAPM=9tzqfc9Xx9bpbp2fKKij=+YYGYG=pSzeVQG=H1pmZf0tBA@mail.gmail.com>
-X-PR-Tracked-Remote: git://anongit.freedesktop.org/drm/drm
- tags/drm-fixes-2021-05-21-1
-X-PR-Tracked-Commit-Id: dd6ad0516ee38112321e99ce368fddd49ee3b9db
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: 79a106fc6585979022012e65a1e45e3d2d28b77b
-Message-Id: <162157816526.23556.3348095363542917867.pr-tracker-bot@kernel.org>
-Date: Fri, 21 May 2021 06:22:45 +0000
-To: Dave Airlie <airlied@gmail.com>
+Received: from sender4-of-o53.zoho.com (sender4-of-o53.zoho.com
+ [136.143.188.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 19EDC6E245
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 May 2021 13:40:57 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1621518051; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=g366NAyIOHGUnmU1H63NB1lXwhcYXHlezQIRprstNF8Wtjt9iC/dczA9RagvoEs5ys621mpiRDd7x/v4cWWmtwC8YR5FIfYIzMZYqsxQzEx9Wr6ijIUPpYZn8MS/NWnsQsi9ud+tpVhTbjPtR//y9Nq4ZmXI8g53oKfIGDvK5fc=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1621518051;
+ h=Content-Type:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:To;
+ bh=7VNeDRXRLa85jo7cthDYXanGoVHoiLzcwRL2eJbBc4Q=; 
+ b=NT/YbWWIGwaB810Ax5TA/0bAb/G3mAGqKXs617ByEW7UgVb0Ff5EAklvknryjULH2NGMpEWhvAKTXTRUVoIBgOKhAZkrCtu2CgqCUmCze3ct+H5S5HhGOzzkMDtx9/JZnBT4df4j+1dx//yaADH4EWzxa9DFs8qX13ehf5odse8=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=anirudhrb.com;
+ spf=pass  smtp.mailfrom=mail@anirudhrb.com;
+ dmarc=pass header.from=<mail@anirudhrb.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1621518051; 
+ s=zoho; d=anirudhrb.com; i=mail@anirudhrb.com;
+ h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:Content-Type:In-Reply-To;
+ bh=7VNeDRXRLa85jo7cthDYXanGoVHoiLzcwRL2eJbBc4Q=;
+ b=DhQR6BlcX/91j1pV697dRGRM60S+vbqLTUXQRJ257ZxRwhLgDvA6cXqImWdgFNPD
+ VZuxjfxgplf/s9w/0voP/XSRUPvKd/oLZy36qHm3JLp+KQ9GlWeN4MryAWdaKMZEmSj
+ xpOb2stWUt7eJQp8VED2Az3/0EMFGgWfZn2Ac05k=
+Received: from anirudhrb.com (106.51.110.115 [106.51.110.115]) by
+ mx.zohomail.com with SMTPS id 1621518046958980.6684477891203;
+ Thu, 20 May 2021 06:40:46 -0700 (PDT)
+Date: Thu, 20 May 2021 19:10:39 +0530
+From: Anirudh Rayabharam <mail@anirudhrb.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: Re: [PATCH] video: hgafb: correctly handle card detect failure
+ during probe
+Message-ID: <YKZm17dj4R1c2ns/@anirudhrb.com>
+References: <20210516192714.25823-1-mail@anirudhrb.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210516192714.25823-1-mail@anirudhrb.com>
+X-ZohoMailClient: External
+X-Mailman-Approved-At: Fri, 21 May 2021 06:56:34 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,22 +60,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- Linus Torvalds <torvalds@linux-foundation.org>,
- LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
+Cc: linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, fero@drama.obuda.kando.hu, mail@anirudhrb.com,
+ kernel test robot <oliver.sang@intel.com>, stable <stable@vger.kernel.org>,
+ linux-nvidia@lists.surfsouth.com,
+ linux-kernel-mentees@lists.linuxfoundation.org, igormtorrente@gmail.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The pull request you sent on Fri, 21 May 2021 14:31:53 +1000:
+On Mon, May 17, 2021 at 12:57:14AM +0530, Anirudh Rayabharam wrote:
+> The return value of hga_card_detect() is not properly handled causing
+> the probe to succeed even though hga_card_detect() failed. Since probe
+> succeeds, hgafb_open() can be called which will end up operating on an
+> unmapped hga_vram. This results in an out-of-bounds access as reported
+> by kernel test robot [1].
+> 
+> To fix this, correctly detect failure of hga_card_detect() by checking
+> for a non-zero error code.
+> 
+> [1]: https://lore.kernel.org/lkml/20210516150019.GB25903@xsang-OptiPlex-9020/
+> 
+> Reported-by: kernel test robot <oliver.sang@intel.com>
+> Fixes: dc13cac4862c ("video: hgafb: fix potential NULL pointer dereference")
 
-> git://anongit.freedesktop.org/drm/drm tags/drm-fixes-2021-05-21-1
+Greg, this is one of the UMN fixes we did. So, do you want to take this
+patch into your tree?
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/79a106fc6585979022012e65a1e45e3d2d28b77b
+thanks!
 
-Thank you!
+	- Anirudh.
 
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+> Cc: stable <stable@vger.kernel.org>
+> Signed-off-by: Anirudh Rayabharam <mail@anirudhrb.com>
+> ---
+>  drivers/video/fbdev/hgafb.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/video/fbdev/hgafb.c b/drivers/video/fbdev/hgafb.c
+> index cc8e62ae93f6..bd3d07aa4f0e 100644
+> --- a/drivers/video/fbdev/hgafb.c
+> +++ b/drivers/video/fbdev/hgafb.c
+> @@ -558,7 +558,7 @@ static int hgafb_probe(struct platform_device *pdev)
+>  	int ret;
+>  
+>  	ret = hga_card_detect();
+> -	if (!ret)
+> +	if (ret)
+>  		return ret;
+>  
+>  	printk(KERN_INFO "hgafb: %s with %ldK of memory detected.\n",
+> -- 
+> 2.26.2
+> 
