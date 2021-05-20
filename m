@@ -1,52 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5CF9A38C01C
-	for <lists+dri-devel@lfdr.de>; Fri, 21 May 2021 08:56:39 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B641138C01E
+	for <lists+dri-devel@lfdr.de>; Fri, 21 May 2021 08:56:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DC8626EB3C;
-	Fri, 21 May 2021 06:56:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 825616F5BC;
+	Fri, 21 May 2021 06:56:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-of-o53.zoho.com (sender4-of-o53.zoho.com
- [136.143.188.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 19EDC6E245
- for <dri-devel@lists.freedesktop.org>; Thu, 20 May 2021 13:40:57 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1621518051; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=g366NAyIOHGUnmU1H63NB1lXwhcYXHlezQIRprstNF8Wtjt9iC/dczA9RagvoEs5ys621mpiRDd7x/v4cWWmtwC8YR5FIfYIzMZYqsxQzEx9Wr6ijIUPpYZn8MS/NWnsQsi9ud+tpVhTbjPtR//y9Nq4ZmXI8g53oKfIGDvK5fc=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1621518051;
- h=Content-Type:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:To;
- bh=7VNeDRXRLa85jo7cthDYXanGoVHoiLzcwRL2eJbBc4Q=; 
- b=NT/YbWWIGwaB810Ax5TA/0bAb/G3mAGqKXs617ByEW7UgVb0Ff5EAklvknryjULH2NGMpEWhvAKTXTRUVoIBgOKhAZkrCtu2CgqCUmCze3ct+H5S5HhGOzzkMDtx9/JZnBT4df4j+1dx//yaADH4EWzxa9DFs8qX13ehf5odse8=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=anirudhrb.com;
- spf=pass  smtp.mailfrom=mail@anirudhrb.com;
- dmarc=pass header.from=<mail@anirudhrb.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1621518051; 
- s=zoho; d=anirudhrb.com; i=mail@anirudhrb.com;
- h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:Content-Type:In-Reply-To;
- bh=7VNeDRXRLa85jo7cthDYXanGoVHoiLzcwRL2eJbBc4Q=;
- b=DhQR6BlcX/91j1pV697dRGRM60S+vbqLTUXQRJ257ZxRwhLgDvA6cXqImWdgFNPD
- VZuxjfxgplf/s9w/0voP/XSRUPvKd/oLZy36qHm3JLp+KQ9GlWeN4MryAWdaKMZEmSj
- xpOb2stWUt7eJQp8VED2Az3/0EMFGgWfZn2Ac05k=
-Received: from anirudhrb.com (106.51.110.115 [106.51.110.115]) by
- mx.zohomail.com with SMTPS id 1621518046958980.6684477891203;
- Thu, 20 May 2021 06:40:46 -0700 (PDT)
-Date: Thu, 20 May 2021 19:10:39 +0530
-From: Anirudh Rayabharam <mail@anirudhrb.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: Re: [PATCH] video: hgafb: correctly handle card detect failure
- during probe
-Message-ID: <YKZm17dj4R1c2ns/@anirudhrb.com>
-References: <20210516192714.25823-1-mail@anirudhrb.com>
+Received: from mail-io1-xd2f.google.com (mail-io1-xd2f.google.com
+ [IPv6:2607:f8b0:4864:20::d2f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0D0C789AB6;
+ Thu, 20 May 2021 14:18:31 +0000 (UTC)
+Received: by mail-io1-xd2f.google.com with SMTP id s7so664861iov.2;
+ Thu, 20 May 2021 07:18:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=DBoE8uvg4daA6egY5B3E868eCtOCNrp/JoVxhqABrd8=;
+ b=nDC85/OdQRNds+ZL2seJ8UZhD8mFSlufxaUYXOTO+uTnLzyG2vAjGK/d/CiIYGKrsd
+ ebNIuwBF748IXzmjbYF+YvYz+JvfV1CoVd7W/QKmKOnHEntY5Be7XdylC1p0cbS4UyIv
+ ibUF2s8L2Oy5MoK9ZTtdFsJIwbCy20TJcrbQMxZcQdDevnMi8ZO38LYKC04QFePPgRfN
+ seZBWNhmzHEijMqtPGj+80HiJGKBFiaF/K3zR3sWHjfqE9JQZWFHoIO4FFlFZ2XciGdb
+ gL44cqmZxYHnMsH1Fhaa/kJoBgxijigKi/AjPU2Le6tfZFcpqiZkCM0MhsDOuqr75xlF
+ I/eg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=DBoE8uvg4daA6egY5B3E868eCtOCNrp/JoVxhqABrd8=;
+ b=GWONsK/LtT9ODEXmqAOmgm3WKanmJHCMVcTmL161bYSTPUE/Xx/amWRKby+uIP7y61
+ 0NHcFGLQB/EzniqZHrS8745uSZ//0dyr//DuKGCbZNplhvCTtiSo+kOsQU53jZ66xoUG
+ LDOgUsGvIgB3dvcLJoqmZKk9i3s38aM4Yh/nqMOY7nT4mnt/marioYwJN8mWyDoJzH4k
+ hrSDoWWNbevhl0ie7qJkRt+lWrr2RzwNDPJTrZeIjrbu4a8FCdA8+GN3oG+lkbLFDTVn
+ chQDs16tkZH0v+fpubJMPZqYwaR/HMbMUNawTbGxJOqllbJojx9CDMSgzHLGWBkwe0rT
+ iC8Q==
+X-Gm-Message-State: AOAM532LoLbL1Ax99WycyjOJC8pTM22O67nDjy3fWzPAHRW7cyVdGXbN
+ j0SeO+cNNB9DXc7PFrG74E+JvWACZy/jBGmXKsY=
+X-Google-Smtp-Source: ABdhPJxErgeRZBKGIlugn72wxzzF2d6U1bfQQzBUwXW0KqJDYOM6bQaKNq9JS1g+leNaKHufjyGbMF+2sTOkOerjiBo=
+X-Received: by 2002:a6b:e91a:: with SMTP id u26mr5293102iof.83.1621520310394; 
+ Thu, 20 May 2021 07:18:30 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210516192714.25823-1-mail@anirudhrb.com>
-X-ZohoMailClient: External
+References: <c85fc53f-d25b-464c-d411-eed4a509a009@linux.intel.com>
+ <BYAPR12MB28409E25DEFD3DD620E596ABF42D9@BYAPR12MB2840.namprd12.prod.outlook.com>
+ <BYAPR12MB284090FAC1C6E149F0A1A0ECF42D9@BYAPR12MB2840.namprd12.prod.outlook.com>
+ <mysJHURIfWxBRBabIlnunj7LZNkkRQ-Knu_o6v7GZI4xCwGMZXn0rvjscl-aTT_d-ttlAQgJOG3gP95DBd_dxCPQNfguTSdrltxPrKt2FGs=@emersion.fr>
+ <7f8fc38a-cd25-aa1f-fa2d-5d3334edb3d2@linux.intel.com>
+ <CAPj87rOL7SEVXoH1rWH9ypj7idRmVPLXzmEsdVqFdVjsMh5PbA@mail.gmail.com>
+ <71428a10-4b2f-dbbf-7678-7487f9eda6a5@linux.intel.com>
+ <c22608a4-b84c-a3a4-0df1-448312b1292e@linux.intel.com>
+ <CAKMK7uF0fHBoYfiTS+-80RtUeuKFUcYDBpGHtNY6Ma+aJmmkxA@mail.gmail.com>
+ <BYAPR12MB28404674622BAB65A9257D1FF42B9@BYAPR12MB2840.namprd12.prod.outlook.com>
+ <YKZt+x6as7ix6TPy@phenom.ffwll.local>
+ <e086fbd7-5d37-c8e2-0a49-c6c646faf309@amd.com>
+In-Reply-To: <e086fbd7-5d37-c8e2-0a49-c6c646faf309@amd.com>
+From: arabek <arabek@gmail.com>
+Date: Thu, 20 May 2021 16:17:54 +0200
+Message-ID: <CAOBfEJCFGCj54Hgr_-v9EH074teECmDh_9K+0HBksNgkZzu_Kg@mail.gmail.com>
+Subject: Re: [Nouveau] [Intel-gfx] [PATCH 0/7] Per client engine busyness
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Content-Type: text/plain; charset="UTF-8"
 X-Mailman-Approved-At: Fri, 21 May 2021 06:56:34 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -60,55 +73,20 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, fero@drama.obuda.kando.hu, mail@anirudhrb.com,
- kernel test robot <oliver.sang@intel.com>, stable <stable@vger.kernel.org>,
- linux-nvidia@lists.surfsouth.com,
- linux-kernel-mentees@lists.linuxfoundation.org, igormtorrente@gmail.com
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ "nouveau@lists.freedesktop.org" <nouveau@lists.freedesktop.org>,
+ Intel Graphics Development <Intel-gfx@lists.freedesktop.org>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>, "Nieto,
+ David M" <David.Nieto@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, May 17, 2021 at 12:57:14AM +0530, Anirudh Rayabharam wrote:
-> The return value of hga_card_detect() is not properly handled causing
-> the probe to succeed even though hga_card_detect() failed. Since probe
-> succeeds, hgafb_open() can be called which will end up operating on an
-> unmapped hga_vram. This results in an out-of-bounds access as reported
-> by kernel test robot [1].
-> 
-> To fix this, correctly detect failure of hga_card_detect() by checking
-> for a non-zero error code.
-> 
-> [1]: https://lore.kernel.org/lkml/20210516150019.GB25903@xsang-OptiPlex-9020/
-> 
-> Reported-by: kernel test robot <oliver.sang@intel.com>
-> Fixes: dc13cac4862c ("video: hgafb: fix potential NULL pointer dereference")
+> Well if it becomes a problem fixing the debugfs "clients" file and
+> making it sysfs shouldn't be much of a problem later on.
 
-Greg, this is one of the UMN fixes we did. So, do you want to take this
-patch into your tree?
+Why not to try using something in terms of perf / opensnoop or bpf
+to do the work. Should be optimal enough.
 
-thanks!
-
-	- Anirudh.
-
-> Cc: stable <stable@vger.kernel.org>
-> Signed-off-by: Anirudh Rayabharam <mail@anirudhrb.com>
-> ---
->  drivers/video/fbdev/hgafb.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/video/fbdev/hgafb.c b/drivers/video/fbdev/hgafb.c
-> index cc8e62ae93f6..bd3d07aa4f0e 100644
-> --- a/drivers/video/fbdev/hgafb.c
-> +++ b/drivers/video/fbdev/hgafb.c
-> @@ -558,7 +558,7 @@ static int hgafb_probe(struct platform_device *pdev)
->  	int ret;
->  
->  	ret = hga_card_detect();
-> -	if (!ret)
-> +	if (ret)
->  		return ret;
->  
->  	printk(KERN_INFO "hgafb: %s with %ldK of memory detected.\n",
-> -- 
-> 2.26.2
-> 
+ie.
+http://www.brendangregg.com/blog/2014-07-25/opensnoop-for-linux.html
+https://man7.org/linux/man-pages/man2/bpf.2.html
