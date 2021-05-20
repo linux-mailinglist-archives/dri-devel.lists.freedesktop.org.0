@@ -2,66 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2667E389F2C
-	for <lists+dri-devel@lfdr.de>; Thu, 20 May 2021 09:55:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB2E7389F52
+	for <lists+dri-devel@lfdr.de>; Thu, 20 May 2021 09:58:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B88E96F37F;
-	Thu, 20 May 2021 07:55:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3189B6F381;
+	Thu, 20 May 2021 07:58:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x330.google.com (mail-ot1-x330.google.com
- [IPv6:2607:f8b0:4864:20::330])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 026AE6F37F
- for <dri-devel@lists.freedesktop.org>; Thu, 20 May 2021 07:55:30 +0000 (UTC)
-Received: by mail-ot1-x330.google.com with SMTP id
- v19-20020a0568301413b0290304f00e3d88so14092145otp.4
- for <dri-devel@lists.freedesktop.org>; Thu, 20 May 2021 00:55:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=7VsX7/Yz8gqq5F5QEcaTsRmC1RVegDqVZLxieNcvL5Y=;
- b=a/Tz6gVwAOCMl1U31XbJwz20OWk9IAZsktmDv5Gj+dqcefIzeuJ3KSa4mgmQRQVlwq
- oCvt2Jry/uKyMhMHZYbCvoeG2kyr0iFlZeMUTSpCI/++fyCiAuXYZQzUBeCzoGYwtIdi
- GWXzAaG8gTPNTJTRaxDqPyBImkKyRVb0pOlfw=
+Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com
+ [IPv6:2a00:1450:4864:20::12a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 502D36F380;
+ Thu, 20 May 2021 07:58:31 +0000 (UTC)
+Received: by mail-lf1-x12a.google.com with SMTP id x19so23134515lfa.2;
+ Thu, 20 May 2021 00:58:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:in-reply-to:references
+ :mime-version; bh=Ztf4fG3go4pm6O5hMpKy38HSIWUlz9iqc0r333NE9fQ=;
+ b=slC88OHO4mwnrW9AfLCA9z1uEPWGQC/5yLI3DmMl84kIA5awpqjSN91gtkU9K4f/H+
+ TIDfAAaPl0LuzYwPQV6YadmfnqVWIAjuPPs4snUfGG9dI3/g+EsmO71bJ/jh80kF0sJ0
+ kQcX1Hetvn85F4suC5Oe6UCRJw4uleoMbUwAucUmIMK9iqh2cCRLco1GHwvKMxiP9hbL
+ hcq2WcyPG55YX6PSHx0fyMcaH4hh0gVSkaf+Cu3z1RU45zsHDzCJc4/Ij0O6uel4LLRX
+ d94Ldi1amEGatqlxbaQuHdOp5LHZaz2pjH1BewTLkDNcIIti7BJHS/exOCspu6/eSfX9
+ CBYQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=7VsX7/Yz8gqq5F5QEcaTsRmC1RVegDqVZLxieNcvL5Y=;
- b=G4YKi3BK4DKCBNBRWkPdYuSTt9KSizUdJ8y/fCUIr9EEAf0dc5vDyZf4n4SV0lw9b0
- 7WoN6cr7XVNe07OB1Lw2UvYZEOCgSF2szXOi/7eGDm04HCtosxTFxnrrXs0q0mfmTB2D
- GTou/YeZmXtOyV7uIHrFBbkdlL3FJ608/Ox04ndI2pL+Dw0u2C2w1pN/IQ6DVO86i/5S
- Ycvfa9kRI9uJX/6cB5qLF6j8iZLXuEHpQL5Fp0mSbJl/CFF99BndM20IMyPqO14ggvBw
- KNRb4jktLCZW/D4V8NChTkYIGg4VAtGJwClYNZMuMuYcVkevSDlH3eTjcLNCGHN+Gpix
- lSDw==
-X-Gm-Message-State: AOAM533LiEH/eohIj7A5FWKiRYBO4QjCjB/KnksKHbsyxCoATGsQSxoS
- EfC/0TbytZLFMwZ1b0UfqW7PFZv8ySnyqNDRZiz/+w==
-X-Google-Smtp-Source: ABdhPJw5oxqOn0U5fVq3qtSCcJm4kDUr02ifSMeE3D/j/nbnWJxtqoD/DWDHCg+55DhKPZAvCoXZl4teZNeKUdtM1sI=
-X-Received: by 2002:a9d:4101:: with SMTP id o1mr2915523ote.281.1621497330332; 
- Thu, 20 May 2021 00:55:30 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version;
+ bh=Ztf4fG3go4pm6O5hMpKy38HSIWUlz9iqc0r333NE9fQ=;
+ b=snuAJvQ3O7RJTD1K6KEHl2R1M8oM1Kzh2gmiNN3y0Oz+Rla3Pw2kYRIA1cLVQjv/Ly
+ 7mXyaHiLHRYJFg7pMofU4/1emuaph2U1FmyOqxXuHh27eXpkR2UHpZ3GG8MSXRn9DcAK
+ KDfRJ2AmP8Zq5Av4+M6cvfSTmbFMC64NJQFcI42jGi45xjG79PXjEBlj/uWO9mdHu7ED
+ S4PVQk7zVBvVe3FMxWkR4iMS9mClv1j5oUXrvd54p4qdab7tQ4CpnOb7T0ZfuoAGcVn/
+ Dp2zmJHJMwrSVPgx2nRH4nif0A/WPhwipsMBWS8iWibXfosgIwJJ7/b7wByOI60yPJZ5
+ 8PWQ==
+X-Gm-Message-State: AOAM530TyXg+rkN/ODMZZnU/OsqbOjLb93W2PHiBT/xua2kOPsJYMANO
+ HzjToRpEdCQEA66Bu+A6XAg=
+X-Google-Smtp-Source: ABdhPJyv2TtDkGTqIrn4pkdWXB+nVoCr/LdpTXAOp/BvuSfa+3PDB8zlGhTGgi3WU1LX2RPm/h3p4Q==
+X-Received: by 2002:ac2:544f:: with SMTP id d15mr2505747lfn.465.1621497509657; 
+ Thu, 20 May 2021 00:58:29 -0700 (PDT)
+Received: from eldfell ([194.136.85.206])
+ by smtp.gmail.com with ESMTPSA id y24sm197087lfg.232.2021.05.20.00.58.28
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 20 May 2021 00:58:29 -0700 (PDT)
+Date: Thu, 20 May 2021 10:58:26 +0300
+From: Pekka Paalanen <ppaalanen@gmail.com>
+To: Ville =?UTF-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>, Werner
+ Sembach <wse@tuxedocomputers.com>
+Subject: Re: New uAPI for color management proposal and feedback request
+Message-ID: <20210520105826.7659a49a@eldfell>
+In-Reply-To: <YKUXbwkUIwvO/OqK@intel.com>
+References: <8c0d7ad8-7ade-bf8a-0414-cc795fbb6aa2@tuxedocomputers.com>
+ <YJvSUCCPvWz7y/r7@intel.com> <20210519123405.4d3218a7@eldfell>
+ <YKUXbwkUIwvO/OqK@intel.com>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-References: <20210517141129.2225-1-christian.koenig@amd.com>
- <YKKF4jOvM4gJT6a4@phenom.ffwll.local>
- <5a3e9500-9d6b-a865-5385-fde43da2bf66@gmail.com>
- <CAKMK7uF=y44e9-0-4MBj3jRBdCqMaLgKutTMeBWCbySRnPR4KQ@mail.gmail.com>
- <CAOFGe960UMe4=Xxcoha9R2Y74ma3Pp4Z0DF6PM+SJ2sjq2DBXg@mail.gmail.com>
- <CAKMK7uGtTT+59hRi3PB1WHPES3YJAPYBvbT74vo9PApNE0i7MQ@mail.gmail.com>
- <fee06c2d-27fb-1af4-6222-8f277b36c951@gmail.com>
- <CAKMK7uHLipx_oH-s5PB6pUUZ_JXCyciaY7sDLfK__-2fvSPCKA@mail.gmail.com>
- <f2eb6751-2f82-9b23-f57e-548de5b729de@gmail.com>
- <CAKMK7uHdsGjADQ9zwgrYsuhHdxFGkuH--DdOsaqej6OD1AbX-w@mail.gmail.com>
- <CAOFGe97FDc7Y9APymQQZZMApDXsJkbcS0N5jh+3s-w-Ligipug@mail.gmail.com>
- <14524566-8854-4bc0-9f70-b7219c9fccfc@daenzer.net>
- <CAOFGe96VttW2VzAnx13ZXLBGcEDJMehGuOFifcr+pcbEOa-Brw@mail.gmail.com>
- <6f3e2628-7b39-417c-3bd2-c837c5367458@daenzer.net>
-In-Reply-To: <6f3e2628-7b39-417c-3bd2-c837c5367458@daenzer.net>
-From: Daniel Vetter <daniel@ffwll.ch>
-Date: Thu, 20 May 2021 09:55:19 +0200
-Message-ID: <CAKMK7uFMQGth19OjWmeNGTeVFoAqxK2tYXYrvme+NuCSNLxLUQ@mail.gmail.com>
-Subject: Re: [RFC] Add DMA_RESV_USAGE flags
-To: =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel@daenzer.net>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ boundary="Sig_/JM4T.u/0gZTQJI0lx_jyo8a"; protocol="application/pgp-signature"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,102 +70,207 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "moderated list:DMA BUFFER SHARING FRAMEWORK"
- <linaro-mm-sig@lists.linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Jason Ekstrand <jason@jlekstrand.net>
+Cc: "Deucher, Alexander" <alexander.deucher@amd.com>,
+ intel-gfx@lists.freedesktop.org, amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, May 19, 2021 at 5:48 PM Michel D=C3=A4nzer <michel@daenzer.net> wro=
-te:
->
-> On 2021-05-19 5:21 p.m., Jason Ekstrand wrote:
-> > On Wed, May 19, 2021 at 5:52 AM Michel D=C3=A4nzer <michel@daenzer.net>=
- wrote:
-> >>
-> >> On 2021-05-19 12:06 a.m., Jason Ekstrand wrote:
-> >>> On Tue, May 18, 2021 at 4:17 PM Daniel Vetter <daniel@ffwll.ch> wrote=
-:
-> >>>>
-> >>>> On Tue, May 18, 2021 at 7:40 PM Christian K=C3=B6nig
-> >>>> <ckoenig.leichtzumerken@gmail.com> wrote:
-> >>>>>
-> >>>>> Am 18.05.21 um 18:48 schrieb Daniel Vetter:
-> >>>>>> On Tue, May 18, 2021 at 2:49 PM Christian K=C3=B6nig
-> >>>>>> <ckoenig.leichtzumerken@gmail.com> wrote:
-> >>>>>>
-> >>>>>>> And as long as we are all inside amdgpu we also don't have any ov=
-ersync,
-> >>>>>>> the issue only happens when we share dma-bufs with i915 (radeon a=
-nd
-> >>>>>>> AFAIK nouveau does the right thing as well).
-> >>>>>> Yeah because then you can't use the amdgpu dma_resv model anymore =
-and
-> >>>>>> have to use the one atomic helpers use. Which is also the one that
-> >>>>>> e.g. Jason is threathening to bake in as uapi with his dma_buf ioc=
-tl,
-> >>>>>> so as soon as that lands and someone starts using it, something ha=
-s to
-> >>>>>> adapt _anytime_ you have a dma-buf hanging around. Not just when i=
-t's
-> >>>>>> shared with another device.
-> >>>>>
-> >>>>> Yeah, and that is exactly the reason why I will NAK this uAPI chang=
-e.
-> >>>>>
-> >>>>> This doesn't works for amdgpu at all for the reasons outlined above=
-.
-> >>>>
-> >>>> Uh that's really not how uapi works. "my driver is right, everyone
-> >>>> else is wrong" is not how cross driver contracts are defined. If tha=
-t
-> >>>> means a perf impact until you've fixed your rules, that's on you.
-> >>>>
-> >>>> Also you're a few years too late with nacking this, it's already uap=
-i
-> >>>> in the form of the dma-buf poll() support.
-> >>>
-> >>> ^^  My fancy new ioctl doesn't expose anything that isn't already
-> >>> there.  It just lets you take a snap-shot of a wait instead of doing
-> >>> an active wait which might end up with more fences added depending on
-> >>> interrupts and retries.  The dma-buf poll waits on all fences for
-> >>> POLLOUT and only the exclusive fence for POLLIN.  It's already uAPI.
-> >>
-> >> Note that the dma-buf poll support could be useful to Wayland composit=
-ors for the same purpose as Jason's new ioctl (only using client buffers wh=
-ich have finished drawing for an output frame, to avoid missing a refresh c=
-ycle due to client drawing), *if* it didn't work differently with amdgpu.
-> >>
-> >> Am I understanding correctly that Jason's new ioctl would also work di=
-fferently with amdgpu as things stand currently? If so, that would be a rea=
-l bummer and might hinder adoption of the ioctl by Wayland compositors.
-> >
-> > My new ioctl has identical semantics to poll().  It just lets you take
-> > a snapshot in time to wait on later instead of waiting on whatever
-> > happens to be set right now.  IMO, having identical semantics to
-> > poll() isn't something we want to change.
->
-> Agreed.
->
-> I'd argue then that making amdgpu poll semantics match those of other dri=
-vers is a pre-requisite for the new ioctl, otherwise it seems unlikely that=
- the ioctl will be widely adopted.
+--Sig_/JM4T.u/0gZTQJI0lx_jyo8a
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-This seems backwards, because that means useful improvements in all
-other drivers are stalled until amdgpu is fixed.
+On Wed, 19 May 2021 16:49:35 +0300
+Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com> wrote:
 
-I think we need agreement on what the rules are, reasonable plan to
-get there, and then that should be enough to unblock work in the wider
-community. Holding the community at large hostage because one driver
-is different is really not great.
+> On Wed, May 19, 2021 at 12:34:05PM +0300, Pekka Paalanen wrote:
+> > On Wed, 12 May 2021 16:04:16 +0300
+> > Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com> wrote:
+> >  =20
+> > > On Wed, May 12, 2021 at 02:06:56PM +0200, Werner Sembach wrote: =20
+> > > > Hello,
+> > > >=20
+> > > > In addition to the existing "max bpc", and "Broadcast RGB/output_cs=
+c" drm properties I propose 4 new properties:
+> > > > "preferred pixel encoding", "active color depth", "active color ran=
+ge", and "active pixel encoding"
+> > > >=20
+> > > >=20
+> > > > Motivation:
+> > > >=20
+> > > > Current monitors have a variety pixel encodings available: RGB, YCb=
+Cr 4:4:4, YCbCr 4:2:2, YCbCr 4:2:0.
+> > > >=20
+> > > > In addition they might be full or limited RGB range and the monitor=
+s accept different bit depths.
+> > > >=20
+> > > > Currently the kernel driver for AMD and Intel GPUs automatically co=
+nfigure the color settings automatically with little
+> > > > to no influence of the user. However there are several real world s=
+cenarios where the user might disagree with the
+> > > > default chosen by the drivers and wants to set his or her own prefe=
+rence.
+> > > >=20
+> > > > Some examples:
+> > > >=20
+> > > > 1. While RGB and YCbCr 4:4:4 in theory carry the same amount of col=
+or information, some screens might look better on one
+> > > > than the other because of bad internal conversion. The driver curre=
+ntly however has a fixed default that is chosen if
+> > > > available (RGB for Intel and YCbCr 4:4:4 for AMD). The only way to =
+change this currently is by editing and overloading
+> > > > the edid reported by the monitor to the kernel.
+> > > >=20
+> > > > 2. RGB and YCbCr 4:4:4 need a higher port clock then YCbCr 4:2:0. S=
+ome hardware might report that it supports the higher
+> > > > port clock, but because of bad shielding on the PC, the cable, or t=
+he monitor the screen cuts out every few seconds when
+> > > > RGB or YCbCr 4:4:4 encoding is used, while YCbCr 4:2:0 might just w=
+ork fine without changing hardware. The drivers
+> > > > currently however always default to the "best available" option eve=
+n if it might be broken.
+> > > >=20
+> > > > 3. Some screens natively only supporting 8-bit color, simulate 10-B=
+it color by rapidly switching between 2 adjacent
+> > > > colors. They advertise themselves to the kernel as 10-bit monitors =
+but the user might not like the "fake" 10-bit effect
+> > > > and prefer running at the native 8-bit per color.
+> > > >=20
+> > > > 4. Some screens are falsely classified as full RGB range wile they =
+actually use limited RGB range. This results in
+> > > > washed out colors in dark and bright scenes. A user override can be=
+ helpful to manually fix this issue when it occurs.
+> > > >=20
+> > > > There already exist several requests, discussion, and patches regar=
+ding the thematic:
+> > > >=20
+> > > > - https://gitlab.freedesktop.org/drm/amd/-/issues/476
+> > > >=20
+> > > > - https://gitlab.freedesktop.org/drm/amd/-/issues/1548
+> > > >=20
+> > > > - https://lkml.org/lkml/2021/5/7/695
+> > > >=20
+> > > > - https://lkml.org/lkml/2021/5/11/416
+> > > >  =20
+> >=20
+> > ...
+> >  =20
+> > > > Adoption:
+> > > >=20
+> > > > A KDE dev wants to implement the settings in the KDE settings GUI:
+> > > > https://gitlab.freedesktop.org/drm/amd/-/issues/476#note_912370
+> > > >=20
+> > > > Tuxedo Computers (my employer) wants to implement the settings desk=
+top environment agnostic in Tuxedo Control Center. I
+> > > > will start work on this in parallel to implementing the new kernel =
+code.   =20
+> > >=20
+> > > I suspect everyone would be happier to accept new uapi if we had
+> > > multiple compositors signed up to implement it. =20
+> >=20
+> > I think having Weston support for these would be good, but for now it
+> > won't be much of an UI: just weston.ini to set, and the log to see what
+> > happened.
+> >=20
+> > However, knowing what happened is going to be important for color
+> > calibration auditing:
+> > https://gitlab.freedesktop.org/wayland/weston/-/issues/467
+> >=20
+> > Yes, please, very much for read-only properties for the feedback part.
+> > Properties that both userspace and kernel will write are hard to deal
+> > with in general.
+> >=20
+> > Btw. "max bpc" I can kind of guess that conversion from framebuffer
+> > format to the wire bpc happens automatically and only as the final
+> > step, =20
+>=20
+> Well, there could be dithering and whatnot also involved. So it's
+> not super well specified atm either.
 
-I've just finished the subsystem review of everything, and thus far
-only found some minor bugs without practical significance. I'll fix
-those and then send out a series.
--Daniel
---=20
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+I tend to forget that dithering is a thing. I guess it could be
+temporal and/or spatial depending on hardware?
+
+> > but "Broadcast RGB" is more complicated: is the output from the
+> > abstract pixel pipeline sent as-is and "Broadcast RGB" is just another
+> > inforframe bit to the monitor, or does "Broadcast RGB" setting actually
+> > change what happens in the pixel pipeline *and* set infoframe bits? =20
+>=20
+> It does indeed compress the actual pixel data. There was once a patch
+> porposed to introduce a new enum value that only sets the infoframe and
+> thus would allow userspace to pass through already limited range data.
+> Shouldn't be hard to resurrect that if needed.
+
+Right, thanks for confirming. I mentioned this mostly for Werner to
+point out that existing properties might do surprising things.
+Especially if one has looked at HDR related properties which only set
+infoframe bits and nothing more.
+
+> > My vague recollection is that framebuffer was always assumed to be in
+> > full range, and then if "Broadcast RGB" was set to limited range, the
+> > driver would mangle the pixel pipeline to convert from full to limited
+> > range. This means that it would be impossible to have limited range
+> > data in a framebuffer, or there might be a double-conversion by
+> > userspace programming a LUT for limited->full and then the driver
+> > adding full->limited. I'm also confused how full/limited works when
+> > framebuffer is in RGB/YCbCr and the monitor wire format is in RGB/YCbCr
+> > and there may be RGB->YCbCR or YCbCR->RGB conversions going on - or
+> > maybe even FB YCbCR -> RGB -> DEGAMMA -> CTM -> GAMMA -> YCbCR.
+> >=20
+> > I wish someone drew a picture of the KMS abstract pixel pipeline with
+> > all the existing KMS properties in it. :-) =20
+>=20
+> Here's an ugly one for i915:
+>=20
+>     (input RGB vs. YCbCr?)
+> [FB] -> [YCbCr?] -> [YCbCr->RGB conversion     ] -> [plane blending] -> .=
+..
+>       |             [YCbCr color range/encoding] |
+>       \ [RGB?] ----------------------------------/
+>=20
+>                                            (output RGB limited vs. RGB fu=
+ll vs. YCbCr?)
+> ... -> [DEGAMMA_LUT] -> [CTM] -> [GAMMA_LUT] -> [YCbCr?] -> [RGB->YCbCr c=
+onversion      ] -> [to port]
+>                                               |             [always BT.70=
+9/limited range]
+>                                               \ [RGB?] -> ...
+>=20
+> ... -> [RGB passthrough             ] -> [to port]
+>      | [Broadcast RGB=3Dfull or       ]
+>      | [Broadcast RGB=3Dauto + IT mode]
+>      |
+>      \ [RGB full->limited conversion] -> [to port]
+>        [Broadcast RGB=3Dlimited or    ]
+>        [Broadcast RGB=3Dauto + CE mode]
+>=20
+> I guess having something like that in the docs would be nice. Not sure
+> if there's a way to make something that looks decent for html/etc.
+
+It would be super useful indeed.
+
+
+Thanks,
+pq
+
+--Sig_/JM4T.u/0gZTQJI0lx_jyo8a
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmCmFqIACgkQI1/ltBGq
+qqfN4g//VzHs7kX1GmLPY7Ou3CRJaj0CyDzpwLN0djwSFXNvbQgSCDttMy+rz+UT
+e/pk3lLTY79o8dWPcbFTM/QM6BQXLTS7OtiJfLhv4eNIU5t6Edl1w2QcTh9A6MKS
+bRjC4Ju3uzSL3nczmYr55Gwy1Jodt2iM0bV80Dcbi724x6v18dXbiyvP7O/vzFOJ
+Km12/kE8TgNUqURVmbX6u7SubqTAZx7hbzKTQB0OOofC6F0K1brH9c/jHIr4V4cB
+jkqJCMttJ+iwXo6PeqRxMw2gyu4L/9qQay+uPDonzhpQlY51v77JftCsNBO0Yrex
+VVDRRbpRTFPMt+lTvzTxWy8XwR8rXy2KHVH6w02EsplbV/62Fz9VbO1NmGYiUlYb
+B4gZDgUOj1UnghRiCbW5DYta66h3o+w6sDJmJLNFwXUdqw2nvYAK8fSEtqWhV9zQ
+I3U12y6GsoFyruVfoFSas5zYe3kcxArwYZVq/8DUTFvGBoqLyzLU10bpQcMtoVAH
+2b1FeldcRzMZCvwGxCgO2ShucTiJZ/0ZNdeSKkfMy4u9WWUuPRcGIqwqPrs0Mx3y
+Nf71Pyvj8Q5Cz3LhtyCLWi5ldN+DSO5YS6hxiskwv/VLIgR4rDuRwwYWimnm/D5g
+VeF159yw20v6wQ75cNIJZfSwI5QVcnWu+l1y2FOH173meXJEk38=
+=KBhL
+-----END PGP SIGNATURE-----
+
+--Sig_/JM4T.u/0gZTQJI0lx_jyo8a--
