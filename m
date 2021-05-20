@@ -1,56 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D418038AD62
-	for <lists+dri-devel@lfdr.de>; Thu, 20 May 2021 14:03:27 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D381638AD69
+	for <lists+dri-devel@lfdr.de>; Thu, 20 May 2021 14:03:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4197B8996E;
-	Thu, 20 May 2021 12:03:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D15A089994;
+	Thu, 20 May 2021 12:03:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com
- [IPv6:2a00:1450:4864:20::330])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A6C1F6F414
- for <dri-devel@lists.freedesktop.org>; Thu, 20 May 2021 12:03:07 +0000 (UTC)
-Received: by mail-wm1-x330.google.com with SMTP id b7so8428969wmh.5
- for <dri-devel@lists.freedesktop.org>; Thu, 20 May 2021 05:03:07 -0700 (PDT)
+Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com
+ [IPv6:2a00:1450:4864:20::436])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9DFA46F415
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 May 2021 12:03:08 +0000 (UTC)
+Received: by mail-wr1-x436.google.com with SMTP id v12so17385990wrq.6
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 May 2021 05:03:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=OmMgm22TVdmn0YlU70PwNW8OaCfk/LhHrn8mYGM1ILk=;
- b=QD/KEVmze2nJBsl72X+9/4makCpNLgnhq9kHYQtB0j4vPW1YZXrU1khxF3fGuZU0h+
- ZPx91P2Ne+MJofYJYv5eKK7Yft2hMjg3D7P89z+qpLWEu9oeG6N31skJJsST4qDrmNuL
- ySurx8C8e78/4JZjFHBzSggFMTGDA1MPBXw05kOtgeBccYfmGiCg/i8VWeoCenhST8s3
- okGcBzBiUXfR8+BF1kkNK6mjF301dRzRn875g/Zz6dy9mlYT5wmxs++2gIlYPo+WBEGW
- VwU0WXfkvJCZBLqh2oTsGKIhfsdLjBIrutsQI0UPvKw8CSfIyIxy42lR1AHIt+/e9wWS
- nUuw==
+ bh=w5nWdjb90GI2+TAkol2s0H4fVYowwMJxaadOSn6QcUY=;
+ b=ECdngyCPXxuV8WED0vFl1Q/XPm49F6DBoppaIbs0HIcfo5XtnDejjHk8tkEzG01VqR
+ VynFew87U48BK6UQOUZvX4hik/sKntYuwWjWHhskelw1Lwng6CXVxmjvJYLoh+5gDvFG
+ wZTZ6uyJVOIYmg5bUoF2U8S961FxPN9UgvmdvJLprgOh2wDY45n4COM+p2y3GhU/jQ5e
+ fukfyAfIzGVH+1KeEWfy8NFfvHqqUApjYjRh5l/GAxWnQZy//rm1pWAWrRvc6MU7kTp6
+ MRfqdYUMvpTXpajmj7WC3yZ05xkBqOBCP8CpzfWBkas8+GiV1H07tv6mi3oyarOfc3hP
+ 4w7A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=OmMgm22TVdmn0YlU70PwNW8OaCfk/LhHrn8mYGM1ILk=;
- b=PQ36bEwB5rEaL13PJm04kPO2gENJ4sRDcpFE9kSFYzPBmePolMQpF4euBBmkzaWVqT
- RAyXhlttWF/5HWFCMrp+EF/lv7zQefu4smGmBu20u/8Chis1bDKmPnB7F8p5mdAqpgvm
- 5pJCbOlor2thL8UwxHVA4jgXnBIYOWypuKxnz9VX+oku2ZRdbyqR7iJXU4/BujiyVKWr
- 5txDeZ831GMFyB38kymOm/FSIGRhUmEVRA+dKSeNCp6yGuh1GRiWfLDuDrf/Wah1XE49
- Efcp/y9gqkaXU9DWNhzvNusvWtyllzDxwXV8YuFtzF3NbkP3oPl1ybNL0B7pjJ4kNXNz
- TEUg==
-X-Gm-Message-State: AOAM532LmxqZVAO/65Fa1U7OgD3Yg2TfvciTH4hmUITptwfB+66CqczC
- kfX+wPZrSzmrdcnMOzYvzuqOXw==
-X-Google-Smtp-Source: ABdhPJxIRwowWq6Q6Jk0qbvu6pd7yWq+Mmva8O37/LRH9s85uRpcjtEb6krZZtsukcUmk7nXDt3tAw==
-X-Received: by 2002:a1c:bbc3:: with SMTP id l186mr3700393wmf.38.1621512186295; 
- Thu, 20 May 2021 05:03:06 -0700 (PDT)
+ bh=w5nWdjb90GI2+TAkol2s0H4fVYowwMJxaadOSn6QcUY=;
+ b=W9hl956bb9n6fOjJZjpe077ai8obh2hGzRaTDXdbe6a7yXw+bRBtNMbmRKZOQZLEp7
+ x6QTCNR0nLNQQLHDoWxvFcUHYuDMgsxvbP1TxK1hFoNH0Ejzo5s1Hf7oHp9N+eVCJnjv
+ ms24ePgKh8PQgZcQI7qRfJNk5r8Q/8JiWfvIZUS3qFkePs0WlyLxtNI1MCcorOzJ3UE4
+ kpLMqzmgb3B3PP/rxMoHCqKbZ/xWROlQAcFoBZyIibulmPmxJxOoJKY+eM9xu1V7cOzw
+ g7wQjcNThrVOmozBxRfW76/uhh7avMjBp5fPsCwvKk03uNBJiNSQ1nL96OkWeZ+4Y/X0
+ BdqA==
+X-Gm-Message-State: AOAM530JT08s9XNbiNsNDEs8UFsWBeMRooybMQV5I82WURTCWVswGSaI
+ brIVWkCNbiZi0DLMnu4Dl7jxdA==
+X-Google-Smtp-Source: ABdhPJww8GIvcXXddF95MhisGycsLVA2OrrF8dm6FBwFHsH6HeJ8zlz3Bhe5xFrg/og+j4rKvcXOHA==
+X-Received: by 2002:a5d:4b04:: with SMTP id v4mr4003474wrq.92.1621512187365;
+ Thu, 20 May 2021 05:03:07 -0700 (PDT)
 Received: from dell.default ([91.110.221.215])
- by smtp.gmail.com with ESMTPSA id j10sm2886332wrt.32.2021.05.20.05.03.05
+ by smtp.gmail.com with ESMTPSA id j10sm2886332wrt.32.2021.05.20.05.03.06
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 20 May 2021 05:03:05 -0700 (PDT)
+ Thu, 20 May 2021 05:03:06 -0700 (PDT)
 From: Lee Jones <lee.jones@linaro.org>
 To: lee.jones@linaro.org
-Subject: [PATCH 14/38] drm/amd/amdgpu/gfx_v7_0: Repair function names in the
- documentation
-Date: Thu, 20 May 2021 13:02:24 +0100
-Message-Id: <20210520120248.3464013-15-lee.jones@linaro.org>
+Subject: [PATCH 15/38] drm/msm/disp/dpu1/dpu_encoder_phys_cmd: Remove unused
+ variable 'cmd_enc'
+Date: Thu, 20 May 2021 13:02:25 +0100
+Message-Id: <20210520120248.3464013-16-lee.jones@linaro.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210520120248.3464013-1-lee.jones@linaro.org>
 References: <20210520120248.3464013-1-lee.jones@linaro.org>
@@ -69,65 +69,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- amd-gfx@lists.freedesktop.org,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org,
- Alex Deucher <alexander.deucher@amd.com>, linux-media@vger.kernel.org
+Cc: freedreno@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
+ linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
+ Sean Paul <sean@poorly.run>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Fixes the following W=1 kernel build warning(s):
 
- drivers/gpu/drm/amd/amdgpu/gfx_v7_0.c:2126: warning: expecting prototype for gfx_v7_0_ring_emit_hdp(). Prototype was for gfx_v7_0_ring_emit_hdp_flush() instead
- drivers/gpu/drm/amd/amdgpu/gfx_v7_0.c:2262: warning: expecting prototype for gfx_v7_0_ring_emit_ib(). Prototype was for gfx_v7_0_ring_emit_ib_gfx() instead
- drivers/gpu/drm/amd/amdgpu/gfx_v7_0.c:3207: warning: expecting prototype for gfx_v7_0_ring_emit_vm_flush(). Prototype was for gfx_v7_0_ring_emit_pipeline_sync() instead
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c: In function ‘dpu_encoder_phys_cmd_wait_for_commit_done’:
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c:688:31: warning: variable ‘cmd_enc’ set but not used [-Wunused-but-set-variable]
 
-Cc: Alex Deucher <alexander.deucher@amd.com>
-Cc: "Christian König" <christian.koenig@amd.com>
+Cc: Rob Clark <robdclark@gmail.com>
+Cc: Sean Paul <sean@poorly.run>
 Cc: David Airlie <airlied@linux.ie>
 Cc: Daniel Vetter <daniel@ffwll.ch>
-Cc: Sumit Semwal <sumit.semwal@linaro.org>
-Cc: amd-gfx@lists.freedesktop.org
+Cc: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
+Cc: linux-arm-msm@vger.kernel.org
 Cc: dri-devel@lists.freedesktop.org
-Cc: linux-media@vger.kernel.org
-Cc: linaro-mm-sig@lists.linaro.org
+Cc: freedreno@lists.freedesktop.org
 Signed-off-by: Lee Jones <lee.jones@linaro.org>
 ---
- drivers/gpu/drm/amd/amdgpu/gfx_v7_0.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c | 4 ----
+ 1 file changed, 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/gfx_v7_0.c b/drivers/gpu/drm/amd/amdgpu/gfx_v7_0.c
-index c35fdd2ef2d4d..685212c3ddae5 100644
---- a/drivers/gpu/drm/amd/amdgpu/gfx_v7_0.c
-+++ b/drivers/gpu/drm/amd/amdgpu/gfx_v7_0.c
-@@ -2116,7 +2116,7 @@ static int gfx_v7_0_ring_test_ring(struct amdgpu_ring *ring)
- }
- 
- /**
-- * gfx_v7_0_ring_emit_hdp - emit an hdp flush on the cp
-+ * gfx_v7_0_ring_emit_hdp_flush - emit an hdp flush on the cp
-  *
-  * @ring: amdgpu_ring structure holding ring information
-  *
-@@ -2242,7 +2242,7 @@ static void gfx_v7_0_ring_emit_fence_compute(struct amdgpu_ring *ring,
-  * IB stuff
-  */
- /**
-- * gfx_v7_0_ring_emit_ib - emit an IB (Indirect Buffer) on the ring
-+ * gfx_v7_0_ring_emit_ib_gfx - emit an IB (Indirect Buffer) on the ring
-  *
-  * @ring: amdgpu_ring structure holding ring information
-  * @job: job to retrieve vmid from
-@@ -3196,7 +3196,7 @@ static int gfx_v7_0_cp_resume(struct amdgpu_device *adev)
- }
- 
- /**
-- * gfx_v7_0_ring_emit_vm_flush - cik vm flush using the CP
-+ * gfx_v7_0_ring_emit_pipeline_sync - cik vm flush using the CP
-  *
-  * @ring: the ring to emit the commands to
-  *
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
+index b2be39b9144e4..088900841bf8b 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
+@@ -685,10 +685,6 @@ static int dpu_encoder_phys_cmd_wait_for_tx_complete(
+ static int dpu_encoder_phys_cmd_wait_for_commit_done(
+ 		struct dpu_encoder_phys *phys_enc)
+ {
+-	struct dpu_encoder_phys_cmd *cmd_enc;
+-
+-	cmd_enc = to_dpu_encoder_phys_cmd(phys_enc);
+-
+ 	/* only required for master controller */
+ 	if (!dpu_encoder_phys_cmd_is_master(phys_enc))
+ 		return 0;
 -- 
 2.31.1
 
