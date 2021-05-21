@@ -1,70 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7426C38C7B2
-	for <lists+dri-devel@lfdr.de>; Fri, 21 May 2021 15:19:29 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F7AD38C7CA
+	for <lists+dri-devel@lfdr.de>; Fri, 21 May 2021 15:23:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 806206F630;
-	Fri, 21 May 2021 13:19:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A7D166F648;
+	Fri, 21 May 2021 13:23:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3A37B6F630
- for <dri-devel@lists.freedesktop.org>; Fri, 21 May 2021 13:19:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621603165;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=svG8Sugh9t0pcYUu5BPc0joM8XrQP4InyHchcRw1OeQ=;
- b=AlgA7AkTyXDaaO2y9WhzwNEH5PzUr9rTYEmc1BhqaVVRAgKOc6ZQjDOiLcspQ/RuBjPsE9
- 0PSTFwRYkSB8sOLCayFUnmJETfUB26hjBqNnbXqpsE8Mj6L6ueaNQwjbJs0kPGOiyWKpK0
- 1JYtzQOTL8xdzsU4HPDhPe0xcaeKRdY=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-524-TS4cc-vxOVqfsuP_jgz8sQ-1; Fri, 21 May 2021 09:19:22 -0400
-X-MC-Unique: TS4cc-vxOVqfsuP_jgz8sQ-1
-Received: by mail-wm1-f70.google.com with SMTP id
- 129-20020a1c02870000b0290176ef5297e3so4104639wmc.0
- for <dri-devel@lists.freedesktop.org>; Fri, 21 May 2021 06:19:21 -0700 (PDT)
+Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com
+ [IPv6:2a00:1450:4864:20::429])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5495F6F648
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 May 2021 13:23:51 +0000 (UTC)
+Received: by mail-wr1-x429.google.com with SMTP id d11so21049128wrw.8
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 May 2021 06:23:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=fooishbar-org.20150623.gappssmtp.com; s=20150623;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=zBr2qa8weJ1fN+pyrA9yHt47NZiiPugqQIjjkfzP+jw=;
+ b=Vo39h2GhwMLbJLo+/rJ8jKdDxxx7yt/+DuSYtdRMJYd/ewYSQQsrwCnOCge0+aOIM2
+ 9/KcfjejnPY8GM8mZ7TLh9EDtHEL/1jvG9ThrG9zg8eAz/GKa3MaVPVSMLnA4tV2yryY
+ wubn8HMprLTyeofXBSRountcrg6j1SBLsPKvAsbxcvpmEVW7xAfjiqMlhxwraaQJlRHQ
+ RBb6DN/tULEGgiS/IonVr9QgSxe37CitIuX4+gnFggRx+HHuCHA5loPr60vmuDY9nqZD
+ rfQA3gO4qDA/z8bt5atk4ADkTZhfdIHY0OqxfaTHUZQut/UlgKWx4Let826C6h8Ly2d/
+ GudQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=svG8Sugh9t0pcYUu5BPc0joM8XrQP4InyHchcRw1OeQ=;
- b=Fc/yguE1AxmJDX7bX0L6/u7oAifdB0pwLHhNS65iGAnTIo+yNXlebsjpl7/BuHgenW
- otBAX3Dusyc4rV6jy92PM/oa6aM5yZ77Bub5gVmEq0t4unkB+b4g6DEzx0wlKYdfu0dH
- kbzI86GZTEYZRUwX4qkmzP0ZMkEHZlTxxHeDxpnpwhoLmzgddhfmaF/Z4fK6a9HBMaSd
- R7gLjpyKv7Ledykm4A5wFZOnAY5VasHp16+FNaIh6UhFK5vqAV9+9VjYpxnnuDM18gGh
- C4qKdByyBI3P56Vz4XkTepz/2YFRjBo8esmoCcdVUPCn+OspEml03d0COPTRJYWSyvM1
- ODeA==
-X-Gm-Message-State: AOAM5307x2RkICMTw/n7jtI5VER9IjzVahN0LbsKvXsabr5kOmupSjIl
- HAcGYi9GImpXccYYp03mxYm46GJLa1N/xz50lY1qts3k2J9NurmeS5bOh/2khPPSxfZocsDa3Mo
- x2Jt3LHvPB53FuLNKfRrWNr1QdAH3
-X-Received: by 2002:adf:e3c8:: with SMTP id k8mr9574417wrm.212.1621603160937; 
- Fri, 21 May 2021 06:19:20 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyc305xT6zlfb+PcPn86ttBaAzcRsi0z+v9X45OCoUZSf6XL8B6HYzxPfoRb3ZCCBvtptJDMQ==
-X-Received: by 2002:adf:e3c8:: with SMTP id k8mr9574388wrm.212.1621603160720; 
- Fri, 21 May 2021 06:19:20 -0700 (PDT)
-Received: from minerva.redhat.com ([92.176.231.106])
- by smtp.gmail.com with ESMTPSA id z12sm7489525wmc.5.2021.05.21.06.19.19
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 21 May 2021 06:19:20 -0700 (PDT)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: linux-kernel@vger.kernel.org
-Subject: [PATCH] drm/fb-helper: improve DRM fbdev emulation device names
-Date: Fri, 21 May 2021 15:19:10 +0200
-Message-Id: <20210521131910.3000689-1-javierm@redhat.com>
-X-Mailer: git-send-email 2.31.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=zBr2qa8weJ1fN+pyrA9yHt47NZiiPugqQIjjkfzP+jw=;
+ b=g63rnUzvAQ+AdUwsVl+8Cv/wbLoxHZVtEYg+o/oyLrIeeSwDajviUHP06XBMN25bnt
+ OvXKb7+cScULefjd1nf8nWPqG8h5nkwKKiTLhRrNCq79myDXnozPNg9MlIgG41eXf4Ag
+ CQuy/2WLJCgE/DWqiYKA8PyAj02QoqlaAvaSkB6MlpCNTo+D0Gh+g9OHb/cCsOxSvddt
+ AUoDUZhd9TO3ZCL9sQLgPycnCwZ2xO7R2zDlDosZrBNIJsrDEi2sri6COrw0EMK9xVEj
+ 4wZZsJJ3WKzAk1qTs6CWyEO3mRSiiajrJGCLfsIBV5aE4VzJrXl8kBo1c58RDbl1DT91
+ QW6A==
+X-Gm-Message-State: AOAM531sOss8ds3jblY+0XoUexwwMhze+tkn91BshPIcdVeXAAXjTH8L
+ yIvpw4o2zP10/DqzHgF7B1xY0cjoE0K7lMQ8eP8mGA==
+X-Google-Smtp-Source: ABdhPJyU8TEmXK/S6OXq7q8k124HIgHp5J7hILQzz4PXVCcZY3JiYAj8Ouwu177Y0/InrwMU7WBJIc4BjzJuyR8pTms=
+X-Received: by 2002:a5d:6e04:: with SMTP id h4mr9422676wrz.256.1621603429939; 
+ Fri, 21 May 2021 06:23:49 -0700 (PDT)
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
+References: <20210521090959.1663703-1-daniel.vetter@ffwll.ch>
+ <20210521090959.1663703-4-daniel.vetter@ffwll.ch>
+ <CAPj87rMBVRamT+VAVUaUnq3C1KFVqzABi99RKs=1_vyb4YWDnQ@mail.gmail.com>
+ <d1ef10e8-b774-06e5-92ab-047c58e1ea41@amd.com>
+ <CAPj87rOzV1mC=Nv2zfsYXrD4ARV7cmmJmkUCSwRSw1Ksy0k-aA@mail.gmail.com>
+ <39aa30e4-2726-a0ba-3537-3be609dbc0b5@amd.com>
+In-Reply-To: <39aa30e4-2726-a0ba-3537-3be609dbc0b5@amd.com>
+From: Daniel Stone <daniel@fooishbar.org>
+Date: Fri, 21 May 2021 14:23:38 +0100
+Message-ID: <CAPj87rOhByk-azt2jm=YV8WYSQH3g2+aJ83nG+5SywksXH3OYg@mail.gmail.com>
+Subject: Re: [Linaro-mm-sig] [PATCH 04/11] drm/panfrost: Fix implicit sync
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,50 +69,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
- dri-devel@lists.freedesktop.org, Javier Martinez Canillas <javierm@redhat.com>,
- Peter Robinson <pbrobinson@gmail.com>
+Cc: Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Steven Price <steven.price@arm.com>,
+ "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
+ Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+ Daniel Vetter <daniel.vetter@intel.com>,
+ "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Framebuffer devices that are registered by DRM drivers for fbdev emulation
-have a "drmfb" suffix in their name. But makes them to be quite confusing
-if a driver already has "drm" in its name:
+On Fri, 21 May 2021 at 14:09, Christian K=C3=B6nig <christian.koenig@amd.co=
+m> wrote:
+> Am 21.05.21 um 14:54 schrieb Daniel Stone:
+> > If you're curious, the interface definitions are in the csf/ directory
+> > in the 'Bifrost kernel driver' r30p0 download you can get from the Arm
+> > developer site. Unfortunately the exact semantics aren't completely
+> > clear.
+>
+> Well it is actually relatively simple. Take a look at the timeline
+> semaphores from Vulkan, everybody is basically implementing the same
+> semantics now.
+>
+> When you queued up a bunch of commands on your hardware, the first one
+> will write value 1 to a 64bit memory location, the second one will write
+> value 2, the third value 3 and so on. After writing the value the
+> hardware raises and interrupt signal to everybody interested.
+>
+> In other words pretty standard memory fence behavior.
+>
+> When you now have a second queue which depends on work of the first one
+> you look at the memory location and do a compare. If you depend on the
+> third submission you just wait for the value to be >3 and are done.
 
-$ cat /proc/fb
-0 rockchipdrmdrmfb
+Right, it is clearly defined to the timeline semaphore semantics, I
+just meant that it's not clear how it works at a lower level wrt the
+synchronisation and signaling. The simplest possible interpretation is
+that wait_addrval blocks infinitely before kick-cmdbuf, but that seems
+painful with only 32 queues. And the same for fences, which are a
+binary signal. I guess we'll find out. My tooth hurts.
 
-$ cat /proc/fb
-0 simpledrmdrmfb
-
-Instead, let's just add a "-fb" suffix to denote that are DRM drivers FB:
-
-$ cat /proc/fb
-0 rockchipdrm-fb
-
-$ cat /proc/fb
-0 simpledrm-fb
-
-Suggested-by: Peter Robinson <pbrobinson@gmail.com>
-Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
----
-
- drivers/gpu/drm/drm_fb_helper.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb_helper.c
-index f6baa204612..bbaff92c509 100644
---- a/drivers/gpu/drm/drm_fb_helper.c
-+++ b/drivers/gpu/drm/drm_fb_helper.c
-@@ -1737,7 +1737,7 @@ void drm_fb_helper_fill_info(struct fb_info *info,
- 			       sizes->fb_width, sizes->fb_height);
- 
- 	info->par = fb_helper;
--	snprintf(info->fix.id, sizeof(info->fix.id), "%sdrmfb",
-+	snprintf(info->fix.id, sizeof(info->fix.id), "%s-fb",
- 		 fb_helper->dev->driver->name);
- 
- }
--- 
-2.31.1
-
+Cheers,
+Daniel
