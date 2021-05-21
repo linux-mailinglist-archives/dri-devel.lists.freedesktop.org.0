@@ -2,55 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77B6C38CF8B
-	for <lists+dri-devel@lfdr.de>; Fri, 21 May 2021 23:00:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 80C4738CFE8
+	for <lists+dri-devel@lfdr.de>; Fri, 21 May 2021 23:29:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 65A9D6F919;
-	Fri, 21 May 2021 21:00:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D03586E899;
+	Fri, 21 May 2021 21:29:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x235.google.com (mail-oi1-x235.google.com
- [IPv6:2607:f8b0:4864:20::235])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 582486F919;
- Fri, 21 May 2021 21:00:36 +0000 (UTC)
-Received: by mail-oi1-x235.google.com with SMTP id s19so20878577oic.7;
- Fri, 21 May 2021 14:00:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=RKJQFlbNOnxfAGQolBfqaP4S93vmXU/qq5oY6hR9n1Q=;
- b=RjfImzc3yEqSNWVSTW+M+5GM8IRvR8LGvYvFTIDYohws6M4npb6g0yObp24DV8bAsx
- 6IZ7BCPUPy/6p8wVkXGMWQH6Y4Y0s+g8ygnucYQ5zuX1+ar8nWKxVsWFEC2ooPQqQly6
- nYX20pdXcizipg+pGJv84uAjE4k5e/Dsizk9Jr81Cz8dpMBZbtDNJF0UrAhvF9LpW+cG
- BXXFlYcz5k2ghZYde2AdUMJbG7QuRuM7Ym16jGaD6IqSDR8ZWQT3/vMgkDSGpeuDR8wp
- zj03M1p+Zjuz95c4YT+Y6XrxmG3BN45Givi17zY+fRitQ4q9ptlyAD+V7PWhQ/HBDmEl
- 1QFQ==
+Received: from mail-oo1-xc36.google.com (mail-oo1-xc36.google.com
+ [IPv6:2607:f8b0:4864:20::c36])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 71BA86E899
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 May 2021 21:29:20 +0000 (UTC)
+Received: by mail-oo1-xc36.google.com with SMTP id
+ s20-20020a4ae9940000b02902072d5df239so4894634ood.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 May 2021 14:29:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=zwLYpS9p+8pJmcHuXNBolppRUtNsTbIPmp+o6UQN8KY=;
+ b=QtSBZYDh6GXubEPHb5E6TM+CGkEttGlt5INDzQJsT5WtE/0MFFvJhO7gbj3+Q4VeqP
+ Gra4TjrLaTsgPaETf4ffiTizTTRX6QPUdE9WKtw9XQoyJ6h70L7k1R6T81ghVNTBziD7
+ R3uada59gAbc3/ENK6NowtwkdkjnmhqV9mfXemPzQJzZDnM7lBSpB/4csFqbGTLhO+Xx
+ LxCryxs3M7PUB1zri84mcdXv5MDouCR5BQ0ymA5H2+N7NhciVn0NdFe8GY0fT2Karlmq
+ ysO9amHItoswmTqNRVDqi2LLuIWx8bhO6LQHf6iz32OyhKvY5PzoYvlD/hZtNaNE07ij
+ BPwQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=RKJQFlbNOnxfAGQolBfqaP4S93vmXU/qq5oY6hR9n1Q=;
- b=safdaPNed+TR1dpsl7n/lFyXqv629foQSoR4Mdcq1pq7y08e2xfy/iDHgJcPDlVzAA
- lJFCyGQH3CHK80Zu3+TiMe3YbZnQoGEGYiYKiry85lWjX0BQxX6CustKw2n8BoicOlBr
- I6IIpo2NcXgtoVNtyacqZOgUTZfbjkN3YRUxRRCRubZXaEVwigxExILH4B+2YpzAd09O
- DRK8tDKQL96AkcG5Eo3EawM6Bqq9x4R0bKCE/ZSsYXRNdgo2/xLgdtuwbaBKbV/gO8n3
- G2wlxXmxuI8FRQK0jl7wZLf1VNCuOvglWADe0zqrlj/ugiqHiJYlASXWIiXAK0r+yT6n
- DJmA==
-X-Gm-Message-State: AOAM533c4AGVKYo6BciWnKJcMXR0YQXK6f/dAPVPKB3s1+ycgNRpQkaW
- CabTGbS86J9BnKyA+eQOwbmzwY1T7a8l0nq7ytg=
-X-Google-Smtp-Source: ABdhPJxuNzb1jvwtxFKbIpIcb34axGi0g9DbxLQSom5QwpOqZt6As4f1VD4LfCN8dJD2J8t9FfrXA30UJziLGvl2PFE=
-X-Received: by 2002:a05:6808:1592:: with SMTP id
- t18mr3525887oiw.123.1621630835378; 
- Fri, 21 May 2021 14:00:35 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=zwLYpS9p+8pJmcHuXNBolppRUtNsTbIPmp+o6UQN8KY=;
+ b=lncnAjZTqNUnG/ZxO+uwp8sZ+WBF3reacEvBGsFbIE6SKdDXoFs3vVfU/UZpCS3xin
+ cc/PAcdKVUuoh5y94H34/R6ordxMpRD5YllPH7U0Npw1qC7kB0iWFuE9nwFUTXwta2MF
+ HF3i66pJc/clrq4896UVNpdirUyX5waqyvylxtb//JzcZ4Yx25Gb2gpwKFwfGoG7thAT
+ wsk4F7fmSDFTOzWF2tKf4vIfiXxjhacz3zP3m9WIAUAlI97iIbUIYJjhSXVvIxHGmGrG
+ KUCsGmTjKL3yS9tb+7LVtW+A4WuNovIl/fmXUBLFpTTBfBF4zgtQXlEol/9NdwwwtZ6H
+ 2WRA==
+X-Gm-Message-State: AOAM531g35CrjnC1xw551lxKjQ41ka9l+t522tB0A1DkncQin/UMuVge
+ YbuNb6CnCgwPJ/TWsXkPK85jjw==
+X-Google-Smtp-Source: ABdhPJz3VBmFLhgkEFqyEA6f6S120M4rxSxkrTuWLk6tRMZx5/wC8POdyrzrinnm98ZUs5b0qJv3/A==
+X-Received: by 2002:a4a:4581:: with SMTP id y123mr9685400ooa.33.1621632559601; 
+ Fri, 21 May 2021 14:29:19 -0700 (PDT)
+Received: from yoga (104-57-184-186.lightspeed.austtx.sbcglobal.net.
+ [104.57.184.186])
+ by smtp.gmail.com with ESMTPSA id x31sm1531434ota.24.2021.05.21.14.29.18
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 21 May 2021 14:29:19 -0700 (PDT)
+Date: Fri, 21 May 2021 16:29:16 -0500
+From: Bjorn Andersson <bjorn.andersson@linaro.org>
+To: Stephen Boyd <swboyd@chromium.org>
+Subject: Re: [PATCH v17 1/4] dt-bindings: msm: disp: add yaml schemas for DPU
+ bindings
+Message-ID: <20210521212916.GG2484@yoga>
+References: <1621592844-6414-1-git-send-email-mkrishn@codeaurora.org>
+ <20210521160029.GA2484@yoga>
+ <CAE-0n53y2_icuPf+j8hd1hGyWRbD2V0Fye+aGSe0M9zku_0DOA@mail.gmail.com>
 MIME-Version: 1.0
-References: <20210521150212.2076151-1-linux@roeck-us.net>
-In-Reply-To: <20210521150212.2076151-1-linux@roeck-us.net>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Fri, 21 May 2021 17:00:24 -0400
-Message-ID: <CADnq5_P9C71cc0Ua7cSYwkTPgY_YDXBOw-==XtXQCH+rxgW9Fw@mail.gmail.com>
-Subject: Re: [PATCH] drm/amd/amdkfd: Drop unnecessary NULL check after
- container_of
-To: Guenter Roeck <linux@roeck-us.net>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAE-0n53y2_icuPf+j8hd1hGyWRbD2V0Fye+aGSe0M9zku_0DOA@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,63 +72,84 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Felix Kuehling <Felix.Kuehling@amd.com>,
- LKML <linux-kernel@vger.kernel.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: sean@poorly.run, Krishna Manikandan <mkrishn@codeaurora.org>,
+ vinod.koul@linaro.org, devicetree@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, abhinavk@codeaurora.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ dianders@chromium.org, khsieh@codeaurora.org, robh+dt@kernel.org,
+ tanmay@codeaurora.org, kalyan_t@codeaurora.org,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Applied.  Thanks!
+On Fri 21 May 15:51 CDT 2021, Stephen Boyd wrote:
 
-Alex
+> Quoting Bjorn Andersson (2021-05-21 09:00:29)
+> > On Fri 21 May 05:27 CDT 2021, Krishna Manikandan wrote:
+> > > diff --git a/Documentation/devicetree/bindings/display/msm/dpu-sc7180.yaml b/Documentation/devicetree/bindings/display/msm/dpu-sc7180.yaml
+> > [..]
+> > > +      ports:
+> > > +        $ref: /schemas/graph.yaml#/properties/ports
+> > > +        description: |
+> > > +          Contains the list of output ports from DPU device. These ports
+> > > +          connect to interfaces that are external to the DPU hardware,
+> > > +          such as DSI, DP etc. Each output port contains an endpoint that
+> > > +          describes how it is connected to an external interface.
+> > > +
+> > > +        properties:
+> > > +          port@0:
+> > > +            $ref: /schemas/graph.yaml#/properties/port
+> > > +            description: DPU_INTF1 (DSI1)
+> > > +
+> > > +          port@2:
+> > > +            $ref: /schemas/graph.yaml#/properties/port
+> > > +            description: DPU_INTF0 (DP)
+> >
+> > Why is port@0 INTF1 and why is port@2 INTF0? In the binding you're
+> > translating the two ports that are described are 0 and 1, representing
+> > INTF1 and INTF2, or DSI1 and DSI2, respectively.
+> >
+> > Further more, I have a need for somehow describing the pairing of 4 DP
+> > INTFs (INTF 0, 3, 4 and 5) and how they are connected to the 3+1 DP+eDP
+> > controllers.
+> >
+> > Downstream this seems to be handled by adding cell-index to the DP
+> > controllers and then matching that against the numbering in the driver's
+> > INTF array. But rather than adding cell-index to map this, can't we
+> > define that the port index is the INTF-number here?
+> >
+> >
+> > This would obviously break compatibility with existing DTBs, but we
+> > could start by doing it selectively for the new compatibles, fix up the
+> > existing dts files and then drop the selective application after 1 or 2
+> > LTS releases.
+> 
+> I requested that the existing DT not change a while ago when the DP
+> interface was being added to this binding. Is it possible to figure out
+> what interface it is that the port is for from the binding? It feels
+> like the problem is that the driver wants to look through the graph and
+> make connectors for each one, but it doesn't know what type of connector
+> to make.
 
-On Fri, May 21, 2021 at 11:02 AM Guenter Roeck <linux@roeck-us.net> wrote:
->
-> The first parameter passed to container_of() is the pointer to the work
-> structure passed to the worker and never NULL. The NULL check on the
-> result of container_of() is therefore unnecessary and misleading.
-> Remove it.
->
-> This change was made automatically with the following Coccinelle script.
->
-> @@
-> type t;
-> identifier v;
-> statement s;
-> @@
->
-> <+...
-> (
->   t v = container_of(...);
-> |
->   v = container_of(...);
-> )
->   ...
->   when != v
-> - if (\( !v \| v == NULL \) ) s
-> ...+>
->
-> Signed-off-by: Guenter Roeck <linux@roeck-us.net>
-> ---
->  drivers/gpu/drm/amd/amdkfd/kfd_process.c | 2 --
->  1 file changed, 2 deletions(-)
->
-> diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_process.c b/drivers/gpu/drm/amd/amdkfd/kfd_process.c
-> index 5b6c5669c03d..2f8d352e0069 100644
-> --- a/drivers/gpu/drm/amd/amdkfd/kfd_process.c
-> +++ b/drivers/gpu/drm/amd/amdkfd/kfd_process.c
-> @@ -110,8 +110,6 @@ static void kfd_sdma_activity_worker(struct work_struct *work)
->
->         workarea = container_of(work, struct kfd_sdma_activity_handler_workarea,
->                                 sdma_activity_work);
-> -       if (!workarea)
-> -               return;
->
->         pdd = workarea->pdd;
->         if (!pdd)
-> --
-> 2.25.1
->
+Today there's a single priv->dp pointer which is initialized as the one
+and only displayport controller component is bound.
+_dpu_kms_set_encoder_mode() has no knowledge about which interface this
+single controller is attached to, so dpu_encoder_setup_display() will
+always just pick INTF_DP index 0.
+
+So in its current form if your single DP port isn't sitting on the
+platform's first DP INTF you need to hack dpu_hw_catalog and remove the
+previous ones.
+
+But with my desire to reuse the DP controller code for eDP, and the fact
+that I have 3 DP controllers in my laptop we need something more.
+
+But after considering my proposal further I realized that it is too
+static for my use case anyway. SC8180x has INTF 0 and 4 are wired to
+the DP controllers associated with the two primary USB ports and then
+INTF 3 is dynamically switched between them for MST purposes.
+
+So using port indices would prevent me from doing this dynamic dance.
+
+Regards,
+Bjorn
