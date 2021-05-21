@@ -1,42 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C585238C299
-	for <lists+dri-devel@lfdr.de>; Fri, 21 May 2021 11:06:20 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8EFAA38C2B6
+	for <lists+dri-devel@lfdr.de>; Fri, 21 May 2021 11:10:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 364F06E85F;
-	Fri, 21 May 2021 09:06:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DC7566F5E9;
+	Fri, 21 May 2021 09:10:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from szxga05-in.huawei.com (szxga05-in.huawei.com [45.249.212.191])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D4C8A6E85F
- for <dri-devel@lists.freedesktop.org>; Fri, 21 May 2021 09:06:13 +0000 (UTC)
-Received: from dggems706-chm.china.huawei.com (unknown [172.30.72.58])
- by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4Fmgby2ykFzQqdm;
- Fri, 21 May 2021 17:02:38 +0800 (CST)
-Received: from dggeme759-chm.china.huawei.com (10.3.19.105) by
- dggems706-chm.china.huawei.com (10.3.19.183) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
- 15.1.2176.2; Fri, 21 May 2021 17:06:10 +0800
-Received: from localhost.localdomain (10.69.192.56) by
- dggeme759-chm.china.huawei.com (10.3.19.105) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2176.2; Fri, 21 May 2021 17:06:10 +0800
-From: Tian Tao <tiantao6@hisilicon.com>
-To: <inki.dae@samsung.com>, <airlied@linux.ie>, <daniel@ffwll.ch>,
- <krzysztof.kozlowski@canonical.com>
-Subject: [PATCH v2] drm/exynos: Use pm_runtime_resume_and_get() to replace
- open coding
-Date: Fri, 21 May 2021 17:06:06 +0800
-Message-ID: <1621587966-62687-1-git-send-email-tiantao6@hisilicon.com>
-X-Mailer: git-send-email 2.7.4
+Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com
+ [IPv6:2a00:1450:4864:20::434])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1E1A06F5E4
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 May 2021 09:10:07 +0000 (UTC)
+Received: by mail-wr1-x434.google.com with SMTP id r12so20306773wrp.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 May 2021 02:10:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=yfwysPIci4j/kDOZ+vjP3in2bEVdB4yeYLALc8zJ9Gg=;
+ b=JKi9vE5/TTQs1MtLn3sGKzpY9K/8JeeWLXWft+ImHlc/ybhbGn2lGtGQkut7RN9n5u
+ 9q/fL7euoM+BhaLV/AJlKNsiK0EHPDhey7DfR1SN+RTsHllEBa4mteWFCFKHzPVO6O13
+ oqFyvu8gkEcA2abKgPq5Gntpr/zMyJAnn78NA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=yfwysPIci4j/kDOZ+vjP3in2bEVdB4yeYLALc8zJ9Gg=;
+ b=jbujyE6+6NqMeWfPsMsnjrte5SYk+gXODqHRZzIBrmwK26B4A+zE0/iFD1lIlIK9XQ
+ ch6rsBwpQxRP3IsWq1jWNdMKrsd8WIAt0QFJCq4FoRZ1+IyHO2PW0LDDcOO1D2AHpfmY
+ L6gpzLBikmmSjpNSbPwuupoYwaJAq1fE6XeP/K+sSCGywwbjI3uGpJeFSiBlI+7YdTgg
+ vVazkG+ZkdjeEOKNpX4sEUX2ey53l4CeETvgBX7j3XhaealX6cwGp8t6ZXFlL3sEqgXn
+ wYGA6jpbDewGoEVwlD8YzhA9M2IW+UEGKnXZ+rf73/l/94poK1aRDsKdNRwNtaCbMLTQ
+ ZxHA==
+X-Gm-Message-State: AOAM531vDqnF0ck0BZIVEc4sX2aJ0nGGRREJGTi6Y++MFc/Qw+0P/0yC
+ bP2Z0LVnlctr5uioIzL803TkDB4Fa8kE6A==
+X-Google-Smtp-Source: ABdhPJzaZF/0VysI0xnoiHupXbE1l8dIs4eK2H2IVguWy7a7P5Syc7R8naTtudBJPZZlNbdl2KaFuA==
+X-Received: by 2002:a5d:64e4:: with SMTP id g4mr8433871wri.366.1621588205543; 
+ Fri, 21 May 2021 02:10:05 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id y2sm13589457wmq.45.2021.05.21.02.10.04
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 21 May 2021 02:10:04 -0700 (PDT)
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
+To: DRI Development <dri-devel@lists.freedesktop.org>
+Subject: [PATCH 01/11] drm/amdgpu: Comply with implicit fencing rules
+Date: Fri, 21 May 2021 11:09:49 +0200
+Message-Id: <20210521090959.1663703-1-daniel.vetter@ffwll.ch>
+X-Mailer: git-send-email 2.31.0
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.69.192.56]
-X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
- dggeme759-chm.china.huawei.com (10.3.19.105)
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,40 +63,266 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tian Tao <tiantao6@hisilicon.com>, linux-samsung-soc@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: Rob Clark <robdclark@chromium.org>, Daniel Stone <daniels@collabora.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Daniel Vetter <daniel.vetter@intel.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ Kevin Wang <kevin1.wang@amd.com>, linaro-mm-sig@lists.linaro.org,
+ Luben Tuikov <luben.tuikov@amd.com>,
+ "Kristian H . Kristensen" <hoegsberg@google.com>,
+ Chen Li <chenli@uniontech.com>, Alex Deucher <alexander.deucher@amd.com>,
+ mesa-dev@lists.freedesktop.org,
+ =?UTF-8?q?Michel=20D=C3=A4nzer?= <michel@daenzer.net>,
+ Dennis Li <Dennis.Li@amd.com>, Deepak R Varma <mh12gx2825@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-use pm_runtime_resume_and_get() to replace pm_runtime_get_sync and
-pm_runtime_put_noidle.
+Docs for struct dma_resv are fairly clear:
 
-Signed-off-by: Tian Tao <tiantao6@hisilicon.com>
+"A reservation object can have attached one exclusive fence (normally
+associated with write operations) or N shared fences (read
+operations)."
+
+https://dri.freedesktop.org/docs/drm/driver-api/dma-buf.html#reservation-objects
+
+Furthermore a review across all of upstream.
+
+First of render drivers and how they set implicit fences:
+
+- nouveau follows this contract, see in validate_fini_no_ticket()
+
+			nouveau_bo_fence(nvbo, fence, !!b->write_domains);
+
+  and that last boolean controls whether the exclusive or shared fence
+  slot is used.
+
+- radeon follows this contract by setting
+
+		p->relocs[i].tv.num_shared = !r->write_domain;
+
+  in radeon_cs_parser_relocs(), which ensures that the call to
+  ttm_eu_fence_buffer_objects() in radeon_cs_parser_fini() will do the
+  right thing.
+
+- vmwgfx seems to follow this contract with the shotgun approach of
+  always setting ttm_val_buf->num_shared = 0, which means
+  ttm_eu_fence_buffer_objects() will only use the exclusive slot.
+
+- etnaviv follows this contract, as can be trivially seen by looking
+  at submit_attach_object_fences()
+
+- i915 is a bit a convoluted maze with multiple paths leading to
+  i915_vma_move_to_active(). Which sets the exclusive flag if
+  EXEC_OBJECT_WRITE is set. This can either come as a buffer flag for
+  softpin mode, or through the write_domain when using relocations. It
+  follows this contract.
+
+- lima follows this contract, see lima_gem_submit() which sets the
+  exclusive fence when the LIMA_SUBMIT_BO_WRITE flag is set for that
+  bo
+
+- msm follows this contract, see msm_gpu_submit() which sets the
+  exclusive flag when the MSM_SUBMIT_BO_WRITE is set for that buffer
+
+- panfrost follows this contract with the shotgun approach of just
+  always setting the exclusive fence, see
+  panfrost_attach_object_fences(). Benefits of a single engine I guess
+
+- v3d follows this contract with the same shotgun approach in
+  v3d_attach_fences_and_unlock_reservation(), but it has at least an
+  XXX comment that maybe this should be improved
+
+- v4c uses the same shotgun approach of always setting an exclusive
+  fence, see vc4_update_bo_seqnos()
+
+- vgem also follows this contract, see vgem_fence_attach_ioctl() and
+  the VGEM_FENCE_WRITE. This is used in some igts to validate prime
+  sharing with i915.ko without the need of a 2nd gpu
+
+- vritio follows this contract again with the shotgun approach of
+  always setting an exclusive fence, see virtio_gpu_array_add_fence()
+
+This covers the setting of the exclusive fences when writing.
+
+Synchronizing against the exclusive fence is a lot more tricky, and I
+only spot checked a few:
+
+- i915 does it, with the optional EXEC_OBJECT_ASYNC to skip all
+  implicit dependencies (which is used by vulkan)
+
+- etnaviv does this. Implicit dependencies are collected in
+  submit_fence_sync(), again with an opt-out flag
+  ETNA_SUBMIT_NO_IMPLICIT. These are then picked up in
+  etnaviv_sched_dependency which is the
+  drm_sched_backend_ops->dependency callback.
+
+- v4c seems to not do much here, maybe gets away with it by not having
+  a scheduler and only a single engine. Since all newer broadcom chips than
+  the OG vc4 use v3d for rendering, which follows this contract, the
+  impact of this issue is fairly small.
+
+- v3d does this using the drm_gem_fence_array_add_implicit() helper,
+  which then it's drm_sched_backend_ops->dependency callback
+  v3d_job_dependency() picks up.
+
+- panfrost is nice here and tracks the implicit fences in
+  panfrost_job->implicit_fences, which again the
+  drm_sched_backend_ops->dependency callback panfrost_job_dependency()
+  picks up. It is mildly questionable though since it only picks up
+  exclusive fences in panfrost_acquire_object_fences(), but not buggy
+  in practice because it also always sets the exclusive fence. It
+  should pick up both sets of fences, just in case there's ever going
+  to be a 2nd gpu in a SoC with a mali gpu. Or maybe a mali SoC with a
+  pcie port and a real gpu, which might actually happen eventually. A
+  bug, but easy to fix. Should probably use the
+  drm_gem_fence_array_add_implicit() helper.
+
+- lima is nice an easy, uses drm_gem_fence_array_add_implicit() and
+  the same schema as v3d.
+
+- msm is mildly entertaining. It also supports MSM_SUBMIT_NO_IMPLICIT,
+  but because it doesn't use the drm/scheduler it handles fences from
+  the wrong context with a synchronous dma_fence_wait. See
+  submit_fence_sync() leading to msm_gem_sync_object(). Investing into
+  a scheduler might be a good idea.
+
+- all the remaining drivers are ttm based, where I hope they do
+  appropriately obey implicit fences already. I didn't do the full
+  audit there because a) not follow the contract would confuse ttm
+  quite well and b) reading non-standard scheduler and submit code
+  which isn't based on drm/scheduler is a pain.
+
+Onwards to the display side.
+
+- Any driver using the drm_gem_plane_helper_prepare_fb() helper will
+  correctly. Overwhelmingly most drivers get this right, except a few
+  totally dont. I'll follow up with a patch to make this the default
+  and avoid a bunch of bugs.
+
+- I didn't audit the ttm drivers, but given that dma_resv started
+  there I hope they get this right.
+
+In conclusion this IS the contract, both as documented and
+overwhelmingly implemented, specically as implemented by all render
+drivers except amdgpu.
+
+Amdgpu tried to fix this already in
+
+commit 049aca4363d8af87cab8d53de5401602db3b9999
+Author: Christian König <christian.koenig@amd.com>
+Date:   Wed Sep 19 16:54:35 2018 +0200
+
+    drm/amdgpu: fix using shared fence for exported BOs v2
+
+but this fix falls short on a number of areas:
+
+- It's racy, by the time the buffer is shared it might be too late. To
+  make sure there's definitely never a problem we need to set the
+  fences correctly for any buffer that's potentially exportable.
+
+- It's breaking uapi, dma-buf fds support poll() and differentitiate
+  between, which was introduced in
+
+	commit 9b495a5887994a6d74d5c261d012083a92b94738
+	Author: Maarten Lankhorst <maarten.lankhorst@canonical.com>
+	Date:   Tue Jul 1 12:57:43 2014 +0200
+
+	    dma-buf: add poll support, v3
+
+- Christian König wants to nack new uapi building further on this
+  dma_resv contract because it breaks amdgpu, quoting
+
+  "Yeah, and that is exactly the reason why I will NAK this uAPI change.
+
+  "This doesn't works for amdgpu at all for the reasons outlined above."
+
+  https://lore.kernel.org/dri-devel/f2eb6751-2f82-9b23-f57e-548de5b729de@gmail.com/
+
+  Rejecting new development because your own driver is broken and
+  violates established cross driver contracts and uapi is really not
+  how upstream works.
+
+Now this patch will have a severe performance impact on anything that
+runs on multiple engines. So we can't just merge it outright, but need
+a bit a plan:
+
+- amdgpu needs a proper uapi for handling implicit fencing. The funny
+  thing is that to do it correctly, implicit fencing must be treated
+  as a very strange IPC mechanism for transporting fences, where both
+  setting the fence and dependency intercepts must be handled
+  explicitly. Current best practices is a per-bo flag to indicate
+  writes, and a per-bo flag to to skip implicit fencing in the CS
+  ioctl as a new chunk.
+
+- Since amdgpu has been shipping with broken behaviour we need an
+  opt-out flag from the butchered implicit fencing model to enable the
+  proper explicit implicit fencing model.
+
+- for kernel memory fences due to bo moves at least the i915 idea is
+  to use ttm_bo->moving. amdgpu probably needs the same.
+
+- since the current p2p dma-buf interface assumes the kernel memory
+  fence is in the exclusive dma_resv fence slot we need to add a new
+  fence slot for kernel fences, which must never be ignored. Since
+  currently only amdgpu supports this there's no real problem here
+  yet, until amdgpu gains a NO_IMPLICIT CS flag.
+
+- New userspace needs to ship in enough desktop distros so that users
+  wont notice the perf impact. I think we can ignore LTS distros who
+  upgrade their kernels but not their mesa3d snapshot.
+
+- Then when this is all in place we can merge this patch here.
+
+What is not a solution to this problem here is trying to make the
+dma_resv rules in the kernel more clever. The fundamental issue here
+is that the amdgpu CS uapi is the least expressive one across all
+drivers (only equalled by panfrost, which has an actual excuse) by not
+allowing any userspace control over how implicit sync is conducted.
+
+Until this is fixed it's completely pointless to make the kernel more
+clever to improve amdgpu, because all we're doing is papering over
+this uapi design issue. amdgpu needs to attain the status quo
+established by other drivers first, once that's achieved we can tackle
+the remaining issues in a consistent way across drivers.
+
+Cc: mesa-dev@lists.freedesktop.org
+Cc: Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>
+Cc: Dave Airlie <airlied@gmail.com>
+Cc: Rob Clark <robdclark@chromium.org>
+Cc: Kristian H. Kristensen <hoegsberg@google.com>
+Cc: Michel Dänzer <michel@daenzer.net>
+Cc: Daniel Stone <daniels@collabora.com>
+Cc: Sumit Semwal <sumit.semwal@linaro.org>
+Cc: "Christian König" <christian.koenig@amd.com>
+Cc: Alex Deucher <alexander.deucher@amd.com>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: Deepak R Varma <mh12gx2825@gmail.com>
+Cc: Chen Li <chenli@uniontech.com>
+Cc: Kevin Wang <kevin1.wang@amd.com>
+Cc: Dennis Li <Dennis.Li@amd.com>
+Cc: Luben Tuikov <luben.tuikov@amd.com>
+Cc: linaro-mm-sig@lists.linaro.org
+Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
 ---
+ drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-v2: drop unnecessary change about if condition.
----
- drivers/gpu/drm/exynos/exynos_drm_mic.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/gpu/drm/exynos/exynos_drm_mic.c b/drivers/gpu/drm/exynos/exynos_drm_mic.c
-index 3821ea7..32672bf 100644
---- a/drivers/gpu/drm/exynos/exynos_drm_mic.c
-+++ b/drivers/gpu/drm/exynos/exynos_drm_mic.c
-@@ -268,11 +268,9 @@ static void mic_pre_enable(struct drm_bridge *bridge)
- 	if (mic->enabled)
- 		goto unlock;
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
+index 88a24a0b5691..cc8426e1e8a8 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
+@@ -617,8 +617,8 @@ static int amdgpu_cs_parser_bos(struct amdgpu_cs_parser *p,
+ 	amdgpu_bo_list_for_each_entry(e, p->bo_list) {
+ 		struct amdgpu_bo *bo = ttm_to_amdgpu_bo(e->tv.bo);
  
--	ret = pm_runtime_get_sync(mic->dev);
--	if (ret < 0) {
--		pm_runtime_put_noidle(mic->dev);
-+	ret = pm_runtime_resume_and_get(mic->dev);
-+	if (ret < 0)
- 		goto unlock;
--	}
- 
- 	mic_set_path(mic, 1);
- 
+-		/* Make sure we use the exclusive slot for shared BOs */
+-		if (bo->prime_shared_count)
++		/* Make sure we use the exclusive slot for all potentially shared BOs */
++		if (!(bo->flags & AMDGPU_GEM_CREATE_VM_ALWAYS_VALID))
+ 			e->tv.num_shared = 0;
+ 		e->bo_va = amdgpu_vm_bo_find(vm, bo);
+ 	}
 -- 
-2.7.4
+2.31.0
 
