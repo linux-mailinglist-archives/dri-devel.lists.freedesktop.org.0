@@ -2,42 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A9F438BBDB
-	for <lists+dri-devel@lfdr.de>; Fri, 21 May 2021 03:45:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD4F138BC1D
+	for <lists+dri-devel@lfdr.de>; Fri, 21 May 2021 03:58:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BE6C66F5A3;
-	Fri, 21 May 2021 01:45:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9BDCA89AA7;
+	Fri, 21 May 2021 01:58:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ozlabs.org (ozlabs.org [203.11.71.1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AC0956F5A2;
- Fri, 21 May 2021 01:45:21 +0000 (UTC)
+Received: from ozlabs.org (ozlabs.org [IPv6:2401:3900:2:1::2])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B85798916F;
+ Fri, 21 May 2021 01:58:16 +0000 (UTC)
 Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
  SHA256) (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4FmTvL4zJ0z9sRK;
- Fri, 21 May 2021 11:45:18 +1000 (AEST)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4FmVBF1pGXz9sVt;
+ Fri, 21 May 2021 11:58:13 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=canb.auug.org.au;
- s=201702; t=1621561520;
- bh=iEOCz9qR8arWskbdULZRl2jgRo6Knjh5dKYZ8jhu/Jw=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=OqNEZVGcqPVQYcmHH3/Zb6dADrlmnRUgYMdFnXDcgN0AFHdx87nKUnYhzPQm7YwZh
- tXSiYJzNPWu0vEu2+vAFry4p/P78Ywkkl4HrKQa91VjapQP4McgDJRbckTknDYPQ65
- bwhrVn7MxDaMRUvGgoSgNjWQIWygVMBnfRFeSUzBLCufLurnxslDBHAWgs8E1hpe2c
- rA1MXK4DqxI963w8/O65OT+GReUsH1oQgeRENgDLcierbNxvLfPztDzLqG71xavRI7
- apY5tt1B7z/Fi/TlsYgiGAZFnAfeRr9VJJbNwFepHH2pyGHprcNHSTaK6MAExaVsuZ
- aDB4y0MDIjORQ==
-Date: Fri, 21 May 2021 11:45:17 +1000
+ s=201702; t=1621562294;
+ bh=YKiJJ5vfpxMNe5T8vLLSeZo6uiKw1uqUqAKy5C3g0rg=;
+ h=Date:From:To:Cc:Subject:From;
+ b=u/6hc///Ob7Uue0j64OZ0pz1rKWyMZ/ilIbQI/7eYU4yX8+6+fJNbECEoGOsV8o5D
+ betMX8bOEhu9gGAr+UNy1wGDW765hIUDKHbtOPMKnyF+zJsEbemD9BuoA48ZBmKgvL
+ wxobz9VZC+v8i6ZdtFpqRC7krAoPnv/mtjB2QAz5ornitKBdLyZ2qSeFwHyPLt+APf
+ TcyW7rcOcD15Yo5dBojNGBtAZKtt3efz2uYCKqBSZz3v41ro/SdoYCR7B9vwxAiLas
+ bwyuv04/t/C/Ej+zZyJIg96jeQWN5Aim4hkb5eCNLzTZtONjsb9KaD/2GZErwrttWv
+ ZDRLlrQ4NX5gA==
+Date: Fri, 21 May 2021 11:58:12 +1000
 From: Stephen Rothwell <sfr@canb.auug.org.au>
-To: DRI <dri-devel@lists.freedesktop.org>, Linus Torvalds
- <torvalds@linux-foundation.org>, Dave Airlie <airlied@linux.ie>
-Subject: Re: linux-next: manual merge of the drm-intel tree with Linus' tree
-Message-ID: <20210521114517.4142ad73@canb.auug.org.au>
-In-Reply-To: <20210520101910.26606a78@canb.auug.org.au>
-References: <20210520101910.26606a78@canb.auug.org.au>
+To: Daniel Vetter <daniel.vetter@ffwll.ch>, Jani Nikula
+ <jani.nikula@linux.intel.com>, Joonas Lahtinen
+ <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Intel Graphics <intel-gfx@lists.freedesktop.org>, DRI
+ <dri-devel@lists.freedesktop.org>
+Subject: linux-next: build failure after merge of the drm-intel tree
+Message-ID: <20210521115812.1f8680bf@canb.auug.org.au>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/Pg6YS3gjPVSluMgd_C8D.Z/";
+Content-Type: multipart/signed; boundary="Sig_/X_1rq9i10KBI.rsWyD/3wED";
  protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -51,88 +52,106 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: James Ausmus <james.ausmus@intel.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- Intel Graphics <intel-gfx@lists.freedesktop.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Linux Next Mailing List <linux-next@vger.kernel.org>,
- =?UTF-8?B?Sm9zw6k=?= Roberto de Souza <jose.souza@intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: Linux Next Mailing List <linux-next@vger.kernel.org>,
+ Anusha Srivatsa <anusha.srivatsa@intel.com>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/Pg6YS3gjPVSluMgd_C8D.Z/
+--Sig_/X_1rq9i10KBI.rsWyD/3wED
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 
 Hi all,
 
-On Thu, 20 May 2021 10:19:10 +1000 Stephen Rothwell <sfr@canb.auug.org.au> =
-wrote:
->
-> Today's linux-next merge of the drm-intel tree got a conflict in:
->=20
->   drivers/gpu/drm/i915/i915_mm.c
->=20
-> between commit:
->=20
->   293837b9ac8d ("Revert "i915: fix remap_io_sg to verify the pgprot"")
->=20
-> from Linus' tree and commit:
->=20
->   ec279384c6a0 ("drm/i915: Initialize err in remap_io_sg()")
->=20
-> from the drm-intel tree.
->=20
-> I fixed it up (see below) and can carry the fix as necessary. This
-> is now fixed as far as linux-next is concerned, but any non trivial
-> conflicts should be mentioned to your upstream maintainer when your tree
-> is submitted for merging.  You may also want to consider cooperating
-> with the maintainer of the conflicting tree to minimise any particularly
-> complex conflicts.
->=20
->=20
-> diff --cc drivers/gpu/drm/i915/i915_mm.c
-> index 9a777b0ff59b,25576fa73ff0..000000000000
-> --- a/drivers/gpu/drm/i915/i915_mm.c
-> +++ b/drivers/gpu/drm/i915/i915_mm.c
-> @@@ -82,13 -46,8 +82,13 @@@ int remap_io_sg(struct vm_area_struct *
->   		unsigned long addr, unsigned long size,
->   		struct scatterlist *sgl, resource_size_t iobase)
->   {
->  -	unsigned long pfn, len, remapped =3D 0;
->  +	struct remap_pfn r =3D {
->  +		.mm =3D vma->vm_mm,
->  +		.prot =3D vma->vm_page_prot,
->  +		.sgt =3D __sgt_iter(sgl, use_dma(iobase)),
->  +		.iobase =3D iobase,
->  +	};
-> - 	int err;
-> + 	int err =3D 0;
->  =20
->   	/* We rely on prevalidation of the io-mapping to skip track_pfn(). */
->   	GEM_BUG_ON((vma->vm_flags & EXPECTED_FLAGS) !=3D EXPECTED_FLAGS);
+After merging the drm-intel tree, today's linux-next build (x86_64
+allmodconfig) failed like this:
 
-This is now a conflict between the drm tree and Linus' tree.
+drivers/gpu/drm/i915/gvt/handlers.c: In function 'init_skl_mmio_info':
+drivers/gpu/drm/i915/gvt/handlers.c:3345:9: error: 'CSR_SSP_BASE' undeclare=
+d (first use in this function); did you mean 'DMC_SSP_BASE'?
+ 3345 |  MMIO_D(CSR_SSP_BASE, D_SKL_PLUS);
+      |         ^~~~~~~~~~~~
+drivers/gpu/drm/i915/gvt/handlers.c:2120:48: note: in definition of macro '=
+MMIO_F'
+ 2120 |  ret =3D new_mmio_info(gvt, i915_mmio_reg_offset(reg), \
+      |                                                ^~~
+drivers/gpu/drm/i915/gvt/handlers.c:3345:2: note: in expansion of macro 'MM=
+IO_D'
+ 3345 |  MMIO_D(CSR_SSP_BASE, D_SKL_PLUS);
+      |  ^~~~~~
+drivers/gpu/drm/i915/gvt/handlers.c:3345:9: note: each undeclared identifie=
+r is reported only once for each function it appears in
+ 3345 |  MMIO_D(CSR_SSP_BASE, D_SKL_PLUS);
+      |         ^~~~~~~~~~~~
+drivers/gpu/drm/i915/gvt/handlers.c:2120:48: note: in definition of macro '=
+MMIO_F'
+ 2120 |  ret =3D new_mmio_info(gvt, i915_mmio_reg_offset(reg), \
+      |                                                ^~~
+drivers/gpu/drm/i915/gvt/handlers.c:3345:2: note: in expansion of macro 'MM=
+IO_D'
+ 3345 |  MMIO_D(CSR_SSP_BASE, D_SKL_PLUS);
+      |  ^~~~~~
+drivers/gpu/drm/i915/gvt/handlers.c:3346:9: error: 'CSR_HTP_SKL' undeclared=
+ (first use in this function); did you mean 'DMC_HTP_SKL'?
+ 3346 |  MMIO_D(CSR_HTP_SKL, D_SKL_PLUS);
+      |         ^~~~~~~~~~~
+drivers/gpu/drm/i915/gvt/handlers.c:2120:48: note: in definition of macro '=
+MMIO_F'
+ 2120 |  ret =3D new_mmio_info(gvt, i915_mmio_reg_offset(reg), \
+      |                                                ^~~
+drivers/gpu/drm/i915/gvt/handlers.c:3346:2: note: in expansion of macro 'MM=
+IO_D'
+ 3346 |  MMIO_D(CSR_HTP_SKL, D_SKL_PLUS);
+      |  ^~~~~~
+drivers/gpu/drm/i915/gvt/handlers.c:3347:9: error: 'CSR_LAST_WRITE' undecla=
+red (first use in this function); did you mean 'DMC_LAST_WRITE'?
+ 3347 |  MMIO_D(CSR_LAST_WRITE, D_SKL_PLUS);
+      |         ^~~~~~~~~~~~~~
+drivers/gpu/drm/i915/gvt/handlers.c:2120:48: note: in definition of macro '=
+MMIO_F'
+ 2120 |  ret =3D new_mmio_info(gvt, i915_mmio_reg_offset(reg), \
+      |                                                ^~~
+drivers/gpu/drm/i915/gvt/handlers.c:3347:2: note: in expansion of macro 'MM=
+IO_D'
+ 3347 |  MMIO_D(CSR_LAST_WRITE, D_SKL_PLUS);
+      |  ^~~~~~
+In file included from drivers/gpu/drm/i915/i915_drv.h:64,
+                 from drivers/gpu/drm/i915/gvt/handlers.c:39:
+drivers/gpu/drm/i915/gvt/handlers.c: At top level:
+drivers/gpu/drm/i915/gvt/handlers.c:3658:21: error: 'CSR_MMIO_START_RANGE' =
+undeclared here (not in a function); did you mean 'DMC_MMIO_START_RANGE'?
+ 3658 |  {D_SKL_PLUS, _MMIO(CSR_MMIO_START_RANGE), 0x3000, NULL, NULL},
+      |                     ^~~~~~~~~~~~~~~~~~~~
+drivers/gpu/drm/i915/i915_reg.h:185:47: note: in definition of macro '_MMIO'
+  185 | #define _MMIO(r) ((const i915_reg_t){ .reg =3D (r) })
+      |                                               ^
+
+Caused by commit
+
+  0633cdcbaa77 ("drm/i915/dmc: Rename macro names containing csr")
+
+I have used the drm-intel tree from next-20210520 for today.
 
 --=20
 Cheers,
 Stephen Rothwell
 
---Sig_/Pg6YS3gjPVSluMgd_C8D.Z/
+--Sig_/X_1rq9i10KBI.rsWyD/3wED
 Content-Type: application/pgp-signature
 Content-Description: OpenPGP digital signature
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmCnEK4ACgkQAVBC80lX
-0Gw6YAf/aeg4JrR4rCb8nASAZb0h7i4+5RVa9o7ZUEmUSB3efm7BJa7RPlbIzgfz
-uXUc8dk1E01ehMuGXEUQM1wCMAsIR4OaHacgFw79w6b/hUpcHxl60uhmr1PEceYT
-+rTiqfdL+Z3aCSlMdt94F6UUQ2uMZCm15zXG5FzZxFUrvs7y/Hf5caWCJv37VVIi
-hs7eRDLBDSQ7ty5R2Cp5f2pHluoqkjgzI2SQdPm/I4E8D/1Izc9U13oPsaT3SWz2
-2lbqslTyLw5tHhFyAMqkENuVu2g4pIh9hEQJxkomZNR8BmGzObYaojt/hkGd3jO4
-w+307JGIfTNtJ19Q4YRgj6fnbCnnvA==
-=rRoU
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmCnE7QACgkQAVBC80lX
+0GyWKgf9FhTLYXrDxj5B3cqWCYudB70j1lqfCiwVHuma5A/C3D+owuO1kDRVHau4
+8Anq+qZIxU+Po1kIXSCi4HTSfn4sZRRDtbrVIpJZ/nR1T2bDgZVdpSQWsGJKnetw
+BRuZRHyu2S/PT27P7PnSs0ye6s9KxcdZm4MKb0PQRAVaTsBojgcSEKIyAqwks3ux
+SPpcUqyVtfnDUExXKU4SaCNHVLNFvtdnDtjXJzNvmG6xTgI4vieePaC8LCMYtEYb
+CpcHIIOYCdwETcUPdvYB2wrvg81l95qoam1UBS2zK/6egxNn7FfkRop3ENXQ4lPO
+gEwy3peESSNX1u8x2wzrVMctVsKy/g==
+=+Gw7
 -----END PGP SIGNATURE-----
 
---Sig_/Pg6YS3gjPVSluMgd_C8D.Z/--
+--Sig_/X_1rq9i10KBI.rsWyD/3wED--
