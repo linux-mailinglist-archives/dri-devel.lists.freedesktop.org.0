@@ -2,64 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19F1738C837
-	for <lists+dri-devel@lfdr.de>; Fri, 21 May 2021 15:36:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E75A38C8DF
+	for <lists+dri-devel@lfdr.de>; Fri, 21 May 2021 16:02:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9E2686F64B;
-	Fri, 21 May 2021 13:35:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6B9FA6F87B;
+	Fri, 21 May 2021 14:02:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com
- [IPv6:2a00:1450:4864:20::530])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3808A6F64B;
- Fri, 21 May 2021 13:35:55 +0000 (UTC)
-Received: by mail-ed1-x530.google.com with SMTP id r11so23291358edt.13;
- Fri, 21 May 2021 06:35:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-transfer-encoding:content-language;
- bh=CQNC5tcnBn2sqXfCRtfQO1Epq9bHKf0uPXF2miAwK8c=;
- b=fLsWWbaiDOqeBWiqz6Z+lTChhnRdQXJhHKLIfA8sFTt4eb1cfC4Lt3RrcQ21kaW+jW
- OHIxj5PhomewXQVDOd/NF4aWy9+nfK225wjSgNf4pICpSZapsAFD8LYus0KDiKKUuQ8g
- q29dSw99YdnCWDV0xwHNcRcX6NgiJpwFfWk5fk2Ot7V6FoTtgokzv/SI1lCWzOgnr2Lc
- FU/z2kh1YvgJfgjqA275Qr3tRFOI5QZVbtUGtxUdON110xwRCN7lFaz+JPDs9sgDLpka
- 7E+Uyoi5ddadvNEHHi1V3c2eC9DHyCLuYNLje5KHnohs/PqXiQcNWWZsqQZnDUp3ltdP
- CmMA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-transfer-encoding
- :content-language;
- bh=CQNC5tcnBn2sqXfCRtfQO1Epq9bHKf0uPXF2miAwK8c=;
- b=Nbo6raYsAsWQ60RXy6y4jVRlrbJ6X1Lo6sdZN/9NoPAG1z0McitPLBxcTZM8K1ivXO
- VQmLS6oSfW4bjmVxDU+nOLV95JIorZau0+5ZUAtXCDWVIzsVeoTkINKpCT4lMX/d1Xgu
- uL+gLP/a2N/LED3zkohPch3CZ056ctvMWH1CAnGIOzbFqDQ3k0JnFEyKLsQGhoP/PTtB
- EvKdu3HR+dJc56/97lyV2FAssrnBv6X7pBSAGhyskTD4BR1nJ8oe/7OcH1QT7L4yDF6v
- ZEN9bejUEfHtd7U5GzBUfRtoEE0yrIWy9CTNbmBC4mDi+RMgw9WiF5hs251zwY6nyOQt
- UkOg==
-X-Gm-Message-State: AOAM530ZCv0r1VW5KBBSGu2QZv+WoMue6azw/iHJSxuiMVWfmDUfSWxA
- 7uJ9ze0Hct1PerfGicIXOHU=
-X-Google-Smtp-Source: ABdhPJyPW3mc2rl6LjDNVIo7U/7GXPuRodp/tiEJiegxksa2IqC/S5vF1kHBS0G+Zgd1fxT0kjpidw==
-X-Received: by 2002:aa7:d550:: with SMTP id u16mr9565282edr.72.1621604153975; 
- Fri, 21 May 2021 06:35:53 -0700 (PDT)
-Received: from ?IPv6:2a02:908:1252:fb60:b48f:ff97:fb4c:5b1d?
- ([2a02:908:1252:fb60:b48f:ff97:fb4c:5b1d])
- by smtp.gmail.com with ESMTPSA id df8sm3942018edb.58.2021.05.21.06.35.52
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 21 May 2021 06:35:52 -0700 (PDT)
-Subject: Re: [PATCH] drm/amdgpu: Fix inconsistent indenting
-To: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>, alexander.deucher@amd.com
-References: <1621590628-75988-1-git-send-email-jiapeng.chong@linux.alibaba.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-Message-ID: <09e40764-1d3a-0dfe-b278-5b5ce04670a9@gmail.com>
-Date: Fri, 21 May 2021 15:35:51 +0200
+X-Greylist: delayed 1215 seconds by postgrey-1.36 at gabe;
+ Fri, 21 May 2021 14:02:02 UTC
+Received: from vern.gendns.com (vern.gendns.com [98.142.107.122])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 81A4B6F87A;
+ Fri, 21 May 2021 14:02:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=lechnology.com; s=default; h=Content-Transfer-Encoding:Content-Type:
+ In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
+ :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+ Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+ List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=9lP4cKqfXHid5MksziM3FSc3DFRksG808KiNvq/BVYE=; b=hmX2PqtAcvfv2cTaWaKqbBzYnw
+ DxSzvIsTFnCd9Ad9cdgXcoZVPVp+Z0y4/scrHZ6lQs88LnWXAa1YT4bs9Ia475q2X9vr1EOloNLCE
+ THXs6NcMbbEEyxq3reOMRol8oP6jgXycuu8nbCc+4m9ZxjpBaxuPlbxnbeqkFLH5sNb79jTHyusGn
+ Aj53qnao2AuiRFV92GruAtnjQKtCSKCaf2iZEz2O8VAEap+BHfbNyR/Ot54sQ9hGJPQZPKsE8tb7U
+ 0yMzptP6/L6YqlsKaZ6pc6CV/OvWHV6P877WAEb11FA4+jFhLuJ5+9IAG3jPixiqPaX93WGLZqRzV
+ iYx9lswA==;
+Received: from [2600:1700:4830:165f::fb2] (port=60256)
+ by vern.gendns.com with esmtpsa (TLS1.2) tls
+ TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256 (Exim 4.94.2)
+ (envelope-from <david@lechnology.com>)
+ id 1lk5P6-0003HQ-MU; Fri, 21 May 2021 09:41:41 -0400
+Subject: Re: [PATCH 11/11] drm/tiny: drm_gem_simple_display_pipe_prepare_fb is
+ the default
+To: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ DRI Development <dri-devel@lists.freedesktop.org>
+References: <20210521090959.1663703-1-daniel.vetter@ffwll.ch>
+ <20210521090959.1663703-11-daniel.vetter@ffwll.ch>
+From: David Lechner <david@lechnology.com>
+Message-ID: <15839b4b-04e5-c65a-8e7c-6e1bdce9757f@lechnology.com>
+Date: Fri, 21 May 2021 08:41:34 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <1621590628-75988-1-git-send-email-jiapeng.chong@linux.alibaba.com>
+In-Reply-To: <20210521090959.1663703-11-daniel.vetter@ffwll.ch>
 Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
 Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-AntiAbuse: This header was added to track abuse,
+ please include it with any abuse report
+X-AntiAbuse: Primary Hostname - vern.gendns.com
+X-AntiAbuse: Original Domain - lists.freedesktop.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - lechnology.com
+X-Get-Message-Sender-Via: vern.gendns.com: authenticated_id:
+ davidmain+lechnology.com/only user confirmed/virtual account not confirmed
+X-Authenticated-Sender: vern.gendns.com: davidmain@lechnology.com
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,57 +71,23 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, Xinhui.Pan@amd.com, linux-kernel@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, christian.koenig@amd.com,
- linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org,
- linux-media@vger.kernel.org
+Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ linux-aspeed@lists.ozlabs.org, Emma Anholt <emma@anholt.net>,
+ Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>,
+ Andrew Jeffery <andrew@aj.id.au>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>,
+ Joel Stanley <joel@jms.id.au>, Thomas Zimmermann <tzimmermann@suse.de>,
+ xen-devel@lists.xenproject.org, Alex Deucher <alexander.deucher@amd.com>,
+ Daniel Vetter <daniel.vetter@intel.com>,
+ Kamlesh Gurudasani <kamlesh.gurudasani@gmail.com>,
+ Sam Ravnborg <sam@ravnborg.org>, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 21.05.21 um 11:50 schrieb Jiapeng Chong:
-> Eliminate the follow smatch warning:
->
-> drivers/gpu/drm/amd/amdgpu/sdma_v5_0.c:449
-> sdma_v5_0_ring_emit_mem_sync() warn: inconsistent indenting.
->
-> Reported-by: Abaci Robot <abaci@linux.alibaba.com>
-> Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
+On 5/21/21 4:09 AM, Daniel Vetter wrote:
+> Goes through all the drivers and deletes the default hook since it's
+> the default now.
 
-Reviewed-by: Christian König <christian.koenig@amd.com>
-
-> ---
->   drivers/gpu/drm/amd/amdgpu/sdma_v5_0.c | 13 ++++++-------
->   1 file changed, 6 insertions(+), 7 deletions(-)
->
-> diff --git a/drivers/gpu/drm/amd/amdgpu/sdma_v5_0.c b/drivers/gpu/drm/amd/amdgpu/sdma_v5_0.c
-> index 75d7310..c45e1b0 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/sdma_v5_0.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/sdma_v5_0.c
-> @@ -440,20 +440,19 @@ static void sdma_v5_0_ring_emit_ib(struct amdgpu_ring *ring,
->    */
->   static void sdma_v5_0_ring_emit_mem_sync(struct amdgpu_ring *ring)
->   {
-> -    uint32_t gcr_cntl =
-> -		    SDMA_GCR_GL2_INV | SDMA_GCR_GL2_WB | SDMA_GCR_GLM_INV |
-> -			SDMA_GCR_GL1_INV | SDMA_GCR_GLV_INV | SDMA_GCR_GLK_INV |
-> -			SDMA_GCR_GLI_INV(1);
-> +	uint32_t gcr_cntl = SDMA_GCR_GL2_INV | SDMA_GCR_GL2_WB | SDMA_GCR_GLM_INV |
-> +			    SDMA_GCR_GL1_INV | SDMA_GCR_GLV_INV | SDMA_GCR_GLK_INV |
-> +			    SDMA_GCR_GLI_INV(1);
->   
->   	/* flush entire cache L0/L1/L2, this can be optimized by performance requirement */
->   	amdgpu_ring_write(ring, SDMA_PKT_HEADER_OP(SDMA_OP_GCR_REQ));
->   	amdgpu_ring_write(ring, SDMA_PKT_GCR_REQ_PAYLOAD1_BASE_VA_31_7(0));
->   	amdgpu_ring_write(ring, SDMA_PKT_GCR_REQ_PAYLOAD2_GCR_CONTROL_15_0(gcr_cntl) |
-> -			SDMA_PKT_GCR_REQ_PAYLOAD2_BASE_VA_47_32(0));
-> +			  SDMA_PKT_GCR_REQ_PAYLOAD2_BASE_VA_47_32(0));
->   	amdgpu_ring_write(ring, SDMA_PKT_GCR_REQ_PAYLOAD3_LIMIT_VA_31_7(0) |
-> -			SDMA_PKT_GCR_REQ_PAYLOAD3_GCR_CONTROL_18_16(gcr_cntl >> 16));
-> +			  SDMA_PKT_GCR_REQ_PAYLOAD3_GCR_CONTROL_18_16(gcr_cntl >> 16));
->   	amdgpu_ring_write(ring, SDMA_PKT_GCR_REQ_PAYLOAD4_LIMIT_VA_47_32(0) |
-> -			SDMA_PKT_GCR_REQ_PAYLOAD4_VMID(0));
-> +			  SDMA_PKT_GCR_REQ_PAYLOAD4_VMID(0));
->   }
->   
->   /**
+Acked-by: David Lechner <david@lechnology.com>
 
