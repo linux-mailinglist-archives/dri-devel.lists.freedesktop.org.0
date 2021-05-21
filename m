@@ -2,52 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E281338D222
-	for <lists+dri-devel@lfdr.de>; Sat, 22 May 2021 01:54:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A7C5538D225
+	for <lists+dri-devel@lfdr.de>; Sat, 22 May 2021 01:55:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 117A4898BE;
-	Fri, 21 May 2021 23:54:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4943D6E0D9;
+	Fri, 21 May 2021 23:55:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x22e.google.com (mail-lj1-x22e.google.com
- [IPv6:2a00:1450:4864:20::22e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B7150898BE
- for <dri-devel@lists.freedesktop.org>; Fri, 21 May 2021 23:54:51 +0000 (UTC)
-Received: by mail-lj1-x22e.google.com with SMTP id o8so25975024ljp.0
- for <dri-devel@lists.freedesktop.org>; Fri, 21 May 2021 16:54:51 -0700 (PDT)
+Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com
+ [IPv6:2a00:1450:4864:20::12b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7B5636E0D9
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 May 2021 23:55:28 +0000 (UTC)
+Received: by mail-lf1-x12b.google.com with SMTP id c10so11069755lfm.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 May 2021 16:55:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=tV/CvepLnR5+D9t29ytGFL8Nj7AdpJJt34520cSY3LA=;
- b=M713uKIY66inHyiEO1T+DBuoxnFAlNemj6CtaopVQxn8BuphkSpRK9jZMLATFw/+jg
- BaGUTJrCmSP6/yWnoxXxICQnpjzBfTZSjElWrrbnEr7ReDqHqTSodw8ijwHxo8diahZg
- D1LIllew4h7IEWe2u4MX9gtgErERqcubYcinEmZ9l1pQvwYhh2uT5QrjBltHrfsPPBVD
- Aljket5JV5L+VoKae0CRUf6ysY+vPcXtoeJXXyigwFvZ1mUO2jOaUCkIlmAgcSQhRRQM
- iO7e4K7gdTKUaKUz/JhpI7oqJzQ4aGISExjH13EDf386UExM3RLWpdcV1QF0gioxwRT8
- n7UA==
+ :cc; bh=v4JwRZa9StUOWu+uyIm0h+xDZPb2Vrykvc6o8gtd0B4=;
+ b=rHb3lfBJCE9Mx9n/BYp/yEvxrIMlWaV76KfBsLya5hGpYMabhQMZjasOO8SBTpTWbB
+ 37GqY4Is7No6tTOFPfP1lGdL0I59ID7eYDDyLdxdxFAQyOJ4glisq8UR+7usNrLwFRZk
+ doPUwXGMspXb1+iofsgvrbbPaHND9OZqFq+R3sIynxXjQecSXX1Y+DFRE5qv07/PUpck
+ 86hCcuNrTcc2d1hiUPF2Nkv4TcwhmE+ZOi6oJjf/5lapvPTDA4xq05aMe7RGEC3PmsgG
+ uiLEqDZmRCdu2UJ/sc7jjCnr63b2LUapGlRqh/qrg4mPNJOacp+WR0xNbhYX964Yjk0b
+ /gsQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=tV/CvepLnR5+D9t29ytGFL8Nj7AdpJJt34520cSY3LA=;
- b=LxPjp4UrxtYUbCGEmmsmS/RPE0A6grgV+ru8ZFYL/M/AxM/mdo20+FDAIF0Qpby/5s
- zlgiUamRAlJFtjwdAhgb4e9BVpUCg0XaES0jQD9Dlr8UL46ZEJQWMf2oorZxPaC5pdnX
- wkGpwPaEPveHbUaYKXCuzM5MPYO9aBZQ3D9ku9ACiJ52ag2arO/EWc8QcM5cH/UVPuaW
- vFeHrDmg3qNsbkVO60Kf426Aypx+NssfIhvaD1w1dqwITlkLKlv8yuC7Fhx6UyQMLTEo
- bSPlK+/R8fw+EGl4H/uSI303WIaaVoynKqMyvuudB/LFcx8R6n57IQ4zu5KicWdYT0dI
- 2S5Q==
-X-Gm-Message-State: AOAM531T1iH8O6xH/0iDKqniOuPphLtobgBMGBGtKbk0EEnDa5mtOQl7
- polvZBaLJDzkAzRuyWc9o3fw84e+hsiGVLHI7UpN+w==
-X-Google-Smtp-Source: ABdhPJzJ0T69H5XFqUQwsNg04Epi6XpxdeY+ogh1rdWQ9QB++gsjxv/67mcs+CsBli1tiQ6/dSKRkAWMwWN6iLTO8Y0=
-X-Received: by 2002:a05:651c:1049:: with SMTP id
- x9mr6305514ljm.467.1621641290037; 
- Fri, 21 May 2021 16:54:50 -0700 (PDT)
+ bh=v4JwRZa9StUOWu+uyIm0h+xDZPb2Vrykvc6o8gtd0B4=;
+ b=E+KCZ1jcNHmNvd/NCXwuGFYRiBuUEqyNawXUsdNAdErv/SfNwqN2atQkpoW3JHCVgG
+ Wpd7NBNnFyPFAsR/eI+7l8JD6Prt+gFOmoJ4M+NSRpL0ch1nGtX8w4bG9hvyfI78Kd9e
+ yA/osXaBcFCjRR3cdSTARcK/Q8Ll3TleK5DiKppNpom1gBq22FamH9TDf2z7YxhsXb/1
+ YUjetEvFxyf9GnZ9oPps1r0E300ZIuw8gE7p7jU+XuTlVcYg1JiKss2vFKOqtF+lGnAD
+ uYxVis5uSJ/hzE2PKZV+arx4QM14Um7E98Pc9GuAoG1trAraAaEndg79PJg6vRMrI7ew
+ QQcQ==
+X-Gm-Message-State: AOAM531BFi6DXtjvTx3jD67uILM6BsmJnFR1Xgb9IUVsWBo/OmlruWay
+ NS/V3ND9DkhAB1tqkruLyD0mzF1xEHb54rIej4yRhw==
+X-Google-Smtp-Source: ABdhPJzBChhkZ2/JZvtrSi2TQkgxeb22PAkXYeeuXJXqQtZsukhS8dZ2Ju4vf2tQzzIuCuUgHNvltdsgfT9slARBr7I=
+X-Received: by 2002:a05:6512:1185:: with SMTP id
+ g5mr3779084lfr.586.1621641326966; 
+ Fri, 21 May 2021 16:55:26 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210519203547.837237-1-clabbe@baylibre.com>
-In-Reply-To: <20210519203547.837237-1-clabbe@baylibre.com>
+ <20210519203547.837237-2-clabbe@baylibre.com>
+In-Reply-To: <20210519203547.837237-2-clabbe@baylibre.com>
 From: Linus Walleij <linus.walleij@linaro.org>
-Date: Sat, 22 May 2021 01:54:38 +0200
-Message-ID: <CACRpkdb3TratOcZbi4Y7t_0i0fZ84Ek8vgT5xXxObUuZRYvrCA@mail.gmail.com>
-Subject: Re: [PATCH v2 1/3] dt-bindings: display: convert faraday,tve200
+Date: Sat, 22 May 2021 01:55:16 +0200
+Message-ID: <CACRpkdYACsLcJMD96vxrmOrJFjb675y5t3SXQF6YEOyfeoGekA@mail.gmail.com>
+Subject: Re: [PATCH v2 2/3] ARM: dts: gemini-dlink-dir-685: Remove address
+ from display port
 To: Corentin Labbe <clabbe@baylibre.com>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -74,11 +76,11 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On Wed, May 19, 2021 at 10:35 PM Corentin Labbe <clabbe@baylibre.com> wrote:
 
-> Converts display/faraday,tve200.txt to yaml.
+> The address and reg adds no value to the port node, remove them.
 >
 > Signed-off-by: Corentin Labbe <clabbe@baylibre.com>
 
-Patch applied to the DRM misc tree.
+Patch applied to the Gemini tree.
 
 Yours,
 Linus Walleij
