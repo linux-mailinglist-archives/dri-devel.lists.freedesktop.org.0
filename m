@@ -2,68 +2,117 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 818B838CCFC
-	for <lists+dri-devel@lfdr.de>; Fri, 21 May 2021 20:11:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A0F038CD11
+	for <lists+dri-devel@lfdr.de>; Fri, 21 May 2021 20:17:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 81DF56E7DA;
-	Fri, 21 May 2021 18:11:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C94286E83C;
+	Fri, 21 May 2021 18:17:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com
- [IPv6:2a00:1450:4864:20::635])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AAAA06E7DA
- for <dri-devel@lists.freedesktop.org>; Fri, 21 May 2021 18:11:36 +0000 (UTC)
-Received: by mail-ej1-x635.google.com with SMTP id k14so28305612eji.2
- for <dri-devel@lists.freedesktop.org>; Fri, 21 May 2021 11:11:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-transfer-encoding:content-language;
- bh=yoXCvEAzVT9yjqx8OljpzDvqRPSlMZsAy5yE/eRDuaE=;
- b=TkYGb4Y6vFlpegLRs/uH8MY5FPxwX1g57o1HWEPjtcXpaaiI/WRrb7hjSubd27ZFYM
- e1cCHvzqmss9ADvBDv7rlDUSpCcBMFI/1oaXWtP4X97uIy2L7dQ526N/EbOSiNrxsu1D
- zbPInj+Fb+JR36KFHMV7XITn/W1Mjh6A0b2XzQMvIe5nNQt0Bypi7PJelV3jKI9jRQu3
- M7Fhxdgt3WDR7PWNgc5joXO92Ofox2HUqGoxiShnhNaePMWTwoiawycE3wk6CTxZlFkx
- 5FPGgG7t8IcUm65nkAZ+6snPuql2IKs9TIASMtVPAsxqaMiToCAhdYoSXWG9iouArJ1q
- MH0Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-transfer-encoding
- :content-language;
- bh=yoXCvEAzVT9yjqx8OljpzDvqRPSlMZsAy5yE/eRDuaE=;
- b=bwKdkGJ4XlIC8W0OE1GdT8ZoXer6JxwWIdwEAE2NKRTDeJZqCW2m76OZjZA/BpeF+P
- BQipw9g50h+aJbsmf7B/pzcQEnIdLJnaqv7JKkWBNwa2VSmHwhyKBSA6xBtryQ3qIHSS
- 7bz/AF+eFBicF/Cye0qUEsLzRQJOGDLibfd1tz/FoC8qMWCA3eFGr+U99l9S4i2R4Suw
- QMQwWzqxwe/1b9tqz2AzueC9yFcuCAVgSVB0EzHRQ4MnxlRTzpn2ve4Sl1gH4Ws3+0KI
- bIavsPtP5x/zjtXwdFmCBF+UMYSlqLJYRkhnfeI46K/VBl17p9aZc7TD6A/PcKgzTW/y
- j+mA==
-X-Gm-Message-State: AOAM533fYWez8tdw+6xLD7xagyZoEZbi5qhR3kpbfzJryLUYY4OhejQ1
- wMCvX6Acdc34TAXEzFmRo90ZnaN4xss=
-X-Google-Smtp-Source: ABdhPJxxPmhneRTPypVxna1lwSXhZiPTvUZSVU0meSG97nGmZa1qFVRr8Mm/sWeps5bAjUb1jVs1Og==
-X-Received: by 2002:a17:906:b2c1:: with SMTP id
- cf1mr11315192ejb.544.1621620695321; 
- Fri, 21 May 2021 11:11:35 -0700 (PDT)
-Received: from ?IPv6:2a02:908:1252:fb60:8496:ee5:88c2:a2c4?
- ([2a02:908:1252:fb60:8496:ee5:88c2:a2c4])
- by smtp.gmail.com with ESMTPSA id m10sm4492671edp.48.2021.05.21.11.11.34
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 21 May 2021 11:11:34 -0700 (PDT)
-Subject: Re: [PATCH 1/4] dma-buf: add dma_fence_array_for_each (v2)
-To: Jason Ekstrand <jason@jlekstrand.net>
-References: <20210520190007.534046-1-jason@jlekstrand.net>
- <20210520190007.534046-2-jason@jlekstrand.net>
- <5698cfc1-471b-5e13-bf3f-1c7025dc9a2c@gmail.com>
- <CAOFGe95V8wnR4AqoQm1s+1y8Mv-+RzmYS1fMf_d=aUek3TGK5g@mail.gmail.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-Message-ID: <938e7c1f-6bc5-4429-bebc-803b8fbd421a@gmail.com>
-Date: Fri, 21 May 2021 20:11:33 +0200
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam12on2071.outbound.protection.outlook.com [40.107.243.71])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4828D6E83C
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 May 2021 18:17:34 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=dtxz81dIm6psqfQ0UsDUsF2L+W9fZ9Dqi0WJm70E9ore1CwdSBBAOBQ8vsIb0+p6ZPDj/GQfPZ+L6KlvzPsCGES7bY1X7ejgLExeDLjriTm8tSFzsvboV+BX8SqGHhBkJYGwc2m3mXqKQOAslHfK+MV3cOM8ocRha7F6E5cOyAPWq1eEo9fv8MKAF/GU2RIWbeNe7XsEhfwAQTGsKDKSknk/KHXUsa1Yg3MBWWpRpvkuzPhPIjRuOhEL4jYdnVwVav9PbaeOtwMR6RGW4QEH+j34yM5EF4qt5NDEk1hbGNG3y5IHj4721uH4XORGRpRYcWcXW+OQuJq9FAb+XP9WlA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=mA0+8Yl4M0R55MF8oOzsucSrK2ze6uW/s6ieXSAbDZw=;
+ b=WAQ3NECYB0ZKVar6dOOrMqkuEJG4ItJ2FvpD72WvIsl8UgDlhj1mV7dluysmLSyDsXL/CQeHm8x4LnDgsGloVgp0DFaYYgrchP42I3Pqb5N1wB+CPT9JeB+z5Il6l7jpoKec4UPVeE/dfVZFkx9FDLjCMr0IBG7AmgOP811kGsbmQYGjWdXXp6c6RWgfSclI+/V3d5d02K8eERRnXkQpTvCgZxPpdmZZ3qBRcxk2uL8RfMLZstqTA174NGSI2HR16j9y6sH90yI8dasyPJ2xtYscJkBqANAS6etplzGROjANM92JlGklFUNHzV3YVZv8EGleA6Cpz8lsxUXUyg2efw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=vmware.com; dmarc=pass action=none header.from=vmware.com;
+ dkim=pass header.d=vmware.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vmware.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=mA0+8Yl4M0R55MF8oOzsucSrK2ze6uW/s6ieXSAbDZw=;
+ b=ymberibYyntN7AxB/WSJofXPOgyqM9ynuscxVX88GzdF8EGAQYi8Hv1wO2xP3KELAmhC/YbrCtCpJdJoUVWXzLdIH0Q/47Oc79gj33+LJewDvAwpGLDyxbAaToWS3eRK0mdw4kr4yFGKXc7hO79vsdUYiKQ4o0l+cGM3U7SvSvQ=
+Authentication-Results: lists.freedesktop.org; dkim=none (message not signed)
+ header.d=none; lists.freedesktop.org;
+ dmarc=none action=none header.from=vmware.com;
+Received: from MN2PR05MB6624.namprd05.prod.outlook.com (2603:10b6:208:d8::18)
+ by MN2PR05MB6926.namprd05.prod.outlook.com (2603:10b6:208:18e::19)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4150.12; Fri, 21 May
+ 2021 18:17:30 +0000
+Received: from MN2PR05MB6624.namprd05.prod.outlook.com
+ ([fe80::603b:4954:dbec:c02]) by MN2PR05MB6624.namprd05.prod.outlook.com
+ ([fe80::603b:4954:dbec:c02%7]) with mapi id 15.20.4150.019; Fri, 21 May 2021
+ 18:17:30 +0000
+To: christian.koenig@amd.com, dri-devel <dri-devel@lists.freedesktop.org>
+From: Zack Rusin <zackr@vmware.com>
+Subject: ttm_resource_manager::use_tt
+Message-ID: <3ed92523-df06-87cd-f926-e632b780f69b@vmware.com>
+Date: Fri, 21 May 2021 14:17:29 -0400
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
-MIME-Version: 1.0
-In-Reply-To: <CAOFGe95V8wnR4AqoQm1s+1y8Mv-+RzmYS1fMf_d=aUek3TGK5g@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
 Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [108.36.85.85]
+X-ClientProxiedBy: MN2PR15CA0027.namprd15.prod.outlook.com
+ (2603:10b6:208:1b4::40) To MN2PR05MB6624.namprd05.prod.outlook.com
+ (2603:10b6:208:d8::18)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.0.193] (108.36.85.85) by
+ MN2PR15CA0027.namprd15.prod.outlook.com (2603:10b6:208:1b4::40) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4150.24 via Frontend
+ Transport; Fri, 21 May 2021 18:17:30 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 37971472-a85b-4c55-32db-08d91c84b261
+X-MS-TrafficTypeDiagnostic: MN2PR05MB6926:
+X-Microsoft-Antispam-PRVS: <MN2PR05MB69268D07871C7948B0A07869CE299@MN2PR05MB6926.namprd05.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: vs5+wXmltaUnAvq+CwOc3gj3TY0jO9IntiUjFyLVRED09POGAe9g/8OMQ7CDzm4UulExh2IF/BzJzV0LU54dFIUPXDEhBOqD6pFGwMjhCQxfNGIvqi1jcFhPAsRqvlPSyrKPUz5l1Nur74cyhgi/A1w8EmY4HjdRgQ7uE9B3u/nhZe0LM8p3egsiNHA3cgWrGvFuAj5AP3DoJOvHHm+n9Jdjd2jFdbZ08F+4h7spL85y0oT1ZurS/hOomqBiqvAlIrN3laQjSf3OK+L7pigsGvFMjU2p5qE8DwXVul82yTrAnnyhYeGssKivMNe/obgmbCy6xP80WvnObmUdUb8CqfbMLzi+09T9eByeSgZm3YtJLQJwMHVj7NGLJf3okUw1a/uncUl8txqNjXf3n6MKmuIqBEd8fAboS2ndO06g+Q73WV3pkMTXiHosAkMNJtS/iGV+hv/3cxXT96pGQdlHiOOQNGTwTQv92NLZyxE/2WpzNAFWe0qWxHb+mBmLfFUqJFi2SgXQ9z7uL+y9RRyJIuvLwGAX2yh7zkT5RwamXUynmPUGnwvtIfKZAuM35QmOHATSLFZgRFqdRo+G0SMDiInFnJIOPaQnQi8hRNCrhXLE6Nk5vcgYs5gelaJpn5x0Jt//kNq3/Zz6NPtBSBhip/aFGANdc5njKVJrzbPyAbsbaUxkgOTNu+5MDd1cco12VqK1vzToDd6emrPxAGQd+A==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MN2PR05MB6624.namprd05.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(376002)(39860400002)(396003)(346002)(366004)(136003)(956004)(478600001)(2616005)(966005)(6916009)(31686004)(8676002)(16526019)(8936002)(186003)(86362001)(5660300002)(316002)(66556008)(66946007)(2906002)(6486002)(26005)(4744005)(31696002)(16576012)(36756003)(66476007)(38100700002)(43740500002)(45980500001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?UlFFTGZhUS9Lby91aStMa1AyOGFYZHZ5NG9zTVJFeDBEZGw2Rk16M0plU05i?=
+ =?utf-8?B?cVRVTnd2VUF6WVFuMmoyMTl0OVRTVW0ySjNhSkRreCs1ZEdzbEZtdDV5bGEv?=
+ =?utf-8?B?ZnYxS1dGOUR6dThVNVArUjBKalRjNUxLblF0WVRsVklYOWtDdTFvVm0rRXVa?=
+ =?utf-8?B?TmRvSUlHd0FYakd3M0gwRGVIL0VUNXNmL1IzSVVOeXZBL2NoM1kxTDVGVlA1?=
+ =?utf-8?B?MG5UVFpxVVdXSTZZRlQvZ2JNYVBKc01aMGR2T2MxMGhmTnRieUdqTHZ3aGZI?=
+ =?utf-8?B?dTcrV2o0STVWSXBGTDdkTjhHQ0Z5NE1XRzRIdFNaOVNFZHhOTkZ2cExZY3R3?=
+ =?utf-8?B?V3dScGRKRGZkTUZBMnJGMHFvN3Y4SzJqVjgvODZnZmxob21BZXcrZTgzUlNF?=
+ =?utf-8?B?SU1nOXNacStWblNFa1VTcUQ4RnJiQ2JMOXdxdDcyL2IzMnBqNHoybkVSbFkz?=
+ =?utf-8?B?U2llbVdLTDlLdjFnS1M3eWNQUEJlNnBjMVJKTDBMM3RCTlRjeUk1MmtHcVk4?=
+ =?utf-8?B?V0hMSkdibDF0NnBNTUd1bHIrM0RpL21pQ1JNaVlUVGtRMkxVNER5L2dRQnNY?=
+ =?utf-8?B?eTFGNmROWlRrRERLN293dzJKRHFmb2FYQ2NxOWxoOEZrRkIrbHFQWUZjS21Y?=
+ =?utf-8?B?azluQXE3MGpuQWp5V051SjJUdmozaVREN21LL0dCS2tpTVVubUt6ZmJFTDlE?=
+ =?utf-8?B?d0Y0NnBGQjlUVndjdThDNEJndUNIMUdaNG1QNTcvQlVrTDc2VHprL3FvRk91?=
+ =?utf-8?B?cmZMMW5kL0IrL0hadnB2bndKRTNRTDlsdnhXWEc0OG8xMEFMNnBxS1k2cUF6?=
+ =?utf-8?B?VGU0SmVXWXo5L0gyZGtvN1V6SEtYdFgxbFVnM2trem5kT1g3R21pZ01kSjdE?=
+ =?utf-8?B?RXJOdW5ZODRkRFBwNkNMOFM1UkVNWXVrbSt1ZzJ2S2tmTzVGN3EyWDJONnpU?=
+ =?utf-8?B?ZzNlOEJaeTNNcEo3QkhscUlKTzNkZGJ0aHZvQjJzV2NBU0phaDIzL2grSkpS?=
+ =?utf-8?B?RVdRMSt4WkxPckJIaHBWSVhtYkZkU1h2UHFkWmdYdndYbkJQWkxQNFpTVUx0?=
+ =?utf-8?B?aC9HV0pTMlZxbnViWVJHN24xQmtVTFdIczBzSnBJeGo5N3NxYXVKSHZMY0xU?=
+ =?utf-8?B?dU1OL1RxUHl5M1UzVzI4c2Q1dnN4QVMvT2ExUUNHK1JnVXkzL2tobm9iVnB5?=
+ =?utf-8?B?d3laSEhWeW5zUk5TdFVYdGNnTHB3bGZncmhjYTRzOTIvUHRTNzZ2eXVXcUYr?=
+ =?utf-8?B?RVI1SVJQaGVLNUpEOUlremVkNmpFMGxoaXRpOEtBbDhaVTg4RkdQYnZjdWpm?=
+ =?utf-8?B?ZG9WVStKNmJWd1NtazdxZDhwdlNYSldkZ3NYdWMvaU14M0U5YVBPUUZkSnls?=
+ =?utf-8?B?NzV3S2lNNEYyUTlwOEhORWVLdUhtTmdENEhzNE80L1pycEdSM0Z1UXl5eFh6?=
+ =?utf-8?B?M1Y0czhMVFBqYy81TG1kWnpFK2pPV3p3YmN3WUhxdTNVQVlzV3pRVmtXNDhF?=
+ =?utf-8?B?d21UbkVBdDlrUC8zVWxNVncxcjdyUWRKNWN4bHlVVDBra2RpTkJYNlJFaTNy?=
+ =?utf-8?B?cHMrL0NITW5PUG1NVVE2TnZoUHIyL09uNG5mWHZMMm93eVBwbVE2b2NiYktM?=
+ =?utf-8?B?ejh1VlM5RU1pNWE2WWV4eDk2OGI5a1ZuOEloY2RkeE9sZTMwcTlkc1gxaERm?=
+ =?utf-8?B?dFE5VENick1Xbk1UbmgvdGg5WnQ2ZmJ0RlphQ3YvL1loV0VFOUJqODhZd1JD?=
+ =?utf-8?Q?Th4nRghwE5Kam2OH/+nZTMqfN7RWe+8os+IS5ss?=
+X-OriginatorOrg: vmware.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 37971472-a85b-4c55-32db-08d91c84b261
+X-MS-Exchange-CrossTenant-AuthSource: MN2PR05MB6624.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 May 2021 18:17:30.5200 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: b39138ca-3cee-4b4a-a4d6-cd83d9dd62f0
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 4Q2HS91buVuEeo8iuwOV+9zXUwdnwRIpvZPX02kwKQG4a/57aMMqXzAPoqLXSLRKLKK58pK7ovqrq0i7j+sgKw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR05MB6926
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,118 +125,14 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Maling list - DRI developers <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 21.05.21 um 18:27 schrieb Jason Ekstrand:
-> On Fri, May 21, 2021 at 2:51 AM Christian König
-> <ckoenig.leichtzumerken@gmail.com> wrote:
->> Am 20.05.21 um 21:00 schrieb Jason Ekstrand:
->>> From: Christian König <ckoenig.leichtzumerken@gmail.com>
->>>
->>> Add a helper to iterate over all fences in a dma_fence_array object.
->>>
->>> v2 (Jason Ekstrand)
->>>    - Return NULL from dma_fence_array_first if head == NULL.  This matches
->>>      the iterator behavior of dma_fence_chain_for_each in that it iterates
->>>      zero times if head == NULL.
->>>    - Return NULL from dma_fence_array_next if index > array->num_fences.
->>>
->>> Signed-off-by: Jason Ekstrand <jason@jlekstrand.net>
->> Reviewed-by: Christian König <christian.koenig@amd.com>
->>
->> BTW: I'm only seeing this patch from the series. Looks like somehow the
->> rest didn't made it into my inbox.
-> https://lists.freedesktop.org/archives/dri-devel/2021-May/307561.html
->
-> Not sure why it didn't make your mail.  This one was CC'd to you
-> because you're the author from a year ago or something.
+Hi, Christian.
 
-Yeah, feel free to add an Acked-by on exporting the fences to the 
-sync_file part.
+I was just going over some old patches and I was just looking at your series introducing use_tt:
+https://patchwork.freedesktop.org/series/80078/ and the change https://patchwork.freedesktop.org/patch/382079/?series=80078&rev=1
 
-But I think we really need to untangle the resource management from the 
-implicit sync handling before the importing fence part can land.
+Do you happen to remember what was the worry behind the /* TODO: This is most likely not correct */ in vmwgfx_ttm_buffer.c? I'm trying to figure out if we need to address it.
 
-Regards,
-Christian.
-
->
-> --Jason
->
->
->>> ---
->>>    drivers/dma-buf/dma-fence-array.c | 27 +++++++++++++++++++++++++++
->>>    include/linux/dma-fence-array.h   | 17 +++++++++++++++++
->>>    2 files changed, 44 insertions(+)
->>>
->>> diff --git a/drivers/dma-buf/dma-fence-array.c b/drivers/dma-buf/dma-fence-array.c
->>> index d3fbd950be944..2ac1afc697d0f 100644
->>> --- a/drivers/dma-buf/dma-fence-array.c
->>> +++ b/drivers/dma-buf/dma-fence-array.c
->>> @@ -201,3 +201,30 @@ bool dma_fence_match_context(struct dma_fence *fence, u64 context)
->>>        return true;
->>>    }
->>>    EXPORT_SYMBOL(dma_fence_match_context);
->>> +
->>> +struct dma_fence *dma_fence_array_first(struct dma_fence *head)
->>> +{
->>> +     struct dma_fence_array *array;
->>> +
->>> +     if (!head)
->>> +             return NULL;
->>> +
->>> +     array = to_dma_fence_array(head);
->>> +     if (!array)
->>> +             return head;
->>> +
->>> +     return array->fences[0];
->>> +}
->>> +EXPORT_SYMBOL(dma_fence_array_first);
->>> +
->>> +struct dma_fence *dma_fence_array_next(struct dma_fence *head,
->>> +                                    unsigned int index)
->>> +{
->>> +     struct dma_fence_array *array = to_dma_fence_array(head);
->>> +
->>> +     if (!array || index >= array->num_fences)
->>> +             return NULL;
->>> +
->>> +     return array->fences[index];
->>> +}
->>> +EXPORT_SYMBOL(dma_fence_array_next);
->>> diff --git a/include/linux/dma-fence-array.h b/include/linux/dma-fence-array.h
->>> index 303dd712220fd..588ac8089dd61 100644
->>> --- a/include/linux/dma-fence-array.h
->>> +++ b/include/linux/dma-fence-array.h
->>> @@ -74,6 +74,19 @@ to_dma_fence_array(struct dma_fence *fence)
->>>        return container_of(fence, struct dma_fence_array, base);
->>>    }
->>>
->>> +/**
->>> + * dma_fence_array_for_each - iterate over all fences in array
->>> + * @fence: current fence
->>> + * @index: index into the array
->>> + * @head: potential dma_fence_array object
->>> + *
->>> + * Test if @array is a dma_fence_array object and if yes iterate over all fences
->>> + * in the array. If not just iterate over the fence in @array itself.
->>> + */
->>> +#define dma_fence_array_for_each(fence, index, head)                 \
->>> +     for (index = 0, fence = dma_fence_array_first(head); fence;     \
->>> +          ++(index), fence = dma_fence_array_next(head, index))
->>> +
->>>    struct dma_fence_array *dma_fence_array_create(int num_fences,
->>>                                               struct dma_fence **fences,
->>>                                               u64 context, unsigned seqno,
->>> @@ -81,4 +94,8 @@ struct dma_fence_array *dma_fence_array_create(int num_fences,
->>>
->>>    bool dma_fence_match_context(struct dma_fence *fence, u64 context);
->>>
->>> +struct dma_fence *dma_fence_array_first(struct dma_fence *head);
->>> +struct dma_fence *dma_fence_array_next(struct dma_fence *head,
->>> +                                    unsigned int index);
->>> +
->>>    #endif /* __LINUX_DMA_FENCE_ARRAY_H */
-
+z
