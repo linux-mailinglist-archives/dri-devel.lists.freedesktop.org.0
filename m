@@ -1,64 +1,82 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF21138CBE4
-	for <lists+dri-devel@lfdr.de>; Fri, 21 May 2021 19:18:25 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2ECA238CBEE
+	for <lists+dri-devel@lfdr.de>; Fri, 21 May 2021 19:18:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 06A7B89C3B;
-	Fri, 21 May 2021 17:18:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 172AB6E4CF;
+	Fri, 21 May 2021 17:18:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x230.google.com (mail-oi1-x230.google.com
- [IPv6:2607:f8b0:4864:20::230])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0846389711
- for <dri-devel@lists.freedesktop.org>; Fri, 21 May 2021 17:18:20 +0000 (UTC)
-Received: by mail-oi1-x230.google.com with SMTP id h9so20343014oih.4
- for <dri-devel@lists.freedesktop.org>; Fri, 21 May 2021 10:18:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=mwxoM60YVpuuxxpLWPRnHvcEPjCapnvSBgj+Dy7snG0=;
- b=jualahogEVesPIS1gieZtC1DETW5VCcI+hWyJqH0Kdjum2lD+UwbPEbKgqxu7GcmRI
- pHz3Gd6XgJQGv0HVfnMeiKuAAmPge4eHFybgu34Ra+YEqSSGRQ7w5SNmzzTlkAEn8uJT
- wSXoTlG2XmtPpOywIe803JpKMa8vjwuDJ7zTX6z1K431z68kCNBsqNKz76tKz43AxutL
- uDNyXegyJ2L9vg2x5VWLFNkw1+SJF/GTMXvWehvvKArrotqAf2ofM+M4Q1Ib+jAx0B+u
- +vo7SWqkp9zwx/QWUyhMHfr5OZfjGlHaEoUL/25wAGR0kRG9Q6vLurVTiTzPMlA/r4DF
- 80zg==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3AF336E4CF
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 May 2021 17:18:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1621617518;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=CZxY6gPOjujl6azNJ5rnxxGSboX/vJcO0KuSjkOnGMY=;
+ b=ahe3polRC6unwsHcTipn7/rWLHZ9j67LIh31AVs2oCclDx/0jKUxmNZPvvbJQ/vKuNN56K
+ 0AtlJ3A7/GI7FsXwOM1GZd+FnNNtVtuSPOVVb0mjD+3bHvx3R8WUvch5v2NabrRXp3aRE0
+ sys43VybMJSyDKIlwhR9hEfmbHdcm+4=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-304-CkZgbPKkNn2NurT5ZhfKlg-1; Fri, 21 May 2021 13:18:36 -0400
+X-MC-Unique: CkZgbPKkNn2NurT5ZhfKlg-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ 129-20020a1c02870000b0290176ef5297e3so4312904wmc.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 May 2021 10:18:36 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=mwxoM60YVpuuxxpLWPRnHvcEPjCapnvSBgj+Dy7snG0=;
- b=GzQqvbuaXkJsMwZRkbazR0VEnJQ9j+41yO2eCDinkBNbL7aiiWDkJsCnGUAISVfLvf
- cCaINgW9agY87wIHA5V5N0+8x81yyTb1dkjdgcg8QdKTrW+lMj4iGBAiK1kFmRArc5AL
- 2hW8FoKtQGkMuw5vZ3jSDuTfrmeGJgq39o8vtaUwIV2e7MZoH5tfqGOo11iOVpPd2lr+
- 4s4PfwJ0Vf1ra3KrPEApTdbxOK3ALm1d0sJN3Ttdf9TXFVQNCvrzSacu8j//F9k/WQ2Y
- 6LfwUMPdz/5fgFSJcE52kC7flRyQrH7ZD+DnnSuJIs328mTQUU2bWrmqlrQxCD+tsUWD
- /vRg==
-X-Gm-Message-State: AOAM532sz/7AObXh1vFxzuzhcTMjBxBQPTTT76IWMvSyYY+WVOaHLBqs
- nvo987G9m0WpWD5tT2UzYjxOyw==
-X-Google-Smtp-Source: ABdhPJwgfHYqvQ5wMl38vkWZL9zz0zUQ+NMWGofTkepeO9trJy2uIAEJzA/Kkl4P5rhSVJIkkVUw9w==
-X-Received: by 2002:a05:6808:4c2:: with SMTP id
- a2mr2930417oie.150.1621617499278; 
- Fri, 21 May 2021 10:18:19 -0700 (PDT)
-Received: from yoga (104-57-184-186.lightspeed.austtx.sbcglobal.net.
- [104.57.184.186])
- by smtp.gmail.com with ESMTPSA id w198sm1215089oie.26.2021.05.21.10.18.18
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 21 May 2021 10:18:18 -0700 (PDT)
-Date: Fri, 21 May 2021 12:18:16 -0500
-From: Bjorn Andersson <bjorn.andersson@linaro.org>
-To: Krishna Manikandan <mkrishn@codeaurora.org>
-Subject: Re: [PATCH v17 3/4] dt-bindings: msm: dsi: add yaml schemas for DSI
- PHY bindings
-Message-ID: <20210521171816.GD2484@yoga>
-References: <1621592844-6414-1-git-send-email-mkrishn@codeaurora.org>
- <1621592844-6414-3-git-send-email-mkrishn@codeaurora.org>
+ h=x-gm-message-state:subject:to:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=CZxY6gPOjujl6azNJ5rnxxGSboX/vJcO0KuSjkOnGMY=;
+ b=AT9VNVom8VKcRmxuLWPSUrjTsP1xyHhAaaUkxgaU6/du4Z4DBQGH3fr5xq9GGxfsCd
+ 7y34eQuxLEKT0y5qBdHN4mM+ztna2ds3cxlq5NEhoads/qC9TmRnbUoqRbGpEGgsjKjU
+ zYVhof5X/+FoNwJaxhZlQPqqyhap8dpUqbhh5BvtREdPGJTnjxmG1fhDEfPnRmqNvKly
+ i1qt5hI7b9MJ7uOTsiMfoVC9xlblnvafuGQgDW+KXKz8mP5YzYkYJJI6rSQossEHNUh2
+ bihCtf7Zh4IdHF4bB2eYA2OhYmvjM+hUqrf5HOrOrug3ddog+kdxjI/6R1Z6WbjwXEn8
+ jgmA==
+X-Gm-Message-State: AOAM533FPd9lwMOjzBLHt5J7cd1b/DRH73wrKDAbzqT1hEtBW1HcJpLE
+ HGMT3Br3Jn9lAozRwTptGpIrQ0JlUj7opWnFU4K1HhqJt1OWb1pA70MRw0vfwKPlfoEE+/sbtsf
+ RnGrLQT2EranfMa2eHs+OcZT4I1sHQ6lpbyFq94+0tSqqbPczyVY8gixGhWA1KaD7jhO1h1qQ0b
+ xv38w=
+X-Received: by 2002:a1c:7313:: with SMTP id d19mr9774072wmb.14.1621617514843; 
+ Fri, 21 May 2021 10:18:34 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzZyQtu9iEGMpJ0S3a0JWqqR0byevLKia/IKV/16dxFDBFhV9cKNPQxR/LHh0d9mGj4x1h9Pg==
+X-Received: by 2002:a1c:7313:: with SMTP id d19mr9774041wmb.14.1621617514584; 
+ Fri, 21 May 2021 10:18:34 -0700 (PDT)
+Received: from [192.168.1.101] ([92.176.231.106])
+ by smtp.gmail.com with ESMTPSA id o11sm2821711wrq.93.2021.05.21.10.18.33
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 21 May 2021 10:18:34 -0700 (PDT)
+Subject: Re: [PATCH] drm/fb-helper: improve DRM fbdev emulation device names
+To: Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org,
+ Peter Robinson <pbrobinson@gmail.com>, David Airlie <airlied@linux.ie>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, dri-devel@lists.freedesktop.org
+References: <20210521131910.3000689-1-javierm@redhat.com>
+ <YKfS2GDCXPJ/q8gT@phenom.ffwll.local>
+ <3a6f9235-5375-b2cb-2d63-a47c5f9752bb@suse.de>
+From: Javier Martinez Canillas <javierm@redhat.com>
+Message-ID: <bfd6fa47-497a-64bc-c2fc-a081bd41d5ec@redhat.com>
+Date: Fri, 21 May 2021 19:18:33 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1621592844-6414-3-git-send-email-mkrishn@codeaurora.org>
+In-Reply-To: <3a6f9235-5375-b2cb-2d63-a47c5f9752bb@suse.de>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,116 +89,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: sean@poorly.run, devicetree@vger.kernel.org, dianders@chromium.org,
- vinod.koul@linaro.org, linux-arm-msm@vger.kernel.org, abhinavk@codeaurora.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- swboyd@chromium.org, khsieh@codeaurora.org, robh+dt@kernel.org,
- tanmay@codeaurora.org, kalyan_t@codeaurora.org,
- freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri 21 May 05:27 CDT 2021, Krishna Manikandan wrote:
+On 5/21/21 6:53 PM, Thomas Zimmermann wrote:
 
-> Add YAML schema for the device tree bindings for DSI PHY.
-> 
-> Signed-off-by: Krishna Manikandan <mkrishn@codeaurora.org>
-> 
-> Changes in v1:
->    - Merge dsi-phy.yaml and dsi-phy-10nm.yaml (Stephen Boyd)
->    - Remove qcom,dsi-phy-regulator-ldo-mode (Stephen Boyd)
->    - Add clock cells properly (Stephen Boyd)
->    - Remove unnecessary decription from clock names (Stephen Boyd)
->    - Add pin names for the supply entries for 10nm phy which is
->      used in sc7180 and sdm845 (Stephen Boyd)
->    - Remove unused header files from examples (Stephen Boyd)
->    - Drop labels for display nodes and correct node name (Stephen Boyd)
-> 
-> Changes in v2:
->    - Drop maxItems for clock (Stephen Boyd)
->    - Add vdds supply pin information for sdm845 (Stephen Boyd)
->    - Add examples for 14nm, 20nm and 28nm phy yaml files (Stephen Boyd)
->    - Keep child nodes directly under soc node (Stephen Boyd)
-> 
-> Changes in v3:
->    - Use a separate yaml file to describe the common properties
->      for all the dsi phy versions (Stephen Boyd)
->    - Remove soc from examples (Stephen Boyd)
->    - Add description for register property
-> 
-> Changes in v4:
->    - Modify the title for all the phy versions (Stephen Boyd)
->    - Drop description for all the phy versions (Stephen Boyd)
->    - Modify the description for register property (Stephen Boyd)
-> 
-> Changes in v5:
->    - Remove unused properties from common dsi phy file
->    - Add clock-cells and phy-cells to required property
->      list (Stephen Boyd)
-> 
-> Changes in v6:
->    - Add proper compatible string in example
-> ---
->  .../bindings/display/msm/dsi-phy-10nm.yaml         | 68 +++++++++++++++++++++
->  .../bindings/display/msm/dsi-phy-14nm.yaml         | 66 ++++++++++++++++++++
->  .../bindings/display/msm/dsi-phy-20nm.yaml         | 71 ++++++++++++++++++++++
->  .../bindings/display/msm/dsi-phy-28nm.yaml         | 68 +++++++++++++++++++++
->  .../bindings/display/msm/dsi-phy-common.yaml       | 40 ++++++++++++
->  5 files changed, 313 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/display/msm/dsi-phy-10nm.yaml
->  create mode 100644 Documentation/devicetree/bindings/display/msm/dsi-phy-14nm.yaml
->  create mode 100644 Documentation/devicetree/bindings/display/msm/dsi-phy-20nm.yaml
->  create mode 100644 Documentation/devicetree/bindings/display/msm/dsi-phy-28nm.yaml
->  create mode 100644 Documentation/devicetree/bindings/display/msm/dsi-phy-common.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/display/msm/dsi-phy-10nm.yaml b/Documentation/devicetree/bindings/display/msm/dsi-phy-10nm.yaml
-> new file mode 100644
-> index 0000000..4a26bef
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/display/msm/dsi-phy-10nm.yaml
-> @@ -0,0 +1,68 @@
-> +# SPDX-License-Identifier: GPL-2.0-only or BSD-2-Clause
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/display/msm/dsi-phy-10nm.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Qualcomm Display DSI 10nm PHY
-> +
-> +maintainers:
-> +  - Krishna Manikandan <mkrishn@codeaurora.org>
-> +
-> +allOf:
-> +  - $ref: dsi-phy-common.yaml#
-> +
-> +properties:
-> +  compatible:
-> +    oneOf:
-> +      - const: qcom,dsi-phy-10nm
-> +      - const: qcom,dsi-phy-10nm-8998
-> +
-> +  reg:
-> +    items:
-> +      - description: dsi phy register set
-> +      - description: dsi phy lane register set
-> +      - description: dsi pll register set
-> +
-> +  reg-names:
-> +    items:
-> +      - const: dsi_phy
-> +      - const: dsi_phy_lane
-> +      - const: dsi_pll
-> +
-> +  vdds-supply:
-> +    description: |
-> +      Connected to DSI0_MIPI_DSI_PLL_VDDA0P9 pin for sc7180 target and
-> +      connected to VDDA_MIPI_DSI_0_PLL_0P9 pin for sdm845 target
+[snip]
 
-"Reference to the 0.9V supply for the PLL." would have been sufficient.
+>>
+>> So what with all the drivers which do _not_ have drm in their name? Also
+>> I'm never sure how much these are uapi or not ...
+>
 
-But overall I think the patch looks good.
+That someone could threat as an uapi is a fair point indeed.
+ 
+> Why do we need a suffix anyway?
+> 
 
-Reviewed-by: Bjorn Andersson <bjorn.andersson@linaro.org>
+Yes, I thought the same and was torn about posting a patch to just remove
+the suffix. I don't think users care that much if is a fb device from a
+fbdev driver or a DRM driver using the fbdev emulation.
 
-Regards,
-Bjorn
+>> -Daniel
+>>
+
+Best regards,
+-- 
+Javier Martinez Canillas
+Software Engineer
+New Platform Technologies Enablement team
+RHEL Engineering
+
