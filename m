@@ -1,56 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 148D538CC73
-	for <lists+dri-devel@lfdr.de>; Fri, 21 May 2021 19:44:05 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EDA738CC9C
+	for <lists+dri-devel@lfdr.de>; Fri, 21 May 2021 19:48:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A0FDD6E7E5;
-	Fri, 21 May 2021 17:44:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 126E56F8B3;
+	Fri, 21 May 2021 17:48:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com
- [IPv6:2a00:1450:4864:20::331])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 17CF56E7D9
- for <dri-devel@lists.freedesktop.org>; Fri, 21 May 2021 17:44:00 +0000 (UTC)
-Received: by mail-wm1-x331.google.com with SMTP id z130so11558602wmg.2
- for <dri-devel@lists.freedesktop.org>; Fri, 21 May 2021 10:44:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=raspberrypi.com; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=s7zMtK5TbpLiTmKyeILaqEdqxpmwqJT0/8ypWLLX2zc=;
- b=HioS4PK1YK0kL2GR3KhQjcpI52IwnlLBuaEK2779+beRhAND5NqJOSYjUdOWaYwyft
- D1/IYMhWws7pl+40S2TqUCwcGoQu2g7w9tY/f2hdnIuArcGfxMKpd1+y4WZK3sWGNRBk
- kzkhKQLRdJ+nWu1BTr5c15YwOQeIZaVgJ2M5Pdmu2Zegd0L5o3ArD9OR1io0bXqkhuef
- s2kxyzo0mg7AiOLn5TjDqN9SCE2i7b+G0u0h5T+txPA7DdO969NS7tA+0/B+r4p93qZP
- i5cN58Dzo3O/SlJRneMmXBH0FyCnRe5RR7XGS+iJ3AOjf2mjpSjDaNmmt/wY8+IbnFf/
- SCEg==
+Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com
+ [IPv6:2a00:1450:4864:20::336])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7FB866E82A
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 May 2021 17:48:46 +0000 (UTC)
+Received: by mail-wm1-x336.google.com with SMTP id u133so11555471wmg.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 May 2021 10:48:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=0lgsrOVDtH8iJ1/n3dl9Klsz/gWZ0b5FW3aqkQRT7kc=;
+ b=VwkcsITfVEQj+CtVNyGDSWavRky6n3jDsiekzqe+0+mDSEu3LUAi/fFrCselbKlclo
+ ZAWIstJ/Bj1KN7S6q/4UHPZDOsI7JglhEC6x3n6BU01tfp38oX9UcN+3UovGvSbYDAX0
+ 54uO4JzkLzhXK2XwwXyWekCtYCc/pshKqDCVY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=s7zMtK5TbpLiTmKyeILaqEdqxpmwqJT0/8ypWLLX2zc=;
- b=KQ4AdsPoe10ng9MrGTZ8HQSbmw96WlLqo2995x8LBwGz0fxm7EgG5OHq1SBqnH5OOX
- RvBBbSuZ521+RRJU5jbf35U0EmTole8XkUFAjepH0PoCoevtNvfUeB8GbM59ExfW4yL5
- PhGHyGOM8g/LLaZtLcFvio5ABWbEcrec7YvRL5rHNkPNP8OPQ6uE1PcF3U97tOeDfRDx
- WvFkVX+qNdwxTJZ3AO8AGFoRn/kAN3/28sgY0ZrWwU1YpHb0WO7CI6vjO2vlZcLQ4ZfN
- SUaQye+ZbXpKr6R+MrPvhYjTWzqgqyhejNK1bmNKKxFI/aes/66KzM7Q0rnIAF8Iwuj3
- xngQ==
-X-Gm-Message-State: AOAM5311IBRVoNSErWY2vSSDVGGsHfoviYiUirsdgGJDBmzyfgo8dcM9
- mEm9l5O+mX/7f0VZVdq62uGOA65As721avR4HzzenA==
-X-Google-Smtp-Source: ABdhPJxiVvS5U1szKEfzpFHXHj30Ddi96fXRj3+/ZWEaxmA0TIa/gjTeXDRkAeBtzMAtuHjFdp8n1UiDpPM9m+HI1Zs=
-X-Received: by 2002:a1c:2786:: with SMTP id n128mr10496706wmn.82.1621619038793; 
- Fri, 21 May 2021 10:43:58 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=0lgsrOVDtH8iJ1/n3dl9Klsz/gWZ0b5FW3aqkQRT7kc=;
+ b=CWd32bXK/Nb8gOocTofSSiAOmX7TIadaQ/1vHVNNLcSDp1FelpgNrjosdUK0rHPszg
+ Zv9zYnQchlCQmtj5ShI2S8Yg3w0p3B39JB7DzD92D/O/xAe2LVwlsZ7Uct4fPinTTCnb
+ iyCvd1QDhleHOmvzivMkLR1kvQMO4MwbZzPSjiwCfNIOoxwoaxgU1Pmp+Eh8aWfOKe5d
+ DK5CUQBzNpxfK6MS64Rk2TfIyDwHNQHm8dMfUB4KAAjWwpGj+LgxVfCN8bl7nh0nW4L6
+ +Q24y74sjxtMW8d8Al+tZRWLvxG/egLjnOalOA9z3U8e+htH816ODDmZbgsN08X11BS4
+ otNA==
+X-Gm-Message-State: AOAM5311TKxGSXl8CvvjodemX1P9LoJnjsMnCPuDbayOniDfPV805+sN
+ BU0SgYSZtiztZaSCzeuFbm+mk+WDk+ao7A==
+X-Google-Smtp-Source: ABdhPJzGENgRIyf/r+T6MiBmVIeXhJRCcETybEL6w/9b+NR1ERJK8SsWUXi2vjJOl9xs+7+tUSh+jA==
+X-Received: by 2002:a05:600c:2f17:: with SMTP id
+ r23mr9665618wmn.94.1621619324864; 
+ Fri, 21 May 2021 10:48:44 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id f7sm223741wmq.30.2021.05.21.10.48.43
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 21 May 2021 10:48:44 -0700 (PDT)
+Date: Fri, 21 May 2021 19:48:42 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Jason Ekstrand <jason@jlekstrand.net>
+Subject: Re: [PATCH 2/4] dma-buf: add dma_resv_get_singleton_rcu (v4)
+Message-ID: <YKfyestsJvKeS4k9@phenom.ffwll.local>
+References: <20210520190007.534046-1-jason@jlekstrand.net>
+ <20210520190007.534046-3-jason@jlekstrand.net>
 MIME-Version: 1.0
-References: <20210507150515.257424-1-maxime@cerno.tech>
- <20210507150515.257424-12-maxime@cerno.tech>
-In-Reply-To: <20210507150515.257424-12-maxime@cerno.tech>
-From: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date: Fri, 21 May 2021 18:43:42 +0100
-Message-ID: <CAPY8ntCmQOdXMPth_J3FmWi2a-GZuz5wTyfyQOWgpNBCWnUXFA@mail.gmail.com>
-Subject: Re: [PATCH v4 11/12] drm/vc4: hdmi: Add a workqueue to set scrambling
-To: Maxime Ripard <maxime@cerno.tech>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210520190007.534046-3-jason@jlekstrand.net>
+X-Operating-System: Linux phenom 5.10.32scarlett+ 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,115 +69,235 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Nicolas Saenz Julienne <nsaenz@kernel.org>,
- Dom Cobley <dom@raspberrypi.com>, Tim Gover <tim.gover@raspberrypi.com>,
- David Airlie <airlied@linux.ie>, LKML <linux-kernel@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- bcm-kernel-feedback-list@broadcom.com, linux-rpi-kernel@lists.infradead.org,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Daniel Vetter <daniel.vetter@intel.com>, Phil Elwell <phil@raspberrypi.com>
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Maxime
+On Thu, May 20, 2021 at 02:00:05PM -0500, Jason Ekstrand wrote:
+> Add a helper function to get a single fence representing
+> all fences in a dma_resv object.
+> 
+> This fence is either the only one in the object or all not
+> signaled fences of the object in a flatted out dma_fence_array.
+> 
+> v2 (Jason Ekstrand):
+>  - Take reference of fences both for creating the dma_fence_array and in
+>    the case where we return one fence.
+>  - Handle the case where dma_resv_get_list() returns NULL
+> 
+> v3 (Jason Ekstrand):
+>  - Add an _rcu suffix because it is read-only
+>  - Rewrite to use dma_resv_get_fences_rcu so it's RCU-safe
+>  - Add an EXPORT_SYMBOL_GPL declaration
+>  - Re-author the patch to Jason since very little is left of Christian
+>    König's original patch
+>  - Remove the extra fence argument
+> 
+> v4 (Jason Ekstrand):
+>  - Restore the extra fence argument
+> 
+> Signed-off-by: Jason Ekstrand <jason@jlekstrand.net>
+> 
+> get_singleton
 
-Thanks for the patch.
-
-On Fri, 7 May 2021 at 16:06, Maxime Ripard <maxime@cerno.tech> wrote:
->
-> It looks like some displays (like the LG 27UL850-W) don't enable the
-> scrambling when the HDMI driver enables it. However, if we set later the
-> scrambler enable bit, the display will work as expected.
->
-> Let's create delayed work queue to periodically look at the display
-> scrambling status, and if it's not set yet try to enable it again.
->
-> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
-
-Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Spurious thing here.
 
 > ---
->  drivers/gpu/drm/vc4/vc4_hdmi.c | 25 +++++++++++++++++++++++++
->  drivers/gpu/drm/vc4/vc4_hdmi.h |  2 ++
->  2 files changed, 27 insertions(+)
->
-> diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
-> index bda12fea0dce..4fa7ea419594 100644
-> --- a/drivers/gpu/drm/vc4/vc4_hdmi.c
-> +++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
-> @@ -482,6 +482,8 @@ static bool vc4_hdmi_supports_scrambling(struct drm_encoder *encoder,
->         return true;
->  }
->
-> +#define SCRAMBLING_POLLING_DELAY_MS    1000
+>  drivers/dma-buf/dma-resv.c | 122 +++++++++++++++++++++++++++++++++++++
+>  include/linux/dma-resv.h   |   3 +
+>  2 files changed, 125 insertions(+)
+> 
+> diff --git a/drivers/dma-buf/dma-resv.c b/drivers/dma-buf/dma-resv.c
+> index 6ddbeb5dfbf65..25995fc15c370 100644
+> --- a/drivers/dma-buf/dma-resv.c
+> +++ b/drivers/dma-buf/dma-resv.c
+> @@ -33,6 +33,8 @@
+>   */
+>  
+>  #include <linux/dma-resv.h>
+> +#include <linux/dma-fence-chain.h>
+> +#include <linux/dma-fence-array.h>
+>  #include <linux/export.h>
+>  #include <linux/mm.h>
+>  #include <linux/sched/mm.h>
+> @@ -49,6 +51,19 @@
+>   * write-side updates.
+>   */
+>  
+> +/**
+> + * dma_fence_deep_dive_for_each - deep dive into the fence containers
+> + * @fence: resulting fence
+> + * @chain: variable for a dma_fence_chain
+> + * @index: index into a dma_fence_array
+> + * @head: starting point
+> + *
+> + * Helper to deep dive into the fence containers for flattening them.
+> + */
+> +#define dma_fence_deep_dive_for_each(fence, chain, index, head)	\
+> +	dma_fence_chain_for_each(chain, head)			\
+> +		dma_fence_array_for_each(fence, index, chain)
+
+Since this is is just internal helper in the .c file we generally don't
+document it. Maybe small comment if you feel it's worth it.
+
 > +
->  static void vc4_hdmi_enable_scrambling(struct drm_encoder *encoder)
->  {
->         struct drm_display_mode *mode = &encoder->crtc->state->adjusted_mode;
-> @@ -498,6 +500,9 @@ static void vc4_hdmi_enable_scrambling(struct drm_encoder *encoder)
->
->         HDMI_WRITE(HDMI_SCRAMBLER_CTL, HDMI_READ(HDMI_SCRAMBLER_CTL) |
->                    VC5_HDMI_SCRAMBLER_CTL_ENABLE);
-> +
-> +       queue_delayed_work(system_wq, &vc4_hdmi->scrambling_work,
-> +                          msecs_to_jiffies(SCRAMBLING_POLLING_DELAY_MS));
+>  DEFINE_WD_CLASS(reservation_ww_class);
+>  EXPORT_SYMBOL(reservation_ww_class);
+>  
+> @@ -517,6 +532,113 @@ int dma_resv_get_fences_rcu(struct dma_resv *obj,
 >  }
->
->  static void vc4_hdmi_disable_scrambling(struct drm_encoder *encoder)
-> @@ -516,6 +521,9 @@ static void vc4_hdmi_disable_scrambling(struct drm_encoder *encoder)
->         if (crtc && !vc4_hdmi_mode_needs_scrambling(&crtc->mode))
->                 return;
->
-> +       if (delayed_work_pending(&vc4_hdmi->scrambling_work))
-> +               cancel_delayed_work_sync(&vc4_hdmi->scrambling_work);
-> +
->         HDMI_WRITE(HDMI_SCRAMBLER_CTL, HDMI_READ(HDMI_SCRAMBLER_CTL) &
->                    ~VC5_HDMI_SCRAMBLER_CTL_ENABLE);
->
-> @@ -523,6 +531,22 @@ static void vc4_hdmi_disable_scrambling(struct drm_encoder *encoder)
->         drm_scdc_set_high_tmds_clock_ratio(vc4_hdmi->ddc, false);
->  }
->
-> +static void vc4_hdmi_scrambling_wq(struct work_struct *work)
+>  EXPORT_SYMBOL_GPL(dma_resv_get_fences_rcu);
+>  
+> +/**
+> + * dma_resv_get_singleton - get a single fence for the dma_resv object
+
+Name doesn't match here.
+
+> + * @obj: the reservation object
+> + * @extra: extra fence to add to the resulting array
+> + * @result: resulting dma_fence
+> + *
+> + * Get a single fence representing all unsignaled fences in the dma_resv object
+> + * plus the given extra fence. If we got only one fence return a new
+> + * reference to that, otherwise return a dma_fence_array object.
+> + *
+> + * RETURNS
+> + * Returns -NOMEM if allocations fail, zero otherwise.
+
+Kernel often encodes this in ERR_PTR so that you don't have to pass a
+pointer to store the result. Would feel more kerenl-y I think that way. So
+no result parameter, and on alloc failure you'd return
+
+	return ERR_PTR(-ENOMEM);
+
+> + */
+> +int dma_resv_get_singleton_rcu(struct dma_resv *obj, struct dma_fence *extra,
+
+tbh the _rcu here is confusing. I think _unlocked is the better suffix,
+maybe we should rename dma_resv_get_fences_rcu too for consistency. The
+rcu-ness of the lookup isn't leaked to callers at all, so no point giving
+them a panic.
+
+> +			       struct dma_fence **result)
 > +{
-> +       struct vc4_hdmi *vc4_hdmi = container_of(to_delayed_work(work),
-> +                                                struct vc4_hdmi,
-> +                                                scrambling_work);
+> +	struct dma_fence **resv_fences, *fence, *chain, **fences;
+> +	struct dma_fence_array *array;
+> +	unsigned int num_resv_fences, num_fences;
+> +	unsigned int ret, i, j;
 > +
-> +       if (drm_scdc_get_scrambling_status(vc4_hdmi->ddc))
-> +               return;
+> +	ret = dma_resv_get_fences_rcu(obj, NULL, &num_resv_fences, &resv_fences);
+> +	if (ret)
+> +		return ret;
 > +
-> +       drm_scdc_set_high_tmds_clock_ratio(vc4_hdmi->ddc, true);
-> +       drm_scdc_set_scrambling(vc4_hdmi->ddc, true);
+> +	num_fences = 0;
+> +	*result = NULL;
 > +
-> +       queue_delayed_work(system_wq, &vc4_hdmi->scrambling_work,
-> +                          msecs_to_jiffies(SCRAMBLING_POLLING_DELAY_MS));
+> +	if (num_resv_fences == 0 && !extra)
+> +		return 0;
+> +
+> +	for (i = 0; i < num_resv_fences; ++i) {
+> +		dma_fence_deep_dive_for_each(fence, chain, j, resv_fences[i]) {
+> +			if (dma_fence_is_signaled(fence))
+> +				continue;
+> +
+> +			*result = fence;
+> +			++num_fences;
+> +		}
+> +	}
+> +
+> +	if (extra) {
+> +		dma_fence_deep_dive_for_each(fence, chain, j, extra) {
+> +			if (dma_fence_is_signaled(fence))
+> +				continue;
+> +
+> +			*result = fence;
+> +			++num_fences;
+> +		}
+> +	}
+> +
+> +	if (num_fences <= 1) {
+> +		*result = dma_fence_get(*result);
+> +		goto put_resv_fences;
+> +	}
+> +
+> +	fences = kmalloc_array(num_fences, sizeof(struct dma_fence*),
+> +			       GFP_KERNEL);
+> +	if (!fences) {
+> +		*result = NULL;
+> +		ret = -ENOMEM;
+> +		goto put_resv_fences;
+> +	}
+> +
+> +	num_fences = 0;
+> +	for (i = 0; i < num_resv_fences; ++i) {
+> +		dma_fence_deep_dive_for_each(fence, chain, j, resv_fences[i]) {
+> +			if (!dma_fence_is_signaled(fence))
+> +				fences[num_fences++] = dma_fence_get(fence);
+> +		}
+> +	}
+> +
+> +	if (extra) {
+> +		dma_fence_deep_dive_for_each(fence, chain, j, extra) {
+> +			if (dma_fence_is_signaled(fence))
+> +				fences[num_fences++] = dma_fence_get(fence);
+> +		}
+> +	}
+> +
+> +	if (num_fences <= 1) {
+> +		*result = num_fences ? fences[0] : NULL;
+> +		kfree(fences);
+> +		goto put_resv_fences;
+> +	}
+> +
+> +	array = dma_fence_array_create(num_fences, fences,
+> +				       dma_fence_context_alloc(1),
+> +				       1, false);
+> +	if (array) {
+> +		*result = &array->base;
+> +	} else {
+> +		*result = NULL;
+> +		while (num_fences--)
+> +			dma_fence_put(fences[num_fences]);
+> +		kfree(fences);
+> +		ret = -ENOMEM;
+> +	}
+> +
+> +put_resv_fences:
+> +	while (num_resv_fences--)
+> +		dma_fence_put(resv_fences[num_resv_fences]);
+> +	kfree(resv_fences);
+> +
+> +	return ret;
 > +}
+> +EXPORT_SYMBOL_GPL(dma_resv_get_singleton_rcu);
+
+With the nits addressed:
+
+Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+
 > +
->  static void vc4_hdmi_encoder_post_crtc_disable(struct drm_encoder *encoder,
->                                                struct drm_atomic_state *state)
->  {
-> @@ -2031,6 +2055,7 @@ static int vc4_hdmi_bind(struct device *dev, struct device *master, void *data)
->         vc4_hdmi = devm_kzalloc(dev, sizeof(*vc4_hdmi), GFP_KERNEL);
->         if (!vc4_hdmi)
->                 return -ENOMEM;
-> +       INIT_DELAYED_WORK(&vc4_hdmi->scrambling_work, vc4_hdmi_scrambling_wq);
->
->         dev_set_drvdata(dev, vc4_hdmi);
->         encoder = &vc4_hdmi->encoder.base.base;
-> diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.h b/drivers/gpu/drm/vc4/vc4_hdmi.h
-> index 3cd021136402..00efcf291c5a 100644
-> --- a/drivers/gpu/drm/vc4/vc4_hdmi.h
-> +++ b/drivers/gpu/drm/vc4/vc4_hdmi.h
-> @@ -126,6 +126,8 @@ struct vc4_hdmi {
->         struct vc4_hdmi_encoder encoder;
->         struct drm_connector connector;
->
-> +       struct delayed_work scrambling_work;
+>  /**
+>   * dma_resv_wait_timeout_rcu - Wait on reservation's objects
+>   * shared and/or exclusive fences.
+> diff --git a/include/linux/dma-resv.h b/include/linux/dma-resv.h
+> index d44a77e8a7e34..d49ca263e78b4 100644
+> --- a/include/linux/dma-resv.h
+> +++ b/include/linux/dma-resv.h
+> @@ -285,6 +285,9 @@ int dma_resv_get_fences_rcu(struct dma_resv *obj,
+>  
+>  int dma_resv_copy_fences(struct dma_resv *dst, struct dma_resv *src);
+>  
+> +int dma_resv_get_singleton_rcu(struct dma_resv *obj, struct dma_fence *extra,
+> +			       struct dma_fence **result);
 > +
->         struct i2c_adapter *ddc;
->         void __iomem *hdmicore_regs;
->         void __iomem *hd_regs;
-> --
+>  long dma_resv_wait_timeout_rcu(struct dma_resv *obj, bool wait_all, bool intr,
+>  			       unsigned long timeout);
+>  
+> -- 
 > 2.31.1
->
+> 
+
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
