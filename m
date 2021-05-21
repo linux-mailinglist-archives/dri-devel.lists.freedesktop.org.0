@@ -2,64 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCC1C38C071
-	for <lists+dri-devel@lfdr.de>; Fri, 21 May 2021 09:10:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B595038C07F
+	for <lists+dri-devel@lfdr.de>; Fri, 21 May 2021 09:13:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5C4286E051;
-	Fri, 21 May 2021 07:10:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 590256F5C2;
+	Fri, 21 May 2021 07:13:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com
- [IPv6:2a00:1450:4864:20::42f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4DBE16E051
- for <dri-devel@lists.freedesktop.org>; Fri, 21 May 2021 07:10:16 +0000 (UTC)
-Received: by mail-wr1-x42f.google.com with SMTP id c14so18166948wrx.3
- for <dri-devel@lists.freedesktop.org>; Fri, 21 May 2021 00:10:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=pXr3oFzANmcGgyCrUaaQgcSjUAbiwbF7giTakGIiEpQ=;
- b=uMzGQMRfihuosCJL97x9+ScHvFGXK5Es7iO3ThAwSGj+dccNs7f16EBz1+5itartBe
- N4jgLnyrfsDsTJGONdqYNWtNG7I9iLYo/qpotCMlX7b4fsp+TxY+DOe8W5pYWzLnixEE
- X9iuT4a8vOwbTKs2fp0QSnWD2M7+Z9OZHkgBOjPB4cZrS6Zt1jeWbGLQUIWaHGaT8fR+
- dJSRb7Sb1gvjPgqzGhuOAdi2mGGcjBGPfS6VZNGsRmtUX3sQXt16WM7shCU5Ib5diGNW
- DhYEb6f2R6qxgOX4HFblfhga1IkaaR0NYGPvLQ7m3/WysqvBum6fmmFPcbyYnF8BYSuq
- BxMA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=pXr3oFzANmcGgyCrUaaQgcSjUAbiwbF7giTakGIiEpQ=;
- b=RI1VuhEcuUsP4ChXazuNJKg4FlADbxT3xDtATs9arr5g8qPvr7L3Xkqju/SrlYa4W9
- +tUP/JMSdqkRDkh4vvQhWykGCSVie00dW5fBaRCGrW3DYr2qxt6CKQYvdtJ5/Yned9SY
- /4SgM9XGCMo4aBc0hLDyVqWzMddI1U4Bs/h4VWOK7ciCMF1EDIb1FPPXqfSS10f33ClG
- Uv8Qep5l3aal54W+UdUiDzcd5kmIZFQln7bk3qcmWzP8o6nsqW6zoI55ajvSroWoVsG1
- HoCDad1xhqo3vjxZFEPY5JvERZ6D0kTmyBIbtUhyrCat6ML+oOT+kD4vk6o0T//hIS2d
- AKZg==
-X-Gm-Message-State: AOAM533sb5KDEkI9c97rxQ5MTiKELCrVyWq1qdHsUqrsEDTW+rNpFmfo
- ZbbNivsT1ZRlO+bf7CvXwiBJuw==
-X-Google-Smtp-Source: ABdhPJwE0viepO5e4IIyz1lTctOknX7d+QtwA8ta4C51lrclzTdniX/yTH1dNb4HCvL+/+JfzBTJZQ==
-X-Received: by 2002:adf:f5c5:: with SMTP id k5mr704324wrp.81.1621581014981;
- Fri, 21 May 2021 00:10:14 -0700 (PDT)
-Received: from dell ([91.110.221.215])
- by smtp.gmail.com with ESMTPSA id a11sm949666wrx.38.2021.05.21.00.10.13
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 21 May 2021 00:10:14 -0700 (PDT)
-Date: Fri, 21 May 2021 08:10:12 +0100
-From: Lee Jones <lee.jones@linaro.org>
-To: Alex Deucher <alexdeucher@gmail.com>
-Subject: Re: [PATCH 38/38] drm/amd/amdgpu/smuio_v13_0: Realign
- 'smuio_v13_0_is_host_gpu_xgmi_supported()' header
-Message-ID: <20210521071012.GT2549456@dell>
-References: <20210520120248.3464013-1-lee.jones@linaro.org>
- <20210520120248.3464013-39-lee.jones@linaro.org>
- <CADnq5_NLnfGYuoz8+1z=q1Y90Re_XCkDHREoMZW2so0gk-hwwA@mail.gmail.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CC33D6F5C1;
+ Fri, 21 May 2021 07:13:35 +0000 (UTC)
+IronPort-SDR: /ZbjbTsH1fJ54POkF64fmogaKqQJkSgctTO2T+q0O0BHFmKxKEAFHBta8lhnMtH1sueUrbC6XV
+ k+uR2UM2t+Og==
+X-IronPort-AV: E=McAfee;i="6200,9189,9990"; a="188550520"
+X-IronPort-AV: E=Sophos;i="5.82,313,1613462400"; d="scan'208";a="188550520"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 May 2021 00:13:32 -0700
+IronPort-SDR: BUQBaLf5kQ7GMMasvdC3eDzHHt5K0Wwm8t1hOHzN5dhq7TyzYeLKDrbBS9QX3H2yR4N7+PFRGG
+ 6W4GN3BhBinA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.82,313,1613462400"; d="scan'208";a="475584926"
+Received: from irsmsx601.ger.corp.intel.com ([163.33.146.7])
+ by fmsmga002.fm.intel.com with ESMTP; 21 May 2021 00:13:28 -0700
+Received: from irsmsx603.ger.corp.intel.com (163.33.146.9) by
+ irsmsx601.ger.corp.intel.com (163.33.146.7) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.4; Fri, 21 May 2021 08:13:27 +0100
+Received: from irsmsx603.ger.corp.intel.com ([163.33.146.9]) by
+ irsmsx603.ger.corp.intel.com ([163.33.146.9]) with mapi id 15.01.2242.008;
+ Fri, 21 May 2021 08:13:27 +0100
+From: "Saarinen, Jani" <jani.saarinen@intel.com>
+To: Chris Chiu <chris.chiu@canonical.com>, "Rafael J. Wysocki"
+ <rafael@kernel.org>
+Subject: RE: [Intel-gfx] NVIDIA GPU fallen off the bus after exiting s2idle
+Thread-Topic: [Intel-gfx] NVIDIA GPU fallen off the bus after exiting s2idle
+Thread-Index: AQHXTfY04tpq62Sg5UipcvghO8S7LarthXrw
+Date: Fri, 21 May 2021 07:13:26 +0000
+Message-ID: <1953f07d15db4fda8a40e5ca752bef96@intel.com>
+References: <CABTNMG0Y5iAD4E8XFkOwrNTBHNDcNKRt=+BLPHs4tw5O2eVBDA@mail.gmail.com>
+ <CAJZ5v0hqU4xc8oCWXPBYhdGdG__=15+M67QWVSfFeUR3DN4Evw@mail.gmail.com>
+ <CABTNMG12A5qJ5ygtFTa7Sk-5W=fmMxt0L90=04H5qRDD4vWGRQ@mail.gmail.com>
+In-Reply-To: <CABTNMG12A5qJ5ygtFTa7Sk-5W=fmMxt0L90=04H5qRDD4vWGRQ@mail.gmail.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-version: 11.5.1.3
+dlp-reaction: no-action
+dlp-product: dlpe-windows
+x-originating-ip: [10.184.70.1]
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CADnq5_NLnfGYuoz8+1z=q1Y90Re_XCkDHREoMZW2so0gk-hwwA@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,56 +67,179 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, LKML <linux-kernel@vger.kernel.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- Alex Deucher <alexander.deucher@amd.com>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- Hawking Zhang <Hawking.Zhang@amd.com>
+Cc: "Brown, Len" <len.brown@intel.com>, Karol Herbst <kherbst@redhat.com>,
+ Linux PM <linux-pm@vger.kernel.org>, Linux PCI <linux-pci@vger.kernel.org>,
+ "Westerberg, Mika" <mika.westerberg@intel.com>,
+ "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+ dri-devel <dri-devel@lists.freedesktop.org>, Bjorn
+ Helgaas <bhelgaas@google.com>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 20 May 2021, Alex Deucher wrote:
+Hi,=20
 
-> Applied.  Thanks!
+> -----Original Message-----
+> From: Intel-gfx <intel-gfx-bounces@lists.freedesktop.org> On Behalf Of Ch=
+ris Chiu
+> Sent: perjantai 21. toukokuuta 2021 7.02
+> To: Rafael J. Wysocki <rafael@kernel.org>
+> Cc: Brown, Len <len.brown@intel.com>; Karol Herbst <kherbst@redhat.com>; =
+Linux
+> PM <linux-pm@vger.kernel.org>; Linux PCI <linux-pci@vger.kernel.org>;
+> Westerberg, Mika <mika.westerberg@intel.com>; Rafael J. Wysocki
+> <rjw@rjwysocki.net>; dri-devel <dri-devel@lists.freedesktop.org>; Bjorn H=
+elgaas
+> <bhelgaas@google.com>; intel-gfx@lists.freedesktop.org
+> Subject: Re: [Intel-gfx] NVIDIA GPU fallen off the bus after exiting s2id=
+le
+>=20
+> On Thu, May 6, 2021 at 5:46 PM Rafael J. Wysocki <rafael@kernel.org> wrot=
+e:
+> >
+> > On Tue, May 4, 2021 at 10:08 AM Chris Chiu <chris.chiu@canonical.com> w=
+rote:
+> > >
+> > > Hi,
+> > >     We have some Intel laptops (11th generation CPU) with NVIDIA GPU
+> > > suffering the same GPU falling off the bus problem while exiting
+> > > s2idle with external display connected. These laptops connect the
+> > > external display via the HDMI/DisplayPort on a USB Type-C interfaced
+> > > dock. If we enter and exit s2idle with the dock connected, the
+> > > NVIDIA GPU (confirmed on 10de:24b6 and 10de:25b8) and the PCIe port
+> > > can come back to D0 w/o problem. If we enter the s2idle, disconnect
+> > > the dock, then exit the s2idle, both external display and the panel
+> > > will remain with no output. The dmesg as follows shows the "nvidia
+> 0000:01:00.0:
+> > > can't change power state from D3cold to D0 (config space
+> > > inaccessible)" due to the following ACPI error [ 154.446781] [
+> > > 154.446783] [ 154.446783] Initialized Local Variables for Method
+> > > [IPCS]:
+> > > [ 154.446784] Local0: 000000009863e365 <Obj> Integer
+> > > 00000000000009C5 [ 154.446790] [ 154.446791] Initialized Arguments
+> > > for Method [IPCS]: (7 arguments defined for method invocation) [
+> > > 154.446792] Arg0: 0000000025568fbd <Obj> Integer 00000000000000AC [
+> > > 154.446795] Arg1: 000000009ef30e76 <Obj> Integer 0000000000000000 [
+> > > 154.446798] Arg2: 00000000fdf820f0 <Obj> Integer 0000000000000010 [
+> > > 154.446801] Arg3: 000000009fc2a088 <Obj> Integer 0000000000000001 [
+> > > 154.446804] Arg4: 000000003a3418f7 <Obj> Integer 0000000000000001 [
+> > > 154.446807] Arg5: 0000000020c4b87c <Obj> Integer 0000000000000000 [
+> > > 154.446810] Arg6: 000000008b965a8a <Obj> Integer 0000000000000000 [
+> > > 154.446813] [ 154.446815] ACPI Error: Aborting method \IPCS due to
+> > > previous error
+> > > (AE_AML_LOOP_TIMEOUT) (20200925/psparse-529) [ 154.446824] ACPI
+> > > Error: Aborting method \MCUI due to previous error
+> > > (AE_AML_LOOP_TIMEOUT) (20200925/psparse-529) [ 154.446829] ACPI
+> > > Error: Aborting method \SPCX due to previous error
+> > > (AE_AML_LOOP_TIMEOUT) (20200925/psparse-529) [ 154.446835] ACPI
+> > > Error: Aborting method \_SB.PC00.PGSC due to previous error
+> > > (AE_AML_LOOP_TIMEOUT) (20200925/psparse-529) [ 154.446841] ACPI
+> > > Error: Aborting method \_SB.PC00.PGON due to previous error
+> > > (AE_AML_LOOP_TIMEOUT) (20200925/psparse-529) [ 154.446846] ACPI
+> > > Error: Aborting method \_SB.PC00.PEG1.NPON due to previous error
+> > > (AE_AML_LOOP_TIMEOUT) (20200925/psparse-529) [ 154.446852] ACPI
+> > > Error: Aborting method \_SB.PC00.PEG1.PG01._ON due to previous error
+> > > (AE_AML_LOOP_TIMEOUT) (20200925/psparse-529) [ 154.446860] acpi
+> > > device:02: Failed to change power state to D0 [ 154.690760] video
+> > > LNXVIDEO:00: Cannot transition to power state D0 for parent in
+> > > (unknown)
+> >
+> > If I were to guess, I would say that AML tries to access memory that
+> > is not accessible while suspended, probably PCI config space.
+> >
+> > > The IPCS is the last function called from \_SB.PC00.PEG1.PG01._ON
+> > > which we expect it to prepare everything before bringing back the
+> > > NVIDIA GPU but it's stuck in the infinite loop as described below.
+> > > Please refer to
+> > > https://gist.github.com/mschiu77/fa4f5a97297749d0d66fe60c1d421c44
+> > > for the full DSDT.dsl.
+> >
+> > The DSDT alone may not be sufficient.
+> >
+> > Can you please create a bug entry at bugzilla.kernel.org for this
+> > issue and attach the full output of acpidump from one of the affected
+> > machines to it?  And please let me know the number of the bug.
+> >
+> > Also please attach the output of dmesg including a suspend-resume
+> > cycle including dock disconnection while suspended and the ACPI
+> > messages quoted below.
+> >
+> > >            While (One)
+> > >             {
+> > >                 If ((!IBSY || (IERR =3D=3D One)))
+> > >                 {
+> > >                     Break
+> > >                 }
+> > >
+> > >                 If ((Local0 > TMOV))
+> > >                 {
+> > >                     RPKG [Zero] =3D 0x03
+> > >                     Return (RPKG) /* \IPCS.RPKG */
+> > >                 }
+> > >
+> > >                 Sleep (One)
+> > >                 Local0++
+> > >             }
+> > >
+> > > And the upstream PCIe port of NVIDIA seems to become inaccessible
+> > > due to the messages as follows.
+> > > [ 292.746508] pcieport 0000:00:01.0: waiting 100 ms for downstream
+> > > link, after activation [ 292.882296] pci 0000:01:00.0: waiting
+> > > additional 100 ms to become accessible [ 316.876997] pci
+> > > 0000:01:00.0: can't change power state from D3cold to D0 (config
+> > > space inaccessible)
+> > >
+> > > Since the IPCS is the Intel Reference Code and we don't really know
+> > > why the never-end loop happens just because we unplug the dock while
+> > > the system still stays in s2idle. Can anyone from Intel suggest what
+> > > happens here?
+> >
+> > This list is not the right channel for inquiries related to Intel
+> > support, we can only help you as Linux kernel developers in this
+> > venue.
+> >
+> > > And one thing also worth mentioning, if we unplug the display cable
+> > > from the dock before entering the s2idle, NVIDIA GPU can come back
+> > > w/o problem even if we disconnect the dock before exiting s2idle.
+> > > Here's the lspci information
+> > > https://gist.github.com/mschiu77/0bfc439d15d52d20de0129b1b2a86dc4
+> > > and the dmesg log with ACPI trace_state enabled and dynamic debug on
+> > > for drivers/pci/pci.c, drivers/acpi/device_pm.c for the whole s2idle
+> > > enter/exit with IPCS timeout.
+> > >
+> > > Any suggestion would be appreciated. Thanks.
+> >
+> > First, please use proper Intel support channels for BIOS-related inquir=
+ies.
+> >
+> > Second, please open a bug as suggested above and let's use it for
+> > further communication regarding this issue as far as Linux is
+> > concerned.
+> >
+> > Thanks!
+>=20
+> Thanks for the suggestion. I opened
+> https://bugzilla.kernel.org/show_bug.cgi?id=3D212951 and have a new findi=
+ng in
+> https://bugzilla.kernel.org/show_bug.cgi?id=3D212951#c13. It seems that m=
+aybe we
+> could do something in the i915 driver during resume to handle the hpd (be=
+cause we
+> unplug the dock/dongle when
+> suspended) at the very beginning. Since it involves HPD, PMC and the BIOS=
+, I don't
+> know which way I should go to fix this since Windows won't hit this probl=
+em.
+How about https://gitlab.freedesktop.org/drm/intel/-/wikis/How-to-file-i915=
+-bugs to get also our devs involved better.
 
-Thanks again Alex.
-
-> On Thu, May 20, 2021 at 8:03 AM Lee Jones <lee.jones@linaro.org> wrote:
-> >
-> > Fixes the following W=1 kernel build warning(s):
-> >
-> >  drivers/gpu/drm/amd/amdgpu/smuio_v13_0.c:99: warning: expecting prototype for smuio_v13_0_supports_host_gpu_xgmi(). Prototype was for smuio_v13_0_is_host_gpu_xgmi_supported() instead
-> >
-> > Cc: Alex Deucher <alexander.deucher@amd.com>
-> > Cc: "Christian König" <christian.koenig@amd.com>
-> > Cc: David Airlie <airlied@linux.ie>
-> > Cc: Daniel Vetter <daniel@ffwll.ch>
-> > Cc: Hawking Zhang <Hawking.Zhang@amd.com>
-> > Cc: amd-gfx@lists.freedesktop.org
-> > Cc: dri-devel@lists.freedesktop.org
-> > Signed-off-by: Lee Jones <lee.jones@linaro.org>
-> > ---
-> >  drivers/gpu/drm/amd/amdgpu/smuio_v13_0.c | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/drivers/gpu/drm/amd/amdgpu/smuio_v13_0.c b/drivers/gpu/drm/amd/amdgpu/smuio_v13_0.c
-> > index 3c47c94846d6d..39b7c206770f6 100644
-> > --- a/drivers/gpu/drm/amd/amdgpu/smuio_v13_0.c
-> > +++ b/drivers/gpu/drm/amd/amdgpu/smuio_v13_0.c
-> > @@ -106,7 +106,7 @@ static u32 smuio_v13_0_get_socket_id(struct amdgpu_device *adev)
-> >  }
-> >
-> >  /**
-> > - * smuio_v13_0_supports_host_gpu_xgmi - detect xgmi interface between cpu and gpu/s.
-> > + * smuio_v13_0_is_host_gpu_xgmi_supported - detect xgmi interface between cpu and gpu/s.
-> >   *
-> >   * @adev: amdgpu device pointer
-> >   *
-> >
-
--- 
-Lee Jones [李琼斯]
-Senior Technical Lead - Developer Services
-Linaro.org │ Open source software for Arm SoCs
-Follow Linaro: Facebook | Twitter | Blog
+>=20
+> Please let me know if there's any information missing in the bugzilla.ker=
+nel ticket.
+> Any suggestions would be appreciated. Thanks
+>=20
+> Chris
+> _______________________________________________
+> Intel-gfx mailing list
+> Intel-gfx@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/intel-gfx
