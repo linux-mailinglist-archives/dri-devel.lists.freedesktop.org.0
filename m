@@ -2,56 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F23A438CF5B
-	for <lists+dri-devel@lfdr.de>; Fri, 21 May 2021 22:51:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E6D5E38CF6A
+	for <lists+dri-devel@lfdr.de>; Fri, 21 May 2021 22:54:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 592F66F909;
-	Fri, 21 May 2021 20:51:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2434E6F90D;
+	Fri, 21 May 2021 20:54:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x230.google.com (mail-oi1-x230.google.com
- [IPv6:2607:f8b0:4864:20::230])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7C99B6F909
- for <dri-devel@lists.freedesktop.org>; Fri, 21 May 2021 20:51:31 +0000 (UTC)
-Received: by mail-oi1-x230.google.com with SMTP id b25so20935009oic.0
- for <dri-devel@lists.freedesktop.org>; Fri, 21 May 2021 13:51:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:in-reply-to:references:from:user-agent:date:message-id
- :subject:to:cc;
- bh=l3rd5AGI0TAgU4dtT99rPSZ8nP9k8iKog4797AOuSyg=;
- b=BvqrmKhXYuSofPpie5wCq1uz0GOh3zVoi+zkwMXzyCc1/ZumnWykKUQcPuUQ7k78IZ
- 1mgXbD7C0AswJZfNAk6Ep/GcnyG8oSwA+ySHdMg8R57kGPfEhIFjzEW+Mrl1RV4kkkQh
- S5FesVuR9gRmM8T0fihLkf3blfyX90vsRUUIg=
+Received: from mail-oi1-x235.google.com (mail-oi1-x235.google.com
+ [IPv6:2607:f8b0:4864:20::235])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 39F996F90B;
+ Fri, 21 May 2021 20:54:46 +0000 (UTC)
+Received: by mail-oi1-x235.google.com with SMTP id t24so5379436oiw.3;
+ Fri, 21 May 2021 13:54:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=uBVpkrKYwYzEG/MbsagwcvAPa2TXzkAW5fICEd/F6J4=;
+ b=gwdU/McDpqLHODU5UhcipIZFabkwoBhU+kuMLDC2QGUrhY8AKeKTpu8s2wzzaMN7F1
+ i3VjcFphGNk+z+yxGx4fDS7jVKcyJfphTQKZx1CqQbK8ZQIwerGPrEOuR8hmjUdTjJBe
+ Al3s4PMry5uObCR4JABwr7kBG84QwALl255/reBmmVviM7gXA54TXzIiarqa1sBENP87
+ a1SO8uASCa/PWuaVfXY77w0AWbU1REIwXUwAOQc9azf6Vi0pARRr37aR8BlwL+sSeYnD
+ HSnKwd3v36MncgNMusm9Zo2FvSpZbUnUpSQ23uHVyOVXNMHDZFCCmFqGSGPHSboZ9/v9
+ /LCA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:in-reply-to:references:from
- :user-agent:date:message-id:subject:to:cc;
- bh=l3rd5AGI0TAgU4dtT99rPSZ8nP9k8iKog4797AOuSyg=;
- b=IBPJA9Jb1taEesYwFBIU1hSh5GKhnuH9GGveozixzbauP4pnfNMTMvTy3PumlprEmk
- ZUtRoAPOH1+Q+9hSee/UkR9Sak+gQammFuhdUQWHAi1dkuAdvSL1YYb8ffZCTBGxqBQu
- hndJNfoH46UrS18qzDCzTmvcxAoSksxV/ZDQql85f4+wOiW8NiTsQz+XRYwQluDXGNL4
- 4REmABqfspDVM2ZCU9nB+ZmQflt8hgMYSPVSqeuKG8YkczPJKt/7+9hoHDH/6vlLzIfu
- 1nFk4iMwszzKh0MTk7UBFxXVDBNc4bheMO9Xt8jSgy7c7GgeLou5Mfxpt1x8+hOqNDH6
- L33w==
-X-Gm-Message-State: AOAM530FAw7JEn7zPxl7tzSAXPu+5fo5W1pnCc/s5DskQ50pZcvnUELC
- ZNiZhwv8R1k659BhjS9m0ugXJMZKu8AFhDqxpkoNzg==
-X-Google-Smtp-Source: ABdhPJy8yyDStkfnRUcpaPHXw8vmuuF1l+lnjun1dIZYi3XPD6IA6ZpnNyOOiz7CIUPzpV6TIwk8LLzDT0k/qiDtLHg=
-X-Received: by 2002:aca:654d:: with SMTP id j13mr3622784oiw.125.1621630290832; 
- Fri, 21 May 2021 13:51:30 -0700 (PDT)
-Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Fri, 21 May 2021 13:51:30 -0700
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=uBVpkrKYwYzEG/MbsagwcvAPa2TXzkAW5fICEd/F6J4=;
+ b=nqWwyz+eKmEE5/ll8Rp058TbE9xcbGEmiyUnrIZDY7i3AWsA3b0T9u3VQuV3uOjNM/
+ +4iPhk8zkOau5HpE/uklF1zWifbpk0W613NzvvtIU33Ube14lL0nklwlAMzH23y1WmsV
+ mm4aMi3t3h/CaDmmJ/IkQLeM0MUYFz1w1WQC64wP/Vfwq6gv0eO3jVo2gPf4CRW/xG+N
+ tM5GoTLifx5StuqW8ItvmXoKn3guV7MWuN2cSVrmNVEZeqEMQbZQTlQuFHwDjGOg5Fgx
+ kn8EcQ3aRXma3yRdroTNB/QiTEDPQyMdVXvo1zktB2ppkuOHyzL0rBIVO4T33HPoNR3p
+ LRsw==
+X-Gm-Message-State: AOAM5304QkoeZIfsbkHJ7XvDQKgq+VRy1yaNKELQiXlBfJ8THN4UIPVE
+ Pwp016wDj9uLXZ+w5aJRFWp2xIUgsliniEkgAAc=
+X-Google-Smtp-Source: ABdhPJyeoz8sknPzbkgMhZAwDO2a8XA6OyM783Twm1WOJwvIodN5loxclbb87nQqTJSpxQB2jTThvOxsOu+ASEHfRgg=
+X-Received: by 2002:a05:6808:206:: with SMTP id l6mr3327794oie.5.1621630485590; 
+ Fri, 21 May 2021 13:54:45 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210521160029.GA2484@yoga>
-References: <1621592844-6414-1-git-send-email-mkrishn@codeaurora.org>
- <20210521160029.GA2484@yoga>
-From: Stephen Boyd <swboyd@chromium.org>
-User-Agent: alot/0.9.1
-Date: Fri, 21 May 2021 13:51:30 -0700
-Message-ID: <CAE-0n53y2_icuPf+j8hd1hGyWRbD2V0Fye+aGSe0M9zku_0DOA@mail.gmail.com>
-Subject: Re: [PATCH v17 1/4] dt-bindings: msm: disp: add yaml schemas for DPU
- bindings
-To: Bjorn Andersson <bjorn.andersson@linaro.org>,
- Krishna Manikandan <mkrishn@codeaurora.org>
+References: <20210521204122.762288-1-andrey.grodzovsky@amd.com>
+ <20210521204122.762288-2-andrey.grodzovsky@amd.com>
+In-Reply-To: <20210521204122.762288-2-andrey.grodzovsky@amd.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Fri, 21 May 2021 16:54:34 -0400
+Message-ID: <CADnq5_M172c=KS8Gqv8fyYyto1iq4pH9giUFqhjNnTaum6sBEA@mail.gmail.com>
+Subject: Re: [PATCH v2 2/2] drm/amdgpu: Fix crash when hot unplug in BACO.
+To: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -65,58 +62,70 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: sean@poorly.run, devicetree@vger.kernel.org, vinod.koul@linaro.org,
- linux-arm-msm@vger.kernel.org, abhinavk@codeaurora.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- dianders@chromium.org, khsieh@codeaurora.org, robh+dt@kernel.org,
- tanmay@codeaurora.org, kalyan_t@codeaurora.org,
- freedreno@lists.freedesktop.org
+Cc: "Deucher, Alexander" <Alexander.Deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Bjorn Andersson (2021-05-21 09:00:29)
-> On Fri 21 May 05:27 CDT 2021, Krishna Manikandan wrote:
-> > diff --git a/Documentation/devicetree/bindings/display/msm/dpu-sc7180.yaml b/Documentation/devicetree/bindings/display/msm/dpu-sc7180.yaml
-> [..]
-> > +      ports:
-> > +        $ref: /schemas/graph.yaml#/properties/ports
-> > +        description: |
-> > +          Contains the list of output ports from DPU device. These ports
-> > +          connect to interfaces that are external to the DPU hardware,
-> > +          such as DSI, DP etc. Each output port contains an endpoint that
-> > +          describes how it is connected to an external interface.
-> > +
-> > +        properties:
-> > +          port@0:
-> > +            $ref: /schemas/graph.yaml#/properties/port
-> > +            description: DPU_INTF1 (DSI1)
-> > +
-> > +          port@2:
-> > +            $ref: /schemas/graph.yaml#/properties/port
-> > +            description: DPU_INTF0 (DP)
+On Fri, May 21, 2021 at 4:41 PM Andrey Grodzovsky
+<andrey.grodzovsky@amd.com> wrote:
 >
-> Why is port@0 INTF1 and why is port@2 INTF0? In the binding you're
-> translating the two ports that are described are 0 and 1, representing
-> INTF1 and INTF2, or DSI1 and DSI2, respectively.
->
-> Further more, I have a need for somehow describing the pairing of 4 DP
-> INTFs (INTF 0, 3, 4 and 5) and how they are connected to the 3+1 DP+eDP
-> controllers.
->
-> Downstream this seems to be handled by adding cell-index to the DP
-> controllers and then matching that against the numbering in the driver's
-> INTF array. But rather than adding cell-index to map this, can't we
-> define that the port index is the INTF-number here?
->
->
-> This would obviously break compatibility with existing DTBs, but we
-> could start by doing it selectively for the new compatibles, fix up the
-> existing dts files and then drop the selective application after 1 or 2
-> LTS releases.
+> Problem:
+> When device goes into sleep state due to prolonged
 
-I requested that the existing DT not change a while ago when the DP
-interface was being added to this binding. Is it possible to figure out
-what interface it is that the port is for from the binding? It feels
-like the problem is that the driver wants to look through the graph and
-make connectors for each one, but it doesn't know what type of connector
-to make.
+s/sleep state/runtime suspend/
+
+> innactivity (e.g. BACO sleep) and then hot unplugged,
+
+inactivity
+
+> PCI core will try to wake up the device as part of
+> unplug process. Since the device is gone all HW
+> programming during rpm resume fails leading
+> to a bad SW state later during pci remove handling.
+>
+> Fix:
+> Use a flag we use for PCIe error recovery to avoid
+> accessing registres. This allows to succefully complete
+
+successfully
+
+> rpm resume sequence and finish pci remove.
+>
+> v2: Renamed HW access block flag
+>
+> Link: https://gitlab.freedesktop.org/drm/amd/-/issues/1081
+> Signed-off-by: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
+
+With the above comments fixed, the series is:
+Reviewed-by: Alex Deucher <alexander.deucher@amd.com>
+
+> ---
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c | 5 +++++
+>  1 file changed, 5 insertions(+)
+>
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
+> index d8db5929cdd9..b9d221fcb66d 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
+> @@ -1555,6 +1555,11 @@ static int amdgpu_pmops_runtime_resume(struct device *dev)
+>         if (!adev->runpm)
+>                 return -EINVAL;
+>
+> +       /* Avoids registers access if device is physically gone */
+> +       if (!pci_device_is_present(adev->pdev))
+> +               adev->no_hw_access = true;
+> +
+> +
+>         if (amdgpu_device_supports_px(drm_dev)) {
+>                 drm_dev->switch_power_state = DRM_SWITCH_POWER_CHANGING;
+>
+> --
+> 2.25.1
+>
+> _______________________________________________
+> amd-gfx mailing list
+> amd-gfx@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/amd-gfx
