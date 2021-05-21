@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0414238BB6E
-	for <lists+dri-devel@lfdr.de>; Fri, 21 May 2021 03:16:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3BA3D38BB77
+	for <lists+dri-devel@lfdr.de>; Fri, 21 May 2021 03:20:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 93E466F58A;
-	Fri, 21 May 2021 01:16:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E8DE96E466;
+	Fri, 21 May 2021 01:20:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from ozlabs.org (ozlabs.org [IPv6:2401:3900:2:1::2])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BC2B46F58A;
- Fri, 21 May 2021 01:16:35 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DF4DA6E463;
+ Fri, 21 May 2021 01:20:16 +0000 (UTC)
 Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
  SHA256) (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4FmTG80RMQz9sV5;
- Fri, 21 May 2021 11:16:32 +1000 (AEST)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4FmTLQ2qMxz9sWl;
+ Fri, 21 May 2021 11:20:14 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=canb.auug.org.au;
- s=201702; t=1621559793;
- bh=0WNkIgrA5cfmh3dmtALKkENB1bfAKE9i33zwcoPdfNE=;
+ s=201702; t=1621560014;
+ bh=MnxSzSE5uzgMvgSTQKJkCe/Jdj5UFiYpk9Dz0cH+S28=;
  h=Date:From:To:Cc:Subject:From;
- b=naCHoUABSw8zQLb3bEhbRCRnS5kjvp2zFRi5996J338KmrLaOpEZ4Vajaq+XBrq2/
- HaITpAVVYsZMtFLd2qZuaQfIeANZtVAHAeDIqf8XOU1ntu7DRaD/MGa3KAT/FO7fCy
- gT974IUryYPpxWR9LRO5AXgtroikkExXyMtO9MZgWfVLZR6AmRvdTOZfGcJNs2iQ9r
- hb+l56TkvayW+/9LViPn+jwt2dT2dP5Z5go5xjp2+s5KsDPFtdYJmk5ST0xT8ByFfn
- IC1RcjEqSQr77qkhsCilDsFBd02o1aIUezVEM00985l+9Fa0hCy9LAeFmSs3HN9T5s
- x7t9zUL5FMpjQ==
-Date: Fri, 21 May 2021 11:16:31 +1000
+ b=GsBB9ji4GXJ9Hs5Vjfs8EmC5OYHwwr58hstuEub83fhPs2nleWgXpAFLZby0Ppp64
+ gmeP5DltwZ9Zm3VmG4z1bIHPQS0pVIaG7IgGUWg6XkI5tv7ZpwttzhxVyyzQL2fp/i
+ viGl8M5RODGGdHNtB7hyMP8RQsAeDwGkri97vxyc34/Cs1SN6HXkwradaG33IXlc/x
+ m2KYckj1niWIjDsFBuwbgtR6uFj4DCo1QbKl5KpCQTojmsFtjke2FXiALolByipgXR
+ DWm4snbk37p1ximKGRIOVLguXsyYrSdEtZDlUu1m2Egyx3Q1FFtvoFnVSYuCCxr+P/
+ FOD92izmI85zQ==
+Date: Fri, 21 May 2021 11:20:13 +1000
 From: Stephen Rothwell <sfr@canb.auug.org.au>
 To: Alex Deucher <alexdeucher@gmail.com>, Daniel Vetter
  <daniel.vetter@ffwll.ch>, Intel Graphics <intel-gfx@lists.freedesktop.org>,
  DRI <dri-devel@lists.freedesktop.org>
 Subject: linux-next: manual merge of the amdgpu tree with the drm-misc tree
-Message-ID: <20210521111631.76bc1636@canb.auug.org.au>
+Message-ID: <20210521112013.1f10e61f@canb.auug.org.au>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/GIQsj9oI_7T=LGV07W5ScTp";
+Content-Type: multipart/signed; boundary="Sig_/nglW1/rJqHeC2FSoBdtO2gF";
  protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -57,7 +57,7 @@ Cc: Alex Deucher <alexander.deucher@amd.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/GIQsj9oI_7T=LGV07W5ScTp
+--Sig_/nglW1/rJqHeC2FSoBdtO2gF
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 
@@ -65,17 +65,17 @@ Hi all,
 
 Today's linux-next merge of the amdgpu tree got a conflict in:
 
-  drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c
+  drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
 
 between commit:
 
-  35bba8313b95 ("drm/amdgpu: Convert driver sysfs attributes to static attr=
-ibutes")
+  f89f8c6bafd0 ("drm/amdgpu: Guard against write accesses after device remo=
+val")
 
 from the drm-misc tree and commit:
 
-  a614b336f1c1 ("drm/amdgpu: fix coding style and documentation in amdgpu_g=
-tt_mgr.c")
+  0ccc3ccf5b3a ("drm/amdgpu: re-apply "use the new cursor in the VM code" v=
+2")
 
 from the amdgpu tree.
 
@@ -90,178 +90,74 @@ complex conflicts.
 Cheers,
 Stephen Rothwell
 
-diff --cc drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c
-index a4404da8ca6d,8860545344c7..000000000000
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c
-@@@ -75,75 -80,6 +80,16 @@@ static DEVICE_ATTR(mem_info_gtt_total,=20
-  static DEVICE_ATTR(mem_info_gtt_used, S_IRUGO,
-  	           amdgpu_mem_info_gtt_used_show, NULL);
+diff --cc drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
+index 90c34491f85d,57a6ad04118c..000000000000
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
+@@@ -1594,23 -1618,21 +1620,24 @@@ static int amdgpu_vm_update_ptes(struc
+   * Returns:
+   * 0 for success, -EINVAL for failure.
+   */
+- static int amdgpu_vm_bo_update_mapping(struct amdgpu_device *adev,
+- 				       struct amdgpu_device *bo_adev,
+- 				       struct amdgpu_vm *vm, bool immediate,
+- 				       bool unlocked, struct dma_resv *resv,
+- 				       uint64_t start, uint64_t last,
+- 				       uint64_t flags, uint64_t offset,
+- 				       struct drm_mm_node *nodes,
+- 				       dma_addr_t *pages_addr,
+- 				       struct dma_fence **fence)
++ int amdgpu_vm_bo_update_mapping(struct amdgpu_device *adev,
++ 				struct amdgpu_device *bo_adev,
++ 				struct amdgpu_vm *vm, bool immediate,
++ 				bool unlocked, struct dma_resv *resv,
++ 				uint64_t start, uint64_t last,
++ 				uint64_t flags, uint64_t offset,
++ 				struct ttm_resource *res,
++ 				dma_addr_t *pages_addr,
++ 				struct dma_fence **fence,
++ 				bool *table_freed)
+  {
+  	struct amdgpu_vm_update_params params;
++ 	struct amdgpu_res_cursor cursor;
+  	enum amdgpu_sync_mode sync_mode;
+- 	uint64_t pfn;
+ -	int r;
+ +	int r, idx;
+ +
+ +	if (!drm_dev_enter(&adev->ddev, &idx))
+ +		return -ENODEV;
  =20
- +static struct attribute *amdgpu_gtt_mgr_attributes[] =3D {
- +	&dev_attr_mem_info_gtt_total.attr,
- +	&dev_attr_mem_info_gtt_used.attr,
- +	NULL
- +};
- +
- +const struct attribute_group amdgpu_gtt_mgr_attr_group =3D {
- +	.attrs =3D amdgpu_gtt_mgr_attributes
- +};
- +
-- static const struct ttm_resource_manager_func amdgpu_gtt_mgr_func;
-- /**
--  * amdgpu_gtt_mgr_init - init GTT manager and DRM MM
--  *
--  * @adev: amdgpu_device pointer
--  * @gtt_size: maximum size of GTT
--  *
--  * Allocate and initialize the GTT manager.
--  */
-- int amdgpu_gtt_mgr_init(struct amdgpu_device *adev, uint64_t gtt_size)
-- {
-- 	struct amdgpu_gtt_mgr *mgr =3D &adev->mman.gtt_mgr;
-- 	struct ttm_resource_manager *man =3D &mgr->manager;
-- 	uint64_t start, size;
--=20
-- 	man->use_tt =3D true;
-- 	man->func =3D &amdgpu_gtt_mgr_func;
--=20
-- 	ttm_resource_manager_init(man, gtt_size >> PAGE_SHIFT);
--=20
-- 	start =3D AMDGPU_GTT_MAX_TRANSFER_SIZE * AMDGPU_GTT_NUM_TRANSFER_WINDOWS;
-- 	size =3D (adev->gmc.gart_size >> PAGE_SHIFT) - start;
-- 	drm_mm_init(&mgr->mm, start, size);
-- 	spin_lock_init(&mgr->lock);
-- 	atomic64_set(&mgr->available, gtt_size >> PAGE_SHIFT);
--=20
-- 	ttm_set_driver_manager(&adev->mman.bdev, TTM_PL_TT, &mgr->manager);
-- 	ttm_resource_manager_set_used(man, true);
-- 	return 0;
-- }
--=20
-- /**
--  * amdgpu_gtt_mgr_fini - free and destroy GTT manager
--  *
--  * @adev: amdgpu_device pointer
--  *
--  * Destroy and free the GTT manager, returns -EBUSY if ranges are still
--  * allocated inside it.
--  */
-- void amdgpu_gtt_mgr_fini(struct amdgpu_device *adev)
-- {
-- 	struct amdgpu_gtt_mgr *mgr =3D &adev->mman.gtt_mgr;
-- 	struct ttm_resource_manager *man =3D &mgr->manager;
-- 	int ret;
--=20
-- 	ttm_resource_manager_set_used(man, false);
--=20
-- 	ret =3D ttm_resource_manager_evict_all(&adev->mman.bdev, man);
-- 	if (ret)
-- 		return;
--=20
-- 	spin_lock(&mgr->lock);
-- 	drm_mm_takedown(&mgr->mm);
-- 	spin_unlock(&mgr->lock);
--=20
-- 	ttm_resource_manager_cleanup(man);
-- 	ttm_set_driver_manager(&adev->mman.bdev, TTM_PL_TT, NULL);
-- }
--=20
-  /**
-   * amdgpu_gtt_mgr_has_gart_addr - Check if mem has address space
-   *
-@@@ -306,3 -249,76 +259,61 @@@ static const struct ttm_resource_manage
-  	.free =3D amdgpu_gtt_mgr_del,
-  	.debug =3D amdgpu_gtt_mgr_debug
-  };
+  	memset(&params, 0, sizeof(params));
+  	params.adev =3D adev;
+@@@ -1717,9 -1722,11 +1727,12 @@@
+ =20
+  	r =3D vm->update_funcs->commit(&params, fence);
+ =20
++ 	if (table_freed)
++ 		*table_freed =3D params.table_freed;
 +=20
-+ /**
-+  * amdgpu_gtt_mgr_init - init GTT manager and DRM MM
-+  *
-+  * @adev: amdgpu_device pointer
-+  * @gtt_size: maximum size of GTT
-+  *
-+  * Allocate and initialize the GTT manager.
-+  */
-+ int amdgpu_gtt_mgr_init(struct amdgpu_device *adev, uint64_t gtt_size)
-+ {
-+ 	struct amdgpu_gtt_mgr *mgr =3D &adev->mman.gtt_mgr;
-+ 	struct ttm_resource_manager *man =3D &mgr->manager;
-+ 	uint64_t start, size;
- -	int ret;
-+=20
-+ 	man->use_tt =3D true;
-+ 	man->func =3D &amdgpu_gtt_mgr_func;
-+=20
-+ 	ttm_resource_manager_init(man, gtt_size >> PAGE_SHIFT);
-+=20
-+ 	start =3D AMDGPU_GTT_MAX_TRANSFER_SIZE * AMDGPU_GTT_NUM_TRANSFER_WINDOWS;
-+ 	size =3D (adev->gmc.gart_size >> PAGE_SHIFT) - start;
-+ 	drm_mm_init(&mgr->mm, start, size);
-+ 	spin_lock_init(&mgr->lock);
-+ 	atomic64_set(&mgr->available, gtt_size >> PAGE_SHIFT);
-+=20
- -	ret =3D device_create_file(adev->dev, &dev_attr_mem_info_gtt_total);
- -	if (ret) {
- -		DRM_ERROR("Failed to create device file mem_info_gtt_total\n");
- -		return ret;
- -	}
- -	ret =3D device_create_file(adev->dev, &dev_attr_mem_info_gtt_used);
- -	if (ret) {
- -		DRM_ERROR("Failed to create device file mem_info_gtt_used\n");
- -		return ret;
- -	}
- -
-+ 	ttm_set_driver_manager(&adev->mman.bdev, TTM_PL_TT, &mgr->manager);
-+ 	ttm_resource_manager_set_used(man, true);
-+ 	return 0;
-+ }
-+=20
-+ /**
-+  * amdgpu_gtt_mgr_fini - free and destroy GTT manager
-+  *
-+  * @adev: amdgpu_device pointer
-+  *
-+  * Destroy and free the GTT manager, returns -EBUSY if ranges are still
-+  * allocated inside it.
-+  */
-+ void amdgpu_gtt_mgr_fini(struct amdgpu_device *adev)
-+ {
-+ 	struct amdgpu_gtt_mgr *mgr =3D &adev->mman.gtt_mgr;
-+ 	struct ttm_resource_manager *man =3D &mgr->manager;
-+ 	int ret;
-+=20
-+ 	ttm_resource_manager_set_used(man, false);
-+=20
-+ 	ret =3D ttm_resource_manager_evict_all(&adev->mman.bdev, man);
-+ 	if (ret)
-+ 		return;
-+=20
-+ 	spin_lock(&mgr->lock);
-+ 	drm_mm_takedown(&mgr->mm);
-+ 	spin_unlock(&mgr->lock);
-+=20
- -	device_remove_file(adev->dev, &dev_attr_mem_info_gtt_total);
- -	device_remove_file(adev->dev, &dev_attr_mem_info_gtt_used);
- -
-+ 	ttm_resource_manager_cleanup(man);
-+ 	ttm_set_driver_manager(&adev->mman.bdev, TTM_PL_TT, NULL);
-+ }
+  error_unlock:
+  	amdgpu_vm_eviction_unlock(vm);
+ +	drm_dev_exit(idx);
+  	return r;
+  }
+ =20
 
---Sig_/GIQsj9oI_7T=LGV07W5ScTp
+--Sig_/nglW1/rJqHeC2FSoBdtO2gF
 Content-Type: application/pgp-signature
 Content-Description: OpenPGP digital signature
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmCnCe8ACgkQAVBC80lX
-0GwKIwgAhjuZMVGTmOGOWLUbWqTbS90TLgG+5O1tgSLqsHhxQuJ7OuX2TXivSEQ9
-7WrzDwBVJOtEsz0mBk02/XHYjBW/mdpSCjb0so92d3GnIC+FtSeztwbl5dY5jgur
-CnKWE0QI7V/z9ckGH+cgfgUE3QNgzjRzLdTjebRn5pKYP4gh1FWujBCS3g96BK3U
-EEBjRtSwWiccwejdjbqZz/gfhWX+jJ/m/bH6N3J5stYUINgY9hyH8fVSw2z8PgrX
-kFWRirmVbGAu6KCG7W2qLT5yha/jA9im7m28mXh616v6wY0YFCxWdRnmH8CnCAIp
-r6hNVjLCvObBYMS2c7Mux4H08qF6Dw==
-=3Byw
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmCnCs0ACgkQAVBC80lX
+0GzVZwf/Y3NFPIHY8jz3M+QIuKffIjL0IMt/Oo6mTxvpzMv3Rkn0T0xjwz1dAeSp
+YyKuLx/x/9HixXpK61Ya4ua+b1YORFOUMXjRTGt+Wgl+eDEaZF9Pwe/edlKqVwDp
+Zs2OIvbRJCJz4pqXUKUan/LIUgKKIb9FXK0iGfvP3xLGQMrpj/mdSM/3+KHLeS45
+vcKPLQ/C62bWEw4lBL32x8ygQcLEb3NqsKkHIePVjV+CM27eBz4ybs4N4niWogf1
+HYW7/Mbgx+xDo5/uKAUnxnIbsBy7+R/vfMk/pJKz0V2xzxgXjL+QY3VEorzq1fgx
+hWOZrzqqcmUsRkoYKgQKy2G6kXXxfw==
+=wrkb
 -----END PGP SIGNATURE-----
 
---Sig_/GIQsj9oI_7T=LGV07W5ScTp--
+--Sig_/nglW1/rJqHeC2FSoBdtO2gF--
