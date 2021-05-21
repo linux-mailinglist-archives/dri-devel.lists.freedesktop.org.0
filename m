@@ -1,39 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32C4738C713
-	for <lists+dri-devel@lfdr.de>; Fri, 21 May 2021 14:51:18 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0936638C72A
+	for <lists+dri-devel@lfdr.de>; Fri, 21 May 2021 14:54:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 14D0B6F629;
-	Fri, 21 May 2021 12:51:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0C0176E4E8;
+	Fri, 21 May 2021 12:54:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ABDB86F643;
- Fri, 21 May 2021 12:51:14 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id B158B613DF;
- Fri, 21 May 2021 12:51:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1621601474;
- bh=jEvngLW/cjGIBmD812MSfH6Z7qHrHgE9F0mc+LlnVCU=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=eYH2aO+avVrOJeVmpIWkod3vEau0fORf9Df3DZDMoskPVFvaUvPY+5szCcRutxyor
- my/mvi2OEBri3/ZHX84NlAG9J6Zi50Ukj4foiizCf540o36gs0yeyf2JOAjTkENiKr
- IEkFzsYiZ51NtQuzVrPhuQb3pDd/zTwNRyYjDAvn/zDDr82dpjYXzpg2ANpeadLb4Q
- vYGPdPWRxaonJ8oCAhedKvcyTFZrD0KLhqfFPSqGJF1QfvlPokiljPLqAx4I8l/h9j
- mGurVFDjsR6red27U+RBw8U0+HIeCtypozMPYBw84krdbWWpiGGB+LADU0cOc4AbTa
- erFTEMQAFEt+Q==
-From: Vinod Koul <vkoul@kernel.org>
-To: Rob Clark <robdclark@gmail.com>
-Subject: [RFC PATCH 13/13] drm/msm/dsi: Pass DSC params to drm_panel
-Date: Fri, 21 May 2021 18:19:46 +0530
-Message-Id: <20210521124946.3617862-18-vkoul@kernel.org>
-X-Mailer: git-send-email 2.26.3
-In-Reply-To: <20210521124946.3617862-1-vkoul@kernel.org>
-References: <20210521124946.3617862-1-vkoul@kernel.org>
+Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com
+ [IPv6:2a00:1450:4864:20::435])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 002706E4FE
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 May 2021 12:54:15 +0000 (UTC)
+Received: by mail-wr1-x435.google.com with SMTP id a4so21024044wrr.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 May 2021 05:54:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=fooishbar-org.20150623.gappssmtp.com; s=20150623;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=FJZtfLgsMzPpeEGC1nWMm7W+KSm1MH2DLYlMQ7WHt1A=;
+ b=sFGpdh1dbpP8JSKR1U5AOEieSm0E4tGRK55RIlKzhpUYYD3nZXIvDR2brLKqPzRu0u
+ zIyVfraBuh1c5fIsX1HMBxFUVwKD2R3qnFutX1JtHyW0NlRGTH0uvf832I4g8nhP0T/a
+ mwwiDfknsZS7vuFFEi2KwIiHPPS1XkXKy3DnGSkiBlVJybTzdOZFR5fgrpIqzn5vP+UJ
+ /kAfrcH2cZLJ8QhLo3Wg5w2a8TqB6b28BhglC7vyL8r099YlZraIJYospyDMT/v3U0MH
+ u/USku+abTJL2De2pHeCfruVuOdK4CBydA07Cv6yLoBnuDbtwx0km2WGWDWNiPW8kci0
+ fl9w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=FJZtfLgsMzPpeEGC1nWMm7W+KSm1MH2DLYlMQ7WHt1A=;
+ b=sp8BEKyKQimyIyWRb7qWITzz7ctTlJXGbGuybiFy4JwPbKgKAWLBxcJ9q+K0/iapEb
+ rLtENrBTorhFpqEevtOmVgynX9eySnNyI67mnqsAYkmoj0CMSrthRxB8e/eMmU7ouqaO
+ LLEhK+Bzgxr4iYvad3OZKTMRgaCjI2RHjbmItMA3bFI/8hkIUoKv2cS9lOw3qc0QkHc7
+ TWDa/3el3C/avDl9Bm5uPNe5DRndi5wRtn12JmRlYxxNs2GIy538MyTmH4ROF2BZ+ZDj
+ fHMQ5l+NdR3eSk8JtUIQXInTuRK1mr2BK2HHux4VNeJCi86JdFc4b7rvw2rteMXXf4zO
+ 2Pzw==
+X-Gm-Message-State: AOAM5332ECr4EChsN+15Ne186Nt8yEWHU69Yf27ggw+yMM9y5ZK6dqih
+ 0l7cVsbr5wnEsLgzuqqiFUc+AAuGwQXd940eTASv4A==
+X-Google-Smtp-Source: ABdhPJwl27bN4Oz12Tnt6vIx/LxywSl8190UB/7R09nMwblbNvh85dxGlpNGkieI1QeXVqDFLBux5vHjGvOpKZOK43M=
+X-Received: by 2002:a5d:570c:: with SMTP id a12mr9289625wrv.354.1621601654629; 
+ Fri, 21 May 2021 05:54:14 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20210521090959.1663703-1-daniel.vetter@ffwll.ch>
+ <20210521090959.1663703-4-daniel.vetter@ffwll.ch>
+ <CAPj87rMBVRamT+VAVUaUnq3C1KFVqzABi99RKs=1_vyb4YWDnQ@mail.gmail.com>
+ <d1ef10e8-b774-06e5-92ab-047c58e1ea41@amd.com>
+In-Reply-To: <d1ef10e8-b774-06e5-92ab-047c58e1ea41@amd.com>
+From: Daniel Stone <daniel@fooishbar.org>
+Date: Fri, 21 May 2021 13:54:03 +0100
+Message-ID: <CAPj87rOzV1mC=Nv2zfsYXrD4ARV7cmmJmkUCSwRSw1Ksy0k-aA@mail.gmail.com>
+Subject: Re: [Linaro-mm-sig] [PATCH 04/11] drm/panfrost: Fix implicit sync
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,66 +67,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jonathan Marek <jonathan@marek.ca>, David Airlie <airlied@linux.ie>,
- linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
- Abhinav Kumar <abhinavk@codeaurora.org>,
- Bjorn Andersson <bjorn.andersson@linaro.org>, Vinod Koul <vkoul@kernel.org>,
- dri-devel@lists.freedesktop.org,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- freedreno@lists.freedesktop.org
+Cc: Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Steven Price <steven.price@arm.com>,
+ "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
+ Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+ Daniel Vetter <daniel.vetter@intel.com>,
+ "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When DSC is enabled, we need to pass the DSC parameters to panel driver
-as well, so add a dsc parameter in panel and set it when DSC is enabled
+On Fri, 21 May 2021 at 13:28, Christian K=C3=B6nig <christian.koenig@amd.co=
+m> wrote:
+> Am 21.05.21 um 14:22 schrieb Daniel Stone:
+> > Yeah, the 'second-generation Valhall' GPUs coming later this year /
+> > early next year are starting to get pretty weird. Firmware-mediated
+> > job scheduling out of multiple queues, userspace having direct access
+> > to the queues and can do inter-queue synchronisation (at least I think
+> > so), etc. For bonus points, synchronisation is based on $addr =3D $val
+> > to signal and $addr =3D=3D $val to wait, with a separate fence primitiv=
+e
+> > as well.
+>
+> Well that sounds familiar :)
 
-Signed-off-by: Vinod Koul <vkoul@kernel.org>
----
- drivers/gpu/drm/msm/dsi/dsi_host.c | 5 +++++
- include/drm/drm_panel.h            | 7 +++++++
- 2 files changed, 12 insertions(+)
+I laughed when I first saw it, because it was better than crying I guess.
 
-diff --git a/drivers/gpu/drm/msm/dsi/dsi_host.c b/drivers/gpu/drm/msm/dsi/dsi_host.c
-index e26545fc82e0..7fc7002eda78 100644
---- a/drivers/gpu/drm/msm/dsi/dsi_host.c
-+++ b/drivers/gpu/drm/msm/dsi/dsi_host.c
-@@ -1700,6 +1700,7 @@ static int dsi_host_attach(struct mipi_dsi_host *host,
- 					struct mipi_dsi_device *dsi)
- {
- 	struct msm_dsi_host *msm_host = to_msm_dsi_host(host);
-+	struct drm_panel *panel;
- 	int ret;
- 
- 	if (dsi->lanes > msm_host->num_data_lanes)
-@@ -1719,6 +1720,10 @@ static int dsi_host_attach(struct mipi_dsi_host *host,
- 	if (msm_host->dev)
- 		queue_work(msm_host->workqueue, &msm_host->hpd_work);
- 
-+	panel = msm_dsi_host_get_panel(host);
-+	if (panel)
-+		panel->dsc = &msm_host->dsc->drm;
-+
- 	return 0;
- }
- 
-diff --git a/include/drm/drm_panel.h b/include/drm/drm_panel.h
-index 33605c3f0eba..27a7808a29f2 100644
---- a/include/drm/drm_panel.h
-+++ b/include/drm/drm_panel.h
-@@ -171,6 +171,13 @@ struct drm_panel {
- 	 * Panel entry in registry.
- 	 */
- 	struct list_head list;
-+
-+	/**
-+	 * @dsc:
-+	 *
-+	 * Panel DSC pps payload to be sent
-+	 */
-+	struct drm_dsc_config *dsc;
- };
- 
- void drm_panel_init(struct drm_panel *panel, struct device *dev,
--- 
-2.26.3
+If you're curious, the interface definitions are in the csf/ directory
+in the 'Bifrost kernel driver' r30p0 download you can get from the Arm
+developer site. Unfortunately the exact semantics aren't completely
+clear.
 
+> > Obviously Arm should be part of this conversation here, but I guess
+> > we'll have to wait for a while yet to see how everything's shaken out
+> > with this new gen, and hope that whatever's been designed upstream in
+> > the meantime is actually vaguely compatible ...
+>
+> Yeah, going to keep you in CC when we start to code and review user fence=
+s.
+
+Awesome, thanks Christian. Appreciate it. :)
+
+Cheers,
+Daniel
