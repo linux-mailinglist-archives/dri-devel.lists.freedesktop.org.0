@@ -2,54 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C589C38CD97
-	for <lists+dri-devel@lfdr.de>; Fri, 21 May 2021 20:37:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4275138CDB0
+	for <lists+dri-devel@lfdr.de>; Fri, 21 May 2021 20:43:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D4BA96F8D6;
-	Fri, 21 May 2021 18:37:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E1A756E83F;
+	Fri, 21 May 2021 18:43:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-f179.google.com (mail-oi1-f179.google.com
- [209.85.167.179])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 17EC96F8D0;
- Fri, 21 May 2021 18:37:55 +0000 (UTC)
-Received: by mail-oi1-f179.google.com with SMTP id c196so12333176oib.9;
- Fri, 21 May 2021 11:37:55 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=EcrkVcsgqQ0ZrJZJ5NdVvHpUDgnz1xVwfcl1R/5LgFk=;
- b=GnaZxxsOXRGBSFfQo9aL08UZOzJX48Lh2JiLrXPPpkjukH20pfaHSAry2t5LAEQRmb
- jXONt1bKew9UNQP1FVZMcjRmkA21+OxiMj2trEtkRuYVEbZfO/JYe4WXLCefpIVX44ms
- yEyCuO1XElEBect5efi3qOLpqxTdejdyjyhYge+Qsw3tVEMcJfUpMoDJdIrM+50DcgfJ
- xssqjLNCURAHCb8mgRSP+zAityZvQa5NKnrcwlrFpy393x/LYaAGvPU2I1pZfQ0itbnF
- iWeF7mxPjjUD8w5V4FpfnPSnszH1zIbrr31+55+2nCzGRBnBRQetH00tkubCOnfz9T+m
- KGSQ==
-X-Gm-Message-State: AOAM533TYYb93ngvICbONaWWuCBcXq7iZpvtNP/Q68v9RbAu0CuYS5If
- R38MoDhUq0TXp3bDHBM1fA==
-X-Google-Smtp-Source: ABdhPJyGW8FC1t+HJJPb75LnLdqG2Dy4aj9s50YmFM5qVud7SCTQuy/B3kAEP23VC/Vscifzd5SzJw==
-X-Received: by 2002:aca:2b16:: with SMTP id i22mr3182531oik.121.1621622274420; 
- Fri, 21 May 2021 11:37:54 -0700 (PDT)
-Received: from robh.at.kernel.org (24-155-109-49.dyn.grandenetworks.net.
- [24.155.109.49])
- by smtp.gmail.com with ESMTPSA id a7sm1356744ooo.9.2021.05.21.11.37.52
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 21 May 2021 11:37:53 -0700 (PDT)
-Received: (nullmailer pid 178646 invoked by uid 1000);
- Fri, 21 May 2021 18:37:52 -0000
-Date: Fri, 21 May 2021 13:37:52 -0500
-From: Rob Herring <robh@kernel.org>
-To: Krishna Manikandan <mkrishn@codeaurora.org>
-Subject: Re: [PATCH v17 4/4] dt-bindings: msm/dp: Add bindings of MSM
- DisplayPort controller
-Message-ID: <20210521183752.GA178583@robh.at.kernel.org>
-References: <1621592844-6414-1-git-send-email-mkrishn@codeaurora.org>
- <1621592844-6414-4-git-send-email-mkrishn@codeaurora.org>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9B6026E7D1;
+ Fri, 21 May 2021 18:43:08 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 93B3861175;
+ Fri, 21 May 2021 18:43:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1621622588;
+ bh=ZTYZ2vkk6ZEMhBdg/58fdsoFgDZsU5AoD++exEvZkvQ=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=dd1ss57MZaX10YODkyzjMSFGbN07ojOFThATdB0X1+6q8psLPnRt/yU4vpQIBlPdd
+ 4EfhSDrBMMRkSCJs/TM3Wb4MHDQYWwNtHs+WSLHmwlBGdgUPNZnEB7G9D9QC4R15V7
+ e3Z0/KrrQg4hRv08xW+ZLcXbLRhA9VJkrpHa0R0E=
+Date: Fri, 21 May 2021 20:43:05 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Zhenyu Wang <zhenyuw@linux.intel.com>
+Subject: Re: [PATCH] drm/i915/gvt: remove local storage of debugfs file
+Message-ID: <YKf/OUC2WxHhDJPD@kroah.com>
+References: <20210518161705.3697143-1-gregkh@linuxfoundation.org>
+ <YKPrRW+zBC8Wmjgz@kroah.com>
+ <20210519080313.GH4589@zhen-hp.sh.intel.com>
+ <YKTM1tQ7SMPnYgiV@kroah.com>
+ <20210519082123.GI4589@zhen-hp.sh.intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1621592844-6414-4-git-send-email-mkrishn@codeaurora.org>
+In-Reply-To: <20210519082123.GI4589@zhen-hp.sh.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,95 +47,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: sean@poorly.run, devicetree@vger.kernel.org, vinod.koul@linaro.org,
- linux-kernel@vger.kernel.org, kalyan_t@codeaurora.org, abhinavk@codeaurora.org,
- dianders@chromium.org, dri-devel@lists.freedesktop.org, swboyd@chromium.org,
- khsieh@codeaurora.org, robh+dt@kernel.org, tanmay@codeaurora.org,
- linux-arm-msm@vger.kernel.org, Vara Reddy <varar@codeaurora.org>,
- bjorn.andersson@linaro.org, freedreno@lists.freedesktop.org,
- Chandan Uddaraju <chandanu@codeaurora.org>
+Cc: David Airlie <airlied@linux.ie>, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ intel-gvt-dev@lists.freedesktop.org, Zhi Wang <zhi.a.wang@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 21 May 2021 15:57:24 +0530, Krishna Manikandan wrote:
-> Add bindings for Snapdragon DisplayPort controller driver.
+On Wed, May 19, 2021 at 04:21:23PM +0800, Zhenyu Wang wrote:
+> On 2021.05.19 10:31:18 +0200, Greg Kroah-Hartman wrote:
+> > On Wed, May 19, 2021 at 04:03:13PM +0800, Zhenyu Wang wrote:
+> > > On 2021.05.18 18:28:53 +0200, Greg Kroah-Hartman wrote:
+> > > > On Tue, May 18, 2021 at 06:17:05PM +0200, Greg Kroah-Hartman wrote:
+> > > > > There is no need to keep the dentry around for the debugfs kvmgt cache
+> > > > > file, as we can just look it up when we want to remove it later on.
+> > > > > Simplify the structure by removing the dentry and relying on debugfs
+> > > > > to find the dentry to remove when we want to.
+> > > > > 
+> > > > > By doing this change, we remove the last in-kernel user that was storing
+> > > > > the result of debugfs_create_long(), so that api can be cleaned up.
+> > > > > 
+> > > > > Cc: Zhenyu Wang <zhenyuw@linux.intel.com>
+> > > > > Cc: Zhi Wang <zhi.a.wang@intel.com>
+> > > > > Cc: Jani Nikula <jani.nikula@linux.intel.com>
+> > > > > Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+> > > > > Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
+> > > > > Cc: David Airlie <airlied@linux.ie>
+> > > > > Cc: Daniel Vetter <daniel@ffwll.ch>
+> > > > > Cc: intel-gvt-dev@lists.freedesktop.org
+> > > > > Cc: intel-gfx@lists.freedesktop.org
+> > > > > Cc: dri-devel@lists.freedesktop.org
+> > > > > Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> > > > > ---
+> > > > >  drivers/gpu/drm/i915/gvt/kvmgt.c | 11 +++++------
+> > > > >  1 file changed, 5 insertions(+), 6 deletions(-)
+> > > > 
+> > > > Note, I can take this through my debugfs tree if wanted, that way I can
+> > > > clean up the debugfs_create_long() api at the same time.  Otherwise it's
+> > > > fine, I can wait until next -rc1 for that to happen.
+> > > > 
+> > > 
+> > > It's fine with me to go through debugfs tree. Just double check that recent
+> > > kvmgt change would not cause conflict with this as well.
+> > 
+> > How can I check that?  I'll be glad to take this through my tree, we can
+> > handle the merge issues later for 5.14-rc1 :)
+> > 
 > 
-> Signed-off-by: Chandan Uddaraju <chandanu@codeaurora.org>
-> Signed-off-by: Vara Reddy <varar@codeaurora.org>
-> Signed-off-by: Tanmay Shah <tanmay@codeaurora.org>
-> Signed-off-by: Kuogee Hsieh <khsieh@codeaurora.org>
-> Signed-off-by: Krishna Manikandan <mkrishn@codeaurora.org>
-> 
-> Changes in V2:
-> -Provide details about sel-gpio
-> 
-> Changes in V4:
-> -Provide details about max dp lanes
-> -Change the commit text
-> 
-> Changes in V5:
-> -moved dp.txt to yaml file
-> 
-> Changes in v6:
-> - Squash all AUX LUT properties into one pattern Property
-> - Make aux-cfg[0-9]-settings properties optional
-> - Remove PLL/PHY bindings from DP controller dts
-> - Add DP clocks description
-> - Remove _clk suffix from clock names
-> - Rename pixel clock to stream_pixel
-> - Remove redundant bindings (GPIO, PHY, HDCP clock, etc..)
-> - Fix indentation
-> - Add Display Port as interface of DPU in DPU bindings
->   and add port mapping accordingly.
-> 
-> Chages in v7:
-> - Add dp-controller.yaml file common between multiple SOC
-> - Rename dp-sc7180.yaml to dp-controller-sc7180.yaml
-> - change compatible string and add SOC name to it.
-> - Remove Root clock generator for pixel clock
-> - Add assigned-clocks and assigned-clock-parents bindings
-> - Remove redundant properties, descriptions and blank lines
-> - Add DP port in DPU bindings
-> - Update depends-on tag in commit message and rebase change accordingly
-> 
-> Changes in v8:
-> - Add MDSS AHB clock in bindings
-> 
-> Changes in v9:
-> - Remove redundant reg-name property
-> - Change assigned-clocks and assigned-clocks-parents counts to 2
-> - Use IRQ flags in example dts
-> 
-> Changes in v10:
-> - Change title of this patch as it does not contain PLL bindings anymore
-> - Remove redundant properties
-> - Remove use of IRQ flag
-> - Fix ports property
-> 
-> Changes in v11:
-> - add ports required of both #address-cells and  #size-cells
-> - add required operating-points-v2
-> - add required #sound-dai-cells
-> - add required power-domains
-> - update maintainer list
-> 
-> Changes in v12:
-> - remove soc node from examples (Stephen Boyd)
-> - split dpu-sc7180.yaml changes to separate patch (Stephen Boyd)
-> 
-> Changes in v13:
-> - add assigned-clocks
-> - add assigned-clock-parents
-> 
-> Changes in v14:
-> - add reference for ports (Rob Herring)
-> 
-> Changes in v15:
-> - drop common properties from ports (Rob Herring)
-> ---
->  .../bindings/display/msm/dp-controller.yaml        | 146 +++++++++++++++++++++
->  1 file changed, 146 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/display/msm/dp-controller.yaml
-> 
+> Current kvmgt change in merge queue is just https://patchwork.freedesktop.org/patch/433536/?series=89995&rev=2
+> It applies fine with debugfs change.
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+Thanks, I'll go take this through my tree now.
+
+greg k-h
