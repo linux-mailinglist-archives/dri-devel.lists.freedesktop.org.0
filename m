@@ -1,36 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E04838C72C
-	for <lists+dri-devel@lfdr.de>; Fri, 21 May 2021 14:54:23 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C1DB38C6B9
+	for <lists+dri-devel@lfdr.de>; Fri, 21 May 2021 14:44:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D2AE86E4FE;
-	Fri, 21 May 2021 12:54:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F0D0B6E128;
+	Fri, 21 May 2021 12:44:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9C39E6E4FE
- for <dri-devel@lists.freedesktop.org>; Fri, 21 May 2021 12:54:17 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id E10FD60FEE;
- Fri, 21 May 2021 12:54:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1621601657;
- bh=BD4wTuQPIxItsa6Cujs6ISBIpsLi0+lXyF4Ny/3AnN0=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=h6mSH0CxaEQFEayJFhlghOdEOUn/drwHIUEZG/gmy7wtc08bf6cD/G1e8oGdhM3bQ
- BfruQqYo0eYcbeK0KroOJ/uSb3MX3X9I6uLtPrHv7PcbD6T3c5ux1RsOwlgOD7KKna
- C40sfd6rnnoORKhtPXGkfpoqYroMSI1wVIo6fDb4=
-Date: Fri, 21 May 2021 14:54:13 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Dan Carpenter <dan.carpenter@oracle.com>
-Subject: Re: [PATCH] hgafb: fix probe function
-Message-ID: <YKetdZTqjOUPQXS8@kroah.com>
-References: <YKIuWEcIJvTIuE2j@mwanda>
+Received: from szxga05-in.huawei.com (szxga05-in.huawei.com [45.249.212.191])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 314F56E128
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 May 2021 12:44:22 +0000 (UTC)
+Received: from dggems704-chm.china.huawei.com (unknown [172.30.72.60])
+ by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4FmmRg3dlpzQqgB;
+ Fri, 21 May 2021 20:40:47 +0800 (CST)
+Received: from dggemi762-chm.china.huawei.com (10.1.198.148) by
+ dggems704-chm.china.huawei.com (10.3.19.181) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
+ 15.1.2176.2; Fri, 21 May 2021 20:44:19 +0800
+Received: from linux-lmwb.huawei.com (10.175.103.112) by
+ dggemi762-chm.china.huawei.com (10.1.198.148) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
+ 15.1.2176.2; Fri, 21 May 2021 20:44:18 +0800
+From: Zou Wei <zou_wei@huawei.com>
+To: <a.hajda@samsung.com>, <narmstrong@baylibre.com>,
+ <robert.foss@linaro.org>, <Laurent.pinchart@ideasonboard.com>,
+ <jonas@kwiboo.se>, <jernej.skrabec@gmail.com>, <airlied@linux.ie>,
+ <daniel@ffwll.ch>, <emma@anholt.net>, <mripard@kernel.org>
+Subject: [PATCH -next] drm: Fix PM reference leak
+Date: Fri, 21 May 2021 21:03:06 +0800
+Message-ID: <1621602186-74786-1-git-send-email-zou_wei@huawei.com>
+X-Mailer: git-send-email 2.6.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YKIuWEcIJvTIuE2j@mwanda>
+Content-Type: text/plain
+X-Originating-IP: [10.175.103.112]
+X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
+ dggemi762-chm.china.huawei.com (10.1.198.148)
+X-CFilter-Loop: Reflected
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -43,46 +50,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, kernel-janitors@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Ferenc Bakonyi <fero@drama.obuda.kando.hu>,
- linux-nvidia@lists.surfsouth.com,
- Igor Matheus Andrade Torrente <igormtorrente@gmail.com>
+Cc: Zou Wei <zou_wei@huawei.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, May 17, 2021 at 11:50:32AM +0300, Dan Carpenter wrote:
-> There is a reversed if statement in this probe function so the driver is
-> completely broken.
-> 
-> Fixes: dc13cac4862c ("video: hgafb: fix potential NULL pointer dereference")
-> Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
-> ---
->  drivers/video/fbdev/hgafb.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/video/fbdev/hgafb.c b/drivers/video/fbdev/hgafb.c
-> index cc8e62ae93f6..bd3d07aa4f0e 100644
-> --- a/drivers/video/fbdev/hgafb.c
-> +++ b/drivers/video/fbdev/hgafb.c
-> @@ -558,7 +558,7 @@ static int hgafb_probe(struct platform_device *pdev)
->  	int ret;
->  
->  	ret = hga_card_detect();
-> -	if (!ret)
-> +	if (ret)
->  		return ret;
->  
->  	printk(KERN_INFO "hgafb: %s with %ldK of memory detected.\n",
-> -- 
-> 2.30.2
-> 
+pm_runtime_get_sync will increment pm usage counter even it failed.
+Forgetting to putting operation will result in reference leak here.
+Fix it by replacing it with pm_runtime_resume_and_get to keep usage
+counter balanced.
 
-Someone _just_ beat you to this:
-	https://lore.kernel.org/r/20210516192714.25823-1-mail@anirudhrb.com
+Reported-by: Hulk Robot <hulkci@huawei.com>
+Signed-off-by: Zou Wei <zou_wei@huawei.com>
+---
+ drivers/gpu/drm/bridge/cdns-dsi.c | 2 +-
+ drivers/gpu/drm/vc4/vc4_hdmi.c    | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-I'll add your s-o-b to that one as it's identical to yours.
-
-thanks,
-
-greg k-h
+diff --git a/drivers/gpu/drm/bridge/cdns-dsi.c b/drivers/gpu/drm/bridge/cdns-dsi.c
+index 76373e3..b31281f 100644
+--- a/drivers/gpu/drm/bridge/cdns-dsi.c
++++ b/drivers/gpu/drm/bridge/cdns-dsi.c
+@@ -1028,7 +1028,7 @@ static ssize_t cdns_dsi_transfer(struct mipi_dsi_host *host,
+ 	struct mipi_dsi_packet packet;
+ 	int ret, i, tx_len, rx_len;
+ 
+-	ret = pm_runtime_get_sync(host->dev);
++	ret = pm_runtime_resume_and_get(host->dev);
+ 	if (ret < 0)
+ 		return ret;
+ 
+diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
+index c27b287..f20a65b 100644
+--- a/drivers/gpu/drm/vc4/vc4_hdmi.c
++++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
+@@ -798,7 +798,7 @@ static void vc4_hdmi_encoder_pre_crtc_configure(struct drm_encoder *encoder,
+ 	unsigned long pixel_rate, hsm_rate;
+ 	int ret;
+ 
+-	ret = pm_runtime_get_sync(&vc4_hdmi->pdev->dev);
++	ret = pm_runtime_resume_and_get(&vc4_hdmi->pdev->dev);
+ 	if (ret < 0) {
+ 		DRM_ERROR("Failed to retain power domain: %d\n", ret);
+ 		return;
+-- 
+2.6.2
 
