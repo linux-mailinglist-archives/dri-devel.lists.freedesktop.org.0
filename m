@@ -2,47 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B47EC38C7AD
-	for <lists+dri-devel@lfdr.de>; Fri, 21 May 2021 15:19:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7426C38C7B2
+	for <lists+dri-devel@lfdr.de>; Fri, 21 May 2021 15:19:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EE0076F649;
-	Fri, 21 May 2021 13:18:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 806206F630;
+	Fri, 21 May 2021 13:19:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 53D8D6F64C;
- Fri, 21 May 2021 13:18:58 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 230B5613EC;
- Fri, 21 May 2021 13:18:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1621603138;
- bh=kML0VNwTPmuZzhjwUe6WlLUM6s2hR7O8GQYI8nIVEx4=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=bxlk4rI+nT2n2MilrkZEOxmGPpUtz5EM4hIvKviME1p5OqepyQ5kkp+CvAwVT5cAj
- Ku9puQxIF9brbZ5vJTXmOPmc3eAwU0Um6HuXrJQIMfWiSc0ENOiFOrE3eTi/hekg+7
- byFXoB0KFQyw6TBddhpvCkFbpkZKU5CDjw4wQqVDDNMZI0IgQa1p7I/zwm4I1+QOYm
- fq6i3qeZ4iMVGg+ZO1rpctE0+23FuTODinw/xTnV6LYtInrTs+HAGt5/zcrKdOQR/D
- CqrWl9I1AKZ8JmjwzmXemkdMkVGfzT6ZWZUK1eqlmPNS7llAIuoX3WxG3KGaEhANj6
- 9UtXFKw7LR4Uw==
-Received: by mail-ed1-f52.google.com with SMTP id g7so11127205edm.4;
- Fri, 21 May 2021 06:18:58 -0700 (PDT)
-X-Gm-Message-State: AOAM531r7huZ2EhPPQ8jRV5eOSO86N/7pe5nkDqbMBSQpTuo0n6+9tGt
- Ok0t5jltZGu9Tmy5fSwhjNvzKk8AQ8YFF1HZ2g==
-X-Google-Smtp-Source: ABdhPJwmzwbCzIeEFfbyH8umGA8C0KXX6vUz4OS2ROZ9YiW5j/tCvUb0NLoSYwTa9fxOPM6+xMux6sI6PbKiUDMEH5I=
-X-Received: by 2002:a50:c446:: with SMTP id w6mr11114280edf.62.1621603136815; 
- Fri, 21 May 2021 06:18:56 -0700 (PDT)
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3A37B6F630
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 May 2021 13:19:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1621603165;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=svG8Sugh9t0pcYUu5BPc0joM8XrQP4InyHchcRw1OeQ=;
+ b=AlgA7AkTyXDaaO2y9WhzwNEH5PzUr9rTYEmc1BhqaVVRAgKOc6ZQjDOiLcspQ/RuBjPsE9
+ 0PSTFwRYkSB8sOLCayFUnmJETfUB26hjBqNnbXqpsE8Mj6L6ueaNQwjbJs0kPGOiyWKpK0
+ 1JYtzQOTL8xdzsU4HPDhPe0xcaeKRdY=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-524-TS4cc-vxOVqfsuP_jgz8sQ-1; Fri, 21 May 2021 09:19:22 -0400
+X-MC-Unique: TS4cc-vxOVqfsuP_jgz8sQ-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ 129-20020a1c02870000b0290176ef5297e3so4104639wmc.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 May 2021 06:19:21 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=svG8Sugh9t0pcYUu5BPc0joM8XrQP4InyHchcRw1OeQ=;
+ b=Fc/yguE1AxmJDX7bX0L6/u7oAifdB0pwLHhNS65iGAnTIo+yNXlebsjpl7/BuHgenW
+ otBAX3Dusyc4rV6jy92PM/oa6aM5yZ77Bub5gVmEq0t4unkB+b4g6DEzx0wlKYdfu0dH
+ kbzI86GZTEYZRUwX4qkmzP0ZMkEHZlTxxHeDxpnpwhoLmzgddhfmaF/Z4fK6a9HBMaSd
+ R7gLjpyKv7Ledykm4A5wFZOnAY5VasHp16+FNaIh6UhFK5vqAV9+9VjYpxnnuDM18gGh
+ C4qKdByyBI3P56Vz4XkTepz/2YFRjBo8esmoCcdVUPCn+OspEml03d0COPTRJYWSyvM1
+ ODeA==
+X-Gm-Message-State: AOAM5307x2RkICMTw/n7jtI5VER9IjzVahN0LbsKvXsabr5kOmupSjIl
+ HAcGYi9GImpXccYYp03mxYm46GJLa1N/xz50lY1qts3k2J9NurmeS5bOh/2khPPSxfZocsDa3Mo
+ x2Jt3LHvPB53FuLNKfRrWNr1QdAH3
+X-Received: by 2002:adf:e3c8:: with SMTP id k8mr9574417wrm.212.1621603160937; 
+ Fri, 21 May 2021 06:19:20 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyc305xT6zlfb+PcPn86ttBaAzcRsi0z+v9X45OCoUZSf6XL8B6HYzxPfoRb3ZCCBvtptJDMQ==
+X-Received: by 2002:adf:e3c8:: with SMTP id k8mr9574388wrm.212.1621603160720; 
+ Fri, 21 May 2021 06:19:20 -0700 (PDT)
+Received: from minerva.redhat.com ([92.176.231.106])
+ by smtp.gmail.com with ESMTPSA id z12sm7489525wmc.5.2021.05.21.06.19.19
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 21 May 2021 06:19:20 -0700 (PDT)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: linux-kernel@vger.kernel.org
+Subject: [PATCH] drm/fb-helper: improve DRM fbdev emulation device names
+Date: Fri, 21 May 2021 15:19:10 +0200
+Message-Id: <20210521131910.3000689-1-javierm@redhat.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-References: <20210521124946.3617862-1-vkoul@kernel.org>
- <20210521124946.3617862-3-vkoul@kernel.org>
-In-Reply-To: <20210521124946.3617862-3-vkoul@kernel.org>
-From: Rob Herring <robh+dt@kernel.org>
-Date: Fri, 21 May 2021 08:18:44 -0500
-X-Gmail-Original-Message-ID: <CAL_JsqJqPwkzxVgAfS9VgEXcY=ZH5LOaaxzoPDBzuDxOZ_OLjw@mail.gmail.com>
-Message-ID: <CAL_JsqJqPwkzxVgAfS9VgEXcY=ZH5LOaaxzoPDBzuDxOZ_OLjw@mail.gmail.com>
-Subject: Re: [RFC PATCH 02/13] dt-bindings: msm/dsi: Document Display Stream
- Compression (DSC) parameters
-To: Vinod Koul <vkoul@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,30 +77,50 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Jonathan Marek <jonathan@marek.ca>,
- David Airlie <airlied@linux.ie>, linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- Abhinav Kumar <abhinavk@codeaurora.org>,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- freedreno <freedreno@lists.freedesktop.org>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
+ dri-devel@lists.freedesktop.org, Javier Martinez Canillas <javierm@redhat.com>,
+ Peter Robinson <pbrobinson@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, May 21, 2021 at 7:50 AM Vinod Koul <vkoul@kernel.org> wrote:
->
-> DSC enables streams to be compressed before we send to panel. This
-> requires DSC enabled encoder and a panel to be present. So we add this
-> information in board DTS and find if DSC can be enabled and the
-> parameters required to configure DSC are added to binding document along
-> with example
->
-> Signed-off-by: Vinod Koul <vkoul@kernel.org>
-> ---
->  .../devicetree/bindings/display/msm/dsi.txt       | 15 +++++++++++++++
->  1 file changed, 15 insertions(+)
+Framebuffer devices that are registered by DRM drivers for fbdev emulation
+have a "drmfb" suffix in their name. But makes them to be quite confusing
+if a driver already has "drm" in its name:
 
-This is getting converted to schema. Hopefully, v17 will be it. Sigh.
+$ cat /proc/fb
+0 rockchipdrmdrmfb
 
-Rob
+$ cat /proc/fb
+0 simpledrmdrmfb
+
+Instead, let's just add a "-fb" suffix to denote that are DRM drivers FB:
+
+$ cat /proc/fb
+0 rockchipdrm-fb
+
+$ cat /proc/fb
+0 simpledrm-fb
+
+Suggested-by: Peter Robinson <pbrobinson@gmail.com>
+Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
+---
+
+ drivers/gpu/drm/drm_fb_helper.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb_helper.c
+index f6baa204612..bbaff92c509 100644
+--- a/drivers/gpu/drm/drm_fb_helper.c
++++ b/drivers/gpu/drm/drm_fb_helper.c
+@@ -1737,7 +1737,7 @@ void drm_fb_helper_fill_info(struct fb_info *info,
+ 			       sizes->fb_width, sizes->fb_height);
+ 
+ 	info->par = fb_helper;
+-	snprintf(info->fix.id, sizeof(info->fix.id), "%sdrmfb",
++	snprintf(info->fix.id, sizeof(info->fix.id), "%s-fb",
+ 		 fb_helper->dev->driver->name);
+ 
+ }
+-- 
+2.31.1
+
