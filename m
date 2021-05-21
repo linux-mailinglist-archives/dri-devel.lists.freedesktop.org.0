@@ -1,51 +1,29 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80D5138C64D
-	for <lists+dri-devel@lfdr.de>; Fri, 21 May 2021 14:12:31 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C126B38C666
+	for <lists+dri-devel@lfdr.de>; Fri, 21 May 2021 14:22:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 743446F627;
-	Fri, 21 May 2021 12:12:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EA22F6E12E;
+	Fri, 21 May 2021 12:22:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1D9786E49B;
- Fri, 21 May 2021 12:12:22 +0000 (UTC)
-IronPort-SDR: Kl/SsONWH6bbpqNhF1VO3lIYifOnAPzSLuVgvmNh8HjlH5LcHdPxPrcycj9+rLqK5FsNdnlW+v
- d+RzB28BGP8Q==
-X-IronPort-AV: E=McAfee;i="6200,9189,9990"; a="201178680"
-X-IronPort-AV: E=Sophos;i="5.82,319,1613462400"; d="scan'208";a="201178680"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 May 2021 05:12:22 -0700
-IronPort-SDR: 0/WfqvyZU0noGThTgYE2xJVLRGFsH0VTdAXPgBhRhCSHTNowVSf9wr6VqRkcqslSj8euQNMLfh
- ehH67gqHWPMA==
-X-IronPort-AV: E=Sophos;i="5.82,319,1613462400"; d="scan'208";a="474499554"
-Received: from damienpo-mobl.ger.corp.intel.com (HELO [10.213.241.253])
- ([10.213.241.253])
- by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 May 2021 05:12:20 -0700
-Subject: Re: [Intel-gfx] [RFC 2/2] drm/doc/rfc: i915 new parallel submission
- uAPI plan
-To: Daniel Vetter <daniel@ffwll.ch>
-References: <20210518235830.133834-1-matthew.brost@intel.com>
- <20210518235830.133834-3-matthew.brost@intel.com>
- <YKTyDNyVgmR3z1H5@phenom.ffwll.local> <20210519171157.GA5202@sdutt-i7>
- <CAKMK7uG1qCcpwBFaUf06daY6gnxmNbNcZbBX+Yxb64qZkBMF8g@mail.gmail.com>
- <b7542e1c-6631-d486-ae16-6aef3213d7bc@linux.intel.com>
- <YKa7YEs56ZMoOTGf@phenom.ffwll.local>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-Message-ID: <b6b824b8-3577-387e-afc7-156370a4b5a1@linux.intel.com>
-Date: Fri, 21 May 2021 13:12:18 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+Received: from aposti.net (aposti.net [89.234.176.197])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 186846E12E
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 May 2021 12:22:33 +0000 (UTC)
+Date: Fri, 21 May 2021 13:22:11 +0100
+From: Paul Cercueil <paul@crapouillou.net>
+Subject: Re: [PATCH 06/11] drm/<driver>: drm_gem_plane_helper_prepare_fb is
+ now the default
+To: Daniel Vetter <daniel.vetter@ffwll.ch>
+Message-Id: <ZCIGTQ.7N0RYBI1A3DH1@crapouillou.net>
+In-Reply-To: <20210521090959.1663703-6-daniel.vetter@ffwll.ch>
+References: <20210521090959.1663703-1-daniel.vetter@ffwll.ch>
+ <20210521090959.1663703-6-daniel.vetter@ffwll.ch>
 MIME-Version: 1.0
-In-Reply-To: <YKa7YEs56ZMoOTGf@phenom.ffwll.local>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1; format=flowed
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,301 +36,310 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Matthew Brost <matthew.brost@intel.com>,
- intel-gfx <intel-gfx@lists.freedesktop.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Jason Ekstrand <jason.ekstrand@intel.com>,
+Cc: Neil Armstrong <narmstrong@baylibre.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>, linux-mips@vger.kernel.org,
+ Benjamin Gaignard <benjamin.gaignard@linaro.org>,
  Daniel Vetter <daniel.vetter@intel.com>,
- Mesa Dev <mesa-dev@lists.freedesktop.org>, karl@freedesktop.org,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+ linux-stm32@st-md-mailman.stormreply.com, Jerome Brunet <jbrunet@baylibre.com>,
+ Marek Vasut <marex@denx.de>, Kevin Hilman <khilman@baylibre.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, linux-rockchip@lists.infradead.org,
+ Chen-Yu Tsai <wens@csie.org>, NXP Linux Team <linux-imx@nxp.com>,
+ Sascha Hauer <s.hauer@pengutronix.de>, Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ linux-mediatek@lists.infradead.org,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>, linux-amlogic@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>, Tomi Valkeinen <tomba@kernel.org>,
+ Jyri Sarha <jyri.sarha@iki.fi>, Yannick Fertre <yannick.fertre@foss.st.com>,
+ Sandy Huang <hjc@rock-chips.com>, linux-sunxi@lists.linux.dev,
+ Philippe Cornu <philippe.cornu@foss.st.com>, Shawn Guo <shawnguo@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Daniel,
 
-On 20/05/2021 20:41, Daniel Vetter wrote:
-> On Thu, May 20, 2021 at 11:57:44AM +0100, Tvrtko Ursulin wrote:
->>
->> On 20/05/2021 10:54, Daniel Vetter wrote:
->>> On Wed, May 19, 2021 at 7:19 PM Matthew Brost <matthew.brost@intel.com> wrote:
->>>>
->>>> On Wed, May 19, 2021 at 01:10:04PM +0200, Daniel Vetter wrote:
->>>>> On Tue, May 18, 2021 at 04:58:30PM -0700, Matthew Brost wrote:
->>>>>> Add entry fpr i915 new parallel submission uAPI plan.
->>>>>>
->>>>>> v2:
->>>>>>    (Daniel Vetter):
->>>>>>     - Expand logical order explaination
->>>>>>     - Add dummy header
->>>>>>     - Only allow N BBs in execbuf IOCTL
->>>>>>     - Configure parallel submission per slot not per gem context
->>>>>>
->>>>>> Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
->>>>>> Cc: Tony Ye <tony.ye@intel.com>
->>>>>> CC: Carl Zhang <carl.zhang@intel.com>
->>>>>> Cc: Daniel Vetter <daniel.vetter@intel.com>
->>>>>> Cc: Jason Ekstrand <jason@jlekstrand.net>
->>>>>> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
->>>>>> ---
->>>>>>    Documentation/gpu/rfc/i915_parallel_execbuf.h | 144 ++++++++++++++++++
->>>>>>    Documentation/gpu/rfc/i915_scheduler.rst      |  53 ++++++-
->>>>>>    2 files changed, 196 insertions(+), 1 deletion(-)
->>>>>>    create mode 100644 Documentation/gpu/rfc/i915_parallel_execbuf.h
->>>>>>
->>>>>> diff --git a/Documentation/gpu/rfc/i915_parallel_execbuf.h b/Documentation/gpu/rfc/i915_parallel_execbuf.h
->>>>>> new file mode 100644
->>>>>> index 000000000000..8c64b983ccad
->>>>>> --- /dev/null
->>>>>> +++ b/Documentation/gpu/rfc/i915_parallel_execbuf.h
->>>>>> @@ -0,0 +1,144 @@
->>>>>> +#define I915_CONTEXT_ENGINES_EXT_PARALLEL_SUBMIT 2 /* see i915_context_engines_parallel_submit */
->>>>>> +
->>>>>> +/*
->>>>>> + * i915_context_engines_parallel_submit:
->>>>>> + *
->>>>>> + * Setup a slot to allow multiple BBs to be submitted in a single execbuf IOCTL.
->>>>>> + * Those BBs will then be scheduled to run on the GPU in parallel. Multiple
->>>>>> + * hardware contexts are created internally in the i915 run these BBs. Once a
->>>>>> + * slot is configured for N BBs only N BBs can be submitted in each execbuf
->>>>>> + * IOCTL and this is implict behavior (e.g. the user doesn't tell the execbuf
->>>>>> + * IOCTL there are N BBs, the execbuf IOCTL know how many BBs there are based on
->>>>>> + * the slots configuration).
->>>>>> + *
->>>>>> + * Their are two currently defined ways to control the placement of the
->>>>>> + * hardware contexts on physical engines: default behavior (no flags) and
->>>>>> + * I915_PARALLEL_IMPLICT_BONDS (a flag). More flags may be added the in the
->>>>>> + * future as new hardware / use cases arise. Details of how to use this
->>>>>> + * interface below above the flags.
->>>>>> + *
->>>>>> + * Returns -EINVAL if hardware context placement configuration invalid or if the
->>>>>> + * placement configuration isn't supported on the platform / submission
->>>>>> + * interface.
->>>>>> + * Returns -ENODEV if extension isn't supported on the platform / submission
->>>>>> + * inteface.
->>>>>> + */
->>>>>> +struct i915_context_engines_parallel_submit {
->>>>>> +   struct i915_user_extension base;
->>>>>> +
->>>>>> +   __u16 engine_index;     /* slot for parallel engine */
->>>>>> +   __u16 width;            /* number of contexts per parallel engine */
->>>>>> +   __u16 num_siblings;     /* number of siblings per context */
->>>>>> +   __u16 mbz16;
->>>>>
->>>>> Ok the big picture looks reasonable now, the flags still confuse me.
->>>>>
->>>>
->>>> Yea, it is a bit confusing.
->>>>
->>>>>> +/*
->>>>>> + * Default placement behvavior (currently unsupported):
->>>>>> + *
->>>>>> + * Rather than restricting parallel submission to a single class with a
->>>>>> + * logically contiguous placement (I915_PARALLEL_IMPLICT_BONDS), add a mode that
->>>>>> + * enables parallel submission across multiple engine classes. In this case each
->>>>>> + * context's logical engine mask indicates where that context can placed. It is
->>>>>> + * implied in this mode that all contexts have mutual exclusive placement (e.g.
->>>>>> + * if one context is running CS0 no other contexts can run on CS0).
->>>>>> + *
->>>>>> + * Example 1 pseudo code:
->>>>>> + * CSX[Y] = engine class X, logical instance Y
->>>>>> + * INVALID = I915_ENGINE_CLASS_INVALID, I915_ENGINE_CLASS_INVALID_NONE
->>>>>> + * set_engines(INVALID)
->>>>>> + * set_parallel(engine_index=0, width=2, num_siblings=2,
->>>>>> + *         engines=CS0[0],CS0[1],CS1[0],CS1[1])
->>>>>> + *
->>>>>> + * Results in the following valid placements:
->>>>>> + * CS0[0], CS1[0]
->>>>>> + * CS0[0], CS1[1]
->>>>>> + * CS0[1], CS1[0]
->>>>>> + * CS0[1], CS1[1]
->>>>>> + *
->>>>>> + * This can also be though of as 2 virtual engines:
->>>>>> + * VE[0] = CS0[0], CS0[1]
->>>>>> + * VE[1] = CS1[0], CS1[1]
->>>>>> + *
->>>>>> + * Example 2 pseudo code:
->>>>>> + * CS[X] = generic engine of same class, logical instance X
->>>>>> + * INVALID = I915_ENGINE_CLASS_INVALID, I915_ENGINE_CLASS_INVALID_NONE
->>>>>> + * set_engines(INVALID)
->>>>>> + * set_parallel(engine_index=0, width=2, num_siblings=3,
->>>>>> + *         engines=CS[0],CS[1],CS[2],CS[0],CS[1],CS[2])
->>>>>> + *
->>>>>> + * Results in the following valid placements:
->>>>>> + * CS[0], CS[1]
->>>>>> + * CS[0], CS[2]
->>>>>> + * CS[1], CS[0]
->>>>>> + * CS[1], CS[2]
->>>>>> + * CS[2], CS[0]
->>>>>> + * CS[2], CS[1]
->>>>>> + *
->>>>>> + *
->>>>>> + * This can also be though of as 2 virtual engines:
->>>>>> + * VE[0] = CS[0], CS[1], CS[2]
->>>>>> + * VE[1] = CS[0], CS[1], CS[2]
->>>>>> +
->>>>>> + * This enables a use case where all engines are created equally, we don't care
->>>>>> + * where they are scheduled, we just want a certain number of resources, for
->>>>>> + * those resources to be scheduled in parallel, and possibly across multiple
->>>>>> + * engine classes.
->>>>>> + */
->>>>>
->>>>> So I don't really get what this does compared to setting the flag below.
->>>>> Is this just about running the batchbuffers the wrong way round, i.e. if
->>>>> you have (simplest case)
->>>>>
->>>>> width=2, num_sibglings=1, engines=CS[0], CS[1]
->>>>>
->>>>> Then both
->>>>> CS[0], CS[1]
->>>>> and
->>>>> CS[1], CS[0]
->>>>> are possible options for running 2 batches? Iow, the backend is allowed to
->>>>> run the batchbuffers the wrong way round, which gains us nothing, since we
->>>>> assume the batches take equally long and engines interchangeable. There is
->>>>> no scheduling scenario where this additional flexibility can help.
->>>>>
->>>>> Also we don't have flags to select the only available and then specify an
->>>>> entire pipe dream about what the non-flag mode does, without an
->>>>> implementation. What is this about?
->>>>>
->>>>> If it's just "because bonded allowed this" then I think we should just
->>>>> unceremonously ditch this. Bummer for the nice kerenldoc you wrote, but
->>>>> welp.
->>>>>
->>>>
->>>> High level the flags came out of internal discussions how this interface
->>>> should look. The default placement behavior is theoretically possible
->>>> with execlists but has no use cases. The GuC supports / current use
->>>> cases are a subset of what is possible with I915_PARALLEL_IMPLICT_BONDS.
->>>>
->>>> Argued about for months and this is where we landed. At the end of the
->>>> day I think we needed to show that this interface supports more
->>>> placement rules than what the GuC supports / current use cases to future
->>>> proof this interface.
->>>>
->>>> For what is it worth it seems kinda backwards that we landed on the
->>>> default behavior not being supported in our current stack / HW.
->>>
->>> Yeah I think that should be inverted, doesn't make sense.
->>>
->>> What I still don't get (and I've read Tvrtko's reply with the example)
->>> is what exactly is the difference between implicit and not implicit
->>> mode? Can you do a single example where the only difference is whether
->>> this flag is set, and then explain with that what are the actual
->>> differences in scheduling options that the backend is allowed to pick
->>> for the set of N patches?
->>>
->>> I'm feeling a bit dense, but I'm really not seeing what's even going on here :-(
->>
->> 2-wide compute context:
->>
->>   .engine_map([-1, -1])
->>   .load_balance(0: [cs0, cs1, cs2, cs3]) // place virtual engine at slot 0
->>   .load_balance(1: [cs0, cs1, cs2, cs3])
->>   .set_parallel()
->>
->> This tells the scheduler any two of the four possible engines can be used. cs0 + cs3 is fine, cs3 + cs1 also, ... any. Only implicit rule is they have to be different and that works for all.
->>
->> 2-wide "implicit bonds mode" aka media fixed function limitation:
->>
->>   .engine_map([-1, -1])
->>   .load_balance(0: [cs0, cs2])
->>   .load_balance(1: [cs1, cs3])
->>   .set_parallel(flags = implicit_bond)
->>
->> Think of implicit flag creating a "link" between vertical columns in each virtual engine slot. So valid pairs end up cs0 + cs1 and cs2 + cs3 only.
->>
->> You can also think of the implicit flag as a shortcut to avoid specifying bonds via the existing extension. In which case context setup would be written along the lines of:
->>
->>   .engine_map([-1, -1])
->>   .load_balance(0: [cs0, cs2])
->>   .load_balance(1: [cs1, cs3])
->>   .bond(1: master = cs0, bond = [cs1])
->>   .bond(1: master = cs2, bond = [cs3])
->>   .set_parallel()
->>
->> So the implicit flag is just a shortcut to avoid typing the bonds. Not really needed as explained in my previous reply.
-> 
-> Ah now I get both what this means, why it exists and where it's all come
-> from. With the backstory makes a bunch more sense now. Thanks for
-> explaining again.
-> 
->> This was at least the "old" set_parallel. I see this latest RFC changed
->> things a bit which I don't really follow yet.
->>
->> It's not perfect but needs to add very little (just one context
->> extension, on top of multi batch execbuf which is needed anyways),
->> doesn't need to deprecate anything, didn't require rewrites of the UMD,
->> and it all works today and in the future.
->>
->> I did not really like this new uapi for all the reasons I listed
->> already, but as not many people were seeing the advantage of not
->> churning on the uapi, if we are churning already I did suggests a
->> different idea. I mean if we are churning we might as well go full in.
->> So that proposal, which didn't get any traction, was along the lines of:
->>
->>   .engine_map([-1])
->>   .load_balance_wide(0: width=2, engines=[[cs0, cs2], [cs1, cs3]])
->>
->> This would create an explicit wide virtual engine which should work for
->> GuC fine I think. For execlists it may require a bit of extra glue but I
->> don't think too much.
->>
->> Advantage is there is one engine in the map now and it is N-wide by
->> definition.
->>
->> Since no one did bite on that idea back then, I didn't really pursue is
->> to see if it works for all use cases. But I think it should even if it
->> probably requires further thinking to be sure.
->>
->> If we apply it to compute use case..
->>
->>   .engine_map([-1])
->>   .load_balance_wide(0: width=2, engines=[[cs0, cs1, cs2, cs3], [cs0, cs1, cs2, cs3]])
->>
->> This means the only implicit wart in there is that cs0 + cs0 obviously
->> shouldn't be picked. But that should be fine both for execlists and
->> hopefully for the GuC.
-> 
-> Yeah. Another option would be to simply allow any valid pair to be listed.
-> Gets maybe a bit too long for full combinatorials. Or we do an N-out-of-M
-> load balance, and you just specifiy the one vector for the engine set that
-> gets fully combined.
+Le ven., mai 21 2021 at 11:09:54 +0200, Daniel Vetter=20
+<daniel.vetter@ffwll.ch> a =E9crit :
+> No need to set it explicitly.
+>=20
+> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+> Cc: Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>
+> Cc: Lucas Stach <l.stach@pengutronix.de>
+> Cc: Shawn Guo <shawnguo@kernel.org>
+> Cc: Sascha Hauer <s.hauer@pengutronix.de>
+> Cc: Pengutronix Kernel Team <kernel@pengutronix.de>
+> Cc: Fabio Estevam <festevam@gmail.com>
+> Cc: NXP Linux Team <linux-imx@nxp.com>
+> Cc: Philipp Zabel <p.zabel@pengutronix.de>
+> Cc: Paul Cercueil <paul@crapouillou.net>
+> Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+> Cc: Matthias Brugger <matthias.bgg@gmail.com>
+> Cc: Neil Armstrong <narmstrong@baylibre.com>
+> Cc: Kevin Hilman <khilman@baylibre.com>
+> Cc: Jerome Brunet <jbrunet@baylibre.com>
+> Cc: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
+> Cc: Marek Vasut <marex@denx.de>
+> Cc: Stefan Agner <stefan@agner.ch>
+> Cc: Sandy Huang <hjc@rock-chips.com>
+> Cc: "Heiko St=FCbner" <heiko@sntech.de>
+> Cc: Yannick Fertre <yannick.fertre@foss.st.com>
+> Cc: Philippe Cornu <philippe.cornu@foss.st.com>
+> Cc: Benjamin Gaignard <benjamin.gaignard@linaro.org>
+> Cc: Maxime Coquelin <mcoquelin.stm32@gmail.com>
+> Cc: Alexandre Torgue <alexandre.torgue@foss.st.com>
+> Cc: Maxime Ripard <mripard@kernel.org>
+> Cc: Chen-Yu Tsai <wens@csie.org>
+> Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
+> Cc: Jyri Sarha <jyri.sarha@iki.fi>
+> Cc: Tomi Valkeinen <tomba@kernel.org>
+> Cc: linux-arm-kernel@lists.infradead.org
+> Cc: linux-mips@vger.kernel.org
+> Cc: linux-mediatek@lists.infradead.org
+> Cc: linux-amlogic@lists.infradead.org
+> Cc: linux-rockchip@lists.infradead.org
+> Cc: linux-stm32@st-md-mailman.stormreply.com
+> Cc: linux-sunxi@lists.linux.dev
+> ---
+>  drivers/gpu/drm/imx/dcss/dcss-plane.c       | 1 -
+>  drivers/gpu/drm/imx/ipuv3-plane.c           | 1 -
+>  drivers/gpu/drm/ingenic/ingenic-drm-drv.c   | 1 -
+>  drivers/gpu/drm/ingenic/ingenic-ipu.c       | 1 -
 
-Well main complaint against bonds were that they are too verbose. 
-Listing all combinations is pretty much the same so...
+For drivers/gpu/drm/ingenic/*:
+Acked-by: Paul Cercueil <paul@crapouillou.net>
 
-> Either way I think simple to add if/when compute comes around and asks for
-> it.
+Cheers,
+-Paul
 
-Add what sorry lost you?
+>  drivers/gpu/drm/mediatek/mtk_drm_plane.c    | 1 -
+>  drivers/gpu/drm/meson/meson_overlay.c       | 1 -
+>  drivers/gpu/drm/meson/meson_plane.c         | 1 -
+>  drivers/gpu/drm/mxsfb/mxsfb_kms.c           | 2 --
+>  drivers/gpu/drm/rockchip/rockchip_drm_vop.c | 1 -
+>  drivers/gpu/drm/stm/ltdc.c                  | 1 -
+>  drivers/gpu/drm/sun4i/sun4i_layer.c         | 1 -
+>  drivers/gpu/drm/sun4i/sun8i_ui_layer.c      | 1 -
+>  drivers/gpu/drm/sun4i/sun8i_vi_layer.c      | 1 -
+>  drivers/gpu/drm/tidss/tidss_plane.c         | 1 -
+>  14 files changed, 15 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/imx/dcss/dcss-plane.c=20
+> b/drivers/gpu/drm/imx/dcss/dcss-plane.c
+> index 044d3bdf313c..ac45d54acd4e 100644
+> --- a/drivers/gpu/drm/imx/dcss/dcss-plane.c
+> +++ b/drivers/gpu/drm/imx/dcss/dcss-plane.c
+> @@ -361,7 +361,6 @@ static void dcss_plane_atomic_disable(struct=20
+> drm_plane *plane,
+>  }
+>=20
+>  static const struct drm_plane_helper_funcs dcss_plane_helper_funcs =3D=20
+> {
+> -	.prepare_fb =3D drm_gem_plane_helper_prepare_fb,
+>  	.atomic_check =3D dcss_plane_atomic_check,
+>  	.atomic_update =3D dcss_plane_atomic_update,
+>  	.atomic_disable =3D dcss_plane_atomic_disable,
+> diff --git a/drivers/gpu/drm/imx/ipuv3-plane.c=20
+> b/drivers/gpu/drm/imx/ipuv3-plane.c
+> index 8710f55d2579..ef114b6aa691 100644
+> --- a/drivers/gpu/drm/imx/ipuv3-plane.c
+> +++ b/drivers/gpu/drm/imx/ipuv3-plane.c
+> @@ -772,7 +772,6 @@ static void ipu_plane_atomic_update(struct=20
+> drm_plane *plane,
+>  }
+>=20
+>  static const struct drm_plane_helper_funcs ipu_plane_helper_funcs =3D {
+> -	.prepare_fb =3D drm_gem_plane_helper_prepare_fb,
+>  	.atomic_check =3D ipu_plane_atomic_check,
+>  	.atomic_disable =3D ipu_plane_atomic_disable,
+>  	.atomic_update =3D ipu_plane_atomic_update,
+> diff --git a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c=20
+> b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
+> index 389cad59e090..62db7349bf6a 100644
+> --- a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
+> +++ b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
+> @@ -786,7 +786,6 @@ static const struct drm_plane_helper_funcs=20
+> ingenic_drm_plane_helper_funcs =3D {
+>  	.atomic_update		=3D ingenic_drm_plane_atomic_update,
+>  	.atomic_check		=3D ingenic_drm_plane_atomic_check,
+>  	.atomic_disable		=3D ingenic_drm_plane_atomic_disable,
+> -	.prepare_fb		=3D drm_gem_plane_helper_prepare_fb,
+>  };
+>=20
+>  static const struct drm_crtc_helper_funcs=20
+> ingenic_drm_crtc_helper_funcs =3D {
+> diff --git a/drivers/gpu/drm/ingenic/ingenic-ipu.c=20
+> b/drivers/gpu/drm/ingenic/ingenic-ipu.c
+> index 3b1091e7c0cd..caf038f3e231 100644
+> --- a/drivers/gpu/drm/ingenic/ingenic-ipu.c
+> +++ b/drivers/gpu/drm/ingenic/ingenic-ipu.c
+> @@ -615,7 +615,6 @@ static const struct drm_plane_helper_funcs=20
+> ingenic_ipu_plane_helper_funcs =3D {
+>  	.atomic_update		=3D ingenic_ipu_plane_atomic_update,
+>  	.atomic_check		=3D ingenic_ipu_plane_atomic_check,
+>  	.atomic_disable		=3D ingenic_ipu_plane_atomic_disable,
+> -	.prepare_fb		=3D drm_gem_plane_helper_prepare_fb,
+>  };
+>=20
+>  static int
+> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_plane.c=20
+> b/drivers/gpu/drm/mediatek/mtk_drm_plane.c
+> index b5582dcf564c..1667a7e7de38 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_drm_plane.c
+> +++ b/drivers/gpu/drm/mediatek/mtk_drm_plane.c
+> @@ -227,7 +227,6 @@ static void mtk_plane_atomic_update(struct=20
+> drm_plane *plane,
+>  }
+>=20
+>  static const struct drm_plane_helper_funcs mtk_plane_helper_funcs =3D {
+> -	.prepare_fb =3D drm_gem_plane_helper_prepare_fb,
+>  	.atomic_check =3D mtk_plane_atomic_check,
+>  	.atomic_update =3D mtk_plane_atomic_update,
+>  	.atomic_disable =3D mtk_plane_atomic_disable,
+> diff --git a/drivers/gpu/drm/meson/meson_overlay.c=20
+> b/drivers/gpu/drm/meson/meson_overlay.c
+> index ed063152aecd..dfef8afcc245 100644
+> --- a/drivers/gpu/drm/meson/meson_overlay.c
+> +++ b/drivers/gpu/drm/meson/meson_overlay.c
+> @@ -747,7 +747,6 @@ static const struct drm_plane_helper_funcs=20
+> meson_overlay_helper_funcs =3D {
+>  	.atomic_check	=3D meson_overlay_atomic_check,
+>  	.atomic_disable	=3D meson_overlay_atomic_disable,
+>  	.atomic_update	=3D meson_overlay_atomic_update,
+> -	.prepare_fb	=3D drm_gem_plane_helper_prepare_fb,
+>  };
+>=20
+>  static bool meson_overlay_format_mod_supported(struct drm_plane=20
+> *plane,
+> diff --git a/drivers/gpu/drm/meson/meson_plane.c=20
+> b/drivers/gpu/drm/meson/meson_plane.c
+> index a18510dae4c8..8640a8a8a469 100644
+> --- a/drivers/gpu/drm/meson/meson_plane.c
+> +++ b/drivers/gpu/drm/meson/meson_plane.c
+> @@ -422,7 +422,6 @@ static const struct drm_plane_helper_funcs=20
+> meson_plane_helper_funcs =3D {
+>  	.atomic_check	=3D meson_plane_atomic_check,
+>  	.atomic_disable	=3D meson_plane_atomic_disable,
+>  	.atomic_update	=3D meson_plane_atomic_update,
+> -	.prepare_fb	=3D drm_gem_plane_helper_prepare_fb,
+>  };
+>=20
+>  static bool meson_plane_format_mod_supported(struct drm_plane *plane,
+> diff --git a/drivers/gpu/drm/mxsfb/mxsfb_kms.c=20
+> b/drivers/gpu/drm/mxsfb/mxsfb_kms.c
+> index 300e7bab0f43..8797c671d0d5 100644
+> --- a/drivers/gpu/drm/mxsfb/mxsfb_kms.c
+> +++ b/drivers/gpu/drm/mxsfb/mxsfb_kms.c
+> @@ -500,13 +500,11 @@ static bool mxsfb_format_mod_supported(struct=20
+> drm_plane *plane,
+>  }
+>=20
+>  static const struct drm_plane_helper_funcs=20
+> mxsfb_plane_primary_helper_funcs =3D {
+> -	.prepare_fb =3D drm_gem_plane_helper_prepare_fb,
+>  	.atomic_check =3D mxsfb_plane_atomic_check,
+>  	.atomic_update =3D mxsfb_plane_primary_atomic_update,
+>  };
+>=20
+>  static const struct drm_plane_helper_funcs=20
+> mxsfb_plane_overlay_helper_funcs =3D {
+> -	.prepare_fb =3D drm_gem_plane_helper_prepare_fb,
+>  	.atomic_check =3D mxsfb_plane_atomic_check,
+>  	.atomic_update =3D mxsfb_plane_overlay_atomic_update,
+>  };
+> diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop.c=20
+> b/drivers/gpu/drm/rockchip/rockchip_drm_vop.c
+> index 64469439ddf2..6406bc0a71c7 100644
+> --- a/drivers/gpu/drm/rockchip/rockchip_drm_vop.c
+> +++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop.c
+> @@ -1109,7 +1109,6 @@ static const struct drm_plane_helper_funcs=20
+> plane_helper_funcs =3D {
+>  	.atomic_disable =3D vop_plane_atomic_disable,
+>  	.atomic_async_check =3D vop_plane_atomic_async_check,
+>  	.atomic_async_update =3D vop_plane_atomic_async_update,
+> -	.prepare_fb =3D drm_gem_plane_helper_prepare_fb,
+>  };
+>=20
+>  static const struct drm_plane_funcs vop_plane_funcs =3D {
+> diff --git a/drivers/gpu/drm/stm/ltdc.c b/drivers/gpu/drm/stm/ltdc.c
+> index e99771b947b6..a5a2956f23f2 100644
+> --- a/drivers/gpu/drm/stm/ltdc.c
+> +++ b/drivers/gpu/drm/stm/ltdc.c
+> @@ -946,7 +946,6 @@ static const struct drm_plane_funcs=20
+> ltdc_plane_funcs =3D {
+>  };
+>=20
+>  static const struct drm_plane_helper_funcs ltdc_plane_helper_funcs =3D=20
+> {
+> -	.prepare_fb =3D drm_gem_plane_helper_prepare_fb,
+>  	.atomic_check =3D ltdc_plane_atomic_check,
+>  	.atomic_update =3D ltdc_plane_atomic_update,
+>  	.atomic_disable =3D ltdc_plane_atomic_disable,
+> diff --git a/drivers/gpu/drm/sun4i/sun4i_layer.c=20
+> b/drivers/gpu/drm/sun4i/sun4i_layer.c
+> index 11771bdd6e7c..929e95f86b5b 100644
+> --- a/drivers/gpu/drm/sun4i/sun4i_layer.c
+> +++ b/drivers/gpu/drm/sun4i/sun4i_layer.c
+> @@ -127,7 +127,6 @@ static bool=20
+> sun4i_layer_format_mod_supported(struct drm_plane *plane,
+>  }
+>=20
+>  static const struct drm_plane_helper_funcs=20
+> sun4i_backend_layer_helper_funcs =3D {
+> -	.prepare_fb	=3D drm_gem_plane_helper_prepare_fb,
+>  	.atomic_disable	=3D sun4i_backend_layer_atomic_disable,
+>  	.atomic_update	=3D sun4i_backend_layer_atomic_update,
+>  };
+> diff --git a/drivers/gpu/drm/sun4i/sun8i_ui_layer.c=20
+> b/drivers/gpu/drm/sun4i/sun8i_ui_layer.c
+> index 0db164a774a1..ac3d43394589 100644
+> --- a/drivers/gpu/drm/sun4i/sun8i_ui_layer.c
+> +++ b/drivers/gpu/drm/sun4i/sun8i_ui_layer.c
+> @@ -332,7 +332,6 @@ static void sun8i_ui_layer_atomic_update(struct=20
+> drm_plane *plane,
+>  }
+>=20
+>  static const struct drm_plane_helper_funcs=20
+> sun8i_ui_layer_helper_funcs =3D {
+> -	.prepare_fb	=3D drm_gem_plane_helper_prepare_fb,
+>  	.atomic_check	=3D sun8i_ui_layer_atomic_check,
+>  	.atomic_disable	=3D sun8i_ui_layer_atomic_disable,
+>  	.atomic_update	=3D sun8i_ui_layer_atomic_update,
+> diff --git a/drivers/gpu/drm/sun4i/sun8i_vi_layer.c=20
+> b/drivers/gpu/drm/sun4i/sun8i_vi_layer.c
+> index 46420780db59..45b1e37f9cda 100644
+> --- a/drivers/gpu/drm/sun4i/sun8i_vi_layer.c
+> +++ b/drivers/gpu/drm/sun4i/sun8i_vi_layer.c
+> @@ -436,7 +436,6 @@ static void sun8i_vi_layer_atomic_update(struct=20
+> drm_plane *plane,
+>  }
+>=20
+>  static const struct drm_plane_helper_funcs=20
+> sun8i_vi_layer_helper_funcs =3D {
+> -	.prepare_fb	=3D drm_gem_plane_helper_prepare_fb,
+>  	.atomic_check	=3D sun8i_vi_layer_atomic_check,
+>  	.atomic_disable	=3D sun8i_vi_layer_atomic_disable,
+>  	.atomic_update	=3D sun8i_vi_layer_atomic_update,
+> diff --git a/drivers/gpu/drm/tidss/tidss_plane.c=20
+> b/drivers/gpu/drm/tidss/tidss_plane.c
+> index 1acd15aa4193..217415ec8eea 100644
+> --- a/drivers/gpu/drm/tidss/tidss_plane.c
+> +++ b/drivers/gpu/drm/tidss/tidss_plane.c
+> @@ -158,7 +158,6 @@ static void drm_plane_destroy(struct drm_plane=20
+> *plane)
+>  }
+>=20
+>  static const struct drm_plane_helper_funcs tidss_plane_helper_funcs=20
+> =3D {
+> -	.prepare_fb =3D drm_gem_plane_helper_prepare_fb,
+>  	.atomic_check =3D tidss_plane_atomic_check,
+>  	.atomic_update =3D tidss_plane_atomic_update,
+>  	.atomic_disable =3D tidss_plane_atomic_disable,
+> --
+> 2.31.0
+>=20
 
-Because having just read the latest proposal it seems it is actually 
-doing pretty much what I described above. Unless I got it wrong..
 
-Anyway, I still maintain we don't really needs to add a new context 
-extension apart from set_parallel(bool) since bonds can express it all 
-already.
-
-And GuC backend will have to validate the new extension anyway, as it 
-would need to validate the bonds, since who says userspace has passed in 
-a supported configuration even with the implicit bonds flag set. Still 
-needs to check it..
-
-At which point I really don't see the point in the uapi churn. All we 
-really need is a multi batch execbuf.
-
-*If* the desire is so strong to go the single entry in engine map can be 
-N-wide then it can be done, but actually still the GuC backend will need 
-to validate it all makes sense for what firmware can do.
-
-So to me it's very questionable. Even the complaints about the weird 
-stuff GuC backend does in construction-deconstruction on submit are not 
-really an *uapi* problem.
-
-Even with just set_parallel(bool) backend could interpret it all 
-correctly, create a single whatever it wants, and submit a single 
-whatever it wants to the GuC.
-
-Regards,
-
-Tvrtko
