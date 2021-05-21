@@ -2,55 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0029338C374
-	for <lists+dri-devel@lfdr.de>; Fri, 21 May 2021 11:40:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 613F338C3BC
+	for <lists+dri-devel@lfdr.de>; Fri, 21 May 2021 11:46:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 28AAC6F60B;
-	Fri, 21 May 2021 09:40:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A5E976F60E;
+	Fri, 21 May 2021 09:46:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x530.google.com (mail-pg1-x530.google.com
- [IPv6:2607:f8b0:4864:20::530])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 728AB6E038
- for <dri-devel@lists.freedesktop.org>; Fri, 21 May 2021 09:40:35 +0000 (UTC)
-Received: by mail-pg1-x530.google.com with SMTP id f22so12852018pgb.9
- for <dri-devel@lists.freedesktop.org>; Fri, 21 May 2021 02:40:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+Received: from mail-il1-x12d.google.com (mail-il1-x12d.google.com
+ [IPv6:2607:f8b0:4864:20::12d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 957216F60E
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 May 2021 09:46:22 +0000 (UTC)
+Received: by mail-il1-x12d.google.com with SMTP id g11so13701128ilq.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 May 2021 02:46:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=basnieuwenhuizen.nl; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=aw8gDlLoU0pIEdlFcNuRqOAiJmYCm1GOm0P/pUdoo+o=;
- b=p8HUmmOqPdlZl5efq5vAQenxYPwsDSCHY3IbPgOt0yf8y1gTt9Y83yTC/r1mMtiiBy
- jCmN0jcTyPMrQ0vXBM+wcQzBDx6wtsBDLAaKBnpO65+0UORk+OTSxFEwHP1miPSXB3f7
- hwE4mvF7ObDhAgclgo6v1hLcJHGxqyGk3KZU5/9/Q30SeLBJazei82yBOX1msdZQHLqS
- NQfa6vOBhhsv3sZkH96JmEw74I+NID5XGFYJdpcBl332x5YYM6cdab/9LhWPrbTgiQSa
- SBaI3NFwYszeFNgN1PyXaVi/D5h4oHToBPDhh6nL4B8v9PUKUzBzRhT5JOwo/eOm4B4+
- zCdA==
+ :cc:content-transfer-encoding;
+ bh=PETi2cGKgOkzUGpOv4dmjs/DJ3aw/4zTyzih3rXf2OY=;
+ b=WKWDK4DRN3ToTeA73B2/EOrnQBDSAq9lK3+UkgMn5gH3c1vs7tdu51IHF+NT1KP2o9
+ dMa2jcG65hvl8rpg3xKQEwQDQBb2cZyA1sD83ojUFPAnwI4KNEp58vEocbgZtJ6GC2dj
+ QorzIndTkWaUgHJYDbpxoE2q4HxWEW+jLxWPRgdvuNSisVa8pvP3DCHUnDZ68vMoSxvo
+ NbPRJecynxdianCGR6c++wzjpFdkdJyV90Q245v+Tj3ZqP/ip1MDhQ/vgpBLq+P+bRAI
+ /mAXo3BAzN9i+7AkTymuU7djrwO6xVkKy09AlduqtFS9CVjVlrEDgBI80LkflP8bZV8Q
+ lfIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=aw8gDlLoU0pIEdlFcNuRqOAiJmYCm1GOm0P/pUdoo+o=;
- b=EpBiUFSE6t1iO4fskvpkaqGXVW5H40/oTdTwpIJ7i5LFXl9fqxfBUGHjy8EWZcojUf
- XCKZuZN3fqL5mrcKnQiMBUONAhZ2pLLjwVPxnDYVVXGUjZfdAYcYe04RX8RL1ywUNOBo
- v1gRbT04mj1NWuI4UAnEIj71/piK6InIt+n4jFRD5c8HrWeWgTngNkixzX7kX8k6/XZh
- gLRv+k2z6KynzwZnoFJ3A16Vb2BLHlOLSbLMm22hvmQAQxPiHlyUqBOAoasdfm00+Cbd
- xyp2XUIApvBcDW61SMFSesvSgYw7xQOCLYeLd9LOTZ7B1AegekJUhV1loCPWCRyXQhkz
- 6wEQ==
-X-Gm-Message-State: AOAM531Uga04LByc5KOBy0Tlz+1chkYMFZ4jHVfDySmJIxZ6L+sw/4An
- KDHPRh7RCNG0c4V8cjgPOtp7Y9/dbl0a+mDPshRlKw==
-X-Google-Smtp-Source: ABdhPJxLG9bkG3cUPsNsdBSAPBh3zlZBpZDsInXzIVhKilPzqFUeqYehNJQlRl46JjB36k9qqDBLqJgHzaB42NojxxA=
-X-Received: by 2002:a62:ab14:0:b029:2db:b3d9:1709 with SMTP id
- p20-20020a62ab140000b02902dbb3d91709mr9191628pff.80.1621590035117; Fri, 21
- May 2021 02:40:35 -0700 (PDT)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=PETi2cGKgOkzUGpOv4dmjs/DJ3aw/4zTyzih3rXf2OY=;
+ b=NfgkrD+3v1puMA3wi2aatrNpZx0VW1x2mPalQQvNAKRnE0hjOxFCx/bHdOdmsR+5ci
+ /kiFN60qK4Kdh36e0ykatK6398p0dYpgSE1qCU2ATNEcTksO7AfoUV0PuDGN4HdpS/qE
+ 6Udm2OVF7RiF2KQhmwfui5F+LaHQOoOhStlFigGubg+CYumXPJ+OG2XMkGvpUmx4HfX1
+ AaMEJekbgbOzgfp3nDIqiEM+jpzxjMAA/vhY86nYSYbw7J4T/LRJD1nzGLL9lFBjFEQi
+ XMxLKgKBf4w/6EY4WZr4mY0d4sf69b+I71c+/xAdbC+Btmzr4E/716DYuiX/CJWV4TOu
+ dSZQ==
+X-Gm-Message-State: AOAM531fLRgf9lB1CESHKBQz49Ljemc/esQJAt4zp+ZP2d9FdD4FT/DR
+ VA4DyJUVc7Y1r7LEZXn1bqp4MayK3uszRfwykogXGA==
+X-Google-Smtp-Source: ABdhPJwbLVYkaLaPKyiIa4hjusbCiBi7EeYNHKAcxHX9zxnFCfScHqQBUhvfH4uSkjTuFNdzDq6SUY/0e/7YXNnKHOw=
+X-Received: by 2002:a05:6e02:1aa7:: with SMTP id
+ l7mr10385843ilv.307.1621590381829; 
+ Fri, 21 May 2021 02:46:21 -0700 (PDT)
 MIME-Version: 1.0
-References: <20201110034934.70898-1-john.stultz@linaro.org>
-In-Reply-To: <20201110034934.70898-1-john.stultz@linaro.org>
-From: Lee Jones <lee.jones@linaro.org>
-Date: Fri, 21 May 2021 10:40:24 +0100
-Message-ID: <CAF2Aj3iEUkBDyyWDT63iT_7KrquOcEo_L5rCteGF1OJg8Ux3ug@mail.gmail.com>
-Subject: Re: [PATCH v5 0/7] dma-buf: Performance improvements for system heap
- & a system-uncached implementation
-To: John Stultz <john.stultz@linaro.org>
-Content-Type: multipart/alternative; boundary="00000000000003ce7105c2d3da5e"
+References: <20210521090959.1663703-1-daniel.vetter@ffwll.ch>
+In-Reply-To: <20210521090959.1663703-1-daniel.vetter@ffwll.ch>
+From: Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>
+Date: Fri, 21 May 2021 11:46:23 +0200
+Message-ID: <CAP+8YyEhRwgz2hCri3K7Kv1OusVa_LGEuKZqQEx5jv+NiDKZrA@mail.gmail.com>
+Subject: Re: [PATCH 01/11] drm/amdgpu: Comply with implicit fencing rules
+To: Daniel Vetter <daniel.vetter@ffwll.ch>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,240 +65,281 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sandeep Patil <sspatil@google.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Ezequiel Garcia <ezequiel@collabora.com>, Robin Murphy <robin.murphy@arm.com>,
- James Jones <jajones@nvidia.com>, lkml <linux-kernel@vger.kernel.org>,
- Liam Mark <lmark@codeaurora.org>, Laura Abbott <labbott@kernel.org>,
- Chris Goldsworthy <cgoldswo@codeaurora.org>,
- Hridya Valsaraju <hridya@google.com>,
- =?UTF-8?Q?=C3=98rjan_Eide?= <orjan.eide@arm.com>,
- "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>,
- Suren Baghdasaryan <surenb@google.com>, Daniel Mentz <danielmentz@google.com>
+Cc: Rob Clark <robdclark@chromium.org>, Daniel Stone <daniels@collabora.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ Kevin Wang <kevin1.wang@amd.com>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
+ Luben Tuikov <luben.tuikov@amd.com>,
+ "Kristian H . Kristensen" <hoegsberg@google.com>,
+ Chen Li <chenli@uniontech.com>, Daniel Vetter <daniel.vetter@intel.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ mesa-dev <mesa-dev@lists.freedesktop.org>,
+ =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel@daenzer.net>,
+ Dennis Li <Dennis.Li@amd.com>, Deepak R Varma <mh12gx2825@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---00000000000003ce7105c2d3da5e
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-On Tue, 10 Nov 2020 at 03:49, John Stultz <john.stultz@linaro.org> wrote:
-
-> Hey All,
->   So just wanted to send my last revision of my patch series
-> of performance optimizations to the dma-buf system heap.
+On Fri, May 21, 2021 at 11:10 AM Daniel Vetter <daniel.vetter@ffwll.ch> wro=
+te:
 >
-> This series reworks the system heap to use sgtables, and then
-> consolidates the pagelist method from the heap-helpers into the
-> CMA heap. After which the heap-helpers logic is removed (as it
-> is unused). I'd still like to find a better way to avoid some of
-> the logic duplication in implementing the entire dma_buf_ops
-> handlers per heap. But unfortunately that code is tied somewhat
-> to how the buffer's memory is tracked. As more heaps show up I
-> think we'll have a better idea how to best share code, so for
-> now I think this is ok.
+> Docs for struct dma_resv are fairly clear:
 >
-> After this, the series introduces an optimization that
-> =C3=98rjan Eide implemented for ION that avoids calling sync on
-> attachments that don't have a mapping.
+> "A reservation object can have attached one exclusive fence (normally
+> associated with write operations) or N shared fences (read
+> operations)."
 >
-> Next, an optimization to use larger order pages for the system
-> heap. This change brings us closer to the current performance
-> of the ION allocation code (though there still is a gap due
-> to ION using a mix of deferred-freeing and page pools, I'll be
-> looking at integrating those eventually).
+> https://dri.freedesktop.org/docs/drm/driver-api/dma-buf.html#reservation-=
+objects
 >
-> Finally, a reworked version of my uncached system heap
-> implementation I was submitting a few weeks back. Since it
-> duplicated a lot of the now reworked system heap code, I
-> realized it would be much simpler to add the functionality to
-> the system_heap implementation itself.
+> Furthermore a review across all of upstream.
 >
-> While not improving the core allocation performance, the
-> uncached heap allocations do result in *much* improved
-> performance on HiKey960 as it avoids a lot of flushing and
-> invalidating buffers that the cpu doesn't touch often.
+> First of render drivers and how they set implicit fences:
 >
-> Feedback on these would be great!
+> - nouveau follows this contract, see in validate_fini_no_ticket()
 >
-> thanks
-> -john
+>                         nouveau_bo_fence(nvbo, fence, !!b->write_domains)=
+;
 >
-> New in v5:
-> * Added a comment explaining why the order sizes are
->   chosen as they are
+>   and that last boolean controls whether the exclusive or shared fence
+>   slot is used.
 >
+> - radeon follows this contract by setting
+>
+>                 p->relocs[i].tv.num_shared =3D !r->write_domain;
+>
+>   in radeon_cs_parser_relocs(), which ensures that the call to
+>   ttm_eu_fence_buffer_objects() in radeon_cs_parser_fini() will do the
+>   right thing.
+>
+> - vmwgfx seems to follow this contract with the shotgun approach of
+>   always setting ttm_val_buf->num_shared =3D 0, which means
+>   ttm_eu_fence_buffer_objects() will only use the exclusive slot.
+>
+> - etnaviv follows this contract, as can be trivially seen by looking
+>   at submit_attach_object_fences()
+>
+> - i915 is a bit a convoluted maze with multiple paths leading to
+>   i915_vma_move_to_active(). Which sets the exclusive flag if
+>   EXEC_OBJECT_WRITE is set. This can either come as a buffer flag for
+>   softpin mode, or through the write_domain when using relocations. It
+>   follows this contract.
+>
+> - lima follows this contract, see lima_gem_submit() which sets the
+>   exclusive fence when the LIMA_SUBMIT_BO_WRITE flag is set for that
+>   bo
+>
+> - msm follows this contract, see msm_gpu_submit() which sets the
+>   exclusive flag when the MSM_SUBMIT_BO_WRITE is set for that buffer
+>
+> - panfrost follows this contract with the shotgun approach of just
+>   always setting the exclusive fence, see
+>   panfrost_attach_object_fences(). Benefits of a single engine I guess
+>
+> - v3d follows this contract with the same shotgun approach in
+>   v3d_attach_fences_and_unlock_reservation(), but it has at least an
+>   XXX comment that maybe this should be improved
+>
+> - v4c uses the same shotgun approach of always setting an exclusive
+>   fence, see vc4_update_bo_seqnos()
+>
+> - vgem also follows this contract, see vgem_fence_attach_ioctl() and
+>   the VGEM_FENCE_WRITE. This is used in some igts to validate prime
+>   sharing with i915.ko without the need of a 2nd gpu
+>
+> - vritio follows this contract again with the shotgun approach of
+>   always setting an exclusive fence, see virtio_gpu_array_add_fence()
+>
+> This covers the setting of the exclusive fences when writing.
+>
+> Synchronizing against the exclusive fence is a lot more tricky, and I
+> only spot checked a few:
+>
+> - i915 does it, with the optional EXEC_OBJECT_ASYNC to skip all
+>   implicit dependencies (which is used by vulkan)
+>
+> - etnaviv does this. Implicit dependencies are collected in
+>   submit_fence_sync(), again with an opt-out flag
+>   ETNA_SUBMIT_NO_IMPLICIT. These are then picked up in
+>   etnaviv_sched_dependency which is the
+>   drm_sched_backend_ops->dependency callback.
+>
+> - v4c seems to not do much here, maybe gets away with it by not having
+>   a scheduler and only a single engine. Since all newer broadcom chips th=
+an
+>   the OG vc4 use v3d for rendering, which follows this contract, the
+>   impact of this issue is fairly small.
+>
+> - v3d does this using the drm_gem_fence_array_add_implicit() helper,
+>   which then it's drm_sched_backend_ops->dependency callback
+>   v3d_job_dependency() picks up.
+>
+> - panfrost is nice here and tracks the implicit fences in
+>   panfrost_job->implicit_fences, which again the
+>   drm_sched_backend_ops->dependency callback panfrost_job_dependency()
+>   picks up. It is mildly questionable though since it only picks up
+>   exclusive fences in panfrost_acquire_object_fences(), but not buggy
+>   in practice because it also always sets the exclusive fence. It
+>   should pick up both sets of fences, just in case there's ever going
+>   to be a 2nd gpu in a SoC with a mali gpu. Or maybe a mali SoC with a
+>   pcie port and a real gpu, which might actually happen eventually. A
+>   bug, but easy to fix. Should probably use the
+>   drm_gem_fence_array_add_implicit() helper.
+>
+> - lima is nice an easy, uses drm_gem_fence_array_add_implicit() and
+>   the same schema as v3d.
+>
+> - msm is mildly entertaining. It also supports MSM_SUBMIT_NO_IMPLICIT,
+>   but because it doesn't use the drm/scheduler it handles fences from
+>   the wrong context with a synchronous dma_fence_wait. See
+>   submit_fence_sync() leading to msm_gem_sync_object(). Investing into
+>   a scheduler might be a good idea.
+>
+> - all the remaining drivers are ttm based, where I hope they do
+>   appropriately obey implicit fences already. I didn't do the full
+>   audit there because a) not follow the contract would confuse ttm
+>   quite well and b) reading non-standard scheduler and submit code
+>   which isn't based on drm/scheduler is a pain.
+>
+> Onwards to the display side.
+>
+> - Any driver using the drm_gem_plane_helper_prepare_fb() helper will
+>   correctly. Overwhelmingly most drivers get this right, except a few
+>   totally dont. I'll follow up with a patch to make this the default
+>   and avoid a bunch of bugs.
+>
+> - I didn't audit the ttm drivers, but given that dma_resv started
+>   there I hope they get this right.
+>
+> In conclusion this IS the contract, both as documented and
+> overwhelmingly implemented, specically as implemented by all render
+> drivers except amdgpu.
+>
+> Amdgpu tried to fix this already in
+>
+> commit 049aca4363d8af87cab8d53de5401602db3b9999
+> Author: Christian K=C3=B6nig <christian.koenig@amd.com>
+> Date:   Wed Sep 19 16:54:35 2018 +0200
+>
+>     drm/amdgpu: fix using shared fence for exported BOs v2
+>
+> but this fix falls short on a number of areas:
+>
+> - It's racy, by the time the buffer is shared it might be too late. To
+>   make sure there's definitely never a problem we need to set the
+>   fences correctly for any buffer that's potentially exportable.
+>
+> - It's breaking uapi, dma-buf fds support poll() and differentitiate
+>   between, which was introduced in
+>
+>         commit 9b495a5887994a6d74d5c261d012083a92b94738
+>         Author: Maarten Lankhorst <maarten.lankhorst@canonical.com>
+>         Date:   Tue Jul 1 12:57:43 2014 +0200
+>
+>             dma-buf: add poll support, v3
+>
+> - Christian K=C3=B6nig wants to nack new uapi building further on this
+>   dma_resv contract because it breaks amdgpu, quoting
+>
+>   "Yeah, and that is exactly the reason why I will NAK this uAPI change.
+>
+>   "This doesn't works for amdgpu at all for the reasons outlined above."
+>
+>   https://lore.kernel.org/dri-devel/f2eb6751-2f82-9b23-f57e-548de5b729de@=
+gmail.com/
+>
+>   Rejecting new development because your own driver is broken and
+>   violates established cross driver contracts and uapi is really not
+>   how upstream works.
+>
+> Now this patch will have a severe performance impact on anything that
+> runs on multiple engines. So we can't just merge it outright, but need
+> a bit a plan:
+>
+> - amdgpu needs a proper uapi for handling implicit fencing. The funny
+>   thing is that to do it correctly, implicit fencing must be treated
+>   as a very strange IPC mechanism for transporting fences, where both
+>   setting the fence and dependency intercepts must be handled
+>   explicitly. Current best practices is a per-bo flag to indicate
+>   writes, and a per-bo flag to to skip implicit fencing in the CS
+>   ioctl as a new chunk.
+>
+> - Since amdgpu has been shipping with broken behaviour we need an
+>   opt-out flag from the butchered implicit fencing model to enable the
+>   proper explicit implicit fencing model.
+>
+> - for kernel memory fences due to bo moves at least the i915 idea is
+>   to use ttm_bo->moving. amdgpu probably needs the same.
+>
+> - since the current p2p dma-buf interface assumes the kernel memory
+>   fence is in the exclusive dma_resv fence slot we need to add a new
+>   fence slot for kernel fences, which must never be ignored. Since
+>   currently only amdgpu supports this there's no real problem here
+>   yet, until amdgpu gains a NO_IMPLICIT CS flag.
+>
+> - New userspace needs to ship in enough desktop distros so that users
+>   wont notice the perf impact. I think we can ignore LTS distros who
+>   upgrade their kernels but not their mesa3d snapshot.
+>
+> - Then when this is all in place we can merge this patch here.
+>
+> What is not a solution to this problem here is trying to make the
+> dma_resv rules in the kernel more clever. The fundamental issue here
+> is that the amdgpu CS uapi is the least expressive one across all
+> drivers (only equalled by panfrost, which has an actual excuse) by not
+> allowing any userspace control over how implicit sync is conducted.
+>
+> Until this is fixed it's completely pointless to make the kernel more
+> clever to improve amdgpu, because all we're doing is papering over
+> this uapi design issue. amdgpu needs to attain the status quo
+> established by other drivers first, once that's achieved we can tackle
+> the remaining issues in a consistent way across drivers.
+>
+> Cc: mesa-dev@lists.freedesktop.org
+> Cc: Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>
+> Cc: Dave Airlie <airlied@gmail.com>
+> Cc: Rob Clark <robdclark@chromium.org>
+> Cc: Kristian H. Kristensen <hoegsberg@google.com>
+> Cc: Michel D=C3=A4nzer <michel@daenzer.net>
+> Cc: Daniel Stone <daniels@collabora.com>
 > Cc: Sumit Semwal <sumit.semwal@linaro.org>
-> Cc: Liam Mark <lmark@codeaurora.org>
-> Cc: Laura Abbott <labbott@kernel.org>
-> Cc: Brian Starkey <Brian.Starkey@arm.com>
-> Cc: Hridya Valsaraju <hridya@google.com>
-> Cc: Suren Baghdasaryan <surenb@google.com>
-> Cc: Sandeep Patil <sspatil@google.com>
-> Cc: Daniel Mentz <danielmentz@google.com>
-> Cc: Chris Goldsworthy <cgoldswo@codeaurora.org>
-> Cc: =C3=98rjan Eide <orjan.eide@arm.com>
-> Cc: Robin Murphy <robin.murphy@arm.com>
-> Cc: Ezequiel Garcia <ezequiel@collabora.com>
-> Cc: Simon Ser <contact@emersion.fr>
-> Cc: James Jones <jajones@nvidia.com>
-> Cc: linux-media@vger.kernel.org
-> Cc: dri-devel@lists.freedesktop.org
+> Cc: "Christian K=C3=B6nig" <christian.koenig@amd.com>
+> Cc: Alex Deucher <alexander.deucher@amd.com>
+> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+> Cc: Deepak R Varma <mh12gx2825@gmail.com>
+> Cc: Chen Li <chenli@uniontech.com>
+> Cc: Kevin Wang <kevin1.wang@amd.com>
+> Cc: Dennis Li <Dennis.Li@amd.com>
+> Cc: Luben Tuikov <luben.tuikov@amd.com>
+> Cc: linaro-mm-sig@lists.linaro.org
+> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+> ---
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 >
-> John Stultz (7):
->   dma-buf: system_heap: Rework system heap to use sgtables instead of
->     pagelists
->   dma-buf: heaps: Move heap-helper logic into the cma_heap
->     implementation
->   dma-buf: heaps: Remove heap-helpers code
->   dma-buf: heaps: Skip sync if not mapped
->   dma-buf: system_heap: Allocate higher order pages if available
->   dma-buf: dma-heap: Keep track of the heap device struct
->   dma-buf: system_heap: Add a system-uncached heap re-using the system
->     heap
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c b/drivers/gpu/drm/amd=
+/amdgpu/amdgpu_cs.c
+> index 88a24a0b5691..cc8426e1e8a8 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
+> @@ -617,8 +617,8 @@ static int amdgpu_cs_parser_bos(struct amdgpu_cs_pars=
+er *p,
+>         amdgpu_bo_list_for_each_entry(e, p->bo_list) {
+>                 struct amdgpu_bo *bo =3D ttm_to_amdgpu_bo(e->tv.bo);
 >
->  drivers/dma-buf/dma-heap.c           |  33 +-
->  drivers/dma-buf/heaps/Makefile       |   1 -
->  drivers/dma-buf/heaps/cma_heap.c     | 324 +++++++++++++++---
->  drivers/dma-buf/heaps/heap-helpers.c | 270 ---------------
->  drivers/dma-buf/heaps/heap-helpers.h |  53 ---
->  drivers/dma-buf/heaps/system_heap.c  | 494 ++++++++++++++++++++++++---
->  include/linux/dma-heap.h             |   9 +
->  7 files changed, 753 insertions(+), 431 deletions(-)
->  delete mode 100644 drivers/dma-buf/heaps/heap-helpers.c
->  delete mode 100644 drivers/dma-buf/heaps/heap-helpers.h
+> -               /* Make sure we use the exclusive slot for shared BOs */
+> -               if (bo->prime_shared_count)
+> +               /* Make sure we use the exclusive slot for all potentiall=
+y shared BOs */
+> +               if (!(bo->flags & AMDGPU_GEM_CREATE_VM_ALWAYS_VALID))
+>                         e->tv.num_shared =3D 0;
 
-
-John, did this ever make it past v5?  I don't see a follow-up.
-
---=20
-Lee Jones [=E6=9D=8E=E7=90=BC=E6=96=AF]
-Linaro Services Senior Technical Lead
-Linaro.org =E2=94=82 Open source software for ARM SoCs
-Follow Linaro: Facebook | Twitter | Blog
-
---00000000000003ce7105c2d3da5e
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr">On Tue, 10 Nov 2020 at 03:49, John Stultz=
- &lt;<a href=3D"mailto:john.stultz@linaro.org">john.stultz@linaro.org</a>&g=
-t; wrote:<br></div><div class=3D"gmail_quote"><blockquote class=3D"gmail_qu=
-ote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,20=
-4);padding-left:1ex">Hey All,<br>
-=C2=A0 So just wanted to send my last revision of my patch series<br>
-of performance optimizations to the dma-buf system heap.<br>
-<br>
-This series reworks the system heap to use sgtables, and then<br>
-consolidates the pagelist method from the heap-helpers into the<br>
-CMA heap. After which the heap-helpers logic is removed (as it<br>
-is unused). I&#39;d still like to find a better way to avoid some of<br>
-the logic duplication in implementing the entire dma_buf_ops<br>
-handlers per heap. But unfortunately that code is tied somewhat<br>
-to how the buffer&#39;s memory is tracked. As more heaps show up I<br>
-think we&#39;ll have a better idea how to best share code, so for<br>
-now I think this is ok.<br>
-<br>
-After this, the series introduces an optimization that<br>
-=C3=98rjan Eide implemented for ION that avoids calling sync on<br>
-attachments that don&#39;t have a mapping.<br>
-<br>
-Next, an optimization to use larger order pages for the system<br>
-heap. This change brings us closer to the current performance<br>
-of the ION allocation code (though there still is a gap due<br>
-to ION using a mix of deferred-freeing and page pools, I&#39;ll be<br>
-looking at integrating those eventually).<br>
-<br>
-Finally, a reworked version of my uncached system heap<br>
-implementation I was submitting a few weeks back. Since it<br>
-duplicated a lot of the now reworked system heap code, I<br>
-realized it would be much simpler to add the functionality to<br>
-the system_heap implementation itself.<br>
-<br>
-While not improving the core allocation performance, the<br>
-uncached heap allocations do result in *much* improved<br>
-performance on HiKey960 as it avoids a lot of flushing and<br>
-invalidating buffers that the cpu doesn&#39;t touch often.<br>
-<br>
-Feedback on these would be great!<br>
-<br>
-thanks<br>
--john<br>
-<br>
-New in v5:<br>
-* Added a comment explaining why the order sizes are<br>
-=C2=A0 chosen as they are<br>
-<br>
-Cc: Sumit Semwal &lt;<a href=3D"mailto:sumit.semwal@linaro.org" target=3D"_=
-blank">sumit.semwal@linaro.org</a>&gt;<br>
-Cc: Liam Mark &lt;<a href=3D"mailto:lmark@codeaurora.org" target=3D"_blank"=
->lmark@codeaurora.org</a>&gt;<br>
-Cc: Laura Abbott &lt;<a href=3D"mailto:labbott@kernel.org" target=3D"_blank=
-">labbott@kernel.org</a>&gt;<br>
-Cc: Brian Starkey &lt;<a href=3D"mailto:Brian.Starkey@arm.com" target=3D"_b=
-lank">Brian.Starkey@arm.com</a>&gt;<br>
-Cc: Hridya Valsaraju &lt;<a href=3D"mailto:hridya@google.com" target=3D"_bl=
-ank">hridya@google.com</a>&gt;<br>
-Cc: Suren Baghdasaryan &lt;<a href=3D"mailto:surenb@google.com" target=3D"_=
-blank">surenb@google.com</a>&gt;<br>
-Cc: Sandeep Patil &lt;<a href=3D"mailto:sspatil@google.com" target=3D"_blan=
-k">sspatil@google.com</a>&gt;<br>
-Cc: Daniel Mentz &lt;<a href=3D"mailto:danielmentz@google.com" target=3D"_b=
-lank">danielmentz@google.com</a>&gt;<br>
-Cc: Chris Goldsworthy &lt;<a href=3D"mailto:cgoldswo@codeaurora.org" target=
-=3D"_blank">cgoldswo@codeaurora.org</a>&gt;<br>
-Cc: =C3=98rjan Eide &lt;<a href=3D"mailto:orjan.eide@arm.com" target=3D"_bl=
-ank">orjan.eide@arm.com</a>&gt;<br>
-Cc: Robin Murphy &lt;<a href=3D"mailto:robin.murphy@arm.com" target=3D"_bla=
-nk">robin.murphy@arm.com</a>&gt;<br>
-Cc: Ezequiel Garcia &lt;<a href=3D"mailto:ezequiel@collabora.com" target=3D=
-"_blank">ezequiel@collabora.com</a>&gt;<br>
-Cc: Simon Ser &lt;<a href=3D"mailto:contact@emersion.fr" target=3D"_blank">=
-contact@emersion.fr</a>&gt;<br>
-Cc: James Jones &lt;<a href=3D"mailto:jajones@nvidia.com" target=3D"_blank"=
->jajones@nvidia.com</a>&gt;<br>
-Cc: <a href=3D"mailto:linux-media@vger.kernel.org" target=3D"_blank">linux-=
-media@vger.kernel.org</a><br>
-Cc: <a href=3D"mailto:dri-devel@lists.freedesktop.org" target=3D"_blank">dr=
-i-devel@lists.freedesktop.org</a><br>
-<br>
-John Stultz (7):<br>
-=C2=A0 dma-buf: system_heap: Rework system heap to use sgtables instead of<=
-br>
-=C2=A0 =C2=A0 pagelists<br>
-=C2=A0 dma-buf: heaps: Move heap-helper logic into the cma_heap<br>
-=C2=A0 =C2=A0 implementation<br>
-=C2=A0 dma-buf: heaps: Remove heap-helpers code<br>
-=C2=A0 dma-buf: heaps: Skip sync if not mapped<br>
-=C2=A0 dma-buf: system_heap: Allocate higher order pages if available<br>
-=C2=A0 dma-buf: dma-heap: Keep track of the heap device struct<br>
-=C2=A0 dma-buf: system_heap: Add a system-uncached heap re-using the system=
-<br>
-=C2=A0 =C2=A0 heap<br>
-<br>
-=C2=A0drivers/dma-buf/dma-heap.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=
-=C2=A0 33 +-<br>
-=C2=A0drivers/dma-buf/heaps/Makefile=C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=
-=A01 -<br>
-=C2=A0drivers/dma-buf/heaps/cma_heap.c=C2=A0 =C2=A0 =C2=A0| 324 +++++++++++=
-++++---<br>
-=C2=A0drivers/dma-buf/heaps/heap-helpers.c | 270 ---------------<br>
-=C2=A0drivers/dma-buf/heaps/heap-helpers.h |=C2=A0 53 ---<br>
-=C2=A0drivers/dma-buf/heaps/system_heap.c=C2=A0 | 494 +++++++++++++++++++++=
-+++---<br>
-=C2=A0include/linux/dma-heap.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0|=C2=A0 =C2=A09 +<br>
-=C2=A07 files changed, 753 insertions(+), 431 deletions(-)<br>
-=C2=A0delete mode 100644 drivers/dma-buf/heaps/heap-helpers.c<br>
-=C2=A0delete mode 100644 drivers/dma-buf/heaps/heap-helpers.h</blockquote><=
-div><br></div><div>John, did this ever make it past v5?=C2=A0 I don&#39;t s=
-ee a follow-up.</div><div><br></div></div>-- <br><div dir=3D"ltr" class=3D"=
-gmail_signature"><div dir=3D"ltr"><div><div dir=3D"ltr"><div><div><span sty=
-le=3D"font-size:12.8px">Lee Jones [=E6=9D=8E=E7=90=BC=E6=96=AF]</span></div=
-><div><span style=3D"font-size:12.8px">Linaro Services Senior Technical Lea=
-d</span></div><div><span style=3D"font-size:12.8px">Linaro.org =E2=94=82 Op=
-en source software for ARM SoCs</span></div><div><span style=3D"font-size:1=
-2.8px">Follow Linaro: Facebook | Twitter | Blog</span></div></div></div></d=
-iv></div></div></div>
-
---00000000000003ce7105c2d3da5e--
+I think it also makes sense to skip this with
+AMDGPU_GEM_CREATE_EXPLICIT_SYNC? It can be shared but I don't think
+anyone expects implicit sync to happen with those.
+>                 e->bo_va =3D amdgpu_vm_bo_find(vm, bo);
+>         }
+> --
+> 2.31.0
+>
