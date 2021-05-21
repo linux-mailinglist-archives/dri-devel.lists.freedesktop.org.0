@@ -1,63 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2F2C38C95E
-	for <lists+dri-devel@lfdr.de>; Fri, 21 May 2021 16:42:45 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0869638C981
+	for <lists+dri-devel@lfdr.de>; Fri, 21 May 2021 16:49:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A9D826E17C;
-	Fri, 21 May 2021 14:42:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 50D956E20E;
+	Fri, 21 May 2021 14:49:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x235.google.com (mail-oi1-x235.google.com
- [IPv6:2607:f8b0:4864:20::235])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B408B6E17C
- for <dri-devel@lists.freedesktop.org>; Fri, 21 May 2021 14:42:40 +0000 (UTC)
-Received: by mail-oi1-x235.google.com with SMTP id u11so19844934oiv.1
- for <dri-devel@lists.freedesktop.org>; Fri, 21 May 2021 07:42:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com
+ [IPv6:2a00:1450:4864:20::331])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D47396E16D
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 May 2021 14:49:05 +0000 (UTC)
+Received: by mail-wm1-x331.google.com with SMTP id o127so11282824wmo.4
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 May 2021 07:49:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:in-reply-to;
- bh=5Z2KkwCEfM/BotE4mJLxeXlSEUL4YCagVaLjGTvy9fg=;
- b=vT57+LogiFiec6wgtvPzqP6wwylRI+H3RY7Yz247iK9wZws/fiqF12NsNQp4BqIbHZ
- TDsvykaL9rSu62USDGS+LufAkxWR5hZ2ykz2EInJ7msEAyM2gVjcr9qjIN/Cp8j29bpO
- jR9+fo3hhoUy6JsiZ162qXXS8bw4fZMF0lTzImjiXJtxTKdIrmnWz62BDhUqU4EUkLA6
- nz+Ry/eundYbkEnNQp38dxhU17Tk27tiv9Lk1WRlLhNzrqhXwtRywi7nQrgeSjmeL2Tu
- OuJM5VVMAW9jE4krg+HwJP/K42KgoBH4IylPXbHa1Rm3mXZDljPnh1sw2/sIqbdyWaLY
- tiqw==
+ bh=+mcIKTei4IpD01Jdmi7OhRPrbVaGzeTO4mJXe5DTMf4=;
+ b=DiuF60D/AW3A2SJK3NEy+/hFcf8GKdrdMw9uGTtrvaTFTJ55H5paZbYVnDO0nLuQhE
+ caxlK+BL3JDQEeWfoBBMVSIQrTc+NpdO28pnu5mxRTknLpIx7wXh5Q6LPeBe+GRlLVO+
+ 8yInunxg7NoKH+HXbggrt62goIxNCinpYq/Lw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=5Z2KkwCEfM/BotE4mJLxeXlSEUL4YCagVaLjGTvy9fg=;
- b=ZzTaps7QQ92H7ZBfuUVasYcnJeGmX+wslX81HsFzXdXcprE1IFVhmPC67Wjyt6xsDN
- wPzuVyIREeGfEFHjCnbqW+XcNQCRoqQimr1qI6eKKm7W0yYtpKnGNPXap3WtzospIWpl
- QmUn76LExYj7kRrr+J6gzHQN7V/RPb4gOImuL1vQmivqvDq/xU94p65wHqGhlf+C+Jin
- tGudnlij+ffOOqAzlDDWft+A8w53WUN4cEcppg5Py00F63cMvmdgqRqrjSo6/sisXUHM
- BWmP+VYb69oILkn9q0KuLwMdYbzMSFqFRqC5drYv2sN1IF1g4C6SUTPIFnVl48fZTIbO
- 9P2Q==
-X-Gm-Message-State: AOAM531D4ZnX/wJEkLEwBPvHuyXL6bL1grjVazmV+v1kk3J09MG6IzkR
- PBBg28EatZhaqqps/oobYiqTMw==
-X-Google-Smtp-Source: ABdhPJwnIJOU+D/nOQmEzRVwv3lT8IqqVtQca3zuNpPqbOdtvyDqSMrLplRNdstZzXFnadfmsqO24Q==
-X-Received: by 2002:aca:2417:: with SMTP id n23mr2376892oic.111.1621608159986; 
- Fri, 21 May 2021 07:42:39 -0700 (PDT)
-Received: from yoga (104-57-184-186.lightspeed.austtx.sbcglobal.net.
- [104.57.184.186])
- by smtp.gmail.com with ESMTPSA id r10sm1164085oic.4.2021.05.21.07.42.38
+ bh=+mcIKTei4IpD01Jdmi7OhRPrbVaGzeTO4mJXe5DTMf4=;
+ b=qIJteAKoaJ3cDrnD4pSRng3zT/Izjsn+7mynuuwnrfsFhL4+xWMGBPJ+rujadCrX8F
+ MHAh7dYmz04leO7Hx1yPDGdKTYIoVNCnKR5jJmLlaBzDgw/N4obyj2+SHo2QXOjAjBLx
+ ayllyxzqXhlTrhRJzLxfwUutx5S+8iQnGDu0m6N7cZSGajGoXmyOrbnlzHol4muckRVZ
+ SOpkjDCUVTUUtEgToJK+RfECeF9JLdtnRumpWViuyMBvvPfNt56ReHoUFhrwxPOCAh+9
+ TYUAdOzAHYrxXddQMvmP6NoSHbmLHSygIYPnB/3mMohnTle/EsEZ6dUWT0PWo/fiFy6z
+ bTDg==
+X-Gm-Message-State: AOAM533EuEYyrfcDd/TLcMywchi2maXQ1w+ohAYuK1/xsGSN46kSRZvw
+ +VVNo/1oz31FKQsqgKNQPIGhVQ==
+X-Google-Smtp-Source: ABdhPJzajKZRmtEvc+Z6pvT30yUE8NQp0jFepxbyaPHcqhZDtx6Xnws9MKeHWGJbKjGpUf+Uyq9hXQ==
+X-Received: by 2002:a7b:cc15:: with SMTP id f21mr9638322wmh.86.1621608544464; 
+ Fri, 21 May 2021 07:49:04 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id x16sm2429642wrp.6.2021.05.21.07.49.03
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 21 May 2021 07:42:39 -0700 (PDT)
-Date: Fri, 21 May 2021 09:42:37 -0500
-From: Bjorn Andersson <bjorn.andersson@linaro.org>
-To: Vinod Koul <vkoul@kernel.org>
-Subject: Re: [RFC PATCH 02/13] dt-bindings: msm/dsi: Document Display Stream
- Compression (DSC) parameters
-Message-ID: <20210521144237.GZ2484@yoga>
-References: <20210521124946.3617862-1-vkoul@kernel.org>
- <20210521124946.3617862-3-vkoul@kernel.org>
+ Fri, 21 May 2021 07:49:03 -0700 (PDT)
+Date: Fri, 21 May 2021 16:49:01 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Lucas Stach <l.stach@pengutronix.de>
+Subject: Re: [PATCH 02/11] drm/panfrost: Remove sched_lock
+Message-ID: <YKfIXdZbWVk1NQxD@phenom.ffwll.local>
+References: <20210521090959.1663703-1-daniel.vetter@ffwll.ch>
+ <20210521090959.1663703-2-daniel.vetter@ffwll.ch>
+ <066b1c490a1251113fbcf7f2270654be25be4f29.camel@pengutronix.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210521124946.3617862-3-vkoul@kernel.org>
+In-Reply-To: <066b1c490a1251113fbcf7f2270654be25be4f29.camel@pengutronix.de>
+X-Operating-System: Linux phenom 5.10.32scarlett+ 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,72 +67,127 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Jonathan Marek <jonathan@marek.ca>,
- David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org, Abhinav Kumar <abhinavk@codeaurora.org>,
- Rob Herring <robh+dt@kernel.org>, dri-devel@lists.freedesktop.org,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- freedreno@lists.freedesktop.org
+Cc: Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Steven Price <steven.price@arm.com>,
+ Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+ Daniel Vetter <daniel.vetter@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri 21 May 07:49 CDT 2021, Vinod Koul wrote:
-
-> DSC enables streams to be compressed before we send to panel. This
-> requires DSC enabled encoder and a panel to be present. So we add this
-> information in board DTS and find if DSC can be enabled and the
-> parameters required to configure DSC are added to binding document along
-> with example
+On Fri, May 21, 2021 at 11:32:48AM +0200, Lucas Stach wrote:
+> Am Freitag, dem 21.05.2021 um 11:09 +0200 schrieb Daniel Vetter:
+> > Scheduler takes care of its own locking, dont worry. For everything else
+> > there's reservation locking on each bo.
+> > 
+> > So seems to be entirely redundnant and just a bit in the way.
 > 
-> Signed-off-by: Vinod Koul <vkoul@kernel.org>
-> ---
->  .../devicetree/bindings/display/msm/dsi.txt       | 15 +++++++++++++++
->  1 file changed, 15 insertions(+)
+> I haven't read all the surrounding code, but this looks wrong from a
+> glance. You must hold a lock across drm_sched_job_init ->
+> drm_sched_entity_push_job as the scheduler fences are initialized in
+> the job init, so if there's no exclusive section across those two
+> function calls you might end up with jobs being queued with their fence
+> seqnos not monotonically increasing, which breaks all kinds of other
+> stuff.
+
+Uh indeed. That's a bit a loaded gun since generally _init() shouldn't
+have any such side effects.
+
+> I don't see a reason to hold the lock across the reservation calls,
+> though.
+
+Ok I'll adjust the patch.
+-Daniel
+
 > 
-> diff --git a/Documentation/devicetree/bindings/display/msm/dsi.txt b/Documentation/devicetree/bindings/display/msm/dsi.txt
-> index b9a64d3ff184..83d2fb92267e 100644
-> --- a/Documentation/devicetree/bindings/display/msm/dsi.txt
-> +++ b/Documentation/devicetree/bindings/display/msm/dsi.txt
-> @@ -48,6 +48,13 @@ Optional properties:
->  - pinctrl-n: the "sleep" pinctrl state
->  - ports: contains DSI controller input and output ports as children, each
->    containing one endpoint subnode.
-> +- qcom,mdss-dsc-enabled: Display Stream Compression (DSC) is enabled
-> +- qcom,mdss-slice-height: DSC slice height in pixels
-> +- qcom,mdss-slice-width: DSC slice width in pixels
-> +- qcom,mdss-slice-per-pkt: DSC slices per packet
-> +- qcom,mdss-bit-per-component: DSC bits per component
-> +- qcom,mdss-bit-per-pixel: DSC bits per pixel
-> +- qcom,mdss-block-prediction-enable: Block prediction mode of DSC enabled
->  
->    DSI Endpoint properties:
->    - remote-endpoint: For port@0, set to phandle of the connected panel/bridge's
-> @@ -188,6 +195,14 @@ Example:
->  		qcom,master-dsi;
->  		qcom,sync-dual-dsi;
->  
-> +		qcom,mdss-dsc-enabled;
-
-To me the activation of DSC seems to be a property of the panel.
-
-> +		qcom,mdss-slice-height = <16>;
-> +		qcom,mdss-slice-width = <540>;
-> +		qcom,mdss-slice-per-pkt = <1>;
-> +		qcom,mdss-bit-per-component = <8>;
-> +		qcom,mdss-bit-per-pixel = <8>;
-> +		qcom,mdss-block-prediction-enable;
-
-Which of these properties relates to the DSC encoder and what needs to
-be agreed with the sink? Can't we derive e.g. bpp from the information
-we have from the attached panel already?
-
-Regards,
-Bjorn
-
-> +
->  		qcom,mdss-mdp-transfer-time-us = <12000>;
->  
->  		pinctrl-names = "default", "sleep";
-> -- 
-> 2.26.3
+> Regards,
+> Lucas
 > 
+> > 
+> > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+> > Cc: Rob Herring <robh@kernel.org>
+> > Cc: Tomeu Vizoso <tomeu.vizoso@collabora.com>
+> > Cc: Steven Price <steven.price@arm.com>
+> > Cc: Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
+> > ---
+> >  drivers/gpu/drm/panfrost/panfrost_device.c |  1 -
+> >  drivers/gpu/drm/panfrost/panfrost_device.h |  2 --
+> >  drivers/gpu/drm/panfrost/panfrost_job.c    | 13 ++-----------
+> >  3 files changed, 2 insertions(+), 14 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/panfrost/panfrost_device.c b/drivers/gpu/drm/panfrost/panfrost_device.c
+> > index 125ed973feaa..23070c01c63f 100644
+> > --- a/drivers/gpu/drm/panfrost/panfrost_device.c
+> > +++ b/drivers/gpu/drm/panfrost/panfrost_device.c
+> > @@ -199,7 +199,6 @@ int panfrost_device_init(struct panfrost_device *pfdev)
+> >  	int err;
+> >  	struct resource *res;
+> >  
+> > -	mutex_init(&pfdev->sched_lock);
+> >  	INIT_LIST_HEAD(&pfdev->scheduled_jobs);
+> >  	INIT_LIST_HEAD(&pfdev->as_lru_list);
+> >  
+> > diff --git a/drivers/gpu/drm/panfrost/panfrost_device.h b/drivers/gpu/drm/panfrost/panfrost_device.h
+> > index 597cf1459b0a..7519903bb031 100644
+> > --- a/drivers/gpu/drm/panfrost/panfrost_device.h
+> > +++ b/drivers/gpu/drm/panfrost/panfrost_device.h
+> > @@ -105,8 +105,6 @@ struct panfrost_device {
+> >  
+> >  	struct panfrost_perfcnt *perfcnt;
+> >  
+> > -	struct mutex sched_lock;
+> > -
+> >  	struct {
+> >  		struct work_struct work;
+> >  		atomic_t pending;
+> > diff --git a/drivers/gpu/drm/panfrost/panfrost_job.c b/drivers/gpu/drm/panfrost/panfrost_job.c
+> > index 6003cfeb1322..f5d39ee14ab5 100644
+> > --- a/drivers/gpu/drm/panfrost/panfrost_job.c
+> > +++ b/drivers/gpu/drm/panfrost/panfrost_job.c
+> > @@ -218,26 +218,19 @@ static void panfrost_attach_object_fences(struct drm_gem_object **bos,
+> >  
+> >  int panfrost_job_push(struct panfrost_job *job)
+> >  {
+> > -	struct panfrost_device *pfdev = job->pfdev;
+> >  	int slot = panfrost_job_get_slot(job);
+> >  	struct drm_sched_entity *entity = &job->file_priv->sched_entity[slot];
+> >  	struct ww_acquire_ctx acquire_ctx;
+> >  	int ret = 0;
+> >  
+> > -	mutex_lock(&pfdev->sched_lock);
+> > -
+> >  	ret = drm_gem_lock_reservations(job->bos, job->bo_count,
+> >  					    &acquire_ctx);
+> > -	if (ret) {
+> > -		mutex_unlock(&pfdev->sched_lock);
+> > +	if (ret)
+> >  		return ret;
+> > -	}
+> >  
+> >  	ret = drm_sched_job_init(&job->base, entity, NULL);
+> > -	if (ret) {
+> > -		mutex_unlock(&pfdev->sched_lock);
+> > +	if (ret)
+> >  		goto unlock;
+> > -	}
+> >  
+> >  	job->render_done_fence = dma_fence_get(&job->base.s_fence->finished);
+> >  
+> > @@ -248,8 +241,6 @@ int panfrost_job_push(struct panfrost_job *job)
+> >  
+> >  	drm_sched_entity_push_job(&job->base, entity);
+> >  
+> > -	mutex_unlock(&pfdev->sched_lock);
+> > -
+> >  	panfrost_attach_object_fences(job->bos, job->bo_count,
+> >  				      job->render_done_fence);
+> >  
+> 
+> 
+
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
