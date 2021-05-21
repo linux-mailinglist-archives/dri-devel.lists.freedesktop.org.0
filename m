@@ -1,34 +1,34 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A993938C6FC
-	for <lists+dri-devel@lfdr.de>; Fri, 21 May 2021 14:50:56 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6614838C6FF
+	for <lists+dri-devel@lfdr.de>; Fri, 21 May 2021 14:51:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5649A6E500;
-	Fri, 21 May 2021 12:50:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 34A4E6F63D;
+	Fri, 21 May 2021 12:50:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 97ADE6E500;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 07D716F63D;
+ Fri, 21 May 2021 12:50:57 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 17FE4613DD;
  Fri, 21 May 2021 12:50:52 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id A822D613E1;
- Fri, 21 May 2021 12:50:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1621601452;
+ s=k20201202; t=1621601456;
  bh=Y6oR0c4fZFzazX3E5d47MSfaK8VBELYA/cqVKr86K0Q=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=SyD6SrfwUWsrUjTwyqnxtuT3D4gOGroTKnqxSpmqMuTgvKgJbFkfyT/dCHaspgSvp
- Gvc0+KJVKbvCAscrHU/G6A38DgOnXRYmmJKYHAXy2CyTAKtqtPEo69MPVO+cGpExM0
- ZtLyWSTFM34U7t+BH0IZQ/IFul+wXktg5O6/WZ9aNqxHHsU9qqLhK0emt/zOE275dY
- KLAVHARpFGzLPSLtZdxxO0JXSJ89R9OU3ZKT+b4sTIKDW76DG3oULAPmEJrxGdTn55
- +f6QLzq6dV4iPyAz9uMmMVTvzOAkTyE5UHy0hvWm2a+cz97NtE8FOKhVUA1RrU5+TN
- zDNxaAgGyvQew==
+ b=Ez8g6zKIWFa0iXr/TmnV7hC8yycw1QjLElWJHhL1qeADa6euFZ/OqxcqDBcwn6Q2z
+ yzdWzDqFy5C7gHcyEJKbIKL1Rq6nvwyyGwHypQfo4afjU/qEWTNPvCq6E0r0x+CLuw
+ KlwKC4v0yEiTHqg2Qzo9/kSs/fbg+/DnF3Lq11Zyezjoj4bn9zSy5WTqZRJwnGLxWK
+ OEMOlDYWa8sxOeAy2l5Bt1S/61hhLPGyXgFHMEa8pY2FrnqTM15IlBAwQEuEYBKp7Z
+ FHwDW2lGghykiaA+aBNAyadcurEvTzTDzSRQ9g7jd90YacpvZ+MLH+bhYojIc2kWs1
+ +NIiX1KV6QoEQ==
 From: Vinod Koul <vkoul@kernel.org>
 To: Rob Clark <robdclark@gmail.com>
-Subject: [RFC PATCH 09/13] drm/msm/disp/dpu1: Don't use DSC with mode_3d
-Date: Fri, 21 May 2021 18:19:41 +0530
-Message-Id: <20210521124946.3617862-13-vkoul@kernel.org>
+Subject: [RFC PATCH 09/13] drm/msm/disp/dpu1: Dont use DSC with mode_3d
+Date: Fri, 21 May 2021 18:19:42 +0530
+Message-Id: <20210521124946.3617862-14-vkoul@kernel.org>
 X-Mailer: git-send-email 2.26.3
 In-Reply-To: <20210521124946.3617862-1-vkoul@kernel.org>
 References: <20210521124946.3617862-1-vkoul@kernel.org>
