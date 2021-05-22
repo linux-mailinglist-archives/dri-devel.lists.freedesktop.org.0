@@ -1,53 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A88C638D52F
-	for <lists+dri-devel@lfdr.de>; Sat, 22 May 2021 12:34:47 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B598738D531
+	for <lists+dri-devel@lfdr.de>; Sat, 22 May 2021 12:36:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6548A6E197;
-	Sat, 22 May 2021 10:34:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B29BC6E1BB;
+	Sat, 22 May 2021 10:36:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-lj1-x235.google.com (mail-lj1-x235.google.com
  [IPv6:2a00:1450:4864:20::235])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8618B6E197
- for <dri-devel@lists.freedesktop.org>; Sat, 22 May 2021 10:34:41 +0000 (UTC)
-Received: by mail-lj1-x235.google.com with SMTP id v5so26943647ljg.12
- for <dri-devel@lists.freedesktop.org>; Sat, 22 May 2021 03:34:41 -0700 (PDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 15FC06E1BB
+ for <dri-devel@lists.freedesktop.org>; Sat, 22 May 2021 10:36:05 +0000 (UTC)
+Received: by mail-lj1-x235.google.com with SMTP id b12so19752076ljp.1
+ for <dri-devel@lists.freedesktop.org>; Sat, 22 May 2021 03:36:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=GYUGb+Vmff9gIUFyntVd0FDSDvGjX/ufL9sA1nyH3vE=;
- b=BoJ8q46zkHwgiqwqQriO/CkcH2ITeLf1ezMGx+UzZ8wDLGLO89xIOlJochoYDjDjWD
- VKfN6KnYmFLB6KSnYwg+92T2S7iOLUicG+XA/VkwSPkDfLa0WoMwqCiNkWhUogFjad74
- m6WXkkfcz9fq/r+HAtrmj/7OmM2bIeWOW1c7iMm5v8+ZHPQBbU5g2oeV2FQZj8sFlhI5
- Vxayp7bWj1GlHkAtIK5GTCSwY8mn0K8RTEfO50R/b0+ozUyYoiTomGDigFs5riqELBa5
- Y8zobRoz3tuQhl8Kc5/PykT1s7cppXe7/V2Hke6tIKBaDMkyYY23avqaiUk98xQ5gFcU
- 2B+A==
+ :cc; bh=uEhRMz+h4s+U252SiXX0wJyFMC3DU6kb4X4RIqT3O+Y=;
+ b=zz4FoFVJqy8UtrEZzcqoNqGE/xS1BRFRsXQ/rs1MIjHMJNz7zpJvBNzE902fPGbdRH
+ ZDN4vaUJ+D+oxbTlgdvAXqZr0a1sJsK4q5nVUnKtAaukoduVKLUj75FB7wJX61IQ65cS
+ TpgC0DcZXzi+PomwBK/TipbXqCXYXd9pm3NzITCVNSaMuumN2TKm3fVmQmOzcXuAlJgv
+ 3Lo8Tbxjhpfa448yBf4cCqmmcCBchyla8VHgeDiH2rOGkXV/3bg529Hj3ur6MaqsIuzS
+ WlAl2Zc79g7PXqs+DgPwSqqvS0R9nAJ7IKXibuzp0GZ/izx5MmzmmTM7eiyhOBEjjj7w
+ vDAQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=GYUGb+Vmff9gIUFyntVd0FDSDvGjX/ufL9sA1nyH3vE=;
- b=pjtzkXYAhXmF/qBtbEL5az+BGHx6C3q/fCcYayrIFL/1n0mJchAM+dTaS55ymecxe0
- UBPRiIMgCR43qTCAWX/HUobTm2neNV8mZWhumGdwYuDNjPV0zzW4zjvY9zELRKvgMO5L
- oWlMozZUEciNyGumShqtOYNUNQudg/Zo1lv5/DsphnAAMKet+hSXYa8fLiI91A/8Uafb
- nduFS4ZExnb3EK0oQwlxm6QnklTJaV47KYEA1AZ6gEejlqhurf1WZ0cesHnHsYgkSNIG
- A65SstBo/W9wgbppcXWiUa63VEawKzxNl2qpLV4DEndOMUIrDZXFYKvBcyx0D9f5AL9Z
- KFrg==
-X-Gm-Message-State: AOAM532A2GFZ+G/D3KsmN9FDC2PJdS0jrM91WC3HmPpaD/8+eog+Sx/b
- j5ct95BoZBWEzFxVJ4wxyZ453wTB+jNwIydDDk9pig==
-X-Google-Smtp-Source: ABdhPJz+ibDLMNP419ZZFrjVh+qJ+I+wQfZgaVgBBcDbk/aF9PHnxGEBejFwxuPQTBjJzM6NkcCaBX514iUfRyBvKSw=
-X-Received: by 2002:a2e:889a:: with SMTP id k26mr9933011lji.438.1621679679967; 
- Sat, 22 May 2021 03:34:39 -0700 (PDT)
+ bh=uEhRMz+h4s+U252SiXX0wJyFMC3DU6kb4X4RIqT3O+Y=;
+ b=G12oAgZI2Unz+kMy9lz1lM30AzEy+DP+XbkA7i3w0VypDXC5D9MCsFIyi0plla9gpi
+ eM9A72f4kbm+Cx5aaWnOKxpxw/ixPXA/HvzOzPl+loO93HR/0088DpEZI0NjndtfQaH7
+ UWUE1d8wDusMbiDHcwQryyLxKx5py8XzSw8drbC9FzXjw/SmMp4bzfc/TW3TkD1kzFle
+ j13M6N/019WU5wkutDTk8VLLQjOmHqz849a1YnubuZTGiQ8XZXBfOL0Z/DowDxuOJVYq
+ eFO94KUMbr3MEqZQr0+Akl6hqlrf44VtN4ODp+m6sMZx8TMZ2C5BN7sx/bnbIlnxsdkv
+ UFHA==
+X-Gm-Message-State: AOAM532klpViXad7sLLOYffhbSrnhGGpwdpTNUlQ0B/Pb64i4iWBfsIc
+ sbggYLG1FZNkJMCghH3FeWOrhAt9CH9Zo9nZYZd4wA==
+X-Google-Smtp-Source: ABdhPJxycv64EJ7V1TCZmsfzdpdPw+UifhMakV61YhCiGLTIcrIBnId4CHLWEyyg2ghmKXaVDG5iILa/Ym8q0MXZZsM=
+X-Received: by 2002:a2e:81d0:: with SMTP id s16mr10522164ljg.74.1621679763505; 
+ Sat, 22 May 2021 03:36:03 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210517200907.1459182-1-dianders@chromium.org>
- <20210517130450.v7.4.I787c9ba09ed5ce12500326ded73a4f7c9265b1b3@changeid>
-In-Reply-To: <20210517130450.v7.4.I787c9ba09ed5ce12500326ded73a4f7c9265b1b3@changeid>
+ <20210517130450.v7.8.Ib5fe0638da85800141ce141bb8e441c5f25438d4@changeid>
+In-Reply-To: <20210517130450.v7.8.Ib5fe0638da85800141ce141bb8e441c5f25438d4@changeid>
 From: Linus Walleij <linus.walleij@linaro.org>
-Date: Sat, 22 May 2021 12:34:28 +0200
-Message-ID: <CACRpkda_MTBrXR-as5t_Ji8mU4=95NQ_GTDtjcERncm9yS1moA@mail.gmail.com>
-Subject: Re: [PATCH v7 04/10] drm: Introduce the DP AUX bus
+Date: Sat, 22 May 2021 12:35:52 +0200
+Message-ID: <CACRpkdYYw5yH2LF7PQ_eQRR6VdfGthUdTBrrrqN-0wc+A39WnA@mail.gmail.com>
+Subject: Re: [PATCH v7 08/10] drm/bridge: ti-sn65dsi86: Add support for the DP
+ AUX bus
 To: Douglas Anderson <dianders@chromium.org>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -62,52 +63,31 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
+Cc: Rob Clark <robdclark@chromium.org>,
+ Jernej Skrabec <jernej.skrabec@siol.net>, Jonas Karlman <jonas@kwiboo.se>,
+ David Airlie <airlied@linux.ie>, MSM <linux-arm-msm@vger.kernel.org>,
+ Neil Armstrong <narmstrong@baylibre.com>,
+ linux-kernel <linux-kernel@vger.kernel.org>,
  "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- Andrzej Hajda <a.hajda@samsung.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Sam Ravnborg <sam@ravnborg.org>, Rob Clark <robdclark@chromium.org>,
+ Stephen Boyd <swboyd@chromium.org>,
  Stanislav Lisovskiy <stanislav.lisovskiy@intel.com>,
- Thierry Reding <treding@nvidia.com>, Thomas Zimmermann <tzimmermann@suse.de>,
- Jonas Karlman <jonas@kwiboo.se>, MSM <linux-arm-msm@vger.kernel.org>,
- Stephen Boyd <swboyd@chromium.org>, Steev Klimaszewski <steev@kali.org>,
- Jernej Skrabec <jernej.skrabec@siol.net>,
- Rajeev Nandan <rajeevny@codeaurora.org>,
- linux-kernel <linux-kernel@vger.kernel.org>
+ Andrzej Hajda <a.hajda@samsung.com>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Robert Foss <robert.foss@linaro.org>, Thierry Reding <treding@nvidia.com>,
+ Sam Ravnborg <sam@ravnborg.org>, Steev Klimaszewski <steev@kali.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On Mon, May 17, 2021 at 10:09 PM Douglas Anderson <dianders@chromium.org> wrote:
 
-> Historically "simple" eDP panels have been handled by panel-simple
-> which is a basic platform_device. In the device tree, the panel node
-> was at the top level and not connected to anything else.
+> We want to provide our panel with access to the DP AUX channel. The
+> way to do this is to let our panel be a child of ours using the fancy
+> new DP AUX bus support.
 >
-> Let's change it so that, instead, panels can be represented as being
-> children of the "DP AUX bus". Essentially we're saying that the
-> hierarchy that we're going to represent is the "control" connections
-> between devices. The DP AUX bus is a control bus provided by an eDP
-> controller (the parent) and consumed by a device like a panel (the
-> child).
->
-> The primary incentive here is to cleanly provide the panel driver the
-> ability to communicate over the AUX bus while handling lifetime issues
-> properly. The panel driver may want the AUX bus for controlling the
-> backlight or querying the panel's EDID.
->
-> The idea for this bus's design was hashed out over IRC [1].
->
-> [1] https://people.freedesktop.org/~cbrill/dri-log/?channel=dri-devel&date=2021-05-11
->
-> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Cc: Lyude Paul <lyude@redhat.com>
-> Cc: Rajeev Nandan <rajeevny@codeaurora.org>
-> Suggested-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 > Signed-off-by: Douglas Anderson <dianders@chromium.org>
 
-I like the concept and the general idea behind this, clean and
-helpful design.
+That's neat.
 Acked-by: Linus Walleij <linus.walleij@linaro.org>
 
 Yours,
