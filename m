@@ -2,28 +2,123 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9C8C38DC1E
-	for <lists+dri-devel@lfdr.de>; Sun, 23 May 2021 19:12:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BFF6C38DC23
+	for <lists+dri-devel@lfdr.de>; Sun, 23 May 2021 19:16:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5A1B06E523;
-	Sun, 23 May 2021 17:12:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4BB636E527;
+	Sun, 23 May 2021 17:16:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from aposti.net (aposti.net [89.234.176.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CC0546E523
- for <dri-devel@lists.freedesktop.org>; Sun, 23 May 2021 17:12:31 +0000 (UTC)
-From: Paul Cercueil <paul@crapouillou.net>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH v5 3/3] drm/ingenic: Add option to alloc cached GEM buffers
-Date: Sun, 23 May 2021 18:04:15 +0100
-Message-Id: <20210523170415.90410-4-paul@crapouillou.net>
-In-Reply-To: <20210523170415.90410-1-paul@crapouillou.net>
-References: <20210523170415.90410-1-paul@crapouillou.net>
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com
+ (mail-co1nam11on2053.outbound.protection.outlook.com [40.107.220.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ED86E6E527
+ for <dri-devel@lists.freedesktop.org>; Sun, 23 May 2021 17:16:11 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=PKx2j4YHfLpRV2Aly8fpuVhnCqrH4pTCoYb8+7GX2a3AMobjOWZbCbDcRlj3ePbeODuBZhALmr6W0VgbpCl2Nt5fr8ZZbNinuPW44vn/Dy3HwitcLiI092T9eapjctspQYFnrk50oBjIXQmKC+0Cw5RqRCRaLCEYzsP0Ae4jm3daTBYdXq+j6g+3AXzMidHKCRsrPi7jbBKcU/LS7Vy2NUBG8ZOCxiSYC3GFlWxbrMF+qe3xZx54GbPeLLbY+9fANH1sChefWInHPgK1d167ASdUik+PpcPRPmdt9KyJ1pNcI41mnJwDkjxRTl+AtnhxcIBxl84jIofwiyureyCu4A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=zdK3kBMm/GI2w1Fww7m9W81MVzo1DlkbcEoUNGbqoB8=;
+ b=VsrKfY6TUmJBfR9F0DC29XJJPnia2VsnHZ7NvigE/8YxmQYcXQpKEtSNK9UPxqf8+c8+HfwdRHKEZEGgMo/IC9ODI3QveidjroD53OVvwRtQxILaJhXU3qHjZIPUfZCYRKIFUva71od6j4DY1y7F7e54ODLalek/JB5UMmCHRFwT6FbeU/4RFdWqRMobTde1/mHScrCZWU5CfeGIwRrY+0jRtV+VeFg3alkB3rgTn7SmcHp8ykOIUVt9bOg7189Wftm0M0tYYi0tvfqFiPB5BxHLLHd4g4aO6k8u+aj9GkkNmDqVQ8GDsFAOS8cQdarnYHhyJNBDGQW6GXK2nBz4bQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=zdK3kBMm/GI2w1Fww7m9W81MVzo1DlkbcEoUNGbqoB8=;
+ b=EIqJrFodgUf3/8bVER8l1moQmwBQ/K66qoHX97rlBdXi8C2cB5U+A/h9P8w9v6F5voBMdUbb621Ut9DjjQUeOTcxqVt7MW/Wv4ao6LknfJzPwYB5cF25dS0tLJLw4JPtNSHq8t3CVYqxNcbBl4fXvLZmjXpAWAYKUVnhZhGr0oY=
+Authentication-Results: intel.com; dkim=none (message not signed)
+ header.d=none;intel.com; dmarc=none action=none header.from=amd.com;
+Received: from MN2PR12MB3775.namprd12.prod.outlook.com (2603:10b6:208:159::19)
+ by MN2PR12MB4096.namprd12.prod.outlook.com (2603:10b6:208:1dc::13)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4150.27; Sun, 23 May
+ 2021 17:16:09 +0000
+Received: from MN2PR12MB3775.namprd12.prod.outlook.com
+ ([fe80::6d4d:4674:1cf6:8d34]) by MN2PR12MB3775.namprd12.prod.outlook.com
+ ([fe80::6d4d:4674:1cf6:8d34%6]) with mapi id 15.20.4150.027; Sun, 23 May 2021
+ 17:16:09 +0000
+Subject: EPOLL for drm_syncfile (was Re: [PATCH 4/4] RFC: dma-buf: Add an API
+ for importing sync files (v6))
+To: Daniel Stone <daniel@fooishbar.org>, Jason Ekstrand <jason@jlekstrand.net>
+References: <20210520190007.534046-1-jason@jlekstrand.net>
+ <20210520190007.534046-5-jason@jlekstrand.net>
+ <CAPj87rPW2xmOLKg6OgQST6QrH9u5-qmdRJrNDug+rWa=Uv6ZBQ@mail.gmail.com>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Message-ID: <0a54d998-1c4b-724c-ec2d-a6c23aa35c21@amd.com>
+Date: Sun, 23 May 2021 19:15:57 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
+In-Reply-To: <CAPj87rPW2xmOLKg6OgQST6QrH9u5-qmdRJrNDug+rWa=Uv6ZBQ@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-Originating-IP: [2a02:908:1252:fb60:d716:abf2:6ef8:7167]
+X-ClientProxiedBy: AM0PR02CA0090.eurprd02.prod.outlook.com
+ (2603:10a6:208:154::31) To MN2PR12MB3775.namprd12.prod.outlook.com
+ (2603:10b6:208:159::19)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [IPv6:2a02:908:1252:fb60:d716:abf2:6ef8:7167]
+ (2a02:908:1252:fb60:d716:abf2:6ef8:7167) by
+ AM0PR02CA0090.eurprd02.prod.outlook.com (2603:10a6:208:154::31) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4150.23 via Frontend
+ Transport; Sun, 23 May 2021 17:16:07 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: f33df75a-7892-4545-5ad8-08d91e0e74bc
+X-MS-TrafficTypeDiagnostic: MN2PR12MB4096:
+X-Microsoft-Antispam-PRVS: <MN2PR12MB409663C5307F84362D6414ED83279@MN2PR12MB4096.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 6oXRstqp+ZNkOgS90gIyQfAmjKHewxIlxDoCbHFmnZzl2QY+gGREaWWcOp216etC6WTfhQNFlVRwfYeMzTK2MDMel9gIzzs1oV4OrguCpGnMYlsY0t467d3ZRJGI7IdkaDHaoIjlqMX373PxvvijRfB4oNwO+3fDy4FD6Fonpl6P3/vcM0gkplP8hjMNtpQgZvUt5W4msxdgUweN/AOSVjIpB7E8uqyy1++LiGSFQyIDqro3Qq9Il8DlgsWZpRYkT3bF8Xrfuio5NZs95gOhj2i2fpvcCC936ivZw58e8SbhDHA98DGQBq2+yHyVxYhyra7WEiaMnTEZl40O1UelY4lRK97muxgRyLICA3ra68bXqZPOK/klA1pU3bTfKZs5mKO7U109qLkX0EOehWhax0jo8P4gY1OAqarSydeyOvsH00uh2CWOH9VaLi+/7v39zBkB0ejh3IaZb2fJZWXT8lje7QiFSUW0Bluz2l3CO2V6VMi2NP0aYJlWIHmmBCCAuvYx6VzpivmBB5kU9pyaUw/T5gpecZeK/ywuDOe6gYJUouJ08vkxwvTVOt8+h79VbjEtVRKult7kqy9qF3qFVA534SLCO8+dwyYJNchRESKUFMjgYBtcvaaqiOFd0XGVKUNMMNjS0BzShlGLNwceN+J7XaC2f38OJM8+AdcOTAWpv3ck0xk4H34csjqIIXrb
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MN2PR12MB3775.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(376002)(396003)(39860400002)(346002)(366004)(136003)(8676002)(110136005)(2906002)(478600001)(5660300002)(36756003)(54906003)(316002)(52116002)(38100700002)(4326008)(6486002)(31696002)(6666004)(66476007)(66946007)(8936002)(186003)(16526019)(86362001)(83380400001)(2616005)(66556008)(31686004)(43740500002)(45980500001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?Q296SDVwcVZsQ1FtUUQyUC9NZmh5QkE0RXZSNVBwUFJWcmI3dHEvaWt1Mi9R?=
+ =?utf-8?B?YXdleEZ0T2FSSUI0NkQzek9MaDFua0JOZzJmd2YvbFpVUlJVd0VGUTBVYUVD?=
+ =?utf-8?B?MzhKK213ZUdQQnVqU0lMRXd0NjhJVDhiaVJ5VnYybTZ4LzJqcFl1MUlvNmlt?=
+ =?utf-8?B?Y043OVB3WFBZTzVnTXRDZ3pxc2Y0Zld4SUpuTTJsQVJOaHJpeGJRVWUzbVVD?=
+ =?utf-8?B?RnpHRWRsMWRvQklpZ2hqTjhXNGRoTW5LN1FVYlE4dVc3SGxrbGxtVkFpSVdy?=
+ =?utf-8?B?Y05YY3NZZjJoN2ZHbXJSWW9qRHV6R2JHTjV0em5zdllGV0szMUQ4ejJ3N3R1?=
+ =?utf-8?B?UnJIdzcxSWlmaEx6enVhSEp2dGxjcU01VmZ4bzJqbVdRQVZzT2hUMUpraEdV?=
+ =?utf-8?B?T3VkOFFWNFRhNm1idGZIY2c1UzlFQkxDTHlkSHZvakI4azFFWGk5b2NQVmdG?=
+ =?utf-8?B?VSsxUDgwTHQxMUpQaVJsUExwNkpvUFlYV3VqckJRVDNQWE5LY1dhKzNmSGVp?=
+ =?utf-8?B?Zit3RHZXMzNnUkxwVzdicEVnZVlUT3kzN2NsV0tXaW9wTGMzVTB0S2Jzd0dy?=
+ =?utf-8?B?M29sQ2paMDlHeHhNTGhDSWFadEVwOVFiUXUvdkJ1dzFLeUdnRVFUaXIwVldq?=
+ =?utf-8?B?VDRMWXNETzdncGRiNEJpMlFsZW1WckVGWFlBclpjZ05qYTMveXlaU25Dcmho?=
+ =?utf-8?B?NmZpZWwvcXBVOXM0ZDRkU0N3RG80RjJzbFdxT05JWHlDMUM2ekVWZisyRGJX?=
+ =?utf-8?B?QnBNRmNxK1ZRUlVnRENSdjZtbEY5UStOZnVJdDJZcnBFRFQwSnZiOWtEeG5y?=
+ =?utf-8?B?VmJiR1NpN1pqY0oycDdpaEFIdnRBL3NaL2FQa3lPaWV4eU1UUDBoR2dJZG9W?=
+ =?utf-8?B?MjA5eHRzVXhJM0pBRDR1clYydmJ3Qlg5RWxpTTlCUFQzVGtad2hoczR4cXlX?=
+ =?utf-8?B?MmdmbTY5aytwTnFZbWpndUpuSXZ3aW12dThHdUlxQmhUK1hRN2NDNnBnZ1pK?=
+ =?utf-8?B?bDNOV2JBVm9lWlRBT1NNYy9VOUxWSlBWWnVPSEE1MmdCZTlnUGZLdjlTWkV5?=
+ =?utf-8?B?QjFhbmIrK0sxRi9mYXphK3R0K1R4b2JNZGhLVHREdkJ1RC9qakNFTjQ5QVFQ?=
+ =?utf-8?B?ODZsR3lPNUNiT2d1RlZEMlc3SUpFbi9sNUcwVkFVVW5FWGppRThLK2VIamsx?=
+ =?utf-8?B?WUYzSlZxalZnT29TNmUyR1NVT2NnVWw4eTVUYldvYmhFbGtwbEdiTUJyNFo4?=
+ =?utf-8?B?dXI4SWVIem1ZY041aUJxZjNjb0VQMDdoa0I0b2hNS0l4WW9CeVFrT3crUTRE?=
+ =?utf-8?B?ME9MUmpkd2pGdEhCRi8zWXRmaFRQdTBUV0prSVNhTGNaWkRWeHV2OG5Majh3?=
+ =?utf-8?B?SWpZSWVWN2x5Y0p6SjFvV1BCQXpnd0dCOEdmQnV2TGVteWF1eG5WTWM4VVdF?=
+ =?utf-8?B?eExwK0JXQ0NmUFYwSEJZVG1MelY0d3U0YWdsRndLdDZhVXFOVzJ5STFqRnh1?=
+ =?utf-8?B?QnBKcWY1RmdLRFNlYzhFMmlld0dUdkRteHVBQkNraXRDdS82dHBrVTNlMHVa?=
+ =?utf-8?B?elg0REsvZ1NlMkFRNjh2cWhjVGpYYmlkUk9oQ0JUKy9aWlVJTWdLN3B2dHVV?=
+ =?utf-8?B?LzNveHZsamorZ1I2cHFzMC9SZEhRcWQzWDhQR08wQnkwR3M2N29zWEU1dU5P?=
+ =?utf-8?B?RnNKakxlckhFUU16Z0N1SUJMK01QTDl5cjBIQ2dnUmtML2lkTTJIbTdVb0ds?=
+ =?utf-8?B?b2duWnpRUHNVeVUra3FHQ2toM0hsTWk3WnZYQnA5REF3enkya2g1cHV3NVRa?=
+ =?utf-8?B?RjJOMWpkVzArazJ6SGxBSHlTMU9tTzNGR3N4NUlpdlZwQUszZXJFaTU2aUNr?=
+ =?utf-8?Q?P0azZ+Z1v3Owt?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f33df75a-7892-4545-5ad8-08d91e0e74bc
+X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3775.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 May 2021 17:16:08.9360 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 5D6HSPnKNp6QF2746hxwrgndrXI2CMX6ulWnFT85WKQwkJ3eRfBu3r36iF2V/WcL
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4096
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -36,293 +131,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Paul Cercueil <paul@crapouillou.net>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-mips@vger.kernel.org,
- Christoph Hellwig <hch@infradead.org>, list@opendingux.net
+Cc: Daniel Vetter <daniel.vetter@intel.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Alloc GEM buffers backed by noncoherent memory on SoCs where it is
-actually faster than write-combine.
+Hi guys,
 
-This dramatically speeds up software rendering on these SoCs, even for
-tasks where write-combine memory should in theory be faster (e.g. simple
-blits).
+separating that discussion out since Daniel had a rather interesting 
+idea here.
 
-v3: The option is now selected per-SoC instead of being a module
-    parameter.
+Am 22.05.21 um 22:05 schrieb Daniel Stone:
+> [SNIP]
+> Anyway, the problem with syncobj is that the ioctl to wait for a
+> sync_file to materialise for a given timeline point only allows us to
+> block with a timeout; this is a non-starter, because we need something
+> which fits into epoll. The most optimal case is returning a new
+> eventfd or similar which signals when a given timeline point becomes
+> available or signaled, but in extremis a syncobj FD becoming readable
+> when any activity which would change the result of any zero-timeout
+> wait on that syncobj is more or less workable.
+>
 
-v5: - Fix drm_atomic_get_new_plane_state() used to retrieve the old
-      state
-    - Use custom drm_gem_fb_create()
-    - Only check damage clips and sync DMA buffers if non-coherent
-      buffers are used
+I think the tricky part is to epoll for a certain value.
 
-Signed-off-by: Paul Cercueil <paul@crapouillou.net>
----
- drivers/gpu/drm/ingenic/ingenic-drm-drv.c | 59 +++++++++++++++++++++--
- drivers/gpu/drm/ingenic/ingenic-drm.h     |  1 +
- drivers/gpu/drm/ingenic/ingenic-ipu.c     | 21 ++++++--
- 3 files changed, 74 insertions(+), 7 deletions(-)
+Not sure how eventfd is supposed to work, but IIRC we don't have the 
+functionality to poll for a certain value/offset etc to become available.
 
-diff --git a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-index 389cad59e090..5244f4763477 100644
---- a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-+++ b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-@@ -9,6 +9,7 @@
- #include <linux/component.h>
- #include <linux/clk.h>
- #include <linux/dma-mapping.h>
-+#include <linux/io.h>
- #include <linux/module.h>
- #include <linux/mutex.h>
- #include <linux/of_device.h>
-@@ -23,6 +24,7 @@
- #include <drm/drm_color_mgmt.h>
- #include <drm/drm_crtc.h>
- #include <drm/drm_crtc_helper.h>
-+#include <drm/drm_damage_helper.h>
- #include <drm/drm_drv.h>
- #include <drm/drm_encoder.h>
- #include <drm/drm_gem_cma_helper.h>
-@@ -57,6 +59,7 @@ struct ingenic_dma_hwdescs {
- struct jz_soc_info {
- 	bool needs_dev_clk;
- 	bool has_osd;
-+	bool map_noncoherent;
- 	unsigned int max_width, max_height;
- 	const u32 *formats_f0, *formats_f1;
- 	unsigned int num_formats_f0, num_formats_f1;
-@@ -410,6 +413,9 @@ static int ingenic_drm_plane_atomic_check(struct drm_plane *plane,
- 	     old_plane_state->fb->format->format != new_plane_state->fb->format->format))
- 		crtc_state->mode_changed = true;
- 
-+	if (priv->soc_info->map_noncoherent)
-+		drm_atomic_helper_check_plane_damage(state, new_plane_state);
-+
- 	return 0;
- }
- 
-@@ -526,6 +532,13 @@ void ingenic_drm_plane_config(struct device *dev,
- 	}
- }
- 
-+bool ingenic_drm_map_noncoherent(const struct device *dev)
-+{
-+	const struct ingenic_drm *priv = dev_get_drvdata(dev);
-+
-+	return priv->soc_info->map_noncoherent;
-+}
-+
- static void ingenic_drm_update_palette(struct ingenic_drm *priv,
- 				       const struct drm_color_lut *lut)
- {
-@@ -544,8 +557,8 @@ static void ingenic_drm_plane_atomic_update(struct drm_plane *plane,
- 					    struct drm_atomic_state *state)
- {
- 	struct ingenic_drm *priv = drm_device_get_priv(plane->dev);
--	struct drm_plane_state *newstate = drm_atomic_get_new_plane_state(state,
--									  plane);
-+	struct drm_plane_state *newstate = drm_atomic_get_new_plane_state(state, plane);
-+	struct drm_plane_state *oldstate = drm_atomic_get_old_plane_state(state, plane);
- 	struct drm_crtc_state *crtc_state;
- 	struct ingenic_dma_hwdesc *hwdesc;
- 	unsigned int width, height, cpp, offset;
-@@ -553,6 +566,9 @@ static void ingenic_drm_plane_atomic_update(struct drm_plane *plane,
- 	u32 fourcc;
- 
- 	if (newstate && newstate->fb) {
-+		if (priv->soc_info->map_noncoherent)
-+			drm_fb_cma_sync_non_coherent(&priv->drm, oldstate, newstate);
-+
- 		crtc_state = newstate->crtc->state;
- 
- 		addr = drm_fb_cma_get_gem_addr(newstate->fb, newstate, 0);
-@@ -742,6 +758,33 @@ static void ingenic_drm_disable_vblank(struct drm_crtc *crtc)
- 	regmap_update_bits(priv->map, JZ_REG_LCD_CTRL, JZ_LCD_CTRL_EOF_IRQ, 0);
- }
- 
-+static struct drm_framebuffer *
-+ingenic_drm_gem_fb_create(struct drm_device *drm, struct drm_file *file,
-+			  const struct drm_mode_fb_cmd2 *mode_cmd)
-+{
-+	struct ingenic_drm *priv = drm_device_get_priv(drm);
-+
-+	if (priv->soc_info->map_noncoherent)
-+		return drm_gem_fb_create_with_dirty(drm, file, mode_cmd);
-+
-+	return drm_gem_fb_create(drm, file, mode_cmd);
-+}
-+
-+static struct drm_gem_object *
-+ingenic_drm_gem_create_object(struct drm_device *drm, size_t size)
-+{
-+	struct ingenic_drm *priv = drm_device_get_priv(drm);
-+	struct drm_gem_cma_object *obj;
-+
-+	obj = kzalloc(sizeof(*obj), GFP_KERNEL);
-+	if (!obj)
-+		return ERR_PTR(-ENOMEM);
-+
-+	obj->map_noncoherent = priv->soc_info->map_noncoherent;
-+
-+	return &obj->base;
-+}
-+
- DEFINE_DRM_GEM_CMA_FOPS(ingenic_drm_fops);
- 
- static const struct drm_driver ingenic_drm_driver_data = {
-@@ -754,6 +797,7 @@ static const struct drm_driver ingenic_drm_driver_data = {
- 	.patchlevel		= 0,
- 
- 	.fops			= &ingenic_drm_fops,
-+	.gem_create_object	= ingenic_drm_gem_create_object,
- 	DRM_GEM_CMA_DRIVER_OPS,
- 
- 	.irq_handler		= ingenic_drm_irq_handler,
-@@ -804,7 +848,7 @@ static const struct drm_encoder_helper_funcs ingenic_drm_encoder_helper_funcs =
- };
- 
- static const struct drm_mode_config_funcs ingenic_drm_mode_config_funcs = {
--	.fb_create		= drm_gem_fb_create,
-+	.fb_create		= ingenic_drm_gem_fb_create,
- 	.output_poll_changed	= drm_fb_helper_output_poll_changed,
- 	.atomic_check		= drm_atomic_helper_check,
- 	.atomic_commit		= drm_atomic_helper_commit,
-@@ -961,6 +1005,9 @@ static int ingenic_drm_bind(struct device *dev, bool has_components)
- 		return ret;
- 	}
- 
-+	if (soc_info->map_noncoherent)
-+		drm_plane_enable_fb_damage_clips(&priv->f1);
-+
- 	drm_crtc_helper_add(&priv->crtc, &ingenic_drm_crtc_helper_funcs);
- 
- 	ret = drm_crtc_init_with_planes(drm, &priv->crtc, primary,
-@@ -989,6 +1036,9 @@ static int ingenic_drm_bind(struct device *dev, bool has_components)
- 			return ret;
- 		}
- 
-+		if (soc_info->map_noncoherent)
-+			drm_plane_enable_fb_damage_clips(&priv->f0);
-+
- 		if (IS_ENABLED(CONFIG_DRM_INGENIC_IPU) && has_components) {
- 			ret = component_bind_all(dev, drm);
- 			if (ret) {
-@@ -1245,6 +1295,7 @@ static const u32 jz4770_formats_f0[] = {
- static const struct jz_soc_info jz4740_soc_info = {
- 	.needs_dev_clk = true,
- 	.has_osd = false,
-+	.map_noncoherent = false,
- 	.max_width = 800,
- 	.max_height = 600,
- 	.formats_f1 = jz4740_formats,
-@@ -1255,6 +1306,7 @@ static const struct jz_soc_info jz4740_soc_info = {
- static const struct jz_soc_info jz4725b_soc_info = {
- 	.needs_dev_clk = false,
- 	.has_osd = true,
-+	.map_noncoherent = false,
- 	.max_width = 800,
- 	.max_height = 600,
- 	.formats_f1 = jz4725b_formats_f1,
-@@ -1266,6 +1318,7 @@ static const struct jz_soc_info jz4725b_soc_info = {
- static const struct jz_soc_info jz4770_soc_info = {
- 	.needs_dev_clk = false,
- 	.has_osd = true,
-+	.map_noncoherent = true,
- 	.max_width = 1280,
- 	.max_height = 720,
- 	.formats_f1 = jz4770_formats_f1,
-diff --git a/drivers/gpu/drm/ingenic/ingenic-drm.h b/drivers/gpu/drm/ingenic/ingenic-drm.h
-index 1b4347f7f084..22654ac1dde1 100644
---- a/drivers/gpu/drm/ingenic/ingenic-drm.h
-+++ b/drivers/gpu/drm/ingenic/ingenic-drm.h
-@@ -184,6 +184,7 @@ struct platform_driver;
- void ingenic_drm_plane_config(struct device *dev,
- 			      struct drm_plane *plane, u32 fourcc);
- void ingenic_drm_plane_disable(struct device *dev, struct drm_plane *plane);
-+bool ingenic_drm_map_noncoherent(const struct device *dev);
- 
- extern struct platform_driver *ingenic_ipu_driver_ptr;
- 
-diff --git a/drivers/gpu/drm/ingenic/ingenic-ipu.c b/drivers/gpu/drm/ingenic/ingenic-ipu.c
-index 3b1091e7c0cd..61b6d9fdbba1 100644
---- a/drivers/gpu/drm/ingenic/ingenic-ipu.c
-+++ b/drivers/gpu/drm/ingenic/ingenic-ipu.c
-@@ -20,10 +20,13 @@
- 
- #include <drm/drm_atomic.h>
- #include <drm/drm_atomic_helper.h>
-+#include <drm/drm_damage_helper.h>
- #include <drm/drm_drv.h>
- #include <drm/drm_fb_cma_helper.h>
- #include <drm/drm_fourcc.h>
- #include <drm/drm_gem_atomic_helper.h>
-+#include <drm/drm_gem_cma_helper.h>
-+#include <drm/drm_gem_framebuffer_helper.h>
- #include <drm/drm_plane.h>
- #include <drm/drm_plane_helper.h>
- #include <drm/drm_property.h>
-@@ -285,8 +288,8 @@ static void ingenic_ipu_plane_atomic_update(struct drm_plane *plane,
- 					    struct drm_atomic_state *state)
- {
- 	struct ingenic_ipu *ipu = plane_to_ingenic_ipu(plane);
--	struct drm_plane_state *newstate = drm_atomic_get_new_plane_state(state,
--									  plane);
-+	struct drm_plane_state *newstate = drm_atomic_get_new_plane_state(state, plane);
-+	struct drm_plane_state *oldstate = drm_atomic_get_old_plane_state(state, plane);
- 	const struct drm_format_info *finfo;
- 	u32 ctrl, stride = 0, coef_index = 0, format = 0;
- 	bool needs_modeset, upscaling_w, upscaling_h;
-@@ -317,6 +320,9 @@ static void ingenic_ipu_plane_atomic_update(struct drm_plane *plane,
- 				JZ_IPU_CTRL_CHIP_EN | JZ_IPU_CTRL_LCDC_SEL);
- 	}
- 
-+	if (ingenic_drm_map_noncoherent(ipu->master))
-+		drm_fb_cma_sync_non_coherent(ipu->drm, oldstate, newstate);
-+
- 	/* New addresses will be committed in vblank handler... */
- 	ipu->addr_y = drm_fb_cma_get_gem_addr(newstate->fb, newstate, 0);
- 	if (finfo->num_planes > 1)
-@@ -541,7 +547,7 @@ static int ingenic_ipu_plane_atomic_check(struct drm_plane *plane,
- 
- 	if (!new_plane_state->crtc ||
- 	    !crtc_state->mode.hdisplay || !crtc_state->mode.vdisplay)
--		return 0;
-+		goto out_check_damage;
- 
- 	/* Plane must be fully visible */
- 	if (new_plane_state->crtc_x < 0 || new_plane_state->crtc_y < 0 ||
-@@ -558,7 +564,7 @@ static int ingenic_ipu_plane_atomic_check(struct drm_plane *plane,
- 		return -EINVAL;
- 
- 	if (!osd_changed(new_plane_state, old_plane_state))
--		return 0;
-+		goto out_check_damage;
- 
- 	crtc_state->mode_changed = true;
- 
-@@ -592,6 +598,10 @@ static int ingenic_ipu_plane_atomic_check(struct drm_plane *plane,
- 	ipu->denom_w = denom_w;
- 	ipu->denom_h = denom_h;
- 
-+out_check_damage:
-+	if (ingenic_drm_map_noncoherent(ipu->master))
-+		drm_atomic_helper_check_plane_damage(state, new_plane_state);
-+
- 	return 0;
- }
- 
-@@ -773,6 +783,9 @@ static int ingenic_ipu_bind(struct device *dev, struct device *master, void *d)
- 		return err;
- 	}
- 
-+	if (ingenic_drm_map_noncoherent(master))
-+		drm_plane_enable_fb_damage_clips(plane);
-+
- 	/*
- 	 * Sharpness settings range is [0,32]
- 	 * 0       : nearest-neighbor
--- 
-2.30.2
+We could of course create a separate fd for each requested value to poll 
+for thought, but that sounds like a bit much overhead to me.
+
+Apart from that this is a really interesting idea.
+
+Regards,
+Christian.
+
 
