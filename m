@@ -1,27 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA27D38DC95
-	for <lists+dri-devel@lfdr.de>; Sun, 23 May 2021 21:19:44 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9583638DD51
+	for <lists+dri-devel@lfdr.de>; Sun, 23 May 2021 23:34:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 585DE6E550;
-	Sun, 23 May 2021 19:19:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1A65C89C83;
+	Sun, 23 May 2021 21:34:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from aposti.net (aposti.net [89.234.176.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7EC676E550
- for <dri-devel@lists.freedesktop.org>; Sun, 23 May 2021 19:19:41 +0000 (UTC)
-Date: Sun, 23 May 2021 20:19:27 +0100
-From: Paul Cercueil <paul@crapouillou.net>
-Subject: Re: [PATCH v5 0/3] Add option to mmap GEM buffers cached
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Message-Id: <F0RKTQ.VPIWIN1LS7JH3@crapouillou.net>
-In-Reply-To: <452b2228-2415-69d7-9212-51707daf8616@suse.de>
-References: <20210523170415.90410-1-paul@crapouillou.net>
- <452b2228-2415-69d7-9212-51707daf8616@suse.de>
+Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com
+ [IPv6:2a00:1450:4864:20::42d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9758389C83
+ for <dri-devel@lists.freedesktop.org>; Sun, 23 May 2021 21:34:29 +0000 (UTC)
+Received: by mail-wr1-x42d.google.com with SMTP id x7so6859258wrt.12
+ for <dri-devel@lists.freedesktop.org>; Sun, 23 May 2021 14:34:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=fooishbar-org.20150623.gappssmtp.com; s=20150623;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=XSo53BkmTpukZoNK0tWrKhE5ExZG3ncWZ5pFWgOEMRM=;
+ b=nb5a9I1zipxzhgnoR0Qk5XAxdFUZTOEX2bPa25hkDc3SX6F9Uxp+oA8PE7fP6qEYrD
+ jQAgcekR6tpiOPKksVy0EYqPN0ZF+YSmfimIQsjNCVHaEO+K5ilDK+Qu2wDdUq3eWBOn
+ Uov3Hj7tXcfH/FC6mqT8jQjEUV9w39fRJFKaahgAwvgoBlfPLDWCemfB9n5IJHPNqQVo
+ gm0NU3rSUDx3t5lPZJqFGDW3XBD8jH7R6z9OinYSh80RZw5nZ/MoVvyZwCg1bIvcgWEG
+ dzZy/TpT3tRK15GkoSvmf0zK43J3zSQz9djsq44OdLX6j0rft0Wk8uqFHMYse0ThRbYV
+ o3DQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=XSo53BkmTpukZoNK0tWrKhE5ExZG3ncWZ5pFWgOEMRM=;
+ b=MQcwmLPMR5MN66FhRNL7QH27j3a6PZHOya0QxuSgR4L9aNBdzyeILf47yvK0UQ4FCW
+ Q20Esfj+zURaNp2oXC4u0es0hx6ayWRf9NE31yNR3J5g8ZwervOqyAkr9Kmb7qdhjPnM
+ lR3FFRcK2Zpc/qDskyr04XJt56WuISgacUGMK1GnyLYOlIf7KNSqtpLAky6ZRen7uCfA
+ EW7/HD2HuGjeoL+63dsT+Pkz0eGQR89GEsoCL6wLybqnH3DsS2XUuBYaQ9f/eDaAV71t
+ QIzseP9KKuLtkLG6k6JaszW4Fub4HwZeABwpbGxTOcoFPkK2104OY620ab13lkgG1st+
+ ulSg==
+X-Gm-Message-State: AOAM530TfqAmcg6bYPQ5J2gAWB7QuPLjV95zzOrfTeKRGzef4Xq9SyU9
+ rfuew4JDO4rY5OBn8YMv53UzRGivwm7dPDqTivkKtg==
+X-Google-Smtp-Source: ABdhPJx19iPdSlNToM38aIFsaRPI7VT86tuK9r/f+L/7d6fw/PNgZ2xi7zhd38rNwN4+79xXOVkvlNmXkH6hddOQIjA=
+X-Received: by 2002:a05:6000:184a:: with SMTP id
+ c10mr20228406wri.244.1621805668086; 
+ Sun, 23 May 2021 14:34:28 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1; format=flowed
+References: <20210520190007.534046-1-jason@jlekstrand.net>
+ <20210520190007.534046-5-jason@jlekstrand.net>
+ <CAPj87rPW2xmOLKg6OgQST6QrH9u5-qmdRJrNDug+rWa=Uv6ZBQ@mail.gmail.com>
+ <0a54d998-1c4b-724c-ec2d-a6c23aa35c21@amd.com>
+In-Reply-To: <0a54d998-1c4b-724c-ec2d-a6c23aa35c21@amd.com>
+From: Daniel Stone <daniel@fooishbar.org>
+Date: Sun, 23 May 2021 22:34:16 +0100
+Message-ID: <CAPj87rOdE35n4yCe6U_384u0YR4oZ=zb9wKOH4PKEC4Ti5gUSg@mail.gmail.com>
+Subject: Re: EPOLL for drm_syncfile (was Re: [PATCH 4/4] RFC: dma-buf: Add an
+ API for importing sync files (v6))
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -35,101 +69,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-mips@vger.kernel.org,
- Christoph Hellwig <hch@infradead.org>, list@opendingux.net
+Cc: Daniel Vetter <daniel.vetter@intel.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Jason Ekstrand <jason@jlekstrand.net>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Thomas,
+Hi Christian,
 
-Le dim., mai 23 2021 at 21:05:30 +0200, Thomas Zimmermann=20
-<tzimmermann@suse.de> a =E9crit :
-> Hi
->=20
-> Am 23.05.21 um 19:04 schrieb Paul Cercueil:
->> V5 of my patchset which adds the option for having GEM buffers=20
->> backed by
->> non-coherent memory.
->>=20
->> Changes from V4:
->>=20
->> - [2/3]:
->>      - Rename to drm_fb_cma_sync_non_coherent
->>      - Invert loops for better cache locality
->>      - Only sync BOs that have the non-coherent flag
->>      - Properly sort includes
->>      - Move to drm_fb_cma_helper.c to avoid circular dependency
->=20
-> I'm pretty sure it's still not the right place. That would be=20
-> something like drm_gem_cma_atomic_helper.c, but creating a new file=20
-> just for a single function doesn't make sense.
+On Sun, 23 May 2021 at 18:16, Christian K=C3=B6nig <christian.koenig@amd.co=
+m> wrote:
+> Am 22.05.21 um 22:05 schrieb Daniel Stone:
+> > Anyway, the problem with syncobj is that the ioctl to wait for a
+> > sync_file to materialise for a given timeline point only allows us to
+> > block with a timeout; this is a non-starter, because we need something
+> > which fits into epoll. The most optimal case is returning a new
+> > eventfd or similar which signals when a given timeline point becomes
+> > available or signaled, but in extremis a syncobj FD becoming readable
+> > when any activity which would change the result of any zero-timeout
+> > wait on that syncobj is more or less workable.
+>
+> I think the tricky part is to epoll for a certain value.
+>
+> Not sure how eventfd is supposed to work, but IIRC we don't have the
+> functionality to poll for a certain value/offset etc to become available.
+>
+> We could of course create a separate fd for each requested value to poll
+> for thought, but that sounds like a bit much overhead to me.
 
-drm_fb_cma_sync_non_coherent calls drm_fb_cma_* functions, so it's a=20
-better match than its former location (which wasn't good as it created=20
-a circular dependency between drm.ko and drm-kms-helper.ko).
-
-Do you have a better idea?
-
->>=20
->> - [3/3]:
->>      - Fix drm_atomic_get_new_plane_state() used to retrieve the old
->>        state
->>      - Use custom drm_gem_fb_create()
->=20
-> It's often a better choice to express such differences via different=20
-> data structures (i.e., different instances of drm_mode_config_funcs)=20
-> but it's not a big deal either.
-
-The different drm_mode_config_funcs instances already exist in=20
-drm_gem_framebuffer_helper.c but are static, and drm_gem_fb_create()=20
-and drm_gem_fb_create_with_dirty() are just tiny wrappers around=20
-drm_gem_fb_create_with_funcs() with the corresponding=20
-drm_mode_config_funcs instance. I didn't want to copy them to=20
-ingenic-drm-drv.c, but maybe I can export the symbols and use=20
-drm_gem_fb_create_with_funcs() directly?
-
-> Please go ahaed and merge if no one objects. All patches:
->=20
-> Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
-
-Thanks!
+Yeah, I understand the point; something like an eventfd is exactly
+what you think, that we would have to materialise a new FD for it. On
+the other hand, as soon as the sync point becomes available, the
+winsys will want to immediately extract a sync_file from it, so I
+don't think FD amplification is a big issue. If it looks like being a
+problem in practice, we could look at providing a FD which starts off
+inert, and only later becomes a sync_file after it polls readable, but
+that sounds like something we really want to avoid if we can.
 
 Cheers,
--Paul
-
-> Best regards
-> Thomas
->=20
->>      - Only check damage clips and sync DMA buffers if non-coherent
->>        buffers are used
->>=20
->> Cheers,
->> -Paul
->>=20
->> Paul Cercueil (3):
->>    drm: Add support for GEM buffers backed by non-coherent memory
->>    drm: Add and export function drm_fb_cma_sync_non_coherent
->>    drm/ingenic: Add option to alloc cached GEM buffers
->>=20
->>   drivers/gpu/drm/drm_fb_cma_helper.c       | 46 ++++++++++++++++++
->>   drivers/gpu/drm/drm_gem_cma_helper.c      | 38 +++++++++++----
->>   drivers/gpu/drm/ingenic/ingenic-drm-drv.c | 59=20
->> +++++++++++++++++++++--
->>   drivers/gpu/drm/ingenic/ingenic-drm.h     |  1 +
->>   drivers/gpu/drm/ingenic/ingenic-ipu.c     | 21 ++++++--
->>   include/drm/drm_fb_cma_helper.h           |  4 ++
->>   include/drm/drm_gem_cma_helper.h          |  3 ++
->>   7 files changed, 156 insertions(+), 16 deletions(-)
->>=20
->=20
-> --
-> Thomas Zimmermann
-> Graphics Driver Developer
-> SUSE Software Solutions Germany GmbH
-> Maxfeldstr. 5, 90409 N=FCrnberg, Germany
-> (HRB 36809, AG N=FCrnberg)
-> Gesch=E4ftsf=FChrer: Felix Imend=F6rffer
->=20
-
-
+Daniel
