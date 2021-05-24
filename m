@@ -1,60 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C1A938F411
-	for <lists+dri-devel@lfdr.de>; Mon, 24 May 2021 22:04:53 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 62DE038F447
+	for <lists+dri-devel@lfdr.de>; Mon, 24 May 2021 22:22:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 711006E92D;
-	Mon, 24 May 2021 20:04:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DC24E6E948;
+	Mon, 24 May 2021 20:22:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com
- [IPv6:2a00:1450:4864:20::62c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7DE136E92D
- for <dri-devel@lists.freedesktop.org>; Mon, 24 May 2021 20:04:49 +0000 (UTC)
-Received: by mail-ej1-x62c.google.com with SMTP id lg14so43615983ejb.9
- for <dri-devel@lists.freedesktop.org>; Mon, 24 May 2021 13:04:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=jlekstrand-net.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=KCx4S/VDvDrP2RJ8WDlNsDLEoCERMIXf6hKju2FJZN4=;
- b=Em7SSCFjWA7I6+9fCzTkEML1YGyEmTwtvDJXz/1FrtbiGEw1MsYvRFZu7xXmvpwAWy
- 7QDYLWqQkz8J/6CSoK2FThtzDBCMB3slZZoWiscuiPN/QKAFtuYhVkj5sJIYMngqoqDC
- pTgDWsdYuk7Sng/11nK4wCHChUrb7Oop6A7IWVg2b61tvolwjdYrCs3UvZslvBmN70uV
- 5z0EoDQFFC0QNdo5xIPJuXgjPT+/VPKmj5Bvops72lAkgD/7c2j/wgSjTOn9hFMMiUTm
- lHrE8EPERbtNp5pkTwafcLra8uR6q/S070KRoqOkYzRTrFCgMQ5mv3YieaQE2zawZgZo
- gHlg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=KCx4S/VDvDrP2RJ8WDlNsDLEoCERMIXf6hKju2FJZN4=;
- b=ZqciD8rQYtuGn+Mz5xXhNV+Un8PtV/v1wQ5bKrihDduuA6Wot0nQBEv2vWIl4UvWqA
- Mi4Z0Ogoa0jC8c9PEIYUSAvg0C1OaYkzypPDFDZeuaDp+Vb+7D8p+TEs8xUGcGWChij8
- nRbB3845j87m4QxMVH0pv6rVwXhg5O0WXsV3uX9j2jZvI2z/CpnI8cZOpwrYCu/ukQT5
- HQY0BUopD5FUM1hXGyp0DIgl5RS7pZ/A/SuEnalsNAlwF5Vq8HYrem7xp/cPwMZ5Gzbt
- nxeRB3CUdMTIOkgGEdL3KUOvH0b7Z62G+/7di7nanqWStUVxKtXnwTdQHGaO1NqxbXFM
- pPlw==
-X-Gm-Message-State: AOAM530PiA7C5KIqDcsMPsHNu2YJsNWqIVrCe++9adtLoqaI6VD7Hfhc
- cV70uLRGQbrmErkCv6H2hbh0ynYd9WqWxg3e/ODVf9FgJhE=
-X-Google-Smtp-Source: ABdhPJwcd5h6NkQrTYZn2MibKdCTBbkcsHB3UbEo0BKyzJVzzB1MczskQkUHL5Lzguz29BzohvyIIt72N7645jwVOg4=
-X-Received: by 2002:a17:906:2596:: with SMTP id
- m22mr25377283ejb.175.1621886687294; 
- Mon, 24 May 2021 13:04:47 -0700 (PDT)
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F2DD46E948
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 May 2021 20:22:26 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
+ [62.78.145.57])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0FA5445E;
+ Mon, 24 May 2021 22:22:24 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1621887744;
+ bh=6/JgaUC+uqJrfLfFJiluCN1zWQh+xIAcm7wr4Ji1UNg=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=Z/lN2rd7M5BPbXhmULtcNwVVHXg43hCshuaP0dAkJ9dEcfS3+3p1DJWn0aIrMqeVZ
+ 5DmSNfoGIUN1gwwKC+UvYTCjVHjQupIVJGzbHxBQC10ludk8u7sIl1kcNq2+U+kFE4
+ /ZHOvvxA1tEvLuzGlms7YHw0UZPiZVDfkxeZSgyA=
+Date: Mon, 24 May 2021 23:22:18 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Douglas Anderson <dianders@chromium.org>
+Subject: Re: [PATCH v7 01/10] drm/panel: panel-simple: Add missing
+ pm_runtime_dont_use_autosuspend() calls
+Message-ID: <YKwK+lkcHMwAosLn@pendragon.ideasonboard.com>
+References: <20210517200907.1459182-1-dianders@chromium.org>
+ <20210517130450.v7.1.I9e947183e95c9bd067c9c1d51208ac6a96385139@changeid>
 MIME-Version: 1.0
-References: <20210520190007.534046-1-jason@jlekstrand.net>
- <20210520190007.534046-3-jason@jlekstrand.net>
- <YKfyestsJvKeS4k9@phenom.ffwll.local>
-In-Reply-To: <YKfyestsJvKeS4k9@phenom.ffwll.local>
-From: Jason Ekstrand <jason@jlekstrand.net>
-Date: Mon, 24 May 2021 15:04:35 -0500
-Message-ID: <CAOFGe94YLYDUwLE4_S_vBnJqLm6RKV8eOBcPw8pz3b7EVOFFjg@mail.gmail.com>
-Subject: Re: [PATCH 2/4] dma-buf: add dma_resv_get_singleton_rcu (v4)
-To: Daniel Vetter <daniel@ffwll.ch>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20210517130450.v7.1.I9e947183e95c9bd067c9c1d51208ac6a96385139@changeid>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,261 +48,80 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Maling list - DRI developers <dri-devel@lists.freedesktop.org>
+Cc: robdclark@chromium.org, Jernej Skrabec <jernej.skrabec@siol.net>,
+ Thierry Reding <treding@nvidia.com>, Jonas Karlman <jonas@kwiboo.se>,
+ David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
+ Neil Armstrong <narmstrong@baylibre.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>,
+ Stanislav Lisovskiy <stanislav.lisovskiy@intel.com>,
+ Andrzej Hajda <a.hajda@samsung.com>, Thierry Reding <thierry.reding@gmail.com>,
+ Steev Klimaszewski <steev@kali.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>, Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, May 21, 2021 at 12:48 PM Daniel Vetter <daniel@ffwll.ch> wrote:
->
-> On Thu, May 20, 2021 at 02:00:05PM -0500, Jason Ekstrand wrote:
-> > Add a helper function to get a single fence representing
-> > all fences in a dma_resv object.
-> >
-> > This fence is either the only one in the object or all not
-> > signaled fences of the object in a flatted out dma_fence_array.
-> >
-> > v2 (Jason Ekstrand):
-> >  - Take reference of fences both for creating the dma_fence_array and i=
-n
-> >    the case where we return one fence.
-> >  - Handle the case where dma_resv_get_list() returns NULL
-> >
-> > v3 (Jason Ekstrand):
-> >  - Add an _rcu suffix because it is read-only
-> >  - Rewrite to use dma_resv_get_fences_rcu so it's RCU-safe
-> >  - Add an EXPORT_SYMBOL_GPL declaration
-> >  - Re-author the patch to Jason since very little is left of Christian
-> >    K=C3=B6nig's original patch
-> >  - Remove the extra fence argument
-> >
-> > v4 (Jason Ekstrand):
-> >  - Restore the extra fence argument
-> >
-> > Signed-off-by: Jason Ekstrand <jason@jlekstrand.net>
-> >
-> > get_singleton
->
-> Spurious thing here.
+Hi Doug,
 
-Fixed.
+Thank you for the patch.
 
-> > ---
-> >  drivers/dma-buf/dma-resv.c | 122 +++++++++++++++++++++++++++++++++++++
-> >  include/linux/dma-resv.h   |   3 +
-> >  2 files changed, 125 insertions(+)
-> >
-> > diff --git a/drivers/dma-buf/dma-resv.c b/drivers/dma-buf/dma-resv.c
-> > index 6ddbeb5dfbf65..25995fc15c370 100644
-> > --- a/drivers/dma-buf/dma-resv.c
-> > +++ b/drivers/dma-buf/dma-resv.c
-> > @@ -33,6 +33,8 @@
-> >   */
-> >
-> >  #include <linux/dma-resv.h>
-> > +#include <linux/dma-fence-chain.h>
-> > +#include <linux/dma-fence-array.h>
-> >  #include <linux/export.h>
-> >  #include <linux/mm.h>
-> >  #include <linux/sched/mm.h>
-> > @@ -49,6 +51,19 @@
-> >   * write-side updates.
-> >   */
-> >
-> > +/**
-> > + * dma_fence_deep_dive_for_each - deep dive into the fence containers
-> > + * @fence: resulting fence
-> > + * @chain: variable for a dma_fence_chain
-> > + * @index: index into a dma_fence_array
-> > + * @head: starting point
-> > + *
-> > + * Helper to deep dive into the fence containers for flattening them.
-> > + */
-> > +#define dma_fence_deep_dive_for_each(fence, chain, index, head)      \
-> > +     dma_fence_chain_for_each(chain, head)                   \
-> > +             dma_fence_array_for_each(fence, index, chain)
+On Mon, May 17, 2021 at 01:08:58PM -0700, Douglas Anderson wrote:
+> The PM Runtime docs specifically call out the need to call
+> pm_runtime_dont_use_autosuspend() in the remove() callback if
+> pm_runtime_use_autosuspend() was called in probe():
+> 
+> > Drivers in ->remove() callback should undo the runtime PM changes done
+> > in ->probe(). Usually this means calling pm_runtime_disable(),
+> > pm_runtime_dont_use_autosuspend() etc.
+
+~/src/kernel/linux $ git grep pm_runtime_use_autosuspend -- drivers | wc -l
+209
+~/src/kernel/linux $ git grep pm_runtime_dont_use_autosuspend -- drivers | wc -l
+80
+
+Seems like a lost battle :-(
+
+The fix is right, but I wonder if this shouldn't be handled
+automatically by the runtime PM core. The runtime PM API is notoriously
+difficult to use correctly.
+
+> We should do this. This fixes a warning splat that I saw when I was
+> testing out the panel-simple's remove().
 >
-> Since this is is just internal helper in the .c file we generally don't
-> document it. Maybe small comment if you feel it's worth it.
+> Fixes: 3235b0f20a0a ("drm/panel: panel-simple: Use runtime pm to avoid excessive unprepare / prepare")
+> Signed-off-by: Douglas Anderson <dianders@chromium.org>
 
-Sure, I can write LESS documentation. :-P
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-> > +
-> >  DEFINE_WD_CLASS(reservation_ww_class);
-> >  EXPORT_SYMBOL(reservation_ww_class);
-> >
-> > @@ -517,6 +532,113 @@ int dma_resv_get_fences_rcu(struct dma_resv *obj,
-> >  }
-> >  EXPORT_SYMBOL_GPL(dma_resv_get_fences_rcu);
-> >
-> > +/**
-> > + * dma_resv_get_singleton - get a single fence for the dma_resv object
->
-> Name doesn't match here.
+> ---
+> 
+> Changes in v7:
+> - pm_runtime_dont_use_autosuspend() fix new for v7.
+> 
+>  drivers/gpu/drm/panel/panel-simple.c | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
+> index 9be050ab372f..21939d4352cf 100644
+> --- a/drivers/gpu/drm/panel/panel-simple.c
+> +++ b/drivers/gpu/drm/panel/panel-simple.c
+> @@ -798,6 +798,7 @@ static int panel_simple_probe(struct device *dev, const struct panel_desc *desc)
+>  	return 0;
+>  
+>  disable_pm_runtime:
+> +	pm_runtime_dont_use_autosuspend(dev);
+>  	pm_runtime_disable(dev);
+>  free_ddc:
+>  	if (panel->ddc)
+> @@ -814,6 +815,7 @@ static int panel_simple_remove(struct device *dev)
+>  	drm_panel_disable(&panel->base);
+>  	drm_panel_unprepare(&panel->base);
+>  
+> +	pm_runtime_dont_use_autosuspend(dev);
+>  	pm_runtime_disable(dev);
+>  	if (panel->ddc)
+>  		put_device(&panel->ddc->dev);
 
-Fixed.
+-- 
+Regards,
 
-> > + * @obj: the reservation object
-> > + * @extra: extra fence to add to the resulting array
-> > + * @result: resulting dma_fence
-> > + *
-> > + * Get a single fence representing all unsignaled fences in the dma_re=
-sv object
-> > + * plus the given extra fence. If we got only one fence return a new
-> > + * reference to that, otherwise return a dma_fence_array object.
-> > + *
-> > + * RETURNS
-> > + * Returns -NOMEM if allocations fail, zero otherwise.
->
-> Kernel often encodes this in ERR_PTR so that you don't have to pass a
-> pointer to store the result. Would feel more kerenl-y I think that way. S=
-o
-> no result parameter, and on alloc failure you'd return
-
-Done.
-
->         return ERR_PTR(-ENOMEM);
->
-> > + */
-> > +int dma_resv_get_singleton_rcu(struct dma_resv *obj, struct dma_fence =
-*extra,
->
-> tbh the _rcu here is confusing. I think _unlocked is the better suffix,
-> maybe we should rename dma_resv_get_fences_rcu too for consistency. The
-> rcu-ness of the lookup isn't leaked to callers at all, so no point giving
-> them a panic.
-
-I can make that change.  I'll also include a patch in the next re-send
-that renames all the _rcu helpers to _unlocked for consistency.
-
---Jason
-
-> > +                            struct dma_fence **result)
-> > +{
-> > +     struct dma_fence **resv_fences, *fence, *chain, **fences;
-> > +     struct dma_fence_array *array;
-> > +     unsigned int num_resv_fences, num_fences;
-> > +     unsigned int ret, i, j;
-> > +
-> > +     ret =3D dma_resv_get_fences_rcu(obj, NULL, &num_resv_fences, &res=
-v_fences);
-> > +     if (ret)
-> > +             return ret;
-> > +
-> > +     num_fences =3D 0;
-> > +     *result =3D NULL;
-> > +
-> > +     if (num_resv_fences =3D=3D 0 && !extra)
-> > +             return 0;
-> > +
-> > +     for (i =3D 0; i < num_resv_fences; ++i) {
-> > +             dma_fence_deep_dive_for_each(fence, chain, j, resv_fences=
-[i]) {
-> > +                     if (dma_fence_is_signaled(fence))
-> > +                             continue;
-> > +
-> > +                     *result =3D fence;
-> > +                     ++num_fences;
-> > +             }
-> > +     }
-> > +
-> > +     if (extra) {
-> > +             dma_fence_deep_dive_for_each(fence, chain, j, extra) {
-> > +                     if (dma_fence_is_signaled(fence))
-> > +                             continue;
-> > +
-> > +                     *result =3D fence;
-> > +                     ++num_fences;
-> > +             }
-> > +     }
-> > +
-> > +     if (num_fences <=3D 1) {
-> > +             *result =3D dma_fence_get(*result);
-> > +             goto put_resv_fences;
-> > +     }
-> > +
-> > +     fences =3D kmalloc_array(num_fences, sizeof(struct dma_fence*),
-> > +                            GFP_KERNEL);
-> > +     if (!fences) {
-> > +             *result =3D NULL;
-> > +             ret =3D -ENOMEM;
-> > +             goto put_resv_fences;
-> > +     }
-> > +
-> > +     num_fences =3D 0;
-> > +     for (i =3D 0; i < num_resv_fences; ++i) {
-> > +             dma_fence_deep_dive_for_each(fence, chain, j, resv_fences=
-[i]) {
-> > +                     if (!dma_fence_is_signaled(fence))
-> > +                             fences[num_fences++] =3D dma_fence_get(fe=
-nce);
-> > +             }
-> > +     }
-> > +
-> > +     if (extra) {
-> > +             dma_fence_deep_dive_for_each(fence, chain, j, extra) {
-> > +                     if (dma_fence_is_signaled(fence))
-> > +                             fences[num_fences++] =3D dma_fence_get(fe=
-nce);
-> > +             }
-> > +     }
-> > +
-> > +     if (num_fences <=3D 1) {
-> > +             *result =3D num_fences ? fences[0] : NULL;
-> > +             kfree(fences);
-> > +             goto put_resv_fences;
-> > +     }
-> > +
-> > +     array =3D dma_fence_array_create(num_fences, fences,
-> > +                                    dma_fence_context_alloc(1),
-> > +                                    1, false);
-> > +     if (array) {
-> > +             *result =3D &array->base;
-> > +     } else {
-> > +             *result =3D NULL;
-> > +             while (num_fences--)
-> > +                     dma_fence_put(fences[num_fences]);
-> > +             kfree(fences);
-> > +             ret =3D -ENOMEM;
-> > +     }
-> > +
-> > +put_resv_fences:
-> > +     while (num_resv_fences--)
-> > +             dma_fence_put(resv_fences[num_resv_fences]);
-> > +     kfree(resv_fences);
-> > +
-> > +     return ret;
-> > +}
-> > +EXPORT_SYMBOL_GPL(dma_resv_get_singleton_rcu);
->
-> With the nits addressed:
->
-> Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
->
-> > +
-> >  /**
-> >   * dma_resv_wait_timeout_rcu - Wait on reservation's objects
-> >   * shared and/or exclusive fences.
-> > diff --git a/include/linux/dma-resv.h b/include/linux/dma-resv.h
-> > index d44a77e8a7e34..d49ca263e78b4 100644
-> > --- a/include/linux/dma-resv.h
-> > +++ b/include/linux/dma-resv.h
-> > @@ -285,6 +285,9 @@ int dma_resv_get_fences_rcu(struct dma_resv *obj,
-> >
-> >  int dma_resv_copy_fences(struct dma_resv *dst, struct dma_resv *src);
-> >
-> > +int dma_resv_get_singleton_rcu(struct dma_resv *obj, struct dma_fence =
-*extra,
-> > +                            struct dma_fence **result);
-> > +
-> >  long dma_resv_wait_timeout_rcu(struct dma_resv *obj, bool wait_all, bo=
-ol intr,
-> >                              unsigned long timeout);
-> >
-> > --
-> > 2.31.1
-> >
->
-> --
-> Daniel Vetter
-> Software Engineer, Intel Corporation
-> http://blog.ffwll.ch
+Laurent Pinchart
