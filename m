@@ -1,58 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1243B38F2D0
-	for <lists+dri-devel@lfdr.de>; Mon, 24 May 2021 20:17:33 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 83A6A38F326
+	for <lists+dri-devel@lfdr.de>; Mon, 24 May 2021 20:42:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 021E86E8E4;
-	Mon, 24 May 2021 18:17:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 275346E901;
+	Mon, 24 May 2021 18:42:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x72c.google.com (mail-qk1-x72c.google.com
- [IPv6:2607:f8b0:4864:20::72c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 371E36E8E4;
- Mon, 24 May 2021 18:17:27 +0000 (UTC)
-Received: by mail-qk1-x72c.google.com with SMTP id i67so27890240qkc.4;
- Mon, 24 May 2021 11:17:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=Zz2kzbTbqN0tBzO+PKLu6ifHzrufowezQwfak2ww1Ig=;
- b=EefU6263Ep7gXqDnVGC8nInBnPn2z3qkc3LoaRC6G6u1UAVxdxdf0CkUtXs2NFPg3e
- QJ2yKg5IRVjr+DsY9KSi82Svv53h75TrBjhCdmkQx7N+8dje8pYR7ENrG64XuTAxodm8
- NA9oKx8A0+TfCv5UHZUWDE+cWB5ZQazNVvSng+ZL/1jhMnkevbP/t56t9YLy8yy31cAF
- 3YIw3qd2ibFb/z16CmGZ67gEyRfTeDrSC/z4T0lAGgKuPS8IW5iEeTf+ryJjuxZoIHXN
- E1wfResmSpLAsRUDGW0ZrvBMGfrbpypZXzldD0J8BBz7CjzCNseHWegyTLlEBA3k737t
- Rt4w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=Zz2kzbTbqN0tBzO+PKLu6ifHzrufowezQwfak2ww1Ig=;
- b=m98eq8Vrs/IaIQFmOQ6q1LWdUPuFAnDmkUIM7zDXN1u7RfDafUpNWoSPIMYTO9JIGa
- D3Z2Kl6I00F0PZERKPVPxBoEkpxDKVCY7K4C3T/p78IIZO1ReeAIaaInjEMkj/NzKn6F
- nTbgX3mWZSIfXrkxf7lT46VCAybQRvbWZ5AxYCXniCO5UT2CF27FT9+WOraymv11CCCH
- qVRZ56DzePRDhJ8jp5yHEgFHiWy39eiNMZqO0KAtHwc8cIQKDvBFx+nfm9yMupVOoik6
- SE/JD9fDcRU+ZwLrG43DKpJr1lmRivw1WdDNYXeIchuM34f/lYMrfsk0Sw0JBZ4BnKu4
- 9D5Q==
-X-Gm-Message-State: AOAM5328JELfgwd8Hc2rNvkM1JxrD31U1A+US/ywjFL492Kd8pSxrpoo
- XDWpBf8RZpRzQqVZmZPZvM9O3WzMdpB1blXukmo=
-X-Google-Smtp-Source: ABdhPJxmEby7VC5D+jGrC1HjK0Rf6WREu2FbMVwYZG8mYAMpsojLQ+rXGxYU1M5hUfSgIjMYI4hNcta7+mQ2Ud5ldtk=
-X-Received: by 2002:a37:ac0d:: with SMTP id e13mr26497329qkm.426.1621880246340; 
- Mon, 24 May 2021 11:17:26 -0700 (PDT)
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 34AB96E20F;
+ Mon, 24 May 2021 18:42:30 +0000 (UTC)
+IronPort-SDR: yGx7o3DIfD7BtdBPGjBUIDgmHenP2l0uBN7CwKIzf8aXO8lXlzAUf51Qm6wCFXSGBejJLCSEp2
+ oTGL0fJscbxg==
+X-IronPort-AV: E=McAfee;i="6200,9189,9993"; a="181642161"
+X-IronPort-AV: E=Sophos;i="5.82,325,1613462400"; d="scan'208";a="181642161"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 May 2021 11:42:29 -0700
+IronPort-SDR: Cfwfb6MckxxK6VbAdTaqY/BwFmH6U8VeBVk8oK2FpXbu9ku8PA55TgdUunkumiWdNRkS/lLwbG
+ +8Xtup6e87Hw==
+X-IronPort-AV: E=Sophos;i="5.82,325,1613462400"; d="scan'208";a="546464763"
+Received: from unknown (HELO sdutt-i7) ([10.165.21.147])
+ by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 May 2021 11:42:29 -0700
+Date: Mon, 24 May 2021 11:35:20 -0700
+From: Matthew Brost <matthew.brost@intel.com>
+To: Michal Wajdeczko <michal.wajdeczko@intel.com>
+Subject: Re: [RFC PATCH 37/97] drm/i915/guc: Add stall timer to non blocking
+ CTB send function
+Message-ID: <20210524183518.GA12293@sdutt-i7>
+References: <20210506191451.77768-1-matthew.brost@intel.com>
+ <20210506191451.77768-38-matthew.brost@intel.com>
+ <7e7ca64d-e5d7-7fd8-b446-7167341c0c92@intel.com>
 MIME-Version: 1.0
-References: <20210521153253.518037-1-thomas.hellstrom@linux.intel.com>
- <20210521153253.518037-9-thomas.hellstrom@linux.intel.com>
-In-Reply-To: <20210521153253.518037-9-thomas.hellstrom@linux.intel.com>
-From: Matthew Auld <matthew.william.auld@gmail.com>
-Date: Mon, 24 May 2021 19:16:59 +0100
-Message-ID: <CAM0jSHNP4NNQknBWLqn8h5kapcxVhAgwjjg3yQ9wDfYb41q92A@mail.gmail.com>
-Subject: Re: [PATCH v3 08/12] drm/ttm: Use drm_memcpy_from_wc_dbm for TTM bo
- moves
-To: =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <7e7ca64d-e5d7-7fd8-b446-7167341c0c92@intel.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,76 +51,172 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- ML dri-devel <dri-devel@lists.freedesktop.org>
+Cc: tvrtko.ursulin@intel.com, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, jason.ekstrand@intel.com,
+ daniele.ceraolospurio@intel.com, jon.bloomfield@intel.com,
+ daniel.vetter@intel.com, john.c.harrison@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 21 May 2021 at 16:33, Thomas Hellstr=C3=B6m
-<thomas.hellstrom@linux.intel.com> wrote:
+On Mon, May 24, 2021 at 02:58:12PM +0200, Michal Wajdeczko wrote:
+> 
+> 
+> On 06.05.2021 21:13, Matthew Brost wrote:
+> > Implement a stall timer which fails H2G CTBs once a period of time
+> > with no forward progress is reached to prevent deadlock.
+> > 
+> > Also update to ct_write to return -EDEADLK rather than -EPIPE on a
+> > corrupted descriptor.
+> 
+> broken descriptor is really separate issue compared to no progress from
+> GuC side, I would really like to keep old error code
 >
-> Use fast wc memcpy for reading out of wc memory for TTM bo moves.
->
-> Cc: Dave Airlie <airlied@gmail.com>
-> Cc: Christian K=C3=B6nig <christian.koenig@amd.com>
-> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-> Signed-off-by: Thomas Hellstr=C3=B6m <thomas.hellstrom@linux.intel.com>
-> ---
->  drivers/gpu/drm/ttm/ttm_bo_util.c | 9 ++++++++-
->  1 file changed, 8 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/ttm/ttm_bo_util.c b/drivers/gpu/drm/ttm/ttm_=
-bo_util.c
-> index 912cbe8e60a2..4a7d3d672f9a 100644
-> --- a/drivers/gpu/drm/ttm/ttm_bo_util.c
-> +++ b/drivers/gpu/drm/ttm/ttm_bo_util.c
-> @@ -31,6 +31,7 @@
->
->  #include <drm/ttm/ttm_bo_driver.h>
->  #include <drm/ttm/ttm_placement.h>
-> +#include <drm/drm_memcpy.h>
->  #include <drm/drm_vma_manager.h>
->  #include <linux/dma-buf-map.h>
->  #include <linux/io.h>
-> @@ -91,6 +92,7 @@ void ttm_move_memcpy(struct ttm_buffer_object *bo,
->         const struct ttm_kmap_iter_ops *src_ops =3D src_iter->ops;
->         struct ttm_tt *ttm =3D bo->ttm;
->         struct dma_buf_map src_map, dst_map;
-> +       bool wc_memcpy;
->         pgoff_t i;
->
->         /* Single TTM move. NOP */
-> @@ -114,11 +116,16 @@ void ttm_move_memcpy(struct ttm_buffer_object *bo,
->                 return;
->         }
->
-> +       wc_memcpy =3D ((!src_ops->maps_tt || ttm->caching !=3D ttm_cached=
-) &&
 
-Why do we only consider the caching value for the maps_tt case? Or am
-I misreading this?
+I know you do as you have brought it up several times. Again to the rest
+of the stack these two things mean the exact same thing.
+ 
+> note that broken CTB descriptor is unrecoverable error, while on other
+> hand, in theory, we could recover from temporary non-moving CTB
+> 
 
-> +                    drm_has_memcpy_from_wc());
-> +
->         for (i =3D 0; i < dst_mem->num_pages; ++i) {
->                 dst_ops->map_local(dst_iter, &dst_map, i);
->                 src_ops->map_local(src_iter, &src_map, i);
+Yea but we don't, in both cases we disable submission which in turn
+triggers a full GPU reset.
+
+> > 
+> > Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
+> > Signed-off-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+> > Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+> > ---
+> >  drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c | 48 +++++++++++++++++++++--
+> >  1 file changed, 45 insertions(+), 3 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
+> > index af7314d45a78..4eab319d61be 100644
+> > --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
+> > +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
+> > @@ -69,6 +69,8 @@ static inline struct drm_device *ct_to_drm(struct intel_guc_ct *ct)
+> >  #define CTB_H2G_BUFFER_SIZE	(SZ_4K)
+> >  #define CTB_G2H_BUFFER_SIZE	(SZ_4K)
+> >  
+> > +#define MAX_US_STALL_CTB	1000000
+> 
+> nit: maybe we should make it a CONFIG value ?
+> 
+
+Sure.
+
+> > +
+> >  struct ct_request {
+> >  	struct list_head link;
+> >  	u32 fence;
+> > @@ -315,6 +317,7 @@ int intel_guc_ct_enable(struct intel_guc_ct *ct)
+> >  
+> >  	ct->requests.last_fence = 1;
+> >  	ct->enabled = true;
+> > +	ct->stall_time = KTIME_MAX;
+> >  
+> >  	return 0;
+> >  
+> > @@ -378,7 +381,7 @@ static int ct_write(struct intel_guc_ct *ct,
+> >  	unsigned int i;
+> >  
+> >  	if (unlikely(ctb->broken))
+> > -		return -EPIPE;
+> > +		return -EDEADLK;
+> >  
+> >  	if (unlikely(desc->status))
+> >  		goto corrupted;
+> > @@ -449,7 +452,7 @@ static int ct_write(struct intel_guc_ct *ct,
+> >  	CT_ERROR(ct, "Corrupted descriptor head=%u tail=%u status=%#x\n",
+> >  		 desc->head, desc->tail, desc->status);
+> >  	ctb->broken = true;
+> > -	return -EPIPE;
+> > +	return -EDEADLK;
+> >  }
+> >  
+> >  /**
+> > @@ -494,6 +497,17 @@ static int wait_for_ct_request_update(struct ct_request *req, u32 *status)
+> >  	return err;
+> >  }
+> >  
+> > +static inline bool ct_deadlocked(struct intel_guc_ct *ct)
+> > +{
+> > +	bool ret = ktime_us_delta(ktime_get(), ct->stall_time) >
+> > +		MAX_US_STALL_CTB;
+> > +
+> > +	if (unlikely(ret))
+> > +		CT_ERROR(ct, "CT deadlocked\n");
+> > +
+> > +	return ret;
+> > +}
+> > +
+> >  static inline bool ctb_has_room(struct intel_guc_ct_buffer *ctb, u32 len_dw)
+> >  {
+> >  	struct guc_ct_buffer_desc *desc = ctb->desc;
+> > @@ -505,6 +519,26 @@ static inline bool ctb_has_room(struct intel_guc_ct_buffer *ctb, u32 len_dw)
+> >  	return space >= len_dw;
+> >  }
+> >  
+> > +static int has_room_nb(struct intel_guc_ct *ct, u32 len_dw)
+> > +{
+> > +	struct intel_guc_ct_buffer *ctb = &ct->ctbs.send;
+> > +
+> > +	lockdep_assert_held(&ct->ctbs.send.lock);
+> > +
+> > +	if (unlikely(!ctb_has_room(ctb, len_dw))) {
+> > +		if (ct->stall_time == KTIME_MAX)
+> > +			ct->stall_time = ktime_get();
+> > +
+> > +		if (unlikely(ct_deadlocked(ct)))
+> > +			return -EDEADLK;
+> > +		else
+> > +			return -EBUSY;
+> > +	}
+> > +
+> > +	ct->stall_time = KTIME_MAX;
+> > +	return 0;
+> > +}
+> > +
+> >  static int ct_send_nb(struct intel_guc_ct *ct,
+> >  		      const u32 *action,
+> >  		      u32 len,
+> > @@ -517,7 +551,7 @@ static int ct_send_nb(struct intel_guc_ct *ct,
+> >  
+> >  	spin_lock_irqsave(&ctb->lock, spin_flags);
+> >  
+> > -	ret = ctb_has_room(ctb, len + 1);
+> > +	ret = has_room_nb(ct, len + 1);
+> >  	if (unlikely(ret))
+> >  		goto out;
+> >  
+> > @@ -561,11 +595,19 @@ static int ct_send(struct intel_guc_ct *ct,
+> >  retry:
+> >  	spin_lock_irqsave(&ct->ctbs.send.lock, flags);
+> >  	if (unlikely(!ctb_has_room(ctb, len + 1))) {
+> > +		if (ct->stall_time == KTIME_MAX)
+> > +			ct->stall_time = ktime_get();
+> >  		spin_unlock_irqrestore(&ct->ctbs.send.lock, flags);
+> > +
+> > +		if (unlikely(ct_deadlocked(ct)))
+> > +			return -EDEADLK;
+> > +
+> 
+> likely, instead of duplicating code, you can reuse has_room_nb here
 >
-> -               if (!src_map.is_iomem && !dst_map.is_iomem) {
-> +               if (wc_memcpy) {
-> +                       drm_memcpy_from_wc_dbm(&dst_map, &src_map, PAGE_S=
-IZE);
 
-Do we need to check the return value here? memcpy_from_wc expects
-certain address alignment, or is that always guaranteed here? Maybe
-throw a warning just for paranoia?
+In this patch yes, in the following patch no as this check changes
+between non-blockig and blocking once we introduce G2H credits. I'd
+rather just leave it as is than churning on the patches.
 
-> +               } else if (!src_map.is_iomem && !dst_map.is_iomem) {
->                         memcpy(dst_map.vaddr, src_map.vaddr, PAGE_SIZE);
->                 } else if (!src_map.is_iomem) {
->                         dma_buf_map_memcpy_to(&dst_map, src_map.vaddr,
-> --
-> 2.31.1
->
+Matt 
+ 
+> >  		cond_resched();
+> >  		goto retry;
+> >  	}
+> >  
+> > +	ct->stall_time = KTIME_MAX;
+> > +
+> >  	fence = ct_get_next_fence(ct);
+> >  	request.fence = fence;
+> >  	request.status = 0;
+> > 
