@@ -2,58 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 073F538F400
-	for <lists+dri-devel@lfdr.de>; Mon, 24 May 2021 22:00:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C1A938F411
+	for <lists+dri-devel@lfdr.de>; Mon, 24 May 2021 22:04:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6E6536E176;
-	Mon, 24 May 2021 19:59:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 711006E92D;
+	Mon, 24 May 2021 20:04:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m43-7.mailgun.net (m43-7.mailgun.net [69.72.43.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B6E5F6E176
- for <dri-devel@lists.freedesktop.org>; Mon, 24 May 2021 19:59:55 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
- q=dns/txt; 
- s=smtp; t=1621886397; h=Message-ID: References: In-Reply-To: Subject:
- Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
- MIME-Version: Sender; bh=rqogvh+KjuhKzFsJvqhpY8PANK2Z2egADguUSBTXtdA=;
- b=iw+CS4TN3MK0XK9PnNH+2FeoV/4p4kW2hd012RQ8i1ZHnsX3W2lfa4+utgZBjVQxj77Hd5Rq
- dLNj3ZfGzeBqubPqH1uoC4PBda2RhQYT9tkGWDksoDd6VdV17A6Dr+BQTANEOcTV9CVCTQ6/
- NsUKwEKpl6/zbzu6E6p6548/WDc=
-X-Mailgun-Sending-Ip: 69.72.43.7
-X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n01.prod.us-west-2.postgun.com with SMTP id
- 60ac05b72bff04e53b1df879 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Mon, 24 May 2021 19:59:51
- GMT
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id A6808C43460; Mon, 24 May 2021 19:59:51 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
- aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00
- autolearn=unavailable autolearn_force=no version=3.4.0
-Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
- (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
- (No client certificate requested) (Authenticated sender: khsieh)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id 08A05C433D3;
- Mon, 24 May 2021 19:59:49 +0000 (UTC)
+Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com
+ [IPv6:2a00:1450:4864:20::62c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7DE136E92D
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 May 2021 20:04:49 +0000 (UTC)
+Received: by mail-ej1-x62c.google.com with SMTP id lg14so43615983ejb.9
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 May 2021 13:04:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=jlekstrand-net.20150623.gappssmtp.com; s=20150623;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=KCx4S/VDvDrP2RJ8WDlNsDLEoCERMIXf6hKju2FJZN4=;
+ b=Em7SSCFjWA7I6+9fCzTkEML1YGyEmTwtvDJXz/1FrtbiGEw1MsYvRFZu7xXmvpwAWy
+ 7QDYLWqQkz8J/6CSoK2FThtzDBCMB3slZZoWiscuiPN/QKAFtuYhVkj5sJIYMngqoqDC
+ pTgDWsdYuk7Sng/11nK4wCHChUrb7Oop6A7IWVg2b61tvolwjdYrCs3UvZslvBmN70uV
+ 5z0EoDQFFC0QNdo5xIPJuXgjPT+/VPKmj5Bvops72lAkgD/7c2j/wgSjTOn9hFMMiUTm
+ lHrE8EPERbtNp5pkTwafcLra8uR6q/S070KRoqOkYzRTrFCgMQ5mv3YieaQE2zawZgZo
+ gHlg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=KCx4S/VDvDrP2RJ8WDlNsDLEoCERMIXf6hKju2FJZN4=;
+ b=ZqciD8rQYtuGn+Mz5xXhNV+Un8PtV/v1wQ5bKrihDduuA6Wot0nQBEv2vWIl4UvWqA
+ Mi4Z0Ogoa0jC8c9PEIYUSAvg0C1OaYkzypPDFDZeuaDp+Vb+7D8p+TEs8xUGcGWChij8
+ nRbB3845j87m4QxMVH0pv6rVwXhg5O0WXsV3uX9j2jZvI2z/CpnI8cZOpwrYCu/ukQT5
+ HQY0BUopD5FUM1hXGyp0DIgl5RS7pZ/A/SuEnalsNAlwF5Vq8HYrem7xp/cPwMZ5Gzbt
+ nxeRB3CUdMTIOkgGEdL3KUOvH0b7Z62G+/7di7nanqWStUVxKtXnwTdQHGaO1NqxbXFM
+ pPlw==
+X-Gm-Message-State: AOAM530PiA7C5KIqDcsMPsHNu2YJsNWqIVrCe++9adtLoqaI6VD7Hfhc
+ cV70uLRGQbrmErkCv6H2hbh0ynYd9WqWxg3e/ODVf9FgJhE=
+X-Google-Smtp-Source: ABdhPJwcd5h6NkQrTYZn2MibKdCTBbkcsHB3UbEo0BKyzJVzzB1MczskQkUHL5Lzguz29BzohvyIIt72N7645jwVOg4=
+X-Received: by 2002:a17:906:2596:: with SMTP id
+ m22mr25377283ejb.175.1621886687294; 
+ Mon, 24 May 2021 13:04:47 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-Date: Mon, 24 May 2021 12:59:49 -0700
-From: khsieh@codeaurora.org
-To: Stephen Boyd <swboyd@chromium.org>
-Subject: Re: [PATCH 3/3] drm/msm/dp: Handle aux timeouts, nacks, defers
-In-Reply-To: <20210507212505.1224111-4-swboyd@chromium.org>
-References: <20210507212505.1224111-1-swboyd@chromium.org>
- <20210507212505.1224111-4-swboyd@chromium.org>
-Message-ID: <69aea0fa62a6f4f0ee86a8272b9d21c5@codeaurora.org>
-X-Sender: khsieh@codeaurora.org
-User-Agent: Roundcube Webmail/1.3.9
+References: <20210520190007.534046-1-jason@jlekstrand.net>
+ <20210520190007.534046-3-jason@jlekstrand.net>
+ <YKfyestsJvKeS4k9@phenom.ffwll.local>
+In-Reply-To: <YKfyestsJvKeS4k9@phenom.ffwll.local>
+From: Jason Ekstrand <jason@jlekstrand.net>
+Date: Mon, 24 May 2021 15:04:35 -0500
+Message-ID: <CAOFGe94YLYDUwLE4_S_vBnJqLm6RKV8eOBcPw8pz3b7EVOFFjg@mail.gmail.com>
+Subject: Re: [PATCH 2/4] dma-buf: add dma_resv_get_singleton_rcu (v4)
+To: Daniel Vetter <daniel@ffwll.ch>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,292 +67,261 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sean Paul <sean@poorly.run>, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Abhinav Kumar <abhinavk@codeaurora.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, aravindh@codeaurora.org,
- freedreno@lists.freedesktop.org
+Cc: Maling list - DRI developers <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2021-05-07 14:25, Stephen Boyd wrote:
-> Let's look at the irq status bits after a transfer and see if we got a
-> nack or a defer or a timeout, instead of telling drm layers that
-> everything was fine, while still printing an error message. I wasn't
-> sure about NACK+DEFER so I lumped all those various errors along with a
-> nack so that the drm core can figure out that things are just not going
-> well. The important thing is that we're now returning -ETIMEDOUT when
-> the message times out and nacks for bad addresses.
-> 
-> Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> Cc: Abhinav Kumar <abhinavk@codeaurora.org>
-> Cc: Kuogee Hsieh <khsieh@codeaurora.org>
-> Cc: aravindh@codeaurora.org
-> Cc: Sean Paul <sean@poorly.run>
-> Signed-off-by: Stephen Boyd <swboyd@chromium.org>
+On Fri, May 21, 2021 at 12:48 PM Daniel Vetter <daniel@ffwll.ch> wrote:
+>
+> On Thu, May 20, 2021 at 02:00:05PM -0500, Jason Ekstrand wrote:
+> > Add a helper function to get a single fence representing
+> > all fences in a dma_resv object.
+> >
+> > This fence is either the only one in the object or all not
+> > signaled fences of the object in a flatted out dma_fence_array.
+> >
+> > v2 (Jason Ekstrand):
+> >  - Take reference of fences both for creating the dma_fence_array and i=
+n
+> >    the case where we return one fence.
+> >  - Handle the case where dma_resv_get_list() returns NULL
+> >
+> > v3 (Jason Ekstrand):
+> >  - Add an _rcu suffix because it is read-only
+> >  - Rewrite to use dma_resv_get_fences_rcu so it's RCU-safe
+> >  - Add an EXPORT_SYMBOL_GPL declaration
+> >  - Re-author the patch to Jason since very little is left of Christian
+> >    K=C3=B6nig's original patch
+> >  - Remove the extra fence argument
+> >
+> > v4 (Jason Ekstrand):
+> >  - Restore the extra fence argument
+> >
+> > Signed-off-by: Jason Ekstrand <jason@jlekstrand.net>
+> >
+> > get_singleton
+>
+> Spurious thing here.
 
-Reviewed-by: Kuogee Hsieh <khsieh@codeaurora.org>
+Fixed.
 
-> ---
->  drivers/gpu/drm/msm/dp/dp_aux.c | 140 ++++++++++++++------------------
->  drivers/gpu/drm/msm/dp/dp_aux.h |   8 --
->  2 files changed, 61 insertions(+), 87 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/dp/dp_aux.c 
-> b/drivers/gpu/drm/msm/dp/dp_aux.c
-> index b49810396513..4a3293b590b0 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_aux.c
-> +++ b/drivers/gpu/drm/msm/dp/dp_aux.c
-> @@ -9,7 +9,15 @@
->  #include "dp_reg.h"
->  #include "dp_aux.h"
-> 
-> -#define DP_AUX_ENUM_STR(x)		#x
-> +enum msm_dp_aux_err {
-> +	DP_AUX_ERR_NONE,
-> +	DP_AUX_ERR_ADDR,
-> +	DP_AUX_ERR_TOUT,
-> +	DP_AUX_ERR_NACK,
-> +	DP_AUX_ERR_DEFER,
-> +	DP_AUX_ERR_NACK_DEFER,
-> +	DP_AUX_ERR_PHY,
-> +};
-> 
->  struct dp_aux_private {
->  	struct device *dev;
-> @@ -18,7 +26,7 @@ struct dp_aux_private {
->  	struct mutex mutex;
->  	struct completion comp;
-> 
-> -	u32 aux_error_num;
-> +	enum msm_dp_aux_err aux_error_num;
->  	u32 retry_cnt;
->  	bool cmd_busy;
->  	bool native;
-> @@ -33,62 +41,45 @@ struct dp_aux_private {
-> 
->  #define MAX_AUX_RETRIES			5
-> 
-> -static const char *dp_aux_get_error(u32 aux_error)
-> -{
-> -	switch (aux_error) {
-> -	case DP_AUX_ERR_NONE:
-> -		return DP_AUX_ENUM_STR(DP_AUX_ERR_NONE);
-> -	case DP_AUX_ERR_ADDR:
-> -		return DP_AUX_ENUM_STR(DP_AUX_ERR_ADDR);
-> -	case DP_AUX_ERR_TOUT:
-> -		return DP_AUX_ENUM_STR(DP_AUX_ERR_TOUT);
-> -	case DP_AUX_ERR_NACK:
-> -		return DP_AUX_ENUM_STR(DP_AUX_ERR_NACK);
-> -	case DP_AUX_ERR_DEFER:
-> -		return DP_AUX_ENUM_STR(DP_AUX_ERR_DEFER);
-> -	case DP_AUX_ERR_NACK_DEFER:
-> -		return DP_AUX_ENUM_STR(DP_AUX_ERR_NACK_DEFER);
-> -	default:
-> -		return "unknown";
-> -	}
-> -}
-> -
-> -static u32 dp_aux_write(struct dp_aux_private *aux,
-> +static ssize_t dp_aux_write(struct dp_aux_private *aux,
->  			struct drm_dp_aux_msg *msg)
->  {
-> -	u32 data[4], reg, len;
-> +	u8 data[4];
-> +	u32 reg;
-> +	ssize_t len;
->  	u8 *msgdata = msg->buffer;
->  	int const AUX_CMD_FIFO_LEN = 128;
->  	int i = 0;
-> 
->  	if (aux->read)
-> -		len = 4;
-> +		len = 0;
->  	else
-> -		len = msg->size + 4;
-> +		len = msg->size;
-> 
->  	/*
->  	 * cmd fifo only has depth of 144 bytes
->  	 * limit buf length to 128 bytes here
->  	 */
-> -	if (len > AUX_CMD_FIFO_LEN) {
-> +	if (len > AUX_CMD_FIFO_LEN - 4) {
->  		DRM_ERROR("buf size greater than allowed size of 128 bytes\n");
-> -		return 0;
-> +		return -EINVAL;
->  	}
-> 
->  	/* Pack cmd and write to HW */
-> -	data[0] = (msg->address >> 16) & 0xf; /* addr[19:16] */
-> +	data[0] = (msg->address >> 16) & 0xf;	/* addr[19:16] */
->  	if (aux->read)
-> -		data[0] |=  BIT(4); /* R/W */
-> +		data[0] |=  BIT(4);		/* R/W */
-> 
-> -	data[1] = (msg->address >> 8) & 0xff;	/* addr[15:8] */
-> -	data[2] = msg->address & 0xff;		/* addr[7:0] */
-> -	data[3] = (msg->size - 1) & 0xff;	/* len[7:0] */
-> +	data[1] = msg->address >> 8;		/* addr[15:8] */
-> +	data[2] = msg->address;			/* addr[7:0] */
-> +	data[3] = msg->size - 1;		/* len[7:0] */
-> 
-> -	for (i = 0; i < len; i++) {
-> +	for (i = 0; i < len + 4; i++) {
->  		reg = (i < 4) ? data[i] : msgdata[i - 4];
-> +		reg <<= DP_AUX_DATA_OFFSET;
-> +		reg &= DP_AUX_DATA_MASK;
-> +		reg |= DP_AUX_DATA_WRITE;
->  		/* index = 0, write */
-> -		reg = (((reg) << DP_AUX_DATA_OFFSET)
-> -		       & DP_AUX_DATA_MASK) | DP_AUX_DATA_WRITE;
->  		if (i == 0)
->  			reg |= DP_AUX_DATA_INDEX_WRITE;
->  		aux->catalog->aux_data = reg;
-> @@ -116,39 +107,27 @@ static u32 dp_aux_write(struct dp_aux_private 
-> *aux,
->  	return len;
->  }
-> 
-> -static int dp_aux_cmd_fifo_tx(struct dp_aux_private *aux,
-> +static ssize_t dp_aux_cmd_fifo_tx(struct dp_aux_private *aux,
->  			      struct drm_dp_aux_msg *msg)
->  {
-> -	u32 ret, len, timeout;
-> -	int aux_timeout_ms = HZ/4;
-> +	ssize_t ret;
-> +	unsigned long time_left;
-> 
->  	reinit_completion(&aux->comp);
-> 
-> -	len = dp_aux_write(aux, msg);
-> -	if (len == 0) {
-> -		DRM_ERROR("DP AUX write failed\n");
-> -		return -EINVAL;
-> -	}
-> +	ret = dp_aux_write(aux, msg);
-> +	if (ret < 0)
-> +		return ret;
-> 
-> -	timeout = wait_for_completion_timeout(&aux->comp, aux_timeout_ms);
-> -	if (!timeout) {
-> -		DRM_ERROR("aux %s timeout\n", (aux->read ? "read" : "write"));
-> +	time_left = wait_for_completion_timeout(&aux->comp,
-> +						msecs_to_jiffies(250));
-> +	if (!time_left)
->  		return -ETIMEDOUT;
-> -	}
-> -
-> -	if (aux->aux_error_num == DP_AUX_ERR_NONE) {
-> -		ret = len;
-> -	} else {
-> -		DRM_ERROR_RATELIMITED("aux err: %s\n",
-> -			dp_aux_get_error(aux->aux_error_num));
-> -
-> -		ret = -EINVAL;
-> -	}
-> 
->  	return ret;
->  }
-> 
-> -static void dp_aux_cmd_fifo_rx(struct dp_aux_private *aux,
-> +static ssize_t dp_aux_cmd_fifo_rx(struct dp_aux_private *aux,
->  		struct drm_dp_aux_msg *msg)
->  {
->  	u32 data;
-> @@ -175,9 +154,10 @@ static void dp_aux_cmd_fifo_rx(struct 
-> dp_aux_private *aux,
-> 
->  		actual_i = (data >> DP_AUX_DATA_INDEX_OFFSET) & 0xFF;
->  		if (i != actual_i)
-> -			DRM_ERROR("Index mismatch: expected %d, found %d\n",
-> -				i, actual_i);
-> +			break;
->  	}
-> +
-> +	return i;
->  }
-> 
->  static void dp_aux_native_handler(struct dp_aux_private *aux, u32 isr)
-> @@ -367,36 +347,38 @@ static ssize_t dp_aux_transfer(struct drm_dp_aux 
-> *dp_aux,
->  	}
-> 
->  	ret = dp_aux_cmd_fifo_tx(aux, msg);
-> -
->  	if (ret < 0) {
->  		if (aux->native) {
->  			aux->retry_cnt++;
->  			if (!(aux->retry_cnt % MAX_AUX_RETRIES))
->  				dp_catalog_aux_update_cfg(aux->catalog);
->  		}
-> -		usleep_range(400, 500); /* at least 400us to next try */
-> -		goto unlock_exit;
-> -	}
-> -
-> -	if (aux->aux_error_num == DP_AUX_ERR_NONE) {
-> -		if (aux->read)
-> -			dp_aux_cmd_fifo_rx(aux, msg);
-> -
-> -		msg->reply = aux->native ?
-> -			DP_AUX_NATIVE_REPLY_ACK : DP_AUX_I2C_REPLY_ACK;
->  	} else {
-> -		/* Reply defer to retry */
-> -		msg->reply = aux->native ?
-> -			DP_AUX_NATIVE_REPLY_DEFER : DP_AUX_I2C_REPLY_DEFER;
-> +		aux->retry_cnt = 0;
-> +		switch (aux->aux_error_num) {
-> +		case DP_AUX_ERR_NONE:
-> +			if (aux->read)
-> +				ret = dp_aux_cmd_fifo_rx(aux, msg);
-> +			msg->reply = aux->native ? DP_AUX_NATIVE_REPLY_ACK : 
-> DP_AUX_I2C_REPLY_ACK;
-> +			break;
-> +		case DP_AUX_ERR_DEFER:
-> +			msg->reply = aux->native ? DP_AUX_NATIVE_REPLY_DEFER :
-> DP_AUX_I2C_REPLY_DEFER;
-> +			break;
-> +		case DP_AUX_ERR_PHY:
-> +		case DP_AUX_ERR_ADDR:
-> +		case DP_AUX_ERR_NACK:
-> +		case DP_AUX_ERR_NACK_DEFER:
-> +			msg->reply = aux->native ? DP_AUX_NATIVE_REPLY_NACK : 
-> DP_AUX_I2C_REPLY_NACK;
-> +			break;
-> +		case DP_AUX_ERR_TOUT:
-> +			ret = -ETIMEDOUT;
-> +			break;
-> +		}
->  	}
-> 
-> -	/* Return requested size for success or retry */
-> -	ret = msg->size;
-> -	aux->retry_cnt = 0;
-> -
-> -unlock_exit:
->  	aux->cmd_busy = false;
->  	mutex_unlock(&aux->mutex);
-> +
->  	return ret;
->  }
-> 
-> diff --git a/drivers/gpu/drm/msm/dp/dp_aux.h 
-> b/drivers/gpu/drm/msm/dp/dp_aux.h
-> index f8b8ba919465..0728cc09c9ec 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_aux.h
-> +++ b/drivers/gpu/drm/msm/dp/dp_aux.h
-> @@ -9,14 +9,6 @@
->  #include "dp_catalog.h"
->  #include <drm/drm_dp_helper.h>
-> 
-> -#define DP_AUX_ERR_NONE		0
-> -#define DP_AUX_ERR_ADDR		-1
-> -#define DP_AUX_ERR_TOUT		-2
-> -#define DP_AUX_ERR_NACK		-3
-> -#define DP_AUX_ERR_DEFER	-4
-> -#define DP_AUX_ERR_NACK_DEFER	-5
-> -#define DP_AUX_ERR_PHY		-6
-> -
->  int dp_aux_register(struct drm_dp_aux *dp_aux);
->  void dp_aux_unregister(struct drm_dp_aux *dp_aux);
->  void dp_aux_isr(struct drm_dp_aux *dp_aux);
+> > ---
+> >  drivers/dma-buf/dma-resv.c | 122 +++++++++++++++++++++++++++++++++++++
+> >  include/linux/dma-resv.h   |   3 +
+> >  2 files changed, 125 insertions(+)
+> >
+> > diff --git a/drivers/dma-buf/dma-resv.c b/drivers/dma-buf/dma-resv.c
+> > index 6ddbeb5dfbf65..25995fc15c370 100644
+> > --- a/drivers/dma-buf/dma-resv.c
+> > +++ b/drivers/dma-buf/dma-resv.c
+> > @@ -33,6 +33,8 @@
+> >   */
+> >
+> >  #include <linux/dma-resv.h>
+> > +#include <linux/dma-fence-chain.h>
+> > +#include <linux/dma-fence-array.h>
+> >  #include <linux/export.h>
+> >  #include <linux/mm.h>
+> >  #include <linux/sched/mm.h>
+> > @@ -49,6 +51,19 @@
+> >   * write-side updates.
+> >   */
+> >
+> > +/**
+> > + * dma_fence_deep_dive_for_each - deep dive into the fence containers
+> > + * @fence: resulting fence
+> > + * @chain: variable for a dma_fence_chain
+> > + * @index: index into a dma_fence_array
+> > + * @head: starting point
+> > + *
+> > + * Helper to deep dive into the fence containers for flattening them.
+> > + */
+> > +#define dma_fence_deep_dive_for_each(fence, chain, index, head)      \
+> > +     dma_fence_chain_for_each(chain, head)                   \
+> > +             dma_fence_array_for_each(fence, index, chain)
+>
+> Since this is is just internal helper in the .c file we generally don't
+> document it. Maybe small comment if you feel it's worth it.
+
+Sure, I can write LESS documentation. :-P
+
+> > +
+> >  DEFINE_WD_CLASS(reservation_ww_class);
+> >  EXPORT_SYMBOL(reservation_ww_class);
+> >
+> > @@ -517,6 +532,113 @@ int dma_resv_get_fences_rcu(struct dma_resv *obj,
+> >  }
+> >  EXPORT_SYMBOL_GPL(dma_resv_get_fences_rcu);
+> >
+> > +/**
+> > + * dma_resv_get_singleton - get a single fence for the dma_resv object
+>
+> Name doesn't match here.
+
+Fixed.
+
+> > + * @obj: the reservation object
+> > + * @extra: extra fence to add to the resulting array
+> > + * @result: resulting dma_fence
+> > + *
+> > + * Get a single fence representing all unsignaled fences in the dma_re=
+sv object
+> > + * plus the given extra fence. If we got only one fence return a new
+> > + * reference to that, otherwise return a dma_fence_array object.
+> > + *
+> > + * RETURNS
+> > + * Returns -NOMEM if allocations fail, zero otherwise.
+>
+> Kernel often encodes this in ERR_PTR so that you don't have to pass a
+> pointer to store the result. Would feel more kerenl-y I think that way. S=
+o
+> no result parameter, and on alloc failure you'd return
+
+Done.
+
+>         return ERR_PTR(-ENOMEM);
+>
+> > + */
+> > +int dma_resv_get_singleton_rcu(struct dma_resv *obj, struct dma_fence =
+*extra,
+>
+> tbh the _rcu here is confusing. I think _unlocked is the better suffix,
+> maybe we should rename dma_resv_get_fences_rcu too for consistency. The
+> rcu-ness of the lookup isn't leaked to callers at all, so no point giving
+> them a panic.
+
+I can make that change.  I'll also include a patch in the next re-send
+that renames all the _rcu helpers to _unlocked for consistency.
+
+--Jason
+
+> > +                            struct dma_fence **result)
+> > +{
+> > +     struct dma_fence **resv_fences, *fence, *chain, **fences;
+> > +     struct dma_fence_array *array;
+> > +     unsigned int num_resv_fences, num_fences;
+> > +     unsigned int ret, i, j;
+> > +
+> > +     ret =3D dma_resv_get_fences_rcu(obj, NULL, &num_resv_fences, &res=
+v_fences);
+> > +     if (ret)
+> > +             return ret;
+> > +
+> > +     num_fences =3D 0;
+> > +     *result =3D NULL;
+> > +
+> > +     if (num_resv_fences =3D=3D 0 && !extra)
+> > +             return 0;
+> > +
+> > +     for (i =3D 0; i < num_resv_fences; ++i) {
+> > +             dma_fence_deep_dive_for_each(fence, chain, j, resv_fences=
+[i]) {
+> > +                     if (dma_fence_is_signaled(fence))
+> > +                             continue;
+> > +
+> > +                     *result =3D fence;
+> > +                     ++num_fences;
+> > +             }
+> > +     }
+> > +
+> > +     if (extra) {
+> > +             dma_fence_deep_dive_for_each(fence, chain, j, extra) {
+> > +                     if (dma_fence_is_signaled(fence))
+> > +                             continue;
+> > +
+> > +                     *result =3D fence;
+> > +                     ++num_fences;
+> > +             }
+> > +     }
+> > +
+> > +     if (num_fences <=3D 1) {
+> > +             *result =3D dma_fence_get(*result);
+> > +             goto put_resv_fences;
+> > +     }
+> > +
+> > +     fences =3D kmalloc_array(num_fences, sizeof(struct dma_fence*),
+> > +                            GFP_KERNEL);
+> > +     if (!fences) {
+> > +             *result =3D NULL;
+> > +             ret =3D -ENOMEM;
+> > +             goto put_resv_fences;
+> > +     }
+> > +
+> > +     num_fences =3D 0;
+> > +     for (i =3D 0; i < num_resv_fences; ++i) {
+> > +             dma_fence_deep_dive_for_each(fence, chain, j, resv_fences=
+[i]) {
+> > +                     if (!dma_fence_is_signaled(fence))
+> > +                             fences[num_fences++] =3D dma_fence_get(fe=
+nce);
+> > +             }
+> > +     }
+> > +
+> > +     if (extra) {
+> > +             dma_fence_deep_dive_for_each(fence, chain, j, extra) {
+> > +                     if (dma_fence_is_signaled(fence))
+> > +                             fences[num_fences++] =3D dma_fence_get(fe=
+nce);
+> > +             }
+> > +     }
+> > +
+> > +     if (num_fences <=3D 1) {
+> > +             *result =3D num_fences ? fences[0] : NULL;
+> > +             kfree(fences);
+> > +             goto put_resv_fences;
+> > +     }
+> > +
+> > +     array =3D dma_fence_array_create(num_fences, fences,
+> > +                                    dma_fence_context_alloc(1),
+> > +                                    1, false);
+> > +     if (array) {
+> > +             *result =3D &array->base;
+> > +     } else {
+> > +             *result =3D NULL;
+> > +             while (num_fences--)
+> > +                     dma_fence_put(fences[num_fences]);
+> > +             kfree(fences);
+> > +             ret =3D -ENOMEM;
+> > +     }
+> > +
+> > +put_resv_fences:
+> > +     while (num_resv_fences--)
+> > +             dma_fence_put(resv_fences[num_resv_fences]);
+> > +     kfree(resv_fences);
+> > +
+> > +     return ret;
+> > +}
+> > +EXPORT_SYMBOL_GPL(dma_resv_get_singleton_rcu);
+>
+> With the nits addressed:
+>
+> Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+>
+> > +
+> >  /**
+> >   * dma_resv_wait_timeout_rcu - Wait on reservation's objects
+> >   * shared and/or exclusive fences.
+> > diff --git a/include/linux/dma-resv.h b/include/linux/dma-resv.h
+> > index d44a77e8a7e34..d49ca263e78b4 100644
+> > --- a/include/linux/dma-resv.h
+> > +++ b/include/linux/dma-resv.h
+> > @@ -285,6 +285,9 @@ int dma_resv_get_fences_rcu(struct dma_resv *obj,
+> >
+> >  int dma_resv_copy_fences(struct dma_resv *dst, struct dma_resv *src);
+> >
+> > +int dma_resv_get_singleton_rcu(struct dma_resv *obj, struct dma_fence =
+*extra,
+> > +                            struct dma_fence **result);
+> > +
+> >  long dma_resv_wait_timeout_rcu(struct dma_resv *obj, bool wait_all, bo=
+ol intr,
+> >                              unsigned long timeout);
+> >
+> > --
+> > 2.31.1
+> >
+>
+> --
+> Daniel Vetter
+> Software Engineer, Intel Corporation
+> http://blog.ffwll.ch
