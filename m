@@ -1,75 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2F1638E5DE
-	for <lists+dri-devel@lfdr.de>; Mon, 24 May 2021 13:53:03 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D414F38E5FF
+	for <lists+dri-devel@lfdr.de>; Mon, 24 May 2021 14:00:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D4EEB6E217;
-	Mon, 24 May 2021 11:53:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DD1586E1AA;
+	Mon, 24 May 2021 12:00:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from new4-smtp.messagingengine.com (new4-smtp.messagingengine.com
- [66.111.4.230])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E3CBD6E217
- for <dri-devel@lists.freedesktop.org>; Mon, 24 May 2021 11:52:59 +0000 (UTC)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
- by mailnew.nyi.internal (Postfix) with ESMTP id 0A88E5819C9;
- Mon, 24 May 2021 07:52:59 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute6.internal (MEProxy); Mon, 24 May 2021 07:52:59 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
- date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm2; bh=ddz0tcBZgmkT/3hhpfbba4g3NSo
- MMo+qdHQ5L1UgRU8=; b=vWx8W6fmH/naMYdG5IF03h95a7zlcw8npvdQr7+/mIs
- 5yN0tE7Y0DBge0dxEwz+I0PVp2AmOXdlW93ScrRXWTU3FiLWdtaviGzN2fZChutI
- /X69WoiKM8+z/Oh8o9Nj+d9FsbwpfswHVKzUE52U4kxjV2HzaBs5SV8/N+QrMhNP
- FW4ABjbNjpABEovuvOEv65dVjj/vcIgR5KgyVpKFQoEkqm18rdgEaL7jXBo6mh0h
- Nn3Mf3t5o2Orl+1f9s3gzwXs8urZ5/S7dFxhKsRxD18iunNGqSEeo0Fr3LSr2TMA
- oYeijGArOOSjcDKIRS9k4dTPRETyjtQjT0LYImzknDQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=ddz0tc
- BZgmkT/3hhpfbba4g3NSoMMo+qdHQ5L1UgRU8=; b=S9v7N3gXwGyhvpQR2XWJJM
- +N+h/WflGyGWMl1/EbHxRbgi5bii84c2+5RNZZrC/7ZPZTmArOKjGW7q5zaYuI94
- rRnAW27S5W/UX+W2RYHKZbZJqHvZlPK7CAyWbd00u4WUpT6Qp7YkQTa4QJ8ODcGG
- 7/1kPQ3nJV536Z6yysCkgXpW5nyCPLPG7R3B63ItFkMD/yXgtQhSpQ4JuEKBagyv
- 0VaoRaKYarSLWo8q7+oA6Zg6BH2hrZHOiFGQrIlhjKJO8YXFy1Zci4cYKzzkHQ1o
- HHJBd4yMYnFncrOHts3Qhl5iBVJQNGbeGYYNOCy9UNIqT+4vBxZ0YqKuIgyJUnqA
- ==
-X-ME-Sender: <xms:mZOrYCjjEaSG__fIYfMms9Q1ZJDnPkB5e4PRkfL8OdMjBF2m7z-CRQ>
- <xme:mZOrYDDEiU5XkJYFzmuyHlO76w3xY6gW8_uzqBYE7-TGiKKkL0yjSLIP9E9DAzMxF
- 2WuV_a-ySAKUL4D9E0>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvdejledggeeiucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
- vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
- htvghrnhepleekgeehhfdutdeljefgleejffehfffgieejhffgueefhfdtveetgeehieeh
- gedunecukfhppeeltddrkeelrdeikedrjeeinecuvehluhhsthgvrhfuihiivgeptdenuc
- frrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:mZOrYKEAjKpP2rKOOiqk_UwpXU6lnldtrTPI_b4mkcex6nHNtgvp6A>
- <xmx:mZOrYLRWfN2TentfjRPO3lkIr8tQwq8DZE580GScoTXfthjd1-Fzjw>
- <xmx:mZOrYPxmCkZ9XBAKZq08jMhchuRYQQtz-jjOMlZzewytu3-l1zPJTQ>
- <xmx:m5OrYELO6d68Zbop3zu1BsL1W3CZWpxePMV8xpjp6A31RL5dnunNSA>
-Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
- [90.89.68.76]) by mail.messagingengine.com (Postfix) with ESMTPA;
- Mon, 24 May 2021 07:52:57 -0400 (EDT)
-Date: Mon, 24 May 2021 13:52:54 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: dri-devel@lists.freedesktop.org, Daniel Vetter <daniel.vetter@intel.com>,
- David Airlie <airlied@linux.ie>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH 0/4] drm/vc4: Add support for the BCM2711 VEC
-Message-ID: <20210524115254.ifjtledccze2ueos@gilmour>
-References: <20210520150344.273900-1-maxime@cerno.tech>
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 62DF36E1AA;
+ Mon, 24 May 2021 11:59:59 +0000 (UTC)
+IronPort-SDR: NjszljHVu0TD+wOGNcz49pMkqoVrMqrI2jze31cZ4bdpzIFKerdiiRv14blfxuOJaP15seXWxd
+ Q4ovfxB1aAaw==
+X-IronPort-AV: E=McAfee;i="6200,9189,9993"; a="189299256"
+X-IronPort-AV: E=Sophos;i="5.82,319,1613462400"; d="scan'208";a="189299256"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 May 2021 04:59:58 -0700
+IronPort-SDR: AjZGMKs2Oaj7YwspYf9LjaD5WtFZwGmEaC4iXKRf10OBlrG5dnkB2RII/6Tx9Jwu84atnfVlcf
+ Czc2AvPTjdCw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.82,319,1613462400"; d="scan'208";a="632599321"
+Received: from irvmail001.ir.intel.com ([10.43.11.63])
+ by fmsmga005.fm.intel.com with ESMTP; 24 May 2021 04:59:55 -0700
+Received: from [10.249.134.123] (mwajdecz-MOBL.ger.corp.intel.com
+ [10.249.134.123])
+ by irvmail001.ir.intel.com (8.14.3/8.13.6/MailSET/Hub) with ESMTP id
+ 14OBxsRX023225; Mon, 24 May 2021 12:59:54 +0100
+Subject: Re: [RFC PATCH 35/97] drm/i915/guc: Improve error message for
+ unsolicited CT response
+To: Matthew Brost <matthew.brost@intel.com>, intel-gfx@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org
+References: <20210506191451.77768-1-matthew.brost@intel.com>
+ <20210506191451.77768-36-matthew.brost@intel.com>
+From: Michal Wajdeczko <michal.wajdeczko@intel.com>
+Message-ID: <7916ebfd-ebbe-c1a9-11b1-30587ca7a009@intel.com>
+Date: Mon, 24 May 2021 13:59:54 +0200
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.2
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="ykg4l6l5w6w2sirq"
-Content-Disposition: inline
-In-Reply-To: <20210520150344.273900-1-maxime@cerno.tech>
+In-Reply-To: <20210506191451.77768-36-matthew.brost@intel.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,43 +57,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Florian Fainelli <f.fainelli@gmail.com>,
- Scott Branden <sbranden@broadcom.com>, Ray Jui <rjui@broadcom.com>,
- linux-kernel@vger.kernel.org, Nicolas Saenz Julienne <nsaenz@kernel.org>,
- Rob Herring <robh+dt@kernel.org>, bcm-kernel-feedback-list@broadcom.com,
- linux-rpi-kernel@lists.infradead.org, linux-arm-kernel@lists.infradead.org
+Cc: tvrtko.ursulin@intel.com, jason.ekstrand@intel.com,
+ daniele.ceraolospurio@intel.com, jon.bloomfield@intel.com,
+ daniel.vetter@intel.com, john.c.harrison@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---ykg4l6l5w6w2sirq
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Thu, May 20, 2021 at 05:03:40PM +0200, Maxime Ripard wrote:
-> Hi,
->=20
-> The composite output in the BCM2711 is dealt using the VEC. While the ear=
-lier
-> SoCs were properly supported, it wasn't functional on the BCM2711. Add the
-> needed support from the RPi downstream kernel.
->=20
-> Maxime
+On 06.05.2021 21:13, Matthew Brost wrote:
+> Improve the error message when a unsolicited CT response is received by
+> printing fence that couldn't be found, the last fence, and all requests
+> with a response outstanding.
+> 
+> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+> ---
+>  drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c | 10 +++++++---
+>  1 file changed, 7 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
+> index 217ab3ebd1af..a76603537fa8 100644
+> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
+> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
+> @@ -703,12 +703,16 @@ static int ct_handle_response(struct intel_guc_ct *ct, struct ct_incoming_msg *r
+>  		found = true;
+>  		break;
+>  	}
+> -	spin_unlock_irqrestore(&ct->requests.lock, flags);
+> -
+>  	if (!found) {
+>  		CT_ERROR(ct, "Unsolicited response (fence %u)\n", fence);
+> -		return -ENOKEY;
+> +		CT_ERROR(ct, "Could not find fence=%u, last_fence=%u\n", fence,
+> +			 ct->requests.last_fence);
 
-Applied patches 1-3 to drm-misc-next
+nit: this new wording may suggest that it's our fault, but that's not
+necessary true
 
-Maxime
+> +		list_for_each_entry(req, &ct->requests.pending, link)
+> +			CT_ERROR(ct, "request %u awaits response\n",
+> +				 req->fence);
 
---ykg4l6l5w6w2sirq
-Content-Type: application/pgp-signature; name="signature.asc"
+usually we don't send multiple requests that expects responses, so it's
+very likely that list with pending requests will be empty, and even if
+list is not empty, I'm not sure what is the relation between those
+pending requests to this unsolicited response, thus wondering how these
+extra errors could improve our debugging experience ?
 
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYKuTlgAKCRDj7w1vZxhR
-xWjLAQDLX/sHQD+jkjAd/Zn718/CwW+EIPefPc5zOy1TC0ktUwEAgPalmAbaIPW1
-5FiL1xD5zn2aBZ2Tqbon037NVt74sws=
-=0UQA
------END PGP SIGNATURE-----
-
---ykg4l6l5w6w2sirq--
+> +		err = -ENOKEY;
+>  	}
+> +	spin_unlock_irqrestore(&ct->requests.lock, flags);
+>  
+>  	if (unlikely(err))
+>  		return err;
+> 
