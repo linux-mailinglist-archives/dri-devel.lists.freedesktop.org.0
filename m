@@ -2,43 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DE9038E609
-	for <lists+dri-devel@lfdr.de>; Mon, 24 May 2021 14:00:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 26DEF38E610
+	for <lists+dri-devel@lfdr.de>; Mon, 24 May 2021 14:01:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6FB866E247;
-	Mon, 24 May 2021 12:00:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 00BA16E40D;
+	Mon, 24 May 2021 12:00:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 114DD6E241;
- Mon, 24 May 2021 12:00:32 +0000 (UTC)
-IronPort-SDR: WdCgc2l6/0u2Gly1mfd1ko33QvUrmu+Olnyi9LIxvMuv3jOVIMS8g1L5WE4KbH7AEL7MRMAIsP
- reiDKZXCYD7A==
-X-IronPort-AV: E=McAfee;i="6200,9189,9993"; a="223070025"
-X-IronPort-AV: E=Sophos;i="5.82,319,1613462400"; d="scan'208";a="223070025"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 May 2021 05:00:32 -0700
-IronPort-SDR: DmVkewsTc8dFClVYojFAJXpmArmJaA3AtFzd9tiyoFt0F1U75giPzrozdamwBvm1F6aX3cj4oZ
- CcwzVx8BybIg==
-X-IronPort-AV: E=Sophos;i="5.82,319,1613462400"; d="scan'208";a="475838436"
-Received: from jaherrex-mobl2.amr.corp.intel.com (HELO localhost)
- ([10.252.50.169])
- by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 May 2021 05:00:29 -0700
-From: Jani Nikula <jani.nikula@intel.com>
-To: "Deucher\, Alexander" <Alexander.Deucher@amd.com>,
- "dim-tools\@lists.freedesktop.org" <dim-tools@lists.freedesktop.org>
-Subject: RE: [drm-rerere PATCH] nightly.conf: drop amd branches from drm-tip
-In-Reply-To: <MN2PR12MB44884924C665EE6EDF3E17A2F72B9@MN2PR12MB4488.namprd12.prod.outlook.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20210519084932.8666-1-jani.nikula@intel.com>
- <MN2PR12MB44884924C665EE6EDF3E17A2F72B9@MN2PR12MB4488.namprd12.prod.outlook.com>
-Date: Mon, 24 May 2021 15:00:26 +0300
-Message-ID: <87h7iscpet.fsf@intel.com>
+Received: from new4-smtp.messagingengine.com (new4-smtp.messagingengine.com
+ [66.111.4.230])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 49DCD6E40D
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 May 2021 12:00:57 +0000 (UTC)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailnew.nyi.internal (Postfix) with ESMTP id 5796F58270C;
+ Mon, 24 May 2021 08:00:56 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute4.internal (MEProxy); Mon, 24 May 2021 08:00:56 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=
+ date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm3; bh=9b68iKsk8DPJHoYxXOYWybMr7+T
+ fDaS+j0bppFnZpLo=; b=aYxbuGTfofOqjr3l46ffYuGleIRL9XBMhQT9Zgknwgw
+ 26NkeNlothDsGmm8UFEZmbC+pKj3pmmsMdvMsNNcbq2zPbYxcjxAb7tpLZu82mVE
+ O/EHyv/z8hMS3yhLHIufw1U1MYjzY5hPEH2uflSCkBXwCThXDRgsrx9R5dt4PBms
+ 5JJlgeFs4/jd+O1Rn2PSON4UBWvpiOTeVDLWdlmZTDBuY+py9ADefYRG6W41HKVF
+ fG7wd9888EWenY7VaqPCI7XN8C5qUHZxSKs/aPHP8WI+o+L9z33VGny19xj4GfsL
+ vURJYFnKkHrkEYdf+wAtdXaoZMhVtLxar6e0BLVrJ3w==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=9b68iK
+ sk8DPJHoYxXOYWybMr7+TfDaS+j0bppFnZpLo=; b=EpqzaZa8hQY2XMl+bD4Ibs
+ 5J6Vx3hDVHqcdvcNMW8piRtpH0jcqRY3Os4gGw/ygc9Ue3EDY+ZGeaMttHDw9ciJ
+ 09La2Xqx/wwAwsCJcAol9yS9QLLCN9I0IF7b6O9k17OO78KXEtu069hJROzdpt/g
+ 3/V+2952OmNHIF/VqPdc/rRa9+cqwPjje6Beqw7F9oVxOc0Z+vPuDmZijV2Mi1Ac
+ iSMzezWYvVFQe/UBgvC3dAsnyjYW2SdO3TZ1Ti6SyXiUFcSld9G5Ibp8bujTtOij
+ gyd6TB0DeFCOKA4aK/aIj+kuiU0jUua8KrPV/ulBca0yepvFhHsGahk44NTtHA8g
+ ==
+X-ME-Sender: <xms:d5WrYLCt6JBEFXq5dMXTK_K1Q3FLgT31oN4r4jvVxsWpYdRzh2sMhw>
+ <xme:d5WrYBgwVMUKI1qPW2FOMwhRCGrI4CWiJcTRDO2pR4nI12yvgQDgdvITGSUaKwxL_
+ olHgkLdI1pLXA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvdejledggeekucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvffukfhfgggtuggjsehttdertddttddvnecuhfhrohhmpefirhgvghcu
+ mffjuceoghhrvghgsehkrhhorghhrdgtohhmqeenucggtffrrghtthgvrhhnpeevueehje
+ fgfffgiedvudekvdektdelleelgefhleejieeugeegveeuuddukedvteenucfkphepkeef
+ rdekiedrjeegrdeigeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrih
+ hlfhhrohhmpehgrhgvgheskhhrohgrhhdrtghomh
+X-ME-Proxy: <xmx:d5WrYGlijsWGTkjJsz5c8gLwDWUyzsmaUSUivmTlzpiqr6F_oM71dg>
+ <xmx:d5WrYNyouRWKitd-ArnyUUpxd_X5AfNFLeJGgqx16xtp0wSxBgmYYw>
+ <xmx:d5WrYARS1ryrICK-Xz-tJKA-ewqwE7h5Ph_p_hAkTQKHVSNbjYDu9Q>
+ <xmx:eJWrYCD5kumaSPNhpAhDiLvUVssdoO1Xu-KGyHyCq4R9iZDe2TpjIQ>
+Received: from localhost (83-86-74-64.cable.dynamic.v4.ziggo.nl [83.86.74.64])
+ by mail.messagingengine.com (Postfix) with ESMTPA;
+ Mon, 24 May 2021 08:00:54 -0400 (EDT)
+Date: Mon, 24 May 2021 14:00:41 +0200
+From: Greg KH <greg@kroah.com>
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Subject: Re: [PATCH AUTOSEL 5.12 5/5] tty: vt: always invoke
+ vc->vc_sw->con_resize callback
+Message-ID: <YKuVaUJFp0K929k+@kroah.com>
+References: <20210518010940.1485417-1-sashal@kernel.org>
+ <20210518010940.1485417-5-sashal@kernel.org>
+ <CAHk-=whw9_rp0NYTsCqcGnUkcV5Qgv7FTxADtPrdq4KFmsj+Lg@mail.gmail.com>
+ <YKNUl/f/c8HfF6dS@kroah.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YKNUl/f/c8HfF6dS@kroah.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,127 +82,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>, "Pan,
- Xinhui" <Xinhui.Pan@amd.com>, "Koenig, 
- Christian" <Christian.Koenig@amd.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Cc: Sasha Levin <sashal@kernel.org>,
+ Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
+ Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, stable <stable@vger.kernel.org>,
+ syzbot <syzbot+1f29e126cf461c4de3b3@syzkaller.appspotmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 19 May 2021, "Deucher, Alexander" <Alexander.Deucher@amd.com> wrote:
-> [AMD Public Use]
->
->> -----Original Message-----
->> From: Jani Nikula <jani.nikula@intel.com>
->> Sent: Wednesday, May 19, 2021 4:50 AM
->> To: dim-tools@lists.freedesktop.org
->> Cc: dri-devel@lists.freedesktop.org; intel-gfx@lists.freedesktop.org;
->> jani.nikula@intel.com; Deucher, Alexander
->> <Alexander.Deucher@amd.com>; Koenig, Christian
->> <Christian.Koenig@amd.com>; Pan; Pan, Xinhui <Xinhui.Pan@amd.com>;
->> Daniel Vetter <daniel.vetter@ffwll.ch>
->> Subject: [drm-rerere PATCH] nightly.conf: drop amd branches from drm-tip
->>=20
->> We've had a stale repo for amd in drm-tip since around v4.15 i.e. for mo=
-re
->> than three years. Nobody seems to notice or care. Drop the amd branches
->> from drm-tip.
->>=20
->> Having the current amd branches in drm-tip would be nice to have, if onl=
-y to
->> have a common drm integration tree. However, maintaining that has a cost
->> due to the inevitable conflicts. We can add the branches back if and when
->> there's interest in sharing the burden.
->>=20
->> Cc: Alex Deucher <alexander.deucher@amd.com>
->> Cc: Christian K=C3=B6nig <christian.koenig@amd.com>
->> Cc: Pan, Xinhui <Xinhui.Pan@amd.com>
->> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
->> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
->
-> Reviewed-by: Alex Deucher <alexander.deucher@amd.com>
+On Tue, May 18, 2021 at 07:45:59AM +0200, Greg KH wrote:
+> On Mon, May 17, 2021 at 06:35:24PM -0700, Linus Torvalds wrote:
+> > On Mon, May 17, 2021 at 6:09 PM Sasha Levin <sashal@kernel.org> wrote:
+> > >
+> > > From: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
+> > >
+> > > [ Upstream commit ffb324e6f874121f7dce5bdae5e05d02baae7269 ]
+> > 
+> > So I think the commit is fine, and yes, it should be applied to
+> > stable, but it's one of those "there were three different patches in
+> > as many days to fix the problem, and this is the right one, but maybe
+> > stable should hold off for a while to see that there aren't any
+> > problem reports".
+> > 
+> > I don't think there will be any problems from this, but while the
+> > patch is tiny, it's conceptually quite a big change to something that
+> > people haven't really touched for a long time.
+> > 
+> > So use your own judgement, but it might be a good idea to wait a week
+> > before backporting this to see if anything screams.
+> 
+> I was going to wait a few weeks for this, and the other vt patches that
+> were marked with cc: stable@ before queueing them up.
 
-Thanks, pushed out and rebuilt drm-tip.
+I have now queued all of these up.
 
-BR,
-Jani.
-
-
->
->> ---
->>  nightly.conf | 9 ---------
->>  1 file changed, 9 deletions(-)
->>=20
->> diff --git a/nightly.conf b/nightly.conf index 9211550ef75c..35fb1d9ba600
->> 100644
->> --- a/nightly.conf
->> +++ b/nightly.conf
->> @@ -40,12 +40,6 @@ git://anongit.freedesktop.org/drm-misc
->>=20
->> https://nam11.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Fano
->> ngit.freedesktop.org%2Fgit%2Fdrm%2Fdrm-
->> misc&amp;data=3D04%7C01%7Calexander.deucher%40amd.com%7C5903896cf
->> 2e642afb05408d91aa30f6d%7C3dd8961fe4884e608e11a82d994e183d%7C0%7
->> C0%7C637570109906926805%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4w
->> LjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&am
->> p;sdata=3DespN%2BoIX9SjLh2Py%2FkqlVsi0p9Ru%2Fet2M11XWqJ5eUQ%3D&a
->> mp;reserved=3D0
->>=20
->> https://nam11.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Fano
->> ngit.freedesktop.org%2Fgit%2Fdrm%2Fdrm-
->> misc.git&amp;data=3D04%7C01%7Calexander.deucher%40amd.com%7C590389
->> 6cf2e642afb05408d91aa30f6d%7C3dd8961fe4884e608e11a82d994e183d%7C0
->> %7C0%7C637570109906926805%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC
->> 4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&
->> amp;sdata=3DE5cwRH0Pr9JkIfIMNkNzjlLn5hN6k0inxBkk%2Bwhd1lk%3D&amp;r
->> eserved=3D0
->>  "
->> -drm_tip_repos[drm-amd]=3D"
->> -ssh://git.freedesktop.org/git/drm/drm-amd
->> -git://anongit.freedesktop.org/drm/drm-amd
->> -
->> https://nam11.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Fano
->> ngit.freedesktop.org%2Fgit%2Fdrm%2Fdrm-
->> amd&amp;data=3D04%7C01%7Calexander.deucher%40amd.com%7C5903896cf
->> 2e642afb05408d91aa30f6d%7C3dd8961fe4884e608e11a82d994e183d%7C0%7
->> C0%7C637570109906926805%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4w
->> LjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&am
->> p;sdata=3D1kQe4t89CyANqRhNUpQ2RP3Ndz7A3sdd%2FiWZ7FmKHM4%3D&a
->> mp;reserved=3D0
->> -
->> https://nam11.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Fano
->> ngit.freedesktop.org%2Fgit%2Fdrm%2Fdrm-
->> amd.git&amp;data=3D04%7C01%7Calexander.deucher%40amd.com%7C590389
->> 6cf2e642afb05408d91aa30f6d%7C3dd8961fe4884e608e11a82d994e183d%7C0
->> %7C0%7C637570109906926805%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC
->> 4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&
->> amp;sdata=3DvVqMWMbdJFHJW8j09tn1m7ItGSL0RmfeDbJZFWoYBf4%3D&am
->> p;reserved=3D0
->> -"
->>  drm_tip_repos[drm]=3D"
->>  ssh://git.freedesktop.org/git/drm/drm
->>  git://anongit.freedesktop.org/drm/drm
->> @@ -76,17 +70,14 @@ drm_tip_config=3D(
->>  	"drm			drm-fixes"
->>  	"drm-misc		drm-misc-fixes"
->>  	"drm-intel		drm-intel-fixes"
->> -	"drm-amd		drm-amd-fixes"
->>=20
->>  	"drm			drm-next"
->>  	"drm-misc		drm-misc-next-fixes"
->>  	"drm-intel		drm-intel-next-fixes"
->> -	"drm-amd		drm-amd-next-fixes"
->>=20
->>  	"drm-misc		drm-misc-next"
->>  	"drm-intel		drm-intel-next"
->>  	"drm-intel		drm-intel-gt-next"
->> -	"drm-amd		drm-amd-next"
->>=20
->>  	"sound-upstream		for-linus"
->>  	"sound-upstream		for-next"
->> --
->> 2.20.1
-
---=20
-Jani Nikula, Intel Open Source Graphics Center
+greg k-h
