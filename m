@@ -1,75 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F3DF38E6E9
-	for <lists+dri-devel@lfdr.de>; Mon, 24 May 2021 14:48:38 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3CBB738E6FF
+	for <lists+dri-devel@lfdr.de>; Mon, 24 May 2021 14:58:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AD57189B18;
-	Mon, 24 May 2021 12:48:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EF7D9897F0;
+	Mon, 24 May 2021 12:58:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wnew3-smtp.messagingengine.com (wnew3-smtp.messagingengine.com
- [64.147.123.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2D973892A8
- for <dri-devel@lists.freedesktop.org>; Mon, 24 May 2021 12:48:17 +0000 (UTC)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
- by mailnew.west.internal (Postfix) with ESMTP id 548F64325;
- Mon, 24 May 2021 08:48:16 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute6.internal (MEProxy); Mon, 24 May 2021 08:48:17 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
- date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm2; bh=Zhabnp0Atjp47VD9T0LRqk1Zy/z
- s00zil61rTDyPJR8=; b=FT9hbmq8gbEzT4OkklXO1rElEc5ELJlcfpEsV7YU4WZ
- Lj0yyXKdaApfhPHYKeA9heqeSVegL1kTukkdVzEQSoCPfrVn8uf1HWYPp8mEtVlD
- MFY+/LnYjr7nCTswTfl95PU/aD5gNUdwerdYOP3yUJSfnQK3MBksIftJ9NPA5z5q
- FY6wOvm1e6kG/Ng+eJxULQYfS7YoExr2hK7z2spABQkO8jcFZtO6EmFkkrKWr5xG
- Vs5rMA8xZ5k0bxRvbLyW73FlERHjaRDfym3ClrSjOfCDfcwh0oBhmtFljZcwQcd9
- m/x1pB3q8f+M/kdN48bVZ/E1ejYLV+iZ474V4e8qM1g==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=Zhabnp
- 0Atjp47VD9T0LRqk1Zy/zs00zil61rTDyPJR8=; b=Z5eaM2WNbZ5hpcmp817ZPt
- XXfhNkayDUzL29zLPZuCC1x6hBGIscA0MBdtZXs8QaLBsFGQrjkYEpmmCulcvNgY
- 2YWnfMy0lDWojbztYindj2G071z2zVALbKiExeAe0198CESrkjvMfZbWDD9EPx92
- P+DueEeROV/djPFgzb9Pe6XnVFQkYFn45PgT/w/j4WfgkOHs5dm1NAg9WbLrSa3c
- 7SsGxxb8HboQQT88GtcEk0qrOBUgmuTuFw5/lMBC7LzlwVQ6kcmkgzaDOEV6U0i4
- ydFA0IF5FW4cYwvxvoMRa2SgdEsHFivgKy+DNHj/9/5j0cU8qJi4Sffvo2UybqCQ
- ==
-X-ME-Sender: <xms:jaCrYFtF4JDSGBBKA4cG-3x1MmHAEemYkH_rgg7BO7JfMriEa0J1ig>
- <xme:jaCrYOdlp0-dKrD7Lh6nZsKzZSjg-QxcJRqBeyz2rjWSz3KK5uOxnoKVZgEo5gZgC
- e5QD-2lOmMlifi1lCY>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvdejledgheejucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
- vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
- htvghrnhepveevfeffudeviedtgeethffhteeuffetfeffvdehvedvheetteehvdelfffg
- jedvnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucfkphepledtrdekledrieekrd
- ejieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehm
- rgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:jqCrYIxFKIp2HdjVDCKyUWJd0ILiBzXkJopqRbncDM0WviI5wp-Bag>
- <xmx:jqCrYMPQlMvZ_A2KhrnIXz_o6MlgdJ3rgG8C6qQZbFvww4YiPZ-xwg>
- <xmx:jqCrYF_Z8ytZps9byNoiJywYnUYij6BZE6pZGudtJJnmmdLWGUla2A>
- <xmx:j6CrYDfc5YVwxJ9Ca5_4aabGjfk3r-mYYA3NkLFRMVddjpP0kCEjYmSDhYk>
-Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
- [90.89.68.76]) by mail.messagingengine.com (Postfix) with ESMTPA;
- Mon, 24 May 2021 08:48:13 -0400 (EDT)
-Date: Mon, 24 May 2021 14:48:11 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: Stephen Boyd <sboyd@kernel.org>
-Subject: Re: [PATCH 0/2] clk: Implement a clock request API
-Message-ID: <20210524124811.74g75n672wrpzqqi@gilmour>
-References: <20210413101320.321584-1-maxime@cerno.tech>
- <161981637939.1363782.4943687720432536625@swboyd.mtv.corp.google.com>
- <20210503083221.qsdurp2f3bkwfa6d@gilmour>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0441D897F0;
+ Mon, 24 May 2021 12:58:17 +0000 (UTC)
+IronPort-SDR: 1wzONWBGQMdGFSXHUHBQYYRqMQ1YG/2CzMAIUAIPMXfIk9xaZngyghF1jsuADSe7D4lTxOEA/G
+ oVQZi+pcGgvA==
+X-IronPort-AV: E=McAfee;i="6200,9189,9993"; a="200023926"
+X-IronPort-AV: E=Sophos;i="5.82,319,1613462400"; d="scan'208";a="200023926"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 May 2021 05:58:17 -0700
+IronPort-SDR: Ogq+4QaSK8KwuFo87bEPnZV+uUbHrCiClxYubLN8h59dPR/o4KhRH17TeL/jFxl8lEay/ePbB4
+ OENP7caSjr6Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.82,319,1613462400"; d="scan'208";a="396938632"
+Received: from irvmail001.ir.intel.com ([10.43.11.63])
+ by orsmga006.jf.intel.com with ESMTP; 24 May 2021 05:58:14 -0700
+Received: from [10.249.134.123] (mwajdecz-MOBL.ger.corp.intel.com
+ [10.249.134.123])
+ by irvmail001.ir.intel.com (8.14.3/8.13.6/MailSET/Hub) with ESMTP id
+ 14OCwCEm008734; Mon, 24 May 2021 13:58:13 +0100
+Subject: Re: [RFC PATCH 37/97] drm/i915/guc: Add stall timer to non blocking
+ CTB send function
+To: Matthew Brost <matthew.brost@intel.com>, intel-gfx@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org
+References: <20210506191451.77768-1-matthew.brost@intel.com>
+ <20210506191451.77768-38-matthew.brost@intel.com>
+From: Michal Wajdeczko <michal.wajdeczko@intel.com>
+Message-ID: <7e7ca64d-e5d7-7fd8-b446-7167341c0c92@intel.com>
+Date: Mon, 24 May 2021 14:58:12 +0200
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.2
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="cpltpodfwo6nlz4l"
-Content-Disposition: inline
-In-Reply-To: <20210503083221.qsdurp2f3bkwfa6d@gilmour>
+In-Reply-To: <20210506191451.77768-38-matthew.brost@intel.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,84 +57,152 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-clk@vger.kernel.org, Tim Gover <tim.gover@raspberrypi.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- David Airlie <airlied@linux.ie>, Mike Turquette <mturquette@baylibre.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Russell King <linux@armlinux.org.uk>, Thomas Zimmermann <tzimmermann@suse.de>,
- Daniel Vetter <daniel.vetter@intel.com>, Phil Elwell <phil@raspberrypi.com>,
- Dom Cobley <dom@raspberrypi.com>
+Cc: tvrtko.ursulin@intel.com, jason.ekstrand@intel.com,
+ daniele.ceraolospurio@intel.com, jon.bloomfield@intel.com,
+ daniel.vetter@intel.com, john.c.harrison@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---cpltpodfwo6nlz4l
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-Hi Stephen, Mike,
+On 06.05.2021 21:13, Matthew Brost wrote:
+> Implement a stall timer which fails H2G CTBs once a period of time
+> with no forward progress is reached to prevent deadlock.
+> 
+> Also update to ct_write to return -EDEADLK rather than -EPIPE on a
+> corrupted descriptor.
 
-On Mon, May 03, 2021 at 10:32:21AM +0200, Maxime Ripard wrote:
-> Hi Stephen,
->=20
-> On Fri, Apr 30, 2021 at 01:59:39PM -0700, Stephen Boyd wrote:
-> > Quoting Maxime Ripard (2021-04-13 03:13:18)
-> > > Hi,
-> > >=20
-> > > This is a follow-up of the discussion here:
-> > > https://lore.kernel.org/linux-clk/20210319150355.xzw7ikwdaga2dwhv@gil=
-mour/
-> > >=20
-> > > This implements a mechanism to raise and lower clock rates based on c=
-onsumer
-> > > workloads, with an example of such an implementation for the Raspberr=
-yPi4 HDMI
-> > > controller.
-> > >=20
-> > > There's a couple of things worth discussing:
-> > >=20
-> > >   - The name is in conflict with clk_request_rate, and even though it=
- feels
-> > >     like the right name to me, we should probably avoid any confusion
-> > >=20
-> > >   - The code so far implements a policy of always going for the lowes=
-t rate
-> > >     possible. While we don't have an use-case for something else, thi=
-s should
-> > >     maybe be made more flexible?
-> >=20
-> > I'm definitely confused how it is different from the
-> > clk_set_rate_exclusive() API and associated
-> > clk_rate_exclusive_get()/clk_rate_exclusive_put(). Can you explain
-> > further the differences in the cover letter here?
->=20
-> The exclusive API is meant to prevent the clock rate from changing,
-> allowing a single user to make sure that no other user will be able to
-> change it.
->=20
-> What we want here is instead to allow multiple users to be able to
-> express a set of minimum rates and then let the CCF figure out a rate
-> for that clock that matches those constraints (so basically what
-> clk_set_min_rate does), but then does allow for the clock to go back to
-> its initial rate once that constraint is not needed anymore.
->=20
-> So I guess it's more akin to clk_set_min_rate with rollback than the
-> exclusive API?
+broken descriptor is really separate issue compared to no progress from
+GuC side, I would really like to keep old error code
 
-Is that rationale good enough, or did you expect something else?
+note that broken CTB descriptor is unrecoverable error, while on other
+hand, in theory, we could recover from temporary non-moving CTB
 
-Maxime
+> 
+> Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
+> Signed-off-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+> ---
+>  drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c | 48 +++++++++++++++++++++--
+>  1 file changed, 45 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
+> index af7314d45a78..4eab319d61be 100644
+> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
+> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
+> @@ -69,6 +69,8 @@ static inline struct drm_device *ct_to_drm(struct intel_guc_ct *ct)
+>  #define CTB_H2G_BUFFER_SIZE	(SZ_4K)
+>  #define CTB_G2H_BUFFER_SIZE	(SZ_4K)
+>  
+> +#define MAX_US_STALL_CTB	1000000
 
---cpltpodfwo6nlz4l
-Content-Type: application/pgp-signature; name="signature.asc"
+nit: maybe we should make it a CONFIG value ?
 
------BEGIN PGP SIGNATURE-----
+> +
+>  struct ct_request {
+>  	struct list_head link;
+>  	u32 fence;
+> @@ -315,6 +317,7 @@ int intel_guc_ct_enable(struct intel_guc_ct *ct)
+>  
+>  	ct->requests.last_fence = 1;
+>  	ct->enabled = true;
+> +	ct->stall_time = KTIME_MAX;
+>  
+>  	return 0;
+>  
+> @@ -378,7 +381,7 @@ static int ct_write(struct intel_guc_ct *ct,
+>  	unsigned int i;
+>  
+>  	if (unlikely(ctb->broken))
+> -		return -EPIPE;
+> +		return -EDEADLK;
+>  
+>  	if (unlikely(desc->status))
+>  		goto corrupted;
+> @@ -449,7 +452,7 @@ static int ct_write(struct intel_guc_ct *ct,
+>  	CT_ERROR(ct, "Corrupted descriptor head=%u tail=%u status=%#x\n",
+>  		 desc->head, desc->tail, desc->status);
+>  	ctb->broken = true;
+> -	return -EPIPE;
+> +	return -EDEADLK;
+>  }
+>  
+>  /**
+> @@ -494,6 +497,17 @@ static int wait_for_ct_request_update(struct ct_request *req, u32 *status)
+>  	return err;
+>  }
+>  
+> +static inline bool ct_deadlocked(struct intel_guc_ct *ct)
+> +{
+> +	bool ret = ktime_us_delta(ktime_get(), ct->stall_time) >
+> +		MAX_US_STALL_CTB;
+> +
+> +	if (unlikely(ret))
+> +		CT_ERROR(ct, "CT deadlocked\n");
+> +
+> +	return ret;
+> +}
+> +
+>  static inline bool ctb_has_room(struct intel_guc_ct_buffer *ctb, u32 len_dw)
+>  {
+>  	struct guc_ct_buffer_desc *desc = ctb->desc;
+> @@ -505,6 +519,26 @@ static inline bool ctb_has_room(struct intel_guc_ct_buffer *ctb, u32 len_dw)
+>  	return space >= len_dw;
+>  }
+>  
+> +static int has_room_nb(struct intel_guc_ct *ct, u32 len_dw)
+> +{
+> +	struct intel_guc_ct_buffer *ctb = &ct->ctbs.send;
+> +
+> +	lockdep_assert_held(&ct->ctbs.send.lock);
+> +
+> +	if (unlikely(!ctb_has_room(ctb, len_dw))) {
+> +		if (ct->stall_time == KTIME_MAX)
+> +			ct->stall_time = ktime_get();
+> +
+> +		if (unlikely(ct_deadlocked(ct)))
+> +			return -EDEADLK;
+> +		else
+> +			return -EBUSY;
+> +	}
+> +
+> +	ct->stall_time = KTIME_MAX;
+> +	return 0;
+> +}
+> +
+>  static int ct_send_nb(struct intel_guc_ct *ct,
+>  		      const u32 *action,
+>  		      u32 len,
+> @@ -517,7 +551,7 @@ static int ct_send_nb(struct intel_guc_ct *ct,
+>  
+>  	spin_lock_irqsave(&ctb->lock, spin_flags);
+>  
+> -	ret = ctb_has_room(ctb, len + 1);
+> +	ret = has_room_nb(ct, len + 1);
+>  	if (unlikely(ret))
+>  		goto out;
+>  
+> @@ -561,11 +595,19 @@ static int ct_send(struct intel_guc_ct *ct,
+>  retry:
+>  	spin_lock_irqsave(&ct->ctbs.send.lock, flags);
+>  	if (unlikely(!ctb_has_room(ctb, len + 1))) {
+> +		if (ct->stall_time == KTIME_MAX)
+> +			ct->stall_time = ktime_get();
+>  		spin_unlock_irqrestore(&ct->ctbs.send.lock, flags);
+> +
+> +		if (unlikely(ct_deadlocked(ct)))
+> +			return -EDEADLK;
+> +
 
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYKugiwAKCRDj7w1vZxhR
-xfYRAQDtffPhF2gxVCSqs9qlsbYhMeB+mxY9DPPqNO5CWL1J7wD9EnCQq5BwT/3m
-HLrSMGMCFo8qkNFISkn29LFniki7bwA=
-=urn9
------END PGP SIGNATURE-----
+likely, instead of duplicating code, you can reuse has_room_nb here
 
---cpltpodfwo6nlz4l--
+>  		cond_resched();
+>  		goto retry;
+>  	}
+>  
+> +	ct->stall_time = KTIME_MAX;
+> +
+>  	fence = ct_get_next_fence(ct);
+>  	request.fence = fence;
+>  	request.status = 0;
+> 
