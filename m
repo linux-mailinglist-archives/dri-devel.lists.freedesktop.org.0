@@ -1,79 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A794438E7D1
-	for <lists+dri-devel@lfdr.de>; Mon, 24 May 2021 15:39:15 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9168138E7F2
+	for <lists+dri-devel@lfdr.de>; Mon, 24 May 2021 15:43:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 888FA6E7FE;
-	Mon, 24 May 2021 13:39:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5B0F788422;
+	Mon, 24 May 2021 13:43:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wnew3-smtp.messagingengine.com (wnew3-smtp.messagingengine.com
- [64.147.123.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 641366E5D4
- for <dri-devel@lists.freedesktop.org>; Mon, 24 May 2021 13:39:11 +0000 (UTC)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
- by mailnew.west.internal (Postfix) with ESMTP id 1B53C2685;
- Mon, 24 May 2021 09:39:09 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute6.internal (MEProxy); Mon, 24 May 2021 09:39:10 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
- date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm2; bh=s/NM62L3Og2Ajx92SsKLLhMAsWU
- lDMHJJUgar/CuuyY=; b=AH+1x3mWyzoPAuqEmOjSdf9NVKXPq4ESFoEih3CtgKq
- 91w//vo4s3/NB3tRwvoHyucf0T8J2F4ErGm+SwbRoFYbz2FHqSMtQzbGPxTRe1yH
- MtFD+8PIQ2RHqJVWuPrgLRRg67jDjd/Tvzl9lh4NSHVKovUp0e/A5nQYpVay7LwI
- 7h0tFdBTjCz5rVaKbWZNRNu+ZlymcWuQ8RI+/ZUFWyFmYdw8J9j+0d+Y4gpxGPVW
- IX1N4X+bukknM8DrGdwUGR+FtWV2b1zEj4EqcSNhx6HMnyl9eSxvUGNI2U8MZ+/4
- 9jTeg9m1+c0uDbIykYpdd1IKzGzPI3kXkcKGneDp2ZA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=s/NM62
- L3Og2Ajx92SsKLLhMAsWUlDMHJJUgar/CuuyY=; b=diD59LTdjW4BEsvkAdgJl9
- ZMNasLZ6FLNm+bbeKBMBXEOAXzUHJqrucsikh/TNwhuX9aIv0uZ5tOrCwD/Nezqk
- /lAcrkNiNfou1WTPaL+c/IEwX4XwGCIRAw9gVrFav2rewtZWxTpJ24N7VPTSAOLr
- 7a05iIoVEg9xCd98WRtRB1hhIdu2eDyc2N+EgVQVZ3cHdTALJGPsh+qLzsMl8RaZ
- rxZWyhIGT6Vi1uGfwEgGi5fSMYVI6R7F+PNIf0FTrfXK56vivT2pRc4DoEXLI79g
- 79CLE3JPda8iXOqKdpvm9BOml1LrDguVoKoUtYMM3c5AmJpqKnOa7ZsmaCIxfOUg
- ==
-X-ME-Sender: <xms:eqyrYFxsL2q9dhh77aZXvFfstEEF9C_Uzi7RY60hsVFCGY0ntHxCEA>
- <xme:eqyrYFTnUcb9HoC76mFuWWeB8qbi_w-_E6onwstHjlgwDwmFGm3jvEoHkjOuM_qGd
- 9igVU0E-dFlVuX12J4>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvdejledgieekucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
- vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
- htvghrnhepveevfeffudeviedtgeethffhteeuffetfeffvdehvedvheetteehvdelfffg
- jedvnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucfkphepledtrdekledrieekrd
- ejieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehm
- rgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:eqyrYPVOhRczMAYLMv_RxXCHvwSLvrFJagPZWFClCjv1uF44L9QaJw>
- <xmx:eqyrYHgock0f7W38mStevEeADAQU-4Kre_uutEDxs-47e1h9YOKOGg>
- <xmx:eqyrYHDP2iTsajqWwjTaqU-OH1SrrQ4TMMFcWFrSWwPqucqTP7f5nA>
- <xmx:fKyrYGAmJ9b0-7aB2g6z7QW16zur0z33CsLHEByv2n708o14hirnODAU1PA>
-Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
- [90.89.68.76]) by mail.messagingengine.com (Postfix) with ESMTPA;
- Mon, 24 May 2021 09:39:05 -0400 (EDT)
-Date: Mon, 24 May 2021 15:39:04 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: Mark Brown <broonie@kernel.org>, Takashi Iwai <tiwai@suse.com>,
- Liam Girdwood <lgirdwood@gmail.com>,
- Jaroslav Kysela <perex@perex.cz>, dri-devel@lists.freedesktop.org,
- Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH 00/11] drm/vc4: hdmi: Enable Channel Mapping, IEC958, HBR
- Passthrough using hdmi-codec
-Message-ID: <20210524133904.kgkh6xd3m5c2j3xa@gilmour>
-References: <20210507140334.204865-1-maxime@cerno.tech>
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E34546E817;
+ Mon, 24 May 2021 13:43:15 +0000 (UTC)
+IronPort-SDR: AQQwBFwDFkGGbq6Ujfz+NX+RFfrkp6DAhNLLEzjTmwHvtJQemUE/ovFvBP8QpkLM3v+P7Wy/qv
+ Wphi8nj0Py9g==
+X-IronPort-AV: E=McAfee;i="6200,9189,9993"; a="287503527"
+X-IronPort-AV: E=Sophos;i="5.82,325,1613462400"; d="scan'208";a="287503527"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 May 2021 06:43:13 -0700
+IronPort-SDR: ZwWyZcPmhg5qyauafuwTk19+zFmWfPR7FVkBnmGeDZygvCDykd2z5FKobl7rr+r9hg4cGp8D3z
+ fDpSxe/rYNqQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.82,325,1613462400"; d="scan'208";a="632628627"
+Received: from irvmail001.ir.intel.com ([10.43.11.63])
+ by fmsmga005.fm.intel.com with ESMTP; 24 May 2021 06:43:12 -0700
+Received: from [10.249.134.123] (mwajdecz-MOBL.ger.corp.intel.com
+ [10.249.134.123])
+ by irvmail001.ir.intel.com (8.14.3/8.13.6/MailSET/Hub) with ESMTP id
+ 14ODhBxW022753; Mon, 24 May 2021 14:43:11 +0100
+Subject: Re: [Intel-gfx] [RFC PATCH 39/97] drm/i915/guc: Increase size of CTB
+ buffers
+To: Matthew Brost <matthew.brost@intel.com>, intel-gfx@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org
+References: <20210506191451.77768-1-matthew.brost@intel.com>
+ <20210506191451.77768-40-matthew.brost@intel.com>
+From: Michal Wajdeczko <michal.wajdeczko@intel.com>
+Message-ID: <596cb7fb-588a-f5f1-6119-1393b8faf8a6@intel.com>
+Date: Mon, 24 May 2021 15:43:11 +0200
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.2
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="tmkkjaxkjbof4vya"
-Content-Disposition: inline
-In-Reply-To: <20210507140334.204865-1-maxime@cerno.tech>
+In-Reply-To: <20210506191451.77768-40-matthew.brost@intel.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,56 +57,67 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, alsa-devel@alsa-project.org,
- Dom Cobley <dom@raspberrypi.com>, Tim Gover <tim.gover@raspberrypi.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>, linux-kernel@vger.kernel.org,
- Rob Herring <robh+dt@kernel.org>, bcm-kernel-feedback-list@broadcom.com,
- Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
- Phil Elwell <phil@raspberrypi.com>, linux-arm-kernel@lists.infradead.org,
- linux-rpi-kernel@lists.infradead.org
+Cc: jason.ekstrand@intel.com, daniel.vetter@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---tmkkjaxkjbof4vya
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-Hi,
+On 06.05.2021 21:13, Matthew Brost wrote:
+> With the introduction of non-blocking CTBs more than one CTB can be in
+> flight at a time. Increasing the size of the CTBs should reduce how
+> often software hits the case where no space is available in the CTB
+> buffer.
+> 
+> Cc: John Harrison <john.c.harrison@intel.com>
+> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+> ---
+>  drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c | 11 ++++++++---
+>  1 file changed, 8 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
+> index 77dfbc94dcc3..d6895d29ed2d 100644
+> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
+> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
+> @@ -63,11 +63,16 @@ static inline struct drm_device *ct_to_drm(struct intel_guc_ct *ct)
+>   *      +--------+-----------------------------------------------+------+
+>   *
+>   * Size of each `CT Buffer`_ must be multiple of 4K.
+> - * As we don't expect too many messages, for now use minimum sizes.
+> + * We don't expect too many messages in flight at any time, unless we are
+> + * using the GuC submission. In that case each request requires a minimum
+> + * 16 bytes which gives us a maximum 256 queue'd requests. Hopefully this
 
-On Fri, May 07, 2021 at 04:03:23PM +0200, Maxime Ripard wrote:
-> Hi,
->=20
-> hdmi-codec allows to have a lot of HDMI-audio related infrastructure in p=
-lace,
-> it's missing a few controls to be able to provide HBR passthrough. This s=
-eries
-> adds more infrastructure for the drivers, and leverages it in the vc4 HDMI
-> controller driver.
->=20
-> One thing that felt a bit weird is that even though
-> https://www.kernel.org/doc/html/latest/sound/kernel-api/writing-an-alsa-d=
-river.html#iec958-s-pdif
-> mentions that the iec958 mask control should be a mixer control and the
-> default control should be a PCM one, it feels a bit weird to have two dif=
-ferent
-> control type for two controls so similar, and other drivers are pretty
-> inconsistent with this. Should we update the documentation?
+nit: all our CTB calculations are in dwords now, not bytes
 
-Any comments on this series?
-Thanks!
-Maxime
+> + * enough space to avoid backpressure on the driver. We increase the size
+> + * of the receive buffer (relative to the send) to ensure a G2H response
+> + * CTB has a landing spot.
 
---tmkkjaxkjbof4vya
-Content-Type: application/pgp-signature; name="signature.asc"
+hmm, but we are not checking G2H CTB yet
+will start doing it around patch 54/97
+so maybe this other patch should be introduced earlier ?
 
------BEGIN PGP SIGNATURE-----
+>   */
+>  #define CTB_DESC_SIZE		ALIGN(sizeof(struct guc_ct_buffer_desc), SZ_2K)
+>  #define CTB_H2G_BUFFER_SIZE	(SZ_4K)
+> -#define CTB_G2H_BUFFER_SIZE	(SZ_4K)
+> +#define CTB_G2H_BUFFER_SIZE	(4 * CTB_H2G_BUFFER_SIZE)
 
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYKusdwAKCRDj7w1vZxhR
-xVj3AP4uZTPoREfuFK3oXQIWtdDspcef5aq6+8o5wrl7gjJzFwD9GbDNuVOSZ62m
-P4t+tqoRf1AhEyG+nYTwbpCM/Pkkqwc=
-=nosZ
------END PGP SIGNATURE-----
+in theory, we (host) should be faster than GuC, so G2H CTB shall be
+almost always empty, if this is not a case, maybe we should start
+monitoring what is happening and report some warnings if G2H is half full ?
 
---tmkkjaxkjbof4vya--
+>  
+>  #define MAX_US_STALL_CTB	1000000
+>  
+> @@ -753,7 +758,7 @@ static int ct_read(struct intel_guc_ct *ct, struct ct_incoming_msg **msg)
+>  	/* beware of buffer wrap case */
+>  	if (unlikely(available < 0))
+>  		available += size;
+> -	CT_DEBUG(ct, "available %d (%u:%u)\n", available, head, tail);
+> +	CT_DEBUG(ct, "available %d (%u:%u:%u)\n", available, head, tail, size);
+>  	GEM_BUG_ON(available < 0);
+>  
+>  	header = cmds[head];
+> 
