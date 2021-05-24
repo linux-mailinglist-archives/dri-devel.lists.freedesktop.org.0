@@ -1,39 +1,74 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9458538E5BC
-	for <lists+dri-devel@lfdr.de>; Mon, 24 May 2021 13:45:19 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 45DAE38E5CE
+	for <lists+dri-devel@lfdr.de>; Mon, 24 May 2021 13:48:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EF7546E235;
-	Mon, 24 May 2021 11:45:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3A9236E203;
+	Mon, 24 May 2021 11:48:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 346A26E219;
- Mon, 24 May 2021 11:45:03 +0000 (UTC)
-Received: from ironmsg09-lv.qualcomm.com ([10.47.202.153])
- by alexa-out.qualcomm.com with ESMTP; 24 May 2021 04:45:03 -0700
-X-QCInternal: smtphost
-Received: from ironmsg02-blr.qualcomm.com ([10.86.208.131])
- by ironmsg09-lv.qualcomm.com with ESMTP/TLS/AES256-SHA;
- 24 May 2021 04:45:01 -0700
-X-QCInternal: smtphost
-Received: from mkrishn-linux.qualcomm.com ([10.204.66.35])
- by ironmsg02-blr.qualcomm.com with ESMTP; 24 May 2021 17:14:20 +0530
-Received: by mkrishn-linux.qualcomm.com (Postfix, from userid 438394)
- id D7ADF21BEF; Mon, 24 May 2021 17:14:18 +0530 (IST)
-From: Krishna Manikandan <mkrishn@codeaurora.org>
-To: dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- freedreno@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH v18 4/4] dt-bindings: msm/dp: Add bindings of MSM DisplayPort
- controller
-Date: Mon, 24 May 2021 17:14:13 +0530
-Message-Id: <1621856653-10649-4-git-send-email-mkrishn@codeaurora.org>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1621856653-10649-1-git-send-email-mkrishn@codeaurora.org>
-References: <1621856653-10649-1-git-send-email-mkrishn@codeaurora.org>
+Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com
+ [66.111.4.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 048F86E203
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 May 2021 11:48:50 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailout.nyi.internal (Postfix) with ESMTP id 7984B5C00DD;
+ Mon, 24 May 2021 07:48:47 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute5.internal (MEProxy); Mon, 24 May 2021 07:48:47 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+ date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm2; bh=M4uM525A9EdEenfyxCSJtV/Cbcv
+ IXk+39bR9IA9px/U=; b=iMu3Rv0rHb3pir9dfEXjv6ff2o1LbLMJjM64SZCAU8x
+ 5YQKepeJfH4e6PoWcGl+pozTWs+QlylG39XiORO4inBCY6Et564KBwJHTCgjtA7K
+ 2w0gf93w11s9HqEgcK+mhDPKYqYJMizGG+0pJFn2q7VUcdWbKL+k06vga+rRi88K
+ DYuMeHuf0kyL+mu1jPemf38HYoZO2uqH+RbXUE3Z4HibFNhYyj8iUSGKMrjDrzNd
+ sLx2UUrcKppEz3ntnPiysZe/7QrLHuglMZyefUAUgmoMUVhHKphdBcgJSo6QU5sR
+ lM50elpIGGE3g7LlKIAARXDAbCU4gyl+rlesmazkb4Q==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=M4uM52
+ 5A9EdEenfyxCSJtV/CbcvIXk+39bR9IA9px/U=; b=bswJFF6a1D0WyWPTe8CpsT
+ NP/Bob8ujcHOUY5RlnKWpWqLElVFegnizJtBU+lRZxmW1w0MvQRkFc79FuoEhAvA
+ C1kJwy1ic9sqPvl2t0HDhnS9wd0qlHnN3yw4q/WPkYSpfOgVfaJb8w5ytpzZexgA
+ yqQIXxUoMcMw9dBQ1B9OAPZidWDKTuZiB7woaAJG8fvcwyYKJ5nHL/gxNgoOfOCO
+ VpBS2gFCASvFIJELJFCjHXIqQpYgVdWfJk+cBOlqZMh15/eHMqDLC3LfIzaCSYgU
+ 8UanokcIVa46kbqZELbKWrPNJrbdXf8iDS76BG6ZmYwUBTqgB680Vy7+u1bnsmYQ
+ ==
+X-ME-Sender: <xms:npKrYCJlDHx4cjgsUHnRtbxk3cCjyFNEMCSeffxlb2akbKC9GoVo7g>
+ <xme:npKrYKK3cfOr3r34JkXL_dETk1Q7kWa_bSHZh39P1hEHWiKh1QJQ_0BBCjVtLxQIt
+ 6Q-Ba1ph1D0XU62fxY>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvdejledggeeiucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
+ vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
+ htvghrnhepleekgeehhfdutdeljefgleejffehfffgieejhffgueefhfdtveetgeehieeh
+ gedunecukfhppeeltddrkeelrdeikedrjeeinecuvehluhhsthgvrhfuihiivgeptdenuc
+ frrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:npKrYCsUH49U1F8x0TFg08IF39GvQvUKoLdeqTEzRHZBugKJ8df8jg>
+ <xmx:npKrYHak4QJRgP6B1DG26CVYBX9GCj2agLrBig1vPZHkFuJp917dUA>
+ <xmx:npKrYJbO4CBCosN0qrOnGH9UfqZK4rihhZ1pwquqim21F09g7rgyDA>
+ <xmx:n5KrYIU7wE7lfz739K4RSLbdMW2XXDQ_Q3xl0FVYbV5jwf0X1Jb7AQ>
+Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
+ [90.89.68.76]) by mail.messagingengine.com (Postfix) with ESMTPA;
+ Mon, 24 May 2021 07:48:46 -0400 (EDT)
+Date: Mon, 24 May 2021 13:48:43 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Subject: Re: [PATCH] dt-bindings: display: ssd1307fb: Convert to json-schema
+Message-ID: <20210524114843.ihhgdhup7crskf4j@gilmour>
+References: <20210518075131.1463091-1-geert@linux-m68k.org>
+ <20210518143317.yy2sxxnd7yt6cyrx@gilmour>
+ <CAMuHMdXKaLpLL5Q1FnjHJ5kbs=+9Mm-QHXZp1i3M4zNr7G=e_w@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="kawgr3kfamzs2jih"
+Content-Disposition: inline
+In-Reply-To: <CAMuHMdXKaLpLL5Q1FnjHJ5kbs=+9Mm-QHXZp1i3M4zNr7G=e_w@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,249 +81,74 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Krishna Manikandan <mkrishn@codeaurora.org>, vinod.koul@linaro.org,
- dianders@chromium.org, abhinavk@codeaurora.org, swboyd@chromium.org,
- khsieh@codeaurora.org, robh+dt@kernel.org, tanmay@codeaurora.org,
- kalyan_t@codeaurora.org, Vara Reddy <varar@codeaurora.org>,
- bjorn.andersson@linaro.org, sean@poorly.run,
- Chandan Uddaraju <chandanu@codeaurora.org>
+Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>,
+ Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
+ David Airlie <airlied@linux.ie>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Rob Herring <robh+dt@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add bindings for Snapdragon DisplayPort controller driver.
 
-Signed-off-by: Chandan Uddaraju <chandanu@codeaurora.org>
-Signed-off-by: Vara Reddy <varar@codeaurora.org>
-Signed-off-by: Tanmay Shah <tanmay@codeaurora.org>
-Signed-off-by: Kuogee Hsieh <khsieh@codeaurora.org>
-Signed-off-by: Krishna Manikandan <mkrishn@codeaurora.org>
-Reviewed-by: Bjorn Andersson <bjorn.andersson@linaro.org>
-Reviewed-by: Rob Herring <robh@kernel.org>
-Reviewed-by: Stephen Boyd <swboyd@chromium.org>
----
-Changes in V2:
--Provide details about sel-gpio
+--kawgr3kfamzs2jih
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Changes in V4:
--Provide details about max dp lanes
--Change the commit text
+Hi
 
-Changes in V5:
--moved dp.txt to yaml file
+On Tue, May 18, 2021 at 04:49:45PM +0200, Geert Uytterhoeven wrote:
+> On Tue, May 18, 2021 at 4:33 PM Maxime Ripard <maxime@cerno.tech> wrote:
+> > On Tue, May 18, 2021 at 09:51:31AM +0200, Geert Uytterhoeven wrote:
+> > > Convert the Solomon SSD1307 Framebuffer Device Tree binding
+> > > documentation to json-schema.
+> > >
+> > > Fix the spelling of the "pwms" property.
+> > > Document default values.
+> > > Make properties with default values not required.
+> > >
+> > > Signed-off-by: Geert Uytterhoeven <geert@linux-m68k.org>
+> > > ---
+> > > I have listed Maxime as the maintainer, as he wrote the original driv=
+er
+> > > and bindings.  Maxime: Please scream if this is inappropriate ;-)
+> >
+> > Fine by me :)
+>=20
+> Thanks!
+>=20
+> > > --- /dev/null
+> > > +++ b/Documentation/devicetree/bindings/display/solomon,ssd1307fb.yaml
+>=20
+> > > +  solomon,dclk-div:
+> > > +    $ref: /schemas/types.yaml#/definitions/uint32
+> > > +    minimum: 1
+> > > +    maximum: 16
+> > > +    description:
+> > > +      Clock divisor. The default value is controller-dependent.
+> >
+> > I guess we could document the default using an if / else statement?
+>=20
+> While clk-div has only two different defaults, dclk-frq has different
+> defaults for each of the 4 variants supported.
+>=20
+> Do you think it's worthwhile doing that? All upstream DTS files lack
+> these properties, thus use the default values.
 
-Changes in v6:
-- Squash all AUX LUT properties into one pattern Property
-- Make aux-cfg[0-9]-settings properties optional
-- Remove PLL/PHY bindings from DP controller dts
-- Add DP clocks description
-- Remove _clk suffix from clock names
-- Rename pixel clock to stream_pixel
-- Remove redundant bindings (GPIO, PHY, HDCP clock, etc..)
-- Fix indentation
-- Add Display Port as interface of DPU in DPU bindings
-  and add port mapping accordingly.
+I'd say it's even more important if everyone relies on it :)
 
-Chages in v7:
-- Add dp-controller.yaml file common between multiple SOC
-- Rename dp-sc7180.yaml to dp-controller-sc7180.yaml
-- change compatible string and add SOC name to it.
-- Remove Root clock generator for pixel clock
-- Add assigned-clocks and assigned-clock-parents bindings
-- Remove redundant properties, descriptions and blank lines
-- Add DP port in DPU bindings
-- Update depends-on tag in commit message and rebase change accordingly
+Maxime
 
-Changes in v8:
-- Add MDSS AHB clock in bindings
+--kawgr3kfamzs2jih
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Changes in v9:
-- Remove redundant reg-name property
-- Change assigned-clocks and assigned-clocks-parents counts to 2
-- Use IRQ flags in example dts
+-----BEGIN PGP SIGNATURE-----
 
-Changes in v10:
-- Change title of this patch as it does not contain PLL bindings anymore
-- Remove redundant properties
-- Remove use of IRQ flag
-- Fix ports property
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYKuSmwAKCRDj7w1vZxhR
+xQUrAQDztdpV83mKelLkQAL8eURDG6cd9gD/7Ntvbg03LHwmWQD+JLtjeb3ucmns
+yhOJHM5mokmAm7CAdDYGH4BhqetBzw0=
+=C6df
+-----END PGP SIGNATURE-----
 
-Changes in v11:
-- add ports required of both #address-cells and  #size-cells
-- add required operating-points-v2
-- add required #sound-dai-cells
-- add required power-domains
-- update maintainer list
-
-Changes in v12:
-- remove soc node from examples (Stephen Boyd)
-- split dpu-sc7180.yaml changes to separate patch (Stephen Boyd)
-
-Changes in v13:
-- add assigned-clocks
-- add assigned-clock-parents
-
-Changes in v14:
-- add reference for ports (Rob Herring)
-
-Changes in v15:
-- drop common properties from ports (Rob Herring)
-
- .../bindings/display/msm/dp-controller.yaml        | 146 +++++++++++++++++++++
- 1 file changed, 146 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/display/msm/dp-controller.yaml
-
-diff --git a/Documentation/devicetree/bindings/display/msm/dp-controller.yaml b/Documentation/devicetree/bindings/display/msm/dp-controller.yaml
-new file mode 100644
-index 0000000..64d8d9e
---- /dev/null
-+++ b/Documentation/devicetree/bindings/display/msm/dp-controller.yaml
-@@ -0,0 +1,146 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/display/msm/dp-controller.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: MSM Display Port Controller
-+
-+maintainers:
-+  - Kuogee Hsieh <khsieh@codeaurora.org>
-+
-+description: |
-+  Device tree bindings for DisplayPort host controller for MSM targets
-+  that are compatible with VESA DisplayPort interface specification.
-+
-+properties:
-+  compatible:
-+    enum:
-+      - qcom,sc7180-dp
-+
-+  reg:
-+    maxItems: 1
-+
-+  interrupts:
-+    maxItems: 1
-+
-+  clocks:
-+    items:
-+      - description: AHB clock to enable register access
-+      - description: Display Port AUX clock
-+      - description: Display Port Link clock
-+      - description: Link interface clock between DP and PHY
-+      - description: Display Port Pixel clock
-+
-+  clock-names:
-+    items:
-+      - const: core_iface
-+      - const: core_aux
-+      - const: ctrl_link
-+      - const: ctrl_link_iface
-+      - const: stream_pixel
-+
-+  assigned-clocks:
-+    items:
-+      - description: link clock source
-+      - description: pixel clock source
-+
-+  assigned-clock-parents:
-+    items:
-+      - description: phy 0 parent
-+      - description: phy 1 parent
-+
-+  phys:
-+    maxItems: 1
-+
-+  phy-names:
-+    items:
-+      - const: dp
-+
-+  operating-points-v2:
-+    maxItems: 1
-+
-+  power-domains:
-+    maxItems: 1
-+
-+  "#sound-dai-cells":
-+    const: 0
-+
-+  ports:
-+    $ref: /schemas/graph.yaml#/properties/ports
-+    properties:
-+      port@0:
-+        $ref: /schemas/graph.yaml#/properties/port
-+        description: Input endpoint of the controller
-+
-+      port@1:
-+        $ref: /schemas/graph.yaml#/properties/port
-+        description: Output endpoint of the controller
-+
-+required:
-+  - compatible
-+  - reg
-+  - interrupts
-+  - clocks
-+  - clock-names
-+  - phys
-+  - phy-names
-+  - "#sound-dai-cells"
-+  - power-domains
-+  - ports
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/interrupt-controller/arm-gic.h>
-+    #include <dt-bindings/clock/qcom,dispcc-sc7180.h>
-+    #include <dt-bindings/power/qcom-aoss-qmp.h>
-+    #include <dt-bindings/power/qcom-rpmpd.h>
-+
-+    displayport-controller@ae90000 {
-+        compatible = "qcom,sc7180-dp";
-+        reg = <0xae90000 0x1400>;
-+        interrupt-parent = <&mdss>;
-+        interrupts = <12>;
-+        clocks = <&dispcc DISP_CC_MDSS_AHB_CLK>,
-+                 <&dispcc DISP_CC_MDSS_DP_AUX_CLK>,
-+                 <&dispcc DISP_CC_MDSS_DP_LINK_CLK>,
-+                 <&dispcc DISP_CC_MDSS_DP_LINK_INTF_CLK>,
-+                 <&dispcc DISP_CC_MDSS_DP_PIXEL_CLK>;
-+        clock-names = "core_iface", "core_aux",
-+                      "ctrl_link",
-+                      "ctrl_link_iface", "stream_pixel";
-+
-+        assigned-clocks = <&dispcc DISP_CC_MDSS_DP_LINK_CLK_SRC>,
-+                          <&dispcc DISP_CC_MDSS_DP_PIXEL_CLK_SRC>;
-+
-+        assigned-clock-parents = <&dp_phy 0>, <&dp_phy 1>;
-+
-+        phys = <&dp_phy>;
-+        phy-names = "dp";
-+
-+        #sound-dai-cells = <0>;
-+
-+        power-domains = <&rpmhpd SC7180_CX>;
-+
-+        ports {
-+            #address-cells = <1>;
-+            #size-cells = <0>;
-+
-+            port@0 {
-+                reg = <0>;
-+                endpoint {
-+                    remote-endpoint = <&dpu_intf0_out>;
-+                };
-+            };
-+
-+            port@1 {
-+                reg = <1>;
-+                endpoint {
-+                    remote-endpoint = <&typec>;
-+                };
-+            };
-+        };
-+    };
-+...
--- 
-2.7.4
-
+--kawgr3kfamzs2jih--
