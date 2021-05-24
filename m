@@ -2,42 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F2F038EA18
-	for <lists+dri-devel@lfdr.de>; Mon, 24 May 2021 16:51:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC6FA38EBEC
+	for <lists+dri-devel@lfdr.de>; Mon, 24 May 2021 17:08:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AFEB26E883;
-	Mon, 24 May 2021 14:51:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F10408994D;
+	Mon, 24 May 2021 15:08:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7CF486E883;
- Mon, 24 May 2021 14:51:50 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 7AC806191D;
- Mon, 24 May 2021 14:51:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1621867910;
- bh=Joz1eCpODLqPQKgdaHCknTXdIpMinnHu/FUByIrYEDg=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=WEO703QcCjGlbeWYtFxdFQPusQIst0+7Ic/sZFvGXeVuJsYEWEBqwaJityhA9ajUu
- SrRsPdjOa+ZqHiWp+BHqzQyKo5+UWsan7qv6tc6cB/q2RF/QHkGtDXMb2pk3uQ3FqU
- ZPphXAj5k4lwocYLRWVNe1KXJuKFIZ/2oNQApw3uOrDBCpy/HeOk/416X4cKW4uYDx
- fvsXbwvbkM/f6tIflFAcp4UH8+kTVdG4Y5jNoLF9MoTQThJJu5p9nguD+znTOG/O8M
- 7IKqLcvPlNWP9aPc65cyZPplD0AQ/diVhWys/Xix3jmlPlYDvr72kmNZd2AVucvULk
- jQgTvbdB0YTsA==
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.4 16/16] drm/amdgpu: Fix a use-after-free
-Date: Mon, 24 May 2021 10:51:30 -0400
-Message-Id: <20210524145130.2499829-16-sashal@kernel.org>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210524145130.2499829-1-sashal@kernel.org>
-References: <20210524145130.2499829-1-sashal@kernel.org>
+Received: from mail-oi1-x236.google.com (mail-oi1-x236.google.com
+ [IPv6:2607:f8b0:4864:20::236])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CA97F89183
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 May 2021 15:08:18 +0000 (UTC)
+Received: by mail-oi1-x236.google.com with SMTP id x15so27276764oic.13
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 May 2021 08:08:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=Qd2GGNOqjcoVwR9/InTy3gHaTefuQ8PzIzZm4PfwF+Q=;
+ b=pHUsCN/IDaId/ipsKoG3ZrMYVpOUrGYrLef0xTZtQqyz5XEMvN+lSpLTWg7jqjs6Jg
+ 8wJ0pQL7+XaAsnBMSaWQCy7vQ/ZJnhOkVL0wp8RSeBJ7P47eTtE07yeR4+A6SNbbViAa
+ iet9G/GM1FfaXkBxAschybOUCLj4dh8QNh+vYyRua3BmM2eulhIfr9X1rl0wIRCwsWd+
+ pISDWphupk3cSrSJvfwLRLkVetuRq3bdIaT1ju8SB684mx/GMUIuCsIkN5+XbviAupjL
+ 9P0mdNOzaKLEQ+SZt9yQ2d8SL3naZn+5M6s/xOz5hGkwU900zBI4ruNo/Nh5jzk7aRTk
+ Bqjg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=Qd2GGNOqjcoVwR9/InTy3gHaTefuQ8PzIzZm4PfwF+Q=;
+ b=ssv7yArmnjRxYF3WdPkt3l8QRqKe0ckYY8VEvAb4+oKDwQeb3hVwnUjZlqRTTjo7o7
+ d5kHLe9YAIPuAv+Q9WnaGj6Bur0HQ7+mJCxRpapPLxfsYu6lKbrNR/1hujbRhXizgmWT
+ IXcywttPVNdUJKPp8iYBs/ihFjS4E1Z7ThD/pXlVfvgUVqAdKkCjyhzShdfJFNrG6K7i
+ 7exgq9BBqK0I+Ppq2fnrmwq7/PmEQJQzVgerp4++5ob9ELRM9lJwRNL2znAo+jHUaxkx
+ MByIs6jvItKI0SUp0V87Ia/AnT6KuA96DluXn5ejqltdKuQsFvV4eO6YbThjStl+V68E
+ 7Cpw==
+X-Gm-Message-State: AOAM532Fi2b6eTu1apOanFpXAAVxsEMPcZ/45S8arJwsYnDWEiXCsH1c
+ zJ7HbrzavVyrX2ZTJtfS1tp6YQ==
+X-Google-Smtp-Source: ABdhPJzQwEXxT63vulS4Mr1iXuUiQVfsntslWby9WpFJQ1i6LL+g6rwKWyZorlvtptAuR0hvccJ5Xg==
+X-Received: by 2002:aca:230e:: with SMTP id e14mr11102837oie.58.1621868898078; 
+ Mon, 24 May 2021 08:08:18 -0700 (PDT)
+Received: from yoga (104-57-184-186.lightspeed.austtx.sbcglobal.net.
+ [104.57.184.186])
+ by smtp.gmail.com with ESMTPSA id n11sm2564001oom.1.2021.05.24.08.08.16
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 24 May 2021 08:08:17 -0700 (PDT)
+Date: Mon, 24 May 2021 10:08:15 -0500
+From: Bjorn Andersson <bjorn.andersson@linaro.org>
+To: Vinod Koul <vkoul@kernel.org>
+Subject: Re: [RFC PATCH 02/13] dt-bindings: msm/dsi: Document Display Stream
+ Compression (DSC) parameters
+Message-ID: <20210524150815.GH2484@yoga>
+References: <20210521124946.3617862-1-vkoul@kernel.org>
+ <20210521124946.3617862-3-vkoul@kernel.org>
+ <20210521144237.GZ2484@yoga> <YKtWM+BYeIA+P+55@vkoul-mobl.Dlink>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YKtWM+BYeIA+P+55@vkoul-mobl.Dlink>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,54 +71,101 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, xinhui pan <xinhui.pan@amd.com>,
- dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: devicetree@vger.kernel.org, Jonathan Marek <jonathan@marek.ca>,
+ David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Abhinav Kumar <abhinavk@codeaurora.org>,
+ Rob Herring <robh+dt@kernel.org>, dri-devel@lists.freedesktop.org,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: xinhui pan <xinhui.pan@amd.com>
+On Mon 24 May 02:30 CDT 2021, Vinod Koul wrote:
 
-[ Upstream commit 1e5c37385097c35911b0f8a0c67ffd10ee1af9a2 ]
+> On 21-05-21, 09:42, Bjorn Andersson wrote:
+> > On Fri 21 May 07:49 CDT 2021, Vinod Koul wrote:
+> > 
+> > > DSC enables streams to be compressed before we send to panel. This
+> > > requires DSC enabled encoder and a panel to be present. So we add this
+> > > information in board DTS and find if DSC can be enabled and the
+> > > parameters required to configure DSC are added to binding document along
+> > > with example
+> > > 
+> > > Signed-off-by: Vinod Koul <vkoul@kernel.org>
+> > > ---
+> > >  .../devicetree/bindings/display/msm/dsi.txt       | 15 +++++++++++++++
+> > >  1 file changed, 15 insertions(+)
+> > > 
+> > > diff --git a/Documentation/devicetree/bindings/display/msm/dsi.txt b/Documentation/devicetree/bindings/display/msm/dsi.txt
+> > > index b9a64d3ff184..83d2fb92267e 100644
+> > > --- a/Documentation/devicetree/bindings/display/msm/dsi.txt
+> > > +++ b/Documentation/devicetree/bindings/display/msm/dsi.txt
+> > > @@ -48,6 +48,13 @@ Optional properties:
+> > >  - pinctrl-n: the "sleep" pinctrl state
+> > >  - ports: contains DSI controller input and output ports as children, each
+> > >    containing one endpoint subnode.
+> > > +- qcom,mdss-dsc-enabled: Display Stream Compression (DSC) is enabled
+> > > +- qcom,mdss-slice-height: DSC slice height in pixels
+> > > +- qcom,mdss-slice-width: DSC slice width in pixels
+> > > +- qcom,mdss-slice-per-pkt: DSC slices per packet
+> > > +- qcom,mdss-bit-per-component: DSC bits per component
+> > > +- qcom,mdss-bit-per-pixel: DSC bits per pixel
+> > > +- qcom,mdss-block-prediction-enable: Block prediction mode of DSC enabled
+> > >  
+> > >    DSI Endpoint properties:
+> > >    - remote-endpoint: For port@0, set to phandle of the connected panel/bridge's
+> > > @@ -188,6 +195,14 @@ Example:
+> > >  		qcom,master-dsi;
+> > >  		qcom,sync-dual-dsi;
+> > >  
+> > > +		qcom,mdss-dsc-enabled;
+> > 
+> > To me the activation of DSC seems to be a property of the panel.
+> 
+> I think there are three parts to the problem
+> 1. Panel needs to support it
 
-looks like we forget to set ttm->sg to NULL.
-Hit panic below
+In the case of DP there's bits to be read in the panel to figure this
+out, for DSI panels this seems like a property that the panel (driver)
+should know about.
 
-[ 1235.844104] general protection fault, probably for non-canonical address 0x6b6b6b6b6b6b7b4b: 0000 [#1] SMP DEBUG_PAGEALLOC NOPTI
-[ 1235.989074] Call Trace:
-[ 1235.991751]  sg_free_table+0x17/0x20
-[ 1235.995667]  amdgpu_ttm_backend_unbind.cold+0x4d/0xf7 [amdgpu]
-[ 1236.002288]  amdgpu_ttm_backend_destroy+0x29/0x130 [amdgpu]
-[ 1236.008464]  ttm_tt_destroy+0x1e/0x30 [ttm]
-[ 1236.013066]  ttm_bo_cleanup_memtype_use+0x51/0xa0 [ttm]
-[ 1236.018783]  ttm_bo_release+0x262/0xa50 [ttm]
-[ 1236.023547]  ttm_bo_put+0x82/0xd0 [ttm]
-[ 1236.027766]  amdgpu_bo_unref+0x26/0x50 [amdgpu]
-[ 1236.032809]  amdgpu_amdkfd_gpuvm_alloc_memory_of_gpu+0x7aa/0xd90 [amdgpu]
-[ 1236.040400]  kfd_ioctl_alloc_memory_of_gpu+0xe2/0x330 [amdgpu]
-[ 1236.046912]  kfd_ioctl+0x463/0x690 [amdgpu]
+> 2. Host needs to support it
 
-Signed-off-by: xinhui pan <xinhui.pan@amd.com>
-Reviewed-by: Christian König <christian.koenig@amd.com>
-Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c | 1 +
- 1 file changed, 1 insertion(+)
+Right, so this needs to be known by the driver. My suggestion is that we
+derive it from the compatible or from the HW version.
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-index 6beb3e76e1c9..014b87143837 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-@@ -737,6 +737,7 @@ static void amdgpu_ttm_tt_unpopulate(struct ttm_tt *ttm)
- 
- 	if (gtt && gtt->userptr) {
- 		kfree(ttm->sg);
-+		ttm->sg = NULL;
- 		ttm->page_flags &= ~TTM_PAGE_FLAG_SG;
- 		return;
- 	}
--- 
-2.30.2
+> 3. Someone needs to decide to use when both the above conditions are
+> met.
+> 
+> There are cases where above 1, 2 will be satisfied, but we might be okay
+> without DSC too.. so how to decide when to do DSC :)
+> 
 
+Can we describe those cases? E.g. is it because enabling DSC would not
+cause a reduction in clock speed that's worth the effort? Or do we only
+use DSC for DSI when it allows us to squeeze everything into a single
+link?
+
+Regards,
+Bjorn
+
+> I feel it is more of a system property. And I also think that these
+> parameters here are host configuration and not really for panel...
+> 
+> > 
+> > > +		qcom,mdss-slice-height = <16>;
+> > > +		qcom,mdss-slice-width = <540>;
+> > > +		qcom,mdss-slice-per-pkt = <1>;
+> > > +		qcom,mdss-bit-per-component = <8>;
+> > > +		qcom,mdss-bit-per-pixel = <8>;
+> > > +		qcom,mdss-block-prediction-enable;
+> > 
+> > Which of these properties relates to the DSC encoder and what needs to
+> > be agreed with the sink? Can't we derive e.g. bpp from the information
+> > we have from the attached panel already?
+> 
+> Let me go back and check on this a bit more
+> 
+> Thanks
+> -- 
+> ~Vinod
