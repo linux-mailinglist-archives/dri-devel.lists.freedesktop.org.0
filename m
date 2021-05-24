@@ -2,146 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBA2F38F175
-	for <lists+dri-devel@lfdr.de>; Mon, 24 May 2021 18:24:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 83EAA38F169
+	for <lists+dri-devel@lfdr.de>; Mon, 24 May 2021 18:22:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 59CB889D4F;
-	Mon, 24 May 2021 16:24:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EEF9D6E897;
+	Mon, 24 May 2021 16:22:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com
- [205.220.165.32])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8607089D4F;
- Mon, 24 May 2021 16:24:31 +0000 (UTC)
-Received: from pps.filterd (m0246629.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 14OFW6We006046; Mon, 24 May 2021 15:53:36 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=date : from : to : cc
- : subject : message-id : references : content-type : in-reply-to :
- mime-version; s=corp-2020-01-29;
- bh=A7JwayUn9NB8mCxjunudM0ZYoEEzZyrOR+KOm3Nbk/Y=;
- b=vLNS1NYtPu1R+6D8v9fR+7tu1wakKWhso4S4TMh1hXnHktYgdbka69vwwM0Ebq9H2LLT
- BaHPLTI6m5bPywWO8BDR91EfNnWKXHdSYfYLQoGVHOnlaeUWTxak+iz0H42zrjRXVqoN
- DBknsO4TW4REbFb4VMzlFMMgZv/tiz8izHPT/FjkB8qt5ggZXYFeqbgWYthKUzM/LgHl
- 5zM3Pu3d9iUpqo8vFLdtj5K1fd/+gczS3SipYMfxocmVRr9Rwuh+kLKYI7D/iMncEESA
- qLmHLkVbqR96lPzGoQogxLVx+8vcnkZBDprVOEEuGDDm1zp/9yIuRzhvHilZhCJ7/maE jg== 
-Received: from oracle.com (aserp3030.oracle.com [141.146.126.71])
- by mx0b-00069f02.pphosted.com with ESMTP id 38r267r8ng-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 24 May 2021 15:53:35 +0000
-Received: from aserp3030.oracle.com (aserp3030.oracle.com [127.0.0.1])
- by pps.podrdrct (8.16.0.36/8.16.0.36) with SMTP id 14OFp07H032145;
- Mon, 24 May 2021 15:53:34 GMT
-Received: from nam04-bn8-obe.outbound.protection.outlook.com
- (mail-bn8nam08lp2046.outbound.protection.outlook.com [104.47.74.46])
- by aserp3030.oracle.com with ESMTP id 38pr0b4701-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 24 May 2021 15:53:34 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=VoyzvSeybqrYgtTdx2epAplFD49dsvlNWVgf6y5jjwphzehjOl59t4EAK7hc9srv9KEmBVQWe1TSwZhZl8fV1DGtrUn8gskBlGAMISDn478ClkyoeQSYKeyIEoIKhFjGA+i+zbFLXW+arWi5qYPIRdDS1llVpGkQ8F+zsXq25hNTY/PDJWmK685us1zD406vHQoBVQRNwknB96BeectJ4unOnjJjmTgb3wWl3KWzjo/R5nOm9byEdpxuCDh6eGWY6gkuUZ3tptQ0D3Rgdlku0yNTn/Fk7Iuqv0XwB8o68F6QFnVwYIKQVtFakTnlCPO/SOOmk4kNCJJE7uVLaycZ1w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=A7JwayUn9NB8mCxjunudM0ZYoEEzZyrOR+KOm3Nbk/Y=;
- b=oRwSdKTweSsbA4+gVwABEjikbXLUbRQm6SJJsdzZOjhWkib0yzHMZ0bqkfHujfeakLlNfksaSNCBRL0GXx6CPdu8xprbRCGVCQDGy7d8nzmty88RNYOUu59N7+2rsxv7MF++HEEyljuYu06CT6SU9/MyfbSQ6txjfJnsa4ye164WPci/QcOErKEz1CUKGKeoFbehMaYwn5T47mPOCnODsQ9spG2sLGMxftsuEoY8JiN2R8gMZgfqAJDo/RTMwbgGs2mhzgJFLrTKx91paBilvfLAyLdrCMWTfXf/dyhLDCd67/rV9f7c0ku949ygOzNgU6O0k+lKVvvj8iRTGNB8bA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=A7JwayUn9NB8mCxjunudM0ZYoEEzZyrOR+KOm3Nbk/Y=;
- b=TwpZ4hb2LByKNEYWDv/1b3QPaOvXgSKfc63kxrzyEKQCQJF0HOiGMhbyptD+IQ5xSQggUzakW1jjRKFymb2QW8LZwCqG9YxbWcFu50KHCxMCCHjA+Kzf2GIKczKymocMUS6sGhlVK30vd17t10cxrQIDK/TGvp8H1H2VARpbiDM=
-Authentication-Results: chromium.org; dkim=none (message not signed)
- header.d=none;chromium.org; dmarc=none action=none header.from=oracle.com;
-Received: from BYAPR10MB2999.namprd10.prod.outlook.com (2603:10b6:a03:85::27)
- by BYAPR10MB3096.namprd10.prod.outlook.com (2603:10b6:a03:151::23)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4150.26; Mon, 24 May
- 2021 15:53:32 +0000
-Received: from BYAPR10MB2999.namprd10.prod.outlook.com
- ([fe80::8111:d8f1:c262:808d]) by BYAPR10MB2999.namprd10.prod.outlook.com
- ([fe80::8111:d8f1:c262:808d%6]) with mapi id 15.20.4150.027; Mon, 24 May 2021
- 15:53:32 +0000
-Date: Mon, 24 May 2021 11:53:23 -0400
-From: Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>
-To: Claire Chang <tientzu@chromium.org>
-Subject: Re: [PATCH v7 01/15] swiotlb: Refactor swiotlb init functions
-Message-ID: <YKvL865kutnHqkVc@0xbeefdead.lan>
-References: <20210518064215.2856977-1-tientzu@chromium.org>
- <20210518064215.2856977-2-tientzu@chromium.org>
- <170a54f2-be20-ec29-1d7f-3388e5f928c6@gmail.com>
- <CALiNf2-9fRbH3Xs=fA+N1iRztFxeC0iTsyOSZFe=F42uwXS0Sg@mail.gmail.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CALiNf2-9fRbH3Xs=fA+N1iRztFxeC0iTsyOSZFe=F42uwXS0Sg@mail.gmail.com>
-X-Originating-IP: [130.44.160.152]
-X-ClientProxiedBy: MN2PR19CA0027.namprd19.prod.outlook.com
- (2603:10b6:208:178::40) To BYAPR10MB2999.namprd10.prod.outlook.com
- (2603:10b6:a03:85::27)
+Received: from m43-7.mailgun.net (m43-7.mailgun.net [69.72.43.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A35696E897
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 May 2021 16:22:08 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1621873329; h=Message-ID: References: In-Reply-To: Subject:
+ Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
+ MIME-Version: Sender; bh=d86HdzAHhrf4IEpfZ4/vyjNlQnDG9yPdqowShLGUBek=;
+ b=TYOuomGjYECG3cff11qcYwdET/Zku5UbyKjt1JehZvSQkOALGraljdKjytJYW9DlVymeIdt1
+ 3qAeft6F7tvwhQ3pH5XKcRM6Ebg4AP4gqFQcGEkw6MrqAx5Mkxra3udOpEYft/Qy16YDtRUt
+ FSUe04Ufp8Jodchks2QlmVuacIA=
+X-Mailgun-Sending-Ip: 69.72.43.7
+X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n06.prod.us-west-2.postgun.com with SMTP id
+ 60abd2aa5f788b52a502852f (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Mon, 24 May 2021 16:22:02
+ GMT
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id 15F6FC43151; Mon, 24 May 2021 16:22:02 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00
+ autolearn=unavailable autolearn_force=no version=3.4.0
+Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
+ (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+ (No client certificate requested) (Authenticated sender: khsieh)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id BED77C43146;
+ Mon, 24 May 2021 16:22:00 +0000 (UTC)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from 0xbeefdead.lan (130.44.160.152) by
- MN2PR19CA0027.namprd19.prod.outlook.com (2603:10b6:208:178::40) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4150.24 via Frontend
- Transport; Mon, 24 May 2021 15:53:26 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 08e4fc1b-8f07-4c22-09a0-08d91ecc1491
-X-MS-TrafficTypeDiagnostic: BYAPR10MB3096:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <BYAPR10MB3096B6F574AFAD453EFAC5A989269@BYAPR10MB3096.namprd10.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:6790;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: TsJFGyxezPXIndmWi2tIGB7pMN9ztv7RcFh168v9DkAiVW2GKDctVYUGiOFhQ65EfuLsPAI/crH2cmy51WbjsE+UPrzhoqZY9akD49FZIsRBPacfO7wa2plu24YYqvOttqec+l2eEpgNCfxrV2My8AbdEF+loaulWwCHyOn846TrliNRs7X80aFOWzGw4rBKgzATs8gKfwYhb3wI0Imk5Y4wZyx0B0CuCx012vBA+S0JIkdP2xQcuvIzuSoKJCj3wqO2knz+4NY7suIQ0+1/+szYf/vLFfvy5XwswfhHg5JbYyNVLmaRZkr8G4+2iJUBC7FqWCx5fPpaAyusjIEeVbtL7JTGAL8QkZqNBEDqze5VtYo8O5fIhpYtcdMTF8lf+/AhItZMc66uEWaraKGoJKonCl6gXeKPujgZxwYZ0TSCuHoPdPvTOnFiTw3KJd3j5IKj/y8cd7+D/dhvEnpN3mjj2aws6VpeZmZKN+PqJD9wHv/+RiuZZw88ZvSBo6j8SBZDNX+qwpE+3xoKsYss89gA7e5iw3xLLGPfxqare4eKZ44CKeV7r6bQh5O0f9NBNeW0C222H6ws3WGueEz4j/Jrg5yFWuBkniBSux3rgeUoEjAp24+JF8dHNibzQpHgDF3VPEaWL3wA/mthvpfUig==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BYAPR10MB2999.namprd10.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(396003)(366004)(376002)(346002)(136003)(39860400002)(8936002)(8886007)(9686003)(4326008)(66946007)(66556008)(66476007)(52116002)(6666004)(5660300002)(36756003)(2906002)(6506007)(7366002)(6916009)(7406005)(8676002)(7696005)(7416002)(316002)(4744005)(956004)(186003)(26005)(16526019)(54906003)(38100700002)(38350700002)(86362001)(478600001)(55016002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?yKZMqEftj8fUJPi6Gyydk5po/IDtKE3QYW3QlmDLM/6uQUS6+ICA21HhoxgS?=
- =?us-ascii?Q?jHHidKgvmQF/Nl8QSARzWqhX9WBedrpIvmjSFG0Rig0vOTBbCIiEzrJjwBr2?=
- =?us-ascii?Q?17RwKzfLDCfh1aHF1ZZvAffYkZ3JEOGtqVpr1PDS2Mct4inKjy2f4b2W6nBb?=
- =?us-ascii?Q?SPSoi+hmUoOyWw4a/bTFsBdMtILjK+Qo+jXVUJX2ik6qkmmBwZlkWrk4RtDA?=
- =?us-ascii?Q?JBiS3T2Z7MhOs0xnSWDMS2LQaTTodv/AaKsOcTAFx2mclhdJ7M4ooVxJX8Al?=
- =?us-ascii?Q?hu1Cu4e2dbTKd1E9crSyo1mlfTgh6Pvfz/MR67ErwCxjMP4iw1NfrFPDy41+?=
- =?us-ascii?Q?uVAI4SLPPSFDnMa05NusOWQRmDUzFJyaJ9TDeN4cAmySEAI4GmBC4WhFZvBe?=
- =?us-ascii?Q?iZLVXOtgmo7W7EjABhuFXFwt5gOL3dsawXN7xkQVccDrWzaV4I6xPYoyiyBl?=
- =?us-ascii?Q?/aBPELm/xb6BaBum6PGNxB8jkLL9X+bplmVOM++x2tmZiIryCJrZdAMS+x0D?=
- =?us-ascii?Q?vbTB+9rxYjEzDZ6kpMx/wSRreQ+GNs+KRF8Kfuh4+Lu1pCBUTHjMErUHiEyq?=
- =?us-ascii?Q?QumlmHebWtQa2+NEngx696gtrakLYFyhD9u9/FtmJrh8Fl743/tEANM3sFnf?=
- =?us-ascii?Q?jc/Bj8iq3zUviqaNWfQxv9wWvwaZi9d5/rbPTxyBZ/8tnTjzuZhEZeLkFo9b?=
- =?us-ascii?Q?aqMHMQxj7MV3OsKZZ2Z+fWJFuJiGFlxaVt4+2aKHBWZHPx1vfhET9LAom8tJ?=
- =?us-ascii?Q?9aZ8Q9ycO7qrWSWM9F+0UeRbbsQHvB8O14Ux5jpSt8T/xbS57V+Ku0AvtALo?=
- =?us-ascii?Q?IKyxBZiri/8wLBrS4sHR5bTZiA45+9Hkzb4zSh11tSHu4/Pie49bN7O8YCB/?=
- =?us-ascii?Q?Pt/weHq391Bs8WTdtMNQLegh9m1EoceInNv87VsmKVSZUKVpG33mWYxJFWCt?=
- =?us-ascii?Q?8/n3OTqlNAEtJtLBUmmQJpWNQh651apWmpmhYlZz4sBpKd31vwWaEmeqCJXj?=
- =?us-ascii?Q?pOreHHq5xq2OXKe1aM14dswYBBAnLOYH8fwErlnKE1VGTgS2kA5RgvCUTFNH?=
- =?us-ascii?Q?bksPyUmQPHvuajUQgBC8a2ZzDKfK5aatcPSS18ZUIvRXPCeVxEVFvBkGo0Gn?=
- =?us-ascii?Q?wgdFgSfytUyX/Phq2pKifHFpQn1a+0Pc+jSWN3SmW6S+K3haInt8K0R3IWiq?=
- =?us-ascii?Q?a47x0pHOP/cj77wIWDcwPHxWq13gTpFVVCPvnw+LDKTsxQ3iJsHzPAx9Ga6k?=
- =?us-ascii?Q?p6vbF9UEKrYNSIg83nDLsQEzqcPd/n0nECi3zijW7veVC/h2pA3664PQZfsm?=
- =?us-ascii?Q?zshbFkdLz+9Mtut9qMmvuDTe?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 08e4fc1b-8f07-4c22-09a0-08d91ecc1491
-X-MS-Exchange-CrossTenant-AuthSource: BYAPR10MB2999.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 May 2021 15:53:31.8226 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: TwmaXt8HqSELbqkBV+B/DF3SjeYdChpXLoD9nd5acJv8xcUKGm9Cdiv+uBhCXl66yAuGOgtW2aJp6yfIsmpQDw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR10MB3096
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9993
- signatures=668682
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0
- bulkscore=0 spamscore=0
- mlxlogscore=999 malwarescore=0 adultscore=0 phishscore=0 suspectscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2104190000
- definitions=main-2105240095
-X-Proofpoint-ORIG-GUID: EHAtG7WMwVF7Lhz1byowmXmOg4cDSTpJ
-X-Proofpoint-GUID: EHAtG7WMwVF7Lhz1byowmXmOg4cDSTpJ
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+Date: Mon, 24 May 2021 09:22:00 -0700
+From: khsieh@codeaurora.org
+To: Stephen Boyd <swboyd@chromium.org>
+Subject: Re: [PATCH 1/3] drm/msm/dp: Simplify aux irq handling code
+In-Reply-To: <20210507212505.1224111-2-swboyd@chromium.org>
+References: <20210507212505.1224111-1-swboyd@chromium.org>
+ <20210507212505.1224111-2-swboyd@chromium.org>
+Message-ID: <1f22bcd197fe5c7062ecddef337a7aa5@codeaurora.org>
+X-Sender: khsieh@codeaurora.org
+User-Agent: Roundcube Webmail/1.3.9
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -154,45 +66,146 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: heikki.krogerus@linux.intel.com, thomas.hellstrom@linux.intel.com,
- peterz@infradead.org, dri-devel@lists.freedesktop.org,
- chris@chris-wilson.co.uk, grant.likely@arm.com, paulus@samba.org,
- Frank Rowand <frowand.list@gmail.com>, mingo@kernel.org,
- Marek Szyprowski <m.szyprowski@samsung.com>,
- Florian Fainelli <f.fainelli@gmail.com>,
- Saravana Kannan <saravanak@google.com>, mpe@ellerman.id.au,
- Joerg Roedel <joro@8bytes.org>,
- "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>,
- Christoph Hellwig <hch@lst.de>,
- Bartosz Golaszewski <bgolaszewski@baylibre.com>, bskeggs@redhat.com,
- linux-pci@vger.kernel.org, xen-devel@lists.xenproject.org,
- Thierry Reding <treding@nvidia.com>, intel-gfx@lists.freedesktop.org,
- matthew.auld@intel.com, linux-devicetree <devicetree@vger.kernel.org>,
- Jianxiong Gao <jxgao@google.com>, Will Deacon <will@kernel.org>,
- airlied@linux.ie, Dan Williams <dan.j.williams@intel.com>,
- linuxppc-dev@lists.ozlabs.org, Rob Herring <robh+dt@kernel.org>,
- rodrigo.vivi@intel.com, Bjorn Helgaas <bhelgaas@google.com>,
- boris.ostrovsky@oracle.com,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>, jgross@suse.com,
- Nicolas Boichat <drinkcat@chromium.org>, Greg KH <gregkh@linuxfoundation.org>,
- Randy Dunlap <rdunlap@infradead.org>, lkml <linux-kernel@vger.kernel.org>,
- Tomasz Figa <tfiga@chromium.org>,
- "list@263.net:IOMMU DRIVERS" <iommu@lists.linux-foundation.org>,
- sstabellini@kernel.org, Jim Quinlan <james.quinlan@broadcom.com>,
- xypron.glpk@gmx.de, Robin Murphy <robin.murphy@arm.com>,
- bauerman@linux.ibm.com
+Cc: Sean Paul <sean@poorly.run>, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Abhinav Kumar <abhinavk@codeaurora.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, aravindh@codeaurora.org,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-> > do the set_memory_decrypted()+memset(). Is this okay or should
-> > swiotlb_init_io_tlb_mem() add an additional argument to do this
-> > conditionally?
+On 2021-05-07 14:25, Stephen Boyd wrote:
+> We don't need to stash away 'isr' in the aux structure to pass to two
+> functions. Let's use a local variable instead. And we can complete the
+> completion variable in one place instead of two to simplify the code.
 > 
-> I'm actually not sure if this it okay. If not, will add an additional
-> argument for it.
+> Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> Cc: Abhinav Kumar <abhinavk@codeaurora.org>
+> Cc: Kuogee Hsieh <khsieh@codeaurora.org>
+> Cc: aravindh@codeaurora.org
+> Cc: Sean Paul <sean@poorly.run>
+> Signed-off-by: Stephen Boyd <swboyd@chromium.org>
 
-Any observations discovered? (Want to make sure my memory-cache has the
-correct semantics for set_memory_decrypted in mind).
+Reviewed-by: Kuogee Hsieh <khsieh@codeaurora.org>
+> ---
+>  drivers/gpu/drm/msm/dp/dp_aux.c     | 22 ++++++++--------------
+>  drivers/gpu/drm/msm/dp/dp_catalog.c |  2 +-
+>  drivers/gpu/drm/msm/dp/dp_catalog.h |  2 +-
+>  3 files changed, 10 insertions(+), 16 deletions(-)
 > 
-> > --
-> > Florian
+> diff --git a/drivers/gpu/drm/msm/dp/dp_aux.c 
+> b/drivers/gpu/drm/msm/dp/dp_aux.c
+> index 7c22bfe0fc7d..91188466cece 100644
+> --- a/drivers/gpu/drm/msm/dp/dp_aux.c
+> +++ b/drivers/gpu/drm/msm/dp/dp_aux.c
+> @@ -27,7 +27,6 @@ struct dp_aux_private {
+>  	bool no_send_stop;
+>  	u32 offset;
+>  	u32 segment;
+> -	u32 isr;
+> 
+>  	struct drm_dp_aux dp_aux;
+>  };
+> @@ -181,10 +180,8 @@ static void dp_aux_cmd_fifo_rx(struct 
+> dp_aux_private *aux,
+>  	}
+>  }
+> 
+> -static void dp_aux_native_handler(struct dp_aux_private *aux)
+> +static void dp_aux_native_handler(struct dp_aux_private *aux, u32 isr)
+>  {
+> -	u32 isr = aux->isr;
+> -
+>  	if (isr & DP_INTR_AUX_I2C_DONE)
+>  		aux->aux_error_num = DP_AUX_ERR_NONE;
+>  	else if (isr & DP_INTR_WRONG_ADDR)
+> @@ -197,14 +194,10 @@ static void dp_aux_native_handler(struct
+> dp_aux_private *aux)
+>  		aux->aux_error_num = DP_AUX_ERR_PHY;
+>  		dp_catalog_aux_clear_hw_interrupts(aux->catalog);
+>  	}
+> -
+> -	complete(&aux->comp);
+>  }
+> 
+> -static void dp_aux_i2c_handler(struct dp_aux_private *aux)
+> +static void dp_aux_i2c_handler(struct dp_aux_private *aux, u32 isr)
+>  {
+> -	u32 isr = aux->isr;
+> -
+>  	if (isr & DP_INTR_AUX_I2C_DONE) {
+>  		if (isr & (DP_INTR_I2C_NACK | DP_INTR_I2C_DEFER))
+>  			aux->aux_error_num = DP_AUX_ERR_NACK;
+> @@ -226,8 +219,6 @@ static void dp_aux_i2c_handler(struct 
+> dp_aux_private *aux)
+>  			dp_catalog_aux_clear_hw_interrupts(aux->catalog);
+>  		}
+>  	}
+> -
+> -	complete(&aux->comp);
+>  }
+> 
+>  static void dp_aux_update_offset_and_segment(struct dp_aux_private 
+> *aux,
+> @@ -412,6 +403,7 @@ static ssize_t dp_aux_transfer(struct drm_dp_aux 
+> *dp_aux,
+> 
+>  void dp_aux_isr(struct drm_dp_aux *dp_aux)
+>  {
+> +	u32 isr;
+>  	struct dp_aux_private *aux;
+> 
+>  	if (!dp_aux) {
+> @@ -421,15 +413,17 @@ void dp_aux_isr(struct drm_dp_aux *dp_aux)
+> 
+>  	aux = container_of(dp_aux, struct dp_aux_private, dp_aux);
+> 
+> -	aux->isr = dp_catalog_aux_get_irq(aux->catalog);
+> +	isr = dp_catalog_aux_get_irq(aux->catalog);
+> 
+>  	if (!aux->cmd_busy)
+>  		return;
+> 
+>  	if (aux->native)
+> -		dp_aux_native_handler(aux);
+> +		dp_aux_native_handler(aux, isr);
+>  	else
+> -		dp_aux_i2c_handler(aux);
+> +		dp_aux_i2c_handler(aux, isr);
+> +
+> +	complete(&aux->comp);
+>  }
+> 
+>  void dp_aux_reconfig(struct drm_dp_aux *dp_aux)
+> diff --git a/drivers/gpu/drm/msm/dp/dp_catalog.c
+> b/drivers/gpu/drm/msm/dp/dp_catalog.c
+> index b1a9b1b98f5f..a70c238f34b0 100644
+> --- a/drivers/gpu/drm/msm/dp/dp_catalog.c
+> +++ b/drivers/gpu/drm/msm/dp/dp_catalog.c
+> @@ -292,7 +292,7 @@ void dp_catalog_dump_regs(struct dp_catalog 
+> *dp_catalog)
+>  	dump_regs(catalog->io->dp_controller.base + offset, len);
+>  }
+> 
+> -int dp_catalog_aux_get_irq(struct dp_catalog *dp_catalog)
+> +u32 dp_catalog_aux_get_irq(struct dp_catalog *dp_catalog)
+>  {
+>  	struct dp_catalog_private *catalog = container_of(dp_catalog,
+>  				struct dp_catalog_private, dp_catalog);
+> diff --git a/drivers/gpu/drm/msm/dp/dp_catalog.h
+> b/drivers/gpu/drm/msm/dp/dp_catalog.h
+> index 176a9020a520..502bc0dc7787 100644
+> --- a/drivers/gpu/drm/msm/dp/dp_catalog.h
+> +++ b/drivers/gpu/drm/msm/dp/dp_catalog.h
+> @@ -80,7 +80,7 @@ int dp_catalog_aux_clear_hw_interrupts(struct
+> dp_catalog *dp_catalog);
+>  void dp_catalog_aux_reset(struct dp_catalog *dp_catalog);
+>  void dp_catalog_aux_enable(struct dp_catalog *dp_catalog, bool 
+> enable);
+>  void dp_catalog_aux_update_cfg(struct dp_catalog *dp_catalog);
+> -int dp_catalog_aux_get_irq(struct dp_catalog *dp_catalog);
+> +u32 dp_catalog_aux_get_irq(struct dp_catalog *dp_catalog);
+> 
+>  /* DP Controller APIs */
+>  void dp_catalog_ctrl_state_ctrl(struct dp_catalog *dp_catalog, u32 
+> state);
