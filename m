@@ -2,45 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC48438E489
-	for <lists+dri-devel@lfdr.de>; Mon, 24 May 2021 12:48:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 13EBE38E49F
+	for <lists+dri-devel@lfdr.de>; Mon, 24 May 2021 12:53:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8079289D40;
-	Mon, 24 May 2021 10:48:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 515386E1A4;
+	Mon, 24 May 2021 10:52:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C2F8D89916;
- Mon, 24 May 2021 10:48:17 +0000 (UTC)
-IronPort-SDR: 5SbSCI4xoNNPUD5buvzE1X3EecxCdRMYbd5NuZyXEhZwepr/wvoBGUPgkcxrbIbspQVfeOW4dj
- vVQKL7hgbTLA==
-X-IronPort-AV: E=McAfee;i="6200,9189,9993"; a="201928669"
-X-IronPort-AV: E=Sophos;i="5.82,319,1613462400"; d="scan'208";a="201928669"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 May 2021 03:48:16 -0700
-IronPort-SDR: xe+ssaUxAmDUaIAAbUyl6lX472bQEG00m+dVQzlIEX/7+PRzk/9Z8GP2cONn4CCLYCZsLqIwVa
- LsMGuB9rkTLg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.82,319,1613462400"; d="scan'208";a="629603780"
-Received: from irvmail001.ir.intel.com ([10.43.11.63])
- by fmsmga006.fm.intel.com with ESMTP; 24 May 2021 03:48:13 -0700
-Received: from [10.249.134.123] (mwajdecz-MOBL.ger.corp.intel.com
- [10.249.134.123])
- by irvmail001.ir.intel.com (8.14.3/8.13.6/MailSET/Hub) with ESMTP id
- 14OAmCqP001680; Mon, 24 May 2021 11:48:12 +0100
-Subject: Re: [RFC PATCH 07/97] drm/i915/guc: Remove sample_forcewake h2g action
-To: Matthew Brost <matthew.brost@intel.com>, intel-gfx@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org
-References: <20210506191451.77768-1-matthew.brost@intel.com>
- <20210506191451.77768-8-matthew.brost@intel.com>
-From: Michal Wajdeczko <michal.wajdeczko@intel.com>
-Message-ID: <ad13a4f9-9104-97c1-4a24-5f7f9695228d@intel.com>
-Date: Mon, 24 May 2021 12:48:12 +0200
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.2
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [216.205.24.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BD6B16E1A4
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 May 2021 10:52:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1621853575;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=HFtn2RHOEYss0CsLYkuce8tbA8oq7IWTJChBbEjpcfU=;
+ b=FmxiKnjoxDtH4t1ypWkogl7Q/osBEvsedoq5oRAHfUTQ4Ru5ztR+S5vvO8kTrOBhcb36Ox
+ wncHFzFaiol/1O2RLIJCmuUowLS5EV0JZkfzRmh9eyJv/4A8Otg2QK02nCQ0c1uPAQgp7O
+ SPOkgh4taEzzgG25DevunLyslweYr5U=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-99-IliSVtYoMAyEnZIZXrRb9w-1; Mon, 24 May 2021 06:52:53 -0400
+X-MC-Unique: IliSVtYoMAyEnZIZXrRb9w-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ h104-20020adf90710000b029010de8455a3aso12909062wrh.12
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 May 2021 03:52:53 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=HFtn2RHOEYss0CsLYkuce8tbA8oq7IWTJChBbEjpcfU=;
+ b=JtiTGfxRktZ6nuw7RgZeXJMucvpARvZLYIB5i7ZUwyyvS02/pZVbiEVwUG2sPBtpyh
+ htYKXQmF3BqfqsP7OOWr9xtrm1GVpWCNqiVolsMGEXUoh1agzd8/Q2rqOecRJLQ+eTAR
+ fvKYM6zTI3cq8XIYrAwz2Vzm9N594Bu7eVMFVNAuEqOYOsSM5vjDmOAW3iVWxGcF2yhQ
+ 8t8OJhJoO83RFDdbxxznOOxCjDfplRieGViRiw416cB24K9dAkB2oV5J436EGyXCSHOs
+ KgGVyphIkMsq1fALIKwGIAljY3SU6ddRtyyA1vnFpPdUG7/QlwaAAPYrZ19yTYA0KatC
+ DdGg==
+X-Gm-Message-State: AOAM5317RtcW1NhBy/cGQLEY8iTkWNrkNmWMS3DylaIv6K2F2/cbmPFb
+ zZpgtTzavkYun0s/GFAZPLhEVEFT7ZPgUkZZ5Hfhy0zMOdtUmyQHtqFwCNzVMqp6d0TJdTcJ/w7
+ zJE/fSFdniM6++LVfBWgz5WT9zCjJ
+X-Received: by 2002:adf:cd0b:: with SMTP id w11mr20622275wrm.178.1621853572523; 
+ Mon, 24 May 2021 03:52:52 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyBBAfkXTMs2YQFUS4bUXgvPMEgtCieGtjpbUoBA1QSYRX/jn26s0lewHHOil8Ex/lxYcBBJg==
+X-Received: by 2002:adf:cd0b:: with SMTP id w11mr20622252wrm.178.1621853572312; 
+ Mon, 24 May 2021 03:52:52 -0700 (PDT)
+Received: from [192.168.1.101] ([92.176.231.106])
+ by smtp.gmail.com with ESMTPSA id r11sm11966441wrp.46.2021.05.24.03.52.50
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 24 May 2021 03:52:51 -0700 (PDT)
+Subject: Re: [PATCH 0/2] allow the sysfb support to be used in non-x86 arches
+To: Ard Biesheuvel <ardb@kernel.org>
+References: <20210521192907.3040644-1-javierm@redhat.com>
+ <CAMj1kXGrDm5yN5eRZJ0YAjCde=0Xw7hobC9Oz5CNovo0sWuM+g@mail.gmail.com>
+From: Javier Martinez Canillas <javierm@redhat.com>
+Message-ID: <0613bc6b-31b4-93f6-b111-4692778f76c0@redhat.com>
+Date: Mon, 24 May 2021 12:52:50 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-In-Reply-To: <20210506191451.77768-8-matthew.brost@intel.com>
+In-Reply-To: <CAMj1kXGrDm5yN5eRZJ0YAjCde=0Xw7hobC9Oz5CNovo0sWuM+g@mail.gmail.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -56,109 +84,67 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: tvrtko.ursulin@intel.com, jason.ekstrand@intel.com,
- daniele.ceraolospurio@intel.com, jon.bloomfield@intel.com,
- daniel.vetter@intel.com, john.c.harrison@intel.com
+Cc: x86@kernel.org, linux-efi@vger.kernel.org,
+ Albert Ou <aou@eecs.berkeley.edu>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@linux.ie>, Catalin Marinas <catalin.marinas@arm.com>,
+ Paul Walmsley <paul.walmsley@sifive.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Russell King <linux@armlinux.org.uk>,
+ Hans de Goede <hdegoede@redhat.com>, Ingo Molnar <mingo@redhat.com>,
+ Borislav Petkov <bp@alien8.de>, Peter Robinson <pbrobinson@gmail.com>,
+ "H. Peter Anvin" <hpa@zytor.com>, Palmer Dabbelt <palmer@dabbelt.com>,
+ Thomas Gleixner <tglx@linutronix.de>, Will Deacon <will@kernel.org>,
+ linux-riscv@lists.infradead.org, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hello Ard,
 
+On 5/24/21 12:24 PM, Ard Biesheuvel wrote:
 
-On 06.05.2021 21:13, Matthew Brost wrote:
-> From: Rodrigo Vivi <rodrigo.vivi@intel.com>
-> 
-> This action is no-op in the GuC side for a few versions already
-> and it is getting entirely removed soon, in an upcoming version.
-> 
-> Time to remove before we face communication issues.
-> 
-> Cc:  Vinay Belgaumkar <vinay.belgaumkar@intel.com>
-> Signed-off-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
-> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+[snip]
 
-Acked-by: Michal Wajdeczko <michal.wajdeczko@intel.com>
+>> Since this touches both arch/{x86,arm,arm64,riscv} and drivers/firmware, I
+>> don't know how it should be merged. But I didn't find a way to split these.
+>>
+> 
+> We could merge this via the EFI tree without too much risk of
+> conflicts, I think.
+>
 
-> ---
->  drivers/gpu/drm/i915/gt/uc/intel_guc.c      | 16 ----------------
->  drivers/gpu/drm/i915/gt/uc/intel_guc.h      |  1 -
->  drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h |  4 ----
->  drivers/gpu/drm/i915/gt/uc/intel_uc.c       |  4 ----
->  4 files changed, 25 deletions(-)
+Great, thanks.
+ 
+> However, I'd like to see a better explanation of why this is an improvement.
+> The diffstat does not show a huge net win, and it does not enable
+> anything we didn't already have before, right?
 > 
-> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc.c b/drivers/gpu/drm/i915/gt/uc/intel_guc.c
-> index adae04c47aab..ab2c8fe8cdfa 100644
-> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc.c
-> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc.c
-> @@ -469,22 +469,6 @@ int intel_guc_to_host_process_recv_msg(struct intel_guc *guc,
->  	return 0;
->  }
->  
-> -int intel_guc_sample_forcewake(struct intel_guc *guc)
-> -{
-> -	struct drm_i915_private *dev_priv = guc_to_gt(guc)->i915;
-> -	u32 action[2];
-> -
-> -	action[0] = INTEL_GUC_ACTION_SAMPLE_FORCEWAKE;
-> -	/* WaRsDisableCoarsePowerGating:skl,cnl */
-> -	if (!HAS_RC6(dev_priv) || NEEDS_WaRsDisableCoarsePowerGating(dev_priv))
-> -		action[1] = 0;
-> -	else
-> -		/* bit 0 and 1 are for Render and Media domain separately */
-> -		action[1] = GUC_FORCEWAKE_RENDER | GUC_FORCEWAKE_MEDIA;
-> -
-> -	return intel_guc_send(guc, action, ARRAY_SIZE(action));
-> -}
-> -
->  /**
->   * intel_guc_auth_huc() - Send action to GuC to authenticate HuC ucode
->   * @guc: intel_guc structure
-> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc.h b/drivers/gpu/drm/i915/gt/uc/intel_guc.h
-> index bc2ba7d0626c..c20f3839de12 100644
-> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc.h
-> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc.h
-> @@ -128,7 +128,6 @@ int intel_guc_send_mmio(struct intel_guc *guc, const u32 *action, u32 len,
->  			u32 *response_buf, u32 response_buf_size);
->  int intel_guc_to_host_process_recv_msg(struct intel_guc *guc,
->  				       const u32 *payload, u32 len);
-> -int intel_guc_sample_forcewake(struct intel_guc *guc);
->  int intel_guc_auth_huc(struct intel_guc *guc, u32 rsa_offset);
->  int intel_guc_suspend(struct intel_guc *guc);
->  int intel_guc_resume(struct intel_guc *guc);
-> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h b/drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h
-> index 79c560d9c0b6..0f9afcde1d0b 100644
-> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h
-> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h
-> @@ -302,9 +302,6 @@ struct guc_ct_buffer_desc {
->  #define GUC_CT_MSG_ACTION_SHIFT			16
->  #define GUC_CT_MSG_ACTION_MASK			0xFFFF
->  
-> -#define GUC_FORCEWAKE_RENDER	(1 << 0)
-> -#define GUC_FORCEWAKE_MEDIA	(1 << 1)
-> -
->  #define GUC_POWER_UNSPECIFIED	0
->  #define GUC_POWER_D0		1
->  #define GUC_POWER_D1		2
-> @@ -558,7 +555,6 @@ enum intel_guc_action {
->  	INTEL_GUC_ACTION_ENTER_S_STATE = 0x501,
->  	INTEL_GUC_ACTION_EXIT_S_STATE = 0x502,
->  	INTEL_GUC_ACTION_SLPC_REQUEST = 0x3003,
-> -	INTEL_GUC_ACTION_SAMPLE_FORCEWAKE = 0x3005,
->  	INTEL_GUC_ACTION_AUTHENTICATE_HUC = 0x4000,
->  	INTEL_GUC_ACTION_REGISTER_COMMAND_TRANSPORT_BUFFER = 0x4505,
->  	INTEL_GUC_ACTION_DEREGISTER_COMMAND_TRANSPORT_BUFFER = 0x4506,
-> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_uc.c b/drivers/gpu/drm/i915/gt/uc/intel_uc.c
-> index 892c1315ce49..ab0789d66e06 100644
-> --- a/drivers/gpu/drm/i915/gt/uc/intel_uc.c
-> +++ b/drivers/gpu/drm/i915/gt/uc/intel_uc.c
-> @@ -502,10 +502,6 @@ static int __uc_init_hw(struct intel_uc *uc)
->  
->  	intel_huc_auth(huc);
->  
-> -	ret = intel_guc_sample_forcewake(guc);
-> -	if (ret)
-> -		goto err_log_capture;
-> -
->  	if (intel_uc_uses_guc_submission(uc))
->  		intel_guc_submission_enable(guc);
->  
 > 
+
+I mentioned a little in the cover letter but you are correct that wasn't that
+clear. My motivation was to use the simpledrm driver instead of efifb for the
+early console, so I could boot without using fbdev at all.
+
+The register_gop_device() in drivers/firmware/efi/efi-init.c only register an
+"efi-frambuffer" platform device, which means that it will only allow to use
+the efifb driver for the early framebuffer on EFI systems.
+ 
+The "simple-framebuffer" platform device is only registered by OF if there's
+a DT node with this compatible string, but it won't be registered for EFI.
+ 
+So the simplefb or newly added simpledrm driver won't be matched and probed
+with the current EFI support in aarch64 or riscv. In contrast, the x86 code
+does register a "simple-framebuffer" device that uses the GOP framebuffer.
+ 
+One option is to add the same logic in register_gop_device(), but that would
+require even more code duplication. Another option would be to make the simple
+drivers to match against "efi-framebuffer", but that would be an ugly solution.
+ 
+But even without taking the lack of "simple-framebuffer" into account, I wonder
+what would be the benefit of keeping two code paths that do basically the same.
+
+Best regards,
+-- 
+Javier Martinez Canillas
+Software Engineer
+New Platform Technologies Enablement team
+RHEL Engineering
+
