@@ -1,54 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B57738F341
-	for <lists+dri-devel@lfdr.de>; Mon, 24 May 2021 20:50:25 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id BBB1A38F391
+	for <lists+dri-devel@lfdr.de>; Mon, 24 May 2021 21:19:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D9FF16E90D;
-	Mon, 24 May 2021 18:50:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9477F8921C;
+	Mon, 24 May 2021 19:19:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x32c.google.com (mail-ot1-x32c.google.com
- [IPv6:2607:f8b0:4864:20::32c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 38FEF6E90C;
- Mon, 24 May 2021 18:50:10 +0000 (UTC)
-Received: by mail-ot1-x32c.google.com with SMTP id
- i14-20020a9d624e0000b029033683c71999so15004788otk.5; 
- Mon, 24 May 2021 11:50:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=OA4u1hUVW7+czWLOl7FPRNPAHAh/vc/gl/M2fiIZYJo=;
- b=tQ32gaJ+K524LKDCVZIVsFdMx5pCHrP/SDGMrpfkp0V7f+aQg0NutnYXMkesDoexif
- n2+tK4S+bphjLSN2kEcC6C7z9YBFVFBIreIhdg0x4rRIMU0jkHEkla0y5cDBNr3mHaPn
- kl8H3/DFY/rz9Dl+uqpvH3aJCCgzHC7tfzu/wQlTFe+UWJf9hTPXJ12olYhHAgghQGgO
- FSYeEShH7WQ1ssMxvkzVLmVtMoOpF7BFQdFzoPKM1HQYO+GKODiYM5nw84om2K2sR5Hf
- LJ9MmwmflUEZffrDx/bUSw6EugvN8R10GbN5W5H9uShfTJaZGM9EWKVUfVjCP36awygI
- 55fA==
+Received: from mail-ot1-x32b.google.com (mail-ot1-x32b.google.com
+ [IPv6:2607:f8b0:4864:20::32b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5F85089949
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 May 2021 19:19:12 +0000 (UTC)
+Received: by mail-ot1-x32b.google.com with SMTP id
+ n3-20020a9d74030000b029035e65d0a0b8so4873892otk.9
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 May 2021 12:19:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:in-reply-to:references:from:user-agent:date:message-id
+ :subject:to:cc;
+ bh=AsmfRYALyOOPiklFnGLxIxG22/ZrSMjEGdTaIKdv2bU=;
+ b=Z6K9qOtHmxNbIvyG9A4ac/vZr8tgn/cWTSgKRQvY4akWmBp6biiPaGssozi+HjDJ6N
+ J2iwMafMFTIkGAGFdavLMTAX576r/cJrnUVzQoc5vnJOl4iJDionu1Toua7Pyr+Ggbdt
+ 05WC5Vk9GH6M/SjqEXJINc5HHx2d/+YYaawdA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=OA4u1hUVW7+czWLOl7FPRNPAHAh/vc/gl/M2fiIZYJo=;
- b=gzRBDIyWikDmwNNUSFAq+MsIqidEFokWbxc7sFFmG8k5a15ar7KcQ7rdUOQw5AFvAM
- nWk5zfBw4fmu/22mJ3p7F3NRHYM0Qb9EKjb/loeZxvIdHfxD36F/bnjoD+jkqKDekg4T
- +bXVWG8gaDXsDkv1KgMoCVQzsQ/8pqQuEj1DR9ov3gtXV/QbtkYrkF665s3DGtYzaRna
- dwhU59yiMVYcc543p/cea86BoZDTkE02CxMXLwHrbTl64XGn2RP/Nz34wKPZvy4TtHtm
- jbujAo1qxi70oqQDOu3T3iFZUQFMO7rNQv3fyTM3UUtpgwczQUeax7Hh2Z6SNmpqPQXy
- eU+A==
-X-Gm-Message-State: AOAM533THZHrN5lgd+9+Muhk9xCUTtQw41tj6aoFTrJYqIHXD+90pwl4
- 9fKabfEFNakDo1jyKywk8s4Hu2GbHH3lT3qCp6s=
-X-Google-Smtp-Source: ABdhPJwiKzX9Gj1sMzHOgN92igF3UyXdCiTIb4xlUH7OP/tM0D4aeQ/+U1aKEUBnpy8WLZa75emQN038NmfSWdArwjY=
-X-Received: by 2002:a9d:57cd:: with SMTP id q13mr19783026oti.23.1621882209553; 
- Mon, 24 May 2021 11:50:09 -0700 (PDT)
+ h=x-gm-message-state:mime-version:in-reply-to:references:from
+ :user-agent:date:message-id:subject:to:cc;
+ bh=AsmfRYALyOOPiklFnGLxIxG22/ZrSMjEGdTaIKdv2bU=;
+ b=nDqOVAA7vSsKTeKdNex+6nBht2QhhlaRHZ3TTdHBCQTY7ezUAGSrCkKbDI/ECpcIBK
+ Z2XVGjOuU6oEdFpmCoecUTmnASliEyB8UAR2Q4z5AFoQgIjM6wefVPKhHgyyMjcaCA6/
+ fnpHrmp7fsSyzMlLMBBY1OVk7HP0DVWyit0lheir2pviN1ZOwgLAWSx901h23SCubF0q
+ JHghWECEMfwfmjqFhSJwP9J3Lk90pcOhe0SiJ8ViQ8ydHrPlseWj+zQzol0b2/3DaWuj
+ upSHXWn0vuTLYIGgW4q+senNSidDyufIrXeuSrHwRmSCASsutROQ/+GJU45J0Vng/4jO
+ 7gFw==
+X-Gm-Message-State: AOAM530tH9zB7FqlTlapTA8ErgsLfucOWsqv2myR09EJPywnLPLFr+Wl
+ 0T/MlotSCkjb8EEEN1PEYbVMNh9DNrNId6aIunem+CimzfY=
+X-Google-Smtp-Source: ABdhPJyZvnN47Xm+9vSAQTY/yVMkjuiMef8z4kEdnt1y+yOYDWPBCdNJk6g1rCvHRsb/g3TvNREw/LN0Y4VqyfCekTY=
+X-Received: by 2002:a05:6830:3154:: with SMTP id
+ c20mr2433314ots.233.1621883951712; 
+ Mon, 24 May 2021 12:19:11 -0700 (PDT)
+Received: from 753933720722 named unknown by gmailapi.google.com with
+ HTTPREST; Mon, 24 May 2021 19:19:11 +0000
 MIME-Version: 1.0
-References: <20210524071554.12344-1-nswdhpyhwt@163.com>
-In-Reply-To: <20210524071554.12344-1-nswdhpyhwt@163.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Mon, 24 May 2021 14:49:58 -0400
-Message-ID: <CADnq5_OoFF=zEr61yRj0c6xXTBO4qLwor76e4knyyPg1ZhHF0g@mail.gmail.com>
-Subject: Re: [PATCH] drm/amdgpu: fix typo
-To: nswdhpyhwt@163.com
+In-Reply-To: <1133b2c21eb8f385c16c610638a17d9c@codeaurora.org>
+References: <20210507212505.1224111-1-swboyd@chromium.org>
+ <20210507212505.1224111-4-swboyd@chromium.org>
+ <1133b2c21eb8f385c16c610638a17d9c@codeaurora.org>
+From: Stephen Boyd <swboyd@chromium.org>
+User-Agent: alot/0.9.1
+Date: Mon, 24 May 2021 19:19:11 +0000
+Message-ID: <CAE-0n51G2NGyE4w1ebdBd1svVPA3QvPZX6kivKA1m9o1XhE26A@mail.gmail.com>
+Subject: Re: [PATCH 3/3] drm/msm/dp: Handle aux timeouts, nacks, defers
+To: khsieh@codeaurora.org
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -62,53 +66,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dave Airlie <airlied@linux.ie>, Lee Jones <lee.jones@linaro.org>,
- xinhui pan <Xinhui.Pan@amd.com>, LKML <linux-kernel@vger.kernel.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- Sonny Jiang <sonny.jiang@amd.com>, "tony.huang_cp" <huangwentao@yulong.com>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>, "Deucher,
- Alexander" <alexander.deucher@amd.com>, Leo Liu <leo.liu@amd.com>,
- Christian Koenig <christian.koenig@amd.com>
+Cc: Sean Paul <sean@poorly.run>, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Abhinav Kumar <abhinavk@codeaurora.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, aravindh@codeaurora.org,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Applied.  Thanks!
+Quoting khsieh@codeaurora.org (2021-05-24 09:33:49)
+> On 2021-05-07 14:25, Stephen Boyd wrote:
+> > @@ -367,36 +347,38 @@ static ssize_t dp_aux_transfer(struct drm_dp_aux
+> > *dp_aux,
+> >       }
+> >
+> >       ret = dp_aux_cmd_fifo_tx(aux, msg);
+> > -
+> >       if (ret < 0) {
+> >               if (aux->native) {
+> >                       aux->retry_cnt++;
+> >                       if (!(aux->retry_cnt % MAX_AUX_RETRIES))
+> >                               dp_catalog_aux_update_cfg(aux->catalog);
+> >               }
+> > -             usleep_range(400, 500); /* at least 400us to next try */
+> > -             goto unlock_exit;
+> > -     }
+>
+> 1) dp_catalog_aux_update_cfg(aux->catalog) will not work without
+> dp_catalog_aux_reset(aux->catalog);
+> dp_catalog_aux_reset(aux->catalog) will reset hpd control block and
+> potentially cause pending hpd interrupts got lost.
+> Therefore I think we should not do
+> dp_catalog_aux_update_cfg(aux->catalog) for now.
+> reset aux controller will reset hpd control block probolem will be fixed
+> at next chipset.
+> after that we can add dp_catalog_aux_update_cfg(aux->catalog) followed
+> by dp_catalog_aux_reset(aux->catalog) back at next chipset.
 
-Alex
+Hmm ok. So the phy calibration logic that tweaks the tuning values is
+never used? Why can't the phy be tuned while it is active? I don't
+understand why we would ever want to reset the aux phy when changing the
+settings for a retry. Either way, this is not actually changing in this
+patch so it would be another patch to remove this code.
 
-On Mon, May 24, 2021 at 3:45 AM <nswdhpyhwt@163.com> wrote:
 >
-> From: "tony.huang_cp" <huangwentao@yulong.com>
->
-> change 'interupt' to 'interrupt'
->
-> Signed-off-by: tony.huang_cp <huangwentao@yulong.com>
-> ---
->  drivers/gpu/drm/amd/amdgpu/uvd_v3_1.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/gpu/drm/amd/amdgpu/uvd_v3_1.c b/drivers/gpu/drm/amd/amdgpu/uvd_v3_1.c
-> index 284447d..6c0e914 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/uvd_v3_1.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/uvd_v3_1.c
-> @@ -340,7 +340,7 @@ static int uvd_v3_1_start(struct amdgpu_device *adev)
->         /* enable VCPU clock */
->         WREG32(mmUVD_VCPU_CNTL,  1 << 9);
->
-> -       /* disable interupt */
-> +       /* disable interrupt */
->         WREG32_P(mmUVD_MASTINT_EN, 0, ~(1 << 1));
->
->  #ifdef __BIG_ENDIAN
-> @@ -405,7 +405,7 @@ static int uvd_v3_1_start(struct amdgpu_device *adev)
->                 return r;
->         }
->
-> -       /* enable interupt */
-> +       /* enable interrupt */
->         WREG32_P(mmUVD_MASTINT_EN, 3<<1, ~(3 << 1));
->
->         WREG32_P(mmUVD_STATUS, 0, ~(1<<2));
-> --
-> 1.9.1
->
+> 2) according to DP specification, aux read/write failed have to wait at
+> least 400us before next try can start.
+> Otherwise, DP compliant test will failed
+
+Yes. The caller of this function, drm_dp_dpcd_access(), has the delay
+already
+
+                if (ret != 0 && ret != -ETIMEDOUT) {
+                        usleep_range(AUX_RETRY_INTERVAL,
+                                     AUX_RETRY_INTERVAL + 100);
+                }
+
+so this delay here is redundant.
