@@ -1,56 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F012638F5D3
-	for <lists+dri-devel@lfdr.de>; Tue, 25 May 2021 00:48:31 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6DB3A38F688
+	for <lists+dri-devel@lfdr.de>; Tue, 25 May 2021 01:52:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EBB846E98E;
-	Mon, 24 May 2021 22:48:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 520A36E993;
+	Mon, 24 May 2021 23:52:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-f180.google.com (mail-oi1-f180.google.com
- [209.85.167.180])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B55286E98E;
- Mon, 24 May 2021 22:48:25 +0000 (UTC)
-Received: by mail-oi1-f180.google.com with SMTP id s19so28514872oic.7;
- Mon, 24 May 2021 15:48:25 -0700 (PDT)
+Received: from mail-lf1-x133.google.com (mail-lf1-x133.google.com
+ [IPv6:2a00:1450:4864:20::133])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DF9D26E993
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 May 2021 23:52:48 +0000 (UTC)
+Received: by mail-lf1-x133.google.com with SMTP id c10so22073140lfm.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 May 2021 16:52:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=hardline-pl.20150623.gappssmtp.com; s=20150623;
+ h=mime-version:content-transfer-encoding:cc:in-reply-to:references
+ :from:to:subject:date:message-id:user-agent;
+ bh=Bv+iT1d6XXjk5XsKYADcBOul8rjTXVc2//hAleRHN/o=;
+ b=vinyRR9LKFgriLi/CDIov3G1nu8qHQnv6kQAhNhqtfy4S/YHVF0nDJ46hdsq/LzyK2
+ io9h/0+9y6vfFLi9d28wBCiYNOgspHxaiolkgVsQ8pTBTcpsh3aGVVQBmsDaReF9EKS9
+ LQB+iz48yphz1AXarDGT9iG2QL7ayuzsZBTyyigl1oi1sOI8xbRh+gv/g2n9gsUcR/o7
+ 1g3SWH2DBRQIbkzrOj9aRYZaB4F18xM9dXBEbKDwBvI5fkYw0s4UGeFatHh+XnmrobbU
+ u2WzE83pTvEf+7zMHWS7ALiZ9eLg7AQUQsslzKIqrLtoOmsr+FGkU4JzU0dA9gCoDzat
+ XzIw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=KpKDmmYFy0WymhW++fAl7+6dJhCoWfgKM1MbYWz2Ja0=;
- b=qp7QlCfohxyfUwbl7OPq1+xE4JOfgnK9Jpr0S8Udcu5Xd3sEEaRmYIv40TBiK9+WOK
- YPm84S9/0p58FBeVBdTv3AihFnUlQdWM8CFz7lLGDCe4kwhwlsdae6odXCvFWIb93Mdy
- PZfMxFVZO8HFvzYWy+u3m8Sxn6GfurhbTBnhu2u5nELn9h1KekoDqkt903fwnElb9ArM
- 5YsgmeDVIGeR4eF2F21wypX4XZ4pEUgcsZjhcexd+DSJgy7yT/JMNpVDSCARDadZ69sM
- AQKrhTrxo3FFwtoi98+gh0yQ9FTWeQ+n16DpPflZS/qNiK6+OxkZ8RYtgABKajBp6jNP
- 2sPQ==
-X-Gm-Message-State: AOAM532JIj5eDdRdB2XZLwTyrQX3nh7NC1ENjkJrn3sBygkBF7TNUNTM
- l26UZVU79/nXFDHPM0i6cKQAbNxtkA==
-X-Google-Smtp-Source: ABdhPJz5h2oM8aTFPJKI31HulznG3xW2XN9lU0oXrZlOIYquqz8vF2erRkrzWxbLCYco4ih9DhrhXw==
-X-Received: by 2002:a05:6808:4cf:: with SMTP id
- a15mr886196oie.78.1621896494189; 
- Mon, 24 May 2021 15:48:14 -0700 (PDT)
-Received: from robh.at.kernel.org (24-155-109-49.dyn.grandenetworks.net.
- [24.155.109.49])
- by smtp.gmail.com with ESMTPSA id c19sm2881987oiw.7.2021.05.24.15.48.12
+ h=x-gm-message-state:mime-version:content-transfer-encoding:cc
+ :in-reply-to:references:from:to:subject:date:message-id:user-agent;
+ bh=Bv+iT1d6XXjk5XsKYADcBOul8rjTXVc2//hAleRHN/o=;
+ b=Hx2rvq4TSOmZwfCQeTFhOWfAFZnIP6MXDbwvlq0opcpm4ksLFfPuzL1YIeUHSUcD1j
+ 68fyj8rPt9VbmgnkAkOlu3dgqCZ7LOPOSKAoo96bl/cnNwDQJO2pB1S/wwYZ8wEyl1aR
+ 5DVMH1EC5rj1+PA3gvn4GnH3r3xBNzfkcNp7hPGbxl2ancNiRPTYTe6SxgPu/xQWT/RC
+ FjIQ+l/Kl7XgP8gNX28KGrXk4i3xnjrnzRLbhApDIeT4d571K5rJxzKmuO9j3OVyWvc1
+ VxDnSuc7Nnr1vzaA6zIbBUiUWb3AG8G0RhO7+YDD4gdcBRBC9F5QNH7CF3O+91nsi+kA
+ j+ng==
+X-Gm-Message-State: AOAM532Lldnhsiq2k7O3o7N3m3y6hzKSjwTUzkJer6T50X78owRK8JWK
+ QEPsSH4mnCKy7fLIwbbxv7W1IQ==
+X-Google-Smtp-Source: ABdhPJzfvTGdNAkkR71WH7mcKKLVtiGCi3h2CwpYWC5p2Qtf3B1mC9f45PYqJX/xA7ZZp8a2mxPWYw==
+X-Received: by 2002:a19:c747:: with SMTP id x68mr12087861lff.516.1621900367120; 
+ Mon, 24 May 2021 16:52:47 -0700 (PDT)
+Received: from localhost (host-109-233-88-83.jmdi.pl. [109.233.88.83])
+ by smtp.gmail.com with ESMTPSA id p2sm1546084lfh.31.2021.05.24.16.52.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 24 May 2021 15:48:13 -0700 (PDT)
-Received: (nullmailer pid 1314077 invoked by uid 1000);
- Mon, 24 May 2021 22:48:12 -0000
-Date: Mon, 24 May 2021 17:48:12 -0500
-From: Rob Herring <robh@kernel.org>
-To: Krishna Manikandan <mkrishn@codeaurora.org>
-Subject: Re: [PATCH v18 2/4] dt-bindings: msm: dsi: add yaml schemas for DSI
- bindings
-Message-ID: <20210524224812.GA1314047@robh.at.kernel.org>
-References: <1621856653-10649-1-git-send-email-mkrishn@codeaurora.org>
- <1621856653-10649-2-git-send-email-mkrishn@codeaurora.org>
+ Mon, 24 May 2021 16:52:46 -0700 (PDT)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1621856653-10649-2-git-send-email-mkrishn@codeaurora.org>
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20210506191451.77768-9-matthew.brost@intel.com>
+References: <20210506191451.77768-1-matthew.brost@intel.com>
+ <20210506191451.77768-9-matthew.brost@intel.com>
+From: =?utf-8?q?Micha=C5=82?= Winiarski <michal@hardline.pl>
+To: Matthew Brost <matthew.brost@intel.com>, dri-devel@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org
+Subject: Re: [RFC PATCH 08/97] drm/i915/guc: Keep strict GuC ABI definitions
+Date: Tue, 25 May 2021 01:52:44 +0200
+Message-ID: <162190036494.39241.3181852486794252116@macragge.ultramar.hardline.pl>
+User-Agent: alot/0.9.1
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,84 +71,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: sean@poorly.run, devicetree@vger.kernel.org, tanmay@codeaurora.org,
- vinod.koul@linaro.org, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- dianders@chromium.org, khsieh@codeaurora.org, robh+dt@kernel.org,
- bjorn.andersson@linaro.org, abhinavk@codeaurora.org, kalyan_t@codeaurora.org,
- swboyd@chromium.org, freedreno@lists.freedesktop.org
+Cc: matthew.brost@intel.com, tvrtko.ursulin@intel.com, jason.ekstrand@intel.com,
+ daniele.ceraolospurio@intel.com, jon.bloomfield@intel.com,
+ daniel.vetter@intel.com, john.c.harrison@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 24 May 2021 17:14:11 +0530, Krishna Manikandan wrote:
-> Add YAML schema for the device tree bindings for DSI
-> 
-> Signed-off-by: Krishna Manikandan <mkrishn@codeaurora.org>
-> Reviewed-by: Bjorn Andersson <bjorn.andersson@linaro.org>
-> Reviewed-by: Stephen Boyd <swboyd@chromium.org>
-> ---
-> Changes in v1:
->     - Separate dsi controller bindings to a separate patch (Stephen Boyd)
->     - Merge dsi-common-controller.yaml and dsi-controller-main.yaml to
->       a single file (Stephen Boyd)
->     - Drop supply entries and definitions from properties (Stephen Boyd)
->     - Modify phy-names property for dsi controller (Stephen Boyd)
->     - Remove boolean from description (Stephen Boyd)
->     - Drop pinctrl properties as they are standard entries (Stephen Boyd)
->     - Modify the description for ports property and keep the reference
->       to the generic binding where this is defined (Stephen Boyd)
->     - Add description to clock names (Stephen Boyd)
->     - Correct the indendation (Stephen Boyd)
->     - Drop the label for display dt nodes and correct the node
->       name (Stephen Boyd)
-> 
-> Changes in v2:
->     - Drop maxItems for clock (Stephen Boyd)
->     - Drop qcom,mdss-mdp-transfer-time-us as it is not used in upstream
->       dt file (Stephen Boyd)
->     - Keep child node directly under soc node (Stephen Boyd)
->     - Drop qcom,sync-dual-dsi as it is not used in upstream dt
-> 
-> Changes in v3:
->     - Add description for register property (Stephen Boyd)
-> 
-> Changes in v4:
->     - Add maxItems for phys property (Stephen Boyd)
->     - Add maxItems for reg property (Stephen Boyd)
->     - Add reference for data-lanes property (Stephen Boyd)
->     - Remove soc from example (Stephen Boyd)
-> 
-> Changes in v5:
->     - Modify title and description (Stephen Boyd)
->     - Add required properties for ports node (Stephen Boyd)
->     - Add data-lanes in the example (Stephen Boyd)
->     - Drop qcom,master-dsi property (Stephen Boyd)
-> 
-> Changes in v6:
->     - Add required properties for port@0, port@1 and corresponding
->       endpoints (Stephen Boyd)
->     - Add address-cells and size-cells for ports (Stephen Boyd)
->     - Use additionalProperties instead of unevaluatedProperties (Stephen Boyd)
-> 
-> Changes in v7:
->     - Add reference for ports and data-lanes (Rob Herring)
->     - Add maxItems and minItems for data-lanes (Rob Herring)
-> 
-> Changes in v8:
->     - Drop common properties and description from ports (Rob Herring)
->     - Add reference for endpoint (Rob Herring)
->     - Add correct reference for data-lanes (Rob Herring)
->     - Drop common properties from required list for ports (Rob Herring)
-> 
-> Changes in v9:
->     - Drop reference for data-lanes (Rob Herring)
->     - Add unevaluatedProperties for endpoint (Rob Herring)
-> 
->  .../bindings/display/msm/dsi-controller-main.yaml  | 185 +++++++++++++++
->  .../devicetree/bindings/display/msm/dsi.txt        | 249 ---------------------
->  2 files changed, 185 insertions(+), 249 deletions(-)
->  create mode 100644 Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml
->  delete mode 100644 Documentation/devicetree/bindings/display/msm/dsi.txt
-> 
+Quoting Matthew Brost (2021-05-06 21:13:22)
+> From: Michal Wajdeczko <michal.wajdeczko@intel.com>
+>=20
+> Our fwif.h file is now mix of strict firmware ABI definitions and
+> set of our helpers. In anticipation of upcoming changes to the GuC
+> interface try to keep them separate in smaller maintainable files.
+>=20
+> Signed-off-by: Michal Wajdeczko <michal.wajdeczko@intel.com>
+> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+> Cc: Micha=C5=82 Winiarski <michal.winiarski@intel.com>
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+Reviewed-by: Micha=C5=82 Winiarski <michal.winiarski@intel.com>
+
+-Micha=C5=82
+
+> ---
+>  .../gpu/drm/i915/gt/uc/abi/guc_actions_abi.h  |  51 +++++
+>  .../gt/uc/abi/guc_communication_ctb_abi.h     | 106 +++++++++
+>  .../gt/uc/abi/guc_communication_mmio_abi.h    |  52 +++++
+>  .../gpu/drm/i915/gt/uc/abi/guc_errors_abi.h   |  14 ++
+>  .../gpu/drm/i915/gt/uc/abi/guc_messages_abi.h |  21 ++
+>  drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h   | 203 +-----------------
+>  6 files changed, 250 insertions(+), 197 deletions(-)
+>  create mode 100644 drivers/gpu/drm/i915/gt/uc/abi/guc_actions_abi.h
+>  create mode 100644 drivers/gpu/drm/i915/gt/uc/abi/guc_communication_ctb_=
+abi.h
+>  create mode 100644 drivers/gpu/drm/i915/gt/uc/abi/guc_communication_mmio=
+_abi.h
+>  create mode 100644 drivers/gpu/drm/i915/gt/uc/abi/guc_errors_abi.h
+>  create mode 100644 drivers/gpu/drm/i915/gt/uc/abi/guc_messages_abi.h
