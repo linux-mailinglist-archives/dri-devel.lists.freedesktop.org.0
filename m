@@ -2,40 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B58338E009
-	for <lists+dri-devel@lfdr.de>; Mon, 24 May 2021 06:04:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 95D3338E0C3
+	for <lists+dri-devel@lfdr.de>; Mon, 24 May 2021 08:01:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A5F5E6E039;
-	Mon, 24 May 2021 04:04:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B21FA6E0EB;
+	Mon, 24 May 2021 06:01:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6A20E6E039
- for <dri-devel@lists.freedesktop.org>; Mon, 24 May 2021 04:04:50 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
- [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id EB704476;
- Mon, 24 May 2021 06:04:46 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1621829087;
- bh=CrvWH+KyOQeB9DmufrADhchqE4gnpWjYgd9o5q0l/RU=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=N+7rOFQ54/PFo0avzSIGZTK6fqy3XN9Aci5iWuHDeW8Es50uFzgefXdx9glIREuPs
- TK+KvrVMbid16SpJdXTfgmENiJ9+QrcY1SGuVdktuaD9F+Zn/VBiKg0J9txWJaEfuq
- m15H9F4jEY+dL493Py3fEXw/71EhVn2c09P4aPv4=
-Date: Mon, 24 May 2021 07:04:43 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Maxime Ripard <maxime@cerno.tech>
-Subject: Re: [PATCH v2] Documentation: gpu: Mention the requirements for new
- properties
-Message-ID: <YKsl2xGgTnIuQLaE@pendragon.ideasonboard.com>
-References: <20210520142435.267873-1-maxime@cerno.tech>
+Received: from mail-ot1-x32d.google.com (mail-ot1-x32d.google.com
+ [IPv6:2607:f8b0:4864:20::32d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D7BBA6E0F0
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 May 2021 06:01:18 +0000 (UTC)
+Received: by mail-ot1-x32d.google.com with SMTP id
+ n3-20020a9d74030000b029035e65d0a0b8so2816195otk.9
+ for <dri-devel@lists.freedesktop.org>; Sun, 23 May 2021 23:01:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:in-reply-to:references:from:user-agent:date:message-id
+ :subject:to:cc;
+ bh=sLMIpW2Ge4GhccaqX0f4ED9sUyQ6GUsKxhCWraflgrQ=;
+ b=kVwYjulbTpXvf8F/AH3Cn0+PqDxe6AsTYtT1ijwLpjc9Obx9CbTmoSemY8OjUw5tYq
+ rghjvabI9aDAfy2KPMPOW60+THjy42P4Hk8yAjtHoNQ/Gt4be51wkQTQyQj5PlXT9Z8Q
+ euKF6L1zMRk4m61B6LOZ8/zAZNWibeDQj15O0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:in-reply-to:references:from
+ :user-agent:date:message-id:subject:to:cc;
+ bh=sLMIpW2Ge4GhccaqX0f4ED9sUyQ6GUsKxhCWraflgrQ=;
+ b=qpqfcCKnqLdykdDtsD8mcT6rFmlGvjw1yn0NdlMbzSQItRa6ZJWgfFt23V7x3EykmR
+ 96HC52GVU71w5sJ2nqK90f70ur2pWppJQ8s/IZxZYv8mzXCK6SM81M77ZGepmBE3zFj/
+ 5SP7b9JZQ4yFp4k0v5oGksttSZMFCvMRh36a+Eig4ygwklvAUo9u7Q3i+iKf1+aM1+EH
+ vc6xT2hlZkdqmCI7QMT4x+n4ZYXJP0UvB41HcgOH9unqH8dLTc9XxeG6zJqLxCGsDZGj
+ g7gRFqLYBAublELXE8fXfhFVjRXUhlQxZePW8tQZxTz07jDaHAs1nPvWsDynrv30xfB8
+ NBlg==
+X-Gm-Message-State: AOAM531MARnXzxBqXjEnstKzf9izkM077qQUQE15stpxNi8c/6aC4Mc8
+ PD05ggG5Ji5o/ARYH0j+KGMC743BM1yiQ9N+kwYSdQ==
+X-Google-Smtp-Source: ABdhPJxUXFeT7fRAQnyP76eyIBN6bZDnvKj0MzPI3ELpSWl7G60SJAr6Ae5/UXm1yxBeM2GrXn7ehxeepjeJze0/e+U=
+X-Received: by 2002:a05:6830:1556:: with SMTP id
+ l22mr17357557otp.34.1621836078248; 
+ Sun, 23 May 2021 23:01:18 -0700 (PDT)
+Received: from 753933720722 named unknown by gmailapi.google.com with
+ HTTPREST; Sun, 23 May 2021 23:01:17 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210520142435.267873-1-maxime@cerno.tech>
+In-Reply-To: <CAGETcx_LKwfv3Lx0mpxXaSdvoz284THwjqoHoOmZDwtcTf1zWg@mail.gmail.com>
+References: <20210520002519.3538432-1-swboyd@chromium.org>
+ <20210520002519.3538432-4-swboyd@chromium.org>
+ <CAGETcx_LKwfv3Lx0mpxXaSdvoz284THwjqoHoOmZDwtcTf1zWg@mail.gmail.com>
+From: Stephen Boyd <swboyd@chromium.org>
+User-Agent: alot/0.9.1
+Date: Sun, 23 May 2021 23:01:17 -0700
+Message-ID: <CAE-0n518E_Yfy7-Au-pO40SQzZAn6NLr8u1pGyPMWWr0wRgpJA@mail.gmail.com>
+Subject: Re: [PATCH 3/7] component: Introduce struct aggregate_device
+To: Saravana Kannan <saravanak@google.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,225 +66,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Xinliang Liu <xinliang.liu@linaro.org>, dri-devel@lists.freedesktop.org,
- Anitha Chrisanthus <anitha.chrisanthus@intel.com>,
- Jonathan Hunter <jonathanh@nvidia.com>, Jerome Brunet <jbrunet@baylibre.com>,
- Kevin Hilman <khilman@baylibre.com>,
- Ludovic Desroches <ludovic.desroches@microchip.com>,
- NXP Linux Team <linux-imx@nxp.com>, Sascha Hauer <s.hauer@pengutronix.de>,
- Roland Scheidegger <sroland@vmware.com>, Sean Paul <sean@poorly.run>,
- Hyun Kwon <hyun.kwon@xilinx.com>, Andrew Jeffery <andrew@aj.id.au>,
- Seung-Woo Kim <sw0312.kim@samsung.com>,
- Noralf =?utf-8?Q?Tr=C3=B8nnes?= <noralf@tronnes.org>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Alex Deucher <alexander.deucher@amd.com>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>, linux-doc@vger.kernel.org,
- David Airlie <airlied@linux.ie>, Edmund Dea <edmund.j.dea@intel.com>,
- Thierry Reding <thierry.reding@gmail.com>,
- Daniel Vetter <daniel.vetter@intel.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
- Steven Price <steven.price@arm.com>,
- VMware Graphics <linux-graphics-maintainer@vmware.com>,
- Ben Skeggs <bskeggs@redhat.com>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
- Boris Brezillon <bbrezillon@kernel.org>, Sandy Huang <hjc@rock-chips.com>,
- Kyungmin Park <kyungmin.park@samsung.com>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Haneen Mohammed <hamohammed.sa@gmail.com>,
- Neil Armstrong <narmstrong@baylibre.com>, Melissa Wen <melissa.srw@gmail.com>,
- Gerd Hoffmann <kraxel@redhat.com>,
- Benjamin Gaignard <benjamin.gaignard@linaro.org>,
- Sam Ravnborg <sam@ravnborg.org>, Jonathan Corbet <corbet@lwn.net>,
- Xinwei Kong <kong.kongxinwei@hisilicon.com>, Chen-Yu Tsai <wens@csie.org>,
- Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
- Joel Stanley <joel@jms.id.au>, Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Jonas Karlman <jonas@kwiboo.se>, Chen Feng <puck.chen@hisilicon.com>,
- Alison Wang <alison.wang@nxp.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tomeu Vizoso <tomeu.vizoso@collabora.com>, Tomi Valkeinen <tomba@kernel.org>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Tian Tao <tiantao6@hisilicon.com>, Shawn Guo <shawnguo@kernel.org>,
- Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, Liviu Dudau <liviu.dudau@arm.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Paul Cercueil <paul@crapouillou.net>, Andrzej Hajda <a.hajda@samsung.com>,
- Huang Rui <ray.huang@amd.com>, Marek Vasut <marex@denx.de>,
- Joonyoung Shim <jy0922.shim@samsung.com>,
- Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>,
- Russell King <linux@armlinux.org.uk>,
- Philippe Cornu <philippe.cornu@foss.st.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, Hans de Goede <hdegoede@redhat.com>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- Jernej Skrabec <jernej.skrabec@siol.net>,
- Yannick Fertre <yannick.fertre@foss.st.com>,
- Nicolas Ferre <nicolas.ferre@microchip.com>,
- Robert Foss <robert.foss@linaro.org>, Qiang Yu <yuq825@gmail.com>,
- Jyri Sarha <jyri.sarha@iki.fi>
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ LKML <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Russell King <rmk+kernel@arm.linux.org.uk>,
+ freedreno <freedreno@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Maxime,
+Quoting Saravana Kannan (2021-05-20 13:20:45)
+> On Wed, May 19, 2021 at 5:25 PM Stephen Boyd <swboyd@chromium.org> wrote:
+> >
+> > -       master->parent = parent;
+> > -       master->ops = ops;
+> > -       master->match = match;
+> > +       id = ida_alloc(&aggregate_ida, GFP_KERNEL);
+> > +       if (id < 0) {
+> > +               kfree(adev);
+> > +               return id;
+> > +       }
+> > +
+> > +       adev->id = id;
+> > +       adev->parent = parent;
+> > +       adev->dev.parent = parent;
+>
+> Don't set adev->dev.parent. You are creating a functional 1-1
+> dependency where none exists. The real dependencies are the 1-many
+> dependencies between the aggregate and the components. Use device
+> links to capture that and enforce proper suspend/resume and runtime PM
+> ordering.
+>
 
-Thank you for the patch.
-
-On Thu, May 20, 2021 at 04:24:35PM +0200, Maxime Ripard wrote:
-> New KMS properties come with a bunch of requirements to avoid each
-> driver from running their own, inconsistent, set of properties,
-> eventually leading to issues like property conflicts, inconsistencies
-> between drivers and semantics, etc.
-> 
-> Let's document what we expect.
-> 
-> Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>
-> Cc: Alexandre Torgue <alexandre.torgue@foss.st.com>
-> Cc: Alex Deucher <alexander.deucher@amd.com>
-> Cc: Alison Wang <alison.wang@nxp.com>
-> Cc: Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
-> Cc: Andrew Jeffery <andrew@aj.id.au>
-> Cc: Andrzej Hajda <a.hajda@samsung.com>
-> Cc: Anitha Chrisanthus <anitha.chrisanthus@intel.com>
-> Cc: Benjamin Gaignard <benjamin.gaignard@linaro.org>
-> Cc: Ben Skeggs <bskeggs@redhat.com>
-> Cc: Boris Brezillon <bbrezillon@kernel.org>
-> Cc: Brian Starkey <brian.starkey@arm.com>
-> Cc: Chen Feng <puck.chen@hisilicon.com>
-> Cc: Chen-Yu Tsai <wens@csie.org>
-> Cc: Christian Gmeiner <christian.gmeiner@gmail.com>
-> Cc: "Christian König" <christian.koenig@amd.com>
-> Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-> Cc: Edmund Dea <edmund.j.dea@intel.com>
-> Cc: Eric Anholt <eric@anholt.net>
-> Cc: Fabio Estevam <festevam@gmail.com>
-> Cc: Gerd Hoffmann <kraxel@redhat.com>
-> Cc: Haneen Mohammed <hamohammed.sa@gmail.com>
-> Cc: Hans de Goede <hdegoede@redhat.com>
-> Cc: "Heiko Stübner" <heiko@sntech.de>
-> Cc: Huang Rui <ray.huang@amd.com>
-> Cc: Hyun Kwon <hyun.kwon@xilinx.com>
-> Cc: Inki Dae <inki.dae@samsung.com>
-> Cc: Jani Nikula <jani.nikula@linux.intel.com>
-> Cc: Jernej Skrabec <jernej.skrabec@siol.net>
-> Cc: Jerome Brunet <jbrunet@baylibre.com>
-> Cc: Joel Stanley <joel@jms.id.au>
-> Cc: John Stultz <john.stultz@linaro.org>
-> Cc: Jonas Karlman <jonas@kwiboo.se>
-> Cc: Jonathan Hunter <jonathanh@nvidia.com>
-> Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-> Cc: Joonyoung Shim <jy0922.shim@samsung.com>
-> Cc: Jyri Sarha <jyri.sarha@iki.fi>
-> Cc: Kevin Hilman <khilman@baylibre.com>
-> Cc: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-> Cc: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
-> Cc: Kyungmin Park <kyungmin.park@samsung.com>
-> Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
-> Cc: Linus Walleij <linus.walleij@linaro.org>
-> Cc: Liviu Dudau <liviu.dudau@arm.com>
-> Cc: Lucas Stach <l.stach@pengutronix.de>
-> Cc: Ludovic Desroches <ludovic.desroches@microchip.com>
-> Cc: Marek Vasut <marex@denx.de>
-> Cc: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
-> Cc: Matthias Brugger <matthias.bgg@gmail.com>
-> Cc: Maxime Coquelin <mcoquelin.stm32@gmail.com>
-> Cc: Maxime Ripard <mripard@kernel.org>
-> Cc: Melissa Wen <melissa.srw@gmail.com>
-> Cc: Neil Armstrong <narmstrong@baylibre.com>
-> Cc: Nicolas Ferre <nicolas.ferre@microchip.com>
-> Cc: "Noralf Trønnes" <noralf@tronnes.org>
-> Cc: NXP Linux Team <linux-imx@nxp.com>
-> Cc: Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>
-> Cc: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
-> Cc: Paul Cercueil <paul@crapouillou.net>
-> Cc: Pengutronix Kernel Team <kernel@pengutronix.de>
-> Cc: Philippe Cornu <philippe.cornu@foss.st.com>
-> Cc: Philipp Zabel <p.zabel@pengutronix.de>
-> Cc: Qiang Yu <yuq825@gmail.com>
-> Cc: Rob Clark <robdclark@gmail.com>
-> Cc: Robert Foss <robert.foss@linaro.org>
-> Cc: Rob Herring <robh@kernel.org>
-> Cc: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>
-> Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
-> Cc: Roland Scheidegger <sroland@vmware.com>
-> Cc: Russell King <linux@armlinux.org.uk>
-> Cc: Sam Ravnborg <sam@ravnborg.org>
-> Cc: Sandy Huang <hjc@rock-chips.com>
-> Cc: Sascha Hauer <s.hauer@pengutronix.de>
-> Cc: Sean Paul <sean@poorly.run>
-> Cc: Seung-Woo Kim <sw0312.kim@samsung.com>
-> Cc: Shawn Guo <shawnguo@kernel.org>
-> Cc: Stefan Agner <stefan@agner.ch>
-> Cc: Steven Price <steven.price@arm.com>
-> Cc: Sumit Semwal <sumit.semwal@linaro.org>
-> Cc: Thierry Reding <thierry.reding@gmail.com>
-> Cc: Tian Tao <tiantao6@hisilicon.com>
-> Cc: Tomeu Vizoso <tomeu.vizoso@collabora.com>
-> Cc: Tomi Valkeinen <tomba@kernel.org>
-> Cc: VMware Graphics <linux-graphics-maintainer@vmware.com>
-> Cc: Xinliang Liu <xinliang.liu@linaro.org>
-> Cc: Xinwei Kong <kong.kongxinwei@hisilicon.com>
-> Cc: Yannick Fertre <yannick.fertre@foss.st.com>
-> Cc: Zack Rusin <zackr@vmware.com>
-> Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
-> 
-> ---
-> 
-> Changes from v2:
->   - Typos and wording reported by Daniel and Alex
-> ---
->  Documentation/gpu/drm-kms.rst | 19 +++++++++++++++++++
->  1 file changed, 19 insertions(+)
-> 
-> diff --git a/Documentation/gpu/drm-kms.rst b/Documentation/gpu/drm-kms.rst
-> index 87e5023e3f55..c28b464dd397 100644
-> --- a/Documentation/gpu/drm-kms.rst
-> +++ b/Documentation/gpu/drm-kms.rst
-> @@ -463,6 +463,25 @@ KMS Properties
->  This section of the documentation is primarily aimed at user-space developers.
->  For the driver APIs, see the other sections.
->  
-> +Requirements
-> +------------
-> +
-> +KMS drivers might need to add extra properties to support new features.
-> +Each new property introduced in a driver need to meet a few
-
-s/need/needs/
-
-> +requirements, in addition to the one mentioned above.:
-
-s/above./above/
-
-> +
-> +- It must be standardized, with some documentation to describe how the
-> +  property can be used.
-> +
-> +- It must provide a generic helper in the core code to register that
-> +  property on the object it attaches to.
-> +
-> +- Its content must be decoded by the core and provided in the object's
-> +  associated state structure. That includes anything drivers might want to
-> +  precompute, like :c:type:`struct drm_clip_rect <drm_clip_rect>` for planes.
-
-Does this effectively mean that we completely forbid driver-specific
-properties ? While I agree that we should strive for standardization,
-there are two issues that worry me. The first one is simple, we may need
-to control features that would be very device-specific, and
-standardizing properties doesn't seem to make much sense in that case.
-
-The second issue relates to properties that could be applicable to
-multiple devices, but for which we have a single driver. Designing a
-standard with a single data point usually leads to a bad design. I'm not
-sure how to handle this correctly though, as we certainly don't want
-this to be taken as an excuse to create driver-specific properties when
-generic properties would make sense.
-
-> +- An IGT test must be submitted where reasonable.
-> +
->  Property Types and Blob Property Support
->  ----------------------------------------
->  
-
--- 
-Regards,
-
-Laurent Pinchart
+Ah ok. Yeah it seems like that was the thing causing me runtime PM
+problems. I've removed the parent patch from this series now and I'll
+look at working in the device links now.
