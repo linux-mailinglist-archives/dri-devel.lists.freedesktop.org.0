@@ -2,58 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBB1A38F391
-	for <lists+dri-devel@lfdr.de>; Mon, 24 May 2021 21:19:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E387238F3A6
+	for <lists+dri-devel@lfdr.de>; Mon, 24 May 2021 21:29:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9477F8921C;
-	Mon, 24 May 2021 19:19:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 42A8089A5D;
+	Mon, 24 May 2021 19:29:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x32b.google.com (mail-ot1-x32b.google.com
- [IPv6:2607:f8b0:4864:20::32b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5F85089949
- for <dri-devel@lists.freedesktop.org>; Mon, 24 May 2021 19:19:12 +0000 (UTC)
-Received: by mail-ot1-x32b.google.com with SMTP id
- n3-20020a9d74030000b029035e65d0a0b8so4873892otk.9
- for <dri-devel@lists.freedesktop.org>; Mon, 24 May 2021 12:19:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:in-reply-to:references:from:user-agent:date:message-id
- :subject:to:cc;
- bh=AsmfRYALyOOPiklFnGLxIxG22/ZrSMjEGdTaIKdv2bU=;
- b=Z6K9qOtHmxNbIvyG9A4ac/vZr8tgn/cWTSgKRQvY4akWmBp6biiPaGssozi+HjDJ6N
- J2iwMafMFTIkGAGFdavLMTAX576r/cJrnUVzQoc5vnJOl4iJDionu1Toua7Pyr+Ggbdt
- 05WC5Vk9GH6M/SjqEXJINc5HHx2d/+YYaawdA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:in-reply-to:references:from
- :user-agent:date:message-id:subject:to:cc;
- bh=AsmfRYALyOOPiklFnGLxIxG22/ZrSMjEGdTaIKdv2bU=;
- b=nDqOVAA7vSsKTeKdNex+6nBht2QhhlaRHZ3TTdHBCQTY7ezUAGSrCkKbDI/ECpcIBK
- Z2XVGjOuU6oEdFpmCoecUTmnASliEyB8UAR2Q4z5AFoQgIjM6wefVPKhHgyyMjcaCA6/
- fnpHrmp7fsSyzMlLMBBY1OVk7HP0DVWyit0lheir2pviN1ZOwgLAWSx901h23SCubF0q
- JHghWECEMfwfmjqFhSJwP9J3Lk90pcOhe0SiJ8ViQ8ydHrPlseWj+zQzol0b2/3DaWuj
- upSHXWn0vuTLYIGgW4q+senNSidDyufIrXeuSrHwRmSCASsutROQ/+GJU45J0Vng/4jO
- 7gFw==
-X-Gm-Message-State: AOAM530tH9zB7FqlTlapTA8ErgsLfucOWsqv2myR09EJPywnLPLFr+Wl
- 0T/MlotSCkjb8EEEN1PEYbVMNh9DNrNId6aIunem+CimzfY=
-X-Google-Smtp-Source: ABdhPJyZvnN47Xm+9vSAQTY/yVMkjuiMef8z4kEdnt1y+yOYDWPBCdNJk6g1rCvHRsb/g3TvNREw/LN0Y4VqyfCekTY=
-X-Received: by 2002:a05:6830:3154:: with SMTP id
- c20mr2433314ots.233.1621883951712; 
- Mon, 24 May 2021 12:19:11 -0700 (PDT)
-Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Mon, 24 May 2021 19:19:11 +0000
-MIME-Version: 1.0
-In-Reply-To: <1133b2c21eb8f385c16c610638a17d9c@codeaurora.org>
-References: <20210507212505.1224111-1-swboyd@chromium.org>
- <20210507212505.1224111-4-swboyd@chromium.org>
- <1133b2c21eb8f385c16c610638a17d9c@codeaurora.org>
-From: Stephen Boyd <swboyd@chromium.org>
-User-Agent: alot/0.9.1
-Date: Mon, 24 May 2021 19:19:11 +0000
-Message-ID: <CAE-0n51G2NGyE4w1ebdBd1svVPA3QvPZX6kivKA1m9o1XhE26A@mail.gmail.com>
-Subject: Re: [PATCH 3/3] drm/msm/dp: Handle aux timeouts, nacks, defers
-To: khsieh@codeaurora.org
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6B3F889A5D
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 May 2021 19:29:37 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id 2F36061414
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 May 2021 19:29:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1621884577;
+ bh=c8xKwq51t72SCfjdC9uBgNJkDrQO5y7Fn5unWkU6lVM=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=uWdBwsOwC7zsmCY2elE1LD6e+f0mHOQgD+4LE1p98fxpQ+dCR7vyXQEwICO9MQ9xk
+ Om7VhfEDnSKTtts7U74X4PJvbK6ug9SZgKUa3ebhmYbrUXVkseKY1SKHU/k6VdD0WL
+ pRWJM038agRb5fzjSQTJ7/FerrEeG50oURoiKhKP1Vl5QenDXR9wTk8CsGIWPL+XK1
+ fehKpD64aa61x9PXKW29iKQ4dcfxLSOXGFs+G7Yr8Pmbfi8tStQEVJC13uHbQ6fIUD
+ z3Bue3MVcA9OnIIABCM+w2P+vZcRG3ajbn1/gMir9JFo6SkhgY+2lXgski9YmjSxFU
+ 8UKXJBR1P97gQ==
+Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
+ id 2557061105; Mon, 24 May 2021 19:29:37 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 213201] [KAVERI] memory leak - unreferenced object
+ 0xffff8881700cf988 (size 56)
+Date: Mon, 24 May 2021 19:29:36 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: erhard_f@mailbox.org
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-213201-2300-pAfnVYXoaU@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-213201-2300@https.bugzilla.kernel.org/>
+References: <bug-213201-2300@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
+MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,60 +66,23 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sean Paul <sean@poorly.run>, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Abhinav Kumar <abhinavk@codeaurora.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, aravindh@codeaurora.org,
- freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting khsieh@codeaurora.org (2021-05-24 09:33:49)
-> On 2021-05-07 14:25, Stephen Boyd wrote:
-> > @@ -367,36 +347,38 @@ static ssize_t dp_aux_transfer(struct drm_dp_aux
-> > *dp_aux,
-> >       }
-> >
-> >       ret = dp_aux_cmd_fifo_tx(aux, msg);
-> > -
-> >       if (ret < 0) {
-> >               if (aux->native) {
-> >                       aux->retry_cnt++;
-> >                       if (!(aux->retry_cnt % MAX_AUX_RETRIES))
-> >                               dp_catalog_aux_update_cfg(aux->catalog);
-> >               }
-> > -             usleep_range(400, 500); /* at least 400us to next try */
-> > -             goto unlock_exit;
-> > -     }
->
-> 1) dp_catalog_aux_update_cfg(aux->catalog) will not work without
-> dp_catalog_aux_reset(aux->catalog);
-> dp_catalog_aux_reset(aux->catalog) will reset hpd control block and
-> potentially cause pending hpd interrupts got lost.
-> Therefore I think we should not do
-> dp_catalog_aux_update_cfg(aux->catalog) for now.
-> reset aux controller will reset hpd control block probolem will be fixed
-> at next chipset.
-> after that we can add dp_catalog_aux_update_cfg(aux->catalog) followed
-> by dp_catalog_aux_reset(aux->catalog) back at next chipset.
+https://bugzilla.kernel.org/show_bug.cgi?id=3D213201
 
-Hmm ok. So the phy calibration logic that tweaks the tuning values is
-never used? Why can't the phy be tuned while it is active? I don't
-understand why we would ever want to reset the aux phy when changing the
-settings for a retry. Either way, this is not actually changing in this
-patch so it would be another patch to remove this code.
+--- Comment #3 from Erhard F. (erhard_f@mailbox.org) ---
+As I bought this machine just recently I can't tell. But I will try to bise=
+ct.
 
->
-> 2) according to DP specification, aux read/write failed have to wait at
-> least 400us before next try can start.
-> Otherwise, DP compliant test will failed
+I got this Kaveri-based one instead of the Excavator-based one from bug
+#211875. With bug #211875 it was not fit for it's purpose unfortunately so I
+sold it again. This Kaveri-based one here fares much better. Only this memo=
+ry
+leak but no grave issues otherwise.
 
-Yes. The caller of this function, drm_dp_dpcd_access(), has the delay
-already
+--=20
+You may reply to this email to add a comment.
 
-                if (ret != 0 && ret != -ETIMEDOUT) {
-                        usleep_range(AUX_RETRY_INTERVAL,
-                                     AUX_RETRY_INTERVAL + 100);
-                }
-
-so this delay here is redundant.
+You are receiving this mail because:
+You are watching the assignee of the bug.=
