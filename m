@@ -2,37 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6AF9F38EA13
-	for <lists+dri-devel@lfdr.de>; Mon, 24 May 2021 16:51:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F2F038EA18
+	for <lists+dri-devel@lfdr.de>; Mon, 24 May 2021 16:51:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0BED06E880;
-	Mon, 24 May 2021 14:51:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AFEB26E883;
+	Mon, 24 May 2021 14:51:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 045E76E87E;
- Mon, 24 May 2021 14:51:30 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 0152561601;
- Mon, 24 May 2021 14:51:28 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7CF486E883;
+ Mon, 24 May 2021 14:51:50 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 7AC806191D;
+ Mon, 24 May 2021 14:51:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1621867889;
- bh=LOYDeiLrhcDP4zwaZTt1168ZKju0XGi4RobW7B2KpGU=;
+ s=k20201202; t=1621867910;
+ bh=Joz1eCpODLqPQKgdaHCknTXdIpMinnHu/FUByIrYEDg=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Oy0yA/cNPM7sgKuInXwnr4mciaANRQE2NWnu4PrRA/amWwa7lI6TF2TRX3eRjYToB
- q53L2Q/RL0ROGSEZ51zXulwxyEBndD9uw+ZjvRPkXvzUF3I6GY/u4ZwIvsgjY7LeN6
- wYh/8lZ3dwdwNhe2SaVi25eCqfm/Ykx4VUXcAvruNB4kBvCq2zGUYzWFmZGIHB4XR9
- tKLJszIIMIQY9Vara8zpQ5MEN5YrPBOpEbS920RxkIzVRMGrx1DAERimtPrJXA5r5B
- e6PB4dKwZOQEKYrkSM7piqm9B/OJTislB7cc6iu4+JRBQ8C0jCpPHkXpsPGvwtOyWl
- O4KmIyErbwrIg==
+ b=WEO703QcCjGlbeWYtFxdFQPusQIst0+7Ic/sZFvGXeVuJsYEWEBqwaJityhA9ajUu
+ SrRsPdjOa+ZqHiWp+BHqzQyKo5+UWsan7qv6tc6cB/q2RF/QHkGtDXMb2pk3uQ3FqU
+ ZPphXAj5k4lwocYLRWVNe1KXJuKFIZ/2oNQApw3uOrDBCpy/HeOk/416X4cKW4uYDx
+ fvsXbwvbkM/f6tIflFAcp4UH8+kTVdG4Y5jNoLF9MoTQThJJu5p9nguD+znTOG/O8M
+ 7IKqLcvPlNWP9aPc65cyZPplD0AQ/diVhWys/Xix3jmlPlYDvr72kmNZd2AVucvULk
+ jQgTvbdB0YTsA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.9 19/19] drm/amdgpu: Fix a use-after-free
-Date: Mon, 24 May 2021 10:51:06 -0400
-Message-Id: <20210524145106.2499571-19-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.4 16/16] drm/amdgpu: Fix a use-after-free
+Date: Mon, 24 May 2021 10:51:30 -0400
+Message-Id: <20210524145130.2499829-16-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210524145106.2499571-1-sashal@kernel.org>
-References: <20210524145106.2499571-1-sashal@kernel.org>
+In-Reply-To: <20210524145130.2499829-1-sashal@kernel.org>
+References: <20210524145130.2499829-1-sashal@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 X-stable: review
@@ -87,10 +87,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 1 insertion(+)
 
 diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-index 7271e3f32d82..ab041ae58b20 100644
+index 6beb3e76e1c9..014b87143837 100644
 --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
 +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-@@ -886,6 +886,7 @@ static void amdgpu_ttm_tt_unpopulate(struct ttm_tt *ttm)
+@@ -737,6 +737,7 @@ static void amdgpu_ttm_tt_unpopulate(struct ttm_tt *ttm)
  
  	if (gtt && gtt->userptr) {
  		kfree(ttm->sg);
