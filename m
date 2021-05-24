@@ -2,40 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44EE938E9E4
-	for <lists+dri-devel@lfdr.de>; Mon, 24 May 2021 16:50:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CC0438E9F3
+	for <lists+dri-devel@lfdr.de>; Mon, 24 May 2021 16:50:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E8C876E86A;
-	Mon, 24 May 2021 14:50:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E83456E870;
+	Mon, 24 May 2021 14:50:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ABD0E6E870;
- Mon, 24 May 2021 14:50:07 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 8F54A6147F;
- Mon, 24 May 2021 14:50:06 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 05C376E870;
+ Mon, 24 May 2021 14:50:37 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id CD61361481;
+ Mon, 24 May 2021 14:50:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1621867807;
- bh=akenY2+nrnz0yRofVdRHzxhKQS7tviJ6AFW4Q7dwg0w=;
+ s=k20201202; t=1621867836;
+ bh=FK3fUDXpICiejRWxVpW85Y1P4eQTuIDtcgzrL8ccIio=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=i6uSDwfDNM1D+V6fPYQLpAvulCPBYb9KlmbHFhkdEQ68Sr+lcgcaa783zud8bThvz
- PmcdehJ0eJDQNiMRjM+cA+1/jQj+//WfqEmiIciHrP+Ao1KyH3UGnBPbiQUwvIzkvI
- kJK1h2W+ziiWl98tkmzPaDm6OCGFKBzB6WjSFM+jmJoYccHkQFbzZRFvwIW4mZxNdG
- dvO8ouzpcq9X216iKbK1xqJ7OQdC5Jhoi0nVT0e4bUeueEQOJHOa7hzJISbO4AmTDy
- Iplrmq8G1QIn5JoC74XCaJ/ERruH5X/POksw+zZPlpCpWRFZPF2qZdr9zTyZB6fH41
- V+RPHrpcgMXYw==
+ b=T/3xxxXvt9nE5KRLuwrAinX9ge/38OgDtMFYC7TdoueFv1kRbVA9M3BSxUWEIDrVL
+ T7yFtWlmyavoCykjeeMh1cNtIfBBeoSV2cifVpisTDw0GJylDMmcC2jW7qA0Fdh32g
+ G31FufslB6GmW32f69B67Jl51pycF/upo3WkN6EYhLQJSkC50W7cql0m1DjoVOGFbR
+ +hIBUxKR01ZsSjAE0C3tPZxRLq2TSsrQED5xSbVd7f6kzt5I1ekAEmpYKAqKbk06ze
+ i2nHE5iVx/9hb+tdfzy/sPa7xxed+y5HZGB10f/6VLWIVVU8BAxAAsJmcw/KzR03UC
+ D5hK45ff8p0hQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 52/52] drm/amd/amdgpu: fix a potential deadlock in
- gpu reset
-Date: Mon, 24 May 2021 10:49:02 -0400
-Message-Id: <20210524144903.2498518-52-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.19 23/25] drm/amd/display: Disconnect non-DP with no
+ EDID
+Date: Mon, 24 May 2021 10:50:06 -0400
+Message-Id: <20210524145008.2499049-23-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210524144903.2498518-1-sashal@kernel.org>
-References: <20210524144903.2498518-1-sashal@kernel.org>
+In-Reply-To: <20210524145008.2499049-1-sashal@kernel.org>
+References: <20210524145008.2499049-1-sashal@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
@@ -51,96 +50,69 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
- Lang Yu <Lang.Yu@amd.com>,
- =?UTF-8?q?Christian=20K=C3=83nig?= <christian.koenig@amd.com>
+Cc: Stylon Wang <stylon.wang@amd.com>, Sasha Levin <sashal@kernel.org>,
+ Chris Park <Chris.Park@amd.com>, amd-gfx@lists.freedesktop.org,
+ Daniel Wheeler <daniel.wheeler@amd.com>, dri-devel@lists.freedesktop.org,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Nicholas Kazlauskas <Nicholas.Kazlauskas@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Lang Yu <Lang.Yu@amd.com>
+From: Chris Park <Chris.Park@amd.com>
 
-[ Upstream commit 9c2876d56f1ce9b6b2072f1446fb1e8d1532cb3d ]
+[ Upstream commit 080039273b126eeb0185a61c045893a25dbc046e ]
 
-When amdgpu_ib_ring_tests failed, the reset logic called
-amdgpu_device_ip_suspend twice, then deadlock occurred.
-Deadlock log:
+[Why]
+Active DP dongles return no EDID when dongle
+is connected, but VGA display is taken out.
+Current driver behavior does not remove the
+active display when this happens, and this is
+a gap between dongle DTP and dongle behavior.
 
-[  805.655192] amdgpu 0000:04:00.0: amdgpu: ib ring test failed (-110).
-[  806.290952] [drm] free PSP TMR buffer
+[How]
+For active DP dongles and non-DP scenario,
+disconnect sink on detection when no EDID
+is read due to timeout.
 
-[  806.319406] ============================================
-[  806.320315] WARNING: possible recursive locking detected
-[  806.321225] 5.11.0-custom #1 Tainted: G        W  OEL
-[  806.322135] --------------------------------------------
-[  806.323043] cat/2593 is trying to acquire lock:
-[  806.323825] ffff888136b1cdc8 (&adev->dm.dc_lock){+.+.}-{3:3}, at: dm_suspend+0xb8/0x1d0 [amdgpu]
-[  806.325668]
-               but task is already holding lock:
-[  806.326664] ffff888136b1cdc8 (&adev->dm.dc_lock){+.+.}-{3:3}, at: dm_suspend+0xb8/0x1d0 [amdgpu]
-[  806.328430]
-               other info that might help us debug this:
-[  806.329539]  Possible unsafe locking scenario:
-
-[  806.330549]        CPU0
-[  806.330983]        ----
-[  806.331416]   lock(&adev->dm.dc_lock);
-[  806.332086]   lock(&adev->dm.dc_lock);
-[  806.332738]
-                *** DEADLOCK ***
-
-[  806.333747]  May be due to missing lock nesting notation
-
-[  806.334899] 3 locks held by cat/2593:
-[  806.335537]  #0: ffff888100d3f1b8 (&attr->mutex){+.+.}-{3:3}, at: simple_attr_read+0x4e/0x110
-[  806.337009]  #1: ffff888136b1fd78 (&adev->reset_sem){++++}-{3:3}, at: amdgpu_device_lock_adev+0x42/0x94 [amdgpu]
-[  806.339018]  #2: ffff888136b1cdc8 (&adev->dm.dc_lock){+.+.}-{3:3}, at: dm_suspend+0xb8/0x1d0 [amdgpu]
-[  806.340869]
-               stack backtrace:
-[  806.341621] CPU: 6 PID: 2593 Comm: cat Tainted: G        W  OEL    5.11.0-custom #1
-[  806.342921] Hardware name: AMD Celadon-CZN/Celadon-CZN, BIOS WLD0C23N_Weekly_20_12_2 12/23/2020
-[  806.344413] Call Trace:
-[  806.344849]  dump_stack+0x93/0xbd
-[  806.345435]  __lock_acquire.cold+0x18a/0x2cf
-[  806.346179]  lock_acquire+0xca/0x390
-[  806.346807]  ? dm_suspend+0xb8/0x1d0 [amdgpu]
-[  806.347813]  __mutex_lock+0x9b/0x930
-[  806.348454]  ? dm_suspend+0xb8/0x1d0 [amdgpu]
-[  806.349434]  ? amdgpu_device_indirect_rreg+0x58/0x70 [amdgpu]
-[  806.350581]  ? _raw_spin_unlock_irqrestore+0x47/0x50
-[  806.351437]  ? dm_suspend+0xb8/0x1d0 [amdgpu]
-[  806.352437]  ? rcu_read_lock_sched_held+0x4f/0x80
-[  806.353252]  ? rcu_read_lock_sched_held+0x4f/0x80
-[  806.354064]  mutex_lock_nested+0x1b/0x20
-[  806.354747]  ? mutex_lock_nested+0x1b/0x20
-[  806.355457]  dm_suspend+0xb8/0x1d0 [amdgpu]
-[  806.356427]  ? soc15_common_set_clockgating_state+0x17d/0x19 [amdgpu]
-[  806.357736]  amdgpu_device_ip_suspend_phase1+0x78/0xd0 [amdgpu]
-[  806.360394]  amdgpu_device_ip_suspend+0x21/0x70 [amdgpu]
-[  806.362926]  amdgpu_device_pre_asic_reset+0xb3/0x270 [amdgpu]
-[  806.365560]  amdgpu_device_gpu_recover.cold+0x679/0x8eb [amdgpu]
-
-Signed-off-by: Lang Yu <Lang.Yu@amd.com>
-Acked-by: Christian KÃnig <christian.koenig@amd.com>
-Reviewed-by: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
+Signed-off-by: Chris Park <Chris.Park@amd.com>
+Reviewed-by: Nicholas Kazlauskas <Nicholas.Kazlauskas@amd.com>
+Acked-by: Stylon Wang <stylon.wang@amd.com>
+Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_device.c | 1 -
- 1 file changed, 1 deletion(-)
+ drivers/gpu/drm/amd/display/dc/core/dc_link.c | 18 ++++++++++++++++++
+ 1 file changed, 18 insertions(+)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-index 3b3fc9a426e9..765f9a6c4640 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-@@ -3704,7 +3704,6 @@ static int amdgpu_do_asic_reset(struct amdgpu_hive_info *hive,
- 			r = amdgpu_ib_ring_tests(tmp_adev);
- 			if (r) {
- 				dev_err(tmp_adev->dev, "ib ring test failed (%d).\n", r);
--				r = amdgpu_device_ip_suspend(tmp_adev);
- 				need_full_reset = true;
- 				r = -EAGAIN;
- 				goto end;
+diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_link.c b/drivers/gpu/drm/amd/display/dc/core/dc_link.c
+index e3bedf4cc9c0..c9c81090d580 100644
+--- a/drivers/gpu/drm/amd/display/dc/core/dc_link.c
++++ b/drivers/gpu/drm/amd/display/dc/core/dc_link.c
+@@ -768,6 +768,24 @@ bool dc_link_detect(struct dc_link *link, enum dc_detect_reason reason)
+ 			    dc_is_dvi_signal(link->connector_signal)) {
+ 				if (prev_sink != NULL)
+ 					dc_sink_release(prev_sink);
++				link_disconnect_sink(link);
++
++				return false;
++			}
++			/*
++			 * Abort detection for DP connectors if we have
++			 * no EDID and connector is active converter
++			 * as there are no display downstream
++			 *
++			 */
++			if (dc_is_dp_sst_signal(link->connector_signal) &&
++				(link->dpcd_caps.dongle_type ==
++						DISPLAY_DONGLE_DP_VGA_CONVERTER ||
++				link->dpcd_caps.dongle_type ==
++						DISPLAY_DONGLE_DP_DVI_CONVERTER)) {
++				if (prev_sink)
++					dc_sink_release(prev_sink);
++				link_disconnect_sink(link);
+ 
+ 				return false;
+ 			}
 -- 
 2.30.2
 
