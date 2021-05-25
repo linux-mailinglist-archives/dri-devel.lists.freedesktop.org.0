@@ -1,41 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01F123908A7
-	for <lists+dri-devel@lfdr.de>; Tue, 25 May 2021 20:15:16 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C3B73908DA
+	for <lists+dri-devel@lfdr.de>; Tue, 25 May 2021 20:22:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EC9EF6EA9D;
-	Tue, 25 May 2021 18:15:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0FD266E423;
+	Tue, 25 May 2021 18:22:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 139E86EAA3;
- Tue, 25 May 2021 18:15:09 +0000 (UTC)
-IronPort-SDR: U/Dgs1lzvDxRrW2vVZzLn37b1jRLz4tUPq6CEIUkxH+G3uALYe9ceWfxwYL1bzHR1U1WdwV2+O
- ZMmVxw7nayTw==
-X-IronPort-AV: E=McAfee;i="6200,9189,9995"; a="202018479"
-X-IronPort-AV: E=Sophos;i="5.82,329,1613462400"; d="scan'208";a="202018479"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 May 2021 11:15:08 -0700
-IronPort-SDR: +TonCVBy33lblcew7grfUF/jrmEp4B09psRwN0nfLjcBx15BhZQ+uwXA7EvSwQstBek7EkOKgJ
- JD3bM9LdYkBw==
-X-IronPort-AV: E=Sophos;i="5.82,329,1613462400"; d="scan'208";a="396961915"
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 53A7E6E418;
+ Tue, 25 May 2021 18:22:21 +0000 (UTC)
+IronPort-SDR: oGFPsDIOzcTSQLk8+LiuB2nzj6ELL6HpVtYLmpbJSEOV5fOivcoKOE92eum1wiRclK7C3Dm5Cq
+ 5TthwOKNRp6Q==
+X-IronPort-AV: E=McAfee;i="6200,9189,9995"; a="181906505"
+X-IronPort-AV: E=Sophos;i="5.82,329,1613462400"; d="scan'208";a="181906505"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 May 2021 11:22:19 -0700
+IronPort-SDR: 5YuhxAa+ssXlvUOEH09soHVBikozcJbcdBojHAU+faJBkvSc9Yg4NnbvHLVBnj8uBrYMAPZ9jK
+ 8hRphO+jG2TA==
+X-IronPort-AV: E=Sophos;i="5.82,329,1613462400"; d="scan'208";a="479434464"
 Received: from unknown (HELO sdutt-i7) ([10.165.21.147])
- by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 May 2021 11:15:08 -0700
-Date: Tue, 25 May 2021 11:08:00 -0700
+ by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 May 2021 11:22:18 -0700
+Date: Tue, 25 May 2021 11:15:11 -0700
 From: Matthew Brost <matthew.brost@intel.com>
 To: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: Re: [RFC PATCH 15/97] drm/i915/guc: Relax CTB response timeout
-Message-ID: <20210525180800.GA23177@sdutt-i7>
+Subject: Re: [RFC PATCH 18/97] drm/i915/guc: Don't receive all G2H messages
+ in irq handler
+Message-ID: <20210525181510.GA23878@sdutt-i7>
 References: <20210506191451.77768-1-matthew.brost@intel.com>
- <20210506191451.77768-16-matthew.brost@intel.com>
+ <20210506191451.77768-19-matthew.brost@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210506191451.77768-16-matthew.brost@intel.com>
+In-Reply-To: <20210506191451.77768-19-matthew.brost@intel.com>
 User-Agent: Mutt/1.9.4 (2018-02-28)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -55,59 +56,192 @@ Cc: tvrtko.ursulin@intel.com, daniele.ceraolospurio@intel.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, May 06, 2021 at 12:13:29PM -0700, Matthew Brost wrote:
+On Thu, May 06, 2021 at 12:13:32PM -0700, Matthew Brost wrote:
 > From: Michal Wajdeczko <michal.wajdeczko@intel.com>
 > 
-> In upcoming patch we will allow more CTB requests to be sent in
-> parallel to the GuC for procesing, so we shouldn't assume any more
-> that GuC will always reply without 10ms.
+> In irq handler try to receive just single G2H message, let other
+> messages to be received from tasklet.
 > 
-> Use bigger value from CONFIG_DRM_I915_HEARTBEAT_INTERVAL instead.
-> 
-
-I think this should be its own config option or we combine it with a
-config option suggested in patch 37.
-
-What do you think Michal? If you agree I can fix this up in the post of
-these patches.
-
-Matt
-
 > Signed-off-by: Michal Wajdeczko <michal.wajdeczko@intel.com>
 > Signed-off-by: Matthew Brost <matthew.brost@intel.com>
 > ---
->  drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c | 8 +++++++-
->  1 file changed, 7 insertions(+), 1 deletion(-)
+>  drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c | 67 ++++++++++++++++-------
+>  drivers/gpu/drm/i915/gt/uc/intel_guc_ct.h |  3 +
+>  2 files changed, 50 insertions(+), 20 deletions(-)
 > 
 > diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
-> index c87a0a8bef26..a4b2e7fe318b 100644
+> index cb58fa7f970c..d630ec32decf 100644
 > --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
 > +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
-> @@ -436,17 +436,23 @@ static int ct_write(struct intel_guc_ct *ct,
->   */
->  static int wait_for_ct_request_update(struct ct_request *req, u32 *status)
+> @@ -81,6 +81,7 @@ enum { CTB_SEND = 0, CTB_RECV = 1 };
+>  
+>  enum { CTB_OWNER_HOST = 0 };
+>  
+> +static void ct_receive_tasklet_func(unsigned long data);
+>  static void ct_incoming_request_worker_func(struct work_struct *w);
+>  
+>  /**
+> @@ -95,6 +96,7 @@ void intel_guc_ct_init_early(struct intel_guc_ct *ct)
+>  	INIT_LIST_HEAD(&ct->requests.pending);
+>  	INIT_LIST_HEAD(&ct->requests.incoming);
+>  	INIT_WORK(&ct->requests.worker, ct_incoming_request_worker_func);
+> +	tasklet_init(&ct->receive_tasklet, ct_receive_tasklet_func, (unsigned long)ct);
+
+This function is deprecated. tasklet_setup should be used.
+I can fix this up when I post the CTB patches.
+
+>  }
+>  
+>  static inline const char *guc_ct_buffer_type_to_str(u32 type)
+> @@ -244,6 +246,7 @@ void intel_guc_ct_fini(struct intel_guc_ct *ct)
 >  {
-> +	long timeout;
->  	int err;
+>  	GEM_BUG_ON(ct->enabled);
 >  
->  	/*
->  	 * Fast commands should complete in less than 10us, so sample quickly
->  	 * up to that length of time, then switch to a slower sleep-wait loop.
->  	 * No GuC command should ever take longer than 10ms.
-> +	 *
-> +	 * However, there might be other CT requests in flight before this one,
-> +	 * so use @CONFIG_DRM_I915_HEARTBEAT_INTERVAL as backup timeout value.
->  	 */
-> +	timeout = max(10, CONFIG_DRM_I915_HEARTBEAT_INTERVAL);
+> +	tasklet_kill(&ct->receive_tasklet);
+>  	i915_vma_unpin_and_release(&ct->vma, I915_VMA_RELEASE_MAP);
+>  	memset(ct, 0, sizeof(*ct));
+>  }
+> @@ -629,7 +632,7 @@ static int ct_read(struct intel_guc_ct *ct, u32 *data)
+>  	CT_DEBUG(ct, "received %*ph\n", 4 * len, data);
+>  
+>  	desc->head = head * 4;
+> -	return 0;
+> +	return available - len;
+>  
+>  corrupted:
+>  	CT_ERROR(ct, "Corrupted descriptor addr=%#x head=%u tail=%u size=%u\n",
+> @@ -665,10 +668,10 @@ static int ct_handle_response(struct intel_guc_ct *ct, const u32 *msg)
+>  	u32 status;
+>  	u32 datalen;
+>  	struct ct_request *req;
+> +	unsigned long flags;
+>  	bool found = false;
+>  
+>  	GEM_BUG_ON(!ct_header_is_response(header));
+> -	GEM_BUG_ON(!in_irq());
+>  
+>  	/* Response payload shall at least include fence and status */
+>  	if (unlikely(len < 2)) {
+> @@ -688,7 +691,7 @@ static int ct_handle_response(struct intel_guc_ct *ct, const u32 *msg)
+>  
+>  	CT_DEBUG(ct, "response fence %u status %#x\n", fence, status);
+>  
+> -	spin_lock(&ct->requests.lock);
+> +	spin_lock_irqsave(&ct->requests.lock, flags);
+>  	list_for_each_entry(req, &ct->requests.pending, link) {
+>  		if (unlikely(fence != req->fence)) {
+>  			CT_DEBUG(ct, "request %u awaits response\n",
+> @@ -707,7 +710,7 @@ static int ct_handle_response(struct intel_guc_ct *ct, const u32 *msg)
+>  		found = true;
+>  		break;
+>  	}
+> -	spin_unlock(&ct->requests.lock);
+> +	spin_unlock_irqrestore(&ct->requests.lock, flags);
+>  
+>  	if (!found)
+>  		CT_ERROR(ct, "Unsolicited response %*ph\n", msgsize, msg);
+> @@ -821,31 +824,55 @@ static int ct_handle_request(struct intel_guc_ct *ct, const u32 *msg)
+>  	return 0;
+>  }
+>  
+> +static int ct_receive(struct intel_guc_ct *ct)
+> +{
+> +	u32 msg[GUC_CT_MSG_LEN_MASK + 1]; /* one extra dw for the header */
+> +	unsigned long flags;
+> +	int ret;
 > +
->  #define done INTEL_GUC_MSG_IS_RESPONSE(READ_ONCE(req->status))
->  	err = wait_for_us(done, 10);
->  	if (err)
-> -		err = wait_for(done, 10);
-> +		err = wait_for(done, timeout);
->  #undef done
+> +	spin_lock_irqsave(&ct->ctbs.recv.lock, flags);
+> +	ret = ct_read(ct, msg);
+> +	spin_unlock_irqrestore(&ct->ctbs.recv.lock, flags);
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	if (ct_header_is_response(msg[0]))
+> +		ct_handle_response(ct, msg);
+> +	else
+> +		ct_handle_request(ct, msg);
+> +
+> +	return ret;
+> +}
+> +
+> +static void ct_try_receive_message(struct intel_guc_ct *ct)
+> +{
+> +	int ret;
+> +
+> +	if (GEM_WARN_ON(!ct->enabled))
+> +		return;
+> +
+> +	ret = ct_receive(ct);
+> +	if (ret > 0)
+> +		tasklet_hi_schedule(&ct->receive_tasklet);
+> +}
+> +
+> +static void ct_receive_tasklet_func(unsigned long data)
+> +{
+
+As mentioned above tasklet_init is deprecated. The callback now accepts
+the tasklet structure and ct can be looked up via container_of macro.
+
+Everything else looks good.
+
+With that and changing to the new tasklet API:
+Reviewed-by: Matthew Brost <matthew.brost@intel.com>
+
+> +	struct intel_guc_ct *ct = (struct intel_guc_ct *)data;
+> +
+> +	ct_try_receive_message(ct);
+> +}
+> +
+>  /*
+>   * When we're communicating with the GuC over CT, GuC uses events
+>   * to notify us about new messages being posted on the RECV buffer.
+>   */
+>  void intel_guc_ct_event_handler(struct intel_guc_ct *ct)
+>  {
+> -	u32 msg[GUC_CT_MSG_LEN_MASK + 1]; /* one extra dw for the header */
+> -	unsigned long flags;
+> -	int err = 0;
+> -
+>  	if (unlikely(!ct->enabled)) {
+>  		WARN(1, "Unexpected GuC event received while CT disabled!\n");
+>  		return;
+>  	}
 >  
->  	if (unlikely(err))
+> -	do {
+> -		spin_lock_irqsave(&ct->ctbs.recv.lock, flags);
+> -		err = ct_read(ct, msg);
+> -		spin_unlock_irqrestore(&ct->ctbs.recv.lock, flags);
+> -		if (err)
+> -			break;
+> -
+> -		if (ct_header_is_response(msg[0]))
+> -			err = ct_handle_response(ct, msg);
+> -		else
+> -			err = ct_handle_request(ct, msg);
+> -	} while (!err);
+> +	ct_try_receive_message(ct);
+>  }
+> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.h b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.h
+> index bc52dc479a14..cb222f202301 100644
+> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.h
+> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.h
+> @@ -6,6 +6,7 @@
+>  #ifndef _INTEL_GUC_CT_H_
+>  #define _INTEL_GUC_CT_H_
+>  
+> +#include <linux/interrupt.h>
+>  #include <linux/spinlock.h>
+>  #include <linux/workqueue.h>
+>  
+> @@ -55,6 +56,8 @@ struct intel_guc_ct {
+>  		struct intel_guc_ct_buffer recv;
+>  	} ctbs;
+>  
+> +	struct tasklet_struct receive_tasklet;
+> +
+>  	struct {
+>  		u32 last_fence; /* last fence used to send request */
+>  
 > -- 
 > 2.28.0
 > 
