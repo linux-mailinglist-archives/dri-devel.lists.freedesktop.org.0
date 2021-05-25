@@ -2,48 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 862EB3903A6
-	for <lists+dri-devel@lfdr.de>; Tue, 25 May 2021 16:15:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A98223903C5
+	for <lists+dri-devel@lfdr.de>; Tue, 25 May 2021 16:20:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2B6496E125;
-	Tue, 25 May 2021 14:15:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 618896EA3F;
+	Tue, 25 May 2021 14:19:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EACEB6E125;
- Tue, 25 May 2021 14:15:24 +0000 (UTC)
-IronPort-SDR: rXXVzFAjErKM60FjXXOzZsU+p6OO/TVPMio3VSM/BJyIwnbFTYfNTFlsLVWMVM53ux0O/2mox2
- icOFSYmyRaFQ==
-X-IronPort-AV: E=McAfee;i="6200,9189,9995"; a="202239478"
-X-IronPort-AV: E=Sophos;i="5.82,328,1613462400"; d="scan'208";a="202239478"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 057AC6EA3B;
+ Tue, 25 May 2021 14:19:54 +0000 (UTC)
+IronPort-SDR: q0uF2jQoducmJ5nSoCIOJ0NADKefNaH4kmmAeQu0V0Y+4WKT/y+SKLZIahH8kFEO7ztUu8rwqZ
+ 56TkZ5zrxsQQ==
+X-IronPort-AV: E=McAfee;i="6200,9189,9995"; a="202240579"
+X-IronPort-AV: E=Sophos;i="5.82,328,1613462400"; d="scan'208";a="202240579"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 May 2021 07:15:21 -0700
-IronPort-SDR: EQtN2udL+0JprowicJKcJGL7eQi1DN7PcbV2R95UHgLiTWa912jRsWNqaP1zzLp0lg4oi4H3gO
- LQGDJnwB3PNg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.82,328,1613462400"; d="scan'208";a="443412867"
-Received: from irvmail001.ir.intel.com ([10.43.11.63])
- by fmsmga008.fm.intel.com with ESMTP; 25 May 2021 07:15:17 -0700
-Received: from [10.249.148.145] (mwajdecz-MOBL.ger.corp.intel.com
- [10.249.148.145])
- by irvmail001.ir.intel.com (8.14.3/8.13.6/MailSET/Hub) with ESMTP id
- 14PEFF6Z013901; Tue, 25 May 2021 15:15:16 +0100
-Subject: Re: [RFC PATCH 37/97] drm/i915/guc: Add stall timer to non blocking
- CTB send function
-To: Matthew Brost <matthew.brost@intel.com>
-References: <20210506191451.77768-1-matthew.brost@intel.com>
- <20210506191451.77768-38-matthew.brost@intel.com>
- <7e7ca64d-e5d7-7fd8-b446-7167341c0c92@intel.com>
- <20210524183518.GA12293@sdutt-i7>
-From: Michal Wajdeczko <michal.wajdeczko@intel.com>
-Message-ID: <2b0430a4-d43e-ad52-890c-340631febd6c@intel.com>
-Date: Tue, 25 May 2021 16:15:15 +0200
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.2
+ 25 May 2021 07:19:52 -0700
+IronPort-SDR: JaC8ErFap8+Rnpug6svDD4ahaEcq74CYjynwsBVNKbdeEzoG6hrpw7Ak5cwjJRoYO6HksaTJcM
+ aymWnU89yplQ==
+X-IronPort-AV: E=Sophos;i="5.82,328,1613462400"; d="scan'208";a="442565087"
+Received: from tomeara-mobl.ger.corp.intel.com (HELO [10.213.211.66])
+ ([10.213.211.66])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 May 2021 07:19:49 -0700
+Subject: Re: [Intel-gfx] [PATCH 1/1] Let userspace know if they can trust
+ timeslicing by including it as part of the
+ I915_PARAM_HAS_SCHEDULER::I915_SCHEDULER_CAP_TIMESLICING
+To: Tejas Upadhyay <tejaskumarx.surendrakumar.upadhyay@intel.com>,
+ intel-gfx@lists.freedesktop.org, mahesh.meena@intel.com,
+ DRI Development <dri-devel@lists.freedesktop.org>
+References: <20210525135508.244659-1-tejaskumarx.surendrakumar.upadhyay@intel.com>
+ <20210525135508.244659-2-tejaskumarx.surendrakumar.upadhyay@intel.com>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+Message-ID: <b9ae1daa-6add-1c67-58b4-16491f2e1431@linux.intel.com>
+Date: Tue, 25 May 2021 15:19:47 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <20210524183518.GA12293@sdutt-i7>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <20210525135508.244659-2-tejaskumarx.surendrakumar.upadhyay@intel.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -58,190 +57,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: tvrtko.ursulin@intel.com, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, jason.ekstrand@intel.com,
- daniele.ceraolospurio@intel.com, jon.bloomfield@intel.com,
- daniel.vetter@intel.com, john.c.harrison@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
++ dri-devel as per process
 
-On 24.05.2021 20:35, Matthew Brost wrote:
-> On Mon, May 24, 2021 at 02:58:12PM +0200, Michal Wajdeczko wrote:
->>
->>
->> On 06.05.2021 21:13, Matthew Brost wrote:
->>> Implement a stall timer which fails H2G CTBs once a period of time
->>> with no forward progress is reached to prevent deadlock.
->>>
->>> Also update to ct_write to return -EDEADLK rather than -EPIPE on a
->>> corrupted descriptor.
->>
->> broken descriptor is really separate issue compared to no progress from
->> GuC side, I would really like to keep old error code
->>
-> 
-> I know you do as you have brought it up several times. Again to the rest
-> of the stack these two things mean the exact same thing.
+On 25/05/2021 14:55, Tejas Upadhyay wrote:
+> v2: Only declare timeslicing if we can safely preempt userspace.
 
-but I guess 'the rest of the stack' is only interested if returned error
-is EBUSY or not, as all other errors are treated in the same way, thus
-no need change existing error codes
+Commit message got butchered up somehow so you'll need to fix that at 
+some point.
 
->  
->> note that broken CTB descriptor is unrecoverable error, while on other
->> hand, in theory, we could recover from temporary non-moving CTB
->>
-> 
-> Yea but we don't, in both cases we disable submission which in turn
-> triggers a full GPU reset.
+Regards,
 
-is this current limitation or long term design?
+Tvrtko
 
-I would rather expect that decision to trigger full GPU is done on solid
-foundations, like definite lost communication with the GuC or missed
-heartbeats, not that we temporarily push CTB to the limit
-
-or if do we want to treat CTB processing as kind of hw health checkout
-too, what if heartbeat timeout and CTB stall time do not match ?
-
+> Fixes: 8ee36e048c98 ("drm/i915/execlists: Minimalistic timeslicing")
+> Signed-off-by: Chris Wilson <chris@chris-wilson.co.uk>
+> Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+> Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+> ---
+>   drivers/gpu/drm/i915/gt/intel_engine_user.c | 1 +
+>   include/uapi/drm/i915_drm.h                 | 1 +
+>   2 files changed, 2 insertions(+)
 > 
->>>
->>> Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
->>> Signed-off-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
->>> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
->>> ---
->>>  drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c | 48 +++++++++++++++++++++--
->>>  1 file changed, 45 insertions(+), 3 deletions(-)
->>>
->>> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
->>> index af7314d45a78..4eab319d61be 100644
->>> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
->>> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
->>> @@ -69,6 +69,8 @@ static inline struct drm_device *ct_to_drm(struct intel_guc_ct *ct)
->>>  #define CTB_H2G_BUFFER_SIZE	(SZ_4K)
->>>  #define CTB_G2H_BUFFER_SIZE	(SZ_4K)
->>>  
->>> +#define MAX_US_STALL_CTB	1000000
->>
->> nit: maybe we should make it a CONFIG value ?
->>
+> diff --git a/drivers/gpu/drm/i915/gt/intel_engine_user.c b/drivers/gpu/drm/i915/gt/intel_engine_user.c
+> index 3cca7ea2d6ea..12d165566ed2 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_engine_user.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_engine_user.c
+> @@ -98,6 +98,7 @@ static void set_scheduler_caps(struct drm_i915_private *i915)
+>   		MAP(HAS_PREEMPTION, PREEMPTION),
+>   		MAP(HAS_SEMAPHORES, SEMAPHORES),
+>   		MAP(SUPPORTS_STATS, ENGINE_BUSY_STATS),
+> +		MAP(TIMESLICE_BIT, TIMESLICING),
+>   #undef MAP
+>   	};
+>   	struct intel_engine_cs *engine;
+> diff --git a/include/uapi/drm/i915_drm.h b/include/uapi/drm/i915_drm.h
+> index c2c7759b7d2e..af2212d6113c 100644
+> --- a/include/uapi/drm/i915_drm.h
+> +++ b/include/uapi/drm/i915_drm.h
+> @@ -572,6 +572,7 @@ typedef struct drm_i915_irq_wait {
+>   #define   I915_SCHEDULER_CAP_PREEMPTION	(1ul << 2)
+>   #define   I915_SCHEDULER_CAP_SEMAPHORES	(1ul << 3)
+>   #define   I915_SCHEDULER_CAP_ENGINE_BUSY_STATS	(1ul << 4)
+> +#define   I915_SCHEDULER_CAP_TIMESLICING	(1ul << 5)
+>   
+>   #define I915_PARAM_HUC_STATUS		 42
+>   
 > 
-> Sure.
-> 
->>> +
->>>  struct ct_request {
->>>  	struct list_head link;
->>>  	u32 fence;
->>> @@ -315,6 +317,7 @@ int intel_guc_ct_enable(struct intel_guc_ct *ct)
->>>  
->>>  	ct->requests.last_fence = 1;
->>>  	ct->enabled = true;
->>> +	ct->stall_time = KTIME_MAX;
->>>  
->>>  	return 0;
->>>  
->>> @@ -378,7 +381,7 @@ static int ct_write(struct intel_guc_ct *ct,
->>>  	unsigned int i;
->>>  
->>>  	if (unlikely(ctb->broken))
->>> -		return -EPIPE;
->>> +		return -EDEADLK;
->>>  
->>>  	if (unlikely(desc->status))
->>>  		goto corrupted;
->>> @@ -449,7 +452,7 @@ static int ct_write(struct intel_guc_ct *ct,
->>>  	CT_ERROR(ct, "Corrupted descriptor head=%u tail=%u status=%#x\n",
->>>  		 desc->head, desc->tail, desc->status);
->>>  	ctb->broken = true;
->>> -	return -EPIPE;
->>> +	return -EDEADLK;
->>>  }
->>>  
->>>  /**
->>> @@ -494,6 +497,17 @@ static int wait_for_ct_request_update(struct ct_request *req, u32 *status)
->>>  	return err;
->>>  }
->>>  
->>> +static inline bool ct_deadlocked(struct intel_guc_ct *ct)
->>> +{
->>> +	bool ret = ktime_us_delta(ktime_get(), ct->stall_time) >
->>> +		MAX_US_STALL_CTB;
->>> +
->>> +	if (unlikely(ret))
->>> +		CT_ERROR(ct, "CT deadlocked\n");
->>> +
->>> +	return ret;
->>> +}
->>> +
->>>  static inline bool ctb_has_room(struct intel_guc_ct_buffer *ctb, u32 len_dw)
->>>  {
->>>  	struct guc_ct_buffer_desc *desc = ctb->desc;
->>> @@ -505,6 +519,26 @@ static inline bool ctb_has_room(struct intel_guc_ct_buffer *ctb, u32 len_dw)
->>>  	return space >= len_dw;
->>>  }
->>>  
->>> +static int has_room_nb(struct intel_guc_ct *ct, u32 len_dw)
->>> +{
->>> +	struct intel_guc_ct_buffer *ctb = &ct->ctbs.send;
->>> +
->>> +	lockdep_assert_held(&ct->ctbs.send.lock);
->>> +
->>> +	if (unlikely(!ctb_has_room(ctb, len_dw))) {
->>> +		if (ct->stall_time == KTIME_MAX)
->>> +			ct->stall_time = ktime_get();
->>> +
->>> +		if (unlikely(ct_deadlocked(ct)))
->>> +			return -EDEADLK;
->>> +		else
->>> +			return -EBUSY;
->>> +	}
->>> +
->>> +	ct->stall_time = KTIME_MAX;
->>> +	return 0;
->>> +}
->>> +
->>>  static int ct_send_nb(struct intel_guc_ct *ct,
->>>  		      const u32 *action,
->>>  		      u32 len,
->>> @@ -517,7 +551,7 @@ static int ct_send_nb(struct intel_guc_ct *ct,
->>>  
->>>  	spin_lock_irqsave(&ctb->lock, spin_flags);
->>>  
->>> -	ret = ctb_has_room(ctb, len + 1);
->>> +	ret = has_room_nb(ct, len + 1);
->>>  	if (unlikely(ret))
->>>  		goto out;
->>>  
->>> @@ -561,11 +595,19 @@ static int ct_send(struct intel_guc_ct *ct,
->>>  retry:
->>>  	spin_lock_irqsave(&ct->ctbs.send.lock, flags);
->>>  	if (unlikely(!ctb_has_room(ctb, len + 1))) {
->>> +		if (ct->stall_time == KTIME_MAX)
->>> +			ct->stall_time = ktime_get();
->>>  		spin_unlock_irqrestore(&ct->ctbs.send.lock, flags);
->>> +
->>> +		if (unlikely(ct_deadlocked(ct)))
->>> +			return -EDEADLK;
->>> +
->>
->> likely, instead of duplicating code, you can reuse has_room_nb here
->>
-> 
-> In this patch yes, in the following patch no as this check changes
-> between non-blockig and blocking once we introduce G2H credits. I'd
-> rather just leave it as is than churning on the patches.
-> 
-> Matt 
->  
->>>  		cond_resched();
->>>  		goto retry;
->>>  	}
->>>  
->>> +	ct->stall_time = KTIME_MAX;
->>> +
->>>  	fence = ct_get_next_fence(ct);
->>>  	request.fence = fence;
->>>  	request.status = 0;
->>>
