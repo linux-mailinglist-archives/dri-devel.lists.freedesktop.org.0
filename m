@@ -2,43 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2EA98390716
-	for <lists+dri-devel@lfdr.de>; Tue, 25 May 2021 19:03:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 61C46390720
+	for <lists+dri-devel@lfdr.de>; Tue, 25 May 2021 19:08:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 306BB6EA7A;
-	Tue, 25 May 2021 17:03:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3D3BA6E413;
+	Tue, 25 May 2021 17:08:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A35786EA78;
- Tue, 25 May 2021 17:03:36 +0000 (UTC)
-IronPort-SDR: 1lbMiPCulhuNQu5OMx3Ykp+3qM8gkPPH55QSH+MnPhtBJl/A5wQT+VcJaGXv1b66E5ZwexrAit
- s72jvkFbTegw==
-X-IronPort-AV: E=McAfee;i="6200,9189,9995"; a="189622683"
-X-IronPort-AV: E=Sophos;i="5.82,328,1613462400"; d="scan'208";a="189622683"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 May 2021 10:03:24 -0700
-IronPort-SDR: /U+T3WQMS34L0ZWCZq43/ILxYXFVQs/wWzgL0naU6TEkyCgN/fa4CgyaoMxNtTiJLui68C+ec7
- 8TJXZQdQkohA==
-X-IronPort-AV: E=Sophos;i="5.82,328,1613462400"; d="scan'208";a="443503626"
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C624D6E413;
+ Tue, 25 May 2021 17:08:42 +0000 (UTC)
+IronPort-SDR: ZiYffaRI3RNfyD7k5Y2hQo5RTW7MpyLUvJVfUGkn9jlIS31J3Woo2X4Ws/lVz8O9xNNn7pfJVf
+ DbwSf/cr5DTQ==
+X-IronPort-AV: E=McAfee;i="6200,9189,9995"; a="200349456"
+X-IronPort-AV: E=Sophos;i="5.82,328,1613462400"; d="scan'208";a="200349456"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 May 2021 10:08:42 -0700
+IronPort-SDR: 7HkNseDcC/rjKX9hIUMA5Tp6Iu6EytjCS8FCOoPSLu9t44ynSTfWMo0Ayt1U/NIkTm1zF5RS+0
+ x67vlLbYhlMg==
+X-IronPort-AV: E=Sophos;i="5.82,328,1613462400"; d="scan'208";a="476508979"
 Received: from unknown (HELO sdutt-i7) ([10.165.21.147])
- by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 May 2021 10:03:23 -0700
-Date: Tue, 25 May 2021 09:56:16 -0700
+ by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 May 2021 10:08:38 -0700
+Date: Tue, 25 May 2021 10:01:31 -0700
 From: Matthew Brost <matthew.brost@intel.com>
-To: Michal Wajdeczko <michal.wajdeczko@intel.com>
-Subject: Re: [RFC PATCH 12/97] drm/i915/guc: Don't repeat CTB layout
- calculations
-Message-ID: <20210525165616.GA14150@sdutt-i7>
+To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Subject: Re: [Intel-gfx] [RFC PATCH 53/97] drm/i915/guc: Disable semaphores
+ when using GuC scheduling
+Message-ID: <20210525170131.GA14724@sdutt-i7>
 References: <20210506191451.77768-1-matthew.brost@intel.com>
- <20210506191451.77768-13-matthew.brost@intel.com>
- <20210525025328.GA9162@sdutt-i7>
- <9017c2e4-ce78-aace-621b-f2b0d2296583@intel.com>
+ <20210506191451.77768-54-matthew.brost@intel.com>
+ <295c0e48-5091-504a-5a81-10a60fa900f4@linux.intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <9017c2e4-ce78-aace-621b-f2b0d2296583@intel.com>
+In-Reply-To: <295c0e48-5091-504a-5a81-10a60fa900f4@linux.intel.com>
 User-Agent: Mutt/1.9.4 (2018-02-28)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -52,96 +51,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: tvrtko.ursulin@intel.com, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, jason.ekstrand@intel.com,
- daniele.ceraolospurio@intel.com, jon.bloomfield@intel.com,
- daniel.vetter@intel.com, john.c.harrison@intel.com
+Cc: jason.ekstrand@intel.com, daniel.vetter@intel.com,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, May 25, 2021 at 03:07:06PM +0200, Michal Wajdeczko wrote:
+On Tue, May 25, 2021 at 10:52:01AM +0100, Tvrtko Ursulin wrote:
 > 
+> On 06/05/2021 20:14, Matthew Brost wrote:
+> > Disable semaphores when using GuC scheduling as semaphores are broken in
+> > the current GuC firmware.
 > 
-> On 25.05.2021 04:53, Matthew Brost wrote:
-> > On Thu, May 06, 2021 at 12:13:26PM -0700, Matthew Brost wrote:
-> >> From: Michal Wajdeczko <michal.wajdeczko@intel.com>
-> >>
-> >> We can retrieve offsets to cmds buffers and descriptor from
-> >> actual pointers that we already keep locally.
-> >>
-> >> Signed-off-by: Michal Wajdeczko <michal.wajdeczko@intel.com>
-> >> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
-> >> ---
-> >>  drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c | 16 ++++++++++------
-> >>  1 file changed, 10 insertions(+), 6 deletions(-)
-> >>
-> >> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
-> >> index dbece569fbe4..fbd6bd20f588 100644
-> >> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
-> >> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
-> >> @@ -244,6 +244,7 @@ int intel_guc_ct_enable(struct intel_guc_ct *ct)
-> >>  {
-> >>  	struct intel_guc *guc = ct_to_guc(ct);
-> >>  	u32 base, cmds;
-> >> +	void *blob;
-> >>  	int err;
-> >>  	int i;
-> >>  
-> >> @@ -251,15 +252,18 @@ int intel_guc_ct_enable(struct intel_guc_ct *ct)
-> >>  
-> >>  	/* vma should be already allocated and map'ed */
-> >>  	GEM_BUG_ON(!ct->vma);
-> >> +	GEM_BUG_ON(!i915_gem_object_has_pinned_pages(ct->vma->obj));
-> > 
-> > This doesn't really have anything to do with this patch, but again this
-> > patch will be squashed into a large patch updating the GuC firmware, so
-> > I think this is fine.
-> 
-> again, no need to squash GuC patches up to 20/97
+> What is "current"? Given that the patch itself is like year and a half old.
 > 
 
-Got it. As discussed I will post patches 4-20 after I done reviewing all
-of them.
+Stale comment. Semaphore work with the firmware we just haven't enabled
+them in the i915 with GuC submission as this an optimization and not
+required for functionality.
 
-Matt 
+Matt
 
+> Regards,
+> 
+> Tvrtko
+> 
+> > Cc: John Harrison <john.c.harrison@intel.com>
+> > Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+> > ---
+> >   drivers/gpu/drm/i915/gem/i915_gem_context.c | 6 ++++--
+> >   1 file changed, 4 insertions(+), 2 deletions(-)
 > > 
-> > With that:
-> > Reviewed-by: Matthew Brost <matthew.brost@intel.com>
+> > diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context.c b/drivers/gpu/drm/i915/gem/i915_gem_context.c
+> > index 993faa213b41..d30260ffe2a7 100644
+> > --- a/drivers/gpu/drm/i915/gem/i915_gem_context.c
+> > +++ b/drivers/gpu/drm/i915/gem/i915_gem_context.c
+> > @@ -230,7 +230,8 @@ static void intel_context_set_gem(struct intel_context *ce,
+> >   		ce->timeline = intel_timeline_get(ctx->timeline);
+> >   	if (ctx->sched.priority >= I915_PRIORITY_NORMAL &&
+> > -	    intel_engine_has_timeslices(ce->engine))
+> > +	    intel_engine_has_timeslices(ce->engine) &&
+> > +	    intel_engine_has_semaphores(ce->engine))
+> >   		__set_bit(CONTEXT_USE_SEMAPHORES, &ce->flags);
+> >   	intel_context_set_watchdog_us(ce, ctx->watchdog.timeout_us);
+> > @@ -1939,7 +1940,8 @@ static int __apply_priority(struct intel_context *ce, void *arg)
+> >   	if (!intel_engine_has_timeslices(ce->engine))
+> >   		return 0;
+> > -	if (ctx->sched.priority >= I915_PRIORITY_NORMAL)
+> > +	if (ctx->sched.priority >= I915_PRIORITY_NORMAL &&
+> > +	    intel_engine_has_semaphores(ce->engine))
+> >   		intel_context_set_use_semaphores(ce);
+> >   	else
+> >   		intel_context_clear_use_semaphores(ce);
 > > 
-> >>  	base = intel_guc_ggtt_offset(guc, ct->vma);
-> >>  
-> >> -	/* (re)initialize descriptors
-> >> -	 * cmds buffers are in the second half of the blob page
-> >> -	 */
-> >> +	/* blob should start with send descriptor */
-> >> +	blob = __px_vaddr(ct->vma->obj);
-> >> +	GEM_BUG_ON(blob != ct->ctbs[CTB_SEND].desc);
-> >> +
-> >> +	/* (re)initialize descriptors */
-> >>  	for (i = 0; i < ARRAY_SIZE(ct->ctbs); i++) {
-> >>  		GEM_BUG_ON((i != CTB_SEND) && (i != CTB_RECV));
-> >>  
-> >> -		cmds = base + PAGE_SIZE / 4 * i + PAGE_SIZE / 2;
-> >> +		cmds = base + ptrdiff(ct->ctbs[i].cmds, blob);
-> >>  		CT_DEBUG(ct, "%d: cmds addr=%#x\n", i, cmds);
-> >>  
-> >>  		guc_ct_buffer_reset(&ct->ctbs[i], cmds);
-> >> @@ -269,12 +273,12 @@ int intel_guc_ct_enable(struct intel_guc_ct *ct)
-> >>  	 * Register both CT buffers starting with RECV buffer.
-> >>  	 * Descriptors are in first half of the blob.
-> >>  	 */
-> >> -	err = ct_register_buffer(ct, base + PAGE_SIZE / 4 * CTB_RECV,
-> >> +	err = ct_register_buffer(ct, base + ptrdiff(ct->ctbs[CTB_RECV].desc, blob),
-> >>  				 INTEL_GUC_CT_BUFFER_TYPE_RECV);
-> >>  	if (unlikely(err))
-> >>  		goto err_out;
-> >>  
-> >> -	err = ct_register_buffer(ct, base + PAGE_SIZE / 4 * CTB_SEND,
-> >> +	err = ct_register_buffer(ct, base + ptrdiff(ct->ctbs[CTB_SEND].desc, blob),
-> >>  				 INTEL_GUC_CT_BUFFER_TYPE_SEND);
-> >>  	if (unlikely(err))
-> >>  		goto err_deregister;
-> >> -- 
-> >> 2.28.0
-> >>
