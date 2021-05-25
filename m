@@ -2,41 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F19CD38F718
-	for <lists+dri-devel@lfdr.de>; Tue, 25 May 2021 02:50:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A0B4038F743
+	for <lists+dri-devel@lfdr.de>; Tue, 25 May 2021 03:01:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 279DA6E4AD;
-	Tue, 25 May 2021 00:50:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3F87C6E4B6;
+	Tue, 25 May 2021 01:00:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B87256E4AD;
- Tue, 25 May 2021 00:49:42 +0000 (UTC)
-IronPort-SDR: A3Zc4AHNg2EOw+KpFIVGL7/a8MBYMu97VWA2PvuPyFHrGLSbQei78IA5Ozl5gXAJmPHPbG5uoY
- w30k3Es/hguQ==
-X-IronPort-AV: E=McAfee;i="6200,9189,9994"; a="201814511"
-X-IronPort-AV: E=Sophos;i="5.82,327,1613462400"; d="scan'208";a="201814511"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 May 2021 17:49:41 -0700
-IronPort-SDR: UsLCiVOTg+Q8RFnOsatPEwbtSW+Sv07pmn6xCd+uPHOcOFOh02Ufj8a6gvIQnj5Gbfga+1lH6p
- aHyriBrj+wDw==
-X-IronPort-AV: E=Sophos;i="5.82,327,1613462400"; d="scan'208";a="632825845"
-Received: from unknown (HELO sdutt-i7) ([10.165.21.147])
- by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 May 2021 17:49:41 -0700
-Date: Mon, 24 May 2021 17:42:32 -0700
-From: Matthew Brost <matthew.brost@intel.com>
-To: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: Re: [RFC PATCH 10/97] drm/i915: Promote ptrdiff() to i915_utils.h
-Message-ID: <20210525004232.GA24968@sdutt-i7>
-References: <20210506191451.77768-1-matthew.brost@intel.com>
- <20210506191451.77768-11-matthew.brost@intel.com>
+Received: from mail-pf1-x436.google.com (mail-pf1-x436.google.com
+ [IPv6:2607:f8b0:4864:20::436])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 307E96E4B6
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 May 2021 01:00:12 +0000 (UTC)
+Received: by mail-pf1-x436.google.com with SMTP id f22so13891990pfn.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 May 2021 18:00:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=cNrs7Quamyh1a2YbzIib8cmmsNpSOgM9HpaVFBdQOS8=;
+ b=iDCdntNOmCCYRrUSMMgu0RSaVgB+RuufavibnQ2CkC6hA9AzBIO9RwJJBFLXiAdlXB
+ i7cCPfLMJSf09IBbJ6xDA5CWCAIoNC6JUu+lvbjgbWD0IkK8/zmLMmQN8eNQ6l/G/NKP
+ ArPS9/ZVqtB3+PfiZ8BLGh7rf58YPzTcgGaDk=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=cNrs7Quamyh1a2YbzIib8cmmsNpSOgM9HpaVFBdQOS8=;
+ b=NyQ0i2BpS8kOkqFoKFzhgUZ2UOXDQOK+rcTqTPKUSZPwlIjnFlQDtwZL5Ekb2FbkwF
+ 5UAhHLHo6O/MeEPwLqiJmHRgbuRpbsK5pRM0qKkrvdVV30t/9MhT8L/Jo32VN+dKphL9
+ 0WBuWoBC5gQKsDCBVOA+hzIV/1Oi6/15BgmjIcE33LpmI+ZfAlcXkK7Nhd+16RhJ02HM
+ SQkHaCXYCUf/E7wr4hf7Wfjx5pLGlyPAJE3mj/BuU1HEU5ZCqw7QXd88WABHJwsAg8tY
+ w/i+mc0p2BbkMMvyQi7FC435rEIyKVmM7HFFisLabFAZn/ik4lbDNqKiQ61TmYesBY01
+ 7l/w==
+X-Gm-Message-State: AOAM53215Ef9zqqvw6Gj0L9Q0qysxYIcxmgVZ8ZcHsuSQN0lGkSyleKV
+ MXv9t2UwGxAkE1pME/oRx1kmsA==
+X-Google-Smtp-Source: ABdhPJz+6EUWJEB8K5Aolv8Dyi9XNpgzuUrui0KJcwm4oEmtw463pHiml0rfJpBHwJ9XhRNWBs9LYg==
+X-Received: by 2002:a63:f502:: with SMTP id w2mr16335287pgh.197.1621904411628; 
+ Mon, 24 May 2021 18:00:11 -0700 (PDT)
+Received: from localhost ([2401:fa00:9:14:768b:3ffb:3070:acdc])
+ by smtp.gmail.com with UTF8SMTPSA id r15sm6216151pfl.44.2021.05.24.18.00.07
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 24 May 2021 18:00:11 -0700 (PDT)
+From: Sam McNally <sammc@chromium.org>
+To: LKML <linux-kernel@vger.kernel.org>
+Subject: [PATCH v5 1/3] drm/dp_mst: Add self-tests for up requests
+Date: Tue, 25 May 2021 10:59:54 +1000
+Message-Id: <20210525105913.v5.1.I6f50a7996687318ba298c24a3663c8be7dd432c7@changeid>
+X-Mailer: git-send-email 2.31.1.818.g46aad6cb9e-goog
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210506191451.77768-11-matthew.brost@intel.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,59 +62,341 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: tvrtko.ursulin@intel.com, daniele.ceraolospurio@intel.com,
- jason.ekstrand@intel.com, jon.bloomfield@intel.com, daniel.vetter@intel.com,
- john.c.harrison@intel.com
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
+ Anshuman Gupta <anshuman.gupta@intel.com>, Hans Verkuil <hverkuil@xs4all.nl>,
+ Sam McNally <sammc@chromium.org>, Sean Paul <seanpaul@chromium.org>,
+ dri-devel@lists.freedesktop.org, Lee Jones <lee.jones@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, May 06, 2021 at 12:13:24PM -0700, Matthew Brost wrote:
-> From: Michal Wajdeczko <michal.wajdeczko@intel.com>
-> 
-> Generic helpers should be placed in i915_utils.h.
-> 
-> Signed-off-by: Michal Wajdeczko <michal.wajdeczko@intel.com>
-> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+Up requests are decoded by drm_dp_sideband_parse_req(), which operates
+on a drm_dp_sideband_msg_rx, unlike down requests. Expand the existing
+self-test helper sideband_msg_req_encode_decode() to copy the message
+contents and length from a drm_dp_sideband_msg_tx to
+drm_dp_sideband_msg_rx and use the parse function under test in place of
+decode. Add an additional helper for testing clearly-invalid up
+messages, verifying that parse rejects them.
 
-Reviewed-by: Matthew Brost <matthew.brost@intel.com>
+Add support for currently-supported up requests to
+drm_dp_dump_sideband_msg_req_body(); add support to
+drm_dp_encode_sideband_req() to allow encoding for the self-tests.
 
-> ---
->  drivers/gpu/drm/i915/i915_utils.h | 5 +++++
->  drivers/gpu/drm/i915/i915_vma.h   | 5 -----
->  2 files changed, 5 insertions(+), 5 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/i915_utils.h b/drivers/gpu/drm/i915/i915_utils.h
-> index f02f52ab5070..5259edacde38 100644
-> --- a/drivers/gpu/drm/i915/i915_utils.h
-> +++ b/drivers/gpu/drm/i915/i915_utils.h
-> @@ -201,6 +201,11 @@ __check_struct_size(size_t base, size_t arr, size_t count, size_t *size)
->  	__T;								\
->  })
->  
-> +static __always_inline ptrdiff_t ptrdiff(const void *a, const void *b)
-> +{
-> +	return a - b;
-> +}
-> +
->  /*
->   * container_of_user: Extract the superclass from a pointer to a member.
->   *
-> diff --git a/drivers/gpu/drm/i915/i915_vma.h b/drivers/gpu/drm/i915/i915_vma.h
-> index 8df784a026d2..a29a158990c6 100644
-> --- a/drivers/gpu/drm/i915/i915_vma.h
-> +++ b/drivers/gpu/drm/i915/i915_vma.h
-> @@ -146,11 +146,6 @@ static inline void i915_vma_put(struct i915_vma *vma)
->  	i915_gem_object_put(vma->obj);
->  }
->  
-> -static __always_inline ptrdiff_t ptrdiff(const void *a, const void *b)
-> -{
-> -	return a - b;
-> -}
-> -
->  static inline long
->  i915_vma_compare(struct i915_vma *vma,
->  		 struct i915_address_space *vm,
-> -- 
-> 2.28.0
-> 
+Add self-tests for CONNECTION_STATUS_NOTIFY and RESOURCE_STATUS_NOTIFY.
+
+Signed-off-by: Sam McNally <sammc@chromium.org>
+---
+
+Changes in v5:
+- Set mock device name to more clearly attribute error/debug logging to
+  the self-test, in particular for cases where failures are expected
+
+Changes in v4:
+- New in v4
+
+ drivers/gpu/drm/drm_dp_mst_topology.c         |  54 ++++++-
+ .../gpu/drm/drm_dp_mst_topology_internal.h    |   4 +
+ .../drm/selftests/test-drm_dp_mst_helper.c    | 149 ++++++++++++++++--
+ 3 files changed, 192 insertions(+), 15 deletions(-)
+
+diff --git a/drivers/gpu/drm/drm_dp_mst_topology.c b/drivers/gpu/drm/drm_dp_mst_topology.c
+index 54604633e65c..573f39a3dc16 100644
+--- a/drivers/gpu/drm/drm_dp_mst_topology.c
++++ b/drivers/gpu/drm/drm_dp_mst_topology.c
+@@ -442,6 +442,37 @@ drm_dp_encode_sideband_req(const struct drm_dp_sideband_msg_req_body *req,
+ 		idx++;
+ 		}
+ 		break;
++	case DP_CONNECTION_STATUS_NOTIFY: {
++		const struct drm_dp_connection_status_notify *msg;
++
++		msg = &req->u.conn_stat;
++		buf[idx] = (msg->port_number & 0xf) << 4;
++		idx++;
++		memcpy(&raw->msg[idx], msg->guid, 16);
++		idx += 16;
++		raw->msg[idx] = 0;
++		raw->msg[idx] |= msg->legacy_device_plug_status ? BIT(6) : 0;
++		raw->msg[idx] |= msg->displayport_device_plug_status ? BIT(5) : 0;
++		raw->msg[idx] |= msg->message_capability_status ? BIT(4) : 0;
++		raw->msg[idx] |= msg->input_port ? BIT(3) : 0;
++		raw->msg[idx] |= FIELD_PREP(GENMASK(2, 0), msg->peer_device_type);
++		idx++;
++		break;
++	}
++	case DP_RESOURCE_STATUS_NOTIFY: {
++		const struct drm_dp_resource_status_notify *msg;
++
++		msg = &req->u.resource_stat;
++		buf[idx] = (msg->port_number & 0xf) << 4;
++		idx++;
++		memcpy(&raw->msg[idx], msg->guid, 16);
++		idx += 16;
++		buf[idx] = (msg->available_pbn & 0xff00) >> 8;
++		idx++;
++		buf[idx] = (msg->available_pbn & 0xff);
++		idx++;
++		break;
++	}
+ 	}
+ 	raw->cur_len = idx;
+ }
+@@ -672,6 +703,22 @@ drm_dp_dump_sideband_msg_req_body(const struct drm_dp_sideband_msg_req_body *req
+ 		  req->u.enc_status.stream_behavior,
+ 		  req->u.enc_status.valid_stream_behavior);
+ 		break;
++	case DP_CONNECTION_STATUS_NOTIFY:
++		P("port=%d guid=%*ph legacy=%d displayport=%d messaging=%d input=%d peer_type=%d",
++		  req->u.conn_stat.port_number,
++		  (int)ARRAY_SIZE(req->u.conn_stat.guid), req->u.conn_stat.guid,
++		  req->u.conn_stat.legacy_device_plug_status,
++		  req->u.conn_stat.displayport_device_plug_status,
++		  req->u.conn_stat.message_capability_status,
++		  req->u.conn_stat.input_port,
++		  req->u.conn_stat.peer_device_type);
++		break;
++	case DP_RESOURCE_STATUS_NOTIFY:
++		P("port=%d guid=%*ph pbn=%d",
++		  req->u.resource_stat.port_number,
++		  (int)ARRAY_SIZE(req->u.resource_stat.guid), req->u.resource_stat.guid,
++		  req->u.resource_stat.available_pbn);
++		break;
+ 	default:
+ 		P("???\n");
+ 		break;
+@@ -1116,9 +1163,9 @@ static bool drm_dp_sideband_parse_resource_status_notify(const struct drm_dp_mst
+ 	return false;
+ }
+ 
+-static bool drm_dp_sideband_parse_req(const struct drm_dp_mst_topology_mgr *mgr,
+-				      struct drm_dp_sideband_msg_rx *raw,
+-				      struct drm_dp_sideband_msg_req_body *msg)
++bool drm_dp_sideband_parse_req(const struct drm_dp_mst_topology_mgr *mgr,
++			       struct drm_dp_sideband_msg_rx *raw,
++			       struct drm_dp_sideband_msg_req_body *msg)
+ {
+ 	memset(msg, 0, sizeof(*msg));
+ 	msg->req_type = (raw->msg[0] & 0x7f);
+@@ -1134,6 +1181,7 @@ static bool drm_dp_sideband_parse_req(const struct drm_dp_mst_topology_mgr *mgr,
+ 		return false;
+ 	}
+ }
++EXPORT_SYMBOL_FOR_TESTS_ONLY(drm_dp_sideband_parse_req);
+ 
+ static void build_dpcd_write(struct drm_dp_sideband_msg_tx *msg,
+ 			     u8 port_num, u32 offset, u8 num_bytes, u8 *bytes)
+diff --git a/drivers/gpu/drm/drm_dp_mst_topology_internal.h b/drivers/gpu/drm/drm_dp_mst_topology_internal.h
+index eeda9a61c657..0356a2e0dba1 100644
+--- a/drivers/gpu/drm/drm_dp_mst_topology_internal.h
++++ b/drivers/gpu/drm/drm_dp_mst_topology_internal.h
+@@ -21,4 +21,8 @@ void
+ drm_dp_dump_sideband_msg_req_body(const struct drm_dp_sideband_msg_req_body *req,
+ 				  int indent, struct drm_printer *printer);
+ 
++bool
++drm_dp_sideband_parse_req(const struct drm_dp_mst_topology_mgr *mgr,
++			  struct drm_dp_sideband_msg_rx *raw,
++			  struct drm_dp_sideband_msg_req_body *msg);
+ #endif /* !_DRM_DP_MST_HELPER_INTERNAL_H_ */
+diff --git a/drivers/gpu/drm/selftests/test-drm_dp_mst_helper.c b/drivers/gpu/drm/selftests/test-drm_dp_mst_helper.c
+index 6b4759ed6bfd..7bbeb1e5bc97 100644
+--- a/drivers/gpu/drm/selftests/test-drm_dp_mst_helper.c
++++ b/drivers/gpu/drm/selftests/test-drm_dp_mst_helper.c
+@@ -13,6 +13,10 @@
+ #include "../drm_dp_mst_topology_internal.h"
+ #include "test-drm_modeset_common.h"
+ 
++static void mock_release(struct device *dev)
++{
++}
++
+ int igt_dp_mst_calc_pbn_mode(void *ignored)
+ {
+ 	int pbn, i;
+@@ -120,27 +124,60 @@ sideband_msg_req_equal(const struct drm_dp_sideband_msg_req_body *in,
+ static bool
+ sideband_msg_req_encode_decode(struct drm_dp_sideband_msg_req_body *in)
+ {
+-	struct drm_dp_sideband_msg_req_body *out;
++	struct drm_dp_sideband_msg_req_body *out = NULL;
+ 	struct drm_printer p = drm_err_printer(PREFIX_STR);
+-	struct drm_dp_sideband_msg_tx *txmsg;
++	struct drm_dp_sideband_msg_tx *txmsg = NULL;
++	struct drm_dp_sideband_msg_rx *rxmsg = NULL;
++	struct drm_dp_mst_topology_mgr *mgr = NULL;
+ 	int i, ret;
+-	bool result = true;
++	bool result = false;
+ 
+ 	out = kzalloc(sizeof(*out), GFP_KERNEL);
+ 	if (!out)
+-		return false;
++		goto out;
+ 
+ 	txmsg = kzalloc(sizeof(*txmsg), GFP_KERNEL);
+ 	if (!txmsg)
+-		return false;
++		goto out;
+ 
+-	drm_dp_encode_sideband_req(in, txmsg);
+-	ret = drm_dp_decode_sideband_req(txmsg, out);
+-	if (ret < 0) {
+-		drm_printf(&p, "Failed to decode sideband request: %d\n",
+-			   ret);
+-		result = false;
++	rxmsg = kzalloc(sizeof(*rxmsg), GFP_KERNEL);
++	if (!rxmsg)
+ 		goto out;
++
++	mgr = kzalloc(sizeof(*mgr), GFP_KERNEL);
++	if (!mgr)
++		goto out;
++
++	mgr->dev = kzalloc(sizeof(*mgr->dev), GFP_KERNEL);
++	if (!mgr->dev)
++		goto out;
++
++	mgr->dev->dev = kzalloc(sizeof(*mgr->dev->dev), GFP_KERNEL);
++	if (!mgr->dev->dev)
++		goto out;
++
++	mgr->dev->dev->release = mock_release;
++	mgr->dev->dev->init_name = PREFIX_STR;
++	device_initialize(mgr->dev->dev);
++
++	drm_dp_encode_sideband_req(in, txmsg);
++	switch (in->req_type) {
++	case DP_CONNECTION_STATUS_NOTIFY:
++	case DP_RESOURCE_STATUS_NOTIFY:
++		memcpy(&rxmsg->msg, txmsg->msg, ARRAY_SIZE(rxmsg->msg));
++		rxmsg->curlen = txmsg->cur_len;
++		if (!drm_dp_sideband_parse_req(mgr, rxmsg, out)) {
++			drm_printf(&p, "Failed to decode sideband request\n");
++			goto out;
++		}
++		break;
++	default:
++		ret = drm_dp_decode_sideband_req(txmsg, out);
++		if (ret < 0) {
++			drm_printf(&p, "Failed to decode sideband request: %d\n", ret);
++			goto out;
++		}
++		break;
+ 	}
+ 
+ 	if (!sideband_msg_req_equal(in, out)) {
+@@ -148,9 +185,9 @@ sideband_msg_req_encode_decode(struct drm_dp_sideband_msg_req_body *in)
+ 		drm_dp_dump_sideband_msg_req_body(in, 1, &p);
+ 		drm_printf(&p, "Got:\n");
+ 		drm_dp_dump_sideband_msg_req_body(out, 1, &p);
+-		result = false;
+ 		goto out;
+ 	}
++	result = true;
+ 
+ 	switch (in->req_type) {
+ 	case DP_REMOTE_DPCD_WRITE:
+@@ -171,6 +208,66 @@ sideband_msg_req_encode_decode(struct drm_dp_sideband_msg_req_body *in)
+ out:
+ 	kfree(out);
+ 	kfree(txmsg);
++	kfree(rxmsg);
++	if (mgr) {
++		if (mgr->dev) {
++			put_device(mgr->dev->dev);
++			kfree(mgr->dev);
++		}
++		kfree(mgr);
++	}
++	return result;
++}
++
++static bool
++sideband_msg_req_parse(int req_type)
++{
++	struct drm_dp_sideband_msg_req_body *out = NULL;
++	struct drm_printer p = drm_err_printer(PREFIX_STR);
++	struct drm_dp_sideband_msg_rx *rxmsg = NULL;
++	struct drm_dp_mst_topology_mgr *mgr = NULL;
++	bool result = false;
++
++	out = kzalloc(sizeof(*out), GFP_KERNEL);
++	if (!out)
++		goto out;
++
++	rxmsg = kzalloc(sizeof(*rxmsg), GFP_KERNEL);
++	if (!rxmsg)
++		goto out;
++
++	mgr = kzalloc(sizeof(*mgr), GFP_KERNEL);
++	if (!mgr)
++		goto out;
++
++	mgr->dev = kzalloc(sizeof(*mgr->dev), GFP_KERNEL);
++	if (!mgr->dev)
++		goto out;
++
++	mgr->dev->dev = kzalloc(sizeof(*mgr->dev->dev), GFP_KERNEL);
++	if (!mgr->dev->dev)
++		goto out;
++
++	mgr->dev->dev->release = mock_release;
++	mgr->dev->dev->init_name = PREFIX_STR " expected parse failure";
++	device_initialize(mgr->dev->dev);
++
++	rxmsg->curlen = 1;
++	rxmsg->msg[0] = req_type & 0x7f;
++	if (drm_dp_sideband_parse_req(mgr, rxmsg, out))
++		drm_printf(&p, "Unexpectedly decoded invalid sideband request\n");
++	else
++		result = true;
++out:
++	kfree(out);
++	kfree(rxmsg);
++	if (mgr) {
++		if (mgr->dev) {
++			put_device(mgr->dev->dev);
++			kfree(mgr->dev);
++		}
++		kfree(mgr);
++	}
+ 	return result;
+ }
+ 
+@@ -268,6 +365,34 @@ int igt_dp_mst_sideband_msg_req_decode(void *unused)
+ 	in.u.enc_status.valid_stream_behavior = 1;
+ 	DO_TEST();
+ 
++	in.req_type = DP_CONNECTION_STATUS_NOTIFY;
++	in.u.conn_stat.port_number = 0xf;
++	get_random_bytes(in.u.conn_stat.guid, sizeof(in.u.conn_stat.guid));
++	in.u.conn_stat.legacy_device_plug_status = 1;
++	in.u.conn_stat.displayport_device_plug_status = 0;
++	in.u.conn_stat.message_capability_status = 0;
++	in.u.conn_stat.input_port = 0;
++	in.u.conn_stat.peer_device_type = 7;
++	DO_TEST();
++	in.u.conn_stat.displayport_device_plug_status = 1;
++	DO_TEST();
++	in.u.conn_stat.message_capability_status = 1;
++	DO_TEST();
++	in.u.conn_stat.input_port = 1;
++	DO_TEST();
++
++	in.req_type = DP_RESOURCE_STATUS_NOTIFY;
++	in.u.resource_stat.port_number = 0xf;
++	get_random_bytes(in.u.resource_stat.guid, sizeof(in.u.resource_stat.guid));
++	in.u.resource_stat.available_pbn = 0xcdef;
++	DO_TEST();
++
++#undef DO_TEST
++#define DO_TEST(req_type) FAIL_ON(!sideband_msg_req_parse(req_type))
++	DO_TEST(DP_CONNECTION_STATUS_NOTIFY);
++	DO_TEST(DP_RESOURCE_STATUS_NOTIFY);
++
++	DO_TEST(DP_REMOTE_I2C_WRITE);
+ #undef DO_TEST
+ 	return 0;
+ }
+-- 
+2.31.1.818.g46aad6cb9e-goog
+
