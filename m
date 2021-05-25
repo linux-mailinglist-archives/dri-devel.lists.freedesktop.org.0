@@ -1,41 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2CBC38F85C
-	for <lists+dri-devel@lfdr.de>; Tue, 25 May 2021 04:55:17 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9844B38F867
+	for <lists+dri-devel@lfdr.de>; Tue, 25 May 2021 05:00:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 52EC76E32A;
-	Tue, 25 May 2021 02:54:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8ABFE6E504;
+	Tue, 25 May 2021 03:00:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2DB766E32A;
- Tue, 25 May 2021 02:54:23 +0000 (UTC)
-IronPort-SDR: mzDD3KNx5JOqBziTxQnHRNGJwNHksqn1nCTcpvd4qzD5lodpmUzedrsrRjE8IWipguRS0l08mQ
- ehH9HYiEkYGw==
-X-IronPort-AV: E=McAfee;i="6200,9189,9994"; a="223246733"
-X-IronPort-AV: E=Sophos;i="5.82,327,1613462400"; d="scan'208";a="223246733"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 May 2021 19:54:22 -0700
-IronPort-SDR: 5DgRWqyLz2p/IQjdgAz6M2PqITh4MtIG4iOUDdDTKgi0m6vihXlU4al0fmIGog6LB1/aCilIGv
- R9chAslW59kg==
-X-IronPort-AV: E=Sophos;i="5.82,327,1613462400"; d="scan'208";a="443117608"
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6A3326E504;
+ Tue, 25 May 2021 03:00:37 +0000 (UTC)
+IronPort-SDR: L9FBviW6KMjau2IgOAS8DdFf9ogT2bjeIuUgW6codGfyS4kcu8dhLp1r4x13fGwBXpPuuN6T/x
+ ADIONQeFyrrA==
+X-IronPort-AV: E=McAfee;i="6200,9189,9994"; a="287658566"
+X-IronPort-AV: E=Sophos;i="5.82,327,1613462400"; d="scan'208";a="287658566"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 May 2021 20:00:36 -0700
+IronPort-SDR: aYnW53MNtKuXWPROa8o2cImMZgxCe6T+wSYAbA8ByDuLbz8keTOI4qvp5cJIeC11gZOLAZss5S
+ TtNFq/KUUdzw==
+X-IronPort-AV: E=Sophos;i="5.82,327,1613462400"; d="scan'208";a="435527486"
 Received: from unknown (HELO sdutt-i7) ([10.165.21.147])
- by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 May 2021 19:54:20 -0700
-Date: Mon, 24 May 2021 19:47:12 -0700
+ by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 May 2021 20:00:36 -0700
+Date: Mon, 24 May 2021 19:53:28 -0700
 From: Matthew Brost <matthew.brost@intel.com>
 To: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: Re: [RFC PATCH 11/97] drm/i915/guc: Only rely on own CTB size
-Message-ID: <20210525024712.GA8004@sdutt-i7>
+Subject: Re: [RFC PATCH 12/97] drm/i915/guc: Don't repeat CTB layout
+ calculations
+Message-ID: <20210525025328.GA9162@sdutt-i7>
 References: <20210506191451.77768-1-matthew.brost@intel.com>
- <20210506191451.77768-12-matthew.brost@intel.com>
+ <20210506191451.77768-13-matthew.brost@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210506191451.77768-12-matthew.brost@intel.com>
+In-Reply-To: <20210506191451.77768-13-matthew.brost@intel.com>
 User-Agent: Mutt/1.9.4 (2018-02-28)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -55,186 +56,76 @@ Cc: tvrtko.ursulin@intel.com, daniele.ceraolospurio@intel.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, May 06, 2021 at 12:13:25PM -0700, Matthew Brost wrote:
+On Thu, May 06, 2021 at 12:13:26PM -0700, Matthew Brost wrote:
 > From: Michal Wajdeczko <michal.wajdeczko@intel.com>
 > 
-> In upcoming GuC firmware, CTB size will be removed from the CTB
-> descriptor so we must keep it locally for any calculations.
+> We can retrieve offsets to cmds buffers and descriptor from
+> actual pointers that we already keep locally.
 > 
-> While around, improve some debug messages and helpers.
-> 
-
-desc->size is still used in the patch and really shouldn't be per this
-comment but a patch later in the series drops it. Seeing as this patch
-and that patch are going to squashed into a single patch upgrading the
-GuC firmware I think that is ok.
-
-With that:
-Reviewed-by: Matthew Brost <matthew.brost@intel.com> 
-
 > Signed-off-by: Michal Wajdeczko <michal.wajdeczko@intel.com>
 > Signed-off-by: Matthew Brost <matthew.brost@intel.com>
 > ---
->  drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c | 55 +++++++++++++++++------
->  drivers/gpu/drm/i915/gt/uc/intel_guc_ct.h |  2 +
->  2 files changed, 43 insertions(+), 14 deletions(-)
+>  drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c | 16 ++++++++++------
+>  1 file changed, 10 insertions(+), 6 deletions(-)
 > 
 > diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
-> index 4cc8c0b71699..dbece569fbe4 100644
+> index dbece569fbe4..fbd6bd20f588 100644
 > --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
 > +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
-> @@ -90,6 +90,24 @@ static void guc_ct_buffer_desc_init(struct guc_ct_buffer_desc *desc,
->  	desc->owner = CTB_OWNER_HOST;
->  }
->  
-> +static void guc_ct_buffer_reset(struct intel_guc_ct_buffer *ctb, u32 cmds_addr)
-> +{
-> +	guc_ct_buffer_desc_init(ctb->desc, cmds_addr, ctb->size);
-> +}
-> +
-> +static void guc_ct_buffer_init(struct intel_guc_ct_buffer *ctb,
-> +			       struct guc_ct_buffer_desc *desc,
-> +			       u32 *cmds, u32 size)
-> +{
-> +	GEM_BUG_ON(size % 4);
-> +
-> +	ctb->desc = desc;
-> +	ctb->cmds = cmds;
-> +	ctb->size = size;
-> +
-> +	guc_ct_buffer_reset(ctb, 0);
-> +}
-> +
->  static int guc_action_register_ct_buffer(struct intel_guc *guc,
->  					 u32 desc_addr,
->  					 u32 type)
-> @@ -148,7 +166,10 @@ static int ct_deregister_buffer(struct intel_guc_ct *ct, u32 type)
->  int intel_guc_ct_init(struct intel_guc_ct *ct)
+> @@ -244,6 +244,7 @@ int intel_guc_ct_enable(struct intel_guc_ct *ct)
 >  {
 >  	struct intel_guc *guc = ct_to_guc(ct);
-> +	struct guc_ct_buffer_desc *desc;
-> +	u32 blob_size;
->  	void *blob;
-> +	u32 *cmds;
+>  	u32 base, cmds;
+> +	void *blob;
 >  	int err;
 >  	int i;
 >  
-> @@ -176,19 +197,24 @@ int intel_guc_ct_init(struct intel_guc_ct *ct)
->  	 * other code will need updating as well.
->  	 */
+> @@ -251,15 +252,18 @@ int intel_guc_ct_enable(struct intel_guc_ct *ct)
 >  
-> -	err = intel_guc_allocate_and_map_vma(guc, PAGE_SIZE, &ct->vma, &blob);
-> +	blob_size = PAGE_SIZE;
-> +	err = intel_guc_allocate_and_map_vma(guc, blob_size, &ct->vma, &blob);
->  	if (unlikely(err)) {
-> -		CT_ERROR(ct, "Failed to allocate CT channel (err=%d)\n", err);
-> +		CT_PROBE_ERROR(ct, "Failed to allocate %u for CTB data (%pe)\n",
-> +			       blob_size, ERR_PTR(err));
->  		return err;
->  	}
+>  	/* vma should be already allocated and map'ed */
+>  	GEM_BUG_ON(!ct->vma);
+> +	GEM_BUG_ON(!i915_gem_object_has_pinned_pages(ct->vma->obj));
+
+This doesn't really have anything to do with this patch, but again this
+patch will be squashed into a large patch updating the GuC firmware, so
+I think this is fine.
+
+With that:
+Reviewed-by: Matthew Brost <matthew.brost@intel.com>
+
+>  	base = intel_guc_ggtt_offset(guc, ct->vma);
 >  
-> -	CT_DEBUG(ct, "vma base=%#x\n", intel_guc_ggtt_offset(guc, ct->vma));
-> +	CT_DEBUG(ct, "base=%#x size=%u\n", intel_guc_ggtt_offset(guc, ct->vma), blob_size);
->  
->  	/* store pointers to desc and cmds */
->  	for (i = 0; i < ARRAY_SIZE(ct->ctbs); i++) {
->  		GEM_BUG_ON((i !=  CTB_SEND) && (i != CTB_RECV));
-> -		ct->ctbs[i].desc = blob + PAGE_SIZE/4 * i;
-> -		ct->ctbs[i].cmds = blob + PAGE_SIZE/4 * i + PAGE_SIZE/2;
+> -	/* (re)initialize descriptors
+> -	 * cmds buffers are in the second half of the blob page
+> -	 */
+> +	/* blob should start with send descriptor */
+> +	blob = __px_vaddr(ct->vma->obj);
+> +	GEM_BUG_ON(blob != ct->ctbs[CTB_SEND].desc);
 > +
-> +		desc = blob + PAGE_SIZE / 4 * i;
-> +		cmds = blob + PAGE_SIZE / 4 * i + PAGE_SIZE / 2;
-> +
-> +		guc_ct_buffer_init(&ct->ctbs[i], desc, cmds, PAGE_SIZE / 4);
->  	}
->  
->  	return 0;
-> @@ -217,7 +243,7 @@ void intel_guc_ct_fini(struct intel_guc_ct *ct)
->  int intel_guc_ct_enable(struct intel_guc_ct *ct)
->  {
->  	struct intel_guc *guc = ct_to_guc(ct);
-> -	u32 base, cmds, size;
-> +	u32 base, cmds;
->  	int err;
->  	int i;
->  
-> @@ -232,10 +258,11 @@ int intel_guc_ct_enable(struct intel_guc_ct *ct)
->  	 */
+> +	/* (re)initialize descriptors */
 >  	for (i = 0; i < ARRAY_SIZE(ct->ctbs); i++) {
 >  		GEM_BUG_ON((i != CTB_SEND) && (i != CTB_RECV));
-> +
->  		cmds = base + PAGE_SIZE / 4 * i + PAGE_SIZE / 2;
-> -		size = PAGE_SIZE / 4;
-> -		CT_DEBUG(ct, "%d: addr=%#x size=%u\n", i, cmds, size);
-> -		guc_ct_buffer_desc_init(ct->ctbs[i].desc, cmds, size);
-> +		CT_DEBUG(ct, "%d: cmds addr=%#x\n", i, cmds);
-> +
-> +		guc_ct_buffer_reset(&ct->ctbs[i], cmds);
->  	}
 >  
->  	/*
-> @@ -259,7 +286,7 @@ int intel_guc_ct_enable(struct intel_guc_ct *ct)
->  err_deregister:
->  	ct_deregister_buffer(ct, INTEL_GUC_CT_BUFFER_TYPE_RECV);
->  err_out:
-> -	CT_PROBE_ERROR(ct, "Failed to open channel (err=%d)\n", err);
-> +	CT_PROBE_ERROR(ct, "Failed to enable CTB (%pe)\n", ERR_PTR(err));
->  	return err;
->  }
+> -		cmds = base + PAGE_SIZE / 4 * i + PAGE_SIZE / 2;
+> +		cmds = base + ptrdiff(ct->ctbs[i].cmds, blob);
+>  		CT_DEBUG(ct, "%d: cmds addr=%#x\n", i, cmds);
 >  
-> @@ -314,7 +341,7 @@ static int ct_write(struct intel_guc_ct *ct,
->  	struct guc_ct_buffer_desc *desc = ctb->desc;
->  	u32 head = desc->head;
->  	u32 tail = desc->tail;
-> -	u32 size = desc->size;
-> +	u32 size = ctb->size;
->  	u32 used;
->  	u32 header;
->  	u32 *cmds = ctb->cmds;
-> @@ -323,7 +350,7 @@ static int ct_write(struct intel_guc_ct *ct,
->  	if (unlikely(desc->is_in_error))
->  		return -EPIPE;
+>  		guc_ct_buffer_reset(&ct->ctbs[i], cmds);
+> @@ -269,12 +273,12 @@ int intel_guc_ct_enable(struct intel_guc_ct *ct)
+>  	 * Register both CT buffers starting with RECV buffer.
+>  	 * Descriptors are in first half of the blob.
+>  	 */
+> -	err = ct_register_buffer(ct, base + PAGE_SIZE / 4 * CTB_RECV,
+> +	err = ct_register_buffer(ct, base + ptrdiff(ct->ctbs[CTB_RECV].desc, blob),
+>  				 INTEL_GUC_CT_BUFFER_TYPE_RECV);
+>  	if (unlikely(err))
+>  		goto err_out;
 >  
-> -	if (unlikely(!IS_ALIGNED(head | tail | size, 4) ||
-> +	if (unlikely(!IS_ALIGNED(head | tail, 4) ||
->  		     (tail | head) >= size))
->  		goto corrupted;
->  
-> @@ -530,7 +557,7 @@ static int ct_read(struct intel_guc_ct *ct, u32 *data)
->  	struct guc_ct_buffer_desc *desc = ctb->desc;
->  	u32 head = desc->head;
->  	u32 tail = desc->tail;
-> -	u32 size = desc->size;
-> +	u32 size = ctb->size;
->  	u32 *cmds = ctb->cmds;
->  	s32 available;
->  	unsigned int len;
-> @@ -539,7 +566,7 @@ static int ct_read(struct intel_guc_ct *ct, u32 *data)
->  	if (unlikely(desc->is_in_error))
->  		return -EPIPE;
->  
-> -	if (unlikely(!IS_ALIGNED(head | tail | size, 4) ||
-> +	if (unlikely(!IS_ALIGNED(head | tail, 4) ||
->  		     (tail | head) >= size))
->  		goto corrupted;
->  
-> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.h b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.h
-> index 494a51a5200f..4009e2dd0de4 100644
-> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.h
-> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.h
-> @@ -29,10 +29,12 @@ struct intel_guc;
->   *
->   * @desc: pointer to the buffer descriptor
->   * @cmds: pointer to the commands buffer
-> + * @size: size of the commands buffer
->   */
->  struct intel_guc_ct_buffer {
->  	struct guc_ct_buffer_desc *desc;
->  	u32 *cmds;
-> +	u32 size;
->  };
->  
->  
+> -	err = ct_register_buffer(ct, base + PAGE_SIZE / 4 * CTB_SEND,
+> +	err = ct_register_buffer(ct, base + ptrdiff(ct->ctbs[CTB_SEND].desc, blob),
+>  				 INTEL_GUC_CT_BUFFER_TYPE_SEND);
+>  	if (unlikely(err))
+>  		goto err_deregister;
 > -- 
 > 2.28.0
 > 
