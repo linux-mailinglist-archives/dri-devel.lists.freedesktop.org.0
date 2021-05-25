@@ -1,64 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E44AF390055
-	for <lists+dri-devel@lfdr.de>; Tue, 25 May 2021 13:52:03 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B350239005A
+	for <lists+dri-devel@lfdr.de>; Tue, 25 May 2021 13:53:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 063526E0E7;
-	Tue, 25 May 2021 11:51:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9C76A89364;
+	Tue, 25 May 2021 11:53:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x634.google.com (mail-pl1-x634.google.com
- [IPv6:2607:f8b0:4864:20::634])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AA2E76E9FD;
- Tue, 25 May 2021 11:51:50 +0000 (UTC)
-Received: by mail-pl1-x634.google.com with SMTP id a7so7529962plh.3;
- Tue, 25 May 2021 04:51:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=b+pvn2nXkSIJnrU7EGg7e76c9ZIrOlzh6tmn2/UaWAc=;
- b=ux/BjJOENvYmKF+ItVg8NVlJLXaqpULPGGtnzWVllw854nwWBHJtg7js6S0+4puWIT
- HNFk7FvLe6A5F4iSNA18uI+QwuYBI6cstX2kp6/jFPpHIWZdNLOyKm0v0zdbWVp0nKI6
- HqR4ofzG4AqYFMUnPPUM8HXxA7uzIl1hif+FJ/NNcv0XZMXnIM8V5AqQHqWwGZzomiRw
- 3nryiUCt0I7ipoDmFjFB+XowZ+AeazKQGBOvY+51jezOPJxSVT++LWMbjlc9kwKkoOnB
- UN6CQFWOghl8Cb/qWvrTgU76fuRlCqvt25hSfMfxZm3nmOBOHI66kRc6nyQLiYuKA9g8
- Svkg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=b+pvn2nXkSIJnrU7EGg7e76c9ZIrOlzh6tmn2/UaWAc=;
- b=oqV6Ipte2VxW5XRj44LeiT9A7in6tt5Dk8zvB95xpMbQW5px8m38TPISsBc0IXCY7l
- itHYM2Yq9PvsRhdV12HmuN1n2/evxbqmoz3lImzz0dyc4DzvzjjfnR2+nh03D8i08gAE
- gaAcF9xJFNYt0UsN39X8edlysYELPaXnlvVgWXM3N3cWzD3mBDISLnMDC8Z926vOremO
- 5T30TwiHW3Kq2druXTJaqEhPY1JCrkLK+geR9gXzYu3xRblxA0H+rhhWW+G2IjuXg9nB
- PpmdvKAAILhBlTcBBTIykunFjwKtsLgi5szto9YwQOht42PCOFS51OJMYrO3lRfy4beP
- qkxw==
-X-Gm-Message-State: AOAM532pTJqBaCn+X0zIiFxw5bMZeFq5rGFW6VWy7ofD+SXjPdDHQ5f8
- 1Z8tB/5jrrV4uRvw6Wm/twM=
-X-Google-Smtp-Source: ABdhPJz6/UGyoOENAI29h279nKb1UeFwzFTVYdRAISes6uazmeV+8/t7UzyopHxY49DpGs0pQGb9UQ==
-X-Received: by 2002:a17:902:6b84:b029:ee:f966:1911 with SMTP id
- p4-20020a1709026b84b02900eef9661911mr29965113plk.69.1621943509655; 
- Tue, 25 May 2021 04:51:49 -0700 (PDT)
-Received: from localhost (14-200-114-182.static.tpgi.com.au. [14.200.114.182])
- by smtp.gmail.com with ESMTPSA id
- lj13sm1908099pjb.3.2021.05.25.04.51.46
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 25 May 2021 04:51:47 -0700 (PDT)
-Date: Tue, 25 May 2021 21:51:44 +1000
-From: Balbir Singh <bsingharora@gmail.com>
-To: Andrew Morton <akpm@linux-foundation.org>
-Subject: Re: [PATCH v9 07/10] mm: Device exclusive memory access
-Message-ID: <YKzk0ILRsyazMs2W@balbir-desktop>
-References: <20210524132725.12697-1-apopple@nvidia.com>
- <20210524132725.12697-8-apopple@nvidia.com>
- <20210524151157.2dc5d2bb510ff86dc449bf0c@linux-foundation.org>
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ACD3189364;
+ Tue, 25 May 2021 11:53:31 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1621943610; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=0z5nxqVTKyOw1uO1RT1x+0CkKryqp8rTdMNuI8V8fis=;
+ b=2XnDjqTvZvJdBXuNuAGIS6hKQoQarF4LoYZm9nx1iX2IeFSddrxNibSYHyKDdz/Nb4Maa4
+ dIuzAJ0GfBM+eYIhTMKHQJsqKIBuUiQvBKffSMtunNSOcPlVPCIDPQ4fV2Z+VcOo4xtSSr
+ b51942qh+q2BdB1tVHJ+e6As687fGns=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1621943610;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=0z5nxqVTKyOw1uO1RT1x+0CkKryqp8rTdMNuI8V8fis=;
+ b=Y/qofScj9paG0FPHh25yKLkDg3lbt3ps8+yBh2V90OrXsdOqwnD7zg8W5EjcMBXL6JjEl7
+ AxibTBYzTJFINJDg==
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id 148C3AF03;
+ Tue, 25 May 2021 11:53:30 +0000 (UTC)
+Subject: Re: i915 gvt broke drm-tip; Fix ASAP
+To: Jani Nikula <jani.nikula@linux.intel.com>,
+ Zhenyu Wang <zhenyuw@linux.intel.com>
+References: <58f039e1-225f-4542-8355-1ae91a225206@suse.de>
+ <20210524030901.GC27293@zhen-hp.sh.intel.com> <87k0nocv2f.fsf@intel.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Message-ID: <a13379b8-2827-4eb9-1395-18ed1b9756e8@suse.de>
+Date: Tue, 25 May 2021 13:53:29 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210524151157.2dc5d2bb510ff86dc449bf0c@linux-foundation.org>
+In-Reply-To: <87k0nocv2f.fsf@intel.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="qZm1DnloFXpLxDkOywZQpV2tnvBt2Y0eD"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,83 +59,102 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: rcampbell@nvidia.com, willy@infradead.org, linux-doc@vger.kernel.org,
- nouveau@lists.freedesktop.org, Alistair Popple <apopple@nvidia.com>,
- hughd@google.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, hch@infradead.org, linux-mm@kvack.org,
- jglisse@redhat.com, bskeggs@redhat.com, jgg@nvidia.com, jhubbard@nvidia.com,
- peterx@redhat.com, Christoph Hellwig <hch@lst.de>
+Cc: intel-gfx@lists.freedesktop.org,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, David Airlie <airlied@redhat.com>,
+ "intel-gvt-dev@lists.freedesktop.org" <intel-gvt-dev@lists.freedesktop.org>,
+ zhi.a.wang@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, May 24, 2021 at 03:11:57PM -0700, Andrew Morton wrote:
-> On Mon, 24 May 2021 23:27:22 +1000 Alistair Popple <apopple@nvidia.com> wrote:
-> 
-> > Some devices require exclusive write access to shared virtual
-> > memory (SVM) ranges to perform atomic operations on that memory. This
-> > requires CPU page tables to be updated to deny access whilst atomic
-> > operations are occurring.
-> > 
-> > In order to do this introduce a new swap entry
-> > type (SWP_DEVICE_EXCLUSIVE). When a SVM range needs to be marked for
-> > exclusive access by a device all page table mappings for the particular
-> > range are replaced with device exclusive swap entries. This causes any
-> > CPU access to the page to result in a fault.
-> > 
-> > Faults are resovled by replacing the faulting entry with the original
-> > mapping. This results in MMU notifiers being called which a driver uses
-> > to update access permissions such as revoking atomic access. After
-> > notifiers have been called the device will no longer have exclusive
-> > access to the region.
-> > 
-> > Walking of the page tables to find the target pages is handled by
-> > get_user_pages() rather than a direct page table walk. A direct page
-> > table walk similar to what migrate_vma_collect()/unmap() does could also
-> > have been utilised. However this resulted in more code similar in
-> > functionality to what get_user_pages() provides as page faulting is
-> > required to make the PTEs present and to break COW.
-> > 
-> > ...
-> >
-> >  Documentation/vm/hmm.rst     |  17 ++++
-> >  include/linux/mmu_notifier.h |   6 ++
-> >  include/linux/rmap.h         |   4 +
-> >  include/linux/swap.h         |   7 +-
-> >  include/linux/swapops.h      |  44 ++++++++-
-> >  mm/hmm.c                     |   5 +
-> >  mm/memory.c                  | 128 +++++++++++++++++++++++-
-> >  mm/mprotect.c                |   8 ++
-> >  mm/page_vma_mapped.c         |   9 +-
-> >  mm/rmap.c                    | 186 +++++++++++++++++++++++++++++++++++
-> >  10 files changed, 405 insertions(+), 9 deletions(-)
-> > 
-> 
-> This is quite a lot of code added to core MM for a single driver.
-> 
-> Is there any expectation that other drivers will use this code?
-> 
-> Is there a way of reducing the impact (code size, at least) for systems
-> which don't need this code?
->
-> How beneficial is this code to nouveau users?  I see that it permits a
-> part of OpenCL to be implemented, but how useful/important is this in
-> the real world?
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--qZm1DnloFXpLxDkOywZQpV2tnvBt2Y0eD
+Content-Type: multipart/mixed; boundary="3VwOj3tN0z6zzgWm65bDSH6UnIWOiG156";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Jani Nikula <jani.nikula@linux.intel.com>,
+ Zhenyu Wang <zhenyuw@linux.intel.com>
+Cc: intel-gfx@lists.freedesktop.org,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, David Airlie <airlied@redhat.com>,
+ "intel-gvt-dev@lists.freedesktop.org" <intel-gvt-dev@lists.freedesktop.org>,
+ zhi.a.wang@intel.com
+Message-ID: <a13379b8-2827-4eb9-1395-18ed1b9756e8@suse.de>
+Subject: Re: i915 gvt broke drm-tip; Fix ASAP
+References: <58f039e1-225f-4542-8355-1ae91a225206@suse.de>
+ <20210524030901.GC27293@zhen-hp.sh.intel.com> <87k0nocv2f.fsf@intel.com>
+In-Reply-To: <87k0nocv2f.fsf@intel.com>
 
-That is a very good question! I've not reviewed the code, but a sample
-program with the described use case would make things easy to parse.
-I suspect that is not easy to build at the moment?
+--3VwOj3tN0z6zzgWm65bDSH6UnIWOiG156
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-I wonder how we co-ordinate all the work the mm is doing, page migration,
-reclaim with device exclusive access? Do we have any numbers for the worst
-case page fault latency when something is marked away for exclusive access?
-I presume for now this is anonymous memory only? SWP_DEVICE_EXCLUSIVE would
-only impact the address space of programs using the GPU. Should the exclusively
-marked range live in the unreclaimable list and recycled back to active/in-active
-to account for the fact that
+Hi
 
-1. It is not reclaimable and reclaim will only hurt via page faults?
-2. It ages the page correctly or at-least allows for that possibility when the
-   page is used by the GPU.
+Am 24.05.21 um 11:58 schrieb Jani Nikula:
+> On Mon, 24 May 2021, Zhenyu Wang <zhenyuw@linux.intel.com> wrote:
+>> On 2021.05.22 21:19:38 +0200, Thomas Zimmermann wrote:
+>>> Hi,
+>>>
+>>> after creating drm-tip today as part of [1], building drm-tip is now =
+broken
+>>> with the error message shown below.
+>>>
+>>> Some register constants appear to be missing from the GVT code. Pleas=
+e fix
+>>> ASAP.
+>>>
+>>
+>> Thanks, Thomas. Looks DMC rename missed gvt part. We need to ask CI to=20
+have
+>> at least build test with gvt.
+>=20
+> Indeed. This is fixed now with 273895109a04 ("drm/i915/gvt: Add missing=
 
-Balbir Singh.
- 
+> macro name changes").
+
+Ok, it builds again. Thanks to both of you.
+
+Best regards
+Thomas
+
+>=20
+> BR,
+> Jani.
+>=20
+>=20
+
+--=20
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+(HRB 36809, AG N=C3=BCrnberg)
+Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+
+
+--3VwOj3tN0z6zzgWm65bDSH6UnIWOiG156--
+
+--qZm1DnloFXpLxDkOywZQpV2tnvBt2Y0eD
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmCs5TkFAwAAAAAACgkQlh/E3EQov+D3
+/w/9G5et1YwRspSJiSqKI6zm3aEKuSsv/ZN62nW530vWWxREbv70p5oNWB8A+EkUIiVrZWoYmEnG
+CxaRy2qBad7AzM+TcEs8aO+QENt8szFWSvrKqJTUO/LwCj7WjcT/fHo0xqnrBUp5fQeLULzYI42L
+ussUUif7oAmes9mfF6U5hfCRXuhkwkhBkkeUTGVu6g161KEu9iRCsSTSH+/17ssiSN8ZKogDKyKv
+DXBt+q3jqyul+QBG3/OMByKVOQYUgoX7Y7mgpf7d4zQ/GuKlhcFT/RmTTx5bYDjofCNHRjMOrtAa
+YTEiV67p2RRSr2IRUnal6VE4XRi9FDiJxWquAqk7NPaCI+Cu50Wan79Wt+hRK34jlSMN5/u9K61e
+qU/1RAdf+5DCTf2RpjWt5hXD3cHkHOZhCP3ZOq4OOiu9ss6BrgugcNKZ1GY9MzepFvILyOM/4E76
+C1J+lPq2WYkFO2kcjwcXm6u6LOU8ERi+rfJCHOmTA1NUkRwPten44dwWccwelbSzTkcyrdGaRXQg
+0AnWRdjB8zBzzb/GxsKEs+oplw9WP4nk+btQTnTdRYIrEVpqg67kLUWNkAgbxgIZdbPR0gCChVhb
+ime70rFNWuHJl4iqmanRkoE6T2ElbAR67o5sf5GliVW6Wjxf8Bew4CumfB2mXEcztRp8sMc5RTK2
+80Q=
+=Tssr
+-----END PGP SIGNATURE-----
+
+--qZm1DnloFXpLxDkOywZQpV2tnvBt2Y0eD--
