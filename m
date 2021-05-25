@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DFD2538F8C9
-	for <lists+dri-devel@lfdr.de>; Tue, 25 May 2021 05:28:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1220C38F8CB
+	for <lists+dri-devel@lfdr.de>; Tue, 25 May 2021 05:29:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2305F6E826;
-	Tue, 25 May 2021 03:28:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7A5446E9A4;
+	Tue, 25 May 2021 03:29:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B1DFF6E3E5;
- Tue, 25 May 2021 03:28:35 +0000 (UTC)
-IronPort-SDR: r8mJZRDYeOY0CH3i5eUguP3QBzcKlUZ3S6Wda4KJhSV9PMZ6Sxuc6F+ODPFR97RRIFsgNu5IGH
- Zx4Ly4ZMw1GA==
-X-IronPort-AV: E=McAfee;i="6200,9189,9994"; a="182413331"
-X-IronPort-AV: E=Sophos;i="5.82,327,1613462400"; d="scan'208";a="182413331"
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 506876E9A3;
+ Tue, 25 May 2021 03:29:07 +0000 (UTC)
+IronPort-SDR: U8fBJh/orl4lLyvo1oZYSeyMca3uwlwAMg2MIKBfLfzuZdyVdhUetpDekAGL+a9JjzXdy56Pzd
+ 7rs6QJdi8dUg==
+X-IronPort-AV: E=McAfee;i="6200,9189,9994"; a="189468487"
+X-IronPort-AV: E=Sophos;i="5.82,327,1613462400"; d="scan'208";a="189468487"
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 May 2021 20:28:35 -0700
-IronPort-SDR: XqsW9h5aZpjmlbXTfkvCPXGkMW/G/4cC6/Pm4Fs+Z69Bkwlgw0KnXXcNH4B2PGItPqp8ndyK0n
- JLurZQOxZf5g==
-X-IronPort-AV: E=Sophos;i="5.82,327,1613462400"; d="scan'208";a="546330332"
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 May 2021 20:29:04 -0700
+IronPort-SDR: skH1YVjfBtreb4hBwWck4gpdhk09IRVQuNnyoQJdJzv+Jlhlys/H9K0Il2mXGCx2AdhatYD5/x
+ mW7aRatRr2eQ==
+X-IronPort-AV: E=Sophos;i="5.82,327,1613462400"; d="scan'208";a="546330501"
 Received: from unknown (HELO sdutt-i7) ([10.165.21.147])
  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 May 2021 20:28:34 -0700
-Date: Mon, 24 May 2021 20:21:26 -0700
+ 24 May 2021 20:29:04 -0700
+Date: Mon, 24 May 2021 20:21:56 -0700
 From: Matthew Brost <matthew.brost@intel.com>
 To: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 Subject: Re: [RFC PATCH 16/97] drm/i915/guc: Start protecting access to CTB
  descriptors
-Message-ID: <20210525032125.GA12961@sdutt-i7>
+Message-ID: <20210525032156.GA12752@sdutt-i7>
 References: <20210506191451.77768-1-matthew.brost@intel.com>
  <20210506191451.77768-17-matthew.brost@intel.com>
 MIME-Version: 1.0
@@ -63,19 +63,14 @@ On Thu, May 06, 2021 at 12:13:30PM -0700, Matthew Brost wrote:
 > so we have to start protecting access to CTB send descriptor.
 > 
 > For completeness protect also CTB send descriptor.
-
-Michal I think you have a typo here, receive descriptor, right? Again
-this is going to get squashed in the firmware update patch but thought
-I'd mention this.
-
-With that:
-Reviewed-by: Matthew Brost <matthew.brost@intel.com> 
-
 > 
 > Add spinlock to struct intel_guc_ct_buffer and start using it.
 > 
 > Signed-off-by: Michal Wajdeczko <michal.wajdeczko@intel.com>
 > Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+
+Reviewed-by: Matthew Brost <matthew.brost@intel.com>
+
 > ---
 >  drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c | 14 ++++++++++++--
 >  drivers/gpu/drm/i915/gt/uc/intel_guc_ct.h |  2 ++
