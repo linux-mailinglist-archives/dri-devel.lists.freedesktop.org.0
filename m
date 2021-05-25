@@ -2,41 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0C4538F878
-	for <lists+dri-devel@lfdr.de>; Tue, 25 May 2021 05:04:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BF4538F882
+	for <lists+dri-devel@lfdr.de>; Tue, 25 May 2021 05:09:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1622B6E5BD;
-	Tue, 25 May 2021 03:04:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 528F28938F;
+	Tue, 25 May 2021 03:09:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F36BB6E5BD;
- Tue, 25 May 2021 03:03:58 +0000 (UTC)
-IronPort-SDR: VKJq1jfYYzBOpY1UumaAj1HLKMyXv8m5FAKTjUscEcWI1qIE4kj5bfMSKcBF3ZF/VrZ9sYxPKj
- w9F8IN4pmU2g==
-X-IronPort-AV: E=McAfee;i="6200,9189,9994"; a="200186862"
-X-IronPort-AV: E=Sophos;i="5.82,327,1613462400"; d="scan'208";a="200186862"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 May 2021 20:03:58 -0700
-IronPort-SDR: bZXQsxen5wjVGpo3dSi79EVU0OVh6CkR3gqT14JNTjj5FI6Tcm/UGV4EYWwlj8coalWFrGHPQO
- g0ahnqyMj6kw==
-X-IronPort-AV: E=Sophos;i="5.82,327,1613462400"; d="scan'208";a="397185527"
-Received: from unknown (HELO sdutt-i7) ([10.165.21.147])
- by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 May 2021 20:03:58 -0700
-Date: Mon, 24 May 2021 19:56:50 -0700
-From: Matthew Brost <matthew.brost@intel.com>
-To: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: Re: [RFC PATCH 14/97] drm/i915/guc: Update sizes of CTB buffers
-Message-ID: <20210525025650.GA9876@sdutt-i7>
-References: <20210506191451.77768-1-matthew.brost@intel.com>
- <20210506191451.77768-15-matthew.brost@intel.com>
+Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com
+ [IPv6:2607:f8b0:4864:20::102e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7F79789395
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 May 2021 03:08:27 +0000 (UTC)
+Received: by mail-pj1-x102e.google.com with SMTP id kr9so7934681pjb.5
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 May 2021 20:08:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=VHDFyefEfXv2T1h/kXDPOn5vVw8tSm/6FW05x+E2j40=;
+ b=merHIeKNi5Uu6C9TAUujDNIN9FxrI34YUx7aW4WyFELIyYppIt99C4UwGvzWaArcmu
+ 9EaYZFbnrmtDjrMZ7c8349ke6DKJjWiZDCUD5epOu2PqMIr5kYM1CoXZ0XNE1vQ3QFiu
+ bvf2bDyHaIMES3MNNrHcengJbyjgwpDl3VY20=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=VHDFyefEfXv2T1h/kXDPOn5vVw8tSm/6FW05x+E2j40=;
+ b=XoWG6QNBAn+skahFNBnUlAuxbrR8ap0St2Q3yeAWv/JUiqNgmkutT/GwRRa7tv3CTQ
+ 2xvECbO28kSt5YSMK3WNNlrzBMrgHzqs5/+48qNn/vwN22Bdtz/DjA3W4BFqyS6pK9oe
+ OvLgWaNADLfSdJw2bFqhcuV5Et7tEOv1+ahTkbZrEWu9IKZTrvC3ijyX/zTcSbQcQehW
+ DjTQ2afQMET80x7RZNJM+US8rryv3hNUFlz/ZGEj+eN+kTcPeyKk3+jndQsEHQOjURT5
+ xul2SzhB0+Q51YlMCo0B/UiTZbC2qObQCC5HVjAVaaxFmcsUgViS3UVl16et3RUyC468
+ 1q6w==
+X-Gm-Message-State: AOAM530E/lVnCdY/mOti5zJMkdTjtK9Ul1jQAgkOwoQDjwFdBbqgzZfY
+ PgJN6qCZpwlKM1Mixmuld2af4j3DV/xneQ==
+X-Google-Smtp-Source: ABdhPJzup5fr6XDh88epa0Kd0XmeVjICC0d7yxrk2/WAf1SQ4Bp6gGwC/m/0A8hjh5lpwhO9E9xHmA==
+X-Received: by 2002:a17:902:7e02:b029:f1:62ce:6674 with SMTP id
+ b2-20020a1709027e02b02900f162ce6674mr28811513plm.39.1621912106807; 
+ Mon, 24 May 2021 20:08:26 -0700 (PDT)
+Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com.
+ [209.85.210.179])
+ by smtp.gmail.com with ESMTPSA id x21sm12340609pfr.124.2021.05.24.20.08.25
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 24 May 2021 20:08:26 -0700 (PDT)
+Received: by mail-pf1-f179.google.com with SMTP id d16so22462609pfn.12
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 May 2021 20:08:25 -0700 (PDT)
+X-Received: by 2002:a6b:7b08:: with SMTP id l8mr16990516iop.50.1621912094090; 
+ Mon, 24 May 2021 20:08:14 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210506191451.77768-15-matthew.brost@intel.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+References: <20210518064215.2856977-1-tientzu@chromium.org>
+ <20210518064215.2856977-2-tientzu@chromium.org>
+ <170a54f2-be20-ec29-1d7f-3388e5f928c6@gmail.com>
+ <CALiNf2-9fRbH3Xs=fA+N1iRztFxeC0iTsyOSZFe=F42uwXS0Sg@mail.gmail.com>
+ <YKvL865kutnHqkVc@0xbeefdead.lan>
+In-Reply-To: <YKvL865kutnHqkVc@0xbeefdead.lan>
+From: Claire Chang <tientzu@chromium.org>
+Date: Tue, 25 May 2021 11:08:03 +0800
+X-Gmail-Original-Message-ID: <CALiNf2_iq3OS+95as4fj+AOMDVYgGL71A1811QLaZ=5T7TRjww@mail.gmail.com>
+Message-ID: <CALiNf2_iq3OS+95as4fj+AOMDVYgGL71A1811QLaZ=5T7TRjww@mail.gmail.com>
+Subject: Re: [PATCH v7 01/15] swiotlb: Refactor swiotlb init functions
+To: Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,126 +74,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: tvrtko.ursulin@intel.com, daniele.ceraolospurio@intel.com,
- jason.ekstrand@intel.com, jon.bloomfield@intel.com, daniel.vetter@intel.com,
- john.c.harrison@intel.com
+Cc: heikki.krogerus@linux.intel.com, thomas.hellstrom@linux.intel.com,
+ peterz@infradead.org, dri-devel@lists.freedesktop.org,
+ chris@chris-wilson.co.uk, grant.likely@arm.com, paulus@samba.org,
+ Frank Rowand <frowand.list@gmail.com>, mingo@kernel.org,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ Florian Fainelli <f.fainelli@gmail.com>,
+ Saravana Kannan <saravanak@google.com>, mpe@ellerman.id.au,
+ Joerg Roedel <joro@8bytes.org>,
+ "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>,
+ Christoph Hellwig <hch@lst.de>,
+ Bartosz Golaszewski <bgolaszewski@baylibre.com>, bskeggs@redhat.com,
+ linux-pci@vger.kernel.org, xen-devel@lists.xenproject.org,
+ Thierry Reding <treding@nvidia.com>, intel-gfx@lists.freedesktop.org,
+ matthew.auld@intel.com, linux-devicetree <devicetree@vger.kernel.org>,
+ Jianxiong Gao <jxgao@google.com>, Will Deacon <will@kernel.org>,
+ airlied@linux.ie, Dan Williams <dan.j.williams@intel.com>,
+ linuxppc-dev@lists.ozlabs.org, Rob Herring <robh+dt@kernel.org>,
+ rodrigo.vivi@intel.com, Bjorn Helgaas <bhelgaas@google.com>,
+ boris.ostrovsky@oracle.com,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>, jgross@suse.com,
+ Nicolas Boichat <drinkcat@chromium.org>, Greg KH <gregkh@linuxfoundation.org>,
+ Randy Dunlap <rdunlap@infradead.org>, lkml <linux-kernel@vger.kernel.org>,
+ Tomasz Figa <tfiga@chromium.org>,
+ "list@263.net:IOMMU DRIVERS" <iommu@lists.linux-foundation.org>,
+ sstabellini@kernel.org, Jim Quinlan <james.quinlan@broadcom.com>,
+ xypron.glpk@gmx.de, Robin Murphy <robin.murphy@arm.com>,
+ bauerman@linux.ibm.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, May 06, 2021 at 12:13:28PM -0700, Matthew Brost wrote:
-> From: Michal Wajdeczko <michal.wajdeczko@intel.com>
-> 
-> Future GuC will require CTB buffers sizes to be multiple of 4K.
-> Make these changes now as this shouldn't impact us too much.
-> 
-> Signed-off-by: Michal Wajdeczko <michal.wajdeczko@intel.com>
-> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
-> Cc: John Harrison <john.c.harrison@intel.com>
-> ---
->  drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c | 60 ++++++++++++-----------
->  1 file changed, 32 insertions(+), 28 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
-> index c54a29176862..c87a0a8bef26 100644
-> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
-> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
-> @@ -38,6 +38,32 @@ static inline struct drm_device *ct_to_drm(struct intel_guc_ct *ct)
->  #define CT_PROBE_ERROR(_ct, _fmt, ...) \
->  	i915_probe_error(ct_to_i915(ct), "CT: " _fmt, ##__VA_ARGS__);
->  
-> +/**
-> + * DOC: CTB Blob
-> + *
-> + * We allocate single blob to hold both CTB descriptors and buffers:
-> + *
-> + *      +--------+-----------------------------------------------+------+
-> + *      | offset | contents                                      | size |
-> + *      +========+===============================================+======+
-> + *      | 0x0000 | H2G `CTB Descriptor`_ (send)                  |      |
-> + *      +--------+-----------------------------------------------+  4K  |
-> + *      | 0x0800 | G2H `CTB Descriptor`_ (recv)                  |      |
-> + *      +--------+-----------------------------------------------+------+
-> + *      | 0x1000 | H2G `CT Buffer`_ (send)                       | n*4K |
-> + *      |        |                                               |      |
-> + *      +--------+-----------------------------------------------+------+
-> + *      | 0x1000 | G2H `CT Buffer`_ (recv)                       | m*4K |
-> + *      | + n*4K |                                               |      |
-> + *      +--------+-----------------------------------------------+------+
-> + *
-> + * Size of each `CT Buffer`_ must be multiple of 4K.
-> + * As we don't expect too many messages, for now use minimum sizes.
-> + */
-> +#define CTB_DESC_SIZE		ALIGN(sizeof(struct guc_ct_buffer_desc), SZ_2K)
-> +#define CTB_H2G_BUFFER_SIZE	(SZ_4K)
-> +#define CTB_G2H_BUFFER_SIZE	(SZ_4K)
-> +
->  struct ct_request {
->  	struct list_head link;
->  	u32 fence;
-> @@ -175,29 +201,7 @@ int intel_guc_ct_init(struct intel_guc_ct *ct)
->  
->  	GEM_BUG_ON(ct->vma);
->  
-> -	/* We allocate 1 page to hold both descriptors and both buffers.
-> -	 *       ___________.....................
-> -	 *      |desc (SEND)|                   :
-> -	 *      |___________|                   PAGE/4
-> -	 *      :___________....................:
-> -	 *      |desc (RECV)|                   :
-> -	 *      |___________|                   PAGE/4
-> -	 *      :_______________________________:
-> -	 *      |cmds (SEND)                    |
-> -	 *      |                               PAGE/4
-> -	 *      |_______________________________|
-> -	 *      |cmds (RECV)                    |
-> -	 *      |                               PAGE/4
-> -	 *      |_______________________________|
-> -	 *
-> -	 * Each message can use a maximum of 32 dwords and we don't expect to
-> -	 * have more than 1 in flight at any time, so we have enough space.
-> -	 * Some logic further ahead will rely on the fact that there is only 1
-> -	 * page and that it is always mapped, so if the size is changed the
-> -	 * other code will need updating as well.
-> -	 */
-> -
-> -	blob_size = PAGE_SIZE;
-> +	blob_size = 2 * CTB_DESC_SIZE + CTB_H2G_BUFFER_SIZE + CTB_G2H_BUFFER_SIZE;
->  	err = intel_guc_allocate_and_map_vma(guc, blob_size, &ct->vma, &blob);
->  	if (unlikely(err)) {
->  		CT_PROBE_ERROR(ct, "Failed to allocate %u for CTB data (%pe)\n",
-> @@ -209,17 +213,17 @@ int intel_guc_ct_init(struct intel_guc_ct *ct)
->  
->  	/* store pointers to desc and cmds for send ctb */
->  	desc = blob;
-> -	cmds = blob + PAGE_SIZE / 2;
-> -	cmds_size = PAGE_SIZE / 4;
-> +	cmds = blob + 2 * CTB_DESC_SIZE;
+On Mon, May 24, 2021 at 11:53 PM Konrad Rzeszutek Wilk
+<konrad.wilk@oracle.com> wrote:
+>
+> > > do the set_memory_decrypted()+memset(). Is this okay or should
+> > > swiotlb_init_io_tlb_mem() add an additional argument to do this
+> > > conditionally?
+> >
+> > I'm actually not sure if this it okay. If not, will add an additional
+> > argument for it.
+>
+> Any observations discovered? (Want to make sure my memory-cache has the
+> correct semantics for set_memory_decrypted in mind).
 
-2 is a magic number here. Think it would be more clear with
-CTB_NUMBER_DESC define here.
+It works fine on my arm64 device.
 
-Michal what do you think? We can fix this in the next post of this with
-your blessing.
-
-With that nit:
-Reviewed-by: Matthew Brost <matthew.brost@intel.com> 
-
-> +	cmds_size = CTB_H2G_BUFFER_SIZE;
->  	CT_DEBUG(ct, "%s desc %#lx cmds %#lx size %u\n", "send",
->  		 ptrdiff(desc, blob), ptrdiff(cmds, blob), cmds_size);
->  
->  	guc_ct_buffer_init(&ct->ctbs.send, desc, cmds, cmds_size);
->  
->  	/* store pointers to desc and cmds for recv ctb */
-> -	desc = blob + PAGE_SIZE / 4;
-> -	cmds = blob + PAGE_SIZE / 4 + PAGE_SIZE / 2;
-> -	cmds_size = PAGE_SIZE / 4;
-> +	desc = blob + CTB_DESC_SIZE;
-> +	cmds = blob + 2 * CTB_DESC_SIZE + CTB_H2G_BUFFER_SIZE;
-> +	cmds_size = CTB_G2H_BUFFER_SIZE;
->  	CT_DEBUG(ct, "%s desc %#lx cmds %#lx size %u\n", "recv",
->  		 ptrdiff(desc, blob), ptrdiff(cmds, blob), cmds_size);
->  
-> -- 
-> 2.28.0
-> 
+> >
+> > > --
+> > > Florian
