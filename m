@@ -1,120 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FBF83909C4
-	for <lists+dri-devel@lfdr.de>; Tue, 25 May 2021 21:39:35 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C8153909D1
+	for <lists+dri-devel@lfdr.de>; Tue, 25 May 2021 21:44:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 35C7F6EAC8;
-	Tue, 25 May 2021 19:39:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 95A596EAC9;
+	Tue, 25 May 2021 19:43:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com
- (mail-co1nam11on2072.outbound.protection.outlook.com [40.107.220.72])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 70E526EAC4;
- Tue, 25 May 2021 19:39:31 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=JsHyLpD1aB8JJ0jAsnqP8ZQeOyVZGrxGeAaMEu9mI5LMd0I1cETYGkZbglUV6PEptB1EP1vHXDzrIcus+kw+7P2qilhC7nagrPJitvmi8TOzs0m1xh6FhWa02LQNorMUcpIh/lZ3TWYFXYxUtWOl5SOUBz4ZdptAUr2KdvvHWjQJqny+ojSEVtcwot17HJ9paYKMmgybK2fsKLjKmzhMa4S42S099Icee3PnI2iute7rSHGuePCpHH8KCYK1UD6SRnMGn30xTxU20VP7vfdF2tLqNAzmetvUMdnfDxoxBFpTFnmqHXHLKL4EcEffffFDMMsp0CZQfqBx16tNjDPEPA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=eDJkqOjUi0z/0JM2a7Upp3hWHr4LIwtmbhrqsY+HMjI=;
- b=byOFUjsqzwJRf6ZaUz3kbr8WssZJY5qT7YgRRoyAXvBGHjsBtur5JeKGDc3pKX7Fo4BDmFcfhGE2U4X6VWznAv/vsXGfxYIpigaAzsQhk3ro54oNDwc/TzJPve3H0+CORaxdK1RDkts/DNMAuTGKHzOAm9a3IYod/+HhYPlhIWHFCWZDwV83GX4ZN9N+yMFtL9OA+JZQPm0IzcZX13htwl52mzoSXyotBkA6tXq3qGpVAJtyID+Dd0qpwi1wkN8SGgcht1P+VOOODsBhKDWxQtoZp0LxUVBybca1t1Zc5NRkQ8wkmZG0EahwzEtfPdaNA+q0f9yjQUviNngtkkxDlA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=eDJkqOjUi0z/0JM2a7Upp3hWHr4LIwtmbhrqsY+HMjI=;
- b=F8b1gqHCTh1nuymKOaPL0rOqpe2cEBAp2Op2VDxHx4QhTYM0dZ982XWxoOOaSaLdBGixpQDWNxm7R+/OCUEH4uj06W8o9PgpLJSRZnShfBCCoBWDlDRv7W8gqTe2cl4Krs1yqDZ+pmMZ3CEAreNARKy1D7DuON1UX9z0KrPXPuQ=
-Authentication-Results: vger.kernel.org; dkim=none (message not signed)
- header.d=none;vger.kernel.org; dmarc=none action=none header.from=amd.com;
-Received: from BN9PR12MB5129.namprd12.prod.outlook.com (2603:10b6:408:136::12)
- by BN9PR12MB5178.namprd12.prod.outlook.com (2603:10b6:408:11b::12)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4173.20; Tue, 25 May
- 2021 19:39:29 +0000
-Received: from BN9PR12MB5129.namprd12.prod.outlook.com
- ([fe80::3c78:e58b:fba7:b8dd]) by BN9PR12MB5129.namprd12.prod.outlook.com
- ([fe80::3c78:e58b:fba7:b8dd%6]) with mapi id 15.20.4150.027; Tue, 25 May 2021
- 19:39:29 +0000
-Subject: Re: [PATCH 2/2] drm/amdgpu: Fix an error code in
- kfd_mem_attach_dmabuf()
-To: Dan Carpenter <dan.carpenter@oracle.com>
-References: <YKzx6sh5g3Y/pNRC@mwanda>
-From: Felix Kuehling <felix.kuehling@amd.com>
-Message-ID: <7166dd75-f3ca-160b-f91e-161f8a7d2054@amd.com>
-Date: Tue, 25 May 2021 15:39:27 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
-In-Reply-To: <YKzx6sh5g3Y/pNRC@mwanda>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-Originating-IP: [142.186.56.206]
-X-ClientProxiedBy: YTOPR0101CA0031.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b00:15::44) To BN9PR12MB5129.namprd12.prod.outlook.com
- (2603:10b6:408:136::12)
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8EB746EAC7;
+ Tue, 25 May 2021 19:43:55 +0000 (UTC)
+IronPort-SDR: QqWWlLc5z/do8yUUQxKf7cKl4uxc2uHXCg7Ine+EK9FGQCuwpTwV21h3rDP7cwympHTTvUwyS4
+ PDUZ7f9m0i7g==
+X-IronPort-AV: E=McAfee;i="6200,9189,9995"; a="287859068"
+X-IronPort-AV: E=Sophos;i="5.82,329,1613462400"; d="scan'208";a="287859068"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 May 2021 12:43:53 -0700
+IronPort-SDR: XOK6DDkYDFt6Ziu2PuoFGgFS5Vg2MPaZBb9yXD4ablH7it28f4LGkqK8+ejn/xTuTkBAjd3YWC
+ nR/PkCM6+YuQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.82,329,1613462400"; d="scan'208";a="614649045"
+Received: from irvmail001.ir.intel.com ([10.43.11.63])
+ by orsmga005.jf.intel.com with ESMTP; 25 May 2021 12:43:51 -0700
+Received: from [10.249.148.145] (mwajdecz-MOBL.ger.corp.intel.com
+ [10.249.148.145])
+ by irvmail001.ir.intel.com (8.14.3/8.13.6/MailSET/Hub) with ESMTP id
+ 14PJhoaU010457; Tue, 25 May 2021 20:43:50 +0100
+Subject: Re: [Intel-gfx] [RFC PATCH 18/97] drm/i915/guc: Don't receive all G2H
+ messages in irq handler
+To: Matthew Brost <matthew.brost@intel.com>, intel-gfx@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org
+References: <20210506191451.77768-1-matthew.brost@intel.com>
+ <20210506191451.77768-19-matthew.brost@intel.com>
+ <20210525181510.GA23878@sdutt-i7>
+From: Michal Wajdeczko <michal.wajdeczko@intel.com>
+Message-ID: <86b6f921-12d8-aa1b-3732-51bade260409@intel.com>
+Date: Tue, 25 May 2021 21:43:50 +0200
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.2
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.2.100] (142.186.56.206) by
- YTOPR0101CA0031.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:b00:15::44) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4150.27 via Frontend
- Transport; Tue, 25 May 2021 19:39:28 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 5dcaf911-d316-49de-25cf-08d91fb4cfdf
-X-MS-TrafficTypeDiagnostic: BN9PR12MB5178:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <BN9PR12MB5178BDF02EFD0C235F4ABEE992259@BN9PR12MB5178.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:6108;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: RdgIapu86JIAAowyjccnqp2+232mC/AEC0Y84Q+/nM9B+2hfv7vAuI5wl1YRBlPdSfdn59AYtE33ceeoR/P9Bn1eeVdbQaTc+Zlw9slwd/nYTWwQnorqr5SNOdLqi4gQCjC11KQU0o2yybjq73jNM6ggVCXuu5SbAWy6rM4487lK3hhmFGWfXERAFRQsZSB1GwVa8qCqlO/GbTFlW22l+Q7rXcmRJQZd/CvJeDHZeZNt6VbPS944A9vwunFf3dyNvBWHaveC7d5wXT4Z+hycrFx1Vbtsw0pQgWOc502Pra+b1GEAswdWHhaqOHsiAr5Y36iumleTNzUUmQ2QPu0ysgwmCc/J5BrU7C5JVgd3b3H2wH8ptO0hoHQMSR8ir0qVV+csM+KPcbyoSF63ZCtnMTCYYR0WXnB4KHLwAqrWi9cS9fLVrhXw3vSSesEx+3luRHy9GCa7Xcn70hjHPIXkJZ1MdCt05kNJ2OJTFPTONo/OLYkzTLTzfBNx4jZFX1uCKemqWCAdirtsVbpeP1ZrMNj+ytGM2leZlqsnyWIPpkqtVochZedlG2Y2c2gU0vsHHMC1X0UkMipnO76sCO2EDgVjQ5b3w+JXu5j+xuzIIqqoG2AGwKp+tok0Gb/5EGpBA0SEtAEkuC5fJRPlzUCvgwSDByQJmviKmLY2F2tAmp9BHhCyxQ68Kkhz2B/DGdOj
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BN9PR12MB5129.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(136003)(376002)(346002)(39850400004)(396003)(83380400001)(86362001)(54906003)(16576012)(2906002)(316002)(6486002)(31696002)(8676002)(36756003)(6916009)(66946007)(66556008)(66476007)(4326008)(8936002)(478600001)(956004)(2616005)(38100700002)(44832011)(26005)(186003)(16526019)(31686004)(5660300002)(45980500001)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?ZXREZVczaEM5aVM2dG44ekdBNzNGNERBM01iZFEzaTQ2M08yWjhEWWlmSjBw?=
- =?utf-8?B?bjkwZGxETWxLNWFsZFBMT3dMbzB0T1VmTExBOE9KR3lwSERGbk96bWxHS1RT?=
- =?utf-8?B?RGhackcwbGM2aGlyNkFMMmdONGhxVTBmREZPU0tQeFJmcEN3NGJXQldWWjkv?=
- =?utf-8?B?ZkVkY0hvamRFdVRCYXpBRkE2VFVUQXQ5aENFbEZBVmZxUU5nbm1FMHFyRDh0?=
- =?utf-8?B?TkZXWFNRaVJnMDEzVXlvMm5wbFBpMTl4byt4NlBBbXhBRGVKZFdRMktTR1lz?=
- =?utf-8?B?cW1zTWV0VW85NFl1YlFKaUhBaGVXRGxLTWkzUXFCeUpBMVFZNFUzRTRJejB1?=
- =?utf-8?B?N3RnZEZVcW1sYTlzbER2dHdTWlMzbG5zY0dONGN2Z1NoR2h0Z04va21MOHBK?=
- =?utf-8?B?RmtpbXpzenhNeTZaYXpLUGdmTXpSOEdVM290Y1h4cjM4SmNEMmt3ajNhL0tp?=
- =?utf-8?B?eS91aWJUQnAxZEdVUm1ISlYyVWJwdGw0KzZUMTF6WFZZTzE3VDdUSkp0anM0?=
- =?utf-8?B?WVQ5WTBXaDY3REtlNlJpYStmT2RlUTlXSzY0VmtzS0YxVnM2TjVBeFFtelZp?=
- =?utf-8?B?cGFleUFQMDFQay9DR0JGOG5pK2RLSHNzUzRFVE9mU21JU2dLc0VVeWRsUm1l?=
- =?utf-8?B?ZG53SHZ6M1lmT1FDWEtxNFlmNXNhcXNGUkUwblZ3aEE0WU1DU1dGS00yYXJo?=
- =?utf-8?B?S2VGc2txWkFudWh2eWJTazFZb0N3N1hKSTJ1TTVqcDdSL1lzZ2xLTU02SWsz?=
- =?utf-8?B?QnFpRnR0bXNTTUNUZDlxSWs1aUlBU1JWUXpMWitrL2FCYkpjR2JYMEJBM0hX?=
- =?utf-8?B?VWdHNktQbmFCUmdsSzg2WFR1L1VXYS9BbldMMENjVVVOdDJ1TjY5QnllK25V?=
- =?utf-8?B?a1BSaXNKVEdQVlI1aTBzSnlsRm5PS2czbE4zR0RSWGhtc3RKV2dTRkcyUTJV?=
- =?utf-8?B?ZHp6Z05neVFMM2NzS2ZWZ1hNTkttc3RWaEVnU1BlNWRodmdyRkV3WmRsME5V?=
- =?utf-8?B?aThXUldjbktGUDAvSTZBVnhHMGs2T3h0SlhiQkw5dnJka2RSSjREZ0tuTVpw?=
- =?utf-8?B?RFJ0RWg3ZmVPcmt5S1hpWVM2ZUZheVdNZWExU1dpSkwzTkJWa284d0YrSDFV?=
- =?utf-8?B?Yy9sWlJmZmNrdTZNWFRaRjNHcXZaRGx5RWp6aE9oaTJVa25wVkxSdldLUzRl?=
- =?utf-8?B?ZmluL2poVG9kMlJoK0VjT0pqUXpwSW1xaGxoTU5KZDdRUG03MGNhaklZWHlx?=
- =?utf-8?B?MHU4bWxUa3M2eWJvaXgxL1lIMXhINElQZ29lNm5lLzVUUkhJem5zdThVYjJx?=
- =?utf-8?B?MEhqTEQ5RHppZGJzbGp1L1NOT0xHTk55NkJzKy9XYjRqZE5ZUUtORklCT1pT?=
- =?utf-8?B?SXFvSHU2UnRJNXRnTm1ib2dPVlFkc3l3TW9mRllsQmpWb0ZkRFZTWVd4MjFS?=
- =?utf-8?B?d0tCSU1aQlNVdUNZSXNYdm9MYmRUb28zMWR0TU1ZVFFhTWpjZDFRMlBUODZM?=
- =?utf-8?B?ak9BQytYL0V5bWV1cXJQZTEvdDlxNDVuMzNiWldoS3l6ZkNBV3RPcEJ2c2I2?=
- =?utf-8?B?eC9FN0g1NW1WMy9rdER2SExHUENWRUVzRzN2R2dDN2F0b0NFTG96ZVJ5Q3NW?=
- =?utf-8?B?UHpBMjk2TGFFbkF2Zy9WUjZVRUFFM3I0dndPOFZLek1KUldWdGI1cEluOGt0?=
- =?utf-8?B?YmJ0UGswREVFb044TjlJM0tCVzBiQmpqSmFFeWZ5VW1DWWVNL3BycFd5NW1J?=
- =?utf-8?Q?ofa+lx1ip4+KgxLXCCIyg8MahGHthVVzjFtnctM?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5dcaf911-d316-49de-25cf-08d91fb4cfdf
-X-MS-Exchange-CrossTenant-AuthSource: BN9PR12MB5129.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 May 2021 19:39:29.5969 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: rAGBLn9AudQxx0TYt6IfNODT2wGtEbf1TYDQSrgVVHPtISnytxWrQ7cgC+6wHWlSUzQCNLZWGZ33VjtVP8e9uA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN9PR12MB5178
+In-Reply-To: <20210525181510.GA23878@sdutt-i7>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -127,51 +58,211 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Oak Zeng <Oak.Zeng@amd.com>, "Pan,
- Xinhui" <Xinhui.Pan@amd.com>, kernel-janitors@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, Ramesh Errabolu <Ramesh.Errabolu@amd.com>,
- dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Cc: jason.ekstrand@intel.com, daniel.vetter@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 2021-05-25 um 8:47 a.m. schrieb Dan Carpenter:
-> If amdgpu_gem_prime_export() fails, then this code accidentally
-> returns zero/success instead of a negative error code.
->
-> Fixes: 190f2d7696c8 ("drm/amdgpu: Add DMA mapping of GTT BOs")
-> Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
-
-Thank you for catching these. The series is
-
-Reviewed-by: Felix Kuehling <Felix.Kuehling@amd.com>
-
-I am applying the patches to amd-staging-drm-next.
 
 
-> ---
->  drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
-> index 68109908a869..9b7a3f849a16 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
-> @@ -639,14 +639,16 @@ kfd_mem_attach_dmabuf(struct amdgpu_device *adev, struct kgd_mem *mem,
->  		      struct amdgpu_bo **bo)
->  {
->  	struct drm_gem_object *gobj;
-> +	int ret;
->  
->  	if (!mem->dmabuf) {
->  		mem->dmabuf = amdgpu_gem_prime_export(&mem->bo->tbo.base,
->  			mem->alloc_flags & KFD_IOC_ALLOC_MEM_FLAGS_WRITABLE ?
->  				DRM_RDWR : 0);
->  		if (IS_ERR(mem->dmabuf)) {
-> +			ret = PTR_ERR(mem->dmabuf);
->  			mem->dmabuf = NULL;
-> -			return PTR_ERR(mem->dmabuf);
-> +			return ret;
->  		}
->  	}
->  
+On 25.05.2021 20:15, Matthew Brost wrote:
+> On Thu, May 06, 2021 at 12:13:32PM -0700, Matthew Brost wrote:
+>> From: Michal Wajdeczko <michal.wajdeczko@intel.com>
+>>
+>> In irq handler try to receive just single G2H message, let other
+>> messages to be received from tasklet.
+>>
+>> Signed-off-by: Michal Wajdeczko <michal.wajdeczko@intel.com>
+>> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+>> ---
+>>  drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c | 67 ++++++++++++++++-------
+>>  drivers/gpu/drm/i915/gt/uc/intel_guc_ct.h |  3 +
+>>  2 files changed, 50 insertions(+), 20 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
+>> index cb58fa7f970c..d630ec32decf 100644
+>> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
+>> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
+>> @@ -81,6 +81,7 @@ enum { CTB_SEND = 0, CTB_RECV = 1 };
+>>  
+>>  enum { CTB_OWNER_HOST = 0 };
+>>  
+>> +static void ct_receive_tasklet_func(unsigned long data);
+>>  static void ct_incoming_request_worker_func(struct work_struct *w);
+>>  
+>>  /**
+>> @@ -95,6 +96,7 @@ void intel_guc_ct_init_early(struct intel_guc_ct *ct)
+>>  	INIT_LIST_HEAD(&ct->requests.pending);
+>>  	INIT_LIST_HEAD(&ct->requests.incoming);
+>>  	INIT_WORK(&ct->requests.worker, ct_incoming_request_worker_func);
+>> +	tasklet_init(&ct->receive_tasklet, ct_receive_tasklet_func, (unsigned long)ct);
+> 
+> This function is deprecated. tasklet_setup should be used.
+> I can fix this up when I post the CTB patches.
+
+I didn't notice that, but yes, passing struct to callback will be
+cleaner, so please fix it
+
+Thanks,
+Michal
+
+> 
+>>  }
+>>  
+>>  static inline const char *guc_ct_buffer_type_to_str(u32 type)
+>> @@ -244,6 +246,7 @@ void intel_guc_ct_fini(struct intel_guc_ct *ct)
+>>  {
+>>  	GEM_BUG_ON(ct->enabled);
+>>  
+>> +	tasklet_kill(&ct->receive_tasklet);
+>>  	i915_vma_unpin_and_release(&ct->vma, I915_VMA_RELEASE_MAP);
+>>  	memset(ct, 0, sizeof(*ct));
+>>  }
+>> @@ -629,7 +632,7 @@ static int ct_read(struct intel_guc_ct *ct, u32 *data)
+>>  	CT_DEBUG(ct, "received %*ph\n", 4 * len, data);
+>>  
+>>  	desc->head = head * 4;
+>> -	return 0;
+>> +	return available - len;
+>>  
+>>  corrupted:
+>>  	CT_ERROR(ct, "Corrupted descriptor addr=%#x head=%u tail=%u size=%u\n",
+>> @@ -665,10 +668,10 @@ static int ct_handle_response(struct intel_guc_ct *ct, const u32 *msg)
+>>  	u32 status;
+>>  	u32 datalen;
+>>  	struct ct_request *req;
+>> +	unsigned long flags;
+>>  	bool found = false;
+>>  
+>>  	GEM_BUG_ON(!ct_header_is_response(header));
+>> -	GEM_BUG_ON(!in_irq());
+>>  
+>>  	/* Response payload shall at least include fence and status */
+>>  	if (unlikely(len < 2)) {
+>> @@ -688,7 +691,7 @@ static int ct_handle_response(struct intel_guc_ct *ct, const u32 *msg)
+>>  
+>>  	CT_DEBUG(ct, "response fence %u status %#x\n", fence, status);
+>>  
+>> -	spin_lock(&ct->requests.lock);
+>> +	spin_lock_irqsave(&ct->requests.lock, flags);
+>>  	list_for_each_entry(req, &ct->requests.pending, link) {
+>>  		if (unlikely(fence != req->fence)) {
+>>  			CT_DEBUG(ct, "request %u awaits response\n",
+>> @@ -707,7 +710,7 @@ static int ct_handle_response(struct intel_guc_ct *ct, const u32 *msg)
+>>  		found = true;
+>>  		break;
+>>  	}
+>> -	spin_unlock(&ct->requests.lock);
+>> +	spin_unlock_irqrestore(&ct->requests.lock, flags);
+>>  
+>>  	if (!found)
+>>  		CT_ERROR(ct, "Unsolicited response %*ph\n", msgsize, msg);
+>> @@ -821,31 +824,55 @@ static int ct_handle_request(struct intel_guc_ct *ct, const u32 *msg)
+>>  	return 0;
+>>  }
+>>  
+>> +static int ct_receive(struct intel_guc_ct *ct)
+>> +{
+>> +	u32 msg[GUC_CT_MSG_LEN_MASK + 1]; /* one extra dw for the header */
+>> +	unsigned long flags;
+>> +	int ret;
+>> +
+>> +	spin_lock_irqsave(&ct->ctbs.recv.lock, flags);
+>> +	ret = ct_read(ct, msg);
+>> +	spin_unlock_irqrestore(&ct->ctbs.recv.lock, flags);
+>> +	if (ret < 0)
+>> +		return ret;
+>> +
+>> +	if (ct_header_is_response(msg[0]))
+>> +		ct_handle_response(ct, msg);
+>> +	else
+>> +		ct_handle_request(ct, msg);
+>> +
+>> +	return ret;
+>> +}
+>> +
+>> +static void ct_try_receive_message(struct intel_guc_ct *ct)
+>> +{
+>> +	int ret;
+>> +
+>> +	if (GEM_WARN_ON(!ct->enabled))
+>> +		return;
+>> +
+>> +	ret = ct_receive(ct);
+>> +	if (ret > 0)
+>> +		tasklet_hi_schedule(&ct->receive_tasklet);
+>> +}
+>> +
+>> +static void ct_receive_tasklet_func(unsigned long data)
+>> +{
+> 
+> As mentioned above tasklet_init is deprecated. The callback now accepts
+> the tasklet structure and ct can be looked up via container_of macro.
+> 
+> Everything else looks good.
+> 
+> With that and changing to the new tasklet API:
+> Reviewed-by: Matthew Brost <matthew.brost@intel.com>
+> 
+>> +	struct intel_guc_ct *ct = (struct intel_guc_ct *)data;
+>> +
+>> +	ct_try_receive_message(ct);
+>> +}
+>> +
+>>  /*
+>>   * When we're communicating with the GuC over CT, GuC uses events
+>>   * to notify us about new messages being posted on the RECV buffer.
+>>   */
+>>  void intel_guc_ct_event_handler(struct intel_guc_ct *ct)
+>>  {
+>> -	u32 msg[GUC_CT_MSG_LEN_MASK + 1]; /* one extra dw for the header */
+>> -	unsigned long flags;
+>> -	int err = 0;
+>> -
+>>  	if (unlikely(!ct->enabled)) {
+>>  		WARN(1, "Unexpected GuC event received while CT disabled!\n");
+>>  		return;
+>>  	}
+>>  
+>> -	do {
+>> -		spin_lock_irqsave(&ct->ctbs.recv.lock, flags);
+>> -		err = ct_read(ct, msg);
+>> -		spin_unlock_irqrestore(&ct->ctbs.recv.lock, flags);
+>> -		if (err)
+>> -			break;
+>> -
+>> -		if (ct_header_is_response(msg[0]))
+>> -			err = ct_handle_response(ct, msg);
+>> -		else
+>> -			err = ct_handle_request(ct, msg);
+>> -	} while (!err);
+>> +	ct_try_receive_message(ct);
+>>  }
+>> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.h b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.h
+>> index bc52dc479a14..cb222f202301 100644
+>> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.h
+>> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.h
+>> @@ -6,6 +6,7 @@
+>>  #ifndef _INTEL_GUC_CT_H_
+>>  #define _INTEL_GUC_CT_H_
+>>  
+>> +#include <linux/interrupt.h>
+>>  #include <linux/spinlock.h>
+>>  #include <linux/workqueue.h>
+>>  
+>> @@ -55,6 +56,8 @@ struct intel_guc_ct {
+>>  		struct intel_guc_ct_buffer recv;
+>>  	} ctbs;
+>>  
+>> +	struct tasklet_struct receive_tasklet;
+>> +
+>>  	struct {
+>>  		u32 last_fence; /* last fence used to send request */
+>>  
+>> -- 
+>> 2.28.0
+>>
+> _______________________________________________
+> Intel-gfx mailing list
+> Intel-gfx@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/intel-gfx
+> 
