@@ -2,61 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8AE293901EF
-	for <lists+dri-devel@lfdr.de>; Tue, 25 May 2021 15:13:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 17CC33901FB
+	for <lists+dri-devel@lfdr.de>; Tue, 25 May 2021 15:18:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 82FE4899D6;
-	Tue, 25 May 2021 13:13:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7FD1489C6E;
+	Tue, 25 May 2021 13:18:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com
- [IPv6:2a00:1450:4864:20::135])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6E8406EA16
- for <dri-devel@lists.freedesktop.org>; Tue, 25 May 2021 13:13:25 +0000 (UTC)
-Received: by mail-lf1-x135.google.com with SMTP id a2so45987919lfc.9
- for <dri-devel@lists.freedesktop.org>; Tue, 25 May 2021 06:13:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=5sW33GXxIwKL71zaUkehyeAY+23LfL51/jiHAzznEu8=;
- b=P5XxOaa3ICzWzXCQUS+XSTWEiRVC3i7i+ICfy387qNZzFl9QcteOrHOwSuvuNLGBvs
- pKIZxBdnSyIQ6WUFWI9B6vaF1R6970aYfLANBSlXAs0FeRO5Hq4eCzNuDjBmNkPaIJX9
- 8/X2R7qczNasPiWhx5vqJEWpLBFYLinChDzlmUgzylT8npf+wTMsdP7apykaHVWcnjho
- pjAr/dRB9gUVtQSUL2jHBpTuh0relqX9vyZl/RvIt5Z9lZ6Sp5UnHh4KAbL786ze/xaw
- mQ553cct1nIxQ8l7H818EHhLb4wK9RZ2+A1IO5K+r2os/GVgzE/K+TH3MHtBPCOzOtnb
- OISg==
+Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com
+ [IPv6:2a00:1450:4864:20::435])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5E66E6E0FF
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 May 2021 13:18:16 +0000 (UTC)
+Received: by mail-wr1-x435.google.com with SMTP id i17so32204179wrq.11
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 May 2021 06:18:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=subject:to:references:from:message-id:date:user-agent:mime-version
+ :in-reply-to:content-transfer-encoding:content-language;
+ bh=DRKDlOVl+bKu72pveVUrMWJAxxqnosCy2u/tkJMsTCc=;
+ b=LsPTnB6lZVF4LCyyvBq7yVd91qgIwLxGDcsVWgZTdakoCMyyfjgucUIupfvtIizB8N
+ q20jJ6d2BBUHrnDxeGDY2cYDOPWJFGhPaNTltEBNSc7gsLeSeS8kfDMym6sWWATuJP0g
+ 38tsK+4ZevKY3RRF7juLn2JxoJIkjzBvaouhaz4gmrXGKO5AlDzx619MvJ1Pj7EmmRhz
+ VFpJxj56PDAKmmEbiHByfiR2RsSezY004lrhr6iFkAg567UBfv/IE74Q5L6ZgWvHJx87
+ oUSpLrI3gz1i+kqBdF7LuHDax+tzJXuZENuT1zo087SCU1Na7kAgcN3d+AYdStPvy8wx
+ PWsA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=5sW33GXxIwKL71zaUkehyeAY+23LfL51/jiHAzznEu8=;
- b=WrLvKqUaxygeQpq5SQYrjNSFy/HDSMyX3WwzgPLwI3oz4vKx6zYiZKuFFFARNSGkMC
- P6PWZepoHP2zFLxQRZ3FqoY3qPF9SucUsZarnGJye735yumZ3IxxqzuaAKCGr6EQ53ou
- AlH5yDiwsyG2jXl4i1+R6MhrlXs3vD53NJw+iIDhaRJKWsO8NUzyoVVhyNmqo4mirJgJ
- JhIZXlD+o0QYkmaYGoMXMCoRCbaFfy0WVPmmJyGI0cbVIZAPunQ+r7G5LIP3n9tXeUzw
- 9c5RUL20FLc9mMODc1HCM7LI/1o3Nhj12TpiYbPqX25xV3ecFN0D0Y5Kd3gQUH929BMH
- aWZA==
-X-Gm-Message-State: AOAM533MYj7oRSVwcQHghf7R4oFTT94uqhxImyBzE5JsaTJSYrcYey5k
- /7lv6ejduKVF67UG90lan4xHDg==
-X-Google-Smtp-Source: ABdhPJzCLK6JKCnFBR+48FYMCwx9UbYZA67ABD4YWDMdPw3FS5XJh4+g4YugslklKjZU5995iTlk9g==
-X-Received: by 2002:ac2:592c:: with SMTP id v12mr13797985lfi.632.1621948403761; 
- Tue, 25 May 2021 06:13:23 -0700 (PDT)
-Received: from eriador.lan ([37.153.55.125])
- by smtp.gmail.com with ESMTPSA id t20sm2101108lji.53.2021.05.25.06.13.23
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 25 May 2021 06:13:23 -0700 (PDT)
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Bjorn Andersson <bjorn.andersson@linaro.org>,
- Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Abhinav Kumar <abhinavk@codeaurora.org>
-Subject: [PATCH 7/7] drm/msm/mdp5: provide dynamic bandwidth management
-Date: Tue, 25 May 2021 16:13:16 +0300
-Message-Id: <20210525131316.3117809-8-dmitry.baryshkov@linaro.org>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210525131316.3117809-1-dmitry.baryshkov@linaro.org>
-References: <20210525131316.3117809-1-dmitry.baryshkov@linaro.org>
+ h=x-gm-message-state:subject:to:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-transfer-encoding
+ :content-language;
+ bh=DRKDlOVl+bKu72pveVUrMWJAxxqnosCy2u/tkJMsTCc=;
+ b=piZC+H7KnUbuuMwea4RVwYluAChflzFdoHAg3kquepCYqz+m/CMd/FXxYT154epGYb
+ jJ70vmW20memOXtJbSbhtmcuPWCZTJcRwQRaituJanVlaw4hFTP+7kdwSirxvyk3X+9M
+ i2DIXPNuhINmheFpPy2mKuPt2AE6jDnE5dFOTxl9vW8BxLAhS43Ve2XqSed1I3U/OUJy
+ JObPHcap/3Gl9aVtfqin87kTxNT1SMkbubx8txFq/vbmgiyh1Y3W30nUj0IOQ6jDM45M
+ /+Ljy3l/0ZF2gCtalXBqGOzNfTNZv/op1Q+ERUOAq9SHp4jTgzC6FFSXs4XxpxjL3T6O
+ HEfw==
+X-Gm-Message-State: AOAM530wEN4DpINd4CsC2V/L6FHFcutEU1NWWRA7klcz4ajgjuAMmK13
+ Ivo/5tQIT0pQWWLrBvdcRYxoxoR4lVI=
+X-Google-Smtp-Source: ABdhPJx9RBEHdmk5EQfR2GHhgiD7w3JqRFFQqFFqbdcs/TnTvJPH1qKX9mqXwb9qfc2Qo7qpJCFFGg==
+X-Received: by 2002:a5d:650b:: with SMTP id x11mr26800672wru.186.1621948694977; 
+ Tue, 25 May 2021 06:18:14 -0700 (PDT)
+Received: from ?IPv6:2a02:908:1252:fb60:d67f:bd9a:6dbf:33b1?
+ ([2a02:908:1252:fb60:d67f:bd9a:6dbf:33b1])
+ by smtp.gmail.com with ESMTPSA id c206sm2777925wmf.12.2021.05.25.06.18.13
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 25 May 2021 06:18:14 -0700 (PDT)
+Subject: Re: dma-resv ongoing discussion
+To: Dave Airlie <airlied@gmail.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, Jason Ekstrand <jason@jlekstrand.net>
+References: <CAPM=9txJQh31KE7v4YN4s9j-cYQEUSRPh7Qg5j2TyNCLNbDySQ@mail.gmail.com>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+Message-ID: <f87d2645-0f07-cab5-c1a9-f015ae14dc2a@gmail.com>
+Date: Tue, 25 May 2021 15:18:13 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAPM=9txJQh31KE7v4YN4s9j-cYQEUSRPh7Qg5j2TyNCLNbDySQ@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,450 +74,108 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jonathan Marek <jonathan@marek.ca>, Stephen Boyd <sboyd@kernel.org>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- David Airlie <airlied@linux.ie>, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Instead of using static bandwidth setup, manage bandwidth dynamically,
-depending on the amount of allocated planes, their format and
-resolution.
+Hi Dave and of course everybody else,
 
-Co-developed-with: James Willcox <jwillcox@squareup.com>
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
----
- drivers/gpu/drm/msm/disp/mdp5/mdp5_crtc.c  |  44 ++++++++
- drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c   | 119 ++++++++++++++-------
- drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.h   |  12 +++
- drivers/gpu/drm/msm/disp/mdp5/mdp5_plane.c |  42 ++++++++
- 4 files changed, 181 insertions(+), 36 deletions(-)
+Am 24.05.21 um 04:03 schrieb Dave Airlie:
+> I'd like to try and summarise where I feel we are all at with respect
+> to the dma-buf discussions. I think I've gotten a fairly good idea of
+> how things stand but I'm not sure we are really getting to the how to
+> move things forward stage, where is probably when I need to step in.
+> Thanks for keeping this as respectful as it has been I understand it
+> can be difficult. I also think we are starting to find we moved the
+> knob on driver development happening in company siloes too far with
+> acceleration features and hopefully with this and TTM work etc we can
+> start to push back to upstream first designs.
+>
+> I think Jason[1] summed up my feelings on this the best. We have a
+> dma-buf inter-driver contract that has a design issue. We didn't fix
+> that initially, now we have amdgpu as the outlier in a world where
+> everyone else agreed to the contract.
+>
+> a) Christian wants to try and move forward with fixing the world of
+> dma-buf design across all drivers, but hasn't come up with a plan for
+> doing so apart from amdgpu/i915. I think one strength Daniel has here
+> is that he's good at coming up with plans that change the ecosystem.
+> I'd really like to see some concrete effort to work out how much work
+> fixing this across the ecosystem is and whether it is possible. I
+> expect Daniel's big huge monster commit message summary of the current
+> drivers is a great place to start for this. That is if we can agree
+> dma-buf is broken and what dma-buf should look like tomorrow.
 
-diff --git a/drivers/gpu/drm/msm/disp/mdp5/mdp5_crtc.c b/drivers/gpu/drm/msm/disp/mdp5/mdp5_crtc.c
-index f482e0911d03..a9332078aa13 100644
---- a/drivers/gpu/drm/msm/disp/mdp5/mdp5_crtc.c
-+++ b/drivers/gpu/drm/msm/disp/mdp5/mdp5_crtc.c
-@@ -43,6 +43,9 @@ struct mdp5_crtc {
- 	/* for unref'ing cursor bo's after scanout completes: */
- 	struct drm_flip_work unref_cursor_work;
- 
-+	/* for lowering down the bandwidth after previous frame is complete */
-+	struct drm_flip_work lower_bw_work;
-+
- 	struct mdp_irq vblank;
- 	struct mdp_irq err;
- 	struct mdp_irq pp_done;
-@@ -171,12 +174,28 @@ static void unref_cursor_worker(struct drm_flip_work *work, void *val)
- 	drm_gem_object_put(val);
- }
- 
-+static void lower_bw_worker(struct drm_flip_work *work, void *val)
-+{
-+	struct mdp5_crtc *mdp5_crtc =
-+		container_of(work, struct mdp5_crtc, lower_bw_work);
-+	struct drm_crtc *crtc = &mdp5_crtc->base;
-+	struct mdp5_crtc_state *mdp5_cstate = to_mdp5_crtc_state(crtc->state);
-+	struct mdp5_kms *mdp5_kms = get_kms(&mdp5_crtc->base);
-+
-+	if (mdp5_cstate->old_crtc_bw > mdp5_cstate->new_crtc_bw) {
-+		DBG("DOWN BW to %lld\n", mdp5_cstate->new_crtc_bw);
-+		mdp5_kms_set_bandwidth(mdp5_kms);
-+		mdp5_cstate->old_crtc_bw = mdp5_cstate->new_crtc_bw;
-+	}
-+}
-+
- static void mdp5_crtc_destroy(struct drm_crtc *crtc)
- {
- 	struct mdp5_crtc *mdp5_crtc = to_mdp5_crtc(crtc);
- 
- 	drm_crtc_cleanup(crtc);
- 	drm_flip_work_cleanup(&mdp5_crtc->unref_cursor_work);
-+	drm_flip_work_cleanup(&mdp5_crtc->lower_bw_work);
- 
- 	kfree(mdp5_crtc);
- }
-@@ -691,6 +710,7 @@ static int mdp5_crtc_atomic_check(struct drm_crtc *crtc,
- 	struct drm_crtc_state *crtc_state = drm_atomic_get_new_crtc_state(state,
- 									  crtc);
- 	struct mdp5_kms *mdp5_kms = get_kms(crtc);
-+	struct mdp5_crtc_state *mdp5_cstate = to_mdp5_crtc_state(crtc_state);
- 	struct drm_plane *plane;
- 	struct drm_device *dev = crtc->dev;
- 	struct plane_state pstates[STAGE_MAX + 1];
-@@ -701,6 +721,7 @@ static int mdp5_crtc_atomic_check(struct drm_crtc *crtc,
- 	bool need_right_mixer = false;
- 	int cnt = 0, i;
- 	int ret;
-+	u64 crtc_bw = 0;
- 	enum mdp_mixer_stage_id start;
- 
- 	DBG("%s: check", crtc->name);
-@@ -718,6 +739,9 @@ static int mdp5_crtc_atomic_check(struct drm_crtc *crtc,
- 		 */
- 		if (pstates[cnt].state->r_hwpipe)
- 			need_right_mixer = true;
-+
-+		crtc_bw += pstates[cnt].state->plane_bw;
-+
- 		cnt++;
- 
- 		if (plane->type == DRM_PLANE_TYPE_CURSOR)
-@@ -730,6 +754,10 @@ static int mdp5_crtc_atomic_check(struct drm_crtc *crtc,
- 
- 	hw_cfg = mdp5_cfg_get_hw_config(mdp5_kms->cfg);
- 
-+	if (hw_cfg->perf.ab_inefficiency)
-+		crtc_bw = mult_frac(crtc_bw, hw_cfg->perf.ab_inefficiency, 100);
-+	mdp5_cstate->new_crtc_bw = crtc_bw;
-+
- 	/*
- 	 * we need a right hwmixer if the mode's width is greater than a single
- 	 * LM's max width
-@@ -785,6 +813,7 @@ static void mdp5_crtc_atomic_flush(struct drm_crtc *crtc,
- {
- 	struct mdp5_crtc *mdp5_crtc = to_mdp5_crtc(crtc);
- 	struct mdp5_crtc_state *mdp5_cstate = to_mdp5_crtc_state(crtc->state);
-+	struct mdp5_kms *mdp5_kms = get_kms(crtc);
- 	struct drm_device *dev = crtc->dev;
- 	unsigned long flags;
- 
-@@ -808,6 +837,12 @@ static void mdp5_crtc_atomic_flush(struct drm_crtc *crtc,
- 
- 	blend_setup(crtc);
- 
-+	if (mdp5_cstate->old_crtc_bw < mdp5_cstate->new_crtc_bw) {
-+		DBG("UP BW to %lld\n", mdp5_cstate->new_crtc_bw);
-+		mdp5_kms_set_bandwidth(mdp5_kms);
-+		mdp5_cstate->old_crtc_bw = mdp5_cstate->new_crtc_bw;
-+	}
-+
- 	/* PP_DONE irq is only used by command mode for now.
- 	 * It is better to request pending before FLUSH and START trigger
- 	 * to make sure no pp_done irq missed.
-@@ -1155,6 +1190,7 @@ static void mdp5_crtc_vblank_irq(struct mdp_irq *irq, uint32_t irqstatus)
- {
- 	struct mdp5_crtc *mdp5_crtc = container_of(irq, struct mdp5_crtc, vblank);
- 	struct drm_crtc *crtc = &mdp5_crtc->base;
-+	struct mdp5_crtc_state *mdp5_cstate = to_mdp5_crtc_state(crtc->state);
- 	struct msm_drm_private *priv = crtc->dev->dev_private;
- 	unsigned pending;
- 
-@@ -1162,6 +1198,11 @@ static void mdp5_crtc_vblank_irq(struct mdp_irq *irq, uint32_t irqstatus)
- 
- 	pending = atomic_xchg(&mdp5_crtc->pending, 0);
- 
-+	if (mdp5_cstate->old_crtc_bw > mdp5_cstate->new_crtc_bw) {
-+		drm_flip_work_queue(&mdp5_crtc->lower_bw_work, NULL);
-+		drm_flip_work_commit(&mdp5_crtc->lower_bw_work, priv->wq);
-+	}
-+
- 	if (pending & PENDING_FLIP) {
- 		complete_flip(crtc, NULL);
- 	}
-@@ -1318,6 +1359,9 @@ struct drm_crtc *mdp5_crtc_init(struct drm_device *dev,
- 	drm_flip_work_init(&mdp5_crtc->unref_cursor_work,
- 			"unref cursor", unref_cursor_worker);
- 
-+	drm_flip_work_init(&mdp5_crtc->lower_bw_work,
-+			"lower bw", lower_bw_worker);
-+
- 	drm_crtc_helper_add(crtc, &mdp5_crtc_helper_funcs);
- 
- 	return crtc;
-diff --git a/drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c b/drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c
-index 15aed45022bc..3e1b28d3e41b 100644
---- a/drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c
-+++ b/drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c
-@@ -19,6 +19,8 @@
- #include "msm_mmu.h"
- #include "mdp5_kms.h"
- 
-+#define MDP5_DEFAULT_BW MBps_to_icc(6400)
-+
- static int mdp5_hw_init(struct msm_kms *kms)
- {
- 	struct mdp5_kms *mdp5_kms = to_mdp5_kms(to_mdp_kms(kms));
-@@ -296,6 +298,28 @@ static const struct mdp_kms_funcs kms_funcs = {
- 	.set_irqmask         = mdp5_set_irqmask,
- };
- 
-+void mdp5_kms_set_bandwidth(struct mdp5_kms *mdp5_kms)
-+{
-+	int i;
-+	u32 full_bw = 0;
-+	struct drm_crtc *tmp_crtc;
-+
-+	if (!mdp5_kms->num_paths)
-+		return;
-+
-+	drm_for_each_crtc(tmp_crtc, mdp5_kms->dev) {
-+		if (!tmp_crtc->enabled)
-+			continue;
-+
-+		full_bw += Bps_to_icc(to_mdp5_crtc_state(tmp_crtc->state)->new_crtc_bw / mdp5_kms->num_paths);
-+	}
-+
-+	DBG("SET BW to %d\n", full_bw);
-+
-+	for (i = 0; i < mdp5_kms->num_paths; i++)
-+		icc_set_bw(mdp5_kms->paths[i], full_bw, full_bw);
-+}
-+
- static int mdp5_disable(struct mdp5_kms *mdp5_kms)
- {
- 	DBG("");
-@@ -313,6 +337,14 @@ static int mdp5_disable(struct mdp5_kms *mdp5_kms)
- 	if (mdp5_kms->lut_clk)
- 		clk_disable_unprepare(mdp5_kms->lut_clk);
- 
-+	if (!mdp5_kms->enable_count) {
-+		int i;
-+
-+		for (i = 0; i < mdp5_kms->num_paths; i++)
-+			icc_set_bw(mdp5_kms->paths[i], 0, 0);
-+		icc_set_bw(mdp5_kms->path_rot, 0, 0);
-+	}
-+
- 	return 0;
- }
- 
-@@ -322,6 +354,14 @@ static int mdp5_enable(struct mdp5_kms *mdp5_kms)
- 
- 	mdp5_kms->enable_count++;
- 
-+	if (mdp5_kms->enable_count == 1) {
-+		int i;
-+
-+		for (i = 0; i < mdp5_kms->num_paths; i++)
-+			icc_set_bw(mdp5_kms->paths[i], 0, MDP5_DEFAULT_BW);
-+		icc_set_bw(mdp5_kms->path_rot, 0, MDP5_DEFAULT_BW);
-+	}
-+
- 	clk_prepare_enable(mdp5_kms->ahb_clk);
- 	clk_prepare_enable(mdp5_kms->axi_clk);
- 	clk_prepare_enable(mdp5_kms->core_clk);
-@@ -828,6 +868,40 @@ static int interface_init(struct mdp5_kms *mdp5_kms)
- 	return 0;
- }
- 
-+static int mdp5_setup_interconnect(struct mdp5_kms *mdp5_kms)
-+{
-+	struct icc_path *path0 = of_icc_get(&mdp5_kms->pdev->dev, "mdp0-mem");
-+	struct icc_path *path1 = of_icc_get(&mdp5_kms->pdev->dev, "mdp1-mem");
-+	struct icc_path *path_rot = of_icc_get(&mdp5_kms->pdev->dev, "rotator-mem");
-+
-+	if (IS_ERR(path0))
-+		return PTR_ERR(path0);
-+
-+	if (!path0) {
-+		/* no interconnect support is not necessarily a fatal
-+		 * condition, the platform may simply not have an
-+		 * interconnect driver yet.  But warn about it in case
-+		 * bootloader didn't setup bus clocks high enough for
-+		 * scanout.
-+		 */
-+		dev_warn(&mdp5_kms->pdev->dev, "No interconnect support may cause display underflows!\n");
-+		return 0;
-+	}
-+
-+	mdp5_kms->paths[0] = path0;
-+	mdp5_kms->num_paths = 1;
-+
-+	if (!IS_ERR_OR_NULL(path1)) {
-+		mdp5_kms->paths[1] = path1;
-+		mdp5_kms->num_paths++;
-+	}
-+
-+	if (!IS_ERR_OR_NULL(path_rot))
-+		mdp5_kms->path_rot = path_rot;
-+
-+	return 0;
-+}
-+
- static int mdp5_init(struct platform_device *pdev, struct drm_device *dev)
- {
- 	struct msm_drm_private *priv = dev->dev_private;
-@@ -835,6 +909,7 @@ static int mdp5_init(struct platform_device *pdev, struct drm_device *dev)
- 	struct mdp5_cfg *config;
- 	u32 major, minor;
- 	int ret;
-+	int i;
- 
- 	mdp5_kms = devm_kzalloc(&pdev->dev, sizeof(*mdp5_kms), GFP_KERNEL);
- 	if (!mdp5_kms) {
-@@ -859,6 +934,14 @@ static int mdp5_init(struct platform_device *pdev, struct drm_device *dev)
- 		goto fail;
- 	}
- 
-+	ret = mdp5_setup_interconnect(mdp5_kms);
-+	if (ret)
-+		goto fail;
-+
-+	for (i = 0; i < mdp5_kms->num_paths; i++)
-+		icc_set_bw(mdp5_kms->paths[i], 0, MDP5_DEFAULT_BW);
-+	icc_set_bw(mdp5_kms->path_rot, 0, MDP5_DEFAULT_BW);
-+
- 	/* mandatory clocks: */
- 	ret = get_clk(pdev, &mdp5_kms->axi_clk, "bus", true);
- 	if (ret)
-@@ -968,46 +1051,10 @@ static const struct component_ops mdp5_ops = {
- 	.unbind = mdp5_unbind,
- };
- 
--static int mdp5_setup_interconnect(struct platform_device *pdev)
--{
--	struct icc_path *path0 = of_icc_get(&pdev->dev, "mdp0-mem");
--	struct icc_path *path1 = of_icc_get(&pdev->dev, "mdp1-mem");
--	struct icc_path *path_rot = of_icc_get(&pdev->dev, "rotator-mem");
--
--	if (IS_ERR(path0))
--		return PTR_ERR(path0);
--
--	if (!path0) {
--		/* no interconnect support is not necessarily a fatal
--		 * condition, the platform may simply not have an
--		 * interconnect driver yet.  But warn about it in case
--		 * bootloader didn't setup bus clocks high enough for
--		 * scanout.
--		 */
--		dev_warn(&pdev->dev, "No interconnect support may cause display underflows!\n");
--		return 0;
--	}
--
--	icc_set_bw(path0, 0, MBps_to_icc(6400));
--
--	if (!IS_ERR_OR_NULL(path1))
--		icc_set_bw(path1, 0, MBps_to_icc(6400));
--	if (!IS_ERR_OR_NULL(path_rot))
--		icc_set_bw(path_rot, 0, MBps_to_icc(6400));
--
--	return 0;
--}
--
- static int mdp5_dev_probe(struct platform_device *pdev)
- {
--	int ret;
--
- 	DBG("");
- 
--	ret = mdp5_setup_interconnect(pdev);
--	if (ret)
--		return ret;
--
- 	return component_add(&pdev->dev, &mdp5_ops);
- }
- 
-diff --git a/drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.h b/drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.h
-index ac269a6802df..918ce1e1bbbd 100644
---- a/drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.h
-+++ b/drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.h
-@@ -17,6 +17,7 @@
- #include "mdp5_ctl.h"
- #include "mdp5_smp.h"
- 
-+struct icc_path;
- struct mdp5_kms {
- 	struct mdp_kms base;
- 
-@@ -68,6 +69,10 @@ struct mdp5_kms {
- 	struct mdp_irq error_handler;
- 
- 	int enable_count;
-+
-+	int num_paths;
-+	struct icc_path *paths[2];
-+	struct icc_path *path_rot;
- };
- #define to_mdp5_kms(x) container_of(x, struct mdp5_kms, base)
- 
-@@ -100,6 +105,8 @@ struct mdp5_plane_state {
- 
- 	/* assigned by crtc blender */
- 	enum mdp_mixer_stage_id stage;
-+
-+	u64 plane_bw;
- };
- #define to_mdp5_plane_state(x) \
- 		container_of(x, struct mdp5_plane_state, base)
-@@ -130,6 +137,9 @@ struct mdp5_crtc_state {
- 	 * writing CTL[n].START until encoder->enable()
- 	 */
- 	bool defer_start;
-+
-+	u64 new_crtc_bw;
-+	u64 old_crtc_bw;
- };
- #define to_mdp5_crtc_state(x) \
- 		container_of(x, struct mdp5_crtc_state, base)
-@@ -292,6 +302,8 @@ void mdp5_encoder_set_intf_mode(struct drm_encoder *encoder, bool cmd_mode);
- int mdp5_encoder_get_linecount(struct drm_encoder *encoder);
- u32 mdp5_encoder_get_framecount(struct drm_encoder *encoder);
- 
-+void mdp5_kms_set_bandwidth(struct mdp5_kms *mdp5_kms);
-+
- #ifdef CONFIG_DRM_MSM_DSI
- void mdp5_cmd_encoder_mode_set(struct drm_encoder *encoder,
- 			       struct drm_display_mode *mode,
-diff --git a/drivers/gpu/drm/msm/disp/mdp5/mdp5_plane.c b/drivers/gpu/drm/msm/disp/mdp5/mdp5_plane.c
-index c6b69afcbac8..85275665558b 100644
---- a/drivers/gpu/drm/msm/disp/mdp5/mdp5_plane.c
-+++ b/drivers/gpu/drm/msm/disp/mdp5/mdp5_plane.c
-@@ -154,6 +154,46 @@ static void mdp5_plane_cleanup_fb(struct drm_plane *plane,
- 	msm_framebuffer_cleanup(fb, kms->aspace);
- }
- 
-+/* based on _dpu_plane_calc_bw */
-+static void mdp5_plane_calc_bw(struct drm_plane_state *state, struct drm_crtc_state *crtc_state)
-+{
-+	struct drm_framebuffer *fb = state->fb;
-+	struct mdp5_plane_state *pstate = to_mdp5_plane_state(state);
-+	struct drm_display_mode *mode = &crtc_state->mode;
-+	int bpp;
-+	int src_width, src_height, dst_height, fps;
-+	u64 plane_bw;
-+	u32 hw_latency_lines;
-+	u32 prefill_div;
-+	u64 scale_factor;
-+	int vbp, vpw, vfp;
-+
-+	src_width = drm_rect_width(&state->src) >> 16;
-+	src_height = drm_rect_height(&state->src) >> 16;
-+	dst_height = drm_rect_height(&state->dst);
-+	fps = drm_mode_vrefresh(mode);
-+	vbp = mode->vtotal - mode->vsync_end;
-+	vpw = mode->vsync_end - mode->vsync_start;
-+	vfp = mode->vsync_start - mode->vdisplay;
-+	scale_factor = src_height > dst_height ?
-+		mult_frac(src_height, 1, dst_height) : 1;
-+
-+	bpp = to_mdp_format(msm_framebuffer_format(fb))->cpp;
-+
-+	plane_bw = src_width * mode->vtotal * fps * bpp * scale_factor;
-+
-+	hw_latency_lines = 21; /* or 24? */
-+	prefill_div = hw_latency_lines;
-+	if (vbp + vpw > hw_latency_lines)
-+		prefill_div = vbp + vpw;
-+#if 0
-+	else if (vbp + vpw + vfp < hw_latency_lines)
-+		prefill_div = vbp + vpw + vfp;
-+#endif
-+
-+	pstate->plane_bw = max(plane_bw, mult_frac(plane_bw, hw_latency_lines, prefill_div));
-+}
-+
- static int mdp5_plane_atomic_check_with_state(struct drm_crtc_state *crtc_state,
- 					      struct drm_plane_state *state)
- {
-@@ -297,6 +337,8 @@ static int mdp5_plane_atomic_check_with_state(struct drm_crtc_state *crtc_state,
- 			mdp5_pipe_release(state->state, old_hwpipe);
- 			mdp5_pipe_release(state->state, old_right_hwpipe);
- 		}
-+
-+		mdp5_plane_calc_bw(state, crtc_state);
- 	} else {
- 		mdp5_pipe_release(state->state, mdp5_state->hwpipe);
- 		mdp5_pipe_release(state->state, mdp5_state->r_hwpipe);
--- 
-2.30.2
+Well to clarify I don't want to move forward to implement new features, 
+but rather to fix existing shortcomings.
+
+ From my point of view the main purpose of the dma_resv object is to 
+provide a container for dma_fence objects for different use cases.
+
+Those use cases are then.
+1. Resource management.
+2. Implicit synchronization.
+3. Information about current operations.
+
+Now I think I can summarize the problem I'm seeing in that the focus of 
+the design is to much towards towards a single use case here.
+
+For example, for resource management alone I need to be able to add any 
+fence at any time to the resv object without any restriction.
+
+> b) Daniel is coming from the side of let's bring amdgpu into the fold
+> first, then if the problem exists we can move everything forward
+> together. He intends on pointing out how alone amdgpu is here, and
+> wants to try and create a uapi that at least mitigates the biggest
+> problems with moving amdgpu to the common model first. I'd like to
+> know if this is at least a possibility as an alternate route. I
+> understand AMD have some goals to reach here but I think we've dug a
+> massive hole here and paying off the tech debt is going to have to
+> delay those goals if we are to keep upstream sane.
+
+I don't think we can do this so easily without breaking uAPI.
+
+Userspace in the form of both RADV as well as AMDVLK depend on that 
+behavior and we still have the original video decode use case this was 
+invented for.
+
+> I'm slowly paging all of the technical details as I go, I'd like to
+> see more thought around Daniel's idea of fixing the amdgpu oversync
+> with TLB flushing, as it really doesn't make much sense to be that TLB
+> flushing on process teardown is going to stall out other processes
+> using the shared buffer, that it should only stall out moving the
+> pages. If that then allows aligning amdgpu for now and we can work out
+> how to fix (a) then that would rock.
+
+Well this is exactly what I've been trying to do by adding those flags 
+to the shared fences, but Daniel already convinced me that this is to 
+invasive as a first step.
+
+And while this over synchronization is annoying it's already there for a 
+very long time and only affects the case when the BO is shared between 
+devices.
+
+So for the moment I'm pondering on the question what would be the 
+absolutely minimum change necessary to get amdgpu to use the exclusive 
+fence in the same way other drivers do.
+
+And I think I can summarize this into two things:
+1. We make it possible to add shared fences which are not synchronized 
+to the explicit fence.
+2. We make it possible to replace the explicit fence without removing 
+all the shared fences.
+
+With that in place I'm able to change amdgpu so that we can fill in the 
+exclusive fence during CS with chain nodes and keep the synchronization 
+model for existing amdgpu uAPI the same.
+
+Regards,
+Christian.
+
+> Please correct me where I'm wrong here and definitely if I've
+> misrepresented anyone's positions.
+>
+> Dave.
+>
+>
+> [1] https://lore.kernel.org/dri-devel/a1925038-5c3c-0193-1870-27488caa2577@gmail.com/T/#md800f00476ca1869a81b02a28cb2fabc1028c6be
 
