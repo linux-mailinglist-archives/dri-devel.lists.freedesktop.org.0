@@ -1,37 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E608A390AD9
-	for <lists+dri-devel@lfdr.de>; Tue, 25 May 2021 22:58:23 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2AA79390AD4
+	for <lists+dri-devel@lfdr.de>; Tue, 25 May 2021 22:58:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AD2726EB08;
-	Tue, 25 May 2021 20:57:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DAF626EADB;
+	Tue, 25 May 2021 20:57:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 116756E43D;
- Tue, 25 May 2021 20:57:54 +0000 (UTC)
-IronPort-SDR: TaQYuhvlx1XoZiGA3CFB3DyrVcpX/FLdOKSX9SDQ5aoO0ed2dU06NRxQMPpIpRctOXy/jQgy7i
- kmkratmWmrGQ==
-X-IronPort-AV: E=McAfee;i="6200,9189,9995"; a="266195938"
-X-IronPort-AV: E=Sophos;i="5.82,329,1613462400"; d="scan'208";a="266195938"
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D26D96E441;
+ Tue, 25 May 2021 20:57:53 +0000 (UTC)
+IronPort-SDR: PzJmUa0X+i7S3SWGzDq4zYluk96TWjtmzPuUcWbGTurPInKgB/3iuWr4rHRCqQ9qYapUMmkZiN
+ iuAKtYyKR5aw==
+X-IronPort-AV: E=McAfee;i="6200,9189,9995"; a="202318057"
+X-IronPort-AV: E=Sophos;i="5.82,329,1613462400"; d="scan'208";a="202318057"
 Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  25 May 2021 13:57:52 -0700
-IronPort-SDR: V77jSuFfMoL+qYt4gUn6NuiscrAfdzdQmNy0bjkOHJn7p2ujzQQXIH4X6i1xU3BFDPOjtO4rim
- +5mjZSDm2Bog==
-X-IronPort-AV: E=Sophos;i="5.82,329,1613462400"; d="scan'208";a="443603523"
+IronPort-SDR: gEkkrpngaiCa5+3kxjbLhKixPZoy72n3XhyFowHW/qtPL2Bz3+l1GpwTwbiwUJ5Mjecx3HBRpk
+ HrSvRzImALxA==
+X-IronPort-AV: E=Sophos;i="5.82,329,1613462400"; d="scan'208";a="443603528"
 Received: from dhiatt-server.jf.intel.com ([10.54.81.3])
  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  25 May 2021 13:57:52 -0700
 From: Matthew Brost <matthew.brost@intel.com>
 To: <intel-gfx@lists.freedesktop.org>,
 	<dri-devel@lists.freedesktop.org>
-Subject: [PATCH 03/17] drm/i915/guc: enable only the user interrupt when using
- GuC submission
-Date: Tue, 25 May 2021 14:15:27 -0700
-Message-Id: <20210525211541.87696-4-matthew.brost@intel.com>
+Subject: [PATCH 04/17] drm/i915/guc: Remove sample_forcewake h2g action
+Date: Tue, 25 May 2021 14:15:28 -0700
+Message-Id: <20210525211541.87696-5-matthew.brost@intel.com>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20210525211541.87696-1-matthew.brost@intel.com>
 References: <20210525211541.87696-1-matthew.brost@intel.com>
@@ -53,112 +52,100 @@ Cc: Michal.Wajdeczko@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+From: Rodrigo Vivi <rodrigo.vivi@intel.com>
 
-In GuC submission mode the CS is owned by the GuC FW, so all CS status
-interrupts are handled by it. We only need the user interrupt as that
-signals request completion.
+This action is no-op in the GuC side for a few versions already
+and it is getting entirely removed soon, in an upcoming version.
 
-Since we're now starting the engines directly in GuC submission mode
-when selected, we can stop switching back and forth between the
-execlists and the GuC programming and select directly the correct
-interrupt mask.
+Time to remove before we face communication issues.
 
-Signed-off-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+Cc:  Vinay Belgaumkar <vinay.belgaumkar@intel.com>
+Signed-off-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
 Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+Acked-by: Michal Wajdeczko <michal.wajdeczko@intel.com>
 Reviewed-by: Matthew Brost <matthew.brost@intel.com>
-Cc: John Harrison <john.c.harrison@intel.com>
-Cc: Michal Wajdeczko <michal.wajdeczko@intel.com>
 ---
- drivers/gpu/drm/i915/gt/intel_gt_irq.c        | 18 ++++++-----
- .../gpu/drm/i915/gt/uc/intel_guc_submission.c | 31 -------------------
- 2 files changed, 11 insertions(+), 38 deletions(-)
+ drivers/gpu/drm/i915/gt/uc/intel_guc.c      | 16 ----------------
+ drivers/gpu/drm/i915/gt/uc/intel_guc.h      |  1 -
+ drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h |  4 ----
+ drivers/gpu/drm/i915/gt/uc/intel_uc.c       |  4 ----
+ 4 files changed, 25 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/gt/intel_gt_irq.c b/drivers/gpu/drm/i915/gt/intel_gt_irq.c
-index d29126c458ba..f88c10366e58 100644
---- a/drivers/gpu/drm/i915/gt/intel_gt_irq.c
-+++ b/drivers/gpu/drm/i915/gt/intel_gt_irq.c
-@@ -194,14 +194,18 @@ void gen11_gt_irq_reset(struct intel_gt *gt)
- 
- void gen11_gt_irq_postinstall(struct intel_gt *gt)
- {
--	const u32 irqs =
--		GT_CS_MASTER_ERROR_INTERRUPT |
--		GT_RENDER_USER_INTERRUPT |
--		GT_CONTEXT_SWITCH_INTERRUPT |
--		GT_WAIT_SEMAPHORE_INTERRUPT;
- 	struct intel_uncore *uncore = gt->uncore;
--	const u32 dmask = irqs << 16 | irqs;
--	const u32 smask = irqs << 16;
-+	u32 irqs = GT_RENDER_USER_INTERRUPT;
-+	u32 dmask;
-+	u32 smask;
-+
-+	if (!intel_uc_wants_guc_submission(&gt->uc))
-+		irqs |= GT_CS_MASTER_ERROR_INTERRUPT |
-+			GT_CONTEXT_SWITCH_INTERRUPT |
-+			GT_WAIT_SEMAPHORE_INTERRUPT;
-+
-+	dmask = irqs << 16 | irqs;
-+	smask = irqs << 16;
- 
- 	BUILD_BUG_ON(irqs & 0xffff0000);
- 
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-index 335719f17490..38cda5d599a6 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-@@ -432,32 +432,6 @@ void intel_guc_submission_fini(struct intel_guc *guc)
- 	}
+diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc.c b/drivers/gpu/drm/i915/gt/uc/intel_guc.c
+index adae04c47aab..ab2c8fe8cdfa 100644
+--- a/drivers/gpu/drm/i915/gt/uc/intel_guc.c
++++ b/drivers/gpu/drm/i915/gt/uc/intel_guc.c
+@@ -469,22 +469,6 @@ int intel_guc_to_host_process_recv_msg(struct intel_guc *guc,
+ 	return 0;
  }
  
--static void guc_interrupts_capture(struct intel_gt *gt)
+-int intel_guc_sample_forcewake(struct intel_guc *guc)
 -{
--	struct intel_uncore *uncore = gt->uncore;
--	u32 irqs = GT_CONTEXT_SWITCH_INTERRUPT;
--	u32 dmask = irqs << 16 | irqs;
+-	struct drm_i915_private *dev_priv = guc_to_gt(guc)->i915;
+-	u32 action[2];
 -
--	GEM_BUG_ON(INTEL_GEN(gt->i915) < 11);
+-	action[0] = INTEL_GUC_ACTION_SAMPLE_FORCEWAKE;
+-	/* WaRsDisableCoarsePowerGating:skl,cnl */
+-	if (!HAS_RC6(dev_priv) || NEEDS_WaRsDisableCoarsePowerGating(dev_priv))
+-		action[1] = 0;
+-	else
+-		/* bit 0 and 1 are for Render and Media domain separately */
+-		action[1] = GUC_FORCEWAKE_RENDER | GUC_FORCEWAKE_MEDIA;
 -
--	/* Don't handle the ctx switch interrupt in GuC submission mode */
--	intel_uncore_rmw(uncore, GEN11_RENDER_COPY_INTR_ENABLE, dmask, 0);
--	intel_uncore_rmw(uncore, GEN11_VCS_VECS_INTR_ENABLE, dmask, 0);
+-	return intel_guc_send(guc, action, ARRAY_SIZE(action));
 -}
 -
--static void guc_interrupts_release(struct intel_gt *gt)
--{
--	struct intel_uncore *uncore = gt->uncore;
--	u32 irqs = GT_CONTEXT_SWITCH_INTERRUPT;
--	u32 dmask = irqs << 16 | irqs;
--
--	GEM_BUG_ON(INTEL_GEN(gt->i915) < 11);
--
--	/* Handle ctx switch interrupts again */
--	intel_uncore_rmw(uncore, GEN11_RENDER_COPY_INTR_ENABLE, 0, dmask);
--	intel_uncore_rmw(uncore, GEN11_VCS_VECS_INTR_ENABLE, 0, dmask);
--}
--
- static int guc_context_alloc(struct intel_context *ce)
- {
- 	return lrc_alloc(ce, ce->engine);
-@@ -722,9 +696,6 @@ int intel_guc_submission_setup(struct intel_engine_cs *engine)
- void intel_guc_submission_enable(struct intel_guc *guc)
- {
- 	guc_stage_desc_init(guc);
--
--	/* Take over from manual control of ELSP (execlists) */
--	guc_interrupts_capture(guc_to_gt(guc));
- }
+ /**
+  * intel_guc_auth_huc() - Send action to GuC to authenticate HuC ucode
+  * @guc: intel_guc structure
+diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc.h b/drivers/gpu/drm/i915/gt/uc/intel_guc.h
+index bc2ba7d0626c..c20f3839de12 100644
+--- a/drivers/gpu/drm/i915/gt/uc/intel_guc.h
++++ b/drivers/gpu/drm/i915/gt/uc/intel_guc.h
+@@ -128,7 +128,6 @@ int intel_guc_send_mmio(struct intel_guc *guc, const u32 *action, u32 len,
+ 			u32 *response_buf, u32 response_buf_size);
+ int intel_guc_to_host_process_recv_msg(struct intel_guc *guc,
+ 				       const u32 *payload, u32 len);
+-int intel_guc_sample_forcewake(struct intel_guc *guc);
+ int intel_guc_auth_huc(struct intel_guc *guc, u32 rsa_offset);
+ int intel_guc_suspend(struct intel_guc *guc);
+ int intel_guc_resume(struct intel_guc *guc);
+diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h b/drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h
+index 79c560d9c0b6..0f9afcde1d0b 100644
+--- a/drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h
++++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h
+@@ -302,9 +302,6 @@ struct guc_ct_buffer_desc {
+ #define GUC_CT_MSG_ACTION_SHIFT			16
+ #define GUC_CT_MSG_ACTION_MASK			0xFFFF
  
- void intel_guc_submission_disable(struct intel_guc *guc)
-@@ -735,8 +706,6 @@ void intel_guc_submission_disable(struct intel_guc *guc)
- 
- 	/* Note: By the time we're here, GuC may have already been reset */
- 
--	guc_interrupts_release(gt);
+-#define GUC_FORCEWAKE_RENDER	(1 << 0)
+-#define GUC_FORCEWAKE_MEDIA	(1 << 1)
 -
- 	guc_stage_desc_fini(guc);
- }
+ #define GUC_POWER_UNSPECIFIED	0
+ #define GUC_POWER_D0		1
+ #define GUC_POWER_D1		2
+@@ -558,7 +555,6 @@ enum intel_guc_action {
+ 	INTEL_GUC_ACTION_ENTER_S_STATE = 0x501,
+ 	INTEL_GUC_ACTION_EXIT_S_STATE = 0x502,
+ 	INTEL_GUC_ACTION_SLPC_REQUEST = 0x3003,
+-	INTEL_GUC_ACTION_SAMPLE_FORCEWAKE = 0x3005,
+ 	INTEL_GUC_ACTION_AUTHENTICATE_HUC = 0x4000,
+ 	INTEL_GUC_ACTION_REGISTER_COMMAND_TRANSPORT_BUFFER = 0x4505,
+ 	INTEL_GUC_ACTION_DEREGISTER_COMMAND_TRANSPORT_BUFFER = 0x4506,
+diff --git a/drivers/gpu/drm/i915/gt/uc/intel_uc.c b/drivers/gpu/drm/i915/gt/uc/intel_uc.c
+index 892c1315ce49..ab0789d66e06 100644
+--- a/drivers/gpu/drm/i915/gt/uc/intel_uc.c
++++ b/drivers/gpu/drm/i915/gt/uc/intel_uc.c
+@@ -502,10 +502,6 @@ static int __uc_init_hw(struct intel_uc *uc)
+ 
+ 	intel_huc_auth(huc);
+ 
+-	ret = intel_guc_sample_forcewake(guc);
+-	if (ret)
+-		goto err_log_capture;
+-
+ 	if (intel_uc_uses_guc_submission(uc))
+ 		intel_guc_submission_enable(guc);
  
 -- 
 2.28.0
