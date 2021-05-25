@@ -2,61 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 613B939082B
-	for <lists+dri-devel@lfdr.de>; Tue, 25 May 2021 19:53:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 01F123908A7
+	for <lists+dri-devel@lfdr.de>; Tue, 25 May 2021 20:15:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AAF6B6EA98;
-	Tue, 25 May 2021 17:53:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EC9EF6EA9D;
+	Tue, 25 May 2021 18:15:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com
- [IPv6:2a00:1450:4864:20::42e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E8D576E922
- for <dri-devel@lists.freedesktop.org>; Tue, 25 May 2021 17:53:20 +0000 (UTC)
-Received: by mail-wr1-x42e.google.com with SMTP id x7so13540814wrt.12
- for <dri-devel@lists.freedesktop.org>; Tue, 25 May 2021 10:53:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=WrujumSU1+zFWWJ08KI/mKxpUxzEYo1k79qwI4tpPX4=;
- b=V9ncVLSmygkTfM2oPQ84z6Lujtq6HnByiOAXrwpFLtmVWSjeiS804G0dT6nm2JKDVg
- EGENymltvvxULFs/aDscReqFUJhdDkaOIsK0ZceryNjgHpvEnhxWnC6YGldOlVnBgznh
- Q/otsxxoQaAxjrDpg+lU453cXJrjWWUfFGFYI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=WrujumSU1+zFWWJ08KI/mKxpUxzEYo1k79qwI4tpPX4=;
- b=Rjc2ZaRrkxOas1lnJsBtPCrSloSo8g8YI8cFoj2klI92wGu0lgJji8PNu/12UbpP77
- aeB5lzr/P3suast7Okj+xVbudvLz/5EeHsNh+YJPiZ3cDFhZouAr+ch7NJIkWv7bflPm
- OZCeFdBb9r33PdG/n4qYj/RstiWhMzRGgaXCcWbGmuC49hk5xyVzSMtToPXRxdCFsDji
- aPo50J9pTBg3P8lW6WMwQmJGPVdY3MC8sKyzu0DlWNndtNa4pZvRznqaooeeTIkwucyA
- UHCqBAwNBC0YnHLZW30hNqh452SkPFAZTIHFrol2qsW24bbfD+ujyvLGi6DyP4+k6CwI
- UzmA==
-X-Gm-Message-State: AOAM533kcCvxS+aa6FYAMlFS/+CYUU/NgXTZ3vh4eAMovUHK3Ac2JF6z
- Q0hSYVfGmNgyNH3mH+24x0mSDA==
-X-Google-Smtp-Source: ABdhPJxljLzeq4dlgAEQSqMzAtn+gBYB8ZH4HqYKFTr7n8n2Ap1WE1dcxVz8hN9c/6XLLnVYqPFuag==
-X-Received: by 2002:adf:e291:: with SMTP id v17mr28880122wri.149.1621965199488; 
- Tue, 25 May 2021 10:53:19 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id z188sm11957986wme.38.2021.05.25.10.53.18
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 25 May 2021 10:53:18 -0700 (PDT)
-Date: Tue, 25 May 2021 19:53:17 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Noralf =?iso-8859-1?Q?Tr=F8nnes?= <noralf@tronnes.org>
-Subject: Re: [PATCH 10/11] drm/simple-helper:
- drm_gem_simple_display_pipe_prepare_fb as default
-Message-ID: <YK05jUaHtxkHIyAG@phenom.ffwll.local>
-References: <20210521090959.1663703-10-daniel.vetter@ffwll.ch>
- <9d855dc6-5825-4666-6d70-e5f3f880c592@tronnes.org>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 139E86EAA3;
+ Tue, 25 May 2021 18:15:09 +0000 (UTC)
+IronPort-SDR: U/Dgs1lzvDxRrW2vVZzLn37b1jRLz4tUPq6CEIUkxH+G3uALYe9ceWfxwYL1bzHR1U1WdwV2+O
+ ZMmVxw7nayTw==
+X-IronPort-AV: E=McAfee;i="6200,9189,9995"; a="202018479"
+X-IronPort-AV: E=Sophos;i="5.82,329,1613462400"; d="scan'208";a="202018479"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 May 2021 11:15:08 -0700
+IronPort-SDR: +TonCVBy33lblcew7grfUF/jrmEp4B09psRwN0nfLjcBx15BhZQ+uwXA7EvSwQstBek7EkOKgJ
+ JD3bM9LdYkBw==
+X-IronPort-AV: E=Sophos;i="5.82,329,1613462400"; d="scan'208";a="396961915"
+Received: from unknown (HELO sdutt-i7) ([10.165.21.147])
+ by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 May 2021 11:15:08 -0700
+Date: Tue, 25 May 2021 11:08:00 -0700
+From: Matthew Brost <matthew.brost@intel.com>
+To: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Subject: Re: [RFC PATCH 15/97] drm/i915/guc: Relax CTB response timeout
+Message-ID: <20210525180800.GA23177@sdutt-i7>
+References: <20210506191451.77768-1-matthew.brost@intel.com>
+ <20210506191451.77768-16-matthew.brost@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <9d855dc6-5825-4666-6d70-e5f3f880c592@tronnes.org>
-X-Operating-System: Linux phenom 5.10.32scarlett+ 
+In-Reply-To: <20210506191451.77768-16-matthew.brost@intel.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,86 +49,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, daniel.vetter@ffwll.ch, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, tzimmermann@suse.de, daniel.vetter@intel.com
+Cc: tvrtko.ursulin@intel.com, daniele.ceraolospurio@intel.com,
+ jason.ekstrand@intel.com, jon.bloomfield@intel.com, daniel.vetter@intel.com,
+ john.c.harrison@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, May 25, 2021 at 07:48:12PM +0200, Noralf Trønnes wrote:
-> > It's tedious to review this all the time, and my audit showed that
-> > arcpgu actually forgot to set this.
-> >
-> > Make this the default and stop worrying.
-> >
-> > Again I sprinkled WARN_ON_ONCE on top to make sure we don't have
-> > strange combinations of hooks: cleanup_fb without prepare_fb doesn't
-> > make sense, and since simpler drivers are all new they better be GEM
-> > based drivers.
-> >
-> > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> > Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> > Cc: Maxime Ripard <mripard@kernel.org>
-> > Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> > Cc: David Airlie <airlied@linux.ie>
-> > Cc: Daniel Vetter <daniel@ffwll.ch>
-> > ---
-> >  drivers/gpu/drm/drm_simple_kms_helper.c | 12 ++++++++++--
-> >  include/drm/drm_simple_kms_helper.h     |  7 +++++--
-> >  2 files changed, 15 insertions(+), 4 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/drm_simple_kms_helper.c
-> b/drivers/gpu/drm/drm_simple_kms_helper.c
-> > index 0b095a313c44..1a97571d97d9 100644
-> > --- a/drivers/gpu/drm/drm_simple_kms_helper.c
-> > +++ b/drivers/gpu/drm/drm_simple_kms_helper.c
-> > @@ -9,6 +9,8 @@
-> >  #include <drm/drm_atomic.h>
-> >  #include <drm/drm_atomic_helper.h>
-> >  #include <drm/drm_bridge.h>
-> > +#include <drm/drm_drv.h>
-> > +#include <drm/drm_gem_atomic_helper.h>
-> >  #include <drm/drm_managed.h>
-> >  #include <drm/drm_plane_helper.h>
-> >  #include <drm/drm_probe_helper.h>
-> > @@ -225,8 +227,14 @@ static int drm_simple_kms_plane_prepare_fb(struct
-> drm_plane *plane,
-> >  	struct drm_simple_display_pipe *pipe;
-> >
-> >  	pipe = container_of(plane, struct drm_simple_display_pipe, plane);
-> > -	if (!pipe->funcs || !pipe->funcs->prepare_fb)
-> > -		return 0;
-> > +	if (!pipe->funcs || !pipe->funcs->prepare_fb) {
-> > +		if (WARN_ON_ONCE(drm_core_check_feature(plane->dev, DRIVER_GEM)))
+On Thu, May 06, 2021 at 12:13:29PM -0700, Matthew Brost wrote:
+> From: Michal Wajdeczko <michal.wajdeczko@intel.com>
 > 
-> Shouldn't this check be inverted? Looks like it warns on GEM drivers.
-
-Ah yes, I'll fix.
-
-> With that considered:
+> In upcoming patch we will allow more CTB requests to be sent in
+> parallel to the GuC for procesing, so we shouldn't assume any more
+> that GuC will always reply without 10ms.
 > 
-> Acked-by: Noralf Trønnes <noralf@tronnes.org>
+> Use bigger value from CONFIG_DRM_I915_HEARTBEAT_INTERVAL instead.
 > 
-> Hopefully this reply will thread correctly, I had to reply from lore (I
-> wasn't cc'ed) and I don't know if Thunderbird sets In-Reply-To. I'm not
-> subscribed to dri-devel anymore since I'm winding down my Linux work and
-> dri-devel is such a high volume list.
 
-Thanks a lot for taking a look, threaded all correctly.
--Daniel
+I think this should be its own config option or we combine it with a
+config option suggested in patch 37.
 
-> Noralf
+What do you think Michal? If you agree I can fix this up in the post of
+these patches.
+
+Matt
+
+> Signed-off-by: Michal Wajdeczko <michal.wajdeczko@intel.com>
+> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+> ---
+>  drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c | 8 +++++++-
+>  1 file changed, 7 insertions(+), 1 deletion(-)
 > 
-> > +			return 0;
-> > +
-> > +		WARN_ON_ONCE(pipe->funcs && pipe->funcs->cleanup_fb);
-> > +
-> > +		return drm_gem_simple_display_pipe_prepare_fb(pipe, state);
-> > +	}
-> >
-> >  	return pipe->funcs->prepare_fb(pipe, state);
-> >  }
-
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
+> index c87a0a8bef26..a4b2e7fe318b 100644
+> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
+> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
+> @@ -436,17 +436,23 @@ static int ct_write(struct intel_guc_ct *ct,
+>   */
+>  static int wait_for_ct_request_update(struct ct_request *req, u32 *status)
+>  {
+> +	long timeout;
+>  	int err;
+>  
+>  	/*
+>  	 * Fast commands should complete in less than 10us, so sample quickly
+>  	 * up to that length of time, then switch to a slower sleep-wait loop.
+>  	 * No GuC command should ever take longer than 10ms.
+> +	 *
+> +	 * However, there might be other CT requests in flight before this one,
+> +	 * so use @CONFIG_DRM_I915_HEARTBEAT_INTERVAL as backup timeout value.
+>  	 */
+> +	timeout = max(10, CONFIG_DRM_I915_HEARTBEAT_INTERVAL);
+> +
+>  #define done INTEL_GUC_MSG_IS_RESPONSE(READ_ONCE(req->status))
+>  	err = wait_for_us(done, 10);
+>  	if (err)
+> -		err = wait_for(done, 10);
+> +		err = wait_for(done, timeout);
+>  #undef done
+>  
+>  	if (unlikely(err))
+> -- 
+> 2.28.0
+> 
