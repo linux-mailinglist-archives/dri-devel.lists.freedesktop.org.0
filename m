@@ -1,46 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16F8F38FD7F
-	for <lists+dri-devel@lfdr.de>; Tue, 25 May 2021 11:11:16 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 77B1B38FD81
+	for <lists+dri-devel@lfdr.de>; Tue, 25 May 2021 11:11:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3BBE06E053;
-	Tue, 25 May 2021 09:11:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C62136E133;
+	Tue, 25 May 2021 09:11:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from wnew2-smtp.messagingengine.com (wnew2-smtp.messagingengine.com
  [64.147.123.27])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1CC606E053
- for <dri-devel@lists.freedesktop.org>; Tue, 25 May 2021 09:11:10 +0000 (UTC)
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
- by mailnew.west.internal (Postfix) with ESMTP id AEDB1A09;
- Tue, 25 May 2021 05:11:08 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute1.internal (MEProxy); Tue, 25 May 2021 05:11:09 -0400
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 952066E133
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 May 2021 09:11:13 +0000 (UTC)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
+ by mailnew.west.internal (Postfix) with ESMTP id 1E685E2C;
+ Tue, 25 May 2021 05:11:12 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute6.internal (MEProxy); Tue, 25 May 2021 05:11:13 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
  from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm2; bh=uQPzFz4rsR1CZ
- Eyj9NEDhDZyvUIuqds/jM6YN+Bp8Yw=; b=v3oNEPbQZCKbTJHYgNi4p6WJGadSF
- dBm9kQyizws/1qRyYlWRrdDF0NXAToqWhtc/w6pOgImZAD1DQxtuUCuejmrcgCrb
- z7mu8ShruIFh1FscZXNyio4amADV2uHBTCvpvpumbf0hk/grljZMKTak2uu1PFMC
- r0K4YSKzp2ntdh9gClOGDBDWaLfR5GXj+7LM9aGZNmFq5YgtHTi3ErLE4jn8+S7r
- VlltL8F5eqvpUa3+F5KJxjn+wHRBk+JCwrEhmuIecQVzNV+FhaJfxc+4akynGCGM
- sItv+GGSrDXvaxqNsyMw9jPNu9QPi1frN8a4sgmIpXTXflcZV68HFxnyw==
+ :mime-version:content-transfer-encoding; s=fm2; bh=WMExxbKpb723D
+ 6YVDVSHvvRRkWLWmEdwafytxkU3Fmc=; b=aoek5ABh1q7SanV3Owr+OAYGp9dh5
+ XGK0744ecAByekZHKUN0LHI107HYQTxiBK8R1mveLV1xALhGJCre70QF5ry3N21J
+ 3STD8nQdbpEPoVe/oqeh7338ItnWBzYOAy1vfIs5w9CiqWimBrOKnC+PtQIf1duD
+ Q6p35q/c+YhDzu1ug/fYSgXEnUohtFNjv4PrTGfzCzDHu/rKx97ss+IMoCcRwQW7
+ ePa1tdBIMCpf/Lcr2CVKmfwQ2pbqTe3iHMoYXvzSQPfbupyTdXqrxazTDAAf7qbI
+ Xo2pMYNSTNvITWTZoX9hHkNJ7ZdFY3nNKJceJ7jlocklz2gK1w1mIyakg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm2; bh=uQPzFz4rsR1CZEyj9NEDhDZyvUIuqds/jM6YN+Bp8Yw=; b=ekTzkxU9
- QKKoE4lf387CUY0NxzluXZ/7NwSolxI2DgJwK/3M7hftS5M6FsrzD3oIasFjN1VR
- WkmP+Q2AQHu6plkdU3ZmzCfQADX6+8ONb+caR1HbipQjINIHn/G3p+h8gR6TrAzn
- lMkMmvNFJyvE3fkbp/wNBizpYSZ1OqLyBHOhG7HOx7aJNH/n6yKpYUq8nosdXkx9
- XpatXTYQRfRiZQllhnyK5konLDE4xOsuEPznFpD4q5xhKqu5zwX9HwzvUOXDLJb0
- n3qgBJZuaieWpb4xukJK7t21moYEsIEYQNm4vhdsOeIO6kmlHYtuyxSle5Lm7V9q
- BsQ19VE6jS6e1w==
-X-ME-Sender: <xms:K7-sYMz-QS4Xivf-7Ol4iWhBsrIq4ktbbmybEByq8fnhRq1O5KJEpQ>
- <xme:K7-sYAThChFuiFAVxQHsWliF2sEnjb83YILcghh7YBgcisqxuu1yQwED6Ys2VvRH4
- KEao_Y0a03owGXbGIo>
+ fm2; bh=WMExxbKpb723D6YVDVSHvvRRkWLWmEdwafytxkU3Fmc=; b=U6BkRoNL
+ XX/lshApFctlXIiwHgyA5n4R2AIkG2bAtA6KOrNcsN4erAGug0a0F5n8F//e+Eat
+ ZKtcS/VA56OH7xbhRTzcm0ebuWtbiO7e35AsQVdHDdMOa7MgnGf4U1PHe7vV6Ujz
+ ayLGcjy+FRW8jQnhHKX0NI+Y9+Af5MOemQkpAWzR2dBo5kXfs+NhbkW3cr8NQ/vk
+ hXCwBCMEc6Kqfo9wRhX+wn43wzNFmmXIxeH8yEuxIYB9J8Q0NP4SjiL0XcUUsIzS
+ dXqEWxKSUa/ftvg0sWrdXJRvGzzLxp326d9GkJi8+8//5VzvUa04iHR28hQ+omUY
+ P7O359z58PBsGQ==
+X-ME-Sender: <xms:L7-sYCR5ILG6ROOR87KgTb8edTp-AGE6ThmtRidCQzdJxR5ShCdMEw>
+ <xme:L7-sYHwI0MR0KmSV8WIlE7hISSMN4bulrh_W-5uU0k3qZ4oX4lWrQGbjLAJ0zrbf9
+ XT_olhtKJQrHBsDbow>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvdekuddgudefucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
@@ -49,22 +49,21 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvdekuddgudefucetufdoteggod
  htvghrnhepvdekleevfeffkeejhfffueelteelfeduieefheduudfggffhhfffheevveeh
  hedvnecukfhppeeltddrkeelrdeikedrjeeinecuvehluhhsthgvrhfuihiivgeptdenuc
  frrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:K7-sYOW-2-bphzXG666x1hn2K-gjAwFAU_BeblujW9fmCBQ0kiZ_3A>
- <xmx:K7-sYKhxEY-uOelwyyHY70AF5mJ3B4xy8nv4fNqQu2P1k8jAKIqM0A>
- <xmx:K7-sYOAYrkl24_rQy0rtLoG-opBBq0saG74l198rJDN48nV65dh1ow>
- <xmx:LL-sYKx9gOBwk-hL7f7Rr51WEZkGsfFQV0g1FYISOrc3qf0atiOFmaFGJFk>
+X-ME-Proxy: <xmx:L7-sYP1c4wXCWEennw5ZGOLoqymiiXOSF6rPaTBzve8xKao-KWK7og>
+ <xmx:L7-sYOBReSuR6llgRf_8R6ToIohbdXsx2-FUimArkrM2_0d0R-wLyQ>
+ <xmx:L7-sYLjg-ni1VS2aUzQf9Z0K-xb495tUT153hLHG5cNi2NpK8Eu3dA>
+ <xmx:L7-sYGSHndTl-l6SFEan8-H98HjzRl2Fu6v-P0MhGjm_Esl1qVFYlX7pIUE>
 Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
  [90.89.68.76]) by mail.messagingengine.com (Postfix) with ESMTPA;
- Tue, 25 May 2021 05:11:06 -0400 (EDT)
+ Tue, 25 May 2021 05:11:11 -0400 (EDT)
 From: Maxime Ripard <maxime@cerno.tech>
 To: dri-devel@lists.freedesktop.org, Daniel Vetter <daniel.vetter@intel.com>,
  David Airlie <airlied@linux.ie>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <maxime@cerno.tech>
-Subject: [PATCH 1/3] drm: Mention the power state requirement on side-channel
- operations
-Date: Tue, 25 May 2021 11:10:57 +0200
-Message-Id: <20210525091059.234116-2-maxime@cerno.tech>
+Subject: [PATCH 2/3] drm/vc4: hdmi: Move the HSM clock enable to runtime_pm
+Date: Tue, 25 May 2021 11:10:58 +0200
+Message-Id: <20210525091059.234116-3-maxime@cerno.tech>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210525091059.234116-1-maxime@cerno.tech>
 References: <20210525091059.234116-1-maxime@cerno.tech>
@@ -89,72 +88,112 @@ Cc: Tim Gover <tim.gover@raspberrypi.com>, Emma Anholt <emma@anholt.net>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The drm_connector detect, drm_dp_aux transfer and mipi_dsi_host
-operations typically require to access their underlying device to
-perform what is expected of them.
+In order to access the HDMI controller, we need to make sure the HSM
+clock is enabled. If we were to access it with the clock disabled, the
+CPU would completely hang, resulting in an hard crash.
 
-However, there's no guarantee on the fact that the device has been
-enabled through atomic_enable or similar that will usually power the
-device. The access to an unpowered device is then an undefined behaviour
-ranging from the access being ignored to a hard CPU hang.
+Since we have different code path that would require it, let's move that
+clock enable / disable to runtime_pm that will take care of the
+reference counting for us.
 
-Let's document that expectation to avoid as much as possible those
-consequences.
-
+Fixes: 4f6e3d66ac52 ("drm/vc4: Add runtime PM support to the HDMI encoder driver")
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- include/drm/drm_connector.h | 5 +++++
- include/drm/drm_dp_helper.h | 4 ++++
- include/drm/drm_mipi_dsi.h  | 5 +++++
- 3 files changed, 14 insertions(+)
+ drivers/gpu/drm/vc4/vc4_hdmi.c | 41 +++++++++++++++++++++++++---------
+ 1 file changed, 31 insertions(+), 10 deletions(-)
 
-diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
-index 714d1a01c065..0a1d9a0fcbb2 100644
---- a/include/drm/drm_connector.h
-+++ b/include/drm/drm_connector.h
-@@ -848,6 +848,11 @@ struct drm_connector_funcs {
- 	 * locks to avoid races with concurrent modeset changes need to use
- 	 * &drm_connector_helper_funcs.detect_ctx instead.
- 	 *
-+	 * Also note that this callback can be called no matter the
-+	 * state the connector is in. Drivers that need the underlying
-+	 * device to be powered to perform the detection will first need
-+	 * to make sure it's been properly enabled.
-+	 *
- 	 * RETURNS:
- 	 *
- 	 * drm_connector_status indicating the connector's status.
-diff --git a/include/drm/drm_dp_helper.h b/include/drm/drm_dp_helper.h
-index 06681bf46d81..4fcb027c8821 100644
---- a/include/drm/drm_dp_helper.h
-+++ b/include/drm/drm_dp_helper.h
-@@ -1884,6 +1884,10 @@ struct drm_dp_aux_cec {
-  * Note that the aux helper code assumes that the @transfer() function only
-  * modifies the reply field of the &drm_dp_aux_msg structure. The retry logic
-  * and i2c helpers assume this is the case.
-+ *
-+ * Also note that @transfer() can be called no matter the state @dev is
-+ * in. Drivers that need that device to be powered to perform this
-+ * operation will first need to make sure it's been properly enabled.
-  */
- struct drm_dp_aux {
- 	const char *name;
-diff --git a/include/drm/drm_mipi_dsi.h b/include/drm/drm_mipi_dsi.h
-index 360e6377e84b..849d3029e303 100644
---- a/include/drm/drm_mipi_dsi.h
-+++ b/include/drm/drm_mipi_dsi.h
-@@ -80,6 +80,11 @@ int mipi_dsi_create_packet(struct mipi_dsi_packet *packet,
-  * Note that typically DSI packet transmission is atomic, so the .transfer()
-  * function will seldomly return anything other than the number of bytes
-  * contained in the transmit buffer on success.
-+ *
-+ * Also note that those callbacks can be called no matter the state the
-+ * host is in. Drivers that need the underlying device to be powered to
-+ * perform these operations will first need to make sure it's been
-+ * properly enabled.
-  */
- struct mipi_dsi_host_ops {
- 	int (*attach)(struct mipi_dsi_host *host,
+diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
+index f9de8632a28b..867009a471e1 100644
+--- a/drivers/gpu/drm/vc4/vc4_hdmi.c
++++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
+@@ -632,7 +632,6 @@ static void vc4_hdmi_encoder_post_crtc_powerdown(struct drm_encoder *encoder,
+ 		   HDMI_READ(HDMI_VID_CTL) & ~VC4_HD_VID_CTL_ENABLE);
+ 
+ 	clk_disable_unprepare(vc4_hdmi->pixel_bvb_clock);
+-	clk_disable_unprepare(vc4_hdmi->hsm_clock);
+ 	clk_disable_unprepare(vc4_hdmi->pixel_clock);
+ 
+ 	ret = pm_runtime_put(&vc4_hdmi->pdev->dev);
+@@ -943,13 +942,6 @@ static void vc4_hdmi_encoder_pre_crtc_configure(struct drm_encoder *encoder,
+ 		return;
+ 	}
+ 
+-	ret = clk_prepare_enable(vc4_hdmi->hsm_clock);
+-	if (ret) {
+-		DRM_ERROR("Failed to turn on HSM clock: %d\n", ret);
+-		clk_disable_unprepare(vc4_hdmi->pixel_clock);
+-		return;
+-	}
+-
+ 	vc4_hdmi_cec_update_clk_div(vc4_hdmi);
+ 
+ 	if (pixel_rate > 297000000)
+@@ -962,7 +954,6 @@ static void vc4_hdmi_encoder_pre_crtc_configure(struct drm_encoder *encoder,
+ 	ret = clk_set_min_rate(vc4_hdmi->pixel_bvb_clock, bvb_rate);
+ 	if (ret) {
+ 		DRM_ERROR("Failed to set pixel bvb clock rate: %d\n", ret);
+-		clk_disable_unprepare(vc4_hdmi->hsm_clock);
+ 		clk_disable_unprepare(vc4_hdmi->pixel_clock);
+ 		return;
+ 	}
+@@ -970,7 +961,6 @@ static void vc4_hdmi_encoder_pre_crtc_configure(struct drm_encoder *encoder,
+ 	ret = clk_prepare_enable(vc4_hdmi->pixel_bvb_clock);
+ 	if (ret) {
+ 		DRM_ERROR("Failed to turn on pixel bvb clock: %d\n", ret);
+-		clk_disable_unprepare(vc4_hdmi->hsm_clock);
+ 		clk_disable_unprepare(vc4_hdmi->pixel_clock);
+ 		return;
+ 	}
+@@ -2097,6 +2087,29 @@ static int vc5_hdmi_init_resources(struct vc4_hdmi *vc4_hdmi)
+ 	return 0;
+ }
+ 
++#ifdef CONFIG_PM
++static int vc4_hdmi_runtime_suspend(struct device *dev)
++{
++	struct vc4_hdmi *vc4_hdmi = dev_get_drvdata(dev);
++
++	clk_disable_unprepare(vc4_hdmi->hsm_clock);
++
++	return 0;
++}
++
++static int vc4_hdmi_runtime_resume(struct device *dev)
++{
++	struct vc4_hdmi *vc4_hdmi = dev_get_drvdata(dev);
++	int ret;
++
++	ret = clk_prepare_enable(vc4_hdmi->hsm_clock);
++	if (ret)
++		return ret;
++
++	return 0;
++}
++#endif
++
+ static int vc4_hdmi_bind(struct device *dev, struct device *master, void *data)
+ {
+ 	const struct vc4_hdmi_variant *variant = of_device_get_match_data(dev);
+@@ -2353,11 +2366,19 @@ static const struct of_device_id vc4_hdmi_dt_match[] = {
+ 	{}
+ };
+ 
++
++static const struct dev_pm_ops vc4_hdmi_pm_ops = {
++	SET_RUNTIME_PM_OPS(vc4_hdmi_runtime_suspend,
++			   vc4_hdmi_runtime_resume,
++			   NULL)
++};
++
+ struct platform_driver vc4_hdmi_driver = {
+ 	.probe = vc4_hdmi_dev_probe,
+ 	.remove = vc4_hdmi_dev_remove,
+ 	.driver = {
+ 		.name = "vc4_hdmi",
+ 		.of_match_table = vc4_hdmi_dt_match,
++		.pm = &vc4_hdmi_pm_ops,
+ 	},
+ };
 -- 
 2.31.1
 
