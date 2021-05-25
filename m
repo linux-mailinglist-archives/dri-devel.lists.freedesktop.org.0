@@ -2,57 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26FA1390332
-	for <lists+dri-devel@lfdr.de>; Tue, 25 May 2021 15:57:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 322D6390384
+	for <lists+dri-devel@lfdr.de>; Tue, 25 May 2021 16:09:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F33A489CFA;
-	Tue, 25 May 2021 13:57:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 838926E245;
+	Tue, 25 May 2021 14:09:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com
- [IPv6:2a00:1450:4864:20::42b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F180E6E140
- for <dri-devel@lists.freedesktop.org>; Tue, 25 May 2021 13:57:00 +0000 (UTC)
-Received: by mail-wr1-x42b.google.com with SMTP id d11so32340390wrw.8
- for <dri-devel@lists.freedesktop.org>; Tue, 25 May 2021 06:57:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=UdWUY1PBd7H5PAODbf7NSnVpl+zNYiQtpVY+c4z2LdQ=;
- b=CcQkWVter9jrvjgS+nzESAfN83o7vsCSXduTezGW0zs0KOhZanNgnaUspxbGJ2UAH6
- AXzmKf0YjhzicCs7bLKme6kIAejhu5p7tv3CglhNgnfE3x6FVscZvJPD5CBXg6/OJPof
- 3rth6vKrsfdl15xOJbbb2HOGp5HPqQKlKCEuk=
+Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com
+ [IPv6:2a00:1450:4864:20::32b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0759D6E245;
+ Tue, 25 May 2021 14:09:14 +0000 (UTC)
+Received: by mail-wm1-x32b.google.com with SMTP id
+ z19-20020a7bc7d30000b029017521c1fb75so3551797wmk.0; 
+ Tue, 25 May 2021 07:09:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-transfer-encoding:content-language;
+ bh=hg0kLFdzUIdBjsi4lARjo6wP7z8MYrdqivPZrwICJsM=;
+ b=Rma14aAQYBXaxY6uZ4wfhq86yRkCJq8fuDMm5Dls1pmgyo2tJmZO9E2OZeypvtjgdR
+ fbBV33m11Y6vk+ldV7LF8kX0FAeGhwKvrCU8+Qf0O0L47G8+J6ea8ZjJZv1BaxjYZHjR
+ PM2yRsI0yhlakCN5k47kj3j9pLgag/qdGWvoGT7q3Y3uTZnDHyshh2hcLe2Pf0UjuBqr
+ 9U8n489LVlqfheYYqUk1o3i6AbZ1jRu8mpaFiBKT6CS7wXxTAa7xGagqCnUiQSJ7/dHn
+ zqIl7LwxShg9ZqvCK+s+CNPVIGV77QkDE5YAWh2nQlDj2N1JPSb2m8efj5nF5Y2C1zWP
+ myGw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=UdWUY1PBd7H5PAODbf7NSnVpl+zNYiQtpVY+c4z2LdQ=;
- b=g10LzaFpVxRlzi9A6gMRutC9JWIcaifdFQjfmNS9t+F5clvmnt+HhzhN+pjxJ8heBq
- CbNqvg3lGzBTB1CZYSN9ngUIZ2oBRK1kOWh6k5RvOk875nVXDAvaulMqoc10HbnA7Vj0
- WjidUyZnjIzEHz42Q/iimoCTtf0es7E715CW/Vv5CZQXqznIIq1avJIMc3GhHV3D1QjW
- RVviJx0wmhS8DYGyEKvtbUNpFnpe7uVsZYMLGjRLz9unVgVe5RcycH8BTZ3XrxuU1UYU
- 4c+O6nfJLnBfs0SfLMreGwfyoNfbY3AXnMWjzViCQaYBnchgqrdhvWs+66CorgK5vkBA
- NYdg==
-X-Gm-Message-State: AOAM531nJPZgKMICRMmZodcSJdq5i53qyeAfVfOLSyN1sjapJKYKBGU8
- qAzINrrc3gGbInSCzZHNhRw8dA==
-X-Google-Smtp-Source: ABdhPJzBcw12nnLNLwYw4wG0Aex2S+sM0sDXzzJhgVavjHfSpGVaHh/bRhMQkVERQ3obZZVaNeVNfw==
-X-Received: by 2002:a5d:64eb:: with SMTP id g11mr28129904wri.260.1621951019676; 
- Tue, 25 May 2021 06:56:59 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id k205sm11217666wmf.13.2021.05.25.06.56.58
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 25 May 2021 06:56:58 -0700 (PDT)
-Date: Tue, 25 May 2021 15:56:56 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Matthew Brost <matthew.brost@intel.com>
-Subject: Re: [PATCH 0/3] Clean a few backend interfaces in the i915
-Message-ID: <YK0CKLSCx0qowxhy@phenom.ffwll.local>
-References: <20210521183215.65451-1-matthew.brost@intel.com>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-transfer-encoding
+ :content-language;
+ bh=hg0kLFdzUIdBjsi4lARjo6wP7z8MYrdqivPZrwICJsM=;
+ b=bMB7j/j7trHOS4/joU2+Hj0BKAhTzj1jwZaaWmVipjryUxPKbT76LGlHeggwKcfLoH
+ fHwpKDfc3kk1XJpRc2JIY2WoIOFu/Yxx9eDzlRiL0y0floE6MsBcq39yVkJ0h2xSZTf6
+ FrBiHEnwToKhNXHxdMROCku7f3I5iWUNRlSEcWbPUQxVoC/8lZzHY5Y+tkuD48lvsoWZ
+ WkCot+nPsoxcS2HmPU6VztDQBGTxg9VDuZbxyZg7KKNMA6KCwKga7bnSyCg+CSGsfeBJ
+ C0qltSvMw5E2n/LDxcTTF5TrunZoQfT2fXV9E7UL6bEPuSPsJbeecg1vRGM1yHrRav9N
+ Z2bQ==
+X-Gm-Message-State: AOAM531wpqeDG60V0BPwNiaQAXDFuranba6Rscyx5aHm+xMLSazQUTjB
+ MR5VHsieJsEP7Od3fNVAyjA=
+X-Google-Smtp-Source: ABdhPJw9LWIiUBXzKRCmur/frT8mNLcwchqQ0hbKF05DQ70SIz3IzbILlMtineBcApx+kWKJ+9SSkA==
+X-Received: by 2002:a1c:bcc3:: with SMTP id m186mr24240821wmf.74.1621951753781; 
+ Tue, 25 May 2021 07:09:13 -0700 (PDT)
+Received: from ?IPv6:2a02:908:1252:fb60:d67f:bd9a:6dbf:33b1?
+ ([2a02:908:1252:fb60:d67f:bd9a:6dbf:33b1])
+ by smtp.gmail.com with ESMTPSA id l16sm3089148wmj.47.2021.05.25.07.09.12
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 25 May 2021 07:09:13 -0700 (PDT)
+Subject: Re: [PATCH v2] amdgpu: remove unreachable code
+To: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>, alexander.deucher@amd.com
+References: <1621939214-57004-1-git-send-email-jiapeng.chong@linux.alibaba.com>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+Message-ID: <0dbdc879-8da7-3a08-1e42-6b8b88dfceb6@gmail.com>
+Date: Tue, 25 May 2021 16:09:12 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210521183215.65451-1-matthew.brost@intel.com>
-X-Operating-System: Linux phenom 5.10.32scarlett+ 
+In-Reply-To: <1621939214-57004-1-git-send-email-jiapeng.chong@linux.alibaba.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,57 +73,50 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: airlied@linux.ie, Xinhui.Pan@amd.com, linux-kernel@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, christian.koenig@amd.com,
+ linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org,
+ linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, May 21, 2021 at 11:32:12AM -0700, Matthew Brost wrote:
-> As discussed in [1] start merging some support patches as a precursor to
-> GuC submission the i915. This is step #1 mentioned in [1].
-> 
-> [1] https://patchwork.freedesktop.org/series/89844/
-> 
-> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
 
-Pushed to drm-intel-gt-next, thanks for patches&reviews. Btw you can also
-ping John H or Daniele for pushing stuff for you, should be quicker than
-waiting for me to return from a lon w/e :-)
 
-Plus I _really_ don't want to get back into the business of pushing other
-people's work ...
+Am 25.05.21 um 12:40 schrieb Jiapeng Chong:
+> In the function amdgpu_uvd_cs_msg(), every branch in the switch
+> statement will have a return, so the code below the switch statement
+> will not be executed.
+>
+> Eliminate the follow smatch warning:
+>
+> drivers/gpu/drm/amd/amdgpu/amdgpu_uvd.c:845 amdgpu_uvd_cs_msg() warn:
+> ignoring unreachable code.
+>
+> Reported-by: Abaci Robot <abaci@linux.alibaba.com>
+> Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
+> ---
+> Changes in v2:
+>    -For the follow advice: https://lore.kernel.org/patchwork/patch/1435074/
+>
+>   drivers/gpu/drm/amd/amdgpu/amdgpu_uvd.c | 1 -
+>   1 file changed, 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_uvd.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_uvd.c
+> index 82f0542..b32ed85 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_uvd.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_uvd.c
+> @@ -840,7 +840,6 @@ static int amdgpu_uvd_cs_msg(struct amdgpu_uvd_cs_ctx *ctx,
+>   
+>   	default:
+>   		DRM_ERROR("Illegal UVD message type (%d)!\n", msg_type);
+> -		return -EINVAL;
+>   	}
+>   	BUG();
 
-Cheers, Daniel
+You also need to remove the BUG() here or otherwise that will crash on 
+an relatively harmless error.
 
-> 
-> Chris Wilson (3):
->   drm/i915/gt: Move engine setup out of set_default_submission
->   drm/i915/gt: Move submission_method into intel_gt
->   drm/i915/gt: Move CS interrupt handler to the backend
-> 
->  drivers/gpu/drm/i915/gt/intel_engine.h        |  8 +-
->  drivers/gpu/drm/i915/gt/intel_engine_cs.c     | 19 +++-
->  drivers/gpu/drm/i915/gt/intel_engine_types.h  | 14 +--
->  .../drm/i915/gt/intel_execlists_submission.c  | 95 +++++++++++++------
->  .../drm/i915/gt/intel_execlists_submission.h  |  3 -
->  drivers/gpu/drm/i915/gt/intel_gt_irq.c        | 82 +++++-----------
->  drivers/gpu/drm/i915/gt/intel_gt_irq.h        | 23 +++++
->  drivers/gpu/drm/i915/gt/intel_gt_types.h      |  7 ++
->  drivers/gpu/drm/i915/gt/intel_reset.c         |  7 +-
->  .../gpu/drm/i915/gt/intel_ring_submission.c   | 12 ++-
->  drivers/gpu/drm/i915/gt/intel_rps.c           |  2 +-
->  drivers/gpu/drm/i915/gt/selftest_execlists.c  |  2 +-
->  .../drm/i915/gt/selftest_ring_submission.c    |  2 +-
->  .../gpu/drm/i915/gt/uc/intel_guc_submission.c | 64 ++++++-------
->  .../gpu/drm/i915/gt/uc/intel_guc_submission.h |  1 -
->  drivers/gpu/drm/i915/i915_irq.c               | 10 +-
->  drivers/gpu/drm/i915/i915_perf.c              | 10 +-
->  17 files changed, 199 insertions(+), 162 deletions(-)
-> 
-> -- 
-> 2.28.0
-> 
+Christian.
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+>   	return -EINVAL;
+
