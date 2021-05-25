@@ -2,65 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66ECB38FB8A
-	for <lists+dri-devel@lfdr.de>; Tue, 25 May 2021 09:19:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D2C038FBA8
+	for <lists+dri-devel@lfdr.de>; Tue, 25 May 2021 09:27:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 964C66E0FD;
-	Tue, 25 May 2021 07:19:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C4BF96E09F;
+	Tue, 25 May 2021 07:27:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com
- [IPv6:2a00:1450:4864:20::435])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0BDB76E0FD
- for <dri-devel@lists.freedesktop.org>; Tue, 25 May 2021 07:19:32 +0000 (UTC)
-Received: by mail-wr1-x435.google.com with SMTP id x8so30978715wrq.9
- for <dri-devel@lists.freedesktop.org>; Tue, 25 May 2021 00:19:32 -0700 (PDT)
+Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com
+ [IPv6:2a00:1450:4864:20::32b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5BFF26E09F
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 May 2021 07:27:14 +0000 (UTC)
+Received: by mail-wm1-x32b.google.com with SMTP id
+ l11-20020a05600c4f0bb029017a7cd488f5so9574968wmq.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 May 2021 00:27:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=baylibre-com.20150623.gappssmtp.com; s=20150623;
  h=subject:to:cc:references:from:organization:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=ZIF5qbJq5dDbTJkMUZQx+e6A8wnJOGmQFFouRAB4vUQ=;
- b=fPjSmZYrxa3jhg9v7KNIkfBuVzdPafEjR4yuhdo77RlnRctzYGJt5CBXzx5hYkcHO9
- +CMaIU7LIfmqH14An0A6RaAiVtioTQmJbT7EyffFC4UxLJHd8XS8GjTN/u3nMXdjxgil
- 0lZzznUMlpP62/bLpTGiqzgZQl3XuPkaV0y9raIQlp/TQGBLD4NHmPYLOa8BM8EY7nX0
- LM9a5w2sMcacBLh1494DbEnDpiQFcqj0PXgNSe2dPRNSLW76fijemgaFSRNVCDq5Tfhz
- esPfTKmkzyjZByxmueQFFKj2Jdrom6jAVECHL2y9ivpgV7SbPZ3JqV1ZdTZpWq1Vez//
- yRjg==
+ bh=3ULzEBN0Jp6XpJ/GBCDjzUsE47Bj6V3OGDqs3nkCmBQ=;
+ b=NfZNK3AP4Og/CCDj7YYSs3dxKXI9Yon/pw5TGBatv6Z3hbr71FBpaqjvfhyK00mUnl
+ UIdBQiPqdFiqwOhmVUnNfwiV1y9R0umkNt4Tq0w+gZos6CmFq5RECL9MXuLRIQ7275Qq
+ Gn822MmikBlAoDmGTjlFZkWki47X/e14d2JPNIsjYO+YmYRhHCufrKtatPJXvdkpt8nM
+ Mjj12l2nlaOhCn+tfBhEr01K9++dRz3EyUJ4WNfwiWiqeZvhnjC6drVmX9Trd7PKhdrJ
+ LpKweY3Q0tJHgXpqzwAm9sjT0HmmWfJXVQrZU+AkvDHHcMpfsBCQaPANLPWiGNGMNpMC
+ H0lA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:organization
  :message-id:date:user-agent:mime-version:in-reply-to
  :content-language:content-transfer-encoding;
- bh=ZIF5qbJq5dDbTJkMUZQx+e6A8wnJOGmQFFouRAB4vUQ=;
- b=fRWsoJlrLB6Ue1EAP375Hk2WsYFfDyA1JzPf0b2Zt0246M3TLpzJ0oGV8NGwHNDSCV
- hBhWEbVQDP+T2H8sYgla5CdHwoZBQbpHoj0GRg7NTBZpQEVoZ+4lZsKytv/U748BQPUn
- CMPA05oiinmxzYRPJE8jQgsT2jm7NE3TqfGWbyjPUqKWmvpfstTrfqJ0xCvktGGM/Sm8
- MPdclPWNVdMrG44dkFsHcfi4vrihL0r2rXaoWXmplDQQfFz+fRBCycNdHM2XcrXtyXSp
- 9UFhtlDA2vVOlbVymIYTE8OVE6AmZUbYYeHkWY1jzVFI2YbFJfyPuKShUvpa7VZu/UFV
- lsRw==
-X-Gm-Message-State: AOAM532AD67OPbGaFa/NY/5bCMQZby5JE6I05OQS3FIC4QVnwbrlG7tr
- 7vkCAbP25fIvA/N35uU+Co1WZw==
-X-Google-Smtp-Source: ABdhPJxrlnvAxMSl+3epwoB8HYZGMfsPWkE8KGVioeRDms8mbTXy66Ka0tFnT+1HbxZ+RQTVeY4fMg==
-X-Received: by 2002:adf:db42:: with SMTP id f2mr25788089wrj.5.1621927171421;
- Tue, 25 May 2021 00:19:31 -0700 (PDT)
+ bh=3ULzEBN0Jp6XpJ/GBCDjzUsE47Bj6V3OGDqs3nkCmBQ=;
+ b=Owp6B1vHksLzz2pWbRqFN5HH1LIczrFpILE/4nGoRNghhK6yJ2sqKefb/e0fsFQHMG
+ 2ptheLodza9zOmpP+cyQbJRtC3SVzRqKvumR3iMymPcFGalqWtpBS15TpWSKd6Br1v1L
+ AjSRx5Xu6gR4qkdRnwHllRrVLCOv8zSKbqnlBIM0pkD1a/jdxV10mqY+okyqsyxYrBNs
+ 7qZ1nZME47CUyQFOh7J2FR4mK9Z4IK3+g9bj7j26XCb5Vt9vJ0wOWi+/57KnW7td8xe+
+ xkYjMQwxoA7EN0QhL9VoAg0VOq78lOwv0hrDdOMoN9qsP9MWxBX4XcowsMjhrcxnnpyH
+ F1hA==
+X-Gm-Message-State: AOAM530KOw/iAzGtyp1qlnTn1fQCfcoT8rnjPyPfQSnWpB0RjYknBX8f
+ MjVGLn+O5UGGqcY4OZDgYACCvg==
+X-Google-Smtp-Source: ABdhPJxyYxttWGaOHQK/+i3OGI3H2+FM/NOaYwrT/XMwPbrCsfvs/WLauniXQAHjriF6Y7oiTOIgDw==
+X-Received: by 2002:a1c:b457:: with SMTP id d84mr2458736wmf.58.1621927632859; 
+ Tue, 25 May 2021 00:27:12 -0700 (PDT)
 Received: from ?IPv6:2a01:e0a:90c:e290:1062:9531:8150:c5f3?
  ([2a01:e0a:90c:e290:1062:9531:8150:c5f3])
- by smtp.gmail.com with ESMTPSA id u18sm2620660wmj.15.2021.05.25.00.19.30
+ by smtp.gmail.com with ESMTPSA id h14sm1932369wmb.1.2021.05.25.00.27.11
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 25 May 2021 00:19:30 -0700 (PDT)
+ Tue, 25 May 2021 00:27:12 -0700 (PDT)
 Subject: Re: [PATCH] drm/meson: fix shutdown crash when component not probed
-To: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
+To: dri-devel@lists.freedesktop.org
 References: <20210430082744.3638743-1-narmstrong@baylibre.com>
- <CAFBinCC0aaMUbBkJ4bjhFa0A+sZH1muyW6kqAQYfjjXOkrNPGg@mail.gmail.com>
 From: Neil Armstrong <narmstrong@baylibre.com>
 Organization: Baylibre
-Message-ID: <6a350607-3ccf-1af0-be17-8a31cc937e57@baylibre.com>
-Date: Tue, 25 May 2021 09:19:29 +0200
+Message-ID: <0359d826-49d5-d724-b38e-012e3389ae43@baylibre.com>
+Date: Tue, 25 May 2021 09:27:11 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <CAFBinCC0aaMUbBkJ4bjhFa0A+sZH1muyW6kqAQYfjjXOkrNPGg@mail.gmail.com>
+In-Reply-To: <20210430082744.3638743-1-narmstrong@baylibre.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -76,70 +76,62 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-amlogic@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Cc: linux-amlogic@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Martin,
-
-On 20/05/2021 22:25, Martin Blumenstingl wrote:
-> Hi Neil,
+On 30/04/2021 10:27, Neil Armstrong wrote:
+> When main component is not probed, by example when the dw-hdmi module is
+> not loaded yet or in probe defer, the following crash appears on shutdown:
 > 
-> since this has not received any Reviewed-by yet I tried my best to
-> review it myself
+> Unable to handle kernel NULL pointer dereference at virtual address 0000000000000038
+> ...
+> pc : meson_drv_shutdown+0x24/0x50
+> lr : platform_drv_shutdown+0x20/0x30
+> ...
+> Call trace:
+> meson_drv_shutdown+0x24/0x50
+> platform_drv_shutdown+0x20/0x30
+> device_shutdown+0x158/0x360
+> kernel_restart_prepare+0x38/0x48
+> kernel_restart+0x18/0x68
+> __do_sys_reboot+0x224/0x250
+> __arm64_sys_reboot+0x24/0x30
+> ...
 > 
-> On Fri, Apr 30, 2021 at 10:28 AM Neil Armstrong <narmstrong@baylibre.com> wrote:
-> [...]
->> --- a/drivers/gpu/drm/meson/meson_drv.c
->> +++ b/drivers/gpu/drm/meson/meson_drv.c
->> @@ -485,11 +485,12 @@ static int meson_probe_remote(struct platform_device *pdev,
->>  static void meson_drv_shutdown(struct platform_device *pdev)
->>  {
->>         struct meson_drm *priv = dev_get_drvdata(&pdev->dev);
-> this part made it hard for me because I was wondering where the
-> matching dev_set_drvdata call is
-> it turns out platform_set_drvdata is used instead, meaning for me it
-> would have been easier to understand if platform_get_drvdata was used
-> here
-> that's however nothing which has changed with this patch
-
-OK sure, indeed, but since it's the same... but yeah it may be an issue if platform_set_drvdata changes.
-
+> Simply check if the priv struct has been allocated before using it.
 > 
->> -       struct drm_device *drm = priv->drm;
->>
->> -       DRM_DEBUG_DRIVER("\n");
->> -       drm_kms_helper_poll_fini(drm);
->> -       drm_atomic_helper_shutdown(drm);
->> +       if (!priv)
->> +               return;
->> +
->> +       drm_kms_helper_poll_fini(priv->drm);
->> +       drm_atomic_helper_shutdown(priv->drm);
->>  }
-> then this part finally made sense to me (as non-drm person), as
-> platform_set_drvdata comes near the end of meson_drv_bind_master (so
-> any errors would cause the drvdata to be NULL).
+> Fixes: fa0c16caf3d7 ("drm: meson_drv add shutdown function")
+> Reported-by: Stefan Agner <stefan@agner.ch>
+> Signed-off-by: Neil Armstrong <narmstrong@baylibre.com>
+> ---
+>  drivers/gpu/drm/meson/meson_drv.c | 9 +++++----
+>  1 file changed, 5 insertions(+), 4 deletions(-)
 > 
-> with this I can also give me:
-> Reviewed-by: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
-> in addition to my:
-> Tested-by: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
-
-Thanks !
-
+> diff --git a/drivers/gpu/drm/meson/meson_drv.c b/drivers/gpu/drm/meson/meson_drv.c
+> index 453d8b4c5763..07fcd12dca16 100644
+> --- a/drivers/gpu/drm/meson/meson_drv.c
+> +++ b/drivers/gpu/drm/meson/meson_drv.c
+> @@ -485,11 +485,12 @@ static int meson_probe_remote(struct platform_device *pdev,
+>  static void meson_drv_shutdown(struct platform_device *pdev)
+>  {
+>  	struct meson_drm *priv = dev_get_drvdata(&pdev->dev);
+> -	struct drm_device *drm = priv->drm;
+>  
+> -	DRM_DEBUG_DRIVER("\n");
+> -	drm_kms_helper_poll_fini(drm);
+> -	drm_atomic_helper_shutdown(drm);
+> +	if (!priv)
+> +		return;
+> +
+> +	drm_kms_helper_poll_fini(priv->drm);
+> +	drm_atomic_helper_shutdown(priv->drm);
+>  }
+>  
+>  static int meson_drv_probe(struct platform_device *pdev)
 > 
-> Can you please queue this up for -fixes or do we need to ask someone to do it?
 
-Yes, the drm-misc-next & drm-misc-fixes are aleays opened and merged each week in the corresponding drm-next and drm-fixes
-branches, so we can push patches at anytime without thinking about the merge window (except drm-misc-fixes merged back with -rc1).
+Applied to drm-misc-fixes
 
 Neil
-
-> 
-> 
-> Best regards,
-> Martin
-> 
-
