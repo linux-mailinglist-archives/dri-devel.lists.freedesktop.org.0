@@ -1,76 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE36D38FDB9
-	for <lists+dri-devel@lfdr.de>; Tue, 25 May 2021 11:24:30 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E34A38FDBC
+	for <lists+dri-devel@lfdr.de>; Tue, 25 May 2021 11:24:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4C4FA6E408;
+	by gabe.freedesktop.org (Postfix) with ESMTP id D69786E9D6;
 	Tue, 25 May 2021 09:24:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wnew2-smtp.messagingengine.com (wnew2-smtp.messagingengine.com
- [64.147.123.27])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 24ACB6E9FE
- for <dri-devel@lists.freedesktop.org>; Tue, 25 May 2021 09:23:59 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailnew.west.internal (Postfix) with ESMTP id CD5F4146D;
- Tue, 25 May 2021 05:23:56 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute5.internal (MEProxy); Tue, 25 May 2021 05:23:58 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
- date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm2; bh=qhdCG6Qg5hhTfUV1qjjJLTSxYnh
- gWog/DLM8gX+Rusw=; b=kQDf+JuM1XOO7yWY/YL1k0CL6e3A113Z8bh5JDuafz+
- z94tfBfnQQg27AIRT06Rsgw04DasL3N7qVNihNOHmNB/G2naEPIbd3IF7gkHRQyB
- GEOBjUVfRWivgP1xck9qrC1uNcmBo9yo8Un68paBoq041Vx/GXXHQ/6YK4FXF+Qd
- TVTm+VbQFLJ8GIMReDS8wl1NP8vQ+0iSQDxM374HcGzl3FLB/rs5aDvlKyG/LRMD
- VioNeGIx+W6JPj7NnkxKevxhJ+A3aLUYm4kgdU3J6VCIzMK3HPlyAO7x7D9SqTyF
- CaPBvmn9ZdA6U1s50PSQ9L3LCpChe/bJZlqHAEE+fug==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=qhdCG6
- Qg5hhTfUV1qjjJLTSxYnhgWog/DLM8gX+Rusw=; b=Mklc8vs2/D9YTg3aQo2JtP
- t1TF8RrAeXK7XLX2eSBz97ykXhYUVrOxgzC9LOclpg2Uzteh66i6r5sfPqWjqCkm
- toZtkPuHZjeSPpOC2TdW4M2tN7B3MgLT2N4A+kxDBYt1+3lR7Gc6r5fU2sywDv/g
- 1Mn4ZMttFyaHlRZY73A/wa7VE1odVJ3oV97BlAZnk3dh73SH/HNwoNFChwYNYska
- UxNm6UTU8HInw0Hyii5M9vRPMrv1I8PdYpj108UpqfUgIoAgBRm9qxLELzxPRCCk
- 0DiVLKYtuI0vX69CIkZ2AumhAjQuERrORIGaf48N5Mppfj5/GkweCvxHRhhNmEBw
- ==
-X-ME-Sender: <xms:KsKsYLdnP2618sd6zawCSXHzcX4_-iddEzx-a9ZGhUJT-T8BXksu2Q>
- <xme:KsKsYBOv137-AxhPN7UQOyCS3Vs5OTGg3xC2kbq5T2sc3PjxwfhWs34-jruzrfHcI
- ImRi_SGooe4rB41IRE>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvdekuddgudehucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
- vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
- htvghrnhepveevfeffudeviedtgeethffhteeuffetfeffvdehvedvheetteehvdelfffg
- jedvnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucfkphepledtrdekledrieekrd
- ejieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehm
- rgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:KsKsYEj1BKBHEYxHgdXquEgl9aODqOdbjh81TC1TUIoIW1fz3qZ83Q>
- <xmx:KsKsYM-Lvmk5qwORpR_7TxuKVFsUgAiFezeESRtA3kTmDRpOXmzWaw>
- <xmx:KsKsYHtF1dgQHFCO7z2LcUUFfWYHrxXzK_UMXQbLCW-aP837jwl8UA>
- <xmx:LMKsYMWVbhzXzkPmZC0FkNMnr7FA9uoPQal5hT7tFwKc-vh_jYejiGByJRk>
-Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
- [90.89.68.76]) by mail.messagingengine.com (Postfix) with ESMTPA;
- Tue, 25 May 2021 05:23:54 -0400 (EDT)
-Date: Tue, 25 May 2021 11:23:53 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: Takashi Iwai <tiwai@suse.de>
-Subject: Re: [PATCH 00/11] drm/vc4: hdmi: Enable Channel Mapping, IEC958, HBR
- Passthrough using hdmi-codec
-Message-ID: <20210525092353.mvqdv4bi4i4rkqsu@gilmour>
-References: <20210507140334.204865-1-maxime@cerno.tech>
- <20210524133904.kgkh6xd3m5c2j3xa@gilmour>
- <s5hzgwjcit9.wl-tiwai@suse.de>
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2179C6E9FD;
+ Tue, 25 May 2021 09:24:13 +0000 (UTC)
+IronPort-SDR: 3PwSI/amClB02DzHADBdcPQwQrJWN55YbSgCPaFrzoJQVObWaBHbTJwmvLuN35NHhTM6R1lKhI
+ +RR0WqHEbO9A==
+X-IronPort-AV: E=McAfee;i="6200,9189,9994"; a="263354612"
+X-IronPort-AV: E=Sophos;i="5.82,328,1613462400"; d="scan'208";a="263354612"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 May 2021 02:24:12 -0700
+IronPort-SDR: 03/GloIDi3GAJB/apyd74V9+Bn5MmqsZXxAJ3Cdb9DZdAzJGFyueZggH31+hrleMmWr6BDMGaf
+ +dtYKXt8/pWg==
+X-IronPort-AV: E=Sophos;i="5.82,328,1613462400"; d="scan'208";a="442461648"
+Received: from tomeara-mobl.ger.corp.intel.com (HELO [10.213.211.66])
+ ([10.213.211.66])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 May 2021 02:24:11 -0700
+Subject: Re: [Intel-gfx] [RFC PATCH 39/97] drm/i915/guc: Increase size of CTB
+ buffers
+To: Matthew Brost <matthew.brost@intel.com>, intel-gfx@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org
+References: <20210506191451.77768-1-matthew.brost@intel.com>
+ <20210506191451.77768-40-matthew.brost@intel.com>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+Message-ID: <c3c50a1e-c871-a424-8598-2da7eaffba05@linux.intel.com>
+Date: Tue, 25 May 2021 10:24:09 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="edyfacc36enjbeyb"
-Content-Disposition: inline
-In-Reply-To: <s5hzgwjcit9.wl-tiwai@suse.de>
+In-Reply-To: <20210506191451.77768-40-matthew.brost@intel.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,79 +55,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: alsa-devel@alsa-project.org, Tim Gover <tim.gover@raspberrypi.com>,
- David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Daniel Vetter <daniel.vetter@intel.com>,
- Phil Elwell <phil@raspberrypi.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>, Takashi Iwai <tiwai@suse.com>,
- bcm-kernel-feedback-list@broadcom.com, devicetree@vger.kernel.org,
- Nicolas Saenz Julienne <nsaenzjulienne@kernel.org>,
- Mark Brown <broonie@kernel.org>, linux-rpi-kernel@lists.infradead.org,
- Jaroslav Kysela <perex@perex.cz>, linux-arm-kernel@lists.infradead.org,
- Dom Cobley <dom@raspberrypi.com>, Liam Girdwood <lgirdwood@gmail.com>,
- Rob Herring <robh+dt@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
+Cc: jason.ekstrand@intel.com, daniel.vetter@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---edyfacc36enjbeyb
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 06/05/2021 20:13, Matthew Brost wrote:
+> With the introduction of non-blocking CTBs more than one CTB can be in
+> flight at a time. Increasing the size of the CTBs should reduce how
+> often software hits the case where no space is available in the CTB
+> buffer.
 
-Hi Takashi,
+I'd move this before the patch which adds the non-blocking send since 
+that one claims congestion should be rare with properly sized buffers. 
+So it makes sense to have them sized properly back before that one.
 
-On Tue, May 25, 2021 at 10:35:14AM +0200, Takashi Iwai wrote:
-> On Mon, 24 May 2021 15:39:04 +0200,
-> Maxime Ripard wrote:
-> >=20
-> > Hi,
-> >=20
-> > On Fri, May 07, 2021 at 04:03:23PM +0200, Maxime Ripard wrote:
-> > > Hi,
-> > >=20
-> > > hdmi-codec allows to have a lot of HDMI-audio related infrastructure =
-in place,
-> > > it's missing a few controls to be able to provide HBR passthrough. Th=
-is series
-> > > adds more infrastructure for the drivers, and leverages it in the vc4=
- HDMI
-> > > controller driver.
-> > >=20
-> > > One thing that felt a bit weird is that even though
-> > > https://www.kernel.org/doc/html/latest/sound/kernel-api/writing-an-al=
-sa-driver.html#iec958-s-pdif
-> > > mentions that the iec958 mask control should be a mixer control and t=
-he
-> > > default control should be a PCM one, it feels a bit weird to have two=
- different
-> > > control type for two controls so similar, and other drivers are pretty
-> > > inconsistent with this. Should we update the documentation?
-> >=20
-> > Any comments on this series?
->=20
-> A patch for updating the documentation is welcome.
-> Currently, as de facto standard, we allow both MIXER and PCM ifaces
-> for all IEC958-related controls, and it's unlikely that we would
-> change that in future.
+Regards,
 
-Ok, I'll write a patch for the documentation make it clearer then :)
+Tvrtko
 
-Do we want to make sure that all the iec958 controls are on the same
-iface, or is it also left to the driver (or should we just leave the
-existing drivers as is but encourage a consistent use in the future)?
-
-Maxime
-
---edyfacc36enjbeyb
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYKzCKAAKCRDj7w1vZxhR
-xT6GAQCmK74YyTmGnQSUD3qsdks6qIaoPcyMDO73ebQeXm4xZwEAzb0RQ+6uvdWf
-9lgi7PPwMH7RXPFAdijTOOtf4OHrLAU=
-=kqaK
------END PGP SIGNATURE-----
-
---edyfacc36enjbeyb--
+> Cc: John Harrison <john.c.harrison@intel.com>
+> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+> ---
+>   drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c | 11 ++++++++---
+>   1 file changed, 8 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
+> index 77dfbc94dcc3..d6895d29ed2d 100644
+> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
+> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
+> @@ -63,11 +63,16 @@ static inline struct drm_device *ct_to_drm(struct intel_guc_ct *ct)
+>    *      +--------+-----------------------------------------------+------+
+>    *
+>    * Size of each `CT Buffer`_ must be multiple of 4K.
+> - * As we don't expect too many messages, for now use minimum sizes.
+> + * We don't expect too many messages in flight at any time, unless we are
+> + * using the GuC submission. In that case each request requires a minimum
+> + * 16 bytes which gives us a maximum 256 queue'd requests. Hopefully this
+> + * enough space to avoid backpressure on the driver. We increase the size
+> + * of the receive buffer (relative to the send) to ensure a G2H response
+> + * CTB has a landing spot.
+>    */
+>   #define CTB_DESC_SIZE		ALIGN(sizeof(struct guc_ct_buffer_desc), SZ_2K)
+>   #define CTB_H2G_BUFFER_SIZE	(SZ_4K)
+> -#define CTB_G2H_BUFFER_SIZE	(SZ_4K)
+> +#define CTB_G2H_BUFFER_SIZE	(4 * CTB_H2G_BUFFER_SIZE)
+>   
+>   #define MAX_US_STALL_CTB	1000000
+>   
+> @@ -753,7 +758,7 @@ static int ct_read(struct intel_guc_ct *ct, struct ct_incoming_msg **msg)
+>   	/* beware of buffer wrap case */
+>   	if (unlikely(available < 0))
+>   		available += size;
+> -	CT_DEBUG(ct, "available %d (%u:%u)\n", available, head, tail);
+> +	CT_DEBUG(ct, "available %d (%u:%u:%u)\n", available, head, tail, size);
+>   	GEM_BUG_ON(available < 0);
+>   
+>   	header = cmds[head];
+> 
