@@ -1,75 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0316390493
-	for <lists+dri-devel@lfdr.de>; Tue, 25 May 2021 17:05:31 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A62F23904A1
+	for <lists+dri-devel@lfdr.de>; Tue, 25 May 2021 17:09:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C82E16E3D6;
-	Tue, 25 May 2021 15:05:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 443DE6E332;
+	Tue, 25 May 2021 15:08:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com
- [IPv6:2a00:1450:4864:20::429])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 32A146E332;
- Tue, 25 May 2021 15:05:23 +0000 (UTC)
-Received: by mail-wr1-x429.google.com with SMTP id n2so32717197wrm.0;
- Tue, 25 May 2021 08:05:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-transfer-encoding:content-language;
- bh=CKoXGyslE6M6RL+R6vgHNQupraaOZlJBn/oOrMJmfhQ=;
- b=LVwIEhlG7af57sMrQx+FWyLyOqlOl+4XeVz4yPKrMbX2jR0TKxClpt9pg9McxKh74Y
- G6f6WwDfEg/CVQ/r9+dMklSxu1BwQLKYrWu3Geum/fCXGKpCoOip7fWNop/XY98N/y7v
- LptUTUV2dn5Nt3rXHy9UUxhgAoEcEwxLSnZ0W6aerDf1m/XrrT3SM9KvX6btfDfuqixp
- YEjpFyr53GSiTfVGJejAm4qepEz2deUNdDkm8s+qhr/IwuCGUIaWIE9j402aIXjsEFD4
- XFhx8vPgbUaIK1H8rK6D2ejNv1ywr/xtdh5+5mINqCTz/yRLfFXa9ubNc9ANMb5uVF4r
- g29Q==
+Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com
+ [IPv6:2a00:1450:4864:20::336])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4F8576E332
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 May 2021 15:08:57 +0000 (UTC)
+Received: by mail-wm1-x336.google.com with SMTP id t206so16968791wmf.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 May 2021 08:08:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=GWcHUmtRoBbBVQFv/cG8c0UyohsWnVM1GgM0jUZFR+s=;
+ b=Jkc/A5sxbK9TeCWpq4M4WD75ulozB2xWqCETYIcW6TngJfax+hz4N6J8dr9Bvms9dR
+ Jn8Kz2rPndora2NJ93ZWSeLGLekf7fjxWITsmWXkMRdrOQf/+tYyK4O5X1wC6YDhcqsX
+ esPPiKTjc/nIXxbjSTibXV2DJ3Usjs+38aaGA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-transfer-encoding
- :content-language;
- bh=CKoXGyslE6M6RL+R6vgHNQupraaOZlJBn/oOrMJmfhQ=;
- b=GDX4E3PpuQPrBxdRtf/WSPvYEmp4Mun3yaAsZ0In24MyQBh8vGoqpwe53N4dmcW7N6
- 3ait5rpF2dpucEIvFyxV5WeFthISutxMddsO+9XPdKfcoIuJFMOjB1ZGf5PFDlMEuVJs
- OUwgML4P3EPbEsi7awt1PhNjw4r6bcyGvCv6hqAO5sv+4aHmY3UBotRqFIPldjIbxDlM
- 1KCzmIhY2SbAQBHjf8u6BU2OQ8naPTINTFrvfZveqBYKnYRCzgVRTjfDayZ1V9d8Ehp8
- j4c4hJUCHNc5exje0N/2mDRONDYL0Po6tHjimbCtZ+5AbBm0MzLVhbCFBzZZgTfWTT2F
- Cifg==
-X-Gm-Message-State: AOAM5320v2/8UhdTbqGQeaMwCHBIlV9w1BFMPrjaTe80DeTauTAuKZ5p
- xTiPntAjFW+MdWM7A/a7e14=
-X-Google-Smtp-Source: ABdhPJx69Qi+fuPQhhZMUKVE4qE4kdNaLlgOBNjPH43GtFSXkySI09rvRb98zd/kUh7urlTCzHU8ag==
-X-Received: by 2002:adf:e991:: with SMTP id h17mr27615093wrm.265.1621955121683; 
- Tue, 25 May 2021 08:05:21 -0700 (PDT)
-Received: from ?IPv6:2a02:908:1252:fb60:d67f:bd9a:6dbf:33b1?
- ([2a02:908:1252:fb60:d67f:bd9a:6dbf:33b1])
- by smtp.gmail.com with ESMTPSA id r7sm10889386wmq.18.2021.05.25.08.05.19
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 25 May 2021 08:05:20 -0700 (PDT)
-Subject: Re: [Mesa-dev] [PATCH 01/11] drm/amdgpu: Comply with implicit fencing
- rules
-To: Daniel Vetter <daniel@ffwll.ch>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-References: <20210521090959.1663703-1-daniel.vetter@ffwll.ch>
- <CAP+8YyEhRwgz2hCri3K7Kv1OusVa_LGEuKZqQEx5jv+NiDKZrA@mail.gmail.com>
- <YKfFqrlLrikGMn4K@phenom.ffwll.local>
- <CAP+8YyG0o58dQt_tvnJ2ESbeqo02xxvFdifpMwnhz2VYNk8HUw@mail.gmail.com>
- <YKfOymXrB7O4cYVb@phenom.ffwll.local>
- <31467363-e936-879b-8b0d-5a2a92644221@gmail.com>
- <CAKMK7uFswfc96hS40uc0Lug=doYAcf-yC-eu96iWqNJnM65MJQ@mail.gmail.com>
- <ae13093e-c364-7b90-1f91-39de42594cd6@amd.com>
- <YKz2KVppVoYMxB5u@phenom.ffwll.local>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-Message-ID: <312b183f-8eb2-d9e2-24ad-b429b74c886c@gmail.com>
-Date: Tue, 25 May 2021 17:05:18 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=GWcHUmtRoBbBVQFv/cG8c0UyohsWnVM1GgM0jUZFR+s=;
+ b=b2hZFwipzst1gM8m+FkeKfex6fSQHSFdvJDmG1I+nH0+06uOkPxcUZm3ZtSdkR9LHq
+ WPS699/qqsjFjLtcaJwtO1GosXfnce9eEIOaEgzl52IE+SwIJulzP1xQ+1QOt9jzny0e
+ zWxzOapR9GOzp5zXP5mtro5MDKG5IDp1vGOkaEDZYBgaX/n1t2gbObun30pBD8RdWTiv
+ ahUdAIPhM6UGpU4u2lt5GxEBEKcRTGp0ZajuWBqLYZD1VcEnfW8BigL5pQMubp8TUEZA
+ 5oR4HcUSPXi8aLImK1GaQhq9lhWbFbMzlujs/anjPfDUdStyZod+lrszPa8ly48uRESQ
+ uIIQ==
+X-Gm-Message-State: AOAM533dG4ZAXIWVBpzjDrJQ5ij2b7ZWxtSSgULchPjh8QYL4MH1luEE
+ tX7TNy6dOlB/ZgGZKOgr2KdkhDehRtwIDQ==
+X-Google-Smtp-Source: ABdhPJw5ca24ZOwTNSBxWGZaM7dpEIS/Z6dMabADZTpfyChqRcTqGC4TBuCrQphWgqx2K4O+BG81bQ==
+X-Received: by 2002:a05:600c:da:: with SMTP id
+ u26mr23992052wmm.128.1621955335693; 
+ Tue, 25 May 2021 08:08:55 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id c6sm16789457wru.50.2021.05.25.08.08.54
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 25 May 2021 08:08:55 -0700 (PDT)
+Date: Tue, 25 May 2021 17:08:53 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Jason Ekstrand <jason@jlekstrand.net>
+Subject: Re: [PATCH 4/6] dma-buf: Add an API for exporting sync files (v9)
+Message-ID: <YK0TBaQ14cH1fcUA@phenom.ffwll.local>
+References: <20210524205954.872814-1-jason@jlekstrand.net>
+ <20210524205954.872814-5-jason@jlekstrand.net>
 MIME-Version: 1.0
-In-Reply-To: <YKz2KVppVoYMxB5u@phenom.ffwll.local>
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+In-Reply-To: <20210524205954.872814-5-jason@jlekstrand.net>
+X-Operating-System: Linux phenom 5.10.32scarlett+ 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,313 +69,253 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, Daniel Stone <daniels@collabora.com>,
- =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel@daenzer.net>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- Kevin Wang <kevin1.wang@amd.com>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
- Luben Tuikov <luben.tuikov@amd.com>,
- "Kristian H . Kristensen" <hoegsberg@google.com>,
- Chen Li <chenli@uniontech.com>, Alex Deucher <alexander.deucher@amd.com>,
- Daniel Vetter <daniel.vetter@intel.com>,
- mesa-dev <mesa-dev@lists.freedesktop.org>, Dennis Li <Dennis.Li@amd.com>,
- Deepak R Varma <mh12gx2825@gmail.com>
+Cc: intel-gfx@lists.freedesktop.org,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Daniel,
+On Mon, May 24, 2021 at 03:59:52PM -0500, Jason Ekstrand wrote:
+> Modern userspace APIs like Vulkan are built on an explicit
+> synchronization model.  This doesn't always play nicely with the
+> implicit synchronization used in the kernel and assumed by X11 and
+> Wayland.  The client -> compositor half of the synchronization isn't too
+> bad, at least on intel, because we can control whether or not i915
+> synchronizes on the buffer and whether or not it's considered written.
+> 
+> The harder part is the compositor -> client synchronization when we get
+> the buffer back from the compositor.  We're required to be able to
+> provide the client with a VkSemaphore and VkFence representing the point
+> in time where the window system (compositor and/or display) finished
+> using the buffer.  With current APIs, it's very hard to do this in such
+> a way that we don't get confused by the Vulkan driver's access of the
+> buffer.  In particular, once we tell the kernel that we're rendering to
+> the buffer again, any CPU waits on the buffer or GPU dependencies will
+> wait on some of the client rendering and not just the compositor.
+> 
+> This new IOCTL solves this problem by allowing us to get a snapshot of
+> the implicit synchronization state of a given dma-buf in the form of a
+> sync file.  It's effectively the same as a poll() or I915_GEM_WAIT only,
+> instead of CPU waiting directly, it encapsulates the wait operation, at
+> the current moment in time, in a sync_file so we can check/wait on it
+> later.  As long as the Vulkan driver does the sync_file export from the
+> dma-buf before we re-introduce it for rendering, it will only contain
+> fences from the compositor or display.  This allows to accurately turn
+> it into a VkFence or VkSemaphore without any over- synchronization.
+> 
+> v2 (Jason Ekstrand):
+>  - Use a wrapper dma_fence_array of all fences including the new one
+>    when importing an exclusive fence.
+> 
+> v3 (Jason Ekstrand):
+>  - Lock around setting shared fences as well as exclusive
+>  - Mark SIGNAL_SYNC_FILE as a read-write ioctl.
+>  - Initialize ret to 0 in dma_buf_wait_sync_file
+> 
+> v4 (Jason Ekstrand):
+>  - Use the new dma_resv_get_singleton helper
+> 
+> v5 (Jason Ekstrand):
+>  - Rename the IOCTLs to import/export rather than wait/signal
+>  - Drop the WRITE flag and always get/set the exclusive fence
+> 
+> v6 (Jason Ekstrand):
+>  - Drop the sync_file import as it was all-around sketchy and not nearly
+>    as useful as import.
+>  - Re-introduce READ/WRITE flag support for export
+>  - Rework the commit message
+> 
+> v7 (Jason Ekstrand):
+>  - Require at least one sync flag
+>  - Fix a refcounting bug: dma_resv_get_excl() doesn't take a reference
+>  - Use _rcu helpers since we're accessing the dma_resv read-only
+> 
+> v8 (Jason Ekstrand):
+>  - Return -ENOMEM if the sync_file_create fails
+>  - Predicate support on IS_ENABLED(CONFIG_SYNC_FILE)
+> 
+> v9 (Jason Ekstrand):
+>  - Add documentation for the new ioctl
+> 
+> v10 (Jason Ekstrand):
+>  - Go back to dma_buf_sync_file as the ioctl struct name
+> 
+> Signed-off-by: Jason Ekstrand <jason@jlekstrand.net>
+> Acked-by: Simon Ser <contact@emersion.fr>
+> Acked-by: Christian K�nig <christian.koenig@amd.com>
 
-Am 25.05.21 um 15:05 schrieb Daniel Vetter:
-> Hi Christian,
->
-> On Sat, May 22, 2021 at 10:30:19AM +0200, Christian König wrote:
->> Am 21.05.21 um 20:31 schrieb Daniel Vetter:
->>> [SNIP]
->>>> We could provide an IOCTL for the BO to change the flag.
->>> That's not the semantics we need.
->>>
->>>> But could we first figure out the semantics we want to use here?
->>>>
->>>> Cause I'm pretty sure we don't actually need those changes at all and as
->>>> said before I'm certainly NAKing things which break existing use cases.
->>> Please read how other drivers do this and at least _try_ to understand
->>> it. I'm really loosing my patience here with you NAKing patches you're
->>> not even understanding (or did you actually read and fully understand
->>> the entire story I typed up here, and your NAK is on the entire
->>> thing?). There's not much useful conversation to be had with that
->>> approach. And with drivers I mean kernel + userspace here.
->> Well to be honest I did fully read that, but I was just to emotionally
->> attached to answer more appropriately in that moment.
->>
->> And I'm sorry that I react emotional on that, but it is really frustrating
->> that I'm not able to convince you that we have a major problem which affects
->> all drivers and not just amdgpu.
->>
->> Regarding the reason why I'm NAKing this particular patch, you are breaking
->> existing uAPI for RADV with that. And as a maintainer of the driver I have
->> simply no other choice than saying halt, stop we can't do it like this.
->>
->> I'm perfectly aware that I've some holes in the understanding of how ANV or
->> other Vulkan/OpenGL stacks work. But you should probably also admit that you
->> have some holes how amdgpu works or otherwise I can't imagine why you
->> suggest a patch which simply breaks RADV.
->>
->> I mean we are working together for years now and I think you know me pretty
->> well, do you really think I scream bloody hell we can't do this without a
->> good reason?
->>
->> So let's stop throwing halve backed solutions at each other and discuss what
->> we can do to solve the different problems we are both seeing here.
-> Well this was meant to be a goal post/semantics discussion starter. Yes
-> the patch breaks performance (but not correctness) for amdgpu, but it also
-> contains my suggestion for how to fix that issue (in text form at least).
+So one thing we need to capture here is that for amdgpu currently this
+misreports, because amdgpu doesn't store write fences in the exclusive
+slot. So that's a bit annoying.
 
-Well as far as I can see this really breaks uAPI, we have unit tests 
-exercising this.
+If userspace only uses this sync_file to avoid stalls, then I think that's
+all fine, we just lie about the stall that will still happen and maybe
+there's more judder than necessary.
 
-But see more on this below.
+More annoying is when this is used in e.g. a vulkan based compositor. But
+with current amdgpu userspace the kernel forces synchronization, even with
+vulkan. So again no problem.
 
-> Plus a plan how to roll it out so that anyone who cares doesn't hit the
-> perf issues this patch can cause.
->
-> Also the overall series is really meant as a subsystem wide assessment of
-> the status quo. Aside from a correctness issue Lucas spotted in my panfrost
-> patches no substantial input from others on this yet unfortunately. I need
-> to poke more people I think.
->
-> Anyway since the plan as a text didn't stick I'm typing up now something
-> more detailed in form of amdgpu patches. Maybe Bas can do the radv
-> conversion too.
->
-> It won't be complete by far either (I'm not working for amd after all
-> ...), I'll leave out the opengl/media side entirely. But if this works for
-> radv is should be a useful blueprint for gl/media too (with some changes
-> in the interfaces, but not really the exposed semantics).
+The only thing where we really need to be careful about is that when we
+add more fine-grained implicit sync support to amdgpu (which needs more
+than these patches, you need a per-file opt-out of the kernel's automagic
+sync), then we also must fix the amdgpu use of the exclusive slot. But
+that's doable I think.
 
-Yeah, but to make my point clear once more: I can't allow any patch in 
-which would change amdgpus existing uAPI behavior.
+I couldn't poke holes in your argument checking.
 
-What we can talk about is changing the behavior by adding flags to the 
-fpriv to change the behavior and/or stuff the CS fence by default into 
-the exclusive slot.
+Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 
-For the later I think we could do something like using a dma_fence_chain 
-for the exclusive fence in amdgpu. This way we would have the same 
-semantics in the CS and still support the epoll and Jasons new import IOCTL.
+> ---
+>  drivers/dma-buf/dma-buf.c    | 64 ++++++++++++++++++++++++++++++++++++
+>  include/uapi/linux/dma-buf.h | 24 ++++++++++++++
+>  2 files changed, 88 insertions(+)
+> 
+> diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+> index d4529aa9d1a5a..86efe71c0db96 100644
+> --- a/drivers/dma-buf/dma-buf.c
+> +++ b/drivers/dma-buf/dma-buf.c
+> @@ -20,6 +20,7 @@
+>  #include <linux/debugfs.h>
+>  #include <linux/module.h>
+>  #include <linux/seq_file.h>
+> +#include <linux/sync_file.h>
+>  #include <linux/poll.h>
+>  #include <linux/dma-resv.h>
+>  #include <linux/mm.h>
+> @@ -362,6 +363,64 @@ static long dma_buf_set_name(struct dma_buf *dmabuf, const char __user *buf)
+>  	return ret;
+>  }
+>  
+> +#if IS_ENABLED(CONFIG_SYNC_FILE)
+> +static long dma_buf_export_sync_file(struct dma_buf *dmabuf,
+> +				     void __user *user_data)
+> +{
+> +	struct dma_buf_sync_file arg;
+> +	struct dma_fence *fence = NULL;
+> +	struct sync_file *sync_file;
+> +	int fd, ret;
+> +
+> +	if (copy_from_user(&arg, user_data, sizeof(arg)))
+> +		return -EFAULT;
+> +
+> +	if (arg.flags & ~DMA_BUF_SYNC_RW)
+> +		return -EINVAL;
+> +
+> +	if ((arg.flags & DMA_BUF_SYNC_RW) == 0)
+> +		return -EINVAL;
+> +
+> +	fd = get_unused_fd_flags(O_CLOEXEC);
+> +	if (fd < 0)
+> +		return fd;
+> +
+> +	if (arg.flags & DMA_BUF_SYNC_WRITE) {
+> +		fence = dma_resv_get_singleton_unlocked(dmabuf->resv);
+> +		if (IS_ERR(fence)) {
+> +			ret = PTR_ERR(fence);
+> +			goto err_put_fd;
+> +		}
+> +	} else if (arg.flags & DMA_BUF_SYNC_READ) {
+> +		fence = dma_resv_get_excl_unlocked(dmabuf->resv);
+> +	}
+> +
+> +	if (!fence)
+> +		fence = dma_fence_get_stub();
+> +
+> +	sync_file = sync_file_create(fence);
+> +
+> +	dma_fence_put(fence);
+> +
+> +	if (!sync_file) {
+> +		ret = -ENOMEM;
+> +		goto err_put_fd;
+> +	}
+> +
+> +	fd_install(fd, sync_file->file);
+> +
+> +	arg.fd = fd;
+> +	if (copy_to_user(user_data, &arg, sizeof(arg)))
+> +		return -EFAULT;
+> +
+> +	return 0;
+> +
+> +err_put_fd:
+> +	put_unused_fd(fd);
+> +	return ret;
+> +}
+> +#endif
+> +
+>  static long dma_buf_ioctl(struct file *file,
+>  			  unsigned int cmd, unsigned long arg)
+>  {
+> @@ -405,6 +464,11 @@ static long dma_buf_ioctl(struct file *file,
+>  	case DMA_BUF_SET_NAME_B:
+>  		return dma_buf_set_name(dmabuf, (const char __user *)arg);
+>  
+> +#if IS_ENABLED(CONFIG_SYNC_FILE)
+> +	case DMA_BUF_IOCTL_EXPORT_SYNC_FILE:
+> +		return dma_buf_export_sync_file(dmabuf, (void __user *)arg);
+> +#endif
+> +
+>  	default:
+>  		return -ENOTTY;
+>  	}
+> diff --git a/include/uapi/linux/dma-buf.h b/include/uapi/linux/dma-buf.h
+> index 7f30393b92c3b..f902cadcbdb56 100644
+> --- a/include/uapi/linux/dma-buf.h
+> +++ b/include/uapi/linux/dma-buf.h
+> @@ -37,6 +37,29 @@ struct dma_buf_sync {
+>  
+>  #define DMA_BUF_NAME_LEN	32
+>  
+> +/**
 
-But the semantics of the amdgpu CS interface to not serialize from the 
-same process and always serialize if you see some different process must 
-stay the same or otherwise I have quite a bunch of angry end users.
+Pulling the ioctl stuff into our docs (I'd put it right after the poll
+support chapter) would be really nice. Bonus if you document the 2 simple
+existing ones already there too ...
 
->>> That's the other frustration part: You're trying to fix this purely in
->>> the kernel. This is exactly one of these issues why we require open
->>> source userspace, so that we can fix the issues correctly across the
->>> entire stack. And meanwhile you're steadfastily refusing to even look
->>> at that the userspace side of the picture.
->> Well I do fully understand the userspace side of the picture for the AMD
->> stack. I just don't think we should give userspace that much control over
->> the fences in the dma_resv object without untangling them from resource
->> management.
->>
->> And RADV is exercising exclusive sync for amdgpu already. You can do
->> submission to both the GFX, Compute and SDMA queues in Vulkan and those
->> currently won't over-synchronize.
->>
->> When you then send a texture generated by multiple engines to the Compositor
->> the kernel will correctly inserts waits for all submissions of the other
->> process.
->>
->> So this already works for RADV and completely without the IOCTL Jason
->> proposed. IIRC we also have unit tests which exercised that feature for the
->> video decoding use case long before RADV even existed.
-> Yeah multiple engines on the producer side works fine with the current
-> scheme you have (if we ignore for now that the way amdgpu uses dma_resv is
-> different from other drivers by not setting the exclusive slots for
-> producers).
->
-> Where it breaks down is you have overlapping reads once a frame is
-> generated, on either side. E.g.
->
-> - compositors read the buffer as consumer
-> - but also producer reads the buffer again (maybe reference frame for
->    media, or maybe for some post-processing like motion blurr or whatever).
->
-> Then your current scheme really badly oversyncs, while other drivers
-> don't have this issue.
+> + * struct dma_buf_export_sync_file - Get a sync_file from a dma-buf
+> + *
+> + * Userspace can perform a DMA_BUF_IOCTL_EXPORT_SYNC_FILE to retrieve the
+> + * current set of fences on a dma-buf file descriptor as a sync_file.  CPU
+> + * waits via poll() or other driver-specific mechanisms typically wait on
+> + * whatever fences are on the dma-buf at the time the wait begins.  This
+> + * is similar except that it takes a snapshot of the current fences on the
+> + * dma-buf for waiting later instead of waiting immediately.  This is
+> + * useful for modern graphics APIs such as Vulkan which assume an explicit
+> + * synchronization model but still need to inter-operate with dma-buf.
+> + */
+> +struct dma_buf_sync_file {
+> +	/**
+> +	 * @flags: Read/write flags
+> +	 *
+> +	 * Must DMA_BUF_SYNC_READ, DMA_BUF_SYNC_WRITE, or both.
+> +	 */
+> +	__u32 flags;
 
-No, that is correct behavior. This was added intentionally and we have 
-an use cases which rely on this.
+Maybe spec what actually happens for each flag ... We've had epic
+bikesheds about what each ones needs.
+-Daniel
 
-The concept is that when two processes access the same buffer object 
-they should serialize, no matter what.
+> +	/** @fd: Sync file file descriptor */
+> +	__s32 fd;
+> +};
+> +
+>  #define DMA_BUF_BASE		'b'
+>  #define DMA_BUF_IOCTL_SYNC	_IOW(DMA_BUF_BASE, 0, struct dma_buf_sync)
+>  
+> @@ -46,5 +69,6 @@ struct dma_buf_sync {
+>  #define DMA_BUF_SET_NAME	_IOW(DMA_BUF_BASE, 1, const char *)
+>  #define DMA_BUF_SET_NAME_A	_IOW(DMA_BUF_BASE, 1, u32)
+>  #define DMA_BUF_SET_NAME_B	_IOW(DMA_BUF_BASE, 1, u64)
+> +#define DMA_BUF_IOCTL_EXPORT_SYNC_FILE	_IOWR(DMA_BUF_BASE, 2, struct dma_buf_sync_file)
+>  
+>  #endif
+> -- 
+> 2.31.1
+> 
 
-You can opt-out of that by setting the EXPLICIT_SYNC flag on the BO.
-
-> Fixing this for amdgpu will have quite a big impact
-> on how dma_resv will be used by amdgpu, and that's why I think before
-> we've looked at this it doesn't make sense to look at changing dma_resv in
-> big ways.
->
-> I do think the AMDGPU_SYNC_NE_OWNER trick is pretty neat, and should help
-> with some very non-explicit userspace (gl, maybe also media but at least
-> ours is internally moving to a more explicit model I think) when you split
-> the workload over multiple engines. For vulkan I think the right model is
-> AMDGPU_SYNC_EXPLICIT, plus something like what Jason has.
->
-> Except there's going to be quite some twist, but I think that's best
-> explained in patches since text clearly doesn't work well.
-
-Yeah, I'm also wondering how we can ever merge the two approaches back 
-together. I'm not sure that this is possible.
-
->> And yes I have to admit that I haven't thought about interaction with other
->> drivers when I came up with this because the rules of that interaction
->> wasn't clear to me at that time.
-> Ok I think we're at least distilling the core of our disagreement here,
-> that's some progress:
->
-> - my take: to make implicit sync work well and avoid oversync issues,
->    userspace, and currently amgpu lacks these uapis so needs to get those
->    added.
->
-> - your take: please lets not give so much control to userspace
->
-> Tbh I'm not yet fully understanding your concern here, but I do agree that
-> there's a lot of things that need to be carefully audited here, at least
-> in amdgpu. From my driver wide audit I do think in general playing clever
-> tricks is ok, since drivers treat the exclusive fence as just a special
-> type of shared fence and don't e.g. ignore the shard fences if an
-> exclusive one is present. For the generic helper version of this see
-> drm_gem_fence_array_add_implicit(), but afaiui amdgpu works the same (or
-> at least similar enough), as do other drivers playing funny games.
-
-Well do you mean the other way around? E.g. that you can *not* ignore 
-the exclusive fence when shared once are present?
-
-As far as I know nouveau is the only driver left using that (maybe i915 
-somewhere, but not sure) and it would really help if we could remove that.
-
->>> Also I thought through your tlb issue, why are you even putting these
->>> tlb flush fences into the shard dma_resv slots? If you store them
->>> somewhere else in the amdgpu private part, the oversync issues goes
->>> away
->>> - in your ttm bo move callback, you can just make your bo copy job
->>> depend on them too (you have to anyway)
->>> - even for p2p there's not an issue here, because you have the
->>> ->move_notify callback, and can then lift the tlb flush fences from
->>> your private place to the shared slots so the exporter can see them.
->> Because adding a shared fence requires that this shared fence signals after
->> the exclusive fence. And this is a perfect example to explain why this is so
->> problematic and also why why we currently stumble over that only in amdgpu.
-> So I also have vague collections that we agreed this is required, but I
-> don't think it's the case. I'm at least pretty sure we already have
-> multiple drivers which violate this (non of them using TTM yet).
-
-Yeah, I know. Basically everybody which adds more than a CS fence to the 
-shared slots will ignore this.
-
-As said above if we drop this (which would be great) at least nouveau 
-would need to be fixed.
-
->> In TTM we have a feature which allows evictions to be pipelined and don't
->> wait for the evicting DMA operation. Without that driver will stall waiting
->> for their allocations to finish when we need to allocate memory.
->>
->> For certain use cases this gives you a ~20% fps increase under memory
->> pressure, so it is a really important feature.
-> Yeah that's something I'm banging my head against right now a bit for my
-> amdgpu demo patch series.
->
->> This works by adding the fence of the last eviction DMA operation to BOs
->> when their backing store is newly allocated. That's what the
->> ttm_bo_add_move_fence() function you stumbled over is good for: https://elixir.bootlin.com/linux/v5.13-rc2/source/drivers/gpu/drm/ttm/ttm_bo.c#L692
->>
->> Now the problem is it is possible that the application is terminated before
->> it can complete it's command submission. But since resource management only
->> waits for the shared fences when there are some there is a chance that we
->> free up memory while it is still in use.
-> Hm where is this code? Would help in my audit that I wanted to do this
-> week? If you look at most other places like
-> drm_gem_fence_array_add_implicit() I mentioned earlier, then we don't
-> treat the shared fences special and always also include the exclusive one.
-
-See amdgpu_gem_object_close():
-
-...
-         fence = dma_resv_get_excl(bo->tbo.base.resv);
-         if (fence) {
-                 amdgpu_bo_fence(bo, fence, true);
-                 fence = NULL;
-         }
-...
-
-We explicitly added that because resource management of some other 
-driver was going totally bananas without that.
-
-But I'm not sure which one that was. Maybe dig a bit in the git and 
-mailing history of that.
-
->> Because of this we have some rather crude workarounds in amdgpu. For example
->> IIRC we manual wait for any potential exclusive fence before freeing memory.
->>
->> We could enable this feature for radeon and nouveau as well with an one line
->> change. But that would mean we need to maintain the workarounds for
->> shortcomings of the dma_resv object design in those drivers as well.
->>
->> To summarize I think that adding an unbound fence to protect an object is a
->> perfectly valid operation for resource management, but this is restricted by
->> the needs of implicit sync at the moment.
-> Hm how are unbound fences (what do you mean with this exactly) come into
-> play here now? I think you lost me here on the last 1-2 paragraphs, before
-> that I think I followed.
-
-Unbound like in not waiting for the exclusive fence.
-
->>> The kernel move fences otoh are a bit more nasty to wring through the
->>> p2p dma-buf interface. That one probably needs something new.
->> Well the p2p interface are my least concern.
->>
->> Adding the move fence means that you need to touch every place we do CS or
->> page flip since you now have something which is parallel to the explicit
->> sync fence.
->>
->> Otherwise having the move fence separately wouldn't make much sense in the
->> first place if we always set it together with the exclusive fence.
-> Yeah it's a bunch of work. But for i915 this is the model we have, so we
-> have to do it anyway, so I have really good excuse here to do that ttm
-> audit.
->
->> Best regards and sorry for getting on your nerves so much,
-> tbh I've also been rather thinly nerved on this. One side was that I spent
-> the last 1+ years having an eerily similar with i915-gem team about how a
-> single driver can't just have totally different rules for core stuff like
-> dma_resv/fence/locks, and unfortunately that entire story went really,
-> horribly wrong :-/ So I'm very much "oh noes pls not again".
-
-Dito. I mean I didn't came up with the approach for amdgpu out of 
-nowhere, but rather because we had some specific use cases for that.
-
-Back in the R6xx days some guys where putting a semaphore at the end of 
-each BO and serialized engine access to the BO using that. E.g. see how 
-radeon works internally with the semaphore block.
-
-This is basically the same concept implemented with the dma_resv object 
-instead.
-
-> But also the long w/e here helped, yay :-)
-
-Yeah, indeed.
-
-Cheers,
-Christian.
-
->
-> I think there's a few questions here that we can ping/pong a bit more, but
-> I think for the next meaningful round I need to get this draft set of
-> patches a bit into shape here, and audit more code. I think hopefully
-> early next week I'll have something which isn't too much full of holes
-> which should help in moving forward on this discussion.
->
-> Cheers, Daniel
-
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
