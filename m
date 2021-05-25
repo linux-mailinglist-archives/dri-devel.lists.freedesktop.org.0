@@ -2,47 +2,94 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7652738FDAA
-	for <lists+dri-devel@lfdr.de>; Tue, 25 May 2021 11:21:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1029238FDAE
+	for <lists+dri-devel@lfdr.de>; Tue, 25 May 2021 11:21:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2FA2C6E9CF;
-	Tue, 25 May 2021 09:21:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 362816E9D2;
+	Tue, 25 May 2021 09:21:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C26326E9CF;
- Tue, 25 May 2021 09:21:05 +0000 (UTC)
-IronPort-SDR: ecDs2vrtqfOSctbOVVvJl5odvXL6w1dbu4qNrWz8shsEs1POxKMobbzAZyGwf2b8ycx5ywbCGQ
- eRWKs316RJsw==
-X-IronPort-AV: E=McAfee;i="6200,9189,9994"; a="223313722"
-X-IronPort-AV: E=Sophos;i="5.82,328,1613462400"; d="scan'208";a="223313722"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 May 2021 02:21:05 -0700
-IronPort-SDR: 5Hd/yEtoBMLZcFFy8g4D0FX0cYn0j/8uGL+ujkBdvHTcPi6A8h6sVwP9M+ZEBbLL11/7V65cqR
- ZlqlkmUR3fzA==
-X-IronPort-AV: E=Sophos;i="5.82,328,1613462400"; d="scan'208";a="442460682"
-Received: from tomeara-mobl.ger.corp.intel.com (HELO [10.213.211.66])
- ([10.213.211.66])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 May 2021 02:21:03 -0700
-Subject: Re: [Intel-gfx] [RFC PATCH 36/97] drm/i915/guc: Add non blocking CTB
- send function
-To: Matthew Brost <matthew.brost@intel.com>, intel-gfx@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org
-References: <20210506191451.77768-1-matthew.brost@intel.com>
- <20210506191451.77768-37-matthew.brost@intel.com>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-Message-ID: <375b4de4-168f-9c4c-dbb8-f42fd6303628@linux.intel.com>
-Date: Tue, 25 May 2021 10:21:00 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com
+ (mail-bn7nam10on2059.outbound.protection.outlook.com [40.107.92.59])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9151C6E9CF;
+ Tue, 25 May 2021 09:21:07 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=IOv8Yn/bWSBzf0d2UDyBdAoyZiFaV5kc+B4u+3Qkwgt3bLkYZCcJvZamrlL/w228im9MiuvfBZYoRWNXNdBw9H3ij5MulTZ/ZkFCnKMlxJkz0XdOzPmpto/BLnOly2EkcNXMsj76y5yFyjcM0BfxxZ8WQHf5MCai73VsDDsMWLKFuJnLGNpT9PLTyY19am0mbq6kjJul6MbXL204J6jWMin5CCDHhL3nCMxXebSqa5frCWu83QSRhi7ltiadAWwJr6vtfOmGvCSxiQ720J9aCfO8yMJdtfiQ1GPX0JtQ+Cbj3e5YtKVhLLkYPd+13VlgOecgMRjtwctIycXN511eRw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Jq8qKKgUYTpAWwe3J4TtLPIAkzziAbBGrTvUYSoeAXE=;
+ b=S9CdOCx6ghPbTp2lhLwWrXs6UA3flDZ7//tfsJcC9g2EW6aDIVKIirj1lofRcoVgTclkPstENXE8DPLD9illPO9PXzZSgRgp4r1nv9P+9rWHD5Ti5OVsMWf2vblHlNNSzJAzJ+gF0W7lso+bxqQICF+3oCugXeknqFpsU7q+opiyeFlyRvboIBRwu7KkM0O0pnFhwNsQjdWshyK2fftHQxjlhY10ff12Ld+KuuR7Ur9nY6831RG7EPy4MFMDv9716mt/786oPcxgxes0BEPuWqiBFJpyCPGEzDp5n+ypGi2deLHpY52LF3u52piVQLB9YOQ374cu3WI/hsPzgRRggg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.112.34) smtp.rcpttodomain=redhat.com smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=none sp=none pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Jq8qKKgUYTpAWwe3J4TtLPIAkzziAbBGrTvUYSoeAXE=;
+ b=pFVJFmUHmmDbjim3En+Xi1lVsbk1yCd7mnVDJHn3rJV4JrYY/wqEEN5J9nMt4lgk4y3B7xQ9LdjF+ajMkqyL3AtpozZtiN7+YFWd4wuvL1c1c/QLT0jHQXGZVpu3kXSgght6Ez09Ndvm4ajhoD5okhbB+YJWoAEAF56Zo7qP+IRoBSIPPreNwSEV6142/qimRZkpm0Js/LlO0OprD9Lsr+fxf5yg0jj4giGhoMKjN/p4GsFHH8nRGQrRfqKjEmnHaScCE/mL8pXoMAYdewUL6DBUEjWaAQIV77jJCofD7iXXqovIqWqMvDGBOPKL3BrFi6fvPxlUGHjEffbi92Iqjg==
+Received: from MWHPR20CA0023.namprd20.prod.outlook.com (2603:10b6:300:13d::33)
+ by DM6PR12MB4329.namprd12.prod.outlook.com (2603:10b6:5:211::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4150.27; Tue, 25 May
+ 2021 09:21:06 +0000
+Received: from CO1NAM11FT059.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:300:13d:cafe::6) by MWHPR20CA0023.outlook.office365.com
+ (2603:10b6:300:13d::33) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4150.26 via Frontend
+ Transport; Tue, 25 May 2021 09:21:06 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.112.34)
+ smtp.mailfrom=nvidia.com; redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.112.34 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.112.34; helo=mail.nvidia.com;
+Received: from mail.nvidia.com (216.228.112.34) by
+ CO1NAM11FT059.mail.protection.outlook.com (10.13.174.160) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.20.4129.25 via Frontend Transport; Tue, 25 May 2021 09:21:05 +0000
+Received: from nvdebian.localnet (172.20.145.6) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Tue, 25 May
+ 2021 09:21:02 +0000
+From: Alistair Popple <apopple@nvidia.com>
+To: John Hubbard <jhubbard@nvidia.com>
+Subject: Re: [PATCH v9 07/10] mm: Device exclusive memory access
+Date: Tue, 25 May 2021 19:21:00 +1000
+Message-ID: <1713476.5JtYssUy2z@nvdebian>
+In-Reply-To: <ccedcc53-ead0-a482-1ef0-3702cc82faef@nvidia.com>
+References: <20210524132725.12697-1-apopple@nvidia.com>
+ <20210524151157.2dc5d2bb510ff86dc449bf0c@linux-foundation.org>
+ <ccedcc53-ead0-a482-1ef0-3702cc82faef@nvidia.com>
 MIME-Version: 1.0
-In-Reply-To: <20210506191451.77768-37-matthew.brost@intel.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+X-Originating-IP: [172.20.145.6]
+X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 1f706055-f43b-4363-4ffa-08d91f5e6ca9
+X-MS-TrafficTypeDiagnostic: DM6PR12MB4329:
+X-Microsoft-Antispam-PRVS: <DM6PR12MB432983777DE0A933A4DA892FDF259@DM6PR12MB4329.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:7691;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: J8NwyuHfOikcijJ6VK/kYyYh7Fay0cR4Lw0UAODTPUqz8hCGdkC6/bpybe3OGlxCMFxu7aIlA0LBErIEy916FtfYVWVdl4r98t04PHR+SK7g/+3ncyf1w7Gb1ZxajwhbIUO/2aqXNLqr7sbUHI1URSDW1A8wWh2ORdCibyCmOCH9BmTMhMYJDM+zZ2b9i6miQBeibjReyafGxF6gogaaXthEVQn9Hv8gmK/jfTMTLmlGcrelBm3XmRCpq4Guy3FBiimSnBZB3icvuO/TzEBnySpSEVtUqyvJPvuLWU8IXSiB2sd9r0QMa/8h1q1Sjv1O8ZQdQmhNcwQ1dOsA0GEbuEeTD0APBBFnvY2CSg8qWlYSyzk+5MxIb6O2pNwJ/vSL+tzAwEs/w1j5fghxZhKGiCTKk8p0DSTcIyIsij7EsC8kIapImF8jjCCtsbu7wMVOYIa5d02VbuwyJyp82loKUmLRe5mJ8HVX14YCaT20LsfZPbVsdJmylctsj7ep8lPjImxroc56G3TcvmgozJ9WV5TDSfOzyFx5/SZ9FtnPcRE93qB3ITaC9OIvKoutKDw+a+ulVGk8snho6H5zL68+o6ATuLg1/afvUZ4MfwdD/8yu5bzrUuTScjFXuCkLzWaSDmCgqWzvP3a+z86AAjHYyrV5NJi0rGO1okLwIdD6iu06P+rsz2TMxSugKGGrdnd+
+X-Forefront-Antispam-Report: CIP:216.228.112.34; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:mail.nvidia.com; PTR:schybrid03.nvidia.com; CAT:NONE;
+ SFS:(4636009)(376002)(39860400002)(346002)(396003)(136003)(36840700001)(46966006)(33716001)(70206006)(4326008)(8936002)(6636002)(36860700001)(70586007)(47076005)(82310400003)(7416002)(26005)(82740400003)(336012)(2906002)(8676002)(186003)(53546011)(7636003)(478600001)(5660300002)(86362001)(9576002)(36906005)(16526019)(9686003)(83380400001)(316002)(426003)(54906003)(6862004)(356005)(39026012);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 May 2021 09:21:05.9228 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1f706055-f43b-4363-4ffa-08d91f5e6ca9
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a; Ip=[216.228.112.34];
+ Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT059.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4329
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,312 +102,85 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: jason.ekstrand@intel.com, daniel.vetter@intel.com
+Cc: rcampbell@nvidia.com, willy@infradead.org, linux-doc@vger.kernel.org,
+ nouveau@lists.freedesktop.org, bsingharora@gmail.com, hughd@google.com,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ peterx@redhat.com, hch@infradead.org, linux-mm@kvack.org, jglisse@redhat.com,
+ bskeggs@redhat.com, jgg@nvidia.com, Andrew Morton <akpm@linux-foundation.org>,
+ Christoph Hellwig <hch@lst.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-On 06/05/2021 20:13, Matthew Brost wrote:
-> Add non blocking CTB send function, intel_guc_send_nb. In order to
-> support a non blocking CTB send function a spin lock is needed to
-> protect the CTB descriptors fields. Also the non blocking call must not
-> update the fence value as this value is owned by the blocking call
-> (intel_guc_send).
-
-Could the commit message say why the non-blocking send function is needed?
-
+On Tuesday, 25 May 2021 11:31:17 AM AEST John Hubbard wrote:
+> On 5/24/21 3:11 PM, Andrew Morton wrote:
+> >> ...
+> >> 
+> >>   Documentation/vm/hmm.rst     |  17 ++++
+> >>   include/linux/mmu_notifier.h |   6 ++
+> >>   include/linux/rmap.h         |   4 +
+> >>   include/linux/swap.h         |   7 +-
+> >>   include/linux/swapops.h      |  44 ++++++++-
+> >>   mm/hmm.c                     |   5 +
+> >>   mm/memory.c                  | 128 +++++++++++++++++++++++-
+> >>   mm/mprotect.c                |   8 ++
+> >>   mm/page_vma_mapped.c         |   9 +-
+> >>   mm/rmap.c                    | 186 +++++++++++++++++++++++++++++++++++
+> >>   10 files changed, 405 insertions(+), 9 deletions(-)
+> > 
+> > This is quite a lot of code added to core MM for a single driver.
+> > 
+> > Is there any expectation that other drivers will use this code?
 > 
-> The blocking CTB now must have a flow control mechanism to ensure the
-> buffer isn't overrun. A lazy spin wait is used as we believe the flow
-> control condition should be rare with properly sized buffer.
+> Yes! This should work for GPUs (and potentially, other devices) that support
+> OpenCL SVM atomic accesses on the device. I haven't looked into how amdgpu
+> works in any detail, but that's certainly at the top of the list of likely
+> additional callers.
 > 
-> The function, intel_guc_send_nb, is exported in this patch but unused.
-> Several patches later in the series make use of this function.
+> > Is there a way of reducing the impact (code size, at least) for systems
+> > which don't need this code?
+
+All of the code added to mm/rmap.c is specific to implementing this feature 
+and not depended on by other core MM code so could be put behind something 
+like CONFIG_DEVICE_PRIVATE to reduce the code size impact (I realise now it 
+currently isn't but should be).
+
+The impact on compiled code size in mm/memory.c also ends up being minimised 
+by the compiler because all of it is of the form:
+
+if (is_device_exclusive_entry(...)) {
+	[...]
+}
+
+Meaning it should get thrown away when the feature is not configured given 
+is_device_exclusive_entry() is a static inline always returning false in that 
+case.
+
+> I'll leave this question to others for the moment, in order to answer
+> the "do we need it at all" points.
 > 
-> Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
-> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
-> ---
->   drivers/gpu/drm/i915/gt/uc/intel_guc.h    | 12 ++-
->   drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c | 96 +++++++++++++++++++++--
->   drivers/gpu/drm/i915/gt/uc/intel_guc_ct.h |  7 +-
->   3 files changed, 105 insertions(+), 10 deletions(-)
+> > How beneficial is this code to nouveau users?  I see that it permits a
+> > part of OpenCL to be implemented, but how useful/important is this in
+> > the real world?
 > 
-> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc.h b/drivers/gpu/drm/i915/gt/uc/intel_guc.h
-> index c20f3839de12..4c0a367e41d8 100644
-> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc.h
-> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc.h
-> @@ -75,7 +75,15 @@ static inline struct intel_guc *log_to_guc(struct intel_guc_log *log)
->   static
->   inline int intel_guc_send(struct intel_guc *guc, const u32 *action, u32 len)
->   {
-> -	return intel_guc_ct_send(&guc->ct, action, len, NULL, 0);
-> +	return intel_guc_ct_send(&guc->ct, action, len, NULL, 0, 0);
-> +}
-> +
-> +#define INTEL_GUC_SEND_NB		BIT(31)
-> +static
-> +inline int intel_guc_send_nb(struct intel_guc *guc, const u32 *action, u32 len)
-> +{
-> +	return intel_guc_ct_send(&guc->ct, action, len, NULL, 0,
-> +				 INTEL_GUC_SEND_NB);
->   }
->   
->   static inline int
-> @@ -83,7 +91,7 @@ intel_guc_send_and_receive(struct intel_guc *guc, const u32 *action, u32 len,
->   			   u32 *response_buf, u32 response_buf_size)
->   {
->   	return intel_guc_ct_send(&guc->ct, action, len,
-> -				 response_buf, response_buf_size);
-> +				 response_buf, response_buf_size, 0);
->   }
->   
->   static inline void intel_guc_to_host_event_handler(struct intel_guc *guc)
-> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
-> index a76603537fa8..af7314d45a78 100644
-> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
-> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
-> @@ -3,6 +3,11 @@
->    * Copyright © 2016-2019 Intel Corporation
->    */
->   
-> +#include <linux/circ_buf.h>
-> +#include <linux/ktime.h>
-> +#include <linux/time64.h>
-> +#include <linux/timekeeping.h>
-> +
->   #include "i915_drv.h"
->   #include "intel_guc_ct.h"
->   #include "gt/intel_gt.h"
-> @@ -308,6 +313,7 @@ int intel_guc_ct_enable(struct intel_guc_ct *ct)
->   	if (unlikely(err))
->   		goto err_deregister;
->   
-> +	ct->requests.last_fence = 1;
->   	ct->enabled = true;
->   
->   	return 0;
-> @@ -343,10 +349,22 @@ static u32 ct_get_next_fence(struct intel_guc_ct *ct)
->   	return ++ct->requests.last_fence;
->   }
->   
-> +static void write_barrier(struct intel_guc_ct *ct) {
-> +	struct intel_guc *guc = ct_to_guc(ct);
-> +	struct intel_gt *gt = guc_to_gt(guc);
-> +
-> +	if (i915_gem_object_is_lmem(guc->ct.vma->obj)) {
-> +		GEM_BUG_ON(guc->send_regs.fw_domains);
-> +		intel_uncore_write_fw(gt->uncore, GEN11_SOFT_SCRATCH(0), 0);
-
-It's safe to write to this reg? Does it need a comment to explain it?
-
-> +	} else {
-> +		wmb();
-> +	}
-> +}
-> +
->   static int ct_write(struct intel_guc_ct *ct,
->   		    const u32 *action,
->   		    u32 len /* in dwords */,
-> -		    u32 fence)
-> +		    u32 fence, u32 flags)
->   {
->   	struct intel_guc_ct_buffer *ctb = &ct->ctbs.send;
->   	struct guc_ct_buffer_desc *desc = ctb->desc;
-> @@ -393,9 +411,13 @@ static int ct_write(struct intel_guc_ct *ct,
->   		 FIELD_PREP(GUC_CTB_MSG_0_NUM_DWORDS, len) |
->   		 FIELD_PREP(GUC_CTB_MSG_0_FENCE, fence);
->   
-> -	hxg = FIELD_PREP(GUC_HXG_MSG_0_TYPE, GUC_HXG_TYPE_REQUEST) |
-> -	      FIELD_PREP(GUC_HXG_REQUEST_MSG_0_ACTION |
-> -			 GUC_HXG_REQUEST_MSG_0_DATA0, action[0]);
-> +	hxg = (flags & INTEL_GUC_SEND_NB) ?
-> +		(FIELD_PREP(GUC_HXG_MSG_0_TYPE, GUC_HXG_TYPE_EVENT) |
-> +		 FIELD_PREP(GUC_HXG_EVENT_MSG_0_ACTION |
-> +			    GUC_HXG_EVENT_MSG_0_DATA0, action[0])) :
-> +		(FIELD_PREP(GUC_HXG_MSG_0_TYPE, GUC_HXG_TYPE_REQUEST) |
-> +		 FIELD_PREP(GUC_HXG_REQUEST_MSG_0_ACTION |
-> +			    GUC_HXG_REQUEST_MSG_0_DATA0, action[0]));
->   
->   	CT_DEBUG(ct, "writing (tail %u) %*ph %*ph %*ph\n",
->   		 tail, 4, &header, 4, &hxg, 4 * (len - 1), &action[1]);
-> @@ -412,6 +434,12 @@ static int ct_write(struct intel_guc_ct *ct,
->   	}
->   	GEM_BUG_ON(tail > size);
->   
-> +	/*
-> +	 * make sure H2G buffer update and LRC tail update (if this triggering a
-> +	 * submission) are visable before updating the descriptor tail
-> +	 */
-> +	write_barrier(ct);
-> +
->   	/* now update descriptor */
->   	WRITE_ONCE(desc->tail, tail);
->   
-> @@ -466,6 +494,46 @@ static int wait_for_ct_request_update(struct ct_request *req, u32 *status)
->   	return err;
->   }
->   
-> +static inline bool ctb_has_room(struct intel_guc_ct_buffer *ctb, u32 len_dw)
-> +{
-> +	struct guc_ct_buffer_desc *desc = ctb->desc;
-> +	u32 head = READ_ONCE(desc->head);
-> +	u32 space;
-> +
-> +	space = CIRC_SPACE(desc->tail, head, ctb->size);
-> +
-> +	return space >= len_dw;
-> +}
-> +
-> +static int ct_send_nb(struct intel_guc_ct *ct,
-> +		      const u32 *action,
-> +		      u32 len,
-> +		      u32 flags)
-> +{
-> +	struct intel_guc_ct_buffer *ctb = &ct->ctbs.send;
-> +	unsigned long spin_flags;
-> +	u32 fence;
-> +	int ret;
-> +
-> +	spin_lock_irqsave(&ctb->lock, spin_flags);
-> +
-> +	ret = ctb_has_room(ctb, len + 1);
-> +	if (unlikely(ret))
-> +		goto out;
-> +
-> +	fence = ct_get_next_fence(ct);
-> +	ret = ct_write(ct, action, len, fence, flags);
-> +	if (unlikely(ret))
-> +		goto out;
-> +
-> +	intel_guc_notify(ct_to_guc(ct));
-> +
-> +out:
-> +	spin_unlock_irqrestore(&ctb->lock, spin_flags);
-> +
-> +	return ret;
-> +}
-> +
->   static int ct_send(struct intel_guc_ct *ct,
->   		   const u32 *action,
->   		   u32 len,
-> @@ -473,6 +541,7 @@ static int ct_send(struct intel_guc_ct *ct,
->   		   u32 response_buf_size,
->   		   u32 *status)
->   {
-> +	struct intel_guc_ct_buffer *ctb = &ct->ctbs.send;
->   	struct ct_request request;
->   	unsigned long flags;
->   	u32 fence;
-> @@ -482,8 +551,20 @@ static int ct_send(struct intel_guc_ct *ct,
->   	GEM_BUG_ON(!len);
->   	GEM_BUG_ON(len & ~GUC_CT_MSG_LEN_MASK);
->   	GEM_BUG_ON(!response_buf && response_buf_size);
-> +	might_sleep();
-
-Sleep is just cond_resched below or there is more?
-
->   
-> +	/*
-> +	 * We use a lazy spin wait loop here as we believe that if the CT
-> +	 * buffers are sized correctly the flow control condition should be
-> +	 * rare.
-> +	 */
-> +retry:
->   	spin_lock_irqsave(&ct->ctbs.send.lock, flags);
-> +	if (unlikely(!ctb_has_room(ctb, len + 1))) {
-> +		spin_unlock_irqrestore(&ct->ctbs.send.lock, flags);
-> +		cond_resched();
-> +		goto retry;
-> +	}
-
-If this patch is about adding a non-blocking send function, and below we 
-can see that it creates a fork:
-
-intel_guc_ct_send:
-...
-	if (flags & INTEL_GUC_SEND_NB)
-		return ct_send_nb(ct, action, len, flags);
-
-  	ret = ct_send(ct, action, len, response_buf, response_buf_size, &status);
-
-Then why is there a change in ct_send here, which is not the new 
-non-blocking path?
-
->   
->   	fence = ct_get_next_fence(ct);
->   	request.fence = fence;
-> @@ -495,7 +576,7 @@ static int ct_send(struct intel_guc_ct *ct,
->   	list_add_tail(&request.link, &ct->requests.pending);
->   	spin_unlock(&ct->requests.lock);
->   
-> -	err = ct_write(ct, action, len, fence);
-> +	err = ct_write(ct, action, len, fence, 0);
->   
->   	spin_unlock_irqrestore(&ct->ctbs.send.lock, flags);
->   
-> @@ -537,7 +618,7 @@ static int ct_send(struct intel_guc_ct *ct,
->    * Command Transport (CT) buffer based GuC send function.
->    */
->   int intel_guc_ct_send(struct intel_guc_ct *ct, const u32 *action, u32 len,
-> -		      u32 *response_buf, u32 response_buf_size)
-> +		      u32 *response_buf, u32 response_buf_size, u32 flags)
->   {
->   	u32 status = ~0; /* undefined */
->   	int ret;
-> @@ -547,6 +628,9 @@ int intel_guc_ct_send(struct intel_guc_ct *ct, const u32 *action, u32 len,
->   		return -ENODEV;
->   	}
->   
-> +	if (flags & INTEL_GUC_SEND_NB)
-> +		return ct_send_nb(ct, action, len, flags);
-> +
->   	ret = ct_send(ct, action, len, response_buf, response_buf_size, &status);
->   	if (unlikely(ret < 0)) {
->   		CT_ERROR(ct, "Sending action %#x failed (err=%d status=%#X)\n",
-> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.h b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.h
-> index 1ae2dde6db93..55ef7c52472f 100644
-> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.h
-> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.h
-> @@ -9,6 +9,7 @@
->   #include <linux/interrupt.h>
->   #include <linux/spinlock.h>
->   #include <linux/workqueue.h>
-> +#include <linux/ktime.h>
->   
->   #include "intel_guc_fwif.h"
->   
-> @@ -42,7 +43,6 @@ struct intel_guc_ct_buffer {
->   	bool broken;
->   };
->   
-> -
->   /** Top-level structure for Command Transport related data
->    *
->    * Includes a pair of CT buffers for bi-directional communication and tracking
-> @@ -69,6 +69,9 @@ struct intel_guc_ct {
->   		struct list_head incoming; /* incoming requests */
->   		struct work_struct worker; /* handler for incoming requests */
->   	} requests;
-> +
-> +	/** @stall_time: time of first time a CTB submission is stalled */
-> +	ktime_t stall_time;
-
-Unused in this patch.
-
->   };
->   
->   void intel_guc_ct_init_early(struct intel_guc_ct *ct);
-> @@ -88,7 +91,7 @@ static inline bool intel_guc_ct_enabled(struct intel_guc_ct *ct)
->   }
->   
->   int intel_guc_ct_send(struct intel_guc_ct *ct, const u32 *action, u32 len,
-> -		      u32 *response_buf, u32 response_buf_size);
-> +		      u32 *response_buf, u32 response_buf_size, u32 flags);
->   void intel_guc_ct_event_handler(struct intel_guc_ct *ct);
->   
->   #endif /* _INTEL_GUC_CT_H_ */
+> So this is interesting. Right now, OpenCL support in Nouveau is rather new
+> and so probably not a huge impact yet. However, we've built up enough
+> experience with CUDA and OpenCL to learn that atomic operations, as part of
+> the user space programming model, are a super big deal. Atomic operations
+> are so useful and important that I'd expect many OpenCL SVM users to be
+> uninterested in programming models that lack atomic operations for GPU
+> compute programs.
 > 
+> Again, this doesn't rule out future, non-GPU accelerator devices that may
+> come along.
+> 
+> Atomic ops are just a really important piece of high-end multi-threaded
+> programming, it turns out. So this is the beginning of support for an
+> important building block for general purpose programming on devices that
+> have GPU-like memory models.
+> 
+> 
+> thanks,
 
-Regards,
 
-Tvrtko
+
+
