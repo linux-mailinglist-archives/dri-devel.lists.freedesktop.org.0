@@ -1,48 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4658638FE67
-	for <lists+dri-devel@lfdr.de>; Tue, 25 May 2021 12:06:12 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D16D38FE6B
+	for <lists+dri-devel@lfdr.de>; Tue, 25 May 2021 12:08:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 36C076E9E2;
-	Tue, 25 May 2021 10:06:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 232BE6E9E3;
+	Tue, 25 May 2021 10:08:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E49246E9E1;
- Tue, 25 May 2021 10:06:04 +0000 (UTC)
-IronPort-SDR: 9TySvr59idr1o8dorUonUNA94nA1UimVcxq3V0U7GY03JK/J8Sf+MSOEXNsTmEKY9RgscpiWj5
- sE1l+M9gjJUw==
-X-IronPort-AV: E=McAfee;i="6200,9189,9994"; a="223321014"
-X-IronPort-AV: E=Sophos;i="5.82,328,1613462400"; d="scan'208";a="223321014"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 May 2021 03:06:04 -0700
-IronPort-SDR: +VeHwoeJn3RxahRxS2aaBjvqgc1fIuLo8NIDugU4QyuibqKVZusRjHB1It7begUBmwg8B3wBwF
- xUBgI1cJzeIQ==
-X-IronPort-AV: E=Sophos;i="5.82,328,1613462400"; d="scan'208";a="442475695"
-Received: from tomeara-mobl.ger.corp.intel.com (HELO [10.213.211.66])
- ([10.213.211.66])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 May 2021 03:06:02 -0700
-Subject: Re: [Intel-gfx] [RFC PATCH 55/97] drm/i915/guc: Update
- intel_gt_wait_for_idle to work with GuC
-To: Matthew Brost <matthew.brost@intel.com>, intel-gfx@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org
-References: <20210506191451.77768-1-matthew.brost@intel.com>
- <20210506191451.77768-56-matthew.brost@intel.com>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-Message-ID: <921b59dc-da74-0499-05e2-edf07be0acfd@linux.intel.com>
-Date: Tue, 25 May 2021 11:06:00 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CCAF66E9E3;
+ Tue, 25 May 2021 10:08:00 +0000 (UTC)
+IronPort-SDR: D3OkIHi+CsJmWb3jftFVSVEQzdS6M/y0jaJM1Zae68ef6WdnTcJztv/TQ91vkd6A5TJhXEsnog
+ ywXbAtrFKKCA==
+X-IronPort-AV: E=McAfee;i="6200,9189,9994"; a="266050123"
+X-IronPort-AV: E=Sophos;i="5.82,328,1613462400"; d="scan'208";a="266050123"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 May 2021 03:07:59 -0700
+IronPort-SDR: FdzQSl8KiSA6Av1UDf0hMpmPETx8ii8XjM7SpbUTM9+ch8mW5vs7EIdfaBWkfcdPzZQNASn3sv
+ LRu53tddM4kw==
+X-IronPort-AV: E=Sophos;i="5.82,328,1613462400"; d="scan'208";a="630170655"
+Received: from vkubarev-mobl1.ccr.corp.intel.com ([10.249.254.43])
+ by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 May 2021 03:07:58 -0700
+Message-ID: <e355705ead458e2f7385752a601befe5956eddd6.camel@linux.intel.com>
+Subject: Re: [Intel-gfx] [PATCH v3 06/12] drm/ttm: Add a generic TTM memcpy
+ move for page-based iomem
+From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
+To: Matthew Auld <matthew.william.auld@gmail.com>
+Date: Tue, 25 May 2021 12:07:55 +0200
+In-Reply-To: <CAM0jSHNYJd0LQhy3J3LbXezGQ-=eTh5qZJbZJRkw28eNAC9dsQ@mail.gmail.com>
+References: <20210521153253.518037-1-thomas.hellstrom@linux.intel.com>
+ <20210521153253.518037-7-thomas.hellstrom@linux.intel.com>
+ <CAM0jSHM9SOPKkvbzUgFacqURXY_QbKcJ=3K_8Tdh4jjxm0nA3Q@mail.gmail.com>
+ <2cc9a60c-4360-40b6-8712-1e50b7bbfd03@linux.intel.com>
+ <CAM0jSHNYJd0LQhy3J3LbXezGQ-=eTh5qZJbZJRkw28eNAC9dsQ@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.38.4 (3.38.4-1.fc33) 
 MIME-Version: 1.0
-In-Reply-To: <20210506191451.77768-56-matthew.brost@intel.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,467 +53,731 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: jason.ekstrand@intel.com, daniel.vetter@intel.com
+Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-On 06/05/2021 20:14, Matthew Brost wrote:
-> When running the GuC the GPU can't be considered idle if the GuC still
-> has contexts pinned. As such, a call has been added in
-> intel_gt_wait_for_idle to idle the UC and in turn the GuC by waiting for
-> the number of unpinned contexts to go to zero.
+On Tue, 2021-05-25 at 10:58 +0100, Matthew Auld wrote:
+> On Tue, 25 May 2021 at 10:32, Thomas Hellström
+> <thomas.hellstrom@linux.intel.com> wrote:
+> > 
+> > 
+> > On 5/25/21 11:18 AM, Matthew Auld wrote:
+> > > On Fri, 21 May 2021 at 16:33, Thomas Hellström
+> > > <thomas.hellstrom@linux.intel.com> wrote:
+> > > > The internal ttm_bo_util memcpy uses ioremap functionality, and
+> > > > while it
+> > > > probably might be possible to use it for copying in- and out of
+> > > > sglist represented io memory, using io_mem_reserve() /
+> > > > io_mem_free()
+> > > > callbacks, that would cause problems with fault().
+> > > > Instead, implement a method mapping page-by-page using
+> > > > kmap_local()
+> > > > semantics. As an additional benefit we then avoid the
+> > > > occasional global
+> > > > TLB flushes of ioremap() and consuming ioremap space,
+> > > > elimination of a
+> > > > critical point of failure and with a slight change of semantics
+> > > > we could
+> > > > also push the memcpy out async for testing and async driver
+> > > > development
+> > > > purposes.
+> > > > 
+> > > > A special linear iomem iterator is introduced internally to
+> > > > mimic the
+> > > > old ioremap behaviour for code-paths that can't immediately be
+> > > > ported
+> > > > over. This adds to the code size and should be considered a
+> > > > temporary
+> > > > solution.
+> > > > 
+> > > > Looking at the code we have a lot of checks for iomap tagged
+> > > > pointers.
+> > > > Ideally we should extend the core memremap functions to also
+> > > > accept
+> > > > uncached memory and kmap_local functionality. Then we could
+> > > > strip a
+> > > > lot of code.
+> > > > 
+> > > > Cc: Christian König <christian.koenig@amd.com>
+> > > > Signed-off-by: Thomas Hellström <
+> > > > thomas.hellstrom@linux.intel.com>
+> > > > ---
+> > > > v3:
+> > > > - Split up in various TTM files and addressed review comments
+> > > > by
+> > > >    Christian König. Tested and fixed legacy iomap memcpy path
+> > > > on i915.
+> > > > ---
+> > > >   drivers/gpu/drm/ttm/ttm_bo_util.c  | 278 ++++++++++----------
+> > > > ---------
+> > > >   drivers/gpu/drm/ttm/ttm_module.c   |  35 ++++
+> > > >   drivers/gpu/drm/ttm/ttm_resource.c | 166 +++++++++++++++++
+> > > >   drivers/gpu/drm/ttm/ttm_tt.c       |  42 +++++
+> > > >   include/drm/ttm/ttm_bo_driver.h    |  28 +++
+> > > >   include/drm/ttm/ttm_caching.h      |   2 +
+> > > >   include/drm/ttm/ttm_kmap_iter.h    |  61 +++++++
+> > > >   include/drm/ttm/ttm_resource.h     |  61 +++++++
+> > > >   include/drm/ttm/ttm_tt.h           |  16 ++
+> > > >   9 files changed, 508 insertions(+), 181 deletions(-)
+> > > >   create mode 100644 include/drm/ttm/ttm_kmap_iter.h
+> > > > 
+> > > > diff --git a/drivers/gpu/drm/ttm/ttm_bo_util.c
+> > > > b/drivers/gpu/drm/ttm/ttm_bo_util.c
+> > > > index ae8b61460724..912cbe8e60a2 100644
+> > > > --- a/drivers/gpu/drm/ttm/ttm_bo_util.c
+> > > > +++ b/drivers/gpu/drm/ttm/ttm_bo_util.c
+> > > > @@ -72,190 +72,126 @@ void ttm_mem_io_free(struct ttm_device
+> > > > *bdev,
+> > > >          mem->bus.addr = NULL;
+> > > >   }
+> > > > 
+> > > > -static int ttm_resource_ioremap(struct ttm_device *bdev,
+> > > > -                              struct ttm_resource *mem,
+> > > > -                              void **virtual)
+> > > > +/**
+> > > > + * ttm_move_memcpy - Helper to perform a memcpy ttm move
+> > > > operation.
+> > > > + * @bo: The struct ttm_buffer_object.
+> > > > + * @new_mem: The struct ttm_resource we're moving to (copy
+> > > > destination).
+> > > > + * @new_iter: A struct ttm_kmap_iter representing the
+> > > > destination resource.
+> > > > + * @src_iter: A struct ttm_kmap_iter representing the source
+> > > > resource.
+> > > > + *
+> > > > + * This function is intended to be able to move out async
+> > > > under a
+> > > > + * dma-fence if desired.
+> > > > + */
+> > > > +void ttm_move_memcpy(struct ttm_buffer_object *bo,
+> > > > +                    struct ttm_resource *dst_mem,
+> > > > +                    struct ttm_kmap_iter *dst_iter,
+> > > > +                    struct ttm_kmap_iter *src_iter)
+> > > >   {
+> > > > -       int ret;
+> > > > -       void *addr;
+> > > > -
+> > > > -       *virtual = NULL;
+> > > > -       ret = ttm_mem_io_reserve(bdev, mem);
+> > > > -       if (ret || !mem->bus.is_iomem)
+> > > > -               return ret;
+> > > > +       const struct ttm_kmap_iter_ops *dst_ops = dst_iter-
+> > > > >ops;
+> > > > +       const struct ttm_kmap_iter_ops *src_ops = src_iter-
+> > > > >ops;
+> > > > +       struct ttm_tt *ttm = bo->ttm;
+> > > > +       struct dma_buf_map src_map, dst_map;
+> > > > +       pgoff_t i;
+> > > > 
+> > > > -       if (mem->bus.addr) {
+> > > > -               addr = mem->bus.addr;
+> > > > -       } else {
+> > > > -               size_t bus_size = (size_t)mem->num_pages <<
+> > > > PAGE_SHIFT;
+> > > > +       /* Single TTM move. NOP */
+> > > > +       if (dst_ops->maps_tt && src_ops->maps_tt)
+> > > > +               return;
+> > > > 
+> > > > -               if (mem->bus.caching == ttm_write_combined)
+> > > > -                       addr = ioremap_wc(mem->bus.offset,
+> > > > bus_size);
+> > > > -#ifdef CONFIG_X86
+> > > > -               else if (mem->bus.caching == ttm_cached)
+> > > > -                       addr = ioremap_cache(mem->bus.offset,
+> > > > bus_size);
+> > > > -#endif
+> > > > -               else
+> > > > -                       addr = ioremap(mem->bus.offset,
+> > > > bus_size);
+> > > > -               if (!addr) {
+> > > > -                       ttm_mem_io_free(bdev, mem);
+> > > > -                       return -ENOMEM;
+> > > > +       /* Don't move nonexistent data. Clear destination
+> > > > instead. */
+> > > > +       if (src_ops->maps_tt && (!ttm ||
+> > > > !ttm_tt_is_populated(ttm))) {
+> > > > +               if (ttm && !(ttm->page_flags &
+> > > > TTM_PAGE_FLAG_ZERO_ALLOC))
+> > > > +                       return;
+> > > > +
+> > > > +               for (i = 0; i < dst_mem->num_pages; ++i) {
+> > > > +                       dst_ops->map_local(dst_iter, &dst_map,
+> > > > i);
+> > > > +                       if (dst_map.is_iomem)
+> > > > +                               memset_io(dst_map.vaddr_iomem,
+> > > > 0, PAGE_SIZE);
+> > > > +                       else
+> > > > +                               memset(dst_map.vaddr, 0,
+> > > > PAGE_SIZE);
+> > > > +                       if (dst_ops->unmap_local)
+> > > > +                               dst_ops->unmap_local(dst_iter,
+> > > > &dst_map);
+> > > >                  }
+> > > > +               return;
+> > > >          }
+> > > > -       *virtual = addr;
+> > > > -       return 0;
+> > > > -}
+> > > > -
+> > > > -static void ttm_resource_iounmap(struct ttm_device *bdev,
+> > > > -                               struct ttm_resource *mem,
+> > > > -                               void *virtual)
+> > > > -{
+> > > > -       if (virtual && mem->bus.addr == NULL)
+> > > > -               iounmap(virtual);
+> > > > -       ttm_mem_io_free(bdev, mem);
+> > > > -}
+> > > > -
+> > > > -static int ttm_copy_io_page(void *dst, void *src, unsigned
+> > > > long page)
+> > > > -{
+> > > > -       uint32_t *dstP =
+> > > > -           (uint32_t *) ((unsigned long)dst + (page <<
+> > > > PAGE_SHIFT));
+> > > > -       uint32_t *srcP =
+> > > > -           (uint32_t *) ((unsigned long)src + (page <<
+> > > > PAGE_SHIFT));
+> > > > -
+> > > > -       int i;
+> > > > -       for (i = 0; i < PAGE_SIZE / sizeof(uint32_t); ++i)
+> > > > -               iowrite32(ioread32(srcP++), dstP++);
+> > > > -       return 0;
+> > > > -}
+> > > > -
+> > > > -static int ttm_copy_io_ttm_page(struct ttm_tt *ttm, void *src,
+> > > > -                               unsigned long page,
+> > > > -                               pgprot_t prot)
+> > > > -{
+> > > > -       struct page *d = ttm->pages[page];
+> > > > -       void *dst;
+> > > > -
+> > > > -       if (!d)
+> > > > -               return -ENOMEM;
+> > > > -
+> > > > -       src = (void *)((unsigned long)src + (page <<
+> > > > PAGE_SHIFT));
+> > > > -       dst = kmap_atomic_prot(d, prot);
+> > > > -       if (!dst)
+> > > > -               return -ENOMEM;
+> > > > -
+> > > > -       memcpy_fromio(dst, src, PAGE_SIZE);
+> > > > -
+> > > > -       kunmap_atomic(dst);
+> > > > -
+> > > > -       return 0;
+> > > > -}
+> > > > -
+> > > > -static int ttm_copy_ttm_io_page(struct ttm_tt *ttm, void *dst,
+> > > > -                               unsigned long page,
+> > > > -                               pgprot_t prot)
+> > > > -{
+> > > > -       struct page *s = ttm->pages[page];
+> > > > -       void *src;
+> > > > -
+> > > > -       if (!s)
+> > > > -               return -ENOMEM;
+> > > > -
+> > > > -       dst = (void *)((unsigned long)dst + (page <<
+> > > > PAGE_SHIFT));
+> > > > -       src = kmap_atomic_prot(s, prot);
+> > > > -       if (!src)
+> > > > -               return -ENOMEM;
+> > > > 
+> > > > -       memcpy_toio(dst, src, PAGE_SIZE);
+> > > > -
+> > > > -       kunmap_atomic(src);
+> > > > +       for (i = 0; i < dst_mem->num_pages; ++i) {
+> > > > +               dst_ops->map_local(dst_iter, &dst_map, i);
+> > > > +               src_ops->map_local(src_iter, &src_map, i);
+> > > > +
+> > > > +               if (!src_map.is_iomem && !dst_map.is_iomem) {
+> > > > +                       memcpy(dst_map.vaddr, src_map.vaddr,
+> > > > PAGE_SIZE);
+> > > > +               } else if (!src_map.is_iomem) {
+> > > > +                       dma_buf_map_memcpy_to(&dst_map,
+> > > > src_map.vaddr,
+> > > > +                                             PAGE_SIZE);
+> > > > +               } else if (!dst_map.is_iomem) {
+> > > > +                       memcpy_fromio(dst_map.vaddr,
+> > > > src_map.vaddr_iomem,
+> > > > +                                     PAGE_SIZE);
+> > > > +               } else {
+> > > > +                       int j;
+> > > > +                       u32 __iomem *src = src_map.vaddr_iomem;
+> > > > +                       u32 __iomem *dst = dst_map.vaddr_iomem;
+> > > > 
+> > > > -       return 0;
+> > > > +                       for (j = 0; j < (PAGE_SIZE >> 2); ++j)
+> > > IMO PAGE_SIZE / sizeof(u32) is easier to understand.
+> > 
+> > OK, will fix.
+> > 
+> > 
+> > > 
+> > > > +                               iowrite32(ioread32(src++),
+> > > > dst++);
+> > > > +               }
+> > > > +               if (src_ops->unmap_local)
+> > > > +                       src_ops->unmap_local(src_iter,
+> > > > &src_map);
+> > > > +               if (dst_ops->unmap_local)
+> > > > +                       dst_ops->unmap_local(dst_iter,
+> > > > &dst_map);
+> > > > +       }
+> > > >   }
+> > > > +EXPORT_SYMBOL(ttm_move_memcpy);
+> > > > 
+> > > >   int ttm_bo_move_memcpy(struct ttm_buffer_object *bo,
+> > > >                         struct ttm_operation_ctx *ctx,
+> > > > -                      struct ttm_resource *new_mem)
+> > > > +                      struct ttm_resource *dst_mem)
+> > > >   {
+> > > >          struct ttm_device *bdev = bo->bdev;
+> > > > -       struct ttm_resource_manager *man =
+> > > > ttm_manager_type(bdev, new_mem->mem_type);
+> > > > +       struct ttm_resource_manager *dst_man =
+> > > > +               ttm_manager_type(bo->bdev, dst_mem->mem_type);
+> > > >          struct ttm_tt *ttm = bo->ttm;
+> > > > -       struct ttm_resource *old_mem = &bo->mem;
+> > > > -       struct ttm_resource old_copy = *old_mem;
+> > > > -       void *old_iomap;
+> > > > -       void *new_iomap;
+> > > > +       struct ttm_resource *src_mem = &bo->mem;
+> > > > +       struct ttm_resource_manager *src_man =
+> > > > +               ttm_manager_type(bdev, src_mem->mem_type);
+> > > > +       struct ttm_resource src_copy = *src_mem;
+> > > > +       union {
+> > > > +               struct ttm_kmap_iter_tt tt;
+> > > > +               struct ttm_kmap_iter_linear_io io;
+> > > > +       } _dst_iter, _src_iter;
+> > > > +       struct ttm_kmap_iter *dst_iter, *src_iter;
+> > > >          int ret;
+> > > > -       unsigned long i;
+> > > > 
+> > > > -       ret = ttm_bo_wait_ctx(bo, ctx);
+> > > > -       if (ret)
+> > > > -               return ret;
+> > > > -
+> > > > -       ret = ttm_resource_ioremap(bdev, old_mem, &old_iomap);
+> > > > -       if (ret)
+> > > > -               return ret;
+> > > > -       ret = ttm_resource_ioremap(bdev, new_mem, &new_iomap);
+> > > > -       if (ret)
+> > > > -               goto out;
+> > > > -
+> > > > -       /*
+> > > > -        * Single TTM move. NOP.
+> > > > -        */
+> > > > -       if (old_iomap == NULL && new_iomap == NULL)
+> > > > -               goto out2;
+> > > > -
+> > > > -       /*
+> > > > -        * Don't move nonexistent data. Clear destination
+> > > > instead.
+> > > > -        */
+> > > > -       if (old_iomap == NULL &&
+> > > > -           (ttm == NULL || (!ttm_tt_is_populated(ttm) &&
+> > > > -                            !(ttm->page_flags &
+> > > > TTM_PAGE_FLAG_SWAPPED)))) {
+> > > > -               memset_io(new_iomap, 0, new_mem-
+> > > > >num_pages*PAGE_SIZE);
+> > > > -               goto out2;
+> > > > -       }
+> > > > -
+> > > > -       /*
+> > > > -        * TTM might be null for moves within the same region.
+> > > > -        */
+> > > > -       if (ttm) {
+> > > > +       if (ttm && ((ttm->page_flags & TTM_PAGE_FLAG_SWAPPED)
+> > > > ||
+> > > > +                   dst_man->use_tt)) {
+> > > >                  ret = ttm_tt_populate(bdev, ttm, ctx);
+> > > >                  if (ret)
+> > > > -                       goto out1;
+> > > > +                       return ret;
+> > > >          }
+> > > > 
+> > > > -       for (i = 0; i < new_mem->num_pages; ++i) {
+> > > > -               if (old_iomap == NULL) {
+> > > > -                       pgprot_t prot = ttm_io_prot(bo,
+> > > > old_mem, PAGE_KERNEL);
+> > > > -                       ret = ttm_copy_ttm_io_page(ttm,
+> > > > new_iomap, i,
+> > > > -                                                  prot);
+> > > > -               } else if (new_iomap == NULL) {
+> > > > -                       pgprot_t prot = ttm_io_prot(bo,
+> > > > new_mem, PAGE_KERNEL);
+> > > > -                       ret = ttm_copy_io_ttm_page(ttm,
+> > > > old_iomap, i,
+> > > > -                                                  prot);
+> > > > -               } else {
+> > > > -                       ret = ttm_copy_io_page(new_iomap,
+> > > > old_iomap, i);
+> > > > -               }
+> > > > -               if (ret)
+> > > > -                       goto out1;
+> > > > +       dst_iter = ttm_kmap_iter_linear_io_init(&_dst_iter.io,
+> > > > bdev, dst_mem);
+> > > > +       if (PTR_ERR(dst_iter) == -EINVAL && dst_man->use_tt)
+> > > > +               dst_iter = ttm_kmap_iter_tt_init(&_dst_iter.tt,
+> > > > bo->ttm);
+> > > > +       if (IS_ERR(dst_iter))
+> > > > +               return PTR_ERR(dst_iter);
+> > > > +
+> > > > +       src_iter = ttm_kmap_iter_linear_io_init(&_src_iter.io,
+> > > > bdev, src_mem);
+> > > > +       if (PTR_ERR(src_iter) == -EINVAL && src_man->use_tt)
+> > > > +               src_iter = ttm_kmap_iter_tt_init(&_src_iter.tt,
+> > > > bo->ttm);
+> > > > +       if (IS_ERR(src_iter)) {
+> > > > +               ret = PTR_ERR(src_iter);
+> > > > +               goto out_src_iter;
+> > > >          }
+> > > > -       mb();
+> > > > -out2:
+> > > > -       old_copy = *old_mem;
+> > > > 
+> > > > -       ttm_bo_assign_mem(bo, new_mem);
+> > > > -
+> > > > -       if (!man->use_tt)
+> > > > -               ttm_bo_tt_destroy(bo);
+> > > > +       ttm_move_memcpy(bo, dst_mem, dst_iter, src_iter);
+> > > > +       src_copy = *src_mem;
+> > > > +       ttm_bo_move_sync_cleanup(bo, dst_mem);
+> > > > 
+> > > > -out1:
+> > > > -       ttm_resource_iounmap(bdev, old_mem, new_iomap);
+> > > > -out:
+> > > > -       ttm_resource_iounmap(bdev, &old_copy, old_iomap);
+> > > > +       if (!src_iter->ops->maps_tt)
+> > > > +               ttm_kmap_iter_linear_io_fini(&_src_iter.io,
+> > > > bdev, &src_copy);
+> > > > +out_src_iter:
+> > > > +       if (!dst_iter->ops->maps_tt)
+> > > > +               ttm_kmap_iter_linear_io_fini(&_dst_iter.io,
+> > > > bdev, dst_mem);
+> > > > 
+> > > > -       /*
+> > > > -        * On error, keep the mm node!
+> > > > -        */
+> > > > -       if (!ret)
+> > > > -               ttm_resource_free(bo, &old_copy);
+> > > >          return ret;
+> > > >   }
+> > > >   EXPORT_SYMBOL(ttm_bo_move_memcpy);
+> > > > @@ -336,27 +272,7 @@ pgprot_t ttm_io_prot(struct
+> > > > ttm_buffer_object *bo, struct ttm_resource *res,
+> > > >          man = ttm_manager_type(bo->bdev, res->mem_type);
+> > > >          caching = man->use_tt ? bo->ttm->caching : res-
+> > > > >bus.caching;
+> > > > 
+> > > > -       /* Cached mappings need no adjustment */
+> > > > -       if (caching == ttm_cached)
+> > > > -               return tmp;
+> > > > -
+> > > > -#if defined(__i386__) || defined(__x86_64__)
+> > > > -       if (caching == ttm_write_combined)
+> > > > -               tmp = pgprot_writecombine(tmp);
+> > > > -       else if (boot_cpu_data.x86 > 3)
+> > > > -               tmp = pgprot_noncached(tmp);
+> > > > -#endif
+> > > > -#if defined(__ia64__) || defined(__arm__) ||
+> > > > defined(__aarch64__) || \
+> > > > -    defined(__powerpc__) || defined(__mips__)
+> > > > -       if (caching == ttm_write_combined)
+> > > > -               tmp = pgprot_writecombine(tmp);
+> > > > -       else
+> > > > -               tmp = pgprot_noncached(tmp);
+> > > > -#endif
+> > > > -#if defined(__sparc__)
+> > > > -       tmp = pgprot_noncached(tmp);
+> > > > -#endif
+> > > > -       return tmp;
+> > > > +       return ttm_prot_from_caching(caching, tmp);
+> > > >   }
+> > > >   EXPORT_SYMBOL(ttm_io_prot);
+> > > > 
+> > > > diff --git a/drivers/gpu/drm/ttm/ttm_module.c
+> > > > b/drivers/gpu/drm/ttm/ttm_module.c
+> > > > index 56b0efdba1a9..997c458f68a9 100644
+> > > > --- a/drivers/gpu/drm/ttm/ttm_module.c
+> > > > +++ b/drivers/gpu/drm/ttm/ttm_module.c
+> > > > @@ -31,12 +31,47 @@
+> > > >    */
+> > > >   #include <linux/module.h>
+> > > >   #include <linux/device.h>
+> > > > +#include <linux/pgtable.h>
+> > > >   #include <linux/sched.h>
+> > > >   #include <linux/debugfs.h>
+> > > >   #include <drm/drm_sysfs.h>
+> > > > +#include <drm/ttm/ttm_caching.h>
+> > > > 
+> > > >   #include "ttm_module.h"
+> > > > 
+> > > > +/**
+> > > > + * ttm_prot_from_caching - Modify the page protection
+> > > > according to the
+> > > > + * ttm cacing mode
+> > > > + * @caching: The ttm caching mode
+> > > > + * @tmp: The original page protection
+> > > > + *
+> > > > + * Return: The modified page protection
+> > > > + */
+> > > > +pgprot_t ttm_prot_from_caching(enum ttm_caching caching,
+> > > > pgprot_t tmp)
+> > > > +{
+> > > > +       /* Cached mappings need no adjustment */
+> > > > +       if (caching == ttm_cached)
+> > > > +               return tmp;
+> > > > +
+> > > > +#if defined(__i386__) || defined(__x86_64__)
+> > > > +       if (caching == ttm_write_combined)
+> > > > +               tmp = pgprot_writecombine(tmp);
+> > > > +       else if (boot_cpu_data.x86 > 3)
+> > > > +               tmp = pgprot_noncached(tmp);
+> > > > +#endif
+> > > > +#if defined(__ia64__) || defined(__arm__) ||
+> > > > defined(__aarch64__) || \
+> > > > +       defined(__powerpc__) || defined(__mips__)
+> > > > +       if (caching == ttm_write_combined)
+> > > > +               tmp = pgprot_writecombine(tmp);
+> > > > +       else
+> > > > +               tmp = pgprot_noncached(tmp);
+> > > > +#endif
+> > > > +#if defined(__sparc__)
+> > > > +       tmp = pgprot_noncached(tmp);
+> > > > +#endif
+> > > > +       return tmp;
+> > > > +}
+> > > > +
+> > > >   struct dentry *ttm_debugfs_root;
+> > > > 
+> > > >   static int __init ttm_init(void)
+> > > > diff --git a/drivers/gpu/drm/ttm/ttm_resource.c
+> > > > b/drivers/gpu/drm/ttm/ttm_resource.c
+> > > > index 59e2b7157e41..e05ae7e3d477 100644
+> > > > --- a/drivers/gpu/drm/ttm/ttm_resource.c
+> > > > +++ b/drivers/gpu/drm/ttm/ttm_resource.c
+> > > > @@ -22,6 +22,10 @@
+> > > >    * Authors: Christian König
+> > > >    */
+> > > > 
+> > > > +#include <linux/dma-buf-map.h>
+> > > > +#include <linux/io-mapping.h>
+> > > > +#include <linux/scatterlist.h>
+> > > > +
+> > > >   #include <drm/ttm/ttm_resource.h>
+> > > >   #include <drm/ttm/ttm_bo_driver.h>
+> > > > 
+> > > > @@ -147,3 +151,165 @@ void ttm_resource_manager_debug(struct
+> > > > ttm_resource_manager *man,
+> > > >                  man->func->debug(man, p);
+> > > >   }
+> > > >   EXPORT_SYMBOL(ttm_resource_manager_debug);
+> > > > +
+> > > > +static void ttm_kmap_iter_iomap_map_local(struct ttm_kmap_iter
+> > > > *iter,
+> > > > +                                         struct dma_buf_map
+> > > > *dmap,
+> > > > +                                         pgoff_t i)
+> > > > +{
+> > > > +       struct ttm_kmap_iter_iomap *iter_io =
+> > > > +               container_of(iter, typeof(*iter_io), base);
+> > > > +       void __iomem *addr;
+> > > > +
+> > > > +retry:
+> > > > +       while (i >= iter_io->cache.end) {
+> > > > +               iter_io->cache.sg = iter_io->cache.sg ?
+> > > > +                       sg_next(iter_io->cache.sg) : iter_io-
+> > > > >st->sgl;
+> > > > +               iter_io->cache.i = iter_io->cache.end;
+> > > > +               iter_io->cache.end += sg_dma_len(iter_io-
+> > > > >cache.sg) >>
+> > > > +                       PAGE_SHIFT;
+> > > > +               iter_io->cache.offs = sg_dma_address(iter_io-
+> > > > >cache.sg) -
+> > > > +                       iter_io->start;
+> > > > +       }
+> > > > +
+> > > > +       if (i < iter_io->cache.i) {
+> > > > +               iter_io->cache.end = 0;
+> > > > +               iter_io->cache.sg = NULL;
+> > > > +               goto retry;
+> > > > +       }
+> > > > +
+> > > > +       addr = io_mapping_map_local_wc(iter_io->iomap, iter_io-
+> > > > >cache.offs +
+> > > > +                                      (((resource_size_t)i -
+> > > > iter_io->cache.i)
+> > > > +                                       << PAGE_SHIFT));
+> > > > +       dma_buf_map_set_vaddr_iomem(dmap, addr);
+> > > > +}
+> > > > +
+> > > > +static void ttm_kmap_iter_iomap_unmap_local(struct
+> > > > ttm_kmap_iter *iter,
+> > > > +                                           struct dma_buf_map
+> > > > *map)
+> > > > +{
+> > > > +       io_mapping_unmap_local(map->vaddr_iomem);
+> > > > +}
+> > > > +
+> > > > +static const struct ttm_kmap_iter_ops ttm_kmap_iter_io_ops = {
+> > > > +       .map_local =  ttm_kmap_iter_iomap_map_local,
+> > > > +       .unmap_local = ttm_kmap_iter_iomap_unmap_local,
+> > > > +       .maps_tt = false,
+> > > > +};
+> > > > +
+> > > > +/**
+> > > > + * ttm_kmap_iter_iomap_init - Initialize a struct
+> > > > ttm_kmap_iter_iomap
+> > > > + * @iter_io: The struct ttm_kmap_iter_iomap to initialize.
+> > > > + * @iomap: The struct io_mapping representing the underlying
+> > > > linear io_memory.
+> > > > + * @st: sg_table into @iomap, representing the memory of the
+> > > > struct
+> > > > + * ttm_resource.
+> > > > + * @start: Offset that needs to be subtracted from @st to make
+> > > > + * sg_dma_address(st->sgl) - @start == 0 for @iomap start.
+> > > > + *
+> > > > + * Return: Pointer to the embedded struct ttm_kmap_iter.
+> > > > + */
+> > > > +struct ttm_kmap_iter *
+> > > > +ttm_kmap_iter_iomap_init(struct ttm_kmap_iter_iomap *iter_io,
+> > > > +                        struct io_mapping *iomap,
+> > > > +                        struct sg_table *st,
+> > > > +                        resource_size_t start)
+> > > > +{
+> > > > +       iter_io->base.ops = &ttm_kmap_iter_io_ops;
+> > > > +       iter_io->iomap = iomap;
+> > > > +       iter_io->st = st;
+> > > > +       iter_io->start = start;
+> > > > +       memset(&iter_io->cache, 0, sizeof(iter_io->cache));
+> > > > +
+> > > > +       return &iter_io->base;
+> > > > +}
+> > > > +EXPORT_SYMBOL(ttm_kmap_iter_iomap_init);
+> > > > +
+> > > > +/**
+> > > > + * DOC: Linear io iterator
+> > > > + *
+> > > > + * This code should die in the not too near future. Best would
+> > > > be if we could
+> > > > + * make io-mapping use memremap for all io memory, and have
+> > > > memremap
+> > > > + * implement a kmap_local functionality. We could then strip a
+> > > > huge amount of
+> > > > + * code. These linear io iterators are implemented to mimic
+> > > > old functionality,
+> > > > + * and they don't use kmap_local semantics at all internally.
+> > > > Rather ioremap or
+> > > > + * friends, and at least on 32-bit they add global TLB flushes
+> > > > and points
+> > > > + * of failure.
+> > > > + */
+> > > > +
+> > > > +static void ttm_kmap_iter_linear_io_map_local(struct
+> > > > ttm_kmap_iter *iter,
+> > > > +                                             struct
+> > > > dma_buf_map *dmap,
+> > > > +                                             pgoff_t i)
+> > > > +{
+> > > > +       struct ttm_kmap_iter_linear_io *iter_io =
+> > > > +               container_of(iter, typeof(*iter_io), base);
+> > > > +
+> > > > +       *dmap = iter_io->dmap;
+> > > > +       dma_buf_map_incr(dmap, i * PAGE_SIZE);
+> > > > +}
+> > > > +
+> > > > +static const struct ttm_kmap_iter_ops
+> > > > ttm_kmap_iter_linear_io_ops = {
+> > > > +       .map_local =  ttm_kmap_iter_linear_io_map_local,
+> > > > +       .maps_tt = false,
+> > > > +};
+> > > > +
+> > > > +struct ttm_kmap_iter *
+> > > > +ttm_kmap_iter_linear_io_init(struct ttm_kmap_iter_linear_io
+> > > > *iter_io,
+> > > > +                            struct ttm_device *bdev,
+> > > > +                            struct ttm_resource *mem)
+> > > > +{
+> > > > +       int ret;
+> > > > +
+> > > > +       ret = ttm_mem_io_reserve(bdev, mem);
+> > > > +       if (ret)
+> > > > +               goto out_err;
+> > > > +       if (!mem->bus.is_iomem) {
+> > > > +               ret = -EINVAL;
+> > > > +               goto out_io_free;
+> > > > +       }
+> > > > +
+> > > > +       if (mem->bus.addr) {
+> > > > +               dma_buf_map_set_vaddr(&iter_io->dmap, mem-
+> > > > >bus.addr);
+> > > > +               iter_io->needs_unmap = false;
+> > > > +       } else {
+> > > > +               size_t bus_size = (size_t)mem->num_pages <<
+> > > > PAGE_SHIFT;
+> > > > +
+> > > > +               iter_io->needs_unmap = true;
+> > > > +               if (mem->bus.caching == ttm_write_combined)
+> > > > +                       dma_buf_map_set_vaddr_iomem(&iter_io-
+> > > > >dmap,
+> > > > +                                                  
+> > > > ioremap_wc(mem->bus.offset,
+> > > > +                                                             
+> > > > bus_size));
+> > > > +               else if (mem->bus.caching == ttm_cached)
+> > > > +                       dma_buf_map_set_vaddr(&iter_io->dmap,
+> > > > +                                             memremap(mem-
+> > > > >bus.offset, bus_size,
+> > > > +                                                     
+> > > > MEMREMAP_WB));
+> > > The comments in set_vaddr suggest that this is meant for
+> > > system-memory. Does that actually matter or is it just about not
+> > > losing the __iomem annotation on platforms where it matters?
+> > 
+> > Yes, it's the latter. dma_buf_map() is relatively new and the
+> > author
+> > probably didn't think about the case of cached iomem, which is used
+> > by,
+> > for example, vmwgfx.
+> > 
+> > > Apparently cached device local is a thing. Also should this not
+> > > be
+> > > wrapped in CONFIG_X86?
+> > 
+> > Both dma_buf_map() and memremap are generic, I think, I guess
+> > memremap
+> > would return NULL if it's not supported.
 > 
-> Cc: John Harrison <john.c.harrison@intel.com>
-> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
-> ---
->   drivers/gpu/drm/i915/gem/i915_gem_mman.c      |  3 +-
->   drivers/gpu/drm/i915/gt/intel_gt.c            | 18 ++++
->   drivers/gpu/drm/i915/gt/intel_gt.h            |  2 +
->   drivers/gpu/drm/i915/gt/intel_gt_requests.c   | 22 ++---
->   drivers/gpu/drm/i915/gt/intel_gt_requests.h   |  7 +-
->   drivers/gpu/drm/i915/gt/uc/intel_guc.h        |  4 +
->   drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c     |  1 +
->   drivers/gpu/drm/i915/gt/uc/intel_guc_ct.h     |  4 +
->   .../gpu/drm/i915/gt/uc/intel_guc_submission.c | 91 ++++++++++++++++++-
->   drivers/gpu/drm/i915/gt/uc/intel_uc.h         |  5 +
->   drivers/gpu/drm/i915/i915_debugfs.c           |  1 +
->   drivers/gpu/drm/i915/i915_gem_evict.c         |  1 +
->   .../gpu/drm/i915/selftests/igt_live_test.c    |  2 +-
->   .../gpu/drm/i915/selftests/mock_gem_device.c  |  3 +-
->   14 files changed, 137 insertions(+), 27 deletions(-)
+> It looks like memremap just wraps ioremap_cache, but since it also
+> discards the __iomem annotation should we be doing that universally?
+> Also not sure if ioremap_cache is universally supported, so wrapping
+> in CONFIG_X86 and falling back to plain ioremap() might be needed? Or
+> at least that looks like roughly what the previous code was doing?
+> Not
+> too sure tbh.
 > 
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_mman.c b/drivers/gpu/drm/i915/gem/i915_gem_mman.c
-> index 8598a1c78a4c..2f5295c9408d 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_mman.c
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_mman.c
-> @@ -634,7 +634,8 @@ mmap_offset_attach(struct drm_i915_gem_object *obj,
->   		goto insert;
->   
->   	/* Attempt to reap some mmap space from dead objects */
-> -	err = intel_gt_retire_requests_timeout(&i915->gt, MAX_SCHEDULE_TIMEOUT);
-> +	err = intel_gt_retire_requests_timeout(&i915->gt, MAX_SCHEDULE_TIMEOUT,
-> +					       NULL);
->   	if (err)
->   		goto err;
->   
-> diff --git a/drivers/gpu/drm/i915/gt/intel_gt.c b/drivers/gpu/drm/i915/gt/intel_gt.c
-> index 8d77dcbad059..1742a8561f69 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_gt.c
-> +++ b/drivers/gpu/drm/i915/gt/intel_gt.c
-> @@ -574,6 +574,24 @@ static void __intel_gt_disable(struct intel_gt *gt)
->   	GEM_BUG_ON(intel_gt_pm_is_awake(gt));
->   }
->   
-> +int intel_gt_wait_for_idle(struct intel_gt *gt, long timeout)
-> +{
-> +	long rtimeout;
-> +
-> +	/* If the device is asleep, we have no requests outstanding */
-> +	if (!intel_gt_pm_is_awake(gt))
-> +		return 0;
-> +
-> +	while ((timeout = intel_gt_retire_requests_timeout(gt, timeout,
-> +							   &rtimeout)) > 0) {
-> +		cond_resched();
-> +		if (signal_pending(current))
-> +			return -EINTR;
-> +	}
-> +
-> +	return timeout ? timeout : intel_uc_wait_for_idle(&gt->uc, rtimeout);
-> +}
-> +
->   int intel_gt_init(struct intel_gt *gt)
->   {
->   	int err;
-> diff --git a/drivers/gpu/drm/i915/gt/intel_gt.h b/drivers/gpu/drm/i915/gt/intel_gt.h
-> index 7ec395cace69..c775043334bf 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_gt.h
-> +++ b/drivers/gpu/drm/i915/gt/intel_gt.h
-> @@ -48,6 +48,8 @@ void intel_gt_driver_release(struct intel_gt *gt);
->   
->   void intel_gt_driver_late_release(struct intel_gt *gt);
->   
-> +int intel_gt_wait_for_idle(struct intel_gt *gt, long timeout);
-> +
->   void intel_gt_check_and_clear_faults(struct intel_gt *gt);
->   void intel_gt_clear_error_registers(struct intel_gt *gt,
->   				    intel_engine_mask_t engine_mask);
-> diff --git a/drivers/gpu/drm/i915/gt/intel_gt_requests.c b/drivers/gpu/drm/i915/gt/intel_gt_requests.c
-> index 647eca9d867a..c6c702f236fa 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_gt_requests.c
-> +++ b/drivers/gpu/drm/i915/gt/intel_gt_requests.c
-> @@ -13,6 +13,7 @@
->   #include "intel_gt_pm.h"
->   #include "intel_gt_requests.h"
->   #include "intel_timeline.h"
-> +#include "uc/intel_uc.h"
->   
->   static bool retire_requests(struct intel_timeline *tl)
->   {
-> @@ -130,7 +131,8 @@ void intel_engine_fini_retire(struct intel_engine_cs *engine)
->   	GEM_BUG_ON(engine->retire);
->   }
->   
-> -long intel_gt_retire_requests_timeout(struct intel_gt *gt, long timeout)
-> +long intel_gt_retire_requests_timeout(struct intel_gt *gt, long timeout,
-> +				      long *rtimeout)
 
-What is 'rtimeout', I know remaining, but it can be more 
-self-descriptive to start with.
+I think the long term goal is to use memremap all over the place, to
+just not have to bother with the __iomem annotation. But to do that io-
+mapping.h needs to support memremap. But for now we need to be strict
+about __iomem unless we're in arch specific code. That's why that
+dma_buf_map thing was created, but TTM memcpy was never fully adapted.
 
-It feels a bit churny for what it is. How plausible would be 
-alternatives to either change existing timeout to in/out, or measure 
-sleep internally in this function, or just risk sleeping twice as long 
-by passing the original timeout to uc idle as well?
+As for limited arch support for memremap cached, It looks like we only
+need to or in "backup" mapping modes in the memremap flags, and we'd
+mimic the previous behaviour.
 
->   {
->   	struct intel_gt_timelines *timelines = &gt->timelines;
->   	struct intel_timeline *tl, *tn;
-> @@ -195,22 +197,10 @@ out_active:	spin_lock(&timelines->lock);
->   	if (flush_submission(gt, timeout)) /* Wait, there's more! */
->   		active_count++;
->   
-> -	return active_count ? timeout : 0;
-> -}
-> -
-> -int intel_gt_wait_for_idle(struct intel_gt *gt, long timeout)
-> -{
-> -	/* If the device is asleep, we have no requests outstanding */
-> -	if (!intel_gt_pm_is_awake(gt))
-> -		return 0;
-> -
-> -	while ((timeout = intel_gt_retire_requests_timeout(gt, timeout)) > 0) {
-> -		cond_resched();
-> -		if (signal_pending(current))
-> -			return -EINTR;
-> -	}
-> +	if (rtimeout)
-> +		*rtimeout = timeout;
->   
-> -	return timeout;
-> +	return active_count ? timeout : 0;
->   }
->   
->   static void retire_work_handler(struct work_struct *work)
-> diff --git a/drivers/gpu/drm/i915/gt/intel_gt_requests.h b/drivers/gpu/drm/i915/gt/intel_gt_requests.h
-> index fcc30a6e4fe9..4419787124e2 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_gt_requests.h
-> +++ b/drivers/gpu/drm/i915/gt/intel_gt_requests.h
-> @@ -10,10 +10,11 @@ struct intel_engine_cs;
->   struct intel_gt;
->   struct intel_timeline;
->   
-> -long intel_gt_retire_requests_timeout(struct intel_gt *gt, long timeout);
-> +long intel_gt_retire_requests_timeout(struct intel_gt *gt, long timeout,
-> +				      long *rtimeout);
->   static inline void intel_gt_retire_requests(struct intel_gt *gt)
->   {
-> -	intel_gt_retire_requests_timeout(gt, 0);
-> +	intel_gt_retire_requests_timeout(gt, 0, NULL);
->   }
->   
->   void intel_engine_init_retire(struct intel_engine_cs *engine);
-> @@ -21,8 +22,6 @@ void intel_engine_add_retire(struct intel_engine_cs *engine,
->   			     struct intel_timeline *tl);
->   void intel_engine_fini_retire(struct intel_engine_cs *engine);
->   
-> -int intel_gt_wait_for_idle(struct intel_gt *gt, long timeout);
-> -
->   void intel_gt_init_requests(struct intel_gt *gt);
->   void intel_gt_park_requests(struct intel_gt *gt);
->   void intel_gt_unpark_requests(struct intel_gt *gt);
-> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc.h b/drivers/gpu/drm/i915/gt/uc/intel_guc.h
-> index 485e98f3f304..47eaa69809e8 100644
-> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc.h
-> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc.h
-> @@ -38,6 +38,8 @@ struct intel_guc {
->   	spinlock_t irq_lock;
->   	unsigned int msg_enabled_mask;
->   
-> +	atomic_t outstanding_submission_g2h;
-> +
->   	struct {
->   		bool enabled;
->   		void (*reset)(struct intel_guc *guc);
-> @@ -239,6 +241,8 @@ static inline void intel_guc_disable_msg(struct intel_guc *guc, u32 mask)
->   	spin_unlock_irq(&guc->irq_lock);
->   }
->   
-> +int intel_guc_wait_for_idle(struct intel_guc *guc, long timeout);
-> +
->   int intel_guc_reset_engine(struct intel_guc *guc,
->   			   struct intel_engine_cs *engine);
->   
-> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
-> index f1893030ca88..cf701056fa14 100644
-> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
-> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
-> @@ -111,6 +111,7 @@ void intel_guc_ct_init_early(struct intel_guc_ct *ct)
->   	INIT_LIST_HEAD(&ct->requests.incoming);
->   	INIT_WORK(&ct->requests.worker, ct_incoming_request_worker_func);
->   	tasklet_init(&ct->receive_tasklet, ct_receive_tasklet_func, (unsigned long)ct);
-> +	init_waitqueue_head(&ct->wq);
->   }
->   
->   static inline const char *guc_ct_buffer_type_to_str(u32 type)
-> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.h b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.h
-> index 660bf37238e2..ab1b79ab960b 100644
-> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.h
-> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.h
-> @@ -10,6 +10,7 @@
->   #include <linux/spinlock.h>
->   #include <linux/workqueue.h>
->   #include <linux/ktime.h>
-> +#include <linux/wait.h>
->   
->   #include "intel_guc_fwif.h"
->   
-> @@ -68,6 +69,9 @@ struct intel_guc_ct {
->   
->   	struct tasklet_struct receive_tasklet;
->   
-> +	/** @wq: wait queue for g2h chanenl */
-> +	wait_queue_head_t wq;
-> +
->   	struct {
->   		u16 last_fence; /* last fence used to send request */
->   
-> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> index ae0b386467e3..0ff7dd6d337d 100644
-> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> @@ -253,6 +253,74 @@ static inline void set_lrc_desc_registered(struct intel_guc *guc, u32 id,
->   	xa_store_irq(&guc->context_lookup, id, ce, GFP_ATOMIC);
->   }
->   
-> +static int guc_submission_busy_loop(struct intel_guc* guc,
-> +				    const u32 *action,
-> +				    u32 len,
-> +				    u32 g2h_len_dw,
-> +				    bool loop)
-> +{
-> +	int err;
-> +
-> +	err = intel_guc_send_busy_loop(guc, action, len, g2h_len_dw, loop);
-> +
-> +	if (!err && g2h_len_dw)
-> +		atomic_inc(&guc->outstanding_submission_g2h);
-> +
-> +	return err;
-> +}
-> +
-> +static int guc_wait_for_pending_msg(struct intel_guc *guc,
-> +				    atomic_t *wait_var,
-> +				    bool interruptible,
-> +				    long timeout)
-> +{
-> +	const int state = interruptible ?
-> +		TASK_INTERRUPTIBLE : TASK_UNINTERRUPTIBLE;
-> +	DEFINE_WAIT(wait);
-> +
-> +	might_sleep();
-> +	GEM_BUG_ON(timeout < 0);
-> +
-> +	if (!atomic_read(wait_var))
-> +		return 0;
-> +
-> +	if (!timeout)
-> +		return -ETIME;
-> +
-> +	for (;;) {
-> +		prepare_to_wait(&guc->ct.wq, &wait, state);
-> +
-> +		if (!atomic_read(wait_var))
-> +			break;
-> +
-> +		if (signal_pending_state(state, current)) {
-> +			timeout = -ERESTARTSYS;
-> +			break;
-> +		}
-> +
-> +		if (!timeout) {
-> +			timeout = -ETIME;
-> +			break;
-> +		}
-> +
-> +		timeout = io_schedule_timeout(timeout);
-> +	}
-> +	finish_wait(&guc->ct.wq, &wait);
-> +
-> +	return (timeout < 0) ? timeout : 0;
-> +}
+/Thomas
 
-See if it is possible to simplify all this with wait_var_event and 
-wake_up_var.
 
-> +
-> +int intel_guc_wait_for_idle(struct intel_guc *guc, long timeout)
-> +{
-> +	bool interruptible = true;
-> +
-> +	if (unlikely(timeout < 0))
-> +		timeout = -timeout, interruptible = false;
-> +
-> +	return guc_wait_for_pending_msg(guc, &guc->outstanding_submission_g2h,
-> +					interruptible, timeout);
-> +}
-> +
->   static int guc_add_request(struct intel_guc *guc, struct i915_request *rq)
->   {
->   	int err;
-> @@ -279,6 +347,7 @@ static int guc_add_request(struct intel_guc *guc, struct i915_request *rq)
->   
->   	err = intel_guc_send_nb(guc, action, len, g2h_len_dw);
->   	if (!enabled && !err) {
-> +		atomic_inc(&guc->outstanding_submission_g2h);
->   		set_context_enabled(ce);
->   	} else if (!enabled) {
->   		clr_context_pending_enable(ce);
-> @@ -734,7 +803,7 @@ static int __guc_action_register_context(struct intel_guc *guc,
->   		offset,
->   	};
->   
-> -	return intel_guc_send_busy_loop(guc, action, ARRAY_SIZE(action), 0, true);
-> +	return guc_submission_busy_loop(guc, action, ARRAY_SIZE(action), 0, true);
->   }
->   
->   static int register_context(struct intel_context *ce)
-> @@ -754,7 +823,7 @@ static int __guc_action_deregister_context(struct intel_guc *guc,
->   		guc_id,
->   	};
->   
-> -	return intel_guc_send_busy_loop(guc, action, ARRAY_SIZE(action),
-> +	return guc_submission_busy_loop(guc, action, ARRAY_SIZE(action),
->   					G2H_LEN_DW_DEREGISTER_CONTEXT, true);
->   }
->   
-> @@ -871,7 +940,9 @@ static int guc_context_pin(struct intel_context *ce, void *vaddr)
->   
->   static void guc_context_unpin(struct intel_context *ce)
->   {
-> -	unpin_guc_id(ce_to_guc(ce), ce);
-> +	struct intel_guc *guc = ce_to_guc(ce);
-> +
-> +	unpin_guc_id(guc, ce);
->   	lrc_unpin(ce);
->   }
->   
-> @@ -894,7 +965,7 @@ static void __guc_context_sched_disable(struct intel_guc *guc,
->   
->   	intel_context_get(ce);
->   
-> -	intel_guc_send_busy_loop(guc, action, ARRAY_SIZE(action),
-> +	guc_submission_busy_loop(guc, action, ARRAY_SIZE(action),
->   				 G2H_LEN_DW_SCHED_CONTEXT_MODE_SET, true);
->   }
->   
-> @@ -1437,6 +1508,15 @@ g2h_context_lookup(struct intel_guc *guc, u32 desc_idx)
->   	return ce;
->   }
->   
-> +static void decr_outstanding_submission_g2h(struct intel_guc *guc)
-> +{
-> +	if (atomic_dec_and_test(&guc->outstanding_submission_g2h)) {
-> +		smp_mb();
-> +		if (waitqueue_active(&guc->ct.wq))
-> +			wake_up_all(&guc->ct.wq);
+> > 
+> > /Thomas
+> > 
+> > 
 
-I keep pointing out this pattern is racy and at least needs comment why 
-it is safe.
 
-Regards,
-
-Tvrtko
-
-> +	}
-> +}
-> +
->   int intel_guc_deregister_done_process_msg(struct intel_guc *guc,
->   					  const u32 *msg,
->   					  u32 len)
-> @@ -1472,6 +1552,8 @@ int intel_guc_deregister_done_process_msg(struct intel_guc *guc,
->   		lrc_destroy(&ce->ref);
->   	}
->   
-> +	decr_outstanding_submission_g2h(guc);
-> +
->   	return 0;
->   }
->   
-> @@ -1520,6 +1602,7 @@ int intel_guc_sched_done_process_msg(struct intel_guc *guc,
->   		spin_unlock_irqrestore(&ce->guc_state.lock, flags);
->   	}
->   
-> +	decr_outstanding_submission_g2h(guc);
->   	intel_context_put(ce);
->   
->   	return 0;
-> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_uc.h b/drivers/gpu/drm/i915/gt/uc/intel_uc.h
-> index 9c954c589edf..c4cef885e984 100644
-> --- a/drivers/gpu/drm/i915/gt/uc/intel_uc.h
-> +++ b/drivers/gpu/drm/i915/gt/uc/intel_uc.h
-> @@ -81,6 +81,11 @@ uc_state_checkers(guc, guc_submission);
->   #undef uc_state_checkers
->   #undef __uc_state_checker
->   
-> +static inline int intel_uc_wait_for_idle(struct intel_uc *uc, long timeout)
-> +{
-> +	return intel_guc_wait_for_idle(&uc->guc, timeout);
-> +}
-> +
->   #define intel_uc_ops_function(_NAME, _OPS, _TYPE, _RET) \
->   static inline _TYPE intel_uc_##_NAME(struct intel_uc *uc) \
->   { \
-> diff --git a/drivers/gpu/drm/i915/i915_debugfs.c b/drivers/gpu/drm/i915/i915_debugfs.c
-> index 8dd374691102..bb29838d1cd7 100644
-> --- a/drivers/gpu/drm/i915/i915_debugfs.c
-> +++ b/drivers/gpu/drm/i915/i915_debugfs.c
-> @@ -36,6 +36,7 @@
->   #include "gt/intel_gt_clock_utils.h"
->   #include "gt/intel_gt.h"
->   #include "gt/intel_gt_pm.h"
-> +#include "gt/intel_gt.h"
->   #include "gt/intel_gt_requests.h"
->   #include "gt/intel_reset.h"
->   #include "gt/intel_rc6.h"
-> diff --git a/drivers/gpu/drm/i915/i915_gem_evict.c b/drivers/gpu/drm/i915/i915_gem_evict.c
-> index 4d2d59a9942b..2b73ddb11c66 100644
-> --- a/drivers/gpu/drm/i915/i915_gem_evict.c
-> +++ b/drivers/gpu/drm/i915/i915_gem_evict.c
-> @@ -27,6 +27,7 @@
->    */
->   
->   #include "gem/i915_gem_context.h"
-> +#include "gt/intel_gt.h"
->   #include "gt/intel_gt_requests.h"
->   
->   #include "i915_drv.h"
-> diff --git a/drivers/gpu/drm/i915/selftests/igt_live_test.c b/drivers/gpu/drm/i915/selftests/igt_live_test.c
-> index c130010a7033..1c721542e277 100644
-> --- a/drivers/gpu/drm/i915/selftests/igt_live_test.c
-> +++ b/drivers/gpu/drm/i915/selftests/igt_live_test.c
-> @@ -5,7 +5,7 @@
->    */
->   
->   #include "i915_drv.h"
-> -#include "gt/intel_gt_requests.h"
-> +#include "gt/intel_gt.h"
->   
->   #include "../i915_selftest.h"
->   #include "igt_flush_test.h"
-> diff --git a/drivers/gpu/drm/i915/selftests/mock_gem_device.c b/drivers/gpu/drm/i915/selftests/mock_gem_device.c
-> index cf40004bc92a..6c06816e2b99 100644
-> --- a/drivers/gpu/drm/i915/selftests/mock_gem_device.c
-> +++ b/drivers/gpu/drm/i915/selftests/mock_gem_device.c
-> @@ -51,7 +51,8 @@ void mock_device_flush(struct drm_i915_private *i915)
->   	do {
->   		for_each_engine(engine, gt, id)
->   			mock_engine_flush(engine);
-> -	} while (intel_gt_retire_requests_timeout(gt, MAX_SCHEDULE_TIMEOUT));
-> +	} while (intel_gt_retire_requests_timeout(gt, MAX_SCHEDULE_TIMEOUT,
-> +						  NULL));
->   }
->   
->   static void mock_device_release(struct drm_device *dev)
-> 
