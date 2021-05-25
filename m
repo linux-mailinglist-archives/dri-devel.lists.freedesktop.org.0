@@ -1,62 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B134390257
-	for <lists+dri-devel@lfdr.de>; Tue, 25 May 2021 15:26:06 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CCD6390259
+	for <lists+dri-devel@lfdr.de>; Tue, 25 May 2021 15:26:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2BD8F6EA27;
-	Tue, 25 May 2021 13:25:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F11F56EA23;
+	Tue, 25 May 2021 13:24:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from new2-smtp.messagingengine.com (new2-smtp.messagingengine.com
  [66.111.4.224])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1C27B6EA1E
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1AD8F6E252
  for <dri-devel@lists.freedesktop.org>; Tue, 25 May 2021 13:24:49 +0000 (UTC)
 Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
- by mailnew.nyi.internal (Postfix) with ESMTP id CDA8F58070F;
- Tue, 25 May 2021 09:24:10 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute6.internal (MEProxy); Tue, 25 May 2021 09:24:10 -0400
+ by mailnew.nyi.internal (Postfix) with ESMTP id E7696580712;
+ Tue, 25 May 2021 09:24:12 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute6.internal (MEProxy); Tue, 25 May 2021 09:24:12 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
  from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm2; bh=+MtcwzdZGf0DI
- cSin4kah4fVsy649ehlVTzONf9i0AA=; b=tQvlytVIAXQpsVa3ZA4lxwtcfHlt2
- ffl8eU9hax/13TN+E3A68UTb45YlQIlGtyYhsYSp+N2r+31793vpkK4zggGaOBOm
- xxNR4o5uHA32QKWhmRY0nU3hnDBMy9WneMrEEFva/im/iKqS0xqdGrvKWcxg63aA
- W72pIkT76CnselR5X8h5ighg8HI6ETm3iFwzDkxYAHVp4y9voQxQSMNofGGgMeWR
- 8sxGobcSJERFymAsPufRNvgvKew0ssK9MdaxPfjL6wcWXaNPdlDt7phbY4VG7HuK
- vJMFFYiNGLxbiK7aD6BV2BvaUUQgkm52d+70D6tRjN5Q9NTcNId/8HSkw==
+ :mime-version:content-transfer-encoding; s=fm2; bh=Hm66TN2+4rFj2
+ +hvHW2sdkOXUymQe5MbU4IMHCfHuAI=; b=fghqbZjjxyJ77b9oDV6xmd/Cu5Xzx
+ zOuj5ZDE7A3L++IKqsBFXrp+RbRagqC5zO3SPA0iwIsy+qAMuFzUhsKCrX5bOw2H
+ 6B8bV/iV3yq/rc7VxUmarj8CuxCQnQ95wpjVKRFZcAwkavkYhrQCwPnYbAgFnvmg
+ MMRqqsP5uXtajgPRcrwnK7UkNdwxtzNg1aZCoQcRUXCX0Al+xAM1a/uqf86WCvW3
+ HJuf4bwmR2xkwJrqBxjv7Dy4Z6tRE64PoNT5f98YcVz1eT4HYMEF/8HzCDg/OTzS
+ OfeXrg3DdphUqr8ijvDJZuEe8PpAxT4TAUm7OznEWAAF6lWzCTO1kDmng==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm2; bh=+MtcwzdZGf0DIcSin4kah4fVsy649ehlVTzONf9i0AA=; b=EENYoesd
- i7YrhZGkjzfq4ZoF3jeROBgwt8zDbgj0sW9PfbXwuzpEkrP25wHIMThu+K3P/ES0
- qlPsy/c6iwBjuJj+QdsVlcgXohptrgDtDtahMq7tml5RfM6bU3fb61TwBu1RGDq+
- T5ksX/8Z+CokNX3QPiedR51R+XYxC5CL4mtNmup7ko4MTQpixCN2610P87cA1xEJ
- pgNvNvzws3tFUAclMrsq7eT4qE8Vb9RhuLR4j6P2Hq8ipoXILbKcUuzY9Kozf2M4
- Tylb0oFRMnxzQ502kWuLiNWbPXMKhDaAMn7/MDC8Te61H+daz6vfupIBHPEB2BuJ
- lgBXCw55b3nGJQ==
-X-ME-Sender: <xms:evqsYPtSMgP-4egp8V37Ht4Vi8-jBC83bkQraT-TDpBdGEhOxx4Lkw>
- <xme:evqsYAfzVASxKa469gimuAca3o2lJ9p5kOEAbLs8vDVxlzPnZrDiMjV9M1M9TVTeb
- 1XSjt9lpJv_8UJVXy4>
+ fm2; bh=Hm66TN2+4rFj2+hvHW2sdkOXUymQe5MbU4IMHCfHuAI=; b=OMSHDlqU
+ eHcSPgjMwHct8SnnWXxBm8hqPpoFOc01qe9wsU1CLPtn9br8m5h8+d5kQ70TZ8/6
+ 0Q+Ut4nuCp7Ovt8AQ/ERm/V/Gc+ioD1tsMEyL/WZ/mY4294JusGyYD/34kE5v5Yk
+ TGeEB0bpl+CWdNDiy6/8+ZY9qYdrAvatmAyP1LvxoACZynTNaLdjgKZeIhGvAHIF
+ Et+CB92zqZUf1V5Ht+We2i5aiJxCJYgfA/iCKVWRWTwaIVPJ54nYo20BcvnAQFW+
+ pvmAiWd+RdEoxBMxwsRmpQpX1H9WL1Kv5/c3hJgswvg3nMDTukLfU+NI/2SOYyD1
+ wc5Bd8m4eKExgA==
+X-ME-Sender: <xms:fPqsYIAIBi1AHfMpeMP_a9lw7hog8Y_d8s5jxHcQopwsU4MqY5jsQA>
+ <xme:fPqsYKi6KrWELa47jglk9d6YfoMCMjeWoeq_hYXjn0-RXjb5t6jNH0rzTvuVFu-DQ
+ belJs_u42F78LO36lw>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvdekuddgieehucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
  cujfgurhephffvufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpeforgigihhm
  vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
- htvghrnhepfeffhfevfeeghfekleehieelledvieelgeduffeivdffvedtheejuedvjedu
- gfeinecuffhomhgrihhnpegtvggrrdgthhgrnhhnvghlnecukfhppeeltddrkeelrdeike
- drjeeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhep
- mhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:evqsYCwcWD5nYmGoClsFvi1GgzzDDUHMGvON-K2icidIIvbWbilG7Q>
- <xmx:evqsYOPyRhqxje9Y7byPjn2JUFPNtYrtpoOxoyDe94Wo1pnMW70TkA>
- <xmx:evqsYP8g9e1cl6pMFVdgeVwgNg-2SitHyAsSravAiWZpgSTIeG1mJg>
- <xmx:evqsYFGmQPGWSwHAXnpdOILCVXe536pKioESyVdBHfb3kTZqOfz25Q>
+ htvghrnhepvdekleevfeffkeejhfffueelteelfeduieefheduudfggffhhfffheevveeh
+ hedvnecukfhppeeltddrkeelrdeikedrjeeinecuvehluhhsthgvrhfuihiivgeptdenuc
+ frrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:fPqsYLnBJEGUZccy9pBuTLrE4Dhs6lYaYhIJ2HvQWmNk8tMWYiWObQ>
+ <xmx:fPqsYOwdIgywVGf9YNw7d6SMeV2uBgruCRVHj5T9CAPwV62boSkmFQ>
+ <xmx:fPqsYNSJPEvcDB7U_Io1pHvuzy1ywPMTMFjfWQh8K0tO_AzqcbdPYw>
+ <xmx:fPqsYIln-RYW99UGONrnHxbcERhOWrUJxnBKjyaSXkLQjmxePKoRHQ>
 Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
  [90.89.68.76]) by mail.messagingengine.com (Postfix) with ESMTPA;
- Tue, 25 May 2021 09:24:10 -0400 (EDT)
+ Tue, 25 May 2021 09:24:12 -0400 (EDT)
 From: Maxime Ripard <maxime@cerno.tech>
 To: Jaroslav Kysela <perex@perex.cz>, Mark Brown <broonie@kernel.org>,
  dri-devel@lists.freedesktop.org, Daniel Vetter <daniel.vetter@intel.com>,
@@ -64,9 +63,10 @@ To: Jaroslav Kysela <perex@perex.cz>, Mark Brown <broonie@kernel.org>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <maxime@cerno.tech>,
  Liam Girdwood <lgirdwood@gmail.com>, Takashi Iwai <tiwai@suse.com>
-Subject: [PATCH v2 05/12] ASoC: hdmi-codec: Add a prepare hook
-Date: Tue, 25 May 2021 15:23:47 +0200
-Message-Id: <20210525132354.297468-6-maxime@cerno.tech>
+Subject: [PATCH v2 06/12] drm/vc4: hdmi: Set HD_CTL_WHOLSMP and
+ HD_CTL_CHALIGN_SET
+Date: Tue, 25 May 2021 15:23:48 +0200
+Message-Id: <20210525132354.297468-7-maxime@cerno.tech>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210525132354.297468-1-maxime@cerno.tech>
 References: <20210525132354.297468-1-maxime@cerno.tech>
@@ -89,213 +89,55 @@ Cc: devicetree@vger.kernel.org, alsa-devel@alsa-project.org,
  Tim Gover <tim.gover@raspberrypi.com>, linux-doc@vger.kernel.org,
  Dave Stevenson <dave.stevenson@raspberrypi.com>, linux-kernel@vger.kernel.org,
  Rob Herring <robh+dt@kernel.org>, bcm-kernel-feedback-list@broadcom.com,
- linux-arm-kernel@lists.infradead.org, Jonathan Corbet <corbet@lwn.net>,
- Phil Elwell <phil@raspberrypi.com>,
+ linux-arm-kernel@lists.infradead.org, Dom Cobley <popcornmix@gmail.com>,
+ Jonathan Corbet <corbet@lwn.net>, Phil Elwell <phil@raspberrypi.com>,
  Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
  linux-rpi-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The IEC958 status bit is usually set by the userspace after hw_params
-has been called, so in order to use whatever is set by the userspace, we
-need to implement the prepare hook. Let's add it to the hdmi_codec_ops,
-and mandate that either prepare or hw_params is implemented.
+From: Dom Cobley <popcornmix@gmail.com>
 
+Symptom is random switching of speakers when using multichannel.
+
+Repeatedly running speakertest -c8 occasionally starts with
+channels jumbled. This is fixed with HD_CTL_WHOLSMP.
+
+The other bit looks beneficial and apears harmless in testing so
+I'd suggest adding it too.
+
+Documentation says: HD_CTL_WHILSMP_SET
+Wait for whole sample. When this bit is set MAI transmit will start
+only when there is at least one whole sample available in the fifo.
+
+Documentation says: HD_CTL_CHALIGN_SET
+Channel Align When Overflow. This bit is used to realign the audio
+channels in case of an overflow.
+If this bit is set, after the detection of an overflow, equal
+amount of dummy words to the missing words will be written to fifo,
+filling up the broken sample and maintaining alignment.
+
+Signed-off-by: Dom Cobley <popcornmix@gmail.com>
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- include/sound/hdmi-codec.h    |  12 +++-
- sound/soc/codecs/hdmi-codec.c | 112 ++++++++++++++++++++++++++--------
- 2 files changed, 99 insertions(+), 25 deletions(-)
+ drivers/gpu/drm/vc4/vc4_hdmi.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/include/sound/hdmi-codec.h b/include/sound/hdmi-codec.h
-index 4b3a1d374b90..4fc733c8c570 100644
---- a/include/sound/hdmi-codec.h
-+++ b/include/sound/hdmi-codec.h
-@@ -65,12 +65,22 @@ struct hdmi_codec_ops {
- 
- 	/*
- 	 * Configures HDMI-encoder for audio stream.
--	 * Mandatory
-+	 * Having either prepare or hw_params is mandatory.
- 	 */
- 	int (*hw_params)(struct device *dev, void *data,
- 			 struct hdmi_codec_daifmt *fmt,
- 			 struct hdmi_codec_params *hparms);
- 
-+	/*
-+	 * Configures HDMI-encoder for audio stream. Can be called
-+	 * multiple times for each setup.
-+	 *
-+	 * Having either prepare or hw_params is mandatory.
-+	 */
-+	int (*prepare)(struct device *dev, void *data,
-+		       struct hdmi_codec_daifmt *fmt,
-+		       struct hdmi_codec_params *hparms);
-+
- 	/*
- 	 * Shuts down the audio stream.
- 	 * Mandatory
-diff --git a/sound/soc/codecs/hdmi-codec.c b/sound/soc/codecs/hdmi-codec.c
-index 5d6324585a31..a67c92032e11 100644
---- a/sound/soc/codecs/hdmi-codec.c
-+++ b/sound/soc/codecs/hdmi-codec.c
-@@ -481,6 +481,42 @@ static void hdmi_codec_shutdown(struct snd_pcm_substream *substream,
- 	mutex_unlock(&hcp->lock);
- }
- 
-+static int hdmi_codec_fill_codec_params(struct snd_soc_dai *dai,
-+					unsigned int sample_width,
-+					unsigned int sample_rate,
-+					unsigned int channels,
-+					struct hdmi_codec_params *hp)
-+{
-+	struct hdmi_codec_priv *hcp = snd_soc_dai_get_drvdata(dai);
-+	int idx;
-+
-+	/* Select a channel allocation that matches with ELD and pcm channels */
-+	idx = hdmi_codec_get_ch_alloc_table_idx(hcp, channels);
-+	if (idx < 0) {
-+		dev_err(dai->dev, "Not able to map channels to speakers (%d)\n",
-+			idx);
-+		hcp->chmap_idx = HDMI_CODEC_CHMAP_IDX_UNKNOWN;
-+		return idx;
-+	}
-+
-+	memset(hp, 0, sizeof(*hp));
-+
-+	hdmi_audio_infoframe_init(&hp->cea);
-+	hp->cea.channels = channels;
-+	hp->cea.coding_type = HDMI_AUDIO_CODING_TYPE_STREAM;
-+	hp->cea.sample_size = HDMI_AUDIO_SAMPLE_SIZE_STREAM;
-+	hp->cea.sample_frequency = HDMI_AUDIO_SAMPLE_FREQUENCY_STREAM;
-+	hp->cea.channel_allocation = hdmi_codec_channel_alloc[idx].ca_id;
-+
-+	hp->sample_width = sample_width;
-+	hp->sample_rate = sample_rate;
-+	hp->channels = channels;
-+
-+	hcp->chmap_idx = hdmi_codec_channel_alloc[idx].ca_id;
-+
-+	return 0;
-+}
-+
- static int hdmi_codec_hw_params(struct snd_pcm_substream *substream,
- 				struct snd_pcm_hw_params *params,
- 				struct snd_soc_dai *dai)
-@@ -495,13 +531,24 @@ static int hdmi_codec_hw_params(struct snd_pcm_substream *substream,
- 			.dig_subframe = { 0 },
- 		}
- 	};
--	int ret, idx;
-+	int ret;
-+
-+	if (!hcp->hcd.ops->hw_params)
-+		return 0;
- 
- 	dev_dbg(dai->dev, "%s() width %d rate %d channels %d\n", __func__,
- 		params_width(params), params_rate(params),
- 		params_channels(params));
- 
--	memcpy(hp.iec.status, hcp->iec_status, sizeof(hp->iec_status));
-+	ret = hdmi_codec_fill_codec_params(dai,
-+					   params_width(params),
-+					   params_rate(params),
-+					   params_channels(params),
-+					   &hp);
-+	if (ret < 0)
-+		return ret;
-+
-+	memcpy(hp.iec.status, hcp->iec_status, sizeof(hp.iec.status));
- 	ret = snd_pcm_fill_iec958_consumer_hw_params(params, hp.iec.status,
- 						     sizeof(hp.iec.status));
- 	if (ret < 0) {
-@@ -510,32 +557,47 @@ static int hdmi_codec_hw_params(struct snd_pcm_substream *substream,
- 		return ret;
- 	}
- 
--	hdmi_audio_infoframe_init(&hp.cea);
--	hp.cea.channels = params_channels(params);
--	hp.cea.coding_type = HDMI_AUDIO_CODING_TYPE_STREAM;
--	hp.cea.sample_size = HDMI_AUDIO_SAMPLE_SIZE_STREAM;
--	hp.cea.sample_frequency = HDMI_AUDIO_SAMPLE_FREQUENCY_STREAM;
--
--	/* Select a channel allocation that matches with ELD and pcm channels */
--	idx = hdmi_codec_get_ch_alloc_table_idx(hcp, hp.cea.channels);
--	if (idx < 0) {
--		dev_err(dai->dev, "Not able to map channels to speakers (%d)\n",
--			idx);
--		hcp->chmap_idx = HDMI_CODEC_CHMAP_IDX_UNKNOWN;
--		return idx;
--	}
--	hp.cea.channel_allocation = hdmi_codec_channel_alloc[idx].ca_id;
--	hcp->chmap_idx = hdmi_codec_channel_alloc[idx].ca_id;
--
--	hp.sample_width = params_width(params);
--	hp.sample_rate = params_rate(params);
--	hp.channels = params_channels(params);
--
- 	cf->bit_fmt = params_format(params);
- 	return hcp->hcd.ops->hw_params(dai->dev->parent, hcp->hcd.data,
- 				       cf, &hp);
- }
- 
-+static int hdmi_codec_prepare(struct snd_pcm_substream *substream,
-+			      struct snd_soc_dai *dai)
-+{
-+	struct hdmi_codec_priv *hcp = snd_soc_dai_get_drvdata(dai);
-+	struct hdmi_codec_daifmt *cf = dai->playback_dma_data;
-+	struct snd_pcm_runtime *runtime = substream->runtime;
-+	unsigned int channels = runtime->channels;
-+	unsigned int width = snd_pcm_format_width(runtime->format);
-+	unsigned int rate = runtime->rate;
-+	struct hdmi_codec_params hp;
-+	int ret;
-+
-+	if (!hcp->hcd.ops->prepare)
-+		return 0;
-+
-+	dev_dbg(dai->dev, "%s() width %d rate %d channels %d\n", __func__,
-+		width, rate, channels);
-+
-+	ret = hdmi_codec_fill_codec_params(dai, width, rate, channels, &hp);
-+	if (ret < 0)
-+		return ret;
-+
-+	memcpy(hp.iec.status, hcp->iec_status, sizeof(hp.iec.status));
-+	ret = snd_pcm_fill_iec958_consumer(runtime, hp.iec.status,
-+					   sizeof(hp.iec.status));
-+	if (ret < 0) {
-+		dev_err(dai->dev, "Creating IEC958 channel status failed %d\n",
-+			ret);
-+		return ret;
-+	}
-+
-+	cf->bit_fmt = runtime->format;
-+	return hcp->hcd.ops->prepare(dai->dev->parent, hcp->hcd.data,
-+				     cf, &hp);
-+}
-+
- static int hdmi_codec_i2s_set_fmt(struct snd_soc_dai *dai,
- 				  unsigned int fmt)
- {
-@@ -627,6 +689,7 @@ static const struct snd_soc_dai_ops hdmi_codec_i2s_dai_ops = {
- 	.startup	= hdmi_codec_startup,
- 	.shutdown	= hdmi_codec_shutdown,
- 	.hw_params	= hdmi_codec_hw_params,
-+	.prepare	= hdmi_codec_prepare,
- 	.set_fmt	= hdmi_codec_i2s_set_fmt,
- 	.mute_stream	= hdmi_codec_mute,
- };
-@@ -917,7 +980,8 @@ static int hdmi_codec_probe(struct platform_device *pdev)
- 	}
- 
- 	dai_count = hcd->i2s + hcd->spdif;
--	if (dai_count < 1 || !hcd->ops || !hcd->ops->hw_params ||
-+	if (dai_count < 1 || !hcd->ops ||
-+	    (!hcd->ops->hw_params && !hcd->ops->prepare) ||
- 	    !hcd->ops->audio_shutdown) {
- 		dev_err(dev, "%s: Invalid parameters\n", __func__);
- 		return -EINVAL;
+diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
+index c27b287d2053..212b5df11d73 100644
+--- a/drivers/gpu/drm/vc4/vc4_hdmi.c
++++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
+@@ -1267,7 +1267,9 @@ static int vc4_hdmi_audio_trigger(struct snd_pcm_substream *substream, int cmd,
+ 		HDMI_WRITE(HDMI_MAI_CTL,
+ 			   VC4_SET_FIELD(vc4_hdmi->audio.channels,
+ 					 VC4_HD_MAI_CTL_CHNUM) |
+-			   VC4_HD_MAI_CTL_ENABLE);
++					 VC4_HD_MAI_CTL_WHOLSMP |
++					 VC4_HD_MAI_CTL_CHALIGN |
++					 VC4_HD_MAI_CTL_ENABLE);
+ 		break;
+ 	case SNDRV_PCM_TRIGGER_STOP:
+ 		HDMI_WRITE(HDMI_MAI_CTL,
 -- 
 2.31.1
 
