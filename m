@@ -1,66 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 322D6390384
-	for <lists+dri-devel@lfdr.de>; Tue, 25 May 2021 16:09:20 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 862EB3903A6
+	for <lists+dri-devel@lfdr.de>; Tue, 25 May 2021 16:15:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 838926E245;
-	Tue, 25 May 2021 14:09:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2B6496E125;
+	Tue, 25 May 2021 14:15:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com
- [IPv6:2a00:1450:4864:20::32b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0759D6E245;
- Tue, 25 May 2021 14:09:14 +0000 (UTC)
-Received: by mail-wm1-x32b.google.com with SMTP id
- z19-20020a7bc7d30000b029017521c1fb75so3551797wmk.0; 
- Tue, 25 May 2021 07:09:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-transfer-encoding:content-language;
- bh=hg0kLFdzUIdBjsi4lARjo6wP7z8MYrdqivPZrwICJsM=;
- b=Rma14aAQYBXaxY6uZ4wfhq86yRkCJq8fuDMm5Dls1pmgyo2tJmZO9E2OZeypvtjgdR
- fbBV33m11Y6vk+ldV7LF8kX0FAeGhwKvrCU8+Qf0O0L47G8+J6ea8ZjJZv1BaxjYZHjR
- PM2yRsI0yhlakCN5k47kj3j9pLgag/qdGWvoGT7q3Y3uTZnDHyshh2hcLe2Pf0UjuBqr
- 9U8n489LVlqfheYYqUk1o3i6AbZ1jRu8mpaFiBKT6CS7wXxTAa7xGagqCnUiQSJ7/dHn
- zqIl7LwxShg9ZqvCK+s+CNPVIGV77QkDE5YAWh2nQlDj2N1JPSb2m8efj5nF5Y2C1zWP
- myGw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-transfer-encoding
- :content-language;
- bh=hg0kLFdzUIdBjsi4lARjo6wP7z8MYrdqivPZrwICJsM=;
- b=bMB7j/j7trHOS4/joU2+Hj0BKAhTzj1jwZaaWmVipjryUxPKbT76LGlHeggwKcfLoH
- fHwpKDfc3kk1XJpRc2JIY2WoIOFu/Yxx9eDzlRiL0y0floE6MsBcq39yVkJ0h2xSZTf6
- FrBiHEnwToKhNXHxdMROCku7f3I5iWUNRlSEcWbPUQxVoC/8lZzHY5Y+tkuD48lvsoWZ
- WkCot+nPsoxcS2HmPU6VztDQBGTxg9VDuZbxyZg7KKNMA6KCwKga7bnSyCg+CSGsfeBJ
- C0qltSvMw5E2n/LDxcTTF5TrunZoQfT2fXV9E7UL6bEPuSPsJbeecg1vRGM1yHrRav9N
- Z2bQ==
-X-Gm-Message-State: AOAM531wpqeDG60V0BPwNiaQAXDFuranba6Rscyx5aHm+xMLSazQUTjB
- MR5VHsieJsEP7Od3fNVAyjA=
-X-Google-Smtp-Source: ABdhPJw9LWIiUBXzKRCmur/frT8mNLcwchqQ0hbKF05DQ70SIz3IzbILlMtineBcApx+kWKJ+9SSkA==
-X-Received: by 2002:a1c:bcc3:: with SMTP id m186mr24240821wmf.74.1621951753781; 
- Tue, 25 May 2021 07:09:13 -0700 (PDT)
-Received: from ?IPv6:2a02:908:1252:fb60:d67f:bd9a:6dbf:33b1?
- ([2a02:908:1252:fb60:d67f:bd9a:6dbf:33b1])
- by smtp.gmail.com with ESMTPSA id l16sm3089148wmj.47.2021.05.25.07.09.12
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 25 May 2021 07:09:13 -0700 (PDT)
-Subject: Re: [PATCH v2] amdgpu: remove unreachable code
-To: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>, alexander.deucher@amd.com
-References: <1621939214-57004-1-git-send-email-jiapeng.chong@linux.alibaba.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-Message-ID: <0dbdc879-8da7-3a08-1e42-6b8b88dfceb6@gmail.com>
-Date: Tue, 25 May 2021 16:09:12 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EACEB6E125;
+ Tue, 25 May 2021 14:15:24 +0000 (UTC)
+IronPort-SDR: rXXVzFAjErKM60FjXXOzZsU+p6OO/TVPMio3VSM/BJyIwnbFTYfNTFlsLVWMVM53ux0O/2mox2
+ icOFSYmyRaFQ==
+X-IronPort-AV: E=McAfee;i="6200,9189,9995"; a="202239478"
+X-IronPort-AV: E=Sophos;i="5.82,328,1613462400"; d="scan'208";a="202239478"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 May 2021 07:15:21 -0700
+IronPort-SDR: EQtN2udL+0JprowicJKcJGL7eQi1DN7PcbV2R95UHgLiTWa912jRsWNqaP1zzLp0lg4oi4H3gO
+ LQGDJnwB3PNg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.82,328,1613462400"; d="scan'208";a="443412867"
+Received: from irvmail001.ir.intel.com ([10.43.11.63])
+ by fmsmga008.fm.intel.com with ESMTP; 25 May 2021 07:15:17 -0700
+Received: from [10.249.148.145] (mwajdecz-MOBL.ger.corp.intel.com
+ [10.249.148.145])
+ by irvmail001.ir.intel.com (8.14.3/8.13.6/MailSET/Hub) with ESMTP id
+ 14PEFF6Z013901; Tue, 25 May 2021 15:15:16 +0100
+Subject: Re: [RFC PATCH 37/97] drm/i915/guc: Add stall timer to non blocking
+ CTB send function
+To: Matthew Brost <matthew.brost@intel.com>
+References: <20210506191451.77768-1-matthew.brost@intel.com>
+ <20210506191451.77768-38-matthew.brost@intel.com>
+ <7e7ca64d-e5d7-7fd8-b446-7167341c0c92@intel.com>
+ <20210524183518.GA12293@sdutt-i7>
+From: Michal Wajdeczko <michal.wajdeczko@intel.com>
+Message-ID: <2b0430a4-d43e-ad52-890c-340631febd6c@intel.com>
+Date: Tue, 25 May 2021 16:15:15 +0200
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.2
 MIME-Version: 1.0
-In-Reply-To: <1621939214-57004-1-git-send-email-jiapeng.chong@linux.alibaba.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <20210524183518.GA12293@sdutt-i7>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,50 +58,190 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, Xinhui.Pan@amd.com, linux-kernel@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, christian.koenig@amd.com,
- linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org,
- linux-media@vger.kernel.org
+Cc: tvrtko.ursulin@intel.com, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, jason.ekstrand@intel.com,
+ daniele.ceraolospurio@intel.com, jon.bloomfield@intel.com,
+ daniel.vetter@intel.com, john.c.harrison@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 
-Am 25.05.21 um 12:40 schrieb Jiapeng Chong:
-> In the function amdgpu_uvd_cs_msg(), every branch in the switch
-> statement will have a return, so the code below the switch statement
-> will not be executed.
->
-> Eliminate the follow smatch warning:
->
-> drivers/gpu/drm/amd/amdgpu/amdgpu_uvd.c:845 amdgpu_uvd_cs_msg() warn:
-> ignoring unreachable code.
->
-> Reported-by: Abaci Robot <abaci@linux.alibaba.com>
-> Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
-> ---
-> Changes in v2:
->    -For the follow advice: https://lore.kernel.org/patchwork/patch/1435074/
->
->   drivers/gpu/drm/amd/amdgpu/amdgpu_uvd.c | 1 -
->   1 file changed, 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_uvd.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_uvd.c
-> index 82f0542..b32ed85 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_uvd.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_uvd.c
-> @@ -840,7 +840,6 @@ static int amdgpu_uvd_cs_msg(struct amdgpu_uvd_cs_ctx *ctx,
->   
->   	default:
->   		DRM_ERROR("Illegal UVD message type (%d)!\n", msg_type);
-> -		return -EINVAL;
->   	}
->   	BUG();
+On 24.05.2021 20:35, Matthew Brost wrote:
+> On Mon, May 24, 2021 at 02:58:12PM +0200, Michal Wajdeczko wrote:
+>>
+>>
+>> On 06.05.2021 21:13, Matthew Brost wrote:
+>>> Implement a stall timer which fails H2G CTBs once a period of time
+>>> with no forward progress is reached to prevent deadlock.
+>>>
+>>> Also update to ct_write to return -EDEADLK rather than -EPIPE on a
+>>> corrupted descriptor.
+>>
+>> broken descriptor is really separate issue compared to no progress from
+>> GuC side, I would really like to keep old error code
+>>
+> 
+> I know you do as you have brought it up several times. Again to the rest
+> of the stack these two things mean the exact same thing.
 
-You also need to remove the BUG() here or otherwise that will crash on 
-an relatively harmless error.
+but I guess 'the rest of the stack' is only interested if returned error
+is EBUSY or not, as all other errors are treated in the same way, thus
+no need change existing error codes
 
-Christian.
+>  
+>> note that broken CTB descriptor is unrecoverable error, while on other
+>> hand, in theory, we could recover from temporary non-moving CTB
+>>
+> 
+> Yea but we don't, in both cases we disable submission which in turn
+> triggers a full GPU reset.
 
->   	return -EINVAL;
+is this current limitation or long term design?
 
+I would rather expect that decision to trigger full GPU is done on solid
+foundations, like definite lost communication with the GuC or missed
+heartbeats, not that we temporarily push CTB to the limit
+
+or if do we want to treat CTB processing as kind of hw health checkout
+too, what if heartbeat timeout and CTB stall time do not match ?
+
+> 
+>>>
+>>> Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
+>>> Signed-off-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+>>> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+>>> ---
+>>>  drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c | 48 +++++++++++++++++++++--
+>>>  1 file changed, 45 insertions(+), 3 deletions(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
+>>> index af7314d45a78..4eab319d61be 100644
+>>> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
+>>> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
+>>> @@ -69,6 +69,8 @@ static inline struct drm_device *ct_to_drm(struct intel_guc_ct *ct)
+>>>  #define CTB_H2G_BUFFER_SIZE	(SZ_4K)
+>>>  #define CTB_G2H_BUFFER_SIZE	(SZ_4K)
+>>>  
+>>> +#define MAX_US_STALL_CTB	1000000
+>>
+>> nit: maybe we should make it a CONFIG value ?
+>>
+> 
+> Sure.
+> 
+>>> +
+>>>  struct ct_request {
+>>>  	struct list_head link;
+>>>  	u32 fence;
+>>> @@ -315,6 +317,7 @@ int intel_guc_ct_enable(struct intel_guc_ct *ct)
+>>>  
+>>>  	ct->requests.last_fence = 1;
+>>>  	ct->enabled = true;
+>>> +	ct->stall_time = KTIME_MAX;
+>>>  
+>>>  	return 0;
+>>>  
+>>> @@ -378,7 +381,7 @@ static int ct_write(struct intel_guc_ct *ct,
+>>>  	unsigned int i;
+>>>  
+>>>  	if (unlikely(ctb->broken))
+>>> -		return -EPIPE;
+>>> +		return -EDEADLK;
+>>>  
+>>>  	if (unlikely(desc->status))
+>>>  		goto corrupted;
+>>> @@ -449,7 +452,7 @@ static int ct_write(struct intel_guc_ct *ct,
+>>>  	CT_ERROR(ct, "Corrupted descriptor head=%u tail=%u status=%#x\n",
+>>>  		 desc->head, desc->tail, desc->status);
+>>>  	ctb->broken = true;
+>>> -	return -EPIPE;
+>>> +	return -EDEADLK;
+>>>  }
+>>>  
+>>>  /**
+>>> @@ -494,6 +497,17 @@ static int wait_for_ct_request_update(struct ct_request *req, u32 *status)
+>>>  	return err;
+>>>  }
+>>>  
+>>> +static inline bool ct_deadlocked(struct intel_guc_ct *ct)
+>>> +{
+>>> +	bool ret = ktime_us_delta(ktime_get(), ct->stall_time) >
+>>> +		MAX_US_STALL_CTB;
+>>> +
+>>> +	if (unlikely(ret))
+>>> +		CT_ERROR(ct, "CT deadlocked\n");
+>>> +
+>>> +	return ret;
+>>> +}
+>>> +
+>>>  static inline bool ctb_has_room(struct intel_guc_ct_buffer *ctb, u32 len_dw)
+>>>  {
+>>>  	struct guc_ct_buffer_desc *desc = ctb->desc;
+>>> @@ -505,6 +519,26 @@ static inline bool ctb_has_room(struct intel_guc_ct_buffer *ctb, u32 len_dw)
+>>>  	return space >= len_dw;
+>>>  }
+>>>  
+>>> +static int has_room_nb(struct intel_guc_ct *ct, u32 len_dw)
+>>> +{
+>>> +	struct intel_guc_ct_buffer *ctb = &ct->ctbs.send;
+>>> +
+>>> +	lockdep_assert_held(&ct->ctbs.send.lock);
+>>> +
+>>> +	if (unlikely(!ctb_has_room(ctb, len_dw))) {
+>>> +		if (ct->stall_time == KTIME_MAX)
+>>> +			ct->stall_time = ktime_get();
+>>> +
+>>> +		if (unlikely(ct_deadlocked(ct)))
+>>> +			return -EDEADLK;
+>>> +		else
+>>> +			return -EBUSY;
+>>> +	}
+>>> +
+>>> +	ct->stall_time = KTIME_MAX;
+>>> +	return 0;
+>>> +}
+>>> +
+>>>  static int ct_send_nb(struct intel_guc_ct *ct,
+>>>  		      const u32 *action,
+>>>  		      u32 len,
+>>> @@ -517,7 +551,7 @@ static int ct_send_nb(struct intel_guc_ct *ct,
+>>>  
+>>>  	spin_lock_irqsave(&ctb->lock, spin_flags);
+>>>  
+>>> -	ret = ctb_has_room(ctb, len + 1);
+>>> +	ret = has_room_nb(ct, len + 1);
+>>>  	if (unlikely(ret))
+>>>  		goto out;
+>>>  
+>>> @@ -561,11 +595,19 @@ static int ct_send(struct intel_guc_ct *ct,
+>>>  retry:
+>>>  	spin_lock_irqsave(&ct->ctbs.send.lock, flags);
+>>>  	if (unlikely(!ctb_has_room(ctb, len + 1))) {
+>>> +		if (ct->stall_time == KTIME_MAX)
+>>> +			ct->stall_time = ktime_get();
+>>>  		spin_unlock_irqrestore(&ct->ctbs.send.lock, flags);
+>>> +
+>>> +		if (unlikely(ct_deadlocked(ct)))
+>>> +			return -EDEADLK;
+>>> +
+>>
+>> likely, instead of duplicating code, you can reuse has_room_nb here
+>>
+> 
+> In this patch yes, in the following patch no as this check changes
+> between non-blockig and blocking once we introduce G2H credits. I'd
+> rather just leave it as is than churning on the patches.
+> 
+> Matt 
+>  
+>>>  		cond_resched();
+>>>  		goto retry;
+>>>  	}
+>>>  
+>>> +	ct->stall_time = KTIME_MAX;
+>>> +
+>>>  	fence = ct_get_next_fence(ct);
+>>>  	request.fence = fence;
+>>>  	request.status = 0;
+>>>
