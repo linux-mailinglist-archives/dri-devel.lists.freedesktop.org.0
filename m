@@ -1,39 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E2BF390AE2
-	for <lists+dri-devel@lfdr.de>; Tue, 25 May 2021 22:58:33 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 45E44390B23
+	for <lists+dri-devel@lfdr.de>; Tue, 25 May 2021 23:18:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E22F56EB1E;
-	Tue, 25 May 2021 20:57:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 97D866EB43;
+	Tue, 25 May 2021 21:18:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B9E206EB13;
- Tue, 25 May 2021 20:57:57 +0000 (UTC)
-IronPort-SDR: 4mTR/lla/FBqi8QO69lo7yhQZ1UjmjxYR5KBa7jiJE9GWacy4LBFrzQN2gE/nLHV99WTgpCQUw
- GCoCkNIEc/MA==
-X-IronPort-AV: E=McAfee;i="6200,9189,9995"; a="223478552"
-X-IronPort-AV: E=Sophos;i="5.82,329,1613462400"; d="scan'208";a="223478552"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 May 2021 13:57:56 -0700
-IronPort-SDR: /09kIhQCjXUwrGVBvHe/ShrS5pdRbMSkSeL675p/yIzyCTylwva1fl76+C55dMeI+zv7w49Stf
- pHX1xyxkcY6g==
-X-IronPort-AV: E=Sophos;i="5.82,329,1613462400"; d="scan'208";a="443603574"
-Received: from dhiatt-server.jf.intel.com ([10.54.81.3])
- by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 May 2021 13:57:55 -0700
-From: Matthew Brost <matthew.brost@intel.com>
-To: <intel-gfx@lists.freedesktop.org>,
-	<dri-devel@lists.freedesktop.org>
-Subject: [PATCH 17/17] drm/i915/guc: Always copy CT message to new allocation
-Date: Tue, 25 May 2021 14:15:41 -0700
-Message-Id: <20210525211541.87696-18-matthew.brost@intel.com>
-X-Mailer: git-send-email 2.28.0
-In-Reply-To: <20210525211541.87696-1-matthew.brost@intel.com>
-References: <20210525211541.87696-1-matthew.brost@intel.com>
+Received: from mail-pf1-x42b.google.com (mail-pf1-x42b.google.com
+ [IPv6:2607:f8b0:4864:20::42b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CBC3B891DD
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 May 2021 21:18:00 +0000 (UTC)
+Received: by mail-pf1-x42b.google.com with SMTP id p39so8259356pfw.8
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 May 2021 14:18:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=jlekstrand-net.20150623.gappssmtp.com; s=20150623;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=nILHNGmu8Y21SdmE75vh1WZ+fVz99JwGV88AKu0E3kE=;
+ b=TEKULZ8ZBVA/WK1SKJWgARRHvcJKyO+aZ6kPxRrixdM5ivQv+Hywzf3/5uj8tO4nWz
+ evLwJRettbGAIPqrOWUwPYmYKzkB9vGXD6rIyMwMBuczRck/bmIIuuaD+qzOhnMT0ujq
+ 72b+eNnNNrsqR/SkP2+u3nW8X4mqKF30I6nP6cbnnGwn56GhC4GJQ0Em8jGGsO3vwhIQ
+ 2+cE90tc0LMyBpDsD7Cq3Y32BcWKfEvn5cjt//DpGaVanoSb7M0K8GkMO5KZkglhIqLe
+ YOeNUY8gcxYdDd/z4SCbI8g+e1vlMMbcdHup9XdSpVWiOVePRcvXuSSc3bqXxYqcWorx
+ iWdQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=nILHNGmu8Y21SdmE75vh1WZ+fVz99JwGV88AKu0E3kE=;
+ b=g86Aq12vf1NpVbVvbzM8+akd75gl76MqgUK+7iFxvh3QL/ZNThewZ+k4Yr30XvNyy/
+ gxVuSXJP7qN2qSCQdXXPEmACwXCzRRucU5dJzj8LkmslKWlwDflkBnbrCMBNRFQmNRxK
+ /ZdAW/PHUjjoF/nu+NPUgTU0So82CxEcn7OHrrwuv1rs8XV5gyaOyHZW6KwjrNd2ON6e
+ 3EMJmi2dwP+eNvmE5F1SKjSalivTQxNSDgQT5JahK1inWGUhrhBHeA+QEY+J6QTBp3+j
+ 92kTDpEhlQ2JYAHs1iHpK4RyAyloAFr1EbjTy5dBEeXUfQJ5RtzWNOgCZJEfkxXTW0Ji
+ leGA==
+X-Gm-Message-State: AOAM530HIWYVqKIP6nSB2FR/9CwMF4NlMwLvKqS74iSRWsO3rrOlsiAy
+ QGO8/vkzx/B+0xqhvvp0D+kPXo4BUUzxGg==
+X-Google-Smtp-Source: ABdhPJz3o1UPwkkAoIzPLBOdLlKVlhyYUBimCVpSoTN7gRADDfr7TVR0aXIkBp7wAop/N9GHaUiUbg==
+X-Received: by 2002:a63:4a4e:: with SMTP id j14mr20589079pgl.221.1621977479790; 
+ Tue, 25 May 2021 14:17:59 -0700 (PDT)
+Received: from omlet.lan ([134.134.139.83])
+ by smtp.gmail.com with ESMTPSA id e186sm14342278pfa.145.2021.05.25.14.17.57
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 25 May 2021 14:17:59 -0700 (PDT)
+From: Jason Ekstrand <jason@jlekstrand.net>
+To: dri-devel@lists.freedesktop.org,
+	intel-gfx@lists.freedesktop.org
+Subject: [PATCH 0/7] dma-buf: Add an API for exporting sync files (v11)
+Date: Tue, 25 May 2021 16:17:46 -0500
+Message-Id: <20210525211753.1086069-1-jason@jlekstrand.net>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -49,364 +68,124 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Michal.Wajdeczko@intel.com
+Cc: Daniel Stone <daniels@collabora.com>,
+ =?UTF-8?q?Michel=20D=C3=A4nzer?= <michel@daenzer.net>,
+ wayland-devel@lists.freedesktop.org, Jason Ekstrand <jason@jlekstrand.net>,
+ Dave Airlie <airlied@redhat.com>, mesa-dev@lists.freedesktop.org,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Michal Wajdeczko <michal.wajdeczko@intel.com>
+Modern userspace APIs like Vulkan are built on an explicit
+synchronization model.  This doesn't always play nicely with the
+implicit synchronization used in the kernel and assumed by X11 and
+Wayland.  The client -> compositor half of the synchronization isn't too
+bad, at least on intel, because we can control whether or not i915
+synchronizes on the buffer and whether or not it's considered written.
 
-Since most of future CT traffic will be based on G2H requests,
-instead of copying incoming CT message to static buffer and then
-create new allocation for such request, always copy incoming CT
-message to new allocation. Also by doing it while reading CT
-header, we can safely fallback if that atomic allocation fails.
+The harder part is the compositor -> client synchronization when we get
+the buffer back from the compositor.  We're required to be able to
+provide the client with a VkSemaphore and VkFence representing the point
+in time where the window system (compositor and/or display) finished
+using the buffer.  With current APIs, it's very hard to do this in such
+a way that we don't get confused by the Vulkan driver's access of the
+buffer.  In particular, once we tell the kernel that we're rendering to
+the buffer again, any CPU waits on the buffer or GPU dependencies will
+wait on some of the client rendering and not just the compositor.
 
-Signed-off-by: Michal Wajdeczko <michal.wajdeczko@intel.com>
-Signed-off-by: Matthew Brost <matthew.brost@intel.com>
-Reviewed-by: Matthew Brost <matthew.brost@intel.com>
-Cc: Piotr Piórkowski <piotr.piorkowski@intel.com>
----
- drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c | 180 ++++++++++++++--------
- 1 file changed, 120 insertions(+), 60 deletions(-)
+This new IOCTL solves this problem by allowing us to get a snapshot of
+the implicit synchronization state of a given dma-buf in the form of a
+sync file.  It's effectively the same as a poll() or I915_GEM_WAIT only,
+instead of CPU waiting directly, it encapsulates the wait operation, at
+the current moment in time, in a sync_file so we can check/wait on it
+later.  As long as the Vulkan driver does the sync_file export from the
+dma-buf before we re-introduce it for rendering, it will only contain
+fences from the compositor or display.  This allows to accurately turn
+it into a VkFence or VkSemaphore without any over- synchronization.
 
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
-index fdfc5f36ad2f..d862ae04f577 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
-@@ -72,8 +72,9 @@ struct ct_request {
- 	u32 *response_buf;
- };
- 
--struct ct_incoming_request {
-+struct ct_incoming_msg {
- 	struct list_head link;
-+	u32 size;
- 	u32 msg[];
- };
- 
-@@ -590,7 +591,26 @@ static inline bool ct_header_is_response(u32 header)
- 	return !!(header & GUC_CT_MSG_IS_RESPONSE);
- }
- 
--static int ct_read(struct intel_guc_ct *ct, u32 *data)
-+static struct ct_incoming_msg *ct_alloc_msg(u32 num_dwords)
-+{
-+	struct ct_incoming_msg *msg;
-+
-+	msg = kmalloc(sizeof(*msg) + sizeof(u32) * num_dwords, GFP_ATOMIC);
-+	if (msg)
-+		msg->size = num_dwords;
-+	return msg;
-+}
-+
-+static void ct_free_msg(struct ct_incoming_msg *msg)
-+{
-+	kfree(msg);
-+}
-+
-+/*
-+ * Return: number available remaining dwords to read (0 if empty)
-+ *         or a negative error code on failure
-+ */
-+static int ct_read(struct intel_guc_ct *ct, struct ct_incoming_msg **msg)
- {
- 	struct intel_guc_ct_buffer *ctb = &ct->ctbs.recv;
- 	struct guc_ct_buffer_desc *desc = ctb->desc;
-@@ -601,6 +621,7 @@ static int ct_read(struct intel_guc_ct *ct, u32 *data)
- 	s32 available;
- 	unsigned int len;
- 	unsigned int i;
-+	u32 header;
- 
- 	if (unlikely(desc->is_in_error))
- 		return -EPIPE;
-@@ -616,8 +637,10 @@ static int ct_read(struct intel_guc_ct *ct, u32 *data)
- 
- 	/* tail == head condition indicates empty */
- 	available = tail - head;
--	if (unlikely(available == 0))
--		return -ENODATA;
-+	if (unlikely(available == 0)) {
-+		*msg = NULL;
-+		return 0;
-+	}
- 
- 	/* beware of buffer wrap case */
- 	if (unlikely(available < 0))
-@@ -625,14 +648,14 @@ static int ct_read(struct intel_guc_ct *ct, u32 *data)
- 	CT_DEBUG(ct, "available %d (%u:%u)\n", available, head, tail);
- 	GEM_BUG_ON(available < 0);
- 
--	data[0] = cmds[head];
-+	header = cmds[head];
- 	head = (head + 1) % size;
- 
- 	/* message len with header */
--	len = ct_header_get_len(data[0]) + 1;
-+	len = ct_header_get_len(header) + 1;
- 	if (unlikely(len > (u32)available)) {
- 		CT_ERROR(ct, "Incomplete message %*ph %*ph %*ph\n",
--			 4, data,
-+			 4, &header,
- 			 4 * (head + available - 1 > size ?
- 			      size - head : available - 1), &cmds[head],
- 			 4 * (head + available - 1 > size ?
-@@ -640,11 +663,24 @@ static int ct_read(struct intel_guc_ct *ct, u32 *data)
- 		goto corrupted;
- 	}
- 
-+	*msg = ct_alloc_msg(len);
-+	if (!*msg) {
-+		CT_ERROR(ct, "No memory for message %*ph %*ph %*ph\n",
-+			 4, &header,
-+			 4 * (head + available - 1 > size ?
-+			      size - head : available - 1), &cmds[head],
-+			 4 * (head + available - 1 > size ?
-+			      available - 1 - size + head : 0), &cmds[0]);
-+		return available;
-+	}
-+
-+	(*msg)->msg[0] = header;
-+
- 	for (i = 1; i < len; i++) {
--		data[i] = cmds[head];
-+		(*msg)->msg[i] = cmds[head];
- 		head = (head + 1) % size;
- 	}
--	CT_DEBUG(ct, "received %*ph\n", 4 * len, data);
-+	CT_DEBUG(ct, "received %*ph\n", 4 * len, (*msg)->msg);
- 
- 	desc->head = head * 4;
- 	return available - len;
-@@ -674,33 +710,33 @@ static int ct_read(struct intel_guc_ct *ct, u32 *data)
-  *                   ^-----------------------len-----------------------^
-  */
- 
--static int ct_handle_response(struct intel_guc_ct *ct, const u32 *msg)
-+static int ct_handle_response(struct intel_guc_ct *ct, struct ct_incoming_msg *response)
- {
--	u32 header = msg[0];
-+	u32 header = response->msg[0];
- 	u32 len = ct_header_get_len(header);
--	u32 msgsize = (len + 1) * sizeof(u32); /* msg size in bytes w/header */
- 	u32 fence;
- 	u32 status;
- 	u32 datalen;
- 	struct ct_request *req;
- 	unsigned long flags;
- 	bool found = false;
-+	int err = 0;
- 
- 	GEM_BUG_ON(!ct_header_is_response(header));
- 
- 	/* Response payload shall at least include fence and status */
- 	if (unlikely(len < 2)) {
--		CT_ERROR(ct, "Corrupted response %*ph\n", msgsize, msg);
-+		CT_ERROR(ct, "Corrupted response (len %u)\n", len);
- 		return -EPROTO;
- 	}
- 
--	fence = msg[1];
--	status = msg[2];
-+	fence = response->msg[1];
-+	status = response->msg[2];
- 	datalen = len - 2;
- 
- 	/* Format of the status follows RESPONSE message */
- 	if (unlikely(!INTEL_GUC_MSG_IS_RESPONSE(status))) {
--		CT_ERROR(ct, "Corrupted response %*ph\n", msgsize, msg);
-+		CT_ERROR(ct, "Corrupted response (status %#x)\n", status);
- 		return -EPROTO;
- 	}
- 
-@@ -714,12 +750,13 @@ static int ct_handle_response(struct intel_guc_ct *ct, const u32 *msg)
- 			continue;
- 		}
- 		if (unlikely(datalen > req->response_len)) {
--			CT_ERROR(ct, "Response for %u is too long %*ph\n",
--				 req->fence, msgsize, msg);
--			datalen = 0;
-+			CT_ERROR(ct, "Response %u too long (datalen %u > %u)\n",
-+				 req->fence, datalen, req->response_len);
-+			datalen = min(datalen, req->response_len);
-+			err = -EMSGSIZE;
- 		}
- 		if (datalen)
--			memcpy(req->response_buf, msg + 3, 4 * datalen);
-+			memcpy(req->response_buf, response->msg + 3, 4 * datalen);
- 		req->response_len = datalen;
- 		WRITE_ONCE(req->status, status);
- 		found = true;
-@@ -727,45 +764,61 @@ static int ct_handle_response(struct intel_guc_ct *ct, const u32 *msg)
- 	}
- 	spin_unlock_irqrestore(&ct->requests.lock, flags);
- 
--	if (!found)
--		CT_ERROR(ct, "Unsolicited response %*ph\n", msgsize, msg);
-+	if (!found) {
-+		CT_ERROR(ct, "Unsolicited response (fence %u)\n", fence);
-+		return -ENOKEY;
-+	}
-+
-+	if (unlikely(err))
-+		return err;
-+
-+	ct_free_msg(response);
- 	return 0;
- }
- 
--static void ct_process_request(struct intel_guc_ct *ct,
--			       u32 action, u32 len, const u32 *payload)
-+static int ct_process_request(struct intel_guc_ct *ct, struct ct_incoming_msg *request)
- {
- 	struct intel_guc *guc = ct_to_guc(ct);
-+	u32 header, action, len;
-+	const u32 *payload;
- 	int ret;
- 
-+	header = request->msg[0];
-+	payload = &request->msg[1];
-+	action = ct_header_get_action(header);
-+	len = ct_header_get_len(header);
-+
- 	CT_DEBUG(ct, "request %x %*ph\n", action, 4 * len, payload);
- 
- 	switch (action) {
- 	case INTEL_GUC_ACTION_DEFAULT:
- 		ret = intel_guc_to_host_process_recv_msg(guc, payload, len);
--		if (unlikely(ret))
--			goto fail_unexpected;
- 		break;
--
- 	default:
--fail_unexpected:
--		CT_ERROR(ct, "Unexpected request %x %*ph\n",
--			 action, 4 * len, payload);
-+		ret = -EOPNOTSUPP;
- 		break;
- 	}
-+
-+	if (unlikely(ret)) {
-+		CT_ERROR(ct, "Failed to process request %04x (%pe)\n",
-+			 action, ERR_PTR(ret));
-+		return ret;
-+	}
-+
-+	ct_free_msg(request);
-+	return 0;
- }
- 
- static bool ct_process_incoming_requests(struct intel_guc_ct *ct)
- {
- 	unsigned long flags;
--	struct ct_incoming_request *request;
--	u32 header;
--	u32 *payload;
-+	struct ct_incoming_msg *request;
- 	bool done;
-+	int err;
- 
- 	spin_lock_irqsave(&ct->requests.lock, flags);
- 	request = list_first_entry_or_null(&ct->requests.incoming,
--					   struct ct_incoming_request, link);
-+					   struct ct_incoming_msg, link);
- 	if (request)
- 		list_del(&request->link);
- 	done = !!list_empty(&ct->requests.incoming);
-@@ -774,14 +827,13 @@ static bool ct_process_incoming_requests(struct intel_guc_ct *ct)
- 	if (!request)
- 		return true;
- 
--	header = request->msg[0];
--	payload = &request->msg[1];
--	ct_process_request(ct,
--			   ct_header_get_action(header),
--			   ct_header_get_len(header),
--			   payload);
-+	err = ct_process_request(ct, request);
-+	if (unlikely(err)) {
-+		CT_ERROR(ct, "Failed to process CT message (%pe) %*ph\n",
-+			 ERR_PTR(err), 4 * request->size, request->msg);
-+		ct_free_msg(request);
-+	}
- 
--	kfree(request);
- 	return done;
- }
- 
-@@ -814,22 +866,11 @@ static void ct_incoming_request_worker_func(struct work_struct *w)
-  *                   ^-----------------------len-----------------------^
-  */
- 
--static int ct_handle_request(struct intel_guc_ct *ct, const u32 *msg)
-+static int ct_handle_request(struct intel_guc_ct *ct, struct ct_incoming_msg *request)
- {
--	u32 header = msg[0];
--	u32 len = ct_header_get_len(header);
--	u32 msgsize = (len + 1) * sizeof(u32); /* msg size in bytes w/header */
--	struct ct_incoming_request *request;
- 	unsigned long flags;
- 
--	GEM_BUG_ON(ct_header_is_response(header));
--
--	request = kmalloc(sizeof(*request) + msgsize, GFP_ATOMIC);
--	if (unlikely(!request)) {
--		CT_ERROR(ct, "Dropping request %*ph\n", msgsize, msg);
--		return 0; /* XXX: -ENOMEM ? */
--	}
--	memcpy(request->msg, msg, msgsize);
-+	GEM_BUG_ON(ct_header_is_response(request->msg[0]));
- 
- 	spin_lock_irqsave(&ct->requests.lock, flags);
- 	list_add_tail(&request->link, &ct->requests.incoming);
-@@ -839,22 +880,41 @@ static int ct_handle_request(struct intel_guc_ct *ct, const u32 *msg)
- 	return 0;
- }
- 
-+static void ct_handle_msg(struct intel_guc_ct *ct, struct ct_incoming_msg *msg)
-+{
-+	u32 header = msg->msg[0];
-+	int err;
-+
-+	if (ct_header_is_response(header))
-+		err = ct_handle_response(ct, msg);
-+	else
-+		err = ct_handle_request(ct, msg);
-+
-+	if (unlikely(err)) {
-+		CT_ERROR(ct, "Failed to process CT message (%pe) %*ph\n",
-+			 ERR_PTR(err), 4 * msg->size, msg->msg);
-+		ct_free_msg(msg);
-+	}
-+}
-+
-+/*
-+ * Return: number available remaining dwords to read (0 if empty)
-+ *         or a negative error code on failure
-+ */
- static int ct_receive(struct intel_guc_ct *ct)
- {
--	u32 msg[GUC_CT_MSG_LEN_MASK + 1]; /* one extra dw for the header */
-+	struct ct_incoming_msg *msg = NULL;
- 	unsigned long flags;
- 	int ret;
- 
- 	spin_lock_irqsave(&ct->ctbs.recv.lock, flags);
--	ret = ct_read(ct, msg);
-+	ret = ct_read(ct, &msg);
- 	spin_unlock_irqrestore(&ct->ctbs.recv.lock, flags);
- 	if (ret < 0)
- 		return ret;
- 
--	if (ct_header_is_response(msg[0]))
--		ct_handle_response(ct, msg);
--	else
--		ct_handle_request(ct, msg);
-+	if (msg)
-+		ct_handle_msg(ct, msg);
- 
- 	return ret;
- }
+This patch series actually contains two new ioctls.  There is the export
+one mentioned above as well as an RFC for an import ioctl which provides
+the other half.  The intention is to land the export ioctl since it seems
+like there's no real disagreement on that one.  The import ioctl, however,
+has a lot of debate around it so it's intended to be RFC-only for now.
+
+Mesa MR: https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/4037
+IGT tests: https://patchwork.freedesktop.org/series/90490/
+
+v10 (Jason Ekstrand, Daniel Vetter):
+ - Add reviews/acks
+ - Add a patch to rename _rcu to _unlocked
+ - Split things better so import is clearly RFC status
+
+v11 (Daniel Vetter):
+ - Add more CCs to try and get maintainers
+ - Add a patch to document DMA_BUF_IOCTL_SYNC
+ - Generally better docs
+ - Use separate structs for import/export (easier to document)
+ - Fix an issue in the import patch
+
+Cc: Christian König <christian.koenig@amd.com>
+Cc: Michel Dänzer <michel@daenzer.net>
+Cc: Dave Airlie <airlied@redhat.com>
+Cc: Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>
+Cc: Daniel Stone <daniels@collabora.com>
+Cc: mesa-dev@lists.freedesktop.org
+Cc: wayland-devel@lists.freedesktop.org
+Test-with: 20210524205225.872316-1-jason@jlekstrand.net
+
+Christian König (1):
+  dma-buf: Add dma_fence_array_for_each (v2)
+
+Jason Ekstrand (6):
+  dma-buf: Rename dma_resv helpers from _rcu to _unlocked (v2)
+  dma-buf: Add dma_resv_get_singleton_unlocked (v5)
+  dma-buf: Document DMA_BUF_IOCTL_SYNC
+  dma-buf: Add an API for exporting sync files (v11)
+  RFC: dma-buf: Add an extra fence to dma_resv_get_singleton_unlocked
+  RFC: dma-buf: Add an API for importing sync files (v7)
+
+ Documentation/driver-api/dma-buf.rst          |   8 +
+ drivers/dma-buf/dma-buf.c                     | 107 +++++++++++++-
+ drivers/dma-buf/dma-fence-array.c             |  27 ++++
+ drivers/dma-buf/dma-resv.c                    | 139 ++++++++++++++++--
+ drivers/gpu/drm/amd/amdgpu/amdgpu_display.c   |   6 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c   |   2 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c       |   4 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ids.c       |   6 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_mn.c        |   4 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_object.c    |   4 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_uvd.c       |   6 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c        |  14 +-
+ .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c |   6 +-
+ drivers/gpu/drm/drm_gem.c                     |  10 +-
+ drivers/gpu/drm/drm_gem_atomic_helper.c       |   2 +-
+ drivers/gpu/drm/etnaviv/etnaviv_gem.c         |   7 +-
+ drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c  |   8 +-
+ drivers/gpu/drm/i915/display/intel_display.c  |   2 +-
+ drivers/gpu/drm/i915/dma_resv_utils.c         |   2 +-
+ drivers/gpu/drm/i915/gem/i915_gem_busy.c      |   2 +-
+ .../gpu/drm/i915/gem/i915_gem_execbuffer.c    |   2 +-
+ drivers/gpu/drm/i915/gem/i915_gem_object.h    |   2 +-
+ drivers/gpu/drm/i915/gem/i915_gem_userptr.c   |   4 +-
+ drivers/gpu/drm/i915/gem/i915_gem_wait.c      |  10 +-
+ drivers/gpu/drm/i915/i915_request.c           |   6 +-
+ drivers/gpu/drm/i915/i915_sw_fence.c          |   4 +-
+ drivers/gpu/drm/msm/msm_gem.c                 |   3 +-
+ drivers/gpu/drm/nouveau/dispnv50/wndw.c       |   2 +-
+ drivers/gpu/drm/nouveau/nouveau_gem.c         |   4 +-
+ drivers/gpu/drm/panfrost/panfrost_drv.c       |   4 +-
+ drivers/gpu/drm/panfrost/panfrost_job.c       |   2 +-
+ drivers/gpu/drm/radeon/radeon_gem.c           |   6 +-
+ drivers/gpu/drm/radeon/radeon_mn.c            |   4 +-
+ drivers/gpu/drm/ttm/ttm_bo.c                  |  18 +--
+ drivers/gpu/drm/vgem/vgem_fence.c             |   4 +-
+ drivers/gpu/drm/virtio/virtgpu_ioctl.c        |   6 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_bo.c            |   2 +-
+ include/linux/dma-fence-array.h               |  17 +++
+ include/linux/dma-resv.h                      |  21 +--
+ include/uapi/linux/dma-buf.h                  |  89 ++++++++++-
+ 40 files changed, 465 insertions(+), 111 deletions(-)
+
 -- 
-2.28.0
+2.31.1
 
