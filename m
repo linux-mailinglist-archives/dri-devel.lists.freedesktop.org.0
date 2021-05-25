@@ -1,39 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED68B38FA38
-	for <lists+dri-devel@lfdr.de>; Tue, 25 May 2021 07:48:56 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id DD79038FA3C
+	for <lists+dri-devel@lfdr.de>; Tue, 25 May 2021 07:49:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 70B5E6E83A;
-	Tue, 25 May 2021 05:48:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E08196E8F9;
+	Tue, 25 May 2021 05:48:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1B3176E831;
- Tue, 25 May 2021 05:48:41 +0000 (UTC)
-IronPort-SDR: n7+Aah0X8H4PahvjrCVdsfkVw610ujFJ+l1aIyD0zz2vInekqynnZVyf6jG+5HHY+Mrz99vhaQ
- KvqsexLKzsAg==
-X-IronPort-AV: E=McAfee;i="6200,9189,9994"; a="266005458"
-X-IronPort-AV: E=Sophos;i="5.82,327,1613462400"; d="scan'208";a="266005458"
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DE8676E8F9;
+ Tue, 25 May 2021 05:48:42 +0000 (UTC)
+IronPort-SDR: sJiYndcMS1K9ppolGRXEOGLxpcArt4JY8CDBpI/kXLtEEDH4oy+DPh9KekbQYp2m6pNhRaVQDu
+ G4NTlC9S3XaA==
+X-IronPort-AV: E=McAfee;i="6200,9189,9994"; a="266005461"
+X-IronPort-AV: E=Sophos;i="5.82,327,1613462400"; d="scan'208";a="266005461"
 Received: from orsmga006.jf.intel.com ([10.7.209.51])
  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 May 2021 22:48:40 -0700
-IronPort-SDR: 9R5gZ3GIasqkaeT8MmeJ9m+eXt3Z5qPmof56yERDYShGVrnu9q6JaYgLsTe2zo6Hlt+A+Iz2zi
- QpROcj1XsfBA==
-X-IronPort-AV: E=Sophos;i="5.82,327,1613462400"; d="scan'208";a="397231795"
+ 24 May 2021 22:48:42 -0700
+IronPort-SDR: LQ7+leoFT5JkJ+LAmF3s0xgvHsX3FhOSM/rt4mxy4GMFuvi5ucBiK42Te9qwuD9cVhOLi2k42u
+ 7J3iqBsIQs3Q==
+X-IronPort-AV: E=Sophos;i="5.82,327,1613462400"; d="scan'208";a="397231807"
 Received: from dceraolo-linux.fm.intel.com ([10.1.27.145])
  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 May 2021 22:48:40 -0700
+ 24 May 2021 22:48:42 -0700
 From: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
 To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH v4 14/17] drm/i915/pxp: User interface for Protected buffer
-Date: Mon, 24 May 2021 22:48:00 -0700
-Message-Id: <20210525054803.7387-15-daniele.ceraolospurio@intel.com>
+Subject: [PATCH v4 15/17] drm/i915/pxp: Add plane decryption support
+Date: Mon, 24 May 2021 22:48:01 -0700
+Message-Id: <20210525054803.7387-16-daniele.ceraolospurio@intel.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210525054803.7387-1-daniele.ceraolospurio@intel.com>
 References: <20210525054803.7387-1-daniele.ceraolospurio@intel.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -47,416 +48,183 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@intel.com>,
- Gupta Anshuman <Anshuman.Gupta@intel.com>,
- Huang Sean Z <sean.z.huang@intel.com>,
- Telukuntla Sreedhar <sreedhar.telukuntla@intel.com>,
- dri-devel@lists.freedesktop.org, Chris Wilson <chris@chris-wilson.co.uk>,
+Cc: Anshuman Gupta <anshuman.gupta@intel.com>,
+ Huang Sean Z <sean.z.huang@intel.com>, dri-devel@lists.freedesktop.org,
  Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
- Jason Ekstrand <jason@jlekstrand.net>,
- Kondapally Kalyan <kalyan.kondapally@intel.com>,
+ Gaurav Kumar <kumar.gaurav@intel.com>,
  Bommu Krishnaiah <krishnaiah.bommu@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Bommu Krishnaiah <krishnaiah.bommu@intel.com>
+From: Anshuman Gupta <anshuman.gupta@intel.com>
 
-This api allow user mode to create Protected buffers. Only contexts
-marked as protected are allowed to operate on protected buffers.
+Add support to enable/disable PLANE_SURF Decryption Request bit.
+It requires only to enable plane decryption support when following
+condition met.
+1. PXP session is enabled.
+2. Buffer object is protected.
 
-We only allow setting the flags at creation time.
+v2:
+- Used gen fb obj user_flags instead gem_object_metadata. [Krishna]
 
-All protected objects that have backing storage will be considered
-invalid when the session is destroyed and they won't be usable anymore.
+v3:
+- intel_pxp_gem_object_status() API changes.
 
-Given that the PXP HW supports multiple modes (but we currently only
-care about one), a flag variable has been reserved in the structure
-used in the create_ext ioctl for possible future updates.
+v4: use intel_pxp_is_active (Daniele)
 
-This is a rework of the original code by Bommu Krishnaiah. I've kept
-authorship unchanged since significant chunks have not been modified.
+v5: rebase and use the new protected object status checker (Daniele)
 
-v2: split context changes, fix defines and improve documentation (Chris),
-    add object invalidation logic
-v3: fix spinlock definition and usage, only validate objects when
-    they're first added to a context lut, only remove them once (Chris),
-    make protected context flag not mandatory in protected object execbuf
-    to avoid abuse (Lionel)
-v4: rebase to new gem_create_ext
+v6: used plane state for plane_decryption to handle async flip
+    as suggested by Ville.
 
-Signed-off-by: Bommu Krishnaiah <krishnaiah.bommu@intel.com>
-Signed-off-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
-Cc: Telukuntla Sreedhar <sreedhar.telukuntla@intel.com>
-Cc: Kondapally Kalyan <kalyan.kondapally@intel.com>
-Cc: Gupta Anshuman <Anshuman.Gupta@intel.com>
+v7: check pxp session while plane decrypt state computation. [Ville]
+    removed pointless code. [Ville]
+
+v8 (Daniele): update PXP check
+
+Cc: Bommu Krishnaiah <krishnaiah.bommu@intel.com>
 Cc: Huang Sean Z <sean.z.huang@intel.com>
-Cc: Chris Wilson <chris@chris-wilson.co.uk>
-Cc: Lionel Landwerlin <lionel.g.landwerlin@intel.com>
-Cc: Jason Ekstrand <jason@jlekstrand.net>
-Cc: Daniel Vetter <daniel.vetter@intel.com>
+Cc: Gaurav Kumar <kumar.gaurav@intel.com>
+Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
+Signed-off-by: Anshuman Gupta <anshuman.gupta@intel.com>
+Signed-off-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
 ---
- drivers/gpu/drm/i915/gem/i915_gem_create.c    | 26 ++++++++++++
- .../gpu/drm/i915/gem/i915_gem_execbuffer.c    | 15 +++++++
- drivers/gpu/drm/i915/gem/i915_gem_object.c    |  6 +++
- drivers/gpu/drm/i915/gem/i915_gem_object.h    | 12 ++++++
- .../gpu/drm/i915/gem/i915_gem_object_types.h  | 13 ++++++
- drivers/gpu/drm/i915/pxp/intel_pxp.c          | 41 +++++++++++++++++++
- drivers/gpu/drm/i915/pxp/intel_pxp.h          | 13 ++++++
- drivers/gpu/drm/i915/pxp/intel_pxp_types.h    |  5 +++
- include/uapi/drm/i915_drm.h                   | 33 ++++++++++++++-
- 9 files changed, 163 insertions(+), 1 deletion(-)
+ .../gpu/drm/i915/display/intel_atomic_plane.c    | 16 ++++++++++++++++
+ drivers/gpu/drm/i915/display/intel_display.c     |  4 ++++
+ .../gpu/drm/i915/display/intel_display_types.h   |  3 +++
+ .../gpu/drm/i915/display/skl_universal_plane.c   | 15 ++++++++++++---
+ drivers/gpu/drm/i915/i915_reg.h                  |  1 +
+ 5 files changed, 36 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_create.c b/drivers/gpu/drm/i915/gem/i915_gem_create.c
-index 548ddf39d853..c14be3882c35 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_create.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_create.c
-@@ -6,6 +6,7 @@
- #include "gem/i915_gem_ioctls.h"
- #include "gem/i915_gem_lmem.h"
- #include "gem/i915_gem_region.h"
+diff --git a/drivers/gpu/drm/i915/display/intel_atomic_plane.c b/drivers/gpu/drm/i915/display/intel_atomic_plane.c
+index 36f52a1d7552..88b3272c0b00 100644
+--- a/drivers/gpu/drm/i915/display/intel_atomic_plane.c
++++ b/drivers/gpu/drm/i915/display/intel_atomic_plane.c
+@@ -41,6 +41,7 @@
+ #include "intel_display_types.h"
+ #include "intel_pm.h"
+ #include "intel_sprite.h"
 +#include "pxp/intel_pxp.h"
  
- #include "i915_drv.h"
- #include "i915_trace.h"
-@@ -99,7 +100,11 @@ i915_gem_setup(struct drm_i915_gem_object *obj, u64 size)
- 
- 	GEM_BUG_ON(size != obj->base.size);
- 
-+	if (obj->user_flags & I915_GEM_OBJECT_PROTECTED)
-+		intel_pxp_object_add(obj);
-+
- 	trace_i915_gem_object_create(obj);
-+
- 	return 0;
+ static void intel_plane_state_reset(struct intel_plane_state *plane_state,
+ 				    struct intel_plane *plane)
+@@ -383,6 +384,14 @@ intel_crtc_get_plane(struct intel_crtc *crtc, enum plane_id plane_id)
+ 	return NULL;
  }
  
-@@ -344,8 +349,29 @@ static int ext_set_placements(struct i915_user_extension __user *base,
- 	return set_placements(&ext, data);
- }
- 
-+static int ext_set_protected(struct i915_user_extension __user *base, void *data)
++static int bo_has_valid_encryption(const struct drm_i915_gem_object *obj)
 +{
-+	struct drm_i915_gem_create_ext_protected_content ext;
-+	struct create_ext *ext_data = data;
++	struct drm_i915_private *i915 = to_i915(obj->base.dev);
 +
-+	if (copy_from_user(&ext, base, sizeof(ext)))
-+		return -EFAULT;
-+
-+	if (ext.flags)
-+		return -EINVAL;
-+
-+	if (!intel_pxp_is_enabled(&ext_data->i915->gt.pxp))
-+		return -ENODEV;
-+
-+	ext_data->vanilla_object->user_flags |= I915_GEM_OBJECT_PROTECTED;
-+
-+	return 0;
++	return i915_gem_object_has_valid_protection(obj) &&
++	       intel_pxp_is_active(&i915->gt.pxp);
 +}
 +
+ int intel_plane_atomic_check(struct intel_atomic_state *state,
+ 			     struct intel_plane *plane)
+ {
+@@ -397,6 +406,7 @@ int intel_plane_atomic_check(struct intel_atomic_state *state,
+ 		intel_atomic_get_old_crtc_state(state, crtc);
+ 	struct intel_crtc_state *new_crtc_state =
+ 		intel_atomic_get_new_crtc_state(state, crtc);
++	const struct drm_framebuffer *fb;
+ 
+ 	if (new_crtc_state && new_crtc_state->bigjoiner_slave) {
+ 		struct intel_plane *master_plane =
+@@ -413,6 +423,12 @@ int intel_plane_atomic_check(struct intel_atomic_state *state,
+ 					  new_master_plane_state,
+ 					  crtc);
+ 
++	fb = new_plane_state->hw.fb;
++	if (fb)
++		new_plane_state->decrypt = bo_has_valid_encryption(intel_fb_obj(fb));
++	else
++		new_plane_state->decrypt = old_plane_state->decrypt;
 +
- static const i915_user_extension_fn create_extensions[] = {
- 	[I915_GEM_CREATE_EXT_MEMORY_REGIONS] = ext_set_placements,
-+	[I915_GEM_CREATE_EXT_PROTECTED_CONTENT] = ext_set_protected,
- };
- 
- /**
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
-index c08e28847064..5dd813d04a9f 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
-@@ -839,6 +839,21 @@ static struct i915_vma *eb_lookup_vma(struct i915_execbuffer *eb, u32 handle)
- 		if (unlikely(!obj))
- 			return ERR_PTR(-ENOENT);
- 
-+		/*
-+		 * If the user has opted-in for protected-object tracking, make
-+		 * sure the object encryption can be used.
-+		 * We only need to do this when the object is first used with
-+		 * this context, because the context itself will be banned when
-+		 * the protected objects become invalid.
-+		 */
-+		if (i915_gem_context_uses_protected_content(eb->gem_context) &&
-+		    i915_gem_object_is_protected(obj)) {
-+			if (!intel_pxp_is_active(&vm->gt->pxp))
-+				return ERR_PTR(-ENODEV);
-+			if (!i915_gem_object_has_valid_protection(obj))
-+				return ERR_PTR(-ENOEXEC);
-+		}
-+
- 		vma = i915_vma_instance(obj, vm, NULL);
- 		if (IS_ERR(vma)) {
- 			i915_gem_object_put(obj);
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object.c b/drivers/gpu/drm/i915/gem/i915_gem_object.c
-index 28144410df86..b47fa0a7b25a 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_object.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_object.c
-@@ -25,6 +25,7 @@
- #include <linux/sched/mm.h>
- 
- #include "display/intel_frontbuffer.h"
-+#include "pxp/intel_pxp.h"
- #include "i915_drv.h"
- #include "i915_gem_clflush.h"
- #include "i915_gem_context.h"
-@@ -70,6 +71,8 @@ void i915_gem_object_init(struct drm_i915_gem_object *obj,
- 	INIT_LIST_HEAD(&obj->lut_list);
- 	spin_lock_init(&obj->lut_lock);
- 
-+	INIT_LIST_HEAD(&obj->pxp_link);
-+
- 	spin_lock_init(&obj->mmo.lock);
- 	obj->mmo.offsets = RB_ROOT;
- 
-@@ -232,6 +235,9 @@ static void __i915_gem_free_objects(struct drm_i915_private *i915,
- 			spin_unlock(&obj->vma.lock);
+ 	new_plane_state->uapi.visible = false;
+ 	if (!new_crtc_state)
+ 		return 0;
+diff --git a/drivers/gpu/drm/i915/display/intel_display.c b/drivers/gpu/drm/i915/display/intel_display.c
+index 0bb2e582c87f..f7f5374114ad 100644
+--- a/drivers/gpu/drm/i915/display/intel_display.c
++++ b/drivers/gpu/drm/i915/display/intel_display.c
+@@ -9767,6 +9767,10 @@ static int intel_atomic_check_async(struct intel_atomic_state *state)
+ 			drm_dbg_kms(&i915->drm, "Color range cannot be changed in async flip\n");
+ 			return -EINVAL;
  		}
++
++		/* plane decryption is allow to change only in synchronous flips */
++		if (old_plane_state->decrypt != new_plane_state->decrypt)
++			return -EINVAL;
+ 	}
  
-+		if (i915_gem_object_has_valid_protection(obj))
-+			intel_pxp_object_remove(obj);
-+
- 		__i915_gem_object_free_mmaps(obj);
- 
- 		GEM_BUG_ON(!list_empty(&obj->lut_list));
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object.h b/drivers/gpu/drm/i915/gem/i915_gem_object.h
-index 2ebd79537aea..61b101560352 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_object.h
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_object.h
-@@ -288,6 +288,18 @@ i915_gem_object_never_mmap(const struct drm_i915_gem_object *obj)
- 	return i915_gem_object_type_has(obj, I915_GEM_OBJECT_NO_MMAP);
- }
- 
-+static inline bool
-+i915_gem_object_is_protected(const struct drm_i915_gem_object *obj)
-+{
-+	return obj->user_flags & I915_GEM_OBJECT_PROTECTED;
-+}
-+
-+static inline bool
-+i915_gem_object_has_valid_protection(const struct drm_i915_gem_object *obj)
-+{
-+	return i915_gem_object_is_protected(obj) && !list_empty(&obj->pxp_link);
-+}
-+
- static inline bool
- i915_gem_object_is_framebuffer(const struct drm_i915_gem_object *obj)
- {
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object_types.h b/drivers/gpu/drm/i915/gem/i915_gem_object_types.h
-index 0727d0c76aa0..a698ad0ef7f6 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_object_types.h
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_object_types.h
-@@ -167,6 +167,11 @@ struct drm_i915_gem_object {
- 	} mmo;
- 
- 	I915_SELFTEST_DECLARE(struct list_head st_link);
-+	/**
-+	 * @user_flags: small set of booleans set by the user
-+	 */
-+	unsigned long user_flags;
-+#define I915_GEM_OBJECT_PROTECTED BIT(0)
- 
- 	unsigned long flags;
- #define I915_BO_ALLOC_CONTIGUOUS BIT(0)
-@@ -294,6 +299,14 @@ struct drm_i915_gem_object {
- 		bool dirty:1;
- 	} mm;
- 
-+	/*
-+	 * When the PXP session is invalidated, we need to mark all protected
-+	 * objects as invalid. To easily do so we add them all to a list. The
-+	 * presence on the list is used to check if the encryption is valid or
-+	 * not.
-+	 */
-+	struct list_head pxp_link;
-+
- 	/** Record of address bit 17 of each page at last unbind. */
- 	unsigned long *bit_17;
- 
-diff --git a/drivers/gpu/drm/i915/pxp/intel_pxp.c b/drivers/gpu/drm/i915/pxp/intel_pxp.c
-index 2291c68fd3a0..e6a59eb05eae 100644
---- a/drivers/gpu/drm/i915/pxp/intel_pxp.c
-+++ b/drivers/gpu/drm/i915/pxp/intel_pxp.c
-@@ -69,6 +69,9 @@ void intel_pxp_init(struct intel_pxp *pxp)
- 	if (!HAS_PXP(gt->i915))
- 		return;
- 
-+	spin_lock_init(&pxp->lock);
-+	INIT_LIST_HEAD(&pxp->protected_objects);
-+
- 	/*
- 	 * we'll use the completion to check if there is a termination pending,
- 	 * so we start it as completed and we reinit it when a termination
-@@ -177,11 +180,49 @@ void intel_pxp_fini_hw(struct intel_pxp *pxp)
- 	intel_pxp_irq_disable(pxp);
- }
- 
-+int intel_pxp_object_add(struct drm_i915_gem_object *obj)
-+{
-+	struct intel_pxp *pxp = &to_i915(obj->base.dev)->gt.pxp;
-+
-+	if (!intel_pxp_is_enabled(pxp))
-+		return -ENODEV;
-+
-+	if (!list_empty(&obj->pxp_link))
-+		return -EEXIST;
-+
-+	spin_lock_irq(&pxp->lock);
-+	list_add(&obj->pxp_link, &pxp->protected_objects);
-+	spin_unlock_irq(&pxp->lock);
-+
-+	return 0;
-+}
-+
-+void intel_pxp_object_remove(struct drm_i915_gem_object *obj)
-+{
-+	struct intel_pxp *pxp = &to_i915(obj->base.dev)->gt.pxp;
-+
-+	if (!intel_pxp_is_enabled(pxp))
-+		return;
-+
-+	spin_lock_irq(&pxp->lock);
-+	list_del_init(&obj->pxp_link);
-+	spin_unlock_irq(&pxp->lock);
-+}
-+
- void intel_pxp_invalidate(struct intel_pxp *pxp)
- {
- 	struct drm_i915_private *i915 = pxp_to_gt(pxp)->i915;
-+	struct drm_i915_gem_object *obj, *tmp;
- 	struct i915_gem_context *ctx, *cn;
- 
-+	/* delete objects that have been used with the invalidated session */
-+	spin_lock_irq(&pxp->lock);
-+	list_for_each_entry_safe(obj, tmp, &pxp->protected_objects, pxp_link) {
-+		if (i915_gem_object_has_pages(obj))
-+			list_del_init(&obj->pxp_link);
-+	}
-+	spin_unlock_irq(&pxp->lock);
-+
- 	/* ban all contexts marked as protected */
- 	spin_lock_irq(&i915->gem.contexts.lock);
- 	list_for_each_entry_safe(ctx, cn, &i915->gem.contexts.list, link) {
-diff --git a/drivers/gpu/drm/i915/pxp/intel_pxp.h b/drivers/gpu/drm/i915/pxp/intel_pxp.h
-index 1f9871e64096..3500d7896058 100644
---- a/drivers/gpu/drm/i915/pxp/intel_pxp.h
-+++ b/drivers/gpu/drm/i915/pxp/intel_pxp.h
-@@ -9,6 +9,8 @@
- #include "gt/intel_gt_types.h"
- #include "intel_pxp_types.h"
- 
-+struct drm_i915_gem_object;
-+
- static inline struct intel_gt *pxp_to_gt(const struct intel_pxp *pxp)
- {
- 	return container_of(pxp, struct intel_gt, pxp);
-@@ -33,6 +35,9 @@ void intel_pxp_fini_hw(struct intel_pxp *pxp);
- 
- void intel_pxp_mark_termination_in_progress(struct intel_pxp *pxp);
- int intel_pxp_start(struct intel_pxp *pxp);
-+
-+int intel_pxp_object_add(struct drm_i915_gem_object *obj);
-+void intel_pxp_object_remove(struct drm_i915_gem_object *obj);
- void intel_pxp_invalidate(struct intel_pxp *pxp);
- #else
- static inline void intel_pxp_init(struct intel_pxp *pxp)
-@@ -47,6 +52,14 @@ static inline int intel_pxp_start(struct intel_pxp *pxp)
- {
  	return 0;
- }
+diff --git a/drivers/gpu/drm/i915/display/intel_display_types.h b/drivers/gpu/drm/i915/display/intel_display_types.h
+index ce05475ad560..6b5dab9e1c40 100644
+--- a/drivers/gpu/drm/i915/display/intel_display_types.h
++++ b/drivers/gpu/drm/i915/display/intel_display_types.h
+@@ -621,6 +621,9 @@ struct intel_plane_state {
+ 
+ 	struct intel_fb_view view;
+ 
++	/* Plane pxp decryption state */
++	bool decrypt;
 +
-+static inline int intel_pxp_object_add(struct drm_i915_gem_object *obj)
-+{
-+	return 0;
-+}
-+static inline void intel_pxp_object_remove(struct drm_i915_gem_object *obj)
-+{
-+}
- #endif
+ 	/* plane control register */
+ 	u32 ctl;
  
- #endif /* __INTEL_PXP_H__ */
-diff --git a/drivers/gpu/drm/i915/pxp/intel_pxp_types.h b/drivers/gpu/drm/i915/pxp/intel_pxp_types.h
-index b3ae49dd73a8..cc510416eac6 100644
---- a/drivers/gpu/drm/i915/pxp/intel_pxp_types.h
-+++ b/drivers/gpu/drm/i915/pxp/intel_pxp_types.h
-@@ -7,7 +7,9 @@
- #define __INTEL_PXP_TYPES_H__
+diff --git a/drivers/gpu/drm/i915/display/skl_universal_plane.c b/drivers/gpu/drm/i915/display/skl_universal_plane.c
+index 59e032f3687a..2c8e88e8ad83 100644
+--- a/drivers/gpu/drm/i915/display/skl_universal_plane.c
++++ b/drivers/gpu/drm/i915/display/skl_universal_plane.c
+@@ -18,6 +18,7 @@
+ #include "intel_sprite.h"
+ #include "skl_scaler.h"
+ #include "skl_universal_plane.h"
++#include "pxp/intel_pxp.h"
  
- #include <linux/completion.h>
-+#include <linux/list.h>
- #include <linux/mutex.h>
-+#include <linux/spinlock.h>
- #include <linux/types.h>
- #include <linux/workqueue.h>
+ static const u32 skl_plane_formats[] = {
+ 	DRM_FORMAT_C8,
+@@ -997,7 +998,7 @@ skl_program_plane(struct intel_plane *plane,
+ 	u8 alpha = plane_state->hw.alpha >> 8;
+ 	u32 plane_color_ctl = 0, aux_dist = 0;
+ 	unsigned long irqflags;
+-	u32 keymsk, keymax;
++	u32 keymsk, keymax, plane_surf;
+ 	u32 plane_ctl = plane_state->ctl;
  
-@@ -43,6 +45,9 @@ struct intel_pxp {
- #define PXP_TERMINATION_REQUEST  BIT(0)
- #define PXP_TERMINATION_COMPLETE BIT(1)
- #define PXP_INVAL_REQUIRED       BIT(2)
-+
-+	spinlock_t lock; /* protects the objects list */
-+	struct list_head protected_objects;
- };
- 
- #endif /* __INTEL_PXP_TYPES_H__ */
-diff --git a/include/uapi/drm/i915_drm.h b/include/uapi/drm/i915_drm.h
-index 3cc33fcbf520..d39b8cb4bfc5 100644
---- a/include/uapi/drm/i915_drm.h
-+++ b/include/uapi/drm/i915_drm.h
-@@ -1768,7 +1768,7 @@ struct drm_i915_gem_context_param {
- 	__u64 value;
- };
- 
--/*
-+/**
-  * Context SSEU programming
-  *
-  * It may be necessary for either functional or performance reason to configure
-@@ -2669,8 +2669,12 @@ struct drm_i915_gem_create_ext {
- 	 *
- 	 * For I915_GEM_CREATE_EXT_MEMORY_REGIONS usage see
- 	 * struct drm_i915_gem_create_ext_memory_regions.
-+	 *
-+	 * For I915_GEM_CREATE_EXT_PROTECTED_CONTENT usage see
-+	 * struct drm_i915_gem_create_ext_protected_content.
+ 	plane_ctl |= skl_plane_ctl_crtc(crtc_state);
+@@ -1086,8 +1087,16 @@ skl_program_plane(struct intel_plane *plane,
+ 	 * the control register just before the surface register.
  	 */
- #define I915_GEM_CREATE_EXT_MEMORY_REGIONS 0
-+#define I915_GEM_CREATE_EXT_PROTECTED_CONTENT 1
- 	__u64 extensions;
- };
- 
-@@ -2728,6 +2732,33 @@ struct drm_i915_gem_create_ext_memory_regions {
- 	__u64 regions;
- };
- 
-+/**
-+ * struct drm_i915_gem_create_ext_protected_content - The
-+ * I915_OBJECT_PARAM_PROTECTED_CONTENT extension.
-+ *
-+ * If this extension is provided, buffer contents are expected to be
-+ * protected by PXP encryption and requires decryption for scan out
-+ * and processing. This is only possible on platforms that have PXP enabled,
-+ * on all other scenarios ysing this extension will cause the ioctl to fail
-+ * and return -ENODEV. The flags parameter is reserved for future expansion and
-+ * must currently be set to zero.
-+ *
-+ * The buffer contents are considered invalid after a PXP session teardown.
-+ *
-+ * The encryption is guaranteed to be processed correctly only if the object
-+ * is submitted with a context created using the
-+ * I915_CONTEXT_PARAM_PROTECTED_CONTENT flag. This will also enable extra checks
-+ * at submission time on the validity of the objects involved, which can lead to
-+ * the following errors being returned from the execbuf ioctl:
-+ *
-+ * -ENODEV: PXP session not currently active
-+ * -ENOEXEC: buffer has become invalid after a teardown event
-+ */
-+struct drm_i915_gem_create_ext_protected_content {
-+	struct i915_user_extension base;
-+	__u32 flags;
-+};
+ 	intel_de_write_fw(dev_priv, PLANE_CTL(pipe, plane_id), plane_ctl);
+-	intel_de_write_fw(dev_priv, PLANE_SURF(pipe, plane_id),
+-			  intel_plane_ggtt_offset(plane_state) + surf_addr);
++	plane_surf = intel_plane_ggtt_offset(plane_state) + surf_addr;
 +
- /* ID of the protected content session managed by i915 when PXP is active */
- #define I915_PROTECTED_CONTENT_DEFAULT_SESSION 0xf
++	/*
++	 * FIXME: pxp session invalidation can hit any time even at time of commit
++	 * or after the commit, display content will be garbage.
++	 */
++	if (plane_state->decrypt)
++		plane_surf |= PLANE_SURF_DECRYPT;
++
++	intel_de_write_fw(dev_priv, PLANE_SURF(pipe, plane_id), plane_surf);
  
+ 	spin_unlock_irqrestore(&dev_priv->uncore.lock, irqflags);
+ }
+diff --git a/drivers/gpu/drm/i915/i915_reg.h b/drivers/gpu/drm/i915/i915_reg.h
+index 297671d78076..b3eaf45ae3ab 100644
+--- a/drivers/gpu/drm/i915/i915_reg.h
++++ b/drivers/gpu/drm/i915/i915_reg.h
+@@ -7284,6 +7284,7 @@ enum {
+ #define _PLANE_SURF_3(pipe)	_PIPE(pipe, _PLANE_SURF_3_A, _PLANE_SURF_3_B)
+ #define PLANE_SURF(pipe, plane)	\
+ 	_MMIO_PLANE(plane, _PLANE_SURF_1(pipe), _PLANE_SURF_2(pipe))
++#define   PLANE_SURF_DECRYPT			REG_BIT(2)
+ 
+ #define _PLANE_OFFSET_1_B			0x711a4
+ #define _PLANE_OFFSET_2_B			0x712a4
 -- 
 2.29.2
 
