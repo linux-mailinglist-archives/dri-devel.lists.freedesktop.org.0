@@ -2,53 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41D1E390179
-	for <lists+dri-devel@lfdr.de>; Tue, 25 May 2021 15:00:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE2923901A5
+	for <lists+dri-devel@lfdr.de>; Tue, 25 May 2021 15:06:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EFF61884FD;
-	Tue, 25 May 2021 13:00:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F26C66EA0C;
+	Tue, 25 May 2021 13:06:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 76BD589D43
- for <dri-devel@lists.freedesktop.org>; Tue, 25 May 2021 13:00:12 +0000 (UTC)
-Received: from [IPv6:::1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
- (No client certificate requested)
- (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id BF9E982EB5;
- Tue, 25 May 2021 15:00:09 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
- s=phobos-20191101; t=1621947610;
- bh=pIXBp2ZbbBxhSpZY2IWliSrsiLRFAHds6nRSUxE2bMs=;
- h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
- b=K4QY86H0KxTuqypot1R0D4jiqupMj4H/lHjb0EDpq9mxvYyozq5MgBZOcINg4Yf7I
- h0gAOvGXiILQPA01UfrXJqcczOsUJpwBHjKNsBvg3XzmZiVeTwSsEm/We34B3XMm9V
- gbutLHVup5lzBcSPPsWPQ5sUy8AgR1B2p/LZNMZSgf/mXJ2gBxGc86tdQPkOGg5Hnh
- mQ83yMiZ3cbCqNK0O2i9KR5ZvwW7X3KQnnMRMQUwwTZKGgxcVFZ/eunuICTr84MVx1
- G2HJJDYp6DHNOvCqC93bmn2MTTML3lv/PIRxWv6/5gL0WSCuKF+sMy1AvMClnJztxy
- kvqIuaAUvzkaw==
-Subject: Re: [V3, 2/2] drm/bridge: ti-sn65dsi83: Add TI SN65DSI83 and SN65DSI84
- driver
-To: Mike Looijmans <mike.looijmans@topic.nl>, dri-devel@lists.freedesktop.org
-References: <20210505100218.108024-2-marex@denx.de>
- <1b153bce-a66a-45ee-a5c6-963ea6fb1c82.949ef384-8293-46b8-903f-40a477c056ae.d251689f-a6ba-486d-bfa1-070ac0c167d5@emailsignatures365.codetwo.com>
- <1b153bce-a66a-45ee-a5c6-963ea6fb1c82.0d2bd5fa-15cc-4b27-b94e-83614f9e5b38.81349e00-3f39-4654-ab28-8c85568d0c51@emailsignatures365.codetwo.com>
- <f61c710e-cd12-f1cf-d05b-759fd2c0e8b1@topic.nl>
- <61fe258a-c89b-ffa8-2773-0e7eef35b612@denx.de>
- <27f1e433-3290-c5ea-d338-83906ef10b3f@topic.nl>
-From: Marek Vasut <marex@denx.de>
-Message-ID: <ecc4d3b6-4d74-02f7-e09b-1dfb3881b6e8@denx.de>
-Date: Tue, 25 May 2021 15:00:08 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.0
+Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com
+ [IPv6:2a00:1450:4864:20::62d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 00D946EA0C
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 May 2021 13:05:49 +0000 (UTC)
+Received: by mail-ej1-x62d.google.com with SMTP id s22so47000370ejv.12
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 May 2021 06:05:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=rzTPEUj6ZfrLK47qjLBC6xqrr00IOrQn6WMfDUDpoKM=;
+ b=OIQVel25jeFXkPYSJEeG1b/nUwycoajFQNKieBz+RL9AIMsJa6zFYIEwNkfQ9MkqBQ
+ gAmvdIuPw17vePYC4zS6kV33eBZxPt2iz3SPxNAIO0WRWinGXg6i40rR853XhpO+xA9y
+ 2m9+PNaZ22Rf+jfm7aM+wa+HJaDnPYnUEP04U=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=rzTPEUj6ZfrLK47qjLBC6xqrr00IOrQn6WMfDUDpoKM=;
+ b=LTaW3lyiuMuaeCHNQA3a5ymvfeBeBg1ocj95SVf195xUIPc5l8+IqeN5pnvmwkv5xc
+ jVS7Z0cqOQ0sx4+AkLJ9S5w6wcS7YtAGrwhN1rWFKPwliiuelWFbav+46c6WwIv4RCxR
+ xH2Ns2puvdAmFYagrBedtFdA4pphCKHMP9rHG7i52kKoKzVs3SBh1JdVTGxLJVtSEHNf
+ 0Td+hiF4UOXuZoDJnCv/sHUkJAheR/KijaspA6avvwaH1Aicb9aQJ3radTMmqaGdRCzP
+ r71hSa24iEt9bS7NHGw/bBFBFGuxSyitnPC6fmqj6wpY+VkLnkEL8pxeJ3XUrLjuieUC
+ mtzw==
+X-Gm-Message-State: AOAM533+0P6r6G/utMnYRs2Q5WCiFNTuIvB4yPgSUYZAt70W/mJoIU2L
+ zp1XRppOSBXmZXW9fvj8avLyKw==
+X-Google-Smtp-Source: ABdhPJz2h4CxfvjLZ45FospjD8C79FmS3+GdU+LtnF0NK0P9iJi8WWS6U9N4PC+u1HSVQ9X6rVf7zw==
+X-Received: by 2002:a17:907:20d7:: with SMTP id
+ qq23mr28659872ejb.549.1621947948268; 
+ Tue, 25 May 2021 06:05:48 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id bm24sm10780789edb.45.2021.05.25.06.05.46
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 25 May 2021 06:05:47 -0700 (PDT)
+Date: Tue, 25 May 2021 15:05:45 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Subject: Re: [Mesa-dev] [PATCH 01/11] drm/amdgpu: Comply with implicit
+ fencing rules
+Message-ID: <YKz2KVppVoYMxB5u@phenom.ffwll.local>
+References: <20210521090959.1663703-1-daniel.vetter@ffwll.ch>
+ <CAP+8YyEhRwgz2hCri3K7Kv1OusVa_LGEuKZqQEx5jv+NiDKZrA@mail.gmail.com>
+ <YKfFqrlLrikGMn4K@phenom.ffwll.local>
+ <CAP+8YyG0o58dQt_tvnJ2ESbeqo02xxvFdifpMwnhz2VYNk8HUw@mail.gmail.com>
+ <YKfOymXrB7O4cYVb@phenom.ffwll.local>
+ <31467363-e936-879b-8b0d-5a2a92644221@gmail.com>
+ <CAKMK7uFswfc96hS40uc0Lug=doYAcf-yC-eu96iWqNJnM65MJQ@mail.gmail.com>
+ <ae13093e-c364-7b90-1f91-39de42594cd6@amd.com>
 MIME-Version: 1.0
-In-Reply-To: <27f1e433-3290-c5ea-d338-83906ef10b3f@topic.nl>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Virus-Scanned: clamav-milter 0.102.4 at phobos.denx.de
-X-Virus-Status: Clean
+In-Reply-To: <ae13093e-c364-7b90-1f91-39de42594cd6@amd.com>
+X-Operating-System: Linux phenom 5.10.32scarlett+ 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,190 +76,248 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Loic Poulain <loic.poulain@linaro.org>, ch@denx.de,
- Douglas Anderson <dianders@chromium.org>, Stephen Boyd <swboyd@chromium.org>,
- Philippe Schenker <philippe.schenker@toradex.com>,
- Jagan Teki <jagan@amarulasolutions.com>,
- Valentin Raevsky <valentin@compulab.co.il>, Sam Ravnborg <sam@ravnborg.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Rob Clark <robdclark@chromium.org>, Daniel Stone <daniels@collabora.com>,
+ Michel =?iso-8859-1?Q?D=E4nzer?= <michel@daenzer.net>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ Kevin Wang <kevin1.wang@amd.com>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
+ Luben Tuikov <luben.tuikov@amd.com>,
+ "Kristian H . Kristensen" <hoegsberg@google.com>,
+ Chen Li <chenli@uniontech.com>, Alex Deucher <alexander.deucher@amd.com>,
+ Daniel Vetter <daniel.vetter@intel.com>,
+ mesa-dev <mesa-dev@lists.freedesktop.org>, Dennis Li <Dennis.Li@amd.com>,
+ Deepak R Varma <mh12gx2825@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 5/25/21 2:08 PM, Mike Looijmans wrote:
-> See below...
+Hi Christian,
 
-You can just comment inline and skip this top-post.
-
-> Met vriendelijke groet / kind regards,
+On Sat, May 22, 2021 at 10:30:19AM +0200, Christian K�nig wrote:
+> Am 21.05.21 um 20:31 schrieb Daniel Vetter:
+> > [SNIP]
+> > > We could provide an IOCTL for the BO to change the flag.
+> > That's not the semantics we need.
+> > 
+> > > But could we first figure out the semantics we want to use here?
+> > > 
+> > > Cause I'm pretty sure we don't actually need those changes at all and as
+> > > said before I'm certainly NAKing things which break existing use cases.
+> > Please read how other drivers do this and at least _try_ to understand
+> > it. I'm really loosing my patience here with you NAKing patches you're
+> > not even understanding (or did you actually read and fully understand
+> > the entire story I typed up here, and your NAK is on the entire
+> > thing?). There's not much useful conversation to be had with that
+> > approach. And with drivers I mean kernel + userspace here.
 > 
-> Mike Looijmans
-> System Expert
+> Well to be honest I did fully read that, but I was just to emotionally
+> attached to answer more appropriately in that moment.
 > 
+> And I'm sorry that I react emotional on that, but it is really frustrating
+> that I'm not able to convince you that we have a major problem which affects
+> all drivers and not just amdgpu.
 > 
-> TOPIC Embedded Products B.V.
-> Materiaalweg 4, 5681 RJ Best
-> The Netherlands
+> Regarding the reason why I'm NAKing this particular patch, you are breaking
+> existing uAPI for RADV with that. And as a maintainer of the driver I have
+> simply no other choice than saying halt, stop we can't do it like this.
 > 
-> T: +31 (0) 499 33 69 69
-> E: mike.looijmans@topicproducts.com
-> W: www.topic.nl
+> I'm perfectly aware that I've some holes in the understanding of how ANV or
+> other Vulkan/OpenGL stacks work. But you should probably also admit that you
+> have some holes how amdgpu works or otherwise I can't imagine why you
+> suggest a patch which simply breaks RADV.
 > 
-> Please consider the environment before printing this e-mail
-> On 25-05-2021 12:53, Marek Vasut wrote:
->> On 5/17/21 3:23 PM, Mike Looijmans wrote:
->>
->> Which system/soc are you testing this on ?
+> I mean we are working together for years now and I think you know me pretty
+> well, do you really think I scream bloody hell we can't do this without a
+> good reason?
 > 
-> On a raspberry-pi 4 at the moment.
+> So let's stop throwing halve backed solutions at each other and discuss what
+> we can do to solve the different problems we are both seeing here.
 
-Ah, OK, it seems this bridge is popular on RPi.
-Is there some adapter board with such a bridge for RPi available ?
+Well this was meant to be a goal post/semantics discussion starter. Yes
+the patch breaks performance (but not correctness) for amdgpu, but it also
+contains my suggestion for how to fix that issue (in text form at least).
 
->> [...]
->>
->>>> +static void sn65dsi83_pre_enable(struct drm_bridge *bridge)
->>>> +{
->>>> +    struct sn65dsi83 *ctx = bridge_to_sn65dsi83(bridge);
->>>> +
->>>> +    /*
->>>> +     * Reset the chip, pull EN line low for t_reset=10ms,
->>>> +     * then high for t_en=1ms.
->>>> +     */
->>>> +    regcache_mark_dirty(ctx->regmap);
->>>> +    gpiod_set_value(ctx->enable_gpio, 0);
->>>> +    usleep_range(10000, 11000);
->>>> +    gpiod_set_value(ctx->enable_gpio, 1);
->>>> +    usleep_range(1000, 1100);
->>> Taking the chip out of reset here is not needed and may even disrupt 
->>> things, as the DSI hasn't set up anything yet so the clock may not be 
->>> running. I'd move this all into enable and get rid of the pre_enable 
->>> call. Similar for post_disable.
->>
->> I am still waiting for someone to confirm the behavior of the DSI 
->> clock and data lanes in pre_enable/enable() . The datasheet says the 
->> HS clock have to be running and data lanes must be in LP state during 
->> init, but I don't think that is guaranteed currently in either 
->> pre_enable or enable.
+Plus a plan how to roll it out so that anyone who cares doesn't hit the
+perf issues this patch can cause.
+
+Also the overall series is really meant as a subsystem wide assessment of
+the status quo. Aside from a correctness issue Lucas spotted in my panfrost
+patches no substantial input from others on this yet unfortunately. I need
+to poke more people I think.
+
+Anyway since the plan as a text didn't stick I'm typing up now something
+more detailed in form of amdgpu patches. Maybe Bas can do the radv
+conversion too.
+
+It won't be complete by far either (I'm not working for amd after all
+...), I'll leave out the opengl/media side entirely. But if this works for
+radv is should be a useful blueprint for gl/media too (with some changes
+in the interfaces, but not really the exposed semantics).
+
+> > That's the other frustration part: You're trying to fix this purely in
+> > the kernel. This is exactly one of these issues why we require open
+> > source userspace, so that we can fix the issues correctly across the
+> > entire stack. And meanwhile you're steadfastily refusing to even look
+> > at that the userspace side of the picture.
 > 
-> Neither is suited. pre-enable may have nothing, while enable has the 
-> data lanes sending video according to the docs. So on many systems 
-> either this driver or the DSI driver will need changes to make it work 
-> properly.
+> Well I do fully understand the userspace side of the picture for the AMD
+> stack. I just don't think we should give userspace that much control over
+> the fences in the dma_resv object without untangling them from resource
+> management.
 > 
-> On the raspberrypi, the DSI has the clock running in pre-enable, hence 
-> putting everything in pre-enable instead of in enable makes the chip work.
-
-I think someone from the RPi foundation mentioned this before.
-
-> Alternatively, one can modify the RPi DSI code to start sending data 
-> after the enable calls. That also works on my setup, with everything in 
-> enable.
+> And RADV is exercising exclusive sync for amdgpu already. You can do
+> submission to both the GFX, Compute and SDMA queues in Vulkan and those
+> currently won't over-synchronize.
 > 
-> The major point here is that you should pick one and only one callback: 
-> pre-enable or enable. The GPIO reset code as well as writing the 
-> registers should be done in that one method.
-
-Why , please elaborate ? It seems to be if there was no need for those 
-two callbacks, there would be no two callbacks in the API in the first 
-place. There is a chance you will get disable()->enable() sequence 
-without going through post_disable()->pre_enable() as far as I can tell.
-
-> Same for (post)disable for symmetry. There's no point keeping the chip 
-> awake after a disable.
+> When you then send a texture generated by multiple engines to the Compositor
+> the kernel will correctly inserts waits for all submissions of the other
+> process.
 > 
+> So this already works for RADV and completely without the IOCTL Jason
+> proposed. IIRC we also have unit tests which exercised that feature for the
+> video decoding use case long before RADV even existed.
+
+Yeah multiple engines on the producer side works fine with the current
+scheme you have (if we ignore for now that the way amdgpu uses dma_resv is
+different from other drivers by not setting the exclusive slots for
+producers).
+
+Where it breaks down is you have overlapping reads once a frame is
+generated, on either side. E.g.
+
+- compositors read the buffer as consumer
+- but also producer reads the buffer again (maybe reference frame for
+  media, or maybe for some post-processing like motion blurr or whatever).
+
+Then your current scheme really badly oversyncs, while other drivers
+don't have this issue. Fixing this for amdgpu will have quite a big impact
+on how dma_resv will be used by amdgpu, and that's why I think before
+we've looked at this it doesn't make sense to look at changing dma_resv in
+big ways.
+
+I do think the AMDGPU_SYNC_NE_OWNER trick is pretty neat, and should help
+with some very non-explicit userspace (gl, maybe also media but at least
+ours is internally moving to a more explicit model I think) when you split
+the workload over multiple engines. For vulkan I think the right model is
+AMDGPU_SYNC_EXPLICIT, plus something like what Jason has.
+
+Except there's going to be quite some twist, but I think that's best
+explained in patches since text clearly doesn't work well.
+
+> And yes I have to admit that I haven't thought about interaction with other
+> drivers when I came up with this because the rules of that interaction
+> wasn't clear to me at that time.
+
+Ok I think we're at least distilling the core of our disagreement here,
+that's some progress:
+
+- my take: to make implicit sync work well and avoid oversync issues,
+  userspace, and currently amgpu lacks these uapis so needs to get those
+  added.
+
+- your take: please lets not give so much control to userspace
+
+Tbh I'm not yet fully understanding your concern here, but I do agree that
+there's a lot of things that need to be carefully audited here, at least
+in amdgpu. From my driver wide audit I do think in general playing clever
+tricks is ok, since drivers treat the exclusive fence as just a special
+type of shared fence and don't e.g. ignore the shard fences if an
+exclusive one is present. For the generic helper version of this see
+drm_gem_fence_array_add_implicit(), but afaiui amdgpu works the same (or
+at least similar enough), as do other drivers playing funny games.
+
+> > Also I thought through your tlb issue, why are you even putting these
+> > tlb flush fences into the shard dma_resv slots? If you store them
+> > somewhere else in the amdgpu private part, the oversync issues goes
+> > away
+> > - in your ttm bo move callback, you can just make your bo copy job
+> > depend on them too (you have to anyway)
+> > - even for p2p there's not an issue here, because you have the
+> > ->move_notify callback, and can then lift the tlb flush fences from
+> > your private place to the shared slots so the exporter can see them.
 > 
-> It's pretty likely for a DSI driver to have the clock active in order to 
-> allow the panel driver to send MIPI commands and things like that. So 
-> everything in pre_enable makes sense.
+> Because adding a shared fence requires that this shared fence signals after
+> the exclusive fence. And this is a perfect example to explain why this is so
+> problematic and also why why we currently stumble over that only in amdgpu.
 
-That's how the RPi behaves, on MX8M the DSI clock are active only in 
-enable. But that might be wrong, see below.
+So I also have vague collections that we agreed this is required, but I
+don't think it's the case. I'm at least pretty sure we already have
+multiple drivers which violate this (non of them using TTM yet).
 
-> I don't know how the platform you're testing on is behaving in this 
-> respect?
-
-iMX8M{M,N}.
-
-And I suspect the DSI behaves differently than on RPi. And that is why I 
-would like to get some clarification on what (clock, data, LP and HS) is 
-enabled where from the maintainers.
-
->> [...]
->>
->>>> +static void sn65dsi83_enable(struct drm_bridge *bridge)
->>>> +{
->>>> +    struct sn65dsi83 *ctx = bridge_to_sn65dsi83(bridge);
->>>> +    unsigned int pval;
->>>> +    u16 val;
->>>> +    int ret;
->>>> +
->>>> +    /* Clear reset, disable PLL */
->>>> +    regmap_write(ctx->regmap, REG_RC_RESET, 0x00);
->>> Writing 0 to the RESET register is a no-op. Has no effect whatsoever, 
->>> just wasting time and code.
->>
->> I would rather keep it to make sure the register is initialized.
+> In TTM we have a feature which allows evictions to be pipelined and don't
+> wait for the evicting DMA operation. Without that driver will stall waiting
+> for their allocations to finish when we need to allocate memory.
 > 
-> Why? It's marked "volatile" so the regmap cache will not touch it. On 
-> the I2C level, there's absolutely no reason to do this.
+> For certain use cases this gives you a ~20% fps increase under memory
+> pressure, so it is a really important feature.
 
-It still does trigger a write into the hardware.
+Yeah that's something I'm banging my head against right now a bit for my
+amdgpu demo patch series.
 
->>>> +    regmap_write(ctx->regmap, REG_RC_PLL_EN, 0x00);
->>>> +
->>>> +    /* Reference clock derived from DSI link clock. */
->>>> +    regmap_write(ctx->regmap, REG_RC_LVDS_PLL,
->>>> + REG_RC_LVDS_PLL_LVDS_CLK_RANGE(sn65dsi83_get_lvds_range(ctx)) |
->>>> +        REG_RC_LVDS_PLL_HS_CLK_SRC_DPHY);
->>>> +    regmap_write(ctx->regmap, REG_DSI_CLK,
->>>> + REG_DSI_CLK_CHA_DSI_CLK_RANGE(sn65dsi83_get_dsi_range(ctx)));
->>>> +    regmap_write(ctx->regmap, REG_RC_DSI_CLK,
->>>> + REG_RC_DSI_CLK_DSI_CLK_DIVIDER(sn65dsi83_get_dsi_div(ctx)));
->>>> +
->>>> +    /* Set number of DSI lanes and LVDS link config. */
->>>> +    regmap_write(ctx->regmap, REG_DSI_LANE,
->>>> +        REG_DSI_LANE_LVDS_LINK_CFG_DUAL |
->>>> +        REG_DSI_LANE_CHA_DSI_LANES(~(ctx->dsi_lanes - 1)) |
->>>> +        /* CHB is DSI85-only, set to default on DSI83/DSI84 */
->>>> +        REG_DSI_LANE_CHB_DSI_LANES(3));
->>>> +    /* No equalization. */
->>>> +    regmap_write(ctx->regmap, REG_DSI_EQ, 0x00);
->>>> +
->>>> +    /* RGB888 is the only format supported so far. */
->>>> +    val = (ctx->mode.flags & DRM_MODE_FLAG_NHSYNC ?
->>>> +           REG_LVDS_FMT_HS_NEG_POLARITY : 0) |
->>>> +          (ctx->mode.flags & DRM_MODE_FLAG_NVSYNC ?
->>>> +           REG_LVDS_FMT_VS_NEG_POLARITY : 0) |
->>>> +          REG_LVDS_FMT_CHA_24BPP_MODE;
->>>> +    if (ctx->lvds_dual_link)
->>>> +        val |= REG_LVDS_FMT_CHB_24BPP_MODE;
->>>> +    else
->>>> +        val |= REG_LVDS_FMT_LVDS_LINK_CFG;
->>>> +
->>>> +    regmap_write(ctx->regmap, REG_LVDS_FMT, val);
->>>> +    regmap_write(ctx->regmap, REG_LVDS_VCOM, 0x05);
->>>> +    regmap_write(ctx->regmap, REG_LVDS_LANE,
->>>> +        (ctx->lvds_dual_link_even_odd_swap ?
->>>> +         REG_LVDS_LANE_EVEN_ODD_SWAP : 0) |
->>>> +        REG_LVDS_LANE_CHA_LVDS_TERM|
->>>> +        REG_LVDS_LANE_CHB_LVDS_TERM);
->>>> +    regmap_write(ctx->regmap, REG_LVDS_CM, 0x00);
->>>> +
->>>> +    regmap_bulk_write(ctx->regmap, REG_VID_CHA_ACTIVE_LINE_LENGTH_LOW,
->>>> +              &ctx->mode.hdisplay, 2);
->>>
->>> I think this ignores the endian format of the data. So this would 
->>> only work on little-endian systems, right?
->>
->> Likely, can you double-check that ?
->> Some cpu_to_le16() could help here then.
+> This works by adding the fence of the last eviction DMA operation to BOs
+> when their backing store is newly allocated. That's what the
+> ttm_bo_add_move_fence() function you stumbled over is good for: https://elixir.bootlin.com/linux/v5.13-rc2/source/drivers/gpu/drm/ttm/ttm_bo.c#L692
 > 
-> I'd add a small helper function that does the endian conversion and 
-> register write, e.g.
-> 
-> static int sn65dsi83_write16bit(struct sn65dsi83 *ctx, unsigned int reg, 
-> u16 value)
+> Now the problem is it is possible that the application is terminated before
+> it can complete it's command submission. But since resource management only
+> waits for the shared fences when there are some there is a chance that we
+> free up memory while it is still in use.
 
-That just adds unnecessary indirection and makes the code harder to 
-read, so I won't do that. val = cpu_to_le16(...) looks good enough and 
-there are already such sequences, i.e. val = ... ; regmap_bulk_write(...);
+Hm where is this code? Would help in my audit that I wanted to do this
+week? If you look at most other places like
+drm_gem_fence_array_add_implicit() I mentioned earlier, then we don't
+treat the shared fences special and always also include the exclusive one.
+
+> Because of this we have some rather crude workarounds in amdgpu. For example
+> IIRC we manual wait for any potential exclusive fence before freeing memory.
+> 
+> We could enable this feature for radeon and nouveau as well with an one line
+> change. But that would mean we need to maintain the workarounds for
+> shortcomings of the dma_resv object design in those drivers as well.
+> 
+> To summarize I think that adding an unbound fence to protect an object is a
+> perfectly valid operation for resource management, but this is restricted by
+> the needs of implicit sync at the moment.
+
+Hm how are unbound fences (what do you mean with this exactly) come into
+play here now? I think you lost me here on the last 1-2 paragraphs, before
+that I think I followed.
+
+> > The kernel move fences otoh are a bit more nasty to wring through the
+> > p2p dma-buf interface. That one probably needs something new.
+> 
+> Well the p2p interface are my least concern.
+> 
+> Adding the move fence means that you need to touch every place we do CS or
+> page flip since you now have something which is parallel to the explicit
+> sync fence.
+> 
+> Otherwise having the move fence separately wouldn't make much sense in the
+> first place if we always set it together with the exclusive fence.
+
+Yeah it's a bunch of work. But for i915 this is the model we have, so we
+have to do it anyway, so I have really good excuse here to do that ttm
+audit.
+
+> Best regards and sorry for getting on your nerves so much,
+
+tbh I've also been rather thinly nerved on this. One side was that I spent
+the last 1+ years having an eerily similar with i915-gem team about how a
+single driver can't just have totally different rules for core stuff like
+dma_resv/fence/locks, and unfortunately that entire story went really,
+horribly wrong :-/ So I'm very much "oh noes pls not again".
+
+But also the long w/e here helped, yay :-)
+
+I think there's a few questions here that we can ping/pong a bit more, but
+I think for the next meaningful round I need to get this draft set of
+patches a bit into shape here, and audit more code. I think hopefully
+early next week I'll have something which isn't too much full of holes
+which should help in moving forward on this discussion.
+
+Cheers, Daniel
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
