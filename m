@@ -2,62 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7CAF039075E
-	for <lists+dri-devel@lfdr.de>; Tue, 25 May 2021 19:19:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D3AA73907A3
+	for <lists+dri-devel@lfdr.de>; Tue, 25 May 2021 19:28:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9A6206EA85;
-	Tue, 25 May 2021 17:19:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 593406E417;
+	Tue, 25 May 2021 17:28:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-x82a.google.com (mail-qt1-x82a.google.com
- [IPv6:2607:f8b0:4864:20::82a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 55A8B6EA85
- for <dri-devel@lists.freedesktop.org>; Tue, 25 May 2021 17:19:30 +0000 (UTC)
-Received: by mail-qt1-x82a.google.com with SMTP id t17so5886153qta.11
- for <dri-devel@lists.freedesktop.org>; Tue, 25 May 2021 10:19:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=0I/7mJjy8fAtyuQW3u9pKYduA4z2KSC8v2zpf0k2q4Q=;
- b=LoEAi62rRu7tHFsRIAnERe0Uo6+lB7bp00VbsoFCad2BNA4J/p4XQRSUgdI2W2YwpI
- BCwReshEWdDvXBR49YxtAe1g92O1OceM2w/LWlaEzlpySS/rDNROaMb5tLKesjeJPP0X
- CNKYpCq57mgvBz5whA92hLzX7uNngLYIcuAIs=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=0I/7mJjy8fAtyuQW3u9pKYduA4z2KSC8v2zpf0k2q4Q=;
- b=SQnXDwJs3dPMrs+N/DZV6vt0xdsNAd06jtdxfXMayws441qvS+zM/f7M2ewbKaN3Ik
- LLLLP3NlUhhZWgxcSNgeKK0ULw5qN1bwC6wSpEFkz84clLw2k5jNj0jYQyULLJSEpfzJ
- 6VKjg+kwnsCNxj3n9y9hyYwLYqqna8Upc5Yt2RVoBpp+AyQZ+CuVomPdcO+hNTP9uw9k
- ZjmhKW+DER3rTx4zAnk1rEXlhbVLRNAK/ai7b6xN9P3fEO6+MOZsYOYejpNBI4ay0FFr
- HgP38mTmzx+9H0QQ/LSTYZYVH1Qj7nhtiLOrS+DZfUGBl3EE5QyH85JkXdzCtL2MRNVy
- z/Dw==
-X-Gm-Message-State: AOAM533s/PCUHWNtpztJ4aGoFQeyLh/XbbR0/lZGtPUuNoaTPLUuDWdh
- ZJJAJ+SGLzZDnool5knF1zE0o11h6H5pVA==
-X-Google-Smtp-Source: ABdhPJwgKsQBqF837bwIt0vvMD7/JCOGY/qJ1crimahrQ4XH/I6o/KlxMFXw+hPpDoGuXzLp5FzzSg==
-X-Received: by 2002:ac8:7c4b:: with SMTP id o11mr33437415qtv.336.1621963169316; 
- Tue, 25 May 2021 10:19:29 -0700 (PDT)
-Received: from mail-yb1-f177.google.com (mail-yb1-f177.google.com.
- [209.85.219.177])
- by smtp.gmail.com with ESMTPSA id s16sm11413709qtq.67.2021.05.25.10.19.29
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 25 May 2021 10:19:29 -0700 (PDT)
-Received: by mail-yb1-f177.google.com with SMTP id o18so6428105ybc.8
- for <dri-devel@lists.freedesktop.org>; Tue, 25 May 2021 10:19:29 -0700 (PDT)
-X-Received: by 2002:a5b:54a:: with SMTP id r10mr44274582ybp.476.1621963168291; 
- Tue, 25 May 2021 10:19:28 -0700 (PDT)
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 22D976E417;
+ Tue, 25 May 2021 17:28:29 +0000 (UTC)
+IronPort-SDR: BfnVVWsOaosYRf/BN6enXj2c2YudcVre/DW3AEfAKgXVqKrRTvHIUc9vtCODxtaUU5W3BFgvSp
+ 95Jg9VzKzu3w==
+X-IronPort-AV: E=McAfee;i="6200,9189,9995"; a="223425229"
+X-IronPort-AV: E=Sophos;i="5.82,328,1613462400"; d="scan'208";a="223425229"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 May 2021 10:28:28 -0700
+IronPort-SDR: JBvl/lk7EH6KqeJCThYCbDwUk0p5OyPfvxxWwHJuEols3Gz6aA1nQJH1QP+qF9nkjolvOWc1d9
+ rQTPCr7G5tZQ==
+X-IronPort-AV: E=Sophos;i="5.82,328,1613462400"; d="scan'208";a="435788480"
+Received: from unknown (HELO sdutt-i7) ([10.165.21.147])
+ by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 May 2021 10:28:28 -0700
+Date: Tue, 25 May 2021 10:21:21 -0700
+From: Matthew Brost <matthew.brost@intel.com>
+To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Subject: Re: [Intel-gfx] [RFC PATCH 36/97] drm/i915/guc: Add non blocking CTB
+ send function
+Message-ID: <20210525172121.GE14724@sdutt-i7>
+References: <20210506191451.77768-1-matthew.brost@intel.com>
+ <20210506191451.77768-37-matthew.brost@intel.com>
+ <375b4de4-168f-9c4c-dbb8-f42fd6303628@linux.intel.com>
 MIME-Version: 1.0
-References: <1621927831-29471-1-git-send-email-rajeevny@codeaurora.org>
- <1621927831-29471-5-git-send-email-rajeevny@codeaurora.org>
-In-Reply-To: <1621927831-29471-5-git-send-email-rajeevny@codeaurora.org>
-From: Doug Anderson <dianders@chromium.org>
-Date: Tue, 25 May 2021 10:19:15 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=X=VtC9EGyxUGptRN1=PcKwyWLEyRfA9J1frTVPCKY68w@mail.gmail.com>
-Message-ID: <CAD=FV=X=VtC9EGyxUGptRN1=PcKwyWLEyRfA9J1frTVPCKY68w@mail.gmail.com>
-Subject: Re: [v4 4/4] drm/panel-simple: Add Samsung ATNA33XC20
-To: Rajeev Nandan <rajeevny@codeaurora.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <375b4de4-168f-9c4c-dbb8-f42fd6303628@linux.intel.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,76 +52,315 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, Daniel Thompson <daniel.thompson@linaro.org>,
- mkrishn@codeaurora.org, Sam Ravnborg <sam@ravnborg.org>,
- Jani Nikula <jani.nikula@intel.com>,
- linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- Abhinav Kumar <abhinavk@codeaurora.org>, LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Andrzej Hajda <a.hajda@samsung.com>, Thierry Reding <thierry.reding@gmail.com>,
- Sean Paul <seanpaul@chromium.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Kalyan Thota <kalyan_t@codeaurora.org>,
- "Kristian H. Kristensen" <hoegsberg@chromium.org>,
- freedreno <freedreno@lists.freedesktop.org>, y@qualcomm.com
+Cc: jason.ekstrand@intel.com, daniel.vetter@intel.com,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+On Tue, May 25, 2021 at 10:21:00AM +0100, Tvrtko Ursulin wrote:
+> 
+> On 06/05/2021 20:13, Matthew Brost wrote:
+> > Add non blocking CTB send function, intel_guc_send_nb. In order to
+> > support a non blocking CTB send function a spin lock is needed to
+> > protect the CTB descriptors fields. Also the non blocking call must not
+> > update the fence value as this value is owned by the blocking call
+> > (intel_guc_send).
+> 
+> Could the commit message say why the non-blocking send function is needed?
+> 
 
-On Tue, May 25, 2021 at 12:31 AM Rajeev Nandan <rajeevny@codeaurora.org> wrote:
->
-> Add Samsung 13.3" FHD eDP AMOLED panel.
->
-> Signed-off-by: Rajeev Nandan <rajeevny@codeaurora.org>
-> ---
->
-> Changes in v4:
-> - New
->
->  drivers/gpu/drm/panel/panel-simple.c | 34 ++++++++++++++++++++++++++++++++++
->  1 file changed, 34 insertions(+)
->
-> diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
-> index caed71b..21af794 100644
-> --- a/drivers/gpu/drm/panel/panel-simple.c
-> +++ b/drivers/gpu/drm/panel/panel-simple.c
-> @@ -3644,6 +3644,37 @@ static const struct panel_desc rocktech_rk101ii01d_ct = {
->         .connector_type = DRM_MODE_CONNECTOR_LVDS,
->  };
->
-> +static const struct drm_display_mode samsung_atna33xc20_mode = {
-> +       .clock = 138770,
-> +       .hdisplay = 1920,
-> +       .hsync_start = 1920 + 48,
-> +       .hsync_end = 1920 + 48 + 32,
-> +       .htotal = 1920 + 48 + 32 + 80,
-> +       .vdisplay = 1080,
-> +       .vsync_start = 1080 + 8,
-> +       .vsync_end = 1080 + 8 + 8,
-> +       .vtotal = 1080 + 8 + 8 + 16,
-> +       .flags = DRM_MODE_FLAG_PHSYNC | DRM_MODE_FLAG_NVSYNC,
-> +};
-> +
-> +static const struct panel_desc samsung_atna33xc20 = {
-> +       .modes = &samsung_atna33xc20_mode,
-> +       .num_modes = 1,
-> +       .bpc = 10,
-> +       .size = {
-> +               .width = 294,
-> +               .height = 165,
-> +       },
-> +       .delay = {
-> +               .disable_to_power_off = 150,
-> +               .power_to_enable = 150,
-> +               .hpd_absent_delay = 200,
-> +               .unprepare = 500,
-> +       },
-> +       .connector_type = DRM_MODE_CONNECTOR_eDP,
-> +       .uses_dpcd_backlight = true,
+Sure. Something like:
 
-From my feedback on the previous patch in this series, I believe the
-"uses_dpcd_backlight" property should be removed and this should be
-auto-detected. Other than that this patch looks fine to me. Feel free
-to add my Reviewed-by tag next spin when that property is removed.
+'CTBs will be used in the critical patch of GuC submission and there is
+no need to wait for each CTB complete before moving on the i915'
+
+> > 
+> > The blocking CTB now must have a flow control mechanism to ensure the
+> > buffer isn't overrun. A lazy spin wait is used as we believe the flow
+> > control condition should be rare with properly sized buffer.
+> > 
+> > The function, intel_guc_send_nb, is exported in this patch but unused.
+> > Several patches later in the series make use of this function.
+> > 
+> > Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
+> > Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+> > ---
+> >   drivers/gpu/drm/i915/gt/uc/intel_guc.h    | 12 ++-
+> >   drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c | 96 +++++++++++++++++++++--
+> >   drivers/gpu/drm/i915/gt/uc/intel_guc_ct.h |  7 +-
+> >   3 files changed, 105 insertions(+), 10 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc.h b/drivers/gpu/drm/i915/gt/uc/intel_guc.h
+> > index c20f3839de12..4c0a367e41d8 100644
+> > --- a/drivers/gpu/drm/i915/gt/uc/intel_guc.h
+> > +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc.h
+> > @@ -75,7 +75,15 @@ static inline struct intel_guc *log_to_guc(struct intel_guc_log *log)
+> >   static
+> >   inline int intel_guc_send(struct intel_guc *guc, const u32 *action, u32 len)
+> >   {
+> > -	return intel_guc_ct_send(&guc->ct, action, len, NULL, 0);
+> > +	return intel_guc_ct_send(&guc->ct, action, len, NULL, 0, 0);
+> > +}
+> > +
+> > +#define INTEL_GUC_SEND_NB		BIT(31)
+> > +static
+> > +inline int intel_guc_send_nb(struct intel_guc *guc, const u32 *action, u32 len)
+> > +{
+> > +	return intel_guc_ct_send(&guc->ct, action, len, NULL, 0,
+> > +				 INTEL_GUC_SEND_NB);
+> >   }
+> >   static inline int
+> > @@ -83,7 +91,7 @@ intel_guc_send_and_receive(struct intel_guc *guc, const u32 *action, u32 len,
+> >   			   u32 *response_buf, u32 response_buf_size)
+> >   {
+> >   	return intel_guc_ct_send(&guc->ct, action, len,
+> > -				 response_buf, response_buf_size);
+> > +				 response_buf, response_buf_size, 0);
+> >   }
+> >   static inline void intel_guc_to_host_event_handler(struct intel_guc *guc)
+> > diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
+> > index a76603537fa8..af7314d45a78 100644
+> > --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
+> > +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
+> > @@ -3,6 +3,11 @@
+> >    * Copyright © 2016-2019 Intel Corporation
+> >    */
+> > +#include <linux/circ_buf.h>
+> > +#include <linux/ktime.h>
+> > +#include <linux/time64.h>
+> > +#include <linux/timekeeping.h>
+> > +
+> >   #include "i915_drv.h"
+> >   #include "intel_guc_ct.h"
+> >   #include "gt/intel_gt.h"
+> > @@ -308,6 +313,7 @@ int intel_guc_ct_enable(struct intel_guc_ct *ct)
+> >   	if (unlikely(err))
+> >   		goto err_deregister;
+> > +	ct->requests.last_fence = 1;
+> >   	ct->enabled = true;
+> >   	return 0;
+> > @@ -343,10 +349,22 @@ static u32 ct_get_next_fence(struct intel_guc_ct *ct)
+> >   	return ++ct->requests.last_fence;
+> >   }
+> > +static void write_barrier(struct intel_guc_ct *ct) {
+> > +	struct intel_guc *guc = ct_to_guc(ct);
+> > +	struct intel_gt *gt = guc_to_gt(guc);
+> > +
+> > +	if (i915_gem_object_is_lmem(guc->ct.vma->obj)) {
+> > +		GEM_BUG_ON(guc->send_regs.fw_domains);
+> > +		intel_uncore_write_fw(gt->uncore, GEN11_SOFT_SCRATCH(0), 0);
+> 
+> It's safe to write to this reg? Does it need a comment to explain it?
+>
+
+Yes, it is same. IMO 'SCRATCH' in the name is enough documentation.
+ 
+> > +	} else {
+> > +		wmb();
+> > +	}
+> > +}
+> > +
+> >   static int ct_write(struct intel_guc_ct *ct,
+> >   		    const u32 *action,
+> >   		    u32 len /* in dwords */,
+> > -		    u32 fence)
+> > +		    u32 fence, u32 flags)
+> >   {
+> >   	struct intel_guc_ct_buffer *ctb = &ct->ctbs.send;
+> >   	struct guc_ct_buffer_desc *desc = ctb->desc;
+> > @@ -393,9 +411,13 @@ static int ct_write(struct intel_guc_ct *ct,
+> >   		 FIELD_PREP(GUC_CTB_MSG_0_NUM_DWORDS, len) |
+> >   		 FIELD_PREP(GUC_CTB_MSG_0_FENCE, fence);
+> > -	hxg = FIELD_PREP(GUC_HXG_MSG_0_TYPE, GUC_HXG_TYPE_REQUEST) |
+> > -	      FIELD_PREP(GUC_HXG_REQUEST_MSG_0_ACTION |
+> > -			 GUC_HXG_REQUEST_MSG_0_DATA0, action[0]);
+> > +	hxg = (flags & INTEL_GUC_SEND_NB) ?
+> > +		(FIELD_PREP(GUC_HXG_MSG_0_TYPE, GUC_HXG_TYPE_EVENT) |
+> > +		 FIELD_PREP(GUC_HXG_EVENT_MSG_0_ACTION |
+> > +			    GUC_HXG_EVENT_MSG_0_DATA0, action[0])) :
+> > +		(FIELD_PREP(GUC_HXG_MSG_0_TYPE, GUC_HXG_TYPE_REQUEST) |
+> > +		 FIELD_PREP(GUC_HXG_REQUEST_MSG_0_ACTION |
+> > +			    GUC_HXG_REQUEST_MSG_0_DATA0, action[0]));
+> >   	CT_DEBUG(ct, "writing (tail %u) %*ph %*ph %*ph\n",
+> >   		 tail, 4, &header, 4, &hxg, 4 * (len - 1), &action[1]);
+> > @@ -412,6 +434,12 @@ static int ct_write(struct intel_guc_ct *ct,
+> >   	}
+> >   	GEM_BUG_ON(tail > size);
+> > +	/*
+> > +	 * make sure H2G buffer update and LRC tail update (if this triggering a
+> > +	 * submission) are visable before updating the descriptor tail
+> > +	 */
+> > +	write_barrier(ct);
+> > +
+> >   	/* now update descriptor */
+> >   	WRITE_ONCE(desc->tail, tail);
+> > @@ -466,6 +494,46 @@ static int wait_for_ct_request_update(struct ct_request *req, u32 *status)
+> >   	return err;
+> >   }
+> > +static inline bool ctb_has_room(struct intel_guc_ct_buffer *ctb, u32 len_dw)
+> > +{
+> > +	struct guc_ct_buffer_desc *desc = ctb->desc;
+> > +	u32 head = READ_ONCE(desc->head);
+> > +	u32 space;
+> > +
+> > +	space = CIRC_SPACE(desc->tail, head, ctb->size);
+> > +
+> > +	return space >= len_dw;
+> > +}
+> > +
+> > +static int ct_send_nb(struct intel_guc_ct *ct,
+> > +		      const u32 *action,
+> > +		      u32 len,
+> > +		      u32 flags)
+> > +{
+> > +	struct intel_guc_ct_buffer *ctb = &ct->ctbs.send;
+> > +	unsigned long spin_flags;
+> > +	u32 fence;
+> > +	int ret;
+> > +
+> > +	spin_lock_irqsave(&ctb->lock, spin_flags);
+> > +
+> > +	ret = ctb_has_room(ctb, len + 1);
+> > +	if (unlikely(ret))
+> > +		goto out;
+> > +
+> > +	fence = ct_get_next_fence(ct);
+> > +	ret = ct_write(ct, action, len, fence, flags);
+> > +	if (unlikely(ret))
+> > +		goto out;
+> > +
+> > +	intel_guc_notify(ct_to_guc(ct));
+> > +
+> > +out:
+> > +	spin_unlock_irqrestore(&ctb->lock, spin_flags);
+> > +
+> > +	return ret;
+> > +}
+> > +
+> >   static int ct_send(struct intel_guc_ct *ct,
+> >   		   const u32 *action,
+> >   		   u32 len,
+> > @@ -473,6 +541,7 @@ static int ct_send(struct intel_guc_ct *ct,
+> >   		   u32 response_buf_size,
+> >   		   u32 *status)
+> >   {
+> > +	struct intel_guc_ct_buffer *ctb = &ct->ctbs.send;
+> >   	struct ct_request request;
+> >   	unsigned long flags;
+> >   	u32 fence;
+> > @@ -482,8 +551,20 @@ static int ct_send(struct intel_guc_ct *ct,
+> >   	GEM_BUG_ON(!len);
+> >   	GEM_BUG_ON(len & ~GUC_CT_MSG_LEN_MASK);
+> >   	GEM_BUG_ON(!response_buf && response_buf_size);
+> > +	might_sleep();
+> 
+> Sleep is just cond_resched below or there is more?
+> 
+
+Yes, the cond_resched.
+
+> > +	/*
+> > +	 * We use a lazy spin wait loop here as we believe that if the CT
+> > +	 * buffers are sized correctly the flow control condition should be
+> > +	 * rare.
+> > +	 */
+> > +retry:
+> >   	spin_lock_irqsave(&ct->ctbs.send.lock, flags);
+> > +	if (unlikely(!ctb_has_room(ctb, len + 1))) {
+> > +		spin_unlock_irqrestore(&ct->ctbs.send.lock, flags);
+> > +		cond_resched();
+> > +		goto retry;
+> > +	}
+> 
+> If this patch is about adding a non-blocking send function, and below we can
+> see that it creates a fork:
+> 
+> intel_guc_ct_send:
+> ...
+> 	if (flags & INTEL_GUC_SEND_NB)
+> 		return ct_send_nb(ct, action, len, flags);
+> 
+>  	ret = ct_send(ct, action, len, response_buf, response_buf_size, &status);
+> 
+> Then why is there a change in ct_send here, which is not the new
+> non-blocking path?
+>
+
+There is not a change to ct_send(), just to intel_guc_ct_send.
+
+As for why intel_guc_ct_send is updated and we don't just a new public
+function, this was another reviewers suggestion. Again can't make
+everyone happy.
+ 
+> >   	fence = ct_get_next_fence(ct);
+> >   	request.fence = fence;
+> > @@ -495,7 +576,7 @@ static int ct_send(struct intel_guc_ct *ct,
+> >   	list_add_tail(&request.link, &ct->requests.pending);
+> >   	spin_unlock(&ct->requests.lock);
+> > -	err = ct_write(ct, action, len, fence);
+> > +	err = ct_write(ct, action, len, fence, 0);
+> >   	spin_unlock_irqrestore(&ct->ctbs.send.lock, flags);
+> > @@ -537,7 +618,7 @@ static int ct_send(struct intel_guc_ct *ct,
+> >    * Command Transport (CT) buffer based GuC send function.
+> >    */
+> >   int intel_guc_ct_send(struct intel_guc_ct *ct, const u32 *action, u32 len,
+> > -		      u32 *response_buf, u32 response_buf_size)
+> > +		      u32 *response_buf, u32 response_buf_size, u32 flags)
+> >   {
+> >   	u32 status = ~0; /* undefined */
+> >   	int ret;
+> > @@ -547,6 +628,9 @@ int intel_guc_ct_send(struct intel_guc_ct *ct, const u32 *action, u32 len,
+> >   		return -ENODEV;
+> >   	}
+> > +	if (flags & INTEL_GUC_SEND_NB)
+> > +		return ct_send_nb(ct, action, len, flags);
+> > +
+> >   	ret = ct_send(ct, action, len, response_buf, response_buf_size, &status);
+> >   	if (unlikely(ret < 0)) {
+> >   		CT_ERROR(ct, "Sending action %#x failed (err=%d status=%#X)\n",
+> > diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.h b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.h
+> > index 1ae2dde6db93..55ef7c52472f 100644
+> > --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.h
+> > +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.h
+> > @@ -9,6 +9,7 @@
+> >   #include <linux/interrupt.h>
+> >   #include <linux/spinlock.h>
+> >   #include <linux/workqueue.h>
+> > +#include <linux/ktime.h>
+> >   #include "intel_guc_fwif.h"
+> > @@ -42,7 +43,6 @@ struct intel_guc_ct_buffer {
+> >   	bool broken;
+> >   };
+> > -
+> >   /** Top-level structure for Command Transport related data
+> >    *
+> >    * Includes a pair of CT buffers for bi-directional communication and tracking
+> > @@ -69,6 +69,9 @@ struct intel_guc_ct {
+> >   		struct list_head incoming; /* incoming requests */
+> >   		struct work_struct worker; /* handler for incoming requests */
+> >   	} requests;
+> > +
+> > +	/** @stall_time: time of first time a CTB submission is stalled */
+> > +	ktime_t stall_time;
+> 
+> Unused in this patch.
+>
+
+Yea, wrong patch. Will fix.
+
+Matt
+ 
+> >   };
+> >   void intel_guc_ct_init_early(struct intel_guc_ct *ct);
+> > @@ -88,7 +91,7 @@ static inline bool intel_guc_ct_enabled(struct intel_guc_ct *ct)
+> >   }
+> >   int intel_guc_ct_send(struct intel_guc_ct *ct, const u32 *action, u32 len,
+> > -		      u32 *response_buf, u32 response_buf_size);
+> > +		      u32 *response_buf, u32 response_buf_size, u32 flags);
+> >   void intel_guc_ct_event_handler(struct intel_guc_ct *ct);
+> >   #endif /* _INTEL_GUC_CT_H_ */
+> > 
+> 
+> Regards,
+> 
+> Tvrtko
