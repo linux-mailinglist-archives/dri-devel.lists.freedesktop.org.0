@@ -2,45 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3245A38FDCB
-	for <lists+dri-devel@lfdr.de>; Tue, 25 May 2021 11:28:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 073D938FFAE
+	for <lists+dri-devel@lfdr.de>; Tue, 25 May 2021 13:03:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D05F76E9D3;
-	Tue, 25 May 2021 09:28:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4B9726E9F2;
+	Tue, 25 May 2021 11:03:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ua1-f43.google.com (mail-ua1-f43.google.com
- [209.85.222.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0C5DE6E9D3
- for <dri-devel@lists.freedesktop.org>; Tue, 25 May 2021 09:28:15 +0000 (UTC)
-Received: by mail-ua1-f43.google.com with SMTP id p17so8747185uaw.4
- for <dri-devel@lists.freedesktop.org>; Tue, 25 May 2021 02:28:14 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=xFwTjrbAQ6Wink3J/nxMEJ2AJ3GtZHP9apTCPSAum9o=;
- b=V8SvgDBzNjR0jAKtsRC2/79Q977fzPnhXvsur7nqbK5ep3+lImjnYRtwQp+SwOlY2f
- fSbMppRLYhdAK6UuAj2RmYAirYJHwejTLYGbCUoI+Ly1TfFrdat4AYBMe1JJ6bCLIvOo
- oVqwUQAEQAHCNceyOYCBTkWfB9YYz9Ae9jaiPDqati//QJ80A2Pb8TjryrrNdFbfZc3L
- DV7uqyv1JQhmF9NJ9ddwFk4PiHK9NmH6DvMW1uPJNr9RK4zOLC+9pHSI+Hs938ySwzZW
- cnEbWvUdndheX91SEnYeJVIPMutHw+ZpDzHR873erCfCq+tqUx/Wn6KMFjGeBJywjXr8
- e/kg==
-X-Gm-Message-State: AOAM533ZYSlgcFi2fgACN2xajFM+ZFOnjePQuu3m9JTZs5FfXPUxUJxt
- qErGxhNl1orQW298tMI3zOp80n4cHkajPKvu2ZY=
-X-Google-Smtp-Source: ABdhPJwspwwZAikP8rNjU0g5iwIUdZBh/Wue7a4Squu0kZUx6WAUY+WNPWFeZGgOjz1KUQRWyMhB8vu8gC/psHCfilI=
-X-Received: by 2002:ab0:2242:: with SMTP id z2mr24746785uan.58.1621934894214; 
- Tue, 25 May 2021 02:28:14 -0700 (PDT)
+X-Greylist: delayed 469 seconds by postgrey-1.36 at gabe;
+ Tue, 25 May 2021 09:37:14 UTC
+Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com
+ [68.232.153.233])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 08CBB6E9DD
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 May 2021 09:36:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
+ t=1621935438; x=1653471438;
+ h=subject:to:cc:references:from:message-id:date:
+ mime-version:in-reply-to:content-transfer-encoding;
+ bh=PNtSVoFGvQfnAIpiiUi+iXcvVNJqpwQgjDgGgtw17jA=;
+ b=BhS0auPK8bqPtE39JtWtDW5rZ9IPg1pDLUa1UzDPxVPdthhOf+qKHAFx
+ cR6B8d/P9ncuDejrnlWMipUE5irgscSxsQzy9+TGJmYNnaxuyM3+Z743l
+ MML0so7T+t/p93dWZ928fh4NIm0xSskIKi9U+H1DFyiq2bbrTd4AE4tjg
+ qQk+mOVhsPNs4sIwtnDn09KHQf34jeewy688nA8Sx9u3zEEb0XybriHMi
+ QsHxumFLSUMNSR8X/Oab4yomYgNDMDAeYd+28IT2fmk2lRHy78YhXrZWw
+ IpDrmKZRmVBELS942S9YJ89cWmxsLZIZY/YbLYBcmndLTOcpXNmLsPA76 g==;
+IronPort-SDR: oVFErXGWnMpgDMPxjuargxQbDAEdCErqM7QMOzVj2hFdWabAee0XBW4ltcKoUhBJC3cGmXnhRI
+ 6pDuIxd6W+3v2kfcjmkJ7Eta8ka63okHwmDsu4zK0sgaZS8UXka8tQzSHM8aBEmhE1C2A8JNmb
+ WxGRLO0T+7n2/m4NPHdcC4E6ESVcKwphaoOATPDaD5oKZXJ6Dh/i5uzkcBxxmyoamfDziNF7xx
+ sTXEd0u81tEMT7L/VjHcLLnez6S8rRciHZULmgbASWFrIXmOiW5U7LRwB7qGzMTKBja9f2rD+z
+ XB4=
+X-IronPort-AV: E=Sophos;i="5.82,328,1613458800"; d="scan'208";a="129362978"
+Received: from smtpout.microchip.com (HELO email.microchip.com)
+ ([198.175.253.82])
+ by esa1.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256;
+ 25 May 2021 02:29:18 -0700
+Received: from chn-vm-ex01.mchp-main.com (10.10.85.143) by
+ chn-vm-ex01.mchp-main.com (10.10.85.143) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2176.2; Tue, 25 May 2021 02:29:18 -0700
+Received: from [10.12.74.7] (10.10.115.15) by chn-vm-ex01.mchp-main.com
+ (10.10.85.143) with Microsoft SMTP Server id 15.1.2176.2 via Frontend
+ Transport; Tue, 25 May 2021 02:29:16 -0700
+Subject: Re: [PATCH] drm/atmel-hlcdc: Allow async page flips
+To: Sam Ravnborg <sam@ravnborg.org>, Dan Sneddon - C50748
+ <Dan.Sneddon@microchip.com>
+References: <20210330151721.6616-1-dan.sneddon@microchip.com>
+ <20210409105816.cfffdr3edzi4yntm@sekiro>
+From: Nicolas Ferre <nicolas.ferre@microchip.com>
+Organization: microchip
+Message-ID: <088b0446-85c2-2d87-0439-a0cc14772c6a@microchip.com>
+Date: Tue, 25 May 2021 11:29:15 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-References: <20210415110040.23525-1-tzimmermann@suse.de>
- <20210415110040.23525-5-tzimmermann@suse.de>
-In-Reply-To: <20210415110040.23525-5-tzimmermann@suse.de>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 25 May 2021 11:28:03 +0200
-Message-ID: <CAMuHMdV2mspRiropAYquWd0RYxyzad3xZ8URwcYgD01q9d8Rkw@mail.gmail.com>
-Subject: Re: [PATCH 4/4] drm: Remove DRM_KMS_FB_HELPER Kconfig option
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20210409105816.cfffdr3edzi4yntm@sekiro>
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Mailman-Approved-At: Tue, 25 May 2021 11:03:16 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,82 +73,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, Sascha Hauer <kernel@pengutronix.de>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>,
- David Airlie <airlied@linux.ie>, Sascha Hauer <s.hauer@pengutronix.de>,
- sroland@vmware.com, VMware Graphics <linux-graphics-maintainer@vmware.com>,
- Shawn Guo <shawnguo@kernel.org>, NXP Linux Team <linux-imx@nxp.com>
+Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>, Boris
+ Brezillon <bbrezillon@kernel.org>, David Airlie <airlied@linux.ie>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Ludovic Desroches - M43218 <Ludovic.Desroches@microchip.com>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Thomas,
+On 09/04/2021 at 12:58, Ludovic Desroches - M43218 wrote:
+> On Tue, Mar 30, 2021 at 08:17:20AM -0700, Dan Sneddon wrote:
+>> The driver is capable of doing async page flips so we need to tell the
+>> core to allow them.
+>>
+>> Signed-off-by: Dan Sneddon <dan.sneddon@microchip.com>
+> Tested-by: Ludovic Desroches <ludovic.desroches@microchip.com>
 
-On Thu, Apr 15, 2021 at 1:15 PM Thomas Zimmermann <tzimmermann@suse.de> wrote:
-> It's only used by DRM_FBDEV_EMULATION, so inline it there.
->
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> ---
->  drivers/gpu/drm/Kconfig | 28 +++++++++++-----------------
->  1 file changed, 11 insertions(+), 17 deletions(-)
->
-> diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
-> index 3c16bd1afd87..d3a9ca4b1cec 100644
-> --- a/drivers/gpu/drm/Kconfig
-> +++ b/drivers/gpu/drm/Kconfig
-> @@ -80,23 +80,6 @@ config DRM_KMS_HELPER
->         help
->           CRTC helpers for KMS drivers.
->
-> -config DRM_KMS_FB_HELPER
-> -       bool
-> -       depends on DRM_KMS_HELPER
-> -       select FB
-> -       select FRAMEBUFFER_CONSOLE if !EXPERT
-> -       select FRAMEBUFFER_CONSOLE_DETECT_PRIMARY if FRAMEBUFFER_CONSOLE
-> -       select FB_SYS_FOPS
-> -       select FB_SYS_FILLRECT
-> -       select FB_SYS_COPYAREA
-> -       select FB_SYS_IMAGEBLIT
-> -       select FB_CFB_FILLRECT
-> -       select FB_CFB_COPYAREA
-> -       select FB_CFB_IMAGEBLIT
-> -       select FB_DEFERRED_IO
-> -       help
-> -         FBDEV helpers for KMS drivers.
-> -
->  config DRM_DEBUG_DP_MST_TOPOLOGY_REFS
->          bool "Enable refcount backtrace history in the DP MST helpers"
->         depends on STACKTRACE_SUPPORT
-> @@ -117,6 +100,17 @@ config DRM_FBDEV_EMULATION
->         depends on DRM
->         select DRM_KMS_HELPER
->         select DRM_KMS_FB_HELPER
+Sam,
 
-It's still selected here ^
+Do you need more from us or can you queue this patch (aka "ping")?
 
-> +       select FB
-> +       select FB_CFB_FILLRECT
-> +       select FB_CFB_COPYAREA
-> +       select FB_CFB_IMAGEBLIT
-> +       select FB_DEFERRED_IO
-> +       select FB_SYS_FOPS
-> +       select FB_SYS_FILLRECT
-> +       select FB_SYS_COPYAREA
-> +       select FB_SYS_IMAGEBLIT
-> +       select FRAMEBUFFER_CONSOLE if !EXPERT
-> +       select FRAMEBUFFER_CONSOLE_DETECT_PRIMARY if FRAMEBUFFER_CONSOLE
->         default y
->         help
->           Choose this option if you have a need for the legacy fbdev
+Best regards,
+   Nicolas
 
-Gr{oetje,eeting}s,
+>> ---
+>>
+>>   drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c | 1 +
+>>   1 file changed, 1 insertion(+)
+>>
+>> diff --git a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c
+>> index 871293d1aeeb..f6c3d8809fd8 100644
+>> --- a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c
+>> +++ b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c
+>> @@ -686,6 +686,7 @@ static int atmel_hlcdc_dc_modeset_init(struct drm_device *dev)
+>>   	dev->mode_config.max_width = dc->desc->max_width;
+>>   	dev->mode_config.max_height = dc->desc->max_height;
+>>   	dev->mode_config.funcs = &mode_config_funcs;
+>> +	dev->mode_config.async_page_flip = true;
+>>   
+>>   	return 0;
+>>   }
+>> -- 
+>> 2.17.1
+>>
 
-                        Geert
 
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Nicolas Ferre
