@@ -1,67 +1,76 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17CC33901FB
-	for <lists+dri-devel@lfdr.de>; Tue, 25 May 2021 15:18:23 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id CBB39390234
+	for <lists+dri-devel@lfdr.de>; Tue, 25 May 2021 15:24:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7FD1489C6E;
-	Tue, 25 May 2021 13:18:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D4D6D6E105;
+	Tue, 25 May 2021 13:24:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com
- [IPv6:2a00:1450:4864:20::435])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5E66E6E0FF
- for <dri-devel@lists.freedesktop.org>; Tue, 25 May 2021 13:18:16 +0000 (UTC)
-Received: by mail-wr1-x435.google.com with SMTP id i17so32204179wrq.11
- for <dri-devel@lists.freedesktop.org>; Tue, 25 May 2021 06:18:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:references:from:message-id:date:user-agent:mime-version
- :in-reply-to:content-transfer-encoding:content-language;
- bh=DRKDlOVl+bKu72pveVUrMWJAxxqnosCy2u/tkJMsTCc=;
- b=LsPTnB6lZVF4LCyyvBq7yVd91qgIwLxGDcsVWgZTdakoCMyyfjgucUIupfvtIizB8N
- q20jJ6d2BBUHrnDxeGDY2cYDOPWJFGhPaNTltEBNSc7gsLeSeS8kfDMym6sWWATuJP0g
- 38tsK+4ZevKY3RRF7juLn2JxoJIkjzBvaouhaz4gmrXGKO5AlDzx619MvJ1Pj7EmmRhz
- VFpJxj56PDAKmmEbiHByfiR2RsSezY004lrhr6iFkAg567UBfv/IE74Q5L6ZgWvHJx87
- oUSpLrI3gz1i+kqBdF7LuHDax+tzJXuZENuT1zo087SCU1Na7kAgcN3d+AYdStPvy8wx
- PWsA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-transfer-encoding
- :content-language;
- bh=DRKDlOVl+bKu72pveVUrMWJAxxqnosCy2u/tkJMsTCc=;
- b=piZC+H7KnUbuuMwea4RVwYluAChflzFdoHAg3kquepCYqz+m/CMd/FXxYT154epGYb
- jJ70vmW20memOXtJbSbhtmcuPWCZTJcRwQRaituJanVlaw4hFTP+7kdwSirxvyk3X+9M
- i2DIXPNuhINmheFpPy2mKuPt2AE6jDnE5dFOTxl9vW8BxLAhS43Ve2XqSed1I3U/OUJy
- JObPHcap/3Gl9aVtfqin87kTxNT1SMkbubx8txFq/vbmgiyh1Y3W30nUj0IOQ6jDM45M
- /+Ljy3l/0ZF2gCtalXBqGOzNfTNZv/op1Q+ERUOAq9SHp4jTgzC6FFSXs4XxpxjL3T6O
- HEfw==
-X-Gm-Message-State: AOAM530wEN4DpINd4CsC2V/L6FHFcutEU1NWWRA7klcz4ajgjuAMmK13
- Ivo/5tQIT0pQWWLrBvdcRYxoxoR4lVI=
-X-Google-Smtp-Source: ABdhPJx9RBEHdmk5EQfR2GHhgiD7w3JqRFFQqFFqbdcs/TnTvJPH1qKX9mqXwb9qfc2Qo7qpJCFFGg==
-X-Received: by 2002:a5d:650b:: with SMTP id x11mr26800672wru.186.1621948694977; 
- Tue, 25 May 2021 06:18:14 -0700 (PDT)
-Received: from ?IPv6:2a02:908:1252:fb60:d67f:bd9a:6dbf:33b1?
- ([2a02:908:1252:fb60:d67f:bd9a:6dbf:33b1])
- by smtp.gmail.com with ESMTPSA id c206sm2777925wmf.12.2021.05.25.06.18.13
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 25 May 2021 06:18:14 -0700 (PDT)
-Subject: Re: dma-resv ongoing discussion
-To: Dave Airlie <airlied@gmail.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, Jason Ekstrand <jason@jlekstrand.net>
-References: <CAPM=9txJQh31KE7v4YN4s9j-cYQEUSRPh7Qg5j2TyNCLNbDySQ@mail.gmail.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-Message-ID: <f87d2645-0f07-cab5-c1a9-f015ae14dc2a@gmail.com>
-Date: Tue, 25 May 2021 15:18:13 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+Received: from new2-smtp.messagingengine.com (new2-smtp.messagingengine.com
+ [66.111.4.224])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 284356E252
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 May 2021 13:24:02 +0000 (UTC)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
+ by mailnew.nyi.internal (Postfix) with ESMTP id 2D0895806F5;
+ Tue, 25 May 2021 09:24:00 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute6.internal (MEProxy); Tue, 25 May 2021 09:24:00 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+ from:to:cc:subject:date:message-id:content-type:mime-version
+ :content-transfer-encoding; s=fm2; bh=//Ua6fbgPleRns58xLPwp5jsqA
+ 31DFCIgTLmVQxIlOI=; b=gY/l9Y4yEV+9tfP6NhGchNf6Fddn5xxWvcbxze7GQn
+ tswF59QrAZiEf2afAPXpxnnWGpf0HWliG54DtxAypGPQ5GXrBgqQfNIGzCx7PVfB
+ isSb0cnYBWjHxjBP18ULuQ6p/Y5K6JSgmTtL7+s3IlmvtD9lPSVu+pzFIcCmPNoK
+ TmZe7SgXPgEAqVvAmaGcLc0xc9dOUVoM1mtSjqRDuW3W4stTdrAeb9RjyKOtc0I1
+ EPn35x/qODsKuUV4OCvOUwIAoQCH91YheC4s8wMKvFuED2a8/9JTCs8GBwSNm6qA
+ lSaSD2gWaK2mSomItDLjlMYG5gHzqTs2OjmGjbFPkPcA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-transfer-encoding:content-type
+ :date:from:message-id:mime-version:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=//Ua6f
+ bgPleRns58xLPwp5jsqA31DFCIgTLmVQxIlOI=; b=iKg6RsbgbJcU90Psd75MtD
+ oDDO9BFYIic1Xh64LQocuvGl1m1hePlfJ+iyOaOTapCwpx+4r3nBfzl8nko+gcjK
+ RaWZirgcmCvZCY2WUCFWPZfmfOU9txtZehPH+vu4Cia3P5FxmS+2gwpHfFSJUgYx
+ yJUZKky58IuhbKV+ZhC3BMGC2NgAjX07WXUnu3dQKFZNApuWGdk8ouKSCmKEkm8L
+ OKDuxuNPfVPSH6j6yW4v4KcCKWWOjoznkAQuGci5YRRQUu7be06nuKf69+v9QlLd
+ tfSV//8NubYLyC0LMX1AnLzVwwx+FxNT3OVLIeLuUwUjAJcGw9ol0bihl9xETmeQ
+ ==
+X-ME-Sender: <xms:bfqsYD7Fw4uQljLFdiipKZQC4sUfQberi_XdDUMBs0MIHpKahwJJ5A>
+ <xme:bfqsYI7Lrka4hcgGATu8PmxwGc7e5cenwruxS5oPE89w20Jwne-3Bm1A1UjhpdSHx
+ Ug7nFZs3bzne1vlvIo>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvdekuddgieehucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhephffvufffkffotggggfesthhqredtredtjeenucfhrhhomhepofgrgihimhgv
+ ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
+ gvrhhnpeetieekgfffkeegkeeltdehudetteejgfekueevhffhteegudfgkedtueegfffg
+ feenucfkphepledtrdekledrieekrdejieenucevlhhushhtvghrufhiiigvpedtnecurf
+ grrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:bfqsYKeXluUEyRFpIuLmgDx8_Naxxw5R871SZ_bTtXtLd3j3y5cByw>
+ <xmx:bfqsYEIINvLP5Du-qUwAapcVhrJnl5K6W9Sxtlt0jwkTGF2t02lbsA>
+ <xmx:bfqsYHKUiMEMP6ym6SilSXugksNS91AOZmbj9FU7T9FN291d6lMC6Q>
+ <xmx:cPqsYDDXWC2Iq0Kw3OsuEBXtiABKDAb8RK3xRJ7zjxS0fGy0gXqcIA>
+Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
+ [90.89.68.76]) by mail.messagingengine.com (Postfix) with ESMTPA;
+ Tue, 25 May 2021 09:23:57 -0400 (EDT)
+From: Maxime Ripard <maxime@cerno.tech>
+To: Jaroslav Kysela <perex@perex.cz>, Mark Brown <broonie@kernel.org>,
+ dri-devel@lists.freedesktop.org, Daniel Vetter <daniel.vetter@intel.com>,
+ David Airlie <airlied@linux.ie>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <maxime@cerno.tech>,
+ Liam Girdwood <lgirdwood@gmail.com>, Takashi Iwai <tiwai@suse.com>
+Subject: [PATCH v2 00/12] drm/vc4: hdmi: Enable Channel Mapping, IEC958,
+ HBR Passthrough using hdmi-codec
+Date: Tue, 25 May 2021 15:23:42 +0200
+Message-Id: <20210525132354.297468-1-maxime@cerno.tech>
+X-Mailer: git-send-email 2.31.1
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-In-Reply-To: <CAPM=9txJQh31KE7v4YN4s9j-cYQEUSRPh7Qg5j2TyNCLNbDySQ@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,108 +83,66 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: devicetree@vger.kernel.org, alsa-devel@alsa-project.org,
+ Nicolas Saenz Julienne <nsaenz@kernel.org>, Dom Cobley <dom@raspberrypi.com>,
+ Tim Gover <tim.gover@raspberrypi.com>, linux-doc@vger.kernel.org,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>, linux-kernel@vger.kernel.org,
+ Rob Herring <robh+dt@kernel.org>, bcm-kernel-feedback-list@broadcom.com,
+ linux-arm-kernel@lists.infradead.org, Jonathan Corbet <corbet@lwn.net>,
+ Phil Elwell <phil@raspberrypi.com>,
+ Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
+ linux-rpi-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave and of course everybody else,
-
-Am 24.05.21 um 04:03 schrieb Dave Airlie:
-> I'd like to try and summarise where I feel we are all at with respect
-> to the dma-buf discussions. I think I've gotten a fairly good idea of
-> how things stand but I'm not sure we are really getting to the how to
-> move things forward stage, where is probably when I need to step in.
-> Thanks for keeping this as respectful as it has been I understand it
-> can be difficult. I also think we are starting to find we moved the
-> knob on driver development happening in company siloes too far with
-> acceleration features and hopefully with this and TTM work etc we can
-> start to push back to upstream first designs.
->
-> I think Jason[1] summed up my feelings on this the best. We have a
-> dma-buf inter-driver contract that has a design issue. We didn't fix
-> that initially, now we have amdgpu as the outlier in a world where
-> everyone else agreed to the contract.
->
-> a) Christian wants to try and move forward with fixing the world of
-> dma-buf design across all drivers, but hasn't come up with a plan for
-> doing so apart from amdgpu/i915. I think one strength Daniel has here
-> is that he's good at coming up with plans that change the ecosystem.
-> I'd really like to see some concrete effort to work out how much work
-> fixing this across the ecosystem is and whether it is possible. I
-> expect Daniel's big huge monster commit message summary of the current
-> drivers is a great place to start for this. That is if we can agree
-> dma-buf is broken and what dma-buf should look like tomorrow.
-
-Well to clarify I don't want to move forward to implement new features, 
-but rather to fix existing shortcomings.
-
- From my point of view the main purpose of the dma_resv object is to 
-provide a container for dma_fence objects for different use cases.
-
-Those use cases are then.
-1. Resource management.
-2. Implicit synchronization.
-3. Information about current operations.
-
-Now I think I can summarize the problem I'm seeing in that the focus of 
-the design is to much towards towards a single use case here.
-
-For example, for resource management alone I need to be able to add any 
-fence at any time to the resv object without any restriction.
-
-> b) Daniel is coming from the side of let's bring amdgpu into the fold
-> first, then if the problem exists we can move everything forward
-> together. He intends on pointing out how alone amdgpu is here, and
-> wants to try and create a uapi that at least mitigates the biggest
-> problems with moving amdgpu to the common model first. I'd like to
-> know if this is at least a possibility as an alternate route. I
-> understand AMD have some goals to reach here but I think we've dug a
-> massive hole here and paying off the tech debt is going to have to
-> delay those goals if we are to keep upstream sane.
-
-I don't think we can do this so easily without breaking uAPI.
-
-Userspace in the form of both RADV as well as AMDVLK depend on that 
-behavior and we still have the original video decode use case this was 
-invented for.
-
-> I'm slowly paging all of the technical details as I go, I'd like to
-> see more thought around Daniel's idea of fixing the amdgpu oversync
-> with TLB flushing, as it really doesn't make much sense to be that TLB
-> flushing on process teardown is going to stall out other processes
-> using the shared buffer, that it should only stall out moving the
-> pages. If that then allows aligning amdgpu for now and we can work out
-> how to fix (a) then that would rock.
-
-Well this is exactly what I've been trying to do by adding those flags 
-to the shared fences, but Daniel already convinced me that this is to 
-invasive as a first step.
-
-And while this over synchronization is annoying it's already there for a 
-very long time and only affects the case when the BO is shared between 
-devices.
-
-So for the moment I'm pondering on the question what would be the 
-absolutely minimum change necessary to get amdgpu to use the exclusive 
-fence in the same way other drivers do.
-
-And I think I can summarize this into two things:
-1. We make it possible to add shared fences which are not synchronized 
-to the explicit fence.
-2. We make it possible to replace the explicit fence without removing 
-all the shared fences.
-
-With that in place I'm able to change amdgpu so that we can fill in the 
-exclusive fence during CS with chain nodes and keep the synchronization 
-model for existing amdgpu uAPI the same.
-
-Regards,
-Christian.
-
-> Please correct me where I'm wrong here and definitely if I've
-> misrepresented anyone's positions.
->
-> Dave.
->
->
-> [1] https://lore.kernel.org/dri-devel/a1925038-5c3c-0193-1870-27488caa2577@gmail.com/T/#md800f00476ca1869a81b02a28cb2fabc1028c6be
-
+Hi,=0D
+=0D
+hdmi-codec allows to have a lot of HDMI-audio related infrastructure in pla=
+ce,=0D
+it's missing a few controls to be able to provide HBR passthrough. This ser=
+ies=0D
+adds more infrastructure for the drivers, and leverages it in the vc4 HDMI=
+=0D
+controller driver.=0D
+=0D
+Thanks!=0D
+Maxime=0D
+=0D
+Changes from v1:=0D
+  - Added an extra patch to clarify the iec958 controls iface policy=0D
+  - Added kerneldoc for the new iec958 PCM functions=0D
+  - s/EXPORT_SYMBOL/EXPORT_SYMBOL_GPL=0D
+  - Used the ALSA prefix where relevant=0D
+  - Rebased on drm-misc-next-2021-05-17=0D
+=0D
+Dom Cobley (5):=0D
+  drm/vc4: hdmi: Set HD_CTL_WHOLSMP and HD_CTL_CHALIGN_SET=0D
+  drm/vc4: hdmi: Set HDMI_MAI_FMT=0D
+  drm/vc4: hdmi: Set VC4_HDMI_MAI_CONFIG_FORMAT_REVERSE=0D
+  drm/vc4: hdmi: Remove firmware logic for MAI threshold setting=0D
+  ARM: dts: bcm2711: Tune DMA parameters for HDMI audio=0D
+=0D
+Maxime Ripard (7):=0D
+  ALSA: doc: Clarify IEC958 controls iface=0D
+  ALSA: iec958: Split status creation and fill=0D
+  ASoC: hdmi-codec: Rework to support more controls=0D
+  ASoC: hdmi-codec: Add iec958 controls=0D
+  ASoC: hdmi-codec: Add a prepare hook=0D
+  drm/vc4: hdmi: Register HDMI codec=0D
+  drm/vc4: hdmi: Remove redundant variables=0D
+=0D
+ .../kernel-api/writing-an-alsa-driver.rst     |  13 +-=0D
+ arch/arm/boot/dts/bcm2711.dtsi                |   4 +-=0D
+ drivers/gpu/drm/vc4/Kconfig                   |   1 +=0D
+ drivers/gpu/drm/vc4/vc4_hdmi.c                | 322 ++++++++----------=0D
+ drivers/gpu/drm/vc4/vc4_hdmi.h                |   5 +-=0D
+ drivers/gpu/drm/vc4/vc4_regs.h                |  30 ++=0D
+ include/sound/hdmi-codec.h                    |  12 +-=0D
+ include/sound/pcm_iec958.h                    |   8 +=0D
+ sound/core/pcm_iec958.c                       | 176 +++++++---=0D
+ sound/soc/codecs/hdmi-codec.c                 | 219 +++++++++---=0D
+ 10 files changed, 508 insertions(+), 282 deletions(-)=0D
+=0D
+-- =0D
+2.31.1=0D
+=0D
