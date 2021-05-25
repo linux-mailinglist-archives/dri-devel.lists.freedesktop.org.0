@@ -2,41 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 959A93906F0
-	for <lists+dri-devel@lfdr.de>; Tue, 25 May 2021 18:52:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E8EB390712
+	for <lists+dri-devel@lfdr.de>; Tue, 25 May 2021 19:02:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 94F6C6E406;
-	Tue, 25 May 2021 16:52:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DB2956EA3B;
+	Tue, 25 May 2021 17:02:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1B3196E25A;
- Tue, 25 May 2021 16:52:22 +0000 (UTC)
-IronPort-SDR: oWFCi6fCAMW68zoqT3jdiAF5cbly/WPlCGzls0B6Fu/45EvUaDSf3HCND5Lp1ofsnJaZks/wOs
- PTkaSZcoEX3A==
-X-IronPort-AV: E=McAfee;i="6200,9189,9995"; a="182566403"
-X-IronPort-AV: E=Sophos;i="5.82,328,1613462400"; d="scan'208";a="182566403"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 May 2021 09:52:14 -0700
-IronPort-SDR: 6i2AB7w/feHH3pcDpQ/slT3nh+rm5UAF+DixQDy8J0VY+IWPkQyYBeZciQ+Gm6r8ueDC1EIIPD
- KhbGeO6wDt/Q==
-X-IronPort-AV: E=Sophos;i="5.82,328,1613462400"; d="scan'208";a="546702655"
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3B95C6E415;
+ Tue, 25 May 2021 17:02:28 +0000 (UTC)
+IronPort-SDR: 6tIvrQmrApuZHwGgbmi/hTpkKUMhnRpKe4TTAk09AXZyb3vtaiIbn07j/uIH4j9Gm4lPtX18d0
+ 5+eNQ0Rav9Nw==
+X-IronPort-AV: E=McAfee;i="6200,9189,9995"; a="181885838"
+X-IronPort-AV: E=Sophos;i="5.82,328,1613462400"; d="scan'208";a="181885838"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 May 2021 10:02:02 -0700
+IronPort-SDR: CjzZg+UXCaJaDnp4aJAQuxrQEEABDLWzzruF3oD095cJfIJf0PIXlfp7qo09G1hQZNwMJL3jMf
+ sdgaP6r4TTSQ==
+X-IronPort-AV: E=Sophos;i="5.82,328,1613462400"; d="scan'208";a="443502863"
 Received: from unknown (HELO sdutt-i7) ([10.165.21.147])
- by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 May 2021 09:52:13 -0700
-Date: Tue, 25 May 2021 09:45:06 -0700
+ by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 May 2021 10:02:01 -0700
+Date: Tue, 25 May 2021 09:54:54 -0700
 From: Matthew Brost <matthew.brost@intel.com>
-To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Subject: Re: [Intel-gfx] [RFC PATCH 00/97] Basic GuC submission support in
- the i915
-Message-ID: <20210525164504.GA9971@sdutt-i7>
+To: Michal Wajdeczko <michal.wajdeczko@intel.com>
+Subject: Re: [RFC PATCH 37/97] drm/i915/guc: Add stall timer to non blocking
+ CTB send function
+Message-ID: <20210525165452.GA13181@sdutt-i7>
 References: <20210506191451.77768-1-matthew.brost@intel.com>
- <de3965d8-d997-5685-0399-646d8823a27f@linux.intel.com>
+ <20210506191451.77768-38-matthew.brost@intel.com>
+ <7e7ca64d-e5d7-7fd8-b446-7167341c0c92@intel.com>
+ <20210524183518.GA12293@sdutt-i7>
+ <2b0430a4-d43e-ad52-890c-340631febd6c@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <de3965d8-d997-5685-0399-646d8823a27f@linux.intel.com>
+In-Reply-To: <2b0430a4-d43e-ad52-890c-340631febd6c@intel.com>
 User-Agent: Mutt/1.9.4 (2018-02-28)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -50,125 +53,213 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: jason.ekstrand@intel.com, daniel.vetter@intel.com,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: tvrtko.ursulin@intel.com, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, jason.ekstrand@intel.com,
+ daniele.ceraolospurio@intel.com, jon.bloomfield@intel.com,
+ daniel.vetter@intel.com, john.c.harrison@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, May 25, 2021 at 11:32:26AM +0100, Tvrtko Ursulin wrote:
+On Tue, May 25, 2021 at 04:15:15PM +0200, Michal Wajdeczko wrote:
 > 
-> On 06/05/2021 20:13, Matthew Brost wrote:
-> > Basic GuC submission support. This is the first bullet point in the
-> > upstreaming plan covered in the following RFC [1].
-> > 
-> > At a very high level the GuC is a piece of firmware which sits between
-> > the i915 and the GPU. It offloads some of the scheduling of contexts
-> > from the i915 and programs the GPU to submit contexts. The i915
-> > communicates with the GuC and the GuC communicates with the GPU.
-> > 
-> > GuC submission will be disabled by default on all current upstream
-> > platforms behind a module parameter - enable_guc. A value of 3 will
-> > enable submission and HuC loading via the GuC. GuC submission should
-> > work on all gen11+ platforms assuming the GuC firmware is present.
-> > 
-> > This is a huge series and it is completely unrealistic to merge all of
-> > these patches at once. Fortunately I believe we can break down the
-> > series into different merges:
-> > 
-> > 1. Merge Chris Wilson's patches. These have already been reviewed
-> > upstream and I fully agree with these patches as a precursor to GuC
-> > submission.
-> > 
-> > 2. Update to GuC 60.1.2. These are largely Michal's patches.
-> > 
-> > 3. Turn on GuC/HuC auto mode by default.
-> > 
-> > 4. Additional patches needed to support GuC submission. This is any
-> > patch not covered by 1-3 in the first 34 patches. e.g. 'Engine relative
-> > MMIO'
-> > 
-> > 5. GuC submission support. Patches number 35+. These all don't have to
-> > merge at once though as we don't actually allow GuC submission until the
-> > last patch of this series.
 > 
-> For the GuC backend/submission part only - it seems to me none of my review
-> comments I made in December 2019 have been implemented. At that point I
-
-I wouldn't say none of the fixes have done, lots have just not
-everything you wanted.
-
-> stated, and this was all internally at the time mind you, that I do not
-> think the series is ready and there were several high level issues that
-> would need to be sorted out. I don't think I gave my ack or r-b back then
-> and the promise was a few things would be worked on post (internal) merge.
-> That was supposed to include upstream refactoring to enable GuC better
-> slotting in as a backed. Fast forward a year and a half later and the only
-> progress we had in this area has been deleted.
+> On 24.05.2021 20:35, Matthew Brost wrote:
+> > On Mon, May 24, 2021 at 02:58:12PM +0200, Michal Wajdeczko wrote:
+> >>
+> >>
+> >> On 06.05.2021 21:13, Matthew Brost wrote:
+> >>> Implement a stall timer which fails H2G CTBs once a period of time
+> >>> with no forward progress is reached to prevent deadlock.
+> >>>
+> >>> Also update to ct_write to return -EDEADLK rather than -EPIPE on a
+> >>> corrupted descriptor.
+> >>
+> >> broken descriptor is really separate issue compared to no progress from
+> >> GuC side, I would really like to keep old error code
+> >>
+> > 
+> > I know you do as you have brought it up several times. Again to the rest
+> > of the stack these two things mean the exact same thing.
 > 
-> From the top of my head, and having glanced the series as posted:
+> but I guess 'the rest of the stack' is only interested if returned error
+> is EBUSY or not, as all other errors are treated in the same way, thus
+> no need change existing error codes
 > 
->  * Self-churn factor in the series is too high.
 
-Not sure what you mean by this? The patches have been reworked
-internally too much?
+No, -ENODEV means something else too. I'd rather have a single explicit
+error code which means H2G is broken, take action to fix it. This is a
+bikeshed, we made a decession internally to return a single error code
+we really need to move on.
 
->  * Patch ordering issues.
+> >  
+> >> note that broken CTB descriptor is unrecoverable error, while on other
+> >> hand, in theory, we could recover from temporary non-moving CTB
+> >>
+> > 
+> > Yea but we don't, in both cases we disable submission which in turn
+> > triggers a full GPU reset.
+> 
+> is this current limitation or long term design?
+> 
 
-We are going to clean up some of the ordering as these 97 patches are
-posted in smaller mergeable series but at the end of the day this is a
-bit of a bikeshed. GuC submission can't be turned until patch 97 so IMO
-it really isn't all that big of a deal the order of which patches before
-that land as we are not breaking anything.
+Long term design.
 
->  * GuC context state machine is way too dodgy to have any confidence it can
-> be read and race conditions understood.
+> I would rather expect that decision to trigger full GPU is done on solid
+> foundations, like definite lost communication with the GuC or missed
+> heartbeats, not that we temporarily push CTB to the limit
+> 
 
-I know you don't really like the state machine but no other real way to
-not have DoS on resources and no real way to fairly distribute guc_ids
-without it. I know you have had other suggestions here but none of your
-suggestions either will work or they are no less complicated in the end.
+The intent is to have a large enough value here that if it is reached it
+is assumed the GuC is toast and we need a full GPU reset.
 
-For what it is worth, the state machine will get simplified when we hook
-into the DRM scheduler as won't have to deal with submitting from IRQ
-contexts in the backend or having more than 1 request in the backend at
-a time.
-
->  * Context pinning code with it's magical two adds, subtract and cmpxchg is
-> dodgy as well.
-
-Daniele tried to remove this and it proved quite difficult + created
-even more races in the backend code. This was prior to the pre-pin and
-post-unpin code which makes this even more difficult to fix as I believe
-these functions would need to be removed first. Not saying we can't
-revisit this someday but I personally really like it - it is a clever
-way to avoid reentering the pin / unpin code while asynchronous things
-are happening rather than some complex locking scheme. Lastly, this code
-has proved incredibly stable as I don't think we've had to fix a single
-thing in this area since we've been using this code internally.
-
->  * Kludgy way of interfacing with rest of the driver instead of refactoring
-> to fit (idling, breadcrumbs, scheduler, tasklets, ...).
+> or if do we want to treat CTB processing as kind of hw health checkout
+> too, what if heartbeat timeout and CTB stall time do not match ?
 >
 
-Idling and breadcrumbs seem clean to me. Scheduler + tasklet are going
-away once the DRM scheduler lands. No need rework those as we are just
-going to rework this again.
+It is a health check of H2G channel.
+
+No need for these two values to match. One is checking if the GuC can
+continue make forward progress processing H2G the other is checking if
+an engine can make forward progress.
+
+Matt
  
-> Now perhaps the latest plan is to ignore all these issues and still merge,
-> then follow up with throwing it away, mostly or at least largely, in which
-> case there isn't any point really to review the current state yet again. But
-> it is sad that we got to this state. So just for the record - all this was
-> reviewed in Nov/Dec 2019. By me among other folks and I at least deemed it
-> not ready in this form.
-> 
-
-I personally don't think it is really in that bad of shape. The fact
-that I could put together a PoC more or less fully integrating this
-backend into the DRM scheduler within a few days I think speaks to the
-quality and flexablitiy of this backend compared to execlists.
-
-Matt 
-
-> Regards,
-> 
-> Tvrtko
+> > 
+> >>>
+> >>> Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
+> >>> Signed-off-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+> >>> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+> >>> ---
+> >>>  drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c | 48 +++++++++++++++++++++--
+> >>>  1 file changed, 45 insertions(+), 3 deletions(-)
+> >>>
+> >>> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
+> >>> index af7314d45a78..4eab319d61be 100644
+> >>> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
+> >>> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
+> >>> @@ -69,6 +69,8 @@ static inline struct drm_device *ct_to_drm(struct intel_guc_ct *ct)
+> >>>  #define CTB_H2G_BUFFER_SIZE	(SZ_4K)
+> >>>  #define CTB_G2H_BUFFER_SIZE	(SZ_4K)
+> >>>  
+> >>> +#define MAX_US_STALL_CTB	1000000
+> >>
+> >> nit: maybe we should make it a CONFIG value ?
+> >>
+> > 
+> > Sure.
+> > 
+> >>> +
+> >>>  struct ct_request {
+> >>>  	struct list_head link;
+> >>>  	u32 fence;
+> >>> @@ -315,6 +317,7 @@ int intel_guc_ct_enable(struct intel_guc_ct *ct)
+> >>>  
+> >>>  	ct->requests.last_fence = 1;
+> >>>  	ct->enabled = true;
+> >>> +	ct->stall_time = KTIME_MAX;
+> >>>  
+> >>>  	return 0;
+> >>>  
+> >>> @@ -378,7 +381,7 @@ static int ct_write(struct intel_guc_ct *ct,
+> >>>  	unsigned int i;
+> >>>  
+> >>>  	if (unlikely(ctb->broken))
+> >>> -		return -EPIPE;
+> >>> +		return -EDEADLK;
+> >>>  
+> >>>  	if (unlikely(desc->status))
+> >>>  		goto corrupted;
+> >>> @@ -449,7 +452,7 @@ static int ct_write(struct intel_guc_ct *ct,
+> >>>  	CT_ERROR(ct, "Corrupted descriptor head=%u tail=%u status=%#x\n",
+> >>>  		 desc->head, desc->tail, desc->status);
+> >>>  	ctb->broken = true;
+> >>> -	return -EPIPE;
+> >>> +	return -EDEADLK;
+> >>>  }
+> >>>  
+> >>>  /**
+> >>> @@ -494,6 +497,17 @@ static int wait_for_ct_request_update(struct ct_request *req, u32 *status)
+> >>>  	return err;
+> >>>  }
+> >>>  
+> >>> +static inline bool ct_deadlocked(struct intel_guc_ct *ct)
+> >>> +{
+> >>> +	bool ret = ktime_us_delta(ktime_get(), ct->stall_time) >
+> >>> +		MAX_US_STALL_CTB;
+> >>> +
+> >>> +	if (unlikely(ret))
+> >>> +		CT_ERROR(ct, "CT deadlocked\n");
+> >>> +
+> >>> +	return ret;
+> >>> +}
+> >>> +
+> >>>  static inline bool ctb_has_room(struct intel_guc_ct_buffer *ctb, u32 len_dw)
+> >>>  {
+> >>>  	struct guc_ct_buffer_desc *desc = ctb->desc;
+> >>> @@ -505,6 +519,26 @@ static inline bool ctb_has_room(struct intel_guc_ct_buffer *ctb, u32 len_dw)
+> >>>  	return space >= len_dw;
+> >>>  }
+> >>>  
+> >>> +static int has_room_nb(struct intel_guc_ct *ct, u32 len_dw)
+> >>> +{
+> >>> +	struct intel_guc_ct_buffer *ctb = &ct->ctbs.send;
+> >>> +
+> >>> +	lockdep_assert_held(&ct->ctbs.send.lock);
+> >>> +
+> >>> +	if (unlikely(!ctb_has_room(ctb, len_dw))) {
+> >>> +		if (ct->stall_time == KTIME_MAX)
+> >>> +			ct->stall_time = ktime_get();
+> >>> +
+> >>> +		if (unlikely(ct_deadlocked(ct)))
+> >>> +			return -EDEADLK;
+> >>> +		else
+> >>> +			return -EBUSY;
+> >>> +	}
+> >>> +
+> >>> +	ct->stall_time = KTIME_MAX;
+> >>> +	return 0;
+> >>> +}
+> >>> +
+> >>>  static int ct_send_nb(struct intel_guc_ct *ct,
+> >>>  		      const u32 *action,
+> >>>  		      u32 len,
+> >>> @@ -517,7 +551,7 @@ static int ct_send_nb(struct intel_guc_ct *ct,
+> >>>  
+> >>>  	spin_lock_irqsave(&ctb->lock, spin_flags);
+> >>>  
+> >>> -	ret = ctb_has_room(ctb, len + 1);
+> >>> +	ret = has_room_nb(ct, len + 1);
+> >>>  	if (unlikely(ret))
+> >>>  		goto out;
+> >>>  
+> >>> @@ -561,11 +595,19 @@ static int ct_send(struct intel_guc_ct *ct,
+> >>>  retry:
+> >>>  	spin_lock_irqsave(&ct->ctbs.send.lock, flags);
+> >>>  	if (unlikely(!ctb_has_room(ctb, len + 1))) {
+> >>> +		if (ct->stall_time == KTIME_MAX)
+> >>> +			ct->stall_time = ktime_get();
+> >>>  		spin_unlock_irqrestore(&ct->ctbs.send.lock, flags);
+> >>> +
+> >>> +		if (unlikely(ct_deadlocked(ct)))
+> >>> +			return -EDEADLK;
+> >>> +
+> >>
+> >> likely, instead of duplicating code, you can reuse has_room_nb here
+> >>
+> > 
+> > In this patch yes, in the following patch no as this check changes
+> > between non-blockig and blocking once we introduce G2H credits. I'd
+> > rather just leave it as is than churning on the patches.
+> > 
+> > Matt 
+> >  
+> >>>  		cond_resched();
+> >>>  		goto retry;
+> >>>  	}
+> >>>  
+> >>> +	ct->stall_time = KTIME_MAX;
+> >>> +
+> >>>  	fence = ct_get_next_fence(ct);
+> >>>  	request.fence = fence;
+> >>>  	request.status = 0;
+> >>>
