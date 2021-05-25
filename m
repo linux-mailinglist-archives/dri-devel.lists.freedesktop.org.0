@@ -2,64 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08343390912
-	for <lists+dri-devel@lfdr.de>; Tue, 25 May 2021 20:37:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C6E6A390B12
+	for <lists+dri-devel@lfdr.de>; Tue, 25 May 2021 23:13:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9E1586EAA6;
-	Tue, 25 May 2021 18:37:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 439736EB34;
+	Tue, 25 May 2021 21:13:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5B4196EAA6;
- Tue, 25 May 2021 18:37:03 +0000 (UTC)
-IronPort-SDR: 6h9OClOWRySwELh7DzrwrAkqs3aeU+b49HHP5R+ml58JRX9Rdrvr8C98m4q8yg/cfm6PtuKYyn
- R0gUHaIqSIuw==
-X-IronPort-AV: E=McAfee;i="6200,9189,9995"; a="202023581"
-X-IronPort-AV: E=Sophos;i="5.82,329,1613462400"; d="scan'208";a="202023581"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 May 2021 11:36:53 -0700
-IronPort-SDR: YIjc8Hher8OoWXmGlzurGP3M4aPNFXcQ1UBBHURYued5lThXqUVYYQ5hc2WFlqRkqU8ha1nMHR
- Kl/mZ5u0mw+A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.82,329,1613462400"; d="scan'208";a="614634262"
-Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
- by orsmga005.jf.intel.com with ESMTP; 25 May 2021 11:36:49 -0700
-Received: from fmsmsx612.amr.corp.intel.com (10.18.126.92) by
- fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.4; Tue, 25 May 2021 11:36:47 -0700
-Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
- fmsmsx612.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.4; Tue, 25 May 2021 11:36:46 -0700
-Received: from fmsmsx611.amr.corp.intel.com ([10.18.126.91]) by
- fmsmsx611.amr.corp.intel.com ([10.18.126.91]) with mapi id 15.01.2242.008;
- Tue, 25 May 2021 11:36:46 -0700
-From: "Tang, CQ" <cq.tang@intel.com>
-To: "Ceraolo Spurio, Daniele" <daniele.ceraolospurio@intel.com>,
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>
-Subject: RE: [Intel-gfx] [PATCH v4 14/17] drm/i915/pxp: User interface for
- Protected buffer
-Thread-Topic: [Intel-gfx] [PATCH v4 14/17] drm/i915/pxp: User interface for
- Protected buffer
-Thread-Index: AQHXUSmqkEdcZH4vbkuOYyljS1D7eqr0hR8w
-Date: Tue, 25 May 2021 18:36:46 +0000
-Message-ID: <728fa3c9e484402d82fb7fb124496bdb@intel.com>
-References: <20210525054803.7387-1-daniele.ceraolospurio@intel.com>
- <20210525054803.7387-15-daniele.ceraolospurio@intel.com>
-In-Reply-To: <20210525054803.7387-15-daniele.ceraolospurio@intel.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-product: dlpe-windows
-dlp-reaction: no-action
-dlp-version: 11.5.1.3
-x-originating-ip: [10.1.200.100]
-Content-Type: text/plain; charset="us-ascii"
+Received: from mail-qt1-x849.google.com (mail-qt1-x849.google.com
+ [IPv6:2607:f8b0:4864:20::849])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6A3E66EAAA
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 May 2021 18:37:44 +0000 (UTC)
+Received: by mail-qt1-x849.google.com with SMTP id
+ 1-20020aed31010000b029019d1c685840so27060025qtg.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 May 2021 11:37:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+ h=date:message-id:mime-version:subject:from:to:cc
+ :content-transfer-encoding;
+ bh=jncM/ExWNLmYNSUtVvhJ+5KKUC85VKAKmLpNEbRZsSk=;
+ b=EVF0lJIx6V/shRnViEM2qYK8M0tVWoCvYwkNGm8kZLMdYj4x6hwEWYoCAvWL0V37p9
+ t/w3jKciL80kswYJpPcskYl+dvI/7ciQ3iwX5U4C16oszCQ7M+RRaFNF4VqNAjtjKmzn
+ 4istnhkKXh38+fQVWiamg+2A14RYl1fhM/UAIvWuzJzN1gU7filKdEj34lHNDYX0P1oL
+ Ckh/8GQG3B62PaN+ODDgm7gt4aYNWsPvdcXOMacK0X5Tpr8MgdOckez99LJeLFZq6831
+ SZIeyzUFw+5t3ZFwpOASpPfZu9Bz9hvJK0HESN82hgmKHG99hR85YaVpbXNcf5ud6pYS
+ 4Nww==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc
+ :content-transfer-encoding;
+ bh=jncM/ExWNLmYNSUtVvhJ+5KKUC85VKAKmLpNEbRZsSk=;
+ b=pfoxh1k3fXVWCZRvmqFP/rrQVXHPYStfxn//x3kIkN8vqxXtdPbuNyanJ4PP/WCw3h
+ Emyj3NC1g5oDcoM9uZAdBSboW4PGU6qm4UERbYDHqncritNMjTuR8aG+xQ904RGHI5HD
+ aYUdJBsk8T076v36KrBBdqDGZlbPGimRBpK0WdubT9L+KtS339GIIs7cNkdGWhVv+sz6
+ 81xLaxWXirSCo4n+BvX+I2Hs3k43RFT+ddpJW4/j3eAlg0gLR88w7uQmAm1XCExD8aff
+ 1g8dF0Jq1RldGOI64VEf6Mrg7M1opmLmEV0CMwwgO8sR1ZvTJMBTwZNZgXiQmu7SkFXg
+ 2TPQ==
+X-Gm-Message-State: AOAM531a/ReBBTheoNLRKvk7aWPrOmf2O9lrlpHtOigm++LDcS9uJ8v4
+ 38zPBIqtlP3Tbwro4vMU60Rn//HFpY8=
+X-Google-Smtp-Source: ABdhPJz8Hork/L4eFR9k5l3K9ZysAlbbOfNymh6eNt4vWiQw4Bf5k3kHm5YTo6FY6LB0lbu0WeZ7t06Zpwk=
+X-Received: from hridya.mtv.corp.google.com
+ ([2620:15c:211:200:b209:4c48:98d3:a871])
+ (user=hridya job=sendgmr) by 2002:ad4:5907:: with SMTP id
+ ez7mr37858323qvb.35.1621967863438; 
+ Tue, 25 May 2021 11:37:43 -0700 (PDT)
+Date: Tue, 25 May 2021 11:37:13 -0700
+Message-Id: <20210525183720.1739480-1-hridya@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.31.1.818.g46aad6cb9e-goog
+Subject: [PATCH v4] dmabuf: Add the capability to expose DMA-BUF stats in sysfs
+From: Hridya Valsaraju <hridya@google.com>
+To: daniel@ffwll.ch, Sumit Semwal <sumit.semwal@linaro.org>, 
+ "=?UTF-8?q?Christian=20K=C3=B6nig?=" <christian.koenig@amd.com>,
+ Hridya Valsaraju <hridya@google.com>, 
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-MIME-Version: 1.0
+X-Mailman-Approved-At: Tue, 25 May 2021 21:13:14 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,471 +71,807 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Kondapally Kalyan <kalyan.kondapally@intel.com>,
- Huang Sean Z <sean.z.huang@intel.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Chris Wilson <chris@chris-wilson.co.uk>, "Vetter,
- Daniel" <daniel.vetter@intel.com>, "Bommu,
- Krishnaiah" <krishnaiah.bommu@intel.com>
+Cc: gregkh@linuxfoundation.org, kernel-team@android.com, surenb@google.com,
+ kernel test robot <lkp@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+This patch allows statistics to be enabled for each DMA-BUF in
+sysfs by enabling the config CONFIG_DMABUF_SYSFS_STATS.
 
+The following stats will be exposed by the interface:
 
-> -----Original Message-----
-> From: Intel-gfx <intel-gfx-bounces@lists.freedesktop.org> On Behalf Of
-> Daniele Ceraolo Spurio
-> Sent: Monday, May 24, 2021 10:48 PM
-> To: intel-gfx@lists.freedesktop.org
-> Cc: Vetter, Daniel <daniel.vetter@intel.com>; Huang Sean Z
-> <sean.z.huang@intel.com>; dri-devel@lists.freedesktop.org; Chris Wilson
-> <chris@chris-wilson.co.uk>; Kondapally Kalyan
-> <kalyan.kondapally@intel.com>; Bommu, Krishnaiah
-> <krishnaiah.bommu@intel.com>
-> Subject: [Intel-gfx] [PATCH v4 14/17] drm/i915/pxp: User interface for
-> Protected buffer
->=20
-> From: Bommu Krishnaiah <krishnaiah.bommu@intel.com>
->=20
-> This api allow user mode to create Protected buffers. Only contexts marke=
-d
-> as protected are allowed to operate on protected buffers.
->=20
-> We only allow setting the flags at creation time.
->=20
-> All protected objects that have backing storage will be considered invali=
-d
-> when the session is destroyed and they won't be usable anymore.
+/sys/kernel/dmabuf/buffers/<inode_number>/exporter_name
+/sys/kernel/dmabuf/buffers/<inode_number>/size
+/sys/kernel/dmabuf/buffers/<inode_number>/attachments/<attach_uid>/device
+/sys/kernel/dmabuf/buffers/<inode_number>/attachments/<attach_uid>/map_coun=
+ter
 
-Then these protected objects will be hanging in the system till user call g=
-em_close() to free them?
-If the objects won't be usable anymore, why don't we automatically free the=
-se objects when the session is destroyed?
+The inode_number is unique for each DMA-BUF and was added earlier [1]
+in order to allow userspace to track DMA-BUF usage across different
+processes.
 
-How is a session started/destroyed?  From the code, intel_pxp_init() is cal=
-led when loading i915 driver, so I think session lifetime is the same as i9=
-15 driver lifetime.
-Can we start multiple sessions after loading the driver?
+Currently, this information is exposed in
+/sys/kernel/debug/dma_buf/bufinfo.
+However, since debugfs is considered unsafe to be mounted in production,
+it is being duplicated in sysfs.
 
---CQ
+Procfs also uses the proc/<pid>/fdinfo/<fd> file to expose some
+information about DMA-BUF fds. However, the existing procfs interfaces
+can only provide information about the buffers for which processes
+hold fds or have the buffers mmapped into their address space.
+The sysfs interface also exposes attachment statistics for each buffer.
 
->=20
-> Given that the PXP HW supports multiple modes (but we currently only care
-> about one), a flag variable has been reserved in the structure used in th=
-e
-> create_ext ioctl for possible future updates.
->=20
-> This is a rework of the original code by Bommu Krishnaiah. I've kept
-> authorship unchanged since significant chunks have not been modified.
->=20
-> v2: split context changes, fix defines and improve documentation (Chris),
->     add object invalidation logic
-> v3: fix spinlock definition and usage, only validate objects when
->     they're first added to a context lut, only remove them once (Chris),
->     make protected context flag not mandatory in protected object execbuf
->     to avoid abuse (Lionel)
-> v4: rebase to new gem_create_ext
->=20
-> Signed-off-by: Bommu Krishnaiah <krishnaiah.bommu@intel.com>
-> Signed-off-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
-> Cc: Telukuntla Sreedhar <sreedhar.telukuntla@intel.com>
-> Cc: Kondapally Kalyan <kalyan.kondapally@intel.com>
-> Cc: Gupta Anshuman <Anshuman.Gupta@intel.com>
-> Cc: Huang Sean Z <sean.z.huang@intel.com>
-> Cc: Chris Wilson <chris@chris-wilson.co.uk>
-> Cc: Lionel Landwerlin <lionel.g.landwerlin@intel.com>
-> Cc: Jason Ekstrand <jason@jlekstrand.net>
-> Cc: Daniel Vetter <daniel.vetter@intel.com>
-> ---
->  drivers/gpu/drm/i915/gem/i915_gem_create.c    | 26 ++++++++++++
->  .../gpu/drm/i915/gem/i915_gem_execbuffer.c    | 15 +++++++
->  drivers/gpu/drm/i915/gem/i915_gem_object.c    |  6 +++
->  drivers/gpu/drm/i915/gem/i915_gem_object.h    | 12 ++++++
->  .../gpu/drm/i915/gem/i915_gem_object_types.h  | 13 ++++++
->  drivers/gpu/drm/i915/pxp/intel_pxp.c          | 41 +++++++++++++++++++
->  drivers/gpu/drm/i915/pxp/intel_pxp.h          | 13 ++++++
->  drivers/gpu/drm/i915/pxp/intel_pxp_types.h    |  5 +++
->  include/uapi/drm/i915_drm.h                   | 33 ++++++++++++++-
->  9 files changed, 163 insertions(+), 1 deletion(-)
->=20
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_create.c
-> b/drivers/gpu/drm/i915/gem/i915_gem_create.c
-> index 548ddf39d853..c14be3882c35 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_create.c
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_create.c
-> @@ -6,6 +6,7 @@
->  #include "gem/i915_gem_ioctls.h"
->  #include "gem/i915_gem_lmem.h"
->  #include "gem/i915_gem_region.h"
-> +#include "pxp/intel_pxp.h"
->=20
->  #include "i915_drv.h"
->  #include "i915_trace.h"
-> @@ -99,7 +100,11 @@ i915_gem_setup(struct drm_i915_gem_object *obj,
-> u64 size)
->=20
->  	GEM_BUG_ON(size !=3D obj->base.size);
->=20
-> +	if (obj->user_flags & I915_GEM_OBJECT_PROTECTED)
-> +		intel_pxp_object_add(obj);
-> +
->  	trace_i915_gem_object_create(obj);
-> +
->  	return 0;
->  }
->=20
-> @@ -344,8 +349,29 @@ static int ext_set_placements(struct
-> i915_user_extension __user *base,
->  	return set_placements(&ext, data);
->  }
->=20
-> +static int ext_set_protected(struct i915_user_extension __user *base,
-> +void *data) {
-> +	struct drm_i915_gem_create_ext_protected_content ext;
-> +	struct create_ext *ext_data =3D data;
-> +
-> +	if (copy_from_user(&ext, base, sizeof(ext)))
-> +		return -EFAULT;
-> +
-> +	if (ext.flags)
-> +		return -EINVAL;
-> +
-> +	if (!intel_pxp_is_enabled(&ext_data->i915->gt.pxp))
-> +		return -ENODEV;
-> +
-> +	ext_data->vanilla_object->user_flags |=3D
-> I915_GEM_OBJECT_PROTECTED;
-> +
-> +	return 0;
-> +}
-> +
-> +
->  static const i915_user_extension_fn create_extensions[] =3D {
->  	[I915_GEM_CREATE_EXT_MEMORY_REGIONS] =3D
-> ext_set_placements,
-> +	[I915_GEM_CREATE_EXT_PROTECTED_CONTENT] =3D
-> ext_set_protected,
->  };
->=20
->  /**
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
-> b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
-> index c08e28847064..5dd813d04a9f 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
-> @@ -839,6 +839,21 @@ static struct i915_vma *eb_lookup_vma(struct
-> i915_execbuffer *eb, u32 handle)
->  		if (unlikely(!obj))
->  			return ERR_PTR(-ENOENT);
->=20
-> +		/*
-> +		 * If the user has opted-in for protected-object tracking,
-> make
-> +		 * sure the object encryption can be used.
-> +		 * We only need to do this when the object is first used with
-> +		 * this context, because the context itself will be banned
-> when
-> +		 * the protected objects become invalid.
-> +		 */
-> +		if (i915_gem_context_uses_protected_content(eb-
-> >gem_context) &&
-> +		    i915_gem_object_is_protected(obj)) {
-> +			if (!intel_pxp_is_active(&vm->gt->pxp))
-> +				return ERR_PTR(-ENODEV);
-> +			if (!i915_gem_object_has_valid_protection(obj))
-> +				return ERR_PTR(-ENOEXEC);
-> +		}
-> +
->  		vma =3D i915_vma_instance(obj, vm, NULL);
->  		if (IS_ERR(vma)) {
->  			i915_gem_object_put(obj);
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object.c
-> b/drivers/gpu/drm/i915/gem/i915_gem_object.c
-> index 28144410df86..b47fa0a7b25a 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_object.c
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_object.c
-> @@ -25,6 +25,7 @@
->  #include <linux/sched/mm.h>
->=20
->  #include "display/intel_frontbuffer.h"
-> +#include "pxp/intel_pxp.h"
->  #include "i915_drv.h"
->  #include "i915_gem_clflush.h"
->  #include "i915_gem_context.h"
-> @@ -70,6 +71,8 @@ void i915_gem_object_init(struct
-> drm_i915_gem_object *obj,
->  	INIT_LIST_HEAD(&obj->lut_list);
->  	spin_lock_init(&obj->lut_lock);
->=20
-> +	INIT_LIST_HEAD(&obj->pxp_link);
-> +
->  	spin_lock_init(&obj->mmo.lock);
->  	obj->mmo.offsets =3D RB_ROOT;
->=20
-> @@ -232,6 +235,9 @@ static void __i915_gem_free_objects(struct
-> drm_i915_private *i915,
->  			spin_unlock(&obj->vma.lock);
->  		}
->=20
-> +		if (i915_gem_object_has_valid_protection(obj))
-> +			intel_pxp_object_remove(obj);
-> +
->  		__i915_gem_object_free_mmaps(obj);
->=20
->  		GEM_BUG_ON(!list_empty(&obj->lut_list));
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object.h
-> b/drivers/gpu/drm/i915/gem/i915_gem_object.h
-> index 2ebd79537aea..61b101560352 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_object.h
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_object.h
-> @@ -288,6 +288,18 @@ i915_gem_object_never_mmap(const struct
-> drm_i915_gem_object *obj)
->  	return i915_gem_object_type_has(obj,
-> I915_GEM_OBJECT_NO_MMAP);  }
->=20
-> +static inline bool
-> +i915_gem_object_is_protected(const struct drm_i915_gem_object *obj) {
-> +	return obj->user_flags & I915_GEM_OBJECT_PROTECTED; }
-> +
-> +static inline bool
-> +i915_gem_object_has_valid_protection(const struct drm_i915_gem_object
-> +*obj) {
-> +	return i915_gem_object_is_protected(obj) &&
-> +!list_empty(&obj->pxp_link); }
-> +
->  static inline bool
->  i915_gem_object_is_framebuffer(const struct drm_i915_gem_object *obj)
-> { diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object_types.h
-> b/drivers/gpu/drm/i915/gem/i915_gem_object_types.h
-> index 0727d0c76aa0..a698ad0ef7f6 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_object_types.h
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_object_types.h
-> @@ -167,6 +167,11 @@ struct drm_i915_gem_object {
->  	} mmo;
->=20
->  	I915_SELFTEST_DECLARE(struct list_head st_link);
-> +	/**
-> +	 * @user_flags: small set of booleans set by the user
-> +	 */
-> +	unsigned long user_flags;
-> +#define I915_GEM_OBJECT_PROTECTED BIT(0)
->=20
->  	unsigned long flags;
->  #define I915_BO_ALLOC_CONTIGUOUS BIT(0) @@ -294,6 +299,14 @@
-> struct drm_i915_gem_object {
->  		bool dirty:1;
->  	} mm;
->=20
-> +	/*
-> +	 * When the PXP session is invalidated, we need to mark all
-> protected
-> +	 * objects as invalid. To easily do so we add them all to a list. The
-> +	 * presence on the list is used to check if the encryption is valid or
-> +	 * not.
-> +	 */
-> +	struct list_head pxp_link;
-> +
->  	/** Record of address bit 17 of each page at last unbind. */
->  	unsigned long *bit_17;
->=20
-> diff --git a/drivers/gpu/drm/i915/pxp/intel_pxp.c
-> b/drivers/gpu/drm/i915/pxp/intel_pxp.c
-> index 2291c68fd3a0..e6a59eb05eae 100644
-> --- a/drivers/gpu/drm/i915/pxp/intel_pxp.c
-> +++ b/drivers/gpu/drm/i915/pxp/intel_pxp.c
-> @@ -69,6 +69,9 @@ void intel_pxp_init(struct intel_pxp *pxp)
->  	if (!HAS_PXP(gt->i915))
->  		return;
->=20
-> +	spin_lock_init(&pxp->lock);
-> +	INIT_LIST_HEAD(&pxp->protected_objects);
-> +
->  	/*
->  	 * we'll use the completion to check if there is a termination pending,
->  	 * so we start it as completed and we reinit it when a termination
-> @@ -177,11 +180,49 @@ void intel_pxp_fini_hw(struct intel_pxp *pxp)
->  	intel_pxp_irq_disable(pxp);
->  }
->=20
-> +int intel_pxp_object_add(struct drm_i915_gem_object *obj) {
-> +	struct intel_pxp *pxp =3D &to_i915(obj->base.dev)->gt.pxp;
-> +
-> +	if (!intel_pxp_is_enabled(pxp))
-> +		return -ENODEV;
-> +
-> +	if (!list_empty(&obj->pxp_link))
-> +		return -EEXIST;
-> +
-> +	spin_lock_irq(&pxp->lock);
-> +	list_add(&obj->pxp_link, &pxp->protected_objects);
-> +	spin_unlock_irq(&pxp->lock);
-> +
-> +	return 0;
-> +}
-> +
-> +void intel_pxp_object_remove(struct drm_i915_gem_object *obj) {
-> +	struct intel_pxp *pxp =3D &to_i915(obj->base.dev)->gt.pxp;
-> +
-> +	if (!intel_pxp_is_enabled(pxp))
-> +		return;
-> +
-> +	spin_lock_irq(&pxp->lock);
-> +	list_del_init(&obj->pxp_link);
-> +	spin_unlock_irq(&pxp->lock);
-> +}
-> +
->  void intel_pxp_invalidate(struct intel_pxp *pxp)  {
->  	struct drm_i915_private *i915 =3D pxp_to_gt(pxp)->i915;
-> +	struct drm_i915_gem_object *obj, *tmp;
->  	struct i915_gem_context *ctx, *cn;
->=20
-> +	/* delete objects that have been used with the invalidated session
-> */
-> +	spin_lock_irq(&pxp->lock);
-> +	list_for_each_entry_safe(obj, tmp, &pxp->protected_objects,
-> pxp_link) {
-> +		if (i915_gem_object_has_pages(obj))
-> +			list_del_init(&obj->pxp_link);
-> +	}
-> +	spin_unlock_irq(&pxp->lock);
-> +
->  	/* ban all contexts marked as protected */
->  	spin_lock_irq(&i915->gem.contexts.lock);
->  	list_for_each_entry_safe(ctx, cn, &i915->gem.contexts.list, link)
-> { diff --git a/drivers/gpu/drm/i915/pxp/intel_pxp.h
-> b/drivers/gpu/drm/i915/pxp/intel_pxp.h
-> index 1f9871e64096..3500d7896058 100644
-> --- a/drivers/gpu/drm/i915/pxp/intel_pxp.h
-> +++ b/drivers/gpu/drm/i915/pxp/intel_pxp.h
-> @@ -9,6 +9,8 @@
->  #include "gt/intel_gt_types.h"
->  #include "intel_pxp_types.h"
->=20
-> +struct drm_i915_gem_object;
-> +
->  static inline struct intel_gt *pxp_to_gt(const struct intel_pxp *pxp)  {
->  	return container_of(pxp, struct intel_gt, pxp); @@ -33,6 +35,9 @@
-> void intel_pxp_fini_hw(struct intel_pxp *pxp);
->=20
->  void intel_pxp_mark_termination_in_progress(struct intel_pxp *pxp);  int
-> intel_pxp_start(struct intel_pxp *pxp);
-> +
-> +int intel_pxp_object_add(struct drm_i915_gem_object *obj); void
-> +intel_pxp_object_remove(struct drm_i915_gem_object *obj);
->  void intel_pxp_invalidate(struct intel_pxp *pxp);  #else  static inline =
-void
-> intel_pxp_init(struct intel_pxp *pxp) @@ -47,6 +52,14 @@ static inline in=
-t
-> intel_pxp_start(struct intel_pxp *pxp)  {
->  	return 0;
->  }
-> +
-> +static inline int intel_pxp_object_add(struct drm_i915_gem_object *obj)
-> +{
-> +	return 0;
-> +}
-> +static inline void intel_pxp_object_remove(struct drm_i915_gem_object
-> +*obj) { }
->  #endif
->=20
->  #endif /* __INTEL_PXP_H__ */
-> diff --git a/drivers/gpu/drm/i915/pxp/intel_pxp_types.h
-> b/drivers/gpu/drm/i915/pxp/intel_pxp_types.h
-> index b3ae49dd73a8..cc510416eac6 100644
-> --- a/drivers/gpu/drm/i915/pxp/intel_pxp_types.h
-> +++ b/drivers/gpu/drm/i915/pxp/intel_pxp_types.h
-> @@ -7,7 +7,9 @@
->  #define __INTEL_PXP_TYPES_H__
->=20
->  #include <linux/completion.h>
-> +#include <linux/list.h>
->  #include <linux/mutex.h>
-> +#include <linux/spinlock.h>
->  #include <linux/types.h>
->  #include <linux/workqueue.h>
->=20
-> @@ -43,6 +45,9 @@ struct intel_pxp {
->  #define PXP_TERMINATION_REQUEST  BIT(0)  #define
-> PXP_TERMINATION_COMPLETE BIT(1)
->  #define PXP_INVAL_REQUIRED       BIT(2)
-> +
-> +	spinlock_t lock; /* protects the objects list */
-> +	struct list_head protected_objects;
->  };
->=20
->  #endif /* __INTEL_PXP_TYPES_H__ */
-> diff --git a/include/uapi/drm/i915_drm.h b/include/uapi/drm/i915_drm.h
-> index 3cc33fcbf520..d39b8cb4bfc5 100644
-> --- a/include/uapi/drm/i915_drm.h
-> +++ b/include/uapi/drm/i915_drm.h
-> @@ -1768,7 +1768,7 @@ struct drm_i915_gem_context_param {
->  	__u64 value;
->  };
->=20
-> -/*
-> +/**
->   * Context SSEU programming
->   *
->   * It may be necessary for either functional or performance reason to
-> configure @@ -2669,8 +2669,12 @@ struct drm_i915_gem_create_ext {
->  	 *
->  	 * For I915_GEM_CREATE_EXT_MEMORY_REGIONS usage see
->  	 * struct drm_i915_gem_create_ext_memory_regions.
-> +	 *
-> +	 * For I915_GEM_CREATE_EXT_PROTECTED_CONTENT usage see
-> +	 * struct drm_i915_gem_create_ext_protected_content.
->  	 */
->  #define I915_GEM_CREATE_EXT_MEMORY_REGIONS 0
-> +#define I915_GEM_CREATE_EXT_PROTECTED_CONTENT 1
->  	__u64 extensions;
->  };
->=20
-> @@ -2728,6 +2732,33 @@ struct
-> drm_i915_gem_create_ext_memory_regions {
->  	__u64 regions;
->  };
->=20
-> +/**
-> + * struct drm_i915_gem_create_ext_protected_content - The
-> + * I915_OBJECT_PARAM_PROTECTED_CONTENT extension.
-> + *
-> + * If this extension is provided, buffer contents are expected to be
-> + * protected by PXP encryption and requires decryption for scan out
-> + * and processing. This is only possible on platforms that have PXP
-> +enabled,
-> + * on all other scenarios ysing this extension will cause the ioctl to
-> +fail
-> + * and return -ENODEV. The flags parameter is reserved for future
-> +expansion and
-> + * must currently be set to zero.
-> + *
-> + * The buffer contents are considered invalid after a PXP session teardo=
-wn.
-> + *
-> + * The encryption is guaranteed to be processed correctly only if the
-> +object
-> + * is submitted with a context created using the
-> + * I915_CONTEXT_PARAM_PROTECTED_CONTENT flag. This will also enable
-> +extra checks
-> + * at submission time on the validity of the objects involved, which
-> +can lead to
-> + * the following errors being returned from the execbuf ioctl:
-> + *
-> + * -ENODEV: PXP session not currently active
-> + * -ENOEXEC: buffer has become invalid after a teardown event  */
-> +struct drm_i915_gem_create_ext_protected_content {
-> +	struct i915_user_extension base;
-> +	__u32 flags;
-> +};
-> +
->  /* ID of the protected content session managed by i915 when PXP is activ=
-e
-> */  #define I915_PROTECTED_CONTENT_DEFAULT_SESSION 0xf
->=20
-> --
-> 2.29.2
->=20
-> _______________________________________________
-> Intel-gfx mailing list
-> Intel-gfx@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/intel-gfx
+This information will be used to derive DMA-BUF
+per-exporter stats and per-device usage stats for Android Bug reports.
+The corresponding userspace changes can be found at [2].
+Telemetry tools will also capture this information(along with other
+memory metrics) periodically as well as on important events like a
+foreground app kill (which might have been triggered by Low Memory
+Killer). It will also contribute to provide a snapshot of the system
+memory usage on other events such as OOM kills and Application Not
+Responding events.
+
+A shell script that can be run on a classic Linux environment to read
+out the DMA-BUF statistics can be found at [3](suggested by John
+Stultz).
+
+The patch contains the following major improvements over v1:
+1) Each attachment is represented by its own directory to allow creating
+a symlink to the importing device and to also provide room for future
+expansion.
+2) The number of distinct mappings of each attachment is exposed in a
+separate file.
+3) The per-buffer statistics are now in /sys/kernel/dmabuf/buffers
+inorder to make the interface expandable in future.
+
+All of the improvements above are based on suggestions/feedback from
+Daniel Vetter and Christian K=C3=B6nig.
+
+[1]: https://lore.kernel.org/patchwork/patch/1088791/
+[2]: https://android-review.googlesource.com/q/topic:%22dmabuf-sysfs%22+(st=
+atus:open%20OR%20status:merged)
+[3]: https://android-review.googlesource.com/c/platform/system/memory/libme=
+minfo/+/1549734
+
+Signed-off-by: Hridya Valsaraju <hridya@google.com>
+Reported-by: kernel test robot <lkp@intel.com>
+---
+
+Hi Daniel,
+
+I am sending the latest version of the DMA-BUF sysfs statistics patch to
+the list again as per your suggestion to restart the discussion on it :)
+Please do take a look and let me know your thoughts, thank you!
+
+Regards,
+Hridya
+
+Changes in v4:
+-Suppress uevents from kset creation to avoid waking up uevent listeners on
+DMA-BUF export/release.
+
+Changes in v3:
+-Fix a warning reported by the kernel test robot.
+
+Changes in v2:
+-Move statistics to /sys/kernel/dmabuf/buffers in oder to allow addition
+of other DMA-BUF-related sysfs stats in future. Based on feedback from
+Daniel Vetter.
+-Each attachment has its own directory to represent attaching devices as
+symlinks and to introduce map_count as a separate file. Based on
+feedback from Daniel Vetter and Christian K=C3=B6nig. Thank you both!
+-Commit messages updated to point to userspace code in AOSP that will
+read the DMA-BUF sysfs stats.
+
+ .../ABI/testing/sysfs-kernel-dmabuf-buffers   |  52 +++
+ drivers/dma-buf/Kconfig                       |  11 +
+ drivers/dma-buf/Makefile                      |   1 +
+ drivers/dma-buf/dma-buf-sysfs-stats.c         | 300 ++++++++++++++++++
+ drivers/dma-buf/dma-buf-sysfs-stats.h         |  62 ++++
+ drivers/dma-buf/dma-buf.c                     |  37 +++
+ include/linux/dma-buf.h                       |  20 ++
+ 7 files changed, 483 insertions(+)
+ create mode 100644 Documentation/ABI/testing/sysfs-kernel-dmabuf-buffers
+ create mode 100644 drivers/dma-buf/dma-buf-sysfs-stats.c
+ create mode 100644 drivers/dma-buf/dma-buf-sysfs-stats.h
+
+diff --git a/Documentation/ABI/testing/sysfs-kernel-dmabuf-buffers b/Docume=
+ntation/ABI/testing/sysfs-kernel-dmabuf-buffers
+new file mode 100644
+index 000000000000..73a8c372b0f2
+--- /dev/null
++++ b/Documentation/ABI/testing/sysfs-kernel-dmabuf-buffers
+@@ -0,0 +1,52 @@
++What:		/sys/kernel/dmabuf/buffers
++Date:		May 2021
++KernelVersion:	v5.13
++Contact:	Hridya Valsaraju <hridya@google.com>
++Description:	The /sys/kernel/dmabuf/buffers directory contains a
++		snapshot of the internal state of every DMA-BUF.
++		/sys/kernel/dmabuf/buffers/<inode_number> will contain the
++		statistics for the DMA-BUF with the unique inode number
++		<inode_number>
++Users:		kernel memory tuning/debugging tools
++
++What:		/sys/kernel/dmabuf/buffers/<inode_number>/exporter_name
++Date:		May 2021
++KernelVersion:	v5.13
++Contact:	Hridya Valsaraju <hridya@google.com>
++Description:	This file is read-only and contains the name of the exporter =
+of
++		the DMA-BUF.
++
++What:		/sys/kernel/dmabuf/buffers/<inode_number>/size
++Date:		May 2021
++KernelVersion:	v5.13
++Contact:	Hridya Valsaraju <hridya@google.com>
++Description:	This file is read-only and specifies the size of the DMA-BUF =
+in
++		bytes.
++
++What:		/sys/kernel/dmabuf/buffers/<inode_number>/attachments
++Date:		May 2021
++KernelVersion:	v5.13
++Contact:	Hridya Valsaraju <hridya@google.com>
++Description:	This directory will contain subdirectories representing every
++		attachment of the DMA-BUF.
++
++What:		/sys/kernel/dmabuf/buffers/<inode_number>/attachments/<attachment_u=
+id>
++Date:		May 2021
++KernelVersion:	v5.13
++Contact:	Hridya Valsaraju <hridya@google.com>
++Description:	This directory will contain information on the attaching devi=
+ce
++		and the number of current distinct device mappings.
++
++What:		/sys/kernel/dmabuf/buffers/<inode_number>/attachments/<attachment_u=
+id>/device
++Date:		May 2021
++KernelVersion:	v5.13
++Contact:	Hridya Valsaraju <hridya@google.com>
++Description:	This file is read-only and is a symlink to the attaching devi=
+ces's
++		sysfs entry.
++
++What:		/sys/kernel/dmabuf/buffers/<inode_number>/attachments/<attachment_u=
+id>/map_counter
++Date:		May 2021
++KernelVersion:	v5.13
++Contact:	Hridya Valsaraju <hridya@google.com>
++Description:	This file is read-only and contains a map_counter indicating =
+the
++		number of distinct device mappings of the attachment.
+diff --git a/drivers/dma-buf/Kconfig b/drivers/dma-buf/Kconfig
+index 4e16c71c24b7..9561e3d2d428 100644
+--- a/drivers/dma-buf/Kconfig
++++ b/drivers/dma-buf/Kconfig
+@@ -72,6 +72,17 @@ menuconfig DMABUF_HEAPS
+ 	  allows userspace to allocate dma-bufs that can be shared
+ 	  between drivers.
+=20
++menuconfig DMABUF_SYSFS_STATS
++	bool "DMA-BUF sysfs statistics"
++	select DMA_SHARED_BUFFER
++	help
++	   Choose this option to enable DMA-BUF sysfs statistics
++	   in location /sys/kernel/dmabuf/buffers.
++
++	   /sys/kernel/dmabuf/buffers/<inode_number> will contain
++	   statistics for the DMA-BUF with the unique inode number
++	   <inode_number>.
++
+ source "drivers/dma-buf/heaps/Kconfig"
+=20
+ endmenu
+diff --git a/drivers/dma-buf/Makefile b/drivers/dma-buf/Makefile
+index 995e05f609ff..40d81f23cacf 100644
+--- a/drivers/dma-buf/Makefile
++++ b/drivers/dma-buf/Makefile
+@@ -6,6 +6,7 @@ obj-$(CONFIG_DMABUF_HEAPS)	+=3D heaps/
+ obj-$(CONFIG_SYNC_FILE)		+=3D sync_file.o
+ obj-$(CONFIG_SW_SYNC)		+=3D sw_sync.o sync_debug.o
+ obj-$(CONFIG_UDMABUF)		+=3D udmabuf.o
++obj-$(CONFIG_DMABUF_SYSFS_STATS) +=3D dma-buf-sysfs-stats.o
+=20
+ dmabuf_selftests-y :=3D \
+ 	selftest.o \
+diff --git a/drivers/dma-buf/dma-buf-sysfs-stats.c b/drivers/dma-buf/dma-bu=
+f-sysfs-stats.c
+new file mode 100644
+index 000000000000..45717c8108c8
+--- /dev/null
++++ b/drivers/dma-buf/dma-buf-sysfs-stats.c
+@@ -0,0 +1,300 @@
++// SPDX-License-Identifier: GPL-2.0-only
++/*
++ * DMA-BUF sysfs statistics.
++ *
++ * Copyright (C) 2021 Google LLC.
++ */
++
++#include <linux/dma-buf.h>
++#include <linux/dma-resv.h>
++#include <linux/kobject.h>
++#include <linux/printk.h>
++#include <linux/slab.h>
++#include <linux/sysfs.h>
++
++#include "dma-buf-sysfs-stats.h"
++
++#define to_dma_buf_entry_from_kobj(x) container_of(x, struct dma_buf_sysfs=
+_entry, kobj)
++
++struct dma_buf_stats_attribute {
++	struct attribute attr;
++	ssize_t (*show)(struct dma_buf *dmabuf,
++			struct dma_buf_stats_attribute *attr, char *buf);
++};
++#define to_dma_buf_stats_attr(x) container_of(x, struct dma_buf_stats_attr=
+ibute, attr)
++
++static ssize_t dma_buf_stats_attribute_show(struct kobject *kobj,
++					    struct attribute *attr,
++					    char *buf)
++{
++	struct dma_buf_stats_attribute *attribute;
++	struct dma_buf_sysfs_entry *sysfs_entry;
++	struct dma_buf *dmabuf;
++
++	attribute =3D to_dma_buf_stats_attr(attr);
++	sysfs_entry =3D to_dma_buf_entry_from_kobj(kobj);
++	dmabuf =3D sysfs_entry->dmabuf;
++
++	if (!dmabuf || !attribute->show)
++		return -EIO;
++
++	return attribute->show(dmabuf, attribute, buf);
++}
++
++static const struct sysfs_ops dma_buf_stats_sysfs_ops =3D {
++	.show =3D dma_buf_stats_attribute_show,
++};
++
++static ssize_t exporter_name_show(struct dma_buf *dmabuf,
++				  struct dma_buf_stats_attribute *attr,
++				  char *buf)
++{
++	return sysfs_emit(buf, "%s\n", dmabuf->exp_name);
++}
++
++static ssize_t size_show(struct dma_buf *dmabuf,
++			 struct dma_buf_stats_attribute *attr,
++			 char *buf)
++{
++	return sysfs_emit(buf, "%zu\n", dmabuf->size);
++}
++
++static struct dma_buf_stats_attribute exporter_name_attribute =3D
++	__ATTR_RO(exporter_name);
++static struct dma_buf_stats_attribute size_attribute =3D __ATTR_RO(size);
++
++static struct attribute *dma_buf_stats_default_attrs[] =3D {
++	&exporter_name_attribute.attr,
++	&size_attribute.attr,
++	NULL,
++};
++ATTRIBUTE_GROUPS(dma_buf_stats_default);
++
++static void dma_buf_sysfs_release(struct kobject *kobj)
++{
++	struct dma_buf_sysfs_entry *sysfs_entry;
++
++	sysfs_entry =3D to_dma_buf_entry_from_kobj(kobj);
++	kfree(sysfs_entry);
++}
++
++static struct kobj_type dma_buf_ktype =3D {
++	.sysfs_ops =3D &dma_buf_stats_sysfs_ops,
++	.release =3D dma_buf_sysfs_release,
++	.default_groups =3D dma_buf_stats_default_groups,
++};
++
++#define to_dma_buf_attach_entry_from_kobj(x) container_of(x, struct dma_bu=
+f_attach_sysfs_entry, kobj)
++
++struct dma_buf_attach_stats_attribute {
++	struct attribute attr;
++	ssize_t (*show)(struct dma_buf_attach_sysfs_entry *sysfs_entry,
++			struct dma_buf_attach_stats_attribute *attr, char *buf);
++};
++#define to_dma_buf_attach_stats_attr(x) container_of(x, struct dma_buf_att=
+ach_stats_attribute, attr)
++
++static ssize_t dma_buf_attach_stats_attribute_show(struct kobject *kobj,
++						   struct attribute *attr,
++						   char *buf)
++{
++	struct dma_buf_attach_stats_attribute *attribute;
++	struct dma_buf_attach_sysfs_entry *sysfs_entry;
++
++	attribute =3D to_dma_buf_attach_stats_attr(attr);
++	sysfs_entry =3D to_dma_buf_attach_entry_from_kobj(kobj);
++
++	if (!attribute->show)
++		return -EIO;
++
++	return attribute->show(sysfs_entry, attribute, buf);
++}
++
++static const struct sysfs_ops dma_buf_attach_stats_sysfs_ops =3D {
++	.show =3D dma_buf_attach_stats_attribute_show,
++};
++
++static ssize_t map_counter_show(struct dma_buf_attach_sysfs_entry *sysfs_e=
+ntry,
++				struct dma_buf_attach_stats_attribute *attr,
++				char *buf)
++{
++	return sysfs_emit(buf, "%u\n", sysfs_entry->map_counter);
++}
++
++static struct dma_buf_attach_stats_attribute map_counter_attribute =3D
++	__ATTR_RO(map_counter);
++
++static struct attribute *dma_buf_attach_stats_default_attrs[] =3D {
++	&map_counter_attribute.attr,
++	NULL,
++};
++ATTRIBUTE_GROUPS(dma_buf_attach_stats_default);
++
++static void dma_buf_attach_sysfs_release(struct kobject *kobj)
++{
++	struct dma_buf_attach_sysfs_entry *sysfs_entry;
++
++	sysfs_entry =3D to_dma_buf_attach_entry_from_kobj(kobj);
++	kfree(sysfs_entry);
++}
++
++static struct kobj_type dma_buf_attach_ktype =3D {
++	.sysfs_ops =3D &dma_buf_attach_stats_sysfs_ops,
++	.release =3D dma_buf_attach_sysfs_release,
++	.default_groups =3D dma_buf_attach_stats_default_groups,
++};
++
++void dma_buf_attach_stats_teardown(struct dma_buf_attachment *attach)
++{
++	struct dma_buf_attach_sysfs_entry *sysfs_entry;
++
++	sysfs_entry =3D attach->sysfs_entry;
++	if (!sysfs_entry)
++		return;
++
++	sysfs_delete_link(&sysfs_entry->kobj, &attach->dev->kobj, "device");
++
++	kobject_del(&sysfs_entry->kobj);
++	kobject_put(&sysfs_entry->kobj);
++}
++
++int dma_buf_attach_stats_setup(struct dma_buf_attachment *attach,
++			       unsigned int uid)
++{
++	struct dma_buf_attach_sysfs_entry *sysfs_entry;
++	int ret;
++	struct dma_buf *dmabuf;
++
++	if (!attach)
++		return -EINVAL;
++
++	dmabuf =3D attach->dmabuf;
++
++	sysfs_entry =3D kzalloc(sizeof(struct dma_buf_attach_sysfs_entry),
++			      GFP_KERNEL);
++	if (!sysfs_entry)
++		return -ENOMEM;
++
++	sysfs_entry->kobj.kset =3D dmabuf->sysfs_entry->attach_stats_kset;
++
++	attach->sysfs_entry =3D sysfs_entry;
++
++	ret =3D kobject_init_and_add(&sysfs_entry->kobj, &dma_buf_attach_ktype,
++				   NULL, "%u", uid);
++	if (ret)
++		goto kobj_err;
++
++	ret =3D sysfs_create_link(&sysfs_entry->kobj, &attach->dev->kobj,
++				"device");
++	if (ret)
++		goto link_err;
++
++	return 0;
++
++link_err:
++	kobject_del(&sysfs_entry->kobj);
++kobj_err:
++	kobject_put(&sysfs_entry->kobj);
++	attach->sysfs_entry =3D NULL;
++
++	return ret;
++}
++void dma_buf_stats_teardown(struct dma_buf *dmabuf)
++{
++	struct dma_buf_sysfs_entry *sysfs_entry;
++
++	sysfs_entry =3D dmabuf->sysfs_entry;
++	if (!sysfs_entry)
++		return;
++
++	kset_unregister(sysfs_entry->attach_stats_kset);
++	kobject_del(&sysfs_entry->kobj);
++	kobject_put(&sysfs_entry->kobj);
++}
++
++
++/* Statistics files do not need to send uevents. */
++static int dmabuf_sysfs_uevent_filter(struct kset *kset, struct kobject *k=
+obj)
++{
++	return 0;
++}
++
++static const struct kset_uevent_ops dmabuf_sysfs_no_uevent_ops =3D {
++	.filter =3D dmabuf_sysfs_uevent_filter,
++};
++
++static struct kset *dma_buf_stats_kset;
++static struct kset *dma_buf_per_buffer_stats_kset;
++int dma_buf_init_sysfs_statistics(void)
++{
++	dma_buf_stats_kset =3D kset_create_and_add("dmabuf",
++						 &dmabuf_sysfs_no_uevent_ops,
++						 kernel_kobj);
++	if (!dma_buf_stats_kset)
++		return -ENOMEM;
++
++	dma_buf_per_buffer_stats_kset =3D kset_create_and_add("buffers",
++							    &dmabuf_sysfs_no_uevent_ops,
++							    &dma_buf_stats_kset->kobj);
++	if (!dma_buf_per_buffer_stats_kset) {
++		kset_unregister(dma_buf_stats_kset);
++		return -ENOMEM;
++	}
++
++	return 0;
++}
++
++void dma_buf_uninit_sysfs_statistics(void)
++{
++	kset_unregister(dma_buf_per_buffer_stats_kset);
++	kset_unregister(dma_buf_stats_kset);
++}
++
++int dma_buf_stats_setup(struct dma_buf *dmabuf)
++{
++	struct dma_buf_sysfs_entry *sysfs_entry;
++	int ret;
++	struct kset *attach_stats_kset;
++
++	if (!dmabuf || !dmabuf->file)
++		return -EINVAL;
++
++	if (!dmabuf->exp_name) {
++		pr_err("exporter name must not be empty if stats needed\n");
++		return -EINVAL;
++	}
++
++	sysfs_entry =3D kzalloc(sizeof(struct dma_buf_sysfs_entry), GFP_KERNEL);
++	if (!sysfs_entry)
++		return -ENOMEM;
++
++	sysfs_entry->kobj.kset =3D dma_buf_per_buffer_stats_kset;
++	sysfs_entry->dmabuf =3D dmabuf;
++
++	dmabuf->sysfs_entry =3D sysfs_entry;
++
++	/* create the directory for buffer stats */
++	ret =3D kobject_init_and_add(&sysfs_entry->kobj, &dma_buf_ktype, NULL,
++				   "%lu", file_inode(dmabuf->file)->i_ino);
++	if (ret)
++		goto err_sysfs_dmabuf;
++
++	/* create the directory for attachment stats */
++	attach_stats_kset =3D kset_create_and_add("attachments",
++						&dmabuf_sysfs_no_uevent_ops,
++						&sysfs_entry->kobj);
++	if (!attach_stats_kset) {
++		ret =3D -ENOMEM;
++		goto err_sysfs_attach;
++	}
++
++	sysfs_entry->attach_stats_kset =3D attach_stats_kset;
++
++	return 0;
++
++err_sysfs_attach:
++	kobject_del(&sysfs_entry->kobj);
++err_sysfs_dmabuf:
++	kobject_put(&sysfs_entry->kobj);
++	dmabuf->sysfs_entry =3D NULL;
++	return ret;
++}
+diff --git a/drivers/dma-buf/dma-buf-sysfs-stats.h b/drivers/dma-buf/dma-bu=
+f-sysfs-stats.h
+new file mode 100644
+index 000000000000..5f4703249117
+--- /dev/null
++++ b/drivers/dma-buf/dma-buf-sysfs-stats.h
+@@ -0,0 +1,62 @@
++/* SPDX-License-Identifier: GPL-2.0-only */
++/*
++ * DMA-BUF sysfs statistics.
++ *
++ * Copyright (C) 2021 Google LLC.
++ */
++
++#ifndef _DMA_BUF_SYSFS_STATS_H
++#define _DMA_BUF_SYSFS_STATS_H
++
++#ifdef CONFIG_DMABUF_SYSFS_STATS
++
++int dma_buf_init_sysfs_statistics(void);
++void dma_buf_uninit_sysfs_statistics(void);
++
++int dma_buf_stats_setup(struct dma_buf *dmabuf);
++int dma_buf_attach_stats_setup(struct dma_buf_attachment *attach,
++			       unsigned int uid);
++static inline void dma_buf_update_attachment_map_count(struct dma_buf_atta=
+chment *attach,
++						       int delta)
++{
++	struct dma_buf_attach_sysfs_entry *entry =3D attach->sysfs_entry;
++
++	entry->map_counter +=3D delta;
++}
++void dma_buf_stats_teardown(struct dma_buf *dmabuf);
++void dma_buf_attach_stats_teardown(struct dma_buf_attachment *attach);
++static inline unsigned int dma_buf_update_attach_uid(struct dma_buf *dmabu=
+f)
++{
++	struct dma_buf_sysfs_entry *entry =3D dmabuf->sysfs_entry;
++
++	return entry->attachment_uid++;
++}
++#else
++
++static inline int dma_buf_init_sysfs_statistics(void)
++{
++	return 0;
++}
++
++static inline void dma_buf_uninit_sysfs_statistics(void) {}
++
++static inline int dma_buf_stats_setup(struct dma_buf *dmabuf)
++{
++	return 0;
++}
++static inline int dma_buf_attach_stats_setup(struct dma_buf_attachment *at=
+tach,
++					     unsigned int uid)
++{
++	return 0;
++}
++
++static inline void dma_buf_stats_teardown(struct dma_buf *dmabuf) {}
++static inline void dma_buf_attach_stats_teardown(struct dma_buf_attachment=
+ *attach) {}
++static inline void dma_buf_update_attachment_map_count(struct dma_buf_atta=
+chment *attach,
++						       int delta) {}
++static inline unsigned int dma_buf_update_attach_uid(struct dma_buf *dmabu=
+f)
++{
++	return 0;
++}
++#endif
++#endif // _DMA_BUF_SYSFS_STATS_H
+diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+index f264b70c383e..184dd7acb1ed 100644
+--- a/drivers/dma-buf/dma-buf.c
++++ b/drivers/dma-buf/dma-buf.c
+@@ -29,6 +29,8 @@
+ #include <uapi/linux/dma-buf.h>
+ #include <uapi/linux/magic.h>
+=20
++#include "dma-buf-sysfs-stats.h"
++
+ static inline int is_dma_buf_file(struct file *);
+=20
+ struct dma_buf_list {
+@@ -79,6 +81,7 @@ static void dma_buf_release(struct dentry *dentry)
+ 	if (dmabuf->resv =3D=3D (struct dma_resv *)&dmabuf[1])
+ 		dma_resv_fini(dmabuf->resv);
+=20
++	dma_buf_stats_teardown(dmabuf);
+ 	module_put(dmabuf->owner);
+ 	kfree(dmabuf->name);
+ 	kfree(dmabuf);
+@@ -580,6 +583,10 @@ struct dma_buf *dma_buf_export(const struct dma_buf_ex=
+port_info *exp_info)
+ 	file->f_mode |=3D FMODE_LSEEK;
+ 	dmabuf->file =3D file;
+=20
++	ret =3D dma_buf_stats_setup(dmabuf);
++	if (ret)
++		goto err_sysfs;
++
+ 	mutex_init(&dmabuf->lock);
+ 	INIT_LIST_HEAD(&dmabuf->attachments);
+=20
+@@ -589,6 +596,14 @@ struct dma_buf *dma_buf_export(const struct dma_buf_ex=
+port_info *exp_info)
+=20
+ 	return dmabuf;
+=20
++err_sysfs:
++	/*
++	 * Set file->f_path.dentry->d_fsdata to NULL so that when
++	 * dma_buf_release() gets invoked by dentry_ops, it exits
++	 * early before calling the release() dma_buf op.
++	 */
++	file->f_path.dentry->d_fsdata =3D NULL;
++	fput(file);
+ err_dmabuf:
+ 	kfree(dmabuf);
+ err_module:
+@@ -723,6 +738,7 @@ dma_buf_dynamic_attach(struct dma_buf *dmabuf, struct d=
+evice *dev,
+ {
+ 	struct dma_buf_attachment *attach;
+ 	int ret;
++	unsigned int attach_uid;
+=20
+ 	if (WARN_ON(!dmabuf || !dev))
+ 		return ERR_PTR(-EINVAL);
+@@ -748,8 +764,13 @@ dma_buf_dynamic_attach(struct dma_buf *dmabuf, struct =
+device *dev,
+ 	}
+ 	dma_resv_lock(dmabuf->resv, NULL);
+ 	list_add(&attach->node, &dmabuf->attachments);
++	attach_uid =3D dma_buf_update_attach_uid(dmabuf);
+ 	dma_resv_unlock(dmabuf->resv);
+=20
++	ret =3D dma_buf_attach_stats_setup(attach, attach_uid);
++	if (ret)
++		goto err_sysfs;
++
+ 	/* When either the importer or the exporter can't handle dynamic
+ 	 * mappings we cache the mapping here to avoid issues with the
+ 	 * reservation object lock.
+@@ -776,6 +797,7 @@ dma_buf_dynamic_attach(struct dma_buf *dmabuf, struct d=
+evice *dev,
+ 			dma_resv_unlock(attach->dmabuf->resv);
+ 		attach->sgt =3D sgt;
+ 		attach->dir =3D DMA_BIDIRECTIONAL;
++		dma_buf_update_attachment_map_count(attach, 1 /* delta */);
+ 	}
+=20
+ 	return attach;
+@@ -792,6 +814,7 @@ dma_buf_dynamic_attach(struct dma_buf *dmabuf, struct d=
+evice *dev,
+ 	if (dma_buf_is_dynamic(attach->dmabuf))
+ 		dma_resv_unlock(attach->dmabuf->resv);
+=20
++err_sysfs:
+ 	dma_buf_detach(dmabuf, attach);
+ 	return ERR_PTR(ret);
+ }
+@@ -841,6 +864,7 @@ void dma_buf_detach(struct dma_buf *dmabuf, struct dma_=
+buf_attachment *attach)
+ 			dma_resv_lock(attach->dmabuf->resv, NULL);
+=20
+ 		__unmap_dma_buf(attach, attach->sgt, attach->dir);
++		dma_buf_update_attachment_map_count(attach, -1 /* delta */);
+=20
+ 		if (dma_buf_is_dynamic(attach->dmabuf)) {
+ 			dma_buf_unpin(attach);
+@@ -854,6 +878,7 @@ void dma_buf_detach(struct dma_buf *dmabuf, struct dma_=
+buf_attachment *attach)
+ 	if (dmabuf->ops->detach)
+ 		dmabuf->ops->detach(dmabuf, attach);
+=20
++	dma_buf_attach_stats_teardown(attach);
+ 	kfree(attach);
+ }
+ EXPORT_SYMBOL_GPL(dma_buf_detach);
+@@ -993,6 +1018,9 @@ struct sg_table *dma_buf_map_attachment(struct dma_buf=
+_attachment *attach,
+ 	}
+ #endif /* CONFIG_DMA_API_DEBUG */
+=20
++	if (!IS_ERR(sg_table))
++		dma_buf_update_attachment_map_count(attach, 1 /* delta */);
++
+ 	return sg_table;
+ }
+ EXPORT_SYMBOL_GPL(dma_buf_map_attachment);
+@@ -1030,6 +1058,8 @@ void dma_buf_unmap_attachment(struct dma_buf_attachme=
+nt *attach,
+ 	if (dma_buf_is_dynamic(attach->dmabuf) &&
+ 	    !IS_ENABLED(CONFIG_DMABUF_MOVE_NOTIFY))
+ 		dma_buf_unpin(attach);
++
++	dma_buf_update_attachment_map_count(attach, -1 /* delta */);
+ }
+ EXPORT_SYMBOL_GPL(dma_buf_unmap_attachment);
+=20
+@@ -1480,6 +1510,12 @@ static inline void dma_buf_uninit_debugfs(void)
+=20
+ static int __init dma_buf_init(void)
+ {
++	int ret;
++
++	ret =3D dma_buf_init_sysfs_statistics();
++	if (ret)
++		return ret;
++
+ 	dma_buf_mnt =3D kern_mount(&dma_buf_fs_type);
+ 	if (IS_ERR(dma_buf_mnt))
+ 		return PTR_ERR(dma_buf_mnt);
+@@ -1495,5 +1531,6 @@ static void __exit dma_buf_deinit(void)
+ {
+ 	dma_buf_uninit_debugfs();
+ 	kern_unmount(dma_buf_mnt);
++	dma_buf_uninit_sysfs_statistics();
+ }
+ __exitcall(dma_buf_deinit);
+diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
+index efdc56b9d95f..342585bd6dff 100644
+--- a/include/linux/dma-buf.h
++++ b/include/linux/dma-buf.h
+@@ -295,6 +295,9 @@ struct dma_buf_ops {
+  * @poll: for userspace poll support
+  * @cb_excl: for userspace poll support
+  * @cb_shared: for userspace poll support
++ * @sysfs_entry: for exposing information about this buffer in sysfs.
++ * The attachment_uid member of @sysfs_entry is protected by dma_resv lock
++ * and is incremented on each attach.
+  *
+  * This represents a shared buffer, created by calling dma_buf_export(). T=
+he
+  * userspace representation is a normal file descriptor, which can be crea=
+ted by
+@@ -330,6 +333,15 @@ struct dma_buf {
+=20
+ 		__poll_t active;
+ 	} cb_excl, cb_shared;
++#ifdef CONFIG_DMABUF_SYSFS_STATS
++	/* for sysfs stats */
++	struct dma_buf_sysfs_entry {
++		struct kobject kobj;
++		struct dma_buf *dmabuf;
++		unsigned int attachment_uid;
++		struct kset *attach_stats_kset;
++	} *sysfs_entry;
++#endif
+ };
+=20
+ /**
+@@ -379,6 +391,7 @@ struct dma_buf_attach_ops {
+  * @importer_ops: importer operations for this attachment, if provided
+  * dma_buf_map/unmap_attachment() must be called with the dma_resv lock he=
+ld.
+  * @importer_priv: importer specific attachment data.
++ * @sysfs_entry: For exposing information about this attachment in sysfs.
+  *
+  * This structure holds the attachment information between the dma_buf buf=
+fer
+  * and its user device(s). The list contains one attachment struct per dev=
+ice
+@@ -399,6 +412,13 @@ struct dma_buf_attachment {
+ 	const struct dma_buf_attach_ops *importer_ops;
+ 	void *importer_priv;
+ 	void *priv;
++#ifdef CONFIG_DMABUF_SYSFS_STATS
++	/* for sysfs stats */
++	struct dma_buf_attach_sysfs_entry {
++		struct kobject kobj;
++		unsigned int map_counter;
++	} *sysfs_entry;
++#endif
+ };
+=20
+ /**
+--=20
+2.31.1.818.g46aad6cb9e-goog
+
