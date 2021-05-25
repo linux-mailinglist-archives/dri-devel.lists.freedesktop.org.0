@@ -2,43 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DFCD139074E
-	for <lists+dri-devel@lfdr.de>; Tue, 25 May 2021 19:17:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5245C39073D
+	for <lists+dri-devel@lfdr.de>; Tue, 25 May 2021 19:14:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AE6736EA82;
-	Tue, 25 May 2021 17:17:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5A6806EA81;
+	Tue, 25 May 2021 17:14:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 216886EA82;
- Tue, 25 May 2021 17:17:44 +0000 (UTC)
-IronPort-SDR: nfRaVd36Kel81JAwtjceAgXsBYIusX1a6gDPG1yzTBzBeGHELGtWTNiz06tEAGjqmrsL9yiufY
- xOEZwOCKw8Wg==
-X-IronPort-AV: E=McAfee;i="6200,9189,9995"; a="189626642"
-X-IronPort-AV: E=Sophos;i="5.82,328,1613462400"; d="scan'208";a="189626642"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 May 2021 10:17:41 -0700
-IronPort-SDR: vrezbfrctAuIdgOqVpUJ93NnpyeW+yRhB7eu6hEjAuqZK+ZNFJU/s7zTnr+k4uk9fCNe9DbpJJ
- e/050nVqcTrg==
-X-IronPort-AV: E=Sophos;i="5.82,328,1613462400"; d="scan'208";a="633103096"
-Received: from unknown (HELO sdutt-i7) ([10.165.21.147])
- by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 May 2021 10:17:40 -0700
-Date: Tue, 25 May 2021 10:10:33 -0700
-From: Matthew Brost <matthew.brost@intel.com>
-To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Subject: Re: [Intel-gfx] [RFC PATCH 44/97] drm/i915/guc: Implement GuC
- submission tasklet
-Message-ID: <20210525171032.GC14724@sdutt-i7>
-References: <20210506191451.77768-1-matthew.brost@intel.com>
- <20210506191451.77768-45-matthew.brost@intel.com>
- <4cc687a5-0c74-10f6-1069-da02ab20f1d3@linux.intel.com>
+Received: from mail-oi1-x235.google.com (mail-oi1-x235.google.com
+ [IPv6:2607:f8b0:4864:20::235])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 12F116EA81
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 May 2021 17:14:49 +0000 (UTC)
+Received: by mail-oi1-x235.google.com with SMTP id h9so30994638oih.4
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 May 2021 10:14:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=UMrYaCknsZ9gnGhoqmMmsH4nd1WboOXoSjeEdSMCQs4=;
+ b=ftfvDnRgHPDxriwA4tTcY2o2Q4HsZfPdEYMzQhs5uEikNq96E+dPdgNRChF4bAJ7lt
+ gIZJsUoyDg5kzVVfcW2SAZuHlzA2ywibrKjRLmb1/BJdvUzqdxzT+2CUnXkbXHJWEHH7
+ xB0fROhXCehX/NqjeOxfHiIwitidswNG9G18cbEMpRk/dFgWYqoeL8lRFhLF/Sy38qjF
+ VnZUXQINZKODxvW+VS0gVlR+bGHqfQ4YTKqKrttoa5AhlS/96lVwJ+vjhv8+UfEM9Byi
+ fAKYtSxb33+8phZntntIEGv3m44TDaSOfy8Kck0m5A1MWRYVpOdTmq8vbPJkP6OfQwYd
+ Ztnw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=UMrYaCknsZ9gnGhoqmMmsH4nd1WboOXoSjeEdSMCQs4=;
+ b=iCcoSD3akOipffSopSe2XTuD8ennsl6C7AgAns8FVTYHIF1nEQON9ofhKI7Ozm7btc
+ Gt3h4jl+uQ0AHeSgkI3lOx0zaoQRzeHLsmS1KfPLGf/E02ByXpwi+gKWLe+4FeByEFlL
+ gEyTEgYLyUfoSGKrIzFHTmUHxTRJe/ZYgJPjt+fQa3NGJ+wnuyPp9lHZMnQNFOGLXKGD
+ ikSct1dw69mtp9hUuJGEij/uxZPIx/vIXRSyettPV2RwJQVWR1TdFwrL3ZLEq9mQhCZ3
+ R4ITjxVGdy/vIlUCqpJTobvxUjmTcUnrvQkvCyOIZL9UwSOE37FpscTbzizXapf4jFtC
+ S0AA==
+X-Gm-Message-State: AOAM531oe7ZxofzxY6VjG8Cnv3fnDFWMHIvB+GpsY8DN85BqhFgSl+Lp
+ 7jTuUtLmZn2NpwWwPPTXddgjEQ==
+X-Google-Smtp-Source: ABdhPJwoxAXZyJQSiKouIg7L2awZGjV7IjT/50t/5yu17UNzRYnH2+hZ+ySLcF1jiFYUIX2Jlb3jGg==
+X-Received: by 2002:aca:30cd:: with SMTP id w196mr3505764oiw.167.1621962888344; 
+ Tue, 25 May 2021 10:14:48 -0700 (PDT)
+Received: from builder.lan (104-57-184-186.lightspeed.austtx.sbcglobal.net.
+ [104.57.184.186])
+ by smtp.gmail.com with ESMTPSA id m66sm2805314oia.28.2021.05.25.10.14.46
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 25 May 2021 10:14:47 -0700 (PDT)
+Date: Tue, 25 May 2021 12:14:45 -0500
+From: Bjorn Andersson <bjorn.andersson@linaro.org>
+To: Will Deacon <will@kernel.org>
+Subject: Re: [PATCH 1/2] iommu/arm-smmu-qcom: Skip the TTBR1 quirk for db820c.
+Message-ID: <YK0whQrWpehkxTrL@builder.lan>
+References: <20210326231303.3071950-1-eric@anholt.net>
+ <20210329144729.GB4203@willie-the-truck>
+ <CAF6AEGugpEk396DVtWX=W+uf3p-wcgBfCSpSLWGQJE1vKpJ4aw@mail.gmail.com>
+ <20210330093432.GB5281@willie-the-truck>
+ <CAF6AEGvCCWvmRBhzY4MsdzgwfJ+GF2AUOS-_NTyhM8wtnDzY2Q@mail.gmail.com>
+ <20210330153050.GB6567@willie-the-truck>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <4cc687a5-0c74-10f6-1069-da02ab20f1d3@linux.intel.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+In-Reply-To: <20210330153050.GB6567@willie-the-truck>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,406 +73,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: jason.ekstrand@intel.com, daniel.vetter@intel.com,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, freedreno <freedreno@lists.freedesktop.org>,
+ Joerg Roedel <joro@8bytes.org>, Jordan Crouse <jcrouse@codeaurora.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Rob Herring <robh+dt@kernel.org>,
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>, Sean Paul <sean@poorly.run>,
+ "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE"
+ <linux-arm-kernel@lists.infradead.org>, Robin Murphy <robin.murphy@arm.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, May 25, 2021 at 10:43:32AM +0100, Tvrtko Ursulin wrote:
+On Tue 30 Mar 10:31 CDT 2021, Will Deacon wrote:
+
+> On Tue, Mar 30, 2021 at 08:03:36AM -0700, Rob Clark wrote:
+> > On Tue, Mar 30, 2021 at 2:34 AM Will Deacon <will@kernel.org> wrote:
+> > >
+> > > On Mon, Mar 29, 2021 at 09:02:50PM -0700, Rob Clark wrote:
+> > > > On Mon, Mar 29, 2021 at 7:47 AM Will Deacon <will@kernel.org> wrote:
+> > > > >
+> > > > > On Fri, Mar 26, 2021 at 04:13:02PM -0700, Eric Anholt wrote:
+> > > > > > db820c wants to use the qcom smmu path to get HUPCF set (which keeps
+> > > > > > the GPU from wedging and then sometimes wedging the kernel after a
+> > > > > > page fault), but it doesn't have separate pagetables support yet in
+> > > > > > drm/msm so we can't go all the way to the TTBR1 path.
+> > > > >
+> > > > > What do you mean by "doesn't have separate pagetables support yet"? The
+> > > > > compatible string doesn't feel like the right way to determine this.
+> > > >
+> > > > the compatible string identifies what it is, not what the sw
+> > > > limitations are, so in that regard it seems right to me..
+> > >
+> > > Well it depends on what "doesn't have separate pagetables support yet"
+> > > means. I can't tell if it's a hardware issue, a firmware issue or a driver
+> > > issue.
+> > 
+> > Just a driver issue (and the fact that currently we don't have
+> > physical access to a device... debugging a5xx per-process-pgtables by
+> > pushing untested things to the CI farm is kind of a difficult way to
+> > work)
 > 
-> On 06/05/2021 20:13, Matthew Brost wrote:
-> > Implement GuC submission tasklet for new interface. The new GuC
-> > interface uses H2G to submit contexts to the GuC. Since H2G use a single
-> > channel, a single tasklet submits is used for the submission path. As
-> > such a global struct intel_engine_cs has been added to leverage the
-> > existing scheduling code.
-> > 
-> > Also the per engine interrupt handler has been updated to disable the
-> > rescheduling of the physical engine tasklet, when using GuC scheduling,
-> > as the physical engine tasklet is no longer used.
-> > 
-> > In this patch the field, guc_id, has been added to intel_context and is
-> > not assigned. Patches later in the series will assign this value.
-> > 
-> > Cc: John Harrison <john.c.harrison@intel.com>
-> > Signed-off-by: Matthew Brost <matthew.brost@intel.com>
-> > ---
-> >   drivers/gpu/drm/i915/gt/intel_context_types.h |   9 +
-> >   drivers/gpu/drm/i915/gt/uc/intel_guc.h        |   4 +
-> >   .../gpu/drm/i915/gt/uc/intel_guc_submission.c | 233 +++++++++---------
-> >   3 files changed, 127 insertions(+), 119 deletions(-)
-> > 
-> > diff --git a/drivers/gpu/drm/i915/gt/intel_context_types.h b/drivers/gpu/drm/i915/gt/intel_context_types.h
-> > index ed8c447a7346..bb6fef7eae52 100644
-> > --- a/drivers/gpu/drm/i915/gt/intel_context_types.h
-> > +++ b/drivers/gpu/drm/i915/gt/intel_context_types.h
-> > @@ -136,6 +136,15 @@ struct intel_context {
-> >   	struct intel_sseu sseu;
-> >   	u8 wa_bb_page; /* if set, page num reserved for context workarounds */
-> > +
-> > +	/* GuC scheduling state that does not require a lock. */
-> > +	atomic_t guc_sched_state_no_lock;
-> > +
-> > +	/*
-> > +	 * GuC lrc descriptor ID - Not assigned in this patch but future patches
-> > +	 * in the series will.
-> > +	 */
-> > +	u16 guc_id;
-> >   };
-> >   #endif /* __INTEL_CONTEXT_TYPES__ */
-> > diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc.h b/drivers/gpu/drm/i915/gt/uc/intel_guc.h
-> > index 2eb6c497e43c..d32866fe90ad 100644
-> > --- a/drivers/gpu/drm/i915/gt/uc/intel_guc.h
-> > +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc.h
-> > @@ -30,6 +30,10 @@ struct intel_guc {
-> >   	struct intel_guc_log log;
-> >   	struct intel_guc_ct ct;
-> > +	/* Global engine used to submit requests to GuC */
-> > +	struct i915_sched_engine *sched_engine;
-> > +	struct i915_request *stalled_request;
-> > +
-> >   	/* intel_guc_recv interrupt related state */
-> >   	spinlock_t irq_lock;
-> >   	unsigned int msg_enabled_mask;
-> > diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> > index c2b6d27404b7..0955a8b00ee8 100644
-> > --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> > +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> > @@ -60,6 +60,30 @@
-> >   #define GUC_REQUEST_SIZE 64 /* bytes */
-> > +/*
-> > + * Below is a set of functions which control the GuC scheduling state which do
-> > + * not require a lock as all state transitions are mutually exclusive. i.e. It
-> > + * is not possible for the context pinning code and submission, for the same
-> > + * context, to be executing simultaneously.
-> > + */
-> 
-> Is the statement that some other locks, or other guarantees, serialise
-> modification of this state, and if so, why is it using atomics?
+> But then in that case, this is using the compatible string to identify a
+> driver issue, no?
 > 
 
-This should probably be reworded. For the atomics the transitions are
-happen at the same time but the transitions are safe, for the ones
-protected by the locks some other state choices are made so we need a
-lock when transitioning the state.
+No the compatible addition identifies the hardware, the implementation
+then uses this information to know that it needs to behave "differently"
+on this platform.
 
-Matt
+When/if someone decides to add the necessary support in the driver they
+can remove the driver quirk, but it doesn't invalidate the specific
+compatible.
 
-> Regards,
-> 
-> Tvrtko
-> 
-> > +#define SCHED_STATE_NO_LOCK_ENABLED			BIT(0)
-> > +static inline bool context_enabled(struct intel_context *ce)
-> > +{
-> > +	return (atomic_read(&ce->guc_sched_state_no_lock) &
-> > +		SCHED_STATE_NO_LOCK_ENABLED);
-> > +}
-> > +
-> > +static inline void set_context_enabled(struct intel_context *ce)
-> > +{
-> > +	atomic_or(SCHED_STATE_NO_LOCK_ENABLED, &ce->guc_sched_state_no_lock);
-> > +}
-> > +
-> > +static inline void clr_context_enabled(struct intel_context *ce)
-> > +{
-> > +	atomic_and((u32)~SCHED_STATE_NO_LOCK_ENABLED,
-> > +		   &ce->guc_sched_state_no_lock);
-> > +}
-> > +
-> >   static inline struct i915_priolist *to_priolist(struct rb_node *rb)
-> >   {
-> >   	return rb_entry(rb, struct i915_priolist, node);
-> > @@ -122,37 +146,29 @@ static inline void set_lrc_desc_registered(struct intel_guc *guc, u32 id,
-> >   	xa_store_irq(&guc->context_lookup, id, ce, GFP_ATOMIC);
-> >   }
-> > -static void guc_add_request(struct intel_guc *guc, struct i915_request *rq)
-> > +static int guc_add_request(struct intel_guc *guc, struct i915_request *rq)
-> >   {
-> > -	/* Leaving stub as this function will be used in future patches */
-> > -}
-> > +	int err;
-> > +	struct intel_context *ce = rq->context;
-> > +	u32 action[3];
-> > +	int len = 0;
-> > +	bool enabled = context_enabled(ce);
-> > -/*
-> > - * When we're doing submissions using regular execlists backend, writing to
-> > - * ELSP from CPU side is enough to make sure that writes to ringbuffer pages
-> > - * pinned in mappable aperture portion of GGTT are visible to command streamer.
-> > - * Writes done by GuC on our behalf are not guaranteeing such ordering,
-> > - * therefore, to ensure the flush, we're issuing a POSTING READ.
-> > - */
-> > -static void flush_ggtt_writes(struct i915_vma *vma)
-> > -{
-> > -	if (i915_vma_is_map_and_fenceable(vma))
-> > -		intel_uncore_posting_read_fw(vma->vm->gt->uncore,
-> > -					     GUC_STATUS);
-> > -}
-> > +	if (!enabled) {
-> > +		action[len++] = INTEL_GUC_ACTION_SCHED_CONTEXT_MODE_SET;
-> > +		action[len++] = ce->guc_id;
-> > +		action[len++] = GUC_CONTEXT_ENABLE;
-> > +	} else {
-> > +		action[len++] = INTEL_GUC_ACTION_SCHED_CONTEXT;
-> > +		action[len++] = ce->guc_id;
-> > +	}
-> > -static void guc_submit(struct intel_engine_cs *engine,
-> > -		       struct i915_request **out,
-> > -		       struct i915_request **end)
-> > -{
-> > -	struct intel_guc *guc = &engine->gt->uc.guc;
-> > +	err = intel_guc_send_nb(guc, action, len);
-> > -	do {
-> > -		struct i915_request *rq = *out++;
-> > +	if (!enabled && !err)
-> > +		set_context_enabled(ce);
-> > -		flush_ggtt_writes(rq->ring->vma);
-> > -		guc_add_request(guc, rq);
-> > -	} while (out != end);
-> > +	return err;
-> >   }
-> >   static inline int rq_prio(const struct i915_request *rq)
-> > @@ -160,125 +176,88 @@ static inline int rq_prio(const struct i915_request *rq)
-> >   	return rq->sched.attr.priority;
-> >   }
-> > -static struct i915_request *schedule_in(struct i915_request *rq, int idx)
-> > -{
-> > -	trace_i915_request_in(rq, idx);
-> > -
-> > -	/*
-> > -	 * Currently we are not tracking the rq->context being inflight
-> > -	 * (ce->inflight = rq->engine). It is only used by the execlists
-> > -	 * backend at the moment, a similar counting strategy would be
-> > -	 * required if we generalise the inflight tracking.
-> > -	 */
-> > -
-> > -	__intel_gt_pm_get(rq->engine->gt);
-> > -	return i915_request_get(rq);
-> > -}
-> > -
-> > -static void schedule_out(struct i915_request *rq)
-> > -{
-> > -	trace_i915_request_out(rq);
-> > -
-> > -	intel_gt_pm_put_async(rq->engine->gt);
-> > -	i915_request_put(rq);
-> > -}
-> > -
-> > -static void __guc_dequeue(struct intel_engine_cs *engine)
-> > +static int guc_dequeue_one_context(struct intel_guc *guc)
-> >   {
-> > -	struct i915_sched_engine * const sched_engine = engine->sched_engine;
-> > -	struct intel_engine_execlists * const execlists = &engine->execlists;
-> > -	struct i915_request **first = execlists->inflight;
-> > -	struct i915_request ** const last_port = first + execlists->port_mask;
-> > -	struct i915_request *last = first[0];
-> > -	struct i915_request **port;
-> > +	struct i915_sched_engine * const sched_engine = guc->sched_engine;
-> > +	struct i915_request *last = NULL;
-> >   	bool submit = false;
-> >   	struct rb_node *rb;
-> > +	int ret;
-> > -	lockdep_assert_held(&engine->sched_engine->lock);
-> > -
-> > -	if (last) {
-> > -		if (*++first)
-> > -			return;
-> > +	lockdep_assert_held(&sched_engine->lock);
-> > -		last = NULL;
-> > +	if (guc->stalled_request) {
-> > +		submit = true;
-> > +		last = guc->stalled_request;
-> > +		goto resubmit;
-> >   	}
-> > -	/*
-> > -	 * We write directly into the execlists->inflight queue and don't use
-> > -	 * the execlists->pending queue, as we don't have a distinct switch
-> > -	 * event.
-> > -	 */
-> > -	port = first;
-> >   	while ((rb = rb_first_cached(&sched_engine->queue))) {
-> >   		struct i915_priolist *p = to_priolist(rb);
-> >   		struct i915_request *rq, *rn;
-> >   		priolist_for_each_request_consume(rq, rn, p) {
-> > -			if (last && rq->context != last->context) {
-> > -				if (port == last_port)
-> > -					goto done;
-> > -
-> > -				*port = schedule_in(last,
-> > -						    port - execlists->inflight);
-> > -				port++;
-> > -			}
-> > +			if (last && rq->context != last->context)
-> > +				goto done;
-> >   			list_del_init(&rq->sched.link);
-> > +
-> >   			__i915_request_submit(rq);
-> > -			submit = true;
-> > +
-> > +			trace_i915_request_in(rq, 0);
-> >   			last = rq;
-> > +			submit = true;
-> >   		}
-> >   		rb_erase_cached(&p->node, &sched_engine->queue);
-> >   		i915_priolist_free(p);
-> >   	}
-> >   done:
-> > -	sched_engine->queue_priority_hint =
-> > -		rb ? to_priolist(rb)->priority : INT_MIN;
-> >   	if (submit) {
-> > -		*port = schedule_in(last, port - execlists->inflight);
-> > -		*++port = NULL;
-> > -		guc_submit(engine, first, port);
-> > +		last->context->lrc_reg_state[CTX_RING_TAIL] =
-> > +			intel_ring_set_tail(last->ring, last->tail);
-> > +resubmit:
-> > +		/*
-> > +		 * We only check for -EBUSY here even though it is possible for
-> > +		 * -EDEADLK to be returned. If -EDEADLK is returned, the GuC has
-> > +		 * died and a full GPU needs to be done. The hangcheck will
-> > +		 * eventually detect that the GuC has died and trigger this
-> > +		 * reset so no need to handle -EDEADLK here.
-> > +		 */
-> > +		ret = guc_add_request(guc, last);
-> > +		if (ret == -EBUSY) {
-> > +			i915_sched_engine_kick(sched_engine);
-> > +			guc->stalled_request = last;
-> > +			return false;
-> > +		}
-> >   	}
-> > -	execlists->active = execlists->inflight;
-> > +
-> > +	guc->stalled_request = NULL;
-> > +	return submit;
-> >   }
-> >   static void guc_submission_tasklet(struct tasklet_struct *t)
-> >   {
-> >   	struct i915_sched_engine *sched_engine =
-> >   		from_tasklet(sched_engine, t, tasklet);
-> > -	struct intel_engine_cs * const engine = sched_engine->engine;
-> > -	struct intel_engine_execlists * const execlists = &engine->execlists;
-> > -	struct i915_request **port, *rq;
-> >   	unsigned long flags;
-> > +	bool loop;
-> > -	spin_lock_irqsave(&engine->sched_engine->lock, flags);
-> > -
-> > -	for (port = execlists->inflight; (rq = *port); port++) {
-> > -		if (!i915_request_completed(rq))
-> > -			break;
-> > +	spin_lock_irqsave(&sched_engine->lock, flags);
-> > -		schedule_out(rq);
-> > -	}
-> > -	if (port != execlists->inflight) {
-> > -		int idx = port - execlists->inflight;
-> > -		int rem = ARRAY_SIZE(execlists->inflight) - idx;
-> > -		memmove(execlists->inflight, port, rem * sizeof(*port));
-> > -	}
-> > -
-> > -	__guc_dequeue(engine);
-> > +	do {
-> > +		loop = guc_dequeue_one_context(&sched_engine->engine->gt->uc.guc);
-> > +	} while (loop);
-> > -	i915_sched_engine_reset_on_empty(engine->sched_engine);
-> > +	i915_sched_engine_reset_on_empty(sched_engine);
-> > -	spin_unlock_irqrestore(&engine->sched_engine->lock, flags);
-> > +	spin_unlock_irqrestore(&sched_engine->lock, flags);
-> >   }
-> >   static void cs_irq_handler(struct intel_engine_cs *engine, u16 iir)
-> >   {
-> > -	if (iir & GT_RENDER_USER_INTERRUPT) {
-> > +	if (iir & GT_RENDER_USER_INTERRUPT)
-> >   		intel_engine_signal_breadcrumbs(engine);
-> > -		i915_sched_engine_hi_kick(engine->sched_engine);
-> > -	}
-> >   }
-> >   static void guc_reset_prepare(struct intel_engine_cs *engine)
-> > @@ -351,6 +330,10 @@ static void guc_reset_cancel(struct intel_engine_cs *engine)
-> >   	struct rb_node *rb;
-> >   	unsigned long flags;
-> > +	/* Can be called during boot if GuC fails to load */
-> > +	if (!engine->gt)
-> > +		return;
-> > +
-> >   	ENGINE_TRACE(engine, "\n");
-> >   	/*
-> > @@ -437,8 +420,11 @@ int intel_guc_submission_init(struct intel_guc *guc)
-> >   void intel_guc_submission_fini(struct intel_guc *guc)
-> >   {
-> > -	if (guc->lrc_desc_pool)
-> > -		guc_lrc_desc_pool_destroy(guc);
-> > +	if (!guc->lrc_desc_pool)
-> > +		return;
-> > +
-> > +	guc_lrc_desc_pool_destroy(guc);
-> > +	i915_sched_engine_put(guc->sched_engine);
-> >   }
-> >   static int guc_context_alloc(struct intel_context *ce)
-> > @@ -503,32 +489,32 @@ static int guc_request_alloc(struct i915_request *request)
-> >   	return 0;
-> >   }
-> > -static inline void queue_request(struct intel_engine_cs *engine,
-> > +static inline void queue_request(struct i915_sched_engine *sched_engine,
-> >   				 struct i915_request *rq,
-> >   				 int prio)
-> >   {
-> >   	GEM_BUG_ON(!list_empty(&rq->sched.link));
-> >   	list_add_tail(&rq->sched.link,
-> > -		      i915_sched_lookup_priolist(engine->sched_engine, prio));
-> > +		      i915_sched_lookup_priolist(sched_engine, prio));
-> >   	set_bit(I915_FENCE_FLAG_PQUEUE, &rq->fence.flags);
-> >   }
-> >   static void guc_submit_request(struct i915_request *rq)
-> >   {
-> > -	struct intel_engine_cs *engine = rq->engine;
-> > +	struct i915_sched_engine *sched_engine = rq->engine->sched_engine;
-> >   	unsigned long flags;
-> >   	/* Will be called from irq-context when using foreign fences. */
-> > -	spin_lock_irqsave(&engine->sched_engine->lock, flags);
-> > +	spin_lock_irqsave(&sched_engine->lock, flags);
-> > -	queue_request(engine, rq, rq_prio(rq));
-> > +	queue_request(sched_engine, rq, rq_prio(rq));
-> > -	GEM_BUG_ON(i915_sched_engine_is_empty(engine->sched_engine));
-> > +	GEM_BUG_ON(i915_sched_engine_is_empty(sched_engine));
-> >   	GEM_BUG_ON(list_empty(&rq->sched.link));
-> > -	i915_sched_engine_hi_kick(engine->sched_engine);
-> > +	i915_sched_engine_hi_kick(sched_engine);
-> > -	spin_unlock_irqrestore(&engine->sched_engine->lock, flags);
-> > +	spin_unlock_irqrestore(&sched_engine->lock, flags);
-> >   }
-> >   static void sanitize_hwsp(struct intel_engine_cs *engine)
-> > @@ -606,8 +592,6 @@ static void guc_release(struct intel_engine_cs *engine)
-> >   {
-> >   	engine->sanitize = NULL; /* no longer in control, nothing to sanitize */
-> > -	tasklet_kill(&engine->sched_engine->tasklet);
-> > -
-> >   	intel_engine_cleanup_common(engine);
-> >   	lrc_fini_wa_ctx(engine);
-> >   }
-> > @@ -678,6 +662,7 @@ static inline void guc_default_irqs(struct intel_engine_cs *engine)
-> >   int intel_guc_submission_setup(struct intel_engine_cs *engine)
-> >   {
-> >   	struct drm_i915_private *i915 = engine->i915;
-> > +	struct intel_guc *guc = &engine->gt->uc.guc;
-> >   	/*
-> >   	 * The setup relies on several assumptions (e.g. irqs always enabled)
-> > @@ -685,8 +670,18 @@ int intel_guc_submission_setup(struct intel_engine_cs *engine)
-> >   	 */
-> >   	GEM_BUG_ON(INTEL_GEN(i915) < 11);
-> > -	tasklet_setup(&engine->sched_engine->tasklet, guc_submission_tasklet);
-> > -	engine->sched_engine->schedule = i915_schedule;
-> > +	if (!guc->sched_engine) {
-> > +		guc->sched_engine = i915_sched_engine_create(ENGINE_VIRTUAL);
-> > +		if (!guc->sched_engine)
-> > +			return -ENOMEM;
-> > +
-> > +		guc->sched_engine->schedule = i915_schedule;
-> > +		guc->sched_engine->engine = engine;
-> > +		tasklet_setup(&guc->sched_engine->tasklet,
-> > +			      guc_submission_tasklet);
-> > +	}
-> > +	i915_sched_engine_put(engine->sched_engine);
-> > +	engine->sched_engine = i915_sched_engine_get(guc->sched_engine);
-> >   	guc_default_vfuncs(engine);
-> >   	guc_default_irqs(engine);
-> > 
+Regards,
+Bjorn
