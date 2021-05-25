@@ -2,43 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58F6C3902A0
-	for <lists+dri-devel@lfdr.de>; Tue, 25 May 2021 15:37:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D62CC39031E
+	for <lists+dri-devel@lfdr.de>; Tue, 25 May 2021 15:53:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C14AA89CD7;
-	Tue, 25 May 2021 13:37:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5005B6E13C;
+	Tue, 25 May 2021 13:52:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 39E3189C96;
- Tue, 25 May 2021 13:37:37 +0000 (UTC)
-IronPort-SDR: nel6YYkeB8QgMioWpFFmwBw6ig84PA3Nln+iJg9+614XeOm2xkjN4/3GqVDJp6B02ACjP7f+w9
- Ti3RyjagcxLg==
-X-IronPort-AV: E=McAfee;i="6200,9189,9995"; a="202211187"
-X-IronPort-AV: E=Sophos;i="5.82,328,1613462400"; d="scan'208";a="202211187"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 May 2021 06:37:32 -0700
-IronPort-SDR: oeNNfTENPVKCqm0o3j/YOHMpdcM+XqG/TqNd6otZaGDXbIKwsUs/iRKp25e2WaLNp5U0aVJDXO
- DNZZ1paZhcVw==
-X-IronPort-AV: E=Sophos;i="5.82,328,1613462400"; d="scan'208";a="476426302"
-Received: from tmuluk-mobl.ger.corp.intel.com ([10.249.254.198])
- by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 May 2021 06:37:29 -0700
-Message-ID: <30dc2d316b643a07babbb3a985b6ff2bbf533345.camel@linux.intel.com>
-Subject: Re: [Intel-gfx] [PATCH v3 09/12] drm/ttm: Document and optimize
- ttm_bo_pipeline_gutting()
-From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
-To: Matthew Auld <matthew.william.auld@gmail.com>
-Date: Tue, 25 May 2021 15:37:27 +0200
-In-Reply-To: <CAM0jSHO59Kr534HC-i816yRMJ22-XNN-AHwdoSFtK5KBiD99=g@mail.gmail.com>
-References: <20210521153253.518037-1-thomas.hellstrom@linux.intel.com>
- <20210521153253.518037-10-thomas.hellstrom@linux.intel.com>
- <CAM0jSHO59Kr534HC-i816yRMJ22-XNN-AHwdoSFtK5KBiD99=g@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.38.4 (3.38.4-1.fc33) 
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 849996E13C
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 May 2021 13:52:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1621950776;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=PW7OrrfjfM61YRapb5tPZf3kCsKbCNzZN/BPGRKNoNU=;
+ b=hhsZqvbLUmNdI9nUTEu6pqq0wvEEUdmGPqttIsrdRkyoW0hJ/GH/KRq7J9sISzJgdJ293D
+ bqazXXt/2eBPXTdrtPxNaUwtEroJF+iDaqH4Egw5aixQIyJ5OYCCK1nnJzXzMA4TkUOGie
+ rIhf5+6ycbO7gffOuxxflGUF/Phfcns=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-402-K2ue0M4hP7WOf9JNtIE7dw-1; Tue, 25 May 2021 09:52:55 -0400
+X-MC-Unique: K2ue0M4hP7WOf9JNtIE7dw-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ b15-20020a1c1b0f0000b02901869cb157e3so1367560wmb.7
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 May 2021 06:52:53 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=PW7OrrfjfM61YRapb5tPZf3kCsKbCNzZN/BPGRKNoNU=;
+ b=YNBT/fs5N36viKN6BBASabbRDXQhMf1tIDcnbv+AiLoFNWe9Y835dOTpFSfRYbcCfY
+ LcqQft6c4ORRHg2EhNuL3rZL9KctuREXQXAzEaS6XL0v7ph5J8i+TiIVDAyvpBOQcrKM
+ bRkNgVTI7QfhKnNUls03Z8Dh5glEVLfj4hwYJV961YWTY2Hb6d0nuxmhkc8nDnfXQPeJ
+ i5XaPuGFkRp37JFW2yFnlzLG9hTPE16W4FvYU8zt2hMMEHH6SLwOUASHOP7cZAJMEEnx
+ Lvl2X4VtC85nCXgevG3CTsBSeqN1jui16H/R2aB/6JCi1QyIN7EDRHRK1lYtSQTmfeMB
+ 6qSQ==
+X-Gm-Message-State: AOAM531EsUaoI+tfkvWcD6LRCHPNzsnX6rLFJLJLhCTw9vKksEpqg9A8
+ 0+QHwlCRd6zDqCs+aY8E9tUFTg7grlB1VPPN5GF825A+vME+rGQ7XWJ8NE9ROxDlKiKyOWkGbwy
+ XhMcuVSRTWLcl4cjxUfmnS3iTeffAsrmdUr3q1cLeofGDcebo9IIUtQP2PXRq3NqrRk6RORDBv5
+ 40t2A=
+X-Received: by 2002:a7b:cc83:: with SMTP id p3mr24768909wma.169.1621950772452; 
+ Tue, 25 May 2021 06:52:52 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxoD0S7iFDYWpnFLr+WwG/M35YgaD7ABz77zKNWv7ODMUul6QdqZLBzVMLAVnyvv7vXt1v2ZA==
+X-Received: by 2002:a7b:cc83:: with SMTP id p3mr24768893wma.169.1621950772267; 
+ Tue, 25 May 2021 06:52:52 -0700 (PDT)
+Received: from [192.168.1.101] ([92.176.231.106])
+ by smtp.gmail.com with ESMTPSA id z18sm16767823wro.33.2021.05.25.06.52.51
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 25 May 2021 06:52:51 -0700 (PDT)
+Subject: Re: [PATCH] drm/fb-helper: improve DRM fbdev emulation device names
+To: Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org,
+ Peter Robinson <pbrobinson@gmail.com>, David Airlie <airlied@linux.ie>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, dri-devel@lists.freedesktop.org
+References: <20210521131910.3000689-1-javierm@redhat.com>
+ <YKfS2GDCXPJ/q8gT@phenom.ffwll.local>
+ <3a6f9235-5375-b2cb-2d63-a47c5f9752bb@suse.de>
+ <bfd6fa47-497a-64bc-c2fc-a081bd41d5ec@redhat.com>
+ <fc6540fa-1945-a15d-239d-e87bb4d3fa9e@suse.de>
+ <YKz2vbxYXSKQE1Ng@phenom.ffwll.local>
+ <4e81ab57-a240-952a-7423-22dc830bc62f@suse.de>
+From: Javier Martinez Canillas <javierm@redhat.com>
+Message-ID: <79f227c4-5ed6-23e8-2d74-3197871359f8@redhat.com>
+Date: Tue, 25 May 2021 15:52:51 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <4e81ab57-a240-952a-7423-22dc830bc62f@suse.de>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,126 +93,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- ML dri-devel <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 2021-05-25 at 12:00 +0100, Matthew Auld wrote:
-> On Fri, 21 May 2021 at 16:33, Thomas Hellström
-> <thomas.hellstrom@linux.intel.com> wrote:
-> > 
-> > If the bo is idle when calling ttm_bo_pipeline_gutting(), we
-> > unnecessarily
-> > create a ghost object and push it out to delayed destroy.
-> > Fix this by adding a path for idle, and document the function.
-> > 
-> > Also avoid having the bo end up in a bad state vulnerable to user-
-> > space
-> > triggered kernel BUGs if the call to ttm_tt_create() fails.
-> > 
-> > Finally reuse ttm_bo_pipeline_gutting() in ttm_bo_evict().
-> > 
-> > Cc: Christian König <christian.koenig@amd.com>
-> > Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-> > ---
-> >  drivers/gpu/drm/ttm/ttm_bo.c      | 20 ++++++------
-> >  drivers/gpu/drm/ttm/ttm_bo_util.c | 52
-> > ++++++++++++++++++++++++++++---
-> >  drivers/gpu/drm/ttm/ttm_tt.c      |  5 +++
-> >  include/drm/ttm/ttm_tt.h          | 10 ++++++
-> >  4 files changed, 73 insertions(+), 14 deletions(-)
-> > 
-> > diff --git a/drivers/gpu/drm/ttm/ttm_bo.c
-> > b/drivers/gpu/drm/ttm/ttm_bo.c
-> > index ca1b098b6a56..a8fa3375b8aa 100644
-> > --- a/drivers/gpu/drm/ttm/ttm_bo.c
-> > +++ b/drivers/gpu/drm/ttm/ttm_bo.c
-> > @@ -501,10 +501,15 @@ static int ttm_bo_evict(struct
-> > ttm_buffer_object *bo,
-> >         bdev->funcs->evict_flags(bo, &placement);
-> > 
-> >         if (!placement.num_placement &&
-> > !placement.num_busy_placement) {
-> > -               ttm_bo_wait(bo, false, false);
-> > +               ret = ttm_bo_wait(bo, true, false);
-> > +               if (ret)
-> > +                       return ret;
-> > 
-> > -               ttm_bo_cleanup_memtype_use(bo);
-> > -               return ttm_tt_create(bo, false);
-> > +               /*
-> > +                * Since we've already synced, this frees backing
-> > store
-> > +                * immediately.
-> > +                */
-> > +               return ttm_bo_pipeline_gutting(bo);
-> >         }
-> > 
-> >         ret = ttm_bo_mem_space(bo, &placement, &evict_mem, ctx);
-> > @@ -974,13 +979,8 @@ int ttm_bo_validate(struct ttm_buffer_object
-> > *bo,
-> >         /*
-> >          * Remove the backing store if no placement is given.
-> >          */
-> > -       if (!placement->num_placement && !placement-
-> > >num_busy_placement) {
-> > -               ret = ttm_bo_pipeline_gutting(bo);
-> > -               if (ret)
-> > -                       return ret;
-> > -
-> > -               return ttm_tt_create(bo, false);
-> > -       }
-> > +       if (!placement->num_placement && !placement-
-> > >num_busy_placement)
-> > +               return ttm_bo_pipeline_gutting(bo);
-> > 
-> >         /*
-> >          * Check whether we need to move buffer.
-> > diff --git a/drivers/gpu/drm/ttm/ttm_bo_util.c
-> > b/drivers/gpu/drm/ttm/ttm_bo_util.c
-> > index 4a7d3d672f9a..7fa9b3a852eb 100644
-> > --- a/drivers/gpu/drm/ttm/ttm_bo_util.c
-> > +++ b/drivers/gpu/drm/ttm/ttm_bo_util.c
-> > @@ -585,26 +585,70 @@ int ttm_bo_move_accel_cleanup(struct
-> > ttm_buffer_object *bo,
-> >  }
-> >  EXPORT_SYMBOL(ttm_bo_move_accel_cleanup);
-> > 
-> > +/**
-> > + * ttm_bo_pipeline_gutting - purge the contents of a bo
-> > + * @bo: The buffer object
-> > + *
-> > + * Purge the contents of a bo, async if the bo is not idle.
-> > + * After a successful call, the bo is left unpopulated in
-> > + * system placement. The function may wait uninterruptible
-> > + * for idle on OOM.
-> > + *
-> > + * Return: 0 if successful, negative error code on failure.
-> > + */
-> >  int ttm_bo_pipeline_gutting(struct ttm_buffer_object *bo)
-> >  {
-> >         static const struct ttm_place sys_mem = { .mem_type =
-> > TTM_PL_SYSTEM };
-> >         struct ttm_buffer_object *ghost;
-> > +       struct ttm_tt *ttm;
-> >         int ret;
-> > 
-> > -       ret = ttm_buffer_object_transfer(bo, &ghost);
-> > +       /* If already idle, no need for ghost object dance. */
-> > +       ret = ttm_bo_wait(bo, false, true);
-> > +       if (ret != -EBUSY) {
-> > +               if (!bo->ttm) {
-> > +                       ret = ttm_tt_create(bo, true);
+Hello,
+
+On 5/25/21 3:34 PM, Thomas Zimmermann wrote:
+
+[snip]
+
+>>
+>> If you guys with your distro hats on all think it doesn't matter, then
+>> yeah I'm all for dropping the somewhat silly -drm or drmfb suffixes. I
+>> think that was just way back so it's easier to know you've loaded the
+>> right driver, back when there was both drm and native fbdev drivers
+>> around. But now I think for new hw there's only drm, so should be all
+>> fine.
 > 
-> Why do we now unconditionally add clearing? Below also.
+> Suse doesn't use fbdev, except for some outliers; most notably hypervfb 
+> and generic efifb/vesafb. Both are now being replaced with drm code. 
+>  From what I've seen, it's the same for other distros. And X11 checks 
+> for the existence of device files anyway IIRC.
+Yes, I believe is the same for us.
 
-Here we've dropped the bo content and we add but do not populate a page
-vector. Now if someone resurrects this object we obtain new pages and
-those must be cleared, at least that's the intention.
+I'll post a patch to just remove the suffix then. Thanks you both
+for the feedback.
 
-/Thomas
+> 
+> Best regards
+> Thomas
+> 
+>> -Daniel
+>>
+> 
 
-
+Best regards,
+-- 
+Javier Martinez Canillas
+Software Engineer
+New Platform Technologies Enablement team
+RHEL Engineering
 
