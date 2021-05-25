@@ -2,58 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B481838F8B1
-	for <lists+dri-devel@lfdr.de>; Tue, 25 May 2021 05:21:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DFD2538F8C9
+	for <lists+dri-devel@lfdr.de>; Tue, 25 May 2021 05:28:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 16B906E5CE;
-	Tue, 25 May 2021 03:20:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2305F6E826;
+	Tue, 25 May 2021 03:28:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x32f.google.com (mail-ot1-x32f.google.com
- [IPv6:2607:f8b0:4864:20::32f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 473206E7D0;
- Tue, 25 May 2021 03:20:48 +0000 (UTC)
-Received: by mail-ot1-x32f.google.com with SMTP id
- t10-20020a05683022eab0290304ed8bc759so27261616otc.12; 
- Mon, 24 May 2021 20:20:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=Sed5JvRLMiaF+0cJiDPgQf1+4i4xNSCm3dc8S6Z16pQ=;
- b=jkwFbwTn/CLxuDbawKx+Ai7I2fdbLrqNe0hagrkWg8vHDxYqqBb+dOy51ktDABiZZf
- 1gm+owY9hu4NO8qC7NRXEcmGhU3Op6ND2J5cyc1mcDfpi4DBLcF59KZ5KQt9X5bkXMHR
- 40dQLvIVTmBQyrobhyZsnR6O3yj7LUoayZIfH0pSueke9vAjJ555E2ET6+qcqJPmRJH6
- Rguhm8Xqje3K9Hoj+xa2ggJ1pBUKqiykXe3xokDsR85owUyxLFPiSJ8RLnGemfeaLRn0
- LdRE7A0ZbQ4nGnViDPuXSHofG2MPMzm/KKIGdR2fYD/Q2rDz+9fJvEH0TA3HxOwYuUtz
- HivQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=Sed5JvRLMiaF+0cJiDPgQf1+4i4xNSCm3dc8S6Z16pQ=;
- b=qRBnn8j13CSw+O+XKwjW1waKJZktoswHXuP30VKOZglOtkPb3i/z4FeIgCor2jSfDt
- qkYWyAcVCyr7VK8ke82MfMVBX/PvKCaGk/ZpDqxj2jL7NbQ14ZMG/UGT8gpHa0YN67U1
- QUvGr4Ct9qZkKTeEpoa4XtjSlTVBOna6kjR6bBgLahPhOFhFS7eERfUzkMNPFeiFpiTb
- 3DUCT1eMwZCFSTvbzQkQymFMLXNNvHo0E1GtEq3Xjl8TWIYRRVspuZCODw4lTaZgEGl+
- zhWO+28tpksTIeocmnQ5/Pbq3TIov4PxEqtoE4F2C0SdCU8A4eTE3rj1wAU4M1Y1C9pF
- 0w3g==
-X-Gm-Message-State: AOAM532njY/6uu5eKFbXRWgm1wy0/xJCYs3/Y++jcTlRcE7SmDki4KyK
- itUhKM1ypkCLfQj+aHDFqMc=
-X-Google-Smtp-Source: ABdhPJxKOQeYkDInkuL2V3aQoUYr+kbPVlPeMP9q3jy3Uz4aFJzK9uqk6bnPvR4B9/MbmKkZf/JsPw==
-X-Received: by 2002:a9d:60ca:: with SMTP id b10mr20574176otk.242.1621912847670; 
- Mon, 24 May 2021 20:20:47 -0700 (PDT)
-Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
- by smtp.gmail.com with ESMTPSA id 88sm3481873otb.7.2021.05.24.20.20.44
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 24 May 2021 20:20:46 -0700 (PDT)
-From: Guenter Roeck <linux@roeck-us.net>
-To: Rob Clark <robdclark@gmail.com>
-Subject: [PATCH] drm/msm/dp: Drop unnecessary NULL checks after container_of
-Date: Mon, 24 May 2021 20:20:33 -0700
-Message-Id: <20210525032033.453143-1-linux@roeck-us.net>
-X-Mailer: git-send-email 2.25.1
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B1DFF6E3E5;
+ Tue, 25 May 2021 03:28:35 +0000 (UTC)
+IronPort-SDR: r8mJZRDYeOY0CH3i5eUguP3QBzcKlUZ3S6Wda4KJhSV9PMZ6Sxuc6F+ODPFR97RRIFsgNu5IGH
+ Zx4Ly4ZMw1GA==
+X-IronPort-AV: E=McAfee;i="6200,9189,9994"; a="182413331"
+X-IronPort-AV: E=Sophos;i="5.82,327,1613462400"; d="scan'208";a="182413331"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 May 2021 20:28:35 -0700
+IronPort-SDR: XqsW9h5aZpjmlbXTfkvCPXGkMW/G/4cC6/Pm4Fs+Z69Bkwlgw0KnXXcNH4B2PGItPqp8ndyK0n
+ JLurZQOxZf5g==
+X-IronPort-AV: E=Sophos;i="5.82,327,1613462400"; d="scan'208";a="546330332"
+Received: from unknown (HELO sdutt-i7) ([10.165.21.147])
+ by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 May 2021 20:28:34 -0700
+Date: Mon, 24 May 2021 20:21:26 -0700
+From: Matthew Brost <matthew.brost@intel.com>
+To: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Subject: Re: [RFC PATCH 16/97] drm/i915/guc: Start protecting access to CTB
+ descriptors
+Message-ID: <20210525032125.GA12961@sdutt-i7>
+References: <20210506191451.77768-1-matthew.brost@intel.com>
+ <20210506191451.77768-17-matthew.brost@intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210506191451.77768-17-matthew.brost@intel.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,116 +50,111 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sean Paul <sean@poorly.run>, David Airlie <airlied@linux.ie>,
- linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- Guenter Roeck <linux@roeck-us.net>
+Cc: tvrtko.ursulin@intel.com, daniele.ceraolospurio@intel.com,
+ jason.ekstrand@intel.com, jon.bloomfield@intel.com, daniel.vetter@intel.com,
+ john.c.harrison@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The result of container_of() operations is never NULL unless the embedded
-element is the first element of the structure. This is not the case here.
-The NULL check on the result of container_of() is therefore unnecessary
-and misleading. Remove it.
+On Thu, May 06, 2021 at 12:13:30PM -0700, Matthew Brost wrote:
+> From: Michal Wajdeczko <michal.wajdeczko@intel.com>
+> 
+> We want to stop using guc.send_mutex while sending CTB messages
+> so we have to start protecting access to CTB send descriptor.
+> 
+> For completeness protect also CTB send descriptor.
 
-This change was made automatically with the following Coccinelle script.
+Michal I think you have a typo here, receive descriptor, right? Again
+this is going to get squashed in the firmware update patch but thought
+I'd mention this.
 
-@@
-type t;
-identifier v;
-statement s;
-@@
+With that:
+Reviewed-by: Matthew Brost <matthew.brost@intel.com> 
 
-<+...
-(
-  t v = container_of(...);
-|
-  v = container_of(...);
-)
-  ...
-  when != v
-- if (\( !v \| v == NULL \) ) s
-...+>
-
-While at it, remove unused but assigned variable hpd in
-dp_display_usbpd_attention_cb().
-
-Signed-off-by: Guenter Roeck <linux@roeck-us.net>
----
- drivers/gpu/drm/msm/dp/dp_display.c | 25 -------------------------
- 1 file changed, 25 deletions(-)
-
-diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
-index 1784e119269b..a74e7ef96fcf 100644
---- a/drivers/gpu/drm/msm/dp/dp_display.c
-+++ b/drivers/gpu/drm/msm/dp/dp_display.c
-@@ -208,10 +208,6 @@ static int dp_display_bind(struct device *dev, struct device *master,
- 
- 	dp = container_of(g_dp_display,
- 			struct dp_display_private, dp_display);
--	if (!dp) {
--		DRM_ERROR("DP driver bind failed. Invalid driver data\n");
--		return -EINVAL;
--	}
- 
- 	dp->dp_display.drm_dev = drm;
- 	priv = drm->dev_private;
-@@ -252,10 +248,6 @@ static void dp_display_unbind(struct device *dev, struct device *master,
- 
- 	dp = container_of(g_dp_display,
- 			struct dp_display_private, dp_display);
--	if (!dp) {
--		DRM_ERROR("Invalid DP driver data\n");
--		return;
--	}
- 
- 	dp_power_client_deinit(dp->power);
- 	dp_aux_unregister(dp->aux);
-@@ -406,11 +398,6 @@ static int dp_display_usbpd_configure_cb(struct device *dev)
- 
- 	dp = container_of(g_dp_display,
- 			struct dp_display_private, dp_display);
--	if (!dp) {
--		DRM_ERROR("no driver data found\n");
--		rc = -ENODEV;
--		goto end;
--	}
- 
- 	dp_display_host_init(dp, false);
- 
-@@ -437,11 +424,6 @@ static int dp_display_usbpd_disconnect_cb(struct device *dev)
- 
- 	dp = container_of(g_dp_display,
- 			struct dp_display_private, dp_display);
--	if (!dp) {
--		DRM_ERROR("no driver data found\n");
--		rc = -ENODEV;
--		return rc;
--	}
- 
- 	dp_add_event(dp, EV_USER_NOTIFICATION, false, 0);
- 
-@@ -502,7 +484,6 @@ static int dp_display_usbpd_attention_cb(struct device *dev)
- 	int rc = 0;
- 	u32 sink_request;
- 	struct dp_display_private *dp;
--	struct dp_usbpd *hpd;
- 
- 	if (!dev) {
- 		DRM_ERROR("invalid dev\n");
-@@ -511,12 +492,6 @@ static int dp_display_usbpd_attention_cb(struct device *dev)
- 
- 	dp = container_of(g_dp_display,
- 			struct dp_display_private, dp_display);
--	if (!dp) {
--		DRM_ERROR("no driver data found\n");
--		return -ENODEV;
--	}
--
--	hpd = dp->usbpd;
- 
- 	/* check for any test request issued by sink */
- 	rc = dp_link_process_request(dp->link);
--- 
-2.25.1
-
+> 
+> Add spinlock to struct intel_guc_ct_buffer and start using it.
+> 
+> Signed-off-by: Michal Wajdeczko <michal.wajdeczko@intel.com>
+> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+> ---
+>  drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c | 14 ++++++++++++--
+>  drivers/gpu/drm/i915/gt/uc/intel_guc_ct.h |  2 ++
+>  2 files changed, 14 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
+> index a4b2e7fe318b..bee0958d8bae 100644
+> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
+> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
+> @@ -89,6 +89,8 @@ static void ct_incoming_request_worker_func(struct work_struct *w);
+>   */
+>  void intel_guc_ct_init_early(struct intel_guc_ct *ct)
+>  {
+> +	spin_lock_init(&ct->ctbs.send.lock);
+> +	spin_lock_init(&ct->ctbs.recv.lock);
+>  	spin_lock_init(&ct->requests.lock);
+>  	INIT_LIST_HEAD(&ct->requests.pending);
+>  	INIT_LIST_HEAD(&ct->requests.incoming);
+> @@ -479,17 +481,22 @@ static int ct_send(struct intel_guc_ct *ct,
+>  	GEM_BUG_ON(len & ~GUC_CT_MSG_LEN_MASK);
+>  	GEM_BUG_ON(!response_buf && response_buf_size);
+>  
+> +	spin_lock_irqsave(&ct->ctbs.send.lock, flags);
+> +
+>  	fence = ct_get_next_fence(ct);
+>  	request.fence = fence;
+>  	request.status = 0;
+>  	request.response_len = response_buf_size;
+>  	request.response_buf = response_buf;
+>  
+> -	spin_lock_irqsave(&ct->requests.lock, flags);
+> +	spin_lock(&ct->requests.lock);
+>  	list_add_tail(&request.link, &ct->requests.pending);
+> -	spin_unlock_irqrestore(&ct->requests.lock, flags);
+> +	spin_unlock(&ct->requests.lock);
+>  
+>  	err = ct_write(ct, action, len, fence);
+> +
+> +	spin_unlock_irqrestore(&ct->ctbs.send.lock, flags);
+> +
+>  	if (unlikely(err))
+>  		goto unlink;
+>  
+> @@ -825,6 +832,7 @@ static int ct_handle_request(struct intel_guc_ct *ct, const u32 *msg)
+>  void intel_guc_ct_event_handler(struct intel_guc_ct *ct)
+>  {
+>  	u32 msg[GUC_CT_MSG_LEN_MASK + 1]; /* one extra dw for the header */
+> +	unsigned long flags;
+>  	int err = 0;
+>  
+>  	if (unlikely(!ct->enabled)) {
+> @@ -833,7 +841,9 @@ void intel_guc_ct_event_handler(struct intel_guc_ct *ct)
+>  	}
+>  
+>  	do {
+> +		spin_lock_irqsave(&ct->ctbs.recv.lock, flags);
+>  		err = ct_read(ct, msg);
+> +		spin_unlock_irqrestore(&ct->ctbs.recv.lock, flags);
+>  		if (err)
+>  			break;
+>  
+> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.h b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.h
+> index fc9486779e87..bc52dc479a14 100644
+> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.h
+> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.h
+> @@ -27,11 +27,13 @@ struct intel_guc;
+>   * record (command transport buffer descriptor) and the actual buffer which
+>   * holds the commands.
+>   *
+> + * @lock: protects access to the commands buffer and buffer descriptor
+>   * @desc: pointer to the buffer descriptor
+>   * @cmds: pointer to the commands buffer
+>   * @size: size of the commands buffer
+>   */
+>  struct intel_guc_ct_buffer {
+> +	spinlock_t lock;
+>  	struct guc_ct_buffer_desc *desc;
+>  	u32 *cmds;
+>  	u32 size;
+> -- 
+> 2.28.0
+> 
