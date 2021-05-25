@@ -2,54 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1F3F38F7C3
-	for <lists+dri-devel@lfdr.de>; Tue, 25 May 2021 03:55:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C0AF538F847
+	for <lists+dri-devel@lfdr.de>; Tue, 25 May 2021 04:45:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6D52C6E2D1;
-	Tue, 25 May 2021 01:55:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 93F006E30D;
+	Tue, 25 May 2021 02:45:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x42b.google.com (mail-pf1-x42b.google.com
- [IPv6:2607:f8b0:4864:20::42b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 882576E2D1
- for <dri-devel@lists.freedesktop.org>; Tue, 25 May 2021 01:55:41 +0000 (UTC)
-Received: by mail-pf1-x42b.google.com with SMTP id d16so22338798pfn.12
- for <dri-devel@lists.freedesktop.org>; Mon, 24 May 2021 18:55:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id;
- bh=ddqCUwNOx/paKOf85rQhoOrYRs85J4xxGPsPHJ/BGyw=;
- b=dTpX3gtZYZXpeB5+zO4pnHHV6Ex4rgnVsfmpgwbsnUzEGsiaTYo5oF/h+65/dQ4/Do
- L0LO4MJp7qkbBudYo6JkjRq26DB0u8wBL97TeEm0aGR4lek4+o216DJOcCRQERWSN96x
- Ez2zdikOWVFcNwM6TEI1BVhNTrm6BPFE09g1VitwMalX+vxGYZjzu8P0O9i4riati6mY
- 6dgThghaYxO79ez0sLHiJTCo9nCtMgzRyWJxhzgNkzIYk3oaOp+ejIk9ASq11AoRtukr
- +AtItT/ch0Jhyhxg/fEI6yi4FBkpXg9dufmJc+KQqt/oewTpke5p5DMjuuQvLDcyBmZP
- O13w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id;
- bh=ddqCUwNOx/paKOf85rQhoOrYRs85J4xxGPsPHJ/BGyw=;
- b=HtXvNLty/jXK87BjaPkho27waGd01A7yblNc2lHr75dE6Nj18bRkj0aMC5BQezniiq
- OPxFDyqPgVJZ3vR2l6mfQDbzXW3g/Zx3wJXcb5Ox/ekR8yvVPb7N+WTGCL7LuZwRe+5L
- l5e411olz689lLPyS2BljYdng0Yy0Nq3fw2PMTzpiOjyJP1uTaxvzMoIZwMj9JfEs5jS
- KXlQhQ0lCvkOur2wdIZ2ogiraNTnmdk8C4Mtx/MbgziP0TZFGwpj0iEVZ3uJCXK+AO3f
- ujb87lMehmqJ7ZxJad6xIjqrRz6nLRNtfsnCpXxRMxyLRCYDmr60gyzNuGdYO2jA2+UJ
- u2Hg==
-X-Gm-Message-State: AOAM531gW80iqj1DyiyF2SAB4VGHF1ZGq7CHZoH+4+kLLXKVWATO6X96
- mSZFWeeHicBmJ7G9HvdFX7s=
-X-Google-Smtp-Source: ABdhPJwRNAo9yyeCDPZy0dtgJwQjWvQQdTjfPnhVmeCl1vHAgLc0m+ileavKGOs2FjvQzmojhaAJGg==
-X-Received: by 2002:a65:644d:: with SMTP id s13mr16337733pgv.362.1621907741199; 
- Mon, 24 May 2021 18:55:41 -0700 (PDT)
-Received: from localhost.localdomain ([23.99.96.33])
- by smtp.gmail.com with ESMTPSA id b9sm11693841pfo.107.2021.05.24.18.55.38
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 24 May 2021 18:55:40 -0700 (PDT)
-From: ainux.wang@gmail.com
-To: airlied@redhat.com, tzimmermann@suse.de, airlied@linux.ie, daniel@ffwll.ch,
- ainux.wang@gmail.com
-Subject: [PATCH] drm/ast: Add detect function support
-Date: Tue, 25 May 2021 09:55:20 +0800
-Message-Id: <20210525015520.8327-1-ainux.wang@gmail.com>
-X-Mailer: git-send-email 2.18.1
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 555066E30D;
+ Tue, 25 May 2021 02:45:29 +0000 (UTC)
+IronPort-SDR: OKiEv70eGT485AZ7A7QPmBFAzVbpI8InhRXW8SrM9cPK8xYjdbPc/rJlp9dEr9rmcPyZ8d0bZK
+ DP4e/0zJDUGg==
+X-IronPort-AV: E=McAfee;i="6200,9189,9994"; a="189461816"
+X-IronPort-AV: E=Sophos;i="5.82,327,1613462400"; d="scan'208";a="189461816"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 May 2021 19:45:27 -0700
+IronPort-SDR: Q47S6STcOck49lcro1HsDj4Gh1LvN2xHcL3rJPsTurtfyPCxLJDfO3MCNvXERrDEKeMLXLUIgs
+ 6EaxG0/+mZFg==
+X-IronPort-AV: E=Sophos;i="5.82,327,1613462400"; d="scan'208";a="546321767"
+Received: from unknown (HELO sdutt-i7) ([10.165.21.147])
+ by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 May 2021 19:45:26 -0700
+Date: Mon, 24 May 2021 19:38:18 -0700
+From: Matthew Brost <matthew.brost@intel.com>
+To: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Subject: Re: [RFC PATCH 09/97] drm/i915/guc: Stop using fence/status from CTB
+ descriptor
+Message-ID: <20210525023818.GA7018@sdutt-i7>
+References: <20210506191451.77768-1-matthew.brost@intel.com>
+ <20210506191451.77768-10-matthew.brost@intel.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210506191451.77768-10-matthew.brost@intel.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,79 +50,166 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: sterlingteng@gmail.com, chenhuacai@kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: tvrtko.ursulin@intel.com, daniele.ceraolospurio@intel.com,
+ jason.ekstrand@intel.com, jon.bloomfield@intel.com, daniel.vetter@intel.com,
+ john.c.harrison@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Ainux <ainux.wang@gmail.com>
+On Thu, May 06, 2021 at 12:13:23PM -0700, Matthew Brost wrote:
+> From: Michal Wajdeczko <michal.wajdeczko@intel.com>
+> 
+> Stop using fence/status from CTB descriptor as future GuC ABI will
+> no longer support replies over CTB descriptor.
+> 
+> Signed-off-by: Michal Wajdeczko <michal.wajdeczko@intel.com>
+> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
 
-The existence of the connector cannot be detected,
-so add the detect function to support.
+Reviewed-by: Matthew Brost <matthew.brost@intel.com>
 
-Signed-off-by: Ainux <ainux.wang@gmail.com>
----
- drivers/gpu/drm/ast/ast_drv.c  |  2 ++
- drivers/gpu/drm/ast/ast_mode.c | 19 ++++++++++++++++++-
- 2 files changed, 20 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/ast/ast_drv.c b/drivers/gpu/drm/ast/ast_drv.c
-index 5aa452b4efe6..6698bbc405e3 100644
---- a/drivers/gpu/drm/ast/ast_drv.c
-+++ b/drivers/gpu/drm/ast/ast_drv.c
-@@ -128,6 +128,8 @@ static int ast_pci_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
- 
- 	drm_fbdev_generic_setup(dev, 32);
- 
-+	drm_kms_helper_poll_init(dev);
-+
- 	return 0;
- }
- 
-diff --git a/drivers/gpu/drm/ast/ast_mode.c b/drivers/gpu/drm/ast/ast_mode.c
-index 36d9575aa27b..b4dd4c29b353 100644
---- a/drivers/gpu/drm/ast/ast_mode.c
-+++ b/drivers/gpu/drm/ast/ast_mode.c
-@@ -1293,6 +1293,21 @@ static enum drm_mode_status ast_mode_valid(struct drm_connector *connector,
- 	return flags;
- }
- 
-+static enum drm_connector_status ast_connector_detect(struct drm_connector
-+						   *connector, bool force)
-+{
-+	int r;
-+	enum drm_connector_status ret = connector_status_connected;
-+
-+	r = ast_get_modes(connector);
-+	if (r)
-+		ret = connector_status_connected;
-+	else
-+		ret = connector_status_disconnected;
-+
-+	return ret;
-+}
-+
- static void ast_connector_destroy(struct drm_connector *connector)
- {
- 	struct ast_connector *ast_connector = to_ast_connector(connector);
-@@ -1307,6 +1322,7 @@ static const struct drm_connector_helper_funcs ast_connector_helper_funcs = {
- 
- static const struct drm_connector_funcs ast_connector_funcs = {
- 	.reset = drm_atomic_helper_connector_reset,
-+	.detect = ast_connector_detect,
- 	.fill_modes = drm_helper_probe_single_connector_modes,
- 	.destroy = ast_connector_destroy,
- 	.atomic_duplicate_state = drm_atomic_helper_connector_duplicate_state,
-@@ -1334,7 +1350,8 @@ static int ast_connector_init(struct drm_device *dev)
- 	connector->interlace_allowed = 0;
- 	connector->doublescan_allowed = 0;
- 
--	connector->polled = DRM_CONNECTOR_POLL_CONNECT;
-+	connector->polled = DRM_CONNECTOR_POLL_CONNECT |
-+						DRM_CONNECTOR_POLL_DISCONNECT;
- 
- 	drm_connector_attach_encoder(connector, encoder);
- 
--- 
-2.18.1
-
+> ---
+>  .../gt/uc/abi/guc_communication_ctb_abi.h     |  4 +-
+>  drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c     | 72 ++-----------------
+>  2 files changed, 6 insertions(+), 70 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/gt/uc/abi/guc_communication_ctb_abi.h b/drivers/gpu/drm/i915/gt/uc/abi/guc_communication_ctb_abi.h
+> index ebd8c3e0e4bb..d38935f47ecf 100644
+> --- a/drivers/gpu/drm/i915/gt/uc/abi/guc_communication_ctb_abi.h
+> +++ b/drivers/gpu/drm/i915/gt/uc/abi/guc_communication_ctb_abi.h
+> @@ -71,8 +71,8 @@ struct guc_ct_buffer_desc {
+>  	u32 head;		/* offset updated by GuC*/
+>  	u32 tail;		/* offset updated by owner */
+>  	u32 is_in_error;	/* error indicator */
+> -	u32 fence;		/* fence updated by GuC */
+> -	u32 status;		/* status updated by GuC */
+> +	u32 reserved1;
+> +	u32 reserved2;
+>  	u32 owner;		/* id of the channel owner */
+>  	u32 owner_sub_id;	/* owner-defined field for extra tracking */
+>  	u32 reserved[5];
+> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
+> index 25618649048f..4cc8c0b71699 100644
+> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
+> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
+> @@ -90,13 +90,6 @@ static void guc_ct_buffer_desc_init(struct guc_ct_buffer_desc *desc,
+>  	desc->owner = CTB_OWNER_HOST;
+>  }
+>  
+> -static void guc_ct_buffer_desc_reset(struct guc_ct_buffer_desc *desc)
+> -{
+> -	desc->head = 0;
+> -	desc->tail = 0;
+> -	desc->is_in_error = 0;
+> -}
+> -
+>  static int guc_action_register_ct_buffer(struct intel_guc *guc,
+>  					 u32 desc_addr,
+>  					 u32 type)
+> @@ -315,8 +308,7 @@ static u32 ct_get_next_fence(struct intel_guc_ct *ct)
+>  static int ct_write(struct intel_guc_ct *ct,
+>  		    const u32 *action,
+>  		    u32 len /* in dwords */,
+> -		    u32 fence,
+> -		    bool want_response)
+> +		    u32 fence)
+>  {
+>  	struct intel_guc_ct_buffer *ctb = &ct->ctbs[CTB_SEND];
+>  	struct guc_ct_buffer_desc *desc = ctb->desc;
+> @@ -360,8 +352,7 @@ static int ct_write(struct intel_guc_ct *ct,
+>  	 * DW2+: action data
+>  	 */
+>  	header = (len << GUC_CT_MSG_LEN_SHIFT) |
+> -		 (GUC_CT_MSG_WRITE_FENCE_TO_DESC) |
+> -		 (want_response ? GUC_CT_MSG_SEND_STATUS : 0) |
+> +		 GUC_CT_MSG_SEND_STATUS |
+>  		 (action[0] << GUC_CT_MSG_ACTION_SHIFT);
+>  
+>  	CT_DEBUG(ct, "writing %*ph %*ph %*ph\n",
+> @@ -390,56 +381,6 @@ static int ct_write(struct intel_guc_ct *ct,
+>  	return -EPIPE;
+>  }
+>  
+> -/**
+> - * wait_for_ctb_desc_update - Wait for the CT buffer descriptor update.
+> - * @desc:	buffer descriptor
+> - * @fence:	response fence
+> - * @status:	placeholder for status
+> - *
+> - * Guc will update CT buffer descriptor with new fence and status
+> - * after processing the command identified by the fence. Wait for
+> - * specified fence and then read from the descriptor status of the
+> - * command.
+> - *
+> - * Return:
+> - * *	0 response received (status is valid)
+> - * *	-ETIMEDOUT no response within hardcoded timeout
+> - * *	-EPROTO no response, CT buffer is in error
+> - */
+> -static int wait_for_ctb_desc_update(struct guc_ct_buffer_desc *desc,
+> -				    u32 fence,
+> -				    u32 *status)
+> -{
+> -	int err;
+> -
+> -	/*
+> -	 * Fast commands should complete in less than 10us, so sample quickly
+> -	 * up to that length of time, then switch to a slower sleep-wait loop.
+> -	 * No GuC command should ever take longer than 10ms.
+> -	 */
+> -#define done (READ_ONCE(desc->fence) == fence)
+> -	err = wait_for_us(done, 10);
+> -	if (err)
+> -		err = wait_for(done, 10);
+> -#undef done
+> -
+> -	if (unlikely(err)) {
+> -		DRM_ERROR("CT: fence %u failed; reported fence=%u\n",
+> -			  fence, desc->fence);
+> -
+> -		if (WARN_ON(desc->is_in_error)) {
+> -			/* Something went wrong with the messaging, try to reset
+> -			 * the buffer and hope for the best
+> -			 */
+> -			guc_ct_buffer_desc_reset(desc);
+> -			err = -EPROTO;
+> -		}
+> -	}
+> -
+> -	*status = desc->status;
+> -	return err;
+> -}
+> -
+>  /**
+>   * wait_for_ct_request_update - Wait for CT request state update.
+>   * @req:	pointer to pending request
+> @@ -483,8 +424,6 @@ static int ct_send(struct intel_guc_ct *ct,
+>  		   u32 response_buf_size,
+>  		   u32 *status)
+>  {
+> -	struct intel_guc_ct_buffer *ctb = &ct->ctbs[CTB_SEND];
+> -	struct guc_ct_buffer_desc *desc = ctb->desc;
+>  	struct ct_request request;
+>  	unsigned long flags;
+>  	u32 fence;
+> @@ -505,16 +444,13 @@ static int ct_send(struct intel_guc_ct *ct,
+>  	list_add_tail(&request.link, &ct->requests.pending);
+>  	spin_unlock_irqrestore(&ct->requests.lock, flags);
+>  
+> -	err = ct_write(ct, action, len, fence, !!response_buf);
+> +	err = ct_write(ct, action, len, fence);
+>  	if (unlikely(err))
+>  		goto unlink;
+>  
+>  	intel_guc_notify(ct_to_guc(ct));
+>  
+> -	if (response_buf)
+> -		err = wait_for_ct_request_update(&request, status);
+> -	else
+> -		err = wait_for_ctb_desc_update(desc, fence, status);
+> +	err = wait_for_ct_request_update(&request, status);
+>  	if (unlikely(err))
+>  		goto unlink;
+>  
+> -- 
+> 2.28.0
+> 
