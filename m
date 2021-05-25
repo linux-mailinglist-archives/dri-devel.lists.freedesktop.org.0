@@ -1,42 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9844B38F867
-	for <lists+dri-devel@lfdr.de>; Tue, 25 May 2021 05:00:46 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id F0C4538F878
+	for <lists+dri-devel@lfdr.de>; Tue, 25 May 2021 05:04:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8ABFE6E504;
-	Tue, 25 May 2021 03:00:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1622B6E5BD;
+	Tue, 25 May 2021 03:04:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6A3326E504;
- Tue, 25 May 2021 03:00:37 +0000 (UTC)
-IronPort-SDR: L9FBviW6KMjau2IgOAS8DdFf9ogT2bjeIuUgW6codGfyS4kcu8dhLp1r4x13fGwBXpPuuN6T/x
- ADIONQeFyrrA==
-X-IronPort-AV: E=McAfee;i="6200,9189,9994"; a="287658566"
-X-IronPort-AV: E=Sophos;i="5.82,327,1613462400"; d="scan'208";a="287658566"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 May 2021 20:00:36 -0700
-IronPort-SDR: aYnW53MNtKuXWPROa8o2cImMZgxCe6T+wSYAbA8ByDuLbz8keTOI4qvp5cJIeC11gZOLAZss5S
- TtNFq/KUUdzw==
-X-IronPort-AV: E=Sophos;i="5.82,327,1613462400"; d="scan'208";a="435527486"
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F36BB6E5BD;
+ Tue, 25 May 2021 03:03:58 +0000 (UTC)
+IronPort-SDR: VKJq1jfYYzBOpY1UumaAj1HLKMyXv8m5FAKTjUscEcWI1qIE4kj5bfMSKcBF3ZF/VrZ9sYxPKj
+ w9F8IN4pmU2g==
+X-IronPort-AV: E=McAfee;i="6200,9189,9994"; a="200186862"
+X-IronPort-AV: E=Sophos;i="5.82,327,1613462400"; d="scan'208";a="200186862"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 May 2021 20:03:58 -0700
+IronPort-SDR: bZXQsxen5wjVGpo3dSi79EVU0OVh6CkR3gqT14JNTjj5FI6Tcm/UGV4EYWwlj8coalWFrGHPQO
+ g0ahnqyMj6kw==
+X-IronPort-AV: E=Sophos;i="5.82,327,1613462400"; d="scan'208";a="397185527"
 Received: from unknown (HELO sdutt-i7) ([10.165.21.147])
- by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 May 2021 20:00:36 -0700
-Date: Mon, 24 May 2021 19:53:28 -0700
+ by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 May 2021 20:03:58 -0700
+Date: Mon, 24 May 2021 19:56:50 -0700
 From: Matthew Brost <matthew.brost@intel.com>
 To: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: Re: [RFC PATCH 12/97] drm/i915/guc: Don't repeat CTB layout
- calculations
-Message-ID: <20210525025328.GA9162@sdutt-i7>
+Subject: Re: [RFC PATCH 14/97] drm/i915/guc: Update sizes of CTB buffers
+Message-ID: <20210525025650.GA9876@sdutt-i7>
 References: <20210506191451.77768-1-matthew.brost@intel.com>
- <20210506191451.77768-13-matthew.brost@intel.com>
+ <20210506191451.77768-15-matthew.brost@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210506191451.77768-13-matthew.brost@intel.com>
+In-Reply-To: <20210506191451.77768-15-matthew.brost@intel.com>
 User-Agent: Mutt/1.9.4 (2018-02-28)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -56,76 +55,120 @@ Cc: tvrtko.ursulin@intel.com, daniele.ceraolospurio@intel.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, May 06, 2021 at 12:13:26PM -0700, Matthew Brost wrote:
+On Thu, May 06, 2021 at 12:13:28PM -0700, Matthew Brost wrote:
 > From: Michal Wajdeczko <michal.wajdeczko@intel.com>
 > 
-> We can retrieve offsets to cmds buffers and descriptor from
-> actual pointers that we already keep locally.
+> Future GuC will require CTB buffers sizes to be multiple of 4K.
+> Make these changes now as this shouldn't impact us too much.
 > 
 > Signed-off-by: Michal Wajdeczko <michal.wajdeczko@intel.com>
 > Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+> Cc: John Harrison <john.c.harrison@intel.com>
 > ---
->  drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c | 16 ++++++++++------
->  1 file changed, 10 insertions(+), 6 deletions(-)
+>  drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c | 60 ++++++++++++-----------
+>  1 file changed, 32 insertions(+), 28 deletions(-)
 > 
 > diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
-> index dbece569fbe4..fbd6bd20f588 100644
+> index c54a29176862..c87a0a8bef26 100644
 > --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
 > +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
-> @@ -244,6 +244,7 @@ int intel_guc_ct_enable(struct intel_guc_ct *ct)
->  {
->  	struct intel_guc *guc = ct_to_guc(ct);
->  	u32 base, cmds;
-> +	void *blob;
->  	int err;
->  	int i;
+> @@ -38,6 +38,32 @@ static inline struct drm_device *ct_to_drm(struct intel_guc_ct *ct)
+>  #define CT_PROBE_ERROR(_ct, _fmt, ...) \
+>  	i915_probe_error(ct_to_i915(ct), "CT: " _fmt, ##__VA_ARGS__);
 >  
-> @@ -251,15 +252,18 @@ int intel_guc_ct_enable(struct intel_guc_ct *ct)
->  
->  	/* vma should be already allocated and map'ed */
->  	GEM_BUG_ON(!ct->vma);
-> +	GEM_BUG_ON(!i915_gem_object_has_pinned_pages(ct->vma->obj));
-
-This doesn't really have anything to do with this patch, but again this
-patch will be squashed into a large patch updating the GuC firmware, so
-I think this is fine.
-
-With that:
-Reviewed-by: Matthew Brost <matthew.brost@intel.com>
-
->  	base = intel_guc_ggtt_offset(guc, ct->vma);
->  
-> -	/* (re)initialize descriptors
-> -	 * cmds buffers are in the second half of the blob page
-> -	 */
-> +	/* blob should start with send descriptor */
-> +	blob = __px_vaddr(ct->vma->obj);
-> +	GEM_BUG_ON(blob != ct->ctbs[CTB_SEND].desc);
+> +/**
+> + * DOC: CTB Blob
+> + *
+> + * We allocate single blob to hold both CTB descriptors and buffers:
+> + *
+> + *      +--------+-----------------------------------------------+------+
+> + *      | offset | contents                                      | size |
+> + *      +========+===============================================+======+
+> + *      | 0x0000 | H2G `CTB Descriptor`_ (send)                  |      |
+> + *      +--------+-----------------------------------------------+  4K  |
+> + *      | 0x0800 | G2H `CTB Descriptor`_ (recv)                  |      |
+> + *      +--------+-----------------------------------------------+------+
+> + *      | 0x1000 | H2G `CT Buffer`_ (send)                       | n*4K |
+> + *      |        |                                               |      |
+> + *      +--------+-----------------------------------------------+------+
+> + *      | 0x1000 | G2H `CT Buffer`_ (recv)                       | m*4K |
+> + *      | + n*4K |                                               |      |
+> + *      +--------+-----------------------------------------------+------+
+> + *
+> + * Size of each `CT Buffer`_ must be multiple of 4K.
+> + * As we don't expect too many messages, for now use minimum sizes.
+> + */
+> +#define CTB_DESC_SIZE		ALIGN(sizeof(struct guc_ct_buffer_desc), SZ_2K)
+> +#define CTB_H2G_BUFFER_SIZE	(SZ_4K)
+> +#define CTB_G2H_BUFFER_SIZE	(SZ_4K)
 > +
-> +	/* (re)initialize descriptors */
->  	for (i = 0; i < ARRAY_SIZE(ct->ctbs); i++) {
->  		GEM_BUG_ON((i != CTB_SEND) && (i != CTB_RECV));
+>  struct ct_request {
+>  	struct list_head link;
+>  	u32 fence;
+> @@ -175,29 +201,7 @@ int intel_guc_ct_init(struct intel_guc_ct *ct)
 >  
-> -		cmds = base + PAGE_SIZE / 4 * i + PAGE_SIZE / 2;
-> +		cmds = base + ptrdiff(ct->ctbs[i].cmds, blob);
->  		CT_DEBUG(ct, "%d: cmds addr=%#x\n", i, cmds);
+>  	GEM_BUG_ON(ct->vma);
 >  
->  		guc_ct_buffer_reset(&ct->ctbs[i], cmds);
-> @@ -269,12 +273,12 @@ int intel_guc_ct_enable(struct intel_guc_ct *ct)
->  	 * Register both CT buffers starting with RECV buffer.
->  	 * Descriptors are in first half of the blob.
->  	 */
-> -	err = ct_register_buffer(ct, base + PAGE_SIZE / 4 * CTB_RECV,
-> +	err = ct_register_buffer(ct, base + ptrdiff(ct->ctbs[CTB_RECV].desc, blob),
->  				 INTEL_GUC_CT_BUFFER_TYPE_RECV);
->  	if (unlikely(err))
->  		goto err_out;
+> -	/* We allocate 1 page to hold both descriptors and both buffers.
+> -	 *       ___________.....................
+> -	 *      |desc (SEND)|                   :
+> -	 *      |___________|                   PAGE/4
+> -	 *      :___________....................:
+> -	 *      |desc (RECV)|                   :
+> -	 *      |___________|                   PAGE/4
+> -	 *      :_______________________________:
+> -	 *      |cmds (SEND)                    |
+> -	 *      |                               PAGE/4
+> -	 *      |_______________________________|
+> -	 *      |cmds (RECV)                    |
+> -	 *      |                               PAGE/4
+> -	 *      |_______________________________|
+> -	 *
+> -	 * Each message can use a maximum of 32 dwords and we don't expect to
+> -	 * have more than 1 in flight at any time, so we have enough space.
+> -	 * Some logic further ahead will rely on the fact that there is only 1
+> -	 * page and that it is always mapped, so if the size is changed the
+> -	 * other code will need updating as well.
+> -	 */
+> -
+> -	blob_size = PAGE_SIZE;
+> +	blob_size = 2 * CTB_DESC_SIZE + CTB_H2G_BUFFER_SIZE + CTB_G2H_BUFFER_SIZE;
+>  	err = intel_guc_allocate_and_map_vma(guc, blob_size, &ct->vma, &blob);
+>  	if (unlikely(err)) {
+>  		CT_PROBE_ERROR(ct, "Failed to allocate %u for CTB data (%pe)\n",
+> @@ -209,17 +213,17 @@ int intel_guc_ct_init(struct intel_guc_ct *ct)
 >  
-> -	err = ct_register_buffer(ct, base + PAGE_SIZE / 4 * CTB_SEND,
-> +	err = ct_register_buffer(ct, base + ptrdiff(ct->ctbs[CTB_SEND].desc, blob),
->  				 INTEL_GUC_CT_BUFFER_TYPE_SEND);
->  	if (unlikely(err))
->  		goto err_deregister;
+>  	/* store pointers to desc and cmds for send ctb */
+>  	desc = blob;
+> -	cmds = blob + PAGE_SIZE / 2;
+> -	cmds_size = PAGE_SIZE / 4;
+> +	cmds = blob + 2 * CTB_DESC_SIZE;
+
+2 is a magic number here. Think it would be more clear with
+CTB_NUMBER_DESC define here.
+
+Michal what do you think? We can fix this in the next post of this with
+your blessing.
+
+With that nit:
+Reviewed-by: Matthew Brost <matthew.brost@intel.com> 
+
+> +	cmds_size = CTB_H2G_BUFFER_SIZE;
+>  	CT_DEBUG(ct, "%s desc %#lx cmds %#lx size %u\n", "send",
+>  		 ptrdiff(desc, blob), ptrdiff(cmds, blob), cmds_size);
+>  
+>  	guc_ct_buffer_init(&ct->ctbs.send, desc, cmds, cmds_size);
+>  
+>  	/* store pointers to desc and cmds for recv ctb */
+> -	desc = blob + PAGE_SIZE / 4;
+> -	cmds = blob + PAGE_SIZE / 4 + PAGE_SIZE / 2;
+> -	cmds_size = PAGE_SIZE / 4;
+> +	desc = blob + CTB_DESC_SIZE;
+> +	cmds = blob + 2 * CTB_DESC_SIZE + CTB_H2G_BUFFER_SIZE;
+> +	cmds_size = CTB_G2H_BUFFER_SIZE;
+>  	CT_DEBUG(ct, "%s desc %#lx cmds %#lx size %u\n", "recv",
+>  		 ptrdiff(desc, blob), ptrdiff(cmds, blob), cmds_size);
+>  
 > -- 
 > 2.28.0
 > 
