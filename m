@@ -2,43 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE8B339084D
-	for <lists+dri-devel@lfdr.de>; Tue, 25 May 2021 19:59:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 613B939082B
+	for <lists+dri-devel@lfdr.de>; Tue, 25 May 2021 19:53:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8F2E988DF8;
-	Tue, 25 May 2021 17:59:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AAF6B6EA98;
+	Tue, 25 May 2021 17:53:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3CC2B88DF8;
- Tue, 25 May 2021 17:59:46 +0000 (UTC)
-IronPort-SDR: 2tKP1iGtzY3URdcsbOr44vylMX/QTEx8zB/kx3GQ9Ma8D7KglaHlQL9qNwfFYMK/hhcMToo8JA
- +tTs5F8d8ddA==
-X-IronPort-AV: E=McAfee;i="6200,9189,9995"; a="181900622"
-X-IronPort-AV: E=Sophos;i="5.82,329,1613462400"; d="scan'208";a="181900622"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 May 2021 10:59:46 -0700
-IronPort-SDR: H2jxOxUc+FBEgctG7V7mdYGVVeRwHbKO7iGooej3UbiLr3HswMh2hR0geQ+LWUq0nUYN4OxYeV
- CJWMeDtXmi8A==
-X-IronPort-AV: E=Sophos;i="5.82,329,1613462400"; d="scan'208";a="633125293"
-Received: from unknown (HELO sdutt-i7) ([10.165.21.147])
- by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 May 2021 10:59:46 -0700
-Date: Tue, 25 May 2021 10:52:39 -0700
-From: Matthew Brost <matthew.brost@intel.com>
-To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Subject: Re: [Intel-gfx] [RFC PATCH 60/97] drm/i915: Track 'serial' counts
- for virtual engines
-Message-ID: <20210525175239.GA21324@sdutt-i7>
-References: <20210506191451.77768-1-matthew.brost@intel.com>
- <20210506191451.77768-61-matthew.brost@intel.com>
- <cd59ddd4-625b-c40d-05a8-e259b8fd430c@linux.intel.com>
+Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com
+ [IPv6:2a00:1450:4864:20::42e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E8D576E922
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 May 2021 17:53:20 +0000 (UTC)
+Received: by mail-wr1-x42e.google.com with SMTP id x7so13540814wrt.12
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 May 2021 10:53:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=WrujumSU1+zFWWJ08KI/mKxpUxzEYo1k79qwI4tpPX4=;
+ b=V9ncVLSmygkTfM2oPQ84z6Lujtq6HnByiOAXrwpFLtmVWSjeiS804G0dT6nm2JKDVg
+ EGENymltvvxULFs/aDscReqFUJhdDkaOIsK0ZceryNjgHpvEnhxWnC6YGldOlVnBgznh
+ Q/otsxxoQaAxjrDpg+lU453cXJrjWWUfFGFYI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=WrujumSU1+zFWWJ08KI/mKxpUxzEYo1k79qwI4tpPX4=;
+ b=Rjc2ZaRrkxOas1lnJsBtPCrSloSo8g8YI8cFoj2klI92wGu0lgJji8PNu/12UbpP77
+ aeB5lzr/P3suast7Okj+xVbudvLz/5EeHsNh+YJPiZ3cDFhZouAr+ch7NJIkWv7bflPm
+ OZCeFdBb9r33PdG/n4qYj/RstiWhMzRGgaXCcWbGmuC49hk5xyVzSMtToPXRxdCFsDji
+ aPo50J9pTBg3P8lW6WMwQmJGPVdY3MC8sKyzu0DlWNndtNa4pZvRznqaooeeTIkwucyA
+ UHCqBAwNBC0YnHLZW30hNqh452SkPFAZTIHFrol2qsW24bbfD+ujyvLGi6DyP4+k6CwI
+ UzmA==
+X-Gm-Message-State: AOAM533kcCvxS+aa6FYAMlFS/+CYUU/NgXTZ3vh4eAMovUHK3Ac2JF6z
+ Q0hSYVfGmNgyNH3mH+24x0mSDA==
+X-Google-Smtp-Source: ABdhPJxljLzeq4dlgAEQSqMzAtn+gBYB8ZH4HqYKFTr7n8n2Ap1WE1dcxVz8hN9c/6XLLnVYqPFuag==
+X-Received: by 2002:adf:e291:: with SMTP id v17mr28880122wri.149.1621965199488; 
+ Tue, 25 May 2021 10:53:19 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id z188sm11957986wme.38.2021.05.25.10.53.18
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 25 May 2021 10:53:18 -0700 (PDT)
+Date: Tue, 25 May 2021 19:53:17 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Noralf =?iso-8859-1?Q?Tr=F8nnes?= <noralf@tronnes.org>
+Subject: Re: [PATCH 10/11] drm/simple-helper:
+ drm_gem_simple_display_pipe_prepare_fb as default
+Message-ID: <YK05jUaHtxkHIyAG@phenom.ffwll.local>
+References: <20210521090959.1663703-10-daniel.vetter@ffwll.ch>
+ <9d855dc6-5825-4666-6d70-e5f3f880c592@tronnes.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <cd59ddd4-625b-c40d-05a8-e259b8fd430c@linux.intel.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <9d855dc6-5825-4666-6d70-e5f3f880c592@tronnes.org>
+X-Operating-System: Linux phenom 5.10.32scarlett+ 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,178 +69,86 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: jason.ekstrand@intel.com, daniel.vetter@intel.com,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: airlied@linux.ie, daniel.vetter@ffwll.ch, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, tzimmermann@suse.de, daniel.vetter@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, May 25, 2021 at 11:16:12AM +0100, Tvrtko Ursulin wrote:
-> 
-> On 06/05/2021 20:14, Matthew Brost wrote:
-> > From: John Harrison <John.C.Harrison@Intel.com>
-> > 
-> > The serial number tracking of engines happens at the backend of
-> > request submission and was expecting to only be given physical
-> > engines. However, in GuC submission mode, the decomposition of virtual
-> > to physical engines does not happen in i915. Instead, requests are
-> > submitted to their virtual engine mask all the way through to the
-> > hardware (i.e. to GuC). This would mean that the heart beat code
-> > thinks the physical engines are idle due to the serial number not
-> > incrementing.
-> > 
-> > This patch updates the tracking to decompose virtual engines into
-> > their physical constituents and tracks the request against each. This
-> > is not entirely accurate as the GuC will only be issuing the request
-> > to one physical engine. However, it is the best that i915 can do given
-> > that it has no knowledge of the GuC's scheduling decisions.
-> 
-> Commit text sounds a bit defeatist. I think instead of making up the serial
-> counts, which has downsides (could you please document in the commit what
-> they are), we should think how to design things properly.
-> 
-
-IMO, I don't think fixing serial counts is the scope of this series. We
-should focus on getting GuC submission in not cleaning up all the crap
-that is in the i915. Let's make a note of this though so we can revisit
-later.
-
-Matt
-
-> Regards,
-> 
-> Tvrtko
-> 
-> > Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
-> > Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+On Tue, May 25, 2021 at 07:48:12PM +0200, Noralf Trønnes wrote:
+> > It's tedious to review this all the time, and my audit showed that
+> > arcpgu actually forgot to set this.
+> >
+> > Make this the default and stop worrying.
+> >
+> > Again I sprinkled WARN_ON_ONCE on top to make sure we don't have
+> > strange combinations of hooks: cleanup_fb without prepare_fb doesn't
+> > make sense, and since simpler drivers are all new they better be GEM
+> > based drivers.
+> >
+> > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+> > Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> > Cc: Maxime Ripard <mripard@kernel.org>
+> > Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> > Cc: David Airlie <airlied@linux.ie>
+> > Cc: Daniel Vetter <daniel@ffwll.ch>
 > > ---
-> >   drivers/gpu/drm/i915/gt/intel_engine_types.h     |  2 ++
-> >   .../gpu/drm/i915/gt/intel_execlists_submission.c |  6 ++++++
-> >   drivers/gpu/drm/i915/gt/intel_ring_submission.c  |  6 ++++++
-> >   drivers/gpu/drm/i915/gt/mock_engine.c            |  6 ++++++
-> >   .../gpu/drm/i915/gt/uc/intel_guc_submission.c    | 16 ++++++++++++++++
-> >   drivers/gpu/drm/i915/i915_request.c              |  4 +++-
-> >   6 files changed, 39 insertions(+), 1 deletion(-)
-> > 
-> > diff --git a/drivers/gpu/drm/i915/gt/intel_engine_types.h b/drivers/gpu/drm/i915/gt/intel_engine_types.h
-> > index 86302e6d86b2..e2b5cda6dbc4 100644
-> > --- a/drivers/gpu/drm/i915/gt/intel_engine_types.h
-> > +++ b/drivers/gpu/drm/i915/gt/intel_engine_types.h
-> > @@ -389,6 +389,8 @@ struct intel_engine_cs {
-> >   	void		(*park)(struct intel_engine_cs *engine);
-> >   	void		(*unpark)(struct intel_engine_cs *engine);
-> > +	void		(*bump_serial)(struct intel_engine_cs *engine);
+> >  drivers/gpu/drm/drm_simple_kms_helper.c | 12 ++++++++++--
+> >  include/drm/drm_simple_kms_helper.h     |  7 +++++--
+> >  2 files changed, 15 insertions(+), 4 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/drm_simple_kms_helper.c
+> b/drivers/gpu/drm/drm_simple_kms_helper.c
+> > index 0b095a313c44..1a97571d97d9 100644
+> > --- a/drivers/gpu/drm/drm_simple_kms_helper.c
+> > +++ b/drivers/gpu/drm/drm_simple_kms_helper.c
+> > @@ -9,6 +9,8 @@
+> >  #include <drm/drm_atomic.h>
+> >  #include <drm/drm_atomic_helper.h>
+> >  #include <drm/drm_bridge.h>
+> > +#include <drm/drm_drv.h>
+> > +#include <drm/drm_gem_atomic_helper.h>
+> >  #include <drm/drm_managed.h>
+> >  #include <drm/drm_plane_helper.h>
+> >  #include <drm/drm_probe_helper.h>
+> > @@ -225,8 +227,14 @@ static int drm_simple_kms_plane_prepare_fb(struct
+> drm_plane *plane,
+> >  	struct drm_simple_display_pipe *pipe;
+> >
+> >  	pipe = container_of(plane, struct drm_simple_display_pipe, plane);
+> > -	if (!pipe->funcs || !pipe->funcs->prepare_fb)
+> > -		return 0;
+> > +	if (!pipe->funcs || !pipe->funcs->prepare_fb) {
+> > +		if (WARN_ON_ONCE(drm_core_check_feature(plane->dev, DRIVER_GEM)))
+> 
+> Shouldn't this check be inverted? Looks like it warns on GEM drivers.
+
+Ah yes, I'll fix.
+
+> With that considered:
+> 
+> Acked-by: Noralf Trønnes <noralf@tronnes.org>
+> 
+> Hopefully this reply will thread correctly, I had to reply from lore (I
+> wasn't cc'ed) and I don't know if Thunderbird sets In-Reply-To. I'm not
+> subscribed to dri-devel anymore since I'm winding down my Linux work and
+> dri-devel is such a high volume list.
+
+Thanks a lot for taking a look, threaded all correctly.
+-Daniel
+
+> Noralf
+> 
+> > +			return 0;
 > > +
-> >   	void		(*set_default_submission)(struct intel_engine_cs *engine);
-> >   	const struct intel_context_ops *cops;
-> > diff --git a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
-> > index ae12d7f19ecd..02880ea5d693 100644
-> > --- a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
-> > +++ b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
-> > @@ -3199,6 +3199,11 @@ static void execlists_release(struct intel_engine_cs *engine)
-> >   	lrc_fini_wa_ctx(engine);
-> >   }
-> > +static void execlist_bump_serial(struct intel_engine_cs *engine)
-> > +{
-> > +	engine->serial++;
-> > +}
+> > +		WARN_ON_ONCE(pipe->funcs && pipe->funcs->cleanup_fb);
 > > +
-> >   static void
-> >   logical_ring_default_vfuncs(struct intel_engine_cs *engine)
-> >   {
-> > @@ -3208,6 +3213,7 @@ logical_ring_default_vfuncs(struct intel_engine_cs *engine)
-> >   	engine->cops = &execlists_context_ops;
-> >   	engine->request_alloc = execlists_request_alloc;
-> > +	engine->bump_serial = execlist_bump_serial;
-> >   	engine->reset.prepare = execlists_reset_prepare;
-> >   	engine->reset.rewind = execlists_reset_rewind;
-> > diff --git a/drivers/gpu/drm/i915/gt/intel_ring_submission.c b/drivers/gpu/drm/i915/gt/intel_ring_submission.c
-> > index 14aa31879a37..39dd7c4ed0a9 100644
-> > --- a/drivers/gpu/drm/i915/gt/intel_ring_submission.c
-> > +++ b/drivers/gpu/drm/i915/gt/intel_ring_submission.c
-> > @@ -1045,6 +1045,11 @@ static void setup_irq(struct intel_engine_cs *engine)
-> >   	}
-> >   }
-> > +static void ring_bump_serial(struct intel_engine_cs *engine)
-> > +{
-> > +	engine->serial++;
-> > +}
-> > +
-> >   static void setup_common(struct intel_engine_cs *engine)
-> >   {
-> >   	struct drm_i915_private *i915 = engine->i915;
-> > @@ -1064,6 +1069,7 @@ static void setup_common(struct intel_engine_cs *engine)
-> >   	engine->cops = &ring_context_ops;
-> >   	engine->request_alloc = ring_request_alloc;
-> > +	engine->bump_serial = ring_bump_serial;
-> >   	/*
-> >   	 * Using a global execution timeline; the previous final breadcrumb is
-> > diff --git a/drivers/gpu/drm/i915/gt/mock_engine.c b/drivers/gpu/drm/i915/gt/mock_engine.c
-> > index bd005c1b6fd5..97b10fd60b55 100644
-> > --- a/drivers/gpu/drm/i915/gt/mock_engine.c
-> > +++ b/drivers/gpu/drm/i915/gt/mock_engine.c
-> > @@ -292,6 +292,11 @@ static void mock_engine_release(struct intel_engine_cs *engine)
-> >   	intel_engine_fini_retire(engine);
-> >   }
-> > +static void mock_bump_serial(struct intel_engine_cs *engine)
-> > +{
-> > +	engine->serial++;
-> > +}
-> > +
-> >   struct intel_engine_cs *mock_engine(struct drm_i915_private *i915,
-> >   				    const char *name,
-> >   				    int id)
-> > @@ -318,6 +323,7 @@ struct intel_engine_cs *mock_engine(struct drm_i915_private *i915,
-> >   	engine->base.cops = &mock_context_ops;
-> >   	engine->base.request_alloc = mock_request_alloc;
-> > +	engine->base.bump_serial = mock_bump_serial;
-> >   	engine->base.emit_flush = mock_emit_flush;
-> >   	engine->base.emit_fini_breadcrumb = mock_emit_breadcrumb;
-> >   	engine->base.submit_request = mock_submit_request;
-> > diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> > index dc79d287c50a..f0e5731bcef6 100644
-> > --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> > +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> > @@ -1500,6 +1500,20 @@ static void guc_release(struct intel_engine_cs *engine)
-> >   	lrc_fini_wa_ctx(engine);
-> >   }
-> > +static void guc_bump_serial(struct intel_engine_cs *engine)
-> > +{
-> > +	engine->serial++;
-> > +}
-> > +
-> > +static void virtual_guc_bump_serial(struct intel_engine_cs *engine)
-> > +{
-> > +	struct intel_engine_cs *e;
-> > +	intel_engine_mask_t tmp, mask = engine->mask;
-> > +
-> > +	for_each_engine_masked(e, engine->gt, mask, tmp)
-> > +		e->serial++;
-> > +}
-> > +
-> >   static void guc_default_vfuncs(struct intel_engine_cs *engine)
-> >   {
-> >   	/* Default vfuncs which can be overridden by each engine. */
-> > @@ -1508,6 +1522,7 @@ static void guc_default_vfuncs(struct intel_engine_cs *engine)
-> >   	engine->cops = &guc_context_ops;
-> >   	engine->request_alloc = guc_request_alloc;
-> > +	engine->bump_serial = guc_bump_serial;
-> >   	engine->sched_engine->schedule = i915_schedule;
-> > @@ -1843,6 +1858,7 @@ guc_create_virtual(struct intel_engine_cs **siblings, unsigned int count)
-> >   	ve->base.cops = &virtual_guc_context_ops;
-> >   	ve->base.request_alloc = guc_request_alloc;
-> > +	ve->base.bump_serial = virtual_guc_bump_serial;
-> >   	ve->base.submit_request = guc_submit_request;
-> > diff --git a/drivers/gpu/drm/i915/i915_request.c b/drivers/gpu/drm/i915/i915_request.c
-> > index 9542a5baa45a..127d60b36422 100644
-> > --- a/drivers/gpu/drm/i915/i915_request.c
-> > +++ b/drivers/gpu/drm/i915/i915_request.c
-> > @@ -692,7 +692,9 @@ bool __i915_request_submit(struct i915_request *request)
-> >   				     request->ring->vaddr + request->postfix);
-> >   	trace_i915_request_execute(request);
-> > -	engine->serial++;
-> > +	if (engine->bump_serial)
-> > +		engine->bump_serial(engine);
-> > +
-> >   	result = true;
-> >   	GEM_BUG_ON(test_bit(I915_FENCE_FLAG_ACTIVE, &request->fence.flags));
-> > 
+> > +		return drm_gem_simple_display_pipe_prepare_fb(pipe, state);
+> > +	}
+> >
+> >  	return pipe->funcs->prepare_fb(pipe, state);
+> >  }
+
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
