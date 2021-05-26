@@ -1,47 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 712E53913F4
-	for <lists+dri-devel@lfdr.de>; Wed, 26 May 2021 11:45:43 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 64A3B391411
+	for <lists+dri-devel@lfdr.de>; Wed, 26 May 2021 11:49:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6F3466EC26;
-	Wed, 26 May 2021 09:45:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EC65D6EC27;
+	Wed, 26 May 2021 09:49:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail2.protonmail.ch (mail2.protonmail.ch [185.70.40.22])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 67B176EC3D
- for <dri-devel@lists.freedesktop.org>; Wed, 26 May 2021 09:45:39 +0000 (UTC)
-Date: Wed, 26 May 2021 09:45:19 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
- s=protonmail3; t=1622022336;
- bh=6bnXHXEDjmMyXGFX/sLS9rHtQDIBNsiOL6vKMf1HUII=;
- h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
- b=nmMw+CJZh0Wv38TsXSu8KX7NPRjzVuY7esOnYESf85iDsyB4HcI4xIGNv7NjX1ATe
- OhDDaMsmPTvPsF+lt7yn6gr8fYtVJ45DU42SywN2gsHKe4P+T2KD/4oJJhO67DYpQM
- eJtWbDmuudskA52A+CL9xgIRLn74odJYj+tEZDcnBxQh+Qk4agq1ZTF+pKnHiuE9+Q
- DtYAOfBSsS0sfEWxanSclQfJPgSJyTdSkVUK88WUXD8cXnE4MiZbW44MUGe5Ct/j6z
- WoGouin0aHDR/fOKmxsUJ4fBAq+JGBZd9yN7BPKfzvNrR2YDmRsPWJMyfRJNbeguyt
- MZINJa5+5aFMQ==
-To: Daniel Stone <daniel@fooishbar.org>
-From: Simon Ser <contact@emersion.fr>
-Subject: Re: EPOLL for drm_syncfile (was Re: [PATCH 4/4] RFC: dma-buf: Add an
- API for importing sync files (v6))
-Message-ID: <oPuFlh8eznHljLyScverjUVyMZCazJlb8aH47SDFP-3KcFPzUyLGSbiwOtn2bJntvsVRLCAElpH3dCU2aDo-ENLsDjiQdaL-f-GIteA7RAQ=@emersion.fr>
-In-Reply-To: <CAPj87rOdE35n4yCe6U_384u0YR4oZ=zb9wKOH4PKEC4Ti5gUSg@mail.gmail.com>
-References: <20210520190007.534046-1-jason@jlekstrand.net>
- <20210520190007.534046-5-jason@jlekstrand.net>
- <CAPj87rPW2xmOLKg6OgQST6QrH9u5-qmdRJrNDug+rWa=Uv6ZBQ@mail.gmail.com>
- <0a54d998-1c4b-724c-ec2d-a6c23aa35c21@amd.com>
- <CAPj87rOdE35n4yCe6U_384u0YR4oZ=zb9wKOH4PKEC4Ti5gUSg@mail.gmail.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 01F6289AFF;
+ Wed, 26 May 2021 09:49:13 +0000 (UTC)
+IronPort-SDR: cg2lMOEdqv/1/fG/MOOCPfKi+9maUtsZfh3ifGsQ6T7uTGCsX38/3VWQPCNYsxvclVvQm3yQ6M
+ 6MKiKGXgKB0Q==
+X-IronPort-AV: E=McAfee;i="6200,9189,9995"; a="189546946"
+X-IronPort-AV: E=Sophos;i="5.82,331,1613462400"; d="scan'208";a="189546946"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 May 2021 02:49:10 -0700
+IronPort-SDR: LkLdABtotWQqkzj2egJbH1MPb8+cDgegeXwh9rSWx8d8KV2II6DwUx85VSGUAYOmwSA7xSyTd+
+ 28NxE3gLcD3A==
+X-IronPort-AV: E=Sophos;i="5.82,331,1613462400"; d="scan'208";a="547135981"
+Received: from sjmeneze-mobl2.amr.corp.intel.com (HELO aswarup-mobl.intel.com)
+ ([10.251.6.1])
+ by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 May 2021 02:49:09 -0700
+From: Aditya Swarup <aditya.swarup@intel.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH 0/1] Adding Wa_14010733141 for SFC reset
+Date: Wed, 26 May 2021 02:48:51 -0700
+Message-Id: <20210526094852.286424-1-aditya.swarup@intel.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
- DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF shortcircuit=no
- autolearn=disabled version=3.4.4
-X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
- mailout.protonmail.ch
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,19 +46,21 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: Simon Ser <contact@emersion.fr>
-Cc: Jason Ekstrand <jason@jlekstrand.net>,
- Daniel Vetter <daniel.vetter@intel.com>,
- =?utf-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- dri-devel <dri-devel@lists.freedesktop.org>
+Cc: daniel.vetter@intel.com, intel-gfx@lists.freedesktop.org,
+ daniele.ceraolospurio@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sunday, May 23rd, 2021 at 11:34 PM, Daniel Stone <daniel@fooishbar.org> =
-wrote:
+Need an ack for push to intel gt branch. The patch has already been
+reviewed by Daniele.
 
-> On the other hand, as soon as the sync point becomes available, the
-> winsys will want to immediately extract a sync_file from it
+Aditya Swarup (1):
+  drm/i915: Add Wa_14010733141
 
-With today's APIs, yes, but if we ever get drm_syncobj timeline support
-in KMS/EGL(/Vulkan?) maybe this won't be necessary at some point.
+ drivers/gpu/drm/i915/gt/intel_reset.c | 194 +++++++++++++++++---------
+ drivers/gpu/drm/i915/i915_reg.h       |   6 +
+ 2 files changed, 137 insertions(+), 63 deletions(-)
+
+-- 
+2.27.0
+
