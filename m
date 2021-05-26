@@ -2,55 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB7E5391B47
-	for <lists+dri-devel@lfdr.de>; Wed, 26 May 2021 17:11:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E0127391B61
+	for <lists+dri-devel@lfdr.de>; Wed, 26 May 2021 17:13:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 824C36EDAD;
-	Wed, 26 May 2021 15:11:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E29816E20E;
+	Wed, 26 May 2021 15:13:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com
- [IPv6:2a00:1450:4864:20::42a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 03C2A6ED9D
- for <dri-devel@lists.freedesktop.org>; Wed, 26 May 2021 15:11:15 +0000 (UTC)
-Received: by mail-wr1-x42a.google.com with SMTP id m18so1543861wrv.2
- for <dri-devel@lists.freedesktop.org>; Wed, 26 May 2021 08:11:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=Lu2TDipopelvZEJA1rp7trPo6hjwUN0ffNWynpYycRQ=;
- b=Xy3i/CfvxdcDfy47sXh18bh++H72kPLDPA+JrLgoTQN/IFFMMcdypskEp/WzIyBgFz
- KptfaLkOpVBsR1T963oILaWMuXp3ZfxU5KMHCgtvoGkK81C7veNAYW+1iQkk9P0VbC5I
- R5FiPWWKJ98LJa20TNzDWOztJeI3mu/XZjy+8=
+Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com
+ [IPv6:2a00:1450:4864:20::32b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0EDE06E20E
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 May 2021 15:13:14 +0000 (UTC)
+Received: by mail-wm1-x32b.google.com with SMTP id
+ z19-20020a7bc7d30000b029017521c1fb75so771280wmk.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 May 2021 08:13:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=fooishbar-org.20150623.gappssmtp.com; s=20150623;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=JC8HpxyIu10oISvtWws82Z159WoVrNTvawPit28M/lk=;
+ b=S9xrv6r6l1qq8RALA3ZRQwICgUbG3ep1sWHauTHCqkhkNtUoymShsz2GUWJLCgMbVs
+ eqLjfbGauQvlX+0tfArAC3RaUDydSJTiXs5QBOJXIPc64Ho7RM0DbAF0lYwsqnC9mOY1
+ HqW9GpH0fvUqQGNqsk931G458HYtSNvHFfRVQmfSvXfWjtmZ41VDsp6wDhimh5YPWzfO
+ ZVGgiarZNkbDwzMOYfuYik9ohCQi/IcdbG7Mqquwoy6RYHWUjRIPAkKihhgAQKqg+0eB
+ NlmlAH9euMOFxBlBYXEQwcFuAr0cW/EuOQNID65TlRSOTd72sXRQZ4KbrmrB2u1xpFzz
+ 49qA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=Lu2TDipopelvZEJA1rp7trPo6hjwUN0ffNWynpYycRQ=;
- b=MbUA3n0Pz5k41pXies/PJe8JdNtoRu58T3e2EVjfkRjfRiUgKaVecpUmnhbMTMY5hj
- 66KpjelHRSI0U+9bweDZUZo1hapu/umVEUOT2bN8nUORfMD4Y7fH6wh4K35biu3DaWIo
- 4oMYQnvXibxt12P2/N2CjjI4Y5u3lScsiYjfWkL0X+IGl2RegJorbA/ZwfseWDA1PlBy
- 0u9b5lRTwgIwAALpfjdU0HAtcYxRG6ODTjVgkj3oJo5tvsZs3HxZHGcOptms8oWOUqPt
- 3NUoq3ygkkqiUgO3YHY+81kMSWGaHNk9Ihj2kRcG/wTGoPdBL7kVzDcraK+XEjCagSUz
- 1NZA==
-X-Gm-Message-State: AOAM531bf5zVpchcHB8Dg+jUTnKKM3P4P6PfJwqtfOfS2zaW+O4jdP6N
- FlaA0xtsqUQd5vWqwivTbnfaQw==
-X-Google-Smtp-Source: ABdhPJwe3bp+a+Oaknn3NFX5OHPwwngJ/PwVe2l3/hn8lIIqQ984uj/AS+o03p/YJvTuIXNfewbS5Q==
-X-Received: by 2002:adf:d081:: with SMTP id y1mr32715059wrh.179.1622041873853; 
- Wed, 26 May 2021 08:11:13 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id r17sm7270038wmh.25.2021.05.26.08.11.12
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 26 May 2021 08:11:13 -0700 (PDT)
-From: Daniel Vetter <daniel.vetter@ffwll.ch>
-To: Intel Graphics Development <intel-gfx@lists.freedesktop.org>
-Subject: [PATCH] drm/i915: Use generic_access_phys
-Date: Wed, 26 May 2021 17:11:06 +0200
-Message-Id: <20210526151106.3390006-1-daniel.vetter@ffwll.ch>
-X-Mailer: git-send-email 2.31.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=JC8HpxyIu10oISvtWws82Z159WoVrNTvawPit28M/lk=;
+ b=kf9itj6wCC1BdaZHINeqAJ2kC2yilNgF2tdGQLey59ytUAdf7h3sY1IZFoJPAtHgHT
+ aLfI4SFsrWgK7x+Pu7UoacoW7sWh436kDTln9TdtURFcy8uAesbiBnEOvQBBrnMrex+w
+ VMgEGjOdry31karp+XVCQVO7lnMK8zSkgO0LfcLoITkemj0KJfPxePOzOyxzcsdfav5k
+ bJBSeitZyTAhza2E+j2GEX+IC7PYpaXdFalEeYo1x6UdHU0QMF8nWkZ0OfqRyfbc4t1c
+ jYY058QW2LSFjUO6mr66OBST1qPMMxZtA0WKKsqYyLEuMP/wI4W726ii1EVDE3tTkHi1
+ VWzw==
+X-Gm-Message-State: AOAM533zC3JJ6ufrL1cVkPJ+FNmWdUgHotT+oIesN1UbLU4a8LjNJTSt
+ ZG1jJNUdCd2I2uMObsJtU1AALYNGZwcqLutf6nvtDA==
+X-Google-Smtp-Source: ABdhPJyxWUcycmlrebrRbWhM2cMBw+5UN7dbQWWsaIVOvIxKlINaRWTxIzfxTtYioTP91GvPDuD+jiky73KSpT8fnEg=
+X-Received: by 2002:a1c:3184:: with SMTP id x126mr3907633wmx.52.1622041992543; 
+ Wed, 26 May 2021 08:13:12 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20210520190007.534046-1-jason@jlekstrand.net>
+ <20210520190007.534046-5-jason@jlekstrand.net>
+ <CAPj87rPW2xmOLKg6OgQST6QrH9u5-qmdRJrNDug+rWa=Uv6ZBQ@mail.gmail.com>
+ <CAOFGe97b-djqwV95Y91xe9-ZVUyeGqjdPE8vj7MoSfV0Kcrp1Q@mail.gmail.com>
+ <CAPj87rNJTHNKkdiZREVb8v6iiwUhYLXW10pjVOdV=zttd+tG3Q@mail.gmail.com>
+ <CAKMK7uHqxLe_CH_cOjfy-rouYcxwg=n6AkkxprzAKnb-y_A3NQ@mail.gmail.com>
+ <CAPj87rOW_633K_n4nwq2qkPt5Q5efc3BpRnzT+=Npb=agWGTew@mail.gmail.com>
+ <YK5QvIJYTJ7AJZNx@phenom.ffwll.local>
+In-Reply-To: <YK5QvIJYTJ7AJZNx@phenom.ffwll.local>
+From: Daniel Stone <daniel@fooishbar.org>
+Date: Wed, 26 May 2021 16:13:00 +0100
+Message-ID: <CAPj87rMgQiwdB+fTjoMkqtpKxs6JgxWSm=jrq1Oen0dKiFqSog@mail.gmail.com>
+Subject: Re: [PATCH 4/4] RFC: dma-buf: Add an API for importing sync files (v6)
+To: Daniel Vetter <daniel@ffwll.ch>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,127 +70,79 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Chris Wilson <chris@chris-wilson.co.uk>,
- Jon Bloomfield <jon.bloomfield@intel.com>,
- Daniel Vetter <daniel.vetter@intel.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- Michel Lespinasse <walken@google.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: Daniel Vetter <daniel.vetter@intel.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Jason Ekstrand <jason@jlekstrand.net>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Since
+On Wed, 26 May 2021 at 14:44, Daniel Vetter <daniel@ffwll.ch> wrote:
+> On Wed, May 26, 2021 at 02:08:19PM +0100, Daniel Stone wrote:
+> > Are you saying that if a compositor imports a client-provided dmabuf
+> > as an EGLImage to use as a source texture for its rendering, and then
+> > provides it to VA-API or V4L2 to use as a media encode source (both
+> > purely read-only ops), that these will both serialise against each
+> > other? Like, my media decode job won't begin execution until the
+> > composition read has fully retired?
+> >
+> > If so, a) good lord that hurts, and b) what are shared fences actually ... for?
+>
+> Shared is shared, I just meant to say that we always add the shared fence.
+> So an explicit ioctl to add more shared fences is kinda pointless.
+>
+> So yeah on a good driver this will run in parallel. On a not-so-good
+> driver (which currently includes amdgpu and panfrost) this will serialize,
+> because those drivers don't have the concept of a non-exclusive fence for
+> such shared buffers (amdgpu does not sync internally, but will sync as
+> soon as it's cross-drm_file).
 
-commit 96667f8a4382db9ed042332ca6ee165ae9b91307
-Author: Daniel Vetter <daniel.vetter@ffwll.ch>
-Date:   Fri Nov 27 17:41:21 2020 +0100
+When you say 'we always add the shared fence', add it to ... where?
+And which shared fence? (I'm going to use 'fence' below to refer to
+anything from literal sync_file to timeline-syncobj to userspace
+fence.)
 
-    mm: Close race in generic_access_phys
+I'll admit that I've typed out an argument twice for always export
+from excl+shared, and always import to excl, results in oversync. And
+I keep tying myself in knots trying to do it. It's arguably slightly
+contrived, but here's my third attempt ...
 
-it is race-free and can therefore be safely used for dynamic mappings
-like we have too.
+Vulkan Wayland client, full-flying-car-sync Wayland protocol,
+Vulkan-based compositor. Part of the contract when the server exposes
+that protocol is that it guarantees to do explicit sync in both
+directions, so the client provides a fence at QueueSubmit time and the
+server provides one back when releasing the image for return to ANI.
+Neither side ever record fences into the dma_resv because they've
+opted out by being fully explicit-aware.
 
-Cc: Jon Bloomfield <jon.bloomfield@intel.com>
-Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc: "Thomas Hellström" <thomas.hellstrom@linux.intel.com>
-Cc: Chris Wilson <chris@chris-wilson.co.uk>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>
-Cc: "Christian König" <christian.koenig@amd.com>
-Cc: "Ville Syrjälä" <ville.syrjala@linux.intel.com>
-Cc: Michel Lespinasse <walken@google.com>
----
- drivers/gpu/drm/i915/gem/i915_gem_mman.c | 60 +++---------------------
- 1 file changed, 6 insertions(+), 54 deletions(-)
+Now add media encode out on the side because you're streaming. The
+compositor knows this is a transition between explicit and implicit
+worlds, so it imports the client's fence into the exclusive dma_resv
+slot, which makes sense: the media encode has to sync against the
+client work, but is indifferent to the parallel compositor work. The
+shared fence is exported back out so the compositor can union the
+encode-finished fence with its composition-finished fence to send back
+to the client with release/ANI.
 
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_mman.c b/drivers/gpu/drm/i915/gem/i915_gem_mman.c
-index f6fe5cb01438..717798293044 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_mman.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_mman.c
-@@ -414,58 +414,6 @@ static vm_fault_t vm_fault_gtt(struct vm_fault *vmf)
- 	return i915_error_to_vmf_fault(ret);
- }
- 
--static int
--vm_access(struct vm_area_struct *area, unsigned long addr,
--	  void *buf, int len, int write)
--{
--	struct i915_mmap_offset *mmo = area->vm_private_data;
--	struct drm_i915_gem_object *obj = mmo->obj;
--	struct i915_gem_ww_ctx ww;
--	void *vaddr;
--	int err = 0;
--
--	if (i915_gem_object_is_readonly(obj) && write)
--		return -EACCES;
--
--	addr -= area->vm_start;
--	if (addr >= obj->base.size)
--		return -EINVAL;
--
--	i915_gem_ww_ctx_init(&ww, true);
--retry:
--	err = i915_gem_object_lock(obj, &ww);
--	if (err)
--		goto out;
--
--	/* As this is primarily for debugging, let's focus on simplicity */
--	vaddr = i915_gem_object_pin_map(obj, I915_MAP_FORCE_WC);
--	if (IS_ERR(vaddr)) {
--		err = PTR_ERR(vaddr);
--		goto out;
--	}
--
--	if (write) {
--		memcpy(vaddr + addr, buf, len);
--		__i915_gem_object_flush_map(obj, addr, len);
--	} else {
--		memcpy(buf, vaddr + addr, len);
--	}
--
--	i915_gem_object_unpin_map(obj);
--out:
--	if (err == -EDEADLK) {
--		err = i915_gem_ww_ctx_backoff(&ww);
--		if (!err)
--			goto retry;
--	}
--	i915_gem_ww_ctx_fini(&ww);
--
--	if (err)
--		return err;
--
--	return len;
--}
--
- void __i915_gem_object_release_mmap_gtt(struct drm_i915_gem_object *obj)
- {
- 	struct i915_vma *vma;
-@@ -801,14 +749,18 @@ static void vm_close(struct vm_area_struct *vma)
- 
- static const struct vm_operations_struct vm_ops_gtt = {
- 	.fault = vm_fault_gtt,
--	.access = vm_access,
-+#ifdef CONFIG_HAVE_IOREMAP_PROT
-+	.access = generic_access_phys
-+#endif
- 	.open = vm_open,
- 	.close = vm_close,
- };
- 
- static const struct vm_operations_struct vm_ops_cpu = {
- 	.fault = vm_fault_cpu,
--	.access = vm_access,
-+#ifdef CONFIG_HAVE_IOREMAP_PROT
-+	.access = generic_access_phys
-+#endif
- 	.open = vm_open,
- 	.close = vm_close,
- };
--- 
-2.31.0
+Now add a second media encode because you want a higher-quality local
+capture to upload to YouTube later on. The compositor can do the exact
+same import/export dance, and the two encodes can safely run in
+parallel. Which is good.
 
+Where it starts to become complex is: what if your compositor is fully
+explicit-aware but your clients aren't, so your compositor has more
+import/export points to record into the resv? What if you aren't
+actually a compositor but a full-blown media pipeline, where you have
+a bunch of threads all launching reads in parallel, to the extent
+where it's not practical to manage implicit/explicit transitions
+globally, but each thread has to more pessimistically import and
+export around each access?
+
+I can make the relatively simple usecases work, but it really feels
+like in practice we'll end up with massive oversync in some fairly
+complex usecases, and we'll regret not having had it from the start,
+plus people will just rely on implicit sync for longer because it has
+better (more parallel) semantics in some usecases.
+
+Cheers,
+Daniel
