@@ -1,62 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BAA10391E23
-	for <lists+dri-devel@lfdr.de>; Wed, 26 May 2021 19:28:28 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 79DBA391E55
+	for <lists+dri-devel@lfdr.de>; Wed, 26 May 2021 19:45:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B2AFD6E155;
-	Wed, 26 May 2021 17:28:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 78CBE6EC55;
+	Wed, 26 May 2021 17:45:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ste-pvt-msa1.bahnhof.se (ste-pvt-msa1.bahnhof.se
- [213.80.101.70])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B53106E155;
- Wed, 26 May 2021 17:28:22 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by ste-pvt-msa1.bahnhof.se (Postfix) with ESMTP id 816D13F932;
- Wed, 26 May 2021 19:28:20 +0200 (CEST)
-Authentication-Results: ste-pvt-msa1.bahnhof.se; dkim=pass (1024-bit key;
- unprotected) header.d=shipmail.org header.i=@shipmail.org header.b="KSabvbkf";
- dkim-atps=neutral
-X-Virus-Scanned: Debian amavisd-new at bahnhof.se
-X-Spam-Flag: NO
-X-Spam-Score: -2.1
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.1 tagged_above=-999 required=6.31
- tests=[BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- URIBL_BLOCKED=0.001] autolearn=ham autolearn_force=no
-Received: from ste-pvt-msa1.bahnhof.se ([127.0.0.1])
- by localhost (ste-pvt-msa1.bahnhof.se [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id x_65Hibwksvd; Wed, 26 May 2021 19:28:19 +0200 (CEST)
-Received: by ste-pvt-msa1.bahnhof.se (Postfix) with ESMTPA id 690EB3F475;
- Wed, 26 May 2021 19:28:17 +0200 (CEST)
-Received: from [192.168.0.209] (unknown [192.198.151.44])
- by mail1.shipmail.org (Postfix) with ESMTPSA id 24193360132;
- Wed, 26 May 2021 19:28:17 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=shipmail.org; s=mail;
- t=1622050097; bh=4J2kZzByjsumcGN3Bm+D3qWLv6gtQhLXx69MM206+3w=;
- h=Subject:To:References:From:Date:In-Reply-To:From;
- b=KSabvbkfj3/99aQJiW3U05OsraDPCFrS3JKWUo9Eq5yzkAqHdXo910N4kWVtrTrCz
- BoVNtaLx3kWUVpLOOsW0OLNaYvKwu05pUncOGpmHCwgRoGXQDaI0wqO1SCf7Lkypcv
- +oeAy4v1U6EkbYksgIkMwjsQTkGLzj1wMpjGW69Y=
-Subject: Re: [PATCH v4 13/15] drm/i915: Disable mmap ioctl for gen12+
-To: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-References: <20210526113259.1661914-1-thomas.hellstrom@linux.intel.com>
- <20210526113259.1661914-14-thomas.hellstrom@linux.intel.com>
-From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m_=28Intel=29?= <thomas_os@shipmail.org>
-Message-ID: <49960df2-6bd2-81f5-ab09-1472ee7e1827@shipmail.org>
-Date: Wed, 26 May 2021 19:28:15 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8ACBB6E512;
+ Wed, 26 May 2021 17:45:16 +0000 (UTC)
+IronPort-SDR: 0ivP7lhiMMAmLSM1eLUNF2l8aegAhMBUISPvhOuBNd+ZHObQpbAypaMvCZ2SQwscCgjNVBhf+a
+ m7QmSIzPrSnA==
+X-IronPort-AV: E=McAfee;i="6200,9189,9996"; a="189647237"
+X-IronPort-AV: E=Sophos;i="5.82,331,1613462400"; d="scan'208";a="189647237"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 May 2021 10:45:15 -0700
+IronPort-SDR: PNN2p3ohkc4Y8x5jHx7m9SuC75tf161wUaQVsY63qQAwIui7IZSeTGz+UeZdUXgDWtNTWihmXg
+ 7uzkPGYrAU9Q==
+X-IronPort-AV: E=Sophos;i="5.82,331,1613462400"; d="scan'208";a="414548847"
+Received: from unknown (HELO sdutt-i7) ([10.165.21.147])
+ by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 May 2021 10:45:14 -0700
+Date: Wed, 26 May 2021 10:38:08 -0700
+From: Matthew Brost <matthew.brost@intel.com>
+To: Michal Wajdeczko <michal.wajdeczko@intel.com>
+Subject: Re: [PATCH 13/18] drm/i915/guc: Relax CTB response timeout
+Message-ID: <20210526173808.GA31459@sdutt-i7>
+References: <20210526064237.77853-1-matthew.brost@intel.com>
+ <20210526064237.77853-14-matthew.brost@intel.com>
+ <cef31e1d-7502-78ae-84bd-60daaca01732@intel.com>
 MIME-Version: 1.0
-In-Reply-To: <20210526113259.1661914-14-thomas.hellstrom@linux.intel.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <cef31e1d-7502-78ae-84bd-60daaca01732@intel.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,12 +50,94 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Wed, May 26, 2021 at 02:25:26PM +0200, Michal Wajdeczko wrote:
+> 
+> 
+> On 26.05.2021 08:42, Matthew Brost wrote:
+> > From: Michal Wajdeczko <michal.wajdeczko@intel.com>
+> > 
+> > In upcoming patch we will allow more CTB requests to be sent in
+> > parallel to the GuC for processing, so we shouldn't assume any more
+> > that GuC will always reply without 10ms.
+> > 
+> > Use bigger value from CONFIG_DRM_I915_GUC_CTB_TIMEOUT instead.
+> > 
+> > v2: Add CONFIG_DRM_I915_GUC_CTB_TIMEOUT config option
+> > 
+> > Signed-off-by: Michal Wajdeczko <michal.wajdeczko@intel.com>
+> > Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+> > Reviewed-by: Matthew Brost <matthew.brost@intel.com>
+> > ---
+> >  drivers/gpu/drm/i915/Kconfig.profile      | 9 +++++++++
+> >  drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c | 5 ++++-
+> >  2 files changed, 13 insertions(+), 1 deletion(-)
+> > 
+> > diff --git a/drivers/gpu/drm/i915/Kconfig.profile b/drivers/gpu/drm/i915/Kconfig.profile
+> > index 39328567c200..68ac707755d2 100644
+> > --- a/drivers/gpu/drm/i915/Kconfig.profile
+> > +++ b/drivers/gpu/drm/i915/Kconfig.profile
+> > @@ -38,6 +38,15 @@ config DRM_I915_USERFAULT_AUTOSUSPEND
+> >  	  May be 0 to disable the extra delay and solely use the device level
+> >  	  runtime pm autosuspend delay tunable.
+> >  
+> > +config DRM_I915_GUC_CTB_TIMEOUT
+> > +	int "How long to wait for the GuC to make forward progress on CTBs (ms)"
+> 
+> maybe worth to provide here explicit allowed range:
+> 
+> 	range 10 60000
+> 
+> and then we can skip runtime adjustment for minimum 10ms timeout
 
-On 5/26/21 1:32 PM, Thomas Hellström wrote:
-> From: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Didn't know this option, done.
+
+> 
+> > +	default 1500 # milliseconds
+> > +	help
+> > +	  Configures the default timeout waiting for GuC the to make forward
+> > +	  progress on CTBs. e.g. Waiting for a response to requeset.
+> 
+> typo
 >
-> The paltform should exclusively use mmap_offset, one less path to worry
-Hmm, Thought this was fixed, but s/paltform/platform/
+
+Fixed.
+
+Matt
+
+> > +
+> > +	  A minimum value of 10 ms is allowed.
+> > +
+> >  config DRM_I915_HEARTBEAT_INTERVAL
+> >  	int "Interval between heartbeat pulses (ms)"
+> >  	default 2500 # milliseconds
+> > diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
+> > index 916c2b80c841..5b0dece7a7cd 100644
+> > --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
+> > +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
+> > @@ -436,6 +436,7 @@ static int ct_write(struct intel_guc_ct *ct,
+> >   */
+> >  static int wait_for_ct_request_update(struct ct_request *req, u32 *status)
+> >  {
+> > +	long timeout;
+> >  	int err;
+> >  
+> >  	/*
+> > @@ -443,10 +444,12 @@ static int wait_for_ct_request_update(struct ct_request *req, u32 *status)
+> >  	 * up to that length of time, then switch to a slower sleep-wait loop.
+> >  	 * No GuC command should ever take longer than 10ms.
+> >  	 */
+> > +	timeout = max(10, CONFIG_DRM_I915_GUC_CTB_TIMEOUT);
+> > +
+> >  #define done INTEL_GUC_MSG_IS_RESPONSE(READ_ONCE(req->status))
+> >  	err = wait_for_us(done, 10);
+> >  	if (err)
+> > -		err = wait_for(done, 10);
+> > +		err = wait_for(done, timeout);
+> >  #undef done
+> >  
+> >  	if (unlikely(err))
+> > 
