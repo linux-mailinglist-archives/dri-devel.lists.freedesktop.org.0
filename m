@@ -1,48 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 928913914DB
-	for <lists+dri-devel@lfdr.de>; Wed, 26 May 2021 12:26:41 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 46EB33915D8
+	for <lists+dri-devel@lfdr.de>; Wed, 26 May 2021 13:24:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 812E06EC65;
-	Wed, 26 May 2021 10:26:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C676F6EC87;
+	Wed, 26 May 2021 11:24:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 06F9E6EC64;
- Wed, 26 May 2021 10:26:34 +0000 (UTC)
-IronPort-SDR: 85Hc6fJlXXBYhMXyUfrGk1RP4Ee5EeFT7PxjhMOKPK4aQ1lFBWaXjvwbB3xgvaY4QSntnI3jmr
- pb4vRLPk9vVQ==
-X-IronPort-AV: E=McAfee;i="6200,9189,9995"; a="288009830"
-X-IronPort-AV: E=Sophos;i="5.82,331,1613462400"; d="scan'208";a="288009830"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 May 2021 03:26:34 -0700
-IronPort-SDR: jMm20r4BS1HXjpDK0FSFshz5AHi2TAKNfxyaB8jWfv1sogFtEHNUtpx+R1ApppaiuUMKZX1m6u
- lk+W3GWiVxxQ==
-X-IronPort-AV: E=Sophos;i="5.82,331,1613462400"; d="scan'208";a="479875002"
-Received: from wardmich-mobl.ger.corp.intel.com (HELO [10.213.209.181])
- ([10.213.209.181])
- by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 May 2021 03:26:32 -0700
-Subject: Re: [Intel-gfx] [RFC PATCH 49/97] drm/i915/guc: Disable engine
- barriers with GuC during unpin
-To: Matthew Brost <matthew.brost@intel.com>, intel-gfx@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org
-References: <20210506191451.77768-1-matthew.brost@intel.com>
- <20210506191451.77768-50-matthew.brost@intel.com>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-Message-ID: <9e3af765-4baa-25aa-f1d3-5d8f24e8feed@linux.intel.com>
-Date: Wed, 26 May 2021 11:26:31 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+Received: from heliosphere.sirena.org.uk (heliosphere.sirena.org.uk
+ [172.104.155.198])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 402476EC87
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 May 2021 11:24:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=sirena.org.uk; s=20170815-heliosphere; h=In-Reply-To:Content-Type:
+ MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+ Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+ Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+ List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=ApStfRDU0a2Bcxs0DU/lRdHOKyM7PDXIMldhjFKUC1g=; b=JzBt+Vx/khdrcQKa/bcrJCd6Zx
+ fy2Ur+KbJUCQu1V1LvcbfXGMIpq0u2XGgTsHwqL30rHarLjr6Xz6zVL1S9wsQnQ6PHVGSK2FIujAL
+ TKSE7rn7w5l1aH2jN1YNF5v2xXXSAyKpOYiIC3Jx24xd/ETeQhNWS7t3T/uOUNTrTawc=;
+Received: from 94.196.90.140.threembb.co.uk ([94.196.90.140]
+ helo=fitzroy.sirena.org.uk)
+ by heliosphere.sirena.org.uk with esmtpsa (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
+ (envelope-from <broonie@sirena.org.uk>)
+ id 1llqvN-005xlj-Gk; Wed, 26 May 2021 10:38:05 +0000
+Received: by fitzroy.sirena.org.uk (Postfix, from userid 1000)
+ id 93E77D05836; Wed, 26 May 2021 11:38:40 +0100 (BST)
+Date: Wed, 26 May 2021 11:38:40 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Maxime Ripard <maxime@cerno.tech>
+Subject: Re: [PATCH v2 03/12] ASoC: hdmi-codec: Rework to support more controls
+Message-ID: <YK4lMLG6PlxzDJhs@sirena.org.uk>
+References: <20210525132354.297468-1-maxime@cerno.tech>
+ <20210525132354.297468-4-maxime@cerno.tech>
 MIME-Version: 1.0
-In-Reply-To: <20210506191451.77768-50-matthew.brost@intel.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="eIFZBnIxpSROlH5X"
+Content-Disposition: inline
+In-Reply-To: <20210525132354.297468-4-maxime@cerno.tech>
+X-Cookie: Ahead warp factor one, Mr. Sulu.
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,113 +55,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: jason.ekstrand@intel.com, daniel.vetter@intel.com
+Cc: alsa-devel@alsa-project.org, Tim Gover <tim.gover@raspberrypi.com>,
+ linux-doc@vger.kernel.org, David Airlie <airlied@linux.ie>,
+ dri-devel@lists.freedesktop.org, Takashi Iwai <tiwai@suse.com>,
+ Daniel Vetter <daniel.vetter@intel.com>, Phil Elwell <phil@raspberrypi.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ bcm-kernel-feedback-list@broadcom.com, devicetree@vger.kernel.org,
+ Nicolas Saenz Julienne <nsaenz@kernel.org>,
+ Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh+dt@kernel.org>,
+ linux-rpi-kernel@lists.infradead.org, Jaroslav Kysela <perex@perex.cz>,
+ linux-arm-kernel@lists.infradead.org, Dom Cobley <dom@raspberrypi.com>,
+ Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On 06/05/2021 20:14, Matthew Brost wrote:
-> Disable engine barriers for unpinning with GuC. This feature isn't
-> needed with the GuC as it disables context scheduling before unpinning
+--eIFZBnIxpSROlH5X
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Just isn't needed or causes a problem somehow?
+On Tue, May 25, 2021 at 03:23:45PM +0200, Maxime Ripard wrote:
+> We're going to add more controls to support the IEC958 output, so let's
+> rework the control registration a bit to support more of them.
 
-> which guarantees the HW will not reference the context. Hence it is
-> not necessary to defer unpinning until a kernel context request
-> completes on each engine in the context engine mask.
+Acked-by: Mark Brown <broonie@kernel.org>
 
-Hm context engine mask does not come across as something used in this patch.
+--eIFZBnIxpSROlH5X
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Engine PM works fine with this change - i915 does not turn of the 
-engine/gt too early? I mean context unpin is on retire and the guc 
-disable of context scheduling is sync or async? Even when the kernel 
-context request gets emitted on engine pm put there is no race?
+-----BEGIN PGP SIGNATURE-----
 
-> 
-> Cc: John Harrison <john.c.harrison@intel.com>
-> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
-> Signed-off-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
-> ---
->   drivers/gpu/drm/i915/gt/intel_context.c    |  2 +-
->   drivers/gpu/drm/i915/gt/intel_context.h    |  1 +
->   drivers/gpu/drm/i915/gt/selftest_context.c | 10 ++++++++++
->   drivers/gpu/drm/i915/i915_active.c         |  3 +++
->   4 files changed, 15 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/gt/intel_context.c b/drivers/gpu/drm/i915/gt/intel_context.c
-> index 1499b8aace2a..7f97753ab164 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_context.c
-> +++ b/drivers/gpu/drm/i915/gt/intel_context.c
-> @@ -80,7 +80,7 @@ static int intel_context_active_acquire(struct intel_context *ce)
->   
->   	__i915_active_acquire(&ce->active);
->   
-> -	if (intel_context_is_barrier(ce))
-> +	if (intel_context_is_barrier(ce) || intel_engine_uses_guc(ce->engine))
->   		return 0;
->   
->   	/* Preallocate tracking nodes */
-> diff --git a/drivers/gpu/drm/i915/gt/intel_context.h b/drivers/gpu/drm/i915/gt/intel_context.h
-> index 92ecbab8c1cd..9b211ca5ecc7 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_context.h
-> +++ b/drivers/gpu/drm/i915/gt/intel_context.h
-> @@ -16,6 +16,7 @@
->   #include "intel_engine_types.h"
->   #include "intel_ring_types.h"
->   #include "intel_timeline_types.h"
-> +#include "uc/intel_guc_submission.h"
->   
->   #define CE_TRACE(ce, fmt, ...) do {					\
->   	const struct intel_context *ce__ = (ce);			\
-> diff --git a/drivers/gpu/drm/i915/gt/selftest_context.c b/drivers/gpu/drm/i915/gt/selftest_context.c
-> index 26685b927169..fa7b99a671dd 100644
-> --- a/drivers/gpu/drm/i915/gt/selftest_context.c
-> +++ b/drivers/gpu/drm/i915/gt/selftest_context.c
-> @@ -209,7 +209,13 @@ static int __live_active_context(struct intel_engine_cs *engine)
->   	 * This test makes sure that the context is kept alive until a
->   	 * subsequent idle-barrier (emitted when the engine wakeref hits 0
->   	 * with no more outstanding requests).
-> +	 *
-> +	 * In GuC submission mode we don't use idle barriers and we instead
-> +	 * get a message from the GuC to signal that it is safe to unpin the
-> +	 * context from memory.
->   	 */
-> +	if (intel_engine_uses_guc(engine))
-> +		return 0;
->   
->   	if (intel_engine_pm_is_awake(engine)) {
->   		pr_err("%s is awake before starting %s!\n",
-> @@ -357,7 +363,11 @@ static int __live_remote_context(struct intel_engine_cs *engine)
->   	 * on the context image remotely (intel_context_prepare_remote_request),
->   	 * which inserts foreign fences into intel_context.active, does not
->   	 * clobber the idle-barrier.
-> +	 *
-> +	 * In GuC submission mode we don't use idle barriers.
->   	 */
-> +	if (intel_engine_uses_guc(engine))
-> +		return 0;
->   
->   	if (intel_engine_pm_is_awake(engine)) {
->   		pr_err("%s is awake before starting %s!\n",
-> diff --git a/drivers/gpu/drm/i915/i915_active.c b/drivers/gpu/drm/i915/i915_active.c
-> index b1aa1c482c32..9a264898bb91 100644
-> --- a/drivers/gpu/drm/i915/i915_active.c
-> +++ b/drivers/gpu/drm/i915/i915_active.c
-> @@ -968,6 +968,9 @@ void i915_active_acquire_barrier(struct i915_active *ref)
->   
->   	GEM_BUG_ON(i915_active_is_idle(ref));
->   
-> +	if (llist_empty(&ref->preallocated_barriers))
-> +		return;
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmCuJS8ACgkQJNaLcl1U
+h9ABYQf/acYuDAkB3WhiZ1hCCQpVdonll1Aj3jSnr5WtK5yitGmh8cYms3T5uWUE
+XmT9B52fCJh6IAHjAm9XZbBWm49ShM/pgA00Q6otZDb8zVSS6v39HIFvnRDDsRNx
+ASGbUOdr4Z/1kPc4n8UDKlq45Dz8985Rtfoh5QknQEeD5P0zvNViwWcfjmVZ2UQ+
+qJk9oC/WJIxhR6PyY8x0XbI4plfCO4WvEG9dEdKE4navagTtBVa5e9RxF1wyXK9r
+dDaL9bRcRigdba+/DRBjrDrJEDQM5GUe9yT+znvJzcqmkPYt9q2qe6Wen6UxjKrf
+seBlUHvVi2p9QEVe3haqTNcmB5vqzQ==
+=RH7S
+-----END PGP SIGNATURE-----
 
-This hunk is not needed since the effectively same check is few lines below.
-
-Regards,
-
-Tvrtko
-
-> +
->   	/*
->   	 * Transfer the list of preallocated barriers into the
->   	 * i915_active rbtree, but only as proto-nodes. They will be
-> 
+--eIFZBnIxpSROlH5X--
