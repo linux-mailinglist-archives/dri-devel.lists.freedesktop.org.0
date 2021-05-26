@@ -1,36 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9726A3919B2
-	for <lists+dri-devel@lfdr.de>; Wed, 26 May 2021 16:15:57 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 01C413919BD
+	for <lists+dri-devel@lfdr.de>; Wed, 26 May 2021 16:16:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 554346ED64;
-	Wed, 26 May 2021 14:15:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7E7396ED8A;
+	Wed, 26 May 2021 14:15:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6FFB96ED26;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 08A726ED26;
  Wed, 26 May 2021 14:15:36 +0000 (UTC)
-IronPort-SDR: DVN6jq5/UO7FnI2pdSHqm3Xi6dnE2Yxqov+SD+YDqM+8CcOnghb0Cbrkm82kf1n9qrs6JFFLpl
- jWJWQpEuo9sQ==
-X-IronPort-AV: E=McAfee;i="6200,9189,9996"; a="223660590"
-X-IronPort-AV: E=Sophos;i="5.82,331,1613462400"; d="scan'208";a="223660590"
+IronPort-SDR: GDUF1OkIfbVMQ2I/DxORd+pcsO3b3P1ygLX+hKxABHrUnXO0AeHXHu/AoTSD6ou3nEgvK+ZKV5
+ GslRUJtyvYHg==
+X-IronPort-AV: E=McAfee;i="6200,9189,9996"; a="223660603"
+X-IronPort-AV: E=Sophos;i="5.82,331,1613462400"; d="scan'208";a="223660603"
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 May 2021 07:15:12 -0700
-IronPort-SDR: 0lEmFqdL82ljLy8OxFZPE4+k/4Hx9cfmcOfrjMJsntHCqKeoMcPXmxRPA6PD4xY78vf0EmGnfv
- zayk4w3M8U+Q==
-X-IronPort-AV: E=Sophos;i="5.82,331,1613462400"; d="scan'208";a="547206313"
+ 26 May 2021 07:15:13 -0700
+IronPort-SDR: QK5pqXKCM3q6ZNbFnAUlyKvD44gOmYyoVYPYfpVshc+5zKmYA08QySQszR7KOs5PHpaqGAqspJ
+ aW8V/Lbs1Uiw==
+X-IronPort-AV: E=Sophos;i="5.82,331,1613462400"; d="scan'208";a="547206325"
 Received: from wardmich-mobl.ger.corp.intel.com (HELO tursulin-mobl2.home)
  ([10.213.209.181])
  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 May 2021 07:15:10 -0700
+ 26 May 2021 07:15:12 -0700
 From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
 To: Intel-gfx@lists.freedesktop.org
-Subject: [PATCH 05/12] drm/i915/selftests: Set cache status for huge_gem_object
-Date: Wed, 26 May 2021 15:14:49 +0100
-Message-Id: <20210526141456.2334192-6-tvrtko.ursulin@linux.intel.com>
+Subject: [PATCH 06/12] drm/i915/selftests: Use a coherent map to setup scratch
+ batch buffers
+Date: Wed, 26 May 2021 15:14:50 +0100
+Message-Id: <20210526141456.2334192-7-tvrtko.ursulin@linux.intel.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210526141456.2334192-1-tvrtko.ursulin@linux.intel.com>
 References: <20210526141456.2334192-1-tvrtko.ursulin@linux.intel.com>
@@ -56,55 +57,61 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Chris Wilson <chris@chris-wilson.co.uk>
 
-Set the cache coherency and status using the set-coherency helper.
-Otherwise, we forget to mark the new pages as cache dirty.
+Instead of manipulating the object's cache domain, just use the device
+coherent map to write the batch buffer.
 
 Signed-off-by: Chris Wilson <chris@chris-wilson.co.uk>
 Reviewed-by: Matthew Auld <matthew.auld@intel.com>
 Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 ---
- drivers/gpu/drm/i915/gem/selftests/huge_pages.c | 14 +++++---------
- 1 file changed, 5 insertions(+), 9 deletions(-)
+ .../drm/i915/gem/selftests/i915_gem_context.c    | 16 +++++++++-------
+ 1 file changed, 9 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/gem/selftests/huge_pages.c b/drivers/gpu/drm/i915/gem/selftests/huge_pages.c
-index dadd485bc52f..33dd4e2a1010 100644
---- a/drivers/gpu/drm/i915/gem/selftests/huge_pages.c
-+++ b/drivers/gpu/drm/i915/gem/selftests/huge_pages.c
-@@ -171,10 +171,8 @@ huge_pages_object(struct drm_i915_private *i915,
- 			     I915_BO_ALLOC_STRUCT_PAGE);
+diff --git a/drivers/gpu/drm/i915/gem/selftests/i915_gem_context.c b/drivers/gpu/drm/i915/gem/selftests/i915_gem_context.c
+index ce70d0a3afb2..3d8d5f242e34 100644
+--- a/drivers/gpu/drm/i915/gem/selftests/i915_gem_context.c
++++ b/drivers/gpu/drm/i915/gem/selftests/i915_gem_context.c
+@@ -1622,7 +1622,7 @@ static int read_from_scratch(struct i915_gem_context *ctx,
+ 		if (err)
+ 			goto out_vm;
  
- 	i915_gem_object_set_volatile(obj);
--
--	obj->write_domain = I915_GEM_DOMAIN_CPU;
--	obj->read_domains = I915_GEM_DOMAIN_CPU;
--	obj->cache_level = I915_CACHE_NONE;
-+	i915_gem_object_set_cache_coherency(obj, I915_CACHE_NONE);
-+	__start_cpu_write(obj);
+-		cmd = i915_gem_object_pin_map_unlocked(obj, I915_MAP_WB);
++		cmd = i915_gem_object_pin_map_unlocked(obj, I915_MAP_WC);
+ 		if (IS_ERR(cmd)) {
+ 			err = PTR_ERR(cmd);
+ 			goto out;
+@@ -1658,7 +1658,7 @@ static int read_from_scratch(struct i915_gem_context *ctx,
+ 		if (err)
+ 			goto out_vm;
  
- 	obj->mm.page_mask = page_mask;
+-		cmd = i915_gem_object_pin_map_unlocked(obj, I915_MAP_WB);
++		cmd = i915_gem_object_pin_map_unlocked(obj, I915_MAP_WC);
+ 		if (IS_ERR(cmd)) {
+ 			err = PTR_ERR(cmd);
+ 			goto out;
+@@ -1707,15 +1707,17 @@ static int read_from_scratch(struct i915_gem_context *ctx,
  
-@@ -324,10 +322,8 @@ fake_huge_pages_object(struct drm_i915_private *i915, u64 size, bool single)
- 		i915_gem_object_init(obj, &fake_ops, &lock_class, 0);
+ 	i915_vma_unpin(vma);
  
- 	i915_gem_object_set_volatile(obj);
--
--	obj->write_domain = I915_GEM_DOMAIN_CPU;
--	obj->read_domains = I915_GEM_DOMAIN_CPU;
--	obj->cache_level = I915_CACHE_NONE;
-+	i915_gem_object_set_cache_coherency(obj, I915_CACHE_NONE);
-+	__start_cpu_write(obj);
++	i915_request_get(rq);
+ 	i915_request_add(rq);
  
- 	return obj;
- }
-@@ -1004,7 +1000,7 @@ __cpu_check_shmem(struct drm_i915_gem_object *obj, u32 dword, u32 val)
- 		u32 *ptr = kmap_atomic(i915_gem_object_get_page(obj, n));
+-	i915_gem_object_lock(obj, NULL);
+-	err = i915_gem_object_set_to_cpu_domain(obj, false);
+-	i915_gem_object_unlock(obj);
+-	if (err)
++	if (i915_request_wait(rq, 0, HZ / 5) < 0) {
++		i915_request_put(rq);
++		err = -ETIME;
+ 		goto out_vm;
++	}
++	i915_request_put(rq);
  
- 		if (needs_flush & CLFLUSH_BEFORE)
--			drm_clflush_virt_range(ptr, PAGE_SIZE);
-+			drm_clflush_virt_range(&ptr[dword], sizeof(val));
- 
- 		if (ptr[dword] != val) {
- 			pr_err("n=%lu ptr[%u]=%u, val=%u\n",
+-	cmd = i915_gem_object_pin_map_unlocked(obj, I915_MAP_WB);
++	cmd = i915_gem_object_pin_map_unlocked(obj, I915_MAP_WC);
+ 	if (IS_ERR(cmd)) {
+ 		err = PTR_ERR(cmd);
+ 		goto out_vm;
 -- 
 2.30.2
 
