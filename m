@@ -2,103 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E67739124C
-	for <lists+dri-devel@lfdr.de>; Wed, 26 May 2021 10:28:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2AF3B39127B
+	for <lists+dri-devel@lfdr.de>; Wed, 26 May 2021 10:40:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3C89A6EC28;
-	Wed, 26 May 2021 08:28:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0CC516EA8F;
+	Wed, 26 May 2021 08:40:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailout3.samsung.com (mailout3.samsung.com [203.254.224.33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7A3316EC28
- for <dri-devel@lists.freedesktop.org>; Wed, 26 May 2021 08:28:00 +0000 (UTC)
-Received: from epcas1p4.samsung.com (unknown [182.195.41.48])
- by mailout3.samsung.com (KnoxPortal) with ESMTP id
- 20210526082758epoutp038f05cb7336f7bdb880a4f7bc431406ff~CkHv9sdYH0472104721epoutp03b
- for <dri-devel@lists.freedesktop.org>; Wed, 26 May 2021 08:27:58 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout3.samsung.com
- 20210526082758epoutp038f05cb7336f7bdb880a4f7bc431406ff~CkHv9sdYH0472104721epoutp03b
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1622017678;
- bh=RktK4PAHzSb5HI9eRj2vF9pU4SSaz/E4FtE/NrGactY=;
- h=From:To:Cc:Subject:Date:References:From;
- b=oeI80M4gHQ5yGQ+ZPqWKGGgjk8HADol94CArXObgjZ8CMfC8EvBU3L6NqxZAjCH+v
- UXB5susYdUlr8W5BZgcCqmxmN5W/Y2Cj/f3RS2KIRuOp5fsmGB+c9ErE85lAbje8PA
- Jg00Gwx8mcnLeD+SHUxUBFz9+knCl223w7Db42Bg=
-Received: from epsnrtp1.localdomain (unknown [182.195.42.162]) by
- epcas1p4.samsung.com (KnoxPortal) with ESMTP id
- 20210526082757epcas1p46b3d2f9508b729535548a8c1ba80c59c~CkHvtJBx_0977609776epcas1p4c;
- Wed, 26 May 2021 08:27:57 +0000 (GMT)
-Received: from epsmges1p3.samsung.com (unknown [182.195.40.152]) by
- epsnrtp1.localdomain (Postfix) with ESMTP id 4FqkbZ5yb8z4x9QQ; Wed, 26 May
- 2021 08:27:54 +0000 (GMT)
-Received: from epcas1p1.samsung.com ( [182.195.41.45]) by
- epsmges1p3.samsung.com (Symantec Messaging Gateway) with SMTP id
- 5C.98.09824.5760EA06; Wed, 26 May 2021 17:27:33 +0900 (KST)
-Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
- epcas1p1.samsung.com (KnoxPortal) with ESMTPA id
- 20210526082732epcas1p189154b27b71df8bd063b5ac1ceb0b3d7~CkHYeaOkj1215112151epcas1p12;
- Wed, 26 May 2021 08:27:32 +0000 (GMT)
-Received: from epsmgms1p2.samsung.com (unknown [182.195.42.42]) by
- epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
- 20210526082732epsmtrp1ad4cde2bbf4dba4daf92833d3d54db10~CkHYdq2pf2708127081epsmtrp1M;
- Wed, 26 May 2021 08:27:32 +0000 (GMT)
-X-AuditID: b6c32a37-04bff70000002660-10-60ae06752e97
-Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
- epsmgms1p2.samsung.com (Symantec Messaging Gateway) with SMTP id
- B3.40.08163.4760EA06; Wed, 26 May 2021 17:27:32 +0900 (KST)
-Received: from localhost.localdomain (unknown [10.113.221.211]) by
- epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
- 20210526082732epsmtip26a2deb9ac9fb7e1ef7909c4d98af6eb0~CkHYOquV40967409674epsmtip2q;
- Wed, 26 May 2021 08:27:32 +0000 (GMT)
-From: Inki Dae <inki.dae@samsung.com>
-To: dri-devel@lists.freedesktop.org, linux-samsung-soc@vger.kernel.org
-Subject: [PATCH v2] drm/exynos: use pm_runtime_resume_and_get()
-Date: Wed, 26 May 2021 17:37:03 +0900
-Message-Id: <20210526083703.323886-1-inki.dae@samsung.com>
-X-Mailer: git-send-email 2.25.1
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8F35B6E4A1;
+ Wed, 26 May 2021 08:40:31 +0000 (UTC)
+IronPort-SDR: P3sC4dcH9m+a8OyFJXXKuc2HMpai5vZDOGnPAFr6o9mKTBK3Xi9uaJwJ3cV1nxtTahlB08qVEE
+ nGV4HLHExT+g==
+X-IronPort-AV: E=McAfee;i="6200,9189,9995"; a="287991034"
+X-IronPort-AV: E=Sophos;i="5.82,331,1613462400"; d="scan'208";a="287991034"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 May 2021 01:40:27 -0700
+IronPort-SDR: j76VhOPFiGZ4skj7Ebqc8b1yX6u20B0bcZATcDUdeBZLZNWEafjGufg0AK5gPsA/wsqMky/eCj
+ NY2IIs12vukA==
+X-IronPort-AV: E=Sophos;i="5.82,331,1613462400"; d="scan'208";a="471784398"
+Received: from wardmich-mobl.ger.corp.intel.com (HELO [10.213.209.181])
+ ([10.213.209.181])
+ by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 May 2021 01:40:26 -0700
+Subject: Re: [Intel-gfx] [RFC PATCH 60/97] drm/i915: Track 'serial' counts for
+ virtual engines
+To: Matthew Brost <matthew.brost@intel.com>
+References: <20210506191451.77768-1-matthew.brost@intel.com>
+ <20210506191451.77768-61-matthew.brost@intel.com>
+ <cd59ddd4-625b-c40d-05a8-e259b8fd430c@linux.intel.com>
+ <20210525175239.GA21324@sdutt-i7>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+Message-ID: <6f6a1266-fe48-9cf1-beba-0b4463000ca7@linux.intel.com>
+Date: Wed, 26 May 2021 09:40:24 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrGKsWRmVeSWpSXmKPExsWy7bCmrm4p27oEg8XPJCx6z51ksrjy9T2b
- xaT7E1gsZpzfx2TxqvkRmwOrx+I9L5k8tn97wOpxv/s4k0ffllWMHp83yQWwRmXbZKQmpqQW
- KaTmJeenZOal2yp5B8c7x5uaGRjqGlpamCsp5CXmptoqufgE6Lpl5gAtV1IoS8wpBQoFJBYX
- K+nb2RTll5akKmTkF5fYKqUWpOQUWBboFSfmFpfmpesl5+daGRoYGJkCFSZkZ3TObmMv6A+o
- +PHlFnsD4xXnLkZODgkBE4lP69eydzFycQgJ7GCU2LBoOROE84lR4kHTeijnM6PE00tvWLoY
- OcBaTp2KhojvYpS40zqFEWSUkMAXRomDD2RBbDYBVYmJK+6zgdgiAm4STYdnsoLYzAJREm+W
- zgOLCwvYS5z7vpMdxGYBql+8cx1YDa+AlcSPb69YIM6Tl5h56Ts7RFxQ4uTMJywQc+QlmrfO
- ZgY5QkJgH7vE7NYNrBANLhL3/m9gh7CFJV4d3wJlS0m87G9jh2hoZpSYOOM0E4TTwShx9/F1
- qHXGEvuXTmYCeZNZQFNi/S59iLCixM7fcxkhNvNJvPvawwoJCV6JjjYhiBIliWMXbzBC2BIS
- F5ZMZIOwPST2fFvHBgmgWInOBVeYJjDKz0Lyzywk/8xCWLyAkXkVo1hqQXFuemqxYYExcqxu
- YgQnQC3zHYzT3n7QO8TIxMF4iFGCg1lJhPdg89oEId6UxMqq1KL8+KLSnNTiQ4ymwBCeyCwl
- mpwPTMF5JfGGpkbGxsYWJoZmpoaGSuK86c7VCUIC6YklqdmpqQWpRTB9TBycUg1Ml8/f6rd9
- 9DlA/njUfq0CiSPLap905jE3mp26LnRCwbb9YYcdy6b/GzdFqws2Kv1+uE87nXW19avGSyUL
- pxwRUJLdYPpENCAgcIb0OqOqy2by9nYMEa8SHZc+yVh+KqfWOVDW6XG037HA4NUn+q9ueMKd
- fjZTprg7MkZv82UpV9/nX2tuLti1fm6shUrLXp27Tw/s5J2e9l2PS31b14O8WjXFoyvD1opo
- KEpGchzQYv/Hf9tW/+f2t5M/Znd7J/MIWLY1X95+4cX3vTVaErnp5S0nTEVOfSqPV9/9fE3w
- vHNz/55Q1dU5aH+jIqnIaXOxGcvcVxONZ37TuxDV+1ng8cyoveeT9jwzEG/Jm3BOiaU4I9FQ
- i7moOBEASTbgswkEAAA=
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrELMWRmVeSWpSXmKPExsWy7bCSvG4J27oEg/ZZ6ha9504yWVz5+p7N
- YtL9CSwWM87vY7J41fyIzYHVY/Gel0we2789YPW4332cyaNvyypGj8+b5AJYo7hsUlJzMstS
- i/TtErgyOme3sRf0B1T8+HKLvYHxinMXIweHhICJxKlT0V2MXBxCAjsYJdbP7GKFiEtIbNnK
- AWEKSxw+XAxR8olR4tSW9SxdjJwcbAKqEhNX3GcDsUUEPCSavx1nB7GZBWIkXr1fCxYXFrCX
- OPd9J1icBah+8c51rCA2r4CVxI9vr8DmSAjIS8y89J0dIi4ocXLmExaIOfISzVtnM09g5JuF
- JDULSWoBI9MqRsnUguLc9NxiwwKjvNRyveLE3OLSvHS95PzcTYzgYNTS2sG4Z9UHvUOMTByM
- hxglOJiVRHgPNq9NEOJNSaysSi3Kjy8qzUktPsQozcGiJM57oetkvJBAemJJanZqakFqEUyW
- iYNTqoGphW17eK1cxbvK93yblYzFCyS3/bU+rNu3Kzfl5s4X3gu+H2W6XCd++NaX8ozfHC/v
- 6R3+9JpfcKmc9r9Sz4ryV58bZ0d+Pjdr5afy9KelbhfuFUzfUDBP5kawsk71huD11QXnj+TM
- LftrOz9047M/xefzT0/m39V2M/2FcH1k4U7+/nxdh317nh4JZ/yTeH2f+vFl20qLJiv5/WoS
- 9Sm8L92dqfPA/sWO+oNTTix9mpnCsv300cLGf883T1tZPPW3yb3MyxLN9+Rd3gvlhlYInXSd
- XOm4919OQm+TFb/NXCO7vpdcv2OOWD877PUvxDGiIeb6jCxjibLF9w492JmSOmu1hAhr7L0T
- O97JG4iJKrEUZyQaajEXFScCAP5eXIa1AgAA
-X-CMS-MailID: 20210526082732epcas1p189154b27b71df8bd063b5ac1ceb0b3d7
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-Sendblock-Type: SVC_REQ_APPROVE
-CMS-TYPE: 101P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20210526082732epcas1p189154b27b71df8bd063b5ac1ceb0b3d7
-References: <CGME20210526082732epcas1p189154b27b71df8bd063b5ac1ceb0b3d7@epcas1p1.samsung.com>
+In-Reply-To: <20210525175239.GA21324@sdutt-i7>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -111,305 +56,192 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, kernel test robot <lkp@intel.com>
+Cc: jason.ekstrand@intel.com, daniel.vetter@intel.com,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Use pm_runtime_resume_and_get() instead of pm_runtime_get_sync()
-to deal with usage counter. pm_runtime_get_sync() increases the
-usage counter even when it failed, which makes callers to forget
-to decrease the usage counter and resulted in reference leak.
 
-pm_runtime_resume_and_get() function decreases the usage counter
-when it failed internally so it can avoid the reference leak.
+On 25/05/2021 18:52, Matthew Brost wrote:
+> On Tue, May 25, 2021 at 11:16:12AM +0100, Tvrtko Ursulin wrote:
+>>
+>> On 06/05/2021 20:14, Matthew Brost wrote:
+>>> From: John Harrison <John.C.Harrison@Intel.com>
+>>>
+>>> The serial number tracking of engines happens at the backend of
+>>> request submission and was expecting to only be given physical
+>>> engines. However, in GuC submission mode, the decomposition of virtual
+>>> to physical engines does not happen in i915. Instead, requests are
+>>> submitted to their virtual engine mask all the way through to the
+>>> hardware (i.e. to GuC). This would mean that the heart beat code
+>>> thinks the physical engines are idle due to the serial number not
+>>> incrementing.
+>>>
+>>> This patch updates the tracking to decompose virtual engines into
+>>> their physical constituents and tracks the request against each. This
+>>> is not entirely accurate as the GuC will only be issuing the request
+>>> to one physical engine. However, it is the best that i915 can do given
+>>> that it has no knowledge of the GuC's scheduling decisions.
+>>
+>> Commit text sounds a bit defeatist. I think instead of making up the serial
+>> counts, which has downsides (could you please document in the commit what
+>> they are), we should think how to design things properly.
+>>
+> 
+> IMO, I don't think fixing serial counts is the scope of this series. We
+> should focus on getting GuC submission in not cleaning up all the crap
+> that is in the i915. Let's make a note of this though so we can revisit
+> later.
 
-Changelog v1:
-- Fix an build error reported by kernel test robot of Intel.
+I will say again - commit message implies it is introducing an 
+unspecified downside by not fully fixing an also unspecified issue. It 
+is completely reasonable, and customary even, to ask for both to be 
+documented in the commit message.
 
-Signed-off-by: Inki Dae <inki.dae@samsung.com>
-Reported-by: kernel test robot <lkp@intel.com>
----
- drivers/gpu/drm/exynos/exynos5433_drm_decon.c |  7 +++++-
- drivers/gpu/drm/exynos/exynos7_drm_decon.c    |  7 +++++-
- drivers/gpu/drm/exynos/exynos_drm_dsi.c       |  7 +++++-
- drivers/gpu/drm/exynos/exynos_drm_fimc.c      |  8 +++++-
- drivers/gpu/drm/exynos/exynos_drm_fimd.c      | 25 +++++++++++++++----
- drivers/gpu/drm/exynos/exynos_drm_g2d.c       |  9 ++++++-
- drivers/gpu/drm/exynos/exynos_drm_gsc.c       |  7 +++++-
- drivers/gpu/drm/exynos/exynos_drm_rotator.c   |  7 +++++-
- drivers/gpu/drm/exynos/exynos_drm_scaler.c    | 10 +++++---
- drivers/gpu/drm/exynos/exynos_hdmi.c          |  8 +++++-
- drivers/gpu/drm/exynos/exynos_mixer.c         |  7 +++++-
- 11 files changed, 84 insertions(+), 18 deletions(-)
+If we are abandoning the normal review process someone please say so I 
+don't waste my time reading it.
 
-diff --git a/drivers/gpu/drm/exynos/exynos5433_drm_decon.c b/drivers/gpu/drm/exynos/exynos5433_drm_decon.c
-index b9a4b7670a89..63dd85af13f2 100644
---- a/drivers/gpu/drm/exynos/exynos5433_drm_decon.c
-+++ b/drivers/gpu/drm/exynos/exynos5433_drm_decon.c
-@@ -513,8 +513,13 @@ static void decon_swreset(struct decon_context *ctx)
- static void decon_atomic_enable(struct exynos_drm_crtc *crtc)
- {
- 	struct decon_context *ctx = crtc->ctx;
-+	int ret;
- 
--	pm_runtime_get_sync(ctx->dev);
-+	ret = pm_runtime_resume_and_get(ctx->dev);
-+	if (ret < 0) {
-+		DRM_DEV_ERROR(ctx->dev, "failed to enable DECON device.\n");
-+		return;
-+	}
- 
- 	exynos_drm_pipe_clk_enable(crtc, true);
- 
-diff --git a/drivers/gpu/drm/exynos/exynos7_drm_decon.c b/drivers/gpu/drm/exynos/exynos7_drm_decon.c
-index 431c5d32f9a4..b61edc54e66f 100644
---- a/drivers/gpu/drm/exynos/exynos7_drm_decon.c
-+++ b/drivers/gpu/drm/exynos/exynos7_drm_decon.c
-@@ -531,11 +531,16 @@ static void decon_init(struct decon_context *ctx)
- static void decon_atomic_enable(struct exynos_drm_crtc *crtc)
- {
- 	struct decon_context *ctx = crtc->ctx;
-+	int ret;
- 
- 	if (!ctx->suspended)
- 		return;
- 
--	pm_runtime_get_sync(ctx->dev);
-+	ret = pm_runtime_resume_and_get(ctx->dev);
-+	if (ret < 0) {
-+		DRM_DEV_ERROR(ctx->dev, "failed to enable DECON device.\n");
-+		return;
-+	}
- 
- 	decon_init(ctx);
- 
-diff --git a/drivers/gpu/drm/exynos/exynos_drm_dsi.c b/drivers/gpu/drm/exynos/exynos_drm_dsi.c
-index 44e402b7cdfb..5bb1388a8b18 100644
---- a/drivers/gpu/drm/exynos/exynos_drm_dsi.c
-+++ b/drivers/gpu/drm/exynos/exynos_drm_dsi.c
-@@ -1383,7 +1383,12 @@ static void exynos_dsi_enable(struct drm_encoder *encoder)
- 	if (dsi->state & DSIM_STATE_ENABLED)
- 		return;
- 
--	pm_runtime_get_sync(dsi->dev);
-+	ret = pm_runtime_resume_and_get(dsi->dev);
-+	if (ret < 0) {
-+		dev_err(dsi->dev, "failed to enable DSI device.\n");
-+		return;
-+	}
-+
- 	dsi->state |= DSIM_STATE_ENABLED;
- 
- 	if (dsi->panel) {
-diff --git a/drivers/gpu/drm/exynos/exynos_drm_fimc.c b/drivers/gpu/drm/exynos/exynos_drm_fimc.c
-index 29ab8be8604c..a3c718148c45 100644
---- a/drivers/gpu/drm/exynos/exynos_drm_fimc.c
-+++ b/drivers/gpu/drm/exynos/exynos_drm_fimc.c
-@@ -1085,8 +1085,14 @@ static int fimc_commit(struct exynos_drm_ipp *ipp,
- {
- 	struct fimc_context *ctx =
- 			container_of(ipp, struct fimc_context, ipp);
-+	int ret;
-+
-+	ret = pm_runtime_resume_and_get(ctx->dev);
-+	if (ret < 0) {
-+		dev_err(ctx->dev, "failed to enable FIMC device.\n");
-+		return ret;
-+	}
- 
--	pm_runtime_get_sync(ctx->dev);
- 	ctx->task = task;
- 
- 	fimc_src_set_fmt(ctx, task->src.buf.fourcc, task->src.buf.modifier);
-diff --git a/drivers/gpu/drm/exynos/exynos_drm_fimd.c b/drivers/gpu/drm/exynos/exynos_drm_fimd.c
-index 49a2e0c53918..5955bd90accb 100644
---- a/drivers/gpu/drm/exynos/exynos_drm_fimd.c
-+++ b/drivers/gpu/drm/exynos/exynos_drm_fimd.c
-@@ -343,13 +343,18 @@ static void fimd_enable_shadow_channel_path(struct fimd_context *ctx,
- 	writel(val, ctx->regs + SHADOWCON);
- }
- 
--static void fimd_clear_channels(struct exynos_drm_crtc *crtc)
-+static int fimd_clear_channels(struct exynos_drm_crtc *crtc)
- {
- 	struct fimd_context *ctx = crtc->ctx;
- 	unsigned int win, ch_enabled = 0;
-+	int ret;
- 
- 	/* Hardware is in unknown state, so ensure it gets enabled properly */
--	pm_runtime_get_sync(ctx->dev);
-+	ret = pm_runtime_resume_and_get(ctx->dev);
-+	if (ret < 0) {
-+		dev_err(ctx->dev, "failed to enable FIMD device.\n");
-+		return ret;
-+	}
- 
- 	clk_prepare_enable(ctx->bus_clk);
- 	clk_prepare_enable(ctx->lcd_clk);
-@@ -384,6 +389,8 @@ static void fimd_clear_channels(struct exynos_drm_crtc *crtc)
- 	clk_disable_unprepare(ctx->bus_clk);
- 
- 	pm_runtime_put(ctx->dev);
-+
-+	return 0;
- }
- 
- 
-@@ -905,7 +912,10 @@ static void fimd_atomic_enable(struct exynos_drm_crtc *crtc)
- 
- 	ctx->suspended = false;
- 
--	pm_runtime_get_sync(ctx->dev);
-+	if (pm_runtime_resume_and_get(ctx->dev) < 0) {
-+		dev_warn(ctx->dev, "failed to enable FIMD device.\n");
-+		return;
-+	}
- 
- 	/* if vblank was enabled status, enable it again. */
- 	if (test_and_clear_bit(0, &ctx->irq_flags))
-@@ -1089,8 +1099,13 @@ static int fimd_bind(struct device *dev, struct device *master, void *data)
- 	if (ctx->encoder)
- 		exynos_dpi_bind(drm_dev, ctx->encoder);
- 
--	if (is_drm_iommu_supported(drm_dev))
--		fimd_clear_channels(ctx->crtc);
-+	if (is_drm_iommu_supported(drm_dev)) {
-+		int ret;
-+
-+		ret = fimd_clear_channels(ctx->crtc);
-+		if (ret < 0)
-+			return ret;
-+	}
- 
- 	return exynos_drm_register_dma(drm_dev, dev, &ctx->dma_priv);
- }
-diff --git a/drivers/gpu/drm/exynos/exynos_drm_g2d.c b/drivers/gpu/drm/exynos/exynos_drm_g2d.c
-index 1e0c5a7f206e..cab4d2c370a7 100644
---- a/drivers/gpu/drm/exynos/exynos_drm_g2d.c
-+++ b/drivers/gpu/drm/exynos/exynos_drm_g2d.c
-@@ -892,7 +892,14 @@ static void g2d_runqueue_worker(struct work_struct *work)
- 		g2d->runqueue_node = g2d_get_runqueue_node(g2d);
- 
- 		if (g2d->runqueue_node) {
--			pm_runtime_get_sync(g2d->dev);
-+			int ret;
-+
-+			ret = pm_runtime_resume_and_get(g2d->dev);
-+			if (ret < 0) {
-+				dev_err(g2d->dev, "failed to enable G2D device.\n");
-+				return;
-+			}
-+
- 			g2d_dma_start(g2d, g2d->runqueue_node);
- 		}
- 	}
-diff --git a/drivers/gpu/drm/exynos/exynos_drm_gsc.c b/drivers/gpu/drm/exynos/exynos_drm_gsc.c
-index b01f36e76eaf..90d7bf906885 100644
---- a/drivers/gpu/drm/exynos/exynos_drm_gsc.c
-+++ b/drivers/gpu/drm/exynos/exynos_drm_gsc.c
-@@ -1118,7 +1118,12 @@ static int gsc_commit(struct exynos_drm_ipp *ipp,
- 	struct gsc_context *ctx = container_of(ipp, struct gsc_context, ipp);
- 	int ret;
- 
--	pm_runtime_get_sync(ctx->dev);
-+	ret = pm_runtime_resume_and_get(ctx->dev);
-+	if (ret < 0) {
-+		dev_err(ctx->dev, "failed to enable GScaler device.\n");
-+		return ret;
-+	}
-+
- 	ctx->task = task;
- 
- 	ret = gsc_reset(ctx);
-diff --git a/drivers/gpu/drm/exynos/exynos_drm_rotator.c b/drivers/gpu/drm/exynos/exynos_drm_rotator.c
-index 2d94afba031e..ee61be4cf152 100644
---- a/drivers/gpu/drm/exynos/exynos_drm_rotator.c
-+++ b/drivers/gpu/drm/exynos/exynos_drm_rotator.c
-@@ -219,8 +219,13 @@ static int rotator_commit(struct exynos_drm_ipp *ipp,
- {
- 	struct rot_context *rot =
- 			container_of(ipp, struct rot_context, ipp);
-+	int ret;
- 
--	pm_runtime_get_sync(rot->dev);
-+	ret = pm_runtime_resume_and_get(rot->dev);
-+	if (ret < 0) {
-+		dev_err(rot->dev, "failed to enable ROTATOR device.\n");
-+		return ret;
-+	}
- 	rot->task = task;
- 
- 	rotator_src_set_fmt(rot, task->src.buf.fourcc);
-diff --git a/drivers/gpu/drm/exynos/exynos_drm_scaler.c b/drivers/gpu/drm/exynos/exynos_drm_scaler.c
-index ce1857138f89..f9ae5b038d59 100644
---- a/drivers/gpu/drm/exynos/exynos_drm_scaler.c
-+++ b/drivers/gpu/drm/exynos/exynos_drm_scaler.c
-@@ -362,15 +362,17 @@ static int scaler_commit(struct exynos_drm_ipp *ipp,
- 	struct drm_exynos_ipp_task_rect *src_pos = &task->src.rect;
- 	struct drm_exynos_ipp_task_rect *dst_pos = &task->dst.rect;
- 	const struct scaler_format *src_fmt, *dst_fmt;
-+	int ret = 0;
- 
- 	src_fmt = scaler_get_format(task->src.buf.fourcc);
- 	dst_fmt = scaler_get_format(task->dst.buf.fourcc);
- 
--	pm_runtime_get_sync(scaler->dev);
--	if (scaler_reset(scaler)) {
--		pm_runtime_put(scaler->dev);
-+	ret = pm_runtime_resume_and_get(scaler->dev);
-+	if (ret < 0)
-+		return ret;
-+
-+	if (scaler_reset(scaler))
- 		return -EIO;
--	}
- 
- 	scaler->task = task;
- 
-diff --git a/drivers/gpu/drm/exynos/exynos_hdmi.c b/drivers/gpu/drm/exynos/exynos_hdmi.c
-index 39fa5d3b01ef..f893731d6021 100644
---- a/drivers/gpu/drm/exynos/exynos_hdmi.c
-+++ b/drivers/gpu/drm/exynos/exynos_hdmi.c
-@@ -1483,10 +1483,16 @@ static void hdmi_set_refclk(struct hdmi_context *hdata, bool on)
- /* Should be called with hdata->mutex mutex held. */
- static void hdmiphy_enable(struct hdmi_context *hdata)
- {
-+	int ret;
-+
- 	if (hdata->powered)
- 		return;
- 
--	pm_runtime_get_sync(hdata->dev);
-+	ret = pm_runtime_resume_and_get(hdata->dev);
-+	if (ret < 0) {
-+		dev_err(hdata->dev, "failed to enable HDMIPHY device.\n");
-+		return;
-+	}
- 
- 	if (regulator_bulk_enable(ARRAY_SIZE(supply), hdata->regul_bulk))
- 		DRM_DEV_DEBUG_KMS(hdata->dev,
-diff --git a/drivers/gpu/drm/exynos/exynos_mixer.c b/drivers/gpu/drm/exynos/exynos_mixer.c
-index af192e5a16ef..41c54f1f60bc 100644
---- a/drivers/gpu/drm/exynos/exynos_mixer.c
-+++ b/drivers/gpu/drm/exynos/exynos_mixer.c
-@@ -992,11 +992,16 @@ static void mixer_atomic_flush(struct exynos_drm_crtc *crtc)
- static void mixer_atomic_enable(struct exynos_drm_crtc *crtc)
- {
- 	struct mixer_context *ctx = crtc->ctx;
-+	int ret;
- 
- 	if (test_bit(MXR_BIT_POWERED, &ctx->flags))
- 		return;
- 
--	pm_runtime_get_sync(ctx->dev);
-+	ret = pm_runtime_resume_and_get(ctx->dev);
-+	if (ret < 0) {
-+		dev_err(ctx->dev, "failed to enable MIXER device.\n");
-+		return;
-+	}
- 
- 	exynos_drm_pipe_clk_enable(crtc, true);
- 
--- 
-2.25.1
+Regards,
 
+Tvrtko
+
+> Matt
+> 
+>> Regards,
+>>
+>> Tvrtko
+>>
+>>> Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
+>>> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+>>> ---
+>>>    drivers/gpu/drm/i915/gt/intel_engine_types.h     |  2 ++
+>>>    .../gpu/drm/i915/gt/intel_execlists_submission.c |  6 ++++++
+>>>    drivers/gpu/drm/i915/gt/intel_ring_submission.c  |  6 ++++++
+>>>    drivers/gpu/drm/i915/gt/mock_engine.c            |  6 ++++++
+>>>    .../gpu/drm/i915/gt/uc/intel_guc_submission.c    | 16 ++++++++++++++++
+>>>    drivers/gpu/drm/i915/i915_request.c              |  4 +++-
+>>>    6 files changed, 39 insertions(+), 1 deletion(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/i915/gt/intel_engine_types.h b/drivers/gpu/drm/i915/gt/intel_engine_types.h
+>>> index 86302e6d86b2..e2b5cda6dbc4 100644
+>>> --- a/drivers/gpu/drm/i915/gt/intel_engine_types.h
+>>> +++ b/drivers/gpu/drm/i915/gt/intel_engine_types.h
+>>> @@ -389,6 +389,8 @@ struct intel_engine_cs {
+>>>    	void		(*park)(struct intel_engine_cs *engine);
+>>>    	void		(*unpark)(struct intel_engine_cs *engine);
+>>> +	void		(*bump_serial)(struct intel_engine_cs *engine);
+>>> +
+>>>    	void		(*set_default_submission)(struct intel_engine_cs *engine);
+>>>    	const struct intel_context_ops *cops;
+>>> diff --git a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
+>>> index ae12d7f19ecd..02880ea5d693 100644
+>>> --- a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
+>>> +++ b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
+>>> @@ -3199,6 +3199,11 @@ static void execlists_release(struct intel_engine_cs *engine)
+>>>    	lrc_fini_wa_ctx(engine);
+>>>    }
+>>> +static void execlist_bump_serial(struct intel_engine_cs *engine)
+>>> +{
+>>> +	engine->serial++;
+>>> +}
+>>> +
+>>>    static void
+>>>    logical_ring_default_vfuncs(struct intel_engine_cs *engine)
+>>>    {
+>>> @@ -3208,6 +3213,7 @@ logical_ring_default_vfuncs(struct intel_engine_cs *engine)
+>>>    	engine->cops = &execlists_context_ops;
+>>>    	engine->request_alloc = execlists_request_alloc;
+>>> +	engine->bump_serial = execlist_bump_serial;
+>>>    	engine->reset.prepare = execlists_reset_prepare;
+>>>    	engine->reset.rewind = execlists_reset_rewind;
+>>> diff --git a/drivers/gpu/drm/i915/gt/intel_ring_submission.c b/drivers/gpu/drm/i915/gt/intel_ring_submission.c
+>>> index 14aa31879a37..39dd7c4ed0a9 100644
+>>> --- a/drivers/gpu/drm/i915/gt/intel_ring_submission.c
+>>> +++ b/drivers/gpu/drm/i915/gt/intel_ring_submission.c
+>>> @@ -1045,6 +1045,11 @@ static void setup_irq(struct intel_engine_cs *engine)
+>>>    	}
+>>>    }
+>>> +static void ring_bump_serial(struct intel_engine_cs *engine)
+>>> +{
+>>> +	engine->serial++;
+>>> +}
+>>> +
+>>>    static void setup_common(struct intel_engine_cs *engine)
+>>>    {
+>>>    	struct drm_i915_private *i915 = engine->i915;
+>>> @@ -1064,6 +1069,7 @@ static void setup_common(struct intel_engine_cs *engine)
+>>>    	engine->cops = &ring_context_ops;
+>>>    	engine->request_alloc = ring_request_alloc;
+>>> +	engine->bump_serial = ring_bump_serial;
+>>>    	/*
+>>>    	 * Using a global execution timeline; the previous final breadcrumb is
+>>> diff --git a/drivers/gpu/drm/i915/gt/mock_engine.c b/drivers/gpu/drm/i915/gt/mock_engine.c
+>>> index bd005c1b6fd5..97b10fd60b55 100644
+>>> --- a/drivers/gpu/drm/i915/gt/mock_engine.c
+>>> +++ b/drivers/gpu/drm/i915/gt/mock_engine.c
+>>> @@ -292,6 +292,11 @@ static void mock_engine_release(struct intel_engine_cs *engine)
+>>>    	intel_engine_fini_retire(engine);
+>>>    }
+>>> +static void mock_bump_serial(struct intel_engine_cs *engine)
+>>> +{
+>>> +	engine->serial++;
+>>> +}
+>>> +
+>>>    struct intel_engine_cs *mock_engine(struct drm_i915_private *i915,
+>>>    				    const char *name,
+>>>    				    int id)
+>>> @@ -318,6 +323,7 @@ struct intel_engine_cs *mock_engine(struct drm_i915_private *i915,
+>>>    	engine->base.cops = &mock_context_ops;
+>>>    	engine->base.request_alloc = mock_request_alloc;
+>>> +	engine->base.bump_serial = mock_bump_serial;
+>>>    	engine->base.emit_flush = mock_emit_flush;
+>>>    	engine->base.emit_fini_breadcrumb = mock_emit_breadcrumb;
+>>>    	engine->base.submit_request = mock_submit_request;
+>>> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+>>> index dc79d287c50a..f0e5731bcef6 100644
+>>> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+>>> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+>>> @@ -1500,6 +1500,20 @@ static void guc_release(struct intel_engine_cs *engine)
+>>>    	lrc_fini_wa_ctx(engine);
+>>>    }
+>>> +static void guc_bump_serial(struct intel_engine_cs *engine)
+>>> +{
+>>> +	engine->serial++;
+>>> +}
+>>> +
+>>> +static void virtual_guc_bump_serial(struct intel_engine_cs *engine)
+>>> +{
+>>> +	struct intel_engine_cs *e;
+>>> +	intel_engine_mask_t tmp, mask = engine->mask;
+>>> +
+>>> +	for_each_engine_masked(e, engine->gt, mask, tmp)
+>>> +		e->serial++;
+>>> +}
+>>> +
+>>>    static void guc_default_vfuncs(struct intel_engine_cs *engine)
+>>>    {
+>>>    	/* Default vfuncs which can be overridden by each engine. */
+>>> @@ -1508,6 +1522,7 @@ static void guc_default_vfuncs(struct intel_engine_cs *engine)
+>>>    	engine->cops = &guc_context_ops;
+>>>    	engine->request_alloc = guc_request_alloc;
+>>> +	engine->bump_serial = guc_bump_serial;
+>>>    	engine->sched_engine->schedule = i915_schedule;
+>>> @@ -1843,6 +1858,7 @@ guc_create_virtual(struct intel_engine_cs **siblings, unsigned int count)
+>>>    	ve->base.cops = &virtual_guc_context_ops;
+>>>    	ve->base.request_alloc = guc_request_alloc;
+>>> +	ve->base.bump_serial = virtual_guc_bump_serial;
+>>>    	ve->base.submit_request = guc_submit_request;
+>>> diff --git a/drivers/gpu/drm/i915/i915_request.c b/drivers/gpu/drm/i915/i915_request.c
+>>> index 9542a5baa45a..127d60b36422 100644
+>>> --- a/drivers/gpu/drm/i915/i915_request.c
+>>> +++ b/drivers/gpu/drm/i915/i915_request.c
+>>> @@ -692,7 +692,9 @@ bool __i915_request_submit(struct i915_request *request)
+>>>    				     request->ring->vaddr + request->postfix);
+>>>    	trace_i915_request_execute(request);
+>>> -	engine->serial++;
+>>> +	if (engine->bump_serial)
+>>> +		engine->bump_serial(engine);
+>>> +
+>>>    	result = true;
+>>>    	GEM_BUG_ON(test_bit(I915_FENCE_FLAG_ACTIVE, &request->fence.flags));
+>>>
