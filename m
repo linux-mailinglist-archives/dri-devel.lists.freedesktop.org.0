@@ -1,58 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B31593912D6
-	for <lists+dri-devel@lfdr.de>; Wed, 26 May 2021 10:48:24 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B3BF23912BD
+	for <lists+dri-devel@lfdr.de>; Wed, 26 May 2021 10:47:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6C94F6EC47;
-	Wed, 26 May 2021 08:48:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C5CE86EC37;
+	Wed, 26 May 2021 08:47:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com
- [IPv6:2a00:1450:4864:20::330])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0B5AB6EC35
- for <dri-devel@lists.freedesktop.org>; Wed, 26 May 2021 08:47:41 +0000 (UTC)
-Received: by mail-wm1-x330.google.com with SMTP id
- l11-20020a05600c4f0bb029017a7cd488f5so54485wmq.0
- for <dri-devel@lists.freedesktop.org>; Wed, 26 May 2021 01:47:40 -0700 (PDT)
+Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com
+ [IPv6:2a00:1450:4864:20::434])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 25EC86EC2F
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 May 2021 08:47:42 +0000 (UTC)
+Received: by mail-wr1-x434.google.com with SMTP id p7so179209wru.10
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 May 2021 01:47:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=hSDS0B4fQp47KmNI4VulVH8wz4wQl27Y7BX42nP21sg=;
- b=dcN/WRihIO90bHiQ9m0MJt0eKZLdYaTMCHRtA5oqLwEwYpsQgez2GUQcn71i3ih0jW
- plNUmFHspKhJO2iQGHv17+YcEIRq4fiTrfQWA4ghswtFulk+FsfsAv831pv8xyB2c6cG
- owohKi5lh4ZipKQPkVyvihqIPKWE8AoypYbSepOd+/l8UozrVuWyHTfYYmlUD7EQHqgh
- GwstL/JKm2DpxzzEzwW+FqvbzAxso9w8qJcpSNqPW1TEJ1oRqhaGLvsQWsR+yqoCTV9C
- 1/iEm0F+7DwR2FNLxuVifk5iaWQWisncmcnNFZCooBlssHa10v7lifobDNHrux6bNLiq
- 3Wcg==
+ bh=S7Vhy55irc0KIRnoY1AtIhd7OdR89vjnmNeVszJAECQ=;
+ b=eOgEFPmvC30HjVNA4Cq3235ugvwODQjfTMEVmYHNrTdvhnuoAsJejtxVRd3f8oj5Wi
+ oRQQEFGbC4NXCz0QMPmwIR9qxYU8DlpvdkfUMHtBfcdLhB4yMFUMnzwNIY9CtmqCJTHl
+ O+HbpzWWWcraBqJj1gRG9fQMp6wrPlO13d0Bi4B96ycuqw9dL+o0N7dsrc6tiDzncxrL
+ HsIEr8NJ/tttK8hTKWsYTDcPjNF/E2lrmYRacRhA6AgqtomdIxPuOSSeTso+7plsZXSX
+ OwoSpcUV7EtXkzV5ljXXYXBGzsjWUHAErFwWrwqJ44PkNDBRO9w9EIZjfw5teG+aul48
+ hnlQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=hSDS0B4fQp47KmNI4VulVH8wz4wQl27Y7BX42nP21sg=;
- b=txIAbTr+YtrxEn+1qo8XVyFACxbkSnkPeLqkqXYx/TQYooBYeS1bsmUR8f2NoIZwYB
- 39Yn+ySsD9RXOlcx8Iqvpr1riN05Qy+uzzZYlV+Fv8dY1LLC+NnL9n02C6IozlhZbEt8
- 7AH6SVNOcbqiaYhpQ3tiWflGLmFAQ8sFpPgryvGWh6DeJB2mf30C8+Jl0Ma7PyuTH9ab
- +dDQoF/K4ym7cFsGOhKTy+mkuwORFD484SZirRH/l2JnNVxoLNs80abzY6f5YuwnFFaf
- 7NxkR04pKwEarK66QkzR3tu77VCeLrBJ+rR++7T+GxLJvYhdMhT7mDtUqbzxAPscsl4Q
- AQcg==
-X-Gm-Message-State: AOAM532X2kjFwoHEJqt94mTkLPKQbm+F6ZQEDdw/rJogzro7jSL3pOIt
- CTwDQijHFcehlF3bViqHCyrB5w==
-X-Google-Smtp-Source: ABdhPJzqDrnjoRziv6JoSt76RUtBnwKhDOJNyexrZdLJodTCazVGqrbE34zIibURPetmptwFMYs0jA==
-X-Received: by 2002:a05:600c:2289:: with SMTP id
- 9mr2320654wmf.29.1622018859683; 
- Wed, 26 May 2021 01:47:39 -0700 (PDT)
+ bh=S7Vhy55irc0KIRnoY1AtIhd7OdR89vjnmNeVszJAECQ=;
+ b=YopYmBtbyS32ai/42/ksatZEPxzUqw37Wrj6vfCPOgWikXfu7Ti1+zqdCH3Ui6+VCv
+ QfA6GNtVj4SAkmmsZlNLjwT4Vqk6cKquDWbP1EFz8hXZuTGuPd+IajUeC7XyOz56jTf1
+ QOhjkS13psUt+jxIeYOb/kcD0fRKTcS+CGtF83oY3zvZTIwmEeMOZe6wcgCOd4qPzX7b
+ khQEH4pQT4q/Y4S4bTqu/l1tLW2EMHLTBsQyMXt+LhZRAQRxRNeukMOpHWuWzdMBo0hU
+ BEoHJsFwajtHG/WAXVHZa9WJWzQDq7IMIm+aQFAgMUxTLZvHmdp0bOn2g+lCB/PZSGqG
+ Jupg==
+X-Gm-Message-State: AOAM531xN6cOM/FTk2jRjGwrucHNl99jYAnhWtuHONYumb8TrMtpBt7Q
+ Rf0QQqO0NRFMR4srlUOfMy4gpA==
+X-Google-Smtp-Source: ABdhPJxE0BtwOIYQjuYn6Y7+Q6ACbzICk5aAr0XXdSoA3yVkfOmmF2TnwfLbYcp+4PimxnS4+0XwlA==
+X-Received: by 2002:adf:a2de:: with SMTP id t30mr16243809wra.104.1622018860628; 
+ Wed, 26 May 2021 01:47:40 -0700 (PDT)
 Received: from dell.default ([91.110.221.223])
- by smtp.gmail.com with ESMTPSA id l18sm18911918wrt.97.2021.05.26.01.47.38
+ by smtp.gmail.com with ESMTPSA id l18sm18911918wrt.97.2021.05.26.01.47.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 26 May 2021 01:47:39 -0700 (PDT)
+ Wed, 26 May 2021 01:47:40 -0700 (PDT)
 From: Lee Jones <lee.jones@linaro.org>
 To: lee.jones@linaro.org
-Subject: [PATCH 09/34] drm/amd/display/dc/bios/command_table_helper2: Fix
- function name 'dal_cmd_table_helper_transmitter_bp_to_atom2()'
-Date: Wed, 26 May 2021 09:47:01 +0100
-Message-Id: <20210526084726.552052-10-lee.jones@linaro.org>
+Subject: [PATCH 10/34] drm/amd/display/dc/bios/bios_parser: Fix formatting and
+ misnaming issues
+Date: Wed, 26 May 2021 09:47:02 +0100
+Message-Id: <20210526084726.552052-11-lee.jones@linaro.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210526084726.552052-1-lee.jones@linaro.org>
 References: <20210526084726.552052-1-lee.jones@linaro.org>
@@ -80,7 +78,9 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Fixes the following W=1 kernel build warning(s):
 
- drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table_helper2.c:141: warning: expecting prototype for translate_transmitter_bp_to_atom2(). Prototype was for dal_cmd_table_helper_transmitter_bp_to_atom2() instead
+ drivers/gpu/drm/amd/amdgpu/../display/dc/bios/bios_parser.c:997: warning: expecting prototype for get_ss_info_from_table(). Prototype was for get_ss_info_from_tbl() instead
+ drivers/gpu/drm/amd/amdgpu/../display/dc/bios/bios_parser.c:1562: warning: expecting prototype for BiosParserObject(). Prototype was for bios_parser_get_ss_entry_number() instead
+ drivers/gpu/drm/amd/amdgpu/../display/dc/bios/bios_parser.c:1739: warning: expecting prototype for get_ss_entry_number_from_internal_ss_info_table_V3_1(). Prototype was for get_ss_entry_number_from_internal_ss_info_tbl_V3_1() instead
 
 Cc: Harry Wentland <harry.wentland@amd.com>
 Cc: Leo Li <sunpeng.li@amd.com>
@@ -88,26 +88,45 @@ Cc: Alex Deucher <alexander.deucher@amd.com>
 Cc: "Christian König" <christian.koenig@amd.com>
 Cc: David Airlie <airlied@linux.ie>
 Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: Lee Jones <lee.jones@linaro.org>
 Cc: amd-gfx@lists.freedesktop.org
 Cc: dri-devel@lists.freedesktop.org
 Signed-off-by: Lee Jones <lee.jones@linaro.org>
 ---
- drivers/gpu/drm/amd/display/dc/bios/command_table_helper2.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/amd/display/dc/bios/bios_parser.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/bios/command_table_helper2.c b/drivers/gpu/drm/amd/display/dc/bios/command_table_helper2.c
-index 00706b072b5f8..6d2fb112ad9f9 100644
---- a/drivers/gpu/drm/amd/display/dc/bios/command_table_helper2.c
-+++ b/drivers/gpu/drm/amd/display/dc/bios/command_table_helper2.c
-@@ -129,7 +129,7 @@ bool dal_cmd_table_helper_controller_id_to_atom2(
- }
+diff --git a/drivers/gpu/drm/amd/display/dc/bios/bios_parser.c b/drivers/gpu/drm/amd/display/dc/bios/bios_parser.c
+index c67d21a5ee52f..9b8ea6e9a2b96 100644
+--- a/drivers/gpu/drm/amd/display/dc/bios/bios_parser.c
++++ b/drivers/gpu/drm/amd/display/dc/bios/bios_parser.c
+@@ -979,7 +979,7 @@ static enum bp_result get_ss_info_from_internal_ss_info_tbl_V2_1(
+ 	struct spread_spectrum_info *info);
  
  /**
-- * translate_transmitter_bp_to_atom2 - Translate the Transmitter to the
-+ * dal_cmd_table_helper_transmitter_bp_to_atom2 - Translate the Transmitter to the
-  *                                     corresponding ATOM BIOS value
-  *  @t: transmitter
-  *  returns: digitalTransmitter
+- * get_ss_info_from_table
++ * get_ss_info_from_tbl
+  * Get spread sprectrum information from the ASIC_InternalSS_Info Ver 2.1 or
+  * SS_Info table from the VBIOS
+  * There can not be more than 1 entry for  ASIC_InternalSS_Info Ver 2.1 or
+@@ -1548,7 +1548,7 @@ static uint32_t get_ss_entry_number_from_ss_info_tbl(
+ 	uint32_t id);
+ 
+ /**
+- * BiosParserObject::GetNumberofSpreadSpectrumEntry
++ * bios_parser_get_ss_entry_number
+  * Get Number of SpreadSpectrum Entry from the ASIC_InternalSS_Info table from
+  * the VBIOS that match the SSid (to be converted from signal)
+  *
+@@ -1725,7 +1725,7 @@ static uint32_t get_ss_entry_number_from_internal_ss_info_tbl_v2_1(
+ 	return 0;
+ }
+ /**
+- * get_ss_entry_number_from_internal_ss_info_table_V3_1
++ * get_ss_entry_number_from_internal_ss_info_tbl_V3_1
+  * Get Number of SpreadSpectrum Entry from the ASIC_InternalSS_Info table of
+  * the VBIOS that matches id
+  *
 -- 
 2.31.1
 
