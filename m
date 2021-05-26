@@ -1,46 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C393D391396
-	for <lists+dri-devel@lfdr.de>; Wed, 26 May 2021 11:25:23 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 039423913B0
+	for <lists+dri-devel@lfdr.de>; Wed, 26 May 2021 11:30:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D49406E5D2;
-	Wed, 26 May 2021 09:25:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 974566E923;
+	Wed, 26 May 2021 09:30:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2CF7289CB9;
- Wed, 26 May 2021 09:25:17 +0000 (UTC)
-IronPort-SDR: pBMT2a7JwHBcxo1ncqd6IAweklObwyluQYthdYzwAZO526iMjJI53LlhX1/hIPFB6UVuFGosq8
- iC6BNUkewaRw==
-X-IronPort-AV: E=McAfee;i="6200,9189,9995"; a="182750186"
-X-IronPort-AV: E=Sophos;i="5.82,331,1613462400"; d="scan'208";a="182750186"
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 45D296E85F;
+ Wed, 26 May 2021 09:30:32 +0000 (UTC)
+IronPort-SDR: 76gjS5ublN5Jvy3eGtiC42COBabsdwdRaZwX88bIRdKnkp8XF6u5VJbr7rU9cUHQZJy7xB1Rwj
+ H/XMrQtctWHQ==
+X-IronPort-AV: E=McAfee;i="6200,9189,9995"; a="202437316"
+X-IronPort-AV: E=Sophos;i="5.82,331,1613462400"; d="scan'208";a="202437316"
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 May 2021 02:25:16 -0700
-IronPort-SDR: meym1bg2FY1xTxBIaAXwnSwse2Oc8Z/X1VswiqcK6BitzXOwZjnTx/GDqsHDwhtqw0apT0YFnP
- iN3fjk7KT4UA==
-X-IronPort-AV: E=Sophos;i="5.82,331,1613462400"; d="scan'208";a="479806786"
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 May 2021 02:30:30 -0700
+IronPort-SDR: FiGbvC0kU/Lby54nWPEdeUUcn3s4BMv6hpvAjrr7T5guUQASJ5whtZ83L+jZsnTrz7Jzndnyqh
+ 5NrsjNn2hRHw==
+X-IronPort-AV: E=Sophos;i="5.82,331,1613462400"; d="scan'208";a="479810625"
 Received: from wardmich-mobl.ger.corp.intel.com (HELO [10.213.209.181])
  ([10.213.209.181])
  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 May 2021 02:25:15 -0700
-Subject: Re: [Intel-gfx] [RFC PATCH 53/97] drm/i915/guc: Disable semaphores
- when using GuC scheduling
+ 26 May 2021 02:30:29 -0700
+Subject: Re: [Intel-gfx] [RFC PATCH 39/97] drm/i915/guc: Increase size of CTB
+ buffers
 To: Matthew Brost <matthew.brost@intel.com>
 References: <20210506191451.77768-1-matthew.brost@intel.com>
- <20210506191451.77768-54-matthew.brost@intel.com>
- <295c0e48-5091-504a-5a81-10a60fa900f4@linux.intel.com>
- <20210525170131.GA14724@sdutt-i7>
+ <20210506191451.77768-40-matthew.brost@intel.com>
+ <c3c50a1e-c871-a424-8598-2da7eaffba05@linux.intel.com>
+ <20210525171556.GD14724@sdutt-i7>
 From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
 Organization: Intel Corporation UK Plc
-Message-ID: <cff93d4a-e852-0a33-9235-b019fd828a0a@linux.intel.com>
-Date: Wed, 26 May 2021 10:25:13 +0100
+Message-ID: <8ef19f02-27ad-960f-c5d8-f7cc3bb59f44@linux.intel.com>
+Date: Wed, 26 May 2021 10:30:27 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <20210525170131.GA14724@sdutt-i7>
+In-Reply-To: <20210525171556.GD14724@sdutt-i7>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -62,33 +62,49 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On 25/05/2021 18:01, Matthew Brost wrote:
-> On Tue, May 25, 2021 at 10:52:01AM +0100, Tvrtko Ursulin wrote:
+On 25/05/2021 18:15, Matthew Brost wrote:
+> On Tue, May 25, 2021 at 10:24:09AM +0100, Tvrtko Ursulin wrote:
 >>
->> On 06/05/2021 20:14, Matthew Brost wrote:
->>> Disable semaphores when using GuC scheduling as semaphores are broken in
->>> the current GuC firmware.
+>> On 06/05/2021 20:13, Matthew Brost wrote:
+>>> With the introduction of non-blocking CTBs more than one CTB can be in
+>>> flight at a time. Increasing the size of the CTBs should reduce how
+>>> often software hits the case where no space is available in the CTB
+>>> buffer.
 >>
->> What is "current"? Given that the patch itself is like year and a half old.
+>> I'd move this before the patch which adds the non-blocking send since that
+>> one claims congestion should be rare with properly sized buffers. So it
+>> makes sense to have them sized properly back before that one.
 >>
 > 
-> Stale comment. Semaphore work with the firmware we just haven't enabled
-> them in the i915 with GuC submission as this an optimization and not
-> required for functionality.
+> IMO patch ordering is a bit of bikeshed. All these CTBs changes required
+> for GuC submission (34-40, 54) will get posted its own series and get
+> merged together. None of the individual patches break anything or is any
+> of this code really used until GuC submission is turned on. I can move
+> this when I post these patches by themselves but I just don't really see
+> the point either way.
 
-How will the updated commit message look in terms of remaining reasons 
-why semaphores won't/can't be enabled?
+As a general principle we do try to have work in the order which makes 
+sense functionality wise.
 
-They were a nice performance win on some media workloads although 
-granted a lot of tweaking was required to find a good balance on when to 
-use them and when not to.
+That includes trying to avoid adding and then removing, or changing a 
+lot, the same code within the series. And also adding functionality 
+which is known to not work completely well until later in the series.
+
+With a master switch at the end of series you can sometimes get away 
+with it, but if nothing else it at least makes it much easier to read if 
+things are flowing in the expected way within (the series).
+
+In this particular example sizing the buffers appropriately before 
+starting to use the facility a lot more certainly sounds like a no 
+brainer to me, especially since the patch is so trivial to move conflict 
+wise.
 
 Regards,
 
 Tvrtko
 
 > Matt
-> 
+>   
 >> Regards,
 >>
 >> Tvrtko
@@ -96,28 +112,36 @@ Tvrtko
 >>> Cc: John Harrison <john.c.harrison@intel.com>
 >>> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
 >>> ---
->>>    drivers/gpu/drm/i915/gem/i915_gem_context.c | 6 ++++--
->>>    1 file changed, 4 insertions(+), 2 deletions(-)
+>>>    drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c | 11 ++++++++---
+>>>    1 file changed, 8 insertions(+), 3 deletions(-)
 >>>
->>> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context.c b/drivers/gpu/drm/i915/gem/i915_gem_context.c
->>> index 993faa213b41..d30260ffe2a7 100644
->>> --- a/drivers/gpu/drm/i915/gem/i915_gem_context.c
->>> +++ b/drivers/gpu/drm/i915/gem/i915_gem_context.c
->>> @@ -230,7 +230,8 @@ static void intel_context_set_gem(struct intel_context *ce,
->>>    		ce->timeline = intel_timeline_get(ctx->timeline);
->>>    	if (ctx->sched.priority >= I915_PRIORITY_NORMAL &&
->>> -	    intel_engine_has_timeslices(ce->engine))
->>> +	    intel_engine_has_timeslices(ce->engine) &&
->>> +	    intel_engine_has_semaphores(ce->engine))
->>>    		__set_bit(CONTEXT_USE_SEMAPHORES, &ce->flags);
->>>    	intel_context_set_watchdog_us(ce, ctx->watchdog.timeout_us);
->>> @@ -1939,7 +1940,8 @@ static int __apply_priority(struct intel_context *ce, void *arg)
->>>    	if (!intel_engine_has_timeslices(ce->engine))
->>>    		return 0;
->>> -	if (ctx->sched.priority >= I915_PRIORITY_NORMAL)
->>> +	if (ctx->sched.priority >= I915_PRIORITY_NORMAL &&
->>> +	    intel_engine_has_semaphores(ce->engine))
->>>    		intel_context_set_use_semaphores(ce);
->>>    	else
->>>    		intel_context_clear_use_semaphores(ce);
+>>> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
+>>> index 77dfbc94dcc3..d6895d29ed2d 100644
+>>> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
+>>> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
+>>> @@ -63,11 +63,16 @@ static inline struct drm_device *ct_to_drm(struct intel_guc_ct *ct)
+>>>     *      +--------+-----------------------------------------------+------+
+>>>     *
+>>>     * Size of each `CT Buffer`_ must be multiple of 4K.
+>>> - * As we don't expect too many messages, for now use minimum sizes.
+>>> + * We don't expect too many messages in flight at any time, unless we are
+>>> + * using the GuC submission. In that case each request requires a minimum
+>>> + * 16 bytes which gives us a maximum 256 queue'd requests. Hopefully this
+>>> + * enough space to avoid backpressure on the driver. We increase the size
+>>> + * of the receive buffer (relative to the send) to ensure a G2H response
+>>> + * CTB has a landing spot.
+>>>     */
+>>>    #define CTB_DESC_SIZE		ALIGN(sizeof(struct guc_ct_buffer_desc), SZ_2K)
+>>>    #define CTB_H2G_BUFFER_SIZE	(SZ_4K)
+>>> -#define CTB_G2H_BUFFER_SIZE	(SZ_4K)
+>>> +#define CTB_G2H_BUFFER_SIZE	(4 * CTB_H2G_BUFFER_SIZE)
+>>>    #define MAX_US_STALL_CTB	1000000
+>>> @@ -753,7 +758,7 @@ static int ct_read(struct intel_guc_ct *ct, struct ct_incoming_msg **msg)
+>>>    	/* beware of buffer wrap case */
+>>>    	if (unlikely(available < 0))
+>>>    		available += size;
+>>> -	CT_DEBUG(ct, "available %d (%u:%u)\n", available, head, tail);
+>>> +	CT_DEBUG(ct, "available %d (%u:%u:%u)\n", available, head, tail, size);
+>>>    	GEM_BUG_ON(available < 0);
+>>>    	header = cmds[head];
 >>>
