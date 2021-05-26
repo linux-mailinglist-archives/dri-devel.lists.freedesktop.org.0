@@ -2,48 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2AF3B39127B
-	for <lists+dri-devel@lfdr.de>; Wed, 26 May 2021 10:40:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 530283912B1
+	for <lists+dri-devel@lfdr.de>; Wed, 26 May 2021 10:47:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0CC516EA8F;
-	Wed, 26 May 2021 08:40:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F16D36EC34;
+	Wed, 26 May 2021 08:47:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8F35B6E4A1;
- Wed, 26 May 2021 08:40:31 +0000 (UTC)
-IronPort-SDR: P3sC4dcH9m+a8OyFJXXKuc2HMpai5vZDOGnPAFr6o9mKTBK3Xi9uaJwJ3cV1nxtTahlB08qVEE
- nGV4HLHExT+g==
-X-IronPort-AV: E=McAfee;i="6200,9189,9995"; a="287991034"
-X-IronPort-AV: E=Sophos;i="5.82,331,1613462400"; d="scan'208";a="287991034"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 May 2021 01:40:27 -0700
-IronPort-SDR: j76VhOPFiGZ4skj7Ebqc8b1yX6u20B0bcZATcDUdeBZLZNWEafjGufg0AK5gPsA/wsqMky/eCj
- NY2IIs12vukA==
-X-IronPort-AV: E=Sophos;i="5.82,331,1613462400"; d="scan'208";a="471784398"
-Received: from wardmich-mobl.ger.corp.intel.com (HELO [10.213.209.181])
- ([10.213.209.181])
- by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 May 2021 01:40:26 -0700
-Subject: Re: [Intel-gfx] [RFC PATCH 60/97] drm/i915: Track 'serial' counts for
- virtual engines
-To: Matthew Brost <matthew.brost@intel.com>
-References: <20210506191451.77768-1-matthew.brost@intel.com>
- <20210506191451.77768-61-matthew.brost@intel.com>
- <cd59ddd4-625b-c40d-05a8-e259b8fd430c@linux.intel.com>
- <20210525175239.GA21324@sdutt-i7>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-Message-ID: <6f6a1266-fe48-9cf1-beba-0b4463000ca7@linux.intel.com>
-Date: Wed, 26 May 2021 09:40:24 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com
+ [IPv6:2a00:1450:4864:20::42f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B62FF6EC32
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 May 2021 08:47:31 +0000 (UTC)
+Received: by mail-wr1-x42f.google.com with SMTP id j14so206684wrq.5
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 May 2021 01:47:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=WgO8pJnbycGAPr/jI7WVY+xNAObrZKGPkpv1D9egn8s=;
+ b=P07J35BETyrv+OPvGbVbCm5g4FQF/A/FA18Y0aGwAdU2nwjaPb0M/olKJPqJtiOrhX
+ 8Z8R6LILF+Ut0yOpDub0YmflLxejoVIa3+BDrBaHyaLq4j773XxmCSsJs2jA9VyGfyf1
+ mp2PalUrXqEUbLW+AzzNGRy8VGNmQ+uM8dd/yO2STKe+yZBlmba4Xr/Pgr2vq9/TvfMR
+ hmpRWbM61jEczGjETUM7EdN2Qf+jibbSBzLcte+AI0H2OrklYvs+pJ7wklAjOHdCBZXL
+ miV4N+UuwnWDOZEC6vEbIbC4E0ztLPOBpZravpjuyP+TO3fP8gLn452oCtyQHAK+ZrJq
+ XF8w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=WgO8pJnbycGAPr/jI7WVY+xNAObrZKGPkpv1D9egn8s=;
+ b=tFrz40Dg+CDUnq+QIR53evSBmEviDZbAHMcy+73arrU+KKr2s0GMR+omqEtn3Wnw2V
+ Eqr3YXpwaR5RTxf1G7ybWE3VDhJoP0qIFXjl2yKmJvrXtGVUEEaGHM1zxLotKNQFRbyw
+ 5KsvgpphuQBtWN0Kx46wtO47EOGDFgGh5MymXTobLWuaU789zEfW6b9qTtylbSEGayNr
+ X304Bzb2Xrz+GJjLiC8ZuVYR65g9OYInsKGEVIBUJLl8BM3QPlg8yic/ygTgTLJ/Odg+
+ Yjj1yQYMRoom13inZTEaFjMu8b4x6D0bSi/AxMm2NK4N+xWcinZJKSs/KsXGizl8/7ng
+ /G6Q==
+X-Gm-Message-State: AOAM5335yVVnD38YH1qmIeeA7ppHiJF9fmfO0IzVXJ4j3/GTNx5I0r24
+ EFwkQ8nu/i0EKT8tTh8Wh7YvkA==
+X-Google-Smtp-Source: ABdhPJz7Yt7N0U9dO4++M/DXckMsobASl2c3GuDArRZKHB1os8WtSXIpk/vFAHDOzBqexSS+KqxpSQ==
+X-Received: by 2002:adf:f9d0:: with SMTP id w16mr32449829wrr.336.1622018850280; 
+ Wed, 26 May 2021 01:47:30 -0700 (PDT)
+Received: from dell.default ([91.110.221.223])
+ by smtp.gmail.com with ESMTPSA id l18sm18911918wrt.97.2021.05.26.01.47.28
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 26 May 2021 01:47:29 -0700 (PDT)
+From: Lee Jones <lee.jones@linaro.org>
+To: lee.jones@linaro.org
+Subject: [PATCH 00/34] Rid W=1 warnings from GPU
+Date: Wed, 26 May 2021 09:46:52 +0100
+Message-Id: <20210526084726.552052-1-lee.jones@linaro.org>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-In-Reply-To: <20210525175239.GA21324@sdutt-i7>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,192 +66,172 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: jason.ekstrand@intel.com, daniel.vetter@intel.com,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: David Airlie <airlied@linux.ie>, nouveau@lists.freedesktop.org,
+ Mauro Rossi <issor.oruam@gmail.com>, dri-devel@lists.freedesktop.org,
+ Meenakshikumar Somasundaram <meenakshikumar.somasundaram@amd.com>,
+ Huang Rui <ray.huang@amd.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Jun Lei <Jun.Lei@amd.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Ajay Kumar <ajaykumar.rs@samsung.com>,
+ Marek Szyprowski <m.szyprowski@samsung.com>, Ben Widawsky <ben@bwidawsk.net>,
+ linux-samsung-soc@vger.kernel.org, Joonyoung Shim <jy0922.shim@samsung.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+ Alistair Popple <apopple@nvidia.com>,
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
+ Michal Simek <michal.simek@xilinx.com>, amd-gfx@lists.freedesktop.org,
+ Ben Skeggs <bskeggs@redhat.com>, Jagan Teki <jagan@amarulasolutions.com>,
+ Leo Li <sunpeng.li@amd.com>, Kevin Wang <kevin1.wang@amd.com>,
+ Hans de Goede <hdegoede@redhat.com>, Akshu Agarwal <akshua@gmail.com>,
+ Evan Quan <evan.quan@amd.com>, linux-arm-kernel@lists.infradead.org,
+ linaro-mm-sig@lists.linaro.org, Hyun Kwon <hyun.kwon@xilinx.com>,
+ Seung-Woo Kim <sw0312.kim@samsung.com>, linux-kernel@vger.kernel.org,
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Alex Deucher <alexander.deucher@amd.com>, linux-media@vger.kernel.org,
+ Christian Koenig <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+This set is part of a larger effort attempting to clean-up W=1
+kernel builds, which are currently overwhelmingly riddled with
+niggly little warnings.
 
-On 25/05/2021 18:52, Matthew Brost wrote:
-> On Tue, May 25, 2021 at 11:16:12AM +0100, Tvrtko Ursulin wrote:
->>
->> On 06/05/2021 20:14, Matthew Brost wrote:
->>> From: John Harrison <John.C.Harrison@Intel.com>
->>>
->>> The serial number tracking of engines happens at the backend of
->>> request submission and was expecting to only be given physical
->>> engines. However, in GuC submission mode, the decomposition of virtual
->>> to physical engines does not happen in i915. Instead, requests are
->>> submitted to their virtual engine mask all the way through to the
->>> hardware (i.e. to GuC). This would mean that the heart beat code
->>> thinks the physical engines are idle due to the serial number not
->>> incrementing.
->>>
->>> This patch updates the tracking to decompose virtual engines into
->>> their physical constituents and tracks the request against each. This
->>> is not entirely accurate as the GuC will only be issuing the request
->>> to one physical engine. However, it is the best that i915 can do given
->>> that it has no knowledge of the GuC's scheduling decisions.
->>
->> Commit text sounds a bit defeatist. I think instead of making up the serial
->> counts, which has downsides (could you please document in the commit what
->> they are), we should think how to design things properly.
->>
-> 
-> IMO, I don't think fixing serial counts is the scope of this series. We
-> should focus on getting GuC submission in not cleaning up all the crap
-> that is in the i915. Let's make a note of this though so we can revisit
-> later.
+Lee Jones (34):
+  drm/amd/pm/inc/smu_v13_0: Move table into the only source file that
+    uses it
+  drm/amd/pm/swsmu/smu13/aldebaran_ppt: Remove unused variable 'ret'
+  drm/amd/pm/powerplay/hwmgr/smu7_thermal: Provide function name for
+    'smu7_fan_ctrl_set_default_mode()'
+  drm/amd/pm/powerplay/hwmgr/vega12_thermal: Provide function name
+  drm/amd/pm/powerplay/hwmgr/vega12_hwmgr: Provide
+    'vega12_init_smc_table()' function name
+  drm/amd/pm/powerplay/hwmgr/vega10_hwmgr: Kernel-doc headers must
+    contain function names
+  drm/amd/pm/powerplay/hwmgr/vega20_hwmgr: Provide function name
+    'vega20_init_smc_table()'
+  drm/amd/display/dc/bios/command_table_helper: Fix function name for
+    'dal_cmd_table_helper_transmitter_bp_to_atom()'
+  drm/amd/display/dc/bios/command_table_helper2: Fix function name
+    'dal_cmd_table_helper_transmitter_bp_to_atom2()'
+  drm/amd/display/dc/bios/bios_parser: Fix formatting and misnaming
+    issues
+  drm/nouveau/nvkm/subdev/mc/tu102: Make functions called by reference
+    static
+  drm/amd/display/amdgpu_dm/amdgpu_dm: Functions must directly follow
+    their headers
+  drm/amd/display/dc/dce/dmub_outbox: Convert over to kernel-doc
+  drm/amd/display/dc/gpio/gpio_service: Pass around correct
+    dce_{version,environment} types
+  drm/amd/display/dc/dce110/dce110_hw_sequencer: Include our own header
+  drm/amd/display/dc/dce/dce_transform: Remove superfluous
+    re-initialisation of DCFE_MEM_LIGHT_SLEEP_CNTL,
+  drm/amd/display/dc/dce/dce_mem_input: Remove duplicate initialisation
+    of GRPH_CONTROL__GRPH_NUM_BANKS_{SHIFT,MASK}
+  drm/amd/display/dc/dce/dce_mem_input: Remove duplicate initialisation
+    of GRPH_CONTROL__GRPH_NUM_BANKS_{SHIFT,MASK
+  drm/amd/amdgpu/amdgpu_device: Make local function static
+  drm/amd/display/amdgpu_dm/amdgpu_dm: Fix kernel-doc formatting issue
+  drm/amd/display/dc/dce110/dce110_hw_sequencer: Include header
+    containing our prototypes
+  drm/amd/display/dc/core/dc: Convert function headers to kernel-doc
+  drm/amd/display/dmub/src/dmub_srv_stat: Convert function header to
+    kernel-doc
+  drm/amd/display/modules/hdcp/hdcp_psp: Remove unused function
+    'mod_hdcp_hdcp1_get_link_encryption_status()'
+  drm/xlnx/zynqmp_disp: Fix incorrectly named enum
+    'zynqmp_disp_layer_id'
+  drm/xlnx/zynqmp_dp: Fix incorrectly name function 'zynqmp_dp_train()'
+  drm/ttm/ttm_tt: Demote non-conformant kernel-doc header
+  drm/panel/panel-raspberrypi-touchscreen: Demote kernel-doc abuse
+  drm/panel/panel-sitronix-st7701: Demote kernel-doc abuse
+  drm/vgem/vgem_drv: Standard comment blocks should not use kernel-doc
+    format
+  drm/exynos/exynos7_drm_decon: Fix incorrect naming of
+    'decon_shadow_protect_win()'
+  drm/exynos/exynos_drm_ipp: Fix documentation for
+    'exynos_drm_ipp_get_{caps,res}_ioctl()'
+  drm/vboxvideo/hgsmi_base: Place function names into headers
+  drm/vboxvideo/modesetting: Provide function names for prototype
+    headers
 
-I will say again - commit message implies it is introducing an 
-unspecified downside by not fully fixing an also unspecified issue. It 
-is completely reasonable, and customary even, to ask for both to be 
-documented in the commit message.
+ drivers/gpu/drm/amd/amdgpu/amdgpu_device.c    |  2 +-
+ .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c |  4 +-
+ .../gpu/drm/amd/display/dc/bios/bios_parser.c |  6 +--
+ .../display/dc/bios/command_table_helper.c    |  2 +-
+ .../display/dc/bios/command_table_helper2.c   |  2 +-
+ drivers/gpu/drm/amd/display/dc/core/dc.c      | 46 +++++--------------
+ .../drm/amd/display/dc/dce/dce_mem_input.h    |  2 -
+ .../drm/amd/display/dc/dce/dce_transform.h    |  3 +-
+ .../gpu/drm/amd/display/dc/dce/dmub_outbox.c  | 17 ++-----
+ .../display/dc/dce110/dce110_hw_sequencer.c   |  3 ++
+ .../drm/amd/display/dc/gpio/gpio_service.c    | 12 ++---
+ .../drm/amd/display/dmub/src/dmub_srv_stat.c  | 19 +++-----
+ .../display/include/gpio_service_interface.h  |  4 +-
+ .../drm/amd/display/modules/hdcp/hdcp_psp.c   | 13 ------
+ drivers/gpu/drm/amd/pm/inc/smu_v13_0.h        |  6 ---
+ .../drm/amd/pm/powerplay/hwmgr/smu7_thermal.c |  8 ++--
+ .../drm/amd/pm/powerplay/hwmgr/vega10_hwmgr.c | 26 ++++++-----
+ .../drm/amd/pm/powerplay/hwmgr/vega12_hwmgr.c |  2 +-
+ .../amd/pm/powerplay/hwmgr/vega12_thermal.c   |  3 +-
+ .../drm/amd/pm/powerplay/hwmgr/vega20_hwmgr.c |  2 +-
+ .../drm/amd/pm/swsmu/smu13/aldebaran_ppt.c    |  9 +++-
+ drivers/gpu/drm/exynos/exynos7_drm_decon.c    |  2 +-
+ drivers/gpu/drm/exynos/exynos_drm_ipp.c       |  4 +-
+ .../gpu/drm/nouveau/nvkm/subdev/mc/tu102.c    |  6 +--
+ .../drm/panel/panel-raspberrypi-touchscreen.c |  2 +-
+ drivers/gpu/drm/panel/panel-sitronix-st7701.c |  2 +-
+ drivers/gpu/drm/ttm/ttm_tt.c                  |  2 +-
+ drivers/gpu/drm/vboxvideo/hgsmi_base.c        | 19 +++++---
+ drivers/gpu/drm/vboxvideo/modesetting.c       | 20 ++++----
+ drivers/gpu/drm/vgem/vgem_drv.c               |  2 +-
+ drivers/gpu/drm/xlnx/zynqmp_disp.c            |  2 +-
+ drivers/gpu/drm/xlnx/zynqmp_dp.c              |  2 +-
+ 32 files changed, 107 insertions(+), 147 deletions(-)
 
-If we are abandoning the normal review process someone please say so I 
-don't waste my time reading it.
+Cc: Adam Jackson <ajax@redhat.com>
+Cc: Ajay Kumar <ajaykumar.rs@samsung.com>
+Cc: Akshu Agarwal <akshua@gmail.com>
+Cc: Alex Deucher <alexander.deucher@amd.com>
+Cc: Alistair Popple <apopple@nvidia.com>
+Cc: amd-gfx@lists.freedesktop.org
+Cc: Ben Skeggs <bskeggs@redhat.com>
+Cc: Ben Widawsky <ben@bwidawsk.net>
+Cc: Christian Koenig <christian.koenig@amd.com>
+Cc: "Christian König" <christian.koenig@amd.com>
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: David Airlie <airlied@linux.ie>
+Cc: dri-devel@lists.freedesktop.org
+Cc: Eric Anholt <eric@anholt.net>
+Cc: Evan Quan <evan.quan@amd.com>
+Cc: Hans de Goede <hdegoede@redhat.com>
+Cc: Harry Wentland <harry.wentland@amd.com>
+Cc: Huang Rui <ray.huang@amd.com>
+Cc: Hyun Kwon <hyun.kwon@xilinx.com>
+Cc: Inki Dae <inki.dae@samsung.com>
+Cc: Jagan Teki <jagan@amarulasolutions.com>
+Cc: Joonyoung Shim <jy0922.shim@samsung.com>
+Cc: Jun Lei <Jun.Lei@amd.com>
+Cc: Kevin Wang <kevin1.wang@amd.com>
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
+Cc: Kyungmin Park <kyungmin.park@samsung.com>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Lee Jones <lee.jones@linaro.org>
+Cc: Leo Li <sunpeng.li@amd.com>
+Cc: linaro-mm-sig@lists.linaro.org
+Cc: linux-arm-kernel@lists.infradead.org
+Cc: linux-media@vger.kernel.org
+Cc: linux-samsung-soc@vger.kernel.org
+Cc: Marek Szyprowski <m.szyprowski@samsung.com>
+Cc: Mauro Rossi <issor.oruam@gmail.com>
+Cc: Meenakshikumar Somasundaram <meenakshikumar.somasundaram@amd.com>
+Cc: Michal Simek <michal.simek@xilinx.com>
+Cc: nouveau@lists.freedesktop.org
+Cc: Philipp Zabel <p.zabel@pengutronix.de>
+Cc: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
+Cc: Sam Ravnborg <sam@ravnborg.org>
+Cc: Seung-Woo Kim <sw0312.kim@samsung.com>
+Cc: Sumit Semwal <sumit.semwal@linaro.org>
+Cc: Thierry Reding <thierry.reding@gmail.com>
+-- 
+2.31.1
 
-Regards,
-
-Tvrtko
-
-> Matt
-> 
->> Regards,
->>
->> Tvrtko
->>
->>> Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
->>> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
->>> ---
->>>    drivers/gpu/drm/i915/gt/intel_engine_types.h     |  2 ++
->>>    .../gpu/drm/i915/gt/intel_execlists_submission.c |  6 ++++++
->>>    drivers/gpu/drm/i915/gt/intel_ring_submission.c  |  6 ++++++
->>>    drivers/gpu/drm/i915/gt/mock_engine.c            |  6 ++++++
->>>    .../gpu/drm/i915/gt/uc/intel_guc_submission.c    | 16 ++++++++++++++++
->>>    drivers/gpu/drm/i915/i915_request.c              |  4 +++-
->>>    6 files changed, 39 insertions(+), 1 deletion(-)
->>>
->>> diff --git a/drivers/gpu/drm/i915/gt/intel_engine_types.h b/drivers/gpu/drm/i915/gt/intel_engine_types.h
->>> index 86302e6d86b2..e2b5cda6dbc4 100644
->>> --- a/drivers/gpu/drm/i915/gt/intel_engine_types.h
->>> +++ b/drivers/gpu/drm/i915/gt/intel_engine_types.h
->>> @@ -389,6 +389,8 @@ struct intel_engine_cs {
->>>    	void		(*park)(struct intel_engine_cs *engine);
->>>    	void		(*unpark)(struct intel_engine_cs *engine);
->>> +	void		(*bump_serial)(struct intel_engine_cs *engine);
->>> +
->>>    	void		(*set_default_submission)(struct intel_engine_cs *engine);
->>>    	const struct intel_context_ops *cops;
->>> diff --git a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
->>> index ae12d7f19ecd..02880ea5d693 100644
->>> --- a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
->>> +++ b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
->>> @@ -3199,6 +3199,11 @@ static void execlists_release(struct intel_engine_cs *engine)
->>>    	lrc_fini_wa_ctx(engine);
->>>    }
->>> +static void execlist_bump_serial(struct intel_engine_cs *engine)
->>> +{
->>> +	engine->serial++;
->>> +}
->>> +
->>>    static void
->>>    logical_ring_default_vfuncs(struct intel_engine_cs *engine)
->>>    {
->>> @@ -3208,6 +3213,7 @@ logical_ring_default_vfuncs(struct intel_engine_cs *engine)
->>>    	engine->cops = &execlists_context_ops;
->>>    	engine->request_alloc = execlists_request_alloc;
->>> +	engine->bump_serial = execlist_bump_serial;
->>>    	engine->reset.prepare = execlists_reset_prepare;
->>>    	engine->reset.rewind = execlists_reset_rewind;
->>> diff --git a/drivers/gpu/drm/i915/gt/intel_ring_submission.c b/drivers/gpu/drm/i915/gt/intel_ring_submission.c
->>> index 14aa31879a37..39dd7c4ed0a9 100644
->>> --- a/drivers/gpu/drm/i915/gt/intel_ring_submission.c
->>> +++ b/drivers/gpu/drm/i915/gt/intel_ring_submission.c
->>> @@ -1045,6 +1045,11 @@ static void setup_irq(struct intel_engine_cs *engine)
->>>    	}
->>>    }
->>> +static void ring_bump_serial(struct intel_engine_cs *engine)
->>> +{
->>> +	engine->serial++;
->>> +}
->>> +
->>>    static void setup_common(struct intel_engine_cs *engine)
->>>    {
->>>    	struct drm_i915_private *i915 = engine->i915;
->>> @@ -1064,6 +1069,7 @@ static void setup_common(struct intel_engine_cs *engine)
->>>    	engine->cops = &ring_context_ops;
->>>    	engine->request_alloc = ring_request_alloc;
->>> +	engine->bump_serial = ring_bump_serial;
->>>    	/*
->>>    	 * Using a global execution timeline; the previous final breadcrumb is
->>> diff --git a/drivers/gpu/drm/i915/gt/mock_engine.c b/drivers/gpu/drm/i915/gt/mock_engine.c
->>> index bd005c1b6fd5..97b10fd60b55 100644
->>> --- a/drivers/gpu/drm/i915/gt/mock_engine.c
->>> +++ b/drivers/gpu/drm/i915/gt/mock_engine.c
->>> @@ -292,6 +292,11 @@ static void mock_engine_release(struct intel_engine_cs *engine)
->>>    	intel_engine_fini_retire(engine);
->>>    }
->>> +static void mock_bump_serial(struct intel_engine_cs *engine)
->>> +{
->>> +	engine->serial++;
->>> +}
->>> +
->>>    struct intel_engine_cs *mock_engine(struct drm_i915_private *i915,
->>>    				    const char *name,
->>>    				    int id)
->>> @@ -318,6 +323,7 @@ struct intel_engine_cs *mock_engine(struct drm_i915_private *i915,
->>>    	engine->base.cops = &mock_context_ops;
->>>    	engine->base.request_alloc = mock_request_alloc;
->>> +	engine->base.bump_serial = mock_bump_serial;
->>>    	engine->base.emit_flush = mock_emit_flush;
->>>    	engine->base.emit_fini_breadcrumb = mock_emit_breadcrumb;
->>>    	engine->base.submit_request = mock_submit_request;
->>> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
->>> index dc79d287c50a..f0e5731bcef6 100644
->>> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
->>> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
->>> @@ -1500,6 +1500,20 @@ static void guc_release(struct intel_engine_cs *engine)
->>>    	lrc_fini_wa_ctx(engine);
->>>    }
->>> +static void guc_bump_serial(struct intel_engine_cs *engine)
->>> +{
->>> +	engine->serial++;
->>> +}
->>> +
->>> +static void virtual_guc_bump_serial(struct intel_engine_cs *engine)
->>> +{
->>> +	struct intel_engine_cs *e;
->>> +	intel_engine_mask_t tmp, mask = engine->mask;
->>> +
->>> +	for_each_engine_masked(e, engine->gt, mask, tmp)
->>> +		e->serial++;
->>> +}
->>> +
->>>    static void guc_default_vfuncs(struct intel_engine_cs *engine)
->>>    {
->>>    	/* Default vfuncs which can be overridden by each engine. */
->>> @@ -1508,6 +1522,7 @@ static void guc_default_vfuncs(struct intel_engine_cs *engine)
->>>    	engine->cops = &guc_context_ops;
->>>    	engine->request_alloc = guc_request_alloc;
->>> +	engine->bump_serial = guc_bump_serial;
->>>    	engine->sched_engine->schedule = i915_schedule;
->>> @@ -1843,6 +1858,7 @@ guc_create_virtual(struct intel_engine_cs **siblings, unsigned int count)
->>>    	ve->base.cops = &virtual_guc_context_ops;
->>>    	ve->base.request_alloc = guc_request_alloc;
->>> +	ve->base.bump_serial = virtual_guc_bump_serial;
->>>    	ve->base.submit_request = guc_submit_request;
->>> diff --git a/drivers/gpu/drm/i915/i915_request.c b/drivers/gpu/drm/i915/i915_request.c
->>> index 9542a5baa45a..127d60b36422 100644
->>> --- a/drivers/gpu/drm/i915/i915_request.c
->>> +++ b/drivers/gpu/drm/i915/i915_request.c
->>> @@ -692,7 +692,9 @@ bool __i915_request_submit(struct i915_request *request)
->>>    				     request->ring->vaddr + request->postfix);
->>>    	trace_i915_request_execute(request);
->>> -	engine->serial++;
->>> +	if (engine->bump_serial)
->>> +		engine->bump_serial(engine);
->>> +
->>>    	result = true;
->>>    	GEM_BUG_ON(test_bit(I915_FENCE_FLAG_ACTIVE, &request->fence.flags));
->>>
