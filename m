@@ -1,56 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54D893912D4
-	for <lists+dri-devel@lfdr.de>; Wed, 26 May 2021 10:48:13 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 729F93912D9
+	for <lists+dri-devel@lfdr.de>; Wed, 26 May 2021 10:48:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B0A5C6EC4E;
-	Wed, 26 May 2021 08:48:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 361C56EC57;
+	Wed, 26 May 2021 08:48:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com
- [IPv6:2a00:1450:4864:20::431])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F2F5D6EC2F
- for <dri-devel@lists.freedesktop.org>; Wed, 26 May 2021 08:47:58 +0000 (UTC)
-Received: by mail-wr1-x431.google.com with SMTP id j14so208317wrq.5
- for <dri-devel@lists.freedesktop.org>; Wed, 26 May 2021 01:47:58 -0700 (PDT)
+Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com
+ [IPv6:2a00:1450:4864:20::32f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D7E506EC3D
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 May 2021 08:47:59 +0000 (UTC)
+Received: by mail-wm1-x32f.google.com with SMTP id
+ f6-20020a1c1f060000b0290175ca89f698so15003741wmf.5
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 May 2021 01:47:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=sC3mIdqFUsQKIxXxCz1K8xBUphxh36SrzQvqXPDvpPY=;
- b=aQRUeFJ1Tv1TRs3shdu+bDGiWPbu0Zzno+WGQszWxUGJrQAFFO4Bx7nN5H7ytxpqA+
- F/dewoVbjvrsn93ZK0fud4nAn9F3KsxZV1HrGheZo4fAlX5hoo15avmNOpo9FC2EnPz/
- qOr/d8N9/wGdnA0p8Kjjr5NsBv6h1SwZmOY8phgTCG//0mK+a0UUCuEptCNU0e8EZY/2
- Ogj27ozvQkDi69ClBZ61X/HPJzp9bMXUFqaGRewYXIs3J3aoKsH6fqXykFkl3ENbdy8/
- /VP3GdF1/mDCHVlOAdbDfCELpVP8ZIumK+upV4e/EzDE4CQfjGSgtHfxTwIHfLoy/JFH
- hCKw==
+ bh=S4QyaYMBoYLFq2bECv9NcJDq+15DdDgMC7JcY/MSiHQ=;
+ b=fXxjutAewkRO+ZLRFdPFIkDYQiq3FT1tAjQZAeRDdOi4gzVrCmRz0EfHowF5wmGIU9
+ 76vEzlODufv7/xzX4bFcjjaMBHWtnsp2o7aAGyOFJ7MydqdwBDVUs/dLiJTM3EtuT8Em
+ nCwY5anBY4yFKKFiGHIQ9c3tybiUDbB/7KSUXRf2hhUT6fuzjMgqPvpLKUdwhnU3RJT2
+ UIYYzMdHkXpCOU3/HF600gA0TktxLAoTIs5uifm8CpVMWcIDlV1SHWjVczPC3CLkGneU
+ bWE8SoL5WsEyX7ERCKdOySnTVc4ZibSovBC0Ww3mEgyzqxw5IE//bQNsh+Am+8zkHAp6
+ Wygg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=sC3mIdqFUsQKIxXxCz1K8xBUphxh36SrzQvqXPDvpPY=;
- b=NEi8Y17XX8EuNQXfiFdZcBjaof1fULW1Pf8mG3oBmj+SOz5KIUtb90A6SfPRX1y4Zk
- xgD86SzXB0YlZ7ZPoaHT694xmwnVK1Z1OCI3wV2pgMP87Z3jtyfyxu4GjrUZxqZOjL2b
- fBqZqL1S3ie+UilBW1EdoqLRolJZxQVgXsSKHel5+KEV2H3qoYlHIR631U/Q2fL0VxKn
- yTTCt2XPvuZ4aaGoDDkvw0ZepaVia5AhZgzuj3xkIx344oYa01aS4D92bOAg536H+kDP
- bXYWQw8TwDZxRprOMwrNZya2d2avvB8FnN4zZCJ8Az6wQgcXDtqXtGPLyS0rXfOA/a/Z
- Exmg==
-X-Gm-Message-State: AOAM532l/pev58SNymWLKL2nutMZMxpXJiwBzvAxfV+97pqq3cDN3CfO
- EjOlH96GQou/B5DMl/aDFjE/eA==
-X-Google-Smtp-Source: ABdhPJw61xLRdH4uwzLeGWvPWeOtGI2LITlVIBm3U1j6M4H/najTyZjmdkW3FJGtjqnGJdHffJ1EXQ==
-X-Received: by 2002:a5d:52ce:: with SMTP id r14mr17259894wrv.395.1622018877614; 
- Wed, 26 May 2021 01:47:57 -0700 (PDT)
+ bh=S4QyaYMBoYLFq2bECv9NcJDq+15DdDgMC7JcY/MSiHQ=;
+ b=NVTSqXz7KngAGO/0rtBbtCP3SYMCMXyQ5a/Du+m8tX8aYzrOShZxc6YdjcewdqtJx4
+ nH1jVua3CCqyxfWjm9fY+nWsxmaH2/kBcK3Jf0J0EOCLtnaGKOPWD6D8Mokuw84soj4f
+ o6x5mJHhbdclKLWe/2Usv4vZmHPIyBXlAyhSX3jOxhC2iZnzWHaVXrKe4hm7m5yySfzm
+ SbenMOJAc8Uv3v/tp5oeE6txeKTkYZMmlmIqr+4fkEkvTqlXtVpROEGnq1F+uwFYGe33
+ e9J+MatatJ6EwX5VrB7NANoSq1bzfV/ZuROhpybaHvYDCFUZFHpjm0L6dKiZvoos1ftl
+ 7CaA==
+X-Gm-Message-State: AOAM531Eyq17eNy+PHk2SWaDbRP/3gd3VjUAw6hOCIB9jVBBQP0fsZBY
+ KmBot4rCxbV+8sBfKtbwyWvnBQ==
+X-Google-Smtp-Source: ABdhPJz0R2q9qd/5Z7jEN9eSA7NhHE1G25V1HtYeDCHeYnc83zadalbGt3yZ6CpynG6ngnVoAJwk4w==
+X-Received: by 2002:a7b:c446:: with SMTP id l6mr2225001wmi.75.1622018878547;
+ Wed, 26 May 2021 01:47:58 -0700 (PDT)
 Received: from dell.default ([91.110.221.223])
- by smtp.gmail.com with ESMTPSA id l18sm18911918wrt.97.2021.05.26.01.47.56
+ by smtp.gmail.com with ESMTPSA id l18sm18911918wrt.97.2021.05.26.01.47.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 26 May 2021 01:47:57 -0700 (PDT)
+ Wed, 26 May 2021 01:47:58 -0700 (PDT)
 From: Lee Jones <lee.jones@linaro.org>
 To: lee.jones@linaro.org
-Subject: [PATCH 26/34] drm/xlnx/zynqmp_dp: Fix incorrectly name function
- 'zynqmp_dp_train()'
-Date: Wed, 26 May 2021 09:47:18 +0100
-Message-Id: <20210526084726.552052-27-lee.jones@linaro.org>
+Subject: [PATCH 27/34] drm/ttm/ttm_tt: Demote non-conformant kernel-doc header
+Date: Wed, 26 May 2021 09:47:19 +0100
+Message-Id: <20210526084726.552052-28-lee.jones@linaro.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210526084726.552052-1-lee.jones@linaro.org>
 References: <20210526084726.552052-1-lee.jones@linaro.org>
@@ -68,44 +68,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Hyun Kwon <hyun.kwon@xilinx.com>, David Airlie <airlied@linux.ie>,
- Michal Simek <michal.simek@xilinx.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- linux-arm-kernel@lists.infradead.org
+Cc: David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Huang Rui <ray.huang@amd.com>,
+ Christian Koenig <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Fixes the following W=1 kernel build warning(s):
 
- drivers/gpu/drm/xlnx/zynqmp_dp.c:806: warning: expecting prototype for zynqmp_dp_link_train(). Prototype was for zynqmp_dp_train() instead
+ drivers/gpu/drm/ttm/ttm_tt.c:398: warning: Function parameter or member 'num_pages' not described in 'ttm_tt_mgr_init'
+ drivers/gpu/drm/ttm/ttm_tt.c:398: warning: Function parameter or member 'num_dma32_pages' not described in 'ttm_tt_mgr_init'
 
-Cc: Hyun Kwon <hyun.kwon@xilinx.com>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Christian Koenig <christian.koenig@amd.com>
+Cc: Huang Rui <ray.huang@amd.com>
 Cc: David Airlie <airlied@linux.ie>
 Cc: Daniel Vetter <daniel@ffwll.ch>
-Cc: Michal Simek <michal.simek@xilinx.com>
-Cc: Philipp Zabel <p.zabel@pengutronix.de>
 Cc: dri-devel@lists.freedesktop.org
-Cc: linux-arm-kernel@lists.infradead.org
 Signed-off-by: Lee Jones <lee.jones@linaro.org>
 ---
- drivers/gpu/drm/xlnx/zynqmp_dp.c | 2 +-
+ drivers/gpu/drm/ttm/ttm_tt.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/xlnx/zynqmp_dp.c b/drivers/gpu/drm/xlnx/zynqmp_dp.c
-index 82430ca9b9133..a1055d5055eab 100644
---- a/drivers/gpu/drm/xlnx/zynqmp_dp.c
-+++ b/drivers/gpu/drm/xlnx/zynqmp_dp.c
-@@ -797,7 +797,7 @@ static int zynqmp_dp_link_train_ce(struct zynqmp_dp *dp)
- }
+diff --git a/drivers/gpu/drm/ttm/ttm_tt.c b/drivers/gpu/drm/ttm/ttm_tt.c
+index 539e0232cb3b4..682c840c9a517 100644
+--- a/drivers/gpu/drm/ttm/ttm_tt.c
++++ b/drivers/gpu/drm/ttm/ttm_tt.c
+@@ -415,7 +415,7 @@ DEFINE_SHOW_ATTRIBUTE(ttm_tt_debugfs_shrink);
+ #endif
  
- /**
-- * zynqmp_dp_link_train - Train the link
-+ * zynqmp_dp_train - Train the link
-  * @dp: DisplayPort IP core structure
+ 
+-/**
++/*
+  * ttm_tt_mgr_init - register with the MM shrinker
   *
-  * Return: 0 if all trains are done successfully, or corresponding error code.
+  * Register with the MM shrinker for swapping out BOs.
 -- 
 2.31.1
 
