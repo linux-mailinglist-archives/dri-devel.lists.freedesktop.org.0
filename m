@@ -2,58 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24DED391BBD
-	for <lists+dri-devel@lfdr.de>; Wed, 26 May 2021 17:24:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E041391C09
+	for <lists+dri-devel@lfdr.de>; Wed, 26 May 2021 17:31:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 661EF6E881;
-	Wed, 26 May 2021 15:24:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 17A386E3F5;
+	Wed, 26 May 2021 15:31:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb31.google.com (mail-yb1-xb31.google.com
- [IPv6:2607:f8b0:4864:20::b31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A269C6E881
- for <dri-devel@lists.freedesktop.org>; Wed, 26 May 2021 15:24:18 +0000 (UTC)
-Received: by mail-yb1-xb31.google.com with SMTP id e10so965613ybb.7
- for <dri-devel@lists.freedesktop.org>; Wed, 26 May 2021 08:24:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=jlekstrand-net.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=TmrTb+Ehiv7eTBC5zEDgXPDQL3zkRtUsXRYHjqyOV+w=;
- b=io4n8ACOsLiusArOxZqacyXhvz6jGYuoXAyk9I/DtUt46dtO0bt5jm0oOCUu7MsQHx
- DKeSBRvtJsTOslbtaQEco9WJK6LxB6EmFiObVlKyixqdtwLDP6Ey8NkNUkMSyBsox9LM
- 6Z1DpS3RlDlvvGch3r3dwsrVxRXZlmydsqrbyza+erFrFIT4OCZzQ2SfNWfQb7jRJZEZ
- 9lLAS+jTLH6l1h8Oc208NXnIt+PsgYcHGFcE/XhF6PgbzXSpTaAtlpXUM5e/T+gHD2QM
- aKo8b9O5cVrBRLZRxdBD0/wNyWp/A3s9RzyTZFPgD3rz5YzvUX1PFi9r7NJvD5JMD/6l
- algQ==
+Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com
+ [IPv6:2a00:1450:4864:20::330])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9368E6E5AE
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 May 2021 15:31:05 +0000 (UTC)
+Received: by mail-wm1-x330.google.com with SMTP id
+ f6-20020a1c1f060000b0290175ca89f698so767469wmf.5
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 May 2021 08:31:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=RB2ZWVJP4SRB/tEOtf84RYCzItdRRncT9gVbFIJersM=;
+ b=jUTaxs8wkvnpXVTo9NGd5DMUK4X7BLiCyc7IkcBcpKdpg2cu7cMaQnUlj3U1L2HHwj
+ T0gIFLpPA+Id87xr9rm5QT1CzseB6PnvWpzV9jqu7FlYFQ1QqMcvYhJrbcjTkUTVzWXy
+ sFen1l8p0mM4diskaTrZbyo2hBW2GRwQrucwA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=TmrTb+Ehiv7eTBC5zEDgXPDQL3zkRtUsXRYHjqyOV+w=;
- b=gR1S3av4cMtzoKuE1iTPzdaBEu54O2jZNwTEoCpkxAaadUrER9l6zrRYxhqkTnowST
- Z8i/e4VvVsehI8KQxFtEAk3YDpyTkMjWVMedyrp1WoZhz/uToHhSs3yWP7WVdoCeb/o9
- QkwEVev4D+tzGB6ZYWYhTd+J3fxkl5POFGQAxpMBJmy+rfwvdXUNxAyHECSihvb+/WR+
- cUUMJGvcZe1Sg9BU+gAS+ze4f55yiQ9VgKJcaCMfANKqJIsUbjTxVUxe+ebVna1L1C6+
- Qt4TC8eP7q9lsLksF0JNL28Ld6f7FDvD53rW20o5HzQOQqZqbzjlifPiErsuIQJ6h2Nv
- WRmQ==
-X-Gm-Message-State: AOAM531cx6EeieXpajuWJqAN/5D7LiBVO6gag9KWhMMo2G79bpG0vVXZ
- 6SauEvHOaw4YGRy3QoRN5UP1AIH3Vmi54ERX6TkIAg==
-X-Google-Smtp-Source: ABdhPJyHMECHVR+IR4INf11UAe26nU7Cqt3hW3ehmOEtWydmd3daWv0ZpHEPpfmHIie6SQ4zC/R9j1sfQIUuosIuYFc=
-X-Received: by 2002:a25:81c5:: with SMTP id n5mr34582750ybm.323.1622042657101; 
- Wed, 26 May 2021 08:24:17 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=RB2ZWVJP4SRB/tEOtf84RYCzItdRRncT9gVbFIJersM=;
+ b=EcbCjIhXh04t5ftDrz315dwGCfKK0uk6lb8MabPE92QtLFzHXZwbXjfe95f9YdKde7
+ mGuqulSyE70W4E7uFyXbcwai58brkGsNgxHg7snr2B6HPVR76UvXA6pFzzSn3FFOre1H
+ X2UpEJrY2CSl3bnJv1h7ZeuvVBGpvnsa6IMFB55ZQVrC8CUdrL+SQ6heBNrDDS/FgarR
+ 1O/UOVzm78NYjzOPbi9OIwYrJV4H/lnogOdX210YlTCuRWIPwF3vvNgUmARNjxuHWqYo
+ r+ciafO6atYZDZI+EY6zErHncBd90MJxWHXm2WdwotTjngDRnkl62ZGoPPIH/cZ4tXMp
+ ud0w==
+X-Gm-Message-State: AOAM532Lo18nGwkEHg2sTKXJzbo0pjieMstIYt3JY94yZxxWIpCh4rd5
+ yhVeO8ja1lDBqtbdcrCtpyJiLMwdlnRuiw==
+X-Google-Smtp-Source: ABdhPJylB8/u0/JgesRvpK4QDmT4zR+S8J7rFzGdL/nnmwm9hzw9d8oFiUjh4Sdh2XdASIpILFY8ZA==
+X-Received: by 2002:a1c:7f86:: with SMTP id a128mr28929956wmd.20.1622043064306; 
+ Wed, 26 May 2021 08:31:04 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id h15sm14965458wmq.1.2021.05.26.08.31.03
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 26 May 2021 08:31:03 -0700 (PDT)
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
+To: Intel Graphics Development <intel-gfx@lists.freedesktop.org>
+Subject: [PATCH] drm/i915: Use generic_access_phys
+Date: Wed, 26 May 2021 17:30:58 +0200
+Message-Id: <20210526153058.3392996-1-daniel.vetter@ffwll.ch>
+X-Mailer: git-send-email 2.31.0
+In-Reply-To: <20210526151106.3390006-1-daniel.vetter@ffwll.ch>
+References: <20210526151106.3390006-1-daniel.vetter@ffwll.ch>
 MIME-Version: 1.0
-References: <20210520190007.534046-1-jason@jlekstrand.net>
- <20210520190007.534046-5-jason@jlekstrand.net>
- <CAPj87rPW2xmOLKg6OgQST6QrH9u5-qmdRJrNDug+rWa=Uv6ZBQ@mail.gmail.com>
- <CAOFGe97b-djqwV95Y91xe9-ZVUyeGqjdPE8vj7MoSfV0Kcrp1Q@mail.gmail.com>
- <CAPj87rNJTHNKkdiZREVb8v6iiwUhYLXW10pjVOdV=zttd+tG3Q@mail.gmail.com>
-In-Reply-To: <CAPj87rNJTHNKkdiZREVb8v6iiwUhYLXW10pjVOdV=zttd+tG3Q@mail.gmail.com>
-From: Jason Ekstrand <jason@jlekstrand.net>
-Date: Wed, 26 May 2021 10:24:05 -0500
-Message-ID: <CAOFGe95TZRw=ZpSwOKpwcxkxP_JRmEXpJn_26OS2ZPH0Mp5Kyg@mail.gmail.com>
-Subject: Re: [PATCH 4/4] RFC: dma-buf: Add an API for importing sync files (v6)
-To: Daniel Stone <daniel@fooishbar.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,110 +66,131 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@intel.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- dri-devel <dri-devel@lists.freedesktop.org>
+Cc: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Chris Wilson <chris@chris-wilson.co.uk>,
+ Jon Bloomfield <jon.bloomfield@intel.com>,
+ Daniel Vetter <daniel.vetter@intel.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Michel Lespinasse <walken@google.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, May 26, 2021 at 6:09 AM Daniel Stone <daniel@fooishbar.org> wrote:
-> On Mon, 24 May 2021 at 18:11, Jason Ekstrand <jason@jlekstrand.net> wrote:
-> >  3. Userspace memory fences.
-> >
-> > Note that timeline syncobj is NOT in that list.  IMO, all the "wait
-> > for submit" stuff is an implementation detail we needed in order to
-> > get the timeline semantics on top of immutable SW fences.  Under the
-> > hood it's all dma_fence; this just gives us a shareable container so
-> > we can implement VK_KHR_timeline_semaphore with sharing.  I really
-> > don't want to make Wayland protocol around it if memory fences are the
-> > final solution.
->
-> Typing out the Wayland protocol isn't the hard bit. If we just need to
-> copy and sed syncobj to weirdsyncobj, no problem really, and it gives
-> us a six-month head start on painful compositor-internal surgery
-> whilst we work on common infrastructure to ship userspace fences
-> around (mappable dmabuf with the sync bracketing? FD where every
-> read() gives you the current value? memfd? other?).
+Since
 
-I feel like I should elaborate more about timelines.  In my earlier
-reply, my commentary about timeline syncobj was mostly focused around
-helping people avoid typing.  That's not really the full story,
-though, and I hope more context will help.
+commit 96667f8a4382db9ed042332ca6ee165ae9b91307
+Author: Daniel Vetter <daniel.vetter@ffwll.ch>
+Date:   Fri Nov 27 17:41:21 2020 +0100
 
-First, let me say that timeline syncobj was designed as a mechanism to
-implement VK_KHR_timeline_semaphore without inserting future fences
-into the kernel.  It's entirely designed around the needs of Vulkan
-drivers, not really as a window-system primitive.  The semantics are
-designed around one driver communicating to another that new fences
-have been added and it's safe to kick off more rendering.  I'm not
-convinced that it's the right object for window-systems and I'm also
-not convinced that it's a good idea to try and make a version of it
-that's a wrapper around a userspace memory fence.  (I'm going to start
-typing UMF for userspace memory fence because it's long to type out.)
+    mm: Close race in generic_access_phys
 
-Why?  Well, the fundamental problem with timelines in general is
-trying to figure out when it's about to be done.  But timeline syncobj
-solves this for us!  It gives us this fancy super-useful ioctl!
-Right?  Uh.... not as well as I'd like.  Let's say we make a timeline
-syncobj that's a wrapper around a userspace memory fence.  What do we
-do with that ioctl?  As I mentioned above, the kernel doesn't have any
-clue when it will be triggered so that ioctl turns into an actual
-wait.  That's no good because it creates unnecessary stalls.
+it is race-free and can therefore be safely used for dynamic mappings
+like we have too.
 
-There's another potential solution here:  Have each UMF be two
-timelines: submitted and completed.  At the start of every batch
-that's supposed to trigger a UMF, we set the "submitted" side and
-then, when it completes, we set the "completed" side.  Ok, great, now
-we can get at the "about to be done" with the submitted side,
-implement the ioctl, and we're all good, right?  Sadly, no.  There's
-no guarantee about how long a "batch" takes.  So there's no universal
-timeout the kernel can apply.  Also, if it does time out, the kernel
-doesn't know who to blame for the timeout and how to prevent itself
-from getting in trouble again.  The compositor does so, in theory,
-given the right ioctls, it could detect the -ETIME and kill that
-client.  Not a great solution.
+v2 git commit --amend
 
-The best option I've been able to come up with for this is some sort
-of client-provided signal.  Something where it says, as part of submit
-or somewhere else, "I promise I'll be done soon" where that promise
-comes with dire consequences if it's not.  At that point, we can turn
-the UMF and a particular wait value into a one-shot fence like a
-dma_fence or sync_file, or signal a syncobj on it.  If it ever times
-out, we kick their context.  In Vulkan terminology, they get
-VK_ERROR_DEVICE_LOST.  There are two important bits here:  First, is
-that it's based on a client-provided thing.  With a fully timeline
-model and wait-before-signal, we can't infer when something is about
-to be done.  Only the client knows when it submitted its last node in
-the dependency graph and the whole mess is unblocked.  Second, is that
-the dma_fence is created within the client's driver context.  If it's
-created compositor-side, the kernel doesn't know who to blame if
-things go badly.  If we create it in the client, it's pretty easy to
-make context death on -ETIME part of the contract.
+*sigh*
 
-(Before danvet jumps in here and rants about how UMF -> dma_fence
-isn't possible, I haven't forgotten.  I'm pretending, for now, that
-we've solved some of those problems.)
+Cc: Jon Bloomfield <jon.bloomfield@intel.com>
+Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: "Thomas Hellström" <thomas.hellstrom@linux.intel.com>
+Cc: Chris Wilson <chris@chris-wilson.co.uk>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>
+Cc: "Christian König" <christian.koenig@amd.com>
+Cc: "Ville Syrjälä" <ville.syrjala@linux.intel.com>
+Cc: Michel Lespinasse <walken@google.com>
+---
+ drivers/gpu/drm/i915/gem/i915_gem_mman.c | 60 +++---------------------
+ 1 file changed, 6 insertions(+), 54 deletions(-)
 
-Another option is to just stall on the UMF until it's done.  Yeah,
-kind-of terrible and high-latency, but it always works and doesn't
-involve any complex logic to kill clients.  If a client never gets
-around to signaling a fence, it just never repaints.  The compositor
-keeps going like nothing's wrong.  Maybe, if the client submits lots
-of frames without ever triggering, it'll hit some max queue depth
-somewhere and kill it but that's it.  More likely, the client's
-vkAcquireNextImage will start timing out and it'll crash.
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_mman.c b/drivers/gpu/drm/i915/gem/i915_gem_mman.c
+index f6fe5cb01438..16a059d54bda 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_mman.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_mman.c
+@@ -414,58 +414,6 @@ static vm_fault_t vm_fault_gtt(struct vm_fault *vmf)
+ 	return i915_error_to_vmf_fault(ret);
+ }
+ 
+-static int
+-vm_access(struct vm_area_struct *area, unsigned long addr,
+-	  void *buf, int len, int write)
+-{
+-	struct i915_mmap_offset *mmo = area->vm_private_data;
+-	struct drm_i915_gem_object *obj = mmo->obj;
+-	struct i915_gem_ww_ctx ww;
+-	void *vaddr;
+-	int err = 0;
+-
+-	if (i915_gem_object_is_readonly(obj) && write)
+-		return -EACCES;
+-
+-	addr -= area->vm_start;
+-	if (addr >= obj->base.size)
+-		return -EINVAL;
+-
+-	i915_gem_ww_ctx_init(&ww, true);
+-retry:
+-	err = i915_gem_object_lock(obj, &ww);
+-	if (err)
+-		goto out;
+-
+-	/* As this is primarily for debugging, let's focus on simplicity */
+-	vaddr = i915_gem_object_pin_map(obj, I915_MAP_FORCE_WC);
+-	if (IS_ERR(vaddr)) {
+-		err = PTR_ERR(vaddr);
+-		goto out;
+-	}
+-
+-	if (write) {
+-		memcpy(vaddr + addr, buf, len);
+-		__i915_gem_object_flush_map(obj, addr, len);
+-	} else {
+-		memcpy(buf, vaddr + addr, len);
+-	}
+-
+-	i915_gem_object_unpin_map(obj);
+-out:
+-	if (err == -EDEADLK) {
+-		err = i915_gem_ww_ctx_backoff(&ww);
+-		if (!err)
+-			goto retry;
+-	}
+-	i915_gem_ww_ctx_fini(&ww);
+-
+-	if (err)
+-		return err;
+-
+-	return len;
+-}
+-
+ void __i915_gem_object_release_mmap_gtt(struct drm_i915_gem_object *obj)
+ {
+ 	struct i915_vma *vma;
+@@ -801,14 +749,18 @@ static void vm_close(struct vm_area_struct *vma)
+ 
+ static const struct vm_operations_struct vm_ops_gtt = {
+ 	.fault = vm_fault_gtt,
+-	.access = vm_access,
++#ifdef CONFIG_HAVE_IOREMAP_PROT
++	.access = generic_access_phys,
++#endif
+ 	.open = vm_open,
+ 	.close = vm_close,
+ };
+ 
+ static const struct vm_operations_struct vm_ops_cpu = {
+ 	.fault = vm_fault_cpu,
+-	.access = vm_access,
++#ifdef CONFIG_HAVE_IOREMAP_PROT
++	.access = generic_access_phys,
++#endif
+ 	.open = vm_open,
+ 	.close = vm_close,
+ };
+-- 
+2.31.0
 
-I suspect where we might actually land is some combination of the two
-depending on client choice.  If the client wants to be dumb, it gets
-the high-latency always-works path.  If the client really wants
-lowest-latency VRR, it has to take the smarter path and risk
-VK_ERROR_DEVICE_LOST if it misses too far.
-
-But the point of all of this is, neither of the above two paths have
-anything to do with the compositor calling a "wait for submit" ioctl.
-Building a design around that and baking it into protocol is, IMO, a
-mistake.  I don't see any valid way to handle this mess without "wait
-for sumbit" either not existing or existing only client-side for the
-purposes of WSI.
-
---Jason
