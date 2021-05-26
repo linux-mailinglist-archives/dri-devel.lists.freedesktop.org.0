@@ -1,38 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84FD3391444
-	for <lists+dri-devel@lfdr.de>; Wed, 26 May 2021 12:00:28 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 11A543914B0
+	for <lists+dri-devel@lfdr.de>; Wed, 26 May 2021 12:16:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F2B4E6E183;
-	Wed, 26 May 2021 10:00:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1665A6EB5F;
+	Wed, 26 May 2021 10:16:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 78FD56E038;
- Wed, 26 May 2021 10:00:21 +0000 (UTC)
-IronPort-SDR: mXeJumGKHcFLJVNia4CJ2WhTq/ZIwiMA78IggLhnOR39yaVbGqh1ApiDM7IpIppMNje9YaKdCV
- L78KIV+WuZ1A==
-X-IronPort-AV: E=McAfee;i="6200,9189,9995"; a="202441420"
-X-IronPort-AV: E=Sophos;i="5.82,331,1613462400"; d="scan'208";a="202441420"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 May 2021 03:00:17 -0700
-IronPort-SDR: cVS60Yl54gJ9BmKOGe3s3OIOf3RAdKdoz1xX3rU9EmgWGQVHzyZ/f81K2zv+8VI4z1QH0HhoFv
- vD+qYXX8WBeg==
-X-IronPort-AV: E=Sophos;i="5.82,331,1613462400"; d="scan'208";a="443945073"
-Received: from wardmich-mobl.ger.corp.intel.com (HELO tursulin-mobl2.home)
- ([10.213.209.181])
- by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 May 2021 03:00:16 -0700
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-To: Intel-gfx@lists.freedesktop.org
-Subject: [PATCH] drm/i915/params: Align visibility of device level and global
- modparams
-Date: Wed, 26 May 2021 11:00:06 +0100
-Message-Id: <20210526100006.2205062-1-tvrtko.ursulin@linux.intel.com>
-X-Mailer: git-send-email 2.30.2
+X-Greylist: delayed 498 seconds by postgrey-1.36 at gabe;
+ Wed, 26 May 2021 10:16:49 UTC
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 20E646EA90
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 May 2021 10:16:49 +0000 (UTC)
+Received: from imap.suse.de (imap-alt.suse-dmz.suse.de [192.168.254.47])
+ by smtp-out1.suse.de (Postfix) with ESMTP id 56802218C1;
+ Wed, 26 May 2021 10:08:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1622023709; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=8v5fOXljCLUSYOcfLyPonHFdLdYqs/g6GNa26BWaLZI=;
+ b=0tRgjM5uR/kU0drz/3SDY1jJAdNDJf+u2edms7s4ERpXpTKKynS0tWx5sEBO+VnIV66eAi
+ 1c7RyGIQR6KqSsI1Fs1IDcVf3WUKqUFqH04Hr4a84qjloJ299wbseHdDA4I8WW5hVC1ImU
+ Xr2eEYw1EA7IOgVKPS8tAiAY7BOxcKg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1622023709;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=8v5fOXljCLUSYOcfLyPonHFdLdYqs/g6GNa26BWaLZI=;
+ b=pDX/dmZLeIux4WDwc39HikIiahUvp5F+P93JCWcvXxNwj8PWDzG3sB073OnKQo2kXVAK3v
+ zVTBrUs6ZojZzLAQ==
+Received: from director2.suse.de (director2.suse-dmz.suse.de [192.168.254.72])
+ by imap.suse.de (Postfix) with ESMTPSA id 227B111A98;
+ Wed, 26 May 2021 10:08:29 +0000 (UTC)
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@linux.ie,
+ daniel@ffwll.ch
+Subject: [PATCH] drm/kconfig: Remove unused select of DRM_KMS_FB_HELPER
+Date: Wed, 26 May 2021 12:08:25 +0200
+Message-Id: <20210526100825.29450-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -47,52 +55,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Geert Uytterhoeven <geert@linux-m68k.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+The option DRM_KMS_FB_HELPER has been removed. Also remove the last
+remaining select statement for it.
 
-We have a few modparams which get conditionaly exposed based on a Kconfig
-options and in most cases this also means portions of the driver
-implementing the respective feature are also left out.
-
-Align the visibility of device level and global modparams to make them
-consistent in this respect.
-
-Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-Jani Nikula <jani.nikula@intel.com>
+Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+Fixes: 91185d55b32e ("drm: Remove DRM_KMS_FB_HELPER Kconfig option")
+Reported-by: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Cc: Maxime Ripard <mripard@kernel.org>
+Cc: David Airlie <airlied@linux.ie>
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org
 ---
- drivers/gpu/drm/i915/i915_params.h | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/Kconfig | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/i915/i915_params.h b/drivers/gpu/drm/i915/i915_params.h
-index 14cd64cc61d0..dee1db50c31a 100644
---- a/drivers/gpu/drm/i915/i915_params.h
-+++ b/drivers/gpu/drm/i915/i915_params.h
-@@ -71,18 +71,18 @@ struct drm_printer;
- 	param(int, fastboot, -1, 0600) \
- 	param(int, enable_dpcd_backlight, -1, 0600) \
- 	param(char *, force_probe, CONFIG_DRM_I915_FORCE_PROBE, 0400) \
--	param(unsigned long, fake_lmem_start, 0, 0400) \
--	param(unsigned int, request_timeout_ms, CONFIG_DRM_I915_REQUEST_TIMEOUT, 0600) \
-+	param(unsigned long, fake_lmem_start, 0, IS_ENABLED(CONFIG_DRM_I915_UNSTABLE_FAKE_LMEM ? 0400 : 0)) \
-+	param(unsigned int, request_timeout_ms, CONFIG_DRM_I915_REQUEST_TIMEOUT, CONFIG_DRM_I915_REQUEST_TIMEOUT ? 0600 : 0) \
- 	/* leave bools at the end to not create holes */ \
- 	param(bool, enable_hangcheck, true, 0600) \
- 	param(bool, load_detect_test, false, 0600) \
- 	param(bool, force_reset_modeset_test, false, 0600) \
--	param(bool, error_capture, true, 0600) \
-+	param(bool, error_capture, true, IS_ENABLED(CONFIG_DRM_I915_CAPTURE_ERROR) ? 0600 : 0) \
- 	param(bool, disable_display, false, 0400) \
- 	param(bool, verbose_state_checks, true, 0) \
- 	param(bool, nuclear_pageflip, false, 0400) \
- 	param(bool, enable_dp_mst, true, 0600) \
--	param(bool, enable_gvt, false, 0400)
-+	param(bool, enable_gvt, false, IS_ENABLED(CONFIG_DRM_I915_GVT) ? 0400 : 0)
- 
- #define MEMBER(T, member, ...) T member;
- struct i915_params {
+diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
+index d3a9ca4b1cec..594ac6c3a1f4 100644
+--- a/drivers/gpu/drm/Kconfig
++++ b/drivers/gpu/drm/Kconfig
+@@ -99,7 +99,6 @@ config DRM_FBDEV_EMULATION
+ 	bool "Enable legacy fbdev support for your modesetting driver"
+ 	depends on DRM
+ 	select DRM_KMS_HELPER
+-	select DRM_KMS_FB_HELPER
+ 	select FB
+ 	select FB_CFB_FILLRECT
+ 	select FB_CFB_COPYAREA
 -- 
-2.30.2
+2.31.1
 
