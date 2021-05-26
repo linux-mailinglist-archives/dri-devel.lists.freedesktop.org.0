@@ -2,54 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8F0C390E41
-	for <lists+dri-devel@lfdr.de>; Wed, 26 May 2021 04:22:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21253390E44
+	for <lists+dri-devel@lfdr.de>; Wed, 26 May 2021 04:23:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 973596E450;
-	Wed, 26 May 2021 02:22:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CB5B56EB66;
+	Wed, 26 May 2021 02:23:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x330.google.com (mail-ot1-x330.google.com
- [IPv6:2607:f8b0:4864:20::330])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5AB6D6E450;
- Wed, 26 May 2021 02:22:17 +0000 (UTC)
-Received: by mail-ot1-x330.google.com with SMTP id
- r26-20020a056830121ab02902a5ff1c9b81so30592823otp.11; 
- Tue, 25 May 2021 19:22:17 -0700 (PDT)
+Received: from mail-oi1-x22c.google.com (mail-oi1-x22c.google.com
+ [IPv6:2607:f8b0:4864:20::22c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DF8AD6E471;
+ Wed, 26 May 2021 02:23:30 +0000 (UTC)
+Received: by mail-oi1-x22c.google.com with SMTP id y76so82755oia.6;
+ Tue, 25 May 2021 19:23:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=hvI7375sAkKcChvvslqREIoXOyYLnpK4a1vj3LvtRkc=;
- b=io5S6cEd5vYle/8rpiPzbpFcT4L14NSz4PRFcu2TQ6AGS10Yk1wDIbKz8VZE2DNYQq
- Taj6xAvsZYC/dBRA2M7kt2oqHy7OI5PaNxSI1sbIJiMfPJ4U9pD++plRG+pMXN7QZTTn
- 2DgiAvaKwyKnuD/zSCvt68b1OblaKOKJtgyXMLlqRe1hTAkHLV2lcfLCN18ezZ52+wvp
- l/7m7nWBBYaj3AlO5paGEUQU1q8/jIdLs/Ho3SGyFenZMixonfW30FylQXr3o6/2yXrs
- Poz6QPMbPKHXng93z2FXNwl6ZMRBNHXTh3VuwZD+1afT//7yRRTXLl73cY+9vADN72GA
- pDCQ==
+ :cc:content-transfer-encoding;
+ bh=D7TryFyV+eLaRQPE4j490XHNdMtGWKF1gYzaD13cJNU=;
+ b=TVE1+KH60aAJDxWS1E4vLRcQK+0VEUSKdAPjIHcWaG1OwdjbalLO/lcZyWqgGTZxaK
+ lD4+Fy2qu4K6DA2mDEHKyrFxqtltV7RXrZ+FUa1OpE0PN7XZZYWsr3QTb/KiTjVtodlK
+ Kf7e1oTT/xgYCegrwUyxl4uQiGwfwfzO61L1ukuMfUqbCh9BpDq/31mOZdDmpVgRpYCp
+ 4lzVuki8Qh9BsP0qC2WUGBDbWtFQlTZi/Cxi9Mn1xfLcm993vNQN9xeckCci9saFBJOO
+ K0ZC26+D3CvMCe07KDpwZm+13pTK457D5/lYfMDTGEjAhgvqVbEC7r4JC3475oVb7dPp
+ du/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=hvI7375sAkKcChvvslqREIoXOyYLnpK4a1vj3LvtRkc=;
- b=MWZ62DkQc37eBiODkDAEnY6EFnbPuhoRHZu7oonUiZSCo4zHFExriwx3v34WIppwh+
- mUfeFNGBAS8dr6d/9Vy1r9AvWuwJaov7hS0NSxeO/RybsRNPtWofhtuuUP2uVIVO+rkk
- DFDG+3splTweJD/wECJeocDsdY55V00g5h82UeWycP6FMT0Haw50xhUZE1ksn0BvKyDb
- lnSkOzaUSzU5KBGmP/oDgSbcphCynvy2Xdcd02U8wLCxiM7++yQTmxqNS5Soakeuh/Uz
- I4SgMPoOjU8tpjQTu4yzvH/2F6F1b5PWlp7gBre5lLF3LGwnroBHfm0KzC+vkyABQecb
- v7pw==
-X-Gm-Message-State: AOAM5307xFqKXd1dsjCC+JTfgSj8dID5K4tuckw/paCDQCDL3Bo/K7Z6
- rG6yW9d2KTvB8Zrm90FvHzA4zL92jlDGpezajkc=
-X-Google-Smtp-Source: ABdhPJzDoZzNrV06ItsrtLTJ8UfG4+xaYrv9sU57pNmivLMkQmdRu9xt1yRSWJBWh6adjFyKVlLHopVw+C6wmMxGR24=
-X-Received: by 2002:a9d:74c6:: with SMTP id a6mr534117otl.132.1621995736638;
- Tue, 25 May 2021 19:22:16 -0700 (PDT)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=D7TryFyV+eLaRQPE4j490XHNdMtGWKF1gYzaD13cJNU=;
+ b=iGjHO5Z+k27XtV6g1mbZfIuQZmmXiiI9k6Z4V4m5+38SCkymyeTEmtzmWJjC9MxYOn
+ vd9DqPBO6xCd7328Q5YttQvvEDv5l1FEfj0UaPzmAklPH2M++ao2QngeDDtkgG2pqF83
+ jBqGcxufm2MCdq9w7WBwlMoLhkzEWlVYA8BwGgLE02CSAC+qbz7vtwnw71dB7m15L2Ok
+ 3vxAuKmeczUr15uVB9CC0Qp7bPTRakZ+7NBaK1IWGh10KAJByU14/AS4XGSoP3wcX7TM
+ 9mYTtl7CnNFd6TgbbAX+Wbx7ZS9AhUA8vt78Tzy3v8qlJY/7AaHjnW8a5zoDE26aDybF
+ LxGg==
+X-Gm-Message-State: AOAM532K8N+Hh5JLkrv5YO4984Os4O1DJAL7XLY+3lI05vAi7UoHPmzN
+ WGvOKkXRMDAvTQwiSSa8oQD982+jd2ne0cAI0Cs=
+X-Google-Smtp-Source: ABdhPJzHUs+eGFzokNVHbrK6uFO0bv09up0cTV0ACBYAUAhnEAEJiApcU5dA04B7Xrnf10loHK9VJiigxj95QyKzXQI=
+X-Received: by 2002:a05:6808:249:: with SMTP id
+ m9mr402763oie.120.1621995810261; 
+ Tue, 25 May 2021 19:23:30 -0700 (PDT)
 MIME-Version: 1.0
-References: <1621939872-36834-1-git-send-email-zhangshaokun@hisilicon.com>
-In-Reply-To: <1621939872-36834-1-git-send-email-zhangshaokun@hisilicon.com>
+References: <1621945944-52797-1-git-send-email-zhangshaokun@hisilicon.com>
+In-Reply-To: <1621945944-52797-1-git-send-email-zhangshaokun@hisilicon.com>
 From: Alex Deucher <alexdeucher@gmail.com>
-Date: Tue, 25 May 2021 22:22:05 -0400
-Message-ID: <CADnq5_OSFosU9iSUg_Uuh0PnOQscXhEcyO9gdiF_t7S59VTvGA@mail.gmail.com>
-Subject: Re: [PATCH] drm/amd/display: Remove the repeated declaration
+Date: Tue, 25 May 2021 22:23:19 -0400
+Message-ID: <CADnq5_Ow8P-znest+-DHwejP_xyChYNTTwjsaEssVbS=pJeL4w@mail.gmail.com>
+Subject: Re: [PATCH] drm/radeon/evergreen: Remove the repeated declaration
 To: Shaokun Zhang <zhangshaokun@hisilicon.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,21 +64,21 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Leo Li <sunpeng.li@amd.com>, Alex Deucher <alexander.deucher@amd.com>,
+Cc: Alex Deucher <alexander.deucher@amd.com>,
  Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, May 25, 2021 at 6:51 AM Shaokun Zhang
+On Tue, May 25, 2021 at 8:33 AM Shaokun Zhang
 <zhangshaokun@hisilicon.com> wrote:
 >
-> Function 'dc_power_down_on_boot' is declared twice, remove the
-> repeated declaration.
+> Function 'evergreen_print_gpu_status_regs' is declared twice, remove
+> the repeated declaration.
 >
-> Cc: Harry Wentland <harry.wentland@amd.com>
-> Cc: Leo Li <sunpeng.li@amd.com>
 > Cc: Alex Deucher <alexander.deucher@amd.com>
+> Cc: "Christian K=C3=B6nig" <christian.koenig@amd.com>
 > Signed-off-by: Shaokun Zhang <zhangshaokun@hisilicon.com>
 
 Applied.  Thanks!
@@ -84,22 +86,23 @@ Applied.  Thanks!
 Alex
 
 > ---
->  drivers/gpu/drm/amd/display/dc/dc.h | 2 --
->  1 file changed, 2 deletions(-)
+>  drivers/gpu/drm/radeon/evergreen.h | 1 -
+>  1 file changed, 1 deletion(-)
 >
-> diff --git a/drivers/gpu/drm/amd/display/dc/dc.h b/drivers/gpu/drm/amd/display/dc/dc.h
-> index 100d434f7a03..d4d7996be171 100644
-> --- a/drivers/gpu/drm/amd/display/dc/dc.h
-> +++ b/drivers/gpu/drm/amd/display/dc/dc.h
-> @@ -1071,8 +1071,6 @@ bool dc_resource_is_dsc_encoding_supported(const struct dc *dc);
->   */
->  bool dc_commit_state(struct dc *dc, struct dc_state *context);
->
-> -void dc_power_down_on_boot(struct dc *dc);
-> -
->  struct dc_state *dc_create_state(struct dc *dc);
->  struct dc_state *dc_copy_state(struct dc_state *src_ctx);
->  void dc_retain_state(struct dc_state *context);
+> diff --git a/drivers/gpu/drm/radeon/evergreen.h b/drivers/gpu/drm/radeon/=
+evergreen.h
+> index 4025a4e474d1..b07befe14458 100644
+> --- a/drivers/gpu/drm/radeon/evergreen.h
+> +++ b/drivers/gpu/drm/radeon/evergreen.h
+> @@ -45,7 +45,6 @@ void sumo_rlc_fini(struct radeon_device *rdev);
+>  int sumo_rlc_init(struct radeon_device *rdev);
+>  void evergreen_gpu_pci_config_reset(struct radeon_device *rdev);
+>  u32 evergreen_get_number_of_dram_channels(struct radeon_device *rdev);
+> -void evergreen_print_gpu_status_regs(struct radeon_device *rdev);
+>  u32 evergreen_gpu_check_soft_reset(struct radeon_device *rdev);
+>  int evergreen_rlc_resume(struct radeon_device *rdev);
+>  struct evergreen_power_info *evergreen_get_pi(struct radeon_device *rdev=
+);
 > --
 > 2.7.4
 >
