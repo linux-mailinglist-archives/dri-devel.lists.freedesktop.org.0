@@ -1,61 +1,72 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63C4539162D
-	for <lists+dri-devel@lfdr.de>; Wed, 26 May 2021 13:31:54 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id ED6E039162E
+	for <lists+dri-devel@lfdr.de>; Wed, 26 May 2021 13:32:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A2A8E6EC8E;
-	Wed, 26 May 2021 11:31:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 295036EC8F;
+	Wed, 26 May 2021 11:32:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com
- [IPv6:2a00:1450:4864:20::32b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 247376EC8E
- for <dri-devel@lists.freedesktop.org>; Wed, 26 May 2021 11:31:49 +0000 (UTC)
-Received: by mail-wm1-x32b.google.com with SMTP id
- z137-20020a1c7e8f0000b02901774f2a7dc4so3179114wmc.0
- for <dri-devel@lists.freedesktop.org>; Wed, 26 May 2021 04:31:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=fooishbar-org.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=na04oW4mV9JUbUOkPBvtY3i7UUnCGjgsNBXRaPL+9HI=;
- b=kygoKcsCkhZF7xK2h2EW3cNA127jLS2NUhKSE3e+Zf8beC0blTEYuSwkSwxo451z8A
- 3OKeyFUrmZbla+5W2THkUYZFKpaQK/4lCt1kZrxp5diR8oYbmmwXtyH7btcudU5Pnxpg
- WNtzcZQy+c90Uf3a5dC++gLpbplW/FJ4oU/EjBLJE5GMMWq1PUW6KVS7rVGPX1FL69cA
- mYGJUW8ghVpdUGzAauH9ZwijCQipNwgLrdiUDjPjItBHnwXW6fjqmfVmeS4CBq8KbX6F
- TgTe10Iq4hpUNcsicb11BM8o283/yQ3BXwp6TrgdYJRm8uFMVQ9lkE/jCN1xzXcMvTMR
- 2l9A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=na04oW4mV9JUbUOkPBvtY3i7UUnCGjgsNBXRaPL+9HI=;
- b=duhfwybWPL3HvgfUym6/KsHAywETQlc3Yrv1n95nmbSgD3ou5OoM4X9zLJRwL68+dN
- MWbY9BU9SOVgapetDSES+tecuFIpEcu4jj84mpSzhNXZUxSyejAs7CDcRCXYlRt//Kq4
- 9c9K56liWejPSGBlLVxvyD+Scl3Idr+0hqBHXP5fHowX3VUrGOrBqGpp3f5/yOFuIc62
- dWe+H1cH2LET1IwVUDUfI+3wglPN/AZtUx2pRaN0l8FOestNyIu7ciwpBrBhZfBt3vnR
- Gc1aitTvo+s0CRJ52E6+P2VTs6D61W8qIisY6g6yU3GHaQUxmvaOOvGgDRvFYFK8v1A3
- A2mg==
-X-Gm-Message-State: AOAM532b2dojD6dvxrS6slgKLKgreJlgy8Bx2Yw+oC8VgacbnFYJAFe+
- OcBtSNUw/GvlIxoqyxpor3tVjZxJ0GUANAEGh+V8aW8oLuUXmg==
-X-Google-Smtp-Source: ABdhPJxZkxbaszLDV15dnDg1K+a2cwS/HjXOalgpXScXxcaMPhGlWzZALL24GqXWBGoLriEZblFHox5LuNlOVUFtjD0=
-X-Received: by 2002:a1c:7c03:: with SMTP id x3mr2975475wmc.168.1622028707726; 
- Wed, 26 May 2021 04:31:47 -0700 (PDT)
+Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com
+ [66.111.4.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E53F06EC91
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 May 2021 11:32:11 +0000 (UTC)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.nyi.internal (Postfix) with ESMTP id 43B465C01A7;
+ Wed, 26 May 2021 07:32:09 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute4.internal (MEProxy); Wed, 26 May 2021 07:32:09 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+ date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm2; bh=eYdOQWJvkGv5lYmwmsTB8/heePt
+ nDEqHSneUmgS7RZw=; b=rSN+K2lYTICaRInRng38MnLI2qgzFowVSYCXda8MmML
+ 1Azwf3UgSC+ySqtx4flMSSXXiJz2AUO3Dv9UB5VukKZImQJxftLXtbQClI03b/5C
+ aJkvommPpkoAWPVHClnp2/eBpPvBuEnuoCCfWplIGZzsRbhXK7WjIr0ualykbnE6
+ I77lF7J41Lm96/808Xe4ZDiDwIhFQNDg1okzBkQst83JLHBHPkCOIXGlff3dvy7m
+ 2heMKc4IENWQJVELaLUiIt+exhva3YN9rUCHFAZWqKu6Tw1OuAv3Pg4m74S2WbD0
+ lmBA2XMgltTC+D2Bj2ZmaOcUgSvGcxbHCVkxEgjEPhg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=eYdOQW
+ JvkGv5lYmwmsTB8/heePtnDEqHSneUmgS7RZw=; b=IpD9YYR9tUdAcDA9MtqX3S
+ Gv8J4sF/KLR56VK6L6i2gitfEFI55aMoiSwoJOorHRBLBgpfNidVJhRKlqevlGDo
+ RNAqo3h5Iisl5UZrcQx1SiYCw55mQMcoDgf25p7zilnk2D7Dbd6yvuvZMRZ2LfBO
+ ZEmZ427D/JDZFw+1jWUB6mpWEjn9el+6DERwcTVt9o67uVC/JEHGHE8tiLkJM4XZ
+ dexDSmdalmCUA5ZXH94jAK3wAKB12DKTEBQ76ACiJMhxycaNAFkkokYYl+eJsVfB
+ gmNvdNshkdATDB7s5BPUK/I6tAfxhKdK5v+UYTYuTDrmNlQ+kU40ehQ0Me4BPsoQ
+ ==
+X-ME-Sender: <xms:tzGuYFWD4oJai2YDYDaWFhg3-HnZMqk_mHd9i0q-8FQxrT-KO6w3Yg>
+ <xme:tzGuYFllwkw9cFd86DVqKMPtVB4_U-gruxfiPq0gHXhMHRUINakjSxZBZdGp8L7Rr
+ FUe1uz7edKZTjlkUGg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvdekfedggedvucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
+ vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
+ htvghrnhepleekgeehhfdutdeljefgleejffehfffgieejhffgueefhfdtveetgeehieeh
+ gedunecukfhppeeltddrkeelrdeikedrjeeinecuvehluhhsthgvrhfuihiivgeptdenuc
+ frrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:tzGuYBZ1P-km1cMVOzWB4w7VdzNeGBsMe-ePQ_LJ4m2fm7TTJUJymA>
+ <xmx:tzGuYIUKYpy3NZYRyf6EJNiuvGMnDfo2jWIZna_nDt8n7xs7bqHyFg>
+ <xmx:tzGuYPm8EfAfRGP5Rpi-LKRX_iTI_1tGHPUpp_iY9Jv5uZv2OTg2jA>
+ <xmx:uTGuYIC4GXmWyDP_NJZ2W95cueagyq_ToB4y536R5Tc-FhaQ5cSKMQ>
+Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
+ [90.89.68.76]) by mail.messagingengine.com (Postfix) with ESMTPA;
+ Wed, 26 May 2021 07:32:07 -0400 (EDT)
+Date: Wed, 26 May 2021 13:32:05 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH] drm/kconfig: Remove unused select of DRM_KMS_FB_HELPER
+Message-ID: <20210526113205.rx2xwcgjm6qb6s24@gilmour>
+References: <20210526100825.29450-1-tzimmermann@suse.de>
 MIME-Version: 1.0
-References: <20210525211753.1086069-1-jason@jlekstrand.net>
- <20210525211753.1086069-6-jason@jlekstrand.net>
- <acc1737c-261d-9da5-7ea7-759063136c56@amd.com>
-In-Reply-To: <acc1737c-261d-9da5-7ea7-759063136c56@amd.com>
-From: Daniel Stone <daniel@fooishbar.org>
-Date: Wed, 26 May 2021 12:31:36 +0100
-Message-ID: <CAPj87rN_7vmmWcL1vqhvM=etaTjwts_L0vYbsgvYF0_qZw83gw@mail.gmail.com>
-Subject: Re: [Intel-gfx] [PATCH 5/7] dma-buf: Add an API for exporting sync
- files (v11)
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="qe3ihkvgr3teian5"
+Content-Disposition: inline
+In-Reply-To: <20210526100825.29450-1-tzimmermann@suse.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,38 +79,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- intel-gfx <intel-gfx@lists.freedesktop.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Jason Ekstrand <jason@jlekstrand.net>
+Cc: airlied@linux.ie, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, Geert Uytterhoeven <geert@linux-m68k.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Christian,
 
-On Wed, 26 May 2021 at 12:02, Christian K=C3=B6nig <christian.koenig@amd.co=
-m> wrote:
-> Am 25.05.21 um 23:17 schrieb Jason Ekstrand:
-> > This new IOCTL solves this problem by allowing us to get a snapshot of
-> > the implicit synchronization state of a given dma-buf in the form of a
-> > sync file.  It's effectively the same as a poll() or I915_GEM_WAIT only=
-,
-> > instead of CPU waiting directly, it encapsulates the wait operation, at
-> > the current moment in time, in a sync_file so we can check/wait on it
-> > later.  As long as the Vulkan driver does the sync_file export from the
-> > dma-buf before we re-introduce it for rendering, it will only contain
-> > fences from the compositor or display.  This allows to accurately turn
-> > it into a VkFence or VkSemaphore without any over- synchronization.
->
-> Regarding that, why do we actually use a syncfile and not a drm_syncobj
-> here?
->
-> The later should be much closer to a Vulkan timeline semaphore.
+--qe3ihkvgr3teian5
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-How would we insert a syncobj+val into a resv though? Like, if we pass
-an unmaterialised syncobj+val here to insert into the resv, then an
-implicit-only media user (or KMS) goes to sync against the resv, what
-happens?
+On Wed, May 26, 2021 at 12:08:25PM +0200, Thomas Zimmermann wrote:
+> The option DRM_KMS_FB_HELPER has been removed. Also remove the last
+> remaining select statement for it.
+>=20
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Fixes: 91185d55b32e ("drm: Remove DRM_KMS_FB_HELPER Kconfig option")
+> Reported-by: Geert Uytterhoeven <geert@linux-m68k.org>
+> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> Cc: Maxime Ripard <mripard@kernel.org>
+> Cc: David Airlie <airlied@linux.ie>
+> Cc: Daniel Vetter <daniel@ffwll.ch>
+> Cc: dri-devel@lists.freedesktop.org
 
-Cheers,
-Daniel
+Acked-by: Maxime Ripard <maxime@cerno.tech>
+
+Maxime
+
+--qe3ihkvgr3teian5
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYK4xtQAKCRDj7w1vZxhR
+xVQpAP436GSHWaw9MYGR7C/5P4VWebNti5Veb4HEpYRHFkU2DQD/RyMN1afXZ7lh
+aNlTgJYH4SxSXS0BjglKvi+4PgRiBAU=
+=uVSH
+-----END PGP SIGNATURE-----
+
+--qe3ihkvgr3teian5--
