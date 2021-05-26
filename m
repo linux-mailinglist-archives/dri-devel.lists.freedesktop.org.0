@@ -1,70 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AFEBD39188D
-	for <lists+dri-devel@lfdr.de>; Wed, 26 May 2021 15:10:24 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 34835391892
+	for <lists+dri-devel@lfdr.de>; Wed, 26 May 2021 15:12:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E12476E4DE;
-	Wed, 26 May 2021 13:10:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 312DC6E4F8;
+	Wed, 26 May 2021 13:12:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com
- [IPv6:2a00:1450:4864:20::635])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9269A6E4DE
- for <dri-devel@lists.freedesktop.org>; Wed, 26 May 2021 13:10:19 +0000 (UTC)
-Received: by mail-ej1-x635.google.com with SMTP id lg14so2345878ejb.9
- for <dri-devel@lists.freedesktop.org>; Wed, 26 May 2021 06:10:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:mail-followup-to:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to; bh=AUsJLuID9e1pol3RiOS0EQTXGuh7p/LFKL5pMET/qdM=;
- b=k8NO22C2JVeN3oYYB8/wYFehRe8VyAND1XHAGRWMTU5Mn52IfMEUo4TKhcziTjSiol
- ajMle9cmfQkn5UtI0zuJQKEg7T0BR53wh8MTYQevUGRY0oLgw8tgB9THtAkw/d71ByPA
- k5CQUTjOSd0eCD/aUy0PznHO9215g4bfZeixU=
+Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com
+ [IPv6:2a00:1450:4864:20::42c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6AA416E4EA
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 May 2021 13:12:25 +0000 (UTC)
+Received: by mail-wr1-x42c.google.com with SMTP id z17so1082774wrq.7
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 May 2021 06:12:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=fooishbar-org.20150623.gappssmtp.com; s=20150623;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=+NH+U5vO/IFNZscOsXAWCP+NPUo3uYF1MTfXKjnDIYw=;
+ b=iwUPN+Ew24Jf5bPzMRakaULMn6YXc84KAOR+tGfXxr4aqqOACrhBPUFvpvtWllnlSQ
+ cvEJLFy6p9CSlS+f0cXuUUxRfV9zXWs2JZpRKTzMaGbqcIbTAYSvoSGyEK7LnBU1rQh3
+ 74IljsYACyafuK/gnmfZUhiad6UiPblLjvgdoUbW60MQIhCgtN4oA5oc5bmR86MV0QA4
+ t/ZoMMqYGRHEG2uBbKtDM508jzZ0fvsjxtg1NHaiaO3aafbcAEmt/cnYTGgYvfkXR8zP
+ WCBGyhdKlwSMYYWi/pM4s6MkmExwrAi3kBdTfS/M+WtkuDgpU+PRAPjP+0RQ5dUQOKj5
+ d9iA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id
- :mail-followup-to:references:mime-version:content-disposition
- :content-transfer-encoding:in-reply-to;
- bh=AUsJLuID9e1pol3RiOS0EQTXGuh7p/LFKL5pMET/qdM=;
- b=cMzQ/XOw6ZQ6ifq1R9TrtWoJrnqnncLvbApbme5OacgcxyaTN3IuZPjjgRYekDx5V9
- s8yAJEFdN3kjgW6bEL4XmCottttR65Uj/SOe2yhOLVDBe6Efw/BRA88L6cF+wpR5cXWZ
- JLRgjaQibFlgo8AhySexZvPlKrgJ9yX7the0z61TO4fgTdNKn+AWNqZnlvNVNI6rdVWc
- vfMU8DiBGHqwPb87X3R/s9x0H9So34fJQXMXAMIycq3WypSTsGFAP1HRidrMNXu0yT/H
- +uSbdQUUfMGa+4g8PCa3XVOq87/hLKE4nyIjuCaLC4mZry693ASdxa/2MdQxyidbYmR2
- BnVg==
-X-Gm-Message-State: AOAM530oHTnhSw7c1IwifIuGiIb3v0hyPnJyZ+CQFH9IxfVeeYbUndby
- 6JsFxcg6hlf3B9Vbqhyi75Hvdw==
-X-Google-Smtp-Source: ABdhPJwmdkY+oqxRRVXVQLIVhW6ISfuuutzmkODEclidb9s6n/KAGKJYcmP63SeNqDK4yFSFc1wLbQ==
-X-Received: by 2002:a17:907:9612:: with SMTP id
- gb18mr7857293ejc.408.1622034618327; 
- Wed, 26 May 2021 06:10:18 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id j17sm484768ejb.123.2021.05.26.06.10.17
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 26 May 2021 06:10:17 -0700 (PDT)
-Date: Wed, 26 May 2021 15:10:16 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Lee Jones <lee.jones@linaro.org>
-Subject: Re: [PATCH 30/34] drm/vgem/vgem_drv: Standard comment blocks should
- not use kernel-doc format
-Message-ID: <YK5IuNcHtPySAfoz@phenom.ffwll.local>
-Mail-Followup-To: Lee Jones <lee.jones@linaro.org>,
- linux-kernel@vger.kernel.org, David Airlie <airlied@linux.ie>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- Adam Jackson <ajax@redhat.com>, Ben Widawsky <ben@bwidawsk.net>,
- dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
- linaro-mm-sig@lists.linaro.org
-References: <20210526084726.552052-1-lee.jones@linaro.org>
- <20210526084726.552052-31-lee.jones@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=+NH+U5vO/IFNZscOsXAWCP+NPUo3uYF1MTfXKjnDIYw=;
+ b=aqtwzJiqNQfaZ7lYa1W013QvhAy64gqsZ9FPSQ0K0Ab51vnVuZ6h6ynjQZmeRXGR5j
+ Fh0Uks8LihyAMDLuu2dxUx4nekYysxEEFuSoZPl12Rdc0RIpZVbqbHgqW9KZgz5sxTAG
+ xOUBerTgVmeTP5Th0J6epPZBJnJvi4Y2C/Ruwd8Tq2OroYGfSoodHg5fyKa1Y20Sxcv5
+ bj80WnnXDg5yKSQXDgnB6F62bO5jhOheCkDOb00QQb+5hGkS8UPBpghKwXB+kl3bA/w3
+ DZ8XBU3Jj1Nu8rKlsXUuN+kwjFQle8Jrey28IPPPaCfr+Jpw0BY4L0KWYhgOZLR1vj9U
+ u3iw==
+X-Gm-Message-State: AOAM530ogsxZg7Gu+2iZZ+jRRgwJt+GbwGCrT9rpEkaA+0/ls7ml2Kro
+ pd+G+DVJi9GGQltluszHBk8SqhGwRQ7PJWioW7UfHQ==
+X-Google-Smtp-Source: ABdhPJw9LA9GMJ4q5Qaip1X/LD6PP/IcCoAZEn3xFE04tMp2dqzlEsArHBvWu3ft2kb90dtgJyIQ/t2uMb9Zlnd/t0c=
+X-Received: by 2002:a05:6000:184a:: with SMTP id
+ c10mr34694182wri.244.1622034744051; 
+ Wed, 26 May 2021 06:12:24 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210526084726.552052-31-lee.jones@linaro.org>
-X-Operating-System: Linux phenom 5.10.32scarlett+ 
+References: <20210525211753.1086069-1-jason@jlekstrand.net>
+ <20210525211753.1086069-6-jason@jlekstrand.net>
+ <acc1737c-261d-9da5-7ea7-759063136c56@amd.com>
+ <CAPj87rN_7vmmWcL1vqhvM=etaTjwts_L0vYbsgvYF0_qZw83gw@mail.gmail.com>
+ <770eb698-1dde-9e46-da83-44911d96abec@amd.com>
+In-Reply-To: <770eb698-1dde-9e46-da83-44911d96abec@amd.com>
+From: Daniel Stone <daniel@fooishbar.org>
+Date: Wed, 26 May 2021 14:12:11 +0100
+Message-ID: <CAPj87rPdMthO2Wv7QxMGnO__BiZVauMa9HaRk+35Sgvm69QSjw@mail.gmail.com>
+Subject: Re: [Intel-gfx] [PATCH 5/7] dma-buf: Add an API for exporting sync
+ files (v11)
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,54 +70,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Ben Widawsky <ben@bwidawsk.net>, David Airlie <airlied@linux.ie>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- linux-media@vger.kernel.org
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ intel-gfx <intel-gfx@lists.freedesktop.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Jason Ekstrand <jason@jlekstrand.net>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, May 26, 2021 at 09:47:22AM +0100, Lee Jones wrote:
-> Fixes the following W=1 kernel build warning(s):
-> 
->  drivers/gpu/drm/vgem/vgem_drv.c:47: warning: expecting prototype for This is vgem, a (non-hardware(). Prototype was for DRIVER_NAME() instead
-> 
-> Cc: David Airlie <airlied@linux.ie>
-> Cc: Daniel Vetter <daniel@ffwll.ch>
-> Cc: Sumit Semwal <sumit.semwal@linaro.org>
-> Cc: "Christian König" <christian.koenig@amd.com>
-> Cc: Adam Jackson <ajax@redhat.com>
-> Cc: Ben Widawsky <ben@bwidawsk.net>
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: linux-media@vger.kernel.org
-> Cc: linaro-mm-sig@lists.linaro.org
-> Signed-off-by: Lee Jones <lee.jones@linaro.org>
+Hi,
 
-Merged this one to drm-misc-next, thanks!
--Daniel
-> ---
->  drivers/gpu/drm/vgem/vgem_drv.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/vgem/vgem_drv.c b/drivers/gpu/drm/vgem/vgem_drv.c
-> index a0e75f1d5d016..bf38a7e319d14 100644
-> --- a/drivers/gpu/drm/vgem/vgem_drv.c
-> +++ b/drivers/gpu/drm/vgem/vgem_drv.c
-> @@ -25,7 +25,7 @@
->   *	Ben Widawsky <ben@bwidawsk.net>
->   */
->  
-> -/**
-> +/*
->   * This is vgem, a (non-hardware-backed) GEM service.  This is used by Mesa's
->   * software renderer and the X server for efficient buffer sharing.
->   */
-> -- 
-> 2.31.1
-> 
+On Wed, 26 May 2021 at 13:46, Christian K=C3=B6nig <christian.koenig@amd.co=
+m> wrote:
+> Am 26.05.21 um 13:31 schrieb Daniel Stone:
+> > How would we insert a syncobj+val into a resv though? Like, if we pass
+> > an unmaterialised syncobj+val here to insert into the resv, then an
+> > implicit-only media user (or KMS) goes to sync against the resv, what
+> > happens?
+>
+> Well this is for exporting, not importing. So we don't need to worry
+> about that.
+>
+> It's just my thinking because the drm_syncobj is the backing object on
+> VkSemaphore implementations these days, isn't it?
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Yeah, I can see that to an extent. But then binary vs. timeline
+syncobjs are very different in use (which is unfortunate tbh), and
+then we have an asymmetry between syncobj export & sync_file import.
+
+You're right that we do want a syncobj though. This is probably not
+practical due to smashing uAPI to bits, but if we could wind the clock
+back a couple of years, I suspect the interface we want is that export
+can either export a sync_file or a binary syncobj, and further that
+binary syncobjs could transparently act as timeline semaphores by
+mapping any value (either wait or signal) to the binary signal. In
+hindsight, we should probably just never have had binary syncobj. Oh
+well.
+
+Cheers,
+Daniel
