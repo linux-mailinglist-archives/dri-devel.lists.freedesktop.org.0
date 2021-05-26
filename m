@@ -2,44 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2730391A6C
-	for <lists+dri-devel@lfdr.de>; Wed, 26 May 2021 16:38:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A531391AA4
+	for <lists+dri-devel@lfdr.de>; Wed, 26 May 2021 16:47:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2ABBD6EDA3;
-	Wed, 26 May 2021 14:38:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4BAB76EDA7;
+	Wed, 26 May 2021 14:47:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 22EE36EDA3;
- Wed, 26 May 2021 14:38:01 +0000 (UTC)
-IronPort-SDR: KWNmkJ1CM7Zmg8P2Lkwxr4o2gruB2eJVXF0B/1Uytb5VdX3IjDFxCvuInPuaUN6MmpjUg0EVln
- tM8dZw3sCDdw==
-X-IronPort-AV: E=McAfee;i="6200,9189,9996"; a="189857485"
-X-IronPort-AV: E=Sophos;i="5.82,331,1613462400"; d="scan'208";a="189857485"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 May 2021 07:38:01 -0700
-IronPort-SDR: 71E0ovy/GqX7eJCY2VdooB68HT3FQCbFmfiezQn9gjK2jtrNXaw6/RwMPiy8Fj/uxvgwxaMGQf
- HYwe7MJMOKBA==
-X-IronPort-AV: E=Sophos;i="5.82,331,1613462400"; d="scan'208";a="476968841"
-Received: from astiegle-mobl.ger.corp.intel.com (HELO localhost)
- ([10.252.54.167])
- by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 May 2021 07:37:58 -0700
-From: Jani Nikula <jani.nikula@intel.com>
-To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Intel-gfx@lists.freedesktop.org
-Subject: Re: [PATCH v2] drm/i915/params: Align visibility of device level and
- global modparams
-In-Reply-To: <20210526141946.2347085-1-tvrtko.ursulin@linux.intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20210526100006.2205062-1-tvrtko.ursulin@linux.intel.com>
- <20210526141946.2347085-1-tvrtko.ursulin@linux.intel.com>
-Date: Wed, 26 May 2021 17:37:54 +0300
-Message-ID: <87fsy9blx9.fsf@intel.com>
+Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com
+ [IPv6:2a00:1450:4864:20::62a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 626E36ED98
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 May 2021 14:47:43 +0000 (UTC)
+Received: by mail-ej1-x62a.google.com with SMTP id l1so2878227ejb.6
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 May 2021 07:47:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=2pe98/RoIUXzCDVRxl/xmCe1bCIiBUSFO5AAZsF4X4c=;
+ b=h94NIhsp+w3WAlSlG/RIZFeoRUXlWWGh4MUY7MPq33t4R8i542F2d1Bn3c3CbpuLJw
+ 8E9PckNT1KmkLBXPdrMieCm34iPGxD2QNx/vbfa9IJOjBZWzFUNNmPAk3bbtzaVBSS10
+ M/y2KJxI9YmGDgD9ZllCWYAUqxrmTR6wcWyw0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=2pe98/RoIUXzCDVRxl/xmCe1bCIiBUSFO5AAZsF4X4c=;
+ b=ePKrob/37TWhMEQFW9SnL9FV7dAuqzCbcLZpRgZdcP2A+dzV0aO3p5PAJJZ7MSuTlm
+ f7n2xOWUyV0uG41OPrT2AjD7Jbo9yZIGSNMuma05yKChLGTF4McbdJUJz9EtGaptc/JP
+ haZ0+VjWVm9SXLIHE2CK1/zhdSAasT/SeVKYkzG25fGMPSJ1KytRpxosAr2jl9U72C3s
+ +26ERQg+C0UNyU5VE3tzfYPQhYPFFX68w8D2JSw4vjFDFiKgtreHJ3RM74VlQpeLXGXT
+ fcXvyUL+QnFqXIOZcfgnnZ7G71tOaxiLJIP1wATGSEd553WA213oUG48nyiPqFGN6N+k
+ vgCw==
+X-Gm-Message-State: AOAM533l0zSZQJFKZWqFvMXhrpHbXq3s/uu/qko9k591ZbOxwjvct1JO
+ JkvoVGAlBrfNcfnAdam3nn6lHA==
+X-Google-Smtp-Source: ABdhPJyZXNX9KlZUymaUExm4VcJW+33SUT6/OqBDRweUqpdn0+dxFRpT1SmpiGNhYHWVqDtPVWG2gw==
+X-Received: by 2002:a17:906:7696:: with SMTP id
+ o22mr1161838ejm.298.1622040462052; 
+ Wed, 26 May 2021 07:47:42 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id fb19sm10466212ejc.10.2021.05.26.07.47.41
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 26 May 2021 07:47:41 -0700 (PDT)
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
+To: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>
+Subject: [PATCH 1/3] dma-buf: Require VM_PFNMAP vma for mmap
+Date: Wed, 26 May 2021 16:47:34 +0200
+Message-Id: <20210526144736.3277595-1-daniel.vetter@ffwll.ch>
+X-Mailer: git-send-email 2.31.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,69 +65,116 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Matthew Wilcox <willy@infradead.org>, linaro-mm-sig@lists.linaro.org,
+ Jason Gunthorpe <jgg@ziepe.ca>, Daniel Vetter <daniel.vetter@intel.com>,
+ Suren Baghdasaryan <surenb@google.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 26 May 2021, Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com> wrote:
-> From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
->
-> We have a few modparams which get conditionaly exposed based on a Kconfig
-> options and in most cases this also means portions of the driver
-> implementing the respective feature are also left out.
->
-> Align the visibility of device level and global modparams to make them
-> consistent in this respect.
->
-> v2:
->  * Fix misplaced parentheses.
->
-> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-> Cc: Jani Nikula <jani.nikula@intel.com>
-> Cc: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com>
+tldr; DMA buffers aren't normal memory, expecting that you can use
+them like that (like calling get_user_pages works, or that they're
+accounting like any other normal memory) cannot be guaranteed.
 
-Reviewed-by: Jani Nikula <jani.nikula@intel.com>
+Since some userspace only runs on integrated devices, where all
+buffers are actually all resident system memory, there's a huge
+temptation to assume that a struct page is always present and useable
+like for any more pagecache backed mmap. This has the potential to
+result in a uapi nightmare.
 
-I'd happily accept patches removing some of the module params, and just
-leaving the debugfs device params in place. ;)
+To stop this gap require that DMA buffer mmaps are VM_PFNMAP, which
+blocks get_user_pages and all the other struct page based
+infrastructure for everyone. In spirit this is the uapi counterpart to
+the kernel-internal CONFIG_DMABUF_DEBUG.
 
-> ---
->  drivers/gpu/drm/i915/i915_params.h | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
->
-> diff --git a/drivers/gpu/drm/i915/i915_params.h b/drivers/gpu/drm/i915/i9=
-15_params.h
-> index 14cd64cc61d0..4a114a5ad000 100644
-> --- a/drivers/gpu/drm/i915/i915_params.h
-> +++ b/drivers/gpu/drm/i915/i915_params.h
-> @@ -71,18 +71,18 @@ struct drm_printer;
->  	param(int, fastboot, -1, 0600) \
->  	param(int, enable_dpcd_backlight, -1, 0600) \
->  	param(char *, force_probe, CONFIG_DRM_I915_FORCE_PROBE, 0400) \
-> -	param(unsigned long, fake_lmem_start, 0, 0400) \
-> -	param(unsigned int, request_timeout_ms, CONFIG_DRM_I915_REQUEST_TIMEOUT=
-, 0600) \
-> +	param(unsigned long, fake_lmem_start, 0, IS_ENABLED(CONFIG_DRM_I915_UNS=
-TABLE_FAKE_LMEM) ? 0400 : 0) \
-> +	param(unsigned int, request_timeout_ms, CONFIG_DRM_I915_REQUEST_TIMEOUT=
-, CONFIG_DRM_I915_REQUEST_TIMEOUT ? 0600 : 0) \
->  	/* leave bools at the end to not create holes */ \
->  	param(bool, enable_hangcheck, true, 0600) \
->  	param(bool, load_detect_test, false, 0600) \
->  	param(bool, force_reset_modeset_test, false, 0600) \
-> -	param(bool, error_capture, true, 0600) \
-> +	param(bool, error_capture, true, IS_ENABLED(CONFIG_DRM_I915_CAPTURE_ERR=
-OR) ? 0600 : 0) \
->  	param(bool, disable_display, false, 0400) \
->  	param(bool, verbose_state_checks, true, 0) \
->  	param(bool, nuclear_pageflip, false, 0400) \
->  	param(bool, enable_dp_mst, true, 0600) \
-> -	param(bool, enable_gvt, false, 0400)
-> +	param(bool, enable_gvt, false, IS_ENABLED(CONFIG_DRM_I915_GVT) ? 0400 :=
- 0)
->=20=20
->  #define MEMBER(T, member, ...) T member;
->  struct i915_params {
+Motivated by a recent patch which wanted to swich the system dma-buf
+heap to vm_insert_page instead of vm_insert_pfn.
 
---=20
-Jani Nikula, Intel Open Source Graphics Center
+v2:
+
+Jason brought up that we also want to guarantee that all ptes have the
+pte_special flag set, to catch fast get_user_pages (on architectures
+that support this). Allowing VM_MIXEDMAP (like VM_SPECIAL does) would
+still allow vm_insert_page, but limiting to VM_PFNMAP will catch that.
+
+From auditing the various functions to insert pfn pte entires
+(vm_insert_pfn_prot, remap_pfn_range and all it's callers like
+dma_mmap_wc) it looks like VM_PFNMAP is already required anyway, so
+this should be the correct flag to check for.
+
+References: https://lore.kernel.org/lkml/CAKMK7uHi+mG0z0HUmNt13QCCvutuRVjpcR0NjRL12k-WbWzkRg@mail.gmail.com/
+Acked-by: Christian König <christian.koenig@amd.com>
+Cc: Jason Gunthorpe <jgg@ziepe.ca>
+Cc: Suren Baghdasaryan <surenb@google.com>
+Cc: Matthew Wilcox <willy@infradead.org>
+Cc: John Stultz <john.stultz@linaro.org>
+Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+Cc: Sumit Semwal <sumit.semwal@linaro.org>
+Cc: "Christian König" <christian.koenig@amd.com>
+Cc: linux-media@vger.kernel.org
+Cc: linaro-mm-sig@lists.linaro.org
+--
+Resending this so I can test the next two patches for vgem/shmem in
+intel-gfx-ci. Last round failed somehow, but I can't repro that at all
+locally here.
+
+No immediate plans to merge this patch here since ttm isn't addressed
+yet (and there we have the hugepte issue, for which I don't think we
+have a clear consensus yet).
+-Daniel
+---
+ drivers/dma-buf/dma-buf.c | 15 +++++++++++++--
+ 1 file changed, 13 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+index eadd1eaa2fb5..dda583fb1f03 100644
+--- a/drivers/dma-buf/dma-buf.c
++++ b/drivers/dma-buf/dma-buf.c
+@@ -127,6 +127,7 @@ static struct file_system_type dma_buf_fs_type = {
+ static int dma_buf_mmap_internal(struct file *file, struct vm_area_struct *vma)
+ {
+ 	struct dma_buf *dmabuf;
++	int ret;
+ 
+ 	if (!is_dma_buf_file(file))
+ 		return -EINVAL;
+@@ -142,7 +143,11 @@ static int dma_buf_mmap_internal(struct file *file, struct vm_area_struct *vma)
+ 	    dmabuf->size >> PAGE_SHIFT)
+ 		return -EINVAL;
+ 
+-	return dmabuf->ops->mmap(dmabuf, vma);
++	ret = dmabuf->ops->mmap(dmabuf, vma);
++
++	WARN_ON(!(vma->vm_flags & VM_PFNMAP));
++
++	return ret;
+ }
+ 
+ static loff_t dma_buf_llseek(struct file *file, loff_t offset, int whence)
+@@ -1244,6 +1249,8 @@ EXPORT_SYMBOL_GPL(dma_buf_end_cpu_access);
+ int dma_buf_mmap(struct dma_buf *dmabuf, struct vm_area_struct *vma,
+ 		 unsigned long pgoff)
+ {
++	int ret;
++
+ 	if (WARN_ON(!dmabuf || !vma))
+ 		return -EINVAL;
+ 
+@@ -1264,7 +1271,11 @@ int dma_buf_mmap(struct dma_buf *dmabuf, struct vm_area_struct *vma,
+ 	vma_set_file(vma, dmabuf->file);
+ 	vma->vm_pgoff = pgoff;
+ 
+-	return dmabuf->ops->mmap(dmabuf, vma);
++	ret = dmabuf->ops->mmap(dmabuf, vma);
++
++	WARN_ON(!(vma->vm_flags & VM_PFNMAP));
++
++	return ret;
+ }
+ EXPORT_SYMBOL_GPL(dma_buf_mmap);
+ 
+-- 
+2.31.0
+
