@@ -2,61 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B61973912EE
-	for <lists+dri-devel@lfdr.de>; Wed, 26 May 2021 10:48:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A13CB3912DA
+	for <lists+dri-devel@lfdr.de>; Wed, 26 May 2021 10:48:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 28D9D6EC69;
-	Wed, 26 May 2021 08:48:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 228A76EC53;
+	Wed, 26 May 2021 08:48:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com
- [IPv6:2a00:1450:4864:20::32e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0090B6EC2F
- for <dri-devel@lists.freedesktop.org>; Wed, 26 May 2021 08:47:56 +0000 (UTC)
-Received: by mail-wm1-x32e.google.com with SMTP id
- z19-20020a7bc7d30000b029017521c1fb75so21916wmk.0
- for <dri-devel@lists.freedesktop.org>; Wed, 26 May 2021 01:47:56 -0700 (PDT)
+Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com
+ [IPv6:2a00:1450:4864:20::331])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 15B036EC2F
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 May 2021 08:47:58 +0000 (UTC)
+Received: by mail-wm1-x331.google.com with SMTP id o127so239418wmo.4
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 May 2021 01:47:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=AktsaW6Bskrl1AG9i/afTuE+QfmnEvj7VSG37dmiSWQ=;
- b=AMLIuKLP7eSD0sQl6i4Ap0vsy36DUSOgzVtp8L5oSEfnpTJCzDcp/yKF22mI0y26sa
- SpDRKYEjS2uXTV5SIW5Vt8N8WRp8mz/NdmqBk3bbvU0awuGVjIZf8aKWVcK80HsUbptz
- RBz5KT8u+J8qZUe3iXi9/qnh67ZzNWd16LXytB8ttHMVFungJYt+R/wb8iI3y55ckGjo
- iKNvXoLB5a9wf23OAC6Jl3Gbg1005Vt3ykvMblCgbv4f3URaUYHZxKliCVHtiqPP2cgA
- gPQ8tMpzPPzPdJdyo/90eMDMW1QWpa13GO/7syQKyh+U67CCcZBpf2LETCS7N+LhXIpS
- ci6Q==
+ bh=gCK0jqtaLc6j+lM4CKdqVnjdeawCrSThn6Bsjq7wZAM=;
+ b=S/lbe/k94fAO1B82T5EbehOEOXJHnpj/Y7hT8SSnPoU4Kn0bBq9I2FZr6KAS/tTtC7
+ kYQveIhxDKqYQ4kejsVIUXMPQZErILArnTEjQ0ZoCBODTbytq5/f/8EgGyi4bH5AAW5y
+ chw+QPj8Q2+srX3qr4lkFZAUeCyqvx7haVK3T4NY4MhmthRMpfpUxdSTYsdXDmRJ7fIH
+ 9lfys5C8BU3v6LWAc5TzalAOgMQEaiOxOpy9ZQyIxmo2U9TZOgayi9F5n7vo+yAlYZg5
+ HLcyGxafNyJErO+sLspSQqdwfeL+9U8X3vOlCfnHUoftXh7zTEvNpJy/5xianOnlz1GC
+ Ssng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=AktsaW6Bskrl1AG9i/afTuE+QfmnEvj7VSG37dmiSWQ=;
- b=EGcrbG23NiWzRodEfP+gSeEtVrRVRxUcgNnf0IdwrofQv/phK1P+FkV8hip5X3YVkF
- CWGg20uWxeAVh7dlkmAi4QoVSkc6S/seSjYTY2NREWPzQoPTGM5CJp3Hue/eHRCC4xIQ
- bL+x0IRGHLWkTtVqei/oaVNSxwdDiUg2fwvfoYqjEvpw8A1jxWVhtC8tYvlMzUGCQIGQ
- HzcqqRnWG3EJkVhmIqsDl4C2beFr0iZA2j3WwCECze6ZKF/vGIFBuv1J2Ki4+sbmpenr
- SECYNolvgGfZSYRU0aw99nzD70w6P0I6CbVC6ordlam30Pm58rFnmbqzvcX498tgSCVC
- XOJA==
-X-Gm-Message-State: AOAM530mdPyp/VimHVvKBCgObwZAVGZ7UvM5hsSvc+lLEgvDR5t2+JUz
- rQdgvDCXdzbzdNmAeXOoiX/LJA==
-X-Google-Smtp-Source: ABdhPJwx3JNUrEk+A41Ghrk79W/6tF7/o6fr6xpd7rM4y6GJ9Wa2Ujsktlv5HTFdW68nwOBkfQ7m0Q==
-X-Received: by 2002:a1c:5443:: with SMTP id p3mr28003511wmi.101.1622018875645; 
- Wed, 26 May 2021 01:47:55 -0700 (PDT)
+ bh=gCK0jqtaLc6j+lM4CKdqVnjdeawCrSThn6Bsjq7wZAM=;
+ b=UwRu4QTDxNxTY9YvBFM6iTmfGUcNo3JiNkKd3B0COhJRLfDhD0SyK3f/zip5pEGOM2
+ GHVprGzUMmVl225aJof9IOPERcHROSqniV+N1Pg6NF84DtNF740U68aygPxey+Q4Istx
+ InUiiBe4Z4oOfHQcfo2iIp0WfNkGlUdTn2gxeGLFT0q5Ewq8jnAznAU3ncGgXlWbZl7D
+ oquDc7sLW6b7BmyYUxkbTHs26ckZSMv5UXiN1IhLu+Z+5gUPfZvMuPSgP2OAvObGPMqq
+ poDy+QnZmzpO8AWOS7xxiVTBDtj2C0EY8NvjxX0ZVD7oTGHAtgSkax2vBdrpGmcrtYup
+ WuAw==
+X-Gm-Message-State: AOAM533ZCwlkzOJBuiILQ95lE7oSO4/J6M4APreccKJuhu7QienofiKB
+ RLetJFb5n01jGQnrPIe/3xerrg==
+X-Google-Smtp-Source: ABdhPJwJd1v1a7T0DAb2MrAEKqsloEZSJQsbA3WKSILpJ/DjbljpumEhx24mJnT73wZkKQ4M5912Dw==
+X-Received: by 2002:a05:600c:21c3:: with SMTP id
+ x3mr27065352wmj.131.1622018876689; 
+ Wed, 26 May 2021 01:47:56 -0700 (PDT)
 Received: from dell.default ([91.110.221.223])
- by smtp.gmail.com with ESMTPSA id l18sm18911918wrt.97.2021.05.26.01.47.54
+ by smtp.gmail.com with ESMTPSA id l18sm18911918wrt.97.2021.05.26.01.47.55
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 26 May 2021 01:47:55 -0700 (PDT)
+ Wed, 26 May 2021 01:47:56 -0700 (PDT)
 From: Lee Jones <lee.jones@linaro.org>
 To: lee.jones@linaro.org
-Subject: [PATCH 24/34] drm/amd/display/modules/hdcp/hdcp_psp: Remove unused
- function 'mod_hdcp_hdcp1_get_link_encryption_status()'
-Date: Wed, 26 May 2021 09:47:16 +0100
-Message-Id: <20210526084726.552052-25-lee.jones@linaro.org>
+Subject: [PATCH 25/34] drm/xlnx/zynqmp_disp: Fix incorrectly named enum
+ 'zynqmp_disp_layer_id'
+Date: Wed, 26 May 2021 09:47:17 +0100
+Message-Id: <20210526084726.552052-26-lee.jones@linaro.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210526084726.552052-1-lee.jones@linaro.org>
 References: <20210526084726.552052-1-lee.jones@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -70,54 +69,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Leo Li <sunpeng.li@amd.com>, linux-kernel@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
- dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: Hyun Kwon <hyun.kwon@xilinx.com>, David Airlie <airlied@linux.ie>,
+ Michal Simek <michal.simek@xilinx.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Fixes the following W=1 kernel build warning(s):
 
- drivers/gpu/drm/amd/amdgpu/../display/modules/hdcp/hdcp_psp.c:374:22: warning: no previous prototype for ‘mod_hdcp_hdcp1_get_link_encryption_status’ [-Wmissing-prototypes]
+ drivers/gpu/drm/xlnx/zynqmp_disp.c:101: warning: expecting prototype for enum zynqmp_disp_id. Prototype was for enum zynqmp_disp_layer_id instead
 
-Cc: Harry Wentland <harry.wentland@amd.com>
-Cc: Leo Li <sunpeng.li@amd.com>
-Cc: Alex Deucher <alexander.deucher@amd.com>
-Cc: "Christian König" <christian.koenig@amd.com>
+Cc: Hyun Kwon <hyun.kwon@xilinx.com>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Cc: David Airlie <airlied@linux.ie>
 Cc: Daniel Vetter <daniel@ffwll.ch>
-Cc: amd-gfx@lists.freedesktop.org
+Cc: Michal Simek <michal.simek@xilinx.com>
 Cc: dri-devel@lists.freedesktop.org
+Cc: linux-arm-kernel@lists.infradead.org
 Signed-off-by: Lee Jones <lee.jones@linaro.org>
 ---
- drivers/gpu/drm/amd/display/modules/hdcp/hdcp_psp.c | 13 -------------
- 1 file changed, 13 deletions(-)
+ drivers/gpu/drm/xlnx/zynqmp_disp.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/amd/display/modules/hdcp/hdcp_psp.c b/drivers/gpu/drm/amd/display/modules/hdcp/hdcp_psp.c
-index 26f96c05e0ec8..06910d2fd57a0 100644
---- a/drivers/gpu/drm/amd/display/modules/hdcp/hdcp_psp.c
-+++ b/drivers/gpu/drm/amd/display/modules/hdcp/hdcp_psp.c
-@@ -371,19 +371,6 @@ enum mod_hdcp_status mod_hdcp_hdcp1_link_maintenance(struct mod_hdcp *hdcp)
- 	return status;
- }
+diff --git a/drivers/gpu/drm/xlnx/zynqmp_disp.c b/drivers/gpu/drm/xlnx/zynqmp_disp.c
+index 109d627968ac0..ca1161ec9e16f 100644
+--- a/drivers/gpu/drm/xlnx/zynqmp_disp.c
++++ b/drivers/gpu/drm/xlnx/zynqmp_disp.c
+@@ -91,7 +91,7 @@ struct zynqmp_disp_format {
+ };
  
--enum mod_hdcp_status mod_hdcp_hdcp1_get_link_encryption_status(struct mod_hdcp *hdcp,
--							       enum mod_hdcp_encryption_status *encryption_status)
--{
--	*encryption_status = MOD_HDCP_ENCRYPTION_STATUS_HDCP_OFF;
--
--	if (mod_hdcp_hdcp1_link_maintenance(hdcp) != MOD_HDCP_STATUS_SUCCESS)
--		return MOD_HDCP_STATUS_FAILURE;
--
--	*encryption_status = MOD_HDCP_ENCRYPTION_STATUS_HDCP1_ON;
--
--	return MOD_HDCP_STATUS_SUCCESS;
--}
--
- enum mod_hdcp_status mod_hdcp_hdcp2_create_session(struct mod_hdcp *hdcp)
- {
- 	struct psp_context *psp = hdcp->config.psp.handle;
+ /**
+- * enum zynqmp_disp_id - Layer identifier
++ * enum zynqmp_disp_layer_id - Layer identifier
+  * @ZYNQMP_DISP_LAYER_VID: Video layer
+  * @ZYNQMP_DISP_LAYER_GFX: Graphics layer
+  */
 -- 
 2.31.1
 
