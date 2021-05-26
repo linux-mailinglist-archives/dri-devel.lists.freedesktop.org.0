@@ -2,48 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 039423913B0
-	for <lists+dri-devel@lfdr.de>; Wed, 26 May 2021 11:30:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 712E53913F4
+	for <lists+dri-devel@lfdr.de>; Wed, 26 May 2021 11:45:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 974566E923;
-	Wed, 26 May 2021 09:30:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6F3466EC26;
+	Wed, 26 May 2021 09:45:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 45D296E85F;
- Wed, 26 May 2021 09:30:32 +0000 (UTC)
-IronPort-SDR: 76gjS5ublN5Jvy3eGtiC42COBabsdwdRaZwX88bIRdKnkp8XF6u5VJbr7rU9cUHQZJy7xB1Rwj
- H/XMrQtctWHQ==
-X-IronPort-AV: E=McAfee;i="6200,9189,9995"; a="202437316"
-X-IronPort-AV: E=Sophos;i="5.82,331,1613462400"; d="scan'208";a="202437316"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 May 2021 02:30:30 -0700
-IronPort-SDR: FiGbvC0kU/Lby54nWPEdeUUcn3s4BMv6hpvAjrr7T5guUQASJ5whtZ83L+jZsnTrz7Jzndnyqh
- 5NrsjNn2hRHw==
-X-IronPort-AV: E=Sophos;i="5.82,331,1613462400"; d="scan'208";a="479810625"
-Received: from wardmich-mobl.ger.corp.intel.com (HELO [10.213.209.181])
- ([10.213.209.181])
- by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 May 2021 02:30:29 -0700
-Subject: Re: [Intel-gfx] [RFC PATCH 39/97] drm/i915/guc: Increase size of CTB
- buffers
-To: Matthew Brost <matthew.brost@intel.com>
-References: <20210506191451.77768-1-matthew.brost@intel.com>
- <20210506191451.77768-40-matthew.brost@intel.com>
- <c3c50a1e-c871-a424-8598-2da7eaffba05@linux.intel.com>
- <20210525171556.GD14724@sdutt-i7>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-Message-ID: <8ef19f02-27ad-960f-c5d8-f7cc3bb59f44@linux.intel.com>
-Date: Wed, 26 May 2021 10:30:27 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+Received: from mail2.protonmail.ch (mail2.protonmail.ch [185.70.40.22])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 67B176EC3D
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 May 2021 09:45:39 +0000 (UTC)
+Date: Wed, 26 May 2021 09:45:19 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
+ s=protonmail3; t=1622022336;
+ bh=6bnXHXEDjmMyXGFX/sLS9rHtQDIBNsiOL6vKMf1HUII=;
+ h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
+ b=nmMw+CJZh0Wv38TsXSu8KX7NPRjzVuY7esOnYESf85iDsyB4HcI4xIGNv7NjX1ATe
+ OhDDaMsmPTvPsF+lt7yn6gr8fYtVJ45DU42SywN2gsHKe4P+T2KD/4oJJhO67DYpQM
+ eJtWbDmuudskA52A+CL9xgIRLn74odJYj+tEZDcnBxQh+Qk4agq1ZTF+pKnHiuE9+Q
+ DtYAOfBSsS0sfEWxanSclQfJPgSJyTdSkVUK88WUXD8cXnE4MiZbW44MUGe5Ct/j6z
+ WoGouin0aHDR/fOKmxsUJ4fBAq+JGBZd9yN7BPKfzvNrR2YDmRsPWJMyfRJNbeguyt
+ MZINJa5+5aFMQ==
+To: Daniel Stone <daniel@fooishbar.org>
+From: Simon Ser <contact@emersion.fr>
+Subject: Re: EPOLL for drm_syncfile (was Re: [PATCH 4/4] RFC: dma-buf: Add an
+ API for importing sync files (v6))
+Message-ID: <oPuFlh8eznHljLyScverjUVyMZCazJlb8aH47SDFP-3KcFPzUyLGSbiwOtn2bJntvsVRLCAElpH3dCU2aDo-ENLsDjiQdaL-f-GIteA7RAQ=@emersion.fr>
+In-Reply-To: <CAPj87rOdE35n4yCe6U_384u0YR4oZ=zb9wKOH4PKEC4Ti5gUSg@mail.gmail.com>
+References: <20210520190007.534046-1-jason@jlekstrand.net>
+ <20210520190007.534046-5-jason@jlekstrand.net>
+ <CAPj87rPW2xmOLKg6OgQST6QrH9u5-qmdRJrNDug+rWa=Uv6ZBQ@mail.gmail.com>
+ <0a54d998-1c4b-724c-ec2d-a6c23aa35c21@amd.com>
+ <CAPj87rOdE35n4yCe6U_384u0YR4oZ=zb9wKOH4PKEC4Ti5gUSg@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20210525171556.GD14724@sdutt-i7>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
+ DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF shortcircuit=no
+ autolearn=disabled version=3.4.4
+X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
+ mailout.protonmail.ch
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,92 +54,19 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: jason.ekstrand@intel.com, daniel.vetter@intel.com,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Reply-To: Simon Ser <contact@emersion.fr>
+Cc: Jason Ekstrand <jason@jlekstrand.net>,
+ Daniel Vetter <daniel.vetter@intel.com>,
+ =?utf-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Sunday, May 23rd, 2021 at 11:34 PM, Daniel Stone <daniel@fooishbar.org> =
+wrote:
 
-On 25/05/2021 18:15, Matthew Brost wrote:
-> On Tue, May 25, 2021 at 10:24:09AM +0100, Tvrtko Ursulin wrote:
->>
->> On 06/05/2021 20:13, Matthew Brost wrote:
->>> With the introduction of non-blocking CTBs more than one CTB can be in
->>> flight at a time. Increasing the size of the CTBs should reduce how
->>> often software hits the case where no space is available in the CTB
->>> buffer.
->>
->> I'd move this before the patch which adds the non-blocking send since that
->> one claims congestion should be rare with properly sized buffers. So it
->> makes sense to have them sized properly back before that one.
->>
-> 
-> IMO patch ordering is a bit of bikeshed. All these CTBs changes required
-> for GuC submission (34-40, 54) will get posted its own series and get
-> merged together. None of the individual patches break anything or is any
-> of this code really used until GuC submission is turned on. I can move
-> this when I post these patches by themselves but I just don't really see
-> the point either way.
+> On the other hand, as soon as the sync point becomes available, the
+> winsys will want to immediately extract a sync_file from it
 
-As a general principle we do try to have work in the order which makes 
-sense functionality wise.
-
-That includes trying to avoid adding and then removing, or changing a 
-lot, the same code within the series. And also adding functionality 
-which is known to not work completely well until later in the series.
-
-With a master switch at the end of series you can sometimes get away 
-with it, but if nothing else it at least makes it much easier to read if 
-things are flowing in the expected way within (the series).
-
-In this particular example sizing the buffers appropriately before 
-starting to use the facility a lot more certainly sounds like a no 
-brainer to me, especially since the patch is so trivial to move conflict 
-wise.
-
-Regards,
-
-Tvrtko
-
-> Matt
->   
->> Regards,
->>
->> Tvrtko
->>
->>> Cc: John Harrison <john.c.harrison@intel.com>
->>> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
->>> ---
->>>    drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c | 11 ++++++++---
->>>    1 file changed, 8 insertions(+), 3 deletions(-)
->>>
->>> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
->>> index 77dfbc94dcc3..d6895d29ed2d 100644
->>> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
->>> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
->>> @@ -63,11 +63,16 @@ static inline struct drm_device *ct_to_drm(struct intel_guc_ct *ct)
->>>     *      +--------+-----------------------------------------------+------+
->>>     *
->>>     * Size of each `CT Buffer`_ must be multiple of 4K.
->>> - * As we don't expect too many messages, for now use minimum sizes.
->>> + * We don't expect too many messages in flight at any time, unless we are
->>> + * using the GuC submission. In that case each request requires a minimum
->>> + * 16 bytes which gives us a maximum 256 queue'd requests. Hopefully this
->>> + * enough space to avoid backpressure on the driver. We increase the size
->>> + * of the receive buffer (relative to the send) to ensure a G2H response
->>> + * CTB has a landing spot.
->>>     */
->>>    #define CTB_DESC_SIZE		ALIGN(sizeof(struct guc_ct_buffer_desc), SZ_2K)
->>>    #define CTB_H2G_BUFFER_SIZE	(SZ_4K)
->>> -#define CTB_G2H_BUFFER_SIZE	(SZ_4K)
->>> +#define CTB_G2H_BUFFER_SIZE	(4 * CTB_H2G_BUFFER_SIZE)
->>>    #define MAX_US_STALL_CTB	1000000
->>> @@ -753,7 +758,7 @@ static int ct_read(struct intel_guc_ct *ct, struct ct_incoming_msg **msg)
->>>    	/* beware of buffer wrap case */
->>>    	if (unlikely(available < 0))
->>>    		available += size;
->>> -	CT_DEBUG(ct, "available %d (%u:%u)\n", available, head, tail);
->>> +	CT_DEBUG(ct, "available %d (%u:%u:%u)\n", available, head, tail, size);
->>>    	GEM_BUG_ON(available < 0);
->>>    	header = cmds[head];
->>>
+With today's APIs, yes, but if we ever get drm_syncobj timeline support
+in KMS/EGL(/Vulkan?) maybe this won't be necessary at some point.
