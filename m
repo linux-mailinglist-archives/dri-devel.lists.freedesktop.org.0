@@ -2,41 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18F64391C7D
-	for <lists+dri-devel@lfdr.de>; Wed, 26 May 2021 17:53:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8838E391CE8
+	for <lists+dri-devel@lfdr.de>; Wed, 26 May 2021 18:21:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 413486E152;
-	Wed, 26 May 2021 15:53:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1DDAF6EDBF;
+	Wed, 26 May 2021 16:21:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E7D726E0E3;
- Wed, 26 May 2021 15:53:32 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 063E7611CD;
- Wed, 26 May 2021 15:53:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1622044412;
- bh=OnL/4Jq+LKq6vWvDBS0xA9CvVYxTMOTBjml/zh+3Ar0=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=B4UuFsxu1r3HigmEjVwQF/otX4DrMd38lSSUyIbdumWlwAz4mqWFVwTfX3tV+cLTK
- ezumxJCPuSoiNTejbR/1l7Q+EyQuGnIdMF026YW9wZDBrp0Etki3m3VqLD3t52Z+ML
- aIGQuwBPRYJXDmtAfPisyQiC2L9qX6xiRg823CR+7DK1ZJFKUWOyliFfy6nu3kEBra
- 72iE6bgTyqyaVJ438e+wldUwZTA5bJjB+laj7DX9kULouD8NbVtF/6oVvQWdjQCza8
- vTg4CtjTc7cs0vgmNuLf7hWhlxI/bnFdiE1zs5zIETRjnoBXmZKSOwwvGM2DpAYygJ
- B11ILWs8v9zvg==
-Date: Wed, 26 May 2021 16:53:21 +0100
-From: Will Deacon <will@kernel.org>
-To: Claire Chang <tientzu@chromium.org>
-Subject: Re: [PATCH v7 14/15] dt-bindings: of: Add restricted DMA pool
-Message-ID: <20210526155321.GA19633@willie-the-truck>
-References: <20210518064215.2856977-1-tientzu@chromium.org>
- <20210518064215.2856977-15-tientzu@chromium.org>
- <20210526121322.GA19313@willie-the-truck>
+Received: from mail-ua1-x934.google.com (mail-ua1-x934.google.com
+ [IPv6:2607:f8b0:4864:20::934])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9D0D26EDBF;
+ Wed, 26 May 2021 16:21:33 +0000 (UTC)
+Received: by mail-ua1-x934.google.com with SMTP id d14so1092420ual.5;
+ Wed, 26 May 2021 09:21:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=TyjCiPAhnrbf2fMWsVTrk+vNWjZDmn66jkggQRHDV8c=;
+ b=gNsx/PovsvIHJh6zP3RNNianCSGTUaAHeSnG+PhW5IPBoI55ICu+xSz20fgt94lT5y
+ VsjFnMVaaN1ObOjcJt2Z6wOP0CKmwHl+a8xqzA3lX2kvEF7EqKy9xy7SV7LhNyBcMuVN
+ z19i+t1ILqT8YPRIk6wJWcOWjNxuvHwsZOZsx+6Ys8RN2D7mL6tvXAsqYMDK9VN6dLZB
+ 0UkDSkB7YNnmHluph8O8zHG6CYHbyYjNmaJdAoqoJFgagdMhz8LLLROl8CD/cHumePnV
+ K7ScuFvZZ2eW8b0DCdQANzHstXq05H+NqpsEWGE/uMgTtDJMbtzh/O/PWfvw/GGtfdvV
+ 62yg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=TyjCiPAhnrbf2fMWsVTrk+vNWjZDmn66jkggQRHDV8c=;
+ b=GZKBXpXNHW57YNdDjrB7NvdUJz8tDcpWi8DVrneLOq8f0xHzzW6YvlXyWTJLd6F73t
+ WgEdDxfiRpEy2PokMQPhy/skJK/z9P/sP94Li+ch5LDuc2QXt6TMjYa89PXF1fXOmQvD
+ QUUDYLRURSI6crTvxNrk/G6bq4bPAkc/2NxEvEbhk9vh8hthSIGqeTqHXThRmaEMNI/V
+ qVWfXGmMv79JWrcSmbryWzjmkmrxGb+UpOqko2xaFW4+uCCxAAmlU4mvbH78Kj6J4NPU
+ kcPODUree+bbLHw/NHTgFZsh1gg2RwLwJza7Ree+V8RcBwCZU4Q30IGwcgRqn7LAV7sg
+ 8/aw==
+X-Gm-Message-State: AOAM5327oHavNxj6lY/J58okacXX5UDNC3a4R6dKBOhXj51LKUUO7Tq+
+ qjXc9oG9GoLNMnwU/IHQbZFFLEtW/zP8cFSMNoA=
+X-Google-Smtp-Source: ABdhPJxkFIJHD5G+sHKDDZhetQ7golkfaXMDUXrac4w6e5h1b2229x+b1/izFo1mNEU6RW8ztIANhysBmulXZm1TYlA=
+X-Received: by 2002:a1f:b488:: with SMTP id d130mr31749720vkf.17.1622046092243; 
+ Wed, 26 May 2021 09:21:32 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210526121322.GA19313@willie-the-truck>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <20210516171432.1734268-1-emil.l.velikov@gmail.com>
+ <YKKmsbvTZBwCUiRu@intel.com>
+ <CACvgo53H7GAjN_aFsCBOw+xtVbjcbR1q-U3vdgjT1KUPKoMkkg@mail.gmail.com>
+ <YKOiN1EFXz7TfYyV@intel.com>
+In-Reply-To: <YKOiN1EFXz7TfYyV@intel.com>
+From: Emil Velikov <emil.l.velikov@gmail.com>
+Date: Wed, 26 May 2021 17:21:20 +0100
+Message-ID: <CACvgo52f_8XzkKpzAsgQ-E4VHn9md+rZVbTau5H40PPRVa4SdQ@mail.gmail.com>
+Subject: Re: [PATCH] drm/i915: only disable default vga device
+To: =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,135 +66,84 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: heikki.krogerus@linux.intel.com, thomas.hellstrom@linux.intel.com,
- peterz@infradead.org, dri-devel@lists.freedesktop.org,
- chris@chris-wilson.co.uk, grant.likely@arm.com, paulus@samba.org,
- Frank Rowand <frowand.list@gmail.com>, mingo@kernel.org,
- Marek Szyprowski <m.szyprowski@samsung.com>, sstabellini@kernel.org,
- Saravana Kannan <saravanak@google.com>, mpe@ellerman.id.au,
- Joerg Roedel <joro@8bytes.org>,
- "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>,
- Christoph Hellwig <hch@lst.de>,
- Bartosz Golaszewski <bgolaszewski@baylibre.com>, bskeggs@redhat.com,
- linux-pci@vger.kernel.org, xen-devel@lists.xenproject.org,
- Thierry Reding <treding@nvidia.com>, intel-gfx@lists.freedesktop.org,
- matthew.auld@intel.com, linux-devicetree <devicetree@vger.kernel.org>,
- jxgao@google.com, Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
- airlied@linux.ie, Dan Williams <dan.j.williams@intel.com>,
- linuxppc-dev@lists.ozlabs.org, Rob Herring <robh+dt@kernel.org>,
- rodrigo.vivi@intel.com, bhelgaas@google.com, boris.ostrovsky@oracle.com,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>, jgross@suse.com,
- Nicolas Boichat <drinkcat@chromium.org>, Greg KH <gregkh@linuxfoundation.org>,
- Randy Dunlap <rdunlap@infradead.org>, lkml <linux-kernel@vger.kernel.org>,
- tfiga@chromium.org,
- "list@263.net:IOMMU DRIVERS" <iommu@lists.linux-foundation.org>,
- Jim Quinlan <james.quinlan@broadcom.com>, xypron.glpk@gmx.de,
- Robin Murphy <robin.murphy@arm.com>, bauerman@linux.ibm.com
+Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ kernel@collabora.com, ML dri-devel <dri-devel@lists.freedesktop.org>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, May 26, 2021 at 01:13:22PM +0100, Will Deacon wrote:
-> On Tue, May 18, 2021 at 02:42:14PM +0800, Claire Chang wrote:
-> > @@ -138,4 +160,9 @@ one for multimedia processing (named multimedia-memory@77000000, 64MiB).
-> >  		memory-region = <&multimedia_reserved>;
-> >  		/* ... */
-> >  	};
-> > +
-> > +	pcie_device: pcie_device@0,0 {
-> > +		memory-region = <&restricted_dma_mem_reserved>;
-> > +		/* ... */
-> > +	};
-> 
-> I still don't understand how this works for individual PCIe devices -- how
-> is dev->of_node set to point at the node you have above?
-> 
-> I tried adding the memory-region to the host controller instead, and then
-> I see it crop up in dmesg:
-> 
->   | pci-host-generic 40000000.pci: assigned reserved memory node restricted_dma_mem_reserved
-> 
-> but none of the actual PCI devices end up with 'dma_io_tlb_mem' set, and
-> so the restricted DMA area is not used. In fact, swiotlb isn't used at all.
-> 
-> What am I missing to make this work with PCIe devices?
+Hi Ville,
 
-Aha, looks like we're just missing the logic to inherit the DMA
-configuration. The diff below gets things working for me.
+On Tue, 18 May 2021 at 12:17, Ville Syrj=C3=A4l=C3=A4
+<ville.syrjala@linux.intel.com> wrote:
+>
+> On Tue, May 18, 2021 at 12:09:56PM +0100, Emil Velikov wrote:
+> > Hi Ville,
+> >
+> > On Mon, 17 May 2021 at 18:24, Ville Syrj=C3=A4l=C3=A4
+> > <ville.syrjala@linux.intel.com> wrote:
+> > >
+> > > On Sun, May 16, 2021 at 06:14:32PM +0100, Emil Velikov wrote:
+> > > > From: Vivek Das Mohapatra <vivek@collabora.com>
+> > > >
+> > > > This patch is to do with seamless handover, eg when the sequence is
+> > > > bootloader =E2=86=92 plymouth =E2=86=92 desktop.
+> > > >
+> > > > It switches the vga arbiter from the "other" GPU to the default one
+> > > > (intel in this case), so the driver can issue some io().
+> > >
+> > > I don't understand what this commit message is trying to say.
+> > >
+> > Bunch of context is lost due to the patch age, so I'm not 100% sure of
+> > the actual hardware setup where this occurs.
+> > Does the following make sense?
+> >
+> > Currently on dual GPU systems, we do not get seamless handover as the
+> > output flickers during the transition bootloader -> plymouth ->
+> > desktop.
+> > This happens as a result of switching (via the VGA arbiter) from the
+> > "other" GPU back to the default i915 one and issuing io() commands.
+>
+> Hmm. Does this work?
+>
+> --- a/drivers/gpu/drm/i915/display/intel_vga.c
+> +++ b/drivers/gpu/drm/i915/display/intel_vga.c
+> @@ -29,6 +29,9 @@ void intel_vga_disable(struct drm_i915_private *dev_pri=
+v)
+>         i915_reg_t vga_reg =3D intel_vga_cntrl_reg(dev_priv);
+>         u8 sr1;
+>
+> +       if (intel_de_read(dev_priv, vga_reg) & VGA_DISP_DISABLE)
+> +               return;
+> +
+>         /* WaEnableVGAAccessThroughIOPort:ctg,elk,ilk,snb,ivb,vlv,hsw */
+>         vga_get_uninterruptible(pdev, VGA_RSRC_LEGACY_IO);
+>         outb(SR01, VGA_SR_INDEX);
+>
+Was able to replicate the issue somewhat and the above does help quite a lo=
+t.
+Feel free to add my:
+Reviewed-by: Emil Velikov <emil.velikov@collabora.com>
+Tested-by: Emil Velikov <emil.velikov@collabora.com>
 
-Will
+Also feel free to reuse as much/little of the following setup details.
 
---->8
+To reproduce the issue:
 
-diff --git a/drivers/of/address.c b/drivers/of/address.c
-index c562a9ff5f0b..bf499fdd6e93 100644
---- a/drivers/of/address.c
-+++ b/drivers/of/address.c
-@@ -1113,25 +1113,25 @@ bool of_dma_is_coherent(struct device_node *np)
- }
- EXPORT_SYMBOL_GPL(of_dma_is_coherent);
- 
--int of_dma_set_restricted_buffer(struct device *dev)
-+int of_dma_set_restricted_buffer(struct device *dev, struct device_node *np)
- {
--	struct device_node *node;
- 	int count, i;
- 
--	if (!dev->of_node)
-+	if (!np)
- 		return 0;
- 
--	count = of_property_count_elems_of_size(dev->of_node, "memory-region",
-+	count = of_property_count_elems_of_size(np, "memory-region",
- 						sizeof(phandle));
- 	for (i = 0; i < count; i++) {
--		node = of_parse_phandle(dev->of_node, "memory-region", i);
-+		struct device_node *node;
-+
-+		node = of_parse_phandle(np, "memory-region", i);
- 		/* There might be multiple memory regions, but only one
--		 * restriced-dma-pool region is allowed.
-+		 * restricted-dma-pool region is allowed.
- 		 */
- 		if (of_device_is_compatible(node, "restricted-dma-pool") &&
- 		    of_device_is_available(node))
--			return of_reserved_mem_device_init_by_idx(
--				dev, dev->of_node, i);
-+			return of_reserved_mem_device_init_by_idx(dev, np, i);
- 	}
- 
- 	return 0;
-diff --git a/drivers/of/device.c b/drivers/of/device.c
-index d8d865223e51..2defdca418ec 100644
---- a/drivers/of/device.c
-+++ b/drivers/of/device.c
-@@ -166,7 +166,7 @@ int of_dma_configure_id(struct device *dev, struct device_node *np,
- 	arch_setup_dma_ops(dev, dma_start, size, iommu, coherent);
- 
- 	if (!iommu)
--		return of_dma_set_restricted_buffer(dev);
-+		return of_dma_set_restricted_buffer(dev, np);
- 
- 	return 0;
- }
-diff --git a/drivers/of/of_private.h b/drivers/of/of_private.h
-index 9fc874548528..8fde97565d11 100644
---- a/drivers/of/of_private.h
-+++ b/drivers/of/of_private.h
-@@ -163,14 +163,15 @@ struct bus_dma_region;
- #if defined(CONFIG_OF_ADDRESS) && defined(CONFIG_HAS_DMA)
- int of_dma_get_range(struct device_node *np,
- 		const struct bus_dma_region **map);
--int of_dma_set_restricted_buffer(struct device *dev);
-+int of_dma_set_restricted_buffer(struct device *dev, struct device_node *np);
- #else
- static inline int of_dma_get_range(struct device_node *np,
- 		const struct bus_dma_region **map)
- {
- 	return -ENODEV;
- }
--static inline int of_dma_set_restricted_buffer(struct device *dev)
-+static inline int of_dma_set_restricted_buffer(struct device *dev,
-+					       struct device_node *np)
- {
- 	return -ENODEV;
- }
+Get a dual GPU system - Intel+Nvidia in my case. Set the other
+(Nvidia) as default in UEFI and connect monitors to it.
+Ensure the bootloader (and if using splash manager like plymouth) are
+set to display the UEFI BGRT. Personally I tested systemd-boot,
+although GRUB should also work. I couldn't get plymouth to work/behave
+here :shrug:
+
+Note: Having the Nvidia drivers in the initramfs can lead to extra
+flicker so leave them out. Include the i915 drivers in initramfs.
+
+Without the patch, the existing bootslash is wiped clean almost
+instantaneously as the i915 driver calls intel_vga_disable().
+With your patch the call is a no-op, and the bootsplash stays around
+until the login manager (and X) is spawned.
+
+HTH
+Emil
