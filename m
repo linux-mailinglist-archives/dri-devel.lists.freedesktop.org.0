@@ -1,45 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D89C391994
-	for <lists+dri-devel@lfdr.de>; Wed, 26 May 2021 16:11:25 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7301F3919A9
+	for <lists+dri-devel@lfdr.de>; Wed, 26 May 2021 16:15:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 29A176ED20;
-	Wed, 26 May 2021 14:11:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AF5496ED22;
+	Wed, 26 May 2021 14:15:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 269F06ED11;
- Wed, 26 May 2021 14:11:20 +0000 (UTC)
-IronPort-SDR: HBBLbvmwrA2u7qw8XOIAyvM6kiGMXgwOBakl38lGxAVjCWWdzBJ0NdpDepkh/t+W7kI2hU12H8
- ufUmLe5CJrTA==
-X-IronPort-AV: E=McAfee;i="6200,9189,9996"; a="189594214"
-X-IronPort-AV: E=Sophos;i="5.82,331,1613462400"; d="scan'208";a="189594214"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 May 2021 07:11:20 -0700
-IronPort-SDR: YGQcQQpKO7wRIz9pi2v+6NyTf2m8ZEQ7cB5hK1UjgwHoPGhSp/YzARokPx6bf3AjMRFNvmdTP/
- BR+8lxodKsaQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.82,331,1613462400"; d="scan'208";a="444063474"
-Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.171])
- by fmsmga008.fm.intel.com with SMTP; 26 May 2021 07:11:17 -0700
-Received: by stinkbox (sSMTP sendmail emulation);
- Wed, 26 May 2021 17:11:16 +0300
-Date: Wed, 26 May 2021 17:11:16 +0300
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Subject: Re: [PATCH] drm/i915/params: Align visibility of device level and
- global modparams
-Message-ID: <YK5XBAR5QeCvDOw8@intel.com>
-References: <20210526100006.2205062-1-tvrtko.ursulin@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6496C6ED15;
+ Wed, 26 May 2021 14:15:33 +0000 (UTC)
+IronPort-SDR: DcVxs3+/FHVgpmGVXspvauMKi7RNHRbOg8yEvh/vdEFIWa4yPoblou4BVXvyZM1PfxQhHFri1F
+ Ns0fkRIpTpoA==
+X-IronPort-AV: E=McAfee;i="6200,9189,9996"; a="223660530"
+X-IronPort-AV: E=Sophos;i="5.82,331,1613462400"; d="scan'208";a="223660530"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 May 2021 07:15:04 -0700
+IronPort-SDR: uK9YQsx/Bg0lta8X7brxz4DyqflVLUgjPQYqlEptUFzyZQq7sUAgIc0tpc6TAon4ke19C5KD4s
+ 9vBDoTj3fCxg==
+X-IronPort-AV: E=Sophos;i="5.82,331,1613462400"; d="scan'208";a="547206240"
+Received: from wardmich-mobl.ger.corp.intel.com (HELO tursulin-mobl2.home)
+ ([10.213.209.181])
+ by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 May 2021 07:15:03 -0700
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+To: Intel-gfx@lists.freedesktop.org
+Subject: [PATCH 00/12] Catchup with a few dropped patches
+Date: Wed, 26 May 2021 15:14:44 +0100
+Message-Id: <20210526141456.2334192-1-tvrtko.ursulin@linux.intel.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210526100006.2205062-1-tvrtko.ursulin@linux.intel.com>
-X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,60 +47,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+Cc: dri-devel@lists.freedesktop.org, Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, May 26, 2021 at 11:00:06AM +0100, Tvrtko Ursulin wrote:
-> From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-> 
-> We have a few modparams which get conditionaly exposed based on a Kconfig
-> options and in most cases this also means portions of the driver
-> implementing the respective feature are also left out.
-> 
-> Align the visibility of device level and global modparams to make them
-> consistent in this respect.
-> 
-> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-> Jani Nikula <jani.nikula@intel.com>
-> ---
->  drivers/gpu/drm/i915/i915_params.h | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/i915_params.h b/drivers/gpu/drm/i915/i915_params.h
-> index 14cd64cc61d0..dee1db50c31a 100644
-> --- a/drivers/gpu/drm/i915/i915_params.h
-> +++ b/drivers/gpu/drm/i915/i915_params.h
-> @@ -71,18 +71,18 @@ struct drm_printer;
->  	param(int, fastboot, -1, 0600) \
->  	param(int, enable_dpcd_backlight, -1, 0600) \
->  	param(char *, force_probe, CONFIG_DRM_I915_FORCE_PROBE, 0400) \
-> -	param(unsigned long, fake_lmem_start, 0, 0400) \
-> -	param(unsigned int, request_timeout_ms, CONFIG_DRM_I915_REQUEST_TIMEOUT, 0600) \
-> +	param(unsigned long, fake_lmem_start, 0, IS_ENABLED(CONFIG_DRM_I915_UNSTABLE_FAKE_LMEM ? 0400 : 0)) \
+From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 
-misplaced parens
+A small chunk of dropped and mostly already reviewed patches (a couple need
+review updated due rebasing I had to do) with the goal of getting to actual
+fixes in the next round.
 
-> +	param(unsigned int, request_timeout_ms, CONFIG_DRM_I915_REQUEST_TIMEOUT, CONFIG_DRM_I915_REQUEST_TIMEOUT ? 0600 : 0) \
->  	/* leave bools at the end to not create holes */ \
->  	param(bool, enable_hangcheck, true, 0600) \
->  	param(bool, load_detect_test, false, 0600) \
->  	param(bool, force_reset_modeset_test, false, 0600) \
-> -	param(bool, error_capture, true, 0600) \
-> +	param(bool, error_capture, true, IS_ENABLED(CONFIG_DRM_I915_CAPTURE_ERROR) ? 0600 : 0) \
->  	param(bool, disable_display, false, 0400) \
->  	param(bool, verbose_state_checks, true, 0) \
->  	param(bool, nuclear_pageflip, false, 0400) \
->  	param(bool, enable_dp_mst, true, 0600) \
-> -	param(bool, enable_gvt, false, 0400)
-> +	param(bool, enable_gvt, false, IS_ENABLED(CONFIG_DRM_I915_GVT) ? 0400 : 0)
->  
->  #define MEMBER(T, member, ...) T member;
->  struct i915_params {
-> -- 
-> 2.30.2
+Chris Wilson (12):
+  drm/i915: Take rcu_read_lock for querying fence's driver/timeline
+    names
+  drm/i915: Remove notion of GEM from i915_gem_shrinker_taints_mutex
+  drm/i915: Lift marking a lock as used to utils
+  drm/i915: Wrap cmpxchg64 with try_cmpxchg64() helper
+  drm/i915/selftests: Set cache status for huge_gem_object
+  drm/i915/selftests: Use a coherent map to setup scratch batch buffers
+  drm/i915/selftests: Replace the unbounded set-domain with an explicit
+    wait
+  drm/i915/selftests: Remove redundant set-to-gtt-domain
+  drm/i915/selftests: Replace unbound set-domain waits with explicit
+    timeouts
+  drm/i915/selftests: Replace an unbounded set-domain wait with a
+    timeout
+  drm/i915/selftests: Remove redundant set-to-gtt-domain before batch
+    submission
+  drm/i915/gem: Manage all set-domain waits explicitly
+
+ drivers/gpu/drm/i915/gem/i915_gem_clflush.c   |   9 +-
+ drivers/gpu/drm/i915/gem/i915_gem_clflush.h   |   2 -
+ drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c    |   4 +-
+ drivers/gpu/drm/i915/gem/i915_gem_domain.c    | 163 +++++-------------
+ .../gpu/drm/i915/gem/i915_gem_execbuffer.c    |   4 +-
+ drivers/gpu/drm/i915/gem/i915_gem_object.h    |  12 +-
+ .../gpu/drm/i915/gem/i915_gem_object_types.h  |   6 +
+ drivers/gpu/drm/i915/gem/i915_gem_shrinker.c  |  14 --
+ drivers/gpu/drm/i915/gem/i915_gem_shrinker.h  |   2 -
+ .../gpu/drm/i915/gem/selftests/huge_pages.c   |  22 +--
+ .../i915/gem/selftests/i915_gem_client_blt.c  |  26 ++-
+ .../i915/gem/selftests/i915_gem_coherency.c   |  31 +++-
+ .../drm/i915/gem/selftests/i915_gem_context.c |  18 +-
+ .../drm/i915/gem/selftests/i915_gem_mman.c    |  16 --
+ .../drm/i915/gem/selftests/i915_gem_phys.c    |   8 +-
+ .../drm/i915/gem/selftests/igt_gem_utils.c    |   3 +
+ drivers/gpu/drm/i915/gt/intel_engine_cs.c     |  13 +-
+ drivers/gpu/drm/i915/gt/intel_gtt.c           |   2 +-
+ drivers/gpu/drm/i915/gt/intel_reset.c         |   2 +-
+ .../gpu/drm/i915/gt/selftest_workarounds.c    | 107 +++++-------
+ drivers/gpu/drm/i915/i915_gem.c               |   4 +-
+ drivers/gpu/drm/i915/i915_sw_fence.c          |   2 +
+ drivers/gpu/drm/i915/i915_utils.c             |  28 +++
+ drivers/gpu/drm/i915/i915_utils.h             |  41 +++++
+ drivers/gpu/drm/i915/selftests/i915_vma.c     |   6 -
+ .../drm/i915/selftests/intel_memory_region.c  |   7 +-
+ 26 files changed, 240 insertions(+), 312 deletions(-)
 
 -- 
-Ville Syrjälä
-Intel
+2.30.2
+
