@@ -2,122 +2,94 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18F6B3918C5
-	for <lists+dri-devel@lfdr.de>; Wed, 26 May 2021 15:26:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5251C3918D6
+	for <lists+dri-devel@lfdr.de>; Wed, 26 May 2021 15:31:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DD0F26E4B1;
-	Wed, 26 May 2021 13:26:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CA18A6E4B5;
+	Wed, 26 May 2021 13:31:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM04-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam08on2085.outbound.protection.outlook.com [40.107.100.85])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AABDC6E4AB;
- Wed, 26 May 2021 13:26:14 +0000 (UTC)
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com
+ (mail-co1nam11on2044.outbound.protection.outlook.com [40.107.220.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E689B6E4B5;
+ Wed, 26 May 2021 13:31:15 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=eTb0pb6cnQ/DGQZcxKwrpxglHT39oJlah7uy2HmRW/F1JG2vuRDP7qVfncvcwOTEv/C1EHA7KQCu8/ogllEMZF9Fyn45aQxbma8IulipnSHOd5IVzFOQim50X3182D97F4M3gmnTa0Hm1pleJvga/uagVxkNyAJdqXHJzzGugMZaVSXNQxksVKMMNtBqfh69NGggAuXaMBTMPXYRXI3AhE9iPYxTmoQ+UYvcMV2+AzRByjI1FOyzBJ1yDmjnOwScgr1d8nS06+gGTj41115zjfYUQIfVErTG81doEnKMQ8+h4ZNDWHdjKF1NppdMWt0Tu48BQgD9mcXiBV2ULQ9TNg==
+ b=ZB6o8mFJAUPIc5h23BlWsWWQsyXXwNjKu4ZG9HLWgj+Ujzvcqm3A7Gn1LN1T99FMNx+RLzQm4qb1gskYWeZJRfYMJ4W73IoKgWV/2dBMzapuCVJA176rJOf7kzfkr9YQOOSfhAnBcJgiFR1nRoYxM8kyBsJ0VHy8XnBGX9NvBExt9oClXG3gsGWhU+FsI1r6K0tmcYQTUM/bcEKY/nmp2mabmOK0gMMwYx0TgAoiV/mFVGTRow5pFs7XJ4O7kyaSWxUBwtImBLXygPT6wyhUUlF1Pe/xMRYgpaLj+dT3nkSeyz1yde3GbEPdy31+KiCozdk6AF1p4pS6Vm/NImWi7A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=4Cq2kmEIsXOIRGQ9KGU4HgwfiiokI6o4UaaZN4uNxhU=;
- b=f84eMNJ5quzA1uPDfsC+c0mZfPcPpfgaboaGGj4ZuwnRSlebc+62z3Z2TqO3SC04tlN10Rah9S0mlnhNRCVuOsw9FADr0FR2Aav1K4SeGYNhuDq6KLKiK04VDL8vwsXuWGj212KZ1gQaVWPZp4twd0moYSRsm16kq2Ks/5nQfg4S6THobP3CZhlWCVzHsSeUxZv2M2kAvvM9E5UIJgSzqGotdcsTOR1yMQuXjCZlvXeqAE0BwKn7VDM6gnH7JEdug2v5GF5PXr6jFvC9JmseZdyLXPGJkndCHtwJ6OAsmWpWzDY0wQD1nxt7Oj32bwHgmmGntqPTilXCI8s62nCQyA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ bh=qXZ7nVZreomlWJgXxkw1HoGMAC5o8Vi6LPHQcMubhDw=;
+ b=HGZ6rc6BM7riF7dGpsE5vM+uZJOcdp9TliQRAVaGDCmcwLfKX1y8toqTb/5tXO6KkjbrxH9UvLWlsgiisHDudMrEq6fGRu+K1XU7mb1gOQbH5ZIjr7zm/rkYcHglFgh+nWx7VPqVyUubWUZ689vBs+2vloy7otW48fUwPnAZaA4WZUc5oIinO9RMtiU+/jh20ziJyfWsnxH3BHWXKtintEN/4OfNDok0Sqc3kXN23k3YjL6+PdINnqaTfzjf8+18885l9JYxaDTaFCx6EVLYFyZK979DRVsp56loUEcJUzC6FeW874GmwBNYjuZk1fA/skJTERVnAgn7YIcE8olgYw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.112.34) smtp.rcpttodomain=redhat.com smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=none sp=none pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=4Cq2kmEIsXOIRGQ9KGU4HgwfiiokI6o4UaaZN4uNxhU=;
- b=dadcFkzyv9+8D0AW1UsTg2I/MKfYkhM21vA7Evwq8BAbmEA3uJfdDoXLFtJ5Cxd4/xbtJqx5TYmv5MQqFgghmwOSbOsVJLhGveRfgd6WFHOp5OrtOk7Fq+KJonyXL5kgJGd2ZnyA67ueLedXgb7m4+p/JXZkh2YnaMwI2Pryi0w=
-Authentication-Results: linux.intel.com; dkim=none (message not signed)
- header.d=none;linux.intel.com; dmarc=none action=none header.from=amd.com;
-Received: from MN2PR12MB3775.namprd12.prod.outlook.com (2603:10b6:208:159::19)
- by MN2PR12MB4389.namprd12.prod.outlook.com (2603:10b6:208:262::20)
+ bh=qXZ7nVZreomlWJgXxkw1HoGMAC5o8Vi6LPHQcMubhDw=;
+ b=HGs5YnT2JVSLvUonnho38j/bN9uCxc8Y7ca6kMvotDGxMpYR62HV5dBkYuPxLlu8UGcQR/CKvkEU8TX8GRK3yJX64SZWCCxIscFcm4ygS7rspZhi2LXFE9YrZFSWwkGjkujbZPXtasUjkD2X0b+msz7Lr26vtblObLbaZOO53HzJ7LjISGgQSQ7YKUS0ImWhLy5l3+ap/8wbX1OX6eSZHB59NrAY02377nVMudKZVRP89Wzd8dsJENPr7mXy0NuSFvHmkQ6XQF16L2ake0ruRhMqvu0q487hIUdyr4q/sIfQizvG75yyerqF8AXlO5esCWvTBLXQPn7UN5fZGXFdeQ==
+Received: from BN9P220CA0019.NAMP220.PROD.OUTLOOK.COM (2603:10b6:408:13e::24)
+ by SN1PR12MB2558.namprd12.prod.outlook.com (2603:10b6:802:2b::18)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4150.26; Wed, 26 May
- 2021 13:26:12 +0000
-Received: from MN2PR12MB3775.namprd12.prod.outlook.com
- ([fe80::6d4d:4674:1cf6:8d34]) by MN2PR12MB3775.namprd12.prod.outlook.com
- ([fe80::6d4d:4674:1cf6:8d34%6]) with mapi id 15.20.4150.027; Wed, 26 May 2021
- 13:26:12 +0000
-Subject: Re: [PATCH v4 10/15] drm/ttm, drm/amdgpu: Allow the driver some
- control over swapping
-To: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-References: <20210526113259.1661914-1-thomas.hellstrom@linux.intel.com>
- <20210526113259.1661914-11-thomas.hellstrom@linux.intel.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-Message-ID: <9f49eb8e-8ec5-cb24-0ce1-3e63272628e8@amd.com>
-Date: Wed, 26 May 2021 15:26:07 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
-In-Reply-To: <20210526113259.1661914-11-thomas.hellstrom@linux.intel.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-Originating-IP: [2a02:908:1252:fb60:1950:35e:cae9:5bed]
-X-ClientProxiedBy: FR0P281CA0004.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:15::9) To MN2PR12MB3775.namprd12.prod.outlook.com
- (2603:10b6:208:159::19)
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4150.27; Wed, 26 May
+ 2021 13:31:14 +0000
+Received: from BN8NAM11FT046.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:408:13e:cafe::c8) by BN9P220CA0019.outlook.office365.com
+ (2603:10b6:408:13e::24) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4173.20 via Frontend
+ Transport; Wed, 26 May 2021 13:31:14 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.112.34)
+ smtp.mailfrom=nvidia.com; redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.112.34 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.112.34; helo=mail.nvidia.com;
+Received: from mail.nvidia.com (216.228.112.34) by
+ BN8NAM11FT046.mail.protection.outlook.com (10.13.177.127) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.20.4129.25 via Frontend Transport; Wed, 26 May 2021 13:31:14 +0000
+Received: from nvdebian.localnet (172.20.145.6) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Wed, 26 May
+ 2021 13:30:09 +0000
+From: Alistair Popple <apopple@nvidia.com>
+To: John Hubbard <jhubbard@nvidia.com>
+Subject: Re: [PATCH v9 07/10] mm: Device exclusive memory access
+Date: Wed, 26 May 2021 23:30:06 +1000
+Message-ID: <1743144.c4ng0vEeQp@nvdebian>
+In-Reply-To: <8844f8c1-d78c-e0f9-c046-592bd75d4c07@nvidia.com>
+References: <20210524132725.12697-1-apopple@nvidia.com>
+ <YKzk0ILRsyazMs2W@balbir-desktop>
+ <8844f8c1-d78c-e0f9-c046-592bd75d4c07@nvidia.com>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [IPv6:2a02:908:1252:fb60:1950:35e:cae9:5bed]
- (2a02:908:1252:fb60:1950:35e:cae9:5bed) by
- FR0P281CA0004.DEUP281.PROD.OUTLOOK.COM (2603:10a6:d10:15::9) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4173.12 via Frontend Transport; Wed, 26 May 2021 13:26:11 +0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+X-Originating-IP: [172.20.145.6]
+X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: d144e534-5661-4503-070d-08d92049d497
-X-MS-TrafficTypeDiagnostic: MN2PR12MB4389:
-X-Microsoft-Antispam-PRVS: <MN2PR12MB43892996A3161EB35BF2039D83249@MN2PR12MB4389.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
+X-MS-Office365-Filtering-Correlation-Id: ed443741-482a-4799-df78-08d9204a88b7
+X-MS-TrafficTypeDiagnostic: SN1PR12MB2558:
+X-Microsoft-Antispam-PRVS: <SN1PR12MB2558DECF0C3D61C13378E927DF249@SN1PR12MB2558.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: wdmoqGq93hNvDcWuVIOvuwr10e8c273yQULpduAglGbTnz4Uou5mXAMKGWd/3N2A3pbYr2ioU+MOTjIa0tRpxw9fEAx63J7wMUhs71Gl8it0WgmXuPTE8DloMVIZ/nzdTEjEM3JE+QomrJUALxmOdcRLWAao4TpV4YhWwS1K7Q/LnmN/ZL0xysTiweTcXUdKxowSv4XHglOjsqiyGkMcKJpiyG6/7DvkEBfAJ9DqkvL+chuym6kcMpggeWwp3l54NQVW9ozBaX25PL0+Vgv9MjRiRy0OOy5U79ESaa1E62Q96g0AwNMzoCrM0PYUqUm4o8c/rujUR+FMO2gfIjMp7WuoZXtZei5uS1b+OwKGXp1JshggoQ78/TPmabkl1EUyZe1AfxW4z97d7i+KyvfmPyczNFnCHEw0PgZ8ey4jqfa4eiBjrG/Y+2GuGTMnuClMCH+hIdQXw6Jpb4E/bmEbicqqyfIpA7xT0DwncjOf1iBRgai4R1W6FDNU1Bh7ZkIV9GGYj7mRlVJHlrPjf0f7SuZxMnTXsrS/UBldUJLr37Sj9pFylYhsYtcJl3srUO0eKNMSDDONvtkvZM2TkuxfZ+dS5hhPtK33Ye0KM0SeCoEvuBMQ/RDsl6aTX36krgLoHtvLpeADCuhiTGG8zR61eEG96vxuj0I5FlDUaNTNcz5rxK46ugHDOOXhNg4DsSOs
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN2PR12MB3775.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(136003)(376002)(346002)(39860400002)(396003)(366004)(186003)(66476007)(66556008)(31686004)(478600001)(5660300002)(66946007)(36756003)(8936002)(4326008)(6486002)(16526019)(38100700002)(8676002)(2906002)(2616005)(66574015)(83380400001)(31696002)(52116002)(6666004)(316002)(86362001)(45980500001)(43740500002);
+X-Microsoft-Antispam-Message-Info: foRqUTFWo0dI7eIchjpM3IfFGtr5m8WNQVh0y9rHJAsT0PfOjCS4iihKRTZ0FkJBHWfcpiqOQ4a1oEuNnVQ1F6pfpaPRP3/5qqGJijHMDZgRrwj8Gx/XVrvXCjzRZULf9Dq9B2G47brMsi3lG4O7TbOQ4z+70rxElHdhhi2XclFzvKfqF3Zysi0BlttKlc1qSkSexmohI6irh5JkE1UDhrrXctSqRNAnMqKb1fEi483wlsao0/LxIFa6BycZXEP08EupYSlnOEDL2+gj+OssDxPDrOcH9eeup6VveI3JZgzSMnlDil6kc3IaDkNIWdth+JtTlG9auEHpfYEH0aRAwHV9smI2xMSnYQuwl2kd6kZPfDBL75d35w8TAc0lyBGtOG/s3llB6Yupx5wxlZc4kl+DpQ0fU5p4Uhmhcfx5kJiBTlxtf/us6vKLm7by83TEg5bCn/KJRw7oWrYGsQrRHB/jweqOxpousH+gtoKXDRWB2B3V3GkbM7ZvPuIC34jyDdYLt57Bvuwx0dcgj8xkM38b3oW63O5xje+/BAYVpY0NIVlsvjR9oFkC2+U6UJ9q/XPFy2QYDfbRJndspn/B67/G3kbE8sMujkxJCGolOXBaM/7C6Eat5hr52unXaOhWp5bP4YBsoaKJS9jcmbUbTIPPaMUsaCMsZ7jIYFevrp4eFb39kh2bIVC+oOKJTjr+y390cWD/uvL7fsi89f9dt2XLSEHwONJYQnxzlqtTZm591p8S/xbuYCtygoUSnDtOTAgsd/7UgFWih2iqs9Koe1QcYnqU86phmMSzdXbsu/M=
+X-Forefront-Antispam-Report: CIP:216.228.112.34; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:mail.nvidia.com; PTR:schybrid03.nvidia.com; CAT:NONE;
+ SFS:(4636009)(396003)(346002)(376002)(39860400002)(136003)(36840700001)(46966006)(53546011)(5660300002)(7636003)(426003)(36860700001)(6666004)(54906003)(83380400001)(70206006)(8936002)(9686003)(8676002)(336012)(478600001)(33716001)(356005)(16526019)(186003)(26005)(36906005)(7416002)(316002)(6636002)(70586007)(86362001)(9576002)(6862004)(966005)(2906002)(82740400003)(47076005)(82310400003)(4326008)(39026012);
  DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?QTRDQ0NCUWk3ZVliZHNzQWUyclE3bUJnUDRCTzlienU0dGM1OEpoYk1wRmxo?=
- =?utf-8?B?SEZzK25LMWczVHV0TFFQaG4rb0haTWYxWXB3cm9zYW1QZS9rRWtHTHZIaW9x?=
- =?utf-8?B?ZWNjYWQ4SXY1Q2ZPYitnM2lUZ2xkSHNKNFM3UTdGai9KU3N4QVlBQTVsNWw2?=
- =?utf-8?B?bjVFVTVid3FhcDViSnoyNGZvMTYwc2tRdjZoczVndVpMeHRCbkVMOHJXTEJO?=
- =?utf-8?B?cjgrSEMrcG1ORXltckNtNDZNSlc4OGU3NDZJSzhnOVlwSitHcjdIWCtKanpR?=
- =?utf-8?B?UHl0NmNJbFpHcjBxMTJHZUhUcTh1NDI5cWxkVlphTmxrT1hGRkJhdGZWRHdL?=
- =?utf-8?B?aDhDWVYvOUpUZUFHdUk2R3U1M3orRmxEMkVna3hsSmViNFU3amx1SUt3YlZn?=
- =?utf-8?B?ZWVBc2wxZzAvaEdaQzFQUC9wVFZ2NElML21vZTIzZmxScTVUaG9ueXprTmVr?=
- =?utf-8?B?eE1aOGhreUk5OFJnSnJINjd6VGdZekxKYlNsZWRvY0oyOXQwUHczQjhacmhV?=
- =?utf-8?B?QUpDK2l4TStnVCtaVW1xejRVY2FPMzBPakhucC8wWGxmOUYxaGJJaWJsRGF4?=
- =?utf-8?B?ci9yUzBUVW1HQWxoWG5pV3BhcEpONnhKaUNUWm9DWk1SMEtDMXR2U3hGWG53?=
- =?utf-8?B?THNWSkdGOE1XVmttQ2dmM0N2OTdUR2Jmd0pXbzRIbjI5Z3h3MnZKTlBwaG01?=
- =?utf-8?B?aTVwaWRVMUJjMFhkSTc2REYya1RvR1ZvZnh4Z281cWI0YnBrSFFXVjEyRk9H?=
- =?utf-8?B?U1lLa3hLRFIrQlM5QUdSc0xQUTJTUFRZMWpoRDFZdTlsdXVYUTlNNThKZXlh?=
- =?utf-8?B?dFhJVXhWYVArYTRYT1ZaYlh6R2IzSDNJSndBbDZUL29tb1lhK01aeWx4Ynpy?=
- =?utf-8?B?QkJBTlVOeEp3KzU2RUQxNEl6dWJVVy93eVFZV2xVRGdwT3k4U2ZZdURtYUMy?=
- =?utf-8?B?NGE1Znc2ZlFML1drVENtR1F0YXArT2dTdThZaVNSRGZPcVdsN2V5eDlIMEZX?=
- =?utf-8?B?TCtHRFR3eG5VbVNpUVpHQjlhNnZ1dXRTUXRxNENKbW5FeG9vZmtIRFpleE0y?=
- =?utf-8?B?WWhnU2xxcWNLTU5pTm5wbWI1WEVuM3JoZW9EZGMyRy9aenllWTdKWnRPTUtP?=
- =?utf-8?B?eXRlZHZrQVJlQUd6R3dETTRSZ1V6NXhRS0JJeVZPV0VJV1Q4eFoyVHV0OUg3?=
- =?utf-8?B?eHBGQUV5alNwSDY3ZzhXU21jRHo1ZjAvZVZ6UVVSNGhZenhzWkNkdGVKeTg3?=
- =?utf-8?B?bWJNdlBlYUEvRjZMeVV5TGFwenNJbC9sa0VzeUx1Z1NVc0VlUDQ4dU9lbWgx?=
- =?utf-8?B?VGZuVlZoZlhPMFI0cHlyWWlVMXBkbHUzcm1kMzlMTVFqUFoxUnVUbzFramZk?=
- =?utf-8?B?NEZIY3AwWTdKTzNQK29jVzhwM1pPY2V2OVREVlI0cmxqSFZvRmkwRXR5Y3Q4?=
- =?utf-8?B?ZTM2a29rT0ZsZnVGYU1EVXM2Z1pmRmdXYlJzSmw4U3RpZW1rcS9oMUpiL0pM?=
- =?utf-8?B?MWpob1YzMStQMXZKRFdzS2x1MWlmUG9JSlFEay90ci96REJ0VGJXL3FmeVZx?=
- =?utf-8?B?cCtxcGIxSXBLdEFOcVZpTmo4emdsRkFJYTFDZ2ZrRWFXM2UwTHU5bnF6MGZ2?=
- =?utf-8?B?dllSNnZnOWNObmZVVGlkT0l5ak1IM2xwOVZZblhmNGZENC9iWmdnUXdFQkJC?=
- =?utf-8?B?QzUyRDY1Ylk4akF6SjRNZVBob205T1pSQjZTSVdSQWs5TkZyOHY1SFNJamxH?=
- =?utf-8?B?M3dpQzhkYWZJMVpzNjBsbVFvQmxRTGwzdUFvdXFKSFo1WXR5djFtODFGdW04?=
- =?utf-8?B?QkhQYlBYNTFYZ0QzK0NWUmREeXAyMEtBWXYySjVFYVJDT3Jkd3ZkNVNsK0V4?=
- =?utf-8?Q?zfDiLMWuiM97e?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d144e534-5661-4503-070d-08d92049d497
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3775.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 May 2021 13:26:12.2913 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: UalM4W19MPkMvV0a59bn9c5BUT/3towaHAi1pP35jXBe0k585dXLTwx0aPxhtlod
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4389
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 May 2021 13:31:14.0367 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: ed443741-482a-4799-df78-08d9204a88b7
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a; Ip=[216.228.112.34];
+ Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT046.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN1PR12MB2558
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -130,178 +102,85 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: rcampbell@nvidia.com, willy@infradead.org, linux-doc@vger.kernel.org,
+ nouveau@lists.freedesktop.org, Balbir Singh <bsingharora@gmail.com>,
+ hughd@google.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, peterx@redhat.com, hch@infradead.org,
+ linux-mm@kvack.org, jglisse@redhat.com, bskeggs@redhat.com, jgg@nvidia.com,
+ Andrew Morton <akpm@linux-foundation.org>, Christoph Hellwig <hch@lst.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 26.05.21 um 13:32 schrieb Thomas Hellström:
-> We are calling the eviction_valuable driver callback at eviction time to
-> determine whether we actually can evict a buffer object.
-> The upcoming i915 TTM backend needs the same functionality for swapout,
-> and that might actually be beneficial to other drivers as well.
+On Wednesday, 26 May 2021 5:17:18 PM AEST John Hubbard wrote:
+> On 5/25/21 4:51 AM, Balbir Singh wrote:
+> ...
+> 
+> >> How beneficial is this code to nouveau users?  I see that it permits a
+> >> part of OpenCL to be implemented, but how useful/important is this in
+> >> the real world?
+> > 
+> > That is a very good question! I've not reviewed the code, but a sample
+> > program with the described use case would make things easy to parse.
+> > I suspect that is not easy to build at the moment?
+> 
+> The cover letter says this:
+> 
+> This has been tested with upstream Mesa 21.1.0 and a simple OpenCL program
+> which checks that GPU atomic accesses to system memory are atomic. Without
+> this series the test fails as there is no way of write-protecting the page
+> mapping which results in the device clobbering CPU writes. For reference
+> the test is available at https://ozlabs.org/~apopple/opencl_svm_atomics/
+> 
+> Further testing has been performed by adding support for testing exclusive
+> access to the hmm-tests kselftests.
+> 
+> ...so that seems to cover the "sample program" request, at least.
+
+It is also sufficiently easy to build, assuming of course you have the 
+appropriate Mesa/LLVM/OpenCL libraries installed :-)
+
+If you are interested I have some scripts which may help with building Mesa, 
+etc. Not that that is especially hard either, it's just there are a couple of 
+different dependencies required.
+
+> > I wonder how we co-ordinate all the work the mm is doing, page migration,
+> > reclaim with device exclusive access? Do we have any numbers for the worst
+> > case page fault latency when something is marked away for exclusive
+> > access?
 >
-> Add an eviction_valuable call also in the swapout path. Try to keep the
-> current behaviour for all drivers by returning true if the buffer object
-> is already in the TTM_PL_SYSTEM placement. We change behaviour for the
-> case where a buffer object is in a TT backed placement when swapped out,
-> in which case the drivers normal eviction_valuable path is run.
->
-> Finally make sure we don't try to swapout a bo that was recently purged
-> and therefore unpopulated.
->
-> Reviewed-by: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> Cc: Christian König <christian.koenig@amd.com>
-> Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-> ---
-> v3:
-> - Don't export ttm_tt_unpopulate
-> - Fix confusion reading the locked pointer instead of the value
->    pointed to in ttm_bo_evict_swapout_allowable (Reported by
->    Maarten Lankhorst)
-> ---
->   drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c |  4 +++
->   drivers/gpu/drm/ttm/ttm_bo.c            | 43 ++++++++++++++++---------
->   drivers/gpu/drm/ttm/ttm_tt.c            |  3 ++
->   3 files changed, 34 insertions(+), 16 deletions(-)
->
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-> index 3bc3aebfef7c..45d194bffc3f 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-> @@ -1348,6 +1348,10 @@ static bool amdgpu_ttm_bo_eviction_valuable(struct ttm_buffer_object *bo,
->   	struct dma_fence *f;
->   	int i;
->   
-> +	/* Swapout? */
-> +	if (bo->mem.mem_type == TTM_PL_SYSTEM)
-> +		return true;
-> +
->   	if (bo->type == ttm_bo_type_kernel &&
->   	    !amdgpu_vm_evictable(ttm_to_amdgpu_bo(bo)))
->   		return false;
-> diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
-> index be0406466460..1b2d062266ed 100644
-> --- a/drivers/gpu/drm/ttm/ttm_bo.c
-> +++ b/drivers/gpu/drm/ttm/ttm_bo.c
-> @@ -536,6 +536,10 @@ static int ttm_bo_evict(struct ttm_buffer_object *bo,
->   bool ttm_bo_eviction_valuable(struct ttm_buffer_object *bo,
->   			      const struct ttm_place *place)
->   {
-> +	dma_resv_assert_held(bo->base.resv);
-> +	if (bo->mem.mem_type == TTM_PL_SYSTEM)
-> +		return true;
-> +
->   	/* Don't evict this BO if it's outside of the
->   	 * requested placement range
->   	 */
-> @@ -558,7 +562,9 @@ EXPORT_SYMBOL(ttm_bo_eviction_valuable);
->    * b. Otherwise, trylock it.
->    */
->   static bool ttm_bo_evict_swapout_allowable(struct ttm_buffer_object *bo,
-> -			struct ttm_operation_ctx *ctx, bool *locked, bool *busy)
-> +					   struct ttm_operation_ctx *ctx,
-> +					   const struct ttm_place *place,
-> +					   bool *locked, bool *busy)
->   {
->   	bool ret = false;
->   
-> @@ -576,6 +582,14 @@ static bool ttm_bo_evict_swapout_allowable(struct ttm_buffer_object *bo,
->   			*busy = !ret;
->   	}
->   
-> +	if (ret && place && !bo->bdev->funcs->eviction_valuable(bo, place)) {
-> +		ret = false;
-> +		if (*locked) {
-> +			dma_resv_unlock(bo->base.resv);
-> +			*locked = false;
-> +		}
-> +	}
-> +
->   	return ret;
->   }
->   
-> @@ -630,20 +644,14 @@ int ttm_mem_evict_first(struct ttm_device *bdev,
->   		list_for_each_entry(bo, &man->lru[i], lru) {
->   			bool busy;
->   
-> -			if (!ttm_bo_evict_swapout_allowable(bo, ctx, &locked,
-> -							    &busy)) {
-> +			if (!ttm_bo_evict_swapout_allowable(bo, ctx, place,
-> +							    &locked, &busy)) {
->   				if (busy && !busy_bo && ticket !=
->   				    dma_resv_locking_ctx(bo->base.resv))
->   					busy_bo = bo;
->   				continue;
->   			}
->   
-> -			if (place && !bdev->funcs->eviction_valuable(bo,
-> -								      place)) {
-> -				if (locked)
-> -					dma_resv_unlock(bo->base.resv);
-> -				continue;
-> -			}
->   			if (!ttm_bo_get_unless_zero(bo)) {
->   				if (locked)
->   					dma_resv_unlock(bo->base.resv);
-> @@ -1140,10 +1148,18 @@ EXPORT_SYMBOL(ttm_bo_wait);
->   int ttm_bo_swapout(struct ttm_buffer_object *bo, struct ttm_operation_ctx *ctx,
->   		   gfp_t gfp_flags)
->   {
-> +	struct ttm_place place = {};
->   	bool locked;
->   	int ret;
->   
-> -	if (!ttm_bo_evict_swapout_allowable(bo, ctx, &locked, NULL))
-> +	/*
-> +	 * While the bo may already reside in SYSTEM placement, set
-> +	 * SYSTEM as new placement to cover also the move further below.
-> +	 * The driver may use the fact that we're moving from SYSTEM
-> +	 * as an indication that we're about to swap out.
-> +	 */
-> +	place.mem_type = TTM_PL_SYSTEM;
-> +	if (!ttm_bo_evict_swapout_allowable(bo, ctx, &place, &locked, NULL))
->   		return -EBUSY;
->   
->   	if (!ttm_bo_get_unless_zero(bo)) {
-> @@ -1168,12 +1184,7 @@ int ttm_bo_swapout(struct ttm_buffer_object *bo, struct ttm_operation_ctx *ctx,
->   	if (bo->mem.mem_type != TTM_PL_SYSTEM) {
->   		struct ttm_operation_ctx ctx = { false, false };
->   		struct ttm_resource evict_mem;
-> -		struct ttm_place place, hop;
-> -
-> -		memset(&place, 0, sizeof(place));
-> -		memset(&hop, 0, sizeof(hop));
-> -
-> -		place.mem_type = TTM_PL_SYSTEM;
-> +		struct ttm_place hop = {};
+> CPU page fault latency is approximately "terrible", if a page is resident on
+> the GPU. We have to spin up a DMA engine on the GPU and have it copy the
+> page over the PCIe bus, after all.
 
-I would stick with memset because of the padding reasons.
+Although for clarity that describes latency for CPU faults to device private 
+pages which are always resident on the GPU. A CPU fault to a page being 
+exclusively accessed will be slightly less terrible as it only requires the 
+GPU MMU/TLB mappings to be taken down in much the same as for any other MMU 
+notifier callback as the page is mapped by the GPU rather than resident there.
 
->   
->   		ret = ttm_resource_alloc(bo, &place, &evict_mem);
->   		if (unlikely(ret))
-> diff --git a/drivers/gpu/drm/ttm/ttm_tt.c b/drivers/gpu/drm/ttm/ttm_tt.c
-> index 913b330a234b..d9793cbb6d13 100644
-> --- a/drivers/gpu/drm/ttm/ttm_tt.c
-> +++ b/drivers/gpu/drm/ttm/ttm_tt.c
-> @@ -263,6 +263,9 @@ int ttm_tt_swapout(struct ttm_device *bdev, struct ttm_tt *ttm,
->   	struct page *to_page;
->   	int i, ret;
->   
-> +	if (!ttm_tt_is_populated(ttm))
-> +		return 0;
-> +
-
-This here is just because of a bug in the higher level function.
-
-I've just pushed the fix for that to drm-misc-fixes, so maybe drop that 
-here as soon as this is backmerged.
-
-Apart from that patch looks good to me.
-
-Christian.
+> > I presume for now this is anonymous memory only? SWP_DEVICE_EXCLUSIVE
+> > would
+> 
+> Yes, for now.
+> 
+> > only impact the address space of programs using the GPU. Should the
+> > exclusively marked range live in the unreclaimable list and recycled back
+> > to active/in-active to account for the fact that
+> > 
+> > 1. It is not reclaimable and reclaim will only hurt via page faults?
+> > 2. It ages the page correctly or at-least allows for that possibility when
+> > the> 
+> >     page is used by the GPU.
+> 
+> I'm not sure that that is *necessarily* something we can conclude. It
+> depends upon access patterns of each program. For example, a "reduction"
+> parallel program sends over lots of data to the GPU, and only a tiny bit of
+> (reduced!) data comes back to the CPU. In that case, freeing the physical
+> page on the CPU is actually the best decision for the OS to make (if the OS
+> is sufficiently prescient).
+> 
+> thanks,
 
 
->   	swap_storage = shmem_file_setup("ttm swap", size, 0);
->   	if (IS_ERR(swap_storage)) {
->   		pr_err("Failed allocating swap storage\n");
+
 
