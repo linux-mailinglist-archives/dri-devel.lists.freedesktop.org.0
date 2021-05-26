@@ -1,56 +1,70 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66BF53915C5
-	for <lists+dri-devel@lfdr.de>; Wed, 26 May 2021 13:15:36 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E00083915CD
+	for <lists+dri-devel@lfdr.de>; Wed, 26 May 2021 13:17:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 295E46E063;
-	Wed, 26 May 2021 11:15:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 64CA26EC84;
+	Wed, 26 May 2021 11:17:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x630.google.com (mail-pl1-x630.google.com
- [IPv6:2607:f8b0:4864:20::630])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4F0616E063
- for <dri-devel@lists.freedesktop.org>; Wed, 26 May 2021 11:15:30 +0000 (UTC)
-Received: by mail-pl1-x630.google.com with SMTP id b7so459961plg.0
- for <dri-devel@lists.freedesktop.org>; Wed, 26 May 2021 04:15:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id;
- bh=aiFd6GERxPKvBU+oMxghCoPa2n1wDRulJb/L0ZGwd0Y=;
- b=OaN2wpOgOJK1ZyyiokizNElJY9x+OIIAyM4iZOUdXAkXDcwwvAZSOZVoAR1Pfs/i1g
- X3P/fV9y/P6g+a+XI13SLoEzBt9mlsettGZBROBPr7RsUowDHEhdSQqTuGLO+0jDGEi/
- SzMWv6XUATrS0a8o/iUlwjozavJpSEsYn9OU21Rn6ay+QvetpTGB8YOilQi525lvH+Uw
- 1xqOf3pqWm70PKqbzFb2v0tD7AmJMqzdTBs5iZTrO6U9nMsCMdA+bTiEbjzt2z4oqwYQ
- ceRF+A20E9s+zy2sbTD/GkQt3p+vvQuDxaf+aaRvHCVD1nq7vjyp34ccOUNRSvccwPi0
- ESzw==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C64CA6EC83
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 May 2021 11:17:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1622027821;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=WZhb8zuVnnjhU4y7wnecCuH3x05R6lnJG5XgPPhjXY0=;
+ b=beTieYlzyePGGjkOCs+MlM0vZDcUF/lBuyJj64pNx5rOsAjPTL0MHksxs9m3phTlzkVuCQ
+ X6n2kvBAYypjTJf6haqKaAOves16LH4IZAQnOokRaI8PDvCQ8U7Jixj9E1S3gtpyNdPMZG
+ m3Nvx0Wt2PFJY8OPRDVJFQjd8n0YpkU=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-486-cBHNQkooMFWonkPRNki5Ww-1; Wed, 26 May 2021 07:16:58 -0400
+X-MC-Unique: cBHNQkooMFWonkPRNki5Ww-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ h22-20020adfa4d60000b029011244156c68so236576wrb.13
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 May 2021 04:16:58 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id;
- bh=aiFd6GERxPKvBU+oMxghCoPa2n1wDRulJb/L0ZGwd0Y=;
- b=tx82+suJGHUzNDINdy7gGkdXpLp7Sat5r5TL5Up8Li+ALMhlHzuaAaZEfyEMQ4jahR
- UUsoa53gWLLma9YREGXKLrBaaFhhMUPXPNH6YSHO2AWLw+VajCQBo+4kaFspqCZfy6Qy
- VYzvxzdDJOHO3s/KO8HC3h/U2rdwP2iDXjWmZIVCKWFjaiI4+Fe/RkyyxmQARuWO9C/c
- IDxvXW/AyGkkHT5SKQ3R+XQ0MEI4Zc5qDRO0M6Y/l76qxRI+sZi/fN2v62pneeA62SZ/
- wk114ncgDKNVcrnk5Rf8pKtiRFqodHtRCKI1VKf22iu/5B457pAs3BZOVOhZRyxBN71D
- lNXA==
-X-Gm-Message-State: AOAM531d1/7gROxG6J1B2j+UzAGQDfjYzlh8PQ6E9VmXYpAMBzBpDktT
- dEumdJHlMgTLF4Wb1Wi89pQ=
-X-Google-Smtp-Source: ABdhPJzuxU0THPKqE9K4QCCe9sfBkRmG66p5Jd5/mlqSjuZ1NNLVnSrm4UhKaxUPg5pBA9qKgiCmBg==
-X-Received: by 2002:a17:902:7407:b029:ef:a78c:a385 with SMTP id
- g7-20020a1709027407b02900efa78ca385mr35148012pll.16.1622027729832; 
- Wed, 26 May 2021 04:15:29 -0700 (PDT)
-Received: from localhost.localdomain ([23.99.96.33])
- by smtp.gmail.com with ESMTPSA id 5sm15188935pfe.32.2021.05.26.04.15.27
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 26 May 2021 04:15:29 -0700 (PDT)
-From: ainux.wang@gmail.com
-To: airlied@redhat.com, tzimmermann@suse.de, airlied@linux.ie, daniel@ffwll.ch,
- ainux.wang@gmail.com
-Subject: [PATCH v2] drm/ast: Add detect function support
-Date: Wed, 26 May 2021 19:15:15 +0800
-Message-Id: <20210526111515.40015-1-ainux.wang@gmail.com>
-X-Mailer: git-send-email 2.18.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=WZhb8zuVnnjhU4y7wnecCuH3x05R6lnJG5XgPPhjXY0=;
+ b=Q/r6oOg7Vo8kScKygXNkZnroiov0EWvQwSFv+ZgMRRe1lBA11UF6a2rzs30+exUNn5
+ fpjWBX8X5DWpnC9qdQkc762OZ/HFZOrVk+Mn2uBZUtWcfrKx1uOGsfhy0+Qaysci4KFt
+ BzEwevaiYzC0SZ9wrXcGbTRhS623sRPFTcBd+qzKUzwLB8g2L4mtciW0c16jn296ZgD/
+ E6g+6uFfVLqPGSVdI7ifEaQyVSegftWXJS1FzTM/PJAzHesMbD+cAnl9hCU5XjW70ct0
+ P5SqLSzGiYvUvz6FAi0U8n213XA7hM370nrCvC8pxlaq2g5QL1sxNbTFt0akyAyahi/E
+ KcSQ==
+X-Gm-Message-State: AOAM531x+XMNHtdkwe4lR9OiNVWhofTfeNjCZL97kdm5pmY1Z6Js0QVt
+ KdIc8L4DJwGhDyZdo1Dur655HcNIZECf7bYaYmh8t48nb6PhVU33t42aqpNu5kUvquYDhexhBl2
+ MbyEwq1PQ3aNcOxPhMIKi2hn2WB34qGJM1W/OhGS7HHRI
+X-Received: by 2002:a5d:4a81:: with SMTP id o1mr30747648wrq.177.1622027816753; 
+ Wed, 26 May 2021 04:16:56 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxC/kfOOQw4CwfWnJy7tsT5TwYrdsCpahCbg0flnKAJcY+E6BvxvK01g0k+BcUw5O2u46vOYYCfvWQxIboZsY8=
+X-Received: by 2002:a5d:4a81:: with SMTP id o1mr30747629wrq.177.1622027816562; 
+ Wed, 26 May 2021 04:16:56 -0700 (PDT)
+MIME-Version: 1.0
+References: <20210526084726.552052-1-lee.jones@linaro.org>
+ <20210526084726.552052-12-lee.jones@linaro.org>
+In-Reply-To: <20210526084726.552052-12-lee.jones@linaro.org>
+From: Karol Herbst <kherbst@redhat.com>
+Date: Wed, 26 May 2021 13:16:46 +0200
+Message-ID: <CACO55tuGiW=e+ee83jhvQOJxA+tedH5r_pHS+ESbEQVABgfvnQ@mail.gmail.com>
+Subject: Re: [Nouveau] [PATCH 11/34] drm/nouveau/nvkm/subdev/mc/tu102: Make
+ functions called by reference static
+To: Lee Jones <lee.jones@linaro.org>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kherbst@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,71 +77,75 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: sterlingteng@gmail.com, chenhuacai@kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: David Airlie <airlied@linux.ie>, nouveau <nouveau@lists.freedesktop.org>,
+ Alistair Popple <apopple@nvidia.com>, LKML <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, Ben Skeggs <bskeggs@redhat.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Ainux <ainux.wang@gmail.com>
+On Wed, May 26, 2021 at 10:47 AM Lee Jones <lee.jones@linaro.org> wrote:
+>
+> Fixes the following W=3D1 kernel build warning(s):
+>
+>  drivers/gpu/drm/nouveau/nvkm/subdev/mc/tu102.c:50:1: warning: no previou=
+s prototype for =E2=80=98tu102_mc_intr_unarm=E2=80=99 [-Wmissing-prototypes=
+]
+>  drivers/gpu/drm/nouveau/nvkm/subdev/mc/tu102.c:62:1: warning: no previou=
+s prototype for =E2=80=98tu102_mc_intr_rearm=E2=80=99 [-Wmissing-prototypes=
+]
+>  drivers/gpu/drm/nouveau/nvkm/subdev/mc/tu102.c:74:1: warning: no previou=
+s prototype for =E2=80=98tu102_mc_intr_mask=E2=80=99 [-Wmissing-prototypes]
+>
+> Cc: Ben Skeggs <bskeggs@redhat.com>
+> Cc: David Airlie <airlied@linux.ie>
+> Cc: Daniel Vetter <daniel@ffwll.ch>
+> Cc: Alistair Popple <apopple@nvidia.com>
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: nouveau@lists.freedesktop.org
+> Signed-off-by: Lee Jones <lee.jones@linaro.org>
+> ---
+>  drivers/gpu/drm/nouveau/nvkm/subdev/mc/tu102.c | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/mc/tu102.c b/drivers/gpu=
+/drm/nouveau/nvkm/subdev/mc/tu102.c
+> index 58db83ebadc5f..a96084b34a788 100644
+> --- a/drivers/gpu/drm/nouveau/nvkm/subdev/mc/tu102.c
+> +++ b/drivers/gpu/drm/nouveau/nvkm/subdev/mc/tu102.c
+> @@ -46,7 +46,7 @@ tu102_mc_intr_update(struct tu102_mc *mc)
+>                 nvkm_wr32(device, 0xb81610, 0x6);
+>  }
+>
+> -void
+> +static void
+>  tu102_mc_intr_unarm(struct nvkm_mc *base)
+>  {
+>         struct tu102_mc *mc =3D tu102_mc(base);
+> @@ -58,7 +58,7 @@ tu102_mc_intr_unarm(struct nvkm_mc *base)
+>         spin_unlock_irqrestore(&mc->lock, flags);
+>  }
+>
+> -void
+> +static void
+>  tu102_mc_intr_rearm(struct nvkm_mc *base)
+>  {
+>         struct tu102_mc *mc =3D tu102_mc(base);
+> @@ -70,7 +70,7 @@ tu102_mc_intr_rearm(struct nvkm_mc *base)
+>         spin_unlock_irqrestore(&mc->lock, flags);
+>  }
+>
+> -void
+> +static void
+>  tu102_mc_intr_mask(struct nvkm_mc *base, u32 mask, u32 intr)
+>  {
+>         struct tu102_mc *mc =3D tu102_mc(base);
+> --
+> 2.31.1
+>
+> _______________________________________________
+> Nouveau mailing list
+> Nouveau@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/nouveau
 
-The existence of the connector cannot be detected,
-so add the detect function to support.
-
-Signed-off-by: Ainux <ainux.wang@gmail.com>
----
- drivers/gpu/drm/ast/ast_mode.c | 18 +++++++++++++++++-
- 1 file changed, 17 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/ast/ast_mode.c b/drivers/gpu/drm/ast/ast_mode.c
-index 36d9575aa27b..e5996ae03c49 100644
---- a/drivers/gpu/drm/ast/ast_mode.c
-+++ b/drivers/gpu/drm/ast/ast_mode.c
-@@ -1293,6 +1293,18 @@ static enum drm_mode_status ast_mode_valid(struct drm_connector *connector,
- 	return flags;
- }
- 
-+static enum drm_connector_status ast_connector_detect(struct drm_connector
-+						   *connector, bool force)
-+{
-+	int r;
-+
-+	r = ast_get_modes(connector);
-+	if (r < 0)
-+		return connector_status_disconnected;
-+
-+	return connector_status_connected;
-+}
-+
- static void ast_connector_destroy(struct drm_connector *connector)
- {
- 	struct ast_connector *ast_connector = to_ast_connector(connector);
-@@ -1307,6 +1319,7 @@ static const struct drm_connector_helper_funcs ast_connector_helper_funcs = {
- 
- static const struct drm_connector_funcs ast_connector_funcs = {
- 	.reset = drm_atomic_helper_connector_reset,
-+	.detect = ast_connector_detect,
- 	.fill_modes = drm_helper_probe_single_connector_modes,
- 	.destroy = ast_connector_destroy,
- 	.atomic_duplicate_state = drm_atomic_helper_connector_duplicate_state,
-@@ -1334,7 +1347,8 @@ static int ast_connector_init(struct drm_device *dev)
- 	connector->interlace_allowed = 0;
- 	connector->doublescan_allowed = 0;
- 
--	connector->polled = DRM_CONNECTOR_POLL_CONNECT;
-+	connector->polled = DRM_CONNECTOR_POLL_CONNECT |
-+						DRM_CONNECTOR_POLL_DISCONNECT;
- 
- 	drm_connector_attach_encoder(connector, encoder);
- 
-@@ -1403,6 +1417,8 @@ int ast_mode_config_init(struct ast_private *ast)
- 
- 	drm_mode_config_reset(dev);
- 
-+	drm_kms_helper_poll_init(dev);
-+
- 	return 0;
- }
- 
--- 
-2.18.1
+Reviewed-by: Karol Herbst <kherbst@redhat.com>
 
