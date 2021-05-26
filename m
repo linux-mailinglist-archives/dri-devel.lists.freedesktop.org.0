@@ -2,40 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56DC139101F
-	for <lists+dri-devel@lfdr.de>; Wed, 26 May 2021 07:46:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7764F39108C
+	for <lists+dri-devel@lfdr.de>; Wed, 26 May 2021 08:25:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E67E96EA92;
-	Wed, 26 May 2021 05:46:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5A81C6EB7E;
+	Wed, 26 May 2021 06:24:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1F4196E48D;
- Wed, 26 May 2021 05:46:50 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 58489606A5;
- Wed, 26 May 2021 05:46:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1622008009;
- bh=ilgmusErlwIFJYQRA3ardBcRg28msFxATNE31YLfrxc=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=It70ferE7CzZH35zUGnfY4vR7J2/q46na1wowciyqZDlCYeFhcGLU9Sgb0CDo/Soz
- 2nT1Lt2PnTH50AKmMkS4MfZ1TvhcmNgNDNuGZ/UZ5/6RCBG+puDp3yiTMp0I2ADz5J
- A5m67QniO9tSXr8PNiYJ4yAJFZXpK+s/VJhtqYDF4PuEJyoeNDRx8zqQ6aLjM7yD4T
- 3qPw6wRgU3eGFrn91k2CNcC3EYrkfNKj7WxKb2zHGznt8+L5ZNoF3G3xfwL4QhKDw5
- igyepZ7OO4SodAXOVA7ZCFziFLjSrIz6uawXkFc4nKQtjO9EtymWg479xlUVTEyZ3L
- rTUh2Mgcom8Dw==
-Date: Wed, 26 May 2021 11:16:46 +0530
-From: Vinod Koul <vkoul@kernel.org>
-To: Jeffrey Hugo <jeffrey.l.hugo@gmail.com>
-Subject: Re: [Freedreno] [RFC PATCH 00/13] drm/msm: Add Display Stream
- Compression Support
-Message-ID: <YK3gxqXBRupN/N+Q@vkoul-mobl.Dlink>
-References: <20210521124946.3617862-1-vkoul@kernel.org>
- <CAOCk7Nqep_Db+z3fr5asHZ1u0j8+6fKkPFs2Ai8CbA_zGqV6ZA@mail.gmail.com>
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D97946EB7E;
+ Wed, 26 May 2021 06:24:50 +0000 (UTC)
+IronPort-SDR: cSouGid5ZfThiGtzNi6kiiT174jwR6O+JWwFJNpe1KTyE9eiPnFNh0k9+8NYky/+Z4W5DGy2rx
+ USmxkSoFc1Nw==
+X-IronPort-AV: E=McAfee;i="6200,9189,9995"; a="182033740"
+X-IronPort-AV: E=Sophos;i="5.82,330,1613462400"; d="scan'208";a="182033740"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 May 2021 23:24:49 -0700
+IronPort-SDR: pvx9JURigEYHKxkIsXUxDiQzVEcl7HzW8yCcFMBJqII3nD6kquQiTTYJ12J92tNT09PG5cEio2
+ FeyyWyd/C7ow==
+X-IronPort-AV: E=Sophos;i="5.82,330,1613462400"; d="scan'208";a="633376813"
+Received: from dhiatt-server.jf.intel.com ([10.54.81.3])
+ by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 May 2021 23:24:47 -0700
+From: Matthew Brost <matthew.brost@intel.com>
+To: <intel-gfx@lists.freedesktop.org>,
+	<dri-devel@lists.freedesktop.org>
+Subject: [PATCH 00/18] Non-interface changing GuC CTBs updates
+Date: Tue, 25 May 2021 23:42:19 -0700
+Message-Id: <20210526064237.77853-1-matthew.brost@intel.com>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAOCk7Nqep_Db+z3fr5asHZ1u0j8+6fKkPFs2Ai8CbA_zGqV6ZA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,86 +47,78 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: DTML <devicetree@vger.kernel.org>, Jonathan Marek <jonathan@marek.ca>,
- David Airlie <airlied@linux.ie>, MSM <linux-arm-msm@vger.kernel.org>,
- lkml <linux-kernel@vger.kernel.org>, Abhinav Kumar <abhinavk@codeaurora.org>,
- Bjorn Andersson <bjorn.andersson@linaro.org>, Rob Herring <robh+dt@kernel.org>,
- "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- freedreno <freedreno@lists.freedesktop.org>
+Cc: Michal.Wajdeczko@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Jeff,
+As discussed in [1] we are breaking that large series into a several
+smaller ones. This series is the non-interface changing part of step #2
+- it makes all the changes needed before updating the GuC firwmare to a
+new version without breaking any old interfaces.
 
-On 21-05-21, 08:09, Jeffrey Hugo wrote:
-> On Fri, May 21, 2021 at 6:50 AM Vinod Koul <vkoul@kernel.org> wrote:
-> >
-> > Display Stream Compression (DSC) compresses the display stream in host which
-> > is later decoded by panel. This series enables this for Qualcomm msm driver.
-> > This was tested on Google Pixel3 phone which use LGE SW43408 panel.
-> >
-> > The changes include adding DT properties for DSC then hardware blocks support
-> > required in DPU1 driver and support in encoder. We also add support in DSI
-> > and introduce required topology changes.
-> >
-> > In order for panel to set the DSC parameters we add dsc in drm_panel and set
-> > it from the msm driver.
-> >
-> > Complete changes which enable this for Pixel3 along with panel driver (not
-> > part of this series) and DT changes can be found at:
-> > git.linaro.org/people/vinod.koul/kernel.git pixel/dsc_rfc
-> >
-> > Comments welcome!
-> 
-> This feels backwards to me.  I've only skimmed this series, and the DT
-> changes didn't come through for me, so perhaps I have an incomplete
-> view.
+A follow on series will be squashed into a single patch that updates the
+GuC firmware + the required interface changes.
 
-Not sure why, I see it on lore:
-https://lore.kernel.org/dri-devel/20210521124946.3617862-3-vkoul@kernel.org/
+Patch number #13 needs an Ack from Michal Wajdeczko.
+Patch number #6, #15 need reviews.
 
-> DSC is not MSM specific.  There is a standard for it.  Yet it looks
-> like everything is implemented in a MSM specific way, and then pushed
-> to the panel.  So, every vendor needs to implement their vendor
-> specific way to get the DSC info, and then push it to the panel?
-> Seems wrong, given there is an actual standard for this feature.
+v2: Fix some checkpatch warnings, add patch number #6 to address CI
+failure [2] in first rev 
 
-I have added slice and bpp info in the DT here under the host and then
-pass the generic struct drm_dsc_config to panel which allows panel to
-write the pps cmd
+[1] https://patchwork.freedesktop.org/series/89844/
+[2] https://intel-gfx-ci.01.org/tree/drm-tip/Patchwork_20192/shard-tglb3/igt@gem_eio@in-flight-suspend.html
 
-Nothing above is MSM specific.. It can very well work with non MSM
-controllers too.
+Signed-off-by: Matthew Brost <matthew.brost@intel.com>
 
-I didn't envision DSC to be a specific thing, most of
-the patches here are hardware enabling ones for DSC bits for MSM
-hardware.
+Daniele Ceraolo Spurio (3):
+  drm/i915/guc: skip disabling CTBs before sanitizing the GuC
+  drm/i915/guc: use probe_error log for CT enablement failure
+  drm/i915/guc: enable only the user interrupt when using GuC submission
 
-> Additionally, we define panel properties (resolution, BPP, etc) at the
-> panel, and have the display drivers pull it from the panel.  However,
-> for DSC, you do the reverse (define it in the display driver, and push
-> it to the panel).  If the argument is that DSC properties can be
-> dynamic, well, so can resolution.  Every panel for MSM MTPs supports
-> multiple resolutions, yet we define that with the panel in Linux.
+Matthew Brost (2):
+  drm/i915/guc: Drop guc->interrupts.enabled
+  drm/i915/guc: Ensure H2G buffer updates visible before tail update
 
-I dont have an answer for that right now, to start with yes the
-properties are in host but I am okay to discuss this and put wherever we
-feel is most correct thing.  I somehow dont like that we should pull
-from panel DT and program host with that. Here using struct
-drm_dsc_config allows me to configure panel based on resolution passed
+Michal Wajdeczko (12):
+  drm/i915/guc: Keep strict GuC ABI definitions
+  drm/i915/guc: Stop using fence/status from CTB descriptor
+  drm/i915: Promote ptrdiff() to i915_utils.h
+  drm/i915/guc: Only rely on own CTB size
+  drm/i915/guc: Don't repeat CTB layout calculations
+  drm/i915/guc: Replace CTB array with explicit members
+  drm/i915/guc: Update sizes of CTB buffers
+  drm/i915/guc: Relax CTB response timeout
+  drm/i915/guc: Start protecting access to CTB descriptors
+  drm/i915/guc: Stop using mutex while sending CTB messages
+  drm/i915/guc: Don't receive all G2H messages in irq handler
+  drm/i915/guc: Always copy CT message to new allocation
 
-> Finally, I haven't seen the DT bits, but I'm concerned about using DT
-> for this.  It inherently excludes ACPI systems.  You appear to have
-> sdm845 support in this series, but what about ACPI boot on the Lenovo
-> C630 for example?  Or any of the 8cx laptops?  We don't read the panel
-> resolution, etc from DT, so why the DSC?
+Rodrigo Vivi (1):
+  drm/i915/guc: Remove sample_forcewake h2g action
 
-But you must read from somewhere like ACPI tables. I think ACPI systems
-would have some ACPI table info out there which would help on this.
-Yes that is another task which we need to start with once we enable OF
-systems.
+ drivers/gpu/drm/i915/Kconfig.profile          |   9 +
+ drivers/gpu/drm/i915/gt/intel_gt_irq.c        |  18 +-
+ .../gpu/drm/i915/gt/uc/abi/guc_actions_abi.h  |  51 ++
+ .../gt/uc/abi/guc_communication_ctb_abi.h     | 106 ++++
+ .../gt/uc/abi/guc_communication_mmio_abi.h    |  52 ++
+ .../gpu/drm/i915/gt/uc/abi/guc_errors_abi.h   |  14 +
+ .../gpu/drm/i915/gt/uc/abi/guc_messages_abi.h |  21 +
+ drivers/gpu/drm/i915/gt/uc/intel_guc.c        |  43 +-
+ drivers/gpu/drm/i915/gt/uc/intel_guc.h        |   2 -
+ drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c     | 527 ++++++++++--------
+ drivers/gpu/drm/i915/gt/uc/intel_guc_ct.h     |  14 +-
+ drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h   | 207 +------
+ .../gpu/drm/i915/gt/uc/intel_guc_submission.c |  31 --
+ drivers/gpu/drm/i915/gt/uc/intel_uc.c         |  10 -
+ drivers/gpu/drm/i915/i915_utils.h             |   5 +
+ drivers/gpu/drm/i915/i915_vma.h               |   5 -
+ 16 files changed, 605 insertions(+), 510 deletions(-)
+ create mode 100644 drivers/gpu/drm/i915/gt/uc/abi/guc_actions_abi.h
+ create mode 100644 drivers/gpu/drm/i915/gt/uc/abi/guc_communication_ctb_abi.h
+ create mode 100644 drivers/gpu/drm/i915/gt/uc/abi/guc_communication_mmio_abi.h
+ create mode 100644 drivers/gpu/drm/i915/gt/uc/abi/guc_errors_abi.h
+ create mode 100644 drivers/gpu/drm/i915/gt/uc/abi/guc_messages_abi.h
 
-Thanks
 -- 
-~Vinod
+2.28.0
+
