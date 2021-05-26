@@ -2,47 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11A543914B0
-	for <lists+dri-devel@lfdr.de>; Wed, 26 May 2021 12:16:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21E6A3914C5
+	for <lists+dri-devel@lfdr.de>; Wed, 26 May 2021 12:20:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1665A6EB5F;
-	Wed, 26 May 2021 10:16:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8F50E6EC5F;
+	Wed, 26 May 2021 10:20:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 498 seconds by postgrey-1.36 at gabe;
- Wed, 26 May 2021 10:16:49 UTC
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 20E646EA90
- for <dri-devel@lists.freedesktop.org>; Wed, 26 May 2021 10:16:49 +0000 (UTC)
-Received: from imap.suse.de (imap-alt.suse-dmz.suse.de [192.168.254.47])
- by smtp-out1.suse.de (Postfix) with ESMTP id 56802218C1;
- Wed, 26 May 2021 10:08:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1622023709; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=8v5fOXljCLUSYOcfLyPonHFdLdYqs/g6GNa26BWaLZI=;
- b=0tRgjM5uR/kU0drz/3SDY1jJAdNDJf+u2edms7s4ERpXpTKKynS0tWx5sEBO+VnIV66eAi
- 1c7RyGIQR6KqSsI1Fs1IDcVf3WUKqUFqH04Hr4a84qjloJ299wbseHdDA4I8WW5hVC1ImU
- Xr2eEYw1EA7IOgVKPS8tAiAY7BOxcKg=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1622023709;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=8v5fOXljCLUSYOcfLyPonHFdLdYqs/g6GNa26BWaLZI=;
- b=pDX/dmZLeIux4WDwc39HikIiahUvp5F+P93JCWcvXxNwj8PWDzG3sB073OnKQo2kXVAK3v
- zVTBrUs6ZojZzLAQ==
-Received: from director2.suse.de (director2.suse-dmz.suse.de [192.168.254.72])
- by imap.suse.de (Postfix) with ESMTPSA id 227B111A98;
- Wed, 26 May 2021 10:08:29 +0000 (UTC)
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@linux.ie,
- daniel@ffwll.ch
-Subject: [PATCH] drm/kconfig: Remove unused select of DRM_KMS_FB_HELPER
-Date: Wed, 26 May 2021 12:08:25 +0200
-Message-Id: <20210526100825.29450-1-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.31.1
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7157E6EC3D;
+ Wed, 26 May 2021 10:20:23 +0000 (UTC)
+IronPort-SDR: ehxfydNgO7bRKRjoRN4bR8Wu6mNywhG+z+yhY+vhEBzfhtpHut544e7pIrn0k8JnUjqiCzXyTe
+ Tpp28TtrP3xw==
+X-IronPort-AV: E=McAfee;i="6200,9189,9995"; a="200532960"
+X-IronPort-AV: E=Sophos;i="5.82,331,1613462400"; d="scan'208";a="200532960"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 May 2021 03:20:18 -0700
+IronPort-SDR: Wf2O0sWu0iJUUiFExmEu/N8/u6ZoGMkLl3ua7stbGlwlgD6nmWsQcU82nIa7Fzp2CF4z6wvQyS
+ nXGekskQy92w==
+X-IronPort-AV: E=Sophos;i="5.82,331,1613462400"; d="scan'208";a="479873638"
+Received: from wardmich-mobl.ger.corp.intel.com (HELO [10.213.209.181])
+ ([10.213.209.181])
+ by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 May 2021 03:20:16 -0700
+Subject: Re: [Intel-gfx] [PATCH 1/1] Let userspace know if they can trust
+ timeslicing by including it as part of the
+ I915_PARAM_HAS_SCHEDULER::I915_SCHEDULER_CAP_TIMESLICING
+To: Daniel Vetter <daniel@ffwll.ch>
+References: <20210525135508.244659-1-tejaskumarx.surendrakumar.upadhyay@intel.com>
+ <20210525135508.244659-2-tejaskumarx.surendrakumar.upadhyay@intel.com>
+ <b9ae1daa-6add-1c67-58b4-16491f2e1431@linux.intel.com>
+ <YK0OHJcSwWY1mm7v@phenom.ffwll.local>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+Message-ID: <8cf2c5f4-87a3-ce6b-150c-65fa054586a4@linux.intel.com>
+Date: Wed, 26 May 2021 11:20:13 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <YK0OHJcSwWY1mm7v@phenom.ffwll.local>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,40 +57,75 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- Geert Uytterhoeven <geert@linux-m68k.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
+Cc: intel-gfx@lists.freedesktop.org,
+ Tejas Upadhyay <tejaskumarx.surendrakumar.upadhyay@intel.com>,
+ DRI Development <dri-devel@lists.freedesktop.org>, mahesh.meena@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The option DRM_KMS_FB_HELPER has been removed. Also remove the last
-remaining select statement for it.
 
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Fixes: 91185d55b32e ("drm: Remove DRM_KMS_FB_HELPER Kconfig option")
-Reported-by: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Cc: Maxime Ripard <mripard@kernel.org>
-Cc: David Airlie <airlied@linux.ie>
-Cc: Daniel Vetter <daniel@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org
----
- drivers/gpu/drm/Kconfig | 1 -
- 1 file changed, 1 deletion(-)
+On 25/05/2021 15:47, Daniel Vetter wrote:
+> On Tue, May 25, 2021 at 03:19:47PM +0100, Tvrtko Ursulin wrote:
+>>
+>> + dri-devel as per process
+>>
+>> On 25/05/2021 14:55, Tejas Upadhyay wrote:
+>>> v2: Only declare timeslicing if we can safely preempt userspace.
+>>
+>> Commit message got butchered up somehow so you'll need to fix that at some
+>> point.
+>>
+>> Regards,
+>>
+>> Tvrtko
+>>
+>>> Fixes: 8ee36e048c98 ("drm/i915/execlists: Minimalistic timeslicing")
+>>> Signed-off-by: Chris Wilson <chris@chris-wilson.co.uk>
+>>> Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+>>> Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+>>> ---
+>>>    drivers/gpu/drm/i915/gt/intel_engine_user.c | 1 +
+>>>    include/uapi/drm/i915_drm.h                 | 1 +
+>>>    2 files changed, 2 insertions(+)
+>>>
+>>> diff --git a/drivers/gpu/drm/i915/gt/intel_engine_user.c b/drivers/gpu/drm/i915/gt/intel_engine_user.c
+>>> index 3cca7ea2d6ea..12d165566ed2 100644
+>>> --- a/drivers/gpu/drm/i915/gt/intel_engine_user.c
+>>> +++ b/drivers/gpu/drm/i915/gt/intel_engine_user.c
+>>> @@ -98,6 +98,7 @@ static void set_scheduler_caps(struct drm_i915_private *i915)
+>>>    		MAP(HAS_PREEMPTION, PREEMPTION),
+>>>    		MAP(HAS_SEMAPHORES, SEMAPHORES),
+>>>    		MAP(SUPPORTS_STATS, ENGINE_BUSY_STATS),
+>>> +		MAP(TIMESLICE_BIT, TIMESLICING),
+>>>    #undef MAP
+>>>    	};
+>>>    	struct intel_engine_cs *engine;
+>>> diff --git a/include/uapi/drm/i915_drm.h b/include/uapi/drm/i915_drm.h
+>>> index c2c7759b7d2e..af2212d6113c 100644
+>>> --- a/include/uapi/drm/i915_drm.h
+>>> +++ b/include/uapi/drm/i915_drm.h
+>>> @@ -572,6 +572,7 @@ typedef struct drm_i915_irq_wait {
+>>>    #define   I915_SCHEDULER_CAP_PREEMPTION	(1ul << 2)
+>>>    #define   I915_SCHEDULER_CAP_SEMAPHORES	(1ul << 3)
+>>>    #define   I915_SCHEDULER_CAP_ENGINE_BUSY_STATS	(1ul << 4)
+>>> +#define   I915_SCHEDULER_CAP_TIMESLICING	(1ul << 5)
+> 
+> Since this is uapi I think we should at least have some nice kerneldoc
+> that explains what exactly this is, what for (link to userspace) and all
+> that. Ideally also minimally filing in the gaps in our uapi docs for stuff
+> this references.
 
-diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
-index d3a9ca4b1cec..594ac6c3a1f4 100644
---- a/drivers/gpu/drm/Kconfig
-+++ b/drivers/gpu/drm/Kconfig
-@@ -99,7 +99,6 @@ config DRM_FBDEV_EMULATION
- 	bool "Enable legacy fbdev support for your modesetting driver"
- 	depends on DRM
- 	select DRM_KMS_HELPER
--	select DRM_KMS_FB_HELPER
- 	select FB
- 	select FB_CFB_FILLRECT
- 	select FB_CFB_COPYAREA
--- 
-2.31.1
+IIUC there is no userspace apart from IGT needing it not to fail 
+scheduling tests on ADL.
 
+Current tests use "has preemption + has semaphores" as a proxy to answer 
+the "does the kernel support timeslicing" question. This stops working 
+with the Guc backend because GuC decided not to support semaphores (for 
+reasons yet unknown, see other thread), so explicit "has timeslicing" 
+flag is needed in order for tests to know that GuC is supposed to 
+support timeslicing, even if it doesn't use semaphores for inter-ring 
+synchronisation.
+
+Regards,
+
+Tvrtko
