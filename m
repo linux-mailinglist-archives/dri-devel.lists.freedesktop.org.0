@@ -2,55 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 161533920C1
-	for <lists+dri-devel@lfdr.de>; Wed, 26 May 2021 21:21:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C33E63920CB
+	for <lists+dri-devel@lfdr.de>; Wed, 26 May 2021 21:24:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5A14F6E083;
-	Wed, 26 May 2021 19:21:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0415D6E520;
+	Wed, 26 May 2021 19:24:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2E5156E083
- for <dri-devel@lists.freedesktop.org>; Wed, 26 May 2021 19:21:13 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AFE396E520
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 May 2021 19:24:14 +0000 (UTC)
 Received: from imap.suse.de (imap-alt.suse-dmz.suse.de [192.168.254.47])
  (using TLSv1.2 with cipher ECDHE-ECDSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id D7E4E1FD2E;
- Wed, 26 May 2021 19:21:11 +0000 (UTC)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 649451FD29;
+ Wed, 26 May 2021 19:24:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1622056871; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1622057053; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=K+JRyDtb43BK8hz5sxtefi1nsKcbhydV8fxocpZ+PH4=;
- b=JEhs7MtgZiPRF+vg409OxyR5gfxPdEETSplBVwvwEF9qnrLONQpFyTFFIuN6RUTeF7UP1O
- I73KAFLCE+D4xn1OTGF1ysWrhIt6bov4hStzwmU+RlNexqREFctO1+Qvk0ZL/lRBI/XEQO
- brnEknd5WYLR87BAnC4W6q1PZQfmRZ0=
+ bh=VfIzmKVHtGMuGMaPHkUtWywgtu4ZApE+V8z8c4nj+Fo=;
+ b=kWjL+FFm1lOsJFS0FjvVOr+mT6Z/rIjLgzpKULbTamg1NXxAjJzNPdnHezJ+3//9tfKC/Q
+ MnfwRtKoFz0WsL7QoumIElA9rVkN9CUwwpeV4/CnNXUS6YopKLkYJxmk37/I3B5Lort3ni
+ 8WaN9J+b9FUh1faUN+sh+l6IlDZt7AM=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1622056871;
+ s=susede2_ed25519; t=1622057053;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=K+JRyDtb43BK8hz5sxtefi1nsKcbhydV8fxocpZ+PH4=;
- b=/VM3ExnbBXtJ+AvE5bqz4CL+/5vlTfQ1jhH634EIZnJ3zfIHMTyWAmvbr7nzvhzd7D9Eud
- 0uITj5Ohy3rZm/DQ==
+ bh=VfIzmKVHtGMuGMaPHkUtWywgtu4ZApE+V8z8c4nj+Fo=;
+ b=TJ+hlLRyqiZQPU0o/2ojcyWjo1qQa7Tuf3Qa1KuLopAh6NetEgOr8h/10P6TIKdEo1IidV
+ JDyNLlJNhIa04ZBA==
 Received: from director2.suse.de (director2.suse-dmz.suse.de [192.168.254.72])
- by imap.suse.de (Postfix) with ESMTPSA id 95EC211A98;
- Wed, 26 May 2021 19:21:11 +0000 (UTC)
-Subject: Re: [PATCH 0/4] drm: Finally retire struct drm_format_name_buf
-To: airlied@linux.ie, daniel@ffwll.ch, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, alexander.deucher@amd.com, christian.koenig@amd.com,
- sakari.ailus@linux.intel.com
-References: <20210516121315.30321-1-tzimmermann@suse.de>
+ by imap.suse.de (Postfix) with ESMTPSA id 4664311A98;
+ Wed, 26 May 2021 19:24:13 +0000 (UTC)
+Subject: Re: [PATCH v2] drm/fb-helper: improve DRM fbdev emulation device names
+To: Javier Martinez Canillas <javierm@redhat.com>, linux-kernel@vger.kernel.org
+References: <20210525151313.3379622-1-javierm@redhat.com>
 From: Thomas Zimmermann <tzimmermann@suse.de>
-Message-ID: <057a9a16-3ed7-b159-22d7-33f1dc523d14@suse.de>
-Date: Wed, 26 May 2021 21:21:10 +0200
+Message-ID: <89bec7e1-135a-71b6-8d87-ebca19443d3d@suse.de>
+Date: Wed, 26 May 2021 21:24:12 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.10.2
 MIME-Version: 1.0
-In-Reply-To: <20210516121315.30321-1-tzimmermann@suse.de>
+In-Reply-To: <20210525151313.3379622-1-javierm@redhat.com>
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="MI1sSn2GKxbjEmxRDTmzleGqKZcAUJUKO"
+ boundary="a8eqX8K04hs871qWOtEcWBpxq6Os19aSA"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,60 +61,96 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
+Cc: David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---MI1sSn2GKxbjEmxRDTmzleGqKZcAUJUKO
-Content-Type: multipart/mixed; boundary="dX6T4z4iU9tsVAV89Djob5TO4xnerYbx6";
+--a8eqX8K04hs871qWOtEcWBpxq6Os19aSA
+Content-Type: multipart/mixed; boundary="V4kh2Ko020rS0aWXrYcbwenevlsZptesz";
  protected-headers="v1"
 From: Thomas Zimmermann <tzimmermann@suse.de>
-To: airlied@linux.ie, daniel@ffwll.ch, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, alexander.deucher@amd.com, christian.koenig@amd.com,
- sakari.ailus@linux.intel.com
-Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Message-ID: <057a9a16-3ed7-b159-22d7-33f1dc523d14@suse.de>
-Subject: Re: [PATCH 0/4] drm: Finally retire struct drm_format_name_buf
-References: <20210516121315.30321-1-tzimmermann@suse.de>
-In-Reply-To: <20210516121315.30321-1-tzimmermann@suse.de>
+To: Javier Martinez Canillas <javierm@redhat.com>,
+ linux-kernel@vger.kernel.org
+Cc: David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org
+Message-ID: <89bec7e1-135a-71b6-8d87-ebca19443d3d@suse.de>
+Subject: Re: [PATCH v2] drm/fb-helper: improve DRM fbdev emulation device
+ names
+References: <20210525151313.3379622-1-javierm@redhat.com>
+In-Reply-To: <20210525151313.3379622-1-javierm@redhat.com>
 
---dX6T4z4iU9tsVAV89Djob5TO4xnerYbx6
+--V4kh2Ko020rS0aWXrYcbwenevlsZptesz
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 
-ping for further a-bs / r-bs
 
-Am 16.05.21 um 14:13 schrieb Thomas Zimmermann:
-> This is a cleanup patchset to remove drm_format_name_buf et al. There
-> are two instances in drivers that need to be replaced with the %4cc
-> printk format modifier. Patch 3 was left over back from an earlier
-> patchset. [1] Patch 4 removes struct drm_format_name_buf.
->=20
-> I built-tested with drm-tip. The patchsetcan be mered through drm-misc.=
 
+Am 25.05.21 um 17:13 schrieb Javier Martinez Canillas:
+> Framebuffer devices that are registered by DRM drivers for fbdev emulat=
+ion
+> have a "drmfb" suffix in their name. But makes them to be quite confusi=
+ng
+> for drivers that already have "drm" in their name:
 >=20
-> [1] https://lore.kernel.org/dri-devel/20210216155723.17109-1-sakari.ail=
-us@linux.intel.com/
+> $ cat /proc/fb
+> 0 rockchipdrmdrmfb
 >=20
-> Sakari Ailus (1):
->    drm: Remove drm_get_format_name()
+> $ cat /proc/fb
+> 0 simpledrmdrmfb
 >=20
-> Thomas Zimmermann (3):
->    drm/amdgpu: Use %p4cc to print 4CC format
->    drm/simpledrm: Use %p4cc to print 4CC format
->    drm/fourcc: Remove struct drm_format_buf_name
+> Also, there isn't a lot of value in adding these "drmfb" suffices to th=
+eir
+> names, since users shouldn't really care if the FB devices were registe=
+red
+> by a real fbdev driver or a DRM driver using the fbdev emulation.
 >=20
->   drivers/gpu/drm/amd/amdgpu/amdgpu_display.c |  7 ++----
->   drivers/gpu/drm/drm_fourcc.c                | 25 --------------------=
--
->   drivers/gpu/drm/tiny/simpledrm.c            |  6 ++---
->   include/drm/drm_fourcc.h                    |  9 --------
->   4 files changed, 4 insertions(+), 43 deletions(-)
+> What programs should be interested about is if there's a DRM device, an=
+d
+> there are better ways to query that info than reading this procfs entry=
+=2E
 >=20
-> --
-> 2.31.1
+> So let's just remove the suffix, which leads to much better device name=
+s:
+>=20
+> $ cat /proc/fb
+> 0 rockchipdrm
+>=20
+> $ cat /proc/fb
+> 0 simpledrm
+>=20
+> Suggested-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
+
+Added to drm-misc-next. Thank you.
+
+Best regards
+Thomas
+
+> ---
+>=20
+> Changes in v2:
+> - Just remove the "drmfb" suffix instead of using a different one (tzim=
+mermann).
+>=20
+>   drivers/gpu/drm/drm_fb_helper.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb_h=
+elper.c
+> index f6baa204612..d77a24507d3 100644
+> --- a/drivers/gpu/drm/drm_fb_helper.c
+> +++ b/drivers/gpu/drm/drm_fb_helper.c
+> @@ -1737,7 +1737,7 @@ void drm_fb_helper_fill_info(struct fb_info *info=
+,
+>   			       sizes->fb_width, sizes->fb_height);
+>  =20
+>   	info->par =3D fb_helper;
+> -	snprintf(info->fix.id, sizeof(info->fix.id), "%sdrmfb",
+> +	snprintf(info->fix.id, sizeof(info->fix.id), "%s",
+>   		 fb_helper->dev->driver->name);
+>  =20
+>   }
 >=20
 
 --=20
@@ -128,27 +162,27 @@ Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
 Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
 
 
---dX6T4z4iU9tsVAV89Djob5TO4xnerYbx6--
+--V4kh2Ko020rS0aWXrYcbwenevlsZptesz--
 
---MI1sSn2GKxbjEmxRDTmzleGqKZcAUJUKO
+--a8eqX8K04hs871qWOtEcWBpxq6Os19aSA
 Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="OpenPGP_signature"
 
 -----BEGIN PGP SIGNATURE-----
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmCun6cFAwAAAAAACgkQlh/E3EQov+C/
-3w/+L8qbXyDeMUaqfn8SYyXoj3Px0NPnKYvufflVQXnNXTq3NkP4s3BeWCDYsKeat5uLCgJx9Uj7
-wtBdtvI7Nh+bCSZR55KHL02hu0iSiaNM+Tnj34sJ9pSo+gWiDx8YgDCYtOFRjw6xmElVsuPieZs8
-ciQXr5cHc0kCFHdArQD0ECbt8xqmrlXC8SqlE3c5vWhNFnIKv19LLG/Ns2r2HN3IxYXH1qRNT8lH
-ErFmbuuV0Udxir6TMgBeD8obXs/rF1XAfVWNPVPVPnRWweyBW13xhRq2sSsenXC68e1jqTCxCu9n
-/WhrxXWLYIAB1Ip7jjKrA8c0sUr8ycYKm3fLkppa5uXqaZxOR2SsiVMCYjNTFToEBsnTD4TolBzp
-CmQvC1bTymI0GgtJadhE6hL50gIIOxMy1XWMGTHqIT610pBmDFdoN0+JABkvzCf+mVvOaa3H+YJb
-7ZGnSlMdpWvLelckSx7bXH1xRvrAYbHanKR+yzMHpKKxvnHLulf1SocfJMOpfttbGDMqFS8fN791
-vDH6rgEyRI78YDrplC4S6jDT+qdwtES+bNHFhrTQRtgefxi3uAic10cwpMZ2nrL9vt+Ck0B0WemS
-sO/KObixvB+odf7XC865fIYTIQmWHRkv4WQBakFSp6aCGKByHpVQzSjPfKjK4hXWy0TTS73loipc
-SpI=
-=NRYE
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmCuoFwFAwAAAAAACgkQlh/E3EQov+BW
+QA//dCY5nLj7FoVjeLjeTu3l8bOIlbdSQZ2Wrm7o0KL6JhL4AmhwCwRXaTNqzB0EnbO+8e8V+Nc0
+ux4ds1NKFmPc32DkLouuTvz4tB6CNX8Hp20lLkldVgaThfv4IYeIzQ69+Hq6ZLrVY278C3gesDak
+RWM/EqeZBuZ+biJemc9zyH+2pFwilR6/wrtOGPni1EQGEaYsxrSTxjCnZHJlgLFy+n6L2N7+M9Dt
+ptZ7mNanThryr388jOWNofAjVqZfTT15YLmR+NYODB/aY0mUKkpA2Fmfp2JqeaiCVQ2M6M1puLnC
+i+Of4H/7YMMYcX9oJRGJZfxTuGugJlahNjDUJe/Fd8oXf3STmkj46mTw0VXC4J/R/nPhL5Ml12eI
+Jb8KoJiv6YkwXuFv8itrKOwDWc60aDjBqYRpd4LlLStvzajbGcqt1sZNOE2kdvDfqKOgXPy7oOML
+fB9qcKlTSyA0vkTYw/5Hex7Gigl/VgUB6rMxx6Azv9fRv4ThK0hKEqCsosC0u6jaNegM1H5W0lu8
+lk22S82RLXQa4j0LuimnbtHFshCUoztXnby6dwbUhvYef8XZbeYtfUlx7mtDF5kUgI/kC0QfcMZl
+k4Z51TxRUU3NAPSE4tiLvzzbS9L1oHzI9KSUo3007Kh8dM8Wl9Ju6wdfBQZGys/B9vtJJZ21XosF
+Rws=
+=f0SG
 -----END PGP SIGNATURE-----
 
---MI1sSn2GKxbjEmxRDTmzleGqKZcAUJUKO--
+--a8eqX8K04hs871qWOtEcWBpxq6Os19aSA--
