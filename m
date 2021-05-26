@@ -1,38 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83461391640
-	for <lists+dri-devel@lfdr.de>; Wed, 26 May 2021 13:33:36 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 67EC8391643
+	for <lists+dri-devel@lfdr.de>; Wed, 26 May 2021 13:33:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 377216ECA5;
-	Wed, 26 May 2021 11:33:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 95EF56ECAB;
+	Wed, 26 May 2021 11:33:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 918C26EC9B;
- Wed, 26 May 2021 11:33:25 +0000 (UTC)
-IronPort-SDR: BOS9X96zmDLsiimihB0XakFxVu8dCnOGAj7VufXhIC43ee5CdbcVB1fyWn0KqqtoxR7zyD+7hw
- Gle49KNQVHYg==
-X-IronPort-AV: E=McAfee;i="6200,9189,9995"; a="223627281"
-X-IronPort-AV: E=Sophos;i="5.82,331,1613462400"; d="scan'208";a="223627281"
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AEF196ECAC;
+ Wed, 26 May 2021 11:33:27 +0000 (UTC)
+IronPort-SDR: uVN0/D1+1BgUYRbtf4OcZLWtfEvCaNlsLnmxatgBK+SxgfdItjoqIv5rfJk4F7wBj2J0SC51Hh
+ 0QuF2eb27QuQ==
+X-IronPort-AV: E=McAfee;i="6200,9189,9995"; a="223627290"
+X-IronPort-AV: E=Sophos;i="5.82,331,1613462400"; d="scan'208";a="223627290"
 Received: from fmsmga005.fm.intel.com ([10.253.24.32])
  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 May 2021 04:33:25 -0700
-IronPort-SDR: +KyYtnFsVa40YuGNUyY3/m8qHWvDU5XkAhwpQDsiDOsM+0YWWRhYN0vTe6N3WoftNEqhi6umBT
- qG+Q+Hh8JNGQ==
-X-IronPort-AV: E=Sophos;i="5.82,331,1613462400"; d="scan'208";a="633457881"
+ 26 May 2021 04:33:27 -0700
+IronPort-SDR: c41UAX4xL/3nu545ZSztT4mWZTqW8+XMrewrbJOmDO5t+hESgm6cbXPi7l4hUQCQqlceyJbtlN
+ BCX6TISXQR4g==
+X-IronPort-AV: E=Sophos;i="5.82,331,1613462400"; d="scan'208";a="633457899"
 Received: from pegilssx-mobl.ger.corp.intel.com (HELO thellst-mobl1.intel.com)
  ([10.249.254.205])
  by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 May 2021 04:33:23 -0700
+ 26 May 2021 04:33:25 -0700
 From: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
 To: intel-gfx@lists.freedesktop.org,
 	dri-devel@lists.freedesktop.org
-Subject: [PATCH v4 06/15] drm/ttm: Add a generic TTM memcpy move for
- page-based iomem
-Date: Wed, 26 May 2021 13:32:50 +0200
-Message-Id: <20210526113259.1661914-7-thomas.hellstrom@linux.intel.com>
+Subject: [PATCH v4 07/15] drm,
+ drm/i915: Move the memcpy_from_wc functionality to core drm
+Date: Wed, 26 May 2021 13:32:51 +0200
+Message-Id: <20210526113259.1661914-8-thomas.hellstrom@linux.intel.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210526113259.1661914-1-thomas.hellstrom@linux.intel.com>
 References: <20210526113259.1661914-1-thomas.hellstrom@linux.intel.com>
@@ -52,953 +52,607 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+ Matthew Auld <matthew.auld@intel.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The internal ttm_bo_util memcpy uses ioremap functionality, and while it
-probably might be possible to use it for copying in- and out of
-sglist represented io memory, using io_mem_reserve() / io_mem_free()
-callbacks, that would cause problems with fault().
-Instead, implement a method mapping page-by-page using kmap_local()
-semantics. As an additional benefit we then avoid the occasional global
-TLB flushes of ioremap() and consuming ioremap space, elimination of a
-critical point of failure and with a slight change of semantics we could
-also push the memcpy out async for testing and async driver development
-purposes.
-
-A special linear iomem iterator is introduced internally to mimic the
-old ioremap behaviour for code-paths that can't immediately be ported
-over. This adds to the code size and should be considered a temporary
-solution.
-
-Looking at the code we have a lot of checks for iomap tagged pointers.
-Ideally we should extend the core memremap functions to also accept
-uncached memory and kmap_local functionality. Then we could strip a
-lot of code.
+Memcpy from wc will be used as well by TTM memcpy.
+Move it to core drm, and make the interface do the right thing
+even on !X86.
 
 Cc: Christian König <christian.koenig@amd.com>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: Dave Airlie <airlied@gmail.com>
 Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+Reviewed-by: Matthew Auld <matthew.auld@intel.com>
 ---
-v3:
-- Split up in various TTM files and addressed review comments by
-  Christian König. Tested and fixed legacy iomap memcpy path on i915.
 v4:
-- Fix an uninitialized variable
-  Reported by: kernel test robot <lkp@intel.com>
-  Reported by: Dan Carpenter <dan.carpenter@oracle.com>
-- Minor change to the ttm_move_memcpy() interface.
-- Gracefully handle lack of memremap() support on memcpy
-  (Reported by Matthew Auld)
-- Minor style fix (Reported by Matthew Auld)
+- Fix !X86 path (Reported by Matthew Auld)
 ---
- drivers/gpu/drm/ttm/ttm_bo_util.c  | 280 ++++++++++-------------------
- drivers/gpu/drm/ttm/ttm_module.c   |  35 ++++
- drivers/gpu/drm/ttm/ttm_resource.c | 193 ++++++++++++++++++++
- drivers/gpu/drm/ttm/ttm_tt.c       |  42 +++++
- include/drm/ttm/ttm_bo_driver.h    |  28 +++
- include/drm/ttm/ttm_caching.h      |   2 +
- include/drm/ttm/ttm_kmap_iter.h    |  61 +++++++
- include/drm/ttm/ttm_resource.h     |  61 +++++++
- include/drm/ttm/ttm_tt.h           |  16 ++
- 9 files changed, 536 insertions(+), 182 deletions(-)
- create mode 100644 include/drm/ttm/ttm_kmap_iter.h
+ drivers/gpu/drm/Makefile                      |  2 +-
+ drivers/gpu/drm/drm_drv.c                     |  2 +
+ .../drm/{i915/i915_memcpy.c => drm_memcpy.c}  | 63 ++++++++++++-----
+ drivers/gpu/drm/i915/Makefile                 |  1 -
+ .../gpu/drm/i915/gem/i915_gem_execbuffer.c    |  4 +-
+ drivers/gpu/drm/i915/gem/i915_gem_object.c    |  5 +-
+ drivers/gpu/drm/i915/gt/selftest_reset.c      |  7 +-
+ drivers/gpu/drm/i915/gt/uc/intel_guc_log.c    | 11 +--
+ drivers/gpu/drm/i915/i915_cmd_parser.c        |  4 +-
+ drivers/gpu/drm/i915/i915_drv.c               |  2 -
+ drivers/gpu/drm/i915/i915_gpu_error.c         |  8 +--
+ drivers/gpu/drm/i915/i915_memcpy.h            | 34 ----------
+ .../drm/i915/selftests/intel_memory_region.c  |  7 +-
+ include/drm/drm_memcpy.h                      | 68 +++++++++++++++++++
+ 14 files changed, 142 insertions(+), 76 deletions(-)
+ rename drivers/gpu/drm/{i915/i915_memcpy.c => drm_memcpy.c} (70%)
+ delete mode 100644 drivers/gpu/drm/i915/i915_memcpy.h
+ create mode 100644 include/drm/drm_memcpy.h
 
-diff --git a/drivers/gpu/drm/ttm/ttm_bo_util.c b/drivers/gpu/drm/ttm/ttm_bo_util.c
-index ae8b61460724..6ac7744a1a5c 100644
---- a/drivers/gpu/drm/ttm/ttm_bo_util.c
-+++ b/drivers/gpu/drm/ttm/ttm_bo_util.c
-@@ -72,190 +72,126 @@ void ttm_mem_io_free(struct ttm_device *bdev,
- 	mem->bus.addr = NULL;
- }
+diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
+index a91cc7684904..f3ab8586c3d7 100644
+--- a/drivers/gpu/drm/Makefile
++++ b/drivers/gpu/drm/Makefile
+@@ -18,7 +18,7 @@ drm-y       :=	drm_aperture.o drm_auth.o drm_cache.o \
+ 		drm_dumb_buffers.o drm_mode_config.o drm_vblank.o \
+ 		drm_syncobj.o drm_lease.o drm_writeback.o drm_client.o \
+ 		drm_client_modeset.o drm_atomic_uapi.o drm_hdcp.o \
+-		drm_managed.o drm_vblank_work.o
++		drm_managed.o drm_vblank_work.o drm_memcpy.o \
  
--static int ttm_resource_ioremap(struct ttm_device *bdev,
--			       struct ttm_resource *mem,
--			       void **virtual)
-+/**
-+ * ttm_move_memcpy - Helper to perform a memcpy ttm move operation.
-+ * @bo: The struct ttm_buffer_object.
-+ * @new_mem: The struct ttm_resource we're moving to (copy destination).
-+ * @new_iter: A struct ttm_kmap_iter representing the destination resource.
-+ * @src_iter: A struct ttm_kmap_iter representing the source resource.
-+ *
-+ * This function is intended to be able to move out async under a
-+ * dma-fence if desired.
-+ */
-+void ttm_move_memcpy(struct ttm_buffer_object *bo,
-+		     pgoff_t num_pages,
-+		     struct ttm_kmap_iter *dst_iter,
-+		     struct ttm_kmap_iter *src_iter)
- {
--	int ret;
--	void *addr;
--
--	*virtual = NULL;
--	ret = ttm_mem_io_reserve(bdev, mem);
--	if (ret || !mem->bus.is_iomem)
--		return ret;
-+	const struct ttm_kmap_iter_ops *dst_ops = dst_iter->ops;
-+	const struct ttm_kmap_iter_ops *src_ops = src_iter->ops;
-+	struct ttm_tt *ttm = bo->ttm;
-+	struct dma_buf_map src_map, dst_map;
-+	pgoff_t i;
- 
--	if (mem->bus.addr) {
--		addr = mem->bus.addr;
--	} else {
--		size_t bus_size = (size_t)mem->num_pages << PAGE_SHIFT;
-+	/* Single TTM move. NOP */
-+	if (dst_ops->maps_tt && src_ops->maps_tt)
-+		return;
- 
--		if (mem->bus.caching == ttm_write_combined)
--			addr = ioremap_wc(mem->bus.offset, bus_size);
--#ifdef CONFIG_X86
--		else if (mem->bus.caching == ttm_cached)
--			addr = ioremap_cache(mem->bus.offset, bus_size);
--#endif
--		else
--			addr = ioremap(mem->bus.offset, bus_size);
--		if (!addr) {
--			ttm_mem_io_free(bdev, mem);
--			return -ENOMEM;
-+	/* Don't move nonexistent data. Clear destination instead. */
-+	if (src_ops->maps_tt && (!ttm || !ttm_tt_is_populated(ttm))) {
-+		if (ttm && !(ttm->page_flags & TTM_PAGE_FLAG_ZERO_ALLOC))
-+			return;
-+
-+		for (i = 0; i < num_pages; ++i) {
-+			dst_ops->map_local(dst_iter, &dst_map, i);
-+			if (dst_map.is_iomem)
-+				memset_io(dst_map.vaddr_iomem, 0, PAGE_SIZE);
-+			else
-+				memset(dst_map.vaddr, 0, PAGE_SIZE);
-+			if (dst_ops->unmap_local)
-+				dst_ops->unmap_local(dst_iter, &dst_map);
- 		}
-+		return;
- 	}
--	*virtual = addr;
--	return 0;
--}
--
--static void ttm_resource_iounmap(struct ttm_device *bdev,
--				struct ttm_resource *mem,
--				void *virtual)
--{
--	if (virtual && mem->bus.addr == NULL)
--		iounmap(virtual);
--	ttm_mem_io_free(bdev, mem);
--}
--
--static int ttm_copy_io_page(void *dst, void *src, unsigned long page)
--{
--	uint32_t *dstP =
--	    (uint32_t *) ((unsigned long)dst + (page << PAGE_SHIFT));
--	uint32_t *srcP =
--	    (uint32_t *) ((unsigned long)src + (page << PAGE_SHIFT));
--
--	int i;
--	for (i = 0; i < PAGE_SIZE / sizeof(uint32_t); ++i)
--		iowrite32(ioread32(srcP++), dstP++);
--	return 0;
--}
--
--static int ttm_copy_io_ttm_page(struct ttm_tt *ttm, void *src,
--				unsigned long page,
--				pgprot_t prot)
--{
--	struct page *d = ttm->pages[page];
--	void *dst;
--
--	if (!d)
--		return -ENOMEM;
--
--	src = (void *)((unsigned long)src + (page << PAGE_SHIFT));
--	dst = kmap_atomic_prot(d, prot);
--	if (!dst)
--		return -ENOMEM;
--
--	memcpy_fromio(dst, src, PAGE_SIZE);
--
--	kunmap_atomic(dst);
--
--	return 0;
--}
--
--static int ttm_copy_ttm_io_page(struct ttm_tt *ttm, void *dst,
--				unsigned long page,
--				pgprot_t prot)
--{
--	struct page *s = ttm->pages[page];
--	void *src;
- 
--	if (!s)
--		return -ENOMEM;
--
--	dst = (void *)((unsigned long)dst + (page << PAGE_SHIFT));
--	src = kmap_atomic_prot(s, prot);
--	if (!src)
--		return -ENOMEM;
--
--	memcpy_toio(dst, src, PAGE_SIZE);
--
--	kunmap_atomic(src);
-+	for (i = 0; i < num_pages; ++i) {
-+		dst_ops->map_local(dst_iter, &dst_map, i);
-+		src_ops->map_local(src_iter, &src_map, i);
-+
-+		if (!src_map.is_iomem && !dst_map.is_iomem) {
-+			memcpy(dst_map.vaddr, src_map.vaddr, PAGE_SIZE);
-+		} else if (!src_map.is_iomem) {
-+			dma_buf_map_memcpy_to(&dst_map, src_map.vaddr,
-+					      PAGE_SIZE);
-+		} else if (!dst_map.is_iomem) {
-+			memcpy_fromio(dst_map.vaddr, src_map.vaddr_iomem,
-+				      PAGE_SIZE);
-+		} else {
-+			int j;
-+			u32 __iomem *src = src_map.vaddr_iomem;
-+			u32 __iomem *dst = dst_map.vaddr_iomem;
- 
--	return 0;
-+			for (j = 0; j < (PAGE_SIZE / sizeof(u32)); ++j)
-+				iowrite32(ioread32(src++), dst++);
-+		}
-+		if (src_ops->unmap_local)
-+			src_ops->unmap_local(src_iter, &src_map);
-+		if (dst_ops->unmap_local)
-+			dst_ops->unmap_local(dst_iter, &dst_map);
-+	}
- }
-+EXPORT_SYMBOL(ttm_move_memcpy);
- 
- int ttm_bo_move_memcpy(struct ttm_buffer_object *bo,
- 		       struct ttm_operation_ctx *ctx,
--		       struct ttm_resource *new_mem)
-+		       struct ttm_resource *dst_mem)
- {
- 	struct ttm_device *bdev = bo->bdev;
--	struct ttm_resource_manager *man = ttm_manager_type(bdev, new_mem->mem_type);
-+	struct ttm_resource_manager *dst_man =
-+		ttm_manager_type(bo->bdev, dst_mem->mem_type);
- 	struct ttm_tt *ttm = bo->ttm;
--	struct ttm_resource *old_mem = &bo->mem;
--	struct ttm_resource old_copy = *old_mem;
--	void *old_iomap;
--	void *new_iomap;
--	int ret;
--	unsigned long i;
--
--	ret = ttm_bo_wait_ctx(bo, ctx);
--	if (ret)
--		return ret;
--
--	ret = ttm_resource_ioremap(bdev, old_mem, &old_iomap);
--	if (ret)
--		return ret;
--	ret = ttm_resource_ioremap(bdev, new_mem, &new_iomap);
--	if (ret)
--		goto out;
--
--	/*
--	 * Single TTM move. NOP.
--	 */
--	if (old_iomap == NULL && new_iomap == NULL)
--		goto out2;
--
--	/*
--	 * Don't move nonexistent data. Clear destination instead.
--	 */
--	if (old_iomap == NULL &&
--	    (ttm == NULL || (!ttm_tt_is_populated(ttm) &&
--			     !(ttm->page_flags & TTM_PAGE_FLAG_SWAPPED)))) {
--		memset_io(new_iomap, 0, new_mem->num_pages*PAGE_SIZE);
--		goto out2;
--	}
-+	struct ttm_resource *src_mem = &bo->mem;
-+	struct ttm_resource_manager *src_man =
-+		ttm_manager_type(bdev, src_mem->mem_type);
-+	struct ttm_resource src_copy = *src_mem;
-+	union {
-+		struct ttm_kmap_iter_tt tt;
-+		struct ttm_kmap_iter_linear_io io;
-+	} _dst_iter, _src_iter;
-+	struct ttm_kmap_iter *dst_iter, *src_iter;
-+	int ret = 0;
- 
--	/*
--	 * TTM might be null for moves within the same region.
--	 */
--	if (ttm) {
-+	if (ttm && ((ttm->page_flags & TTM_PAGE_FLAG_SWAPPED) ||
-+		    dst_man->use_tt)) {
- 		ret = ttm_tt_populate(bdev, ttm, ctx);
- 		if (ret)
--			goto out1;
-+			return ret;
- 	}
- 
--	for (i = 0; i < new_mem->num_pages; ++i) {
--		if (old_iomap == NULL) {
--			pgprot_t prot = ttm_io_prot(bo, old_mem, PAGE_KERNEL);
--			ret = ttm_copy_ttm_io_page(ttm, new_iomap, i,
--						   prot);
--		} else if (new_iomap == NULL) {
--			pgprot_t prot = ttm_io_prot(bo, new_mem, PAGE_KERNEL);
--			ret = ttm_copy_io_ttm_page(ttm, old_iomap, i,
--						   prot);
--		} else {
--			ret = ttm_copy_io_page(new_iomap, old_iomap, i);
--		}
--		if (ret)
--			goto out1;
-+	dst_iter = ttm_kmap_iter_linear_io_init(&_dst_iter.io, bdev, dst_mem);
-+	if (PTR_ERR(dst_iter) == -EINVAL && dst_man->use_tt)
-+		dst_iter = ttm_kmap_iter_tt_init(&_dst_iter.tt, bo->ttm);
-+	if (IS_ERR(dst_iter))
-+		return PTR_ERR(dst_iter);
-+
-+	src_iter = ttm_kmap_iter_linear_io_init(&_src_iter.io, bdev, src_mem);
-+	if (PTR_ERR(src_iter) == -EINVAL && src_man->use_tt)
-+		src_iter = ttm_kmap_iter_tt_init(&_src_iter.tt, bo->ttm);
-+	if (IS_ERR(src_iter)) {
-+		ret = PTR_ERR(src_iter);
-+		goto out_src_iter;
- 	}
--	mb();
--out2:
--	old_copy = *old_mem;
- 
--	ttm_bo_assign_mem(bo, new_mem);
--
--	if (!man->use_tt)
--		ttm_bo_tt_destroy(bo);
-+	ttm_move_memcpy(bo, dst_mem->num_pages, dst_iter, src_iter);
-+	src_copy = *src_mem;
-+	ttm_bo_move_sync_cleanup(bo, dst_mem);
- 
--out1:
--	ttm_resource_iounmap(bdev, old_mem, new_iomap);
--out:
--	ttm_resource_iounmap(bdev, &old_copy, old_iomap);
-+	if (!src_iter->ops->maps_tt)
-+		ttm_kmap_iter_linear_io_fini(&_src_iter.io, bdev, &src_copy);
-+out_src_iter:
-+	if (!dst_iter->ops->maps_tt)
-+		ttm_kmap_iter_linear_io_fini(&_dst_iter.io, bdev, dst_mem);
- 
--	/*
--	 * On error, keep the mm node!
--	 */
--	if (!ret)
--		ttm_resource_free(bo, &old_copy);
- 	return ret;
- }
- EXPORT_SYMBOL(ttm_bo_move_memcpy);
-@@ -336,27 +272,7 @@ pgprot_t ttm_io_prot(struct ttm_buffer_object *bo, struct ttm_resource *res,
- 	man = ttm_manager_type(bo->bdev, res->mem_type);
- 	caching = man->use_tt ? bo->ttm->caching : res->bus.caching;
- 
--	/* Cached mappings need no adjustment */
--	if (caching == ttm_cached)
--		return tmp;
--
--#if defined(__i386__) || defined(__x86_64__)
--	if (caching == ttm_write_combined)
--		tmp = pgprot_writecombine(tmp);
--	else if (boot_cpu_data.x86 > 3)
--		tmp = pgprot_noncached(tmp);
--#endif
--#if defined(__ia64__) || defined(__arm__) || defined(__aarch64__) || \
--    defined(__powerpc__) || defined(__mips__)
--	if (caching == ttm_write_combined)
--		tmp = pgprot_writecombine(tmp);
--	else
--		tmp = pgprot_noncached(tmp);
--#endif
--#if defined(__sparc__)
--	tmp = pgprot_noncached(tmp);
--#endif
--	return tmp;
-+	return ttm_prot_from_caching(caching, tmp);
- }
- EXPORT_SYMBOL(ttm_io_prot);
- 
-diff --git a/drivers/gpu/drm/ttm/ttm_module.c b/drivers/gpu/drm/ttm/ttm_module.c
-index 56b0efdba1a9..997c458f68a9 100644
---- a/drivers/gpu/drm/ttm/ttm_module.c
-+++ b/drivers/gpu/drm/ttm/ttm_module.c
-@@ -31,12 +31,47 @@
-  */
- #include <linux/module.h>
- #include <linux/device.h>
-+#include <linux/pgtable.h>
- #include <linux/sched.h>
- #include <linux/debugfs.h>
- #include <drm/drm_sysfs.h>
-+#include <drm/ttm/ttm_caching.h>
- 
- #include "ttm_module.h"
- 
-+/**
-+ * ttm_prot_from_caching - Modify the page protection according to the
-+ * ttm cacing mode
-+ * @caching: The ttm caching mode
-+ * @tmp: The original page protection
-+ *
-+ * Return: The modified page protection
-+ */
-+pgprot_t ttm_prot_from_caching(enum ttm_caching caching, pgprot_t tmp)
-+{
-+	/* Cached mappings need no adjustment */
-+	if (caching == ttm_cached)
-+		return tmp;
-+
-+#if defined(__i386__) || defined(__x86_64__)
-+	if (caching == ttm_write_combined)
-+		tmp = pgprot_writecombine(tmp);
-+	else if (boot_cpu_data.x86 > 3)
-+		tmp = pgprot_noncached(tmp);
-+#endif
-+#if defined(__ia64__) || defined(__arm__) || defined(__aarch64__) || \
-+	defined(__powerpc__) || defined(__mips__)
-+	if (caching == ttm_write_combined)
-+		tmp = pgprot_writecombine(tmp);
-+	else
-+		tmp = pgprot_noncached(tmp);
-+#endif
-+#if defined(__sparc__)
-+	tmp = pgprot_noncached(tmp);
-+#endif
-+	return tmp;
-+}
-+
- struct dentry *ttm_debugfs_root;
- 
- static int __init ttm_init(void)
-diff --git a/drivers/gpu/drm/ttm/ttm_resource.c b/drivers/gpu/drm/ttm/ttm_resource.c
-index 59e2b7157e41..931bcd1a9b9b 100644
---- a/drivers/gpu/drm/ttm/ttm_resource.c
-+++ b/drivers/gpu/drm/ttm/ttm_resource.c
-@@ -22,6 +22,10 @@
-  * Authors: Christian König
-  */
- 
-+#include <linux/dma-buf-map.h>
-+#include <linux/io-mapping.h>
-+#include <linux/scatterlist.h>
-+
- #include <drm/ttm/ttm_resource.h>
- #include <drm/ttm/ttm_bo_driver.h>
- 
-@@ -147,3 +151,192 @@ void ttm_resource_manager_debug(struct ttm_resource_manager *man,
- 		man->func->debug(man, p);
- }
- EXPORT_SYMBOL(ttm_resource_manager_debug);
-+
-+static void ttm_kmap_iter_iomap_map_local(struct ttm_kmap_iter *iter,
-+					  struct dma_buf_map *dmap,
-+					  pgoff_t i)
-+{
-+	struct ttm_kmap_iter_iomap *iter_io =
-+		container_of(iter, typeof(*iter_io), base);
-+	void __iomem *addr;
-+
-+retry:
-+	while (i >= iter_io->cache.end) {
-+		iter_io->cache.sg = iter_io->cache.sg ?
-+			sg_next(iter_io->cache.sg) : iter_io->st->sgl;
-+		iter_io->cache.i = iter_io->cache.end;
-+		iter_io->cache.end += sg_dma_len(iter_io->cache.sg) >>
-+			PAGE_SHIFT;
-+		iter_io->cache.offs = sg_dma_address(iter_io->cache.sg) -
-+			iter_io->start;
-+	}
-+
-+	if (i < iter_io->cache.i) {
-+		iter_io->cache.end = 0;
-+		iter_io->cache.sg = NULL;
-+		goto retry;
-+	}
-+
-+	addr = io_mapping_map_local_wc(iter_io->iomap, iter_io->cache.offs +
-+				       (((resource_size_t)i - iter_io->cache.i)
-+					<< PAGE_SHIFT));
-+	dma_buf_map_set_vaddr_iomem(dmap, addr);
-+}
-+
-+static void ttm_kmap_iter_iomap_unmap_local(struct ttm_kmap_iter *iter,
-+					    struct dma_buf_map *map)
-+{
-+	io_mapping_unmap_local(map->vaddr_iomem);
-+}
-+
-+static const struct ttm_kmap_iter_ops ttm_kmap_iter_io_ops = {
-+	.map_local =  ttm_kmap_iter_iomap_map_local,
-+	.unmap_local = ttm_kmap_iter_iomap_unmap_local,
-+	.maps_tt = false,
-+};
-+
-+/**
-+ * ttm_kmap_iter_iomap_init - Initialize a struct ttm_kmap_iter_iomap
-+ * @iter_io: The struct ttm_kmap_iter_iomap to initialize.
-+ * @iomap: The struct io_mapping representing the underlying linear io_memory.
-+ * @st: sg_table into @iomap, representing the memory of the struct
-+ * ttm_resource.
-+ * @start: Offset that needs to be subtracted from @st to make
-+ * sg_dma_address(st->sgl) - @start == 0 for @iomap start.
-+ *
-+ * Return: Pointer to the embedded struct ttm_kmap_iter.
-+ */
-+struct ttm_kmap_iter *
-+ttm_kmap_iter_iomap_init(struct ttm_kmap_iter_iomap *iter_io,
-+			 struct io_mapping *iomap,
-+			 struct sg_table *st,
-+			 resource_size_t start)
-+{
-+	iter_io->base.ops = &ttm_kmap_iter_io_ops;
-+	iter_io->iomap = iomap;
-+	iter_io->st = st;
-+	iter_io->start = start;
-+	memset(&iter_io->cache, 0, sizeof(iter_io->cache));
-+
-+	return &iter_io->base;
-+}
-+EXPORT_SYMBOL(ttm_kmap_iter_iomap_init);
-+
-+/**
-+ * DOC: Linear io iterator
-+ *
-+ * This code should die in the not too near future. Best would be if we could
-+ * make io-mapping use memremap for all io memory, and have memremap
-+ * implement a kmap_local functionality. We could then strip a huge amount of
-+ * code. These linear io iterators are implemented to mimic old functionality,
-+ * and they don't use kmap_local semantics at all internally. Rather ioremap or
-+ * friends, and at least on 32-bit they add global TLB flushes and points
-+ * of failure.
-+ */
-+
-+static void ttm_kmap_iter_linear_io_map_local(struct ttm_kmap_iter *iter,
-+					      struct dma_buf_map *dmap,
-+					      pgoff_t i)
-+{
-+	struct ttm_kmap_iter_linear_io *iter_io =
-+		container_of(iter, typeof(*iter_io), base);
-+
-+	*dmap = iter_io->dmap;
-+	dma_buf_map_incr(dmap, i * PAGE_SIZE);
-+}
-+
-+static const struct ttm_kmap_iter_ops ttm_kmap_iter_linear_io_ops = {
-+	.map_local =  ttm_kmap_iter_linear_io_map_local,
-+	.maps_tt = false,
-+};
-+
-+/**
-+ * ttm_kmap_iter_linear_io_init - Initialize an iterator for linear io memory
-+ * @iter_io: The iterator to initialize
-+ * @bdev: The TTM device
-+ * @mem: The ttm resource representing the iomap.
-+ *
-+ * This function is for internal TTM use only. It sets up a memcpy kmap iterator
-+ * pointing at a linear chunk of io memory.
-+ *
-+ * Return: A pointer to the embedded struct ttm_kmap_iter or error pointer on
-+ * failure.
-+ */
-+struct ttm_kmap_iter *
-+ttm_kmap_iter_linear_io_init(struct ttm_kmap_iter_linear_io *iter_io,
-+			     struct ttm_device *bdev,
-+			     struct ttm_resource *mem)
-+{
-+	int ret;
-+
-+	ret = ttm_mem_io_reserve(bdev, mem);
-+	if (ret)
-+		goto out_err;
-+	if (!mem->bus.is_iomem) {
-+		ret = -EINVAL;
-+		goto out_io_free;
-+	}
-+
-+	if (mem->bus.addr) {
-+		dma_buf_map_set_vaddr(&iter_io->dmap, mem->bus.addr);
-+		iter_io->needs_unmap = false;
-+	} else {
-+		size_t bus_size = (size_t)mem->num_pages << PAGE_SHIFT;
-+
-+		iter_io->needs_unmap = true;
-+		memset(&iter_io->dmap, 0, sizeof(iter_io->dmap));
-+		if (mem->bus.caching == ttm_write_combined)
-+			dma_buf_map_set_vaddr_iomem(&iter_io->dmap,
-+						    ioremap_wc(mem->bus.offset,
-+							       bus_size));
-+		else if (mem->bus.caching == ttm_cached)
-+			dma_buf_map_set_vaddr(&iter_io->dmap,
-+					      memremap(mem->bus.offset, bus_size,
-+						       MEMREMAP_WB |
-+						       MEMREMAP_WT |
-+						       MEMREMAP_WC));
-+
-+		/* If uncached requested or if mapping cached or wc failed */
-+		if (dma_buf_map_is_null(&iter_io->dmap))
-+			dma_buf_map_set_vaddr_iomem(&iter_io->dmap,
-+						    ioremap(mem->bus.offset,
-+							    bus_size));
-+
-+		if (dma_buf_map_is_null(&iter_io->dmap)) {
-+			ret = -ENOMEM;
-+			goto out_io_free;
-+		}
-+	}
-+
-+	iter_io->base.ops = &ttm_kmap_iter_linear_io_ops;
-+	return &iter_io->base;
-+
-+out_io_free:
-+	ttm_mem_io_free(bdev, mem);
-+out_err:
-+	return ERR_PTR(ret);
-+}
-+
-+/**
-+ * ttm_kmap_iter_linear_io_fini - Clean up an iterator for linear io memory
-+ * @iter_io: The iterator to initialize
-+ * @bdev: The TTM device
-+ * @mem: The ttm resource representing the iomap.
-+ *
-+ * This function is for internal TTM use only. It cleans up a memcpy kmap
-+ * iterator initialized by ttm_kmap_iter_linear_io_init.
-+ */
-+void
-+ttm_kmap_iter_linear_io_fini(struct ttm_kmap_iter_linear_io *iter_io,
-+			     struct ttm_device *bdev,
-+			     struct ttm_resource *mem)
-+{
-+	if (iter_io->needs_unmap && dma_buf_map_is_set(&iter_io->dmap)) {
-+		if (iter_io->dmap.is_iomem)
-+			iounmap(iter_io->dmap.vaddr_iomem);
-+		else
-+			memunmap(iter_io->dmap.vaddr);
-+	}
-+
-+	ttm_mem_io_free(bdev, mem);
-+}
-diff --git a/drivers/gpu/drm/ttm/ttm_tt.c b/drivers/gpu/drm/ttm/ttm_tt.c
-index 539e0232cb3b..0e41227116b1 100644
---- a/drivers/gpu/drm/ttm/ttm_tt.c
-+++ b/drivers/gpu/drm/ttm/ttm_tt.c
-@@ -433,3 +433,45 @@ void ttm_tt_mgr_init(unsigned long num_pages, unsigned long num_dma32_pages)
- 	if (!ttm_dma32_pages_limit)
- 		ttm_dma32_pages_limit = num_dma32_pages;
- }
-+
-+static void ttm_kmap_iter_tt_map_local(struct ttm_kmap_iter *iter,
-+				       struct dma_buf_map *dmap,
-+				       pgoff_t i)
-+{
-+	struct ttm_kmap_iter_tt *iter_tt =
-+		container_of(iter, typeof(*iter_tt), base);
-+
-+	dma_buf_map_set_vaddr(dmap, kmap_local_page_prot(iter_tt->tt->pages[i],
-+							 iter_tt->prot));
-+}
-+
-+static void ttm_kmap_iter_tt_unmap_local(struct ttm_kmap_iter *iter,
-+					 struct dma_buf_map *map)
-+{
-+	kunmap_local(map->vaddr);
-+}
-+
-+static const struct ttm_kmap_iter_ops ttm_kmap_iter_tt_ops = {
-+	.map_local = ttm_kmap_iter_tt_map_local,
-+	.unmap_local = ttm_kmap_iter_tt_unmap_local,
-+	.maps_tt = true,
-+};
-+
-+/**
-+ * ttm_kmap_iter_tt_init - Initialize a struct ttm_kmap_iter_tt
-+ * @iter_tt: The struct ttm_kmap_iter_tt to initialize.
-+ * @tt: Struct ttm_tt holding page pointers of the struct ttm_resource.
-+ *
-+ * Return: Pointer to the embedded struct ttm_kmap_iter.
-+ */
-+struct ttm_kmap_iter *
-+ttm_kmap_iter_tt_init(struct ttm_kmap_iter_tt *iter_tt,
-+		      struct ttm_tt *tt)
-+{
-+	iter_tt->base.ops = &ttm_kmap_iter_tt_ops;
-+	iter_tt->tt = tt;
-+	iter_tt->prot = ttm_prot_from_caching(tt->caching, PAGE_KERNEL);
-+
-+	return &iter_tt->base;
-+}
-+EXPORT_SYMBOL(ttm_kmap_iter_tt_init);
-diff --git a/include/drm/ttm/ttm_bo_driver.h b/include/drm/ttm/ttm_bo_driver.h
-index dbccac957f8f..fdbeac78c236 100644
---- a/include/drm/ttm/ttm_bo_driver.h
-+++ b/include/drm/ttm/ttm_bo_driver.h
+ drm-$(CONFIG_DRM_LEGACY) += drm_agpsupport.o drm_bufs.o drm_context.o drm_dma.o \
+ 			    drm_legacy_misc.o drm_lock.o drm_memory.o drm_scatter.o \
+diff --git a/drivers/gpu/drm/drm_drv.c b/drivers/gpu/drm/drm_drv.c
+index 3d8d68a98b95..351cc2900cf1 100644
+--- a/drivers/gpu/drm/drm_drv.c
++++ b/drivers/gpu/drm/drm_drv.c
 @@ -40,6 +40,7 @@
- #include <drm/ttm/ttm_device.h>
+ #include <drm/drm_drv.h>
+ #include <drm/drm_file.h>
+ #include <drm/drm_managed.h>
++#include <drm/drm_memcpy.h>
+ #include <drm/drm_mode_object.h>
+ #include <drm/drm_print.h>
  
- #include "ttm_bo_api.h"
-+#include "ttm_kmap_iter.h"
- #include "ttm_placement.h"
- #include "ttm_tt.h"
- #include "ttm_pool.h"
-@@ -272,6 +273,23 @@ int ttm_bo_move_accel_cleanup(struct ttm_buffer_object *bo,
- 			      bool pipeline,
- 			      struct ttm_resource *new_mem);
+@@ -1041,6 +1042,7 @@ static int __init drm_core_init(void)
  
-+/**
-+ * ttm_bo_move_accel_cleanup.
-+ *
-+ * @bo: A pointer to a struct ttm_buffer_object.
-+ * @new_mem: struct ttm_resource indicating where to move.
-+ *
-+ * Special case of ttm_bo_move_accel_cleanup where the bo is guaranteed
-+ * by the caller to be idle. Typically used after memcpy buffer moves.
-+ */
-+static inline void ttm_bo_move_sync_cleanup(struct ttm_buffer_object *bo,
-+					    struct ttm_resource *new_mem)
-+{
-+	int ret = ttm_bo_move_accel_cleanup(bo, NULL, true, false, new_mem);
-+
-+	WARN_ON(ret);
-+}
-+
- /**
-  * ttm_bo_pipeline_gutting.
+ 	drm_connector_ida_init();
+ 	idr_init(&drm_minors_idr);
++	drm_memcpy_init_early();
+ 
+ 	ret = drm_sysfs_init();
+ 	if (ret < 0) {
+diff --git a/drivers/gpu/drm/i915/i915_memcpy.c b/drivers/gpu/drm/drm_memcpy.c
+similarity index 70%
+rename from drivers/gpu/drm/i915/i915_memcpy.c
+rename to drivers/gpu/drm/drm_memcpy.c
+index 1b021a4902de..740377749caa 100644
+--- a/drivers/gpu/drm/i915/i915_memcpy.c
++++ b/drivers/gpu/drm/drm_memcpy.c
+@@ -1,3 +1,4 @@
++// SPDX-License-Identifier: MIT
+ /*
+  * Copyright © 2016 Intel Corporation
   *
-@@ -332,4 +350,14 @@ int ttm_range_man_init(struct ttm_device *bdev,
- int ttm_range_man_fini(struct ttm_device *bdev,
- 		       unsigned type);
+@@ -22,16 +23,12 @@
+  *
+  */
  
-+void ttm_move_memcpy(struct ttm_buffer_object *bo,
-+		     pgoff_t num_pages,
-+		     struct ttm_kmap_iter *dst_iter,
-+		     struct ttm_kmap_iter *src_iter);
-+
-+struct ttm_kmap_iter *
-+ttm_kmap_iter_iomap_init(struct ttm_kmap_iter_iomap *iter_io,
-+			 struct io_mapping *iomap,
-+			 struct sg_table *st,
-+			 resource_size_t start);
- #endif
-diff --git a/include/drm/ttm/ttm_caching.h b/include/drm/ttm/ttm_caching.h
-index a0b4a49fa432..3c9dd65f5aaf 100644
---- a/include/drm/ttm/ttm_caching.h
-+++ b/include/drm/ttm/ttm_caching.h
-@@ -33,4 +33,6 @@ enum ttm_caching {
- 	ttm_cached
- };
++#ifdef CONFIG_X86
++#include <linux/dma-buf-map.h>
+ #include <linux/kernel.h>
+ #include <asm/fpu/api.h>
  
-+pgprot_t ttm_prot_from_caching(enum ttm_caching caching, pgprot_t tmp);
+-#include "i915_memcpy.h"
+-
+-#if IS_ENABLED(CONFIG_DRM_I915_DEBUG)
+-#define CI_BUG_ON(expr) BUG_ON(expr)
+-#else
+-#define CI_BUG_ON(expr) BUILD_BUG_ON_INVALID(expr)
+-#endif
++#include "drm/drm_memcpy.h"
+ 
+ static DEFINE_STATIC_KEY_FALSE(has_movntdqa);
+ 
+@@ -94,23 +91,24 @@ static void __memcpy_ntdqu(void *dst, const void *src, unsigned long len)
+ }
+ 
+ /**
+- * i915_memcpy_from_wc: perform an accelerated *aligned* read from WC
++ * drm_memcpy_from_wc: perform an accelerated *aligned* read from WC
+  * @dst: destination pointer
+  * @src: source pointer
+  * @len: how many bytes to copy
+  *
+- * i915_memcpy_from_wc copies @len bytes from @src to @dst using
++ * drm_memcpy_from_wc copies @len bytes from @src to @dst using
+  * non-temporal instructions where available. Note that all arguments
+  * (@src, @dst) must be aligned to 16 bytes and @len must be a multiple
+  * of 16.
+  *
+  * To test whether accelerated reads from WC are supported, use
+- * i915_memcpy_from_wc(NULL, NULL, 0);
++ * drm_memcpy_from_wc(NULL, NULL, 0);
++ * This interface is intended for memremapped memory without the __iomem tag.
+  *
+  * Returns true if the copy was successful, false if the preconditions
+  * are not met.
+  */
+-bool i915_memcpy_from_wc(void *dst, const void *src, unsigned long len)
++bool drm_memcpy_from_wc(void *dst, const void *src, unsigned long len)
+ {
+ 	if (unlikely(((unsigned long)dst | (unsigned long)src | len) & 15))
+ 		return false;
+@@ -123,24 +121,53 @@ bool i915_memcpy_from_wc(void *dst, const void *src, unsigned long len)
+ 
+ 	return false;
+ }
++EXPORT_SYMBOL(drm_memcpy_from_wc);
+ 
+ /**
+- * i915_unaligned_memcpy_from_wc: perform a mostly accelerated read from WC
++ * drm_memcpy_from_wc_dbm: perform an accelerated *aligned* read from WC with
++ * struct dma_buf_map arguments.
++ * @dst: destination map
++ * @src: source map
++ * @len: how many bytes to copy
++ *
++ * This is identical to drm_memcpy_from_wc, except it's intended for
++ * potentially ioremapped memory rather than memremapped memory.
++ *
++ * Returns true if the copy was successful, false if the preconditions
++ * are not met.
++ */
++bool drm_memcpy_from_wc_dbm(struct dma_buf_map *dst,
++			    const struct dma_buf_map *src,
++			    unsigned long len)
++{
++	/* For X86 we can safely drop __iomem */
++	return drm_memcpy_from_wc(dst->is_iomem ?
++				  (void __force *)dst->vaddr_iomem :
++				  dst->vaddr,
++				  src->is_iomem ?
++				  (void const __force *)src->vaddr_iomem :
++				  src->vaddr,
++				  len);
++}
++EXPORT_SYMBOL(drm_memcpy_from_wc_dbm);
 +
- #endif
-diff --git a/include/drm/ttm/ttm_kmap_iter.h b/include/drm/ttm/ttm_kmap_iter.h
++/**
++ * drm_unaligned_memcpy_from_wc: perform a mostly accelerated read from WC
+  * @dst: destination pointer
+  * @src: source pointer
+  * @len: how many bytes to copy
+  *
+- * Like i915_memcpy_from_wc(), the unaligned variant copies @len bytes from
++ * Like drm_memcpy_from_wc(), the unaligned variant copies @len bytes from
+  * @src to @dst using * non-temporal instructions where available, but
+  * accepts that its arguments may not be aligned, but are valid for the
+  * potential 16-byte read past the end.
++ *
++ * This interface is intended for mremapped memory without the __iomem tag.
+  */
+-void i915_unaligned_memcpy_from_wc(void *dst, const void *src, unsigned long len)
++void drm_unaligned_memcpy_from_wc(void *dst, const void *src, unsigned long len)
+ {
+ 	unsigned long addr;
+ 
+-	CI_BUG_ON(!i915_has_memcpy_from_wc());
+-
+ 	addr = (unsigned long)src;
+ 	if (!IS_ALIGNED(addr, 16)) {
+ 		unsigned long x = min(ALIGN(addr, 16) - addr, len);
+@@ -155,8 +182,9 @@ void i915_unaligned_memcpy_from_wc(void *dst, const void *src, unsigned long len
+ 	if (likely(len))
+ 		__memcpy_ntdqu(dst, src, DIV_ROUND_UP(len, 16));
+ }
++EXPORT_SYMBOL(drm_unaligned_memcpy_from_wc);
+ 
+-void i915_memcpy_init_early(struct drm_i915_private *dev_priv)
++void drm_memcpy_init_early(void)
+ {
+ 	/*
+ 	 * Some hypervisors (e.g. KVM) don't support VEX-prefix instructions
+@@ -166,3 +194,4 @@ void i915_memcpy_init_early(struct drm_i915_private *dev_priv)
+ 	    !boot_cpu_has(X86_FEATURE_HYPERVISOR))
+ 		static_branch_enable(&has_movntdqa);
+ }
++#endif
+diff --git a/drivers/gpu/drm/i915/Makefile b/drivers/gpu/drm/i915/Makefile
+index 4f22cac1c49b..ebc19bd5fff4 100644
+--- a/drivers/gpu/drm/i915/Makefile
++++ b/drivers/gpu/drm/i915/Makefile
+@@ -61,7 +61,6 @@ i915-y += i915_drv.o \
+ # core library code
+ i915-y += \
+ 	dma_resv_utils.o \
+-	i915_memcpy.o \
+ 	i915_mm.o \
+ 	i915_sw_fence.o \
+ 	i915_sw_fence_work.o \
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
+index 297143511f99..77285e421fb8 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
+@@ -10,6 +10,7 @@
+ #include <linux/uaccess.h>
+ 
+ #include <drm/drm_syncobj.h>
++#include <drm/drm_memcpy.h>
+ 
+ #include "display/intel_frontbuffer.h"
+ 
+@@ -28,7 +29,6 @@
+ #include "i915_sw_fence_work.h"
+ #include "i915_trace.h"
+ #include "i915_user_extensions.h"
+-#include "i915_memcpy.h"
+ 
+ struct eb_vma {
+ 	struct i915_vma *vma;
+@@ -2503,7 +2503,7 @@ static int eb_parse_pipeline(struct i915_execbuffer *eb,
+ 		!(batch->cache_coherent & I915_BO_CACHE_COHERENT_FOR_READ);
+ 
+ 	pw->batch_map = ERR_PTR(-ENODEV);
+-	if (needs_clflush && i915_has_memcpy_from_wc())
++	if (needs_clflush && drm_has_memcpy_from_wc())
+ 		pw->batch_map = i915_gem_object_pin_map(batch, I915_MAP_WC);
+ 
+ 	if (IS_ERR(pw->batch_map)) {
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object.c b/drivers/gpu/drm/i915/gem/i915_gem_object.c
+index 5706d471692d..e9247afb0320 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_object.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_object.c
+@@ -24,6 +24,8 @@
+ 
+ #include <linux/sched/mm.h>
+ 
++#include <drm/drm_memcpy.h>
++
+ #include "display/intel_frontbuffer.h"
+ #include "i915_drv.h"
+ #include "i915_gem_clflush.h"
+@@ -31,7 +33,6 @@
+ #include "i915_gem_mman.h"
+ #include "i915_gem_object.h"
+ #include "i915_globals.h"
+-#include "i915_memcpy.h"
+ #include "i915_trace.h"
+ 
+ static struct i915_global_object {
+@@ -374,7 +375,7 @@ i915_gem_object_read_from_page_iomap(struct drm_i915_gem_object *obj, u64 offset
+ 				    PAGE_SIZE);
+ 
+ 	src_ptr = src_map + offset_in_page(offset);
+-	if (!i915_memcpy_from_wc(dst, (void __force *)src_ptr, size))
++	if (!drm_memcpy_from_wc(dst, (void __force *)src_ptr, size))
+ 		memcpy_fromio(dst, src_ptr, size);
+ 
+ 	io_mapping_unmap(src_map);
+diff --git a/drivers/gpu/drm/i915/gt/selftest_reset.c b/drivers/gpu/drm/i915/gt/selftest_reset.c
+index 8784257ec808..92ada67a3835 100644
+--- a/drivers/gpu/drm/i915/gt/selftest_reset.c
++++ b/drivers/gpu/drm/i915/gt/selftest_reset.c
+@@ -5,9 +5,10 @@
+ 
+ #include <linux/crc32.h>
+ 
++#include <drm/drm_memcpy.h>
++
+ #include "gem/i915_gem_stolen.h"
+ 
+-#include "i915_memcpy.h"
+ #include "i915_selftest.h"
+ #include "intel_gpu_commands.h"
+ #include "selftests/igt_reset.h"
+@@ -99,7 +100,7 @@ __igt_reset_stolen(struct intel_gt *gt,
+ 			memset_io(s, STACK_MAGIC, PAGE_SIZE);
+ 
+ 		in = (void __force *)s;
+-		if (i915_memcpy_from_wc(tmp, in, PAGE_SIZE))
++		if (drm_memcpy_from_wc(tmp, in, PAGE_SIZE))
+ 			in = tmp;
+ 		crc[page] = crc32_le(0, in, PAGE_SIZE);
+ 
+@@ -135,7 +136,7 @@ __igt_reset_stolen(struct intel_gt *gt,
+ 				      PAGE_SIZE);
+ 
+ 		in = (void __force *)s;
+-		if (i915_memcpy_from_wc(tmp, in, PAGE_SIZE))
++		if (drm_memcpy_from_wc(tmp, in, PAGE_SIZE))
+ 			in = tmp;
+ 		x = crc32_le(0, in, PAGE_SIZE);
+ 
+diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_log.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_log.c
+index c36d5eb5bbb9..f045e42be6ca 100644
+--- a/drivers/gpu/drm/i915/gt/uc/intel_guc_log.c
++++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_log.c
+@@ -5,9 +5,10 @@
+ 
+ #include <linux/debugfs.h>
+ 
++#include <drm/drm_memcpy.h>
++
+ #include "gt/intel_gt.h"
+ #include "i915_drv.h"
+-#include "i915_memcpy.h"
+ #include "intel_guc_log.h"
+ 
+ static void guc_log_capture_logs(struct intel_guc_log *log);
+@@ -295,13 +296,13 @@ static void guc_read_update_log_buffer(struct intel_guc_log *log)
+ 
+ 		/* Just copy the newly written data */
+ 		if (read_offset > write_offset) {
+-			i915_memcpy_from_wc(dst_data, src_data, write_offset);
++			drm_memcpy_from_wc(dst_data, src_data, write_offset);
+ 			bytes_to_copy = buffer_size - read_offset;
+ 		} else {
+ 			bytes_to_copy = write_offset - read_offset;
+ 		}
+-		i915_memcpy_from_wc(dst_data + read_offset,
+-				    src_data + read_offset, bytes_to_copy);
++		drm_memcpy_from_wc(dst_data + read_offset,
++				   src_data + read_offset, bytes_to_copy);
+ 
+ 		src_data += buffer_size;
+ 		dst_data += buffer_size;
+@@ -569,7 +570,7 @@ int intel_guc_log_relay_open(struct intel_guc_log *log)
+ 	 * it should be present on the chipsets supporting GuC based
+ 	 * submisssions.
+ 	 */
+-	if (!i915_has_memcpy_from_wc()) {
++	if (!drm_has_memcpy_from_wc()) {
+ 		ret = -ENXIO;
+ 		goto out_unlock;
+ 	}
+diff --git a/drivers/gpu/drm/i915/i915_cmd_parser.c b/drivers/gpu/drm/i915/i915_cmd_parser.c
+index 5b4b2bd46e7c..98653f1a2b1d 100644
+--- a/drivers/gpu/drm/i915/i915_cmd_parser.c
++++ b/drivers/gpu/drm/i915/i915_cmd_parser.c
+@@ -24,12 +24,12 @@
+  *    Brad Volkin <bradley.d.volkin@intel.com>
+  *
+  */
++#include <drm/drm_memcpy.h>
+ 
+ #include "gt/intel_engine.h"
+ #include "gt/intel_gpu_commands.h"
+ 
+ #include "i915_drv.h"
+-#include "i915_memcpy.h"
+ 
+ /**
+  * DOC: batch buffer command parser
+@@ -1152,7 +1152,7 @@ static u32 *copy_batch(struct drm_i915_gem_object *dst_obj,
+ 
+ 	if (src) {
+ 		GEM_BUG_ON(!needs_clflush);
+-		i915_unaligned_memcpy_from_wc(dst, src + offset, length);
++		drm_unaligned_memcpy_from_wc(dst, src + offset, length);
+ 	} else {
+ 		struct scatterlist *sg;
+ 		void *ptr;
+diff --git a/drivers/gpu/drm/i915/i915_drv.c b/drivers/gpu/drm/i915/i915_drv.c
+index 30c349137be2..68639ed0bdec 100644
+--- a/drivers/gpu/drm/i915/i915_drv.c
++++ b/drivers/gpu/drm/i915/i915_drv.c
+@@ -72,7 +72,6 @@
+ #include "i915_drv.h"
+ #include "i915_ioc32.h"
+ #include "i915_irq.h"
+-#include "i915_memcpy.h"
+ #include "i915_perf.h"
+ #include "i915_query.h"
+ #include "i915_suspend.h"
+@@ -325,7 +324,6 @@ static int i915_driver_early_probe(struct drm_i915_private *dev_priv)
+ 	mutex_init(&dev_priv->pps_mutex);
+ 	mutex_init(&dev_priv->hdcp_comp_mutex);
+ 
+-	i915_memcpy_init_early(dev_priv);
+ 	intel_runtime_pm_init_early(&dev_priv->runtime_pm);
+ 
+ 	ret = i915_workqueues_init(dev_priv);
+diff --git a/drivers/gpu/drm/i915/i915_gpu_error.c b/drivers/gpu/drm/i915/i915_gpu_error.c
+index 8b964e355cb5..7c1b44545bab 100644
+--- a/drivers/gpu/drm/i915/i915_gpu_error.c
++++ b/drivers/gpu/drm/i915/i915_gpu_error.c
+@@ -34,6 +34,7 @@
+ #include <linux/utsname.h>
+ #include <linux/zlib.h>
+ 
++#include <drm/drm_memcpy.h>
+ #include <drm/drm_print.h>
+ 
+ #include "display/intel_dmc.h"
+@@ -46,7 +47,6 @@
+ 
+ #include "i915_drv.h"
+ #include "i915_gpu_error.h"
+-#include "i915_memcpy.h"
+ #include "i915_scatterlist.h"
+ 
+ #define ALLOW_FAIL (GFP_KERNEL | __GFP_RETRY_MAYFAIL | __GFP_NOWARN)
+@@ -255,7 +255,7 @@ static bool compress_init(struct i915_vma_compress *c)
+ 	}
+ 
+ 	c->tmp = NULL;
+-	if (i915_has_memcpy_from_wc())
++	if (drm_has_memcpy_from_wc())
+ 		c->tmp = pool_alloc(&c->pool, ALLOW_FAIL);
+ 
+ 	return true;
+@@ -295,7 +295,7 @@ static int compress_page(struct i915_vma_compress *c,
+ 	struct z_stream_s *zstream = &c->zstream;
+ 
+ 	zstream->next_in = src;
+-	if (wc && c->tmp && i915_memcpy_from_wc(c->tmp, src, PAGE_SIZE))
++	if (wc && c->tmp && drm_memcpy_from_wc(c->tmp, src, PAGE_SIZE))
+ 		zstream->next_in = c->tmp;
+ 	zstream->avail_in = PAGE_SIZE;
+ 
+@@ -395,7 +395,7 @@ static int compress_page(struct i915_vma_compress *c,
+ 	if (!ptr)
+ 		return -ENOMEM;
+ 
+-	if (!(wc && i915_memcpy_from_wc(ptr, src, PAGE_SIZE)))
++	if (!(wc && drm_memcpy_from_wc(ptr, src, PAGE_SIZE)))
+ 		memcpy(ptr, src, PAGE_SIZE);
+ 	dst->pages[dst->page_count++] = ptr;
+ 	cond_resched();
+diff --git a/drivers/gpu/drm/i915/i915_memcpy.h b/drivers/gpu/drm/i915/i915_memcpy.h
+deleted file mode 100644
+index 3df063a3293b..000000000000
+--- a/drivers/gpu/drm/i915/i915_memcpy.h
++++ /dev/null
+@@ -1,34 +0,0 @@
+-/* SPDX-License-Identifier: MIT */
+-/*
+- * Copyright © 2019 Intel Corporation
+- */
+-
+-#ifndef __I915_MEMCPY_H__
+-#define __I915_MEMCPY_H__
+-
+-#include <linux/types.h>
+-
+-struct drm_i915_private;
+-
+-void i915_memcpy_init_early(struct drm_i915_private *i915);
+-
+-bool i915_memcpy_from_wc(void *dst, const void *src, unsigned long len);
+-void i915_unaligned_memcpy_from_wc(void *dst, const void *src, unsigned long len);
+-
+-/* The movntdqa instructions used for memcpy-from-wc require 16-byte alignment,
+- * as well as SSE4.1 support. i915_memcpy_from_wc() will report if it cannot
+- * perform the operation. To check beforehand, pass in the parameters to
+- * to i915_can_memcpy_from_wc() - since we only care about the low 4 bits,
+- * you only need to pass in the minor offsets, page-aligned pointers are
+- * always valid.
+- *
+- * For just checking for SSE4.1, in the foreknowledge that the future use
+- * will be correctly aligned, just use i915_has_memcpy_from_wc().
+- */
+-#define i915_can_memcpy_from_wc(dst, src, len) \
+-	i915_memcpy_from_wc((void *)((unsigned long)(dst) | (unsigned long)(src) | (len)), NULL, 0)
+-
+-#define i915_has_memcpy_from_wc() \
+-	i915_memcpy_from_wc(NULL, NULL, 0)
+-
+-#endif /* __I915_MEMCPY_H__ */
+diff --git a/drivers/gpu/drm/i915/selftests/intel_memory_region.c b/drivers/gpu/drm/i915/selftests/intel_memory_region.c
+index c85d516b85cd..6bb399e9be78 100644
+--- a/drivers/gpu/drm/i915/selftests/intel_memory_region.c
++++ b/drivers/gpu/drm/i915/selftests/intel_memory_region.c
+@@ -6,6 +6,8 @@
+ #include <linux/prime_numbers.h>
+ #include <linux/sort.h>
+ 
++#include <drm/drm_memcpy.h>
++
+ #include "../i915_selftest.h"
+ 
+ #include "mock_drm.h"
+@@ -20,7 +22,6 @@
+ #include "gem/selftests/mock_context.h"
+ #include "gt/intel_engine_user.h"
+ #include "gt/intel_gt.h"
+-#include "i915_memcpy.h"
+ #include "selftests/igt_flush_test.h"
+ #include "selftests/i915_random.h"
+ 
+@@ -901,7 +902,7 @@ static inline void igt_memcpy(void *dst, const void *src, size_t size)
+ 
+ static inline void igt_memcpy_from_wc(void *dst, const void *src, size_t size)
+ {
+-	i915_memcpy_from_wc(dst, src, size);
++	drm_memcpy_from_wc(dst, src, size);
+ }
+ 
+ static int _perf_memcpy(struct intel_memory_region *src_mr,
+@@ -925,7 +926,7 @@ static int _perf_memcpy(struct intel_memory_region *src_mr,
+ 		{
+ 			"memcpy_from_wc",
+ 			igt_memcpy_from_wc,
+-			!i915_has_memcpy_from_wc(),
++			!drm_has_memcpy_from_wc(),
+ 		},
+ 	};
+ 	struct drm_i915_gem_object *src, *dst;
+diff --git a/include/drm/drm_memcpy.h b/include/drm/drm_memcpy.h
 new file mode 100644
-index 000000000000..8bb00fd39d6c
+index 000000000000..fe5ed1e89ce6
 --- /dev/null
-+++ b/include/drm/ttm/ttm_kmap_iter.h
-@@ -0,0 +1,61 @@
++++ b/include/drm/drm_memcpy.h
+@@ -0,0 +1,68 @@
 +/* SPDX-License-Identifier: MIT */
 +/*
-+ * Copyright © 2021 Intel Corporation
++ * Copyright © 2019 Intel Corporation
 + */
-+#ifndef __TTM_KMAP_ITER_H__
-+#define __TTM_KMAP_ITER_H__
++
++#ifndef __DRM_MEMCPY_H__
++#define __DRM_MEMCPY_H__
 +
 +#include <linux/types.h>
 +
-+struct ttm_kmap_iter;
 +struct dma_buf_map;
 +
-+/**
-+ * struct ttm_kmap_iter_ops - Ops structure for a struct
-+ * ttm_kmap_iter.
-+ * @maps_tt: Whether the iterator maps TT memory directly, as opposed
-+ * mapping a TT through an aperture. Both these modes have
-+ * struct ttm_resource_manager::use_tt set, but the latter typically
-+ * returns is_iomem == true from ttm_mem_io_reserve.
-+ */
-+struct ttm_kmap_iter_ops {
-+	/**
-+	 * kmap_local() - Map a PAGE_SIZE part of the resource using
-+	 * kmap_local semantics.
-+	 * @res_iter: Pointer to the struct ttm_kmap_iter representing
-+	 * the resource.
-+	 * @dmap: The struct dma_buf_map holding the virtual address after
-+	 * the operation.
-+	 * @i: The location within the resource to map. PAGE_SIZE granularity.
-+	 */
-+	void (*map_local)(struct ttm_kmap_iter *res_iter,
-+			  struct dma_buf_map *dmap, pgoff_t i);
-+	/**
-+	 * unmap_local() - Unmap a PAGE_SIZE part of the resource previously
-+	 * mapped using kmap_local.
-+	 * @res_iter: Pointer to the struct ttm_kmap_iter representing
-+	 * the resource.
-+	 * @dmap: The struct dma_buf_map holding the virtual address after
-+	 * the operation.
-+	 */
-+	void (*unmap_local)(struct ttm_kmap_iter *res_iter,
-+			    struct dma_buf_map *dmap);
-+	bool maps_tt;
-+};
++#ifdef CONFIG_X86
++bool drm_memcpy_from_wc(void *dst, const void *src, unsigned long len);
++bool drm_memcpy_from_wc_dbm(struct dma_buf_map *dst,
++			    const struct dma_buf_map *src,
++			    unsigned long len);
++void drm_unaligned_memcpy_from_wc(void *dst, const void *src, unsigned long len);
 +
-+/**
-+ * struct ttm_kmap_iter - Iterator for kmap_local type operations on a
-+ * resource.
-+ * @ops: Pointer to the operations struct.
++/* The movntdqa instructions used for memcpy-from-wc require 16-byte alignment,
++ * as well as SSE4.1 support. drm_memcpy_from_wc() will report if it cannot
++ * perform the operation. To check beforehand, pass in the parameters to
++ * drm_can_memcpy_from_wc() - since we only care about the low 4 bits,
++ * you only need to pass in the minor offsets, page-aligned pointers are
++ * always valid.
 + *
-+ * This struct is intended to be embedded in a resource-specific specialization
-+ * implementing operations for the resource.
-+ *
-+ * Nothing stops us from extending the operations to vmap, vmap_pfn etc,
-+ * replacing some or parts of the ttm_bo_util. cpu-map functionality.
++ * For just checking for SSE4.1, in the foreknowledge that the future use
++ * will be correctly aligned, just use drm_has_memcpy_from_wc().
 + */
-+struct ttm_kmap_iter {
-+	const struct ttm_kmap_iter_ops *ops;
-+};
++#define drm_can_memcpy_from_wc(dst, src, len) \
++	drm_memcpy_from_wc((void *)((unsigned long)(dst) | (unsigned long)(src) | (len)), NULL, 0)
 +
-+#endif /* __TTM_KMAP_ITER_H__ */
-diff --git a/include/drm/ttm/ttm_resource.h b/include/drm/ttm/ttm_resource.h
-index 890b9d369519..b8dc0bdb0da5 100644
---- a/include/drm/ttm/ttm_resource.h
-+++ b/include/drm/ttm/ttm_resource.h
-@@ -27,9 +27,11 @@
- 
- #include <linux/types.h>
- #include <linux/mutex.h>
-+#include <linux/dma-buf-map.h>
- #include <linux/dma-fence.h>
- #include <drm/drm_print.h>
- #include <drm/ttm/ttm_caching.h>
-+#include <drm/ttm/ttm_kmap_iter.h>
- 
- #define TTM_MAX_BO_PRIORITY	4U
- 
-@@ -38,6 +40,10 @@ struct ttm_resource_manager;
- struct ttm_resource;
- struct ttm_place;
- struct ttm_buffer_object;
-+struct dma_buf_map;
-+struct io_mapping;
-+struct sg_table;
-+struct scatterlist;
- 
- struct ttm_resource_manager_func {
- 	/**
-@@ -176,6 +182,45 @@ struct ttm_resource {
- 	struct ttm_bus_placement bus;
- };
- 
-+/**
-+ * struct ttm_kmap_iter_iomap - Specialization for a struct io_mapping +
-+ * struct sg_table backed struct ttm_resource.
-+ * @base: Embedded struct ttm_kmap_iter providing the usage interface.
-+ * @iomap: struct io_mapping representing the underlying linear io_memory.
-+ * @st: sg_table into @iomap, representing the memory of the struct ttm_resource.
-+ * @start: Offset that needs to be subtracted from @st to make
-+ * sg_dma_address(st->sgl) - @start == 0 for @iomap start.
-+ * @cache: Scatterlist traversal cache for fast lookups.
-+ * @cache.sg: Pointer to the currently cached scatterlist segment.
-+ * @cache.i: First index of @sg. PAGE_SIZE granularity.
-+ * @cache.end: Last index + 1 of @sg. PAGE_SIZE granularity.
-+ * @cache.offs: First offset into @iomap of @sg. PAGE_SIZE granularity.
-+ */
-+struct ttm_kmap_iter_iomap {
-+	struct ttm_kmap_iter base;
-+	struct io_mapping *iomap;
-+	struct sg_table *st;
-+	resource_size_t start;
-+	struct {
-+		struct scatterlist *sg;
-+		pgoff_t i;
-+		pgoff_t end;
-+		pgoff_t offs;
-+	} cache;
-+};
++#define drm_has_memcpy_from_wc() \
++	drm_memcpy_from_wc(NULL, NULL, 0)
 +
-+/**
-+ * struct ttm_kmap_iter_linear_io - Iterator specialization for linear io
-+ * @base: The base iterator
-+ * @dmap: Points to the starting address of the region
-+ * @needs_unmap: Whether we need to unmap on fini
-+ */
-+struct ttm_kmap_iter_linear_io {
-+	struct ttm_kmap_iter base;
-+	struct dma_buf_map dmap;
-+	bool needs_unmap;
-+};
++void drm_memcpy_init_early(void);
 +
- /**
-  * ttm_resource_manager_set_used
-  *
-@@ -237,4 +282,20 @@ int ttm_resource_manager_evict_all(struct ttm_device *bdev,
- void ttm_resource_manager_debug(struct ttm_resource_manager *man,
- 				struct drm_printer *p);
- 
-+struct ttm_kmap_iter *
-+ttm_kmap_iter_iomap_init(struct ttm_kmap_iter_iomap *iter_io,
-+			 struct io_mapping *iomap,
-+			 struct sg_table *st,
-+			 resource_size_t start);
++#else
 +
-+struct ttm_kmap_iter_linear_io;
++static inline
++bool drm_memcpy_from_wc(void *dst, const void *src, unsigned long len)
++{
++	return false;
++}
 +
-+struct ttm_kmap_iter *
-+ttm_kmap_iter_linear_io_init(struct ttm_kmap_iter_linear_io *iter_io,
-+			     struct ttm_device *bdev,
-+			     struct ttm_resource *mem);
++static inline
++bool drm_memcpy_from_wc_dbm(void *dst, const void *src, unsigned long len)
++{
++	return false;
++}
 +
-+void ttm_kmap_iter_linear_io_fini(struct ttm_kmap_iter_linear_io *iter_io,
-+				  struct ttm_device *bdev,
-+				  struct ttm_resource *mem);
- #endif
-diff --git a/include/drm/ttm/ttm_tt.h b/include/drm/ttm/ttm_tt.h
-index 134d09ef7766..3102059db726 100644
---- a/include/drm/ttm/ttm_tt.h
-+++ b/include/drm/ttm/ttm_tt.h
-@@ -29,6 +29,7 @@
- 
- #include <linux/types.h>
- #include <drm/ttm/ttm_caching.h>
-+#include <drm/ttm/ttm_kmap_iter.h>
- 
- struct ttm_bo_device;
- struct ttm_tt;
-@@ -69,6 +70,18 @@ struct ttm_tt {
- 	enum ttm_caching caching;
- };
- 
-+/**
-+ * struct ttm_kmap_iter_tt - Specialization of a mappig iterator for a tt.
-+ * @base: Embedded struct ttm_kmap_iter providing the usage interface
-+ * @tt: Cached struct ttm_tt.
-+ * @prot: Cached page protection for mapping.
-+ */
-+struct ttm_kmap_iter_tt {
-+	struct ttm_kmap_iter base;
-+	struct ttm_tt *tt;
-+	pgprot_t prot;
-+};
++static inline
++bool drm_can_memcpy_from_wc_dbm(void *dst, const void *src, unsigned long len)
++{
++	return false;
++}
 +
- static inline bool ttm_tt_is_populated(struct ttm_tt *tt)
- {
- 	return tt->page_flags & TTM_PAGE_FLAG_PRIV_POPULATED;
-@@ -159,6 +172,9 @@ void ttm_tt_unpopulate(struct ttm_device *bdev, struct ttm_tt *ttm);
- 
- void ttm_tt_mgr_init(unsigned long num_pages, unsigned long num_dma32_pages);
- 
-+struct ttm_kmap_iter *ttm_kmap_iter_tt_init(struct ttm_kmap_iter_tt *iter_tt,
-+					    struct ttm_tt *tt);
++static inline
++bool drm_has_memcpy_from_wc(void)
++{
++	return false;
++}
 +
- #if IS_ENABLED(CONFIG_AGP)
- #include <linux/agp_backend.h>
- 
++#define drm_has_memcpy_from_wc() (false)
++#define drm_unaligned_memcpy_from_wc(_dst, _src, _len) WARN_ON(1)
++#define drm_memcpy_init_early() do {} while (0)
++#endif /* CONFIG_X86 */
++#endif /* __DRM_MEMCPY_H__ */
 -- 
 2.31.1
 
