@@ -1,56 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98541391D31
-	for <lists+dri-devel@lfdr.de>; Wed, 26 May 2021 18:37:44 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 204CC391D52
+	for <lists+dri-devel@lfdr.de>; Wed, 26 May 2021 18:53:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 888416E3BB;
-	Wed, 26 May 2021 16:37:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C388B6EB44;
+	Wed, 26 May 2021 16:53:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52d.google.com (mail-ed1-x52d.google.com
- [IPv6:2a00:1450:4864:20::52d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D410B6E1A3
- for <dri-devel@lists.freedesktop.org>; Wed, 26 May 2021 16:37:37 +0000 (UTC)
-Received: by mail-ed1-x52d.google.com with SMTP id g7so2313564edm.4
- for <dri-devel@lists.freedesktop.org>; Wed, 26 May 2021 09:37:37 -0700 (PDT)
+Received: from mail-oi1-x230.google.com (mail-oi1-x230.google.com
+ [IPv6:2607:f8b0:4864:20::230])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 501326EB44
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 May 2021 16:53:11 +0000 (UTC)
+Received: by mail-oi1-x230.google.com with SMTP id s19so2139898oic.7
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 May 2021 09:53:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=7j7ZufiiTOqzVpKZdemVCOGwdsjbZKVtKpD5Om67Ua8=;
- b=Ww7HhkJb3QLyvOFvYPcOwG8HpIgTuHowg3wFIs5RBvC5UjILC9xJ+2rXietplVbID4
- dfYTk0Cwnm9M2CIxasOzgxHhmEZP218CbSFRuSNUPXGCr2i1RotdaNu/52rN6j8zJa59
- zKk2WROp+Kne4nIRl0HcDI7ABIPu4VOCMSOfs=
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=3epjNFpJAI4qSvjYb6WoBeZ1EtNrStOGeknzRX6lpaI=;
+ b=Hm4UGr7PkjU+C/3MIIYLMuIiuMaNnE3pDUHqD92gxcBF+jq3mhS4CxW66Pb1MvK87x
+ /cpAlfPNis+UJ8zlmq5CvXJypKD2U2+/QOkUyq5ZNr6am+bYmC4m2uYESZevXWi0dvn2
+ wslLKsH5UPLLBx2C00+NhFgJ3OHypPmrcnORU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=7j7ZufiiTOqzVpKZdemVCOGwdsjbZKVtKpD5Om67Ua8=;
- b=iyxsN3SVpiIYLyXZs0QSi75CmXTUeuctZjb/bWISEVPjnOttG8if2RK6J93ZHaQ05K
- UBjv2GkEhLy1jcvuWhZ9rWlz6flzMB8gOa/rghhPrL8jvN8Cf9c5znJMSqlTb0It1sk9
- zy7t412p+3opXGVYgevr8FMa2hx7OzXeBvCK0++77NJ3Xh1SqRvyeAbwSDdfPMJ17bON
- 6upTUt4IZ5FzvtaBxZI3EQqCZtlQCljbdXkDvqzSvnQBiyGj+s4MN0zNZeIMBIfVWD0j
- uYbs4CfzE40UBjZy3ygBmS7ry5Yw4Eggq87pi/P62dCJochEqyhwyTLhvGvmiSKY3cRP
- +2eg==
-X-Gm-Message-State: AOAM531fzFbd9o3wOIPde00eBjuMC7QCR1TNiHCtLVmQSUpgrE5GImIq
- HUSwAA0xYVrC4IdI1zhHiD33Pw==
-X-Google-Smtp-Source: ABdhPJz9MXWowukPtGUGiDeQDRFv+ZlDAUYjAp4oW4QmS2DyWYMbPfQwy5K/oPLKfQzEmr7LzRnJ0w==
-X-Received: by 2002:aa7:cf19:: with SMTP id a25mr26117084edy.336.1622047056191; 
- Wed, 26 May 2021 09:37:36 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id l19sm12712038edv.17.2021.05.26.09.37.35
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 26 May 2021 09:37:35 -0700 (PDT)
-From: Daniel Vetter <daniel.vetter@ffwll.ch>
-To: Intel Graphics Development <intel-gfx@lists.freedesktop.org>
-Subject: [PATCH] drm/i915: Disable gpu relocations
-Date: Wed, 26 May 2021 18:37:30 +0200
-Message-Id: <20210526163730.3423181-1-daniel.vetter@ffwll.ch>
-X-Mailer: git-send-email 2.31.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=3epjNFpJAI4qSvjYb6WoBeZ1EtNrStOGeknzRX6lpaI=;
+ b=dPovO9fFW4n0G4t9QcXOHhUYDiTWw4kuEe74AnI9saM+T4bSbBXzzJLWWHzzA0C1xi
+ FjCrZQ6EmpUmiR4QoF1HNsQw9HRh9XQRbEi/K7kKfaBtYiYMX016/imptaUIjPYam2pu
+ oJKfRJeCHIydV03lmrWjraJJCkDlB/op9QgZfiqtevgdJIlDl1xqpQvAVfZlfS+Rfg32
+ jTw5P5ETiHhkl7SBqVGJVYoHvk8JlZVA7r0DBp4dmvuka5RWSJEvdcvdeVw4ZEzAFQpN
+ 9KdLzEyxguaD93whkN3rRbtsmoXFlFyiGM5BEX4MJF5SSvLBv7qQ8OuAwLWzvXAb4QN3
+ EBTA==
+X-Gm-Message-State: AOAM5305JuoyBgOlgyDTMv+hPEQbZkp7o9lrI2eLdbkQnoKSuoZDwKxp
+ FHgbdvBXU5rYuAgCJh18leMJhINQCyKy1NEayuW3Vw==
+X-Google-Smtp-Source: ABdhPJyHuypFEBWEsk/wcHic2ukd73afak6nL/hS5hXPuor0CUsm3O2v/2QVDdlGD1PNryPZVMp20ffqEEyYA8W/ch4=
+X-Received: by 2002:a05:6808:1142:: with SMTP id
+ u2mr2542871oiu.101.1622047990566; 
+ Wed, 26 May 2021 09:53:10 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20210520190007.534046-1-jason@jlekstrand.net>
+ <20210520190007.534046-5-jason@jlekstrand.net>
+ <CAPj87rPW2xmOLKg6OgQST6QrH9u5-qmdRJrNDug+rWa=Uv6ZBQ@mail.gmail.com>
+ <CAOFGe97b-djqwV95Y91xe9-ZVUyeGqjdPE8vj7MoSfV0Kcrp1Q@mail.gmail.com>
+ <CAPj87rNJTHNKkdiZREVb8v6iiwUhYLXW10pjVOdV=zttd+tG3Q@mail.gmail.com>
+ <CAKMK7uHqxLe_CH_cOjfy-rouYcxwg=n6AkkxprzAKnb-y_A3NQ@mail.gmail.com>
+ <CAPj87rOW_633K_n4nwq2qkPt5Q5efc3BpRnzT+=Npb=agWGTew@mail.gmail.com>
+ <YK5QvIJYTJ7AJZNx@phenom.ffwll.local>
+ <CAPj87rMgQiwdB+fTjoMkqtpKxs6JgxWSm=jrq1Oen0dKiFqSog@mail.gmail.com>
+In-Reply-To: <CAPj87rMgQiwdB+fTjoMkqtpKxs6JgxWSm=jrq1Oen0dKiFqSog@mail.gmail.com>
+From: Daniel Vetter <daniel@ffwll.ch>
+Date: Wed, 26 May 2021 18:52:59 +0200
+Message-ID: <CAKMK7uH9CLw5=-AYRjtMdFA0etjSMEng3UhoACunBq0Uqq+v6Q@mail.gmail.com>
+Subject: Re: [PATCH 4/4] RFC: dma-buf: Add an API for importing sync files (v6)
+To: Daniel Stone <daniel@fooishbar.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,122 +67,135 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Chris Wilson <chris@chris-wilson.co.uk>,
- Jon Bloomfield <jon.bloomfield@intel.com>,
- Matthew Auld <matthew.auld@intel.com>, Jason Ekstrand <jason@jlekstrand.net>,
- Dave Airlie <airlied@redhat.com>, Daniel Vetter <daniel.vetter@intel.com>
+Cc: Daniel Vetter <daniel.vetter@intel.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Jason Ekstrand <jason@jlekstrand.net>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Media userspace was the last userspace to still use them, and they
-converted now too:
+On Wed, May 26, 2021 at 5:13 PM Daniel Stone <daniel@fooishbar.org> wrote:
+> On Wed, 26 May 2021 at 14:44, Daniel Vetter <daniel@ffwll.ch> wrote:
+> > On Wed, May 26, 2021 at 02:08:19PM +0100, Daniel Stone wrote:
+> > > Are you saying that if a compositor imports a client-provided dmabuf
+> > > as an EGLImage to use as a source texture for its rendering, and then
+> > > provides it to VA-API or V4L2 to use as a media encode source (both
+> > > purely read-only ops), that these will both serialise against each
+> > > other? Like, my media decode job won't begin execution until the
+> > > composition read has fully retired?
+> > >
+> > > If so, a) good lord that hurts, and b) what are shared fences actually ... for?
+> >
+> > Shared is shared, I just meant to say that we always add the shared fence.
+> > So an explicit ioctl to add more shared fences is kinda pointless.
+> >
+> > So yeah on a good driver this will run in parallel. On a not-so-good
+> > driver (which currently includes amdgpu and panfrost) this will serialize,
+> > because those drivers don't have the concept of a non-exclusive fence for
+> > such shared buffers (amdgpu does not sync internally, but will sync as
+> > soon as it's cross-drm_file).
+>
+> When you say 'we always add the shared fence', add it to ... where?
+> And which shared fence? (I'm going to use 'fence' below to refer to
+> anything from literal sync_file to timeline-syncobj to userspace
+> fence.)
 
-https://github.com/intel/media-driver/commit/144020c37770083974bedf59902b70b8f444c799
+In the current model, every time you submit anything to the gpu, we
+create a dma_fence to track this work. This dma_fence is attached as a
+shared fence to the dma_resv obj of every object in your working set.
+Clarifications
+you = both userspace or kernel, anything really, including fun stuff
+like writing PTEs, or clearing PTEs and then flushing TLBs
+working set = depends, but can be anything from "really just the
+buffers the current gpu submission uses" to "everything bound into a
+given gpu VM"
 
-This means no reason anymore to make relocations faster than they've
-been for the first 9 years of gem. This code was added in
+This is the fence I'm talking about here.
 
-commit 7dd4f6729f9243bd7046c6f04c107a456bda38eb
-Author: Chris Wilson <chris@chris-wilson.co.uk>
-Date:   Fri Jun 16 15:05:24 2017 +0100
+Since you can't escape this (not unless we do direct userspace submit
+with userspace memory fences) and since there's no distinction of the
+shared fences into "relevant for implicit sync" and "not relevant for
+implicit sync" there's really not much point in adding implicit read
+fences. For now at least, we might want to change this eventually.
 
-    drm/i915: Async GPU relocation processing
+> I'll admit that I've typed out an argument twice for always export
+> from excl+shared, and always import to excl, results in oversync. And
+> I keep tying myself in knots trying to do it. It's arguably slightly
+> contrived, but here's my third attempt ...
+>
+> Vulkan Wayland client, full-flying-car-sync Wayland protocol,
+> Vulkan-based compositor. Part of the contract when the server exposes
+> that protocol is that it guarantees to do explicit sync in both
+> directions, so the client provides a fence at QueueSubmit time and the
+> server provides one back when releasing the image for return to ANI.
+> Neither side ever record fences into the dma_resv because they've
+> opted out by being fully explicit-aware.
+>
+> Now add media encode out on the side because you're streaming. The
+> compositor knows this is a transition between explicit and implicit
+> worlds, so it imports the client's fence into the exclusive dma_resv
+> slot, which makes sense: the media encode has to sync against the
+> client work, but is indifferent to the parallel compositor work. The
+> shared fence is exported back out so the compositor can union the
+> encode-finished fence with its composition-finished fence to send back
+> to the client with release/ANI.
+>
+> Now add a second media encode because you want a higher-quality local
+> capture to upload to YouTube later on. The compositor can do the exact
+> same import/export dance, and the two encodes can safely run in
+> parallel. Which is good.
 
-Furthermore there's pretty strong indications it's buggy, since the
-code to use it by default as the only option had to be reverted:
+So the example which works is really clear ...
 
-commit ad5d95e4d538737ed3fa25493777decf264a3011
-Author: Dave Airlie <airlied@redhat.com>
-Date:   Tue Sep 8 15:41:17 2020 +1000
+> Where it starts to become complex is: what if your compositor is fully
+> explicit-aware but your clients aren't, so your compositor has more
+> import/export points to record into the resv? What if you aren't
+> actually a compositor but a full-blown media pipeline, where you have
+> a bunch of threads all launching reads in parallel, to the extent
+> where it's not practical to manage implicit/explicit transitions
+> globally, but each thread has to more pessimistically import and
+> export around each access?
 
-    Revert "drm/i915/gem: Async GPU relocations only"
+... but the example where we oversync is hand-waving?
 
-This code just disables gpu relocations, leaving the garbage
-collection for later patches and more importantly, much less confusing
-diff. Also given how much headaches this code has caused in the past,
-letting this soak for a bit seems justified.
+:-P
 
-Cc: Jon Bloomfield <jon.bloomfield@intel.com>
-Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-Cc: Chris Wilson <chris@chris-wilson.co.uk>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc: "Thomas Hellström" <thomas.hellstrom@linux.intel.com>
-Cc: Matthew Auld <matthew.auld@intel.com>
-Cc: Lionel Landwerlin <lionel.g.landwerlin@intel.com>
-Cc: Dave Airlie <airlied@redhat.com>
-Cc: Jason Ekstrand <jason@jlekstrand.net>
----
- .../gpu/drm/i915/gem/i915_gem_execbuffer.c    | 43 ++++++++-----------
- 1 file changed, 18 insertions(+), 25 deletions(-)
+> I can make the relatively simple usecases work, but it really feels
+> like in practice we'll end up with massive oversync in some fairly
+> complex usecases, and we'll regret not having had it from the start,
+> plus people will just rely on implicit sync for longer because it has
+> better (more parallel) semantics in some usecases.
 
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
-index 297143511f99..31e904f79d0a 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
-@@ -1571,7 +1571,7 @@ static int __reloc_entry_gpu(struct i915_execbuffer *eb,
- 	return true;
- }
- 
--static int reloc_entry_gpu(struct i915_execbuffer *eb,
-+static int __maybe_unused reloc_entry_gpu(struct i915_execbuffer *eb,
- 			    struct i915_vma *vma,
- 			    u64 offset,
- 			    u64 target_addr)
-@@ -1593,32 +1593,25 @@ relocate_entry(struct i915_vma *vma,
- {
- 	u64 target_addr = relocation_target(reloc, target);
- 	u64 offset = reloc->offset;
--	int reloc_gpu = reloc_entry_gpu(eb, vma, offset, target_addr);
--
--	if (reloc_gpu < 0)
--		return reloc_gpu;
--
--	if (!reloc_gpu) {
--		bool wide = eb->reloc_cache.use_64bit_reloc;
--		void *vaddr;
-+	bool wide = eb->reloc_cache.use_64bit_reloc;
-+	void *vaddr;
- 
- repeat:
--		vaddr = reloc_vaddr(vma->obj, eb,
--				    offset >> PAGE_SHIFT);
--		if (IS_ERR(vaddr))
--			return PTR_ERR(vaddr);
--
--		GEM_BUG_ON(!IS_ALIGNED(offset, sizeof(u32)));
--		clflush_write32(vaddr + offset_in_page(offset),
--				lower_32_bits(target_addr),
--				eb->reloc_cache.vaddr);
--
--		if (wide) {
--			offset += sizeof(u32);
--			target_addr >>= 32;
--			wide = false;
--			goto repeat;
--		}
-+	vaddr = reloc_vaddr(vma->obj, eb,
-+			    offset >> PAGE_SHIFT);
-+	if (IS_ERR(vaddr))
-+		return PTR_ERR(vaddr);
-+
-+	GEM_BUG_ON(!IS_ALIGNED(offset, sizeof(u32)));
-+	clflush_write32(vaddr + offset_in_page(offset),
-+			lower_32_bits(target_addr),
-+			eb->reloc_cache.vaddr);
-+
-+	if (wide) {
-+		offset += sizeof(u32);
-+		target_addr >>= 32;
-+		wide = false;
-+		goto repeat;
- 	}
- 
- 	return target->node.start | UPDATE;
+Things fall apart in implicit sync if you have more than one logical
+writer into the same buffer. Trivial example is two images in one
+buffer, but you could also do funky stuff like interleaved/tiled
+rendering with _indepedent_ consumers. If the consumers are not
+independent, then you can again just stuff the two writer fences into
+the exclusive slot with the new ioctl (they'll get merged without
+additional overhead into one fence array fence).
+
+And the fundamental thing is: This is just not possible with implicit
+sync. There's only one fence slot (even if that resolves to an array
+of fences for all the producers), so anytime you do multiple
+independent things in the same buffer you either:
+- must split the buffers so there's again a clear&unique handoff at
+each stage of the pipeline
+- or use explicit sync
+
+So in your example, options are
+- per-client buffers, which you then blend into a composite buffer to
+handle the N implicit fences from N buffers into a single implicit
+fence for libva conversion. This single buffer then also allows you to
+again fan out to M libva encoders, or whatever it is that you fancy
+- explicit fencing and clients render into a single buffer with no
+copying, and libva encodes from that single buffer (but again needs
+explicit fences or it all comes crashing down)
+
+There's really no option C where you somehow do multiple implicitly
+fenced things into a single buffer and expect it to work out in
+parallel.
+-Daniel
 -- 
-2.31.0
-
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
