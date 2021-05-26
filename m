@@ -2,122 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F35D3917CE
-	for <lists+dri-devel@lfdr.de>; Wed, 26 May 2021 14:48:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D1B939188A
+	for <lists+dri-devel@lfdr.de>; Wed, 26 May 2021 15:08:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DB8D16ECDD;
-	Wed, 26 May 2021 12:48:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B131A6E4D2;
+	Wed, 26 May 2021 13:08:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM04-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam08on2077.outbound.protection.outlook.com [40.107.102.77])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DBDE66E4AF;
- Wed, 26 May 2021 12:48:46 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=IMgDH9gjz96Iehe19KZFBziTRzRfIHC5MpdMKiMXdw5mqGlQrfwfXRWjRPG/Di75QTGh09DBzTOqAYFnc25/QIJU3BsIfHDdvsnh/ULnA71l9RRGBHSOjUrNzAY8fvZuThfraahoMAdN4a+nKPpnCknxJPZ6NtNGu1z2UQK4ncoKlnZ3zuLtq9HnokxNPKH1GeGgHaFiQ8MLdnyW4W9tk/BlJZUs7/r7c2mlyeLlZuF7CQ8K+1nL8zCpfXwMjIoQ32OeduaUXGj/ZN/3NXodv/ks+ztu3kdYBK0O4UXemdoJwpEVhrmGRlDGiezJfP4NUK19dRI9f8edX2OQ0gU35w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=G+MOuCSMMMHY4+H+4goF6oB5d6kEAF7bsJfQATwdozY=;
- b=hR7BfWxpyxrS+aknH2thqXgUjzc6WPCgz7O8MkdrUUhoBSFi3n0cXa3hXXC86p7fSyz25yap1EFExngQcfSNG6TBiTAVEEE21Ir5hUPNhu0Gmsjr2OqBDdXn47pVDsS9ekRrjBY7/wFlDh0+2kL7yFaVd13lc4BWP/EiABGIuTHg1y00bBVH1giNr9QlrD4XDis0i8n77PaQkBm5BFBS7MOgJ1LUWAuleXujECv0XYcm4T84lly+wrxXHdohecFcYFtnccrJ8TK0c0E/OLJDLEE2sTS6tlRxX767zMqBqhrGgo8rLYfp1ZX8vnOeWnsFYzRxXKsQzwowsXy8xRUY9w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=G+MOuCSMMMHY4+H+4goF6oB5d6kEAF7bsJfQATwdozY=;
- b=bnNv3Vk9w5x/BClSL32tDOdOKMYLf8lxdMhStYz/9+pwb28qaM2XZpVTVR0/V0sFZG20drSZiaNrR5nV8oBM/pT/zTFahLPd23p6SchQPVXEx1bxVfEhtbYPS414ELFdSxY6hp1kKLoM0QE4ZAW5hCm95W3yL7UGCa47CoZQv1U=
-Authentication-Results: ffwll.ch; dkim=none (message not signed)
- header.d=none;ffwll.ch; dmarc=none action=none header.from=amd.com;
-Received: from MN2PR12MB3775.namprd12.prod.outlook.com (2603:10b6:208:159::19)
- by BL0PR12MB4706.namprd12.prod.outlook.com (2603:10b6:208:82::25)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4173.20; Wed, 26 May
- 2021 12:48:44 +0000
-Received: from MN2PR12MB3775.namprd12.prod.outlook.com
- ([fe80::6d4d:4674:1cf6:8d34]) by MN2PR12MB3775.namprd12.prod.outlook.com
- ([fe80::6d4d:4674:1cf6:8d34%6]) with mapi id 15.20.4150.027; Wed, 26 May 2021
- 12:48:43 +0000
-Subject: Re: [PATCH v3 08/12] drm/ttm: Use drm_memcpy_from_wc_dbm for TTM bo
- moves
-To: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-References: <20210521153253.518037-1-thomas.hellstrom@linux.intel.com>
- <20210521153253.518037-9-thomas.hellstrom@linux.intel.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-Message-ID: <7fffe269-cc1d-4074-770d-74f8162b7835@amd.com>
-Date: Wed, 26 May 2021 14:48:38 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
-In-Reply-To: <20210521153253.518037-9-thomas.hellstrom@linux.intel.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-Originating-IP: [2a02:908:1252:fb60:3ecd:562c:67c6:4afe]
-X-ClientProxiedBy: FR3P281CA0028.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:1c::19) To MN2PR12MB3775.namprd12.prod.outlook.com
- (2603:10b6:208:159::19)
+Received: from mail-wm1-x334.google.com (mail-wm1-x334.google.com
+ [IPv6:2a00:1450:4864:20::334])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C79C488AA1
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 May 2021 13:08:32 +0000 (UTC)
+Received: by mail-wm1-x334.google.com with SMTP id
+ n5-20020a1c72050000b0290192e1f9a7e1so478146wmc.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 May 2021 06:08:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=fooishbar-org.20150623.gappssmtp.com; s=20150623;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=+nExywDxPIuijKm2l+qFP8fUdIzvDs2GQX85MC7L2wU=;
+ b=IJJnnZRdPL55RjlCC8zHlOtVaALgJTZiv1zvNCLFR9aRnNV/Y5/ixKaFWxQDpTQzJS
+ Eaz60ArY64mUqmGGJYJnA27PXdS305UEvfW8dAzCOKPA9l3YLfVI5Dm9zgeDs0xGB5tN
+ pyuomLGVSBwkQs1CzWMYpoItjTxakHIhMKxXG5QgthrAouNhd7QsM3xNcmlzHboNnfzu
+ 0eqOddDdO8jkZv1Az+k7ElH7ciRoWVRd2FYi0v1QXEHncaAGQKyFItnmSafXTtV/9RcM
+ H94phqV7fD08eqcyqFd6MWgdHI3OrJZ3jSvnEvhNsVeLZ9MNU7ieBSl8Y0GzZdb6P0p0
+ j5mA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=+nExywDxPIuijKm2l+qFP8fUdIzvDs2GQX85MC7L2wU=;
+ b=IcDnCuCOKvUw3kVqL40nW4BLzxzc0sau1NGZfJFuX7Fuqwms1JCFxweedDuwIV5e9o
+ YFuaHjDRkLBZdFy0LyO/h7P+XoeQbtj0sKIM+jWjbODOkme4QBkCRHPrzZCTjb4zBrum
+ tnd2V+Jgq/5L2sYbAYwQPM9k2VSvHPrloHhdrkSWqje61HdBDrvkRogBYwwH7wGYm2mZ
+ VUkQ624rj5aK0uSxUOeAH78/SK+l19r3nkguq5RUW6d3WXCuEtma7kl9Thp+sbjS6msn
+ LLphlyir/u3L6lfadM2p2d0L0AxjoeM8J4yNeaA1YRVYbElMc/m5fuYV/Inwq1/+FqNV
+ k5FA==
+X-Gm-Message-State: AOAM531k6OjO/b9no4ZW0/GvUCQyt8iLRD4EUP/IDnIa5v9px6qXuCun
+ fDH6G5OgRcjtFHYhCxoYKw41hyAMXzqQ7s8dRsFfNQ==
+X-Google-Smtp-Source: ABdhPJyQk/giYYF/3ka6teKlmPw4gdCxhFqXNCnKnKMzdZAWj3Z1sgCP25zOy4+sUNHq/35EtuL7/QKiyIpH6VNb+IE=
+X-Received: by 2002:a1c:7c03:: with SMTP id x3mr3375462wmc.168.1622034511354; 
+ Wed, 26 May 2021 06:08:31 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [IPv6:2a02:908:1252:fb60:3ecd:562c:67c6:4afe]
- (2a02:908:1252:fb60:3ecd:562c:67c6:4afe) by
- FR3P281CA0028.DEUP281.PROD.OUTLOOK.COM (2603:10a6:d10:1c::19) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4173.11 via Frontend Transport; Wed, 26 May 2021 12:48:42 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 7d0b8763-6542-4cc4-cea5-08d92044986a
-X-MS-TrafficTypeDiagnostic: BL0PR12MB4706:
-X-Microsoft-Antispam-PRVS: <BL0PR12MB47062794761A1F05F83634B083249@BL0PR12MB4706.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:1728;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: UWIFmWvjMdRvWcnmXBPwNTtzMSatW305Fnmrx2VmsE+wQ5qWFVvE7+TC0lpxDE7XXoaE2BNLA5WaeQczVNf1Xoh4orIaarQ8Ae84gp8sFiKTFwTwZnhYrD5n/rQo1vknOnZgfBdWVzW10oVPpTXuPd1W/o4xqJmYEW5KySjuCdl+iiOqwfhzaA8hLDzRMJhcwedaykzRsqDTrK1qBpKIUCTdixeI/2L+TPrVbItYPElETJsNMQCitvfY3z7HdGv2PyJE5XVTz7ZZdNdtMG0Ouug7lqKnCSMfbUlEzMDn1RhRoQMVrYYw961hPEsPVgQhIjDhXmTSN0/ACUhkjBscCJyWUJVVRr65FspMjoj/VFPHQvNJfyYITNJTGs4JrsSMU9RtfzhdPugzAXlzcF+wn8EnQzBfdMxPmOX96cEr27wvi3Ul97LL4tLJTUgK3Cv1p9ZmG7i5xjsWh6RwmOGFgBz3sUjf/n2rTNJkg8yNR9TeZW24SKTwGB58JwSDRdL0ni4Ch6A8WdFVcmCyoDweaLIJ7xGdy1Pftm/Ex2+kgGbCuy00WldWDU/mIIhLsoPqpTcGh20Y51M9LgFgqEQJr/o7A4HvwRmrf2Z+UXq1XMnr+bis70dx3KEa+8vD+64L480WuYuNCUNvoK3Mp9tXbbjHnK+vBwUPb7LhXsRxdZU3zQI+V64SNxJJruDNdAMQ
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN2PR12MB3775.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(396003)(376002)(366004)(346002)(136003)(39860400002)(31696002)(52116002)(2616005)(86362001)(66556008)(16526019)(6666004)(66946007)(186003)(31686004)(54906003)(5660300002)(38100700002)(8936002)(6486002)(8676002)(2906002)(4326008)(66574015)(83380400001)(478600001)(66476007)(316002)(36756003)(45980500001)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?bUNPYi9LUDZ6Z2FyejUvbDhMUTBoK21NdGY3ZDNiSnRkNTJaL2dMUGNmS2FG?=
- =?utf-8?B?bk9UVDNleXFpTnhjNWNSODkydm50UFJEOHdYQjhRbG11bXVBWUQ5Qi9WNUcx?=
- =?utf-8?B?OWx3QXFmQjZ6dXlYbm5YTlAwSnNWeTd1d0s2cE9ENnNlR3RBZGo1a3NzcEcw?=
- =?utf-8?B?K1dCUUJDaForUWVhN1VJZ2lCQmttZ0J1R250S0dtdGE4ekRYeGczVllmSlFJ?=
- =?utf-8?B?OUJFeG1vbHJGMURacEpXRW5XaHF4TkhFZnpJRE01NVZZOTVFZ0p0UkQ5N0l5?=
- =?utf-8?B?K2VZRE95ZFNzUk8wUytxa3ViZlBMc0YxMi92ZDFWbzZucm1VMlhUN2Ivenh2?=
- =?utf-8?B?MmJUMGhuVEVMNm03U1Jua1VNcDNsdG5ZbWJ6OEQyaDA2NWFPekk2UFpwbUFy?=
- =?utf-8?B?dmY5aEdOY2N0b3IzVU5aWDZaeTRqZ0xiVW9MYVFxUi9GeU8zRFVsNi9nd3pF?=
- =?utf-8?B?SVB3aTFoMEhsbHEvSnY4VE5VU0l4R21PZ2Vrb1haN1g3bVBXRmVYRHU1M3Jm?=
- =?utf-8?B?ajFqaDVSVVgwSFozeXh5QzhmMGdwYmg5TFd2OFVvVzY4blZDZXRVSFlmME1T?=
- =?utf-8?B?cGo2b0traXJqaHg4YUc3SjRMZzhSQ2Rrem55OVc2aFgzeHV5NUlIRDdiNXdl?=
- =?utf-8?B?K1YvLzRyajZ3SlVaVVZDbmQzRUdDL0FoVGFQdkEvaHFIcHhJaHZvN0dGYlBR?=
- =?utf-8?B?dXgzN3hQSSt0Vm11VVJtSlNTd01ocmYza3JxSHVXdUJKaWZzUWZaV2dES1Fp?=
- =?utf-8?B?UVBTcUJmL3lHWVJYR1VWSGk3aDduaFN5cUNhM1RIdHROTldGbkpCMTh2b0Ry?=
- =?utf-8?B?dXVSbGRlaWs3UXpsb3ZMSFZ5QkdkekFoT0pGOWttd3FsQXZ5N1hmT0pDeDdn?=
- =?utf-8?B?L2dUd0NLbng0ekxLejNWRDhlTlZFWUFXZU53anpLRkNmcjc5eXhYZWtkYXBi?=
- =?utf-8?B?T1A4Vmxid09JUWxJQ2wyS1lmYnNDMTFHdFhncktzTkg4aVMvcU9IQTFaR1hO?=
- =?utf-8?B?akpyMUVlbUt5L0tla3NrdmJSblFPSVhhWkxsQTdBRysraElqek1naVhSTXcy?=
- =?utf-8?B?Q3JiZm5NdDUzSmdKQ0l0ZEtiVHMyYTJmSFV0SFA5ZHpwVU5uNHdGcnNPbXJZ?=
- =?utf-8?B?QStxTk9OK1hmK2xqdDdxUG5zMHJpakRZY1JSZkY3UCthdE5NVVhBK1JxcHI4?=
- =?utf-8?B?UVRCUWtiVkozNG9HMXQxVzhWcW1Qd1pJQ1YvcDI0NHlzUUhzVTR5b0NrSnNM?=
- =?utf-8?B?bXlQN1duVXFnTU9xUVhjRXdNZEVkenpoUmxvV1U5cm96dGswMUwrUHNBNG54?=
- =?utf-8?B?dTVqV0QrdHpuSUh6WFRyOWdjMzZDem0zelJEWFZSR1g3UGszdVRRZG8rZnBQ?=
- =?utf-8?B?bUZGV05hSWE2bTVZSEtyczN6T25JeE9vTXZNMHpFaTFXWllDRWZ0N1k3V25G?=
- =?utf-8?B?NVJKTmhyQk9oNTExTVJaK3R1eXdiNEM1K0NGSG1XY2d4SWh0Wm5UOW5yMTRq?=
- =?utf-8?B?Q0J3SzVyNjFXTVFjRFZ3UDBTQVNuS05pMUxPSkpBeWJ5bUJ6QklIcTIvS3BK?=
- =?utf-8?B?TGtLK3FuQ2VDVytyT1U3RkhTNVo5bHp0QzllVDYybEtOTDFEYUptbkFyRVR4?=
- =?utf-8?B?TDZuY3I5WmJuMkVROUlRdHh0endNSUowTVFqeG9CWm1tOUsvSWx5aVExRU1G?=
- =?utf-8?B?ZkxqUXY3U1RNQ1JjWWcwRmF5NWN2dUJXTnM4dFpuSFZwWTRLRVBYZFRIbWpL?=
- =?utf-8?B?YkVReUc4MDRXK1VkTVl4THl2Z01hMXFkN2t2SFBuN01LSjVyaEZyZlFmdk8x?=
- =?utf-8?B?OSs3bHdCS0NDd3kyWVh1OUpMQ09FRWJ0MFZlNUhwUGphQVpuamhxN29CRXlw?=
- =?utf-8?Q?Rf4cTEMqZQEQw?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7d0b8763-6542-4cc4-cea5-08d92044986a
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3775.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 May 2021 12:48:43.8356 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: b/vCmwI9kQWuW9Ze8W1t6DGE9Yur8en/BwYLqKKMqnMwKrfOWS4A+k+7SynOA7n8
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL0PR12MB4706
+References: <20210520190007.534046-1-jason@jlekstrand.net>
+ <20210520190007.534046-5-jason@jlekstrand.net>
+ <CAPj87rPW2xmOLKg6OgQST6QrH9u5-qmdRJrNDug+rWa=Uv6ZBQ@mail.gmail.com>
+ <CAOFGe97b-djqwV95Y91xe9-ZVUyeGqjdPE8vj7MoSfV0Kcrp1Q@mail.gmail.com>
+ <CAPj87rNJTHNKkdiZREVb8v6iiwUhYLXW10pjVOdV=zttd+tG3Q@mail.gmail.com>
+ <CAKMK7uHqxLe_CH_cOjfy-rouYcxwg=n6AkkxprzAKnb-y_A3NQ@mail.gmail.com>
+In-Reply-To: <CAKMK7uHqxLe_CH_cOjfy-rouYcxwg=n6AkkxprzAKnb-y_A3NQ@mail.gmail.com>
+From: Daniel Stone <daniel@fooishbar.org>
+Date: Wed, 26 May 2021 14:08:19 +0100
+Message-ID: <CAPj87rOW_633K_n4nwq2qkPt5Q5efc3BpRnzT+=Npb=agWGTew@mail.gmail.com>
+Subject: Re: [PATCH 4/4] RFC: dma-buf: Add an API for importing sync files (v6)
+To: Daniel Vetter <daniel@ffwll.ch>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -130,60 +68,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: Daniel Vetter <daniel.vetter@intel.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Jason Ekstrand <jason@jlekstrand.net>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 21.05.21 um 17:32 schrieb Thomas Hellström:
-> Use fast wc memcpy for reading out of wc memory for TTM bo moves.
+Hey,
+
+On Wed, 26 May 2021 at 13:35, Daniel Vetter <daniel@ffwll.ch> wrote:
+> On Wed, May 26, 2021 at 1:09 PM Daniel Stone <daniel@fooishbar.org> wrote:
+> > Yeah, I don't think there's any difference between shared and
+> > exclusive wrt safety. The difference lies in, well, exclusive putting
+> > a hard serialisation barrier between everything which comes before and
+> > everything that comes after, and shared being more relaxed to allow
+> > for reads to retire in parallel.
+> >
+> > As said below, I think there's a good argument for the latter once you
+> > get out of the very straightforward uses. One of the arguments for
+> > these ioctls is to eliminate oversync, but then the import ioctl
+> > mandates oversync in the case where the consumer only does
+> > non-destructive reads - which is the case for the vast majority of
+> > users!
 >
-> Cc: Dave Airlie <airlied@gmail.com>
-> Cc: Christian König <christian.koenig@amd.com>
-> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-> Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+> Just wanted to comment on this: Right now we attach always attach a
+> shared end-of-batch fence to every dma_resv. So reads are
+> automatically and always synced. So in that sense having an explicit
+> ioct to set the read fence is not really useful, since at most you
+> just make everything worse.
 
-Reviewed-by: Christian König <christian.koenig@amd.com>
+Are you saying that if a compositor imports a client-provided dmabuf
+as an EGLImage to use as a source texture for its rendering, and then
+provides it to VA-API or V4L2 to use as a media encode source (both
+purely read-only ops), that these will both serialise against each
+other? Like, my media decode job won't begin execution until the
+composition read has fully retired?
 
-> ---
->   drivers/gpu/drm/ttm/ttm_bo_util.c | 9 ++++++++-
->   1 file changed, 8 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/ttm/ttm_bo_util.c b/drivers/gpu/drm/ttm/ttm_bo_util.c
-> index 912cbe8e60a2..4a7d3d672f9a 100644
-> --- a/drivers/gpu/drm/ttm/ttm_bo_util.c
-> +++ b/drivers/gpu/drm/ttm/ttm_bo_util.c
-> @@ -31,6 +31,7 @@
->   
->   #include <drm/ttm/ttm_bo_driver.h>
->   #include <drm/ttm/ttm_placement.h>
-> +#include <drm/drm_memcpy.h>
->   #include <drm/drm_vma_manager.h>
->   #include <linux/dma-buf-map.h>
->   #include <linux/io.h>
-> @@ -91,6 +92,7 @@ void ttm_move_memcpy(struct ttm_buffer_object *bo,
->   	const struct ttm_kmap_iter_ops *src_ops = src_iter->ops;
->   	struct ttm_tt *ttm = bo->ttm;
->   	struct dma_buf_map src_map, dst_map;
-> +	bool wc_memcpy;
->   	pgoff_t i;
->   
->   	/* Single TTM move. NOP */
-> @@ -114,11 +116,16 @@ void ttm_move_memcpy(struct ttm_buffer_object *bo,
->   		return;
->   	}
->   
-> +	wc_memcpy = ((!src_ops->maps_tt || ttm->caching != ttm_cached) &&
-> +		     drm_has_memcpy_from_wc());
-> +
->   	for (i = 0; i < dst_mem->num_pages; ++i) {
->   		dst_ops->map_local(dst_iter, &dst_map, i);
->   		src_ops->map_local(src_iter, &src_map, i);
->   
-> -		if (!src_map.is_iomem && !dst_map.is_iomem) {
-> +		if (wc_memcpy) {
-> +			drm_memcpy_from_wc_dbm(&dst_map, &src_map, PAGE_SIZE);
-> +		} else if (!src_map.is_iomem && !dst_map.is_iomem) {
->   			memcpy(dst_map.vaddr, src_map.vaddr, PAGE_SIZE);
->   		} else if (!src_map.is_iomem) {
->   			dma_buf_map_memcpy_to(&dst_map, src_map.vaddr,
+If so, a) good lord that hurts, and b) what are shared fences actually ... for?
 
+Cheers,
+Daniel
