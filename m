@@ -2,60 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D1B939188A
-	for <lists+dri-devel@lfdr.de>; Wed, 26 May 2021 15:08:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AFEBD39188D
+	for <lists+dri-devel@lfdr.de>; Wed, 26 May 2021 15:10:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B131A6E4D2;
-	Wed, 26 May 2021 13:08:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E12476E4DE;
+	Wed, 26 May 2021 13:10:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x334.google.com (mail-wm1-x334.google.com
- [IPv6:2a00:1450:4864:20::334])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C79C488AA1
- for <dri-devel@lists.freedesktop.org>; Wed, 26 May 2021 13:08:32 +0000 (UTC)
-Received: by mail-wm1-x334.google.com with SMTP id
- n5-20020a1c72050000b0290192e1f9a7e1so478146wmc.2
- for <dri-devel@lists.freedesktop.org>; Wed, 26 May 2021 06:08:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=fooishbar-org.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=+nExywDxPIuijKm2l+qFP8fUdIzvDs2GQX85MC7L2wU=;
- b=IJJnnZRdPL55RjlCC8zHlOtVaALgJTZiv1zvNCLFR9aRnNV/Y5/ixKaFWxQDpTQzJS
- Eaz60ArY64mUqmGGJYJnA27PXdS305UEvfW8dAzCOKPA9l3YLfVI5Dm9zgeDs0xGB5tN
- pyuomLGVSBwkQs1CzWMYpoItjTxakHIhMKxXG5QgthrAouNhd7QsM3xNcmlzHboNnfzu
- 0eqOddDdO8jkZv1Az+k7ElH7ciRoWVRd2FYi0v1QXEHncaAGQKyFItnmSafXTtV/9RcM
- H94phqV7fD08eqcyqFd6MWgdHI3OrJZ3jSvnEvhNsVeLZ9MNU7ieBSl8Y0GzZdb6P0p0
- j5mA==
+Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com
+ [IPv6:2a00:1450:4864:20::635])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9269A6E4DE
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 May 2021 13:10:19 +0000 (UTC)
+Received: by mail-ej1-x635.google.com with SMTP id lg14so2345878ejb.9
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 May 2021 06:10:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:mail-followup-to:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to; bh=AUsJLuID9e1pol3RiOS0EQTXGuh7p/LFKL5pMET/qdM=;
+ b=k8NO22C2JVeN3oYYB8/wYFehRe8VyAND1XHAGRWMTU5Mn52IfMEUo4TKhcziTjSiol
+ ajMle9cmfQkn5UtI0zuJQKEg7T0BR53wh8MTYQevUGRY0oLgw8tgB9THtAkw/d71ByPA
+ k5CQUTjOSd0eCD/aUy0PznHO9215g4bfZeixU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=+nExywDxPIuijKm2l+qFP8fUdIzvDs2GQX85MC7L2wU=;
- b=IcDnCuCOKvUw3kVqL40nW4BLzxzc0sau1NGZfJFuX7Fuqwms1JCFxweedDuwIV5e9o
- YFuaHjDRkLBZdFy0LyO/h7P+XoeQbtj0sKIM+jWjbODOkme4QBkCRHPrzZCTjb4zBrum
- tnd2V+Jgq/5L2sYbAYwQPM9k2VSvHPrloHhdrkSWqje61HdBDrvkRogBYwwH7wGYm2mZ
- VUkQ624rj5aK0uSxUOeAH78/SK+l19r3nkguq5RUW6d3WXCuEtma7kl9Thp+sbjS6msn
- LLphlyir/u3L6lfadM2p2d0L0AxjoeM8J4yNeaA1YRVYbElMc/m5fuYV/Inwq1/+FqNV
- k5FA==
-X-Gm-Message-State: AOAM531k6OjO/b9no4ZW0/GvUCQyt8iLRD4EUP/IDnIa5v9px6qXuCun
- fDH6G5OgRcjtFHYhCxoYKw41hyAMXzqQ7s8dRsFfNQ==
-X-Google-Smtp-Source: ABdhPJyQk/giYYF/3ka6teKlmPw4gdCxhFqXNCnKnKMzdZAWj3Z1sgCP25zOy4+sUNHq/35EtuL7/QKiyIpH6VNb+IE=
-X-Received: by 2002:a1c:7c03:: with SMTP id x3mr3375462wmc.168.1622034511354; 
- Wed, 26 May 2021 06:08:31 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id
+ :mail-followup-to:references:mime-version:content-disposition
+ :content-transfer-encoding:in-reply-to;
+ bh=AUsJLuID9e1pol3RiOS0EQTXGuh7p/LFKL5pMET/qdM=;
+ b=cMzQ/XOw6ZQ6ifq1R9TrtWoJrnqnncLvbApbme5OacgcxyaTN3IuZPjjgRYekDx5V9
+ s8yAJEFdN3kjgW6bEL4XmCottttR65Uj/SOe2yhOLVDBe6Efw/BRA88L6cF+wpR5cXWZ
+ JLRgjaQibFlgo8AhySexZvPlKrgJ9yX7the0z61TO4fgTdNKn+AWNqZnlvNVNI6rdVWc
+ vfMU8DiBGHqwPb87X3R/s9x0H9So34fJQXMXAMIycq3WypSTsGFAP1HRidrMNXu0yT/H
+ +uSbdQUUfMGa+4g8PCa3XVOq87/hLKE4nyIjuCaLC4mZry693ASdxa/2MdQxyidbYmR2
+ BnVg==
+X-Gm-Message-State: AOAM530oHTnhSw7c1IwifIuGiIb3v0hyPnJyZ+CQFH9IxfVeeYbUndby
+ 6JsFxcg6hlf3B9Vbqhyi75Hvdw==
+X-Google-Smtp-Source: ABdhPJwmdkY+oqxRRVXVQLIVhW6ISfuuutzmkODEclidb9s6n/KAGKJYcmP63SeNqDK4yFSFc1wLbQ==
+X-Received: by 2002:a17:907:9612:: with SMTP id
+ gb18mr7857293ejc.408.1622034618327; 
+ Wed, 26 May 2021 06:10:18 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id j17sm484768ejb.123.2021.05.26.06.10.17
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 26 May 2021 06:10:17 -0700 (PDT)
+Date: Wed, 26 May 2021 15:10:16 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Lee Jones <lee.jones@linaro.org>
+Subject: Re: [PATCH 30/34] drm/vgem/vgem_drv: Standard comment blocks should
+ not use kernel-doc format
+Message-ID: <YK5IuNcHtPySAfoz@phenom.ffwll.local>
+Mail-Followup-To: Lee Jones <lee.jones@linaro.org>,
+ linux-kernel@vger.kernel.org, David Airlie <airlied@linux.ie>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ Adam Jackson <ajax@redhat.com>, Ben Widawsky <ben@bwidawsk.net>,
+ dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
+ linaro-mm-sig@lists.linaro.org
+References: <20210526084726.552052-1-lee.jones@linaro.org>
+ <20210526084726.552052-31-lee.jones@linaro.org>
 MIME-Version: 1.0
-References: <20210520190007.534046-1-jason@jlekstrand.net>
- <20210520190007.534046-5-jason@jlekstrand.net>
- <CAPj87rPW2xmOLKg6OgQST6QrH9u5-qmdRJrNDug+rWa=Uv6ZBQ@mail.gmail.com>
- <CAOFGe97b-djqwV95Y91xe9-ZVUyeGqjdPE8vj7MoSfV0Kcrp1Q@mail.gmail.com>
- <CAPj87rNJTHNKkdiZREVb8v6iiwUhYLXW10pjVOdV=zttd+tG3Q@mail.gmail.com>
- <CAKMK7uHqxLe_CH_cOjfy-rouYcxwg=n6AkkxprzAKnb-y_A3NQ@mail.gmail.com>
-In-Reply-To: <CAKMK7uHqxLe_CH_cOjfy-rouYcxwg=n6AkkxprzAKnb-y_A3NQ@mail.gmail.com>
-From: Daniel Stone <daniel@fooishbar.org>
-Date: Wed, 26 May 2021 14:08:19 +0100
-Message-ID: <CAPj87rOW_633K_n4nwq2qkPt5Q5efc3BpRnzT+=Npb=agWGTew@mail.gmail.com>
-Subject: Re: [PATCH 4/4] RFC: dma-buf: Add an API for importing sync files (v6)
-To: Daniel Vetter <daniel@ffwll.ch>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210526084726.552052-31-lee.jones@linaro.org>
+X-Operating-System: Linux phenom 5.10.32scarlett+ 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,44 +77,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@intel.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Jason Ekstrand <jason@jlekstrand.net>
+Cc: Ben Widawsky <ben@bwidawsk.net>, David Airlie <airlied@linux.ie>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hey,
+On Wed, May 26, 2021 at 09:47:22AM +0100, Lee Jones wrote:
+> Fixes the following W=1 kernel build warning(s):
+> 
+>  drivers/gpu/drm/vgem/vgem_drv.c:47: warning: expecting prototype for This is vgem, a (non-hardware(). Prototype was for DRIVER_NAME() instead
+> 
+> Cc: David Airlie <airlied@linux.ie>
+> Cc: Daniel Vetter <daniel@ffwll.ch>
+> Cc: Sumit Semwal <sumit.semwal@linaro.org>
+> Cc: "Christian König" <christian.koenig@amd.com>
+> Cc: Adam Jackson <ajax@redhat.com>
+> Cc: Ben Widawsky <ben@bwidawsk.net>
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: linux-media@vger.kernel.org
+> Cc: linaro-mm-sig@lists.linaro.org
+> Signed-off-by: Lee Jones <lee.jones@linaro.org>
 
-On Wed, 26 May 2021 at 13:35, Daniel Vetter <daniel@ffwll.ch> wrote:
-> On Wed, May 26, 2021 at 1:09 PM Daniel Stone <daniel@fooishbar.org> wrote:
-> > Yeah, I don't think there's any difference between shared and
-> > exclusive wrt safety. The difference lies in, well, exclusive putting
-> > a hard serialisation barrier between everything which comes before and
-> > everything that comes after, and shared being more relaxed to allow
-> > for reads to retire in parallel.
-> >
-> > As said below, I think there's a good argument for the latter once you
-> > get out of the very straightforward uses. One of the arguments for
-> > these ioctls is to eliminate oversync, but then the import ioctl
-> > mandates oversync in the case where the consumer only does
-> > non-destructive reads - which is the case for the vast majority of
-> > users!
->
-> Just wanted to comment on this: Right now we attach always attach a
-> shared end-of-batch fence to every dma_resv. So reads are
-> automatically and always synced. So in that sense having an explicit
-> ioct to set the read fence is not really useful, since at most you
-> just make everything worse.
+Merged this one to drm-misc-next, thanks!
+-Daniel
+> ---
+>  drivers/gpu/drm/vgem/vgem_drv.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/vgem/vgem_drv.c b/drivers/gpu/drm/vgem/vgem_drv.c
+> index a0e75f1d5d016..bf38a7e319d14 100644
+> --- a/drivers/gpu/drm/vgem/vgem_drv.c
+> +++ b/drivers/gpu/drm/vgem/vgem_drv.c
+> @@ -25,7 +25,7 @@
+>   *	Ben Widawsky <ben@bwidawsk.net>
+>   */
+>  
+> -/**
+> +/*
+>   * This is vgem, a (non-hardware-backed) GEM service.  This is used by Mesa's
+>   * software renderer and the X server for efficient buffer sharing.
+>   */
+> -- 
+> 2.31.1
+> 
 
-Are you saying that if a compositor imports a client-provided dmabuf
-as an EGLImage to use as a source texture for its rendering, and then
-provides it to VA-API or V4L2 to use as a media encode source (both
-purely read-only ops), that these will both serialise against each
-other? Like, my media decode job won't begin execution until the
-composition read has fully retired?
-
-If so, a) good lord that hurts, and b) what are shared fences actually ... for?
-
-Cheers,
-Daniel
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
