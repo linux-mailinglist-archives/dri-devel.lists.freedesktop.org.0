@@ -2,67 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E00083915CD
-	for <lists+dri-devel@lfdr.de>; Wed, 26 May 2021 13:17:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 63C4539162D
+	for <lists+dri-devel@lfdr.de>; Wed, 26 May 2021 13:31:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 64CA26EC84;
-	Wed, 26 May 2021 11:17:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A2A8E6EC8E;
+	Wed, 26 May 2021 11:31:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C64CA6EC83
- for <dri-devel@lists.freedesktop.org>; Wed, 26 May 2021 11:17:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1622027821;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=WZhb8zuVnnjhU4y7wnecCuH3x05R6lnJG5XgPPhjXY0=;
- b=beTieYlzyePGGjkOCs+MlM0vZDcUF/lBuyJj64pNx5rOsAjPTL0MHksxs9m3phTlzkVuCQ
- X6n2kvBAYypjTJf6haqKaAOves16LH4IZAQnOokRaI8PDvCQ8U7Jixj9E1S3gtpyNdPMZG
- m3Nvx0Wt2PFJY8OPRDVJFQjd8n0YpkU=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-486-cBHNQkooMFWonkPRNki5Ww-1; Wed, 26 May 2021 07:16:58 -0400
-X-MC-Unique: cBHNQkooMFWonkPRNki5Ww-1
-Received: by mail-wr1-f72.google.com with SMTP id
- h22-20020adfa4d60000b029011244156c68so236576wrb.13
- for <dri-devel@lists.freedesktop.org>; Wed, 26 May 2021 04:16:58 -0700 (PDT)
+Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com
+ [IPv6:2a00:1450:4864:20::32b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 247376EC8E
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 May 2021 11:31:49 +0000 (UTC)
+Received: by mail-wm1-x32b.google.com with SMTP id
+ z137-20020a1c7e8f0000b02901774f2a7dc4so3179114wmc.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 May 2021 04:31:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=fooishbar-org.20150623.gappssmtp.com; s=20150623;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=na04oW4mV9JUbUOkPBvtY3i7UUnCGjgsNBXRaPL+9HI=;
+ b=kygoKcsCkhZF7xK2h2EW3cNA127jLS2NUhKSE3e+Zf8beC0blTEYuSwkSwxo451z8A
+ 3OKeyFUrmZbla+5W2THkUYZFKpaQK/4lCt1kZrxp5diR8oYbmmwXtyH7btcudU5Pnxpg
+ WNtzcZQy+c90Uf3a5dC++gLpbplW/FJ4oU/EjBLJE5GMMWq1PUW6KVS7rVGPX1FL69cA
+ mYGJUW8ghVpdUGzAauH9ZwijCQipNwgLrdiUDjPjItBHnwXW6fjqmfVmeS4CBq8KbX6F
+ TgTe10Iq4hpUNcsicb11BM8o283/yQ3BXwp6TrgdYJRm8uFMVQ9lkE/jCN1xzXcMvTMR
+ 2l9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=WZhb8zuVnnjhU4y7wnecCuH3x05R6lnJG5XgPPhjXY0=;
- b=Q/r6oOg7Vo8kScKygXNkZnroiov0EWvQwSFv+ZgMRRe1lBA11UF6a2rzs30+exUNn5
- fpjWBX8X5DWpnC9qdQkc762OZ/HFZOrVk+Mn2uBZUtWcfrKx1uOGsfhy0+Qaysci4KFt
- BzEwevaiYzC0SZ9wrXcGbTRhS623sRPFTcBd+qzKUzwLB8g2L4mtciW0c16jn296ZgD/
- E6g+6uFfVLqPGSVdI7ifEaQyVSegftWXJS1FzTM/PJAzHesMbD+cAnl9hCU5XjW70ct0
- P5SqLSzGiYvUvz6FAi0U8n213XA7hM370nrCvC8pxlaq2g5QL1sxNbTFt0akyAyahi/E
- KcSQ==
-X-Gm-Message-State: AOAM531x+XMNHtdkwe4lR9OiNVWhofTfeNjCZL97kdm5pmY1Z6Js0QVt
- KdIc8L4DJwGhDyZdo1Dur655HcNIZECf7bYaYmh8t48nb6PhVU33t42aqpNu5kUvquYDhexhBl2
- MbyEwq1PQ3aNcOxPhMIKi2hn2WB34qGJM1W/OhGS7HHRI
-X-Received: by 2002:a5d:4a81:: with SMTP id o1mr30747648wrq.177.1622027816753; 
- Wed, 26 May 2021 04:16:56 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxC/kfOOQw4CwfWnJy7tsT5TwYrdsCpahCbg0flnKAJcY+E6BvxvK01g0k+BcUw5O2u46vOYYCfvWQxIboZsY8=
-X-Received: by 2002:a5d:4a81:: with SMTP id o1mr30747629wrq.177.1622027816562; 
- Wed, 26 May 2021 04:16:56 -0700 (PDT)
+ bh=na04oW4mV9JUbUOkPBvtY3i7UUnCGjgsNBXRaPL+9HI=;
+ b=duhfwybWPL3HvgfUym6/KsHAywETQlc3Yrv1n95nmbSgD3ou5OoM4X9zLJRwL68+dN
+ MWbY9BU9SOVgapetDSES+tecuFIpEcu4jj84mpSzhNXZUxSyejAs7CDcRCXYlRt//Kq4
+ 9c9K56liWejPSGBlLVxvyD+Scl3Idr+0hqBHXP5fHowX3VUrGOrBqGpp3f5/yOFuIc62
+ dWe+H1cH2LET1IwVUDUfI+3wglPN/AZtUx2pRaN0l8FOestNyIu7ciwpBrBhZfBt3vnR
+ Gc1aitTvo+s0CRJ52E6+P2VTs6D61W8qIisY6g6yU3GHaQUxmvaOOvGgDRvFYFK8v1A3
+ A2mg==
+X-Gm-Message-State: AOAM532b2dojD6dvxrS6slgKLKgreJlgy8Bx2Yw+oC8VgacbnFYJAFe+
+ OcBtSNUw/GvlIxoqyxpor3tVjZxJ0GUANAEGh+V8aW8oLuUXmg==
+X-Google-Smtp-Source: ABdhPJxZkxbaszLDV15dnDg1K+a2cwS/HjXOalgpXScXxcaMPhGlWzZALL24GqXWBGoLriEZblFHox5LuNlOVUFtjD0=
+X-Received: by 2002:a1c:7c03:: with SMTP id x3mr2975475wmc.168.1622028707726; 
+ Wed, 26 May 2021 04:31:47 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210526084726.552052-1-lee.jones@linaro.org>
- <20210526084726.552052-12-lee.jones@linaro.org>
-In-Reply-To: <20210526084726.552052-12-lee.jones@linaro.org>
-From: Karol Herbst <kherbst@redhat.com>
-Date: Wed, 26 May 2021 13:16:46 +0200
-Message-ID: <CACO55tuGiW=e+ee83jhvQOJxA+tedH5r_pHS+ESbEQVABgfvnQ@mail.gmail.com>
-Subject: Re: [Nouveau] [PATCH 11/34] drm/nouveau/nvkm/subdev/mc/tu102: Make
- functions called by reference static
-To: Lee Jones <lee.jones@linaro.org>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kherbst@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+References: <20210525211753.1086069-1-jason@jlekstrand.net>
+ <20210525211753.1086069-6-jason@jlekstrand.net>
+ <acc1737c-261d-9da5-7ea7-759063136c56@amd.com>
+In-Reply-To: <acc1737c-261d-9da5-7ea7-759063136c56@amd.com>
+From: Daniel Stone <daniel@fooishbar.org>
+Date: Wed, 26 May 2021 12:31:36 +0100
+Message-ID: <CAPj87rN_7vmmWcL1vqhvM=etaTjwts_L0vYbsgvYF0_qZw83gw@mail.gmail.com>
+Subject: Re: [Intel-gfx] [PATCH 5/7] dma-buf: Add an API for exporting sync
+ files (v11)
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -77,75 +68,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, nouveau <nouveau@lists.freedesktop.org>,
- Alistair Popple <apopple@nvidia.com>, LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, Ben Skeggs <bskeggs@redhat.com>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ intel-gfx <intel-gfx@lists.freedesktop.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Jason Ekstrand <jason@jlekstrand.net>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, May 26, 2021 at 10:47 AM Lee Jones <lee.jones@linaro.org> wrote:
->
-> Fixes the following W=3D1 kernel build warning(s):
->
->  drivers/gpu/drm/nouveau/nvkm/subdev/mc/tu102.c:50:1: warning: no previou=
-s prototype for =E2=80=98tu102_mc_intr_unarm=E2=80=99 [-Wmissing-prototypes=
-]
->  drivers/gpu/drm/nouveau/nvkm/subdev/mc/tu102.c:62:1: warning: no previou=
-s prototype for =E2=80=98tu102_mc_intr_rearm=E2=80=99 [-Wmissing-prototypes=
-]
->  drivers/gpu/drm/nouveau/nvkm/subdev/mc/tu102.c:74:1: warning: no previou=
-s prototype for =E2=80=98tu102_mc_intr_mask=E2=80=99 [-Wmissing-prototypes]
->
-> Cc: Ben Skeggs <bskeggs@redhat.com>
-> Cc: David Airlie <airlied@linux.ie>
-> Cc: Daniel Vetter <daniel@ffwll.ch>
-> Cc: Alistair Popple <apopple@nvidia.com>
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: nouveau@lists.freedesktop.org
-> Signed-off-by: Lee Jones <lee.jones@linaro.org>
-> ---
->  drivers/gpu/drm/nouveau/nvkm/subdev/mc/tu102.c | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
->
-> diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/mc/tu102.c b/drivers/gpu=
-/drm/nouveau/nvkm/subdev/mc/tu102.c
-> index 58db83ebadc5f..a96084b34a788 100644
-> --- a/drivers/gpu/drm/nouveau/nvkm/subdev/mc/tu102.c
-> +++ b/drivers/gpu/drm/nouveau/nvkm/subdev/mc/tu102.c
-> @@ -46,7 +46,7 @@ tu102_mc_intr_update(struct tu102_mc *mc)
->                 nvkm_wr32(device, 0xb81610, 0x6);
->  }
->
-> -void
-> +static void
->  tu102_mc_intr_unarm(struct nvkm_mc *base)
->  {
->         struct tu102_mc *mc =3D tu102_mc(base);
-> @@ -58,7 +58,7 @@ tu102_mc_intr_unarm(struct nvkm_mc *base)
->         spin_unlock_irqrestore(&mc->lock, flags);
->  }
->
-> -void
-> +static void
->  tu102_mc_intr_rearm(struct nvkm_mc *base)
->  {
->         struct tu102_mc *mc =3D tu102_mc(base);
-> @@ -70,7 +70,7 @@ tu102_mc_intr_rearm(struct nvkm_mc *base)
->         spin_unlock_irqrestore(&mc->lock, flags);
->  }
->
-> -void
-> +static void
->  tu102_mc_intr_mask(struct nvkm_mc *base, u32 mask, u32 intr)
->  {
->         struct tu102_mc *mc =3D tu102_mc(base);
-> --
-> 2.31.1
->
-> _______________________________________________
-> Nouveau mailing list
-> Nouveau@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/nouveau
+Hi Christian,
 
-Reviewed-by: Karol Herbst <kherbst@redhat.com>
+On Wed, 26 May 2021 at 12:02, Christian K=C3=B6nig <christian.koenig@amd.co=
+m> wrote:
+> Am 25.05.21 um 23:17 schrieb Jason Ekstrand:
+> > This new IOCTL solves this problem by allowing us to get a snapshot of
+> > the implicit synchronization state of a given dma-buf in the form of a
+> > sync file.  It's effectively the same as a poll() or I915_GEM_WAIT only=
+,
+> > instead of CPU waiting directly, it encapsulates the wait operation, at
+> > the current moment in time, in a sync_file so we can check/wait on it
+> > later.  As long as the Vulkan driver does the sync_file export from the
+> > dma-buf before we re-introduce it for rendering, it will only contain
+> > fences from the compositor or display.  This allows to accurately turn
+> > it into a VkFence or VkSemaphore without any over- synchronization.
+>
+> Regarding that, why do we actually use a syncfile and not a drm_syncobj
+> here?
+>
+> The later should be much closer to a Vulkan timeline semaphore.
 
+How would we insert a syncobj+val into a resv though? Like, if we pass
+an unmaterialised syncobj+val here to insert into the resv, then an
+implicit-only media user (or KMS) goes to sync against the resv, what
+happens?
+
+Cheers,
+Daniel
