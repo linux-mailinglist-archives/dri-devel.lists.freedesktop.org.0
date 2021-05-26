@@ -1,72 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED6E039162E
-	for <lists+dri-devel@lfdr.de>; Wed, 26 May 2021 13:32:14 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BF683391635
+	for <lists+dri-devel@lfdr.de>; Wed, 26 May 2021 13:33:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 295036EC8F;
-	Wed, 26 May 2021 11:32:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 730AE6EC95;
+	Wed, 26 May 2021 11:33:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com
- [66.111.4.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E53F06EC91
- for <dri-devel@lists.freedesktop.org>; Wed, 26 May 2021 11:32:11 +0000 (UTC)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.nyi.internal (Postfix) with ESMTP id 43B465C01A7;
- Wed, 26 May 2021 07:32:09 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Wed, 26 May 2021 07:32:09 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
- date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm2; bh=eYdOQWJvkGv5lYmwmsTB8/heePt
- nDEqHSneUmgS7RZw=; b=rSN+K2lYTICaRInRng38MnLI2qgzFowVSYCXda8MmML
- 1Azwf3UgSC+ySqtx4flMSSXXiJz2AUO3Dv9UB5VukKZImQJxftLXtbQClI03b/5C
- aJkvommPpkoAWPVHClnp2/eBpPvBuEnuoCCfWplIGZzsRbhXK7WjIr0ualykbnE6
- I77lF7J41Lm96/808Xe4ZDiDwIhFQNDg1okzBkQst83JLHBHPkCOIXGlff3dvy7m
- 2heMKc4IENWQJVELaLUiIt+exhva3YN9rUCHFAZWqKu6Tw1OuAv3Pg4m74S2WbD0
- lmBA2XMgltTC+D2Bj2ZmaOcUgSvGcxbHCVkxEgjEPhg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=eYdOQW
- JvkGv5lYmwmsTB8/heePtnDEqHSneUmgS7RZw=; b=IpD9YYR9tUdAcDA9MtqX3S
- Gv8J4sF/KLR56VK6L6i2gitfEFI55aMoiSwoJOorHRBLBgpfNidVJhRKlqevlGDo
- RNAqo3h5Iisl5UZrcQx1SiYCw55mQMcoDgf25p7zilnk2D7Dbd6yvuvZMRZ2LfBO
- ZEmZ427D/JDZFw+1jWUB6mpWEjn9el+6DERwcTVt9o67uVC/JEHGHE8tiLkJM4XZ
- dexDSmdalmCUA5ZXH94jAK3wAKB12DKTEBQ76ACiJMhxycaNAFkkokYYl+eJsVfB
- gmNvdNshkdATDB7s5BPUK/I6tAfxhKdK5v+UYTYuTDrmNlQ+kU40ehQ0Me4BPsoQ
- ==
-X-ME-Sender: <xms:tzGuYFWD4oJai2YDYDaWFhg3-HnZMqk_mHd9i0q-8FQxrT-KO6w3Yg>
- <xme:tzGuYFllwkw9cFd86DVqKMPtVB4_U-gruxfiPq0gHXhMHRUINakjSxZBZdGp8L7Rr
- FUe1uz7edKZTjlkUGg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvdekfedggedvucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
- vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
- htvghrnhepleekgeehhfdutdeljefgleejffehfffgieejhffgueefhfdtveetgeehieeh
- gedunecukfhppeeltddrkeelrdeikedrjeeinecuvehluhhsthgvrhfuihiivgeptdenuc
- frrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:tzGuYBZ1P-km1cMVOzWB4w7VdzNeGBsMe-ePQ_LJ4m2fm7TTJUJymA>
- <xmx:tzGuYIUKYpy3NZYRyf6EJNiuvGMnDfo2jWIZna_nDt8n7xs7bqHyFg>
- <xmx:tzGuYPm8EfAfRGP5Rpi-LKRX_iTI_1tGHPUpp_iY9Jv5uZv2OTg2jA>
- <xmx:uTGuYIC4GXmWyDP_NJZ2W95cueagyq_ToB4y536R5Tc-FhaQ5cSKMQ>
-Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
- [90.89.68.76]) by mail.messagingengine.com (Postfix) with ESMTPA;
- Wed, 26 May 2021 07:32:07 -0400 (EDT)
-Date: Wed, 26 May 2021 13:32:05 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH] drm/kconfig: Remove unused select of DRM_KMS_FB_HELPER
-Message-ID: <20210526113205.rx2xwcgjm6qb6s24@gilmour>
-References: <20210526100825.29450-1-tzimmermann@suse.de>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E735C6EC92;
+ Wed, 26 May 2021 11:33:12 +0000 (UTC)
+IronPort-SDR: DqF1JtCF1RpTeQdW7WUqkbHRUe3hMOu1CgJ5FhbG1TICESaXtjl/bqalhZdYxcEd26cDQ1OqEB
+ /sKojduCcwSQ==
+X-IronPort-AV: E=McAfee;i="6200,9189,9995"; a="223627253"
+X-IronPort-AV: E=Sophos;i="5.82,331,1613462400"; d="scan'208";a="223627253"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 May 2021 04:33:11 -0700
+IronPort-SDR: BMaTSaZ+d5FjiRGrBsWDQ/wwmtMXNv6sPqHqFJPxzdHwcks3PLmbwL4mzVWEEan45OuxBdLgag
+ dOoYFuhUrsSw==
+X-IronPort-AV: E=Sophos;i="5.82,331,1613462400"; d="scan'208";a="633457839"
+Received: from pegilssx-mobl.ger.corp.intel.com (HELO thellst-mobl1.intel.com)
+ ([10.249.254.205])
+ by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 May 2021 04:33:09 -0700
+From: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
+To: intel-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org
+Subject: [PATCH v4 00/15] drm/i915: Move LMEM (VRAM) management over to TTM
+Date: Wed, 26 May 2021 13:32:44 +0200
+Message-Id: <20210526113259.1661914-1-thomas.hellstrom@linux.intel.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="qe3ihkvgr3teian5"
-Content-Disposition: inline
-In-Reply-To: <20210526100825.29450-1-tzimmermann@suse.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,44 +48,162 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, Daniel Vetter <daniel.vetter@ffwll.ch>,
- dri-devel@lists.freedesktop.org, Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+This is an initial patch series to move discrete memory management over to
+TTM. It will be followed up shortly with adding more functionality.
 
---qe3ihkvgr3teian5
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+The buddy allocator is temporarily removed along with its selftests and
+It is replaced with the TTM range manager and some selftests are adjusted
+to account for introduced fragmentation. Work is ongoing to reintroduce the
+buddy allocator as a TTM resource manager.
 
-On Wed, May 26, 2021 at 12:08:25PM +0200, Thomas Zimmermann wrote:
-> The option DRM_KMS_FB_HELPER has been removed. Also remove the last
-> remaining select statement for it.
->=20
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Fixes: 91185d55b32e ("drm: Remove DRM_KMS_FB_HELPER Kconfig option")
-> Reported-by: Geert Uytterhoeven <geert@linux-m68k.org>
-> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> Cc: Maxime Ripard <mripard@kernel.org>
-> Cc: David Airlie <airlied@linux.ie>
-> Cc: Daniel Vetter <daniel@ffwll.ch>
-> Cc: dri-devel@lists.freedesktop.org
+A new memcpy ttm move is introduced that uses kmap_local() functionality
+rather than vmap(). Among other things stated in the patch commit message
+it helps us deal with page-pased LMEM memory. It is generic enough to replace
+the ttm memcpy move with some additional work if so desired. On x86 it also
+enables prefetching reads from write-combined memory.
 
-Acked-by: Maxime Ripard <maxime@cerno.tech>
+Finally the old i915 gem object LMEM backend is replaced with a
+i915 gem object TTM backend and some additional i915 gem object ops are
+introduced to support the added functionality.
+Currently it is used only to support management and eviction of the LMEM
+region, but work is underway to extend the support to system memory. In this
+way we use TTM the way it was originally intended, having the GPU binding
+taken care of by driver code.
 
-Maxime
+Intention is to follow up with
+- System memory support
+- Pipelined accelerated moves / migration
+- Re-added buddy allocator in the TTM framework
 
---qe3ihkvgr3teian5
-Content-Type: application/pgp-signature; name="signature.asc"
+v2:
+- Add patches to move pagefaulting over to TTM
+- Break out TTM changes to separate patches
+- Address various review comments as detailed in the affected patches
 
------BEGIN PGP SIGNATURE-----
+v3:
+- Drop TTM pagefaulting patches for now due changing approach due to a NAK.
+- Address feedback on TTM patches
+- Move the new TTM memcpy functionality into TTM.
+- Move fast WC memcpy to drm
+- Various fixes all over the place as shown in patch commit messages.
 
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYK4xtQAKCRDj7w1vZxhR
-xVQpAP436GSHWaw9MYGR7C/5P4VWebNti5Veb4HEpYRHFkU2DQD/RyMN1afXZ7lh
-aNlTgJYH4SxSXS0BjglKvi+4PgRiBAU=
-=uVSH
------END PGP SIGNATURE-----
+v4:
+- Re-add TTM pagefaulting patches.
+- Addressed review feedback mainly from Matthew Auld
+- Fixed the mock ttm device code that was using an incorrect approach.
 
---qe3ihkvgr3teian5--
+Cc: Christian König <christian.koenig@amd.com>
+
+Maarten Lankhorst (3):
+  drm/i915: Disable mmap ioctl for gen12+
+  drm/vma: Add a driver_private member to vma_node.
+  drm/i915: Use ttm mmap handling for ttm bo's.
+
+Thomas Hellström (12):
+  drm/i915: Untangle the vma pages_mutex
+  drm/i915: Don't free shared locks while shared
+  drm/i915: Fix i915_sg_page_sizes to record dma segments rather than
+    physical pages
+  drm/i915/ttm Initialize the ttm device and memory managers
+  drm/i915/ttm: Embed a ttm buffer object in the i915 gem object
+  drm/ttm: Add a generic TTM memcpy move for page-based iomem
+  drm, drm/i915: Move the memcpy_from_wc functionality to core drm
+  drm/ttm: Use drm_memcpy_from_wc_dbm for TTM bo moves
+  drm/ttm: Document and optimize ttm_bo_pipeline_gutting()
+  drm/ttm, drm/amdgpu: Allow the driver some control over swapping
+  drm/i915/ttm: Introduce a TTM i915 gem object backend
+  drm/i915/lmem: Verify checks for lmem residency
+
+ drivers/gpu/drm/Makefile                      |   2 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c       |   4 +
+ drivers/gpu/drm/drm_drv.c                     |   2 +
+ drivers/gpu/drm/drm_gem.c                     |   9 -
+ .../drm/{i915/i915_memcpy.c => drm_memcpy.c}  |  63 +-
+ drivers/gpu/drm/i915/Kconfig                  |   1 +
+ drivers/gpu/drm/i915/Makefile                 |   4 +-
+ drivers/gpu/drm/i915/display/intel_display.c  |   2 +-
+ drivers/gpu/drm/i915/gem/i915_gem_create.c    |   9 +-
+ drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c    |   2 +-
+ .../gpu/drm/i915/gem/i915_gem_execbuffer.c    |   4 +-
+ drivers/gpu/drm/i915/gem/i915_gem_lmem.c      |  71 +-
+ drivers/gpu/drm/i915/gem/i915_gem_lmem.h      |   5 -
+ drivers/gpu/drm/i915/gem/i915_gem_mman.c      |  85 +-
+ drivers/gpu/drm/i915/gem/i915_gem_object.c    | 154 +++-
+ drivers/gpu/drm/i915/gem/i915_gem_object.h    |  19 +-
+ .../gpu/drm/i915/gem/i915_gem_object_types.h  |  52 +-
+ drivers/gpu/drm/i915/gem/i915_gem_pages.c     |   6 +-
+ drivers/gpu/drm/i915/gem/i915_gem_phys.c      |   2 +-
+ drivers/gpu/drm/i915/gem/i915_gem_region.c    | 126 +--
+ drivers/gpu/drm/i915/gem/i915_gem_region.h    |   4 -
+ drivers/gpu/drm/i915/gem/i915_gem_shmem.c     |   4 +-
+ drivers/gpu/drm/i915/gem/i915_gem_stolen.c    |  10 +-
+ drivers/gpu/drm/i915/gem/i915_gem_stolen.h    |   9 +-
+ drivers/gpu/drm/i915/gem/i915_gem_ttm.c       | 649 ++++++++++++++
+ drivers/gpu/drm/i915/gem/i915_gem_ttm.h       |  48 ++
+ drivers/gpu/drm/i915/gem/i915_gem_userptr.c   |   2 +-
+ .../drm/i915/gem/selftests/i915_gem_mman.c    |  90 +-
+ drivers/gpu/drm/i915/gt/intel_ggtt.c          |  19 +-
+ drivers/gpu/drm/i915/gt/intel_gt.c            |   2 -
+ drivers/gpu/drm/i915/gt/intel_gtt.c           |  45 +-
+ drivers/gpu/drm/i915/gt/intel_gtt.h           |  28 +-
+ drivers/gpu/drm/i915/gt/intel_ppgtt.c         |   2 +-
+ drivers/gpu/drm/i915/gt/intel_region_lmem.c   |  30 +-
+ drivers/gpu/drm/i915/gt/selftest_reset.c      |   7 +-
+ drivers/gpu/drm/i915/gt/uc/intel_guc_log.c    |  11 +-
+ drivers/gpu/drm/i915/i915_buddy.c             | 435 ----------
+ drivers/gpu/drm/i915/i915_buddy.h             | 131 ---
+ drivers/gpu/drm/i915/i915_cmd_parser.c        |   4 +-
+ drivers/gpu/drm/i915/i915_drv.c               |  15 +-
+ drivers/gpu/drm/i915/i915_drv.h               |   8 +-
+ drivers/gpu/drm/i915/i915_gem.c               |   6 +-
+ drivers/gpu/drm/i915/i915_globals.c           |   1 -
+ drivers/gpu/drm/i915/i915_globals.h           |   1 -
+ drivers/gpu/drm/i915/i915_gpu_error.c         |   8 +-
+ drivers/gpu/drm/i915/i915_memcpy.h            |  34 -
+ drivers/gpu/drm/i915/i915_scatterlist.c       |  70 ++
+ drivers/gpu/drm/i915/i915_scatterlist.h       |  20 +-
+ drivers/gpu/drm/i915/i915_vma.c               |  29 +-
+ drivers/gpu/drm/i915/intel_memory_region.c    | 181 ++--
+ drivers/gpu/drm/i915/intel_memory_region.h    |  45 +-
+ drivers/gpu/drm/i915/intel_region_ttm.c       | 220 +++++
+ drivers/gpu/drm/i915/intel_region_ttm.h       |  37 +
+ drivers/gpu/drm/i915/selftests/i915_buddy.c   | 789 ------------------
+ .../drm/i915/selftests/i915_mock_selftests.h  |   1 -
+ drivers/gpu/drm/i915/selftests/igt_mmap.c     |  25 +-
+ drivers/gpu/drm/i915/selftests/igt_mmap.h     |  12 +-
+ .../drm/i915/selftests/intel_memory_region.c  | 140 +---
+ .../gpu/drm/i915/selftests/mock_gem_device.c  |  10 +
+ drivers/gpu/drm/i915/selftests/mock_region.c  |  70 +-
+ drivers/gpu/drm/ttm/ttm_bo.c                  |  63 +-
+ drivers/gpu/drm/ttm/ttm_bo_util.c             | 347 ++++----
+ drivers/gpu/drm/ttm/ttm_module.c              |  35 +
+ drivers/gpu/drm/ttm/ttm_resource.c            | 193 +++++
+ drivers/gpu/drm/ttm/ttm_tt.c                  |  50 ++
+ include/drm/drm_memcpy.h                      |  68 ++
+ include/drm/drm_vma_manager.h                 |   2 +-
+ include/drm/ttm/ttm_bo_driver.h               |  28 +
+ include/drm/ttm/ttm_caching.h                 |   2 +
+ include/drm/ttm/ttm_kmap_iter.h               |  61 ++
+ include/drm/ttm/ttm_resource.h                |  61 ++
+ include/drm/ttm/ttm_tt.h                      |  26 +
+ 72 files changed, 2551 insertions(+), 2259 deletions(-)
+ rename drivers/gpu/drm/{i915/i915_memcpy.c => drm_memcpy.c} (70%)
+ create mode 100644 drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+ create mode 100644 drivers/gpu/drm/i915/gem/i915_gem_ttm.h
+ delete mode 100644 drivers/gpu/drm/i915/i915_buddy.c
+ delete mode 100644 drivers/gpu/drm/i915/i915_buddy.h
+ delete mode 100644 drivers/gpu/drm/i915/i915_memcpy.h
+ create mode 100644 drivers/gpu/drm/i915/intel_region_ttm.c
+ create mode 100644 drivers/gpu/drm/i915/intel_region_ttm.h
+ delete mode 100644 drivers/gpu/drm/i915/selftests/i915_buddy.c
+ create mode 100644 include/drm/drm_memcpy.h
+ create mode 100644 include/drm/ttm/ttm_kmap_iter.h
+
+-- 
+2.31.1
+
