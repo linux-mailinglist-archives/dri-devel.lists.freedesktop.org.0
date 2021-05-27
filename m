@@ -1,55 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5289392615
-	for <lists+dri-devel@lfdr.de>; Thu, 27 May 2021 06:22:38 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B4A1392649
+	for <lists+dri-devel@lfdr.de>; Thu, 27 May 2021 06:25:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 93CA66EE1E;
-	Thu, 27 May 2021 04:22:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5E0BD6EE22;
+	Thu, 27 May 2021 04:25:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x22a.google.com (mail-oi1-x22a.google.com
- [IPv6:2607:f8b0:4864:20::22a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4F5D96EE1E;
- Thu, 27 May 2021 04:22:34 +0000 (UTC)
-Received: by mail-oi1-x22a.google.com with SMTP id x15so3846010oic.13;
- Wed, 26 May 2021 21:22:34 -0700 (PDT)
+Received: from mail-oi1-x22d.google.com (mail-oi1-x22d.google.com
+ [IPv6:2607:f8b0:4864:20::22d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EA9DB6EE22;
+ Thu, 27 May 2021 04:25:24 +0000 (UTC)
+Received: by mail-oi1-x22d.google.com with SMTP id h9so3882963oih.4;
+ Wed, 26 May 2021 21:25:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=9DG+xjWGZv67nZFsC1Ee5TRyVRy4OYoOSwlGHHWJ58U=;
- b=l5L+bJvVQJRe0kOb+T6Yq6UuOZ5NfHBWYe+QjQ7AgzNd+wN4b3ZnT/+xjry1OUKU5N
- b7coSP0dZSCIsI8RQl16xUD53gX/HGThF6Grwe7Xg7Z8usXdJN6sZgHHUv26XnVfrU1o
- +ppKtu8BbRLChINfqvdf588PZrqLhmbZZ87cZzANzPyy1ETBrw4ACHMJkzsY0v8oEpkw
- fGTT44+uA014dkuBUxX5/v2Tqix4JRPNgfuvu1rEgcXKRE1U7D8cWCFm4N7lUn+vFitX
- G0q2S549q0TCFxy4SWASelCCEgXGhqrI6/zri1K9lvZGnYohCU+ZRWelJHA5FUwXtTYW
- 6sfQ==
+ bh=HlEEB7m4vbuZJ5U/IF3dSwz8wK0GbasA4XFoALDTWL8=;
+ b=W5/+NkQahCgvZZ1x00cU/xU8h+8cEB/LHC5TNOw+Qcu43GEXKib+gni+t4UUYVyU4b
+ FADaYkMAkf8n+5lPiHn9m+W+H90W/b4+4FFG1IhqblRjXl+llnwhZu+vXnhdi5E2btqk
+ j2ebfn+If6EBldLbq5k4BPeGxAAzl84vP4VWe2xjRf1rEt3JbuqWusKzzRv3TsxB3qgz
+ mkHT7vJ60Ml3mnW0UYPWWKOmAHFYD6tyohnS/NWdv82NutAwQmL1MIyJZ/y3B1SsSTAR
+ KHTxUhr6/fXZaWhQJo0h4Ldg4iX5E6VgzBCWqsqFGk3mgABntDMN0AlzvPNf5MFgudsg
+ sEJg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=9DG+xjWGZv67nZFsC1Ee5TRyVRy4OYoOSwlGHHWJ58U=;
- b=aQ10kWjhXCnPqHEBPgM1COpot9a+X1zi8quYo97BGhWE6PcA5sbDQK3voxX2h7tsJD
- 5aAHfXqRbXOqJCI99ORpi0N0Q0rDt4sPmvudHo1eXPSCaMG0RixaS1HA4MJiSlvF/AjH
- M0DRUnh3ELe7AE6ZXAATvOSuSeOJ3in2WS38fJrPZnNq+X8vTJ6z26V6b//Tuii7NPKj
- p6zGtW4D+05tjSKIN1mpWVm+BO1s9CNhGZ2W8FvjKiKJ/5FdP9fk2ZqmIz+VxxaPAU3/
- sYvqrond4DFArVi45TESqdQMiKXFz3OCDEhRD890lqcLAQ2Nj3jJa7dyR3M8fITzFbCE
- wPzw==
-X-Gm-Message-State: AOAM5332TfHshFpcOLJ0IRNlNZKUvR4aQIQ0zCfsPf9Dis4b2u/fJ+C+
- CDGmEgCTKFV6sEYOjKwTIlCHYiVMpt0u3kvXP+4=
-X-Google-Smtp-Source: ABdhPJz0CbLS9N2IE55TBBnETmt0sI7XDgqlj2lorRpi5OkRDYWOIcqZMgSfJ+Zx6228a69CfujHU7uG5Czu0vDD8Ms=
-X-Received: by 2002:a05:6808:206:: with SMTP id l6mr4057313oie.5.1622089353925; 
- Wed, 26 May 2021 21:22:33 -0700 (PDT)
+ bh=HlEEB7m4vbuZJ5U/IF3dSwz8wK0GbasA4XFoALDTWL8=;
+ b=OjZ5oakAUmLUeQzQ28dYmOdnT6NUi6dFSQ3u4n/jzsvmfvBgEwIRDPXk0JHdIL05KL
+ z8f1JQ1pxr7Nv7nmTZaEn/ts2sli9s5Y7zL6rIQB6W7pTeqOyz+dutIkQVAxai6ZA64d
+ 4TlW7mFXHW5mW60hlpOj+YMxq23+xo1jgs+6dja5RB6KyMqrwMPthdyB1P19EBnOw+vs
+ dYN5ICO3l3pfkqlTTWBDxQDBlwkU2/Uw50OKvni4cHVtRu077SSCaIdTgA+Tde2qLpid
+ O5nXUNRyy+rZgHUiIIH7E9J6xlEJSXYEexjaTuezP2p0KMOyfY7eigefPsx19zFYh+Xy
+ c2aw==
+X-Gm-Message-State: AOAM532Jm5p1m085ItpRQRHwyhsyVByD0B7efwJbOC8vGngziRaiVdOf
+ bDApFvlJfRHNjwjDpGaH7TZQSiisJLWMxR76Xw8=
+X-Google-Smtp-Source: ABdhPJzJ+S3b+XHZOW81VUxJ1mHkElsf0B94rZZm/7C5niMZ+YtERtmHEKDtM8Uc8rDW/9L+Ulyr21pntbu0H/HCLJk=
+X-Received: by 2002:a05:6808:1592:: with SMTP id
+ t18mr1076858oiw.123.1622089524295; 
+ Wed, 26 May 2021 21:25:24 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210526084726.552052-1-lee.jones@linaro.org>
- <20210526084726.552052-21-lee.jones@linaro.org>
-In-Reply-To: <20210526084726.552052-21-lee.jones@linaro.org>
+ <20210526084726.552052-22-lee.jones@linaro.org>
+In-Reply-To: <20210526084726.552052-22-lee.jones@linaro.org>
 From: Alex Deucher <alexdeucher@gmail.com>
-Date: Thu, 27 May 2021 00:22:22 -0400
-Message-ID: <CADnq5_OHSFsckrZ4_Oy64fT+fDOf4QXudkhpGeaDqXvTc4JwXA@mail.gmail.com>
-Subject: Re: [PATCH 20/34] drm/amd/display/amdgpu_dm/amdgpu_dm: Fix kernel-doc
- formatting issue
+Date: Thu, 27 May 2021 00:25:13 -0400
+Message-ID: <CADnq5_O0upD-8xOmzd+jGdozS=F9k0+xTTOWYm29Xwop4Th9zg@mail.gmail.com>
+Subject: Re: [PATCH 21/34] drm/amd/display/dc/dce110/dce110_hw_sequencer:
+ Include header containing our prototypes
 To: Lee Jones <lee.jones@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -79,9 +80,9 @@ On Wed, May 26, 2021 at 4:48 AM Lee Jones <lee.jones@linaro.org> wrote:
 >
 > Fixes the following W=3D1 kernel build warning(s):
 >
->  drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:608: warning=
-: Function parameter or member 'interrupt_params' not described in 'dm_dcn_=
-vertical_interrupt0_high_irq'
+>  drivers/gpu/drm/amd/amdgpu/../display/dc/dce110/dce110_hw_sequencer.c:92=
+9:6: warning: no previous prototype for =E2=80=98dce110_edp_wait_for_T12=E2=
+=80=99 [-Wmissing-prototypes]
 >
 > Cc: Harry Wentland <harry.wentland@amd.com>
 > Cc: Leo Li <sunpeng.li@amd.com>
@@ -93,24 +94,22 @@ vertical_interrupt0_high_irq'
 > Cc: dri-devel@lists.freedesktop.org
 > Signed-off-by: Lee Jones <lee.jones@linaro.org>
 > ---
->  drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c | 1 +
+>  1 file changed, 1 insertion(+)
 >
-> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/=
-gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> index ae0a95c5f1d8c..0b4841f377e41 100644
-> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> @@ -605,7 +605,7 @@ static void dm_crtc_high_irq(void *interrupt_params)
->  /**
->   * dm_dcn_vertical_interrupt0_high_irq() - Handles OTG Vertical interrup=
-t0 for
->   * DCN generation ASICs
-> - * @interrupt params - interrupt parameters
-> + * @interrupt_params: interrupt parameters
->   *
->   * Used to set crc window/read out crc value at vertical line 0 position
->   */
+> diff --git a/drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c =
+b/drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c
+> index 9219db79f32b6..1ef1b1b33fb09 100644
+> --- a/drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c
+> +++ b/drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c
+> @@ -64,6 +64,7 @@
+>  #include "atomfirmware.h"
+>
+>  #include "dce110_hw_sequencer.h"
+> +#include "dcn10/dcn10_hw_sequencer.h"
+>
+>  #define GAMMA_HW_POINTS_NUM 256
+>
 > --
 > 2.31.1
 >
