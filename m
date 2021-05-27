@@ -2,45 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC837392460
-	for <lists+dri-devel@lfdr.de>; Thu, 27 May 2021 03:34:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C119639247E
+	for <lists+dri-devel@lfdr.de>; Thu, 27 May 2021 03:44:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D021B6E8B0;
-	Thu, 27 May 2021 01:34:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2EEFD6EDE6;
+	Thu, 27 May 2021 01:44:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E5D9F6E8B0;
- Thu, 27 May 2021 01:34:51 +0000 (UTC)
-IronPort-SDR: Ylfb2cFsEN0MSTQDDT/VllFMyLd5V9TLT2p2dVS56Ozp2FdZhje5rspMVSnB0qWgqmBowebq7p
- 8aMCLi9RaXrA==
-X-IronPort-AV: E=McAfee;i="6200,9189,9996"; a="266516625"
-X-IronPort-AV: E=Sophos;i="5.82,333,1613462400"; d="scan'208";a="266516625"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 May 2021 18:34:48 -0700
-IronPort-SDR: 9C0WMVWptSOmDPa2oXtNoD1gWPS1fSHLjZCxEj5NGluAT3osxSyho1DApMuL80HMjSh5kbh7Oo
- 6tfj/QBb5mzQ==
-X-IronPort-AV: E=Sophos;i="5.82,333,1613462400"; d="scan'208";a="398026811"
-Received: from dceraolo-mobl.amr.corp.intel.com (HELO [10.212.89.65])
- ([10.212.89.65])
- by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 May 2021 18:34:47 -0700
-Subject: Re: [Intel-gfx] [PATCH 1/1] drm/i915: Engine relative MMIO
-To: Matthew Brost <matthew.brost@intel.com>, intel-gfx@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org
-References: <20210526191116.44017-1-matthew.brost@intel.com>
- <20210526191116.44017-2-matthew.brost@intel.com>
-From: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
-Message-ID: <a60bfe95-2a96-540e-7d59-0653886a380a@intel.com>
-Date: Wed, 26 May 2021 18:34:44 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BC85E6E12D
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 May 2021 01:44:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1622079867;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=VpnQjRLTYtvem4bmBp1ngvgaZaWU0A6eMfZva3aBJoc=;
+ b=B5RO3BafCwdd5e/C/Vpai1TiK9oVxl7N85p58LNFZmyiYpB3wOBKScfaOlXzQY38yzO6zk
+ QQUNjNueMVvgheq0bK6uocsAotVbB7ykN0boX5dJWSLyyExGZv2pn8EAdOriNdfKkgF01f
+ rqXzYKmr0rie/Q4mjZTUWTWYd5bgl4s=
+Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
+ [209.85.219.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-328-_s0zYoKQOkCaNtiam1uOEw-1; Wed, 26 May 2021 21:44:26 -0400
+X-MC-Unique: _s0zYoKQOkCaNtiam1uOEw-1
+Received: by mail-qv1-f69.google.com with SMTP id
+ b5-20020a0cc9850000b02901eece87073bso2714205qvk.21
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 May 2021 18:44:25 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=VpnQjRLTYtvem4bmBp1ngvgaZaWU0A6eMfZva3aBJoc=;
+ b=ns+EKzcLq6LSrZpsJiN6xkMR6/xJMiNQAtLJ5x/ItG1/9iF09r7k0TLCBCMFbyqA2j
+ 97a26YuLL8irMb50VRy5QwldobGywggHuPkq7lxdd9RGSC8+aTvvG1JREQHYJzhEkY82
+ yAS1uvHKNTeBDZl1jBmFzhZfiBYDcemnBkDX/uXIlJYYKkcPWdO8ACyhxi6oj+ODrds4
+ Zn8Pb9x0RIM8Xy+dA5hwgivKVHwTd4nNBOXjEYRPzG8G5zr4gFX8hzBIO/daL9/YdJza
+ pdMul6LCb/vmBhzKqMRqrXx0aRY2Cfn+wjmcnH0zopehN3BHFBQuiZNPk6fU6ZgImCcT
+ c2zQ==
+X-Gm-Message-State: AOAM530EH2p2LMaLjgA1gT8ISAjF01rZNQlfxnwYYE5ftvyrgNSKvzno
+ TdKhbPICAF8LSxB/cIG2XHAIVnEsXULxd8OAgJbJtQx4Bqg+paL0EPWA8RYsJ4pnNDOXK4mOVfq
+ ucbyI6/FBLjSUmk3DlTKJ6mdUFMkm
+X-Received: by 2002:ac8:58c9:: with SMTP id u9mr1105870qta.58.1622079865060;
+ Wed, 26 May 2021 18:44:25 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzfR+dYiNTc8bzg8Cbe+4NPqyuhJDn00JrMrexnADTDq6kNzSW0QT/5/OWP1wZQyy97uuc2Sg==
+X-Received: by 2002:ac8:58c9:: with SMTP id u9mr1105834qta.58.1622079864805;
+ Wed, 26 May 2021 18:44:24 -0700 (PDT)
+Received: from t490s (bras-base-toroon474qw-grc-72-184-145-4-219.dsl.bell.ca.
+ [184.145.4.219])
+ by smtp.gmail.com with ESMTPSA id y1sm498232qkp.21.2021.05.26.18.44.22
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 26 May 2021 18:44:23 -0700 (PDT)
+Date: Wed, 26 May 2021 21:44:22 -0400
+From: Peter Xu <peterx@redhat.com>
+To: Alistair Popple <apopple@nvidia.com>
+Subject: Re: [PATCH v9 06/10] mm/memory.c: Allow different return codes for
+ copy_nonpresent_pte()
+Message-ID: <YK75dpdwU9AIKJ6i@t490s>
+References: <20210524132725.12697-1-apopple@nvidia.com>
+ <20210524132725.12697-7-apopple@nvidia.com>
+ <YK6mbf967dV0ljHn@t490s> <2005328.bFqPmhE5MS@nvdebian>
 MIME-Version: 1.0
-In-Reply-To: <20210526191116.44017-2-matthew.brost@intel.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+In-Reply-To: <2005328.bFqPmhE5MS@nvdebian>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,205 +82,132 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: rcampbell@nvidia.com, willy@infradead.org, linux-doc@vger.kernel.org,
+ nouveau@lists.freedesktop.org, bsingharora@gmail.com, hughd@google.com,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ hch@infradead.org, linux-mm@kvack.org, jglisse@redhat.com, bskeggs@redhat.com,
+ jgg@nvidia.com, jhubbard@nvidia.com, akpm@linux-foundation.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Thu, May 27, 2021 at 11:20:36AM +1000, Alistair Popple wrote:
+> On Thursday, 27 May 2021 5:50:05 AM AEST Peter Xu wrote:
+> > On Mon, May 24, 2021 at 11:27:21PM +1000, Alistair Popple wrote:
+> > > Currently if copy_nonpresent_pte() returns a non-zero value it is
+> > > assumed to be a swap entry which requires further processing outside the
+> > > loop in copy_pte_range() after dropping locks. This prevents other
+> > > values being returned to signal conditions such as failure which a
+> > > subsequent change requires.
+> > > 
+> > > Instead make copy_nonpresent_pte() return an error code if further
+> > > processing is required and read the value for the swap entry in the main
+> > > loop under the ptl.
+> > > 
+> > > Signed-off-by: Alistair Popple <apopple@nvidia.com>
+> > > 
+> > > ---
+> > > 
+> > > v9:
+> > > 
+> > > New for v9 to allow device exclusive handling to occur in
+> > > copy_nonpresent_pte().
+> > > ---
+> > > 
+> > >  mm/memory.c | 12 +++++++-----
+> > >  1 file changed, 7 insertions(+), 5 deletions(-)
+> > > 
+> > > diff --git a/mm/memory.c b/mm/memory.c
+> > > index 2fb455c365c2..e061cfa18c11 100644
+> > > --- a/mm/memory.c
+> > > +++ b/mm/memory.c
+> > > @@ -718,7 +718,7 @@ copy_nonpresent_pte(struct mm_struct *dst_mm, struct
+> > > mm_struct *src_mm,> 
+> > >       if (likely(!non_swap_entry(entry))) {
+> > >       
+> > >               if (swap_duplicate(entry) < 0)
+> > > 
+> > > -                     return entry.val;
+> > > +                     return -EAGAIN;
+> > > 
+> > >               /* make sure dst_mm is on swapoff's mmlist. */
+> > >               if (unlikely(list_empty(&dst_mm->mmlist))) {
+> > > 
+> > > @@ -974,11 +974,13 @@ copy_pte_range(struct vm_area_struct *dst_vma,
+> > > struct vm_area_struct *src_vma,> 
+> > >                       continue;
+> > >               
+> > >               }
+> > >               if (unlikely(!pte_present(*src_pte))) {
+> > > 
+> > > -                     entry.val = copy_nonpresent_pte(dst_mm, src_mm,
+> > > -                                                     dst_pte, src_pte,
+> > > -                                                     src_vma, addr, rss);
+> > > -                     if (entry.val)
+> > > +                     ret = copy_nonpresent_pte(dst_mm, src_mm,
+> > > +                                             dst_pte, src_pte,
+> > > +                                             src_vma, addr, rss);
+> > > +                     if (ret == -EAGAIN) {
+> > > +                             entry = pte_to_swp_entry(*src_pte);
+> > > 
+> > >                               break;
+> > > 
+> > > +                     }
+> > > 
+> > >                       progress += 8;
+> > >                       continue;
+> > >               
+> > >               }
+> > 
+> > Note that -EAGAIN was previously used by copy_present_page() for early cow
+> > use.  Here later although we check entry.val first:
+> > 
+> >         if (entry.val) {
+> >                 if (add_swap_count_continuation(entry, GFP_KERNEL) < 0) {
+> >                         ret = -ENOMEM;
+> >                         goto out;
+> >                 }
+> >                 entry.val = 0;
+> >         } else if (ret) {
+> >                 WARN_ON_ONCE(ret != -EAGAIN);
+> >                 prealloc = page_copy_prealloc(src_mm, src_vma, addr);
+> >                 if (!prealloc)
+> >                         return -ENOMEM;
+> >                 /* We've captured and resolved the error. Reset, try again.
+> > */ ret = 0;
+> >         }
+> > 
+> > We didn't reset "ret" in entry.val case (maybe we should?). Then in the next
+> > round of "goto again" if "ret" is unluckily untouched, it could reach the
+> > 2nd if check, and I think it could cause an unexpected
+> > page_copy_prealloc().
+> 
+> Thanks, I had considered that but saw "ret" was always set either by 
+> copy_nonpresent_pte() or copy_present_pte(). However missed the "unlucky" case 
+> at the start of the loop:
+> 
+> 	if (progress >= 32) {
+> 		progress = 0;
+> 		if (need_resched() ||
+> 				spin_needbreak(src_ptl) || pin_needbreak(dst_ptl))
+> 			break;
+> 
+> Looking at this again though checking different variables to figure out what 
+> to do outside the locks and reusing error codes seems error prone. I reused -
+> EAGAIN for copy_nonpresent_pte() simply because that seemed the most sensible 
+> error code, but I don't think that aids readability and it might be better to 
+> use a unique error code for each case needing extra handling.
+> 
+> So it might be better if I update this patch to:
+> 1) Use unique error codes for each case requiring special handling outside the 
+> lock.
+> 2) Only check "ret" to determine what to do outside locks (ie. not entry.val)
+> 3) Document these.
+> 4) Always reset ret after handling.
+> 
+> Thoughts?
 
+Looks good to me.  Thanks,
 
-On 5/26/2021 12:11 PM, Matthew Brost wrote:
-> With virtual engines, it is no longer possible to know which specific
-> physical engine a given request will be executed on at the time that
-> request is generated. This means that the request itself must be engine
-> agnostic - any direct register writes must be relative to the engine
-> and not absolute addresses.
->
-> The LRI command has support for engine relative addressing. However,
-> the mechanism is not transparent to the driver. The scheme for Gen11
-> (MI_LRI_ADD_CS_MMIO_START) requires the LRI address to have no
-> absolute engine base component in the ring and BBs. The hardware then
-> adds on the correct engine offset at execution time. This differs
-> slightly for LRC where the upper bits of the base component are just
-> ignored.
->
-> Due to the non-trivial and differing schemes on different hardware, it
-> is not possible to simply update the code that creates the LRI
-> commands to set a remap flag and let the hardware get on with it.
-> Instead, this patch adds function wrappers for generating the LRI
-> command itself and then for constructing the correct address to use
-> with the LRI.
->
-> Bspec: 45606
-> Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
-> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
-> CC: Rodrigo Vivi <rodrigo.vivi@intel.com>
-> CC: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-> CC: Chris P Wilson <chris.p.wilson@intel.com>
-> CC: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
-> ---
->   drivers/gpu/drm/i915/gem/i915_gem_context.c  |  7 ++++---
->   drivers/gpu/drm/i915/gt/intel_engine_cs.c    | 22 ++++++++++++++++++++
->   drivers/gpu/drm/i915/gt/intel_engine_types.h |  3 +++
->   drivers/gpu/drm/i915/gt/intel_gpu_commands.h |  6 ++++++
->   drivers/gpu/drm/i915/gt/intel_lrc.c          |  4 +---
->   5 files changed, 36 insertions(+), 6 deletions(-)
->
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context.c b/drivers/gpu/drm/i915/gem/i915_gem_context.c
-> index 188dee13e017..a8a195bfcb57 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_context.c
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_context.c
-> @@ -1211,7 +1211,7 @@ static int emit_ppgtt_update(struct i915_request *rq, void *data)
->   {
->   	struct i915_address_space *vm = rq->context->vm;
->   	struct intel_engine_cs *engine = rq->engine;
-> -	u32 base = engine->mmio_base;
-> +	u32 base = engine->lri_mmio_base;
->   	u32 *cs;
->   	int i;
->   
-> @@ -1223,7 +1223,7 @@ static int emit_ppgtt_update(struct i915_request *rq, void *data)
->   		if (IS_ERR(cs))
->   			return PTR_ERR(cs);
->   
-> -		*cs++ = MI_LOAD_REGISTER_IMM(2);
-> +		*cs++ = MI_LOAD_REGISTER_IMM_REL(engine, 2);
-
-This is the only place where you changed the behavior and I think it is 
-going away 
-(https://lists.freedesktop.org/archives/dri-devel/2021-May/305328.html), 
-so the new macro is potentially not needed.
-
->   
->   		*cs++ = i915_mmio_reg_offset(GEN8_RING_PDP_UDW(base, 0));
->   		*cs++ = upper_32_bits(pd_daddr);
-> @@ -1245,7 +1245,8 @@ static int emit_ppgtt_update(struct i915_request *rq, void *data)
->   		if (IS_ERR(cs))
->   			return PTR_ERR(cs);
->   
-> -		*cs++ = MI_LOAD_REGISTER_IMM(2 * GEN8_3LVL_PDPES) | MI_LRI_FORCE_POSTED;
-> +		*cs++ = MI_LOAD_REGISTER_IMM_REL(engine, 2 * GEN8_3LVL_PDPES) |
-> +			MI_LRI_FORCE_POSTED;
->   		for (i = GEN8_3LVL_PDPES; i--; ) {
->   			const dma_addr_t pd_daddr = i915_page_dir_dma_addr(ppgtt, i);
->   
-> diff --git a/drivers/gpu/drm/i915/gt/intel_engine_cs.c b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
-> index 3f9a811eb02b..0de6bc533776 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_engine_cs.c
-> +++ b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
-> @@ -15,6 +15,7 @@
->   #include "intel_engine_pm.h"
->   #include "intel_engine_user.h"
->   #include "intel_execlists_submission.h"
-> +#include "intel_gpu_commands.h"
->   #include "intel_gt.h"
->   #include "intel_gt_requests.h"
->   #include "intel_gt_pm.h"
-> @@ -222,6 +223,25 @@ static u32 __engine_mmio_base(struct drm_i915_private *i915,
->   	return bases[i].base;
->   }
->   
-> +static bool i915_engine_has_relative_lri(const struct intel_engine_cs *engine)
-> +{
-> +	if (INTEL_GEN(engine->i915) < 11)
-> +		return false;
-> +
-> +	return true;
-
-We already have intel_engine_has_relative_mmio(), can just re-use that. 
-Note that I915_ENGINE_HAS_RELATIVE_MMIO is only set for gen12+ at the 
-moment; this was because CI failed on ICL and since we urgently needed 
-the change for gen12 we just excluded gen11 and pushed (see Mika's 
-comment @ 
-https://lists.freedesktop.org/archives/intel-gfx/2019-September/211812.html). 
-It should be ok to extend that to gen11 if we get a green CI.
-
-> +}
-> +
-> +static void lri_init(struct intel_engine_cs *engine)
-> +{
-> +	if (i915_engine_has_relative_lri(engine)) {
-> +		engine->lri_cmd_mode = MI_LRI_LRM_CS_MMIO;
-> +		engine->lri_mmio_base = 0;
-> +	} else {
-> +		engine->lri_cmd_mode = 0;
-> +		engine->lri_mmio_base = engine->mmio_base;
-> +	}
-> +}
-> +
->   static void __sprint_engine_name(struct intel_engine_cs *engine)
->   {
->   	/*
-> @@ -329,6 +349,8 @@ static int intel_engine_setup(struct intel_gt *gt, enum intel_engine_id id)
->   	/* Nothing to do here, execute in order of dependencies */
->   	engine->schedule = NULL;
->   
-> +	lri_init(engine);
-> +
->   	ewma__engine_latency_init(&engine->latency);
->   	seqcount_init(&engine->stats.lock);
->   
-> diff --git a/drivers/gpu/drm/i915/gt/intel_engine_types.h b/drivers/gpu/drm/i915/gt/intel_engine_types.h
-> index 9ef349cd5cea..e48da23c9b0f 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_engine_types.h
-> +++ b/drivers/gpu/drm/i915/gt/intel_engine_types.h
-> @@ -310,6 +310,9 @@ struct intel_engine_cs {
->   	u32 context_size;
->   	u32 mmio_base;
->   
-> +	u32 lri_mmio_base;
-> +	u32 lri_cmd_mode;
-> +
->   	/*
->   	 * Some w/a require forcewake to be held (which prevents RC6) while
->   	 * a particular engine is active. If so, we set fw_domain to which
-> diff --git a/drivers/gpu/drm/i915/gt/intel_gpu_commands.h b/drivers/gpu/drm/i915/gt/intel_gpu_commands.h
-> index 2694dbb9967e..f0f101134fd8 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_gpu_commands.h
-> +++ b/drivers/gpu/drm/i915/gt/intel_gpu_commands.h
-> @@ -134,8 +134,14 @@
->    *   simply ignores the register load under certain conditions.
->    * - One can actually load arbitrary many arbitrary registers: Simply issue x
->    *   address/value pairs. Don't overdue it, though, x <= 2^4 must hold!
-> + * - Newer hardware supports engine relative addressing but older hardware does
-> + *   not. This is required for hw engine load balancing. The
-> + *   MI_LOAD_REGISTER_IMM_REL macro can be used on both newer and older
-> + *   hardware.
->    */
->   #define MI_LOAD_REGISTER_IMM(x)	MI_INSTR(0x22, 2*(x)-1)
-> +#define MI_LOAD_REGISTER_IMM_REL(egine, x)	\
-> +	(MI_LOAD_REGISTER_IMM(x) | engine->lri_cmd_mode)
-
-This naming is a bit confusing, because MI_LOAD_REGISTER_IMM_REL is not 
-actually always relative so we also need to be careful of how we provide 
-the register values (i.e. with or without the mmio base). Also a bit 
-worrying for future proofing, since we'd need to make sure that any new 
-CS register access goes explicitly relative. Just my 2 cents, I know 
-there was contention on this patch in the past so I'm not going to jump 
-in on the fight :)
-
-I have not checked if any of the other numerous instances of 
-MI_LOAD_REGISTER_IMM would benefit from going relative. I assume none is 
-strictly required, since otherwise virtual engines wouldn't work.
-
-Daniele
-
->   /* Gen11+. addr = base + (ctx_restore ? offset & GENMASK(12,2) : offset) */
->   #define   MI_LRI_LRM_CS_MMIO		REG_BIT(19)
->   #define   MI_LRI_FORCE_POSTED		(1<<12)
-> diff --git a/drivers/gpu/drm/i915/gt/intel_lrc.c b/drivers/gpu/drm/i915/gt/intel_lrc.c
-> index aafe2a4df496..390628666564 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_lrc.c
-> +++ b/drivers/gpu/drm/i915/gt/intel_lrc.c
-> @@ -44,11 +44,9 @@ static void set_offsets(u32 *regs,
->   		flags = *data >> 6;
->   		data++;
->   
-> -		*regs = MI_LOAD_REGISTER_IMM(count);
-> +		*regs = MI_LOAD_REGISTER_IMM_REL(engine, count);
->   		if (flags & POSTED)
->   			*regs |= MI_LRI_FORCE_POSTED;
-> -		if (INTEL_GEN(engine->i915) >= 11)
-> -			*regs |= MI_LRI_LRM_CS_MMIO;
->   		regs++;
->   
->   		GEM_BUG_ON(!count);
+-- 
+Peter Xu
 
