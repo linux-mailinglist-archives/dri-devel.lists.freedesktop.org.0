@@ -1,47 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4AC61392EEC
-	for <lists+dri-devel@lfdr.de>; Thu, 27 May 2021 15:04:07 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B095F392EF1
+	for <lists+dri-devel@lfdr.de>; Thu, 27 May 2021 15:04:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A5B7B6F382;
-	Thu, 27 May 2021 13:04:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2C27C6F387;
+	Thu, 27 May 2021 13:04:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x532.google.com (mail-pg1-x532.google.com
- [IPv6:2607:f8b0:4864:20::532])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5F09E6F381
- for <dri-devel@lists.freedesktop.org>; Thu, 27 May 2021 13:04:03 +0000 (UTC)
-Received: by mail-pg1-x532.google.com with SMTP id i5so3679546pgm.0
- for <dri-devel@lists.freedesktop.org>; Thu, 27 May 2021 06:04:03 -0700 (PDT)
+Received: from mail-pg1-x530.google.com (mail-pg1-x530.google.com
+ [IPv6:2607:f8b0:4864:20::530])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 08F9F6F386
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 May 2021 13:04:12 +0000 (UTC)
+Received: by mail-pg1-x530.google.com with SMTP id f22so3633655pgb.9
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 May 2021 06:04:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=MYsbpvk1elzDffjY4lVqlSBet3lNsQF2QtHREtnNje4=;
- b=IyvYtT1AB6E4xwxKSFDYkZ5n98xR0l1LZiUkJW0MW5CgH/i5aGIsnRF/JPxxLV994w
- 6zBxh1X3gHavrt/AsvfReKnILPfzC/l6kkFOeK3VrBIogUw16ui2Ro+3Hw3QPFy2pWGM
- +/sNzLuWK+E6zh1p0Gxt9RmiN+wGdEuT6cNDQ=
+ bh=t98IQ0DRt9rdYTgtaruQg3/PAS3qE8eaMmCBaIqRh14=;
+ b=GAjg2iwD8z4KXC0wmxl+b72WGOgo3axuh1N2ckUZTa0L2t7lEjUG/rd9vUciIgjM6/
+ BBoe8qhQS9McLcHa3Vql2S8tpN9ukDLaEDnz4WKO3KFwq/co1Y7IP35DmK8g86ONb0cC
+ 2QkhzvjQas2dIg52wH3GUtMDzBV3jAGcZRtko=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=MYsbpvk1elzDffjY4lVqlSBet3lNsQF2QtHREtnNje4=;
- b=VCsqpJAELY7Tnn6VWq6ctSHjx1/z7Rb7t7DlmwzCXzx4Vb3Y2t4k7QmzwahlOeyYQy
- VV/kZYXjhgwM/3do4E6Ac63xzBe2w8t1WWtl6VNLFt+JXpESr5x2bDf8y/wdC8fL1tPz
- mqvj3eqwNaUnBSveF8wmbXNDgsgY+ZhGkkOheSA1WIdtpExWaF9eodZtkTXOlUQHTrk0
- Ri/yEp+zuX4XBwTvMNHq5wQCRPijcaiU8sv0nnaeWA9caCgP1CeyXKPnjcUi8J4vY+P9
- pwy0DtndyHKj6ab0uXFVCLsHK1gEROvda8jkHUKb0gHklpCt0uZ4L8X2J2cr6ICpStwE
- jBSg==
-X-Gm-Message-State: AOAM530/7yUpVPXyqsd6CflTqhBP1GXVB9tvkU6+0gE5NIcp+Ig0GP0p
- maKYu6N5GG6vnE1z5SakUOpOOw==
-X-Google-Smtp-Source: ABdhPJxiOdBGPcWtjBuPQLZxflfz/miVWdNfGLJRIpkM261jkyasjOonUIh30AqgExiX3771SeFH4Q==
-X-Received: by 2002:a63:4d11:: with SMTP id a17mr3584089pgb.266.1622120642890; 
- Thu, 27 May 2021 06:04:02 -0700 (PDT)
+ bh=t98IQ0DRt9rdYTgtaruQg3/PAS3qE8eaMmCBaIqRh14=;
+ b=OY6nLRC5oSRomHJmjXR5Ns0mY5urBA7OLNgU7KoMT6lI6JoGpb9ucQo+NxTvM6pMyD
+ Yp3vZMulVyq7U60iQYb2hgLGRcMtfY7/F4Ejh8TjIJn33tBTVIFjZiKpcZAtJI6FJgJL
+ H6s9D4TcX/QZGssC6ORH7RzMxQ0HBr8hDDqfHQlP1T1qpEijSbRLLvCLaGD7+tIUtR7N
+ mQhl6ojiliR0JqHm7tz644zMjtgCS0hBRAL4rl6nsgxWoaSCccHpN0JB1045MUz9N37g
+ gQgc4K/0EDY7tfca/ZAFproHo0XdqHUpOCXKYF+CralxgHl4X1QTjVYsmRzwdF/rjLCM
+ NcQw==
+X-Gm-Message-State: AOAM532n3uDyXgxFXChYzL8g2EvYzMOCQ0Nql5d7Adz8l/Ht2LqorPLo
+ mFZrCIEwcobtb4fmBG3PlqOO8w==
+X-Google-Smtp-Source: ABdhPJz5SQWTqZi0xc7pup6EKCV3Dg34qwCaD2h6fUXISa0uHIOvWKamMjceM9SgliQmqLBbNqrp+Q==
+X-Received: by 2002:a62:cd49:0:b029:2d8:ae8d:6a9f with SMTP id
+ o70-20020a62cd490000b02902d8ae8d6a9fmr3674431pfg.50.1622120651592; 
+ Thu, 27 May 2021 06:04:11 -0700 (PDT)
 Received: from localhost ([2401:fa00:95:205:a93:378d:9a9e:3b70])
- by smtp.gmail.com with UTF8SMTPSA id n1sm1934646pjv.40.2021.05.27.06.03.55
+ by smtp.gmail.com with UTF8SMTPSA id w197sm1969835pfc.5.2021.05.27.06.04.04
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 27 May 2021 06:04:02 -0700 (PDT)
+ Thu, 27 May 2021 06:04:11 -0700 (PDT)
 From: Claire Chang <tientzu@chromium.org>
 To: Rob Herring <robh+dt@kernel.org>, mpe@ellerman.id.au,
  Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
@@ -49,10 +50,9 @@ To: Rob Herring <robh+dt@kernel.org>, mpe@ellerman.id.au,
  Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>, boris.ostrovsky@oracle.com,
  jgross@suse.com, Christoph Hellwig <hch@lst.de>,
  Marek Szyprowski <m.szyprowski@samsung.com>
-Subject: [PATCH v8 13/15] dma-direct: Allocate memory from restricted DMA pool
- if available
-Date: Thu, 27 May 2021 21:03:27 +0800
-Message-Id: <20210527130329.1853588-3-tientzu@chromium.org>
+Subject: [PATCH v8 14/15] dt-bindings: of: Add restricted DMA pool
+Date: Thu, 27 May 2021 21:03:28 +0800
+Message-Id: <20210527130329.1853588-4-tientzu@chromium.org>
 X-Mailer: git-send-email 2.31.1.818.g46aad6cb9e-goog
 In-Reply-To: <20210527130329.1853588-1-tientzu@chromium.org>
 References: <20210527130329.1853588-1-tientzu@chromium.org>
@@ -93,121 +93,82 @@ Cc: heikki.krogerus@linux.intel.com, thomas.hellstrom@linux.intel.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The restricted DMA pool is preferred if available.
-
-The restricted DMA pools provide a basic level of protection against the
-DMA overwriting buffer contents at unexpected times. However, to protect
-against general data leakage and system memory corruption, the system
-needs to provide a way to lock down the memory access, e.g., MPU.
-
-Note that since coherent allocation needs remapping, one must set up
-another device coherent pool by shared-dma-pool and use
-dma_alloc_from_dev_coherent instead for atomic coherent allocation.
+Introduce the new compatible string, restricted-dma-pool, for restricted
+DMA. One can specify the address and length of the restricted DMA memory
+region by restricted-dma-pool in the reserved-memory node.
 
 Signed-off-by: Claire Chang <tientzu@chromium.org>
 ---
- kernel/dma/direct.c | 38 +++++++++++++++++++++++++++++---------
- 1 file changed, 29 insertions(+), 9 deletions(-)
+ .../reserved-memory/reserved-memory.txt       | 36 +++++++++++++++++--
+ 1 file changed, 33 insertions(+), 3 deletions(-)
 
-diff --git a/kernel/dma/direct.c b/kernel/dma/direct.c
-index eb4098323bbc..0d521f78c7b9 100644
---- a/kernel/dma/direct.c
-+++ b/kernel/dma/direct.c
-@@ -78,6 +78,10 @@ static bool dma_coherent_ok(struct device *dev, phys_addr_t phys, size_t size)
- static void __dma_direct_free_pages(struct device *dev, struct page *page,
- 				    size_t size)
- {
-+#ifdef CONFIG_DMA_RESTRICTED_POOL
-+	if (swiotlb_free(dev, page, size))
-+		return;
-+#endif
- 	dma_free_contiguous(dev, page, size);
- }
+diff --git a/Documentation/devicetree/bindings/reserved-memory/reserved-memory.txt b/Documentation/devicetree/bindings/reserved-memory/reserved-memory.txt
+index e8d3096d922c..46804f24df05 100644
+--- a/Documentation/devicetree/bindings/reserved-memory/reserved-memory.txt
++++ b/Documentation/devicetree/bindings/reserved-memory/reserved-memory.txt
+@@ -51,6 +51,23 @@ compatible (optional) - standard definition
+           used as a shared pool of DMA buffers for a set of devices. It can
+           be used by an operating system to instantiate the necessary pool
+           management subsystem if necessary.
++        - restricted-dma-pool: This indicates a region of memory meant to be
++          used as a pool of restricted DMA buffers for a set of devices. The
++          memory region would be the only region accessible to those devices.
++          When using this, the no-map and reusable properties must not be set,
++          so the operating system can create a virtual mapping that will be used
++          for synchronization. The main purpose for restricted DMA is to
++          mitigate the lack of DMA access control on systems without an IOMMU,
++          which could result in the DMA accessing the system memory at
++          unexpected times and/or unexpected addresses, possibly leading to data
++          leakage or corruption. The feature on its own provides a basic level
++          of protection against the DMA overwriting buffer contents at
++          unexpected times. However, to protect against general data leakage and
++          system memory corruption, the system needs to provide way to lock down
++          the memory access, e.g., MPU. Note that since coherent allocation
++          needs remapping, one must set up another device coherent pool by
++          shared-dma-pool and use dma_alloc_from_dev_coherent instead for atomic
++          coherent allocation.
+         - vendor specific string in the form <vendor>,[<device>-]<usage>
+ no-map (optional) - empty property
+     - Indicates the operating system must not create a virtual mapping
+@@ -85,10 +102,11 @@ memory-region-names (optional) - a list of names, one for each corresponding
  
-@@ -92,7 +96,17 @@ static struct page *__dma_direct_alloc_pages(struct device *dev, size_t size,
+ Example
+ -------
+-This example defines 3 contiguous regions are defined for Linux kernel:
++This example defines 4 contiguous regions for Linux kernel:
+ one default of all device drivers (named linux,cma@72000000 and 64MiB in size),
+-one dedicated to the framebuffer device (named framebuffer@78000000, 8MiB), and
+-one for multimedia processing (named multimedia-memory@77000000, 64MiB).
++one dedicated to the framebuffer device (named framebuffer@78000000, 8MiB),
++one for multimedia processing (named multimedia-memory@77000000, 64MiB), and
++one for restricted dma pool (named restricted_dma_reserved@0x50000000, 64MiB).
  
- 	gfp |= dma_direct_optimal_gfp_mask(dev, dev->coherent_dma_mask,
- 					   &phys_limit);
--	page = dma_alloc_contiguous(dev, size, gfp);
+ / {
+ 	#address-cells = <1>;
+@@ -120,6 +138,11 @@ one for multimedia processing (named multimedia-memory@77000000, 64MiB).
+ 			compatible = "acme,multimedia-memory";
+ 			reg = <0x77000000 0x4000000>;
+ 		};
 +
-+#ifdef CONFIG_DMA_RESTRICTED_POOL
-+	page = swiotlb_alloc(dev, size);
-+	if (page && !dma_coherent_ok(dev, page_to_phys(page), size)) {
-+		__dma_direct_free_pages(dev, page, size);
-+		page = NULL;
-+	}
-+#endif
++		restricted_dma_reserved: restricted_dma_reserved {
++			compatible = "restricted-dma-pool";
++			reg = <0x50000000 0x4000000>;
++		};
+ 	};
+ 
+ 	/* ... */
+@@ -138,4 +161,11 @@ one for multimedia processing (named multimedia-memory@77000000, 64MiB).
+ 		memory-region = <&multimedia_reserved>;
+ 		/* ... */
+ 	};
 +
-+	if (!page)
-+		page = dma_alloc_contiguous(dev, size, gfp);
- 	if (page && !dma_coherent_ok(dev, page_to_phys(page), size)) {
- 		dma_free_contiguous(dev, page, size);
- 		page = NULL;
-@@ -148,7 +162,7 @@ void *dma_direct_alloc(struct device *dev, size_t size,
- 		gfp |= __GFP_NOWARN;
- 
- 	if ((attrs & DMA_ATTR_NO_KERNEL_MAPPING) &&
--	    !force_dma_unencrypted(dev)) {
-+	    !force_dma_unencrypted(dev) && !is_dev_swiotlb_force(dev)) {
- 		page = __dma_direct_alloc_pages(dev, size, gfp & ~__GFP_ZERO);
- 		if (!page)
- 			return NULL;
-@@ -161,18 +175,23 @@ void *dma_direct_alloc(struct device *dev, size_t size,
- 	}
- 
- 	if (!IS_ENABLED(CONFIG_ARCH_HAS_DMA_SET_UNCACHED) &&
--	    !IS_ENABLED(CONFIG_DMA_DIRECT_REMAP) &&
--	    !dev_is_dma_coherent(dev))
-+	    !IS_ENABLED(CONFIG_DMA_DIRECT_REMAP) && !dev_is_dma_coherent(dev) &&
-+	    !is_dev_swiotlb_force(dev))
- 		return arch_dma_alloc(dev, size, dma_handle, gfp, attrs);
- 
- 	/*
- 	 * Remapping or decrypting memory may block. If either is required and
- 	 * we can't block, allocate the memory from the atomic pools.
-+	 * If restricted DMA (i.e., is_dev_swiotlb_force) is required, one must
-+	 * set up another device coherent pool by shared-dma-pool and use
-+	 * dma_alloc_from_dev_coherent instead.
- 	 */
- 	if (IS_ENABLED(CONFIG_DMA_COHERENT_POOL) &&
- 	    !gfpflags_allow_blocking(gfp) &&
- 	    (force_dma_unencrypted(dev) ||
--	     (IS_ENABLED(CONFIG_DMA_DIRECT_REMAP) && !dev_is_dma_coherent(dev))))
-+	     (IS_ENABLED(CONFIG_DMA_DIRECT_REMAP) &&
-+	      !dev_is_dma_coherent(dev))) &&
-+	    !is_dev_swiotlb_force(dev))
- 		return dma_direct_alloc_from_pool(dev, size, dma_handle, gfp);
- 
- 	/* we always manually zero the memory once we are done */
-@@ -253,15 +272,15 @@ void dma_direct_free(struct device *dev, size_t size,
- 	unsigned int page_order = get_order(size);
- 
- 	if ((attrs & DMA_ATTR_NO_KERNEL_MAPPING) &&
--	    !force_dma_unencrypted(dev)) {
-+	    !force_dma_unencrypted(dev) && !is_dev_swiotlb_force(dev)) {
- 		/* cpu_addr is a struct page cookie, not a kernel address */
- 		dma_free_contiguous(dev, cpu_addr, size);
- 		return;
- 	}
- 
- 	if (!IS_ENABLED(CONFIG_ARCH_HAS_DMA_SET_UNCACHED) &&
--	    !IS_ENABLED(CONFIG_DMA_DIRECT_REMAP) &&
--	    !dev_is_dma_coherent(dev)) {
-+	    !IS_ENABLED(CONFIG_DMA_DIRECT_REMAP) && !dev_is_dma_coherent(dev) &&
-+	    !is_dev_swiotlb_force(dev)) {
- 		arch_dma_free(dev, size, cpu_addr, dma_addr, attrs);
- 		return;
- 	}
-@@ -289,7 +308,8 @@ struct page *dma_direct_alloc_pages(struct device *dev, size_t size,
- 	void *ret;
- 
- 	if (IS_ENABLED(CONFIG_DMA_COHERENT_POOL) &&
--	    force_dma_unencrypted(dev) && !gfpflags_allow_blocking(gfp))
-+	    force_dma_unencrypted(dev) && !gfpflags_allow_blocking(gfp) &&
-+	    !is_dev_swiotlb_force(dev))
- 		return dma_direct_alloc_from_pool(dev, size, dma_handle, gfp);
- 
- 	page = __dma_direct_alloc_pages(dev, size, gfp);
++	pcie_device: pcie_device@0,0 {
++		reg = <0x83010000 0x0 0x00000000 0x0 0x00100000
++		       0x83010000 0x0 0x00100000 0x0 0x00100000>;
++		memory-region = <&restricted_dma_mem_reserved>;
++		/* ... */
++	};
+ };
 -- 
 2.31.1.818.g46aad6cb9e-goog
 
