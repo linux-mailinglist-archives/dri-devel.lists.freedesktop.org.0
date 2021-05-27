@@ -2,61 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4AAFD392C90
-	for <lists+dri-devel@lfdr.de>; Thu, 27 May 2021 13:22:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6082E392C94
+	for <lists+dri-devel@lfdr.de>; Thu, 27 May 2021 13:22:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2A8E26EE7F;
-	Thu, 27 May 2021 11:22:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CE7C26EE81;
+	Thu, 27 May 2021 11:22:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x42b.google.com (mail-pf1-x42b.google.com
- [IPv6:2607:f8b0:4864:20::42b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AE0576EE7F
- for <dri-devel@lists.freedesktop.org>; Thu, 27 May 2021 11:22:48 +0000 (UTC)
-Received: by mail-pf1-x42b.google.com with SMTP id x188so328751pfd.7
- for <dri-devel@lists.freedesktop.org>; Thu, 27 May 2021 04:22:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=0S3o4TmqPj949RkfsbYV2YGOzI88SNqbU5TbO9tEHyI=;
- b=Ewvx779weTiJfXIMi9ZmWsDQf7Wppa8wKfBmQpnlGK1gYQbj5KDSbLnxSopg/5L4it
- dQGvJRIF/hZ8AIWUQCJS/91jYQPXbBgBKjW3T91ML7h5wBDr6ZSUoViY+VxKt5sELPqC
- IzQDAeEiusyysF525gytNL1LDNbk5Z68Dsa9pgyO46/54+xkQK1A6SHEJDyQ7MJdPQA5
- uJGE19pgZVDddAbSDtFGbIW+gwfk3pH6egMbt/5jsixw+VSXzzOlF1OcvPWzU/SFEtvs
- eB4zkf3bQOJ3aaDyr80HljWOhIc79KPCfOJPneQLAcckIvxh0lrHOHr7+fQD7EzWkFUm
- oDrg==
+Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com
+ [IPv6:2a00:1450:4864:20::62a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B12C96EE82
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 May 2021 11:22:49 +0000 (UTC)
+Received: by mail-ej1-x62a.google.com with SMTP id jt22so7440216ejb.7
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 May 2021 04:22:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=Hsq4MI72k1IdZdZS7WsYodiUse6OcN72CW+w7uTnZMU=;
+ b=DV98uznTRt5lRl//DvXjXXVQyMbRKkQKY19rl9cvS/yatz7d60aTj6R107nyR3aVlF
+ 5oriuwnZJnZtRBH9/5Cx4lJN5pEz/Wmvos/s4Os403W7s4abI5CWZIoQWapjZgKljdYv
+ JjEh1uSLdEDYxd1OMmTvMXIbKQHggjbdom5Yw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=0S3o4TmqPj949RkfsbYV2YGOzI88SNqbU5TbO9tEHyI=;
- b=I/bhg1OUyvVx2OnaZ14FYjizvfhmYX6JkkdNGupkh4XKoK/PyiUKAVDZxOS6n16KHq
- y1RgHxhetlAokXq3UgGalfGB8YpnYheyd55cqpfsK6Dt6gUc4g9jzXan58pHtWKAhGQz
- szh38vB06DEfqXSzJILWF/RkT0Q7YYFqTdzNooerSYjAx7zFgCEUE95sW+wyC5heBTFB
- dGFWGAlH/Zm8Ewf3FbdLs/cUYi2LGgZe6P4vrG0g75QgpJbr/4RW26kOuQXA8PFDMi3D
- HCwM44LAgLPyaInOHMTg1hjmpkzb4YlRUci71+pL3Lg/o/xXTx/UblNJjARYhaim/Sxd
- opPw==
-X-Gm-Message-State: AOAM531p2NRDHWwrvDCtybYp7ko30Eu3FH/yPdmHKSPbCf2pYydFXexl
- e1vp5bHv7PAFvOrbOy9Zo2Qd9aUU7jwsiw==
-X-Google-Smtp-Source: ABdhPJxJQGkbP2odIj6/7Bac4KaIs9VV0rlA86CrnvHHvaucePPTTXlbmYXd+wa4wV6FLGKk+IcYyA==
-X-Received: by 2002:a62:5306:0:b029:2de:6ce0:5526 with SMTP id
- h6-20020a6253060000b02902de6ce05526mr2876882pfb.13.1622114568195; 
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=Hsq4MI72k1IdZdZS7WsYodiUse6OcN72CW+w7uTnZMU=;
+ b=BNoh3CScpFmEup1ckIZJh4WNzNS3Y9/ptreikhMMM2oLxPzgf/IGVlV5ss5izoO1Nq
+ ACQ3oLPpWVcnin6CE5dxzmvEuGA1mnnLQobdvEA3QW3SkXlGOi9mgSXprHbKwaGuX+I6
+ 3B49yM7cEtnw24AM0LstRN2aMKx/L+Hq6GP2i9oQ4U3BqIpk74qc4ugHjN8EXDkjHF35
+ kB20B56wkg4uN8g8OK1vv59dMsURS5eN/XN+ZisAaxtGYY58fELrOZLvxIh2F3ZhwgNB
+ DbUtkngK5Tzvv6PAj9fFPfFfrQzhCRvPBZIwkkERAoIsBXWqK1qh531NIhC25GNfU7fT
+ 3vAQ==
+X-Gm-Message-State: AOAM533GtaTNFKRwl7xC0JSe+RDJJVb58t0eggdy0vCiaSOByM5ZMG8k
+ BNzb+4H59cZeanyy4QuGI0FO2g==
+X-Google-Smtp-Source: ABdhPJwkarwsxetAcfk71UD0ZDOG++V183h3c4XK4zicbtcGlnbV+MqLdDZtdCgsJVB2/cWm7RkXzw==
+X-Received: by 2002:a17:906:c247:: with SMTP id
+ bl7mr3362214ejb.288.1622114568300; 
  Thu, 27 May 2021 04:22:48 -0700 (PDT)
-Received: from arch2.localdomain ([50.47.106.83])
- by smtp.gmail.com with ESMTPSA id c11sm1730325pjr.32.2021.05.27.04.22.47
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id z7sm847557ejm.122.2021.05.27.04.22.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Thu, 27 May 2021 04:22:47 -0700 (PDT)
-From: Deepak Rawat <drawat.floss@gmail.com>
-To: dri-devel@lists.freedesktop.org,
-	linux-hyperv@vger.kernel.org
-Subject: [PATCH v6 3/3] MAINTAINERS: Add maintainer for hyperv video device
-Date: Thu, 27 May 2021 04:22:30 -0700
-Message-Id: <20210527112230.1274-3-drawat.floss@gmail.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210527112230.1274-1-drawat.floss@gmail.com>
-References: <20210527112230.1274-1-drawat.floss@gmail.com>
+Date: Thu, 27 May 2021 13:22:45 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Subject: Re: [PATCH] drm/i915: Disable gpu relocations
+Message-ID: <YK+BBWYzhlNbVnlg@phenom.ffwll.local>
+References: <20210526163730.3423181-1-daniel.vetter@ffwll.ch>
+ <55fb9d6c-23aa-bdce-250f-7f0377441a53@linux.intel.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <55fb9d6c-23aa-bdce-250f-7f0377441a53@linux.intel.com>
+X-Operating-System: Linux phenom 5.10.32scarlett+ 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,38 +69,78 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Deepak Rawat <drawat.floss@gmail.com>, Dexuan Cui <decui@microsoft.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Michael Kelley <mikelley@microsoft.com>
+Cc: Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Chris Wilson <chris@chris-wilson.co.uk>,
+ Jon Bloomfield <jon.bloomfield@intel.com>,
+ Matthew Auld <matthew.auld@intel.com>, Jason Ekstrand <jason@jlekstrand.net>,
+ Dave Airlie <airlied@redhat.com>, Daniel Vetter <daniel.vetter@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Maintainer for hyperv synthetic video device.
+On Thu, May 27, 2021 at 01:16:13PM +0200, Maarten Lankhorst wrote:
+> Op 2021-05-26 om 18:37 schreef Daniel Vetter:
+> > Media userspace was the last userspace to still use them, and they
+> > converted now too:
+> >
+> > https://github.com/intel/media-driver/commit/144020c37770083974bedf59902b70b8f444c799
+> >
+> > This means no reason anymore to make relocations faster than they've
+> > been for the first 9 years of gem. This code was added in
+> >
+> > commit 7dd4f6729f9243bd7046c6f04c107a456bda38eb
+> > Author: Chris Wilson <chris@chris-wilson.co.uk>
+> > Date:   Fri Jun 16 15:05:24 2017 +0100
+> >
+> >     drm/i915: Async GPU relocation processing
+> >
+> > Furthermore there's pretty strong indications it's buggy, since the
+> > code to use it by default as the only option had to be reverted:
+> >
+> > commit ad5d95e4d538737ed3fa25493777decf264a3011
+> > Author: Dave Airlie <airlied@redhat.com>
+> > Date:   Tue Sep 8 15:41:17 2020 +1000
+> >
+> >     Revert "drm/i915/gem: Async GPU relocations only"
+> >
+> > This code just disables gpu relocations, leaving the garbage
+> > collection for later patches and more importantly, much less confusing
+> > diff. Also given how much headaches this code has caused in the past,
+> > letting this soak for a bit seems justified.
+> >
+> > Cc: Jon Bloomfield <jon.bloomfield@intel.com>
+> > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+> > Cc: Chris Wilson <chris@chris-wilson.co.uk>
+> > Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> > Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+> > Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+> > Cc: "Thomas Hellström" <thomas.hellstrom@linux.intel.com>
+> > Cc: Matthew Auld <matthew.auld@intel.com>
+> > Cc: Lionel Landwerlin <lionel.g.landwerlin@intel.com>
+> > Cc: Dave Airlie <airlied@redhat.com>
+> > Cc: Jason Ekstrand <jason@jlekstrand.net>
+> > ---
+> >  .../gpu/drm/i915/gem/i915_gem_execbuffer.c    | 43 ++++++++-----------
+> >  1 file changed, 18 insertions(+), 25 deletions(-)
+> 
+> Reviewed-by: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> 
+> Note that a lot of complexity may be removed with gpu relocations gone.
+> Some igt tests might also start to fail, as they expect relocations to
+> complete asynchronously.
 
-Signed-off-by: Deepak Rawat <drawat.floss@gmail.com>
----
- MAINTAINERS | 8 ++++++++
- 1 file changed, 8 insertions(+)
+Yeah I have the kernel side patch for that, at least in the execbuf code +
+selftests. For igt I'm wawiting on CI to tell me what I all need to look
+at and decide what to do with it.
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 315120c4124d..a4fdde4bb250 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -6084,6 +6084,14 @@ T:	git git://anongit.freedesktop.org/drm/drm-misc
- F:	Documentation/devicetree/bindings/display/hisilicon/
- F:	drivers/gpu/drm/hisilicon/
- 
-+DRM DRIVER FOR HYPERV SYNTHETIC VIDEO DEVICE
-+M:	Deepak Rawat <drawat.floss@gmail.com>
-+L:	linux-hyperv@vger.kernel.org
-+L:	dri-devel@lists.freedesktop.org
-+S:	Maintained
-+T:	git git://anongit.freedesktop.org/drm/drm-misc
-+F:	drivers/gpu/drm/hyperv
-+
- DRM DRIVERS FOR LIMA
- M:	Qiang Yu <yuq825@gmail.com>
- L:	dri-devel@lists.freedesktop.org
+> Is it kept in case we need to revive it?
+
+I don't want to revive it, but I want to split the huge code changes from
+the functional changes at least.
+-Daniel
 -- 
-2.31.1
-
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
