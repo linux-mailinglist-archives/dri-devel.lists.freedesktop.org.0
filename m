@@ -2,45 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C55683932DF
-	for <lists+dri-devel@lfdr.de>; Thu, 27 May 2021 17:51:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 70CB03932EB
+	for <lists+dri-devel@lfdr.de>; Thu, 27 May 2021 17:53:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E03956F41C;
-	Thu, 27 May 2021 15:51:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 769356F41E;
+	Thu, 27 May 2021 15:53:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 96AD36EE3A;
- Thu, 27 May 2021 15:51:24 +0000 (UTC)
-IronPort-SDR: b75Ve+M+vAmT95MLS/uoo0EfI+S3OmU7lImlZqLc9bJh3rqweK65LlMSPsBLt1aIoEZwZ8f95j
- PIsHpPijH6yw==
-X-IronPort-AV: E=McAfee;i="6200,9189,9997"; a="223973444"
-X-IronPort-AV: E=Sophos;i="5.83,334,1616482800"; d="scan'208";a="223973444"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 May 2021 08:51:19 -0700
-IronPort-SDR: Nb0nb55uLGR5TopJ/WUHDCbnO18MXrqSXXvodyeOUYJkMnTt9e4GlsbFGc8MsJMdjsHnW3zfiE
- uhb/ZFa1xBsw==
-X-IronPort-AV: E=Sophos;i="5.83,334,1616482800"; d="scan'208";a="634039983"
-Received: from ibanaga-mobl.ger.corp.intel.com ([10.249.254.58])
- by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 May 2021 08:51:18 -0700
-Message-ID: <97b0903d941c05a8877579749c6a2ea6ec107d0b.camel@linux.intel.com>
-Subject: Re: [RFC PATCH] drm/ttm: Fix swapping dereferences of freed memory
-From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
-To: Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, 
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Date: Thu, 27 May 2021 17:51:15 +0200
-In-Reply-To: <17037c04-603c-44c8-84a2-bce49c0e4f0c@amd.com>
-References: <20210527141923.1962350-1-thomas.hellstrom@linux.intel.com>
- <883eab20-4326-d14a-2eb0-5e95f174a0d9@amd.com>
- <8b3382726763050334a6cb214f7ba560eebf8f28.camel@linux.intel.com>
- <e594a1d45b22e92e052d1070beadc5928e5c0ba1.camel@linux.intel.com>
- <17037c04-603c-44c8-84a2-bce49c0e4f0c@amd.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.38.4 (3.38.4-1.fc33) 
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4CEF46F41E
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 May 2021 15:53:35 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
+ [62.78.145.57])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 89058163F;
+ Thu, 27 May 2021 17:53:32 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1622130812;
+ bh=2exOXygmzDfmGJrjMDBCl0yc7PGP3854X0J7CpX7VC4=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=aB2Duh+2uQG5LmpnlXcqdTJWBUAYofKiDRUoObA+tSy/0YlIhPrBcvZ3DuA9aQ95k
+ chPnXG4o01bwWGJKSkl8Jgw4VDgStM9zRxxQqGz8hNJh9Dna0QkMwG/t88lK17l95L
+ J5mldeZZmPnCEDE/laYnUS/f/mnR6a+k20uXEBPU=
+Date: Thu, 27 May 2021 18:53:26 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Maxime Ripard <maxime@cerno.tech>
+Subject: Re: [PATCH v2] Documentation: gpu: Mention the requirements for new
+ properties
+Message-ID: <YK/AdoNlU+XglkTR@pendragon.ideasonboard.com>
+References: <20210520142435.267873-1-maxime@cerno.tech>
+ <YKsl2xGgTnIuQLaE@pendragon.ideasonboard.com>
+ <20210525103940.chay5r3ns4alowvc@gilmour>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210525103940.chay5r3ns4alowvc@gilmour>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,108 +50,250 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Xinliang Liu <xinliang.liu@linaro.org>, dri-devel@lists.freedesktop.org,
+ Anitha Chrisanthus <anitha.chrisanthus@intel.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>, Jerome Brunet <jbrunet@baylibre.com>,
+ Kevin Hilman <khilman@baylibre.com>,
+ Ludovic Desroches <ludovic.desroches@microchip.com>,
+ NXP Linux Team <linux-imx@nxp.com>, Sascha Hauer <s.hauer@pengutronix.de>,
+ Roland Scheidegger <sroland@vmware.com>, Sean Paul <sean@poorly.run>,
+ Hyun Kwon <hyun.kwon@xilinx.com>, Andrew Jeffery <andrew@aj.id.au>,
+ Seung-Woo Kim <sw0312.kim@samsung.com>,
+ Noralf =?utf-8?Q?Tr=C3=B8nnes?= <noralf@tronnes.org>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>, linux-doc@vger.kernel.org,
+ David Airlie <airlied@linux.ie>, Edmund Dea <edmund.j.dea@intel.com>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Daniel Vetter <daniel.vetter@intel.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+ Steven Price <steven.price@arm.com>,
+ VMware Graphics <linux-graphics-maintainer@vmware.com>,
+ Ben Skeggs <bskeggs@redhat.com>,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+ Boris Brezillon <bbrezillon@kernel.org>, Sandy Huang <hjc@rock-chips.com>,
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Haneen Mohammed <hamohammed.sa@gmail.com>,
+ Neil Armstrong <narmstrong@baylibre.com>, Melissa Wen <melissa.srw@gmail.com>,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ Benjamin Gaignard <benjamin.gaignard@linaro.org>,
+ Sam Ravnborg <sam@ravnborg.org>, Jonathan Corbet <corbet@lwn.net>,
+ Xinwei Kong <kong.kongxinwei@hisilicon.com>, Chen-Yu Tsai <wens@csie.org>,
+ Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+ Joel Stanley <joel@jms.id.au>, Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Jonas Karlman <jonas@kwiboo.se>, Chen Feng <puck.chen@hisilicon.com>,
+ Alison Wang <alison.wang@nxp.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tomeu Vizoso <tomeu.vizoso@collabora.com>, Tomi Valkeinen <tomba@kernel.org>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Tian Tao <tiantao6@hisilicon.com>, Shawn Guo <shawnguo@kernel.org>,
+ Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, Liviu Dudau <liviu.dudau@arm.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ Paul Cercueil <paul@crapouillou.net>, Andrzej Hajda <a.hajda@samsung.com>,
+ Huang Rui <ray.huang@amd.com>, Marek Vasut <marex@denx.de>,
+ Joonyoung Shim <jy0922.shim@samsung.com>,
+ Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>,
+ Russell King <linux@armlinux.org.uk>,
+ Philippe Cornu <philippe.cornu@foss.st.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Hans de Goede <hdegoede@redhat.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ Jernej Skrabec <jernej.skrabec@siol.net>,
+ Yannick Fertre <yannick.fertre@foss.st.com>,
+ Nicolas Ferre <nicolas.ferre@microchip.com>,
+ Robert Foss <robert.foss@linaro.org>, Qiang Yu <yuq825@gmail.com>,
+ Jyri Sarha <jyri.sarha@iki.fi>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 2021-05-27 at 17:32 +0200, Christian König wrote:
-> Am 27.05.21 um 17:05 schrieb Thomas Hellström:
-> > On Thu, 2021-05-27 at 17:01 +0200, Thomas Hellström wrote:
-> > > On Thu, 2021-05-27 at 16:54 +0200, Christian König wrote:
-> > > > Am 27.05.21 um 16:19 schrieb Thomas Hellström:
-> > > > > The swapping code was dereference bo->ttm pointers without
-> > > > > having
-> > > > > the
-> > > > > dma-resv lock held. Also it might try to swap out unpopulated
-> > > > > bos.
-> > > > > 
-> > > > > Fix this by moving the bo->ttm dereference until we have the
-> > > > > reservation
-> > > > > lock. Check that the ttm_tt is populated after the
-> > > > > swap_notify
-> > > > > callback.
-> > > > > 
-> > > > > Signed-off-by: Thomas Hellström
-> > > > > <thomas.hellstrom@linux.intel.com>
-> > > > > ---
-> > > > >    drivers/gpu/drm/ttm/ttm_bo.c     | 16 +++++++++++++++-
-> > > > >    drivers/gpu/drm/ttm/ttm_device.c |  8 +++-----
-> > > > >    2 files changed, 18 insertions(+), 6 deletions(-)
-> > > > > 
-> > > > > diff --git a/drivers/gpu/drm/ttm/ttm_bo.c
-> > > > > b/drivers/gpu/drm/ttm/ttm_bo.c
-> > > > > index 9f53506a82fc..86213d37657b 100644
-> > > > > --- a/drivers/gpu/drm/ttm/ttm_bo.c
-> > > > > +++ b/drivers/gpu/drm/ttm/ttm_bo.c
-> > > > > @@ -1163,6 +1163,16 @@ int ttm_bo_swapout(struct
-> > > > > ttm_buffer_object
-> > > > > *bo, struct ttm_operation_ctx *ctx,
-> > > > >          if (!ttm_bo_evict_swapout_allowable(bo, ctx, &place,
-> > > > > &locked, NULL))
-> > > > >                  return -EBUSY;
-> > > > >    
-> > > > > +       dma_resv_assert_held(bo->base.resv);
-> > > > > +
-> > > > > +       if (!bo->ttm ||
-> > > > > +           bo->ttm->page_flags & TTM_PAGE_FLAG_SG ||
-> > > > > +           bo->ttm->page_flags & TTM_PAGE_FLAG_SWAPPED) {
-> > > > > +               if (locked)
-> > > > > +                       dma_resv_unlock(bo->base.resv);
-> > > > > +               return -EBUSY;
-> > > > > +       }
-> > > > > +
-> > > > >          if (!ttm_bo_get_unless_zero(bo)) {
-> > > > >                  if (locked)
-> > > > >                          dma_resv_unlock(bo->base.resv);
-> > > > > @@ -1215,7 +1225,8 @@ int ttm_bo_swapout(struct
-> > > > > ttm_buffer_object
-> > > > > *bo, struct ttm_operation_ctx *ctx,
-> > > > >          if (bo->bdev->funcs->swap_notify)
-> > > > >                  bo->bdev->funcs->swap_notify(bo);
-> > > > >    
-> > > > > -       ret = ttm_tt_swapout(bo->bdev, bo->ttm, gfp_flags);
-> > > > > +       if (ttm_tt_is_populated(bo->ttm))
-> > > > > +               ret = ttm_tt_swapout(bo->bdev, bo->ttm,
-> > > > > gfp_flags);
-> > > > Exactly that is what I won't recommend. We would try to swap
-> > > > out
-> > > > the
-> > > > same BO over and over again with that.
-> > > But we wouldn't since the BO is taken off the LRU and never re-
-> > > added,
+Hi Maxime,
+
+On Tue, May 25, 2021 at 12:39:40PM +0200, Maxime Ripard wrote:
+> On Mon, May 24, 2021 at 07:04:43AM +0300, Laurent Pinchart wrote:
+> > On Thu, May 20, 2021 at 04:24:35PM +0200, Maxime Ripard wrote:
+> > > New KMS properties come with a bunch of requirements to avoid each
+> > > driver from running their own, inconsistent, set of properties,
+> > > eventually leading to issues like property conflicts, inconsistencies
+> > > between drivers and semantics, etc.
 > > > 
+> > > Let's document what we expect.
 > > > 
-> > In fact, we'd probably might want to take the !bo->ttm bos off the
-> > LRU
-> > as well..
-> 
-> No, we don't want to take any BOs of the LRU unless they are pinned.
-> 
-> Adding a TT object or populating it doesn't necessarily put the BO
-> back 
-> to the LRU.
-
-OK, but swapped bos are also taken off the LRU list so these
-unpopulated bos are just taking the same path. Only difference to
-swapped is that they don't get read back on re-populate, but typically
-cleared.
-
-But what would be the point of keeping swapped-out bos on the LRU
-list?, particularly when we're iterating under a spinlock?
-Shouldn't we try to re-add to LRU (if not already on an LRU) just
-before populating? There aren't really that many calls in core TTM.
-
-/Thomas
-
-
-
-
-
-> 
-> Christian.
-> 
+> > > Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>
+> > > Cc: Alexandre Torgue <alexandre.torgue@foss.st.com>
+> > > Cc: Alex Deucher <alexander.deucher@amd.com>
+> > > Cc: Alison Wang <alison.wang@nxp.com>
+> > > Cc: Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
+> > > Cc: Andrew Jeffery <andrew@aj.id.au>
+> > > Cc: Andrzej Hajda <a.hajda@samsung.com>
+> > > Cc: Anitha Chrisanthus <anitha.chrisanthus@intel.com>
+> > > Cc: Benjamin Gaignard <benjamin.gaignard@linaro.org>
+> > > Cc: Ben Skeggs <bskeggs@redhat.com>
+> > > Cc: Boris Brezillon <bbrezillon@kernel.org>
+> > > Cc: Brian Starkey <brian.starkey@arm.com>
+> > > Cc: Chen Feng <puck.chen@hisilicon.com>
+> > > Cc: Chen-Yu Tsai <wens@csie.org>
+> > > Cc: Christian Gmeiner <christian.gmeiner@gmail.com>
+> > > Cc: "Christian König" <christian.koenig@amd.com>
+> > > Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+> > > Cc: Edmund Dea <edmund.j.dea@intel.com>
+> > > Cc: Eric Anholt <eric@anholt.net>
+> > > Cc: Fabio Estevam <festevam@gmail.com>
+> > > Cc: Gerd Hoffmann <kraxel@redhat.com>
+> > > Cc: Haneen Mohammed <hamohammed.sa@gmail.com>
+> > > Cc: Hans de Goede <hdegoede@redhat.com>
+> > > Cc: "Heiko Stübner" <heiko@sntech.de>
+> > > Cc: Huang Rui <ray.huang@amd.com>
+> > > Cc: Hyun Kwon <hyun.kwon@xilinx.com>
+> > > Cc: Inki Dae <inki.dae@samsung.com>
+> > > Cc: Jani Nikula <jani.nikula@linux.intel.com>
+> > > Cc: Jernej Skrabec <jernej.skrabec@siol.net>
+> > > Cc: Jerome Brunet <jbrunet@baylibre.com>
+> > > Cc: Joel Stanley <joel@jms.id.au>
+> > > Cc: John Stultz <john.stultz@linaro.org>
+> > > Cc: Jonas Karlman <jonas@kwiboo.se>
+> > > Cc: Jonathan Hunter <jonathanh@nvidia.com>
+> > > Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+> > > Cc: Joonyoung Shim <jy0922.shim@samsung.com>
+> > > Cc: Jyri Sarha <jyri.sarha@iki.fi>
+> > > Cc: Kevin Hilman <khilman@baylibre.com>
+> > > Cc: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+> > > Cc: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
+> > > Cc: Kyungmin Park <kyungmin.park@samsung.com>
+> > > Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+> > > Cc: Linus Walleij <linus.walleij@linaro.org>
+> > > Cc: Liviu Dudau <liviu.dudau@arm.com>
+> > > Cc: Lucas Stach <l.stach@pengutronix.de>
+> > > Cc: Ludovic Desroches <ludovic.desroches@microchip.com>
+> > > Cc: Marek Vasut <marex@denx.de>
+> > > Cc: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
+> > > Cc: Matthias Brugger <matthias.bgg@gmail.com>
+> > > Cc: Maxime Coquelin <mcoquelin.stm32@gmail.com>
+> > > Cc: Maxime Ripard <mripard@kernel.org>
+> > > Cc: Melissa Wen <melissa.srw@gmail.com>
+> > > Cc: Neil Armstrong <narmstrong@baylibre.com>
+> > > Cc: Nicolas Ferre <nicolas.ferre@microchip.com>
+> > > Cc: "Noralf Trønnes" <noralf@tronnes.org>
+> > > Cc: NXP Linux Team <linux-imx@nxp.com>
+> > > Cc: Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>
+> > > Cc: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
+> > > Cc: Paul Cercueil <paul@crapouillou.net>
+> > > Cc: Pengutronix Kernel Team <kernel@pengutronix.de>
+> > > Cc: Philippe Cornu <philippe.cornu@foss.st.com>
+> > > Cc: Philipp Zabel <p.zabel@pengutronix.de>
+> > > Cc: Qiang Yu <yuq825@gmail.com>
+> > > Cc: Rob Clark <robdclark@gmail.com>
+> > > Cc: Robert Foss <robert.foss@linaro.org>
+> > > Cc: Rob Herring <robh@kernel.org>
+> > > Cc: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>
+> > > Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
+> > > Cc: Roland Scheidegger <sroland@vmware.com>
+> > > Cc: Russell King <linux@armlinux.org.uk>
+> > > Cc: Sam Ravnborg <sam@ravnborg.org>
+> > > Cc: Sandy Huang <hjc@rock-chips.com>
+> > > Cc: Sascha Hauer <s.hauer@pengutronix.de>
+> > > Cc: Sean Paul <sean@poorly.run>
+> > > Cc: Seung-Woo Kim <sw0312.kim@samsung.com>
+> > > Cc: Shawn Guo <shawnguo@kernel.org>
+> > > Cc: Stefan Agner <stefan@agner.ch>
+> > > Cc: Steven Price <steven.price@arm.com>
+> > > Cc: Sumit Semwal <sumit.semwal@linaro.org>
+> > > Cc: Thierry Reding <thierry.reding@gmail.com>
+> > > Cc: Tian Tao <tiantao6@hisilicon.com>
+> > > Cc: Tomeu Vizoso <tomeu.vizoso@collabora.com>
+> > > Cc: Tomi Valkeinen <tomba@kernel.org>
+> > > Cc: VMware Graphics <linux-graphics-maintainer@vmware.com>
+> > > Cc: Xinliang Liu <xinliang.liu@linaro.org>
+> > > Cc: Xinwei Kong <kong.kongxinwei@hisilicon.com>
+> > > Cc: Yannick Fertre <yannick.fertre@foss.st.com>
+> > > Cc: Zack Rusin <zackr@vmware.com>
+> > > Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+> > > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+> > > 
+> > > ---
+> > > 
+> > > Changes from v2:
+> > >   - Typos and wording reported by Daniel and Alex
+> > > ---
+> > >  Documentation/gpu/drm-kms.rst | 19 +++++++++++++++++++
+> > >  1 file changed, 19 insertions(+)
+> > > 
+> > > diff --git a/Documentation/gpu/drm-kms.rst b/Documentation/gpu/drm-kms.rst
+> > > index 87e5023e3f55..c28b464dd397 100644
+> > > --- a/Documentation/gpu/drm-kms.rst
+> > > +++ b/Documentation/gpu/drm-kms.rst
+> > > @@ -463,6 +463,25 @@ KMS Properties
+> > >  This section of the documentation is primarily aimed at user-space developers.
+> > >  For the driver APIs, see the other sections.
+> > >  
+> > > +Requirements
+> > > +------------
+> > > +
+> > > +KMS drivers might need to add extra properties to support new features.
+> > > +Each new property introduced in a driver need to meet a few
 > > 
-> > /Thomas
+> > s/need/needs/
 > > 
+> > > +requirements, in addition to the one mentioned above.:
+> > 
+> > s/above./above/
+> > 
+> > > +
+> > > +- It must be standardized, with some documentation to describe how the
+> > > +  property can be used.
+> > > +
+> > > +- It must provide a generic helper in the core code to register that
+> > > +  property on the object it attaches to.
+> > > +
+> > > +- Its content must be decoded by the core and provided in the object's
+> > > +  associated state structure. That includes anything drivers might want to
+> > > +  precompute, like :c:type:`struct drm_clip_rect <drm_clip_rect>` for planes.
+> > 
+> > Does this effectively mean that we completely forbid driver-specific
+> > properties ? While I agree that we should strive for standardization,
+> > there are two issues that worry me. The first one is simple, we may need
+> > to control features that would be very device-specific, and
+> > standardizing properties doesn't seem to make much sense in that case.
 > 
+> I'd say that we should make it clear in that case that it's
+> driver-specific.
+> 
+> > The second issue relates to properties that could be applicable to
+> > multiple devices, but for which we have a single driver. Designing a
+> > standard with a single data point usually leads to a bad design. I'm not
+> > sure how to handle this correctly though, as we certainly don't want
+> > this to be taken as an excuse to create driver-specific properties when
+> > generic properties would make sense.
+> 
+> The discussion that made us create that patch was about this property:
+> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/gpu/drm/sti/sti_hdmi.c#n170
+> 
+> It's all kind of bad:
+>   - It kind of conflicts with the generic Colorspace property
+>   - It's not really a colorspace (Not that "Colorspace" is either)
+>   - It could have been made generic from the start
+>   - We don't have any knowledge on who uses it and why, so it's
+>     difficult to rework
+> 
+> This was introduced before we had any kind of rule or documentation on
+> the UAPI though, so there's no-one to blame really but we don't really
+> want to have something like that happen again.
+> 
+> I agree that doing something generic from the beginning can be
+> difficult, but this is some userspace API that we will have to carry
+> around forever, so it's worth it I guess?
 
+It is, no disagreement about that. Pushing driver authors to explore
+standardization of properties is a good idea. As long as we have a
+pragmatic approach and allow vendor-specific properties when it makes
+sense, I'll have no concern.
 
+> You have a point on the vendor properties though. Maybe we can require a
+> vendor prefix for those? It would reduce the risk of a conflict.
+
+I like the idea of a vendor prefix.
+
+-- 
+Regards,
+
+Laurent Pinchart
