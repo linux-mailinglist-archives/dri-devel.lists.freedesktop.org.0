@@ -1,56 +1,70 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18A9C392D94
-	for <lists+dri-devel@lfdr.de>; Thu, 27 May 2021 14:07:54 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 61DA3392D9F
+	for <lists+dri-devel@lfdr.de>; Thu, 27 May 2021 14:08:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ABE436EE9E;
-	Thu, 27 May 2021 12:07:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3D9826EEA3;
+	Thu, 27 May 2021 12:08:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x52e.google.com (mail-pg1-x52e.google.com
- [IPv6:2607:f8b0:4864:20::52e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EC1A66EE9E
- for <dri-devel@lists.freedesktop.org>; Thu, 27 May 2021 12:07:48 +0000 (UTC)
-Received: by mail-pg1-x52e.google.com with SMTP id q15so3524635pgg.12
- for <dri-devel@lists.freedesktop.org>; Thu, 27 May 2021 05:07:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=su0O5FV409YaRMKGvRpPKfi0LrBh7fwsvzSA0kBU1sE=;
- b=Xv3kyScbmQ5IRzwLDM9eQ447g4FpCFR4/KS0RgqSR37umZVRfOribwztM9uzykUFXP
- FI5iTWmzu+OM2Lu0wOO/spEFli1T9W9sO06nr0275kydbB81UHoufNEE3eO1NSte8ST6
- DJrz0gJQig63PPw0QtWSHAbRa1nLeR3igStDYhow2JSs4CHrzTmsJMKwwJPFLZnIdMa/
- ncBwlZ3sDRVjM5Jb0mfbVPISQ1YaoWIjKHD+PEfaJmT5y6JHC8KeJ4lFaZJc3a6FX4D7
- bOWDUw9QHjaRn073+0r3qTYIzNnBbG/+/tjOLgBjRjE3aF1+W8fFSSkywVOdOdF6jvXM
- emkg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=su0O5FV409YaRMKGvRpPKfi0LrBh7fwsvzSA0kBU1sE=;
- b=J68qxULVFMvAdh9MJ/wTujDTDgcnTy2fYh+bGMmumTDlzGhQsZ6XkdU7s6dpHbO4yR
- sMfD3DgMjyrKIG8FpV2RUyFTfPbYcaKAJsK9ua+mJmUiiOzbWN5Lir/kbjyAY0Xjs+pe
- beDS8c87jinbXQp7Vjl7ReDFHn+W+0JkPGJYqb/zpcbEYfC0gnVudC+rFhDMJD3r7hE8
- YqAikG6LaifbR5eiRcFYwzEP0Z7m85wYOEgm2b+vigUYIFqXdJyd3Y5VhLeX0pmYPkXa
- NE2oAQ0inifx+T7J4xmtQB2coHbIhMpvliEvYoTaEqzBIb1srvFkC73J9jJSq9BtF0qY
- b2LA==
-X-Gm-Message-State: AOAM530oclo3pDgHLxeufrAfcAjbWeqUlxHHRYNdGwJ+z48/ZXeyXoMi
- rZmr7DBjljUTQdRX7i15rIir3krJIiY9KBI7fCs4QQ==
-X-Google-Smtp-Source: ABdhPJzrqHID30vvgX7I2t/bFeS/8VdFGXiWrQdZ72tP//W5u7dnB1zTHScMvcthanv4J1s929ipN/6/At+9SlZ89aA=
-X-Received: by 2002:a05:6a00:88a:b029:261:6d37:dac6 with SMTP id
- q10-20020a056a00088ab02902616d37dac6mr3437864pfj.18.1622117268484; Thu, 27
- May 2021 05:07:48 -0700 (PDT)
+Received: from new4-smtp.messagingengine.com (new4-smtp.messagingengine.com
+ [66.111.4.230])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 962376EEA0;
+ Thu, 27 May 2021 12:08:36 +0000 (UTC)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailnew.nyi.internal (Postfix) with ESMTP id EC2BE5846A6;
+ Thu, 27 May 2021 08:08:33 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute4.internal (MEProxy); Thu, 27 May 2021 08:08:33 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+ date:from:to:cc:subject:message-id:mime-version:content-type; s=
+ fm2; bh=ZXwc7bHybojmWh0s1+HGW0f5AeOyzC4i9KbmT093GSc=; b=FbTubiN2
+ e5tqOpyND0vzRb+sXEo6N+xzJG+oti3DGLjyJwZqfjZACVA9CtKTb/2KwTJjdBtI
+ 3MAhtnjl0/hK/zF6WIuYsbdcBeaY47Sjhi/JcPC0+hUNVkZOFIvqQBN3Qc5l5e3/
+ D71a9CoyiTZUOTnbtreDR+4phfV+jS5j9w6+4gkOGrUtRNJCaub9M7szglD16Kqq
+ eqzQTCxRfcV0vVoETi16ijZoCsIul8aWD8fTdFqalGW62W5UEBxw43UbLt5tA33a
+ RL2nOMeVyf4Q6arSD0FhdCSiWD4yU+iaeXE6/mLpbkusKgE4gnkIf7ghy+nzi9bp
+ qp11usTF8J2rTw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:message-id
+ :mime-version:subject:to:x-me-proxy:x-me-proxy:x-me-sender
+ :x-me-sender:x-sasl-enc; s=fm2; bh=ZXwc7bHybojmWh0s1+HGW0f5AeOyz
+ C4i9KbmT093GSc=; b=c3ET8edLaPztjyEm7VOs2u3Uav+U2zMUELYep+Wngofpk
+ +QC8zlJfDL3OBkvXuHTfi3yGXABAhqeoXXUfj4IJVrYN7IeiHoZWxGlzUaqGOMmV
+ DwHJgMbS1t2FVyMeZPvj0hlZtZp81L37F2AnhI8FOXTlzqulN5xIdbC3vjBu//JX
+ cUvNz3C2IfDbQohuEwFlgakOipHNmviJPypKwrGCAV3ThPB4PETE+xnLPFuFiMo+
+ 7OGv2PR8ZrUIO13nE4slqILJC9M4LAKHNKOTObCXH6ENeVEfoaCQDhP2AJIHJyQx
+ sgtpsCYFT28QVne/3tgaB5FNPoZefvti3qxdzQGdg==
+X-ME-Sender: <xms:v4uvYBC8kGXqPrCPYlp-hmGpZLkJbBO6NaAGo0eGWGF_1x4MpiVoOQ>
+ <xme:v4uvYPiOTM7nznuzSUdQyfETQ9dx7twszsc398SWtAhtdRanxeSflE6DCDiTT_vsX
+ Hl2I8bQgsQ3iyPw6WA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvdekhedggeelucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvffukfggtggusehgtderredttddvnecuhfhrohhmpeforgigihhmvgcu
+ tfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrthhtvg
+ hrnhepgeeuvddtheeggeehhfeigeetffeufeelveeggfekveegieevudeljeeugedviefg
+ necuffhomhgrihhnpehfrhgvvgguvghskhhtohhprdhorhhgnecukfhppeeltddrkeelrd
+ eikedrjeeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhho
+ mhepmhgrgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:v4uvYMkHDHPmi5xG4YLtm5DsPmbcgOslrMEPLsk_TnoSfAcIDnwaIg>
+ <xmx:v4uvYLxSTYsWWXYoYtCfkhvj0IkNsXeUlg0P1DRaOQhzq566OSQhTg>
+ <xmx:v4uvYGTm1FHu0nopeagRkZ7b_WgPzba1PfrclxYr_a_NwxyqLa3hyA>
+ <xmx:wYuvYJF04Gx-XmJ06Z5ndb2X1TxaM4IxNXmxS2MmtC4usdW2Uir33A>
+Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
+ [90.89.68.76]) by mail.messagingengine.com (Postfix) with ESMTPA;
+ Thu, 27 May 2021 08:08:31 -0400 (EDT)
+Date: Thu, 27 May 2021 14:08:28 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: [PULL] drm-misc-fixes
+Message-ID: <20210527120828.3w7f53krzkslc4ii@gilmour>
 MIME-Version: 1.0
-References: <1622109018-54648-1-git-send-email-zou_wei@huawei.com>
-In-Reply-To: <1622109018-54648-1-git-send-email-zou_wei@huawei.com>
-From: Robert Foss <robert.foss@linaro.org>
-Date: Thu, 27 May 2021 14:07:37 +0200
-Message-ID: <CAG3jFyt=to+Cq14BtggT=mfMQ3Tv50XzekPCycThLcyizXzwMg@mail.gmail.com>
-Subject: Re: [PATCH -next] drm/bridge: lt8912b: fix platform_no_drv_owner.cocci
- warnings
-To: Zou Wei <zou_wei@huawei.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="l7w4huk22jki3v3r"
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,44 +77,62 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jonas Karlman <jonas@kwiboo.se>, David Airlie <airlied@linux.ie>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Neil Armstrong <narmstrong@baylibre.com>,
- linux-kernel <linux-kernel@vger.kernel.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Andrzej Hajda <a.hajda@samsung.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Adrien Grassein <adrien.grassein@gmail.com>
+Cc: dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Sean Paul <sean@poorly.run>,
+ intel-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Reviewed & pushed to drm-misc-next.
 
-On Thu, 27 May 2021 at 11:31, Zou Wei <zou_wei@huawei.com> wrote:
->
-> ./drivers/gpu/drm/bridge/lontium-lt8912b.c:758:3-8: No need to set .owner here. The core will do it.
->
->  Remove .owner field if calls are used which set it automatically
->
-> Generated by: scripts/coccinelle/api/platform_no_drv_owner.cocci
->
-> Reported-by: Hulk Robot <hulkci@huawei.com>
-> Signed-off-by: Zou Wei <zou_wei@huawei.com>
-> ---
->  drivers/gpu/drm/bridge/lontium-lt8912b.c | 1 -
->  1 file changed, 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/bridge/lontium-lt8912b.c b/drivers/gpu/drm/bridge/lontium-lt8912b.c
-> index 443f1b4..34baa82 100644
-> --- a/drivers/gpu/drm/bridge/lontium-lt8912b.c
-> +++ b/drivers/gpu/drm/bridge/lontium-lt8912b.c
-> @@ -755,7 +755,6 @@ static struct i2c_driver lt8912_i2c_driver = {
->         .driver = {
->                 .name = "lt8912",
->                 .of_match_table = lt8912_dt_match,
-> -               .owner = THIS_MODULE,
->         },
->         .probe = lt8912_probe,
->         .remove = lt8912_remove,
-> --
-> 2.6.2
->
+--l7w4huk22jki3v3r
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+Hi,
+
+Here's the fixes for drm-misc-fixes for this week
+
+Maxime
+
+drm-misc-fixes-2021-05-27:
+A fix in meson for a crash at shutdown and one for TTM to prevent
+irrelevant swapout
+The following changes since commit 7e008b02557ccece4d2c31fb0eaf6243cbc87121:
+
+  dma-buf: fix unintended pin/unpin warnings (2021-05-20 14:02:27 +0200)
+
+are available in the Git repository at:
+
+  git://anongit.freedesktop.org/drm/drm-misc tags/drm-misc-fixes-2021-05-27
+
+for you to fetch changes up to 35f819d218035ddfbc71e7cf62a4849231701e58:
+
+  drm/ttm: Skip swapout if ttm object is not populated (2021-05-26 15:02:47 +0200)
+
+----------------------------------------------------------------
+A fix in meson for a crash at shutdown and one for TTM to prevent
+irrelevant swapout
+
+----------------------------------------------------------------
+Neil Armstrong (1):
+      drm/meson: fix shutdown crash when component not probed
+
+xinhui pan (1):
+      drm/ttm: Skip swapout if ttm object is not populated
+
+ drivers/gpu/drm/meson/meson_drv.c | 9 +++++----
+ drivers/gpu/drm/ttm/ttm_device.c  | 2 +-
+ 2 files changed, 6 insertions(+), 5 deletions(-)
+
+--l7w4huk22jki3v3r
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYK+LvAAKCRDj7w1vZxhR
+xQZKAP9+b20xt0jmjtg6ucGZ+t6ivaJyha+wNZqnTj91aI7CsgD8DVFMBbGCBiLk
+HvEi0cgsSyOXcqw+BYLlM2fA9ul6fg0=
+=zRRr
+-----END PGP SIGNATURE-----
+
+--l7w4huk22jki3v3r--
