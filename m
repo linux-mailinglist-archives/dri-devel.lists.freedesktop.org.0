@@ -1,56 +1,127 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE0EA392FDA
-	for <lists+dri-devel@lfdr.de>; Thu, 27 May 2021 15:35:51 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BC01392FED
+	for <lists+dri-devel@lfdr.de>; Thu, 27 May 2021 15:41:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D6B356F3A5;
-	Thu, 27 May 2021 13:35:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1C8956E192;
+	Thu, 27 May 2021 13:41:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BDE286F3A5
- for <dri-devel@lists.freedesktop.org>; Thu, 27 May 2021 13:35:47 +0000 (UTC)
-Received: from imap.suse.de (imap-alt.suse-dmz.suse.de [192.168.254.47])
- (using TLSv1.2 with cipher ECDHE-ECDSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 69D582190C;
- Thu, 27 May 2021 13:35:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1622122546; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=tROk5o0U5N3SC9ppHJr9TvF6SK2NPc6AeCznVGL4yUw=;
- b=c9xH1DIatOiDEI5tT9XFpxRDty3698TrsXb+jXo6XxH1JIWqG36XLb6BixKiZRgqa0zMc/
- hzBOSGLjlW3kWxXC3ws/b/uRQRNilbGCUFkGUfitCe/KgZydUuypYWaejvseKj2D2JPDzQ
- F36RIMGlznSPj0HlOrJP3UbJqN1iyxI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1622122546;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=tROk5o0U5N3SC9ppHJr9TvF6SK2NPc6AeCznVGL4yUw=;
- b=u+puE3NK8YQuBTsyAfRp+25zf0uvn86l4nBopjOCOWySDpTqRVm+LHU72vlKry9WRUzIap
- +8sW/X94d9UqIVAw==
-Received: from director2.suse.de (director2.suse-dmz.suse.de [192.168.254.72])
- by imap.suse.de (Postfix) with ESMTPSA id 3D75311A98;
- Thu, 27 May 2021 13:35:46 +0000 (UTC)
-Subject: Re: [PATCH v6 1/3] drm/hyperv: Add DRM driver for hyperv synthetic
- video device
-To: Deepak Rawat <drawat.floss@gmail.com>, dri-devel@lists.freedesktop.org,
- linux-hyperv@vger.kernel.org
-References: <20210527112230.1274-1-drawat.floss@gmail.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Message-ID: <f58a001a-b411-78b0-bcfc-ca853b920a64@suse.de>
-Date: Thu, 27 May 2021 15:35:45 +0200
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam12on2048.outbound.protection.outlook.com [40.107.243.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9ACE26E0DE;
+ Thu, 27 May 2021 13:41:13 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=gGa0jL6EN8hEgFXudXsWUTgL+rFmWHF5z6daXEsQk7TuKArB3IZ7MBDYK4N1qmzS1OGz1xkxZW6a/l2lMA9sJzoFoBsjIUOLrGhCnC0/+l7ecVSR4OySu+hQjt9N7VI1Eu947/mIPo9cnBKBUFfZZBcO9ie2JSG00QD8zpVk+zVd43Lvewv42VoEo71fX3b6xsuCP2nasOwLn0sIL/IHpz8x9k46fPfp7u/VMu8Zgrq4qmY7fb45xriB2S3iF1s4t1UH/j7G2MOlLGsJaTcTH2KfxEb1DBJqgwyIXSCMnZOS+SadRWKaTuSfcggiyevW5ofBrYUvJybQuABVhBK7FQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=k6wIu8PVw5apl5jsn/EiotdZFdABxnWhiQQR4SlUUeM=;
+ b=YgBG5G6wrys+v5HBYxMqnv8aZ2bjDgGFD97oowaCcS8x6PoULS5zndX+Tqj3xa31MBUp/J7dBT0G85GFsUKosFt/0REGrWAMwKyz0+rPDr8p5RowUl1tvP3WcUeDLEJv8BaI5TJB5oRwpgEn6T5yxg2kFgjsteBPY4LTJO775U5RemXMDKsaZC9z9Oc3xSCBViBBNvUqRJhYRHvJQ01yNVyAMQ/m2jf1Bn46RPVglzOytjM110PmXK2Hm86HgYx5P8WbWOQb+0ZPYgoQCZqbCuOzlfGt0KvpvoCkhw+7gAIorjoyuphJOMaqWODcggfijVFr4vXa4ObAeVn8YUw8Hw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=k6wIu8PVw5apl5jsn/EiotdZFdABxnWhiQQR4SlUUeM=;
+ b=pLBTIx8so2tXbwL4HQHlXqgmUm50n5szQShn7009jeLiSHR7ahWt58erSxE9H2NKLbQrAxG+lXnSenlMCu44grmXaSql8ZHEGOaDsEmKRTCLg/xQH6iUpU7vWT824+qKZvdDQ9H+ma2ZlqBXTXJsyDufQYu1L8PaScfyCJYcKTI=
+Authentication-Results: vmware.com; dkim=none (message not signed)
+ header.d=none;vmware.com; dmarc=none action=none header.from=amd.com;
+Received: from MN2PR12MB3775.namprd12.prod.outlook.com (2603:10b6:208:159::19)
+ by MN2PR12MB3968.namprd12.prod.outlook.com (2603:10b6:208:16f::19)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4173.22; Thu, 27 May
+ 2021 13:41:10 +0000
+Received: from MN2PR12MB3775.namprd12.prod.outlook.com
+ ([fe80::6d4d:4674:1cf6:8d34]) by MN2PR12MB3775.namprd12.prod.outlook.com
+ ([fe80::6d4d:4674:1cf6:8d34%6]) with mapi id 15.20.4173.024; Thu, 27 May 2021
+ 13:41:10 +0000
+Subject: Re: [PATCH 2/7] dma-buf: Rename dma_resv helpers from _rcu to
+ _unlocked (v2)
+To: Daniel Vetter <daniel@ffwll.ch>
+References: <20210525211753.1086069-1-jason@jlekstrand.net>
+ <20210525211753.1086069-3-jason@jlekstrand.net>
+ <82e16239-e8ea-8b03-6a90-c7d18a5f8a91@amd.com>
+ <YK922LEKObBz05CW@phenom.ffwll.local>
+ <c092d91f-bbfd-7595-7f5c-73b3de703821@amd.com>
+ <CAKMK7uF-xHwLCp_5v+quqOvZxeX1nsE8RRA13iQ+AdQUOm_ufA@mail.gmail.com>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Message-ID: <4c7cede0-4e33-ffc5-6308-7eccd3570e9d@amd.com>
+Date: Thu, 27 May 2021 15:41:02 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.2
+ Thunderbird/78.8.1
+In-Reply-To: <CAKMK7uF-xHwLCp_5v+quqOvZxeX1nsE8RRA13iQ+AdQUOm_ufA@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+X-Originating-IP: [2a02:908:1252:fb60:e531:3aa1:4782:878a]
+X-ClientProxiedBy: PR3P251CA0008.EURP251.PROD.OUTLOOK.COM
+ (2603:10a6:102:b5::11) To MN2PR12MB3775.namprd12.prod.outlook.com
+ (2603:10b6:208:159::19)
 MIME-Version: 1.0
-In-Reply-To: <20210527112230.1274-1-drawat.floss@gmail.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="QxuMkWGl4dywxOePzT8z0XnYBoBQwU5in"
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [IPv6:2a02:908:1252:fb60:e531:3aa1:4782:878a]
+ (2a02:908:1252:fb60:e531:3aa1:4782:878a) by
+ PR3P251CA0008.EURP251.PROD.OUTLOOK.COM (2603:10a6:102:b5::11) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4173.20 via Frontend Transport; Thu, 27 May 2021 13:41:07 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: e362b7b3-8b7b-4e5d-c8d9-08d92115162f
+X-MS-TrafficTypeDiagnostic: MN2PR12MB3968:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <MN2PR12MB39686A44C9C7CA850E98E31E83239@MN2PR12MB3968.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:7219;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 9ztZhzwBzl2n+tpa8NegITY5bVnBozRyjiTnxcpumkUXsnGHZAZ5jxWLeJHNId8o06VmAUR6L9n9Y71xltKxKQDUlP2EyN8UTFrx36A3+PAxGEqAoDsN9paAI/qhskgtZefEZNCyfYV0iqi3+hwJ4MC0qkUfkFu9XE4p70pLdJrNKoaJpQGbV7ABbqXEnmnoBf0P2GoA4BtP+O9n6I2fFZ/8JLkBRjiETrzSSDHW6yj+2rEUUquPLcxAwtH76Zaco6S6bDc9kma68c1FenQbScT8owwPr4faESRcyECtCDPRwUzmPyYrEPbqZCjCWWmvCOCUcLYmse2RqwMtLYvFy3e8VPnIzfh8rwEBJihNdkdo7tPZ5xwklJAZBKmoSN0BEhVR+WyYJfv30zf3bPa/pDfMjqtr12+n8AwS2/mEGoXA9TDhMsCF0XfNem9S+HcOqIL5DujBPTtjff72XxvPGcY0AaPrTxlPKfZ1Y3tr8BuiCXJV/Nk68gXD6qRdXeGUX9H3W2thArGOeXNcUXSKmz7euyeygmn83tseRGcEMYOPuCSdI5kjTUmmUBKobYj0fuI0GcP2e6WDOaoPFlnjLd78RRryvDQZkCcdoMxvm3ugsDeDfUiODjhzhqXuCSeItKqsyNZNRFzS8H7VHdQozTgASEGmCwMbbGubalYuVa7xTmzSc742HPmv0A1SmXjx
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MN2PR12MB3775.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(39860400002)(396003)(346002)(366004)(376002)(136003)(7416002)(6666004)(4326008)(66574015)(2906002)(83380400001)(8936002)(5660300002)(36756003)(31696002)(52116002)(316002)(186003)(66946007)(54906003)(2616005)(86362001)(30864003)(6486002)(8676002)(38100700002)(478600001)(16526019)(31686004)(53546011)(6916009)(66476007)(66556008)(45980500001)(43740500002)(579004);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?dERBYlJpWWpNeGZSVU5GaFlEcEVXUksxR3o5cGtEL2R6VzhtSHVRWVZpMjcz?=
+ =?utf-8?B?UXJHZE5zUVY4WlJyck1BemhXRWM4Rm5ObXpvMjV1VG1FOXVvZ0o4RUVUeW9D?=
+ =?utf-8?B?T1dEN1dQcHJiaElZU3lRbHVoWVBCTENDUU43aFdyZklwYnBqaDc4M3JOcFBD?=
+ =?utf-8?B?TFlSVmVJd3hWamwxemI3ZCtWVVBmSDlYSmdId1gveTBiSWU3aEcvU2FpYmtk?=
+ =?utf-8?B?eVhwS2VLZG1McmVxditEc21kLzVqYkZPR1Q0NEpvU0V3YUxnMERSVVlMSGts?=
+ =?utf-8?B?aFUzazBqQlEvYUVGQ1NUWjMvMGl0bWwySmxtSTFVcDJQTi9UZUZoaFVwZUtF?=
+ =?utf-8?B?MFZTU2pXc2JWdzBpaDVqaXNVSXAzVHhxdkpzMmowT0lXek5GeThldTRFVElH?=
+ =?utf-8?B?SStFZUF3SmhPTCtBNldodjE4czl1MHM3Q08zQmtKa3lmS2NFRCtxbVdQbkJl?=
+ =?utf-8?B?Ly9aTUl4SUJxUm01c3ZuZXRWN21hMHFDaUJiRlRWRG95SUFOMDlLd1J5QUNy?=
+ =?utf-8?B?RkNOQjlaWExpMkkrN2JwMVBsbzMrTHQyeWhYN2lJaUw2M1JPM0hZcDZvUy8z?=
+ =?utf-8?B?WGMzU3oyazBPaloxWnp3alljL1FGandGZHd0VGhlTFVVT1F4YlRZWHd0dUU5?=
+ =?utf-8?B?UWk2Y01MK0l6TXVxWTdPZ29RYlJVK2RiRWx6V1JxZm9adFJid01tenI1QlJ1?=
+ =?utf-8?B?M3RJV2ZxY3ZjOVRpRDBpQnYzS0lSeWY5bElqY2tZbkMrMmxmRFlRUEtURCtG?=
+ =?utf-8?B?aEJuU3RHTkxyK1dvM2xCYk5zMjVOd3JNU1lXbnBmcDF6WUpFWUxMY29oSEpR?=
+ =?utf-8?B?Q3k3UEdLTzJRRlFxeUpsOVU2RkY5Ky9SeUx3aklyVk4wdk93WG9yRUFjS2Yr?=
+ =?utf-8?B?Mm1XTGV4NjluRm56VFUzU1orejhacEVqNjNFQ0p2eU81VFNoVytGSUFJYXkz?=
+ =?utf-8?B?dGdlVzJMeXYvZUdjcURTOHdlOEpUeWpMOEZSY01DT2x2R1Z6UThwUnZWRENr?=
+ =?utf-8?B?eTI4cVZoVkVVSHR0anhFRU5tKzNEK0pGTVlvTTN0U3NWdHZzYkFxemNsL2h4?=
+ =?utf-8?B?bEFsdXdkS0h1Sk81OHYrNVJ2SExkN0lOSmhuOTlPVzROV3kyNmRKaXhYYXlG?=
+ =?utf-8?B?OFBHLy92QVRHYTVOeDN3SkVzQTJ5V1hvNkRUdVhqaVFlZlg3UndoaW55RjdE?=
+ =?utf-8?B?S2VBVk8vMWhRRkFYeGlMeUMvVlp6alI0Zm5lV2hEeGhIb0FLUDFiTzlJMXo1?=
+ =?utf-8?B?djVPTnZaT1VaUXJQa0NKTmI5VlhYdit4U0ttdUh3ODJwYzlHUzZqQ1pJbk1I?=
+ =?utf-8?B?R1NMbDRMS3NnbzJkR3hiYmJoOEsrb0tXT2JyNFhTYU01TWtERlRZd1QxWUM3?=
+ =?utf-8?B?WXY2UUtNQ0gzUzdLc3VCNnBiUWJTUWFmeHowaTB2OXFtSG9UcE1yYWpXV1BF?=
+ =?utf-8?B?TkQ5U3VQeTZsd2NDZ29yQm9UQTNUcFZ5NTNIME9XYmZPY1pTZzJDL2o4aGRO?=
+ =?utf-8?B?ZkNxbkZmSjRodDczWEptdm5CeEd0NDlnY25yc0VsZzZNL3JjMGVBZk41T1Zu?=
+ =?utf-8?B?d2VlMW1CQmNKU1lxeEtTak9hU2JIRTN6enFuOFVPN3FmcDJ2dERLUW1oYS9s?=
+ =?utf-8?B?b3NqQ0ZjZXRPVlFFQkpVaDg2RmFIcUVFYzdHZkxyYTNJbnZnQVZoc0pGNDJ1?=
+ =?utf-8?B?anZKNXF1dmZSN3RkcU8yWVhsVmdLWE9wNzRhR1kzZ2pzWFNYK0t6UVNDZGZC?=
+ =?utf-8?B?bWV2dGMvMG84aG9RUmkwcUl0dGFjemRSbWxYYXc2QVZrNVFwL0NRUS9tWEdm?=
+ =?utf-8?B?Y3o4OHpscitOeVFLSWhMZVB5WTUyc1VuWWsxUlhhcnpFRDd3OGE1YnB2c1NC?=
+ =?utf-8?Q?NgPKhWOQ5Rri3?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e362b7b3-8b7b-4e5d-c8d9-08d92115162f
+X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3775.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 May 2021 13:41:10.2124 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: DU/cK/JHNlKRTtaueVPsuWoQ1Yqe6G397whHbO9+rR3/VoQzQK43s/j+yOvAsHTY
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB3968
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,1300 +134,851 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dexuan Cui <decui@microsoft.com>, Michael Kelley <mikelley@microsoft.com>
+Cc: Gerd Hoffmann <kraxel@redhat.com>, Jason Ekstrand <jason@jlekstrand.net>,
+ intel-gfx <intel-gfx@lists.freedesktop.org>, Huang Rui <ray.huang@amd.com>,
+ VMware Graphics <linux-graphics-maintainer@vmware.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Sean Paul <sean@poorly.run>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---QxuMkWGl4dywxOePzT8z0XnYBoBQwU5in
-Content-Type: multipart/mixed; boundary="CoNNDjMGm1F2YMxOvJGniYShr3NpgnEbb";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Deepak Rawat <drawat.floss@gmail.com>, dri-devel@lists.freedesktop.org,
- linux-hyperv@vger.kernel.org
-Cc: Dexuan Cui <decui@microsoft.com>, Michael Kelley <mikelley@microsoft.com>
-Message-ID: <f58a001a-b411-78b0-bcfc-ca853b920a64@suse.de>
-Subject: Re: [PATCH v6 1/3] drm/hyperv: Add DRM driver for hyperv synthetic
- video device
-References: <20210527112230.1274-1-drawat.floss@gmail.com>
-In-Reply-To: <20210527112230.1274-1-drawat.floss@gmail.com>
+Am 27.05.21 um 15:25 schrieb Daniel Vetter:
+> On Thu, May 27, 2021 at 1:59 PM Christian König
+> <christian.koenig@amd.com> wrote:
+>> Am 27.05.21 um 12:39 schrieb Daniel Vetter:
+>>> On Wed, May 26, 2021 at 12:57:40PM +0200, Christian König wrote:
+>>>> Am 25.05.21 um 23:17 schrieb Jason Ekstrand:
+>>>>> None of these helpers actually leak any RCU details to the caller.  They
+>>>>> all assume you have a genuine reference, take the RCU read lock, and
+>>>>> retry if needed.  Naming them with an _rcu is likely to cause callers
+>>>>> more panic than needed.
+>>>> I'm really wondering if we need this postfix in the first place.
+>>>>
+>>>> If we use the right rcu_dereference_check() macro then those functions can
+>>>> be called with both the reservation object locked and unlocked. It shouldn't
+>>>> matter to them.
+>>>>
+>>>> But getting rid of the _rcu postfix sounds like a good idea in general to
+>>>> me.
+>>> So does that count as an ack or not? If yes I think we should land this
+>>> patch right away, since it's going to conflict real fast badly.
+>> I had some follow up discussion with Jason and I would rather like to
+>> switch to using rcu_dereference_check() in all places and completely
+>> remove the _rcu postfix.
+> Hm, I'm not sure whether spreading _rcu tricks further is an
+> especially bright idea. At least i915 is full of very clever _rcu
+> tricks, and encouraging drivers to roll out their own _rcu everywhere
+> is probably not in our best interest. Some fast-path checking is imo
+> ok, but that's it. Especially once we get into the entire
+> SLAB_TYPESAFE_BY_RCU business it becomes really nasty really quickly.
 
---CoNNDjMGm1F2YMxOvJGniYShr3NpgnEbb
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+Oh, yes completely agree. SLAB_TYPESAFE_BY_RCU is optimizing for the 
+wrong use case I think.
 
-Hi
+You save a bit of overhead while freeing fences, but in return you have 
+extra overhead while adding fences to the dma_resv object.
 
-if no further comments come in, this can be moved in a few days. Since=20
-you'll be the maintainer, you should request commit access to the=20
-drm-misc repository. See
+> That's why I'm slightly leaning towards _unlocked variants, except we
+> do use those in lots of places where we hold dma_resv_lock too. So not
+> sure what's the best plan overall here.
 
-  https://drm.pages.freedesktop.org/maintainer-tools/commit-access.html
+Well what function names are we actually talking about?
 
-and
+For the dma_resv_get_excl_rcu() case I agree we should probably name 
+that to dma_resv_get_excl_unlocked() because it makes no sense at all to 
+use this function while holding the lock.
 
-  https://drm.pages.freedesktop.org/maintainer-tools/getting-started.html=
+But for the following functions:
+dma_resv_get_fences_rcu
+dma_resv_wait_timeout_rcu
+dma_resv_test_signaled_rcu
 
+I think we should just drop the _rcu naming because those are supposed 
+to work independent if the resv lock is held or not.
 
-Best regards
-Thomas
+Regards,
+Christian.
 
+> -Daniel
+>
+>> But yes I see the pain of rebasing this as well.
+>>
+>> Christian.
+>>
+>>> -Daniel
+>>>
+>>>> Christian.
+>>>>
+>>>>> v2 (Jason Ekstrand):
+>>>>>     - Fix function argument indentation
+>>>>>
+>>>>> Signed-off-by: Jason Ekstrand <jason@jlekstrand.net>
+>>>>> Suggested-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+>>>>> Cc: Christian König <christian.koenig@amd.com>
+>>>>> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+>>>>> Cc: Maxime Ripard <mripard@kernel.org>
+>>>>> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+>>>>> Cc: Lucas Stach <l.stach@pengutronix.de>
+>>>>> Cc: Rob Clark <robdclark@gmail.com>
+>>>>> Cc: Sean Paul <sean@poorly.run>
+>>>>> Cc: Huang Rui <ray.huang@amd.com>
+>>>>> Cc: Gerd Hoffmann <kraxel@redhat.com>
+>>>>> Cc: VMware Graphics <linux-graphics-maintainer@vmware.com>
+>>>>> ---
+>>>>>     drivers/dma-buf/dma-buf.c                     |  4 +--
+>>>>>     drivers/dma-buf/dma-resv.c                    | 28 +++++++++----------
+>>>>>     drivers/gpu/drm/amd/amdgpu/amdgpu_display.c   |  6 ++--
+>>>>>     drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c   |  2 +-
+>>>>>     drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c       |  4 +--
+>>>>>     drivers/gpu/drm/amd/amdgpu/amdgpu_ids.c       |  6 ++--
+>>>>>     drivers/gpu/drm/amd/amdgpu/amdgpu_mn.c        |  4 +--
+>>>>>     drivers/gpu/drm/amd/amdgpu/amdgpu_object.c    |  4 +--
+>>>>>     drivers/gpu/drm/amd/amdgpu/amdgpu_uvd.c       |  6 ++--
+>>>>>     drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c        | 14 +++++-----
+>>>>>     .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c |  6 ++--
+>>>>>     drivers/gpu/drm/drm_gem.c                     | 10 +++----
+>>>>>     drivers/gpu/drm/drm_gem_atomic_helper.c       |  2 +-
+>>>>>     drivers/gpu/drm/etnaviv/etnaviv_gem.c         |  7 ++---
+>>>>>     drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c  |  8 +++---
+>>>>>     drivers/gpu/drm/i915/display/intel_display.c  |  2 +-
+>>>>>     drivers/gpu/drm/i915/dma_resv_utils.c         |  2 +-
+>>>>>     drivers/gpu/drm/i915/gem/i915_gem_busy.c      |  2 +-
+>>>>>     .../gpu/drm/i915/gem/i915_gem_execbuffer.c    |  2 +-
+>>>>>     drivers/gpu/drm/i915/gem/i915_gem_object.h    |  2 +-
+>>>>>     drivers/gpu/drm/i915/gem/i915_gem_userptr.c   |  4 +--
+>>>>>     drivers/gpu/drm/i915/gem/i915_gem_wait.c      | 10 +++----
+>>>>>     drivers/gpu/drm/i915/i915_request.c           |  6 ++--
+>>>>>     drivers/gpu/drm/i915/i915_sw_fence.c          |  4 +--
+>>>>>     drivers/gpu/drm/msm/msm_gem.c                 |  3 +-
+>>>>>     drivers/gpu/drm/nouveau/dispnv50/wndw.c       |  2 +-
+>>>>>     drivers/gpu/drm/nouveau/nouveau_gem.c         |  4 +--
+>>>>>     drivers/gpu/drm/panfrost/panfrost_drv.c       |  4 +--
+>>>>>     drivers/gpu/drm/panfrost/panfrost_job.c       |  2 +-
+>>>>>     drivers/gpu/drm/radeon/radeon_gem.c           |  6 ++--
+>>>>>     drivers/gpu/drm/radeon/radeon_mn.c            |  4 +--
+>>>>>     drivers/gpu/drm/ttm/ttm_bo.c                  | 18 ++++++------
+>>>>>     drivers/gpu/drm/vgem/vgem_fence.c             |  4 +--
+>>>>>     drivers/gpu/drm/virtio/virtgpu_ioctl.c        |  6 ++--
+>>>>>     drivers/gpu/drm/vmwgfx/vmwgfx_bo.c            |  2 +-
+>>>>>     include/linux/dma-resv.h                      | 18 ++++++------
+>>>>>     36 files changed, 108 insertions(+), 110 deletions(-)
+>>>>>
+>>>>> diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+>>>>> index f264b70c383eb..ed6451d55d663 100644
+>>>>> --- a/drivers/dma-buf/dma-buf.c
+>>>>> +++ b/drivers/dma-buf/dma-buf.c
+>>>>> @@ -1147,8 +1147,8 @@ static int __dma_buf_begin_cpu_access(struct dma_buf *dmabuf,
+>>>>>      long ret;
+>>>>>      /* Wait on any implicit rendering fences */
+>>>>> -   ret = dma_resv_wait_timeout_rcu(resv, write, true,
+>>>>> -                                             MAX_SCHEDULE_TIMEOUT);
+>>>>> +   ret = dma_resv_wait_timeout_unlocked(resv, write, true,
+>>>>> +                                        MAX_SCHEDULE_TIMEOUT);
+>>>>>      if (ret < 0)
+>>>>>              return ret;
+>>>>> diff --git a/drivers/dma-buf/dma-resv.c b/drivers/dma-buf/dma-resv.c
+>>>>> index 6ddbeb5dfbf65..d6f1ed4cd4d55 100644
+>>>>> --- a/drivers/dma-buf/dma-resv.c
+>>>>> +++ b/drivers/dma-buf/dma-resv.c
+>>>>> @@ -417,7 +417,7 @@ int dma_resv_copy_fences(struct dma_resv *dst, struct dma_resv *src)
+>>>>>     EXPORT_SYMBOL(dma_resv_copy_fences);
+>>>>>     /**
+>>>>> - * dma_resv_get_fences_rcu - Get an object's shared and exclusive
+>>>>> + * dma_resv_get_fences_unlocked - Get an object's shared and exclusive
+>>>>>      * fences without update side lock held
+>>>>>      * @obj: the reservation object
+>>>>>      * @pfence_excl: the returned exclusive fence (or NULL)
+>>>>> @@ -429,10 +429,10 @@ EXPORT_SYMBOL(dma_resv_copy_fences);
+>>>>>      * exclusive fence is not specified the fence is put into the array of the
+>>>>>      * shared fences as well. Returns either zero or -ENOMEM.
+>>>>>      */
+>>>>> -int dma_resv_get_fences_rcu(struct dma_resv *obj,
+>>>>> -                       struct dma_fence **pfence_excl,
+>>>>> -                       unsigned *pshared_count,
+>>>>> -                       struct dma_fence ***pshared)
+>>>>> +int dma_resv_get_fences_unlocked(struct dma_resv *obj,
+>>>>> +                            struct dma_fence **pfence_excl,
+>>>>> +                            unsigned *pshared_count,
+>>>>> +                            struct dma_fence ***pshared)
+>>>>>     {
+>>>>>      struct dma_fence **shared = NULL;
+>>>>>      struct dma_fence *fence_excl;
+>>>>> @@ -515,10 +515,10 @@ int dma_resv_get_fences_rcu(struct dma_resv *obj,
+>>>>>      *pshared = shared;
+>>>>>      return ret;
+>>>>>     }
+>>>>> -EXPORT_SYMBOL_GPL(dma_resv_get_fences_rcu);
+>>>>> +EXPORT_SYMBOL_GPL(dma_resv_get_fences_unlocked);
+>>>>>     /**
+>>>>> - * dma_resv_wait_timeout_rcu - Wait on reservation's objects
+>>>>> + * dma_resv_wait_timeout_unlocked - Wait on reservation's objects
+>>>>>      * shared and/or exclusive fences.
+>>>>>      * @obj: the reservation object
+>>>>>      * @wait_all: if true, wait on all fences, else wait on just exclusive fence
+>>>>> @@ -529,9 +529,9 @@ EXPORT_SYMBOL_GPL(dma_resv_get_fences_rcu);
+>>>>>      * Returns -ERESTARTSYS if interrupted, 0 if the wait timed out, or
+>>>>>      * greater than zer on success.
+>>>>>      */
+>>>>> -long dma_resv_wait_timeout_rcu(struct dma_resv *obj,
+>>>>> -                          bool wait_all, bool intr,
+>>>>> -                          unsigned long timeout)
+>>>>> +long dma_resv_wait_timeout_unlocked(struct dma_resv *obj,
+>>>>> +                               bool wait_all, bool intr,
+>>>>> +                               unsigned long timeout)
+>>>>>     {
+>>>>>      struct dma_fence *fence;
+>>>>>      unsigned seq, shared_count;
+>>>>> @@ -602,7 +602,7 @@ long dma_resv_wait_timeout_rcu(struct dma_resv *obj,
+>>>>>      rcu_read_unlock();
+>>>>>      goto retry;
+>>>>>     }
+>>>>> -EXPORT_SYMBOL_GPL(dma_resv_wait_timeout_rcu);
+>>>>> +EXPORT_SYMBOL_GPL(dma_resv_wait_timeout_unlocked);
+>>>>>     static inline int dma_resv_test_signaled_single(struct dma_fence *passed_fence)
+>>>>> @@ -622,7 +622,7 @@ static inline int dma_resv_test_signaled_single(struct dma_fence *passed_fence)
+>>>>>     }
+>>>>>     /**
+>>>>> - * dma_resv_test_signaled_rcu - Test if a reservation object's
+>>>>> + * dma_resv_test_signaled_unlocked - Test if a reservation object's
+>>>>>      * fences have been signaled.
+>>>>>      * @obj: the reservation object
+>>>>>      * @test_all: if true, test all fences, otherwise only test the exclusive
+>>>>> @@ -631,7 +631,7 @@ static inline int dma_resv_test_signaled_single(struct dma_fence *passed_fence)
+>>>>>      * RETURNS
+>>>>>      * true if all fences signaled, else false
+>>>>>      */
+>>>>> -bool dma_resv_test_signaled_rcu(struct dma_resv *obj, bool test_all)
+>>>>> +bool dma_resv_test_signaled_unlocked(struct dma_resv *obj, bool test_all)
+>>>>>     {
+>>>>>      unsigned seq, shared_count;
+>>>>>      int ret;
+>>>>> @@ -680,4 +680,4 @@ bool dma_resv_test_signaled_rcu(struct dma_resv *obj, bool test_all)
+>>>>>      rcu_read_unlock();
+>>>>>      return ret;
+>>>>>     }
+>>>>> -EXPORT_SYMBOL_GPL(dma_resv_test_signaled_rcu);
+>>>>> +EXPORT_SYMBOL_GPL(dma_resv_test_signaled_unlocked);
+>>>>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
+>>>>> index 8a1fb8b6606e5..b8e24f199be9a 100644
+>>>>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
+>>>>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
+>>>>> @@ -203,9 +203,9 @@ int amdgpu_display_crtc_page_flip_target(struct drm_crtc *crtc,
+>>>>>              goto unpin;
+>>>>>      }
+>>>>> -   r = dma_resv_get_fences_rcu(new_abo->tbo.base.resv, &work->excl,
+>>>>> -                                         &work->shared_count,
+>>>>> -                                         &work->shared);
+>>>>> +   r = dma_resv_get_fences_unlocked(new_abo->tbo.base.resv, &work->excl,
+>>>>> +                                    &work->shared_count,
+>>>>> +                                    &work->shared);
+>>>>>      if (unlikely(r != 0)) {
+>>>>>              DRM_ERROR("failed to get fences for buffer\n");
+>>>>>              goto unpin;
+>>>>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c
+>>>>> index baa980a477d94..0d0319bc51577 100644
+>>>>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c
+>>>>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c
+>>>>> @@ -98,7 +98,7 @@ __dma_resv_make_exclusive(struct dma_resv *obj)
+>>>>>      if (!dma_resv_get_list(obj)) /* no shared fences to convert */
+>>>>>              return 0;
+>>>>> -   r = dma_resv_get_fences_rcu(obj, NULL, &count, &fences);
+>>>>> +   r = dma_resv_get_fences_unlocked(obj, NULL, &count, &fences);
+>>>>>      if (r)
+>>>>>              return r;
+>>>>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c
+>>>>> index 18974bd081f00..8e2996d6ba3ad 100644
+>>>>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c
+>>>>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c
+>>>>> @@ -471,8 +471,8 @@ int amdgpu_gem_wait_idle_ioctl(struct drm_device *dev, void *data,
+>>>>>              return -ENOENT;
+>>>>>      }
+>>>>>      robj = gem_to_amdgpu_bo(gobj);
+>>>>> -   ret = dma_resv_wait_timeout_rcu(robj->tbo.base.resv, true, true,
+>>>>> -                                             timeout);
+>>>>> +   ret = dma_resv_wait_timeout_unlocked(robj->tbo.base.resv, true, true,
+>>>>> +                                        timeout);
+>>>>>      /* ret == 0 means not signaled,
+>>>>>       * ret > 0 means signaled
+>>>>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ids.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ids.c
+>>>>> index b4971e90b98cf..38e1b32dd2cef 100644
+>>>>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ids.c
+>>>>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ids.c
+>>>>> @@ -112,7 +112,7 @@ void amdgpu_pasid_free_delayed(struct dma_resv *resv,
+>>>>>      unsigned count;
+>>>>>      int r;
+>>>>> -   r = dma_resv_get_fences_rcu(resv, NULL, &count, &fences);
+>>>>> +   r = dma_resv_get_fences_unlocked(resv, NULL, &count, &fences);
+>>>>>      if (r)
+>>>>>              goto fallback;
+>>>>> @@ -156,8 +156,8 @@ void amdgpu_pasid_free_delayed(struct dma_resv *resv,
+>>>>>      /* Not enough memory for the delayed delete, as last resort
+>>>>>       * block for all the fences to complete.
+>>>>>       */
+>>>>> -   dma_resv_wait_timeout_rcu(resv, true, false,
+>>>>> -                                       MAX_SCHEDULE_TIMEOUT);
+>>>>> +   dma_resv_wait_timeout_unlocked(resv, true, false,
+>>>>> +                                  MAX_SCHEDULE_TIMEOUT);
+>>>>>      amdgpu_pasid_free(pasid);
+>>>>>     }
+>>>>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_mn.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_mn.c
+>>>>> index 828b5167ff128..0319c8b547c48 100644
+>>>>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_mn.c
+>>>>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_mn.c
+>>>>> @@ -75,8 +75,8 @@ static bool amdgpu_mn_invalidate_gfx(struct mmu_interval_notifier *mni,
+>>>>>      mmu_interval_set_seq(mni, cur_seq);
+>>>>> -   r = dma_resv_wait_timeout_rcu(bo->tbo.base.resv, true, false,
+>>>>> -                                 MAX_SCHEDULE_TIMEOUT);
+>>>>> +   r = dma_resv_wait_timeout_unlocked(bo->tbo.base.resv, true, false,
+>>>>> +                                      MAX_SCHEDULE_TIMEOUT);
+>>>>>      mutex_unlock(&adev->notifier_lock);
+>>>>>      if (r <= 0)
+>>>>>              DRM_ERROR("(%ld) failed to wait for user bo\n", r);
+>>>>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
+>>>>> index 0adffcace3263..de1c7c5501683 100644
+>>>>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
+>>>>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
+>>>>> @@ -791,8 +791,8 @@ int amdgpu_bo_kmap(struct amdgpu_bo *bo, void **ptr)
+>>>>>              return 0;
+>>>>>      }
+>>>>> -   r = dma_resv_wait_timeout_rcu(bo->tbo.base.resv, false, false,
+>>>>> -                                           MAX_SCHEDULE_TIMEOUT);
+>>>>> +   r = dma_resv_wait_timeout_unlocked(bo->tbo.base.resv, false, false,
+>>>>> +                                      MAX_SCHEDULE_TIMEOUT);
+>>>>>      if (r < 0)
+>>>>>              return r;
+>>>>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_uvd.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_uvd.c
+>>>>> index c6dbc08016045..4a2196404fb69 100644
+>>>>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_uvd.c
+>>>>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_uvd.c
+>>>>> @@ -1115,9 +1115,9 @@ static int amdgpu_uvd_send_msg(struct amdgpu_ring *ring, struct amdgpu_bo *bo,
+>>>>>      ib->length_dw = 16;
+>>>>>      if (direct) {
+>>>>> -           r = dma_resv_wait_timeout_rcu(bo->tbo.base.resv,
+>>>>> -                                                   true, false,
+>>>>> -                                                   msecs_to_jiffies(10));
+>>>>> +           r = dma_resv_wait_timeout_unlocked(bo->tbo.base.resv,
+>>>>> +                                              true, false,
+>>>>> +                                              msecs_to_jiffies(10));
+>>>>>              if (r == 0)
+>>>>>                      r = -ETIMEDOUT;
+>>>>>              if (r < 0)
+>>>>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
+>>>>> index 4a3e3f72e1277..7ba1c537d6584 100644
+>>>>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
+>>>>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
+>>>>> @@ -2007,14 +2007,14 @@ static void amdgpu_vm_prt_fini(struct amdgpu_device *adev, struct amdgpu_vm *vm)
+>>>>>      unsigned i, shared_count;
+>>>>>      int r;
+>>>>> -   r = dma_resv_get_fences_rcu(resv, &excl,
+>>>>> -                                         &shared_count, &shared);
+>>>>> +   r = dma_resv_get_fences_unlocked(resv, &excl,
+>>>>> +                                    &shared_count, &shared);
+>>>>>      if (r) {
+>>>>>              /* Not enough memory to grab the fence list, as last resort
+>>>>>               * block for all the fences to complete.
+>>>>>               */
+>>>>> -           dma_resv_wait_timeout_rcu(resv, true, false,
+>>>>> -                                               MAX_SCHEDULE_TIMEOUT);
+>>>>> +           dma_resv_wait_timeout_unlocked(resv, true, false,
+>>>>> +                                          MAX_SCHEDULE_TIMEOUT);
+>>>>>              return;
+>>>>>      }
+>>>>> @@ -2625,7 +2625,7 @@ bool amdgpu_vm_evictable(struct amdgpu_bo *bo)
+>>>>>              return true;
+>>>>>      /* Don't evict VM page tables while they are busy */
+>>>>> -   if (!dma_resv_test_signaled_rcu(bo->tbo.base.resv, true))
+>>>>> +   if (!dma_resv_test_signaled_unlocked(bo->tbo.base.resv, true))
+>>>>>              return false;
+>>>>>      /* Try to block ongoing updates */
+>>>>> @@ -2805,8 +2805,8 @@ void amdgpu_vm_adjust_size(struct amdgpu_device *adev, uint32_t min_vm_size,
+>>>>>      */
+>>>>>     long amdgpu_vm_wait_idle(struct amdgpu_vm *vm, long timeout)
+>>>>>     {
+>>>>> -   timeout = dma_resv_wait_timeout_rcu(vm->root.base.bo->tbo.base.resv,
+>>>>> -                                       true, true, timeout);
+>>>>> +   timeout = dma_resv_wait_timeout_unlocked(vm->root.base.bo->tbo.base.resv,
+>>>>> +                                            true, true, timeout);
+>>>>>      if (timeout <= 0)
+>>>>>              return timeout;
+>>>>> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+>>>>> index 9ca517b658546..0121d2817fa26 100644
+>>>>> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+>>>>> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+>>>>> @@ -8276,9 +8276,9 @@ static void amdgpu_dm_commit_planes(struct drm_atomic_state *state,
+>>>>>               * deadlock during GPU reset when this fence will not signal
+>>>>>               * but we hold reservation lock for the BO.
+>>>>>               */
+>>>>> -           r = dma_resv_wait_timeout_rcu(abo->tbo.base.resv, true,
+>>>>> -                                                   false,
+>>>>> -                                                   msecs_to_jiffies(5000));
+>>>>> +           r = dma_resv_wait_timeout_unlocked(abo->tbo.base.resv, true,
+>>>>> +                                              false,
+>>>>> +                                              msecs_to_jiffies(5000));
+>>>>>              if (unlikely(r <= 0))
+>>>>>                      DRM_ERROR("Waiting for fences timed out!");
+>>>>> diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
+>>>>> index 9989425e9875a..1241a421b9e81 100644
+>>>>> --- a/drivers/gpu/drm/drm_gem.c
+>>>>> +++ b/drivers/gpu/drm/drm_gem.c
+>>>>> @@ -770,8 +770,8 @@ long drm_gem_dma_resv_wait(struct drm_file *filep, u32 handle,
+>>>>>              return -EINVAL;
+>>>>>      }
+>>>>> -   ret = dma_resv_wait_timeout_rcu(obj->resv, wait_all,
+>>>>> -                                             true, timeout);
+>>>>> +   ret = dma_resv_wait_timeout_unlocked(obj->resv, wait_all,
+>>>>> +                                        true, timeout);
+>>>>>      if (ret == 0)
+>>>>>              ret = -ETIME;
+>>>>>      else if (ret > 0)
+>>>>> @@ -1375,13 +1375,13 @@ int drm_gem_fence_array_add_implicit(struct xarray *fence_array,
+>>>>>      if (!write) {
+>>>>>              struct dma_fence *fence =
+>>>>> -                   dma_resv_get_excl_rcu(obj->resv);
+>>>>> +                   dma_resv_get_excl_unlocked(obj->resv);
+>>>>>              return drm_gem_fence_array_add(fence_array, fence);
+>>>>>      }
+>>>>> -   ret = dma_resv_get_fences_rcu(obj->resv, NULL,
+>>>>> -                                           &fence_count, &fences);
+>>>>> +   ret = dma_resv_get_fences_unlocked(obj->resv, NULL,
+>>>>> +                                      &fence_count, &fences);
+>>>>>      if (ret || !fence_count)
+>>>>>              return ret;
+>>>>> diff --git a/drivers/gpu/drm/drm_gem_atomic_helper.c b/drivers/gpu/drm/drm_gem_atomic_helper.c
+>>>>> index a005c5a0ba46a..a27135084ae5c 100644
+>>>>> --- a/drivers/gpu/drm/drm_gem_atomic_helper.c
+>>>>> +++ b/drivers/gpu/drm/drm_gem_atomic_helper.c
+>>>>> @@ -147,7 +147,7 @@ int drm_gem_plane_helper_prepare_fb(struct drm_plane *plane, struct drm_plane_st
+>>>>>              return 0;
+>>>>>      obj = drm_gem_fb_get_obj(state->fb, 0);
+>>>>> -   fence = dma_resv_get_excl_rcu(obj->resv);
+>>>>> +   fence = dma_resv_get_excl_unlocked(obj->resv);
+>>>>>      drm_atomic_set_fence_for_plane(state, fence);
+>>>>>      return 0;
+>>>>> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem.c b/drivers/gpu/drm/etnaviv/etnaviv_gem.c
+>>>>> index db69f19ab5bca..4e6f5346e84e4 100644
+>>>>> --- a/drivers/gpu/drm/etnaviv/etnaviv_gem.c
+>>>>> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gem.c
+>>>>> @@ -390,14 +390,13 @@ int etnaviv_gem_cpu_prep(struct drm_gem_object *obj, u32 op,
+>>>>>      }
+>>>>>      if (op & ETNA_PREP_NOSYNC) {
+>>>>> -           if (!dma_resv_test_signaled_rcu(obj->resv,
+>>>>> -                                                     write))
+>>>>> +           if (!dma_resv_test_signaled_unlocked(obj->resv, write))
+>>>>>                      return -EBUSY;
+>>>>>      } else {
+>>>>>              unsigned long remain = etnaviv_timeout_to_jiffies(timeout);
+>>>>> -           ret = dma_resv_wait_timeout_rcu(obj->resv,
+>>>>> -                                                     write, true, remain);
+>>>>> +           ret = dma_resv_wait_timeout_unlocked(obj->resv,
+>>>>> +                                                write, true, remain);
+>>>>>              if (ret <= 0)
+>>>>>                      return ret == 0 ? -ETIMEDOUT : ret;
+>>>>>      }
+>>>>> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c b/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
+>>>>> index d05c359945799..6617fada4595d 100644
+>>>>> --- a/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
+>>>>> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
+>>>>> @@ -189,13 +189,13 @@ static int submit_fence_sync(struct etnaviv_gem_submit *submit)
+>>>>>                      continue;
+>>>>>              if (bo->flags & ETNA_SUBMIT_BO_WRITE) {
+>>>>> -                   ret = dma_resv_get_fences_rcu(robj, &bo->excl,
+>>>>> -                                                           &bo->nr_shared,
+>>>>> -                                                           &bo->shared);
+>>>>> +                   ret = dma_resv_get_fences_unlocked(robj, &bo->excl,
+>>>>> +                                                      &bo->nr_shared,
+>>>>> +                                                      &bo->shared);
+>>>>>                      if (ret)
+>>>>>                              return ret;
+>>>>>              } else {
+>>>>> -                   bo->excl = dma_resv_get_excl_rcu(robj);
+>>>>> +                   bo->excl = dma_resv_get_excl_unlocked(robj);
+>>>>>              }
+>>>>>      }
+>>>>> diff --git a/drivers/gpu/drm/i915/display/intel_display.c b/drivers/gpu/drm/i915/display/intel_display.c
+>>>>> index 422b59ebf6dce..5f0b85a102159 100644
+>>>>> --- a/drivers/gpu/drm/i915/display/intel_display.c
+>>>>> +++ b/drivers/gpu/drm/i915/display/intel_display.c
+>>>>> @@ -11040,7 +11040,7 @@ intel_prepare_plane_fb(struct drm_plane *_plane,
+>>>>>              if (ret < 0)
+>>>>>                      goto unpin_fb;
+>>>>> -           fence = dma_resv_get_excl_rcu(obj->base.resv);
+>>>>> +           fence = dma_resv_get_excl_unlocked(obj->base.resv);
+>>>>>              if (fence) {
+>>>>>                      add_rps_boost_after_vblank(new_plane_state->hw.crtc,
+>>>>>                                                 fence);
+>>>>> diff --git a/drivers/gpu/drm/i915/dma_resv_utils.c b/drivers/gpu/drm/i915/dma_resv_utils.c
+>>>>> index 9e508e7d4629f..bdfc6bf16a4e9 100644
+>>>>> --- a/drivers/gpu/drm/i915/dma_resv_utils.c
+>>>>> +++ b/drivers/gpu/drm/i915/dma_resv_utils.c
+>>>>> @@ -10,7 +10,7 @@
+>>>>>     void dma_resv_prune(struct dma_resv *resv)
+>>>>>     {
+>>>>>      if (dma_resv_trylock(resv)) {
+>>>>> -           if (dma_resv_test_signaled_rcu(resv, true))
+>>>>> +           if (dma_resv_test_signaled_unlocked(resv, true))
+>>>>>                      dma_resv_add_excl_fence(resv, NULL);
+>>>>>              dma_resv_unlock(resv);
+>>>>>      }
+>>>>> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_busy.c b/drivers/gpu/drm/i915/gem/i915_gem_busy.c
+>>>>> index 25235ef630c10..754ad6d1bace9 100644
+>>>>> --- a/drivers/gpu/drm/i915/gem/i915_gem_busy.c
+>>>>> +++ b/drivers/gpu/drm/i915/gem/i915_gem_busy.c
+>>>>> @@ -105,7 +105,7 @@ i915_gem_busy_ioctl(struct drm_device *dev, void *data,
+>>>>>       * Alternatively, we can trade that extra information on read/write
+>>>>>       * activity with
+>>>>>       *      args->busy =
+>>>>> -    *              !dma_resv_test_signaled_rcu(obj->resv, true);
+>>>>> +    *              !dma_resv_test_signaled_unlocked(obj->resv, true);
+>>>>>       * to report the overall busyness. This is what the wait-ioctl does.
+>>>>>       *
+>>>>>       */
+>>>>> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
+>>>>> index 297143511f99b..e8f323564e57b 100644
+>>>>> --- a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
+>>>>> +++ b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
+>>>>> @@ -1481,7 +1481,7 @@ static inline bool use_reloc_gpu(struct i915_vma *vma)
+>>>>>      if (DBG_FORCE_RELOC)
+>>>>>              return false;
+>>>>> -   return !dma_resv_test_signaled_rcu(vma->resv, true);
+>>>>> +   return !dma_resv_test_signaled_unlocked(vma->resv, true);
+>>>>>     }
+>>>>>     static unsigned long vma_phys_addr(struct i915_vma *vma, u32 offset)
+>>>>> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object.h b/drivers/gpu/drm/i915/gem/i915_gem_object.h
+>>>>> index 2ebd79537aea9..7c0eb425cb3b3 100644
+>>>>> --- a/drivers/gpu/drm/i915/gem/i915_gem_object.h
+>>>>> +++ b/drivers/gpu/drm/i915/gem/i915_gem_object.h
+>>>>> @@ -500,7 +500,7 @@ i915_gem_object_last_write_engine(struct drm_i915_gem_object *obj)
+>>>>>      struct dma_fence *fence;
+>>>>>      rcu_read_lock();
+>>>>> -   fence = dma_resv_get_excl_rcu(obj->base.resv);
+>>>>> +   fence = dma_resv_get_excl_unlocked(obj->base.resv);
+>>>>>      rcu_read_unlock();
+>>>>>      if (fence && dma_fence_is_i915(fence) && !dma_fence_is_signaled(fence))
+>>>>> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_userptr.c b/drivers/gpu/drm/i915/gem/i915_gem_userptr.c
+>>>>> index a657b99ec7606..44df18dc9669f 100644
+>>>>> --- a/drivers/gpu/drm/i915/gem/i915_gem_userptr.c
+>>>>> +++ b/drivers/gpu/drm/i915/gem/i915_gem_userptr.c
+>>>>> @@ -85,8 +85,8 @@ static bool i915_gem_userptr_invalidate(struct mmu_interval_notifier *mni,
+>>>>>              return true;
+>>>>>      /* we will unbind on next submission, still have userptr pins */
+>>>>> -   r = dma_resv_wait_timeout_rcu(obj->base.resv, true, false,
+>>>>> -                                 MAX_SCHEDULE_TIMEOUT);
+>>>>> +   r = dma_resv_wait_timeout_unlocked(obj->base.resv, true, false,
+>>>>> +                                      MAX_SCHEDULE_TIMEOUT);
+>>>>>      if (r <= 0)
+>>>>>              drm_err(&i915->drm, "(%ld) failed to wait for idle\n", r);
+>>>>> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_wait.c b/drivers/gpu/drm/i915/gem/i915_gem_wait.c
+>>>>> index 4b9856d5ba14f..5b6c52659ad4d 100644
+>>>>> --- a/drivers/gpu/drm/i915/gem/i915_gem_wait.c
+>>>>> +++ b/drivers/gpu/drm/i915/gem/i915_gem_wait.c
+>>>>> @@ -45,7 +45,7 @@ i915_gem_object_wait_reservation(struct dma_resv *resv,
+>>>>>              unsigned int count, i;
+>>>>>              int ret;
+>>>>> -           ret = dma_resv_get_fences_rcu(resv, &excl, &count, &shared);
+>>>>> +           ret = dma_resv_get_fences_unlocked(resv, &excl, &count, &shared);
+>>>>>              if (ret)
+>>>>>                      return ret;
+>>>>> @@ -73,7 +73,7 @@ i915_gem_object_wait_reservation(struct dma_resv *resv,
+>>>>>               */
+>>>>>              prune_fences = count && timeout >= 0;
+>>>>>      } else {
+>>>>> -           excl = dma_resv_get_excl_rcu(resv);
+>>>>> +           excl = dma_resv_get_excl_unlocked(resv);
+>>>>>      }
+>>>>>      if (excl && timeout >= 0)
+>>>>> @@ -158,8 +158,8 @@ i915_gem_object_wait_priority(struct drm_i915_gem_object *obj,
+>>>>>              unsigned int count, i;
+>>>>>              int ret;
+>>>>> -           ret = dma_resv_get_fences_rcu(obj->base.resv,
+>>>>> -                                         &excl, &count, &shared);
+>>>>> +           ret = dma_resv_get_fences_unlocked(obj->base.resv,
+>>>>> +                                              &excl, &count, &shared);
+>>>>>              if (ret)
+>>>>>                      return ret;
+>>>>> @@ -170,7 +170,7 @@ i915_gem_object_wait_priority(struct drm_i915_gem_object *obj,
+>>>>>              kfree(shared);
+>>>>>      } else {
+>>>>> -           excl = dma_resv_get_excl_rcu(obj->base.resv);
+>>>>> +           excl = dma_resv_get_excl_unlocked(obj->base.resv);
+>>>>>      }
+>>>>>      if (excl) {
+>>>>> diff --git a/drivers/gpu/drm/i915/i915_request.c b/drivers/gpu/drm/i915/i915_request.c
+>>>>> index 970d8f4986bbe..f1ed03ced7dd1 100644
+>>>>> --- a/drivers/gpu/drm/i915/i915_request.c
+>>>>> +++ b/drivers/gpu/drm/i915/i915_request.c
+>>>>> @@ -1594,8 +1594,8 @@ i915_request_await_object(struct i915_request *to,
+>>>>>              struct dma_fence **shared;
+>>>>>              unsigned int count, i;
+>>>>> -           ret = dma_resv_get_fences_rcu(obj->base.resv,
+>>>>> -                                                   &excl, &count, &shared);
+>>>>> +           ret = dma_resv_get_fences_unlocked(obj->base.resv,
+>>>>> +                                              &excl, &count, &shared);
+>>>>>              if (ret)
+>>>>>                      return ret;
+>>>>> @@ -1611,7 +1611,7 @@ i915_request_await_object(struct i915_request *to,
+>>>>>                      dma_fence_put(shared[i]);
+>>>>>              kfree(shared);
+>>>>>      } else {
+>>>>> -           excl = dma_resv_get_excl_rcu(obj->base.resv);
+>>>>> +           excl = dma_resv_get_excl_unlocked(obj->base.resv);
+>>>>>      }
+>>>>>      if (excl) {
+>>>>> diff --git a/drivers/gpu/drm/i915/i915_sw_fence.c b/drivers/gpu/drm/i915/i915_sw_fence.c
+>>>>> index 2744558f30507..0bcb7ea44201e 100644
+>>>>> --- a/drivers/gpu/drm/i915/i915_sw_fence.c
+>>>>> +++ b/drivers/gpu/drm/i915/i915_sw_fence.c
+>>>>> @@ -582,7 +582,7 @@ int i915_sw_fence_await_reservation(struct i915_sw_fence *fence,
+>>>>>              struct dma_fence **shared;
+>>>>>              unsigned int count, i;
+>>>>> -           ret = dma_resv_get_fences_rcu(resv, &excl, &count, &shared);
+>>>>> +           ret = dma_resv_get_fences_unlocked(resv, &excl, &count, &shared);
+>>>>>              if (ret)
+>>>>>                      return ret;
+>>>>> @@ -606,7 +606,7 @@ int i915_sw_fence_await_reservation(struct i915_sw_fence *fence,
+>>>>>                      dma_fence_put(shared[i]);
+>>>>>              kfree(shared);
+>>>>>      } else {
+>>>>> -           excl = dma_resv_get_excl_rcu(resv);
+>>>>> +           excl = dma_resv_get_excl_unlocked(resv);
+>>>>>      }
+>>>>>      if (ret >= 0 && excl && excl->ops != exclude) {
+>>>>> diff --git a/drivers/gpu/drm/msm/msm_gem.c b/drivers/gpu/drm/msm/msm_gem.c
+>>>>> index 56df86e5f7400..1aca60507bb14 100644
+>>>>> --- a/drivers/gpu/drm/msm/msm_gem.c
+>>>>> +++ b/drivers/gpu/drm/msm/msm_gem.c
+>>>>> @@ -915,8 +915,7 @@ int msm_gem_cpu_prep(struct drm_gem_object *obj, uint32_t op, ktime_t *timeout)
+>>>>>              op & MSM_PREP_NOSYNC ? 0 : timeout_to_jiffies(timeout);
+>>>>>      long ret;
+>>>>> -   ret = dma_resv_wait_timeout_rcu(obj->resv, write,
+>>>>> -                                             true,  remain);
+>>>>> +   ret = dma_resv_wait_timeout_unlocked(obj->resv, write, true, remain);
+>>>>>      if (ret == 0)
+>>>>>              return remain == 0 ? -EBUSY : -ETIMEDOUT;
+>>>>>      else if (ret < 0)
+>>>>> diff --git a/drivers/gpu/drm/nouveau/dispnv50/wndw.c b/drivers/gpu/drm/nouveau/dispnv50/wndw.c
+>>>>> index 0cb1f9d848d3e..8d048bacd6f02 100644
+>>>>> --- a/drivers/gpu/drm/nouveau/dispnv50/wndw.c
+>>>>> +++ b/drivers/gpu/drm/nouveau/dispnv50/wndw.c
+>>>>> @@ -561,7 +561,7 @@ nv50_wndw_prepare_fb(struct drm_plane *plane, struct drm_plane_state *state)
+>>>>>                      asyw->image.handle[0] = ctxdma->object.handle;
+>>>>>      }
+>>>>> -   asyw->state.fence = dma_resv_get_excl_rcu(nvbo->bo.base.resv);
+>>>>> +   asyw->state.fence = dma_resv_get_excl_unlocked(nvbo->bo.base.resv);
+>>>>>      asyw->image.offset[0] = nvbo->offset;
+>>>>>      if (wndw->func->prepare) {
+>>>>> diff --git a/drivers/gpu/drm/nouveau/nouveau_gem.c b/drivers/gpu/drm/nouveau/nouveau_gem.c
+>>>>> index a70e82413fa75..bc6b09ee9b552 100644
+>>>>> --- a/drivers/gpu/drm/nouveau/nouveau_gem.c
+>>>>> +++ b/drivers/gpu/drm/nouveau/nouveau_gem.c
+>>>>> @@ -928,8 +928,8 @@ nouveau_gem_ioctl_cpu_prep(struct drm_device *dev, void *data,
+>>>>>              return -ENOENT;
+>>>>>      nvbo = nouveau_gem_object(gem);
+>>>>> -   lret = dma_resv_wait_timeout_rcu(nvbo->bo.base.resv, write, true,
+>>>>> -                                              no_wait ? 0 : 30 * HZ);
+>>>>> +   lret = dma_resv_wait_timeout_unlocked(nvbo->bo.base.resv, write, true,
+>>>>> +                                         no_wait ? 0 : 30 * HZ);
+>>>>>      if (!lret)
+>>>>>              ret = -EBUSY;
+>>>>>      else if (lret > 0)
+>>>>> diff --git a/drivers/gpu/drm/panfrost/panfrost_drv.c b/drivers/gpu/drm/panfrost/panfrost_drv.c
+>>>>> index ca07098a61419..eef5b632ee0ce 100644
+>>>>> --- a/drivers/gpu/drm/panfrost/panfrost_drv.c
+>>>>> +++ b/drivers/gpu/drm/panfrost/panfrost_drv.c
+>>>>> @@ -311,8 +311,8 @@ panfrost_ioctl_wait_bo(struct drm_device *dev, void *data,
+>>>>>      if (!gem_obj)
+>>>>>              return -ENOENT;
+>>>>> -   ret = dma_resv_wait_timeout_rcu(gem_obj->resv, true,
+>>>>> -                                             true, timeout);
+>>>>> +   ret = dma_resv_wait_timeout_unlocked(gem_obj->resv, true,
+>>>>> +                                        true, timeout);
+>>>>>      if (!ret)
+>>>>>              ret = timeout ? -ETIMEDOUT : -EBUSY;
+>>>>> diff --git a/drivers/gpu/drm/panfrost/panfrost_job.c b/drivers/gpu/drm/panfrost/panfrost_job.c
+>>>>> index 6003cfeb13221..2df3e999a38d0 100644
+>>>>> --- a/drivers/gpu/drm/panfrost/panfrost_job.c
+>>>>> +++ b/drivers/gpu/drm/panfrost/panfrost_job.c
+>>>>> @@ -203,7 +203,7 @@ static void panfrost_acquire_object_fences(struct drm_gem_object **bos,
+>>>>>      int i;
+>>>>>      for (i = 0; i < bo_count; i++)
+>>>>> -           implicit_fences[i] = dma_resv_get_excl_rcu(bos[i]->resv);
+>>>>> +           implicit_fences[i] = dma_resv_get_excl_unlocked(bos[i]->resv);
+>>>>>     }
+>>>>>     static void panfrost_attach_object_fences(struct drm_gem_object **bos,
+>>>>> diff --git a/drivers/gpu/drm/radeon/radeon_gem.c b/drivers/gpu/drm/radeon/radeon_gem.c
+>>>>> index 05ea2f39f6261..1a38b0bf36d11 100644
+>>>>> --- a/drivers/gpu/drm/radeon/radeon_gem.c
+>>>>> +++ b/drivers/gpu/drm/radeon/radeon_gem.c
+>>>>> @@ -125,7 +125,7 @@ static int radeon_gem_set_domain(struct drm_gem_object *gobj,
+>>>>>      }
+>>>>>      if (domain == RADEON_GEM_DOMAIN_CPU) {
+>>>>>              /* Asking for cpu access wait for object idle */
+>>>>> -           r = dma_resv_wait_timeout_rcu(robj->tbo.base.resv, true, true, 30 * HZ);
+>>>>> +           r = dma_resv_wait_timeout_unlocked(robj->tbo.base.resv, true, true, 30 * HZ);
+>>>>>              if (!r)
+>>>>>                      r = -EBUSY;
+>>>>> @@ -474,7 +474,7 @@ int radeon_gem_busy_ioctl(struct drm_device *dev, void *data,
+>>>>>      }
+>>>>>      robj = gem_to_radeon_bo(gobj);
+>>>>> -   r = dma_resv_test_signaled_rcu(robj->tbo.base.resv, true);
+>>>>> +   r = dma_resv_test_signaled_unlocked(robj->tbo.base.resv, true);
+>>>>>      if (r == 0)
+>>>>>              r = -EBUSY;
+>>>>>      else
+>>>>> @@ -503,7 +503,7 @@ int radeon_gem_wait_idle_ioctl(struct drm_device *dev, void *data,
+>>>>>      }
+>>>>>      robj = gem_to_radeon_bo(gobj);
+>>>>> -   ret = dma_resv_wait_timeout_rcu(robj->tbo.base.resv, true, true, 30 * HZ);
+>>>>> +   ret = dma_resv_wait_timeout_unlocked(robj->tbo.base.resv, true, true, 30 * HZ);
+>>>>>      if (ret == 0)
+>>>>>              r = -EBUSY;
+>>>>>      else if (ret < 0)
+>>>>> diff --git a/drivers/gpu/drm/radeon/radeon_mn.c b/drivers/gpu/drm/radeon/radeon_mn.c
+>>>>> index e37c9a57a7c36..a19be3f8a218c 100644
+>>>>> --- a/drivers/gpu/drm/radeon/radeon_mn.c
+>>>>> +++ b/drivers/gpu/drm/radeon/radeon_mn.c
+>>>>> @@ -66,8 +66,8 @@ static bool radeon_mn_invalidate(struct mmu_interval_notifier *mn,
+>>>>>              return true;
+>>>>>      }
+>>>>> -   r = dma_resv_wait_timeout_rcu(bo->tbo.base.resv, true, false,
+>>>>> -                                 MAX_SCHEDULE_TIMEOUT);
+>>>>> +   r = dma_resv_wait_timeout_unlocked(bo->tbo.base.resv, true, false,
+>>>>> +                                      MAX_SCHEDULE_TIMEOUT);
+>>>>>      if (r <= 0)
+>>>>>              DRM_ERROR("(%ld) failed to wait for user bo\n", r);
+>>>>> diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
+>>>>> index ca1b098b6a561..215cad3149621 100644
+>>>>> --- a/drivers/gpu/drm/ttm/ttm_bo.c
+>>>>> +++ b/drivers/gpu/drm/ttm/ttm_bo.c
+>>>>> @@ -294,7 +294,7 @@ static int ttm_bo_cleanup_refs(struct ttm_buffer_object *bo,
+>>>>>      struct dma_resv *resv = &bo->base._resv;
+>>>>>      int ret;
+>>>>> -   if (dma_resv_test_signaled_rcu(resv, true))
+>>>>> +   if (dma_resv_test_signaled_unlocked(resv, true))
+>>>>>              ret = 0;
+>>>>>      else
+>>>>>              ret = -EBUSY;
+>>>>> @@ -306,8 +306,8 @@ static int ttm_bo_cleanup_refs(struct ttm_buffer_object *bo,
+>>>>>                      dma_resv_unlock(bo->base.resv);
+>>>>>              spin_unlock(&bo->bdev->lru_lock);
+>>>>> -           lret = dma_resv_wait_timeout_rcu(resv, true, interruptible,
+>>>>> -                                            30 * HZ);
+>>>>> +           lret = dma_resv_wait_timeout_unlocked(resv, true, interruptible,
+>>>>> +                                                 30 * HZ);
+>>>>>              if (lret < 0)
+>>>>>                      return lret;
+>>>>> @@ -409,8 +409,8 @@ static void ttm_bo_release(struct kref *kref)
+>>>>>                      /* Last resort, if we fail to allocate memory for the
+>>>>>                       * fences block for the BO to become idle
+>>>>>                       */
+>>>>> -                   dma_resv_wait_timeout_rcu(bo->base.resv, true, false,
+>>>>> -                                             30 * HZ);
+>>>>> +                   dma_resv_wait_timeout_unlocked(bo->base.resv, true, false,
+>>>>> +                                                  30 * HZ);
+>>>>>              }
+>>>>>              if (bo->bdev->funcs->release_notify)
+>>>>> @@ -420,7 +420,7 @@ static void ttm_bo_release(struct kref *kref)
+>>>>>              ttm_mem_io_free(bdev, &bo->mem);
+>>>>>      }
+>>>>> -   if (!dma_resv_test_signaled_rcu(bo->base.resv, true) ||
+>>>>> +   if (!dma_resv_test_signaled_unlocked(bo->base.resv, true) ||
+>>>>>          !dma_resv_trylock(bo->base.resv)) {
+>>>>>              /* The BO is not idle, resurrect it for delayed destroy */
+>>>>>              ttm_bo_flush_all_fences(bo);
+>>>>> @@ -1116,14 +1116,14 @@ int ttm_bo_wait(struct ttm_buffer_object *bo,
+>>>>>      long timeout = 15 * HZ;
+>>>>>      if (no_wait) {
+>>>>> -           if (dma_resv_test_signaled_rcu(bo->base.resv, true))
+>>>>> +           if (dma_resv_test_signaled_unlocked(bo->base.resv, true))
+>>>>>                      return 0;
+>>>>>              else
+>>>>>                      return -EBUSY;
+>>>>>      }
+>>>>> -   timeout = dma_resv_wait_timeout_rcu(bo->base.resv, true,
+>>>>> -                                                 interruptible, timeout);
+>>>>> +   timeout = dma_resv_wait_timeout_unlocked(bo->base.resv, true,
+>>>>> +                                            interruptible, timeout);
+>>>>>      if (timeout < 0)
+>>>>>              return timeout;
+>>>>> diff --git a/drivers/gpu/drm/vgem/vgem_fence.c b/drivers/gpu/drm/vgem/vgem_fence.c
+>>>>> index 2902dc6e64faf..010a82405e374 100644
+>>>>> --- a/drivers/gpu/drm/vgem/vgem_fence.c
+>>>>> +++ b/drivers/gpu/drm/vgem/vgem_fence.c
+>>>>> @@ -151,8 +151,8 @@ int vgem_fence_attach_ioctl(struct drm_device *dev,
+>>>>>      /* Check for a conflicting fence */
+>>>>>      resv = obj->resv;
+>>>>> -   if (!dma_resv_test_signaled_rcu(resv,
+>>>>> -                                             arg->flags & VGEM_FENCE_WRITE)) {
+>>>>> +   if (!dma_resv_test_signaled_unlocked(resv,
+>>>>> +                                        arg->flags & VGEM_FENCE_WRITE)) {
+>>>>>              ret = -EBUSY;
+>>>>>              goto err_fence;
+>>>>>      }
+>>>>> diff --git a/drivers/gpu/drm/virtio/virtgpu_ioctl.c b/drivers/gpu/drm/virtio/virtgpu_ioctl.c
+>>>>> index 669f2ee395154..ab010c8e32816 100644
+>>>>> --- a/drivers/gpu/drm/virtio/virtgpu_ioctl.c
+>>>>> +++ b/drivers/gpu/drm/virtio/virtgpu_ioctl.c
+>>>>> @@ -451,10 +451,10 @@ static int virtio_gpu_wait_ioctl(struct drm_device *dev, void *data,
+>>>>>              return -ENOENT;
+>>>>>      if (args->flags & VIRTGPU_WAIT_NOWAIT) {
+>>>>> -           ret = dma_resv_test_signaled_rcu(obj->resv, true);
+>>>>> +           ret = dma_resv_test_signaled_unlocked(obj->resv, true);
+>>>>>      } else {
+>>>>> -           ret = dma_resv_wait_timeout_rcu(obj->resv, true, true,
+>>>>> -                                           timeout);
+>>>>> +           ret = dma_resv_wait_timeout_unlocked(obj->resv, true, true,
+>>>>> +                                                timeout);
+>>>>>      }
+>>>>>      if (ret == 0)
+>>>>>              ret = -EBUSY;
+>>>>> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_bo.c b/drivers/gpu/drm/vmwgfx/vmwgfx_bo.c
+>>>>> index 04dd49c4c2572..19e1ce23842a9 100644
+>>>>> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_bo.c
+>>>>> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_bo.c
+>>>>> @@ -743,7 +743,7 @@ static int vmw_user_bo_synccpu_grab(struct vmw_user_buffer_object *user_bo,
+>>>>>      if (flags & drm_vmw_synccpu_allow_cs) {
+>>>>>              long lret;
+>>>>> -           lret = dma_resv_wait_timeout_rcu
+>>>>> +           lret = dma_resv_wait_timeout_unlocked
+>>>>>                      (bo->base.resv, true, true,
+>>>>>                       nonblock ? 0 : MAX_SCHEDULE_TIMEOUT);
+>>>>>              if (!lret)
+>>>>> diff --git a/include/linux/dma-resv.h b/include/linux/dma-resv.h
+>>>>> index d44a77e8a7e34..99cfb7af966b8 100644
+>>>>> --- a/include/linux/dma-resv.h
+>>>>> +++ b/include/linux/dma-resv.h
+>>>>> @@ -246,7 +246,7 @@ dma_resv_get_excl(struct dma_resv *obj)
+>>>>>     }
+>>>>>     /**
+>>>>> - * dma_resv_get_excl_rcu - get the reservation object's
+>>>>> + * dma_resv_get_excl_unlocked - get the reservation object's
+>>>>>      * exclusive fence, without lock held.
+>>>>>      * @obj: the reservation object
+>>>>>      *
+>>>>> @@ -257,7 +257,7 @@ dma_resv_get_excl(struct dma_resv *obj)
+>>>>>      * The exclusive fence or NULL if none
+>>>>>      */
+>>>>>     static inline struct dma_fence *
+>>>>> -dma_resv_get_excl_rcu(struct dma_resv *obj)
+>>>>> +dma_resv_get_excl_unlocked(struct dma_resv *obj)
+>>>>>     {
+>>>>>      struct dma_fence *fence;
+>>>>> @@ -278,16 +278,16 @@ void dma_resv_add_shared_fence(struct dma_resv *obj, struct dma_fence *fence);
+>>>>>     void dma_resv_add_excl_fence(struct dma_resv *obj, struct dma_fence *fence);
+>>>>> -int dma_resv_get_fences_rcu(struct dma_resv *obj,
+>>>>> -                       struct dma_fence **pfence_excl,
+>>>>> -                       unsigned *pshared_count,
+>>>>> -                       struct dma_fence ***pshared);
+>>>>> +int dma_resv_get_fences_unlocked(struct dma_resv *obj,
+>>>>> +                            struct dma_fence **pfence_excl,
+>>>>> +                            unsigned *pshared_count,
+>>>>> +                            struct dma_fence ***pshared);
+>>>>>     int dma_resv_copy_fences(struct dma_resv *dst, struct dma_resv *src);
+>>>>> -long dma_resv_wait_timeout_rcu(struct dma_resv *obj, bool wait_all, bool intr,
+>>>>> -                          unsigned long timeout);
+>>>>> +long dma_resv_wait_timeout_unlocked(struct dma_resv *obj, bool wait_all, bool intr,
+>>>>> +                               unsigned long timeout);
+>>>>> -bool dma_resv_test_signaled_rcu(struct dma_resv *obj, bool test_all);
+>>>>> +bool dma_resv_test_signaled_unlocked(struct dma_resv *obj, bool test_all);
+>>>>>     #endif /* _LINUX_RESERVATION_H */
+>
 
-Am 27.05.21 um 13:22 schrieb Deepak Rawat:
-> DRM driver for hyperv synthetic video device, based on hyperv_fb
-> framebuffer driver. Also added config option "DRM_HYPERV" to enabled
-> this driver.
->=20
-> v2:
-> - Add support for gen2 VM
-> - Fixed review comments
->=20
-> v3:
-> - Split into multiple files as suggested by Thomas Zimmermann
-> - Fixed hibernation issue as suggested by Dexuan Cui
-> - Use ioremap_cache as suggested by Dexuan Cui
-> - Incorporated other review comments
->=20
-> v4:
-> - Fix bitrotted code
-> - Review comments
-> - Updated the copyright and license to match hyperv_fb
->=20
-> v5:
-> - Address review comments and rebased with drm-misc-next
->=20
-> v6:
-> - Minor code/comment improvement as suggested by Dexuan Cui
->=20
-> Signed-off-by: Deepak Rawat <drawat.floss@gmail.com>
-> Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
-> ---
->   drivers/gpu/drm/Kconfig                     |  13 +
->   drivers/gpu/drm/Makefile                    |   1 +
->   drivers/gpu/drm/hyperv/Makefile             |   8 +
->   drivers/gpu/drm/hyperv/hyperv_drm.h         |  51 +++
->   drivers/gpu/drm/hyperv/hyperv_drm_drv.c     | 309 +++++++++++++
->   drivers/gpu/drm/hyperv/hyperv_drm_modeset.c | 231 ++++++++++
->   drivers/gpu/drm/hyperv/hyperv_drm_proto.c   | 478 +++++++++++++++++++=
-+
->   7 files changed, 1091 insertions(+)
->   create mode 100644 drivers/gpu/drm/hyperv/Makefile
->   create mode 100644 drivers/gpu/drm/hyperv/hyperv_drm.h
->   create mode 100644 drivers/gpu/drm/hyperv/hyperv_drm_drv.c
->   create mode 100644 drivers/gpu/drm/hyperv/hyperv_drm_modeset.c
->   create mode 100644 drivers/gpu/drm/hyperv/hyperv_drm_proto.c
->=20
-> diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
-> index 594ac6c3a1f4..3f96b704836f 100644
-> --- a/drivers/gpu/drm/Kconfig
-> +++ b/drivers/gpu/drm/Kconfig
-> @@ -379,6 +379,19 @@ source "drivers/gpu/drm/xlnx/Kconfig"
->  =20
->   source "drivers/gpu/drm/gud/Kconfig"
->  =20
-> +config DRM_HYPERV
-> +	tristate "DRM Support for Hyper-V synthetic video device"
-> +	depends on DRM && PCI && MMU && HYPERV
-> +	select DRM_KMS_HELPER
-> +	select DRM_GEM_SHMEM_HELPER
-> +	help
-> +	 This is a KMS driver for Hyper-V synthetic video device. Choose this=
-
-> +	 option if you would like to enable drm driver for Hyper-V virtual
-> +	 machine. Unselect Hyper-V framebuffer driver (CONFIG_FB_HYPERV) so
-> +	 that DRM driver is used by default.
-> +
-> +	 If M is selected the module will be called hyperv_drm.
-> +
->   # Keep legacy drivers last
->  =20
->   menuconfig DRM_LEGACY
-> diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
-> index a91cc7684904..a118692a6df7 100644
-> --- a/drivers/gpu/drm/Makefile
-> +++ b/drivers/gpu/drm/Makefile
-> @@ -126,3 +126,4 @@ obj-$(CONFIG_DRM_MCDE) +=3D mcde/
->   obj-$(CONFIG_DRM_TIDSS) +=3D tidss/
->   obj-y			+=3D xlnx/
->   obj-y			+=3D gud/
-> +obj-$(CONFIG_DRM_HYPERV) +=3D hyperv/
-> diff --git a/drivers/gpu/drm/hyperv/Makefile b/drivers/gpu/drm/hyperv/M=
-akefile
-> new file mode 100644
-> index 000000000000..265f12f2c660
-> --- /dev/null
-> +++ b/drivers/gpu/drm/hyperv/Makefile
-> @@ -0,0 +1,8 @@
-> +# SPDX-License-Identifier: GPL-2.0-only
-> +
-> +hyperv_drm-y :=3D \
-> +	hyperv_drm_drv.o \
-> +	hyperv_drm_modeset.o \
-> +	hyperv_drm_proto.o
-> +
-> +obj-$(CONFIG_DRM_HYPERV) +=3D hyperv_drm.o
-> diff --git a/drivers/gpu/drm/hyperv/hyperv_drm.h b/drivers/gpu/drm/hype=
-rv/hyperv_drm.h
-> new file mode 100644
-> index 000000000000..e1d1fdea96f2
-> --- /dev/null
-> +++ b/drivers/gpu/drm/hyperv/hyperv_drm.h
-> @@ -0,0 +1,51 @@
-> +/* SPDX-License-Identifier: GPL-2.0-only */
-> +/*
-> + * Copyright 2021 Microsoft
-> + */
-> +
-> +#ifndef _HYPERV_DRM_H_
-> +#define _HYPERV_DRM_H_
-> +
-> +#define VMBUS_MAX_PACKET_SIZE 0x4000
-> +
-> +struct hyperv_drm_device {
-> +	/* drm */
-> +	struct drm_device dev;
-> +	struct drm_simple_display_pipe pipe;
-> +	struct drm_connector connector;
-> +
-> +	/* mode */
-> +	u32 screen_width_max;
-> +	u32 screen_height_max;
-> +	u32 preferred_width;
-> +	u32 preferred_height;
-> +	u32 screen_depth;
-> +
-> +	/* hw */
-> +	struct resource *mem;
-> +	void __iomem *vram;
-> +	unsigned long fb_base;
-> +	unsigned long fb_size;
-> +	struct completion wait;
-> +	u32 synthvid_version;
-> +	u32 mmio_megabytes;
-> +
-> +	u8 init_buf[VMBUS_MAX_PACKET_SIZE];
-> +	u8 recv_buf[VMBUS_MAX_PACKET_SIZE];
-> +
-> +	struct hv_device *hdev;
-> +};
-> +
-> +#define to_hv(_dev) container_of(_dev, struct hyperv_drm_device, dev)
-> +
-> +/* hyperv_drm_modeset */
-> +int hyperv_mode_config_init(struct hyperv_drm_device *hv);
-> +
-> +/* hyperv_drm_proto */
-> +int hyperv_update_vram_location(struct hv_device *hdev, phys_addr_t vr=
-am_pp);
-> +int hyperv_update_situation(struct hv_device *hdev, u8 active, u32 bpp=
-,
-> +			    u32 w, u32 h, u32 pitch);
-> +int hyperv_update_dirt(struct hv_device *hdev, struct drm_rect *rect);=
-
-> +int hyperv_connect_vsp(struct hv_device *hdev);
-> +
-> +#endif
-> diff --git a/drivers/gpu/drm/hyperv/hyperv_drm_drv.c b/drivers/gpu/drm/=
-hyperv/hyperv_drm_drv.c
-> new file mode 100644
-> index 000000000000..beb53068fa0d
-> --- /dev/null
-> +++ b/drivers/gpu/drm/hyperv/hyperv_drm_drv.c
-> @@ -0,0 +1,309 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +/*
-> + * Copyright 2021 Microsoft
-> + */
-> +
-> +#include <linux/efi.h>
-> +#include <linux/hyperv.h>
-> +#include <linux/module.h>
-> +#include <linux/pci.h>
-> +
-> +#include <drm/drm_aperture.h>
-> +#include <drm/drm_atomic_helper.h>
-> +#include <drm/drm_drv.h>
-> +#include <drm/drm_fb_helper.h>
-> +#include <drm/drm_gem_shmem_helper.h>
-> +#include <drm/drm_simple_kms_helper.h>
-> +
-> +#include "hyperv_drm.h"
-> +
-> +#define DRIVER_NAME "hyperv_drm"
-> +#define DRIVER_DESC "DRM driver for Hyper-V synthetic video device"
-> +#define DRIVER_DATE "2020"
-> +#define DRIVER_MAJOR 1
-> +#define DRIVER_MINOR 0
-> +
-> +#define PCI_VENDOR_ID_MICROSOFT 0x1414
-> +#define PCI_DEVICE_ID_HYPERV_VIDEO 0x5353
-> +
-> +DEFINE_DRM_GEM_FOPS(hv_fops);
-> +
-> +static struct drm_driver hyperv_driver =3D {
-> +	.driver_features =3D DRIVER_MODESET | DRIVER_GEM | DRIVER_ATOMIC,
-> +
-> +	.name		 =3D DRIVER_NAME,
-> +	.desc		 =3D DRIVER_DESC,
-> +	.date		 =3D DRIVER_DATE,
-> +	.major		 =3D DRIVER_MAJOR,
-> +	.minor		 =3D DRIVER_MINOR,
-> +
-> +	.fops		 =3D &hv_fops,
-> +	DRM_GEM_SHMEM_DRIVER_OPS,
-> +};
-> +
-> +static int hyperv_pci_probe(struct pci_dev *pdev,
-> +			    const struct pci_device_id *ent)
-> +{
-> +	return 0;
-> +}
-> +
-> +static void hyperv_pci_remove(struct pci_dev *pdev)
-> +{
-> +}
-> +
-> +static const struct pci_device_id hyperv_pci_tbl[] =3D {
-> +	{
-> +		.vendor =3D PCI_VENDOR_ID_MICROSOFT,
-> +		.device =3D PCI_DEVICE_ID_HYPERV_VIDEO,
-> +	},
-> +	{ /* end of list */ }
-> +};
-> +
-> +/*
-> + * PCI stub to support gen1 VM.
-> + */
-> +static struct pci_driver hyperv_pci_driver =3D {
-> +	.name =3D		KBUILD_MODNAME,
-> +	.id_table =3D	hyperv_pci_tbl,
-> +	.probe =3D	hyperv_pci_probe,
-> +	.remove =3D	hyperv_pci_remove,
-> +};
-> +
-> +static int hyperv_setup_gen1(struct hyperv_drm_device *hv)
-> +{
-> +	struct drm_device *dev =3D &hv->dev;
-> +	struct pci_dev *pdev;
-> +	int ret;
-> +
-> +	pdev =3D pci_get_device(PCI_VENDOR_ID_MICROSOFT,
-> +			      PCI_DEVICE_ID_HYPERV_VIDEO, NULL);
-> +	if (!pdev) {
-> +		drm_err(dev, "Unable to find PCI Hyper-V video\n");
-> +		return -ENODEV;
-> +	}
-> +
-> +	ret =3D drm_aperture_remove_conflicting_pci_framebuffers(pdev, "hyper=
-vdrmfb");
-> +	if (ret) {
-> +		drm_err(dev, "Not able to remove boot fb\n");
-> +		return ret;
-> +	}
-> +
-> +	if (pci_request_region(pdev, 0, DRIVER_NAME) !=3D 0)
-> +		drm_warn(dev, "Cannot request framebuffer, boot fb still active?\n")=
-;
-> +
-> +	if ((pdev->resource[0].flags & IORESOURCE_MEM) =3D=3D 0) {
-> +		drm_err(dev, "Resource at bar 0 is not IORESOURCE_MEM\n");
-> +		ret =3D -ENODEV;
-> +		goto error;
-> +	}
-> +
-> +	hv->fb_base =3D pci_resource_start(pdev, 0);
-> +	hv->fb_size =3D pci_resource_len(pdev, 0);
-> +	if (!hv->fb_base) {
-> +		drm_err(dev, "Resource not available\n");
-> +		ret =3D -ENODEV;
-> +		goto error;
-> +	}
-> +
-> +	hv->fb_size =3D min(hv->fb_size,
-> +			  (unsigned long)(hv->mmio_megabytes * 1024 * 1024));
-> +	hv->vram =3D devm_ioremap(&pdev->dev, hv->fb_base, hv->fb_size);
-> +	if (!hv->vram) {
-> +		drm_err(dev, "Failed to map vram\n");
-> +		ret =3D -ENOMEM;
-> +	}
-> +
-> +error:
-> +	pci_dev_put(pdev);
-> +	return ret;
-> +}
-> +
-> +static int hyperv_setup_gen2(struct hyperv_drm_device *hv,
-> +			     struct hv_device *hdev)
-> +{
-> +	struct drm_device *dev =3D &hv->dev;
-> +	int ret;
-> +
-> +	drm_aperture_remove_conflicting_framebuffers(screen_info.lfb_base,
-> +						     screen_info.lfb_size,
-> +						     false,
-> +						     "hypervdrmfb");
-> +
-> +	hv->fb_size =3D (unsigned long)hv->mmio_megabytes * 1024 * 1024;
-> +
-> +	ret =3D vmbus_allocate_mmio(&hv->mem, hdev, 0, -1, hv->fb_size, 0x100=
-000,
-> +				  true);
-> +	if (ret) {
-> +		drm_err(dev, "Failed to allocate mmio\n");
-> +		return -ENOMEM;
-> +	}
-> +
-> +	/*
-> +	 * Map the VRAM cacheable for performance. This is also required for =
-VM
-> +	 * connect to display properly for ARM64 Linux VM, as the host also m=
-aps
-> +	 * the VRAM cacheable.
-> +	 */
-> +	hv->vram =3D ioremap_cache(hv->mem->start, hv->fb_size);
-> +	if (!hv->vram) {
-> +		drm_err(dev, "Failed to map vram\n");
-> +		ret =3D -ENOMEM;
-> +		goto error;
-> +	}
-> +
-> +	hv->fb_base =3D hv->mem->start;
-> +	return 0;
-> +
-> +error:
-> +	vmbus_free_mmio(hv->mem->start, hv->fb_size);
-> +	return ret;
-> +}
-> +
-> +static int hyperv_vmbus_probe(struct hv_device *hdev,
-> +			      const struct hv_vmbus_device_id *dev_id)
-> +{
-> +	struct hyperv_drm_device *hv;
-> +	struct drm_device *dev;
-> +	int ret;
-> +
-> +	hv =3D devm_drm_dev_alloc(&hdev->device, &hyperv_driver,
-> +				struct hyperv_drm_device, dev);
-> +	if (IS_ERR(hv))
-> +		return PTR_ERR(hv);
-> +
-> +	dev =3D &hv->dev;
-> +	init_completion(&hv->wait);
-> +	hv_set_drvdata(hdev, hv);
-> +	hv->hdev =3D hdev;
-> +
-> +	ret =3D hyperv_connect_vsp(hdev);
-> +	if (ret) {
-> +		drm_err(dev, "Failed to connect to vmbus.\n");
-> +		goto err_hv_set_drv_data;
-> +	}
-> +
-> +	if (efi_enabled(EFI_BOOT))
-> +		ret =3D hyperv_setup_gen2(hv, hdev);
-> +	else
-> +		ret =3D hyperv_setup_gen1(hv);
-> +
-> +	if (ret)
-> +		goto err_vmbus_close;
-> +
-> +	/*
-> +	 * Should be done only once during init and resume. Failing to update=
-
-> +	 * vram location is not fatal. Device will update dirty area till
-> +	 * preferred resolution only.
-> +	 */
-> +	ret =3D hyperv_update_vram_location(hdev, hv->fb_base);
-> +	if (ret)
-> +		drm_warn(dev, "Failed to update vram location.\n");
-> +
-> +	ret =3D hyperv_mode_config_init(hv);
-> +	if (ret)
-> +		goto err_vmbus_close;
-> +
-> +	ret =3D drm_dev_register(dev, 0);
-> +	if (ret) {
-> +		drm_err(dev, "Failed to register drm driver.\n");
-> +		goto err_vmbus_close;
-> +	}
-> +
-> +	drm_fbdev_generic_setup(dev, 0);
-> +
-> +	return 0;
-> +
-> +err_vmbus_close:
-> +	vmbus_close(hdev->channel);
-> +err_hv_set_drv_data:
-> +	hv_set_drvdata(hdev, NULL);
-> +	return ret;
-> +}
-> +
-> +static int hyperv_vmbus_remove(struct hv_device *hdev)
-> +{
-> +	struct drm_device *dev =3D hv_get_drvdata(hdev);
-> +	struct hyperv_drm_device *hv =3D to_hv(dev);
-> +
-> +	drm_dev_unplug(dev);
-> +	drm_atomic_helper_shutdown(dev);
-> +	vmbus_close(hdev->channel);
-> +	hv_set_drvdata(hdev, NULL);
-> +	vmbus_free_mmio(hv->mem->start, hv->fb_size);
-> +
-> +	return 0;
-> +}
-> +
-> +static int hyperv_vmbus_suspend(struct hv_device *hdev)
-> +{
-> +	struct drm_device *dev =3D hv_get_drvdata(hdev);
-> +	int ret;
-> +
-> +	ret =3D drm_mode_config_helper_suspend(dev);
-> +	if (ret)
-> +		return ret;
-> +
-> +	vmbus_close(hdev->channel);
-> +
-> +	return 0;
-> +}
-> +
-> +static int hyperv_vmbus_resume(struct hv_device *hdev)
-> +{
-> +	struct drm_device *dev =3D hv_get_drvdata(hdev);
-> +	struct hyperv_drm_device *hv =3D to_hv(dev);
-> +	int ret;
-> +
-> +	ret =3D hyperv_connect_vsp(hdev);
-> +	if (ret)
-> +		return ret;
-> +
-> +	ret =3D hyperv_update_vram_location(hdev, hv->fb_base);
-> +	if (ret)
-> +		return ret;
-> +
-> +	return drm_mode_config_helper_resume(dev);
-> +}
-> +
-> +static const struct hv_vmbus_device_id hyperv_vmbus_tbl[] =3D {
-> +	/* Synthetic Video Device GUID */
-> +	{HV_SYNTHVID_GUID},
-> +	{}
-> +};
-> +
-> +static struct hv_driver hyperv_hv_driver =3D {
-> +	.name =3D KBUILD_MODNAME,
-> +	.id_table =3D hyperv_vmbus_tbl,
-> +	.probe =3D hyperv_vmbus_probe,
-> +	.remove =3D hyperv_vmbus_remove,
-> +	.suspend =3D hyperv_vmbus_suspend,
-> +	.resume =3D hyperv_vmbus_resume,
-> +	.driver =3D {
-> +		.probe_type =3D PROBE_PREFER_ASYNCHRONOUS,
-> +	},
-> +};
-> +
-> +static int __init hyperv_init(void)
-> +{
-> +	int ret;
-> +
-> +	ret =3D pci_register_driver(&hyperv_pci_driver);
-> +	if (ret !=3D 0)
-> +		return ret;
-> +
-> +	return vmbus_driver_register(&hyperv_hv_driver);
-> +}
-> +
-> +static void __exit hyperv_exit(void)
-> +{
-> +	vmbus_driver_unregister(&hyperv_hv_driver);
-> +	pci_unregister_driver(&hyperv_pci_driver);
-> +}
-> +
-> +module_init(hyperv_init);
-> +module_exit(hyperv_exit);
-> +
-> +MODULE_DEVICE_TABLE(pci, hyperv_pci_tbl);
-> +MODULE_DEVICE_TABLE(vmbus, hyperv_vmbus_tbl);
-> +MODULE_LICENSE("GPL");
-> +MODULE_AUTHOR("Deepak Rawat <drawat.floss@gmail.com>");
-> +MODULE_DESCRIPTION("DRM driver for Hyper-V synthetic video device");
-> diff --git a/drivers/gpu/drm/hyperv/hyperv_drm_modeset.c b/drivers/gpu/=
-drm/hyperv/hyperv_drm_modeset.c
-> new file mode 100644
-> index 000000000000..02718e3e859e
-> --- /dev/null
-> +++ b/drivers/gpu/drm/hyperv/hyperv_drm_modeset.c
-> @@ -0,0 +1,231 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +/*
-> + * Copyright 2021 Microsoft
-> + */
-> +
-> +#include <linux/hyperv.h>
-> +
-> +#include <drm/drm_damage_helper.h>
-> +#include <drm/drm_drv.h>
-> +#include <drm/drm_fb_helper.h>
-> +#include <drm/drm_format_helper.h>
-> +#include <drm/drm_fourcc.h>
-> +#include <drm/drm_gem_atomic_helper.h>
-> +#include <drm/drm_gem_framebuffer_helper.h>
-> +#include <drm/drm_gem_shmem_helper.h>
-> +#include <drm/drm_probe_helper.h>
-> +#include <drm/drm_simple_kms_helper.h>
-> +
-> +#include "hyperv_drm.h"
-> +
-> +static int hyperv_blit_to_vram_rect(struct drm_framebuffer *fb,
-> +				    const struct dma_buf_map *map,
-> +				    struct drm_rect *rect)
-> +{
-> +	struct hyperv_drm_device *hv =3D to_hv(fb->dev);
-> +	void *vmap =3D map->vaddr; /* TODO: Use mapping abstraction properly =
-*/
-> +	int idx;
-> +
-> +	if (!drm_dev_enter(&hv->dev, &idx))
-> +		return -ENODEV;
-> +
-> +	drm_fb_memcpy_dstclip(hv->vram, fb->pitches[0], vmap, fb, rect);
-> +	drm_dev_exit(idx);
-> +
-> +	return 0;
-> +}
-> +
-> +static int hyperv_blit_to_vram_fullscreen(struct drm_framebuffer *fb, =
-const struct dma_buf_map *map)
-> +{
-> +	struct drm_rect fullscreen =3D {
-> +		.x1 =3D 0,
-> +		.x2 =3D fb->width,
-> +		.y1 =3D 0,
-> +		.y2 =3D fb->height,
-> +	};
-> +	return hyperv_blit_to_vram_rect(fb, map, &fullscreen);
-> +}
-> +
-> +static int hyperv_connector_get_modes(struct drm_connector *connector)=
-
-> +{
-> +	struct hyperv_drm_device *hv =3D to_hv(connector->dev);
-> +	int count;
-> +
-> +	count =3D drm_add_modes_noedid(connector,
-> +				     connector->dev->mode_config.max_width,
-> +				     connector->dev->mode_config.max_height);
-> +	drm_set_preferred_mode(connector, hv->preferred_width,
-> +			       hv->preferred_height);
-> +
-> +	return count;
-> +}
-> +
-> +static const struct drm_connector_helper_funcs hyperv_connector_helper=
-_funcs =3D {
-> +	.get_modes =3D hyperv_connector_get_modes,
-> +};
-> +
-> +static const struct drm_connector_funcs hyperv_connector_funcs =3D {
-> +	.fill_modes =3D drm_helper_probe_single_connector_modes,
-> +	.destroy =3D drm_connector_cleanup,
-> +	.reset =3D drm_atomic_helper_connector_reset,
-> +	.atomic_duplicate_state =3D drm_atomic_helper_connector_duplicate_sta=
-te,
-> +	.atomic_destroy_state =3D drm_atomic_helper_connector_destroy_state,
-> +};
-> +
-> +static inline int hyperv_conn_init(struct hyperv_drm_device *hv)
-> +{
-> +	drm_connector_helper_add(&hv->connector, &hyperv_connector_helper_fun=
-cs);
-> +	return drm_connector_init(&hv->dev, &hv->connector,
-> +				  &hyperv_connector_funcs,
-> +				  DRM_MODE_CONNECTOR_VIRTUAL);
-> +}
-> +
-> +static int hyperv_check_size(struct hyperv_drm_device *hv, int w, int =
-h,
-> +			     struct drm_framebuffer *fb)
-> +{
-> +	u32 pitch =3D w * (hv->screen_depth / 8);
-> +
-> +	if (fb)
-> +		pitch =3D fb->pitches[0];
-> +
-> +	if (pitch * h > hv->fb_size)
-> +		return -EINVAL;
-> +
-> +	return 0;
-> +}
-> +
-> +static void hyperv_pipe_enable(struct drm_simple_display_pipe *pipe,
-> +			       struct drm_crtc_state *crtc_state,
-> +			       struct drm_plane_state *plane_state)
-> +{
-> +	struct hyperv_drm_device *hv =3D to_hv(pipe->crtc.dev);
-> +	struct drm_shadow_plane_state *shadow_plane_state =3D to_drm_shadow_p=
-lane_state(plane_state);
-> +
-> +	hyperv_update_situation(hv->hdev, 1,  hv->screen_depth,
-> +				crtc_state->mode.hdisplay,
-> +				crtc_state->mode.vdisplay,
-> +				plane_state->fb->pitches[0]);
-> +	hyperv_blit_to_vram_fullscreen(plane_state->fb, &shadow_plane_state->=
-map[0]);
-> +}
-> +
-> +static int hyperv_pipe_check(struct drm_simple_display_pipe *pipe,
-> +			     struct drm_plane_state *plane_state,
-> +			     struct drm_crtc_state *crtc_state)
-> +{
-> +	struct hyperv_drm_device *hv =3D to_hv(pipe->crtc.dev);
-> +	struct drm_framebuffer *fb =3D plane_state->fb;
-> +
-> +	if (fb->format->format !=3D DRM_FORMAT_XRGB8888)
-> +		return -EINVAL;
-> +
-> +	if (fb->pitches[0] * fb->height > hv->fb_size)
-> +		return -EINVAL;
-> +
-> +	return 0;
-> +}
-> +
-> +static void hyperv_pipe_update(struct drm_simple_display_pipe *pipe,
-> +			       struct drm_plane_state *old_state)
-> +{
-> +	struct hyperv_drm_device *hv =3D to_hv(pipe->crtc.dev);
-> +	struct drm_plane_state *state =3D pipe->plane.state;
-> +	struct drm_shadow_plane_state *shadow_plane_state =3D to_drm_shadow_p=
-lane_state(state);
-> +	struct drm_rect rect;
-> +
-> +	if (drm_atomic_helper_damage_merged(old_state, state, &rect)) {
-> +		hyperv_blit_to_vram_rect(state->fb, &shadow_plane_state->map[0], &re=
-ct);
-> +		hyperv_update_dirt(hv->hdev, &rect);
-> +	}
-> +}
-> +
-> +static const struct drm_simple_display_pipe_funcs hyperv_pipe_funcs =3D=
- {
-> +	.enable	=3D hyperv_pipe_enable,
-> +	.check =3D hyperv_pipe_check,
-> +	.update	=3D hyperv_pipe_update,
-> +	DRM_GEM_SIMPLE_DISPLAY_PIPE_SHADOW_PLANE_FUNCS,
-> +};
-> +
-> +static const uint32_t hyperv_formats[] =3D {
-> +	DRM_FORMAT_XRGB8888,
-> +};
-> +
-> +static const uint64_t hyperv_modifiers[] =3D {
-> +	DRM_FORMAT_MOD_LINEAR,
-> +	DRM_FORMAT_MOD_INVALID
-> +};
-> +
-> +static inline int hyperv_pipe_init(struct hyperv_drm_device *hv)
-> +{
-> +	int ret;
-> +
-> +	ret =3D drm_simple_display_pipe_init(&hv->dev,
-> +					   &hv->pipe,
-> +					   &hyperv_pipe_funcs,
-> +					   hyperv_formats,
-> +					   ARRAY_SIZE(hyperv_formats),
-> +					   NULL,
-> +					   &hv->connector);
-> +	if (ret)
-> +		return ret;
-> +
-> +	drm_plane_enable_fb_damage_clips(&hv->pipe.plane);
-> +
-> +	return 0;
-> +}
-> +
-> +static enum drm_mode_status
-> +hyperv_mode_valid(struct drm_device *dev,
-> +		  const struct drm_display_mode *mode)
-> +{
-> +	struct hyperv_drm_device *hv =3D to_hv(dev);
-> +
-> +	if (hyperv_check_size(hv, mode->hdisplay, mode->vdisplay, NULL))
-> +		return MODE_BAD;
-> +
-> +	return MODE_OK;
-> +}
-> +
-> +static const struct drm_mode_config_funcs hyperv_mode_config_funcs =3D=
- {
-> +	.fb_create =3D drm_gem_fb_create_with_dirty,
-> +	.mode_valid =3D hyperv_mode_valid,
-> +	.atomic_check =3D drm_atomic_helper_check,
-> +	.atomic_commit =3D drm_atomic_helper_commit,
-> +};
-> +
-> +int hyperv_mode_config_init(struct hyperv_drm_device *hv)
-> +{
-> +	struct drm_device *dev =3D &hv->dev;
-> +	int ret;
-> +
-> +	ret =3D drmm_mode_config_init(dev);
-> +	if (ret) {
-> +		drm_err(dev, "Failed to initialized mode setting.\n");
-> +		return ret;
-> +	}
-> +
-> +	dev->mode_config.min_width =3D 0;
-> +	dev->mode_config.min_height =3D 0;
-> +	dev->mode_config.max_width =3D hv->screen_width_max;
-> +	dev->mode_config.max_height =3D hv->screen_height_max;
-> +
-> +	dev->mode_config.preferred_depth =3D hv->screen_depth;
-> +	dev->mode_config.prefer_shadow =3D 0;
-> +
-> +	dev->mode_config.funcs =3D &hyperv_mode_config_funcs;
-> +
-> +	ret =3D hyperv_conn_init(hv);
-> +	if (ret) {
-> +		drm_err(dev, "Failed to initialized connector.\n");
-> +		return ret;
-> +	}
-> +
-> +	ret =3D hyperv_pipe_init(hv);
-> +	if (ret) {
-> +		drm_err(dev, "Failed to initialized pipe.\n");
-> +		return ret;
-> +	}
-> +
-> +	drm_mode_config_reset(dev);
-> +
-> +	return 0;
-> +}
-> diff --git a/drivers/gpu/drm/hyperv/hyperv_drm_proto.c b/drivers/gpu/dr=
-m/hyperv/hyperv_drm_proto.c
-> new file mode 100644
-> index 000000000000..00c4cc2db605
-> --- /dev/null
-> +++ b/drivers/gpu/drm/hyperv/hyperv_drm_proto.c
-> @@ -0,0 +1,478 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +/*
-> + * Copyright 2021 Microsoft
-> + *
-> + * Portions of this code is derived from hyperv_fb.c
-> + */
-> +
-> +#include <linux/hyperv.h>
-> +
-> +#include <drm/drm_print.h>
-> +#include <drm/drm_simple_kms_helper.h>
-> +
-> +#include "hyperv_drm.h"
-> +
-> +#define VMBUS_RING_BUFSIZE (256 * 1024)
-> +#define VMBUS_VSP_TIMEOUT (10 * HZ)
-> +
-> +#define SYNTHVID_VERSION(major, minor) ((minor) << 16 | (major))
-> +#define SYNTHVID_VER_GET_MAJOR(ver) (ver & 0x0000ffff)
-> +#define SYNTHVID_VER_GET_MINOR(ver) ((ver & 0xffff0000) >> 16)
-> +#define SYNTHVID_VERSION_WIN7 SYNTHVID_VERSION(3, 0)
-> +#define SYNTHVID_VERSION_WIN8 SYNTHVID_VERSION(3, 2)
-> +#define SYNTHVID_VERSION_WIN10 SYNTHVID_VERSION(3, 5)
-> +
-> +#define SYNTHVID_DEPTH_WIN7 16
-> +#define SYNTHVID_DEPTH_WIN8 32
-> +#define SYNTHVID_FB_SIZE_WIN7 (4 * 1024 * 1024)
-> +#define SYNTHVID_FB_SIZE_WIN8 (8 * 1024 * 1024)
-> +#define SYNTHVID_WIDTH_MAX_WIN7 1600
-> +#define SYNTHVID_HEIGHT_MAX_WIN7 1200
-> +
-> +enum pipe_msg_type {
-> +	PIPE_MSG_INVALID,
-> +	PIPE_MSG_DATA,
-> +	PIPE_MSG_MAX
-> +};
-> +
-> +enum synthvid_msg_type {
-> +	SYNTHVID_ERROR			=3D 0,
-> +	SYNTHVID_VERSION_REQUEST	=3D 1,
-> +	SYNTHVID_VERSION_RESPONSE	=3D 2,
-> +	SYNTHVID_VRAM_LOCATION		=3D 3,
-> +	SYNTHVID_VRAM_LOCATION_ACK	=3D 4,
-> +	SYNTHVID_SITUATION_UPDATE	=3D 5,
-> +	SYNTHVID_SITUATION_UPDATE_ACK	=3D 6,
-> +	SYNTHVID_POINTER_POSITION	=3D 7,
-> +	SYNTHVID_POINTER_SHAPE		=3D 8,
-> +	SYNTHVID_FEATURE_CHANGE		=3D 9,
-> +	SYNTHVID_DIRT			=3D 10,
-> +	SYNTHVID_RESOLUTION_REQUEST	=3D 13,
-> +	SYNTHVID_RESOLUTION_RESPONSE	=3D 14,
-> +
-> +	SYNTHVID_MAX			=3D 15
-> +};
-> +
-> +struct pipe_msg_hdr {
-> +	u32 type;
-> +	u32 size; /* size of message after this field */
-> +} __packed;
-> +
-> +struct hvd_screen_info {
-> +	u16 width;
-> +	u16 height;
-> +} __packed;
-> +
-> +struct synthvid_msg_hdr {
-> +	u32 type;
-> +	u32 size;  /* size of this header + payload after this field */
-> +} __packed;
-> +
-> +struct synthvid_version_req {
-> +	u32 version;
-> +} __packed;
-> +
-> +struct synthvid_version_resp {
-> +	u32 version;
-> +	u8 is_accepted;
-> +	u8 max_video_outputs;
-> +} __packed;
-> +
-> +struct synthvid_vram_location {
-> +	u64 user_ctx;
-> +	u8 is_vram_gpa_specified;
-> +	u64 vram_gpa;
-> +} __packed;
-> +
-> +struct synthvid_vram_location_ack {
-> +	u64 user_ctx;
-> +} __packed;
-> +
-> +struct video_output_situation {
-> +	u8 active;
-> +	u32 vram_offset;
-> +	u8 depth_bits;
-> +	u32 width_pixels;
-> +	u32 height_pixels;
-> +	u32 pitch_bytes;
-> +} __packed;
-> +
-> +struct synthvid_situation_update {
-> +	u64 user_ctx;
-> +	u8 video_output_count;
-> +	struct video_output_situation video_output[1];
-> +} __packed;
-> +
-> +struct synthvid_situation_update_ack {
-> +	u64 user_ctx;
-> +} __packed;
-> +
-> +struct synthvid_pointer_position {
-> +	u8 is_visible;
-> +	u8 video_output;
-> +	s32 image_x;
-> +	s32 image_y;
-> +} __packed;
-> +
-> +#define SYNTHVID_CURSOR_MAX_X 96
-> +#define SYNTHVID_CURSOR_MAX_Y 96
-> +#define SYNTHVID_CURSOR_ARGB_PIXEL_SIZE 4
-> +#define SYNTHVID_CURSOR_MAX_SIZE (SYNTHVID_CURSOR_MAX_X * \
-> +	SYNTHVID_CURSOR_MAX_Y * SYNTHVID_CURSOR_ARGB_PIXEL_SIZE)
-> +#define SYNTHVID_CURSOR_COMPLETE (-1)
-> +
-> +struct synthvid_pointer_shape {
-> +	u8 part_idx;
-> +	u8 is_argb;
-> +	u32 width; /* SYNTHVID_CURSOR_MAX_X at most */
-> +	u32 height; /* SYNTHVID_CURSOR_MAX_Y at most */
-> +	u32 hot_x; /* hotspot relative to upper-left of pointer image */
-> +	u32 hot_y;
-> +	u8 data[4];
-> +} __packed;
-> +
-> +struct synthvid_feature_change {
-> +	u8 is_dirt_needed;
-> +	u8 is_ptr_pos_needed;
-> +	u8 is_ptr_shape_needed;
-> +	u8 is_situ_needed;
-> +} __packed;
-> +
-> +struct rect {
-> +	s32 x1, y1; /* top left corner */
-> +	s32 x2, y2; /* bottom right corner, exclusive */
-> +} __packed;
-> +
-> +struct synthvid_dirt {
-> +	u8 video_output;
-> +	u8 dirt_count;
-> +	struct rect rect[1];
-> +} __packed;
-> +
-> +#define SYNTHVID_EDID_BLOCK_SIZE	128
-> +#define	SYNTHVID_MAX_RESOLUTION_COUNT	64
-> +
-> +struct synthvid_supported_resolution_req {
-> +	u8 maximum_resolution_count;
-> +} __packed;
-> +
-> +struct synthvid_supported_resolution_resp {
-> +	u8 edid_block[SYNTHVID_EDID_BLOCK_SIZE];
-> +	u8 resolution_count;
-> +	u8 default_resolution_index;
-> +	u8 is_standard;
-> +	struct hvd_screen_info supported_resolution[SYNTHVID_MAX_RESOLUTION_C=
-OUNT];
-> +} __packed;
-> +
-> +struct synthvid_msg {
-> +	struct pipe_msg_hdr pipe_hdr;
-> +	struct synthvid_msg_hdr vid_hdr;
-> +	union {
-> +		struct synthvid_version_req ver_req;
-> +		struct synthvid_version_resp ver_resp;
-> +		struct synthvid_vram_location vram;
-> +		struct synthvid_vram_location_ack vram_ack;
-> +		struct synthvid_situation_update situ;
-> +		struct synthvid_situation_update_ack situ_ack;
-> +		struct synthvid_pointer_position ptr_pos;
-> +		struct synthvid_pointer_shape ptr_shape;
-> +		struct synthvid_feature_change feature_chg;
-> +		struct synthvid_dirt dirt;
-> +		struct synthvid_supported_resolution_req resolution_req;
-> +		struct synthvid_supported_resolution_resp resolution_resp;
-> +	};
-> +} __packed;
-> +
-> +static inline bool hyperv_version_ge(u32 ver1, u32 ver2)
-> +{
-> +	if (SYNTHVID_VER_GET_MAJOR(ver1) > SYNTHVID_VER_GET_MAJOR(ver2) ||
-> +	    (SYNTHVID_VER_GET_MAJOR(ver1) =3D=3D SYNTHVID_VER_GET_MAJOR(ver2)=
- &&
-> +	     SYNTHVID_VER_GET_MINOR(ver1) >=3D SYNTHVID_VER_GET_MINOR(ver2)))=
-
-> +		return true;
-> +
-> +	return false;
-> +}
-> +
-> +static inline int hyperv_sendpacket(struct hv_device *hdev, struct syn=
-thvid_msg *msg)
-> +{
-> +	static atomic64_t request_id =3D ATOMIC64_INIT(0);
-> +	struct hyperv_drm_device *hv =3D hv_get_drvdata(hdev);
-> +	int ret;
-> +
-> +	msg->pipe_hdr.type =3D PIPE_MSG_DATA;
-> +	msg->pipe_hdr.size =3D msg->vid_hdr.size;
-> +
-> +	ret =3D vmbus_sendpacket(hdev->channel, msg,
-> +			       msg->vid_hdr.size + sizeof(struct pipe_msg_hdr),
-> +			       atomic64_inc_return(&request_id),
-> +			       VM_PKT_DATA_INBAND, 0);
-> +
-> +	if (ret)
-> +		drm_err(&hv->dev, "Unable to send packet via vmbus\n");
-> +
-> +	return ret;
-> +}
-> +
-> +static int hyperv_negotiate_version(struct hv_device *hdev, u32 ver)
-> +{
-> +	struct hyperv_drm_device *hv =3D hv_get_drvdata(hdev);
-> +	struct synthvid_msg *msg =3D (struct synthvid_msg *)hv->init_buf;
-> +	struct drm_device *dev =3D &hv->dev;
-> +	unsigned long t;
-> +
-> +	memset(msg, 0, sizeof(struct synthvid_msg));
-> +	msg->vid_hdr.type =3D SYNTHVID_VERSION_REQUEST;
-> +	msg->vid_hdr.size =3D sizeof(struct synthvid_msg_hdr) +
-> +		sizeof(struct synthvid_version_req);
-> +	msg->ver_req.version =3D ver;
-> +	hyperv_sendpacket(hdev, msg);
-> +
-> +	t =3D wait_for_completion_timeout(&hv->wait, VMBUS_VSP_TIMEOUT);
-> +	if (!t) {
-> +		drm_err(dev, "Time out on waiting version response\n");
-> +		return -ETIMEDOUT;
-> +	}
-> +
-> +	if (!msg->ver_resp.is_accepted) {
-> +		drm_err(dev, "Version request not accepted\n");
-> +		return -ENODEV;
-> +	}
-> +
-> +	hv->synthvid_version =3D ver;
-> +	drm_info(dev, "Synthvid Version major %d, minor %d\n",
-> +		 SYNTHVID_VER_GET_MAJOR(ver), SYNTHVID_VER_GET_MINOR(ver));
-> +
-> +	return 0;
-> +}
-> +
-> +int hyperv_update_vram_location(struct hv_device *hdev, phys_addr_t vr=
-am_pp)
-> +{
-> +	struct hyperv_drm_device *hv =3D hv_get_drvdata(hdev);
-> +	struct synthvid_msg *msg =3D (struct synthvid_msg *)hv->init_buf;
-> +	struct drm_device *dev =3D &hv->dev;
-> +	unsigned long t;
-> +
-> +	memset(msg, 0, sizeof(struct synthvid_msg));
-> +	msg->vid_hdr.type =3D SYNTHVID_VRAM_LOCATION;
-> +	msg->vid_hdr.size =3D sizeof(struct synthvid_msg_hdr) +
-> +		sizeof(struct synthvid_vram_location);
-> +	msg->vram.user_ctx =3D vram_pp;
-> +	msg->vram.vram_gpa =3D vram_pp;
-> +	msg->vram.is_vram_gpa_specified =3D 1;
-> +	hyperv_sendpacket(hdev, msg);
-> +
-> +	t =3D wait_for_completion_timeout(&hv->wait, VMBUS_VSP_TIMEOUT);
-> +	if (!t) {
-> +		drm_err(dev, "Time out on waiting vram location ack\n");
-> +		return -ETIMEDOUT;
-> +	}
-> +	if (msg->vram_ack.user_ctx !=3D vram_pp) {
-> +		drm_err(dev, "Unable to set VRAM location\n");
-> +		return -ENODEV;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +int hyperv_update_situation(struct hv_device *hdev, u8 active, u32 bpp=
-,
-> +			    u32 w, u32 h, u32 pitch)
-> +{
-> +	struct synthvid_msg msg;
-> +
-> +	memset(&msg, 0, sizeof(struct synthvid_msg));
-> +
-> +	msg.vid_hdr.type =3D SYNTHVID_SITUATION_UPDATE;
-> +	msg.vid_hdr.size =3D sizeof(struct synthvid_msg_hdr) +
-> +		sizeof(struct synthvid_situation_update);
-> +	msg.situ.user_ctx =3D 0;
-> +	msg.situ.video_output_count =3D 1;
-> +	msg.situ.video_output[0].active =3D active;
-> +	/* vram_offset should always be 0 */
-> +	msg.situ.video_output[0].vram_offset =3D 0;
-> +	msg.situ.video_output[0].depth_bits =3D bpp;
-> +	msg.situ.video_output[0].width_pixels =3D w;
-> +	msg.situ.video_output[0].height_pixels =3D h;
-> +	msg.situ.video_output[0].pitch_bytes =3D pitch;
-> +
-> +	hyperv_sendpacket(hdev, &msg);
-> +
-> +	return 0;
-> +}
-> +
-> +int hyperv_update_dirt(struct hv_device *hdev, struct drm_rect *rect)
-> +{
-> +	struct synthvid_msg msg;
-> +
-> +	memset(&msg, 0, sizeof(struct synthvid_msg));
-> +
-> +	msg.vid_hdr.type =3D SYNTHVID_DIRT;
-> +	msg.vid_hdr.size =3D sizeof(struct synthvid_msg_hdr) +
-> +		sizeof(struct synthvid_dirt);
-> +	msg.dirt.video_output =3D 0;
-> +	msg.dirt.dirt_count =3D 1;
-> +	msg.dirt.rect[0].x1 =3D rect->x1;
-> +	msg.dirt.rect[0].y1 =3D rect->y1;
-> +	msg.dirt.rect[0].x2 =3D rect->x2;
-> +	msg.dirt.rect[0].y2 =3D rect->y2;
-> +
-> +	hyperv_sendpacket(hdev, &msg);
-> +
-> +	return 0;
-> +}
-> +
-> +static int hyperv_get_supported_resolution(struct hv_device *hdev)
-> +{
-> +	struct hyperv_drm_device *hv =3D hv_get_drvdata(hdev);
-> +	struct synthvid_msg *msg =3D (struct synthvid_msg *)hv->init_buf;
-> +	struct drm_device *dev =3D &hv->dev;
-> +	unsigned long t;
-> +	u8 index;
-> +	int i;
-> +
-> +	memset(msg, 0, sizeof(struct synthvid_msg));
-> +	msg->vid_hdr.type =3D SYNTHVID_RESOLUTION_REQUEST;
-> +	msg->vid_hdr.size =3D sizeof(struct synthvid_msg_hdr) +
-> +		sizeof(struct synthvid_supported_resolution_req);
-> +	msg->resolution_req.maximum_resolution_count =3D
-> +		SYNTHVID_MAX_RESOLUTION_COUNT;
-> +	hyperv_sendpacket(hdev, msg);
-> +
-> +	t =3D wait_for_completion_timeout(&hv->wait, VMBUS_VSP_TIMEOUT);
-> +	if (!t) {
-> +		drm_err(dev, "Time out on waiting resolution response\n");
-> +		return -ETIMEDOUT;
-> +	}
-> +
-> +	if (msg->resolution_resp.resolution_count =3D=3D 0) {
-> +		drm_err(dev, "No supported resolutions\n");
-> +		return -ENODEV;
-> +	}
-> +
-> +	index =3D msg->resolution_resp.default_resolution_index;
-> +	if (index >=3D msg->resolution_resp.resolution_count) {
-> +		drm_err(dev, "Invalid resolution index: %d\n", index);
-> +		return -ENODEV;
-> +	}
-> +
-> +	for (i =3D 0; i < msg->resolution_resp.resolution_count; i++) {
-> +		hv->screen_width_max =3D max_t(u32, hv->screen_width_max,
-> +			msg->resolution_resp.supported_resolution[i].width);
-> +		hv->screen_height_max =3D max_t(u32, hv->screen_height_max,
-> +			msg->resolution_resp.supported_resolution[i].height);
-> +	}
-> +
-> +	hv->preferred_width =3D
-> +		msg->resolution_resp.supported_resolution[index].width;
-> +	hv->preferred_height =3D
-> +		msg->resolution_resp.supported_resolution[index].height;
-> +
-> +	return 0;
-> +}
-> +
-> +static void hyperv_receive_sub(struct hv_device *hdev)
-> +{
-> +	struct hyperv_drm_device *hv =3D hv_get_drvdata(hdev);
-> +	struct synthvid_msg *msg;
-> +
-> +	if (!hv)
-> +		return;
-> +
-> +	msg =3D (struct synthvid_msg *)hv->recv_buf;
-> +
-> +	/* Complete the wait event */
-> +	if (msg->vid_hdr.type =3D=3D SYNTHVID_VERSION_RESPONSE ||
-> +	    msg->vid_hdr.type =3D=3D SYNTHVID_RESOLUTION_RESPONSE ||
-> +	    msg->vid_hdr.type =3D=3D SYNTHVID_VRAM_LOCATION_ACK) {
-> +		memcpy(hv->init_buf, msg, VMBUS_MAX_PACKET_SIZE);
-> +		complete(&hv->wait);
-> +		return;
-> +	}
-> +}
-> +
-> +static void hyperv_receive(void *ctx)
-> +{
-> +	struct hv_device *hdev =3D ctx;
-> +	struct hyperv_drm_device *hv =3D hv_get_drvdata(hdev);
-> +	struct synthvid_msg *recv_buf;
-> +	u32 bytes_recvd;
-> +	u64 req_id;
-> +	int ret;
-> +
-> +	if (!hv)
-> +		return;
-> +
-> +	recv_buf =3D (struct synthvid_msg *)hv->recv_buf;
-> +
-> +	do {
-> +		ret =3D vmbus_recvpacket(hdev->channel, recv_buf,
-> +				       VMBUS_MAX_PACKET_SIZE,
-> +				       &bytes_recvd, &req_id);
-> +		if (bytes_recvd > 0 &&
-> +		    recv_buf->pipe_hdr.type =3D=3D PIPE_MSG_DATA)
-> +			hyperv_receive_sub(hdev);
-> +	} while (bytes_recvd > 0 && ret =3D=3D 0);
-> +}
-> +
-> +int hyperv_connect_vsp(struct hv_device *hdev)
-> +{
-> +	struct hyperv_drm_device *hv =3D hv_get_drvdata(hdev);
-> +	struct drm_device *dev =3D &hv->dev;
-> +	int ret;
-> +
-> +	ret =3D vmbus_open(hdev->channel, VMBUS_RING_BUFSIZE, VMBUS_RING_BUFS=
-IZE,
-> +			 NULL, 0, hyperv_receive, hdev);
-> +	if (ret) {
-> +		drm_err(dev, "Unable to open vmbus channel\n");
-> +		return ret;
-> +	}
-> +
-> +	/* Negotiate the protocol version with host */
-> +	switch (vmbus_proto_version) {
-> +	case VERSION_WIN10:
-> +	case VERSION_WIN10_V5:
-> +		ret =3D hyperv_negotiate_version(hdev, SYNTHVID_VERSION_WIN10);
-> +		if (!ret)
-> +			break;
-> +		fallthrough;
-> +	case VERSION_WIN8:
-> +	case VERSION_WIN8_1:
-> +		ret =3D hyperv_negotiate_version(hdev, SYNTHVID_VERSION_WIN8);
-> +		if (!ret)
-> +			break;
-> +		fallthrough;
-> +	case VERSION_WS2008:
-> +	case VERSION_WIN7:
-> +		ret =3D hyperv_negotiate_version(hdev, SYNTHVID_VERSION_WIN7);
-> +		break;
-> +	default:
-> +		ret =3D hyperv_negotiate_version(hdev, SYNTHVID_VERSION_WIN10);
-> +		break;
-> +	}
-> +
-> +	if (ret) {
-> +		drm_err(dev, "Synthetic video device version not accepted %d\n", ret=
-);
-> +		goto error;
-> +	}
-> +
-> +	if (hv->synthvid_version =3D=3D SYNTHVID_VERSION_WIN7)
-> +		hv->screen_depth =3D SYNTHVID_DEPTH_WIN7;
-> +	else
-> +		hv->screen_depth =3D SYNTHVID_DEPTH_WIN8;
-> +
-> +	if (hyperv_version_ge(hv->synthvid_version, SYNTHVID_VERSION_WIN10)) =
-{
-> +		ret =3D hyperv_get_supported_resolution(hdev);
-> +		if (ret)
-> +			drm_err(dev, "Failed to get supported resolution from host, use def=
-ault\n");
-> +	} else {
-> +		hv->screen_width_max =3D SYNTHVID_WIDTH_MAX_WIN7;
-> +		hv->screen_height_max =3D SYNTHVID_HEIGHT_MAX_WIN7;
-> +	}
-> +
-> +	hv->mmio_megabytes =3D hdev->channel->offermsg.offer.mmio_megabytes;
-> +
-> +	return 0;
-> +
-> +error:
-> +	vmbus_close(hdev->channel);
-> +	return ret;
-> +}
->=20
-
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-(HRB 36809, AG N=C3=BCrnberg)
-Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
-
-
---CoNNDjMGm1F2YMxOvJGniYShr3NpgnEbb--
-
---QxuMkWGl4dywxOePzT8z0XnYBoBQwU5in
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmCvoDEFAwAAAAAACgkQlh/E3EQov+BK
-1A//VnQeP0Zh5cl82tJxyvEDNgToPOohzPGd/3MNl8OTQ6gI/u4iV8PT29JDIHo27uIT1UdWo8tG
-CArtJ5aZ+4OQZyfNz4wXBbbK8olMjXgqrKuzx1nFlNmaq+o+oVkzpdRUdTNCrWWAUAaN7+Jjdv/8
-AJYXZNWbO4jv3HBnbAZQZ/kkiNxCIDXVnVSW9Bpjx2K0tbAnhfVzPIBqYNTe1HU+FKmKqBBD45lf
-g1gBK4pY6SVQpKIp0sWDgmqduaP2nZzOsGw+S/8tGiR7WlIpdPrvlOQxa86+x/q4sepxjANexVby
-qih3xAhG39x7H8l3wUVItvCCZUGtFs84QuhJHPIdH7ubgE/hhYqiPuAZhSK+2AbKxFFTh9IFwtSA
-7nMbkB1nmnWbmYAVbVBgvJ792h8fftiS0Lm8LWqlYZDU3JYqYQca/ND68a+BfzmgY8vE2u84nHTk
-oUOMgyIU7128QF+ipDBgPBCOMOfwN7vBgs9Tpg3yzBZ00EJkAYGkRKRy5L9Jbt5EebubqHjkqZ3k
-VUPmLSBiCSYH9whhCpw4HxKoZ0UZvl0EH+awrykTOwcBubv7LiH1GxrAdrhq3FuMPi1HC02jUKcC
-oDC8oxNJ7MPZhJKMapwrvqBEKSmda0NbPNjV2PZIfdvLmxdP4jsml/JJXm7UoOhx07OBCs60nNFB
-HAA=
-=JxUH
------END PGP SIGNATURE-----
-
---QxuMkWGl4dywxOePzT8z0XnYBoBQwU5in--
