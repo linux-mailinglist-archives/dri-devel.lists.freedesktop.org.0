@@ -1,121 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 729C7393402
-	for <lists+dri-devel@lfdr.de>; Thu, 27 May 2021 18:32:15 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id BB5BD393473
+	for <lists+dri-devel@lfdr.de>; Thu, 27 May 2021 19:01:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7F9FA6F47C;
-	Thu, 27 May 2021 16:32:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 51E3F6F483;
+	Thu, 27 May 2021 17:01:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam10on2046.outbound.protection.outlook.com [40.107.94.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CECD96F47C;
- Thu, 27 May 2021 16:32:10 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=L0EXOuzHfeW8Iat9tH7IYa4viwaQRqAxRiTx6Pf5tPuTZBl6QWNpdRazjP/9ydPI0Pkw9hrvK6cBbTZPDjFFIU6g63P9eOsI3BPOcE90GkpneynOBtwqw+F2Jk7Q62LYhTq144ENp0lk7Nfd81gQXjEsdadtR6Qv+9/NTVS25yRC2vqPAXpIFP9aTIjJdfyPYz3f3PvBqQ4BWkAm93eSGIcLepZlkKpLA6BlTj7TYzuRd3cOrNcrG6cIWyZpv69hLR2TnEnD085EORKuHcd7EZSJwsFAXipoqnqxM/kdaN2An+I9U+LLyJO7a9nsXqLJqdziAHgbZ12kRdC+a+byLA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Q45R70SZ4GNbGD0yl6IMD+eivKNAhgiOmhZWzOMDiKM=;
- b=b71QOtg/qgOOp3s4MYD1PZ4Q0gYjwloXnONbLFzLs5XFy+vmICGhm9dXZNEDKsRfSL8jjYPveExNaOfi92dXuYHAsmMAeWb83ShugjLHX//H7MZvdOr4MJFQ633VQbgEudYI8PElYsJpOjg9UI92SSx1W+08eEQN1ZDfuZihLzVgIfz/Vg/uX/Hyk8HIhZnXQ+v3u79eEw3k06YJ9mhXy/PuzX58pHMC8iUy6ppAPE9PCitxQiW3HHIPhIBgl6PlWEd3xmmiq1rdDs+3qfeFJpGdb2mC0g25lSdv1uWH0fIoJoiYzkuCaST0YWRJoOGk0fKhDurej+TrTjcUy66lhA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Q45R70SZ4GNbGD0yl6IMD+eivKNAhgiOmhZWzOMDiKM=;
- b=g/d9DN9EYyUlZgOsqqs0xcYYISoNY4012McHrOuqNSyIGphFMQCt3rbkv8VwaK5XWjqOd72J5TnTn2HRYIGCZfYh4XjjY4WheSNsveTzV+TfOSIMjL/E7UD9YRAqprBxnIBkGso/CDuxyF0/kXvuN5Ivac6y6J2FCUDG0kbHgZI=
-Authentication-Results: linux.intel.com; dkim=none (message not signed)
- header.d=none;linux.intel.com; dmarc=none action=none header.from=amd.com;
-Received: from DM5PR12MB1355.namprd12.prod.outlook.com (2603:10b6:3:6e::7) by
- DM5PR12MB2504.namprd12.prod.outlook.com (2603:10b6:4:b5::19) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4150.23; Thu, 27 May 2021 16:32:07 +0000
-Received: from DM5PR12MB1355.namprd12.prod.outlook.com
- ([fe80::b914:4704:ad6f:aba9]) by DM5PR12MB1355.namprd12.prod.outlook.com
- ([fe80::b914:4704:ad6f:aba9%12]) with mapi id 15.20.4173.022; Thu, 27 May
- 2021 16:32:07 +0000
-Subject: Re: [PATCH v7 01/15] swiotlb: Refactor swiotlb init functions
-From: Tom Lendacky <thomas.lendacky@amd.com>
-To: Christoph Hellwig <hch@lst.de>, Florian Fainelli <f.fainelli@gmail.com>
-References: <20210518064215.2856977-1-tientzu@chromium.org>
- <20210518064215.2856977-2-tientzu@chromium.org>
- <170a54f2-be20-ec29-1d7f-3388e5f928c6@gmail.com>
- <20210527130211.GA24344@lst.de>
- <bab261b4-f801-05af-8fd9-c440ed219591@amd.com>
-Message-ID: <e59d4799-a6ff-6d13-0fed-087fc3482587@amd.com>
-Date: Thu, 27 May 2021 11:32:01 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
-In-Reply-To: <bab261b4-f801-05af-8fd9-c440ed219591@amd.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [67.79.209.213]
-X-ClientProxiedBy: SN7P220CA0025.NAMP220.PROD.OUTLOOK.COM
- (2603:10b6:806:123::30) To DM5PR12MB1355.namprd12.prod.outlook.com
- (2603:10b6:3:6e::7)
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B89086F46B;
+ Thu, 27 May 2021 17:01:46 +0000 (UTC)
+IronPort-SDR: PLjbYvHFeCjunTA2ZuIVRExoUYmdhC4BlFdKGfmdivnwdRo+95B3h37YLPWch9uOCQVYabhjab
+ ccL1OpiRJGxg==
+X-IronPort-AV: E=McAfee;i="6200,9189,9997"; a="200893252"
+X-IronPort-AV: E=Sophos;i="5.83,227,1616482800"; 
+ d="scan'208,217";a="200893252"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 May 2021 10:01:28 -0700
+IronPort-SDR: xPuwjsQiuUJaGPjlKCj0wLaVzGgP3ULqHvcTOOLhSzJrAWZdj1Ww5iqnzXqdWtfYCJjkNUyqw/
+ xTpGfKLQAXUg==
+X-IronPort-AV: E=Sophos;i="5.83,227,1616482800"; 
+ d="scan'208,217";a="477570041"
+Received: from johnharr-mobl1.amr.corp.intel.com (HELO [10.209.116.237])
+ ([10.209.116.237])
+ by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 May 2021 10:01:26 -0700
+Subject: Re: [Intel-gfx] [RFC PATCH 60/97] drm/i915: Track 'serial' counts for
+ virtual engines
+To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Matthew Brost <matthew.brost@intel.com>
+References: <20210506191451.77768-1-matthew.brost@intel.com>
+ <20210506191451.77768-61-matthew.brost@intel.com>
+ <cd59ddd4-625b-c40d-05a8-e259b8fd430c@linux.intel.com>
+ <20210525175239.GA21324@sdutt-i7>
+ <6f6a1266-fe48-9cf1-beba-0b4463000ca7@linux.intel.com>
+ <15643bd8-a270-a84d-3bd7-5376af7e378c@intel.com>
+ <018044c0-d238-2060-99a4-a477d225781e@linux.intel.com>
+From: John Harrison <john.c.harrison@intel.com>
+Message-ID: <87dd027f-6690-19f9-55c3-40115254fa1c@intel.com>
+Date: Thu, 27 May 2021 10:01:24 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.2
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from office-linux.texastahm.com (67.79.209.213) by
- SN7P220CA0025.NAMP220.PROD.OUTLOOK.COM (2603:10b6:806:123::30) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4173.20 via Frontend Transport; Thu, 27 May 2021 16:32:03 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: ff9c356c-975c-4f82-7c16-08d9212cf790
-X-MS-TrafficTypeDiagnostic: DM5PR12MB2504:
-X-Microsoft-Antispam-PRVS: <DM5PR12MB250437DEE02CE4B6ED65D870EC239@DM5PR12MB2504.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: FcGVaNUqWOacS4qyh3m/JN7k7/837FC8duYo0XVAJJd5k+WqoYLcoTR+CTvv8QEbyCZD/Z99yKW0kAO/XRRI76AF8ViBY7bKdBH3JWMeXgSYWuMNv8muI7pDCgCBAxpmWG89Hq/oD84DLTSFpgo7HqLuM/2mDEQUfE6/aGa1Q/mXdIALomEgUe0Xgf0ngsouf2bB533WVY1G2z89gYG2RtOfOu1QxzLU49yHRZJDEtwlCcLbmgYoLQdbPBISX+FoYH6zpn/l20UKvHeIxwim2wqN8iWydRQNAyFZc4jSwJGbg0cwBZY1maWQN0Po81sVGfMdNxrGtRXK+T/DGKXUvvZ0Gv3fRxThTXv3I5LeRx5wIIQ2/w/WfQwsIViUT3x/+A3k9ookLYdS8i+qbGEMpvTmHRo9Xa3cjHUXCjY4lS8YypbGSN2F5vKIo8MiexdPG1Q7ppDLRW1WZeGiRYY1EN1iE6lmwlICHca8PKDTmzcSc5LOpVaJx4MZ+EJdDGNLqsp6Kl/qrCErsXsy3WgG8QiaDkspb8J1sguRu/u/MAqKN1VLkgztc/Ar3wDwSPKMuImq3UJILi3oL2YUKwaoi4e+DvhFDTXmBtInykztacIVUheNAJl44l/pXBLmcpbwcCiQU9wj6iOMaWKkenoslOi4QhEkeWzwPrSiIB3ABRovYX+gkMWut/H8L4c2FRYl
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM5PR12MB1355.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(396003)(366004)(136003)(346002)(376002)(39860400002)(86362001)(54906003)(31696002)(110136005)(66946007)(4326008)(5660300002)(7416002)(6512007)(45080400002)(478600001)(31686004)(66556008)(2906002)(7366002)(316002)(956004)(2616005)(66476007)(8936002)(7406005)(36756003)(8676002)(6486002)(83380400001)(186003)(6506007)(38100700002)(26005)(53546011)(16526019)(43740500002)(45980500001);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?TUpkeGdMc1lLRmhsNm55LzRZYkp1WlhZQjluUXU0SENsK21aRHg1Y3NaQm1q?=
- =?utf-8?B?ZXRkb0NrUXNRM2FWL3l3UFFwNno2TXJRcFZ2M2ZGazNnS0RjaEpvS29ycnZQ?=
- =?utf-8?B?cUFtMUQvQ3RZbnJQdEtmdXg5SkZpL2hJdmloV3V0UXNrdFJUQ3F4dTh4KzQ0?=
- =?utf-8?B?QnU0LzVzL1NiSzcxZjNWbHllM2hNdHlMblRkMUUwdkxOT01JS2ZiZWMwMXZ6?=
- =?utf-8?B?OEwwWmNtd01EYjQ4SnZNKzNtcWZnTDFiRTYzam5yYS9Jei9FcGl0WkdCZzQ4?=
- =?utf-8?B?Ulg3QjNnb2V3V2JBNzVya2tVWDg1NFEvZ0JEdC8vajVvQ0wxZ2hrb2V5MHRF?=
- =?utf-8?B?K3RWVi9PUXE4UkxlSGhLOFAwRFdoa3lCbEhzbXBKR2wrT1kvQ1I5TUNQdUJi?=
- =?utf-8?B?TWRhUEkwNHJSVXh5bU1DQk1aRGdrSllDUnJDOVpjZkdRUGY2NDNOQVNBa0E3?=
- =?utf-8?B?RVdNM1QvWmVMWDdtak43bytsQ1BDL2J6UWQrRTdtVmdFS2oyMUdPWVFLa2VH?=
- =?utf-8?B?THMxV3ZzR1BNbTNSOVdwTkhKeWxja0lFMnQwMWZoK1pGVmZNV0tNdm82YUZX?=
- =?utf-8?B?MFJZalRUNXc2aDNKSzNQK0wxR1UrS2ZlaTYrMFFDSmhNTlFPaDF5VmdGZU9y?=
- =?utf-8?B?TzAyS1IzT1RYRklRQmVHbnArdGRScEt3UCs5OVAxanlDMHhDTTVQUUlTZXZD?=
- =?utf-8?B?T2FkM0NHcmIrVUdkY0tJR25ONjl0QmhlUjR4ME5XY1hPaUo0b1hZd20rb2RB?=
- =?utf-8?B?OHFGRkpBanlNZ2RWaHI2a1lIcm11Wks2S0V4a2pHaHlYMjR2bWdVakR2ajdK?=
- =?utf-8?B?ajFjL05jQTdzdHkzTkNEOVpYbXltcFM3ZlN3WDRrYVdNTHhtVWtqY2I4dzd6?=
- =?utf-8?B?dGowa1k3b3RLZjFwNkkrd3JZWjh0c2ZpUEpiQzZKQXdWL1REUURQL3l6ckxj?=
- =?utf-8?B?TGVtNURpb0JNS0NmM2NPRW5DS1FNMG1PY0NSUVdaWHV0ek5aenRrSHNNSVhC?=
- =?utf-8?B?YnlxUituYmtEbjBUcHhtSGJhTXduS2x6RFgvcTlZNmZKdDZqcnROQmFLZWk5?=
- =?utf-8?B?ZG5GRGhWdG94dSsvaE9uOFBUa0ZWWUU3YXJGWW8yaFo1RHNlOW5uU0N4MUxR?=
- =?utf-8?B?VkFGMFkwdzRKTFZPZmkydVI5b1hIZnR1Q2ZvUlB6V2xCQWNxLy84alFwQk93?=
- =?utf-8?B?Zm93Rk5FcWlvekJyeWpxYWFZVU1GRnJQUnViOTNaN2FtZzhBaXVXcU9wRzk4?=
- =?utf-8?B?Mmd4TXZhUTREYUdZN1NDVjl2QUIzeEM4dlVVSlhicVZ5SDJuTFkwZkVYTEVq?=
- =?utf-8?B?L25KZ1dSbllXUEk5WXltY0lPcGw2eW4vYkJocm1VaWh1RENkUEhrVU5YUUhM?=
- =?utf-8?B?Smx5NmY1NHZTWC9BTkdTNmlHWDM5QzVZL1lYOEZidU1Zak8zMVZUSC90amJl?=
- =?utf-8?B?Tk94T2QzOHM4L1BCalMyVStGSy9XaVdiWkc4NXlCLzlpT0ZXOHRzT0F6V2VT?=
- =?utf-8?B?bWNyNE00c0V1RStvK053clZFSmYyZ1JzMjhwSE8yR3BYMm5tNWRzYWVtSTd2?=
- =?utf-8?B?aDZVcUlGbHdoYld1VTk3ZEFtTWJzVE9FNkc3Rjd6MWIzMVFPekFQUXdiSm5K?=
- =?utf-8?B?eTZrU3hzbXFDWGJzckZrNGhqV2RFRTZQVWJQeVcxaWZGNGI5TUZWRUlBREtt?=
- =?utf-8?B?ZzU0RGN0Skprd3ExU1NTMjZDaGtzMUdEeHphR054NWpFVlozK0FsOGxiRCtR?=
- =?utf-8?Q?qfedf2phVVGR5NGp69NYP3DhJAKJa9XLDzqnT+9?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ff9c356c-975c-4f82-7c16-08d9212cf790
-X-MS-Exchange-CrossTenant-AuthSource: DM5PR12MB1355.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 May 2021 16:32:06.8243 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: QJS6bIZ0vjGRb0nzhcqirX3WEUS9JFIjV74y0C7suMUncSWyTzMsKQx1kkXffQS7NpGhfRw3Qzl5gmec0Rv+Pg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR12MB2504
+In-Reply-To: <018044c0-d238-2060-99a4-a477d225781e@linux.intel.com>
+Content-Type: multipart/alternative;
+ boundary="------------B53BCBDA1B0D69846EED16DB"
+Content-Language: en-GB
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -128,88 +61,909 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: heikki.krogerus@linux.intel.com, thomas.hellstrom@linux.intel.com,
- peterz@infradead.org, dri-devel@lists.freedesktop.org,
- chris@chris-wilson.co.uk, grant.likely@arm.com, paulus@samba.org,
- Frank Rowand <frowand.list@gmail.com>, mingo@kernel.org,
- Marek Szyprowski <m.szyprowski@samsung.com>, sstabellini@kernel.org,
- Saravana Kannan <saravanak@google.com>, xypron.glpk@gmx.de,
- Joerg Roedel <joro@8bytes.org>,
- "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>,
- Bartosz Golaszewski <bgolaszewski@baylibre.com>, bskeggs@redhat.com,
- linux-pci@vger.kernel.org, xen-devel@lists.xenproject.org,
- Thierry Reding <treding@nvidia.com>, intel-gfx@lists.freedesktop.org,
- matthew.auld@intel.com, linux-devicetree <devicetree@vger.kernel.org>,
- jxgao@google.com, Will Deacon <will@kernel.org>,
- Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>, airlied@linux.ie,
- Dan Williams <dan.j.williams@intel.com>, linuxppc-dev@lists.ozlabs.org,
- Rob Herring <robh+dt@kernel.org>, rodrigo.vivi@intel.com, bhelgaas@google.com,
- Claire Chang <tientzu@chromium.org>, boris.ostrovsky@oracle.com,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>, jgross@suse.com,
- Nicolas Boichat <drinkcat@chromium.org>, Greg KH <gregkh@linuxfoundation.org>,
- Randy Dunlap <rdunlap@infradead.org>, lkml <linux-kernel@vger.kernel.org>,
- tfiga@chromium.org,
- "list@263.net:IOMMU DRIVERS" <iommu@lists.linux-foundation.org>,
- Jim Quinlan <james.quinlan@broadcom.com>, mpe@ellerman.id.au,
- Robin Murphy <robin.murphy@arm.com>, bauerman@linux.ibm.com
+Cc: jason.ekstrand@intel.com, daniel.vetter@intel.com,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 5/27/21 9:41 AM, Tom Lendacky wrote:
-> On 5/27/21 8:02 AM, Christoph Hellwig wrote:
->> On Wed, May 19, 2021 at 11:50:07AM -0700, Florian Fainelli wrote:
->>> You convert this call site with swiotlb_init_io_tlb_mem() which did not
->>> do the set_memory_decrypted()+memset(). Is this okay or should
->>> swiotlb_init_io_tlb_mem() add an additional argument to do this
->>> conditionally?
+This is a multi-part message in MIME format.
+--------------B53BCBDA1B0D69846EED16DB
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+
+On 5/27/2021 01:53, Tvrtko Ursulin wrote:
+> On 26/05/2021 19:45, John Harrison wrote:
+>> On 5/26/2021 01:40, Tvrtko Ursulin wrote:
+>>> On 25/05/2021 18:52, Matthew Brost wrote:
+>>>> On Tue, May 25, 2021 at 11:16:12AM +0100, Tvrtko Ursulin wrote:
+>>>>>
+>>>>> On 06/05/2021 20:14, Matthew Brost wrote:
+>>>>>> From: John Harrison <John.C.Harrison@Intel.com>
+>>>>>>
+>>>>>> The serial number tracking of engines happens at the backend of
+>>>>>> request submission and was expecting to only be given physical
+>>>>>> engines. However, in GuC submission mode, the decomposition of 
+>>>>>> virtual
+>>>>>> to physical engines does not happen in i915. Instead, requests are
+>>>>>> submitted to their virtual engine mask all the way through to the
+>>>>>> hardware (i.e. to GuC). This would mean that the heart beat code
+>>>>>> thinks the physical engines are idle due to the serial number not
+>>>>>> incrementing.
+>>>>>>
+>>>>>> This patch updates the tracking to decompose virtual engines into
+>>>>>> their physical constituents and tracks the request against each. 
+>>>>>> This
+>>>>>> is not entirely accurate as the GuC will only be issuing the request
+>>>>>> to one physical engine. However, it is the best that i915 can do 
+>>>>>> given
+>>>>>> that it has no knowledge of the GuC's scheduling decisions.
+>>>>>
+>>>>> Commit text sounds a bit defeatist. I think instead of making up 
+>>>>> the serial
+>>>>> counts, which has downsides (could you please document in the 
+>>>>> commit what
+>>>>> they are), we should think how to design things properly.
+>>>>>
+>>>>
+>>>> IMO, I don't think fixing serial counts is the scope of this 
+>>>> series. We
+>>>> should focus on getting GuC submission in not cleaning up all the crap
+>>>> that is in the i915. Let's make a note of this though so we can 
+>>>> revisit
+>>>> later.
+>>>
+>>> I will say again - commit message implies it is introducing an 
+>>> unspecified downside by not fully fixing an also unspecified issue. 
+>>> It is completely reasonable, and customary even, to ask for both to 
+>>> be documented in the commit message.
+>> Not sure what exactly is 'unspecified'. I thought the commit message 
+>> described both the problem (heartbeat not running when using virtual 
+>> engines) and the result (heartbeat running on more engines than 
+>> strictly necessary). But in greater detail...
 >>
->> The zeroing is useful and was missing before.  I think having a clean
->> state here is the right thing.
+>> The serial number tracking is a hack for the heartbeat code to know 
+>> whether an engine is busy or idle, and therefore whether it should be 
+>> pinged for aliveness. Whenever a submission is made to an engine, the 
+>> serial number is incremented. The heartbeat code keeps a copy of the 
+>> value. If the value has changed, the engine is busy and needs to be 
+>> pinged.
 >>
->> Not sure about the set_memory_decrypted, swiotlb_update_mem_attributes
->> kinda suggests it is too early to set the memory decrupted.
+>> This works fine for execlist mode where virtual engine decomposition 
+>> is done inside i915. It fails miserably for GuC mode where the 
+>> decomposition is done by the hardware. The reason being that the 
+>> heartbeat code only looks at physical engines but the serial count is 
+>> only incremented on the virtual engine. Thus, the heartbeat sees 
+>> everything as idle and does not ping.
+>
+> So hangcheck does not work. Or it works because GuC does it anyway. 
+> Either way, that's one thing to explicitly state in the commit message.
+>
+>> This patch decomposes the virtual engines for the sake of 
+>> incrementing the serial count on each sub-engine in order to keep the 
+>> heartbeat code happy. The downside is that now the heartbeat sees all 
+>> sub-engines as busy rather than only the one the submission actually 
+>> ends up on. There really isn't much that can be done about that. The 
+>> heartbeat code is in i915 not GuC, the scheduler is in GuC not i915. 
+>> The only way to improve it is to either move the heartbeat code into 
+>> GuC as well and completely disable the i915 side, or add some way for 
+>> i915 to interrogate GuC as to which engines are or are not active. 
+>> Technically, we do have both. GuC has (or at least had) an option to 
+>> force a context switch on every execution quantum pre-emption. 
+>> However, that is much, much, more heavy weight than the heartbeat. 
+>> For the latter, we do (almost) have the engine usage statistics for 
+>> PMU and such like. I'm not sure how much effort it would be to wire 
+>> that up to the heartbeat code instead of using the serial count.
 >>
->> Adding Tom who should now about all this.
-> 
-> The reason for adding swiotlb_update_mem_attributes() was because having
-> the call to set_memory_decrypted() in swiotlb_init_with_tbl() triggered a
-> BUG_ON() related to interrupts not being enabled yet during boot. So that
-> call had to be delayed until interrupts were enabled.
+>> In short, the serial count is ever so slightly inefficient in that it 
+>> causes heartbeat pings on engines which are idle. On the other hand, 
+>> it is way more efficient and simpler than the current alternatives.
+>
+> And the hack to make hangcheck work creates this inefficiency where 
+> heartbeats are sent to idle engines. Which is probably fine just needs 
+> to be explained.
+>
+>> Does that answer the questions?
+>
+> With the two points I re-raise clearly explained, possibly even patch 
+> title changed, yeah. I am just wanting for it to be more easily 
+> obvious to patch reader what it is functionally about - not just what 
+> implementation details have been change but why as well.
+>
+My understanding is that we don't explain every piece of code in minute 
+detail in every checkin email that touches it. I thought my description 
+was already pretty verbose. I've certainly seen way less informative 
+checkins that apparently made it through review without issue.
 
-I pulled down and tested the patch set and booted with SME enabled. The
-following was seen during the boot:
+Regarding the problem statement, I thought this was fairly clear that 
+the heartbeat was broken for virtual engines:
 
-[    0.134184] BUG: Bad page state in process swapper  pfn:108002
-[    0.134196] page:(____ptrval____) refcount:0 mapcount:-128 mapping:0000000000000000 index:0x0 pfn:0x108002
-[    0.134201] flags: 0x17ffffc0000000(node=0|zone=2|lastcpupid=0x1fffff)
-[    0.134208] raw: 0017ffffc0000000 ffff88847f355e28 ffff88847f355e28 0000000000000000
-[    0.134210] raw: 0000000000000000 0000000000000001 00000000ffffff7f 0000000000000000
-[    0.134212] page dumped because: nonzero mapcount
-[    0.134213] Modules linked in:
-[    0.134218] CPU: 0 PID: 0 Comm: swapper Not tainted 5.13.0-rc2-sos-custom #3
-[    0.134221] Hardware name: ...
-[    0.134224] Call Trace:
-[    0.134233]  dump_stack+0x76/0x94
-[    0.134244]  bad_page+0xa6/0xf0
-[    0.134252]  __free_pages_ok+0x331/0x360
-[    0.134256]  memblock_free_all+0x158/0x1c1
-[    0.134267]  mem_init+0x1f/0x14c
-[    0.134273]  start_kernel+0x290/0x574
-[    0.134279]  secondary_startup_64_no_verify+0xb0/0xbb
+    This would mean that the heart beat code
+    thinks the physical engines are idle due to the serial number not
+    incrementing.
 
-I see this about 40 times during the boot, each with a different PFN. The
-system boots (which seemed odd), but I don't know if there will be side
-effects to this (I didn't stress the system).
 
-I modified the code to add a flag to not do the set_memory_decrypted(), as
-suggested by Florian, when invoked from swiotlb_init_with_tbl(), and that
-eliminated the bad page state BUG.
+Regarding the inefficiency about heartbeating all physical engines in a 
+virtual engine, again, this seems clear to me:
 
-Thanks,
-Tom
+    decompose virtual engines into
+    their physical constituents and tracks the request against each. This
+    is not entirely accurate as the GuC will only be issuing the request
+    to one physical engine.
 
-> 
-> Thanks,
-> Tom
-> 
+
+For the subject, I guess you could say "Track 'heartbeat serial' counts 
+for virtual engines". However, the serial tracking count is not 
+explicitly named for heartbeats so it seems inaccurate to rename it for 
+a checkin email subject.
+
+If you have a suggestion for better wording then feel free to propose 
+something.
+
+John.
+
+
+> Regards,
+>
+> Tvrtko
+>
+>> John.
 >>
+>>
+>>>
+>>> If we are abandoning the normal review process someone please say so 
+>>> I don't waste my time reading it.
+>>>
+>>> Regards,
+>>>
+>>> Tvrtko
+>>>
+>>>> Matt
+>>>>
+>>>>> Regards,
+>>>>>
+>>>>> Tvrtko
+>>>>>
+>>>>>> Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
+>>>>>> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+>>>>>> ---
+>>>>>>    drivers/gpu/drm/i915/gt/intel_engine_types.h     |  2 ++
+>>>>>>    .../gpu/drm/i915/gt/intel_execlists_submission.c |  6 ++++++
+>>>>>>    drivers/gpu/drm/i915/gt/intel_ring_submission.c  |  6 ++++++
+>>>>>>    drivers/gpu/drm/i915/gt/mock_engine.c            |  6 ++++++
+>>>>>>    .../gpu/drm/i915/gt/uc/intel_guc_submission.c    | 16 
+>>>>>> ++++++++++++++++
+>>>>>>    drivers/gpu/drm/i915/i915_request.c              |  4 +++-
+>>>>>>    6 files changed, 39 insertions(+), 1 deletion(-)
+>>>>>>
+>>>>>> diff --git a/drivers/gpu/drm/i915/gt/intel_engine_types.h 
+>>>>>> b/drivers/gpu/drm/i915/gt/intel_engine_types.h
+>>>>>> index 86302e6d86b2..e2b5cda6dbc4 100644
+>>>>>> --- a/drivers/gpu/drm/i915/gt/intel_engine_types.h
+>>>>>> +++ b/drivers/gpu/drm/i915/gt/intel_engine_types.h
+>>>>>> @@ -389,6 +389,8 @@ struct intel_engine_cs {
+>>>>>>        void        (*park)(struct intel_engine_cs *engine);
+>>>>>>        void        (*unpark)(struct intel_engine_cs *engine);
+>>>>>> +    void        (*bump_serial)(struct intel_engine_cs *engine);
+>>>>>> +
+>>>>>>        void        (*set_default_submission)(struct 
+>>>>>> intel_engine_cs *engine);
+>>>>>>        const struct intel_context_ops *cops;
+>>>>>> diff --git a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c 
+>>>>>> b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
+>>>>>> index ae12d7f19ecd..02880ea5d693 100644
+>>>>>> --- a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
+>>>>>> +++ b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
+>>>>>> @@ -3199,6 +3199,11 @@ static void execlists_release(struct 
+>>>>>> intel_engine_cs *engine)
+>>>>>>        lrc_fini_wa_ctx(engine);
+>>>>>>    }
+>>>>>> +static void execlist_bump_serial(struct intel_engine_cs *engine)
+>>>>>> +{
+>>>>>> +    engine->serial++;
+>>>>>> +}
+>>>>>> +
+>>>>>>    static void
+>>>>>>    logical_ring_default_vfuncs(struct intel_engine_cs *engine)
+>>>>>>    {
+>>>>>> @@ -3208,6 +3213,7 @@ logical_ring_default_vfuncs(struct 
+>>>>>> intel_engine_cs *engine)
+>>>>>>        engine->cops = &execlists_context_ops;
+>>>>>>        engine->request_alloc = execlists_request_alloc;
+>>>>>> +    engine->bump_serial = execlist_bump_serial;
+>>>>>>        engine->reset.prepare = execlists_reset_prepare;
+>>>>>>        engine->reset.rewind = execlists_reset_rewind;
+>>>>>> diff --git a/drivers/gpu/drm/i915/gt/intel_ring_submission.c 
+>>>>>> b/drivers/gpu/drm/i915/gt/intel_ring_submission.c
+>>>>>> index 14aa31879a37..39dd7c4ed0a9 100644
+>>>>>> --- a/drivers/gpu/drm/i915/gt/intel_ring_submission.c
+>>>>>> +++ b/drivers/gpu/drm/i915/gt/intel_ring_submission.c
+>>>>>> @@ -1045,6 +1045,11 @@ static void setup_irq(struct 
+>>>>>> intel_engine_cs *engine)
+>>>>>>        }
+>>>>>>    }
+>>>>>> +static void ring_bump_serial(struct intel_engine_cs *engine)
+>>>>>> +{
+>>>>>> +    engine->serial++;
+>>>>>> +}
+>>>>>> +
+>>>>>>    static void setup_common(struct intel_engine_cs *engine)
+>>>>>>    {
+>>>>>>        struct drm_i915_private *i915 = engine->i915;
+>>>>>> @@ -1064,6 +1069,7 @@ static void setup_common(struct 
+>>>>>> intel_engine_cs *engine)
+>>>>>>        engine->cops = &ring_context_ops;
+>>>>>>        engine->request_alloc = ring_request_alloc;
+>>>>>> +    engine->bump_serial = ring_bump_serial;
+>>>>>>        /*
+>>>>>>         * Using a global execution timeline; the previous final 
+>>>>>> breadcrumb is
+>>>>>> diff --git a/drivers/gpu/drm/i915/gt/mock_engine.c 
+>>>>>> b/drivers/gpu/drm/i915/gt/mock_engine.c
+>>>>>> index bd005c1b6fd5..97b10fd60b55 100644
+>>>>>> --- a/drivers/gpu/drm/i915/gt/mock_engine.c
+>>>>>> +++ b/drivers/gpu/drm/i915/gt/mock_engine.c
+>>>>>> @@ -292,6 +292,11 @@ static void mock_engine_release(struct 
+>>>>>> intel_engine_cs *engine)
+>>>>>>        intel_engine_fini_retire(engine);
+>>>>>>    }
+>>>>>> +static void mock_bump_serial(struct intel_engine_cs *engine)
+>>>>>> +{
+>>>>>> +    engine->serial++;
+>>>>>> +}
+>>>>>> +
+>>>>>>    struct intel_engine_cs *mock_engine(struct drm_i915_private 
+>>>>>> *i915,
+>>>>>>                        const char *name,
+>>>>>>                        int id)
+>>>>>> @@ -318,6 +323,7 @@ struct intel_engine_cs *mock_engine(struct 
+>>>>>> drm_i915_private *i915,
+>>>>>>        engine->base.cops = &mock_context_ops;
+>>>>>>        engine->base.request_alloc = mock_request_alloc;
+>>>>>> +    engine->base.bump_serial = mock_bump_serial;
+>>>>>>        engine->base.emit_flush = mock_emit_flush;
+>>>>>>        engine->base.emit_fini_breadcrumb = mock_emit_breadcrumb;
+>>>>>>        engine->base.submit_request = mock_submit_request;
+>>>>>> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c 
+>>>>>> b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+>>>>>> index dc79d287c50a..f0e5731bcef6 100644
+>>>>>> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+>>>>>> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+>>>>>> @@ -1500,6 +1500,20 @@ static void guc_release(struct 
+>>>>>> intel_engine_cs *engine)
+>>>>>>        lrc_fini_wa_ctx(engine);
+>>>>>>    }
+>>>>>> +static void guc_bump_serial(struct intel_engine_cs *engine)
+>>>>>> +{
+>>>>>> +    engine->serial++;
+>>>>>> +}
+>>>>>> +
+>>>>>> +static void virtual_guc_bump_serial(struct intel_engine_cs *engine)
+>>>>>> +{
+>>>>>> +    struct intel_engine_cs *e;
+>>>>>> +    intel_engine_mask_t tmp, mask = engine->mask;
+>>>>>> +
+>>>>>> +    for_each_engine_masked(e, engine->gt, mask, tmp)
+>>>>>> +        e->serial++;
+>>>>>> +}
+>>>>>> +
+>>>>>>    static void guc_default_vfuncs(struct intel_engine_cs *engine)
+>>>>>>    {
+>>>>>>        /* Default vfuncs which can be overridden by each engine. */
+>>>>>> @@ -1508,6 +1522,7 @@ static void guc_default_vfuncs(struct 
+>>>>>> intel_engine_cs *engine)
+>>>>>>        engine->cops = &guc_context_ops;
+>>>>>>        engine->request_alloc = guc_request_alloc;
+>>>>>> +    engine->bump_serial = guc_bump_serial;
+>>>>>>        engine->sched_engine->schedule = i915_schedule;
+>>>>>> @@ -1843,6 +1858,7 @@ guc_create_virtual(struct intel_engine_cs 
+>>>>>> **siblings, unsigned int count)
+>>>>>>        ve->base.cops = &virtual_guc_context_ops;
+>>>>>>        ve->base.request_alloc = guc_request_alloc;
+>>>>>> +    ve->base.bump_serial = virtual_guc_bump_serial;
+>>>>>>        ve->base.submit_request = guc_submit_request;
+>>>>>> diff --git a/drivers/gpu/drm/i915/i915_request.c 
+>>>>>> b/drivers/gpu/drm/i915/i915_request.c
+>>>>>> index 9542a5baa45a..127d60b36422 100644
+>>>>>> --- a/drivers/gpu/drm/i915/i915_request.c
+>>>>>> +++ b/drivers/gpu/drm/i915/i915_request.c
+>>>>>> @@ -692,7 +692,9 @@ bool __i915_request_submit(struct 
+>>>>>> i915_request *request)
+>>>>>>                         request->ring->vaddr + request->postfix);
+>>>>>>        trace_i915_request_execute(request);
+>>>>>> -    engine->serial++;
+>>>>>> +    if (engine->bump_serial)
+>>>>>> +        engine->bump_serial(engine);
+>>>>>> +
+>>>>>>        result = true;
+>>>>>>        GEM_BUG_ON(test_bit(I915_FENCE_FLAG_ACTIVE, 
+>>>>>> &request->fence.flags));
+>>>>>>
+>>> _______________________________________________
+>>> Intel-gfx mailing list
+>>> Intel-gfx@lists.freedesktop.org
+>>> https://lists.freedesktop.org/mailman/listinfo/intel-gfx
+>>
+
+
+--------------B53BCBDA1B0D69846EED16DB
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: 8bit
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+  <body>
+    On 5/27/2021 01:53, Tvrtko Ursulin wrote:<br>
+    <blockquote type="cite"
+      cite="mid:018044c0-d238-2060-99a4-a477d225781e@linux.intel.com">
+      On 26/05/2021 19:45, John Harrison wrote:
+      <br>
+      <blockquote type="cite">On 5/26/2021 01:40, Tvrtko Ursulin wrote:
+        <br>
+        <blockquote type="cite">On 25/05/2021 18:52, Matthew Brost
+          wrote:
+          <br>
+          <blockquote type="cite">On Tue, May 25, 2021 at 11:16:12AM
+            +0100, Tvrtko Ursulin wrote:
+            <br>
+            <blockquote type="cite">
+              <br>
+              On 06/05/2021 20:14, Matthew Brost wrote:
+              <br>
+              <blockquote type="cite">From: John Harrison
+                <a class="moz-txt-link-rfc2396E" href="mailto:John.C.Harrison@Intel.com">&lt;John.C.Harrison@Intel.com&gt;</a>
+                <br>
+                <br>
+                The serial number tracking of engines happens at the
+                backend of
+                <br>
+                request submission and was expecting to only be given
+                physical
+                <br>
+                engines. However, in GuC submission mode, the
+                decomposition of virtual
+                <br>
+                to physical engines does not happen in i915. Instead,
+                requests are
+                <br>
+                submitted to their virtual engine mask all the way
+                through to the
+                <br>
+                hardware (i.e. to GuC). This would mean that the heart
+                beat code
+                <br>
+                thinks the physical engines are idle due to the serial
+                number not
+                <br>
+                incrementing.
+                <br>
+                <br>
+                This patch updates the tracking to decompose virtual
+                engines into
+                <br>
+                their physical constituents and tracks the request
+                against each. This
+                <br>
+                is not entirely accurate as the GuC will only be issuing
+                the request
+                <br>
+                to one physical engine. However, it is the best that
+                i915 can do given
+                <br>
+                that it has no knowledge of the GuC's scheduling
+                decisions.
+                <br>
+              </blockquote>
+              <br>
+              Commit text sounds a bit defeatist. I think instead of
+              making up the serial
+              <br>
+              counts, which has downsides (could you please document in
+              the commit what
+              <br>
+              they are), we should think how to design things properly.
+              <br>
+              <br>
+            </blockquote>
+            <br>
+            IMO, I don't think fixing serial counts is the scope of this
+            series. We
+            <br>
+            should focus on getting GuC submission in not cleaning up
+            all the crap
+            <br>
+            that is in the i915. Let's make a note of this though so we
+            can revisit
+            <br>
+            later.
+            <br>
+          </blockquote>
+          <br>
+          I will say again - commit message implies it is introducing an
+          unspecified downside by not fully fixing an also unspecified
+          issue. It is completely reasonable, and customary even, to ask
+          for both to be documented in the commit message.
+          <br>
+        </blockquote>
+        Not sure what exactly is 'unspecified'. I thought the commit
+        message described both the problem (heartbeat not running when
+        using virtual engines) and the result (heartbeat running on more
+        engines than strictly necessary). But in greater detail...
+        <br>
+        <br>
+        The serial number tracking is a hack for the heartbeat code to
+        know whether an engine is busy or idle, and therefore whether it
+        should be pinged for aliveness. Whenever a submission is made to
+        an engine, the serial number is incremented. The heartbeat code
+        keeps a copy of the value. If the value has changed, the engine
+        is busy and needs to be pinged.
+        <br>
+        <br>
+        This works fine for execlist mode where virtual engine
+        decomposition is done inside i915. It fails miserably for GuC
+        mode where the decomposition is done by the hardware. The reason
+        being that the heartbeat code only looks at physical engines but
+        the serial count is only incremented on the virtual engine.
+        Thus, the heartbeat sees everything as idle and does not ping.
+        <br>
+      </blockquote>
+      <br>
+      So hangcheck does not work. Or it works because GuC does it
+      anyway. Either way, that's one thing to explicitly state in the
+      commit message.
+      <br>
+      <br>
+      <blockquote type="cite">This patch decomposes the virtual engines
+        for the sake of incrementing the serial count on each sub-engine
+        in order to keep the heartbeat code happy. The downside is that
+        now the heartbeat sees all sub-engines as busy rather than only
+        the one the submission actually ends up on. There really isn't
+        much that can be done about that. The heartbeat code is in i915
+        not GuC, the scheduler is in GuC not i915. The only way to
+        improve it is to either move the heartbeat code into GuC as well
+        and completely disable the i915 side, or add some way for i915
+        to interrogate GuC as to which engines are or are not active.
+        Technically, we do have both. GuC has (or at least had) an
+        option to force a context switch on every execution quantum
+        pre-emption. However, that is much, much, more heavy weight than
+        the heartbeat. For the latter, we do (almost) have the engine
+        usage statistics for PMU and such like. I'm not sure how much
+        effort it would be to wire that up to the heartbeat code instead
+        of using the serial count.
+        <br>
+        <br>
+        In short, the serial count is ever so slightly inefficient in
+        that it causes heartbeat pings on engines which are idle. On the
+        other hand, it is way more efficient and simpler than the
+        current alternatives.
+        <br>
+      </blockquote>
+      <br>
+      And the hack to make hangcheck work creates this inefficiency
+      where heartbeats are sent to idle engines. Which is probably fine
+      just needs to be explained.
+      <br>
+      <br>
+      <blockquote type="cite">Does that answer the questions?
+        <br>
+      </blockquote>
+      <br>
+      With the two points I re-raise clearly explained, possibly even
+      patch title changed, yeah. I am just wanting for it to be more
+      easily obvious to patch reader what it is functionally about - not
+      just what implementation details have been change but why as well.
+      <br>
+      <br>
+    </blockquote>
+    My understanding is that we don't explain every piece of code in
+    minute detail in every checkin email that touches it. I thought my
+    description was already pretty verbose. I've certainly seen way less
+    informative checkins that apparently made it through review without
+    issue.<br>
+    <br>
+    Regarding the problem statement, I thought this was fairly clear
+    that the heartbeat was broken for virtual engines:<br>
+    <blockquote>This would mean that the heart beat code
+      <br>
+      thinks the physical engines are idle due to the serial number not
+      <br>
+      incrementing.
+      <br>
+    </blockquote>
+    <br>
+    Regarding the inefficiency about heartbeating all physical engines
+    in a virtual engine, again, this seems clear to me:<br>
+    <blockquote>decompose virtual engines into
+      <br>
+      their physical constituents and tracks the request against each.
+      This
+      <br>
+      is not entirely accurate as the GuC will only be issuing the
+      request
+      <br>
+      to one physical engine.<br>
+    </blockquote>
+    <br>
+    For the subject, I guess you could say "Track 'heartbeat serial'
+    counts for virtual engines". However, the serial tracking count is
+    not explicitly named for heartbeats so it seems inaccurate to rename
+    it for a checkin email subject.<br>
+    <br>
+    If you have a suggestion for better wording then feel free to
+    propose something.<br>
+    <br>
+    John.<br>
+    <br>
+    <br>
+    <blockquote type="cite"
+      cite="mid:018044c0-d238-2060-99a4-a477d225781e@linux.intel.com">Regards,
+      <br>
+      <br>
+      Tvrtko
+      <br>
+      <br>
+      <blockquote type="cite">John.
+        <br>
+        <br>
+        <br>
+        <blockquote type="cite">
+          <br>
+          If we are abandoning the normal review process someone please
+          say so I don't waste my time reading it.
+          <br>
+          <br>
+          Regards,
+          <br>
+          <br>
+          Tvrtko
+          <br>
+          <br>
+          <blockquote type="cite">Matt
+            <br>
+            <br>
+            <blockquote type="cite">Regards,
+              <br>
+              <br>
+              Tvrtko
+              <br>
+              <br>
+              <blockquote type="cite">Signed-off-by: John Harrison
+                <a class="moz-txt-link-rfc2396E" href="mailto:John.C.Harrison@Intel.com">&lt;John.C.Harrison@Intel.com&gt;</a>
+                <br>
+                Signed-off-by: Matthew Brost
+                <a class="moz-txt-link-rfc2396E" href="mailto:matthew.brost@intel.com">&lt;matthew.brost@intel.com&gt;</a>
+                <br>
+                ---
+                <br>
+                   drivers/gpu/drm/i915/gt/intel_engine_types.h     |  2
+                ++
+                <br>
+                   .../gpu/drm/i915/gt/intel_execlists_submission.c |  6
+                ++++++
+                <br>
+                   drivers/gpu/drm/i915/gt/intel_ring_submission.c  |  6
+                ++++++
+                <br>
+                   drivers/gpu/drm/i915/gt/mock_engine.c            |  6
+                ++++++
+                <br>
+                   .../gpu/drm/i915/gt/uc/intel_guc_submission.c    | 16
+                ++++++++++++++++
+                <br>
+                   drivers/gpu/drm/i915/i915_request.c              |  4
+                +++-
+                <br>
+                   6 files changed, 39 insertions(+), 1 deletion(-)
+                <br>
+                <br>
+                diff --git
+                a/drivers/gpu/drm/i915/gt/intel_engine_types.h
+                b/drivers/gpu/drm/i915/gt/intel_engine_types.h
+                <br>
+                index 86302e6d86b2..e2b5cda6dbc4 100644
+                <br>
+                --- a/drivers/gpu/drm/i915/gt/intel_engine_types.h
+                <br>
+                +++ b/drivers/gpu/drm/i915/gt/intel_engine_types.h
+                <br>
+                @@ -389,6 +389,8 @@ struct intel_engine_cs {
+                <br>
+                       void        (*park)(struct intel_engine_cs
+                *engine);
+                <br>
+                       void        (*unpark)(struct intel_engine_cs
+                *engine);
+                <br>
+                +    void        (*bump_serial)(struct intel_engine_cs
+                *engine);
+                <br>
+                +
+                <br>
+                       void        (*set_default_submission)(struct
+                intel_engine_cs *engine);
+                <br>
+                       const struct intel_context_ops *cops;
+                <br>
+                diff --git
+                a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
+                b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
+                <br>
+                index ae12d7f19ecd..02880ea5d693 100644
+                <br>
+                ---
+                a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
+                <br>
+                +++
+                b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
+                <br>
+                @@ -3199,6 +3199,11 @@ static void
+                execlists_release(struct intel_engine_cs *engine)
+                <br>
+                       lrc_fini_wa_ctx(engine);
+                <br>
+                   }
+                <br>
+                +static void execlist_bump_serial(struct intel_engine_cs
+                *engine)
+                <br>
+                +{
+                <br>
+                +    engine-&gt;serial++;
+                <br>
+                +}
+                <br>
+                +
+                <br>
+                   static void
+                <br>
+                   logical_ring_default_vfuncs(struct intel_engine_cs
+                *engine)
+                <br>
+                   {
+                <br>
+                @@ -3208,6 +3213,7 @@ logical_ring_default_vfuncs(struct
+                intel_engine_cs *engine)
+                <br>
+                       engine-&gt;cops = &amp;execlists_context_ops;
+                <br>
+                       engine-&gt;request_alloc =
+                execlists_request_alloc;
+                <br>
+                +    engine-&gt;bump_serial = execlist_bump_serial;
+                <br>
+                       engine-&gt;reset.prepare =
+                execlists_reset_prepare;
+                <br>
+                       engine-&gt;reset.rewind = execlists_reset_rewind;
+                <br>
+                diff --git
+                a/drivers/gpu/drm/i915/gt/intel_ring_submission.c
+                b/drivers/gpu/drm/i915/gt/intel_ring_submission.c
+                <br>
+                index 14aa31879a37..39dd7c4ed0a9 100644
+                <br>
+                --- a/drivers/gpu/drm/i915/gt/intel_ring_submission.c
+                <br>
+                +++ b/drivers/gpu/drm/i915/gt/intel_ring_submission.c
+                <br>
+                @@ -1045,6 +1045,11 @@ static void setup_irq(struct
+                intel_engine_cs *engine)
+                <br>
+                       }
+                <br>
+                   }
+                <br>
+                +static void ring_bump_serial(struct intel_engine_cs
+                *engine)
+                <br>
+                +{
+                <br>
+                +    engine-&gt;serial++;
+                <br>
+                +}
+                <br>
+                +
+                <br>
+                   static void setup_common(struct intel_engine_cs
+                *engine)
+                <br>
+                   {
+                <br>
+                       struct drm_i915_private *i915 = engine-&gt;i915;
+                <br>
+                @@ -1064,6 +1069,7 @@ static void setup_common(struct
+                intel_engine_cs *engine)
+                <br>
+                       engine-&gt;cops = &amp;ring_context_ops;
+                <br>
+                       engine-&gt;request_alloc = ring_request_alloc;
+                <br>
+                +    engine-&gt;bump_serial = ring_bump_serial;
+                <br>
+                       /*
+                <br>
+                        * Using a global execution timeline; the
+                previous final breadcrumb is
+                <br>
+                diff --git a/drivers/gpu/drm/i915/gt/mock_engine.c
+                b/drivers/gpu/drm/i915/gt/mock_engine.c
+                <br>
+                index bd005c1b6fd5..97b10fd60b55 100644
+                <br>
+                --- a/drivers/gpu/drm/i915/gt/mock_engine.c
+                <br>
+                +++ b/drivers/gpu/drm/i915/gt/mock_engine.c
+                <br>
+                @@ -292,6 +292,11 @@ static void
+                mock_engine_release(struct intel_engine_cs *engine)
+                <br>
+                       intel_engine_fini_retire(engine);
+                <br>
+                   }
+                <br>
+                +static void mock_bump_serial(struct intel_engine_cs
+                *engine)
+                <br>
+                +{
+                <br>
+                +    engine-&gt;serial++;
+                <br>
+                +}
+                <br>
+                +
+                <br>
+                   struct intel_engine_cs *mock_engine(struct
+                drm_i915_private *i915,
+                <br>
+                                       const char *name,
+                <br>
+                                       int id)
+                <br>
+                @@ -318,6 +323,7 @@ struct intel_engine_cs
+                *mock_engine(struct drm_i915_private *i915,
+                <br>
+                       engine-&gt;base.cops = &amp;mock_context_ops;
+                <br>
+                       engine-&gt;base.request_alloc =
+                mock_request_alloc;
+                <br>
+                +    engine-&gt;base.bump_serial = mock_bump_serial;
+                <br>
+                       engine-&gt;base.emit_flush = mock_emit_flush;
+                <br>
+                       engine-&gt;base.emit_fini_breadcrumb =
+                mock_emit_breadcrumb;
+                <br>
+                       engine-&gt;base.submit_request =
+                mock_submit_request;
+                <br>
+                diff --git
+                a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+                b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+                <br>
+                index dc79d287c50a..f0e5731bcef6 100644
+                <br>
+                --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+                <br>
+                +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+                <br>
+                @@ -1500,6 +1500,20 @@ static void guc_release(struct
+                intel_engine_cs *engine)
+                <br>
+                       lrc_fini_wa_ctx(engine);
+                <br>
+                   }
+                <br>
+                +static void guc_bump_serial(struct intel_engine_cs
+                *engine)
+                <br>
+                +{
+                <br>
+                +    engine-&gt;serial++;
+                <br>
+                +}
+                <br>
+                +
+                <br>
+                +static void virtual_guc_bump_serial(struct
+                intel_engine_cs *engine)
+                <br>
+                +{
+                <br>
+                +    struct intel_engine_cs *e;
+                <br>
+                +    intel_engine_mask_t tmp, mask = engine-&gt;mask;
+                <br>
+                +
+                <br>
+                +    for_each_engine_masked(e, engine-&gt;gt, mask, tmp)
+                <br>
+                +        e-&gt;serial++;
+                <br>
+                +}
+                <br>
+                +
+                <br>
+                   static void guc_default_vfuncs(struct intel_engine_cs
+                *engine)
+                <br>
+                   {
+                <br>
+                       /* Default vfuncs which can be overridden by each
+                engine. */
+                <br>
+                @@ -1508,6 +1522,7 @@ static void
+                guc_default_vfuncs(struct intel_engine_cs *engine)
+                <br>
+                       engine-&gt;cops = &amp;guc_context_ops;
+                <br>
+                       engine-&gt;request_alloc = guc_request_alloc;
+                <br>
+                +    engine-&gt;bump_serial = guc_bump_serial;
+                <br>
+                       engine-&gt;sched_engine-&gt;schedule =
+                i915_schedule;
+                <br>
+                @@ -1843,6 +1858,7 @@ guc_create_virtual(struct
+                intel_engine_cs **siblings, unsigned int count)
+                <br>
+                       ve-&gt;base.cops = &amp;virtual_guc_context_ops;
+                <br>
+                       ve-&gt;base.request_alloc = guc_request_alloc;
+                <br>
+                +    ve-&gt;base.bump_serial = virtual_guc_bump_serial;
+                <br>
+                       ve-&gt;base.submit_request = guc_submit_request;
+                <br>
+                diff --git a/drivers/gpu/drm/i915/i915_request.c
+                b/drivers/gpu/drm/i915/i915_request.c
+                <br>
+                index 9542a5baa45a..127d60b36422 100644
+                <br>
+                --- a/drivers/gpu/drm/i915/i915_request.c
+                <br>
+                +++ b/drivers/gpu/drm/i915/i915_request.c
+                <br>
+                @@ -692,7 +692,9 @@ bool __i915_request_submit(struct
+                i915_request *request)
+                <br>
+                                        request-&gt;ring-&gt;vaddr +
+                request-&gt;postfix);
+                <br>
+                       trace_i915_request_execute(request);
+                <br>
+                -    engine-&gt;serial++;
+                <br>
+                +    if (engine-&gt;bump_serial)
+                <br>
+                +        engine-&gt;bump_serial(engine);
+                <br>
+                +
+                <br>
+                       result = true;
+                <br>
+                       GEM_BUG_ON(test_bit(I915_FENCE_FLAG_ACTIVE,
+                &amp;request-&gt;fence.flags));
+                <br>
+                <br>
+              </blockquote>
+            </blockquote>
+          </blockquote>
+          _______________________________________________
+          <br>
+          Intel-gfx mailing list
+          <br>
+          <a class="moz-txt-link-abbreviated" href="mailto:Intel-gfx@lists.freedesktop.org">Intel-gfx@lists.freedesktop.org</a>
+          <br>
+          <a class="moz-txt-link-freetext" href="https://lists.freedesktop.org/mailman/listinfo/intel-gfx">https://lists.freedesktop.org/mailman/listinfo/intel-gfx</a>
+          <br>
+        </blockquote>
+        <br>
+      </blockquote>
+    </blockquote>
+    <br>
+  </body>
+</html>
+
+--------------B53BCBDA1B0D69846EED16DB--
