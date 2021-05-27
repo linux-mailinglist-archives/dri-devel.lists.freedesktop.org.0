@@ -2,58 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A6ED3938ED
-	for <lists+dri-devel@lfdr.de>; Fri, 28 May 2021 01:09:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B21E3938F0
+	for <lists+dri-devel@lfdr.de>; Fri, 28 May 2021 01:09:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A0C0B6E2C0;
-	Thu, 27 May 2021 23:09:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BD6AA6F414;
+	Thu, 27 May 2021 23:09:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-il1-x132.google.com (mail-il1-x132.google.com
  [IPv6:2607:f8b0:4864:20::132])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6ADB46E2C0;
- Thu, 27 May 2021 23:09:27 +0000 (UTC)
-Received: by mail-il1-x132.google.com with SMTP id l15so1774079ilh.1;
- Thu, 27 May 2021 16:09:27 -0700 (PDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EB6B06EE51;
+ Thu, 27 May 2021 23:09:41 +0000 (UTC)
+Received: by mail-il1-x132.google.com with SMTP id j30so1761739ila.5;
+ Thu, 27 May 2021 16:09:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=4kLiEsgXJL4l0OE3QcUENS/6JLbXlz5zRsd7ODaSzsA=;
- b=AN9s3c3Nnqymav/1Na5LgRM+yBjehQGzQVHllAlGVj/anzx0uk05waX9p6Xtf+AB1L
- sMWyKD2IQV3IiuxHTkKcNwoXxLgx7iNowi6tWHHMy2FjfaXbbnAr8KECFOUxY2sfgw8a
- xCOFXm7f+fWr8Pi0DVhWkJuMKMg1d+BLm6/QcmgULUGLyiB6I9d1a3b/Xs7Cz7endodL
- sZ7Yn7Dvgw0ZidAvf+VzU3YQWI+cvURDkp/ocIflIPjdhuyA61n06Ec5h9MMkkE/XZnq
- z6K+JUN48Q+XvgRICM5Blx185WYOCsG84f7kPj97hhZihds/zRInHrm2Etmv3Er9TiFg
- QYQA==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=1vTFumJbcjlC9H58za7civP9oS0BxFYnQlOIDDd8vSU=;
+ b=HAIg1uSz4RBzsZCtp4d4QdB9b8SdCfGZGGkYyjQJ1gpqJOsXAvP98PnBrf2z4CMtNU
+ QzSbafdmDgr4kszEaSkqeJcgdmzAvYEqqA5a70bmnambeDgQ0u4GM/6R/nmp3dJKVRo3
+ 0bYjKH8I1+oipkfzOoA8chQFIQBF4MCZYCzKAekcY98QcSsEjbLAaoqZmOtHzPgcAvih
+ KhwHdE9VI6bNbwHYvNtiWHV/Fk4zWs4Rv9xiflD+lQBLlEgjrCBraoaU//SEG3Z84rEv
+ uUoYXnEnBbhbG9dgYvBhC8qb51RDUrreN+AAApT6iYh9ivrPx97e76JBAO9+apO1gsEa
+ F0ww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=4kLiEsgXJL4l0OE3QcUENS/6JLbXlz5zRsd7ODaSzsA=;
- b=WPkdcRkvE+YSyjVdh1JA5dMkuA//UiIArI+PToRzqGoAA+M7xpGZABGqFYFuljaRyJ
- hT7ryxuWreHeS8tsnLQto9wPCoKPdIYiS+p4OgnXNfgtPvnS1h1X0/XP1yZ7Or0BC3wM
- i0csK9/VwK82UDSTOfAvfSeU7oe8eE0QG6vTrLom8enokM2AJm8++SPLiLTuppfMTZIz
- 84vreTossoyRwVI4X0DslkrlfkhR3SvaGcGi8WddPPv6SYu0jVHxCzdB2dwy+QRqNgYK
- bFHbgYCIO2h6VeebGDfLhRaQpZSafffMxAmll8WgeS+FG4gjQh/psN4J2/i2CFbXCPTS
- YjgQ==
-X-Gm-Message-State: AOAM530DreF/SYxPdFdPIdx52Bnc9xUlV+Geob4nsRv6npyxqww9hS23
- YSrZoQhMY+MsrIjJ3NfEouk=
-X-Google-Smtp-Source: ABdhPJwk5Q8Yq1NmCjqTz3x3UVzu8172YycfbZkjO+O53PFGq2hSwrHmFPyOgtebO7cEMlrgm4pSUA==
-X-Received: by 2002:a92:d9d2:: with SMTP id n18mr5096577ilq.10.1622156966745; 
- Thu, 27 May 2021 16:09:26 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=1vTFumJbcjlC9H58za7civP9oS0BxFYnQlOIDDd8vSU=;
+ b=fY40y0NI40YqQ4PG1csryxWR3Qk57TXGM0g6WtHL1VSYsZRVJ++Hu65alDcfyAM4G+
+ GuyGdA0SJkRoGTnhiQQKh1F7ahF4/JwakGFeG6Z+rU9KDfPr5vQpkasC/6HQOlF2LW8I
+ iIQaSCYKFPJL47+ElzV+Tj9pPS95vbUUXpaNvSmbDcBK2nQqsKRkS7MqqScZWEP29G+O
+ S2tDmqBCMoh8NDwhoKOWvCpgHPU82R3BM/NREplORKigOpmb80jvrz1RpCbh8/oLHH+h
+ 6pK5ioX3PwQaNK4M/nJAfBzmS7dvaLk3TpERHlpYS5sTpRHgFDDN/z8icbCkPHRHcstv
+ 9/rA==
+X-Gm-Message-State: AOAM533FE6mgrcUU6xFe1JmMXkeFUWMED3JRjoPPdt9a9SkvyVBKpuE0
+ /V33DL3V3IAjsX7Ky1jlltfVsb9W9R+QIGgd
+X-Google-Smtp-Source: ABdhPJxGyk+/fitlH3T/Ywo0Dq9sm0GcM01SIGfE1kwmfZ4Tql9lUnIKyyNl5J+eQtri+AKvK9GjAg==
+X-Received: by 2002:a92:3302:: with SMTP id a2mr4869468ilf.62.1622156981342;
+ Thu, 27 May 2021 16:09:41 -0700 (PDT)
 Received: from Harpoon.amd.com ([165.204.55.251])
- by smtp.gmail.com with ESMTPSA id r5sm1860014ilb.1.2021.05.27.16.09.06
+ by smtp.gmail.com with ESMTPSA id r5sm1860014ilb.1.2021.05.27.16.09.26
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 27 May 2021 16:09:09 -0700 (PDT)
+ Thu, 27 May 2021 16:09:32 -0700 (PDT)
 From: Felix Kuehling <felix.kuehling@gmail.com>
 X-Google-Original-From: Felix Kuehling <Felix.Kuehling@amd.com>
 To: felix.kuehling@amd.com,
 	akpm@linux-foundation.org,
 	linux-mm@kvack.org
-Subject: [RFC PATCH 0/5] Support DEVICE_GENERIC memory in migrate_vma_*
-Date: Thu, 27 May 2021 19:08:04 -0400
-Message-Id: <20210527230809.3701-1-Felix.Kuehling@amd.com>
+Subject: [RFC PATCH 1/5] drm/amdkfd: add SPM support for SVM
+Date: Thu, 27 May 2021 19:08:05 -0400
+Message-Id: <20210527230809.3701-2-Felix.Kuehling@amd.com>
 X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20210527230809.3701-1-Felix.Kuehling@amd.com>
+References: <20210527230809.3701-1-Felix.Kuehling@amd.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -68,63 +70,90 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, jglisse@redhat.com,
- amd-gfx@lists.freedesktop.org, hch@lst.de, jgg@nvidia.com
+Cc: Alex Sierra <alex.sierra@amd.com>, dri-devel@lists.freedesktop.org,
+ jglisse@redhat.com, amd-gfx@lists.freedesktop.org, jgg@nvidia.com, hch@lst.de
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-AMD is building a system architecture for the Frontier supercomputer with
-a coherent interconnect between CPUs and GPUs. This hardware architecture
-allows the CPUs to coherently access GPU device memory. We have hardware
-in our labs and we are working with our partner HPE on the BIOS, firmware
-and software for delivery to the DOE.
+From: Alex Sierra <alex.sierra@amd.com>
 
-The system BIOS advertises the GPU device memory (aka VRAM) as SPM
-(special purpose memory) in the UEFI system address map. The amdgpu driver
-looks it up with lookup_resource and registers it with devmap as
-MEMORY_DEVICE_GENERIC using devm_memremap_pages.
+When CPU is connected throug XGMI, it has coherent
+access to VRAM resource. In this case that resource
+is taken from a table in the device gmc aperture base.
+This resource is used along with the device type, which could
+be DEVICE_PRIVATE or DEVICE_GENERIC to create the device
+page map region.
 
-Now we're trying to migrate data to and from that memory using the
-migrate_vma_* helpers so we can support page-based migration in our
-unified memory allocations, while also supporting CPU access to those
-pages.
-
-This patch series makes a few changes to make MEMORY_DEVICE_GENERIC pages
-behave correctly in the migrate_vma_* helpers. We are looking for feedback
-about this approach. If we're close, what's needed to make our patches
-acceptable upstream? If we're not close, any suggestions how else to
-achieve what we are trying to do (i.e. page migration and coherent CPU
-access to VRAM)?
-
-This work is based on HMM and our SVM memory manager that was recently
-upstreamed to Dave Airlie's drm-next branch
-[https://cgit.freedesktop.org/drm/drm/log/?h=drm-next]. On top of that we
-did some rework of our VRAM management for migrations to remove some
-incorrect assumptions, allow partially successful migrations and GPU
-memory mappings that mix pages in VRAM and system memory.
-[https://patchwork.kernel.org/project/dri-devel/list/?series=489811]
-
-In this RFC, patches 1 and 2 are for context to show how we are looking up
-the SPM memory and registering it with devmap.
-
-Patches 3-5 are the changes we are trying to upstream or rework to make
-them acceptable upstream.
-
-Alex Sierra (5):
-  drm/amdkfd: add SPM support for SVM
-  drm/amdkfd: generic type as sys mem on migration to ram
-  include/linux/mm.h: helper to check zone device generic type
-  mm: add generic type support for device zone page migration
-  mm: changes to unref pages with Generic type
-
- drivers/gpu/drm/amd/amdkfd/kfd_migrate.c | 15 +++++++++++----
+Signed-off-by: Alex Sierra <alex.sierra@amd.com>
+---
+ drivers/gpu/drm/amd/amdkfd/kfd_migrate.c | 12 +++++++++---
  drivers/gpu/drm/amd/amdkfd/kfd_svm.h     |  1 -
- include/linux/mm.h                       |  8 ++++++++
  kernel/resource.c                        |  2 +-
- mm/memremap.c                            |  5 ++++-
- mm/migrate.c                             | 13 ++++++++-----
- 6 files changed, 32 insertions(+), 12 deletions(-)
+ 3 files changed, 10 insertions(+), 5 deletions(-)
 
+diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_migrate.c b/drivers/gpu/drm/amd/amdkfd/kfd_migrate.c
+index c8ca3252cbc2..f5939449a99f 100644
+--- a/drivers/gpu/drm/amd/amdkfd/kfd_migrate.c
++++ b/drivers/gpu/drm/amd/amdkfd/kfd_migrate.c
+@@ -895,6 +895,7 @@ int svm_migrate_init(struct amdgpu_device *adev)
+ 	struct resource *res;
+ 	unsigned long size;
+ 	void *r;
++	bool xgmi_connected_to_cpu = adev->gmc.xgmi.connected_to_cpu;
+ 
+ 	/* Page migration works on Vega10 or newer */
+ 	if (kfddev->device_info->asic_family < CHIP_VEGA10)
+@@ -907,17 +908,22 @@ int svm_migrate_init(struct amdgpu_device *adev)
+ 	 * should remove reserved size
+ 	 */
+ 	size = ALIGN(adev->gmc.real_vram_size, 2ULL << 20);
+-	res = devm_request_free_mem_region(adev->dev, &iomem_resource, size);
++	if (xgmi_connected_to_cpu)
++		res = lookup_resource(&iomem_resource, adev->gmc.aper_base);
++	else
++		res = devm_request_free_mem_region(adev->dev, &iomem_resource, size);
++
+ 	if (IS_ERR(res))
+ 		return -ENOMEM;
+ 
+-	pgmap->type = MEMORY_DEVICE_PRIVATE;
+ 	pgmap->nr_range = 1;
+ 	pgmap->range.start = res->start;
+ 	pgmap->range.end = res->end;
++	pgmap->type = xgmi_connected_to_cpu ?
++				MEMORY_DEVICE_GENERIC : MEMORY_DEVICE_PRIVATE;
+ 	pgmap->ops = &svm_migrate_pgmap_ops;
+ 	pgmap->owner = SVM_ADEV_PGMAP_OWNER(adev);
+-	pgmap->flags = MIGRATE_VMA_SELECT_DEVICE_PRIVATE;
++	pgmap->flags = 0;
+ 	r = devm_memremap_pages(adev->dev, pgmap);
+ 	if (IS_ERR(r)) {
+ 		pr_err("failed to register HMM device memory\n");
+diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_svm.h b/drivers/gpu/drm/amd/amdkfd/kfd_svm.h
+index 21f693767a0d..3881a93192ed 100644
+--- a/drivers/gpu/drm/amd/amdkfd/kfd_svm.h
++++ b/drivers/gpu/drm/amd/amdkfd/kfd_svm.h
+@@ -38,7 +38,6 @@
+ #define SVM_RANGE_VRAM_DOMAIN (1UL << 0)
+ #define SVM_ADEV_PGMAP_OWNER(adev)\
+ 			((adev)->hive ? (void *)(adev)->hive : (void *)(adev))
+-
+ struct svm_range_bo {
+ 	struct amdgpu_bo		*bo;
+ 	struct kref			kref;
+diff --git a/kernel/resource.c b/kernel/resource.c
+index 627e61b0c124..da137553b83e 100644
+--- a/kernel/resource.c
++++ b/kernel/resource.c
+@@ -783,7 +783,7 @@ struct resource *lookup_resource(struct resource *root, resource_size_t start)
+ 
+ 	return res;
+ }
+-
++EXPORT_SYMBOL(lookup_resource);
+ /*
+  * Insert a resource into the resource tree. If successful, return NULL,
+  * otherwise return the conflicting resource (compare to __request_resource())
 -- 
 2.31.1
 
