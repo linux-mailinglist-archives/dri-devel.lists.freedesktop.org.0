@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D301639245B
-	for <lists+dri-devel@lfdr.de>; Thu, 27 May 2021 03:31:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 287B739245C
+	for <lists+dri-devel@lfdr.de>; Thu, 27 May 2021 03:31:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 02DE26E8AF;
-	Thu, 27 May 2021 01:31:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 559856E8B1;
+	Thu, 27 May 2021 01:31:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM04-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam08on2058.outbound.protection.outlook.com [40.107.101.58])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 476516E8AD;
- Thu, 27 May 2021 01:31:15 +0000 (UTC)
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam12on2046.outbound.protection.outlook.com [40.107.244.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 334936E8B3;
+ Thu, 27 May 2021 01:31:19 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ehY+WPtvqk+Qb3SL67Jsof91p+BR/UUhwaJOC0gf1OH0p7FrWH8vJHq/Doy0jWjWAXI/1KdIXtf3dlL6GS7rAUw1u3TrtgnvzulDdW583ixvXN7E+PjYw0PSvBFnsfEChfH+N31yYzeMafN/TXt3RA6MZeZwJ7R+Law2WZ1NpW/LpmmZo0hWHu1LBCfu2q02jQoaVgtGanKxjIcbK5kNCbcFnFMUE0djEP1sqlCUErp1ncTarZSX6gYfOZmDUpd43Db8oqCGUxDBTANbMBUxjzRuq/uI5vYRX/Cc8rPkeRX9BXVKc1svafzGpbGwBmcJNKU7wBkL9JE+GVif3i+aIQ==
+ b=fS/qpCWNd1mIYYyhZW/6HQrt6Gkc5KFrMSXPnWUnzE2+k/q/A0JeCCU9rEjc/hnNIWpQE76fEjuqL004L7OeIk02aklYCitgKNAQSbnci91iB0C7pGxgA4TzHS37pHyiNhDwauHFS7CFMQRqrOzrwR+LHqsQZDtJvpW7uCglv3tLYBBuGcEqU8206AdecfT+fIsWRwmVvCjIhdqE8f3nzPvS53j/h+RfdMCJgIjmo3vC3/mTVROVr1HI2rU6zkCG+njntccLW2guHJJJeDoLFfFLZBzPl6u7SAQ9i96loZ746j6rojfSPsZ3MZWq17+9BluGxn1Kn0OMPPUAb24aXg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ixZp1EWtKYKOu8KEhIvJmMaz4Fvzf86SAPrzGJYfyjw=;
- b=gy0W/M09H0mM2k0NWIoxQ07LWdgY+ia/42bxejJ+FMnbQGzLbT6IxX5iaxsq209wz41gOxpMvjB4n0QOdGh+nqLvv7sGUmM5F69eD7wl+u1JHGHJqLC2Eq16r2cDIfhdgwMmuVXJkgBqdhwFH14sfPu+9ziAECcHb4xMzDw8koSpubGMrWDd1XrruAng+jTm5ZPnJM2ZgyI0+Sso7R0Dg1dcnW/O2SAGh/b6GOCEZkw7P/kvlHWhYsvRXqZSAhzbcaGM8jreAnv3my8AdJRsWQ8z3pYOFUpUiTAxG8bpCIFxs0efDgP5f6hOusXuIscqgCNvif+xL6pDomCJEisI6Q==
+ bh=yljrt8DYkVPpWx4bMesEXValYXYYiNa7OsZD43MeMbk=;
+ b=IijDQSol6+SWsOgRskYz+Rkc/IhGaHrJLmzWE61iEt64jRK/8My7aRRtsgyv4jPC1F07d+aYzbfv2fsfqOH9BWW6wV35Ly03m99KTee/wE1yh6KptC+NpZsB+nVAGJ9pg+rf33XpOlP9+9pv0D+yKPRTS7LSXrEwOknAYnw91bieH+LxFr2KqEhX5etuZiEyjJnqymU2CJYt9+ca4ckXlcrWzynL1CISlVEB54Im1SWlgQJVJOuQc3CHenftythnwkSfv7BvDkxv52jRk3QW6EJhnqeHfu6T18xj8X4wkudBNOjkuaMFg5At8zfvXjy1thUmYtccj4cH+voza3/CnQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
  dmarc=pass (p=none sp=none pct=100) action=none header.from=amd.com;
  dkim=none (message not signed); arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ixZp1EWtKYKOu8KEhIvJmMaz4Fvzf86SAPrzGJYfyjw=;
- b=1eoovKbBuFrMl5oX+ivRI6fv8CWaccz78GJZMBpTO1obAf4Krf5rMJK3wtvfMr+ccVQJ82/3Urj7WOFqcdi1dG0b245jwO6XuDAuhNlJKyTOWZUeI2D2bI8YI3oiYKy0tUTOso/hyW8sjSr0U3a1LhISCJH7AHuDuUBBjvIjxRw=
-Received: from MWHPR21CA0062.namprd21.prod.outlook.com (2603:10b6:300:db::24)
- by DM5PR12MB1339.namprd12.prod.outlook.com (2603:10b6:3:70::14) with
- Microsoft SMTP Server (version=TLS1_2,
+ bh=yljrt8DYkVPpWx4bMesEXValYXYYiNa7OsZD43MeMbk=;
+ b=X68bLQClDZmyPPmJp10Qq7/cnpXLGfBBTtwBeT4Zyc9RYHKeoSshcjkquX5806+gjgkiKDoavthUprxdSiHXH3Dh8OE+YVmBsDySrNwfsPQJa7t676srucYO0CEJV5je+fRCF0y2mcW7dJPSlQkyXLstysnoW46TxrDziiKowNQ=
+Received: from MWHPR04CA0034.namprd04.prod.outlook.com (2603:10b6:300:ee::20)
+ by MN2PR12MB3389.namprd12.prod.outlook.com (2603:10b6:208:ca::33)
+ with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4150.23; Thu, 27 May
- 2021 01:31:13 +0000
-Received: from CO1NAM11FT045.eop-nam11.prod.protection.outlook.com
- (2603:10b6:300:db:cafe::94) by MWHPR21CA0062.outlook.office365.com
- (2603:10b6:300:db::24) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4195.2 via Frontend
- Transport; Thu, 27 May 2021 01:31:13 +0000
+ 2021 01:31:17 +0000
+Received: from CO1NAM11FT021.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:300:ee:cafe::e8) by MWHPR04CA0034.outlook.office365.com
+ (2603:10b6:300:ee::20) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4173.20 via Frontend
+ Transport; Thu, 27 May 2021 01:31:17 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; lists.freedesktop.org; dkim=none (message not signed)
  header.d=none;lists.freedesktop.org; dmarc=pass action=none
@@ -46,19 +46,21 @@ Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
  165.204.84.17 as permitted sender) receiver=protection.outlook.com;
  client-ip=165.204.84.17; helo=SATLEXMB04.amd.com;
 Received: from SATLEXMB04.amd.com (165.204.84.17) by
- CO1NAM11FT045.mail.protection.outlook.com (10.13.175.181) with Microsoft SMTP
+ CO1NAM11FT021.mail.protection.outlook.com (10.13.175.51) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.4129.25 via Frontend Transport; Thu, 27 May 2021 01:31:13 +0000
+ 15.20.4129.25 via Frontend Transport; Thu, 27 May 2021 01:31:17 +0000
 Received: from lang-desktop.amd.com (10.180.168.240) by SATLEXMB04.amd.com
  (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2242.4; Wed, 26 May
- 2021 20:31:10 -0500
+ 2021 20:31:14 -0500
 From: Lang Yu <Lang.Yu@amd.com>
 To: <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>
-Subject: [PATCH 1/2] drm/ttm: cleanup and add TTM_PL_FLAG_TEMPORARY
-Date: Thu, 27 May 2021 09:30:50 +0800
-Message-ID: <20210527013051.4302-1-Lang.Yu@amd.com>
+Subject: [PATCH 2/2] drm/amdgpu: stop bookkeeping of temporary GTT allocation
+Date: Thu, 27 May 2021 09:30:51 +0800
+Message-ID: <20210527013051.4302-2-Lang.Yu@amd.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20210527013051.4302-1-Lang.Yu@amd.com>
+References: <20210527013051.4302-1-Lang.Yu@amd.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
@@ -67,27 +69,27 @@ X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
  (10.181.40.145)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 794f0694-86f3-42ac-d367-08d920af1d48
-X-MS-TrafficTypeDiagnostic: DM5PR12MB1339:
-X-Microsoft-Antispam-PRVS: <DM5PR12MB13396DEE61AC5AFBC8C2951BFB239@DM5PR12MB1339.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:3968;
+X-MS-Office365-Filtering-Correlation-Id: dc065cd7-577e-4681-1ae3-08d920af1fac
+X-MS-TrafficTypeDiagnostic: MN2PR12MB3389:
+X-Microsoft-Antispam-PRVS: <MN2PR12MB3389B14364B2B8A1A1D03FF6FB239@MN2PR12MB3389.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:1850;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 1xdA1SUr6hWA69kxihoJb0RMnINRoYI4+y3HX4tDHBdq/CgkLGMbThHU1jw/H14Pmz4X6/mxZUcP/ocZctpeI/K7nn8A6udjOhcm4mLbzp5YnDRJolbRrhu/Afoalr/zoqUrp9l99yETUaINVwdvx6gEtM71C4Z4pZDPgT6TKUNOaffEJBAx+gXoYQrlSy6rjKHjZwho2QoRRP9XMO8xCVy+9Uj7Ut54n9c5f4HgxuhwhiKdnyHFxBE4m07hzqwbcefUxS09TNrQjH3Wo79yO4Wo8l2aBAkN8MbsxaxGDMIvyuO9X3mWyqBWFr3Vyw3t0HvGAAAQtd3VfMWNL2DwaTRrrIjgvgmt0sC4mF6sVJJRabvEkOTj9Qd1TuXTEK0pmwSXFVX00lQy3JIh+iFsMborEK2ZcSiC8sWlyjLc46nZrK06Bc4sOfeEQXPb5+AuRnW6s1YxUv+GPmNGkLaOX3uWFPiQP/7WQyS70OdkmlmabxV/SIDyXjTGp3TOJYdOMKFATNNqZzwca//yeJ2nWmVASg229Xeos+pEal7Mp1mC+8E3mkehx950S2cYqsXwbiV5/EHe4FF1UfTJ8oPNpDqifCVyIbGT3xHMSh20WAElX1lZqeYQO6ahlQOcF1vs/U2jyEkrXb9TDbB2FpXDhOn35GsRlLS72j/rPSXZpuBhpUoEbQkgaTRdrLeXk6AD
+X-Microsoft-Antispam-Message-Info: /JqPwzP+EEnzOsmNgDRzyXM6KFdKP+hnfxcMsY6lUlgPvcG0elxpVHeoQa7ogacpyHgPyxrcdkq1wINd1029aNccueZIL8BlvRreT9mW6HZ0NxD17GxFr7gexsNjB8MjbVVCXQRDX3Zse83rY1+oHtdnn1G34iDaPBVWsLm6QvAj2cxpXLcYJHtzYLVXd65aPgotnFyfCPhbTjsMfhodgn/x1xpcNK7RdUzZELMfXkMzADmBM1zhvZtGRUHmWC26Hys6VdqIqCVQQOjXzgrS5MkeyMd7yQtcWWiGdum3+0hWXR1iLBcnWKmcJceiGt/E2eM+KXbPxrLibpoLQsVkssfZYlo+MiSfnYp1lRTn5HoZ7ECtL8lD56yaYNImNeLmCocCklUSPDgl6obmNT6TEUiDyWxDVADlAk29CPGUiSyprEvLqM4Oewsr9XGmDAKNeP6mQX5N9jG+cvr8LdSduHuWM235oIczkRH242+WETrVG2jlNXP6F6wZS1JCwtCopLEzDPxxpoL+3o9+CSF4b269ZbbaNXCNiaJjuHqJPK2E5gwngKtrFupQeQXilGa8atMaxiwQYrVyBRJhbl0zhCF+bb6NJv3IdGH41FcZN76HMAeY9yeQa8bNv0sUYcVwsjoeINLnhFB4mcopay8l6RTULDNzppQtavgvbLgaZTnLxqj791fx7luJ7f99WoC5
 X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
  IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(4636009)(396003)(346002)(39860400002)(136003)(376002)(46966006)(36840700001)(47076005)(356005)(5660300002)(110136005)(4744005)(8936002)(426003)(2906002)(478600001)(316002)(81166007)(4326008)(2616005)(36860700001)(336012)(54906003)(450100002)(186003)(82740400003)(86362001)(16526019)(7696005)(8676002)(26005)(70586007)(36756003)(70206006)(82310400003)(83380400001)(1076003)(6666004)(36900700001);
+ SFS:(4636009)(396003)(136003)(39860400002)(346002)(376002)(46966006)(36840700001)(2616005)(82740400003)(186003)(82310400003)(47076005)(26005)(1076003)(83380400001)(81166007)(426003)(8676002)(336012)(2906002)(110136005)(86362001)(5660300002)(36756003)(356005)(16526019)(54906003)(6666004)(478600001)(4326008)(8936002)(7696005)(36860700001)(316002)(70206006)(450100002)(70586007)(36900700001);
  DIR:OUT; SFP:1101; 
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 May 2021 01:31:13.0774 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 794f0694-86f3-42ac-d367-08d920af1d48
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 May 2021 01:31:17.0765 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: dc065cd7-577e-4681-1ae3-08d920af1fac
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
  Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT045.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT021.eop-nam11.prod.protection.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR12MB1339
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB3389
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -105,31 +107,77 @@ Cc: Alex Deucher <alexander.deucher@amd.com>, Huang Rui <ray.huang@amd.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Make TTM_PL_FLAG_* start from zero and add
-TTM_PL_FLAG_TEMPORARY flag for temporary
-GTT allocation use.
+To improve buffer migration performace, stop bookkeeping of
+temporary GTT allocation, including allocation for BO evicted
+from VRAM and bounce buffer.
 
 Signed-off-by: Lang Yu <Lang.Yu@amd.com>
 ---
- include/drm/ttm/ttm_placement.h | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c | 16 ++++++++++------
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c     |  4 +++-
+ 2 files changed, 13 insertions(+), 7 deletions(-)
 
-diff --git a/include/drm/ttm/ttm_placement.h b/include/drm/ttm/ttm_placement.h
-index aa6ba4d0cf78..9f5cfc7c2d5a 100644
---- a/include/drm/ttm/ttm_placement.h
-+++ b/include/drm/ttm/ttm_placement.h
-@@ -47,8 +47,9 @@
-  * top of the memory area, instead of the bottom.
-  */
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c
+index 8860545344c7..32fedd495c7f 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c
+@@ -111,14 +111,15 @@ static int amdgpu_gtt_mgr_new(struct ttm_resource_manager *man,
+ 	struct amdgpu_gtt_node *node;
+ 	int r;
  
--#define TTM_PL_FLAG_CONTIGUOUS  (1 << 19)
--#define TTM_PL_FLAG_TOPDOWN     (1 << 22)
-+#define TTM_PL_FLAG_CONTIGUOUS  (1 << 0)
-+#define TTM_PL_FLAG_TOPDOWN     (1 << 1)
-+#define TTM_PL_FLAG_TEMPORARY   (1 << 2)
+-	spin_lock(&mgr->lock);
+-	if ((&tbo->mem == mem || tbo->mem.mem_type != TTM_PL_TT) &&
+-	    atomic64_read(&mgr->available) < mem->num_pages) {
++	if (!(mem->placement & TTM_PL_FLAG_TEMPORARY)) {
++		spin_lock(&mgr->lock);
++		if (atomic64_read(&mgr->available) < mem->num_pages) {
++			spin_unlock(&mgr->lock);
++			return -ENOSPC;
++		}
++		atomic64_sub(mem->num_pages, &mgr->available);
+ 		spin_unlock(&mgr->lock);
+-		return -ENOSPC;
+ 	}
+-	atomic64_sub(mem->num_pages, &mgr->available);
+-	spin_unlock(&mgr->lock);
  
- /**
-  * struct ttm_place
+ 	if (!place->lpfn) {
+ 		mem->mm_node = NULL;
+@@ -178,6 +179,9 @@ static void amdgpu_gtt_mgr_del(struct ttm_resource_manager *man,
+ 		kfree(node);
+ 	}
+ 
++	if (mem->placement & TTM_PL_FLAG_TEMPORARY)
++		return;
++
+ 	atomic64_add(mem->num_pages, &mgr->available);
+ }
+ 
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+index c0aef327292a..129d39392859 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+@@ -152,9 +152,11 @@ static void amdgpu_evict_flags(struct ttm_buffer_object *bo,
+ 			abo->placements[0].lpfn = 0;
+ 			abo->placement.busy_placement = &abo->placements[1];
+ 			abo->placement.num_busy_placement = 1;
++			abo->placements[1].flags |= TTM_PL_FLAG_TEMPORARY;
+ 		} else {
+ 			/* Move to GTT memory */
+ 			amdgpu_bo_placement_from_domain(abo, AMDGPU_GEM_DOMAIN_GTT);
++			abo->placements[0].flags |= TTM_PL_FLAG_TEMPORARY;
+ 		}
+ 		break;
+ 	case TTM_PL_TT:
+@@ -538,7 +540,7 @@ static int amdgpu_bo_move(struct ttm_buffer_object *bo, bool evict,
+ 			hop->fpfn = 0;
+ 			hop->lpfn = 0;
+ 			hop->mem_type = TTM_PL_TT;
+-			hop->flags = 0;
++			hop->flags |= TTM_PL_FLAG_TEMPORARY;
+ 			return -EMULTIHOP;
+ 		}
+ 
 -- 
 2.25.1
 
