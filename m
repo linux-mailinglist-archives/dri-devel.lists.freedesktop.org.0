@@ -2,55 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49CEF392587
-	for <lists+dri-devel@lfdr.de>; Thu, 27 May 2021 05:43:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 10C22392593
+	for <lists+dri-devel@lfdr.de>; Thu, 27 May 2021 05:49:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 102316EDF9;
-	Thu, 27 May 2021 03:43:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4DA6E6EDFB;
+	Thu, 27 May 2021 03:49:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x32b.google.com (mail-ot1-x32b.google.com
- [IPv6:2607:f8b0:4864:20::32b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 593336EDF9;
- Thu, 27 May 2021 03:43:05 +0000 (UTC)
-Received: by mail-ot1-x32b.google.com with SMTP id
- 69-20020a9d0a4b0000b02902ed42f141e1so3156960otg.2; 
- Wed, 26 May 2021 20:43:05 -0700 (PDT)
+Received: from mail-oi1-x229.google.com (mail-oi1-x229.google.com
+ [IPv6:2607:f8b0:4864:20::229])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A0FB36EDFB;
+ Thu, 27 May 2021 03:49:36 +0000 (UTC)
+Received: by mail-oi1-x229.google.com with SMTP id v22so3812189oic.2;
+ Wed, 26 May 2021 20:49:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=jfHExiAwx1yhDJ7z9SPOraFBPqMXoh5n46J3TLD6IxI=;
- b=qCrx8FvXM97lUfDQtGc7hqeqQ944hYWWSoZujRCyYfzaH2s5JMDv2t2lz5CDYr8a4Y
- RdafEpU06bBsenrmamIC2itw/iiggx/c8Rzq+H6/Z6je69wxAOlgrSenGLJhTxZ1f8vU
- 3VegTt+cwG8QpP0YCRg2HEaApzeqy9m2YmRI1GFSSsxZnaxrLm+nLUHCvamNrv1LmqwX
- JnvuRQEKuANxoS7lJlLC7H2mQnaoiPzkcrDVygrPJ2JXOQmmI7UzucPCas1t778Umb5k
- 0d6kKCIh6v0DwJcdZgXB9P9jQlmnX9K/Z7G6DP6U2uQi+Nb/gqn2TWQxSJjaWKxJU2Ji
- FUaA==
+ bh=DX5LZ59j/U95L+mNk2w46JLq9y9MxosdgzOg6i0ZZ6E=;
+ b=u8DB9ze/Jw3EU/Y4+kWrZQ6Cw2+PcWjxFCoDTqyt4TeM+BZFS+KrGfLZhaEBSCoXpl
+ dbTbZeMaDXuKOHyGSU0lPjSHx2ndTerJYw44ctn2yUTQaIfyXZB5TJwBjJth9OqkAEV6
+ x83RO7YGxNxPM/MaGdoq2HGnCY7nfNSzu9g1OahvUbuq5DRf4t1PJ6pebrxZ8TzsIms5
+ qKG9MaTmsOH59Nsk07lS+oksXQZ+1tdCjsbJoz63DHEUGIvQ2XXrTu2wor6Z3rjKLhL2
+ Twidj3FMOFJDlN43g/in2ikXjQo8WuW0AqC3nRnZ9OfrD9xn8oUMtfr19h62A7pbta5S
+ hHTA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=jfHExiAwx1yhDJ7z9SPOraFBPqMXoh5n46J3TLD6IxI=;
- b=LaHoKUF23aGnHtxDOz4c8MJE9yYIVcjH8pyBncrrrZmBf4clNpuV0sXdFbmLDanCSo
- gA0kep5Zq0KgQtdNy145als3mTlIKodIYfC0CynrjtsAUsum10D5KZ8wbfs4RvwKjIEF
- I5mgfncHgqgdo5kc/jPhV4c6dZYGK9DbinQi8/r3npvbNJaoqhRTQNCkj87+R1IBhWUj
- tDicZACBjcxEA2alnhP5Y2qoZVRD/oGepYcOQfEyPVa2heultcvHPygwzybzDZiIBtWv
- 2FLbunBbTIq/NP0L/wtc4pQKA3H7DqZFcX94DumdBxeHAM6GMCnVAmrD0mi0olcCVaj8
- 8c/A==
-X-Gm-Message-State: AOAM531w82iv9CQQ5dnp2nUKUQbmF/PI0KETSEEvRqR5vHDVf8DJDlXL
- hbzgIfx+79pUtZ5G57qFcWTaV1Niei07zbnGyXw=
-X-Google-Smtp-Source: ABdhPJyZnqxxgDnJ6PHbltuqV9e7YpgMP1k4fxHJNb1XSn7Xny5N88vOTGA/oxzG3Dqra1oAamTpwHWFw2t+Zsk06wA=
-X-Received: by 2002:a9d:6548:: with SMTP id q8mr1174607otl.311.1622086984587; 
- Wed, 26 May 2021 20:43:04 -0700 (PDT)
+ bh=DX5LZ59j/U95L+mNk2w46JLq9y9MxosdgzOg6i0ZZ6E=;
+ b=i/ycqoIn+PsNG+0i8KOyGrsbf8G/THYm9f/6Pw2Jr14Qc/zqTC3V95XLYW5pI55I23
+ uOJ7R8/Y3j9UdpfNutAo8Nie+heZ6/HUwOh/6wKJ3pmyX8Uy7FyL757nQahCgU9QGj18
+ Saide1Fs26+gW6BSNpOAhhMbUC/UnknJPYOAeF3ZMo4IKbrBluu/ocYligYl0Noxsm19
+ 1ddeap91YpytWMy5d3LlcJIirFoBN2JG1klrntTu/vfpHw/WpHyT0nMBYBmQUtGaG53I
+ jxK/y8hqtfIYgDiKcQuECn8MdOx4qN16iZW6DEIimX/qln9vLzDLh2ndl9xYYJBUBQ1u
+ XOPA==
+X-Gm-Message-State: AOAM532dghwu8ZaPsSZ5ydgeZzPV/Eanh9Qy0Pl3dSD+4ej290cGa8wS
+ cmXSljm8DPoyw7+nllSRv/u61b0o2eb8tY2xmjk=
+X-Google-Smtp-Source: ABdhPJw0QDyylvjNLg3lab3rvIBcqi4+H2nhMuvkGY8U8GQq5XqOtT75RF0uJDw4uQ0NCdsuXqZO/VBBrP1e7C1e4Yk=
+X-Received: by 2002:a05:6808:249:: with SMTP id
+ m9mr1011124oie.120.1622087375887; 
+ Wed, 26 May 2021 20:49:35 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210526084726.552052-1-lee.jones@linaro.org>
- <20210526084726.552052-2-lee.jones@linaro.org>
-In-Reply-To: <20210526084726.552052-2-lee.jones@linaro.org>
+ <20210526084726.552052-3-lee.jones@linaro.org>
+In-Reply-To: <20210526084726.552052-3-lee.jones@linaro.org>
 From: Alex Deucher <alexdeucher@gmail.com>
-Date: Wed, 26 May 2021 23:42:53 -0400
-Message-ID: <CADnq5_PhozjNvOjvoMQRr-oqNz_vOjHtuW45wCK80jHKYscV7A@mail.gmail.com>
-Subject: Re: [PATCH 01/34] drm/amd/pm/inc/smu_v13_0: Move table into the only
- source file that uses it
+Date: Wed, 26 May 2021 23:49:25 -0400
+Message-ID: <CADnq5_OFMz2tCCCwXbQ-sj+zOyp2GGNLDCkVADXaRo=GJ1wOTg@mail.gmail.com>
+Subject: Re: [PATCH 02/34] drm/amd/pm/swsmu/smu13/aldebaran_ppt: Remove unused
+ variable 'ret'
 To: Lee Jones <lee.jones@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -66,8 +66,7 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Kevin Wang <kevin1.wang@amd.com>,
- LKML <linux-kernel@vger.kernel.org>,
+Cc: David Airlie <airlied@linux.ie>, LKML <linux-kernel@vger.kernel.org>,
  Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
  amd-gfx list <amd-gfx@lists.freedesktop.org>,
  Alex Deucher <alexander.deucher@amd.com>,
@@ -75,72 +74,52 @@ Cc: David Airlie <airlied@linux.ie>, Kevin Wang <kevin1.wang@amd.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Applied.  Thanks!
+This should be checked.  Will send out a patch momentarily.
+
+Thanks,
+
+Alex
 
 On Wed, May 26, 2021 at 4:47 AM Lee Jones <lee.jones@linaro.org> wrote:
 >
 > Fixes the following W=3D1 kernel build warning(s):
 >
->  drivers/gpu/drm/amd/amdgpu/../pm/inc/smu_v13_0.h:54:43: warning: =E2=80=
-=98smu13_thermal_policy=E2=80=99 defined but not used [-Wunused-const-varia=
-ble=3D]
+>  drivers/gpu/drm/amd/amdgpu/../pm/swsmu/smu13/aldebaran_ppt.c: In functio=
+n =E2=80=98aldebaran_is_dpm_running=E2=80=99:
+>  drivers/gpu/drm/amd/amdgpu/../pm/swsmu/smu13/aldebaran_ppt.c:1260:6: war=
+ning: variable =E2=80=98ret=E2=80=99 set but not used [-Wunused-but-set-var=
+iable]
 >
 > Cc: Alex Deucher <alexander.deucher@amd.com>
 > Cc: "Christian K=C3=B6nig" <christian.koenig@amd.com>
 > Cc: David Airlie <airlied@linux.ie>
 > Cc: Daniel Vetter <daniel@ffwll.ch>
-> Cc: Kevin Wang <kevin1.wang@amd.com>
 > Cc: amd-gfx@lists.freedesktop.org
 > Cc: dri-devel@lists.freedesktop.org
 > Signed-off-by: Lee Jones <lee.jones@linaro.org>
 > ---
->  drivers/gpu/drm/amd/pm/inc/smu_v13_0.h             | 6 ------
->  drivers/gpu/drm/amd/pm/swsmu/smu13/aldebaran_ppt.c | 6 ++++++
->  2 files changed, 6 insertions(+), 6 deletions(-)
+>  drivers/gpu/drm/amd/pm/swsmu/smu13/aldebaran_ppt.c | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
 >
-> diff --git a/drivers/gpu/drm/amd/pm/inc/smu_v13_0.h b/drivers/gpu/drm/amd=
-/pm/inc/smu_v13_0.h
-> index 1687709507b3d..6119a36b2cba0 100644
-> --- a/drivers/gpu/drm/amd/pm/inc/smu_v13_0.h
-> +++ b/drivers/gpu/drm/amd/pm/inc/smu_v13_0.h
-> @@ -51,12 +51,6 @@
->  #define CTF_OFFSET_HOTSPOT             5
->  #define CTF_OFFSET_MEM                 5
->
-> -static const struct smu_temperature_range smu13_thermal_policy[] =3D
-> -{
-> -       {-273150,  99000, 99000, -273150, 99000, 99000, -273150, 99000, 9=
-9000},
-> -       { 120000, 120000, 120000, 120000, 120000, 120000, 120000, 120000,=
- 120000},
-> -};
-> -
->  struct smu_13_0_max_sustainable_clocks {
->         uint32_t display_clock;
->         uint32_t phy_clock;
 > diff --git a/drivers/gpu/drm/amd/pm/swsmu/smu13/aldebaran_ppt.c b/drivers=
 /gpu/drm/amd/pm/swsmu/smu13/aldebaran_ppt.c
-> index d62cc6bb1a305..d6ce665baaf3b 100644
+> index d6ce665baaf3b..d077e211017a9 100644
 > --- a/drivers/gpu/drm/amd/pm/swsmu/smu13/aldebaran_ppt.c
 > +++ b/drivers/gpu/drm/amd/pm/swsmu/smu13/aldebaran_ppt.c
-> @@ -78,6 +78,12 @@
+> @@ -1368,10 +1368,9 @@ static int aldebaran_usr_edit_dpm_table(struct smu=
+_context *smu, enum PP_OD_DPM_
 >
->  #define smnPCIE_ESM_CTRL                       0x111003D0
->
-> +static const struct smu_temperature_range smu13_thermal_policy[] =3D
-> +{
-> +       {-273150,  99000, 99000, -273150, 99000, 99000, -273150, 99000, 9=
-9000},
-> +       { 120000, 120000, 120000, 120000, 120000, 120000, 120000, 120000,=
- 120000},
-> +};
-> +
->  static const struct cmn2asic_msg_mapping aldebaran_message_map[SMU_MSG_M=
-AX_COUNT] =3D {
->         MSG_MAP(TestMessage,                         PPSMC_MSG_TestMessag=
-e,                     0),
->         MSG_MAP(GetSmuVersion,                       PPSMC_MSG_GetSmuVers=
-ion,                   1),
+>  static bool aldebaran_is_dpm_running(struct smu_context *smu)
+>  {
+> -       int ret =3D 0;
+>         uint32_t feature_mask[2];
+>         unsigned long feature_enabled;
+> -       ret =3D smu_cmn_get_enabled_mask(smu, feature_mask, 2);
+> +       smu_cmn_get_enabled_mask(smu, feature_mask, 2);
+>         feature_enabled =3D (unsigned long)((uint64_t)feature_mask[0] |
+>                                           ((uint64_t)feature_mask[1] << 3=
+2));
+>         return !!(feature_enabled & SMC_DPM_FEATURE);
 > --
 > 2.31.1
 >
