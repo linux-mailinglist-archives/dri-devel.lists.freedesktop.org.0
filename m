@@ -1,56 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 946133925C0
-	for <lists+dri-devel@lfdr.de>; Thu, 27 May 2021 06:00:59 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D39A43925DA
+	for <lists+dri-devel@lfdr.de>; Thu, 27 May 2021 06:06:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1517D6EE10;
-	Thu, 27 May 2021 04:00:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8C59B6EE14;
+	Thu, 27 May 2021 04:06:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x330.google.com (mail-ot1-x330.google.com
- [IPv6:2607:f8b0:4864:20::330])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BF0236EE0E;
- Thu, 27 May 2021 04:00:55 +0000 (UTC)
-Received: by mail-ot1-x330.google.com with SMTP id
- i23-20020a9d68d70000b02902dc19ed4c15so3214786oto.0; 
- Wed, 26 May 2021 21:00:55 -0700 (PDT)
+Received: from mail-ot1-x329.google.com (mail-ot1-x329.google.com
+ [IPv6:2607:f8b0:4864:20::329])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0F5FC6EE12;
+ Thu, 27 May 2021 04:06:38 +0000 (UTC)
+Received: by mail-ot1-x329.google.com with SMTP id
+ t10-20020a05683022eab0290304ed8bc759so3161027otc.12; 
+ Wed, 26 May 2021 21:06:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=APGqEQQKklVqx+e+nEY1OGGyF9cgDa3PPLqNkgcDFtE=;
- b=rod1T2rjLNLXdShw7Ee3xcuNeytqVwUBmsE+CS7Kpu0+oDCJrwSs75MoHtIRYv05Sh
- pLWZkEub70QUK/vtkQxFm25AjMRuHXziuIRJrgCTvDpx/QRFyO0VQLZQWx05GGPfpWny
- 4XZ8RXpl0u2bXwf0RvlQVMHqsW/wpturxvUmoTD5Gf+kn+flUEMZn9Znp+iQzp2b4JM7
- 4FbI0xd+hdRcnSGd5vNhApbwkScVen7K501N6iF4TfjMizkJVMuyPCdCxCSXIXX95bHk
- LUnot92cAmKveqIAuOiaxPwSGnGMHBf77l2ZN32aaw1lgaT7jTU5jQQtwgvU30QhoH3P
- zhAg==
+ bh=RtGwrkIZZiG/x3fVmHw4MZLqdOdAM4Gg7Y6DlMdvCdw=;
+ b=pMPHrGUXErML46PYLsZlta62mAowxd0zO2JEe4M38/eyLaBxeCe4Xefjt7GTG0bxGo
+ c3zV+MkFTIeXyqH3dUzGykGN86vNRYfDPsukBpabdLpFuB31Uh7TnSUtb1MaO9VgcTfE
+ uTXK/gEpEari421GQlRRMqYqgjZWimNlHZtc+UINdA5SKPENYyNyDgfU+le/knyenmfb
+ kgLDj0HbNkwHa+8rJiXRX1TA/GUzv2iGmTysZ/FzWWVauBZj7c13DwMvdAkn90kRDKBV
+ ztf9H3Fb0e1yTZWEFcNoY9UjAsOPqH2YngGDPUI/X29iIn+ZpeW67ugUYuE9pHcIp+P/
+ bc2g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=APGqEQQKklVqx+e+nEY1OGGyF9cgDa3PPLqNkgcDFtE=;
- b=M3iZqyH9C+0UO1eeSoVCWiKKgQq727P8YDYXSP6GIQ3p3fFGxU7Yca/rvCEm+4E7hj
- YECADMbZAVqkxmzXv6TvBMexhDN/9KnSXbO3xOWv8z/0lBxIbdjKwOQuibXPWfZHF0vI
- Y1rDzxt+ukSdWDVA5Vt8rTrbnbZvc/PxV6Yd+/yss0aW2CDejF5amHh9hhcPnBd/fe7B
- 5PJeAKelBGjxoMfVARGkOJzb0DMpw8texktF1AuEOTEXBxaIEIjWZLixTWU68nSrHiEu
- AA+X4jd+0F8aMvPRxuHJEErUe5PFwOdrwYc0L3OdRR8/lvxNbGuyqFfyVxdW5bNakDNT
- 83Pg==
-X-Gm-Message-State: AOAM532ut+8mWswVBsRQ28n9+7kcJKtu4bBCqqkiojPk5UVX87Uzcwuy
- 9zTPNw+sqdU9TrgkQuqSiTw8GZHzfydku+ywvsE=
-X-Google-Smtp-Source: ABdhPJwTFbg86d5m1kGBug4qpsnNlPlGtJmoEoSn/XOtNyLD3d3qLRkNElC/2g/pS6OEa4WVo7cLLlRk7eabZvjp5FE=
-X-Received: by 2002:a9d:6548:: with SMTP id q8mr1218750otl.311.1622088055142; 
- Wed, 26 May 2021 21:00:55 -0700 (PDT)
+ bh=RtGwrkIZZiG/x3fVmHw4MZLqdOdAM4Gg7Y6DlMdvCdw=;
+ b=jQ07bv6A8xkzXI2kCM6HYWqBE/B6dwdksZElAlJpm37ik0skoQBtoTNkK0I5HqoCP6
+ 7odzhCCc+wDEb+qFHm0K6Qv7egy87Hn6rRQj8i98QFZPYpddXPEVFBRKcnZLUxgtOKPU
+ IAa0kKOljE7vgG7t3f7YnpmGLtKKggj1T6vOq+BTBy7nFDF/eyfdcxzFY1rVIwYiU/wj
+ 7NCjEkJaShYAn1B9VJBxG/kLtek4DfK4AjtvwkV2OKZZVPlC+klxsOxAKC9pMHajdkWB
+ kjqfv1GZeNbiS41pNzwKWlr5wG0pKF+sNuKSnU35DUGNiYORto043mnCtWsyG1Hz96HW
+ Znyw==
+X-Gm-Message-State: AOAM531CRYuhKXzI1NR43hnoxtXUXcgrDn7GPtzocjvwQoYrQ4rvLvpt
+ ggedqdajpyJaSPNUSP1ZFd93UUz6sMYdINnnkww=
+X-Google-Smtp-Source: ABdhPJx/wFysi+q75alNDvyWj5aqiElb2rD9pHI15NmXnWIaZUVQIc8U5fEeIBdUzugrq/hHK7fiisx/Y2U5yXXCjiM=
+X-Received: by 2002:a9d:6548:: with SMTP id q8mr1235375otl.311.1622088398310; 
+ Wed, 26 May 2021 21:06:38 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210526084726.552052-1-lee.jones@linaro.org>
- <20210526084726.552052-14-lee.jones@linaro.org>
-In-Reply-To: <20210526084726.552052-14-lee.jones@linaro.org>
+ <20210526084726.552052-15-lee.jones@linaro.org>
+In-Reply-To: <20210526084726.552052-15-lee.jones@linaro.org>
 From: Alex Deucher <alexdeucher@gmail.com>
-Date: Thu, 27 May 2021 00:00:44 -0400
-Message-ID: <CADnq5_PLcwcmY88uecMh7FPYungfskpBgWmiy9qTJrE_k06MAQ@mail.gmail.com>
-Subject: Re: [PATCH 13/34] drm/amd/display/dc/dce/dmub_outbox: Convert over to
- kernel-doc
+Date: Thu, 27 May 2021 00:06:27 -0400
+Message-ID: <CADnq5_MMSGX1Ys+n_bm0KkR_xzANYAK37r2JXi532Wzf8t7w0Q@mail.gmail.com>
+Subject: Re: [PATCH 14/34] drm/amd/display/dc/gpio/gpio_service: Pass around
+ correct dce_{version, environment} types
 To: Lee Jones <lee.jones@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -66,13 +66,10 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Leo Li <sunpeng.li@amd.com>, Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
- LKML <linux-kernel@vger.kernel.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- Meenakshikumar Somasundaram <meenakshikumar.somasundaram@amd.com>,
- David Airlie <airlied@linux.ie>,
+Cc: Leo Li <sunpeng.li@amd.com>, LKML <linux-kernel@vger.kernel.org>,
  Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- Alex Deucher <alexander.deucher@amd.com>, Jun Lei <Jun.Lei@amd.com>,
+ David Airlie <airlied@linux.ie>, amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ Alex Deucher <alexander.deucher@amd.com>,
  =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
@@ -83,9 +80,14 @@ On Wed, May 26, 2021 at 4:48 AM Lee Jones <lee.jones@linaro.org> wrote:
 >
 > Fixes the following W=3D1 kernel build warning(s):
 >
->  drivers/gpu/drm/amd/amdgpu/../display/dc/dce/dmub_outbox.c:30: warning: =
-Cannot understand  ********************************************************=
-*********************
+>  drivers/gpu/drm/amd/amdgpu/../display/dc/gpio/gpio_service.c: In functio=
+n =E2=80=98dal_gpio_service_create=E2=80=99:
+>  drivers/gpu/drm/amd/amdgpu/../display/dc/gpio/gpio_service.c:71:4: warni=
+ng: implicit conversion from =E2=80=98enum dce_version=E2=80=99 to =E2=80=
+=98enum dce_environment=E2=80=99 [-Wenum-conversion]
+>  drivers/gpu/drm/amd/amdgpu/../display/dc/gpio/gpio_service.c:77:4: warni=
+ng: implicit conversion from =E2=80=98enum dce_version=E2=80=99 to =E2=80=
+=98enum dce_environment=E2=80=99 [-Wenum-conversion]
 >
 > Cc: Harry Wentland <harry.wentland@amd.com>
 > Cc: Leo Li <sunpeng.li@amd.com>
@@ -93,52 +95,66 @@ Cannot understand  ********************************************************=
 > Cc: "Christian K=C3=B6nig" <christian.koenig@amd.com>
 > Cc: David Airlie <airlied@linux.ie>
 > Cc: Daniel Vetter <daniel@ffwll.ch>
-> Cc: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
-> Cc: Meenakshikumar Somasundaram <meenakshikumar.somasundaram@amd.com>
-> Cc: Jun Lei <Jun.Lei@amd.com>
 > Cc: amd-gfx@lists.freedesktop.org
 > Cc: dri-devel@lists.freedesktop.org
 > Signed-off-by: Lee Jones <lee.jones@linaro.org>
 > ---
->  .../gpu/drm/amd/display/dc/dce/dmub_outbox.c    | 17 ++++-------------
->  1 file changed, 4 insertions(+), 13 deletions(-)
+>  drivers/gpu/drm/amd/display/dc/gpio/gpio_service.c   | 12 ++++++------
+>  .../drm/amd/display/include/gpio_service_interface.h |  4 ++--
+>  2 files changed, 8 insertions(+), 8 deletions(-)
 >
-> diff --git a/drivers/gpu/drm/amd/display/dc/dce/dmub_outbox.c b/drivers/g=
-pu/drm/amd/display/dc/dce/dmub_outbox.c
-> index 295596d1f47f2..faad8555ddbb6 100644
-> --- a/drivers/gpu/drm/amd/display/dc/dce/dmub_outbox.c
-> +++ b/drivers/gpu/drm/amd/display/dc/dce/dmub_outbox.c
-> @@ -27,19 +27,10 @@
->  #include "dmub/inc/dmub_cmd.h"
->
->  /**
-> - ***********************************************************************=
-******
-> - *  Function: dmub_enable_outbox_notification
-> - *
-> - *  @brief
-> - *             Sends inbox cmd to dmub to enable outbox1 messages with i=
-nterrupt.
-> - *             Dmub sends outbox1 message and triggers outbox1 interrupt=
-.
-> - *
-> - *  @param
-> - *             [in] dc: dc structure
-> - *
-> - *  @return
-> - *     None
-> - ***********************************************************************=
-******
-> + *  dmub_enable_outbox_notification - Sends inbox cmd to dmub to enable =
-outbox1
-> + *                                    messages with interrupt. Dmub send=
-s outbox1
-> + *                                    message and triggers outbox1 inter=
-rupt.
-> + * @dc: dc structure
+> diff --git a/drivers/gpu/drm/amd/display/dc/gpio/gpio_service.c b/drivers=
+/gpu/drm/amd/display/dc/gpio/gpio_service.c
+> index 92280cc05e2db..dae8e489c8cf4 100644
+> --- a/drivers/gpu/drm/amd/display/dc/gpio/gpio_service.c
+> +++ b/drivers/gpu/drm/amd/display/dc/gpio/gpio_service.c
+> @@ -53,8 +53,8 @@
 >   */
->  void dmub_enable_outbox_notification(struct dc *dc)
+>
+>  struct gpio_service *dal_gpio_service_create(
+> -       enum dce_version dce_version_major,
+> -       enum dce_version dce_version_minor,
+> +       enum dce_version dce_version,
+> +       enum dce_environment dce_environment,
+>         struct dc_context *ctx)
 >  {
+>         struct gpio_service *service;
+> @@ -67,14 +67,14 @@ struct gpio_service *dal_gpio_service_create(
+>                 return NULL;
+>         }
+>
+> -       if (!dal_hw_translate_init(&service->translate, dce_version_major=
+,
+> -                       dce_version_minor)) {
+> +       if (!dal_hw_translate_init(&service->translate, dce_version,
+> +                       dce_environment)) {
+>                 BREAK_TO_DEBUGGER();
+>                 goto failure_1;
+>         }
+>
+> -       if (!dal_hw_factory_init(&service->factory, dce_version_major,
+> -                       dce_version_minor)) {
+> +       if (!dal_hw_factory_init(&service->factory, dce_version,
+> +                       dce_environment)) {
+>                 BREAK_TO_DEBUGGER();
+>                 goto failure_1;
+>         }
+> diff --git a/drivers/gpu/drm/amd/display/include/gpio_service_interface.h=
+ b/drivers/gpu/drm/amd/display/include/gpio_service_interface.h
+> index 9c55d247227ea..7e3240e73c1fc 100644
+> --- a/drivers/gpu/drm/amd/display/include/gpio_service_interface.h
+> +++ b/drivers/gpu/drm/amd/display/include/gpio_service_interface.h
+> @@ -42,8 +42,8 @@ void dal_gpio_destroy(
+>         struct gpio **ptr);
+>
+>  struct gpio_service *dal_gpio_service_create(
+> -       enum dce_version dce_version_major,
+> -       enum dce_version dce_version_minor,
+> +       enum dce_version dce_version,
+> +       enum dce_environment dce_environment,
+>         struct dc_context *ctx);
+>
+>  struct gpio *dal_gpio_service_create_irq(
 > --
 > 2.31.1
 >
