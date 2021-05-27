@@ -1,63 +1,74 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28E28392EF4
-	for <lists+dri-devel@lfdr.de>; Thu, 27 May 2021 15:04:23 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 78DBB392F08
+	for <lists+dri-devel@lfdr.de>; Thu, 27 May 2021 15:05:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2C2AC6F386;
-	Thu, 27 May 2021 13:04:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 775706F389;
+	Thu, 27 May 2021 13:05:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x42a.google.com (mail-pf1-x42a.google.com
- [IPv6:2607:f8b0:4864:20::42a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7B8BC6F389
- for <dri-devel@lists.freedesktop.org>; Thu, 27 May 2021 13:04:20 +0000 (UTC)
-Received: by mail-pf1-x42a.google.com with SMTP id e17so534068pfl.5
- for <dri-devel@lists.freedesktop.org>; Thu, 27 May 2021 06:04:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=g9sAWaw9/Ru404/gNZK/9yCFJ+COY6ShgEN5yl9rius=;
- b=RU9c38RKOmRl8qLPe9nfaNayIMAo/KhsxRPQb+p1I2/vkq857xJH1yHb2hsJr/oLI5
- OzLGwV9+GOm93mot3oVKzRPIFGItH+esVlARoN4qqQuH+rUWPo604KbT7KtsniJEDbEo
- HQFJYd6CK0U3jnTgrILmcYyxGPhhzyPRwcTRo=
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [216.205.24.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 99E806F38F
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 May 2021 13:05:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1622120704;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=4rzzOa6q+9jkHUrjBMT6aDA8TmT+khUNIgkx743Uidw=;
+ b=PakWUmYMPbZK2LBR7W48JIMLknTuy4Sz3tzlJyWeCZsrup4/hnug2fTWlnOAfw9Xg+eYvK
+ TEWkF7M5D0OJ2xqBYYwrOX8JsPsYXqvPfwInJFJJ1YNVR1neZJl1kNiLrddkbMOS5m8hUd
+ ROBaYOWj7N0KfxtnjrjIghGRJJhbhn4=
+Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
+ [209.85.222.198]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-151-bnMqx6mVN7aMkfrqTh8y5Q-1; Thu, 27 May 2021 09:05:00 -0400
+X-MC-Unique: bnMqx6mVN7aMkfrqTh8y5Q-1
+Received: by mail-qk1-f198.google.com with SMTP id
+ x12-20020ae9f80c0000b02903a6a80ade45so350572qkh.22
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 May 2021 06:05:00 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=g9sAWaw9/Ru404/gNZK/9yCFJ+COY6ShgEN5yl9rius=;
- b=mucrmtpmZJ/u1GLR1mX2wAXDxjmlCb07s0Mxj/tzZhsDe5Pf1L52vrsRmdKxF4iq+t
- Nbkg0V3Qd/5CC/4CYpVuQ6tG3bJ5Fv8mIBsoRjhnIL9uxAZwrGPbFSZi2tApOVDvPfu4
- 4xTzDVNtDZ4MgIy0JdhGJyxXwE2A8uoNTMN5mfHRD4vqACcK8RdnE4jB/TWxosFTppgw
- aubEZvXf+wyNaQXseXFA8+u4hTvzmXfAd5p+GBlw1JiJfWcY+HxdlsyGGnCiMx2ixyJi
- 2F8TaxQnxgDmd1Pdf0X7bs+rze85lvZs4VXZdxhaewh+/vfjfL2hmTfuok6IVwsg9ka5
- 2HNA==
-X-Gm-Message-State: AOAM5332WH0arX0LeizwLtSUxkR0vOMQK1taQkytwsYGW/6EwoDndwJ/
- 0T45zhROQTVbsjsmcMXRE/6Lzw==
-X-Google-Smtp-Source: ABdhPJw+tNdufRtYdRKBadLokBr1RMenJ8TRt7icb84uhhJq7TwV1n1jRizQR2Rn5o3HccoeyQdcjw==
-X-Received: by 2002:aa7:9438:0:b029:2df:258e:7f10 with SMTP id
- y24-20020aa794380000b02902df258e7f10mr3229291pfo.79.1622120660147; 
- Thu, 27 May 2021 06:04:20 -0700 (PDT)
-Received: from localhost ([2401:fa00:95:205:a93:378d:9a9e:3b70])
- by smtp.gmail.com with UTF8SMTPSA id o3sm1937619pgh.22.2021.05.27.06.04.12
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 27 May 2021 06:04:19 -0700 (PDT)
-From: Claire Chang <tientzu@chromium.org>
-To: Rob Herring <robh+dt@kernel.org>, mpe@ellerman.id.au,
- Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
- Frank Rowand <frowand.list@gmail.com>,
- Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>, boris.ostrovsky@oracle.com,
- jgross@suse.com, Christoph Hellwig <hch@lst.de>,
- Marek Szyprowski <m.szyprowski@samsung.com>
-Subject: [PATCH v8 15/15] of: Add plumbing for restricted DMA pool
-Date: Thu, 27 May 2021 21:03:29 +0800
-Message-Id: <20210527130329.1853588-5-tientzu@chromium.org>
-X-Mailer: git-send-email 2.31.1.818.g46aad6cb9e-goog
-In-Reply-To: <20210527130329.1853588-1-tientzu@chromium.org>
-References: <20210527130329.1853588-1-tientzu@chromium.org>
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=4rzzOa6q+9jkHUrjBMT6aDA8TmT+khUNIgkx743Uidw=;
+ b=QALwX5AxdYuhYC60HjxbdRZZ60RiK0VyPeQ/0LiXsqExgYzdq+7rBox/lVYejh09rF
+ 0vdHCKjSiYs0zCITTNT2v9O/fVFajECmVN9Vs4vMQY32XcXNpIoePkknukspaTafhVQF
+ wlg5raMlaRNz1YaPNHBUqnKG/S4G4Avfn1wXkijI2yOjuPBdku4xSqCjZqB+QGoNglHE
+ gnYVjR3UCvtOSpt6oDNwT02x5UCplDOf08fb5fFmDjDqs8b0l6jE56b+oaJ5XGIam9ZQ
+ 66vK6Id+vtjggDTkHFu4aU7pOzmfW8KDCG9+0XpYFiOx7navEqql6NwvgFKxYHriXFEX
+ 1DIQ==
+X-Gm-Message-State: AOAM532el4njIFcnBP3KUMRW3V+ezAcYBfzHdO75K5x4hebC554LGMZa
+ jhF7Vm+MhMrJRSLG9zXuK45EWatRT7ZVyL0oKtf9KgOIfIK/aYG/7rI9T27gtYIZBkjWwZgirgy
+ eJWuuO+IddgT4GnI+GHXPPHc6ifx9
+X-Received: by 2002:ac8:5f84:: with SMTP id j4mr2991622qta.240.1622120700036; 
+ Thu, 27 May 2021 06:05:00 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzF9/f/oCcd+BBWrvSHgnJ7MXTSn158rInAQdiALMQLZF3k9Vcpr9xEm1OHlKUAk1TCJw9rGQ==
+X-Received: by 2002:ac8:5f84:: with SMTP id j4mr2991568qta.240.1622120699489; 
+ Thu, 27 May 2021 06:04:59 -0700 (PDT)
+Received: from t490s (bras-base-toroon474qw-grc-72-184-145-4-219.dsl.bell.ca.
+ [184.145.4.219])
+ by smtp.gmail.com with ESMTPSA id p63sm1325517qkf.31.2021.05.27.06.04.58
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 27 May 2021 06:04:58 -0700 (PDT)
+Date: Thu, 27 May 2021 09:04:57 -0400
+From: Peter Xu <peterx@redhat.com>
+To: Alistair Popple <apopple@nvidia.com>
+Subject: Re: [PATCH v9 07/10] mm: Device exclusive memory access
+Message-ID: <YK+Y+aAZHDv8+w+Q@t490s>
+References: <20210524132725.12697-1-apopple@nvidia.com>
+ <20210524132725.12697-8-apopple@nvidia.com>
+ <YK6hYGEx+XzeZELV@t490s> <37725705.JvxlXkkoz5@nvdebian>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <37725705.JvxlXkkoz5@nvdebian>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,127 +81,106 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: heikki.krogerus@linux.intel.com, thomas.hellstrom@linux.intel.com,
- peterz@infradead.org, dri-devel@lists.freedesktop.org,
- chris@chris-wilson.co.uk, grant.likely@arm.com, paulus@samba.org,
- mingo@kernel.org, jxgao@google.com, sstabellini@kernel.org,
- Saravana Kannan <saravanak@google.com>, xypron.glpk@gmx.de,
- "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>,
- Bartosz Golaszewski <bgolaszewski@baylibre.com>, bskeggs@redhat.com,
- linux-pci@vger.kernel.org, xen-devel@lists.xenproject.org,
- Thierry Reding <treding@nvidia.com>, intel-gfx@lists.freedesktop.org,
- matthew.auld@intel.com, linux-devicetree <devicetree@vger.kernel.org>,
- airlied@linux.ie, Robin Murphy <robin.murphy@arm.com>,
- Nicolas Boichat <drinkcat@chromium.org>, rodrigo.vivi@intel.com,
- bhelgaas@google.com, tientzu@chromium.org,
- Dan Williams <dan.j.williams@intel.com>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Greg KH <gregkh@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>,
- lkml <linux-kernel@vger.kernel.org>, tfiga@chromium.org,
- "list@263.net:IOMMU DRIVERS" <iommu@lists.linux-foundation.org>,
- Jim Quinlan <james.quinlan@broadcom.com>, linuxppc-dev@lists.ozlabs.org,
- bauerman@linux.ibm.com
+Cc: rcampbell@nvidia.com, willy@infradead.org, linux-doc@vger.kernel.org,
+ nouveau@lists.freedesktop.org, bsingharora@gmail.com, hughd@google.com,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ hch@infradead.org, linux-mm@kvack.org, jglisse@redhat.com, bskeggs@redhat.com,
+ jgg@nvidia.com, jhubbard@nvidia.com, akpm@linux-foundation.org,
+ Christoph Hellwig <hch@lst.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-If a device is not behind an IOMMU, we look up the device node and set
-up the restricted DMA when the restricted-dma-pool is presented.
+On Thu, May 27, 2021 at 01:35:39PM +1000, Alistair Popple wrote:
+> > > + *
+> > > + * @MMU_NOTIFY_EXCLUSIVE: to signal a device driver that the device will
+> > > no + * longer have exclusive access to the page. May ignore the
+> > > invalidation that's + * part of make_device_exclusive_range() if the
+> > > owner field
+> > > + * matches the value passed to make_device_exclusive_range().
+> > 
+> > Perhaps s/matches/does not match/?
+> 
+> No, "matches" is correct. The MMU_NOTIFY_EXCLUSIVE notifier is to notify a 
+> listener that a range is being invalidated for the purpose of making the range 
+> available for some device to have exclusive access to. Which does also mean a 
+> device getting the notification no longer has exclusive access if it already 
+> did.
+> 
+> A unique type is needed because when creating the range a driver needs to form 
+> a mmu critical section (with mmu_interval_read_begin()/
+> mmu_interval_read_end()) to ensure the entry remains valid long enough to 
+> program the device pte and hasn't been invalidated.
+> 
+> However without a way of filtering any invalidations will result in a retry, 
+> but make_device_exclusive_range() needs to do an invalidation during 
+> installation of the entry. To avoid this causing infinite retries the driver 
+> ignores specific invalidation events that it knows don't apply, ie. the 
+> invalidations that are a result of that driver asking for device exclusive 
+> entries.
 
-Signed-off-by: Claire Chang <tientzu@chromium.org>
----
- drivers/of/address.c    | 33 +++++++++++++++++++++++++++++++++
- drivers/of/device.c     |  3 +++
- drivers/of/of_private.h |  6 ++++++
- 3 files changed, 42 insertions(+)
+OK I think I get it now.. so the driver checks both EXCLUSIVE and owner, if all
+match it skips the notify, otherwise it's treated like all the rest.  Thanks.
 
-diff --git a/drivers/of/address.c b/drivers/of/address.c
-index aca94c348bd4..6cc7eaaf7e11 100644
---- a/drivers/of/address.c
-+++ b/drivers/of/address.c
-@@ -8,6 +8,7 @@
- #include <linux/logic_pio.h>
- #include <linux/module.h>
- #include <linux/of_address.h>
-+#include <linux/of_reserved_mem.h>
- #include <linux/pci.h>
- #include <linux/pci_regs.h>
- #include <linux/sizes.h>
-@@ -1112,6 +1113,38 @@ bool of_dma_is_coherent(struct device_node *np)
- }
- EXPORT_SYMBOL_GPL(of_dma_is_coherent);
- 
-+int of_dma_set_restricted_buffer(struct device *dev, struct device_node *np)
-+{
-+	struct device_node *node, *of_node = dev->of_node;
-+	int count, i;
-+
-+	count = of_property_count_elems_of_size(of_node, "memory-region",
-+						sizeof(u32));
-+	/*
-+	 * If dev->of_node doesn't exist or doesn't contain memory-region, try
-+	 * the OF node having DMA configuration.
-+	 */
-+	if (count <= 0) {
-+		of_node = np;
-+		count = of_property_count_elems_of_size(
-+			of_node, "memory-region", sizeof(u32));
-+	}
-+
-+	for (i = 0; i < count; i++) {
-+		node = of_parse_phandle(of_node, "memory-region", i);
-+		/*
-+		 * There might be multiple memory regions, but only one
-+		 * restricted-dma-pool region is allowed.
-+		 */
-+		if (of_device_is_compatible(node, "restricted-dma-pool") &&
-+		    of_device_is_available(node))
-+			return of_reserved_mem_device_init_by_idx(dev, of_node,
-+								  i);
-+	}
-+
-+	return 0;
-+}
-+
- /**
-  * of_mmio_is_nonposted - Check if device uses non-posted MMIO
-  * @np:	device node
-diff --git a/drivers/of/device.c b/drivers/of/device.c
-index c5a9473a5fb1..2defdca418ec 100644
---- a/drivers/of/device.c
-+++ b/drivers/of/device.c
-@@ -165,6 +165,9 @@ int of_dma_configure_id(struct device *dev, struct device_node *np,
- 
- 	arch_setup_dma_ops(dev, dma_start, size, iommu, coherent);
- 
-+	if (!iommu)
-+		return of_dma_set_restricted_buffer(dev, np);
-+
- 	return 0;
- }
- EXPORT_SYMBOL_GPL(of_dma_configure_id);
-diff --git a/drivers/of/of_private.h b/drivers/of/of_private.h
-index d717efbd637d..8fde97565d11 100644
---- a/drivers/of/of_private.h
-+++ b/drivers/of/of_private.h
-@@ -163,12 +163,18 @@ struct bus_dma_region;
- #if defined(CONFIG_OF_ADDRESS) && defined(CONFIG_HAS_DMA)
- int of_dma_get_range(struct device_node *np,
- 		const struct bus_dma_region **map);
-+int of_dma_set_restricted_buffer(struct device *dev, struct device_node *np);
- #else
- static inline int of_dma_get_range(struct device_node *np,
- 		const struct bus_dma_region **map)
- {
- 	return -ENODEV;
- }
-+static inline int of_dma_set_restricted_buffer(struct device *dev,
-+					       struct device_node *np)
-+{
-+	return -ENODEV;
-+}
- #endif
- 
- #endif /* _LINUX_OF_PRIVATE_H */
+However then it's still confusing (as I raised it too in previous comment) that
+we use CLEAR when re-installing the valid pte.  It's merely against what CLEAR
+means.
+
+How about sending EXCLUSIVE for both mark/restore?  Just that when restore we
+notify with owner==NULL telling that no one is owning it anymore so driver
+needs to drop the ownership.  I assume your driver patch does not need change
+too.  Would that be much cleaner than CLEAR?  I bet it also makes commenting
+the new notify easier.
+
+What do you think?
+
+[...]
+
+> > > +                                   vma->vm_mm, address, min(vma->vm_end,
+> > > +                                   address + page_size(page)),
+> > > args->owner); +     mmu_notifier_invalidate_range_start(&range);
+> > > +
+> > > +     while (page_vma_mapped_walk(&pvmw)) {
+> > > +             /* Unexpected PMD-mapped THP? */
+> > > +             VM_BUG_ON_PAGE(!pvmw.pte, page);
+> > > +
+> > > +             if (!pte_present(*pvmw.pte)) {
+> > > +                     ret = false;
+> > > +                     page_vma_mapped_walk_done(&pvmw);
+> > > +                     break;
+> > > +             }
+> > > +
+> > > +             subpage = page - page_to_pfn(page) + pte_pfn(*pvmw.pte);
+> > 
+> > I see that all pages passed in should be done after FOLL_SPLIT_PMD, so is
+> > this needed?  Or say, should subpage==page always be true?
+> 
+> Not always, in the case of a thp there are small ptes which will get device 
+> exclusive entries.
+
+FOLL_SPLIT_PMD will first split the huge thp into smaller pages, then do
+follow_page_pte() on them (in follow_pmd_mask):
+
+	if (flags & FOLL_SPLIT_PMD) {
+		int ret;
+		page = pmd_page(*pmd);
+		if (is_huge_zero_page(page)) {
+			spin_unlock(ptl);
+			ret = 0;
+			split_huge_pmd(vma, pmd, address);
+			if (pmd_trans_unstable(pmd))
+				ret = -EBUSY;
+		} else {
+			spin_unlock(ptl);
+			split_huge_pmd(vma, pmd, address);
+			ret = pte_alloc(mm, pmd) ? -ENOMEM : 0;
+		}
+
+		return ret ? ERR_PTR(ret) :
+			follow_page_pte(vma, address, pmd, flags, &ctx->pgmap);
+	}
+
+So I thought all pages are small pages?
+
 -- 
-2.31.1.818.g46aad6cb9e-goog
+Peter Xu
 
