@@ -2,46 +2,32 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB218392A3B
-	for <lists+dri-devel@lfdr.de>; Thu, 27 May 2021 11:04:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 50413392A63
+	for <lists+dri-devel@lfdr.de>; Thu, 27 May 2021 11:15:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F1DCC6EE3D;
-	Thu, 27 May 2021 09:04:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A75756EE44;
+	Thu, 27 May 2021 09:15:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2ED036EE3D
- for <dri-devel@lists.freedesktop.org>; Thu, 27 May 2021 09:04:56 +0000 (UTC)
-Received: from dggeml711-chm.china.huawei.com (unknown [172.30.72.53])
- by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4FrMJj4VvKzYn5K;
- Thu, 27 May 2021 17:02:13 +0800 (CST)
-Received: from dggpemm500006.china.huawei.com (7.185.36.236) by
- dggeml711-chm.china.huawei.com (10.3.17.122) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2176.2; Thu, 27 May 2021 17:04:53 +0800
-Received: from thunder-town.china.huawei.com (10.174.177.72) by
- dggpemm500006.china.huawei.com (7.185.36.236) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Thu, 27 May 2021 17:04:52 +0800
-From: Zhen Lei <thunder.leizhen@huawei.com>
-To: Jani Nikula <jani.nikula@linux.intel.com>, Joonas Lahtinen
- <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>, intel-gfx
- <intel-gfx@lists.freedesktop.org>, dri-devel
- <dri-devel@lists.freedesktop.org>, linux-kernel
- <linux-kernel@vger.kernel.org>
-Subject: [PATCH 1/1] drm/i915/hdcp: Simplify code in
- intel_hdcp_auth_downstream()
-Date: Thu, 27 May 2021 17:04:21 +0800
-Message-ID: <20210527090421.9172-1-thunder.leizhen@huawei.com>
-X-Mailer: git-send-email 2.26.0.windows.1
+Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 026C96EE44
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 May 2021 09:15:09 +0000 (UTC)
+Received: from ip5f5aa64a.dynamic.kabel-deutschland.de ([95.90.166.74]
+ helo=diego.localnet)
+ by gloria.sntech.de with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.92) (envelope-from <heiko@sntech.de>)
+ id 1lmC6Y-0006zN-RK; Thu, 27 May 2021 11:15:02 +0200
+From: Heiko =?ISO-8859-1?Q?St=FCbner?= <heiko@sntech.de>
+To: linux-kernel@vger.kernel.org, Javier Martinez Canillas <javierm@redhat.com>
+Subject: Re: [PATCH v2] drm/rockchip: remove existing generic drivers to take
+ over the device
+Date: Thu, 27 May 2021 11:15:02 +0200
+Message-ID: <4006303.q0ZmV6gNhb@diego>
+In-Reply-To: <20210516074833.451643-1-javierm@redhat.com>
+References: <20210516074833.451643-1-javierm@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.174.177.72]
-X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
- dggpemm500006.china.huawei.com (7.185.36.236)
-X-CFilter-Loop: Reflected
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,73 +40,77 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Zhen Lei <thunder.leizhen@huawei.com>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
+ Sandy Huang <hjc@rock-chips.com>, dri-devel@lists.freedesktop.org,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ linux-rockchip@lists.infradead.org, Peter Robinson <pbrobinson@gmail.com>,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-If intel_hdcp_validate_v_prime() has been successful within the allowed
-number of tries, we can directly call drm_dbg_kms() and "goto out" without
-jumping out of the loop and repeatedly judging whether the operation is
-successful. This can help us reduce an unnecessary if judgment. And it's
-a little clearer to read.
+Am Sonntag, 16. Mai 2021, 09:48:33 CEST schrieb Javier Martinez Canillas:
+> There are drivers that register framebuffer devices very early in the boot
+> process and make use of the existing framebuffer as setup by the firmware.
+> 
+> If one of those drivers has registered a fbdev, then the fallback fbdev of
+> the DRM driver won't be bound to the framebuffer console. To avoid that,
+> remove any existing generic driver and take over the graphics device.
+> 
+> By doing that, the fb mapped to the console is switched correctly from the
+> early fbdev to the one registered by the rockchip DRM driver:
+> 
+>     [   40.752420] fb0: switching to rockchip-drm-fb from EFI VGA
+> 
+> Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
 
-No functional change.
+fwiw, this looks like the right thing to do. I haven't found time to test
+though yet. So anyway
 
-Signed-off-by: Zhen Lei <thunder.leizhen@huawei.com>
----
- drivers/gpu/drm/i915/display/intel_hdcp.c | 24 ++++++++++-------------
- 1 file changed, 10 insertions(+), 14 deletions(-)
+Acked-by: Heiko Stuebner <heiko@sntech.de>
 
-diff --git a/drivers/gpu/drm/i915/display/intel_hdcp.c b/drivers/gpu/drm/i915/display/intel_hdcp.c
-index d8570e14fe60..c32a854eda66 100644
---- a/drivers/gpu/drm/i915/display/intel_hdcp.c
-+++ b/drivers/gpu/drm/i915/display/intel_hdcp.c
-@@ -663,13 +663,13 @@ int intel_hdcp_auth_downstream(struct intel_connector *connector)
- 
- 	ret = shim->read_ksv_fifo(dig_port, num_downstream, ksv_fifo);
- 	if (ret)
--		goto err;
-+		goto out;
- 
- 	if (drm_hdcp_check_ksvs_revoked(&dev_priv->drm, ksv_fifo,
- 					num_downstream) > 0) {
- 		drm_err(&dev_priv->drm, "Revoked Ksv(s) in ksv_fifo\n");
- 		ret = -EPERM;
--		goto err;
-+		goto out;
- 	}
- 
- 	/*
-@@ -680,20 +680,16 @@ int intel_hdcp_auth_downstream(struct intel_connector *connector)
- 		ret = intel_hdcp_validate_v_prime(connector, shim,
- 						  ksv_fifo, num_downstream,
- 						  bstatus);
--		if (!ret)
--			break;
--	}
--
--	if (i == tries) {
--		drm_dbg_kms(&dev_priv->drm,
--			    "V Prime validation failed.(%d)\n", ret);
--		goto err;
-+		if (!ret) {
-+			drm_dbg_kms(&dev_priv->drm,
-+				    "HDCP is enabled (%d downstream devices)\n",
-+				    num_downstream);
-+			goto out;
-+		}
- 	}
- 
--	drm_dbg_kms(&dev_priv->drm, "HDCP is enabled (%d downstream devices)\n",
--		    num_downstream);
--	ret = 0;
--err:
-+	drm_dbg_kms(&dev_priv->drm, "V Prime validation failed.(%d)\n", ret);
-+out:
- 	kfree(ksv_fifo);
- 	return ret;
- }
--- 
-2.25.1
+
+Heiko
+
+
+> ---
+> 
+> Changes in v2:
+> - Move drm_aperture_remove_framebuffers() call to .bind callback (tzimmermann).
+> - Adapt subject line, commit message, etc accordingly.
+> 
+>  drivers/gpu/drm/rockchip/rockchip_drm_drv.c | 10 ++++++++++
+>  1 file changed, 10 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_drv.c b/drivers/gpu/drm/rockchip/rockchip_drm_drv.c
+> index 212bd87c0c4..b730b8d5d94 100644
+> --- a/drivers/gpu/drm/rockchip/rockchip_drm_drv.c
+> +++ b/drivers/gpu/drm/rockchip/rockchip_drm_drv.c
+> @@ -16,6 +16,7 @@
+>  #include <linux/console.h>
+>  #include <linux/iommu.h>
+>  
+> +#include <drm/drm_aperture.h>
+>  #include <drm/drm_drv.h>
+>  #include <drm/drm_fb_helper.h>
+>  #include <drm/drm_gem_cma_helper.h>
+> @@ -114,6 +115,15 @@ static int rockchip_drm_bind(struct device *dev)
+>  	struct rockchip_drm_private *private;
+>  	int ret;
+>  
+> +	/* Remove existing drivers that may own the framebuffer memory. */
+> +	ret = drm_aperture_remove_framebuffers(false, "rockchip-drm-fb");
+> +	if (ret) {
+> +		DRM_DEV_ERROR(dev,
+> +			      "Failed to remove existing framebuffers - %d.\n",
+> +			      ret);
+> +		return ret;
+> +	}
+> +
+>  	drm_dev = drm_dev_alloc(&rockchip_drm_driver, dev);
+>  	if (IS_ERR(drm_dev))
+>  		return PTR_ERR(drm_dev);
+> 
+
+
 
 
