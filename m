@@ -1,57 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6AE82392C92
-	for <lists+dri-devel@lfdr.de>; Thu, 27 May 2021 13:22:57 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4AAFD392C90
+	for <lists+dri-devel@lfdr.de>; Thu, 27 May 2021 13:22:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B42356EE83;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2A8E26EE7F;
 	Thu, 27 May 2021 11:22:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x533.google.com (mail-pg1-x533.google.com
- [IPv6:2607:f8b0:4864:20::533])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 40BC36EE81
- for <dri-devel@lists.freedesktop.org>; Thu, 27 May 2021 11:22:47 +0000 (UTC)
-Received: by mail-pg1-x533.google.com with SMTP id v14so3453652pgi.6
- for <dri-devel@lists.freedesktop.org>; Thu, 27 May 2021 04:22:47 -0700 (PDT)
+Received: from mail-pf1-x42b.google.com (mail-pf1-x42b.google.com
+ [IPv6:2607:f8b0:4864:20::42b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AE0576EE7F
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 May 2021 11:22:48 +0000 (UTC)
+Received: by mail-pf1-x42b.google.com with SMTP id x188so328751pfd.7
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 May 2021 04:22:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=wLKwR4NP2EdVfnoZCBP4JksC+Mu/sBLAGExwc+qAW8k=;
- b=U3nnWBjc/PORkfU1amlVwph+m9n8heoP4REI9pYv3zsJ70Qdk1YrbXb2fnr/Cqaf1w
- piAWaPLrqVLwxRLTNngntE2XurHnhfgQYsRK6qWCPmJtcWqOU6oh3xiTzPiNECAFmkTK
- kD3yU/6qMz6ZpXuxSfIIJus20dwXrRuf9jVx0sazTJQaRqgdyCvIxdj57HlBAPeMyqTE
- IwaVlb5OIOf78eL5hu93Mnps4wVa/Myv0Rmi4awpn2lJIuSSecC48wsp1SKjJRUYSmt3
- GrDKyW66Ug6rLzFz7UHiZ5sak0SzpSlDHY/4ZRaqJNlDfapOQkLYt/6czQgocEN4CoGn
- Bgeg==
+ bh=0S3o4TmqPj949RkfsbYV2YGOzI88SNqbU5TbO9tEHyI=;
+ b=Ewvx779weTiJfXIMi9ZmWsDQf7Wppa8wKfBmQpnlGK1gYQbj5KDSbLnxSopg/5L4it
+ dQGvJRIF/hZ8AIWUQCJS/91jYQPXbBgBKjW3T91ML7h5wBDr6ZSUoViY+VxKt5sELPqC
+ IzQDAeEiusyysF525gytNL1LDNbk5Z68Dsa9pgyO46/54+xkQK1A6SHEJDyQ7MJdPQA5
+ uJGE19pgZVDddAbSDtFGbIW+gwfk3pH6egMbt/5jsixw+VSXzzOlF1OcvPWzU/SFEtvs
+ eB4zkf3bQOJ3aaDyr80HljWOhIc79KPCfOJPneQLAcckIvxh0lrHOHr7+fQD7EzWkFUm
+ oDrg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=wLKwR4NP2EdVfnoZCBP4JksC+Mu/sBLAGExwc+qAW8k=;
- b=HfjXu7X0S4+Yyzyyl3/V54ZA0ZCv3NUKecJWXeqrYJZtavsRYNinP6PR6NosLWKra8
- vlivH7b6yjU7QXde9M3xoCs6McAYf/Jikf5X3Z1J+W0bvxVc8Eaz5CtVboHV+5MXX/SB
- OpKmUR6+T4j6AZU+VvZVSmZfTo71nv+NbqFFnnl+2BbZ3H0yTzFSqRDIZC1B9XOWgQ6x
- LDsDtgiDeXr1trJ0FWzhJXaaKA5zY/WmV6OGp+XItJ2Fpb4rbl4pOgeu8XXeyBtordxF
- z45jrhD4cyJHpFjZkV5E7Y7oOJtDLvWTwGxM3Br2/acRaG/lzrcfRSIvkYoED7dicBy+
- 89Wg==
-X-Gm-Message-State: AOAM532bYhTTXtJcX/+POtHlFknFLWXSu2RCPiODDzCk67IEEVlTK19x
- xKejluJS5Bc8GlK/DL3ufRRuaVaMwWZbuQ==
-X-Google-Smtp-Source: ABdhPJwqhUuykfOJwASvcHnKpq4PcN3fJFu1w/dycTGDZpy5LDpTKsDUvo3n5FN+nIkBddDWofA/Kg==
-X-Received: by 2002:a05:6a00:1c43:b029:2e4:d188:fe38 with SMTP id
- s3-20020a056a001c43b02902e4d188fe38mr2960127pfw.20.1622114566742; 
- Thu, 27 May 2021 04:22:46 -0700 (PDT)
+ bh=0S3o4TmqPj949RkfsbYV2YGOzI88SNqbU5TbO9tEHyI=;
+ b=I/bhg1OUyvVx2OnaZ14FYjizvfhmYX6JkkdNGupkh4XKoK/PyiUKAVDZxOS6n16KHq
+ y1RgHxhetlAokXq3UgGalfGB8YpnYheyd55cqpfsK6Dt6gUc4g9jzXan58pHtWKAhGQz
+ szh38vB06DEfqXSzJILWF/RkT0Q7YYFqTdzNooerSYjAx7zFgCEUE95sW+wyC5heBTFB
+ dGFWGAlH/Zm8Ewf3FbdLs/cUYi2LGgZe6P4vrG0g75QgpJbr/4RW26kOuQXA8PFDMi3D
+ HCwM44LAgLPyaInOHMTg1hjmpkzb4YlRUci71+pL3Lg/o/xXTx/UblNJjARYhaim/Sxd
+ opPw==
+X-Gm-Message-State: AOAM531p2NRDHWwrvDCtybYp7ko30Eu3FH/yPdmHKSPbCf2pYydFXexl
+ e1vp5bHv7PAFvOrbOy9Zo2Qd9aUU7jwsiw==
+X-Google-Smtp-Source: ABdhPJxJQGkbP2odIj6/7Bac4KaIs9VV0rlA86CrnvHHvaucePPTTXlbmYXd+wa4wV6FLGKk+IcYyA==
+X-Received: by 2002:a62:5306:0:b029:2de:6ce0:5526 with SMTP id
+ h6-20020a6253060000b02902de6ce05526mr2876882pfb.13.1622114568195; 
+ Thu, 27 May 2021 04:22:48 -0700 (PDT)
 Received: from arch2.localdomain ([50.47.106.83])
- by smtp.gmail.com with ESMTPSA id c11sm1730325pjr.32.2021.05.27.04.22.46
+ by smtp.gmail.com with ESMTPSA id c11sm1730325pjr.32.2021.05.27.04.22.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 27 May 2021 04:22:46 -0700 (PDT)
+ Thu, 27 May 2021 04:22:47 -0700 (PDT)
 From: Deepak Rawat <drawat.floss@gmail.com>
 To: dri-devel@lists.freedesktop.org,
 	linux-hyperv@vger.kernel.org
-Subject: [PATCH v6 2/3] drm/hyperv: Handle feature change message from device
-Date: Thu, 27 May 2021 04:22:29 -0700
-Message-Id: <20210527112230.1274-2-drawat.floss@gmail.com>
+Subject: [PATCH v6 3/3] MAINTAINERS: Add maintainer for hyperv video device
+Date: Thu, 27 May 2021 04:22:30 -0700
+Message-Id: <20210527112230.1274-3-drawat.floss@gmail.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210527112230.1274-1-drawat.floss@gmail.com>
 References: <20210527112230.1274-1-drawat.floss@gmail.com>
@@ -75,71 +75,32 @@ Cc: Deepak Rawat <drawat.floss@gmail.com>, Dexuan Cui <decui@microsoft.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Virtual device inform if screen update is needed or not with
-SYNTHVID_FEATURE_CHANGE message. Handle this message to set dirt_needed
-flag.
+Maintainer for hyperv synthetic video device.
 
-Suggested-by: Dexuan Cui <decui@microsoft.com>
 Signed-off-by: Deepak Rawat <drawat.floss@gmail.com>
-Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/gpu/drm/hyperv/hyperv_drm.h       | 1 +
- drivers/gpu/drm/hyperv/hyperv_drm_drv.c   | 2 ++
- drivers/gpu/drm/hyperv/hyperv_drm_proto.c | 7 +++++++
- 3 files changed, 10 insertions(+)
+ MAINTAINERS | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/drivers/gpu/drm/hyperv/hyperv_drm.h b/drivers/gpu/drm/hyperv/hyperv_drm.h
-index e1d1fdea96f2..886add4f9cd0 100644
---- a/drivers/gpu/drm/hyperv/hyperv_drm.h
-+++ b/drivers/gpu/drm/hyperv/hyperv_drm.h
-@@ -29,6 +29,7 @@ struct hyperv_drm_device {
- 	struct completion wait;
- 	u32 synthvid_version;
- 	u32 mmio_megabytes;
-+	bool dirt_needed;
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 315120c4124d..a4fdde4bb250 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -6084,6 +6084,14 @@ T:	git git://anongit.freedesktop.org/drm/drm-misc
+ F:	Documentation/devicetree/bindings/display/hisilicon/
+ F:	drivers/gpu/drm/hisilicon/
  
- 	u8 init_buf[VMBUS_MAX_PACKET_SIZE];
- 	u8 recv_buf[VMBUS_MAX_PACKET_SIZE];
-diff --git a/drivers/gpu/drm/hyperv/hyperv_drm_drv.c b/drivers/gpu/drm/hyperv/hyperv_drm_drv.c
-index beb53068fa0d..eb06c92c4bfd 100644
---- a/drivers/gpu/drm/hyperv/hyperv_drm_drv.c
-+++ b/drivers/gpu/drm/hyperv/hyperv_drm_drv.c
-@@ -198,6 +198,8 @@ static int hyperv_vmbus_probe(struct hv_device *hdev,
- 	if (ret)
- 		drm_warn(dev, "Failed to update vram location.\n");
- 
-+	hv->dirt_needed = true;
++DRM DRIVER FOR HYPERV SYNTHETIC VIDEO DEVICE
++M:	Deepak Rawat <drawat.floss@gmail.com>
++L:	linux-hyperv@vger.kernel.org
++L:	dri-devel@lists.freedesktop.org
++S:	Maintained
++T:	git git://anongit.freedesktop.org/drm/drm-misc
++F:	drivers/gpu/drm/hyperv
 +
- 	ret = hyperv_mode_config_init(hv);
- 	if (ret)
- 		goto err_vmbus_close;
-diff --git a/drivers/gpu/drm/hyperv/hyperv_drm_proto.c b/drivers/gpu/drm/hyperv/hyperv_drm_proto.c
-index 00c4cc2db605..6d4bdccfbd1a 100644
---- a/drivers/gpu/drm/hyperv/hyperv_drm_proto.c
-+++ b/drivers/gpu/drm/hyperv/hyperv_drm_proto.c
-@@ -301,8 +301,12 @@ int hyperv_update_situation(struct hv_device *hdev, u8 active, u32 bpp,
- 
- int hyperv_update_dirt(struct hv_device *hdev, struct drm_rect *rect)
- {
-+	struct hyperv_drm_device *hv = hv_get_drvdata(hdev);
- 	struct synthvid_msg msg;
- 
-+	if (!hv->dirt_needed)
-+		return 0;
-+
- 	memset(&msg, 0, sizeof(struct synthvid_msg));
- 
- 	msg.vid_hdr.type = SYNTHVID_DIRT;
-@@ -387,6 +391,9 @@ static void hyperv_receive_sub(struct hv_device *hdev)
- 		complete(&hv->wait);
- 		return;
- 	}
-+
-+	if (msg->vid_hdr.type == SYNTHVID_FEATURE_CHANGE)
-+		hv->dirt_needed = msg->feature_chg.is_dirt_needed;
- }
- 
- static void hyperv_receive(void *ctx)
+ DRM DRIVERS FOR LIMA
+ M:	Qiang Yu <yuq825@gmail.com>
+ L:	dri-devel@lists.freedesktop.org
 -- 
 2.31.1
 
