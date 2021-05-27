@@ -1,58 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D14C39393F
-	for <lists+dri-devel@lfdr.de>; Fri, 28 May 2021 01:26:57 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E0939393954
+	for <lists+dri-devel@lfdr.de>; Fri, 28 May 2021 01:45:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0BAA36F515;
-	Thu, 27 May 2021 23:26:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 864566F516;
+	Thu, 27 May 2021 23:45:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com
- [IPv6:2a00:1450:4864:20::431])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 00A0E6F514;
- Thu, 27 May 2021 23:26:51 +0000 (UTC)
-Received: by mail-wr1-x431.google.com with SMTP id m18so1473622wrv.2;
- Thu, 27 May 2021 16:26:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=qgSfSSR25TpqE7DTHh0If3TkH6Ntnwzdv/kA+O29T0w=;
- b=Wwf4fWPV9VWdORZV6WIy6v+2wR4tFAbg8gmFg5iHna4keVQvYWQoXsHyyNp6xOwPMJ
- E/cTm/TrmMNQ1o+BKzU/MiU2m1oGdYuMd8r9TN/8C3PwbKBbK9Mm/9sjhw0jSto8LiTa
- 1O0+FHr2mlzE00E09Ms0JX4ScYuFA7xqAg3VdtS/VmUzH0UDRYGiXVS8mtsLHw0J7Ia+
- o2FdtyB3U9CLX1xB5he52HoKUHjVDEMWRwwHCfJZwb+ZcBt5zSIrzrdJFusBC0iHSNJn
- 3JrA3l0mVuin1msDHwBwjnA//BTZPppRRN8DVX3KV1z580pFxPu+9HsFYP4Ie0G0xnoe
- QsAA==
+Received: from mail-lj1-x233.google.com (mail-lj1-x233.google.com
+ [IPv6:2a00:1450:4864:20::233])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 349FD6F517
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 May 2021 23:45:10 +0000 (UTC)
+Received: by mail-lj1-x233.google.com with SMTP id w15so2993010ljo.10
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 May 2021 16:45:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=Agf93Ei+9Tdc8Zvz0bPaizkEiLAVgHXWf+4M50aPaoE=;
+ b=nMLBX5g3X755skTAhGoSjvtud9YhlWMACVOScm/kNloVrVed8R0YJUV775o79Jx9Wl
+ MDSDih8RcL440wYlNQpFDNytOoigNMc04LUUwX4qflmZjpJfPGt1d9e8j5xKUVgiNWJq
+ UtaarziZM/3+2DOLG1Mp8D1+hrRjYRMFsaGFwMLiCjVw2DLYv0ifSiJT0LHxL4WSJil/
+ oSJ82ZDgS/UpNpLj0CnbRLmoeHkbULctk4u2GDbHvm1L7sukyOExw6gXoDTmFQRbFfmr
+ rSM0UbGJLzvlMpR2BAwpVz+5XaT7ECbXnuit+qUapS5gUbtJI03LwJhbvNBAg2t9oTfX
+ ReoA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=qgSfSSR25TpqE7DTHh0If3TkH6Ntnwzdv/kA+O29T0w=;
- b=R1Gmd3B2VPON16u/wcqKkS+y3+VZjtkNh5ePVk4SdZvylt7PbU2quU832EGVz4AfiS
- GYHuuqid5ClEXfkqoE03iknkIblFnFV43A+9jqu4a7UOh2H6wRIwb4MG/PmQtGA6zahw
- zmb0yTn35AQjqXevqcXdq7ZiYrSjVHem/lw2XVe1uHjBbvSIG7+6XOEbLbDBXbXEPtwU
- W+YJxoMR0bEjYbm5Glv/HZ3s8LdV1ff4LWCjcOLjkJbFg6F0Qky/wrwUGl1Y4G2K2sB1
- 3EzPlEw5GkZiDUmhrbuQgqfdI3VKk0tU7mbnubpZJpCb9Pc4wB/3+GENTcBCIMp/tonS
- tblQ==
-X-Gm-Message-State: AOAM530NOHe/2BCFK7Mi/eycA2SvDUbjX9pfh74vQ0heZtvGnvMCdic9
- KaQwYc/3ricgeOAOdS1/OCg24G3ksI8fo7wV8SQ=
-X-Google-Smtp-Source: ABdhPJzcHlEcE3GJbLIcwKUWgBucK4ooOjc8OjwZQyp1IMnhdPdmlGHY+zKNBb8UKhuWJbJTK0FIWMl2d3U7gWaBjBg=
-X-Received: by 2002:adf:e84a:: with SMTP id d10mr5665911wrn.132.1622158010442; 
- Thu, 27 May 2021 16:26:50 -0700 (PDT)
-MIME-Version: 1.0
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=Agf93Ei+9Tdc8Zvz0bPaizkEiLAVgHXWf+4M50aPaoE=;
+ b=luBk8M+ycpUZz3+Uge7eYNzpt+QKpuWs5TlZzFHe3i2o0Se0ZFpcdyX5FN1KfqjEwl
+ zg/7j9jlnbz7QtLz/RUFCDsnNPZGZOxAEeXWiQlzGcqfW2xXs3mCKu958yb+/THcTNkp
+ bt70Lr4yOkfEfa1HQJmTeqBSV+ZV6emkmPZwqeqIfXrA+D4UTVD1RMAp+Vfqtj9LrJBU
+ kTYj7pdBbC6dIZ2mfQUOxDvlQ7S0A6bMwYlThjkz2rmaD9MzHErhqWvZezVSBSZJ9qfP
+ V/h67t7fBm+iGsdgg3uImAMM+ZnEGDUoro19x7RFC0ZW+C/AdGFWQvpqIg01vFklMyCd
+ mviA==
+X-Gm-Message-State: AOAM5307M54kEtygliNFGrUC4pdN4xLsOy8UnC6HdFAfCwfLZmFwoGCF
+ phef0PcgZvAK9myQ+LNyMY+mtQ==
+X-Google-Smtp-Source: ABdhPJwpm9LP4ARZQheOF4vnrUK8YBrm3JYilKh6GFbYW+t31vOsjf6nmJE0sqqDaGqQ4CfmeZEBTA==
+X-Received: by 2002:a2e:9196:: with SMTP id f22mr4363198ljg.88.1622159108474; 
+ Thu, 27 May 2021 16:45:08 -0700 (PDT)
+Received: from [192.168.1.211] ([37.153.55.125])
+ by smtp.gmail.com with ESMTPSA id s1sm368494ljj.69.2021.05.27.16.45.07
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 27 May 2021 16:45:07 -0700 (PDT)
+Subject: Re: [RFC PATCH 03/13] drm/msm/dsi: add support for dsc data
+To: Vinod Koul <vkoul@kernel.org>, Rob Clark <robdclark@gmail.com>
 References: <20210521124946.3617862-1-vkoul@kernel.org>
- <CAOCk7Nqep_Db+z3fr5asHZ1u0j8+6fKkPFs2Ai8CbA_zGqV6ZA@mail.gmail.com>
- <YK3gxqXBRupN/N+Q@vkoul-mobl.Dlink>
- <CAOCk7NqvhGvYw8xCBctqj7H+o-Qwp2UuUJK1gatW9EWfXv56xA@mail.gmail.com>
-In-Reply-To: <CAOCk7NqvhGvYw8xCBctqj7H+o-Qwp2UuUJK1gatW9EWfXv56xA@mail.gmail.com>
-From: Rob Clark <robdclark@gmail.com>
-Date: Thu, 27 May 2021 16:30:34 -0700
-Message-ID: <CAF6AEGuoyPr8PgfwFX0JCYZ7S_pryn_OXacHBqoMAAPvSq6aRw@mail.gmail.com>
-Subject: Re: [Freedreno] [RFC PATCH 00/13] drm/msm: Add Display Stream
- Compression Support
-To: Jeffrey Hugo <jeffrey.l.hugo@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+ <20210521124946.3617862-5-vkoul@kernel.org>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Message-ID: <73815f0b-b6d1-f6f3-d7aa-f77492861967@linaro.org>
+Date: Fri, 28 May 2021 02:45:07 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.0
+MIME-Version: 1.0
+In-Reply-To: <20210521124946.3617862-5-vkoul@kernel.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,164 +72,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: DTML <devicetree@vger.kernel.org>, Jonathan Marek <jonathan@marek.ca>,
- David Airlie <airlied@linux.ie>, MSM <linux-arm-msm@vger.kernel.org>,
- lkml <linux-kernel@vger.kernel.org>, Abhinav Kumar <abhinavk@codeaurora.org>,
- Bjorn Andersson <bjorn.andersson@linaro.org>, Vinod Koul <vkoul@kernel.org>,
- Rob Herring <robh+dt@kernel.org>,
- "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- freedreno <freedreno@lists.freedesktop.org>
+Cc: Jonathan Marek <jonathan@marek.ca>, David Airlie <airlied@linux.ie>,
+ linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Abhinav Kumar <abhinavk@codeaurora.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, May 26, 2021 at 8:00 AM Jeffrey Hugo <jeffrey.l.hugo@gmail.com> wrote:
->
-> On Tue, May 25, 2021 at 11:46 PM Vinod Koul <vkoul@kernel.org> wrote:
-> >
-> > Hello Jeff,
-> >
-> > On 21-05-21, 08:09, Jeffrey Hugo wrote:
-> > > On Fri, May 21, 2021 at 6:50 AM Vinod Koul <vkoul@kernel.org> wrote:
-> > > >
-> > > > Display Stream Compression (DSC) compresses the display stream in host which
-> > > > is later decoded by panel. This series enables this for Qualcomm msm driver.
-> > > > This was tested on Google Pixel3 phone which use LGE SW43408 panel.
-> > > >
-> > > > The changes include adding DT properties for DSC then hardware blocks support
-> > > > required in DPU1 driver and support in encoder. We also add support in DSI
-> > > > and introduce required topology changes.
-> > > >
-> > > > In order for panel to set the DSC parameters we add dsc in drm_panel and set
-> > > > it from the msm driver.
-> > > >
-> > > > Complete changes which enable this for Pixel3 along with panel driver (not
-> > > > part of this series) and DT changes can be found at:
-> > > > git.linaro.org/people/vinod.koul/kernel.git pixel/dsc_rfc
-> > > >
-> > > > Comments welcome!
-> > >
-> > > This feels backwards to me.  I've only skimmed this series, and the DT
-> > > changes didn't come through for me, so perhaps I have an incomplete
-> > > view.
-> >
-> > Not sure why, I see it on lore:
-> > https://lore.kernel.org/dri-devel/20210521124946.3617862-3-vkoul@kernel.org/
-> >
-> > > DSC is not MSM specific.  There is a standard for it.  Yet it looks
-> > > like everything is implemented in a MSM specific way, and then pushed
-> > > to the panel.  So, every vendor needs to implement their vendor
-> > > specific way to get the DSC info, and then push it to the panel?
-> > > Seems wrong, given there is an actual standard for this feature.
-> >
-> > I have added slice and bpp info in the DT here under the host and then
-> > pass the generic struct drm_dsc_config to panel which allows panel to
-> > write the pps cmd
-> >
-> > Nothing above is MSM specific.. It can very well work with non MSM
-> > controllers too.
->
-> I disagree.
->
-> The DT bindings you defined (thanks for the direct link) are MSM
-> specific.  I'm not talking (yet) about the properties you defined, but
-> purely from the stand point that you defined the binding within the
-> scope of the MSM dsi binding.  No other vendor can use those bindings.
-> Of course, if we look at the properties themselves, they are prefixed
-> with "qcom", which is vendor specific.
->
-> So, purely on the face of it, this is MSM specific.
->
-> Assuming we want a DT solution for DSC, I think it should be something
-> like Documentation/devicetree/bindings/clock/clock-bindings.txt (the
-> first example that comes to mind), which is a non-vendor specific
-> generic set of properties that each vendor/device specific binding can
-> inherit.  Panel has similar things.
->
-> Specific to the properties, I don't much like that you duplicate BPP,
-> which is already associated with the panel (although perhaps not in
-> the scope of DT).  What if the panel and your DSC bindings disagree?
-> Also, I guess I need to ask, have you read the DSC spec?  Last I
-> looked, there were something like 3 dozen properties that could be
-> configured.  You have five in your proposed binding.  To me, this is
-> not a generic DSC solution, this is MSM specific (and frankly I don't
-> think this supports all the configuration the MSM hardware can do,
-> either).
->
-> I'm surprised Rob Herring didn't have more to say on this.
->
-> > I didn't envision DSC to be a specific thing, most of
-> > the patches here are hardware enabling ones for DSC bits for MSM
-> > hardware.
-> >
-> > > Additionally, we define panel properties (resolution, BPP, etc) at the
-> > > panel, and have the display drivers pull it from the panel.  However,
-> > > for DSC, you do the reverse (define it in the display driver, and push
-> > > it to the panel).  If the argument is that DSC properties can be
-> > > dynamic, well, so can resolution.  Every panel for MSM MTPs supports
-> > > multiple resolutions, yet we define that with the panel in Linux.
-> >
-> > I dont have an answer for that right now, to start with yes the
-> > properties are in host but I am okay to discuss this and put wherever we
-> > feel is most correct thing.  I somehow dont like that we should pull
-> > from panel DT and program host with that. Here using struct
-> > drm_dsc_config allows me to configure panel based on resolution passed
->
-> I somewhat agree that pulling from the panel and programing the host
-> based on that is an odd solution, but we have it currently.  Have a
-> look at Documentation/devicetree/bindings/display/panel in particular
-> panel-timing.  All of that ends up informing the mdss programing
-> anyways (particularly the dsi and its phy).  So my problem is that we
-> currently have a solution that seems to just need to be extended, and
-> instead you have proposed a completely different solution which is
-> arguably contradictory.
->
-> However, I'd like to see thoughts from Rob Clark, David, and any
-> others that typically handle this stuff (maybe Sam Ravenborg from the
-> panel side?).  I consider them to be the experts, and if they think
-> your solution is the way to go, I'll shut up.  I consider myself to be
-> a novice that has dabbled in this area, and while this currently
-> doesn't make sense to me, maybe I need some education here to see the
-> light.
->
-> > > Finally, I haven't seen the DT bits, but I'm concerned about using DT
-> > > for this.  It inherently excludes ACPI systems.  You appear to have
-> > > sdm845 support in this series, but what about ACPI boot on the Lenovo
-> > > C630 for example?  Or any of the 8cx laptops?  We don't read the panel
-> > > resolution, etc from DT, so why the DSC?
-> >
-> > But you must read from somewhere like ACPI tables. I think ACPI systems
-> > would have some ACPI table info out there which would help on this.
-> > Yes that is another task which we need to start with once we enable OF
-> > systems.
->
-> Frankly, I don't like the MSM ACPI solution that I've seen on the laptops.
-> The ACPI assumes the entire MDSS (including DSI parts) and GPU is one
-> device, and ultimately handled by one driver.  That driver needs to
-> get a value from UEFI (set by the bootloader) that is the "panel id".
-> Then the driver calls into ACPI (I think its _ROM, but I might be
-> mistaken, doing this from memory) with that id.  It gets back a binary
-> blob which is mostly an xml file (format is publicly documented) that
-> contains the panel timings and such.
+On 21/05/2021 15:49, Vinod Koul wrote:
+> DSC needs some configuration from device tree, add support to read and
+> store these params and add DSC structures in msm_drv
+> 
+> Signed-off-by: Vinod Koul <vkoul@kernel.org>
+> ---
+>   drivers/gpu/drm/msm/dsi/dsi_host.c | 170 +++++++++++++++++++++++++++++
+>   drivers/gpu/drm/msm/msm_drv.h      |  32 ++++++
+>   2 files changed, 202 insertions(+)
+> 
 
-tbh, I kinda suspect that having a single "gpu" device (which also
-includes venus, in addition to display, IIRC) in the ACPI tables is a
-windowsism, trying to make things look to userspace like a single "GPU
-card" in the x86 world.. but either way, I think the ACPI tables on
-the windows arm laptops which use dsi->bridge->edp is too much of a
-lost cause to even consider here.  Possibly ACPI boot on these devices
-would be more feasible on newer devices which have direct eDP out of
-the SoC without requiring external bridge/panel glue.
 
-I'd worry more about what makes sense in a DT world, when it comes to
-DT bindings.
+[skipped]
 
-BR,
--R
 
-> Generally we've defined simple-panel entities for these, with the
-> timings in code (you can see what Bjorn and I have upstreamed), and
-> just match on the compatible.
->
-> In summary, I don't mean to be difficult, I just think this solution
-> needs more "baking".
+>   		DRM_DEV_ERROR(dev, "%s: invalid lane configuration %d\n",
+> diff --git a/drivers/gpu/drm/msm/msm_drv.h b/drivers/gpu/drm/msm/msm_drv.h
+> index 2668941df529..26661dd43936 100644
+> --- a/drivers/gpu/drm/msm/msm_drv.h
+> +++ b/drivers/gpu/drm/msm/msm_drv.h
+> @@ -30,6 +30,7 @@
+>   #include <drm/drm_plane_helper.h>
+>   #include <drm/drm_probe_helper.h>
+>   #include <drm/drm_fb_helper.h>
+> +#include <drm/drm_dsc.h>
+>   #include <drm/msm_drm.h>
+>   #include <drm/drm_gem.h>
+>   
+> @@ -70,6 +71,16 @@ enum msm_mdp_plane_property {
+>   #define MSM_GPU_MAX_RINGS 4
+>   #define MAX_H_TILES_PER_DISPLAY 2
+>   
+> +/**
+> + * enum msm_display_compression_type - compression method used for pixel stream
+> + * @MSM_DISPLAY_COMPRESSION_NONE:	Pixel data is not compressed
+> + * @MSM_DISPLAY_COMPRESSION_DSC:	DSC compresison is used
+> + */
+> +enum msm_display_compression_type {
+> +	MSM_DISPLAY_COMPRESSION_NONE,
+> +	MSM_DISPLAY_COMPRESSION_DSC,
+> +};
+> +
+
+Seems to be unused
+
+>   /**
+>    * enum msm_display_caps - features/capabilities supported by displays
+>    * @MSM_DISPLAY_CAP_VID_MODE:           Video or "active" mode supported
+
+
+
+-- 
+With best wishes
+Dmitry
