@@ -1,60 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1874392C1C
-	for <lists+dri-devel@lfdr.de>; Thu, 27 May 2021 12:46:43 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 06A09392C22
+	for <lists+dri-devel@lfdr.de>; Thu, 27 May 2021 12:49:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EF9FD6EE70;
-	Thu, 27 May 2021 10:46:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 486726EE76;
+	Thu, 27 May 2021 10:49:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com
- [IPv6:2a00:1450:4864:20::32c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 73E656EE6A
- for <dri-devel@lists.freedesktop.org>; Thu, 27 May 2021 10:46:37 +0000 (UTC)
-Received: by mail-wm1-x32c.google.com with SMTP id m18so503986wmq.0
- for <dri-devel@lists.freedesktop.org>; Thu, 27 May 2021 03:46:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=c4mAgs3hJlBW+DiixgSX63+ZKG0ya2IvVafcPSMKtOY=;
- b=eE+DepAkkxmAXyPtGebp5t2DkS0QWpt3NP//4e9CgMA/g5oE9asyfE5MtuHtdp1xtT
- wQDW2qY84c/fQz3v+F9mJ/99u+Mx+motiKogG85xeBODBRPUukq+SoaO/zsmaaWLzHkc
- DyML0I0pCifpOBSDrAtOgB3uMZky0vsyRKag0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=c4mAgs3hJlBW+DiixgSX63+ZKG0ya2IvVafcPSMKtOY=;
- b=Y+x0jtD9bFIezi9yfsxGS4gKCf5na/2hclnt9673i/kxFTigNrD7Ba3ot2eZ0hZDwt
- dMXUGpctdrfT8lTjcBGblrCbVrVZH+xHYM1Q+7dmor/XOKGyBkrjPp8Gb48KVCpvBueQ
- htWdWHugheVCTWST/jPAAoaHKOxJIk03b49Ombs7jyO4toTDK5yGCcV4EU7514ZhAuuN
- K4aqOKDrEKHTqB9FKLyOseotMCOKxFT+ggTkXDJV5NarCGj+tsI45vCyn7PBP9eNjtZ6
- TlFhmnmcEZJpiaUv1Yy09qOiSCVIkzaoJMe+TJKlmNjgwiDioaLXiDkqydGOQHxAb2L8
- V8jQ==
-X-Gm-Message-State: AOAM5316roheC8DbM9NYON0wHUvTdeZlq1zrBqle2tYsYzMXUCHOXtNP
- YUw5s7RrMR3cxWjAry8kS4AwUA==
-X-Google-Smtp-Source: ABdhPJwEM6S72jKFAAfC0ikqcP1P7/Pbjc03v3unHEzNzPOpsI1rIbDFECddTTELO8u5abhghy9QYQ==
-X-Received: by 2002:a1c:4444:: with SMTP id r65mr7507098wma.127.1622112396063; 
- Thu, 27 May 2021 03:46:36 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id h8sm2579047wrw.85.2021.05.27.03.46.35
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 27 May 2021 03:46:35 -0700 (PDT)
-Date: Thu, 27 May 2021 12:46:33 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Subject: Re: [Intel-gfx] [PATCH 01/12] drm/i915: Take rcu_read_lock for
- querying fence's driver/timeline names
-Message-ID: <YK94iSW7JoJippim@phenom.ffwll.local>
-References: <20210526141456.2334192-1-tvrtko.ursulin@linux.intel.com>
- <20210526141456.2334192-2-tvrtko.ursulin@linux.intel.com>
+Received: from mail-40131.protonmail.ch (mail-40131.protonmail.ch
+ [185.70.40.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8BBA46EE72
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 May 2021 10:49:01 +0000 (UTC)
+Date: Thu, 27 May 2021 10:48:44 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
+ s=protonmail3; t=1622112539;
+ bh=5OzA3IKwQBhMiFfPZ5xOr25zCcrDR+bk3NBhnmg8yY8=;
+ h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
+ b=jv8EYBDYI54GtdQW4+LQtOmy1CHqvvC2PPxNAGe/UKS9H16FDw1tpha38xaaM6kPO
+ q4vM8q6nJmFy6+dLsWAkmLUSYA7xikFjyVQoRDLt2k6VGFXPQsvyh9hq+flaQ9u1yi
+ ohVde07iN0BclUzfzaxa8nuURRfnSIdaBRdi0L61pjqh/3Y2uU3QOV+gN6sYzWRhDh
+ gjJYEV2BTFdyf0vN9exmX2JLCMCTmo6ZXhnSq+c1GqYaGhE2qQxrFMuEuWk1lBQiTg
+ eFWf7TJdu2pQtPDH91fdtAsizMRKOXRUeefwN2Z3LPX7y942Kv7P/6RJS+LVZAboy2
+ Xk70dRqr5jt7Q==
+To: Daniel Vetter <daniel@ffwll.ch>
+From: Simon Ser <contact@emersion.fr>
+Subject: Re: [Intel-gfx] [PATCH 5/7] dma-buf: Add an API for exporting sync
+ files (v11)
+Message-ID: <UhXviIJwnJG8qWOGYpAwgqll4W4TPSjVIFdG72MzhY4T2u7xS_Ql7OY-xlkfTR1HIoZ7-U8UhfqDsj62JIu98ESf_CfncvWougxT8JKm0ik=@emersion.fr>
+In-Reply-To: <YK91kB0ikqxurHN1@phenom.ffwll.local>
+References: <20210525211753.1086069-1-jason@jlekstrand.net>
+ <20210525211753.1086069-6-jason@jlekstrand.net>
+ <acc1737c-261d-9da5-7ea7-759063136c56@amd.com>
+ <CAPj87rN_7vmmWcL1vqhvM=etaTjwts_L0vYbsgvYF0_qZw83gw@mail.gmail.com>
+ <770eb698-1dde-9e46-da83-44911d96abec@amd.com>
+ <CAPj87rPdMthO2Wv7QxMGnO__BiZVauMa9HaRk+35Sgvm69QSjw@mail.gmail.com>
+ <a9de44fc-aa7c-60d7-d7ed-2229d41fb306@amd.com>
+ <YK91kB0ikqxurHN1@phenom.ffwll.local>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210526141456.2334192-2-tvrtko.ursulin@linux.intel.com>
-X-Operating-System: Linux phenom 5.10.32scarlett+ 
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
+ DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF shortcircuit=no
+ autolearn=disabled version=3.4.4
+X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
+ mailout.protonmail.ch
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,57 +58,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Chris Wilson <chris@chris-wilson.co.uk>
+Reply-To: Simon Ser <contact@emersion.fr>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ intel-gfx <intel-gfx@lists.freedesktop.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Jason Ekstrand <jason@jlekstrand.net>,
+ =?utf-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, May 26, 2021 at 03:14:45PM +0100, Tvrtko Ursulin wrote:
-> From: Chris Wilson <chris@chris-wilson.co.uk>
-> 
-> The name very often may be freed independently of the fence, with the
-> only protection being RCU. To be safe as we read the names, hold RCU.
+On Thursday, May 27th, 2021 at 12:33 PM, Daniel Vetter <daniel@ffwll.ch> wr=
+ote:
 
-Yeah no.
+> > The sync_file is also import/exportable to a certain drm_syncobj timeli=
+ne
+> > point (or as binary signal). So no big deal, we are all compatible here=
+ :)
+> > I just thought that it might be more appropriate to return a drm_syncob=
+j
+> > directly instead of a sync_file.
+>
+> I think another big potential user for this is a vk-based compositor whic=
+h
+> needs to interact/support implicit synced clients. And compositor world I
+> think is right now still more sync_file (because that's where we started
+> with atomic kms ioctl).
 
-If it's not clear why, figure it out first.
--Daniel
+Yeah, right now compositors can only deal with sync_file. I have a
+Vulkan pull request for wlroots [1] that would benefit from this, I
+think.
 
-> 
-> Signed-off-by: Chris Wilson <chris@chris-wilson.co.uk>
-> Reviewed-by: Mika Kuoppala <mika.kuoppala@linux.intel.com>
-> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-> ---
->  drivers/gpu/drm/i915/i915_sw_fence.c | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/i915/i915_sw_fence.c b/drivers/gpu/drm/i915/i915_sw_fence.c
-> index 2744558f3050..dfabf291e5cd 100644
-> --- a/drivers/gpu/drm/i915/i915_sw_fence.c
-> +++ b/drivers/gpu/drm/i915/i915_sw_fence.c
-> @@ -430,11 +430,13 @@ static void timer_i915_sw_fence_wake(struct timer_list *t)
->  	if (!fence)
->  		return;
->  
-> +	rcu_read_lock();
->  	pr_notice("Asynchronous wait on fence %s:%s:%llx timed out (hint:%ps)\n",
->  		  cb->dma->ops->get_driver_name(cb->dma),
->  		  cb->dma->ops->get_timeline_name(cb->dma),
->  		  cb->dma->seqno,
->  		  i915_sw_fence_debug_hint(fence));
-> +	rcu_read_unlock();
->  
->  	i915_sw_fence_set_error_once(fence, -ETIMEDOUT);
->  	i915_sw_fence_complete(fence);
-> -- 
-> 2.30.2
-> 
-> _______________________________________________
-> Intel-gfx mailing list
-> Intel-gfx@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/intel-gfx
+Also it seems like drm_syncobj isn't necessarily going to be the the
+sync primitive that ends them all with all that user-space fence
+discussion, so long-term I guess we'll need a conversion anyways.
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+[1]: https://github.com/swaywm/wlroots/pull/2771
+
+> Plus you can convert them to the other form anyway, so really doesn't
+> matter much. But for the above reasons I'm leaning slightly towards
+> sync_file. Except if compositor folks tell me I'm a fool and why :-)
+
+sync_file is fine from my PoV.
