@@ -2,36 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05F5839316A
-	for <lists+dri-devel@lfdr.de>; Thu, 27 May 2021 16:48:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 47B45393164
+	for <lists+dri-devel@lfdr.de>; Thu, 27 May 2021 16:47:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8EBD46F3EB;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2B57F6F3E2;
 	Thu, 27 May 2021 14:47:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0E7A36F3E2;
- Thu, 27 May 2021 14:47:44 +0000 (UTC)
-IronPort-SDR: MLZXogq7GrYkhXlPQN320LJPLDXQB9G/McROjjs6LRngyPoQyVpSJYX9r2vBvwNpWbu56ucOXW
- ImqXli2XH8lA==
-X-IronPort-AV: E=McAfee;i="6200,9189,9996"; a="202515641"
-X-IronPort-AV: E=Sophos;i="5.82,334,1613462400"; d="scan'208";a="202515641"
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 94DD86F3E2;
+ Thu, 27 May 2021 14:47:45 +0000 (UTC)
+IronPort-SDR: RP0NgsOjT5iJNEBmg1en8EZYAAV5wPR8wXIqGGLXvZORpnhZjuAl+9cbJ3YUvp/6ocUEh6Li0X
+ L2ux1RhUYYtw==
+X-IronPort-AV: E=McAfee;i="6200,9189,9996"; a="202515649"
+X-IronPort-AV: E=Sophos;i="5.82,334,1613462400"; d="scan'208";a="202515649"
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 May 2021 07:47:43 -0700
-IronPort-SDR: kLNavEfxRQbV5S8FMcbS2G2og800W1wm7yX137A+sdJPqn2Wni85eB4/gtI+J/NOsUlwHco9rN
- OaQEgUhya/sQ==
-X-IronPort-AV: E=Sophos;i="5.82,334,1613462400"; d="scan'208";a="443598018"
+ 27 May 2021 07:47:45 -0700
+IronPort-SDR: UrtIwD7gqFgmmRaGKoX+xpd6pRwXcSQ4vNloJcEv7pSMNWWypcr2b8OfS6GEd+runLUGBAFALj
+ Lt4zl/0AUXgg==
+X-IronPort-AV: E=Sophos;i="5.82,334,1613462400"; d="scan'208";a="443598021"
 Received: from ibanaga-mobl.ger.corp.intel.com (HELO thellst-mobl1.intel.com)
  ([10.249.254.58])
  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 May 2021 07:47:42 -0700
+ 27 May 2021 07:47:43 -0700
 From: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
 To: intel-gfx@lists.freedesktop.org,
 	dri-devel@lists.freedesktop.org
-Subject: [PATCH v5 12/15] drm/i915/lmem: Verify checks for lmem residency
-Date: Thu, 27 May 2021 16:47:07 +0200
-Message-Id: <20210527144710.1975553-13-thomas.hellstrom@linux.intel.com>
+Subject: [PATCH v5 13/15] drm/i915: Disable mmap ioctl for gen12+
+Date: Thu, 27 May 2021 16:47:08 +0200
+Message-Id: <20210527144710.1975553-14-thomas.hellstrom@linux.intel.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210527144710.1975553-1-thomas.hellstrom@linux.intel.com>
 References: <20210527144710.1975553-1-thomas.hellstrom@linux.intel.com>
@@ -50,139 +50,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Matthew Auld <matthew.auld@intel.com>
+Cc: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Since objects can be migrated or evicted when not pinned or locked,
-update the checks for lmem residency or future residency so that
-the value returned is not immediately stale.
+From: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
 
-Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-Reviewed-by: Matthew Auld <matthew.auld@intel.com>
----
-v2: Simplify i915_gem_object_migratable() (Reported by Mattew Auld)
----
- drivers/gpu/drm/i915/display/intel_display.c |  2 +-
- drivers/gpu/drm/i915/gem/i915_gem_lmem.c     | 42 +++++++++++++++++++-
- drivers/gpu/drm/i915/gem/i915_gem_object.c   | 18 +++++++++
- drivers/gpu/drm/i915/gem/i915_gem_object.h   |  4 ++
- 4 files changed, 64 insertions(+), 2 deletions(-)
+The platform should exclusively use mmap_offset, one less path to worry
+about for discrete.
 
-diff --git a/drivers/gpu/drm/i915/display/intel_display.c b/drivers/gpu/drm/i915/display/intel_display.c
-index 2ea46d30d07f..abdfd092b313 100644
---- a/drivers/gpu/drm/i915/display/intel_display.c
-+++ b/drivers/gpu/drm/i915/display/intel_display.c
-@@ -11736,7 +11736,7 @@ intel_user_framebuffer_create(struct drm_device *dev,
- 
- 	/* object is backed with LMEM for discrete */
- 	i915 = to_i915(obj->base.dev);
--	if (HAS_LMEM(i915) && !i915_gem_object_is_lmem(obj)) {
-+	if (HAS_LMEM(i915) && !i915_gem_object_validates_to_lmem(obj)) {
- 		/* object is "remote", not in local memory */
- 		i915_gem_object_put(obj);
- 		return ERR_PTR(-EREMOTE);
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_lmem.c b/drivers/gpu/drm/i915/gem/i915_gem_lmem.c
-index 2b8cd15de1d9..d539dffa1554 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_lmem.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_lmem.c
-@@ -23,10 +23,50 @@ i915_gem_object_lmem_io_map(struct drm_i915_gem_object *obj,
- 	return io_mapping_map_wc(&obj->mm.region->iomap, offset, size);
- }
- 
-+/**
-+ * i915_gem_object_validates_to_lmem - Whether the object is resident in
-+ * lmem when pages are present.
-+ * @obj: The object to check.
-+ *
-+ * Migratable objects residency may change from under us if the object is
-+ * not pinned or locked. This function is intended to be used to check whether
-+ * the object can only reside in lmem when pages are present.
-+ *
-+ * Return: Whether the object is always resident in lmem when pages are
-+ * present.
-+ */
-+bool i915_gem_object_validates_to_lmem(struct drm_i915_gem_object *obj)
-+{
-+	struct intel_memory_region *mr = READ_ONCE(obj->mm.region);
-+
-+	return !i915_gem_object_migratable(obj) &&
-+		mr && (mr->type == INTEL_MEMORY_LOCAL ||
-+		       mr->type == INTEL_MEMORY_STOLEN_LOCAL);
-+}
-+
-+/**
-+ * i915_gem_object_is_lmem - Whether the object is resident in
-+ * lmem
-+ * @obj: The object to check.
-+ *
-+ * Even if an object is allowed to migrate and change memory region,
-+ * this function checks whether it will always be present in lmem when
-+ * valid *or* if that's not the case, whether it's currently resident in lmem.
-+ * For migratable and evictable objects, the latter only makes sense when
-+ * the object is locked.
-+ *
-+ * Return: Whether the object migratable but resident in lmem, or not
-+ * migratable and will be present in lmem when valid.
-+ */
- bool i915_gem_object_is_lmem(struct drm_i915_gem_object *obj)
+Signed-off-by: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Reviewed-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+---
+ drivers/gpu/drm/i915/gem/i915_gem_mman.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
+
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_mman.c b/drivers/gpu/drm/i915/gem/i915_gem_mman.c
+index f6fe5cb01438..fd1c9714f8d8 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_mman.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_mman.c
+@@ -56,10 +56,17 @@ int
+ i915_gem_mmap_ioctl(struct drm_device *dev, void *data,
+ 		    struct drm_file *file)
  {
--	struct intel_memory_region *mr = obj->mm.region;
-+	struct intel_memory_region *mr = READ_ONCE(obj->mm.region);
++	struct drm_i915_private *i915 = to_i915(dev);
+ 	struct drm_i915_gem_mmap *args = data;
+ 	struct drm_i915_gem_object *obj;
+ 	unsigned long addr;
  
-+#ifdef CONFIG_LOCKDEP
-+	if (i915_gem_object_migratable(obj) &&
-+	    i915_gem_object_evictable(obj))
-+		assert_object_held(obj);
-+#endif
- 	return mr && (mr->type == INTEL_MEMORY_LOCAL ||
- 		      mr->type == INTEL_MEMORY_STOLEN_LOCAL);
- }
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object.c b/drivers/gpu/drm/i915/gem/i915_gem_object.c
-index 16eac5ea9238..cf18c430d51f 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_object.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_object.c
-@@ -457,6 +457,24 @@ bool i915_gem_object_evictable(struct drm_i915_gem_object *obj)
- 	return pin_count == 0;
- }
++	/* mmap ioctl is disallowed for all platforms after TGL-LP.  This also
++	 * covers all platforms with local memory.
++	 */
++	if (INTEL_GEN(i915) >= 12 && !IS_TIGERLAKE(i915))
++		return -EOPNOTSUPP;
++
+ 	if (args->flags & ~(I915_MMAP_WC))
+ 		return -EINVAL;
  
-+/**
-+ * i915_gem_object_migratable - Whether the object is migratable out of the
-+ * current region.
-+ * @obj: Pointer to the object.
-+ *
-+ * Return: Whether the object is allowed to be resident in other
-+ * regions than the current while pages are present.
-+ */
-+bool i915_gem_object_migratable(struct drm_i915_gem_object *obj)
-+{
-+	struct intel_memory_region *mr = READ_ONCE(obj->mm.region);
-+
-+	if (!mr)
-+		return false;
-+
-+	return obj->mm.n_placements > 1;
-+}
-+
- void i915_gem_init__objects(struct drm_i915_private *i915)
- {
- 	INIT_WORK(&i915->mm.free_work, __i915_gem_free_work);
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object.h b/drivers/gpu/drm/i915/gem/i915_gem_object.h
-index ae5930e307d5..a3ad8cf4eefd 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_object.h
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_object.h
-@@ -596,6 +596,10 @@ void __i915_gem_free_object(struct drm_i915_gem_object *obj);
- 
- bool i915_gem_object_evictable(struct drm_i915_gem_object *obj);
- 
-+bool i915_gem_object_migratable(struct drm_i915_gem_object *obj);
-+
-+bool i915_gem_object_validates_to_lmem(struct drm_i915_gem_object *obj);
-+
- #ifdef CONFIG_MMU_NOTIFIER
- static inline bool
- i915_gem_object_is_userptr(struct drm_i915_gem_object *obj)
 -- 
 2.31.1
 
