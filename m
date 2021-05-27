@@ -1,142 +1,121 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE11F3933FC
-	for <lists+dri-devel@lfdr.de>; Thu, 27 May 2021 18:30:26 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 729C7393402
+	for <lists+dri-devel@lfdr.de>; Thu, 27 May 2021 18:32:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BA3A66F479;
-	Thu, 27 May 2021 16:30:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7F9FA6F47C;
+	Thu, 27 May 2021 16:32:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0833B6F479
- for <dri-devel@lists.freedesktop.org>; Thu, 27 May 2021 16:30:23 +0000 (UTC)
-IronPort-SDR: GlbL+eIgVx4zzYRKWXARKmJ8qxuCEalM80+BLp4jZt1FR2GWxMaXPQhVuQAl49pyFGCqgCk+iW
- K3T+Haiy9zZQ==
-X-IronPort-AV: E=McAfee;i="6200,9189,9997"; a="182434098"
-X-IronPort-AV: E=Sophos;i="5.83,227,1616482800"; d="scan'208";a="182434098"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 May 2021 09:30:22 -0700
-IronPort-SDR: UoQdF0MYOZytwpBdlCPQHQ8YvUUjnfZ9dJhdfU/PtK9A4R4wZcT0g0zh6BST3zY4H1LWaE+BUD
- 62eHBVOhun5g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.83,227,1616482800"; d="scan'208";a="409804797"
-Received: from orsmsx605.amr.corp.intel.com ([10.22.229.18])
- by fmsmga007.fm.intel.com with ESMTP; 27 May 2021 09:30:22 -0700
-Received: from orsmsx609.amr.corp.intel.com (10.22.229.22) by
- ORSMSX605.amr.corp.intel.com (10.22.229.18) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.4; Thu, 27 May 2021 09:30:21 -0700
-Received: from orsmsx608.amr.corp.intel.com (10.22.229.21) by
- ORSMSX609.amr.corp.intel.com (10.22.229.22) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.4; Thu, 27 May 2021 09:30:21 -0700
-Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
- orsmsx608.amr.corp.intel.com (10.22.229.21) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2242.4
- via Frontend Transport; Thu, 27 May 2021 09:30:21 -0700
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com (104.47.70.103)
- by edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2242.4; Thu, 27 May 2021 09:30:21 -0700
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam10on2046.outbound.protection.outlook.com [40.107.94.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CECD96F47C;
+ Thu, 27 May 2021 16:32:10 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=k+Am66WfXxBLEcE2NoJfP/PEOGZvuI1y96Vr/7D6QABKs0dUT9Sppqo0MuY7U7mzAbZV1DnJmlBO7Goauhh33bzTkIvRjdJ/AnUoMXWxWPYrnxBTeZDMC2EuaW48FoayvzlIohQ9jy8Wx8G5B3/tb4mEM61n263wZIX9QXdpcyWQYpL0Zy/+cxTdRd27aHZDURM2YcKE4koiwLTZMo/5fI89LEzRozy7r/vygs8Z4YmAZIZkPL0Lf1oiiUU1ermQROscFamwf8trT7Qt1T4JIgy+KR9pbnvk1Bqog+I8S9I52U5415k6iaAustStxfCu/YWuMGiaacwbbuHomqhwuQ==
+ b=L0EXOuzHfeW8Iat9tH7IYa4viwaQRqAxRiTx6Pf5tPuTZBl6QWNpdRazjP/9ydPI0Pkw9hrvK6cBbTZPDjFFIU6g63P9eOsI3BPOcE90GkpneynOBtwqw+F2Jk7Q62LYhTq144ENp0lk7Nfd81gQXjEsdadtR6Qv+9/NTVS25yRC2vqPAXpIFP9aTIjJdfyPYz3f3PvBqQ4BWkAm93eSGIcLepZlkKpLA6BlTj7TYzuRd3cOrNcrG6cIWyZpv69hLR2TnEnD085EORKuHcd7EZSJwsFAXipoqnqxM/kdaN2An+I9U+LLyJO7a9nsXqLJqdziAHgbZ12kRdC+a+byLA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=mM38SH85igAmxxdDHC6fmDZzUe+CHqaKUVVz5Tq18Rk=;
- b=gkL8fvYwWOjJN33q8433TF1ydm4RiucJZmC0achjBzSV8385Lh+pCSosNkjw2YLxKWzwKACjhjzGkI6tWbHCYNOJ2tpGYOEp6M60PGe5oIkXFE8raun7Jsp0VIb75gY40JRiTG0s4A0erAYk4KCXtvTnn5prmCWsThhfJNcRdGdrBhn+r1XKy/YzZYElbLkXlrOIs9zE0vqCHFtuJJY04BPXakWHcjCS+QtjhGmYhJZaICDMbq/V7n2+SKU1xCLPhWzb5O2+ammUWIcrfhQUrsLq82Mdm9JwL1SaJO+TKnNTEUcBu8jQF9YjMFwZvFOBnFj7s8hqrPG4jsfx0AZCkA==
+ bh=Q45R70SZ4GNbGD0yl6IMD+eivKNAhgiOmhZWzOMDiKM=;
+ b=b71QOtg/qgOOp3s4MYD1PZ4Q0gYjwloXnONbLFzLs5XFy+vmICGhm9dXZNEDKsRfSL8jjYPveExNaOfi92dXuYHAsmMAeWb83ShugjLHX//H7MZvdOr4MJFQ633VQbgEudYI8PElYsJpOjg9UI92SSx1W+08eEQN1ZDfuZihLzVgIfz/Vg/uX/Hyk8HIhZnXQ+v3u79eEw3k06YJ9mhXy/PuzX58pHMC8iUy6ppAPE9PCitxQiW3HHIPhIBgl6PlWEd3xmmiq1rdDs+3qfeFJpGdb2mC0g25lSdv1uWH0fIoJoiYzkuCaST0YWRJoOGk0fKhDurej+TrTjcUy66lhA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=intel.onmicrosoft.com; 
- s=selector2-intel-onmicrosoft-com;
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=mM38SH85igAmxxdDHC6fmDZzUe+CHqaKUVVz5Tq18Rk=;
- b=vWmkZxmOU2b+bIr/1LjQWjQOFoLhfClpToaqd20pBeWRJDCdFH5RZNMb3PieiqOzqq828g5B/A3GAxVf/S/BP4e3z7D0r0MACYUSMRAjGITVl1EIPv4nvHageCE9YGM7EAgNwjTwxZR7wZZk9Lat34B2S2gJeQ8hwTNP0Y2Zq3Q=
-Received: from BY5PR11MB4182.namprd11.prod.outlook.com (2603:10b6:a03:183::10)
- by BYAPR11MB2679.namprd11.prod.outlook.com (2603:10b6:a02:c7::17)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4150.26; Thu, 27 May
- 2021 16:30:17 +0000
-Received: from BY5PR11MB4182.namprd11.prod.outlook.com
- ([fe80::f071:7bd8:d502:a6eb]) by BY5PR11MB4182.namprd11.prod.outlook.com
- ([fe80::f071:7bd8:d502:a6eb%3]) with mapi id 15.20.4150.027; Thu, 27 May 2021
- 16:30:17 +0000
-From: "Chrisanthus, Anitha" <anitha.chrisanthus@intel.com>
-To: Christophe JAILLET <christophe.jaillet@wanadoo.fr>, "Dea, Edmund J"
- <edmund.j.dea@intel.com>, "airlied@linux.ie" <airlied@linux.ie>,
- "daniel@ffwll.ch" <daniel@ffwll.ch>, "sam@ravnborg.org" <sam@ravnborg.org>
-Subject: RE: [PATCH v2 2/2] drm/kmb: Do not report 0 (success) in case of error
-Thread-Topic: [PATCH v2 2/2] drm/kmb: Do not report 0 (success) in case of
- error
-Thread-Index: AQHXUr8HZVnzNXqjt021jkY4PneykKr3hXlQ
-Date: Thu, 27 May 2021 16:30:16 +0000
-Message-ID: <BY5PR11MB4182EAEBA97588BD24E7EE748C239@BY5PR11MB4182.namprd11.prod.outlook.com>
-References: <91d2b0417ccb8497b977e175b0b44417e47405aa.1622095610.git.christophe.jaillet@wanadoo.fr>
- <8b7f10d6373e117cc26487e1c6963e637bc01dee.1622095610.git.christophe.jaillet@wanadoo.fr>
-In-Reply-To: <8b7f10d6373e117cc26487e1c6963e637bc01dee.1622095610.git.christophe.jaillet@wanadoo.fr>
-Accept-Language: en-US
+ bh=Q45R70SZ4GNbGD0yl6IMD+eivKNAhgiOmhZWzOMDiKM=;
+ b=g/d9DN9EYyUlZgOsqqs0xcYYISoNY4012McHrOuqNSyIGphFMQCt3rbkv8VwaK5XWjqOd72J5TnTn2HRYIGCZfYh4XjjY4WheSNsveTzV+TfOSIMjL/E7UD9YRAqprBxnIBkGso/CDuxyF0/kXvuN5Ivac6y6J2FCUDG0kbHgZI=
+Authentication-Results: linux.intel.com; dkim=none (message not signed)
+ header.d=none;linux.intel.com; dmarc=none action=none header.from=amd.com;
+Received: from DM5PR12MB1355.namprd12.prod.outlook.com (2603:10b6:3:6e::7) by
+ DM5PR12MB2504.namprd12.prod.outlook.com (2603:10b6:4:b5::19) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4150.23; Thu, 27 May 2021 16:32:07 +0000
+Received: from DM5PR12MB1355.namprd12.prod.outlook.com
+ ([fe80::b914:4704:ad6f:aba9]) by DM5PR12MB1355.namprd12.prod.outlook.com
+ ([fe80::b914:4704:ad6f:aba9%12]) with mapi id 15.20.4173.022; Thu, 27 May
+ 2021 16:32:07 +0000
+Subject: Re: [PATCH v7 01/15] swiotlb: Refactor swiotlb init functions
+From: Tom Lendacky <thomas.lendacky@amd.com>
+To: Christoph Hellwig <hch@lst.de>, Florian Fainelli <f.fainelli@gmail.com>
+References: <20210518064215.2856977-1-tientzu@chromium.org>
+ <20210518064215.2856977-2-tientzu@chromium.org>
+ <170a54f2-be20-ec29-1d7f-3388e5f928c6@gmail.com>
+ <20210527130211.GA24344@lst.de>
+ <bab261b4-f801-05af-8fd9-c440ed219591@amd.com>
+Message-ID: <e59d4799-a6ff-6d13-0fed-087fc3482587@amd.com>
+Date: Thu, 27 May 2021 11:32:01 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
+In-Reply-To: <bab261b4-f801-05af-8fd9-c440ed219591@amd.com>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-version: 11.5.1.3
-dlp-product: dlpe-windows
-dlp-reaction: no-action
-authentication-results: wanadoo.fr; dkim=none (message not signed)
- header.d=none;wanadoo.fr; dmarc=none action=none header.from=intel.com;
-x-originating-ip: [73.41.68.160]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 26ed9eeb-e9d3-4806-46f3-08d9212cb659
-x-ms-traffictypediagnostic: BYAPR11MB2679:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <BYAPR11MB2679FBC625FC082372C70E758C239@BYAPR11MB2679.namprd11.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:8273;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: mRKsZB1hR6Zpxqow0sfM597y6k37nuBbFbiSBJUKwtHqH/Mfxa6yroMfgZOR3aSTSvqRYryjqlqeyB51eAX139wIerI9iIgaRUJeVw9Wm0mBfFrzVprUr6bbge/JrNxB3bt3po0uCjAVbCsRnsDY9PEI1FaSB9+AFyHQo5/RIx5DtMOW/82fNzZvmc2iwbiZzf9moiGoCztL6XLBi6Yi/3Kb7uX1EEiZ/+4zA72OLc1XwG/gJnMPkoz2wwiWKHX7OVS9h/hnCoikt11dubhfUEz5Rny2vpZ1fsqQRsxtiqTR/U4tha2FUkqMijjVHwL59lv9gCd9lQCamuKyjQIf+A19BAZInB4KnOFic0qLopPmAP4Acylr77Yck56lCrulwgl//uXVD95l/I7IuCFIEH56RzMENVDqXVfuDuXBfUSAGBkdA/s8ML3OZBhl/HWxOUCb/3+DvTFhs8KzvvRwqLOmmeAzMLks1GIDfUiEZhWMdI0+2f4o6fznw0kibIvIh5S4WVauZ7LquN1dJ6MvE/7sawhdSAw4T7Hsq2bTN43qSxn2j2VkggYKpNswmrhnlVV1oAt0QVCo8QTLm+/4exSVdWUh1gUzHp9JyhTwNh8=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BY5PR11MB4182.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(396003)(376002)(39860400002)(346002)(366004)(136003)(33656002)(76116006)(66946007)(110136005)(7696005)(54906003)(186003)(6506007)(316002)(53546011)(83380400001)(66556008)(4326008)(71200400001)(9686003)(8676002)(86362001)(2906002)(66446008)(52536014)(66476007)(8936002)(478600001)(38100700002)(122000001)(64756008)(55016002)(5660300002)(26005);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata: =?us-ascii?Q?5oNJV49gnZBH/0RHyIS1KIiGfaQY85oZJmU7nXDimrGO0KN2XVzWX0gtxTsd?=
- =?us-ascii?Q?rBHRtV6YbFQWvawBuad2PqBdXGB3CZcTPyohQ/doShHxI7YGU7O7HOzPhzlr?=
- =?us-ascii?Q?EWu6/Tys7Mq0MDAZd6xCdlj1MYbjpe2wrghpYAwJlshYrC7V/JUbYJq8T2Qn?=
- =?us-ascii?Q?dhTze2/Twd2hAPOiKlsgveJv3MFm+KezT3Y+OVTsxo1L4ryQu1jVzPvra0em?=
- =?us-ascii?Q?g8yIsiG4SZ0pY2JqoZEs83OJEXSDk146umUC63wgy6ftKPNPyGp/pa3iJLea?=
- =?us-ascii?Q?jqfhQEC8qMDg+4ukHnB8EEUaX/KcDjHzW62KHrvRMfmi5iYDPo06k/AlJUET?=
- =?us-ascii?Q?PzHxrWVjU2DrSDRNYO4+Qw5Jt3klWkrNvYBdEyr6SRb3NPZuN/kaEHWe/SYj?=
- =?us-ascii?Q?W6+NqUrDgFCBnI2xxk5JMAu2+KvBxBhVVkTs7g4UxUUekhLiE0I+XoaKsSDD?=
- =?us-ascii?Q?uEYEKp8tn42oACrYQ73DM+56Vrfub3rZQl5hchJb7zuU1M3NfhXBH0DzWE5B?=
- =?us-ascii?Q?O6yV9uleFv/gibAbzAJNSb0xHoieP/nb5kKQzsJXED8s/GvBqiXj3DHLxn/R?=
- =?us-ascii?Q?VR/nOGQZ+zirxYXMg8+di3hOvyryIpgdsdps4huVvqafgm8wRSZNHkqFqmWv?=
- =?us-ascii?Q?5Dxh/25MciSPAXrxrQdLBcE9hMpbvpc1OsQDGdpcYv8cIyzqq3SCCwRVn273?=
- =?us-ascii?Q?kyslcxXM5sJzrSAQJep/YyhrKj4HzqFNZrwsULEtlB7ojdRQ/Vts5YpUKqIc?=
- =?us-ascii?Q?IYfVZe1NL7eKZmGVvU5Eka3nJxbAizz8cPXleZ+dipJ67GGp0uBj+4Hn1kOn?=
- =?us-ascii?Q?+Qd6E58qT0uvsmB8hJRgKmrpHgRaVuRy5/K+d5Ci1j+39AZefnUwzEsVWd3c?=
- =?us-ascii?Q?H6iagbWGUlN+2QvlsYQR18r/9/HcbzSO7tem9zjM3Z9QInleJ7nNVE4z6fHh?=
- =?us-ascii?Q?J3onAsSmoD6RM4nrBGAgSYwX56jby7euqmBk1Jy38cDSRM3RIyj1D/tJrjli?=
- =?us-ascii?Q?i6jNOwI+v7Y0w9MgMdJTjo5SsfRCn5bxvApcXNmcZFGCOADrG14n8NnKXL0M?=
- =?us-ascii?Q?g79pPbYWnYKn1PQ5mvG8DlOdP878P/gcj1GOvZlA2NjZQaNJPrBh1B+yf6I9?=
- =?us-ascii?Q?L43Ko35+n4kxH/w7c7zLayd7ym0U0KNSVJPvb2z7TC3qzpNRL9fvv1WqXQAW?=
- =?us-ascii?Q?rUCaGVO0O5wC3KNQ0s3l1ltGmKBPRI1iqV96U0L2Y6kpcG49ciwLfc9NHPDd?=
- =?us-ascii?Q?8c8mld7wAO54H+JM3JzOYyV8LcyUlvbvy1L5oh8qd/RSn8q/rhXRwHqxtCs+?=
- =?us-ascii?Q?Hw4=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [67.79.209.213]
+X-ClientProxiedBy: SN7P220CA0025.NAMP220.PROD.OUTLOOK.COM
+ (2603:10b6:806:123::30) To DM5PR12MB1355.namprd12.prod.outlook.com
+ (2603:10b6:3:6e::7)
 MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from office-linux.texastahm.com (67.79.209.213) by
+ SN7P220CA0025.NAMP220.PROD.OUTLOOK.COM (2603:10b6:806:123::30) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4173.20 via Frontend Transport; Thu, 27 May 2021 16:32:03 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: ff9c356c-975c-4f82-7c16-08d9212cf790
+X-MS-TrafficTypeDiagnostic: DM5PR12MB2504:
+X-Microsoft-Antispam-PRVS: <DM5PR12MB250437DEE02CE4B6ED65D870EC239@DM5PR12MB2504.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: FcGVaNUqWOacS4qyh3m/JN7k7/837FC8duYo0XVAJJd5k+WqoYLcoTR+CTvv8QEbyCZD/Z99yKW0kAO/XRRI76AF8ViBY7bKdBH3JWMeXgSYWuMNv8muI7pDCgCBAxpmWG89Hq/oD84DLTSFpgo7HqLuM/2mDEQUfE6/aGa1Q/mXdIALomEgUe0Xgf0ngsouf2bB533WVY1G2z89gYG2RtOfOu1QxzLU49yHRZJDEtwlCcLbmgYoLQdbPBISX+FoYH6zpn/l20UKvHeIxwim2wqN8iWydRQNAyFZc4jSwJGbg0cwBZY1maWQN0Po81sVGfMdNxrGtRXK+T/DGKXUvvZ0Gv3fRxThTXv3I5LeRx5wIIQ2/w/WfQwsIViUT3x/+A3k9ookLYdS8i+qbGEMpvTmHRo9Xa3cjHUXCjY4lS8YypbGSN2F5vKIo8MiexdPG1Q7ppDLRW1WZeGiRYY1EN1iE6lmwlICHca8PKDTmzcSc5LOpVaJx4MZ+EJdDGNLqsp6Kl/qrCErsXsy3WgG8QiaDkspb8J1sguRu/u/MAqKN1VLkgztc/Ar3wDwSPKMuImq3UJILi3oL2YUKwaoi4e+DvhFDTXmBtInykztacIVUheNAJl44l/pXBLmcpbwcCiQU9wj6iOMaWKkenoslOi4QhEkeWzwPrSiIB3ABRovYX+gkMWut/H8L4c2FRYl
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM5PR12MB1355.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(396003)(366004)(136003)(346002)(376002)(39860400002)(86362001)(54906003)(31696002)(110136005)(66946007)(4326008)(5660300002)(7416002)(6512007)(45080400002)(478600001)(31686004)(66556008)(2906002)(7366002)(316002)(956004)(2616005)(66476007)(8936002)(7406005)(36756003)(8676002)(6486002)(83380400001)(186003)(6506007)(38100700002)(26005)(53546011)(16526019)(43740500002)(45980500001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?TUpkeGdMc1lLRmhsNm55LzRZYkp1WlhZQjluUXU0SENsK21aRHg1Y3NaQm1q?=
+ =?utf-8?B?ZXRkb0NrUXNRM2FWL3l3UFFwNno2TXJRcFZ2M2ZGazNnS0RjaEpvS29ycnZQ?=
+ =?utf-8?B?cUFtMUQvQ3RZbnJQdEtmdXg5SkZpL2hJdmloV3V0UXNrdFJUQ3F4dTh4KzQ0?=
+ =?utf-8?B?QnU0LzVzL1NiSzcxZjNWbHllM2hNdHlMblRkMUUwdkxOT01JS2ZiZWMwMXZ6?=
+ =?utf-8?B?OEwwWmNtd01EYjQ4SnZNKzNtcWZnTDFiRTYzam5yYS9Jei9FcGl0WkdCZzQ4?=
+ =?utf-8?B?Ulg3QjNnb2V3V2JBNzVya2tVWDg1NFEvZ0JEdC8vajVvQ0wxZ2hrb2V5MHRF?=
+ =?utf-8?B?K3RWVi9PUXE4UkxlSGhLOFAwRFdoa3lCbEhzbXBKR2wrT1kvQ1I5TUNQdUJi?=
+ =?utf-8?B?TWRhUEkwNHJSVXh5bU1DQk1aRGdrSllDUnJDOVpjZkdRUGY2NDNOQVNBa0E3?=
+ =?utf-8?B?RVdNM1QvWmVMWDdtak43bytsQ1BDL2J6UWQrRTdtVmdFS2oyMUdPWVFLa2VH?=
+ =?utf-8?B?THMxV3ZzR1BNbTNSOVdwTkhKeWxja0lFMnQwMWZoK1pGVmZNV0tNdm82YUZX?=
+ =?utf-8?B?MFJZalRUNXc2aDNKSzNQK0wxR1UrS2ZlaTYrMFFDSmhNTlFPaDF5VmdGZU9y?=
+ =?utf-8?B?TzAyS1IzT1RYRklRQmVHbnArdGRScEt3UCs5OVAxanlDMHhDTTVQUUlTZXZD?=
+ =?utf-8?B?T2FkM0NHcmIrVUdkY0tJR25ONjl0QmhlUjR4ME5XY1hPaUo0b1hZd20rb2RB?=
+ =?utf-8?B?OHFGRkpBanlNZ2RWaHI2a1lIcm11Wks2S0V4a2pHaHlYMjR2bWdVakR2ajdK?=
+ =?utf-8?B?ajFjL05jQTdzdHkzTkNEOVpYbXltcFM3ZlN3WDRrYVdNTHhtVWtqY2I4dzd6?=
+ =?utf-8?B?dGowa1k3b3RLZjFwNkkrd3JZWjh0c2ZpUEpiQzZKQXdWL1REUURQL3l6ckxj?=
+ =?utf-8?B?TGVtNURpb0JNS0NmM2NPRW5DS1FNMG1PY0NSUVdaWHV0ek5aenRrSHNNSVhC?=
+ =?utf-8?B?YnlxUituYmtEbjBUcHhtSGJhTXduS2x6RFgvcTlZNmZKdDZqcnROQmFLZWk5?=
+ =?utf-8?B?ZG5GRGhWdG94dSsvaE9uOFBUa0ZWWUU3YXJGWW8yaFo1RHNlOW5uU0N4MUxR?=
+ =?utf-8?B?VkFGMFkwdzRKTFZPZmkydVI5b1hIZnR1Q2ZvUlB6V2xCQWNxLy84alFwQk93?=
+ =?utf-8?B?Zm93Rk5FcWlvekJyeWpxYWFZVU1GRnJQUnViOTNaN2FtZzhBaXVXcU9wRzk4?=
+ =?utf-8?B?Mmd4TXZhUTREYUdZN1NDVjl2QUIzeEM4dlVVSlhicVZ5SDJuTFkwZkVYTEVq?=
+ =?utf-8?B?L25KZ1dSbllXUEk5WXltY0lPcGw2eW4vYkJocm1VaWh1RENkUEhrVU5YUUhM?=
+ =?utf-8?B?Smx5NmY1NHZTWC9BTkdTNmlHWDM5QzVZL1lYOEZidU1Zak8zMVZUSC90amJl?=
+ =?utf-8?B?Tk94T2QzOHM4L1BCalMyVStGSy9XaVdiWkc4NXlCLzlpT0ZXOHRzT0F6V2VT?=
+ =?utf-8?B?bWNyNE00c0V1RStvK053clZFSmYyZ1JzMjhwSE8yR3BYMm5tNWRzYWVtSTd2?=
+ =?utf-8?B?aDZVcUlGbHdoYld1VTk3ZEFtTWJzVE9FNkc3Rjd6MWIzMVFPekFQUXdiSm5K?=
+ =?utf-8?B?eTZrU3hzbXFDWGJzckZrNGhqV2RFRTZQVWJQeVcxaWZGNGI5TUZWRUlBREtt?=
+ =?utf-8?B?ZzU0RGN0Skprd3ExU1NTMjZDaGtzMUdEeHphR054NWpFVlozK0FsOGxiRCtR?=
+ =?utf-8?Q?qfedf2phVVGR5NGp69NYP3DhJAKJa9XLDzqnT+9?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: ff9c356c-975c-4f82-7c16-08d9212cf790
+X-MS-Exchange-CrossTenant-AuthSource: DM5PR12MB1355.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BY5PR11MB4182.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 26ed9eeb-e9d3-4806-46f3-08d9212cb659
-X-MS-Exchange-CrossTenant-originalarrivaltime: 27 May 2021 16:30:16.9888 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: +L7N0TeSZl5KhSlsUkFk7+tymhcrIVV8ihfRP/3ReC5SoV9KVOcWiSwKTk8UidOrotM9qi5EHJSTWQhomG/4UeQHU/0LQxwjgjzIDXfrViE=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR11MB2679
-X-OriginatorOrg: intel.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 May 2021 16:32:06.8243 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: QJS6bIZ0vjGRb0nzhcqirX3WEUS9JFIjV74y0C7suMUncSWyTzMsKQx1kkXffQS7NpGhfRw3Qzl5gmec0Rv+Pg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR12MB2504
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -149,54 +128,88 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "kernel-janitors@vger.kernel.org" <kernel-janitors@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Cc: heikki.krogerus@linux.intel.com, thomas.hellstrom@linux.intel.com,
+ peterz@infradead.org, dri-devel@lists.freedesktop.org,
+ chris@chris-wilson.co.uk, grant.likely@arm.com, paulus@samba.org,
+ Frank Rowand <frowand.list@gmail.com>, mingo@kernel.org,
+ Marek Szyprowski <m.szyprowski@samsung.com>, sstabellini@kernel.org,
+ Saravana Kannan <saravanak@google.com>, xypron.glpk@gmx.de,
+ Joerg Roedel <joro@8bytes.org>,
+ "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>,
+ Bartosz Golaszewski <bgolaszewski@baylibre.com>, bskeggs@redhat.com,
+ linux-pci@vger.kernel.org, xen-devel@lists.xenproject.org,
+ Thierry Reding <treding@nvidia.com>, intel-gfx@lists.freedesktop.org,
+ matthew.auld@intel.com, linux-devicetree <devicetree@vger.kernel.org>,
+ jxgao@google.com, Will Deacon <will@kernel.org>,
+ Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>, airlied@linux.ie,
+ Dan Williams <dan.j.williams@intel.com>, linuxppc-dev@lists.ozlabs.org,
+ Rob Herring <robh+dt@kernel.org>, rodrigo.vivi@intel.com, bhelgaas@google.com,
+ Claire Chang <tientzu@chromium.org>, boris.ostrovsky@oracle.com,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>, jgross@suse.com,
+ Nicolas Boichat <drinkcat@chromium.org>, Greg KH <gregkh@linuxfoundation.org>,
+ Randy Dunlap <rdunlap@infradead.org>, lkml <linux-kernel@vger.kernel.org>,
+ tfiga@chromium.org,
+ "list@263.net:IOMMU DRIVERS" <iommu@lists.linux-foundation.org>,
+ Jim Quinlan <james.quinlan@broadcom.com>, mpe@ellerman.id.au,
+ Robin Murphy <robin.murphy@arm.com>, bauerman@linux.ibm.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is already fixed in the patch from Zhen Lei.
+On 5/27/21 9:41 AM, Tom Lendacky wrote:
+> On 5/27/21 8:02 AM, Christoph Hellwig wrote:
+>> On Wed, May 19, 2021 at 11:50:07AM -0700, Florian Fainelli wrote:
+>>> You convert this call site with swiotlb_init_io_tlb_mem() which did not
+>>> do the set_memory_decrypted()+memset(). Is this okay or should
+>>> swiotlb_init_io_tlb_mem() add an additional argument to do this
+>>> conditionally?
+>>
+>> The zeroing is useful and was missing before.  I think having a clean
+>> state here is the right thing.
+>>
+>> Not sure about the set_memory_decrypted, swiotlb_update_mem_attributes
+>> kinda suggests it is too early to set the memory decrupted.
+>>
+>> Adding Tom who should now about all this.
+> 
+> The reason for adding swiotlb_update_mem_attributes() was because having
+> the call to set_memory_decrypted() in swiotlb_init_with_tbl() triggered a
+> BUG_ON() related to interrupts not being enabled yet during boot. So that
+> call had to be delayed until interrupts were enabled.
 
-> -----Original Message-----
-> From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-> Sent: Wednesday, May 26, 2021 11:10 PM
-> To: Chrisanthus, Anitha <anitha.chrisanthus@intel.com>; Dea, Edmund J
-> <edmund.j.dea@intel.com>; airlied@linux.ie; daniel@ffwll.ch;
-> sam@ravnborg.org
-> Cc: dri-devel@lists.freedesktop.org; linux-kernel@vger.kernel.org; kernel=
--
-> janitors@vger.kernel.org; Christophe JAILLET <christophe.jaillet@wanadoo.=
-fr>
-> Subject: [PATCH v2 2/2] drm/kmb: Do not report 0 (success) in case of err=
-or
->=20
-> 'ret' is known to be 0 at this point.
-> Reporting the error from the previous 'platform_get_irq()' call is likely=
-,
-> so add the missing assignment.
->=20
-> Fixes: 7f7b96a8a0a1 ("drm/kmb: Add support for KeemBay Display")
-> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-> ---
-> v2: New patch
-> ---
->  drivers/gpu/drm/kmb/kmb_drv.c | 1 +
->  1 file changed, 1 insertion(+)
->=20
-> diff --git a/drivers/gpu/drm/kmb/kmb_drv.c
-> b/drivers/gpu/drm/kmb/kmb_drv.c
-> index fa28e42da460..d9e10ac9847c 100644
-> --- a/drivers/gpu/drm/kmb/kmb_drv.c
-> +++ b/drivers/gpu/drm/kmb/kmb_drv.c
-> @@ -138,6 +138,7 @@ static int kmb_hw_init(struct drm_device *drm,
-> unsigned long flags)
->  	irq_lcd =3D platform_get_irq(pdev, 0);
->  	if (irq_lcd < 0) {
->  		drm_err(&kmb->drm, "irq_lcd not found");
-> +		ret =3D irq_lcd;
->  		goto setup_fail;
->  	}
->=20
-> --
-> 2.30.2
+I pulled down and tested the patch set and booted with SME enabled. The
+following was seen during the boot:
 
+[    0.134184] BUG: Bad page state in process swapper  pfn:108002
+[    0.134196] page:(____ptrval____) refcount:0 mapcount:-128 mapping:0000000000000000 index:0x0 pfn:0x108002
+[    0.134201] flags: 0x17ffffc0000000(node=0|zone=2|lastcpupid=0x1fffff)
+[    0.134208] raw: 0017ffffc0000000 ffff88847f355e28 ffff88847f355e28 0000000000000000
+[    0.134210] raw: 0000000000000000 0000000000000001 00000000ffffff7f 0000000000000000
+[    0.134212] page dumped because: nonzero mapcount
+[    0.134213] Modules linked in:
+[    0.134218] CPU: 0 PID: 0 Comm: swapper Not tainted 5.13.0-rc2-sos-custom #3
+[    0.134221] Hardware name: ...
+[    0.134224] Call Trace:
+[    0.134233]  dump_stack+0x76/0x94
+[    0.134244]  bad_page+0xa6/0xf0
+[    0.134252]  __free_pages_ok+0x331/0x360
+[    0.134256]  memblock_free_all+0x158/0x1c1
+[    0.134267]  mem_init+0x1f/0x14c
+[    0.134273]  start_kernel+0x290/0x574
+[    0.134279]  secondary_startup_64_no_verify+0xb0/0xbb
+
+I see this about 40 times during the boot, each with a different PFN. The
+system boots (which seemed odd), but I don't know if there will be side
+effects to this (I didn't stress the system).
+
+I modified the code to add a flag to not do the set_memory_decrypted(), as
+suggested by Florian, when invoked from swiotlb_init_with_tbl(), and that
+eliminated the bad page state BUG.
+
+Thanks,
+Tom
+
+> 
+> Thanks,
+> Tom
+> 
+>>
