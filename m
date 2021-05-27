@@ -1,25 +1,26 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19770393931
-	for <lists+dri-devel@lfdr.de>; Fri, 28 May 2021 01:22:30 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FC63393932
+	for <lists+dri-devel@lfdr.de>; Fri, 28 May 2021 01:22:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 29F156F510;
-	Thu, 27 May 2021 23:22:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7431B6F511;
+	Thu, 27 May 2021 23:22:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from aposti.net (aposti.net [89.234.176.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B89416F510
- for <dri-devel@lists.freedesktop.org>; Thu, 27 May 2021 23:22:26 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8A5226F511
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 May 2021 23:22:33 +0000 (UTC)
 From: Paul Cercueil <paul@crapouillou.net>
 To: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
  Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <mripard@kernel.org>
-Subject: [PATCH 10/11] drm/ingenic: Add doublescan feature
-Date: Fri, 28 May 2021 00:22:05 +0100
-Message-Id: <20210527232206.152771-1-paul@crapouillou.net>
-In-Reply-To: <20210527232104.152577-1-paul@crapouillou.net>
+Subject: [PATCH 11/11] drm/ingenic: Attach bridge chain to encoders
+Date: Fri, 28 May 2021 00:22:06 +0100
+Message-Id: <20210527232206.152771-2-paul@crapouillou.net>
+In-Reply-To: <20210527232206.152771-1-paul@crapouillou.net>
 References: <20210527232104.152577-1-paul@crapouillou.net>
+ <20210527232206.152771-1-paul@crapouillou.net>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -40,192 +41,207 @@ Cc: Neil Armstrong <narmstrong@baylibre.com>, linux-mips@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-A lot of devices with an Ingenic SoC have a weird LCD panel attached,
-where the pixels are not square. For instance, the AUO A030JTN01 and
-Innolux EJ030NA panels have a resolution of 320x480 with a 4:3 aspect
-ratio.
-
-All userspace applications are built with the assumption that the
-pixels are square. To be able to support these devices without too
-much effort, add a doublescan feature, which allows the f0 and f1
-planes to be used with only half of the screen's vertical resolution,
-where each line of the input is displayed twice.
-
-This is done using a chained list of DMA descriptors, one descriptor
-per output line.
+Attach a top-level bridge to each encoder, which will be used for
+negociating the bus format and flags.
 
 Signed-off-by: Paul Cercueil <paul@crapouillou.net>
 ---
- drivers/gpu/drm/ingenic/ingenic-drm-drv.c | 93 +++++++++++++++++++++--
- 1 file changed, 87 insertions(+), 6 deletions(-)
+ drivers/gpu/drm/ingenic/ingenic-drm-drv.c | 98 ++++++++++++++++++-----
+ 1 file changed, 77 insertions(+), 21 deletions(-)
 
 diff --git a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-index 2761478b16e8..01d8490393d1 100644
+index 01d8490393d1..f0242e917d6e 100644
 --- a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
 +++ b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-@@ -66,6 +66,8 @@ struct jz_soc_info {
- 
- struct ingenic_gem_object {
- 	struct drm_gem_cma_object base;
-+	struct ingenic_dma_hwdesc *hwdescs;
-+	dma_addr_t hwdescs_phys;
+@@ -21,6 +21,7 @@
+ #include <drm/drm_atomic.h>
+ #include <drm/drm_atomic_helper.h>
+ #include <drm/drm_bridge.h>
++#include <drm/drm_bridge_connector.h>
+ #include <drm/drm_color_mgmt.h>
+ #include <drm/drm_crtc.h>
+ #include <drm/drm_crtc_helper.h>
+@@ -132,6 +133,26 @@ struct ingenic_drm {
+ 	struct drm_private_obj private_obj;
  };
  
- struct ingenic_drm_private_state {
-@@ -73,6 +75,23 @@ struct ingenic_drm_private_state {
- 
- 	bool no_vblank;
- 	bool use_palette;
++struct ingenic_drm_bridge {
++	struct drm_encoder encoder;
++	struct drm_bridge bridge;
++	struct drm_bridge *next_bridge;
 +
 +	/*
-+	 * A lot of devices with an Ingenic SoC have a weird LCD panel attached,
-+	 * where the pixels are not square. For instance, the AUO A030JTN01 and
-+	 * Innolux EJ030NA panels have a resolution of 320x480 with a 4:3 aspect
-+	 * ratio.
-+	 *
-+	 * All userspace applications are built with the assumption that the
-+	 * pixels are square. To be able to support these devices without too
-+	 * much effort, add a doublescan feature, which allows the f0 and f1
-+	 * planes to be used with only half of the screen's vertical resolution,
-+	 * where each line of the input is displayed twice.
-+	 *
-+	 * This is done using a chained list of DMA descriptors, one descriptor
-+	 * per output line.
++	 * FIXME: this should really be in ingenic_drm_private_state, but there
++	 * doesn't seem to be a way to retrieve a pointer to it from within
++	 * ingenic_drm_encoder_atomic_mode_set (no drm_atomic_state
++	 * back-pointers).
 +	 */
-+	bool doublescan;
++	struct drm_bus_cfg bus_cfg;
++};
++
++static inline struct ingenic_drm_bridge *
++to_ingenic_drm_bridge(struct drm_encoder *encoder)
++{
++	return container_of(encoder, struct ingenic_drm_bridge, encoder);
++}
++
+ static inline struct ingenic_drm_private_state *
+ to_ingenic_drm_priv_state(struct drm_private_state *state)
+ {
+@@ -749,11 +770,10 @@ static void ingenic_drm_encoder_atomic_mode_set(struct drm_encoder *encoder,
+ {
+ 	struct ingenic_drm *priv = drm_device_get_priv(encoder->dev);
+ 	struct drm_display_mode *mode = &crtc_state->adjusted_mode;
+-	struct drm_connector *conn = conn_state->connector;
+-	struct drm_display_info *info = &conn->display_info;
++	struct ingenic_drm_bridge *bridge = to_ingenic_drm_bridge(encoder);
+ 	unsigned int cfg, rgbcfg = 0;
+ 
+-	priv->panel_is_sharp = info->bus_flags & DRM_BUS_FLAG_SHARP_SIGNALS;
++	priv->panel_is_sharp = bridge->bus_cfg.flags & DRM_BUS_FLAG_SHARP_SIGNALS;
+ 
+ 	if (priv->panel_is_sharp) {
+ 		cfg = JZ_LCD_CFG_MODE_SPECIAL_TFT_1 | JZ_LCD_CFG_REV_POLARITY;
+@@ -766,19 +786,19 @@ static void ingenic_drm_encoder_atomic_mode_set(struct drm_encoder *encoder,
+ 		cfg |= JZ_LCD_CFG_HSYNC_ACTIVE_LOW;
+ 	if (mode->flags & DRM_MODE_FLAG_NVSYNC)
+ 		cfg |= JZ_LCD_CFG_VSYNC_ACTIVE_LOW;
+-	if (info->bus_flags & DRM_BUS_FLAG_DE_LOW)
++	if (bridge->bus_cfg.flags & DRM_BUS_FLAG_DE_LOW)
+ 		cfg |= JZ_LCD_CFG_DE_ACTIVE_LOW;
+-	if (info->bus_flags & DRM_BUS_FLAG_PIXDATA_DRIVE_NEGEDGE)
++	if (bridge->bus_cfg.flags & DRM_BUS_FLAG_PIXDATA_DRIVE_NEGEDGE)
+ 		cfg |= JZ_LCD_CFG_PCLK_FALLING_EDGE;
+ 
+ 	if (!priv->panel_is_sharp) {
+-		if (conn->connector_type == DRM_MODE_CONNECTOR_TV) {
++		if (conn_state->connector->connector_type == DRM_MODE_CONNECTOR_TV) {
+ 			if (mode->flags & DRM_MODE_FLAG_INTERLACE)
+ 				cfg |= JZ_LCD_CFG_MODE_TV_OUT_I;
+ 			else
+ 				cfg |= JZ_LCD_CFG_MODE_TV_OUT_P;
+ 		} else {
+-			switch (*info->bus_formats) {
++			switch (bridge->bus_cfg.format) {
+ 			case MEDIA_BUS_FMT_RGB565_1X16:
+ 				cfg |= JZ_LCD_CFG_MODE_GENERIC_16BIT;
+ 				break;
+@@ -804,20 +824,31 @@ static void ingenic_drm_encoder_atomic_mode_set(struct drm_encoder *encoder,
+ 	regmap_write(priv->map, JZ_REG_LCD_RGBC, rgbcfg);
+ }
+ 
+-static int ingenic_drm_encoder_atomic_check(struct drm_encoder *encoder,
+-					    struct drm_crtc_state *crtc_state,
+-					    struct drm_connector_state *conn_state)
++static int ingenic_drm_bridge_attach(struct drm_bridge *bridge,
++				     enum drm_bridge_attach_flags flags)
++{
++	struct drm_encoder *encoder = bridge->encoder;
++	struct ingenic_drm_bridge *ingenic_bridge = to_ingenic_drm_bridge(encoder);
++
++	return drm_bridge_attach(encoder, ingenic_bridge->next_bridge,
++				 &ingenic_bridge->bridge, flags);
++}
++
++static int ingenic_drm_bridge_atomic_check(struct drm_bridge *bridge,
++					   struct drm_bridge_state *bridge_state,
++					   struct drm_crtc_state *crtc_state,
++					   struct drm_connector_state *conn_state)
+ {
+-	struct drm_display_info *info = &conn_state->connector->display_info;
+ 	struct drm_display_mode *mode = &crtc_state->adjusted_mode;
++	struct drm_encoder *encoder = bridge->encoder;
++	struct ingenic_drm_bridge *ingenic_bridge = to_ingenic_drm_bridge(encoder);
+ 
+-	if (info->num_bus_formats != 1)
+-		return -EINVAL;
++	ingenic_bridge->bus_cfg = bridge_state->output_bus_cfg;
+ 
+ 	if (conn_state->connector->connector_type == DRM_MODE_CONNECTOR_TV)
+ 		return 0;
+ 
+-	switch (*info->bus_formats) {
++	switch (bridge_state->output_bus_cfg.format) {
+ 	case MEDIA_BUS_FMT_RGB888_3X8:
+ 	case MEDIA_BUS_FMT_RGB888_3X8_DELTA:
+ 		/*
+@@ -1056,8 +1087,16 @@ static const struct drm_crtc_helper_funcs ingenic_drm_crtc_helper_funcs = {
  };
  
- struct ingenic_drm {
-@@ -465,7 +484,7 @@ static int ingenic_drm_plane_atomic_check(struct drm_plane *plane,
- 		return PTR_ERR(priv_state);
- 
- 	ret = drm_atomic_helper_check_plane_state(new_plane_state, crtc_state,
--						  DRM_PLANE_HELPER_NO_SCALING,
-+						  0x8000,
- 						  DRM_PLANE_HELPER_NO_SCALING,
- 						  priv->soc_info->has_osd,
- 						  true);
-@@ -482,6 +501,17 @@ static int ingenic_drm_plane_atomic_check(struct drm_plane *plane,
- 	     (new_plane_state->src_h >> 16) != new_plane_state->crtc_h))
- 		return -EINVAL;
- 
-+	/* Enable doublescan if the CRTC_H is twice the SRC_H. */
-+	priv_state->doublescan = (new_plane_state->src_h >> 16) * 2 == new_plane_state->crtc_h;
+ static const struct drm_encoder_helper_funcs ingenic_drm_encoder_helper_funcs = {
+-	.atomic_mode_set	= ingenic_drm_encoder_atomic_mode_set,
+-	.atomic_check		= ingenic_drm_encoder_atomic_check,
++	.atomic_mode_set        = ingenic_drm_encoder_atomic_mode_set,
++};
 +
-+	/* Otherwise, fail if CRTC_H != SRC_H */
-+	if (!priv_state->doublescan && (new_plane_state->src_h >> 16) != new_plane_state->crtc_h)
-+		return -EINVAL;
++static const struct drm_bridge_funcs ingenic_drm_bridge_funcs = {
++	.attach			= ingenic_drm_bridge_attach,
++	.atomic_check		= ingenic_drm_bridge_atomic_check,
++	.atomic_reset		= drm_atomic_helper_bridge_reset,
++	.atomic_duplicate_state	= drm_atomic_helper_bridge_duplicate_state,
++	.atomic_destroy_state	= drm_atomic_helper_bridge_destroy_state,
++	.atomic_get_input_bus_fmts = drm_atomic_helper_bridge_propagate_bus_fmt,
+ };
+ 
+ static const struct drm_mode_config_funcs ingenic_drm_mode_config_funcs = {
+@@ -1097,12 +1136,14 @@ static int ingenic_drm_bind(struct device *dev, bool has_components)
+ {
+ 	struct platform_device *pdev = to_platform_device(dev);
+ 	struct ingenic_drm_private_state *private_state;
++	struct ingenic_drm_bridge *ingenic_bridge;
+ 	const struct jz_soc_info *soc_info;
+ 	struct ingenic_drm *priv;
+ 	struct clk *parent_clk;
+ 	struct drm_plane *primary;
+ 	struct drm_bridge *bridge;
+ 	struct drm_panel *panel;
++	struct drm_connector *connector;
+ 	struct drm_encoder *encoder;
+ 	struct drm_device *drm;
+ 	void __iomem *base;
+@@ -1291,22 +1332,37 @@ static int ingenic_drm_bind(struct device *dev, bool has_components)
+ 			bridge = devm_drm_panel_bridge_add_typed(dev, panel,
+ 								 DRM_MODE_CONNECTOR_DPI);
+ 
+-		encoder = drmm_plain_encoder_alloc(drm, NULL, DRM_MODE_ENCODER_DPI, NULL);
+-		if (IS_ERR(encoder)) {
+-			ret = PTR_ERR(encoder);
++		ingenic_bridge = drmm_encoder_alloc(drm, struct ingenic_drm_bridge,
++						    encoder, NULL,
++						    DRM_MODE_ENCODER_DPI, NULL);
++		if (IS_ERR(ingenic_bridge)) {
++			ret = PTR_ERR(ingenic_bridge);
+ 			dev_err(dev, "Failed to init encoder: %d\n", ret);
+ 			return ret;
+ 		}
+ 
+-		encoder->possible_crtcs = 1;
++		encoder = &ingenic_bridge->encoder;
++		encoder->possible_crtcs = drm_crtc_mask(&priv->crtc);
+ 
+ 		drm_encoder_helper_add(encoder, &ingenic_drm_encoder_helper_funcs);
+ 
+-		ret = drm_bridge_attach(encoder, bridge, NULL, 0);
++		ingenic_bridge->bridge.funcs = &ingenic_drm_bridge_funcs;
++		ingenic_bridge->next_bridge = bridge;
 +
-+	/* Fail if CRTC_W != SRC_W */
-+	if ((new_plane_state->src_w >> 16) != new_plane_state->crtc_w)
-+		return -EINVAL;
++		ret = drm_bridge_attach(encoder, &ingenic_bridge->bridge, NULL,
++					DRM_BRIDGE_ATTACH_NO_CONNECTOR);
+ 		if (ret) {
+ 			dev_err(dev, "Unable to attach bridge\n");
+ 			return ret;
+ 		}
 +
- 	priv_state->use_palette = new_plane_state->fb &&
- 		new_plane_state->fb->format->format == DRM_FORMAT_C8;
- 
-@@ -647,7 +677,9 @@ static void ingenic_drm_plane_atomic_update(struct drm_plane *plane,
- 	struct ingenic_drm_private_state *priv_state;
- 	struct drm_crtc_state *crtc_state;
- 	struct ingenic_dma_hwdesc *hwdesc;
--	unsigned int width, height, cpp;
-+	unsigned int width, height, cpp, i;
-+	struct drm_gem_object *gem_obj;
-+	struct ingenic_gem_object *obj;
- 	dma_addr_t addr, next_addr;
- 	bool use_f1;
- 	u32 fourcc;
-@@ -664,17 +696,39 @@ static void ingenic_drm_plane_atomic_update(struct drm_plane *plane,
- 		height = newstate->src_h >> 16;
- 		cpp = newstate->fb->format->cpp[0];
- 
-+		gem_obj = drm_gem_fb_get_obj(newstate->fb, 0);
-+		obj = to_ingenic_gem_obj(gem_obj);
-+
- 		priv_state = ingenic_drm_get_new_priv_state(priv, state);
- 		if (priv_state && priv_state->use_palette)
- 			next_addr = dma_hwdesc_pal_addr(priv);
- 		else
- 			next_addr = dma_hwdesc_addr(priv, use_f1);
- 
--		hwdesc = &priv->dma_hwdescs->hwdesc[use_f1];
-+		if (priv_state->doublescan) {
-+			hwdesc = &obj->hwdescs[0];
-+			/*
-+			 * Use one DMA descriptor per output line, and display
-+			 * each input line twice.
-+			 */
-+			for (i = 0; i < newstate->crtc_h; i++) {
-+				hwdesc[i].next = obj->hwdescs_phys
-+					+ (i + 1) * sizeof(*hwdesc);
-+				hwdesc[i].addr = addr + (i / 2) * newstate->fb->pitches[0];
-+				hwdesc[i].cmd = newstate->fb->pitches[0] / 4;
-+			}
- 
--		hwdesc->addr = addr;
--		hwdesc->cmd = JZ_LCD_CMD_EOF_IRQ | (width * height * cpp / 4);
--		hwdesc->next = next_addr;
-+			/* We want the EOF IRQ only on the very last transfer */
-+			hwdesc[newstate->crtc_h - 1].cmd |= JZ_LCD_CMD_EOF_IRQ;
-+			hwdesc[newstate->crtc_h - 1].next = next_addr;
-+			priv->dma_hwdescs->hwdesc[use_f1] = *hwdesc;
-+		} else {
-+			/* Use one DMA descriptor for the whole frame. */
-+			hwdesc = &priv->dma_hwdescs->hwdesc[use_f1];
-+			hwdesc->addr = addr;
-+			hwdesc->cmd = JZ_LCD_CMD_EOF_IRQ | (width * height * cpp / 4);
-+			hwdesc->next = next_addr;
++		connector = drm_bridge_connector_init(drm, encoder);
++		if (IS_ERR(connector)) {
++			dev_err(dev, "Unable to init connector\n");
++			return PTR_ERR(connector);
 +		}
- 
- 		if (drm_atomic_crtc_needs_modeset(crtc_state)) {
- 			fourcc = newstate->fb->format->format;
-@@ -848,6 +902,13 @@ static void ingenic_drm_disable_vblank(struct drm_crtc *crtc)
- 
- static void ingenic_drm_gem_fb_destroy(struct drm_framebuffer *fb)
- {
-+	struct ingenic_drm *priv = drm_device_get_priv(fb->dev);
-+	struct drm_gem_object *gem_obj = drm_gem_fb_get_obj(fb, 0);
-+	struct ingenic_gem_object *obj = to_ingenic_gem_obj(gem_obj);
 +
-+	dma_free_coherent(priv->dev,
-+			  sizeof(*obj->hwdescs) * fb->height,
-+			  obj->hwdescs, obj->hwdescs_phys);
- 	drm_gem_fb_destroy(fb);
- }
++		drm_connector_attach_encoder(connector, encoder);
+ 	}
  
-@@ -868,6 +929,8 @@ ingenic_drm_gem_fb_create(struct drm_device *drm, struct drm_file *file,
- {
- 	struct ingenic_drm *priv = drm_device_get_priv(drm);
- 	const struct drm_framebuffer_funcs *fb_funcs;
-+	struct drm_gem_object *gem_obj;
-+	struct ingenic_gem_object *obj;
- 	struct drm_framebuffer *fb;
- 
- 	if (priv->soc_info->map_noncoherent)
-@@ -876,6 +939,24 @@ ingenic_drm_gem_fb_create(struct drm_device *drm, struct drm_file *file,
- 		fb_funcs = &ingenic_drm_gem_fb_funcs;
- 
- 	fb = drm_gem_fb_create_with_funcs(drm, file, mode_cmd, fb_funcs);
-+	if (IS_ERR(fb))
-+		return fb;
-+
-+	gem_obj = drm_gem_fb_get_obj(fb, 0);
-+	obj = to_ingenic_gem_obj(gem_obj);
-+
-+	/*
-+	 * Create (fb->height * 2) DMA descriptors, in case we want to use the
-+	 * doublescan feature.
-+	 */
-+	obj->hwdescs = dma_alloc_coherent(priv->dev,
-+					  sizeof(*obj->hwdescs) * fb->height * 2,
-+					  &obj->hwdescs_phys,
-+					  GFP_KERNEL);
-+	if (!obj->hwdescs) {
-+		drm_gem_fb_destroy(fb);
-+		return ERR_PTR(-ENOMEM);
-+	}
- 
- 	return fb;
- }
+ 	drm_for_each_encoder(encoder, drm) {
 -- 
 2.30.2
 
