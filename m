@@ -1,57 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D982D3933F4
-	for <lists+dri-devel@lfdr.de>; Thu, 27 May 2021 18:28:33 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 777983933DD
+	for <lists+dri-devel@lfdr.de>; Thu, 27 May 2021 18:27:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E571D6F471;
-	Thu, 27 May 2021 16:28:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1D8C66F458;
+	Thu, 27 May 2021 16:27:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x52b.google.com (mail-pg1-x52b.google.com
- [IPv6:2607:f8b0:4864:20::52b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BC41E6F461
- for <dri-devel@lists.freedesktop.org>; Thu, 27 May 2021 16:27:26 +0000 (UTC)
-Received: by mail-pg1-x52b.google.com with SMTP id 6so324944pgk.5
- for <dri-devel@lists.freedesktop.org>; Thu, 27 May 2021 09:27:26 -0700 (PDT)
+Received: from mail-pl1-x62f.google.com (mail-pl1-x62f.google.com
+ [IPv6:2607:f8b0:4864:20::62f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 67A3A6F458
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 May 2021 16:27:28 +0000 (UTC)
+Received: by mail-pl1-x62f.google.com with SMTP id h12so209672plf.11
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 May 2021 09:27:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=jlekstrand-net.20150623.gappssmtp.com; s=20150623;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=pveZpzFVhe5RqW0kFy8DeYSsSMrCR/Hjz5a6eZIl1yw=;
- b=cxyYFDrIiybyKLNpmkjlLhXa7tLa+Fzd1vUBJztifjs7wc87wcGDqU9rWcksvwXuOl
- X40ZlLwwk+StGOh1RfwO9pTAYcW1R1rkrk/AsxYEtqtpNHWFugwbJ5VMWtb6rIHEpCZQ
- CLw5BN1hVTJJJY81v7j5xvhlbv415d5mJ0/rd0NVw0FC7pL5wMK2TIKGueNBVBlLo1m4
- lfhRDQWB2ilnLj4zLslfgjzM9+m8b2poVRbRMV4JN46Eqw6wsX8hYhQ+zxtu+rrTzEqt
- cEIoMgZyPGAryWNqLyzp8n2OqEbHm8Mi28d1xTFiP5c5jz7Amg3/Tm+0WEc+cTnCg0Nm
- nRig==
+ bh=lwY80Qh/Ku4n62+xqya4H7AsrnCd0VgJ+cA8sF+L/E4=;
+ b=bSS+CVQD6mVayBTHtVZ+0q12CsaHkU7sgbl9lRWBaHz0OskVuXW6dX+DQZ0JJU1bxQ
+ VLFDLVMbtAG7Q3j1+BprwYupOLQiGdXjY/im8pELMTFejxUcK/gwTCwb9RymeTAXFIgv
+ 3UfQRfnGjKZSSD47kTLgKzKITg2/Bp17k8WQ0OfqcEeMYrUU2vH5XMqImGSBNH+TL3xB
+ s130O0u/hOwWJByY3mDjZ/vmEUghzKIgoqGpgjuqnwT//mZy3tXjOFSvRH9jHju407p8
+ zFC87ahg7rX7EX2zE6tSjI9lgarNlVVBxeGB3vVw2OhFsOu93uxnwD1SsqA1xWy0HKf0
+ J1NA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=pveZpzFVhe5RqW0kFy8DeYSsSMrCR/Hjz5a6eZIl1yw=;
- b=HJdcs6e4LbGSOWX3YeNPnHgXpyYXyxFTzmFETOekNHpfF/5uPuvJ83lQC21wnPieMu
- /hb0nQgyqIbrvMgXonBUjkGNcAjr6/YCniwazlxwb2ka2Fgbv/ocOhRMMhctxgIw9rkV
- OEwEG4mUWxYeCGnGAFRlyNiyS1LnL8yvRg/MxWk0S2onAXfcBnUxK9lcHkuArsyeJtEE
- pOt+oA6/cXQrul7uQeeT4Yi2YBTQu5VOX5J7TJ96Go27HMf8Tmv71C5SD++s98AcK579
- VwB8WDAvSIO2sv56ZUvwa4zpKtR2UBi46xN4Ed/aP0SJKfJze7oLOD8pEsb8ySpr0Fni
- PdXA==
-X-Gm-Message-State: AOAM5301Ssxs9EmD75P1ZriDDQqVKMoVggl1AL+vJy+iWfs6+DKfKYgf
- 2rJuG+EwmpuS3hvMQqTsmojgKg==
-X-Google-Smtp-Source: ABdhPJz6TyflKiPzY0tGJll+K+NDwN4XCjWyAoTWNxosZLwNVEe4foJvrusduoSpjQnp8vgJv8PQZA==
-X-Received: by 2002:a63:4d52:: with SMTP id n18mr4379889pgl.147.1622132846203; 
- Thu, 27 May 2021 09:27:26 -0700 (PDT)
+ bh=lwY80Qh/Ku4n62+xqya4H7AsrnCd0VgJ+cA8sF+L/E4=;
+ b=uBg9owVvqMoNMc8RsNpqAvkJHi9e7Jp9h1HzXHY3kPYJqLGkJBVeWElgdOKLibIlst
+ GJyH2V1MMBngGSJvIhNpCfkqQE3bRihjoRwOdCG7X9v6XmhKaJ/B+5p+ybxaZIXJrk0i
+ 0kv1AKdrbPFx7LF21MlKIvz8XNzyV+kvrWk4ZfHynk19Lmi28WkPx9c3dVB62Lf2gcA1
+ ox8Ur9rhWZq8FPysdrtgW+TUOicUJl6aoSmB5ymwE86HbWTwM2uCwWb3t2x77Z9iHUWz
+ 6XPE5oPAqunLWW10OBJegFIB0uhUmMowWuE/yGKSwnDFwlK52V0vPZoq/hVIPcSsuX30
+ i28A==
+X-Gm-Message-State: AOAM533g73nzNa4NBpufneHcXN6eL34egm/ikdY1mhJRWGJhGVGJLaWi
+ B0+Gj8DjjTHpXZth3h5f7IJu5P6WwXKmUA==
+X-Google-Smtp-Source: ABdhPJxJqHpH6Y5624J/wMObfrh9VirAK7IK/Hm5q6U5G0aj7LIHJLFNSlQ5Muc/G4+va+MNZGz8mQ==
+X-Received: by 2002:a17:90a:ac04:: with SMTP id
+ o4mr4489740pjq.114.1622132847726; 
+ Thu, 27 May 2021 09:27:27 -0700 (PDT)
 Received: from omlet.com ([134.134.139.83])
- by smtp.gmail.com with ESMTPSA id h9sm2298711pja.42.2021.05.27.09.27.25
+ by smtp.gmail.com with ESMTPSA id h9sm2298711pja.42.2021.05.27.09.27.26
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 27 May 2021 09:27:25 -0700 (PDT)
+ Thu, 27 May 2021 09:27:27 -0700 (PDT)
 From: Jason Ekstrand <jason@jlekstrand.net>
 To: intel-gfx@lists.freedesktop.org,
 	dri-devel@lists.freedesktop.org
-Subject: [PATCH 22/29] drm/i915/gem: Return an error ptr from context_lookup
-Date: Thu, 27 May 2021 11:26:43 -0500
-Message-Id: <20210527162650.1182544-23-jason@jlekstrand.net>
+Subject: [PATCH 23/29] drm/i915/gt: Drop i915_address_space::file (v2)
+Date: Thu, 27 May 2021 11:26:44 -0500
+Message-Id: <20210527162650.1182544-24-jason@jlekstrand.net>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210527162650.1182544-1-jason@jlekstrand.net>
 References: <20210527162650.1182544-1-jason@jlekstrand.net>
@@ -74,101 +75,102 @@ Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-We're about to start doing lazy context creation which means contexts
-get created in i915_gem_context_lookup and we may start having more
-errors than -ENOENT.
+There's a big comment saying how useful it is but no one is using this
+for anything anymore.
+
+It was added in 2bfa996e031b ("drm/i915: Store owning file on the
+i915_address_space") and used for debugfs at the time as well as telling
+the difference between the global GTT and a PPGTT.  In f6e8aa387171
+("drm/i915: Report the number of closed vma held by each context in
+debugfs") we removed one use of it by switching to a context walk and
+comparing with the VM in the context.  Finally, VM stats for debugfs
+were entirely nuked in db80a1294c23 ("drm/i915/gem: Remove per-client
+stats from debugfs/i915_gem_objects")
+
+v2 (Daniel Vetter):
+ - Delete a struct drm_i915_file_private pre-declaration
+ - Add a comment to the commit message about history
 
 Signed-off-by: Jason Ekstrand <jason@jlekstrand.net>
 Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 ---
- drivers/gpu/drm/i915/gem/i915_gem_context.c    | 12 ++++++------
- drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c |  4 ++--
- drivers/gpu/drm/i915/i915_drv.h                |  2 +-
- drivers/gpu/drm/i915/i915_perf.c               |  4 ++--
- 4 files changed, 11 insertions(+), 11 deletions(-)
+ drivers/gpu/drm/i915/gem/i915_gem_context.c |  9 ---------
+ drivers/gpu/drm/i915/gt/intel_gtt.h         | 11 -----------
+ drivers/gpu/drm/i915/selftests/mock_gtt.c   |  1 -
+ 3 files changed, 21 deletions(-)
 
 diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context.c b/drivers/gpu/drm/i915/gem/i915_gem_context.c
-index d68c111bc824a..76662175e6980 100644
+index 76662175e6980..8288af0d33245 100644
 --- a/drivers/gpu/drm/i915/gem/i915_gem_context.c
 +++ b/drivers/gpu/drm/i915/gem/i915_gem_context.c
-@@ -2636,8 +2636,8 @@ int i915_gem_context_getparam_ioctl(struct drm_device *dev, void *data,
- 	int ret = 0;
- 
- 	ctx = i915_gem_context_lookup(file_priv, args->ctx_id);
--	if (!ctx)
--		return -ENOENT;
-+	if (IS_ERR(ctx))
-+		return PTR_ERR(ctx);
- 
- 	switch (args->param) {
- 	case I915_CONTEXT_PARAM_GTT_SIZE:
-@@ -2705,8 +2705,8 @@ int i915_gem_context_setparam_ioctl(struct drm_device *dev, void *data,
+@@ -1453,17 +1453,10 @@ static int gem_context_register(struct i915_gem_context *ctx,
+ 				u32 *id)
+ {
+ 	struct drm_i915_private *i915 = ctx->i915;
+-	struct i915_address_space *vm;
  	int ret;
  
- 	ctx = i915_gem_context_lookup(file_priv, args->ctx_id);
--	if (!ctx)
--		return -ENOENT;
-+	if (IS_ERR(ctx))
-+		return PTR_ERR(ctx);
+ 	ctx->file_priv = fpriv;
  
- 	ret = ctx_setparam(file_priv, ctx, args);
+-	mutex_lock(&ctx->mutex);
+-	vm = i915_gem_context_vm(ctx);
+-	if (vm)
+-		WRITE_ONCE(vm->file, fpriv); /* XXX */
+-	mutex_unlock(&ctx->mutex);
+-
+ 	ctx->pid = get_task_pid(current, PIDTYPE_PID);
+ 	snprintf(ctx->name, sizeof(ctx->name), "%s[%d]",
+ 		 current->comm, pid_nr(ctx->pid));
+@@ -1562,8 +1555,6 @@ int i915_gem_vm_create_ioctl(struct drm_device *dev, void *data,
+ 	if (IS_ERR(ppgtt))
+ 		return PTR_ERR(ppgtt);
  
-@@ -2725,8 +2725,8 @@ int i915_gem_context_reset_stats_ioctl(struct drm_device *dev,
- 		return -EINVAL;
+-	ppgtt->vm.file = file_priv;
+-
+ 	if (args->extensions) {
+ 		err = i915_user_extensions(u64_to_user_ptr(args->extensions),
+ 					   NULL, 0,
+diff --git a/drivers/gpu/drm/i915/gt/intel_gtt.h b/drivers/gpu/drm/i915/gt/intel_gtt.h
+index ca00b45827b74..cbd89fded6f2a 100644
+--- a/drivers/gpu/drm/i915/gt/intel_gtt.h
++++ b/drivers/gpu/drm/i915/gt/intel_gtt.h
+@@ -140,7 +140,6 @@ typedef u64 gen8_pte_t;
  
- 	ctx = i915_gem_context_lookup(file->driver_priv, args->ctx_id);
--	if (!ctx)
--		return -ENOENT;
-+	if (IS_ERR(ctx))
-+		return PTR_ERR(ctx);
+ enum i915_cache_level;
  
- 	/*
- 	 * We opt for unserialised reads here. This may result in tearing
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
-index 7024adcd5cf15..de14b26f3b2d5 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
-@@ -739,8 +739,8 @@ static int eb_select_context(struct i915_execbuffer *eb)
- 	struct i915_gem_context *ctx;
+-struct drm_i915_file_private;
+ struct drm_i915_gem_object;
+ struct i915_fence_reg;
+ struct i915_vma;
+@@ -220,16 +219,6 @@ struct i915_address_space {
+ 	struct intel_gt *gt;
+ 	struct drm_i915_private *i915;
+ 	struct device *dma;
+-	/*
+-	 * Every address space belongs to a struct file - except for the global
+-	 * GTT that is owned by the driver (and so @file is set to NULL). In
+-	 * principle, no information should leak from one context to another
+-	 * (or between files/processes etc) unless explicitly shared by the
+-	 * owner. Tracking the owner is important in order to free up per-file
+-	 * objects along with the file, to aide resource tracking, and to
+-	 * assign blame.
+-	 */
+-	struct drm_i915_file_private *file;
+ 	u64 total;		/* size addr space maps (ex. 2GB for ggtt) */
+ 	u64 reserved;		/* size addr space reserved */
  
- 	ctx = i915_gem_context_lookup(eb->file->driver_priv, eb->args->rsvd1);
--	if (unlikely(!ctx))
--		return -ENOENT;
-+	if (unlikely(IS_ERR(ctx)))
-+		return PTR_ERR(ctx);
+diff --git a/drivers/gpu/drm/i915/selftests/mock_gtt.c b/drivers/gpu/drm/i915/selftests/mock_gtt.c
+index 5c7ae40bba634..cc047ec594f93 100644
+--- a/drivers/gpu/drm/i915/selftests/mock_gtt.c
++++ b/drivers/gpu/drm/i915/selftests/mock_gtt.c
+@@ -73,7 +73,6 @@ struct i915_ppgtt *mock_ppgtt(struct drm_i915_private *i915, const char *name)
+ 	ppgtt->vm.gt = &i915->gt;
+ 	ppgtt->vm.i915 = i915;
+ 	ppgtt->vm.total = round_down(U64_MAX, PAGE_SIZE);
+-	ppgtt->vm.file = ERR_PTR(-ENODEV);
+ 	ppgtt->vm.dma = i915->drm.dev;
  
- 	eb->gem_context = ctx;
- 	if (rcu_access_pointer(ctx->vm))
-diff --git a/drivers/gpu/drm/i915/i915_drv.h b/drivers/gpu/drm/i915/i915_drv.h
-index fee2342219da1..d7bd732ceacfc 100644
---- a/drivers/gpu/drm/i915/i915_drv.h
-+++ b/drivers/gpu/drm/i915/i915_drv.h
-@@ -1868,7 +1868,7 @@ i915_gem_context_lookup(struct drm_i915_file_private *file_priv, u32 id)
- 		ctx = NULL;
- 	rcu_read_unlock();
- 
--	return ctx;
-+	return ctx ? ctx : ERR_PTR(-ENOENT);
- }
- 
- static inline struct i915_address_space *
-diff --git a/drivers/gpu/drm/i915/i915_perf.c b/drivers/gpu/drm/i915/i915_perf.c
-index de8ebc34af0ff..dfc2a5c067c29 100644
---- a/drivers/gpu/drm/i915/i915_perf.c
-+++ b/drivers/gpu/drm/i915/i915_perf.c
-@@ -3414,10 +3414,10 @@ i915_perf_open_ioctl_locked(struct i915_perf *perf,
- 		struct drm_i915_file_private *file_priv = file->driver_priv;
- 
- 		specific_ctx = i915_gem_context_lookup(file_priv, ctx_handle);
--		if (!specific_ctx) {
-+		if (IS_ERR(specific_ctx)) {
- 			DRM_DEBUG("Failed to look up context with ID %u for opening perf stream\n",
- 				  ctx_handle);
--			ret = -ENOENT;
-+			ret = PTR_ERR(specific_ctx);
- 			goto err;
- 		}
- 	}
+ 	i915_address_space_init(&ppgtt->vm, VM_CLASS_PPGTT);
 -- 
 2.31.1
 
