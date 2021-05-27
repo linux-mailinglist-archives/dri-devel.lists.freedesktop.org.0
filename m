@@ -1,56 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9C5A392657
-	for <lists+dri-devel@lfdr.de>; Thu, 27 May 2021 06:26:47 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A8A839265B
+	for <lists+dri-devel@lfdr.de>; Thu, 27 May 2021 06:27:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A89186EE24;
-	Thu, 27 May 2021 04:26:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 572176EE28;
+	Thu, 27 May 2021 04:27:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x22a.google.com (mail-oi1-x22a.google.com
- [IPv6:2607:f8b0:4864:20::22a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 557B06EE24;
- Thu, 27 May 2021 04:26:45 +0000 (UTC)
-Received: by mail-oi1-x22a.google.com with SMTP id j75so3858532oih.10;
- Wed, 26 May 2021 21:26:45 -0700 (PDT)
+Received: from mail-oi1-x231.google.com (mail-oi1-x231.google.com
+ [IPv6:2607:f8b0:4864:20::231])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D35D16EE25;
+ Thu, 27 May 2021 04:27:43 +0000 (UTC)
+Received: by mail-oi1-x231.google.com with SMTP id y76so3876283oia.6;
+ Wed, 26 May 2021 21:27:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=MAqtfQh3kqLNCeKLPTeKdUEM29PsijCc//DfraUHLwQ=;
- b=eqBhr8eAXHo+lVRn+9mISIFH3Gy2q+Zk8dohqjdKoojg0OgqzwQqg/0IEaIiA0jsVW
- 6GaZ41eYjO/4AmuMb5xxcLJhsiXwAjOM8Qr6mDvVlQQzm1AAd5V/63pX8Sm0Pzi0NcJm
- gAh4bKbpmXUdqNzhxHUeks+X2gJEy5A0+DKQ6KsygLSrh2ui01rFbvoCLBDgXCFk3uyw
- QvUeEWGHZ0CvivmK8gqV+qPaIBcRvB0qZiCAeifLCaR3PyBEOdTi7y4uVyAZZA6SMPIY
- IBrx46ptfW+pDG3f1o/m9elVSGqs0PNpHr8abQWVO9k5py7B8jilH9Kv+4XTHyGLdK8O
- WEnA==
+ bh=ZT5FSoIiyDWBnTxiiZjSflnBrLIqWN4cLVY+j1uJuFw=;
+ b=NOsebllSQH9aGPkH2RcdDiA7CI9wsl8Hpi5SHlA5oOE4W2iuhAZkqa++V9Z05Auxds
+ Evs7CXqCEtsKa8kFQEMlNAlypHu3MKIpvzzB8zzHtONxAbTp7+TZxZoEkhUzh5EujZwL
+ Xb/5SuddSczb7ofmJlilPuHYw7Er6PtLPs5TIlfhQh2d6SV8eFem/zKXUFMnrA6GNEOp
+ sSQlUdqSNzrenxnQKigNs0GMnzAqtYufSvIx1SNi+LwJlEqpdhgxbb39hDTnYReSHCkv
+ T/TQs+TOWg8PqWnswYT8UFT28gEEyELwT6sYyrmtpl0Wraqt47p8zxpHv4WpStPXxhJq
+ hVYA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=MAqtfQh3kqLNCeKLPTeKdUEM29PsijCc//DfraUHLwQ=;
- b=ewjH48dNp3vBfVZNRvR3leA1t4QquPgXLBiBV8p6HEE+4PBzddFJ3YtyZO5UGr4cQm
- IEwTt6vPkG4Z24hgyhjF4flhMrTNWOKMjIAiYXVRFrHnqwZt4YDiuOWkkNdvA32A8Otc
- wBwYRBCEeS0IUqeecVnWEonmh96hAPdWX7bCJg3yGF7Ywbx3Ze67t+5KWVKTR/pbq9hB
- uQ5Foe0gbX2vO5rtF1M6GUxjJ707C1cBhYK+x12oG2xTQo2rUQPhYab/J7w9EHfKPMIY
- qdZ32QkFZaKpG0DDI0bYleRiz4FpttNcVh4bGGnD5x2P8+VneqGGXiy5AUWDJrPq7Ipw
- U9dQ==
-X-Gm-Message-State: AOAM530EYzxorGI55tVZaox2zopemt1cAcWIOU9Ped1yi3wrKCrB41B4
- lqDD0064v8lQthpwZGVZdo78huO7SGRGSVZkIF0=
-X-Google-Smtp-Source: ABdhPJzSqLPyykDzrtM8uq9qKFXoEWkTve47q5DnAyeOgEMSN6yyg5sq5O2i3SRoUEnG6rHpKT45/NvEAbzcnTful+Q=
-X-Received: by 2002:a05:6808:1592:: with SMTP id
- t18mr1079682oiw.123.1622089604710; 
- Wed, 26 May 2021 21:26:44 -0700 (PDT)
+ bh=ZT5FSoIiyDWBnTxiiZjSflnBrLIqWN4cLVY+j1uJuFw=;
+ b=fBr2BZ2eIs8rxTgfaVZ+e9L8Pl/VlJWpFf1En01hmRBN+yddmjURRdzkJeKdmwX3Rd
+ XIZFfgBhbqoxSWJW1coEzG0Qlf8WwuyRrvU7fSFOPS752Qvay0AMUepglODlP1MDO9dL
+ A1+T3nqIVH/xwkQaRRthP6G6nNwZjSUxaeH6LMPZop973gmXgcV2RI03ThRoNNANnuBH
+ PVc6u0dT0EiWtGeabtBcxmW8MLBJSXzUd2SdcCf4ghitwZjoy8Zj47Mtu4E6Vj/Y7BJt
+ mLqZlSrTD6SUQEt7BeQ99AVTi23SNcplecF+o1jWwBi7EdLpQ00pYPlGwKz6xMHLP6Pg
+ G7EQ==
+X-Gm-Message-State: AOAM530hFUxCdHVJDwynoHFkjsT49SdqVccjejxVwOfUokZE9C5h8nUb
+ ZV8em2t20LuoHsl+g5pNwrFrkDtHpNETf8fGr8/7HyaF
+X-Google-Smtp-Source: ABdhPJyp2LVtbVpT+fbmhtkDrJadl7HkNYyBL7sr6DFQn3FF+hx4ahAXpE26gzypq/t10zhPHs4p3/fFzj6NAYcKNtY=
+X-Received: by 2002:a05:6808:249:: with SMTP id
+ m9mr1097793oie.120.1622089663253; 
+ Wed, 26 May 2021 21:27:43 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210526084726.552052-1-lee.jones@linaro.org>
- <20210526084726.552052-23-lee.jones@linaro.org>
-In-Reply-To: <20210526084726.552052-23-lee.jones@linaro.org>
+ <20210526084726.552052-24-lee.jones@linaro.org>
+In-Reply-To: <20210526084726.552052-24-lee.jones@linaro.org>
 From: Alex Deucher <alexdeucher@gmail.com>
-Date: Thu, 27 May 2021 00:26:33 -0400
-Message-ID: <CADnq5_PsDZPaJxmxYJBv3sY17Wu=9W4Eqgtb2EDo6PgxdzgwWQ@mail.gmail.com>
-Subject: Re: [PATCH 22/34] drm/amd/display/dc/core/dc: Convert function
- headers to kernel-doc
+Date: Thu, 27 May 2021 00:27:32 -0400
+Message-ID: <CADnq5_OW=Zp9gA1V+avgSV-k7Kr38ZqSqVNMnT+URnvW3ptiBw@mail.gmail.com>
+Subject: Re: [PATCH 23/34] drm/amd/display/dmub/src/dmub_srv_stat: Convert
+ function header to kernel-doc
 To: Lee Jones <lee.jones@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -66,10 +66,13 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Leo Li <sunpeng.li@amd.com>, LKML <linux-kernel@vger.kernel.org>,
+Cc: Leo Li <sunpeng.li@amd.com>, Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
+ LKML <linux-kernel@vger.kernel.org>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ Meenakshikumar Somasundaram <meenakshikumar.somasundaram@amd.com>,
+ David Airlie <airlied@linux.ie>,
  Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- David Airlie <airlied@linux.ie>, amd-gfx list <amd-gfx@lists.freedesktop.org>,
- Alex Deucher <alexander.deucher@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>, Jun Lei <Jun.Lei@amd.com>,
  =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
@@ -80,15 +83,9 @@ On Wed, May 26, 2021 at 4:48 AM Lee Jones <lee.jones@linaro.org> wrote:
 >
 > Fixes the following W=3D1 kernel build warning(s):
 >
->  drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc.c:3324: warning: Cannot=
- understand  **************************************************************=
-***************
->  drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc.c:3344: warning: Cannot=
- understand  **************************************************************=
-***************
->  drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc.c:3417: warning: Cannot=
- understand  **************************************************************=
-***************
+>  drivers/gpu/drm/amd/amdgpu/../display/dmub/src/dmub_srv_stat.c:38: warni=
+ng: Cannot understand  ****************************************************=
+*************************
 >
 > Cc: Harry Wentland <harry.wentland@amd.com>
 > Cc: Leo Li <sunpeng.li@amd.com>
@@ -96,97 +93,55 @@ On Wed, May 26, 2021 at 4:48 AM Lee Jones <lee.jones@linaro.org> wrote:
 > Cc: "Christian K=C3=B6nig" <christian.koenig@amd.com>
 > Cc: David Airlie <airlied@linux.ie>
 > Cc: Daniel Vetter <daniel@ffwll.ch>
+> Cc: Jun Lei <Jun.Lei@amd.com>
+> Cc: Meenakshikumar Somasundaram <meenakshikumar.somasundaram@amd.com>
+> Cc: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
 > Cc: amd-gfx@lists.freedesktop.org
 > Cc: dri-devel@lists.freedesktop.org
 > Signed-off-by: Lee Jones <lee.jones@linaro.org>
 > ---
->  drivers/gpu/drm/amd/display/dc/core/dc.c | 46 ++++++------------------
->  1 file changed, 11 insertions(+), 35 deletions(-)
+>  .../drm/amd/display/dmub/src/dmub_srv_stat.c  | 19 ++++++-------------
+>  1 file changed, 6 insertions(+), 13 deletions(-)
 >
-> diff --git a/drivers/gpu/drm/amd/display/dc/core/dc.c b/drivers/gpu/drm/a=
-md/display/dc/core/dc.c
-> index ef157b83bacd2..34c207f92df98 100644
-> --- a/drivers/gpu/drm/amd/display/dc/core/dc.c
-> +++ b/drivers/gpu/drm/amd/display/dc/core/dc.c
-> @@ -3335,18 +3335,10 @@ void dc_hardware_release(struct dc *dc)
->  #endif
+> diff --git a/drivers/gpu/drm/amd/display/dmub/src/dmub_srv_stat.c b/drive=
+rs/gpu/drm/amd/display/dmub/src/dmub_srv_stat.c
+> index e6f3bfab33d3e..70766d534c9c8 100644
+> --- a/drivers/gpu/drm/amd/display/dmub/src/dmub_srv_stat.c
+> +++ b/drivers/gpu/drm/amd/display/dmub/src/dmub_srv_stat.c
+> @@ -35,20 +35,13 @@
+>   */
 >
 >  /**
 > - ***********************************************************************=
 ******
-> - *  Function: dc_enable_dmub_notifications
-> + * dc_enable_dmub_notifications - Returns whether dmub notification can =
-be enabled
-> + * @dc: dc structure
+> - *  Function: dmub_srv_stat_get_notification
+> + * dmub_srv_stat_get_notification - Retrieves a dmub outbox notification=
+, set up dmub notification
+> + *                                  structure with message information. =
+Also a pending bit if queue
+> + *                                  is having more notifications
+> + *  @dmub: dmub srv structure
+> + *  @notify: dmub notification structure to be filled up
 >   *
 > - *  @brief
-> - *             Returns whether dmub notification can be enabled
+> - *             Retrieves a dmub outbox notification, set up dmub notific=
+ation
+> - *             structure with message information. Also a pending bit if=
+ queue
+> - *             is having more notifications
 > - *
-> - *  @param
-> - *             [in] dc: dc structure
+> - *  @param [in] dmub: dmub srv structure
+> - *  @param [out] pnotify: dmub notification structure to be filled up
 > - *
-> - *     @return
-> - *             True to enable dmub notifications, False otherwise
+> - *  @return
+> - *     dmub_status
 > - ***********************************************************************=
 ******
-> + * Returns: True to enable dmub notifications, False otherwise
+> + *  Returns: dmub_status
 >   */
->  bool dc_enable_dmub_notifications(struct dc *dc)
->  {
-> @@ -3355,21 +3347,13 @@ bool dc_enable_dmub_notifications(struct dc *dc)
->  }
->
->  /**
-> - ***********************************************************************=
-******
-> - *  Function: dc_process_dmub_aux_transfer_async
-> - *
-> - *  @brief
-> - *             Submits aux command to dmub via inbox message
-> - *             Sets port index appropriately for legacy DDC
-> - *
-> - *  @param
-> - *             [in] dc: dc structure
-> - *             [in] link_index: link index
-> - *             [in] payload: aux payload
-> + * dc_process_dmub_aux_transfer_async - Submits aux command to dmub via =
-inbox message
-> + *                                      Sets port index appropriately fo=
-r legacy DDC
-> + * @dc: dc structure
-> + * @link_index: link index
-> + * @payload: aux payload
->   *
-> - *     @return
-> - *             True if successful, False if failure
-> - ***********************************************************************=
-******
-> + * Returns: True if successful, False if failure
->   */
->  bool dc_process_dmub_aux_transfer_async(struct dc *dc,
->                                 uint32_t link_index,
-> @@ -3428,16 +3412,8 @@ bool dc_process_dmub_aux_transfer_async(struct dc =
-*dc,
->  }
->
->  /**
-> - ***********************************************************************=
-******
-> - *  Function: dc_disable_accelerated_mode
-> - *
-> - *  @brief
-> - *             disable accelerated mode
-> - *
-> - *  @param
-> - *             [in] dc: dc structure
-> - *
-> - ***********************************************************************=
-******
-> + * dc_disable_accelerated_mode - disable accelerated mode
-> + * @dc: dc structure
->   */
->  void dc_disable_accelerated_mode(struct dc *dc)
->  {
+>  enum dmub_status dmub_srv_stat_get_notification(struct dmub_srv *dmub,
+>                                                 struct dmub_notification =
+*notify)
 > --
 > 2.31.1
 >
