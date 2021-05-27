@@ -2,37 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91A0439315E
-	for <lists+dri-devel@lfdr.de>; Thu, 27 May 2021 16:47:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 38D0A39315F
+	for <lists+dri-devel@lfdr.de>; Thu, 27 May 2021 16:47:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 915486EE63;
-	Thu, 27 May 2021 14:47:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 16CD86F3E8;
+	Thu, 27 May 2021 14:47:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CEC2B6F3DA;
- Thu, 27 May 2021 14:47:38 +0000 (UTC)
-IronPort-SDR: 4/GTy29PuzJzgDgwhaDjt75hrH9QGbkE6uBd+PfgIf7EeEuAJ2Ze5aT1AYSfA0eCC7kCcLECOb
- Ecl90th+K78A==
-X-IronPort-AV: E=McAfee;i="6200,9189,9996"; a="202515612"
-X-IronPort-AV: E=Sophos;i="5.82,334,1613462400"; d="scan'208";a="202515612"
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E81796F3DF;
+ Thu, 27 May 2021 14:47:40 +0000 (UTC)
+IronPort-SDR: H0QAXSsvTyAHUgPe1jiU4bTTR2nshkQWdHLmfw0TW6HSYqHX745PDHMIUOjlNJYg2YB5ZEw9tC
+ Idyi+Cwydchg==
+X-IronPort-AV: E=McAfee;i="6200,9189,9996"; a="202515619"
+X-IronPort-AV: E=Sophos;i="5.82,334,1613462400"; d="scan'208";a="202515619"
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 May 2021 07:47:38 -0700
-IronPort-SDR: mWHu6VM9R+lcDRw3qCQ9DD0nAw8+LzXxP/OOIbZgpK4pBeTIzHXNYMKpp1yu1nbCMFj/z2tQeQ
- ZuI3YHqbGYtg==
-X-IronPort-AV: E=Sophos;i="5.82,334,1613462400"; d="scan'208";a="443597968"
+ 27 May 2021 07:47:40 -0700
+IronPort-SDR: h3CeAUHOVu0hijewqh+uUfVM5zs00TyRK3Bv5l/U0BkHxKRr+uU29WIWGhjYskLXIXWyYE39QQ
+ fHCcyUiRy2QA==
+X-IronPort-AV: E=Sophos;i="5.82,334,1613462400"; d="scan'208";a="443597994"
 Received: from ibanaga-mobl.ger.corp.intel.com (HELO thellst-mobl1.intel.com)
  ([10.249.254.58])
  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 May 2021 07:47:37 -0700
+ 27 May 2021 07:47:38 -0700
 From: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
 To: intel-gfx@lists.freedesktop.org,
 	dri-devel@lists.freedesktop.org
-Subject: [PATCH v5 09/15] drm/ttm: Document and optimize
- ttm_bo_pipeline_gutting()
-Date: Thu, 27 May 2021 16:47:04 +0200
-Message-Id: <20210527144710.1975553-10-thomas.hellstrom@linux.intel.com>
+Subject: [PATCH v5 10/15] drm/ttm,
+ drm/amdgpu: Allow the driver some control over swapping
+Date: Thu, 27 May 2021 16:47:05 +0200
+Message-Id: <20210527144710.1975553-11-thomas.hellstrom@linux.intel.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210527144710.1975553-1-thomas.hellstrom@linux.intel.com>
 References: <20210527144710.1975553-1-thomas.hellstrom@linux.intel.com>
@@ -56,175 +56,150 @@ Cc: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-If the bo is idle when calling ttm_bo_pipeline_gutting(), we unnecessarily
-create a ghost object and push it out to delayed destroy.
-Fix this by adding a path for idle, and document the function.
+We are calling the eviction_valuable driver callback at eviction time to
+determine whether we actually can evict a buffer object.
+The upcoming i915 TTM backend needs the same functionality for swapout,
+and that might actually be beneficial to other drivers as well.
 
-Also avoid having the bo end up in a bad state vulnerable to user-space
-triggered kernel BUGs if the call to ttm_tt_create() fails.
+Add an eviction_valuable call also in the swapout path. Try to keep the
+current behaviour for all drivers by returning true if the buffer object
+is already in the TTM_PL_SYSTEM placement. We change behaviour for the
+case where a buffer object is in a TT backed placement when swapped out,
+in which case the drivers normal eviction_valuable path is run.
 
-Finally reuse ttm_bo_pipeline_gutting() in ttm_bo_evict().
-
+Reviewed-by: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
 Cc: Christian König <christian.koenig@amd.com>
 Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-Reviewed-by: Christian König <christian.koenig@amd.com>
 ---
-v4:
-- Clarify why we mark bo for clearing after ttm_bo_pipeline_gutting()
-  (Reported by Matthew Auld)
+v3:
+- Don't export ttm_tt_unpopulate
+- Fix confusion reading the locked pointer instead of the value
+  pointed to in ttm_bo_evict_swapout_allowable (Reported by
+  Maarten Lankhorst)
 v5:
-- Make ttm_tt_mark_for_clear() inline (Suggested by Christian König)
+- Use memset() rather than = {} (Suggested by Christian König)
+- Remove check for ttm_tt_is_populated in the swapout code in the hope
+  it will be fixed elsewhere (Suggested by Christian König)
 ---
- drivers/gpu/drm/ttm/ttm_bo.c      | 20 +++++------
- drivers/gpu/drm/ttm/ttm_bo_util.c | 55 ++++++++++++++++++++++++++++---
- include/drm/ttm/ttm_tt.h          | 13 ++++++++
- 3 files changed, 74 insertions(+), 14 deletions(-)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c |  4 +++
+ drivers/gpu/drm/ttm/ttm_bo.c            | 43 ++++++++++++++++---------
+ 2 files changed, 32 insertions(+), 15 deletions(-)
 
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+index 80437b6ba5f3..5116065748a5 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+@@ -1328,6 +1328,10 @@ static bool amdgpu_ttm_bo_eviction_valuable(struct ttm_buffer_object *bo,
+ 	struct dma_fence *f;
+ 	int i;
+ 
++	/* Swapout? */
++	if (bo->mem.mem_type == TTM_PL_SYSTEM)
++		return true;
++
+ 	if (bo->type == ttm_bo_type_kernel &&
+ 	    !amdgpu_vm_evictable(ttm_to_amdgpu_bo(bo)))
+ 		return false;
 diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
-index 51a94fd63bd7..be0406466460 100644
+index be0406466460..9f53506a82fc 100644
 --- a/drivers/gpu/drm/ttm/ttm_bo.c
 +++ b/drivers/gpu/drm/ttm/ttm_bo.c
-@@ -501,10 +501,15 @@ static int ttm_bo_evict(struct ttm_buffer_object *bo,
- 	bdev->funcs->evict_flags(bo, &placement);
+@@ -536,6 +536,10 @@ static int ttm_bo_evict(struct ttm_buffer_object *bo,
+ bool ttm_bo_eviction_valuable(struct ttm_buffer_object *bo,
+ 			      const struct ttm_place *place)
+ {
++	dma_resv_assert_held(bo->base.resv);
++	if (bo->mem.mem_type == TTM_PL_SYSTEM)
++		return true;
++
+ 	/* Don't evict this BO if it's outside of the
+ 	 * requested placement range
+ 	 */
+@@ -558,7 +562,9 @@ EXPORT_SYMBOL(ttm_bo_eviction_valuable);
+  * b. Otherwise, trylock it.
+  */
+ static bool ttm_bo_evict_swapout_allowable(struct ttm_buffer_object *bo,
+-			struct ttm_operation_ctx *ctx, bool *locked, bool *busy)
++					   struct ttm_operation_ctx *ctx,
++					   const struct ttm_place *place,
++					   bool *locked, bool *busy)
+ {
+ 	bool ret = false;
  
- 	if (!placement.num_placement && !placement.num_busy_placement) {
--		ttm_bo_wait(bo, false, false);
-+		ret = ttm_bo_wait(bo, true, false);
-+		if (ret)
-+			return ret;
- 
--		ttm_bo_cleanup_memtype_use(bo);
--		return ttm_tt_create(bo, false);
-+		/*
-+		 * Since we've already synced, this frees backing store
-+		 * immediately.
-+		 */
-+		return ttm_bo_pipeline_gutting(bo);
+@@ -576,6 +582,14 @@ static bool ttm_bo_evict_swapout_allowable(struct ttm_buffer_object *bo,
+ 			*busy = !ret;
  	}
  
- 	ret = ttm_bo_mem_space(bo, &placement, &evict_mem, ctx);
-@@ -976,13 +981,8 @@ int ttm_bo_validate(struct ttm_buffer_object *bo,
- 	/*
- 	 * Remove the backing store if no placement is given.
- 	 */
--	if (!placement->num_placement && !placement->num_busy_placement) {
--		ret = ttm_bo_pipeline_gutting(bo);
--		if (ret)
--			return ret;
--
--		return ttm_tt_create(bo, false);
--	}
-+	if (!placement->num_placement && !placement->num_busy_placement)
-+		return ttm_bo_pipeline_gutting(bo);
- 
- 	/*
- 	 * Check whether we need to move buffer.
-diff --git a/drivers/gpu/drm/ttm/ttm_bo_util.c b/drivers/gpu/drm/ttm/ttm_bo_util.c
-index a46f705ba78b..99819c68d8d2 100644
---- a/drivers/gpu/drm/ttm/ttm_bo_util.c
-+++ b/drivers/gpu/drm/ttm/ttm_bo_util.c
-@@ -565,26 +565,73 @@ int ttm_bo_move_accel_cleanup(struct ttm_buffer_object *bo,
++	if (ret && place && !bo->bdev->funcs->eviction_valuable(bo, place)) {
++		ret = false;
++		if (*locked) {
++			dma_resv_unlock(bo->base.resv);
++			*locked = false;
++		}
++	}
++
+ 	return ret;
  }
- EXPORT_SYMBOL(ttm_bo_move_accel_cleanup);
  
-+/**
-+ * ttm_bo_pipeline_gutting - purge the contents of a bo
-+ * @bo: The buffer object
-+ *
-+ * Purge the contents of a bo, async if the bo is not idle.
-+ * After a successful call, the bo is left unpopulated in
-+ * system placement. The function may wait uninterruptible
-+ * for idle on OOM.
-+ *
-+ * Return: 0 if successful, negative error code on failure.
-+ */
- int ttm_bo_pipeline_gutting(struct ttm_buffer_object *bo)
+@@ -630,20 +644,14 @@ int ttm_mem_evict_first(struct ttm_device *bdev,
+ 		list_for_each_entry(bo, &man->lru[i], lru) {
+ 			bool busy;
+ 
+-			if (!ttm_bo_evict_swapout_allowable(bo, ctx, &locked,
+-							    &busy)) {
++			if (!ttm_bo_evict_swapout_allowable(bo, ctx, place,
++							    &locked, &busy)) {
+ 				if (busy && !busy_bo && ticket !=
+ 				    dma_resv_locking_ctx(bo->base.resv))
+ 					busy_bo = bo;
+ 				continue;
+ 			}
+ 
+-			if (place && !bdev->funcs->eviction_valuable(bo,
+-								      place)) {
+-				if (locked)
+-					dma_resv_unlock(bo->base.resv);
+-				continue;
+-			}
+ 			if (!ttm_bo_get_unless_zero(bo)) {
+ 				if (locked)
+ 					dma_resv_unlock(bo->base.resv);
+@@ -1140,10 +1148,19 @@ EXPORT_SYMBOL(ttm_bo_wait);
+ int ttm_bo_swapout(struct ttm_buffer_object *bo, struct ttm_operation_ctx *ctx,
+ 		   gfp_t gfp_flags)
  {
- 	static const struct ttm_place sys_mem = { .mem_type = TTM_PL_SYSTEM };
- 	struct ttm_buffer_object *ghost;
-+	struct ttm_tt *ttm;
++	struct ttm_place place;
+ 	bool locked;
  	int ret;
  
--	ret = ttm_buffer_object_transfer(bo, &ghost);
-+	/* If already idle, no need for ghost object dance. */
-+	ret = ttm_bo_wait(bo, false, true);
-+	if (ret != -EBUSY) {
-+		if (!bo->ttm) {
-+			/* See comment below about clearing. */
-+			ret = ttm_tt_create(bo, true);
-+			if (ret)
-+				return ret;
-+		} else {
-+			ttm_tt_unpopulate(bo->bdev, bo->ttm);
-+			if (bo->type == ttm_bo_type_device)
-+				ttm_tt_mark_for_clear(bo->ttm);
-+		}
-+		ttm_resource_free(bo, &bo->mem);
-+		ttm_resource_alloc(bo, &sys_mem, &bo->mem);
-+
-+		return 0;
-+	}
-+
+-	if (!ttm_bo_evict_swapout_allowable(bo, ctx, &locked, NULL))
 +	/*
-+	 * We need an unpopulated ttm_tt after giving our current one,
-+	 * if any, to the ghost object. And we can't afford to fail
-+	 * creating one *after* the operation. If the bo subsequently gets
-+	 * resurrected, make sure it's cleared (if ttm_bo_type_device)
-+	 * to avoid leaking sensitive information to user-space.
++	 * While the bo may already reside in SYSTEM placement, set
++	 * SYSTEM as new placement to cover also the move further below.
++	 * The driver may use the fact that we're moving from SYSTEM
++	 * as an indication that we're about to swap out.
 +	 */
-+
-+	ttm = bo->ttm;
-+	bo->ttm = NULL;
-+	ret = ttm_tt_create(bo, true);
-+	swap(bo->ttm, ttm);
- 	if (ret)
- 		return ret;
++	memset(&place, 0, sizeof(place));
++	place.mem_type = TTM_PL_SYSTEM;
++	if (!ttm_bo_evict_swapout_allowable(bo, ctx, &place, &locked, NULL))
+ 		return -EBUSY;
  
-+	ret = ttm_buffer_object_transfer(bo, &ghost);
-+	if (ret) {
-+		ttm_tt_destroy(bo->bdev, ttm);
-+		return ret;
-+	}
-+
- 	ret = dma_resv_copy_fences(&ghost->base._resv, bo->base.resv);
- 	/* Last resort, wait for the BO to be idle when we are OOM */
- 	if (ret)
- 		ttm_bo_wait(bo, false, false);
+ 	if (!ttm_bo_get_unless_zero(bo)) {
+@@ -1168,13 +1185,9 @@ int ttm_bo_swapout(struct ttm_buffer_object *bo, struct ttm_operation_ctx *ctx,
+ 	if (bo->mem.mem_type != TTM_PL_SYSTEM) {
+ 		struct ttm_operation_ctx ctx = { false, false };
+ 		struct ttm_resource evict_mem;
+-		struct ttm_place place, hop;
++		struct ttm_place hop;
  
--	ttm_resource_alloc(bo, &sys_mem, &bo->mem);
--	bo->ttm = NULL;
+-		memset(&place, 0, sizeof(place));
+ 		memset(&hop, 0, sizeof(hop));
 -
- 	dma_resv_unlock(&ghost->base._resv);
- 	ttm_bo_put(ghost);
-+	bo->ttm = ttm;
-+	ttm_resource_alloc(bo, &sys_mem, &bo->mem);
- 
- 	return 0;
- }
-diff --git a/include/drm/ttm/ttm_tt.h b/include/drm/ttm/ttm_tt.h
-index 3102059db726..818680c6a8ed 100644
---- a/include/drm/ttm/ttm_tt.h
-+++ b/include/drm/ttm/ttm_tt.h
-@@ -170,6 +170,19 @@ int ttm_tt_populate(struct ttm_device *bdev, struct ttm_tt *ttm, struct ttm_oper
-  */
- void ttm_tt_unpopulate(struct ttm_device *bdev, struct ttm_tt *ttm);
- 
-+/**
-+ * ttm_tt_mark_for_clear - Mark pages for clearing on populate.
-+ *
-+ * @ttm: Pointer to the ttm_tt structure
-+ *
-+ * Marks pages for clearing so that the next time the page vector is
-+ * populated, the pages will be cleared.
-+ */
-+static inline void ttm_tt_mark_for_clear(struct ttm_tt *ttm)
-+{
-+	ttm->page_flags |= TTM_PAGE_FLAG_ZERO_ALLOC;
-+}
-+
- void ttm_tt_mgr_init(unsigned long num_pages, unsigned long num_dma32_pages);
- 
- struct ttm_kmap_iter *ttm_kmap_iter_tt_init(struct ttm_kmap_iter_tt *iter_tt,
+-		place.mem_type = TTM_PL_SYSTEM;
+-
+ 		ret = ttm_resource_alloc(bo, &place, &evict_mem);
+ 		if (unlikely(ret))
+ 			goto out;
 -- 
 2.31.1
 
