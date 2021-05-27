@@ -1,58 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B42423937A0
-	for <lists+dri-devel@lfdr.de>; Thu, 27 May 2021 22:56:25 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 607BF3937A2
+	for <lists+dri-devel@lfdr.de>; Thu, 27 May 2021 22:56:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5C0D96F4CC;
-	Thu, 27 May 2021 20:56:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3283D6F4D2;
+	Thu, 27 May 2021 20:56:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-xd34.google.com (mail-io1-xd34.google.com
- [IPv6:2607:f8b0:4864:20::d34])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BD0EC6F4C7;
- Thu, 27 May 2021 20:56:12 +0000 (UTC)
-Received: by mail-io1-xd34.google.com with SMTP id b25so1958464iot.5;
- Thu, 27 May 2021 13:56:12 -0700 (PDT)
+Received: from mail-il1-x12d.google.com (mail-il1-x12d.google.com
+ [IPv6:2607:f8b0:4864:20::12d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1A8F76F4C7;
+ Thu, 27 May 2021 20:56:13 +0000 (UTC)
+Received: by mail-il1-x12d.google.com with SMTP id h11so1472005ili.9;
+ Thu, 27 May 2021 13:56:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=D2lHOtb7OcvVwWqNFg2wQ8RkEDsPGivk/u/nV7fuLJE=;
- b=u3qvkfKEnPO9JLJp8Z4Tzxytg/h+2PhjaA/5XOnee8IiF6yfE0F20hm7K5ZSpysPla
- aKcKFt+bBUK+zCfT2a+YzPfTCxteHp1fJLKBm9q85rsOqod2fbLTUgg7x5Xd6nMME0fx
- ij1DeHzSvqSGsg5tSqEFL2HJbQU09SwmgQj8dMU4qqVFnxqdJc9IfpH5BdntX2+2WuZH
- X5wjOz1B0bSVHjXihCgP1VLgJqC9VOiF/MeP4fjGgbXK1r0lxhplhtahx5PYg3L7dTaQ
- qoALygn5P6Twk+g05NBeQdEc2kjskROpse7nQQjNt/XFAPA+TGXQMwMYXYpqNSq4huey
- 5EwQ==
+ bh=pe/cFaapJbxX6Jz6Zk1ehmG+ymWmsWcMKoth41aEtds=;
+ b=PwbAU4oxKHNGnMdcyu/Rknpkbe6RbooFWgmZvbQmi57QZ0W5VCynxl3/cfalHtt3yE
+ K7V2FeaPUxCYMjSIFuF39JeEbW8lzPlfmh/+FOeIOf1iBzirVrwwBQ1b2iIaCo+0xSvp
+ ARpVv/JCM7OJYigcAESHgg/+LyxS+YSpUY2KEIRCbw0qY2jwra/NVav6B3JoOfapafvd
+ 7hlCruDn9sTAiT0N9th9Q5foTAo9vU+JQuLB4M5S+q2Q8S44zxyLZHp/7J8tM3tWxxOJ
+ 28c2pIAl1JNTiWDcLOLdjHSGn0gA953V+eDGRRqE8t1m4d21QSGi0Tx26MyjvrJrWQ/f
+ QGvA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=D2lHOtb7OcvVwWqNFg2wQ8RkEDsPGivk/u/nV7fuLJE=;
- b=ckPNs8fjB/BoQTrpnHAQeKIqAqn9hlABjuJT5M6d0IvkOnX3Jezu3bL3zeHKkJr+5S
- 9/K6Ll49rhC1FvFVXIC0eoCOTOr8OCsDaem+slJ9d8pixKMCFXkuJGEez+LhJquYkwrN
- gAXeKbU5diDMNS7mGQOoH9sR7BDwEX/++qcOBD7uEpDROVOy5u8sg/zRprfSMo+jmZHF
- ErSGKmGaUr9Km+4rEfk+xsBi+11QDSxPXi+uq4YTDODKDC0a5jYs1/AaGkqzP2OGOAh8
- QThNaqHt/Sq788WhBE7g33TId0da7QCJ7Sg4/DxXRrz4re9iRNphHuQCLhNBK5p23DoY
- 0prw==
-X-Gm-Message-State: AOAM530tuy/I0nSVoPfgfVy/XsTf0vCs7ffLyGltgCEFPxrIreWhqK18
- fq5rtGo89/XxYXK6Pb+Q6Vp6ZVQViv+qdw==
-X-Google-Smtp-Source: ABdhPJxYUUknRVx3MxA0BgEmC2o+6SOh44Rbmrkg/DTY/MzzlohivfYmGFsXfOBjaC0hdv/V80VC9Q==
-X-Received: by 2002:a05:6638:21a:: with SMTP id
- e26mr5281508jaq.58.1622148971284; 
- Thu, 27 May 2021 13:56:11 -0700 (PDT)
+ bh=pe/cFaapJbxX6Jz6Zk1ehmG+ymWmsWcMKoth41aEtds=;
+ b=kmF5e85ajl3N4pxqzcr3ZQ06c5sIMjbdi+9hjUOiAfESyxRkJ+obNG3SWO5lo8l3rT
+ JioowKvX2PVXSW8G5IO0uO0CmROey+qtRqqiVWXmbKZLSagnSAVUZFn97/UJt7pcwgCf
+ EKBYdVw5n25AtDChAk4FhXAW4tSvMXKRsAWUa03668T2BM8sqdLwW6JyCntJYD+F6Ycu
+ 4AK+SH824gUT0ZfMEhha9EiroMVLhFqX4Rjj2EEm/PfjFwrTwMdoYqbAw3OCkD9uYt0Z
+ v+yDbVXeRCV/7eabrnlEsNNDOFryzZjhMt2qR/gshq5zcr63EAWj0wwqEs0I0gC8E4jT
+ OVRA==
+X-Gm-Message-State: AOAM533fmYAKU+aDRheHWJgCEFM5X1Btug1rHNV+9idcWs3gFrsiGJlh
+ r4Gv1J/55cF2l5wLDckdMt2RYX08i0gLfg==
+X-Google-Smtp-Source: ABdhPJy0ZikwCFfPlut2KTJKCyWQZz/ccCwDsVpxc+y/xNY59QIE6vQzBdIyVVrHNRXuBIlr+98x7w==
+X-Received: by 2002:a92:cb42:: with SMTP id f2mr4335125ilq.71.1622148972183;
+ Thu, 27 May 2021 13:56:12 -0700 (PDT)
 Received: from Harpoon.amd.com ([165.204.55.251])
- by smtp.gmail.com with ESMTPSA id b10sm1577265ioz.35.2021.05.27.13.56.10
+ by smtp.gmail.com with ESMTPSA id b10sm1577265ioz.35.2021.05.27.13.56.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 27 May 2021 13:56:10 -0700 (PDT)
+ Thu, 27 May 2021 13:56:11 -0700 (PDT)
 From: Felix Kuehling <felix.kuehling@gmail.com>
 X-Google-Original-From: Felix Kuehling <Felix.Kuehling@amd.com>
 To: amd-gfx@lists.freedesktop.org,
 	dri-devel@lists.freedesktop.org
-Subject: [PATCH 02/10] drm/amdkfd: add owner ref param to get hmm pages
-Date: Thu, 27 May 2021 16:55:58 -0400
-Message-Id: <20210527205606.2660-2-Felix.Kuehling@amd.com>
+Subject: [PATCH 03/10] drm/amdkfd: set owner ref to svm range prefault
+Date: Thu, 27 May 2021 16:55:59 -0400
+Message-Id: <20210527205606.2660-3-Felix.Kuehling@amd.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210527205606.2660-1-Felix.Kuehling@amd.com>
 References: <20210527205606.2660-1-Felix.Kuehling@amd.com>
@@ -76,89 +75,68 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Alex Sierra <alex.sierra@amd.com>
 
-The parameter is used in the dev_private_owner to decide if device
-pages in the range require to be migrated back to system memory, based
-if they are or not in the same memory domain.
-In this case, this reference could come from the same memory domain
-with devices connected to the same hive.
+svm_range_prefault is called right before migrations to VRAM,
+to make sure pages are resident in system memory before the migration.
+With partial migrations, this reference is used by hmm range get pages
+to avoid migrating pages that are already in the same VRAM domain.
 
 Signed-off-by: Alex Sierra <alex.sierra@amd.com>
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_mn.c  | 3 ++-
- drivers/gpu/drm/amd/amdgpu/amdgpu_mn.h  | 2 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c | 2 +-
- drivers/gpu/drm/amd/amdkfd/kfd_svm.c    | 4 ++--
- 4 files changed, 6 insertions(+), 5 deletions(-)
+ drivers/gpu/drm/amd/amdkfd/kfd_migrate.c | 2 +-
+ drivers/gpu/drm/amd/amdkfd/kfd_svm.c     | 5 +++--
+ drivers/gpu/drm/amd/amdkfd/kfd_svm.h     | 3 ++-
+ 3 files changed, 6 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_mn.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_mn.c
-index 2741c28ff1b5..378c238c2099 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_mn.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_mn.c
-@@ -160,7 +160,7 @@ int amdgpu_hmm_range_get_pages(struct mmu_interval_notifier *notifier,
- 			       struct mm_struct *mm, struct page **pages,
- 			       uint64_t start, uint64_t npages,
- 			       struct hmm_range **phmm_range, bool readonly,
--			       bool mmap_locked)
-+			       bool mmap_locked, void *owner)
- {
- 	struct hmm_range *hmm_range;
- 	unsigned long timeout;
-@@ -185,6 +185,7 @@ int amdgpu_hmm_range_get_pages(struct mmu_interval_notifier *notifier,
- 	hmm_range->hmm_pfns = pfns;
- 	hmm_range->start = start;
- 	hmm_range->end = start + npages * PAGE_SIZE;
-+	hmm_range->dev_private_owner = owner;
+diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_migrate.c b/drivers/gpu/drm/amd/amdkfd/kfd_migrate.c
+index 11f7f590c6ec..b298aa8dea4d 100644
+--- a/drivers/gpu/drm/amd/amdkfd/kfd_migrate.c
++++ b/drivers/gpu/drm/amd/amdkfd/kfd_migrate.c
+@@ -512,7 +512,7 @@ svm_migrate_ram_to_vram(struct svm_range *prange, uint32_t best_loc,
+ 		 prange->start, prange->last, best_loc);
  
- 	/* Assuming 512MB takes maxmium 1 second to fault page address */
- 	timeout = max(npages >> 17, 1ULL) * HMM_RANGE_DEFAULT_TIMEOUT;
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_mn.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_mn.h
-index 7f7d37a457c3..14a3c1864085 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_mn.h
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_mn.h
-@@ -34,7 +34,7 @@ int amdgpu_hmm_range_get_pages(struct mmu_interval_notifier *notifier,
- 			       struct mm_struct *mm, struct page **pages,
- 			       uint64_t start, uint64_t npages,
- 			       struct hmm_range **phmm_range, bool readonly,
--			       bool mmap_locked);
-+			       bool mmap_locked, void *owner);
- int amdgpu_hmm_range_get_pages_done(struct hmm_range *hmm_range);
+ 	/* FIXME: workaround for page locking bug with invalid pages */
+-	svm_range_prefault(prange, mm);
++	svm_range_prefault(prange, mm, SVM_ADEV_PGMAP_OWNER(adev));
  
- #if defined(CONFIG_HMM_MIRROR)
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-index 7e7d8330d64b..c13f7fbfc070 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-@@ -709,7 +709,7 @@ int amdgpu_ttm_tt_get_user_pages(struct amdgpu_bo *bo, struct page **pages)
- 	readonly = amdgpu_ttm_tt_is_readonly(ttm);
- 	r = amdgpu_hmm_range_get_pages(&bo->notifier, mm, pages, start,
- 				       ttm->num_pages, &gtt->range, readonly,
--				       false);
-+				       false, NULL);
- out_putmm:
- 	mmput(mm);
- 
+ 	start = prange->start << PAGE_SHIFT;
+ 	end = (prange->last + 1) << PAGE_SHIFT;
 diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_svm.c b/drivers/gpu/drm/amd/amdkfd/kfd_svm.c
-index b665e9ff77e3..b939f353ac8c 100644
+index b939f353ac8c..54f47b09b14a 100644
 --- a/drivers/gpu/drm/amd/amdkfd/kfd_svm.c
 +++ b/drivers/gpu/drm/amd/amdkfd/kfd_svm.c
-@@ -1392,7 +1392,7 @@ static int svm_range_validate_and_map(struct mm_struct *mm,
- 		r = amdgpu_hmm_range_get_pages(&prange->notifier, mm, NULL,
- 					       prange->start << PAGE_SHIFT,
- 					       prange->npages, &hmm_range,
--					       false, true);
-+					       false, true, NULL);
- 		if (r) {
- 			pr_debug("failed %d to get svm range pages\n", r);
- 			goto unreserve_out;
-@@ -2657,7 +2657,7 @@ void svm_range_prefault(struct svm_range *prange, struct mm_struct *mm)
+@@ -2646,7 +2646,8 @@ svm_range_best_prefetch_location(struct svm_range *prange)
+ /* FIXME: This is a workaround for page locking bug when some pages are
+  * invalid during migration to VRAM
+  */
+-void svm_range_prefault(struct svm_range *prange, struct mm_struct *mm)
++void svm_range_prefault(struct svm_range *prange, struct mm_struct *mm,
++			void *owner)
+ {
+ 	struct hmm_range *hmm_range;
+ 	int r;
+@@ -2657,7 +2658,7 @@ void svm_range_prefault(struct svm_range *prange, struct mm_struct *mm)
  	r = amdgpu_hmm_range_get_pages(&prange->notifier, mm, NULL,
  				       prange->start << PAGE_SHIFT,
  				       prange->npages, &hmm_range,
--				       false, true);
-+				       false, true, NULL);
+-				       false, true, NULL);
++				       false, true, owner);
  	if (!r) {
  		amdgpu_hmm_range_get_pages_done(hmm_range);
  		prange->validated_once = true;
+diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_svm.h b/drivers/gpu/drm/amd/amdkfd/kfd_svm.h
+index 4297250f259d..08542fe39303 100644
+--- a/drivers/gpu/drm/amd/amdkfd/kfd_svm.h
++++ b/drivers/gpu/drm/amd/amdkfd/kfd_svm.h
+@@ -176,7 +176,8 @@ void schedule_deferred_list_work(struct svm_range_list *svms);
+ void svm_range_dma_unmap(struct device *dev, dma_addr_t *dma_addr,
+ 			 unsigned long offset, unsigned long npages);
+ void svm_range_free_dma_mappings(struct svm_range *prange);
+-void svm_range_prefault(struct svm_range *prange, struct mm_struct *mm);
++void svm_range_prefault(struct svm_range *prange, struct mm_struct *mm,
++			void *owner);
+ 
+ #else
+ 
 -- 
 2.31.1
 
