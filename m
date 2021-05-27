@@ -1,44 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24540392F5C
-	for <lists+dri-devel@lfdr.de>; Thu, 27 May 2021 15:21:49 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 29971392F87
+	for <lists+dri-devel@lfdr.de>; Thu, 27 May 2021 15:25:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 594DD6F390;
-	Thu, 27 May 2021 13:21:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AAD396F39F;
+	Thu, 27 May 2021 13:25:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x22b.google.com (mail-oi1-x22b.google.com
- [IPv6:2607:f8b0:4864:20::22b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4BEA46F39B
- for <dri-devel@lists.freedesktop.org>; Thu, 27 May 2021 13:21:43 +0000 (UTC)
-Received: by mail-oi1-x22b.google.com with SMTP id u11so739360oiv.1
- for <dri-devel@lists.freedesktop.org>; Thu, 27 May 2021 06:21:43 -0700 (PDT)
+Received: from mail-oi1-x22c.google.com (mail-oi1-x22c.google.com
+ [IPv6:2607:f8b0:4864:20::22c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7B6566E839
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 May 2021 13:25:32 +0000 (UTC)
+Received: by mail-oi1-x22c.google.com with SMTP id c196so718364oib.9
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 May 2021 06:25:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=Y4wHq3JYazGJkoY4cUlqSjVTvNr7ucgXj8VyaG87iMk=;
- b=h6OHxVVjnprH3+E1OCfW6obnUl9Q7MPeY8AcHbAWX1ng9+vSYk7nJwvdrSzK8qyDwr
- 222RRc0H2N2aMFCADS/Jdb6Tyw3m7ebrW+xCp42d9oXAKnyyEClRXmZisJhqo3tAfhcM
- 6lpQUzQTvp+ns7iGyj4gqZ8tOXWlSqzumIIek=
+ bh=yQwLzJ+ZJHTrIF+F0wVqlsTETpecT+FF76rJ3qnoHhs=;
+ b=DZ/sU+ZtUKGdK6FcCZGk9mgUyBQ0TzefivUOsH4ItQODItmp2LmJNUCBz49bSKkSfo
+ q3PqUY0wnQk2GzWnmfhEcz6FOj8JGlGIvUCgmCI3ogvE+ii3rwpyj2ydcY1/MkrogbVe
+ jaLT198sxOdablOHLPjWbrGj1TbwM0cERqAJA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=Y4wHq3JYazGJkoY4cUlqSjVTvNr7ucgXj8VyaG87iMk=;
- b=D28FjvLZDFxXf7pjeSauTG0dmbdEFWbIJEGELrw4dsO+wMaWUyEirrWHDj0SrzAcD7
- jvTnNatuSPAdTW46iYt8OJLHRJ0sWPbFTaNN+klC89Np5LCKzIolZHo++P19euMThJS/
- BZGbrSlFxcKVy3FhN8nvXsf34hL1YUNEoxpQb+uzaCiaWC8ILF4KRmcWcxvFAxMiG/Ga
- aRorrmnZZAb/zNIJFFl7djMyYeaFheJVDQIgkiMFDhUMLzh10+0/rJx8tykvViQtij1b
- CPliCfb1v2UFhN8Nh920WgqhHNAqozC3rKM1MJN1P7N94V1STPE0jcuNPZ67LjjQA7iR
- WsuA==
-X-Gm-Message-State: AOAM532LVS5XYE15i6BsoawK49rF4gSKixAPbtFP6CSgzJykEC0caXmG
- HwJvVL+N33kyCJfKN3oGZ4Mw1F8mPao2BZJqUpx5lg==
-X-Google-Smtp-Source: ABdhPJyIaVSn06oahaaQ6WLRNj/9aYRvLxQuUvDDL2wfUFZzZK6hWRFL4gGaI8EgGC4ge+dD0N8G9rc+D9vPQyJt30w=
-X-Received: by 2002:a05:6808:1142:: with SMTP id
- u2mr5316407oiu.101.1622121702358; 
- Thu, 27 May 2021 06:21:42 -0700 (PDT)
+ bh=yQwLzJ+ZJHTrIF+F0wVqlsTETpecT+FF76rJ3qnoHhs=;
+ b=Dl15qOAajSCWnyUKSclcAllr7g81EJvUpXawjm5KB9NpP8RRckg+sJdSszJPWVro+a
+ h5pCmpKBbWk+lwDfYUbckxCuKRvEfSTbEXWiOrHxSKHZ+KNOnjf7m/Oi9EEhmu0MRSfe
+ W3syotIZFzzud3kYkTeupPXBCKvMKZfkDYMqlIX4buki6+zKB00IuvSYa9KnTJ1n5LRL
+ kFJuKjz69biQbipLCgshTyP1ZfOBxK1DFDxpHW9GxBHRehMihgyVWo46WdRCcjPzR3xH
+ g63bykSf4zbcbJIUC02x7N7WOuF2TgE2BvENXiwP5xBgmomctpIm9qV0iH7VKEM+6Rk4
+ FyjA==
+X-Gm-Message-State: AOAM530Mpx1s0M/Rf4mtqVb+3yxX/lysu8Z12b6BaqjgM1a/VwEHNE52
+ /PFQ0FU167d56OudRO3DKBZcdBA5/YkuvNaKBY0Avg==
+X-Google-Smtp-Source: ABdhPJy1wJmc0iU2HiRwwXPt7P57oRbV2LS/8Mi4WO/FrkK7yInVrbZEDODu6K24C+0D0AKg2fMlooRGkldZx/9mHcA=
+X-Received: by 2002:a54:4809:: with SMTP id j9mr5372832oij.14.1622121931680;
+ Thu, 27 May 2021 06:25:31 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210525211753.1086069-1-jason@jlekstrand.net>
  <20210525211753.1086069-3-jason@jlekstrand.net>
@@ -47,8 +46,8 @@ References: <20210525211753.1086069-1-jason@jlekstrand.net>
  <c092d91f-bbfd-7595-7f5c-73b3de703821@amd.com>
 In-Reply-To: <c092d91f-bbfd-7595-7f5c-73b3de703821@amd.com>
 From: Daniel Vetter <daniel@ffwll.ch>
-Date: Thu, 27 May 2021 15:21:31 +0200
-Message-ID: <CAKMK7uEQjnJZNp-ya5qhp05iUtpSoc3+8rTGCu_hs4HrC3QFLg@mail.gmail.com>
+Date: Thu, 27 May 2021 15:25:20 +0200
+Message-ID: <CAKMK7uF-xHwLCp_5v+quqOvZxeX1nsE8RRA13iQ+AdQUOm_ufA@mail.gmail.com>
 Subject: Re: [PATCH 2/7] dma-buf: Rename dma_resv helpers from _rcu to
  _unlocked (v2)
 To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
@@ -76,6 +75,7 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On Thu, May 27, 2021 at 1:59 PM Christian K=C3=B6nig
 <christian.koenig@amd.com> wrote:
+>
 > Am 27.05.21 um 12:39 schrieb Daniel Vetter:
 > > On Wed, May 26, 2021 at 12:57:40PM +0200, Christian K=C3=B6nig wrote:
 > >> Am 25.05.21 um 23:17 schrieb Jason Ekstrand:
@@ -101,7 +101,19 @@ uldn't
 > I had some follow up discussion with Jason and I would rather like to
 > switch to using rcu_dereference_check() in all places and completely
 > remove the _rcu postfix.
->
+
+Hm, I'm not sure whether spreading _rcu tricks further is an
+especially bright idea. At least i915 is full of very clever _rcu
+tricks, and encouraging drivers to roll out their own _rcu everywhere
+is probably not in our best interest. Some fast-path checking is imo
+ok, but that's it. Especially once we get into the entire
+SLAB_TYPESAFE_BY_RCU business it becomes really nasty really quickly.
+
+That's why I'm slightly leaning towards _unlocked variants, except we
+do use those in lots of places where we hold dma_resv_lock too. So not
+sure what's the best plan overall here.
+-Daniel
+
 > But yes I see the pain of rebasing this as well.
 >
 > Christian.
