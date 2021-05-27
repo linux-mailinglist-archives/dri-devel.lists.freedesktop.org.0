@@ -2,118 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB35B39311C
-	for <lists+dri-devel@lfdr.de>; Thu, 27 May 2021 16:41:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 115FC39314A
+	for <lists+dri-devel@lfdr.de>; Thu, 27 May 2021 16:47:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 41ED46EBF6;
-	Thu, 27 May 2021 14:41:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C649E6E8A5;
+	Thu, 27 May 2021 14:47:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM02-BN1-obe.outbound.protection.outlook.com
- (mail-bn1nam07on2071.outbound.protection.outlook.com [40.107.212.71])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F32086E8CE;
- Thu, 27 May 2021 14:41:10 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=a5Qkid7FttMYKKHYpUGdBU+35V4v+SsRNsnuT4KRcIxWmjURLSiJhV9KUNRs240BnwURE1lRi47gpOsPbOsoebE3T56cqXAdgiCT+fx2KymwxFZ1LE8I2UAxnkpKa9HX28sax9Jrcm0xSx+cTkLWlhp+Ey3Jpz307gLGa8bcZWe5URxMT9w/bjuRk4FESXGP7OD/2wkbRrr2moxKTcs3m65CU22s6uqLDe5Y/qZmePTDvPIDjkxBK827NFqAr6IxyM4UA4OLyIjfrit49TrRfTuj+JdDzNcOM54wWoxH6j3PRg7/nWJjOe6bXRUuQBqQHWFOaVV7VMjaK2oTNg5KpA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=xov16ex2LLNz59XcqP8ZntDrIieWMcGionlMx8pusEY=;
- b=NVhmAjt1LefX6M7BHKuU+NBv/+rPRp7mehKbMgD7Vo8QiapJo1wU7pzItmAroymAmuWmZbLIoGo1v9v/yID6cJLuLRuE66bRyBLGcxVOMj0ICLwQNArdnn+tIuzXTEtrUJna5q5b40Gg1hilSowkndsei0MOMkPuAGswBCooBY9ehcs0iv+OJlFr3pYyoKhAwMd02EqgWiboCbwzwQgPWLYD4xWTKYGERouAwJJTVuKyE974PJpyBZVK5EPYcUTFUkwkEeFamtw9SswgAzezsWe1vCD9I6Uu8+IqHGaZLn8Qa/w0dfGR3MunzK5Zi6z5vbhKmN+k+3Yawg5ugCB4ZA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=xov16ex2LLNz59XcqP8ZntDrIieWMcGionlMx8pusEY=;
- b=WMnXzm73hbEdQkv9+AAe+P/IpiJ2/2NFybvRfzC8WnYGVfU2s+kuP5a6/0LfGLvH7MnrUc3CO+ODX3GNtyrpvclzfwJALOnWGHsg31xfygktZ4wxstidddi+ggkxlgzKI/MsdTkzJZGdOIn6AisWXY3LVl4ToaYPSvjcMELD0mw=
-Authentication-Results: linux.intel.com; dkim=none (message not signed)
- header.d=none;linux.intel.com; dmarc=none action=none header.from=amd.com;
-Received: from DM5PR12MB1355.namprd12.prod.outlook.com (2603:10b6:3:6e::7) by
- DM6PR12MB4218.namprd12.prod.outlook.com (2603:10b6:5:21b::16) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4173.24; Thu, 27 May 2021 14:41:08 +0000
-Received: from DM5PR12MB1355.namprd12.prod.outlook.com
- ([fe80::b914:4704:ad6f:aba9]) by DM5PR12MB1355.namprd12.prod.outlook.com
- ([fe80::b914:4704:ad6f:aba9%12]) with mapi id 15.20.4173.022; Thu, 27 May
- 2021 14:41:08 +0000
-Subject: Re: [PATCH v7 01/15] swiotlb: Refactor swiotlb init functions
-To: Christoph Hellwig <hch@lst.de>, Florian Fainelli <f.fainelli@gmail.com>
-References: <20210518064215.2856977-1-tientzu@chromium.org>
- <20210518064215.2856977-2-tientzu@chromium.org>
- <170a54f2-be20-ec29-1d7f-3388e5f928c6@gmail.com>
- <20210527130211.GA24344@lst.de>
-From: Tom Lendacky <thomas.lendacky@amd.com>
-Message-ID: <bab261b4-f801-05af-8fd9-c440ed219591@amd.com>
-Date: Thu, 27 May 2021 09:41:02 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
-In-Reply-To: <20210527130211.GA24344@lst.de>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [67.79.209.213]
-X-ClientProxiedBy: SN2PR01CA0050.prod.exchangelabs.com (2603:10b6:800::18) To
- DM5PR12MB1355.namprd12.prod.outlook.com (2603:10b6:3:6e::7)
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 012A26E08E;
+ Thu, 27 May 2021 14:47:22 +0000 (UTC)
+IronPort-SDR: THZ0OkcRPPcsHnpCCxRMZOylmV88nCd+4dNaXnZ5ol4hynqGXKkCq3XUKiEslPI+jNn1UChvdX
+ 8VwA++8Ct6KQ==
+X-IronPort-AV: E=McAfee;i="6200,9189,9996"; a="202515552"
+X-IronPort-AV: E=Sophos;i="5.82,334,1613462400"; d="scan'208";a="202515552"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 May 2021 07:47:22 -0700
+IronPort-SDR: qDZTjtpr76doSTLt+hTKu9yywGVGU6nwpD2AodJZPLNZQsmp/RwgIbwS+om5PernM18Bw+VcMe
+ tNkR5H8m0vNA==
+X-IronPort-AV: E=Sophos;i="5.82,334,1613462400"; d="scan'208";a="443597790"
+Received: from ibanaga-mobl.ger.corp.intel.com (HELO thellst-mobl1.intel.com)
+ ([10.249.254.58])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 May 2021 07:47:20 -0700
+From: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
+To: intel-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org
+Subject: [PATCH v5 00/15] Move LMEM (VRAM) management over to TTM 
+Date: Thu, 27 May 2021 16:46:55 +0200
+Message-Id: <20210527144710.1975553-1-thomas.hellstrom@linux.intel.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from office-linux.texastahm.com (67.79.209.213) by
- SN2PR01CA0050.prod.exchangelabs.com (2603:10b6:800::18) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4173.22 via Frontend Transport; Thu, 27 May 2021 14:41:04 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 59e14bbc-1eea-4b9f-e0b6-08d9211d768f
-X-MS-TrafficTypeDiagnostic: DM6PR12MB4218:
-X-Microsoft-Antispam-PRVS: <DM6PR12MB4218889520CE03D8A0062CAAEC239@DM6PR12MB4218.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:4941;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: nZNB84YC4kztOdLzWwMIlAuRl+h2KTNM+1A6fbzJA0nn9U3XrzLsdsg5fPGYLYXKx6BpkcxDV/PnT5Ym8OKRkAC0PkUfImgHMBoqNsExvyly+UmVkcW5UhrZRh4m7mC4TM/H784Uu41+EJZBAymgGY0SOBhF2a5m7wjXykLewN7O5UhL5Eokq6HcCehl9IOXO2rn8wkquQmMPSfJgFdghwToh8urF5O/q1hLoIeEzsPLt7qPDr4QG+mzBrMlQ5Faf15YqTi0Ajn1URT4xnVabof/ysvP4a73X2R5RsAJXocyU2CyWZOT2IO02O0KIiQ8bOKNl5OmHjK9PQZCucn4x4Y83ibfder6hoJx3+C6s4L8KJZk5gErfn1bslS9AgrJ+uiMLoLqgcyTGqfBhIc0I6jsmlYifXpA46e+mOWbtMEhNRIw9wJRjOxtH7lF+7fncpH/EjenpZKDSdyqdJjUtZmdOAX9q7ImvJWx6n7KzNtn+CaObMHxcwUdXOBgp+HfTVKk2SbGKKA2I6tMZQGqOaakYmNfT3HSAE0CNVGJ0Nxaav1m7zoG6+P7X40RPeQ2rhCnYWb7HBy+mbEMFp6PPKg+iCoJ5PRwz+8ZQYOEtSvHCypshtkyhG97zbLj+68F/InSYrrqudvTKYNYYNvpubjb0kmyV/Say81zdfegQYU=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM5PR12MB1355.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(396003)(136003)(346002)(376002)(366004)(39860400002)(38100700002)(4744005)(7406005)(7366002)(7416002)(6512007)(2906002)(53546011)(86362001)(8936002)(478600001)(2616005)(16526019)(956004)(316002)(5660300002)(36756003)(83380400001)(31686004)(186003)(6506007)(6486002)(54906003)(66476007)(110136005)(26005)(31696002)(4326008)(66556008)(66946007)(8676002)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?OGgyZW1PNU5qT3ZSeisxckZFc0tldW91cTExWEx4RVFXbjBLS2JVTitudGd5?=
- =?utf-8?B?ZXB0bDY0SVM3cTZrd1JGeFo0SDRjMTlEVkJmcnZ0MzI0UnZSWVZRQlZEY0dV?=
- =?utf-8?B?VjRaSlkyNm1KMEsxcFg4VGZEWVA2T25tYW4wajdHR0YxNGJBRjV4eXZYRUpT?=
- =?utf-8?B?QWkybUc3UVlnNTBHS3M0NUlhU0MvWDRsRldpck1iSmh2aHFNalM2MXBqcmpa?=
- =?utf-8?B?QUU1YnZvWjJlR0lYRVpvbjhlSmVTS1RqVERibnl4M1Y4eDR5QUlJWlpLMUor?=
- =?utf-8?B?ak5NYldoR0dxczZZNmFwSEtOMHFKcHlmZTVmTEl0TVNmQkl4ZjRncXFRN0tB?=
- =?utf-8?B?TWltUFlTcjVRYUU4d1pUMXBSakkzc2IrMkR2eHBEL2J1N1NtMzFJTytsWTMw?=
- =?utf-8?B?NVVOdFp4TitQVlhDZit2ZEIvM294SHZjeVZCOVZqbTk2SmNYeXV5bCtKa2pD?=
- =?utf-8?B?UEFqSW50ck5BdDRuQUNwUFF3aGVZUDRFUUxEeFlET1FYaC9GU2dSNVUyZzVW?=
- =?utf-8?B?a3NmY3duR2tRYko0NGd4Rzc2NzVGSkJMSWJGMnFFSk41Y1NYb2llSUszdUMv?=
- =?utf-8?B?anZZZjJWSGNoeXJXajZjQlJNcXQ5VzBPVmZ4clc4eEJBT0dGblRZLytia0NP?=
- =?utf-8?B?MURQUEZwVDJSalBsRlFuYUJabC9MakVubG9tVjVJOVdkMnl5ZWtNSU5TOGdM?=
- =?utf-8?B?Z0ducUxiM1daNStlM0tFZzU0emh2YnQxSjkxZmd1cy9LV1R4WmxGUlA0NlhO?=
- =?utf-8?B?SnoyOElpaDhzUHFZdDE4UVpMSmtmdkFpY2pvTksrTUxWejJqV0Vob2NjMUVq?=
- =?utf-8?B?ZUxxdlQraGd0YTZPekNOQ3N4UTNwV0huUG9Mam9rM1hnajc4VE5qT2xnWUNn?=
- =?utf-8?B?VWNBTkxULzlJN3BHNWVnTUc5cDV4S3dmdU9YR3VveWZURnQ1TmJxZjE1aDhy?=
- =?utf-8?B?UXFtNnRPOFladWZab1JwWmloN2plYTdUc2NqaWlFTFZMTEdKTERkZnZSTy8z?=
- =?utf-8?B?blcrbWU1RTVsWFlHNXhFRlUwZFFpdDduWTJNcDRPMGVtVTJ6dVdHQjFYNFVP?=
- =?utf-8?B?djc4NjdKeVc3czFvanFROFFqdU9VOWE5Wmc0d01QTE9GeHAvVFY3SnMvdW5z?=
- =?utf-8?B?Qi9VN2lVUnNsb2pxOWliOXlmcDh6eG9iZUtRZzNXZmFXRFlvUlpNM1FHaGVx?=
- =?utf-8?B?V2hCbUhpWkQwRmdyelozSzFyMDlRNnJveXBCU1c3MlgxYTlTMWIybzc2UjAy?=
- =?utf-8?B?dW9RSnlOakVsblZDN0F6dzdMOW9lNDQxbngrMGpvT3NVTDZpTDVEeXV0T01L?=
- =?utf-8?B?ODM3azY4TU93UE1CMHZ3V3pnUTZycmF6YmliVTZORXBiZ3hJeXJLcnpiTmtM?=
- =?utf-8?B?RHEwalZtaU8rTTY3ajlaaHpmSjJTZEREdGFPcHlBMzJrS2tQZWtDajY0WmVB?=
- =?utf-8?B?K2EzbFZtQUtJWk9rRytLVG12Z2x3WVowRk8vRUdjYzZKUjJIK0tEVWNhcXJG?=
- =?utf-8?B?MndLQlk0cVljRW9NTkU5SWlScTFld3Fld3MrR1VmQXkvTmI2ZTNvZzhqYlhj?=
- =?utf-8?B?ZjNFZzdOV093akNmUlcvcklnYURkQUdWbHZBeXhibnpRSWhGVHJ0TTJmbk42?=
- =?utf-8?B?WTRTUWhzc3YvMFJmbnhTS3RIZDgwajhiVkk5OEx5V3hGRXpySmNCZDdVcGJU?=
- =?utf-8?B?WU9HbGRQN3E5dkFET0kzUUtEZVZDazdIaVl5TkVDMGlzSkZpZEdjb2NEQ2hz?=
- =?utf-8?Q?FkiPGixk4soS+HSivd/GXKKe6qNXTD5QcRXLY01?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 59e14bbc-1eea-4b9f-e0b6-08d9211d768f
-X-MS-Exchange-CrossTenant-AuthSource: DM5PR12MB1355.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 May 2021 14:41:08.0642 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 5CsF8+AyOlbzvidWQoLfPambEK4AEjMpHIQTAAL4vJ0v4GhJJhQZeJ2+YilHLtstBzE3OoZMtjG1uZ8CgLZkHw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4218
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -126,54 +48,159 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: heikki.krogerus@linux.intel.com, thomas.hellstrom@linux.intel.com,
- peterz@infradead.org, dri-devel@lists.freedesktop.org,
- chris@chris-wilson.co.uk, grant.likely@arm.com, paulus@samba.org,
- Frank Rowand <frowand.list@gmail.com>, mingo@kernel.org,
- Marek Szyprowski <m.szyprowski@samsung.com>, sstabellini@kernel.org,
- Saravana Kannan <saravanak@google.com>, xypron.glpk@gmx.de,
- Joerg Roedel <joro@8bytes.org>,
- "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>,
- Bartosz Golaszewski <bgolaszewski@baylibre.com>, bskeggs@redhat.com,
- linux-pci@vger.kernel.org, xen-devel@lists.xenproject.org,
- Thierry Reding <treding@nvidia.com>, intel-gfx@lists.freedesktop.org,
- matthew.auld@intel.com, linux-devicetree <devicetree@vger.kernel.org>,
- jxgao@google.com, Will Deacon <will@kernel.org>,
- Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>, airlied@linux.ie,
- Dan Williams <dan.j.williams@intel.com>, linuxppc-dev@lists.ozlabs.org,
- Rob Herring <robh+dt@kernel.org>, rodrigo.vivi@intel.com, bhelgaas@google.com,
- Claire Chang <tientzu@chromium.org>, boris.ostrovsky@oracle.com,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>, jgross@suse.com,
- Nicolas Boichat <drinkcat@chromium.org>, Greg KH <gregkh@linuxfoundation.org>,
- Randy Dunlap <rdunlap@infradead.org>, lkml <linux-kernel@vger.kernel.org>,
- tfiga@chromium.org,
- "list@263.net:IOMMU DRIVERS" <iommu@lists.linux-foundation.org>,
- Jim Quinlan <james.quinlan@broadcom.com>, mpe@ellerman.id.au,
- Robin Murphy <robin.murphy@arm.com>, bauerman@linux.ibm.com
+Cc: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 5/27/21 8:02 AM, Christoph Hellwig wrote:
-> On Wed, May 19, 2021 at 11:50:07AM -0700, Florian Fainelli wrote:
->> You convert this call site with swiotlb_init_io_tlb_mem() which did not
->> do the set_memory_decrypted()+memset(). Is this okay or should
->> swiotlb_init_io_tlb_mem() add an additional argument to do this
->> conditionally?
-> 
-> The zeroing is useful and was missing before.  I think having a clean
-> state here is the right thing.
-> 
-> Not sure about the set_memory_decrypted, swiotlb_update_mem_attributes
-> kinda suggests it is too early to set the memory decrupted.
-> 
-> Adding Tom who should now about all this.
+This is an initial patch series to move discrete memory management over to
+TTM. It will be followed up shortly with adding more functionality.
 
-The reason for adding swiotlb_update_mem_attributes() was because having
-the call to set_memory_decrypted() in swiotlb_init_with_tbl() triggered a
-BUG_ON() related to interrupts not being enabled yet during boot. So that
-call had to be delayed until interrupts were enabled.
+The buddy allocator is temporarily removed along with its selftests and
+It is replaced with the TTM range manager and some selftests are adjusted
+to account for introduced fragmentation. Work is ongoing to reintroduce the
+buddy allocator as a TTM resource manager.
 
-Thanks,
-Tom
+A new memcpy ttm move is introduced that uses kmap_local() functionality
+rather than vmap(). Among other things stated in the patch commit message
+it helps us deal with page-pased LMEM memory. It is generic enough to replace
+the ttm memcpy move with some additional work if so desired. On x86 it also
+enables prefetching reads from write-combined memory.
 
-> 
+Finally the old i915 gem object LMEM backend is replaced with a
+i915 gem object TTM backend and some additional i915 gem object ops are
+introduced to support the added functionality.
+Currently it is used only to support management and eviction of the LMEM
+region, but work is underway to extend the support to system memory. In this
+way we use TTM the way it was originally intended, having the GPU binding
+taken care of by driver code.
+
+Intention is to follow up with
+- System memory support
+- Pipelined accelerated moves / migration
+- Re-added buddy allocator in the TTM framework
+
+v2:
+- Add patches to move pagefaulting over to TTM
+- Break out TTM changes to separate patches
+- Address various review comments as detailed in the affected patches
+
+v3:
+- Drop TTM pagefaulting patches for now due changing approach due to a NAK.
+- Address feedback on TTM patches
+- Move the new TTM memcpy functionality into TTM.
+- Move fast WC memcpy to drm
+- Various fixes all over the place as shown in patch commit messages.
+
+v4:
+- Re-add TTM pagefaulting patches.
+- Addressed review feedback mainly from Matthew Auld
+- Fixed the mock ttm device code that was using an incorrect approach.
+
+v5:
+- Cleanups in the TTM pagefaulting patches.
+- Just add the WC memcpy to DRM without removing from i915
+  (Suggested by Daniel Vetter).
+- Various minor fixes as reported in patch log messages.
+
+Cc: Christian König <christian.koenig@amd.com>
+
+Maarten Lankhorst (3):
+  drm/i915: Disable mmap ioctl for gen12+
+  drm/vma: Add a driver_private member to vma_node.
+  drm/i915: Use ttm mmap handling for ttm bo's.
+
+Thomas Hellström (12):
+  drm/i915: Untangle the vma pages_mutex
+  drm/i915: Don't free shared locks while shared
+  drm/i915: Fix i915_sg_page_sizes to record dma segments rather than
+    physical pages
+  drm/i915/ttm Initialize the ttm device and memory managers
+  drm/i915/ttm: Embed a ttm buffer object in the i915 gem object
+  drm/ttm: Add a generic TTM memcpy move for page-based iomem
+  drm: Add a prefetching memcpy_from_wc
+  drm/ttm: Use drm_memcpy_from_wc for TTM bo moves
+  drm/ttm: Document and optimize ttm_bo_pipeline_gutting()
+  drm/ttm, drm/amdgpu: Allow the driver some control over swapping
+  drm/i915/ttm: Introduce a TTM i915 gem object backend
+  drm/i915/lmem: Verify checks for lmem residency
+
+ Documentation/gpu/drm-mm.rst                  |   2 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c       |   4 +
+ drivers/gpu/drm/drm_cache.c                   | 138 +++
+ drivers/gpu/drm/drm_drv.c                     |   2 +
+ drivers/gpu/drm/drm_gem.c                     |   9 -
+ drivers/gpu/drm/i915/Kconfig                  |   1 +
+ drivers/gpu/drm/i915/Makefile                 |   3 +-
+ drivers/gpu/drm/i915/display/intel_display.c  |   2 +-
+ drivers/gpu/drm/i915/gem/i915_gem_create.c    |   9 +-
+ drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c    |   2 +-
+ drivers/gpu/drm/i915/gem/i915_gem_lmem.c      |  71 +-
+ drivers/gpu/drm/i915/gem/i915_gem_lmem.h      |   5 -
+ drivers/gpu/drm/i915/gem/i915_gem_mman.c      |  90 +-
+ drivers/gpu/drm/i915/gem/i915_gem_object.c    | 149 +++-
+ drivers/gpu/drm/i915/gem/i915_gem_object.h    |  19 +-
+ .../gpu/drm/i915/gem/i915_gem_object_types.h  |  52 +-
+ drivers/gpu/drm/i915/gem/i915_gem_pages.c     |   6 +-
+ drivers/gpu/drm/i915/gem/i915_gem_phys.c      |   2 +-
+ drivers/gpu/drm/i915/gem/i915_gem_region.c    | 126 +--
+ drivers/gpu/drm/i915/gem/i915_gem_region.h    |   4 -
+ drivers/gpu/drm/i915/gem/i915_gem_shmem.c     |   4 +-
+ drivers/gpu/drm/i915/gem/i915_gem_stolen.c    |  10 +-
+ drivers/gpu/drm/i915/gem/i915_gem_stolen.h    |   9 +-
+ drivers/gpu/drm/i915/gem/i915_gem_ttm.c       | 648 ++++++++++++++
+ drivers/gpu/drm/i915/gem/i915_gem_ttm.h       |  48 ++
+ drivers/gpu/drm/i915/gem/i915_gem_userptr.c   |   2 +-
+ .../drm/i915/gem/selftests/i915_gem_mman.c    |  90 +-
+ drivers/gpu/drm/i915/gt/intel_ggtt.c          |  19 +-
+ drivers/gpu/drm/i915/gt/intel_gt.c            |   2 -
+ drivers/gpu/drm/i915/gt/intel_gtt.c           |  45 +-
+ drivers/gpu/drm/i915/gt/intel_gtt.h           |  28 +-
+ drivers/gpu/drm/i915/gt/intel_ppgtt.c         |   2 +-
+ drivers/gpu/drm/i915/gt/intel_region_lmem.c   |  30 +-
+ drivers/gpu/drm/i915/i915_buddy.c             | 435 ----------
+ drivers/gpu/drm/i915/i915_buddy.h             | 131 ---
+ drivers/gpu/drm/i915/i915_drv.c               |  13 +
+ drivers/gpu/drm/i915/i915_drv.h               |   8 +-
+ drivers/gpu/drm/i915/i915_gem.c               |   6 +-
+ drivers/gpu/drm/i915/i915_globals.c           |   1 -
+ drivers/gpu/drm/i915/i915_globals.h           |   1 -
+ drivers/gpu/drm/i915/i915_scatterlist.c       |  70 ++
+ drivers/gpu/drm/i915/i915_scatterlist.h       |  20 +-
+ drivers/gpu/drm/i915/i915_vma.c               |  29 +-
+ drivers/gpu/drm/i915/intel_memory_region.c    | 181 ++--
+ drivers/gpu/drm/i915/intel_memory_region.h    |  45 +-
+ drivers/gpu/drm/i915/intel_region_ttm.c       | 220 +++++
+ drivers/gpu/drm/i915/intel_region_ttm.h       |  37 +
+ drivers/gpu/drm/i915/selftests/i915_buddy.c   | 789 ------------------
+ .../drm/i915/selftests/i915_mock_selftests.h  |   1 -
+ drivers/gpu/drm/i915/selftests/igt_mmap.c     |  25 +-
+ drivers/gpu/drm/i915/selftests/igt_mmap.h     |  12 +-
+ .../drm/i915/selftests/intel_memory_region.c  | 133 +--
+ .../gpu/drm/i915/selftests/mock_gem_device.c  |  10 +
+ drivers/gpu/drm/i915/selftests/mock_region.c  |  70 +-
+ drivers/gpu/drm/ttm/ttm_bo.c                  |  63 +-
+ drivers/gpu/drm/ttm/ttm_bo_util.c             | 320 +++----
+ drivers/gpu/drm/ttm/ttm_module.c              |  35 +
+ drivers/gpu/drm/ttm/ttm_resource.c            | 193 +++++
+ drivers/gpu/drm/ttm/ttm_tt.c                  |  42 +
+ include/drm/drm_cache.h                       |   7 +
+ include/drm/drm_vma_manager.h                 |   2 +-
+ include/drm/ttm/ttm_bo_driver.h               |  28 +
+ include/drm/ttm/ttm_caching.h                 |   2 +
+ include/drm/ttm/ttm_kmap_iter.h               |  61 ++
+ include/drm/ttm/ttm_resource.h                |  61 ++
+ include/drm/ttm/ttm_tt.h                      |  29 +
+ 66 files changed, 2531 insertions(+), 2182 deletions(-)
+ create mode 100644 drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+ create mode 100644 drivers/gpu/drm/i915/gem/i915_gem_ttm.h
+ delete mode 100644 drivers/gpu/drm/i915/i915_buddy.c
+ delete mode 100644 drivers/gpu/drm/i915/i915_buddy.h
+ create mode 100644 drivers/gpu/drm/i915/intel_region_ttm.c
+ create mode 100644 drivers/gpu/drm/i915/intel_region_ttm.h
+ delete mode 100644 drivers/gpu/drm/i915/selftests/i915_buddy.c
+ create mode 100644 include/drm/ttm/ttm_kmap_iter.h
+
+-- 
+2.31.1
+
