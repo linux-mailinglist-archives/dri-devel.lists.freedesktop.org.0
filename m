@@ -1,61 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6082E392C94
-	for <lists+dri-devel@lfdr.de>; Thu, 27 May 2021 13:22:59 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id CB9D7392C9A
+	for <lists+dri-devel@lfdr.de>; Thu, 27 May 2021 13:24:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CE7C26EE81;
-	Thu, 27 May 2021 11:22:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9D64A6EE84;
+	Thu, 27 May 2021 11:24:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com
- [IPv6:2a00:1450:4864:20::62a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B12C96EE82
- for <dri-devel@lists.freedesktop.org>; Thu, 27 May 2021 11:22:49 +0000 (UTC)
-Received: by mail-ej1-x62a.google.com with SMTP id jt22so7440216ejb.7
- for <dri-devel@lists.freedesktop.org>; Thu, 27 May 2021 04:22:49 -0700 (PDT)
+Received: from mail-ed1-x532.google.com (mail-ed1-x532.google.com
+ [IPv6:2a00:1450:4864:20::532])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C71126EE87
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 May 2021 11:24:08 +0000 (UTC)
+Received: by mail-ed1-x532.google.com with SMTP id j9so421616edt.6
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 May 2021 04:24:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:content-transfer-encoding:in-reply-to;
- bh=Hsq4MI72k1IdZdZS7WsYodiUse6OcN72CW+w7uTnZMU=;
- b=DV98uznTRt5lRl//DvXjXXVQyMbRKkQKY19rl9cvS/yatz7d60aTj6R107nyR3aVlF
- 5oriuwnZJnZtRBH9/5Cx4lJN5pEz/Wmvos/s4Os403W7s4abI5CWZIoQWapjZgKljdYv
- JjEh1uSLdEDYxd1OMmTvMXIbKQHggjbdom5Yw=
+ bh=cFCdbnSriV+m5TTdP7OjfbVDSzkVf0ZH1+uNI0+pi9E=;
+ b=P1fqnpDUS+Fs6NEKU7Gt5CBhqTnndZmlL7HekqaN8Lxb5B7v9tMj89BRZmhtZjftbH
+ 8nzkkK2skuygex6iq+zo/j3aGSkoramFOeVjhmZ59DthkSTx/MYhViS1lI7qQvC9dCW3
+ OFnBjIPrBsjfpRp8fsI5GfbL/SsXduxwuPRj8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:content-transfer-encoding
  :in-reply-to;
- bh=Hsq4MI72k1IdZdZS7WsYodiUse6OcN72CW+w7uTnZMU=;
- b=BNoh3CScpFmEup1ckIZJh4WNzNS3Y9/ptreikhMMM2oLxPzgf/IGVlV5ss5izoO1Nq
- ACQ3oLPpWVcnin6CE5dxzmvEuGA1mnnLQobdvEA3QW3SkXlGOi9mgSXprHbKwaGuX+I6
- 3B49yM7cEtnw24AM0LstRN2aMKx/L+Hq6GP2i9oQ4U3BqIpk74qc4ugHjN8EXDkjHF35
- kB20B56wkg4uN8g8OK1vv59dMsURS5eN/XN+ZisAaxtGYY58fELrOZLvxIh2F3ZhwgNB
- DbUtkngK5Tzvv6PAj9fFPfFfrQzhCRvPBZIwkkERAoIsBXWqK1qh531NIhC25GNfU7fT
- 3vAQ==
-X-Gm-Message-State: AOAM533GtaTNFKRwl7xC0JSe+RDJJVb58t0eggdy0vCiaSOByM5ZMG8k
- BNzb+4H59cZeanyy4QuGI0FO2g==
-X-Google-Smtp-Source: ABdhPJwkarwsxetAcfk71UD0ZDOG++V183h3c4XK4zicbtcGlnbV+MqLdDZtdCgsJVB2/cWm7RkXzw==
-X-Received: by 2002:a17:906:c247:: with SMTP id
- bl7mr3362214ejb.288.1622114568300; 
- Thu, 27 May 2021 04:22:48 -0700 (PDT)
+ bh=cFCdbnSriV+m5TTdP7OjfbVDSzkVf0ZH1+uNI0+pi9E=;
+ b=qsWyWzF+GU40E0ASQOJsAU51C6Odgu9b9FfC0MzQ56Y/b7Ot18XTxCYrTxeisrJA9U
+ taNyfzZf9IJkyTv1PfWT0vy/tHQcigoTM7tU+9FSaBFNiQmzKMT0JIbz4qNe3As1oRA1
+ eZwVKWbN2v3m7kt7UcG8ERydXkwP0MBAy5H1un5ILGfCcg3dfI9Fq+zQzbBwEU82Dcdl
+ sJNJcFe6qewRxh4lD0Dihvgwtnb4Ck8+WrazGF4bw9WxiUoamc5cY/l8CN5TQ3azwbeA
+ YJs79tr/OJoMUpJZe7H0W+tJXeDC0B9mH033oDtwaJMYL1+mh4UkLDosG4j4wwm/afKE
+ JdXg==
+X-Gm-Message-State: AOAM531UgiuzHk5+D2drSLl/UlpSmjvlhm5RrKXq4b5fTt45DP5995Yk
+ ZikPbdbDlegZZHhLLhgN8wGpqg==
+X-Google-Smtp-Source: ABdhPJxH94rTIrRFLnFAfohzLaSUJNqzxNPDifSA2OPG3GavMNbd0Svh7ASB4JEmd36tB9QQeqdNSg==
+X-Received: by 2002:aa7:db08:: with SMTP id t8mr3489384eds.277.1622114647456; 
+ Thu, 27 May 2021 04:24:07 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id z7sm847557ejm.122.2021.05.27.04.22.47
+ by smtp.gmail.com with ESMTPSA id bx21sm956628edb.64.2021.05.27.04.24.06
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 27 May 2021 04:22:47 -0700 (PDT)
-Date: Thu, 27 May 2021 13:22:45 +0200
+ Thu, 27 May 2021 04:24:06 -0700 (PDT)
+Date: Thu, 27 May 2021 13:24:05 +0200
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Subject: Re: [PATCH] drm/i915: Disable gpu relocations
-Message-ID: <YK+BBWYzhlNbVnlg@phenom.ffwll.local>
-References: <20210526163730.3423181-1-daniel.vetter@ffwll.ch>
- <55fb9d6c-23aa-bdce-250f-7f0377441a53@linux.intel.com>
+To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Subject: Re: [Intel-gfx] [RFC PATCH 1/2] drm/doc/rfc: i915 GuC submission /
+ DRM scheduler
+Message-ID: <YK+BVbCFvpVR1qxj@phenom.ffwll.local>
+References: <20210526233357.9165-1-matthew.brost@intel.com>
+ <20210526233357.9165-2-matthew.brost@intel.com>
+ <5a4ae6d0-cb47-fb8a-1f07-4f22f64cb919@linux.intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <55fb9d6c-23aa-bdce-250f-7f0377441a53@linux.intel.com>
+In-Reply-To: <5a4ae6d0-cb47-fb8a-1f07-4f22f64cb919@linux.intel.com>
 X-Operating-System: Linux phenom 5.10.32scarlett+ 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -69,77 +70,167 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Chris Wilson <chris@chris-wilson.co.uk>,
- Jon Bloomfield <jon.bloomfield@intel.com>,
- Matthew Auld <matthew.auld@intel.com>, Jason Ekstrand <jason@jlekstrand.net>,
- Dave Airlie <airlied@redhat.com>, Daniel Vetter <daniel.vetter@intel.com>
+Cc: Matthew Brost <matthew.brost@intel.com>, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, carl.zhang@intel.com,
+ jason.ekstrand@intel.com, daniel.vetter@intel.com,
+ mesa-dev@lists.freedesktop.org, christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, May 27, 2021 at 01:16:13PM +0200, Maarten Lankhorst wrote:
-> Op 2021-05-26 om 18:37 schreef Daniel Vetter:
-> > Media userspace was the last userspace to still use them, and they
-> > converted now too:
-> >
-> > https://github.com/intel/media-driver/commit/144020c37770083974bedf59902b70b8f444c799
-> >
-> > This means no reason anymore to make relocations faster than they've
-> > been for the first 9 years of gem. This code was added in
-> >
-> > commit 7dd4f6729f9243bd7046c6f04c107a456bda38eb
-> > Author: Chris Wilson <chris@chris-wilson.co.uk>
-> > Date:   Fri Jun 16 15:05:24 2017 +0100
-> >
-> >     drm/i915: Async GPU relocation processing
-> >
-> > Furthermore there's pretty strong indications it's buggy, since the
-> > code to use it by default as the only option had to be reverted:
-> >
-> > commit ad5d95e4d538737ed3fa25493777decf264a3011
-> > Author: Dave Airlie <airlied@redhat.com>
-> > Date:   Tue Sep 8 15:41:17 2020 +1000
-> >
-> >     Revert "drm/i915/gem: Async GPU relocations only"
-> >
-> > This code just disables gpu relocations, leaving the garbage
-> > collection for later patches and more importantly, much less confusing
-> > diff. Also given how much headaches this code has caused in the past,
-> > letting this soak for a bit seems justified.
-> >
-> > Cc: Jon Bloomfield <jon.bloomfield@intel.com>
-> > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> > Cc: Chris Wilson <chris@chris-wilson.co.uk>
-> > Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> > Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-> > Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-> > Cc: "Thomas Hellström" <thomas.hellstrom@linux.intel.com>
-> > Cc: Matthew Auld <matthew.auld@intel.com>
-> > Cc: Lionel Landwerlin <lionel.g.landwerlin@intel.com>
-> > Cc: Dave Airlie <airlied@redhat.com>
-> > Cc: Jason Ekstrand <jason@jlekstrand.net>
-> > ---
-> >  .../gpu/drm/i915/gem/i915_gem_execbuffer.c    | 43 ++++++++-----------
-> >  1 file changed, 18 insertions(+), 25 deletions(-)
+On Thu, May 27, 2021 at 11:06:38AM +0100, Tvrtko Ursulin wrote:
 > 
-> Reviewed-by: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> On 27/05/2021 00:33, Matthew Brost wrote:
+> > Add entry for i915 GuC submission / DRM scheduler integration plan.
+> > Follow up patch with details of new parallel submission uAPI to come.
+> > 
+> > v2:
+> >   (Daniel Vetter)
+> >    - Expand explaination of why bonding isn't supported for GuC
+> >      submission
+> >    - CC some of the DRM scheduler maintainers
+> >    - Add priority inheritance / boosting use case
+> >    - Add reasoning for removing in order assumptions
+> >   (Daniel Stone)
+> >    - Add links to priority spec
 > 
-> Note that a lot of complexity may be removed with gpu relocations gone.
-> Some igt tests might also start to fail, as they expect relocations to
-> complete asynchronously.
+> Where will the outstanding items like, from the top of my head only, error
+> capture and open source logging tool be tracked? I thought here but maybe
+> not.
 
-Yeah I have the kernel side patch for that, at least in the execbuf code +
-selftests. For igt I'm wawiting on CI to tell me what I all need to look
-at and decide what to do with it.
-
-> Is it kept in case we need to revive it?
-
-I don't want to revive it, but I want to split the huge code changes from
-the functional changes at least.
+I thought the same that we'd put these really important bits into the
+rfc/todo here. Matt, can you pls do that?
 -Daniel
+
+> 
+> Regards,
+> 
+> Tvrtko
+> 
+> > Cc: Christian König <christian.koenig@amd.com>
+> > Cc: Luben Tuikov <luben.tuikov@amd.com>
+> > Cc: Alex Deucher <alexander.deucher@amd.com>
+> > Cc: Steven Price <steven.price@arm.com>
+> > Cc: Jon Bloomfield <jon.bloomfield@intel.com>
+> > Cc: Jason Ekstrand <jason@jlekstrand.net>
+> > Cc: Dave Airlie <airlied@gmail.com>
+> > Cc: Daniel Vetter <daniel.vetter@intel.com>
+> > Cc: Jason Ekstrand <jason@jlekstrand.net>
+> > Cc: dri-devel@lists.freedesktop.org
+> > Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+> > ---
+> >   Documentation/gpu/rfc/i915_scheduler.rst | 85 ++++++++++++++++++++++++
+> >   Documentation/gpu/rfc/index.rst          |  4 ++
+> >   2 files changed, 89 insertions(+)
+> >   create mode 100644 Documentation/gpu/rfc/i915_scheduler.rst
+> > 
+> > diff --git a/Documentation/gpu/rfc/i915_scheduler.rst b/Documentation/gpu/rfc/i915_scheduler.rst
+> > new file mode 100644
+> > index 000000000000..7faa46cde088
+> > --- /dev/null
+> > +++ b/Documentation/gpu/rfc/i915_scheduler.rst
+> > @@ -0,0 +1,85 @@
+> > +=========================================
+> > +I915 GuC Submission/DRM Scheduler Section
+> > +=========================================
+> > +
+> > +Upstream plan
+> > +=============
+> > +For upstream the overall plan for landing GuC submission and integrating the
+> > +i915 with the DRM scheduler is:
+> > +
+> > +* Merge basic GuC submission
+> > +	* Basic submission support for all gen11+ platforms
+> > +	* Not enabled by default on any current platforms but can be enabled via
+> > +	  modparam enable_guc
+> > +	* Lots of rework will need to be done to integrate with DRM scheduler so
+> > +	  no need to nit pick everything in the code, it just should be
+> > +	  functional, no major coding style / layering errors, and not regress
+> > +	  execlists
+> > +	* Update IGTs / selftests as needed to work with GuC submission
+> > +	* Enable CI on supported platforms for a baseline
+> > +	* Rework / get CI heathly for GuC submission in place as needed
+> > +* Merge new parallel submission uAPI
+> > +	* Bonding uAPI completely incompatible with GuC submission, plus it has
+> > +	  severe design issues in general, which is why we want to retire it no
+> > +	  matter what
+> > +	* New uAPI adds I915_CONTEXT_ENGINES_EXT_PARALLEL context setup step
+> > +	  which configures a slot with N contexts
+> > +	* After I915_CONTEXT_ENGINES_EXT_PARALLEL a user can submit N batches to
+> > +	  a slot in a single execbuf IOCTL and the batches run on the GPU in
+> > +	  paralllel
+> > +	* Initially only for GuC submission but execlists can be supported if
+> > +	  needed
+> > +* Convert the i915 to use the DRM scheduler
+> > +	* GuC submission backend fully integrated with DRM scheduler
+> > +		* All request queues removed from backend (e.g. all backpressure
+> > +		  handled in DRM scheduler)
+> > +		* Resets / cancels hook in DRM scheduler
+> > +		* Watchdog hooks into DRM scheduler
+> > +		* Lots of complexity of the GuC backend can be pulled out once
+> > +		  integrated with DRM scheduler (e.g. state machine gets
+> > +		  simplier, locking gets simplier, etc...)
+> > +	* Execlist backend will do the minimum required to hook in the DRM
+> > +	  scheduler so it can live next to the fully integrated GuC backend
+> > +		* Legacy interface
+> > +		* Features like timeslicing / preemption / virtual engines would
+> > +		  be difficult to integrate with the DRM scheduler and these
+> > +		  features are not required for GuC submission as the GuC does
+> > +		  these things for us
+> > +		* ROI low on fully integrating into DRM scheduler
+> > +		* Fully integrating would add lots of complexity to DRM
+> > +		  scheduler
+> > +	* Port i915 priority inheritance / boosting feature in DRM scheduler
+> > +		* Used for i915 page flip, may be useful to other DRM drivers as
+> > +		  well
+> > +		* Will be an optional feature in the DRM scheduler
+> > +	* Remove in-order completion assumptions from DRM scheduler
+> > +		* Even when using the DRM scheduler the backends will handle
+> > +		  preemption, timeslicing, etc... so it is possible for jobs to
+> > +		  finish out of order
+> > +	* Pull out i915 priority levels and use DRM priority levels
+> > +	* Optimize DRM scheduler as needed
+> > +
+> > +New uAPI for basic GuC submission
+> > +=================================
+> > +No major changes are required to the uAPI for basic GuC submission. The only
+> > +change is a new scheduler attribute: I915_SCHEDULER_CAP_STATIC_PRIORITY_MAP.
+> > +This attribute indicates the 2k i915 user priority levels are statically mapped
+> > +into 3 levels as follows:
+> > +
+> > +* -1k to -1 Low priority
+> > +* 0 Medium priority
+> > +* 1 to 1k High priority
+> > +
+> > +This is needed because the GuC only has 4 priority bands. The highest priority
+> > +band is reserved with the kernel. This aligns with the DRM scheduler priority
+> > +levels too.
+> > +
+> > +Spec references:
+> > +----------------
+> > +https://www.khronos.org/registry/EGL/extensions/IMG/EGL_IMG_context_priority.txt
+> > +https://www.khronos.org/registry/vulkan/specs/1.2-extensions/html/chap5.html#devsandqueues-priority
+> > +https://spec.oneapi.com/level-zero/latest/core/api.html#ze-command-queue-priority-t
+> > +
+> > +New parallel submission uAPI
+> > +============================
+> > +Details to come in a following patch.
+> > diff --git a/Documentation/gpu/rfc/index.rst b/Documentation/gpu/rfc/index.rst
+> > index 05670442ca1b..91e93a705230 100644
+> > --- a/Documentation/gpu/rfc/index.rst
+> > +++ b/Documentation/gpu/rfc/index.rst
+> > @@ -19,3 +19,7 @@ host such documentation:
+> >   .. toctree::
+> >       i915_gem_lmem.rst
+> > +
+> > +.. toctree::
+> > +
+> > +    i915_scheduler.rst
+> > 
+> _______________________________________________
+> Intel-gfx mailing list
+> Intel-gfx@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/intel-gfx
+
 -- 
 Daniel Vetter
 Software Engineer, Intel Corporation
