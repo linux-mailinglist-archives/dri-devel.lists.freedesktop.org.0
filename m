@@ -2,57 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F298A39308A
-	for <lists+dri-devel@lfdr.de>; Thu, 27 May 2021 16:13:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ABEF939308F
+	for <lists+dri-devel@lfdr.de>; Thu, 27 May 2021 16:14:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 66B236E906;
-	Thu, 27 May 2021 14:13:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 824246E970;
+	Thu, 27 May 2021 14:13:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com
- [IPv6:2a00:1450:4864:20::42c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 652376E8BC
- for <dri-devel@lists.freedesktop.org>; Thu, 27 May 2021 14:13:46 +0000 (UTC)
-Received: by mail-wr1-x42c.google.com with SMTP id x8so18504wrq.9
- for <dri-devel@lists.freedesktop.org>; Thu, 27 May 2021 07:13:46 -0700 (PDT)
+Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com
+ [IPv6:2a00:1450:4864:20::32f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 46DE26E8CE
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 May 2021 14:13:47 +0000 (UTC)
+Received: by mail-wm1-x32f.google.com with SMTP id
+ y184-20020a1ce1c10000b02901769b409001so566502wmg.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 May 2021 07:13:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=0gJ0EhPNdCNzK20cvZzaw98VrCAQrfDkYIzGvwsH1A4=;
- b=Ra0iM7vH/R0ek2CNebr7jKzfK/6o/toVlQzwHdNGsX7IvPeGkrvdP3l30R/E32XY60
- Y54fm9tiVqgmh04Ve68+CSR35fKLaINSgJGbkm/EtbWByAnEiiv41uqfYwThrFe9iTzS
- rV0TL7XtwPbDozyXSrweIv5zCRODkuAPImyBw=
+ bh=Ta+1QGRj8qkvW03oDuYFdeLGx74AAZepqtGEBPaAeu4=;
+ b=UjgqXOaXPTTQXUGt2iIa74wJo+KnY5lzqMYC5vcVxLQODTyY+9c1PF+T6RqT3zTQ+A
+ E9nLxY7twIo2LQWn3NfSqVZYAoScsGHAmyRtnM1qmPwmKxh0kKGer8bWfM+7xFpl88lG
+ IJeCFyEfeVKtawMgTeqKkdxy/HRVTdMf3lkVU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=0gJ0EhPNdCNzK20cvZzaw98VrCAQrfDkYIzGvwsH1A4=;
- b=cz6UYkp7zlBVe+VH2srFcL/25Xbn8XWfLwCpdVMvqSDJSmzzl1slSaeXhIv1n4kydn
- VdzO0YfBPhYo4tUIV0f1RCa1CyIlCsfXaykOmia/6bOo8YFwXmG4V0kQjy6EfIPjVM31
- UUt4VgCxxOPa0jEQwbD+HqvKjY4Ix0L42lru7zl6xAnlLAFV26lTw1LiC/0LWpJnFZaY
- dO1z25pGtA5pSq5vUPbnJjGrGAfh6GuU2e6v1+0vkJD5Oak6F+YwAbZ4oEmb6ke/fry7
- yuODp/QDlleRCe9XPWHpPCU/uwa+Jc0ilAK1DxCmtFEF8omFWYCWixrS40Q+V+hJOoS8
- W3Lg==
-X-Gm-Message-State: AOAM533x74Gn3jW3h/Tn0AgsDyhVqypz4qD9WYabeKldDHKXgRWxXp4c
- kn1E0xom9BZC9x3MOq+mN3vOW3llWmwCxA==
-X-Google-Smtp-Source: ABdhPJzqxcCM4afV72tqEiJBV1WMbFyXgJW1Z85RT95iJlEYhSQM/BxOujyWucaB8gLz3SQhLj8TTw==
-X-Received: by 2002:a05:6000:108f:: with SMTP id
- y15mr3704988wrw.115.1622124825104; 
+ bh=Ta+1QGRj8qkvW03oDuYFdeLGx74AAZepqtGEBPaAeu4=;
+ b=FJ+vx4UWcl7hV1LUBuFgOoATpxLiecB622kk24J/EbxH4uQxTHL2HrE/70QUzjR2/1
+ vATDdkPFsR4LJVYdYWDY+xNvmcUhEq833MU3TjKLPhcStrGnpV+SKjwfEUyEWfJx68B1
+ i/KGeuP57I3mh4Y8Gw5v2et1H2q0B2+YAg1b9Kgmd6UKAa/3boQPoS+mk2lVbOoJ5ipY
+ HJ/eli/Z/apiLKEPRCyw7Fz/NsaVY34ygfW2+vJWSmzyC82oGZkVM3pJTu9d8pk9BK7e
+ Ogfnk8fxFaUFIDK6grYd02i95pc3BuWcQc8UwHsLK8qgjlwGhQBjDxE3rtSefLigT1sK
+ alww==
+X-Gm-Message-State: AOAM531kruxy3f3HrnipuzwVp6FQveziYpYcKOQUKbM6lRMrdpO5Nz1M
+ DRouJ5cZtDPJM8tJSe3Y16IWXw==
+X-Google-Smtp-Source: ABdhPJz4/ptsWZrOaLs3P+RA+DUiiv3OiIo7JsBVgU/moAVAMl5UiS1z/qa22fJSaFue+dDWwH5ouw==
+X-Received: by 2002:a1c:e243:: with SMTP id z64mr3681766wmg.25.1622124825935; 
  Thu, 27 May 2021 07:13:45 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id x10sm3381136wrt.65.2021.05.27.07.13.44
+ by smtp.gmail.com with ESMTPSA id x10sm3381136wrt.65.2021.05.27.07.13.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 27 May 2021 07:13:44 -0700 (PDT)
+ Thu, 27 May 2021 07:13:45 -0700 (PDT)
 From: Daniel Vetter <daniel.vetter@ffwll.ch>
 To: Intel Graphics Development <intel-gfx@lists.freedesktop.org>
-Subject: [PATCH 2/4] drm/vgem: use shmem helpers
-Date: Thu, 27 May 2021 16:13:35 +0200
-Message-Id: <20210527141337.3857901-3-daniel.vetter@ffwll.ch>
+Subject: [PATCH 3/4] drm/shmem-helper: Switch to vmf_insert_pfn
+Date: Thu, 27 May 2021 16:13:36 +0200
+Message-Id: <20210527141337.3857901-4-daniel.vetter@ffwll.ch>
 X-Mailer: git-send-email 2.31.0
 In-Reply-To: <20210527141337.3857901-1-daniel.vetter@ffwll.ch>
 References: <20210527141337.3857901-1-daniel.vetter@ffwll.ch>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -66,435 +65,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@ffwll.ch>,
  DRI Development <dri-devel@lists.freedesktop.org>,
- Melissa Wen <melissa.srw@gmail.com>, Thomas Zimmermann <tzimmermann@suse.de>,
- Daniel Vetter <daniel.vetter@intel.com>,
- Chris Wilson <chris@chris-wilson.co.uk>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Daniel Vetter <daniel.vetter@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Aside from deleting lots of code the real motivation here is to switch
-the mmap over to VM_PFNMAP, to be more consistent with what real gpu
-drivers do. They're all VM_PFNMP, which means get_user_pages doesn't
-work, and even if you try and there's a struct page behind that,
-touching it and mucking around with its refcount can upset drivers
-real bad.
+We want to stop gup, which isn't the case if we use vmf_insert_page
+and VM_MIXEDMAP, because that does not set pte_special.
 
-v2: Review from Thomas:
-- sort #include
-- drop more dead code that I didn't spot somehow
-
-v3: select DRM_GEM_SHMEM_HELPER to make it build (intel-gfx-ci)
-
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: John Stultz <john.stultz@linaro.org>
-Cc: Sumit Semwal <sumit.semwal@linaro.org>
-Cc: "Christian König" <christian.koenig@amd.com>
 Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-Cc: Melissa Wen <melissa.srw@gmail.com>
-Cc: Chris Wilson <chris@chris-wilson.co.uk>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Cc: Maxime Ripard <mripard@kernel.org>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: David Airlie <airlied@linux.ie>
+Cc: Daniel Vetter <daniel@ffwll.ch>
 ---
- drivers/gpu/drm/Kconfig         |   1 +
- drivers/gpu/drm/vgem/vgem_drv.c | 340 +-------------------------------
- 2 files changed, 4 insertions(+), 337 deletions(-)
+ drivers/gpu/drm/drm_gem_shmem_helper.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
-index d3a9ca4b1cec..1c24de03547e 100644
---- a/drivers/gpu/drm/Kconfig
-+++ b/drivers/gpu/drm/Kconfig
-@@ -269,6 +269,7 @@ source "drivers/gpu/drm/kmb/Kconfig"
- config DRM_VGEM
- 	tristate "Virtual GEM provider"
- 	depends on DRM
-+	select DRM_GEM_SHMEM_HELPER
- 	help
- 	  Choose this option to get a virtual graphics memory manager,
- 	  as used by Mesa's software renderer for enhanced performance.
-diff --git a/drivers/gpu/drm/vgem/vgem_drv.c b/drivers/gpu/drm/vgem/vgem_drv.c
-index a0e75f1d5d01..b1b3a5ffc542 100644
---- a/drivers/gpu/drm/vgem/vgem_drv.c
-+++ b/drivers/gpu/drm/vgem/vgem_drv.c
-@@ -38,6 +38,7 @@
+diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm_gem_shmem_helper.c
+index 6d625cee7a6a..11edd54f0580 100644
+--- a/drivers/gpu/drm/drm_gem_shmem_helper.c
++++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
+@@ -542,7 +542,7 @@ static vm_fault_t drm_gem_shmem_fault(struct vm_fault *vmf)
+ 	} else {
+ 		page = shmem->pages[page_offset];
  
- #include <drm/drm_drv.h>
- #include <drm/drm_file.h>
-+#include <drm/drm_gem_shmem_helper.h>
- #include <drm/drm_ioctl.h>
- #include <drm/drm_managed.h>
- #include <drm/drm_prime.h>
-@@ -50,87 +51,11 @@
- #define DRIVER_MAJOR	1
- #define DRIVER_MINOR	0
+-		ret = vmf_insert_page(vma, vmf->address, page);
++		ret = vmf_insert_pfn(vma, vmf->address, page_to_pfn(page));
+ 	}
  
--static const struct drm_gem_object_funcs vgem_gem_object_funcs;
--
- static struct vgem_device {
- 	struct drm_device drm;
- 	struct platform_device *platform;
- } *vgem_device;
+ 	mutex_unlock(&shmem->pages_lock);
+@@ -612,7 +612,7 @@ int drm_gem_shmem_mmap(struct drm_gem_object *obj, struct vm_area_struct *vma)
+ 		return ret;
+ 	}
  
--static void vgem_gem_free_object(struct drm_gem_object *obj)
--{
--	struct drm_vgem_gem_object *vgem_obj = to_vgem_bo(obj);
--
--	kvfree(vgem_obj->pages);
--	mutex_destroy(&vgem_obj->pages_lock);
--
--	if (obj->import_attach)
--		drm_prime_gem_destroy(obj, vgem_obj->table);
--
--	drm_gem_object_release(obj);
--	kfree(vgem_obj);
--}
--
--static vm_fault_t vgem_gem_fault(struct vm_fault *vmf)
--{
--	struct vm_area_struct *vma = vmf->vma;
--	struct drm_vgem_gem_object *obj = vma->vm_private_data;
--	/* We don't use vmf->pgoff since that has the fake offset */
--	unsigned long vaddr = vmf->address;
--	vm_fault_t ret = VM_FAULT_SIGBUS;
--	loff_t num_pages;
--	pgoff_t page_offset;
--	page_offset = (vaddr - vma->vm_start) >> PAGE_SHIFT;
--
--	num_pages = DIV_ROUND_UP(obj->base.size, PAGE_SIZE);
--
--	if (page_offset >= num_pages)
--		return VM_FAULT_SIGBUS;
--
--	mutex_lock(&obj->pages_lock);
--	if (obj->pages) {
--		get_page(obj->pages[page_offset]);
--		vmf->page = obj->pages[page_offset];
--		ret = 0;
--	}
--	mutex_unlock(&obj->pages_lock);
--	if (ret) {
--		struct page *page;
--
--		page = shmem_read_mapping_page(
--					file_inode(obj->base.filp)->i_mapping,
--					page_offset);
--		if (!IS_ERR(page)) {
--			vmf->page = page;
--			ret = 0;
--		} else switch (PTR_ERR(page)) {
--			case -ENOSPC:
--			case -ENOMEM:
--				ret = VM_FAULT_OOM;
--				break;
--			case -EBUSY:
--				ret = VM_FAULT_RETRY;
--				break;
--			case -EFAULT:
--			case -EINVAL:
--				ret = VM_FAULT_SIGBUS;
--				break;
--			default:
--				WARN_ON(PTR_ERR(page));
--				ret = VM_FAULT_SIGBUS;
--				break;
--		}
--
--	}
--	return ret;
--}
--
--static const struct vm_operations_struct vgem_gem_vm_ops = {
--	.fault = vgem_gem_fault,
--	.open = drm_gem_vm_open,
--	.close = drm_gem_vm_close,
--};
--
- static int vgem_open(struct drm_device *dev, struct drm_file *file)
- {
- 	struct vgem_file *vfile;
-@@ -159,265 +84,12 @@ static void vgem_postclose(struct drm_device *dev, struct drm_file *file)
- 	kfree(vfile);
- }
- 
--static struct drm_vgem_gem_object *__vgem_gem_create(struct drm_device *dev,
--						unsigned long size)
--{
--	struct drm_vgem_gem_object *obj;
--	int ret;
--
--	obj = kzalloc(sizeof(*obj), GFP_KERNEL);
--	if (!obj)
--		return ERR_PTR(-ENOMEM);
--
--	obj->base.funcs = &vgem_gem_object_funcs;
--
--	ret = drm_gem_object_init(dev, &obj->base, roundup(size, PAGE_SIZE));
--	if (ret) {
--		kfree(obj);
--		return ERR_PTR(ret);
--	}
--
--	mutex_init(&obj->pages_lock);
--
--	return obj;
--}
--
--static void __vgem_gem_destroy(struct drm_vgem_gem_object *obj)
--{
--	drm_gem_object_release(&obj->base);
--	kfree(obj);
--}
--
--static struct drm_gem_object *vgem_gem_create(struct drm_device *dev,
--					      struct drm_file *file,
--					      unsigned int *handle,
--					      unsigned long size)
--{
--	struct drm_vgem_gem_object *obj;
--	int ret;
--
--	obj = __vgem_gem_create(dev, size);
--	if (IS_ERR(obj))
--		return ERR_CAST(obj);
--
--	ret = drm_gem_handle_create(file, &obj->base, handle);
--	if (ret) {
--		drm_gem_object_put(&obj->base);
--		return ERR_PTR(ret);
--	}
--
--	return &obj->base;
--}
--
--static int vgem_gem_dumb_create(struct drm_file *file, struct drm_device *dev,
--				struct drm_mode_create_dumb *args)
--{
--	struct drm_gem_object *gem_object;
--	u64 pitch, size;
--
--	pitch = args->width * DIV_ROUND_UP(args->bpp, 8);
--	size = args->height * pitch;
--	if (size == 0)
--		return -EINVAL;
--
--	gem_object = vgem_gem_create(dev, file, &args->handle, size);
--	if (IS_ERR(gem_object))
--		return PTR_ERR(gem_object);
--
--	args->size = gem_object->size;
--	args->pitch = pitch;
--
--	drm_gem_object_put(gem_object);
--
--	DRM_DEBUG("Created object of size %llu\n", args->size);
--
--	return 0;
--}
--
- static struct drm_ioctl_desc vgem_ioctls[] = {
- 	DRM_IOCTL_DEF_DRV(VGEM_FENCE_ATTACH, vgem_fence_attach_ioctl, DRM_RENDER_ALLOW),
- 	DRM_IOCTL_DEF_DRV(VGEM_FENCE_SIGNAL, vgem_fence_signal_ioctl, DRM_RENDER_ALLOW),
- };
- 
--static int vgem_mmap(struct file *filp, struct vm_area_struct *vma)
--{
--	unsigned long flags = vma->vm_flags;
--	int ret;
--
--	ret = drm_gem_mmap(filp, vma);
--	if (ret)
--		return ret;
--
--	/* Keep the WC mmaping set by drm_gem_mmap() but our pages
--	 * are ordinary and not special.
--	 */
--	vma->vm_flags = flags | VM_DONTEXPAND | VM_DONTDUMP;
--	return 0;
--}
--
--static const struct file_operations vgem_driver_fops = {
--	.owner		= THIS_MODULE,
--	.open		= drm_open,
--	.mmap		= vgem_mmap,
--	.poll		= drm_poll,
--	.read		= drm_read,
--	.unlocked_ioctl = drm_ioctl,
--	.compat_ioctl	= drm_compat_ioctl,
--	.release	= drm_release,
--};
--
--static struct page **vgem_pin_pages(struct drm_vgem_gem_object *bo)
--{
--	mutex_lock(&bo->pages_lock);
--	if (bo->pages_pin_count++ == 0) {
--		struct page **pages;
--
--		pages = drm_gem_get_pages(&bo->base);
--		if (IS_ERR(pages)) {
--			bo->pages_pin_count--;
--			mutex_unlock(&bo->pages_lock);
--			return pages;
--		}
--
--		bo->pages = pages;
--	}
--	mutex_unlock(&bo->pages_lock);
--
--	return bo->pages;
--}
--
--static void vgem_unpin_pages(struct drm_vgem_gem_object *bo)
--{
--	mutex_lock(&bo->pages_lock);
--	if (--bo->pages_pin_count == 0) {
--		drm_gem_put_pages(&bo->base, bo->pages, true, true);
--		bo->pages = NULL;
--	}
--	mutex_unlock(&bo->pages_lock);
--}
--
--static int vgem_prime_pin(struct drm_gem_object *obj)
--{
--	struct drm_vgem_gem_object *bo = to_vgem_bo(obj);
--	long n_pages = obj->size >> PAGE_SHIFT;
--	struct page **pages;
--
--	pages = vgem_pin_pages(bo);
--	if (IS_ERR(pages))
--		return PTR_ERR(pages);
--
--	/* Flush the object from the CPU cache so that importers can rely
--	 * on coherent indirect access via the exported dma-address.
--	 */
--	drm_clflush_pages(pages, n_pages);
--
--	return 0;
--}
--
--static void vgem_prime_unpin(struct drm_gem_object *obj)
--{
--	struct drm_vgem_gem_object *bo = to_vgem_bo(obj);
--
--	vgem_unpin_pages(bo);
--}
--
--static struct sg_table *vgem_prime_get_sg_table(struct drm_gem_object *obj)
--{
--	struct drm_vgem_gem_object *bo = to_vgem_bo(obj);
--
--	return drm_prime_pages_to_sg(obj->dev, bo->pages, bo->base.size >> PAGE_SHIFT);
--}
--
--static struct drm_gem_object* vgem_prime_import(struct drm_device *dev,
--						struct dma_buf *dma_buf)
--{
--	struct vgem_device *vgem = container_of(dev, typeof(*vgem), drm);
--
--	return drm_gem_prime_import_dev(dev, dma_buf, &vgem->platform->dev);
--}
--
--static struct drm_gem_object *vgem_prime_import_sg_table(struct drm_device *dev,
--			struct dma_buf_attachment *attach, struct sg_table *sg)
--{
--	struct drm_vgem_gem_object *obj;
--	int npages;
--
--	obj = __vgem_gem_create(dev, attach->dmabuf->size);
--	if (IS_ERR(obj))
--		return ERR_CAST(obj);
--
--	npages = PAGE_ALIGN(attach->dmabuf->size) / PAGE_SIZE;
--
--	obj->table = sg;
--	obj->pages = kvmalloc_array(npages, sizeof(struct page *), GFP_KERNEL);
--	if (!obj->pages) {
--		__vgem_gem_destroy(obj);
--		return ERR_PTR(-ENOMEM);
--	}
--
--	obj->pages_pin_count++; /* perma-pinned */
--	drm_prime_sg_to_page_array(obj->table, obj->pages, npages);
--	return &obj->base;
--}
--
--static int vgem_prime_vmap(struct drm_gem_object *obj, struct dma_buf_map *map)
--{
--	struct drm_vgem_gem_object *bo = to_vgem_bo(obj);
--	long n_pages = obj->size >> PAGE_SHIFT;
--	struct page **pages;
--	void *vaddr;
--
--	pages = vgem_pin_pages(bo);
--	if (IS_ERR(pages))
--		return PTR_ERR(pages);
--
--	vaddr = vmap(pages, n_pages, 0, pgprot_writecombine(PAGE_KERNEL));
--	if (!vaddr)
--		return -ENOMEM;
--	dma_buf_map_set_vaddr(map, vaddr);
--
--	return 0;
--}
--
--static void vgem_prime_vunmap(struct drm_gem_object *obj, struct dma_buf_map *map)
--{
--	struct drm_vgem_gem_object *bo = to_vgem_bo(obj);
--
--	vunmap(map->vaddr);
--	vgem_unpin_pages(bo);
--}
--
--static int vgem_prime_mmap(struct drm_gem_object *obj,
--			   struct vm_area_struct *vma)
--{
--	int ret;
--
--	if (obj->size < vma->vm_end - vma->vm_start)
--		return -EINVAL;
--
--	if (!obj->filp)
--		return -ENODEV;
--
--	ret = call_mmap(obj->filp, vma);
--	if (ret)
--		return ret;
--
--	vma_set_file(vma, obj->filp);
--	vma->vm_flags |= VM_DONTEXPAND | VM_DONTDUMP;
--	vma->vm_page_prot = pgprot_writecombine(vm_get_page_prot(vma->vm_flags));
--
--	return 0;
--}
--
--static const struct drm_gem_object_funcs vgem_gem_object_funcs = {
--	.free = vgem_gem_free_object,
--	.pin = vgem_prime_pin,
--	.unpin = vgem_prime_unpin,
--	.get_sg_table = vgem_prime_get_sg_table,
--	.vmap = vgem_prime_vmap,
--	.vunmap = vgem_prime_vunmap,
--	.vm_ops = &vgem_gem_vm_ops,
--};
-+DEFINE_DRM_GEM_FOPS(vgem_driver_fops);
- 
- static const struct drm_driver vgem_driver = {
- 	.driver_features		= DRIVER_GEM | DRIVER_RENDER,
-@@ -427,13 +99,7 @@ static const struct drm_driver vgem_driver = {
- 	.num_ioctls 			= ARRAY_SIZE(vgem_ioctls),
- 	.fops				= &vgem_driver_fops,
- 
--	.dumb_create			= vgem_gem_dumb_create,
--
--	.prime_handle_to_fd = drm_gem_prime_handle_to_fd,
--	.prime_fd_to_handle = drm_gem_prime_fd_to_handle,
--	.gem_prime_import = vgem_prime_import,
--	.gem_prime_import_sg_table = vgem_prime_import_sg_table,
--	.gem_prime_mmap = vgem_prime_mmap,
-+	DRM_GEM_SHMEM_DRIVER_OPS,
- 
- 	.name	= DRIVER_NAME,
- 	.desc	= DRIVER_DESC,
+-	vma->vm_flags |= VM_MIXEDMAP | VM_DONTEXPAND;
++	vma->vm_flags |= VM_PFNMAP | VM_DONTEXPAND;
+ 	vma->vm_page_prot = vm_get_page_prot(vma->vm_flags);
+ 	if (shmem->map_wc)
+ 		vma->vm_page_prot = pgprot_writecombine(vma->vm_page_prot);
 -- 
 2.31.0
 
