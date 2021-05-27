@@ -1,28 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FC63393932
-	for <lists+dri-devel@lfdr.de>; Fri, 28 May 2021 01:22:37 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D14C39393F
+	for <lists+dri-devel@lfdr.de>; Fri, 28 May 2021 01:26:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7431B6F511;
-	Thu, 27 May 2021 23:22:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0BAA36F515;
+	Thu, 27 May 2021 23:26:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from aposti.net (aposti.net [89.234.176.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8A5226F511
- for <dri-devel@lists.freedesktop.org>; Thu, 27 May 2021 23:22:33 +0000 (UTC)
-From: Paul Cercueil <paul@crapouillou.net>
-To: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <mripard@kernel.org>
-Subject: [PATCH 11/11] drm/ingenic: Attach bridge chain to encoders
-Date: Fri, 28 May 2021 00:22:06 +0100
-Message-Id: <20210527232206.152771-2-paul@crapouillou.net>
-In-Reply-To: <20210527232206.152771-1-paul@crapouillou.net>
-References: <20210527232104.152577-1-paul@crapouillou.net>
- <20210527232206.152771-1-paul@crapouillou.net>
+Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com
+ [IPv6:2a00:1450:4864:20::431])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 00A0E6F514;
+ Thu, 27 May 2021 23:26:51 +0000 (UTC)
+Received: by mail-wr1-x431.google.com with SMTP id m18so1473622wrv.2;
+ Thu, 27 May 2021 16:26:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=qgSfSSR25TpqE7DTHh0If3TkH6Ntnwzdv/kA+O29T0w=;
+ b=Wwf4fWPV9VWdORZV6WIy6v+2wR4tFAbg8gmFg5iHna4keVQvYWQoXsHyyNp6xOwPMJ
+ E/cTm/TrmMNQ1o+BKzU/MiU2m1oGdYuMd8r9TN/8C3PwbKBbK9Mm/9sjhw0jSto8LiTa
+ 1O0+FHr2mlzE00E09Ms0JX4ScYuFA7xqAg3VdtS/VmUzH0UDRYGiXVS8mtsLHw0J7Ia+
+ o2FdtyB3U9CLX1xB5he52HoKUHjVDEMWRwwHCfJZwb+ZcBt5zSIrzrdJFusBC0iHSNJn
+ 3JrA3l0mVuin1msDHwBwjnA//BTZPppRRN8DVX3KV1z580pFxPu+9HsFYP4Ie0G0xnoe
+ QsAA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=qgSfSSR25TpqE7DTHh0If3TkH6Ntnwzdv/kA+O29T0w=;
+ b=R1Gmd3B2VPON16u/wcqKkS+y3+VZjtkNh5ePVk4SdZvylt7PbU2quU832EGVz4AfiS
+ GYHuuqid5ClEXfkqoE03iknkIblFnFV43A+9jqu4a7UOh2H6wRIwb4MG/PmQtGA6zahw
+ zmb0yTn35AQjqXevqcXdq7ZiYrSjVHem/lw2XVe1uHjBbvSIG7+6XOEbLbDBXbXEPtwU
+ W+YJxoMR0bEjYbm5Glv/HZ3s8LdV1ff4LWCjcOLjkJbFg6F0Qky/wrwUGl1Y4G2K2sB1
+ 3EzPlEw5GkZiDUmhrbuQgqfdI3VKk0tU7mbnubpZJpCb9Pc4wB/3+GENTcBCIMp/tonS
+ tblQ==
+X-Gm-Message-State: AOAM530NOHe/2BCFK7Mi/eycA2SvDUbjX9pfh74vQ0heZtvGnvMCdic9
+ KaQwYc/3ricgeOAOdS1/OCg24G3ksI8fo7wV8SQ=
+X-Google-Smtp-Source: ABdhPJzcHlEcE3GJbLIcwKUWgBucK4ooOjc8OjwZQyp1IMnhdPdmlGHY+zKNBb8UKhuWJbJTK0FIWMl2d3U7gWaBjBg=
+X-Received: by 2002:adf:e84a:: with SMTP id d10mr5665911wrn.132.1622158010442; 
+ Thu, 27 May 2021 16:26:50 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20210521124946.3617862-1-vkoul@kernel.org>
+ <CAOCk7Nqep_Db+z3fr5asHZ1u0j8+6fKkPFs2Ai8CbA_zGqV6ZA@mail.gmail.com>
+ <YK3gxqXBRupN/N+Q@vkoul-mobl.Dlink>
+ <CAOCk7NqvhGvYw8xCBctqj7H+o-Qwp2UuUJK1gatW9EWfXv56xA@mail.gmail.com>
+In-Reply-To: <CAOCk7NqvhGvYw8xCBctqj7H+o-Qwp2UuUJK1gatW9EWfXv56xA@mail.gmail.com>
+From: Rob Clark <robdclark@gmail.com>
+Date: Thu, 27 May 2021 16:30:34 -0700
+Message-ID: <CAF6AEGuoyPr8PgfwFX0JCYZ7S_pryn_OXacHBqoMAAPvSq6aRw@mail.gmail.com>
+Subject: Re: [Freedreno] [RFC PATCH 00/13] drm/msm: Add Display Stream
+ Compression Support
+To: Jeffrey Hugo <jeffrey.l.hugo@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -35,213 +65,164 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <narmstrong@baylibre.com>, linux-mips@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Paul Cercueil <paul@crapouillou.net>, list@opendingux.net
+Cc: DTML <devicetree@vger.kernel.org>, Jonathan Marek <jonathan@marek.ca>,
+ David Airlie <airlied@linux.ie>, MSM <linux-arm-msm@vger.kernel.org>,
+ lkml <linux-kernel@vger.kernel.org>, Abhinav Kumar <abhinavk@codeaurora.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>, Vinod Koul <vkoul@kernel.org>,
+ Rob Herring <robh+dt@kernel.org>,
+ "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ freedreno <freedreno@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Attach a top-level bridge to each encoder, which will be used for
-negociating the bus format and flags.
+On Wed, May 26, 2021 at 8:00 AM Jeffrey Hugo <jeffrey.l.hugo@gmail.com> wrote:
+>
+> On Tue, May 25, 2021 at 11:46 PM Vinod Koul <vkoul@kernel.org> wrote:
+> >
+> > Hello Jeff,
+> >
+> > On 21-05-21, 08:09, Jeffrey Hugo wrote:
+> > > On Fri, May 21, 2021 at 6:50 AM Vinod Koul <vkoul@kernel.org> wrote:
+> > > >
+> > > > Display Stream Compression (DSC) compresses the display stream in host which
+> > > > is later decoded by panel. This series enables this for Qualcomm msm driver.
+> > > > This was tested on Google Pixel3 phone which use LGE SW43408 panel.
+> > > >
+> > > > The changes include adding DT properties for DSC then hardware blocks support
+> > > > required in DPU1 driver and support in encoder. We also add support in DSI
+> > > > and introduce required topology changes.
+> > > >
+> > > > In order for panel to set the DSC parameters we add dsc in drm_panel and set
+> > > > it from the msm driver.
+> > > >
+> > > > Complete changes which enable this for Pixel3 along with panel driver (not
+> > > > part of this series) and DT changes can be found at:
+> > > > git.linaro.org/people/vinod.koul/kernel.git pixel/dsc_rfc
+> > > >
+> > > > Comments welcome!
+> > >
+> > > This feels backwards to me.  I've only skimmed this series, and the DT
+> > > changes didn't come through for me, so perhaps I have an incomplete
+> > > view.
+> >
+> > Not sure why, I see it on lore:
+> > https://lore.kernel.org/dri-devel/20210521124946.3617862-3-vkoul@kernel.org/
+> >
+> > > DSC is not MSM specific.  There is a standard for it.  Yet it looks
+> > > like everything is implemented in a MSM specific way, and then pushed
+> > > to the panel.  So, every vendor needs to implement their vendor
+> > > specific way to get the DSC info, and then push it to the panel?
+> > > Seems wrong, given there is an actual standard for this feature.
+> >
+> > I have added slice and bpp info in the DT here under the host and then
+> > pass the generic struct drm_dsc_config to panel which allows panel to
+> > write the pps cmd
+> >
+> > Nothing above is MSM specific.. It can very well work with non MSM
+> > controllers too.
+>
+> I disagree.
+>
+> The DT bindings you defined (thanks for the direct link) are MSM
+> specific.  I'm not talking (yet) about the properties you defined, but
+> purely from the stand point that you defined the binding within the
+> scope of the MSM dsi binding.  No other vendor can use those bindings.
+> Of course, if we look at the properties themselves, they are prefixed
+> with "qcom", which is vendor specific.
+>
+> So, purely on the face of it, this is MSM specific.
+>
+> Assuming we want a DT solution for DSC, I think it should be something
+> like Documentation/devicetree/bindings/clock/clock-bindings.txt (the
+> first example that comes to mind), which is a non-vendor specific
+> generic set of properties that each vendor/device specific binding can
+> inherit.  Panel has similar things.
+>
+> Specific to the properties, I don't much like that you duplicate BPP,
+> which is already associated with the panel (although perhaps not in
+> the scope of DT).  What if the panel and your DSC bindings disagree?
+> Also, I guess I need to ask, have you read the DSC spec?  Last I
+> looked, there were something like 3 dozen properties that could be
+> configured.  You have five in your proposed binding.  To me, this is
+> not a generic DSC solution, this is MSM specific (and frankly I don't
+> think this supports all the configuration the MSM hardware can do,
+> either).
+>
+> I'm surprised Rob Herring didn't have more to say on this.
+>
+> > I didn't envision DSC to be a specific thing, most of
+> > the patches here are hardware enabling ones for DSC bits for MSM
+> > hardware.
+> >
+> > > Additionally, we define panel properties (resolution, BPP, etc) at the
+> > > panel, and have the display drivers pull it from the panel.  However,
+> > > for DSC, you do the reverse (define it in the display driver, and push
+> > > it to the panel).  If the argument is that DSC properties can be
+> > > dynamic, well, so can resolution.  Every panel for MSM MTPs supports
+> > > multiple resolutions, yet we define that with the panel in Linux.
+> >
+> > I dont have an answer for that right now, to start with yes the
+> > properties are in host but I am okay to discuss this and put wherever we
+> > feel is most correct thing.  I somehow dont like that we should pull
+> > from panel DT and program host with that. Here using struct
+> > drm_dsc_config allows me to configure panel based on resolution passed
+>
+> I somewhat agree that pulling from the panel and programing the host
+> based on that is an odd solution, but we have it currently.  Have a
+> look at Documentation/devicetree/bindings/display/panel in particular
+> panel-timing.  All of that ends up informing the mdss programing
+> anyways (particularly the dsi and its phy).  So my problem is that we
+> currently have a solution that seems to just need to be extended, and
+> instead you have proposed a completely different solution which is
+> arguably contradictory.
+>
+> However, I'd like to see thoughts from Rob Clark, David, and any
+> others that typically handle this stuff (maybe Sam Ravenborg from the
+> panel side?).  I consider them to be the experts, and if they think
+> your solution is the way to go, I'll shut up.  I consider myself to be
+> a novice that has dabbled in this area, and while this currently
+> doesn't make sense to me, maybe I need some education here to see the
+> light.
+>
+> > > Finally, I haven't seen the DT bits, but I'm concerned about using DT
+> > > for this.  It inherently excludes ACPI systems.  You appear to have
+> > > sdm845 support in this series, but what about ACPI boot on the Lenovo
+> > > C630 for example?  Or any of the 8cx laptops?  We don't read the panel
+> > > resolution, etc from DT, so why the DSC?
+> >
+> > But you must read from somewhere like ACPI tables. I think ACPI systems
+> > would have some ACPI table info out there which would help on this.
+> > Yes that is another task which we need to start with once we enable OF
+> > systems.
+>
+> Frankly, I don't like the MSM ACPI solution that I've seen on the laptops.
+> The ACPI assumes the entire MDSS (including DSI parts) and GPU is one
+> device, and ultimately handled by one driver.  That driver needs to
+> get a value from UEFI (set by the bootloader) that is the "panel id".
+> Then the driver calls into ACPI (I think its _ROM, but I might be
+> mistaken, doing this from memory) with that id.  It gets back a binary
+> blob which is mostly an xml file (format is publicly documented) that
+> contains the panel timings and such.
 
-Signed-off-by: Paul Cercueil <paul@crapouillou.net>
----
- drivers/gpu/drm/ingenic/ingenic-drm-drv.c | 98 ++++++++++++++++++-----
- 1 file changed, 77 insertions(+), 21 deletions(-)
+tbh, I kinda suspect that having a single "gpu" device (which also
+includes venus, in addition to display, IIRC) in the ACPI tables is a
+windowsism, trying to make things look to userspace like a single "GPU
+card" in the x86 world.. but either way, I think the ACPI tables on
+the windows arm laptops which use dsi->bridge->edp is too much of a
+lost cause to even consider here.  Possibly ACPI boot on these devices
+would be more feasible on newer devices which have direct eDP out of
+the SoC without requiring external bridge/panel glue.
 
-diff --git a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-index 01d8490393d1..f0242e917d6e 100644
---- a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-+++ b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-@@ -21,6 +21,7 @@
- #include <drm/drm_atomic.h>
- #include <drm/drm_atomic_helper.h>
- #include <drm/drm_bridge.h>
-+#include <drm/drm_bridge_connector.h>
- #include <drm/drm_color_mgmt.h>
- #include <drm/drm_crtc.h>
- #include <drm/drm_crtc_helper.h>
-@@ -132,6 +133,26 @@ struct ingenic_drm {
- 	struct drm_private_obj private_obj;
- };
- 
-+struct ingenic_drm_bridge {
-+	struct drm_encoder encoder;
-+	struct drm_bridge bridge;
-+	struct drm_bridge *next_bridge;
-+
-+	/*
-+	 * FIXME: this should really be in ingenic_drm_private_state, but there
-+	 * doesn't seem to be a way to retrieve a pointer to it from within
-+	 * ingenic_drm_encoder_atomic_mode_set (no drm_atomic_state
-+	 * back-pointers).
-+	 */
-+	struct drm_bus_cfg bus_cfg;
-+};
-+
-+static inline struct ingenic_drm_bridge *
-+to_ingenic_drm_bridge(struct drm_encoder *encoder)
-+{
-+	return container_of(encoder, struct ingenic_drm_bridge, encoder);
-+}
-+
- static inline struct ingenic_drm_private_state *
- to_ingenic_drm_priv_state(struct drm_private_state *state)
- {
-@@ -749,11 +770,10 @@ static void ingenic_drm_encoder_atomic_mode_set(struct drm_encoder *encoder,
- {
- 	struct ingenic_drm *priv = drm_device_get_priv(encoder->dev);
- 	struct drm_display_mode *mode = &crtc_state->adjusted_mode;
--	struct drm_connector *conn = conn_state->connector;
--	struct drm_display_info *info = &conn->display_info;
-+	struct ingenic_drm_bridge *bridge = to_ingenic_drm_bridge(encoder);
- 	unsigned int cfg, rgbcfg = 0;
- 
--	priv->panel_is_sharp = info->bus_flags & DRM_BUS_FLAG_SHARP_SIGNALS;
-+	priv->panel_is_sharp = bridge->bus_cfg.flags & DRM_BUS_FLAG_SHARP_SIGNALS;
- 
- 	if (priv->panel_is_sharp) {
- 		cfg = JZ_LCD_CFG_MODE_SPECIAL_TFT_1 | JZ_LCD_CFG_REV_POLARITY;
-@@ -766,19 +786,19 @@ static void ingenic_drm_encoder_atomic_mode_set(struct drm_encoder *encoder,
- 		cfg |= JZ_LCD_CFG_HSYNC_ACTIVE_LOW;
- 	if (mode->flags & DRM_MODE_FLAG_NVSYNC)
- 		cfg |= JZ_LCD_CFG_VSYNC_ACTIVE_LOW;
--	if (info->bus_flags & DRM_BUS_FLAG_DE_LOW)
-+	if (bridge->bus_cfg.flags & DRM_BUS_FLAG_DE_LOW)
- 		cfg |= JZ_LCD_CFG_DE_ACTIVE_LOW;
--	if (info->bus_flags & DRM_BUS_FLAG_PIXDATA_DRIVE_NEGEDGE)
-+	if (bridge->bus_cfg.flags & DRM_BUS_FLAG_PIXDATA_DRIVE_NEGEDGE)
- 		cfg |= JZ_LCD_CFG_PCLK_FALLING_EDGE;
- 
- 	if (!priv->panel_is_sharp) {
--		if (conn->connector_type == DRM_MODE_CONNECTOR_TV) {
-+		if (conn_state->connector->connector_type == DRM_MODE_CONNECTOR_TV) {
- 			if (mode->flags & DRM_MODE_FLAG_INTERLACE)
- 				cfg |= JZ_LCD_CFG_MODE_TV_OUT_I;
- 			else
- 				cfg |= JZ_LCD_CFG_MODE_TV_OUT_P;
- 		} else {
--			switch (*info->bus_formats) {
-+			switch (bridge->bus_cfg.format) {
- 			case MEDIA_BUS_FMT_RGB565_1X16:
- 				cfg |= JZ_LCD_CFG_MODE_GENERIC_16BIT;
- 				break;
-@@ -804,20 +824,31 @@ static void ingenic_drm_encoder_atomic_mode_set(struct drm_encoder *encoder,
- 	regmap_write(priv->map, JZ_REG_LCD_RGBC, rgbcfg);
- }
- 
--static int ingenic_drm_encoder_atomic_check(struct drm_encoder *encoder,
--					    struct drm_crtc_state *crtc_state,
--					    struct drm_connector_state *conn_state)
-+static int ingenic_drm_bridge_attach(struct drm_bridge *bridge,
-+				     enum drm_bridge_attach_flags flags)
-+{
-+	struct drm_encoder *encoder = bridge->encoder;
-+	struct ingenic_drm_bridge *ingenic_bridge = to_ingenic_drm_bridge(encoder);
-+
-+	return drm_bridge_attach(encoder, ingenic_bridge->next_bridge,
-+				 &ingenic_bridge->bridge, flags);
-+}
-+
-+static int ingenic_drm_bridge_atomic_check(struct drm_bridge *bridge,
-+					   struct drm_bridge_state *bridge_state,
-+					   struct drm_crtc_state *crtc_state,
-+					   struct drm_connector_state *conn_state)
- {
--	struct drm_display_info *info = &conn_state->connector->display_info;
- 	struct drm_display_mode *mode = &crtc_state->adjusted_mode;
-+	struct drm_encoder *encoder = bridge->encoder;
-+	struct ingenic_drm_bridge *ingenic_bridge = to_ingenic_drm_bridge(encoder);
- 
--	if (info->num_bus_formats != 1)
--		return -EINVAL;
-+	ingenic_bridge->bus_cfg = bridge_state->output_bus_cfg;
- 
- 	if (conn_state->connector->connector_type == DRM_MODE_CONNECTOR_TV)
- 		return 0;
- 
--	switch (*info->bus_formats) {
-+	switch (bridge_state->output_bus_cfg.format) {
- 	case MEDIA_BUS_FMT_RGB888_3X8:
- 	case MEDIA_BUS_FMT_RGB888_3X8_DELTA:
- 		/*
-@@ -1056,8 +1087,16 @@ static const struct drm_crtc_helper_funcs ingenic_drm_crtc_helper_funcs = {
- };
- 
- static const struct drm_encoder_helper_funcs ingenic_drm_encoder_helper_funcs = {
--	.atomic_mode_set	= ingenic_drm_encoder_atomic_mode_set,
--	.atomic_check		= ingenic_drm_encoder_atomic_check,
-+	.atomic_mode_set        = ingenic_drm_encoder_atomic_mode_set,
-+};
-+
-+static const struct drm_bridge_funcs ingenic_drm_bridge_funcs = {
-+	.attach			= ingenic_drm_bridge_attach,
-+	.atomic_check		= ingenic_drm_bridge_atomic_check,
-+	.atomic_reset		= drm_atomic_helper_bridge_reset,
-+	.atomic_duplicate_state	= drm_atomic_helper_bridge_duplicate_state,
-+	.atomic_destroy_state	= drm_atomic_helper_bridge_destroy_state,
-+	.atomic_get_input_bus_fmts = drm_atomic_helper_bridge_propagate_bus_fmt,
- };
- 
- static const struct drm_mode_config_funcs ingenic_drm_mode_config_funcs = {
-@@ -1097,12 +1136,14 @@ static int ingenic_drm_bind(struct device *dev, bool has_components)
- {
- 	struct platform_device *pdev = to_platform_device(dev);
- 	struct ingenic_drm_private_state *private_state;
-+	struct ingenic_drm_bridge *ingenic_bridge;
- 	const struct jz_soc_info *soc_info;
- 	struct ingenic_drm *priv;
- 	struct clk *parent_clk;
- 	struct drm_plane *primary;
- 	struct drm_bridge *bridge;
- 	struct drm_panel *panel;
-+	struct drm_connector *connector;
- 	struct drm_encoder *encoder;
- 	struct drm_device *drm;
- 	void __iomem *base;
-@@ -1291,22 +1332,37 @@ static int ingenic_drm_bind(struct device *dev, bool has_components)
- 			bridge = devm_drm_panel_bridge_add_typed(dev, panel,
- 								 DRM_MODE_CONNECTOR_DPI);
- 
--		encoder = drmm_plain_encoder_alloc(drm, NULL, DRM_MODE_ENCODER_DPI, NULL);
--		if (IS_ERR(encoder)) {
--			ret = PTR_ERR(encoder);
-+		ingenic_bridge = drmm_encoder_alloc(drm, struct ingenic_drm_bridge,
-+						    encoder, NULL,
-+						    DRM_MODE_ENCODER_DPI, NULL);
-+		if (IS_ERR(ingenic_bridge)) {
-+			ret = PTR_ERR(ingenic_bridge);
- 			dev_err(dev, "Failed to init encoder: %d\n", ret);
- 			return ret;
- 		}
- 
--		encoder->possible_crtcs = 1;
-+		encoder = &ingenic_bridge->encoder;
-+		encoder->possible_crtcs = drm_crtc_mask(&priv->crtc);
- 
- 		drm_encoder_helper_add(encoder, &ingenic_drm_encoder_helper_funcs);
- 
--		ret = drm_bridge_attach(encoder, bridge, NULL, 0);
-+		ingenic_bridge->bridge.funcs = &ingenic_drm_bridge_funcs;
-+		ingenic_bridge->next_bridge = bridge;
-+
-+		ret = drm_bridge_attach(encoder, &ingenic_bridge->bridge, NULL,
-+					DRM_BRIDGE_ATTACH_NO_CONNECTOR);
- 		if (ret) {
- 			dev_err(dev, "Unable to attach bridge\n");
- 			return ret;
- 		}
-+
-+		connector = drm_bridge_connector_init(drm, encoder);
-+		if (IS_ERR(connector)) {
-+			dev_err(dev, "Unable to init connector\n");
-+			return PTR_ERR(connector);
-+		}
-+
-+		drm_connector_attach_encoder(connector, encoder);
- 	}
- 
- 	drm_for_each_encoder(encoder, drm) {
--- 
-2.30.2
+I'd worry more about what makes sense in a DT world, when it comes to
+DT bindings.
 
+BR,
+-R
+
+> Generally we've defined simple-panel entities for these, with the
+> timings in code (you can see what Bjorn and I have upstreamed), and
+> just match on the compatible.
+>
+> In summary, I don't mean to be difficult, I just think this solution
+> needs more "baking".
