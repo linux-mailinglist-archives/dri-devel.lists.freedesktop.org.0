@@ -1,95 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 517D03943A5
-	for <lists+dri-devel@lfdr.de>; Fri, 28 May 2021 15:57:32 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C2DD63943B3
+	for <lists+dri-devel@lfdr.de>; Fri, 28 May 2021 15:59:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2E7F46F5C3;
-	Fri, 28 May 2021 13:57:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F2E2F896EB;
+	Fri, 28 May 2021 13:59:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam10on2071.outbound.protection.outlook.com [40.107.93.71])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 38F686F5C3
- for <dri-devel@lists.freedesktop.org>; Fri, 28 May 2021 13:57:29 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=bgxuhRtE5IUsIDnFaQ0aSJ3dkj4VvBfMgfjejiYz/B13aLFAyXXg1mRi2O0NZgj10WeVsRk4EolmCoqDE49sTj4NpKGRUkbrjhGrSbGsZTn+EmMCpN/LYMpGmc2GFInM27WFl/WJN+4mVtDRBQHTh6M1UPDRa+990WWT7zQYLCDUpAxkvmeFqNmEf4kXxtrpXz2bYhPQ5tCBl4eiBGQFuBOGjZC6yuNyGCoxDhig11JnfX4zVJ+T0hWJzozfs6pc3wj3ym4Sxmh4cFS02+CX9Umg7gimVzfsa1KjeyEF2d+nxTaecCgVyRqYEjZlPptl9z19mADVlXbnCQwyjHymDA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=o37zc3r+32G/epFIaBt/S+sF2gOAKL8DExEeD28UpLo=;
- b=Kp3Fx0F6UkhNEzqZG6NXI+nWupYUy3XHfS9EfSffKRohbXZJIdaVYnxsO8xfxjL7DcTsPG74uEPEbDRUXMIs45zorKoCMqCfklgqwBKNdgpmlgAbRxl7AJzrn1EEVrXYDyjEqPh1ihBg8XhYcbhNWg9xuRfYX26PIvEjYwBsPzrO27BEmZVFn7cEdjLOUd94wcXJxD4npI1eCuVvbz9dSn0c3X/Aqp4uf7UOhXwOTsSFIYL59d8WhIbczBx+NWW9aRWZTItR4tH8+EE0I6WSFvsKF6ssZYZYGgWhQ9//b+xFufwHZN0JuXMQjUo8OeC0TRmDfQBeYnyJY6BBCQoqSQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
- dmarc=pass (p=none sp=none pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=o37zc3r+32G/epFIaBt/S+sF2gOAKL8DExEeD28UpLo=;
- b=TYhfmnIxwnPMVG+94lf3YN3Aj2J+IfqcTonAHPJBX0GLU97hwgBPk4q7oPuc1+3N5NijIa//8CG0JzH/O248SBXZFxTv+EpwOI6LvvuGvXjW9g9CzJurqfl0h8t7XHADggkcYBx+h1ka6venmx4U2ULUi+FuUob3A3VEdIPZ8qQ=
-Received: from BN0PR03CA0021.namprd03.prod.outlook.com (2603:10b6:408:e6::26)
- by CY4PR12MB1349.namprd12.prod.outlook.com (2603:10b6:903:40::22)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4173.22; Fri, 28 May
- 2021 13:57:26 +0000
-Received: from BN8NAM11FT052.eop-nam11.prod.protection.outlook.com
- (2603:10b6:408:e6:cafe::ea) by BN0PR03CA0021.outlook.office365.com
- (2603:10b6:408:e6::26) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4173.20 via Frontend
- Transport; Fri, 28 May 2021 13:57:26 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; lists.freedesktop.org; dkim=none (message not signed)
- header.d=none;lists.freedesktop.org; dmarc=pass action=none
- header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB03.amd.com;
-Received: from SATLEXMB03.amd.com (165.204.84.17) by
- BN8NAM11FT052.mail.protection.outlook.com (10.13.177.210) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.4150.30 via Frontend Transport; Fri, 28 May 2021 13:57:26 +0000
-Received: from SATLEXMB04.amd.com (10.181.40.145) by SATLEXMB03.amd.com
- (10.181.40.144) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2242.4; Fri, 28 May
- 2021 08:57:19 -0500
-Received: from wayne-System-Product-Name.amd.com (10.180.168.240) by
- SATLEXMB04.amd.com (10.181.40.145) with Microsoft SMTP Server id 15.1.2242.4
- via Frontend Transport; Fri, 28 May 2021 08:57:18 -0500
-From: Wayne Lin <Wayne.Lin@amd.com>
-To: <dri-devel@lists.freedesktop.org>
-Subject: [PATCH 2/2] drm/dp_mst: Avoid to mess up payload table by ports in
- stale topology
-Date: Fri, 28 May 2021 21:55:57 +0800
-Message-ID: <20210528135557.23248-3-Wayne.Lin@amd.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20210528135557.23248-1-Wayne.Lin@amd.com>
-References: <20210528135557.23248-1-Wayne.Lin@amd.com>
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 70626896EB
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 May 2021 13:59:20 +0000 (UTC)
+Received: from imap.suse.de (imap-alt.suse-dmz.suse.de [192.168.254.47])
+ (using TLSv1.2 with cipher ECDHE-ECDSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 9247D218B3;
+ Fri, 28 May 2021 13:59:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1622210356; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=T1fRGHfHUb7/Zr0qPH9cVl7kztDPoQDyj6xfG+R+RW0=;
+ b=vIZh1t5nZC1e1yj/QtAJ4gOMiA9Zm/bKb92WSOShDnCTQmI61XdQmp7e2kWpHhbxb4ufJL
+ aJZ9AEQblJaTPC2YwP2lixP9P69x/g5foAB4O0tacRJo4ALtXJVwOM3oOG6v+EzigiijAU
+ y47hkE7S4oiwqEAKJOxgbCs3GpuQVfY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1622210356;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=T1fRGHfHUb7/Zr0qPH9cVl7kztDPoQDyj6xfG+R+RW0=;
+ b=S5B32VFqbnt/woUhT0+zWZiuPlskYQVKbKgitfSHioI5fFzQjr73iIg1QH/NTjGiLY4HlP
+ 6y6YoSUurPDyspAQ==
+Received: from imap3-int (imap-alt.suse-dmz.suse.de [192.168.254.47])
+ by imap.suse.de (Postfix) with ESMTP id 52AA611A98;
+ Fri, 28 May 2021 13:59:16 +0000 (UTC)
+Received: from director2.suse.de ([192.168.254.72]) by imap3-int with ESMTPSA
+ id EHkXEzT3sGA2WwAALh3uQQ
+ (envelope-from <tzimmermann@suse.de>); Fri, 28 May 2021 13:59:16 +0000
+Subject: Re: [PATCH v2] drm/rockchip: remove existing generic drivers to take
+ over the device
+To: Javier Martinez Canillas <javierm@redhat.com>, linux-kernel@vger.kernel.org
+References: <20210516074833.451643-1-javierm@redhat.com>
+ <ef974dd8-5619-35b7-74de-4e270033a3c3@suse.de>
+ <1f781f88-24ff-98b8-9c86-ae4db311843f@redhat.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Message-ID: <bc8ba42b-2fbf-ba95-d7a4-92f789142bd3@suse.de>
+Date: Fri, 28 May 2021 15:59:15 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.2
 MIME-Version: 1.0
-Content-Type: text/plain
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 05cc7d6d-df28-4841-0512-08d921e0866f
-X-MS-TrafficTypeDiagnostic: CY4PR12MB1349:
-X-Microsoft-Antispam-PRVS: <CY4PR12MB13496B79E8BFF9AE0331EA56FC229@CY4PR12MB1349.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:6790;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Jx3EdRY4MyFXXz/ikETKkgktftBS0lKt5D3/g9gsXajaOfBwUR99cVFxNVlF5aeYFi0eYpYYZj9xqwE6xt3Ja21HzI7gXfSIzXbVqcZJxrcgfRu09Ix/2QG6VA+IJSBGNdaryRCXnuZ8w9M24bDRHIHlIXMyWPcys62ie2mYiYHr0q3dGj8YZabXaO96DZrTUid25cDN7k4KdfXTpHRZN9MOBU7OCITxALN90lzXEG4coG/70jOi15/7AWpkH/pqgc1NO5T4APH/W2wTyLFjLCkKyLE91nQsXWu73ws1Oe+HerB0mPDt+xU+1dpcqkOcD4s1abSA/lsHMXMO3ie3S9vQECs3xmq8q8RPoKQ8LFpQhnArJjMrVl87NwDbcPsZnAzQJgxaZh2qSngtxfwtI6iSWBs17F0RdNdq/t44VRYfoF2B8BO7EqxBYUgdzar7kHa3ip8YI7vnzb5wSZbFa1vOBeEgNq9dcbDJbl/6uwgjoMeJc/9Wg78/BwLlhyDddixMnYuQA7NCFjDpMJbOosr4MOadlf3R3Rz0lTLtwd/GR04Wc+J3FHuYpsdqzqDoDmKofKjRcxFhA8mNwmQhOiU5WQrSkwbTikMZxg84MrFdqsQXLllj6VgVtj53E6d51682amVNQlLVIdsKxzikp/wvPTUMbzNDOCISpTxbWQpfNjxPioqcTu0tIH0qiQ1B
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:SATLEXMB03.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(4636009)(396003)(136003)(39860400002)(376002)(346002)(36840700001)(46966006)(1076003)(7696005)(82740400003)(83380400001)(356005)(81166007)(8676002)(5660300002)(82310400003)(86362001)(36860700001)(47076005)(426003)(336012)(316002)(70206006)(2616005)(70586007)(54906003)(6666004)(186003)(8936002)(36756003)(6916009)(26005)(478600001)(4326008)(2906002)(36900700001);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 May 2021 13:57:26.1009 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 05cc7d6d-df28-4841-0512-08d921e0866f
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB03.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT052.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR12MB1349
+In-Reply-To: <1f781f88-24ff-98b8-9c86-ae4db311843f@redhat.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="UQrFh0WQs4TtyMcOLbL1G5mbWOEXfTHtQ"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -102,116 +67,117 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: jerry.zuo@amd.com, aurabindo.pillai@amd.com, Wayne Lin <Wayne.Lin@amd.com>,
- Nicholas.Kazlauskas@amd.com
+Cc: David Airlie <airlied@linux.ie>, Sandy Huang <hjc@rock-chips.com>,
+ dri-devel@lists.freedesktop.org, linux-rockchip@lists.infradead.org,
+ Peter Robinson <pbrobinson@gmail.com>, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-[Why]
-After unplug/hotplug hub from the system, userspace might start to
-clear stale payloads gradually. If we call drm_dp_mst_deallocate_vcpi()
-to release stale VCPI of those ports which are not relating to current
-topology, we have chane to wrongly clear active payload table entry for
-current topology.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--UQrFh0WQs4TtyMcOLbL1G5mbWOEXfTHtQ
+Content-Type: multipart/mixed; boundary="7Xhf3qKEvoJB4vdb8HBr3oauPUsd3OcmZ";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Javier Martinez Canillas <javierm@redhat.com>,
+ linux-kernel@vger.kernel.org
+Cc: David Airlie <airlied@linux.ie>, Sandy Huang <hjc@rock-chips.com>,
+ dri-devel@lists.freedesktop.org, linux-rockchip@lists.infradead.org,
+ Peter Robinson <pbrobinson@gmail.com>, linux-arm-kernel@lists.infradead.org
+Message-ID: <bc8ba42b-2fbf-ba95-d7a4-92f789142bd3@suse.de>
+Subject: Re: [PATCH v2] drm/rockchip: remove existing generic drivers to take
+ over the device
+References: <20210516074833.451643-1-javierm@redhat.com>
+ <ef974dd8-5619-35b7-74de-4e270033a3c3@suse.de>
+ <1f781f88-24ff-98b8-9c86-ae4db311843f@redhat.com>
+In-Reply-To: <1f781f88-24ff-98b8-9c86-ae4db311843f@redhat.com>
 
-E.g.
-We have allocated VCPI 1 in current payload table and we call
-drm_dp_mst_deallocate_vcpi() to clean VCPI 1 in stale topology. In
-drm_dp_mst_deallocate_vcpi(), it will call drm_dp_mst_put_payload_id()
-tp put VCPI 1 and which means ID 1 is available again. Thereafter, if we
-want to allocate a new payload stream, it will find ID 1 is available by
-drm_dp_mst_assign_payload_id(). However, ID 1 is being used
+--7Xhf3qKEvoJB4vdb8HBr3oauPUsd3OcmZ
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-[How]
-Check target sink is relating to current topology or not before doing
-any payload table update.
-Searching upward to find the target sink's relevant root branch device.
-If the found root branch device is not the same root of current
-topology, don't update payload table.
 
-Signed-off-by: Wayne Lin <Wayne.Lin@amd.com>
----
- drivers/gpu/drm/drm_dp_mst_topology.c | 29 +++++++++++++++++++++++++++
- 1 file changed, 29 insertions(+)
 
-diff --git a/drivers/gpu/drm/drm_dp_mst_topology.c b/drivers/gpu/drm/drm_dp_mst_topology.c
-index 5fc261014a20..3d988d54df89 100644
---- a/drivers/gpu/drm/drm_dp_mst_topology.c
-+++ b/drivers/gpu/drm/drm_dp_mst_topology.c
-@@ -94,6 +94,9 @@ static int drm_dp_mst_register_i2c_bus(struct drm_dp_mst_port *port);
- static void drm_dp_mst_unregister_i2c_bus(struct drm_dp_mst_port *port);
- static void drm_dp_mst_kick_tx(struct drm_dp_mst_topology_mgr *mgr);
- 
-+static bool drm_dp_mst_port_downstream_of_branch(struct drm_dp_mst_port *port,
-+						 struct drm_dp_mst_branch *branch);
-+
- #define DBG_PREFIX "[dp_mst]"
- 
- #define DP_STR(x) [DP_ ## x] = #x
-@@ -3360,6 +3363,7 @@ int drm_dp_update_payload_part1(struct drm_dp_mst_topology_mgr *mgr)
- 	struct drm_dp_mst_port *port;
- 	int i, j;
- 	int cur_slots = 1;
-+	bool skip;
- 
- 	mutex_lock(&mgr->payload_lock);
- 	for (i = 0; i < mgr->max_payloads; i++) {
-@@ -3374,6 +3378,14 @@ int drm_dp_update_payload_part1(struct drm_dp_mst_topology_mgr *mgr)
- 			port = container_of(vcpi, struct drm_dp_mst_port,
- 					    vcpi);
- 
-+			mutex_lock(&mgr->lock);
-+			skip = !drm_dp_mst_port_downstream_of_branch(port, mgr->mst_primary);
-+			mutex_unlock(&mgr->lock);
-+
-+			if (skip) {
-+				DRM_DEBUG_KMS("Virtual channel %d is not in current topology\n", i);
-+				continue;
-+			}
- 			/* Validated ports don't matter if we're releasing
- 			 * VCPI
- 			 */
-@@ -3473,6 +3485,7 @@ int drm_dp_update_payload_part2(struct drm_dp_mst_topology_mgr *mgr)
- 	struct drm_dp_mst_port *port;
- 	int i;
- 	int ret = 0;
-+	bool skip;
- 
- 	mutex_lock(&mgr->payload_lock);
- 	for (i = 0; i < mgr->max_payloads; i++) {
-@@ -3482,6 +3495,13 @@ int drm_dp_update_payload_part2(struct drm_dp_mst_topology_mgr *mgr)
- 
- 		port = container_of(mgr->proposed_vcpis[i], struct drm_dp_mst_port, vcpi);
- 
-+		mutex_lock(&mgr->lock);
-+		skip = !drm_dp_mst_port_downstream_of_branch(port, mgr->mst_primary);
-+		mutex_unlock(&mgr->lock);
-+
-+		if (skip)
-+			continue;
-+
- 		DRM_DEBUG_KMS("payload %d %d\n", i, mgr->payloads[i].payload_state);
- 		if (mgr->payloads[i].payload_state == DP_PAYLOAD_LOCAL) {
- 			ret = drm_dp_create_payload_step2(mgr, port, mgr->proposed_vcpis[i]->vcpi, &mgr->payloads[i]);
-@@ -4562,9 +4582,18 @@ EXPORT_SYMBOL(drm_dp_mst_reset_vcpi_slots);
- void drm_dp_mst_deallocate_vcpi(struct drm_dp_mst_topology_mgr *mgr,
- 				struct drm_dp_mst_port *port)
- {
-+	bool skip;
-+
- 	if (!port->vcpi.vcpi)
- 		return;
- 
-+	mutex_lock(&mgr->lock);
-+	skip = !drm_dp_mst_port_downstream_of_branch(port, mgr->mst_primary);
-+	mutex_unlock(&mgr->lock);
-+
-+	if (skip)
-+		return;
-+
- 	drm_dp_mst_put_payload_id(mgr, port->vcpi.vcpi);
- 	port->vcpi.num_slots = 0;
- 	port->vcpi.pbn = 0;
--- 
-2.17.1
+Am 27.05.21 um 09:38 schrieb Javier Martinez Canillas:
+> Hello Thomas,
+>=20
+> On 5/16/21 12:30 PM, Thomas Zimmermann wrote:
+>>
+>>
+>> Am 16.05.21 um 09:48 schrieb Javier Martinez Canillas:
+>>> There are drivers that register framebuffer devices very early in the=
+ boot
+>>> process and make use of the existing framebuffer as setup by the firm=
+ware.
+>>>
+>>> If one of those drivers has registered a fbdev, then the fallback fbd=
+ev
+>> of
+>>> the DRM driver won't be bound to the framebuffer console. To avoid th=
+at,
+>>> remove any existing generic driver and take over the graphics device.=
 
+>>>
+>>> By doing that, the fb mapped to the console is switched correctly fro=
+m the
+>>> early fbdev to the one registered by the rockchip DRM driver:
+>>>
+>>>       [   40.752420] fb0: switching to rockchip-drm-fb from EFI VGA
+>>>
+>>> Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
+>>
+>> Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
+>>
+>=20
+> Thanks for the ack.
+>  =20
+>> Ping me if no one else merges the patch.
+>>
+>=20
+> I would really appreciate if you merge this patch.
+
+It's merged now. Thanks for the patch.
+
+Best regards
+Thomas
+
+>  =20
+>> Best regards
+>> Thomas
+>=20
+> Best regards,
+>=20
+
+--=20
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+(HRB 36809, AG N=C3=BCrnberg)
+Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+
+
+--7Xhf3qKEvoJB4vdb8HBr3oauPUsd3OcmZ--
+
+--UQrFh0WQs4TtyMcOLbL1G5mbWOEXfTHtQ
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmCw9zMFAwAAAAAACgkQlh/E3EQov+DB
+PxAAgQw6Sy8VeAvlmd26pFV2YhWs10y6WMjsg4NvDGqBatXW6P4BuazWX2k9CkhOWs4IUGkAL7KE
+Sbp+iWS4sqjIlTJj26NS36ktC4VluIb9gQhR6eAimuqdUqY3HxMtM4k1txdKtH7IftqNYFh/lY1B
+lORl9390SZrvcrxEhAvWrbffNFasiG4aX2DuRj1wyg1wSecW7VqY2BMFcHDrHSaeg3zlHldj+sn+
+/rTk/iqd+2VdmyoDR1SYxNuNgDku5aS68B6aPYWqXlbMxlwtpQFkc5DSfhr5E8WzG0dSElIrQdcw
++PRrFIDMlWbWZnn/NNn8oXNNM15tXdM6lsT07R4qxbk0CZlyR4MRyGQaK8I/mEsW+FT9FxiOiYvL
+YCPCg/4PaysA9Yq91qO34ASYbO0moP59U7p0NBeWFMFcx8sq1dyLNXUZgctusmkGzLdRCc9tfGzy
+pWzRXYaYSBteuUy5bwGIwVFtQS/CkGQy6uOyaXP979hhW+adJOJjP7IA61TZpee+QUf/izSW0VPt
+xFZ+Ufo14G6bNbmgRagk/dyDSkf/AXZ1GNprKtfWNPiS+TRqbMGERHZlrcChANOIeMi/7s6UMn0i
+UV2fKfOfHoHbZceUbfdIQZxUzWN25nTNyth0MmnO8VYHBJy2WyIG/BltaDX8TtJanq5dlnnlpukT
+YDc=
+=mqhb
+-----END PGP SIGNATURE-----
+
+--UQrFh0WQs4TtyMcOLbL1G5mbWOEXfTHtQ--
