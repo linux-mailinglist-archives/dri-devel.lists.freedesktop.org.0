@@ -1,43 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C969D39418B
-	for <lists+dri-devel@lfdr.de>; Fri, 28 May 2021 12:58:38 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 48749394253
+	for <lists+dri-devel@lfdr.de>; Fri, 28 May 2021 14:13:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BB40D6F59C;
-	Fri, 28 May 2021 10:58:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DB76E6E233;
+	Fri, 28 May 2021 12:13:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 22ACB6F599;
- Fri, 28 May 2021 10:58:25 +0000 (UTC)
-IronPort-SDR: 6eGDW8QdRJ9eJ6+CgXxQi42Jg+hkdpdbaCRiNxNjF3e+wo/bq3EECNt38vzOIaBIJv2MIx+GSK
- 0RI5s2QLBkrA==
-X-IronPort-AV: E=McAfee;i="6200,9189,9997"; a="266821867"
-X-IronPort-AV: E=Sophos;i="5.83,229,1616482800"; d="scan'208";a="266821867"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 May 2021 03:58:23 -0700
-IronPort-SDR: 0AQTtaxhzE4r8UvgyqVYqp8y4XMoCbhuSJFGAAMyEIdG/TmqBzs6z9tieXcfTwp6h7IlQO9lv+
- UkvhoGoPrwBQ==
-X-IronPort-AV: E=Sophos;i="5.83,229,1616482800"; d="scan'208";a="477885309"
-Received: from jdahlin-mobl1.ger.corp.intel.com (HELO thellst-mobl1.intel.com)
- ([10.249.254.92])
- by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 May 2021 03:58:22 -0700
-From: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
-To: intel-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org
-Subject: [PATCH v6 15/15] drm/i915: Use ttm mmap handling for ttm bo's.
-Date: Fri, 28 May 2021 12:57:44 +0200
-Message-Id: <20210528105744.58271-16-thomas.hellstrom@linux.intel.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210528105744.58271-1-thomas.hellstrom@linux.intel.com>
-References: <20210528105744.58271-1-thomas.hellstrom@linux.intel.com>
+Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F1F866E233;
+ Fri, 28 May 2021 12:13:00 +0000 (UTC)
+Received: from dggemv711-chm.china.huawei.com (unknown [172.30.72.56])
+ by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4Fs3RD2xBCzYqKB;
+ Fri, 28 May 2021 20:10:16 +0800 (CST)
+Received: from dggema769-chm.china.huawei.com (10.1.198.211) by
+ dggemv711-chm.china.huawei.com (10.1.198.66) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
+ 15.1.2176.2; Fri, 28 May 2021 20:12:57 +0800
+Received: from localhost (10.174.179.215) by dggema769-chm.china.huawei.com
+ (10.1.198.211) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2176.2; Fri, 28
+ May 2021 20:12:56 +0800
+From: YueHaibing <yuehaibing@huawei.com>
+To: <alexander.deucher@amd.com>, <christian.koenig@amd.com>,
+ <Xinhui.Pan@amd.com>, <airlied@linux.ie>, <daniel@ffwll.ch>,
+ <Dennis.Li@amd.com>, <jonathan.kim@amd.com>
+Subject: [PATCH -next] drm/amdgpu: use DEVICE_ATTR_*() macro
+Date: Fri, 28 May 2021 20:12:47 +0800
+Message-ID: <20210528121247.23168-1-yuehaibing@huawei.com>
+X-Mailer: git-send-email 2.10.2.windows.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.174.179.215]
+X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
+ dggema769-chm.china.huawei.com (10.1.198.211)
+X-CFilter-Loop: Reflected
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,771 +49,397 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: YueHaibing <yuehaibing@huawei.com>, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Use DEVICE_ATTR_*() helper instead of plain DEVICE_ATTR(),
+which makes the code a bit shorter and easier to read.
 
-Use the ttm handlers for servicing page faults, and vm_access.
-
-We do our own validation of read-only access, otherwise use the
-ttm handlers as much as possible.
-
-Because the ttm handlers expect the vma_node at vma->base, we slightly
-need to massage the mmap handlers to look at vma_node->driver_private
-to fetch the bo, if it's NULL, we assume i915's normal mmap_offset uapi
-is used.
-
-This is the easiest way to achieve compatibility without changing ttm's
-semantics.
-
-Signed-off-by: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-- Fixed some minor style issues. (Thomas Hellström)
-- Added a mutex Destroy (Thomas Hellström)
+Signed-off-by: YueHaibing <yuehaibing@huawei.com>
 ---
- drivers/gpu/drm/i915/gem/i915_gem_mman.c      |  83 ++++++++----
- drivers/gpu/drm/i915/gem/i915_gem_object.h    |   6 +-
- .../gpu/drm/i915/gem/i915_gem_object_types.h  |   3 +
- drivers/gpu/drm/i915/gem/i915_gem_pages.c     |   3 +-
- drivers/gpu/drm/i915/gem/i915_gem_ttm.c       | 121 +++++++++++++++++-
- .../drm/i915/gem/selftests/i915_gem_mman.c    |  90 ++++++-------
- drivers/gpu/drm/i915/selftests/igt_mmap.c     |  25 +++-
- drivers/gpu/drm/i915/selftests/igt_mmap.h     |  12 +-
- 8 files changed, 251 insertions(+), 92 deletions(-)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_atombios.c |  8 ++---
+ drivers/gpu/drm/amd/amdgpu/amdgpu_device.c   | 28 +++++++--------
+ drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c  | 16 ++++-----
+ drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c      | 17 +++------
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c      |  8 ++---
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c | 38 ++++++++------------
+ drivers/gpu/drm/amd/amdgpu/amdgpu_xgmi.c     | 14 ++++----
+ drivers/gpu/drm/amd/amdgpu/df_v3_6.c         |  7 ++--
+ 8 files changed, 54 insertions(+), 82 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_mman.c b/drivers/gpu/drm/i915/gem/i915_gem_mman.c
-index fd1c9714f8d8..d1de97e4adfd 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_mman.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_mman.c
-@@ -19,6 +19,7 @@
- #include "i915_gem_mman.h"
- #include "i915_trace.h"
- #include "i915_user_extensions.h"
-+#include "i915_gem_ttm.h"
- #include "i915_vma.h"
- 
- static inline bool
-@@ -622,6 +623,8 @@ mmap_offset_attach(struct drm_i915_gem_object *obj,
- 	struct i915_mmap_offset *mmo;
- 	int err;
- 
-+	GEM_BUG_ON(obj->ops->mmap_offset || obj->ops->mmap_ops);
-+
- 	mmo = lookup_mmo(obj, mmap_type);
- 	if (mmo)
- 		goto out;
-@@ -664,40 +667,47 @@ mmap_offset_attach(struct drm_i915_gem_object *obj,
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_atombios.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_atombios.c
+index 96b7bb13a2dd..38ee4db1d841 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_atombios.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_atombios.c
+@@ -1754,9 +1754,8 @@ static uint32_t cail_reg_read(struct card_info *info, uint32_t reg)
+ 	return r;
  }
  
- static int
--__assign_mmap_offset(struct drm_file *file,
--		     u32 handle,
-+__assign_mmap_offset(struct drm_i915_gem_object *obj,
- 		     enum i915_mmap_type mmap_type,
--		     u64 *offset)
-+		     u64 *offset, struct drm_file *file)
+-static ssize_t amdgpu_atombios_get_vbios_version(struct device *dev,
+-						 struct device_attribute *attr,
+-						 char *buf)
++static ssize_t vbios_version_show(struct device *dev,
++				  struct device_attribute *attr, char *buf)
  {
--	struct drm_i915_gem_object *obj;
- 	struct i915_mmap_offset *mmo;
--	int err;
- 
--	obj = i915_gem_object_lookup(file, handle);
--	if (!obj)
--		return -ENOENT;
-+	if (i915_gem_object_never_mmap(obj))
-+		return -ENODEV;
- 
--	if (i915_gem_object_never_mmap(obj)) {
--		err = -ENODEV;
--		goto out;
-+	if (obj->ops->mmap_offset)  {
-+		*offset = obj->ops->mmap_offset(obj);
-+		return 0;
- 	}
- 
- 	if (mmap_type != I915_MMAP_TYPE_GTT &&
- 	    !i915_gem_object_has_struct_page(obj) &&
--	    !i915_gem_object_type_has(obj, I915_GEM_OBJECT_HAS_IOMEM)) {
--		err = -ENODEV;
--		goto out;
--	}
-+	    !i915_gem_object_type_has(obj, I915_GEM_OBJECT_HAS_IOMEM))
-+		return -ENODEV;
- 
- 	mmo = mmap_offset_attach(obj, mmap_type, file);
--	if (IS_ERR(mmo)) {
--		err = PTR_ERR(mmo);
--		goto out;
--	}
-+	if (IS_ERR(mmo))
-+		return PTR_ERR(mmo);
- 
- 	*offset = drm_vma_node_offset_addr(&mmo->vma_node);
--	err = 0;
--out:
-+	return 0;
-+}
-+
-+static int
-+__assign_mmap_offset_handle(struct drm_file *file,
-+			    u32 handle,
-+			    enum i915_mmap_type mmap_type,
-+			    u64 *offset)
-+{
-+	struct drm_i915_gem_object *obj;
-+	int err;
-+
-+	obj = i915_gem_object_lookup(file, handle);
-+	if (!obj)
-+		return -ENOENT;
-+
-+	err = __assign_mmap_offset(obj, mmap_type, offset, file);
- 	i915_gem_object_put(obj);
- 	return err;
+ 	struct drm_device *ddev = dev_get_drvdata(dev);
+ 	struct amdgpu_device *adev = drm_to_adev(ddev);
+@@ -1765,8 +1764,7 @@ static ssize_t amdgpu_atombios_get_vbios_version(struct device *dev,
+ 	return sysfs_emit(buf, "%s\n", ctx->vbios_version);
  }
-@@ -717,7 +727,7 @@ i915_gem_dumb_mmap_offset(struct drm_file *file,
- 	else
- 		mmap_type = I915_MMAP_TYPE_GTT;
  
--	return __assign_mmap_offset(file, handle, mmap_type, offset);
-+	return __assign_mmap_offset_handle(file, handle, mmap_type, offset);
+-static DEVICE_ATTR(vbios_version, 0444, amdgpu_atombios_get_vbios_version,
+-		   NULL);
++static DEVICE_ATTR_RO(vbios_version);
+ 
+ static struct attribute *amdgpu_vbios_version_attrs[] = {
+ 	&dev_attr_vbios_version.attr,
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+index 2fe4bdf5aa6f..fc516d905e50 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+@@ -134,8 +134,8 @@ const char *amdgpu_asic_name[] = {
+  * number of replays as a sum of the NAKs generated and NAKs received
+  */
+ 
+-static ssize_t amdgpu_device_get_pcie_replay_count(struct device *dev,
+-		struct device_attribute *attr, char *buf)
++static ssize_t pcie_replay_count_show(struct device *dev,
++				      struct device_attribute *attr, char *buf)
+ {
+ 	struct drm_device *ddev = dev_get_drvdata(dev);
+ 	struct amdgpu_device *adev = drm_to_adev(ddev);
+@@ -144,8 +144,7 @@ static ssize_t amdgpu_device_get_pcie_replay_count(struct device *dev,
+ 	return sysfs_emit(buf, "%llu\n", cnt);
  }
+ 
+-static DEVICE_ATTR(pcie_replay_count, S_IRUGO,
+-		amdgpu_device_get_pcie_replay_count, NULL);
++static DEVICE_ATTR_RO(pcie_replay_count);
+ 
+ static void amdgpu_device_get_pcie_info(struct amdgpu_device *adev);
+ 
+@@ -159,8 +158,8 @@ static void amdgpu_device_get_pcie_info(struct amdgpu_device *adev);
+  * NOTE: This is only available for certain server cards
+  */
+ 
+-static ssize_t amdgpu_device_get_product_name(struct device *dev,
+-		struct device_attribute *attr, char *buf)
++static ssize_t product_name_show(struct device *dev,
++				 struct device_attribute *attr, char *buf)
+ {
+ 	struct drm_device *ddev = dev_get_drvdata(dev);
+ 	struct amdgpu_device *adev = drm_to_adev(ddev);
+@@ -168,8 +167,7 @@ static ssize_t amdgpu_device_get_product_name(struct device *dev,
+ 	return sysfs_emit(buf, "%s\n", adev->product_name);
+ }
+ 
+-static DEVICE_ATTR(product_name, S_IRUGO,
+-		amdgpu_device_get_product_name, NULL);
++static DEVICE_ATTR_RO(product_name);
  
  /**
-@@ -785,7 +795,7 @@ i915_gem_mmap_offset_ioctl(struct drm_device *dev, void *data,
- 		return -EINVAL;
- 	}
+  * DOC: product_number
+@@ -181,8 +179,8 @@ static DEVICE_ATTR(product_name, S_IRUGO,
+  * NOTE: This is only available for certain server cards
+  */
  
--	return __assign_mmap_offset(file, args->handle, type, &args->offset);
-+	return __assign_mmap_offset_handle(file, args->handle, type, &args->offset);
+-static ssize_t amdgpu_device_get_product_number(struct device *dev,
+-		struct device_attribute *attr, char *buf)
++static ssize_t product_number_show(struct device *dev,
++				   struct device_attribute *attr, char *buf)
+ {
+ 	struct drm_device *ddev = dev_get_drvdata(dev);
+ 	struct amdgpu_device *adev = drm_to_adev(ddev);
+@@ -190,8 +188,7 @@ static ssize_t amdgpu_device_get_product_number(struct device *dev,
+ 	return sysfs_emit(buf, "%s\n", adev->product_number);
  }
  
- static void vm_open(struct vm_area_struct *vma)
-@@ -889,8 +899,18 @@ int i915_gem_mmap(struct file *filp, struct vm_area_struct *vma)
- 		 * destroyed and will be invalid when the vma manager lock
- 		 * is released.
- 		 */
--		mmo = container_of(node, struct i915_mmap_offset, vma_node);
--		obj = i915_gem_object_get_rcu(mmo->obj);
-+		if (!node->driver_private) {
-+			mmo = container_of(node, struct i915_mmap_offset, vma_node);
-+			obj = i915_gem_object_get_rcu(mmo->obj);
-+
-+			GEM_BUG_ON(obj && obj->ops->mmap_ops);
-+		} else {
-+			obj = i915_gem_object_get_rcu
-+				(container_of(node, struct drm_i915_gem_object,
-+					      base.vma_node));
-+
-+			GEM_BUG_ON(obj && !obj->ops->mmap_ops);
-+		}
- 	}
- 	drm_vma_offset_unlock_lookup(dev->vma_offset_manager);
- 	rcu_read_unlock();
-@@ -912,7 +932,9 @@ int i915_gem_mmap(struct file *filp, struct vm_area_struct *vma)
- 	}
+-static DEVICE_ATTR(product_number, S_IRUGO,
+-		amdgpu_device_get_product_number, NULL);
++static DEVICE_ATTR_RO(product_number);
  
- 	vma->vm_flags |= VM_PFNMAP | VM_DONTEXPAND | VM_DONTDUMP;
--	vma->vm_private_data = mmo;
-+
-+	if (i915_gem_object_has_iomem(obj))
-+		vma->vm_flags |= VM_IO;
+ /**
+  * DOC: serial_number
+@@ -203,8 +200,8 @@ static DEVICE_ATTR(product_number, S_IRUGO,
+  * NOTE: This is only available for certain server cards
+  */
  
- 	/*
- 	 * We keep the ref on mmo->obj, not vm_file, but we require
-@@ -926,6 +948,15 @@ int i915_gem_mmap(struct file *filp, struct vm_area_struct *vma)
- 	/* Drop the initial creation reference, the vma is now holding one. */
- 	fput(anon);
- 
-+	if (obj->ops->mmap_ops) {
-+		vma->vm_page_prot = pgprot_decrypted(vm_get_page_prot(vma->vm_flags));
-+		vma->vm_ops = obj->ops->mmap_ops;
-+		vma->vm_private_data = node->driver_private;
-+		return 0;
-+	}
-+
-+	vma->vm_private_data = mmo;
-+
- 	switch (mmo->mmap_type) {
- 	case I915_MMAP_TYPE_WC:
- 		vma->vm_page_prot =
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object.h b/drivers/gpu/drm/i915/gem/i915_gem_object.h
-index a3ad8cf4eefd..ff59e6c640e6 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_object.h
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_object.h
-@@ -342,14 +342,14 @@ struct scatterlist *
- __i915_gem_object_get_sg(struct drm_i915_gem_object *obj,
- 			 struct i915_gem_object_page_iter *iter,
- 			 unsigned int n,
--			 unsigned int *offset, bool allow_alloc);
-+			 unsigned int *offset, bool allow_alloc, bool dma);
- 
- static inline struct scatterlist *
- i915_gem_object_get_sg(struct drm_i915_gem_object *obj,
- 		       unsigned int n,
- 		       unsigned int *offset, bool allow_alloc)
+-static ssize_t amdgpu_device_get_serial_number(struct device *dev,
+-		struct device_attribute *attr, char *buf)
++static ssize_t serial_number_show(struct device *dev,
++				  struct device_attribute *attr, char *buf)
  {
--	return __i915_gem_object_get_sg(obj, &obj->mm.get_page, n, offset, allow_alloc);
-+	return __i915_gem_object_get_sg(obj, &obj->mm.get_page, n, offset, allow_alloc, false);
+ 	struct drm_device *ddev = dev_get_drvdata(dev);
+ 	struct amdgpu_device *adev = drm_to_adev(ddev);
+@@ -212,8 +209,7 @@ static ssize_t amdgpu_device_get_serial_number(struct device *dev,
+ 	return sysfs_emit(buf, "%s\n", adev->serial);
  }
  
- static inline struct scatterlist *
-@@ -357,7 +357,7 @@ i915_gem_object_get_sg_dma(struct drm_i915_gem_object *obj,
- 			   unsigned int n,
- 			   unsigned int *offset, bool allow_alloc)
+-static DEVICE_ATTR(serial_number, S_IRUGO,
+-		amdgpu_device_get_serial_number, NULL);
++static DEVICE_ATTR_RO(serial_number);
+ 
+ /**
+  * amdgpu_device_supports_px - Is the device a dGPU with ATPX power control
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c
+index 6a84c9778cc0..16d7fdc53388 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c
+@@ -43,9 +43,8 @@ struct amdgpu_gtt_node {
+  * The file mem_info_gtt_total is used for this, and returns the total size of
+  * the GTT block, in bytes
+  */
+-static ssize_t amdgpu_mem_info_gtt_total_show(struct device *dev,
+-					      struct device_attribute *attr,
+-					      char *buf)
++static ssize_t mem_info_gtt_total_show(struct device *dev,
++				       struct device_attribute *attr, char *buf)
  {
--	return __i915_gem_object_get_sg(obj, &obj->mm.get_dma_page, n, offset, allow_alloc);
-+	return __i915_gem_object_get_sg(obj, &obj->mm.get_dma_page, n, offset, allow_alloc, true);
+ 	struct drm_device *ddev = dev_get_drvdata(dev);
+ 	struct amdgpu_device *adev = drm_to_adev(ddev);
+@@ -63,9 +62,8 @@ static ssize_t amdgpu_mem_info_gtt_total_show(struct device *dev,
+  * The file mem_info_gtt_used is used for this, and returns the current used
+  * size of the GTT block, in bytes
+  */
+-static ssize_t amdgpu_mem_info_gtt_used_show(struct device *dev,
+-					     struct device_attribute *attr,
+-					     char *buf)
++static ssize_t mem_info_gtt_used_show(struct device *dev,
++				      struct device_attribute *attr, char *buf)
+ {
+ 	struct drm_device *ddev = dev_get_drvdata(dev);
+ 	struct amdgpu_device *adev = drm_to_adev(ddev);
+@@ -75,10 +73,8 @@ static ssize_t amdgpu_mem_info_gtt_used_show(struct device *dev,
+ 	return sysfs_emit(buf, "%llu\n", amdgpu_gtt_mgr_usage(man));
  }
  
- struct page *
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object_types.h b/drivers/gpu/drm/i915/gem/i915_gem_object_types.h
-index 68313474e6a6..2a23b77424b3 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_object_types.h
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_object_types.h
-@@ -61,6 +61,7 @@ struct drm_i915_gem_object_ops {
- 		     const struct drm_i915_gem_pread *arg);
- 	int (*pwrite)(struct drm_i915_gem_object *obj,
- 		      const struct drm_i915_gem_pwrite *arg);
-+	u64 (*mmap_offset)(struct drm_i915_gem_object *obj);
+-static DEVICE_ATTR(mem_info_gtt_total, S_IRUGO,
+-	           amdgpu_mem_info_gtt_total_show, NULL);
+-static DEVICE_ATTR(mem_info_gtt_used, S_IRUGO,
+-	           amdgpu_mem_info_gtt_used_show, NULL);
++static DEVICE_ATTR_RO(mem_info_gtt_total);
++static DEVICE_ATTR_RO(mem_info_gtt_used);
  
- 	int (*dmabuf_export)(struct drm_i915_gem_object *obj);
- 
-@@ -79,6 +80,7 @@ struct drm_i915_gem_object_ops {
- 	void (*delayed_free)(struct drm_i915_gem_object *obj);
- 	void (*release)(struct drm_i915_gem_object *obj);
- 
-+	const struct vm_operations_struct *mmap_ops;
- 	const char *name; /* friendly name for debug, e.g. lockdep classes */
- };
- 
-@@ -328,6 +330,7 @@ struct drm_i915_gem_object {
- 
- 	struct {
- 		struct sg_table *cached_io_st;
-+		struct i915_gem_object_page_iter get_io_page;
- 		bool created:1;
- 	} ttm;
- 
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_pages.c b/drivers/gpu/drm/i915/gem/i915_gem_pages.c
-index 6444e097016d..086005c1c7ea 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_pages.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_pages.c
-@@ -467,9 +467,8 @@ __i915_gem_object_get_sg(struct drm_i915_gem_object *obj,
- 			 struct i915_gem_object_page_iter *iter,
- 			 unsigned int n,
- 			 unsigned int *offset,
--			 bool allow_alloc)
-+			 bool allow_alloc, bool dma)
- {
--	const bool dma = iter == &obj->mm.get_dma_page;
- 	struct scatterlist *sg;
- 	unsigned int idx, count;
- 
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-index fbb32b148be3..3748098b42d5 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-@@ -13,6 +13,7 @@
- #include "gem/i915_gem_object.h"
- #include "gem/i915_gem_region.h"
- #include "gem/i915_gem_ttm.h"
-+#include "gem/i915_gem_mman.h"
- 
- #define I915_PL_LMEM0 TTM_PL_PRIV
- #define I915_PL_SYSTEM TTM_PL_SYSTEM
-@@ -158,11 +159,20 @@ static int i915_ttm_move_notify(struct ttm_buffer_object *bo)
- 
- static void i915_ttm_free_cached_io_st(struct drm_i915_gem_object *obj)
- {
--	if (obj->ttm.cached_io_st) {
--		sg_free_table(obj->ttm.cached_io_st);
--		kfree(obj->ttm.cached_io_st);
--		obj->ttm.cached_io_st = NULL;
--	}
-+	struct radix_tree_iter iter;
-+	void __rcu **slot;
-+
-+	if (!obj->ttm.cached_io_st)
-+		return;
-+
-+	rcu_read_lock();
-+	radix_tree_for_each_slot(slot, &obj->ttm.get_io_page.radix, &iter, 0)
-+		radix_tree_delete(&obj->ttm.get_io_page.radix, iter.index);
-+	rcu_read_unlock();
-+
-+	sg_free_table(obj->ttm.cached_io_st);
-+	kfree(obj->ttm.cached_io_st);
-+	obj->ttm.cached_io_st = NULL;
- }
- 
- static void i915_ttm_purge(struct drm_i915_gem_object *obj)
-@@ -338,12 +348,41 @@ static int i915_ttm_move(struct ttm_buffer_object *bo, bool evict,
- 	ttm_bo_move_sync_cleanup(bo, dst_mem);
- 	i915_ttm_free_cached_io_st(obj);
- 
--	if (!dst_man->use_tt)
-+	if (!dst_man->use_tt) {
- 		obj->ttm.cached_io_st = dst_st;
-+		obj->ttm.get_io_page.sg_pos = dst_st->sgl;
-+		obj->ttm.get_io_page.sg_idx = 0;
-+	}
- 
+ static struct attribute *amdgpu_gtt_mgr_attributes[] = {
+ 	&dev_attr_mem_info_gtt_total.attr,
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c
+index 3ff76cbaec8d..ce3e554d2e2d 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c
+@@ -2985,9 +2985,8 @@ static int psp_set_powergating_state(void *handle,
  	return 0;
  }
  
-+static int i915_ttm_io_mem_reserve(struct ttm_device *bdev, struct ttm_resource *mem)
-+{
-+	if (mem->mem_type < I915_PL_LMEM0)
-+		return 0;
-+
-+	mem->bus.caching = ttm_write_combined;
-+	mem->bus.is_iomem = true;
-+
-+	return 0;
-+}
-+
-+static unsigned long i915_ttm_io_mem_pfn(struct ttm_buffer_object *bo,
-+					 unsigned long page_offset)
-+{
-+	struct drm_i915_gem_object *obj = i915_ttm_to_gem(bo);
-+	unsigned long base = obj->mm.region->iomap.base - obj->mm.region->region.start;
-+	struct scatterlist *sg;
-+	unsigned int ofs;
-+
-+	GEM_WARN_ON(bo->ttm);
-+
-+	sg = __i915_gem_object_get_sg(obj, &obj->ttm.get_io_page, page_offset, &ofs, true, true);
-+
-+	return ((base + sg_dma_address(sg)) >> PAGE_SHIFT) + ofs;
-+}
-+
- static struct ttm_device_funcs i915_ttm_bo_driver = {
- 	.ttm_tt_create = i915_ttm_tt_create,
- 	.ttm_tt_unpopulate = i915_ttm_tt_unpopulate,
-@@ -353,6 +392,8 @@ static struct ttm_device_funcs i915_ttm_bo_driver = {
- 	.move = i915_ttm_move,
- 	.swap_notify = i915_ttm_swap_notify,
- 	.delete_mem_notify = i915_ttm_delete_mem_notify,
-+	.io_mem_reserve = i915_ttm_io_mem_reserve,
-+	.io_mem_pfn = i915_ttm_io_mem_pfn,
- };
- 
- /**
-@@ -460,7 +501,67 @@ static void i915_ttm_delayed_free(struct drm_i915_gem_object *obj)
- 	}
- }
- 
--static const struct drm_i915_gem_object_ops i915_gem_ttm_obj_ops = {
-+static vm_fault_t vm_fault_ttm(struct vm_fault *vmf)
-+{
-+	struct vm_area_struct *area = vmf->vma;
-+	struct drm_i915_gem_object *obj =
-+		i915_ttm_to_gem(area->vm_private_data);
-+
-+	/* Sanity check that we allow writing into this object */
-+	if (unlikely(i915_gem_object_is_readonly(obj) &&
-+		     area->vm_flags & VM_WRITE))
-+		return VM_FAULT_SIGBUS;
-+
-+	return ttm_bo_vm_fault(vmf);
-+}
-+
-+static int
-+vm_access_ttm(struct vm_area_struct *area, unsigned long addr,
-+	      void *buf, int len, int write)
-+{
-+	struct drm_i915_gem_object *obj =
-+		i915_ttm_to_gem(area->vm_private_data);
-+
-+	if (i915_gem_object_is_readonly(obj) && write)
-+		return -EACCES;
-+
-+	return ttm_bo_vm_access(area, addr, buf, len, write);
-+}
-+
-+static void ttm_vm_open(struct vm_area_struct *vma)
-+{
-+	struct drm_i915_gem_object *obj =
-+		i915_ttm_to_gem(vma->vm_private_data);
-+
-+	GEM_BUG_ON(!obj);
-+	i915_gem_object_get(obj);
-+}
-+
-+static void ttm_vm_close(struct vm_area_struct *vma)
-+{
-+	struct drm_i915_gem_object *obj =
-+		i915_ttm_to_gem(vma->vm_private_data);
-+
-+	GEM_BUG_ON(!obj);
-+	i915_gem_object_put(obj);
-+}
-+
-+static const struct vm_operations_struct vm_ops_ttm = {
-+	.fault = vm_fault_ttm,
-+	.access = vm_access_ttm,
-+	.open = ttm_vm_open,
-+	.close = ttm_vm_close,
-+};
-+
-+static u64 i915_ttm_mmap_offset(struct drm_i915_gem_object *obj)
-+{
-+	/* The ttm_bo must be allocated with I915_BO_ALLOC_USER */
-+	GEM_BUG_ON(!drm_mm_node_allocated(&obj->base.vma_node.vm_node));
-+
-+	return drm_vma_node_offset_addr(&obj->base.vma_node);
-+}
-+
-+const struct drm_i915_gem_object_ops i915_gem_ttm_obj_ops = {
- 	.name = "i915_gem_object_ttm",
- 	.flags = I915_GEM_OBJECT_HAS_IOMEM,
- 
-@@ -469,6 +570,8 @@ static const struct drm_i915_gem_object_ops i915_gem_ttm_obj_ops = {
- 	.truncate = i915_ttm_purge,
- 	.adjust_lru = i915_ttm_adjust_lru,
- 	.delayed_free = i915_ttm_delayed_free,
-+	.mmap_offset = i915_ttm_mmap_offset,
-+	.mmap_ops = &vm_ops_ttm,
- };
- 
- void i915_ttm_bo_destroy(struct ttm_buffer_object *bo)
-@@ -476,6 +579,7 @@ void i915_ttm_bo_destroy(struct ttm_buffer_object *bo)
- 	struct drm_i915_gem_object *obj = i915_ttm_to_gem(bo);
- 
- 	i915_gem_object_release_memory_region(obj);
-+	mutex_destroy(&obj->ttm.get_io_page.lock);
- 	if (obj->ttm.created)
- 		call_rcu(&obj->rcu, __i915_gem_free_object_rcu);
- }
-@@ -517,6 +621,8 @@ int __i915_gem_ttm_object_init(struct intel_memory_region *mem,
- 	i915_gem_object_make_unshrinkable(obj);
- 	obj->read_domains = I915_GEM_DOMAIN_WC | I915_GEM_DOMAIN_GTT;
- 	i915_gem_object_set_cache_coherency(obj, I915_CACHE_NONE);
-+	INIT_RADIX_TREE(&obj->ttm.get_io_page.radix, GFP_KERNEL | __GFP_NOWARN);
-+	mutex_init(&obj->ttm.get_io_page.lock);
- 
- 	bo_type = (obj->flags & I915_BO_ALLOC_USER) ? ttm_bo_type_device :
- 		ttm_bo_type_kernel;
-@@ -528,6 +634,7 @@ int __i915_gem_ttm_object_init(struct intel_memory_region *mem,
- 	 * Similarly, in delayed_destroy, we can't call ttm_bo_put()
- 	 * until successful initialization.
- 	 */
-+	obj->base.vma_node.driver_private = i915_gem_to_ttm(obj);
- 	ret = ttm_bo_init(&i915->bdev, i915_gem_to_ttm(obj), size,
- 			  bo_type, &i915_sys_placement, alignment,
- 			  true, NULL, NULL, i915_ttm_bo_destroy);
-diff --git a/drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c b/drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c
-index 05a3b29f545e..ca69a29b7f2a 100644
---- a/drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c
-+++ b/drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c
-@@ -578,16 +578,17 @@ static bool assert_mmap_offset(struct drm_i915_private *i915,
- 			       int expected)
+-static ssize_t psp_usbc_pd_fw_sysfs_read(struct device *dev,
+-					 struct device_attribute *attr,
+-					 char *buf)
++static ssize_t usbc_pd_fw_show(struct device *dev,
++			       struct device_attribute *attr, char *buf)
  {
- 	struct drm_i915_gem_object *obj;
--	struct i915_mmap_offset *mmo;
-+	u64 offset;
-+	int ret;
- 
- 	obj = i915_gem_object_create_internal(i915, size);
- 	if (IS_ERR(obj))
--		return false;
-+		return expected && expected == PTR_ERR(obj);
- 
--	mmo = mmap_offset_attach(obj, I915_MMAP_OFFSET_GTT, NULL);
-+	ret = __assign_mmap_offset(obj, I915_MMAP_TYPE_GTT, &offset, NULL);
- 	i915_gem_object_put(obj);
- 
--	return PTR_ERR_OR_ZERO(mmo) == expected;
-+	return ret == expected;
+ 	struct drm_device *ddev = dev_get_drvdata(dev);
+ 	struct amdgpu_device *adev = drm_to_adev(ddev);
+@@ -3011,10 +3010,8 @@ static ssize_t psp_usbc_pd_fw_sysfs_read(struct device *dev,
+ 	return sysfs_emit(buf, "%x\n", fw_ver);
  }
  
- static void disable_retire_worker(struct drm_i915_private *i915)
-@@ -622,8 +623,8 @@ static int igt_mmap_offset_exhaustion(void *arg)
- 	struct drm_mm *mm = &i915->drm.vma_offset_manager->vm_addr_space_mm;
- 	struct drm_i915_gem_object *obj;
- 	struct drm_mm_node *hole, *next;
--	struct i915_mmap_offset *mmo;
- 	int loop, err = 0;
-+	u64 offset;
- 
- 	/* Disable background reaper */
- 	disable_retire_worker(i915);
-@@ -684,13 +685,13 @@ static int igt_mmap_offset_exhaustion(void *arg)
- 	obj = i915_gem_object_create_internal(i915, PAGE_SIZE);
- 	if (IS_ERR(obj)) {
- 		err = PTR_ERR(obj);
-+		pr_err("Unable to create object for reclaimed hole\n");
- 		goto out;
- 	}
- 
--	mmo = mmap_offset_attach(obj, I915_MMAP_OFFSET_GTT, NULL);
--	if (IS_ERR(mmo)) {
-+	err = __assign_mmap_offset(obj, I915_MMAP_TYPE_GTT, &offset, NULL);
-+	if (err) {
- 		pr_err("Unable to insert object into reclaimed hole\n");
--		err = PTR_ERR(mmo);
- 		goto err_obj;
- 	}
- 
-@@ -865,10 +866,10 @@ static int __igt_mmap(struct drm_i915_private *i915,
- 		      struct drm_i915_gem_object *obj,
- 		      enum i915_mmap_type type)
+-static ssize_t psp_usbc_pd_fw_sysfs_write(struct device *dev,
+-						       struct device_attribute *attr,
+-						       const char *buf,
+-						       size_t count)
++static ssize_t usbc_pd_fw_store(struct device *dev, struct device_attribute *attr,
++				const char *buf, size_t count)
  {
--	struct i915_mmap_offset *mmo;
- 	struct vm_area_struct *area;
- 	unsigned long addr;
- 	int err, i;
-+	u64 offset;
+ 	struct drm_device *ddev = dev_get_drvdata(dev);
+ 	struct amdgpu_device *adev = drm_to_adev(ddev);
+@@ -3086,11 +3083,7 @@ void psp_copy_fw(struct psp_context *psp, uint8_t *start_addr, uint32_t bin_size
+ 	drm_dev_exit(idx);
+ }
  
- 	if (!can_mmap(obj, type))
- 		return 0;
-@@ -879,11 +880,11 @@ static int __igt_mmap(struct drm_i915_private *i915,
- 	if (err)
- 		return err;
- 
--	mmo = mmap_offset_attach(obj, type, NULL);
--	if (IS_ERR(mmo))
--		return PTR_ERR(mmo);
-+	err = __assign_mmap_offset(obj, type, &offset, NULL);
-+	if (err)
-+		return err;
- 
--	addr = igt_mmap_node(i915, &mmo->vma_node, 0, PROT_WRITE, MAP_SHARED);
-+	addr = igt_mmap_offset(i915, offset, obj->base.size, PROT_WRITE, MAP_SHARED);
- 	if (IS_ERR_VALUE(addr))
- 		return addr;
- 
-@@ -897,13 +898,6 @@ static int __igt_mmap(struct drm_i915_private *i915,
- 		goto out_unmap;
- 	}
- 
--	if (area->vm_private_data != mmo) {
--		pr_err("%s: vm_area_struct did not point back to our mmap_offset object!\n",
--		       obj->mm.region->name);
--		err = -EINVAL;
--		goto out_unmap;
--	}
+-static DEVICE_ATTR(usbc_pd_fw, S_IRUGO | S_IWUSR,
+-		   psp_usbc_pd_fw_sysfs_read,
+-		   psp_usbc_pd_fw_sysfs_write);
 -
- 	for (i = 0; i < obj->base.size / sizeof(u32); i++) {
- 		u32 __user *ux = u64_to_user_ptr((u64)(addr + i * sizeof(*ux)));
- 		u32 x;
-@@ -961,7 +955,7 @@ static int igt_mmap(void *arg)
- 			struct drm_i915_gem_object *obj;
- 			int err;
+-
++static DEVICE_ATTR_RW(usbc_pd_fw);
  
--			obj = i915_gem_object_create_region(mr, sizes[i], 0);
-+			obj = i915_gem_object_create_region(mr, sizes[i], I915_BO_ALLOC_USER);
- 			if (obj == ERR_PTR(-ENODEV))
- 				continue;
+ const struct amd_ip_funcs psp_ip_funcs = {
+ 	.name = "psp",
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c
+index c2c791ca00f4..2e1ccf13cea8 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c
+@@ -1150,8 +1150,8 @@ static ssize_t amdgpu_ras_sysfs_badpages_read(struct file *f,
+ 	return s;
+ }
  
-@@ -1004,12 +998,12 @@ static int __igt_mmap_access(struct drm_i915_private *i915,
- 			     struct drm_i915_gem_object *obj,
- 			     enum i915_mmap_type type)
+-static ssize_t amdgpu_ras_sysfs_features_read(struct device *dev,
+-		struct device_attribute *attr, char *buf)
++static ssize_t features_show(struct device *dev,
++			     struct device_attribute *attr, char *buf)
  {
--	struct i915_mmap_offset *mmo;
- 	unsigned long __user *ptr;
- 	unsigned long A, B;
- 	unsigned long x, y;
- 	unsigned long addr;
- 	int err;
-+	u64 offset;
- 
- 	memset(&A, 0xAA, sizeof(A));
- 	memset(&B, 0xBB, sizeof(B));
-@@ -1017,11 +1011,11 @@ static int __igt_mmap_access(struct drm_i915_private *i915,
- 	if (!can_mmap(obj, type) || !can_access(obj))
- 		return 0;
- 
--	mmo = mmap_offset_attach(obj, type, NULL);
--	if (IS_ERR(mmo))
--		return PTR_ERR(mmo);
-+	err = __assign_mmap_offset(obj, type, &offset, NULL);
-+	if (err)
-+		return err;
- 
--	addr = igt_mmap_node(i915, &mmo->vma_node, 0, PROT_WRITE, MAP_SHARED);
-+	addr = igt_mmap_offset(i915, offset, obj->base.size, PROT_WRITE, MAP_SHARED);
- 	if (IS_ERR_VALUE(addr))
- 		return addr;
- 	ptr = (unsigned long __user *)addr;
-@@ -1081,7 +1075,7 @@ static int igt_mmap_access(void *arg)
- 		struct drm_i915_gem_object *obj;
- 		int err;
- 
--		obj = i915_gem_object_create_region(mr, PAGE_SIZE, 0);
-+		obj = i915_gem_object_create_region(mr, PAGE_SIZE, I915_BO_ALLOC_USER);
- 		if (obj == ERR_PTR(-ENODEV))
- 			continue;
- 
-@@ -1111,11 +1105,11 @@ static int __igt_mmap_gpu(struct drm_i915_private *i915,
- 			  enum i915_mmap_type type)
+ 	struct amdgpu_ras *con =
+ 		container_of(attr, struct amdgpu_ras, features_attr);
+@@ -1360,8 +1360,8 @@ void amdgpu_ras_debugfs_create_all(struct amdgpu_device *adev)
+ /* ras fs */
+ static BIN_ATTR(gpu_vram_bad_pages, S_IRUGO,
+ 		amdgpu_ras_sysfs_badpages_read, NULL, 0);
+-static DEVICE_ATTR(features, S_IRUGO,
+-		amdgpu_ras_sysfs_features_read, NULL);
++static DEVICE_ATTR_RO(features);
++
+ static int amdgpu_ras_fs_init(struct amdgpu_device *adev)
  {
- 	struct intel_engine_cs *engine;
--	struct i915_mmap_offset *mmo;
- 	unsigned long addr;
- 	u32 __user *ux;
- 	u32 bbe;
- 	int err;
-+	u64 offset;
- 
- 	/*
- 	 * Verify that the mmap access into the backing store aligns with
-@@ -1132,11 +1126,11 @@ static int __igt_mmap_gpu(struct drm_i915_private *i915,
- 	if (err)
- 		return err;
- 
--	mmo = mmap_offset_attach(obj, type, NULL);
--	if (IS_ERR(mmo))
--		return PTR_ERR(mmo);
-+	err = __assign_mmap_offset(obj, type, &offset, NULL);
-+	if (err)
-+		return err;
- 
--	addr = igt_mmap_node(i915, &mmo->vma_node, 0, PROT_WRITE, MAP_SHARED);
-+	addr = igt_mmap_offset(i915, offset, obj->base.size, PROT_WRITE, MAP_SHARED);
- 	if (IS_ERR_VALUE(addr))
- 		return addr;
- 
-@@ -1226,7 +1220,7 @@ static int igt_mmap_gpu(void *arg)
- 		struct drm_i915_gem_object *obj;
- 		int err;
- 
--		obj = i915_gem_object_create_region(mr, PAGE_SIZE, 0);
-+		obj = i915_gem_object_create_region(mr, PAGE_SIZE, I915_BO_ALLOC_USER);
- 		if (obj == ERR_PTR(-ENODEV))
- 			continue;
- 
-@@ -1303,18 +1297,18 @@ static int __igt_mmap_revoke(struct drm_i915_private *i915,
- 			     struct drm_i915_gem_object *obj,
- 			     enum i915_mmap_type type)
+ 	struct amdgpu_ras *con = amdgpu_ras_get_context(adev);
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c
+index 07e007dbff7c..a33210ea9b2f 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c
+@@ -54,8 +54,8 @@ to_amdgpu_device(struct amdgpu_vram_mgr *mgr)
+  * The file mem_info_vram_total is used for this and returns the total
+  * amount of VRAM in bytes
+  */
+-static ssize_t amdgpu_mem_info_vram_total_show(struct device *dev,
+-		struct device_attribute *attr, char *buf)
++static ssize_t mem_info_vram_total_show(struct device *dev,
++					struct device_attribute *attr, char *buf)
  {
--	struct i915_mmap_offset *mmo;
- 	unsigned long addr;
- 	int err;
-+	u64 offset;
- 
- 	if (!can_mmap(obj, type))
- 		return 0;
- 
--	mmo = mmap_offset_attach(obj, type, NULL);
--	if (IS_ERR(mmo))
--		return PTR_ERR(mmo);
-+	err = __assign_mmap_offset(obj, type, &offset, NULL);
-+	if (err)
-+		return err;
- 
--	addr = igt_mmap_node(i915, &mmo->vma_node, 0, PROT_WRITE, MAP_SHARED);
-+	addr = igt_mmap_offset(i915, offset, obj->base.size, PROT_WRITE, MAP_SHARED);
- 	if (IS_ERR_VALUE(addr))
- 		return addr;
- 
-@@ -1350,10 +1344,20 @@ static int __igt_mmap_revoke(struct drm_i915_private *i915,
- 		}
+ 	struct drm_device *ddev = dev_get_drvdata(dev);
+ 	struct amdgpu_device *adev = drm_to_adev(ddev);
+@@ -71,8 +71,8 @@ static ssize_t amdgpu_mem_info_vram_total_show(struct device *dev,
+  * The file mem_info_vis_vram_total is used for this and returns the total
+  * amount of visible VRAM in bytes
+  */
+-static ssize_t amdgpu_mem_info_vis_vram_total_show(struct device *dev,
+-		struct device_attribute *attr, char *buf)
++static ssize_t mem_info_vis_vram_total_show(struct device *dev,
++					    struct device_attribute *attr, char *buf)
+ {
+ 	struct drm_device *ddev = dev_get_drvdata(dev);
+ 	struct amdgpu_device *adev = drm_to_adev(ddev);
+@@ -88,9 +88,8 @@ static ssize_t amdgpu_mem_info_vis_vram_total_show(struct device *dev,
+  * The file mem_info_vram_used is used for this and returns the total
+  * amount of currently used VRAM in bytes
+  */
+-static ssize_t amdgpu_mem_info_vram_used_show(struct device *dev,
+-					      struct device_attribute *attr,
+-					      char *buf)
++static ssize_t mem_info_vram_used_show(struct device *dev,
++				       struct device_attribute *attr, char *buf)
+ {
+ 	struct drm_device *ddev = dev_get_drvdata(dev);
+ 	struct amdgpu_device *adev = drm_to_adev(ddev);
+@@ -108,9 +107,8 @@ static ssize_t amdgpu_mem_info_vram_used_show(struct device *dev,
+  * The file mem_info_vis_vram_used is used for this and returns the total
+  * amount of currently used visible VRAM in bytes
+  */
+-static ssize_t amdgpu_mem_info_vis_vram_used_show(struct device *dev,
+-						  struct device_attribute *attr,
+-						  char *buf)
++static ssize_t mem_info_vis_vram_used_show(struct device *dev,
++					   struct device_attribute *attr, char *buf)
+ {
+ 	struct drm_device *ddev = dev_get_drvdata(dev);
+ 	struct amdgpu_device *adev = drm_to_adev(ddev);
+@@ -128,9 +126,8 @@ static ssize_t amdgpu_mem_info_vis_vram_used_show(struct device *dev,
+  * The file mem_info_vram_vendor is used for this and returns the name of the
+  * vendor.
+  */
+-static ssize_t amdgpu_mem_info_vram_vendor(struct device *dev,
+-					   struct device_attribute *attr,
+-					   char *buf)
++static ssize_t mem_info_vram_vendor_show(struct device *dev,
++					 struct device_attribute *attr, char *buf)
+ {
+ 	struct drm_device *ddev = dev_get_drvdata(dev);
+ 	struct amdgpu_device *adev = drm_to_adev(ddev);
+@@ -161,16 +158,11 @@ static ssize_t amdgpu_mem_info_vram_vendor(struct device *dev,
  	}
+ }
  
--	err = check_absent(addr, obj->base.size);
--	if (err) {
--		pr_err("%s: was not absent\n", obj->mm.region->name);
--		goto out_unmap;
-+	if (!obj->ops->mmap_ops) {
-+		err = check_absent(addr, obj->base.size);
-+		if (err) {
-+			pr_err("%s: was not absent\n", obj->mm.region->name);
-+			goto out_unmap;
-+		}
-+	} else {
-+		/* ttm allows access to evicted regions by design */
-+
-+		err = check_present(addr, obj->base.size);
-+		if (err) {
-+			pr_err("%s: was not present\n", obj->mm.region->name);
-+			goto out_unmap;
-+		}
- 	}
+-static DEVICE_ATTR(mem_info_vram_total, S_IRUGO,
+-		   amdgpu_mem_info_vram_total_show, NULL);
+-static DEVICE_ATTR(mem_info_vis_vram_total, S_IRUGO,
+-		   amdgpu_mem_info_vis_vram_total_show,NULL);
+-static DEVICE_ATTR(mem_info_vram_used, S_IRUGO,
+-		   amdgpu_mem_info_vram_used_show, NULL);
+-static DEVICE_ATTR(mem_info_vis_vram_used, S_IRUGO,
+-		   amdgpu_mem_info_vis_vram_used_show, NULL);
+-static DEVICE_ATTR(mem_info_vram_vendor, S_IRUGO,
+-		   amdgpu_mem_info_vram_vendor, NULL);
++static DEVICE_ATTR_RO(mem_info_vram_total);
++static DEVICE_ATTR_RO(mem_info_vis_vram_total);
++static DEVICE_ATTR_RO(mem_info_vram_used);
++static DEVICE_ATTR_RO(mem_info_vis_vram_used);
++static DEVICE_ATTR_RO(mem_info_vram_vendor);
  
- out_unmap:
-@@ -1371,7 +1375,7 @@ static int igt_mmap_revoke(void *arg)
- 		struct drm_i915_gem_object *obj;
- 		int err;
+ static struct attribute *amdgpu_vram_mgr_attributes[] = {
+ 	&dev_attr_mem_info_vram_total.attr,
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_xgmi.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_xgmi.c
+index 8567d5d77346..764bfa69f7bb 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_xgmi.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_xgmi.c
+@@ -209,9 +209,8 @@ struct kobj_type amdgpu_xgmi_hive_type = {
+ 	.default_attrs = amdgpu_xgmi_hive_attrs,
+ };
  
--		obj = i915_gem_object_create_region(mr, PAGE_SIZE, 0);
-+		obj = i915_gem_object_create_region(mr, PAGE_SIZE, I915_BO_ALLOC_USER);
- 		if (obj == ERR_PTR(-ENODEV))
- 			continue;
- 
-diff --git a/drivers/gpu/drm/i915/selftests/igt_mmap.c b/drivers/gpu/drm/i915/selftests/igt_mmap.c
-index 583a4ff8b8c9..e920a461bd36 100644
---- a/drivers/gpu/drm/i915/selftests/igt_mmap.c
-+++ b/drivers/gpu/drm/i915/selftests/igt_mmap.c
-@@ -9,15 +9,28 @@
- #include "i915_drv.h"
- #include "igt_mmap.h"
- 
--unsigned long igt_mmap_node(struct drm_i915_private *i915,
--			    struct drm_vma_offset_node *node,
--			    unsigned long addr,
--			    unsigned long prot,
--			    unsigned long flags)
-+unsigned long igt_mmap_offset(struct drm_i915_private *i915,
-+			      u64 offset,
-+			      unsigned long size,
-+			      unsigned long prot,
-+			      unsigned long flags)
+-static ssize_t amdgpu_xgmi_show_device_id(struct device *dev,
+-				     struct device_attribute *attr,
+-				     char *buf)
++static ssize_t xgmi_device_id_show(struct device *dev,
++				   struct device_attribute *attr, char *buf)
  {
-+	struct drm_vma_offset_node *node;
- 	struct file *file;
-+	unsigned long addr;
- 	int err;
+ 	struct drm_device *ddev = dev_get_drvdata(dev);
+ 	struct amdgpu_device *adev = drm_to_adev(ddev);
+@@ -221,9 +220,8 @@ static ssize_t amdgpu_xgmi_show_device_id(struct device *dev,
+ }
  
-+	/* no need to refcount, we own this object */
-+	drm_vma_offset_lock_lookup(i915->drm.vma_offset_manager);
-+	node = drm_vma_offset_exact_lookup_locked(i915->drm.vma_offset_manager,
-+						  offset / PAGE_SIZE, size / PAGE_SIZE);
-+	drm_vma_offset_unlock_lookup(i915->drm.vma_offset_manager);
-+
-+	if (GEM_WARN_ON(!node)) {
-+		pr_info("Failed to lookup %llx\n", offset);
-+		return -ENOENT;
-+	}
-+
- 	/* Pretend to open("/dev/dri/card0") */
- 	file = mock_drm_getfile(i915->drm.primary, O_RDWR);
- 	if (IS_ERR(file))
-@@ -29,7 +42,7 @@ unsigned long igt_mmap_node(struct drm_i915_private *i915,
- 		goto out_file;
- 	}
+ #define AMDGPU_XGMI_SET_FICAA(o)	((o) | 0x456801)
+-static ssize_t amdgpu_xgmi_show_error(struct device *dev,
+-				      struct device_attribute *attr,
+-				      char *buf)
++static ssize_t xgmi_error_show(struct device *dev,
++			       struct device_attribute *attr, char *buf)
+ {
+ 	struct drm_device *ddev = dev_get_drvdata(dev);
+ 	struct amdgpu_device *adev = drm_to_adev(ddev);
+@@ -249,8 +247,8 @@ static ssize_t amdgpu_xgmi_show_error(struct device *dev,
+ }
  
--	addr = vm_mmap(file, addr, drm_vma_node_size(node) << PAGE_SHIFT,
-+	addr = vm_mmap(file, 0, drm_vma_node_size(node) << PAGE_SHIFT,
- 		       prot, flags, drm_vma_node_offset_addr(node));
  
- 	drm_vma_node_revoke(node, file->private_data);
-diff --git a/drivers/gpu/drm/i915/selftests/igt_mmap.h b/drivers/gpu/drm/i915/selftests/igt_mmap.h
-index 6e716cb59d7e..acbe34d81a6d 100644
---- a/drivers/gpu/drm/i915/selftests/igt_mmap.h
-+++ b/drivers/gpu/drm/i915/selftests/igt_mmap.h
-@@ -7,13 +7,15 @@
- #ifndef IGT_MMAP_H
- #define IGT_MMAP_H
+-static DEVICE_ATTR(xgmi_device_id, S_IRUGO, amdgpu_xgmi_show_device_id, NULL);
+-static DEVICE_ATTR(xgmi_error, S_IRUGO, amdgpu_xgmi_show_error, NULL);
++static DEVICE_ATTR_RO(xgmi_device_id);
++static DEVICE_ATTR_RO(xgmi_error);
  
-+#include <linux/types.h>
-+
- struct drm_i915_private;
- struct drm_vma_offset_node;
+ static int amdgpu_xgmi_sysfs_add_dev_info(struct amdgpu_device *adev,
+ 					 struct amdgpu_hive_info *hive)
+diff --git a/drivers/gpu/drm/amd/amdgpu/df_v3_6.c b/drivers/gpu/drm/amd/amdgpu/df_v3_6.c
+index 14514a145c17..44abb4404fba 100644
+--- a/drivers/gpu/drm/amd/amdgpu/df_v3_6.c
++++ b/drivers/gpu/drm/amd/amdgpu/df_v3_6.c
+@@ -188,9 +188,8 @@ static int df_v3_6_perfmon_arm_with_retry(struct amdgpu_device *adev,
+ }
  
--unsigned long igt_mmap_node(struct drm_i915_private *i915,
--			    struct drm_vma_offset_node *node,
--			    unsigned long addr,
--			    unsigned long prot,
--			    unsigned long flags);
-+unsigned long igt_mmap_offset(struct drm_i915_private *i915,
-+			      u64 offset,
-+			      unsigned long size,
-+			      unsigned long prot,
-+			      unsigned long flags);
+ /* get the number of df counters available */
+-static ssize_t df_v3_6_get_df_cntr_avail(struct device *dev,
+-		struct device_attribute *attr,
+-		char *buf)
++static ssize_t df_cntr_avail_show(struct device *dev,
++				  struct device_attribute *attr, char *buf)
+ {
+ 	struct amdgpu_device *adev;
+ 	struct drm_device *ddev;
+@@ -209,7 +208,7 @@ static ssize_t df_v3_6_get_df_cntr_avail(struct device *dev,
+ }
  
- #endif /* IGT_MMAP_H */
+ /* device attr for available perfmon counters */
+-static DEVICE_ATTR(df_cntr_avail, S_IRUGO, df_v3_6_get_df_cntr_avail, NULL);
++static DEVICE_ATTR_RO(df_cntr_avail);
+ 
+ static void df_v3_6_query_hashes(struct amdgpu_device *adev)
+ {
 -- 
-2.31.1
+2.17.1
 
