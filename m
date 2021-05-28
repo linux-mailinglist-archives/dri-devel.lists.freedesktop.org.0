@@ -2,61 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 585EF39431C
-	for <lists+dri-devel@lfdr.de>; Fri, 28 May 2021 15:00:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B26B6394B8B
+	for <lists+dri-devel@lfdr.de>; Sat, 29 May 2021 12:14:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 844C46F5B3;
-	Fri, 28 May 2021 13:00:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B48846E187;
+	Sat, 29 May 2021 10:14:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com
- [IPv6:2a00:1450:4864:20::633])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C106D6F5B3
- for <dri-devel@lists.freedesktop.org>; Fri, 28 May 2021 13:00:43 +0000 (UTC)
-Received: by mail-ej1-x633.google.com with SMTP id b9so5139157ejc.13
- for <dri-devel@lists.freedesktop.org>; Fri, 28 May 2021 06:00:43 -0700 (PDT)
+Received: from mail-ed1-x531.google.com (mail-ed1-x531.google.com
+ [IPv6:2a00:1450:4864:20::531])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7C77A6F5BC
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 May 2021 13:06:11 +0000 (UTC)
+Received: by mail-ed1-x531.google.com with SMTP id df21so4786539edb.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 May 2021 06:06:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=aV4RNQFd9h1iMvLlTaI3u1NZqr/MIuuHCtQsn5vMoFA=;
- b=KSYt/MIMDDHjxNRlxNM0nco+Egb1hALhTW9691mB41GCisVpZH52W04Mr1ZaxMOF+N
- t39t5jbN6d9J4w5ytnSFsxZUl8tDNYwM2+yAZ5s8kFmelLPJkuvfacRKftKNGcFtUBLi
- 0Q5b7zXkk+pOAU7czpr/KyKuxYl272/lDdh5wfmpNEa2EqgSxwQbiYwVr3Td01CuvtT0
- AFcPjaGfS2B1WJ0wr3rXj0rfWYewsJowMzE7k9uL62Erfr9T+6PBs/8OYJ8BtmhhxGYZ
- XLC2u4HBXsGR8JC9VzBlu4pynz5VACP2BeZvEDQt6a83n3c2LrDQFG5qWmQDHJcOwLgk
- 7qcw==
+ bh=rNFtWXNjGOhAnzhZIEB5pnyB38+rxkkPxxFke3J42dU=;
+ b=Cp3x0F3HzKzYTPdjhti0qWsurFeZhEYI49cQWIWnZ3c7rexuYRJ4OYj/Y/mEjcYlxR
+ yjaFAh2o8JR+p/Cca1aceicCfVU+q7IHag8HwBFzKW7y1WaOXpJu7g81ZwiuD+7awXml
+ yZHAZq29gLBl8X2TtlZ7AauzoDl9DRTRkSfAQsHeJwcSyLuj0nOKG9gmEe0lI9pX3NjF
+ bbvwaW1pSPJktRmFi1zeVAjTPxkBuU2dn+2furdeHDvaQSf9gXTUN3G2tfjjlVU5V2Zn
+ V0b9JAitSJH6DuxUORNqqs4xBxI1HktvQfvKv/9+Coe4CyyTFliegMaaIw81qxY9uUA0
+ sC3A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=aV4RNQFd9h1iMvLlTaI3u1NZqr/MIuuHCtQsn5vMoFA=;
- b=k9Rllz/f12iAyUrgjeM/Tez+meCHZ4Y95wmK2L4tFpYQRxt2tuJTkRTHGSXbuKChni
- WOoLOtdUclykQhn3firTN7r7f5WXj6TQSuftCyWmf9v8hx3VVEqXtvHTGwTpULoadiM0
- 0RXKk2S+JMu+clFBoDCQTdLN3ZfqmIvRHE94QX5X+kf9vyEqrzssMrbSWgQsWp/C7ThK
- /LZT6cPw0NyVTXLLibdYrcq/WjB1u/2sQcYk4GK6ytiophWLcHtrAueDs37xin4aagx4
- quGABhUFgS8H0ygcBXaYmCNwxNbwOKdbovoq0dKMv5mA1vUIbKUFpdWhnhm8X5S8pz9O
- DkHg==
-X-Gm-Message-State: AOAM531b7XwOKBBnGcflgrMaPPkGoljt4BjzM9anEHOq8b7zdjqWAQ8l
- U9ewmM3JDCBkPZlrsGuywUH4UzboY1I=
-X-Google-Smtp-Source: ABdhPJzaHbDTp7Ne9Yr97LsHL+66923ilwHp8gtD0RJSFg8iA8XASTmWjuAvPlexg3gnALSaOdShww==
-X-Received: by 2002:a17:907:a06b:: with SMTP id
- ia11mr8669984ejc.528.1622206842375; 
- Fri, 28 May 2021 06:00:42 -0700 (PDT)
-Received: from abel.fritz.box ([2a02:908:1252:fb60:c4d5:7196:c6bc:fb88])
- by smtp.gmail.com with ESMTPSA id t14sm2685542edv.27.2021.05.28.06.00.41
+ bh=rNFtWXNjGOhAnzhZIEB5pnyB38+rxkkPxxFke3J42dU=;
+ b=pe07RVt8dr3Toe7JaAEzUoELy/b12pEB+pQFf6dz2quqhcSfUdZDdwO22GUim/6nBb
+ TMFGb5RhKRVPej6yEntJ1Px0lDaE7H2e7MlaY+khXUCcrnDLfYh7655tXh0i66mJ0Psi
+ GyV+Lb0UJsEs5Tfy9gMT204PYvXRZYEyDWZe87miRqvlZy0MbgZtSbiCpldD/QQVqS9E
+ vQEkf70zWysNcHP+fNEuh45M16tCT4i2m46nAadknScdwo33PY1iH/dOIRK4gROZqn0D
+ wsDrrOj9VPjUV12x/1wCdsbSVkLApitolERRRajsL48mB5LjY8ToFiKHmcA2SNxpGQIj
+ l8aQ==
+X-Gm-Message-State: AOAM533QY+AhrpJSgFUe8ZLygf26YmC7bqKrzzs9RPRYjHDmdjwCnf29
+ xKRKM6B1UuK8Ym90MbMgsg==
+X-Google-Smtp-Source: ABdhPJxrk2zpxNArotZZCA4evEMOVPnLf5LCF7KZ8yY4PiSqXrjB0JYSxy1zVM4W6d0H6YcovlQiAg==
+X-Received: by 2002:aa7:d61a:: with SMTP id c26mr9966117edr.351.1622207170190; 
+ Fri, 28 May 2021 06:06:10 -0700 (PDT)
+Received: from localhost.localdomain (ip4d17b4b8.dynamic.kabel-deutschland.de.
+ [77.23.180.184])
+ by smtp.googlemail.com with ESMTPSA id u21sm2322778ejg.50.2021.05.28.06.06.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 28 May 2021 06:00:42 -0700 (PDT)
-From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
-X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
- <christian.koenig@amd.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/ttm: fix deref of bo->ttm without holding the lock v2
-Date: Fri, 28 May 2021 15:00:41 +0200
-Message-Id: <20210528130041.1683-1-christian.koenig@amd.com>
-X-Mailer: git-send-email 2.25.1
+ Fri, 28 May 2021 06:06:09 -0700 (PDT)
+From: Alex Bee <knaerzche@gmail.com>
+To: Sandy Huang <hjc@rock-chips.com>, Heiko Stuebner <heiko@sntech.de>,
+ Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+ dri-devel@lists.freedesktop.org, linux-rockchip@lists.infradead.org
+Subject: [PATCH v3 0/5] drm: rockchip: various ports for older VOPs
+Date: Fri, 28 May 2021 15:05:49 +0200
+Message-Id: <20210528130554.72191-1-knaerzche@gmail.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-Mailman-Approved-At: Sat, 29 May 2021 10:14:11 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,57 +69,50 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: thomas.hellstrom@linux.intel.com, Xinhui.Pan@amd.com
+Cc: David Airlie <airlied@linux.ie>, Alex Bee <knaerzche@gmail.com>,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-We need to grab the resv lock first before doing that check.
+Hi list,
 
-v2 (chk): simplify the change for -fixes
+this is v3 of a series I posted almost 1 year ago. I considered now all
+feedback I got at that time.
+It mainly ports existining functionality to older SoCs - most importantly
+enables alpha blending for RK3036, RK3066, RK3126 and RK3188
 
-Signed-off-by: Christian König <christian.koenig@amd.com>
-Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
----
- drivers/gpu/drm/ttm/ttm_bo.c     | 5 ++++-
- drivers/gpu/drm/ttm/ttm_device.c | 8 +-------
- 2 files changed, 5 insertions(+), 8 deletions(-)
+Note some of the patches are required to let VOP correctly process the
+data that comes from the video decoder - I recently posted a series that
+adds support for those older SoCs at [1].
 
-diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
-index cfd0b9292397..ebcffe794adb 100644
---- a/drivers/gpu/drm/ttm/ttm_bo.c
-+++ b/drivers/gpu/drm/ttm/ttm_bo.c
-@@ -1172,7 +1172,10 @@ int ttm_bo_swapout(struct ttm_buffer_object *bo, struct ttm_operation_ctx *ctx,
- 	if (!ttm_bo_evict_swapout_allowable(bo, ctx, &locked, NULL))
- 		return -EBUSY;
- 
--	if (!ttm_bo_get_unless_zero(bo)) {
-+	if (!bo->ttm || !ttm_tt_is_populated(bo->ttm) ||
-+	    bo->ttm->page_flags & TTM_PAGE_FLAG_SG ||
-+	    bo->ttm->page_flags & TTM_PAGE_FLAG_SWAPPED ||
-+	    !ttm_bo_get_unless_zero(bo)) {
- 		if (locked)
- 			dma_resv_unlock(bo->base.resv);
- 		return -EBUSY;
-diff --git a/drivers/gpu/drm/ttm/ttm_device.c b/drivers/gpu/drm/ttm/ttm_device.c
-index a1dcf7d55c90..3d9c62b93e29 100644
---- a/drivers/gpu/drm/ttm/ttm_device.c
-+++ b/drivers/gpu/drm/ttm/ttm_device.c
-@@ -143,14 +143,8 @@ int ttm_device_swapout(struct ttm_device *bdev, struct ttm_operation_ctx *ctx,
- 
- 		for (j = 0; j < TTM_MAX_BO_PRIORITY; ++j) {
- 			list_for_each_entry(bo, &man->lru[j], lru) {
--				uint32_t num_pages;
-+				uint32_t num_pages = PFN_UP(bo->base.size);
- 
--				if (!bo->ttm || !ttm_tt_is_populated(bo->ttm) ||
--				    bo->ttm->page_flags & TTM_PAGE_FLAG_SG ||
--				    bo->ttm->page_flags & TTM_PAGE_FLAG_SWAPPED)
--					continue;
--
--				num_pages = bo->ttm->num_pages;
- 				ret = ttm_bo_swapout(bo, ctx, gfp_flags);
- 				/* ttm_bo_swapout has dropped the lru_lock */
- 				if (!ret)
+[1] https://lore.kernel.org/linux-media/20210525152225.154302-1-knaerzche@gmail.com/
+
+Regards,
+Alex
+
+Changes in v2:
+ - drop not yet upstreamed dsp_data_swap from RK3188 regs
+ - rephrase most commit messages
+
+Changes in v3:
+ - add patch for RK3066
+ - drop patch that converts overlay windows from
+   DRM_PLANE_TYPE_CURSOR to DRM_PLANE_TYPE_OVERLAY
+
+Alex Bee (5):
+  drm: rockchip: add scaling for RK3036 win1
+  drm: rockchip: add missing registers for RK3188
+  drm: rockchip: add missing registers for RK3066
+  drm: rockchip: add alpha support for RK3036, RK3066, RK3126 and RK3188
+  drm: rockchip: set alpha_en to 0 if it is not used
+
+ drivers/gpu/drm/rockchip/rockchip_drm_vop.c |  1 +
+ drivers/gpu/drm/rockchip/rockchip_vop_reg.c | 52 +++++++++++++++++----
+ drivers/gpu/drm/rockchip/rockchip_vop_reg.h |  1 +
+ 3 files changed, 44 insertions(+), 10 deletions(-)
+
+
+base-commit: 5d765451c2409e63563fa6a3e8005bd03ab9e82f
 -- 
-2.25.1
+2.27.0
 
