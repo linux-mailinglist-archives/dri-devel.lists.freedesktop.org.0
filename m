@@ -1,66 +1,29 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 608EF393EE8
-	for <lists+dri-devel@lfdr.de>; Fri, 28 May 2021 10:43:36 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A623C394B88
+	for <lists+dri-devel@lfdr.de>; Sat, 29 May 2021 12:14:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DB03B6E342;
-	Fri, 28 May 2021 08:43:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 34C276E14C;
+	Sat, 29 May 2021 10:14:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 2285 seconds by postgrey-1.36 at gabe;
- Fri, 28 May 2021 08:43:31 UTC
-Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com
- [185.132.182.106])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 711B16E06D
- for <dri-devel@lists.freedesktop.org>; Fri, 28 May 2021 08:43:31 +0000 (UTC)
-Received: from pps.filterd (m0046668.ppops.net [127.0.0.1])
- by mx07-00178001.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 14S82QEb008172; Fri, 28 May 2021 10:05:22 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com;
- h=from : to : subject
- : date : message-id : mime-version : content-type; s=selector1;
- bh=zlUZ4FPCmueUwNdjwddPrmOdSMDAIN5yHnfc9LimaJk=;
- b=DQpZRYdF3x2GZjYZ/XlPglm9ICNw6a/v8KgxfiXb7wvjWdXjAk/q523nQeUd8FMYQbTj
- cVrsvoYSHYjdjPZYV9Xkd5jHVbAjXxVbrEYdRY8jykQqOTdcffNpf4nNbGmpVuHQZtl7
- DFF74lM1RNpxMwMc1Fr4EWf/l2x8vv3WZKri5S7+HHuBsnTPYDMJIoyeAAGmG5VT/3VP
- Hqe1i9E14myhP7+Wg8eg+7W13WhuAUM9FPlhkMy5AjPLjmijquMO/8QHwGU3v5/+hAEs
- jjvuoKMPr/q2XOlzt11OH2zI2E/HqTrsJxkNwkmMTyuKrs5GDpf2bZaVFqzvOTnKkuQA kQ== 
-Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
- by mx07-00178001.pphosted.com with ESMTP id 38tsq0gyy5-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 28 May 2021 10:05:22 +0200
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
- by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 7C3C2100034;
- Fri, 28 May 2021 10:05:21 +0200 (CEST)
-Received: from Webmail-eu.st.com (sfhdag2node3.st.com [10.75.127.6])
- by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 499C021B521;
- Fri, 28 May 2021 10:05:21 +0200 (CEST)
-Received: from localhost (10.75.127.48) by SFHDAG2NODE3.st.com (10.75.127.6)
- with Microsoft SMTP Server (TLS) id 15.0.1497.2; Fri, 28 May 2021 10:05:20
- +0200
-From: Yannick Fertre <yannick.fertre@foss.st.com>
-To: Yannick Fertre <yannick.fertre@foss.st.com>, Philippe Cornu
- <philippe.cornu@foss.st.com>, Antonio Borneo <antonio.borneo@st.com>,
- "David Airlie" <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@st.com>,
- <dri-devel@lists.freedesktop.org>,
- <linux-stm32@st-md-mailman.stormreply.com>,
- <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH] drm/stm: Remove usage of drm_display_mode_to_videomode()
-Date: Fri, 28 May 2021 10:05:13 +0200
-Message-ID: <20210528080513.8168-1-yannick.fertre@foss.st.com>
-X-Mailer: git-send-email 2.17.1
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1871B6E3D2
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 May 2021 08:25:42 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 589E7613DA;
+ Fri, 28 May 2021 08:25:40 +0000 (UTC)
+From: Huacai Chen <chenhuacai@loongson.cn>
+To: David Airlie <airlied@linux.ie>,
+	Daniel Vetter <daniel@ffwll.ch>
+Subject: [PATCH] vgaarb: Call vga_arb_device_init() after PCI enumeration
+Date: Fri, 28 May 2021 16:26:07 +0800
+Message-Id: <20210528082607.2015145-1-chenhuacai@loongson.cn>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.75.127.48]
-X-ClientProxiedBy: SFHDAG3NODE2.st.com (10.75.127.8) To SFHDAG2NODE3.st.com
- (10.75.127.6)
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.761
- definitions=2021-05-28_04:2021-05-27,
- 2021-05-28 signatures=0
+Content-Transfer-Encoding: 8bit
+X-Mailman-Approved-At: Sat, 29 May 2021 10:14:11 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,73 +36,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Xuefeng Li <lixuefeng@loongson.cn>, dri-devel@lists.freedesktop.org,
+ Huacai Chen <chenhuacai@loongson.cn>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-There is not much value in the extra conversion step, the calculations
-required for the LTDC IP are different than what is used in the
-drm_display_mode_to_videomode(), so just do the right ones in the LTDC
-driver right away.
+We should call vga_arb_device_init() after PCI enumeration, otherwise it
+may fail to select the default VGA device. Since vga_arb_device_init()
+and PCI enumeration function (i.e., pcibios_init() or acpi_init()) are
+both wrapped by subsys_initcall(), their sequence is not assured. So, we
+use subsys_initcall_sync() instead of subsys_initcall() to wrap vga_arb_
+device_init().
 
-Signed-off-by: Marek Vasut <marex@denx.de>
-Signed-off-by: Yannick Fertre <yannick.fertre@foss.st.com>
+Signed-off-by: Huacai Chen <chenhuacai@loongson.cn>
 ---
- drivers/gpu/drm/stm/ltdc.c | 32 +++++++++++++++++---------------
- 1 file changed, 17 insertions(+), 15 deletions(-)
+ drivers/gpu/vga/vgaarb.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/stm/ltdc.c b/drivers/gpu/drm/stm/ltdc.c
-index e99771b947b6..d113b9be12c0 100644
---- a/drivers/gpu/drm/stm/ltdc.c
-+++ b/drivers/gpu/drm/stm/ltdc.c
-@@ -570,31 +570,33 @@ static void ltdc_crtc_mode_set_nofb(struct drm_crtc *crtc)
- 		}
- 	}
- 
--	drm_display_mode_to_videomode(mode, &vm);
--
- 	DRM_DEBUG_DRIVER("CRTC:%d mode:%s\n", crtc->base.id, mode->name);
--	DRM_DEBUG_DRIVER("Video mode: %dx%d", vm.hactive, vm.vactive);
-+	DRM_DEBUG_DRIVER("Video mode: %dx%d", mode->hdisplay, mode->vdisplay);
- 	DRM_DEBUG_DRIVER(" hfp %d hbp %d hsl %d vfp %d vbp %d vsl %d\n",
--			 vm.hfront_porch, vm.hback_porch, vm.hsync_len,
--			 vm.vfront_porch, vm.vback_porch, vm.vsync_len);
-+			 mode->hsync_start - mode->hdisplay,
-+			 mode->htotal - mode->hsync_end,
-+			 mode->hsync_end - mode->hsync_start,
-+			 mode->vsync_start - mode->vdisplay,
-+			 mode->vtotal - mode->vsync_end,
-+			 mode->vsync_end - mode->vsync_start);
- 
- 	/* Convert video timings to ltdc timings */
--	hsync = vm.hsync_len - 1;
--	vsync = vm.vsync_len - 1;
--	accum_hbp = hsync + vm.hback_porch;
--	accum_vbp = vsync + vm.vback_porch;
--	accum_act_w = accum_hbp + vm.hactive;
--	accum_act_h = accum_vbp + vm.vactive;
--	total_width = accum_act_w + vm.hfront_porch;
--	total_height = accum_act_h + vm.vfront_porch;
-+	hsync = mode->hsync_end - mode->hsync_start - 1;
-+	vsync = mode->vsync_end - mode->vsync_start - 1;
-+	accum_hbp = mode->htotal - mode->hsync_start - 1;
-+	accum_vbp = mode->vtotal - mode->vsync_start - 1;
-+	accum_act_w = accum_hbp + mode->hdisplay;
-+	accum_act_h = accum_vbp + mode->vdisplay;
-+	total_width = mode->htotal - 1;
-+	total_height = mode->vtotal - 1;
- 
- 	/* Configures the HS, VS, DE and PC polarities. Default Active Low */
- 	val = 0;
- 
--	if (vm.flags & DISPLAY_FLAGS_HSYNC_HIGH)
-+	if (mode->flags & DRM_MODE_FLAG_PHSYNC)
- 		val |= GCR_HSPOL;
- 
--	if (vm.flags & DISPLAY_FLAGS_VSYNC_HIGH)
-+	if (mode->flags & DRM_MODE_FLAG_PVSYNC)
- 		val |= GCR_VSPOL;
- 
- 	if (bus_flags & DRM_BUS_FLAG_DE_LOW)
+diff --git a/drivers/gpu/vga/vgaarb.c b/drivers/gpu/vga/vgaarb.c
+index 5180c5687ee5..4b8a62af34cf 100644
+--- a/drivers/gpu/vga/vgaarb.c
++++ b/drivers/gpu/vga/vgaarb.c
+@@ -1564,4 +1564,4 @@ static int __init vga_arb_device_init(void)
+ 	pr_info("loaded\n");
+ 	return rc;
+ }
+-subsys_initcall(vga_arb_device_init);
++subsys_initcall_sync(vga_arb_device_init);
 -- 
-2.17.1
+2.27.0
 
