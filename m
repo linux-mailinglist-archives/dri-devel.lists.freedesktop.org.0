@@ -1,78 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id ECB73393E5E
-	for <lists+dri-devel@lfdr.de>; Fri, 28 May 2021 10:03:14 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 608EF393EE8
+	for <lists+dri-devel@lfdr.de>; Fri, 28 May 2021 10:43:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A36546F589;
-	Fri, 28 May 2021 08:03:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DB03B6E342;
+	Fri, 28 May 2021 08:43:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [216.205.24.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 03C696F589
- for <dri-devel@lists.freedesktop.org>; Fri, 28 May 2021 08:03:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1622188989;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=0IXbcSm8mT+lhuVdC+CT+mjkkm7+PBeCbiBVe/0dKys=;
- b=Hmqw1AX7S4zXvvDEq7bHmAyX0gvtM9YfkZOYDL0Mv6CnmA16va4hEKEh4/DTTx8wjAQDSO
- 68OR8uw+M607F+nmDTTjpn5VWgQiJtp4fbpsk/5q7YzHn7CuoCyYmZLil7Nm4B+DJR6cXq
- pQx6k9qng0oApZpQE8HhGd7OsLs2h6o=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-547-T-_iBUQnPTKy6O4TEy1Dlw-1; Fri, 28 May 2021 04:03:07 -0400
-X-MC-Unique: T-_iBUQnPTKy6O4TEy1Dlw-1
-Received: by mail-wr1-f71.google.com with SMTP id
- c13-20020a5d6ccd0000b029010ec741b84bso692629wrc.23
- for <dri-devel@lists.freedesktop.org>; Fri, 28 May 2021 01:03:07 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=0IXbcSm8mT+lhuVdC+CT+mjkkm7+PBeCbiBVe/0dKys=;
- b=pkSuDEtspdIaqWcx95DuE5EsT/XwoPtGfBv7de3OaH1Uzn9ZmVuALDA1PYyMeh5+qB
- LsKIXmd8lIOEJcSJw1mWgeF8HaCh3hSyJNTZv0z7E/vDMHvWGdA5m4QqAUQWmCmveLmM
- zPEqpxd5tlbHY3ur745hP0DcZmIU2AZlbVOk8gLtzzqjc8IK2uKxXILEKH/cuFKN6Zi3
- yW7Hyf/GczJouqX4R/IPNyyklSg9q/8NHrfWdlknPRxCeg13rXl9yueJqI1+ff7ys+kH
- Av7pdakrgn0ORGTJsH7yJXIE+spqjPBAXj6qEQFz/H/b40Ni0wnVPPBr+aTjIird7VaR
- vmOA==
-X-Gm-Message-State: AOAM531b/XVeoubL9sHzgjuduRJYYEkoyj1gVfqaTqlz+Vezb1Jcq4Aw
- IH3s6+E3CioYAcXNsF8/GKcRNm7IyzsIkAkmfwsRzMMvES0AeobqCMahAIz6lX9RHP7eq1eWHXV
- Sq7ncjkZ+S369/178fbBGv7an8tYZ
-X-Received: by 2002:adf:fdce:: with SMTP id i14mr7029840wrs.303.1622188986614; 
- Fri, 28 May 2021 01:03:06 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJx+e8iRBOPicMDS91UKoWmjw1Ow4Oln/9p2aaPMHWdMTZ3KKJsPjuaTgqaOu1DwibvjoXOU8Q==
-X-Received: by 2002:adf:fdce:: with SMTP id i14mr7029814wrs.303.1622188986368; 
- Fri, 28 May 2021 01:03:06 -0700 (PDT)
-Received: from [192.168.1.101] ([92.176.231.106])
- by smtp.gmail.com with ESMTPSA id q20sm2949464wrf.45.2021.05.28.01.03.05
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 28 May 2021 01:03:05 -0700 (PDT)
-Subject: Re: [PATCH 2/2] drivers/firmware: consolidate EFI framebuffer setup
- for all arches
-To: Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org
-References: <20210521193704.3042024-1-javierm@redhat.com>
- <e23a44ba-5e9d-d27b-b5e8-0cce3b158ed7@suse.de>
-From: Javier Martinez Canillas <javierm@redhat.com>
-Message-ID: <c6c6b686-6e13-2f1a-0310-b558428304c1@redhat.com>
-Date: Fri, 28 May 2021 10:03:04 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+X-Greylist: delayed 2285 seconds by postgrey-1.36 at gabe;
+ Fri, 28 May 2021 08:43:31 UTC
+Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com
+ [185.132.182.106])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 711B16E06D
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 May 2021 08:43:31 +0000 (UTC)
+Received: from pps.filterd (m0046668.ppops.net [127.0.0.1])
+ by mx07-00178001.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 14S82QEb008172; Fri, 28 May 2021 10:05:22 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com;
+ h=from : to : subject
+ : date : message-id : mime-version : content-type; s=selector1;
+ bh=zlUZ4FPCmueUwNdjwddPrmOdSMDAIN5yHnfc9LimaJk=;
+ b=DQpZRYdF3x2GZjYZ/XlPglm9ICNw6a/v8KgxfiXb7wvjWdXjAk/q523nQeUd8FMYQbTj
+ cVrsvoYSHYjdjPZYV9Xkd5jHVbAjXxVbrEYdRY8jykQqOTdcffNpf4nNbGmpVuHQZtl7
+ DFF74lM1RNpxMwMc1Fr4EWf/l2x8vv3WZKri5S7+HHuBsnTPYDMJIoyeAAGmG5VT/3VP
+ Hqe1i9E14myhP7+Wg8eg+7W13WhuAUM9FPlhkMy5AjPLjmijquMO/8QHwGU3v5/+hAEs
+ jjvuoKMPr/q2XOlzt11OH2zI2E/HqTrsJxkNwkmMTyuKrs5GDpf2bZaVFqzvOTnKkuQA kQ== 
+Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
+ by mx07-00178001.pphosted.com with ESMTP id 38tsq0gyy5-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 28 May 2021 10:05:22 +0200
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+ by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 7C3C2100034;
+ Fri, 28 May 2021 10:05:21 +0200 (CEST)
+Received: from Webmail-eu.st.com (sfhdag2node3.st.com [10.75.127.6])
+ by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 499C021B521;
+ Fri, 28 May 2021 10:05:21 +0200 (CEST)
+Received: from localhost (10.75.127.48) by SFHDAG2NODE3.st.com (10.75.127.6)
+ with Microsoft SMTP Server (TLS) id 15.0.1497.2; Fri, 28 May 2021 10:05:20
+ +0200
+From: Yannick Fertre <yannick.fertre@foss.st.com>
+To: Yannick Fertre <yannick.fertre@foss.st.com>, Philippe Cornu
+ <philippe.cornu@foss.st.com>, Antonio Borneo <antonio.borneo@st.com>,
+ "David Airlie" <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Alexandre Torgue <alexandre.torgue@st.com>,
+ <dri-devel@lists.freedesktop.org>,
+ <linux-stm32@st-md-mailman.stormreply.com>,
+ <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>
+Subject: [PATCH] drm/stm: Remove usage of drm_display_mode_to_videomode()
+Date: Fri, 28 May 2021 10:05:13 +0200
+Message-ID: <20210528080513.8168-1-yannick.fertre@foss.st.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-In-Reply-To: <e23a44ba-5e9d-d27b-b5e8-0cce3b158ed7@suse.de>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
+X-Originating-IP: [10.75.127.48]
+X-ClientProxiedBy: SFHDAG3NODE2.st.com (10.75.127.8) To SFHDAG2NODE3.st.com
+ (10.75.127.6)
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.761
+ definitions=2021-05-28_04:2021-05-27,
+ 2021-05-28 signatures=0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,52 +73,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Albert Ou <aou@eecs.berkeley.edu>, David Airlie <airlied@linux.ie>,
- Catalin Marinas <catalin.marinas@arm.com>,
- Russell King <linux@armlinux.org.uk>, dri-devel@lists.freedesktop.org,
- Hans de Goede <hdegoede@redhat.com>, linux-efi@vger.kernel.org,
- Palmer Dabbelt <palmer@dabbelt.com>, Peter Robinson <pbrobinson@gmail.com>,
- Paul Walmsley <paul.walmsley@sifive.com>, linux-riscv@lists.infradead.org,
- Will Deacon <will@kernel.org>, Ard Biesheuvel <ardb@kernel.org>,
- linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Thomas,
+There is not much value in the extra conversion step, the calculations
+required for the LTDC IP are different than what is used in the
+drm_display_mode_to_videomode(), so just do the right ones in the LTDC
+driver right away.
 
-On 5/22/21 7:14 AM, Thomas Zimmermann wrote:
+Signed-off-by: Marek Vasut <marex@denx.de>
+Signed-off-by: Yannick Fertre <yannick.fertre@foss.st.com>
+---
+ drivers/gpu/drm/stm/ltdc.c | 32 +++++++++++++++++---------------
+ 1 file changed, 17 insertions(+), 15 deletions(-)
 
-[snip]
-
->> --- a/arch/arm/Kconfig
->> +++ b/arch/arm/Kconfig
->> @@ -127,6 +127,7 @@ config ARM
->>   	select PERF_USE_VMALLOC
->>   	select RTC_LIB
->>   	select SET_FS
->> +	select SYSFB
-> 
-> Don't select this as part of the architecture. Rather make an option for 
-> SYSFB that depends in the architectures that supports it.
->
-
-Thanks a lot for the suggestion! I did this by making SYSFB's Kconfig option
-to be default y and depends on the supported architectures as you mentioned.
-
-This not only is a cleaner approach but also will allow to not touch all the
-architectures platform code.
-
-I'll wait for a few more days in case someone else has feedback and post a v2.
+diff --git a/drivers/gpu/drm/stm/ltdc.c b/drivers/gpu/drm/stm/ltdc.c
+index e99771b947b6..d113b9be12c0 100644
+--- a/drivers/gpu/drm/stm/ltdc.c
++++ b/drivers/gpu/drm/stm/ltdc.c
+@@ -570,31 +570,33 @@ static void ltdc_crtc_mode_set_nofb(struct drm_crtc *crtc)
+ 		}
+ 	}
  
-> Best regards
-> Thomas
-> 
-> 
-
-Best regards,
+-	drm_display_mode_to_videomode(mode, &vm);
+-
+ 	DRM_DEBUG_DRIVER("CRTC:%d mode:%s\n", crtc->base.id, mode->name);
+-	DRM_DEBUG_DRIVER("Video mode: %dx%d", vm.hactive, vm.vactive);
++	DRM_DEBUG_DRIVER("Video mode: %dx%d", mode->hdisplay, mode->vdisplay);
+ 	DRM_DEBUG_DRIVER(" hfp %d hbp %d hsl %d vfp %d vbp %d vsl %d\n",
+-			 vm.hfront_porch, vm.hback_porch, vm.hsync_len,
+-			 vm.vfront_porch, vm.vback_porch, vm.vsync_len);
++			 mode->hsync_start - mode->hdisplay,
++			 mode->htotal - mode->hsync_end,
++			 mode->hsync_end - mode->hsync_start,
++			 mode->vsync_start - mode->vdisplay,
++			 mode->vtotal - mode->vsync_end,
++			 mode->vsync_end - mode->vsync_start);
+ 
+ 	/* Convert video timings to ltdc timings */
+-	hsync = vm.hsync_len - 1;
+-	vsync = vm.vsync_len - 1;
+-	accum_hbp = hsync + vm.hback_porch;
+-	accum_vbp = vsync + vm.vback_porch;
+-	accum_act_w = accum_hbp + vm.hactive;
+-	accum_act_h = accum_vbp + vm.vactive;
+-	total_width = accum_act_w + vm.hfront_porch;
+-	total_height = accum_act_h + vm.vfront_porch;
++	hsync = mode->hsync_end - mode->hsync_start - 1;
++	vsync = mode->vsync_end - mode->vsync_start - 1;
++	accum_hbp = mode->htotal - mode->hsync_start - 1;
++	accum_vbp = mode->vtotal - mode->vsync_start - 1;
++	accum_act_w = accum_hbp + mode->hdisplay;
++	accum_act_h = accum_vbp + mode->vdisplay;
++	total_width = mode->htotal - 1;
++	total_height = mode->vtotal - 1;
+ 
+ 	/* Configures the HS, VS, DE and PC polarities. Default Active Low */
+ 	val = 0;
+ 
+-	if (vm.flags & DISPLAY_FLAGS_HSYNC_HIGH)
++	if (mode->flags & DRM_MODE_FLAG_PHSYNC)
+ 		val |= GCR_HSPOL;
+ 
+-	if (vm.flags & DISPLAY_FLAGS_VSYNC_HIGH)
++	if (mode->flags & DRM_MODE_FLAG_PVSYNC)
+ 		val |= GCR_VSPOL;
+ 
+ 	if (bus_flags & DRM_BUS_FLAG_DE_LOW)
 -- 
-Javier Martinez Canillas
-Software Engineer
-New Platform Technologies Enablement team
-RHEL Engineering
+2.17.1
 
