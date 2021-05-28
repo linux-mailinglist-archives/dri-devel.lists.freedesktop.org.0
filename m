@@ -2,51 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69FFB3947AA
-	for <lists+dri-devel@lfdr.de>; Fri, 28 May 2021 22:01:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D5E0A394B8E
+	for <lists+dri-devel@lfdr.de>; Sat, 29 May 2021 12:14:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A905E6E0BC;
-	Fri, 28 May 2021 20:01:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AFA996E5C5;
+	Sat, 29 May 2021 10:14:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52d.google.com (mail-ed1-x52d.google.com
- [IPv6:2a00:1450:4864:20::52d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 558866E0BC
- for <dri-devel@lists.freedesktop.org>; Fri, 28 May 2021 20:01:02 +0000 (UTC)
-Received: by mail-ed1-x52d.google.com with SMTP id e24so6052114eds.11
- for <dri-devel@lists.freedesktop.org>; Fri, 28 May 2021 13:01:02 -0700 (PDT)
+Received: from mail-lj1-x232.google.com (mail-lj1-x232.google.com
+ [IPv6:2a00:1450:4864:20::232])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B25D56F627
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 May 2021 20:30:53 +0000 (UTC)
+Received: by mail-lj1-x232.google.com with SMTP id f12so6841620ljp.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 May 2021 13:30:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:from:date:message-id:subject:to:cc;
- bh=XVXfZwPZFKcCSAJsJtKc65k2oF75TB0+EMNVC1jdGig=;
- b=CU6zf2IaEABOz1G19VE3RNZam4EkKciYmCtN+ndVfLGg2wppX2/fD8/TV3H4fRvxo4
- ElmDS/tfdm7ba/BQdQUf7onfK8SPNGDEqqHGG4KaZ5tCkotoR3vPNjfJBmspeCKc2JNH
- U0ZohQEoIxKU5pdqDQKPbKkZ7VU3sHpU7yKSodKXVW19mzEHlFXdhMex48ZqAGlWvet+
- 4GS3EMUvlFUkfqTyFcsiiJkAlXlqzNRXigA4wYKs15G6bjW528Zf3TSIGU9dtGt5QZ+6
- /WHmNQsSYCeJyU0RifGM07pwaeiDj2hoI6mXC/ztm9N2g93bovSQ8jQ8IZjL0VHC49f9
- H3Ug==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=EyvgwRI+ps+5cZkOoI1nKyi/eTvA8tNSToZ1i/xJfHs=;
+ b=pZtHbzfNZT0l32ly8ZjAkBQBqTYRrsBOsrvg9W43j/9U5fUtyPPQakbfC5+eN6OXzD
+ Tz/RcuK3FNFKeMGNYTrmtMkkL4q8QE1r8hk1KG7tHvD242nwimuzt1sy988vSyhq2jAX
+ Ur+HWapaE0Ps+LNQm3AkXkwEOiwLiDhU3hmwWjmrG+M8/3VGRrJXanxtIacfSNvHnj0E
+ fSw1Q5dOjQE47KNonictsJ0Z4sHuuSVHeM1N45TpazX25VeTB5MXBFmgKjAaSu+UqxHH
+ PApAyMonACbTzGCzuvvlCdWJ8YmG7KU2E5OjFiFtEuDnK7CX8UxDa1CCUngLtI0PGOcL
+ KqKQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
- bh=XVXfZwPZFKcCSAJsJtKc65k2oF75TB0+EMNVC1jdGig=;
- b=fAa28weGtfh8gILAmEeSKb7fRCqa2hUaFQHNKMg/bjhTrlCjxkkxBOf2NnkYF3+iM+
- 6W/TjHfoxW1aSNnP8myXn6a1Jur0frDad4ux62RO6KpLEjCnfBuTteYIS/J3js/tSZxx
- mcuCl5qFMF+biGIzHiSGgAh8Y2FX/u+aW8XUFGh8OKKDFKwvaI3ex3mb8YfTX9kRS4F2
- nAjmaq5QIgD/NdB5U+YhMbH3qCmVjhXhVt/VrWovE9RUaMFFmn0GLiT9Jg7PPv0AQtyF
- Ry8Br3hlASQxwF3A7K/2HUM4+KBacgjGMLgI+jY9O/GKpBRThXR6986HtKbGKiUTuxw5
- 4W3w==
-X-Gm-Message-State: AOAM531OtWMijyBjWqLQW1GNtf2JUGdP1AwzyGEj2XysZPfJjPUrLC14
- 1ebdy8bjbJ4q1LTqiFafEfS5HQlAZbMvyTN64bE=
-X-Google-Smtp-Source: ABdhPJxkQcDQjk8PB8knVzCjHloLShbgaSNhs3NRDqcJXlr/olLTrFrneV3xYixI6wvTwW3WAtXPo6JngghBeTTrH4c=
-X-Received: by 2002:aa7:d7d5:: with SMTP id e21mr11857017eds.78.1622232060781; 
- Fri, 28 May 2021 13:01:00 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=EyvgwRI+ps+5cZkOoI1nKyi/eTvA8tNSToZ1i/xJfHs=;
+ b=XL1HXiSDXFT4484RzJkzuRMuUZrFXdWkYnegGkdkUaLHk0/AvXI5kXCj1wgtdAVZ9/
+ T1ngfacd1b331tptA26evwEnHAHXLuJzZZbmUP+f5uCgGmYIsgRi9+hXhFYuo3VfN2M6
+ A5GvtW3krhAMCwnauHZOo/+MJGEOLAJfmxqgVMA/j1PYT3u0ovoTvwkeaRjwxIhMxUS9
+ hUCBCLqdwX2XSFIXuzo5GfOR5AySsICgiEtQM4kYD5SOkQcT04bQaJpjl7fjUPstRo8m
+ R1YiPAlnHirfIUmLXBZjgTLnfv9GQHMD64TUP5B7LRclbuMG4vOs6Epw3VEXCH4Y+M9H
+ 2JVg==
+X-Gm-Message-State: AOAM532O6urX8bdzNBTkmYEjrb9blEgAO4aY+s5Ru1vAHGNARies6WzC
+ +fPzCeOjMrD0hTdPL/ku5Mg=
+X-Google-Smtp-Source: ABdhPJx5zcOiUuDL6xseZn6lzPS63Y1BXiSrMEjSU2d2O8NQ4SzN/viQhRsxgmJNXs9MkmZLu0kalQ==
+X-Received: by 2002:a2e:9d8f:: with SMTP id c15mr7932970ljj.111.1622233852168; 
+ Fri, 28 May 2021 13:30:52 -0700 (PDT)
+Received: from roman-S500CA.. (72-28-179-94.pool.ukrtel.net. [94.179.28.72])
+ by smtp.gmail.com with ESMTPSA id a12sm655820ljk.34.2021.05.28.13.30.50
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 28 May 2021 13:30:51 -0700 (PDT)
+From: Roman Stratiienko <r.stratiienko@gmail.com>
+To: linux-kernel@vger.kernel.org
+Subject: [PATCH v4 0/2] drm/sun4i: Set mixer frame to display size for DE2.0+
+Date: Fri, 28 May 2021 23:30:34 +0300
+Message-Id: <20210528203036.17999-1-r.stratiienko@gmail.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-From: Dave Airlie <airlied@gmail.com>
-Date: Sat, 29 May 2021 06:00:49 +1000
-Message-ID: <CAPM=9twKOn4j8-_gDfm_DsQv-96MA6Wv+76bURR6Tb34jkVMcQ@mail.gmail.com>
-Subject: [git pull] drm fixes for 5.13-rc4
-To: Linus Torvalds <torvalds@linux-foundation.org>,
- Daniel Vetter <daniel.vetter@ffwll.ch>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Mailman-Approved-At: Sat, 29 May 2021 10:14:11 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,112 +66,31 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
+Cc: megous@megous.com, jernej.skrabec@siol.net, linux-sunxi@googlegroups.com,
+ dri-devel@lists.freedesktop.org, wens@csie.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Linus,
+This patchset fixes corrupted display picture when primary plane isn't
+full-screen.
 
-Pretty quiet this week, couple of amdgpu, one i915, and a few misc otherwise.
+Please review/merge.
 
-Dave.
+v2:
+- Split commit in 2 parts
+- Add Fixes line to the commit message
 
-drm-fixes-2021-05-29:
-drm fixes for 5.13-rc4
+v3:
+- Address review comments of v2 + removed 3 local varibles
+- Change 'Fixes' line
 
-ttm:
-- prevent irrelevant swapout
+v4:
+Resend (author's email changed). Reword commit message.
+Drop fixes line to allow more testing before back-porting.
 
-amdgpu:
-- MultiGPU fan fix
-- VCN powergating fixes
+ drivers/gpu/drm/sun4i/sun4i_crtc.c     |  3 +++
+ drivers/gpu/drm/sun4i/sun8i_mixer.c    | 28 ++++++++++++++++++++++++++++
+ drivers/gpu/drm/sun4i/sun8i_ui_layer.c | 30 ------------------------------
+ drivers/gpu/drm/sun4i/sunxi_engine.h   | 12 ++++++++++++
+ 4 files changed, 43 insertions(+), 30 deletions(-)
 
-amdkfd:
-- Fix SDMA register offset error
-
-meson:
-- fix shutdown crash
-
-i915:
-- Re-enable LTTPR non-transparent LT mode for DPCD_REV<1.4
-The following changes since commit c4681547bcce777daf576925a966ffa824edd09d:
-
-  Linux 5.13-rc3 (2021-05-23 11:42:48 -1000)
-
-are available in the Git repository at:
-
-  git://anongit.freedesktop.org/drm/drm tags/drm-fixes-2021-05-29
-
-for you to fetch changes up to aeeb517368822e2b24231f5bd43a98ecdbe65d59:
-
-  Merge tag 'drm-intel-fixes-2021-05-27' of
-ssh://git.freedesktop.org/git/drm/drm-intel into drm-fixes (2021-05-28
-13:28:18 +1000)
-
-----------------------------------------------------------------
-drm fixes for 5.13-rc4
-
-ttm:
-- prevent irrelevant swapout
-
-amdgpu:
-- MultiGPU fan fix
-- VCN powergating fixes
-
-amdkfd:
-- Fix SDMA register offset error
-
-meson:
-- fix shutdown crash
-
-i915:
-- Re-enable LTTPR non-transparent LT mode for DPCD_REV<1.4
-
-----------------------------------------------------------------
-Dave Airlie (3):
-      Merge tag 'amd-drm-fixes-5.13-2021-05-26' of
-https://gitlab.freedesktop.org/agd5f/linux into drm-fixes
-      Merge tag 'drm-misc-fixes-2021-05-27' of
-ssh://git.freedesktop.org/git/drm/drm-misc into drm-fixes
-      Merge tag 'drm-intel-fixes-2021-05-27' of
-ssh://git.freedesktop.org/git/drm/drm-intel into drm-fixes
-
-Evan Quan (1):
-      drm/amd/pm: correct MGpuFanBoost setting
-
-Imre Deak (1):
-      drm/i915: Reenable LTTPR non-transparent LT mode for DPCD_REV<1.4
-
-James Zhu (7):
-      drm/amdgpu/vcn1: add cancel_delayed_work_sync before power gate
-      drm/amdgpu/vcn2.0: add cancel_delayed_work_sync before power gate
-      drm/amdgpu/vcn2.5: add cancel_delayed_work_sync before power gate
-      drm/amdgpu/vcn3: add cancel_delayed_work_sync before power gate
-      drm/amdgpu/jpeg2.0: add cancel_delayed_work_sync before power gate
-      drm/amdgpu/jpeg2.5: add cancel_delayed_work_sync before power gate
-      drm/amdgpu/jpeg3: add cancel_delayed_work_sync before power gate
-
-Kevin Wang (1):
-      drm/amdkfd: correct sienna_cichlid SDMA RLC register offset error
-
-Neil Armstrong (1):
-      drm/meson: fix shutdown crash when component not probed
-
-xinhui pan (1):
-      drm/ttm: Skip swapout if ttm object is not populated
-
- .../gpu/drm/amd/amdgpu/amdgpu_amdkfd_gfx_v10_3.c   | 12 ++--
- drivers/gpu/drm/amd/amdgpu/jpeg_v2_0.c             |  2 +
- drivers/gpu/drm/amd/amdgpu/jpeg_v2_5.c             |  4 +-
- drivers/gpu/drm/amd/amdgpu/jpeg_v3_0.c             |  4 +-
- drivers/gpu/drm/amd/amdgpu/vcn_v1_0.c              |  6 +-
- drivers/gpu/drm/amd/amdgpu/vcn_v2_0.c              |  2 +
- drivers/gpu/drm/amd/amdgpu/vcn_v2_5.c              |  2 +
- drivers/gpu/drm/amd/amdgpu/vcn_v3_0.c              |  5 +-
- drivers/gpu/drm/amd/pm/swsmu/smu11/navi10_ppt.c    |  9 +++
- .../drm/amd/pm/swsmu/smu11/sienna_cichlid_ppt.c    | 10 +++
- .../gpu/drm/i915/display/intel_dp_link_training.c  | 71 ++++++++++------------
- drivers/gpu/drm/meson/meson_drv.c                  |  9 +--
- drivers/gpu/drm/ttm/ttm_device.c                   |  2 +-
- 13 files changed, 81 insertions(+), 57 deletions(-)
