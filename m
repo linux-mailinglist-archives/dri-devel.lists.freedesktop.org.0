@@ -1,42 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48749394253
-	for <lists+dri-devel@lfdr.de>; Fri, 28 May 2021 14:13:06 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id BAD43394254
+	for <lists+dri-devel@lfdr.de>; Fri, 28 May 2021 14:13:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DB76E6E233;
-	Fri, 28 May 2021 12:13:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CE2BB6F59F;
+	Fri, 28 May 2021 12:13:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F1F866E233;
- Fri, 28 May 2021 12:13:00 +0000 (UTC)
-Received: from dggemv711-chm.china.huawei.com (unknown [172.30.72.56])
- by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4Fs3RD2xBCzYqKB;
- Fri, 28 May 2021 20:10:16 +0800 (CST)
-Received: from dggema769-chm.china.huawei.com (10.1.198.211) by
- dggemv711-chm.china.huawei.com (10.1.198.66) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
- 15.1.2176.2; Fri, 28 May 2021 20:12:57 +0800
-Received: from localhost (10.174.179.215) by dggema769-chm.china.huawei.com
- (10.1.198.211) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2176.2; Fri, 28
- May 2021 20:12:56 +0800
-From: YueHaibing <yuehaibing@huawei.com>
-To: <alexander.deucher@amd.com>, <christian.koenig@amd.com>,
- <Xinhui.Pan@amd.com>, <airlied@linux.ie>, <daniel@ffwll.ch>,
- <Dennis.Li@amd.com>, <jonathan.kim@amd.com>
-Subject: [PATCH -next] drm/amdgpu: use DEVICE_ATTR_*() macro
-Date: Fri, 28 May 2021 20:12:47 +0800
-Message-ID: <20210528121247.23168-1-yuehaibing@huawei.com>
-X-Mailer: git-send-email 2.10.2.windows.1
+Received: from baptiste.telenet-ops.be (baptiste.telenet-ops.be
+ [IPv6:2a02:1800:120:4::f00:13])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5C4916F59F
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 May 2021 12:13:12 +0000 (UTC)
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed20:7839:f444:cb37:3ebc])
+ by baptiste.telenet-ops.be with bizsmtp
+ id ACD92500J3gF9cb01CD9rJ; Fri, 28 May 2021 14:13:09 +0200
+Received: from rox.of.borg ([192.168.97.57])
+ by ramsan.of.borg with esmtps (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.93)
+ (envelope-from <geert@linux-m68k.org>)
+ id 1lmbMS-00AFAw-UV; Fri, 28 May 2021 14:13:08 +0200
+Received: from geert by rox.of.borg with local (Exim 4.93)
+ (envelope-from <geert@linux-m68k.org>)
+ id 1lmbMS-007ga2-5l; Fri, 28 May 2021 14:13:08 +0200
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+To: Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>
+Subject: [PATCH v2] dt-bindings: display: ssd1307fb: Convert to json-schema
+Date: Fri, 28 May 2021 14:13:06 +0200
+Message-Id: <20210528121306.1831931-1-geert@linux-m68k.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.174.179.215]
-X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
- dggema769-chm.china.huawei.com (10.1.198.211)
-X-CFilter-Loop: Reflected
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,397 +45,312 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: YueHaibing <yuehaibing@huawei.com>, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Cc: devicetree@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Rob Herring <robh+dt@kernel.org>,
+ Geert Uytterhoeven <geert@linux-m68k.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Use DEVICE_ATTR_*() helper instead of plain DEVICE_ATTR(),
-which makes the code a bit shorter and easier to read.
+Convert the Solomon SSD1307 Framebuffer Device Tree binding
+documentation to json-schema.
 
-Signed-off-by: YueHaibing <yuehaibing@huawei.com>
+Fix the spelling of the "pwms" property.
+Document default values.
+Make properties with default values not required.
+
+Signed-off-by: Geert Uytterhoeven <geert@linux-m68k.org>
+Reviewed-by: Rob Herring <robh@kernel.org>
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_atombios.c |  8 ++---
- drivers/gpu/drm/amd/amdgpu/amdgpu_device.c   | 28 +++++++--------
- drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c  | 16 ++++-----
- drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c      | 17 +++------
- drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c      |  8 ++---
- drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c | 38 ++++++++------------
- drivers/gpu/drm/amd/amdgpu/amdgpu_xgmi.c     | 14 ++++----
- drivers/gpu/drm/amd/amdgpu/df_v3_6.c         |  7 ++--
- 8 files changed, 54 insertions(+), 82 deletions(-)
+v2:
+  - Add Reviewed-by,
+  - Document solomon,dclk-{div,freq} defaults.
+---
+ .../bindings/display/solomon,ssd1307fb.yaml   | 208 ++++++++++++++++++
+ .../devicetree/bindings/display/ssd1307fb.txt |  60 -----
+ 2 files changed, 208 insertions(+), 60 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/display/solomon,ssd1307fb.yaml
+ delete mode 100644 Documentation/devicetree/bindings/display/ssd1307fb.txt
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_atombios.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_atombios.c
-index 96b7bb13a2dd..38ee4db1d841 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_atombios.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_atombios.c
-@@ -1754,9 +1754,8 @@ static uint32_t cail_reg_read(struct card_info *info, uint32_t reg)
- 	return r;
- }
- 
--static ssize_t amdgpu_atombios_get_vbios_version(struct device *dev,
--						 struct device_attribute *attr,
--						 char *buf)
-+static ssize_t vbios_version_show(struct device *dev,
-+				  struct device_attribute *attr, char *buf)
- {
- 	struct drm_device *ddev = dev_get_drvdata(dev);
- 	struct amdgpu_device *adev = drm_to_adev(ddev);
-@@ -1765,8 +1764,7 @@ static ssize_t amdgpu_atombios_get_vbios_version(struct device *dev,
- 	return sysfs_emit(buf, "%s\n", ctx->vbios_version);
- }
- 
--static DEVICE_ATTR(vbios_version, 0444, amdgpu_atombios_get_vbios_version,
--		   NULL);
-+static DEVICE_ATTR_RO(vbios_version);
- 
- static struct attribute *amdgpu_vbios_version_attrs[] = {
- 	&dev_attr_vbios_version.attr,
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-index 2fe4bdf5aa6f..fc516d905e50 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-@@ -134,8 +134,8 @@ const char *amdgpu_asic_name[] = {
-  * number of replays as a sum of the NAKs generated and NAKs received
-  */
- 
--static ssize_t amdgpu_device_get_pcie_replay_count(struct device *dev,
--		struct device_attribute *attr, char *buf)
-+static ssize_t pcie_replay_count_show(struct device *dev,
-+				      struct device_attribute *attr, char *buf)
- {
- 	struct drm_device *ddev = dev_get_drvdata(dev);
- 	struct amdgpu_device *adev = drm_to_adev(ddev);
-@@ -144,8 +144,7 @@ static ssize_t amdgpu_device_get_pcie_replay_count(struct device *dev,
- 	return sysfs_emit(buf, "%llu\n", cnt);
- }
- 
--static DEVICE_ATTR(pcie_replay_count, S_IRUGO,
--		amdgpu_device_get_pcie_replay_count, NULL);
-+static DEVICE_ATTR_RO(pcie_replay_count);
- 
- static void amdgpu_device_get_pcie_info(struct amdgpu_device *adev);
- 
-@@ -159,8 +158,8 @@ static void amdgpu_device_get_pcie_info(struct amdgpu_device *adev);
-  * NOTE: This is only available for certain server cards
-  */
- 
--static ssize_t amdgpu_device_get_product_name(struct device *dev,
--		struct device_attribute *attr, char *buf)
-+static ssize_t product_name_show(struct device *dev,
-+				 struct device_attribute *attr, char *buf)
- {
- 	struct drm_device *ddev = dev_get_drvdata(dev);
- 	struct amdgpu_device *adev = drm_to_adev(ddev);
-@@ -168,8 +167,7 @@ static ssize_t amdgpu_device_get_product_name(struct device *dev,
- 	return sysfs_emit(buf, "%s\n", adev->product_name);
- }
- 
--static DEVICE_ATTR(product_name, S_IRUGO,
--		amdgpu_device_get_product_name, NULL);
-+static DEVICE_ATTR_RO(product_name);
- 
- /**
-  * DOC: product_number
-@@ -181,8 +179,8 @@ static DEVICE_ATTR(product_name, S_IRUGO,
-  * NOTE: This is only available for certain server cards
-  */
- 
--static ssize_t amdgpu_device_get_product_number(struct device *dev,
--		struct device_attribute *attr, char *buf)
-+static ssize_t product_number_show(struct device *dev,
-+				   struct device_attribute *attr, char *buf)
- {
- 	struct drm_device *ddev = dev_get_drvdata(dev);
- 	struct amdgpu_device *adev = drm_to_adev(ddev);
-@@ -190,8 +188,7 @@ static ssize_t amdgpu_device_get_product_number(struct device *dev,
- 	return sysfs_emit(buf, "%s\n", adev->product_number);
- }
- 
--static DEVICE_ATTR(product_number, S_IRUGO,
--		amdgpu_device_get_product_number, NULL);
-+static DEVICE_ATTR_RO(product_number);
- 
- /**
-  * DOC: serial_number
-@@ -203,8 +200,8 @@ static DEVICE_ATTR(product_number, S_IRUGO,
-  * NOTE: This is only available for certain server cards
-  */
- 
--static ssize_t amdgpu_device_get_serial_number(struct device *dev,
--		struct device_attribute *attr, char *buf)
-+static ssize_t serial_number_show(struct device *dev,
-+				  struct device_attribute *attr, char *buf)
- {
- 	struct drm_device *ddev = dev_get_drvdata(dev);
- 	struct amdgpu_device *adev = drm_to_adev(ddev);
-@@ -212,8 +209,7 @@ static ssize_t amdgpu_device_get_serial_number(struct device *dev,
- 	return sysfs_emit(buf, "%s\n", adev->serial);
- }
- 
--static DEVICE_ATTR(serial_number, S_IRUGO,
--		amdgpu_device_get_serial_number, NULL);
-+static DEVICE_ATTR_RO(serial_number);
- 
- /**
-  * amdgpu_device_supports_px - Is the device a dGPU with ATPX power control
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c
-index 6a84c9778cc0..16d7fdc53388 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c
-@@ -43,9 +43,8 @@ struct amdgpu_gtt_node {
-  * The file mem_info_gtt_total is used for this, and returns the total size of
-  * the GTT block, in bytes
-  */
--static ssize_t amdgpu_mem_info_gtt_total_show(struct device *dev,
--					      struct device_attribute *attr,
--					      char *buf)
-+static ssize_t mem_info_gtt_total_show(struct device *dev,
-+				       struct device_attribute *attr, char *buf)
- {
- 	struct drm_device *ddev = dev_get_drvdata(dev);
- 	struct amdgpu_device *adev = drm_to_adev(ddev);
-@@ -63,9 +62,8 @@ static ssize_t amdgpu_mem_info_gtt_total_show(struct device *dev,
-  * The file mem_info_gtt_used is used for this, and returns the current used
-  * size of the GTT block, in bytes
-  */
--static ssize_t amdgpu_mem_info_gtt_used_show(struct device *dev,
--					     struct device_attribute *attr,
--					     char *buf)
-+static ssize_t mem_info_gtt_used_show(struct device *dev,
-+				      struct device_attribute *attr, char *buf)
- {
- 	struct drm_device *ddev = dev_get_drvdata(dev);
- 	struct amdgpu_device *adev = drm_to_adev(ddev);
-@@ -75,10 +73,8 @@ static ssize_t amdgpu_mem_info_gtt_used_show(struct device *dev,
- 	return sysfs_emit(buf, "%llu\n", amdgpu_gtt_mgr_usage(man));
- }
- 
--static DEVICE_ATTR(mem_info_gtt_total, S_IRUGO,
--	           amdgpu_mem_info_gtt_total_show, NULL);
--static DEVICE_ATTR(mem_info_gtt_used, S_IRUGO,
--	           amdgpu_mem_info_gtt_used_show, NULL);
-+static DEVICE_ATTR_RO(mem_info_gtt_total);
-+static DEVICE_ATTR_RO(mem_info_gtt_used);
- 
- static struct attribute *amdgpu_gtt_mgr_attributes[] = {
- 	&dev_attr_mem_info_gtt_total.attr,
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c
-index 3ff76cbaec8d..ce3e554d2e2d 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c
-@@ -2985,9 +2985,8 @@ static int psp_set_powergating_state(void *handle,
- 	return 0;
- }
- 
--static ssize_t psp_usbc_pd_fw_sysfs_read(struct device *dev,
--					 struct device_attribute *attr,
--					 char *buf)
-+static ssize_t usbc_pd_fw_show(struct device *dev,
-+			       struct device_attribute *attr, char *buf)
- {
- 	struct drm_device *ddev = dev_get_drvdata(dev);
- 	struct amdgpu_device *adev = drm_to_adev(ddev);
-@@ -3011,10 +3010,8 @@ static ssize_t psp_usbc_pd_fw_sysfs_read(struct device *dev,
- 	return sysfs_emit(buf, "%x\n", fw_ver);
- }
- 
--static ssize_t psp_usbc_pd_fw_sysfs_write(struct device *dev,
--						       struct device_attribute *attr,
--						       const char *buf,
--						       size_t count)
-+static ssize_t usbc_pd_fw_store(struct device *dev, struct device_attribute *attr,
-+				const char *buf, size_t count)
- {
- 	struct drm_device *ddev = dev_get_drvdata(dev);
- 	struct amdgpu_device *adev = drm_to_adev(ddev);
-@@ -3086,11 +3083,7 @@ void psp_copy_fw(struct psp_context *psp, uint8_t *start_addr, uint32_t bin_size
- 	drm_dev_exit(idx);
- }
- 
--static DEVICE_ATTR(usbc_pd_fw, S_IRUGO | S_IWUSR,
--		   psp_usbc_pd_fw_sysfs_read,
--		   psp_usbc_pd_fw_sysfs_write);
--
--
-+static DEVICE_ATTR_RW(usbc_pd_fw);
- 
- const struct amd_ip_funcs psp_ip_funcs = {
- 	.name = "psp",
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c
-index c2c791ca00f4..2e1ccf13cea8 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c
-@@ -1150,8 +1150,8 @@ static ssize_t amdgpu_ras_sysfs_badpages_read(struct file *f,
- 	return s;
- }
- 
--static ssize_t amdgpu_ras_sysfs_features_read(struct device *dev,
--		struct device_attribute *attr, char *buf)
-+static ssize_t features_show(struct device *dev,
-+			     struct device_attribute *attr, char *buf)
- {
- 	struct amdgpu_ras *con =
- 		container_of(attr, struct amdgpu_ras, features_attr);
-@@ -1360,8 +1360,8 @@ void amdgpu_ras_debugfs_create_all(struct amdgpu_device *adev)
- /* ras fs */
- static BIN_ATTR(gpu_vram_bad_pages, S_IRUGO,
- 		amdgpu_ras_sysfs_badpages_read, NULL, 0);
--static DEVICE_ATTR(features, S_IRUGO,
--		amdgpu_ras_sysfs_features_read, NULL);
-+static DEVICE_ATTR_RO(features);
+diff --git a/Documentation/devicetree/bindings/display/solomon,ssd1307fb.yaml b/Documentation/devicetree/bindings/display/solomon,ssd1307fb.yaml
+new file mode 100644
+index 0000000000000000..2ed2a7d0ca2fa23e
+--- /dev/null
++++ b/Documentation/devicetree/bindings/display/solomon,ssd1307fb.yaml
+@@ -0,0 +1,208 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/display/solomon,ssd1307fb.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
 +
- static int amdgpu_ras_fs_init(struct amdgpu_device *adev)
- {
- 	struct amdgpu_ras *con = amdgpu_ras_get_context(adev);
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c
-index 07e007dbff7c..a33210ea9b2f 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c
-@@ -54,8 +54,8 @@ to_amdgpu_device(struct amdgpu_vram_mgr *mgr)
-  * The file mem_info_vram_total is used for this and returns the total
-  * amount of VRAM in bytes
-  */
--static ssize_t amdgpu_mem_info_vram_total_show(struct device *dev,
--		struct device_attribute *attr, char *buf)
-+static ssize_t mem_info_vram_total_show(struct device *dev,
-+					struct device_attribute *attr, char *buf)
- {
- 	struct drm_device *ddev = dev_get_drvdata(dev);
- 	struct amdgpu_device *adev = drm_to_adev(ddev);
-@@ -71,8 +71,8 @@ static ssize_t amdgpu_mem_info_vram_total_show(struct device *dev,
-  * The file mem_info_vis_vram_total is used for this and returns the total
-  * amount of visible VRAM in bytes
-  */
--static ssize_t amdgpu_mem_info_vis_vram_total_show(struct device *dev,
--		struct device_attribute *attr, char *buf)
-+static ssize_t mem_info_vis_vram_total_show(struct device *dev,
-+					    struct device_attribute *attr, char *buf)
- {
- 	struct drm_device *ddev = dev_get_drvdata(dev);
- 	struct amdgpu_device *adev = drm_to_adev(ddev);
-@@ -88,9 +88,8 @@ static ssize_t amdgpu_mem_info_vis_vram_total_show(struct device *dev,
-  * The file mem_info_vram_used is used for this and returns the total
-  * amount of currently used VRAM in bytes
-  */
--static ssize_t amdgpu_mem_info_vram_used_show(struct device *dev,
--					      struct device_attribute *attr,
--					      char *buf)
-+static ssize_t mem_info_vram_used_show(struct device *dev,
-+				       struct device_attribute *attr, char *buf)
- {
- 	struct drm_device *ddev = dev_get_drvdata(dev);
- 	struct amdgpu_device *adev = drm_to_adev(ddev);
-@@ -108,9 +107,8 @@ static ssize_t amdgpu_mem_info_vram_used_show(struct device *dev,
-  * The file mem_info_vis_vram_used is used for this and returns the total
-  * amount of currently used visible VRAM in bytes
-  */
--static ssize_t amdgpu_mem_info_vis_vram_used_show(struct device *dev,
--						  struct device_attribute *attr,
--						  char *buf)
-+static ssize_t mem_info_vis_vram_used_show(struct device *dev,
-+					   struct device_attribute *attr, char *buf)
- {
- 	struct drm_device *ddev = dev_get_drvdata(dev);
- 	struct amdgpu_device *adev = drm_to_adev(ddev);
-@@ -128,9 +126,8 @@ static ssize_t amdgpu_mem_info_vis_vram_used_show(struct device *dev,
-  * The file mem_info_vram_vendor is used for this and returns the name of the
-  * vendor.
-  */
--static ssize_t amdgpu_mem_info_vram_vendor(struct device *dev,
--					   struct device_attribute *attr,
--					   char *buf)
-+static ssize_t mem_info_vram_vendor_show(struct device *dev,
-+					 struct device_attribute *attr, char *buf)
- {
- 	struct drm_device *ddev = dev_get_drvdata(dev);
- 	struct amdgpu_device *adev = drm_to_adev(ddev);
-@@ -161,16 +158,11 @@ static ssize_t amdgpu_mem_info_vram_vendor(struct device *dev,
- 	}
- }
- 
--static DEVICE_ATTR(mem_info_vram_total, S_IRUGO,
--		   amdgpu_mem_info_vram_total_show, NULL);
--static DEVICE_ATTR(mem_info_vis_vram_total, S_IRUGO,
--		   amdgpu_mem_info_vis_vram_total_show,NULL);
--static DEVICE_ATTR(mem_info_vram_used, S_IRUGO,
--		   amdgpu_mem_info_vram_used_show, NULL);
--static DEVICE_ATTR(mem_info_vis_vram_used, S_IRUGO,
--		   amdgpu_mem_info_vis_vram_used_show, NULL);
--static DEVICE_ATTR(mem_info_vram_vendor, S_IRUGO,
--		   amdgpu_mem_info_vram_vendor, NULL);
-+static DEVICE_ATTR_RO(mem_info_vram_total);
-+static DEVICE_ATTR_RO(mem_info_vis_vram_total);
-+static DEVICE_ATTR_RO(mem_info_vram_used);
-+static DEVICE_ATTR_RO(mem_info_vis_vram_used);
-+static DEVICE_ATTR_RO(mem_info_vram_vendor);
- 
- static struct attribute *amdgpu_vram_mgr_attributes[] = {
- 	&dev_attr_mem_info_vram_total.attr,
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_xgmi.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_xgmi.c
-index 8567d5d77346..764bfa69f7bb 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_xgmi.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_xgmi.c
-@@ -209,9 +209,8 @@ struct kobj_type amdgpu_xgmi_hive_type = {
- 	.default_attrs = amdgpu_xgmi_hive_attrs,
- };
- 
--static ssize_t amdgpu_xgmi_show_device_id(struct device *dev,
--				     struct device_attribute *attr,
--				     char *buf)
-+static ssize_t xgmi_device_id_show(struct device *dev,
-+				   struct device_attribute *attr, char *buf)
- {
- 	struct drm_device *ddev = dev_get_drvdata(dev);
- 	struct amdgpu_device *adev = drm_to_adev(ddev);
-@@ -221,9 +220,8 @@ static ssize_t amdgpu_xgmi_show_device_id(struct device *dev,
- }
- 
- #define AMDGPU_XGMI_SET_FICAA(o)	((o) | 0x456801)
--static ssize_t amdgpu_xgmi_show_error(struct device *dev,
--				      struct device_attribute *attr,
--				      char *buf)
-+static ssize_t xgmi_error_show(struct device *dev,
-+			       struct device_attribute *attr, char *buf)
- {
- 	struct drm_device *ddev = dev_get_drvdata(dev);
- 	struct amdgpu_device *adev = drm_to_adev(ddev);
-@@ -249,8 +247,8 @@ static ssize_t amdgpu_xgmi_show_error(struct device *dev,
- }
- 
- 
--static DEVICE_ATTR(xgmi_device_id, S_IRUGO, amdgpu_xgmi_show_device_id, NULL);
--static DEVICE_ATTR(xgmi_error, S_IRUGO, amdgpu_xgmi_show_error, NULL);
-+static DEVICE_ATTR_RO(xgmi_device_id);
-+static DEVICE_ATTR_RO(xgmi_error);
- 
- static int amdgpu_xgmi_sysfs_add_dev_info(struct amdgpu_device *adev,
- 					 struct amdgpu_hive_info *hive)
-diff --git a/drivers/gpu/drm/amd/amdgpu/df_v3_6.c b/drivers/gpu/drm/amd/amdgpu/df_v3_6.c
-index 14514a145c17..44abb4404fba 100644
---- a/drivers/gpu/drm/amd/amdgpu/df_v3_6.c
-+++ b/drivers/gpu/drm/amd/amdgpu/df_v3_6.c
-@@ -188,9 +188,8 @@ static int df_v3_6_perfmon_arm_with_retry(struct amdgpu_device *adev,
- }
- 
- /* get the number of df counters available */
--static ssize_t df_v3_6_get_df_cntr_avail(struct device *dev,
--		struct device_attribute *attr,
--		char *buf)
-+static ssize_t df_cntr_avail_show(struct device *dev,
-+				  struct device_attribute *attr, char *buf)
- {
- 	struct amdgpu_device *adev;
- 	struct drm_device *ddev;
-@@ -209,7 +208,7 @@ static ssize_t df_v3_6_get_df_cntr_avail(struct device *dev,
- }
- 
- /* device attr for available perfmon counters */
--static DEVICE_ATTR(df_cntr_avail, S_IRUGO, df_v3_6_get_df_cntr_avail, NULL);
-+static DEVICE_ATTR_RO(df_cntr_avail);
- 
- static void df_v3_6_query_hashes(struct amdgpu_device *adev)
- {
++title: Solomon SSD1307 OLED Controller Framebuffer
++
++maintainers:
++  - Maxime Ripard <mripard@kernel.org>
++
++properties:
++  compatible:
++    enum:
++      - solomon,ssd1305fb-i2c
++      - solomon,ssd1306fb-i2c
++      - solomon,ssd1307fb-i2c
++      - solomon,ssd1309fb-i2c
++
++  reg:
++    maxItems: 1
++
++  pwms:
++    maxItems: 1
++
++  reset-gpios:
++    maxItems: 1
++
++  vbat-supply:
++    description: The supply for VBAT
++
++  solomon,height:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    default: 16
++    description:
++      Height in pixel of the screen driven by the controller
++
++  solomon,width:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    default: 96
++    description:
++      Width in pixel of the screen driven by the controller
++
++  solomon,page-offset:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    default: 1
++    description:
++      Offset of pages (band of 8 pixels) that the screen is mapped to
++
++  solomon,segment-no-remap:
++    type: boolean
++    description:
++      Display needs normal (non-inverted) data column to segment mapping
++
++  solomon,col-offset:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    default: 0
++    description:
++      Offset of columns (COL/SEG) that the screen is mapped to
++
++  solomon,com-seq:
++    type: boolean
++    description:
++      Display uses sequential COM pin configuration
++
++  solomon,com-lrremap:
++    type: boolean
++    description:
++      Display uses left-right COM pin remap
++
++  solomon,com-invdir:
++    type: boolean
++    description:
++      Display uses inverted COM pin scan direction
++
++  solomon,com-offset:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    default: 0
++    description:
++      Number of the COM pin wired to the first display line
++
++  solomon,prechargep1:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    default: 2
++    description:
++      Length of deselect period (phase 1) in clock cycles
++
++  solomon,prechargep2:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    default: 2
++    description:
++      Length of precharge period (phase 2) in clock cycles.  This needs to be
++      the higher, the higher the capacitance of the OLED's pixels is.
++
++  solomon,dclk-div:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    minimum: 1
++    maximum: 16
++    description:
++      Clock divisor. The default value is controller-dependent.
++
++  solomon,dclk-frq:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    minimum: 0
++    maximum: 15
++    description:
++      Clock frequency, higher value means higher frequency.
++      The default value is controller-dependent.
++
++  solomon,lookup-table:
++    $ref: /schemas/types.yaml#/definitions/uint8-array
++    maxItems: 4
++    description:
++      8 bit value array of current drive pulse widths for BANK0, and colors A,
++      B, and C. Each value in range of 31 to 63 for pulse widths of 32 to 64.
++      Color D is always width 64.
++
++  solomon,area-color-enable:
++    type: boolean
++    description:
++      Display uses color mode
++
++  solomon,low-power:
++    type: boolean
++    description:
++      Display runs in low power mode
++
++required:
++  - compatible
++  - reg
++
++allOf:
++  - if:
++      properties:
++        compatible:
++          contains:
++            const: solomon,ssd1305fb-i2c
++    then:
++      properties:
++        solomon,dclk-div:
++          default: 1
++        solomon,dclk-frq:
++          default: 7
++
++  - if:
++      properties:
++        compatible:
++          contains:
++            const: solomon,ssd1306fb-i2c
++    then:
++      properties:
++        solomon,dclk-div:
++          default: 1
++        solomon,dclk-frq:
++          default: 8
++
++  - if:
++      properties:
++        compatible:
++          contains:
++            const: solomon,ssd1307fb-i2c
++    then:
++      properties:
++        solomon,dclk-div:
++          default: 2
++        solomon,dclk-frq:
++          default: 12
++      required:
++        - pwms
++
++  - if:
++      properties:
++        compatible:
++          contains:
++            const: solomon,ssd1309fb-i2c
++    then:
++      properties:
++        solomon,dclk-div:
++          default: 1
++        solomon,dclk-frq:
++          default: 10
++
++additionalProperties: false
++
++examples:
++  - |
++    i2c1 {
++            #address-cells = <1>;
++            #size-cells = <0>;
++
++            ssd1307: oled@3c {
++                    compatible = "solomon,ssd1307fb-i2c";
++                    reg = <0x3c>;
++                    pwms = <&pwm 4 3000>;
++                    reset-gpios = <&gpio2 7>;
++            };
++
++            ssd1306: oled@3d {
++                    compatible = "solomon,ssd1306fb-i2c";
++                    reg = <0x3c>;
++                    pwms = <&pwm 4 3000>;
++                    reset-gpios = <&gpio2 7>;
++                    solomon,com-lrremap;
++                    solomon,com-invdir;
++                    solomon,com-offset = <32>;
++                    solomon,lookup-table = /bits/ 8 <0x3f 0x3f 0x3f 0x3f>;
++            };
++    };
+diff --git a/Documentation/devicetree/bindings/display/ssd1307fb.txt b/Documentation/devicetree/bindings/display/ssd1307fb.txt
+deleted file mode 100644
+index 2dcb6d12d1371536..0000000000000000
+--- a/Documentation/devicetree/bindings/display/ssd1307fb.txt
++++ /dev/null
+@@ -1,60 +0,0 @@
+-* Solomon SSD1307 Framebuffer Driver
+-
+-Required properties:
+-  - compatible: Should be "solomon,<chip>fb-<bus>". The only supported bus for
+-    now is i2c, and the supported chips are ssd1305, ssd1306, ssd1307 and
+-    ssd1309.
+-  - reg: Should contain address of the controller on the I2C bus. Most likely
+-         0x3c or 0x3d
+-  - pwm: Should contain the pwm to use according to the OF device tree PWM
+-         specification [0]. Only required for the ssd1307.
+-  - solomon,height: Height in pixel of the screen driven by the controller
+-  - solomon,width: Width in pixel of the screen driven by the controller
+-  - solomon,page-offset: Offset of pages (band of 8 pixels) that the screen is
+-    mapped to.
+-
+-Optional properties:
+-  - reset-gpios: The GPIO used to reset the OLED display, if available. See
+-                 Documentation/devicetree/bindings/gpio/gpio.txt for details.
+-  - vbat-supply: The supply for VBAT
+-  - solomon,segment-no-remap: Display needs normal (non-inverted) data column
+-                              to segment mapping
+-  - solomon,col-offset: Offset of columns (COL/SEG) that the screen is mapped to.
+-  - solomon,com-seq: Display uses sequential COM pin configuration
+-  - solomon,com-lrremap: Display uses left-right COM pin remap
+-  - solomon,com-invdir: Display uses inverted COM pin scan direction
+-  - solomon,com-offset: Number of the COM pin wired to the first display line
+-  - solomon,prechargep1: Length of deselect period (phase 1) in clock cycles.
+-  - solomon,prechargep2: Length of precharge period (phase 2) in clock cycles.
+-                         This needs to be the higher, the higher the capacitance
+-                         of the OLED's pixels is
+-  - solomon,dclk-div: Clock divisor 1 to 16
+-  - solomon,dclk-frq: Clock frequency 0 to 15, higher value means higher
+-                      frequency
+-  - solomon,lookup-table: 8 bit value array of current drive pulse widths for
+-                          BANK0, and colors A, B, and C. Each value in range
+-                          of 31 to 63 for pulse widths of 32 to 64. Color D
+-                          is always width 64.
+-  - solomon,area-color-enable: Display uses color mode
+-  - solomon,low-power. Display runs in low power mode
+-
+-[0]: Documentation/devicetree/bindings/pwm/pwm.txt
+-
+-Examples:
+-ssd1307: oled@3c {
+-        compatible = "solomon,ssd1307fb-i2c";
+-        reg = <0x3c>;
+-        pwms = <&pwm 4 3000>;
+-        reset-gpios = <&gpio2 7>;
+-};
+-
+-ssd1306: oled@3c {
+-        compatible = "solomon,ssd1306fb-i2c";
+-        reg = <0x3c>;
+-        pwms = <&pwm 4 3000>;
+-        reset-gpios = <&gpio2 7>;
+-        solomon,com-lrremap;
+-        solomon,com-invdir;
+-        solomon,com-offset = <32>;
+-        solomon,lookup-table = /bits/ 8 <0x3f 0x3f 0x3f 0x3f>;
+-};
 -- 
-2.17.1
+2.25.1
 
