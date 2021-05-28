@@ -1,59 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C924394B8F
-	for <lists+dri-devel@lfdr.de>; Sat, 29 May 2021 12:14:35 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0650F3948A3
+	for <lists+dri-devel@lfdr.de>; Sat, 29 May 2021 00:23:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 51EC76E1B8;
-	Sat, 29 May 2021 10:14:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1935E6E057;
+	Fri, 28 May 2021 22:23:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x436.google.com (mail-pf1-x436.google.com
- [IPv6:2607:f8b0:4864:20::436])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D46AB6F627
- for <dri-devel@lists.freedesktop.org>; Fri, 28 May 2021 20:41:44 +0000 (UTC)
-Received: by mail-pf1-x436.google.com with SMTP id d16so4091779pfn.12
- for <dri-devel@lists.freedesktop.org>; Fri, 28 May 2021 13:41:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=dWylf11sBI6NHMXAlL1Myy7IBhthqrQbFB/TTGfNsu4=;
- b=QTT7CKfOBctf/QklY+VuaKaCG4W+5fRQrs+7pOENtX0AgzqNXNBxApAzYHVpDp4po3
- cUJq+wSmes5qa6GSR+MQXCVW6TSs77BWVBxy9Te97vFRCJaC44yFEAkFkvIHXVCKNqmj
- vUfZkY8m2iMOGQ+OWqcw7A0qgMMo5E4Ky6yx/PPmHXnwsta4UvCeYZyAipiiGYmbiucj
- XSd59Zeloe0SWWbcgjk0n3LkTPjP38L27WiM44/9YJp3ZJ4Ml154RS7lH8iC3kgEwS17
- Jtwpth7nQ9FJsvtfNRLyFEqU79bCoGWKL9RPF69hwReojyw9RS0t0lZS90ciofwsWq5L
- Os8w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=dWylf11sBI6NHMXAlL1Myy7IBhthqrQbFB/TTGfNsu4=;
- b=qaTo4Z0q6Iac3VP4p44dIFcqQLiZhfWUi/ZCnbv1MRCRjOGT0aFLfGMVsGUiDmyaxf
- kH1hMgNLxFrYFCOsBRfZzlra/Sk5o5qcVSF+hCaf/g0TdfL1o4aT/TwDUTzW7PvuUS7Q
- UPN7RBwOJtEkqMkaCuY5jcK2p2LBWtsrrFO8x8O6n0weGceANHN4esish3v2HyF5aIgh
- U7L6A2KfFGezpJKWVVF75sXgfIAhK44J3zMw/7t87nlpcloZZL9piKndbyWNvO/Le+2y
- WaJho3eFVhyW9qF/XKR6X1F8rv7D+Vz2SPAfVd04jBZc1RtTh5k/kDrE9ch3+v15TUxN
- G1sw==
-X-Gm-Message-State: AOAM532Mdb6OOXllNrmQJCiHVGwha+aVOuQ3xNTdi67XxAoCHp408I0C
- oOshVxdmftDPbQ/+Z2LsXqAP/R/3S12BfqT8gyc=
-X-Google-Smtp-Source: ABdhPJxjKySbjQC4dWE1MMsyN1uUqOjnZnRWr7dwYle9MVt4Kp7uSzKwgCMg/s3bFYJ9BvjdQ3WvpuXHg6qqTGr/YLg=
-X-Received: by 2002:a65:4d03:: with SMTP id i3mr10776572pgt.422.1622234504448; 
- Fri, 28 May 2021 13:41:44 -0700 (PDT)
+Received: from m43-7.mailgun.net (m43-7.mailgun.net [69.72.43.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 998D86E092
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 May 2021 22:23:38 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1622240620; h=Message-ID: References: In-Reply-To: Subject:
+ Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
+ MIME-Version: Sender; bh=18Esb175aaSr5AM8zLM9xU1/NrzIFnqkbq2Zo/3L8H0=;
+ b=Fcd5QoWRRunWQx/4lhuWmq6RPRadaJholEhg6q8tbDOm1CcbynfxHS5RlyT2AjecWHXXlWWY
+ jNjUD+dTuTwVTZ0+AvpForLjuq9RkLfj10Erde7jmdyjREJH5oNYbWbEQYFT5qoXGnaVI0RN
+ tcWTBUTzb8qakMQesUdnUbtSLaw=
+X-Mailgun-Sending-Ip: 69.72.43.7
+X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n02.prod.us-west-2.postgun.com with SMTP id
+ 60b16d54ea2aacd729324532 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Fri, 28 May 2021 22:23:16
+ GMT
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id 2BC93C43460; Fri, 28 May 2021 22:23:16 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00
+ autolearn=unavailable autolearn_force=no version=3.4.0
+Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
+ (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+ (No client certificate requested) (Authenticated sender: abhinavk)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id D5DCAC433F1;
+ Fri, 28 May 2021 22:23:13 +0000 (UTC)
 MIME-Version: 1.0
-References: <20210528203036.17999-1-r.stratiienko@gmail.com>
- <20210528203036.17999-3-r.stratiienko@gmail.com>
-In-Reply-To: <20210528203036.17999-3-r.stratiienko@gmail.com>
-From: Roman Stratiienko <r.stratiienko@gmail.com>
-Date: Fri, 28 May 2021 23:41:33 +0300
-Message-ID: <CAGphcdk8Zg0PbG+dNmaXa8db0QWFXED7X5vQNURe2R7aEo_TRA@mail.gmail.com>
-Subject: Re: [PATCH v4 2/2] drm/sun4i: Use CRTC size instead of primary plane
- size as mixer frame
-To: linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Mailman-Approved-At: Sat, 29 May 2021 10:14:11 +0000
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+Date: Fri, 28 May 2021 15:23:13 -0700
+From: abhinavk@codeaurora.org
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Subject: Re: [RFC PATCH 11/13] drm/msm/disp/dpu1: Add support for DSC in
+ topology
+In-Reply-To: <06ffdec5-8b12-c077-0c51-6ea9100b96a4@linaro.org>
+References: <20210521124946.3617862-1-vkoul@kernel.org>
+ <20210521124946.3617862-16-vkoul@kernel.org>
+ <06ffdec5-8b12-c077-0c51-6ea9100b96a4@linaro.org>
+Message-ID: <57a4c00413dcaba38cebf3aa145b4d64@codeaurora.org>
+X-Sender: abhinavk@codeaurora.org
+User-Agent: Roundcube Webmail/1.3.9
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,122 +68,98 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Ondrej Jirman <megous@megous.com>, linux-sunxi@googlegroups.com,
- jernej.skrabec@gmail.com, wens@csie.org, dri-devel@lists.freedesktop.org
+Cc: Jonathan Marek <jonathan@marek.ca>, David Airlie <airlied@linux.ie>,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Bjorn Andersson <bjorn.andersson@linaro.org>, Vinod Koul <vkoul@kernel.org>,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-+CC: jernej.skrabec@gmail.com
+On 2021-05-28 03:39, Dmitry Baryshkov wrote:
+> On 21/05/2021 15:49, Vinod Koul wrote:
+>> For DSC to work we typically need a 2,2,1 configuration. This should
+>> suffice for resolutions upto 4k. For more resolutions like 8k this 
+>> won't
+>> work.
+>> 
+>> Furthermore, we can use 1 DSC encoder in lesser resulutions, but that 
+>> is
+>> not power efficient according to Abhinav, so it is recommended to 
+>> always
+>> use 2 encoders.
+> 
+> Not power efficient because the second DSC would also be powered on or
+> because single DSC enc would consume more power than two DSCs?
 
-=D0=BF=D1=82, 28 =D0=BC=D0=B0=D1=8F 2021 =D0=B3. =D0=B2 23:31, Roman Strati=
-ienko <r.stratiienko@gmail.com>:
->
-> Fixes corrupted display picture when primary plane isn't full-screen.
->
-> Signed-off-by: Roman Stratiienko <r.stratiienko@gmail.com>
-> ---
->  drivers/gpu/drm/sun4i/sun8i_mixer.c    | 28 ++++++++++++++++++++++++
->  drivers/gpu/drm/sun4i/sun8i_ui_layer.c | 30 --------------------------
->  2 files changed, 28 insertions(+), 30 deletions(-)
->
-> diff --git a/drivers/gpu/drm/sun4i/sun8i_mixer.c b/drivers/gpu/drm/sun4i/=
-sun8i_mixer.c
-> index 5b42cf25cc86..810c731566c0 100644
-> --- a/drivers/gpu/drm/sun4i/sun8i_mixer.c
-> +++ b/drivers/gpu/drm/sun4i/sun8i_mixer.c
-> @@ -248,6 +248,33 @@ int sun8i_mixer_drm_format_to_hw(u32 format, u32 *hw=
-_format)
->         return -EINVAL;
->  }
->
-> +static void sun8i_mode_set(struct sunxi_engine *engine,
-> +                          struct drm_display_mode *mode)
-> +{
-> +       u32 size =3D SUN8I_MIXER_SIZE(mode->crtc_hdisplay, mode->crtc_vdi=
-splay);
-> +       struct sun8i_mixer *mixer =3D engine_to_sun8i_mixer(engine);
-> +       u32 bld_base =3D sun8i_blender_base(mixer);
-> +       u32 val;
-> +
-> +       DRM_DEBUG_DRIVER("Mode change, updating global size W: %u H: %u\n=
-",
-> +                        mode->crtc_hdisplay, mode->crtc_vdisplay);
-> +       regmap_write(mixer->engine.regs, SUN8I_MIXER_GLOBAL_SIZE, size);
-> +       regmap_write(mixer->engine.regs,
-> +                    SUN8I_MIXER_BLEND_OUTSIZE(bld_base), size);
-> +
-> +       if (mode->flags & DRM_MODE_FLAG_INTERLACE)
-> +               val =3D SUN8I_MIXER_BLEND_OUTCTL_INTERLACED;
-> +       else
-> +               val =3D 0;
-> +
-> +       regmap_update_bits(mixer->engine.regs,
-> +                          SUN8I_MIXER_BLEND_OUTCTL(bld_base),
-> +                          SUN8I_MIXER_BLEND_OUTCTL_INTERLACED,
-> +                          val);
-> +       DRM_DEBUG_DRIVER("Switching display mixer interlaced mode %s\n",
-> +                        val ? "on" : "off");
-> +}
-> +
->  static void sun8i_mixer_commit(struct sunxi_engine *engine)
->  {
->         DRM_DEBUG_DRIVER("Committing changes\n");
-> @@ -301,6 +328,7 @@ static struct drm_plane **sun8i_layers_init(struct dr=
-m_device *drm,
->  static const struct sunxi_engine_ops sun8i_engine_ops =3D {
->         .commit         =3D sun8i_mixer_commit,
->         .layers_init    =3D sun8i_layers_init,
-> +       .mode_set       =3D sun8i_mode_set,
->  };
->
->  static const struct regmap_config sun8i_mixer_regmap_config =3D {
-> diff --git a/drivers/gpu/drm/sun4i/sun8i_ui_layer.c b/drivers/gpu/drm/sun=
-4i/sun8i_ui_layer.c
-> index 0db164a774a1..d66fff582278 100644
-> --- a/drivers/gpu/drm/sun4i/sun8i_ui_layer.c
-> +++ b/drivers/gpu/drm/sun4i/sun8i_ui_layer.c
-> @@ -120,36 +120,6 @@ static int sun8i_ui_layer_update_coord(struct sun8i_=
-mixer *mixer, int channel,
->         insize =3D SUN8I_MIXER_SIZE(src_w, src_h);
->         outsize =3D SUN8I_MIXER_SIZE(dst_w, dst_h);
->
-> -       if (plane->type =3D=3D DRM_PLANE_TYPE_PRIMARY) {
-> -               bool interlaced =3D false;
-> -               u32 val;
-> -
-> -               DRM_DEBUG_DRIVER("Primary layer, updating global size W: =
-%u H: %u\n",
-> -                                dst_w, dst_h);
-> -               regmap_write(mixer->engine.regs,
-> -                            SUN8I_MIXER_GLOBAL_SIZE,
-> -                            outsize);
-> -               regmap_write(mixer->engine.regs,
-> -                            SUN8I_MIXER_BLEND_OUTSIZE(bld_base), outsize=
-);
-> -
-> -               if (state->crtc)
-> -                       interlaced =3D state->crtc->state->adjusted_mode.=
-flags
-> -                               & DRM_MODE_FLAG_INTERLACE;
-> -
-> -               if (interlaced)
-> -                       val =3D SUN8I_MIXER_BLEND_OUTCTL_INTERLACED;
-> -               else
-> -                       val =3D 0;
-> -
-> -               regmap_update_bits(mixer->engine.regs,
-> -                                  SUN8I_MIXER_BLEND_OUTCTL(bld_base),
-> -                                  SUN8I_MIXER_BLEND_OUTCTL_INTERLACED,
-> -                                  val);
-> -
-> -               DRM_DEBUG_DRIVER("Switching display mixer interlaced mode=
- %s\n",
-> -                                interlaced ? "on" : "off");
-> -       }
-> -
->         /* Set height and width */
->         DRM_DEBUG_DRIVER("Layer source offset X: %d Y: %d\n",
->                          state->src.x1 >> 16, state->src.y1 >> 16);
-> --
-> 2.30.2
->
+I havent got through the series yet but just thought of answering this,
+
+So before coming to the power aspects of this, hard-coding was done for 
+the foll reasons:
+
+-> We do not have a topology DTSI property in upstream and will probably 
+not have as well till
+other features are added which support all the topologies
+-> The DSC panel which is being upstreamed as part of this series is 
+working with this 2,2,1 topology
+downstream ( dual lm, dual DSC encoders, single DSI ). Other topologies 
+have not been tried on it yet
+-> There needs to be a better approach to handle all topologies once we 
+have added support for them.
+It can be either a DTSI property if others agree OR some helper API 
+which will determine the best topology
+based on various factors. Till then, since this will be the only DSC 
+panel we are adding support for
+I thought we can start with a fixed topology for now.
+
+Coming to the power aspect, I only recommended 2-2-1 here because using 
+two mixers is better power wise
+as it will split the width/2. We can also do 2-1-1 by enabling 3D mux 
+but this panel has not been validated
+with a single DSC. So to keep things simple with what has been 
+validated, I thought we can go ahead with
+2-2-1 for now.
+
+So rather than giving too much importance to the power aspect of it, the 
+other reasons should also
+be highlighted here as the main reason and the commit text should give 
+these details as well.
+
+>> 
+>> So for now we blindly create 2,2,1 topology when DSC is enabled
+>> 
+>> Co-developed-by: Abhinav Kumar <abhinavk@codeaurora.org>
+>> Signed-off-by: Abhinav Kumar <abhinavk@codeaurora.org>
+>> Signed-off-by: Vinod Koul <vkoul@kernel.org>
+>> ---
+>>   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 14 ++++++++++++++
+>>   1 file changed, 14 insertions(+)
+>> 
+>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c 
+>> b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+>> index 18cb1274a8bb..bffb40085c67 100644
+>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+>> @@ -609,8 +609,22 @@ static struct msm_display_topology 
+>> dpu_encoder_get_topology(
+>>   	topology.num_enc = 0;
+>>   	topology.num_intf = intf_count;
+>>   +	drm_enc = &dpu_enc->base;
+>> +	priv = drm_enc->dev->dev_private;
+>> +	if (priv && priv->dsc) {
+>> +		/* In case of Display Stream Compression DSC, we would use
+>> +		 * 2 encoders, 2 line mixers and 1 interface
+>> +		 * this is power optimal and can drive upto (including) 4k
+>> +		 * screens
+>> +		 */
+>> +		topology.num_enc = 2;
+>> +		topology.num_intf = 1;
+>> +		topology.num_lm = 2;
+>> +	}
+>> +
+>>   	return topology;
+>>   }
+>> +
+>>   static int dpu_encoder_virt_atomic_check(
+>>   		struct drm_encoder *drm_enc,
+>>   		struct drm_crtc_state *crtc_state,
+>> 
