@@ -1,56 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D540F394B90
-	for <lists+dri-devel@lfdr.de>; Sat, 29 May 2021 12:14:36 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1954C394B8C
+	for <lists+dri-devel@lfdr.de>; Sat, 29 May 2021 12:14:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8A8786E429;
-	Sat, 29 May 2021 10:14:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 174746E196;
+	Sat, 29 May 2021 10:14:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com
  [IPv6:2a00:1450:4864:20::12a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 23D4E6F629
- for <dri-devel@lists.freedesktop.org>; Fri, 28 May 2021 20:31:02 +0000 (UTC)
-Received: by mail-lf1-x12a.google.com with SMTP id i9so7021207lfe.13
- for <dri-devel@lists.freedesktop.org>; Fri, 28 May 2021 13:31:02 -0700 (PDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7CD1C6F62A
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 May 2021 20:31:06 +0000 (UTC)
+Received: by mail-lf1-x12a.google.com with SMTP id a5so7141210lfm.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 May 2021 13:31:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=vuoM3pI1kbUC5NFBrjLCZhuScVL8DqZ8CBiPpQoVDh0=;
- b=YaxDu+1PlL4rDOFbzA9sK4Pfrvy1JMkgAtk3bsAgr+ODyNM/u9UIK/3Ddcs4lvMK5e
- lL9fFlx90VghFJ16RPRzM6yaUj/oZs8L4MPv5mWkLCdtPgUksXWgRsNxZXpXqzpu0tf4
- Wc5SBK8v4vSDKK61M6HX0y+kI836ITvBpWw/qSYiVV04M1jJ051F4F4ukdwCGtNmJDUi
- 6jhggtHqvnDS4FPSZPvsdheUGDH6hW9XkRLQg7jUFb1K96c1i6Gz7Yk5g5Dub+DEjg51
- o06QTgU9h/KBaWsbOtvIv3hqEzPHeVtJ+aNUUQhF5HegWquVYjfebEczd0HDKYWGztPD
- jzpw==
+ bh=v8xVloNSwUArvoTMkBR5f76XblNpfoHgt5cDxTC0lU8=;
+ b=qmiGFj0YDzYpAbQdR8x5Yzw+RgFdcINbUhgY4M21l4IJXs3PC9WFQmgtnicUC17QC3
+ tvEQFiPhz/LgUV+zVIz0f9bOc1eLNAqHT9nqdkTw2BKI4riBH5yLSiVtYkgjXJWadpQM
+ eZc5uIH934rlRmuMCTXpUqAmsYEaJqUW3h9grB9YcF9jr4ccC0kfzXMQj8dnmzIwQ7GQ
+ LkhbfM51jjv6rf0ohZQfwv/wd5T8gQlbTXG7M+IjmN4+LR7i0MLmQphbH7MZ3h+sR/Wb
+ Et4zhpi32ekhRkJE3WQ82gV+ZZFhsZrlePlKJwudDsCAKn6tNFacB878DtYadF+U/GZu
+ /1og==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=vuoM3pI1kbUC5NFBrjLCZhuScVL8DqZ8CBiPpQoVDh0=;
- b=GbjhsmW+RREHhbTN/FQfkJIiS4CuuwC7HBr9dm3i85CkOXE7cxUQro1k0qV0XWY/kw
- wvnCSaYxp/dAwgXJe62iHksGknsskKruSrUz6MRrd9Jcnpq67+KyYM8FeLQ+7ssLrpbm
- YQeU5hwWqvE2NEAAYn4M70v7FmTMNvSMbQfg5BYb3cwCUrNybAmwtLa4nHZq56JEblyb
- IAKGZs5/WmsDgWua1SMiEu0AnezOLXhz7H8XJinuOk6+8RSvmshz/H760l0w/3Bnt5Tx
- 1fKgMstBoq2CUuyxWI0J0Vfg/VyRfthJ7CIUjHfh/a+O2LG3FrT97qsS2ksR2AyjUg5Z
- Y6Kg==
-X-Gm-Message-State: AOAM533ahrf3sBwpzFJDhk2NfdV7hDxQco8S4HvbfRcMGRckrZYjzu/D
- udcv+YfmEBQEusktbSSN7VE=
-X-Google-Smtp-Source: ABdhPJyNO4+/xp6BFlx0xfuncqzgNoZ2hriV1Z4J3oSHun1F/RLW8ffaXQVu2FhKGT7E6WASEyCDrg==
-X-Received: by 2002:a05:6512:2393:: with SMTP id
- c19mr6479223lfv.652.1622233861285; 
- Fri, 28 May 2021 13:31:01 -0700 (PDT)
+ bh=v8xVloNSwUArvoTMkBR5f76XblNpfoHgt5cDxTC0lU8=;
+ b=W70H6i8HvETn2IFQNTB0BCs0NqeJW0AVCwDNoCdz4gl0+8O7DEwTSXrUvItwd7aaNA
+ rLJxl3LVdt68ywQ7TjjD447KnVZXXCze4SDQDX/1MWavEzCLjZX7p0DXbE/9pWY3sSEw
+ yQPu8TWFWNmAa+zYNVROOaetYdQ2Z3D+8RazcTC7xDTmgDJxVSTC9ohDvl4ThXw3Ljwc
+ cpkOl3GtMDZdY2cmvV4BzbUWFcB2WUEHW+O+jI0ZSDFKG3lOMsy4Xg27MkOn0VRTB2Dh
+ w0e+zg+JpTH1z1Ni7xJf0IfOHc28/6gHO5Zx6uTHqanMTfa1D9qoKApzKuy65JDLCS6A
+ sfQg==
+X-Gm-Message-State: AOAM531HXwG4nYXwqHy3Cs5wugKa5LBFP4G2biSHcuOuTjPQOsY8dPQ+
+ GmAC9lGEknvOXE9iINOUr5Q=
+X-Google-Smtp-Source: ABdhPJxvftq8FIoOxl5fmCcw1FqBhlWR+H/WUS+YRoLHTZHCt928nPBZeARvGEfkoohxkBgbI7JSYA==
+X-Received: by 2002:a05:6512:31c2:: with SMTP id
+ j2mr6708560lfe.69.1622233864968; 
+ Fri, 28 May 2021 13:31:04 -0700 (PDT)
 Received: from roman-S500CA.. (72-28-179-94.pool.ukrtel.net. [94.179.28.72])
- by smtp.gmail.com with ESMTPSA id a12sm655820ljk.34.2021.05.28.13.30.59
+ by smtp.gmail.com with ESMTPSA id a12sm655820ljk.34.2021.05.28.13.31.03
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 28 May 2021 13:31:00 -0700 (PDT)
+ Fri, 28 May 2021 13:31:04 -0700 (PDT)
 From: Roman Stratiienko <r.stratiienko@gmail.com>
 To: linux-kernel@vger.kernel.org
-Subject: [PATCH v4 1/2] drm/sun4i: Add mode_set callback to the engine
-Date: Fri, 28 May 2021 23:30:35 +0300
-Message-Id: <20210528203036.17999-2-r.stratiienko@gmail.com>
+Subject: [PATCH v4 2/2] drm/sun4i: Use CRTC size instead of primary plane size
+ as mixer frame
+Date: Fri, 28 May 2021 23:30:36 +0300
+Message-Id: <20210528203036.17999-3-r.stratiienko@gmail.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210528203036.17999-1-r.stratiienko@gmail.com>
 References: <20210528203036.17999-1-r.stratiienko@gmail.com>
@@ -75,59 +76,101 @@ Cc: megous@megous.com, jernej.skrabec@siol.net, linux-sunxi@googlegroups.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Create callback to allow updating engine's registers on mode change.
+Fixes corrupted display picture when primary plane isn't full-screen.
 
 Signed-off-by: Roman Stratiienko <r.stratiienko@gmail.com>
-Reviewed-by: Jernej Skrabec <jernej.skrabec@siol.net>
 ---
- drivers/gpu/drm/sun4i/sun4i_crtc.c   |  3 +++
- drivers/gpu/drm/sun4i/sunxi_engine.h | 12 ++++++++++++
- 2 files changed, 15 insertions(+)
+ drivers/gpu/drm/sun4i/sun8i_mixer.c    | 28 ++++++++++++++++++++++++
+ drivers/gpu/drm/sun4i/sun8i_ui_layer.c | 30 --------------------------
+ 2 files changed, 28 insertions(+), 30 deletions(-)
 
-diff --git a/drivers/gpu/drm/sun4i/sun4i_crtc.c b/drivers/gpu/drm/sun4i/sun4i_crtc.c
-index 45d9eb552d86..8f01a6b2bbef 100644
---- a/drivers/gpu/drm/sun4i/sun4i_crtc.c
-+++ b/drivers/gpu/drm/sun4i/sun4i_crtc.c
-@@ -146,6 +146,9 @@ static void sun4i_crtc_mode_set_nofb(struct drm_crtc *crtc)
- 	struct sun4i_crtc *scrtc = drm_crtc_to_sun4i_crtc(crtc);
- 
- 	sun4i_tcon_mode_set(scrtc->tcon, encoder, mode);
-+
-+	if (scrtc->engine->ops->mode_set)
-+		scrtc->engine->ops->mode_set(scrtc->engine, mode);
+diff --git a/drivers/gpu/drm/sun4i/sun8i_mixer.c b/drivers/gpu/drm/sun4i/sun8i_mixer.c
+index 5b42cf25cc86..810c731566c0 100644
+--- a/drivers/gpu/drm/sun4i/sun8i_mixer.c
++++ b/drivers/gpu/drm/sun4i/sun8i_mixer.c
+@@ -248,6 +248,33 @@ int sun8i_mixer_drm_format_to_hw(u32 format, u32 *hw_format)
+ 	return -EINVAL;
  }
  
- static const struct drm_crtc_helper_funcs sun4i_crtc_helper_funcs = {
-diff --git a/drivers/gpu/drm/sun4i/sunxi_engine.h b/drivers/gpu/drm/sun4i/sunxi_engine.h
-index 548710a936d5..7faa844646ff 100644
---- a/drivers/gpu/drm/sun4i/sunxi_engine.h
-+++ b/drivers/gpu/drm/sun4i/sunxi_engine.h
-@@ -9,6 +9,7 @@
- struct drm_plane;
- struct drm_device;
- struct drm_crtc_state;
-+struct drm_display_mode;
- 
- struct sunxi_engine;
- 
-@@ -108,6 +109,17 @@ struct sunxi_engine_ops {
- 	 * This function is optional.
- 	 */
- 	void (*vblank_quirk)(struct sunxi_engine *engine);
++static void sun8i_mode_set(struct sunxi_engine *engine,
++			   struct drm_display_mode *mode)
++{
++	u32 size = SUN8I_MIXER_SIZE(mode->crtc_hdisplay, mode->crtc_vdisplay);
++	struct sun8i_mixer *mixer = engine_to_sun8i_mixer(engine);
++	u32 bld_base = sun8i_blender_base(mixer);
++	u32 val;
 +
-+	/**
-+	 * @mode_set:
-+	 *
-+	 * This callback is used to update engine registers that
-+	 * responsible for display frame size and other mode attributes.
-+	 *
-+	 * This function is optional.
-+	 */
-+	void (*mode_set)(struct sunxi_engine *engine,
-+			 struct drm_display_mode *mode);
++	DRM_DEBUG_DRIVER("Mode change, updating global size W: %u H: %u\n",
++			 mode->crtc_hdisplay, mode->crtc_vdisplay);
++	regmap_write(mixer->engine.regs, SUN8I_MIXER_GLOBAL_SIZE, size);
++	regmap_write(mixer->engine.regs,
++		     SUN8I_MIXER_BLEND_OUTSIZE(bld_base), size);
++
++	if (mode->flags & DRM_MODE_FLAG_INTERLACE)
++		val = SUN8I_MIXER_BLEND_OUTCTL_INTERLACED;
++	else
++		val = 0;
++
++	regmap_update_bits(mixer->engine.regs,
++			   SUN8I_MIXER_BLEND_OUTCTL(bld_base),
++			   SUN8I_MIXER_BLEND_OUTCTL_INTERLACED,
++			   val);
++	DRM_DEBUG_DRIVER("Switching display mixer interlaced mode %s\n",
++			 val ? "on" : "off");
++}
++
+ static void sun8i_mixer_commit(struct sunxi_engine *engine)
+ {
+ 	DRM_DEBUG_DRIVER("Committing changes\n");
+@@ -301,6 +328,7 @@ static struct drm_plane **sun8i_layers_init(struct drm_device *drm,
+ static const struct sunxi_engine_ops sun8i_engine_ops = {
+ 	.commit		= sun8i_mixer_commit,
+ 	.layers_init	= sun8i_layers_init,
++	.mode_set	= sun8i_mode_set,
  };
  
- /**
+ static const struct regmap_config sun8i_mixer_regmap_config = {
+diff --git a/drivers/gpu/drm/sun4i/sun8i_ui_layer.c b/drivers/gpu/drm/sun4i/sun8i_ui_layer.c
+index 0db164a774a1..d66fff582278 100644
+--- a/drivers/gpu/drm/sun4i/sun8i_ui_layer.c
++++ b/drivers/gpu/drm/sun4i/sun8i_ui_layer.c
+@@ -120,36 +120,6 @@ static int sun8i_ui_layer_update_coord(struct sun8i_mixer *mixer, int channel,
+ 	insize = SUN8I_MIXER_SIZE(src_w, src_h);
+ 	outsize = SUN8I_MIXER_SIZE(dst_w, dst_h);
+ 
+-	if (plane->type == DRM_PLANE_TYPE_PRIMARY) {
+-		bool interlaced = false;
+-		u32 val;
+-
+-		DRM_DEBUG_DRIVER("Primary layer, updating global size W: %u H: %u\n",
+-				 dst_w, dst_h);
+-		regmap_write(mixer->engine.regs,
+-			     SUN8I_MIXER_GLOBAL_SIZE,
+-			     outsize);
+-		regmap_write(mixer->engine.regs,
+-			     SUN8I_MIXER_BLEND_OUTSIZE(bld_base), outsize);
+-
+-		if (state->crtc)
+-			interlaced = state->crtc->state->adjusted_mode.flags
+-				& DRM_MODE_FLAG_INTERLACE;
+-
+-		if (interlaced)
+-			val = SUN8I_MIXER_BLEND_OUTCTL_INTERLACED;
+-		else
+-			val = 0;
+-
+-		regmap_update_bits(mixer->engine.regs,
+-				   SUN8I_MIXER_BLEND_OUTCTL(bld_base),
+-				   SUN8I_MIXER_BLEND_OUTCTL_INTERLACED,
+-				   val);
+-
+-		DRM_DEBUG_DRIVER("Switching display mixer interlaced mode %s\n",
+-				 interlaced ? "on" : "off");
+-	}
+-
+ 	/* Set height and width */
+ 	DRM_DEBUG_DRIVER("Layer source offset X: %d Y: %d\n",
+ 			 state->src.x1 >> 16, state->src.y1 >> 16);
 -- 
 2.30.2
 
