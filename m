@@ -2,28 +2,31 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A623C394B88
-	for <lists+dri-devel@lfdr.de>; Sat, 29 May 2021 12:14:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 103C9393FF8
+	for <lists+dri-devel@lfdr.de>; Fri, 28 May 2021 11:29:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 34C276E14C;
-	Sat, 29 May 2021 10:14:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 39CC66EDE8;
+	Fri, 28 May 2021 09:29:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1871B6E3D2
- for <dri-devel@lists.freedesktop.org>; Fri, 28 May 2021 08:25:42 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 589E7613DA;
- Fri, 28 May 2021 08:25:40 +0000 (UTC)
-From: Huacai Chen <chenhuacai@loongson.cn>
-To: David Airlie <airlied@linux.ie>,
-	Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH] vgaarb: Call vga_arb_device_init() after PCI enumeration
-Date: Fri, 28 May 2021 16:26:07 +0800
-Message-Id: <20210528082607.2015145-1-chenhuacai@loongson.cn>
-X-Mailer: git-send-email 2.27.0
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Sat, 29 May 2021 10:14:11 +0000
+Received: from out30-132.freemail.mail.aliyun.com
+ (out30-132.freemail.mail.aliyun.com [115.124.30.132])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3A88E6EDE8;
+ Fri, 28 May 2021 09:29:30 +0000 (UTC)
+X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R111e4; CH=green; DM=||false|;
+ DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=e01e04400;
+ MF=jiapeng.chong@linux.alibaba.com; NM=1; PH=DS; RN=11; SR=0;
+ TI=SMTPD_---0UaMfT3T_1622194161; 
+Received: from
+ j63c13417.sqa.eu95.tbsite.net(mailfrom:jiapeng.chong@linux.alibaba.com
+ fp:SMTPD_---0UaMfT3T_1622194161) by smtp.aliyun-inc.com(127.0.0.1);
+ Fri, 28 May 2021 17:29:27 +0800
+From: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
+To: alexander.deucher@amd.com
+Subject: [PATCH v3] amdgpu: remove unreachable code
+Date: Fri, 28 May 2021 17:29:18 +0800
+Message-Id: <1622194158-70898-1-git-send-email-jiapeng.chong@linux.alibaba.com>
+X-Mailer: git-send-email 1.8.3.1
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -36,33 +39,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Xuefeng Li <lixuefeng@loongson.cn>, dri-devel@lists.freedesktop.org,
- Huacai Chen <chenhuacai@loongson.cn>
+Cc: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>, airlied@linux.ie,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, amd-gfx@lists.freedesktop.org,
+ christian.koenig@amd.com, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-We should call vga_arb_device_init() after PCI enumeration, otherwise it
-may fail to select the default VGA device. Since vga_arb_device_init()
-and PCI enumeration function (i.e., pcibios_init() or acpi_init()) are
-both wrapped by subsys_initcall(), their sequence is not assured. So, we
-use subsys_initcall_sync() instead of subsys_initcall() to wrap vga_arb_
-device_init().
+In the function amdgpu_uvd_cs_msg(), every branch in the switch
+statement will have a return, so the code below the switch statement
+will not be executed.
 
-Signed-off-by: Huacai Chen <chenhuacai@loongson.cn>
+Eliminate the follow smatch warning:
+
+drivers/gpu/drm/amd/amdgpu/amdgpu_uvd.c:845 amdgpu_uvd_cs_msg() warn:
+ignoring unreachable code.
+
+Reported-by: Abaci Robot <abaci@linux.alibaba.com>
+Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
 ---
- drivers/gpu/vga/vgaarb.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Changes in v2:
+  -For the follow advice: https://lore.kernel.org/patchwork/patch/1435968/
 
-diff --git a/drivers/gpu/vga/vgaarb.c b/drivers/gpu/vga/vgaarb.c
-index 5180c5687ee5..4b8a62af34cf 100644
---- a/drivers/gpu/vga/vgaarb.c
-+++ b/drivers/gpu/vga/vgaarb.c
-@@ -1564,4 +1564,4 @@ static int __init vga_arb_device_init(void)
- 	pr_info("loaded\n");
- 	return rc;
+ drivers/gpu/drm/amd/amdgpu/amdgpu_uvd.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_uvd.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_uvd.c
+index c6dbc08..35f6874 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_uvd.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_uvd.c
+@@ -829,9 +829,8 @@ static int amdgpu_uvd_cs_msg(struct amdgpu_uvd_cs_ctx *ctx,
+ 
+ 	default:
+ 		DRM_ERROR("Illegal UVD message type (%d)!\n", msg_type);
+-		return -EINVAL;
+ 	}
+-	BUG();
++
+ 	return -EINVAL;
  }
--subsys_initcall(vga_arb_device_init);
-+subsys_initcall_sync(vga_arb_device_init);
+ 
 -- 
-2.27.0
+1.8.3.1
 
