@@ -1,59 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8238C394B87
-	for <lists+dri-devel@lfdr.de>; Sat, 29 May 2021 12:14:19 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B55E394B8A
+	for <lists+dri-devel@lfdr.de>; Sat, 29 May 2021 12:14:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 89B306E161;
+	by gabe.freedesktop.org (Postfix) with ESMTP id EB0556E174;
 	Sat, 29 May 2021 10:14:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com
- [IPv6:2a00:1450:4864:20::629])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D27FF6F5BC
- for <dri-devel@lists.freedesktop.org>; Fri, 28 May 2021 13:06:15 +0000 (UTC)
-Received: by mail-ej1-x629.google.com with SMTP id z12so5365153ejw.0
- for <dri-devel@lists.freedesktop.org>; Fri, 28 May 2021 06:06:15 -0700 (PDT)
+Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com
+ [IPv6:2a00:1450:4864:20::62b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C65E86F5BC
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 May 2021 13:06:16 +0000 (UTC)
+Received: by mail-ej1-x62b.google.com with SMTP id jt22so5247467ejb.7
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 May 2021 06:06:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=UbLfIFthjQtZlat7RQdN/8yMEDgpJIwnw/QpuFVzqeI=;
- b=E7bhan7NhUuVUJZuxUfPhvZxTg20U/P/6O1vrBdsdaL6+UjcvkjtNpH5Ouw2M61oq/
- uCrsNHccZda3hmuSWGImGDMoetf+MXqY8I7qHmeKSj0rYmhYsTX3c0SADTxs+N5T253j
- FeLN0rT50121dOaZqRKF7xH9TqN1G5ZokSmm7BB/7YYikDeB5HGptZuz/0nNlnVmA1wU
- OP4tqM+ieLqZvPVvHxr4b86HX0ZcMfGIX45K7zABxJBSpu0oy+01sPe9n69J+P5V9Mpd
- DeHfmIKnF7jV64fWLBRNrembZ4KsUZ72hg5W95Ifa6iiwEX10YlSJdz9fwjhnvl2Pk3w
- iT5g==
+ bh=HCinzeYxY1ACn5rVFsalymDNpiU4s0UULJ02Uf8Q/Xg=;
+ b=fZyN+lO4LFqwFoO/0z3KNjFxtMLxQzWT8zoJyQ7UJJup0gRGyBHAsep+UMq5f4nWyc
+ 0dp/kp10b0V7xAJFvPPLIO1dEti3HqArWKb/SZjPk4YqBwM2hTL6l5Ve5ptRtAng3zQE
+ NN6cKmdmx/aOBVkXGJuxBRbsj/VBxffvNjhIhChQSMVXTN978VZqmTDXOqBhn0EOStkZ
+ mJb56Mn7hS1E3IwqB22Nn9zm4hH6SAPO5xfaDFcprAnzYYd8unjZ5AWA0HHMukiyM7DZ
+ FmBYvtR+wE/lHOm5Iym4enQmYTGcKS4A7Ze4u4IQW1kDyOL/lcndOEV7P2go2GNDIm4W
+ /pXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=UbLfIFthjQtZlat7RQdN/8yMEDgpJIwnw/QpuFVzqeI=;
- b=GxlxEVbe9PfEebYQrQfhnLqlKlVB5DOQrzTMojenuTAQQUEXaf5MYJi6oGDV41Eb9B
- N0C6vC4/wgUNzRQNIA/H54ACDEpVkP+HgyaZtO6mXO8Wkq+MCHR+JgcQErgSQ3u+nhjS
- MpuQhjo9kuoEuugS8tdNLIQCi3sgrgAutSgiaWmq4hyhCXVdPgU9OKUyOi0VwS7fjfI7
- ToJodv60/wKlnYRs0K8y3Ml4qH50nti3hJ/zhM8OhrR2WwLbeZazVkbYZ8ElhQyE8Vfz
- dD9TV2ICL/0sg/JHtHHKklz7L1FbgqJplE1Y5qqOvW5KQd31k66p96PAIWb1opfFNQmG
- N7lw==
-X-Gm-Message-State: AOAM533KAeSXL4fuq8UKmswQTHhiuwQ/GdChwLOacWu0v9vwgra4sSMu
- coEyMwL+sERyarqqwEwDXg==
-X-Google-Smtp-Source: ABdhPJzwwAQrY+FztbwSr53CEKhDkKAur6hWhbtxnRbmwG3xEJRjfGri3LkImQAzeg5HEwQJjikb5A==
-X-Received: by 2002:a17:906:7a13:: with SMTP id
- d19mr6110323ejo.69.1622207174527; 
- Fri, 28 May 2021 06:06:14 -0700 (PDT)
+ bh=HCinzeYxY1ACn5rVFsalymDNpiU4s0UULJ02Uf8Q/Xg=;
+ b=nUTwz+k3/bZaoOBmy5aOh69TR77wnZmYSzJcTSTQL5tvjo0FgRrqF+BH7NPvKbhjwx
+ Z2N4tZGxsiNjk0r2IVYdgLqgESnXFIl6jNrNjkOVJEqSJhqp1Sg5XCXfZgqfYEP+Bg5e
+ kV1bGsQS6PoBY6GakyXZ59YLI4N1psBeNqx8sieLFRw+S9FZnZgwdttHKsc+HXXVh+x0
+ QqULwMpJUtfk8k1hK3HIq9dCrGOP+EnQg2zxOPMPY752kgkWLkRnXkfBF/2WMIfXljMG
+ NwNBfCR9NKwyLkYXVGWZtd1iEsx55brMVKPsYwSWWsq0CrDkbYpnUkeruUjeNdkMTR60
+ R5GQ==
+X-Gm-Message-State: AOAM532HvRg5wyJv87EkqxYc9DR54xdIfZt8nCitwdSjcYCB7Y0y3Qa/
+ CM4owcCCunVIih4Ekr83WQ==
+X-Google-Smtp-Source: ABdhPJxTQMDcAVUJtuWxOiFDEOTvOyxEsGOfb0YMDTG/HlvUeVbiyINIs4BEhRPMAergrBzosF8RKw==
+X-Received: by 2002:a17:907:37b:: with SMTP id
+ rs27mr9151356ejb.287.1622207175489; 
+ Fri, 28 May 2021 06:06:15 -0700 (PDT)
 Received: from localhost.localdomain (ip4d17b4b8.dynamic.kabel-deutschland.de.
  [77.23.180.184])
- by smtp.googlemail.com with ESMTPSA id u21sm2322778ejg.50.2021.05.28.06.06.13
+ by smtp.googlemail.com with ESMTPSA id u21sm2322778ejg.50.2021.05.28.06.06.14
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 28 May 2021 06:06:14 -0700 (PDT)
+ Fri, 28 May 2021 06:06:15 -0700 (PDT)
 From: Alex Bee <knaerzche@gmail.com>
 To: Sandy Huang <hjc@rock-chips.com>, Heiko Stuebner <heiko@sntech.de>,
  Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
  dri-devel@lists.freedesktop.org, linux-rockchip@lists.infradead.org
-Subject: [PATCH v3 1/5] drm: rockchip: add scaling for RK3036 win1
-Date: Fri, 28 May 2021 15:05:50 +0200
-Message-Id: <20210528130554.72191-2-knaerzche@gmail.com>
+Subject: [PATCH v3 2/5] drm: rockchip: add missing registers for RK3188
+Date: Fri, 28 May 2021 15:05:51 +0200
+Message-Id: <20210528130554.72191-3-knaerzche@gmail.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20210528130554.72191-1-knaerzche@gmail.com>
 References: <20210528130554.72191-1-knaerzche@gmail.com>
@@ -77,52 +77,37 @@ Cc: David Airlie <airlied@linux.ie>, Alex Bee <knaerzche@gmail.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add the registers needed to make scaling work on RK3036's win1.
+Add dither_up, dsp_lut_en and data_blank registers to enable their
+respective functionality for RK3188's VOP.
+While at that also fix .dsp_blank register which is (only) set with
+BIT24 (same as RK3066)
 
 Signed-off-by: Alex Bee <knaerzche@gmail.com>
 ---
 
  Changes in v2:
- - rephrase commit message
+ - drop the not yet upstreamed dsp_data_swap and rephrase the commit
+   message according
 
- drivers/gpu/drm/rockchip/rockchip_vop_reg.c | 10 ++++++++--
- 1 file changed, 8 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/rockchip/rockchip_vop_reg.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/gpu/drm/rockchip/rockchip_vop_reg.c b/drivers/gpu/drm/rockchip/rockchip_vop_reg.c
-index 80053d91a301..b046910129fb 100644
+index b046910129fb..2aa6d937a078 100644
 --- a/drivers/gpu/drm/rockchip/rockchip_vop_reg.c
 +++ b/drivers/gpu/drm/rockchip/rockchip_vop_reg.c
-@@ -77,15 +77,20 @@ static const uint64_t format_modifiers_win_lite[] = {
- 	DRM_FORMAT_MOD_INVALID,
+@@ -511,7 +511,10 @@ static const struct vop_common rk3188_common = {
+ 	.dither_down_sel = VOP_REG(RK3188_DSP_CTRL0, 0x1, 27),
+ 	.dither_down_en = VOP_REG(RK3188_DSP_CTRL0, 0x1, 11),
+ 	.dither_down_mode = VOP_REG(RK3188_DSP_CTRL0, 0x1, 10),
+-	.dsp_blank = VOP_REG(RK3188_DSP_CTRL1, 0x3, 24),
++	.dsp_blank = VOP_REG(RK3188_DSP_CTRL1, 0x1, 24),
++	.dither_up = VOP_REG(RK3188_DSP_CTRL0, 0x1, 9),
++	.dsp_lut_en = VOP_REG(RK3188_SYS_CTRL, 0x1, 28),
++	.data_blank = VOP_REG(RK3188_DSP_CTRL1, 0x1, 25),
  };
  
--static const struct vop_scl_regs rk3036_win_scl = {
-+static const struct vop_scl_regs rk3036_win0_scl = {
- 	.scale_yrgb_x = VOP_REG(RK3036_WIN0_SCL_FACTOR_YRGB, 0xffff, 0x0),
- 	.scale_yrgb_y = VOP_REG(RK3036_WIN0_SCL_FACTOR_YRGB, 0xffff, 16),
- 	.scale_cbcr_x = VOP_REG(RK3036_WIN0_SCL_FACTOR_CBR, 0xffff, 0x0),
- 	.scale_cbcr_y = VOP_REG(RK3036_WIN0_SCL_FACTOR_CBR, 0xffff, 16),
- };
- 
-+static const struct vop_scl_regs rk3036_win1_scl = {
-+	.scale_yrgb_x = VOP_REG(RK3036_WIN1_SCL_FACTOR_YRGB, 0xffff, 0x0),
-+	.scale_yrgb_y = VOP_REG(RK3036_WIN1_SCL_FACTOR_YRGB, 0xffff, 16),
-+};
-+
- static const struct vop_win_phy rk3036_win0_data = {
--	.scl = &rk3036_win_scl,
-+	.scl = &rk3036_win0_scl,
- 	.data_formats = formats_win_full,
- 	.nformats = ARRAY_SIZE(formats_win_full),
- 	.format_modifiers = format_modifiers_win_full,
-@@ -102,6 +107,7 @@ static const struct vop_win_phy rk3036_win0_data = {
- };
- 
- static const struct vop_win_phy rk3036_win1_data = {
-+	.scl = &rk3036_win1_scl,
- 	.data_formats = formats_win_lite,
- 	.nformats = ARRAY_SIZE(formats_win_lite),
- 	.format_modifiers = format_modifiers_win_lite,
+ static const struct vop_win_data rk3188_vop_win_data[] = {
 -- 
 2.27.0
 
