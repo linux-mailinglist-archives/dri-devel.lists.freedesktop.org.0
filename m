@@ -2,69 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC41F394315
-	for <lists+dri-devel@lfdr.de>; Fri, 28 May 2021 14:59:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 585EF39431C
+	for <lists+dri-devel@lfdr.de>; Fri, 28 May 2021 15:00:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 071A46E507;
-	Fri, 28 May 2021 12:59:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 844C46F5B3;
+	Fri, 28 May 2021 13:00:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x733.google.com (mail-qk1-x733.google.com
- [IPv6:2607:f8b0:4864:20::733])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0958F6F5B3
- for <dri-devel@lists.freedesktop.org>; Fri, 28 May 2021 12:59:32 +0000 (UTC)
-Received: by mail-qk1-x733.google.com with SMTP id v8so3969014qkv.1
- for <dri-devel@lists.freedesktop.org>; Fri, 28 May 2021 05:59:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=marek-ca.20150623.gappssmtp.com; s=20150623;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=QkS67PNWJLrMlG0Eh1DFrl12I+MHfh0CuXPqyN2o9Jk=;
- b=RoE5+ne+IEtUIwJTmkaKAmIW8xmlFFiZyFu+RXc8Xtk3xP3WS2cnNmBkmt0rGcwaq/
- qb2PuixGE3rnUfQLjmTJ60OtadS6WqwIMVT+H21njXbcac9gUxl4ua+OaRnV6dmBPQGk
- cCjgQ0xixLesraJ7oA4Tw1q7d1IW86tp8+qcQKQmnLrhSW2W5PPT0vIu/dA7120u6STL
- lP8WtyfVW1q00VzSS8n+0giUcaceB12ncIClUcgKgzU6JWAGYtnVT6Fs+IJQA/a+kbEy
- bbqVyqPOW610wOc+b5AIAlA2tuOsdLLB6pV2bXvQM/3xs04eGLgpqeh/VYCtDPtFmGeu
- NfYQ==
+Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com
+ [IPv6:2a00:1450:4864:20::633])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C106D6F5B3
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 May 2021 13:00:43 +0000 (UTC)
+Received: by mail-ej1-x633.google.com with SMTP id b9so5139157ejc.13
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 May 2021 06:00:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=aV4RNQFd9h1iMvLlTaI3u1NZqr/MIuuHCtQsn5vMoFA=;
+ b=KSYt/MIMDDHjxNRlxNM0nco+Egb1hALhTW9691mB41GCisVpZH52W04Mr1ZaxMOF+N
+ t39t5jbN6d9J4w5ytnSFsxZUl8tDNYwM2+yAZ5s8kFmelLPJkuvfacRKftKNGcFtUBLi
+ 0Q5b7zXkk+pOAU7czpr/KyKuxYl272/lDdh5wfmpNEa2EqgSxwQbiYwVr3Td01CuvtT0
+ AFcPjaGfS2B1WJ0wr3rXj0rfWYewsJowMzE7k9uL62Erfr9T+6PBs/8OYJ8BtmhhxGYZ
+ XLC2u4HBXsGR8JC9VzBlu4pynz5VACP2BeZvEDQt6a83n3c2LrDQFG5qWmQDHJcOwLgk
+ 7qcw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=QkS67PNWJLrMlG0Eh1DFrl12I+MHfh0CuXPqyN2o9Jk=;
- b=ll+9FuHxIMVLOAvFp+0QFxmkmvLKEiufcUIjONIgdghOFwbGh6qkUNVGL/jYszZyL0
- vNp89wmDKqOEgV4NhmGbuw9GJMMlJng9hf73YLz+bOdZRIDi4ePV0pxptyREOvG+OwMO
- bO8tTFJAWGWYHtELAeUZuhiXaYVmf2IHNr9+kRZTaftFBdOd7Ww4/YH8DzVu+wljoEmY
- LRRLqKk+cIjud7CMnloUK9X1CqGhMA9Z2VFMkbuY2U11rsLLL39s++2fJEZ3zT/8YYja
- NtsfAZZHhN8A7fl7Sr48jOupx2U1OaouhdLgR5J5aj1qRgOco3Q/0LnfMpT21RQXh3U+
- rmGA==
-X-Gm-Message-State: AOAM530zNrUm49yY0kS21qSSqOARHc12G+SVlk2qsFDUFn7V/9FiOSTP
- cFvsB2tAllDMF6VxYxu+4vb9WQ==
-X-Google-Smtp-Source: ABdhPJzrZ6/fmuomvi1UY7oEviJSluEuJL6Gjb+/l1q88tzyHFRCD8yK7EweolQnqF3+MS3DPRFyUQ==
-X-Received: by 2002:a05:620a:745:: with SMTP id
- i5mr3821434qki.324.1622206771962; 
- Fri, 28 May 2021 05:59:31 -0700 (PDT)
-Received: from [192.168.0.189] (modemcable068.184-131-66.mc.videotron.ca.
- [66.131.184.68])
- by smtp.gmail.com with ESMTPSA id d6sm3525975qkf.109.2021.05.28.05.59.30
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 28 May 2021 05:59:31 -0700 (PDT)
-Subject: Re: [Freedreno] [PATCH v2 2/2] dt-bindings: display: msm/dsi: add
- qcom, dsi-phy-cphy-mode option
-To: Rob Herring <robh@kernel.org>
-References: <20210423172450.4885-1-jonathan@marek.ca>
- <20210423172450.4885-3-jonathan@marek.ca>
- <20210503171139.GA2011901@robh.at.kernel.org>
-From: Jonathan Marek <jonathan@marek.ca>
-Message-ID: <0e083e31-d349-6d5c-048f-258414492b2c@marek.ca>
-Date: Fri, 28 May 2021 08:57:59 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+ bh=aV4RNQFd9h1iMvLlTaI3u1NZqr/MIuuHCtQsn5vMoFA=;
+ b=k9Rllz/f12iAyUrgjeM/Tez+meCHZ4Y95wmK2L4tFpYQRxt2tuJTkRTHGSXbuKChni
+ WOoLOtdUclykQhn3firTN7r7f5WXj6TQSuftCyWmf9v8hx3VVEqXtvHTGwTpULoadiM0
+ 0RXKk2S+JMu+clFBoDCQTdLN3ZfqmIvRHE94QX5X+kf9vyEqrzssMrbSWgQsWp/C7ThK
+ /LZT6cPw0NyVTXLLibdYrcq/WjB1u/2sQcYk4GK6ytiophWLcHtrAueDs37xin4aagx4
+ quGABhUFgS8H0ygcBXaYmCNwxNbwOKdbovoq0dKMv5mA1vUIbKUFpdWhnhm8X5S8pz9O
+ DkHg==
+X-Gm-Message-State: AOAM531b7XwOKBBnGcflgrMaPPkGoljt4BjzM9anEHOq8b7zdjqWAQ8l
+ U9ewmM3JDCBkPZlrsGuywUH4UzboY1I=
+X-Google-Smtp-Source: ABdhPJzaHbDTp7Ne9Yr97LsHL+66923ilwHp8gtD0RJSFg8iA8XASTmWjuAvPlexg3gnALSaOdShww==
+X-Received: by 2002:a17:907:a06b:: with SMTP id
+ ia11mr8669984ejc.528.1622206842375; 
+ Fri, 28 May 2021 06:00:42 -0700 (PDT)
+Received: from abel.fritz.box ([2a02:908:1252:fb60:c4d5:7196:c6bc:fb88])
+ by smtp.gmail.com with ESMTPSA id t14sm2685542edv.27.2021.05.28.06.00.41
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 28 May 2021 06:00:42 -0700 (PDT)
+From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
+X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
+ <christian.koenig@amd.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/ttm: fix deref of bo->ttm without holding the lock v2
+Date: Fri, 28 May 2021 15:00:41 +0200
+Message-Id: <20210528130041.1683-1-christian.koenig@amd.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <20210503171139.GA2011901@robh.at.kernel.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,28 +69,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sean Paul <sean@poorly.run>,
- "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, David Airlie <airlied@linux.ie>,
- "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
- open list <linux-kernel@vger.kernel.org>,
- "open list:DRM DRIVER FOR MSM ADRENO GPU" <dri-devel@lists.freedesktop.org>,
- freedreno@lists.freedesktop.org
+Cc: thomas.hellstrom@linux.intel.com, Xinhui.Pan@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 5/3/21 1:11 PM, Rob Herring wrote:
-> On Fri, Apr 23, 2021 at 01:24:40PM -0400, Jonathan Marek wrote:
->> Document qcom,dsi-phy-cphy-mode option, which can be used to control
->> whether DSI will operate in D-PHY (default) or C-PHY mode.
-> 
-> Given this is a standard MIPI thing, I think this needs to be a common
-> property. We already have phy bindings that use the phy cells to set the
-> phy type which I think you should use here. See
-> include/dt-bindings/phy/phy.h.
-> 
+We need to grab the resv lock first before doing that check.
 
-Is it OK to simply change the option to something like "phy-mode = 
-<PHY_TYPE_DSI_CPHY>;"?
+v2 (chk): simplify the change for -fixes
 
-(using phy-cells would be annoying to implement, with no benefit IMO)
+Signed-off-by: Christian König <christian.koenig@amd.com>
+Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+---
+ drivers/gpu/drm/ttm/ttm_bo.c     | 5 ++++-
+ drivers/gpu/drm/ttm/ttm_device.c | 8 +-------
+ 2 files changed, 5 insertions(+), 8 deletions(-)
+
+diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
+index cfd0b9292397..ebcffe794adb 100644
+--- a/drivers/gpu/drm/ttm/ttm_bo.c
++++ b/drivers/gpu/drm/ttm/ttm_bo.c
+@@ -1172,7 +1172,10 @@ int ttm_bo_swapout(struct ttm_buffer_object *bo, struct ttm_operation_ctx *ctx,
+ 	if (!ttm_bo_evict_swapout_allowable(bo, ctx, &locked, NULL))
+ 		return -EBUSY;
+ 
+-	if (!ttm_bo_get_unless_zero(bo)) {
++	if (!bo->ttm || !ttm_tt_is_populated(bo->ttm) ||
++	    bo->ttm->page_flags & TTM_PAGE_FLAG_SG ||
++	    bo->ttm->page_flags & TTM_PAGE_FLAG_SWAPPED ||
++	    !ttm_bo_get_unless_zero(bo)) {
+ 		if (locked)
+ 			dma_resv_unlock(bo->base.resv);
+ 		return -EBUSY;
+diff --git a/drivers/gpu/drm/ttm/ttm_device.c b/drivers/gpu/drm/ttm/ttm_device.c
+index a1dcf7d55c90..3d9c62b93e29 100644
+--- a/drivers/gpu/drm/ttm/ttm_device.c
++++ b/drivers/gpu/drm/ttm/ttm_device.c
+@@ -143,14 +143,8 @@ int ttm_device_swapout(struct ttm_device *bdev, struct ttm_operation_ctx *ctx,
+ 
+ 		for (j = 0; j < TTM_MAX_BO_PRIORITY; ++j) {
+ 			list_for_each_entry(bo, &man->lru[j], lru) {
+-				uint32_t num_pages;
++				uint32_t num_pages = PFN_UP(bo->base.size);
+ 
+-				if (!bo->ttm || !ttm_tt_is_populated(bo->ttm) ||
+-				    bo->ttm->page_flags & TTM_PAGE_FLAG_SG ||
+-				    bo->ttm->page_flags & TTM_PAGE_FLAG_SWAPPED)
+-					continue;
+-
+-				num_pages = bo->ttm->num_pages;
+ 				ret = ttm_bo_swapout(bo, ctx, gfp_flags);
+ 				/* ttm_bo_swapout has dropped the lru_lock */
+ 				if (!ret)
+-- 
+2.25.1
+
