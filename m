@@ -1,55 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7724A393A46
-	for <lists+dri-devel@lfdr.de>; Fri, 28 May 2021 02:31:32 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 18456393A59
+	for <lists+dri-devel@lfdr.de>; Fri, 28 May 2021 02:38:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9A7F16F52B;
-	Fri, 28 May 2021 00:31:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BC08E6F52D;
+	Fri, 28 May 2021 00:38:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com
- [IPv6:2a00:1450:4864:20::130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BEB716F52B
- for <dri-devel@lists.freedesktop.org>; Fri, 28 May 2021 00:31:28 +0000 (UTC)
-Received: by mail-lf1-x130.google.com with SMTP id j6so2708420lfr.11
- for <dri-devel@lists.freedesktop.org>; Thu, 27 May 2021 17:31:28 -0700 (PDT)
+Received: from mail-lj1-x22a.google.com (mail-lj1-x22a.google.com
+ [IPv6:2a00:1450:4864:20::22a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7E77B6F52C
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 May 2021 00:38:50 +0000 (UTC)
+Received: by mail-lj1-x22a.google.com with SMTP id b12so3156470ljp.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 May 2021 17:38:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=nACOEvpFPcdmw/HFjZn82A0S5koii2HQf8n4dSZ8kUc=;
- b=He9atcVUlHOl31CBA9dnNly8sJj3fpy0sjqip4IgivvZiMY6nJj6LKbRS8c4oqRw7w
- xtlA6u58J+k4wpgTjwAiRfSihTmKOQCh3ku8VwR1DE06L0BRvlY6APIjntzcq4rsW4QU
- UNdrYzJTU3pPlsnt5W6uZiuAJs0sjALtd/niqUs8SdPeatLGMZPWCSLM9wlQ5aAbqWxj
- P3buPWbFsHpW/vgtLuLZS1kSUt53VNiXAsvWZs5LEmECxQ0Z2IToJDsSMbafQ0us34wq
- jQW0gC4Ypn/kYPw7f2anjK5Rkio4nslpi8CehAmR+HZWbpGLAd2DFDO/MBjo7bYA/u87
- AjlQ==
+ :cc:content-transfer-encoding;
+ bh=3tZvKVXXK1CrsVCEdwk4kRijURbW1gkRo3MklbEt43g=;
+ b=dzDstQmFnkHnT2yUIYKLBRRBS9fEvHqlCfVDyb072nsd2XLJcbMC9YytfAlVCe02vE
+ w9imrgViRD9UmJFiNPktvwlhL+FSug8rzH1rndJtVlz3QQe+LaHVPjU6VmarHmQVjLz9
+ xf8j7GTU197/jPwSsOeFHBpLr83hJSyRTW1TXntHZd/bB1uAuI+WQ+bhSHrv/SWtMmVd
+ kyaH7en3LnMLvCu2BrfR+25SZJ37jTDiSZTB3f4yqmQeYCEoZnJSe4DbXuwQ/ieUoyZH
+ Yg2q/hN5vESri9Wyb+J0nlja9X++NyijNUy+ePQmji3JkVQ2yCofSythjNO8OPePTRya
+ 28LQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=nACOEvpFPcdmw/HFjZn82A0S5koii2HQf8n4dSZ8kUc=;
- b=mKzP/yy++2d0wxEQJtJS1GLMlulql2EMajYMIM4LPq/lNRaNIbIfkxbPOJa1uzEJhx
- qoX2dY0C/JfOynUMhOjnO+5FJdFBJGGtvay060I6AjSkJwlgJbISk++rK2DdQi6c6k1N
- SedQ9WmJyA4ENXkPFwbEpO2sdqKrFW/pCbIzdGs3Zh7vD5zMWeaaw1EWPZMYnJakGYSC
- M29uF+XGvHPVP8kufHPAELoMkCVtk8Pzh6AnvojDtXGMUv5hH4vRbi1QW9cqXGXEaCmT
- l8Vb8BjmDQK+8lS6aNQaLgTH4SR5Sp5slI/lpDemkUboZl15NNI3FuD+fwSyA81cJFiO
- m1Dg==
-X-Gm-Message-State: AOAM532IJHUOgz5qjoEdgdoNMFbELdOF9CTixmBdic2ymq4QaBA2yM3O
- /o+y63+YQGcXyO2VXrGxgawM9xf6BPZJIiOfM04A9Q==
-X-Google-Smtp-Source: ABdhPJzyNmeLKVoRU1NdOgocbRYiFNBbVgmN0igEpSoGd2uCo/A6lb/ej5LtKxFNhraw8Pjt1blGen8fCMiOv26hz4k=
-X-Received: by 2002:ac2:47e6:: with SMTP id b6mr3909543lfp.649.1622161887248; 
- Thu, 27 May 2021 17:31:27 -0700 (PDT)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=3tZvKVXXK1CrsVCEdwk4kRijURbW1gkRo3MklbEt43g=;
+ b=sXTGSRNaoELSkyrEjIhUNwFDO9IRBVDv4y7mPec7TxOWkEwOSdiTljRmP9acU5vAtf
+ n9xzO0OoIWNVS7OnuQcXg9cVfyIb+Haru6rTYoVALWCKW5v5RrmDMGtSHH581Y4GUoEL
+ Az/p7/z3cI77jEnzoaGPc6kVaL9CHF1Gr0Ncq25mRLxl68Dzmqwy4PSr1JB+yXEG8jVO
+ WpIFokQboWt4a9XdRIEfSsadCRw4eNnSAE6KRPiT1QqBCfLqZOV36r0WiisdHvdjNkut
+ gM+soeFxxwHBGJzwVYpGvaGWbRt6cTtrREfz0fWEEHrSMOkDM6ZNxQIMei9UZJ4Pe00O
+ vMvA==
+X-Gm-Message-State: AOAM530J9opv0JBiRxjl40Xbp1iryuj6HiYFHt7NfT75Ix5yfROJ/nkv
+ QobKplN2XvZtH7TW6yyY9+ff7nW3Zssf6S7YZVl9vBwOgXA=
+X-Google-Smtp-Source: ABdhPJz7njZd2vaMPN20MaL5HfLauAdefifx8indoEE9qbs7jFDoqG1iIPLF/BJ6sjZMAVRNssGVEUTUE+E+NW+cvHo=
+X-Received: by 2002:a05:651c:4c6:: with SMTP id
+ e6mr4571492lji.326.1622162328960; 
+ Thu, 27 May 2021 17:38:48 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210525000159.3384921-1-dianders@chromium.org>
- <20210524165920.v8.4.I79c7ed8815a07d285dd3b38e680e980d1024dbf1@changeid>
-In-Reply-To: <20210524165920.v8.4.I79c7ed8815a07d285dd3b38e680e980d1024dbf1@changeid>
+References: <20210521090959.1663703-1-daniel.vetter@ffwll.ch>
+ <20210521090959.1663703-11-daniel.vetter@ffwll.ch>
+In-Reply-To: <20210521090959.1663703-11-daniel.vetter@ffwll.ch>
 From: Linus Walleij <linus.walleij@linaro.org>
-Date: Fri, 28 May 2021 02:31:16 +0200
-Message-ID: <CACRpkdYxAtD09cgVFd=_rusdVcr5LGF=z=mzG-22enhtRK+NBQ@mail.gmail.com>
-Subject: Re: [PATCH v8 04/11] dt-bindings: drm/aux-bus: Add an example
-To: Douglas Anderson <dianders@chromium.org>
+Date: Fri, 28 May 2021 02:38:38 +0200
+Message-ID: <CACRpkdbZf_cTMppxfC4mM6XZ2YySH7dQ0NCY6v_pfwsdRzLPKA@mail.gmail.com>
+Subject: Re: [PATCH 11/11] drm/tiny: drm_gem_simple_display_pipe_prepare_fb is
+ the default
+To: Daniel Vetter <daniel.vetter@ffwll.ch>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,37 +66,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>,
- "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
- David Airlie <airlied@linux.ie>, MSM <linux-arm-msm@vger.kernel.org>,
- "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>,
- Neil Armstrong <narmstrong@baylibre.com>,
- linux-kernel <linux-kernel@vger.kernel.org>,
- Steev Klimaszewski <steev@kali.org>,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- Stanislav Lisovskiy <stanislav.lisovskiy@intel.com>,
- Andrzej Hajda <a.hajda@samsung.com>, Rob Herring <robh+dt@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Stephen Boyd <swboyd@chromium.org>, Thierry Reding <treding@nvidia.com>,
- Sam Ravnborg <sam@ravnborg.org>
+Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ David Lechner <david@lechnology.com>, Emma Anholt <emma@anholt.net>,
+ Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>,
+ Andrew Jeffery <andrew@aj.id.au>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ =?UTF-8?Q?Noralf_Tr=C3=B8nnes?= <noralf@tronnes.org>,
+ Joel Stanley <joel@jms.id.au>, Thomas Zimmermann <tzimmermann@suse.de>,
+ xen-devel@lists.xenproject.org, Alex Deucher <alexander.deucher@amd.com>,
+ Daniel Vetter <daniel.vetter@intel.com>,
+ Kamlesh Gurudasani <kamlesh.gurudasani@gmail.com>,
+ Sam Ravnborg <sam@ravnborg.org>, linux-aspeed <linux-aspeed@lists.ozlabs.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, May 25, 2021 at 2:02 AM Douglas Anderson <dianders@chromium.org> wrote:
+On Fri, May 21, 2021 at 11:10 AM Daniel Vetter <daniel.vetter@ffwll.ch> wro=
+te:
 
-> Now that we have an eDP controller that lists aux-bus, we can safely
-> add an example to the aux-bus bindings.
+> Goes through all the drivers and deletes the default hook since it's
+> the default now.
 >
-> NOTE: this example is just a copy of the one in the 'ti-sn65dsi86'
-> one. It feels useful to have the example in both places simply because
-> it's important to document the interaction between the two bindings in
-> both places.
->
-> Signed-off-by: Douglas Anderson <dianders@chromium.org>
+> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+> Cc: Joel Stanley <joel@jms.id.au>
+> Cc: Andrew Jeffery <andrew@aj.id.au>
+> Cc: "Noralf Tr=C3=B8nnes" <noralf@tronnes.org>
+> Cc: Linus Walleij <linus.walleij@linaro.org>
+> Cc: Emma Anholt <emma@anholt.net>
+> Cc: David Lechner <david@lechnology.com>
+> Cc: Kamlesh Gurudasani <kamlesh.gurudasani@gmail.com>
+> Cc: Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>
+> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+> Cc: Maxime Ripard <mripard@kernel.org>
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: Sam Ravnborg <sam@ravnborg.org>
+> Cc: Alex Deucher <alexander.deucher@amd.com>
+> Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> Cc: linux-aspeed@lists.ozlabs.org
+> Cc: linux-arm-kernel@lists.infradead.org
+> Cc: xen-devel@lists.xenproject.org
 
-Looks good.
-Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+Acked-by: Linus Walleij <linus.walleij@linaro.org>
 
 Yours,
 Linus Walleij
