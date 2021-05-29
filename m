@@ -1,64 +1,67 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78273394D5F
-	for <lists+dri-devel@lfdr.de>; Sat, 29 May 2021 19:10:01 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id BE25B394DA7
+	for <lists+dri-devel@lfdr.de>; Sat, 29 May 2021 20:37:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 032466E1F2;
-	Sat, 29 May 2021 17:09:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0AD3C6E1F8;
+	Sat, 29 May 2021 18:37:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x332.google.com (mail-ot1-x332.google.com
- [IPv6:2607:f8b0:4864:20::332])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 431246E581
- for <dri-devel@lists.freedesktop.org>; Sat, 29 May 2021 17:09:57 +0000 (UTC)
-Received: by mail-ot1-x332.google.com with SMTP id
- v19-20020a0568301413b0290304f00e3d88so6686440otp.4
- for <dri-devel@lists.freedesktop.org>; Sat, 29 May 2021 10:09:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=7bkqiEyd8a086aPYUR6burYJWQhu6f4gu/LbVHZNwfc=;
- b=C9VvtCnGiiOfz68z7IKruRS5sWRRuWsoEtCw0Lj/ixm059lRUVLiuKzLsSXzkAAMRe
- uJ4eaXZ5ZqCIUZMubTp1qf/rZb5tpIkjxmsnS7tLfO59Fn8o/94r1fyb0WJtEqQsjCxT
- 1x5mVlcx0c/wo4Er+O3GECknABerGiMOSPaC2Ss2cz6QWQsFW9ctGtN73p/7e7rW8CIM
- a6Wp7sbZvVM//6YYSZ2E27qGU/Sb6X4c6SdHLxk8OrzAmJ6/8C6PAaQv44KqEDwMuGCc
- 7waL7JHrqvRhB4EoVETXwMB52MOROf/ivAGpO1LZwgGGbTVsgmIhKrjzYueuwgTAh/6G
- kCPg==
+Received: from mail-qv1-xf35.google.com (mail-qv1-xf35.google.com
+ [IPv6:2607:f8b0:4864:20::f35])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 351676E1F6;
+ Sat, 29 May 2021 18:37:52 +0000 (UTC)
+Received: by mail-qv1-xf35.google.com with SMTP id a7so3574497qvf.11;
+ Sat, 29 May 2021 11:37:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=to:cc:references:from:subject:message-id:date:user-agent
+ :mime-version:in-reply-to;
+ bh=twoTbCEhVPknBNle9I5VmY9hPfyutTSbI17u0jwpKa8=;
+ b=AUzIf1vANL4PJ+Mj5P1X9cSuxyBLENG8J5KHIoGWDODFxgkzl/VBV5cyMF2Lt4i815
+ baHLhVLD9x80HQZBGNXNzNCIcJD5xTDSmxeUXJ4IYxUM7HYf5EY0VVE8Cq40WQML/8g9
+ 4YmRgANwAETngKJljQejxbyGLqgYF8BBKEK/6sEijzlMsjhxbJ8VsVY6wmdzl00C3qW+
+ tFOBHw4Qc/D7cGXM3IkVHZFmAwoIOr3FN7H878cSEWMWiQ7pkWUZLOyUKmB4954NgBhG
+ 8ASU6PLuaYA57QvWeqWVWt1jR1kduMXR50Ymyz9hyX3QctMwmjH6szwUwme/V4Paz+rc
+ s4cQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=7bkqiEyd8a086aPYUR6burYJWQhu6f4gu/LbVHZNwfc=;
- b=BqcASyWqMtAxWokfifDj4Djcq0tISOBcZokOQNBMpZDWKldi0z9TFkQc+4f9NFJgYe
- e+Cu7fXrQDtoi+ujD1MA5DzofyUU30d2mqbetcEKGyIV16lCSuG61O6o5DLGAJZq1VfY
- zdE/L48w0lh8JSvSV91HEs+Uh/JX0h3KRmh4Mmg4qZA0IlzTLgdqxSO3OWNBg1j1bbrg
- Ff1CPtYY3OFhqmHQCv8dbj4oFAY9vGZaJPCl2wD3fQbOlqZbtlo9DPGkbqPEU/VVFRXL
- le0QRV9jP68Rb8VaNIEfllV1Njw7xx8FCUieOhXBNGINjj3YoAHijlMGpS+Hm4wFMPSb
- quOA==
-X-Gm-Message-State: AOAM531wIs0qUnAKqTTg7l5N32QbqqhzGn4tvBTQ35A5qZKl3zIGx11H
- t2yVA/rTP9PQgC/JvPg+zNkbEA==
-X-Google-Smtp-Source: ABdhPJyhejKZ8P84aJ+O1OEB2O4xbRPp6DSwQ4nUr0TDzKzViEyqc3s1wCsWqp4HT4SiJmSGzahxbQ==
-X-Received: by 2002:a9d:6645:: with SMTP id q5mr11181131otm.80.1622308196402; 
- Sat, 29 May 2021 10:09:56 -0700 (PDT)
-Received: from builder.lan (104-57-184-186.lightspeed.austtx.sbcglobal.net.
- [104.57.184.186])
- by smtp.gmail.com with ESMTPSA id d19sm1827454oop.26.2021.05.29.10.09.55
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 29 May 2021 10:09:55 -0700 (PDT)
-Date: Sat, 29 May 2021 12:09:53 -0500
-From: Bjorn Andersson <bjorn.andersson@linaro.org>
-To: abhinavk@codeaurora.org
-Subject: Re: [Freedreno] [PATCH 4/4] drm/msm/dp: Add support for SC8180x eDP
-Message-ID: <YLJ1Yfg8jlrxILTE@builder.lan>
-References: <20210511042043.592802-1-bjorn.andersson@linaro.org>
- <20210511042043.592802-5-bjorn.andersson@linaro.org>
- <a1a8221a44edc3a509bdc1bb89bb5a97@codeaurora.org>
+ h=x-gm-message-state:to:cc:references:from:subject:message-id:date
+ :user-agent:mime-version:in-reply-to;
+ bh=twoTbCEhVPknBNle9I5VmY9hPfyutTSbI17u0jwpKa8=;
+ b=shf415vkJzggaIPLbsA571HFw7809KNUH4jNXslWVa1QUHbBpvgZ84ONMZnhbZpNSP
+ 5UdsOmUx0vUvj9fYrHCzYSB91JfASy6dRlILSJHJdFmBhOw3Z1aaEbzAWCmo/IuhQcbC
+ ppVSUpRytGITJ+E+v7e50KHKVdKndXgddBsqfisFG2JoQpXe4OvzPtsGgTSkTEXW+C9T
+ x9XpiKYa5t1P2i9PUmnDYbFml3hisccgY5HLgzxMrYFe1FQY7fgQPor0ZZrbHHBd/I33
+ Un1A9k72VU8v+kLx/ZBZnQHKE0pp21qHBY+RTs64buYPPLfjpc2GDRV5P+kkY+V15Fzh
+ dcYA==
+X-Gm-Message-State: AOAM5330tX5+D7N6QmI8Kyy7NCUu8SxXMovKmIxMHRJYYTOxV2Q7lF4j
+ feS6cQ5b0yzswdZfbS/z0CY=
+X-Google-Smtp-Source: ABdhPJz0uL8MWJGDxa1FwCsNoPlfrXg7imFfr+QweyCsRvfT9WHa40yS9tpRnyJKws2MUxelWhXfmA==
+X-Received: by 2002:ad4:53cc:: with SMTP id k12mr9600890qvv.49.1622313471993; 
+ Sat, 29 May 2021 11:37:51 -0700 (PDT)
+Received: from [192.168.2.100]
+ (lnsm1-toronto42-142-116-203-225.internet.virginmobile.ca. [142.116.203.225])
+ by smtp.gmail.com with ESMTPSA id g9sm5993707qka.38.2021.05.29.11.37.50
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 29 May 2021 11:37:51 -0700 (PDT)
+To: Christoph Hellwig <hch@lst.de>, Felix Kuehling <felix.kuehling@amd.com>
+References: <20210527230809.3701-1-Felix.Kuehling@amd.com>
+ <20210528130816.GM1002214@nvidia.com>
+ <f0bb142b-ab80-c16e-77dd-c7e1aa88c755@amd.com>
+ <20210529064124.GC15834@lst.de>
+From: Felix Kuehling <felix.kuehling@gmail.com>
+Subject: Re: [RFC PATCH 0/5] Support DEVICE_GENERIC memory in migrate_vma_*
+Message-ID: <66cfeddd-11f5-0dba-841a-dcbdf4a1cee6@gmail.com>
+Date: Sat, 29 May 2021 14:37:49 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <a1a8221a44edc3a509bdc1bb89bb5a97@codeaurora.org>
+In-Reply-To: <20210529064124.GC15834@lst.de>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="EI7zzorYg30fi1H6VXHnRL7NAvh79DpSt"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,121 +74,93 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
- linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
- Tanmay Shah <tanmay@codeaurora.org>, Stephen Boyd <swboyd@chromium.org>,
- dri-devel@lists.freedesktop.org,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, sbillaka@codeaurora.org,
- Sean Paul <sean@poorly.run>, Chandan Uddaraju <chandanu@codeaurora.org>
+Cc: amd-gfx@lists.freedesktop.org, linux-mm@kvack.org, jglisse@redhat.com,
+ dri-devel@lists.freedesktop.org, Jason Gunthorpe <jgg@nvidia.com>,
+ akpm@linux-foundation.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri 28 May 18:40 CDT 2021, abhinavk@codeaurora.org wrote:
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--EI7zzorYg30fi1H6VXHnRL7NAvh79DpSt
+Content-Type: multipart/mixed; boundary="ARIbLlR54FXkZwyu5Z6AqHqSmuRARcji5";
+ protected-headers="v1"
+From: Felix Kuehling <felix.kuehling@gmail.com>
+To: Christoph Hellwig <hch@lst.de>, Felix Kuehling <felix.kuehling@amd.com>
+Cc: Jason Gunthorpe <jgg@nvidia.com>, dri-devel@lists.freedesktop.org,
+ linux-mm@kvack.org, jglisse@redhat.com, amd-gfx@lists.freedesktop.org,
+ akpm@linux-foundation.org
+Message-ID: <66cfeddd-11f5-0dba-841a-dcbdf4a1cee6@gmail.com>
+Subject: Re: [RFC PATCH 0/5] Support DEVICE_GENERIC memory in migrate_vma_*
+References: <20210527230809.3701-1-Felix.Kuehling@amd.com>
+ <20210528130816.GM1002214@nvidia.com>
+ <f0bb142b-ab80-c16e-77dd-c7e1aa88c755@amd.com>
+ <20210529064124.GC15834@lst.de>
+In-Reply-To: <20210529064124.GC15834@lst.de>
 
-> On 2021-05-10 21:20, Bjorn Andersson wrote:
-> > The eDP controller found in SC8180x is at large compatible with the
-> > current implementation, but has its register blocks at slightly
-> > different offsets.
-> > 
-> > Add the compatible and the new register layout.
-> > 
-> I am not able to completely recall the history of why in the DP bindings
-> we added DP register base as a big hunk and let catalog handle the submodule
-> offsets.
-> 
-> I guess earlier that made sense because DP sub-block offsets were fixed.
-> But if we plan to re-use the DP driver for eDP as well like this series,
-> then maybe it might be
-> better if this comes from device tree like the earlier version was planning
-> to
-> 
-> https://patchwork.kernel.org/project/dri-devel/patch/0101016ec6ddf446-e87ab1ce-5cbf-40a0-a0bb-cd0151cd577a-000000@us-west-2.amazonses.com/
-> 
-> 
-> +- reg:                  Base address and length of DP hardware's memory
-> mapped regions.
-> +- cell-index:           Specifies the controller instance.
-> +- reg-names:            A list of strings that name the list of regs.
-> +			"dp_ahb" - DP controller memory region.
-> +			"dp_aux" - DP AUX memory region.
-> +			"dp_link" - DP link layer memory region.
-> +			"dp_p0" - DP pixel clock domain memory region.
-> +			"dp_phy" - DP PHY memory region.
-> +			"dp_ln_tx0" - USB3 DP PHY combo TX-0 lane memory region.
-> +			"dp_ln_tx1" - USB3 DP PHY combo TX-1 lane memory region.
-> 
-> Now there is more reason to separate the sub-module offsets like
-> ahb/aux/link/p0
+--ARIbLlR54FXkZwyu5Z6AqHqSmuRARcji5
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Content-Language: en-US
 
-I like it, will rewrite the patch accordingly.
+Am 2021-05-29 um 2:41 a.m. schrieb Christoph Hellwig:
+> On Fri, May 28, 2021 at 11:56:36AM -0400, Felix Kuehling wrote:
+>> Am 2021-05-28 um 9:08 a.m. schrieb Jason Gunthorpe:
+>>> On Thu, May 27, 2021 at 07:08:04PM -0400, Felix Kuehling wrote:
+>>>> Now we're trying to migrate data to and from that memory using the
+>>>> migrate_vma_* helpers so we can support page-based migration in our
+>>>> unified memory allocations, while also supporting CPU access to thos=
+e
+>>>> pages.
+>>> So you have completely coherent and indistinguishable GPU and CPU
+>>> memory and the need of migration is basicaly alot like NUMA policy
+>>> choice - get better access locality?
+>> Yes. For a typical GPU compute application it means the GPU gets the
+>> best bandwidth/latency, and the CPU can coherently access the results
+>> without page faults and migrations. That's especially valuable for
+>> applications with persistent compute kernels that want to exploit
+>> concurrency between CPU and GPU.
+> So why not expose the GPU memory as a CPUless memory node?
+
+We did consider this, and are in fact still considering it for future
+systems. For this system we decided not to go that way for several reason=
+s.
+
+For one, it means the driver would need to allocate VRAM with
+__alloc_pages_nodemask for its own needs (firmware blobs, page tables,
+etc.) and traditional BO-based memory allocation APIs. The GPU driver
+would compete for VRAM with other application allocations, such as
+malloc, mmap, page cache etc. Benchmarking and optimizing the NUMA
+policy for such a system with a wide variety of workloads would be a big
+effort.
+
+All VRAM would need to be 0-initialized at allocation time. (I know
+about init_on_free=3D1. In fact that's what our GPU driver does for VRAM
+today, but asynchronously to hide the latency. However, init_on_free is
+synchronous and has other drawbacks for system memory according to the
+documentation of config INIT_ON_FREE_DEFAULT_ON.)
+
+To make virtualization work, GPU access to its own local VRAM would need
+to go through the system IOMMU.
 
 Regards,
-Bjorn
+=C2=A0 Felix
 
-> > Signed-off-by: Bjorn Andersson <bjorn.andersson@linaro.org>
-> > ---
-> >  drivers/gpu/drm/msm/dp/dp_display.c |  1 +
-> >  drivers/gpu/drm/msm/dp/dp_parser.c  | 28 ++++++++++++++++++++--------
-> >  2 files changed, 21 insertions(+), 8 deletions(-)
-> > 
-> > diff --git a/drivers/gpu/drm/msm/dp/dp_display.c
-> > b/drivers/gpu/drm/msm/dp/dp_display.c
-> > index d1319b58e901..0be03bdc882c 100644
-> > --- a/drivers/gpu/drm/msm/dp/dp_display.c
-> > +++ b/drivers/gpu/drm/msm/dp/dp_display.c
-> > @@ -121,6 +121,7 @@ struct dp_display_private {
-> > 
-> >  static const struct of_device_id dp_dt_match[] = {
-> >  	{.compatible = "qcom,sc7180-dp"},
-> > +	{ .compatible = "qcom,sc8180x-edp" },
-> >  	{}
-> >  };
-> > 
-> > diff --git a/drivers/gpu/drm/msm/dp/dp_parser.c
-> > b/drivers/gpu/drm/msm/dp/dp_parser.c
-> > index 51ec85b4803b..47cf18bba4b2 100644
-> > --- a/drivers/gpu/drm/msm/dp/dp_parser.c
-> > +++ b/drivers/gpu/drm/msm/dp/dp_parser.c
-> > @@ -251,6 +251,7 @@ static int dp_parser_clock(struct dp_parser *parser)
-> >  static int dp_parser_parse(struct dp_parser *parser)
-> >  {
-> >  	struct dss_io_data *io = &parser->io.dp_controller;
-> > +	struct device *dev = &parser->pdev->dev;
-> >  	int rc = 0;
-> > 
-> >  	if (!parser) {
-> > @@ -276,14 +277,25 @@ static int dp_parser_parse(struct dp_parser
-> > *parser)
-> >  	 */
-> >  	parser->regulator_cfg = &sdm845_dp_reg_cfg;
-> > 
-> > -	io->ahb = io->base + 0x0;
-> > -	io->ahb_len = 0x200;
-> > -	io->aux = io->base + 0x200;
-> > -	io->aux_len = 0x200;
-> > -	io->link = io->base + 0x400;
-> > -	io->link_len = 0x600;
-> > -	io->p0 = io->base + 0x1000;
-> > -	io->p0_len = 0x400;
-> > +	if (of_device_is_compatible(dev->of_node, "qcom,sc8180x-edp")) {
-> > +		io->ahb = io->base + 0x0;
-> > +		io->ahb_len = 0x200;
-> > +		io->aux = io->base + 0x200;
-> > +		io->aux_len = 0x200;
-> > +		io->link = io->base + 0x400;
-> > +		io->link_len = 0x600;
-> > +		io->p0 = io->base + 0xa00;
-> > +		io->p0_len = 0x400;
-> > +	} else {
-> > +		io->ahb = io->base + 0x0;
-> > +		io->ahb_len = 0x200;
-> > +		io->aux = io->base + 0x200;
-> > +		io->aux_len = 0x200;
-> > +		io->link = io->base + 0x400;
-> > +		io->link_len = 0x600;
-> > +		io->p0 = io->base + 0x1000;
-> > +		io->p0_len = 0x400;
-> > +	}
-> > 
-> >  	return 0;
-> >  }
+
+
+
+--ARIbLlR54FXkZwyu5Z6AqHqSmuRARcji5--
+
+--EI7zzorYg30fi1H6VXHnRL7NAvh79DpSt
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wnsEABEIACMWIQSF9iw3xYpcigJ58/LWGSsMBQyTdgUCYLKJ/QUDAAAAAAAKCRDWGSsMBQyTdlIm
+AP9YobaDl3U1tdF2IgIV+V3/rfI1H/rsutO1AHiKQuupCwD8C7slNVnonawvCCmmfNmkz1ubWJN2
+HuBFddFzmw7eFEo=
+=+pp4
+-----END PGP SIGNATURE-----
+
+--EI7zzorYg30fi1H6VXHnRL7NAvh79DpSt--
