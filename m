@@ -1,63 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15166394D04
-	for <lists+dri-devel@lfdr.de>; Sat, 29 May 2021 17:48:27 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 78273394D5F
+	for <lists+dri-devel@lfdr.de>; Sat, 29 May 2021 19:10:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1EB446E21D;
-	Sat, 29 May 2021 15:48:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 032466E1F2;
+	Sat, 29 May 2021 17:09:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ste-pvt-msa1.bahnhof.se (ste-pvt-msa1.bahnhof.se
- [213.80.101.70])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 226436E21D
- for <dri-devel@lists.freedesktop.org>; Sat, 29 May 2021 15:48:20 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by ste-pvt-msa1.bahnhof.se (Postfix) with ESMTP id A08B93FB76;
- Sat, 29 May 2021 17:48:18 +0200 (CEST)
-Authentication-Results: ste-pvt-msa1.bahnhof.se; dkim=pass (1024-bit key;
- unprotected) header.d=shipmail.org header.i=@shipmail.org header.b="U/Pvy1HU";
- dkim-atps=neutral
-X-Virus-Scanned: Debian amavisd-new at bahnhof.se
-X-Spam-Flag: NO
-X-Spam-Score: -2.1
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.1 tagged_above=-999 required=6.31
- tests=[BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- URIBL_BLOCKED=0.001] autolearn=ham autolearn_force=no
-Received: from ste-pvt-msa1.bahnhof.se ([127.0.0.1])
- by localhost (ste-pvt-msa1.bahnhof.se [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id X8qfUu4CKAzR; Sat, 29 May 2021 17:48:17 +0200 (CEST)
-Received: by ste-pvt-msa1.bahnhof.se (Postfix) with ESMTPA id 6DA823FB62;
- Sat, 29 May 2021 17:48:17 +0200 (CEST)
-Received: from [192.168.0.209] (h-155-4-205-35.A357.priv.bahnhof.se
- [155.4.205.35])
- by mail1.shipmail.org (Postfix) with ESMTPSA id D3A993600DD;
- Sat, 29 May 2021 17:48:16 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=shipmail.org; s=mail;
- t=1622303296; bh=PaRU1HGhApkHFd3OFTsufrjsd0SEE817yTgmp52knMU=;
- h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
- b=U/Pvy1HU3+J6xu8myfRVdxint2pg0/H9Jl0MhTsrbGGKpCar6g7VpA0CGfzippHck
- zlMKx7vA9Gr1Hlby05URURvL/oK2cXZYQF2IeWmaUcZGK+/Rb4xE0MPHibkPdHDGE0
- HmHyQuyNFfw6LrzPgVmj/kJhseyfokw8O4Ie/444=
-Subject: Re: [PATCH 06/13] drm/ttm: flip over the range manager to self
- allocated nodes
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
- dri-devel@lists.freedesktop.org
-References: <20210430092508.60710-1-christian.koenig@amd.com>
- <20210430092508.60710-6-christian.koenig@amd.com>
-From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m_=28Intel=29?= <thomas_os@shipmail.org>
-Message-ID: <f792308b-389d-67da-0cf8-667c1e6ac96d@shipmail.org>
-Date: Sat, 29 May 2021 17:48:16 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+Received: from mail-ot1-x332.google.com (mail-ot1-x332.google.com
+ [IPv6:2607:f8b0:4864:20::332])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 431246E581
+ for <dri-devel@lists.freedesktop.org>; Sat, 29 May 2021 17:09:57 +0000 (UTC)
+Received: by mail-ot1-x332.google.com with SMTP id
+ v19-20020a0568301413b0290304f00e3d88so6686440otp.4
+ for <dri-devel@lists.freedesktop.org>; Sat, 29 May 2021 10:09:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=7bkqiEyd8a086aPYUR6burYJWQhu6f4gu/LbVHZNwfc=;
+ b=C9VvtCnGiiOfz68z7IKruRS5sWRRuWsoEtCw0Lj/ixm059lRUVLiuKzLsSXzkAAMRe
+ uJ4eaXZ5ZqCIUZMubTp1qf/rZb5tpIkjxmsnS7tLfO59Fn8o/94r1fyb0WJtEqQsjCxT
+ 1x5mVlcx0c/wo4Er+O3GECknABerGiMOSPaC2Ss2cz6QWQsFW9ctGtN73p/7e7rW8CIM
+ a6Wp7sbZvVM//6YYSZ2E27qGU/Sb6X4c6SdHLxk8OrzAmJ6/8C6PAaQv44KqEDwMuGCc
+ 7waL7JHrqvRhB4EoVETXwMB52MOROf/ivAGpO1LZwgGGbTVsgmIhKrjzYueuwgTAh/6G
+ kCPg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=7bkqiEyd8a086aPYUR6burYJWQhu6f4gu/LbVHZNwfc=;
+ b=BqcASyWqMtAxWokfifDj4Djcq0tISOBcZokOQNBMpZDWKldi0z9TFkQc+4f9NFJgYe
+ e+Cu7fXrQDtoi+ujD1MA5DzofyUU30d2mqbetcEKGyIV16lCSuG61O6o5DLGAJZq1VfY
+ zdE/L48w0lh8JSvSV91HEs+Uh/JX0h3KRmh4Mmg4qZA0IlzTLgdqxSO3OWNBg1j1bbrg
+ Ff1CPtYY3OFhqmHQCv8dbj4oFAY9vGZaJPCl2wD3fQbOlqZbtlo9DPGkbqPEU/VVFRXL
+ le0QRV9jP68Rb8VaNIEfllV1Njw7xx8FCUieOhXBNGINjj3YoAHijlMGpS+Hm4wFMPSb
+ quOA==
+X-Gm-Message-State: AOAM531wIs0qUnAKqTTg7l5N32QbqqhzGn4tvBTQ35A5qZKl3zIGx11H
+ t2yVA/rTP9PQgC/JvPg+zNkbEA==
+X-Google-Smtp-Source: ABdhPJyhejKZ8P84aJ+O1OEB2O4xbRPp6DSwQ4nUr0TDzKzViEyqc3s1wCsWqp4HT4SiJmSGzahxbQ==
+X-Received: by 2002:a9d:6645:: with SMTP id q5mr11181131otm.80.1622308196402; 
+ Sat, 29 May 2021 10:09:56 -0700 (PDT)
+Received: from builder.lan (104-57-184-186.lightspeed.austtx.sbcglobal.net.
+ [104.57.184.186])
+ by smtp.gmail.com with ESMTPSA id d19sm1827454oop.26.2021.05.29.10.09.55
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 29 May 2021 10:09:55 -0700 (PDT)
+Date: Sat, 29 May 2021 12:09:53 -0500
+From: Bjorn Andersson <bjorn.andersson@linaro.org>
+To: abhinavk@codeaurora.org
+Subject: Re: [Freedreno] [PATCH 4/4] drm/msm/dp: Add support for SC8180x eDP
+Message-ID: <YLJ1Yfg8jlrxILTE@builder.lan>
+References: <20210511042043.592802-1-bjorn.andersson@linaro.org>
+ <20210511042043.592802-5-bjorn.andersson@linaro.org>
+ <a1a8221a44edc3a509bdc1bb89bb5a97@codeaurora.org>
 MIME-Version: 1.0
-In-Reply-To: <20210430092508.60710-6-christian.koenig@amd.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <a1a8221a44edc3a509bdc1bb89bb5a97@codeaurora.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,64 +71,121 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: daniel.vetter@ffwll.ch, matthew.william.auld@gmail.com
+Cc: freedreno@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
+ linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Tanmay Shah <tanmay@codeaurora.org>, Stephen Boyd <swboyd@chromium.org>,
+ dri-devel@lists.freedesktop.org,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, sbillaka@codeaurora.org,
+ Sean Paul <sean@poorly.run>, Chandan Uddaraju <chandanu@codeaurora.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi, Christian,
+On Fri 28 May 18:40 CDT 2021, abhinavk@codeaurora.org wrote:
 
-On 4/30/21 11:25 AM, Christian König wrote:
-> Start with the range manager to make the resource object the base
-> class for the allocated nodes.
->
-> While at it cleanup a lot of the code around that.
+> On 2021-05-10 21:20, Bjorn Andersson wrote:
+> > The eDP controller found in SC8180x is at large compatible with the
+> > current implementation, but has its register blocks at slightly
+> > different offsets.
+> > 
+> > Add the compatible and the new register layout.
+> > 
+> I am not able to completely recall the history of why in the DP bindings
+> we added DP register base as a big hunk and let catalog handle the submodule
+> offsets.
+> 
+> I guess earlier that made sense because DP sub-block offsets were fixed.
+> But if we plan to re-use the DP driver for eDP as well like this series,
+> then maybe it might be
+> better if this comes from device tree like the earlier version was planning
+> to
+> 
+> https://patchwork.kernel.org/project/dri-devel/patch/0101016ec6ddf446-e87ab1ce-5cbf-40a0-a0bb-cd0151cd577a-000000@us-west-2.amazonses.com/
+> 
+> 
+> +- reg:                  Base address and length of DP hardware's memory
+> mapped regions.
+> +- cell-index:           Specifies the controller instance.
+> +- reg-names:            A list of strings that name the list of regs.
+> +			"dp_ahb" - DP controller memory region.
+> +			"dp_aux" - DP AUX memory region.
+> +			"dp_link" - DP link layer memory region.
+> +			"dp_p0" - DP pixel clock domain memory region.
+> +			"dp_phy" - DP PHY memory region.
+> +			"dp_ln_tx0" - USB3 DP PHY combo TX-0 lane memory region.
+> +			"dp_ln_tx1" - USB3 DP PHY combo TX-1 lane memory region.
+> 
+> Now there is more reason to separate the sub-module offsets like
+> ahb/aux/link/p0
 
-Could you briefly describe the design thoughts around this. While it's 
-clear to me that we want separately allocated struct ttm_resource 
-objects, it's not clear why the visibility of those are pushed down the 
-interfaces to the range managers?
+I like it, will rewrite the patch accordingly.
 
-In addition to the need for a separately allocated struct ttm_resource, 
-when looking at TTM-ify i915 I've come across a couple of problems.
+Regards,
+Bjorn
 
-1) People have started abusing the range manager interface to attach 
-device private data to the mm_node, or probably really to the struct 
-ttm_resource. That makes it very unclear what the input needed for the 
-managers really are. For examle what members of the bo does the range 
-manager really use and why? Same for the struct ttm_resource. I think in 
-a perfect world, the interface to these range managers should be a 
-struct ttm_placement as input and as output an opaque mm node and 
-perhaps a way to convert that mm node to something useful like a range 
-or a scatter-gather table.
-
-2) But that doesn't really address the problem of drivers wanting to 
-attach device private data to a struct ttm_resource, which at some point 
-caused someone to add a bo to the manager interface. The novueau driver 
-attaches a "kind" member to the mm node that it pulls out of the bo; The 
-i915 driver would want to cache an st table and a radix tree to cache 
-index-to-pfn maps.
-
-3) In the end we'd probably want the kmap iterator methods and the 
-various mapping funtions to be methods of the struct ttm_resource.
-
-So basically here
-
-1) Would help making range managers with various functionality simple to 
-write and share.
-2) Would help drivers attach private data to a struct ttm_resource 
-without abusing the manager interfaces,
-3) Would help clean up the mapping code.
-
-But at least 2) here would probably mean that we need a driver callback 
-to allocate a struct ttm_resource rather than having the managers 
-allocate them. Drivers can then embed them in private structs if needed.
-
-Or is there a way to achieve these goals or something similar with the 
-approach you are taking here?
-
-Thanks,
-
-Thomas
-
-
-
+> > Signed-off-by: Bjorn Andersson <bjorn.andersson@linaro.org>
+> > ---
+> >  drivers/gpu/drm/msm/dp/dp_display.c |  1 +
+> >  drivers/gpu/drm/msm/dp/dp_parser.c  | 28 ++++++++++++++++++++--------
+> >  2 files changed, 21 insertions(+), 8 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/msm/dp/dp_display.c
+> > b/drivers/gpu/drm/msm/dp/dp_display.c
+> > index d1319b58e901..0be03bdc882c 100644
+> > --- a/drivers/gpu/drm/msm/dp/dp_display.c
+> > +++ b/drivers/gpu/drm/msm/dp/dp_display.c
+> > @@ -121,6 +121,7 @@ struct dp_display_private {
+> > 
+> >  static const struct of_device_id dp_dt_match[] = {
+> >  	{.compatible = "qcom,sc7180-dp"},
+> > +	{ .compatible = "qcom,sc8180x-edp" },
+> >  	{}
+> >  };
+> > 
+> > diff --git a/drivers/gpu/drm/msm/dp/dp_parser.c
+> > b/drivers/gpu/drm/msm/dp/dp_parser.c
+> > index 51ec85b4803b..47cf18bba4b2 100644
+> > --- a/drivers/gpu/drm/msm/dp/dp_parser.c
+> > +++ b/drivers/gpu/drm/msm/dp/dp_parser.c
+> > @@ -251,6 +251,7 @@ static int dp_parser_clock(struct dp_parser *parser)
+> >  static int dp_parser_parse(struct dp_parser *parser)
+> >  {
+> >  	struct dss_io_data *io = &parser->io.dp_controller;
+> > +	struct device *dev = &parser->pdev->dev;
+> >  	int rc = 0;
+> > 
+> >  	if (!parser) {
+> > @@ -276,14 +277,25 @@ static int dp_parser_parse(struct dp_parser
+> > *parser)
+> >  	 */
+> >  	parser->regulator_cfg = &sdm845_dp_reg_cfg;
+> > 
+> > -	io->ahb = io->base + 0x0;
+> > -	io->ahb_len = 0x200;
+> > -	io->aux = io->base + 0x200;
+> > -	io->aux_len = 0x200;
+> > -	io->link = io->base + 0x400;
+> > -	io->link_len = 0x600;
+> > -	io->p0 = io->base + 0x1000;
+> > -	io->p0_len = 0x400;
+> > +	if (of_device_is_compatible(dev->of_node, "qcom,sc8180x-edp")) {
+> > +		io->ahb = io->base + 0x0;
+> > +		io->ahb_len = 0x200;
+> > +		io->aux = io->base + 0x200;
+> > +		io->aux_len = 0x200;
+> > +		io->link = io->base + 0x400;
+> > +		io->link_len = 0x600;
+> > +		io->p0 = io->base + 0xa00;
+> > +		io->p0_len = 0x400;
+> > +	} else {
+> > +		io->ahb = io->base + 0x0;
+> > +		io->ahb_len = 0x200;
+> > +		io->aux = io->base + 0x200;
+> > +		io->aux_len = 0x200;
+> > +		io->link = io->base + 0x400;
+> > +		io->link_len = 0x600;
+> > +		io->p0 = io->base + 0x1000;
+> > +		io->p0_len = 0x400;
+> > +	}
+> > 
+> >  	return 0;
+> >  }
