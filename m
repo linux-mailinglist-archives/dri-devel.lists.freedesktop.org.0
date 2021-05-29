@@ -2,57 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53D02394995
-	for <lists+dri-devel@lfdr.de>; Sat, 29 May 2021 02:25:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 80489394996
+	for <lists+dri-devel@lfdr.de>; Sat, 29 May 2021 02:25:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BBF856F64A;
-	Sat, 29 May 2021 00:25:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 450936F64D;
+	Sat, 29 May 2021 00:25:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com
- [IPv6:2a00:1450:4864:20::129])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 808A46EAE1
- for <dri-devel@lists.freedesktop.org>; Sat, 29 May 2021 00:25:20 +0000 (UTC)
-Received: by mail-lf1-x129.google.com with SMTP id r5so7753703lfr.5
- for <dri-devel@lists.freedesktop.org>; Fri, 28 May 2021 17:25:20 -0700 (PDT)
+Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com
+ [IPv6:2a00:1450:4864:20::132])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 46D256EBA0
+ for <dri-devel@lists.freedesktop.org>; Sat, 29 May 2021 00:25:21 +0000 (UTC)
+Received: by mail-lf1-x132.google.com with SMTP id f30so7790294lfj.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 May 2021 17:25:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=U0myhhwQw1DX5ERjVy5isiupy8P99vq2r3iL98W1qNk=;
- b=xdI1St13jCR84pKFFkr3NytQGaw8aUa83o5O5KlvwbLPeYpNEz4m8/MVluH1GdH3SA
- 47ectaztRJMeUzmgJQ2Tr7e7HWdDSuc9Fd/BhJEemyqV/uftjL+PDQTSp7R8CQLe8Flz
- SpBdQckLfQKbbBbBLkFwLkJNSleRQADK9J2ahdnEi60NQepRw5kbSEpwOru7MhtN8ZBf
- z8j/tzP4O+G5zZupiGdWNVWEW/khNBnNLmKnHsE4BK7iB+qUwSjjSMmb6Krok1Ae5epw
- O1IlGR8bSUlhTrnthv0pb9ZTFBdI6eY6ZV3Zk26HqBejI8DrUynNFyFI4zYgcDvk/xTv
- TtgA==
+ bh=khM8ENZRiO9GfrYZWjrb0BjgVR9cdtd9zq05AkI4UO4=;
+ b=ZDBw+iBt/3RegQRJ6kZ2Bow9ygm56XgFbr1rxodRCeVpxPKIAB0TSIm8WMFbKfyokj
+ f82cHgyaBSkgSjIoPcRfIOAFYNBhWbD3E96iZiYJmoaB025ZgomsZb/BK/4baPp2stMM
+ H8rwtBAnqcAV8GhfWRTEpHmrUTg3Ifk5AMMtD266gbePuxZqdzBnZrguCTndviz5/qKH
+ 0z85ln7LihtyR8t5dHNL9BrgyHnD4Z0JlX9wtnn5q9PaDofoLSlwxhweOK5z8d1ODRnS
+ X0ehSo+O+AUrk0zDfigbjDWmp7Zjf+F8H03afbv5LXktBguoCedNLwD8pPthHodRIxcC
+ Ij8Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=U0myhhwQw1DX5ERjVy5isiupy8P99vq2r3iL98W1qNk=;
- b=mZVRavleYy2SLQvR739Rw57oet38OnDlwP5i+/dBuR9yals6xKrEVHx+makp5zfkW8
- 4xOrHd4h/h9U/mpkMNQPR0M02744YUyj6kV+VUVD/4FIQ39beQHNI1WhXVFBEDwZ8jBw
- Tc+xa+RHOBcM0Pu4IAQKKFXxSEkPsZAmUjAkVBFPsX9/Rke4NuuOjqPiLEmhQRLxbaGa
- CYDzvwBgZTGHUDsOY7dJsSeAmXJ7RIQpX0Wh+IzozRlLVQp9RfwAwiDppJG2n9P/nPdb
- Yk0///wsWMCYzp7oOs4D/N8h0rBqVghBw7kg5AAnd3DAHYtdZTgSvRtxcT4AeFY3DnCQ
- xi0w==
-X-Gm-Message-State: AOAM532gEJ0TpMxRHbOrmig3ASJx+f6VZPJLSRkRPEnCeO6javO/fTGf
- nO3dTZxTtS3sdXYo1jls3IWpq67ofePHiQ==
-X-Google-Smtp-Source: ABdhPJwLHnP1Y7WOu1kLQQf1Wg3vDNmahUU5TviiYqcjegJrFCej1BGK+Jpqnpzh2YSTuyAsqs9JnA==
-X-Received: by 2002:a19:2454:: with SMTP id k81mr5045371lfk.331.1622247918946; 
- Fri, 28 May 2021 17:25:18 -0700 (PDT)
+ bh=khM8ENZRiO9GfrYZWjrb0BjgVR9cdtd9zq05AkI4UO4=;
+ b=QanKGh16IRZhQ1+GFz9SHbiSbIiPftH2UhE5NTJn989TonN9SDKhPv+nh6ueeqqWt1
+ 5OB3U7RzOSLiWzClZ+nW2Noi0VEGxgTQZITRJlcjUuOwsMtznWahMT4RGvO0eRzwX11g
+ KJdlF+CLOAkGFd9P5VSHaaqyGZYMyKYulw3tr1ioof1WhKuMThuIhbZ1kWIqPT2g2qD5
+ 1PRiaDmwHLQz/fkqM6CYR1M2+jDdU9JfooPz0F4NTQLPTGJrTzwfpDzOx6lvvG611a5O
+ XvPk4GRieqUCH/veGXTxOZIpepyN2QlfwT+js772uuFwIqdAGudaWLTyppSkrC1OykHS
+ O/oA==
+X-Gm-Message-State: AOAM5333ygLyFfOGyiCCRNMAzlNWK0gvMK+4wITSU8qD/sMxjSr7MSrE
+ C7TXtMfwLiijl7yLfyoMeOox/A==
+X-Google-Smtp-Source: ABdhPJzViGkFYdy0GZRVC394LaUSWkHKNFjQP9sGC8uM03eDznb+laNRV5DtTm28p0VJ+NyKwrhRtQ==
+X-Received: by 2002:ac2:5fae:: with SMTP id s14mr8040712lfe.588.1622247919684; 
+ Fri, 28 May 2021 17:25:19 -0700 (PDT)
 Received: from eriador.lan ([37.153.55.125])
- by smtp.gmail.com with ESMTPSA id c8sm701078ljd.82.2021.05.28.17.25.18
+ by smtp.gmail.com with ESMTPSA id c8sm701078ljd.82.2021.05.28.17.25.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 28 May 2021 17:25:18 -0700 (PDT)
+ Fri, 28 May 2021 17:25:19 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
  Abhinav Kumar <abhinavk@codeaurora.org>,
  Michael Turquette <mturquette@baylibre.com>
-Subject: [RFC 4/8] drm/msm/dsi: move msm_dsi_phy_pll_save_state call to
- msm_dsi_phy_disable
-Date: Sat, 29 May 2021 03:25:04 +0300
-Message-Id: <20210529002508.3839467-5-dmitry.baryshkov@linaro.org>
+Subject: [RFC 5/8] lib: add small API for handling register snapshots
+Date: Sat, 29 May 2021 03:25:05 +0300
+Message-Id: <20210529002508.3839467-6-dmitry.baryshkov@linaro.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210529002508.3839467-1-dmitry.baryshkov@linaro.org>
 References: <20210529002508.3839467-1-dmitry.baryshkov@linaro.org>
@@ -76,89 +75,181 @@ Cc: Jonathan Marek <jonathan@marek.ca>, Stephen Boyd <sboyd@kernel.org>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Move DSI PHY state saving from dsi manager to dsi_phy driver. This way
-the manager does not need to know that the DSI state is not preserved
-acrosss resets. Everything is handled by the DSI PHY driver.
+Add small API covering lists of register dumps. Currently this is a part
+of MSM DRM driver, but is extracted as it might be usefull to other
+drivers too.
 
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- drivers/gpu/drm/msm/dsi/dsi.h         |  1 -
- drivers/gpu/drm/msm/dsi/dsi_manager.c |  3 ---
- drivers/gpu/drm/msm/dsi/phy/dsi_phy.c | 21 ++++++++++++---------
- 3 files changed, 12 insertions(+), 13 deletions(-)
+ include/linux/dump_state.h | 78 ++++++++++++++++++++++++++++++++++++++
+ lib/Kconfig                |  3 ++
+ lib/Makefile               |  1 +
+ lib/dump_state.c           | 51 +++++++++++++++++++++++++
+ 4 files changed, 133 insertions(+)
+ create mode 100644 include/linux/dump_state.h
+ create mode 100644 lib/dump_state.c
 
-diff --git a/drivers/gpu/drm/msm/dsi/dsi.h b/drivers/gpu/drm/msm/dsi/dsi.h
-index c467ad609453..d64db1badd4b 100644
---- a/drivers/gpu/drm/msm/dsi/dsi.h
-+++ b/drivers/gpu/drm/msm/dsi/dsi.h
-@@ -169,7 +169,6 @@ int msm_dsi_phy_enable(struct msm_dsi_phy *phy,
- void msm_dsi_phy_disable(struct msm_dsi_phy *phy);
- void msm_dsi_phy_set_usecase(struct msm_dsi_phy *phy,
- 			     enum msm_dsi_phy_usecase uc);
--void msm_dsi_phy_pll_save_state(struct msm_dsi_phy *phy);
- void msm_dsi_phy_snapshot(struct msm_disp_state *disp_state, struct msm_dsi_phy *phy);
- 
- #endif /* __DSI_CONNECTOR_H__ */
-diff --git a/drivers/gpu/drm/msm/dsi/dsi_manager.c b/drivers/gpu/drm/msm/dsi/dsi_manager.c
-index 88d56a2bc8ab..de1c41dc5c15 100644
---- a/drivers/gpu/drm/msm/dsi/dsi_manager.c
-+++ b/drivers/gpu/drm/msm/dsi/dsi_manager.c
-@@ -524,9 +524,6 @@ static void dsi_mgr_bridge_post_disable(struct drm_bridge *bridge)
- 								id, ret);
- 	}
- 
--	/* Save PHY status if it is a clock source */
--	msm_dsi_phy_pll_save_state(msm_dsi->phy);
--
- 	ret = msm_dsi_host_power_off(host);
- 	if (ret)
- 		pr_err("%s: host %d power off failed,%d\n", __func__, id, ret);
-diff --git a/drivers/gpu/drm/msm/dsi/phy/dsi_phy.c b/drivers/gpu/drm/msm/dsi/phy/dsi_phy.c
-index e5d25b44f8cb..b7b178cc318b 100644
---- a/drivers/gpu/drm/msm/dsi/phy/dsi_phy.c
-+++ b/drivers/gpu/drm/msm/dsi/phy/dsi_phy.c
-@@ -559,6 +559,14 @@ static void dsi_phy_disable_resource(struct msm_dsi_phy *phy)
- 	pm_runtime_put_autosuspend(&phy->pdev->dev);
- }
- 
-+static void msm_dsi_phy_pll_save_state(struct msm_dsi_phy *phy)
+diff --git a/include/linux/dump_state.h b/include/linux/dump_state.h
+new file mode 100644
+index 000000000000..9cf2cd2e99a6
+--- /dev/null
++++ b/include/linux/dump_state.h
+@@ -0,0 +1,78 @@
++/* SPDX-License-Identifier: GPL-2.0-only */
++/*
++ * Copyright (c) 2020-2021, The Linux Foundation. All rights reserved.
++ * Copyright (c) 2021, Linaro Ltd
++ */
++
++#ifndef LINUX_DUMP_STATE_H
++#define LINUX_DUMP_STATE_H
++
++#include <linux/list.h>
++#include <linux/sizes.h>
++
++/**
++ * struct dump_state_block - structure to store each hardware block state
++ * @name: name of the block
++ * @drm_dev: handle to the linked list head
++ * @size: size of the register space of this hardware block
++ * @state: array holding the register dump of this hardware block
++ * @base_addr: starting address of this hardware block's register space
++ */
++struct dump_state_block {
++	char name[SZ_128];
++	struct list_head node;
++	void __iomem *base_addr;
++	size_t size;
++	u8 state[0] __aligned(8);
++};
++
++/**
++ * struct dump_state - structure to store reg dump state
++ * @blocks: hardware blocks info related to this dump state
++ */
++struct dump_state {
++	struct list_head blocks;
++};
++
++static inline void dump_state_init(struct dump_state *state)
 +{
-+	if (phy->cfg->ops.save_pll_state) {
-+		phy->cfg->ops.save_pll_state(phy);
-+		phy->state_saved = true;
-+	}
++	INIT_LIST_HEAD(&state->blocks);
 +}
 +
- static int msm_dsi_phy_pll_restore_state(struct msm_dsi_phy *phy)
- {
- 	int ret;
-@@ -845,6 +853,10 @@ int msm_dsi_phy_enable(struct msm_dsi_phy *phy,
- 
- void msm_dsi_phy_disable(struct msm_dsi_phy *phy)
- {
-+	/* Save PHY status if it is a clock source */
-+	if (phy->usecase != MSM_DSI_PHY_SLAVE)
-+		msm_dsi_phy_pll_save_state(phy);
++#define dump_state_for_each_block(state, block) \
++	list_for_each_entry(block, &(state)->blocks, node)
 +
- 	if (!phy || !phy->cfg->ops.disable)
- 		return;
++/**
++ * dump_state_free_blocks - free allocated blocks
++ * @state:	    handle to struct dump_state
++ */
++void dump_state_free_blocks(struct dump_state *state);
++
++/**
++ * dump_state_allocate_block - allocate data block for register dumps
++ * @len:            size of the register space of the hardware block
++ * @base_addr:      starting address of the register space of the hardware block
++ * @gfp:            type of memory allocation
++ * @fmt:            format in which the block names need to be printed
++ *
++ * Returns: new block
++ */
++extern __printf(4, 5)
++struct dump_state_block *dump_state_allocate_block(void __iomem *base_addr, size_t len, gfp_t gfp, const char *fmt, ...);
++
++/**
++ * dump_state_allocate_block_va - allocate data block for register dumps
++ * @len:            size of the register space of the hardware block
++ * @base_addr:      starting address of the register space of the hardware block
++ * @gfp:            type of memory allocation
++ * @fmt:            format in which the block names need to be printed
++ *
++ * Returns: new block
++ */
++extern __printf(4, 0)
++struct dump_state_block *dump_state_allocate_block_va(void __iomem *base_addr, size_t len, gfp_t gfp, const char *fmt, va_list args);
++
++#define dump_state_add_block(state, block) \
++	list_add_tail(&(state)->blocks, &(block)->node)
++
++#endif
+diff --git a/lib/Kconfig b/lib/Kconfig
+index ac3b30697b2b..ab654232ecb6 100644
+--- a/lib/Kconfig
++++ b/lib/Kconfig
+@@ -704,3 +704,6 @@ config PLDMFW
  
-@@ -860,15 +872,6 @@ void msm_dsi_phy_set_usecase(struct msm_dsi_phy *phy,
- 	if (phy)
- 		phy->usecase = uc;
- }
--
--void msm_dsi_phy_pll_save_state(struct msm_dsi_phy *phy)
--{
--	if (phy->cfg->ops.save_pll_state) {
--		phy->cfg->ops.save_pll_state(phy);
--		phy->state_saved = true;
--	}
--}
--
- void msm_dsi_phy_snapshot(struct msm_disp_state *disp_state, struct msm_dsi_phy *phy)
- {
- 	msm_disp_snapshot_add_block(disp_state,
+ config ASN1_ENCODER
+        tristate
++
++config DUMP_STATE
++	tristate
+diff --git a/lib/Makefile b/lib/Makefile
+index 2cc359ec1fdd..4836a0e3aef2 100644
+--- a/lib/Makefile
++++ b/lib/Makefile
+@@ -356,3 +356,4 @@ obj-$(CONFIG_BITS_TEST) += test_bits.o
+ obj-$(CONFIG_CMDLINE_KUNIT_TEST) += cmdline_kunit.o
+ 
+ obj-$(CONFIG_GENERIC_LIB_DEVMEM_IS_ALLOWED) += devmem_is_allowed.o
++obj-$(CONFIG_DUMP_STATE) += dump_state.o
+diff --git a/lib/dump_state.c b/lib/dump_state.c
+new file mode 100644
+index 000000000000..58d88be65c0a
+--- /dev/null
++++ b/lib/dump_state.c
+@@ -0,0 +1,51 @@
++/* SPDX-License-Identifier: GPL-2.0-only */
++/*
++ * Copyright (c) 2020-2021, The Linux Foundation. All rights reserved.
++ * Copyright (c) 2021, Linaro Ltd
++ */
++
++#include <linux/dump_state.h>
++#include <linux/slab.h>
++
++void dump_state_free_blocks(struct dump_state *state)
++{
++	struct dump_state_block *block, *tmp;
++
++	list_for_each_entry_safe(block, tmp, &state->blocks, node) {
++		list_del(&block->node);
++		kfree(block);
++	}
++}
++EXPORT_SYMBOL(dump_state_free_blocks);
++
++struct dump_state_block *dump_state_allocate_block_va(void __iomem *base_addr, size_t len, gfp_t gfp, const char *fmt, va_list args)
++{
++	struct dump_state_block *block = kzalloc(sizeof(*block) + len, gfp);
++
++	if (!block)
++		return ERR_PTR(-ENOMEM);
++
++	vsnprintf(block->name, sizeof(block->name), fmt, args);
++
++	INIT_LIST_HEAD(&block->node);
++	block->size = len;
++	block->base_addr = base_addr;
++
++	return block;
++}
++EXPORT_SYMBOL(dump_state_allocate_block);
++
++struct dump_state_block *dump_state_allocate_block(void __iomem *base_addr, size_t len, gfp_t gfp, const char *fmt, ...)
++{
++	struct dump_state_block *block;
++	va_list va;
++
++	va_start(va, fmt);
++
++	block = dump_state_allocate_block_va(base_addr, len, gfp, fmt, va);
++
++	va_end(va);
++
++	return block;
++}
++EXPORT_SYMBOL(dump_state_allocate_block_va);
 -- 
 2.30.2
 
