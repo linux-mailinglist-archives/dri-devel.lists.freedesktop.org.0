@@ -2,39 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F84C3950F2
-	for <lists+dri-devel@lfdr.de>; Sun, 30 May 2021 14:50:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 55F333950F8
+	for <lists+dri-devel@lfdr.de>; Sun, 30 May 2021 14:50:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2236A6E3EB;
-	Sun, 30 May 2021 12:50:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 695C66E3F4;
+	Sun, 30 May 2021 12:50:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kapsi.fi (mail.kapsi.fi [IPv6:2001:67c:1be8::25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6D70C6E3EB
- for <dri-devel@lists.freedesktop.org>; Sun, 30 May 2021 12:50:07 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B93CE6E3F4
+ for <dri-devel@lists.freedesktop.org>; Sun, 30 May 2021 12:50:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
  s=20161220; h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
  Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
  Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
  :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=7XgbqwpbDEarmd3LdvhiuL3gA2xLk1reVHJ8kSsmmmk=; b=eraQOpTMJScPetUx7lPfVmmsE+
- kABPX5Y/u13nYGdLBxcOk/UP3AgDKtejI7hfGz1WuKu3qAizht5Yz8Xgd76LPH79Cnf0vgCBu5Dp0
- T30woCq/ul98yvZYeIvlNcEnCpOf2W3iw8GkiAAaJb3n45MDCsFVLLbo3CRDUJpG27zhl2cDWfQso
- jZQ7xzVqy9rPZPX7IRXTHUZdgum1JghqO5Ej0mGlk3wa7dQoFvBoTxMJp9oKog1Mb+OU6PoJEHAh2
- m7o2tazX/VsK4QhmFVelhvlBJ8ZPstqWKcXXL7m/1qORkJjUrUhpC+KwxrhX+xKcEy0f4fF0dF8HC
- e6Gb3vDg==;
+ bh=FhHStfdgwg8Q58twTXVwRWuP64Y7FfcxZREy57jDy14=; b=Et17haPNNdouyYy2osrb5xJJ9j
+ Di2DW1G182J9W/m04hom5wBvph8OjNpQSjYl98A7WiogLhBIetcQ2SVeIwn5V8OCm8Ejqfq9Ps7uy
+ l5nhEoGyWGxjxSMVerJMLbJ5iTCTr55vMW/nGgFDtsvsfQm9gfIA3YuQJXFc9QYlutY9QTa4IuqJ8
+ qTCmbjriFqZnfqXrv71tBx+DZBOBNNaq6fJoJe3Z2YNdWU3K5GVe/VdHgYRGPkaqrTmatsIJV61xb
+ QLM7lWvP9ZxOMbYiRCgR4xbTWgJVxEYnIKNaNJx8DBuHnmw6VKa0cTFySx85sW1k77hxytBHpaxLs
+ w03AFTtA==;
 Received: from dsl-hkibng22-54f986-236.dhcp.inet.fi ([84.249.134.236]
  helo=toshino.localdomain)
  by mail.kapsi.fi with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.89) (envelope-from <mperttunen@nvidia.com>)
- id 1lnKSQ-000775-Ka; Sun, 30 May 2021 15:22:18 +0300
+ id 1lnKSQ-000775-NX; Sun, 30 May 2021 15:22:18 +0300
 From: Mikko Perttunen <mperttunen@nvidia.com>
 To: thierry.reding@gmail.com, jonathanh@nvidia.com, digetx@gmail.com,
  airlied@linux.ie, daniel@ffwll.ch
-Subject: [PATCH v6 13/14] drm/tegra: Add job firewall
-Date: Sun, 30 May 2021 15:21:55 +0300
-Message-Id: <20210530122156.3292479-14-mperttunen@nvidia.com>
+Subject: [PATCH v6 14/14] drm/tegra: Bump driver version
+Date: Sun, 30 May 2021 15:21:56 +0300
+Message-Id: <20210530122156.3292479-15-mperttunen@nvidia.com>
 X-Mailer: git-send-email 2.30.1
 In-Reply-To: <20210530122156.3292479-1-mperttunen@nvidia.com>
 References: <20210530122156.3292479-1-mperttunen@nvidia.com>
@@ -60,362 +60,27 @@ Cc: linux-tegra@vger.kernel.org, dri-devel@lists.freedesktop.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add a firewall that validates jobs before submission to ensure
-they don't do anything they aren't allowed to do, like accessing
-memory they should not access.
-
-The firewall is functionality-wise a copy of the firewall already
-implemented in gpu/host1x. It is copied here as it makes more
-sense for it to live on the DRM side, as it is only needed for
-userspace job submissions, and generally the data it needs to
-do its job is easier to access here.
-
-In the future, the other implementation will be removed.
+Bump driver version to 1.0.0 to allow userspace to detect
+availability of new interfaces.
 
 Signed-off-by: Mikko Perttunen <mperttunen@nvidia.com>
 ---
-v6:
-* If .is_valid_class is not set, match against client's
-  class
-* Fix indentation
-* Return to previous class after a WAIT command
-* Print warning detailing error when rejecting a command
-  buffer
-* Removed uapi subdirectory
-v5:
-* Support SETCLASS opcode
-v3:
-* New patch
----
- drivers/gpu/drm/tegra/Makefile   |   1 +
- drivers/gpu/drm/tegra/firewall.c | 254 +++++++++++++++++++++++++++++++
- drivers/gpu/drm/tegra/submit.c   |  12 +-
- drivers/gpu/drm/tegra/submit.h   |   4 +
- 4 files changed, 269 insertions(+), 2 deletions(-)
- create mode 100644 drivers/gpu/drm/tegra/firewall.c
+ drivers/gpu/drm/tegra/drm.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/tegra/Makefile b/drivers/gpu/drm/tegra/Makefile
-index ab4289d1c991..5d2039f0c734 100644
---- a/drivers/gpu/drm/tegra/Makefile
-+++ b/drivers/gpu/drm/tegra/Makefile
-@@ -6,6 +6,7 @@ tegra-drm-y := \
- 	uapi.o \
- 	submit.o \
- 	gather_bo.o \
-+	firewall.o \
- 	gem.o \
- 	fb.o \
- 	dp.o \
-diff --git a/drivers/gpu/drm/tegra/firewall.c b/drivers/gpu/drm/tegra/firewall.c
-new file mode 100644
-index 000000000000..1824d2db0e2c
---- /dev/null
-+++ b/drivers/gpu/drm/tegra/firewall.c
-@@ -0,0 +1,254 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/* Copyright (c) 2010-2020 NVIDIA Corporation */
-+
-+#include "drm.h"
-+#include "submit.h"
-+#include "uapi.h"
-+
-+struct tegra_drm_firewall {
-+	struct tegra_drm_submit_data *submit;
-+	struct tegra_drm_client *client;
-+	u32 *data;
-+	u32 pos;
-+	u32 end;
-+	u32 class;
-+};
-+
-+static int fw_next(struct tegra_drm_firewall *fw, u32 *word)
-+{
-+	if (fw->pos == fw->end)
-+		return -EINVAL;
-+
-+	*word = fw->data[fw->pos++];
-+
-+	return 0;
-+}
-+
-+static bool fw_check_addr_valid(struct tegra_drm_firewall *fw, u32 offset)
-+{
-+	u32 i;
-+
-+	for (i = 0; i < fw->submit->num_used_mappings; i++) {
-+		struct tegra_drm_mapping *m = fw->submit->used_mappings[i].mapping;
-+
-+		if (offset >= m->iova && offset <= m->iova_end)
-+			return true;
-+	}
-+
-+	return false;
-+}
-+
-+static int fw_check_reg(struct tegra_drm_firewall *fw, u32 offset)
-+{
-+	bool is_addr;
-+	u32 word;
-+	int err;
-+
-+	err = fw_next(fw, &word);
-+	if (err)
-+		return err;
-+
-+	if (!fw->client->ops->is_addr_reg)
-+		return 0;
-+
-+	is_addr = fw->client->ops->is_addr_reg(fw->client->base.dev, fw->class,
-+					       offset);
-+
-+	if (!is_addr)
-+		return 0;
-+
-+	if (!fw_check_addr_valid(fw, word))
-+		return -EINVAL;
-+
-+	return 0;
-+}
-+
-+static int fw_check_regs_seq(struct tegra_drm_firewall *fw, u32 offset,
-+			     u32 count, bool incr)
-+{
-+	u32 i;
-+
-+	for (i = 0; i < count; i++) {
-+		if (fw_check_reg(fw, offset))
-+			return -EINVAL;
-+
-+		if (incr)
-+			offset++;
-+	}
-+
-+	return 0;
-+}
-+
-+static int fw_check_regs_mask(struct tegra_drm_firewall *fw, u32 offset,
-+			      u16 mask)
-+{
-+	unsigned long bmask = mask;
-+	unsigned int bit;
-+
-+	for_each_set_bit(bit, &bmask, 16) {
-+		if (fw_check_reg(fw, offset+bit))
-+			return -EINVAL;
-+	}
-+
-+	return 0;
-+}
-+
-+static int fw_check_regs_imm(struct tegra_drm_firewall *fw, u32 offset)
-+{
-+	bool is_addr;
-+
-+	is_addr = fw->client->ops->is_addr_reg(fw->client->base.dev, fw->class,
-+					       offset);
-+	if (is_addr)
-+		return -EINVAL;
-+
-+	return 0;
-+}
-+
-+static int fw_check_class(struct tegra_drm_firewall *fw, u32 class)
-+{
-+	if (!fw->client->ops->is_valid_class) {
-+		if (class == fw->client->base.class)
-+			return 0;
-+		else
-+			return -EINVAL;
-+	}
-+
-+	if (!fw->client->ops->is_valid_class(class))
-+		return -EINVAL;
-+
-+	return 0;
-+}
-+
-+enum {
-+	HOST1X_OPCODE_SETCLASS  = 0x00,
-+	HOST1X_OPCODE_INCR      = 0x01,
-+	HOST1X_OPCODE_NONINCR   = 0x02,
-+	HOST1X_OPCODE_MASK      = 0x03,
-+	HOST1X_OPCODE_IMM       = 0x04,
-+	HOST1X_OPCODE_RESTART   = 0x05,
-+	HOST1X_OPCODE_GATHER    = 0x06,
-+	HOST1X_OPCODE_SETSTRMID = 0x07,
-+	HOST1X_OPCODE_SETAPPID  = 0x08,
-+	HOST1X_OPCODE_SETPYLD   = 0x09,
-+	HOST1X_OPCODE_INCR_W    = 0x0a,
-+	HOST1X_OPCODE_NONINCR_W = 0x0b,
-+	HOST1X_OPCODE_GATHER_W  = 0x0c,
-+	HOST1X_OPCODE_RESTART_W = 0x0d,
-+	HOST1X_OPCODE_EXTEND    = 0x0e,
-+};
-+
-+int tegra_drm_fw_validate(struct tegra_drm_client *client, u32 *data, u32 start,
-+			  u32 words, struct tegra_drm_submit_data *submit,
-+			  u32 *job_class)
-+{
-+	struct tegra_drm_firewall fw = {
-+		.submit = submit,
-+		.client = client,
-+		.data = data,
-+		.pos = start,
-+		.end = start+words,
-+		.class = *job_class,
-+	};
-+	bool payload_valid = false;
-+	u32 payload;
-+	int err;
-+
-+	while (fw.pos != fw.end) {
-+		u32 word, opcode, offset, count, mask, class;
-+
-+		err = fw_next(&fw, &word);
-+		if (err)
-+			return err;
-+
-+		opcode = (word & 0xf0000000) >> 28;
-+
-+		switch (opcode) {
-+		case HOST1X_OPCODE_SETCLASS:
-+			offset = word >> 16 & 0xfff;
-+			mask = word & 0x3f;
-+			class = (word >> 6) & 0x3ff;
-+			err = fw_check_class(&fw, class);
-+			fw.class = class;
-+			*job_class = class;
-+			if (!err)
-+				err = fw_check_regs_mask(&fw, offset, mask);
-+			if (err)
-+				dev_warn(client->base.dev,
-+					 "illegal SETCLASS(offset=0x%x, mask=0x%x, class=0x%x) at word %u",
-+					 offset, mask, class, fw.pos-1);
-+			break;
-+		case HOST1X_OPCODE_INCR:
-+			offset = (word >> 16) & 0xfff;
-+			count = word & 0xffff;
-+			err = fw_check_regs_seq(&fw, offset, count, true);
-+			if (err)
-+				dev_warn(client->base.dev,
-+					 "illegal INCR(offset=0x%x, count=%u) in class 0x%x at word %u",
-+					 offset, count, fw.class, fw.pos-1);
-+			break;
-+		case HOST1X_OPCODE_NONINCR:
-+			offset = (word >> 16) & 0xfff;
-+			count = word & 0xffff;
-+			err = fw_check_regs_seq(&fw, offset, count, false);
-+			if (err)
-+				dev_warn(client->base.dev,
-+					 "illegal NONINCR(offset=0x%x, count=%u) in class 0x%x at word %u",
-+					 offset, count, fw.class, fw.pos-1);
-+			break;
-+		case HOST1X_OPCODE_MASK:
-+			offset = (word >> 16) & 0xfff;
-+			mask = word & 0xffff;
-+			err = fw_check_regs_mask(&fw, offset, mask);
-+			if (err)
-+				dev_warn(client->base.dev,
-+					 "illegal MASK(offset=0x%x, mask=0x%x) in class 0x%x at word %u",
-+					 offset, mask, fw.class, fw.pos-1);
-+			break;
-+		case HOST1X_OPCODE_IMM:
-+			/* IMM cannot reasonably be used to write a pointer */
-+			offset = (word >> 16) & 0xfff;
-+			err = fw_check_regs_imm(&fw, offset);
-+			if (err)
-+				dev_warn(client->base.dev,
-+					 "illegal IMM(offset=0x%x) in class 0x%x at word %u",
-+					 offset, fw.class, fw.pos-1);
-+			break;
-+		case HOST1X_OPCODE_SETPYLD:
-+			payload = word & 0xffff;
-+			payload_valid = true;
-+			break;
-+		case HOST1X_OPCODE_INCR_W:
-+			if (!payload_valid)
-+				return -EINVAL;
-+
-+			offset = word & 0x3fffff;
-+			err = fw_check_regs_seq(&fw, offset, payload, true);
-+			if (err)
-+				dev_warn(client->base.dev,
-+					 "illegal INCR_W(offset=0x%x) in class 0x%x at word %u",
-+					 offset, fw.class, fw.pos-1);
-+			break;
-+		case HOST1X_OPCODE_NONINCR_W:
-+			if (!payload_valid)
-+				return -EINVAL;
-+
-+			offset = word & 0x3fffff;
-+			err = fw_check_regs_seq(&fw, offset, payload, false);
-+			if (err)
-+				dev_warn(client->base.dev,
-+					 "illegal NONINCR(offset=0x%x) in class 0x%x at word %u",
-+					 offset, fw.class, fw.pos-1);
-+			break;
-+		default:
-+			dev_warn(client->base.dev, "illegal opcode at word %u",
-+				 fw.pos-1);
-+			return -EINVAL;
-+		}
-+
-+		if (err)
-+			return err;
-+	}
-+
-+	return 0;
-+}
-diff --git a/drivers/gpu/drm/tegra/submit.c b/drivers/gpu/drm/tegra/submit.c
-index ae1bf916b972..c23536a46475 100644
---- a/drivers/gpu/drm/tegra/submit.c
-+++ b/drivers/gpu/drm/tegra/submit.c
-@@ -246,7 +246,8 @@ static int submit_job_add_gather(struct host1x_job *job,
- 				 struct tegra_drm_context *ctx,
- 				 struct drm_tegra_submit_cmd_gather_uptr *cmd,
- 				 struct gather_bo *bo, u32 *offset,
--				 struct tegra_drm_submit_data *job_data)
-+				 struct tegra_drm_submit_data *job_data,
-+				 u32 *class)
- {
- 	u32 next_offset;
+diff --git a/drivers/gpu/drm/tegra/drm.c b/drivers/gpu/drm/tegra/drm.c
+index 59f04431cae0..f568bb4c3345 100644
+--- a/drivers/gpu/drm/tegra/drm.c
++++ b/drivers/gpu/drm/tegra/drm.c
+@@ -27,7 +27,7 @@
+ #define DRIVER_NAME "tegra"
+ #define DRIVER_DESC "NVIDIA Tegra graphics"
+ #define DRIVER_DATE "20120330"
+-#define DRIVER_MAJOR 0
++#define DRIVER_MAJOR 1
+ #define DRIVER_MINOR 0
+ #define DRIVER_PATCHLEVEL 0
  
-@@ -271,6 +272,12 @@ static int submit_job_add_gather(struct host1x_job *job,
- 		return -EINVAL;
- 	}
- 
-+	if (tegra_drm_fw_validate(ctx->client, bo->gather_data, *offset,
-+				  cmd->words, job_data, class)) {
-+		SUBMIT_ERR(ctx, "job was rejected by firewall");
-+		return -EINVAL;
-+	}
-+
- 	host1x_job_add_gather(job, &bo->base, cmd->words, *offset * 4);
- 
- 	*offset = next_offset;
-@@ -327,7 +334,8 @@ static int submit_create_job(struct host1x_job **pjob,
- 		if (cmd->type == DRM_TEGRA_SUBMIT_CMD_GATHER_UPTR) {
- 			err = submit_job_add_gather(job, ctx,
- 						    &cmd->gather_uptr, bo,
--						    &gather_offset, job_data);
-+						    &gather_offset, job_data,
-+						    &class);
- 			if (err)
- 				goto free_job;
- 		} else if (cmd->type == DRM_TEGRA_SUBMIT_CMD_WAIT_SYNCPT) {
-diff --git a/drivers/gpu/drm/tegra/submit.h b/drivers/gpu/drm/tegra/submit.h
-index 0a165e9e4bda..cf6a2f0a29fc 100644
---- a/drivers/gpu/drm/tegra/submit.h
-+++ b/drivers/gpu/drm/tegra/submit.h
-@@ -14,4 +14,8 @@ struct tegra_drm_submit_data {
- 	u32 num_used_mappings;
- };
- 
-+int tegra_drm_fw_validate(struct tegra_drm_client *client, u32 *data, u32 start,
-+			  u32 words, struct tegra_drm_submit_data *submit,
-+			  u32 *job_class);
-+
- #endif
 -- 
 2.30.1
 
