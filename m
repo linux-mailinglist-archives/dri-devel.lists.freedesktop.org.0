@@ -1,41 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D032395098
-	for <lists+dri-devel@lfdr.de>; Sun, 30 May 2021 13:09:41 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 928AE39508A
+	for <lists+dri-devel@lfdr.de>; Sun, 30 May 2021 13:04:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 914026E22B;
-	Sun, 30 May 2021 11:09:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 563AE6E20C;
+	Sun, 30 May 2021 11:04:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 474 seconds by postgrey-1.36 at gabe;
- Sun, 30 May 2021 11:09:37 UTC
-Received: from bmailout2.hostsharing.net (bmailout2.hostsharing.net
- [IPv6:2a01:37:3000::53df:4ef0:0])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2601B6E22B
- for <dri-devel@lists.freedesktop.org>; Sun, 30 May 2021 11:09:37 +0000 (UTC)
-Received: from h08.hostsharing.net (h08.hostsharing.net
- [IPv6:2a01:37:1000::53df:5f1c:0])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (Client CN "*.hostsharing.net",
- Issuer "RapidSSL TLS DV RSA Mixed SHA256 2020 CA-1" (verified OK))
- by bmailout2.hostsharing.net (Postfix) with ESMTPS id E84782800B3CA;
- Sun, 30 May 2021 13:01:39 +0200 (CEST)
-Received: by h08.hostsharing.net (Postfix, from userid 100393)
- id DB36B197A; Sun, 30 May 2021 13:01:39 +0200 (CEST)
-Date: Sun, 30 May 2021 13:01:39 +0200
-From: Lukas Wunner <lukas@wunner.de>
-To: Alyssa Rosenzweig <alyssa@rosenzweig.io>
-Subject: Re: [PATCH 2/2] maintainers: Update freedesktop.org IRC channels
-Message-ID: <20210530110139.GA2678@wunner.de>
-References: <20210529141638.5921-1-alyssa@rosenzweig.io>
- <20210529141638.5921-2-alyssa@rosenzweig.io>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 235F96E20C
+ for <dri-devel@lists.freedesktop.org>; Sun, 30 May 2021 11:04:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1622372673;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=SYT5gDfcxHlvhoDGUw1eiNDPYC+7sYwDuIBX+ITOf2k=;
+ b=KloON/bicRcCQSL0GvsSe0mGPnPT7UHw83RPI1ks2jQbGxIge4dnwnf14MNbwKXgDMPZWj
+ 2Ki9u2+Kf23Uw0ZIEls5Xeh5PULEyb7C9fPixVYWMJXxZL4JmXDBfQx77Po8rEcXO7t/cD
+ tII7djPi2FJ+UyvFjZu9TlzNtsr3ruo=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-348-b_lV_y4FPU-mq3_tmsKy2A-1; Sun, 30 May 2021 07:04:31 -0400
+X-MC-Unique: b_lV_y4FPU-mq3_tmsKy2A-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7971B801817;
+ Sun, 30 May 2021 11:04:30 +0000 (UTC)
+Received: from x1.localdomain.com (ovpn-112-76.ams2.redhat.com [10.36.112.76])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 38B2E10023AF;
+ Sun, 30 May 2021 11:04:29 +0000 (UTC)
+From: Hans de Goede <hdegoede@redhat.com>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
+Subject: [PATCH 0/4] drm: panel-orientation-quirks: Add quirks for 4 more
+ devices
+Date: Sun, 30 May 2021 13:04:24 +0200
+Message-Id: <20210530110428.12994-1-hdegoede@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210529141638.5921-2-alyssa@rosenzweig.io>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hdegoede@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,35 +62,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Hector Martin <marcan@marcan.st>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: Hans de Goede <hdegoede@redhat.com>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, May 29, 2021 at 10:16:38AM -0400, Alyssa Rosenzweig wrote:
-> Like many free software projects, freedesktop.org issued a non-binding
-> recommendation for projects to migrate from OFTC to Freenode [1]. As
-> such, freedesktop.org entries in the MAINTAINERS file are out-of-date as
-> the respective channels have moved. Update the file to point to the
-> right network.
-> 
-> [1] https://lists.freedesktop.org/archives/dri-devel/2021-May/307605.html
-[...]
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -1651,7 +1651,7 @@ L:	linux-arm-kernel@lists.infradead.org (moderated for non-subscribers)
->  S:	Maintained
->  W:	https://asahilinux.org
->  B:	https://github.com/AsahiLinux/linux/issues
-> -C:	irc://chat.freenode.net/asahi-dev
-> +C:	irc://irc.oftc.net/asahi-dev
->  T:	git https://github.com/AsahiLinux/linux.git
->  F:	Documentation/devicetree/bindings/arm/apple.yaml
->  F:	Documentation/devicetree/bindings/interrupt-controller/apple,aic.yaml
+Hi All,
 
-This isn't a freedesktop.org project, so either needs to be dropped
-from the patch or the patch needs an ack from Hector Martin (+cc).
+Here are 4 straight forward quirk additions for devices which have their
+LCD panel mounted 90 degree rotated.
 
-Thanks,
+The first 2 patches were send before but gor no reaction.
 
-Lukas
+It would be great if I can get a quick ack for these simple patches,
+then I can push them to drm-misc-fixes.
+
+Regards,
+
+Hans
+
+
+Hans de Goede (4):
+  drm: panel-orientation-quirks: Update the Lenovo Ideapad D330 quirk
+    (v2)
+  drm: panel-orientation-quirks: Add quirk for KD Kurio Smart C15200
+    2-in-1
+  drm: panel-orientation-quirks: Add quirk for the Samsung Galaxy Book
+    10.6
+  drm: panel-orientation-quirks: Add quirk for the Chuwi Hi10 Pro
+
+ .../gpu/drm/drm_panel_orientation_quirks.c    | 34 +++++++++++++++++--
+ 1 file changed, 32 insertions(+), 2 deletions(-)
+
+-- 
+2.31.1
+
