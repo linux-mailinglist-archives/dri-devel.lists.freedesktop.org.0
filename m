@@ -2,40 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32D2C3950FC
-	for <lists+dri-devel@lfdr.de>; Sun, 30 May 2021 14:51:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DCE333950F3
+	for <lists+dri-devel@lfdr.de>; Sun, 30 May 2021 14:50:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1BCB96E488;
-	Sun, 30 May 2021 12:51:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 09CC56E3EF;
+	Sun, 30 May 2021 12:50:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kapsi.fi (mail.kapsi.fi [IPv6:2001:67c:1be8::25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E9A096E488
- for <dri-devel@lists.freedesktop.org>; Sun, 30 May 2021 12:51:09 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DBFF96E3F0
+ for <dri-devel@lists.freedesktop.org>; Sun, 30 May 2021 12:50:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
  s=20161220; h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
  Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
  Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
  :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=MJhxZ+boyUkD8fkDRaiH2brxUV2jxc/sGIYublsepic=; b=SuwrV5dRUDpXdNuNcs3pXrIcjI
- thWYRwKk2rdtjWxstHyAaXDreTNUx21Vh+9DICEoDm5G256uDQEN8tz9cKGdl110roIKmPYMAfH5N
- 6Iz4UV5zH+bfsXXNjpqYJsNwU2Cjshxm1F/ymTU3VSKpPqkFyAmTZOIuevEVMrOsR1I2hOw9vEDID
- hk0kM+Zb3e8iNIfV6FBNDNCLaDXIR2abwFUuZ5bo/MmETfMPVFeyE1cVudyII88Oji/ggQV8SKrky
- veW2FJSON07X9K0tQB8PajLi87tW8iE6O2U5hSlULBN93nVseVKeibFKskJqm4t8cAGLA7zbpgc7e
- aIjV8XCg==;
+ bh=v9gIvMa/8xbweULtMsO9D80XPLQ6GQz5QOywOgfJsS0=; b=RgmLdNBF+ryqYHmKT3oF4bQ/uX
+ XAzUa6i56zouC2IN14aM0QvzI2G8AJgOUfViEk7KnR1OXm995ste2MfP146AKU1rZF1izPJ+GGiug
+ MouqZ76eMnCqMMHbxk/6AtaOeqBHxVckmKltNYYPDkW6YswiTFetmSZtBshK6D2imdSzw3IqZnNyM
+ pnbEUrkE1uQ6aZh+6Abr1l/zG3t1L51ng5Zk2hV2jEuyPKrdDsi20+JZLTprBkOVdPRv1WJDDIWZs
+ E3lPtlNZkecT0quZR0gCY0kanSZ8q2E2vZwWqnAbvxVFe7ovWZ2vhMNXtdXvYtIrJyNr4EAtqrXTY
+ X1C0lUsQ==;
 Received: from dsl-hkibng22-54f986-236.dhcp.inet.fi ([84.249.134.236]
  helo=toshino.localdomain)
  by mail.kapsi.fi with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.89) (envelope-from <mperttunen@nvidia.com>)
- id 1lnKSP-000775-TJ; Sun, 30 May 2021 15:22:17 +0300
+ id 1lnKSQ-000775-09; Sun, 30 May 2021 15:22:18 +0300
 From: Mikko Perttunen <mperttunen@nvidia.com>
 To: thierry.reding@gmail.com, jonathanh@nvidia.com, digetx@gmail.com,
  airlied@linux.ie, daniel@ffwll.ch
-Subject: [PATCH v6 04/14] gpu: host1x: Add support for syncpoint waits in CDMA
- pushbuffer
-Date: Sun, 30 May 2021 15:21:46 +0300
-Message-Id: <20210530122156.3292479-5-mperttunen@nvidia.com>
+Subject: [PATCH v6 05/14] drm/tegra: Extract tegra_gem_lookup
+Date: Sun, 30 May 2021 15:21:47 +0300
+Message-Id: <20210530122156.3292479-6-mperttunen@nvidia.com>
 X-Mailer: git-send-email 2.30.1
 In-Reply-To: <20210530122156.3292479-1-mperttunen@nvidia.com>
 References: <20210530122156.3292479-1-mperttunen@nvidia.com>
@@ -61,509 +60,99 @@ Cc: linux-tegra@vger.kernel.org, dri-devel@lists.freedesktop.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add support for inserting syncpoint waits in the CDMA pushbuffer.
-These waits need to be done in HOST1X class, while gather submitted
-by the application execute in engine class.
-
-Support is added by converting the gather list of job into a command
-list that can include both gathers and waits. When the job is
-submitted, these commands are pushed as the appropriate opcodes
-on the CDMA pushbuffer.
-
-Also supported are waits relative to the start of the job,
-which are useful for jobs doing multiple things with an engine
-that doesn't natively support pipelining.
-
-While at it, use 32-bit waits on chips that support them.
+The static function host1x_bo_lookup in drm.c is also useful
+elsewhere. Extract it as tegra_gem_lookup in gem.c.
 
 Signed-off-by: Mikko Perttunen <mperttunen@nvidia.com>
 ---
 v6:
-- Change into specified class after wait
-- Support waits relative to start of job
-- Support 32-bit waits
+- New patch
 ---
- drivers/gpu/host1x/hw/channel_hw.c         | 85 +++++++++++++++++-----
- drivers/gpu/host1x/hw/debug_hw.c           |  9 ++-
- drivers/gpu/host1x/hw/hw_host1x02_uclass.h | 12 +++
- drivers/gpu/host1x/hw/hw_host1x04_uclass.h | 12 +++
- drivers/gpu/host1x/hw/hw_host1x05_uclass.h | 12 +++
- drivers/gpu/host1x/hw/hw_host1x06_uclass.h | 12 +++
- drivers/gpu/host1x/hw/hw_host1x07_uclass.h | 12 +++
- drivers/gpu/host1x/job.c                   | 70 +++++++++++++-----
- drivers/gpu/host1x/job.h                   | 16 ++++
- include/linux/host1x.h                     |  6 +-
- 10 files changed, 203 insertions(+), 43 deletions(-)
+ drivers/gpu/drm/tegra/drm.c | 20 +++-----------------
+ drivers/gpu/drm/tegra/gem.c | 13 +++++++++++++
+ drivers/gpu/drm/tegra/gem.h |  2 ++
+ 3 files changed, 18 insertions(+), 17 deletions(-)
 
-diff --git a/drivers/gpu/host1x/hw/channel_hw.c b/drivers/gpu/host1x/hw/channel_hw.c
-index bf21512e5078..1999780a7203 100644
---- a/drivers/gpu/host1x/hw/channel_hw.c
-+++ b/drivers/gpu/host1x/hw/channel_hw.c
-@@ -47,39 +47,84 @@ static void trace_write_gather(struct host1x_cdma *cdma, struct host1x_bo *bo,
- 	}
+diff --git a/drivers/gpu/drm/tegra/drm.c b/drivers/gpu/drm/tegra/drm.c
+index 992aa5cde510..c9a35c1dc970 100644
+--- a/drivers/gpu/drm/tegra/drm.c
++++ b/drivers/gpu/drm/tegra/drm.c
+@@ -106,20 +106,6 @@ static void tegra_drm_context_free(struct tegra_drm_context *context)
+ 	kfree(context);
  }
  
--static void submit_gathers(struct host1x_job *job)
-+static void submit_wait(struct host1x_cdma *cdma, u32 id, u32 threshold,
-+			u32 next_class)
-+{
-+#if HOST1X_HW >= 2
-+	host1x_cdma_push_wide(cdma,
-+		host1x_opcode_setclass(
-+			HOST1X_CLASS_HOST1X,
-+			HOST1X_UCLASS_LOAD_SYNCPT_PAYLOAD_32,
-+			/* WAIT_SYNCPT_32 is at SYNCPT_PAYLOAD_32+2 */
-+			BIT(0) | BIT(2)
-+		),
-+		threshold,
-+		id,
-+		host1x_opcode_setclass(next_class, 0, 0)
-+	);
-+#else
-+	/* TODO add waitchk or use waitbases or other mitigation */
-+	host1x_cdma_push(cdma,
-+		host1x_opcode_setclass(
-+			HOST1X_CLASS_HOST1X,
-+			host1x_uclass_wait_syncpt_r(),
-+			BIT(0)
-+		),
-+		host1x_class_host_wait_syncpt(id, threshold)
-+	);
-+	host1x_cdma_push(cdma,
-+		host1x_opcode_setclass(next_class, 0, 0),
-+		HOST1X_OPCODE_NOP
-+	);
-+#endif
-+}
-+
-+static void submit_gathers(struct host1x_job *job, u32 job_syncpt_base)
- {
- 	struct host1x_cdma *cdma = &job->channel->cdma;
- #if HOST1X_HW < 6
- 	struct device *dev = job->channel->dev;
- #endif
- 	unsigned int i;
-+	u32 threshold;
+-static struct host1x_bo *
+-host1x_bo_lookup(struct drm_file *file, u32 handle)
+-{
+-	struct drm_gem_object *gem;
+-	struct tegra_bo *bo;
+-
+-	gem = drm_gem_object_lookup(file, handle);
+-	if (!gem)
+-		return NULL;
+-
+-	bo = to_tegra_bo(gem);
+-	return &bo->base;
+-}
+-
+ static int host1x_reloc_copy_from_user(struct host1x_reloc *dest,
+ 				       struct drm_tegra_reloc __user *src,
+ 				       struct drm_device *drm,
+@@ -150,11 +136,11 @@ static int host1x_reloc_copy_from_user(struct host1x_reloc *dest,
  
--	for (i = 0; i < job->num_gathers; i++) {
--		struct host1x_job_gather *g = &job->gathers[i];
--		dma_addr_t addr = g->base + g->offset;
--		u32 op2, op3;
-+	for (i = 0; i < job->num_cmds; i++) {
-+		struct host1x_job_cmd *cmd = &job->cmds[i];
+ 	dest->flags = HOST1X_RELOC_READ | HOST1X_RELOC_WRITE;
  
--		op2 = lower_32_bits(addr);
--		op3 = upper_32_bits(addr);
-+		if (cmd->is_wait) {
-+			if (cmd->wait.relative)
-+				threshold = job_syncpt_base + cmd->wait.threshold;
-+			else
-+				threshold = cmd->wait.threshold;
+-	dest->cmdbuf.bo = host1x_bo_lookup(file, cmdbuf);
++	dest->cmdbuf.bo = tegra_gem_lookup(file, cmdbuf);
+ 	if (!dest->cmdbuf.bo)
+ 		return -ENOENT;
  
--		trace_write_gather(cdma, g->bo, g->offset, g->words);
-+			submit_wait(cdma, cmd->wait.id, threshold, cmd->wait.next_class);
-+		} else {
-+			struct host1x_job_gather *g = &cmd->gather;
-+
-+			dma_addr_t addr = g->base + g->offset;
-+			u32 op2, op3;
-+
-+			op2 = lower_32_bits(addr);
-+			op3 = upper_32_bits(addr);
+-	dest->target.bo = host1x_bo_lookup(file, target);
++	dest->target.bo = tegra_gem_lookup(file, target);
+ 	if (!dest->target.bo)
+ 		return -ENOENT;
  
--		if (op3 != 0) {
-+			trace_write_gather(cdma, g->bo, g->offset, g->words);
-+
-+			if (op3 != 0) {
- #if HOST1X_HW >= 6
--			u32 op1 = host1x_opcode_gather_wide(g->words);
--			u32 op4 = HOST1X_OPCODE_NOP;
-+				u32 op1 = host1x_opcode_gather_wide(g->words);
-+				u32 op4 = HOST1X_OPCODE_NOP;
- 
--			host1x_cdma_push_wide(cdma, op1, op2, op3, op4);
-+				host1x_cdma_push_wide(cdma, op1, op2, op3, op4);
- #else
--			dev_err(dev, "invalid gather for push buffer %pad\n",
--				&addr);
--			continue;
-+				dev_err(dev, "invalid gather for push buffer %pad\n",
-+					&addr);
-+				continue;
- #endif
--		} else {
--			u32 op1 = host1x_opcode_gather(g->words);
-+			} else {
-+				u32 op1 = host1x_opcode_gather(g->words);
- 
--			host1x_cdma_push(cdma, op1, op2);
-+				host1x_cdma_push(cdma, op1, op2);
-+			}
- 		}
- 	}
- }
-@@ -126,7 +171,7 @@ static int channel_submit(struct host1x_job *job)
- 	struct host1x *host = dev_get_drvdata(ch->dev->parent);
- 
- 	trace_host1x_channel_submit(dev_name(ch->dev),
--				    job->num_gathers, job->num_relocs,
-+				    job->num_cmds, job->num_relocs,
- 				    job->syncpt->id, job->syncpt_incrs);
- 
- 	/* before error checks, return current max */
-@@ -181,7 +226,7 @@ static int channel_submit(struct host1x_job *job)
- 				 host1x_opcode_setclass(job->class, 0, 0),
- 				 HOST1X_OPCODE_NOP);
- 
--	submit_gathers(job);
-+	submit_gathers(job, syncval - user_syncpt_incrs);
- 
- 	/* end CDMA submit & stash pinned hMems into sync queue */
- 	host1x_cdma_end(&ch->cdma, job);
-diff --git a/drivers/gpu/host1x/hw/debug_hw.c b/drivers/gpu/host1x/hw/debug_hw.c
-index ceb48229d14b..35952fd5597e 100644
---- a/drivers/gpu/host1x/hw/debug_hw.c
-+++ b/drivers/gpu/host1x/hw/debug_hw.c
-@@ -208,10 +208,15 @@ static void show_channel_gathers(struct output *o, struct host1x_cdma *cdma)
- 				    job->first_get, job->timeout,
- 				    job->num_slots, job->num_unpins);
- 
--		for (i = 0; i < job->num_gathers; i++) {
--			struct host1x_job_gather *g = &job->gathers[i];
-+		for (i = 0; i < job->num_cmds; i++) {
-+			struct host1x_job_gather *g;
- 			u32 *mapped;
- 
-+			if (job->cmds[i].is_wait)
-+				continue;
-+
-+			g = &job->cmds[i].gather;
-+
- 			if (job->gather_copy_mapped)
- 				mapped = (u32 *)job->gather_copy_mapped;
- 			else
-diff --git a/drivers/gpu/host1x/hw/hw_host1x02_uclass.h b/drivers/gpu/host1x/hw/hw_host1x02_uclass.h
-index 4fc51f70496b..0a2ab8f1da6f 100644
---- a/drivers/gpu/host1x/hw/hw_host1x02_uclass.h
-+++ b/drivers/gpu/host1x/hw/hw_host1x02_uclass.h
-@@ -165,5 +165,17 @@ static inline u32 host1x_uclass_indoff_rwn_read_v(void)
- }
- #define HOST1X_UCLASS_INDOFF_INDROFFSET_F(v) \
- 	host1x_uclass_indoff_indroffset_f(v)
-+static inline u32 host1x_uclass_load_syncpt_payload_32_r(void)
-+{
-+	return 0x4e;
-+}
-+#define HOST1X_UCLASS_LOAD_SYNCPT_PAYLOAD_32 \
-+	host1x_uclass_load_syncpt_payload_32_r()
-+static inline u32 host1x_uclass_wait_syncpt_32_r(void)
-+{
-+	return 0x50;
-+}
-+#define HOST1X_UCLASS_WAIT_SYNCPT_32 \
-+	host1x_uclass_wait_syncpt_32_r()
- 
- #endif
-diff --git a/drivers/gpu/host1x/hw/hw_host1x04_uclass.h b/drivers/gpu/host1x/hw/hw_host1x04_uclass.h
-index 9e84a4adca9f..60c692b92955 100644
---- a/drivers/gpu/host1x/hw/hw_host1x04_uclass.h
-+++ b/drivers/gpu/host1x/hw/hw_host1x04_uclass.h
-@@ -165,5 +165,17 @@ static inline u32 host1x_uclass_indoff_rwn_read_v(void)
- }
- #define HOST1X_UCLASS_INDOFF_INDROFFSET_F(v) \
- 	host1x_uclass_indoff_indroffset_f(v)
-+static inline u32 host1x_uclass_load_syncpt_payload_32_r(void)
-+{
-+	return 0x4e;
-+}
-+#define HOST1X_UCLASS_LOAD_SYNCPT_PAYLOAD_32 \
-+	host1x_uclass_load_syncpt_payload_32_r()
-+static inline u32 host1x_uclass_wait_syncpt_32_r(void)
-+{
-+	return 0x50;
-+}
-+#define HOST1X_UCLASS_WAIT_SYNCPT_32 \
-+	host1x_uclass_wait_syncpt_32_r()
- 
- #endif
-diff --git a/drivers/gpu/host1x/hw/hw_host1x05_uclass.h b/drivers/gpu/host1x/hw/hw_host1x05_uclass.h
-index aee5a4e32877..2fcc9a2ad3ef 100644
---- a/drivers/gpu/host1x/hw/hw_host1x05_uclass.h
-+++ b/drivers/gpu/host1x/hw/hw_host1x05_uclass.h
-@@ -165,5 +165,17 @@ static inline u32 host1x_uclass_indoff_rwn_read_v(void)
- }
- #define HOST1X_UCLASS_INDOFF_INDROFFSET_F(v) \
- 	host1x_uclass_indoff_indroffset_f(v)
-+static inline u32 host1x_uclass_load_syncpt_payload_32_r(void)
-+{
-+	return 0x4e;
-+}
-+#define HOST1X_UCLASS_LOAD_SYNCPT_PAYLOAD_32 \
-+	host1x_uclass_load_syncpt_payload_32_r()
-+static inline u32 host1x_uclass_wait_syncpt_32_r(void)
-+{
-+	return 0x50;
-+}
-+#define HOST1X_UCLASS_WAIT_SYNCPT_32 \
-+	host1x_uclass_wait_syncpt_32_r()
- 
- #endif
-diff --git a/drivers/gpu/host1x/hw/hw_host1x06_uclass.h b/drivers/gpu/host1x/hw/hw_host1x06_uclass.h
-index c4bacdb7155f..5f831438d19b 100644
---- a/drivers/gpu/host1x/hw/hw_host1x06_uclass.h
-+++ b/drivers/gpu/host1x/hw/hw_host1x06_uclass.h
-@@ -165,5 +165,17 @@ static inline u32 host1x_uclass_indoff_rwn_read_v(void)
- }
- #define HOST1X_UCLASS_INDOFF_INDROFFSET_F(v) \
- 	host1x_uclass_indoff_indroffset_f(v)
-+static inline u32 host1x_uclass_load_syncpt_payload_32_r(void)
-+{
-+	return 0x4e;
-+}
-+#define HOST1X_UCLASS_LOAD_SYNCPT_PAYLOAD_32 \
-+	host1x_uclass_load_syncpt_payload_32_r()
-+static inline u32 host1x_uclass_wait_syncpt_32_r(void)
-+{
-+	return 0x50;
-+}
-+#define HOST1X_UCLASS_WAIT_SYNCPT_32 \
-+	host1x_uclass_wait_syncpt_32_r()
- 
- #endif
-diff --git a/drivers/gpu/host1x/hw/hw_host1x07_uclass.h b/drivers/gpu/host1x/hw/hw_host1x07_uclass.h
-index c74070f3f203..8cd2ef087d5d 100644
---- a/drivers/gpu/host1x/hw/hw_host1x07_uclass.h
-+++ b/drivers/gpu/host1x/hw/hw_host1x07_uclass.h
-@@ -165,5 +165,17 @@ static inline u32 host1x_uclass_indoff_rwn_read_v(void)
- }
- #define HOST1X_UCLASS_INDOFF_INDROFFSET_F(v) \
- 	host1x_uclass_indoff_indroffset_f(v)
-+static inline u32 host1x_uclass_load_syncpt_payload_32_r(void)
-+{
-+	return 0x4e;
-+}
-+#define HOST1X_UCLASS_LOAD_SYNCPT_PAYLOAD_32 \
-+	host1x_uclass_load_syncpt_payload_32_r()
-+static inline u32 host1x_uclass_wait_syncpt_32_r(void)
-+{
-+	return 0x50;
-+}
-+#define HOST1X_UCLASS_WAIT_SYNCPT_32 \
-+	host1x_uclass_wait_syncpt_32_r()
- 
- #endif
-diff --git a/drivers/gpu/host1x/job.c b/drivers/gpu/host1x/job.c
-index 09097e19c0d0..32619b73a2fc 100644
---- a/drivers/gpu/host1x/job.c
-+++ b/drivers/gpu/host1x/job.c
-@@ -38,7 +38,7 @@ struct host1x_job *host1x_job_alloc(struct host1x_channel *ch,
- 	total = sizeof(struct host1x_job) +
- 		(u64)num_relocs * sizeof(struct host1x_reloc) +
- 		(u64)num_unpins * sizeof(struct host1x_job_unpin_data) +
--		(u64)num_cmdbufs * sizeof(struct host1x_job_gather) +
-+		(u64)num_cmdbufs * sizeof(struct host1x_job_cmd) +
- 		(u64)num_unpins * sizeof(dma_addr_t) +
- 		(u64)num_unpins * sizeof(u32 *);
- 	if (total > ULONG_MAX)
-@@ -57,8 +57,8 @@ struct host1x_job *host1x_job_alloc(struct host1x_channel *ch,
- 	mem += num_relocs * sizeof(struct host1x_reloc);
- 	job->unpins = num_unpins ? mem : NULL;
- 	mem += num_unpins * sizeof(struct host1x_job_unpin_data);
--	job->gathers = num_cmdbufs ? mem : NULL;
--	mem += num_cmdbufs * sizeof(struct host1x_job_gather);
-+	job->cmds = num_cmdbufs ? mem : NULL;
-+	mem += num_cmdbufs * sizeof(struct host1x_job_cmd);
- 	job->addr_phys = num_unpins ? mem : NULL;
- 
- 	job->reloc_addr_phys = job->addr_phys;
-@@ -101,22 +101,38 @@ EXPORT_SYMBOL(host1x_job_put);
- void host1x_job_add_gather(struct host1x_job *job, struct host1x_bo *bo,
- 			   unsigned int words, unsigned int offset)
- {
--	struct host1x_job_gather *gather = &job->gathers[job->num_gathers];
-+	struct host1x_job_gather *gather = &job->cmds[job->num_cmds].gather;
- 
- 	gather->words = words;
- 	gather->bo = bo;
- 	gather->offset = offset;
- 
--	job->num_gathers++;
-+	job->num_cmds++;
- }
- EXPORT_SYMBOL(host1x_job_add_gather);
- 
-+void host1x_job_add_wait(struct host1x_job *job, u32 id, u32 thresh,
-+			 bool relative, u32 next_class)
-+{
-+	struct host1x_job_cmd *cmd = &job->cmds[job->num_cmds];
-+
-+	cmd->is_wait = true;
-+	cmd->wait.id = id;
-+	cmd->wait.threshold = thresh;
-+	cmd->wait.next_class = next_class;
-+	cmd->wait.relative = relative;
-+
-+	job->num_cmds++;
-+}
-+EXPORT_SYMBOL(host1x_job_add_wait);
-+
- static unsigned int pin_job(struct host1x *host, struct host1x_job *job)
- {
- 	struct host1x_client *client = job->client;
- 	struct device *dev = client->dev;
- 	struct host1x_job_gather *g;
- 	struct iommu_domain *domain;
-+	struct sg_table *sgt;
- 	unsigned int i;
- 	int err;
- 
-@@ -126,7 +142,6 @@ static unsigned int pin_job(struct host1x *host, struct host1x_job *job)
- 	for (i = 0; i < job->num_relocs; i++) {
- 		struct host1x_reloc *reloc = &job->relocs[i];
- 		dma_addr_t phys_addr, *phys;
--		struct sg_table *sgt;
- 
- 		reloc->target.bo = host1x_bo_get(reloc->target.bo);
- 		if (!reloc->target.bo) {
-@@ -202,17 +217,20 @@ static unsigned int pin_job(struct host1x *host, struct host1x_job *job)
- 	if (IS_ENABLED(CONFIG_TEGRA_HOST1X_FIREWALL))
- 		return 0;
- 
--	for (i = 0; i < job->num_gathers; i++) {
-+	for (i = 0; i < job->num_cmds; i++) {
- 		size_t gather_size = 0;
- 		struct scatterlist *sg;
--		struct sg_table *sgt;
- 		dma_addr_t phys_addr;
- 		unsigned long shift;
- 		struct iova *alloc;
- 		dma_addr_t *phys;
- 		unsigned int j;
- 
--		g = &job->gathers[i];
-+		if (job->cmds[i].is_wait)
-+			continue;
-+
-+		g = &job->cmds[i].gather;
-+
- 		g->bo = host1x_bo_get(g->bo);
- 		if (!g->bo) {
- 			err = -EINVAL;
-@@ -545,8 +563,13 @@ static inline int copy_gathers(struct device *host, struct host1x_job *job,
- 	fw.num_relocs = job->num_relocs;
- 	fw.class = job->class;
- 
--	for (i = 0; i < job->num_gathers; i++) {
--		struct host1x_job_gather *g = &job->gathers[i];
-+	for (i = 0; i < job->num_cmds; i++) {
-+		struct host1x_job_gather *g;
-+
-+		if (job->cmds[i].is_wait)
-+			continue;
-+
-+		g = &job->cmds[i].gather;
- 
- 		size += g->words * sizeof(u32);
- 	}
-@@ -568,10 +591,14 @@ static inline int copy_gathers(struct device *host, struct host1x_job *job,
- 
- 	job->gather_copy_size = size;
- 
--	for (i = 0; i < job->num_gathers; i++) {
--		struct host1x_job_gather *g = &job->gathers[i];
-+	for (i = 0; i < job->num_cmds; i++) {
-+		struct host1x_job_gather *g;
- 		void *gather;
- 
-+		if (job->cmds[i].is_wait)
-+			continue;
-+		g = &job->cmds[i].gather;
-+
- 		/* Copy the gather */
- 		gather = host1x_bo_mmap(g->bo);
- 		memcpy(job->gather_copy_mapped + offset, gather + g->offset,
-@@ -614,8 +641,12 @@ int host1x_job_pin(struct host1x_job *job, struct device *dev)
- 	}
- 
- 	/* patch gathers */
--	for (i = 0; i < job->num_gathers; i++) {
--		struct host1x_job_gather *g = &job->gathers[i];
-+	for (i = 0; i < job->num_cmds; i++) {
-+		struct host1x_job_gather *g;
-+
-+		if (job->cmds[i].is_wait)
-+			continue;
-+		g = &job->cmds[i].gather;
- 
- 		/* process each gather mem only once */
- 		if (g->handled)
-@@ -625,10 +656,11 @@ int host1x_job_pin(struct host1x_job *job, struct device *dev)
- 		if (!IS_ENABLED(CONFIG_TEGRA_HOST1X_FIREWALL))
- 			g->base = job->gather_addr_phys[i];
- 
--		for (j = i + 1; j < job->num_gathers; j++) {
--			if (job->gathers[j].bo == g->bo) {
--				job->gathers[j].handled = true;
--				job->gathers[j].base = g->base;
-+		for (j = i + 1; j < job->num_cmds; j++) {
-+			if (!job->cmds[j].is_wait &&
-+			    job->cmds[j].gather.bo == g->bo) {
-+				job->cmds[j].gather.handled = true;
-+				job->cmds[j].gather.base = g->base;
- 			}
+@@ -237,7 +223,7 @@ int tegra_drm_submit(struct tegra_drm_context *context,
+ 			goto fail;
  		}
  
-diff --git a/drivers/gpu/host1x/job.h b/drivers/gpu/host1x/job.h
-index 94bc2e4ae241..b4428c5495c9 100644
---- a/drivers/gpu/host1x/job.h
-+++ b/drivers/gpu/host1x/job.h
-@@ -18,6 +18,22 @@ struct host1x_job_gather {
- 	bool handled;
- };
+-		bo = host1x_bo_lookup(file, cmdbuf.handle);
++		bo = tegra_gem_lookup(file, cmdbuf.handle);
+ 		if (!bo) {
+ 			err = -ENOENT;
+ 			goto fail;
+diff --git a/drivers/gpu/drm/tegra/gem.c b/drivers/gpu/drm/tegra/gem.c
+index 26af8daa9a16..6ec598f5d5b3 100644
+--- a/drivers/gpu/drm/tegra/gem.c
++++ b/drivers/gpu/drm/tegra/gem.c
+@@ -707,3 +707,16 @@ struct drm_gem_object *tegra_gem_prime_import(struct drm_device *drm,
  
-+struct host1x_job_wait {
-+	u32 id;
-+	u32 threshold;
-+	u32 next_class;
-+	bool relative;
-+};
+ 	return &bo->gem;
+ }
 +
-+struct host1x_job_cmd {
-+	bool is_wait;
++struct host1x_bo *tegra_gem_lookup(struct drm_file *file, u32 handle)
++{
++	struct drm_gem_object *gem;
++	struct tegra_bo *bo;
 +
-+	union {
-+		struct host1x_job_gather gather;
-+		struct host1x_job_wait wait;
-+	};
-+};
++	gem = drm_gem_object_lookup(file, handle);
++	if (!gem)
++		return NULL;
 +
- struct host1x_job_unpin_data {
- 	struct host1x_bo *bo;
- 	struct sg_table *sgt;
-diff --git a/include/linux/host1x.h b/include/linux/host1x.h
-index 432125804208..9f4c01d45544 100644
---- a/include/linux/host1x.h
-+++ b/include/linux/host1x.h
-@@ -215,8 +215,8 @@ struct host1x_job {
- 	struct host1x_client *client;
++	bo = to_tegra_bo(gem);
++	return &bo->base;
++}
+diff --git a/drivers/gpu/drm/tegra/gem.h b/drivers/gpu/drm/tegra/gem.h
+index fafb5724499b..2752c66e129c 100644
+--- a/drivers/gpu/drm/tegra/gem.h
++++ b/drivers/gpu/drm/tegra/gem.h
+@@ -74,4 +74,6 @@ struct dma_buf *tegra_gem_prime_export(struct drm_gem_object *gem,
+ struct drm_gem_object *tegra_gem_prime_import(struct drm_device *drm,
+ 					      struct dma_buf *buf);
  
- 	/* Gathers and their memory */
--	struct host1x_job_gather *gathers;
--	unsigned int num_gathers;
-+	struct host1x_job_cmd *cmds;
-+	unsigned int num_cmds;
- 
- 	/* Array of handles to be pinned & unpinned */
- 	struct host1x_reloc *relocs;
-@@ -275,6 +275,8 @@ struct host1x_job *host1x_job_alloc(struct host1x_channel *ch,
- 				    u32 num_cmdbufs, u32 num_relocs);
- void host1x_job_add_gather(struct host1x_job *job, struct host1x_bo *bo,
- 			   unsigned int words, unsigned int offset);
-+void host1x_job_add_wait(struct host1x_job *job, u32 id, u32 thresh,
-+			 bool relative, u32 next_class);
- struct host1x_job *host1x_job_get(struct host1x_job *job);
- void host1x_job_put(struct host1x_job *job);
- int host1x_job_pin(struct host1x_job *job, struct device *dev);
++struct host1x_bo *tegra_gem_lookup(struct drm_file *file, u32 handle);
++
+ #endif
 -- 
 2.30.1
 
