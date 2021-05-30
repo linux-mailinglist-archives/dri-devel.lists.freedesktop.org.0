@@ -2,56 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8DE03955FB
-	for <lists+dri-devel@lfdr.de>; Mon, 31 May 2021 09:23:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 689D23955FF
+	for <lists+dri-devel@lfdr.de>; Mon, 31 May 2021 09:23:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 486D06E871;
-	Mon, 31 May 2021 07:23:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6B0C86E86C;
+	Mon, 31 May 2021 07:23:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x332.google.com (mail-ot1-x332.google.com
- [IPv6:2607:f8b0:4864:20::332])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 994AA6E0AC
- for <dri-devel@lists.freedesktop.org>; Sun, 30 May 2021 19:21:58 +0000 (UTC)
-Received: by mail-ot1-x332.google.com with SMTP id
- 36-20020a9d0ba70000b02902e0a0a8fe36so9051524oth.8
- for <dri-devel@lists.freedesktop.org>; Sun, 30 May 2021 12:21:58 -0700 (PDT)
+Received: from mail-oo1-xc33.google.com (mail-oo1-xc33.google.com
+ [IPv6:2607:f8b0:4864:20::c33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8DDF96E303
+ for <dri-devel@lists.freedesktop.org>; Sun, 30 May 2021 19:21:59 +0000 (UTC)
+Received: by mail-oo1-xc33.google.com with SMTP id
+ e27-20020a056820061bb029020da48eed5cso2295756oow.10
+ for <dri-devel@lists.freedesktop.org>; Sun, 30 May 2021 12:21:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=O1DEGNnoQ7HdGQuJ6aNB2wcm63jtvEU/JwOki3n4nkc=;
- b=GL2Dd0PEH7HDc7+MzXc/tcgKLcOqfa+g548c/BZSNfMthbMiM9S1lFeyYcsVHYu5Up
- 9qF10Wk901JJ7AdOePi0fAxpys9cFs2L+ZM+yybCkPev1U8lF8diti03chjsKgYnSp2S
- Sj8wgYX6TuY7bB48ldG2cNe/niMxikhzTjiVN6N6YAEjapP01gdqe72thI6EDnnlQxtx
- E0BNCsdOXmFRHNysQ8oMesSdkEXu4/btpnxH/zZG4VlA0d2ifctU046WjdauvG1KjZtR
- X5NI1yRY7ibKKwijsgaG5K2IDjy48jVryxH677jJTJJSdUM/7KpeNJZnAHWs2S92n/WN
- jreg==
+ bh=RhjJ3uOxa28Wx8fXMaiW9Nwea+8yIZB26w1iBcw7X80=;
+ b=dI8u97fQOkNiL5Bt+Hh5MLkZ5/qSCzc8MB6vAQorklAWtTJaWM5XFprAJnmRMUewiC
+ qwF3VSr4NvT7NupAnHJErsohLb4ZL1PUUOkt3YoWtKmFTCcT4sSrtp8QEzgfWmOT59WW
+ Ah91PmL8IRc8MKixTp4hSbd0Ey8g5NC9vRF9zceHm19DxVqPHiRTNFI+iiTF3Srtj1vO
+ NejehbUhr+f7iMvFUgGrpKekFrzdqhHorTmkmCXXg2qT3BMHEq3GVV1OpucTCW7Az+A+
+ MeEy+kP/CddePnww9BlIYuE/cqt5mTOcV3VKC09YJVuRnsCQBwBzJ3sakRgHZBrtr5uY
+ JIwg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=O1DEGNnoQ7HdGQuJ6aNB2wcm63jtvEU/JwOki3n4nkc=;
- b=YrwNPC7ekGJx8y0FJ4hXw2b4FALd9s8tE+fZfntjdi53i23dApkPuXqor4jw1ja/CW
- DvsC13zv0v6kbsO0MoqM9dJ/OL4+3guD04oBJV/y+d1B3oNbEQPRdZ5qS4DQIcEsKplo
- 0sMPtJ+dBX8vR/y3V7QvT+EPnLxDWO1OIJUbuRmUgFVc+iFApAA0hcLExJepKJ3hCqJb
- ryjnWyoHI/DDh8qM8vMnHD2wcR3fMmgdemwwRhDBnIoFiAgXmM2bJ+/fIkLs7CZ8a0m2
- fNNbiU1QEoG97wVmPTOYmVngGME00UnmXNTWaFdma/wzd8NGYIlIYrvT2bB8O28TEFIO
- WVfA==
-X-Gm-Message-State: AOAM532Gflw2OEhM0NW1hL+LBgEUKlwwdCYWJAeh9Q9qqXDT5QTH31kn
- asg40gtXqBiOSqLzOqvP88XugNfJvOLhMg==
-X-Google-Smtp-Source: ABdhPJy33IEZ6RE5dVlsKHQGqjVDs0O089ZCxO+XdwsnX/2qBu8kNbJozWQb2rGO+RQAonrDsXs7vg==
-X-Received: by 2002:a05:6830:108a:: with SMTP id
- y10mr14561645oto.187.1622402517725; 
- Sun, 30 May 2021 12:21:57 -0700 (PDT)
+ bh=RhjJ3uOxa28Wx8fXMaiW9Nwea+8yIZB26w1iBcw7X80=;
+ b=KdyOefQDIEV8fRxgpRdo8BGpR5mDDAwMM3rSJTMSkYsWO4QWOKPph01WcknEjdTHub
+ t+qeO1wLop2Pj7C5wpNyoQmJNwKFUpHFObDurDSgpgKJYcVXcPDdW+b7qarDQh/asw/4
+ KpkVOVJpM6XX1xe24pst1WjvdNdW0bKmuTSv6NLUxMHwcmk1VxrckjPyia0ay9FUliWu
+ DGWHhdO/hvC9nkz/C0VMIF6SG5W2Giv5jo+PVXCxlLNQV5rQE6odCTaKSdcpc1L7XeCh
+ 9MNLobrmL9aAKl+CDCwrga2eP7HSDPKsRUYzKptKO80VQe0QPo3uYCwcE4lsu2pSkTiD
+ TxsQ==
+X-Gm-Message-State: AOAM531YykJ7wZF8p0sMKT1PE7leXLUDpPPDBHBxmNkNKCkXDE++WSBZ
+ pJ0h6mQp+fburqQW+Z/tcxstO9lcOSUJUg==
+X-Google-Smtp-Source: ABdhPJxSz9AnKKUlF1Ry+e3I8lu/QtwcJ0WOjm+h6qdnqDUdm7vfmNu7hQqLR+Y9L17u2iWYVgS8Rw==
+X-Received: by 2002:a4a:d650:: with SMTP id y16mr2515460oos.74.1622402518607; 
+ Sun, 30 May 2021 12:21:58 -0700 (PDT)
 Received: from frodo.. (c-24-9-77-57.hsd1.co.comcast.net. [24.9.77.57])
- by smtp.googlemail.com with ESMTPSA id a18sm2418076oiy.24.2021.05.30.12.21.56
+ by smtp.googlemail.com with ESMTPSA id a18sm2418076oiy.24.2021.05.30.12.21.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 30 May 2021 12:21:57 -0700 (PDT)
+ Sun, 30 May 2021 12:21:58 -0700 (PDT)
 From: Jim Cromie <jim.cromie@gmail.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [RFC PATCH 3/4] drm: fixup DRM_DEBUG_KMS_RATELIMITED merge punt
-Date: Sun, 30 May 2021 13:21:45 -0600
-Message-Id: <20210530192146.393761-4-jim.cromie@gmail.com>
+Subject: [RFC PATCH 4/4] i915: map gvt pr_debug categories to bits in
+ parameters/debug_gvt
+Date: Sun, 30 May 2021 13:21:46 -0600
+Message-Id: <20210530192146.393761-5-jim.cromie@gmail.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210530192146.393761-1-jim.cromie@gmail.com>
 References: <20210530192146.393761-1-jim.cromie@gmail.com>
@@ -75,50 +75,121 @@ Cc: Jim Cromie <jim.cromie@gmail.com>, jbaron@akamai.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-HEAD~2 punted on merging DRM_DEBUG_KMS_RATELIMITED; clean that up now,
-removing the extra macro indirections which support !KMS cases, since
-only _KMS_RATELIMITED is used.  They can be re-added once needed.
+The gvt component of this driver has ~120 pr_debugs, in 9 "classes".
+Following model of drm.debug, add a parameter to map bits to these
+classes.
 
-conflict was here:
-c5261e93758a drm/print: Fixup DRM_DEBUG_KMS_RATELIMITED()
+In Makefile, add DYNAMIC_DEBUG_MODULE if CONFIG_DRM_USE_DYNAMIC_DEBUG.
+In i915_params.c, add callback to map bits to queries.
+
+TBD: consider moving the callback code into lib/dynamic_debug, it
+might make for a declarative interface, like an adorned version of:
+
+ +static char *format_prefix_classes[] = {
+ +       "gvt: cmd: ",
 
 Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
 ---
- include/drm/drm_print.h | 19 +++++++------------
- 1 file changed, 7 insertions(+), 12 deletions(-)
+ drivers/gpu/drm/i915/gvt/Makefile  |  4 ++
+ drivers/gpu/drm/i915/i915_params.c | 76 ++++++++++++++++++++++++++++++
+ 2 files changed, 80 insertions(+)
 
-diff --git a/include/drm/drm_print.h b/include/drm/drm_print.h
-index 616fe5e83b50..9812bf11c1e9 100644
---- a/include/drm/drm_print.h
-+++ b/include/drm/drm_print.h
-@@ -571,20 +571,15 @@ void __drm_err(const char *format, ...);
- #define DRM_DEBUG_DP(fmt, ...)						\
- 	__drm_dbg(cDRM_UT_DP, fmt, ## __VA_ARGS__)
+diff --git a/drivers/gpu/drm/i915/gvt/Makefile b/drivers/gpu/drm/i915/gvt/Makefile
+index ea8324abc784..846ba73b8de6 100644
+--- a/drivers/gpu/drm/i915/gvt/Makefile
++++ b/drivers/gpu/drm/i915/gvt/Makefile
+@@ -7,3 +7,7 @@ GVT_SOURCE := gvt.o aperture_gm.o handlers.o vgpu.o trace_points.o firmware.o \
  
--#define __DRM_DEFINE_DBG_RATELIMITED(category, drm, fmt, ...)					\
--({												\
--	static DEFINE_RATELIMIT_STATE(rs_, DEFAULT_RATELIMIT_INTERVAL, DEFAULT_RATELIMIT_BURST);\
--	const struct drm_device *drm_ = (drm);							\
--												\
--	if (drm_debug_enabled(DRM_UT_ ## category) && __ratelimit(&rs_))			\
--		drm_dev_dbg(NULL, cDRM_UT_KMS, fmt, ##__VA_ARGS__);	\
-+#define DRM_DEBUG_KMS_RATELIMITED(fmt, ...)				\
-+({									\
-+	static DEFINE_RATELIMIT_STATE(rs_, DEFAULT_RATELIMIT_INTERVAL,	\
-+				      DEFAULT_RATELIMIT_BURST);		\
-+									\
-+	if (drm_debug_enabled(DRM_UT_KMS) && __ratelimit(&rs_))		\
-+		__drm_dbg(cDRM_UT_KMS, fmt, ##__VA_ARGS__);		\
- })
- 
--#define drm_dbg_kms_ratelimited(drm, fmt, ...) \
--	__DRM_DEFINE_DBG_RATELIMITED(KMS, drm, fmt, ## __VA_ARGS__)
--
--#define DRM_DEBUG_KMS_RATELIMITED(fmt, ...) drm_dbg_kms_ratelimited(NULL, fmt, ## __VA_ARGS__)
--
- /*
-  * struct drm_device based WARNs
-  *
+ ccflags-y				+= -I $(srctree)/$(src) -I $(srctree)/$(src)/$(GVT_DIR)/
+ i915-y					+= $(addprefix $(GVT_DIR)/, $(GVT_SOURCE))
++
++#ifdef CONFIG_DRM_USE_DYNAMIC_DEBUG
++ccflags-y	+= -DDYNAMIC_DEBUG_MODULE
++#endif
+diff --git a/drivers/gpu/drm/i915/i915_params.c b/drivers/gpu/drm/i915/i915_params.c
+index 0320878d96b0..13757f1f6b60 100644
+--- a/drivers/gpu/drm/i915/i915_params.c
++++ b/drivers/gpu/drm/i915/i915_params.c
+@@ -265,3 +265,79 @@ void i915_params_free(struct i915_params *params)
+ 	I915_PARAMS_FOR_EACH(FREE);
+ #undef FREE
+ }
++
++/* POC for callback -> dynamic_debug_exec_queries */
++unsigned long __gvt_debug;
++EXPORT_SYMBOL(__gvt_debug);
++
++static char *format_prefix_classes[] = {
++	"gvt: cmd: ",
++	"gvt: core: ",
++	"gvt: dpy: ",
++	"gvt: el: ",
++	"gvt: irq: ",
++	"gvt: mm: ",
++	"gvt: mmio: ",
++	"gvt: render: ",
++	"gvt: sched: "
++};
++#define NUM_CLASSES	ARRAY_SIZE(format_prefix_classes)
++#define OUR_QUERY_SIZE	128 /* we need about 20 */
++
++#include <linux/module.h>
++
++static int param_set_dyndbg(const char *instr, const struct kernel_param *kp)
++{
++	unsigned int val;
++	unsigned long changes, result;
++	int rc, chgct = 0, totct = 0, bitpos;
++	char query[OUR_QUERY_SIZE];
++
++	rc = kstrtouint(instr, 0, &val);
++	if (rc) {
++		pr_err("set_dyndbg: failed\n");
++		return -EINVAL;
++	}
++	result = val;
++	pr_info("set_dyndbg: result:0x%lx from %s\n", result, instr);
++
++	changes = result ^ __gvt_debug;
++
++	for_each_set_bit(bitpos, &changes, NUM_CLASSES) {
++
++		sprintf(query, "format '^%s' %cp", format_prefix_classes[bitpos],
++			test_bit(bitpos, &result) ? '+' : '-');
++
++		chgct = dynamic_debug_exec_queries(query, "i915");
++
++		pr_info("%d changes on: %s\n", chgct, query);
++		totct += chgct;
++	}
++	pr_info("total changes: %d\n", totct);
++	__gvt_debug = result;
++	return 0;
++}
++static int param_get_dyndbg(char *buffer, const struct kernel_param *kp)
++{
++	return scnprintf(buffer, PAGE_SIZE, "%u\n",
++			 *((unsigned int *)kp->arg));
++}
++static const struct kernel_param_ops param_ops_dyndbg = {
++	.set = param_set_dyndbg,
++	.get = param_get_dyndbg,
++};
++
++#define info_ln(hexi, prefix) "\n\t0x" __stringify(hexi) "\t" prefix
++
++MODULE_PARM_DESC(debug_gvt, " gvt debug categories:"
++		 info_ln(1, "gvt: cmd:")
++		 info_ln(2, "gvt: core:")
++		 info_ln(4, "gvt: dpy:")
++		 info_ln(8, "gvt: el:")
++		 info_ln(10, "gvt: irq:")
++		 info_ln(20, "gvt: mm:")
++		 info_ln(40, "gvt: mmio:")
++		 info_ln(80, "gvt: render:")
++		 info_ln(100, "gvt: sched:"));
++
++module_param_cb(debug_gvt, &param_ops_dyndbg, &__gvt_debug, 0644);
 -- 
 2.31.1
 
