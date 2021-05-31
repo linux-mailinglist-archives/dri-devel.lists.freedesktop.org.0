@@ -2,64 +2,114 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3AF683956AB
-	for <lists+dri-devel@lfdr.de>; Mon, 31 May 2021 10:09:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D686B3956C6
+	for <lists+dri-devel@lfdr.de>; Mon, 31 May 2021 10:19:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 031FF6E86D;
-	Mon, 31 May 2021 08:09:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D80E06E882;
+	Mon, 31 May 2021 08:19:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m43-7.mailgun.net (m43-7.mailgun.net [69.72.43.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6CE596E87D
- for <dri-devel@lists.freedesktop.org>; Mon, 31 May 2021 08:09:16 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
- q=dns/txt; 
- s=smtp; t=1622448557; h=Content-Transfer-Encoding: Content-Type:
- In-Reply-To: MIME-Version: Date: Message-ID: From: References: Cc: To:
- Subject: Sender; bh=ngphtltYbiQKtxDI7jWMqer9BxRcg0aDjDo5g/4WJk0=;
- b=MlNVWB8MPpHGALOrrizplrQzTZdtm5dFjVAbv9y/NGXJ6cIplRiB1H3y/Pdeu/hckX9HW/DB
- uesfux2OE0d2epR6biKL9Bi9ia/KCxsYJOm6FX4hX/ruzRbwCKmAi4+oV6TezQXCpmgMmo/5
- qp0Gfyrr/chTGQkQ346HRnDOm2g=
-X-Mailgun-Sending-Ip: 69.72.43.7
-X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n04.prod.us-west-2.postgun.com with SMTP id
- 60b499a7ea2aacd7297b4534 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Mon, 31 May 2021 08:09:11
- GMT
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id 839A6C43145; Mon, 31 May 2021 08:09:11 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
- aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-3.5 required=2.0 tests=ALL_TRUSTED,BAYES_00,
- NICE_REPLY_A,SPF_FAIL,URIBL_BLOCKED autolearn=no autolearn_force=no
- version=3.4.0
-Received: from [192.168.1.105] (unknown [117.210.184.158])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested) (Authenticated sender: akhilpo)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id 931DFC4338A;
- Mon, 31 May 2021 08:09:05 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 931DFC4338A
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- spf=fail smtp.mailfrom=akhilpo@codeaurora.org
-Subject: Re: [PATCH v2 4/8] drm/msm/a6xx: update/fix CP_PROTECT initialization
-To: Jonathan Marek <jonathan@marek.ca>, freedreno@lists.freedesktop.org
-References: <20210513171431.18632-1-jonathan@marek.ca>
- <20210513171431.18632-5-jonathan@marek.ca>
-From: Akhil P Oommen <akhilpo@codeaurora.org>
-Message-ID: <71d2a36c-1a83-9735-4063-e693ed0ca29c@codeaurora.org>
-Date: Mon, 31 May 2021 13:39:03 +0530
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.2
-MIME-Version: 1.0
-In-Reply-To: <20210513171431.18632-5-jonathan@marek.ca>
-Content-Type: text/plain; charset=utf-8; format=flowed
+Received: from NAM02-BN1-obe.outbound.protection.outlook.com
+ (mail-bn1nam07on2068.outbound.protection.outlook.com [40.107.212.68])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 27BA26E882;
+ Mon, 31 May 2021 08:19:08 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=eLKvB96tQXRWOLZu6Z3m0uauW57O0UEVVDmrOgwCX0e2gs0XPNgdlj9Jl0bk8KHWu6Vf+nPDhtktegL0Iw9eqxgWBrXBHHaD2qRKx9dOeEbGDuQxB2shdBTQhyW5grcipQcTE3sg4fBxvarNRbASP556YkCG6sI9gZtun391egFmw2ir/umRRIqPLJTLsyiUjSXcB0iVb4S+zsvclVOHKgmij3wdHlDFxeqicmnrAfQTPOJhqWBPuGWk1egAwM86OcTSVSmzm8Yn3Kjc/E1lIqSNm87mNvztoWeI8vlv9XeqVbADcTjqm7gXH26U+/YMt0KlBtI+sKfA9y8bS3UO6g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=dLs1fvaKcFDOKvZFgXSt/iFn1RN9/eBCL7Zf0tvNwbc=;
+ b=dssfkoX0ukpogfcqFksRuN4qkqHoKeoh3FxvtI4Wcxs9lz6w2I6y6FgJCpTHGMNOsVhCLzwuhbSjBdcFt7UcLJ9rKnXdxXOziBF7+GEfZO1BHHVuUDgmKQ70UkKzsd9kpd7UIrPbD4B4spntOUAsMhgfJgFn0xtnI9gBJwHdFqn3ty0GXGgia3VqkhMRhdqDfQW6HLHkq9vZwHXtbh9ccVzn9opDYKFbhZfg5vmY6RZIID8QsFL93yXyO3ShZz7calS3dO4Syv5lwjPhCrYvwkeqXmgtqYZZJj+hfiiK0D1rQuDxRZlPLGS2O0Tkdv2TWHWG+aGFDeYloKKC4nQ5wQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=dLs1fvaKcFDOKvZFgXSt/iFn1RN9/eBCL7Zf0tvNwbc=;
+ b=y2ownauDMSBfZn69n7veyn2UdOpLMlMYfCG9xiDMelhVyXdRPh53gqxu55F6gEOq9WDt2BUovP1A9k2BlBbWB6BYJ7OOo7E1kzOSQRGdL/XIOqlreJqptt2FWJM3myy16mraLXVCoHLovR2wRuUk9EaG2gxkZHXA8tbgXyQhrFY=
+Received: from DM6PR12MB4250.namprd12.prod.outlook.com (2603:10b6:5:21a::9) by
+ DM5PR12MB1339.namprd12.prod.outlook.com (2603:10b6:3:70::14) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4173.24; Mon, 31 May 2021 08:19:07 +0000
+Received: from DM6PR12MB4250.namprd12.prod.outlook.com
+ ([fe80::a4b1:38b7:ec94:8003]) by DM6PR12MB4250.namprd12.prod.outlook.com
+ ([fe80::a4b1:38b7:ec94:8003%8]) with mapi id 15.20.4173.030; Mon, 31 May 2021
+ 08:19:07 +0000
+From: "Yu, Lang" <Lang.Yu@amd.com>
+To: "thomas_os@shipmail.org" <thomas_os@shipmail.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>
+Subject: RE: [PATCH 1/2] drm/ttm: cleanup and add TTM_PL_FLAG_TEMPORARY
+Thread-Topic: [PATCH 1/2] drm/ttm: cleanup and add TTM_PL_FLAG_TEMPORARY
+Thread-Index: AQHXUpf7leXvKSxZVUKsvyexEgFZo6r9QhEQ
+Date: Mon, 31 May 2021 08:19:07 +0000
+Message-ID: <DM6PR12MB4250B79297F587313D7645EBFB3F9@DM6PR12MB4250.namprd12.prod.outlook.com>
+References: <20210527013051.4302-1-Lang.Yu@amd.com>
+In-Reply-To: <20210527013051.4302-1-Lang.Yu@amd.com>
+Accept-Language: en-US
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: MSIP_Label_d4243a53-6221-4f75-8154-e4b33a5707a1_Enabled=true;
+ MSIP_Label_d4243a53-6221-4f75-8154-e4b33a5707a1_SetDate=2021-05-31T08:19:03Z; 
+ MSIP_Label_d4243a53-6221-4f75-8154-e4b33a5707a1_Method=Privileged;
+ MSIP_Label_d4243a53-6221-4f75-8154-e4b33a5707a1_Name=Public-AIP 2.0;
+ MSIP_Label_d4243a53-6221-4f75-8154-e4b33a5707a1_SiteId=3dd8961f-e488-4e60-8e11-a82d994e183d;
+ MSIP_Label_d4243a53-6221-4f75-8154-e4b33a5707a1_ActionId=d5529307-3e5e-46bc-a9d9-469601290355;
+ MSIP_Label_d4243a53-6221-4f75-8154-e4b33a5707a1_ContentBits=1
+authentication-results: shipmail.org; dkim=none (message not signed)
+ header.d=none;shipmail.org; dmarc=none action=none header.from=amd.com;
+x-originating-ip: [165.204.134.244]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: f80753dc-c23c-4454-786e-08d9240cc29f
+x-ms-traffictypediagnostic: DM5PR12MB1339:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <DM5PR12MB1339D379C41186A014CF880DFB3F9@DM5PR12MB1339.namprd12.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:4303;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 20+pWoTQzq1vzjsAYKAV5ALsbC1wMwY5vrsw+Ex0lPweP6fD+YR3ok+aHi5xdXB1idLU2msge0glzHwsoZ4CJaCi6Y1fCPabwTB03DrPJm7UNcRk8g28eOBE73eWrHitV5wICajvGi51swqB6raF0CPlM2wLicIhVYg0HNpCFJq4GzBy3zz6TWtGA4GhmHi1cQPb7ol+SE8rK23/irDBcywrjhPuCCFIHYQf79QTGuXyNypeNtumJk4KvgIfLV8kck3Kzf3gTH3+8TUTI/CsexcCHne5bF7iGsbXLlwae90hnD6/zNaqAwL4nUc2se8TmUKlC7s6HQBEP5CKC7pOkhcUGlM+PHP16qU83Z5JAqdCee2wd/zRA5ObUpw8mf4syaOh/esIFzZapnRyFIqsrNeK1ZfdqXljzCAXW5IvwdRbOK0bW8qT/nGIpGW8aIW+2xMZLhTqZIbwZbQfWEMd6/apCNNHAFj6nyEzATMcUU9xkfGybrPHTdVFddiqA9UVKFcMy/bJ+E0X+q8Xlh8gg2YT/fuyTSjxH/a/CJ1gwAgPTVOF1rwy4BnEzxtp/wbLQBIbhFcpvnxAYrP/vwXUioeQvgJGhl0UuEs3+pi6+2M=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM6PR12MB4250.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(376002)(396003)(346002)(39860400002)(136003)(366004)(6506007)(86362001)(66556008)(5660300002)(122000001)(64756008)(71200400001)(55016002)(8936002)(9686003)(110136005)(316002)(83380400001)(186003)(478600001)(2906002)(4326008)(33656002)(7696005)(8676002)(66476007)(66446008)(66946007)(38100700002)(26005)(52536014)(76116006);
+ DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata: =?us-ascii?Q?UwIsbgFSaFuswiykI0m65A4+Z/XdkPUGqHncUfLM1+lXEzHprTz+q//Qn4uZ?=
+ =?us-ascii?Q?e6xDETVwqBgNZYXziIORrHwpc37q70iLkGE2IQS47X93+tjRWFw5xCjYY0Sq?=
+ =?us-ascii?Q?MaPIJWfqwGKOGGwqO7hRmrXeUST7e2goKlclcVR/UhdymPnZsU5CKba7qK54?=
+ =?us-ascii?Q?4b+hiQMGvxblwLej2JjAWeRCM4Sn+MyA5mdRx4qJzsp4i36SGDko2RMCWEzd?=
+ =?us-ascii?Q?U0iRbyBKWj2NxdmjrhXDRjsS6Ms2muO3J4NOZC3IclKgHK91to1QjdN38jjR?=
+ =?us-ascii?Q?KFtGqR+1rkkI4lEgHB8wFRR3oBLArDtDBoQTh8WaF1hGjUpsZDOEoFOPKD//?=
+ =?us-ascii?Q?txAAVkarU1QmvlbVlRZriF+JFutsGPCuWhVXwg/sHgnS8rHXJyvF+jWUubOn?=
+ =?us-ascii?Q?mphW/NYA51VMSZa+m8m3cm5fF6SN8U8p26aiDcmh8q3Nc5VyNQ8nAufS6kg8?=
+ =?us-ascii?Q?ZHKywsWDqi+6m+v0VxhP9OGJdCt96NpzsFr0aWeBrjdmT4ynv43a80U9FWiP?=
+ =?us-ascii?Q?KgcdoBOzoR3qFRGWKmqn3pbDXddHpZKcUtrqnsaTEZ0GpZM8SK+LPyLEpwSz?=
+ =?us-ascii?Q?ZBcCtw6SBggd3ov1zEMV6EyTuBCR2ILd4qJZwqPzHHMrQAdMFChDk3BEsqoE?=
+ =?us-ascii?Q?zgPzk/ZZRJcZrdMeq0XIPp8sjDRmcp17PPJpJ2S4T/Fim98C1+Xhh6KTu/Qe?=
+ =?us-ascii?Q?Aue2rOrcQFVQEGV2V1hKXE3K2FJTpcIck/t+GonFQ7Ktqs+GnKKT+J+lygth?=
+ =?us-ascii?Q?R8sD5TiLAQwAPmiHKhptd6AzEIWO6gfXIqGGS+8RUdRxZDsh8eFhlkbo+thJ?=
+ =?us-ascii?Q?cm5wF0pi2GiKkXDPJQETbqIGTCqGHvdm2X9XZgiZW+e8BnY7RY6UepLBILKr?=
+ =?us-ascii?Q?SPy8eEEGIreMzauPY+ndmAOD6Qb6+TmJJ6kmb8ZHg2jRCU2jYWQ37eX+/fLt?=
+ =?us-ascii?Q?5o7iIPpIvnERwBi1QxV9h5+tARL3DEh8rS6w2bk8UoqJRBtFVBadR9mHHx4v?=
+ =?us-ascii?Q?eyXMQsURSvtRpdlbqmpYu+ZY1Zcw7opw48UjRT3AZ1nnS3OqDrfb0z9hoTUB?=
+ =?us-ascii?Q?XzQVLrVBrax5JIU5KW+c+DtheMsFuZsc1n75L2Dv00Jk3LW82N36IkfSifYi?=
+ =?us-ascii?Q?wJ4+O9lLwj3TBc/LEYjcoXLgryjQXXO+kqlILs8jbAC2Eh7HngW5qRff6bsx?=
+ =?us-ascii?Q?0GpLLidQCIFUz0RA1/FOz3aC82FV7xkxwRXE9m2kFlRdRBIfoJF8LddTttBK?=
+ =?us-ascii?Q?2Tk9CayTAfqoWMah+yb7X9fULbvUi6yBMQWjIL3inSWVTx+MzeQgFJcXp8zk?=
+ =?us-ascii?Q?6+qJNkHQoWddstZOqiBWVyNB?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB4250.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f80753dc-c23c-4454-786e-08d9240cc29f
+X-MS-Exchange-CrossTenant-originalarrivaltime: 31 May 2021 08:19:07.1839 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: vme8dzV3zvhjqwy4+mamvLrqj2wPjcOpz912tJr/VNAa7VUiMdSXB62bQ4/82/6GwLLHH6q7+i0qZBTBsxy+kA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR12MB1339
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,205 +122,67 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>,
- David Airlie <airlied@linux.ie>,
- "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
- Sharat Masetty <smasetty@codeaurora.org>,
- Douglas Anderson <dianders@chromium.org>,
- "open list:DRM DRIVER FOR MSM ADRENO GPU" <dri-devel@lists.freedesktop.org>,
- Jordan Crouse <jordan@cosmicpenguin.net>, Sean Paul <sean@poorly.run>,
- open list <linux-kernel@vger.kernel.org>
+Cc: "Koenig, Christian" <Christian.Koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 5/13/2021 10:43 PM, Jonathan Marek wrote:
-> Update CP_PROTECT register programming based on downstream.
-> 
-> A6XX_PROTECT_RW is renamed to A6XX_PROTECT_NORDWR to make things aligned
-> and also be more clear about what it does.
-> 
-> Signed-off-by: Jonathan Marek <jonathan@marek.ca>
-> ---
->   drivers/gpu/drm/msm/adreno/a6xx_gpu.c | 143 +++++++++++++++++++-------
->   drivers/gpu/drm/msm/adreno/a6xx_gpu.h |   2 +-
->   2 files changed, 109 insertions(+), 36 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-> index 45a6a0fce7d7..909e3ff08f89 100644
-> --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-> @@ -462,6 +462,113 @@ static void a6xx_set_hwcg(struct msm_gpu *gpu, bool state)
->   	gpu_write(gpu, REG_A6XX_RBBM_CLOCK_CNTL, state ? clock_cntl_on : 0);
->   }
->   
-> +/* For a615, a616, a618, A619, a630, a640 and a680 */
-> +static const u32 a6xx_protect[] = {
-> +	A6XX_PROTECT_RDONLY(0x00000, 0x04ff),
-> +	A6XX_PROTECT_RDONLY(0x00501, 0x0005),
-> +	A6XX_PROTECT_RDONLY(0x0050b, 0x02f4),
-> +	A6XX_PROTECT_NORDWR(0x0050e, 0x0000),
-> +	A6XX_PROTECT_NORDWR(0x00510, 0x0000),
-> +	A6XX_PROTECT_NORDWR(0x00534, 0x0000),
-> +	A6XX_PROTECT_NORDWR(0x00800, 0x0082),
-> +	A6XX_PROTECT_NORDWR(0x008a0, 0x0008),
-> +	A6XX_PROTECT_NORDWR(0x008ab, 0x0024),
-> +	A6XX_PROTECT_RDONLY(0x008d0, 0x00bc),
-> +	A6XX_PROTECT_NORDWR(0x00900, 0x004d),
-> +	A6XX_PROTECT_NORDWR(0x0098d, 0x0272),
-> +	A6XX_PROTECT_NORDWR(0x00e00, 0x0001),
-> +	A6XX_PROTECT_NORDWR(0x00e03, 0x000c),
-> +	A6XX_PROTECT_NORDWR(0x03c00, 0x00c3),
-> +	A6XX_PROTECT_RDONLY(0x03cc4, 0x1fff),
-> +	A6XX_PROTECT_NORDWR(0x08630, 0x01cf),
-> +	A6XX_PROTECT_NORDWR(0x08e00, 0x0000),
-> +	A6XX_PROTECT_NORDWR(0x08e08, 0x0000),
-> +	A6XX_PROTECT_NORDWR(0x08e50, 0x001f),
-> +	A6XX_PROTECT_NORDWR(0x09624, 0x01db),
-> +	A6XX_PROTECT_NORDWR(0x09e70, 0x0001),
-> +	A6XX_PROTECT_NORDWR(0x09e78, 0x0187),
-> +	A6XX_PROTECT_NORDWR(0x0a630, 0x01cf),
-> +	A6XX_PROTECT_NORDWR(0x0ae02, 0x0000),
-> +	A6XX_PROTECT_NORDWR(0x0ae50, 0x032f),
-> +	A6XX_PROTECT_NORDWR(0x0b604, 0x0000),
-> +	A6XX_PROTECT_NORDWR(0x0be02, 0x0001),
-> +	A6XX_PROTECT_NORDWR(0x0be20, 0x17df),
-> +	A6XX_PROTECT_NORDWR(0x0f000, 0x0bff),
-> +	A6XX_PROTECT_RDONLY(0x0fc00, 0x1fff),
-> +	A6XX_PROTECT_NORDWR(0x11c00, 0x0000), /* note: infinite range */
-> +};
-> +
-> +/* These are for a620 and a650 */
-> +static const u32 a650_protect[] = {
-> +	A6XX_PROTECT_RDONLY(0x00000, 0x04ff),
-> +	A6XX_PROTECT_RDONLY(0x00501, 0x0005),
-> +	A6XX_PROTECT_RDONLY(0x0050b, 0x02f4),
-> +	A6XX_PROTECT_NORDWR(0x0050e, 0x0000),
-> +	A6XX_PROTECT_NORDWR(0x00510, 0x0000),
-> +	A6XX_PROTECT_NORDWR(0x00534, 0x0000),
-> +	A6XX_PROTECT_NORDWR(0x00800, 0x0082),
-> +	A6XX_PROTECT_NORDWR(0x008a0, 0x0008),
-> +	A6XX_PROTECT_NORDWR(0x008ab, 0x0024),
-> +	A6XX_PROTECT_RDONLY(0x008d0, 0x00bc),
-> +	A6XX_PROTECT_NORDWR(0x00900, 0x004d),
-> +	A6XX_PROTECT_NORDWR(0x0098d, 0x0272),
-> +	A6XX_PROTECT_NORDWR(0x00e00, 0x0001),
-> +	A6XX_PROTECT_NORDWR(0x00e03, 0x000c),
-> +	A6XX_PROTECT_NORDWR(0x03c00, 0x00c3),
-> +	A6XX_PROTECT_RDONLY(0x03cc4, 0x1fff),
-> +	A6XX_PROTECT_NORDWR(0x08630, 0x01cf),
-> +	A6XX_PROTECT_NORDWR(0x08e00, 0x0000),
-> +	A6XX_PROTECT_NORDWR(0x08e08, 0x0000),
-> +	A6XX_PROTECT_NORDWR(0x08e50, 0x001f),
-> +	A6XX_PROTECT_NORDWR(0x08e80, 0x027f),
-> +	A6XX_PROTECT_NORDWR(0x09624, 0x01db),
-> +	A6XX_PROTECT_NORDWR(0x09e60, 0x0011),
-> +	A6XX_PROTECT_NORDWR(0x09e78, 0x0187),
-> +	A6XX_PROTECT_NORDWR(0x0a630, 0x01cf),
-> +	A6XX_PROTECT_NORDWR(0x0ae02, 0x0000),
-> +	A6XX_PROTECT_NORDWR(0x0ae50, 0x032f),
-> +	A6XX_PROTECT_NORDWR(0x0b604, 0x0000),
-> +	A6XX_PROTECT_NORDWR(0x0b608, 0x0007),
-> +	A6XX_PROTECT_NORDWR(0x0be02, 0x0001),
-> +	A6XX_PROTECT_NORDWR(0x0be20, 0x17df),
-> +	A6XX_PROTECT_NORDWR(0x0f000, 0x0bff),
-> +	A6XX_PROTECT_RDONLY(0x0fc00, 0x1fff),
-> +	A6XX_PROTECT_NORDWR(0x18400, 0x1fff),
-> +	A6XX_PROTECT_NORDWR(0x1a800, 0x1fff),
-> +	A6XX_PROTECT_NORDWR(0x1f400, 0x0443),
-> +	A6XX_PROTECT_RDONLY(0x1f844, 0x007b),
-> +	A6XX_PROTECT_NORDWR(0x1f887, 0x001b),
-> +	A6XX_PROTECT_NORDWR(0x1f8c0, 0x0000), /* note: infinite range */
-> +};
-> +
-> +static void a6xx_set_cp_protect(struct msm_gpu *gpu)
-> +{
-> +	struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
-> +	const u32 *regs = a6xx_protect;
-> +	unsigned i, count = ARRAY_SIZE(a6xx_protect), count_max = 32;
-> +
-> +	BUILD_BUG_ON(ARRAY_SIZE(a6xx_protect) > 32);
-> +	BUILD_BUG_ON(ARRAY_SIZE(a650_protect) > 48);
-> +
-> +	if (adreno_is_a650(adreno_gpu)) {
-> +		regs = a650_protect;
-> +		count = ARRAY_SIZE(a650_protect);
-> +		count_max = 48;
-> +	}
-> +
-> +	/*
-> +	 * Enable access protection to privileged registers, fault on an access
-> +	 * protect violation and select the last span to protect from the start
-> +	 * address all the way to the end of the register address space
-> +	 */
-> +	gpu_write(gpu, REG_A6XX_CP_PROTECT_CNTL, BIT(0) | BIT(1) | BIT(3));
-> +
-> +	for (i = 0; i < count - 1; i++)
-> +		gpu_write(gpu, REG_A6XX_CP_PROTECT(i), regs[i]);
-> +	/* last CP_PROTECT to have "infinite" length on the last entry */
-> +	gpu_write(gpu, REG_A6XX_CP_PROTECT(count_max - 1), regs[i]);
-> +}
-> +
->   static void a6xx_set_ubwc_config(struct msm_gpu *gpu)
->   {
->   	struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
-> @@ -776,41 +883,7 @@ static int a6xx_hw_init(struct msm_gpu *gpu)
->   	}
->   
->   	/* Protect registers from the CP */
-> -	gpu_write(gpu, REG_A6XX_CP_PROTECT_CNTL, 0x00000003);
-> -
-> -	gpu_write(gpu, REG_A6XX_CP_PROTECT(0),
-> -		A6XX_PROTECT_RDONLY(0x600, 0x51));
-> -	gpu_write(gpu, REG_A6XX_CP_PROTECT(1), A6XX_PROTECT_RW(0xae50, 0x2));
-> -	gpu_write(gpu, REG_A6XX_CP_PROTECT(2), A6XX_PROTECT_RW(0x9624, 0x13));
-> -	gpu_write(gpu, REG_A6XX_CP_PROTECT(3), A6XX_PROTECT_RW(0x8630, 0x8));
-> -	gpu_write(gpu, REG_A6XX_CP_PROTECT(4), A6XX_PROTECT_RW(0x9e70, 0x1));
-> -	gpu_write(gpu, REG_A6XX_CP_PROTECT(5), A6XX_PROTECT_RW(0x9e78, 0x187));
-> -	gpu_write(gpu, REG_A6XX_CP_PROTECT(6), A6XX_PROTECT_RW(0xf000, 0x810));
-> -	gpu_write(gpu, REG_A6XX_CP_PROTECT(7),
-> -		A6XX_PROTECT_RDONLY(0xfc00, 0x3));
-> -	gpu_write(gpu, REG_A6XX_CP_PROTECT(8), A6XX_PROTECT_RW(0x50e, 0x0));
-> -	gpu_write(gpu, REG_A6XX_CP_PROTECT(9), A6XX_PROTECT_RDONLY(0x50f, 0x0));
-> -	gpu_write(gpu, REG_A6XX_CP_PROTECT(10), A6XX_PROTECT_RW(0x510, 0x0));
-> -	gpu_write(gpu, REG_A6XX_CP_PROTECT(11),
-> -		A6XX_PROTECT_RDONLY(0x0, 0x4f9));
-> -	gpu_write(gpu, REG_A6XX_CP_PROTECT(12),
-> -		A6XX_PROTECT_RDONLY(0x501, 0xa));
-> -	gpu_write(gpu, REG_A6XX_CP_PROTECT(13),
-> -		A6XX_PROTECT_RDONLY(0x511, 0x44));
-> -	gpu_write(gpu, REG_A6XX_CP_PROTECT(14), A6XX_PROTECT_RW(0xe00, 0xe));
-> -	gpu_write(gpu, REG_A6XX_CP_PROTECT(15), A6XX_PROTECT_RW(0x8e00, 0x0));
-> -	gpu_write(gpu, REG_A6XX_CP_PROTECT(16), A6XX_PROTECT_RW(0x8e50, 0xf));
-> -	gpu_write(gpu, REG_A6XX_CP_PROTECT(17), A6XX_PROTECT_RW(0xbe02, 0x0));
-> -	gpu_write(gpu, REG_A6XX_CP_PROTECT(18),
-> -		A6XX_PROTECT_RW(0xbe20, 0x11f3));
-> -	gpu_write(gpu, REG_A6XX_CP_PROTECT(19), A6XX_PROTECT_RW(0x800, 0x82));
-> -	gpu_write(gpu, REG_A6XX_CP_PROTECT(20), A6XX_PROTECT_RW(0x8a0, 0x8));
-> -	gpu_write(gpu, REG_A6XX_CP_PROTECT(21), A6XX_PROTECT_RW(0x8ab, 0x19));
-> -	gpu_write(gpu, REG_A6XX_CP_PROTECT(22), A6XX_PROTECT_RW(0x900, 0x4d));
-> -	gpu_write(gpu, REG_A6XX_CP_PROTECT(23), A6XX_PROTECT_RW(0x98d, 0x76));
-> -	gpu_write(gpu, REG_A6XX_CP_PROTECT(24),
-> -			A6XX_PROTECT_RDONLY(0x980, 0x4));
-> -	gpu_write(gpu, REG_A6XX_CP_PROTECT(25), A6XX_PROTECT_RW(0xa630, 0x0));
-> +	a6xx_set_cp_protect(gpu);
->   
->   	/* Enable expanded apriv for targets that support it */
->   	if (gpu->hw_apriv) {
-> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.h b/drivers/gpu/drm/msm/adreno/a6xx_gpu.h
-> index ce0610c5256f..bb544dfe5737 100644
-> --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.h
-> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.h
-> @@ -44,7 +44,7 @@ struct a6xx_gpu {
->    * REG_CP_PROTECT_REG(n) - this will block both reads and writes for _len
->    * registers starting at _reg.
->    */
-> -#define A6XX_PROTECT_RW(_reg, _len) \
-> +#define A6XX_PROTECT_NORDWR(_reg, _len) \
->   	((1 << 31) | \
->   	(((_len) & 0x3FFF) << 18) | ((_reg) & 0x3FFFF))
->   
-> 
+[Public]
 
-Reviewed-by: Akhil P Oommen <akhilpo@codeaurora.org>
+>Hi,
 
--Akhil
+>On 5/27/21 3:30 AM, Lang Yu wrote:
+>> Make TTM_PL_FLAG_* start from zero and add
+>> TTM_PL_FLAG_TEMPORARY flag for temporary
+>> GTT allocation use.
+
+>GTT is a driver private acronym, right? And it doesn't look like=20
+>TTM_PL_FLAG_TEMPORARY will be used in core TTM, so should we instead set=20
+>aside a mask in the PL flag for driver-private use?
+
+Hi Thomas, =20
+
+Thanks for your comments and advice, GTT means Graphics Translation Table h=
+ere, seems
+a general acronym. TTM_PL_FLAG_TEMPORARY may also be used by other drives.
+I have made other patches for this. Please help review.=20
+
+Regards,
+Lang
+
+>Thomas
+
+>-----Original Message-----
+>From: Yu, Lang <Lang.Yu@amd.com>
+>Sent: Thursday, May 27, 2021 9:31 AM
+>To: amd-gfx@lists.freedesktop.org; dri-devel@lists.freedesktop.org
+>Cc: Koenig, Christian <Christian.Koenig@amd.com>; Huang, Ray
+><Ray.Huang@amd.com>; Deucher, Alexander <Alexander.Deucher@amd.com>;
+>Yu, Lang <Lang.Yu@amd.com>
+>Subject: [PATCH 1/2] drm/ttm: cleanup and add TTM_PL_FLAG_TEMPORARY
+>
+>Make TTM_PL_FLAG_* start from zero and add TTM_PL_FLAG_TEMPORARY flag
+>for temporary GTT allocation use.
+>
+>Signed-off-by: Lang Yu <Lang.Yu@amd.com>
+>---
+> include/drm/ttm/ttm_placement.h | 5 +++--
+> 1 file changed, 3 insertions(+), 2 deletions(-)
+>
+>diff --git a/include/drm/ttm/ttm_placement.h
+>b/include/drm/ttm/ttm_placement.h index aa6ba4d0cf78..9f5cfc7c2d5a 100644
+>--- a/include/drm/ttm/ttm_placement.h
+>+++ b/include/drm/ttm/ttm_placement.h
+>@@ -47,8 +47,9 @@
+>  * top of the memory area, instead of the bottom.
+>  */
+>
+>-#define TTM_PL_FLAG_CONTIGUOUS  (1 << 19)
+>-#define TTM_PL_FLAG_TOPDOWN     (1 << 22)
+>+#define TTM_PL_FLAG_CONTIGUOUS  (1 << 0)
+>+#define TTM_PL_FLAG_TOPDOWN     (1 << 1)
+>+#define TTM_PL_FLAG_TEMPORARY   (1 << 2)
+>
+> /**
+>  * struct ttm_place
+>--
+>2.25.1
