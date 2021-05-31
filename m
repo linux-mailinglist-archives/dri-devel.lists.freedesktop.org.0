@@ -1,71 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A76B7395A28
-	for <lists+dri-devel@lfdr.de>; Mon, 31 May 2021 14:10:08 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B07BD395A4D
+	for <lists+dri-devel@lfdr.de>; Mon, 31 May 2021 14:20:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E0CF38945B;
-	Mon, 31 May 2021 12:10:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B77B16E8F0;
+	Mon, 31 May 2021 12:20:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ste-pvt-msa1.bahnhof.se (ste-pvt-msa1.bahnhof.se
- [213.80.101.70])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3579F8945B
- for <dri-devel@lists.freedesktop.org>; Mon, 31 May 2021 12:10:03 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by ste-pvt-msa1.bahnhof.se (Postfix) with ESMTP id 7A7103F71A;
- Mon, 31 May 2021 14:10:01 +0200 (CEST)
-Authentication-Results: ste-pvt-msa1.bahnhof.se; dkim=pass (1024-bit key;
- unprotected) header.d=shipmail.org header.i=@shipmail.org header.b="M0KF649V";
- dkim-atps=neutral
-X-Virus-Scanned: Debian amavisd-new at bahnhof.se
-X-Spam-Flag: NO
-X-Spam-Score: -2.1
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.1 tagged_above=-999 required=6.31
- tests=[BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- URIBL_BLOCKED=0.001] autolearn=ham autolearn_force=no
-Received: from ste-pvt-msa1.bahnhof.se ([127.0.0.1])
- by localhost (ste-pvt-msa1.bahnhof.se [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id I9wo6bk9VmlS; Mon, 31 May 2021 14:10:00 +0200 (CEST)
-Received: by ste-pvt-msa1.bahnhof.se (Postfix) with ESMTPA id 316A93F6BE;
- Mon, 31 May 2021 14:09:59 +0200 (CEST)
-Received: from [192.168.0.209] (h-155-4-205-35.A357.priv.bahnhof.se
- [155.4.205.35])
- by mail1.shipmail.org (Postfix) with ESMTPSA id BC3F83600E5;
- Mon, 31 May 2021 14:09:59 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=shipmail.org; s=mail;
- t=1622462999; bh=Y5BqkkCrLzjckxB/iPLYEH1anqsml90Pb+tjhUY5K18=;
- h=Subject:To:References:From:Date:In-Reply-To:From;
- b=M0KF649VDfgiPSQrTvWZdZLONzcU4S3xZgdhMmrUejzlxL6ST1bYgdLp+Mn3d9k6/
- 1HoBSO2YANuz5R1ra6Igsk6i//TurmwBBg/QQ9NrEPhbbLrJNLYUtRKZva/0H6+qZz
- BYonG82VhE+cXtE30RgGV5QZAs6RPAQ49Td1uprg=
-Subject: Re: [PATCH 1/2] drm/ttm: cleanup and add TTM_PL_FLAG_TEMPORARY
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
- "Yu, Lang" <Lang.Yu@amd.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>
-References: <20210527013051.4302-1-Lang.Yu@amd.com>
- <DM6PR12MB4250B79297F587313D7645EBFB3F9@DM6PR12MB4250.namprd12.prod.outlook.com>
- <14d7f047-cf6d-c84a-14ff-3f1d833a770b@shipmail.org>
- <883bd629-e3ad-07a2-8952-994f42cb02be@gmail.com>
- <86054733-9b7d-de96-4ab2-21dca85f1e6e@shipmail.org>
- <888c52a5-ec10-0dee-c462-93cef8510e9f@amd.com>
- <6c4c8c57-7cc7-7e24-1d19-b91a312d44a0@shipmail.org>
- <cd081dda-7430-d891-6b02-8aedda7b67be@amd.com>
-From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m_=28Intel=29?= <thomas_os@shipmail.org>
-Message-ID: <7d545d70-8212-3fbe-e803-5198af69f5c2@shipmail.org>
-Date: Mon, 31 May 2021 14:09:59 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D29ED6E8F0;
+ Mon, 31 May 2021 12:19:59 +0000 (UTC)
+IronPort-SDR: A7t1MW7MaUM4Gi3a+rWP+YH7dvIbtne4Bs61Hc7sce+srwmH/nWx/LJw+f7RQ4GGiS0SJuDLNg
+ rOxoqeGa4Ypw==
+X-IronPort-AV: E=McAfee;i="6200,9189,10000"; a="183027443"
+X-IronPort-AV: E=Sophos;i="5.83,237,1616482800"; d="scan'208";a="183027443"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 31 May 2021 05:19:58 -0700
+IronPort-SDR: sPgXvl8lavjXjraLnCyVYILl7Q0MIQxCsjXXCsm7paMDPKRrdSfVivrEEENw9Cqyjy/5BlkoyK
+ SGjRk82/HXQg==
+X-IronPort-AV: E=Sophos;i="5.83,237,1616482800"; d="scan'208";a="473903743"
+Received: from fnygreen-mobl1.ger.corp.intel.com (HELO
+ thellst-mobl1.intel.com) ([10.249.254.133])
+ by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 31 May 2021 05:19:56 -0700
+From: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
+To: intel-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org
+Subject: [PATCH v7 00/15] Move LMEM (VRAM) management over to TTM
+Date: Mon, 31 May 2021 14:19:25 +0200
+Message-Id: <20210531121940.267032-1-thomas.hellstrom@linux.intel.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-In-Reply-To: <cd081dda-7430-d891-6b02-8aedda7b67be@amd.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,107 +48,165 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+This is an initial patch series to move discrete memory management over to
+TTM. It will be followed up shortly with adding more functionality.
 
-On 5/31/21 2:02 PM, Christian König wrote:
-> Am 31.05.21 um 13:19 schrieb Thomas Hellström (Intel):
->>
->> On 5/31/21 12:56 PM, Christian König wrote:
->>> Am 31.05.21 um 12:46 schrieb Thomas Hellström (Intel):
->>>>
->>>> On 5/31/21 12:32 PM, Christian König wrote:
->>>>> Am 31.05.21 um 11:52 schrieb Thomas Hellström (Intel):
->>>>>> Hi, Lang,
->>>>>>
->>>>>> On 5/31/21 10:19 AM, Yu, Lang wrote:
->>>>>>> [Public]
->>>>>>>
->>>>>>>> Hi,
->>>>>>>> On 5/27/21 3:30 AM, Lang Yu wrote:
->>>>>>>>> Make TTM_PL_FLAG_* start from zero and add
->>>>>>>>> TTM_PL_FLAG_TEMPORARY flag for temporary
->>>>>>>>> GTT allocation use.
->>>>>>>> GTT is a driver private acronym, right? And it doesn't look like
->>>>>>>> TTM_PL_FLAG_TEMPORARY will be used in core TTM, so should we 
->>>>>>>> instead set
->>>>>>>> aside a mask in the PL flag for driver-private use?
->>>>>>> Hi Thomas,
->>>>>>>
->>>>>>> Thanks for your comments and advice, GTT means Graphics 
->>>>>>> Translation Table here, seems
->>>>>>> a general acronym. TTM_PL_FLAG_TEMPORARY may also be used by 
->>>>>>> other drives.
->>>>>>> I have made other patches for this. Please help review.
->>>>>>>
->>>>>>> Regards,
->>>>>>> Lang
->>>>>>>
->>>>>> My point was really that the flag naming and documentation should 
->>>>>> reflect what core ttm is doing with that flag. If there is no 
->>>>>> specific core TTM usage, IMO we should move it to a driver 
->>>>>> specific flag to avoid future confusion. In particular a writer 
->>>>>> of a generic TTM resource manager should be able to know without 
->>>>>> looking at an old commit message what the placement flag is 
->>>>>> intended for.
->>>>>>
->>>>>> So here we add a flag where core TTM forces a bo move on validate 
->>>>>> and that's it. And that appears to be how it's used when an 
->>>>>> amdgpu bo is evicted to GTT, (btw should it be accounted in this 
->>>>>> situation?)
->>>>>>
->>>>>> The other use is to force the amdgpu driver to temporarily accept 
->>>>>> it into GTT when there is a lack of space, and IMHO that's a 
->>>>>> driver specific use and we should allocate a mask for driver 
->>>>>> specific flags for that.
->>>>>>
->>>>>> So shouldn't this be two flags, really?
->>>>>
->>>>> Well one flag makes sense for the use case at hand that drivers 
->>>>> want to signal to TTM that an allocation is only temporary and not 
->>>>> considered valid.
->>>>>
->>>>> That we then use this flag to implement temporary GTT allocations 
->>>>> to avoid problems during eviction is just extending that use case.
->>>>>
->>>> OK, but it looked like there were actually two use-cases. One for 
->>>> possibly long-term VRAM evictions to GTT, the other for the 
->>>> temporary use-case where the hop resource allocations sometimes 
->>>> failed. Or did I misunderstand the code?
->>>
->>> Ok sounds like we need more documentation here. That's really one 
->>> use case.
->>>
->>> Key point is we need temporary allocation during multihop which 
->>> should be handled differently to normal allocations.
->>
->> Yes, that part is clear from the patches. The part that I can't fit 
->> into that pattern is why the evict flags when evicting from visible 
->> VRAM to GTT or ordinary VRAM is marked with TTM_PL_FLAG_TEMPORARY. 
->> Wouldn't those remain evicted in that placement until re-validated to 
->> visible VRAM at an unknown future time?
->
-> Not necessarily.
->
-> The situation we ran into was the following:
-> 1. OOM on VRAM, we try to evict.
->
-> 2. GTT space is used up as well, ok evict directly to SYSTEM.
->
-> 3. For VRAM->SYSTEM eviction we use a temporary bounce buffer.
->
-> 4. Waiting for the bounce buffer to become idle is interrupted by a 
-> signal so BO is still backed by bounce buffer.
->
-> 5. Next CS, BO is validated with VRAM|GTT. TTM sees that it is in GTT 
-> and doesn't move the buffer.
->
-> 6. CS goes into nirvana because bounce buffers are not meant to be 
-> used for CS (we can ignore alignment and accounting for them).
->
-Yes, makes sense to me.
+The buddy allocator is temporarily removed along with its selftests and
+It is replaced with the TTM range manager and some selftests are adjusted
+to account for introduced fragmentation. Work is ongoing to reintroduce the
+buddy allocator as a TTM resource manager.
 
-/Thomas
+A new memcpy ttm move is introduced that uses kmap_local() functionality
+rather than vmap(). Among other things stated in the patch commit message
+it helps us deal with page-pased LMEM memory. It is generic enough to replace
+the ttm memcpy move with some additional work if so desired. On x86 it also
+enables prefetching reads from write-combined memory.
 
+Finally the old i915 gem object LMEM backend is replaced with a
+i915 gem object TTM backend and some additional i915 gem object ops are
+introduced to support the added functionality.
+Currently it is used only to support management and eviction of the LMEM
+region, but work is underway to extend the support to system memory. In this
+way we use TTM the way it was originally intended, having the GPU binding
+taken care of by driver code.
+
+Intention is to follow up with
+- System memory support
+- Pipelined accelerated moves / migration
+- Re-added buddy allocator in the TTM framework
+
+v2:
+- Add patches to move pagefaulting over to TTM
+- Break out TTM changes to separate patches
+- Address various review comments as detailed in the affected patches
+
+v3:
+- Drop TTM pagefaulting patches for now due changing approach due to a NAK.
+- Address feedback on TTM patches
+- Move the new TTM memcpy functionality into TTM.
+- Move fast WC memcpy to drm
+- Various fixes all over the place as shown in patch commit messages.
+
+v4:
+- Re-add TTM pagefaulting patches.
+- Addressed review feedback mainly from Matthew Auld
+- Fixed the mock ttm device code that was using an incorrect approach.
+
+v5:
+- Cleanups in the TTM pagefaulting patches.
+- Just add the WC memcpy to DRM without removing from i915
+  (Suggested by Daniel Vetter).
+- Various minor fixes as reported in patch log messages.
+v6:
+- Fix a merge conflict causing build error.
+v7:
+- Fix the WC memcpy compilation and perform a fallback memcpy in addition to
+  warning in interrupt (Suggested by Christian König)
+- Renistate check for ttm_tt_is_populated() on swapout.
+
+Cc: Christian König <christian.koenig@amd.com>
+
+Maarten Lankhorst (3):
+  drm/i915: Disable mmap ioctl for gen12+
+  drm/vma: Add a driver_private member to vma_node.
+  drm/i915: Use ttm mmap handling for ttm bo's.
+
+Thomas Hellström (12):
+  drm/i915: Untangle the vma pages_mutex
+  drm/i915: Don't free shared locks while shared
+  drm/i915: Fix i915_sg_page_sizes to record dma segments rather than
+    physical pages
+  drm/i915/ttm Initialize the ttm device and memory managers
+  drm/i915/ttm: Embed a ttm buffer object in the i915 gem object
+  drm/ttm: Add a generic TTM memcpy move for page-based iomem
+  drm: Add a prefetching memcpy_from_wc
+  drm/ttm: Use drm_memcpy_from_wc for TTM bo moves
+  drm/ttm: Document and optimize ttm_bo_pipeline_gutting()
+  drm/ttm, drm/amdgpu: Allow the driver some control over swapping
+  drm/i915/ttm: Introduce a TTM i915 gem object backend
+  drm/i915/lmem: Verify checks for lmem residency
+
+ Documentation/gpu/drm-mm.rst                  |   2 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c       |   4 +
+ drivers/gpu/drm/drm_cache.c                   | 147 ++++
+ drivers/gpu/drm/drm_drv.c                     |   2 +
+ drivers/gpu/drm/drm_gem.c                     |   9 -
+ drivers/gpu/drm/i915/Kconfig                  |   1 +
+ drivers/gpu/drm/i915/Makefile                 |   3 +-
+ drivers/gpu/drm/i915/display/intel_display.c  |   2 +-
+ drivers/gpu/drm/i915/gem/i915_gem_create.c    |   9 +-
+ drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c    |   2 +-
+ drivers/gpu/drm/i915/gem/i915_gem_lmem.c      |  71 +-
+ drivers/gpu/drm/i915/gem/i915_gem_lmem.h      |   5 -
+ drivers/gpu/drm/i915/gem/i915_gem_mman.c      |  90 +-
+ drivers/gpu/drm/i915/gem/i915_gem_object.c    | 149 +++-
+ drivers/gpu/drm/i915/gem/i915_gem_object.h    |  19 +-
+ .../gpu/drm/i915/gem/i915_gem_object_types.h  |  52 +-
+ drivers/gpu/drm/i915/gem/i915_gem_pages.c     |   6 +-
+ drivers/gpu/drm/i915/gem/i915_gem_phys.c      |   2 +-
+ drivers/gpu/drm/i915/gem/i915_gem_region.c    | 126 +--
+ drivers/gpu/drm/i915/gem/i915_gem_region.h    |   4 -
+ drivers/gpu/drm/i915/gem/i915_gem_shmem.c     |   4 +-
+ drivers/gpu/drm/i915/gem/i915_gem_stolen.c    |  10 +-
+ drivers/gpu/drm/i915/gem/i915_gem_stolen.h    |   9 +-
+ drivers/gpu/drm/i915/gem/i915_gem_ttm.c       | 647 ++++++++++++++
+ drivers/gpu/drm/i915/gem/i915_gem_ttm.h       |  48 ++
+ drivers/gpu/drm/i915/gem/i915_gem_userptr.c   |   2 +-
+ .../drm/i915/gem/selftests/i915_gem_mman.c    |  90 +-
+ drivers/gpu/drm/i915/gt/intel_ggtt.c          |  19 +-
+ drivers/gpu/drm/i915/gt/intel_gt.c            |   2 -
+ drivers/gpu/drm/i915/gt/intel_gtt.c           |  45 +-
+ drivers/gpu/drm/i915/gt/intel_gtt.h           |  28 +-
+ drivers/gpu/drm/i915/gt/intel_ppgtt.c         |   2 +-
+ drivers/gpu/drm/i915/gt/intel_region_lmem.c   |  30 +-
+ drivers/gpu/drm/i915/i915_buddy.c             | 435 ----------
+ drivers/gpu/drm/i915/i915_buddy.h             | 131 ---
+ drivers/gpu/drm/i915/i915_drv.c               |  13 +
+ drivers/gpu/drm/i915/i915_drv.h               |   8 +-
+ drivers/gpu/drm/i915/i915_gem.c               |   6 +-
+ drivers/gpu/drm/i915/i915_globals.c           |   1 -
+ drivers/gpu/drm/i915/i915_globals.h           |   1 -
+ drivers/gpu/drm/i915/i915_scatterlist.c       |  70 ++
+ drivers/gpu/drm/i915/i915_scatterlist.h       |  20 +-
+ drivers/gpu/drm/i915/i915_vma.c               |  29 +-
+ drivers/gpu/drm/i915/intel_memory_region.c    | 181 ++--
+ drivers/gpu/drm/i915/intel_memory_region.h    |  45 +-
+ drivers/gpu/drm/i915/intel_region_ttm.c       | 220 +++++
+ drivers/gpu/drm/i915/intel_region_ttm.h       |  37 +
+ drivers/gpu/drm/i915/selftests/i915_buddy.c   | 789 ------------------
+ .../drm/i915/selftests/i915_mock_selftests.h  |   1 -
+ drivers/gpu/drm/i915/selftests/igt_mmap.c     |  25 +-
+ drivers/gpu/drm/i915/selftests/igt_mmap.h     |  12 +-
+ .../drm/i915/selftests/intel_memory_region.c  | 133 +--
+ .../gpu/drm/i915/selftests/mock_gem_device.c  |  10 +
+ drivers/gpu/drm/i915/selftests/mock_region.c  |  70 +-
+ drivers/gpu/drm/ttm/ttm_bo.c                  |  66 +-
+ drivers/gpu/drm/ttm/ttm_bo_util.c             | 320 +++----
+ drivers/gpu/drm/ttm/ttm_module.c              |  35 +
+ drivers/gpu/drm/ttm/ttm_resource.c            | 193 +++++
+ drivers/gpu/drm/ttm/ttm_tt.c                  |  42 +
+ include/drm/drm_cache.h                       |   7 +
+ include/drm/drm_vma_manager.h                 |   2 +-
+ include/drm/ttm/ttm_bo_driver.h               |  28 +
+ include/drm/ttm/ttm_caching.h                 |   2 +
+ include/drm/ttm/ttm_kmap_iter.h               |  61 ++
+ include/drm/ttm/ttm_resource.h                |  61 ++
+ include/drm/ttm/ttm_tt.h                      |  29 +
+ 66 files changed, 2541 insertions(+), 2183 deletions(-)
+ create mode 100644 drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+ create mode 100644 drivers/gpu/drm/i915/gem/i915_gem_ttm.h
+ delete mode 100644 drivers/gpu/drm/i915/i915_buddy.c
+ delete mode 100644 drivers/gpu/drm/i915/i915_buddy.h
+ create mode 100644 drivers/gpu/drm/i915/intel_region_ttm.c
+ create mode 100644 drivers/gpu/drm/i915/intel_region_ttm.h
+ delete mode 100644 drivers/gpu/drm/i915/selftests/i915_buddy.c
+ create mode 100644 include/drm/ttm/ttm_kmap_iter.h
+
+-- 
+2.31.1
 
