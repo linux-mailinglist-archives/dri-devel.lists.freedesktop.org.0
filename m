@@ -2,63 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 281633957C2
-	for <lists+dri-devel@lfdr.de>; Mon, 31 May 2021 11:02:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 006593957D0
+	for <lists+dri-devel@lfdr.de>; Mon, 31 May 2021 11:05:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D14CF6E4A1;
-	Mon, 31 May 2021 09:02:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B390D89498;
+	Mon, 31 May 2021 09:05:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com
- [IPv6:2a00:1450:4864:20::435])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B334B6E4A1
- for <dri-devel@lists.freedesktop.org>; Mon, 31 May 2021 09:02:12 +0000 (UTC)
-Received: by mail-wr1-x435.google.com with SMTP id c3so10100723wrp.8
- for <dri-devel@lists.freedesktop.org>; Mon, 31 May 2021 02:02:12 -0700 (PDT)
+Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com
+ [IPv6:2a00:1450:4864:20::62b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6F34989498;
+ Mon, 31 May 2021 09:04:59 +0000 (UTC)
+Received: by mail-ej1-x62b.google.com with SMTP id ss26so15631342ejb.5;
+ Mon, 31 May 2021 02:04:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=7rJplqz1B4mRiJ2dwI16PchKlluJ50WrZ1kh7PRVcNM=;
- b=aKNnojQsHm5Q3sD8Wo2gfxUH7swgBb4Bj0od5iCRSO8CM3Nxx2KbzkaeRqxduWqJAX
- jrMzdo7iu0nGGpvdTiGrI1CNo3XfXKBOIwYt/4Dl4mUegiB0JGN6CtCBHiu+avkWmDmk
- 03zwXdkNrNwg3JCSkBilIEJtPF+IkfYDNJVTfLh1Go9e7ZCmoY9H5ZKxErp6s36IQ61U
- kvGC9Hz77AkQgnhW80bUUQy+fziEX69/rcSlf5ISJPtRuqvdmD087BuM3k57m5GeyMVa
- Hr+6qlcwef9pTriNBZ0z5xZG9+oxtCcvR466P2I3aOw+WbznindftPNsU+2CcSqXbqoS
- gDUg==
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-transfer-encoding:content-language;
+ bh=gNpYEtyu4VY5J+SQtrUbUo+3olYh4CGNEaRyYnI3OfQ=;
+ b=q4WwpExc4ZSiVfPrhPE3diiqBNCK9mKV4U4kxTfMp2EUiuhE/sTHUoHVceD2a6oMrU
+ GQtmZ/eJRc8EOU4EKgXLknTl5val3+//XEDtfG3sFMb/tHe9SSFOBySCRJ6nOCDqSpbl
+ 1eIjFoNLALAkmxyNaV4TksryNzw0Q9GqU6VvOrlJ5WwPDf6wCPoU3LCOXlqjm5Mq89y2
+ taVVoTTIhm61Q59J6XsOd6u6gmwB/LXbU4wtnajG8fiNM0NYAhdLbO2egJLL2N3X7kps
+ 0/7bsaqLcES3dcQ9bfYA7AiTQVgB6tls5ztpJ6TCOStFy1v2Ofb/8MGgtsO1+fv0Z9hE
+ FZuw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=7rJplqz1B4mRiJ2dwI16PchKlluJ50WrZ1kh7PRVcNM=;
- b=MuSWgFt0EGQl0Whpt4NMdDj4IXHa8rlWuWj/AsVIqnZyxFpAMp1kwIkNPkml0Y0Ov9
- kQO6Sokfubbz+uxl7pToMhqNI9fG8qipkbPBz+DjzH2SLVMV/p24JTSNovVVimRtkRIB
- xmMocmkJ1gl6qzoxCKppn57kjQcVvDI4al0sDPzQ1mE+gWhB1+FaDD6aWwLlIMQes2Pk
- Tpi1UGcbJrvA+j9Bh/5Y8CBu/mmi9J4MdRwq4fRHKD4mWRMHp51Bxw5jvYjX4XnYbyzz
- syTKwbIDp30JBnLYuVV9oupkm6h99+4LI4OFpqJAKWqZMYjTqMbncMSXvY5c+XF0F3p1
- f37g==
-X-Gm-Message-State: AOAM533naE4WYBt+SUX7GuUeAr4n+5Pxy859x/xyz34YkF+qHQGDCVj9
- R3/dLvm6uYnCrLnAm2d4HEI=
-X-Google-Smtp-Source: ABdhPJwlR3gPlkmEtFNoXZ53E3/8KCC8B/9daZ0DN9jGxvzNDIv6mRFag2NXf8DL4r7zxGRSdAJLtg==
-X-Received: by 2002:a05:6000:1147:: with SMTP id
- d7mr21577790wrx.302.1622451731364; 
- Mon, 31 May 2021 02:02:11 -0700 (PDT)
-Received: from localhost ([62.96.65.119])
- by smtp.gmail.com with ESMTPSA id k11sm22383677wmj.1.2021.05.31.02.02.10
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 31 May 2021 02:02:10 -0700 (PDT)
-From: Thierry Reding <thierry.reding@gmail.com>
-To: Mikko Perttunen <cyndis@kapsi.fi>,
- Thierry Reding <thierry.reding@gmail.com>,
- Dmitry Osipenko <digetx@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>
-Subject: Re: [PATCH v1] drm/tegra: Correct DRM_FORMAT_MOD_NVIDIA_SECTOR_LAYOUT
-Date: Mon, 31 May 2021 11:03:44 +0200
-Message-Id: <162245181129.52988.11893553794139124150.b4-ty@nvidia.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210530195506.19124-1-digetx@gmail.com>
-References: <20210530195506.19124-1-digetx@gmail.com>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-transfer-encoding
+ :content-language;
+ bh=gNpYEtyu4VY5J+SQtrUbUo+3olYh4CGNEaRyYnI3OfQ=;
+ b=LJ47L2nqlpd9xw4VF4a0mVJkxk71G/aD/jD59B2WO/miwpeUjWsybs3MlEP5OUdKH2
+ c7cTgxK8RQJWyK/ITrCYfni4rjS154vYbJlQZ0O2IlKqwrlc1LoAqmfLxHrMQ3GpbrPT
+ u4VtLzmClGXfBbPwh8Z6CQc8QKLGv3ESo8MgQWY6eaF98TcCc2qC3HavHaIPG3wafeSP
+ kjw0+j6dFxM7h27rbDE84c/Jbx+M0YVG4DohV0GvTWfDgYDZbfgneHdbtQThJEzdyOMG
+ oK93drKjDsk3BzFA3gah8ybu/q/9X9D/NLYC2dsfX5Gv1XYWziQLVzJ5mtWYBKWvg4pb
+ k9Hw==
+X-Gm-Message-State: AOAM532+eIEXddN9G+KsCSzhvLXLam4y/ea2jUboHBoiwmlmNAhWy9Zo
+ VvlUqiOm7v8B6B/EOqQKyCo1iZ/e2VQ=
+X-Google-Smtp-Source: ABdhPJx+mvA9u4je0nEr1rFW64jM2Feec05QeQ79LaPXeOLwf7r22ceXnf7bAABf7inerbLd2lO22g==
+X-Received: by 2002:a17:907:9047:: with SMTP id
+ az7mr9669630ejc.4.1622451898152; 
+ Mon, 31 May 2021 02:04:58 -0700 (PDT)
+Received: from ?IPv6:2a02:908:1252:fb60:b94:4956:bad4:7c81?
+ ([2a02:908:1252:fb60:b94:4956:bad4:7c81])
+ by smtp.gmail.com with ESMTPSA id p7sm6652819edw.43.2021.05.31.02.04.57
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 31 May 2021 02:04:57 -0700 (PDT)
+Subject: Re: [PATCH 2/3] drm/ttm: check with temporary GTT memory in BO
+ validation
+To: Lang Yu <Lang.Yu@amd.com>, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+References: <20210531082241.4254-1-Lang.Yu@amd.com>
+ <20210531082241.4254-2-Lang.Yu@amd.com>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+Message-ID: <2e88d7ee-7729-f08e-0a82-63d059aa895d@gmail.com>
+Date: Mon, 31 May 2021 11:04:56 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210531082241.4254-2-Lang.Yu@amd.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,26 +76,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-tegra@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: Alex Deucher <alexander.deucher@amd.com>, Marek Olsak <Marek.Olsak@amd.com>,
+ Huang Rui <ray.huang@amd.com>, Christian Koenig <Christian.Koenig@amd.com>,
+ =?UTF-8?Q?Thomas_Hellstr=c3=b6?= <thomas_os@shipmail.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Thierry Reding <treding@nvidia.com>
 
-On Sun, 30 May 2021 22:55:06 +0300, Dmitry Osipenko wrote:
-> The format modifier is 64bit, while DRM_FORMAT_MOD_NVIDIA_SECTOR_LAYOUT
-> uses BIT() macro that is 32bit on ARM32.
-> 
-> The (modifier &= ~DRM_FORMAT_MOD_NVIDIA_SECTOR_LAYOUT) doesn't work as
-> expected on ARM32 and tegra_fb_get_tiling() fails for the tiled formats
-> on 32bit Tegra because modifier mask isn't applied properly. Use the
-> BIT_ULL() macro to fix this trouble.
 
-Applied, thanks!
+Am 31.05.21 um 10:22 schrieb Lang Yu:
+> If a BO's backing store is temporary GTT memory, we should
+> move it in BO validation.
+>
+> Signed-off-by: Lang Yu <Lang.Yu@amd.com>
+> ---
+>   drivers/gpu/drm/ttm/ttm_bo.c | 2 ++
+>   1 file changed, 2 insertions(+)
+>
+> diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
+> index c32a37d0a460..80c8cb2c3f31 100644
+> --- a/drivers/gpu/drm/ttm/ttm_bo.c
+> +++ b/drivers/gpu/drm/ttm/ttm_bo.c
+> @@ -944,6 +944,8 @@ static bool ttm_bo_places_compat(const struct ttm_place *places,
+>   		if ((mem->start < heap->fpfn ||
+>   		     (heap->lpfn != 0 && (mem->start + mem->num_pages) > heap->lpfn)))
+>   			continue;
+> +		if (mem->placement & TTM_PL_FLAG_TEMPORARY)
+> +			continue;
 
-[1/1] drm/tegra: Correct DRM_FORMAT_MOD_NVIDIA_SECTOR_LAYOUT
-      commit: cdbbb5978467469a2ee2311ef0efc407f8c0bfea
+Oh, good idea. But please move the check outside of the loop since mem 
+never changes here we can return false right away.
 
-Best regards,
--- 
-Thierry Reding <treding@nvidia.com>
+Thanks,
+Christian.
+
+>   
+>   		*new_flags = heap->flags;
+>   		if ((mem->mem_type == heap->mem_type) &&
+
