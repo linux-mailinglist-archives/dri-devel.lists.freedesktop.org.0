@@ -1,68 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4680D3956F0
-	for <lists+dri-devel@lfdr.de>; Mon, 31 May 2021 10:25:44 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C665F395703
+	for <lists+dri-devel@lfdr.de>; Mon, 31 May 2021 10:32:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B98516E884;
-	Mon, 31 May 2021 08:25:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BA70C6E88F;
+	Mon, 31 May 2021 08:32:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52b.google.com (mail-ed1-x52b.google.com
- [IPv6:2a00:1450:4864:20::52b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 807046E884;
- Mon, 31 May 2021 08:25:39 +0000 (UTC)
-Received: by mail-ed1-x52b.google.com with SMTP id s6so12487336edu.10;
- Mon, 31 May 2021 01:25:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language;
- bh=poB73wf5466hbomdjtxFNKbSQSQ59KS6ynL9JADMnBM=;
- b=SbMpfS9Sfaqj294FpiT7SPOLU4K9U0svLj/1yN6LbfgfPWZWg2P4ARKkQBwbkFELaI
- uw9vEIPGnDfKCun5Y3QM89cPLoAQABHr5rzL7vbAUJSeEdxvR7E7mMsV7o/+AHHvPfiU
- R7tClnxSURgq4HPFv30ihidTJBhn3aaD9wAc84Q6+ubD8SL2bUXzIPwL7ifS2qh+cZSm
- dEOZMkOw1fFT/jWa8858Gfhm3WBu2GucgTJELSFW+l5pLKrOiPXCCdvPgKZiGR4AIgTM
- aWIav5rwU8mvjzJ5V3Lz4wpxt6SKew4li6/nrcNVgM5FXH3GtxUIEohjr4dONngi6Wdy
- rFQw==
+Received: from mail-oi1-x232.google.com (mail-oi1-x232.google.com
+ [IPv6:2607:f8b0:4864:20::232])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 813996E051
+ for <dri-devel@lists.freedesktop.org>; Mon, 31 May 2021 08:32:07 +0000 (UTC)
+Received: by mail-oi1-x232.google.com with SMTP id s19so11598689oic.7
+ for <dri-devel@lists.freedesktop.org>; Mon, 31 May 2021 01:32:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=00/TVPrSmX+KWTcxyRfUbepZkRatJk0Jy9RtPYifMi4=;
+ b=UdZaKwx/cDQKGk9A/tbW7wdW5pUZlAh/8CVkS/KcsJZx/ynsqT8fDP8Jo3/c36eCZL
+ peuG3nL4Ia4gn0X/TaajJPb8SeV+Rrdr06sRw95NspQ+fThB/pJTPRvTYdD6VzAy+e1O
+ zBfrNZqxFr8/VnS2xe3qTzOVBjVHLuaY5GWrw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language;
- bh=poB73wf5466hbomdjtxFNKbSQSQ59KS6ynL9JADMnBM=;
- b=ANBsHTmKOQvvuLa9DFOjys/PeOhEqQTXaOwKOrFtJ86SsaDDOB8Qfw7j9Jej74AbQ1
- tLhOVPgzJbdE0XKXjMfkBYNo/Xs5fFCrEhdtCYmJC+NGjYu9gy6Phj0/DiJCb1te6YX9
- rHHdXTT+ErOa8ALGqC1XDG3iR36LF3Pgo1cWmEO47eoxp2R30yugFWrh/CBSbZ6kHJAm
- QfvqyXU5aPCeAhy0WAc3Jtb8fhv7uZgVjn2aa7aG+Am/FnKpVgH34sMdpeaHcEK9/v8J
- 7UsKTOju4SfTneArlrW3+eOzOuRWGKkp5sLJXBEQK7VhX1HoVEO28hb9iVwQ6ifsrwIT
- DDvQ==
-X-Gm-Message-State: AOAM532yjeJpGeBvQJaaptxziXG6yIjju61824N6PgPNCN+sZWdXAkOS
- BeCK4LGFOQGNTv3Coxc0hxA=
-X-Google-Smtp-Source: ABdhPJyguTHYNC7Ry8z6mCty2Tm6ZMFYwKpmjS+1HBG6888HOl2Om53VSuM8phqEMgGsYiLjBnmufQ==
-X-Received: by 2002:a05:6402:40d0:: with SMTP id
- z16mr24604808edb.104.1622449538075; 
- Mon, 31 May 2021 01:25:38 -0700 (PDT)
-Received: from ?IPv6:2a02:908:1252:fb60:b94:4956:bad4:7c81?
- ([2a02:908:1252:fb60:b94:4956:bad4:7c81])
- by smtp.gmail.com with ESMTPSA id g19sm5621743ejw.79.2021.05.31.01.25.37
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 31 May 2021 01:25:37 -0700 (PDT)
-Subject: Re: Linux Graphics Next: Userspace submission update
-To: =?UTF-8?B?TWFyZWsgT2zFocOhaw==?= <maraeo@gmail.com>
-References: <CAAxE2A4XS2mCXOdvxm1ZAhG2OY9w1P0X2E1ac1TXNFKDekog5g@mail.gmail.com>
- <c0c61805-7e13-05a0-ed7f-9cd61ca2b209@gmail.com>
- <CAAxE2A7wGCfDV=iYoXpP4JzObn9okGk4_WLH+sV-oJJjSk0DxQ@mail.gmail.com>
- <CAAxE2A4c2Vy7E165g9ZF4bapw=CGfSvzX-4RB05M9GBM+8E0pA@mail.gmail.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-Message-ID: <4ca02a0c-3d00-be4d-9f3d-bb63678f4d05@gmail.com>
-Date: Mon, 31 May 2021 10:25:36 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=00/TVPrSmX+KWTcxyRfUbepZkRatJk0Jy9RtPYifMi4=;
+ b=Lu/XRh18/Uim4s6oIPmeQ33yuUMu/jnvj5Aanh+WXaTaSqSE0Gc9t6ll7ySnSndm/E
+ dn+mN1mngr29MzlUb+Ns+X/GHueAjg6MrZCj/oXPYWpqiIjXvRLqNVAk1QxvUFZrqAyH
+ enxbyZkz3O4AebLoZcUUbj5E6aOpe3u1TUlkDej1tcrDd2mx/Rdrn6KmDHhVy8IWxn1G
+ QRDEcKo/tvBIkoGrPWJ7fI5/mu51zq1xPg01nphnwdNJvrekVNMGgQcrWydCGZSRy4cZ
+ loz6uI5ewiZrn0tfVl4kXFJ3w6asyM9HnAp4s6v1ip54pV9leFKLqv0WyVTtGhx8vBfw
+ +5Rg==
+X-Gm-Message-State: AOAM532IT1ED8EzdLP55Ezzhzb1Wa7j0y8Gsrq9T9diuGsdMvkhMSUbE
+ mHFGjXJsxoS3Zps4lkKLWFlXLARMHN/9iQJxyk+U9g==
+X-Google-Smtp-Source: ABdhPJx+KqwKQuQvhDqJyLwdziwK3kKf/yw6BWa37tkzgL0QqJEHUrFnVkic+tzv00eSQ77dbaQXQZ9CiLqaK0acdyI=
+X-Received: by 2002:aca:ac13:: with SMTP id v19mr3604946oie.128.1622449925254; 
+ Mon, 31 May 2021 01:32:05 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CAAxE2A4c2Vy7E165g9ZF4bapw=CGfSvzX-4RB05M9GBM+8E0pA@mail.gmail.com>
-Content-Type: multipart/alternative;
- boundary="------------777AB12B8A412C556494EA96"
-Content-Language: en-US
+References: <20210526200318.113351-1-matthew.brost@intel.com>
+ <20210526200318.113351-2-matthew.brost@intel.com>
+ <493f5248-1c91-af22-7f71-188ac4ac2d59@linux.intel.com>
+ <20210527141215.GA21305@sdutt-i7>
+In-Reply-To: <20210527141215.GA21305@sdutt-i7>
+From: Daniel Vetter <daniel@ffwll.ch>
+Date: Mon, 31 May 2021 10:31:53 +0200
+Message-ID: <CAKMK7uHacuLjqPZvH7rErtACiOjzEzJ9BTUjuh6LAYj_00i5Ww@mail.gmail.com>
+Subject: Re: [Intel-gfx] [PATCH 1/1] drm/i915: Introduce i915_sched_engine
+ object
+To: Matthew Brost <matthew.brost@intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,459 +64,2856 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jason Ekstrand <jason@jlekstrand.net>,
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ intel-gfx <intel-gfx@lists.freedesktop.org>,
  dri-devel <dri-devel@lists.freedesktop.org>,
- ML Mesa-dev <mesa-dev@lists.freedesktop.org>
+ Daniel Vetter <daniel.vetter@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is a multi-part message in MIME format.
---------------777AB12B8A412C556494EA96
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+On Thu, May 27, 2021 at 4:19 PM Matthew Brost <matthew.brost@intel.com> wro=
+te:
+>
+> On Thu, May 27, 2021 at 10:41:10AM +0100, Tvrtko Ursulin wrote:
+> >
+> > On 26/05/2021 21:03, Matthew Brost wrote:
+> > > Introduce i915_sched_engine object which is lower level data structur=
+e
+> > > that i915_scheduler / generic code can operate on without touching
+> > > execlist specific structures. This allows additional submission backe=
+nds
+> > > to be added without breaking the layering.
+> > >
+> > > This is a bit of detour to integrating the i915 with the DRM schedule=
+r
+> > > but this object will still exist when the DRM scheduler lands in the
+> > > i915. It will however look a bit different. It will encapsulate the
+> > > drm_gpu_scheduler object plus and common variables (to the backends)
+> > > related to scheduling. Regardless this is a step in the right directi=
+on.
+> >
+> > It looks like pretty much the same concept Chris implemented in upstrea=
+m(*) before they got removed. Both series move the scheduling lists into a =
+new object, be it i915_sched, or i915_sched_engine. There probably are some=
+ differences but without looking much deeper it is hard to say if they are =
+important.
+> >
+> > Were you aware of this series and were there any technical objections t=
+o it?
+> >
+>
+> I haven't dug to deep into the series but yes, I am aware of this series.=
+ I
+> merged my series to internal while Chris had this inflight upstream. They=
+ do
+> have similar concepts of i915_sched_engine object.
 
-Yes, exactly that's my thinking and also the reason why I'm pondering so 
-hard on the requirement that the memory for shared user fences should 
-not be modifiable by userspace directly.
+Imo both of them are a detour since it's not drm/scheduler, but also
+we need one and this one here is the one we have so I'm not seeing the
+point of repainting that bikeshed in different colors. Imo much better
+if we just land this and then head as straight as possible towards
+drm/scheduler as the interface.
 
-Christian.
+Now a bit of polish here might be good, but in entirely different ways:
+- I think splitting the patch into the purely mechanical code movement
+and addition of the new callbacks would be good. Should slice really
+well I hope, so not much work.
 
-Am 29.05.21 um 05:33 schrieb Marek Olšák:
-> My first email can be ignored except for the sync files. Oh well.
+- Proper kerneldoc for at least anything new around datastructures.
+That means a) check the header is pulled in somewhere suitable in
+i915.rst b) minimal fixes for any warnings it throws c) then do right
+in anything new. Especially with datastructure stuff like
+locking/lifetime rules or rules around callbacks and these big ticket
+items are important to document and cross reference, and I think the
+pain for doing a)&b) for these is worth it.
+
+> > Because there do appear to be some extra advantages in the dropped work=
+, like consolidating finding of active request and moving some other bits t=
+o be backend agnostic.
+> >
 >
-> I think I see what you mean, Christian. If we assume that an imported 
-> fence is always read only (the buffer with the sequence number is read 
-> only), only the process that created and exported the fence can signal 
-> it. If the fence is not signaled, the exporting process is guilty. The 
-> only thing the importing process must do when it's about to use the 
-> fence as a dependency is to notify the kernel about it. Thus, the 
-> kernel will always know the dependency graph. Then if the importing 
-> process times out, the kernel will blame any of the processes that 
-> passed it a fence that is still unsignaled. The kernel will blame the 
-> process that timed out only if all imported fences have been signaled. 
-> It seems pretty robust.
+> After briefly looking at this series most of Chris's changes are not rele=
+vent if
+> we move to DRM scheduler. All of the the below series [1] and internal is=
+ based
+> this code not Chris's. I don't see the point revisiting Chris's old patch=
+es when
+> the goal is to merge GuC submission quickly, rework it is place as needed=
+, and
+> the long term goal is to move to the DRM scheduler.
+
+Agreed.
+
+Cheers, Daniel
+
 >
-> It's the same with implicit sync except that the buffer with the 
-> sequence number is writable. Any process that has an implicitly-sync'd 
-> buffer can set the sequence number to 0 or UINT64_MAX. 0 will cause a 
-> timeout for the next job, while UINT64_MAX might cause a timeout a 
-> little later. The timeout can be mitigated by the kernel because the 
-> kernel knows the greatest number that should be there, but it's not 
-> possible to know which process is guilty (all processes holding the 
-> buffer handle would be suspects).
+> Matt
 >
-> Marek
+> [1] https://patchwork.freedesktop.org/series/89844/
 >
-> On Fri, May 28, 2021 at 6:25 PM Marek Olšák <maraeo@gmail.com 
-> <mailto:maraeo@gmail.com>> wrote:
->
->     If both implicit and explicit synchronization are handled the
->     same, then the kernel won't be able to identify the process that
->     caused an implicit sync deadlock. The process that is stuck
->     waiting for a fence can be innocent, and the kernel can't punish
->     it. Likewise, the GPU reset guery that reports which process is
->     guilty and innocent will only be able to report unknown. Is that OK?
->
->     Marek
->
->     On Fri, May 28, 2021 at 10:41 AM Christian König
->     <ckoenig.leichtzumerken@gmail.com
->     <mailto:ckoenig.leichtzumerken@gmail.com>> wrote:
->
->         Hi Marek,
->
->         well I don't think that implicit and explicit synchronization
->         needs to be mutual exclusive.
->
->         What we should do is to have the ability to transport an
->         synchronization object with each BO.
->
->         Implicit and explicit synchronization then basically become
->         the same, they just transport the synchronization object
->         differently.
->
->         The biggest problem are the sync_files for Android, since they
->         are really not easy to support at all. If Android wants to
->         support user queues we would probably have to do some changes
->         there.
->
->         Regards,
->         Christian.
->
->         Am 27.05.21 um 23:51 schrieb Marek Olšák:
->>         Hi,
->>
->>         Since Christian believes that we can't deadlock the kernel
->>         with some changes there, we just need to make everything nice
->>         for userspace too. Instead of explaining how it will work, I
->>         will explain the cases where future hardware (and its kernel
->>         driver) will break existing userspace in order to protect
->>         everybody from deadlocks. Anything that uses implicit sync
->>         will be spared, so X and Wayland will be fine, assuming they
->>         don't import/export fences. Those use cases that do
->>         import/export fences might or might not work, depending on
->>         how the fences are used.
->>
->>         One of the necessities is that all fences will become future
->>         fences. The semantics of imported/exported fences will change
->>         completely and will have new restrictions on the usage. The
->>         restrictions are:
->>
->>
->>         1) Android sync files will be impossible to support, so won't
->>         be supported. (they don't allow future fences)
->>
->>
->>         2) Implicit sync and explicit sync will be mutually exclusive
->>         between process. A process can either use one or the other,
->>         but not both. This is meant to prevent a deadlock condition
->>         with future fences where any process can malevolently
->>         deadlock execution of any other process, even execution of a
->>         higher-privileged process. The kernel will impose the
->>         following restrictions to protect against the deadlock:
->>
->>         a) a process with an implicitly-sync'd imported/exported
->>         buffer can't import/export a fence from/to another process
->>         b) a process with an imported/exported fence can't
->>         import/export an implicitly-sync'd buffer from/to another process
->>
->>         Alternative: A higher-privileged process could enforce both
->>         restrictions instead of the kernel to protect itself from the
->>         deadlock, but this would be a can of worms for existing
->>         userspace. It would be better if the kernel just broke unsafe
->>         userspace on future hw, just like sync files.
->>
->>         If both implicit and explicit sync are allowed to occur
->>         simultaneously, sending a future fence that will never signal
->>         to any process will deadlock that process after it acquires
->>         the implicit sync lock, which is a sequence number that the
->>         process is required to write to memory and send an interrupt
->>         from the GPU in a finite time. This is how the deadlock can
->>         happen:
->>
->>         * The process gets sequence number N from the kernel for an
->>         implicitly-sync'd buffer.
->>         * The process inserts (into the GPU user-mapped queue) a wait
->>         for sequence number N-1.
->>         * The process inserts a wait for a fence, but it doesn't know
->>         that it will never signal ==> deadlock.
->>         ...
->>         * The process inserts a command to write sequence number N to
->>         a predetermined memory location. (which will make the buffer
->>         idle and send an interrupt to the kernel)
->>         ...
->>         * The kernel will terminate the process because it has never
->>         received the interrupt. (i.e. a less-privileged process just
->>         killed a more-privileged process)
->>
->>         It's the interrupt for implicit sync that never arrived that
->>         caused the termination, and the only way another process can
->>         cause it is by sending a fence that will never signal. Thus,
->>         importing/exporting fences from/to other processes can't be
->>         allowed simultaneously with implicit sync.
->>
->>
->>         3) Compositors (and other privileged processes, and display
->>         flipping) can't trust imported/exported fences. They need a
->>         timeout recovery mechanism from the beginning, and the
->>         following are some possible solutions to timeouts:
->>
->>         a) use a CPU wait with a small absolute timeout, and display
->>         the previous content on timeout
->>         b) use a GPU wait with a small absolute timeout, and
->>         conditional rendering will choose between the latest content
->>         (if signalled) and previous content (if timed out)
->>
->>         The result would be that the desktop can run close to 60 fps
->>         even if an app runs at 1 fps.
->>
->>         *Redefining imported/exported fences and breaking some
->>         users/OSs is the only way to have userspace GPU command
->>         submission, and the deadlock example here is the
->>         counterexample proving that there is no other way.*
->>
->>         So, what are the chances this is going to fly with the ecosystem?
->>
->>         Thanks,
->>         Marek
->
+> > Regards,
+> >
+> > Tvrtko
+> >
+> >
+> > *) Approx list:
+> >
+> > 564c84ac5dee drm/i915: Move finding the current active request to the s=
+cheduler
+> > f06f5161eba3 drm/i915: Move submit_request to i915_sched_engine
+> > 38a40d211075 drm/i915/gt: Only kick the scheduler on timeslice/preempti=
+on change
+> > 4f08e41b51e2 drm/i915: Move tasklet from execlists to sched
+> > 5d814ae56fdd drm/i915: Move scheduler queue
+> > 4d4da5ab8b3c drm/i915: Move common active lists from engine to i915_sch=
+eduler
+> > 4a5c90b6f7a8 drm/i915: Wrap access to intel_engine.active
+> > 34cab8ee986f drm/i915/gt: Pull all execlists scheduler initialisation t=
+ogether
+> > c968d4d87cf4 drm/i915: Extract the ability to defer and rerun a request=
+ later
+> > 746cafc44205 drm/i915: Extract request suspension from the execlists
+> > 3d473f1476d8 drm/i915: Extract request rewinding from execlists
+> > d353a704a6db drm/i915: Extract request submission from execlists
+> > ea848ef93075 drm/i915: Replace engine->schedule() with a known request =
+operation
+> >
+> > >
+> > > Cc: Daniel Vetter <daniel.vetter@intel.com>
+> > > Cc: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+> > > Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+> > > ---
+> > >   drivers/gpu/drm/i915/gem/i915_gem_wait.c      |   4 +-
+> > >   drivers/gpu/drm/i915/gt/intel_engine.h        |  16 -
+> > >   drivers/gpu/drm/i915/gt/intel_engine_cs.c     |  77 ++--
+> > >   .../gpu/drm/i915/gt/intel_engine_heartbeat.c  |   4 +-
+> > >   drivers/gpu/drm/i915/gt/intel_engine_pm.c     |  10 +-
+> > >   drivers/gpu/drm/i915/gt/intel_engine_types.h  |  42 +--
+> > >   drivers/gpu/drm/i915/gt/intel_engine_user.c   |   2 +-
+> > >   .../drm/i915/gt/intel_execlists_submission.c  | 350 +++++++++++----=
+---
+> > >   .../gpu/drm/i915/gt/intel_ring_submission.c   |  13 +-
+> > >   drivers/gpu/drm/i915/gt/mock_engine.c         |  17 +-
+> > >   drivers/gpu/drm/i915/gt/selftest_execlists.c  |  36 +-
+> > >   drivers/gpu/drm/i915/gt/selftest_hangcheck.c  |   6 +-
+> > >   drivers/gpu/drm/i915/gt/selftest_lrc.c        |   6 +-
+> > >   drivers/gpu/drm/i915/gt/selftest_reset.c      |   2 +-
+> > >   .../gpu/drm/i915/gt/uc/intel_guc_submission.c |  75 ++--
+> > >   drivers/gpu/drm/i915/i915_gpu_error.c         |   7 +-
+> > >   drivers/gpu/drm/i915/i915_request.c           |  50 +--
+> > >   drivers/gpu/drm/i915/i915_request.h           |   2 +-
+> > >   drivers/gpu/drm/i915/i915_scheduler.c         | 168 ++++-----
+> > >   drivers/gpu/drm/i915/i915_scheduler.h         |  65 +++-
+> > >   drivers/gpu/drm/i915/i915_scheduler_types.h   |  63 ++++
+> > >   21 files changed, 575 insertions(+), 440 deletions(-)
+> > >
+> > > diff --git a/drivers/gpu/drm/i915/gem/i915_gem_wait.c b/drivers/gpu/d=
+rm/i915/gem/i915_gem_wait.c
+> > > index 4b9856d5ba14..af1fbf8e2a9a 100644
+> > > --- a/drivers/gpu/drm/i915/gem/i915_gem_wait.c
+> > > +++ b/drivers/gpu/drm/i915/gem/i915_gem_wait.c
+> > > @@ -104,8 +104,8 @@ static void fence_set_priority(struct dma_fence *=
+fence,
+> > >     engine =3D rq->engine;
+> > >     rcu_read_lock(); /* RCU serialisation for set-wedged protection *=
+/
+> > > -   if (engine->schedule)
+> > > -           engine->schedule(rq, attr);
+> > > +   if (engine->sched_engine->schedule)
+> > > +           engine->sched_engine->schedule(rq, attr);
+> > >     rcu_read_unlock();
+> > >   }
+> > > diff --git a/drivers/gpu/drm/i915/gt/intel_engine.h b/drivers/gpu/drm=
+/i915/gt/intel_engine.h
+> > > index 8d9184920c51..988d9688ae4d 100644
+> > > --- a/drivers/gpu/drm/i915/gt/intel_engine.h
+> > > +++ b/drivers/gpu/drm/i915/gt/intel_engine.h
+> > > @@ -123,20 +123,6 @@ execlists_active(const struct intel_engine_execl=
+ists *execlists)
+> > >     return active;
+> > >   }
+> > > -static inline void
+> > > -execlists_active_lock_bh(struct intel_engine_execlists *execlists)
+> > > -{
+> > > -   local_bh_disable(); /* prevent local softirq and lock recursion *=
+/
+> > > -   tasklet_lock(&execlists->tasklet);
+> > > -}
+> > > -
+> > > -static inline void
+> > > -execlists_active_unlock_bh(struct intel_engine_execlists *execlists)
+> > > -{
+> > > -   tasklet_unlock(&execlists->tasklet);
+> > > -   local_bh_enable(); /* restore softirq, and kick ksoftirqd! */
+> > > -}
+> > > -
+> > >   struct i915_request *
+> > >   execlists_unwind_incomplete_requests(struct intel_engine_execlists =
+*execlists);
+> > > @@ -257,8 +243,6 @@ intel_engine_find_active_request(struct intel_eng=
+ine_cs *engine);
+> > >   u32 intel_engine_context_size(struct intel_gt *gt, u8 class);
+> > > -void intel_engine_init_active(struct intel_engine_cs *engine,
+> > > -                         unsigned int subclass);
+> > >   #define ENGINE_PHYSICAL   0
+> > >   #define ENGINE_MOCK       1
+> > >   #define ENGINE_VIRTUAL    2
+> > > diff --git a/drivers/gpu/drm/i915/gt/intel_engine_cs.c b/drivers/gpu/=
+drm/i915/gt/intel_engine_cs.c
+> > > index 3f9a811eb02b..dc939c8ef288 100644
+> > > --- a/drivers/gpu/drm/i915/gt/intel_engine_cs.c
+> > > +++ b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
+> > > @@ -8,6 +8,7 @@
+> > >   #include "gem/i915_gem_context.h"
+> > >   #include "i915_drv.h"
+> > > +#include "i915_scheduler.h"
+> > >   #include "intel_breadcrumbs.h"
+> > >   #include "intel_context.h"
+> > > @@ -326,9 +327,6 @@ static int intel_engine_setup(struct intel_gt *gt=
+, enum intel_engine_id id)
+> > >     if (engine->context_size)
+> > >             DRIVER_CAPS(i915)->has_logical_contexts =3D true;
+> > > -   /* Nothing to do here, execute in order of dependencies */
+> > > -   engine->schedule =3D NULL;
+> > > -
+> > >     ewma__engine_latency_init(&engine->latency);
+> > >     seqcount_init(&engine->stats.lock);
+> > > @@ -583,9 +581,6 @@ void intel_engine_init_execlists(struct intel_eng=
+ine_cs *engine)
+> > >     memset(execlists->pending, 0, sizeof(execlists->pending));
+> > >     execlists->active =3D
+> > >             memset(execlists->inflight, 0, sizeof(execlists->inflight=
+));
+> > > -
+> > > -   execlists->queue_priority_hint =3D INT_MIN;
+> > > -   execlists->queue =3D RB_ROOT_CACHED;
+> > >   }
+> > >   static void cleanup_status_page(struct intel_engine_cs *engine)
+> > > @@ -712,11 +707,17 @@ static int engine_setup_common(struct intel_eng=
+ine_cs *engine)
+> > >             goto err_status;
+> > >     }
+> > > +   engine->sched_engine =3D i915_sched_engine_create(ENGINE_PHYSICAL=
+);
+> > > +   if (!engine->sched_engine) {
+> > > +           err =3D -ENOMEM;
+> > > +           goto err_sched_engine;
+> > > +   }
+> > > +   engine->sched_engine->engine =3D engine;
+> > > +
+> > >     err =3D intel_engine_init_cmd_parser(engine);
+> > >     if (err)
+> > >             goto err_cmd_parser;
+> > > -   intel_engine_init_active(engine, ENGINE_PHYSICAL);
+> > >     intel_engine_init_execlists(engine);
+> > >     intel_engine_init__pm(engine);
+> > >     intel_engine_init_retire(engine);
+> > > @@ -735,6 +736,8 @@ static int engine_setup_common(struct intel_engin=
+e_cs *engine)
+> > >     return 0;
+> > >   err_cmd_parser:
+> > > +   i915_sched_engine_put(engine->sched_engine);
+> > > +err_sched_engine:
+> > >     intel_breadcrumbs_free(engine->breadcrumbs);
+> > >   err_status:
+> > >     cleanup_status_page(engine);
+> > > @@ -773,11 +776,11 @@ static int measure_breadcrumb_dw(struct intel_c=
+ontext *ce)
+> > >     frame->rq.ring =3D &frame->ring;
+> > >     mutex_lock(&ce->timeline->mutex);
+> > > -   spin_lock_irq(&engine->active.lock);
+> > > +   spin_lock_irq(&engine->sched_engine->lock);
+> > >     dw =3D engine->emit_fini_breadcrumb(&frame->rq, frame->cs) - fram=
+e->cs;
+> > > -   spin_unlock_irq(&engine->active.lock);
+> > > +   spin_unlock_irq(&engine->sched_engine->lock);
+> > >     mutex_unlock(&ce->timeline->mutex);
+> > >     GEM_BUG_ON(dw & 1); /* RING_TAIL must be qword aligned */
+> > > @@ -786,28 +789,6 @@ static int measure_breadcrumb_dw(struct intel_co=
+ntext *ce)
+> > >     return dw;
+> > >   }
+> > > -void
+> > > -intel_engine_init_active(struct intel_engine_cs *engine, unsigned in=
+t subclass)
+> > > -{
+> > > -   INIT_LIST_HEAD(&engine->active.requests);
+> > > -   INIT_LIST_HEAD(&engine->active.hold);
+> > > -
+> > > -   spin_lock_init(&engine->active.lock);
+> > > -   lockdep_set_subclass(&engine->active.lock, subclass);
+> > > -
+> > > -   /*
+> > > -    * Due to an interesting quirk in lockdep's internal debug tracki=
+ng,
+> > > -    * after setting a subclass we must ensure the lock is used. Othe=
+rwise,
+> > > -    * nr_unused_locks is incremented once too often.
+> > > -    */
+> > > -#ifdef CONFIG_DEBUG_LOCK_ALLOC
+> > > -   local_irq_disable();
+> > > -   lock_map_acquire(&engine->active.lock.dep_map);
+> > > -   lock_map_release(&engine->active.lock.dep_map);
+> > > -   local_irq_enable();
+> > > -#endif
+> > > -}
+> > > -
+> > >   static struct intel_context *
+> > >   create_pinned_context(struct intel_engine_cs *engine,
+> > >                   unsigned int hwsp,
+> > > @@ -955,10 +936,10 @@ int intel_engines_init(struct intel_gt *gt)
+> > >    */
+> > >   void intel_engine_cleanup_common(struct intel_engine_cs *engine)
+> > >   {
+> > > -   GEM_BUG_ON(!list_empty(&engine->active.requests));
+> > > -   tasklet_kill(&engine->execlists.tasklet); /* flush the callback *=
+/
+> > > +   GEM_BUG_ON(!list_empty(&engine->sched_engine->requests));
+> > >     intel_breadcrumbs_free(engine->breadcrumbs);
+> > > +   i915_sched_engine_put(engine->sched_engine);
+> > >     intel_engine_fini_retire(engine);
+> > >     intel_engine_cleanup_cmd_parser(engine);
+> > > @@ -1241,7 +1222,7 @@ static bool ring_is_idle(struct intel_engine_cs=
+ *engine)
+> > >   void __intel_engine_flush_submission(struct intel_engine_cs *engine=
+, bool sync)
+> > >   {
+> > > -   struct tasklet_struct *t =3D &engine->execlists.tasklet;
+> > > +   struct tasklet_struct *t =3D &engine->sched_engine->tasklet;
+> > >     if (!t->callback)
+> > >             return;
+> > > @@ -1281,7 +1262,7 @@ bool intel_engine_is_idle(struct intel_engine_c=
+s *engine)
+> > >     intel_engine_flush_submission(engine);
+> > >     /* ELSP is empty, but there are ready requests? E.g. after reset =
+*/
+> > > -   if (!RB_EMPTY_ROOT(&engine->execlists.queue.rb_root))
+> > > +   if (!i915_sched_engine_is_empty(engine->sched_engine))
+> > >             return false;
+> > >     /* Ring stopped? */
+> > > @@ -1347,7 +1328,7 @@ static struct intel_timeline *get_timeline(stru=
+ct i915_request *rq)
+> > >     struct intel_timeline *tl;
+> > >     /*
+> > > -    * Even though we are holding the engine->active.lock here, there
+> > > +    * Even though we are holding the engine->sched_engine->lock here=
+, there
+> > >      * is no control over the submission queue per-se and we are
+> > >      * inspecting the active state at a random point in time, with an
+> > >      * unknown queue. Play safe and make sure the timeline remains va=
+lid.
+> > > @@ -1502,10 +1483,10 @@ static void intel_engine_print_registers(stru=
+ct intel_engine_cs *engine,
+> > >             drm_printf(m, "\tExeclist tasklet queued? %s (%s), preemp=
+t? %s, timeslice? %s\n",
+> > >                        yesno(test_bit(TASKLET_STATE_SCHED,
+> > > -                                     &engine->execlists.tasklet.stat=
+e)),
+> > > -                      enableddisabled(!atomic_read(&engine->execlist=
+s.tasklet.count)),
+> > > -                      repr_timer(&engine->execlists.preempt),
+> > > -                      repr_timer(&engine->execlists.timer));
+> > > +                                     &engine->sched_engine->tasklet.=
+state)),
+> > > +                      enableddisabled(!atomic_read(&engine->sched_en=
+gine->tasklet.count)),
+> > > +                      repr_timer(&execlists->preempt),
+> > > +                      repr_timer(&execlists->timer));
+> > >             read =3D execlists->csb_head;
+> > >             write =3D READ_ONCE(*execlists->csb_write);
+> > > @@ -1527,7 +1508,7 @@ static void intel_engine_print_registers(struct=
+ intel_engine_cs *engine,
+> > >                                idx, hws[idx * 2], hws[idx * 2 + 1]);
+> > >             }
+> > > -           execlists_active_lock_bh(execlists);
+> > > +           sched_engine_active_lock_bh(engine->sched_engine);
+> > >             rcu_read_lock();
+> > >             for (port =3D execlists->active; (rq =3D *port); port++) =
+{
+> > >                     char hdr[160];
+> > > @@ -1558,7 +1539,7 @@ static void intel_engine_print_registers(struct=
+ intel_engine_cs *engine,
+> > >                     i915_request_show(m, rq, hdr, 0);
+> > >             }
+> > >             rcu_read_unlock();
+> > > -           execlists_active_unlock_bh(execlists);
+> > > +           sched_engine_active_unlock_bh(engine->sched_engine);
+> > >     } else if (INTEL_GEN(dev_priv) > 6) {
+> > >             drm_printf(m, "\tPP_DIR_BASE: 0x%08x\n",
+> > >                        ENGINE_READ(engine, RING_PP_DIR_BASE));
+> > > @@ -1694,7 +1675,7 @@ void intel_engine_dump(struct intel_engine_cs *=
+engine,
+> > >     drm_printf(m, "\tRequests:\n");
+> > > -   spin_lock_irqsave(&engine->active.lock, flags);
+> > > +   spin_lock_irqsave(&engine->sched_engine->lock, flags);
+> > >     rq =3D intel_engine_find_active_request(engine);
+> > >     if (rq) {
+> > >             struct intel_timeline *tl =3D get_timeline(rq);
+> > > @@ -1725,8 +1706,9 @@ void intel_engine_dump(struct intel_engine_cs *=
+engine,
+> > >                     hexdump(m, rq->context->lrc_reg_state, PAGE_SIZE)=
+;
+> > >             }
+> > >     }
+> > > -   drm_printf(m, "\tOn hold?: %lu\n", list_count(&engine->active.hol=
+d));
+> > > -   spin_unlock_irqrestore(&engine->active.lock, flags);
+> > > +   drm_printf(m, "\tOn hold?: %lu\n",
+> > > +              list_count(&engine->sched_engine->hold));
+> > > +   spin_unlock_irqrestore(&engine->sched_engine->lock, flags);
+> > >     drm_printf(m, "\tMMIO base:  0x%08x\n", engine->mmio_base);
+> > >     wakeref =3D intel_runtime_pm_get_if_in_use(engine->uncore->rpm);
+> > > @@ -1806,7 +1788,7 @@ intel_engine_find_active_request(struct intel_e=
+ngine_cs *engine)
+> > >      * At all other times, we must assume the GPU is still running, b=
+ut
+> > >      * we only care about the snapshot of this moment.
+> > >      */
+> > > -   lockdep_assert_held(&engine->active.lock);
+> > > +   lockdep_assert_held(&engine->sched_engine->lock);
+> > >     rcu_read_lock();
+> > >     request =3D execlists_active(&engine->execlists);
+> > > @@ -1824,7 +1806,8 @@ intel_engine_find_active_request(struct intel_e=
+ngine_cs *engine)
+> > >     if (active)
+> > >             return active;
+> > > -   list_for_each_entry(request, &engine->active.requests, sched.link=
+) {
+> > > +   list_for_each_entry(request, &engine->sched_engine->requests,
+> > > +                       sched.link) {
+> > >             if (__i915_request_is_complete(request))
+> > >                     continue;
+> > > diff --git a/drivers/gpu/drm/i915/gt/intel_engine_heartbeat.c b/drive=
+rs/gpu/drm/i915/gt/intel_engine_heartbeat.c
+> > > index b99ac41695f3..b6a305e6a974 100644
+> > > --- a/drivers/gpu/drm/i915/gt/intel_engine_heartbeat.c
+> > > +++ b/drivers/gpu/drm/i915/gt/intel_engine_heartbeat.c
+> > > @@ -121,7 +121,7 @@ static void heartbeat(struct work_struct *wrk)
+> > >                      * but all other contexts, including the kernel
+> > >                      * context are stuck waiting for the signal.
+> > >                      */
+> > > -           } else if (engine->schedule &&
+> > > +           } else if (engine->sched_engine->schedule &&
+> > >                        rq->sched.attr.priority < I915_PRIORITY_BARRIE=
+R) {
+> > >                     /*
+> > >                      * Gradually raise the priority of the heartbeat =
+to
+> > > @@ -136,7 +136,7 @@ static void heartbeat(struct work_struct *wrk)
+> > >                             attr.priority =3D I915_PRIORITY_BARRIER;
+> > >                     local_bh_disable();
+> > > -                   engine->schedule(rq, &attr);
+> > > +                   engine->sched_engine->schedule(rq, &attr);
+> > >                     local_bh_enable();
+> > >             } else {
+> > >                     if (IS_ENABLED(CONFIG_DRM_I915_DEBUG_GEM))
+> > > diff --git a/drivers/gpu/drm/i915/gt/intel_engine_pm.c b/drivers/gpu/=
+drm/i915/gt/intel_engine_pm.c
+> > > index 47f4397095e5..ba6a9931c4e8 100644
+> > > --- a/drivers/gpu/drm/i915/gt/intel_engine_pm.c
+> > > +++ b/drivers/gpu/drm/i915/gt/intel_engine_pm.c
+> > > @@ -274,14 +274,16 @@ static int __engine_park(struct intel_wakeref *=
+wf)
+> > >     intel_engine_park_heartbeat(engine);
+> > >     intel_breadcrumbs_park(engine->breadcrumbs);
+> > > -   /* Must be reset upon idling, or we may miss the busy wakeup. */
+> > > -   GEM_BUG_ON(engine->execlists.queue_priority_hint !=3D INT_MIN);
+> > > +   /*
+> > > +    * XXX: Must be reset upon idling, or we may miss the busy wakeup=
+.
+> > > +    * queue_priority_hint only used in execlists submission but work=
+s in
+> > > +    * other modes as default is INT_MIN.
+> > > +    */
+> > > +   GEM_BUG_ON(engine->sched_engine->queue_priority_hint !=3D INT_MIN=
+);
+> > >     if (engine->park)
+> > >             engine->park(engine);
+> > > -   engine->execlists.no_priolist =3D false;
+> > > -
+> > >     /* While gt calls i915_vma_parked(), we have to break the lock cy=
+cle */
+> > >     intel_gt_pm_put_async(engine->gt);
+> > >     return 0;
+> > > diff --git a/drivers/gpu/drm/i915/gt/intel_engine_types.h b/drivers/g=
+pu/drm/i915/gt/intel_engine_types.h
+> > > index 9ef349cd5cea..93aa22680db0 100644
+> > > --- a/drivers/gpu/drm/i915/gt/intel_engine_types.h
+> > > +++ b/drivers/gpu/drm/i915/gt/intel_engine_types.h
+> > > @@ -59,6 +59,7 @@ struct drm_i915_reg_table;
+> > >   struct i915_gem_context;
+> > >   struct i915_request;
+> > >   struct i915_sched_attr;
+> > > +struct i915_sched_engine;
+> > >   struct intel_gt;
+> > >   struct intel_ring;
+> > >   struct intel_uncore;
+> > > @@ -137,11 +138,6 @@ struct st_preempt_hang {
+> > >    * driver and the hardware state for execlist mode of submission.
+> > >    */
+> > >   struct intel_engine_execlists {
+> > > -   /**
+> > > -    * @tasklet: softirq tasklet for bottom handler
+> > > -    */
+> > > -   struct tasklet_struct tasklet;
+> > > -
+> > >     /**
+> > >      * @timer: kick the current context if its timeslice expires
+> > >      */
+> > > @@ -152,11 +148,6 @@ struct intel_engine_execlists {
+> > >      */
+> > >     struct timer_list preempt;
+> > > -   /**
+> > > -    * @default_priolist: priority list for I915_PRIORITY_NORMAL
+> > > -    */
+> > > -   struct i915_priolist default_priolist;
+> > > -
+> > >     /**
+> > >      * @ccid: identifier for contexts submitted to this engine
+> > >      */
+> > > @@ -191,11 +182,6 @@ struct intel_engine_execlists {
+> > >      */
+> > >     u32 reset_ccid;
+> > > -   /**
+> > > -    * @no_priolist: priority lists disabled
+> > > -    */
+> > > -   bool no_priolist;
+> > > -
+> > >     /**
+> > >      * @submit_reg: gen-specific execlist submission register
+> > >      * set to the ExecList Submission Port (elsp) register pre-Gen11 =
+and to
+> > > @@ -238,23 +224,8 @@ struct intel_engine_execlists {
+> > >     unsigned int port_mask;
+> > >     /**
+> > > -    * @queue_priority_hint: Highest pending priority.
+> > > -    *
+> > > -    * When we add requests into the queue, or adjust the priority of
+> > > -    * executing requests, we compute the maximum priority of those
+> > > -    * pending requests. We can then use this value to determine if
+> > > -    * we need to preempt the executing requests to service the queue=
+.
+> > > -    * However, since the we may have recorded the priority of an inf=
+light
+> > > -    * request we wanted to preempt but since completed, at the time =
+of
+> > > -    * dequeuing the priority hint may no longer may match the highes=
+t
+> > > -    * available request priority.
+> > > +    * @virtual: virtual of requests, in priority lists
+> > >      */
+> > > -   int queue_priority_hint;
+> > > -
+> > > -   /**
+> > > -    * @queue: queue of requests, in priority lists
+> > > -    */
+> > > -   struct rb_root_cached queue;
+> > >     struct rb_root_cached virtual;
+> > >     /**
+> > > @@ -326,11 +297,7 @@ struct intel_engine_cs {
+> > >     struct intel_sseu sseu;
+> > > -   struct {
+> > > -           spinlock_t lock;
+> > > -           struct list_head requests;
+> > > -           struct list_head hold; /* ready requests, but on hold */
+> > > -   } active;
+> > > +   struct i915_sched_engine *sched_engine;
+> > >     /* keep a request in reserve for a [pm] barrier under oom */
+> > >     struct i915_request *request_pool;
+> > > @@ -459,9 +426,6 @@ struct intel_engine_cs {
+> > >      * dependencies may need rescheduling. Note the request itself ma=
+y
+> > >      * not be ready to run!
+> > >      */
+> > > -   void            (*schedule)(struct i915_request *request,
+> > > -                               const struct i915_sched_attr *attr);
+> > > -
+> > >     void            (*release)(struct intel_engine_cs *engine);
+> > >     struct intel_engine_execlists execlists;
+> > > diff --git a/drivers/gpu/drm/i915/gt/intel_engine_user.c b/drivers/gp=
+u/drm/i915/gt/intel_engine_user.c
+> > > index 3cca7ea2d6ea..84142127ebd8 100644
+> > > --- a/drivers/gpu/drm/i915/gt/intel_engine_user.c
+> > > +++ b/drivers/gpu/drm/i915/gt/intel_engine_user.c
+> > > @@ -108,7 +108,7 @@ static void set_scheduler_caps(struct drm_i915_pr=
+ivate *i915)
+> > >     for_each_uabi_engine(engine, i915) { /* all engines must agree! *=
+/
+> > >             int i;
+> > > -           if (engine->schedule)
+> > > +           if (engine->sched_engine->schedule)
+> > >                     enabled |=3D (I915_SCHEDULER_CAP_ENABLED |
+> > >                                 I915_SCHEDULER_CAP_PRIORITY);
+> > >             else
+> > > diff --git a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c b/d=
+rivers/gpu/drm/i915/gt/intel_execlists_submission.c
+> > > index 8db200422950..0927a2416b52 100644
+> > > --- a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
+> > > +++ b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
+> > > @@ -273,11 +273,11 @@ static int effective_prio(const struct i915_req=
+uest *rq)
+> > >     return prio;
+> > >   }
+> > > -static int queue_prio(const struct intel_engine_execlists *execlists=
+)
+> > > +static int queue_prio(const struct i915_sched_engine *sched_engine)
+> > >   {
+> > >     struct rb_node *rb;
+> > > -   rb =3D rb_first_cached(&execlists->queue);
+> > > +   rb =3D rb_first_cached(&sched_engine->queue);
+> > >     if (!rb)
+> > >             return INT_MIN;
+> > > @@ -318,14 +318,14 @@ static bool need_preempt(const struct intel_eng=
+ine_cs *engine,
+> > >      * to preserve FIFO ordering of dependencies.
+> > >      */
+> > >     last_prio =3D max(effective_prio(rq), I915_PRIORITY_NORMAL - 1);
+> > > -   if (engine->execlists.queue_priority_hint <=3D last_prio)
+> > > +   if (engine->sched_engine->queue_priority_hint <=3D last_prio)
+> > >             return false;
+> > >     /*
+> > >      * Check against the first request in ELSP[1], it will, thanks to=
+ the
+> > >      * power of PI, be the highest priority of that context.
+> > >      */
+> > > -   if (!list_is_last(&rq->sched.link, &engine->active.requests) &&
+> > > +   if (!list_is_last(&rq->sched.link, &engine->sched_engine->request=
+s) &&
+> > >         rq_prio(list_next_entry(rq, sched.link)) > last_prio)
+> > >             return true;
+> > > @@ -340,7 +340,7 @@ static bool need_preempt(const struct intel_engin=
+e_cs *engine,
+> > >      * context, it's priority would not exceed ELSP[0] aka last_prio.
+> > >      */
+> > >     return max(virtual_prio(&engine->execlists),
+> > > -              queue_prio(&engine->execlists)) > last_prio;
+> > > +              queue_prio(engine->sched_engine)) > last_prio;
+> > >   }
+> > >   __maybe_unused static bool
+> > > @@ -367,10 +367,10 @@ __unwind_incomplete_requests(struct intel_engin=
+e_cs *engine)
+> > >     struct list_head *pl;
+> > >     int prio =3D I915_PRIORITY_INVALID;
+> > > -   lockdep_assert_held(&engine->active.lock);
+> > > +   lockdep_assert_held(&engine->sched_engine->lock);
+> > >     list_for_each_entry_safe_reverse(rq, rn,
+> > > -                                    &engine->active.requests,
+> > > +                                    &engine->sched_engine->requests,
+> > >                                      sched.link) {
+> > >             if (__i915_request_is_complete(rq)) {
+> > >                     list_del_init(&rq->sched.link);
+> > > @@ -382,9 +382,10 @@ __unwind_incomplete_requests(struct intel_engine=
+_cs *engine)
+> > >             GEM_BUG_ON(rq_prio(rq) =3D=3D I915_PRIORITY_INVALID);
+> > >             if (rq_prio(rq) !=3D prio) {
+> > >                     prio =3D rq_prio(rq);
+> > > -                   pl =3D i915_sched_lookup_priolist(engine, prio);
+> > > +                   pl =3D i915_sched_lookup_priolist(engine->sched_e=
+ngine,
+> > > +                                                   prio);
+> > >             }
+> > > -           GEM_BUG_ON(RB_EMPTY_ROOT(&engine->execlists.queue.rb_root=
+));
+> > > +           GEM_BUG_ON(i915_sched_engine_is_empty(engine->sched_engin=
+e));
+> > >             list_move(&rq->sched.link, pl);
+> > >             set_bit(I915_FENCE_FLAG_PQUEUE, &rq->fence.flags);
+> > > @@ -534,13 +535,13 @@ resubmit_virtual_request(struct i915_request *r=
+q, struct virtual_engine *ve)
+> > >   {
+> > >     struct intel_engine_cs *engine =3D rq->engine;
+> > > -   spin_lock_irq(&engine->active.lock);
+> > > +   spin_lock_irq(&engine->sched_engine->lock);
+> > >     clear_bit(I915_FENCE_FLAG_PQUEUE, &rq->fence.flags);
+> > >     WRITE_ONCE(rq->engine, &ve->base);
+> > >     ve->base.submit_request(rq);
+> > > -   spin_unlock_irq(&engine->active.lock);
+> > > +   spin_unlock_irq(&engine->sched_engine->lock);
+> > >   }
+> > >   static void kick_siblings(struct i915_request *rq, struct intel_con=
+text *ce)
+> > > @@ -569,7 +570,7 @@ static void kick_siblings(struct i915_request *rq=
+, struct intel_context *ce)
+> > >             resubmit_virtual_request(rq, ve);
+> > >     if (READ_ONCE(ve->request))
+> > > -           tasklet_hi_schedule(&ve->base.execlists.tasklet);
+> > > +           i915_sched_engine_hi_kick(ve->base.sched_engine);
+> > >   }
+> > >   static void __execlists_schedule_out(struct i915_request * const rq=
+,
+> > > @@ -579,7 +580,7 @@ static void __execlists_schedule_out(struct i915_=
+request * const rq,
+> > >     unsigned int ccid;
+> > >     /*
+> > > -    * NB process_csb() is not under the engine->active.lock and henc=
+e
+> > > +    * NB process_csb() is not under the engine->sched_engine->lock a=
+nd hence
+> > >      * schedule_out can race with schedule_in meaning that we should
+> > >      * refrain from doing non-trivial work here.
+> > >      */
+> > > @@ -721,12 +722,11 @@ dump_port(char *buf, int buflen, const char *pr=
+efix, struct i915_request *rq)
+> > >   }
+> > >   static __maybe_unused noinline void
+> > > -trace_ports(const struct intel_engine_execlists *execlists,
+> > > +trace_ports(const struct intel_engine_cs *engine,
+> > > +       const struct intel_engine_execlists *execlists,
+> > >         const char *msg,
+> > >         struct i915_request * const *ports)
+> > >   {
+> > > -   const struct intel_engine_cs *engine =3D
+> > > -           container_of(execlists, typeof(*engine), execlists);
+> > >     char __maybe_unused p0[40], p1[40];
+> > >     if (!ports[0])
+> > > @@ -738,25 +738,24 @@ trace_ports(const struct intel_engine_execlists=
+ *execlists,
+> > >   }
+> > >   static bool
+> > > -reset_in_progress(const struct intel_engine_execlists *execlists)
+> > > +reset_in_progress(const struct intel_engine_cs *engine)
+> > >   {
+> > > -   return unlikely(!__tasklet_is_enabled(&execlists->tasklet));
+> > > +   return unlikely(!__tasklet_is_enabled(&engine->sched_engine->task=
+let));
+> > >   }
+> > >   static __maybe_unused noinline bool
+> > > -assert_pending_valid(const struct intel_engine_execlists *execlists,
+> > > +assert_pending_valid(struct intel_engine_cs *engine,
+> > > +                const struct intel_engine_execlists *execlists,
+> > >                  const char *msg)
+> > >   {
+> > > -   struct intel_engine_cs *engine =3D
+> > > -           container_of(execlists, typeof(*engine), execlists);
+> > >     struct i915_request * const *port, *rq, *prev =3D NULL;
+> > >     struct intel_context *ce =3D NULL;
+> > >     u32 ccid =3D -1;
+> > > -   trace_ports(execlists, msg, execlists->pending);
+> > > +   trace_ports(engine, execlists, msg, execlists->pending);
+> > >     /* We may be messing around with the lists during reset, lalala *=
+/
+> > > -   if (reset_in_progress(execlists))
+> > > +   if (reset_in_progress(engine))
+> > >             return true;
+> > >     if (!execlists->pending[0]) {
+> > > @@ -878,7 +877,7 @@ static void execlists_submit_ports(struct intel_e=
+ngine_cs *engine)
+> > >     struct intel_engine_execlists *execlists =3D &engine->execlists;
+> > >     unsigned int n;
+> > > -   GEM_BUG_ON(!assert_pending_valid(execlists, "submit"));
+> > > +   GEM_BUG_ON(!assert_pending_valid(engine, execlists, "submit"));
+> > >     /*
+> > >      * We can skip acquiring intel_runtime_pm_get() here as it was ta=
+ken
+> > > @@ -1096,7 +1095,8 @@ static void defer_active(struct intel_engine_cs=
+ *engine)
+> > >     if (!rq)
+> > >             return;
+> > > -   defer_request(rq, i915_sched_lookup_priolist(engine, rq_prio(rq))=
+);
+> > > +   defer_request(rq, i915_sched_lookup_priolist(engine->sched_engine=
+,
+> > > +                                                rq_prio(rq)));
+> > >   }
+> > >   static bool
+> > > @@ -1133,13 +1133,14 @@ static bool needs_timeslice(const struct inte=
+l_engine_cs *engine,
+> > >             return false;
+> > >     /* If ELSP[1] is occupied, always check to see if worth slicing *=
+/
+> > > -   if (!list_is_last_rcu(&rq->sched.link, &engine->active.requests))=
+ {
+> > > +   if (!list_is_last_rcu(&rq->sched.link,
+> > > +                         &engine->sched_engine->requests)) {
+> > >             ENGINE_TRACE(engine, "timeslice required for second infli=
+ght context\n");
+> > >             return true;
+> > >     }
+> > >     /* Otherwise, ELSP[0] is by itself, but may be waiting in the que=
+ue */
+> > > -   if (!RB_EMPTY_ROOT(&engine->execlists.queue.rb_root)) {
+> > > +   if (!i915_sched_engine_is_empty(engine->sched_engine)) {
+> > >             ENGINE_TRACE(engine, "timeslice required for queue\n");
+> > >             return true;
+> > >     }
+> > > @@ -1187,7 +1188,7 @@ static void start_timeslice(struct intel_engine=
+_cs *engine)
+> > >                      * its timeslice, so recheck.
+> > >                      */
+> > >                     if (!timer_pending(&el->timer))
+> > > -                           tasklet_hi_schedule(&el->tasklet);
+> > > +                           i915_sched_engine_hi_kick(engine->sched_e=
+ngine);
+> > >                     return;
+> > >             }
+> > > @@ -1235,6 +1236,7 @@ static bool completed(const struct i915_request=
+ *rq)
+> > >   static void execlists_dequeue(struct intel_engine_cs *engine)
+> > >   {
+> > > +   struct i915_sched_engine * const sched_engine =3D engine->sched_e=
+ngine;
+> > >     struct intel_engine_execlists * const execlists =3D &engine->exec=
+lists;
+> > >     struct i915_request **port =3D execlists->pending;
+> > >     struct i915_request ** const last_port =3D port + execlists->port=
+_mask;
+> > > @@ -1265,7 +1267,7 @@ static void execlists_dequeue(struct intel_engi=
+ne_cs *engine)
+> > >      * and context switches) submission.
+> > >      */
+> > > -   spin_lock(&engine->active.lock);
+> > > +   spin_lock(&engine->sched_engine->lock);
+> > >     /*
+> > >      * If the queue is higher priority than the last
+> > > @@ -1287,7 +1289,7 @@ static void execlists_dequeue(struct intel_engi=
+ne_cs *engine)
+> > >                                  last->fence.context,
+> > >                                  last->fence.seqno,
+> > >                                  last->sched.attr.priority,
+> > > -                                execlists->queue_priority_hint);
+> > > +                                sched_engine->queue_priority_hint);
+> > >                     record_preemption(execlists);
+> > >                     /*
+> > > @@ -1313,7 +1315,7 @@ static void execlists_dequeue(struct intel_engi=
+ne_cs *engine)
+> > >                                  yesno(timer_expired(&execlists->time=
+r)),
+> > >                                  last->fence.context, last->fence.seq=
+no,
+> > >                                  rq_prio(last),
+> > > -                                execlists->queue_priority_hint,
+> > > +                                sched_engine->queue_priority_hint,
+> > >                                  yesno(timeslice_yield(execlists, las=
+t)));
+> > >                     /*
+> > > @@ -1365,7 +1367,7 @@ static void execlists_dequeue(struct intel_engi=
+ne_cs *engine)
+> > >                              * Even if ELSP[1] is occupied and not wo=
+rthy
+> > >                              * of timeslices, our queue might be.
+> > >                              */
+> > > -                           spin_unlock(&engine->active.lock);
+> > > +                           spin_unlock(&sched_engine->lock);
+> > >                             return;
+> > >                     }
+> > >             }
+> > > @@ -1375,7 +1377,7 @@ static void execlists_dequeue(struct intel_engi=
+ne_cs *engine)
+> > >     while ((ve =3D first_virtual_engine(engine))) {
+> > >             struct i915_request *rq;
+> > > -           spin_lock(&ve->base.active.lock);
+> > > +           spin_lock(&ve->base.sched_engine->lock);
+> > >             rq =3D ve->request;
+> > >             if (unlikely(!virtual_matches(ve, rq, engine)))
+> > > @@ -1384,14 +1386,14 @@ static void execlists_dequeue(struct intel_en=
+gine_cs *engine)
+> > >             GEM_BUG_ON(rq->engine !=3D &ve->base);
+> > >             GEM_BUG_ON(rq->context !=3D &ve->context);
+> > > -           if (unlikely(rq_prio(rq) < queue_prio(execlists))) {
+> > > -                   spin_unlock(&ve->base.active.lock);
+> > > +           if (unlikely(rq_prio(rq) < queue_prio(sched_engine))) {
+> > > +                   spin_unlock(&ve->base.sched_engine->lock);
+> > >                     break;
+> > >             }
+> > >             if (last && !can_merge_rq(last, rq)) {
+> > > -                   spin_unlock(&ve->base.active.lock);
+> > > -                   spin_unlock(&engine->active.lock);
+> > > +                   spin_unlock(&ve->base.sched_engine->lock);
+> > > +                   spin_unlock(&sched_engine->lock);
+> > >                     return; /* leave this for another sibling */
+> > >             }
+> > > @@ -1405,7 +1407,7 @@ static void execlists_dequeue(struct intel_engi=
+ne_cs *engine)
+> > >                          yesno(engine !=3D ve->siblings[0]));
+> > >             WRITE_ONCE(ve->request, NULL);
+> > > -           WRITE_ONCE(ve->base.execlists.queue_priority_hint, INT_MI=
+N);
+> > > +           WRITE_ONCE(ve->base.sched_engine->queue_priority_hint, IN=
+T_MIN);
+> > >             rb =3D &ve->nodes[engine->id].rb;
+> > >             rb_erase_cached(rb, &execlists->virtual);
+> > > @@ -1437,7 +1439,7 @@ static void execlists_dequeue(struct intel_engi=
+ne_cs *engine)
+> > >             i915_request_put(rq);
+> > >   unlock:
+> > > -           spin_unlock(&ve->base.active.lock);
+> > > +           spin_unlock(&ve->base.sched_engine->lock);
+> > >             /*
+> > >              * Hmm, we have a bunch of virtual engine requests,
+> > > @@ -1450,7 +1452,7 @@ static void execlists_dequeue(struct intel_engi=
+ne_cs *engine)
+> > >                     break;
+> > >     }
+> > > -   while ((rb =3D rb_first_cached(&execlists->queue))) {
+> > > +   while ((rb =3D rb_first_cached(&sched_engine->queue))) {
+> > >             struct i915_priolist *p =3D to_priolist(rb);
+> > >             struct i915_request *rq, *rn;
+> > > @@ -1529,7 +1531,7 @@ static void execlists_dequeue(struct intel_engi=
+ne_cs *engine)
+> > >                     }
+> > >             }
+> > > -           rb_erase_cached(&p->node, &execlists->queue);
+> > > +           rb_erase_cached(&p->node, &sched_engine->queue);
+> > >             i915_priolist_free(p);
+> > >     }
+> > >   done:
+> > > @@ -1551,8 +1553,9 @@ static void execlists_dequeue(struct intel_engi=
+ne_cs *engine)
+> > >      * request triggering preemption on the next dequeue (or subseque=
+nt
+> > >      * interrupt for secondary ports).
+> > >      */
+> > > -   execlists->queue_priority_hint =3D queue_prio(execlists);
+> > > -   spin_unlock(&engine->active.lock);
+> > > +   sched_engine->queue_priority_hint =3D queue_prio(sched_engine);
+> > > +   i915_sched_engine_reset_on_empty(sched_engine);
+> > > +   spin_unlock(&sched_engine->lock);
+> > >     /*
+> > >      * We can skip poking the HW if we ended up with exactly the same=
+ set
+> > > @@ -1767,8 +1770,8 @@ process_csb(struct intel_engine_cs *engine, str=
+uct i915_request **inactive)
+> > >      * access. Either we are inside the tasklet, or the tasklet is di=
+sabled
+> > >      * and we assume that is only inside the reset paths and so seria=
+lised.
+> > >      */
+> > > -   GEM_BUG_ON(!tasklet_is_locked(&execlists->tasklet) &&
+> > > -              !reset_in_progress(execlists));
+> > > +   GEM_BUG_ON(!tasklet_is_locked(&engine->sched_engine->tasklet) &&
+> > > +              !reset_in_progress(engine));
+> > >     /*
+> > >      * Note that csb_write, csb_status may be either in HWSP or mmio.
+> > > @@ -1866,12 +1869,12 @@ process_csb(struct intel_engine_cs *engine, s=
+truct i915_request **inactive)
+> > >                     smp_wmb(); /* notify execlists_active() */
+> > >                     /* cancel old inflight, prepare for switch */
+> > > -                   trace_ports(execlists, "preempted", old);
+> > > +                   trace_ports(engine, execlists, "preempted", old);
+> > >                     while (*old)
+> > >                             *inactive++ =3D *old++;
+> > >                     /* switch pending to inflight */
+> > > -                   GEM_BUG_ON(!assert_pending_valid(execlists, "prom=
+ote"));
+> > > +                   GEM_BUG_ON(!assert_pending_valid(engine, execlist=
+s, "promote"));
+> > >                     copy_ports(execlists->inflight,
+> > >                                execlists->pending,
+> > >                                execlists_num_ports(execlists));
+> > > @@ -1889,7 +1892,7 @@ process_csb(struct intel_engine_cs *engine, str=
+uct i915_request **inactive)
+> > >                     }
+> > >                     /* port0 completed, advanced to port1 */
+> > > -                   trace_ports(execlists, "completed", execlists->ac=
+tive);
+> > > +                   trace_ports(engine, execlists, "completed", execl=
+ists->active);
+> > >                     /*
+> > >                      * We rely on the hardware being strongly
+> > > @@ -1979,7 +1982,7 @@ static void __execlists_hold(struct i915_reques=
+t *rq)
+> > >                     __i915_request_unsubmit(rq);
+> > >             clear_bit(I915_FENCE_FLAG_PQUEUE, &rq->fence.flags);
+> > > -           list_move_tail(&rq->sched.link, &rq->engine->active.hold)=
+;
+> > > +           list_move_tail(&rq->sched.link, &rq->engine->sched_engine=
+->hold);
+> > >             i915_request_set_hold(rq);
+> > >             RQ_TRACE(rq, "on hold\n");
+> > > @@ -2016,7 +2019,7 @@ static bool execlists_hold(struct intel_engine_=
+cs *engine,
+> > >     if (i915_request_on_hold(rq))
+> > >             return false;
+> > > -   spin_lock_irq(&engine->active.lock);
+> > > +   spin_lock_irq(&engine->sched_engine->lock);
+> > >     if (__i915_request_is_complete(rq)) { /* too late! */
+> > >             rq =3D NULL;
+> > > @@ -2032,10 +2035,10 @@ static bool execlists_hold(struct intel_engin=
+e_cs *engine,
+> > >     GEM_BUG_ON(i915_request_on_hold(rq));
+> > >     GEM_BUG_ON(rq->engine !=3D engine);
+> > >     __execlists_hold(rq);
+> > > -   GEM_BUG_ON(list_empty(&engine->active.hold));
+> > > +   GEM_BUG_ON(list_empty(&engine->sched_engine->hold));
+> > >   unlock:
+> > > -   spin_unlock_irq(&engine->active.lock);
+> > > +   spin_unlock_irq(&engine->sched_engine->lock);
+> > >     return rq;
+> > >   }
+> > > @@ -2079,7 +2082,7 @@ static void __execlists_unhold(struct i915_requ=
+est *rq)
+> > >             i915_request_clear_hold(rq);
+> > >             list_move_tail(&rq->sched.link,
+> > > -                          i915_sched_lookup_priolist(rq->engine,
+> > > +                          i915_sched_lookup_priolist(rq->engine->sch=
+ed_engine,
+> > >                                                       rq_prio(rq)));
+> > >             set_bit(I915_FENCE_FLAG_PQUEUE, &rq->fence.flags);
+> > > @@ -2115,7 +2118,7 @@ static void __execlists_unhold(struct i915_requ=
+est *rq)
+> > >   static void execlists_unhold(struct intel_engine_cs *engine,
+> > >                          struct i915_request *rq)
+> > >   {
+> > > -   spin_lock_irq(&engine->active.lock);
+> > > +   spin_lock_irq(&engine->sched_engine->lock);
+> > >     /*
+> > >      * Move this request back to the priority queue, and all of its
+> > > @@ -2123,12 +2126,12 @@ static void execlists_unhold(struct intel_eng=
+ine_cs *engine,
+> > >      */
+> > >     __execlists_unhold(rq);
+> > > -   if (rq_prio(rq) > engine->execlists.queue_priority_hint) {
+> > > -           engine->execlists.queue_priority_hint =3D rq_prio(rq);
+> > > -           tasklet_hi_schedule(&engine->execlists.tasklet);
+> > > +   if (rq_prio(rq) > engine->sched_engine->queue_priority_hint) {
+> > > +           engine->sched_engine->queue_priority_hint =3D rq_prio(rq)=
+;
+> > > +           i915_sched_engine_hi_kick(engine->sched_engine);
+> > >     }
+> > > -   spin_unlock_irq(&engine->active.lock);
+> > > +   spin_unlock_irq(&engine->sched_engine->lock);
+> > >   }
+> > >   struct execlists_capture {
+> > > @@ -2258,13 +2261,13 @@ static void execlists_capture(struct intel_en=
+gine_cs *engine)
+> > >     if (!cap)
+> > >             return;
+> > > -   spin_lock_irq(&engine->active.lock);
+> > > +   spin_lock_irq(&engine->sched_engine->lock);
+> > >     cap->rq =3D active_context(engine, active_ccid(engine));
+> > >     if (cap->rq) {
+> > >             cap->rq =3D active_request(cap->rq->context->timeline, ca=
+p->rq);
+> > >             cap->rq =3D i915_request_get_rcu(cap->rq);
+> > >     }
+> > > -   spin_unlock_irq(&engine->active.lock);
+> > > +   spin_unlock_irq(&engine->sched_engine->lock);
+> > >     if (!cap->rq)
+> > >             goto err_free;
+> > > @@ -2316,13 +2319,13 @@ static void execlists_reset(struct intel_engi=
+ne_cs *engine, const char *msg)
+> > >     ENGINE_TRACE(engine, "reset for %s\n", msg);
+> > >     /* Mark this tasklet as disabled to avoid waiting for it to compl=
+ete */
+> > > -   tasklet_disable_nosync(&engine->execlists.tasklet);
+> > > +   tasklet_disable_nosync(&engine->sched_engine->tasklet);
+> > >     ring_set_paused(engine, 1); /* Freeze the current request in plac=
+e */
+> > >     execlists_capture(engine);
+> > >     intel_engine_reset(engine, msg);
+> > > -   tasklet_enable(&engine->execlists.tasklet);
+> > > +   tasklet_enable(&engine->sched_engine->tasklet);
+> > >     clear_and_wake_up_bit(bit, lock);
+> > >   }
+> > > @@ -2345,8 +2348,9 @@ static bool preempt_timeout(const struct intel_=
+engine_cs *const engine)
+> > >    */
+> > >   static void execlists_submission_tasklet(struct tasklet_struct *t)
+> > >   {
+> > > -   struct intel_engine_cs * const engine =3D
+> > > -           from_tasklet(engine, t, execlists.tasklet);
+> > > +   struct i915_sched_engine *sched_engine =3D
+> > > +           from_tasklet(sched_engine, t, tasklet);
+> > > +   struct intel_engine_cs * const engine =3D sched_engine->engine;
+> > >     struct i915_request *post[2 * EXECLIST_MAX_PORTS];
+> > >     struct i915_request **inactive;
+> > > @@ -2421,13 +2425,16 @@ static void execlists_irq_handler(struct inte=
+l_engine_cs *engine, u16 iir)
+> > >             intel_engine_signal_breadcrumbs(engine);
+> > >     if (tasklet)
+> > > -           tasklet_hi_schedule(&engine->execlists.tasklet);
+> > > +           i915_sched_engine_hi_kick(engine->sched_engine);
+> > >   }
+> > >   static void __execlists_kick(struct intel_engine_execlists *execlis=
+ts)
+> > >   {
+> > > +   struct intel_engine_cs *engine =3D
+> > > +           container_of(execlists, typeof(*engine), execlists);
+> > > +
+> > >     /* Kick the tasklet for some interrupt coalescing and reset handl=
+ing */
+> > > -   tasklet_hi_schedule(&execlists->tasklet);
+> > > +   i915_sched_engine_hi_kick(engine->sched_engine);
+> > >   }
+> > >   #define execlists_kick(t, member) \
+> > > @@ -2448,19 +2455,20 @@ static void queue_request(struct intel_engine=
+_cs *engine,
+> > >   {
+> > >     GEM_BUG_ON(!list_empty(&rq->sched.link));
+> > >     list_add_tail(&rq->sched.link,
+> > > -                 i915_sched_lookup_priolist(engine, rq_prio(rq)));
+> > > +                 i915_sched_lookup_priolist(engine->sched_engine,
+> > > +                                            rq_prio(rq)));
+> > >     set_bit(I915_FENCE_FLAG_PQUEUE, &rq->fence.flags);
+> > >   }
+> > >   static bool submit_queue(struct intel_engine_cs *engine,
+> > >                      const struct i915_request *rq)
+> > >   {
+> > > -   struct intel_engine_execlists *execlists =3D &engine->execlists;
+> > > +   struct i915_sched_engine *sched_engine =3D engine->sched_engine;
+> > > -   if (rq_prio(rq) <=3D execlists->queue_priority_hint)
+> > > +   if (rq_prio(rq) <=3D sched_engine->queue_priority_hint)
+> > >             return false;
+> > > -   execlists->queue_priority_hint =3D rq_prio(rq);
+> > > +   sched_engine->queue_priority_hint =3D rq_prio(rq);
+> > >     return true;
+> > >   }
+> > > @@ -2468,7 +2476,7 @@ static bool ancestor_on_hold(const struct intel=
+_engine_cs *engine,
+> > >                          const struct i915_request *rq)
+> > >   {
+> > >     GEM_BUG_ON(i915_request_on_hold(rq));
+> > > -   return !list_empty(&engine->active.hold) && hold_request(rq);
+> > > +   return !list_empty(&engine->sched_engine->hold) && hold_request(r=
+q);
+> > >   }
+> > >   static void execlists_submit_request(struct i915_request *request)
+> > > @@ -2477,23 +2485,24 @@ static void execlists_submit_request(struct i=
+915_request *request)
+> > >     unsigned long flags;
+> > >     /* Will be called from irq-context when using foreign fences. */
+> > > -   spin_lock_irqsave(&engine->active.lock, flags);
+> > > +   spin_lock_irqsave(&engine->sched_engine->lock, flags);
+> > >     if (unlikely(ancestor_on_hold(engine, request))) {
+> > >             RQ_TRACE(request, "ancestor on hold\n");
+> > > -           list_add_tail(&request->sched.link, &engine->active.hold)=
+;
+> > > +           list_add_tail(&request->sched.link,
+> > > +                         &engine->sched_engine->hold);
+> > >             i915_request_set_hold(request);
+> > >     } else {
+> > >             queue_request(engine, request);
+> > > -           GEM_BUG_ON(RB_EMPTY_ROOT(&engine->execlists.queue.rb_root=
+));
+> > > +           GEM_BUG_ON(i915_sched_engine_is_empty(engine->sched_engin=
+e));
+> > >             GEM_BUG_ON(list_empty(&request->sched.link));
+> > >             if (submit_queue(engine, request))
+> > > -                   __execlists_kick(&engine->execlists);
+> > > +                   i915_sched_engine_hi_kick(engine->sched_engine);
+> > >     }
+> > > -   spin_unlock_irqrestore(&engine->active.lock, flags);
+> > > +   spin_unlock_irqrestore(&engine->sched_engine->lock, flags);
+> > >   }
+> > >   static int
+> > > @@ -2800,10 +2809,10 @@ static int execlists_resume(struct intel_engi=
+ne_cs *engine)
+> > >   static void execlists_reset_prepare(struct intel_engine_cs *engine)
+> > >   {
+> > > -   struct intel_engine_execlists * const execlists =3D &engine->exec=
+lists;
+> > > +   struct i915_sched_engine * const sched_engine =3D engine->sched_e=
+ngine;
+> > >     ENGINE_TRACE(engine, "depth<-%d\n",
+> > > -                atomic_read(&execlists->tasklet.count));
+> > > +                atomic_read(&sched_engine->tasklet.count));
+> > >     /*
+> > >      * Prevent request submission to the hardware until we have
+> > > @@ -2814,8 +2823,8 @@ static void execlists_reset_prepare(struct inte=
+l_engine_cs *engine)
+> > >      * Turning off the execlists->tasklet until the reset is over
+> > >      * prevents the race.
+> > >      */
+> > > -   __tasklet_disable_sync_once(&execlists->tasklet);
+> > > -   GEM_BUG_ON(!reset_in_progress(execlists));
+> > > +   __tasklet_disable_sync_once(&sched_engine->tasklet);
+> > > +   GEM_BUG_ON(!reset_in_progress(engine));
+> > >     /*
+> > >      * We stop engines, otherwise we might get failed reset and a
+> > > @@ -2957,23 +2966,25 @@ static void execlists_reset_rewind(struct int=
+el_engine_cs *engine, bool stalled)
+> > >     /* Push back any incomplete requests for replay after the reset. =
+*/
+> > >     rcu_read_lock();
+> > > -   spin_lock_irqsave(&engine->active.lock, flags);
+> > > +   spin_lock_irqsave(&engine->sched_engine->lock, flags);
+> > >     __unwind_incomplete_requests(engine);
+> > > -   spin_unlock_irqrestore(&engine->active.lock, flags);
+> > > +   spin_unlock_irqrestore(&engine->sched_engine->lock, flags);
+> > >     rcu_read_unlock();
+> > >   }
+> > >   static void nop_submission_tasklet(struct tasklet_struct *t)
+> > >   {
+> > > -   struct intel_engine_cs * const engine =3D
+> > > -           from_tasklet(engine, t, execlists.tasklet);
+> > > +   struct i915_sched_engine *sched_engine =3D
+> > > +           from_tasklet(sched_engine, t, tasklet);
+> > > +   struct intel_engine_cs * const engine =3D sched_engine->engine;
+> > >     /* The driver is wedged; don't process any more events. */
+> > > -   WRITE_ONCE(engine->execlists.queue_priority_hint, INT_MIN);
+> > > +   WRITE_ONCE(engine->sched_engine->queue_priority_hint, INT_MIN);
+> > >   }
+> > >   static void execlists_reset_cancel(struct intel_engine_cs *engine)
+> > >   {
+> > > +   struct i915_sched_engine * const sched_engine =3D engine->sched_e=
+ngine;
+> > >     struct intel_engine_execlists * const execlists =3D &engine->exec=
+lists;
+> > >     struct i915_request *rq, *rn;
+> > >     struct rb_node *rb;
+> > > @@ -2998,15 +3009,15 @@ static void execlists_reset_cancel(struct int=
+el_engine_cs *engine)
+> > >     execlists_reset_csb(engine, true);
+> > >     rcu_read_lock();
+> > > -   spin_lock_irqsave(&engine->active.lock, flags);
+> > > +   spin_lock_irqsave(&sched_engine->lock, flags);
+> > >     /* Mark all executing requests as skipped. */
+> > > -   list_for_each_entry(rq, &engine->active.requests, sched.link)
+> > > +   list_for_each_entry(rq, &sched_engine->requests, sched.link)
+> > >             i915_request_put(i915_request_mark_eio(rq));
+> > >     intel_engine_signal_breadcrumbs(engine);
+> > >     /* Flush the queued requests to the timeline list (for retiring).=
+ */
+> > > -   while ((rb =3D rb_first_cached(&execlists->queue))) {
+> > > +   while ((rb =3D rb_first_cached(&sched_engine->queue))) {
+> > >             struct i915_priolist *p =3D to_priolist(rb);
+> > >             priolist_for_each_request_consume(rq, rn, p) {
+> > > @@ -3016,12 +3027,12 @@ static void execlists_reset_cancel(struct int=
+el_engine_cs *engine)
+> > >                     }
+> > >             }
+> > > -           rb_erase_cached(&p->node, &execlists->queue);
+> > > +           rb_erase_cached(&p->node, &sched_engine->queue);
+> > >             i915_priolist_free(p);
+> > >     }
+> > >     /* On-hold requests will be flushed to timeline upon their releas=
+e */
+> > > -   list_for_each_entry(rq, &engine->active.hold, sched.link)
+> > > +   list_for_each_entry(rq, &sched_engine->hold, sched.link)
+> > >             i915_request_put(i915_request_mark_eio(rq));
+> > >     /* Cancel all attached virtual engines */
+> > > @@ -3032,7 +3043,7 @@ static void execlists_reset_cancel(struct intel=
+_engine_cs *engine)
+> > >             rb_erase_cached(rb, &execlists->virtual);
+> > >             RB_CLEAR_NODE(rb);
+> > > -           spin_lock(&ve->base.active.lock);
+> > > +           spin_lock(&ve->base.sched_engine->lock);
+> > >             rq =3D fetch_and_zero(&ve->request);
+> > >             if (rq) {
+> > >                     if (i915_request_mark_eio(rq)) {
+> > > @@ -3042,26 +3053,26 @@ static void execlists_reset_cancel(struct int=
+el_engine_cs *engine)
+> > >                     }
+> > >                     i915_request_put(rq);
+> > > -                   ve->base.execlists.queue_priority_hint =3D INT_MI=
+N;
+> > > +                   ve->base.sched_engine->queue_priority_hint =3D IN=
+T_MIN;
+> > >             }
+> > > -           spin_unlock(&ve->base.active.lock);
+> > > +           spin_unlock(&ve->base.sched_engine->lock);
+> > >     }
+> > >     /* Remaining _unready_ requests will be nop'ed when submitted */
+> > > -   execlists->queue_priority_hint =3D INT_MIN;
+> > > -   execlists->queue =3D RB_ROOT_CACHED;
+> > > +   sched_engine->queue_priority_hint =3D INT_MIN;
+> > > +   sched_engine->queue =3D RB_ROOT_CACHED;
+> > > -   GEM_BUG_ON(__tasklet_is_enabled(&execlists->tasklet));
+> > > -   execlists->tasklet.callback =3D nop_submission_tasklet;
+> > > +   GEM_BUG_ON(__tasklet_is_enabled(&sched_engine->tasklet));
+> > > +   sched_engine->tasklet.callback =3D nop_submission_tasklet;
+> > > -   spin_unlock_irqrestore(&engine->active.lock, flags);
+> > > +   spin_unlock_irqrestore(&engine->sched_engine->lock, flags);
+> > >     rcu_read_unlock();
+> > >   }
+> > >   static void execlists_reset_finish(struct intel_engine_cs *engine)
+> > >   {
+> > > -   struct intel_engine_execlists * const execlists =3D &engine->exec=
+lists;
+> > > +   struct i915_sched_engine * const sched_engine =3D engine->sched_e=
+ngine;
+> > >     /*
+> > >      * After a GPU reset, we may have requests to replay. Do so now w=
+hile
+> > > @@ -3073,14 +3084,14 @@ static void execlists_reset_finish(struct int=
+el_engine_cs *engine)
+> > >      * reset as the next level of recovery, and as a final resort we
+> > >      * will declare the device wedged.
+> > >      */
+> > > -   GEM_BUG_ON(!reset_in_progress(execlists));
+> > > +   GEM_BUG_ON(!reset_in_progress(engine));
+> > >     /* And kick in case we missed a new request submission. */
+> > > -   if (__tasklet_enable(&execlists->tasklet))
+> > > -           __execlists_kick(execlists);
+> > > +   if (__tasklet_enable(&sched_engine->tasklet))
+> > > +           i915_sched_engine_hi_kick(sched_engine);
+> > >     ENGINE_TRACE(engine, "depth->%d\n",
+> > > -                atomic_read(&execlists->tasklet.count));
+> > > +                atomic_read(&sched_engine->tasklet.count));
+> > >   }
+> > >   static void gen8_logical_ring_enable_irq(struct intel_engine_cs *en=
+gine)
+> > > @@ -3110,11 +3121,59 @@ static bool can_preempt(struct intel_engine_c=
+s *engine)
+> > >     return engine->class !=3D RENDER_CLASS;
+> > >   }
+> > > +static void kick_execlists(const struct i915_request *rq, int prio)
+> > > +{
+> > > +   struct i915_sched_engine *sched_engine =3D rq->engine->sched_engi=
+ne;
+> > > +   const struct i915_request *inflight;
+> > > +
+> > > +   /*
+> > > +    * We only need to kick the tasklet once for the high priority
+> > > +    * new context we add into the queue.
+> > > +    */
+> > > +   if (prio <=3D sched_engine->queue_priority_hint)
+> > > +           return;
+> > > +
+> > > +   rcu_read_lock();
+> > > +
+> > > +   /* Nothing currently active? We're overdue for a submission! */
+> > > +   inflight =3D execlists_active(&rq->engine->execlists);
+> > > +   if (!inflight)
+> > > +           goto unlock;
+> > > +
+> > > +   /*
+> > > +    * If we are already the currently executing context, don't
+> > > +    * bother evaluating if we should preempt ourselves.
+> > > +    */
+> > > +   if (inflight->context =3D=3D rq->context)
+> > > +           goto unlock;
+> > > +
+> > > +   ENGINE_TRACE(rq->engine,
+> > > +                "bumping queue-priority-hint:%d for rq:%llx:%lld, in=
+flight:%llx:%lld prio %d\n",
+> > > +                prio,
+> > > +                rq->fence.context, rq->fence.seqno,
+> > > +                inflight->fence.context, inflight->fence.seqno,
+> > > +                inflight->sched.attr.priority);
+> > > +
+> > > +   sched_engine->queue_priority_hint =3D prio;
+> > > +
+> > > +   /*
+> > > +    * Allow preemption of low -> normal -> high, but we do
+> > > +    * not allow low priority tasks to preempt other low priority
+> > > +    * tasks under the impression that latency for low priority
+> > > +    * tasks does not matter (as much as background throughput),
+> > > +    * so kiss.
+> > > +    */
+> > > +   if (prio >=3D max(I915_PRIORITY_NORMAL, rq_prio(inflight)))
+> > > +           i915_sched_engine_hi_kick(sched_engine);
+> > > +
+> > > +unlock:
+> > > +   rcu_read_unlock();
+> > > +}
+> > > +
+> > >   static void execlists_set_default_submission(struct intel_engine_cs=
+ *engine)
+> > >   {
+> > >     engine->submit_request =3D execlists_submit_request;
+> > > -   engine->schedule =3D i915_schedule;
+> > > -   engine->execlists.tasklet.callback =3D execlists_submission_taskl=
+et;
+> > > +   engine->sched_engine->tasklet.callback =3D execlists_submission_t=
+asklet;
+> > >   }
+> > >   static void execlists_shutdown(struct intel_engine_cs *engine)
+> > > @@ -3122,7 +3181,7 @@ static void execlists_shutdown(struct intel_eng=
+ine_cs *engine)
+> > >     /* Synchronise with residual timers and any softirq they raise */
+> > >     del_timer_sync(&engine->execlists.timer);
+> > >     del_timer_sync(&engine->execlists.preempt);
+> > > -   tasklet_kill(&engine->execlists.tasklet);
+> > > +   i915_sched_engine_kill(engine->sched_engine);
+> > >   }
+> > >   static void execlists_release(struct intel_engine_cs *engine)
+> > > @@ -3238,10 +3297,14 @@ int intel_execlists_submission_setup(struct i=
+ntel_engine_cs *engine)
+> > >     struct intel_uncore *uncore =3D engine->uncore;
+> > >     u32 base =3D engine->mmio_base;
+> > > -   tasklet_setup(&engine->execlists.tasklet, execlists_submission_ta=
+sklet);
+> > > +   tasklet_setup(&engine->sched_engine->tasklet,
+> > > +                 execlists_submission_tasklet);
+> > >     timer_setup(&engine->execlists.timer, execlists_timeslice, 0);
+> > >     timer_setup(&engine->execlists.preempt, execlists_preempt, 0);
+> > > +   engine->sched_engine->schedule =3D i915_schedule;
+> > > +   engine->sched_engine->kick_backend =3D kick_execlists;
+> > > +
+> > >     logical_ring_default_vfuncs(engine);
+> > >     logical_ring_default_irqs(engine);
+> > > @@ -3286,7 +3349,7 @@ int intel_execlists_submission_setup(struct int=
+el_engine_cs *engine)
+> > >   static struct list_head *virtual_queue(struct virtual_engine *ve)
+> > >   {
+> > > -   return &ve->base.execlists.default_priolist.requests;
+> > > +   return &ve->base.sched_engine->default_priolist.requests;
+> > >   }
+> > >   static void rcu_virtual_context_destroy(struct work_struct *wrk)
+> > > @@ -3301,7 +3364,7 @@ static void rcu_virtual_context_destroy(struct =
+work_struct *wrk)
+> > >     if (unlikely(ve->request)) {
+> > >             struct i915_request *old;
+> > > -           spin_lock_irq(&ve->base.active.lock);
+> > > +           spin_lock_irq(&ve->base.sched_engine->lock);
+> > >             old =3D fetch_and_zero(&ve->request);
+> > >             if (old) {
+> > > @@ -3310,7 +3373,7 @@ static void rcu_virtual_context_destroy(struct =
+work_struct *wrk)
+> > >                     i915_request_put(old);
+> > >             }
+> > > -           spin_unlock_irq(&ve->base.active.lock);
+> > > +           spin_unlock_irq(&ve->base.sched_engine->lock);
+> > >     }
+> > >     /*
+> > > @@ -3320,7 +3383,7 @@ static void rcu_virtual_context_destroy(struct =
+work_struct *wrk)
+> > >      * rbtrees as in the case it is running in parallel, it may reins=
+ert
+> > >      * the rb_node into a sibling.
+> > >      */
+> > > -   tasklet_kill(&ve->base.execlists.tasklet);
+> > > +   i915_sched_engine_kill(ve->base.sched_engine);
+> > >     /* Decouple ourselves from the siblings, no more access allowed. =
+*/
+> > >     for (n =3D 0; n < ve->num_siblings; n++) {
+> > > @@ -3330,21 +3393,23 @@ static void rcu_virtual_context_destroy(struc=
+t work_struct *wrk)
+> > >             if (RB_EMPTY_NODE(node))
+> > >                     continue;
+> > > -           spin_lock_irq(&sibling->active.lock);
+> > > +           spin_lock_irq(&sibling->sched_engine->lock);
+> > >             /* Detachment is lazily performed in the execlists taskle=
+t */
+> > >             if (!RB_EMPTY_NODE(node))
+> > >                     rb_erase_cached(node, &sibling->execlists.virtual=
+);
+> > > -           spin_unlock_irq(&sibling->active.lock);
+> > > +           spin_unlock_irq(&sibling->sched_engine->lock);
+> > >     }
+> > > -   GEM_BUG_ON(__tasklet_is_scheduled(&ve->base.execlists.tasklet));
+> > > +   GEM_BUG_ON(__tasklet_is_scheduled(&ve->base.sched_engine->tasklet=
+));
+> > >     GEM_BUG_ON(!list_empty(virtual_queue(ve)));
+> > >     lrc_fini(&ve->context);
+> > >     intel_context_fini(&ve->context);
+> > >     intel_breadcrumbs_free(ve->base.breadcrumbs);
+> > > +   if (ve->base.sched_engine)
+> > > +           i915_sched_engine_put(ve->base.sched_engine);
+> > >     intel_engine_free_request_pool(&ve->base);
+> > >     kfree(ve->bonds);
+> > > @@ -3475,16 +3540,18 @@ static intel_engine_mask_t virtual_submission=
+_mask(struct virtual_engine *ve)
+> > >     ENGINE_TRACE(&ve->base, "rq=3D%llx:%lld, mask=3D%x, prio=3D%d\n",
+> > >                  rq->fence.context, rq->fence.seqno,
+> > > -                mask, ve->base.execlists.queue_priority_hint);
+> > > +                mask, ve->base.sched_engine->queue_priority_hint);
+> > >     return mask;
+> > >   }
+> > >   static void virtual_submission_tasklet(struct tasklet_struct *t)
+> > >   {
+> > > +   struct i915_sched_engine *sched_engine =3D
+> > > +           from_tasklet(sched_engine, t, tasklet);
+> > >     struct virtual_engine * const ve =3D
+> > > -           from_tasklet(ve, t, base.execlists.tasklet);
+> > > -   const int prio =3D READ_ONCE(ve->base.execlists.queue_priority_hi=
+nt);
+> > > +           (struct virtual_engine *)sched_engine->engine;
+> > > +   const int prio =3D READ_ONCE(ve->base.sched_engine->queue_priorit=
+y_hint);
+> > >     intel_engine_mask_t mask;
+> > >     unsigned int n;
+> > > @@ -3503,7 +3570,7 @@ static void virtual_submission_tasklet(struct t=
+asklet_struct *t)
+> > >             if (!READ_ONCE(ve->request))
+> > >                     break; /* already handled by a sibling's tasklet =
+*/
+> > > -           spin_lock_irq(&sibling->active.lock);
+> > > +           spin_lock_irq(&sibling->sched_engine->lock);
+> > >             if (unlikely(!(mask & sibling->mask))) {
+> > >                     if (!RB_EMPTY_NODE(&node->rb)) {
+> > > @@ -3552,11 +3619,11 @@ static void virtual_submission_tasklet(struct=
+ tasklet_struct *t)
+> > >   submit_engine:
+> > >             GEM_BUG_ON(RB_EMPTY_NODE(&node->rb));
+> > >             node->prio =3D prio;
+> > > -           if (first && prio > sibling->execlists.queue_priority_hin=
+t)
+> > > -                   tasklet_hi_schedule(&sibling->execlists.tasklet);
+> > > +           if (first && prio > sibling->sched_engine->queue_priority=
+_hint)
+> > > +                   i915_sched_engine_hi_kick(sibling->sched_engine);
+> > >   unlock_engine:
+> > > -           spin_unlock_irq(&sibling->active.lock);
+> > > +           spin_unlock_irq(&sibling->sched_engine->lock);
+> > >             if (intel_context_inflight(&ve->context))
+> > >                     break;
+> > > @@ -3574,7 +3641,7 @@ static void virtual_submit_request(struct i915_=
+request *rq)
+> > >     GEM_BUG_ON(ve->base.submit_request !=3D virtual_submit_request);
+> > > -   spin_lock_irqsave(&ve->base.active.lock, flags);
+> > > +   spin_lock_irqsave(&ve->base.sched_engine->lock, flags);
+> > >     /* By the time we resubmit a request, it may be completed */
+> > >     if (__i915_request_is_complete(rq)) {
+> > > @@ -3588,16 +3655,16 @@ static void virtual_submit_request(struct i91=
+5_request *rq)
+> > >             i915_request_put(ve->request);
+> > >     }
+> > > -   ve->base.execlists.queue_priority_hint =3D rq_prio(rq);
+> > > +   ve->base.sched_engine->queue_priority_hint =3D rq_prio(rq);
+> > >     ve->request =3D i915_request_get(rq);
+> > >     GEM_BUG_ON(!list_empty(virtual_queue(ve)));
+> > >     list_move_tail(&rq->sched.link, virtual_queue(ve));
+> > > -   tasklet_hi_schedule(&ve->base.execlists.tasklet);
+> > > +   i915_sched_engine_hi_kick(ve->base.sched_engine);
+> > >   unlock:
+> > > -   spin_unlock_irqrestore(&ve->base.active.lock, flags);
+> > > +   spin_unlock_irqrestore(&ve->base.sched_engine->lock, flags);
+> > >   }
+> > >   static struct ve_bond *
+> > > @@ -3681,19 +3748,24 @@ intel_execlists_create_virtual(struct intel_e=
+ngine_cs **siblings,
+> > >     snprintf(ve->base.name, sizeof(ve->base.name), "virtual");
+> > > -   intel_engine_init_active(&ve->base, ENGINE_VIRTUAL);
+> > > -   intel_engine_init_execlists(&ve->base);
+> > > +   ve->base.sched_engine =3D i915_sched_engine_create(ENGINE_VIRTUAL=
+);
+> > > +   if (!ve->base.sched_engine) {
+> > > +           kfree(ve);
+> > > +           return ERR_PTR(-ENOMEM);
+> > > +   }
+> > > +   ve->base.sched_engine->engine =3D &ve->base;
+> > >     ve->base.cops =3D &virtual_context_ops;
+> > >     ve->base.request_alloc =3D execlists_request_alloc;
+> > > -   ve->base.schedule =3D i915_schedule;
+> > > +   ve->base.sched_engine->schedule =3D i915_schedule;
+> > >     ve->base.submit_request =3D virtual_submit_request;
+> > >     ve->base.bond_execute =3D virtual_bond_execute;
+> > >     INIT_LIST_HEAD(virtual_queue(ve));
+> > > -   ve->base.execlists.queue_priority_hint =3D INT_MIN;
+> > > -   tasklet_setup(&ve->base.execlists.tasklet, virtual_submission_tas=
+klet);
+> > > +   ve->base.sched_engine->queue_priority_hint =3D INT_MIN;
+> > > +   tasklet_setup(&ve->base.sched_engine->tasklet,
+> > > +                 virtual_submission_tasklet);
+> > >     intel_context_init(&ve->context, &ve->base);
+> > > @@ -3721,7 +3793,7 @@ intel_execlists_create_virtual(struct intel_eng=
+ine_cs **siblings,
+> > >              * layering if we handle cloning of the requests and
+> > >              * submitting a copy into each backend.
+> > >              */
+> > > -           if (sibling->execlists.tasklet.callback !=3D
+> > > +           if (sibling->sched_engine->tasklet.callback !=3D
+> > >                 execlists_submission_tasklet) {
+> > >                     err =3D -ENODEV;
+> > >                     goto err_put;
+> > > @@ -3756,6 +3828,9 @@ intel_execlists_create_virtual(struct intel_eng=
+ine_cs **siblings,
+> > >                      "v%dx%d", ve->base.class, count);
+> > >             ve->base.context_size =3D sibling->context_size;
+> > > +           ve->base.sched_engine->kick_backend =3D
+> > > +                   sibling->sched_engine->kick_backend;
+> > > +
+> > >             ve->base.emit_bb_start =3D sibling->emit_bb_start;
+> > >             ve->base.emit_flush =3D sibling->emit_flush;
+> > >             ve->base.emit_init_breadcrumb =3D sibling->emit_init_brea=
+dcrumb;
+> > > @@ -3848,17 +3923,18 @@ void intel_execlists_show_requests(struct int=
+el_engine_cs *engine,
+> > >                                                     int indent),
+> > >                                unsigned int max)
+> > >   {
+> > > +   const struct i915_sched_engine *sched_engine =3D engine->sched_en=
+gine;
+> > >     const struct intel_engine_execlists *execlists =3D &engine->execl=
+ists;
+> > >     struct i915_request *rq, *last;
+> > >     unsigned long flags;
+> > >     unsigned int count;
+> > >     struct rb_node *rb;
+> > > -   spin_lock_irqsave(&engine->active.lock, flags);
+> > > +   spin_lock_irqsave(&engine->sched_engine->lock, flags);
+> > >     last =3D NULL;
+> > >     count =3D 0;
+> > > -   list_for_each_entry(rq, &engine->active.requests, sched.link) {
+> > > +   list_for_each_entry(rq, &sched_engine->requests, sched.link) {
+> > >             if (count++ < max - 1)
+> > >                     show_request(m, rq, "\t\t", 0);
+> > >             else
+> > > @@ -3873,13 +3949,13 @@ void intel_execlists_show_requests(struct int=
+el_engine_cs *engine,
+> > >             show_request(m, last, "\t\t", 0);
+> > >     }
+> > > -   if (execlists->queue_priority_hint !=3D INT_MIN)
+> > > +   if (sched_engine->queue_priority_hint !=3D INT_MIN)
+> > >             drm_printf(m, "\t\tQueue priority hint: %d\n",
+> > > -                      READ_ONCE(execlists->queue_priority_hint));
+> > > +                      READ_ONCE(sched_engine->queue_priority_hint));
+> > >     last =3D NULL;
+> > >     count =3D 0;
+> > > -   for (rb =3D rb_first_cached(&execlists->queue); rb; rb =3D rb_nex=
+t(rb)) {
+> > > +   for (rb =3D rb_first_cached(&sched_engine->queue); rb; rb =3D rb_=
+next(rb)) {
+> > >             struct i915_priolist *p =3D rb_entry(rb, typeof(*p), node=
+);
+> > >             priolist_for_each_request(rq, p) {
+> > > @@ -3921,7 +3997,7 @@ void intel_execlists_show_requests(struct intel=
+_engine_cs *engine,
+> > >             show_request(m, last, "\t\t", 0);
+> > >     }
+> > > -   spin_unlock_irqrestore(&engine->active.lock, flags);
+> > > +   spin_unlock_irqrestore(&engine->sched_engine->lock, flags);
+> > >   }
+> > >   #if IS_ENABLED(CONFIG_DRM_I915_SELFTEST)
+> > > diff --git a/drivers/gpu/drm/i915/gt/intel_ring_submission.c b/driver=
+s/gpu/drm/i915/gt/intel_ring_submission.c
+> > > index 2b6dffcc2262..14aa31879a37 100644
+> > > --- a/drivers/gpu/drm/i915/gt/intel_ring_submission.c
+> > > +++ b/drivers/gpu/drm/i915/gt/intel_ring_submission.c
+> > > @@ -339,9 +339,9 @@ static void reset_rewind(struct intel_engine_cs *=
+engine, bool stalled)
+> > >     u32 head;
+> > >     rq =3D NULL;
+> > > -   spin_lock_irqsave(&engine->active.lock, flags);
+> > > +   spin_lock_irqsave(&engine->sched_engine->lock, flags);
+> > >     rcu_read_lock();
+> > > -   list_for_each_entry(pos, &engine->active.requests, sched.link) {
+> > > +   list_for_each_entry(pos, &engine->sched_engine->requests, sched.l=
+ink) {
+> > >             if (!__i915_request_is_complete(pos)) {
+> > >                     rq =3D pos;
+> > >                     break;
+> > > @@ -396,7 +396,7 @@ static void reset_rewind(struct intel_engine_cs *=
+engine, bool stalled)
+> > >     }
+> > >     engine->legacy.ring->head =3D intel_ring_wrap(engine->legacy.ring=
+, head);
+> > > -   spin_unlock_irqrestore(&engine->active.lock, flags);
+> > > +   spin_unlock_irqrestore(&engine->sched_engine->lock, flags);
+> > >   }
+> > >   static void reset_finish(struct intel_engine_cs *engine)
+> > > @@ -408,16 +408,17 @@ static void reset_cancel(struct intel_engine_cs=
+ *engine)
+> > >     struct i915_request *request;
+> > >     unsigned long flags;
+> > > -   spin_lock_irqsave(&engine->active.lock, flags);
+> > > +   spin_lock_irqsave(&engine->sched_engine->lock, flags);
+> > >     /* Mark all submitted requests as skipped. */
+> > > -   list_for_each_entry(request, &engine->active.requests, sched.link=
+)
+> > > +   list_for_each_entry(request, &engine->sched_engine->requests,
+> > > +                       sched.link)
+> > >             i915_request_put(i915_request_mark_eio(request));
+> > >     intel_engine_signal_breadcrumbs(engine);
+> > >     /* Remaining _unready_ requests will be nop'ed when submitted */
+> > > -   spin_unlock_irqrestore(&engine->active.lock, flags);
+> > > +   spin_unlock_irqrestore(&engine->sched_engine->lock, flags);
+> > >   }
+> > >   static void i9xx_submit_request(struct i915_request *request)
+> > > diff --git a/drivers/gpu/drm/i915/gt/mock_engine.c b/drivers/gpu/drm/=
+i915/gt/mock_engine.c
+> > > index 32589c6625e1..bd005c1b6fd5 100644
+> > > --- a/drivers/gpu/drm/i915/gt/mock_engine.c
+> > > +++ b/drivers/gpu/drm/i915/gt/mock_engine.c
+> > > @@ -253,10 +253,10 @@ static void mock_reset_cancel(struct intel_engi=
+ne_cs *engine)
+> > >     del_timer_sync(&mock->hw_delay);
+> > > -   spin_lock_irqsave(&engine->active.lock, flags);
+> > > +   spin_lock_irqsave(&engine->sched_engine->lock, flags);
+> > >     /* Mark all submitted requests as skipped. */
+> > > -   list_for_each_entry(rq, &engine->active.requests, sched.link)
+> > > +   list_for_each_entry(rq, &engine->sched_engine->requests, sched.li=
+nk)
+> > >             i915_request_put(i915_request_mark_eio(rq));
+> > >     intel_engine_signal_breadcrumbs(engine);
+> > > @@ -269,7 +269,7 @@ static void mock_reset_cancel(struct intel_engine=
+_cs *engine)
+> > >     }
+> > >     INIT_LIST_HEAD(&mock->hw_queue);
+> > > -   spin_unlock_irqrestore(&engine->active.lock, flags);
+> > > +   spin_unlock_irqrestore(&engine->sched_engine->lock, flags);
+> > >   }
+> > >   static void mock_reset_finish(struct intel_engine_cs *engine)
+> > > @@ -283,6 +283,7 @@ static void mock_engine_release(struct intel_engi=
+ne_cs *engine)
+> > >     GEM_BUG_ON(timer_pending(&mock->hw_delay));
+> > > +   i915_sched_engine_put(engine->sched_engine);
+> > >     intel_breadcrumbs_free(engine->breadcrumbs);
+> > >     intel_context_unpin(engine->kernel_context);
+> > > @@ -345,14 +346,18 @@ int mock_engine_init(struct intel_engine_cs *en=
+gine)
+> > >   {
+> > >     struct intel_context *ce;
+> > > -   intel_engine_init_active(engine, ENGINE_MOCK);
+> > > +   engine->sched_engine =3D i915_sched_engine_create(ENGINE_MOCK);
+> > > +   if (!engine->sched_engine)
+> > > +           return -ENOMEM;
+> > > +   engine->sched_engine->engine =3D engine;
+> > > +
+> > >     intel_engine_init_execlists(engine);
+> > >     intel_engine_init__pm(engine);
+> > >     intel_engine_init_retire(engine);
+> > >     engine->breadcrumbs =3D intel_breadcrumbs_create(NULL);
+> > >     if (!engine->breadcrumbs)
+> > > -           return -ENOMEM;
+> > > +           goto err_schedule;
+> > >     ce =3D create_kernel_context(engine);
+> > >     if (IS_ERR(ce))
+> > > @@ -366,6 +371,8 @@ int mock_engine_init(struct intel_engine_cs *engi=
+ne)
+> > >   err_breadcrumbs:
+> > >     intel_breadcrumbs_free(engine->breadcrumbs);
+> > > +err_schedule:
+> > > +   i915_sched_engine_put(engine->sched_engine);
+> > >     return -ENOMEM;
+> > >   }
+> > > diff --git a/drivers/gpu/drm/i915/gt/selftest_execlists.c b/drivers/g=
+pu/drm/i915/gt/selftest_execlists.c
+> > > index 1f93591a8c69..f349048ccbf6 100644
+> > > --- a/drivers/gpu/drm/i915/gt/selftest_execlists.c
+> > > +++ b/drivers/gpu/drm/i915/gt/selftest_execlists.c
+> > > @@ -43,7 +43,7 @@ static int wait_for_submit(struct intel_engine_cs *=
+engine,
+> > >                        unsigned long timeout)
+> > >   {
+> > >     /* Ignore our own attempts to suppress excess tasklets */
+> > > -   tasklet_hi_schedule(&engine->execlists.tasklet);
+> > > +   i915_sched_engine_hi_kick(engine->sched_engine);
+> > >     timeout +=3D jiffies;
+> > >     do {
+> > > @@ -273,7 +273,7 @@ static int live_unlite_restore(struct intel_gt *g=
+t, int prio)
+> > >                     };
+> > >                     /* Alternatively preempt the spinner with ce[1] *=
+/
+> > > -                   engine->schedule(rq[1], &attr);
+> > > +                   engine->sched_engine->schedule(rq[1], &attr);
+> > >             }
+> > >             /* And switch back to ce[0] for good measure */
+> > > @@ -606,9 +606,9 @@ static int live_hold_reset(void *arg)
+> > >                     err =3D -EBUSY;
+> > >                     goto out;
+> > >             }
+> > > -           tasklet_disable(&engine->execlists.tasklet);
+> > > +           tasklet_disable(&engine->sched_engine->tasklet);
+> > > -           engine->execlists.tasklet.callback(&engine->execlists.tas=
+klet);
+> > > +           engine->sched_engine->tasklet.callback(&engine->sched_eng=
+ine->tasklet);
+> > >             GEM_BUG_ON(execlists_active(&engine->execlists) !=3D rq);
+> > >             i915_request_get(rq);
+> > > @@ -618,7 +618,7 @@ static int live_hold_reset(void *arg)
+> > >             __intel_engine_reset_bh(engine, NULL);
+> > >             GEM_BUG_ON(rq->fence.error !=3D -EIO);
+> > > -           tasklet_enable(&engine->execlists.tasklet);
+> > > +           tasklet_enable(&engine->sched_engine->tasklet);
+> > >             clear_and_wake_up_bit(I915_RESET_ENGINE + id,
+> > >                                   &gt->reset.flags);
+> > >             local_bh_enable();
+> > > @@ -900,7 +900,7 @@ release_queue(struct intel_engine_cs *engine,
+> > >     i915_request_add(rq);
+> > >     local_bh_disable();
+> > > -   engine->schedule(rq, &attr);
+> > > +   engine->sched_engine->schedule(rq, &attr);
+> > >     local_bh_enable(); /* kick tasklet */
+> > >     i915_request_put(rq);
+> > > @@ -1183,7 +1183,7 @@ static int live_timeslice_rewind(void *arg)
+> > >             while (i915_request_is_active(rq[A2])) { /* semaphore yie=
+ld! */
+> > >                     /* Wait for the timeslice to kick in */
+> > >                     del_timer(&engine->execlists.timer);
+> > > -                   tasklet_hi_schedule(&engine->execlists.tasklet);
+> > > +                   i915_sched_engine_hi_kick(engine->sched_engine);
+> > >                     intel_engine_flush_submission(engine);
+> > >             }
+> > >             /* -> ELSP[] =3D { { A:rq1 }, { B:rq1 } } */
+> > > @@ -1325,7 +1325,7 @@ static int live_timeslice_queue(void *arg)
+> > >                     err =3D PTR_ERR(rq);
+> > >                     goto err_heartbeat;
+> > >             }
+> > > -           engine->schedule(rq, &attr);
+> > > +           engine->sched_engine->schedule(rq, &attr);
+> > >             err =3D wait_for_submit(engine, rq, HZ / 2);
+> > >             if (err) {
+> > >                     pr_err("%s: Timed out trying to submit semaphores=
+\n",
+> > > @@ -1867,7 +1867,7 @@ static int live_late_preempt(void *arg)
+> > >             }
+> > >             attr.priority =3D I915_PRIORITY_MAX;
+> > > -           engine->schedule(rq, &attr);
+> > > +           engine->sched_engine->schedule(rq, &attr);
+> > >             if (!igt_wait_for_spinner(&spin_hi, rq)) {
+> > >                     pr_err("High priority context failed to preempt t=
+he low priority context\n");
+> > > @@ -2480,7 +2480,7 @@ static int live_suppress_self_preempt(void *arg=
+)
+> > >                     i915_request_add(rq_b);
+> > >                     GEM_BUG_ON(i915_request_completed(rq_a));
+> > > -                   engine->schedule(rq_a, &attr);
+> > > +                   engine->sched_engine->schedule(rq_a, &attr);
+> > >                     igt_spinner_end(&a.spin);
+> > >                     if (!igt_wait_for_spinner(&b.spin, rq_b)) {
+> > > @@ -2612,7 +2612,7 @@ static int live_chain_preempt(void *arg)
+> > >                     i915_request_get(rq);
+> > >                     i915_request_add(rq);
+> > > -                   engine->schedule(rq, &attr);
+> > > +                   engine->sched_engine->schedule(rq, &attr);
+> > >                     igt_spinner_end(&hi.spin);
+> > >                     if (i915_request_wait(rq, 0, HZ / 5) < 0) {
+> > > @@ -2971,7 +2971,7 @@ static int live_preempt_gang(void *arg)
+> > >                             break;
+> > >                     /* Submit each spinner at increasing priority */
+> > > -                   engine->schedule(rq, &attr);
+> > > +                   engine->sched_engine->schedule(rq, &attr);
+> > >             } while (prio <=3D I915_PRIORITY_MAX &&
+> > >                      !__igt_timeout(end_time, NULL));
+> > >             pr_debug("%s: Preempt chain of %d requests\n",
+> > > @@ -3219,7 +3219,7 @@ static int preempt_user(struct intel_engine_cs =
+*engine,
+> > >     i915_request_get(rq);
+> > >     i915_request_add(rq);
+> > > -   engine->schedule(rq, &attr);
+> > > +   engine->sched_engine->schedule(rq, &attr);
+> > >     if (i915_request_wait(rq, 0, HZ / 2) < 0)
+> > >             err =3D -ETIME;
+> > > @@ -4593,15 +4593,15 @@ static int reset_virtual_engine(struct intel_=
+gt *gt,
+> > >             err =3D -EBUSY;
+> > >             goto out_heartbeat;
+> > >     }
+> > > -   tasklet_disable(&engine->execlists.tasklet);
+> > > +   tasklet_disable(&engine->sched_engine->tasklet);
+> > > -   engine->execlists.tasklet.callback(&engine->execlists.tasklet);
+> > > +   engine->sched_engine->tasklet.callback(&engine->sched_engine->tas=
+klet);
+> > >     GEM_BUG_ON(execlists_active(&engine->execlists) !=3D rq);
+> > >     /* Fake a preemption event; failed of course */
+> > > -   spin_lock_irq(&engine->active.lock);
+> > > +   spin_lock_irq(&engine->sched_engine->lock);
+> > >     __unwind_incomplete_requests(engine);
+> > > -   spin_unlock_irq(&engine->active.lock);
+> > > +   spin_unlock_irq(&engine->sched_engine->lock);
+> > >     GEM_BUG_ON(rq->engine !=3D engine);
+> > >     /* Reset the engine while keeping our active request on hold */
+> > > @@ -4612,7 +4612,7 @@ static int reset_virtual_engine(struct intel_gt=
+ *gt,
+> > >     GEM_BUG_ON(rq->fence.error !=3D -EIO);
+> > >     /* Release our grasp on the engine, letting CS flow again */
+> > > -   tasklet_enable(&engine->execlists.tasklet);
+> > > +   tasklet_enable(&engine->sched_engine->tasklet);
+> > >     clear_and_wake_up_bit(I915_RESET_ENGINE + engine->id, &gt->reset.=
+flags);
+> > >     local_bh_enable();
+> > > diff --git a/drivers/gpu/drm/i915/gt/selftest_hangcheck.c b/drivers/g=
+pu/drm/i915/gt/selftest_hangcheck.c
+> > > index 5b63d4df8c93..cbcb800e2ca0 100644
+> > > --- a/drivers/gpu/drm/i915/gt/selftest_hangcheck.c
+> > > +++ b/drivers/gpu/drm/i915/gt/selftest_hangcheck.c
+> > > @@ -858,12 +858,12 @@ static int active_engine(void *data)
+> > >             rq[idx] =3D i915_request_get(new);
+> > >             i915_request_add(new);
+> > > -           if (engine->schedule && arg->flags & TEST_PRIORITY) {
+> > > +           if (engine->sched_engine->schedule && arg->flags & TEST_P=
+RIORITY) {
+> > >                     struct i915_sched_attr attr =3D {
+> > >                             .priority =3D
+> > >                                     i915_prandom_u32_max_state(512, &=
+prng),
+> > >                     };
+> > > -                   engine->schedule(rq[idx], &attr);
+> > > +                   engine->sched_engine->schedule(rq[idx], &attr);
+> > >             }
+> > >             err =3D active_request_put(old);
+> > > @@ -1702,7 +1702,7 @@ static int __igt_atomic_reset_engine(struct int=
+el_engine_cs *engine,
+> > >                                  const struct igt_atomic_section *p,
+> > >                                  const char *mode)
+> > >   {
+> > > -   struct tasklet_struct * const t =3D &engine->execlists.tasklet;
+> > > +   struct tasklet_struct * const t =3D &engine->sched_engine->taskle=
+t;
+> > >     int err;
+> > >     GEM_TRACE("i915_reset_engine(%s:%s) under %s\n",
+> > > diff --git a/drivers/gpu/drm/i915/gt/selftest_lrc.c b/drivers/gpu/drm=
+/i915/gt/selftest_lrc.c
+> > > index d8f6623524e8..5b40def7cd9d 100644
+> > > --- a/drivers/gpu/drm/i915/gt/selftest_lrc.c
+> > > +++ b/drivers/gpu/drm/i915/gt/selftest_lrc.c
+> > > @@ -49,7 +49,7 @@ static int wait_for_submit(struct intel_engine_cs *=
+engine,
+> > >                        unsigned long timeout)
+> > >   {
+> > >     /* Ignore our own attempts to suppress excess tasklets */
+> > > -   tasklet_hi_schedule(&engine->execlists.tasklet);
+> > > +   i915_sched_engine_hi_kick(engine->sched_engine);
+> > >     timeout +=3D jiffies;
+> > >     do {
+> > > @@ -1613,12 +1613,12 @@ static void garbage_reset(struct intel_engine=
+_cs *engine,
+> > >     local_bh_disable();
+> > >     if (!test_and_set_bit(bit, lock)) {
+> > > -           tasklet_disable(&engine->execlists.tasklet);
+> > > +           tasklet_disable(&engine->sched_engine->tasklet);
+> > >             if (!rq->fence.error)
+> > >                     __intel_engine_reset_bh(engine, NULL);
+> > > -           tasklet_enable(&engine->execlists.tasklet);
+> > > +           tasklet_enable(&engine->sched_engine->tasklet);
+> > >             clear_and_wake_up_bit(bit, lock);
+> > >     }
+> > >     local_bh_enable();
+> > > diff --git a/drivers/gpu/drm/i915/gt/selftest_reset.c b/drivers/gpu/d=
+rm/i915/gt/selftest_reset.c
+> > > index 8784257ec808..7a50c9f4071b 100644
+> > > --- a/drivers/gpu/drm/i915/gt/selftest_reset.c
+> > > +++ b/drivers/gpu/drm/i915/gt/selftest_reset.c
+> > > @@ -321,7 +321,7 @@ static int igt_atomic_engine_reset(void *arg)
+> > >             goto out_unlock;
+> > >     for_each_engine(engine, gt, id) {
+> > > -           struct tasklet_struct *t =3D &engine->execlists.tasklet;
+> > > +           struct tasklet_struct *t =3D &engine->sched_engine->taskl=
+et;
+> > >             if (t->func)
+> > >                     tasklet_disable(t);
+> > > diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/driv=
+ers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> > > index 335719f17490..068e5de27e31 100644
+> > > --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> > > +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> > > @@ -181,6 +181,7 @@ static void schedule_out(struct i915_request *rq)
+> > >   static void __guc_dequeue(struct intel_engine_cs *engine)
+> > >   {
+> > > +   struct i915_sched_engine * const sched_engine =3D engine->sched_e=
+ngine;
+> > >     struct intel_engine_execlists * const execlists =3D &engine->exec=
+lists;
+> > >     struct i915_request **first =3D execlists->inflight;
+> > >     struct i915_request ** const last_port =3D first + execlists->por=
+t_mask;
+> > > @@ -189,7 +190,7 @@ static void __guc_dequeue(struct intel_engine_cs =
+*engine)
+> > >     bool submit =3D false;
+> > >     struct rb_node *rb;
+> > > -   lockdep_assert_held(&engine->active.lock);
+> > > +   lockdep_assert_held(&engine->sched_engine->lock);
+> > >     if (last) {
+> > >             if (*++first)
+> > > @@ -204,7 +205,7 @@ static void __guc_dequeue(struct intel_engine_cs =
+*engine)
+> > >      * event.
+> > >      */
+> > >     port =3D first;
+> > > -   while ((rb =3D rb_first_cached(&execlists->queue))) {
+> > > +   while ((rb =3D rb_first_cached(&sched_engine->queue))) {
+> > >             struct i915_priolist *p =3D to_priolist(rb);
+> > >             struct i915_request *rq, *rn;
+> > > @@ -224,11 +225,11 @@ static void __guc_dequeue(struct intel_engine_c=
+s *engine)
+> > >                     last =3D rq;
+> > >             }
+> > > -           rb_erase_cached(&p->node, &execlists->queue);
+> > > +           rb_erase_cached(&p->node, &sched_engine->queue);
+> > >             i915_priolist_free(p);
+> > >     }
+> > >   done:
+> > > -   execlists->queue_priority_hint =3D
+> > > +   sched_engine->queue_priority_hint =3D
+> > >             rb ? to_priolist(rb)->priority : INT_MIN;
+> > >     if (submit) {
+> > >             *port =3D schedule_in(last, port - execlists->inflight);
+> > > @@ -240,13 +241,14 @@ static void __guc_dequeue(struct intel_engine_c=
+s *engine)
+> > >   static void guc_submission_tasklet(struct tasklet_struct *t)
+> > >   {
+> > > -   struct intel_engine_cs * const engine =3D
+> > > -           from_tasklet(engine, t, execlists.tasklet);
+> > > +   struct i915_sched_engine *sched_engine =3D
+> > > +           from_tasklet(sched_engine, t, tasklet);
+> > > +   struct intel_engine_cs * const engine =3D sched_engine->engine;
+> > >     struct intel_engine_execlists * const execlists =3D &engine->exec=
+lists;
+> > >     struct i915_request **port, *rq;
+> > >     unsigned long flags;
+> > > -   spin_lock_irqsave(&engine->active.lock, flags);
+> > > +   spin_lock_irqsave(&engine->sched_engine->lock, flags);
+> > >     for (port =3D execlists->inflight; (rq =3D *port); port++) {
+> > >             if (!i915_request_completed(rq))
+> > > @@ -262,20 +264,22 @@ static void guc_submission_tasklet(struct taskl=
+et_struct *t)
+> > >     __guc_dequeue(engine);
+> > > -   spin_unlock_irqrestore(&engine->active.lock, flags);
+> > > +   i915_sched_engine_reset_on_empty(engine->sched_engine);
+> > > +
+> > > +   spin_unlock_irqrestore(&engine->sched_engine->lock, flags);
+> > >   }
+> > >   static void cs_irq_handler(struct intel_engine_cs *engine, u16 iir)
+> > >   {
+> > >     if (iir & GT_RENDER_USER_INTERRUPT) {
+> > >             intel_engine_signal_breadcrumbs(engine);
+> > > -           tasklet_hi_schedule(&engine->execlists.tasklet);
+> > > +           i915_sched_engine_hi_kick(engine->sched_engine);
+> > >     }
+> > >   }
+> > >   static void guc_reset_prepare(struct intel_engine_cs *engine)
+> > >   {
+> > > -   struct intel_engine_execlists * const execlists =3D &engine->exec=
+lists;
+> > > +   struct i915_sched_engine * const sched_engine =3D engine->sched_e=
+ngine;
+> > >     ENGINE_TRACE(engine, "\n");
+> > > @@ -283,12 +287,12 @@ static void guc_reset_prepare(struct intel_engi=
+ne_cs *engine)
+> > >      * Prevent request submission to the hardware until we have
+> > >      * completed the reset in i915_gem_reset_finish(). If a request
+> > >      * is completed by one engine, it may then queue a request
+> > > -    * to a second via its execlists->tasklet *just* as we are
+> > > +    * to a second via its sched_engine->tasklet *just* as we are
+> > >      * calling engine->init_hw() and also writing the ELSP.
+> > > -    * Turning off the execlists->tasklet until the reset is over
+> > > +    * Turning off the sched_engine->tasklet until the reset is over
+> > >      * prevents the race.
+> > >      */
+> > > -   __tasklet_disable_sync_once(&execlists->tasklet);
+> > > +   __tasklet_disable_sync_once(&sched_engine->tasklet);
+> > >   }
+> > >   static void guc_reset_state(struct intel_context *ce,
+> > > @@ -319,7 +323,7 @@ static void guc_reset_rewind(struct intel_engine_=
+cs *engine, bool stalled)
+> > >     struct i915_request *rq;
+> > >     unsigned long flags;
+> > > -   spin_lock_irqsave(&engine->active.lock, flags);
+> > > +   spin_lock_irqsave(&engine->sched_engine->lock, flags);
+> > >     /* Push back any incomplete requests for replay after the reset. =
+*/
+> > >     rq =3D execlists_unwind_incomplete_requests(execlists);
+> > > @@ -333,12 +337,12 @@ static void guc_reset_rewind(struct intel_engin=
+e_cs *engine, bool stalled)
+> > >     guc_reset_state(rq->context, engine, rq->head, stalled);
+> > >   out_unlock:
+> > > -   spin_unlock_irqrestore(&engine->active.lock, flags);
+> > > +   spin_unlock_irqrestore(&engine->sched_engine->lock, flags);
+> > >   }
+> > >   static void guc_reset_cancel(struct intel_engine_cs *engine)
+> > >   {
+> > > -   struct intel_engine_execlists * const execlists =3D &engine->exec=
+lists;
+> > > +   struct i915_sched_engine * const sched_engine =3D engine->sched_e=
+ngine;
+> > >     struct i915_request *rq, *rn;
+> > >     struct rb_node *rb;
+> > >     unsigned long flags;
+> > > @@ -359,16 +363,16 @@ static void guc_reset_cancel(struct intel_engin=
+e_cs *engine)
+> > >      * submission's irq state, we also wish to remind ourselves that
+> > >      * it is irq state.)
+> > >      */
+> > > -   spin_lock_irqsave(&engine->active.lock, flags);
+> > > +   spin_lock_irqsave(&engine->sched_engine->lock, flags);
+> > >     /* Mark all executing requests as skipped. */
+> > > -   list_for_each_entry(rq, &engine->active.requests, sched.link) {
+> > > +   list_for_each_entry(rq, &engine->sched_engine->requests, sched.li=
+nk) {
+> > >             i915_request_set_error_once(rq, -EIO);
+> > >             i915_request_mark_complete(rq);
+> > >     }
+> > >     /* Flush the queued requests to the timeline list (for retiring).=
+ */
+> > > -   while ((rb =3D rb_first_cached(&execlists->queue))) {
+> > > +   while ((rb =3D rb_first_cached(&sched_engine->queue))) {
+> > >             struct i915_priolist *p =3D to_priolist(rb);
+> > >             priolist_for_each_request_consume(rq, rn, p) {
+> > > @@ -378,28 +382,28 @@ static void guc_reset_cancel(struct intel_engin=
+e_cs *engine)
+> > >                     i915_request_mark_complete(rq);
+> > >             }
+> > > -           rb_erase_cached(&p->node, &execlists->queue);
+> > > +           rb_erase_cached(&p->node, &sched_engine->queue);
+> > >             i915_priolist_free(p);
+> > >     }
+> > >     /* Remaining _unready_ requests will be nop'ed when submitted */
+> > > -   execlists->queue_priority_hint =3D INT_MIN;
+> > > -   execlists->queue =3D RB_ROOT_CACHED;
+> > > +   sched_engine->queue_priority_hint =3D INT_MIN;
+> > > +   sched_engine->queue =3D RB_ROOT_CACHED;
+> > > -   spin_unlock_irqrestore(&engine->active.lock, flags);
+> > > +   spin_unlock_irqrestore(&engine->sched_engine->lock, flags);
+> > >   }
+> > >   static void guc_reset_finish(struct intel_engine_cs *engine)
+> > >   {
+> > > -   struct intel_engine_execlists * const execlists =3D &engine->exec=
+lists;
+> > > +   struct i915_sched_engine * const sched_engine =3D engine->sched_e=
+ngine;
+> > > -   if (__tasklet_enable(&execlists->tasklet))
+> > > +   if (__tasklet_enable(&sched_engine->tasklet))
+> > >             /* And kick in case we missed a new request submission. *=
+/
+> > > -           tasklet_hi_schedule(&execlists->tasklet);
+> > > +           i915_sched_engine_hi_kick(sched_engine);
+> > >     ENGINE_TRACE(engine, "depth->%d\n",
+> > > -                atomic_read(&execlists->tasklet.count));
+> > > +                atomic_read(&sched_engine->tasklet.count));
+> > >   }
+> > >   /*
+> > > @@ -526,7 +530,7 @@ static inline void queue_request(struct intel_eng=
+ine_cs *engine,
+> > >   {
+> > >     GEM_BUG_ON(!list_empty(&rq->sched.link));
+> > >     list_add_tail(&rq->sched.link,
+> > > -                 i915_sched_lookup_priolist(engine, prio));
+> > > +                 i915_sched_lookup_priolist(engine->sched_engine, pr=
+io));
+> > >     set_bit(I915_FENCE_FLAG_PQUEUE, &rq->fence.flags);
+> > >   }
+> > > @@ -536,16 +540,16 @@ static void guc_submit_request(struct i915_requ=
+est *rq)
+> > >     unsigned long flags;
+> > >     /* Will be called from irq-context when using foreign fences. */
+> > > -   spin_lock_irqsave(&engine->active.lock, flags);
+> > > +   spin_lock_irqsave(&engine->sched_engine->lock, flags);
+> > >     queue_request(engine, rq, rq_prio(rq));
+> > > -   GEM_BUG_ON(RB_EMPTY_ROOT(&engine->execlists.queue.rb_root));
+> > > +   GEM_BUG_ON(i915_sched_engine_is_empty(engine->sched_engine));
+> > >     GEM_BUG_ON(list_empty(&rq->sched.link));
+> > > -   tasklet_hi_schedule(&engine->execlists.tasklet);
+> > > +   i915_sched_engine_hi_kick(engine->sched_engine);
+> > > -   spin_unlock_irqrestore(&engine->active.lock, flags);
+> > > +   spin_unlock_irqrestore(&engine->sched_engine->lock, flags);
+> > >   }
+> > >   static void sanitize_hwsp(struct intel_engine_cs *engine)
+> > > @@ -623,7 +627,7 @@ static void guc_release(struct intel_engine_cs *e=
+ngine)
+> > >   {
+> > >     engine->sanitize =3D NULL; /* no longer in control, nothing to sa=
+nitize */
+> > > -   tasklet_kill(&engine->execlists.tasklet);
+> > > +   tasklet_kill(&engine->sched_engine->tasklet);
+> > >     intel_engine_cleanup_common(engine);
+> > >     lrc_fini_wa_ctx(engine);
+> > > @@ -638,7 +642,7 @@ static void guc_default_vfuncs(struct intel_engin=
+e_cs *engine)
+> > >     engine->cops =3D &guc_context_ops;
+> > >     engine->request_alloc =3D guc_request_alloc;
+> > > -   engine->schedule =3D i915_schedule;
+> > > +   engine->sched_engine->schedule =3D i915_schedule;
+> > >     engine->reset.prepare =3D guc_reset_prepare;
+> > >     engine->reset.rewind =3D guc_reset_rewind;
+> > > @@ -702,7 +706,8 @@ int intel_guc_submission_setup(struct intel_engin=
+e_cs *engine)
+> > >      */
+> > >     GEM_BUG_ON(INTEL_GEN(i915) < 11);
+> > > -   tasklet_setup(&engine->execlists.tasklet, guc_submission_tasklet)=
+;
+> > > +   tasklet_setup(&engine->sched_engine->tasklet, guc_submission_task=
+let);
+> > > +   engine->sched_engine->schedule =3D i915_schedule;
+> > >     guc_default_vfuncs(engine);
+> > >     guc_default_irqs(engine);
+> > > diff --git a/drivers/gpu/drm/i915/i915_gpu_error.c b/drivers/gpu/drm/=
+i915/i915_gpu_error.c
+> > > index 8b964e355cb5..dea8eb5cd3fa 100644
+> > > --- a/drivers/gpu/drm/i915/i915_gpu_error.c
+> > > +++ b/drivers/gpu/drm/i915/i915_gpu_error.c
+> > > @@ -1242,7 +1242,8 @@ static void record_request(const struct i915_re=
+quest *request,
+> > >   static void engine_record_execlists(struct intel_engine_coredump *e=
+e)
+> > >   {
+> > > -   const struct intel_engine_execlists * const el =3D &ee->engine->e=
+xeclists;
+> > > +   const struct intel_engine_execlists * const el =3D
+> > > +           &ee->engine->execlists;
+> > >     struct i915_request * const *port =3D el->active;
+> > >     unsigned int n =3D 0;
+> > > @@ -1436,12 +1437,12 @@ capture_engine(struct intel_engine_cs *engine=
+,
+> > >     if (!ee)
+> > >             return NULL;
+> > > -   spin_lock_irqsave(&engine->active.lock, flags);
+> > > +   spin_lock_irqsave(&engine->sched_engine->lock, flags);
+> > >     rq =3D intel_engine_find_active_request(engine);
+> > >     if (rq)
+> > >             capture =3D intel_engine_coredump_add_request(ee, rq,
+> > >                                                         ATOMIC_MAYFAI=
+L);
+> > > -   spin_unlock_irqrestore(&engine->active.lock, flags);
+> > > +   spin_unlock_irqrestore(&engine->sched_engine->lock, flags);
+> > >     if (!capture) {
+> > >             kfree(ee);
+> > >             return NULL;
+> > > diff --git a/drivers/gpu/drm/i915/i915_request.c b/drivers/gpu/drm/i9=
+15/i915_request.c
+> > > index 970d8f4986bb..4c0df56e3b86 100644
+> > > --- a/drivers/gpu/drm/i915/i915_request.c
+> > > +++ b/drivers/gpu/drm/i915/i915_request.c
+> > > @@ -272,11 +272,11 @@ i915_request_active_engine(struct i915_request =
+*rq,
+> > >      * check that we have acquired the lock on the final engine.
+> > >      */
+> > >     locked =3D READ_ONCE(rq->engine);
+> > > -   spin_lock_irq(&locked->active.lock);
+> > > +   spin_lock_irq(&locked->sched_engine->lock);
+> > >     while (unlikely(locked !=3D (engine =3D READ_ONCE(rq->engine)))) =
+{
+> > > -           spin_unlock(&locked->active.lock);
+> > > +           spin_unlock(&locked->sched_engine->lock);
+> > >             locked =3D engine;
+> > > -           spin_lock(&locked->active.lock);
+> > > +           spin_lock(&locked->sched_engine->lock);
+> > >     }
+> > >     if (i915_request_is_active(rq)) {
+> > > @@ -285,7 +285,7 @@ i915_request_active_engine(struct i915_request *r=
+q,
+> > >             ret =3D true;
+> > >     }
+> > > -   spin_unlock_irq(&locked->active.lock);
+> > > +   spin_unlock_irq(&locked->sched_engine->lock);
+> > >     return ret;
+> > >   }
+> > > @@ -302,10 +302,10 @@ static void remove_from_engine(struct i915_requ=
+est *rq)
+> > >      * check that the rq still belongs to the newly locked engine.
+> > >      */
+> > >     locked =3D READ_ONCE(rq->engine);
+> > > -   spin_lock_irq(&locked->active.lock);
+> > > +   spin_lock_irq(&locked->sched_engine->lock);
+> > >     while (unlikely(locked !=3D (engine =3D READ_ONCE(rq->engine)))) =
+{
+> > > -           spin_unlock(&locked->active.lock);
+> > > -           spin_lock(&engine->active.lock);
+> > > +           spin_unlock(&locked->sched_engine->lock);
+> > > +           spin_lock(&engine->sched_engine->lock);
+> > >             locked =3D engine;
+> > >     }
+> > >     list_del_init(&rq->sched.link);
+> > > @@ -316,7 +316,7 @@ static void remove_from_engine(struct i915_reques=
+t *rq)
+> > >     /* Prevent further __await_execution() registering a cb, then flu=
+sh */
+> > >     set_bit(I915_FENCE_FLAG_ACTIVE, &rq->fence.flags);
+> > > -   spin_unlock_irq(&locked->active.lock);
+> > > +   spin_unlock_irq(&locked->sched_engine->lock);
+> > >     __notify_execute_cb_imm(rq);
+> > >   }
+> > > @@ -481,7 +481,7 @@ static bool __request_in_flight(const struct i915=
+_request *signal)
+> > >      * may either perform a context switch to the second inflight exe=
+clists,
+> > >      * or it may switch to the pending set of execlists. In the case =
+of the
+> > >      * latter, it may send the ACK and we process the event copying t=
+he
+> > > -    * pending[] over top of inflight[], _overwriting_ our *active. S=
+ince
+> > > +    * pending[] over top of inflight[], _overwriting_ our *active-> =
+Since
+> > >      * this implies the HW is arbitrating and not struck in *active, =
+we do
+> > >      * not worry about complete accuracy, but we do require no read/w=
+rite
+> > >      * tearing of the pointer [the read of the pointer must be valid,=
+ even
+> > > @@ -490,7 +490,7 @@ static bool __request_in_flight(const struct i915=
+_request *signal)
+> > >      *
+> > >      * Note that the read of *execlists->active may race with the pro=
+motion
+> > >      * of execlists->pending[] to execlists->inflight[], overwritting
+> > > -    * the value at *execlists->active. This is fine. The promotion i=
+mplies
+> > > +    * the value at *execlists->active-> This is fine. The promotion =
+implies
+> > >      * that we received an ACK from the HW, and so the context is not
+> > >      * stuck -- if we do not see ourselves in *active, the inflight s=
+tatus
+> > >      * is valid. If instead we see ourselves being copied into *activ=
+e,
+> > > @@ -545,7 +545,7 @@ __await_execution(struct i915_request *rq,
+> > >     /*
+> > >      * Register the callback first, then see if the signaler is alrea=
+dy
+> > > -    * active. This ensures that if we race with the
+> > > +    * active-> This ensures that if we race with the
+> > >      * __notify_execute_cb from i915_request_submit() and we are not
+> > >      * included in that list, we get a second bite of the cherry and
+> > >      * execute it ourselves. After this point, a future
+> > > @@ -637,7 +637,7 @@ bool __i915_request_submit(struct i915_request *r=
+equest)
+> > >     RQ_TRACE(request, "\n");
+> > >     GEM_BUG_ON(!irqs_disabled());
+> > > -   lockdep_assert_held(&engine->active.lock);
+> > > +   lockdep_assert_held(&engine->sched_engine->lock);
+> > >     /*
+> > >      * With the advent of preempt-to-busy, we frequently encounter
+> > > @@ -649,9 +649,9 @@ bool __i915_request_submit(struct i915_request *r=
+equest)
+> > >      *
+> > >      * We must remove the request from the caller's priority queue,
+> > >      * and the caller must only call us when the request is in their
+> > > -    * priority queue, under the active.lock. This ensures that the
+> > > +    * priority queue, under the active->lock. This ensures that the
+> > >      * request has *not* yet been retired and we can safely move
+> > > -    * the request into the engine->active.list where it will be
+> > > +    * the request into the engine->sched_engine->list where it will =
+be
+> > >      * dropped upon retiring. (Otherwise if resubmit a *retired*
+> > >      * request, this would be a horrible use-after-free.)
+> > >      */
+> > > @@ -694,7 +694,7 @@ bool __i915_request_submit(struct i915_request *r=
+equest)
+> > >     result =3D true;
+> > >     GEM_BUG_ON(test_bit(I915_FENCE_FLAG_ACTIVE, &request->fence.flags=
+));
+> > > -   list_move_tail(&request->sched.link, &engine->active.requests);
+> > > +   list_move_tail(&request->sched.link, &engine->sched_engine->reque=
+sts);
+> > >   active:
+> > >     clear_bit(I915_FENCE_FLAG_PQUEUE, &request->fence.flags);
+> > >     set_bit(I915_FENCE_FLAG_ACTIVE, &request->fence.flags);
+> > > @@ -724,11 +724,11 @@ void i915_request_submit(struct i915_request *r=
+equest)
+> > >     unsigned long flags;
+> > >     /* Will be called from irq-context when using foreign fences. */
+> > > -   spin_lock_irqsave(&engine->active.lock, flags);
+> > > +   spin_lock_irqsave(&engine->sched_engine->lock, flags);
+> > >     __i915_request_submit(request);
+> > > -   spin_unlock_irqrestore(&engine->active.lock, flags);
+> > > +   spin_unlock_irqrestore(&engine->sched_engine->lock, flags);
+> > >   }
+> > >   void __i915_request_unsubmit(struct i915_request *request)
+> > > @@ -742,7 +742,7 @@ void __i915_request_unsubmit(struct i915_request =
+*request)
+> > >     RQ_TRACE(request, "\n");
+> > >     GEM_BUG_ON(!irqs_disabled());
+> > > -   lockdep_assert_held(&engine->active.lock);
+> > > +   lockdep_assert_held(&engine->sched_engine->lock);
+> > >     /*
+> > >      * Before we remove this breadcrumb from the signal list, we have
+> > > @@ -775,11 +775,11 @@ void i915_request_unsubmit(struct i915_request =
+*request)
+> > >     unsigned long flags;
+> > >     /* Will be called from irq-context when using foreign fences. */
+> > > -   spin_lock_irqsave(&engine->active.lock, flags);
+> > > +   spin_lock_irqsave(&engine->sched_engine->lock, flags);
+> > >     __i915_request_unsubmit(request);
+> > > -   spin_unlock_irqrestore(&engine->active.lock, flags);
+> > > +   spin_unlock_irqrestore(&engine->sched_engine->lock, flags);
+> > >   }
+> > >   static void __cancel_request(struct i915_request *rq)
+> > > @@ -1343,7 +1343,7 @@ __i915_request_await_execution(struct i915_requ=
+est *to,
+> > >     }
+> > >     /* Couple the dependency tree for PI on this exposed to->fence */
+> > > -   if (to->engine->schedule) {
+> > > +   if (to->engine->sched_engine->schedule) {
+> > >             err =3D i915_sched_node_add_dependency(&to->sched,
+> > >                                                  &from->sched,
+> > >                                                  I915_DEPENDENCY_WEAK=
+);
+> > > @@ -1484,7 +1484,7 @@ i915_request_await_request(struct i915_request =
+*to, struct i915_request *from)
+> > >             return 0;
+> > >     }
+> > > -   if (to->engine->schedule) {
+> > > +   if (to->engine->sched_engine->schedule) {
+> > >             ret =3D i915_sched_node_add_dependency(&to->sched,
+> > >                                                  &from->sched,
+> > >                                                  I915_DEPENDENCY_EXTE=
+RNAL);
+> > > @@ -1671,7 +1671,7 @@ __i915_request_add_to_timeline(struct i915_requ=
+est *rq)
+> > >                     __i915_sw_fence_await_dma_fence(&rq->submit,
+> > >                                                     &prev->fence,
+> > >                                                     &rq->dmaq);
+> > > -           if (rq->engine->schedule)
+> > > +           if (rq->engine->sched_engine->schedule)
+> > >                     __i915_sched_node_add_dependency(&rq->sched,
+> > >                                                      &prev->sched,
+> > >                                                      &rq->dep,
+> > > @@ -1743,8 +1743,8 @@ void __i915_request_queue(struct i915_request *=
+rq,
+> > >      * decide whether to preempt the entire chain so that it is ready=
+ to
+> > >      * run at the earliest possible convenience.
+> > >      */
+> > > -   if (attr && rq->engine->schedule)
+> > > -           rq->engine->schedule(rq, attr);
+> > > +   if (attr && rq->engine->sched_engine->schedule)
+> > > +           rq->engine->sched_engine->schedule(rq, attr);
+> > >     local_bh_disable();
+> > >     __i915_request_queue_bh(rq);
+> > > diff --git a/drivers/gpu/drm/i915/i915_request.h b/drivers/gpu/drm/i9=
+15/i915_request.h
+> > > index 270f6cd37650..239964bec1fa 100644
+> > > --- a/drivers/gpu/drm/i915/i915_request.h
+> > > +++ b/drivers/gpu/drm/i915/i915_request.h
+> > > @@ -613,7 +613,7 @@ i915_request_active_timeline(const struct i915_re=
+quest *rq)
+> > >      * this submission.
+> > >      */
+> > >     return rcu_dereference_protected(rq->timeline,
+> > > -                                    lockdep_is_held(&rq->engine->act=
+ive.lock));
+> > > +                                    lockdep_is_held(&rq->engine->sch=
+ed_engine->lock));
+> > >   }
+> > >   static inline u32
+> > > diff --git a/drivers/gpu/drm/i915/i915_scheduler.c b/drivers/gpu/drm/=
+i915/i915_scheduler.c
+> > > index efa638c3acc7..28d403a8d7d2 100644
+> > > --- a/drivers/gpu/drm/i915/i915_scheduler.c
+> > > +++ b/drivers/gpu/drm/i915/i915_scheduler.c
+> > > @@ -40,7 +40,7 @@ static inline struct i915_priolist *to_priolist(str=
+uct rb_node *rb)
+> > >     return rb_entry(rb, struct i915_priolist, node);
+> > >   }
+> > > -static void assert_priolists(struct intel_engine_execlists * const e=
+xeclists)
+> > > +static void assert_priolists(struct i915_sched_engine * const sched_=
+engine)
+> > >   {
+> > >     struct rb_node *rb;
+> > >     long last_prio;
+> > > @@ -48,11 +48,11 @@ static void assert_priolists(struct intel_engine_=
+execlists * const execlists)
+> > >     if (!IS_ENABLED(CONFIG_DRM_I915_DEBUG_GEM))
+> > >             return;
+> > > -   GEM_BUG_ON(rb_first_cached(&execlists->queue) !=3D
+> > > -              rb_first(&execlists->queue.rb_root));
+> > > +   GEM_BUG_ON(rb_first_cached(&sched_engine->queue) !=3D
+> > > +              rb_first(&sched_engine->queue.rb_root));
+> > >     last_prio =3D INT_MAX;
+> > > -   for (rb =3D rb_first_cached(&execlists->queue); rb; rb =3D rb_nex=
+t(rb)) {
+> > > +   for (rb =3D rb_first_cached(&sched_engine->queue); rb; rb =3D rb_=
+next(rb)) {
+> > >             const struct i915_priolist *p =3D to_priolist(rb);
+> > >             GEM_BUG_ON(p->priority > last_prio);
+> > > @@ -61,23 +61,22 @@ static void assert_priolists(struct intel_engine_=
+execlists * const execlists)
+> > >   }
+> > >   struct list_head *
+> > > -i915_sched_lookup_priolist(struct intel_engine_cs *engine, int prio)
+> > > +i915_sched_lookup_priolist(struct i915_sched_engine *sched_engine, i=
+nt prio)
+> > >   {
+> > > -   struct intel_engine_execlists * const execlists =3D &engine->exec=
+lists;
+> > >     struct i915_priolist *p;
+> > >     struct rb_node **parent, *rb;
+> > >     bool first =3D true;
+> > > -   lockdep_assert_held(&engine->active.lock);
+> > > -   assert_priolists(execlists);
+> > > +   lockdep_assert_held(&sched_engine->lock);
+> > > +   assert_priolists(sched_engine);
+> > > -   if (unlikely(execlists->no_priolist))
+> > > +   if (unlikely(sched_engine->no_priolist))
+> > >             prio =3D I915_PRIORITY_NORMAL;
+> > >   find_priolist:
+> > >     /* most positive priority is scheduled first, equal priorities fi=
+fo */
+> > >     rb =3D NULL;
+> > > -   parent =3D &execlists->queue.rb_root.rb_node;
+> > > +   parent =3D &sched_engine->queue.rb_root.rb_node;
+> > >     while (*parent) {
+> > >             rb =3D *parent;
+> > >             p =3D to_priolist(rb);
+> > > @@ -92,7 +91,7 @@ i915_sched_lookup_priolist(struct intel_engine_cs *=
+engine, int prio)
+> > >     }
+> > >     if (prio =3D=3D I915_PRIORITY_NORMAL) {
+> > > -           p =3D &execlists->default_priolist;
+> > > +           p =3D &sched_engine->default_priolist;
+> > >     } else {
+> > >             p =3D kmem_cache_alloc(global.slab_priorities, GFP_ATOMIC=
+);
+> > >             /* Convert an allocation failure to a priority bump */
+> > > @@ -107,7 +106,7 @@ i915_sched_lookup_priolist(struct intel_engine_cs=
+ *engine, int prio)
+> > >                      * requests, so if userspace lied about their
+> > >                      * dependencies that reordering may be visible.
+> > >                      */
+> > > -                   execlists->no_priolist =3D true;
+> > > +                   sched_engine->no_priolist =3D true;
+> > >                     goto find_priolist;
+> > >             }
+> > >     }
+> > > @@ -116,7 +115,7 @@ i915_sched_lookup_priolist(struct intel_engine_cs=
+ *engine, int prio)
+> > >     INIT_LIST_HEAD(&p->requests);
+> > >     rb_link_node(&p->node, rb, parent);
+> > > -   rb_insert_color_cached(&p->node, &execlists->queue, first);
+> > > +   rb_insert_color_cached(&p->node, &sched_engine->queue, first);
+> > >     return &p->requests;
+> > >   }
+> > > @@ -130,13 +129,13 @@ struct sched_cache {
+> > >     struct list_head *priolist;
+> > >   };
+> > > -static struct intel_engine_cs *
+> > > -sched_lock_engine(const struct i915_sched_node *node,
+> > > -             struct intel_engine_cs *locked,
+> > > +static struct i915_sched_engine *
+> > > +lock_sched_engine(struct i915_sched_node *node,
+> > > +             struct i915_sched_engine *locked,
+> > >               struct sched_cache *cache)
+> > >   {
+> > >     const struct i915_request *rq =3D node_to_request(node);
+> > > -   struct intel_engine_cs *engine;
+> > > +   struct i915_sched_engine *sched_engine;
+> > >     GEM_BUG_ON(!locked);
+> > > @@ -146,81 +145,22 @@ sched_lock_engine(const struct i915_sched_node =
+*node,
+> > >      * engine lock. The simple ploy we use is to take the lock then
+> > >      * check that the rq still belongs to the newly locked engine.
+> > >      */
+> > > -   while (locked !=3D (engine =3D READ_ONCE(rq->engine))) {
+> > > -           spin_unlock(&locked->active.lock);
+> > > +   while (locked !=3D (sched_engine =3D rq->engine->sched_engine)) {
+> > > +           spin_unlock(&locked->lock);
+> > >             memset(cache, 0, sizeof(*cache));
+> > > -           spin_lock(&engine->active.lock);
+> > > -           locked =3D engine;
+> > > +           spin_lock(&sched_engine->lock);
+> > > +           locked =3D sched_engine;
+> > >     }
+> > > -   GEM_BUG_ON(locked !=3D engine);
+> > > +   GEM_BUG_ON(locked !=3D sched_engine);
+> > >     return locked;
+> > >   }
+> > > -static inline int rq_prio(const struct i915_request *rq)
+> > > -{
+> > > -   return rq->sched.attr.priority;
+> > > -}
+> > > -
+> > > -static inline bool need_preempt(int prio, int active)
+> > > -{
+> > > -   /*
+> > > -    * Allow preemption of low -> normal -> high, but we do
+> > > -    * not allow low priority tasks to preempt other low priority
+> > > -    * tasks under the impression that latency for low priority
+> > > -    * tasks does not matter (as much as background throughput),
+> > > -    * so kiss.
+> > > -    */
+> > > -   return prio >=3D max(I915_PRIORITY_NORMAL, active);
+> > > -}
+> > > -
+> > > -static void kick_submission(struct intel_engine_cs *engine,
+> > > -                       const struct i915_request *rq,
+> > > -                       int prio)
+> > > -{
+> > > -   const struct i915_request *inflight;
+> > > -
+> > > -   /*
+> > > -    * We only need to kick the tasklet once for the high priority
+> > > -    * new context we add into the queue.
+> > > -    */
+> > > -   if (prio <=3D engine->execlists.queue_priority_hint)
+> > > -           return;
+> > > -
+> > > -   rcu_read_lock();
+> > > -
+> > > -   /* Nothing currently active? We're overdue for a submission! */
+> > > -   inflight =3D execlists_active(&engine->execlists);
+> > > -   if (!inflight)
+> > > -           goto unlock;
+> > > -
+> > > -   /*
+> > > -    * If we are already the currently executing context, don't
+> > > -    * bother evaluating if we should preempt ourselves.
+> > > -    */
+> > > -   if (inflight->context =3D=3D rq->context)
+> > > -           goto unlock;
+> > > -
+> > > -   ENGINE_TRACE(engine,
+> > > -                "bumping queue-priority-hint:%d for rq:%llx:%lld, in=
+flight:%llx:%lld prio %d\n",
+> > > -                prio,
+> > > -                rq->fence.context, rq->fence.seqno,
+> > > -                inflight->fence.context, inflight->fence.seqno,
+> > > -                inflight->sched.attr.priority);
+> > > -
+> > > -   engine->execlists.queue_priority_hint =3D prio;
+> > > -   if (need_preempt(prio, rq_prio(inflight)))
+> > > -           tasklet_hi_schedule(&engine->execlists.tasklet);
+> > > -
+> > > -unlock:
+> > > -   rcu_read_unlock();
+> > > -}
+> > > -
+> > >   static void __i915_schedule(struct i915_sched_node *node,
+> > >                         const struct i915_sched_attr *attr)
+> > >   {
+> > >     const int prio =3D max(attr->priority, node->attr.priority);
+> > > -   struct intel_engine_cs *engine;
+> > > +   struct i915_sched_engine *sched_engine;
+> > >     struct i915_dependency *dep, *p;
+> > >     struct i915_dependency stack;
+> > >     struct sched_cache cache;
+> > > @@ -295,23 +235,24 @@ static void __i915_schedule(struct i915_sched_n=
+ode *node,
+> > >     }
+> > >     memset(&cache, 0, sizeof(cache));
+> > > -   engine =3D node_to_request(node)->engine;
+> > > -   spin_lock(&engine->active.lock);
+> > > +   sched_engine =3D node_to_request(node)->engine->sched_engine;
+> > > +   spin_lock(&sched_engine->lock);
+> > >     /* Fifo and depth-first replacement ensure our deps execute befor=
+e us */
+> > > -   engine =3D sched_lock_engine(node, engine, &cache);
+> > > +   sched_engine =3D lock_sched_engine(node, sched_engine, &cache);
+> > >     list_for_each_entry_safe_reverse(dep, p, &dfs, dfs_link) {
+> > >             INIT_LIST_HEAD(&dep->dfs_link);
+> > >             node =3D dep->signaler;
+> > > -           engine =3D sched_lock_engine(node, engine, &cache);
+> > > -           lockdep_assert_held(&engine->active.lock);
+> > > +           sched_engine =3D lock_sched_engine(node, sched_engine, &c=
+ache);
+> > > +           lockdep_assert_held(&sched_engine->lock);
+> > >             /* Recheck after acquiring the engine->timeline.lock */
+> > >             if (prio <=3D node->attr.priority || node_signaled(node))
+> > >                     continue;
+> > > -           GEM_BUG_ON(node_to_request(node)->engine !=3D engine);
+> > > +           GEM_BUG_ON(node_to_request(node)->engine->sched_engine !=
+=3D
+> > > +                      sched_engine);
+> > >             WRITE_ONCE(node->attr.priority, prio);
+> > > @@ -329,16 +270,17 @@ static void __i915_schedule(struct i915_sched_n=
+ode *node,
+> > >             if (i915_request_in_priority_queue(node_to_request(node))=
+) {
+> > >                     if (!cache.priolist)
+> > >                             cache.priolist =3D
+> > > -                                   i915_sched_lookup_priolist(engine=
+,
+> > > +                                   i915_sched_lookup_priolist(sched_=
+engine,
+> > >                                                                prio);
+> > >                     list_move_tail(&node->link, cache.priolist);
+> > >             }
+> > >             /* Defer (tasklet) submission until after all of our upda=
+tes. */
+> > > -           kick_submission(engine, node_to_request(node), prio);
+> > > +           if (sched_engine->kick_backend)
+> > > +                   sched_engine->kick_backend(node_to_request(node),=
+ prio);
+> > >     }
+> > > -   spin_unlock(&engine->active.lock);
+> > > +   spin_unlock(&sched_engine->lock);
+> > >   }
+> > >   void i915_schedule(struct i915_request *rq, const struct i915_sched=
+_attr *attr)
+> > > @@ -489,6 +431,50 @@ void i915_request_show_with_schedule(struct drm_=
+printer *m,
+> > >     rcu_read_unlock();
+> > >   }
+> > > +void i915_sched_engine_free(struct kref *kref)
+> > > +{
+> > > +   struct i915_sched_engine *sched_engine =3D
+> > > +           container_of(kref, typeof(*sched_engine), ref);
+> > > +
+> > > +   i915_sched_engine_kill(sched_engine); /* flush the callback */
+> > > +   kfree(sched_engine);
+> > > +}
+> > > +
+> > > +struct i915_sched_engine *
+> > > +i915_sched_engine_create(unsigned int subclass)
+> > > +{
+> > > +   struct i915_sched_engine *sched_engine;
+> > > +
+> > > +   sched_engine =3D kzalloc(sizeof(*sched_engine), GFP_KERNEL);
+> > > +   if (!sched_engine)
+> > > +           return NULL;
+> > > +
+> > > +   kref_init(&sched_engine->ref);
+> > > +
+> > > +   sched_engine->queue =3D RB_ROOT_CACHED;
+> > > +   sched_engine->queue_priority_hint =3D INT_MIN;
+> > > +
+> > > +   INIT_LIST_HEAD(&sched_engine->requests);
+> > > +   INIT_LIST_HEAD(&sched_engine->hold);
+> > > +
+> > > +   spin_lock_init(&sched_engine->lock);
+> > > +   lockdep_set_subclass(&sched_engine->lock, subclass);
+> > > +
+> > > +   /*
+> > > +    * Due to an interesting quirk in lockdep's internal debug tracki=
+ng,
+> > > +    * after setting a subclass we must ensure the lock is used. Othe=
+rwise,
+> > > +    * nr_unused_locks is incremented once too often.
+> > > +    */
+> > > +#ifdef CONFIG_DEBUG_LOCK_ALLOC
+> > > +   local_irq_disable();
+> > > +   lock_map_acquire(&sched_engine->lock.dep_map);
+> > > +   lock_map_release(&sched_engine->lock.dep_map);
+> > > +   local_irq_enable();
+> > > +#endif
+> > > +
+> > > +   return sched_engine;
+> > > +}
+> > > +
+> > >   static void i915_global_scheduler_shrink(void)
+> > >   {
+> > >     kmem_cache_shrink(global.slab_dependencies);
+> > > diff --git a/drivers/gpu/drm/i915/i915_scheduler.h b/drivers/gpu/drm/=
+i915/i915_scheduler.h
+> > > index 858a0938f47a..a78b1f50ecb4 100644
+> > > --- a/drivers/gpu/drm/i915/i915_scheduler.h
+> > > +++ b/drivers/gpu/drm/i915/i915_scheduler.h
+> > > @@ -39,7 +39,7 @@ void i915_schedule(struct i915_request *request,
+> > >                const struct i915_sched_attr *attr);
+> > >   struct list_head *
+> > > -i915_sched_lookup_priolist(struct intel_engine_cs *engine, int prio)=
+;
+> > > +i915_sched_lookup_priolist(struct i915_sched_engine *sched_engine, i=
+nt prio);
+> > >   void __i915_priolist_free(struct i915_priolist *p);
+> > >   static inline void i915_priolist_free(struct i915_priolist *p)
+> > > @@ -53,4 +53,67 @@ void i915_request_show_with_schedule(struct drm_pr=
+inter *m,
+> > >                                  const char *prefix,
+> > >                                  int indent);
+> > > +struct i915_sched_engine *
+> > > +i915_sched_engine_create(unsigned int subclass);
+> > > +
+> > > +void i915_sched_engine_free(struct kref *kref);
+> > > +
+> > > +static inline struct i915_sched_engine *
+> > > +i915_sched_engine_get(struct i915_sched_engine *sched_engine)
+> > > +{
+> > > +   kref_get(&sched_engine->ref);
+> > > +   return sched_engine;
+> > > +}
+> > > +
+> > > +static inline void
+> > > +i915_sched_engine_put(struct i915_sched_engine *sched_engine)
+> > > +{
+> > > +   kref_put(&sched_engine->ref, i915_sched_engine_free);
+> > > +}
+> > > +
+> > > +static inline bool
+> > > +i915_sched_engine_is_empty(struct i915_sched_engine *sched_engine)
+> > > +{
+> > > +   return RB_EMPTY_ROOT(&sched_engine->queue.rb_root);
+> > > +}
+> > > +
+> > > +static inline void
+> > > +i915_sched_engine_reset_on_empty(struct i915_sched_engine *sched_eng=
+ine)
+> > > +{
+> > > +   if (i915_sched_engine_is_empty(sched_engine))
+> > > +           sched_engine->no_priolist =3D false;
+> > > +}
+> > > +
+> > > +static inline void
+> > > +i915_sched_engine_hi_kick(struct i915_sched_engine *sched_engine)
+> > > +{
+> > > +   tasklet_hi_schedule(&sched_engine->tasklet);
+> > > +}
+> > > +
+> > > +static inline void
+> > > +i915_sched_engine_kick(struct i915_sched_engine *sched_engine)
+> > > +{
+> > > +   tasklet_schedule(&sched_engine->tasklet);
+> > > +}
+> > > +
+> > > +static inline void
+> > > +i915_sched_engine_kill(struct i915_sched_engine *sched_engine)
+> > > +{
+> > > +   tasklet_kill(&sched_engine->tasklet);
+> > > +}
+> > > +
+> > > +static inline void
+> > > +sched_engine_active_lock_bh(struct i915_sched_engine *sched_engine)
+> > > +{
+> > > +   local_bh_disable(); /* prevent local softirq and lock recursion *=
+/
+> > > +   tasklet_lock(&sched_engine->tasklet);
+> > > +}
+> > > +
+> > > +static inline void
+> > > +sched_engine_active_unlock_bh(struct i915_sched_engine *sched_engine=
+)
+> > > +{
+> > > +   tasklet_unlock(&sched_engine->tasklet);
+> > > +   local_bh_enable(); /* restore softirq, and kick ksoftirqd! */
+> > > +}
+> > > +
+> > >   #endif /* _I915_SCHEDULER_H_ */
+> > > diff --git a/drivers/gpu/drm/i915/i915_scheduler_types.h b/drivers/gp=
+u/drm/i915/i915_scheduler_types.h
+> > > index 343ed44d5ed4..90b389ba661b 100644
+> > > --- a/drivers/gpu/drm/i915/i915_scheduler_types.h
+> > > +++ b/drivers/gpu/drm/i915/i915_scheduler_types.h
+> > > @@ -91,4 +91,67 @@ struct i915_dependency {
+> > >                             &(rq__)->sched.signalers_list, \
+> > >                             signal_link)
+> > > +struct i915_sched_engine {
+> > > +   struct kref ref;
+> > > +
+> > > +   /*
+> > > +    * @lock: Protects requests in priority lists, requests, hold, an=
+d
+> > > +    * tasklet while running.
+> > > +    */
+> > > +   spinlock_t lock;
+> > > +
+> > > +   /* Execlist specific lists, needed here as protected by lock */
+> > > +   struct list_head requests;
+> > > +   struct list_head hold; /* ready requests, but on hold */
+> > > +
+> > > +   /**
+> > > +    * @tasklet: softirq tasklet for bottom handler
+> > > +    */
+> > > +   struct tasklet_struct tasklet;
+> > > +
+> > > +   /**
+> > > +    * @default_priolist: priority list for I915_PRIORITY_NORMAL
+> > > +    */
+> > > +   struct i915_priolist default_priolist;
+> > > +
+> > > +   /**
+> > > +    * @queue_priority_hint: Highest pending priority.
+> > > +    *
+> > > +    * When we add requests into the queue, or adjust the priority of
+> > > +    * executing requests, we compute the maximum priority of those
+> > > +    * pending requests. We can then use this value to determine if
+> > > +    * we need to preempt the executing requests to service the queue=
+.
+> > > +    * However, since the we may have recorded the priority of an inf=
+light
+> > > +    * request we wanted to preempt but since completed, at the time =
+of
+> > > +    * dequeuing the priority hint may no longer may match the highes=
+t
+> > > +    * available request priority.
+> > > +    */
+> > > +   int queue_priority_hint;
+> > > +
+> > > +   /**
+> > > +    * @queue: queue of requests, in priority lists
+> > > +    */
+> > > +   struct rb_root_cached queue;
+> > > +
+> > > +   /**
+> > > +    * @no_priolist: priority lists disabled
+> > > +    */
+> > > +   bool no_priolist;
+> > > +
+> > > +   /* Back pointer to engine */
+> > > +   struct intel_engine_cs *engine;
+> > > +
+> > > +   /* Kick backend */
+> > > +   void    (*kick_backend)(const struct i915_request *rq,
+> > > +                           int prio);
+> > > +
+> > > +   /*
+> > > +    * Call when the priority on a request has changed and it and its
+> > > +    * dependencies may need rescheduling. Note the request itself ma=
+y
+> > > +    * not be ready to run!
+> > > +    */
+> > > +   void    (*schedule)(struct i915_request *request,
+> > > +                       const struct i915_sched_attr *attr);
+> > > +};
+> > > +
+> > >   #endif /* _I915_SCHEDULER_TYPES_H_ */
+> > >
 
 
---------------777AB12B8A412C556494EA96
-Content-Type: text/html; charset=utf-8
-Content-Transfer-Encoding: 8bit
 
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  </head>
-  <body>
-    Yes, exactly that's my thinking and also the reason why I'm
-    pondering so hard on the requirement that the memory for shared user
-    fences should not be modifiable by userspace directly.<br>
-    <br>
-    Christian.<br>
-    <br>
-    <div class="moz-cite-prefix">Am 29.05.21 um 05:33 schrieb Marek
-      Olšák:<br>
-    </div>
-    <blockquote type="cite"
-cite="mid:CAAxE2A4c2Vy7E165g9ZF4bapw=CGfSvzX-4RB05M9GBM+8E0pA@mail.gmail.com">
-      <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-      <div dir="ltr">
-        <div>My first email can be ignored except for the sync files. Oh
-          well.<br>
-        </div>
-        <div><br>
-        </div>
-        <div>I think I see what you mean, Christian. If we assume that
-          an imported fence is always read only (the buffer with the
-          sequence number is read only), only the process that created
-          and exported the fence can signal it. If the fence is not
-          signaled, the exporting process is guilty. The only thing the
-          importing process must do when it's about to use the fence as
-          a dependency is to notify the kernel about it. Thus, the
-          kernel will always know the dependency graph. Then if the
-          importing process times out, the kernel will blame any of the
-          processes that passed it a fence that is still unsignaled. The
-          kernel will blame the process that timed out only if all
-          imported fences have been signaled. It seems pretty robust.</div>
-        <div><br>
-        </div>
-        <div>It's the same with implicit sync except that the buffer
-          with the sequence number is writable. Any process that has an
-          implicitly-sync'd buffer can set the sequence number to 0 or
-          UINT64_MAX. 0 will cause a timeout for the next job, while
-          UINT64_MAX might cause a timeout a little later. The timeout
-          can be mitigated by the kernel because the kernel knows the
-          greatest number that should be there, but it's not possible to
-          know which process is guilty (all processes holding the buffer
-          handle would be suspects).<br>
-        </div>
-        <div><br>
-        </div>
-        <div>Marek<br>
-        </div>
-      </div>
-      <br>
-      <div class="gmail_quote">
-        <div dir="ltr" class="gmail_attr">On Fri, May 28, 2021 at 6:25
-          PM Marek Olšák &lt;<a href="mailto:maraeo@gmail.com"
-            moz-do-not-send="true">maraeo@gmail.com</a>&gt; wrote:<br>
-        </div>
-        <blockquote class="gmail_quote" style="margin:0px 0px 0px
-          0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-          <div dir="ltr">
-            <div>If both implicit and explicit synchronization are
-              handled the same, then the kernel won't be able to
-              identify the process that caused an implicit sync
-              deadlock. The process that is stuck waiting for a fence
-              can be innocent, and the kernel can't punish it. Likewise,
-              the GPU reset guery that reports which process is guilty
-              and innocent will only be able to report unknown. Is that
-              OK?<br>
-            </div>
-            <br>
-            <div>Marek<br>
-            </div>
-          </div>
-          <br>
-          <div class="gmail_quote">
-            <div dir="ltr" class="gmail_attr">On Fri, May 28, 2021 at
-              10:41 AM Christian König &lt;<a
-                href="mailto:ckoenig.leichtzumerken@gmail.com"
-                target="_blank" moz-do-not-send="true">ckoenig.leichtzumerken@gmail.com</a>&gt;
-              wrote:<br>
-            </div>
-            <blockquote class="gmail_quote" style="margin:0px 0px 0px
-              0.8ex;border-left:1px solid
-              rgb(204,204,204);padding-left:1ex">
-              <div> Hi Marek,<br>
-                <br>
-                well I don't think that implicit and explicit
-                synchronization needs to be mutual exclusive.<br>
-                <br>
-                What we should do is to have the ability to transport an
-                synchronization object with each BO.<br>
-                <br>
-                Implicit and explicit synchronization then basically
-                become the same, they just transport the synchronization
-                object differently.<br>
-                <br>
-                The biggest problem are the sync_files for Android,
-                since they are really not easy to support at all. If
-                Android wants to support user queues we would probably
-                have to do some changes there.<br>
-                <br>
-                Regards,<br>
-                Christian.<br>
-                <br>
-                <div>Am 27.05.21 um 23:51 schrieb Marek Olšák:<br>
-                </div>
-                <blockquote type="cite">
-                  <div dir="ltr">
-                    <div>Hi,</div>
-                    <div><br>
-                    </div>
-                    <div>Since Christian believes that we can't deadlock
-                      the kernel with some changes there, we just need
-                      to make everything nice for userspace too. Instead
-                      of explaining how it will work, I will explain the
-                      cases where future hardware (and its kernel
-                      driver) will break existing userspace in order to
-                      protect everybody from deadlocks. Anything that
-                      uses implicit sync will be spared, so X and
-                      Wayland will be fine, assuming they don't
-                      import/export fences. Those use cases that do
-                      import/export fences might or might not work,
-                      depending on how the fences are used.<br>
-                    </div>
-                    <div><br>
-                    </div>
-                    <div>One of the necessities is that all fences will
-                      become future fences. The semantics of
-                      imported/exported fences will change completely
-                      and will have new restrictions on the usage. The
-                      restrictions are:<br>
-                    </div>
-                    <div><br>
-                    </div>
-                    <div><br>
-                    </div>
-                    <div>1) Android sync files will be impossible to
-                      support, so won't be supported. (they don't allow
-                      future fences)<br>
-                    </div>
-                    <div><br>
-                    </div>
-                    <div><br>
-                    </div>
-                    <div>2) Implicit sync and explicit sync will be
-                      mutually exclusive between process. A process can
-                      either use one or the other, but not both. This is
-                      meant to prevent a deadlock condition with future
-                      fences where any process can malevolently deadlock
-                      execution of any other process, even execution of
-                      a higher-privileged process. The kernel will
-                      impose the following restrictions to protect
-                      against the deadlock:<br>
-                    </div>
-                    <div><br>
-                    </div>
-                    <div>a) a process with an implicitly-sync'd
-                      imported/exported buffer can't import/export a
-                      fence from/to another process<br>
-                    </div>
-                    <div>b) a process with an imported/exported fence
-                      can't import/export an implicitly-sync'd buffer
-                      from/to another process</div>
-                    <div><br>
-                    </div>
-                    <div>Alternative: A higher-privileged process could
-                      enforce both restrictions instead of the kernel to
-                      protect itself from the deadlock, but this would
-                      be a can of worms for existing userspace. It would
-                      be better if the kernel just broke unsafe
-                      userspace on future hw, just like sync files.<br>
-                    </div>
-                    <div><br>
-                    </div>
-                    <div>If both implicit and explicit sync are allowed
-                      to occur simultaneously, sending a future fence
-                      that will never signal to any process will
-                      deadlock that process after it acquires the
-                      implicit sync lock, which is a sequence number
-                      that the process is required to write to memory
-                      and send an interrupt from the GPU in a finite
-                      time. This is how the deadlock can happen:<br>
-                    </div>
-                    <div><br>
-                    </div>
-                    <div>* The process gets sequence number N from the
-                      kernel for an implicitly-sync'd buffer.<br>
-                      <div>* The process inserts (into the GPU
-                        user-mapped queue) a wait for sequence number
-                        N-1.</div>
-                      * The process inserts a wait for a fence, but it
-                      doesn't know that it will never signal ==&gt;
-                      deadlock.<br>
-                    </div>
-                    <div>...<br>
-                    </div>
-                    <div>* The process inserts a command to write
-                      sequence number N to a predetermined memory
-                      location. (which will make the buffer idle and
-                      send an interrupt to the kernel)</div>
-                    <div>
-                      <div>...<br>
-                      </div>
-                      * The kernel will terminate the process because it
-                      has never received the interrupt. (i.e. a
-                      less-privileged process just killed a
-                      more-privileged process)<br>
-                    </div>
-                    <div><br>
-                    </div>
-                    <div>It's the interrupt for implicit sync that never
-                      arrived that caused the termination, and the only
-                      way another process can cause it is by sending a
-                      fence that will never signal. Thus,
-                      importing/exporting fences from/to other processes
-                      can't be allowed simultaneously with implicit
-                      sync.<br>
-                    </div>
-                    <div><br>
-                    </div>
-                    <div><br>
-                    </div>
-                    <div>3) Compositors (and other privileged processes,
-                      and display flipping) can't trust
-                      imported/exported fences. They need a timeout
-                      recovery mechanism from the beginning, and the
-                      following are some possible solutions to timeouts:</div>
-                    <div><br>
-                    </div>
-                    <div>a) use a CPU wait with a small absolute
-                      timeout, and display the previous content on
-                      timeout<br>
-                    </div>
-                    <div>b) use a GPU wait with a small absolute
-                      timeout, and conditional rendering will choose
-                      between the latest content (if signalled) and
-                      previous content (if timed out)</div>
-                    <div><br>
-                    </div>
-                    <div>The result would be that the desktop can run
-                      close to 60 fps even if an app runs at 1 fps.</div>
-                    <div><br>
-                    </div>
-                    <div><b>Redefining imported/exported fences and
-                        breaking some users/OSs is the only way to have
-                        userspace GPU command submission, and the
-                        deadlock example here is the counterexample
-                        proving that there is no other way.</b></div>
-                    <div><br>
-                    </div>
-                    <div>So, what are the chances this is going to fly
-                      with the ecosystem?<br>
-                    </div>
-                    <div><br>
-                    </div>
-                    <div>Thanks,<br>
-                    </div>
-                    <div>Marek<br>
-                    </div>
-                  </div>
-                </blockquote>
-                <br>
-              </div>
-            </blockquote>
-          </div>
-        </blockquote>
-      </div>
-    </blockquote>
-    <br>
-  </body>
-</html>
-
---------------777AB12B8A412C556494EA96--
+--=20
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
