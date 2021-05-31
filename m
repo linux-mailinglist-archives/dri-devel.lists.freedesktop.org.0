@@ -1,44 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA8D839533E
-	for <lists+dri-devel@lfdr.de>; Mon, 31 May 2021 00:40:51 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CC503953DA
+	for <lists+dri-devel@lfdr.de>; Mon, 31 May 2021 04:05:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 79A046E095;
-	Sun, 30 May 2021 22:40:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 93CBA6E454;
+	Mon, 31 May 2021 02:04:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 138DD6E095
- for <dri-devel@lists.freedesktop.org>; Sun, 30 May 2021 22:40:47 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 7F6386120D;
- Sun, 30 May 2021 22:40:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1622414446;
- bh=sc3R+OcBRxHghAUonKX5pP6gZpOYy1KwZ2uEQyTtgFw=;
- h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
- b=pkNqwGTUxIdX8NjYWGh7LlXj3qo9xJzzdxmWUnGf0UtzHzSVGof15D1EMCk8OhlHH
- FEYaTPYsZ0JQaskZIZe64uXcTAzWyP5b9cM0pbaPjdxg2pv5PoGjrND94f2st1fTEH
- sDR+w6tQZGFKO41jYYrCqcL3I/uScXN5Nx3UwbJT5qVCG7z+wDS/Dte/FQc4PSS8yq
- YbV+h702IRtxidsqPz3C5vBbulyYjuubmqWJXlM8fLckJzeC84QUm/V9S4jSk/0Lwr
- zADbsy7BQEAgJORLamFXccqqXooOjc96fmYGXHdJoJJ+OYAzTF7b+E0Ure7w4BOdIY
- +Z6ZPIuxh0iUg==
-Subject: Re: [PATCH v2] fb_defio: Remove custom address_space_operations
-To: Matthew Wilcox <willy@infradead.org>
-References: <20210310185530.1053320-1-willy@infradead.org>
- <YLPjwUUmHDRjyPpR@Ryzen-9-3900X.localdomain>
- <YLQALv2YENIDh77N@casper.infradead.org>
-From: Nathan Chancellor <nathan@kernel.org>
-Message-ID: <2977064f-42d0-7b64-176d-9509c205bfc3@kernel.org>
-Date: Sun, 30 May 2021 15:40:44 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.2
+Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BF9C96E454;
+ Mon, 31 May 2021 02:04:56 +0000 (UTC)
+Received: from dggemv703-chm.china.huawei.com (unknown [172.30.72.57])
+ by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4Ftdlx3Fv6zWqmj;
+ Mon, 31 May 2021 10:00:13 +0800 (CST)
+Received: from dggema762-chm.china.huawei.com (10.1.198.204) by
+ dggemv703-chm.china.huawei.com (10.3.19.46) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
+ 15.1.2176.2; Mon, 31 May 2021 10:04:51 +0800
+Received: from huawei.com (10.175.127.227) by dggema762-chm.china.huawei.com
+ (10.1.198.204) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2176.2; Mon, 31
+ May 2021 10:04:50 +0800
+From: Yu Kuai <yukuai3@huawei.com>
+To: <harry.wentland@amd.com>, <sunpeng.li@amd.com>,
+ <alexander.deucher@amd.com>, <christian.koenig@amd.com>,
+ <Xinhui.Pan@amd.com>, <airlied@linux.ie>, <daniel@ffwll.ch>
+Subject: [PATCH V2] drm/amd/display: fix gcc set but not used warning of
+ variable 'link_bandwidth_kbps'
+Date: Mon, 31 May 2021 10:14:11 +0800
+Message-ID: <20210531021411.469090-1-yukuai3@huawei.com>
+X-Mailer: git-send-email 2.25.4
+In-Reply-To: <20210529093021.3135273-1-yukuai3@huawei.com>
+References: <20210529093021.3135273-1-yukuai3@huawei.com>
 MIME-Version: 1.0
-In-Reply-To: <YLQALv2YENIDh77N@casper.infradead.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.175.127.227]
+X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
+ dggema762-chm.china.huawei.com (10.1.198.204)
+X-CFilter-Loop: Reflected
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,43 +53,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, linux-mm@kvack.org,
- Jani Nikula <jani.nikula@intel.com>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- William Kucharski <william.kucharski@oracle.com>,
- Ian Campbell <ijc@hellion.org.uk>, linux-fsdevel@vger.kernel.org,
- Jaya Kumar <jayakumar.lkml@gmail.com>, Christoph Hellwig <hch@lst.de>
+Cc: yukuai3@huawei.com, yi.zhang@huawei.com, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 5/30/2021 2:14 PM, Matthew Wilcox wrote:
-> On Sun, May 30, 2021 at 12:13:05PM -0700, Nathan Chancellor wrote:
->> Hi Matthew,
->>
->> On Wed, Mar 10, 2021 at 06:55:30PM +0000, Matthew Wilcox (Oracle) wrote:
->>> There's no need to give the page an address_space.  Leaving the
->>> page->mapping as NULL will cause the VM to handle set_page_dirty()
->>> the same way that it's handled now, and that was the only reason to
->>> set the address_space in the first place.
->>>
->>> Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
->>> Reviewed-by: Christoph Hellwig <hch@lst.de>
->>> Reviewed-by: William Kucharski <william.kucharski@oracle.com>
->>
->> This patch in mainline as commit ccf953d8f3d6 ("fb_defio: Remove custom
->> address_space_operations") causes my Hyper-V based VM to no longer make
->> it to a graphical environment.
-> 
-> Hi Nathan,
-> 
-> Thanks for the report.  I sent Daniel a revert patch with a full
-> explanation last week, which I assume he'll queue up for a pull soon.
-> You can just git revert ccf953d8f3d6 for yourself until that shows up.
-> Sorry for the inconvenience.
-> 
+apply_dsc_policy_for_stream() will only be used if
+'CONFIG_DRM_AMD_DC_DCN' is enabled, thus the function can be
+declared inside the ifdefine marco.
 
-Thank you for the quick response! I will keep an eye out for the patch 
-while reverting it locally in the meantime.
+Fix gcc warning:
+drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:5577:11: warning:
+ variable ‘link_bandwidth_kbps’ set but not used [-Wunused-but-set-variable]
 
-Cheers,
-Nathan
+Signed-off-by: Yu Kuai <yukuai3@huawei.com>
+---
+changes in V2:
+ - fix that forgetting to change position of '#endif'
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+index a280cad7c4ca..c2ae88af70cd 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+@@ -5569,6 +5569,7 @@ static void update_dsc_caps(struct amdgpu_dm_connector *aconnector,
+ 	}
+ }
+ 
++#if defined(CONFIG_DRM_AMD_DC_DCN)
+ static void apply_dsc_policy_for_stream(struct amdgpu_dm_connector *aconnector,
+ 										struct dc_sink *sink, struct dc_stream_state *stream,
+ 										struct dsc_dec_dpcd_caps *dsc_caps)
+@@ -5578,7 +5579,6 @@ static void apply_dsc_policy_for_stream(struct amdgpu_dm_connector *aconnector,
+ 
+ 	link_bandwidth_kbps = dc_link_bandwidth_kbps(aconnector->dc_link,
+ 							dc_link_get_link_cap(aconnector->dc_link));
+-#if defined(CONFIG_DRM_AMD_DC_DCN)
+ 	/* Set DSC policy according to dsc_clock_en */
+ 	dc_dsc_policy_set_enable_dsc_when_not_needed(
+ 		aconnector->dsc_settings.dsc_force_enable == DSC_CLK_FORCE_ENABLE);
+@@ -5609,8 +5609,8 @@ static void apply_dsc_policy_for_stream(struct amdgpu_dm_connector *aconnector,
+ 
+ 	if (stream->timing.flags.DSC && aconnector->dsc_settings.dsc_bits_per_pixel)
+ 		stream->timing.dsc_cfg.bits_per_pixel = aconnector->dsc_settings.dsc_bits_per_pixel;
+-#endif
+ }
++#endif
+ 
+ static struct drm_display_mode *
+ get_highest_refresh_rate_mode(struct amdgpu_dm_connector *aconnector,
+-- 
+2.25.4
+
