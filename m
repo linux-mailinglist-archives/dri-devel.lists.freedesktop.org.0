@@ -1,71 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 329C23958F4
-	for <lists+dri-devel@lfdr.de>; Mon, 31 May 2021 12:32:40 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2500B395905
+	for <lists+dri-devel@lfdr.de>; Mon, 31 May 2021 12:36:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F15A36E4C4;
-	Mon, 31 May 2021 10:32:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C38106E508;
+	Mon, 31 May 2021 10:36:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x22d.google.com (mail-lj1-x22d.google.com
- [IPv6:2a00:1450:4864:20::22d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 22F0E6E1DE;
- Mon, 31 May 2021 10:32:36 +0000 (UTC)
-Received: by mail-lj1-x22d.google.com with SMTP id v5so14362171ljg.12;
- Mon, 31 May 2021 03:32:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-transfer-encoding:content-language;
- bh=usO9+/gM4Zo9jeFsuuS4Ase+VqK8oMXSDPbQWD0BH1w=;
- b=XwNwPBrSXKB9gX0XCTa3nwqkyw+5/qHAMgz3KXUors7ZL1z6gPgD9vKKpVWtof3Aoq
- n4bdgXVkVFXgkxUGBUbB/u7AWWdDbbosvFfAU4o3s/ZVqjt+zGU6MHfg9g8Gh3BsZXVY
- wW4IEh7MRHIOO09XpEm+04Vc+qsOyd/WsAYYpj9+PZm4XnhetnyLMskHqbzb3qj/HCqy
- tV4bJiEHIm1OvR24COPmoj3F2xPBHx9WlblS9YUL04dbQRxXv5V8xxHqjdsqqEgMci+8
- 8zjm6achdVxcwOGx08gPyYbe/znHksWCqprF3gn+3MnOr98JO2OA1BGL9LMY9QbcwawY
- DO1g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-transfer-encoding
- :content-language;
- bh=usO9+/gM4Zo9jeFsuuS4Ase+VqK8oMXSDPbQWD0BH1w=;
- b=UDEfU5WmErzf2cDS5Dm4oc13vazdPXXQKyuKnMUmOYu72loNzpJ3jVNs968hoY7FE+
- /pBcpFKPO1xpM8dB4RoVGNDQvKXkGbAN830586zINTUxk2biXlYngbD4u5uSDTtw2cwU
- HudkUzssor3hfWvqYp9Vo0wl+OX3WQ3K+4uhOLFn6/Bz8SCwkB8FQ/B2wsn1Rrjp6UgN
- C1SjlUQPNFHo3TvaVvsCP7qWcY8+pYS4kdfa4T2PUIGjgVVi5ISK8qq3NUDpVynI9p6y
- dWyZLJtHIsbVJRCNexh0+om0muQONDv3B8X+XRSfjAwEcfneBCVrjK/mxSWRMFD7/v9q
- SLog==
-X-Gm-Message-State: AOAM530lxdaH+Rsag0c7PwGZyM6rHB27Zg22atpgHgpbjfpL6UqwRYJc
- 6YCNBwAoTGXf8d6CakI5zYY=
-X-Google-Smtp-Source: ABdhPJwW7RCDsAOWoNOxEfbaI5cD1RW+UpupiDrRVHG/n9wESVlsAso4aDH+TORmmRT62MQgDxNZhw==
-X-Received: by 2002:a05:651c:105a:: with SMTP id
- x26mr16157353ljm.440.1622457154572; 
- Mon, 31 May 2021 03:32:34 -0700 (PDT)
-Received: from ?IPv6:2a02:908:1252:fb60:b94:4956:bad4:7c81?
- ([2a02:908:1252:fb60:b94:4956:bad4:7c81])
- by smtp.gmail.com with ESMTPSA id j1sm1298342lfm.55.2021.05.31.03.32.33
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 31 May 2021 03:32:34 -0700 (PDT)
-Subject: Re: [PATCH 1/2] drm/ttm: cleanup and add TTM_PL_FLAG_TEMPORARY
-To: =?UTF-8?Q?Thomas_Hellstr=c3=b6m_=28Intel=29?= <thomas_os@shipmail.org>,
- "Yu, Lang" <Lang.Yu@amd.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>
-References: <20210527013051.4302-1-Lang.Yu@amd.com>
- <DM6PR12MB4250B79297F587313D7645EBFB3F9@DM6PR12MB4250.namprd12.prod.outlook.com>
- <14d7f047-cf6d-c84a-14ff-3f1d833a770b@shipmail.org>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-Message-ID: <883bd629-e3ad-07a2-8952-994f42cb02be@gmail.com>
-Date: Mon, 31 May 2021 12:32:32 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BE5596E0ED;
+ Mon, 31 May 2021 10:36:17 +0000 (UTC)
+IronPort-SDR: ClF+75aU29sOccABLZkcrM2YnMvobmFXBUIfEowxosOn7SSelFetSPQm/+isYfZ1wddY5LvlYO
+ f7X1w+sGFX3g==
+X-IronPort-AV: E=McAfee;i="6200,9189,10000"; a="201463579"
+X-IronPort-AV: E=Sophos;i="5.83,236,1616482800"; d="scan'208";a="201463579"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 31 May 2021 03:36:15 -0700
+IronPort-SDR: HtVCOtOiT+hoRPoQF93NTuFq5tj2wMUpN+om1cuqCAjxvjgzyh/V9aoQDSIXheVSYSJEz7VgFm
+ 6QFytasDk19Q==
+X-IronPort-AV: E=Sophos;i="5.83,236,1616482800"; d="scan'208";a="478865479"
+Received: from masayag-mobl1.ger.corp.intel.com (HELO localhost)
+ ([10.252.52.77])
+ by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 31 May 2021 03:36:12 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: "Leizhen \(ThunderTown\)" <thunder.leizhen@huawei.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, intel-gfx <intel-gfx@lists.freedesktop.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ linux-kernel <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH 1/1] drm/i915/hdcp: Simplify code in
+ intel_hdcp_auth_downstream()
+In-Reply-To: <86f64463-87df-9e62-a5ea-f411fcb54c19@huawei.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20210527090421.9172-1-thunder.leizhen@huawei.com>
+ <87sg28a3xg.fsf@intel.com> <86f64463-87df-9e62-a5ea-f411fcb54c19@huawei.com>
+Date: Mon, 31 May 2021 13:36:08 +0300
+Message-ID: <87wnrfqjfr.fsf@intel.com>
 MIME-Version: 1.0
-In-Reply-To: <14d7f047-cf6d-c84a-14ff-3f1d833a770b@shipmail.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,112 +55,98 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Koenig, Christian" <Christian.Koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 31.05.21 um 11:52 schrieb Thomas Hellström (Intel):
-> Hi, Lang,
+On Fri, 28 May 2021, "Leizhen (ThunderTown)" <thunder.leizhen@huawei.com> wrote:
+> On 2021/5/27 18:04, Jani Nikula wrote:
+>> On Thu, 27 May 2021, Zhen Lei <thunder.leizhen@huawei.com> wrote:
+>>> If intel_hdcp_validate_v_prime() has been successful within the allowed
+>>> number of tries, we can directly call drm_dbg_kms() and "goto out" without
+>>> jumping out of the loop and repeatedly judging whether the operation is
+>>> successful. This can help us reduce an unnecessary if judgment. And it's
+>>> a little clearer to read.
+>> 
+>> Generally I think the "happy day scenario" should be at the topmost
+>> indentation level and not buried in the ifs with a goto exit.
 >
-> On 5/31/21 10:19 AM, Yu, Lang wrote:
->> [Public]
->>
->>> Hi,
->>> On 5/27/21 3:30 AM, Lang Yu wrote:
->>>> Make TTM_PL_FLAG_* start from zero and add
->>>> TTM_PL_FLAG_TEMPORARY flag for temporary
->>>> GTT allocation use.
->>> GTT is a driver private acronym, right? And it doesn't look like
->>> TTM_PL_FLAG_TEMPORARY will be used in core TTM, so should we instead 
->>> set
->>> aside a mask in the PL flag for driver-private use?
->> Hi Thomas,
->>
->> Thanks for your comments and advice, GTT means Graphics Translation 
->> Table here, seems
->> a general acronym. TTM_PL_FLAG_TEMPORARY may also be used by other 
->> drives.
->> I have made other patches for this. Please help review.
->>
->> Regards,
->> Lang
->>
-> My point was really that the flag naming and documentation should 
-> reflect what core ttm is doing with that flag. If there is no specific 
-> core TTM usage, IMO we should move it to a driver specific flag to 
-> avoid future confusion. In particular a writer of a generic TTM 
-> resource manager should be able to know without looking at an old 
-> commit message what the placement flag is intended for.
+> for (xxx) {
+>    if (a == b)
+>        return found;
+> }
 >
-> So here we add a flag where core TTM forces a bo move on validate and 
-> that's it. And that appears to be how it's used when an amdgpu bo is 
-> evicted to GTT, (btw should it be accounted in this situation?)
->
-> The other use is to force the amdgpu driver to temporarily accept it 
-> into GTT when there is a lack of space, and IMHO that's a driver 
-> specific use and we should allocate a mask for driver specific flags 
-> for that.
->
-> So shouldn't this be two flags, really?
+> At least this way of writing is common.
 
-Well one flag makes sense for the use case at hand that drivers want to 
-signal to TTM that an allocation is only temporary and not considered valid.
+Yes, if the loop is abstracted to a separate function.
 
-That we then use this flag to implement temporary GTT allocations to 
-avoid problems during eviction is just extending that use case.
-
-Christian.
+BR,
+Jani.
 
 >
-> TTM_PL_FLAG_FORCE_MOVE
 >
-> and
->
-> AMDGPU_PL_FLAG_TEMPORARY
->
-> Thanks,
->
-> /Thomas
->
->>> Thomas
->>> -----Original Message-----
->>> From: Yu, Lang <Lang.Yu@amd.com>
->>> Sent: Thursday, May 27, 2021 9:31 AM
->>> To: amd-gfx@lists.freedesktop.org; dri-devel@lists.freedesktop.org
->>> Cc: Koenig, Christian <Christian.Koenig@amd.com>; Huang, Ray
->>> <Ray.Huang@amd.com>; Deucher, Alexander <Alexander.Deucher@amd.com>;
->>> Yu, Lang <Lang.Yu@amd.com>
->>> Subject: [PATCH 1/2] drm/ttm: cleanup and add TTM_PL_FLAG_TEMPORARY
+>> 
+>> BR,
+>> Jani.
+>> 
 >>>
->>> Make TTM_PL_FLAG_* start from zero and add TTM_PL_FLAG_TEMPORARY flag
->>> for temporary GTT allocation use.
+>>> No functional change.
 >>>
->>> Signed-off-by: Lang Yu <Lang.Yu@amd.com>
+>>> Signed-off-by: Zhen Lei <thunder.leizhen@huawei.com>
 >>> ---
->>> include/drm/ttm/ttm_placement.h | 5 +++--
->>> 1 file changed, 3 insertions(+), 2 deletions(-)
+>>>  drivers/gpu/drm/i915/display/intel_hdcp.c | 24 ++++++++++-------------
+>>>  1 file changed, 10 insertions(+), 14 deletions(-)
 >>>
->>> diff --git a/include/drm/ttm/ttm_placement.h
->>> b/include/drm/ttm/ttm_placement.h index aa6ba4d0cf78..9f5cfc7c2d5a 
->>> 100644
->>> --- a/include/drm/ttm/ttm_placement.h
->>> +++ b/include/drm/ttm/ttm_placement.h
->>> @@ -47,8 +47,9 @@
->>>   * top of the memory area, instead of the bottom.
->>>   */
->>>
->>> -#define TTM_PL_FLAG_CONTIGUOUS  (1 << 19)
->>> -#define TTM_PL_FLAG_TOPDOWN     (1 << 22)
->>> +#define TTM_PL_FLAG_CONTIGUOUS  (1 << 0)
->>> +#define TTM_PL_FLAG_TOPDOWN     (1 << 1)
->>> +#define TTM_PL_FLAG_TEMPORARY   (1 << 2)
->>>
->>> /**
->>>   * struct ttm_place
->>> -- 
->>> 2.25.1
-> _______________________________________________
-> amd-gfx mailing list
-> amd-gfx@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/amd-gfx
+>>> diff --git a/drivers/gpu/drm/i915/display/intel_hdcp.c b/drivers/gpu/drm/i915/display/intel_hdcp.c
+>>> index d8570e14fe60..c32a854eda66 100644
+>>> --- a/drivers/gpu/drm/i915/display/intel_hdcp.c
+>>> +++ b/drivers/gpu/drm/i915/display/intel_hdcp.c
+>>> @@ -663,13 +663,13 @@ int intel_hdcp_auth_downstream(struct intel_connector *connector)
+>>>  
+>>>  	ret = shim->read_ksv_fifo(dig_port, num_downstream, ksv_fifo);
+>>>  	if (ret)
+>>> -		goto err;
+>>> +		goto out;
+>>>  
+>>>  	if (drm_hdcp_check_ksvs_revoked(&dev_priv->drm, ksv_fifo,
+>>>  					num_downstream) > 0) {
+>>>  		drm_err(&dev_priv->drm, "Revoked Ksv(s) in ksv_fifo\n");
+>>>  		ret = -EPERM;
+>>> -		goto err;
+>>> +		goto out;
+>>>  	}
+>>>  
+>>>  	/*
+>>> @@ -680,20 +680,16 @@ int intel_hdcp_auth_downstream(struct intel_connector *connector)
+>>>  		ret = intel_hdcp_validate_v_prime(connector, shim,
+>>>  						  ksv_fifo, num_downstream,
+>>>  						  bstatus);
+>>> -		if (!ret)
+>>> -			break;
+>>> -	}
+>>> -
+>>> -	if (i == tries) {
+>>> -		drm_dbg_kms(&dev_priv->drm,
+>>> -			    "V Prime validation failed.(%d)\n", ret);
+>>> -		goto err;
+>>> +		if (!ret) {
+>>> +			drm_dbg_kms(&dev_priv->drm,
+>>> +				    "HDCP is enabled (%d downstream devices)\n",
+>>> +				    num_downstream);
+>>> +			goto out;
+>>> +		}
+>>>  	}
+>>>  
+>>> -	drm_dbg_kms(&dev_priv->drm, "HDCP is enabled (%d downstream devices)\n",
+>>> -		    num_downstream);
+>>> -	ret = 0;
+>>> -err:
+>>> +	drm_dbg_kms(&dev_priv->drm, "V Prime validation failed.(%d)\n", ret);
+>>> +out:
+>>>  	kfree(ksv_fifo);
+>>>  	return ret;
+>>>  }
+>> 
+>
 
+-- 
+Jani Nikula, Intel Open Source Graphics Center
