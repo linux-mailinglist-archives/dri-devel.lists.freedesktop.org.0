@@ -1,96 +1,68 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03BF53956DA
-	for <lists+dri-devel@lfdr.de>; Mon, 31 May 2021 10:23:33 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4680D3956F0
+	for <lists+dri-devel@lfdr.de>; Mon, 31 May 2021 10:25:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BB7B16E87E;
-	Mon, 31 May 2021 08:23:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B98516E884;
+	Mon, 31 May 2021 08:25:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam10on2055.outbound.protection.outlook.com [40.107.93.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D4AC56E87E;
- Mon, 31 May 2021 08:23:28 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=dVcpg/TXvpXraLo47I9o+GbbkWzLkHYVpMZhWpQQUvDlikR4CnC4Kf3U1uJEVceIQ5Pemq+zwD2jxLuFHwTNGIbIKkhTNGo7NSgXhnsmVOoVqRZtB69MvzpD3iUnFvZVweJHkLsBSEIIh0gLx06GtO5A1wLaxKw2UVGZlXn7qGjgf7Q7f0/F+zrTpIIQnzAkOM/bSV+FgxLZttpS7GNGasbUf4TKPBgpw2GI+R9WuK2ZZGvU1QY8mXQnSJI51jnKz63VAHv0F4kU7vLyrdfrI9lYqkTFEzrVat0A4w0fpxYz0DBgKACz6FFyRoJqfHe9KXJ9vPjYdUU0WNcfRKA0Ag==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=3G67fY+A1y8Dk99cENW8wldF38B0XQQB8LLxN7gkJlU=;
- b=fDVCTjdVWyPmTezsAmERK/5puQOPhfeCkFm+TkH91L3P4++cjFXyBY71yIBEQ3sOMkQ9JqYM9GVOQIkmKo8x8KHtuGvcPjwNtW0JsfooqZoBZf8vzTKopzubN14NpoWI92EGYJOcNv1XJmOJWxSx4givYjhQL1H+haWffaOOPeD1s+Waq/Y70ZpVshhj4pn63UnfMG3rv62IYAlk5eIZ1PnjMLxVI/UW0IPxUGfnKzRPD1vkhNmHExes/V6aY7CB+Tkvs0S6MjEQjQd1obRbazQGxB1wpOFLbMNKzAxnJoqUReeqp55xKuPBOf7IMZ1bwX8XiS9htAT+qe3+RpKvCQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
- dmarc=pass (p=none sp=none pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=3G67fY+A1y8Dk99cENW8wldF38B0XQQB8LLxN7gkJlU=;
- b=eI162xw66hV/yuaVr9iaP+d2hVbNxmuN9IsLYV8xnX+3gw4lYPGIzWuCO8RPpmNJrdLT+XDo4KaECLHVnJV7tbcNsFFj5IWuoB+3tcpTeVJT2FIQe4XecJno+bC0yrWYlpo1DTbY/BJGJ7pY5Ub4vLfRISfo+dLFJEhZj0/J6fI=
-Received: from MW4PR04CA0031.namprd04.prod.outlook.com (2603:10b6:303:6a::6)
- by BY5PR12MB5526.namprd12.prod.outlook.com (2603:10b6:a03:1d7::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4173.22; Mon, 31 May
- 2021 08:23:27 +0000
-Received: from CO1NAM11FT023.eop-nam11.prod.protection.outlook.com
- (2603:10b6:303:6a:cafe::b7) by MW4PR04CA0031.outlook.office365.com
- (2603:10b6:303:6a::6) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4173.20 via Frontend
- Transport; Mon, 31 May 2021 08:23:26 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; lists.freedesktop.org; dkim=none (message not signed)
- header.d=none;lists.freedesktop.org; dmarc=pass action=none
- header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com;
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- CO1NAM11FT023.mail.protection.outlook.com (10.13.175.35) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.4150.30 via Frontend Transport; Mon, 31 May 2021 08:23:26 +0000
-Received: from lang-desktop.amd.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2242.4; Mon, 31 May
- 2021 03:23:23 -0500
-From: Lang Yu <Lang.Yu@amd.com>
-To: <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>
-Subject: [PATCH v2 3/3] drm/amdgpu: allow temporary GTT allocation under
- memory pressure
-Date: Mon, 31 May 2021 16:22:41 +0800
-Message-ID: <20210531082241.4254-3-Lang.Yu@amd.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210531082241.4254-1-Lang.Yu@amd.com>
-References: <20210531082241.4254-1-Lang.Yu@amd.com>
+Received: from mail-ed1-x52b.google.com (mail-ed1-x52b.google.com
+ [IPv6:2a00:1450:4864:20::52b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 807046E884;
+ Mon, 31 May 2021 08:25:39 +0000 (UTC)
+Received: by mail-ed1-x52b.google.com with SMTP id s6so12487336edu.10;
+ Mon, 31 May 2021 01:25:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language;
+ bh=poB73wf5466hbomdjtxFNKbSQSQ59KS6ynL9JADMnBM=;
+ b=SbMpfS9Sfaqj294FpiT7SPOLU4K9U0svLj/1yN6LbfgfPWZWg2P4ARKkQBwbkFELaI
+ uw9vEIPGnDfKCun5Y3QM89cPLoAQABHr5rzL7vbAUJSeEdxvR7E7mMsV7o/+AHHvPfiU
+ R7tClnxSURgq4HPFv30ihidTJBhn3aaD9wAc84Q6+ubD8SL2bUXzIPwL7ifS2qh+cZSm
+ dEOZMkOw1fFT/jWa8858Gfhm3WBu2GucgTJELSFW+l5pLKrOiPXCCdvPgKZiGR4AIgTM
+ aWIav5rwU8mvjzJ5V3Lz4wpxt6SKew4li6/nrcNVgM5FXH3GtxUIEohjr4dONngi6Wdy
+ rFQw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language;
+ bh=poB73wf5466hbomdjtxFNKbSQSQ59KS6ynL9JADMnBM=;
+ b=ANBsHTmKOQvvuLa9DFOjys/PeOhEqQTXaOwKOrFtJ86SsaDDOB8Qfw7j9Jej74AbQ1
+ tLhOVPgzJbdE0XKXjMfkBYNo/Xs5fFCrEhdtCYmJC+NGjYu9gy6Phj0/DiJCb1te6YX9
+ rHHdXTT+ErOa8ALGqC1XDG3iR36LF3Pgo1cWmEO47eoxp2R30yugFWrh/CBSbZ6kHJAm
+ QfvqyXU5aPCeAhy0WAc3Jtb8fhv7uZgVjn2aa7aG+Am/FnKpVgH34sMdpeaHcEK9/v8J
+ 7UsKTOju4SfTneArlrW3+eOzOuRWGKkp5sLJXBEQK7VhX1HoVEO28hb9iVwQ6ifsrwIT
+ DDvQ==
+X-Gm-Message-State: AOAM532yjeJpGeBvQJaaptxziXG6yIjju61824N6PgPNCN+sZWdXAkOS
+ BeCK4LGFOQGNTv3Coxc0hxA=
+X-Google-Smtp-Source: ABdhPJyguTHYNC7Ry8z6mCty2Tm6ZMFYwKpmjS+1HBG6888HOl2Om53VSuM8phqEMgGsYiLjBnmufQ==
+X-Received: by 2002:a05:6402:40d0:: with SMTP id
+ z16mr24604808edb.104.1622449538075; 
+ Mon, 31 May 2021 01:25:38 -0700 (PDT)
+Received: from ?IPv6:2a02:908:1252:fb60:b94:4956:bad4:7c81?
+ ([2a02:908:1252:fb60:b94:4956:bad4:7c81])
+ by smtp.gmail.com with ESMTPSA id g19sm5621743ejw.79.2021.05.31.01.25.37
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 31 May 2021 01:25:37 -0700 (PDT)
+Subject: Re: Linux Graphics Next: Userspace submission update
+To: =?UTF-8?B?TWFyZWsgT2zFocOhaw==?= <maraeo@gmail.com>
+References: <CAAxE2A4XS2mCXOdvxm1ZAhG2OY9w1P0X2E1ac1TXNFKDekog5g@mail.gmail.com>
+ <c0c61805-7e13-05a0-ed7f-9cd61ca2b209@gmail.com>
+ <CAAxE2A7wGCfDV=iYoXpP4JzObn9okGk4_WLH+sV-oJJjSk0DxQ@mail.gmail.com>
+ <CAAxE2A4c2Vy7E165g9ZF4bapw=CGfSvzX-4RB05M9GBM+8E0pA@mail.gmail.com>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+Message-ID: <4ca02a0c-3d00-be4d-9f3d-bb63678f4d05@gmail.com>
+Date: Mon, 31 May 2021 10:25:36 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: b8efe37d-e37e-41de-7c31-08d9240d5d3e
-X-MS-TrafficTypeDiagnostic: BY5PR12MB5526:
-X-Microsoft-Antispam-PRVS: <BY5PR12MB5526BFEB5084EFB0EF3C1EE1FB3F9@BY5PR12MB5526.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:7219;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: s5wuIf6uqgniWwUj251XgyMoKOPnbeDD/xJpkXXK5ZU07uiZrQPQdPQq4y9YThbCDqughhfIZU8MIv10iPsw6FDsDp7dMR/kI+cDebelZYFSpocHp4IoLMgaUsnY7L+/jg8jRCxi7eR5XMYs5k9MjtY9yxHoN7S4a2b58wOsG0oSQAO9tYHVvawOF0fi5cFpQta5tdds2KzCmwPHMHSyN+9vcNd/dmzt+RiomVy65p1+CK4xqR5Z7dFHDD97xONbg7rrNPdBhqugWsat0yEeVvhDnueAaHtYfH3kmEf9DNabfo8lNl+5fFHqlYQZbQP/zjivzgqbhkZoCIR3ZXniYdz01vDka90seBlxpM/+8G3kggRUxO5cOh+oQOUdgw8n9fIl40gessS0wr44hHehBX1c/sKfKhlDRr0c35tufvpHZt7VPiUCl7+m0Wqsm/GDvXwKZwa22lPeSyM9k/eO0x9kS70UyAeCVVeY2Vwpis+7ZeI1rcuFM7dDlZlD2ftqo+oWIh3MVfxHj3zt0YOgkIPUEmqFKTQKJUQIDC/2JsNz61zRNWOgn4BkF3eGvaiFnPU74vHpRYEHU9Gthsxzh267FBjQbS03mkcIh8718Aep8VzGLOPS/yT1/1WRKeZEJtsBFtezUm0KiIwKyzjKtxNN/TFOBy2es0i4u8QqdVDtYayQuc/EndRKr5N3QOYa
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(4636009)(346002)(39860400002)(376002)(396003)(136003)(36840700001)(46966006)(70586007)(356005)(36756003)(82740400003)(83380400001)(478600001)(26005)(5660300002)(2616005)(86362001)(70206006)(81166007)(4326008)(7696005)(316002)(54906003)(110136005)(2906002)(1076003)(8676002)(426003)(36860700001)(8936002)(6666004)(336012)(186003)(16526019)(47076005)(82310400003)(36900700001);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 May 2021 08:23:26.5547 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: b8efe37d-e37e-41de-7c31-08d9240d5d3e
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT023.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR12MB5526
+In-Reply-To: <CAAxE2A4c2Vy7E165g9ZF4bapw=CGfSvzX-4RB05M9GBM+8E0pA@mail.gmail.com>
+Content-Type: multipart/alternative;
+ boundary="------------777AB12B8A412C556494EA96"
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -103,157 +75,459 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek Olsak <Marek.Olsak@amd.com>, Christian
- Koenig <Christian.Koenig@amd.com>, Huang
- Rui <ray.huang@amd.com>, Alex Deucher <alexander.deucher@amd.com>,
- Lang Yu <Lang.Yu@amd.com>,
- =?UTF-8?q?Thomas=20Hellstr=C3=B6?= <thomas_os@shipmail.org>
+Cc: Jason Ekstrand <jason@jlekstrand.net>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ ML Mesa-dev <mesa-dev@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Currently, we have a limitted GTT memory size and need a bounce buffer
-when doing buffer migration between VRAM and SYSTEM domain.
+This is a multi-part message in MIME format.
+--------------777AB12B8A412C556494EA96
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-The problem is under GTT memory pressure we can't do buffer migration
-between VRAM and SYSTEM domain. But in some cases we really need that.
-Eespecially when validating a VRAM backing store BO which resides in
-SYSTEM domain.
+Yes, exactly that's my thinking and also the reason why I'm pondering so 
+hard on the requirement that the memory for shared user fences should 
+not be modifiable by userspace directly.
 
-To solve the problem, we allow temporary GTT allocation under memory
-pressure and do the following:
+Christian.
 
-1. Change mgr->available into mgr->used (invert the value).
-2. Always account all GTT BOs to the used space.
-3. Only when it is not a temporary allocation bail out.
+Am 29.05.21 um 05:33 schrieb Marek Olšák:
+> My first email can be ignored except for the sync files. Oh well.
+>
+> I think I see what you mean, Christian. If we assume that an imported 
+> fence is always read only (the buffer with the sequence number is read 
+> only), only the process that created and exported the fence can signal 
+> it. If the fence is not signaled, the exporting process is guilty. The 
+> only thing the importing process must do when it's about to use the 
+> fence as a dependency is to notify the kernel about it. Thus, the 
+> kernel will always know the dependency graph. Then if the importing 
+> process times out, the kernel will blame any of the processes that 
+> passed it a fence that is still unsignaled. The kernel will blame the 
+> process that timed out only if all imported fences have been signaled. 
+> It seems pretty robust.
+>
+> It's the same with implicit sync except that the buffer with the 
+> sequence number is writable. Any process that has an implicitly-sync'd 
+> buffer can set the sequence number to 0 or UINT64_MAX. 0 will cause a 
+> timeout for the next job, while UINT64_MAX might cause a timeout a 
+> little later. The timeout can be mitigated by the kernel because the 
+> kernel knows the greatest number that should be there, but it's not 
+> possible to know which process is guilty (all processes holding the 
+> buffer handle would be suspects).
+>
+> Marek
+>
+> On Fri, May 28, 2021 at 6:25 PM Marek Olšák <maraeo@gmail.com 
+> <mailto:maraeo@gmail.com>> wrote:
+>
+>     If both implicit and explicit synchronization are handled the
+>     same, then the kernel won't be able to identify the process that
+>     caused an implicit sync deadlock. The process that is stuck
+>     waiting for a fence can be innocent, and the kernel can't punish
+>     it. Likewise, the GPU reset guery that reports which process is
+>     guilty and innocent will only be able to report unknown. Is that OK?
+>
+>     Marek
+>
+>     On Fri, May 28, 2021 at 10:41 AM Christian König
+>     <ckoenig.leichtzumerken@gmail.com
+>     <mailto:ckoenig.leichtzumerken@gmail.com>> wrote:
+>
+>         Hi Marek,
+>
+>         well I don't think that implicit and explicit synchronization
+>         needs to be mutual exclusive.
+>
+>         What we should do is to have the ability to transport an
+>         synchronization object with each BO.
+>
+>         Implicit and explicit synchronization then basically become
+>         the same, they just transport the synchronization object
+>         differently.
+>
+>         The biggest problem are the sync_files for Android, since they
+>         are really not easy to support at all. If Android wants to
+>         support user queues we would probably have to do some changes
+>         there.
+>
+>         Regards,
+>         Christian.
+>
+>         Am 27.05.21 um 23:51 schrieb Marek Olšák:
+>>         Hi,
+>>
+>>         Since Christian believes that we can't deadlock the kernel
+>>         with some changes there, we just need to make everything nice
+>>         for userspace too. Instead of explaining how it will work, I
+>>         will explain the cases where future hardware (and its kernel
+>>         driver) will break existing userspace in order to protect
+>>         everybody from deadlocks. Anything that uses implicit sync
+>>         will be spared, so X and Wayland will be fine, assuming they
+>>         don't import/export fences. Those use cases that do
+>>         import/export fences might or might not work, depending on
+>>         how the fences are used.
+>>
+>>         One of the necessities is that all fences will become future
+>>         fences. The semantics of imported/exported fences will change
+>>         completely and will have new restrictions on the usage. The
+>>         restrictions are:
+>>
+>>
+>>         1) Android sync files will be impossible to support, so won't
+>>         be supported. (they don't allow future fences)
+>>
+>>
+>>         2) Implicit sync and explicit sync will be mutually exclusive
+>>         between process. A process can either use one or the other,
+>>         but not both. This is meant to prevent a deadlock condition
+>>         with future fences where any process can malevolently
+>>         deadlock execution of any other process, even execution of a
+>>         higher-privileged process. The kernel will impose the
+>>         following restrictions to protect against the deadlock:
+>>
+>>         a) a process with an implicitly-sync'd imported/exported
+>>         buffer can't import/export a fence from/to another process
+>>         b) a process with an imported/exported fence can't
+>>         import/export an implicitly-sync'd buffer from/to another process
+>>
+>>         Alternative: A higher-privileged process could enforce both
+>>         restrictions instead of the kernel to protect itself from the
+>>         deadlock, but this would be a can of worms for existing
+>>         userspace. It would be better if the kernel just broke unsafe
+>>         userspace on future hw, just like sync files.
+>>
+>>         If both implicit and explicit sync are allowed to occur
+>>         simultaneously, sending a future fence that will never signal
+>>         to any process will deadlock that process after it acquires
+>>         the implicit sync lock, which is a sequence number that the
+>>         process is required to write to memory and send an interrupt
+>>         from the GPU in a finite time. This is how the deadlock can
+>>         happen:
+>>
+>>         * The process gets sequence number N from the kernel for an
+>>         implicitly-sync'd buffer.
+>>         * The process inserts (into the GPU user-mapped queue) a wait
+>>         for sequence number N-1.
+>>         * The process inserts a wait for a fence, but it doesn't know
+>>         that it will never signal ==> deadlock.
+>>         ...
+>>         * The process inserts a command to write sequence number N to
+>>         a predetermined memory location. (which will make the buffer
+>>         idle and send an interrupt to the kernel)
+>>         ...
+>>         * The kernel will terminate the process because it has never
+>>         received the interrupt. (i.e. a less-privileged process just
+>>         killed a more-privileged process)
+>>
+>>         It's the interrupt for implicit sync that never arrived that
+>>         caused the termination, and the only way another process can
+>>         cause it is by sending a fence that will never signal. Thus,
+>>         importing/exporting fences from/to other processes can't be
+>>         allowed simultaneously with implicit sync.
+>>
+>>
+>>         3) Compositors (and other privileged processes, and display
+>>         flipping) can't trust imported/exported fences. They need a
+>>         timeout recovery mechanism from the beginning, and the
+>>         following are some possible solutions to timeouts:
+>>
+>>         a) use a CPU wait with a small absolute timeout, and display
+>>         the previous content on timeout
+>>         b) use a GPU wait with a small absolute timeout, and
+>>         conditional rendering will choose between the latest content
+>>         (if signalled) and previous content (if timed out)
+>>
+>>         The result would be that the desktop can run close to 60 fps
+>>         even if an app runs at 1 fps.
+>>
+>>         *Redefining imported/exported fences and breaking some
+>>         users/OSs is the only way to have userspace GPU command
+>>         submission, and the deadlock example here is the
+>>         counterexample proving that there is no other way.*
+>>
+>>         So, what are the chances this is going to fly with the ecosystem?
+>>
+>>         Thanks,
+>>         Marek
+>
 
-v2: still account temporary GTT allocations
 
-Signed-off-by: Lang Yu <Lang.Yu@amd.com>
----
- drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c | 27 ++++++++++-----------
- drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c     |  4 ++-
- drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h     |  2 +-
- 3 files changed, 17 insertions(+), 16 deletions(-)
+--------------777AB12B8A412C556494EA96
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: 8bit
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c
-index 8860545344c7..393f55f412b7 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c
-@@ -111,14 +111,11 @@ static int amdgpu_gtt_mgr_new(struct ttm_resource_manager *man,
- 	struct amdgpu_gtt_node *node;
- 	int r;
- 
--	spin_lock(&mgr->lock);
--	if ((&tbo->mem == mem || tbo->mem.mem_type != TTM_PL_TT) &&
--	    atomic64_read(&mgr->available) < mem->num_pages) {
--		spin_unlock(&mgr->lock);
-+	if ((atomic64_add_return(mem->num_pages, &mgr->used) > man->size) &&
-+		!(mem->placement & TTM_PL_FLAG_TEMPORARY)) {
-+		atomic64_sub(mem->num_pages, &mgr->used);
- 		return -ENOSPC;
- 	}
--	atomic64_sub(mem->num_pages, &mgr->available);
--	spin_unlock(&mgr->lock);
- 
- 	if (!place->lpfn) {
- 		mem->mm_node = NULL;
-@@ -152,7 +149,7 @@ static int amdgpu_gtt_mgr_new(struct ttm_resource_manager *man,
- 	kfree(node);
- 
- err_out:
--	atomic64_add(mem->num_pages, &mgr->available);
-+	atomic64_sub(mem->num_pages, &mgr->used);
- 
- 	return r;
- }
-@@ -178,7 +175,7 @@ static void amdgpu_gtt_mgr_del(struct ttm_resource_manager *man,
- 		kfree(node);
- 	}
- 
--	atomic64_add(mem->num_pages, &mgr->available);
-+	atomic64_sub(mem->num_pages, &mgr->used);
- }
- 
- /**
-@@ -191,9 +188,8 @@ static void amdgpu_gtt_mgr_del(struct ttm_resource_manager *man,
- uint64_t amdgpu_gtt_mgr_usage(struct ttm_resource_manager *man)
- {
- 	struct amdgpu_gtt_mgr *mgr = to_gtt_mgr(man);
--	s64 result = man->size - atomic64_read(&mgr->available);
- 
--	return (result > 0 ? result : 0) * PAGE_SIZE;
-+	return atomic64_read(&mgr->used) * PAGE_SIZE;
- }
- 
- /**
-@@ -234,14 +230,17 @@ static void amdgpu_gtt_mgr_debug(struct ttm_resource_manager *man,
- 				 struct drm_printer *printer)
- {
- 	struct amdgpu_gtt_mgr *mgr = to_gtt_mgr(man);
-+	uint64_t used, used_pages;
- 
- 	spin_lock(&mgr->lock);
- 	drm_mm_print(&mgr->mm, printer);
- 	spin_unlock(&mgr->lock);
- 
--	drm_printf(printer, "man size:%llu pages, gtt available:%lld pages, usage:%lluMB\n",
--		   man->size, (u64)atomic64_read(&mgr->available),
--		   amdgpu_gtt_mgr_usage(man) >> 20);
-+	used = amdgpu_gtt_mgr_usage(man);
-+	used_pages = used/PAGE_SIZE;
-+
-+	drm_printf(printer, "man size:%llu pages,  gtt available:%lld pages, usage:%lluMB\n",
-+		man->size, used_pages > man->size ? 0 : man->size - used_pages, used >> 20);
- }
- 
- static const struct ttm_resource_manager_func amdgpu_gtt_mgr_func = {
-@@ -274,7 +273,7 @@ int amdgpu_gtt_mgr_init(struct amdgpu_device *adev, uint64_t gtt_size)
- 	size = (adev->gmc.gart_size >> PAGE_SHIFT) - start;
- 	drm_mm_init(&mgr->mm, start, size);
- 	spin_lock_init(&mgr->lock);
--	atomic64_set(&mgr->available, gtt_size >> PAGE_SHIFT);
-+	atomic64_set(&mgr->used, 0);
- 
- 	ret = device_create_file(adev->dev, &dev_attr_mem_info_gtt_total);
- 	if (ret) {
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-index c0aef327292a..129d39392859 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-@@ -152,9 +152,11 @@ static void amdgpu_evict_flags(struct ttm_buffer_object *bo,
- 			abo->placements[0].lpfn = 0;
- 			abo->placement.busy_placement = &abo->placements[1];
- 			abo->placement.num_busy_placement = 1;
-+			abo->placements[1].flags |= TTM_PL_FLAG_TEMPORARY;
- 		} else {
- 			/* Move to GTT memory */
- 			amdgpu_bo_placement_from_domain(abo, AMDGPU_GEM_DOMAIN_GTT);
-+			abo->placements[0].flags |= TTM_PL_FLAG_TEMPORARY;
- 		}
- 		break;
- 	case TTM_PL_TT:
-@@ -538,7 +540,7 @@ static int amdgpu_bo_move(struct ttm_buffer_object *bo, bool evict,
- 			hop->fpfn = 0;
- 			hop->lpfn = 0;
- 			hop->mem_type = TTM_PL_TT;
--			hop->flags = 0;
-+			hop->flags |= TTM_PL_FLAG_TEMPORARY;
- 			return -EMULTIHOP;
- 		}
- 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h
-index 2877a924086f..26b67af00550 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h
-@@ -52,7 +52,7 @@ struct amdgpu_gtt_mgr {
- 	struct ttm_resource_manager manager;
- 	struct drm_mm mm;
- 	spinlock_t lock;
--	atomic64_t available;
-+	atomic64_t used;
- };
- 
- struct amdgpu_preempt_mgr {
--- 
-2.25.1
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+  <body>
+    Yes, exactly that's my thinking and also the reason why I'm
+    pondering so hard on the requirement that the memory for shared user
+    fences should not be modifiable by userspace directly.<br>
+    <br>
+    Christian.<br>
+    <br>
+    <div class="moz-cite-prefix">Am 29.05.21 um 05:33 schrieb Marek
+      Olšák:<br>
+    </div>
+    <blockquote type="cite"
+cite="mid:CAAxE2A4c2Vy7E165g9ZF4bapw=CGfSvzX-4RB05M9GBM+8E0pA@mail.gmail.com">
+      <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+      <div dir="ltr">
+        <div>My first email can be ignored except for the sync files. Oh
+          well.<br>
+        </div>
+        <div><br>
+        </div>
+        <div>I think I see what you mean, Christian. If we assume that
+          an imported fence is always read only (the buffer with the
+          sequence number is read only), only the process that created
+          and exported the fence can signal it. If the fence is not
+          signaled, the exporting process is guilty. The only thing the
+          importing process must do when it's about to use the fence as
+          a dependency is to notify the kernel about it. Thus, the
+          kernel will always know the dependency graph. Then if the
+          importing process times out, the kernel will blame any of the
+          processes that passed it a fence that is still unsignaled. The
+          kernel will blame the process that timed out only if all
+          imported fences have been signaled. It seems pretty robust.</div>
+        <div><br>
+        </div>
+        <div>It's the same with implicit sync except that the buffer
+          with the sequence number is writable. Any process that has an
+          implicitly-sync'd buffer can set the sequence number to 0 or
+          UINT64_MAX. 0 will cause a timeout for the next job, while
+          UINT64_MAX might cause a timeout a little later. The timeout
+          can be mitigated by the kernel because the kernel knows the
+          greatest number that should be there, but it's not possible to
+          know which process is guilty (all processes holding the buffer
+          handle would be suspects).<br>
+        </div>
+        <div><br>
+        </div>
+        <div>Marek<br>
+        </div>
+      </div>
+      <br>
+      <div class="gmail_quote">
+        <div dir="ltr" class="gmail_attr">On Fri, May 28, 2021 at 6:25
+          PM Marek Olšák &lt;<a href="mailto:maraeo@gmail.com"
+            moz-do-not-send="true">maraeo@gmail.com</a>&gt; wrote:<br>
+        </div>
+        <blockquote class="gmail_quote" style="margin:0px 0px 0px
+          0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+          <div dir="ltr">
+            <div>If both implicit and explicit synchronization are
+              handled the same, then the kernel won't be able to
+              identify the process that caused an implicit sync
+              deadlock. The process that is stuck waiting for a fence
+              can be innocent, and the kernel can't punish it. Likewise,
+              the GPU reset guery that reports which process is guilty
+              and innocent will only be able to report unknown. Is that
+              OK?<br>
+            </div>
+            <br>
+            <div>Marek<br>
+            </div>
+          </div>
+          <br>
+          <div class="gmail_quote">
+            <div dir="ltr" class="gmail_attr">On Fri, May 28, 2021 at
+              10:41 AM Christian König &lt;<a
+                href="mailto:ckoenig.leichtzumerken@gmail.com"
+                target="_blank" moz-do-not-send="true">ckoenig.leichtzumerken@gmail.com</a>&gt;
+              wrote:<br>
+            </div>
+            <blockquote class="gmail_quote" style="margin:0px 0px 0px
+              0.8ex;border-left:1px solid
+              rgb(204,204,204);padding-left:1ex">
+              <div> Hi Marek,<br>
+                <br>
+                well I don't think that implicit and explicit
+                synchronization needs to be mutual exclusive.<br>
+                <br>
+                What we should do is to have the ability to transport an
+                synchronization object with each BO.<br>
+                <br>
+                Implicit and explicit synchronization then basically
+                become the same, they just transport the synchronization
+                object differently.<br>
+                <br>
+                The biggest problem are the sync_files for Android,
+                since they are really not easy to support at all. If
+                Android wants to support user queues we would probably
+                have to do some changes there.<br>
+                <br>
+                Regards,<br>
+                Christian.<br>
+                <br>
+                <div>Am 27.05.21 um 23:51 schrieb Marek Olšák:<br>
+                </div>
+                <blockquote type="cite">
+                  <div dir="ltr">
+                    <div>Hi,</div>
+                    <div><br>
+                    </div>
+                    <div>Since Christian believes that we can't deadlock
+                      the kernel with some changes there, we just need
+                      to make everything nice for userspace too. Instead
+                      of explaining how it will work, I will explain the
+                      cases where future hardware (and its kernel
+                      driver) will break existing userspace in order to
+                      protect everybody from deadlocks. Anything that
+                      uses implicit sync will be spared, so X and
+                      Wayland will be fine, assuming they don't
+                      import/export fences. Those use cases that do
+                      import/export fences might or might not work,
+                      depending on how the fences are used.<br>
+                    </div>
+                    <div><br>
+                    </div>
+                    <div>One of the necessities is that all fences will
+                      become future fences. The semantics of
+                      imported/exported fences will change completely
+                      and will have new restrictions on the usage. The
+                      restrictions are:<br>
+                    </div>
+                    <div><br>
+                    </div>
+                    <div><br>
+                    </div>
+                    <div>1) Android sync files will be impossible to
+                      support, so won't be supported. (they don't allow
+                      future fences)<br>
+                    </div>
+                    <div><br>
+                    </div>
+                    <div><br>
+                    </div>
+                    <div>2) Implicit sync and explicit sync will be
+                      mutually exclusive between process. A process can
+                      either use one or the other, but not both. This is
+                      meant to prevent a deadlock condition with future
+                      fences where any process can malevolently deadlock
+                      execution of any other process, even execution of
+                      a higher-privileged process. The kernel will
+                      impose the following restrictions to protect
+                      against the deadlock:<br>
+                    </div>
+                    <div><br>
+                    </div>
+                    <div>a) a process with an implicitly-sync'd
+                      imported/exported buffer can't import/export a
+                      fence from/to another process<br>
+                    </div>
+                    <div>b) a process with an imported/exported fence
+                      can't import/export an implicitly-sync'd buffer
+                      from/to another process</div>
+                    <div><br>
+                    </div>
+                    <div>Alternative: A higher-privileged process could
+                      enforce both restrictions instead of the kernel to
+                      protect itself from the deadlock, but this would
+                      be a can of worms for existing userspace. It would
+                      be better if the kernel just broke unsafe
+                      userspace on future hw, just like sync files.<br>
+                    </div>
+                    <div><br>
+                    </div>
+                    <div>If both implicit and explicit sync are allowed
+                      to occur simultaneously, sending a future fence
+                      that will never signal to any process will
+                      deadlock that process after it acquires the
+                      implicit sync lock, which is a sequence number
+                      that the process is required to write to memory
+                      and send an interrupt from the GPU in a finite
+                      time. This is how the deadlock can happen:<br>
+                    </div>
+                    <div><br>
+                    </div>
+                    <div>* The process gets sequence number N from the
+                      kernel for an implicitly-sync'd buffer.<br>
+                      <div>* The process inserts (into the GPU
+                        user-mapped queue) a wait for sequence number
+                        N-1.</div>
+                      * The process inserts a wait for a fence, but it
+                      doesn't know that it will never signal ==&gt;
+                      deadlock.<br>
+                    </div>
+                    <div>...<br>
+                    </div>
+                    <div>* The process inserts a command to write
+                      sequence number N to a predetermined memory
+                      location. (which will make the buffer idle and
+                      send an interrupt to the kernel)</div>
+                    <div>
+                      <div>...<br>
+                      </div>
+                      * The kernel will terminate the process because it
+                      has never received the interrupt. (i.e. a
+                      less-privileged process just killed a
+                      more-privileged process)<br>
+                    </div>
+                    <div><br>
+                    </div>
+                    <div>It's the interrupt for implicit sync that never
+                      arrived that caused the termination, and the only
+                      way another process can cause it is by sending a
+                      fence that will never signal. Thus,
+                      importing/exporting fences from/to other processes
+                      can't be allowed simultaneously with implicit
+                      sync.<br>
+                    </div>
+                    <div><br>
+                    </div>
+                    <div><br>
+                    </div>
+                    <div>3) Compositors (and other privileged processes,
+                      and display flipping) can't trust
+                      imported/exported fences. They need a timeout
+                      recovery mechanism from the beginning, and the
+                      following are some possible solutions to timeouts:</div>
+                    <div><br>
+                    </div>
+                    <div>a) use a CPU wait with a small absolute
+                      timeout, and display the previous content on
+                      timeout<br>
+                    </div>
+                    <div>b) use a GPU wait with a small absolute
+                      timeout, and conditional rendering will choose
+                      between the latest content (if signalled) and
+                      previous content (if timed out)</div>
+                    <div><br>
+                    </div>
+                    <div>The result would be that the desktop can run
+                      close to 60 fps even if an app runs at 1 fps.</div>
+                    <div><br>
+                    </div>
+                    <div><b>Redefining imported/exported fences and
+                        breaking some users/OSs is the only way to have
+                        userspace GPU command submission, and the
+                        deadlock example here is the counterexample
+                        proving that there is no other way.</b></div>
+                    <div><br>
+                    </div>
+                    <div>So, what are the chances this is going to fly
+                      with the ecosystem?<br>
+                    </div>
+                    <div><br>
+                    </div>
+                    <div>Thanks,<br>
+                    </div>
+                    <div>Marek<br>
+                    </div>
+                  </div>
+                </blockquote>
+                <br>
+              </div>
+            </blockquote>
+          </div>
+        </blockquote>
+      </div>
+    </blockquote>
+    <br>
+  </body>
+</html>
 
+--------------777AB12B8A412C556494EA96--
