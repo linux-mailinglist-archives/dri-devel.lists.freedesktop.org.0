@@ -2,67 +2,93 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BCAB395991
-	for <lists+dri-devel@lfdr.de>; Mon, 31 May 2021 13:20:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 648093959BE
+	for <lists+dri-devel@lfdr.de>; Mon, 31 May 2021 13:31:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CA8416E8E6;
-	Mon, 31 May 2021 11:19:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DF0E46E8EE;
+	Mon, 31 May 2021 11:31:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from pio-pvt-msa2.bahnhof.se (pio-pvt-msa2.bahnhof.se [79.136.2.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 839996E8E3;
- Mon, 31 May 2021 11:19:56 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by pio-pvt-msa2.bahnhof.se (Postfix) with ESMTP id 108073F68D;
- Mon, 31 May 2021 13:19:55 +0200 (CEST)
-Authentication-Results: pio-pvt-msa2.bahnhof.se; dkim=pass (1024-bit key;
- unprotected) header.d=shipmail.org header.i=@shipmail.org header.b="E0Qtd880";
- dkim-atps=neutral
-X-Virus-Scanned: Debian amavisd-new at bahnhof.se
-X-Spam-Flag: NO
-X-Spam-Score: -2.717
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.717 tagged_above=-999 required=6.31
- tests=[BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.618,
- URIBL_BLOCKED=0.001] autolearn=ham autolearn_force=no
-Received: from pio-pvt-msa2.bahnhof.se ([127.0.0.1])
- by localhost (pio-pvt-msa2.bahnhof.se [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id wdTArg-DHVBK; Mon, 31 May 2021 13:19:53 +0200 (CEST)
-Received: by pio-pvt-msa2.bahnhof.se (Postfix) with ESMTPA id 167CE3F29C;
- Mon, 31 May 2021 13:19:52 +0200 (CEST)
-Received: from [192.168.0.209] (h-155-4-205-35.A357.priv.bahnhof.se
- [155.4.205.35])
- by mail1.shipmail.org (Postfix) with ESMTPSA id 83B313600E5;
- Mon, 31 May 2021 13:19:52 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=shipmail.org; s=mail;
- t=1622459992; bh=QYIMOTjKRSGFpFks5MLAgWIY0L5P+8zUaL2rYrtpIIs=;
- h=Subject:To:References:From:Date:In-Reply-To:From;
- b=E0Qtd880px3OjbbSCgzhoi1ZENt1aRSJXH6npvz/dfAVWh/A4wT4ll6BlXTJcX5Pk
- ZgmDMb4poGlVRMn6OmSznShnpcWTQDNsoN5UijRjS3IazPYu0DxM1ZuWq5AO9Vx+7g
- h06L5nFUHqOyLCr5vC3SNi9lVGnM86v/LWpHrlXw=
-Subject: Re: [PATCH 1/2] drm/ttm: cleanup and add TTM_PL_FLAG_TEMPORARY
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
- "Yu, Lang" <Lang.Yu@amd.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>
-References: <20210527013051.4302-1-Lang.Yu@amd.com>
- <DM6PR12MB4250B79297F587313D7645EBFB3F9@DM6PR12MB4250.namprd12.prod.outlook.com>
- <14d7f047-cf6d-c84a-14ff-3f1d833a770b@shipmail.org>
- <883bd629-e3ad-07a2-8952-994f42cb02be@gmail.com>
- <86054733-9b7d-de96-4ab2-21dca85f1e6e@shipmail.org>
- <888c52a5-ec10-0dee-c462-93cef8510e9f@amd.com>
-From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m_=28Intel=29?= <thomas_os@shipmail.org>
-Message-ID: <6c4c8c57-7cc7-7e24-1d19-b91a312d44a0@shipmail.org>
-Date: Mon, 31 May 2021 13:19:51 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam11on2087.outbound.protection.outlook.com [40.107.236.87])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2F5416E8EB;
+ Mon, 31 May 2021 11:31:16 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=BGjI9QD85X/AQvXckHs2pZSJ/ZJlEtVTpeOh+tzI+wmabib/BArncltWu3AOy1K5D18/rF97k96h6tNMxPfdi7yV0lpBLdT0XkNK8cTHrC5CIXArJlMot5s0/VnoOqQBe4zgwIjnJbZ8DLkqgPhVb1hGmVqC075c9p+bXMiCf+eU78K6mexvMz40LN+kvNJPyGxQ9pcoFn9+URgtSc6HKWLFf4kA8n2vAyTOm1juWXoZnbFOTkOVwc2yzaFPzR9HCdHlj8X3eBgvJ5+m7Vpoe9SmbBK8VEEHDncpCqQQyMZtduf2yg7I1x14oB94I1YuLH/anRijjaAPWgPPjWQ48w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=hhALg3SPnZNpvJIP95gojvcH/U2VThY0vcb7ZtdHXo4=;
+ b=KenFQv/7M2OgcDq+tK+fH43M5EFjaccjGlB2jqZOYuMuop6GNfyET/4Sk3HtNq3yuo2cgrSKa5BZM0jnL30Rp2Y/uCvFE4YZy6q3sFcwD5U8mSQjn72LnePvEmNUTGS5wnsgWgTlG96d3NfdFc7SdzKW8MY9DlDX4gD2UA/7BAsSEwdHfTuTc00Su137hm2tg84clVFu4a+wgY6tvQG1W1Btgr1iJ/Tq9o2GaP2RPT7YPltqEz+kRQ1nXw3j+6/yplzhDQrvajjR6EWb2sOlpT05AoUE+LHxk2lpGhRdLihPED3sEN9/21WGY8nOiU0gIg31aLhnGszxqifTVld+IQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
+ dmarc=pass (p=none sp=none pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=hhALg3SPnZNpvJIP95gojvcH/U2VThY0vcb7ZtdHXo4=;
+ b=gZJn9jc+2Em4dNoPK98B6/H04QtC1oFYNOkrZFZmcFToxeHaKqf1yTd4dmMJuAPU5gW/yjSj1Hne2RLFokVHMNZWtUoGBWk7w7+D4u26BqLBSEPD7V71HQDSAZ00FG//gm0iGxpLM5e21mk2PuwlV+JZ4ssRT1ar49ty1ipwALg=
+Received: from DM5PR15CA0038.namprd15.prod.outlook.com (2603:10b6:4:4b::24) by
+ SJ0PR12MB5487.namprd12.prod.outlook.com (2603:10b6:a03:301::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4173.22; Mon, 31 May
+ 2021 11:31:12 +0000
+Received: from DM6NAM11FT011.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:4:4b:cafe::2a) by DM5PR15CA0038.outlook.office365.com
+ (2603:10b6:4:4b::24) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4173.20 via Frontend
+ Transport; Mon, 31 May 2021 11:31:12 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; lists.freedesktop.org; dkim=none (message not signed)
+ header.d=none;lists.freedesktop.org; dmarc=pass action=none
+ header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com;
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ DM6NAM11FT011.mail.protection.outlook.com (10.13.172.108) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.4150.30 via Frontend Transport; Mon, 31 May 2021 11:31:12 +0000
+Received: from lang-desktop.amd.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2242.4; Mon, 31 May
+ 2021 06:31:09 -0500
+From: Lang Yu <Lang.Yu@amd.com>
+To: <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>
+Subject: [PATCH v2 2/2] drm/ttm: check with temporary GTT memory in BO
+ validation
+Date: Mon, 31 May 2021 19:30:54 +0800
+Message-ID: <20210531113054.2477-1-Lang.Yu@amd.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <888c52a5-ec10-0dee-c462-93cef8510e9f@amd.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+Content-Type: text/plain
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: a47686cb-8a1f-4ae8-33a6-08d924279845
+X-MS-TrafficTypeDiagnostic: SJ0PR12MB5487:
+X-Microsoft-Antispam-PRVS: <SJ0PR12MB548782EFE16C9B3A8B550096FB3F9@SJ0PR12MB5487.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:3044;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 9BTGWN81CubfOEjqTJMIMqQP+5bZjFOKO10hU+DR276v/YO+lU0QgrXKFERQse+Bve3DGtBksqVa/ywCeIH4S4G7Df958eXitndh4i20KPcmP5PWGxYg1TtZV7HXXWtIm9i4HG9NtKMYj8KOYmz0FmpB2SK2IYtEtO9P1F3IBKHR/ZCCc0HkXOcHNIBWF5/9Uzg3HlCUNFIL9wqbTEXsAuK4pcsQyjidytCmgFZ4eCnO0Ur++EjIY+TwOutgnZO16lfexkGpOiLhk73NSMfl5EWQAvQt/S0dblwnqW6csqO5lkIJ+b3dMqcjFxjwpy/eSGPHoMTtRShgx7cLaBrWI32MXoNFqlRdbglZW3kJqBgPGML/GWkoyqBpXoHSzaTOjfq0mt/lL6Nbr+jzuqhncMBIBAvT//ckE4e8dNSs9XkRnxfoZzvOSQiBPh/L6Lb8whd1F/QNPbQNJNYHltGTHkhfl75g6taeKxqcZa+XbZ408qKn0UORuCWNpmFt+l+XS/tV/VINly9XWeFHKxiCShkP0923Skdivk/oV6JbwTq/Jyng3nXWG6/1MsO2hqOKZyfQI6K2oQTGj8pysig6bR0t5mQ5lsMQ3svgP2T7+VFG9uRmovIwpP2zV7Y9/VxDF0Pi2MGlMf6JyC4ZE7s3yGBqKIr7X2oMb3jnKlpKfR5XNrXU1cMD8sn3ZstL9kgb
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(4636009)(376002)(136003)(39860400002)(396003)(346002)(36840700001)(46966006)(316002)(336012)(6666004)(426003)(2616005)(86362001)(186003)(36756003)(7696005)(110136005)(8936002)(4326008)(26005)(8676002)(47076005)(36860700001)(54906003)(1076003)(82310400003)(356005)(2906002)(81166007)(478600001)(16526019)(82740400003)(4744005)(70586007)(5660300002)(70206006)(36900700001);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 May 2021 11:31:12.5602 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: a47686cb-8a1f-4ae8-33a6-08d924279845
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT011.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR12MB5487
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,149 +101,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Marek Olsak <Marek.Olsak@amd.com>, Christian
+ Koenig <Christian.Koenig@amd.com>, Huang
+ Rui <ray.huang@amd.com>, Alex Deucher <alexander.deucher@amd.com>,
+ Lang Yu <Lang.Yu@amd.com>,
+ =?UTF-8?q?Thomas=20Hellstr=C3=B6?= <thomas_os@shipmail.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+If a BO's backing store is temporary GTT memory, we should
+move it in BO validation.
 
-On 5/31/21 12:56 PM, Christian König wrote:
-> Am 31.05.21 um 12:46 schrieb Thomas Hellström (Intel):
->>
->> On 5/31/21 12:32 PM, Christian König wrote:
->>> Am 31.05.21 um 11:52 schrieb Thomas Hellström (Intel):
->>>> Hi, Lang,
->>>>
->>>> On 5/31/21 10:19 AM, Yu, Lang wrote:
->>>>> [Public]
->>>>>
->>>>>> Hi,
->>>>>> On 5/27/21 3:30 AM, Lang Yu wrote:
->>>>>>> Make TTM_PL_FLAG_* start from zero and add
->>>>>>> TTM_PL_FLAG_TEMPORARY flag for temporary
->>>>>>> GTT allocation use.
->>>>>> GTT is a driver private acronym, right? And it doesn't look like
->>>>>> TTM_PL_FLAG_TEMPORARY will be used in core TTM, so should we 
->>>>>> instead set
->>>>>> aside a mask in the PL flag for driver-private use?
->>>>> Hi Thomas,
->>>>>
->>>>> Thanks for your comments and advice, GTT means Graphics 
->>>>> Translation Table here, seems
->>>>> a general acronym. TTM_PL_FLAG_TEMPORARY may also be used by other 
->>>>> drives.
->>>>> I have made other patches for this. Please help review.
->>>>>
->>>>> Regards,
->>>>> Lang
->>>>>
->>>> My point was really that the flag naming and documentation should 
->>>> reflect what core ttm is doing with that flag. If there is no 
->>>> specific core TTM usage, IMO we should move it to a driver specific 
->>>> flag to avoid future confusion. In particular a writer of a generic 
->>>> TTM resource manager should be able to know without looking at an 
->>>> old commit message what the placement flag is intended for.
->>>>
->>>> So here we add a flag where core TTM forces a bo move on validate 
->>>> and that's it. And that appears to be how it's used when an amdgpu 
->>>> bo is evicted to GTT, (btw should it be accounted in this situation?)
->>>>
->>>> The other use is to force the amdgpu driver to temporarily accept 
->>>> it into GTT when there is a lack of space, and IMHO that's a driver 
->>>> specific use and we should allocate a mask for driver specific 
->>>> flags for that.
->>>>
->>>> So shouldn't this be two flags, really?
->>>
->>> Well one flag makes sense for the use case at hand that drivers want 
->>> to signal to TTM that an allocation is only temporary and not 
->>> considered valid.
->>>
->>> That we then use this flag to implement temporary GTT allocations to 
->>> avoid problems during eviction is just extending that use case.
->>>
->> OK, but it looked like there were actually two use-cases. One for 
->> possibly long-term VRAM evictions to GTT, the other for the temporary 
->> use-case where the hop resource allocations sometimes failed. Or did 
->> I misunderstand the code?
->
-> Ok sounds like we need more documentation here. That's really one use 
-> case.
->
-> Key point is we need temporary allocation during multihop which should 
-> be handled differently to normal allocations.
+v2: move the check outside of for loop
 
-Yes, that part is clear from the patches. The part that I can't fit into 
-that pattern is why the evict flags when evicting from visible VRAM to 
-GTT or ordinary VRAM is marked with TTM_PL_FLAG_TEMPORARY. Wouldn't 
-those remain evicted in that placement until re-validated to visible 
-VRAM at an unknown future time?
+Signed-off-by: Lang Yu <Lang.Yu@amd.com>
+---
+ drivers/gpu/drm/ttm/ttm_bo.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-Patch 3/3:
+diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
+index c32a37d0a460..1802fc77cfcb 100644
+--- a/drivers/gpu/drm/ttm/ttm_bo.c
++++ b/drivers/gpu/drm/ttm/ttm_bo.c
+@@ -938,6 +938,9 @@ static bool ttm_bo_places_compat(const struct ttm_place *places,
+ {
+ 	unsigned i;
+ 
++	if (mem->placement & TTM_PL_FLAG_TEMPORARY)
++		return false;
++
+ 	for (i = 0; i < num_placement; i++) {
+ 		const struct ttm_place *heap = &places[i];
+ 
+-- 
+2.25.1
 
-  			amdgpu_bo_placement_from_domain(abo, AMDGPU_GEM_DOMAIN_GTT);
-			abo->placements[0].flags |= TTM_PL_FLAG_TEMPORARY;
-
-
-
->
-> Christian.
->
->>
->> /Thomas
->>
->>
->>> Christian.
->>>
->>>>
->>>> TTM_PL_FLAG_FORCE_MOVE
->>>>
->>>> and
->>>>
->>>> AMDGPU_PL_FLAG_TEMPORARY
->>>>
->>>> Thanks,
->>>>
->>>> /Thomas
->>>>
->>>>>> Thomas
->>>>>> -----Original Message-----
->>>>>> From: Yu, Lang <Lang.Yu@amd.com>
->>>>>> Sent: Thursday, May 27, 2021 9:31 AM
->>>>>> To: amd-gfx@lists.freedesktop.org; dri-devel@lists.freedesktop.org
->>>>>> Cc: Koenig, Christian <Christian.Koenig@amd.com>; Huang, Ray
->>>>>> <Ray.Huang@amd.com>; Deucher, Alexander <Alexander.Deucher@amd.com>;
->>>>>> Yu, Lang <Lang.Yu@amd.com>
->>>>>> Subject: [PATCH 1/2] drm/ttm: cleanup and add TTM_PL_FLAG_TEMPORARY
->>>>>>
->>>>>> Make TTM_PL_FLAG_* start from zero and add TTM_PL_FLAG_TEMPORARY 
->>>>>> flag
->>>>>> for temporary GTT allocation use.
->>>>>>
->>>>>> Signed-off-by: Lang Yu <Lang.Yu@amd.com>
->>>>>> ---
->>>>>> include/drm/ttm/ttm_placement.h | 5 +++--
->>>>>> 1 file changed, 3 insertions(+), 2 deletions(-)
->>>>>>
->>>>>> diff --git a/include/drm/ttm/ttm_placement.h
->>>>>> b/include/drm/ttm/ttm_placement.h index 
->>>>>> aa6ba4d0cf78..9f5cfc7c2d5a 100644
->>>>>> --- a/include/drm/ttm/ttm_placement.h
->>>>>> +++ b/include/drm/ttm/ttm_placement.h
->>>>>> @@ -47,8 +47,9 @@
->>>>>>   * top of the memory area, instead of the bottom.
->>>>>>   */
->>>>>>
->>>>>> -#define TTM_PL_FLAG_CONTIGUOUS  (1 << 19)
->>>>>> -#define TTM_PL_FLAG_TOPDOWN     (1 << 22)
->>>>>> +#define TTM_PL_FLAG_CONTIGUOUS  (1 << 0)
->>>>>> +#define TTM_PL_FLAG_TOPDOWN     (1 << 1)
->>>>>> +#define TTM_PL_FLAG_TEMPORARY   (1 << 2)
->>>>>>
->>>>>> /**
->>>>>>   * struct ttm_place
->>>>>> -- 
->>>>>> 2.25.1
->>>> _______________________________________________
->>>> amd-gfx mailing list
->>>> amd-gfx@lists.freedesktop.org
->>>> https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Flists.freedesktop.org%2Fmailman%2Flistinfo%2Famd-gfx&amp;data=04%7C01%7CChristian.Koenig%40amd.com%7C3868af2bd5d94aeda94b08d924215b3a%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637580547980190391%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&amp;sdata=C7b5wz8Kph5bM8fkFVyXKwSNkSj3lDaxGUnww4jY%2FeM%3D&amp;reserved=0 
->>>>
