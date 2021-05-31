@@ -1,66 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82BE6395811
-	for <lists+dri-devel@lfdr.de>; Mon, 31 May 2021 11:25:59 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C0858395821
+	for <lists+dri-devel@lfdr.de>; Mon, 31 May 2021 11:34:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C684E6E4B3;
-	Mon, 31 May 2021 09:25:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E00C66E8C8;
+	Mon, 31 May 2021 09:34:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m43-7.mailgun.net (m43-7.mailgun.net [69.72.43.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6F3DD6E8BC
- for <dri-devel@lists.freedesktop.org>; Mon, 31 May 2021 09:25:53 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
- q=dns/txt; 
- s=smtp; t=1622453155; h=Content-Transfer-Encoding: Content-Type:
- In-Reply-To: MIME-Version: Date: Message-ID: From: References: Cc: To:
- Subject: Sender; bh=rfrUNiJtJb8dbghF/3gQm7fw8uC4HOEDbtXTJPnqFZ4=;
- b=neu40QHKf7LzOk1HK2cKgmayt1GQKZYIKXhe2XBK0IR41Mzm8xzWPZte5LyReFcpwV6jeCM0
- asJcLaXzsKu5w4YDBtBGJEA/ROZXDyap6BqpwJf+cyMVl62VoqxK73GkDrYZOSOMwsrHrZJT
- kuszPhgGoT5ZtIvpsUMDQa+SE18=
-X-Mailgun-Sending-Ip: 69.72.43.7
-X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n06.prod.us-east-1.postgun.com with SMTP id
- 60b4ab94abfd22a3dc0ba2eb (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Mon, 31 May 2021 09:25:40
- GMT
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id A6379C4323A; Mon, 31 May 2021 09:25:39 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
- aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-3.5 required=2.0 tests=ALL_TRUSTED,BAYES_00,
- NICE_REPLY_A,SPF_FAIL,URIBL_BLOCKED autolearn=no autolearn_force=no
- version=3.4.0
-Received: from [192.168.1.105] (unknown [117.210.184.158])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested) (Authenticated sender: akhilpo)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id 55813C433D3;
- Mon, 31 May 2021 09:25:34 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 55813C433D3
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- spf=fail smtp.mailfrom=akhilpo@codeaurora.org
-Subject: Re: [PATCH v2 5/8] drm/msm/a6xx: avoid shadow NULL reference in
- failure path
-To: Jonathan Marek <jonathan@marek.ca>, freedreno@lists.freedesktop.org
-References: <20210513171431.18632-1-jonathan@marek.ca>
- <20210513171431.18632-6-jonathan@marek.ca>
-From: Akhil P Oommen <akhilpo@codeaurora.org>
-Message-ID: <3695f4d0-aa6f-4c85-bf4e-c3b59506ec34@codeaurora.org>
-Date: Mon, 31 May 2021 14:55:31 +0530
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.2
+X-Greylist: delayed 388 seconds by postgrey-1.36 at gabe;
+ Mon, 31 May 2021 09:34:37 UTC
+Received: from mail.skyhub.de (mail.skyhub.de [5.9.137.197])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 846B76E8C8
+ for <dri-devel@lists.freedesktop.org>; Mon, 31 May 2021 09:34:37 +0000 (UTC)
+Received: from zn.tnic (p200300ec2f080f0029ca4f7a5f3cda43.dip0.t-ipconnect.de
+ [IPv6:2003:ec:2f08:f00:29ca:4f7a:5f3c:da43])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 70C4F1EC0532;
+ Mon, 31 May 2021 11:28:07 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+ t=1622453287;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+ bh=7PenAKHDdLWOjeesd4KyjeK3ihp5+SXpQ6FYI+hgFp0=;
+ b=Nfo2HPJZ/jYVQzSD5VeV47PvfovWml86nJFhrAPkd3PWhzq3zeptxDmJuzGJUBhA1keycr
+ 6gcc1Kv2z+cYrsZMbbguGlqvvPx0idhvK/E459YvLrkun1CvPOUaMBE77A9bqh7KJv+DTS
+ geiDFemr2F7wczWGNdyM9Mxyy8jSsuU=
+Date: Mon, 31 May 2021 11:28:05 +0200
+From: Borislav Petkov <bp@alien8.de>
+To: syzbot <syzbot+545dc60af42828d1e70b@syzkaller.appspotmail.com>,
+ dri-devel@lists.freedesktop.org
+Subject: Re: [syzbot] BUG: unable to handle kernel paging request in
+ drm_fb_helper_damage_work (2)
+Message-ID: <YLSsJTgCOHjrsiQg@zn.tnic>
+References: <000000000000f7b23005c39af5c1@google.com>
 MIME-Version: 1.0
-In-Reply-To: <20210513171431.18632-6-jonathan@marek.ca>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <000000000000f7b23005c39af5c1@google.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,42 +53,91 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>,
- David Airlie <airlied@linux.ie>,
- "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
- Sharat Masetty <smasetty@codeaurora.org>,
- Douglas Anderson <dianders@chromium.org>,
- "open list:DRM DRIVER FOR MSM ADRENO GPU" <dri-devel@lists.freedesktop.org>,
- Jordan Crouse <jordan@cosmicpenguin.net>, Sean Paul <sean@poorly.run>,
- open list <linux-kernel@vger.kernel.org>
+Cc: x86@kernel.org, syzkaller-bugs@googlegroups.com,
+ linux-kernel@vger.kernel.org, mingo@redhat.com, hpa@zytor.com,
+ tglx@linutronix.de
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 5/13/2021 10:44 PM, Jonathan Marek wrote:
-> If a6xx_hw_init() fails before creating the shadow_bo, the a6xx_pm_suspend
-> code referencing it will crash. Change the condition to one that avoids
-> this problem (note: creation of shadow_bo is behind this same condition)
-> 
-> Fixes: e8b0b994c3a5 ("drm/msm/a6xx: Clear shadow on suspend")
-> Signed-off-by: Jonathan Marek <jonathan@marek.ca>
-> ---
->   drivers/gpu/drm/msm/adreno/a6xx_gpu.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-> index 909e3ff08f89..ff3c328604f8 100644
-> --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-> @@ -1284,7 +1284,7 @@ static int a6xx_pm_suspend(struct msm_gpu *gpu)
->   	if (ret)
->   		return ret;
->   
-> -	if (adreno_gpu->base.hw_apriv || a6xx_gpu->has_whereami)
-> +	if (a6xx_gpu->shadow_bo)
->   		for (i = 0; i < gpu->nr_rings; i++)
->   			a6xx_gpu->shadow[i] = 0;
->   
-> 
-Reviewed-by: Akhil P Oommen <akhilpo@codeaurora.org>
+Looks DRM to me. CCed...
 
--Akhil
+On Mon, May 31, 2021 at 12:13:22AM -0700, syzbot wrote:
+> Hello,
+> 
+> syzbot found the following issue on:
+> 
+> HEAD commit:    7ac3a1c1 Merge tag 'mtd/fixes-for-5.13-rc4' of git://git.k..
+> git tree:       upstream
+> console output: https://syzkaller.appspot.com/x/log.txt?x=1619b4b5d00000
+> kernel config:  https://syzkaller.appspot.com/x/.config?x=266cda122a0b56c
+> dashboard link: https://syzkaller.appspot.com/bug?extid=545dc60af42828d1e70b
+> userspace arch: i386
+> 
+> Unfortunately, I don't have any reproducer for this issue yet.
+> 
+> IMPORTANT: if you fix the issue, please add the following tag to the commit:
+> Reported-by: syzbot+545dc60af42828d1e70b@syzkaller.appspotmail.com
+> 
+> BUG: unable to handle page fault for address: ffffc9000dc68008
+> #PF: supervisor write access in kernel mode
+> #PF: error_code(0x0002) - not-present page
+> PGD 11000067 P4D 11000067 PUD 111b3067 PMD 1ba2c067 PTE 0
+> Oops: 0002 [#1] PREEMPT SMP KASAN
+> CPU: 2 PID: 16890 Comm: kworker/2:36 Not tainted 5.13.0-rc3-syzkaller #0
+> Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.14.0-2 04/01/2014
+> Workqueue: events drm_fb_helper_damage_work
+> RIP: 0010:rep_movs arch/x86/lib/iomem.c:12 [inline]
+> RIP: 0010:memcpy_toio+0x83/0xe0 arch/x86/lib/iomem.c:57
+> Code: 8c fd 49 89 dd 31 ff 41 83 e5 02 4c 89 ee e8 c4 c2 8c fd 4d 85 ed 75 2e e8 9a ba 8c fd 48 89 e9 48 89 df 4c 89 e6 48 c1 e9 02 <f3> a5 40 f6 c5 02 74 02 66 a5 40 f6 c5 01 74 01 a4 5b 5d 41 5c 41
+> RSP: 0018:ffffc9000e73fbc8 EFLAGS: 00010202
+> RAX: 0000000000000000 RBX: ffffc9000dc68008 RCX: 00000000000000fe
+> RDX: ffff888015340000 RSI: ffffc9000bdd9008 RDI: ffffc9000dc68008
+> RBP: 00000000000003f8 R08: 0000000000000000 R09: 0000000000000001
+> R10: ffffffff83e81e1c R11: 0000000000000000 R12: ffffc9000bdd9008
+> R13: 0000000000000000 R14: ffffc9000bdd9008 R15: 0000000000000001
+> FS:  0000000000000000(0000) GS:ffff88802cc00000(0000) knlGS:0000000000000000
+> CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+> CR2: ffffc9000dc68008 CR3: 000000006c062000 CR4: 0000000000152ee0
+> DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+> DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+> Call Trace:
+>  dma_buf_map_memcpy_to include/linux/dma-buf-map.h:245 [inline]
+>  drm_fb_helper_damage_blit_real drivers/gpu/drm/drm_fb_helper.c:388 [inline]
+>  drm_fb_helper_damage_blit drivers/gpu/drm/drm_fb_helper.c:419 [inline]
+>  drm_fb_helper_damage_work+0x733/0xac0 drivers/gpu/drm/drm_fb_helper.c:450
+>  process_one_work+0x98d/0x1600 kernel/workqueue.c:2276
+>  worker_thread+0x64c/0x1120 kernel/workqueue.c:2422
+>  kthread+0x3b1/0x4a0 kernel/kthread.c:313
+>  ret_from_fork+0x1f/0x30 arch/x86/entry/entry_64.S:294
+> Modules linked in:
+> CR2: ffffc9000dc68008
+> ---[ end trace 7f8625a9b15be223 ]---
+> RIP: 0010:rep_movs arch/x86/lib/iomem.c:12 [inline]
+> RIP: 0010:memcpy_toio+0x83/0xe0 arch/x86/lib/iomem.c:57
+> Code: 8c fd 49 89 dd 31 ff 41 83 e5 02 4c 89 ee e8 c4 c2 8c fd 4d 85 ed 75 2e e8 9a ba 8c fd 48 89 e9 48 89 df 4c 89 e6 48 c1 e9 02 <f3> a5 40 f6 c5 02 74 02 66 a5 40 f6 c5 01 74 01 a4 5b 5d 41 5c 41
+> RSP: 0018:ffffc9000e73fbc8 EFLAGS: 00010202
+> RAX: 0000000000000000 RBX: ffffc9000dc68008 RCX: 00000000000000fe
+> RDX: ffff888015340000 RSI: ffffc9000bdd9008 RDI: ffffc9000dc68008
+> RBP: 00000000000003f8 R08: 0000000000000000 R09: 0000000000000001
+> R10: ffffffff83e81e1c R11: 0000000000000000 R12: ffffc9000bdd9008
+> R13: 0000000000000000 R14: ffffc9000bdd9008 R15: 0000000000000001
+> FS:  0000000000000000(0000) GS:ffff88802cc00000(0000) knlGS:0000000000000000
+> CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+> CR2: ffffc9000dc68008 CR3: 000000006c062000 CR4: 0000000000152ee0
+> DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+> DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+> 
+> 
+> ---
+> This report is generated by a bot. It may contain errors.
+> See https://goo.gl/tpsmEJ for more information about syzbot.
+> syzbot engineers can be reached at syzkaller@googlegroups.com.
+> 
+> syzbot will keep track of this issue. See:
+> https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+
+-- 
+Regards/Gruss,
+    Boris.
+
+https://people.kernel.org/tglx/notes-about-netiquette
