@@ -1,41 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B38F3953F9
-	for <lists+dri-devel@lfdr.de>; Mon, 31 May 2021 04:44:43 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 895DF3953E2
+	for <lists+dri-devel@lfdr.de>; Mon, 31 May 2021 04:29:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7BD5F89FBC;
-	Mon, 31 May 2021 02:44:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 601456E479;
+	Mon, 31 May 2021 02:29:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 508 seconds by postgrey-1.36 at gabe;
- Mon, 31 May 2021 02:44:38 UTC
-Received: from mail.marcansoft.com (marcansoft.com [IPv6:2a01:298:fe:f::2])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5726D89FBC
- for <dri-devel@lists.freedesktop.org>; Mon, 31 May 2021 02:44:38 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- (Authenticated sender: marcan@marcan.st)
- by mail.marcansoft.com (Postfix) with ESMTPSA id 4CCB9425B5;
- Mon, 31 May 2021 02:36:06 +0000 (UTC)
-Subject: Re: [PATCH 2/2] maintainers: Update freedesktop.org IRC channels
-To: Lukas Wunner <lukas@wunner.de>, Alyssa Rosenzweig <alyssa@rosenzweig.io>
-References: <20210529141638.5921-1-alyssa@rosenzweig.io>
- <20210529141638.5921-2-alyssa@rosenzweig.io>
- <20210530110139.GA2678@wunner.de>
-From: Hector Martin <marcan@marcan.st>
-Message-ID: <cc8fa191-a957-f6a1-7591-a5a29aec43d5@marcan.st>
-Date: Mon, 31 May 2021 11:36:04 +0900
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.0
+Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D753F6E479
+ for <dri-devel@lists.freedesktop.org>; Mon, 31 May 2021 02:28:59 +0000 (UTC)
+Received: from dggemv704-chm.china.huawei.com (unknown [172.30.72.55])
+ by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4FtfHh5flZzWq73;
+ Mon, 31 May 2021 10:24:16 +0800 (CST)
+Received: from dggpeml500020.china.huawei.com (7.185.36.88) by
+ dggemv704-chm.china.huawei.com (10.3.19.47) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2176.2; Mon, 31 May 2021 10:28:56 +0800
+Received: from huawei.com (10.175.127.227) by dggpeml500020.china.huawei.com
+ (7.185.36.88) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2176.2; Mon, 31 May
+ 2021 10:28:56 +0800
+From: Baokun Li <libaokun1@huawei.com>
+To: <bskeggs@redhat.com>, <airlied@linux.ie>, <daniel@ffwll.ch>,
+ <dri-devel@lists.freedesktop.org>, <nouveau@lists.freedesktop.org>,
+ <linux-kernel@vger.kernel.org>
+Subject: [PATCH -next] drm/nouveau/svm: Remove set but not used variable 'ret'
+Date: Mon, 31 May 2021 10:38:11 +0800
+Message-ID: <20210531023811.477542-1-libaokun1@huawei.com>
+X-Mailer: git-send-email 2.25.4
 MIME-Version: 1.0
-In-Reply-To: <20210530110139.GA2678@wunner.de>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: es-ES
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.175.127.227]
+X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
+ dggpeml500020.china.huawei.com (7.185.36.88)
+X-CFilter-Loop: Reflected
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,33 +50,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: yuehaibing@huawei.com, libaokun1@huawei.com, weiyongjun1@huawei.com,
+ yukuai3@huawei.com, yangjihong1@huawei.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 30/05/2021 20.01, Lukas Wunner wrote:
-> On Sat, May 29, 2021 at 10:16:38AM -0400, Alyssa Rosenzweig wrote:
->> --- a/MAINTAINERS
->> +++ b/MAINTAINERS
->> @@ -1651,7 +1651,7 @@ L:	linux-arm-kernel@lists.infradead.org (moderated for non-subscribers)
->>   S:	Maintained
->>   W:	https://asahilinux.org
->>   B:	https://github.com/AsahiLinux/linux/issues
->> -C:	irc://chat.freenode.net/asahi-dev
->> +C:	irc://irc.oftc.net/asahi-dev
->>   T:	git https://github.com/AsahiLinux/linux.git
->>   F:	Documentation/devicetree/bindings/arm/apple.yaml
->>   F:	Documentation/devicetree/bindings/interrupt-controller/apple,aic.yaml
-> 
-> This isn't a freedesktop.org project, so either needs to be dropped
-> from the patch or the patch needs an ack from Hector Martin (+cc).
+Fixes gcc '-Wunused-but-set-variable' warning:
 
-Heh, I totally forgot we had the IRC info in MAINTAINERS too when I did 
-the move. Thanks :)
+drivers/gpu/drm/nouveau/nouveau_svm.c: In function 'nouveau_pfns_map':
+drivers/gpu/drm/nouveau/nouveau_svm.c:814:6: warning:
+ variable ‘ret’ set but not used [-Wunused-but-set-variable]
 
-Acked-By: Hector Martin <marcan@marcan.st>
+It never used since introduction.
 
+Signed-off-by: Baokun Li <libaokun1@huawei.com>
+---
+ drivers/gpu/drm/nouveau/nouveau_svm.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+
+diff --git a/drivers/gpu/drm/nouveau/nouveau_svm.c b/drivers/gpu/drm/nouveau/nouveau_svm.c
+index 84726a89e665..16fbf90f9f31 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_svm.c
++++ b/drivers/gpu/drm/nouveau/nouveau_svm.c
+@@ -921,7 +921,6 @@ nouveau_pfns_map(struct nouveau_svmm *svmm, struct mm_struct *mm,
+ 		 unsigned long addr, u64 *pfns, unsigned long npages)
+ {
+ 	struct nouveau_pfnmap_args *args = nouveau_pfns_to_args(pfns);
+-	int ret;
+ 
+ 	args->p.addr = addr;
+ 	args->p.size = npages << PAGE_SHIFT;
+@@ -929,7 +928,7 @@ nouveau_pfns_map(struct nouveau_svmm *svmm, struct mm_struct *mm,
+ 	mutex_lock(&svmm->mutex);
+ 
+ 	svmm->vmm->vmm.object.client->super = true;
+-	ret = nvif_object_ioctl(&svmm->vmm->vmm.object, args, sizeof(*args) +
++	nvif_object_ioctl(&svmm->vmm->vmm.object, args, sizeof(*args) +
+ 				npages * sizeof(args->p.phys[0]), NULL);
+ 	svmm->vmm->vmm.object.client->super = false;
+ 
 -- 
-Hector Martin (marcan@marcan.st)
-Public Key: https://mrcn.st/pub
+2.25.4
+
