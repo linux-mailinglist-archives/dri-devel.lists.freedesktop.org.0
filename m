@@ -1,68 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 478B039679E
-	for <lists+dri-devel@lfdr.de>; Mon, 31 May 2021 20:10:27 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 267D03967CA
+	for <lists+dri-devel@lfdr.de>; Mon, 31 May 2021 20:26:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BB2B06E929;
-	Mon, 31 May 2021 18:10:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9F24C6E0AB;
+	Mon, 31 May 2021 18:26:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x22d.google.com (mail-lj1-x22d.google.com
- [IPv6:2a00:1450:4864:20::22d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 54F596E929
- for <dri-devel@lists.freedesktop.org>; Mon, 31 May 2021 18:10:22 +0000 (UTC)
-Received: by mail-lj1-x22d.google.com with SMTP id v5so15966082ljg.12
- for <dri-devel@lists.freedesktop.org>; Mon, 31 May 2021 11:10:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com
+ [IPv6:2a00:1450:4864:20::130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EC1FD6E0AB
+ for <dri-devel@lists.freedesktop.org>; Mon, 31 May 2021 18:26:02 +0000 (UTC)
+Received: by mail-lf1-x130.google.com with SMTP id w33so17957395lfu.7
+ for <dri-devel@lists.freedesktop.org>; Mon, 31 May 2021 11:26:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=RqDyoSo09lPZO7GbOVPgOTHVdV/YSSWYh+JNDnVcsAM=;
- b=vy0uLjUP4b9/AdZSWCBIJkGYi4KqsFzlAguK9G1kq10RuG2QJ9SaCin/z40CAuN9N1
- Ny/vrCiMNiRFhNLvJpQsZYZINHFf3EaQct9tsqIhk5tAUsuxyy09Jt+MFTo1pb2DxMnI
- 1mhuGM8ZMFNvXLG2phlK9NzBPLb3Sc3JtSvvZKZm+MyP/a9uTs2m53y9gSdGz1FPy9Zp
- irfZkJPLzEw5eyrLgj7PQlgSEwbb6I7tSu/8WspO4dXuoX2ho+xANIhvHef5g176dFCi
- 3lou3RZZLIaFfJeZfbA0ikQgl/ZH1MLhSjVh8yTZE2in8m24BXFIdgP66V1SntHfTsA6
- U1mA==
+ bh=7TI7fQuGaEfrByk2jtW55koqbA8DqlXxD77ZaJA6t1A=;
+ b=BkqV3rt98TP8hqluqk7VN+9VjYOs4gN36fKstt5LLa66Bu7ISUjjVmcQy9TiOopU1F
+ dkgnNj4jAXIwqh4wTq317S097l2dsU64IghALR1A6U0mb84x07ThGdFvMURGAMxs6+5y
+ +5H0RZdUqKWvfaPArMVk99wHUWIDOH22UY5dC7b0jvdFFwi4vxtMf7NWiyHxbRAdMc17
+ v13KHXE/Fv+btg6OgaFJ3sPyIwoSVPuUeZSU+0COxXRci8fq5rhI0H/biQ/ZE1WSnhmI
+ c7zEsHr2dQmSoh9RkgmAhEA2YDeU0B4X13ijZx3O6HwV7jVkuW8kkMFD0x+N8cpnonCu
+ fvOg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=RqDyoSo09lPZO7GbOVPgOTHVdV/YSSWYh+JNDnVcsAM=;
- b=YhOfUUI7D9DyElE6BIcKgTofVV+ixWGTH4oM1c5zoVQNQs27e0jucOvJvkmE/bmbcf
- +2F+iAJWqIhWmoX8nwaT+wBSvwDh9D5lpJ5x3XP9PjHbyw2vzR+S4CxJP8v4IIQdWepP
- LbUFMb7JElavKMNnYT5medA9E0Z+mmCP5OO85pq8oqvSjLfeyN8/G0LpJIs/davR0HJe
- 94g5HL+jfUArFbljsOIf4sAR8Q0aqw4fJUmhBZJH48kSGXVhlwSbFlQCojVwsyEsFZb3
- 7+rqJwTrcDcuUtbyyiZX79qDXqnRsnLcdjqI33vnEDJ+Pem7M4hkQJQiq8n8emdblfi0
- 2I7w==
-X-Gm-Message-State: AOAM533XbpBsxa/iwkSNH2q3NhE95FszpyBMOmN6w6sia4BaMDCK/Ah9
- o/XHk1wUj62Ca4sODCECZJ3BGA==
-X-Google-Smtp-Source: ABdhPJx3O6rn5NqZMzkPeijKZJM/6wPEQfnrs07M3tXIRXQouQa/sGsKJEEBs84ooxP684SBQE0Vag==
-X-Received: by 2002:a2e:bf20:: with SMTP id c32mr17459713ljr.311.1622484620655; 
- Mon, 31 May 2021 11:10:20 -0700 (PDT)
-Received: from [192.168.1.211] ([37.153.55.125])
- by smtp.gmail.com with ESMTPSA id y1sm1331962lfl.68.2021.05.31.11.10.19
+ bh=7TI7fQuGaEfrByk2jtW55koqbA8DqlXxD77ZaJA6t1A=;
+ b=rjlErxSL4H7Wl42FRRAiEeofTdQqMnIhK7ajVC8B2y+x/5yWMUdM+xaG7+M1hPksVn
+ 9TtxoA9qPF7Ga71Q1vh0JNcQc6WQblQWBiG1GdaQXTIFEi0FUec7ON1w8rwMuSzYw9QH
+ sXziwNEkqoDL1kasMuRZ/hiVwpOKtIE61CzL5DjGN/XQhtxSDr5+Q6EdU52Lyn0fRHN/
+ zSHWtBVF4VvHZM5fYTCSyxNpxjeXj37JFUn1Z6iLjtUYSIcmWQEHw3MdIwk96nrzShDZ
+ YqM9N4qLMX0tPvz3cKIXrj6TJuqc4y90v12ozLNDrcTut+AE0g1owOSZ824R+DCqkEYu
+ GElQ==
+X-Gm-Message-State: AOAM532EMm6etkuFC6140+AGcv/pawGLf5kAhVGXpt7LLcEJ/qSWSqWB
+ LxdyflKpM9yp97ltahrWmG+Fcz0+k8Q=
+X-Google-Smtp-Source: ABdhPJzDaLCMVaI7SnJjyJWhEBHUkGbEWE2LJwZQCfXoFut+QRa+E1/YyAwrYwqCaa4eqtQBY/9Qiw==
+X-Received: by 2002:ac2:455b:: with SMTP id j27mr15219533lfm.587.1622485560717; 
+ Mon, 31 May 2021 11:26:00 -0700 (PDT)
+Received: from [192.168.2.145] (79-139-170-222.dynamic.spd-mgts.ru.
+ [79.139.170.222])
+ by smtp.googlemail.com with ESMTPSA id r17sm1424817lfr.18.2021.05.31.11.25.59
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 31 May 2021 11:10:20 -0700 (PDT)
-Subject: Re: [Freedreno] [PATCH v2 2/2] dt-bindings: display: msm/dsi: add
- qcom, dsi-phy-cphy-mode option
-To: Jonathan Marek <jonathan@marek.ca>, Rob Herring <robh@kernel.org>
-References: <20210423172450.4885-1-jonathan@marek.ca>
- <20210423172450.4885-3-jonathan@marek.ca>
- <20210503171139.GA2011901@robh.at.kernel.org>
- <0e083e31-d349-6d5c-048f-258414492b2c@marek.ca>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Message-ID: <4e623554-bbe4-4d4a-7b14-0ca4f684c7fb@linaro.org>
-Date: Mon, 31 May 2021 21:10:19 +0300
+ Mon, 31 May 2021 11:26:00 -0700 (PDT)
+Subject: Re: [PATCH v17 1/2] drm/tegra: dc: Support memory bandwidth management
+To: Thierry Reding <thierry.reding@gmail.com>
+References: <20210510232709.1349-1-digetx@gmail.com>
+ <20210510232709.1349-2-digetx@gmail.com> <YLTvAVvWY0KcOx8s@orome.fritz.box>
+From: Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <97bfce90-46d9-0ab0-e437-ce1e43b01b52@gmail.com>
+Date: Mon, 31 May 2021 21:25:59 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.0
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <0e083e31-d349-6d5c-048f-258414492b2c@marek.ca>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <YLTvAVvWY0KcOx8s@orome.fritz.box>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,42 +73,133 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sean Paul <sean@poorly.run>,
- "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, David Airlie <airlied@linux.ie>,
- "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
- open list <linux-kernel@vger.kernel.org>,
- "open list:DRM DRIVER FOR MSM ADRENO GPU" <dri-devel@lists.freedesktop.org>,
- freedreno@lists.freedesktop.org
+Cc: linux-pm@vger.kernel.org, Nicolas Chauvet <kwizart@gmail.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ =?UTF-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>,
+ Matt Merhar <mattmerhar@protonmail.com>, Peter Geis <pgwipeout@gmail.com>,
+ linux-tegra@vger.kernel.org, Jonathan Hunter <jonathanh@nvidia.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 28/05/2021 15:57, Jonathan Marek wrote:
-> On 5/3/21 1:11 PM, Rob Herring wrote:
->> On Fri, Apr 23, 2021 at 01:24:40PM -0400, Jonathan Marek wrote:
->>> Document qcom,dsi-phy-cphy-mode option, which can be used to control
->>> whether DSI will operate in D-PHY (default) or C-PHY mode.
+31.05.2021 17:13, Thierry Reding пишет:
+> On Tue, May 11, 2021 at 02:27:08AM +0300, Dmitry Osipenko wrote:
+>> Display controller (DC) performs isochronous memory transfers, and thus,
+>> has a requirement for a minimum memory bandwidth that shall be fulfilled,
+>> otherwise framebuffer data can't be fetched fast enough and this results
+>> in a DC's data-FIFO underflow that follows by a visual corruption.
 >>
->> Given this is a standard MIPI thing, I think this needs to be a common
->> property. We already have phy bindings that use the phy cells to set the
->> phy type which I think you should use here. See
->> include/dt-bindings/phy/phy.h.
+>> The Memory Controller drivers provide facility for memory bandwidth
+>> management via interconnect API. Let's wire up the interconnect API
+>> support to the DC driver in order to fix the distorted display output
+>> on T30 Ouya, T124 TK1 and other Tegra devices.
 >>
+>> Tested-by: Peter Geis <pgwipeout@gmail.com> # Ouya T30
+>> Tested-by: Matt Merhar <mattmerhar@protonmail.com> # Ouya T30
+>> Tested-by: Nicolas Chauvet <kwizart@gmail.com> # PAZ00 T20 and TK1 T124
+>> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+>> ---
+>>  drivers/gpu/drm/tegra/Kconfig |   1 +
+>>  drivers/gpu/drm/tegra/dc.c    | 352 ++++++++++++++++++++++++++++++++++
+>>  drivers/gpu/drm/tegra/dc.h    |  14 ++
+>>  drivers/gpu/drm/tegra/drm.c   |  14 ++
+>>  drivers/gpu/drm/tegra/hub.c   |   3 +
+>>  drivers/gpu/drm/tegra/plane.c | 116 +++++++++++
+>>  drivers/gpu/drm/tegra/plane.h |  15 ++
+>>  7 files changed, 515 insertions(+)
+>>
+> [...]
+>> diff --git a/drivers/gpu/drm/tegra/dc.c b/drivers/gpu/drm/tegra/dc.c
+> [...]
+>> @@ -2011,7 +2143,215 @@ static void tegra_crtc_atomic_flush(struct drm_crtc *crtc,
+>>  	value = tegra_dc_readl(dc, DC_CMD_STATE_CONTROL);
+>>  }
+>>  
+>> +static bool tegra_plane_is_cursor(const struct drm_plane_state *state)
+>> +{
+>> +	const struct tegra_dc_soc_info *soc = to_tegra_dc(state->crtc)->soc;
+>> +	const struct drm_format_info *fmt = state->fb->format;
+>> +	unsigned int src_w = drm_rect_width(&state->src) >> 16;
+>> +	unsigned int dst_w = drm_rect_width(&state->dst);
+>> +
+>> +	if (state->plane->type != DRM_PLANE_TYPE_CURSOR)
+>> +		return false;
+>> +
+>> +	if (soc->supports_cursor)
+>> +		return true;
+>> +
+>> +	if (src_w != dst_w || fmt->num_planes != 1 || src_w * fmt->cpp[0] > 256)
+>> +		return false;
 > 
-> Is it OK to simply change the option to something like "phy-mode = 
-> <PHY_TYPE_DSI_CPHY>;"?
+> Technically there could be some random overlay window that matches these
+> conditions and is erroneously detected as being a cursor.
+
+The "random overlay window" with the DRM_PLANE_TYPE_CURSOR could happen
+only for the oldest Tegras. It's not a problem at all since everything
+will work properly anyways because we skip only the small sized plane
+that doesn't contribute to the BW requirement.
+
+> I wonder if we
+> should add a field to a plane that marks it as being used as cursor for
+> the cases where we don't support a hardware cursor.
+
+I don't think that we have information about how plane is used in the
+driver. DRM core should know this, tegra-drm not.
+
+It's unpractical to worry about this case, hence I think it's better to
+leave this part as-is for now, if you don't mind.
+
+> [...]
+>> diff --git a/drivers/gpu/drm/tegra/dc.h b/drivers/gpu/drm/tegra/dc.h
+>> index 29f19c3c6149..db10af097033 100644
+>> --- a/drivers/gpu/drm/tegra/dc.h
+>> +++ b/drivers/gpu/drm/tegra/dc.h
+>> @@ -15,6 +15,8 @@
+>>  
+>>  struct tegra_output;
+>>  
+>> +#define TEGRA_DC_LEGACY_PLANES_NUM	7
+>> +
+>>  struct tegra_dc_state {
+>>  	struct drm_crtc_state base;
+>>  
+>> @@ -23,6 +25,8 @@ struct tegra_dc_state {
+>>  	unsigned int div;
+>>  
+>>  	u32 planes;
+>> +
+>> +	unsigned long plane_peak_bw[TEGRA_DC_LEGACY_PLANES_NUM];
 > 
-> (using phy-cells would be annoying to implement, with no benefit IMO)
+> Why can we not store this peak bandwidth value within the plane state? I
+> know that this isn't exactly per-plane data because it depends on the
+> state of other planes, but that doesn't really prevent the value to live
+> within the plane state. The plane state is, after all, part of the
+> global state, and hence any such state needs to be considered within the
+> context of that global atomic state.
+> 
+> I suppose that might make it a little bit more difficult to get at the
+> data, but I think the end result would be less confusing than having an
+> array here with potentially unused fields. It would also get rid of the
+> need to look up planes by their per-CRTC index.
 
+The reason I stored the peak_bw in CRTC state is because it feels more
+natural to me somehow. It shouldn't be a problem to move it to the
+planes state. I'll prepare the new version shortly.
 
-To add another feather to the balance scales:
+...
+>>  static const struct drm_mode_config_helper_funcs
+>> diff --git a/drivers/gpu/drm/tegra/hub.c b/drivers/gpu/drm/tegra/hub.c
+>> index bfae8a02f55b..f1bbc5991854 100644
+>> --- a/drivers/gpu/drm/tegra/hub.c
+>> +++ b/drivers/gpu/drm/tegra/hub.c
+>> @@ -358,6 +358,9 @@ static int tegra_shared_plane_atomic_check(struct drm_plane *plane,
+>>  	struct tegra_dc *dc = to_tegra_dc(new_plane_state->crtc);
+>>  	int err;
+>>  
+>> +	plane_state->peak_memory_bandwidth = 0;
+>> +	plane_state->avg_memory_bandwidth = 0;
+>> +
+> 
+> Since ICC isn't supported yet on Tegra186 and later, does it even make
+> sense to initialize these?
 
-- `phys = <&dsi0_phy PHY_TYPE_DSI_CPHY>;` would bring knowledge about 
-PHY mode to the DSI host (which does not really care about PHY mode)
-
-- `phy-mode = <PHY_TYPE_DSI_CPHY>;` would stay in the PHY node, where 
-this information belongs.
-
--- 
-With best wishes
-Dmitry
+I added it for consistency, right now it's not needed for Tegra186+.
