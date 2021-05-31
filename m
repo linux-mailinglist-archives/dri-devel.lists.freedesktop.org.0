@@ -2,47 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A837E396778
-	for <lists+dri-devel@lfdr.de>; Mon, 31 May 2021 19:55:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C2CFD396781
+	for <lists+dri-devel@lfdr.de>; Mon, 31 May 2021 19:57:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F36006E23F;
-	Mon, 31 May 2021 17:55:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9B09C6E4EC;
+	Mon, 31 May 2021 17:57:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from srv6.fidu.org (srv6.fidu.org [159.69.62.71])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CE6F76E1BA;
- Mon, 31 May 2021 17:55:07 +0000 (UTC)
-Received: from localhost (localhost.localdomain [127.0.0.1])
- by srv6.fidu.org (Postfix) with ESMTP id 2AB30C800EC;
- Mon, 31 May 2021 19:55:06 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at srv6.fidu.org
-Received: from srv6.fidu.org ([127.0.0.1])
- by localhost (srv6.fidu.org [127.0.0.1]) (amavisd-new, port 10024)
- with LMTP id 7-hu257Dcefd; Mon, 31 May 2021 19:55:05 +0200 (CEST)
-Received: from [IPv6:2003:e3:7f2e:2a00:27e7:7520:b2ba:eb7b]
- (p200300e37F2E2a0027e77520B2BaeB7b.dip0.t-ipconnect.de
- [IPv6:2003:e3:7f2e:2a00:27e7:7520:b2ba:eb7b])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (No client certificate requested)
- (Authenticated sender: wse@tuxedocomputers.com)
- by srv6.fidu.org (Postfix) with ESMTPSA id BF2BDC800E9;
- Mon, 31 May 2021 19:55:05 +0200 (CEST)
-To: =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>,
- Pekka Paalanen <ppaalanen@gmail.com>
-References: <8c0d7ad8-7ade-bf8a-0414-cc795fbb6aa2@tuxedocomputers.com>
- <YJvSUCCPvWz7y/r7@intel.com> <20210519123405.4d3218a7@eldfell>
- <YKUXbwkUIwvO/OqK@intel.com>
-From: Werner Sembach <wse@tuxedocomputers.com>
-Subject: Re: New uAPI for color management proposal and feedback request
-Message-ID: <bb22dc43-b0ce-86db-0bc0-91a8eff34b27@tuxedocomputers.com>
-Date: Mon, 31 May 2021 19:55:04 +0200
+Received: from mail-lj1-x230.google.com (mail-lj1-x230.google.com
+ [IPv6:2a00:1450:4864:20::230])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7407E6E4EC
+ for <dri-devel@lists.freedesktop.org>; Mon, 31 May 2021 17:57:10 +0000 (UTC)
+Received: by mail-lj1-x230.google.com with SMTP id a4so9201902ljq.9
+ for <dri-devel@lists.freedesktop.org>; Mon, 31 May 2021 10:57:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=sjGZmsfFp/UOuSzQORD2nudXv9W+sFfiJPaPSogdWlM=;
+ b=cBqc5YKm9oxk8wkGFtsy6bmh6Kzc1awzqSTVVxKgBAaJXzcshVY80xBr9QDXTbasz6
+ bsR+mpQlkzNf05BAvtdR6YrS2l7cxdC1L/Y1u1ZEJsy+sEmUKQnrox1cH7mvhAEsyNHg
+ r8CUY/VpsmZm9SumqUvO4tSTS4lsUnTbEVWWMXIJOiNaymRIus1ldGF35UnpBS9ADzL9
+ x1w+ER/ZFHdGbwTfJNlVUeuDPNIFqCl91qmO4fHPzkIi+E+Ij1SqPjOVOlxLv/2Rsw9Q
+ aLclZQcpP/dGYufPL7zUagcFnDJdx/dDHEKPzx395wI6P2b5OmvICf28kimOEk7/SD0q
+ W09g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=sjGZmsfFp/UOuSzQORD2nudXv9W+sFfiJPaPSogdWlM=;
+ b=UQTdE8c1xVWrY/wK7UzmylvX7x1x3fy8lAqCBNizon9fWhZTXLdoBj3wi0uIvvWYAr
+ yansniqTAWboea+jV657JBJYC3PAPwr1VDqZzz8ycfiWVsnF9b908cnlYDgfZ9zrv/BF
+ 2HZx9QnD+2z4OP0eyGaAh2SJ+FUg54lgh+aHTK+95Jj1PMBa6kgOhAjut2lkrEHHAmI8
+ dOf9YH7H1yvZjd4herbK/GH29I8n5HyrV6wsnoBfdoAhmO1Lgq/9K6cpmFoA0jzOI1mx
+ NI8TdDbkbtIrV353BwaP/ho/Mzt55sIlIfgvqXOJJ7ktUB9ItPTCCRbFXAVUQi6s8v6F
+ 66HQ==
+X-Gm-Message-State: AOAM533Uv/pL9W9rQBaY1wDMvCwjzvmCX2l1pLXnyCIkP1OYY6aMX+ZD
+ c2ALO4VztiJcF3xBQ9TfF4zmpA==
+X-Google-Smtp-Source: ABdhPJz0MIiGVgSvBAZS9tl8Pnpzl/E1hQI2wkn1dtJaP5RqncKnNMnUbbDm4atWwvJ7AscsHMdI5g==
+X-Received: by 2002:a2e:681a:: with SMTP id c26mr9266477lja.306.1622483828860; 
+ Mon, 31 May 2021 10:57:08 -0700 (PDT)
+Received: from [192.168.1.211] ([37.153.55.125])
+ by smtp.gmail.com with ESMTPSA id w24sm1408417lfa.143.2021.05.31.10.57.08
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 31 May 2021 10:57:08 -0700 (PDT)
+Subject: Re: [v1 2/3] drm/msm/dsi: Add PHY configuration for SC7280
+To: Rajeev Nandan <rajeevny@codeaurora.org>, dri-devel@lists.freedesktop.org, 
+ linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+ devicetree@vger.kernel.org
+References: <1622468035-8453-1-git-send-email-rajeevny@codeaurora.org>
+ <1622468035-8453-3-git-send-email-rajeevny@codeaurora.org>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Message-ID: <7a3facb5-d118-f81b-65f8-381b0d56a23b@linaro.org>
+Date: Mon, 31 May 2021 20:57:07 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ Thunderbird/78.10.0
 MIME-Version: 1.0
-In-Reply-To: <YKUXbwkUIwvO/OqK@intel.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Content-Language: en-US
+In-Reply-To: <1622468035-8453-3-git-send-email-rajeevny@codeaurora.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,172 +74,113 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Deucher, Alexander" <alexander.deucher@amd.com>,
- intel-gfx@lists.freedesktop.org, amd-gfx list <amd-gfx@lists.freedesktop.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>
+Cc: mkrishn@codeaurora.org, jonathan@marek.ca, linux-kernel@vger.kernel.org,
+ abhinavk@codeaurora.org, robh+dt@kernel.org, kalyan_t@codeaurora.org,
+ sean@poorly.run
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 19.05.21 um 15:49 schrieb Ville Syrj=C3=A4l=C3=A4:
-> On Wed, May 19, 2021 at 12:34:05PM +0300, Pekka Paalanen wrote:
->> On Wed, 12 May 2021 16:04:16 +0300
->> Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com> wrote:
->>
->>> On Wed, May 12, 2021 at 02:06:56PM +0200, Werner Sembach wrote:
->>>> Hello,
->>>>
->>>> In addition to the existing "max bpc", and "Broadcast RGB/output_csc=
-" drm properties I propose 4 new properties:
->>>> "preferred pixel encoding", "active color depth", "active color rang=
-e", and "active pixel encoding"
->>>>
->>>>
->>>> Motivation:
->>>>
->>>> Current monitors have a variety pixel encodings available: RGB, YCbC=
-r 4:4:4, YCbCr 4:2:2, YCbCr 4:2:0.
->>>>
->>>> In addition they might be full or limited RGB range and the monitors=
- accept different bit depths.
->>>>
->>>> Currently the kernel driver for AMD and Intel GPUs automatically con=
-figure the color settings automatically with little
->>>> to no influence of the user. However there are several real world sc=
-enarios where the user might disagree with the
->>>> default chosen by the drivers and wants to set his or her own prefer=
-ence.
->>>>
->>>> Some examples:
->>>>
->>>> 1. While RGB and YCbCr 4:4:4 in theory carry the same amount of colo=
-r information, some screens might look better on one
->>>> than the other because of bad internal conversion. The driver curren=
-tly however has a fixed default that is chosen if
->>>> available (RGB for Intel and YCbCr 4:4:4 for AMD). The only way to c=
-hange this currently is by editing and overloading
->>>> the edid reported by the monitor to the kernel.
->>>>
->>>> 2. RGB and YCbCr 4:4:4 need a higher port clock then YCbCr 4:2:0. So=
-me hardware might report that it supports the higher
->>>> port clock, but because of bad shielding on the PC, the cable, or th=
-e monitor the screen cuts out every few seconds when
->>>> RGB or YCbCr 4:4:4 encoding is used, while YCbCr 4:2:0 might just wo=
-rk fine without changing hardware. The drivers
->>>> currently however always default to the "best available" option even=
- if it might be broken.
->>>>
->>>> 3. Some screens natively only supporting 8-bit color, simulate 10-Bi=
-t color by rapidly switching between 2 adjacent
->>>> colors. They advertise themselves to the kernel as 10-bit monitors b=
-ut the user might not like the "fake" 10-bit effect
->>>> and prefer running at the native 8-bit per color.
->>>>
->>>> 4. Some screens are falsely classified as full RGB range wile they a=
-ctually use limited RGB range. This results in
->>>> washed out colors in dark and bright scenes. A user override can be =
-helpful to manually fix this issue when it occurs.
->>>>
->>>> There already exist several requests, discussion, and patches regard=
-ing the thematic:
->>>>
->>>> - https://gitlab.freedesktop.org/drm/amd/-/issues/476
->>>>
->>>> - https://gitlab.freedesktop.org/drm/amd/-/issues/1548
->>>>
->>>> - https://lkml.org/lkml/2021/5/7/695
->>>>
->>>> - https://lkml.org/lkml/2021/5/11/416
->>>>
->> ...
->>
->>>> Adoption:
->>>>
->>>> A KDE dev wants to implement the settings in the KDE settings GUI:
->>>> https://gitlab.freedesktop.org/drm/amd/-/issues/476#note_912370
->>>>
->>>> Tuxedo Computers (my employer) wants to implement the settings deskt=
-op environment agnostic in Tuxedo Control Center. I
->>>> will start work on this in parallel to implementing the new kernel c=
-ode. =20
->>> I suspect everyone would be happier to accept new uapi if we had
->>> multiple compositors signed up to implement it.
->> I think having Weston support for these would be good, but for now it
->> won't be much of an UI: just weston.ini to set, and the log to see wha=
-t
->> happened.
->>
->> However, knowing what happened is going to be important for color
->> calibration auditing:
->> https://gitlab.freedesktop.org/wayland/weston/-/issues/467
->>
->> Yes, please, very much for read-only properties for the feedback part.=
+On 31/05/2021 16:33, Rajeev Nandan wrote:
+> The SC7280 SoC uses the 7nm (V4.1) DSI PHY driver with
+> different enable|disable regulator loads.
+> 
+> Signed-off-by: Rajeev Nandan <rajeevny@codeaurora.org>
+> ---
+>   drivers/gpu/drm/msm/Kconfig               |  6 +++---
+>   drivers/gpu/drm/msm/dsi/phy/dsi_phy.c     |  2 ++
+>   drivers/gpu/drm/msm/dsi/phy/dsi_phy.h     |  1 +
+>   drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c | 22 ++++++++++++++++++++++
+>   4 files changed, 28 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/Kconfig b/drivers/gpu/drm/msm/Kconfig
+> index 10f693e..7c9d9f1 100644
+> --- a/drivers/gpu/drm/msm/Kconfig
+> +++ b/drivers/gpu/drm/msm/Kconfig
+> @@ -114,9 +114,9 @@ config DRM_MSM_DSI_10NM_PHY
+>   	  Choose this option if DSI PHY on SDM845 is used on the platform.
+>   
+>   config DRM_MSM_DSI_7NM_PHY
+> -	bool "Enable DSI 7nm PHY driver in MSM DRM (used by SM8150/SM8250)"
+> +	bool "Enable DSI 7nm PHY driver in MSM DRM"
+>   	depends on DRM_MSM_DSI
+>   	default y
+>   	help
+> -	  Choose this option if DSI PHY on SM8150/SM8250 is used on the
+> -	  platform.
+> +	  Choose this option if DSI PHY on SM8150/SM8250/SC7280 is used on
+> +	  the platform.
+> diff --git a/drivers/gpu/drm/msm/dsi/phy/dsi_phy.c b/drivers/gpu/drm/msm/dsi/phy/dsi_phy.c
+> index ff7f2ec..2770783 100644
+> --- a/drivers/gpu/drm/msm/dsi/phy/dsi_phy.c
+> +++ b/drivers/gpu/drm/msm/dsi/phy/dsi_phy.c
+> @@ -593,6 +593,8 @@ static const struct of_device_id dsi_phy_dt_match[] = {
+>   	  .data = &dsi_phy_7nm_cfgs },
+>   	{ .compatible = "qcom,dsi-phy-7nm-8150",
+>   	  .data = &dsi_phy_7nm_8150_cfgs },
+> +	{ .compatible = "qcom,dsi-phy-7nm-7280",
+> +	  .data = &dsi_phy_7nm_7280_cfgs },
+>   #endif
+>   	{}
+>   };
+> diff --git a/drivers/gpu/drm/msm/dsi/phy/dsi_phy.h b/drivers/gpu/drm/msm/dsi/phy/dsi_phy.h
+> index 94a77ac..bc91dc8 100644
+> --- a/drivers/gpu/drm/msm/dsi/phy/dsi_phy.h
+> +++ b/drivers/gpu/drm/msm/dsi/phy/dsi_phy.h
+> @@ -51,6 +51,7 @@ extern const struct msm_dsi_phy_cfg dsi_phy_10nm_cfgs;
+>   extern const struct msm_dsi_phy_cfg dsi_phy_10nm_8998_cfgs;
+>   extern const struct msm_dsi_phy_cfg dsi_phy_7nm_cfgs;
+>   extern const struct msm_dsi_phy_cfg dsi_phy_7nm_8150_cfgs;
+> +extern const struct msm_dsi_phy_cfg dsi_phy_7nm_7280_cfgs;
+>   
+>   struct msm_dsi_dphy_timing {
+>   	u32 clk_zero;
+> diff --git a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c
+> index e76ce40..6e30d21 100644
+> --- a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c
+> +++ b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c
+> @@ -998,3 +998,25 @@ const struct msm_dsi_phy_cfg dsi_phy_7nm_8150_cfgs = {
+>   	.io_start = { 0xae94400, 0xae96400 },
+>   	.num_dsi_phy = 2,
+>   };
+> +
+> +const struct msm_dsi_phy_cfg dsi_phy_7nm_7280_cfgs = {
+> +	.has_phy_lane = true,
+> +	.reg_cfg = {
+> +		.num = 1,
+> +		.regs = {
+> +			{"vdds", 37550, 0},
+> +		},
+> +	},
+> +	.ops = {
+> +		.enable = dsi_7nm_phy_enable,
+> +		.disable = dsi_7nm_phy_disable,
+> +		.pll_init = dsi_pll_7nm_init,
+> +		.save_pll_state = dsi_7nm_pll_save_state,
+> +		.restore_pll_state = dsi_7nm_pll_restore_state,
+> +	},
+> +	.min_pll_rate = 600000000UL,
+> +	.max_pll_rate = (5000000000ULL < ULONG_MAX) ? 5000000000ULL : ULONG_MAX,
 
->> Properties that both userspace and kernel will write are hard to deal
->> with in general.
->>
->> Btw. "max bpc" I can kind of guess that conversion from framebuffer
->> format to the wire bpc happens automatically and only as the final
->> step,
-> Well, there could be dithering and whatnot also involved. So it's
-> not super well specified atm either.
->
->> but "Broadcast RGB" is more complicated: is the output from the
->> abstract pixel pipeline sent as-is and "Broadcast RGB" is just another=
+Could you please follow the patch by Arnd here? 
+https://lore.kernel.org/linux-arm-msm/20210514213032.575161-1-arnd@kernel.org/
 
->> inforframe bit to the monitor, or does "Broadcast RGB" setting actuall=
-y
->> change what happens in the pixel pipeline *and* set infoframe bits?
-> It does indeed compress the actual pixel data. There was once a patch
-> porposed to introduce a new enum value that only sets the infoframe and=
 
-> thus would allow userspace to pass through already limited range data.
-> Shouldn't be hard to resurrect that if needed.
 
-For the time being I try to keep the functionality of Broadcast RGB the s=
-ame and just port it over to AMDGPU, but i
-haven't looked into it in detail yet.
+> +	.io_start = { 0xae94400, 0xae96400 },
+> +	.num_dsi_phy = 2,
 
->
->> My vague recollection is that framebuffer was always assumed to be in
->> full range, and then if "Broadcast RGB" was set to limited range, the
->> driver would mangle the pixel pipeline to convert from full to limited=
+Judging from the next patch, you have one DSI host and one DSI PHY. 
+Could you please correct io_start / num_dsi_phy here?
 
->> range. This means that it would be impossible to have limited range
->> data in a framebuffer, or there might be a double-conversion by
->> userspace programming a LUT for limited->full and then the driver
->> adding full->limited. I'm also confused how full/limited works when
->> framebuffer is in RGB/YCbCr and the monitor wire format is in RGB/YCbC=
-r
->> and there may be RGB->YCbCR or YCbCR->RGB conversions going on - or
->> maybe even FB YCbCR -> RGB -> DEGAMMA -> CTM -> GAMMA -> YCbCR.
->>
->> I wish someone drew a picture of the KMS abstract pixel pipeline with
->> all the existing KMS properties in it. :-)
-> Here's an ugly one for i915:
->
->     (input RGB vs. YCbCr?)
-> [FB] -> [YCbCr?] -> [YCbCr->RGB conversion     ] -> [plane blending] ->=
- ...
->       |             [YCbCr color range/encoding] |
->       \ [RGB?] ----------------------------------/
->
->                                            (output RGB limited vs. RGB =
-full vs. YCbCr?)
-> ... -> [DEGAMMA_LUT] -> [CTM] -> [GAMMA_LUT] -> [YCbCr?] -> [RGB->YCbCr=
- conversion      ] -> [to port]
->                                               |             [always BT.=
-709/limited range]
->                                               \ [RGB?] -> ...
->
-> ... -> [RGB passthrough             ] -> [to port]
->      | [Broadcast RGB=3Dfull or       ]
->      | [Broadcast RGB=3Dauto + IT mode]
->      |
->      \ [RGB full->limited conversion] -> [to port]
->        [Broadcast RGB=3Dlimited or    ]
->        [Broadcast RGB=3Dauto + CE mode]
->
-> I guess having something like that in the docs would be nice. Not sure
-> if there's a way to make something that looks decent for html/etc.
->
+> +	.quirks = DSI_PHY_7NM_QUIRK_V4_1,
+> +};
 
+
+With these two issues fixed:
+
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+
+
+-- 
+With best wishes
+Dmitry
