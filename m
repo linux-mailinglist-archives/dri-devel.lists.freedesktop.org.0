@@ -1,46 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0858395821
-	for <lists+dri-devel@lfdr.de>; Mon, 31 May 2021 11:34:40 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 14C1039581A
+	for <lists+dri-devel@lfdr.de>; Mon, 31 May 2021 11:30:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E00C66E8C8;
-	Mon, 31 May 2021 09:34:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F3E486E8C2;
+	Mon, 31 May 2021 09:30:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 388 seconds by postgrey-1.36 at gabe;
- Mon, 31 May 2021 09:34:37 UTC
-Received: from mail.skyhub.de (mail.skyhub.de [5.9.137.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 846B76E8C8
- for <dri-devel@lists.freedesktop.org>; Mon, 31 May 2021 09:34:37 +0000 (UTC)
-Received: from zn.tnic (p200300ec2f080f0029ca4f7a5f3cda43.dip0.t-ipconnect.de
- [IPv6:2003:ec:2f08:f00:29ca:4f7a:5f3c:da43])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 70C4F1EC0532;
- Mon, 31 May 2021 11:28:07 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
- t=1622453287;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
- bh=7PenAKHDdLWOjeesd4KyjeK3ihp5+SXpQ6FYI+hgFp0=;
- b=Nfo2HPJZ/jYVQzSD5VeV47PvfovWml86nJFhrAPkd3PWhzq3zeptxDmJuzGJUBhA1keycr
- 6gcc1Kv2z+cYrsZMbbguGlqvvPx0idhvK/E459YvLrkun1CvPOUaMBE77A9bqh7KJv+DTS
- geiDFemr2F7wczWGNdyM9Mxyy8jSsuU=
-Date: Mon, 31 May 2021 11:28:05 +0200
-From: Borislav Petkov <bp@alien8.de>
-To: syzbot <syzbot+545dc60af42828d1e70b@syzkaller.appspotmail.com>,
- dri-devel@lists.freedesktop.org
-Subject: Re: [syzbot] BUG: unable to handle kernel paging request in
- drm_fb_helper_damage_work (2)
-Message-ID: <YLSsJTgCOHjrsiQg@zn.tnic>
-References: <000000000000f7b23005c39af5c1@google.com>
+Received: from szxga08-in.huawei.com (szxga08-in.huawei.com [45.249.212.255])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4810A6E8BC
+ for <dri-devel@lists.freedesktop.org>; Mon, 31 May 2021 09:30:26 +0000 (UTC)
+Received: from dggemv711-chm.china.huawei.com (unknown [172.30.72.54])
+ by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4Ftqdy65Zrz1BGsJ;
+ Mon, 31 May 2021 17:25:42 +0800 (CST)
+Received: from dggpeml500023.china.huawei.com (7.185.36.114) by
+ dggemv711-chm.china.huawei.com (10.1.198.66) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2176.2; Mon, 31 May 2021 17:30:18 +0800
+Received: from localhost.localdomain (10.69.192.56) by
+ dggpeml500023.china.huawei.com (7.185.36.114) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2176.2; Mon, 31 May 2021 17:30:18 +0800
+From: Shaokun Zhang <zhangshaokun@hisilicon.com>
+To: <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>
+Subject: [PATCH] drm/amd/display: Remove the redundant initialization of local
+ variable
+Date: Mon, 31 May 2021 17:30:06 +0800
+Message-ID: <1622453406-50092-1-git-send-email-zhangshaokun@hisilicon.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <000000000000f7b23005c39af5c1@google.com>
+Content-Type: text/plain
+X-Originating-IP: [10.69.192.56]
+X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
+ dggpeml500023.china.huawei.com (7.185.36.114)
+X-CFilter-Loop: Reflected
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,91 +48,99 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: x86@kernel.org, syzkaller-bugs@googlegroups.com,
- linux-kernel@vger.kernel.org, mingo@redhat.com, hpa@zytor.com,
- tglx@linutronix.de
+Cc: Shaokun Zhang <zhangshaokun@hisilicon.com>, Leo Li <sunpeng.li@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Looks DRM to me. CCed...
+Local variable 'i' and 'j' will be initialized in the for loop, so
+remove the redundant initialization.
 
-On Mon, May 31, 2021 at 12:13:22AM -0700, syzbot wrote:
-> Hello,
-> 
-> syzbot found the following issue on:
-> 
-> HEAD commit:    7ac3a1c1 Merge tag 'mtd/fixes-for-5.13-rc4' of git://git.k..
-> git tree:       upstream
-> console output: https://syzkaller.appspot.com/x/log.txt?x=1619b4b5d00000
-> kernel config:  https://syzkaller.appspot.com/x/.config?x=266cda122a0b56c
-> dashboard link: https://syzkaller.appspot.com/bug?extid=545dc60af42828d1e70b
-> userspace arch: i386
-> 
-> Unfortunately, I don't have any reproducer for this issue yet.
-> 
-> IMPORTANT: if you fix the issue, please add the following tag to the commit:
-> Reported-by: syzbot+545dc60af42828d1e70b@syzkaller.appspotmail.com
-> 
-> BUG: unable to handle page fault for address: ffffc9000dc68008
-> #PF: supervisor write access in kernel mode
-> #PF: error_code(0x0002) - not-present page
-> PGD 11000067 P4D 11000067 PUD 111b3067 PMD 1ba2c067 PTE 0
-> Oops: 0002 [#1] PREEMPT SMP KASAN
-> CPU: 2 PID: 16890 Comm: kworker/2:36 Not tainted 5.13.0-rc3-syzkaller #0
-> Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.14.0-2 04/01/2014
-> Workqueue: events drm_fb_helper_damage_work
-> RIP: 0010:rep_movs arch/x86/lib/iomem.c:12 [inline]
-> RIP: 0010:memcpy_toio+0x83/0xe0 arch/x86/lib/iomem.c:57
-> Code: 8c fd 49 89 dd 31 ff 41 83 e5 02 4c 89 ee e8 c4 c2 8c fd 4d 85 ed 75 2e e8 9a ba 8c fd 48 89 e9 48 89 df 4c 89 e6 48 c1 e9 02 <f3> a5 40 f6 c5 02 74 02 66 a5 40 f6 c5 01 74 01 a4 5b 5d 41 5c 41
-> RSP: 0018:ffffc9000e73fbc8 EFLAGS: 00010202
-> RAX: 0000000000000000 RBX: ffffc9000dc68008 RCX: 00000000000000fe
-> RDX: ffff888015340000 RSI: ffffc9000bdd9008 RDI: ffffc9000dc68008
-> RBP: 00000000000003f8 R08: 0000000000000000 R09: 0000000000000001
-> R10: ffffffff83e81e1c R11: 0000000000000000 R12: ffffc9000bdd9008
-> R13: 0000000000000000 R14: ffffc9000bdd9008 R15: 0000000000000001
-> FS:  0000000000000000(0000) GS:ffff88802cc00000(0000) knlGS:0000000000000000
-> CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> CR2: ffffc9000dc68008 CR3: 000000006c062000 CR4: 0000000000152ee0
-> DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-> DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
-> Call Trace:
->  dma_buf_map_memcpy_to include/linux/dma-buf-map.h:245 [inline]
->  drm_fb_helper_damage_blit_real drivers/gpu/drm/drm_fb_helper.c:388 [inline]
->  drm_fb_helper_damage_blit drivers/gpu/drm/drm_fb_helper.c:419 [inline]
->  drm_fb_helper_damage_work+0x733/0xac0 drivers/gpu/drm/drm_fb_helper.c:450
->  process_one_work+0x98d/0x1600 kernel/workqueue.c:2276
->  worker_thread+0x64c/0x1120 kernel/workqueue.c:2422
->  kthread+0x3b1/0x4a0 kernel/kthread.c:313
->  ret_from_fork+0x1f/0x30 arch/x86/entry/entry_64.S:294
-> Modules linked in:
-> CR2: ffffc9000dc68008
-> ---[ end trace 7f8625a9b15be223 ]---
-> RIP: 0010:rep_movs arch/x86/lib/iomem.c:12 [inline]
-> RIP: 0010:memcpy_toio+0x83/0xe0 arch/x86/lib/iomem.c:57
-> Code: 8c fd 49 89 dd 31 ff 41 83 e5 02 4c 89 ee e8 c4 c2 8c fd 4d 85 ed 75 2e e8 9a ba 8c fd 48 89 e9 48 89 df 4c 89 e6 48 c1 e9 02 <f3> a5 40 f6 c5 02 74 02 66 a5 40 f6 c5 01 74 01 a4 5b 5d 41 5c 41
-> RSP: 0018:ffffc9000e73fbc8 EFLAGS: 00010202
-> RAX: 0000000000000000 RBX: ffffc9000dc68008 RCX: 00000000000000fe
-> RDX: ffff888015340000 RSI: ffffc9000bdd9008 RDI: ffffc9000dc68008
-> RBP: 00000000000003f8 R08: 0000000000000000 R09: 0000000000000001
-> R10: ffffffff83e81e1c R11: 0000000000000000 R12: ffffc9000bdd9008
-> R13: 0000000000000000 R14: ffffc9000bdd9008 R15: 0000000000000001
-> FS:  0000000000000000(0000) GS:ffff88802cc00000(0000) knlGS:0000000000000000
-> CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> CR2: ffffc9000dc68008 CR3: 000000006c062000 CR4: 0000000000152ee0
-> DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-> DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
-> 
-> 
-> ---
-> This report is generated by a bot. It may contain errors.
-> See https://goo.gl/tpsmEJ for more information about syzbot.
-> syzbot engineers can be reached at syzkaller@googlegroups.com.
-> 
-> syzbot will keep track of this issue. See:
-> https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+Cc: Harry Wentland <harry.wentland@amd.com>
+Cc: Leo Li <sunpeng.li@amd.com>
+Cc: Alex Deucher <alexander.deucher@amd.com>
+Signed-off-by: Shaokun Zhang <zhangshaokun@hisilicon.com>
+---
+ drivers/gpu/drm/amd/display/dc/core/dc.c | 17 ++++++++---------
+ 1 file changed, 8 insertions(+), 9 deletions(-)
 
+diff --git a/drivers/gpu/drm/amd/display/dc/core/dc.c b/drivers/gpu/drm/amd/display/dc/core/dc.c
+index 4713f09bcbf1..e4f2a2d3a819 100644
+--- a/drivers/gpu/drm/amd/display/dc/core/dc.c
++++ b/drivers/gpu/drm/amd/display/dc/core/dc.c
+@@ -304,7 +304,7 @@ bool dc_stream_adjust_vmin_vmax(struct dc *dc,
+ 		struct dc_stream_state *stream,
+ 		struct dc_crtc_timing_adjust *adjust)
+ {
+-	int i = 0;
++	int i;
+ 	bool ret = false;
+ 
+ 	stream->adjust.v_total_max = adjust->v_total_max;
+@@ -332,7 +332,7 @@ bool dc_stream_get_crtc_position(struct dc *dc,
+ {
+ 	/* TODO: Support multiple streams */
+ 	const struct dc_stream_state *stream = streams[0];
+-	int i = 0;
++	int i;
+ 	bool ret = false;
+ 	struct crtc_position position;
+ 
+@@ -539,7 +539,7 @@ void dc_stream_set_dyn_expansion(struct dc *dc, struct dc_stream_state *stream,
+ 		enum dc_dynamic_expansion option)
+ {
+ 	/* OPP FMT dyn expansion updates*/
+-	int i = 0;
++	int i;
+ 	struct pipe_ctx *pipe_ctx;
+ 
+ 	for (i = 0; i < MAX_PIPES; i++) {
+@@ -597,7 +597,7 @@ void dc_stream_set_dither_option(struct dc_stream_state *stream,
+ 
+ bool dc_stream_set_gamut_remap(struct dc *dc, const struct dc_stream_state *stream)
+ {
+-	int i = 0;
++	int i;
+ 	bool ret = false;
+ 	struct pipe_ctx *pipes;
+ 
+@@ -614,7 +614,7 @@ bool dc_stream_set_gamut_remap(struct dc *dc, const struct dc_stream_state *stre
+ 
+ bool dc_stream_program_csc_matrix(struct dc *dc, struct dc_stream_state *stream)
+ {
+-	int i = 0;
++	int i;
+ 	bool ret = false;
+ 	struct pipe_ctx *pipes;
+ 
+@@ -640,8 +640,7 @@ void dc_stream_set_static_screen_params(struct dc *dc,
+ 		int num_streams,
+ 		const struct dc_static_screen_params *params)
+ {
+-	int i = 0;
+-	int j = 0;
++	int i, j;
+ 	struct pipe_ctx *pipes_affected[MAX_PIPES];
+ 	int num_pipes_affected = 0;
+ 
+@@ -896,7 +895,7 @@ static void disable_all_writeback_pipes_for_stream(
+ static void apply_ctx_interdependent_lock(struct dc *dc, struct dc_state *context,
+ 					  struct dc_stream_state *stream, bool lock)
+ {
+-	int i = 0;
++	int i;
+ 
+ 	/* Checks if interdependent update function pointer is NULL or not, takes care of DCE110 case */
+ 	if (dc->hwss.interdependent_update_lock)
+@@ -1156,7 +1155,7 @@ static void enable_timing_multisync(
+ 		struct dc *dc,
+ 		struct dc_state *ctx)
+ {
+-	int i = 0, multisync_count = 0;
++	int i, multisync_count = 0;
+ 	int pipe_count = dc->res_pool->pipe_count;
+ 	struct pipe_ctx *multisync_pipes[MAX_PIPES] = { NULL };
+ 
 -- 
-Regards/Gruss,
-    Boris.
+2.7.4
 
-https://people.kernel.org/tglx/notes-about-netiquette
