@@ -2,65 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D60F8395632
-	for <lists+dri-devel@lfdr.de>; Mon, 31 May 2021 09:34:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2183A395686
+	for <lists+dri-devel@lfdr.de>; Mon, 31 May 2021 09:53:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E44306E48B;
-	Mon, 31 May 2021 07:34:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AB4666E87C;
+	Mon, 31 May 2021 07:53:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m43-7.mailgun.net (m43-7.mailgun.net [69.72.43.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 80A126E0EE
- for <dri-devel@lists.freedesktop.org>; Mon, 31 May 2021 07:34:06 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
- q=dns/txt; 
- s=smtp; t=1622446446; h=Content-Transfer-Encoding: Content-Type:
- In-Reply-To: MIME-Version: Date: Message-ID: From: References: Cc: To:
- Subject: Sender; bh=wDQQ376bN5sF92/v8P8tqDT6yjiu711CYrdBMl+n7Xs=;
- b=TIBWbw+ZH3HfJITLj7dVh0mHNRLCxIr2547B5LzJUTGFB4Cuj3ryKltZX2Xc0DM9Br9gH1Jz
- l4cjmDc44fPmt0XIGTS2ulvMbRbxKjFlKwFNfMsNiYVjHeo1/hOo+xXG5YckSC3VNl/iH++8
- z0CxBDhNE49tJAsL8vFbbbJFw7c=
-X-Mailgun-Sending-Ip: 69.72.43.7
-X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n07.prod.us-west-2.postgun.com with SMTP id
- 60b4916d81efe91cda353e05 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Mon, 31 May 2021 07:34:05
- GMT
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id 2806EC433D3; Mon, 31 May 2021 07:34:05 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
- aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-3.5 required=2.0 tests=ALL_TRUSTED,BAYES_00,
- NICE_REPLY_A,SPF_FAIL,URIBL_BLOCKED autolearn=no autolearn_force=no
- version=3.4.0
-Received: from [192.168.1.105] (unknown [117.210.184.158])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested) (Authenticated sender: akhilpo)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id 08292C43460;
- Mon, 31 May 2021 07:33:59 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 08292C43460
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- spf=fail smtp.mailfrom=akhilpo@codeaurora.org
-Subject: Re: [PATCH v2 3/8] drm/msm/a6xx: fix incorrectly set uavflagprd_inv
- field for A650
-To: Jonathan Marek <jonathan@marek.ca>, freedreno@lists.freedesktop.org
-References: <20210513171431.18632-1-jonathan@marek.ca>
- <20210513171431.18632-4-jonathan@marek.ca>
-From: Akhil P Oommen <akhilpo@codeaurora.org>
-Message-ID: <85cd323b-90a2-9324-5696-fc80cf667827@codeaurora.org>
-Date: Mon, 31 May 2021 13:03:57 +0530
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.2
+Received: from mail-ot1-x32a.google.com (mail-ot1-x32a.google.com
+ [IPv6:2607:f8b0:4864:20::32a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3AF6B6E877
+ for <dri-devel@lists.freedesktop.org>; Mon, 31 May 2021 07:53:37 +0000 (UTC)
+Received: by mail-ot1-x32a.google.com with SMTP id
+ t10-20020a05683022eab0290304ed8bc759so10318251otc.12
+ for <dri-devel@lists.freedesktop.org>; Mon, 31 May 2021 00:53:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=yhP9uCIfezgPuDP0zjF7b1LYIU8n1+Ee0zGhQh/v/+s=;
+ b=ZLkm8zmUSD7kDO7dRVCRMvwx0+Jg3sOzM62ZdeWrLEETpBNkrMTqxoM3o+stLTHI76
+ PGaF6OKPhNdrTDvMS+6J5p0zGXYso49FfqbyYnWKDXQ9QQMzxtPmJnlzoajlVBoW7pXM
+ wB3IHYIbHUzJPJTaDmvH+/sPo/hagXlrjWYf0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=yhP9uCIfezgPuDP0zjF7b1LYIU8n1+Ee0zGhQh/v/+s=;
+ b=EPVV957EdUVamC90hZGvgK+xnXPepPyddhpdplrR8r7Hd7e6Qx5mvPXCIh3Ach44kY
+ 5AfsVC0bWT24KdTEJzdds1h5r/okw0ifNExOrnB/aikePHoPebXyRG4KVNu1V+Rtdv3O
+ ls8lZgmEFoyu9DP1znId6U+zfLvdKiAqlkO5jM2sh3ggrnSXfZEb2b1R1RmiWG8KYAXd
+ lMhO4mFQf4elzcHC9G0waSJSVrdTQUzh0aqXycogLqRlp2Ex8+pVbIp7tPxYKg1j5M7J
+ vLpfi5jRyxJekLeiO3PzVlP89P+lNzZ9+N366UA9N7LzuG8eCAsyFVkdIhBMLO4wKKH3
+ zA5Q==
+X-Gm-Message-State: AOAM530fO7z3NQjY5Tgz2jK73vwsLIt3Vh1Y3tZ3I+sh//r94sHacG5c
+ GY0V54iv1rE1W1Evk3QPGrLh3SGQnDUCi52zVW0oDA==
+X-Google-Smtp-Source: ABdhPJz2LKll0x8TfGRo6ZnaBUj5dpTLX0uYYlpQdWAH4vSo7YlvFfRFwrSr3nr0je12iCxVUkMSQ8bzaRGc3yPWzCI=
+X-Received: by 2002:a9d:27a4:: with SMTP id c33mr15153027otb.281.1622447616408; 
+ Mon, 31 May 2021 00:53:36 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210513171431.18632-4-jonathan@marek.ca>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <20210520073514.314893-1-matthew.auld@intel.com>
+ <YKZx/U05aRaxKw44@phenom.ffwll.local>
+In-Reply-To: <YKZx/U05aRaxKw44@phenom.ffwll.local>
+From: Daniel Vetter <daniel@ffwll.ch>
+Date: Mon, 31 May 2021 09:53:25 +0200
+Message-ID: <CAKMK7uE4F66O8sCovhrQKB5Lo3tdKWNhWTS4C=apyVJgqbKuPg@mail.gmail.com>
+Subject: Re: [PATCH] drm/i915: Use DRIVER_NAME for tracing unattached requests
+To: Matthew Auld <matthew.auld@intel.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,41 +60,155 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>,
- David Airlie <airlied@linux.ie>,
- "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
- Sharat Masetty <smasetty@codeaurora.org>,
- Douglas Anderson <dianders@chromium.org>,
- "open list:DRM DRIVER FOR MSM ADRENO GPU" <dri-devel@lists.freedesktop.org>,
- Jordan Crouse <jordan@cosmicpenguin.net>, Sean Paul <sean@poorly.run>,
- open list <linux-kernel@vger.kernel.org>
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Andi Shyti <andi.shyti@intel.com>, intel-gfx <intel-gfx@lists.freedesktop.org>,
+ stable <stable@vger.kernel.org>, Chris Wilson <chris@chris-wilson.co.uk>,
+ Chintan M Patel <chintan.m.patel@intel.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 5/13/2021 10:43 PM, Jonathan Marek wrote:
-> Value was shifted in the wrong direction, resulting in the field always
-> being zero, which is incorrect for A650.
-> 
-> Fixes: d0bac4e9cd66 ("drm/msm/a6xx: set ubwc config for A640 and A650")
-> Signed-off-by: Jonathan Marek <jonathan@marek.ca>
-> ---
->   drivers/gpu/drm/msm/adreno/a6xx_gpu.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-> index 727d111a413f..45a6a0fce7d7 100644
-> --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-> @@ -489,7 +489,7 @@ static void a6xx_set_ubwc_config(struct msm_gpu *gpu)
->   		rgb565_predicator << 11 | amsbc << 4 | lower_bit << 1);
->   	gpu_write(gpu, REG_A6XX_TPL1_NC_MODE_CNTL, lower_bit << 1);
->   	gpu_write(gpu, REG_A6XX_SP_NC_MODE_CNTL,
-> -		uavflagprd_inv >> 4 | lower_bit << 1);
-> +		uavflagprd_inv << 4 | lower_bit << 1);
->   	gpu_write(gpu, REG_A6XX_UCHE_MODE_CNTL, lower_bit << 21);
->   }
->   
-> 
-Reviewed-by: Akhil P Oommen <akhilpo@codeaurora.org>
+On Thu, May 20, 2021 at 4:28 PM Daniel Vetter <daniel@ffwll.ch> wrote:
+>
+> On Thu, May 20, 2021 at 08:35:14AM +0100, Matthew Auld wrote:
+> > From: Chris Wilson <chris@chris-wilson.co.uk>
+> >
+> > The first tracepoint for a request is trace_dma_fence_init called before
+> > we have associated the request with a device. The tracepoint uses
+> > fence->ops->get_driver_name() as a pretty name, and as we try to report
+> > the device name this oopses as it is then NULL. Support the early
+> > tracepoint by reporting the DRIVER_NAME instead of the actual device
+> > name.
+> >
+> > Note that rq->engine remains during the course of request recycling
+> > (SLAB_TYPESAFE_BY_RCU). For the physical engines, the pointer remains
+> > valid, however a virtual engine may be destroyed after the request is
+> > retired. If we process a preempt-to-busy completed request along the
+> > virtual engine, we should make sure we mark the request as no longer
+> > belonging to the virtual engine to remove the dangling pointers from the
+> > tracepoint.
+>
+> Why can't we assign the request beforehand? The idea behind these
+> tracepoints is that they actually match up, if trace_dma_fence_init is
+> different, then we're breaking that.
 
--Akhil.
+Ok I looked a bit more and pondered this a bit, and the initial
+tracepoint is called from dma_fence_init, where we haven't yet set up
+rq->engine properly. So that part makes sense, but should have a
+bigger comment that explains this a bit more and why we can't solve
+this in a neater way. Probably should also drop the unlikely(), this
+isn't a performance critical path, ever.
+
+The other changes thgouh feel like they should be split out into a
+separate path, since they solve a conceptually totally different
+issue: SLAB_TYPESAFE_BY_RCU recycling. And I'm honestly not sure about
+that one whether it's even correct, there's another patch floating
+around that sprinkles rcu_read_lock around some of these accesssors,
+and that would be a breakage of dma_fence interaces where outside of
+i915 rcu isn't required for this stuff. So imo should be split out,
+and come with a wider analysis of what's going on there and why and
+how exactly i915 works.
+
+In generally SLAB_TYPESAFE_BY_RCU is extremely dangerous and I'm
+frankly not sure we have the perf data (outside of contrived
+microbenchmarks) showing that it's needed and justifies all the costs
+it's encurring.
+-Daniel
+
+> -Daniel
+>
+> >
+> > Fixes: 855e39e65cfc ("drm/i915: Initialise basic fence before acquiring seqno")
+> > Signed-off-by: Chris Wilson <chris@chris-wilson.co.uk>
+> > Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+> > Cc: Chintan M Patel <chintan.m.patel@intel.com>
+> > Cc: Andi Shyti <andi.shyti@intel.com>
+> > Cc: <stable@vger.kernel.org> # v5.7+
+> > Signed-off-by: Matthew Auld <matthew.auld@intel.com>
+> > ---
+> >  .../drm/i915/gt/intel_execlists_submission.c  | 20 ++++++++++++++-----
+> >  drivers/gpu/drm/i915/i915_request.c           |  7 ++++++-
+> >  2 files changed, 21 insertions(+), 6 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
+> > index de124870af44..75604e927d34 100644
+> > --- a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
+> > +++ b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
+> > @@ -3249,6 +3249,18 @@ static struct list_head *virtual_queue(struct virtual_engine *ve)
+> >       return &ve->base.execlists.default_priolist.requests;
+> >  }
+> >
+> > +static void
+> > +virtual_submit_completed(struct virtual_engine *ve, struct i915_request *rq)
+> > +{
+> > +     GEM_BUG_ON(!__i915_request_is_complete(rq));
+> > +     GEM_BUG_ON(rq->engine != &ve->base);
+> > +
+> > +     __i915_request_submit(rq);
+> > +
+> > +     /* Remove the dangling pointer to the stale virtual engine */
+> > +     WRITE_ONCE(rq->engine, ve->siblings[0]);
+> > +}
+> > +
+> >  static void rcu_virtual_context_destroy(struct work_struct *wrk)
+> >  {
+> >       struct virtual_engine *ve =
+> > @@ -3265,8 +3277,7 @@ static void rcu_virtual_context_destroy(struct work_struct *wrk)
+> >
+> >               old = fetch_and_zero(&ve->request);
+> >               if (old) {
+> > -                     GEM_BUG_ON(!__i915_request_is_complete(old));
+> > -                     __i915_request_submit(old);
+> > +                     virtual_submit_completed(ve, old);
+> >                       i915_request_put(old);
+> >               }
+> >
+> > @@ -3538,13 +3549,12 @@ static void virtual_submit_request(struct i915_request *rq)
+> >
+> >       /* By the time we resubmit a request, it may be completed */
+> >       if (__i915_request_is_complete(rq)) {
+> > -             __i915_request_submit(rq);
+> > +             virtual_submit_completed(ve, rq);
+> >               goto unlock;
+> >       }
+> >
+> >       if (ve->request) { /* background completion from preempt-to-busy */
+> > -             GEM_BUG_ON(!__i915_request_is_complete(ve->request));
+> > -             __i915_request_submit(ve->request);
+> > +             virtual_submit_completed(ve, ve->request);
+> >               i915_request_put(ve->request);
+> >       }
+> >
+> > diff --git a/drivers/gpu/drm/i915/i915_request.c b/drivers/gpu/drm/i915/i915_request.c
+> > index 970d8f4986bb..aa124adb1051 100644
+> > --- a/drivers/gpu/drm/i915/i915_request.c
+> > +++ b/drivers/gpu/drm/i915/i915_request.c
+> > @@ -61,7 +61,12 @@ static struct i915_global_request {
+> >
+> >  static const char *i915_fence_get_driver_name(struct dma_fence *fence)
+> >  {
+> > -     return dev_name(to_request(fence)->engine->i915->drm.dev);
+> > +     struct i915_request *rq = to_request(fence);
+> > +
+> > +     if (unlikely(!rq->engine)) /* not yet attached to any device */
+> > +             return DRIVER_NAME;
+> > +
+> > +     return dev_name(rq->engine->i915->drm.dev);
+> >  }
+> >
+> >  static const char *i915_fence_get_timeline_name(struct dma_fence *fence)
+> > --
+> > 2.26.3
+> >
+>
+> --
+> Daniel Vetter
+> Software Engineer, Intel Corporation
+> http://blog.ffwll.ch
+
+
+
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
