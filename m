@@ -1,45 +1,68 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3664E39772D
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Jun 2021 17:50:33 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CD1D397746
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Jun 2021 17:54:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 643456E081;
-	Tue,  1 Jun 2021 15:50:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9399F6E81F;
+	Tue,  1 Jun 2021 15:54:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F15726E081;
- Tue,  1 Jun 2021 15:50:28 +0000 (UTC)
-IronPort-SDR: aMJXG61/mE66fOhrJ3KLxYe3mOQyxlaso7d4W4kE062rpjQU+ouSSG6wPxURQD+TBBS+3Clp3C
- /E8uoipZxxFA==
-X-IronPort-AV: E=McAfee;i="6200,9189,10002"; a="183254920"
-X-IronPort-AV: E=Sophos;i="5.83,240,1616482800"; d="scan'208";a="183254920"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Jun 2021 08:50:28 -0700
-IronPort-SDR: J39Du4ayNBRTxftYn6kFhKmmf+auHdqer89alSNL4QXUZE9CEUZc8bKt9qN7/02g0yxmspmPgO
- Gz13g6+rcPBg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.83,240,1616482800"; d="scan'208";a="445378048"
-Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.171])
- by orsmga008.jf.intel.com with SMTP; 01 Jun 2021 08:50:25 -0700
-Received: by stinkbox (sSMTP sendmail emulation);
- Tue, 01 Jun 2021 18:50:24 +0300
-Date: Tue, 1 Jun 2021 18:50:24 +0300
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Anisse Astier <anisse@astier.eu>
-Subject: Re: [PATCH v2 1/2] drm/i915/opregion: add support for mailbox #5 EDID
-Message-ID: <YLZXQLh2Qmxs+CWU@intel.com>
-References: <20210531204642.4907-1-anisse@astier.eu>
- <20210531204642.4907-2-anisse@astier.eu>
+Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com
+ [IPv6:2a00:1450:4864:20::331])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 63C846E81F
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Jun 2021 15:54:08 +0000 (UTC)
+Received: by mail-wm1-x331.google.com with SMTP id
+ h12-20020a05600c350cb029019fae7a26cdso164348wmq.5
+ for <dri-devel@lists.freedesktop.org>; Tue, 01 Jun 2021 08:54:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:mail-followup-to:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=WqUgAHrpDOUpUOXO/CHtnZe/20C1L3Tz7SUmh5uKdic=;
+ b=SxNumUnPY4IKba355+/kIgE6CFqG1Es7zT37mTIOq/eyv1lIGuhkg8FVrq3smr+URi
+ 5xsvO7Wzx0zvf2j3d4Hq05GME8N1aL4E7BI37ziX+UqgF5rkdb81qikzEfaL2JucifaF
+ Sex4i9CgwjWyBFaqFyfDNNZrSM4IkoeJekLJs=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id
+ :mail-followup-to:references:mime-version:content-disposition
+ :in-reply-to;
+ bh=WqUgAHrpDOUpUOXO/CHtnZe/20C1L3Tz7SUmh5uKdic=;
+ b=i0dpiaiI5OR9YO2EMx4P9bI9etfwxzf3JtH0TxnekjGr07BUGcG/nj4PmwZ5T6mgwc
+ nCi+8ZEwgP1jNpKLe46pj6BTdUos/p0rOdnvlxKAoZqNZGRcIEDZ9xCksV6o8n5Vb/37
+ PPg7C84DmGyOl6aEhFZOxpFaht2lWavBNywNAbs3+xa7TnH0qIfVN/fr5bHuonhfw8lD
+ AXZc6ELPevAh20tG+xxU47SdmnpsPbTSYEYDHMnUrD4QZN+Frz+6boJJBSCQeT6gE68C
+ Kx6nJy59AtdbdWlo4DIYh5jqKQ2ul3QB/wdBk8iLl1vHPfNHs4suOcBqQ179/LBPRWov
+ mDtg==
+X-Gm-Message-State: AOAM530wLZ6VPW8MzPPtXlqN0ls0HijIHkvaEcPb+spPHAiyZVt24dbV
+ 1RLuwDbqbupei1srmGRKWHj1sw==
+X-Google-Smtp-Source: ABdhPJw7uj9RFGQr4Tfil+TMNBSjkGRPILTdrqCQ6nejOSzrsHlWlbvEWmUuzyDKYOrzsXlycbH4KQ==
+X-Received: by 2002:a7b:c4d0:: with SMTP id g16mr566126wmk.147.1622562846945; 
+ Tue, 01 Jun 2021 08:54:06 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id h6sm3680020wrt.6.2021.06.01.08.54.05
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 01 Jun 2021 08:54:06 -0700 (PDT)
+Date: Tue, 1 Jun 2021 17:54:04 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Paul Cercueil <paul@crapouillou.net>
+Subject: Re: [PATCH 10/11] drm/ingenic: Add doublescan feature
+Message-ID: <YLZYHCFyJvVWui3l@phenom.ffwll.local>
+Mail-Followup-To: Paul Cercueil <paul@crapouillou.net>,
+ David Airlie <airlied@linux.ie>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Maxime Ripard <mripard@kernel.org>, list@opendingux.net,
+ linux-mips@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org,
+ Neil Armstrong <narmstrong@baylibre.com>
+References: <20210527232104.152577-1-paul@crapouillou.net>
+ <20210527232206.152771-1-paul@crapouillou.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210531204642.4907-2-anisse@astier.eu>
-X-Patchwork-Hint: comment
+In-Reply-To: <20210527232206.152771-1-paul@crapouillou.net>
+X-Operating-System: Linux phenom 5.10.32scarlett+ 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,212 +75,226 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jani Nikula <jani.nikula@intel.com>, Hans de Goede <hdegoede@redhat.com>,
- intel-gfx@lists.freedesktop.org, Uma Shankar <uma.shankar@intel.com>,
- dri-devel@lists.freedesktop.org
+Cc: Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
+ linux-mips@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ list@opendingux.net
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, May 31, 2021 at 10:46:41PM +0200, Anisse Astier wrote:
-> The ACPI OpRegion Mailbox #5 ASLE extension may contain an EDID to be
-> used for the embedded display. Add support for using it via by adding
-> the EDID to the list of available modes on the connector, and use it for
-> eDP when available.
+On Fri, May 28, 2021 at 12:22:05AM +0100, Paul Cercueil wrote:
+> A lot of devices with an Ingenic SoC have a weird LCD panel attached,
+> where the pixels are not square. For instance, the AUO A030JTN01 and
+> Innolux EJ030NA panels have a resolution of 320x480 with a 4:3 aspect
+> ratio.
 > 
-> If a panel's EDID is broken, there may be an override EDID set in the
-> ACPI OpRegion mailbox #5. Use it if available.
-
-Looks like Windows uses the ACPI _DDC method instead. We should probably
-do the same, just in case some crazy machine stores the EDID somewhere
-else.
-
+> All userspace applications are built with the assumption that the
+> pixels are square. To be able to support these devices without too
+> much effort, add a doublescan feature, which allows the f0 and f1
+> planes to be used with only half of the screen's vertical resolution,
+> where each line of the input is displayed twice.
 > 
-> Fixes the GPD Win Max display.
+> This is done using a chained list of DMA descriptors, one descriptor
+> per output line.
 > 
-> Based on original patch series by: Jani Nikula <jani.nikula@intel.com>
-> https://patchwork.kernel.org/project/intel-gfx/patch/20200828061941.17051-1-jani.nikula@intel.com/
-> 
-> Changes:
->  - EDID is copied and validated with drm_edid_is_valid
->  - Mode is now added via drm_add_edid_modes instead of using override
->    mechanism
->  - squashed the two patches
-> 
-> Cc: Jani Nikula <jani.nikula@intel.com>
-> Cc: Uma Shankar <uma.shankar@intel.com>
-> Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
-> Signed-off-by: Anisse Astier <anisse@astier.eu>
+> Signed-off-by: Paul Cercueil <paul@crapouillou.net>
 > ---
->  drivers/gpu/drm/i915/display/intel_dp.c       |  3 +
->  drivers/gpu/drm/i915/display/intel_opregion.c | 69 ++++++++++++++++++-
->  drivers/gpu/drm/i915/display/intel_opregion.h |  8 +++
->  3 files changed, 79 insertions(+), 1 deletion(-)
+>  drivers/gpu/drm/ingenic/ingenic-drm-drv.c | 93 +++++++++++++++++++++--
+>  1 file changed, 87 insertions(+), 6 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
-> index 5c9222283044..43fb485c0e02 100644
-> --- a/drivers/gpu/drm/i915/display/intel_dp.c
-> +++ b/drivers/gpu/drm/i915/display/intel_dp.c
-> @@ -5191,6 +5191,9 @@ static bool intel_edp_init_connector(struct intel_dp *intel_dp,
->  		goto out_vdd_off;
->  	}
+> diff --git a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
+> index 2761478b16e8..01d8490393d1 100644
+> --- a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
+> +++ b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
+> @@ -66,6 +66,8 @@ struct jz_soc_info {
 >  
-> +	/* Set up override EDID, if any, from ACPI OpRegion */
-> +	intel_opregion_edid_probe(intel_connector);
-> +
->  	mutex_lock(&dev->mode_config.mutex);
->  	edid = drm_get_edid(connector, &intel_dp->aux.ddc);
->  	if (edid) {
-> diff --git a/drivers/gpu/drm/i915/display/intel_opregion.c b/drivers/gpu/drm/i915/display/intel_opregion.c
-> index dfd724e506b5..ef8d38f041eb 100644
-> --- a/drivers/gpu/drm/i915/display/intel_opregion.c
-> +++ b/drivers/gpu/drm/i915/display/intel_opregion.c
-> @@ -196,6 +196,8 @@ struct opregion_asle_ext {
->  #define ASLE_IUER_WINDOWS_BTN		(1 << 1)
->  #define ASLE_IUER_POWER_BTN		(1 << 0)
+>  struct ingenic_gem_object {
+>  	struct drm_gem_cma_object base;
+> +	struct ingenic_dma_hwdesc *hwdescs;
+> +	dma_addr_t hwdescs_phys;
+>  };
 >  
-> +#define ASLE_PHED_EDID_VALID_MASK	0x3
-> +
->  /* Software System Control Interrupt (SWSCI) */
->  #define SWSCI_SCIC_INDICATOR		(1 << 0)
->  #define SWSCI_SCIC_MAIN_FUNCTION_SHIFT	1
-> @@ -909,8 +911,10 @@ int intel_opregion_setup(struct drm_i915_private *dev_priv)
->  		opregion->asle->ardy = ASLE_ARDY_NOT_READY;
->  	}
+>  struct ingenic_drm_private_state {
+> @@ -73,6 +75,23 @@ struct ingenic_drm_private_state {
 >  
-> -	if (mboxes & MBOX_ASLE_EXT)
-> +	if (mboxes & MBOX_ASLE_EXT) {
->  		drm_dbg(&dev_priv->drm, "ASLE extension supported\n");
-> +		opregion->asle_ext = base + OPREGION_ASLE_EXT_OFFSET;
-> +	}
+>  	bool no_vblank;
+>  	bool use_palette;
+> +
+> +	/*
+> +	 * A lot of devices with an Ingenic SoC have a weird LCD panel attached,
+> +	 * where the pixels are not square. For instance, the AUO A030JTN01 and
+> +	 * Innolux EJ030NA panels have a resolution of 320x480 with a 4:3 aspect
+> +	 * ratio.
+> +	 *
+> +	 * All userspace applications are built with the assumption that the
+> +	 * pixels are square. To be able to support these devices without too
+> +	 * much effort, add a doublescan feature, which allows the f0 and f1
+> +	 * planes to be used with only half of the screen's vertical resolution,
+> +	 * where each line of the input is displayed twice.
+> +	 *
+> +	 * This is done using a chained list of DMA descriptors, one descriptor
+> +	 * per output line.
+> +	 */
+> +	bool doublescan;
+>  };
 >  
->  	if (intel_load_vbt_firmware(dev_priv) == 0)
->  		goto out;
-> @@ -1037,6 +1041,68 @@ intel_opregion_get_panel_type(struct drm_i915_private *dev_priv)
->  	return ret - 1;
->  }
+>  struct ingenic_drm {
+> @@ -465,7 +484,7 @@ static int ingenic_drm_plane_atomic_check(struct drm_plane *plane,
+>  		return PTR_ERR(priv_state);
 >  
-> +/**
-> + * intel_opregion_edid_probe - Add EDID from ACPI OpRegion mailbox #5
-> + * @intel_connector: eDP connector
-> + *
-> + * This reads the ACPI Opregion mailbox #5 to extract the EDID that is passed
-> + * to it.
-> + *
-> + * Will take a lock on the DRM mode_config to add the EDID; make sure it isn't
-> + * called with lock taken.
-> + *
-> + */
-> +void intel_opregion_edid_probe(struct intel_connector *intel_connector)
-> +{
-> +	struct drm_connector *connector = &intel_connector->base;
-> +	struct drm_i915_private *i915 = to_i915(connector->dev);
-> +	struct intel_opregion *opregion = &i915->opregion;
-> +	const void *in_edid;
-> +	const struct edid *edid;
-> +	struct edid *new_edid;
-> +	int len, ret, num;
+>  	ret = drm_atomic_helper_check_plane_state(new_plane_state, crtc_state,
+> -						  DRM_PLANE_HELPER_NO_SCALING,
+> +						  0x8000,
+>  						  DRM_PLANE_HELPER_NO_SCALING,
+>  						  priv->soc_info->has_osd,
+>  						  true);
+> @@ -482,6 +501,17 @@ static int ingenic_drm_plane_atomic_check(struct drm_plane *plane,
+>  	     (new_plane_state->src_h >> 16) != new_plane_state->crtc_h))
+>  		return -EINVAL;
+>  
+> +	/* Enable doublescan if the CRTC_H is twice the SRC_H. */
+> +	priv_state->doublescan = (new_plane_state->src_h >> 16) * 2 == new_plane_state->crtc_h;
 > +
-> +	if (!opregion->asle_ext || connector->override_edid)
-> +		return;
+> +	/* Otherwise, fail if CRTC_H != SRC_H */
+> +	if (!priv_state->doublescan && (new_plane_state->src_h >> 16) != new_plane_state->crtc_h)
+> +		return -EINVAL;
 > +
-> +	in_edid = opregion->asle_ext->bddc;
+> +	/* Fail if CRTC_W != SRC_W */
+> +	if ((new_plane_state->src_w >> 16) != new_plane_state->crtc_w)
+> +		return -EINVAL;
 > +
-> +	/* Validity corresponds to number of 128-byte blocks */
-> +	len = (opregion->asle_ext->phed & ASLE_PHED_EDID_VALID_MASK) * 128;
-> +	if (!len || !memchr_inv(in_edid, 0, len))
-> +		return;
+>  	priv_state->use_palette = new_plane_state->fb &&
+>  		new_plane_state->fb->format->format == DRM_FORMAT_C8;
+>  
+> @@ -647,7 +677,9 @@ static void ingenic_drm_plane_atomic_update(struct drm_plane *plane,
+>  	struct ingenic_drm_private_state *priv_state;
+>  	struct drm_crtc_state *crtc_state;
+>  	struct ingenic_dma_hwdesc *hwdesc;
+> -	unsigned int width, height, cpp;
+> +	unsigned int width, height, cpp, i;
+> +	struct drm_gem_object *gem_obj;
+> +	struct ingenic_gem_object *obj;
+>  	dma_addr_t addr, next_addr;
+>  	bool use_f1;
+>  	u32 fourcc;
+> @@ -664,17 +696,39 @@ static void ingenic_drm_plane_atomic_update(struct drm_plane *plane,
+>  		height = newstate->src_h >> 16;
+>  		cpp = newstate->fb->format->cpp[0];
+>  
+> +		gem_obj = drm_gem_fb_get_obj(newstate->fb, 0);
+> +		obj = to_ingenic_gem_obj(gem_obj);
 > +
-> +	edid = in_edid;
-> +
-> +	if (len < EDID_LENGTH * (1 + edid->extensions)) {
-> +		drm_dbg_kms(&i915->drm, "Invalid EDID in ACPI OpRegion (Mailbox #5)\n");
-> +		return;
-> +	}
-> +	new_edid = drm_edid_duplicate(edid);
-> +	if (!new_edid) {
-> +		drm_err(&i915->drm, "Cannot duplicate EDID\n");
-> +		return;
-> +	}
-> +	if (!drm_edid_is_valid(new_edid)) {
-> +		kfree(new_edid);
-> +		drm_dbg_kms(&i915->drm, "Cannot validate EDID in ACPI OpRegion (Mailbox #5)\n");
-> +		return;
-> +	}
-> +
-> +	ret = drm_connector_update_edid_property(connector, new_edid);
-> +	if (ret) {
-> +		kfree(new_edid);
-> +		return;
-> +	}
-> +
-> +	mutex_lock(&connector->dev->mode_config.mutex);
-> +	num = drm_add_edid_modes(connector, new_edid);
-> +	mutex_unlock(&connector->dev->mode_config.mutex);
-> +
-> +	drm_dbg_kms(&i915->drm, "Using OpRegion EDID for [CONNECTOR:%d:%s], added %d mode(s)\n",
-> +		    connector->base.id, connector->name, num);
-> +}
-> +
->  void intel_opregion_register(struct drm_i915_private *i915)
+>  		priv_state = ingenic_drm_get_new_priv_state(priv, state);
+>  		if (priv_state && priv_state->use_palette)
+>  			next_addr = dma_hwdesc_pal_addr(priv);
+>  		else
+>  			next_addr = dma_hwdesc_addr(priv, use_f1);
+>  
+> -		hwdesc = &priv->dma_hwdescs->hwdesc[use_f1];
+> +		if (priv_state->doublescan) {
+> +			hwdesc = &obj->hwdescs[0];
+> +			/*
+> +			 * Use one DMA descriptor per output line, and display
+> +			 * each input line twice.
+> +			 */
+> +			for (i = 0; i < newstate->crtc_h; i++) {
+> +				hwdesc[i].next = obj->hwdescs_phys
+> +					+ (i + 1) * sizeof(*hwdesc);
+> +				hwdesc[i].addr = addr + (i / 2) * newstate->fb->pitches[0];
+> +				hwdesc[i].cmd = newstate->fb->pitches[0] / 4;
+> +			}
+>  
+> -		hwdesc->addr = addr;
+> -		hwdesc->cmd = JZ_LCD_CMD_EOF_IRQ | (width * height * cpp / 4);
+> -		hwdesc->next = next_addr;
+> +			/* We want the EOF IRQ only on the very last transfer */
+> +			hwdesc[newstate->crtc_h - 1].cmd |= JZ_LCD_CMD_EOF_IRQ;
+> +			hwdesc[newstate->crtc_h - 1].next = next_addr;
+> +			priv->dma_hwdescs->hwdesc[use_f1] = *hwdesc;
+> +		} else {
+> +			/* Use one DMA descriptor for the whole frame. */
+> +			hwdesc = &priv->dma_hwdescs->hwdesc[use_f1];
+> +			hwdesc->addr = addr;
+> +			hwdesc->cmd = JZ_LCD_CMD_EOF_IRQ | (width * height * cpp / 4);
+> +			hwdesc->next = next_addr;
+> +		}
+>  
+>  		if (drm_atomic_crtc_needs_modeset(crtc_state)) {
+>  			fourcc = newstate->fb->format->format;
+> @@ -848,6 +902,13 @@ static void ingenic_drm_disable_vblank(struct drm_crtc *crtc)
+>  
+>  static void ingenic_drm_gem_fb_destroy(struct drm_framebuffer *fb)
 >  {
->  	struct intel_opregion *opregion = &i915->opregion;
-> @@ -1127,6 +1193,7 @@ void intel_opregion_unregister(struct drm_i915_private *i915)
->  	opregion->acpi = NULL;
->  	opregion->swsci = NULL;
->  	opregion->asle = NULL;
-> +	opregion->asle_ext = NULL;
->  	opregion->vbt = NULL;
->  	opregion->lid_state = NULL;
->  }
-> diff --git a/drivers/gpu/drm/i915/display/intel_opregion.h b/drivers/gpu/drm/i915/display/intel_opregion.h
-> index 4aa68ffbd30e..c1ecfcbb6f55 100644
-> --- a/drivers/gpu/drm/i915/display/intel_opregion.h
-> +++ b/drivers/gpu/drm/i915/display/intel_opregion.h
-> @@ -29,12 +29,14 @@
->  #include <linux/pci.h>
->  
->  struct drm_i915_private;
-> +struct intel_connector;
->  struct intel_encoder;
->  
->  struct opregion_header;
->  struct opregion_acpi;
->  struct opregion_swsci;
->  struct opregion_asle;
-> +struct opregion_asle_ext;
->  
->  struct intel_opregion {
->  	struct opregion_header *header;
-> @@ -43,6 +45,7 @@ struct intel_opregion {
->  	u32 swsci_gbda_sub_functions;
->  	u32 swsci_sbcb_sub_functions;
->  	struct opregion_asle *asle;
-> +	struct opregion_asle_ext *asle_ext;
->  	void *rvda;
->  	void *vbt_firmware;
->  	const void *vbt;
-> @@ -71,6 +74,7 @@ int intel_opregion_notify_encoder(struct intel_encoder *intel_encoder,
->  int intel_opregion_notify_adapter(struct drm_i915_private *dev_priv,
->  				  pci_power_t state);
->  int intel_opregion_get_panel_type(struct drm_i915_private *dev_priv);
-> +void intel_opregion_edid_probe(struct intel_connector *connector);
->  
->  #else /* CONFIG_ACPI*/
->  
-> @@ -117,6 +121,10 @@ static inline int intel_opregion_get_panel_type(struct drm_i915_private *dev)
->  	return -ENODEV;
->  }
->  
-> +void intel_opregion_edid_probe(struct intel_connector *connector)
-> +{
-> +}
+> +	struct ingenic_drm *priv = drm_device_get_priv(fb->dev);
+> +	struct drm_gem_object *gem_obj = drm_gem_fb_get_obj(fb, 0);
+> +	struct ingenic_gem_object *obj = to_ingenic_gem_obj(gem_obj);
 > +
->  #endif /* CONFIG_ACPI */
+> +	dma_free_coherent(priv->dev,
+> +			  sizeof(*obj->hwdescs) * fb->height,
+> +			  obj->hwdescs, obj->hwdescs_phys);
+
+You can have multiple fb pointing at the same gem bo. I think with that
+this blows up pretty badly.
+
+I think right call is to just move the doublescan mapping to the fb object
+entirely, and not have a subclassed gem bo. Userspace shouldn't recreate
+fb objects just for fun, so caching at the gem bo level shouldn't be
+needed. But if you do need it then you need to refcount it so multiple fb
+objects all work out (and they can have different modes even used for
+them).
+
+Another option is attaching this to the drm_plane state and setting it up
+in prepare_plane/cleanup_plane. But then you probably need some caching at
+the obj level (but a simple single slot/last hit cache should be good
+enough here). I think this would be the cleanest since doing very
+expensive things attached to fb might cause issues, userspace can
+create/destroy quite a few of them as part of atomic_test (which skips the
+prepare/cleanup_plane part). So this would be the right option if setting
+up this dma mapping for doublescan is a more expensive thing to do.
+-Daniel
+
+>  	drm_gem_fb_destroy(fb);
+>  }
 >  
->  #endif
+> @@ -868,6 +929,8 @@ ingenic_drm_gem_fb_create(struct drm_device *drm, struct drm_file *file,
+>  {
+>  	struct ingenic_drm *priv = drm_device_get_priv(drm);
+>  	const struct drm_framebuffer_funcs *fb_funcs;
+> +	struct drm_gem_object *gem_obj;
+> +	struct ingenic_gem_object *obj;
+>  	struct drm_framebuffer *fb;
+>  
+>  	if (priv->soc_info->map_noncoherent)
+> @@ -876,6 +939,24 @@ ingenic_drm_gem_fb_create(struct drm_device *drm, struct drm_file *file,
+>  		fb_funcs = &ingenic_drm_gem_fb_funcs;
+>  
+>  	fb = drm_gem_fb_create_with_funcs(drm, file, mode_cmd, fb_funcs);
+> +	if (IS_ERR(fb))
+> +		return fb;
+> +
+> +	gem_obj = drm_gem_fb_get_obj(fb, 0);
+> +	obj = to_ingenic_gem_obj(gem_obj);
+> +
+> +	/*
+> +	 * Create (fb->height * 2) DMA descriptors, in case we want to use the
+> +	 * doublescan feature.
+> +	 */
+> +	obj->hwdescs = dma_alloc_coherent(priv->dev,
+> +					  sizeof(*obj->hwdescs) * fb->height * 2,
+> +					  &obj->hwdescs_phys,
+> +					  GFP_KERNEL);
+> +	if (!obj->hwdescs) {
+> +		drm_gem_fb_destroy(fb);
+> +		return ERR_PTR(-ENOMEM);
+> +	}
+>  
+>  	return fb;
+>  }
 > -- 
-> 2.31.1
+> 2.30.2
+> 
 
 -- 
-Ville Syrjälä
-Intel
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
