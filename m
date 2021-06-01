@@ -1,62 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A07E39795E
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Jun 2021 19:42:40 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id EF79339797B
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Jun 2021 19:51:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6684F6EA9B;
-	Tue,  1 Jun 2021 17:42:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3CE686EA98;
+	Tue,  1 Jun 2021 17:51:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com
- [IPv6:2a00:1450:4864:20::336])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B0AAC6EA95
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Jun 2021 17:42:33 +0000 (UTC)
-Received: by mail-wm1-x336.google.com with SMTP id g204so5493560wmf.5
- for <dri-devel@lists.freedesktop.org>; Tue, 01 Jun 2021 10:42:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=fooishbar-org.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=tKi6UKXIxtLQvZnBQM6T1r5SkaEcCfPwBaukLgcFLzg=;
- b=YbHsGbBXGLiClmCpve7jbI0IddhidqoM1NItdiJJnk6RFAlDXYhdFeue2Ifa71mUNO
- DHUgPEKsFQGY2Mp9E5/vaUIFOqDmMnGcLJVfXdQp1PoFFWOFxcDWoeZeZ2V02GjwlqRV
- MZo3A87rTKJ2RXJ1fzbCG7Xgf89DWUbWsfcaX/FRJm2KHnrHaiRjKGcE4njy6L5NSmHF
- yZfXI3jqTIlevNsSjohip/w9altXZA9N0q1kfWrVaSPe7ePGFBMYOc8dtvfmc5Tm4FVO
- heDYJWkW9uZDjbA6wEt9LN78QUho8NRjdNXeRbQtefkNrQg/elVHJu/IDXtx022MlIZ9
- gykQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=tKi6UKXIxtLQvZnBQM6T1r5SkaEcCfPwBaukLgcFLzg=;
- b=kWw5RvC5QvoXNEmYl40w7pEY/Zm6oAmC4VaDsxmAZbSBF0cUxH/aOTnw/t4BurqjfE
- UUVnvWBfWeJ53i3Gj9rwKz0J71+weygy/UtsLitRG9INfCPdIr1N8tLMFLPNjV1rAKua
- C1DiD61GXxRFADbV+Sx99KPnp7ygLp9pz6+rg/ONggZz53n3tD/KAhhMGSL6w0Zf0GeS
- 2CSoqNcJGP6N6Oe0q8Pg3FkG9kEHe1g6r935jnQzdrG0L8bEtsGn811TfFeGCppzb4c7
- 49nxbfEGxm0gYG+gx2eerUHnzgP41Sx/PNdtj82tvz5cKghsVSsJXdio74Ri8DHDkNDF
- YAMA==
-X-Gm-Message-State: AOAM533M3hd70YktxjSXIr7e4hqVTSiMhTq2roWEH8M8LbVm7DIdCy3n
- wVuqxDt/CMxm7zbSBPKhNfO4KncPuHYqUmZdj80RCQ==
-X-Google-Smtp-Source: ABdhPJzlfRSN4CoZNDo1hDkr+7PNwm8HyUUx+FoLXGxJBJgzttyThGCOB+trGfaZeBSYgBL4PoGe+RhCAyIoemBs/98=
-X-Received: by 2002:a1c:b782:: with SMTP id h124mr1047150wmf.168.1622569352248; 
- Tue, 01 Jun 2021 10:42:32 -0700 (PDT)
-MIME-Version: 1.0
-References: <CAAxE2A4XS2mCXOdvxm1ZAhG2OY9w1P0X2E1ac1TXNFKDekog5g@mail.gmail.com>
- <e7cb9833-1044-0426-5ce4-5b5fc32a3603@daenzer.net>
- <327e4008-b29f-f5b7-bb30-532fa52c797f@gmail.com>
- <7f19e3c7-b6b2-5200-95eb-3fed8d22a6b3@daenzer.net>
- <b0d65f94-cc56-a4db-3158-7b1de3952792@gmail.com>
- <1945baa6-95d4-3f59-0c0e-01ae65033018@daenzer.net>
-In-Reply-To: <1945baa6-95d4-3f59-0c0e-01ae65033018@daenzer.net>
-From: Daniel Stone <daniel@fooishbar.org>
-Date: Tue, 1 Jun 2021 18:42:21 +0100
-Message-ID: <CAPj87rMNGZL4oaypFbQ8AuxvMyAFnaffPHXUzT=AkTpssD=H3A@mail.gmail.com>
-Subject: Re: [Mesa-dev] Linux Graphics Next: Userspace submission update
-To: =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel@daenzer.net>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3C5226EA98
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Jun 2021 17:51:15 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id DC094613EA
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Jun 2021 17:51:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1622569874;
+ bh=BVeicNTW75Y9ha2Y830J+yXCX5G67e3Jx5k9wTR21dI=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=eq8hS1uNSnZGjShEMMcO/mwxmduwQ57TIL3Ig3KR4BfVFrN+K9zYTZh1lOcMsxGWP
+ etn5jMUQf/haPWg82XshRV0bWpGWvW6EIDjpGYkUM7AwQN/Yc3bcKGbUSbLBW3xoI+
+ a5kyJz4eQaBKVFo0rWeIj83mHbGa5XXo8rV6Ofko5IYz5oTaajUi4BasDiiKqRFrDo
+ YOPqLC9NwIBuCgwcvHBb9k4D156SgXhXp8bVieFc9I4l5xVd6tPTn3suPvf1kip1/I
+ bQl6//lu0nMV+K6gnNHokhV3TfWxD2iY+9dPCbqydOiV7METPhjIq+4G+3BwQXX2R7
+ 8QWdDih8B/7Hw==
+Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
+ id D7DE960F56; Tue,  1 Jun 2021 17:51:14 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 209457] AMDGPU resume fail with RX 580 GPU
+Date: Tue, 01 Jun 2021 17:51:13 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: lsrzj@yahoo.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: cc
+Message-ID: <bug-209457-2300-iOhqwnXLN6@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-209457-2300@https.bugzilla.kernel.org/>
+References: <bug-209457-2300@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
+MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,70 +65,632 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jason Ekstrand <jason@jlekstrand.net>,
- =?UTF-8?B?TWFyZWsgT2zFocOhaw==?= <maraeo@gmail.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- ML Mesa-dev <mesa-dev@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+https://bugzilla.kernel.org/show_bug.cgi?id=3D209457
 
-On Tue, 1 Jun 2021 at 14:18, Michel D=C3=A4nzer <michel@daenzer.net> wrote:
-> On 2021-06-01 2:10 p.m., Christian K=C3=B6nig wrote:
-> > Am 01.06.21 um 12:49 schrieb Michel D=C3=A4nzer:
-> >> There isn't a choice for Wayland compositors in general, since there c=
-an be arbitrary other state which needs to be applied atomically together w=
-ith the new buffer. (Though in theory, a compositor might get fancy and spe=
-cial-case surface commits which can be handled by waiting on the GPU)
+Leandro Jacques (lsrzj@yahoo.com) changed:
 
-Yeah, this is pretty crucial.
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+                 CC|                            |lsrzj@yahoo.com
 
-> >> Latency is largely a matter of scheduling in the compositor. The laten=
-cy incurred by the compositor shouldn't have to be more than single-digit m=
-illiseconds. (I've seen total latency from when the client starts processin=
-g a (static) frame to when it starts being scanned out as low as ~6 ms with=
- https://gitlab.gnome.org/GNOME/mutter/-/merge_requests/1620, lower than ty=
-pical with Xorg)
-> >
-> > Well let me describe it like this:
-> >
-> > We have an use cases for 144 Hz guaranteed refresh rate. That essential=
-ly means that the client application needs to be able to spit out one frame=
-/window content every ~6.9ms. That's tough, but doable.
-> >
-> > When you now add 6ms latency in the compositor that means the client ap=
-plication has only .9ms left for it's frame which is basically impossible t=
-o do.
->
-> You misunderstood me. 6 ms is the lowest possible end-to-end latency from=
- client to scanout, but the client can start as early as it wants/needs to.=
- It's a trade-off between latency and the risk of missing a scanout cycle.
+--- Comment #23 from Leandro Jacques (lsrzj@yahoo.com) ---
+I'm facing exactly the same issue with a Ryzen 7 Vega 10 Graphics integrated
+GPU. I'll put my kernel log below, it began to happen after kernel 5.4, I h=
+ad
+to downgrade my kernel to 5.4-lts from AUR and it's already 3 days without =
+any
+GPU reset event.=20
 
-Not quite.
+Kernel crash log in amdgpu driver:
 
-When weston-presentation-shm is reporting is a 6ms delta between when
-it started its rendering loop and when the frame was presented to
-screen. How w-p-s was run matters a lot, because you can insert an
-arbitrary delay in there to simulate client rendering. It also matters
-a lot that the client is SHM, because that will result in Mutter doing
-glTexImage2D on whatever size the window is, then doing a full GL
-compositing pass, so even if it's run with zero delay, 6ms isn't 'the
-amount of time it takes Mutter to get a frame to screen', it's
-measuring the overhead of a texture upload and full-screen composition
-as well.
+mai 26 16:39:14 S145 kernel: [drm:amdgpu_job_timedout [amdgpu]] *ERROR* ring
+sdma0 timeout, signaled seq=3D26777, emitted seq=3D26778
+mai 26 16:39:14 S145 kernel: [drm:amdgpu_job_timedout [amdgpu]] *ERROR* Pro=
+cess
+information: process  pid 0 thread  pid 0
+mai 26 16:39:14 S145 kernel: amdgpu 0000:03:00.0: amdgpu: GPU reset begin!
+mai 26 16:39:14 S145 kernel: amdgpu 0000:03:00.0: amdgpu: MODE2 reset
+mai 26 16:39:14 S145 kernel: amdgpu 0000:03:00.0: amdgpu: GPU reset succeed=
+ed,
+trying to resume
+mai 26 16:39:14 S145 kernel: amdgpu 0000:03:00.0: amdgpu: RAS: optional ras=
+ ta
+ucode is not available
+mai 26 16:39:14 S145 kernel: amdgpu 0000:03:00.0: amdgpu: RAP: optional rap=
+ ta
+ucode is not available
+mai 26 16:39:15 S145 kernel: amdgpu 0000:03:00.0: amdgpu: ring gfx uses VM =
+inv
+eng 0 on hub 0
+mai 26 16:39:15 S145 kernel: amdgpu 0000:03:00.0: amdgpu: ring comp_1.0.0 u=
+ses
+VM inv eng 1 on hub 0
+mai 26 16:39:15 S145 kernel: amdgpu 0000:03:00.0: amdgpu: ring comp_1.1.0 u=
+ses
+VM inv eng 4 on hub 0
+mai 26 16:39:15 S145 kernel: amdgpu 0000:03:00.0: amdgpu: ring comp_1.2.0 u=
+ses
+VM inv eng 5 on hub 0
+mai 26 16:39:15 S145 kernel: amdgpu 0000:03:00.0: amdgpu: ring comp_1.3.0 u=
+ses
+VM inv eng 6 on hub 0
+mai 26 16:39:15 S145 kernel: amdgpu 0000:03:00.0: amdgpu: ring comp_1.0.1 u=
+ses
+VM inv eng 7 on hub 0
+mai 26 16:39:15 S145 kernel: amdgpu 0000:03:00.0: amdgpu: ring comp_1.1.1 u=
+ses
+VM inv eng 8 on hub 0
+mai 26 16:39:15 S145 kernel: amdgpu 0000:03:00.0: amdgpu: ring comp_1.2.1 u=
+ses
+VM inv eng 9 on hub 0
+mai 26 16:39:15 S145 kernel: amdgpu 0000:03:00.0: amdgpu: ring comp_1.3.1 u=
+ses
+VM inv eng 10 on hub 0
+mai 26 16:39:15 S145 kernel: amdgpu 0000:03:00.0: amdgpu: ring kiq_2.1.0 us=
+es
+VM inv eng 11 on hub 0
+mai 26 16:39:15 S145 kernel: amdgpu 0000:03:00.0: amdgpu: ring sdma0 uses VM
+inv eng 0 on hub 1
+mai 26 16:39:15 S145 kernel: amdgpu 0000:03:00.0: amdgpu: ring vcn_dec uses=
+ VM
+inv eng 1 on hub 1
+mai 26 16:39:15 S145 kernel: amdgpu 0000:03:00.0: amdgpu: ring vcn_enc0 use=
+s VM
+inv eng 4 on hub 1
+mai 26 16:39:15 S145 kernel: amdgpu 0000:03:00.0: amdgpu: ring vcn_enc1 use=
+s VM
+inv eng 5 on hub 1
+mai 26 16:39:15 S145 kernel: amdgpu 0000:03:00.0: amdgpu: ring jpeg_dec use=
+s VM
+inv eng 6 on hub 1
+mai 26 16:39:15 S145 kernel: amdgpu 0000:03:00.0: amdgpu: recover vram bo f=
+rom
+shadow start
+mai 26 16:39:15 S145 kernel: amdgpu 0000:03:00.0: amdgpu: recover vram bo f=
+rom
+shadow done
+mai 26 16:39:15 S145 kernel: amdgpu 0000:03:00.0: amdgpu: GPU reset(1)
+succeeded!
+mai 26 16:39:15 S145 kernel: amdgpu 0000:03:00.0: AMD-Vi: Event logged
+[IO_PAGE_FAULT domain=3D0x0000 address=3D0x10b480b00 flags=3D0x0070]
+mai 26 16:39:15 S145 kernel: amdgpu 0000:03:00.0: AMD-Vi: Event logged
+[IO_PAGE_FAULT domain=3D0x0000 address=3D0x10b480b40 flags=3D0x0070]
+mai 26 16:39:15 S145 kernel: amdgpu 0000:03:00.0: AMD-Vi: Event logged
+[IO_PAGE_FAULT domain=3D0x0000 address=3D0x10b480b20 flags=3D0x0070]
+mai 26 16:39:15 S145 kernel: amdgpu 0000:03:00.0: AMD-Vi: Event logged
+[IO_PAGE_FAULT domain=3D0x0000 address=3D0x10b480b60 flags=3D0x0070]
+mai 26 16:39:15 S145 kernel: amdgpu 0000:03:00.0: AMD-Vi: Event logged
+[IO_PAGE_FAULT domain=3D0x0000 address=3D0x10b480b80 flags=3D0x0070]
+mai 26 16:39:15 S145 kernel: amdgpu 0000:03:00.0: AMD-Vi: Event logged
+[IO_PAGE_FAULT domain=3D0x0000 address=3D0x10b480bc0 flags=3D0x0070]
+mai 26 16:39:15 S145 kernel: amdgpu 0000:03:00.0: AMD-Vi: Event logged
+[IO_PAGE_FAULT domain=3D0x0000 address=3D0x10b480ba0 flags=3D0x0070]
+mai 26 16:39:15 S145 kernel: amdgpu 0000:03:00.0: AMD-Vi: Event logged
+[IO_PAGE_FAULT domain=3D0x0000 address=3D0x10b480c00 flags=3D0x0070]
+mai 26 16:39:15 S145 kernel: amdgpu 0000:03:00.0: AMD-Vi: Event logged
+[IO_PAGE_FAULT domain=3D0x0000 address=3D0x10b480be0 flags=3D0x0070]
+mai 26 16:39:15 S145 kernel: amdgpu 0000:03:00.0: AMD-Vi: Event logged
+[IO_PAGE_FAULT domain=3D0x0000 address=3D0x10b480c40 flags=3D0x0070]
+mai 26 16:39:25 S145 kernel: [drm:amdgpu_job_timedout [amdgpu]] *ERROR* ring
+gfx timeout, but soft recovered
+mai 26 16:39:35 S145 kernel: [drm:amdgpu_job_timedout [amdgpu]] *ERROR* ring
+gfx timeout, signaled seq=3D2117313, emitted seq=3D2117316
+mai 26 16:39:35 S145 kernel: [drm:amdgpu_job_timedout [amdgpu]] *ERROR* Pro=
+cess
+information: process plasmashell pid 1137 thread plasmashel:cs0 pid 1234
+mai 26 16:39:35 S145 kernel: amdgpu 0000:03:00.0: amdgpu: GPU reset begin!
+mai 26 16:39:35 S145 kernel: amdgpu 0000:03:00.0: AMD-Vi: Event logged
+[IO_PAGE_FAULT domain=3D0x0000 address=3D0x10b485b40 flags=3D0x0070]
+mai 26 16:39:35 S145 kernel: amdgpu 0000:03:00.0: AMD-Vi: Event logged
+[IO_PAGE_FAULT domain=3D0x0000 address=3D0x10b485b60 flags=3D0x0070]
+mai 26 16:39:35 S145 kernel: amdgpu 0000:03:00.0: AMD-Vi: Event logged
+[IO_PAGE_FAULT domain=3D0x0000 address=3D0x10b485b80 flags=3D0x0070]
+mai 26 16:39:35 S145 kernel: amdgpu 0000:03:00.0: AMD-Vi: Event logged
+[IO_PAGE_FAULT domain=3D0x0000 address=3D0x10b485ba0 flags=3D0x0070]
+mai 26 16:39:35 S145 kernel: amdgpu 0000:03:00.0: AMD-Vi: Event logged
+[IO_PAGE_FAULT domain=3D0x0000 address=3D0x10b485bc0 flags=3D0x0070]
+mai 26 16:39:35 S145 kernel: amdgpu 0000:03:00.0: AMD-Vi: Event logged
+[IO_PAGE_FAULT domain=3D0x0000 address=3D0x10b485be0 flags=3D0x0070]
+mai 26 16:39:35 S145 kernel: amdgpu 0000:03:00.0: AMD-Vi: Event logged
+[IO_PAGE_FAULT domain=3D0x0000 address=3D0x10b485c20 flags=3D0x0070]
+mai 26 16:39:35 S145 kernel: amdgpu 0000:03:00.0: AMD-Vi: Event logged
+[IO_PAGE_FAULT domain=3D0x0000 address=3D0x10b485c00 flags=3D0x0070]
+mai 26 16:39:35 S145 kernel: amdgpu 0000:03:00.0: AMD-Vi: Event logged
+[IO_PAGE_FAULT domain=3D0x0000 address=3D0x10b485c40 flags=3D0x0070]
+mai 26 16:39:35 S145 kernel: amdgpu 0000:03:00.0: AMD-Vi: Event logged
+[IO_PAGE_FAULT domain=3D0x0000 address=3D0x10b485c60 flags=3D0x0070]
+mai 26 16:39:36 S145 kernel: amdgpu 0000:03:00.0: amdgpu: MODE2 reset
+mai 26 16:39:36 S145 kernel: amdgpu 0000:03:00.0: amdgpu: GPU reset succeed=
+ed,
+trying to resume
+mai 26 16:39:36 S145 kernel: amdgpu 0000:03:00.0: amdgpu: RAS: optional ras=
+ ta
+ucode is not available
+mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: RAP: optional rap=
+ ta
+ucode is not available
+mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: [drm:amdgpu_ring_test_hel=
+per
+[amdgpu]] *ERROR* ring sdma0 test failed (-110)
+mai 26 16:39:37 S145 kernel: [drm:amdgpu_device_ip_resume_phase2 [amdgpu]]
+*ERROR* resume of IP block <sdma_v4_0> failed -110
+mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: GPU reset(4) fail=
+ed
+mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedule=
+ ib
+on ring <sdma0>
+mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: GPU reset end with
+ret =3D -110
+mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+scheduling IBs (-22)
+mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedule=
+ ib
+on ring <sdma0>
+mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+scheduling IBs (-22)
+mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedule=
+ ib
+on ring <sdma0>
+mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+scheduling IBs (-22)
+mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedule=
+ ib
+on ring <sdma0>
+mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+scheduling IBs (-22)
+mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedule=
+ ib
+on ring <sdma0>
+mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+scheduling IBs (-22)
+mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedule=
+ ib
+on ring <sdma0>
+mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+scheduling IBs (-22)
+mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedule=
+ ib
+on ring <sdma0>
+mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+scheduling IBs (-22)
+mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedule=
+ ib
+on ring <sdma0>
+mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+scheduling IBs (-22)
+mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedule=
+ ib
+on ring <sdma0>
+mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+scheduling IBs (-22)
+mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedule=
+ ib
+on ring <sdma0>
+mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+scheduling IBs (-22)
+mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedule=
+ ib
+on ring <sdma0>
+mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+scheduling IBs (-22)
+mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedule=
+ ib
+on ring <sdma0>
+mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+scheduling IBs (-22)
+mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedule=
+ ib
+on ring <sdma0>
+mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+scheduling IBs (-22)
+mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedule=
+ ib
+on ring <sdma0>
+mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+scheduling IBs (-22)
+mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedule=
+ ib
+on ring <sdma0>
+mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+scheduling IBs (-22)
+mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedule=
+ ib
+on ring <sdma0>
+mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+scheduling IBs (-22)
+mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedule=
+ ib
+on ring <sdma0>
+mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+scheduling IBs (-22)
+mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedule=
+ ib
+on ring <sdma0>
+mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+scheduling IBs (-22)
+mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedule=
+ ib
+on ring <sdma0>
+mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+scheduling IBs (-22)
+mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedule=
+ ib
+on ring <sdma0>
+mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+scheduling IBs (-22)
+mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedule=
+ ib
+on ring <sdma0>
+mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+scheduling IBs (-22)
+mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedule=
+ ib
+on ring <sdma0>
+mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+scheduling IBs (-22)
+mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedule=
+ ib
+on ring <sdma0>
+mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+scheduling IBs (-22)
+mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedule=
+ ib
+on ring <sdma0>
+mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+scheduling IBs (-22)
+mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedule=
+ ib
+on ring <sdma0>
+mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+scheduling IBs (-22)
+mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedule=
+ ib
+on ring <sdma0>
+mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+scheduling IBs (-22)
+mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedule=
+ ib
+on ring <sdma0>
+mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+scheduling IBs (-22)
+mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedule=
+ ib
+on ring <sdma0>
+mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+scheduling IBs (-22)
+mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedule=
+ ib
+on ring <sdma0>
+mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+scheduling IBs (-22)
+mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedule=
+ ib
+on ring <sdma0>
+mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+scheduling IBs (-22)
+mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedule=
+ ib
+on ring <sdma0>
+mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+scheduling IBs (-22)
+mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedule=
+ ib
+on ring <sdma0>
+mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+scheduling IBs (-22)
+mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedule=
+ ib
+on ring <sdma0>
+mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+scheduling IBs (-22)
+mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedule=
+ ib
+on ring <sdma0>
+mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+scheduling IBs (-22)
+mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedule=
+ ib
+on ring <sdma0>
+mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+scheduling IBs (-22)
+mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedule=
+ ib
+on ring <sdma0>
+mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+scheduling IBs (-22)
+mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedule=
+ ib
+on ring <sdma0>
+mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+scheduling IBs (-22)
+mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedule=
+ ib
+on ring <sdma0>
+mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+scheduling IBs (-22)
+mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedule=
+ ib
+on ring <sdma0>
+mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+scheduling IBs (-22)
+mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedule=
+ ib
+on ring <sdma0>
+mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+scheduling IBs (-22)
+mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedule=
+ ib
+on ring <sdma0>
+mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+scheduling IBs (-22)
+mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedule=
+ ib
+on ring <sdma0>
+mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+scheduling IBs (-22)
+mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedule=
+ ib
+on ring <sdma0>
+mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+scheduling IBs (-22)
+mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedule=
+ ib
+on ring <sdma0>
+mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+scheduling IBs (-22)
+mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedule=
+ ib
+on ring <sdma0>
+mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+scheduling IBs (-22)
+mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedule=
+ ib
+on ring <sdma0>
+mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+scheduling IBs (-22)
+mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedule=
+ ib
+on ring <sdma0>
+mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+scheduling IBs (-22)
+mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedule=
+ ib
+on ring <sdma0>
+mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+scheduling IBs (-22)
+mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedule=
+ ib
+on ring <sdma0>
+mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+scheduling IBs (-22)
+mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedule=
+ ib
+on ring <sdma0>
+mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+scheduling IBs (-22)
+mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedule=
+ ib
+on ring <sdma0>
+mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+scheduling IBs (-22)
+mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedule=
+ ib
+on ring <sdma0>
+mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+scheduling IBs (-22)
+mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedule=
+ ib
+on ring <sdma0>
+mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+scheduling IBs (-22)
+mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedule=
+ ib
+on ring <sdma0>
+mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+scheduling IBs (-22)
+mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedule=
+ ib
+on ring <sdma0>
+mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+scheduling IBs (-22)
+mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedule=
+ ib
+on ring <sdma0>
+mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+scheduling IBs (-22)
+mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedule=
+ ib
+on ring <sdma0>
+mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+scheduling IBs (-22)
+mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedule=
+ ib
+on ring <sdma0>
+mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+scheduling IBs (-22)
+mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedule=
+ ib
+on ring <sdma0>
+mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+scheduling IBs (-22)
+mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedule=
+ ib
+on ring <sdma0>
+mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+scheduling IBs (-22)
+mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedule=
+ ib
+on ring <sdma0>
+mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+scheduling IBs (-22)
+mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedule=
+ ib
+on ring <sdma0>
+mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+scheduling IBs (-22)
+mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedule=
+ ib
+on ring <sdma0>
+mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+scheduling IBs (-22)
+mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedule=
+ ib
+on ring <sdma0>
+mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+scheduling IBs (-22)
+mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedule=
+ ib
+on ring <sdma0>
+mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+scheduling IBs (-22)
+mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedule=
+ ib
+on ring <sdma0>
+mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+scheduling IBs (-22)
+mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedule=
+ ib
+on ring <sdma0>
+mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+scheduling IBs (-22)
+mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedule=
+ ib
+on ring <sdma0>
+mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+scheduling IBs (-22)
+mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedule=
+ ib
+on ring <sdma0>
+mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+scheduling IBs (-22)
+mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedule=
+ ib
+on ring <sdma0>
+mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+scheduling IBs (-22)
+mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedule=
+ ib
+on ring <sdma0>
+mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+scheduling IBs (-22)
+mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedule=
+ ib
+on ring <sdma0>
+mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+scheduling IBs (-22)
+mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedule=
+ ib
+on ring <sdma0>
+mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+scheduling IBs (-22)
+mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedule=
+ ib
+on ring <sdma0>
+mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+scheduling IBs (-22)
+mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedule=
+ ib
+on ring <sdma0>
+mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+scheduling IBs (-22)
+mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedule=
+ ib
+on ring <sdma0>
+mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+scheduling IBs (-22)
+mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedule=
+ ib
+on ring <sdma0>
+mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+scheduling IBs (-22)
+mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedule=
+ ib
+on ring <sdma0>
+mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+scheduling IBs (-22)
+mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedule=
+ ib
+on ring <sdma0>
+mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+scheduling IBs (-22)
+mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedule=
+ ib
+on ring <sdma0>
+mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+scheduling IBs (-22)
+mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedule=
+ ib
+on ring <sdma0>
+mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+scheduling IBs (-22)
+mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedule=
+ ib
+on ring <sdma0>
+mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+scheduling IBs (-22)
+mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedule=
+ ib
+on ring <sdma0>
+mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+scheduling IBs (-22)
+mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedule=
+ ib
+on ring <sdma0>
+mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+scheduling IBs (-22)
+mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedule=
+ ib
+on ring <sdma0>
+mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+scheduling IBs (-22)
+mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedule=
+ ib
+on ring <sdma0>
+mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+scheduling IBs (-22)
+mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedule=
+ ib
+on ring <sdma0>
+mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+scheduling IBs (-22)
+mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedule=
+ ib
+on ring <sdma0>
+mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+scheduling IBs (-22)
+mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedule=
+ ib
+on ring <sdma0>
+mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+scheduling IBs (-22)
+mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedule=
+ ib
+on ring <sdma0>
+mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+scheduling IBs (-22)
+mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedule=
+ ib
+on ring <sdma0>
+mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+scheduling IBs (-22)
+mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedule=
+ ib
+on ring <sdma0>
+mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+scheduling IBs (-22)
+mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedule=
+ ib
+on ring <sdma0>
+mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+scheduling IBs (-22)
+mai 26 16:39:47 S145 kernel: [drm:amdgpu_job_timedout [amdgpu]] *ERROR* ring
+gfx timeout, but soft recovered
 
-I'm assuming the 'guaranteed 144Hz' target is a fullscreen GL client,
-for which you definitely avoid TexImage2D, and could hopefully
-(assuming the client picks a modifier which can be displayed) also
-avoid the composition pass in favour of direct scanout from the client
-buffer; that would give you a much lower number.
+--=20
+You may reply to this email to add a comment.
 
-Each compositor has its own heuristics around timing. They all make
-their own tradeoff between low latency and fewest dropped frames.
-Obviously, the higher your latency, the lower the chance of missing a
-deadline. There's a lot of detail in the MR that Michel linked.
-
-Cheers,
-Daniel
+You are receiving this mail because:
+You are watching the assignee of the bug.=
