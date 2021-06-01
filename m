@@ -2,61 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28264396F06
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Jun 2021 10:35:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA642396F46
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Jun 2021 10:46:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 31E106E990;
-	Tue,  1 Jun 2021 08:35:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7FC9F6E8C0;
+	Tue,  1 Jun 2021 08:45:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com
- [IPv6:2a00:1450:4864:20::32e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0527B6E990
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Jun 2021 08:35:34 +0000 (UTC)
-Received: by mail-wm1-x32e.google.com with SMTP id
- n17-20020a7bc5d10000b0290169edfadac9so986154wmk.1
- for <dri-devel@lists.freedesktop.org>; Tue, 01 Jun 2021 01:35:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=exqhHDB9OWwzPgQNBo/nfEe3b0GTN3OiWqDlKeYLWp4=;
- b=mXuDKvO6bXBk7T2JmxneEl9rq47krazgEEbzwQNZoSuRkSIiqKfaMoDDZ2vHxjXwaY
- IDJl/LODuiYBj1TuX3CEsArYILhwv8SPnACtWKKhzWrfNyiQZz3kL646MdCQlEWX9l5l
- LtailsD3u87D7DdyHLEXmEen73QeNoYd0SIOzna/9cyRQA/pCTwixnMhS7+zNzm2gRPE
- PKL5MGcmSpTiUas1pRBKS4XRl5bxg3qzKFGzqcbg1c6X3Iq/Qalve60jsI7Z1IcYuSyV
- iIcmIJwxfMHAF4wLXgFuTqYfuKf0rkesHYfwTYbrFrGOyP4mvGJ5gEyffo786f2RM1Kp
- PvJg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=exqhHDB9OWwzPgQNBo/nfEe3b0GTN3OiWqDlKeYLWp4=;
- b=J2+4lWZUDgyaTRHzrwqGP+z3ljIYzLTeRxmYusfpdSk6OoJVNaFLkHtxDRfBO9ljGL
- j2cO0xNYOeA3fY/vxraGKXmc6HY5EjDx/HAron8UQvYhfU3emJoaiXTGVFxeZ/WYknS7
- 5HlbE3pf7jCki06BjrD6+MoWI/elm6373dV0yyvkrNdA4S1jap0bEOhYCvUib+3+TnZU
- 3BNB3/VwVFFOpyVClBXpDG4kRIYev2Pm0GfoyfeorlF4yxNYWLKQAO1Di+t9Cg1PDznT
- aUTi/iJpA7Jei9R255oUHotrjG2lcBVHvwyy7SmqWXypMK64nF/DNN83qdCcuq/OpNM+
- Gy3w==
-X-Gm-Message-State: AOAM532f66oLtYGM5ICcR/4IH4mt1ypTnjRYBEiE0UFZI7a4ET2EdJo3
- zk9uVMnTNa7l6/4BA32IdMei/A==
-X-Google-Smtp-Source: ABdhPJyQb1pkiKbmg2hfmvO018+KRwd+wXWlJmJFUKLMKl4gTZmQTZums/t3lY9OG3aUAbuiqtptjg==
-X-Received: by 2002:a05:600c:243:: with SMTP id 3mr785928wmj.35.1622536533550; 
- Tue, 01 Jun 2021 01:35:33 -0700 (PDT)
-Received: from maple.lan (cpc141216-aztw34-2-0-cust174.18-1.cable.virginm.net.
- [80.7.220.175])
- by smtp.gmail.com with ESMTPSA id b8sm2361875wrx.15.2021.06.01.01.35.32
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 01 Jun 2021 01:35:32 -0700 (PDT)
-Date: Tue, 1 Jun 2021 09:35:31 +0100
-From: Daniel Thompson <daniel.thompson@linaro.org>
-To: Linus Walleij <linus.walleij@linaro.org>
-Subject: Re: [PATCH] backlight: ktd253: Stabilize backlight
-Message-ID: <20210601083531.ed6d4h3fcikbqmnw@maple.lan>
-References: <20210530194238.2172318-1-linus.walleij@linaro.org>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AA2616E8C0
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Jun 2021 08:45:58 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 60BC061370;
+ Tue,  1 Jun 2021 08:45:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1622537158;
+ bh=iRLwwh/jf6neXOQQgfnhI6BrCzqxxsNJFTOUKbWjbxU=;
+ h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+ b=sIrl/fVjSuZJc/8yYTG/dJgXF2S6Ulce6iDkG+5AKFvWM2npcdzHGjvr/bhghCsZF
+ gpJE2khsRcmBOfZpvtpHnKPnhJQHPS2ueehX2SI7BCGwJn5gNg09TOyvmk6VwPasQl
+ hGz0UQs7t1mG2u7JfCBEfI4j+86J1KWkdEbM9wydpaBKZ1jeprBZzT+74L3/Y/jb2O
+ jQalFjmxg6vOnopGnjuRLf6MOjheSfjBdCke3btHg+vBqi+MHF4SVyhI5S8Ijoj8kx
+ EcGYGkt1N+lSF8t2cp9YYGCDZOIMGva80GMffTImgfkezk7SLoDtdDjkDKonezD74D
+ d9pZAvCCOVmCg==
+Message-ID: <4552aaf531b0619a2d7a7cc4bcf2d049c44b4b74.camel@kernel.org>
+Subject: Re: [PATCH v2 06/12] drm/vc4: hdmi: Set HD_CTL_WHOLSMP and
+ HD_CTL_CHALIGN_SET
+From: nicolas saenz julienne <nsaenz@kernel.org>
+To: Maxime Ripard <maxime@cerno.tech>, Jaroslav Kysela <perex@perex.cz>, 
+ Mark Brown <broonie@kernel.org>, dri-devel@lists.freedesktop.org, Daniel
+ Vetter <daniel.vetter@intel.com>,  David Airlie <airlied@linux.ie>, Maarten
+ Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
+ <tzimmermann@suse.de>, Liam Girdwood <lgirdwood@gmail.com>, Takashi Iwai
+ <tiwai@suse.com>
+Date: Tue, 01 Jun 2021 10:45:49 +0200
+In-Reply-To: <20210525132354.297468-7-maxime@cerno.tech>
+References: <20210525132354.297468-1-maxime@cerno.tech>
+ <20210525132354.297468-7-maxime@cerno.tech>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.40.0 (3.40.0-1.fc34) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210530194238.2172318-1-linus.walleij@linaro.org>
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,72 +54,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jingoo Han <jingoohan1@gmail.com>, newbyte@disroot.org,
- Lee Jones <lee.jones@linaro.org>, Stephan Gerhold <stephan@gerhold.net>,
- dri-devel@lists.freedesktop.org
+Cc: devicetree@vger.kernel.org, alsa-devel@alsa-project.org,
+ Dom Cobley <dom@raspberrypi.com>, Tim Gover <tim.gover@raspberrypi.com>,
+ linux-doc@vger.kernel.org, Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+ bcm-kernel-feedback-list@broadcom.com, linux-arm-kernel@lists.infradead.org,
+ Dom Cobley <popcornmix@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
+ Phil Elwell <phil@raspberrypi.com>,
+ Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
+ linux-rpi-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, May 30, 2021 at 09:42:38PM +0200, Linus Walleij wrote:
-> Remove interrupt disablement during backlight setting. It is
-> way to dangerous and makes platforms instable by having it
-> miss vblank IRQs leading to the graphics derailing.
+On Tue, 2021-05-25 at 15:23 +0200, Maxime Ripard wrote:
+> From: Dom Cobley <popcornmix@gmail.com>
 > 
-> The code is using ndelay() which is not available on
-> platforms such as ARM and will result in 32 * udelay(1)
-> which is substantial.
+> Symptom is random switching of speakers when using multichannel.
 > 
-> Fixes: 5317f37e48b9 ("backlight: Add Kinetic KTD253 backlight driver")
-> Cc: Stephan Gerhold <stephan@gerhold.net>
-> Reported-by: newbyte@disroot.org
-> Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
+> Repeatedly running speakertest -c8 occasionally starts with
+> channels jumbled. This is fixed with HD_CTL_WHOLSMP.
+> 
+> The other bit looks beneficial and apears harmless in testing so
+> I'd suggest adding it too.
+> 
+> Documentation says: HD_CTL_WHILSMP_SET
+> Wait for whole sample. When this bit is set MAI transmit will start
+> only when there is at least one whole sample available in the fifo.
+> 
+> Documentation says: HD_CTL_CHALIGN_SET
+> Channel Align When Overflow. This bit is used to realign the audio
+> channels in case of an overflow.
+> If this bit is set, after the detection of an overflow, equal
+> amount of dummy words to the missing words will be written to fifo,
+> filling up the broken sample and maintaining alignment.
+> 
+> Signed-off-by: Dom Cobley <popcornmix@gmail.com>
+> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 > ---
->  drivers/video/backlight/ktd253-backlight.c | 6 ------
->  1 file changed, 6 deletions(-)
-> 
-> diff --git a/drivers/video/backlight/ktd253-backlight.c b/drivers/video/backlight/ktd253-backlight.c
-> index a7df5bcca9da..b79a47c2801f 100644
-> --- a/drivers/video/backlight/ktd253-backlight.c
-> +++ b/drivers/video/backlight/ktd253-backlight.c
-> @@ -40,7 +40,6 @@ static int ktd253_backlight_update_status(struct backlight_device *bl)
->  	int brightness = backlight_get_brightness(bl);
->  	u16 target_ratio;
->  	u16 current_ratio = ktd253->ratio;
-> -	unsigned long flags;
->  
->  	dev_dbg(ktd253->dev, "new brightness/ratio: %d/32\n", brightness);
->  
-> @@ -69,13 +68,9 @@ static int ktd253_backlight_update_status(struct backlight_device *bl)
->  	}
->  
->  	/*
-> -	 * WARNING:
-> -	 * The loop to set the correct current level is performed
-> -	 * with interrupts disabled as it is timing critical.
->  	 * The maximum number of cycles of the loop is 32
->  	 * so the time taken will be (T_LOW_NS + T_HIGH_NS + loop_time) * 32,
->  	 */
-> -	local_irq_save(flags);
->  	while (current_ratio != target_ratio) {
->  		/*
->  		 * These GPIO operations absolutely can NOT sleep so no
-> @@ -92,7 +87,6 @@ static int ktd253_backlight_update_status(struct backlight_device *bl)
->  		else
->  			current_ratio--;
->  	}
-> -	local_irq_restore(flags);
 
-IIUC if this code is prevented from progressing for 3ms or longer then
-we risk deactivating the backlight instead of setting it. Does there need
-to be a retrospective timeout check and recovery loop?
+Reviewed-by: Nicolas Saenz Julienne <nsaenz@kernel.org>
 
+Regards,
+Nicolas
 
-Daniel.
-
-
->  	ktd253->ratio = current_ratio;
->  
->  	dev_dbg(ktd253->dev, "new ratio set to %d/32\n", target_ratio);
-> -- 
-> 2.31.1
-> 
