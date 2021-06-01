@@ -1,41 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5A0D39732F
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Jun 2021 14:27:09 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3EFAB397333
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Jun 2021 14:27:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DD80D6EA32;
-	Tue,  1 Jun 2021 12:27:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DAA8E6EA39;
+	Tue,  1 Jun 2021 12:27:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 388286EA2E;
- Tue,  1 Jun 2021 12:27:06 +0000 (UTC)
-IronPort-SDR: yx8AhJCDcQz4A3XveRi8hS2h+CGyt5YHgWBGl8dMSJqnqFkqrR9aY4L8sRIzSXGHU+JN2OUPmZ
- LiX8570ScdwQ==
-X-IronPort-AV: E=McAfee;i="6200,9189,10001"; a="190650143"
-X-IronPort-AV: E=Sophos;i="5.83,239,1616482800"; d="scan'208";a="190650143"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 15D546EA35;
+ Tue,  1 Jun 2021 12:27:44 +0000 (UTC)
+IronPort-SDR: 9J8iNcsfvvEe/iBgV4krw++1CWjk++7PxKPcb4Yn6ygeV+Nc7vWHC1PnuB/iyGRp0kAoe01gEW
+ xydRDbGhotYg==
+X-IronPort-AV: E=McAfee;i="6200,9189,10001"; a="190650258"
+X-IronPort-AV: E=Sophos;i="5.83,239,1616482800"; d="scan'208";a="190650258"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Jun 2021 05:27:05 -0700
-IronPort-SDR: fkQ2IEP/SExb5jxPolr4uhpRk/CHoHQ2VlrNSsi4erb0Bc1sJXEs744JkPg+dvBDV/k5+OnKOI
- z4NxoKSn3B9g==
-X-IronPort-AV: E=Sophos;i="5.83,239,1616482800"; d="scan'208";a="479259565"
+ 01 Jun 2021 05:27:43 -0700
+IronPort-SDR: 3alkzTWieqoqD0FyT6ZmkL4P3b4wzc/Nq9alCj91uIAN/JW05buGSBXVJYExFYYXQD0HcV35xi
+ kF/q+hpoGoLQ==
+X-IronPort-AV: E=Sophos;i="5.83,239,1616482800"; d="scan'208";a="445316204"
 Received: from ycohenha-mobl1.ger.corp.intel.com (HELO localhost)
  ([10.252.54.130])
- by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Jun 2021 05:27:02 -0700
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Jun 2021 05:27:40 -0700
 From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Zbigniew =?utf-8?Q?Kempczy=C5=84ski?= <zbigniew.kempczynski@intel.com>,
+To: Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
  intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: Re: [Intel-gfx] [PATCH] drm/i915: Add relocation exceptions for two
- other platforms
-In-Reply-To: <20210601082847.78389-1-zbigniew.kempczynski@intel.com>
+Subject: Re: [PATCH v9 07/15] drm: Add a prefetching memcpy_from_wc
+In-Reply-To: <20210601074654.3103-8-thomas.hellstrom@linux.intel.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20210601082847.78389-1-zbigniew.kempczynski@intel.com>
-Date: Tue, 01 Jun 2021 15:26:59 +0300
-Message-ID: <87lf7trcrw.fsf@intel.com>
+References: <20210601074654.3103-1-thomas.hellstrom@linux.intel.com>
+ <20210601074654.3103-8-thomas.hellstrom@linux.intel.com>
+Date: Tue, 01 Jun 2021 15:27:37 +0300
+Message-ID: <87im2xrcqu.fsf@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
@@ -51,79 +51,281 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dave Airlie <airlied@redhat.com>, Daniel Vetter <daniel.vetter@intel.com>
+Cc: Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Christian =?utf-8?Q?K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 01 Jun 2021, Zbigniew Kempczy=C5=84ski <zbigniew.kempczynski@intel.=
-com> wrote:
-> We have established previously we stop using relocations starting
-> from gen12 platforms with Tigerlake as an exception. We keep this
-> statement but we want to enable relocations conditionally for
-> Rocketlake and Alderlake under require_force_probe flag set.
+On Tue, 01 Jun 2021, Thomas Hellstr=C3=B6m <thomas.hellstrom@linux.intel.co=
+m> wrote:
+> Reading out of write-combining mapped memory is typically very slow
+> since the CPU doesn't prefetch. However some archs have special
+> instructions to do this.
 >
-> Keeping relocations under require_force_probe flag is interim solution
-> until IGTs will be rewritten to use softpin.
+> So add a best-effort memcpy_from_wc taking dma-buf-map pointer
+> arguments that attempts to use a fast prefetching memcpy and
+> otherwise falls back to ordinary memcopies, taking the iomem tagging
+> into account.
 >
-> Signed-off-by: Zbigniew Kempczy=C5=84ski <zbigniew.kempczynski@intel.com>
-> Cc: Dave Airlie <airlied@redhat.com>
-> Cc: Daniel Vetter <daniel.vetter@intel.com>
-> Cc: Jason Ekstrand <jason@jlekstrand.net>
+> The code is largely copied from i915_memcpy_from_wc.
+>
+> Cc: Daniel Vetter <daniel@ffwll.ch>
+> Cc: Christian K=C3=B6nig <christian.koenig@amd.com>
+> Suggested-by: Daniel Vetter <daniel@ffwll.ch>
+> Signed-off-by: Thomas Hellstr=C3=B6m <thomas.hellstrom@linux.intel.com>
+> Acked-by: Christian K=C3=B6nig <christian.koenig@amd.com>
+> Acked-by: Daniel Vetter <daniel@ffwll.ch>
 > ---
->  .../gpu/drm/i915/gem/i915_gem_execbuffer.c    | 26 +++++++++++++++----
->  1 file changed, 21 insertions(+), 5 deletions(-)
+> v7:
+> - Perform a memcpy even if warning with in_interrupt(). Suggested by
+>   Christian K=C3=B6nig.
+> - Fix compilation failure on !X86 (Reported by kernel test robot
+>   lkp@intel.com)
+> v8:
+> - Skip kerneldoc for drm_memcpy_init_early()
+> - Export drm_memcpy_from_wc() also for non-x86.
+> ---
+>  Documentation/gpu/drm-mm.rst |   2 +-
+>  drivers/gpu/drm/drm_cache.c  | 148 +++++++++++++++++++++++++++++++++++
+>  drivers/gpu/drm/drm_drv.c    |   2 +
+>  include/drm/drm_cache.h      |   7 ++
+>  4 files changed, 158 insertions(+), 1 deletion(-)
 >
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c b/drivers/gpu=
-/drm/i915/gem/i915_gem_execbuffer.c
-> index 297143511f99..c0562dd14837 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
-> @@ -491,16 +491,32 @@ eb_unreserve_vma(struct eb_vma *ev)
->  	ev->flags &=3D ~__EXEC_OBJECT_RESERVED;
->  }
+> diff --git a/Documentation/gpu/drm-mm.rst b/Documentation/gpu/drm-mm.rst
+> index 21be6deadc12..c66058c5bce7 100644
+> --- a/Documentation/gpu/drm-mm.rst
+> +++ b/Documentation/gpu/drm-mm.rst
+> @@ -469,7 +469,7 @@ DRM MM Range Allocator Function References
+>  .. kernel-doc:: drivers/gpu/drm/drm_mm.c
+>     :export:
 >=20=20
-> +static inline bool
+> -DRM Cache Handling
+> +DRM Cache Handling and Fast WC memcpy()
+>  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
 
-Please don't use the inline keyword in .c files. Let the compiler do its
-job.
-
+The title underline needs to be as long as the title.
 
 BR,
 Jani.
 
-> +platform_has_relocs_enabled(const struct i915_execbuffer *eb)
+>=20=20
+>  .. kernel-doc:: drivers/gpu/drm/drm_cache.c
+> diff --git a/drivers/gpu/drm/drm_cache.c b/drivers/gpu/drm/drm_cache.c
+> index 79a50ef1250f..546599f19a93 100644
+> --- a/drivers/gpu/drm/drm_cache.c
+> +++ b/drivers/gpu/drm/drm_cache.c
+> @@ -28,6 +28,7 @@
+>   * Authors: Thomas Hellstr=C3=B6m <thomas-at-tungstengraphics-dot-com>
+>   */
+>=20=20
+> +#include <linux/dma-buf-map.h>
+>  #include <linux/export.h>
+>  #include <linux/highmem.h>
+>  #include <linux/mem_encrypt.h>
+> @@ -35,6 +36,9 @@
+>=20=20
+>  #include <drm/drm_cache.h>
+>=20=20
+> +/* A small bounce buffer that fits on the stack. */
+> +#define MEMCPY_BOUNCE_SIZE 128
+> +
+>  #if defined(CONFIG_X86)
+>  #include <asm/smp.h>
+>=20=20
+> @@ -209,3 +213,147 @@ bool drm_need_swiotlb(int dma_bits)
+>  	return max_iomem > ((u64)1 << dma_bits);
+>  }
+>  EXPORT_SYMBOL(drm_need_swiotlb);
+> +
+> +static void memcpy_fallback(struct dma_buf_map *dst,
+> +			    const struct dma_buf_map *src,
+> +			    unsigned long len)
 > +{
-> +	/*
-> +	 * Relocations are disallowed starting from gen12 with Tigerlake
-> +	 * as an exception. We allow temporarily use relocations for Rocketlake
-> +	 * and Alderlake when require_force_probe flag is set.
-> +	 */
+> +	if (!dst->is_iomem && !src->is_iomem) {
+> +		memcpy(dst->vaddr, src->vaddr, len);
+> +	} else if (!src->is_iomem) {
+> +		dma_buf_map_memcpy_to(dst, src->vaddr, len);
+> +	} else if (!dst->is_iomem) {
+> +		memcpy_fromio(dst->vaddr, src->vaddr_iomem, len);
+> +	} else {
+> +		/*
+> +		 * Bounce size is not performance tuned, but using a
+> +		 * bounce buffer like this is significantly faster than
+> +		 * resorting to ioreadxx() + iowritexx().
+> +		 */
+> +		char bounce[MEMCPY_BOUNCE_SIZE];
+> +		void __iomem *_src =3D src->vaddr_iomem;
+> +		void __iomem *_dst =3D dst->vaddr_iomem;
 > +
-> +	if (INTEL_GEN(eb->i915) < 12 || IS_TIGERLAKE(eb->i915))
-> +		return true;
-> +
-> +	if (INTEL_INFO(eb->i915)->require_force_probe &&
-> +		 (IS_ROCKETLAKE(eb->i915) || IS_ALDERLAKE_S(eb->i915) ||
-> +		  IS_ALDERLAKE_P(eb->i915)))
-> +		return true;
-> +
-> +	return false;
+> +		while (len >=3D MEMCPY_BOUNCE_SIZE) {
+> +			memcpy_fromio(bounce, _src, MEMCPY_BOUNCE_SIZE);
+> +			memcpy_toio(_dst, bounce, MEMCPY_BOUNCE_SIZE);
+> +			_src +=3D MEMCPY_BOUNCE_SIZE;
+> +			_dst +=3D MEMCPY_BOUNCE_SIZE;
+> +			len -=3D MEMCPY_BOUNCE_SIZE;
+> +		}
+> +		if (len) {
+> +			memcpy_fromio(bounce, _src, MEMCPY_BOUNCE_SIZE);
+> +			memcpy_toio(_dst, bounce, MEMCPY_BOUNCE_SIZE);
+> +		}
+> +	}
 > +}
 > +
->  static int
->  eb_validate_vma(struct i915_execbuffer *eb,
->  		struct drm_i915_gem_exec_object2 *entry,
->  		struct i915_vma *vma)
->  {
-> -	/* Relocations are disallowed for all platforms after TGL-LP.  This
-> -	 * also covers all platforms with local memory.
-> -	 */
-> -	if (entry->relocation_count &&
-> -	    INTEL_GEN(eb->i915) >=3D 12 && !IS_TIGERLAKE(eb->i915))
-> +	if (entry->relocation_count && !platform_has_relocs_enabled(eb))
->  		return -EINVAL;
+> +#ifdef CONFIG_X86
+> +
+> +static DEFINE_STATIC_KEY_FALSE(has_movntdqa);
+> +
+> +static void __memcpy_ntdqa(void *dst, const void *src, unsigned long len)
+> +{
+> +	kernel_fpu_begin();
+> +
+> +	while (len >=3D 4) {
+> +		asm("movntdqa	(%0), %%xmm0\n"
+> +		    "movntdqa 16(%0), %%xmm1\n"
+> +		    "movntdqa 32(%0), %%xmm2\n"
+> +		    "movntdqa 48(%0), %%xmm3\n"
+> +		    "movaps %%xmm0,   (%1)\n"
+> +		    "movaps %%xmm1, 16(%1)\n"
+> +		    "movaps %%xmm2, 32(%1)\n"
+> +		    "movaps %%xmm3, 48(%1)\n"
+> +		    :: "r" (src), "r" (dst) : "memory");
+> +		src +=3D 64;
+> +		dst +=3D 64;
+> +		len -=3D 4;
+> +	}
+> +	while (len--) {
+> +		asm("movntdqa (%0), %%xmm0\n"
+> +		    "movaps %%xmm0, (%1)\n"
+> +		    :: "r" (src), "r" (dst) : "memory");
+> +		src +=3D 16;
+> +		dst +=3D 16;
+> +	}
+> +
+> +	kernel_fpu_end();
+> +}
+> +
+> +/*
+> + * __drm_memcpy_from_wc copies @len bytes from @src to @dst using
+> + * non-temporal instructions where available. Note that all arguments
+> + * (@src, @dst) must be aligned to 16 bytes and @len must be a multiple
+> + * of 16.
+> + */
+> +static void __drm_memcpy_from_wc(void *dst, const void *src, unsigned lo=
+ng len)
+> +{
+> +	if (unlikely(((unsigned long)dst | (unsigned long)src | len) & 15))
+> +		memcpy(dst, src, len);
+> +	else if (likely(len))
+> +		__memcpy_ntdqa(dst, src, len >> 4);
+> +}
+> +
+> +/**
+> + * drm_memcpy_from_wc - Perform the fastest available memcpy from a sour=
+ce
+> + * that may be WC.
+> + * @dst: The destination pointer
+> + * @src: The source pointer
+> + * @len: The size of the area o transfer in bytes
+> + *
+> + * Tries an arch optimized memcpy for prefetching reading out of a WC re=
+gion,
+> + * and if no such beast is available, falls back to a normal memcpy.
+> + */
+> +void drm_memcpy_from_wc(struct dma_buf_map *dst,
+> +			const struct dma_buf_map *src,
+> +			unsigned long len)
+> +{
+> +	if (WARN_ON(in_interrupt())) {
+> +		memcpy_fallback(dst, src, len);
+> +		return;
+> +	}
+> +
+> +	if (static_branch_likely(&has_movntdqa)) {
+> +		__drm_memcpy_from_wc(dst->is_iomem ?
+> +				     (void __force *)dst->vaddr_iomem :
+> +				     dst->vaddr,
+> +				     src->is_iomem ?
+> +				     (void const __force *)src->vaddr_iomem :
+> +				     src->vaddr,
+> +				     len);
+> +		return;
+> +	}
+> +
+> +	memcpy_fallback(dst, src, len);
+> +}
+> +EXPORT_SYMBOL(drm_memcpy_from_wc);
+> +
+> +/*
+> + * drm_memcpy_init_early - One time initialization of the WC memcpy code
+> + */
+> +void drm_memcpy_init_early(void)
+> +{
+> +	/*
+> +	 * Some hypervisors (e.g. KVM) don't support VEX-prefix instructions
+> +	 * emulation. So don't enable movntdqa in hypervisor guest.
+> +	 */
+> +	if (static_cpu_has(X86_FEATURE_XMM4_1) &&
+> +	    !boot_cpu_has(X86_FEATURE_HYPERVISOR))
+> +		static_branch_enable(&has_movntdqa);
+> +}
+> +#else
+> +void drm_memcpy_from_wc(struct dma_buf_map *dst,
+> +			const struct dma_buf_map *src,
+> +			unsigned long len)
+> +{
+> +	WARN_ON(in_interrupt());
+> +
+> +	memcpy_fallback(dst, src, len);
+> +}
+> +EXPORT_SYMBOL(drm_memcpy_from_wc);
+> +
+> +void drm_memcpy_init_early(void)
+> +{
+> +}
+> +#endif /* CONFIG_X86 */
+> diff --git a/drivers/gpu/drm/drm_drv.c b/drivers/gpu/drm/drm_drv.c
+> index 3d8d68a98b95..8804ec7d3215 100644
+> --- a/drivers/gpu/drm/drm_drv.c
+> +++ b/drivers/gpu/drm/drm_drv.c
+> @@ -35,6 +35,7 @@
+>  #include <linux/slab.h>
+>  #include <linux/srcu.h>
 >=20=20
->  	if (unlikely(entry->flags & eb->invalid_flags))
+> +#include <drm/drm_cache.h>
+>  #include <drm/drm_client.h>
+>  #include <drm/drm_color_mgmt.h>
+>  #include <drm/drm_drv.h>
+> @@ -1041,6 +1042,7 @@ static int __init drm_core_init(void)
+>=20=20
+>  	drm_connector_ida_init();
+>  	idr_init(&drm_minors_idr);
+> +	drm_memcpy_init_early();
+>=20=20
+>  	ret =3D drm_sysfs_init();
+>  	if (ret < 0) {
+> diff --git a/include/drm/drm_cache.h b/include/drm/drm_cache.h
+> index e9ad4863d915..cc9de1632dd3 100644
+> --- a/include/drm/drm_cache.h
+> +++ b/include/drm/drm_cache.h
+> @@ -35,6 +35,8 @@
+>=20=20
+>  #include <linux/scatterlist.h>
+>=20=20
+> +struct dma_buf_map;
+> +
+>  void drm_clflush_pages(struct page *pages[], unsigned long num_pages);
+>  void drm_clflush_sg(struct sg_table *st);
+>  void drm_clflush_virt_range(void *addr, unsigned long length);
+> @@ -70,4 +72,9 @@ static inline bool drm_arch_can_wc_memory(void)
+>  #endif
+>  }
+>=20=20
+> +void drm_memcpy_init_early(void);
+> +
+> +void drm_memcpy_from_wc(struct dma_buf_map *dst,
+> +			const struct dma_buf_map *src,
+> +			unsigned long len);
+>  #endif
 
 --=20
 Jani Nikula, Intel Open Source Graphics Center
