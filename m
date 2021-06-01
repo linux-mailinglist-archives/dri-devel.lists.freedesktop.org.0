@@ -1,63 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFDAE396FFC
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Jun 2021 11:10:06 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id AC53639701F
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Jun 2021 11:16:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 07E566E9A8;
-	Tue,  1 Jun 2021 09:10:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 12E546E9B5;
+	Tue,  1 Jun 2021 09:15:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-xd30.google.com (mail-io1-xd30.google.com
- [IPv6:2607:f8b0:4864:20::d30])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 640C46E9A8
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Jun 2021 09:10:04 +0000 (UTC)
-Received: by mail-io1-xd30.google.com with SMTP id a6so14524793ioe.0
- for <dri-devel@lists.freedesktop.org>; Tue, 01 Jun 2021 02:10:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
- bh=1EQ7MJidus+zd1vSi36boWoSco2HUCYyNMAuhLySHdo=;
- b=nAqGW0rv0vLb/EEjZ9CGKdRvJYzioH/TkKipmvva9d1weHd96fZy5/UMXiUFy21A5D
- Kau+N2HOeAygpGrZ3k2uI1JxhnRTx79j4kat57E4sAGqGJaxF7xnpDXpfUJ/+G0Z70P+
- KgMxj5H/MWx1On8FgVGTc48quuPGuLdFuo+hQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to;
- bh=1EQ7MJidus+zd1vSi36boWoSco2HUCYyNMAuhLySHdo=;
- b=fQjt2sO9jo1J0uTbezJ3YI5iO7QbfI0OfQSNG6Hh3iIOgm43ztq6PT7AuuOTh4irK9
- x6tJDlPJbYhmgeObxKbeyVWSwE2kbIhZMzrrbBrrIWPuDfQn5/0UQLwwW/ExEtOBNqCl
- ptJHEWSvnDYLZ0jkM+HUNceqR4rfqqoIDc9wWzCmJOP4BeJmoCMfer0nW8I7zWQwVXDZ
- EExvYDpgbZIPsVkeZmBX3R5YJ19OpeXvVtjGKAyWzL1MnHXX3FnaoDEzWJcrtAqoI7H/
- /wjqb91AY0w7gulHZR8ZZNbKs8AxFVjqxgvhOqP7lTLWLv1dZQb7XMGfPuq+JKZs7OLk
- xpaw==
-X-Gm-Message-State: AOAM531hl3q6CY/IoN4ybyOG0UGnaTRaDHuHVVncGcPqc/6znV+VeSVG
- rwo7BKTzt4KuFNIzripH1fSXevHjRqcRrXjE1v1G1Q==
-X-Google-Smtp-Source: ABdhPJxkxWViiR7+vNwBsf/JsSJSnGBvwsAoK0L0khytjCMALZZE3DhVgkcsjlOdiCEQeze9wTvqED+Hg5lgHKAj1wQ=
-X-Received: by 2002:a02:ca0d:: with SMTP id i13mr23985823jak.98.1622538603578; 
- Tue, 01 Jun 2021 02:10:03 -0700 (PDT)
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ABCFA6E9B3;
+ Tue,  1 Jun 2021 09:15:53 +0000 (UTC)
+IronPort-SDR: yTj46qgsVeJkEeH8Kyth8aZsyXFQq342/GrYK8e6pyBfFt4y6VMDulGyp2SFNDD/lEvw2CzaF9
+ Otsh+Y5F32bg==
+X-IronPort-AV: E=McAfee;i="6200,9189,10001"; a="190623636"
+X-IronPort-AV: E=Sophos;i="5.83,239,1616482800"; d="scan'208";a="190623636"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Jun 2021 02:15:52 -0700
+IronPort-SDR: Bw0tk3C7d1eONPubV8f1kyR9bZ+TSKu8KpyNrFseCA1eadASP2wH92/dAbzFseIm9hc6Hhv/pw
+ A19f5nJPi4nw==
+X-IronPort-AV: E=Sophos;i="5.83,239,1616482800"; d="scan'208";a="416411726"
+Received: from deancarp-mobl.ger.corp.intel.com (HELO [10.213.232.28])
+ ([10.213.232.28])
+ by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Jun 2021 02:15:50 -0700
+Subject: Re: [Intel-gfx] [PATCH -next] drm/i915: use DEVICE_ATTR_RO macro
+To: YueHaibing <yuehaibing@huawei.com>, jani.nikula@linux.intel.com,
+ joonas.lahtinen@linux.intel.com, rodrigo.vivi@intel.com, airlied@linux.ie,
+ daniel@ffwll.ch, chris@chris-wilson.co.uk, tvrtko.ursulin@intel.com
+References: <20210528100403.21548-1-yuehaibing@huawei.com>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+Message-ID: <7e60320b-3a1b-0cdc-136d-29c139b27af7@linux.intel.com>
+Date: Tue, 1 Jun 2021 10:15:48 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-References: <20210601103250.07301254@canb.auug.org.au>
- <YLX176D9oD7ZTSkT@ninjato>
-In-Reply-To: <YLX176D9oD7ZTSkT@ninjato>
-From: Hsin-Yi Wang <hsinyi@chromium.org>
-Date: Tue, 1 Jun 2021 17:09:37 +0800
-Message-ID: <CAJMQK-j1YKfquvY55HgTQ6zfDkE5btmRZKdjjOQ3rcq04QgKKQ@mail.gmail.com>
-Subject: Re: linux-next: build failure after merge of the i2c tree
-To: Wolfram Sang <wsa@the-dreams.de>, Stephen Rothwell <sfr@canb.auug.org.au>, 
- Chris Wilson <chris@chris-wilson.co.uk>,
- Bibby Hsieh <bibby.hsieh@mediatek.com>, 
- Hsin-Yi Wang <hsinyi@chromium.org>, Marek Szyprowski <m.szyprowski@samsung.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, 
- Linux Next Mailing List <linux-next@vger.kernel.org>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, 
- Jani Nikula <jani.nikula@linux.intel.com>, 
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, 
- Intel Graphics <intel-gfx@lists.freedesktop.org>,
- DRI <dri-devel@lists.freedesktop.org>, Dave Airlie <airlied@linux.ie>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20210528100403.21548-1-yuehaibing@huawei.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,66 +54,121 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jun 1, 2021 at 4:55 PM Wolfram Sang <wsa@the-dreams.de> wrote:
->
-> Hi Stephen,
->
-> > After merging the i2c tree, today's linux-next build (x86_64 allmodconfig)
-> > failed like this:
-> >
-> > In file included from drivers/gpu/drm/i915/i915_gem.c:1250:
-> > drivers/gpu/drm/i915/selftests/i915_gem.c:97:13: error: conflicting types for 'pm_suspend'
-> >    97 | static void pm_suspend(struct drm_i915_private *i915)
-> >       |             ^~~~~~~~~~
-> > In file included from include/linux/regulator/consumer.h:35,
-> >                  from include/linux/i2c.h:18,
-> >                  from drivers/gpu/drm/i915/i915_drv.h:39,
-> >                  from drivers/gpu/drm/i915/gt/intel_context.h:14,
-> >                  from drivers/gpu/drm/i915/gem/i915_gem_context.h:12,
-> >                  from drivers/gpu/drm/i915/i915_gem.c:44:
-> > include/linux/suspend.h:331:12: note: previous declaration of 'pm_suspend' was here
-> >   331 | extern int pm_suspend(suspend_state_t state);
-> >       |            ^~~~~~~~~~
-> >
-> > Caused by commit
-> >
-> >   5a7b95fb993e ("i2c: core: support bus regulator controlling in adapter")
-> >
-> > interacting with commit
-> >
-> >   3f51b7e1f36a ("drm/i915/selftests: Add a simple exerciser for suspend/hibernate")
-> >
-> > from Linus' tree (v4.20-rc1)
->
-> Thank you very much for taking care of this!
->
 
-Hi, this issue is fixed in
-https://cgit.freedesktop.org/drm-intel/commit/?h=drm-intel-gt-next&id=5b11705608898c31a1cae5340555ee60d5a4fa45
+On 28/05/2021 11:04, YueHaibing wrote:
+> Use DEVICE_ATTR_RO() helper instead of plain DEVICE_ATTR(),
+> which makes the code a bit shorter and easier to read.
+> 
+> Signed-off-by: YueHaibing <yuehaibing@huawei.com>
+> ---
+>   drivers/gpu/drm/i915/i915_pmu.c   |  8 +++-----
+>   drivers/gpu/drm/i915/i915_sysfs.c | 30 +++++++++++++++---------------
+>   2 files changed, 18 insertions(+), 20 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/i915_pmu.c b/drivers/gpu/drm/i915/i915_pmu.c
+> index 41651ac255fa..fb215929b05b 100644
+> --- a/drivers/gpu/drm/i915/i915_pmu.c
+> +++ b/drivers/gpu/drm/i915/i915_pmu.c
+> @@ -834,15 +834,13 @@ static ssize_t i915_pmu_event_show(struct device *dev,
+>   	return sprintf(buf, "config=0x%lx\n", eattr->val);
+>   }
+>   
+> -static ssize_t
+> -i915_pmu_get_attr_cpumask(struct device *dev,
+> -			  struct device_attribute *attr,
+> -			  char *buf)
+> +static ssize_t cpumask_show(struct device *dev,
+> +			    struct device_attribute *attr, char *buf)
+>   {
+>   	return cpumap_print_to_pagebuf(true, buf, &i915_pmu_cpumask);
+>   }
+>   
+> -static DEVICE_ATTR(cpumask, 0444, i915_pmu_get_attr_cpumask, NULL);
+> +static DEVICE_ATTR_RO(cpumask);
+>   
+>   static struct attribute *i915_cpumask_attrs[] = {
+>   	&dev_attr_cpumask.attr,
+> diff --git a/drivers/gpu/drm/i915/i915_sysfs.c b/drivers/gpu/drm/i915/i915_sysfs.c
+> index 4c6b5d52b5ca..183517d1a73d 100644
+> --- a/drivers/gpu/drm/i915/i915_sysfs.c
+> +++ b/drivers/gpu/drm/i915/i915_sysfs.c
+> @@ -58,8 +58,8 @@ static u32 calc_residency(struct drm_i915_private *dev_priv,
+>   	return DIV_ROUND_CLOSEST_ULL(res, 1000);
+>   }
+>   
+> -static ssize_t
+> -show_rc6_mask(struct device *kdev, struct device_attribute *attr, char *buf)
+> +static ssize_t rc6_enable_show(struct device *kdev,
+> +			       struct device_attribute *attr, char *buf)
+>   {
+>   	struct drm_i915_private *dev_priv = kdev_minor_to_i915(kdev);
+>   	unsigned int mask;
+> @@ -75,43 +75,43 @@ show_rc6_mask(struct device *kdev, struct device_attribute *attr, char *buf)
+>   	return sysfs_emit(buf, "%x\n", mask);
+>   }
+>   
+> -static ssize_t
+> -show_rc6_ms(struct device *kdev, struct device_attribute *attr, char *buf)
+> +static ssize_t rc6_residency_ms_show(struct device *kdev,
+> +				     struct device_attribute *attr, char *buf)
+>   {
+>   	struct drm_i915_private *dev_priv = kdev_minor_to_i915(kdev);
+>   	u32 rc6_residency = calc_residency(dev_priv, GEN6_GT_GFX_RC6);
+>   	return sysfs_emit(buf, "%u\n", rc6_residency);
+>   }
+>   
+> -static ssize_t
+> -show_rc6p_ms(struct device *kdev, struct device_attribute *attr, char *buf)
+> +static ssize_t rc6p_residency_ms_show(struct device *kdev,
+> +				      struct device_attribute *attr, char *buf)
+>   {
+>   	struct drm_i915_private *dev_priv = kdev_minor_to_i915(kdev);
+>   	u32 rc6p_residency = calc_residency(dev_priv, GEN6_GT_GFX_RC6p);
+>   	return sysfs_emit(buf, "%u\n", rc6p_residency);
+>   }
+>   
+> -static ssize_t
+> -show_rc6pp_ms(struct device *kdev, struct device_attribute *attr, char *buf)
+> +static ssize_t rc6pp_residency_ms_show(struct device *kdev,
+> +				       struct device_attribute *attr, char *buf)
+>   {
+>   	struct drm_i915_private *dev_priv = kdev_minor_to_i915(kdev);
+>   	u32 rc6pp_residency = calc_residency(dev_priv, GEN6_GT_GFX_RC6pp);
+>   	return sysfs_emit(buf, "%u\n", rc6pp_residency);
+>   }
+>   
+> -static ssize_t
+> -show_media_rc6_ms(struct device *kdev, struct device_attribute *attr, char *buf)
+> +static ssize_t media_rc6_residency_ms_show(struct device *kdev,
+> +					   struct device_attribute *attr, char *buf)
+>   {
+>   	struct drm_i915_private *dev_priv = kdev_minor_to_i915(kdev);
+>   	u32 rc6_residency = calc_residency(dev_priv, VLV_GT_MEDIA_RC6);
+>   	return sysfs_emit(buf, "%u\n", rc6_residency);
+>   }
+>   
+> -static DEVICE_ATTR(rc6_enable, S_IRUGO, show_rc6_mask, NULL);
+> -static DEVICE_ATTR(rc6_residency_ms, S_IRUGO, show_rc6_ms, NULL);
+> -static DEVICE_ATTR(rc6p_residency_ms, S_IRUGO, show_rc6p_ms, NULL);
+> -static DEVICE_ATTR(rc6pp_residency_ms, S_IRUGO, show_rc6pp_ms, NULL);
+> -static DEVICE_ATTR(media_rc6_residency_ms, S_IRUGO, show_media_rc6_ms, NULL);
+> +static DEVICE_ATTR_RO(rc6_enable);
+> +static DEVICE_ATTR_RO(rc6_residency_ms);
+> +static DEVICE_ATTR_RO(rc6p_residency_ms);
+> +static DEVICE_ATTR_RO(rc6pp_residency_ms);
+> +static DEVICE_ATTR_RO(media_rc6_residency_ms);
+>   
+>   static struct attribute *rc6_attrs[] = {
+>   	&dev_attr_rc6_enable.attr,
+> 
 
-And I think the pull request is in
-https://lists.freedesktop.org/archives/intel-gfx/2021-May/267588.html
+Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 
-Thanks
+Regards,
 
->
-> > I have added the following merge fix patch:
-> >
-> > From: Stephen Rothwell <sfr@canb.auug.org.au>
-> > Date: Tue, 1 Jun 2021 10:25:49 +1000
-> > Subject: [PATCH] drm/i915/selftests: Avoid name clash with pm_ global functions
-> >
-> > Signed-off-by: Stephen Rothwell <sfr@canb.auug.org.au>
->
-> Looks like the proper solution to me. I think this should be added to
-> the i915 tree. D'accord everyone?
->
-> Reviewed-by: Wolfram Sang <wsa@kernel.org>
->
-> Kind regards,
->
->    Wolfram
->
+Tvrtko
