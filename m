@@ -2,42 +2,111 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B16F6397A86
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Jun 2021 21:13:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 925FB397B0B
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Jun 2021 22:17:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 48E2F89FC9;
-	Tue,  1 Jun 2021 19:13:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5B8026E0B6;
+	Tue,  1 Jun 2021 20:17:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BE71A89FC9;
- Tue,  1 Jun 2021 19:13:33 +0000 (UTC)
-IronPort-SDR: KotutrrtKP/BHdt7tVLJt66zqxfUuuL8OfL+ZL9MI04WZraFgHgXZWISMxFM+5wsv0cBOTpHAh
- 0s5gCia1O2lA==
-X-IronPort-AV: E=McAfee;i="6200,9189,10002"; a="203427598"
-X-IronPort-AV: E=Sophos;i="5.83,240,1616482800"; d="scan'208";a="203427598"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Jun 2021 12:13:33 -0700
-IronPort-SDR: XZfNggu8LPnDflnn0SwdD0eW5QHn16G+JHMjSIbx7gJ4GsbhykrcMm1S7EKLBBD58pMxnt1b90
- 9m7iHrvHCi2g==
-X-IronPort-AV: E=Sophos;i="5.83,240,1616482800"; d="scan'208";a="479405172"
-Received: from ycohenha-mobl1.ger.corp.intel.com (HELO localhost)
- ([10.252.54.130])
- by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Jun 2021 12:13:28 -0700
-From: Jani Nikula <jani.nikula@intel.com>
-To: Rodrigo Vivi <rodrigo.vivi@intel.com>, Lyude Paul <lyude@redhat.com>
-Subject: Re: [PATCH v6 1/9] drm/i915/dpcd_bl: Remove redundant AUX backlight
- frequency calculations
-In-Reply-To: <YKgSJ+0YtLYQnOQB@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20210514181504.565252-1-lyude@redhat.com>
- <20210514181504.565252-2-lyude@redhat.com> <YKgSJ+0YtLYQnOQB@intel.com>
-Date: Tue, 01 Jun 2021 22:13:25 +0300
-Message-ID: <87wnrdpfe2.fsf@intel.com>
-MIME-Version: 1.0
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam10on2073.outbound.protection.outlook.com [40.107.94.73])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A27496E047;
+ Tue,  1 Jun 2021 20:17:19 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Rb58OkucjsaHnYYpQwGfUehGTNzswbOq8DTM7zjwuWolh/ZtKVpFAqAOHKWapst5II/XBqtwSJx9ni7byXitGMz1wgV6PE5PnGUqKc9wsPeMH7pru/Eaf9QGRr8gJbz/qryIfWvjPW3x3SjE4ASpLY6KJsp3JuVhy9v9dl2Ro0GC2+gtHZlxSscpA9bClEAug91UBw/3X8NjQomwEyEUdVpKAOmlvd9lHNWO6TyK8ld16FNpikQwAeBSe95KNAjcWxWyZcOC3ogzZOkQ0OEKSU9kEQV2rqO7hyEO3EZJtqfs7OhIywSLdqSMLzg0Vs9HaXN9WwCSIrFMNZ9bw0LMWQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=jA80MuY8Zbhhd8oApgQyfJdkbuzObrwD6LK/+Mp2CiA=;
+ b=O3J9CCGWMR58DTeIkR/ZkYsm12+Jd1iInysSMBLKB5IW2AME9CeJGLwk7kfpXKwKz7+Vrg88to7EqOGbtnjm8KHSKXwtJdSLdPjMHpi8I77f7f9ljtkaRY45ISfmsDOtV6newSQorF0CFSbpVhiF+BI+ti+Qt+Bsr6bghnB9SUtpSrMXxW/jV8mbiA70oiHip22dcmjJAQFpRslajEIN5SHwhyYTgSsPHOlw2JQBGvM85ZFf8IX3cLHiSQO1/OO6MTe7QUYaGDjGizGbNa6Tx8GHuLE/DrSmCUIXy2QJs5T8UQ0CC7H5g3O8TdCt546kkjZ043yAnYr3S2nVfv9C/w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=jA80MuY8Zbhhd8oApgQyfJdkbuzObrwD6LK/+Mp2CiA=;
+ b=27Cvx/deJDnn2zSHo8mj1WRCxs+QaWFaBij51fQtMEInB/V++2Wn2eFv2hbYdOnaNKcdSUQ0kMvj/DSNLPGukkXnUT+YKh9H+ezeRAwJjvrbB+86+xLktTuCP5GYa4WYmhFf9k9I/rxHK97iMjhX6qQ1TJVaxX6HBYc02AXd1gg=
+Authentication-Results: lists.freedesktop.org; dkim=none (message not signed)
+ header.d=none; lists.freedesktop.org;
+ dmarc=none action=none header.from=amd.com;
+Received: from SN6PR12MB4623.namprd12.prod.outlook.com (2603:10b6:805:e9::17)
+ by SN6PR12MB2702.namprd12.prod.outlook.com (2603:10b6:805:6c::16)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4173.20; Tue, 1 Jun
+ 2021 20:17:17 +0000
+Received: from SN6PR12MB4623.namprd12.prod.outlook.com
+ ([fe80::ad51:8c49:b171:856c]) by SN6PR12MB4623.namprd12.prod.outlook.com
+ ([fe80::ad51:8c49:b171:856c%7]) with mapi id 15.20.4173.030; Tue, 1 Jun 2021
+ 20:17:17 +0000
+From: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
+To: dri-devel@lists.freedesktop.org,
+	amd-gfx@lists.freedesktop.org
+Subject: [PATCH 0/7] libdrm tests for hot-unplug feature
+Date: Tue,  1 Jun 2021 16:16:55 -0400
+Message-Id: <20210601201702.23316-1-andrey.grodzovsky@amd.com>
+X-Mailer: git-send-email 2.25.1
+Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
+X-Originating-IP: [2607:fea8:3edf:49b0:5b64:13a3:c94c:964b]
+X-ClientProxiedBy: YTXPR0101CA0048.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b00:1::25) To SN6PR12MB4623.namprd12.prod.outlook.com
+ (2603:10b6:805:e9::17)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from agrodzovsky-All-Series.hitronhub.home
+ (2607:fea8:3edf:49b0:5b64:13a3:c94c:964b) by
+ YTXPR0101CA0048.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:b00:1::25) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4173.24 via Frontend
+ Transport; Tue, 1 Jun 2021 20:17:16 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 644ce4bf-aee5-4a43-fd42-08d9253a40bc
+X-MS-TrafficTypeDiagnostic: SN6PR12MB2702:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <SN6PR12MB2702C94B5EBEB48F4D1654A4EA3E9@SN6PR12MB2702.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:6108;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 8rohUzeCEGBgbsAxSBS9hnbUYuI/7kt8onkXD/i8Ggg89h3uaYnhmM1beCWT9vLmlPbg+cZuFjzp59mEn2lpVAsUl9bapHQvth+VCmjur2938BkjlLQRi0Ff9bxDr1l0dA0D2LryvN/zCG+iFX3RS/OHcCqkMenT13/ip7s2Z7OCts0MD2E4VY0LVydjagZVga7FACCpgWj36i8hk+rMzM+zJjIXFU+jrq+LZNeFOpw9Ms6SxHITmXfAuOP2lIOeYHHhRK54Q6o30O//GkuFoYvI+6+e7IwmBB11KNba9szIm09CZglfWZOIxyYypXd9ZDubb6YK/ZgCrHp26wjgPRekMeVDUMYZFBVni700ppFz74AgaK3VcKcc+ctyuejykwsAs/j+c+kcy81ojnD8jGh9fUc5h0MmMzMLhVm1M4X8wxpojpGEjndpVXRcnQFMQEgWbYw9w+OOBqm6gZGXtu6mvVPfOy8UGU5T9cdPmxg2UkiVFeW1a+TLPaY+srgXSIHgaCSXUAyGNhuMYsJ9kTGDMAzHQ+k5E+xom03e7+aWFF4YrEMLsSAr7jkrUcF+PyBiHUF9tYWoMnQ99BPnE/4FIydF8MTLqyMgHx3IlGM=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SN6PR12MB4623.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(376002)(366004)(396003)(39860400002)(136003)(346002)(16526019)(6506007)(2616005)(38100700002)(1076003)(6512007)(5660300002)(83380400001)(52116002)(478600001)(186003)(6486002)(316002)(66946007)(8936002)(8676002)(2906002)(66556008)(66476007)(4744005)(6666004)(86362001)(44832011)(36756003)(4326008);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?lwgYBnuO32/Nq+5kf8/1ZhaOo1UsG7DFxqJ4c0Rxmmydvg/ckXjPMdawGKTd?=
+ =?us-ascii?Q?VhrKC8WAHY1B8NYdtVyTHSJoJl7613CuYVM036oIWB4QNTj7eCqYkvuREaAw?=
+ =?us-ascii?Q?4s8/NOVHyr2biHYEuTTREmW5TdswHNwppFSCZZfVwrmM3emLRwwYR9xgmVDe?=
+ =?us-ascii?Q?bPSy5egJVzPHNZb4JvSFUQk7qCIguFnA05XwKZtCEB5GFj1MAAYj2t6UurNN?=
+ =?us-ascii?Q?xTWcyjRhyN3CMU30psywEtVx5x2lkfiWx2gNbDXDOQocngUSyez6q7LYWDmj?=
+ =?us-ascii?Q?/HJQ3usMeek3+nuwfWLYUa6I09lpHUB3BB7rOJ5lkwhHO0tr0snjyhNFMUHP?=
+ =?us-ascii?Q?qEFYVaBRvOFrIBpC0RGOFPexnyBCmHn2mNYTekY0LrtiM3Y7hdANKBXEqAUt?=
+ =?us-ascii?Q?kMchEb7J11Gd3wImhKSFL6t4y+6SYBFope5/WJzg7SRYXi9piqS2dqp09hR8?=
+ =?us-ascii?Q?rl4mWYB+3lOuERmDke1KadgAoCE4Jv6vWUnyDAkrDwTGdPsl42Ejc14alOIK?=
+ =?us-ascii?Q?dBYHs/zLmUTbD1mqmSV9HU0c5mneQxOKbAimuhP4Jm8fXQ0u0+fGMUUArAmU?=
+ =?us-ascii?Q?VSvMWN0G1uAgvZS+OUTuG73gjcajug7PClmu+PmVjxcH10LEksN+JBUSk1DL?=
+ =?us-ascii?Q?B0bwcEmKwJvpTQtqQET6m+sqyeDH9GjOslW72baEfyQyXz4lG8bTFLJ0zj71?=
+ =?us-ascii?Q?py+dRU2yfLLILNTgoswAtn2TNiBTBIn7KJ2cyp8mJKUW6966mxS2dIcNnnyk?=
+ =?us-ascii?Q?WPHigrpqOZZE2rXQa3tOlJw5BTR6l902U4UIWLlueUTac1a9OtJUdK7DYC/U?=
+ =?us-ascii?Q?/wWKxpB/NkNsiviDfA4GGHTleSfXPPEunnm6nQWK6b8fuRQdqhBMF1muXvqu?=
+ =?us-ascii?Q?sKrpi53ko8w/H6XRxs3KjU7hsxjBRTF2EhKd0xJ9vSIhe+RK2QEIgywqQFCS?=
+ =?us-ascii?Q?+wVG+0gjv0qmXWVSNc3+JBk22KtGFU4KKDjUG0OombAKB/4LvwoZaf20+rN9?=
+ =?us-ascii?Q?1r8pgw9rlSEFqrZwW2GZ9R4nbLlusgR9eBamp8FWRNfLjVHz9IfNNSqrMpgN?=
+ =?us-ascii?Q?RcDtF4YBTWH6DQ73ElDWWqLzJZWNcLg1lT0U+7sZ+njKwQ1LcpgdUorZNS9W?=
+ =?us-ascii?Q?nf821lz35Zqwx5t/zWmhSiyFJr2DOAPaQI06bk/Jabq9Z5AgxSjL3qr4bX+M?=
+ =?us-ascii?Q?HjuLl+mKXfMXARTanhgM+BmZrZw1ptr6KvGvyedZ5pMi1rt0bnIy+GCqFvVH?=
+ =?us-ascii?Q?RGA/DjlAgHGY8pGfU1YK/2l4p7L94xNBhesr1HEuKoFU2bzPKCqiRSDfTH01?=
+ =?us-ascii?Q?IyyvLt+zZJAbnqSyXhHF6rJxam970wgYYCmV8Pf19iohmMzXCjaIpmyMcPM/?=
+ =?us-ascii?Q?cLuA7wA852zTaSE2xonKEqf91wta?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 644ce4bf-aee5-4a43-fd42-08d9253a40bc
+X-MS-Exchange-CrossTenant-AuthSource: SN6PR12MB4623.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Jun 2021 20:17:17.8751 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: AsR6RHmw2GlFcZwVNsjhTna0xuct7hnVaJFr3mYutwGJ6oQZJ46KNLstbf8Gm7+v5m48UOzb5Hk/FVqHv6bJsA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR12MB2702
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,167 +119,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rajeev Nandan <rajeevny@codeaurora.org>, greg.depoire@gmail.com,
- nouveau@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- open list <linux-kernel@vger.kernel.org>, dri-devel@lists.freedesktop.org,
- Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>, David Airlie <airlied@linux.ie>,
- Uma Shankar <uma.shankar@intel.com>, Sean Paul <seanpaul@chromium.org>,
- Anshuman Gupta <anshuman.gupta@intel.com>, Dave Airlie <airlied@redhat.com>
+Cc: Alexander.Deucher@amd.com, ckoenig.leichtzumerken@gmail.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 21 May 2021, Rodrigo Vivi <rodrigo.vivi@intel.com> wrote:
-> On Fri, May 14, 2021 at 02:14:55PM -0400, Lyude Paul wrote:
->> Noticed this while moving all of the VESA backlight code in i915 over to
->> DRM helpers: it would appear that we calculate the frequency value we want
->> to write to DP_EDP_BACKLIGHT_FREQ_SET twice even though this value never
->> actually changes during runtime. So, let's simplify things by just caching
->> this value in intel_panel.backlight, and re-writing it as-needed.
->> 
->> Changes since v1:
->> * Wrap panel->backlight.edp.vesa.pwm_freq_pre_divider in
->>   DP_EDP_BACKLIGHT_FREQ_AUX_SET_CAP check - Jani
->
-> This looks okay to me now... Jani, agree?
+Adding some tests to acompany the recently added hot-unplug
+feature. For now the test suite is disabled until the feature
+propagates from drm-misc-next to drm-next.
 
-Reviewed-by: Jani Nikula <jani.nikula@intel.com>
+Andrey Grodzovsky (7):
+  tests/amdgpu: Fix valgrind warning
+  xf86drm: Add function to retrieve char device path
+  test/amdgpu: Add helper functions for hot unplug
+  test/amdgpu/hotunplug: Add test suite for GPU unplug
+  test/amdgpu/hotunplug: Add basic test
+  tests/amdgpu/hotunplug: Add unplug with cs test.
+  tests/amdgpu/hotunplug: Add hotunplug with exported bo test
 
-
->
->> 
->> Signed-off-by: Lyude Paul <lyude@redhat.com>
->> Cc: Jani Nikula <jani.nikula@intel.com>
->> Cc: Dave Airlie <airlied@gmail.com>
->> Cc: greg.depoire@gmail.com
->> ---
->>  .../drm/i915/display/intel_display_types.h    |  1 +
->>  .../drm/i915/display/intel_dp_aux_backlight.c | 65 ++++++-------------
->>  2 files changed, 20 insertions(+), 46 deletions(-)
->> 
->> diff --git a/drivers/gpu/drm/i915/display/intel_display_types.h b/drivers/gpu/drm/i915/display/intel_display_types.h
->> index 9c0adfc60c6f..7054a37363fb 100644
->> --- a/drivers/gpu/drm/i915/display/intel_display_types.h
->> +++ b/drivers/gpu/drm/i915/display/intel_display_types.h
->> @@ -311,6 +311,7 @@ struct intel_panel {
->>  		union {
->>  			struct {
->>  				u8 pwmgen_bit_count;
->> +				u8 pwm_freq_pre_divider;
->>  			} vesa;
->>  			struct {
->>  				bool sdr_uses_aux;
->> diff --git a/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c b/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c
->> index 8e9ac9ba1d38..68bfe50ada59 100644
->> --- a/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c
->> +++ b/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c
->> @@ -373,50 +373,6 @@ intel_dp_aux_vesa_set_backlight(const struct drm_connector_state *conn_state,
->>  	}
->>  }
->>  
->> -/*
->> - * Set PWM Frequency divider to match desired frequency in vbt.
->> - * The PWM Frequency is calculated as 27Mhz / (F x P).
->> - * - Where F = PWM Frequency Pre-Divider value programmed by field 7:0 of the
->> - *             EDP_BACKLIGHT_FREQ_SET register (DPCD Address 00728h)
->> - * - Where P = 2^Pn, where Pn is the value programmed by field 4:0 of the
->> - *             EDP_PWMGEN_BIT_COUNT register (DPCD Address 00724h)
->> - */
->> -static bool intel_dp_aux_vesa_set_pwm_freq(struct intel_connector *connector)
->> -{
->> -	struct drm_i915_private *dev_priv = to_i915(connector->base.dev);
->> -	struct intel_dp *intel_dp = intel_attached_dp(connector);
->> -	const u8 pn = connector->panel.backlight.edp.vesa.pwmgen_bit_count;
->> -	int freq, fxp, f, fxp_actual, fxp_min, fxp_max;
->> -
->> -	freq = dev_priv->vbt.backlight.pwm_freq_hz;
->> -	if (!freq) {
->> -		drm_dbg_kms(&dev_priv->drm,
->> -			    "Use panel default backlight frequency\n");
->> -		return false;
->> -	}
->> -
->> -	fxp = DIV_ROUND_CLOSEST(KHz(DP_EDP_BACKLIGHT_FREQ_BASE_KHZ), freq);
->> -	f = clamp(DIV_ROUND_CLOSEST(fxp, 1 << pn), 1, 255);
->> -	fxp_actual = f << pn;
->> -
->> -	/* Ensure frequency is within 25% of desired value */
->> -	fxp_min = DIV_ROUND_CLOSEST(fxp * 3, 4);
->> -	fxp_max = DIV_ROUND_CLOSEST(fxp * 5, 4);
->> -
->> -	if (fxp_min > fxp_actual || fxp_actual > fxp_max) {
->> -		drm_dbg_kms(&dev_priv->drm, "Actual frequency out of range\n");
->> -		return false;
->> -	}
->> -
->> -	if (drm_dp_dpcd_writeb(&intel_dp->aux,
->> -			       DP_EDP_BACKLIGHT_FREQ_SET, (u8) f) < 0) {
->> -		drm_dbg_kms(&dev_priv->drm,
->> -			    "Failed to write aux backlight freq\n");
->> -		return false;
->> -	}
->> -	return true;
->> -}
->> -
->>  static void
->>  intel_dp_aux_vesa_enable_backlight(const struct intel_crtc_state *crtc_state,
->>  				   const struct drm_connector_state *conn_state, u32 level)
->> @@ -459,9 +415,13 @@ intel_dp_aux_vesa_enable_backlight(const struct intel_crtc_state *crtc_state,
->>  		break;
->>  	}
->>  
->> -	if (intel_dp->edp_dpcd[2] & DP_EDP_BACKLIGHT_FREQ_AUX_SET_CAP)
->> -		if (intel_dp_aux_vesa_set_pwm_freq(connector))
->> +	if (panel->backlight.edp.vesa.pwm_freq_pre_divider) {
->> +		if (drm_dp_dpcd_writeb(&intel_dp->aux, DP_EDP_BACKLIGHT_FREQ_SET,
->> +				       panel->backlight.edp.vesa.pwm_freq_pre_divider) == 1)
->>  			new_dpcd_buf |= DP_EDP_BACKLIGHT_FREQ_AUX_SET_ENABLE;
->> +		else
->> +			drm_dbg_kms(&i915->drm, "Failed to write aux backlight frequency\n");
->> +	}
->>  
->>  	if (new_dpcd_buf != dpcd_buf) {
->>  		if (drm_dp_dpcd_writeb(&intel_dp->aux,
->> @@ -482,6 +442,14 @@ static void intel_dp_aux_vesa_disable_backlight(const struct drm_connector_state
->>  				  false);
->>  }
->>  
->> +/*
->> + * Compute PWM frequency divider value based off the frequency provided to us by the vbt.
->> + * The PWM Frequency is calculated as 27Mhz / (F x P).
->> + * - Where F = PWM Frequency Pre-Divider value programmed by field 7:0 of the
->> + *             EDP_BACKLIGHT_FREQ_SET register (DPCD Address 00728h)
->> + * - Where P = 2^Pn, where Pn is the value programmed by field 4:0 of the
->> + *             EDP_PWMGEN_BIT_COUNT register (DPCD Address 00724h)
->> + */
->>  static u32 intel_dp_aux_vesa_calc_max_backlight(struct intel_connector *connector)
->>  {
->>  	struct drm_i915_private *i915 = to_i915(connector->base.dev);
->> @@ -533,8 +501,10 @@ static u32 intel_dp_aux_vesa_calc_max_backlight(struct intel_connector *connecto
->>  	pn_min &= DP_EDP_PWMGEN_BIT_COUNT_MASK;
->>  	pn_max &= DP_EDP_PWMGEN_BIT_COUNT_MASK;
->>  
->> +	/* Ensure frequency is within 25% of desired value */
->>  	fxp_min = DIV_ROUND_CLOSEST(fxp * 3, 4);
->>  	fxp_max = DIV_ROUND_CLOSEST(fxp * 5, 4);
->> +
->>  	if (fxp_min < (1 << pn_min) || (255 << pn_max) < fxp_max) {
->>  		drm_dbg_kms(&i915->drm,
->>  			    "VBT defined backlight frequency out of range\n");
->> @@ -555,7 +525,10 @@ static u32 intel_dp_aux_vesa_calc_max_backlight(struct intel_connector *connecto
->>  			    "Failed to write aux pwmgen bit count\n");
->>  		return max_backlight;
->>  	}
->> +
->>  	panel->backlight.edp.vesa.pwmgen_bit_count = pn;
->> +	if (intel_dp->edp_dpcd[2] & DP_EDP_BACKLIGHT_FREQ_AUX_SET_CAP)
->> +		panel->backlight.edp.vesa.pwm_freq_pre_divider = f;
->>  
->>  	max_backlight = (1 << pn) - 1;
->>  
->> -- 
->> 2.31.1
->> 
+ tests/amdgpu/amdgpu_test.c     |  42 +++-
+ tests/amdgpu/amdgpu_test.h     |  26 +++
+ tests/amdgpu/basic_tests.c     |   5 +-
+ tests/amdgpu/hotunplug_tests.c | 357 +++++++++++++++++++++++++++++++++
+ tests/amdgpu/meson.build       |   1 +
+ xf86drm.c                      |  23 +++
+ xf86drm.h                      |   1 +
+ 7 files changed, 450 insertions(+), 5 deletions(-)
+ create mode 100644 tests/amdgpu/hotunplug_tests.c
 
 -- 
-Jani Nikula, Intel Open Source Graphics Center
+2.25.1
+
