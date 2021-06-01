@@ -2,53 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C52E13970FF
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Jun 2021 12:09:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 77F13397154
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Jun 2021 12:22:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CECA86E9D8;
-	Tue,  1 Jun 2021 10:09:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D6F196EA20;
+	Tue,  1 Jun 2021 10:22:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3C9196E9C3;
- Tue,  1 Jun 2021 10:09:51 +0000 (UTC)
-IronPort-SDR: 6n1oTNcSjcecyITXibtqEfuPCCAc67PK6tvtmYx9DzaZXACcVqgunWBafPhtf3lItSkvvFD5xn
- ScV8VpChS56Q==
-X-IronPort-AV: E=McAfee;i="6200,9189,10001"; a="203321350"
-X-IronPort-AV: E=Sophos;i="5.83,239,1616482800"; d="scan'208";a="203321350"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Jun 2021 03:09:50 -0700
-IronPort-SDR: B+4luL5ESXs3Zfwqg/yUCLxCMSfaSUsrL8VzPkg0jmQbvJc42PHJwVCU0YKgox3I3CjMIbrCbV
- 22yxIsvFfbLQ==
-X-IronPort-AV: E=Sophos;i="5.83,239,1616482800"; d="scan'208";a="416426252"
-Received: from deancarp-mobl.ger.corp.intel.com (HELO [10.213.232.28])
- ([10.213.232.28])
- by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Jun 2021 03:09:49 -0700
-Subject: Re: [Intel-gfx] [PATCH 1/1] Let userspace know if they can trust
- timeslicing by including it as part of the
- I915_PARAM_HAS_SCHEDULER::I915_SCHEDULER_CAP_TIMESLICING
-To: Daniel Vetter <daniel@ffwll.ch>
-References: <20210525135508.244659-1-tejaskumarx.surendrakumar.upadhyay@intel.com>
- <20210525135508.244659-2-tejaskumarx.surendrakumar.upadhyay@intel.com>
- <b9ae1daa-6add-1c67-58b4-16491f2e1431@linux.intel.com>
- <YK0OHJcSwWY1mm7v@phenom.ffwll.local>
- <8cf2c5f4-87a3-ce6b-150c-65fa054586a4@linux.intel.com>
- <YK9wrCayUwSDzMWG@phenom.ffwll.local>
- <59d2eee9-35c1-01fc-c226-50ad98aadb99@linux.intel.com>
- <YK90LkRrMXTC/hF3@phenom.ffwll.local>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-Message-ID: <e96668b6-47a0-f426-51a8-d9824afd8887@linux.intel.com>
-Date: Tue, 1 Jun 2021 11:09:47 +0100
+Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com
+ [IPv6:2a00:1450:4864:20::52f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 42C726EA19;
+ Tue,  1 Jun 2021 10:21:59 +0000 (UTC)
+Received: by mail-ed1-x52f.google.com with SMTP id df21so16619999edb.3;
+ Tue, 01 Jun 2021 03:21:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=subject:to:references:from:message-id:date:user-agent:mime-version
+ :in-reply-to:content-transfer-encoding:content-language;
+ bh=PVhxjR6hxKigUAheksYNUXdQ2PHTFXEJWkC6pvY3Q30=;
+ b=Sn83TZNfoYnCNVhQai3cSgkPCNvkbdXTGTPeemY3ava8Po7C0nZecJj+1E4CiwJr3E
+ q3/9jL8njRaNDH3Wh0pGPNbHsbLuL4mcJy5p6fcjamsP4jWKi2O0XshYBz7ALEnNAEmB
+ u4R2VcFR83mzH+isBxuHeOdjdT/8IKKWXgPJc9IdWmxe1HoYrkfk750xZgWiMK9mdCs+
+ qAXdMPFcFf+Rdr2CNfuG0TVkONVjuTd/UuGSrvpW9UbQKU+q5mIeCD4H2XgfEUXGfeBS
+ bobmjUSEx9fDXkM4WRwvQ1I604njVA7+c9vfOUtJ9OWK2VvQQ443JkDuAewJuZ7U1MjJ
+ sRHA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-transfer-encoding
+ :content-language;
+ bh=PVhxjR6hxKigUAheksYNUXdQ2PHTFXEJWkC6pvY3Q30=;
+ b=j++340ByzEY0fcIdwfaHoQ5Xelh0QZx+zwR01O9BWYD/XY2V8pdMSSVetdz01Cm1BH
+ C89zYo+zzh+2gJd6Mm2xiiCR994IoEGtJhjmtNnkbepS746B39Uweof7SAQio9O5yisN
+ kScol9NcoUU/Yy0tVJFhvlbIljx9SlvgoLhUjXawTwlmPZU4X9+9ywnsA9e/WqV1m2jX
+ eM/MrZ3aGBzAwjlNPfS2BSteQjBYiFKz5na9Bk6M3KyfhwvzqHKnOaQ09/y4aVoylvmD
+ XoAXc8tev1V7bgqJ/muhvBoN2KDEoPgpP9rT4NzKf8NAsJ5UoGHhQEnj4vWEeoFXnUUw
+ TULQ==
+X-Gm-Message-State: AOAM533AClEoh/ljls++OVVlP8LGpz/6Qz2KPpdFxiAv9pd8pqRVsRsP
+ 0zGwHHiqEf5pOZGzoHnSfmE=
+X-Google-Smtp-Source: ABdhPJz7RYm94kcXA9b3LZrumDi6Cl4NlxB5L4ZakHJyfZ0YlOpBnLYmjY87MfIQ9gJhWZDnbC/rdQ==
+X-Received: by 2002:a05:6402:4381:: with SMTP id
+ o1mr32353525edc.188.1622542917849; 
+ Tue, 01 Jun 2021 03:21:57 -0700 (PDT)
+Received: from ?IPv6:2a02:908:1252:fb60:5ee0:b6d9:de45:97bd?
+ ([2a02:908:1252:fb60:5ee0:b6d9:de45:97bd])
+ by smtp.gmail.com with ESMTPSA id b16sm8288402edu.53.2021.06.01.03.21.56
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 01 Jun 2021 03:21:57 -0700 (PDT)
+Subject: Re: Linux Graphics Next: Userspace submission update
+To: =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel@daenzer.net>,
+ =?UTF-8?B?TWFyZWsgT2zFocOhaw==?= <maraeo@gmail.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ ML Mesa-dev <mesa-dev@lists.freedesktop.org>,
+ Alex Deucher <alexdeucher@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Dave Airlie <airlied@gmail.com>, Jason Ekstrand <jason@jlekstrand.net>,
+ Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>
+References: <CAAxE2A4XS2mCXOdvxm1ZAhG2OY9w1P0X2E1ac1TXNFKDekog5g@mail.gmail.com>
+ <e7cb9833-1044-0426-5ce4-5b5fc32a3603@daenzer.net>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+Message-ID: <327e4008-b29f-f5b7-bb30-532fa52c797f@gmail.com>
+Date: Tue, 1 Jun 2021 12:21:56 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <YK90LkRrMXTC/hF3@phenom.ffwll.local>
+In-Reply-To: <e7cb9833-1044-0426-5ce4-5b5fc32a3603@daenzer.net>
 Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,100 +80,28 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org,
- Tejas Upadhyay <tejaskumarx.surendrakumar.upadhyay@intel.com>,
- DRI Development <dri-devel@lists.freedesktop.org>, mahesh.meena@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Am 01.06.21 um 11:02 schrieb Michel Dänzer:
+> On 2021-05-27 11:51 p.m., Marek Olšák wrote:
+>> 3) Compositors (and other privileged processes, and display flipping) can't trust imported/exported fences. They need a timeout recovery mechanism from the beginning, and the following are some possible solutions to timeouts:
+>>
+>> a) use a CPU wait with a small absolute timeout, and display the previous content on timeout
+>> b) use a GPU wait with a small absolute timeout, and conditional rendering will choose between the latest content (if signalled) and previous content (if timed out)
+>>
+>> The result would be that the desktop can run close to 60 fps even if an app runs at 1 fps.
+> FWIW, this is working with
+> https://gitlab.gnome.org/GNOME/mutter/-/merge_requests/1880 , even with implicit sync (on current Intel GPUs; amdgpu/radeonsi would need to provide the same dma-buf poll semantics as other drivers and high priority GFX contexts via EGL_IMG_context_priority which can preempt lower priority ones).
 
-On 27/05/2021 11:27, Daniel Vetter wrote:
-> On Thu, May 27, 2021 at 11:22:16AM +0100, Tvrtko Ursulin wrote:
->>
->> On 27/05/2021 11:13, Daniel Vetter wrote:
->>> On Wed, May 26, 2021 at 11:20:13AM +0100, Tvrtko Ursulin wrote:
->>>>
->>>> On 25/05/2021 15:47, Daniel Vetter wrote:
->>>>> On Tue, May 25, 2021 at 03:19:47PM +0100, Tvrtko Ursulin wrote:
->>>>>>
->>>>>> + dri-devel as per process
->>>>>>
->>>>>> On 25/05/2021 14:55, Tejas Upadhyay wrote:
->>>>>>> v2: Only declare timeslicing if we can safely preempt userspace.
->>>>>>
->>>>>> Commit message got butchered up somehow so you'll need to fix that at some
->>>>>> point.
->>>>>>
->>>>>> Regards,
->>>>>>
->>>>>> Tvrtko
->>>>>>
->>>>>>> Fixes: 8ee36e048c98 ("drm/i915/execlists: Minimalistic timeslicing")
->>>>>>> Signed-off-by: Chris Wilson <chris@chris-wilson.co.uk>
->>>>>>> Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
->>>>>>> Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
->>>>>>> ---
->>>>>>>      drivers/gpu/drm/i915/gt/intel_engine_user.c | 1 +
->>>>>>>      include/uapi/drm/i915_drm.h                 | 1 +
->>>>>>>      2 files changed, 2 insertions(+)
->>>>>>>
->>>>>>> diff --git a/drivers/gpu/drm/i915/gt/intel_engine_user.c b/drivers/gpu/drm/i915/gt/intel_engine_user.c
->>>>>>> index 3cca7ea2d6ea..12d165566ed2 100644
->>>>>>> --- a/drivers/gpu/drm/i915/gt/intel_engine_user.c
->>>>>>> +++ b/drivers/gpu/drm/i915/gt/intel_engine_user.c
->>>>>>> @@ -98,6 +98,7 @@ static void set_scheduler_caps(struct drm_i915_private *i915)
->>>>>>>      		MAP(HAS_PREEMPTION, PREEMPTION),
->>>>>>>      		MAP(HAS_SEMAPHORES, SEMAPHORES),
->>>>>>>      		MAP(SUPPORTS_STATS, ENGINE_BUSY_STATS),
->>>>>>> +		MAP(TIMESLICE_BIT, TIMESLICING),
->>>>>>>      #undef MAP
->>>>>>>      	};
->>>>>>>      	struct intel_engine_cs *engine;
->>>>>>> diff --git a/include/uapi/drm/i915_drm.h b/include/uapi/drm/i915_drm.h
->>>>>>> index c2c7759b7d2e..af2212d6113c 100644
->>>>>>> --- a/include/uapi/drm/i915_drm.h
->>>>>>> +++ b/include/uapi/drm/i915_drm.h
->>>>>>> @@ -572,6 +572,7 @@ typedef struct drm_i915_irq_wait {
->>>>>>>      #define   I915_SCHEDULER_CAP_PREEMPTION	(1ul << 2)
->>>>>>>      #define   I915_SCHEDULER_CAP_SEMAPHORES	(1ul << 3)
->>>>>>>      #define   I915_SCHEDULER_CAP_ENGINE_BUSY_STATS	(1ul << 4)
->>>>>>> +#define   I915_SCHEDULER_CAP_TIMESLICING	(1ul << 5)
->>>>>
->>>>> Since this is uapi I think we should at least have some nice kerneldoc
->>>>> that explains what exactly this is, what for (link to userspace) and all
->>>>> that. Ideally also minimally filing in the gaps in our uapi docs for stuff
->>>>> this references.
->>>>
->>>> IIUC there is no userspace apart from IGT needing it not to fail scheduling
->>>> tests on ADL.
->>>>
->>>> Current tests use "has preemption + has semaphores" as a proxy to answer the
->>>> "does the kernel support timeslicing" question. This stops working with the
->>>> Guc backend because GuC decided not to support semaphores (for reasons yet
->>>> unknown, see other thread), so explicit "has timeslicing" flag is needed in
->>>> order for tests to know that GuC is supposed to support timeslicing, even if
->>>> it doesn't use semaphores for inter-ring synchronisation.
->>>
->>> Since this if for igt only: Cant we do just extend the check in igt with
->>> an || GEN >= 12? I really hope that our future hw will continue to support
->>> timeslicing ...
->>
->> Not the gen 12 check, but possible I think. Explicit feature test would be better, but if definitely not allowed then along the lines of:
->>
->> has_timeslicing =
->> 	(has_preemption && has_semaphores) || uses_guc_submission;
-> 
-> That works too. Otoh what exactly is the "uses guc submission" flag and
-> why do we have that? I've seen media use it as a stand-in for "does the
-> kernel want bonded or parallel ctx?". Maybe another thing to check.
-> 
-> Another option, if you really think the feature flag is the best approach
-> (because future hw will drop timeslicing for some reason), then debugfs is
-> the place of igt-only api.
+Yeah, that is really nice to have.
 
-Maybe check and potentially remove all I915_SCHEDULER_CAP_.. flags. It 
-could be another easy pickings with a lot of IGT work type endeavour.
+One question is if you wait on the CPU or the GPU for the new surface to 
+become available? The former is a bit bad for latency and power management.
+
+Another question is if that is sufficient as security for the display 
+server or if we need further handling down the road? I mean essentially 
+we are moving the reliability problem into the display server.
 
 Regards,
-
-Tvrtko
+Christian.
