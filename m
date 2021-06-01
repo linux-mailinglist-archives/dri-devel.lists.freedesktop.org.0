@@ -2,36 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2732396E1E
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Jun 2021 09:47:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D1DF396E23
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Jun 2021 09:47:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 473C66E8A2;
-	Tue,  1 Jun 2021 07:47:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 264D36E89F;
+	Tue,  1 Jun 2021 07:47:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 606C56E89F;
- Tue,  1 Jun 2021 07:47:17 +0000 (UTC)
-IronPort-SDR: AhGa/lbsKTMIPvylY5wReSwoYPEz3w7/RTr1PY/J88Ua/jpColjAIwQRS/uOukIzDsemim3YK5
- ZBJL1IfseLwA==
-X-IronPort-AV: E=McAfee;i="6200,9189,10001"; a="203494076"
-X-IronPort-AV: E=Sophos;i="5.83,239,1616482800"; d="scan'208";a="203494076"
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2206F6E8A4;
+ Tue,  1 Jun 2021 07:47:20 +0000 (UTC)
+IronPort-SDR: Ps7Ar1/hXutr1es1YYHjqMP76iDEFz7BbCtSEqZNcPOhlq1UwXtBdhfa8FnzeeoOssV8Sj6erQ
+ Ir/Php8Jl3iw==
+X-IronPort-AV: E=McAfee;i="6200,9189,10001"; a="203494081"
+X-IronPort-AV: E=Sophos;i="5.83,239,1616482800"; d="scan'208";a="203494081"
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Jun 2021 00:47:16 -0700
-IronPort-SDR: W6Q5ZxWLHElpZov5nPYHYiDd8Y84gkxMapLX6jUwjwwl1Yx/icCC+/KbsGqvQuhIfz40ufi0p1
- hygOTauwEycg==
-X-IronPort-AV: E=Sophos;i="5.83,239,1616482800"; d="scan'208";a="549648708"
+ 01 Jun 2021 00:47:19 -0700
+IronPort-SDR: RkFs5uj6GvSZHcEZjrH12M+IRLp2FyBQiiFHdyYaywD4mcQKB6vjqvud5FE76Q+auwoE7JrQNt
+ 2ZuM7XtgKOYQ==
+X-IronPort-AV: E=Sophos;i="5.83,239,1616482800"; d="scan'208";a="549648711"
 Received: from clillies-mobl.ger.corp.intel.com (HELO thellst-mobl1.intel.com)
  ([10.249.254.18])
  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Jun 2021 00:47:14 -0700
+ 01 Jun 2021 00:47:16 -0700
 From: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
 To: intel-gfx@lists.freedesktop.org,
 	dri-devel@lists.freedesktop.org
-Subject: [PATCH v9 07/15] drm: Add a prefetching memcpy_from_wc
-Date: Tue,  1 Jun 2021 09:46:46 +0200
-Message-Id: <20210601074654.3103-8-thomas.hellstrom@linux.intel.com>
+Subject: [PATCH v9 08/15] drm/ttm: Use drm_memcpy_from_wc for TTM bo moves
+Date: Tue,  1 Jun 2021 09:46:47 +0200
+Message-Id: <20210601074654.3103-9-thomas.hellstrom@linux.intel.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210601074654.3103-1-thomas.hellstrom@linux.intel.com>
 References: <20210601074654.3103-1-thomas.hellstrom@linux.intel.com>
@@ -51,269 +51,66 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Reading out of write-combining mapped memory is typically very slow
-since the CPU doesn't prefetch. However some archs have special
-instructions to do this.
+Use fast wc memcpy for reading out of wc memory for TTM bo moves.
 
-So add a best-effort memcpy_from_wc taking dma-buf-map pointer
-arguments that attempts to use a fast prefetching memcpy and
-otherwise falls back to ordinary memcopies, taking the iomem tagging
-into account.
-
-The code is largely copied from i915_memcpy_from_wc.
-
-Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: Dave Airlie <airlied@gmail.com>
 Cc: Christian König <christian.koenig@amd.com>
-Suggested-by: Daniel Vetter <daniel@ffwll.ch>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
 Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-Acked-by: Christian König <christian.koenig@amd.com>
-Acked-by: Daniel Vetter <daniel@ffwll.ch>
+Reviewed-by: Christian König <christian.koenig@amd.com> #v4
+--
+v4:
+- Clarify when we try drm_memcpy_from_wc_dbm (Reported by Matthew Auld)
+- Be paranoid about when drm_memcpy_from_wc_dbm may fail (Reported by
+  Matthew Auld)
+v5:
+- Rebase on change to drm_memcpy_from_wc (Suggested by Daniel Vetter)
 ---
-v7:
-- Perform a memcpy even if warning with in_interrupt(). Suggested by
-  Christian König.
-- Fix compilation failure on !X86 (Reported by kernel test robot
-  lkp@intel.com)
-v8:
-- Skip kerneldoc for drm_memcpy_init_early()
-- Export drm_memcpy_from_wc() also for non-x86.
----
- Documentation/gpu/drm-mm.rst |   2 +-
- drivers/gpu/drm/drm_cache.c  | 148 +++++++++++++++++++++++++++++++++++
- drivers/gpu/drm/drm_drv.c    |   2 +
- include/drm/drm_cache.h      |   7 ++
- 4 files changed, 158 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/ttm/ttm_bo_util.c | 19 +++----------------
+ 1 file changed, 3 insertions(+), 16 deletions(-)
 
-diff --git a/Documentation/gpu/drm-mm.rst b/Documentation/gpu/drm-mm.rst
-index 21be6deadc12..c66058c5bce7 100644
---- a/Documentation/gpu/drm-mm.rst
-+++ b/Documentation/gpu/drm-mm.rst
-@@ -469,7 +469,7 @@ DRM MM Range Allocator Function References
- .. kernel-doc:: drivers/gpu/drm/drm_mm.c
-    :export:
+diff --git a/drivers/gpu/drm/ttm/ttm_bo_util.c b/drivers/gpu/drm/ttm/ttm_bo_util.c
+index a800998a12b0..30bafac416a5 100644
+--- a/drivers/gpu/drm/ttm/ttm_bo_util.c
++++ b/drivers/gpu/drm/ttm/ttm_bo_util.c
+@@ -31,6 +31,7 @@
  
--DRM Cache Handling
-+DRM Cache Handling and Fast WC memcpy()
- ==================
- 
- .. kernel-doc:: drivers/gpu/drm/drm_cache.c
-diff --git a/drivers/gpu/drm/drm_cache.c b/drivers/gpu/drm/drm_cache.c
-index 79a50ef1250f..546599f19a93 100644
---- a/drivers/gpu/drm/drm_cache.c
-+++ b/drivers/gpu/drm/drm_cache.c
-@@ -28,6 +28,7 @@
-  * Authors: Thomas Hellström <thomas-at-tungstengraphics-dot-com>
-  */
- 
-+#include <linux/dma-buf-map.h>
- #include <linux/export.h>
- #include <linux/highmem.h>
- #include <linux/mem_encrypt.h>
-@@ -35,6 +36,9 @@
- 
- #include <drm/drm_cache.h>
- 
-+/* A small bounce buffer that fits on the stack. */
-+#define MEMCPY_BOUNCE_SIZE 128
-+
- #if defined(CONFIG_X86)
- #include <asm/smp.h>
- 
-@@ -209,3 +213,147 @@ bool drm_need_swiotlb(int dma_bits)
- 	return max_iomem > ((u64)1 << dma_bits);
- }
- EXPORT_SYMBOL(drm_need_swiotlb);
-+
-+static void memcpy_fallback(struct dma_buf_map *dst,
-+			    const struct dma_buf_map *src,
-+			    unsigned long len)
-+{
-+	if (!dst->is_iomem && !src->is_iomem) {
-+		memcpy(dst->vaddr, src->vaddr, len);
-+	} else if (!src->is_iomem) {
-+		dma_buf_map_memcpy_to(dst, src->vaddr, len);
-+	} else if (!dst->is_iomem) {
-+		memcpy_fromio(dst->vaddr, src->vaddr_iomem, len);
-+	} else {
-+		/*
-+		 * Bounce size is not performance tuned, but using a
-+		 * bounce buffer like this is significantly faster than
-+		 * resorting to ioreadxx() + iowritexx().
-+		 */
-+		char bounce[MEMCPY_BOUNCE_SIZE];
-+		void __iomem *_src = src->vaddr_iomem;
-+		void __iomem *_dst = dst->vaddr_iomem;
-+
-+		while (len >= MEMCPY_BOUNCE_SIZE) {
-+			memcpy_fromio(bounce, _src, MEMCPY_BOUNCE_SIZE);
-+			memcpy_toio(_dst, bounce, MEMCPY_BOUNCE_SIZE);
-+			_src += MEMCPY_BOUNCE_SIZE;
-+			_dst += MEMCPY_BOUNCE_SIZE;
-+			len -= MEMCPY_BOUNCE_SIZE;
-+		}
-+		if (len) {
-+			memcpy_fromio(bounce, _src, MEMCPY_BOUNCE_SIZE);
-+			memcpy_toio(_dst, bounce, MEMCPY_BOUNCE_SIZE);
-+		}
-+	}
-+}
-+
-+#ifdef CONFIG_X86
-+
-+static DEFINE_STATIC_KEY_FALSE(has_movntdqa);
-+
-+static void __memcpy_ntdqa(void *dst, const void *src, unsigned long len)
-+{
-+	kernel_fpu_begin();
-+
-+	while (len >= 4) {
-+		asm("movntdqa	(%0), %%xmm0\n"
-+		    "movntdqa 16(%0), %%xmm1\n"
-+		    "movntdqa 32(%0), %%xmm2\n"
-+		    "movntdqa 48(%0), %%xmm3\n"
-+		    "movaps %%xmm0,   (%1)\n"
-+		    "movaps %%xmm1, 16(%1)\n"
-+		    "movaps %%xmm2, 32(%1)\n"
-+		    "movaps %%xmm3, 48(%1)\n"
-+		    :: "r" (src), "r" (dst) : "memory");
-+		src += 64;
-+		dst += 64;
-+		len -= 4;
-+	}
-+	while (len--) {
-+		asm("movntdqa (%0), %%xmm0\n"
-+		    "movaps %%xmm0, (%1)\n"
-+		    :: "r" (src), "r" (dst) : "memory");
-+		src += 16;
-+		dst += 16;
-+	}
-+
-+	kernel_fpu_end();
-+}
-+
-+/*
-+ * __drm_memcpy_from_wc copies @len bytes from @src to @dst using
-+ * non-temporal instructions where available. Note that all arguments
-+ * (@src, @dst) must be aligned to 16 bytes and @len must be a multiple
-+ * of 16.
-+ */
-+static void __drm_memcpy_from_wc(void *dst, const void *src, unsigned long len)
-+{
-+	if (unlikely(((unsigned long)dst | (unsigned long)src | len) & 15))
-+		memcpy(dst, src, len);
-+	else if (likely(len))
-+		__memcpy_ntdqa(dst, src, len >> 4);
-+}
-+
-+/**
-+ * drm_memcpy_from_wc - Perform the fastest available memcpy from a source
-+ * that may be WC.
-+ * @dst: The destination pointer
-+ * @src: The source pointer
-+ * @len: The size of the area o transfer in bytes
-+ *
-+ * Tries an arch optimized memcpy for prefetching reading out of a WC region,
-+ * and if no such beast is available, falls back to a normal memcpy.
-+ */
-+void drm_memcpy_from_wc(struct dma_buf_map *dst,
-+			const struct dma_buf_map *src,
-+			unsigned long len)
-+{
-+	if (WARN_ON(in_interrupt())) {
-+		memcpy_fallback(dst, src, len);
-+		return;
-+	}
-+
-+	if (static_branch_likely(&has_movntdqa)) {
-+		__drm_memcpy_from_wc(dst->is_iomem ?
-+				     (void __force *)dst->vaddr_iomem :
-+				     dst->vaddr,
-+				     src->is_iomem ?
-+				     (void const __force *)src->vaddr_iomem :
-+				     src->vaddr,
-+				     len);
-+		return;
-+	}
-+
-+	memcpy_fallback(dst, src, len);
-+}
-+EXPORT_SYMBOL(drm_memcpy_from_wc);
-+
-+/*
-+ * drm_memcpy_init_early - One time initialization of the WC memcpy code
-+ */
-+void drm_memcpy_init_early(void)
-+{
-+	/*
-+	 * Some hypervisors (e.g. KVM) don't support VEX-prefix instructions
-+	 * emulation. So don't enable movntdqa in hypervisor guest.
-+	 */
-+	if (static_cpu_has(X86_FEATURE_XMM4_1) &&
-+	    !boot_cpu_has(X86_FEATURE_HYPERVISOR))
-+		static_branch_enable(&has_movntdqa);
-+}
-+#else
-+void drm_memcpy_from_wc(struct dma_buf_map *dst,
-+			const struct dma_buf_map *src,
-+			unsigned long len)
-+{
-+	WARN_ON(in_interrupt());
-+
-+	memcpy_fallback(dst, src, len);
-+}
-+EXPORT_SYMBOL(drm_memcpy_from_wc);
-+
-+void drm_memcpy_init_early(void)
-+{
-+}
-+#endif /* CONFIG_X86 */
-diff --git a/drivers/gpu/drm/drm_drv.c b/drivers/gpu/drm/drm_drv.c
-index 3d8d68a98b95..8804ec7d3215 100644
---- a/drivers/gpu/drm/drm_drv.c
-+++ b/drivers/gpu/drm/drm_drv.c
-@@ -35,6 +35,7 @@
- #include <linux/slab.h>
- #include <linux/srcu.h>
- 
+ #include <drm/ttm/ttm_bo_driver.h>
+ #include <drm/ttm/ttm_placement.h>
 +#include <drm/drm_cache.h>
- #include <drm/drm_client.h>
- #include <drm/drm_color_mgmt.h>
- #include <drm/drm_drv.h>
-@@ -1041,6 +1042,7 @@ static int __init drm_core_init(void)
+ #include <drm/drm_vma_manager.h>
+ #include <linux/dma-buf-map.h>
+ #include <linux/io.h>
+@@ -118,22 +119,8 @@ void ttm_move_memcpy(struct ttm_buffer_object *bo,
+ 		dst_ops->map_local(dst_iter, &dst_map, i);
+ 		src_ops->map_local(src_iter, &src_map, i);
  
- 	drm_connector_ida_init();
- 	idr_init(&drm_minors_idr);
-+	drm_memcpy_init_early();
- 
- 	ret = drm_sysfs_init();
- 	if (ret < 0) {
-diff --git a/include/drm/drm_cache.h b/include/drm/drm_cache.h
-index e9ad4863d915..cc9de1632dd3 100644
---- a/include/drm/drm_cache.h
-+++ b/include/drm/drm_cache.h
-@@ -35,6 +35,8 @@
- 
- #include <linux/scatterlist.h>
- 
-+struct dma_buf_map;
+-		if (!src_map.is_iomem && !dst_map.is_iomem) {
+-			memcpy(dst_map.vaddr, src_map.vaddr, PAGE_SIZE);
+-		} else if (!src_map.is_iomem) {
+-			dma_buf_map_memcpy_to(&dst_map, src_map.vaddr,
+-					      PAGE_SIZE);
+-		} else if (!dst_map.is_iomem) {
+-			memcpy_fromio(dst_map.vaddr, src_map.vaddr_iomem,
+-				      PAGE_SIZE);
+-		} else {
+-			int j;
+-			u32 __iomem *src = src_map.vaddr_iomem;
+-			u32 __iomem *dst = dst_map.vaddr_iomem;
+-
+-			for (j = 0; j < (PAGE_SIZE / sizeof(u32)); ++j)
+-				iowrite32(ioread32(src++), dst++);
+-		}
++		drm_memcpy_from_wc(&dst_map, &src_map, PAGE_SIZE);
 +
- void drm_clflush_pages(struct page *pages[], unsigned long num_pages);
- void drm_clflush_sg(struct sg_table *st);
- void drm_clflush_virt_range(void *addr, unsigned long length);
-@@ -70,4 +72,9 @@ static inline bool drm_arch_can_wc_memory(void)
- #endif
- }
- 
-+void drm_memcpy_init_early(void);
-+
-+void drm_memcpy_from_wc(struct dma_buf_map *dst,
-+			const struct dma_buf_map *src,
-+			unsigned long len);
- #endif
+ 		if (src_ops->unmap_local)
+ 			src_ops->unmap_local(src_iter, &src_map);
+ 		if (dst_ops->unmap_local)
 -- 
 2.31.1
 
