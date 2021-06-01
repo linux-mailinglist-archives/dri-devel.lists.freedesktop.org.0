@@ -2,31 +2,31 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02DAD397B10
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Jun 2021 22:17:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F59A397B13
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Jun 2021 22:17:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 41CA36EADF;
-	Tue,  1 Jun 2021 20:17:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EF25F6EB04;
+	Tue,  1 Jun 2021 20:17:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from NAM10-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam10on2043.outbound.protection.outlook.com [40.107.94.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 81E1C6EB03;
- Tue,  1 Jun 2021 20:17:24 +0000 (UTC)
+ (mail-mw2nam10on2086.outbound.protection.outlook.com [40.107.94.86])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8E7586EAE1;
+ Tue,  1 Jun 2021 20:17:26 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=BDyuRx7H/Y2rsd3vV8OxHBBViFi9/O7lWTq+JhZy2h0F4SBLPuVFA9YevdySk7o1YSx1uOlSPiUA/1U3XfmFelFdUn+8N5nf242gam1vf2PEle7Z4WTlCm+IQ/g4L3OUM/sWcBkaeV142CoE7ocH52b54AkYpOM43iVTMkBtutWVMi6zd0cmmqD2o/WY4+/z634fUeshHo13+ag8Q/+R2rzePcSGnr/+piJ5nnViG6dgSk+SA8XRahH+Xi8oDsr8AKp1Q6MqCwxk4TdpFxCJ1SSQdvdY05solY7azCvoE98jZvJ/5IdkZUGLiwyH4pW2hHnYhOB8L2YpaNKup/aNAQ==
+ b=nKCDSvbTAQTS5p9FsWP+t28bm4t5LguTxUAJO1TUTPL22ReeHlYwMZ9WOtF+7uac9DF1DoJFkpVd8KgUaiFKaIiQ2iKF1rtnXGLr/5J4KD66ewzPdTwfT1jAwso385vfwLGyN4fn/slzyNFKSsQxpZTgbNs3rktzJVBpfTV3dYWRMns8aIX8ipmEx2E3G9J0hWHt7e+6sVqKkFNj6HWwP5ZhJbIift1UpTgCqjM85FHtIADAqHiJcPytxZ6pa94RO7zpdDdFUdAC10CbcRsVDN0b2cC25hc4PrpBx+UOCDkThLuoPXOA+EBfOzB9rgKCiw49HoGjPsZ/Fp3/m8wh/A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=U8GWePhC9ioBhzvmoZWFvdWcZ1henrPcTa+uaVi1tY4=;
- b=eOBhlreKZTk7/ElHMbfXkkU5z+HwFnmgorbM4w81dkROUgzq50RsrK7A5iSmR7Nyiddbx6bMdGtfEoQ4SiGkVCk1QWjs9IcHscOLb8EYno5oVJEl0mEvndnalHpR5UugMMIsnvZuiNOJolcjYom3ugjb6GCxVl5Bdfq/rBKEaxIPjQqbgfVq1l8zDe67VJUrb0EdhLgok7jcHEEgzQwMiGg7H7CsbX2TSt5n9pKHY9687JrL1NCP0bHMh8BY9JxjAyP1EpKHHjQuxL/BGIqQPJBd9qEjl0X467VjQ3M7ULfl4Ms7/Degi7vzGk4WTp1ybU9cUnsxzqpRBAhzT68KSg==
+ bh=luXjnD5F/aDMqOHZAWN0qrITdbLhAKDopog/EgzqkcQ=;
+ b=AtN9o3sc9ugauMbv+J+wQTx2SMox5s+6vZzZiY9VjRfFgVUZqCzUwIZSGCWjg4G45WLrIUmh9/GYsyuymES8Hnm89DoHJ563kdEq50jRc2qhMjJJj2sYBcmGY/I3ovstWLuJaxjCDGeFHhnB+uoavFb3CVd2UPn++uwlVotdrjR6vQJWdqulXeM92GxS2y99sGttVmTXnA848iv95LwSQaGt4RiXkWSoq0A4vhBVlW58XXmtowOhN7En+KQYwg8whPM+XoNZpxAayNOrzmOBImEt+xkEVT9JQpaZTlqaUzALmLFXIakfKc5DEKBkdHmktHUkUr9UA1izSsbk/gGTsg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=U8GWePhC9ioBhzvmoZWFvdWcZ1henrPcTa+uaVi1tY4=;
- b=gSXYKBDYxfv/HMSkctnrjws8aC9BC9EjNW3Z+w11O/Wj+j8HQ3KuIRoxPCXHDbNydBUIPuD3PSZ+rO7nY9kv8jupGfGlwAJUH7jktlH8M1wZw4t9hrAYv25yQdw+pBqxM6MzdVBBTAPvSvE6f9/NIxV42KN8EJbwz6d1Ekkzqwc=
+ bh=luXjnD5F/aDMqOHZAWN0qrITdbLhAKDopog/EgzqkcQ=;
+ b=uAahFHI2QDlsuVEUwLWPK33LAPPDfGlYz4iL+N8xg83Vb0hkrL3jrhVnAs+C2vbzj4QbWXbqiscqYHcRtOrky2iQs3hQPVhNLZVob0+O0MD3h4iJD4SE/jXHU/csDeQ2dEwaCKI2WEVLosFof7lYRJv7sfrvC3wfz29TtvwHZhI=
 Authentication-Results: lists.freedesktop.org; dkim=none (message not signed)
  header.d=none; lists.freedesktop.org;
  dmarc=none action=none header.from=amd.com;
@@ -34,17 +34,17 @@ Received: from SN6PR12MB4623.namprd12.prod.outlook.com (2603:10b6:805:e9::17)
  by SN6PR12MB2702.namprd12.prod.outlook.com (2603:10b6:805:6c::16)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4173.20; Tue, 1 Jun
- 2021 20:17:23 +0000
+ 2021 20:17:24 +0000
 Received: from SN6PR12MB4623.namprd12.prod.outlook.com
  ([fe80::ad51:8c49:b171:856c]) by SN6PR12MB4623.namprd12.prod.outlook.com
  ([fe80::ad51:8c49:b171:856c%7]) with mapi id 15.20.4173.030; Tue, 1 Jun 2021
- 20:17:23 +0000
+ 20:17:24 +0000
 From: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
 To: dri-devel@lists.freedesktop.org,
 	amd-gfx@lists.freedesktop.org
-Subject: [PATCH 3/7] test/amdgpu: Add helper functions for hot unplug
-Date: Tue,  1 Jun 2021 16:16:58 -0400
-Message-Id: <20210601201702.23316-4-andrey.grodzovsky@amd.com>
+Subject: [PATCH 4/7] test/amdgpu/hotunplug: Add test suite for GPU unplug
+Date: Tue,  1 Jun 2021 16:16:59 -0400
+Message-Id: <20210601201702.23316-5-andrey.grodzovsky@amd.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210601201702.23316-1-andrey.grodzovsky@amd.com>
 References: <20210601201702.23316-1-andrey.grodzovsky@amd.com>
@@ -61,53 +61,53 @@ Received: from agrodzovsky-All-Series.hitronhub.home
  YTXPR0101CA0048.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:b00:1::25) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4173.24 via Frontend
- Transport; Tue, 1 Jun 2021 20:17:22 +0000
+ Transport; Tue, 1 Jun 2021 20:17:23 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 45d1b68c-220a-4095-f73c-08d9253a440d
+X-MS-Office365-Filtering-Correlation-Id: ebed0baa-0506-40af-30d3-08d9253a44fa
 X-MS-TrafficTypeDiagnostic: SN6PR12MB2702:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <SN6PR12MB27022606C8F5A0727F4C68FAEA3E9@SN6PR12MB2702.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:5797;
+X-Microsoft-Antispam-PRVS: <SN6PR12MB270247105EF5A69A9080C4BCEA3E9@SN6PR12MB2702.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: hE62sgBnNXTixygBdZaPK87Zx2llHFuaRq1KKZsK8KrqWdzt/RP9f4zcgv0ErhL4/srNHKvkiK0GbHOBwQp8VidInnsSGEwa4Yq2EkOW/RBnq/EnJyc/6T0VvcwMHs0K4dCHsJxDsRmxur0DDeeutChTOkMzX0zEssepcm/JyZUm/sIwZZFC800Z2d0ZpdJ/jmthHUegLS6KY8PTy4PmxemaiX+VCAH8b1FfW2VaQhm966txS/6nEWsPSEWEga96Lf8rQfYKyZMWYahunNSAn08MBKkWqbj2kOTfHDzZVKwGSXFKrroL054ik1OVMsnF7j/BYER0tfmWrBeFiaQr9djmj+uYT/BmpqiGlEuApiyXKaSPbCVylqkFVb/ZprcqTjFbzjn7MQdBg5wHXWyIpoWwLOgVdw9Sx4uRpC+4gVBLuzXrvnUYXHrL0YZXCSV49XCj7+31lxzlWSDkZNB+2Y8txQLpIpQ+3p9iWSuRHG2rakrpXpVf87fGV4aBbGaposKevh+ktOAndCSxSNbN4eQYULNRz/YVC6AE9K/32k1fwo+NyBawF9m2O9Uv5S/5cKylu5t4CN2zX9e2FESlZPsUlHpAErcMFhhce4wCxPI=
+X-Microsoft-Antispam-Message-Info: 2PyjCp6uoyJFG3sU7FgFhA8PGOY+AVw0b7R2FD6W1hrtyvk79DiIgZOhdMRTTBMn3NVbw7R3th61T20a6mnsF+6kjlz6oeE/epz1ihaz/Y0n866FP0ym/PBrjuC5YZXRaZ7aB+yWWI7XTBXIiEyVaSHV1y8wC/vAyPAws7aVgvWDOtfQpPHbwvRJ/u+xt2OxbA0I+/fQw6SCWRiCvOXS1Wy7y9cpFsSBZY131Mv3Y5Hkj3cCQZav5Tq2bu6YHQOAejssV2DtssAl/XHEk4i1NqEwXZR4BV0VJvVEeKMAkNIQcs+4wFwdJbNeShKA3WUBvXp5iHRXB9eXFQMjLqRJFmxIRpSO8j8ymRGP2qI/OB9upsZgHTrCMde5z+Q9UVRkw2ji+a8dIpSf77qYKuquN0A30bDpguNmXZ3ksPXA7TecSy2q4OCGhsoX5y9g5QmUMQ9I3hdvsXVQvK733V9kOPnjj+TWPpWheQGZnRxA3SpB1Qo8bt0Mq0HlpfjipVgNoX0WpXnfXiAZxeXKLUmrFfB5jwv3VmdWlGqYZrq0saxzuZChf24Bh7x6FuUDFDvDVJ6lc2Nox2NkK1O6a9ysKh2ON/GfFT55Z+TKiWvkvJs=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:SN6PR12MB4623.namprd12.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(4636009)(376002)(366004)(396003)(39860400002)(136003)(346002)(16526019)(6506007)(2616005)(38100700002)(1076003)(6512007)(5660300002)(83380400001)(52116002)(478600001)(186003)(6486002)(316002)(66946007)(8936002)(8676002)(2906002)(66556008)(66476007)(6666004)(86362001)(44832011)(36756003)(4326008);
  DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?R7eSsNKBI/PhK3TIJkKHC2qQIncAe1bb9vwTr4hwnuiij8rGFp1JV+vdadLI?=
- =?us-ascii?Q?/IYPshAkRPml+ZJFYdGgcmFPaLdS9GMt0zqgY9Nssi7+Hj09pvQaLrfMwZxk?=
- =?us-ascii?Q?53srBKM1cZloIQYTIGUEbFz57hNMYHM/QuQ1Nz8EEkzuyBhonYhQ2EDn0yZ9?=
- =?us-ascii?Q?rzqUOBfSIdel/vECN/59QVIW2bCDkTSzoUbxIoa1GzisWrwttzKnjdpUoO/B?=
- =?us-ascii?Q?zhElPqQVkr8/5ThHEjMt34Z9TZT2/MUrUHzEUtQfatqN0xU/ENJmABqrru7v?=
- =?us-ascii?Q?jk4XNXNfJwV/vDH1W41Cyqn+i93wNEv+JU7H6hImOyNbY4q0KrqjMnuvylMo?=
- =?us-ascii?Q?payAtf9YecCqoHsGX12+QCsWJbO8O2z33D9959fN1Nk1AJbIjKVdDmu9NIPL?=
- =?us-ascii?Q?A3l2pJSJNNV6oQdb4NWTpn8h3jLZHMRpo0KuF0WCJI0Tpj9hb+jxPxkcIB30?=
- =?us-ascii?Q?HX23bkjJz+BMXjj2dKrO0hmU8MtTsK9v1Y4YK3bRcfJaTOKvgeQodAUM2wwW?=
- =?us-ascii?Q?6ZNCRA5wFY9aMnLyxa3H6zG+PY7nbsIerT3GZKCikOanjLYHQjRrPD6RMIyI?=
- =?us-ascii?Q?VMzMo9wx7nMyJqOPw/zpPCsx3odDRzgInSsMfJeDZTbizGtMN7HI4Ec602Na?=
- =?us-ascii?Q?Sos3PHxE8XDicSKAFLb7DTgW0YAPmLvD8Wiz5iM821/tI1be1r3D+3l23ETd?=
- =?us-ascii?Q?Nl5jof1SAiRZH78iq9uy6CvFOm6HRh/TCljEowNEpGogtOwd1Z/JfSTHSynk?=
- =?us-ascii?Q?v/zLmP9944B6p85Gb9qzTrfyX/qrNP0DivtxejRZpu4k/lnoMOdeQQzBo5LU?=
- =?us-ascii?Q?sYfia2t9EJuUyC1oTDpHWQwd2j6kiYtgTNUw8rEYDSJGhwkslIS+/T7ntDUi?=
- =?us-ascii?Q?iG/ho3F+gTWhX/GCZ0gZZRwKnjXd34TPkgH1NIl3ySIip8SG7W7PhOU0B85o?=
- =?us-ascii?Q?j+ZmjlhzY+2C4OueOieMJ6XfLkf5icnDtImKgRxhr6z4j/9tZvX6y4BRa/aR?=
- =?us-ascii?Q?a6sNIBVXpx7tpT6shw/IjCE4KD1Ns6Y5u46/i076ceSmHjt71AwdeFeR0tVR?=
- =?us-ascii?Q?JGR5VIDMHCPWLUHpGa0P4QpOHInBp2BOwBr/2mezgXdV8EDuPLVB9WTL5zKw?=
- =?us-ascii?Q?64jmKu2yyyKT69mf4JP4T6/kxoQ7OPeCP8LCsItSpwkA0MrnWQfCpzucPgKA?=
- =?us-ascii?Q?hffeCNzMa4Dcv7Pr2qb1qbTTOXrxRQfqRdGRHhFnqt+E4C1qBDgF8uG2glJ4?=
- =?us-ascii?Q?v1cYt/9rQMOJLuIDSLZvuVLalJIt0squhB6ShcGeu2MumVcHxv2pvpEc/CTs?=
- =?us-ascii?Q?t8GTBmp8xdAfZubNJDwlt/KMmvz7srXA97YBfLN8m5OcmlzOjFr5mgPu49K4?=
- =?us-ascii?Q?y3qSuiHU3+SK9BjfbAWx4w+uiVUE?=
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?Zon+cTb47LTBBqJLt5MCc0c18u+93FQ2cJjM+Co2eF46EnfFruwePxR595Pm?=
+ =?us-ascii?Q?QTcZE+IR60naqkZCpD+aa5wJhU6scfQsN/5SYDMeZCIdpIvbpmQY8n+2sHxW?=
+ =?us-ascii?Q?Q7xyBrU325xYYhGlXQQU8hPixNxDxx59qjGAUO5r99uM9YudJo1r8Uv+WrV4?=
+ =?us-ascii?Q?LMnoGRpW+3W+nVmIVuD1S0cfXYql9kyqINW8vkwXhGG7zcZbwzoxPAOTTbBe?=
+ =?us-ascii?Q?XRcnaHquCVASyACwlwY9ttF+UJLds/vtsVQ4eiFGceUOG8QzYUe7MY075xGQ?=
+ =?us-ascii?Q?DQw4soRPnOeLodkaWYuxTVW+5pvwSNc5PrfNjSi9Hjq16SoGbCZBBgfPaIld?=
+ =?us-ascii?Q?rzoAeUIBcy8c34xgRWzjLtIaS7DWAG/CBGJlw+MmfXhzwC4tL7jMpb+Gw/mh?=
+ =?us-ascii?Q?3R2K/sN9hXezHAbeqt0RIobtdB0wKpbV/ecTx6L2siIhBXfA1/3WeDsH57iM?=
+ =?us-ascii?Q?JERMcmIwHwoFDO21lLFYrSv9CGZd8meG3V4D4Dw+YlAHdVteNg8DZqlUTkcj?=
+ =?us-ascii?Q?mFx6WKj52+Ym+wEOOu4Ta4VJDGC9K9QOkxJgqJvITcZaTAvhwarRPxSYeTEu?=
+ =?us-ascii?Q?tKi4fbyeFcuEOYnRXt2vWi/uEkC6nPoat7Urxkv8/CdCjyXkyXQ8NaZQ3dE9?=
+ =?us-ascii?Q?6vmGwKr45yVXbtwFuuAFvk+BTMTBtU+RP3fnKjAyDXIiyWuVu8UBDkCvjH1K?=
+ =?us-ascii?Q?aS0llcF1wyG9UH4O+TlcDVFhNJZ7Y1WsEKtx90Bp3L9HiozqFTssTnyS39S/?=
+ =?us-ascii?Q?NztzENjKgTZhNYlCDXk/nd402XTGq8HzzChF6y4QsEC6NQUh8ejJNHhqWJfy?=
+ =?us-ascii?Q?Q37EHyA6HRTAp8oWaTgJuTOqVzHJenyq8PKJCa8OZXtWFg9fu2EBqB8ytli1?=
+ =?us-ascii?Q?zwT90uI6aFeOJ7G653FaAFJ7ubzM/0NvWaEejQDxOkDN2DSNmzv/wFDIxvvJ?=
+ =?us-ascii?Q?L/OdL8JPD3qSNdUZRd5Xl4zUzzz253KwZ/arpsKjVdYMsjMsmn/VCqCWlXFu?=
+ =?us-ascii?Q?OI3j51woHD8PRQD4NyFQHXxkW07X+tGmdZLkaMhra9Bce24symVuaf+dXA52?=
+ =?us-ascii?Q?+Moz4a58+bmJ+hDMvhHGz1S2/JFzbtDUJH8JG9KnzSIaIB5JWwcHZ9mhhkHt?=
+ =?us-ascii?Q?8+36Duk5dWPeLBK6c30l1dXNduLYdGfpNgshHs6sx9MnDdH8kCYG3tONTieI?=
+ =?us-ascii?Q?pnZ34cmzCVnxHtdHda1UXbqju7UaclTbLUMQmycW0hn94vSIjMQRlt+zGdvh?=
+ =?us-ascii?Q?p4sZEAEIQspOjPzhZ2tmlbp8xovQyvVPAaKcG/NUdBKupYQqUmCkBmvuGdqt?=
+ =?us-ascii?Q?WhfqBlDJd1id3KIlGX0HLvPxKd44Yy5hBae4EE8/lCrEXwfYwjH7i3/GxNrn?=
+ =?us-ascii?Q?Yr0/tJMUpgPlrz/6VByS+Q3DmBVW?=
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 45d1b68c-220a-4095-f73c-08d9253a440d
+X-MS-Exchange-CrossTenant-Network-Message-Id: ebed0baa-0506-40af-30d3-08d9253a44fa
 X-MS-Exchange-CrossTenant-AuthSource: SN6PR12MB4623.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Jun 2021 20:17:23.2291 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Jun 2021 20:17:24.7772 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: QbtpkqhXRjHmdF9Zi6qKs5liwIsMupCBSxZiNxZXhq0pR2MU9dsAUagDUijpEi0qYRqdru/1N8dXhcsC6KjFVA==
+X-MS-Exchange-CrossTenant-UserPrincipalName: h8OX0NQjYKkzIfM69nS4XgHET9E3D3wDC+qZiId4DMv2buCzXI+t2p6htrNrX3YHzIfp0ifI5onML1/zcoFNKw==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR12MB2702
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -125,87 +125,221 @@ Cc: Alexander.Deucher@amd.com, ckoenig.leichtzumerken@gmail.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Expose close device and add open device wich preserves
-test index.
+Add just the test suite skeleton.
 
 Signed-off-by: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
 ---
- tests/amdgpu/amdgpu_test.c | 31 ++++++++++++++++++++++++++++---
- tests/amdgpu/amdgpu_test.h |  3 +++
- 2 files changed, 31 insertions(+), 3 deletions(-)
+ tests/amdgpu/amdgpu_test.c     |  11 ++++
+ tests/amdgpu/amdgpu_test.h     |  23 +++++++
+ tests/amdgpu/hotunplug_tests.c | 116 +++++++++++++++++++++++++++++++++
+ tests/amdgpu/meson.build       |   1 +
+ 4 files changed, 151 insertions(+)
+ create mode 100644 tests/amdgpu/hotunplug_tests.c
 
 diff --git a/tests/amdgpu/amdgpu_test.c b/tests/amdgpu/amdgpu_test.c
-index 60f3a508..2864eaff 100644
+index 2864eaff..a10a031a 100644
 --- a/tests/amdgpu/amdgpu_test.c
 +++ b/tests/amdgpu/amdgpu_test.c
-@@ -339,12 +339,13 @@ static int amdgpu_open_devices(int open_render_node)
+@@ -59,6 +59,7 @@
+ #define RAS_TESTS_STR "RAS Tests"
+ #define SYNCOBJ_TIMELINE_TESTS_STR "SYNCOBJ TIMELINE Tests"
+ #define SECURITY_TESTS_STR "Security Tests"
++#define HOTUNPLUG_TESTS_STR "Hotunplug Tests"
  
- /* Close AMD devices.
-  */
--static void amdgpu_close_devices()
-+void amdgpu_close_devices()
- {
- 	int i;
- 	for (i = 0; i < MAX_CARDS_SUPPORTED; i++)
--		if (drm_amdgpu[i] >=0)
-+		if (drm_amdgpu[i] >=0) {
- 			close(drm_amdgpu[i]);
-+		}
- }
+ /**
+  *  Open handles for amdgpu devices
+@@ -137,6 +138,12 @@ static CU_SuiteInfo suites[] = {
+ 		.pCleanupFunc = suite_security_tests_clean,
+ 		.pTests = security_tests,
+ 	},
++	{
++		.pName = HOTUNPLUG_TESTS_STR,
++		.pInitFunc = suite_hotunplug_tests_init,
++		.pCleanupFunc = suite_hotunplug_tests_clean,
++		.pTests = hotunplug_tests,
++	},
  
- /* Print AMD devices information */
-@@ -520,6 +521,31 @@ static void amdgpu_disable_suites()
- 			fprintf(stderr, "test deactivation failed - %s\n", CU_get_error_msg());
- }
+ 	CU_SUITE_INFO_NULL,
+ };
+@@ -198,6 +205,10 @@ static Suites_Active_Status suites_active_stat[] = {
+ 			.pName = SECURITY_TESTS_STR,
+ 			.pActive = suite_security_tests_enable,
+ 		},
++		{
++			.pName = HOTUNPLUG_TESTS_STR,
++			.pActive = suite_hotunplug_tests_enable,
++		},
+ };
  
-+int test_device_index;
-+
-+int amdgpu_open_device_on_test_index(int render_node)
-+{
-+	int i;
-+
-+	if (amdgpu_open_devices(open_render_node) <= 0) {
-+		perror("Cannot open AMDGPU device");
-+		return -1;
-+	}
-+
-+	if (test_device_index >= 0) {
-+		/* Most tests run on device of drm_amdgpu[0].
-+		 * Swap the chosen device to drm_amdgpu[0].
-+		 */
-+		i = drm_amdgpu[0];
-+		drm_amdgpu[0] = drm_amdgpu[test_device_index];
-+		drm_amdgpu[test_device_index] = i;
-+	}
-+
-+	return 0;
-+
-+
-+}
-+
- /* The main() function for setting up and running the tests.
-  * Returns a CUE_SUCCESS on successful running, another
-  * CUnit error code on failure.
-@@ -535,7 +561,6 @@ int main(int argc, char **argv)
- 	int display_devices = 0;/* By default not to display devices' info */
- 	CU_pSuite pSuite = NULL;
- 	CU_pTest  pTest  = NULL;
--	int test_device_index;
- 	int display_list = 0;
- 	int force_run = 0;
  
 diff --git a/tests/amdgpu/amdgpu_test.h b/tests/amdgpu/amdgpu_test.h
-index 4970d0dd..107134a5 100644
+index 107134a5..e2e35fec 100644
 --- a/tests/amdgpu/amdgpu_test.h
 +++ b/tests/amdgpu/amdgpu_test.h
-@@ -476,4 +476,7 @@ void amdgpu_test_exec_cs_helper_raw(amdgpu_device_handle device_handle,
- 				    struct amdgpu_cs_request *ibs_request,
- 				    bool secure);
+@@ -273,6 +273,29 @@ amdgpu_command_submission_write_linear_helper_with_secure(amdgpu_device_handle
+ 							  unsigned ip_type,
+ 							  bool secure);
  
-+void amdgpu_close_devices();
-+int amdgpu_open_device_on_test_index(int render_node);
 +
- #endif  /* #ifdef _AMDGPU_TEST_H_ */
++
++/**
++ * Initialize hotunplug test suite
++ */
++int suite_hotunplug_tests_init();
++
++/**
++ * Deinitialize hotunplug test suite
++ */
++int suite_hotunplug_tests_clean();
++
++/**
++ * Decide if the suite is enabled by default or not.
++ */
++CU_BOOL suite_hotunplug_tests_enable(void);
++
++/**
++ * Tests in uvd enc test suite
++ */
++extern CU_TestInfo hotunplug_tests[];
++
++
+ /**
+  * Helper functions
+  */
+diff --git a/tests/amdgpu/hotunplug_tests.c b/tests/amdgpu/hotunplug_tests.c
+new file mode 100644
+index 00000000..9d11dae4
+--- /dev/null
++++ b/tests/amdgpu/hotunplug_tests.c
+@@ -0,0 +1,116 @@
++/*
++ * Copyright 2021 Advanced Micro Devices, Inc.
++ *
++ * Permission is hereby granted, free of charge, to any person obtaining a
++ * copy of this software and associated documentation files (the "Software"),
++ * to deal in the Software without restriction, including without limitation
++ * the rights to use, copy, modify, merge, publish, distribute, sublicense,
++ * and/or sell copies of the Software, and to permit persons to whom the
++ * Software is furnished to do so, subject to the following conditions:
++ *
++ * The above copyright notice and this permission notice shall be included in
++ * all copies or substantial portions of the Software.
++ *
++ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
++ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
++ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
++ * THE COPYRIGHT HOLDER(S) OR AUTHOR(S) BE LIABLE FOR ANY CLAIM, DAMAGES OR
++ * OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
++ * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
++ * OTHER DEALINGS IN THE SOFTWARE.
++ *
++*/
++
++#include <stdio.h>
++#include <stdlib.h>
++#include <unistd.h>
++#if HAVE_ALLOCA_H
++# include <alloca.h>
++#endif
++
++#include "CUnit/Basic.h"
++
++#include "amdgpu_test.h"
++#include "amdgpu_drm.h"
++#include "amdgpu_internal.h"
++
++#include <pthread.h>
++
++
++static  amdgpu_device_handle device_handle;
++static  uint32_t  major_version;
++static  uint32_t  minor_version;
++
++static uint32_t family_id;
++static uint32_t chip_rev;
++static uint32_t chip_id;
++
++CU_BOOL suite_hotunplug_tests_enable(void)
++{
++	CU_BOOL enable = CU_TRUE;
++
++	if (amdgpu_device_initialize(drm_amdgpu[0], &major_version,
++					     &minor_version, &device_handle))
++		return CU_FALSE;
++
++	family_id = device_handle->info.family_id;
++	chip_id = device_handle->info.chip_external_rev;
++	chip_rev = device_handle->info.chip_rev;
++
++	/*
++	 * Only enable for ASICs supporting GPU reset and for which it's enabled
++	 * by default (currently GFX8/9 dGPUS)
++	 */
++	if (family_id != AMDGPU_FAMILY_VI &&
++	    family_id != AMDGPU_FAMILY_AI &&
++	    family_id != AMDGPU_FAMILY_CI) {
++		printf("\n\nGPU reset is not enabled for the ASIC, hotunplug suite disabled\n");
++		enable = CU_FALSE;
++	}
++
++	if (amdgpu_device_deinitialize(device_handle))
++		return CU_FALSE;
++
++	return enable;
++}
++
++int suite_hotunplug_tests_init(void)
++{
++	int r;
++
++	r = amdgpu_device_initialize(drm_amdgpu[0], &major_version,
++				   &minor_version, &device_handle);
++
++	if (r) {
++		if ((r == -EACCES) && (errno == EACCES))
++			printf("\n\nError:%s. "
++				"Hint:Try to run this test program as root.",
++				strerror(errno));
++		return CUE_SINIT_FAILED;
++	}
++
++	return CUE_SUCCESS;
++}
++
++int suite_hotunplug_tests_clean(void)
++{
++	int r = amdgpu_device_deinitialize(device_handle);
++
++	if (r == 0)
++		return CUE_SUCCESS;
++	else
++		return CUE_SCLEAN_FAILED;
++}
++
++
++static void amdgpu_hotunplug_gfx(void)
++{
++	printf("Hello!\n");
++}
++
++CU_TestInfo hotunplug_tests[] = {
++	{ "gfx ring block test (set amdgpu.lockup_timeout=50)", amdgpu_hotunplug_gfx },
++	CU_TEST_INFO_NULL,
++};
++
++
+diff --git a/tests/amdgpu/meson.build b/tests/amdgpu/meson.build
+index eb16a50c..e6e30812 100644
+--- a/tests/amdgpu/meson.build
++++ b/tests/amdgpu/meson.build
+@@ -25,6 +25,7 @@ if dep_cunit.found()
+       'amdgpu_test.c', 'basic_tests.c', 'bo_tests.c', 'cs_tests.c',
+       'vce_tests.c', 'uvd_enc_tests.c', 'vcn_tests.c', 'deadlock_tests.c',
+       'vm_tests.c', 'ras_tests.c', 'syncobj_tests.c', 'security_tests.c',
++      'hotunplug_tests.c'
+     ),
+     dependencies : [dep_cunit, dep_threads, dep_atomic_ops],
+     include_directories : [inc_root, inc_drm, include_directories('../../amdgpu')],
 -- 
 2.25.1
 
