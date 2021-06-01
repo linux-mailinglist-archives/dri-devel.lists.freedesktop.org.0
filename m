@@ -1,60 +1,79 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 328A43979B0
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Jun 2021 20:03:13 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 407E9397A18
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Jun 2021 20:28:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7777D6EA5B;
-	Tue,  1 Jun 2021 18:03:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7A1B46EAC8;
+	Tue,  1 Jun 2021 18:28:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com
- [IPv6:2a00:1450:4864:20::329])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9E3BC6EA5B
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Jun 2021 18:03:08 +0000 (UTC)
-Received: by mail-wm1-x329.google.com with SMTP id
- o2-20020a05600c4fc2b029019a0a8f959dso165838wmq.1
- for <dri-devel@lists.freedesktop.org>; Tue, 01 Jun 2021 11:03:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=T7qM6+6uN0KwzP5H/fwdYqCGXwWL1e5qiBdG/escp3U=;
- b=g1nK7knMv+r/i40CVLxC0JvvkMwwiu3NL93ST4dE+K8cHfH+wWEL4ZapoSvNCh2qwC
- Y+cpvk53vR5mO1hNMJqvGvXGAgWpynJ1s3Lxl7jP71fSl5QBjoIMqdjBcsvY1n1aK6js
- FgmIvtwPmmOjoMseh5BaVkElJS7RuZTiKpyoU=
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [216.205.24.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B69586EAC8
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Jun 2021 18:28:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1622572095;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=NOsIlqxl6eH239Kciu24BWgBMb9sBjim1wXteqsp/Pc=;
+ b=YhocKkBWKehYRy8yhI1B7sSDRnrmo24+0VGeqRk1TZqBQme6zwZXNDUji/03f0+MMmDGsL
+ O5F76sA7WiZNwGDo0bDcUkOE5nRrxmlQ51B6dCt/6Le89Os69VkfoOeH/OuQSZJw/uSB8e
+ FX5DIh39P9zNrKO7/wv0ckDH09eIeqM=
+Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
+ [209.85.222.198]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-355-vu6tfYumO9qTKh_L30aZ1A-1; Tue, 01 Jun 2021 14:28:12 -0400
+X-MC-Unique: vu6tfYumO9qTKh_L30aZ1A-1
+Received: by mail-qk1-f198.google.com with SMTP id
+ s4-20020a3790040000b02902fa7aa987e8so12484872qkd.14
+ for <dri-devel@lists.freedesktop.org>; Tue, 01 Jun 2021 11:28:12 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=T7qM6+6uN0KwzP5H/fwdYqCGXwWL1e5qiBdG/escp3U=;
- b=PEj4sE0efvByAokqlO+VsV3ad2P3PcKM5HUXd0/dm6HjnmtCD4YjdPVRSv0Sv5uGKQ
- t9e9ntfnBwLUXPMs+iKYWfzgLeXAI05x2sARGyLpO6mPKvd+KSPHHZWtPGSvCa9iLsDe
- JAbj3KwO197uIG2HCntE0bUuJG27AuQ3bpfjWWJd5rkSM3GlTcFDDP+sNRuPS1oLg4Yt
- 8KhEZ5SRwfnEHs/G5Og/mNJ6sMNLW5YMPy3/Y9BuByxyFMiu1185HaH2Vg5y3a0dQDpw
- I5vRJYEAUp1pMyyPJ7BKDDlYGuZe4hu5W5GeYYSwxPn25BXNtMUZXz0TPeYG6WhML0WS
- X9mQ==
-X-Gm-Message-State: AOAM532qlwFB2sMUlTgAzCjQvtz9yUMESFLBmDmyrMdCQzrYdYqSg47D
- wZHwaL5n7WBNusU/TfN0iEoArA==
-X-Google-Smtp-Source: ABdhPJy4vtj0YaDDv+N62BqSY1+sbUlLVxDIA5VDRfNXI6UCmawT2pPfkUXVK1oob9gm0zwV1OTU5w==
-X-Received: by 2002:a1c:f219:: with SMTP id s25mr1120513wmc.31.1622570587323; 
- Tue, 01 Jun 2021 11:03:07 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id z17sm4708962wrt.81.2021.06.01.11.03.06
+ h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+ :references:organization:user-agent:mime-version
+ :content-transfer-encoding;
+ bh=NOsIlqxl6eH239Kciu24BWgBMb9sBjim1wXteqsp/Pc=;
+ b=cwqBcYUHNFEWwTtNaMr0QTnw0MC6zFGXofDONKYL39IX4ghzyPnyDmxvJkSdQw8cJT
+ 0a1bHg1uAYY2Io5PcAKokiy6NvUlNY5/td49FQgwnFELJKFx+gfN79BBNMew+fyC7UcC
+ lkDYRCBYKtLMqkHehPjg+mIip/5rJwQKwrMlG0by3+GrJcPLKczkOO6qO2WlzbASyVqu
+ aJN4VDZmpNSa3XUMAk7MXPF5FLQKIcGnYRnmqSXluRZygM5Zus7yCsz1qkkfJEyQJz4Y
+ zn3GvDWIeMrqmM/Ktd8oX8MVyFOSrFqTQc7SmGZmDW/UEKXeZcgtXBsAtqDsfA0TJNHX
+ HQZQ==
+X-Gm-Message-State: AOAM530CostHj/w2wQdmdi0K1U0DLfTkRak2waLr8/+AyOiHOVG8tUc/
+ 7OYUFGt1+4UJcXgr3fNZfYBlacWuwZCL6eTXhYhyPATMUKMBwRBAbdQitUljF71GxdQ3yn2m+in
+ cjR168Uyl4T8x+zIh0v2L2cQiv4Wc
+X-Received: by 2002:a0c:e148:: with SMTP id c8mr9666328qvl.18.1622572091667;
+ Tue, 01 Jun 2021 11:28:11 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJytSZnefoM3XSTSKdxOIOsXny4+VC2C+Z/p3WaHhH0IWvNmokJ6MGvgRHfSYxb86PPeGka/Rg==
+X-Received: by 2002:a0c:e148:: with SMTP id c8mr9666307qvl.18.1622572091422;
+ Tue, 01 Jun 2021 11:28:11 -0700 (PDT)
+Received: from Ruby.lyude.net (pool-108-49-102-102.bstnma.fios.verizon.net.
+ [108.49.102.102])
+ by smtp.gmail.com with ESMTPSA id e19sm10809288qtr.45.2021.06.01.11.28.10
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 01 Jun 2021 11:03:06 -0700 (PDT)
-Date: Tue, 1 Jun 2021 20:03:04 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Greg KH <gregkh@linuxfoundation.org>
-Subject: Re: [PATCH] vgaarb: Call vga_arb_device_init() after PCI enumeration
-Message-ID: <YLZ2WJlHu0EZT7H9@phenom.ffwll.local>
-References: <20210528082607.2015145-1-chenhuacai@loongson.cn>
- <YLZYuM6SepbeLcI7@phenom.ffwll.local> <YLZqe14Lf2+5Lbf3@kroah.com>
+ Tue, 01 Jun 2021 11:28:11 -0700 (PDT)
+Message-ID: <366f2fe575003487da4c2bd63c70abc16051dcb2.camel@redhat.com>
+Subject: Re: [v4 1/4] drm/panel-simple: Add basic DPCD backlight support
+From: Lyude Paul <lyude@redhat.com>
+To: Rajeev Nandan <rajeevny@codeaurora.org>, y@qualcomm.com, 
+ dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org, 
+ freedreno@lists.freedesktop.org, devicetree@vger.kernel.org
+Date: Tue, 01 Jun 2021 14:28:09 -0400
+In-Reply-To: <1621927831-29471-2-git-send-email-rajeevny@codeaurora.org>
+References: <1621927831-29471-1-git-send-email-rajeevny@codeaurora.org>
+ <1621927831-29471-2-git-send-email-rajeevny@codeaurora.org>
+Organization: Red Hat
+User-Agent: Evolution 3.38.4 (3.38.4-1.fc33)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YLZqe14Lf2+5Lbf3@kroah.com>
-X-Operating-System: Linux phenom 5.10.32scarlett+ 
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lyude@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,46 +86,213 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
- Bjorn Helgaas <bhelgaas@google.com>, Xuefeng Li <lixuefeng@loongson.cn>,
- Huacai Chen <chenhuacai@loongson.cn>
+Cc: daniel.thompson@linaro.org, mkrishn@codeaurora.org, jani.nikula@intel.com,
+ linux-kernel@vger.kernel.org, abhinavk@codeaurora.org, dianders@chromium.org,
+ a.hajda@samsung.com, thierry.reding@gmail.com, seanpaul@chromium.org,
+ laurent.pinchart@ideasonboard.com, kalyan_t@codeaurora.org,
+ hoegsberg@chromium.org, sam@ravnborg.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jun 01, 2021 at 07:12:27PM +0200, Greg KH wrote:
-> On Tue, Jun 01, 2021 at 05:56:40PM +0200, Daniel Vetter wrote:
-> > On Fri, May 28, 2021 at 04:26:07PM +0800, Huacai Chen wrote:
-> > > We should call vga_arb_device_init() after PCI enumeration, otherwise it
-> > > may fail to select the default VGA device. Since vga_arb_device_init()
-> > > and PCI enumeration function (i.e., pcibios_init() or acpi_init()) are
-> > > both wrapped by subsys_initcall(), their sequence is not assured. So, we
-> > > use subsys_initcall_sync() instead of subsys_initcall() to wrap vga_arb_
-> > > device_init().
+Sorry-I've been waiting to review this, but the DPCD backlight support helper
+series is -still- blocked on getting reviews upstream :\
+
+On Tue, 2021-05-25 at 13:00 +0530, Rajeev Nandan wrote:
+> Add basic support of panel backlight control over eDP aux channel
+> using VESA's standard backlight control interface.
 > 
-> Trying to juggle levels like this always fails if you build the code as
-> a module.
+> Signed-off-by: Rajeev Nandan <rajeevny@codeaurora.org>
+> ---
 > 
-> Why not fix it properly and handle the out-of-order loading by returning
-> a "deferred" error if you do not have your resources yet?
+> This patch depends on [1] (drm/panel: panel-simple: Stash DP AUX bus; 
+> allow using it for DDC) 
+> 
+> Changes in v4:
+> - New
+> 
+> [1]
+> https://lore.kernel.org/dri-devel/20210524165920.v8.7.I18e60221f6d048d14d6c50a770b15f356fa75092@changeid/
+> 
+>  drivers/gpu/drm/panel/panel-simple.c | 99
+> ++++++++++++++++++++++++++++++++++--
+>  1 file changed, 96 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/panel/panel-simple.c
+> b/drivers/gpu/drm/panel/panel-simple.c
+> index b09be6e..f9e4e60 100644
+> --- a/drivers/gpu/drm/panel/panel-simple.c
+> +++ b/drivers/gpu/drm/panel/panel-simple.c
+> @@ -21,6 +21,7 @@
+>   * DEALINGS IN THE SOFTWARE.
+>   */
+>  
+> +#include <linux/backlight.h>
+>  #include <linux/delay.h>
+>  #include <linux/gpio/consumer.h>
+>  #include <linux/iopoll.h>
+> @@ -171,6 +172,19 @@ struct panel_desc {
+>  
+>         /** @connector_type: LVDS, eDP, DSI, DPI, etc. */
+>         int connector_type;
+> +
+> +       /**
+> +        * @uses_dpcd_backlight: Panel supports eDP dpcd backlight control.
+> +        *
+> +        * Set true, if the panel supports backlight control over eDP AUX
+> channel
+> +        * using DPCD registers as per VESA's standard.
+> +        */
+> +       bool uses_dpcd_backlight;
+> +};
+> +
+> +struct edp_backlight {
+> +       struct backlight_device *dev;
+> +       struct drm_edp_backlight_info info;
+>  };
+>  
+>  struct panel_simple {
+> @@ -194,6 +208,8 @@ struct panel_simple {
+>  
+>         struct edid *edid;
+>  
+> +       struct edp_backlight *edp_bl;
+> +
+>         struct drm_display_mode override_mode;
+>  
+>         enum drm_panel_orientation orientation;
+> @@ -330,10 +346,14 @@ static void panel_simple_wait(ktime_t start_ktime,
+> unsigned int min_ms)
+>  static int panel_simple_disable(struct drm_panel *panel)
+>  {
+>         struct panel_simple *p = to_panel_simple(panel);
+> +       struct edp_backlight *bl = p->edp_bl;
+>  
+>         if (!p->enabled)
+>                 return 0;
+>  
+> +       if (p->desc->uses_dpcd_backlight && bl)
+> +               drm_edp_backlight_disable(p->aux, &bl->info);
+> +
+>         if (p->desc->delay.disable)
+>                 msleep(p->desc->delay.disable);
+>  
+> @@ -496,6 +516,7 @@ static int panel_simple_prepare(struct drm_panel *panel)
+>  static int panel_simple_enable(struct drm_panel *panel)
+>  {
+>         struct panel_simple *p = to_panel_simple(panel);
+> +       struct edp_backlight *bl = p->edp_bl;
+>  
+>         if (p->enabled)
+>                 return 0;
+> @@ -505,6 +526,10 @@ static int panel_simple_enable(struct drm_panel *panel)
+>  
+>         panel_simple_wait(p->prepared_time, p->desc-
+> >delay.prepare_to_enable);
+>  
+> +       if (p->desc->uses_dpcd_backlight && bl)
+> +               drm_edp_backlight_enable(p->aux, &bl->info,
+> +                                        bl->dev->props.brightness);
+> +
+>         p->enabled = true;
+>  
+>         return 0;
+> @@ -565,6 +590,59 @@ static const struct drm_panel_funcs panel_simple_funcs
+> = {
+>         .get_timings = panel_simple_get_timings,
+>  };
+>  
+> +static int edp_backlight_update_status(struct backlight_device *bd)
+> +{
+> +       struct panel_simple *p = bl_get_data(bd);
+> +       struct edp_backlight *bl = p->edp_bl;
+> +
+> +       if (!p->enabled)
+> +               return 0;
+> +
+> +       return drm_edp_backlight_set_level(p->aux, &bl->info, bd-
+> >props.brightness);
+> +}
+> +
+> +static const struct backlight_ops edp_backlight_ops = {
+> +       .update_status = edp_backlight_update_status,
+> +};
+> +
+> +static int edp_backlight_register(struct device *dev, struct panel_simple
+> *panel)
+> +{
+> +       struct edp_backlight *bl;
+> +       struct backlight_properties props = { 0 };
+> +       u16 current_level;
+> +       u8 current_mode;
+> +       u8 edp_dpcd[EDP_DISPLAY_CTL_CAP_SIZE];
+> +       int ret;
+> +
+> +       bl = devm_kzalloc(dev, sizeof(*bl), GFP_KERNEL);
+> +       if (!bl)
+> +               return -ENOMEM;
+> +
+> +       ret = drm_dp_dpcd_read(panel->aux, DP_EDP_DPCD_REV, edp_dpcd,
+> +                              EDP_DISPLAY_CTL_CAP_SIZE);
+> +       if (ret < 0)
+> +               return ret;
+> +
+> +       ret = drm_edp_backlight_init(panel->aux, &bl->info, 0, edp_dpcd,
+> +                                    &current_level, &current_mode);
+> +       if (ret < 0)
+> +               return ret;
+> +
+> +       props.type = BACKLIGHT_RAW;
+> +       props.brightness = current_level;
+> +       props.max_brightness = bl->info.max;
+> +
+> +       bl->dev = devm_backlight_device_register(dev, "edp_backlight",
+> +                                               dev, panel,
+> +                                               &edp_backlight_ops, &props);
+> +       if (IS_ERR(bl->dev))
+> +               return PTR_ERR(bl->dev);
+> +
+> +       panel->edp_bl = bl;
+> +
+> +       return 0;
+> +}
+> +
+>  static struct panel_desc panel_dpi;
+>  
+>  static int panel_dpi_probe(struct device *dev,
+> @@ -796,9 +874,24 @@ static int panel_simple_probe(struct device *dev, const
+> struct panel_desc *desc,
+>  
+>         drm_panel_init(&panel->base, dev, &panel_simple_funcs,
+> connector_type);
+>  
+> -       err = drm_panel_of_backlight(&panel->base);
+> -       if (err)
+> -               goto disable_pm_runtime;
+> +       if (panel->desc->uses_dpcd_backlight) {
+> +               if (!panel->aux) {
+> +                       dev_err(dev, "edp backlight needs DP aux\n");
+> +                       err = -EINVAL;
+> +                       goto disable_pm_runtime;
+> +               }
+> +
+> +               err = edp_backlight_register(dev, panel);
+> +               if (err) {
+> +                       dev_err(dev, "failed to register edp backlight
+> %d\n", err);
+> +                       goto disable_pm_runtime;
+> +               }
+> +
+> +       } else {
+> +               err = drm_panel_of_backlight(&panel->base);
+> +               if (err)
+> +                       goto disable_pm_runtime;
+> +       }
+>  
+>         drm_panel_add(&panel->base);
+>  
 
-It's not a driver, it's kinda a bolted-on-the-side subsytem of pci. So not
-something you can -EPROBE_DEFER I think, without potentially upsetting the
-drivers that need this.
-
-Which might mean we should move this into pci subsystem proper perhaps?
-Then adding the init call at the right time becomes trivial since we just
-plug it in at the end of pci init.
-
-Also maybe that's how distros avoid this pain, pci is built-in, vgaarb is
-generally a module, problem solved.
-
-Bjorn, would you take this entire vgaarb.c thing? From a quick look I
-don't think it has a drm-ism in it (unlike vga_switcheroo, but that works
-a bit differently and doesn't have this init order issue).
-
-Thoughts on this?
--Daniel
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Cheers,
+ Lyude Paul (she/her)
+ Software Engineer at Red Hat
+
