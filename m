@@ -2,74 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69DB2397305
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Jun 2021 14:10:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B6CE839731B
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Jun 2021 14:20:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C55576E50E;
-	Tue,  1 Jun 2021 12:10:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0CD7F6E483;
+	Tue,  1 Jun 2021 12:20:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com
- [IPv6:2a00:1450:4864:20::633])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C41D66E463;
- Tue,  1 Jun 2021 12:10:49 +0000 (UTC)
-Received: by mail-ej1-x633.google.com with SMTP id gb17so21289371ejc.8;
- Tue, 01 Jun 2021 05:10:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:references:from:message-id:date:user-agent:mime-version
- :in-reply-to:content-transfer-encoding:content-language;
- bh=jtvcIaFxgOT25JTMY5cLgmFjDay+DXxACyyo+Y4B3xk=;
- b=XBI0LhuT3Gk5Sc7xPXfkVnjAKAaTHRnD/5rh4UZSOC3rN0Kv8n/rjlpRpvVXuORZjP
- S0blG+/WLeNWqm4NqqAR79225rB5XvZnHX/dKazI9Fh0I4KTBpvg9nYtWCCekFvQZeC2
- gce5bu4SeC7kGuXxSQpD6BpoqMLRqPFlG8mn6NCNXZka96G28sDpRbvvKsEV1hsJn40Y
- F0yPdjUD/K3aXaEp7z/aIA8JoTovLy5iSsZhk8yQoShcUKbgm65pyqynu9n7zLt95NCs
- UDOIdEsR9m3Deq6+/ZfGUNgvf8aSbrHuwVMzrmxiQxGCwBkzn/QR+a0x2+nlV+e6HI0T
- Rerw==
+Received: from mail-oo1-xc33.google.com (mail-oo1-xc33.google.com
+ [IPv6:2607:f8b0:4864:20::c33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EF5896E483
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Jun 2021 12:20:14 +0000 (UTC)
+Received: by mail-oo1-xc33.google.com with SMTP id
+ s20-20020a4ae9940000b02902072d5df239so3451560ood.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 01 Jun 2021 05:20:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=QZD0tqLcr7Rb6q8Fc6VxhjbM8BQAPNxQ7LLDWAO2SO8=;
+ b=Khguyi16Hdf9gCclFm2Y7WlWnKqq0HT7EwWbMdO0UTScH35iMBi4x+MkSSROrXH2ut
+ JMdiZ79O2Yk0BnhM85uAIOSyDD43wsLagozBe0Jwz+sbl2NmYDOLHObY0fywavkzA5sY
+ Vhx0I+VVqtOdvAUFAvGlJFNTzhShF1BdTtguM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-transfer-encoding
- :content-language;
- bh=jtvcIaFxgOT25JTMY5cLgmFjDay+DXxACyyo+Y4B3xk=;
- b=axJorD2oXS2tKG7RVN90yPVVwP5MuLX7KVogYwVWg8GjU4cmP+xv2hXKljCtkPnI6B
- sBYz8o/+Mn1W7C+Ma4sjoo3+q/k3yO8hzZhdHz2s18VUZuXmCcZRCEJXdFxIXV899tYl
- Enh9KLce76tV8kMssmMw19VJElIxQm10gFM3JOdFUTk94kOtt4bCj3+KtJDTAPTzN7R0
- lXu51IRc99NyLlSYA7HteBeC5Pu9zvJ5TnzmciApwNvjBPf/t/Q3StGioUvKmpKSo8Gj
- MNIkq/f+HdEjGBtMxW6USKAnSjaBNwWj4TCmglgPxz0I8s5MOaPGVZpg115ohGuQM/Sa
- 3Reg==
-X-Gm-Message-State: AOAM532xsRcYaP2WolhvM4t6L8mw+oyOvHQHP6T6tdFSuPPG5+1KojOd
- DLJuZkXn1GA4GEjbHs7GhI4=
-X-Google-Smtp-Source: ABdhPJw9J2/T2fjGh5dnpj32QD+nPcAuNliRfNPxXEJiaBE5VYMn8Obg6o56VSKvJItjnb52B82IBg==
-X-Received: by 2002:a17:906:a017:: with SMTP id
- p23mr29427929ejy.460.1622549448373; 
- Tue, 01 Jun 2021 05:10:48 -0700 (PDT)
-Received: from ?IPv6:2a02:908:1252:fb60:5ee0:b6d9:de45:97bd?
- ([2a02:908:1252:fb60:5ee0:b6d9:de45:97bd])
- by smtp.gmail.com with ESMTPSA id p14sm3012401eds.19.2021.06.01.05.10.47
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 01 Jun 2021 05:10:47 -0700 (PDT)
-Subject: Re: [Mesa-dev] Linux Graphics Next: Userspace submission update
-To: =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel@daenzer.net>,
- =?UTF-8?B?TWFyZWsgT2zFocOhaw==?= <maraeo@gmail.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- ML Mesa-dev <mesa-dev@lists.freedesktop.org>,
- Alex Deucher <alexdeucher@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Dave Airlie <airlied@gmail.com>, Jason Ekstrand <jason@jlekstrand.net>,
- Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>
-References: <CAAxE2A4XS2mCXOdvxm1ZAhG2OY9w1P0X2E1ac1TXNFKDekog5g@mail.gmail.com>
- <e7cb9833-1044-0426-5ce4-5b5fc32a3603@daenzer.net>
- <327e4008-b29f-f5b7-bb30-532fa52c797f@gmail.com>
- <7f19e3c7-b6b2-5200-95eb-3fed8d22a6b3@daenzer.net>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-Message-ID: <b0d65f94-cc56-a4db-3158-7b1de3952792@gmail.com>
-Date: Tue, 1 Jun 2021 14:10:46 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=QZD0tqLcr7Rb6q8Fc6VxhjbM8BQAPNxQ7LLDWAO2SO8=;
+ b=dPAyPQsX7anT5w7pAgvHfkliixyXzh1qFZCTym6u+Ir14A/ljbJIYcXCsF44vLQa8k
+ g+4IrmEX3NDydpkSSeYwRXjKpIG+7VTaD//5dwWB8ihe1y1VU128ZJxJFxcKRiJPqhn8
+ 6NpJYx8KMfnUDU481oLxOt+LfedhR87Vp1Sv0ZQDdCiyVMW6AMB5O58TgLLVF1hPvSHT
+ 7yLl6aUvKgkWqg0FgJelJgCaM83MSl7Z+JXR2G+paGHeKyDRYCIzDsrNQciRP9vE42TF
+ kvJhJtfllqqqdd387F5so9RoNs+bE+2WRXufBfFzA9yafF0PptZ88sneYfhMQ0XZB7Ab
+ 5dtg==
+X-Gm-Message-State: AOAM530L0BJQZ7exuJ6ixj/ddSK0c9eE8Lrd4gB7H9Qabwafnn9R1DON
+ D9YFTy3irt0iVhNcAIG5wUeHYj6e0/9HXluZZs34sQ==
+X-Google-Smtp-Source: ABdhPJwJZG4UNugaaZxn3LSDsBt6KqwfnauGFoc92BD4L5gMqHV90b8C/9G9Sx24RYAs+i/4udvEo4LwUYMhvuQ4JPA=
+X-Received: by 2002:a4a:d4c7:: with SMTP id r7mr20514011oos.85.1622550014195; 
+ Tue, 01 Jun 2021 05:20:14 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <7f19e3c7-b6b2-5200-95eb-3fed8d22a6b3@daenzer.net>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+References: <20210520073514.314893-1-matthew.auld@intel.com>
+ <YKZx/U05aRaxKw44@phenom.ffwll.local>
+ <CAKMK7uE4F66O8sCovhrQKB5Lo3tdKWNhWTS4C=apyVJgqbKuPg@mail.gmail.com>
+ <6bf0ebe7-f23d-aeff-c6f6-b43201212d5d@intel.com>
+In-Reply-To: <6bf0ebe7-f23d-aeff-c6f6-b43201212d5d@intel.com>
+From: Daniel Vetter <daniel@ffwll.ch>
+Date: Tue, 1 Jun 2021 14:20:02 +0200
+Message-ID: <CAKMK7uFePn8Ys=ntUnckAxm5VLwWTSoJLrTx6rdBmRpKatk45w@mail.gmail.com>
+Subject: Re: [PATCH] drm/i915: Use DRIVER_NAME for tracing unattached requests
+To: Matthew Auld <matthew.auld@intel.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,47 +62,221 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Andi Shyti <andi.shyti@intel.com>, intel-gfx <intel-gfx@lists.freedesktop.org>,
+ stable <stable@vger.kernel.org>, Chris Wilson <chris@chris-wilson.co.uk>,
+ Chintan M Patel <chintan.m.patel@intel.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 01.06.21 um 12:49 schrieb Michel Dänzer:
-> On 2021-06-01 12:21 p.m., Christian König wrote:
->> Am 01.06.21 um 11:02 schrieb Michel Dänzer:
->>> On 2021-05-27 11:51 p.m., Marek Olšák wrote:
->>>> 3) Compositors (and other privileged processes, and display flipping) can't trust imported/exported fences. They need a timeout recovery mechanism from the beginning, and the following are some possible solutions to timeouts:
->>>>
->>>> a) use a CPU wait with a small absolute timeout, and display the previous content on timeout
->>>> b) use a GPU wait with a small absolute timeout, and conditional rendering will choose between the latest content (if signalled) and previous content (if timed out)
->>>>
->>>> The result would be that the desktop can run close to 60 fps even if an app runs at 1 fps.
->>> FWIW, this is working with
->>> https://gitlab.gnome.org/GNOME/mutter/-/merge_requests/1880 , even with implicit sync (on current Intel GPUs; amdgpu/radeonsi would need to provide the same dma-buf poll semantics as other drivers and high priority GFX contexts via EGL_IMG_context_priority which can preempt lower priority ones).
->> Yeah, that is really nice to have.
->>
->> One question is if you wait on the CPU or the GPU for the new surface to become available?
-> It's based on polling dma-buf fds, i.e. CPU.
+On Tue, Jun 1, 2021 at 1:13 PM Matthew Auld <matthew.auld@intel.com> wrote:
+> On 31/05/2021 08:53, Daniel Vetter wrote:
+> > On Thu, May 20, 2021 at 4:28 PM Daniel Vetter <daniel@ffwll.ch> wrote:
+> >>
+> >> On Thu, May 20, 2021 at 08:35:14AM +0100, Matthew Auld wrote:
+> >>> From: Chris Wilson <chris@chris-wilson.co.uk>
+> >>>
+> >>> The first tracepoint for a request is trace_dma_fence_init called before
+> >>> we have associated the request with a device. The tracepoint uses
+> >>> fence->ops->get_driver_name() as a pretty name, and as we try to report
+> >>> the device name this oopses as it is then NULL. Support the early
+> >>> tracepoint by reporting the DRIVER_NAME instead of the actual device
+> >>> name.
+> >>>
+> >>> Note that rq->engine remains during the course of request recycling
+> >>> (SLAB_TYPESAFE_BY_RCU). For the physical engines, the pointer remains
+> >>> valid, however a virtual engine may be destroyed after the request is
+> >>> retired. If we process a preempt-to-busy completed request along the
+> >>> virtual engine, we should make sure we mark the request as no longer
+> >>> belonging to the virtual engine to remove the dangling pointers from the
+> >>> tracepoint.
+> >>
+> >> Why can't we assign the request beforehand? The idea behind these
+> >> tracepoints is that they actually match up, if trace_dma_fence_init is
+> >> different, then we're breaking that.
+> >
+> > Ok I looked a bit more and pondered this a bit, and the initial
+> > tracepoint is called from dma_fence_init, where we haven't yet set up
+> > rq->engine properly. So that part makes sense, but should have a
+> > bigger comment that explains this a bit more and why we can't solve
+> > this in a neater way. Probably should also drop the unlikely(), this
+> > isn't a performance critical path, ever.
+> >
+> > The other changes thgouh feel like they should be split out into a
+> > separate path, since they solve a conceptually totally different
+> > issue: SLAB_TYPESAFE_BY_RCU recycling.
 >
->> The former is a bit bad for latency and power management.
-> There isn't a choice for Wayland compositors in general, since there can be arbitrary other state which needs to be applied atomically together with the new buffer. (Though in theory, a compositor might get fancy and special-case surface commits which can be handled by waiting on the GPU)
+> Hmm, I thought it all stems from having to tread very carefully around
+> SLAB_TYPESAFE_BY_RCU? If this were "normal" code, we would just allocate
+> the rq, initialise it properly, including the rq->engine, and only then
+> do the dma_fence_init? Or am I missing something?
+
+Uh, if this is the bug it's a lot more scary. SLAB_TYPESAFE_BY_RCU
+should only rear it's ugly head if we do clever tricks where we access
+pointers to dma_fence under rcu alone, _without_ holding a full
+dma_fence reference. As soon as we have a full reference (and checked
+that the reference is to the right fence, since we could race) then
+all this recycle issues are gonne since the kref_t provides the right
+barrier here.
+
+If we hit any of the dma_fence tracepoints without a full reference
+held then I think that's a bug an needs to be fixed. Maybe we should
+have a debug WARN_ON(!kref(dma_fence)>0)); in these tracepoints
+somewhere to prevent this. Doing real dma_fence ops without a refcount
+held is really too much clever imo, and even if we'd find some
+microbenchmark showing that e.g. the dma_fence_get/put around some
+dma_fence function we're calling is measurable, it's not worth the
+cost in bugfixes like this one here.
+
+And when we do hold a full reference, then the only problem I've found
+is that we call dma_fence_init before the request is fully set up,
+which is at least semi-reasonable and can easily be checked for and
+explained with a comment. I thought I looked at the code, and
+reordering the request init to not have this problem looked tricky.
+
+Another issue which would also be very questionable design that we
+need to re-analyze would be if the engine can disappear before the
+last reference for the dma_fence has been dropped. I'd also just call
+this a bug in our refcounting, this should be impossible, but I
+haven't checked.
+
+In all these cases SLAB_TYPESAFE_BY_RCU shouldn't make the situation
+worse, and if it does, it's a separate issue really.
+
+> I'm happy to split it though. And I think that bit at least fixes the
+> user reported issue I think.
+
+So thinking about this some more, if you think this can be easily
+fixed by pushing the dma_fence_init past the initialization of
+rq->engine, then that would probably be the cleanest fix of all of
+them. Assuming none of the above consideration point at further
+trouble (but then further trouble probably needs separate patches to
+address them).
+
+> > And I'm honestly not sure about
+> > that one whether it's even correct, there's another patch floating
+> > around that sprinkles rcu_read_lock around some of these accesssors,
+> > and that would be a breakage of dma_fence interaces where outside of
+> > i915 rcu isn't required for this stuff. So imo should be split out,
+> > and come with a wider analysis of what's going on there and why and
+> > how exactly i915 works.
+> >
+> > In generally SLAB_TYPESAFE_BY_RCU is extremely dangerous and I'm
+> > frankly not sure we have the perf data (outside of contrived
+> > microbenchmarks) showing that it's needed and justifies all the costs
+> > it's encurring.
 >
-> Latency is largely a matter of scheduling in the compositor. The latency incurred by the compositor shouldn't have to be more than single-digit milliseconds. (I've seen total latency from when the client starts processing a (static) frame to when it starts being scanned out as low as ~6 ms with https://gitlab.gnome.org/GNOME/mutter/-/merge_requests/1620, lower than typical with Xorg)
+> Right, I can try to search the git history.
 
-Well let me describe it like this:
+Yeah might be good to dig that out too while we're at it. I think i915
+is the only driver that recycles it's dma_fence without an rcu
+barrier. We're also the only driver that does lots of very clever
+tricks which are protected by rcu only, and not grabbing a full
+dma_fence reference. Or at least I've seen a bunch of those.
+-Daniel
 
-We have an use cases for 144 Hz guaranteed refresh rate. That 
-essentially means that the client application needs to be able to spit 
-out one frame/window content every ~6.9ms. That's tough, but doable.
-
-When you now add 6ms latency in the compositor that means the client 
-application has only .9ms left for it's frame which is basically 
-impossible to do.
-
-See for the user fences handling the display engine will learn to read 
-sequence numbers from memory and decide on it's own if the old frame or 
-the new one is scanned out. To get the latency there as low as possible.
-
->> Another question is if that is sufficient as security for the display server or if we need further handling down the road? I mean essentially we are moving the reliability problem into the display server.
-> Good question. This should generally protect the display server from freezing due to client fences never signalling, but there might still be corner cases.
 >
 >
+> > -Daniel
+> >
+> >> -Daniel
+> >>
+> >>>
+> >>> Fixes: 855e39e65cfc ("drm/i915: Initialise basic fence before acquiring seqno")
+> >>> Signed-off-by: Chris Wilson <chris@chris-wilson.co.uk>
+> >>> Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+> >>> Cc: Chintan M Patel <chintan.m.patel@intel.com>
+> >>> Cc: Andi Shyti <andi.shyti@intel.com>
+> >>> Cc: <stable@vger.kernel.org> # v5.7+
+> >>> Signed-off-by: Matthew Auld <matthew.auld@intel.com>
+> >>> ---
+> >>>   .../drm/i915/gt/intel_execlists_submission.c  | 20 ++++++++++++++-----
+> >>>   drivers/gpu/drm/i915/i915_request.c           |  7 ++++++-
+> >>>   2 files changed, 21 insertions(+), 6 deletions(-)
+> >>>
+> >>> diff --git a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
+> >>> index de124870af44..75604e927d34 100644
+> >>> --- a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
+> >>> +++ b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
+> >>> @@ -3249,6 +3249,18 @@ static struct list_head *virtual_queue(struct virtual_engine *ve)
+> >>>        return &ve->base.execlists.default_priolist.requests;
+> >>>   }
+> >>>
+> >>> +static void
+> >>> +virtual_submit_completed(struct virtual_engine *ve, struct i915_request *rq)
+> >>> +{
+> >>> +     GEM_BUG_ON(!__i915_request_is_complete(rq));
+> >>> +     GEM_BUG_ON(rq->engine != &ve->base);
+> >>> +
+> >>> +     __i915_request_submit(rq);
+> >>> +
+> >>> +     /* Remove the dangling pointer to the stale virtual engine */
+> >>> +     WRITE_ONCE(rq->engine, ve->siblings[0]);
+> >>> +}
+> >>> +
+> >>>   static void rcu_virtual_context_destroy(struct work_struct *wrk)
+> >>>   {
+> >>>        struct virtual_engine *ve =
+> >>> @@ -3265,8 +3277,7 @@ static void rcu_virtual_context_destroy(struct work_struct *wrk)
+> >>>
+> >>>                old = fetch_and_zero(&ve->request);
+> >>>                if (old) {
+> >>> -                     GEM_BUG_ON(!__i915_request_is_complete(old));
+> >>> -                     __i915_request_submit(old);
+> >>> +                     virtual_submit_completed(ve, old);
+> >>>                        i915_request_put(old);
+> >>>                }
+> >>>
+> >>> @@ -3538,13 +3549,12 @@ static void virtual_submit_request(struct i915_request *rq)
+> >>>
+> >>>        /* By the time we resubmit a request, it may be completed */
+> >>>        if (__i915_request_is_complete(rq)) {
+> >>> -             __i915_request_submit(rq);
+> >>> +             virtual_submit_completed(ve, rq);
+> >>>                goto unlock;
+> >>>        }
+> >>>
+> >>>        if (ve->request) { /* background completion from preempt-to-busy */
+> >>> -             GEM_BUG_ON(!__i915_request_is_complete(ve->request));
+> >>> -             __i915_request_submit(ve->request);
+> >>> +             virtual_submit_completed(ve, ve->request);
+> >>>                i915_request_put(ve->request);
+> >>>        }
+> >>>
+> >>> diff --git a/drivers/gpu/drm/i915/i915_request.c b/drivers/gpu/drm/i915/i915_request.c
+> >>> index 970d8f4986bb..aa124adb1051 100644
+> >>> --- a/drivers/gpu/drm/i915/i915_request.c
+> >>> +++ b/drivers/gpu/drm/i915/i915_request.c
+> >>> @@ -61,7 +61,12 @@ static struct i915_global_request {
+> >>>
+> >>>   static const char *i915_fence_get_driver_name(struct dma_fence *fence)
+> >>>   {
+> >>> -     return dev_name(to_request(fence)->engine->i915->drm.dev);
+> >>> +     struct i915_request *rq = to_request(fence);
+> >>> +
+> >>> +     if (unlikely(!rq->engine)) /* not yet attached to any device */
+> >>> +             return DRIVER_NAME;
+> >>> +
+> >>> +     return dev_name(rq->engine->i915->drm.dev);
+> >>>   }
+> >>>
+> >>>   static const char *i915_fence_get_timeline_name(struct dma_fence *fence)
+> >>> --
+> >>> 2.26.3
+> >>>
+> >>
+> >> --
+> >> Daniel Vetter
+> >> Software Engineer, Intel Corporation
+> >> http://blog.ffwll.ch
+> >
+> >
+> >
 
+
+
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
