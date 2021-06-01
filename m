@@ -1,59 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 917E9397327
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Jun 2021 14:25:40 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D5A27397328
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Jun 2021 14:25:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 648766EA27;
+	by gabe.freedesktop.org (Postfix) with ESMTP id E2C916EA31;
 	Tue,  1 Jun 2021 12:25:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com
- [IPv6:2a00:1450:4864:20::634])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 781886E81A
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Jun 2021 12:25:32 +0000 (UTC)
-Received: by mail-ej1-x634.google.com with SMTP id k7so11834825ejv.12
- for <dri-devel@lists.freedesktop.org>; Tue, 01 Jun 2021 05:25:32 -0700 (PDT)
+Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com
+ [IPv6:2a00:1450:4864:20::636])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 21A3F6E92F
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Jun 2021 12:25:33 +0000 (UTC)
+Received: by mail-ej1-x636.google.com with SMTP id k7so11834885ejv.12
+ for <dri-devel@lists.freedesktop.org>; Tue, 01 Jun 2021 05:25:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=6t7o/v++kUreKh+BqmcXqVMGRXaQhdTiSOndd5rOlTc=;
- b=TfAdEMF2rD1xgWTtU/Y2KvYcRDFQW32F8sHbMBs1X1BCCWj4Nz3sQ5jlLqXrS3bXAU
- CGB1iPaxWbmRPaX02xphFvaPx56OUy5NOYFTyg4aQSXQfpb2op2dREV5hTdtLetiCXfz
- SFj9ywF4Ui1l+ERBC5nxc+03EKOScGRMrL+JqoHGpQcG7w7JEvmauDvP8GzEkLTPEPFM
- R+s2H/scYt/qgGHfH6O/fFd2XnHlLt0BtVcRs0PimRiTzpznux2snlQxWBMhRX4BmKIn
- Nk2VrmOa4qNzKUklU/fy7E+VZih8vjNNrzJVrSl2upx9r46pg/mNZS3Opz2+q+UR23s5
- 05RA==
+ bh=EWs6SPWoQkgdAkdLURcKJ0gLgWOX+pgv/leiPSJhQKk=;
+ b=o0pUP/feiIX54q0qh14Bjrikp1QJmXRPz9OnKf6D0Y2mEGR9ejmYGCBfmko96UvdsD
+ 3oscN2Bjwxz8tbfNdQORGynQEUlKeFTcs0+V65Lx6CkQUmgVZM4jGGxhb2GR6hPNjDGT
+ ntx9uN8shMw1zGcsVBDM6gmloonGgXlz6zfYG5n2Qtr/1ZInKthDvL/oYK7q7HUsikn4
+ RFkRpq0IT1EB4LODE7iw3jWPhEiW1TIy3oJVpGDfU3kiJ8YBdus3j5rZR43x3MuRcGUX
+ 2ScCYesbZVdO3TehBwlNDRLUlyCCdx4eF+KEeFQh+vzUCqJD/iMl9FG8DFtIDXJ2F+5G
+ E29Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=6t7o/v++kUreKh+BqmcXqVMGRXaQhdTiSOndd5rOlTc=;
- b=LfyF/wWHdJYeNZyubarYXhwKZ7ldlKb4sXgPVZ65UyitDUTvJnOKO3GUoM+DrRuuyX
- MpUbfHGHSOPKJk+/1fvRo/jNEwUWr+uYa3VQS+CZnbEHA727vtI/vyfeaghli3rIrHYO
- tkxHAdijxdVhX9CShekwH6RaVlhFpW/fn4g8SVSshR2jHbqfg5Zt8xxrWDREH5+n5HXT
- 6DzyHbGoW6L5zdmdIwRWG086jiMLtFCn++PvoMgiDmBtoqRz0eOPjc7m+v7iEvNvEX3g
- OYGRqnH3Hz0+nO8NE0eDEtLYLFEyKXDBqlgZ2AvicoDdmvkkh6AFq5irmHZss0jJWcKV
- N+/w==
-X-Gm-Message-State: AOAM530u1RkIVdhC3BtoTK1eXARgPBpdpEhdhPL9tbDB+zqABlDZrBRF
- +QONiULon5Fh9ErUgu/1hMRA8EmwhgU=
-X-Google-Smtp-Source: ABdhPJxn/4kbfYtdVDrFUnDbLpkv/UP1HJidJMJmtXqyaI5tCiWxQ6Fv/Gn2HePPB7XvVMWd14E7/A==
-X-Received: by 2002:a17:906:1591:: with SMTP id
- k17mr29397524ejd.401.1622550331088; 
+ bh=EWs6SPWoQkgdAkdLURcKJ0gLgWOX+pgv/leiPSJhQKk=;
+ b=K/Xgu5AYKcmA7+VFsOPc+418wY9r8F0a+XZlGiE3zKNH1neIV+bZ/4St3QhvtHUS9n
+ kg5atmA0IZOLxBWTTYs4fJzATd8BHFMiQi23ohBbNcWr1kj8GwiLB6x+MYkifX5qFvrq
+ lcSWwW8guc3fW/eQSZCYcDXA+UCXvIq9PU8vRBrv3sX4V5eV/UlIF72D9DuzEyHeTKfw
+ YDHPaRdfqhFpuew/1y7HGc/pqDncfO/tVRjKHnBchO5KrEsYxTnAtnN0wK2kLr/E0de/
+ 0jRLdRqENsBf4QPDAIEOU4n/9+ouOLnPKJEXtDnDuCSR6WTEA5XggpDHEpY8v9Rc9tUg
+ +rKQ==
+X-Gm-Message-State: AOAM532YkzWwtZtuzEo5BGhdJb14/GEKairYT9oKUbRgwlSvagJK+p/k
+ DhApY5AxfJoE5d91x1F7eXGeFwpgRhY=
+X-Google-Smtp-Source: ABdhPJyNdqS+mJjzzRTuC5z33DeLD+JGASmPM8kSdeBlt2JiCK41OEA0ebzLLeTiwuiv4d/gihhU4g==
+X-Received: by 2002:a17:906:a398:: with SMTP id
+ k24mr20290995ejz.203.1622550331883; 
  Tue, 01 Jun 2021 05:25:31 -0700 (PDT)
 Received: from abel.fritz.box ([2a02:908:1252:fb60:fba0:a784:4c4a:8bc0])
- by smtp.gmail.com with ESMTPSA id f7sm8534845edd.5.2021.06.01.05.25.30
+ by smtp.gmail.com with ESMTPSA id f7sm8534845edd.5.2021.06.01.05.25.31
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 01 Jun 2021 05:25:30 -0700 (PDT)
+ Tue, 01 Jun 2021 05:25:31 -0700 (PDT)
 From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
 X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
  <christian.koenig@amd.com>
 To: Lang.Yu@amd.com,
 	thomas_os@shipmail.org
-Subject: [PATCH 2/4] drm/amdgpu: user temporary GTT as bounce buffer
-Date: Tue,  1 Jun 2021 14:25:26 +0200
-Message-Id: <20210601122528.1643-2-christian.koenig@amd.com>
+Subject: [PATCH 3/4] drm/amdgpu: always allow evicting to SYSTEM domain
+Date: Tue,  1 Jun 2021 14:25:27 +0200
+Message-Id: <20210601122528.1643-3-christian.koenig@amd.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210601122528.1643-1-christian.koenig@amd.com>
 References: <20210601122528.1643-1-christian.koenig@amd.com>
@@ -76,85 +76,37 @@ Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Lang Yu <Lang.Yu@amd.com>
+When we run out of GTT we should still be able to evict VRAM->SYSTEM
+with a bounce bufferdrm/amdgpu: always allow evicting to SYSTEM domain
 
-Currently, we have a limitted GTT memory size and need a bounce buffer
-when doing buffer migration between VRAM and SYSTEM domain.
-
-The problem is under GTT memory pressure we can't do buffer migration
-between VRAM and SYSTEM domain. But in some cases we really need that.
-Eespecially when validating a VRAM backing store BO which resides in
-SYSTEM domain.
-
-v2: still account temporary GTT allocations
-v3 (chk): revert to the simpler change for now
-
-Signed-off-by: Lang Yu <Lang.Yu@amd.com>
 Signed-off-by: Christian König <christian.koenig@amd.com>
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c | 19 +++++++++++--------
- drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c     |  2 +-
- 2 files changed, 12 insertions(+), 9 deletions(-)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c
-index 6a84c9778cc0..5e6b76441449 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c
-@@ -121,14 +121,15 @@ static int amdgpu_gtt_mgr_new(struct ttm_resource_manager *man,
- 	struct amdgpu_gtt_node *node;
- 	int r;
- 
--	spin_lock(&mgr->lock);
--	if ((&tbo->mem == mem || tbo->mem.mem_type != TTM_PL_TT) &&
--	    atomic64_read(&mgr->available) < mem->num_pages) {
-+	if (!(place->flags & TTM_PL_FLAG_TEMPORARY)) {
-+		spin_lock(&mgr->lock);
-+		if (atomic64_read(&mgr->available) < mem->num_pages) {
-+			spin_unlock(&mgr->lock);
-+			return -ENOSPC;
-+		}
-+		atomic64_sub(mem->num_pages, &mgr->available);
- 		spin_unlock(&mgr->lock);
--		return -ENOSPC;
- 	}
--	atomic64_sub(mem->num_pages, &mgr->available);
--	spin_unlock(&mgr->lock);
- 
- 	if (!place->lpfn) {
- 		mem->mm_node = NULL;
-@@ -162,7 +163,8 @@ static int amdgpu_gtt_mgr_new(struct ttm_resource_manager *man,
- 	kfree(node);
- 
- err_out:
--	atomic64_add(mem->num_pages, &mgr->available);
-+	if (!(place->flags & TTM_PL_FLAG_TEMPORARY))
-+		atomic64_add(mem->num_pages, &mgr->available);
- 
- 	return r;
- }
-@@ -188,7 +190,8 @@ static void amdgpu_gtt_mgr_del(struct ttm_resource_manager *man,
- 		kfree(node);
- 	}
- 
--	atomic64_add(mem->num_pages, &mgr->available);
-+	if (!(mem->placement & TTM_PL_FLAG_TEMPORARY))
-+		atomic64_add(mem->num_pages, &mgr->available);
- }
- 
- /**
 diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-index 80437b6ba5f3..6bdff9005a47 100644
+index 6bdff9005a47..0faf9765ef41 100644
 --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
 +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-@@ -514,7 +514,7 @@ static int amdgpu_bo_move(struct ttm_buffer_object *bo, bool evict,
- 			hop->fpfn = 0;
- 			hop->lpfn = 0;
- 			hop->mem_type = TTM_PL_TT;
--			hop->flags = 0;
-+			hop->flags = TTM_PL_FLAG_TEMPORARY;
- 			return -EMULTIHOP;
+@@ -147,14 +147,16 @@ static void amdgpu_evict_flags(struct ttm_buffer_object *bo,
+ 			 * BOs to be evicted from VRAM
+ 			 */
+ 			amdgpu_bo_placement_from_domain(abo, AMDGPU_GEM_DOMAIN_VRAM |
+-							 AMDGPU_GEM_DOMAIN_GTT);
++							AMDGPU_GEM_DOMAIN_GTT |
++							AMDGPU_GEM_DOMAIN_CPU);
+ 			abo->placements[0].fpfn = adev->gmc.visible_vram_size >> PAGE_SHIFT;
+ 			abo->placements[0].lpfn = 0;
+ 			abo->placement.busy_placement = &abo->placements[1];
+ 			abo->placement.num_busy_placement = 1;
+ 		} else {
+ 			/* Move to GTT memory */
+-			amdgpu_bo_placement_from_domain(abo, AMDGPU_GEM_DOMAIN_GTT);
++			amdgpu_bo_placement_from_domain(abo, AMDGPU_GEM_DOMAIN_GTT |
++							AMDGPU_GEM_DOMAIN_CPU);
  		}
- 
+ 		break;
+ 	case TTM_PL_TT:
 -- 
 2.25.1
 
