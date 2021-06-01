@@ -2,56 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 734F73972E6
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Jun 2021 13:59:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 69DB2397305
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Jun 2021 14:10:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 241526E1BB;
-	Tue,  1 Jun 2021 11:59:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C55576E50E;
+	Tue,  1 Jun 2021 12:10:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-x131.google.com (mail-il1-x131.google.com
- [IPv6:2607:f8b0:4864:20::131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3E2246E1BB
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Jun 2021 11:59:20 +0000 (UTC)
-Received: by mail-il1-x131.google.com with SMTP id b5so12602199ilc.12
- for <dri-devel@lists.freedesktop.org>; Tue, 01 Jun 2021 04:59:20 -0700 (PDT)
+Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com
+ [IPv6:2a00:1450:4864:20::633])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C41D66E463;
+ Tue,  1 Jun 2021 12:10:49 +0000 (UTC)
+Received: by mail-ej1-x633.google.com with SMTP id gb17so21289371ejc.8;
+ Tue, 01 Jun 2021 05:10:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=7h+A8aEDUOIPJ0mvlv22w1DuGIkLT4pGU/4T1UhDmms=;
- b=j8OR4Sn96SBx/RobEUIz9aB1+A6WnyGyB/Nq9pQVaWc2TGT3igc9cVZ+6RCDiG/1Vt
- 91J+WmrmrdtltcMDhPWPILb7dlfZbG9O+aP9c+Ex4LSQ7aOq4Zgy9/KjMEDiH+JviTUz
- RtxQu/DrawhynBcoCvnB61AguKMnM6UbFgQ02FxqgF8I4EwELZp6XdlPBxOnP6Wg8PnG
- UfHsMrmsJE4M482D3FI+fxogHtZQ9LnCApgrZSs+6hzfp8bsw/5jdeXzDFcqddcXVnvn
- dPuxBoMvNelA28r+iqN6V23EBTb2nroadn5t3qfUy5mxqAmNGqZPvx7r/hf/6PUWmzOG
- moRA==
+ h=subject:to:references:from:message-id:date:user-agent:mime-version
+ :in-reply-to:content-transfer-encoding:content-language;
+ bh=jtvcIaFxgOT25JTMY5cLgmFjDay+DXxACyyo+Y4B3xk=;
+ b=XBI0LhuT3Gk5Sc7xPXfkVnjAKAaTHRnD/5rh4UZSOC3rN0Kv8n/rjlpRpvVXuORZjP
+ S0blG+/WLeNWqm4NqqAR79225rB5XvZnHX/dKazI9Fh0I4KTBpvg9nYtWCCekFvQZeC2
+ gce5bu4SeC7kGuXxSQpD6BpoqMLRqPFlG8mn6NCNXZka96G28sDpRbvvKsEV1hsJn40Y
+ F0yPdjUD/K3aXaEp7z/aIA8JoTovLy5iSsZhk8yQoShcUKbgm65pyqynu9n7zLt95NCs
+ UDOIdEsR9m3Deq6+/ZfGUNgvf8aSbrHuwVMzrmxiQxGCwBkzn/QR+a0x2+nlV+e6HI0T
+ Rerw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=7h+A8aEDUOIPJ0mvlv22w1DuGIkLT4pGU/4T1UhDmms=;
- b=Dd1LrG4B0ZnQgYfDO/DBNnCggPW2MEdOHVWTYH89HefBvCNCg6j0h81NuqD+wm9+Sh
- BKg0jzGYoC8DXpPldtvAYD3WUh41OldWkFXPZYj2j8D/XL4TFfqAbvXRbvb6YguslMpi
- 2Yut4zR7n6xoGVmWAW19zEGMKg61O7MjBXcxpjiZODUnL8djkXjf/FWD+pO7kWMWKYLT
- fMP1ox3MV8peQBmK+XamoyUcoQy3jcjUeAPefnSe/PVLaS8xLhmeRZ1V+mBfAK4u5RFU
- qW43gWU6P8usiVgCl5VJ8rrC+iBJReR69yxHnIxMG4dgdk9KT/qjM2h8dwahyrC3+k8R
- O/Ig==
-X-Gm-Message-State: AOAM533sBR+si1WXoyR0/fzFBrXqYnyMnA2o1cwYCmzY6YhxOQ3mlynC
- rFzWyHjqr0lV5HaPqfW+nbrR3x+xVBorsYBUvHg=
-X-Google-Smtp-Source: ABdhPJyVH+Rz58jeThjRqbHxM68F5xsZlanLSn0RHHf58g9eo4S828VK2JlD7ENXVa+FmPR8K/Dy/SG+qLvsgPGZN4I=
-X-Received: by 2002:a05:6e02:1561:: with SMTP id
- k1mr21593650ilu.218.1622548760336; 
- Tue, 01 Jun 2021 04:59:20 -0700 (PDT)
+ h=x-gm-message-state:subject:to:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-transfer-encoding
+ :content-language;
+ bh=jtvcIaFxgOT25JTMY5cLgmFjDay+DXxACyyo+Y4B3xk=;
+ b=axJorD2oXS2tKG7RVN90yPVVwP5MuLX7KVogYwVWg8GjU4cmP+xv2hXKljCtkPnI6B
+ sBYz8o/+Mn1W7C+Ma4sjoo3+q/k3yO8hzZhdHz2s18VUZuXmCcZRCEJXdFxIXV899tYl
+ Enh9KLce76tV8kMssmMw19VJElIxQm10gFM3JOdFUTk94kOtt4bCj3+KtJDTAPTzN7R0
+ lXu51IRc99NyLlSYA7HteBeC5Pu9zvJ5TnzmciApwNvjBPf/t/Q3StGioUvKmpKSo8Gj
+ MNIkq/f+HdEjGBtMxW6USKAnSjaBNwWj4TCmglgPxz0I8s5MOaPGVZpg115ohGuQM/Sa
+ 3Reg==
+X-Gm-Message-State: AOAM532xsRcYaP2WolhvM4t6L8mw+oyOvHQHP6T6tdFSuPPG5+1KojOd
+ DLJuZkXn1GA4GEjbHs7GhI4=
+X-Google-Smtp-Source: ABdhPJw9J2/T2fjGh5dnpj32QD+nPcAuNliRfNPxXEJiaBE5VYMn8Obg6o56VSKvJItjnb52B82IBg==
+X-Received: by 2002:a17:906:a017:: with SMTP id
+ p23mr29427929ejy.460.1622549448373; 
+ Tue, 01 Jun 2021 05:10:48 -0700 (PDT)
+Received: from ?IPv6:2a02:908:1252:fb60:5ee0:b6d9:de45:97bd?
+ ([2a02:908:1252:fb60:5ee0:b6d9:de45:97bd])
+ by smtp.gmail.com with ESMTPSA id p14sm3012401eds.19.2021.06.01.05.10.47
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 01 Jun 2021 05:10:47 -0700 (PDT)
+Subject: Re: [Mesa-dev] Linux Graphics Next: Userspace submission update
+To: =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel@daenzer.net>,
+ =?UTF-8?B?TWFyZWsgT2zFocOhaw==?= <maraeo@gmail.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ ML Mesa-dev <mesa-dev@lists.freedesktop.org>,
+ Alex Deucher <alexdeucher@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Dave Airlie <airlied@gmail.com>, Jason Ekstrand <jason@jlekstrand.net>,
+ Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>
+References: <CAAxE2A4XS2mCXOdvxm1ZAhG2OY9w1P0X2E1ac1TXNFKDekog5g@mail.gmail.com>
+ <e7cb9833-1044-0426-5ce4-5b5fc32a3603@daenzer.net>
+ <327e4008-b29f-f5b7-bb30-532fa52c797f@gmail.com>
+ <7f19e3c7-b6b2-5200-95eb-3fed8d22a6b3@daenzer.net>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+Message-ID: <b0d65f94-cc56-a4db-3158-7b1de3952792@gmail.com>
+Date: Tue, 1 Jun 2021 14:10:46 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-References: <1620990152-19255-1-git-send-email-dillon.minfei@gmail.com>
- <1620990152-19255-3-git-send-email-dillon.minfei@gmail.com>
- <f30d5a1d-5acc-e756-5883-6c3d0173d643@foss.st.com>
-In-Reply-To: <f30d5a1d-5acc-e756-5883-6c3d0173d643@foss.st.com>
-From: Dillon Min <dillon.minfei@gmail.com>
-Date: Tue, 1 Jun 2021 19:58:44 +0800
-Message-ID: <CAL9mu0+ccyCUFoRP7ypNmS9TUCh_A=y0uNxgF9gb-UbB3C18Cw@mail.gmail.com>
-Subject: Re: [PATCH 2/4] i2c: stm32f4: Fix stmpe811 get xyz data timeout issue
-To: Patrice CHOTARD <patrice.chotard@foss.st.com>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <7f19e3c7-b6b2-5200-95eb-3fed8d22a6b3@daenzer.net>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,121 +82,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-clk <linux-clk@vger.kernel.org>, Stephen Boyd <sboyd@kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Michael Turquette <mturquette@baylibre.com>,
- linux-stm32@st-md-mailman.stormreply.com,
- Alexandre TORGUE <alexandre.torgue@foss.st.com>,
- "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>,
- linaro-mm-sig@lists.linaro.org, pierre-yves.mordret@foss.st.com,
- linux-i2c@vger.kernel.org, Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- alain.volmat@foss.st.com, christian.koenig@amd.com,
- Linux ARM <linux-arm-kernel@lists.infradead.org>,
- linux-media <linux-media@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Patrice, Pierre-Yves, Alain
-
-On Tue, Jun 1, 2021 at 7:43 PM Patrice CHOTARD
-<patrice.chotard@foss.st.com> wrote:
+Am 01.06.21 um 12:49 schrieb Michel Dänzer:
+> On 2021-06-01 12:21 p.m., Christian König wrote:
+>> Am 01.06.21 um 11:02 schrieb Michel Dänzer:
+>>> On 2021-05-27 11:51 p.m., Marek Olšák wrote:
+>>>> 3) Compositors (and other privileged processes, and display flipping) can't trust imported/exported fences. They need a timeout recovery mechanism from the beginning, and the following are some possible solutions to timeouts:
+>>>>
+>>>> a) use a CPU wait with a small absolute timeout, and display the previous content on timeout
+>>>> b) use a GPU wait with a small absolute timeout, and conditional rendering will choose between the latest content (if signalled) and previous content (if timed out)
+>>>>
+>>>> The result would be that the desktop can run close to 60 fps even if an app runs at 1 fps.
+>>> FWIW, this is working with
+>>> https://gitlab.gnome.org/GNOME/mutter/-/merge_requests/1880 , even with implicit sync (on current Intel GPUs; amdgpu/radeonsi would need to provide the same dma-buf poll semantics as other drivers and high priority GFX contexts via EGL_IMG_context_priority which can preempt lower priority ones).
+>> Yeah, that is really nice to have.
+>>
+>> One question is if you wait on the CPU or the GPU for the new surface to become available?
+> It's based on polling dma-buf fds, i.e. CPU.
 >
-> Hi Dillon
+>> The former is a bit bad for latency and power management.
+> There isn't a choice for Wayland compositors in general, since there can be arbitrary other state which needs to be applied atomically together with the new buffer. (Though in theory, a compositor might get fancy and special-case surface commits which can be handled by waiting on the GPU)
 >
-> On 5/14/21 1:02 PM, dillon.minfei@gmail.com wrote:
-> > From: Dillon Min <dillon.minfei@gmail.com>
-> >
-> > As stm32f429's internal flash is 2Mbytes and compiled kernel
-> > image bigger than 2Mbytes, so we have to load kernel image
-> > to sdram on stm32f429-disco board which has 8Mbytes sdram space.
-> >
-> > based on above context, as you knows kernel running on external
-> > sdram is more slower than internal flash. besides, we need read 4
-> > bytes to get touch screen xyz(x, y, pressure) coordinate data in
-> > stmpe811 interrupt.
-> >
-> > so, in stm32f4_i2c_handle_rx_done, as i2c read slower than running
-> > in xip mode, have to adjust 'STOP/START bit set position' from last
-> > two bytes to last one bytes. else, will get i2c timeout in reading
-> > touch screen coordinate.
-> >
-> > to not bring in side effect, introduce IIC_LAST_BYTE_POS to support xip
-> > kernel or zImage.
-> >
-> > Fixes: 62817fc8d282 ("i2c: stm32f4: add driver")
-> > Link: https://lore.kernel.org/lkml/1591709203-12106-5-git-send-email-dillon.minfei@gmail.com/
-> > Signed-off-by: Dillon Min <dillon.minfei@gmail.com>
-> > ---
-> >  drivers/i2c/busses/i2c-stm32f4.c | 12 +++++++++---
-> >  1 file changed, 9 insertions(+), 3 deletions(-)
-> >
-> > diff --git a/drivers/i2c/busses/i2c-stm32f4.c b/drivers/i2c/busses/i2c-stm32f4.c
-> > index 4933fc8ce3fd..2e41231b9037 100644
-> > --- a/drivers/i2c/busses/i2c-stm32f4.c
-> > +++ b/drivers/i2c/busses/i2c-stm32f4.c
-> > @@ -93,6 +93,12 @@
-> >  #define STM32F4_I2C_MAX_FREQ         46U
-> >  #define HZ_TO_MHZ                    1000000
-> >
-> > +#if !defined(CONFIG_MMU) && !defined(CONFIG_XIP_KERNEL)
-> > +#define IIC_LAST_BYTE_POS 1
-> > +#else
-> > +#define IIC_LAST_BYTE_POS 2
-> > +#endif
-> > +
-> >  /**
-> >   * struct stm32f4_i2c_msg - client specific data
-> >   * @addr: 8-bit slave addr, including r/w bit
-> > @@ -439,7 +445,7 @@ static void stm32f4_i2c_handle_rx_done(struct stm32f4_i2c_dev *i2c_dev)
-> >       int i;
-> >
-> >       switch (msg->count) {
-> > -     case 2:
-> > +     case IIC_LAST_BYTE_POS:
-> >               /*
-> >                * In order to correctly send the Stop or Repeated Start
-> >                * condition on the I2C bus, the STOP/START bit has to be set
-> > @@ -454,7 +460,7 @@ static void stm32f4_i2c_handle_rx_done(struct stm32f4_i2c_dev *i2c_dev)
-> >               else
-> >                       stm32f4_i2c_set_bits(reg, STM32F4_I2C_CR1_START);
-> >
-> > -             for (i = 2; i > 0; i--)
-> > +             for (i = IIC_LAST_BYTE_POS; i > 0; i--)
-> >                       stm32f4_i2c_read_msg(i2c_dev);
-> >
-> >               reg = i2c_dev->base + STM32F4_I2C_CR2;
-> > @@ -463,7 +469,7 @@ static void stm32f4_i2c_handle_rx_done(struct stm32f4_i2c_dev *i2c_dev)
-> >
-> >               complete(&i2c_dev->complete);
-> >               break;
-> > -     case 3:
-> > +     case (IIC_LAST_BYTE_POS+1):
-> >               /*
-> >                * In order to correctly generate the NACK pulse after the last
-> >                * received data byte, we have to enable NACK before reading N-2
-> >
+> Latency is largely a matter of scheduling in the compositor. The latency incurred by the compositor shouldn't have to be more than single-digit milliseconds. (I've seen total latency from when the client starts processing a (static) frame to when it starts being scanned out as low as ~6 ms with https://gitlab.gnome.org/GNOME/mutter/-/merge_requests/1620, lower than typical with Xorg)
+
+Well let me describe it like this:
+
+We have an use cases for 144 Hz guaranteed refresh rate. That 
+essentially means that the client application needs to be able to spit 
+out one frame/window content every ~6.9ms. That's tough, but doable.
+
+When you now add 6ms latency in the compositor that means the client 
+application has only .9ms left for it's frame which is basically 
+impossible to do.
+
+See for the user fences handling the display engine will learn to read 
+sequence numbers from memory and decide on it's own if the old frame or 
+the new one is scanned out. To get the latency there as low as possible.
+
+>> Another question is if that is sufficient as security for the display server or if we need further handling down the road? I mean essentially we are moving the reliability problem into the display server.
+> Good question. This should generally protect the display server from freezing due to client fences never signalling, but there might still be corner cases.
 >
-> I tested this patch on STM32F429-Disco, it fixes the issue described by Dillon.
-> But i think it's not a good idea to make usage of #if !defined(CONFIG_MMU) && !defined(CONFIG_XIP_KERNEL)
-> inside the driver code.
-
-Hi Patrice,
-Thanks for your time.
-
-How about introducing a dts node for this purpose.
-like
-stm32-i2c,last-byte-pos = <1>;
-or
-stm32-i2c,last-byte-pos = <2>;
-
-if not set, the default value is 2
-
-Best Regards
-Dillon
-
 >
-> Pierre-Yves, Alain, as i am not I2C expert, can you have a look at this patch and propose another solution
-> to fix the original issue described by Dillon ?
->
-> Thanks
-> Patrice
+
