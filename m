@@ -1,46 +1,67 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58E9839722E
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Jun 2021 13:13:20 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4BA9F3972A4
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Jun 2021 13:43:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6264D6EA29;
-	Tue,  1 Jun 2021 11:13:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5827E6E24D;
+	Tue,  1 Jun 2021 11:43:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 782156EA25;
- Tue,  1 Jun 2021 11:13:15 +0000 (UTC)
-IronPort-SDR: tRnF7fKDZ4VcsxuoGEt5ahi1GuzgotlY1ODWcBE2Io6xWbGRnxowHh3AD4ekIfu+0nR3dCM9S+
- GEnPnIxCarMg==
-X-IronPort-AV: E=McAfee;i="6200,9189,10001"; a="289143691"
-X-IronPort-AV: E=Sophos;i="5.83,239,1616482800"; d="scan'208";a="289143691"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Jun 2021 04:13:15 -0700
-IronPort-SDR: DBDOouoAMcJkHKAjTyvYuluQJIzhKBsnDJQFKBEmikbxejjxXoApe/Jpmty/xgH5l5zuPD+Jj6
- p1hguaaVChAA==
-X-IronPort-AV: E=Sophos;i="5.83,239,1616482800"; d="scan'208";a="635472424"
-Received: from rogerior-mobl.ger.corp.intel.com (HELO [10.213.213.69])
- ([10.213.213.69])
- by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Jun 2021 04:13:13 -0700
-Subject: Re: [PATCH] drm/i915: Use DRIVER_NAME for tracing unattached requests
-To: Daniel Vetter <daniel@ffwll.ch>
-References: <20210520073514.314893-1-matthew.auld@intel.com>
- <YKZx/U05aRaxKw44@phenom.ffwll.local>
- <CAKMK7uE4F66O8sCovhrQKB5Lo3tdKWNhWTS4C=apyVJgqbKuPg@mail.gmail.com>
-From: Matthew Auld <matthew.auld@intel.com>
-Message-ID: <6bf0ebe7-f23d-aeff-c6f6-b43201212d5d@intel.com>
-Date: Tue, 1 Jun 2021 12:13:11 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+Received: from mx07-00178001.pphosted.com (mx08-00178001.pphosted.com
+ [91.207.212.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EEAC26E24D
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Jun 2021 11:43:10 +0000 (UTC)
+Received: from pps.filterd (m0046661.ppops.net [127.0.0.1])
+ by mx07-00178001.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 151BbeKb027852; Tue, 1 Jun 2021 13:43:02 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com;
+ h=subject : to : cc :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=selector1;
+ bh=DJ37+M79ssVG9Eilaezkix8osS0akg3oQ3Ki2TOqVeY=;
+ b=ZGHghPaIfg/tu/QIF6uNwBws0V1i6sPtyFGFy5E2Ot1NEdWGFElIDqvAUDitDGpRg8ql
+ No/SgMp74lDNIGjUKQph+xOwOBbDURjsR7g/sozAGcWM29FD9+/O/9IP5U4v48ZlCYVQ
+ F/aBr8/NCu/x8Pkv0YziT73BIfoHVUWbtrjjf2qTNQkTme0hAahUjueTlXQblQW29xST
+ X9nd73N5Zn6JL8djS3kvoKkapMvQE9VHTUSk0451Yx2eLQ2DjgXAmRq7sZZrcYDie7ui
+ U4bP1Sm1JXtwZylCvOCmgK0tJS27KEyZ11i1Ay8oZSZbIiyEU+5SmRTCPoY0c3irHSIp gg== 
+Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
+ by mx07-00178001.pphosted.com with ESMTP id 38wjdg0mpa-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 01 Jun 2021 13:43:02 +0200
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+ by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id A3E0010002A;
+ Tue,  1 Jun 2021 13:43:01 +0200 (CEST)
+Received: from Webmail-eu.st.com (sfhdag2node3.st.com [10.75.127.6])
+ by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 846AA21E17B;
+ Tue,  1 Jun 2021 13:43:01 +0200 (CEST)
+Received: from lmecxl0573.lme.st.com (10.75.127.45) by SFHDAG2NODE3.st.com
+ (10.75.127.6) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Tue, 1 Jun
+ 2021 13:43:00 +0200
+Subject: Re: [PATCH 2/4] i2c: stm32f4: Fix stmpe811 get xyz data timeout issue
+To: <dillon.minfei@gmail.com>, <pierre-yves.mordret@foss.st.com>,
+ <alain.volmat@foss.st.com>, <mcoquelin.stm32@gmail.com>,
+ <alexandre.torgue@foss.st.com>, <sumit.semwal@linaro.org>,
+ <christian.koenig@amd.com>, <mturquette@baylibre.com>
+References: <1620990152-19255-1-git-send-email-dillon.minfei@gmail.com>
+ <1620990152-19255-3-git-send-email-dillon.minfei@gmail.com>
+From: Patrice CHOTARD <patrice.chotard@foss.st.com>
+Message-ID: <f30d5a1d-5acc-e756-5883-6c3d0173d643@foss.st.com>
+Date: Tue, 1 Jun 2021 13:43:00 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <CAKMK7uE4F66O8sCovhrQKB5Lo3tdKWNhWTS4C=apyVJgqbKuPg@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-GB
+In-Reply-To: <1620990152-19255-3-git-send-email-dillon.minfei@gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.75.127.45]
+X-ClientProxiedBy: SFHDAG3NODE3.st.com (10.75.127.9) To SFHDAG2NODE3.st.com
+ (10.75.127.6)
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.761
+ definitions=2021-06-01_06:2021-05-31,
+ 2021-06-01 signatures=0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,167 +74,95 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Andi Shyti <andi.shyti@intel.com>, intel-gfx <intel-gfx@lists.freedesktop.org>,
- stable <stable@vger.kernel.org>, Chris Wilson <chris@chris-wilson.co.uk>,
- Chintan M Patel <chintan.m.patel@intel.com>,
- dri-devel <dri-devel@lists.freedesktop.org>
+Cc: sboyd@kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-clk@vger.kernel.org,
+ linaro-mm-sig@lists.linaro.org, linux-i2c@vger.kernel.org,
+ linux-stm32@st-md-mailman.stormreply.com, linux-arm-kernel@lists.infradead.org,
+ linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 31/05/2021 08:53, Daniel Vetter wrote:
-> On Thu, May 20, 2021 at 4:28 PM Daniel Vetter <daniel@ffwll.ch> wrote:
->>
->> On Thu, May 20, 2021 at 08:35:14AM +0100, Matthew Auld wrote:
->>> From: Chris Wilson <chris@chris-wilson.co.uk>
->>>
->>> The first tracepoint for a request is trace_dma_fence_init called before
->>> we have associated the request with a device. The tracepoint uses
->>> fence->ops->get_driver_name() as a pretty name, and as we try to report
->>> the device name this oopses as it is then NULL. Support the early
->>> tracepoint by reporting the DRIVER_NAME instead of the actual device
->>> name.
->>>
->>> Note that rq->engine remains during the course of request recycling
->>> (SLAB_TYPESAFE_BY_RCU). For the physical engines, the pointer remains
->>> valid, however a virtual engine may be destroyed after the request is
->>> retired. If we process a preempt-to-busy completed request along the
->>> virtual engine, we should make sure we mark the request as no longer
->>> belonging to the virtual engine to remove the dangling pointers from the
->>> tracepoint.
->>
->> Why can't we assign the request beforehand? The idea behind these
->> tracepoints is that they actually match up, if trace_dma_fence_init is
->> different, then we're breaking that.
-> 
-> Ok I looked a bit more and pondered this a bit, and the initial
-> tracepoint is called from dma_fence_init, where we haven't yet set up
-> rq->engine properly. So that part makes sense, but should have a
-> bigger comment that explains this a bit more and why we can't solve
-> this in a neater way. Probably should also drop the unlikely(), this
-> isn't a performance critical path, ever.
-> 
-> The other changes thgouh feel like they should be split out into a
-> separate path, since they solve a conceptually totally different
-> issue: SLAB_TYPESAFE_BY_RCU recycling.
+Hi Dillon
 
-Hmm, I thought it all stems from having to tread very carefully around 
-SLAB_TYPESAFE_BY_RCU? If this were "normal" code, we would just allocate 
-the rq, initialise it properly, including the rq->engine, and only then 
-do the dma_fence_init? Or am I missing something?
-
-I'm happy to split it though. And I think that bit at least fixes the 
-user reported issue I think.
-
-
-> And I'm honestly not sure about
-> that one whether it's even correct, there's another patch floating
-> around that sprinkles rcu_read_lock around some of these accesssors,
-> and that would be a breakage of dma_fence interaces where outside of
-> i915 rcu isn't required for this stuff. So imo should be split out,
-> and come with a wider analysis of what's going on there and why and
-> how exactly i915 works.
+On 5/14/21 1:02 PM, dillon.minfei@gmail.com wrote:
+> From: Dillon Min <dillon.minfei@gmail.com>
 > 
-> In generally SLAB_TYPESAFE_BY_RCU is extremely dangerous and I'm
-> frankly not sure we have the perf data (outside of contrived
-> microbenchmarks) showing that it's needed and justifies all the costs
-> it's encurring.
+> As stm32f429's internal flash is 2Mbytes and compiled kernel
+> image bigger than 2Mbytes, so we have to load kernel image
+> to sdram on stm32f429-disco board which has 8Mbytes sdram space.
+> 
+> based on above context, as you knows kernel running on external
+> sdram is more slower than internal flash. besides, we need read 4
+> bytes to get touch screen xyz(x, y, pressure) coordinate data in
+> stmpe811 interrupt.
+> 
+> so, in stm32f4_i2c_handle_rx_done, as i2c read slower than running
+> in xip mode, have to adjust 'STOP/START bit set position' from last
+> two bytes to last one bytes. else, will get i2c timeout in reading
+> touch screen coordinate.
+> 
+> to not bring in side effect, introduce IIC_LAST_BYTE_POS to support xip
+> kernel or zImage.
+> 
+> Fixes: 62817fc8d282 ("i2c: stm32f4: add driver")
+> Link: https://lore.kernel.org/lkml/1591709203-12106-5-git-send-email-dillon.minfei@gmail.com/
+> Signed-off-by: Dillon Min <dillon.minfei@gmail.com>
+> ---
+>  drivers/i2c/busses/i2c-stm32f4.c | 12 +++++++++---
+>  1 file changed, 9 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/i2c/busses/i2c-stm32f4.c b/drivers/i2c/busses/i2c-stm32f4.c
+> index 4933fc8ce3fd..2e41231b9037 100644
+> --- a/drivers/i2c/busses/i2c-stm32f4.c
+> +++ b/drivers/i2c/busses/i2c-stm32f4.c
+> @@ -93,6 +93,12 @@
+>  #define STM32F4_I2C_MAX_FREQ		46U
+>  #define HZ_TO_MHZ			1000000
+>  
+> +#if !defined(CONFIG_MMU) && !defined(CONFIG_XIP_KERNEL)
+> +#define IIC_LAST_BYTE_POS 1
+> +#else
+> +#define IIC_LAST_BYTE_POS 2
+> +#endif
+> +
+>  /**
+>   * struct stm32f4_i2c_msg - client specific data
+>   * @addr: 8-bit slave addr, including r/w bit
+> @@ -439,7 +445,7 @@ static void stm32f4_i2c_handle_rx_done(struct stm32f4_i2c_dev *i2c_dev)
+>  	int i;
+>  
+>  	switch (msg->count) {
+> -	case 2:
+> +	case IIC_LAST_BYTE_POS:
+>  		/*
+>  		 * In order to correctly send the Stop or Repeated Start
+>  		 * condition on the I2C bus, the STOP/START bit has to be set
+> @@ -454,7 +460,7 @@ static void stm32f4_i2c_handle_rx_done(struct stm32f4_i2c_dev *i2c_dev)
+>  		else
+>  			stm32f4_i2c_set_bits(reg, STM32F4_I2C_CR1_START);
+>  
+> -		for (i = 2; i > 0; i--)
+> +		for (i = IIC_LAST_BYTE_POS; i > 0; i--)
+>  			stm32f4_i2c_read_msg(i2c_dev);
+>  
+>  		reg = i2c_dev->base + STM32F4_I2C_CR2;
+> @@ -463,7 +469,7 @@ static void stm32f4_i2c_handle_rx_done(struct stm32f4_i2c_dev *i2c_dev)
+>  
+>  		complete(&i2c_dev->complete);
+>  		break;
+> -	case 3:
+> +	case (IIC_LAST_BYTE_POS+1):
+>  		/*
+>  		 * In order to correctly generate the NACK pulse after the last
+>  		 * received data byte, we have to enable NACK before reading N-2
+> 
 
-Right, I can try to search the git history.
+I tested this patch on STM32F429-Disco, it fixes the issue described by Dillon.
+But i think it's not a good idea to make usage of #if !defined(CONFIG_MMU) && !defined(CONFIG_XIP_KERNEL)
+inside the driver code.
 
+Pierre-Yves, Alain, as i am not I2C expert, can you have a look at this patch and propose another solution 
+to fix the original issue described by Dillon ?
 
-> -Daniel
-> 
->> -Daniel
->>
->>>
->>> Fixes: 855e39e65cfc ("drm/i915: Initialise basic fence before acquiring seqno")
->>> Signed-off-by: Chris Wilson <chris@chris-wilson.co.uk>
->>> Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
->>> Cc: Chintan M Patel <chintan.m.patel@intel.com>
->>> Cc: Andi Shyti <andi.shyti@intel.com>
->>> Cc: <stable@vger.kernel.org> # v5.7+
->>> Signed-off-by: Matthew Auld <matthew.auld@intel.com>
->>> ---
->>>   .../drm/i915/gt/intel_execlists_submission.c  | 20 ++++++++++++++-----
->>>   drivers/gpu/drm/i915/i915_request.c           |  7 ++++++-
->>>   2 files changed, 21 insertions(+), 6 deletions(-)
->>>
->>> diff --git a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
->>> index de124870af44..75604e927d34 100644
->>> --- a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
->>> +++ b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
->>> @@ -3249,6 +3249,18 @@ static struct list_head *virtual_queue(struct virtual_engine *ve)
->>>        return &ve->base.execlists.default_priolist.requests;
->>>   }
->>>
->>> +static void
->>> +virtual_submit_completed(struct virtual_engine *ve, struct i915_request *rq)
->>> +{
->>> +     GEM_BUG_ON(!__i915_request_is_complete(rq));
->>> +     GEM_BUG_ON(rq->engine != &ve->base);
->>> +
->>> +     __i915_request_submit(rq);
->>> +
->>> +     /* Remove the dangling pointer to the stale virtual engine */
->>> +     WRITE_ONCE(rq->engine, ve->siblings[0]);
->>> +}
->>> +
->>>   static void rcu_virtual_context_destroy(struct work_struct *wrk)
->>>   {
->>>        struct virtual_engine *ve =
->>> @@ -3265,8 +3277,7 @@ static void rcu_virtual_context_destroy(struct work_struct *wrk)
->>>
->>>                old = fetch_and_zero(&ve->request);
->>>                if (old) {
->>> -                     GEM_BUG_ON(!__i915_request_is_complete(old));
->>> -                     __i915_request_submit(old);
->>> +                     virtual_submit_completed(ve, old);
->>>                        i915_request_put(old);
->>>                }
->>>
->>> @@ -3538,13 +3549,12 @@ static void virtual_submit_request(struct i915_request *rq)
->>>
->>>        /* By the time we resubmit a request, it may be completed */
->>>        if (__i915_request_is_complete(rq)) {
->>> -             __i915_request_submit(rq);
->>> +             virtual_submit_completed(ve, rq);
->>>                goto unlock;
->>>        }
->>>
->>>        if (ve->request) { /* background completion from preempt-to-busy */
->>> -             GEM_BUG_ON(!__i915_request_is_complete(ve->request));
->>> -             __i915_request_submit(ve->request);
->>> +             virtual_submit_completed(ve, ve->request);
->>>                i915_request_put(ve->request);
->>>        }
->>>
->>> diff --git a/drivers/gpu/drm/i915/i915_request.c b/drivers/gpu/drm/i915/i915_request.c
->>> index 970d8f4986bb..aa124adb1051 100644
->>> --- a/drivers/gpu/drm/i915/i915_request.c
->>> +++ b/drivers/gpu/drm/i915/i915_request.c
->>> @@ -61,7 +61,12 @@ static struct i915_global_request {
->>>
->>>   static const char *i915_fence_get_driver_name(struct dma_fence *fence)
->>>   {
->>> -     return dev_name(to_request(fence)->engine->i915->drm.dev);
->>> +     struct i915_request *rq = to_request(fence);
->>> +
->>> +     if (unlikely(!rq->engine)) /* not yet attached to any device */
->>> +             return DRIVER_NAME;
->>> +
->>> +     return dev_name(rq->engine->i915->drm.dev);
->>>   }
->>>
->>>   static const char *i915_fence_get_timeline_name(struct dma_fence *fence)
->>> --
->>> 2.26.3
->>>
->>
->> --
->> Daniel Vetter
->> Software Engineer, Intel Corporation
->> http://blog.ffwll.ch
-> 
-> 
-> 
+Thanks
+Patrice
