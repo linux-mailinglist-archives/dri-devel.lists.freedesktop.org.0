@@ -1,48 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A50E397037
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Jun 2021 11:21:12 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A75A9397055
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Jun 2021 11:26:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4C1156E9AE;
-	Tue,  1 Jun 2021 09:21:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AB2AD6E8CB;
+	Tue,  1 Jun 2021 09:26:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from pokefinder.org (sauhun.de [88.99.104.3])
- by gabe.freedesktop.org (Postfix) with ESMTP id 496516E9AE;
- Tue,  1 Jun 2021 09:21:09 +0000 (UTC)
-Received: from localhost (i577BC03F.versanet.de [87.123.192.63])
- by pokefinder.org (Postfix) with ESMTPSA id 879B02C00E6;
- Tue,  1 Jun 2021 11:21:08 +0200 (CEST)
-Date: Tue, 1 Jun 2021 11:21:08 +0200
-From: Wolfram Sang <wsa@the-dreams.de>
-To: Hsin-Yi Wang <hsinyi@chromium.org>
-Subject: Re: linux-next: build failure after merge of the i2c tree
-Message-ID: <YLX8BAqtGH86wo59@ninjato>
-Mail-Followup-To: Wolfram Sang <wsa@the-dreams.de>,
- Hsin-Yi Wang <hsinyi@chromium.org>,
- Stephen Rothwell <sfr@canb.auug.org.au>,
- Chris Wilson <chris@chris-wilson.co.uk>,
- Bibby Hsieh <bibby.hsieh@mediatek.com>,
- Marek Szyprowski <m.szyprowski@samsung.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Linux Next Mailing List <linux-next@vger.kernel.org>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Intel Graphics <intel-gfx@lists.freedesktop.org>,
- DRI <dri-devel@lists.freedesktop.org>,
- Dave Airlie <airlied@linux.ie>
-References: <20210601103250.07301254@canb.auug.org.au>
- <YLX176D9oD7ZTSkT@ninjato>
- <CAJMQK-j1YKfquvY55HgTQ6zfDkE5btmRZKdjjOQ3rcq04QgKKQ@mail.gmail.com>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EFD1A6E8CB
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Jun 2021 09:26:31 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 54B5361396;
+ Tue,  1 Jun 2021 09:26:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1622539591;
+ bh=kKX1yVjitfZZxbdBgzCtdoPBBfSIvUVJzJ5sKjo78qc=;
+ h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+ b=l2A4q7WzOFkiELQ2A3xBy1Foc+wwXt1VLZQ0QkOSa0833GZHZ8vygacZdReblL7ht
+ Ocbj4K3OfK8Yu0fIAqvoNyL7l5WSCgOLuBuGjWqEGuJuQE5mXKC++b4CutSSwPxxCG
+ 2wKzxMkn6OyrNpXyWDrt4ccGiQDQadCLy7JkLFzxhVe1ylYZJB7cbdSwXCxg3fRtoe
+ 3PhMttL9Lb4EV1TN5w/uHdqz3x5tdHQmP+OQr6bAGmSCw3a08C3uPIgniTeT2swQOl
+ GkV6bwR0m+BRdxBOox3bKPuL2ajaomZIqgZcebdZLsjvve14r5ur8ld4FxXnupWFIH
+ F5QH/3XlvmZLw==
+Message-ID: <c1ee306fbc81da2df7d0041c719fc8cd3302cf0f.camel@kernel.org>
+Subject: Re: [PATCH v2 10/12] drm/vc4: hdmi: Register HDMI codec
+From: nicolas saenz julienne <nsaenz@kernel.org>
+To: Maxime Ripard <maxime@cerno.tech>, Jaroslav Kysela <perex@perex.cz>, 
+ Mark Brown <broonie@kernel.org>, dri-devel@lists.freedesktop.org, Daniel
+ Vetter <daniel.vetter@intel.com>,  David Airlie <airlied@linux.ie>, Maarten
+ Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
+ <tzimmermann@suse.de>, Liam Girdwood <lgirdwood@gmail.com>, Takashi Iwai
+ <tiwai@suse.com>
+Date: Tue, 01 Jun 2021 11:26:24 +0200
+In-Reply-To: <20210525132354.297468-11-maxime@cerno.tech>
+References: <20210525132354.297468-1-maxime@cerno.tech>
+ <20210525132354.297468-11-maxime@cerno.tech>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.40.0 (3.40.0-1.fc34) 
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="ewTzpoiBJA7/Fyar"
-Content-Disposition: inline
-In-Reply-To: <CAJMQK-j1YKfquvY55HgTQ6zfDkE5btmRZKdjjOQ3rcq04QgKKQ@mail.gmail.com>
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,53 +53,27 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Stephen Rothwell <sfr@canb.auug.org.au>, Dave Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- Intel Graphics <intel-gfx@lists.freedesktop.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Chris Wilson <chris@chris-wilson.co.uk>,
- Linux Next Mailing List <linux-next@vger.kernel.org>,
- DRI <dri-devel@lists.freedesktop.org>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Marek Szyprowski <m.szyprowski@samsung.com>
+Cc: devicetree@vger.kernel.org, alsa-devel@alsa-project.org,
+ Dom Cobley <dom@raspberrypi.com>, Tim Gover <tim.gover@raspberrypi.com>,
+ linux-doc@vger.kernel.org, Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+ bcm-kernel-feedback-list@broadcom.com, linux-arm-kernel@lists.infradead.org,
+ Jonathan Corbet <corbet@lwn.net>, Phil Elwell <phil@raspberrypi.com>,
+ Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
+ linux-rpi-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Tue, 2021-05-25 at 15:23 +0200, Maxime Ripard wrote:
+> The hdmi-codec brings a lot of advanced features, including the HDMI
+> channel mapping. Let's use it in our driver instead of our own codec.
+> 
+> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+> ---
 
---ewTzpoiBJA7/Fyar
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Reviewed-by: Nicolas Saenz Julienne <nsaenz@kernel.org>
 
-
-> Hi, this issue is fixed in
-> https://cgit.freedesktop.org/drm-intel/commit/?h=3Ddrm-intel-gt-next&id=
-=3D5b11705608898c31a1cae5340555ee60d5a4fa45
->=20
-> And I think the pull request is in
-> https://lists.freedesktop.org/archives/intel-gfx/2021-May/267588.html
-
-Thanks for the heads up. So, I'll wait with my pull request for the next
-merge window until drm has landed first.
+Regards,
+Nicolas
 
 
---ewTzpoiBJA7/Fyar
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmC1/AQACgkQFA3kzBSg
-KbY8qw/6AuH2q7KckQ6atO4TJ1UmKER/QLjQ6SEZE5xSWR5iufO5INA0wTAADrmh
-mfsR6eCMz+NcPKmhq+AE7wOclUmfWoBSkqtakXpQTI3ytH68clTn5tJq4tPqj2C9
-dlnVMs7608lBQrRQSHZ91AHjyvtXCNtQmTP4Ectpe57eO0bW0terIeC3U7vFMmYS
-kmMGNlk2QnLYEB6MJlUA2wrGyBP+3Fcsx0gVz91M5vCuABBAbp/97JQnELGinaZj
-N9dpdgZpL08KJ38FT5wj0UnTSZpIwtv5m/1+K+jqO8Iy+7Jg/e9ifvJupgiPIggP
-WtMIO+2WA4ZXp00w5vwPV4AtXCn+NtQ9Y5fi1vpVDpCwLw4w2TeqNhteTqpfuV52
-h18jSON59iHZYyn5z84lUsDdvFD/iz/T0cKOe0VWo/bO2aCp4ghsJzQ444xB25N0
-XUUexTpxqxOOY8T8VTSOdWYVr+IthN+htmqmo07wjl5AF9dhFvb0USWh2Gx2QaxH
-eWieLz94ANAPw5vyW4AeybEQbHW/3u1HiVQ89i/M42qe6G6txjceA7ganuzQxc+Y
-0Ck+uQ3qOB/wviIo1XiKzIwDULVCzTkKmPqFt2qF0ncu7ASDskgMWy0dAK0KKKva
-nX7eHcqZQO97npQ8tQus1CrYKAW1B1Nl3F3COWESbOkw7R0sIXo=
-=n251
------END PGP SIGNATURE-----
-
---ewTzpoiBJA7/Fyar--
