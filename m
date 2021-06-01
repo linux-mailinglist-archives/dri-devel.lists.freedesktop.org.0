@@ -1,55 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6CE839731B
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Jun 2021 14:20:20 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B27639731F
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Jun 2021 14:23:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0CD7F6E483;
-	Tue,  1 Jun 2021 12:20:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7E5A06E53E;
+	Tue,  1 Jun 2021 12:23:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-xc33.google.com (mail-oo1-xc33.google.com
- [IPv6:2607:f8b0:4864:20::c33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EF5896E483
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Jun 2021 12:20:14 +0000 (UTC)
-Received: by mail-oo1-xc33.google.com with SMTP id
- s20-20020a4ae9940000b02902072d5df239so3451560ood.2
- for <dri-devel@lists.freedesktop.org>; Tue, 01 Jun 2021 05:20:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=QZD0tqLcr7Rb6q8Fc6VxhjbM8BQAPNxQ7LLDWAO2SO8=;
- b=Khguyi16Hdf9gCclFm2Y7WlWnKqq0HT7EwWbMdO0UTScH35iMBi4x+MkSSROrXH2ut
- JMdiZ79O2Yk0BnhM85uAIOSyDD43wsLagozBe0Jwz+sbl2NmYDOLHObY0fywavkzA5sY
- Vhx0I+VVqtOdvAUFAvGlJFNTzhShF1BdTtguM=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=QZD0tqLcr7Rb6q8Fc6VxhjbM8BQAPNxQ7LLDWAO2SO8=;
- b=dPAyPQsX7anT5w7pAgvHfkliixyXzh1qFZCTym6u+Ir14A/ljbJIYcXCsF44vLQa8k
- g+4IrmEX3NDydpkSSeYwRXjKpIG+7VTaD//5dwWB8ihe1y1VU128ZJxJFxcKRiJPqhn8
- 6NpJYx8KMfnUDU481oLxOt+LfedhR87Vp1Sv0ZQDdCiyVMW6AMB5O58TgLLVF1hPvSHT
- 7yLl6aUvKgkWqg0FgJelJgCaM83MSl7Z+JXR2G+paGHeKyDRYCIzDsrNQciRP9vE42TF
- kvJhJtfllqqqdd387F5so9RoNs+bE+2WRXufBfFzA9yafF0PptZ88sneYfhMQ0XZB7Ab
- 5dtg==
-X-Gm-Message-State: AOAM530L0BJQZ7exuJ6ixj/ddSK0c9eE8Lrd4gB7H9Qabwafnn9R1DON
- D9YFTy3irt0iVhNcAIG5wUeHYj6e0/9HXluZZs34sQ==
-X-Google-Smtp-Source: ABdhPJwJZG4UNugaaZxn3LSDsBt6KqwfnauGFoc92BD4L5gMqHV90b8C/9G9Sx24RYAs+i/4udvEo4LwUYMhvuQ4JPA=
-X-Received: by 2002:a4a:d4c7:: with SMTP id r7mr20514011oos.85.1622550014195; 
- Tue, 01 Jun 2021 05:20:14 -0700 (PDT)
+Received: from so254-9.mailgun.net (so254-9.mailgun.net [198.61.254.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 916C86EA15
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Jun 2021 12:22:59 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1622550181; h=Message-ID: References: In-Reply-To: Subject:
+ Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
+ MIME-Version: Sender; bh=JAcNP7Uo9zJKWgXCjvCXGiHUwrw7I6s+Af9UbfhFRic=;
+ b=PApF6lOYOMic5cUOhoBioOxlGMEkzndBWUn5AW57eKPR+/L3omXsI2v9q2QRrvK1xzRWVwLI
+ ZzbiyTb9BMVOuFaYdxd5b9cypwJTy8prLYCuNiphq8ndU+WupZLCNXT5HxbL3HlMrYo5M6Ll
+ QVqDkM3TeLlu7TtnKJ07aChXd2A=
+X-Mailgun-Sending-Ip: 198.61.254.9
+X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n01.prod.us-west-2.postgun.com with SMTP id
+ 60b62695ed59bf69cceb716a (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Tue, 01 Jun 2021 12:22:45
+ GMT
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id 2B315C43217; Tue,  1 Jun 2021 12:22:45 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00
+ autolearn=unavailable autolearn_force=no version=3.4.0
+Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
+ (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+ (No client certificate requested) (Authenticated sender: rajeevny)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 4B0A4C433F1;
+ Tue,  1 Jun 2021 12:22:44 +0000 (UTC)
 MIME-Version: 1.0
-References: <20210520073514.314893-1-matthew.auld@intel.com>
- <YKZx/U05aRaxKw44@phenom.ffwll.local>
- <CAKMK7uE4F66O8sCovhrQKB5Lo3tdKWNhWTS4C=apyVJgqbKuPg@mail.gmail.com>
- <6bf0ebe7-f23d-aeff-c6f6-b43201212d5d@intel.com>
-In-Reply-To: <6bf0ebe7-f23d-aeff-c6f6-b43201212d5d@intel.com>
-From: Daniel Vetter <daniel@ffwll.ch>
-Date: Tue, 1 Jun 2021 14:20:02 +0200
-Message-ID: <CAKMK7uFePn8Ys=ntUnckAxm5VLwWTSoJLrTx6rdBmRpKatk45w@mail.gmail.com>
-Subject: Re: [PATCH] drm/i915: Use DRIVER_NAME for tracing unattached requests
-To: Matthew Auld <matthew.auld@intel.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+Date: Tue, 01 Jun 2021 17:52:44 +0530
+From: rajeevny@codeaurora.org
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Subject: Re: [v1 2/3] drm/msm/dsi: Add PHY configuration for SC7280
+In-Reply-To: <7a3facb5-d118-f81b-65f8-381b0d56a23b@linaro.org>
+References: <1622468035-8453-1-git-send-email-rajeevny@codeaurora.org>
+ <1622468035-8453-3-git-send-email-rajeevny@codeaurora.org>
+ <7a3facb5-d118-f81b-65f8-381b0d56a23b@linaro.org>
+Message-ID: <b37617c61fbdb11dc2c903878c05e0ac@codeaurora.org>
+X-Sender: rajeevny@codeaurora.org
+User-Agent: Roundcube Webmail/1.3.9
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,221 +67,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Andi Shyti <andi.shyti@intel.com>, intel-gfx <intel-gfx@lists.freedesktop.org>,
- stable <stable@vger.kernel.org>, Chris Wilson <chris@chris-wilson.co.uk>,
- Chintan M Patel <chintan.m.patel@intel.com>,
- dri-devel <dri-devel@lists.freedesktop.org>
+Cc: freedreno@lists.freedesktop.org, mkrishn@codeaurora.org, jonathan@marek.ca,
+ devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ robh+dt@kernel.org, abhinavk@codeaurora.org, kalyan_t@codeaurora.org,
+ sean@poorly.run
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jun 1, 2021 at 1:13 PM Matthew Auld <matthew.auld@intel.com> wrote:
-> On 31/05/2021 08:53, Daniel Vetter wrote:
-> > On Thu, May 20, 2021 at 4:28 PM Daniel Vetter <daniel@ffwll.ch> wrote:
-> >>
-> >> On Thu, May 20, 2021 at 08:35:14AM +0100, Matthew Auld wrote:
-> >>> From: Chris Wilson <chris@chris-wilson.co.uk>
-> >>>
-> >>> The first tracepoint for a request is trace_dma_fence_init called before
-> >>> we have associated the request with a device. The tracepoint uses
-> >>> fence->ops->get_driver_name() as a pretty name, and as we try to report
-> >>> the device name this oopses as it is then NULL. Support the early
-> >>> tracepoint by reporting the DRIVER_NAME instead of the actual device
-> >>> name.
-> >>>
-> >>> Note that rq->engine remains during the course of request recycling
-> >>> (SLAB_TYPESAFE_BY_RCU). For the physical engines, the pointer remains
-> >>> valid, however a virtual engine may be destroyed after the request is
-> >>> retired. If we process a preempt-to-busy completed request along the
-> >>> virtual engine, we should make sure we mark the request as no longer
-> >>> belonging to the virtual engine to remove the dangling pointers from the
-> >>> tracepoint.
-> >>
-> >> Why can't we assign the request beforehand? The idea behind these
-> >> tracepoints is that they actually match up, if trace_dma_fence_init is
-> >> different, then we're breaking that.
-> >
-> > Ok I looked a bit more and pondered this a bit, and the initial
-> > tracepoint is called from dma_fence_init, where we haven't yet set up
-> > rq->engine properly. So that part makes sense, but should have a
-> > bigger comment that explains this a bit more and why we can't solve
-> > this in a neater way. Probably should also drop the unlikely(), this
-> > isn't a performance critical path, ever.
-> >
-> > The other changes thgouh feel like they should be split out into a
-> > separate path, since they solve a conceptually totally different
-> > issue: SLAB_TYPESAFE_BY_RCU recycling.
->
-> Hmm, I thought it all stems from having to tread very carefully around
-> SLAB_TYPESAFE_BY_RCU? If this were "normal" code, we would just allocate
-> the rq, initialise it properly, including the rq->engine, and only then
-> do the dma_fence_init? Or am I missing something?
-
-Uh, if this is the bug it's a lot more scary. SLAB_TYPESAFE_BY_RCU
-should only rear it's ugly head if we do clever tricks where we access
-pointers to dma_fence under rcu alone, _without_ holding a full
-dma_fence reference. As soon as we have a full reference (and checked
-that the reference is to the right fence, since we could race) then
-all this recycle issues are gonne since the kref_t provides the right
-barrier here.
-
-If we hit any of the dma_fence tracepoints without a full reference
-held then I think that's a bug an needs to be fixed. Maybe we should
-have a debug WARN_ON(!kref(dma_fence)>0)); in these tracepoints
-somewhere to prevent this. Doing real dma_fence ops without a refcount
-held is really too much clever imo, and even if we'd find some
-microbenchmark showing that e.g. the dma_fence_get/put around some
-dma_fence function we're calling is measurable, it's not worth the
-cost in bugfixes like this one here.
-
-And when we do hold a full reference, then the only problem I've found
-is that we call dma_fence_init before the request is fully set up,
-which is at least semi-reasonable and can easily be checked for and
-explained with a comment. I thought I looked at the code, and
-reordering the request init to not have this problem looked tricky.
-
-Another issue which would also be very questionable design that we
-need to re-analyze would be if the engine can disappear before the
-last reference for the dma_fence has been dropped. I'd also just call
-this a bug in our refcounting, this should be impossible, but I
-haven't checked.
-
-In all these cases SLAB_TYPESAFE_BY_RCU shouldn't make the situation
-worse, and if it does, it's a separate issue really.
-
-> I'm happy to split it though. And I think that bit at least fixes the
-> user reported issue I think.
-
-So thinking about this some more, if you think this can be easily
-fixed by pushing the dma_fence_init past the initialization of
-rq->engine, then that would probably be the cleanest fix of all of
-them. Assuming none of the above consideration point at further
-trouble (but then further trouble probably needs separate patches to
-address them).
-
-> > And I'm honestly not sure about
-> > that one whether it's even correct, there's another patch floating
-> > around that sprinkles rcu_read_lock around some of these accesssors,
-> > and that would be a breakage of dma_fence interaces where outside of
-> > i915 rcu isn't required for this stuff. So imo should be split out,
-> > and come with a wider analysis of what's going on there and why and
-> > how exactly i915 works.
-> >
-> > In generally SLAB_TYPESAFE_BY_RCU is extremely dangerous and I'm
-> > frankly not sure we have the perf data (outside of contrived
-> > microbenchmarks) showing that it's needed and justifies all the costs
-> > it's encurring.
->
-> Right, I can try to search the git history.
-
-Yeah might be good to dig that out too while we're at it. I think i915
-is the only driver that recycles it's dma_fence without an rcu
-barrier. We're also the only driver that does lots of very clever
-tricks which are protected by rcu only, and not grabbing a full
-dma_fence reference. Or at least I've seen a bunch of those.
--Daniel
-
->
->
-> > -Daniel
-> >
-> >> -Daniel
-> >>
-> >>>
-> >>> Fixes: 855e39e65cfc ("drm/i915: Initialise basic fence before acquiring seqno")
-> >>> Signed-off-by: Chris Wilson <chris@chris-wilson.co.uk>
-> >>> Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-> >>> Cc: Chintan M Patel <chintan.m.patel@intel.com>
-> >>> Cc: Andi Shyti <andi.shyti@intel.com>
-> >>> Cc: <stable@vger.kernel.org> # v5.7+
-> >>> Signed-off-by: Matthew Auld <matthew.auld@intel.com>
-> >>> ---
-> >>>   .../drm/i915/gt/intel_execlists_submission.c  | 20 ++++++++++++++-----
-> >>>   drivers/gpu/drm/i915/i915_request.c           |  7 ++++++-
-> >>>   2 files changed, 21 insertions(+), 6 deletions(-)
-> >>>
-> >>> diff --git a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
-> >>> index de124870af44..75604e927d34 100644
-> >>> --- a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
-> >>> +++ b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
-> >>> @@ -3249,6 +3249,18 @@ static struct list_head *virtual_queue(struct virtual_engine *ve)
-> >>>        return &ve->base.execlists.default_priolist.requests;
-> >>>   }
-> >>>
-> >>> +static void
-> >>> +virtual_submit_completed(struct virtual_engine *ve, struct i915_request *rq)
-> >>> +{
-> >>> +     GEM_BUG_ON(!__i915_request_is_complete(rq));
-> >>> +     GEM_BUG_ON(rq->engine != &ve->base);
-> >>> +
-> >>> +     __i915_request_submit(rq);
-> >>> +
-> >>> +     /* Remove the dangling pointer to the stale virtual engine */
-> >>> +     WRITE_ONCE(rq->engine, ve->siblings[0]);
-> >>> +}
-> >>> +
-> >>>   static void rcu_virtual_context_destroy(struct work_struct *wrk)
-> >>>   {
-> >>>        struct virtual_engine *ve =
-> >>> @@ -3265,8 +3277,7 @@ static void rcu_virtual_context_destroy(struct work_struct *wrk)
-> >>>
-> >>>                old = fetch_and_zero(&ve->request);
-> >>>                if (old) {
-> >>> -                     GEM_BUG_ON(!__i915_request_is_complete(old));
-> >>> -                     __i915_request_submit(old);
-> >>> +                     virtual_submit_completed(ve, old);
-> >>>                        i915_request_put(old);
-> >>>                }
-> >>>
-> >>> @@ -3538,13 +3549,12 @@ static void virtual_submit_request(struct i915_request *rq)
-> >>>
-> >>>        /* By the time we resubmit a request, it may be completed */
-> >>>        if (__i915_request_is_complete(rq)) {
-> >>> -             __i915_request_submit(rq);
-> >>> +             virtual_submit_completed(ve, rq);
-> >>>                goto unlock;
-> >>>        }
-> >>>
-> >>>        if (ve->request) { /* background completion from preempt-to-busy */
-> >>> -             GEM_BUG_ON(!__i915_request_is_complete(ve->request));
-> >>> -             __i915_request_submit(ve->request);
-> >>> +             virtual_submit_completed(ve, ve->request);
-> >>>                i915_request_put(ve->request);
-> >>>        }
-> >>>
-> >>> diff --git a/drivers/gpu/drm/i915/i915_request.c b/drivers/gpu/drm/i915/i915_request.c
-> >>> index 970d8f4986bb..aa124adb1051 100644
-> >>> --- a/drivers/gpu/drm/i915/i915_request.c
-> >>> +++ b/drivers/gpu/drm/i915/i915_request.c
-> >>> @@ -61,7 +61,12 @@ static struct i915_global_request {
-> >>>
-> >>>   static const char *i915_fence_get_driver_name(struct dma_fence *fence)
-> >>>   {
-> >>> -     return dev_name(to_request(fence)->engine->i915->drm.dev);
-> >>> +     struct i915_request *rq = to_request(fence);
-> >>> +
-> >>> +     if (unlikely(!rq->engine)) /* not yet attached to any device */
-> >>> +             return DRIVER_NAME;
-> >>> +
-> >>> +     return dev_name(rq->engine->i915->drm.dev);
-> >>>   }
-> >>>
-> >>>   static const char *i915_fence_get_timeline_name(struct dma_fence *fence)
-> >>> --
-> >>> 2.26.3
-> >>>
-> >>
-> >> --
-> >> Daniel Vetter
-> >> Software Engineer, Intel Corporation
-> >> http://blog.ffwll.ch
-> >
-> >
-> >
+On 31-05-2021 23:27, Dmitry Baryshkov wrote:
+> On 31/05/2021 16:33, Rajeev Nandan wrote:
 
 
+>> +	.min_pll_rate = 600000000UL,
+>> +	.max_pll_rate = (5000000000ULL < ULONG_MAX) ? 5000000000ULL : 
+>> ULONG_MAX,
+> 
+> Could you please follow the patch by Arnd here?
+> https://lore.kernel.org/linux-arm-msm/20210514213032.575161-1-arnd@kernel.org/
+> 
+> 
+> 
+>> +	.io_start = { 0xae94400, 0xae96400 },
+>> +	.num_dsi_phy = 2,
+> 
+> Judging from the next patch, you have one DSI host and one DSI PHY.
+> Could you please correct io_start / num_dsi_phy here?
+> 
+>> +	.quirks = DSI_PHY_7NM_QUIRK_V4_1,
+>> +};
+> 
+> 
+> With these two issues fixed:
+> 
+> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Thank you very much for your review :) I have incorporated the
+review comments. I am waiting for comments on my DT bindings patch (1/3) 
+and
+will send v2 in a day or two.
+
+Thanks,
+Rajeev
