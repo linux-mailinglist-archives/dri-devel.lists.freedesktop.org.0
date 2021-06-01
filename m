@@ -1,51 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05AEB396FC1
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Jun 2021 11:02:22 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8EBF9396FF9
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Jun 2021 11:09:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2B5E26E9AD;
-	Tue,  1 Jun 2021 09:02:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4F05A6E02D;
+	Tue,  1 Jun 2021 09:09:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from netline-mail3.netline.ch (mail.netline.ch [148.251.143.180])
- by gabe.freedesktop.org (Postfix) with ESMTP id 17B656E9AD;
- Tue,  1 Jun 2021 09:02:19 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by netline-mail3.netline.ch (Postfix) with ESMTP id 33D1720201C;
- Tue,  1 Jun 2021 11:02:18 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at netline-mail3.netline.ch
-Received: from netline-mail3.netline.ch ([127.0.0.1])
- by localhost (netline-mail3.netline.ch [127.0.0.1]) (amavisd-new, port 10024)
- with LMTP id jxVJ8p1-VJnT; Tue,  1 Jun 2021 11:02:17 +0200 (CEST)
-Received: from thor (24.99.2.85.dynamic.wline.res.cust.swisscom.ch
- [85.2.99.24])
- by netline-mail3.netline.ch (Postfix) with ESMTPA id 6403520201A;
- Tue,  1 Jun 2021 11:02:15 +0200 (CEST)
-Received: from localhost ([::1]) by thor with esmtp (Exim 4.94.2)
- (envelope-from <michel@daenzer.net>)
- id 1lo0Hu-001p4J-Pp; Tue, 01 Jun 2021 11:02:14 +0200
-To: =?UTF-8?B?TWFyZWsgT2zFocOhaw==?= <maraeo@gmail.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- ML Mesa-dev <mesa-dev@lists.freedesktop.org>,
- Alex Deucher <alexdeucher@gmail.com>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Dave Airlie <airlied@gmail.com>,
- Jason Ekstrand <jason@jlekstrand.net>,
- Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>
-References: <CAAxE2A4XS2mCXOdvxm1ZAhG2OY9w1P0X2E1ac1TXNFKDekog5g@mail.gmail.com>
-From: =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel@daenzer.net>
-Subject: Re: Linux Graphics Next: Userspace submission update
-Message-ID: <e7cb9833-1044-0426-5ce4-5b5fc32a3603@daenzer.net>
-Date: Tue, 1 Jun 2021 11:02:14 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.0
+Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D00616E02D
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Jun 2021 09:09:04 +0000 (UTC)
+Received: from dggemv711-chm.china.huawei.com (unknown [172.30.72.55])
+ by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4FvR954gkWzYnSM;
+ Tue,  1 Jun 2021 17:06:17 +0800 (CST)
+Received: from dggpemm500006.china.huawei.com (7.185.36.236) by
+ dggemv711-chm.china.huawei.com (10.1.198.66) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2176.2; Tue, 1 Jun 2021 17:09:01 +0800
+Received: from thunder-town.china.huawei.com (10.174.177.72) by
+ dggpemm500006.china.huawei.com (7.185.36.236) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2176.2; Tue, 1 Jun 2021 17:09:00 +0800
+From: Zhen Lei <thunder.leizhen@huawei.com>
+To: Tomi Valkeinen <tomi.valkeinen@ti.com>, "Signed-off-by : Wolfram Sang"
+ <wsa@the-dreams.de>, Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>, linux-fbdev
+ <linux-fbdev@vger.kernel.org>, linux-kernel <linux-kernel@vger.kernel.org>
+Subject: [PATCH 1/1] video: fbdev: mb862xx: use DEVICE_ATTR_RO macro
+Date: Tue, 1 Jun 2021 17:08:52 +0800
+Message-ID: <20210601090852.10531-1-thunder.leizhen@huawei.com>
+X-Mailer: git-send-email 2.26.0.windows.1
 MIME-Version: 1.0
-In-Reply-To: <CAAxE2A4XS2mCXOdvxm1ZAhG2OY9w1P0X2E1ac1TXNFKDekog5g@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-CA
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.174.177.72]
+X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
+ dggpemm500006.china.huawei.com (7.185.36.236)
+X-CFilter-Loop: Reflected
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,22 +51,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Zhen Lei <thunder.leizhen@huawei.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2021-05-27 11:51 p.m., Marek Olšák wrote:
-> 
-> 3) Compositors (and other privileged processes, and display flipping) can't trust imported/exported fences. They need a timeout recovery mechanism from the beginning, and the following are some possible solutions to timeouts:
-> 
-> a) use a CPU wait with a small absolute timeout, and display the previous content on timeout
-> b) use a GPU wait with a small absolute timeout, and conditional rendering will choose between the latest content (if signalled) and previous content (if timed out)
-> 
-> The result would be that the desktop can run close to 60 fps even if an app runs at 1 fps.
+Use DEVICE_ATTR_RO helper instead of plain DEVICE_ATTR, which makes the
+code a bit shorter and easier to read.
 
-FWIW, this is working with
-https://gitlab.gnome.org/GNOME/mutter/-/merge_requests/1880 , even with implicit sync (on current Intel GPUs; amdgpu/radeonsi would need to provide the same dma-buf poll semantics as other drivers and high priority GFX contexts via EGL_IMG_context_priority which can preempt lower priority ones).
+Signed-off-by: Zhen Lei <thunder.leizhen@huawei.com>
+---
+ drivers/video/fbdev/mb862xx/mb862xxfbdrv.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-
+diff --git a/drivers/video/fbdev/mb862xx/mb862xxfbdrv.c b/drivers/video/fbdev/mb862xx/mb862xxfbdrv.c
+index 52755b591c1489f..63721337a37787b 100644
+--- a/drivers/video/fbdev/mb862xx/mb862xxfbdrv.c
++++ b/drivers/video/fbdev/mb862xx/mb862xxfbdrv.c
+@@ -542,8 +542,8 @@ static int mb862xxfb_init_fbinfo(struct fb_info *fbi)
+ /*
+  * show some display controller and cursor registers
+  */
+-static ssize_t mb862xxfb_show_dispregs(struct device *dev,
+-				       struct device_attribute *attr, char *buf)
++static ssize_t dispregs_show(struct device *dev,
++			     struct device_attribute *attr, char *buf)
+ {
+ 	struct fb_info *fbi = dev_get_drvdata(dev);
+ 	struct mb862xxfb_par *par = fbi->par;
+@@ -577,7 +577,7 @@ static ssize_t mb862xxfb_show_dispregs(struct device *dev,
+ 	return ptr - buf;
+ }
+ 
+-static DEVICE_ATTR(dispregs, 0444, mb862xxfb_show_dispregs, NULL);
++static DEVICE_ATTR_RO(dispregs);
+ 
+ static irqreturn_t mb862xx_intr(int irq, void *dev_id)
+ {
 -- 
-Earthling Michel Dänzer               |               https://redhat.com
-Libre software enthusiast             |             Mesa and X developer
+2.26.0.106.g9fadedd
+
+
