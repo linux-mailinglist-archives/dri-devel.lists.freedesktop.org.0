@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9271E397129
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Jun 2021 12:16:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E2C6D39712C
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Jun 2021 12:16:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5B9276E9F5;
-	Tue,  1 Jun 2021 10:16:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0B2946E9FF;
+	Tue,  1 Jun 2021 10:16:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 99D8D6E9FE;
- Tue,  1 Jun 2021 10:16:27 +0000 (UTC)
-IronPort-SDR: zc9rjJzVDmT2rIaHoBcNMSGIFFIUCxaFbKWO5ehu9nuUZ9IIaYrNVhNXjMIaKfHIWqTfxltqFQ
- SE5R6gsWns1g==
-X-IronPort-AV: E=McAfee;i="6200,9189,10001"; a="203550019"
-X-IronPort-AV: E=Sophos;i="5.83,239,1616482800"; d="scan'208";a="203550019"
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 804F86EA00;
+ Tue,  1 Jun 2021 10:16:29 +0000 (UTC)
+IronPort-SDR: q4n2Xl9WFnQrILHl6tFBkacynV7ShOAp07DMVrPotNWBDwqanAP3u2pB9Y6Tcdu7iHwgGG/QDV
+ VvFXs5TwcxSw==
+X-IronPort-AV: E=McAfee;i="6200,9189,10001"; a="203550024"
+X-IronPort-AV: E=Sophos;i="5.83,239,1616482800"; d="scan'208";a="203550024"
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Jun 2021 03:16:27 -0700
-IronPort-SDR: 6QqiDCPCLpbSCXrbMfMCPu7gZdrPaRB8ROj5KAn6Xt5ikfUiE34anM0K8SpgK8v65e0XkAzDlL
- EijzoNxBJbSQ==
-X-IronPort-AV: E=Sophos;i="5.83,239,1616482800"; d="scan'208";a="482431344"
+ 01 Jun 2021 03:16:29 -0700
+IronPort-SDR: yjGpDNy0Lshp4q3fVVAx/m+omVi2u9CtQMIEJ+fJ2lAe6/6JP+1jTghzhTNpM7j4FyCWyMlfbw
+ qj/uUjvM4gWg==
+X-IronPort-AV: E=Sophos;i="5.83,239,1616482800"; d="scan'208";a="482431353"
 Received: from linux-desktop.iind.intel.com ([10.223.34.178])
  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Jun 2021 03:16:25 -0700
+ 01 Jun 2021 03:16:27 -0700
 From: Uma Shankar <uma.shankar@intel.com>
 To: intel-gfx@lists.freedesktop.org,
 	dri-devel@lists.freedesktop.org
-Subject: [PATCH 13/21] drm: Add helper to attach Plane ctm property
-Date: Tue,  1 Jun 2021 16:22:10 +0530
-Message-Id: <20210601105218.29185-14-uma.shankar@intel.com>
+Subject: [PATCH 14/21] drm/i915/xelpd: Define Plane CSC Registers
+Date: Tue,  1 Jun 2021 16:22:11 +0530
+Message-Id: <20210601105218.29185-15-uma.shankar@intel.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210601105218.29185-1-uma.shankar@intel.com>
 References: <20210601105218.29185-1-uma.shankar@intel.com>
@@ -52,47 +52,67 @@ Cc: Uma Shankar <uma.shankar@intel.com>, bhanuprakash.modem@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add a DRM helper to attach ctm property.
+Define Register macros for plane CSC.
 
 Signed-off-by: Uma Shankar <uma.shankar@intel.com>
 ---
- drivers/gpu/drm/drm_color_mgmt.c | 10 ++++++++++
- include/drm/drm_plane.h          |  1 +
- 2 files changed, 11 insertions(+)
+ drivers/gpu/drm/i915/i915_reg.h | 43 +++++++++++++++++++++++++++++++++
+ 1 file changed, 43 insertions(+)
 
-diff --git a/drivers/gpu/drm/drm_color_mgmt.c b/drivers/gpu/drm/drm_color_mgmt.c
-index 83832adf3adf..5c3138497b9c 100644
---- a/drivers/gpu/drm/drm_color_mgmt.c
-+++ b/drivers/gpu/drm/drm_color_mgmt.c
-@@ -654,6 +654,16 @@ void drm_plane_attach_degamma_properties(struct drm_plane *plane)
- }
- EXPORT_SYMBOL(drm_plane_attach_degamma_properties);
+diff --git a/drivers/gpu/drm/i915/i915_reg.h b/drivers/gpu/drm/i915/i915_reg.h
+index ede7dca440e2..df8500a86e9d 100644
+--- a/drivers/gpu/drm/i915/i915_reg.h
++++ b/drivers/gpu/drm/i915/i915_reg.h
+@@ -7397,6 +7397,49 @@ enum {
+ #define PLANE_COLOR_CTL(pipe, plane)	\
+ 	_MMIO_PLANE(plane, _PLANE_COLOR_CTL_1(pipe), _PLANE_COLOR_CTL_2(pipe))
  
-+void drm_plane_attach_ctm_property(struct drm_plane *plane)
-+{
-+	if (!plane->ctm_property)
-+		return;
++/* Plane CSC Registers */
++#define _PLANE_CSC_RY_GY_1_A	0x70210
++#define _PLANE_CSC_RY_GY_2_A	0x70310
 +
-+	drm_object_attach_property(&plane->base,
-+				   plane->ctm_property, 0);
-+}
-+EXPORT_SYMBOL(drm_plane_attach_ctm_property);
++#define _PLANE_CSC_RY_GY_1_B	0x71210
++#define _PLANE_CSC_RY_GY_2_B	0x71310
 +
- int drm_plane_color_add_gamma_degamma_mode_range(struct drm_plane *plane,
- 						 const char *name,
- 						 const struct drm_color_lut_range *ranges,
-diff --git a/include/drm/drm_plane.h b/include/drm/drm_plane.h
-index 83d11918333b..4557f59cf3cf 100644
---- a/include/drm/drm_plane.h
-+++ b/include/drm/drm_plane.h
-@@ -886,6 +886,7 @@ int drm_plane_create_color_mgmt_properties(struct drm_device *dev,
- 					   struct drm_plane *plane,
- 					   int num_values);
- void drm_plane_attach_degamma_properties(struct drm_plane *plane);
-+void drm_plane_attach_ctm_property(struct drm_plane *plane);
- int drm_plane_color_add_gamma_degamma_mode_range(struct drm_plane *plane,
- 						 const char *name,
- 						 const struct drm_color_lut_range *ranges,
++#define _PLANE_CSC_RY_GY_1(pipe)	_PIPE(pipe, _PLANE_CSC_RY_GY_1_A, \
++					      _PLANE_CSC_RY_GY_1_B)
++#define _PLANE_CSC_RY_GY_2(pipe)	_PIPE(pipe, _PLANE_INPUT_CSC_RY_GY_2_A, \
++					      _PLANE_INPUT_CSC_RY_GY_2_B)
++#define PLANE_CSC_COEFF(pipe, plane, index)	_MMIO_PLANE(plane, \
++							    _PLANE_CSC_RY_GY_1(pipe) +  (index) * 4, \
++							    _PLANE_CSC_RY_GY_2(pipe) + (index) * 4)
++
++#define _PLANE_CSC_PREOFF_HI_1_A		0x70228
++#define _PLANE_CSC_PREOFF_HI_2_A		0x70328
++
++#define _PLANE_CSC_PREOFF_HI_1_B		0x71228
++#define _PLANE_CSC_PREOFF_HI_2_B		0x71328
++
++#define _PLANE_CSC_PREOFF_HI_1(pipe)	_PIPE(pipe, _PLANE_CSC_PREOFF_HI_1_A, \
++					      _PLANE_CSC_PREOFF_HI_1_B)
++#define _PLANE_CSC_PREOFF_HI_2(pipe)	_PIPE(pipe, _PLANE_CSC_PREOFF_HI_2_A, \
++					      _PLANE_CSC_PREOFF_HI_2_B)
++#define PLANE_CSC_PREOFF(pipe, plane, index)	_MMIO_PLANE(plane, _PLANE_CSC_PREOFF_HI_1(pipe) + \
++							    (index) * 4, _PLANE_CSC_PREOFF_HI_2(pipe) + \
++							    (index) * 4)
++
++#define _PLANE_CSC_POSTOFF_HI_1_A		0x70234
++#define _PLANE_CSC_POSTOFF_HI_2_A		0x70334
++
++#define _PLANE_CSC_POSTOFF_HI_1_B		0x71234
++#define _PLANE_CSC_POSTOFF_HI_2_B		0x71334
++
++#define _PLANE_CSC_POSTOFF_HI_1(pipe)	_PIPE(pipe, _PLANE_CSC_POSTOFF_HI_1_A, \
++					      _PLANE_CSC_POSTOFF_HI_1_B)
++#define _PLANE_CSC_POSTOFF_HI_2(pipe)	_PIPE(pipe, _PLANE_CSC_POSTOFF_HI_2_A, \
++					      _PLANE_CSC_POSTOFF_HI_2_B)
++#define PLANE_CSC_POSTOFF(pipe, plane, index)	_MMIO_PLANE(plane, _PLANE_CSC_POSTOFF_HI_1(pipe) + \
++							    (index) * 4, _PLANE_CSC_POSTOFF_HI_2(pipe) + \
++							    (index) * 4)
++
+ #define _SEL_FETCH_PLANE_BASE_1_A		0x70890
+ #define _SEL_FETCH_PLANE_BASE_2_A		0x708B0
+ #define _SEL_FETCH_PLANE_BASE_3_A		0x708D0
 -- 
 2.26.2
 
