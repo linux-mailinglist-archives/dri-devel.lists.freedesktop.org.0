@@ -1,115 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9ABDE397B19
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Jun 2021 22:17:43 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A5BD2397B21
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Jun 2021 22:20:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D95C36EB10;
-	Tue,  1 Jun 2021 20:17:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 75CB66EAE2;
+	Tue,  1 Jun 2021 20:20:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam10on2078.outbound.protection.outlook.com [40.107.94.78])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 743796EB0C;
- Tue,  1 Jun 2021 20:17:30 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=CMRf9ogja/lJODhHAIM4xeuFd23qInC1RmOMtw0G63qVf8B0Luh+PAHHCiaqA5WPg8rbxSRVERa2hj/C4LmwbaJwae3CRIQNQ1TsezWnAt2JcVkr/KgB5W3yQbyRxbcMeXnDYQUszDyw6bYK0bP1YQqqXfyrxi9zx/Pf2QRWOLqRaBy38t3t1guMc3Q9f+tM2HuWnU8YEm7bO9WRwWFTPp2ELJOyotM8UlJ2LSOAwv2Et3LS8QvKlm4iP/LdNP7uxgVZtG6+tewdjWwCA+zgq7RTD619Neu4cc6PwxgqP66pui4SPQpnFWNf7+vXvfVWLU60GwGJSwUKpVxDADTJDQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=M1uQUDa+D9HISb73PbP87cu0bwgx6Mc5NImfIpUN6qA=;
- b=dmJtJ/Nu6FsjJt0bW5go87ilK3Q5lzSq9e/OPdoZB6yvKfoycmowRNUy1Dydl+D5MmjDKpxmdLiLRsc/iksTC68I4eh6Mwr/LMEVpwEhEC5WLAco9NzeTxseRkoOdFTzLltQ1k2ZcXoYtFzhsQBYPumWPoqOw8O/xaARlWuJw7ZBP1t+A61oNt6kde3d2m9NuhPR4/NstoTGNHb7yo04FatHz1gAy1BOAV/pe1xzaHLSBN2n00pjAIvDoxKFTPEBJ4hJ0daw0rYg8bbF2LddVSoTNYSVdeU5Wzj6cj/JumB2F7ZSEpg+Au1K+eU76YWWD5KncRNbA6iwf7yTk7DNsw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=M1uQUDa+D9HISb73PbP87cu0bwgx6Mc5NImfIpUN6qA=;
- b=a6dhbvdZJcf/1j4CenwZ8m/kQB8PY0PHJB4r3KmcrF0az5fQFCC476dSZvhygTmJcO4NL47SncDVkfVGVrtkeST5nzPXQpKGv3LEH2YYdADmkSp27VFE8kLlXh/QKssRjSHmxIEzXNW7UxYd8ws1oD700L4Eu/euPATimL2I1pA=
-Authentication-Results: lists.freedesktop.org; dkim=none (message not signed)
- header.d=none; lists.freedesktop.org;
- dmarc=none action=none header.from=amd.com;
-Received: from SN6PR12MB4623.namprd12.prod.outlook.com (2603:10b6:805:e9::17)
- by SN6PR12MB2702.namprd12.prod.outlook.com (2603:10b6:805:6c::16)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4173.20; Tue, 1 Jun
- 2021 20:17:29 +0000
-Received: from SN6PR12MB4623.namprd12.prod.outlook.com
- ([fe80::ad51:8c49:b171:856c]) by SN6PR12MB4623.namprd12.prod.outlook.com
- ([fe80::ad51:8c49:b171:856c%7]) with mapi id 15.20.4173.030; Tue, 1 Jun 2021
- 20:17:29 +0000
-From: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
-To: dri-devel@lists.freedesktop.org,
-	amd-gfx@lists.freedesktop.org
-Subject: [PATCH 7/7] tests/amdgpu/hotunplug: Add hotunplug with exported bo
- test
-Date: Tue,  1 Jun 2021 16:17:02 -0400
-Message-Id: <20210601201702.23316-8-andrey.grodzovsky@amd.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210601201702.23316-1-andrey.grodzovsky@amd.com>
-References: <20210601201702.23316-1-andrey.grodzovsky@amd.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [2607:fea8:3edf:49b0:5b64:13a3:c94c:964b]
-X-ClientProxiedBy: YTXPR0101CA0048.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b00:1::25) To SN6PR12MB4623.namprd12.prod.outlook.com
- (2603:10b6:805:e9::17)
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 450796EAE2;
+ Tue,  1 Jun 2021 20:20:12 +0000 (UTC)
+IronPort-SDR: Fa6VEaDEoXJnMxLAZqX0EOhPB2HnJ7OqjpUz1vZc6RUSvuZl75uuS1IyqSbZhs7wYgb/JRwHdY
+ eq7/9CfnEfLQ==
+X-IronPort-AV: E=McAfee;i="6200,9189,10002"; a="200618445"
+X-IronPort-AV: E=Sophos;i="5.83,241,1616482800"; d="scan'208";a="200618445"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Jun 2021 13:20:08 -0700
+IronPort-SDR: WKSp73eZUoBlhqTRGBY5T3FVGsZBtQvar4H8RECtoEuKCq/JJRjpPvknMq/dslMKfjNgDUAv2l
+ bDHxJc88aVug==
+X-IronPort-AV: E=Sophos;i="5.83,241,1616482800"; d="scan'208";a="411362871"
+Received: from anqiangu-mobl.ccr.corp.intel.com (HELO intel.com)
+ ([10.254.34.92])
+ by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Jun 2021 13:20:07 -0700
+Date: Tue, 1 Jun 2021 16:20:05 -0400
+From: Rodrigo Vivi <rodrigo.vivi@intel.com>
+To: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+Subject: Re: [PATCH v4 04/17] drm/i915/gt: Export the pinned context
+ constructor and destructor
+Message-ID: <YLaWdU2mLu/Ih2Yp@intel.com>
+References: <20210525054803.7387-1-daniele.ceraolospurio@intel.com>
+ <20210525054803.7387-5-daniele.ceraolospurio@intel.com>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from agrodzovsky-All-Series.hitronhub.home
- (2607:fea8:3edf:49b0:5b64:13a3:c94c:964b) by
- YTXPR0101CA0048.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:b00:1::25) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4173.24 via Frontend
- Transport; Tue, 1 Jun 2021 20:17:28 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: aee54789-4be9-4cb8-3ed5-08d9253a47a5
-X-MS-TrafficTypeDiagnostic: SN6PR12MB2702:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <SN6PR12MB27025FD389FD964499F611BBEA3E9@SN6PR12MB2702.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:5516;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: MQgBTnE+ZOQKtHvEzaw0TKBM3QZWt5LzcL1tHYVnSZQNXmIjA1N6WkC2MGuvMB2H1XtHAm8+CkF9xWQ88rvcrQbJFrX8HTHzxukWVxNPLLbbOPHSUM7B24Kf90EEMw/bVcIWFFtmn3h0wdi2W146Dai8AJag9SLVnXEX6EmP3hkmFlhPknwbUAjM9hgr9wWin+c0wCggaWVeft6Vva1scmE8oZgjtpUqY6vDpIeFUEhvNJ1GWkfMLjnhlvXK0I6VWakbkHeNgjAy0DSsm0TYT0wNce1ZqlQRSPQ6vNzTaHb0cjC2fMwhsY8UUFk48EVpmuSZASb2vWKKxLxsXok5wVJWFm1S8hpv4U6thsKnTcxtNCrsQj/qv/Jx6Tl8blZDG06ATnAB8sS/Un+xReRyVRyU5xqEXLxanj036nFQuk2v4/Z3JKh8OAp7E1lNJiUpCHFCT5Vu1l/NXWf/ly/VrW2WMVvqu3i99RnxLApscHRRar4rNbJ421wNNfoK/RmmXaNC3sFBzLkXPgpBV3vQyovhn9d1CSMYNbWTkQyeIHXL6A+sOiJt6iWfzdKgfVezQauZWapHdXWQghnt1RL+ml72GTkYJD96hUXVqIqbICI=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SN6PR12MB4623.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(376002)(366004)(396003)(39860400002)(136003)(346002)(16526019)(6506007)(2616005)(38100700002)(1076003)(6512007)(5660300002)(83380400001)(52116002)(478600001)(186003)(6486002)(316002)(66946007)(8936002)(8676002)(2906002)(66556008)(66476007)(6666004)(86362001)(44832011)(36756003)(4326008);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?CilxtRXf8rCeiDkY3CTno+Ph0vmI63iBKoLxYLZoVpNCS4OsfwJem1hGrkM6?=
- =?us-ascii?Q?KHYVDNQAWN8ST2uMIYgIsuTxRSWWB1I8ywDMISQUTNZl9T8yQ6OdFFYaGQWT?=
- =?us-ascii?Q?fWAy8pV6zZ0+rTLgmx5kgtczwr5ex5XowDYVah72Cr5XvsgCOMlBZ2yHEXCt?=
- =?us-ascii?Q?DGHZovNPmEGCJWc2fxgeHs3IDNCHbKp4znXqDxiYQ8QWdqHsAxB9ajbqL85M?=
- =?us-ascii?Q?vWiltdDXmWEtIJWJDm9r7z5gqZQH7XKuaOjbP3AGod2/zsE1CSZaKejuMx2w?=
- =?us-ascii?Q?+mNw3ffOCnwWVuLAWXRkb9wFi+QzWvBgudUu479A0/kkJSYPgsjN8aol2500?=
- =?us-ascii?Q?Si319ya8MIelqSbDFGjiXtfh3eSqfdVyyEernEy4oZlu0yq3m1rbuySOxzO8?=
- =?us-ascii?Q?agJKCaQMG1jUWQhQgP6I6IwkAftmZNjhoF+ak8sXgMXATi90eRcpb5jgx5u9?=
- =?us-ascii?Q?i9R+E3TX0S6qUASAtqV5WZDMcXaZYVnknKX3oZ3xUA72O05IwBKdnrGjuijH?=
- =?us-ascii?Q?z/XH75gdJqnXO3Sc6sEIelwHMHBHGoquuQkAJuOeU3x/GJnylL8HkMvLje0M?=
- =?us-ascii?Q?vvrzlnewQVkZPf+zsF0jy+Zfgt4KowpcjC+0d8Kda/4hWWTTYVQGoR26js9f?=
- =?us-ascii?Q?p27cH3wIOPnPdkQOCVvReyYxQjZ4t5eaIDGMduYuoSRoJ2pMj1iWbZnCsnQc?=
- =?us-ascii?Q?4MRrz0WXn/4iD21TcBVa6uNEsKKw4PZSLXtfA+A93TwsA6DaQdks0zeBBDpz?=
- =?us-ascii?Q?fOe6mIsPmwXAVwT7Yx3ejA0MTq4xabJKY3fv5yzlAbxiCikpd2jhd5KZeFyn?=
- =?us-ascii?Q?8uFy6MtNSirQzLaWWtkN1af5SlUfkaM+rcWcdSEjAj1AYM3uEKfe+FXvQ78r?=
- =?us-ascii?Q?O9yveLUMye8kKWxqRQsSOcNMDTE8w6u9sUutdXojZTSPJbuT12Zv0R/yb6n1?=
- =?us-ascii?Q?bqfsdLbljZ2k+1iaeHIYUPAhUv2rvDyKnRuWn0epKHTHEUziaJw55zeQ0xbP?=
- =?us-ascii?Q?Jy7llaySZ/iGaN6Siybqo5F0qV3qHxnxACfaOm8g2lHez9wOpaA+Kk6fy3Uy?=
- =?us-ascii?Q?KaExDEt71LGZ2p04w9RsgeJiRLNx1PFIaawT0fBkvTaVPvjOFArq77cu5o5e?=
- =?us-ascii?Q?4qKDCiqONflgyaTmH2MzgmB4Rb7IBCDYl8dTAQAKOr9F9K6E9MYsLWI3ovWI?=
- =?us-ascii?Q?0M0fEt7v/FR23kTATPE1ovbrnRVrWralXuxmChRbhYHv9k+9DjNyRwgQZOGJ?=
- =?us-ascii?Q?29v1s8n1fMiyGnds4c37CrJvb32GbCZDwXvNcYqNINXuH2VFzAQcn+qv0RQR?=
- =?us-ascii?Q?BRg3iGJbJJcFUizv4tWN+YtwLhrkvKIcGYxmixKiWrQ0Nf/ygNg+QpkcVjWw?=
- =?us-ascii?Q?WxelfIzMBvMJgJ/i2WggfitX0vQm?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: aee54789-4be9-4cb8-3ed5-08d9253a47a5
-X-MS-Exchange-CrossTenant-AuthSource: SN6PR12MB4623.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Jun 2021 20:17:29.1497 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ivg46NFGQSuYp0GRCau/wzz4k/2ObOwiE5SKYLCnqNMkhSwQyc32RJB09rwWuU1GhQpNiT4dPnCdzXQ9DsD+xw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR12MB2702
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210525054803.7387-5-daniele.ceraolospurio@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -122,76 +50,136 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alexander.Deucher@amd.com, ckoenig.leichtzumerken@gmail.com
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Chris Wilson <chris@chris-wilson.co.uk>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Disconnect device while BO is exported.
+On Mon, May 24, 2021 at 10:47:50PM -0700, Daniele Ceraolo Spurio wrote:
+> From: Chris Wilson <chris@chris-wilson.co.uk>
+> 
+> Allow internal clients to create a pinned context.
+> 
+> v2 (Daniele): export destructor as well, allow optional usage of custom
+> vm for maximum flexibility.
+> 
+> Signed-off-by: Chris Wilson <chris@chris-wilson.co.uk>
+> Signed-off-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+> ---
+>  drivers/gpu/drm/i915/gt/intel_engine.h    | 10 ++++++++
+>  drivers/gpu/drm/i915/gt/intel_engine_cs.c | 29 +++++++++++++++--------
+>  2 files changed, 29 insertions(+), 10 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/gt/intel_engine.h b/drivers/gpu/drm/i915/gt/intel_engine.h
+> index 47ee8578e511..a64d28aba257 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_engine.h
+> +++ b/drivers/gpu/drm/i915/gt/intel_engine.h
+> @@ -18,7 +18,9 @@
+>  #include "intel_workarounds.h"
+>  
+>  struct drm_printer;
+> +struct intel_context;
+>  struct intel_gt;
+> +struct lock_class_key;
+>  
+>  /* Early gen2 devices have a cacheline of just 32 bytes, using 64 is overkill,
+>   * but keeps the logic simple. Indeed, the whole purpose of this macro is just
+> @@ -255,6 +257,14 @@ struct i915_request *
+>  intel_engine_find_active_request(struct intel_engine_cs *engine);
+>  
+>  u32 intel_engine_context_size(struct intel_gt *gt, u8 class);
+> +struct intel_context *
+> +intel_engine_create_pinned_context(struct intel_engine_cs *engine,
+> +				   struct i915_address_space *vm,
+> +				   unsigned int ring_size,
+> +				   unsigned int hwsp,
+> +				   struct lock_class_key *key,
+> +				   const char *name);
+> +void intel_engine_destroy_pinned_context(struct intel_context *ce);
+>  
+>  void intel_engine_init_active(struct intel_engine_cs *engine,
+>  			      unsigned int subclass);
+> diff --git a/drivers/gpu/drm/i915/gt/intel_engine_cs.c b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
+> index eba2da9679a5..8cbf11497e8e 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_engine_cs.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
+> @@ -801,11 +801,13 @@ intel_engine_init_active(struct intel_engine_cs *engine, unsigned int subclass)
+>  #endif
+>  }
+>  
+> -static struct intel_context *
+> -create_pinned_context(struct intel_engine_cs *engine,
+> -		      unsigned int hwsp,
+> -		      struct lock_class_key *key,
+> -		      const char *name)
+> +struct intel_context *
+> +intel_engine_create_pinned_context(struct intel_engine_cs *engine,
+> +				   struct i915_address_space *vm,
+> +				   unsigned int ring_size,
+> +				   unsigned int hwsp,
+> +				   struct lock_class_key *key,
+> +				   const char *name)
+>  {
+>  	struct intel_context *ce;
+>  	int err;
+> @@ -816,6 +818,12 @@ create_pinned_context(struct intel_engine_cs *engine,
+>  
+>  	__set_bit(CONTEXT_BARRIER_BIT, &ce->flags);
+>  	ce->timeline = page_pack_bits(NULL, hwsp);
+> +	ce->ring = __intel_context_ring_size(ring_size);
 
-Signed-off-by: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
----
- tests/amdgpu/hotunplug_tests.c | 46 ++++++++++++++++++++++++++++++++--
- 1 file changed, 44 insertions(+), 2 deletions(-)
+why do we need this now and we didn't need before?
 
-diff --git a/tests/amdgpu/hotunplug_tests.c b/tests/amdgpu/hotunplug_tests.c
-index 6e133a07..01ac6c62 100644
---- a/tests/amdgpu/hotunplug_tests.c
-+++ b/tests/amdgpu/hotunplug_tests.c
-@@ -306,10 +306,52 @@ static void amdgpu_hotunplug_with_cs(void)
- 	amdgpu_hotunplug_test(true);
- }
- 
-+static void amdgpu_hotunplug_with_exported_bo(void)
-+{
-+	int r;
-+	uint32_t dma_buf_fd;
-+	unsigned int *ptr;
-+	amdgpu_bo_handle bo_handle;
-+
-+	struct amdgpu_bo_alloc_request request = {
-+		.alloc_size = 4096,
-+		.phys_alignment = 4096,
-+		.preferred_heap = AMDGPU_GEM_DOMAIN_GTT,
-+		.flags = 0,
-+	};
-+
-+	r = amdgpu_hotunplug_setup_test();
-+	CU_ASSERT_EQUAL(r , 0);
-+
-+	amdgpu_bo_alloc(device_handle, &request, &bo_handle);
-+	CU_ASSERT_EQUAL(r, 0);
-+
-+	r = amdgpu_bo_export(bo_handle, amdgpu_bo_handle_type_dma_buf_fd, &dma_buf_fd);
-+	CU_ASSERT_EQUAL(r, 0);
-+
-+	ptr = mmap(NULL, 4096, PROT_READ | PROT_WRITE, MAP_SHARED, dma_buf_fd, 0);
-+	CU_ASSERT_NOT_EQUAL(ptr,  MAP_FAILED);
-+
-+	r = amdgpu_hotunplug_remove();
-+	CU_ASSERT_EQUAL(r > 0, 1);
-+
-+	amdgpu_bo_free(bo_handle);
-+
-+	r = amdgpu_hotunplug_teardown_test();
-+	CU_ASSERT_EQUAL(r , 0);
-+
-+	*ptr = 0xdeafbeef;
-+
-+	munmap(ptr, 4096);
-+	close (dma_buf_fd);
-+
-+	r = amdgpu_hotunplug_rescan();
-+	CU_ASSERT_EQUAL(r > 0, 1);
-+}
-+
- CU_TestInfo hotunplug_tests[] = {
- 	{ "Unplug card and rescan the bus to plug it back", amdgpu_hotunplug_simple },
- 	{ "Same as first test but with command submission", amdgpu_hotunplug_with_cs },
-+	{ "Unplug with exported bo", amdgpu_hotunplug_with_exported_bo },
- 	CU_TEST_INFO_NULL,
- };
--
--
--- 
-2.25.1
+> +
+> +	if (vm) {
+> +		i915_vm_put(ce->vm);
+> +		ce->vm = i915_vm_get(vm);
+> +	}
 
+same question here...
+
+>  
+>  	err = intel_context_pin(ce); /* perma-pin so it is always available */
+>  	if (err) {
+> @@ -834,7 +842,7 @@ create_pinned_context(struct intel_engine_cs *engine,
+>  	return ce;
+>  }
+>  
+> -static void destroy_pinned_context(struct intel_context *ce)
+> +void intel_engine_destroy_pinned_context(struct intel_context *ce)
+>  {
+>  	struct intel_engine_cs *engine = ce->engine;
+>  	struct i915_vma *hwsp = engine->status_page.vma;
+> @@ -854,8 +862,9 @@ create_kernel_context(struct intel_engine_cs *engine)
+>  {
+>  	static struct lock_class_key kernel;
+>  
+> -	return create_pinned_context(engine, I915_GEM_HWS_SEQNO_ADDR,
+> -				     &kernel, "kernel_context");
+> +	return intel_engine_create_pinned_context(engine, NULL, SZ_4K,
+> +						  I915_GEM_HWS_SEQNO_ADDR,
+> +						  &kernel, "kernel_context");
+>  }
+>  
+>  /**
+> @@ -898,7 +907,7 @@ static int engine_init_common(struct intel_engine_cs *engine)
+>  	return 0;
+>  
+>  err_context:
+> -	destroy_pinned_context(ce);
+> +	intel_engine_destroy_pinned_context(ce);
+>  	return ret;
+>  }
+>  
+> @@ -956,7 +965,7 @@ void intel_engine_cleanup_common(struct intel_engine_cs *engine)
+>  		fput(engine->default_state);
+>  
+>  	if (engine->kernel_context)
+> -		destroy_pinned_context(engine->kernel_context);
+> +		intel_engine_destroy_pinned_context(engine->kernel_context);
+>  
+>  	GEM_BUG_ON(!llist_empty(&engine->barrier_tasks));
+>  	cleanup_status_page(engine);
+> -- 
+> 2.29.2
+> 
