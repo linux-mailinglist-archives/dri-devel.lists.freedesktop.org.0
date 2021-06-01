@@ -1,37 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FA14397117
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Jun 2021 12:16:19 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 848F7397119
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Jun 2021 12:16:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AD6CA6E9EA;
-	Tue,  1 Jun 2021 10:16:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ACAAB6E9EC;
+	Tue,  1 Jun 2021 10:16:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6C7346E9EC;
- Tue,  1 Jun 2021 10:16:10 +0000 (UTC)
-IronPort-SDR: r1siSZytJ8NYIQzeX8JORiS+crGQ66kXqu6TpewkfpbMytfYBu5LWI7a/AqO/zce7OhoRRi0P7
- vaTEDUHVihKA==
-X-IronPort-AV: E=McAfee;i="6200,9189,10001"; a="203549960"
-X-IronPort-AV: E=Sophos;i="5.83,239,1616482800"; d="scan'208";a="203549960"
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8F45C6E9E9;
+ Tue,  1 Jun 2021 10:16:11 +0000 (UTC)
+IronPort-SDR: 1PEwMgu4HxP0nMDabVzMAkATuxRHmdmLw7GcM5e/xaXRzZo/wW/HWzlutOP1RY3oJXKrJlGLtg
+ l9COHvwKpVWA==
+X-IronPort-AV: E=McAfee;i="6200,9189,10001"; a="203549968"
+X-IronPort-AV: E=Sophos;i="5.83,239,1616482800"; d="scan'208";a="203549968"
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Jun 2021 03:16:09 -0700
-IronPort-SDR: iK9fpCnn2lHnL3CJo0LtfAd0VS9c7sh9jcyZgmUoSYa1+IeI9f0cyYzoCPHTpdC4D+bqqHo0ka
- adSk10KjeFhw==
-X-IronPort-AV: E=Sophos;i="5.83,239,1616482800"; d="scan'208";a="482431217"
+ 01 Jun 2021 03:16:11 -0700
+IronPort-SDR: g3+sokxoDgDukmNO4AZqHn6+3TzgbI5+ZdPq4uGGMNVIvm0L3oCsI8z0CAbRBfdyDOusFibMuj
+ f2XgV2i0n2/Q==
+X-IronPort-AV: E=Sophos;i="5.83,239,1616482800"; d="scan'208";a="482431247"
 Received: from linux-desktop.iind.intel.com ([10.223.34.178])
  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Jun 2021 03:16:07 -0700
+ 01 Jun 2021 03:16:09 -0700
 From: Uma Shankar <uma.shankar@intel.com>
 To: intel-gfx@lists.freedesktop.org,
 	dri-devel@lists.freedesktop.org
-Subject: [PATCH 04/21] drm/i915/xelpd: Define Degamma Lut range struct for HDR
- planes
-Date: Tue,  1 Jun 2021 16:22:01 +0530
-Message-Id: <20210601105218.29185-5-uma.shankar@intel.com>
+Subject: [PATCH 05/21] drm/i915/xelpd: Add register definitions for Plane
+ Degamma
+Date: Tue,  1 Jun 2021 16:22:02 +0530
+Message-Id: <20210601105218.29185-6-uma.shankar@intel.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210601105218.29185-1-uma.shankar@intel.com>
 References: <20210601105218.29185-1-uma.shankar@intel.com>
@@ -53,78 +53,83 @@ Cc: Uma Shankar <uma.shankar@intel.com>, bhanuprakash.modem@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Define the structure with XE_LPD degamma lut ranges. HDR and SDR
-planes have different capabilities, implemented respective
-structure for the HDR planes.
+Add macros to define Plane Degamma registers
 
 Signed-off-by: Uma Shankar <uma.shankar@intel.com>
 ---
- drivers/gpu/drm/i915/display/intel_color.c | 52 ++++++++++++++++++++++
+ drivers/gpu/drm/i915/i915_reg.h | 52 +++++++++++++++++++++++++++++++++
  1 file changed, 52 insertions(+)
 
-diff --git a/drivers/gpu/drm/i915/display/intel_color.c b/drivers/gpu/drm/i915/display/intel_color.c
-index dab892d2251b..c735d06a6b54 100644
---- a/drivers/gpu/drm/i915/display/intel_color.c
-+++ b/drivers/gpu/drm/i915/display/intel_color.c
-@@ -2093,6 +2093,58 @@ static void icl_read_luts(struct intel_crtc_state *crtc_state)
- 	}
- }
+diff --git a/drivers/gpu/drm/i915/i915_reg.h b/drivers/gpu/drm/i915/i915_reg.h
+index 24307c49085f..9431913969f3 100644
+--- a/drivers/gpu/drm/i915/i915_reg.h
++++ b/drivers/gpu/drm/i915/i915_reg.h
+@@ -262,6 +262,9 @@ static inline bool i915_mmio_reg_valid(i915_reg_t reg)
+ 					      INTEL_INFO(dev_priv)->cursor_offsets[PIPE_A] + (reg) + \
+ 					      DISPLAY_MMIO_BASE(dev_priv))
  
-+ /* FIXME input bpc? */
-+__maybe_unused
-+static const struct drm_color_lut_range d13_degamma_hdr[] = {
-+	/* segment 1 */
-+	{
-+		.flags = (DRM_MODE_LUT_GAMMA |
-+			  DRM_MODE_LUT_REFLECT_NEGATIVE |
-+			  DRM_MODE_LUT_INTERPOLATE |
-+			  DRM_MODE_LUT_NON_DECREASING),
-+		.count = 128,
-+		.input_bpc = 24, .output_bpc = 16,
-+		.start = 0, .end = (1 << 24) - 1,
-+		.min = 0, .max = (1 << 24) - 1,
-+	},
-+	/* segment 2 */
-+	{
-+		.flags = (DRM_MODE_LUT_GAMMA |
-+			  DRM_MODE_LUT_REFLECT_NEGATIVE |
-+			  DRM_MODE_LUT_INTERPOLATE |
-+			  DRM_MODE_LUT_REUSE_LAST |
-+			  DRM_MODE_LUT_NON_DECREASING),
-+		.count = 1,
-+		.input_bpc = 24, .output_bpc = 16,
-+		.start = (1 << 24) - 1, .end = 1 << 24,
-+		.min = 0, .max = (1 << 27) - 1,
-+	},
-+	/* Segment 3 */
-+	{
-+		.flags = (DRM_MODE_LUT_GAMMA |
-+			  DRM_MODE_LUT_REFLECT_NEGATIVE |
-+			  DRM_MODE_LUT_INTERPOLATE |
-+			  DRM_MODE_LUT_REUSE_LAST |
-+			  DRM_MODE_LUT_NON_DECREASING),
-+		.count = 1,
-+		.input_bpc = 24, .output_bpc = 16,
-+		.start = 1 << 24, .end = 3 << 24,
-+		.min = 0, .max = (1 << 27) - 1,
-+	},
-+	/* Segment 4 */
-+	{
-+		.flags = (DRM_MODE_LUT_GAMMA |
-+			  DRM_MODE_LUT_REFLECT_NEGATIVE |
-+			  DRM_MODE_LUT_INTERPOLATE |
-+			  DRM_MODE_LUT_REUSE_LAST |
-+			  DRM_MODE_LUT_NON_DECREASING),
-+		.count = 1,
-+		.input_bpc = 24, .output_bpc = 16,
-+		.start = 3 << 24, .end = 7 << 24,
-+		.min = 0, .max = (1 << 27) - 1,
-+	},
-+};
++/* Plane Gamma Registers */
++#define _MMIO_PLANE_GAMC(plane, i, a, b)  _MMIO(_PIPE(plane, a, b) + (i) * 4)
 +
- void intel_color_init(struct intel_crtc *crtc)
- {
- 	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
+ #define __MASKED_FIELD(mask, value) ((mask) << 16 | (value))
+ #define _MASKED_FIELD(mask, value) ({					   \
+ 	if (__builtin_constant_p(mask))					   \
+@@ -11300,6 +11303,55 @@ enum skl_power_gate {
+ 					_PAL_PREC_MULTI_SEG_DATA_A, \
+ 					_PAL_PREC_MULTI_SEG_DATA_B)
+ 
++/* Display13 Plane Degmma Reg */
++#define _PLANE_PRE_CSC_GAMC_INDEX_ENH_1_A	0x701d0
++#define _PLANE_PRE_CSC_GAMC_INDEX_ENH_1_B	0x711d0
++#define _PLANE_PRE_CSC_GAMC_INDEX_ENH_2_A	0x702d0
++#define _PLANE_PRE_CSC_GAMC_INDEX_ENH_2_B	0x712d0
++#define _PLANE_PRE_CSC_GAMC_INDEX_ENH_1(pipe)	_PIPE(pipe, _PLANE_PRE_CSC_GAMC_INDEX_ENH_1_A, \
++						_PLANE_PRE_CSC_GAMC_INDEX_ENH_1_B)
++#define _PLANE_PRE_CSC_GAMC_INDEX_ENH_2(pipe)	_PIPE(pipe, _PLANE_PRE_CSC_GAMC_INDEX_ENH_2_A, \
++						_PLANE_PRE_CSC_GAMC_INDEX_ENH_2_B)
++#define PLANE_PRE_CSC_GAMC_INDEX_ENH(pipe, plane, i)	\
++		_MMIO_PLANE_GAMC(plane, i, _PLANE_PRE_CSC_GAMC_INDEX_ENH_1(pipe), \
++		_PLANE_PRE_CSC_GAMC_INDEX_ENH_2(pipe))
++
++#define _PLANE_PRE_CSC_GAMC_DATA_ENH_1_A	0x701d4
++#define _PLANE_PRE_CSC_GAMC_DATA_ENH_1_B	0x711d4
++#define _PLANE_PRE_CSC_GAMC_DATA_ENH_2_A	0x702d4
++#define _PLANE_PRE_CSC_GAMC_DATA_ENH_2_B	0x712d4
++#define _PLANE_PRE_CSC_GAMC_DATA_ENH_1(pipe)	_PIPE(pipe, _PLANE_PRE_CSC_GAMC_DATA_ENH_1_A, \
++						_PLANE_PRE_CSC_GAMC_DATA_ENH_1_B)
++#define _PLANE_PRE_CSC_GAMC_DATA_ENH_2(pipe)	_PIPE(pipe, _PLANE_PRE_CSC_GAMC_DATA_ENH_2_A, \
++						_PLANE_PRE_CSC_GAMC_DATA_ENH_2_B)
++#define PLANE_PRE_CSC_GAMC_DATA_ENH(pipe, plane, i)	\
++		_MMIO_PLANE_GAMC(plane, i, _PLANE_PRE_CSC_GAMC_DATA_ENH_1(pipe), \
++		_PLANE_PRE_CSC_GAMC_DATA_ENH_2(pipe))
++
++#define _PLANE_PRE_CSC_GAMC_INDEX_1_A	0x704d0
++#define _PLANE_PRE_CSC_GAMC_INDEX_1_B	0x714d0
++#define _PLANE_PRE_CSC_GAMC_INDEX_2_A	0x705d0
++#define _PLANE_PRE_CSC_GAMC_INDEX_2_B	0x715d0
++#define _PLANE_PRE_CSC_GAMC_INDEX_1(pipe)	_PIPE(pipe, _PLANE_PRE_CSC_GAMC_INDEX_1_A, \
++						_PLANE_PRE_CSC_GAMC_INDEX_1_B)
++#define _PLANE_PRE_CSC_GAMC_INDEX_2(pipe)	_PIPE(pipe, _PLANE_PRE_CSC_GAMC_INDEX_2_A, \
++						_PLANE_PRE_CSC_GAMC_INDEX_2_B)
++#define PLANE_PRE_CSC_GAMC_INDEX(pipe, plane, i)	\
++		_MMIO_PLANE_GAMC(plane, i, _PLANE_PRE_CSC_GAMC_INDEX_1(pipe), \
++		_PLANE_PRE_CSC_GAMC_INDEX_2(pipe))
++
++#define _PLANE_PRE_CSC_GAMC_DATA_1_A	0x704d4
++#define _PLANE_PRE_CSC_GAMC_DATA_1_B	0x714d4
++#define _PLANE_PRE_CSC_GAMC_DATA_2_A	0x705d4
++#define _PLANE_PRE_CSC_GAMC_DATA_2_B	0x715d4
++#define _PLANE_PRE_CSC_GAMC_DATA_1(pipe)	_PIPE(pipe, _PLANE_PRE_CSC_GAMC_DATA_1_A, \
++						_PLANE_PRE_CSC_GAMC_DATA_1_B)
++#define _PLANE_PRE_CSC_GAMC_DATA_2(pipe)	_PIPE(pipe, _PLANE_PRE_CSC_GAMC_DATA_2_A, \
++						_PLANE_PRE_CSC_GAMC_DATA_2_B)
++#define PLANE_PRE_CSC_GAMC_DATA(pipe, plane, i)	\
++		_MMIO_PLANE_GAMC(plane, i, _PLANE_PRE_CSC_GAMC_DATA_1(pipe), \
++		_PLANE_PRE_CSC_GAMC_DATA_2(pipe))
++
+ /* pipe CSC & degamma/gamma LUTs on CHV */
+ #define _CGM_PIPE_A_CSC_COEFF01	(VLV_DISPLAY_BASE + 0x67900)
+ #define _CGM_PIPE_A_CSC_COEFF23	(VLV_DISPLAY_BASE + 0x67904)
 -- 
 2.26.2
 
