@@ -2,62 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D7D4397C81
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Jun 2021 00:43:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DE56397C87
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Jun 2021 00:44:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BBD026E0F3;
-	Tue,  1 Jun 2021 22:43:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B39E989E43;
+	Tue,  1 Jun 2021 22:43:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com
- [IPv6:2a00:1450:4864:20::436])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 679786E0F3
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Jun 2021 22:43:15 +0000 (UTC)
-Received: by mail-wr1-x436.google.com with SMTP id m18so252492wrv.2
- for <dri-devel@lists.freedesktop.org>; Tue, 01 Jun 2021 15:43:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=astier-eu.20150623.gappssmtp.com; s=20150623;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=raFJDnqbgQffbni8cDqTXKBGaMGmBnwdhZuZ4furOas=;
- b=PBML801JMX/hN5wMJZpa3YXKvlTCQdjD/hVejz4WNXph7LUicuZjJEy68H56jOSB6b
- FEORY55Jw6QaN4DIB1OgKLOZ6M3TU6OGOd5xsn0G8jEOuPPWUvJRC9l8iyKT+798gcPI
- xu+ECeyenJOyW4+xSzUNehG1ZtTKgCrevFXH69gF/3lQQ+qPhjHqQ8iiOkrcj3/Gpe0V
- Bi4MopTXhRW/who5oddgLI1tevkw2QtR8qfbRoS+ueMT71jUwPzEIbw/So3uGq5nvHUW
- TPf09w7dURkvq1i+LnlH46yENmoDgL4nL3YmjO3+5/Bd/oimB9fR2r01lyDMrxy+PkIs
- BLsQ==
+Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com
+ [IPv6:2607:f8b0:4864:20::102e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A154C89E43;
+ Tue,  1 Jun 2021 22:43:57 +0000 (UTC)
+Received: by mail-pj1-x102e.google.com with SMTP id
+ m13-20020a17090b068db02901656cc93a75so2301347pjz.3; 
+ Tue, 01 Jun 2021 15:43:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=7E0ztSWBZtOlaDKHfsCxqv376BZVJpQCMWAAU6G5G88=;
+ b=DleniQqk4mS2+2kein8dLcGyoPKrBjH9m0Z5PpLGC2bNJDuxywHlzSBlE1QndfWK7n
+ dStP3Ah4dc9a1FKmip239Zu3EU8Z2XNLiHuU31qMPQ2b4OpkhwhGN2KP/LXtXBwcrVgc
+ mS9nB5NKDYxiRDXCrkKoXsn0cBNthDtoDwVj0QuXSwQCXNF6OroW73BSC9zA+5dlu3hg
+ MFKz4eC7Xb0mzUHbB4Ko39uPuk89yI96k8l1/uApgi0plUFcCVOBAllpFPLX6dnbPpGE
+ EBvhdE32Xlt4O6nPpjbX/Nd4qMi7xTSa4zz86NoC/24K1CZrJvjX8Gg+vTM/V2zQA9db
+ G+zQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=raFJDnqbgQffbni8cDqTXKBGaMGmBnwdhZuZ4furOas=;
- b=Ah1sNUoyqzKbPLnE2JPMcwPTtk71pNG97OOIPZtsPEGzxmcQz9TaPm+5GKMjPojfIr
- GTcWdruOeUC59ofFatp6BkQSPnwldupJ3d+daNFZ1O/XK5VPZIf6Tw7y5wn0AqK6EBpT
- /RvlZ5vHbtSFaQjAbC2PO/Bkh1Rr1dkiNj5T/3/dH2aIiZK1j0gGTKNA7HZ8YHvCu8JP
- j05pUxBltcwybhjAk1oHTf2d+u0J052v62jETsKk2+rWTwJ0/X9zNFfVMMe12uOrgTOo
- C9fmUETefM7Dzh0aJG+oQAvjf+h6y3/YD1LbAUCb9m6r+ILpV7ZnAuBLsu1kLc6OU6l6
- Arzw==
-X-Gm-Message-State: AOAM531MIZeDM4Sy3fU8P7O+Nv/EP6CsMfDwyx95SM/0uVwlHXuVJWNa
- GjbykarAchRRsBydZYuN7ohltg==
-X-Google-Smtp-Source: ABdhPJwodA6g8jsn7Q1onsK/KORLTKnjf6z4nY0MCi5ZViExSRl1KOCI/JeY1jD+fz1f5FRqVen0NQ==
-X-Received: by 2002:adf:fe86:: with SMTP id l6mr25045058wrr.106.1622587394303; 
- Tue, 01 Jun 2021 15:43:14 -0700 (PDT)
-Received: from bilrost ([2a01:e0a:806:8950:dea6:32ff:fe0d:99f9])
- by smtp.gmail.com with ESMTPSA id n13sm5109915wrg.75.2021.06.01.15.43.12
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=7E0ztSWBZtOlaDKHfsCxqv376BZVJpQCMWAAU6G5G88=;
+ b=Gl2fKjitw620jqV2yWo7kBDdB/mwT9+Q7zYmjt92K3dCFiTc2NkWb8zgih3Gt8WU69
+ AoWq2utgqPmXdHsi5XQFWAZJylKQy0oSrhUmcnJGsV4PSkOdzwe8BXHp0hhigZ1XbZld
+ kp9wBLYqZv4op7uAkt77PNSHaSNCgSfb70kj3hjIYiNn+hwwQqNNsMscNNdDrmasFpag
+ maXv55YjUHu/EjI77nUcy7/ADtrsDZxZN4dDU8fMWpw6ZQ3TmSKtylbIcBp09dP2u4TJ
+ 1yYTJhG266R8/+xpB69wrywXu56B3ga4gePt9QDY8T+iKgFeIMlkjrN/inj96qqUDonb
+ NXdg==
+X-Gm-Message-State: AOAM531bCwrMyXGwuK7i/quQr8wZkJtNMnOBwDYEY2zMM8cjotsVOyJ8
+ SSeQNSTgFgwwSzcpmttCTLVJ9Rzm4aLeA1eB
+X-Google-Smtp-Source: ABdhPJx+MXlJVAK3VU9sUj3Q8wM8rPRlRXKTA4bATZVDKq9RVk6Y1mVomVLJn7SS3hiZvw7QTuhVmw==
+X-Received: by 2002:a17:90b:252:: with SMTP id
+ fz18mr2232979pjb.52.1622587436763; 
+ Tue, 01 Jun 2021 15:43:56 -0700 (PDT)
+Received: from localhost (c-73-25-156-94.hsd1.or.comcast.net. [73.25.156.94])
+ by smtp.gmail.com with ESMTPSA id
+ fs24sm9228104pjb.6.2021.06.01.15.43.55
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 01 Jun 2021 15:43:13 -0700 (PDT)
-Date: Wed, 2 Jun 2021 00:43:11 +0200
-From: Anisse Astier <anisse@astier.eu>
-To: Ville Syrj?l? <ville.syrjala@linux.intel.com>
-Subject: Re: [PATCH v2 1/2] drm/i915/opregion: add support for mailbox #5 EDID
-Message-ID: <YLa22EBqxE2sBdpp@bilrost>
-References: <20210531204642.4907-1-anisse@astier.eu>
- <20210531204642.4907-2-anisse@astier.eu>
- <YLZXQLh2Qmxs+CWU@intel.com>
+ Tue, 01 Jun 2021 15:43:55 -0700 (PDT)
+From: Rob Clark <robdclark@gmail.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH v4 0/6] iommu/arm-smmu: adreno-smmu page fault handling
+Date: Tue,  1 Jun 2021 15:47:18 -0700
+Message-Id: <20210601224750.513996-1-robdclark@gmail.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YLZXQLh2Qmxs+CWU@intel.com>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,42 +68,94 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Dadap <ddadap@nvidia.com>, Jani Nikula <jani.nikula@intel.com>,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Hans de Goede <hdegoede@redhat.com>, Uma Shankar <uma.shankar@intel.com>
+Cc: Konrad Dybcio <konrad.dybcio@somainline.org>,
+ Akhil P Oommen <akhilpo@codeaurora.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Iskren Chernev <iskren.chernev@gmail.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Lee Jones <lee.jones@linaro.org>, Rob Clark <robdclark@chromium.org>,
+ Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>,
+ Jonathan Marek <jonathan@marek.ca>, Will Deacon <will@kernel.org>,
+ Zhenzhong Duan <zhenzhong.duan@gmail.com>,
+ Qinglang Miao <miaoqinglang@huawei.com>, Dave Airlie <airlied@redhat.com>,
+ Joerg Roedel <jroedel@suse.de>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
+ Sharat Masetty <smasetty@codeaurora.org>,
+ Abhinav Kumar <abhinavk@codeaurora.org>, Stephen Boyd <swboyd@chromium.org>,
+ Krishna Reddy <vdumpa@nvidia.com>, Maxime Ripard <maxime@cerno.tech>,
+ Kalyan Thota <kalyan_t@codeaurora.org>,
+ Jordan Crouse <jordan@cosmicpenguin.net>,
+ "moderated list:ARM SMMU DRIVERS" <linux-arm-kernel@lists.infradead.org>,
+ Robin Murphy <robin.murphy@arm.com>, Douglas Anderson <dianders@chromium.org>,
+ open list <linux-kernel@vger.kernel.org>,
+ "open list:IOMMU DRIVERS" <iommu@lists.linux-foundation.org>,
+ "Kristian H. Kristensen" <hoegsberg@google.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU" <freedreno@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Le Tue, Jun 01, 2021 at 06:50:24PM +0300, Ville Syrj?l? a ?crit :
-> On Mon, May 31, 2021 at 10:46:41PM +0200, Anisse Astier wrote:
-> > The ACPI OpRegion Mailbox #5 ASLE extension may contain an EDID to be
-> > used for the embedded display. Add support for using it via by adding
-> > the EDID to the list of available modes on the connector, and use it for
-> > eDP when available.
-> > 
-> > If a panel's EDID is broken, there may be an override EDID set in the
-> > ACPI OpRegion mailbox #5. Use it if available.
-> 
-> Looks like Windows uses the ACPI _DDC method instead. We should probably
-> do the same, just in case some crazy machine stores the EDID somewhere
-> else.
+From: Rob Clark <robdclark@chromium.org>
 
-Thanks, I wouldn't have thought of this. It seems Daniel Dadap did a
-patch series to do just that, in a generic way:
-https://lore.kernel.org/amd-gfx/20200727205357.27839-1-ddadap@nvidia.com/
+This picks up an earlier series[1] from Jordan, and adds additional
+support needed to generate GPU devcore dumps on iova faults.  Original
+description:
 
-I've tried patch 1 & 2, and after a fix[1] was able to call the _DDC method
-on most devices, but without any EDID being returned.
+This is a stack to add an Adreno GPU specific handler for pagefaults. The first
+patch starts by wiring up report_iommu_fault for arm-smmu. The next patch adds
+a adreno-smmu-priv function hook to capture a handful of important debugging
+registers such as TTBR0, CONTEXTIDR, FSYNR0 and others. This is used by the
+third patch to print more detailed information on page fault such as the TTBR0
+for the pagetable that caused the fault and the source of the fault as
+determined by a combination of the FSYNR1 register and an internal GPU
+register.
 
-I looked at the disassembled ACPI tables[2], and could not find any
-device with the _DDC method. Are you sure it's the only method the
-Windows driver uses to get the EDID ?
+This code provides a solid base that we can expand on later for even more
+extensive GPU side page fault debugging capabilities.
 
-Regards,
+v4: [Rob] Add support to stall SMMU on fault, and let the GPU driver
+    resume translation after it has had a chance to snapshot the GPUs
+    state
+v3: Always clear FSR even if the target driver is going to handle resume
+v2: Fix comment wording and function pointer check per Rob Clark
 
-Anisse
+[1] https://lore.kernel.org/dri-devel/20210225175135.91922-1-jcrouse@codeaurora.org/
 
-[1] _DOD ids should only use 16 lower bits, see table here:
-https://uefi.org/specs/ACPI/6.4/Apx_B_Video_Extensions/display-specific-methods.html#dod-enumerate-all-devices-attached-to-the-display-adapter
-[2] acpidump: https://gitlab.freedesktop.org/drm/intel/-/issues/3454#note_913970
+Jordan Crouse (3):
+  iommu/arm-smmu: Add support for driver IOMMU fault handlers
+  iommu/arm-smmu-qcom: Add an adreno-smmu-priv callback to get pagefault
+    info
+  drm/msm: Improve the a6xx page fault handler
+
+Rob Clark (3):
+  iommu/arm-smmu-qcom: Add stall support
+  drm/msm: Add crashdump support for stalled SMMU
+  drm/msm: devcoredump iommu fault support
+
+ drivers/gpu/drm/msm/adreno/a2xx_gpu.c       |   2 +-
+ drivers/gpu/drm/msm/adreno/a3xx_gpu.c       |   2 +-
+ drivers/gpu/drm/msm/adreno/a4xx_gpu.c       |   2 +-
+ drivers/gpu/drm/msm/adreno/a5xx_gpu.c       |   9 +-
+ drivers/gpu/drm/msm/adreno/a6xx_gpu.c       | 101 +++++++++++++++++++-
+ drivers/gpu/drm/msm/adreno/a6xx_gpu.h       |   2 +-
+ drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c |  43 +++++++--
+ drivers/gpu/drm/msm/adreno/adreno_gpu.c     |  15 +++
+ drivers/gpu/drm/msm/msm_debugfs.c           |   2 +-
+ drivers/gpu/drm/msm/msm_gem.h               |   1 +
+ drivers/gpu/drm/msm/msm_gem_submit.c        |   1 +
+ drivers/gpu/drm/msm/msm_gpu.c               |  55 ++++++++++-
+ drivers/gpu/drm/msm/msm_gpu.h               |  19 +++-
+ drivers/gpu/drm/msm/msm_gpummu.c            |   5 +
+ drivers/gpu/drm/msm/msm_iommu.c             |  22 ++++-
+ drivers/gpu/drm/msm/msm_mmu.h               |   5 +-
+ drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c  |  50 ++++++++++
+ drivers/iommu/arm/arm-smmu/arm-smmu.c       |   9 +-
+ drivers/iommu/arm/arm-smmu/arm-smmu.h       |   2 +
+ include/linux/adreno-smmu-priv.h            |  38 +++++++-
+ 20 files changed, 354 insertions(+), 31 deletions(-)
+
+-- 
+2.31.1
 
