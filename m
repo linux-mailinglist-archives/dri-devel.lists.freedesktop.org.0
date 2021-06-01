@@ -2,46 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84605397BB5
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Jun 2021 23:23:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4DA1E397BC2
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Jun 2021 23:31:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DD07E6E054;
-	Tue,  1 Jun 2021 21:23:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 39A3B6EB1D;
+	Tue,  1 Jun 2021 21:31:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CD6126E054;
- Tue,  1 Jun 2021 21:23:07 +0000 (UTC)
-IronPort-SDR: t3gP5baAF/oL1SgT8kp7ngGlMofaexrXZGPyZSRu9JzDz+rlJw2G7763Nu6VOc5SNkjHTmwg8G
- kmshYGdElqCA==
-X-IronPort-AV: E=McAfee;i="6200,9189,10002"; a="184008808"
-X-IronPort-AV: E=Sophos;i="5.83,241,1616482800"; d="scan'208";a="184008808"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Jun 2021 14:23:06 -0700
-IronPort-SDR: 8LxedI0983ZjWkH49/JMeKhahN9tveHLbVMILUhTUM8wSa+Zg8uQ+OWPoSMO0uzkVzLQWBgfak
- 6YOzk3Zwc55A==
-X-IronPort-AV: E=Sophos;i="5.83,241,1616482800"; d="scan'208";a="479440346"
-Received: from dceraolo-mobl.amr.corp.intel.com (HELO [10.213.165.160])
- ([10.213.165.160])
- by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Jun 2021 14:23:03 -0700
-Subject: Re: [PATCH v4 04/17] drm/i915/gt: Export the pinned context
- constructor and destructor
-To: Rodrigo Vivi <rodrigo.vivi@intel.com>
-References: <20210525054803.7387-1-daniele.ceraolospurio@intel.com>
- <20210525054803.7387-5-daniele.ceraolospurio@intel.com>
- <YLaWdU2mLu/Ih2Yp@intel.com>
-From: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
-Message-ID: <0960d940-1fca-a7e7-8cce-ef149dbda717@intel.com>
-Date: Tue, 1 Jun 2021 14:23:00 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+Received: from mail-qk1-x72d.google.com (mail-qk1-x72d.google.com
+ [IPv6:2607:f8b0:4864:20::72d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9CA806EB1D
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Jun 2021 21:31:03 +0000 (UTC)
+Received: by mail-qk1-x72d.google.com with SMTP id 76so287961qkn.13
+ for <dri-devel@lists.freedesktop.org>; Tue, 01 Jun 2021 14:31:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=JXdhJvyph4ihhVHm63xPBDzDhOrbAVr21xAsdZ3zjgE=;
+ b=QIHU1soWfHH67GjAO10YhdgZrzB6z/Bf0EI7l7m8mXk415RghLKfRESYKUKi5vtFSh
+ 5Ho0+Y1H91bZ/HOs5wxE42WA5yqWLT00wehIq+wsn/cqEejRrZ8O/0FLZGmSW9BqvTlA
+ eTDS8IHly24W/BTvIJ0I1B/PfrBRDm0otbjnA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=JXdhJvyph4ihhVHm63xPBDzDhOrbAVr21xAsdZ3zjgE=;
+ b=M3ltSSAlzA2JMEAlLJ2B/0qfqxAhw1FuDx4ef8+/8Lw1l/tJ3w9fcnV6qfCYoSNVb9
+ BB6pznRPTVXfSltOiDsB9etJyaZGg6izKnHKrGWNwGL8kMPLpypPR31+ARiu4z4d1k43
+ r4ftJZNk324CW67yk6bDANNERq1c4GgKNY95LNm85hH88WySaVhC7pMQRJfi9z+I7vjZ
+ 4msnGeCbn76TJ2QNGsJ3hEpcftbcDBLznC4laZsycYD92OgevB2fh+ivGyOjPkeXW6bT
+ MqNO7hLTGvBfwoqu4DlI950IMnIB3uc8fbSz6junSy3L8CaGQQHCVdpuyiKor0GCUQmF
+ DfqQ==
+X-Gm-Message-State: AOAM533imhgbksvtb7ylqS4Ej6r5L4PlLrW03OgDE3m4OUrdtIeVWaP9
+ TLPuNNxIq23gvi3DB+hLJxYzQAxltTFleg==
+X-Google-Smtp-Source: ABdhPJyv1LCt3lh/hc/89QWfUW4h8ebAkujWDsdviS++CU2gjH2pn75kmLVDcGuJiTVlADx55miFAQ==
+X-Received: by 2002:a05:620a:1593:: with SMTP id
+ d19mr24084735qkk.211.1622583062220; 
+ Tue, 01 Jun 2021 14:31:02 -0700 (PDT)
+Received: from mail-yb1-f175.google.com (mail-yb1-f175.google.com.
+ [209.85.219.175])
+ by smtp.gmail.com with ESMTPSA id i11sm10302990qtj.4.2021.06.01.14.30.53
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 01 Jun 2021 14:30:56 -0700 (PDT)
+Received: by mail-yb1-f175.google.com with SMTP id y2so734173ybq.13
+ for <dri-devel@lists.freedesktop.org>; Tue, 01 Jun 2021 14:30:53 -0700 (PDT)
+X-Received: by 2002:a25:80d4:: with SMTP id c20mr41689832ybm.345.1622583050481; 
+ Tue, 01 Jun 2021 14:30:50 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <YLaWdU2mLu/Ih2Yp@intel.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+References: <20210531102838.2423918-1-linus.walleij@linaro.org>
+In-Reply-To: <20210531102838.2423918-1-linus.walleij@linaro.org>
+From: Doug Anderson <dianders@chromium.org>
+Date: Tue, 1 Jun 2021 14:30:39 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=XHzqi67_bf0EUCF=cgzGt-uX=+-ehkOfjm32Wg8YBt5Q@mail.gmail.com>
+Message-ID: <CAD=FV=XHzqi67_bf0EUCF=cgzGt-uX=+-ehkOfjm32Wg8YBt5Q@mail.gmail.com>
+Subject: Re: [PATCH v2] drm/panel: db7430: Add driver for Samsung DB7430
+To: Linus Walleij <linus.walleij@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,146 +70,134 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Chris Wilson <chris@chris-wilson.co.uk>
+Cc: Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi,
 
-
-On 6/1/2021 1:20 PM, Rodrigo Vivi wrote:
-> On Mon, May 24, 2021 at 10:47:50PM -0700, Daniele Ceraolo Spurio wrote:
->> From: Chris Wilson <chris@chris-wilson.co.uk>
->>
->> Allow internal clients to create a pinned context.
->>
->> v2 (Daniele): export destructor as well, allow optional usage of custom
->> vm for maximum flexibility.
->>
->> Signed-off-by: Chris Wilson <chris@chris-wilson.co.uk>
->> Signed-off-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
->> ---
->>   drivers/gpu/drm/i915/gt/intel_engine.h    | 10 ++++++++
->>   drivers/gpu/drm/i915/gt/intel_engine_cs.c | 29 +++++++++++++++--------
->>   2 files changed, 29 insertions(+), 10 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/i915/gt/intel_engine.h b/drivers/gpu/drm/i915/gt/intel_engine.h
->> index 47ee8578e511..a64d28aba257 100644
->> --- a/drivers/gpu/drm/i915/gt/intel_engine.h
->> +++ b/drivers/gpu/drm/i915/gt/intel_engine.h
->> @@ -18,7 +18,9 @@
->>   #include "intel_workarounds.h"
->>   
->>   struct drm_printer;
->> +struct intel_context;
->>   struct intel_gt;
->> +struct lock_class_key;
->>   
->>   /* Early gen2 devices have a cacheline of just 32 bytes, using 64 is overkill,
->>    * but keeps the logic simple. Indeed, the whole purpose of this macro is just
->> @@ -255,6 +257,14 @@ struct i915_request *
->>   intel_engine_find_active_request(struct intel_engine_cs *engine);
->>   
->>   u32 intel_engine_context_size(struct intel_gt *gt, u8 class);
->> +struct intel_context *
->> +intel_engine_create_pinned_context(struct intel_engine_cs *engine,
->> +				   struct i915_address_space *vm,
->> +				   unsigned int ring_size,
->> +				   unsigned int hwsp,
->> +				   struct lock_class_key *key,
->> +				   const char *name);
->> +void intel_engine_destroy_pinned_context(struct intel_context *ce);
->>   
->>   void intel_engine_init_active(struct intel_engine_cs *engine,
->>   			      unsigned int subclass);
->> diff --git a/drivers/gpu/drm/i915/gt/intel_engine_cs.c b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
->> index eba2da9679a5..8cbf11497e8e 100644
->> --- a/drivers/gpu/drm/i915/gt/intel_engine_cs.c
->> +++ b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
->> @@ -801,11 +801,13 @@ intel_engine_init_active(struct intel_engine_cs *engine, unsigned int subclass)
->>   #endif
->>   }
->>   
->> -static struct intel_context *
->> -create_pinned_context(struct intel_engine_cs *engine,
->> -		      unsigned int hwsp,
->> -		      struct lock_class_key *key,
->> -		      const char *name)
->> +struct intel_context *
->> +intel_engine_create_pinned_context(struct intel_engine_cs *engine,
->> +				   struct i915_address_space *vm,
->> +				   unsigned int ring_size,
->> +				   unsigned int hwsp,
->> +				   struct lock_class_key *key,
->> +				   const char *name)
->>   {
->>   	struct intel_context *ce;
->>   	int err;
->> @@ -816,6 +818,12 @@ create_pinned_context(struct intel_engine_cs *engine,
->>   
->>   	__set_bit(CONTEXT_BARRIER_BIT, &ce->flags);
->>   	ce->timeline = page_pack_bits(NULL, hwsp);
->> +	ce->ring = __intel_context_ring_size(ring_size);
-> why do we need this now and we didn't need before?
-
-Since we're now exporting the function as a more "official" interface, 
-the idea was to provide as much flexibility as possible. The ring size 
-could be used if e.g. we decide to use more pxp sessions and therefore 
-need more space in the ring to insert instructions. Same for the vm below.
-
-Daniele
-
+On Mon, May 31, 2021 at 3:30 AM Linus Walleij <linus.walleij@linaro.org> wrote:
 >
->> +
->> +	if (vm) {
->> +		i915_vm_put(ce->vm);
->> +		ce->vm = i915_vm_get(vm);
->> +	}
-> same question here...
->
->>   
->>   	err = intel_context_pin(ce); /* perma-pin so it is always available */
->>   	if (err) {
->> @@ -834,7 +842,7 @@ create_pinned_context(struct intel_engine_cs *engine,
->>   	return ce;
->>   }
->>   
->> -static void destroy_pinned_context(struct intel_context *ce)
->> +void intel_engine_destroy_pinned_context(struct intel_context *ce)
->>   {
->>   	struct intel_engine_cs *engine = ce->engine;
->>   	struct i915_vma *hwsp = engine->status_page.vma;
->> @@ -854,8 +862,9 @@ create_kernel_context(struct intel_engine_cs *engine)
->>   {
->>   	static struct lock_class_key kernel;
->>   
->> -	return create_pinned_context(engine, I915_GEM_HWS_SEQNO_ADDR,
->> -				     &kernel, "kernel_context");
->> +	return intel_engine_create_pinned_context(engine, NULL, SZ_4K,
->> +						  I915_GEM_HWS_SEQNO_ADDR,
->> +						  &kernel, "kernel_context");
->>   }
->>   
->>   /**
->> @@ -898,7 +907,7 @@ static int engine_init_common(struct intel_engine_cs *engine)
->>   	return 0;
->>   
->>   err_context:
->> -	destroy_pinned_context(ce);
->> +	intel_engine_destroy_pinned_context(ce);
->>   	return ret;
->>   }
->>   
->> @@ -956,7 +965,7 @@ void intel_engine_cleanup_common(struct intel_engine_cs *engine)
->>   		fput(engine->default_state);
->>   
->>   	if (engine->kernel_context)
->> -		destroy_pinned_context(engine->kernel_context);
->> +		intel_engine_destroy_pinned_context(engine->kernel_context);
->>   
->>   	GEM_BUG_ON(!llist_empty(&engine->barrier_tasks));
->>   	cleanup_status_page(engine);
->> -- 
->> 2.29.2
->>
+> +/**
+> + * struct db7430 - state container for the Db7430 panel
 
+super nitty: s/Db7430/DB7430/
+
+Also, it's not technically "the DB7430 panel" but instead "a panel
+controlled by the DB7430 controller".
+
+
+> +static int db7430_dcs_write(struct db7430 *lms, const u8 *data, size_t len)
+> +{
+> +       int ret;
+> +
+> +       dev_dbg(lms->dev, "SPI writing dcs seq: %*ph\n", (int)len, data);
+> +
+> +       /*
+> +        * This sends 9 bits with the first bit (bit 8) set to 0
+> +        * This indicates that this is a command. Anything after the
+> +        * command is data.
+> +        */
+> +       ret = db7430_write_word(lms, *data);
+> +
+> +       while (!ret && --len) {
+> +               ++data;
+> +               /* This sends 9 bits with the first bit (bit 8) set to 1 */
+> +               ret = db7430_write_word(lms, *data | DATA_MASK);
+> +       }
+> +
+> +       if (ret) {
+> +               dev_err(lms->dev, "SPI error %d writing dcs seq: %*ph\n", ret,
+> +                       (int)len, data);
+> +       }
+> +
+> +       return ret;
+> +}
+
+Still hoping that this can work atop DBI so we can avoid the raw SPI
+writes. You said you're trying for it for v3 so I'm looking forward to
+checking it out there.
+
+
+> +static int db7430_power_on(struct db7430 *lms)
+> +{
+> +       int ret;
+> +
+> +       /* Power up */
+> +       ret = regulator_bulk_enable(ARRAY_SIZE(lms->regulators),
+> +                                   lms->regulators);
+> +       if (ret) {
+> +               dev_err(lms->dev, "failed to enable regulators: %d\n", ret);
+> +               return ret;
+> +       }
+> +       msleep(50);
+> +
+> +       /* Assert reset >=1 ms */
+> +       gpiod_set_value_cansleep(lms->reset, 1);
+> +       usleep_range(1000, 5000);
+> +       /* De-assert reset */
+> +       gpiod_set_value_cansleep(lms->reset, 0);
+> +       /* Wait >= 10 ms */
+> +       msleep(10);
+> +       dev_dbg(lms->dev, "de-asserted RESET\n");
+> +
+> +       /*
+> +        * This is set to 0x0a (RGB/BGR order + horizontal flip) in order
+> +        * to make the display behave normally. If this is not set the displays
+> +        * normal output behaviour is horizontally flipped and BGR ordered. Do
+> +        * it twice because the first message doesn't always "take".
+> +        */
+> +       db7430_dcs_write_seq_static(lms, MIPI_DCS_SET_ADDRESS_MODE, 0x0a);
+
+In response to v1, I asked:
+
+Also: should we be error-checking lms397kf04_dcs_write_seq_static()
+return values in this function? spi_write() can fail...
+
+It still seems like it'd be nice to error check, even if you just
+print a message in the helper function and then go on with the rest of
+the function (to simplify control flow).
+
+
+> +       db7430_dcs_write_seq_static(lms, MIPI_DCS_SET_ADDRESS_MODE, 0x0a);
+> +       /* Called "Access protection off" in vendor code */
+> +       db7430_dcs_write_seq_static(lms, DB7430_ACCESS_PROT_OFF, 0x00);
+
+Now that you've updated the #define to include the words
+"ACCESS_PROT_OFF" you probably don't need the comment.
+
+
+> +/**
+> + * db7430_get_modes() - return the mode
+> + * @panel: the panel to get the mode for
+> + * @connector: reference to the central DRM connector control structure
+> + */
+> +static int db7430_get_modes(struct drm_panel *panel,
+> +                           struct drm_connector *connector)
+> +{
+> +       struct db7430 *lms = to_db7430(panel);
+> +       struct drm_display_mode *mode;
+> +       static const u32 bus_format = MEDIA_BUS_FMT_RGB888_1X24;
+> +
+> +       mode = drm_mode_duplicate(connector->dev, &db7430_mode);
+> +       if (!mode) {
+> +               dev_err(lms->dev, "failed to add mode\n");
+> +               return -ENOMEM;
+> +       }
+> +
+> +       connector->display_info.width_mm = mode->width_mm;
+> +       connector->display_info.height_mm = mode->height_mm;
+> +       connector->display_info.bus_flags =
+> +               DRM_BUS_FLAG_PIXDATA_DRIVE_NEGEDGE;
+> +       drm_display_info_set_bus_formats(&connector->display_info,
+> +                                        &bus_format, 1);
+
+In my review of v1, I asked:
+
+panel-simple also sets the bpc in the "display_info". Do you need to?
+
+I didn't see a reply, so I'm still curious about the answer.
+
+
+-Doug
