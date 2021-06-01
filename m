@@ -2,42 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5BD2397B21
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Jun 2021 22:20:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F6B5397B25
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Jun 2021 22:21:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 75CB66EAE2;
-	Tue,  1 Jun 2021 20:20:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 82ED86EB0F;
+	Tue,  1 Jun 2021 20:21:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 450796EAE2;
- Tue,  1 Jun 2021 20:20:12 +0000 (UTC)
-IronPort-SDR: Fa6VEaDEoXJnMxLAZqX0EOhPB2HnJ7OqjpUz1vZc6RUSvuZl75uuS1IyqSbZhs7wYgb/JRwHdY
- eq7/9CfnEfLQ==
-X-IronPort-AV: E=McAfee;i="6200,9189,10002"; a="200618445"
-X-IronPort-AV: E=Sophos;i="5.83,241,1616482800"; d="scan'208";a="200618445"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Jun 2021 13:20:08 -0700
-IronPort-SDR: WKSp73eZUoBlhqTRGBY5T3FVGsZBtQvar4H8RECtoEuKCq/JJRjpPvknMq/dslMKfjNgDUAv2l
- bDHxJc88aVug==
-X-IronPort-AV: E=Sophos;i="5.83,241,1616482800"; d="scan'208";a="411362871"
-Received: from anqiangu-mobl.ccr.corp.intel.com (HELO intel.com)
- ([10.254.34.92])
- by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Jun 2021 13:20:07 -0700
-Date: Tue, 1 Jun 2021 16:20:05 -0400
-From: Rodrigo Vivi <rodrigo.vivi@intel.com>
-To: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
-Subject: Re: [PATCH v4 04/17] drm/i915/gt: Export the pinned context
- constructor and destructor
-Message-ID: <YLaWdU2mLu/Ih2Yp@intel.com>
-References: <20210525054803.7387-1-daniele.ceraolospurio@intel.com>
- <20210525054803.7387-5-daniele.ceraolospurio@intel.com>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3D3AA6EB0B
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Jun 2021 20:21:17 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id 14D0261402
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Jun 2021 20:21:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1622578877;
+ bh=VJwiRmjaeLfMWRGW0J4UGXm4t9PAXDbfQg1jvVpcvUc=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=mD3epFV/YKsr5AfxGu9XzlWGJsO9TLO1KByDlRcdy2AvHFlT+Xtyzthu5CjAOnMaX
+ yOxn8jMB9+jtdWU0iNEQ3G4LIB84GoihXae/wRQV7vHan9Q4C7vuFucAEvajtnaUXy
+ AdWnrJtlAmuCOhBooWaMu96Zrs35ixAkLmdahcy16cJbLgtTeRSeEMYCVxjDJ1kQy8
+ 7Xx2fRIqRP4rpE7fExxNecj63XGc+Q8/KO+BVYtmLEMIZpC5Wm2I4wtrbzTq4lubrv
+ iXv+rzLwaeP82cUN3APBDst+5z74Itdho5YGNqS5/UzPS3yB0/ksf7Er/mv4k8cV5e
+ DqnHLCRn+dELw==
+Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
+ id 1219360F56; Tue,  1 Jun 2021 20:21:17 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 209457] AMDGPU resume fail with RX 580 GPU
+Date: Tue, 01 Jun 2021 20:21:16 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: lsrzj@yahoo.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-209457-2300-eIW4IQgj6X@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-209457-2300@https.bugzilla.kernel.org/>
+References: <bug-209457-2300@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210525054803.7387-5-daniele.ceraolospurio@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,136 +65,621 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Chris Wilson <chris@chris-wilson.co.uk>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, May 24, 2021 at 10:47:50PM -0700, Daniele Ceraolo Spurio wrote:
-> From: Chris Wilson <chris@chris-wilson.co.uk>
-> 
-> Allow internal clients to create a pinned context.
-> 
-> v2 (Daniele): export destructor as well, allow optional usage of custom
-> vm for maximum flexibility.
-> 
-> Signed-off-by: Chris Wilson <chris@chris-wilson.co.uk>
-> Signed-off-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
-> ---
->  drivers/gpu/drm/i915/gt/intel_engine.h    | 10 ++++++++
->  drivers/gpu/drm/i915/gt/intel_engine_cs.c | 29 +++++++++++++++--------
->  2 files changed, 29 insertions(+), 10 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/gt/intel_engine.h b/drivers/gpu/drm/i915/gt/intel_engine.h
-> index 47ee8578e511..a64d28aba257 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_engine.h
-> +++ b/drivers/gpu/drm/i915/gt/intel_engine.h
-> @@ -18,7 +18,9 @@
->  #include "intel_workarounds.h"
->  
->  struct drm_printer;
-> +struct intel_context;
->  struct intel_gt;
-> +struct lock_class_key;
->  
->  /* Early gen2 devices have a cacheline of just 32 bytes, using 64 is overkill,
->   * but keeps the logic simple. Indeed, the whole purpose of this macro is just
-> @@ -255,6 +257,14 @@ struct i915_request *
->  intel_engine_find_active_request(struct intel_engine_cs *engine);
->  
->  u32 intel_engine_context_size(struct intel_gt *gt, u8 class);
-> +struct intel_context *
-> +intel_engine_create_pinned_context(struct intel_engine_cs *engine,
-> +				   struct i915_address_space *vm,
-> +				   unsigned int ring_size,
-> +				   unsigned int hwsp,
-> +				   struct lock_class_key *key,
-> +				   const char *name);
-> +void intel_engine_destroy_pinned_context(struct intel_context *ce);
->  
->  void intel_engine_init_active(struct intel_engine_cs *engine,
->  			      unsigned int subclass);
-> diff --git a/drivers/gpu/drm/i915/gt/intel_engine_cs.c b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
-> index eba2da9679a5..8cbf11497e8e 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_engine_cs.c
-> +++ b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
-> @@ -801,11 +801,13 @@ intel_engine_init_active(struct intel_engine_cs *engine, unsigned int subclass)
->  #endif
->  }
->  
-> -static struct intel_context *
-> -create_pinned_context(struct intel_engine_cs *engine,
-> -		      unsigned int hwsp,
-> -		      struct lock_class_key *key,
-> -		      const char *name)
-> +struct intel_context *
-> +intel_engine_create_pinned_context(struct intel_engine_cs *engine,
-> +				   struct i915_address_space *vm,
-> +				   unsigned int ring_size,
-> +				   unsigned int hwsp,
-> +				   struct lock_class_key *key,
-> +				   const char *name)
->  {
->  	struct intel_context *ce;
->  	int err;
-> @@ -816,6 +818,12 @@ create_pinned_context(struct intel_engine_cs *engine,
->  
->  	__set_bit(CONTEXT_BARRIER_BIT, &ce->flags);
->  	ce->timeline = page_pack_bits(NULL, hwsp);
-> +	ce->ring = __intel_context_ring_size(ring_size);
+https://bugzilla.kernel.org/show_bug.cgi?id=3D209457
 
-why do we need this now and we didn't need before?
+--- Comment #24 from Leandro Jacques (lsrzj@yahoo.com) ---
+I forgot to mention the kernel version I was using when it crashed. It was
+5.10.x
 
-> +
-> +	if (vm) {
-> +		i915_vm_put(ce->vm);
-> +		ce->vm = i915_vm_get(vm);
-> +	}
+(In reply to Leandro Jacques from comment #23)
+> I'm facing exactly the same issue with a Ryzen 7 Vega 10 Graphics integra=
+ted
+> GPU. I'll put my kernel log below, it began to happen after kernel 5.4, I
+> had to downgrade my kernel to 5.4-lts from AUR and it's already 3 days
+> without any GPU reset event.=20
+>=20
+> Kernel crash log in amdgpu driver:
+>=20
+> mai 26 16:39:14 S145 kernel: [drm:amdgpu_job_timedout [amdgpu]] *ERROR* r=
+ing
+> sdma0 timeout, signaled seq=3D26777, emitted seq=3D26778
+> mai 26 16:39:14 S145 kernel: [drm:amdgpu_job_timedout [amdgpu]] *ERROR*
+> Process information: process  pid 0 thread  pid 0
+> mai 26 16:39:14 S145 kernel: amdgpu 0000:03:00.0: amdgpu: GPU reset begin!
+> mai 26 16:39:14 S145 kernel: amdgpu 0000:03:00.0: amdgpu: MODE2 reset
+> mai 26 16:39:14 S145 kernel: amdgpu 0000:03:00.0: amdgpu: GPU reset
+> succeeded, trying to resume
+> mai 26 16:39:14 S145 kernel: amdgpu 0000:03:00.0: amdgpu: RAS: optional r=
+as
+> ta ucode is not available
+> mai 26 16:39:14 S145 kernel: amdgpu 0000:03:00.0: amdgpu: RAP: optional r=
+ap
+> ta ucode is not available
+> mai 26 16:39:15 S145 kernel: amdgpu 0000:03:00.0: amdgpu: ring gfx uses VM
+> inv eng 0 on hub 0
+> mai 26 16:39:15 S145 kernel: amdgpu 0000:03:00.0: amdgpu: ring comp_1.0.0
+> uses VM inv eng 1 on hub 0
+> mai 26 16:39:15 S145 kernel: amdgpu 0000:03:00.0: amdgpu: ring comp_1.1.0
+> uses VM inv eng 4 on hub 0
+> mai 26 16:39:15 S145 kernel: amdgpu 0000:03:00.0: amdgpu: ring comp_1.2.0
+> uses VM inv eng 5 on hub 0
+> mai 26 16:39:15 S145 kernel: amdgpu 0000:03:00.0: amdgpu: ring comp_1.3.0
+> uses VM inv eng 6 on hub 0
+> mai 26 16:39:15 S145 kernel: amdgpu 0000:03:00.0: amdgpu: ring comp_1.0.1
+> uses VM inv eng 7 on hub 0
+> mai 26 16:39:15 S145 kernel: amdgpu 0000:03:00.0: amdgpu: ring comp_1.1.1
+> uses VM inv eng 8 on hub 0
+> mai 26 16:39:15 S145 kernel: amdgpu 0000:03:00.0: amdgpu: ring comp_1.2.1
+> uses VM inv eng 9 on hub 0
+> mai 26 16:39:15 S145 kernel: amdgpu 0000:03:00.0: amdgpu: ring comp_1.3.1
+> uses VM inv eng 10 on hub 0
+> mai 26 16:39:15 S145 kernel: amdgpu 0000:03:00.0: amdgpu: ring kiq_2.1.0
+> uses VM inv eng 11 on hub 0
+> mai 26 16:39:15 S145 kernel: amdgpu 0000:03:00.0: amdgpu: ring sdma0 uses=
+ VM
+> inv eng 0 on hub 1
+> mai 26 16:39:15 S145 kernel: amdgpu 0000:03:00.0: amdgpu: ring vcn_dec us=
+es
+> VM inv eng 1 on hub 1
+> mai 26 16:39:15 S145 kernel: amdgpu 0000:03:00.0: amdgpu: ring vcn_enc0 u=
+ses
+> VM inv eng 4 on hub 1
+> mai 26 16:39:15 S145 kernel: amdgpu 0000:03:00.0: amdgpu: ring vcn_enc1 u=
+ses
+> VM inv eng 5 on hub 1
+> mai 26 16:39:15 S145 kernel: amdgpu 0000:03:00.0: amdgpu: ring jpeg_dec u=
+ses
+> VM inv eng 6 on hub 1
+> mai 26 16:39:15 S145 kernel: amdgpu 0000:03:00.0: amdgpu: recover vram bo
+> from shadow start
+> mai 26 16:39:15 S145 kernel: amdgpu 0000:03:00.0: amdgpu: recover vram bo
+> from shadow done
+> mai 26 16:39:15 S145 kernel: amdgpu 0000:03:00.0: amdgpu: GPU reset(1)
+> succeeded!
+> mai 26 16:39:15 S145 kernel: amdgpu 0000:03:00.0: AMD-Vi: Event logged
+> [IO_PAGE_FAULT domain=3D0x0000 address=3D0x10b480b00 flags=3D0x0070]
+> mai 26 16:39:15 S145 kernel: amdgpu 0000:03:00.0: AMD-Vi: Event logged
+> [IO_PAGE_FAULT domain=3D0x0000 address=3D0x10b480b40 flags=3D0x0070]
+> mai 26 16:39:15 S145 kernel: amdgpu 0000:03:00.0: AMD-Vi: Event logged
+> [IO_PAGE_FAULT domain=3D0x0000 address=3D0x10b480b20 flags=3D0x0070]
+> mai 26 16:39:15 S145 kernel: amdgpu 0000:03:00.0: AMD-Vi: Event logged
+> [IO_PAGE_FAULT domain=3D0x0000 address=3D0x10b480b60 flags=3D0x0070]
+> mai 26 16:39:15 S145 kernel: amdgpu 0000:03:00.0: AMD-Vi: Event logged
+> [IO_PAGE_FAULT domain=3D0x0000 address=3D0x10b480b80 flags=3D0x0070]
+> mai 26 16:39:15 S145 kernel: amdgpu 0000:03:00.0: AMD-Vi: Event logged
+> [IO_PAGE_FAULT domain=3D0x0000 address=3D0x10b480bc0 flags=3D0x0070]
+> mai 26 16:39:15 S145 kernel: amdgpu 0000:03:00.0: AMD-Vi: Event logged
+> [IO_PAGE_FAULT domain=3D0x0000 address=3D0x10b480ba0 flags=3D0x0070]
+> mai 26 16:39:15 S145 kernel: amdgpu 0000:03:00.0: AMD-Vi: Event logged
+> [IO_PAGE_FAULT domain=3D0x0000 address=3D0x10b480c00 flags=3D0x0070]
+> mai 26 16:39:15 S145 kernel: amdgpu 0000:03:00.0: AMD-Vi: Event logged
+> [IO_PAGE_FAULT domain=3D0x0000 address=3D0x10b480be0 flags=3D0x0070]
+> mai 26 16:39:15 S145 kernel: amdgpu 0000:03:00.0: AMD-Vi: Event logged
+> [IO_PAGE_FAULT domain=3D0x0000 address=3D0x10b480c40 flags=3D0x0070]
+> mai 26 16:39:25 S145 kernel: [drm:amdgpu_job_timedout [amdgpu]] *ERROR* r=
+ing
+> gfx timeout, but soft recovered
+> mai 26 16:39:35 S145 kernel: [drm:amdgpu_job_timedout [amdgpu]] *ERROR* r=
+ing
+> gfx timeout, signaled seq=3D2117313, emitted seq=3D2117316
+> mai 26 16:39:35 S145 kernel: [drm:amdgpu_job_timedout [amdgpu]] *ERROR*
+> Process information: process plasmashell pid 1137 thread plasmashel:cs0 p=
+id
+> 1234
+> mai 26 16:39:35 S145 kernel: amdgpu 0000:03:00.0: amdgpu: GPU reset begin!
+> mai 26 16:39:35 S145 kernel: amdgpu 0000:03:00.0: AMD-Vi: Event logged
+> [IO_PAGE_FAULT domain=3D0x0000 address=3D0x10b485b40 flags=3D0x0070]
+> mai 26 16:39:35 S145 kernel: amdgpu 0000:03:00.0: AMD-Vi: Event logged
+> [IO_PAGE_FAULT domain=3D0x0000 address=3D0x10b485b60 flags=3D0x0070]
+> mai 26 16:39:35 S145 kernel: amdgpu 0000:03:00.0: AMD-Vi: Event logged
+> [IO_PAGE_FAULT domain=3D0x0000 address=3D0x10b485b80 flags=3D0x0070]
+> mai 26 16:39:35 S145 kernel: amdgpu 0000:03:00.0: AMD-Vi: Event logged
+> [IO_PAGE_FAULT domain=3D0x0000 address=3D0x10b485ba0 flags=3D0x0070]
+> mai 26 16:39:35 S145 kernel: amdgpu 0000:03:00.0: AMD-Vi: Event logged
+> [IO_PAGE_FAULT domain=3D0x0000 address=3D0x10b485bc0 flags=3D0x0070]
+> mai 26 16:39:35 S145 kernel: amdgpu 0000:03:00.0: AMD-Vi: Event logged
+> [IO_PAGE_FAULT domain=3D0x0000 address=3D0x10b485be0 flags=3D0x0070]
+> mai 26 16:39:35 S145 kernel: amdgpu 0000:03:00.0: AMD-Vi: Event logged
+> [IO_PAGE_FAULT domain=3D0x0000 address=3D0x10b485c20 flags=3D0x0070]
+> mai 26 16:39:35 S145 kernel: amdgpu 0000:03:00.0: AMD-Vi: Event logged
+> [IO_PAGE_FAULT domain=3D0x0000 address=3D0x10b485c00 flags=3D0x0070]
+> mai 26 16:39:35 S145 kernel: amdgpu 0000:03:00.0: AMD-Vi: Event logged
+> [IO_PAGE_FAULT domain=3D0x0000 address=3D0x10b485c40 flags=3D0x0070]
+> mai 26 16:39:35 S145 kernel: amdgpu 0000:03:00.0: AMD-Vi: Event logged
+> [IO_PAGE_FAULT domain=3D0x0000 address=3D0x10b485c60 flags=3D0x0070]
+> mai 26 16:39:36 S145 kernel: amdgpu 0000:03:00.0: amdgpu: MODE2 reset
+> mai 26 16:39:36 S145 kernel: amdgpu 0000:03:00.0: amdgpu: GPU reset
+> succeeded, trying to resume
+> mai 26 16:39:36 S145 kernel: amdgpu 0000:03:00.0: amdgpu: RAS: optional r=
+as
+> ta ucode is not available
+> mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: RAP: optional r=
+ap
+> ta ucode is not available
+> mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0:
+> [drm:amdgpu_ring_test_helper [amdgpu]] *ERROR* ring sdma0 test failed (-1=
+10)
+> mai 26 16:39:37 S145 kernel: [drm:amdgpu_device_ip_resume_phase2 [amdgpu]]
+> *ERROR* resume of IP block <sdma_v4_0> failed -110
+> mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: GPU reset(4) fa=
+iled
+> mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedu=
+le
+> ib on ring <sdma0>
+> mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: GPU reset end w=
+ith
+> ret =3D -110
+> mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+> scheduling IBs (-22)
+> mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedu=
+le
+> ib on ring <sdma0>
+> mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+> scheduling IBs (-22)
+> mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedu=
+le
+> ib on ring <sdma0>
+> mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+> scheduling IBs (-22)
+> mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedu=
+le
+> ib on ring <sdma0>
+> mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+> scheduling IBs (-22)
+> mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedu=
+le
+> ib on ring <sdma0>
+> mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+> scheduling IBs (-22)
+> mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedu=
+le
+> ib on ring <sdma0>
+> mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+> scheduling IBs (-22)
+> mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedu=
+le
+> ib on ring <sdma0>
+> mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+> scheduling IBs (-22)
+> mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedu=
+le
+> ib on ring <sdma0>
+> mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+> scheduling IBs (-22)
+> mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedu=
+le
+> ib on ring <sdma0>
+> mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+> scheduling IBs (-22)
+> mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedu=
+le
+> ib on ring <sdma0>
+> mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+> scheduling IBs (-22)
+> mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedu=
+le
+> ib on ring <sdma0>
+> mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+> scheduling IBs (-22)
+> mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedu=
+le
+> ib on ring <sdma0>
+> mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+> scheduling IBs (-22)
+> mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedu=
+le
+> ib on ring <sdma0>
+> mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+> scheduling IBs (-22)
+> mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedu=
+le
+> ib on ring <sdma0>
+> mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+> scheduling IBs (-22)
+> mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedu=
+le
+> ib on ring <sdma0>
+> mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+> scheduling IBs (-22)
+> mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedu=
+le
+> ib on ring <sdma0>
+> mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+> scheduling IBs (-22)
+> mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedu=
+le
+> ib on ring <sdma0>
+> mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+> scheduling IBs (-22)
+> mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedu=
+le
+> ib on ring <sdma0>
+> mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+> scheduling IBs (-22)
+> mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedu=
+le
+> ib on ring <sdma0>
+> mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+> scheduling IBs (-22)
+> mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedu=
+le
+> ib on ring <sdma0>
+> mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+> scheduling IBs (-22)
+> mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedu=
+le
+> ib on ring <sdma0>
+> mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+> scheduling IBs (-22)
+> mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedu=
+le
+> ib on ring <sdma0>
+> mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+> scheduling IBs (-22)
+> mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedu=
+le
+> ib on ring <sdma0>
+> mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+> scheduling IBs (-22)
+> mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedu=
+le
+> ib on ring <sdma0>
+> mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+> scheduling IBs (-22)
+> mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedu=
+le
+> ib on ring <sdma0>
+> mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+> scheduling IBs (-22)
+> mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedu=
+le
+> ib on ring <sdma0>
+> mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+> scheduling IBs (-22)
+> mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedu=
+le
+> ib on ring <sdma0>
+> mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+> scheduling IBs (-22)
+> mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedu=
+le
+> ib on ring <sdma0>
+> mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+> scheduling IBs (-22)
+> mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedu=
+le
+> ib on ring <sdma0>
+> mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+> scheduling IBs (-22)
+> mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedu=
+le
+> ib on ring <sdma0>
+> mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+> scheduling IBs (-22)
+> mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedu=
+le
+> ib on ring <sdma0>
+> mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+> scheduling IBs (-22)
+> mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedu=
+le
+> ib on ring <sdma0>
+> mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+> scheduling IBs (-22)
+> mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedu=
+le
+> ib on ring <sdma0>
+> mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+> scheduling IBs (-22)
+> mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedu=
+le
+> ib on ring <sdma0>
+> mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+> scheduling IBs (-22)
+> mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedu=
+le
+> ib on ring <sdma0>
+> mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+> scheduling IBs (-22)
+> mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedu=
+le
+> ib on ring <sdma0>
+> mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+> scheduling IBs (-22)
+> mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedu=
+le
+> ib on ring <sdma0>
+> mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+> scheduling IBs (-22)
+> mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedu=
+le
+> ib on ring <sdma0>
+> mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+> scheduling IBs (-22)
+> mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedu=
+le
+> ib on ring <sdma0>
+> mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+> scheduling IBs (-22)
+> mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedu=
+le
+> ib on ring <sdma0>
+> mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+> scheduling IBs (-22)
+> mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedu=
+le
+> ib on ring <sdma0>
+> mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+> scheduling IBs (-22)
+> mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedu=
+le
+> ib on ring <sdma0>
+> mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+> scheduling IBs (-22)
+> mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedu=
+le
+> ib on ring <sdma0>
+> mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+> scheduling IBs (-22)
+> mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedu=
+le
+> ib on ring <sdma0>
+> mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+> scheduling IBs (-22)
+> mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedu=
+le
+> ib on ring <sdma0>
+> mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+> scheduling IBs (-22)
+> mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedu=
+le
+> ib on ring <sdma0>
+> mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+> scheduling IBs (-22)
+> mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedu=
+le
+> ib on ring <sdma0>
+> mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+> scheduling IBs (-22)
+> mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedu=
+le
+> ib on ring <sdma0>
+> mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+> scheduling IBs (-22)
+> mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedu=
+le
+> ib on ring <sdma0>
+> mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+> scheduling IBs (-22)
+> mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedu=
+le
+> ib on ring <sdma0>
+> mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+> scheduling IBs (-22)
+> mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedu=
+le
+> ib on ring <sdma0>
+> mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+> scheduling IBs (-22)
+> mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedu=
+le
+> ib on ring <sdma0>
+> mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+> scheduling IBs (-22)
+> mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedu=
+le
+> ib on ring <sdma0>
+> mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+> scheduling IBs (-22)
+> mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedu=
+le
+> ib on ring <sdma0>
+> mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+> scheduling IBs (-22)
+> mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedu=
+le
+> ib on ring <sdma0>
+> mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+> scheduling IBs (-22)
+> mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedu=
+le
+> ib on ring <sdma0>
+> mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+> scheduling IBs (-22)
+> mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedu=
+le
+> ib on ring <sdma0>
+> mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+> scheduling IBs (-22)
+> mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedu=
+le
+> ib on ring <sdma0>
+> mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+> scheduling IBs (-22)
+> mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedu=
+le
+> ib on ring <sdma0>
+> mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+> scheduling IBs (-22)
+> mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedu=
+le
+> ib on ring <sdma0>
+> mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+> scheduling IBs (-22)
+> mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedu=
+le
+> ib on ring <sdma0>
+> mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+> scheduling IBs (-22)
+> mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedu=
+le
+> ib on ring <sdma0>
+> mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+> scheduling IBs (-22)
+> mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedu=
+le
+> ib on ring <sdma0>
+> mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+> scheduling IBs (-22)
+> mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedu=
+le
+> ib on ring <sdma0>
+> mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+> scheduling IBs (-22)
+> mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedu=
+le
+> ib on ring <sdma0>
+> mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+> scheduling IBs (-22)
+> mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedu=
+le
+> ib on ring <sdma0>
+> mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+> scheduling IBs (-22)
+> mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedu=
+le
+> ib on ring <sdma0>
+> mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+> scheduling IBs (-22)
+> mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedu=
+le
+> ib on ring <sdma0>
+> mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+> scheduling IBs (-22)
+> mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedu=
+le
+> ib on ring <sdma0>
+> mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+> scheduling IBs (-22)
+> mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedu=
+le
+> ib on ring <sdma0>
+> mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+> scheduling IBs (-22)
+> mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedu=
+le
+> ib on ring <sdma0>
+> mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+> scheduling IBs (-22)
+> mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedu=
+le
+> ib on ring <sdma0>
+> mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+> scheduling IBs (-22)
+> mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedu=
+le
+> ib on ring <sdma0>
+> mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+> scheduling IBs (-22)
+> mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedu=
+le
+> ib on ring <sdma0>
+> mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+> scheduling IBs (-22)
+> mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedu=
+le
+> ib on ring <sdma0>
+> mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+> scheduling IBs (-22)
+> mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedu=
+le
+> ib on ring <sdma0>
+> mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+> scheduling IBs (-22)
+> mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedu=
+le
+> ib on ring <sdma0>
+> mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+> scheduling IBs (-22)
+> mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedu=
+le
+> ib on ring <sdma0>
+> mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+> scheduling IBs (-22)
+> mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedu=
+le
+> ib on ring <sdma0>
+> mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+> scheduling IBs (-22)
+> mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedu=
+le
+> ib on ring <sdma0>
+> mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+> scheduling IBs (-22)
+> mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedu=
+le
+> ib on ring <sdma0>
+> mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+> scheduling IBs (-22)
+> mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedu=
+le
+> ib on ring <sdma0>
+> mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+> scheduling IBs (-22)
+> mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedu=
+le
+> ib on ring <sdma0>
+> mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+> scheduling IBs (-22)
+> mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedu=
+le
+> ib on ring <sdma0>
+> mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+> scheduling IBs (-22)
+> mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedu=
+le
+> ib on ring <sdma0>
+> mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+> scheduling IBs (-22)
+> mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedu=
+le
+> ib on ring <sdma0>
+> mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+> scheduling IBs (-22)
+> mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedu=
+le
+> ib on ring <sdma0>
+> mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+> scheduling IBs (-22)
+> mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedu=
+le
+> ib on ring <sdma0>
+> mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+> scheduling IBs (-22)
+> mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedu=
+le
+> ib on ring <sdma0>
+> mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+> scheduling IBs (-22)
+> mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedu=
+le
+> ib on ring <sdma0>
+> mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+> scheduling IBs (-22)
+> mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedu=
+le
+> ib on ring <sdma0>
+> mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+> scheduling IBs (-22)
+> mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedu=
+le
+> ib on ring <sdma0>
+> mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+> scheduling IBs (-22)
+> mai 26 16:39:37 S145 kernel: amdgpu 0000:03:00.0: amdgpu: couldn't schedu=
+le
+> ib on ring <sdma0>
+> mai 26 16:39:37 S145 kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+> scheduling IBs (-22)
+> mai 26 16:39:47 S145 kernel: [drm:amdgpu_job_timedout [amdgpu]] *ERROR* r=
+ing
+> gfx timeout, but soft recovered
 
-same question here...
+--=20
+You may reply to this email to add a comment.
 
->  
->  	err = intel_context_pin(ce); /* perma-pin so it is always available */
->  	if (err) {
-> @@ -834,7 +842,7 @@ create_pinned_context(struct intel_engine_cs *engine,
->  	return ce;
->  }
->  
-> -static void destroy_pinned_context(struct intel_context *ce)
-> +void intel_engine_destroy_pinned_context(struct intel_context *ce)
->  {
->  	struct intel_engine_cs *engine = ce->engine;
->  	struct i915_vma *hwsp = engine->status_page.vma;
-> @@ -854,8 +862,9 @@ create_kernel_context(struct intel_engine_cs *engine)
->  {
->  	static struct lock_class_key kernel;
->  
-> -	return create_pinned_context(engine, I915_GEM_HWS_SEQNO_ADDR,
-> -				     &kernel, "kernel_context");
-> +	return intel_engine_create_pinned_context(engine, NULL, SZ_4K,
-> +						  I915_GEM_HWS_SEQNO_ADDR,
-> +						  &kernel, "kernel_context");
->  }
->  
->  /**
-> @@ -898,7 +907,7 @@ static int engine_init_common(struct intel_engine_cs *engine)
->  	return 0;
->  
->  err_context:
-> -	destroy_pinned_context(ce);
-> +	intel_engine_destroy_pinned_context(ce);
->  	return ret;
->  }
->  
-> @@ -956,7 +965,7 @@ void intel_engine_cleanup_common(struct intel_engine_cs *engine)
->  		fput(engine->default_state);
->  
->  	if (engine->kernel_context)
-> -		destroy_pinned_context(engine->kernel_context);
-> +		intel_engine_destroy_pinned_context(engine->kernel_context);
->  
->  	GEM_BUG_ON(!llist_empty(&engine->barrier_tasks));
->  	cleanup_status_page(engine);
-> -- 
-> 2.29.2
-> 
+You are receiving this mail because:
+You are watching the assignee of the bug.=
