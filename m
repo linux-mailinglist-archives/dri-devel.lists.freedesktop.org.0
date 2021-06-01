@@ -2,71 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD9D8397216
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Jun 2021 13:08:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 58E9839722E
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Jun 2021 13:13:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9C7A06E17B;
-	Tue,  1 Jun 2021 11:08:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6264D6EA29;
+	Tue,  1 Jun 2021 11:13:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 2883 seconds by postgrey-1.36 at gabe;
- Tue, 01 Jun 2021 11:08:02 UTC
-Received: from mx07-00178001.pphosted.com (mx08-00178001.pphosted.com
- [91.207.212.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E09236E17B
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Jun 2021 11:08:02 +0000 (UTC)
-Received: from pps.filterd (m0046661.ppops.net [127.0.0.1])
- by mx07-00178001.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 151A7eWx009015; Tue, 1 Jun 2021 12:19:54 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com;
- h=from : subject : to
- : references : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=selector1;
- bh=fp2rZiFbJHmMj1veiCA0AXV7LlRmE6SizObFbCHhGkA=;
- b=FFFM2iPg4Q9bxynK+9dR80EmiV2uHj+aet/XcDds3uP6mdMYETCEvRVtIXbBe7tR/3cd
- AMT2bhhFWcZE9g9Cv/XTl8DUFdTFUfm2BNJ3tMQoQaAJtMDJ8suFZYEYsIWtPqNKYbJ4
- +sPdFtVHTdgFVeV3atGgo+tYwf/AOtGxR1xOhfPObtTV4pHEAfCwYFLT+Rw36sUB5p9B
- bWGyDw5xpR8k87ndn531lQOg1NfSA+LQEejGAei0gWf+ri/RceiVeLyYrrNu46cI4jtH
- /GTAt3wgNy3FhqOyZaTgrsT+uRj8gIh6qMZc0d0uvuFQexGy7rfEhbm93AGG+LB7w0Y4 BQ== 
-Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
- by mx07-00178001.pphosted.com with ESMTP id 38wjdg080t-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 01 Jun 2021 12:19:54 +0200
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
- by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 73DA110002A;
- Tue,  1 Jun 2021 12:19:53 +0200 (CEST)
-Received: from Webmail-eu.st.com (sfhdag2node3.st.com [10.75.127.6])
- by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 57BDA21B330;
- Tue,  1 Jun 2021 12:19:53 +0200 (CEST)
-Received: from lmecxl0993.lme.st.com (10.75.127.45) by SFHDAG2NODE3.st.com
- (10.75.127.6) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Tue, 1 Jun
- 2021 12:19:52 +0200
-From: Philippe CORNU <philippe.cornu@foss.st.com>
-Subject: Re: [PATCH] drm/stm: Remove usage of drm_display_mode_to_videomode()
-To: yannick Fertre <yannick.fertre@foss.st.com>, Antonio Borneo
- <antonio.borneo@st.com>, David Airlie <airlied@linux.ie>, Daniel Vetter
- <daniel@ffwll.ch>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, "Alexandre
- Torgue" <alexandre.torgue@st.com>, <dri-devel@lists.freedesktop.org>,
- <linux-stm32@st-md-mailman.stormreply.com>,
- <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
- "Marek Vasut" <marex@denx.de>
-References: <20210528080513.8168-1-yannick.fertre@foss.st.com>
- <7f99af28-f4ef-303b-2844-89dc266d1ace@foss.st.com>
-Message-ID: <d5ed22bc-3c28-f8a0-946b-6c82c16f03e1@foss.st.com>
-Date: Tue, 1 Jun 2021 12:19:48 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 782156EA25;
+ Tue,  1 Jun 2021 11:13:15 +0000 (UTC)
+IronPort-SDR: tRnF7fKDZ4VcsxuoGEt5ahi1GuzgotlY1ODWcBE2Io6xWbGRnxowHh3AD4ekIfu+0nR3dCM9S+
+ GEnPnIxCarMg==
+X-IronPort-AV: E=McAfee;i="6200,9189,10001"; a="289143691"
+X-IronPort-AV: E=Sophos;i="5.83,239,1616482800"; d="scan'208";a="289143691"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Jun 2021 04:13:15 -0700
+IronPort-SDR: DBDOouoAMcJkHKAjTyvYuluQJIzhKBsnDJQFKBEmikbxejjxXoApe/Jpmty/xgH5l5zuPD+Jj6
+ p1hguaaVChAA==
+X-IronPort-AV: E=Sophos;i="5.83,239,1616482800"; d="scan'208";a="635472424"
+Received: from rogerior-mobl.ger.corp.intel.com (HELO [10.213.213.69])
+ ([10.213.213.69])
+ by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Jun 2021 04:13:13 -0700
+Subject: Re: [PATCH] drm/i915: Use DRIVER_NAME for tracing unattached requests
+To: Daniel Vetter <daniel@ffwll.ch>
+References: <20210520073514.314893-1-matthew.auld@intel.com>
+ <YKZx/U05aRaxKw44@phenom.ffwll.local>
+ <CAKMK7uE4F66O8sCovhrQKB5Lo3tdKWNhWTS4C=apyVJgqbKuPg@mail.gmail.com>
+From: Matthew Auld <matthew.auld@intel.com>
+Message-ID: <6bf0ebe7-f23d-aeff-c6f6-b43201212d5d@intel.com>
+Date: Tue, 1 Jun 2021 12:13:11 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-In-Reply-To: <7f99af28-f4ef-303b-2844-89dc266d1ace@foss.st.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.75.127.45]
-X-ClientProxiedBy: SFHDAG2NODE2.st.com (10.75.127.5) To SFHDAG2NODE3.st.com
- (10.75.127.6)
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.761
- definitions=2021-06-01_05:2021-05-31,
- 2021-06-01 signatures=0
+In-Reply-To: <CAKMK7uE4F66O8sCovhrQKB5Lo3tdKWNhWTS4C=apyVJgqbKuPg@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,95 +53,167 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Andi Shyti <andi.shyti@intel.com>, intel-gfx <intel-gfx@lists.freedesktop.org>,
+ stable <stable@vger.kernel.org>, Chris Wilson <chris@chris-wilson.co.uk>,
+ Chintan M Patel <chintan.m.patel@intel.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Marek,
-
-Many thanks for your patch and sorry for the delay regarding this "last 
-Christmas" patch (Dec. 24, 2020), lost in my inbox :(
-
-Could you please resend it (as I did not succeed to apply it directly)?
-
-patchwork reference 
-https://patchwork.freedesktop.org/patch/409968/?series=85222
-
-Many thanks,
-Philippe :-)
-
-
-On 5/28/21 4:01 PM, yannick Fertre wrote:
-> 
-> Hi Philippe,
-> I have already reviewed this patch on January 7, 2020.
-> (https://lore.kernel.org/dri-devel/0ab4ee45-4437-3b02-cf63-0e3b1b53920f@st.com/) 
-> 
-> Could you please review it and merge it?
-> 
-> Best regards
-> 
-> Yannick
-> 
-> On 5/28/21 10:05 AM, Yannick Fertre wrote:
->> There is not much value in the extra conversion step, the calculations
->> required for the LTDC IP are different than what is used in the
->> drm_display_mode_to_videomode(), so just do the right ones in the LTDC
->> driver right away.
+On 31/05/2021 08:53, Daniel Vetter wrote:
+> On Thu, May 20, 2021 at 4:28 PM Daniel Vetter <daniel@ffwll.ch> wrote:
 >>
->> Signed-off-by: Marek Vasut <marex@denx.de>
->> Signed-off-by: Yannick Fertre <yannick.fertre@foss.st.com>
->> ---
->>   drivers/gpu/drm/stm/ltdc.c | 32 +++++++++++++++++---------------
->>   1 file changed, 17 insertions(+), 15 deletions(-)
+>> On Thu, May 20, 2021 at 08:35:14AM +0100, Matthew Auld wrote:
+>>> From: Chris Wilson <chris@chris-wilson.co.uk>
+>>>
+>>> The first tracepoint for a request is trace_dma_fence_init called before
+>>> we have associated the request with a device. The tracepoint uses
+>>> fence->ops->get_driver_name() as a pretty name, and as we try to report
+>>> the device name this oopses as it is then NULL. Support the early
+>>> tracepoint by reporting the DRIVER_NAME instead of the actual device
+>>> name.
+>>>
+>>> Note that rq->engine remains during the course of request recycling
+>>> (SLAB_TYPESAFE_BY_RCU). For the physical engines, the pointer remains
+>>> valid, however a virtual engine may be destroyed after the request is
+>>> retired. If we process a preempt-to-busy completed request along the
+>>> virtual engine, we should make sure we mark the request as no longer
+>>> belonging to the virtual engine to remove the dangling pointers from the
+>>> tracepoint.
 >>
->> diff --git a/drivers/gpu/drm/stm/ltdc.c b/drivers/gpu/drm/stm/ltdc.c
->> index e99771b947b6..d113b9be12c0 100644
->> --- a/drivers/gpu/drm/stm/ltdc.c
->> +++ b/drivers/gpu/drm/stm/ltdc.c
->> @@ -570,31 +570,33 @@ static void ltdc_crtc_mode_set_nofb(struct 
->> drm_crtc *crtc)
->>           }
->>       }
->> -    drm_display_mode_to_videomode(mode, &vm);
->> -
->>       DRM_DEBUG_DRIVER("CRTC:%d mode:%s\n", crtc->base.id, mode->name);
->> -    DRM_DEBUG_DRIVER("Video mode: %dx%d", vm.hactive, vm.vactive);
->> +    DRM_DEBUG_DRIVER("Video mode: %dx%d", mode->hdisplay, 
->> mode->vdisplay);
->>       DRM_DEBUG_DRIVER(" hfp %d hbp %d hsl %d vfp %d vbp %d vsl %d\n",
->> -             vm.hfront_porch, vm.hback_porch, vm.hsync_len,
->> -             vm.vfront_porch, vm.vback_porch, vm.vsync_len);
->> +             mode->hsync_start - mode->hdisplay,
->> +             mode->htotal - mode->hsync_end,
->> +             mode->hsync_end - mode->hsync_start,
->> +             mode->vsync_start - mode->vdisplay,
->> +             mode->vtotal - mode->vsync_end,
->> +             mode->vsync_end - mode->vsync_start);
->>       /* Convert video timings to ltdc timings */
->> -    hsync = vm.hsync_len - 1;
->> -    vsync = vm.vsync_len - 1;
->> -    accum_hbp = hsync + vm.hback_porch;
->> -    accum_vbp = vsync + vm.vback_porch;
->> -    accum_act_w = accum_hbp + vm.hactive;
->> -    accum_act_h = accum_vbp + vm.vactive;
->> -    total_width = accum_act_w + vm.hfront_porch;
->> -    total_height = accum_act_h + vm.vfront_porch;
->> +    hsync = mode->hsync_end - mode->hsync_start - 1;
->> +    vsync = mode->vsync_end - mode->vsync_start - 1;
->> +    accum_hbp = mode->htotal - mode->hsync_start - 1;
->> +    accum_vbp = mode->vtotal - mode->vsync_start - 1;
->> +    accum_act_w = accum_hbp + mode->hdisplay;
->> +    accum_act_h = accum_vbp + mode->vdisplay;
->> +    total_width = mode->htotal - 1;
->> +    total_height = mode->vtotal - 1;
->>       /* Configures the HS, VS, DE and PC polarities. Default Active 
->> Low */
->>       val = 0;
->> -    if (vm.flags & DISPLAY_FLAGS_HSYNC_HIGH)
->> +    if (mode->flags & DRM_MODE_FLAG_PHSYNC)
->>           val |= GCR_HSPOL;
->> -    if (vm.flags & DISPLAY_FLAGS_VSYNC_HIGH)
->> +    if (mode->flags & DRM_MODE_FLAG_PVSYNC)
->>           val |= GCR_VSPOL;
->>       if (bus_flags & DRM_BUS_FLAG_DE_LOW)
+>> Why can't we assign the request beforehand? The idea behind these
+>> tracepoints is that they actually match up, if trace_dma_fence_init is
+>> different, then we're breaking that.
+> 
+> Ok I looked a bit more and pondered this a bit, and the initial
+> tracepoint is called from dma_fence_init, where we haven't yet set up
+> rq->engine properly. So that part makes sense, but should have a
+> bigger comment that explains this a bit more and why we can't solve
+> this in a neater way. Probably should also drop the unlikely(), this
+> isn't a performance critical path, ever.
+> 
+> The other changes thgouh feel like they should be split out into a
+> separate path, since they solve a conceptually totally different
+> issue: SLAB_TYPESAFE_BY_RCU recycling.
+
+Hmm, I thought it all stems from having to tread very carefully around 
+SLAB_TYPESAFE_BY_RCU? If this were "normal" code, we would just allocate 
+the rq, initialise it properly, including the rq->engine, and only then 
+do the dma_fence_init? Or am I missing something?
+
+I'm happy to split it though. And I think that bit at least fixes the 
+user reported issue I think.
+
+
+> And I'm honestly not sure about
+> that one whether it's even correct, there's another patch floating
+> around that sprinkles rcu_read_lock around some of these accesssors,
+> and that would be a breakage of dma_fence interaces where outside of
+> i915 rcu isn't required for this stuff. So imo should be split out,
+> and come with a wider analysis of what's going on there and why and
+> how exactly i915 works.
+> 
+> In generally SLAB_TYPESAFE_BY_RCU is extremely dangerous and I'm
+> frankly not sure we have the perf data (outside of contrived
+> microbenchmarks) showing that it's needed and justifies all the costs
+> it's encurring.
+
+Right, I can try to search the git history.
+
+
+> -Daniel
+> 
+>> -Daniel
 >>
+>>>
+>>> Fixes: 855e39e65cfc ("drm/i915: Initialise basic fence before acquiring seqno")
+>>> Signed-off-by: Chris Wilson <chris@chris-wilson.co.uk>
+>>> Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+>>> Cc: Chintan M Patel <chintan.m.patel@intel.com>
+>>> Cc: Andi Shyti <andi.shyti@intel.com>
+>>> Cc: <stable@vger.kernel.org> # v5.7+
+>>> Signed-off-by: Matthew Auld <matthew.auld@intel.com>
+>>> ---
+>>>   .../drm/i915/gt/intel_execlists_submission.c  | 20 ++++++++++++++-----
+>>>   drivers/gpu/drm/i915/i915_request.c           |  7 ++++++-
+>>>   2 files changed, 21 insertions(+), 6 deletions(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
+>>> index de124870af44..75604e927d34 100644
+>>> --- a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
+>>> +++ b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
+>>> @@ -3249,6 +3249,18 @@ static struct list_head *virtual_queue(struct virtual_engine *ve)
+>>>        return &ve->base.execlists.default_priolist.requests;
+>>>   }
+>>>
+>>> +static void
+>>> +virtual_submit_completed(struct virtual_engine *ve, struct i915_request *rq)
+>>> +{
+>>> +     GEM_BUG_ON(!__i915_request_is_complete(rq));
+>>> +     GEM_BUG_ON(rq->engine != &ve->base);
+>>> +
+>>> +     __i915_request_submit(rq);
+>>> +
+>>> +     /* Remove the dangling pointer to the stale virtual engine */
+>>> +     WRITE_ONCE(rq->engine, ve->siblings[0]);
+>>> +}
+>>> +
+>>>   static void rcu_virtual_context_destroy(struct work_struct *wrk)
+>>>   {
+>>>        struct virtual_engine *ve =
+>>> @@ -3265,8 +3277,7 @@ static void rcu_virtual_context_destroy(struct work_struct *wrk)
+>>>
+>>>                old = fetch_and_zero(&ve->request);
+>>>                if (old) {
+>>> -                     GEM_BUG_ON(!__i915_request_is_complete(old));
+>>> -                     __i915_request_submit(old);
+>>> +                     virtual_submit_completed(ve, old);
+>>>                        i915_request_put(old);
+>>>                }
+>>>
+>>> @@ -3538,13 +3549,12 @@ static void virtual_submit_request(struct i915_request *rq)
+>>>
+>>>        /* By the time we resubmit a request, it may be completed */
+>>>        if (__i915_request_is_complete(rq)) {
+>>> -             __i915_request_submit(rq);
+>>> +             virtual_submit_completed(ve, rq);
+>>>                goto unlock;
+>>>        }
+>>>
+>>>        if (ve->request) { /* background completion from preempt-to-busy */
+>>> -             GEM_BUG_ON(!__i915_request_is_complete(ve->request));
+>>> -             __i915_request_submit(ve->request);
+>>> +             virtual_submit_completed(ve, ve->request);
+>>>                i915_request_put(ve->request);
+>>>        }
+>>>
+>>> diff --git a/drivers/gpu/drm/i915/i915_request.c b/drivers/gpu/drm/i915/i915_request.c
+>>> index 970d8f4986bb..aa124adb1051 100644
+>>> --- a/drivers/gpu/drm/i915/i915_request.c
+>>> +++ b/drivers/gpu/drm/i915/i915_request.c
+>>> @@ -61,7 +61,12 @@ static struct i915_global_request {
+>>>
+>>>   static const char *i915_fence_get_driver_name(struct dma_fence *fence)
+>>>   {
+>>> -     return dev_name(to_request(fence)->engine->i915->drm.dev);
+>>> +     struct i915_request *rq = to_request(fence);
+>>> +
+>>> +     if (unlikely(!rq->engine)) /* not yet attached to any device */
+>>> +             return DRIVER_NAME;
+>>> +
+>>> +     return dev_name(rq->engine->i915->drm.dev);
+>>>   }
+>>>
+>>>   static const char *i915_fence_get_timeline_name(struct dma_fence *fence)
+>>> --
+>>> 2.26.3
+>>>
+>>
+>> --
+>> Daniel Vetter
+>> Software Engineer, Intel Corporation
+>> http://blog.ffwll.ch
+> 
+> 
+> 
