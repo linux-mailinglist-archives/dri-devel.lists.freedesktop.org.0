@@ -1,32 +1,32 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48012397B0F
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Jun 2021 22:17:34 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 02DAD397B10
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Jun 2021 22:17:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 94AAD6EAD9;
-	Tue,  1 Jun 2021 20:17:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 41CA36EADF;
+	Tue,  1 Jun 2021 20:17:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam11on2076.outbound.protection.outlook.com [40.107.223.76])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 59C7C6EAD8;
- Tue,  1 Jun 2021 20:17:23 +0000 (UTC)
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam10on2043.outbound.protection.outlook.com [40.107.94.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 81E1C6EB03;
+ Tue,  1 Jun 2021 20:17:24 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Znqlz5/0wwyb5hA35fM7NbQGzyfprzGg/hIipm/WrE4q0bjG61JGuy7uCRnnXQ6JBy9kc5efoKROGdnuH62TlauiJpX5S0OVS5xx5DF/Ro8bhyVeTl7vHsq8dTYOowFhxnptQJ2D4sZeP5KPO93BW2FgrajY86uvmt3YMjjIQG7M45ztVGAFWwomk8RDRU0heSyhTI2cvy8XDKqE1pa5uvsZaD2DDFNjuDe86dpU5IPaxfsAyNFBU4aYmkl45KFaqGF0KA8F7/5iS6UpEKubLmM0DlE8a+DMq/6E4Cm/nog4/1pN0WzaKBHYW3bVMH8vixNojloolYaBd2i21PFCKw==
+ b=BDyuRx7H/Y2rsd3vV8OxHBBViFi9/O7lWTq+JhZy2h0F4SBLPuVFA9YevdySk7o1YSx1uOlSPiUA/1U3XfmFelFdUn+8N5nf242gam1vf2PEle7Z4WTlCm+IQ/g4L3OUM/sWcBkaeV142CoE7ocH52b54AkYpOM43iVTMkBtutWVMi6zd0cmmqD2o/WY4+/z634fUeshHo13+ag8Q/+R2rzePcSGnr/+piJ5nnViG6dgSk+SA8XRahH+Xi8oDsr8AKp1Q6MqCwxk4TdpFxCJ1SSQdvdY05solY7azCvoE98jZvJ/5IdkZUGLiwyH4pW2hHnYhOB8L2YpaNKup/aNAQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=I7MFCuf1zmFK8C/TNyzhF/UjAKdU4+f0JvcWVCAacEU=;
- b=Vqurde4BTx+6+0w10rPbRF9YaFiw3ry+Oe5TGVI/oQnf6JIR8aLdBPhw9fowEUK5uJHm0WOvdNgEmZqsd8po4OP+w7dqa5+xUehf/ErBNGGYrEsumWhGUb/Dm0iUUDnA7Z/qLfsyBY2jtId7pdPe4sGFLmUGCT4GE6clUuoOb6HC8zzmbfoZTsSaVXBZsVR963GSNMVCyd/1P3Hi1z7JG8GO+7Y9qEeUlGR28aTSjVxjf2THPNZ8oXw+PhQVOKZNGhrqe1h4ovtrR7FEGkuyvvBjFb6vyM0PESnNbS2Eqb0sqLFk9i5WzVxGaGrVT5UyNmNrdIMniIqH9IaeQGmoFQ==
+ bh=U8GWePhC9ioBhzvmoZWFvdWcZ1henrPcTa+uaVi1tY4=;
+ b=eOBhlreKZTk7/ElHMbfXkkU5z+HwFnmgorbM4w81dkROUgzq50RsrK7A5iSmR7Nyiddbx6bMdGtfEoQ4SiGkVCk1QWjs9IcHscOLb8EYno5oVJEl0mEvndnalHpR5UugMMIsnvZuiNOJolcjYom3ugjb6GCxVl5Bdfq/rBKEaxIPjQqbgfVq1l8zDe67VJUrb0EdhLgok7jcHEEgzQwMiGg7H7CsbX2TSt5n9pKHY9687JrL1NCP0bHMh8BY9JxjAyP1EpKHHjQuxL/BGIqQPJBd9qEjl0X467VjQ3M7ULfl4Ms7/Degi7vzGk4WTp1ybU9cUnsxzqpRBAhzT68KSg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=I7MFCuf1zmFK8C/TNyzhF/UjAKdU4+f0JvcWVCAacEU=;
- b=qBAJ1D0jpWALhJOfN9rehj1wNNSrfos256RhFVJS2pEsGsQ7cgZSZkgbxFhja1MR975rOtOl+cu2vl8KDY/RcE0OBwxoy1R0l6Tq7RUMiRgQzvlDYn0/DkXdRCvxlNBXoUTB072c2Rq17yU8EpOQt7DOPZUyEZcFJrYyJN6BrR4=
+ bh=U8GWePhC9ioBhzvmoZWFvdWcZ1henrPcTa+uaVi1tY4=;
+ b=gSXYKBDYxfv/HMSkctnrjws8aC9BC9EjNW3Z+w11O/Wj+j8HQ3KuIRoxPCXHDbNydBUIPuD3PSZ+rO7nY9kv8jupGfGlwAJUH7jktlH8M1wZw4t9hrAYv25yQdw+pBqxM6MzdVBBTAPvSvE6f9/NIxV42KN8EJbwz6d1Ekkzqwc=
 Authentication-Results: lists.freedesktop.org; dkim=none (message not signed)
  header.d=none; lists.freedesktop.org;
  dmarc=none action=none header.from=amd.com;
@@ -34,17 +34,17 @@ Received: from SN6PR12MB4623.namprd12.prod.outlook.com (2603:10b6:805:e9::17)
  by SN6PR12MB2702.namprd12.prod.outlook.com (2603:10b6:805:6c::16)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4173.20; Tue, 1 Jun
- 2021 20:17:21 +0000
+ 2021 20:17:23 +0000
 Received: from SN6PR12MB4623.namprd12.prod.outlook.com
  ([fe80::ad51:8c49:b171:856c]) by SN6PR12MB4623.namprd12.prod.outlook.com
  ([fe80::ad51:8c49:b171:856c%7]) with mapi id 15.20.4173.030; Tue, 1 Jun 2021
- 20:17:21 +0000
+ 20:17:23 +0000
 From: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
 To: dri-devel@lists.freedesktop.org,
 	amd-gfx@lists.freedesktop.org
-Subject: [PATCH 2/7] xf86drm: Add function to retrieve char device path
-Date: Tue,  1 Jun 2021 16:16:57 -0400
-Message-Id: <20210601201702.23316-3-andrey.grodzovsky@amd.com>
+Subject: [PATCH 3/7] test/amdgpu: Add helper functions for hot unplug
+Date: Tue,  1 Jun 2021 16:16:58 -0400
+Message-Id: <20210601201702.23316-4-andrey.grodzovsky@amd.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210601201702.23316-1-andrey.grodzovsky@amd.com>
 References: <20210601201702.23316-1-andrey.grodzovsky@amd.com>
@@ -61,53 +61,53 @@ Received: from agrodzovsky-All-Series.hitronhub.home
  YTXPR0101CA0048.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:b00:1::25) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4173.24 via Frontend
- Transport; Tue, 1 Jun 2021 20:17:21 +0000
+ Transport; Tue, 1 Jun 2021 20:17:22 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 97826204-8dbb-4aed-99d3-08d9253a4331
+X-MS-Office365-Filtering-Correlation-Id: 45d1b68c-220a-4095-f73c-08d9253a440d
 X-MS-TrafficTypeDiagnostic: SN6PR12MB2702:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <SN6PR12MB27027EEA94319B6E886B7685EA3E9@SN6PR12MB2702.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:431;
+X-Microsoft-Antispam-PRVS: <SN6PR12MB27022606C8F5A0727F4C68FAEA3E9@SN6PR12MB2702.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:5797;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: nvfte7NeyZeDATtIlA4A0TXy6P7kcHfvBOtZoJn8uDEPMGOGdDaanoL7TOwtmhefqC4nJXyVwYo9GL0CYvJj9NO8yEFRNapYX6taU3ln1iHl7qXqLhigtPoj6HzcN5cozSvrwpTgXY1OsyhuWx1Tf1SKHmtbwWU7AW+ujsbuixFVdU2kBR9A/IS0xDqCv/XqyAoIkP2UpHeMdCEsIIY85txMgtZxCd8uWHQnIJ46h+cLaaHG6eC3jitKuFh48CX++npLgi8juDJ7lbJ2Dz35a6WbDE0U+f/aCnlmnOgrr4yUB9TpSvdD5tcJ359E3L1AUoy2Dxw/mTTNnOvNU5hOXTLi19ghChz6JZ0kwCogArYaaAm6nL4z7BCv64e1jVX0XCohH0Mzy63WHoEP+bOeTdI/Jcf637YqHhhxJ+v0krPN/z7w99xTkbicMOf5P2ptVcCGC9ZMDxykk9AVoT0Y75MU0vmQKFXYC7NeUoKJGgX4XQxL1XxU4fSbaP3VvOSgdourKxOslHvJELy1fYhbO+RlhmLPnmOr4ZhLdwS0wFKpQhcqd2xtgIdhaQ0cDjuQ3+dLDBezE8hBTttq3Fbu4eKs76BvICnR86yEXw59j7U=
+X-Microsoft-Antispam-Message-Info: hE62sgBnNXTixygBdZaPK87Zx2llHFuaRq1KKZsK8KrqWdzt/RP9f4zcgv0ErhL4/srNHKvkiK0GbHOBwQp8VidInnsSGEwa4Yq2EkOW/RBnq/EnJyc/6T0VvcwMHs0K4dCHsJxDsRmxur0DDeeutChTOkMzX0zEssepcm/JyZUm/sIwZZFC800Z2d0ZpdJ/jmthHUegLS6KY8PTy4PmxemaiX+VCAH8b1FfW2VaQhm966txS/6nEWsPSEWEga96Lf8rQfYKyZMWYahunNSAn08MBKkWqbj2kOTfHDzZVKwGSXFKrroL054ik1OVMsnF7j/BYER0tfmWrBeFiaQr9djmj+uYT/BmpqiGlEuApiyXKaSPbCVylqkFVb/ZprcqTjFbzjn7MQdBg5wHXWyIpoWwLOgVdw9Sx4uRpC+4gVBLuzXrvnUYXHrL0YZXCSV49XCj7+31lxzlWSDkZNB+2Y8txQLpIpQ+3p9iWSuRHG2rakrpXpVf87fGV4aBbGaposKevh+ktOAndCSxSNbN4eQYULNRz/YVC6AE9K/32k1fwo+NyBawF9m2O9Uv5S/5cKylu5t4CN2zX9e2FESlZPsUlHpAErcMFhhce4wCxPI=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:SN6PR12MB4623.namprd12.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(4636009)(376002)(366004)(396003)(39860400002)(136003)(346002)(16526019)(6506007)(2616005)(38100700002)(1076003)(6512007)(5660300002)(83380400001)(52116002)(478600001)(186003)(6486002)(316002)(66946007)(8936002)(8676002)(2906002)(66556008)(66476007)(6666004)(86362001)(44832011)(36756003)(4326008);
  DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?aB6CWKIeVIzw/BfDyitGhWKHKdHYwWduvF7yi4OzJJyzpC5whafD7iMlnYub?=
- =?us-ascii?Q?75v+4CC/68F+bU4VVGistlaqgFZ+lgKmn0sqQU8fUKDDtG24aVWho75NgJxh?=
- =?us-ascii?Q?8DwfPPl4bAvSclIJUkRoB/2WzO/NxthV/wAOx50kgTSQrQdHR/7ZtkajEVnD?=
- =?us-ascii?Q?UhqA/SEl3IotRprzAlHmnurLB5GtMDhtf+H0WcHF7GxJKBlXwF8bFii4hPFl?=
- =?us-ascii?Q?cUNyS+zsxu55TGKwJnyMbvWVn5zUQJuGWaqFbC3YZQcWk5eI4tQ+fIFBl06b?=
- =?us-ascii?Q?Q0HEH4KbfwtT1YleW9Orlpbol9UVRVSk8/HG5PJuiybuqgxM8rfUKbRGOX8s?=
- =?us-ascii?Q?DKJEHKH6Nzqq3SOEud3DNpxidCBIyF12BSNmdj4mIqTZM90hBy3uIOO9iWT5?=
- =?us-ascii?Q?oLmyRmu9+yBx/r5VQrnjKEVBN8dZpZs5HOwe5UX9ad485JRmD0Z8uccToZej?=
- =?us-ascii?Q?8aFvdJVVMIUqu2rIbJw7eSidBA7SO3C6g/hceknOTEus3twS7vnd/yF535cy?=
- =?us-ascii?Q?QJCw20jBfP0nLLhaPgXXNS7itVGib1cdNfO5bhnHdcnFrAZU6ZgvYgoJhcNE?=
- =?us-ascii?Q?U/m2wYQlUZxyH11mMGD1Xea7gXs1NZ9l6TKAuIn8UdEGBdmOK6V9V/rKPoes?=
- =?us-ascii?Q?+ZbiBYSnMNuP8tTga1ueeuI81yr8iMqxNwESuXKOcHLO5slrLQflK4zxZw5T?=
- =?us-ascii?Q?yjt/9LI5Yz5ks2Z6BEIZdEbSXsNx+LKOtLNbbayuowubCgpaOMSQux1Mjatd?=
- =?us-ascii?Q?ioVeUEVCSAqQWBmwpR5lFnSmzy/McJmqfeXCSuubrT5erMfhZckFpDE5f4X1?=
- =?us-ascii?Q?gLtA9BgzolslA1oJoT7M6FoS7v+yUS0uDD4IQBQPXbccfw9G8AxFe0nWdPBd?=
- =?us-ascii?Q?6WbtMObO5xjPWVkGqt4gc9PNx0XzNy/NzePOyK9n/rv5zBxlCarA++3tnpNF?=
- =?us-ascii?Q?Mw0AdpCOny3yMTIZDQxnwCB3xKwJ2rvXjbn7oTRmhiIkZG10qmO2BTlMo56z?=
- =?us-ascii?Q?TxF8h7PgXygmu1LDRfwiqoXbo7rEOkfhGIaGeOtmxobfJIxIrq0f9ySDc2WG?=
- =?us-ascii?Q?0pM1JVYY3OvA5HJmc7PklsNLzFn7o/IFg1GGAjZ9+6SrD/6Us3vBxdLaBXoQ?=
- =?us-ascii?Q?8AIkiAx8RXp6m/LLUgysE8sr+UnZ4hwCHphVYbpCzwbcapiYchfUqskb4HI8?=
- =?us-ascii?Q?7nHHKuf/RMatmdFAdJtLDPyb9WTO3g/O5BfRI4RzhP7R87yDf5IvAXMYu2hu?=
- =?us-ascii?Q?Nq0dszNHTg4/zE8GV2mk0ixKc6RjGkq9WbOtHZAkGAP6K+egfwx5igSG/zts?=
- =?us-ascii?Q?XVVv7D8fFSgwUS3asvWJASt2PLj3qRi+Nc9VQlml/C45+JYWDmmbczmCmvu3?=
- =?us-ascii?Q?VBEtdwKI5vEtrr4qjBXxJILHDkBG?=
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?R7eSsNKBI/PhK3TIJkKHC2qQIncAe1bb9vwTr4hwnuiij8rGFp1JV+vdadLI?=
+ =?us-ascii?Q?/IYPshAkRPml+ZJFYdGgcmFPaLdS9GMt0zqgY9Nssi7+Hj09pvQaLrfMwZxk?=
+ =?us-ascii?Q?53srBKM1cZloIQYTIGUEbFz57hNMYHM/QuQ1Nz8EEkzuyBhonYhQ2EDn0yZ9?=
+ =?us-ascii?Q?rzqUOBfSIdel/vECN/59QVIW2bCDkTSzoUbxIoa1GzisWrwttzKnjdpUoO/B?=
+ =?us-ascii?Q?zhElPqQVkr8/5ThHEjMt34Z9TZT2/MUrUHzEUtQfatqN0xU/ENJmABqrru7v?=
+ =?us-ascii?Q?jk4XNXNfJwV/vDH1W41Cyqn+i93wNEv+JU7H6hImOyNbY4q0KrqjMnuvylMo?=
+ =?us-ascii?Q?payAtf9YecCqoHsGX12+QCsWJbO8O2z33D9959fN1Nk1AJbIjKVdDmu9NIPL?=
+ =?us-ascii?Q?A3l2pJSJNNV6oQdb4NWTpn8h3jLZHMRpo0KuF0WCJI0Tpj9hb+jxPxkcIB30?=
+ =?us-ascii?Q?HX23bkjJz+BMXjj2dKrO0hmU8MtTsK9v1Y4YK3bRcfJaTOKvgeQodAUM2wwW?=
+ =?us-ascii?Q?6ZNCRA5wFY9aMnLyxa3H6zG+PY7nbsIerT3GZKCikOanjLYHQjRrPD6RMIyI?=
+ =?us-ascii?Q?VMzMo9wx7nMyJqOPw/zpPCsx3odDRzgInSsMfJeDZTbizGtMN7HI4Ec602Na?=
+ =?us-ascii?Q?Sos3PHxE8XDicSKAFLb7DTgW0YAPmLvD8Wiz5iM821/tI1be1r3D+3l23ETd?=
+ =?us-ascii?Q?Nl5jof1SAiRZH78iq9uy6CvFOm6HRh/TCljEowNEpGogtOwd1Z/JfSTHSynk?=
+ =?us-ascii?Q?v/zLmP9944B6p85Gb9qzTrfyX/qrNP0DivtxejRZpu4k/lnoMOdeQQzBo5LU?=
+ =?us-ascii?Q?sYfia2t9EJuUyC1oTDpHWQwd2j6kiYtgTNUw8rEYDSJGhwkslIS+/T7ntDUi?=
+ =?us-ascii?Q?iG/ho3F+gTWhX/GCZ0gZZRwKnjXd34TPkgH1NIl3ySIip8SG7W7PhOU0B85o?=
+ =?us-ascii?Q?j+ZmjlhzY+2C4OueOieMJ6XfLkf5icnDtImKgRxhr6z4j/9tZvX6y4BRa/aR?=
+ =?us-ascii?Q?a6sNIBVXpx7tpT6shw/IjCE4KD1Ns6Y5u46/i076ceSmHjt71AwdeFeR0tVR?=
+ =?us-ascii?Q?JGR5VIDMHCPWLUHpGa0P4QpOHInBp2BOwBr/2mezgXdV8EDuPLVB9WTL5zKw?=
+ =?us-ascii?Q?64jmKu2yyyKT69mf4JP4T6/kxoQ7OPeCP8LCsItSpwkA0MrnWQfCpzucPgKA?=
+ =?us-ascii?Q?hffeCNzMa4Dcv7Pr2qb1qbTTOXrxRQfqRdGRHhFnqt+E4C1qBDgF8uG2glJ4?=
+ =?us-ascii?Q?v1cYt/9rQMOJLuIDSLZvuVLalJIt0squhB6ShcGeu2MumVcHxv2pvpEc/CTs?=
+ =?us-ascii?Q?t8GTBmp8xdAfZubNJDwlt/KMmvz7srXA97YBfLN8m5OcmlzOjFr5mgPu49K4?=
+ =?us-ascii?Q?y3qSuiHU3+SK9BjfbAWx4w+uiVUE?=
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 97826204-8dbb-4aed-99d3-08d9253a4331
+X-MS-Exchange-CrossTenant-Network-Message-Id: 45d1b68c-220a-4095-f73c-08d9253a440d
 X-MS-Exchange-CrossTenant-AuthSource: SN6PR12MB4623.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Jun 2021 20:17:21.6560 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Jun 2021 20:17:23.2291 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: NrLC2qbf67LnhoYsMT0+0fzAG+qOQ88V3XFfw/lQ5+1iL3Q87Y8CV0BXwJm1EPmBBPrg3odEwIxNEqlORx+BSw==
+X-MS-Exchange-CrossTenant-UserPrincipalName: QbtpkqhXRjHmdF9Zi6qKs5liwIsMupCBSxZiNxZXhq0pR2MU9dsAUagDUijpEi0qYRqdru/1N8dXhcsC6KjFVA==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR12MB2702
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -125,60 +125,87 @@ Cc: Alexander.Deucher@amd.com, ckoenig.leichtzumerken@gmail.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Used to access device controls
+Expose close device and add open device wich preserves
+test index.
 
 Signed-off-by: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
 ---
- xf86drm.c | 23 +++++++++++++++++++++++
- xf86drm.h |  1 +
- 2 files changed, 24 insertions(+)
+ tests/amdgpu/amdgpu_test.c | 31 ++++++++++++++++++++++++++++---
+ tests/amdgpu/amdgpu_test.h |  3 +++
+ 2 files changed, 31 insertions(+), 3 deletions(-)
 
-diff --git a/xf86drm.c b/xf86drm.c
-index edfeb347..a5ecd323 100644
---- a/xf86drm.c
-+++ b/xf86drm.c
-@@ -4361,6 +4361,29 @@ drm_public char *drmGetDeviceNameFromFd2(int fd)
- #endif
+diff --git a/tests/amdgpu/amdgpu_test.c b/tests/amdgpu/amdgpu_test.c
+index 60f3a508..2864eaff 100644
+--- a/tests/amdgpu/amdgpu_test.c
++++ b/tests/amdgpu/amdgpu_test.c
+@@ -339,12 +339,13 @@ static int amdgpu_open_devices(int open_render_node)
+ 
+ /* Close AMD devices.
+  */
+-static void amdgpu_close_devices()
++void amdgpu_close_devices()
+ {
+ 	int i;
+ 	for (i = 0; i < MAX_CARDS_SUPPORTED; i++)
+-		if (drm_amdgpu[i] >=0)
++		if (drm_amdgpu[i] >=0) {
+ 			close(drm_amdgpu[i]);
++		}
  }
  
-+drm_public char *drmGetCharDeviceFromFd(int fd)
+ /* Print AMD devices information */
+@@ -520,6 +521,31 @@ static void amdgpu_disable_suites()
+ 			fprintf(stderr, "test deactivation failed - %s\n", CU_get_error_msg());
+ }
+ 
++int test_device_index;
++
++int amdgpu_open_device_on_test_index(int render_node)
 +{
-+#ifdef __linux__
-+    struct stat sbuf;
-+    char path[PATH_MAX + 1];
-+    unsigned int maj, min;
++	int i;
 +
-+    if (fstat(fd, &sbuf))
-+        return NULL;
++	if (amdgpu_open_devices(open_render_node) <= 0) {
++		perror("Cannot open AMDGPU device");
++		return -1;
++	}
 +
-+    maj = major(sbuf.st_rdev);
-+    min = minor(sbuf.st_rdev);
++	if (test_device_index >= 0) {
++		/* Most tests run on device of drm_amdgpu[0].
++		 * Swap the chosen device to drm_amdgpu[0].
++		 */
++		i = drm_amdgpu[0];
++		drm_amdgpu[0] = drm_amdgpu[test_device_index];
++		drm_amdgpu[test_device_index] = i;
++	}
 +
-+    if (!drmNodeIsDRM(maj, min) || !S_ISCHR(sbuf.st_mode))
-+        return NULL;
++	return 0;
 +
-+    snprintf(path, sizeof(path), "/sys/dev/char/%d:%d", maj, min);
-+    return strdup(path);
-+#else
-+    return NULL;
-+#endif
++
 +}
 +
- drm_public int drmSyncobjCreate(int fd, uint32_t flags, uint32_t *handle)
- {
-     struct drm_syncobj_create args;
-diff --git a/xf86drm.h b/xf86drm.h
-index 9fc06ab8..c172dbc1 100644
---- a/xf86drm.h
-+++ b/xf86drm.h
-@@ -812,6 +812,7 @@ extern char *drmGetDeviceNameFromFd(int fd);
-  */
- extern char *drmGetDeviceNameFromFd2(int fd);
- extern int drmGetNodeTypeFromFd(int fd);
-+extern char *drmGetCharDeviceFromFd(int fd);
+ /* The main() function for setting up and running the tests.
+  * Returns a CUE_SUCCESS on successful running, another
+  * CUnit error code on failure.
+@@ -535,7 +561,6 @@ int main(int argc, char **argv)
+ 	int display_devices = 0;/* By default not to display devices' info */
+ 	CU_pSuite pSuite = NULL;
+ 	CU_pTest  pTest  = NULL;
+-	int test_device_index;
+ 	int display_list = 0;
+ 	int force_run = 0;
  
- /* Convert between GEM handles and DMA-BUF file descriptors.
-  *
+diff --git a/tests/amdgpu/amdgpu_test.h b/tests/amdgpu/amdgpu_test.h
+index 4970d0dd..107134a5 100644
+--- a/tests/amdgpu/amdgpu_test.h
++++ b/tests/amdgpu/amdgpu_test.h
+@@ -476,4 +476,7 @@ void amdgpu_test_exec_cs_helper_raw(amdgpu_device_handle device_handle,
+ 				    struct amdgpu_cs_request *ibs_request,
+ 				    bool secure);
+ 
++void amdgpu_close_devices();
++int amdgpu_open_device_on_test_index(int render_node);
++
+ #endif  /* #ifdef _AMDGPU_TEST_H_ */
 -- 
 2.25.1
 
