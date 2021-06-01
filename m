@@ -1,71 +1,69 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E14A43975F8
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Jun 2021 17:00:31 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 78ACA397631
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Jun 2021 17:11:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 209846E839;
-	Tue,  1 Jun 2021 15:00:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A27576E08E;
+	Tue,  1 Jun 2021 15:11:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [216.205.24.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7B72C6E839
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Jun 2021 15:00:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1622559627;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CC1856E08E
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Jun 2021 15:11:41 +0000 (UTC)
+Received: from imap.suse.de (imap-alt.suse-dmz.suse.de [192.168.254.47])
+ (using TLSv1.2 with cipher ECDHE-ECDSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 452081FD3F;
+ Tue,  1 Jun 2021 15:11:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1622560300; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding;
- bh=hAx+DmaU9psRUFpOWKzTpPgXBDLvmtbZVBLkZrWn7aA=;
- b=G3hORwZmZ2Tm3cXmHKXDEqwawLZU2EtZ07tT2yNd5KSSMCmcD/OY3+ZY2q568HbkZ/1jtY
- tOZMprbp9zMZVMZwl2ojFzG/uZ3TLMbvgfPB/XVnpjxHwXrCoEhS5Hs2e5PfP84MeuouPt
- kPIY0Vv+XNBOFQBtke6JNgP3PpmFP6c=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-453-za1emhmxNP-4xMj1-4p8AA-1; Tue, 01 Jun 2021 11:00:25 -0400
-X-MC-Unique: za1emhmxNP-4xMj1-4p8AA-1
-Received: by mail-wm1-f70.google.com with SMTP id
- 18-20020a05600c0252b029019a0ce35d36so1178497wmj.4
- for <dri-devel@lists.freedesktop.org>; Tue, 01 Jun 2021 08:00:25 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=hAx+DmaU9psRUFpOWKzTpPgXBDLvmtbZVBLkZrWn7aA=;
- b=B4I3lXIPqLUhiYtLmwpgNMJY+lZtrNnhAOcZr5T1qPaZA9LsyN17S9nlZEIMP7VncH
- mk/p+771d4pRqYgoOlf+bA8bAEI7vD47efX2zCLyv8V3nB2m203LA41B7Efiv1WtfStm
- LqZJpJF4hgDtE15ltTdgSR3tB0SQu5ZSUQ6Vt+PYc9xZjm3tbrMlBFAaSwYO+w6IJuXh
- NAt3Jg6kgLS1X9PENJX0za0xPuxA6OrCOeyzZebz1qjpFU52B1NzL5Elr4pX43Ut9PM3
- goso3UeOMeWp3zX/KH/fJCIBCnPekV4ttSenF4F9iHqkh/0/S9qg7DFh68P3dvAdrnKy
- lJVQ==
-X-Gm-Message-State: AOAM5317f72e+5J+ko3pqROgsjrE0l/U/vk4RdvxCbVlf1CfT+8VouSH
- XDyfj3j7940QtXDIrlIjPbNLDTA1bW0WxtGUw6zWZUW2m3z4Ovj3lkyqCZlNEMkwaZ5loO22dLY
- rrt/gA2rvATEmmxA3rds7UvbdSEon
-X-Received: by 2002:a1c:4606:: with SMTP id t6mr10455281wma.122.1622559623741; 
- Tue, 01 Jun 2021 08:00:23 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxb3gWNTGsicMh72TPTgarw80B3/Xgd3dh6bwU5R919OO11/15QK5NWgTLz4MJdZteAlri8Pg==
-X-Received: by 2002:a1c:4606:: with SMTP id t6mr10455243wma.122.1622559623491; 
- Tue, 01 Jun 2021 08:00:23 -0700 (PDT)
-Received: from minerva.redhat.com ([92.176.231.106])
- by smtp.gmail.com with ESMTPSA id h9sm18532656wmb.35.2021.06.01.08.00.22
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 01 Jun 2021 08:00:22 -0700 (PDT)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: linux-kernel@vger.kernel.org
-Subject: [PATCH v2 2/2] drivers/firmware: consolidate EFI framebuffer setup
- for all arches
-Date: Tue,  1 Jun 2021 17:00:17 +0200
-Message-Id: <20210601150017.774363-1-javierm@redhat.com>
-X-Mailer: git-send-email 2.31.1
+ bh=twzuZROrciQFxDhQe9u9q5BzdA9ocw/hvi0DThUDFjs=;
+ b=Zuws7nG1jzu0UkH6gwWyXUXiVmcjQWV02PvdmVM53yY9mdzOo1Mxlvz8BtPNUFmz1TdScR
+ BdKalc8ghe+0BsM1Wu3L1tFg7S0a4O3PYAXrfhJIjexOH5YWah+UYu58oX1y5wfWJ4DzHi
+ RdfuOfeCiFEgDNDRgRyqL0/kO+2mc9M=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1622560300;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=twzuZROrciQFxDhQe9u9q5BzdA9ocw/hvi0DThUDFjs=;
+ b=3hshQfjQ0ojTUgj2E8MdVPA7sqEEjfMkctM/f/+4o9YrOMQFtQe9BWR8mOkkKXb6+x/+NA
+ x9CKbyTuXjE4SDAg==
+Received: from imap3-int (imap-alt.suse-dmz.suse.de [192.168.254.47])
+ by imap.suse.de (Postfix) with ESMTP id EFB06118DD;
+ Tue,  1 Jun 2021 15:11:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1622560300; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=twzuZROrciQFxDhQe9u9q5BzdA9ocw/hvi0DThUDFjs=;
+ b=Zuws7nG1jzu0UkH6gwWyXUXiVmcjQWV02PvdmVM53yY9mdzOo1Mxlvz8BtPNUFmz1TdScR
+ BdKalc8ghe+0BsM1Wu3L1tFg7S0a4O3PYAXrfhJIjexOH5YWah+UYu58oX1y5wfWJ4DzHi
+ RdfuOfeCiFEgDNDRgRyqL0/kO+2mc9M=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1622560300;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=twzuZROrciQFxDhQe9u9q5BzdA9ocw/hvi0DThUDFjs=;
+ b=3hshQfjQ0ojTUgj2E8MdVPA7sqEEjfMkctM/f/+4o9YrOMQFtQe9BWR8mOkkKXb6+x/+NA
+ x9CKbyTuXjE4SDAg==
+Received: from director2.suse.de ([192.168.254.72]) by imap3-int with ESMTPSA
+ id lfBuOStOtmB1RgAALh3uQQ
+ (envelope-from <tzimmermann@suse.de>); Tue, 01 Jun 2021 15:11:39 +0000
+Date: Tue, 1 Jun 2021 17:11:38 +0200
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: [PULL] drm-misc-next
+Message-ID: <YLZOKiYE6XFmE/MH@linux-uq9g.fritz.box>
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,576 +76,511 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Albert Ou <aou@eecs.berkeley.edu>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@linux.ie>, Catalin Marinas <catalin.marinas@arm.com>,
- Russell King <linux@armlinux.org.uk>, dri-devel@lists.freedesktop.org,
- Javier Martinez Canillas <javierm@redhat.com>,
- Hans de Goede <hdegoede@redhat.com>, linux-efi@vger.kernel.org,
- Palmer Dabbelt <palmer@dabbelt.com>, Peter Robinson <pbrobinson@gmail.com>,
- Paul Walmsley <paul.walmsley@sifive.com>, linux-riscv@lists.infradead.org,
- Will Deacon <will@kernel.org>, Ard Biesheuvel <ardb@kernel.org>,
- linux-arm-kernel@lists.infradead.org
+Cc: dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Sean Paul <sean@poorly.run>,
+ intel-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The register_gop_device() function registers an "efi-framebuffer" platform
-device to match against the efifb driver, to have an early framebuffer for
-EFI platforms.
+Hi Dave and Daniel,
 
-But there is already support to do exactly the same by the Generic System
-Framebuffers (sysfb) driver. This used to be only for X86 but it has been
-moved to drivers/firmware and could be reused by other architectures.
+here's this week's PR for drm-misc-next. It also contains last week's tag
+because last week's email somehow went wrong. Each tag has it's individual
+description, but the overview below contains the sum of both.
 
-Also, besides supporting registering an "efi-framebuffer", this driver can
-register a "simple-framebuffer" allowing to use the siple{fb,drm} drivers
-on non-X86 EFI platforms. For example, on aarch64 these drivers can only
-be used with DT and doesn't have code to register a "simple-frambuffer"
-platform device when booting with EFI.
+Some highlights from both weeks are
 
-For these reasons, let's remove the register_gop_device() duplicated code
-and instead move the platform specific logic that's there to sysfb driver.
+ * amdgpu hot-unplug support,
+ * cached mappings for GEM CMA, and
+ * new features for rockchip.
 
-Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
----
+We changed the names of generic fbdev devices in /proc/fb. It's a UAPI
+change, but probably a non-event. It's not expected that programs have
+hard dependencies on DRM fbdev driver names.
 
-Changes in v2:
-- Use "depends on" for the supported architectures instead of selecting it.
-- Improve commit message to explain the benefits of reusing sysfb for !X86.
+Best regards
+Thomas
 
- arch/arm/include/asm/efi.h        |  5 +-
- arch/arm64/include/asm/efi.h      |  5 +-
- arch/riscv/include/asm/efi.h      |  5 +-
- drivers/firmware/Kconfig          |  8 +--
- drivers/firmware/Makefile         |  2 +-
- drivers/firmware/efi/efi-init.c   | 90 -------------------------------
- drivers/firmware/efi/sysfb_efi.c  | 77 +++++++++++++++++++++++++-
- drivers/firmware/sysfb.c          | 40 +++++++++-----
- drivers/firmware/sysfb_simplefb.c | 29 ++++++----
- include/linux/sysfb.h             | 28 +++++-----
- 10 files changed, 143 insertions(+), 146 deletions(-)
+drm-misc-next-2021-06-01:
+drm-misc-next for 5.14:
 
-diff --git a/arch/arm/include/asm/efi.h b/arch/arm/include/asm/efi.h
-index 9de7ab2ce05..a6f3b179e8a 100644
---- a/arch/arm/include/asm/efi.h
-+++ b/arch/arm/include/asm/efi.h
-@@ -17,6 +17,7 @@
- 
- #ifdef CONFIG_EFI
- void efi_init(void);
-+extern void efifb_setup_from_dmi(struct screen_info *si, const char *opt);
- 
- int efi_create_mapping(struct mm_struct *mm, efi_memory_desc_t *md);
- int efi_set_mapping_permissions(struct mm_struct *mm, efi_memory_desc_t *md);
-@@ -52,10 +53,6 @@ void efi_virtmap_unload(void);
- struct screen_info *alloc_screen_info(void);
- void free_screen_info(struct screen_info *si);
- 
--static inline void efifb_setup_from_dmi(struct screen_info *si, const char *opt)
--{
--}
--
- /*
-  * A reasonable upper bound for the uncompressed kernel size is 32 MBytes,
-  * so we will reserve that amount of memory. We have no easy way to tell what
-diff --git a/arch/arm64/include/asm/efi.h b/arch/arm64/include/asm/efi.h
-index 1bed37eb013..d3e1825337b 100644
---- a/arch/arm64/include/asm/efi.h
-+++ b/arch/arm64/include/asm/efi.h
-@@ -14,6 +14,7 @@
- 
- #ifdef CONFIG_EFI
- extern void efi_init(void);
-+extern void efifb_setup_from_dmi(struct screen_info *si, const char *opt);
- #else
- #define efi_init()
- #endif
-@@ -85,10 +86,6 @@ static inline void free_screen_info(struct screen_info *si)
- {
- }
- 
--static inline void efifb_setup_from_dmi(struct screen_info *si, const char *opt)
--{
--}
--
- #define EFI_ALLOC_ALIGN		SZ_64K
- 
- /*
-diff --git a/arch/riscv/include/asm/efi.h b/arch/riscv/include/asm/efi.h
-index 6d98cd99968..7a8f0d45b13 100644
---- a/arch/riscv/include/asm/efi.h
-+++ b/arch/riscv/include/asm/efi.h
-@@ -13,6 +13,7 @@
- 
- #ifdef CONFIG_EFI
- extern void efi_init(void);
-+extern void efifb_setup_from_dmi(struct screen_info *si, const char *opt);
- #else
- #define efi_init()
- #endif
-@@ -39,10 +40,6 @@ static inline void free_screen_info(struct screen_info *si)
- {
- }
- 
--static inline void efifb_setup_from_dmi(struct screen_info *si, const char *opt)
--{
--}
--
- void efi_virtmap_load(void);
- void efi_virtmap_unload(void);
- 
-diff --git a/drivers/firmware/Kconfig b/drivers/firmware/Kconfig
-index 4392fc57cf3..c704ac441fb 100644
---- a/drivers/firmware/Kconfig
-+++ b/drivers/firmware/Kconfig
-@@ -254,9 +254,9 @@ config QCOM_SCM_DOWNLOAD_MODE_DEFAULT
- config SYSFB
- 	bool
- 	default y
--	depends on X86 || COMPILE_TEST
-+	depends on X86 || ARM || ARM64 || RISCV || COMPILE_TEST
- 
--config X86_SYSFB
-+config SYSFB_SIMPLEFB
- 	bool "Mark VGA/VBE/EFI FB as generic system framebuffer"
- 	depends on SYSFB
- 	help
-@@ -264,10 +264,10 @@ config X86_SYSFB
- 	  bootloader or kernel can show basic video-output during boot for
- 	  user-guidance and debugging. Historically, x86 used the VESA BIOS
- 	  Extensions and EFI-framebuffers for this, which are mostly limited
--	  to x86.
-+	  to x86 BIOS or EFI systems.
- 	  This option, if enabled, marks VGA/VBE/EFI framebuffers as generic
- 	  framebuffers so the new generic system-framebuffer drivers can be
--	  used on x86. If the framebuffer is not compatible with the generic
-+	  used instead. If the framebuffer is not compatible with the generic
- 	  modes, it is advertised as fallback platform framebuffer so legacy
- 	  drivers like efifb, vesafb and uvesafb can pick it up.
- 	  If this option is not selected, all system framebuffers are always
-diff --git a/drivers/firmware/Makefile b/drivers/firmware/Makefile
-index 946dda07443..705fabe8815 100644
---- a/drivers/firmware/Makefile
-+++ b/drivers/firmware/Makefile
-@@ -19,7 +19,7 @@ obj-$(CONFIG_RASPBERRYPI_FIRMWARE) += raspberrypi.o
- obj-$(CONFIG_FW_CFG_SYSFS)	+= qemu_fw_cfg.o
- obj-$(CONFIG_QCOM_SCM)		+= qcom_scm.o qcom_scm-smc.o qcom_scm-legacy.o
- obj-$(CONFIG_SYSFB)		+= sysfb.o
--obj-$(CONFIG_X86_SYSFB)		+= sysfb_simplefb.o
-+obj-$(CONFIG_SYSFB_SIMPLEFB)	+= sysfb_simplefb.o
- obj-$(CONFIG_TI_SCI_PROTOCOL)	+= ti_sci.o
- obj-$(CONFIG_TRUSTED_FOUNDATIONS) += trusted_foundations.o
- obj-$(CONFIG_TURRIS_MOX_RWTM)	+= turris-mox-rwtm.o
-diff --git a/drivers/firmware/efi/efi-init.c b/drivers/firmware/efi/efi-init.c
-index a552a08a174..b19ce1a83f9 100644
---- a/drivers/firmware/efi/efi-init.c
-+++ b/drivers/firmware/efi/efi-init.c
-@@ -275,93 +275,3 @@ void __init efi_init(void)
- 	}
- #endif
- }
--
--static bool efifb_overlaps_pci_range(const struct of_pci_range *range)
--{
--	u64 fb_base = screen_info.lfb_base;
--
--	if (screen_info.capabilities & VIDEO_CAPABILITY_64BIT_BASE)
--		fb_base |= (u64)(unsigned long)screen_info.ext_lfb_base << 32;
--
--	return fb_base >= range->cpu_addr &&
--	       fb_base < (range->cpu_addr + range->size);
--}
--
--static struct device_node *find_pci_overlap_node(void)
--{
--	struct device_node *np;
--
--	for_each_node_by_type(np, "pci") {
--		struct of_pci_range_parser parser;
--		struct of_pci_range range;
--		int err;
--
--		err = of_pci_range_parser_init(&parser, np);
--		if (err) {
--			pr_warn("of_pci_range_parser_init() failed: %d\n", err);
--			continue;
--		}
--
--		for_each_of_pci_range(&parser, &range)
--			if (efifb_overlaps_pci_range(&range))
--				return np;
--	}
--	return NULL;
--}
--
--/*
-- * If the efifb framebuffer is backed by a PCI graphics controller, we have
-- * to ensure that this relation is expressed using a device link when
-- * running in DT mode, or the probe order may be reversed, resulting in a
-- * resource reservation conflict on the memory window that the efifb
-- * framebuffer steals from the PCIe host bridge.
-- */
--static int efifb_add_links(struct fwnode_handle *fwnode)
--{
--	struct device_node *sup_np;
--
--	sup_np = find_pci_overlap_node();
--
--	/*
--	 * If there's no PCI graphics controller backing the efifb, we are
--	 * done here.
--	 */
--	if (!sup_np)
--		return 0;
--
--	fwnode_link_add(fwnode, of_fwnode_handle(sup_np));
--	of_node_put(sup_np);
--
--	return 0;
--}
--
--static const struct fwnode_operations efifb_fwnode_ops = {
--	.add_links = efifb_add_links,
--};
--
--static struct fwnode_handle efifb_fwnode;
--
--static int __init register_gop_device(void)
--{
--	struct platform_device *pd;
--	int err;
--
--	if (screen_info.orig_video_isVGA != VIDEO_TYPE_EFI)
--		return 0;
--
--	pd = platform_device_alloc("efi-framebuffer", 0);
--	if (!pd)
--		return -ENOMEM;
--
--	if (IS_ENABLED(CONFIG_PCI)) {
--		fwnode_init(&efifb_fwnode, &efifb_fwnode_ops);
--		pd->dev.fwnode = &efifb_fwnode;
--	}
--
--	err = platform_device_add_data(pd, &screen_info, sizeof(screen_info));
--	if (err)
--		return err;
--
--	return platform_device_add(pd);
--}
--subsys_initcall(register_gop_device);
-diff --git a/drivers/firmware/efi/sysfb_efi.c b/drivers/firmware/efi/sysfb_efi.c
-index 9f035b15501..2814af6baf1 100644
---- a/drivers/firmware/efi/sysfb_efi.c
-+++ b/drivers/firmware/efi/sysfb_efi.c
-@@ -1,6 +1,6 @@
- // SPDX-License-Identifier: GPL-2.0-or-later
- /*
-- * Generic System Framebuffers on x86
-+ * Generic System Framebuffers
-  * Copyright (c) 2012-2013 David Herrmann <dh.herrmann@gmail.com>
-  *
-  * EFI Quirks Copyright (c) 2006 Edgar Hucek <gimli@dark-green.com>
-@@ -19,7 +19,9 @@
- #include <linux/init.h>
- #include <linux/kernel.h>
- #include <linux/mm.h>
-+#include <linux/of_address.h>
- #include <linux/pci.h>
-+#include <linux/platform_device.h>
- #include <linux/screen_info.h>
- #include <linux/sysfb.h>
- #include <video/vga.h>
-@@ -267,7 +269,72 @@ static const struct dmi_system_id efifb_dmi_swap_width_height[] __initconst = {
- 	{},
- };
- 
--__init void sysfb_apply_efi_quirks(void)
-+static bool efifb_overlaps_pci_range(const struct of_pci_range *range)
-+{
-+	u64 fb_base = screen_info.lfb_base;
-+
-+	if (screen_info.capabilities & VIDEO_CAPABILITY_64BIT_BASE)
-+		fb_base |= (u64)(unsigned long)screen_info.ext_lfb_base << 32;
-+
-+	return fb_base >= range->cpu_addr &&
-+	       fb_base < (range->cpu_addr + range->size);
-+}
-+
-+static struct device_node *find_pci_overlap_node(void)
-+{
-+	struct device_node *np;
-+
-+	for_each_node_by_type(np, "pci") {
-+		struct of_pci_range_parser parser;
-+		struct of_pci_range range;
-+		int err;
-+
-+		err = of_pci_range_parser_init(&parser, np);
-+		if (err) {
-+			pr_warn("of_pci_range_parser_init() failed: %d\n", err);
-+			continue;
-+		}
-+
-+		for_each_of_pci_range(&parser, &range)
-+			if (efifb_overlaps_pci_range(&range))
-+				return np;
-+	}
-+	return NULL;
-+}
-+
-+/*
-+ * If the efifb framebuffer is backed by a PCI graphics controller, we have
-+ * to ensure that this relation is expressed using a device link when
-+ * running in DT mode, or the probe order may be reversed, resulting in a
-+ * resource reservation conflict on the memory window that the efifb
-+ * framebuffer steals from the PCIe host bridge.
-+ */
-+static int efifb_add_links(struct fwnode_handle *fwnode)
-+{
-+	struct device_node *sup_np;
-+
-+	sup_np = find_pci_overlap_node();
-+
-+	/*
-+	 * If there's no PCI graphics controller backing the efifb, we are
-+	 * done here.
-+	 */
-+	if (!sup_np)
-+		return 0;
-+
-+	fwnode_link_add(fwnode, of_fwnode_handle(sup_np));
-+	of_node_put(sup_np);
-+
-+	return 0;
-+}
-+
-+static const struct fwnode_operations efifb_fwnode_ops = {
-+	.add_links = efifb_add_links,
-+};
-+
-+static struct fwnode_handle efifb_fwnode;
-+
-+__init void sysfb_apply_efi_quirks(struct platform_device *pd)
- {
- 	if (screen_info.orig_video_isVGA != VIDEO_TYPE_EFI ||
- 	    !(screen_info.capabilities & VIDEO_CAPABILITY_SKIP_QUIRKS))
-@@ -281,4 +348,10 @@ __init void sysfb_apply_efi_quirks(void)
- 		screen_info.lfb_height = temp;
- 		screen_info.lfb_linelength = 4 * screen_info.lfb_width;
- 	}
-+
-+	if (screen_info.orig_video_isVGA == VIDEO_TYPE_EFI &&
-+	    IS_ENABLED(CONFIG_PCI)) {
-+		fwnode_init(&efifb_fwnode, &efifb_fwnode_ops);
-+		pd->dev.fwnode = &efifb_fwnode;
-+	}
- }
-diff --git a/drivers/firmware/sysfb.c b/drivers/firmware/sysfb.c
-index 1337515963d..3ecd60a0215 100644
---- a/drivers/firmware/sysfb.c
-+++ b/drivers/firmware/sysfb.c
-@@ -1,11 +1,11 @@
- // SPDX-License-Identifier: GPL-2.0-or-later
- /*
-- * Generic System Framebuffers on x86
-+ * Generic System Framebuffers
-  * Copyright (c) 2012-2013 David Herrmann <dh.herrmann@gmail.com>
-  */
- 
- /*
-- * Simple-Framebuffer support for x86 systems
-+ * Simple-Framebuffer support
-  * Create a platform-device for any available boot framebuffer. The
-  * simple-framebuffer platform device is already available on DT systems, so
-  * this module parses the global "screen_info" object and creates a suitable
-@@ -16,12 +16,12 @@
-  * to pick these devices up without messing with simple-framebuffer drivers.
-  * The global "screen_info" is still valid at all times.
-  *
-- * If CONFIG_X86_SYSFB is not selected, we never register "simple-framebuffer"
-+ * If CONFIG_SYSFB_SIMPLEFB is not selected, never register "simple-framebuffer"
-  * platform devices, but only use legacy framebuffer devices for
-  * backwards compatibility.
-  *
-  * TODO: We set the dev_id field of all platform-devices to 0. This allows
-- * other x86 OF/DT parsers to create such devices, too. However, they must
-+ * other OF/DT parsers to create such devices, too. However, they must
-  * start at offset 1 for this to work.
-  */
- 
-@@ -39,31 +39,43 @@ static __init int sysfb_init(void)
- 	struct screen_info *si = &screen_info;
- 	struct simplefb_platform_data mode;
- 	struct platform_device *pd;
--	const char *name;
- 	bool compatible;
- 	int ret;
- 
--	sysfb_apply_efi_quirks();
-+	pd = platform_device_alloc("", 0);
-+	if (!pd)
-+		return -ENOMEM;
-+
-+	sysfb_apply_efi_quirks(pd);
- 
- 	/* try to create a simple-framebuffer device */
--	compatible = parse_mode(si, &mode);
-+	compatible = sysfb_parse_mode(si, &mode);
- 	if (compatible) {
--		ret = create_simplefb(si, &mode);
-+		ret = sysfb_create_simplefb(si, &mode, pd);
- 		if (!ret)
- 			return 0;
- 	}
- 
- 	/* if the FB is incompatible, create a legacy framebuffer device */
- 	if (si->orig_video_isVGA == VIDEO_TYPE_EFI)
--		name = "efi-framebuffer";
-+		pd->name = "efi-framebuffer";
- 	else if (si->orig_video_isVGA == VIDEO_TYPE_VLFB)
--		name = "vesa-framebuffer";
-+		pd->name = "vesa-framebuffer";
- 	else
--		name = "platform-framebuffer";
-+		pd->name = "platform-framebuffer";
-+
-+	ret = platform_device_add_data(pd, si, sizeof(*si));
-+	if (ret)
-+		goto err;
-+
-+	ret = platform_device_add(pd);
-+	if (ret)
-+		goto err;
- 
--	pd = platform_device_register_resndata(NULL, name, 0,
--					       NULL, 0, si, sizeof(*si));
--	return PTR_ERR_OR_ZERO(pd);
-+	return 0;
-+err:
-+	platform_device_put(pd);
-+	return ret;
- }
- 
- /* must execute after PCI subsystem for EFI quirks */
-diff --git a/drivers/firmware/sysfb_simplefb.c b/drivers/firmware/sysfb_simplefb.c
-index df892444ea1..cffff4283f3 100644
---- a/drivers/firmware/sysfb_simplefb.c
-+++ b/drivers/firmware/sysfb_simplefb.c
-@@ -1,6 +1,6 @@
- // SPDX-License-Identifier: GPL-2.0-or-later
- /*
-- * Generic System Framebuffers on x86
-+ * Generic System Framebuffers
-  * Copyright (c) 2012-2013 David Herrmann <dh.herrmann@gmail.com>
-  */
- 
-@@ -23,9 +23,9 @@
- static const char simplefb_resname[] = "BOOTFB";
- static const struct simplefb_format formats[] = SIMPLEFB_FORMATS;
- 
--/* try parsing x86 screen_info into a simple-framebuffer mode struct */
--__init bool parse_mode(const struct screen_info *si,
--		       struct simplefb_platform_data *mode)
-+/* try parsing screen_info into a simple-framebuffer mode struct */
-+__init bool sysfb_parse_mode(const struct screen_info *si,
-+			     struct simplefb_platform_data *mode)
- {
- 	const struct simplefb_format *f;
- 	__u8 type;
-@@ -57,13 +57,14 @@ __init bool parse_mode(const struct screen_info *si,
- 	return false;
- }
- 
--__init int create_simplefb(const struct screen_info *si,
--			   const struct simplefb_platform_data *mode)
-+__init int sysfb_create_simplefb(const struct screen_info *si,
-+				 const struct simplefb_platform_data *mode,
-+				 struct platform_device *pd)
- {
--	struct platform_device *pd;
- 	struct resource res;
- 	u64 base, size;
- 	u32 length;
-+	int ret;
- 
- 	/*
- 	 * If the 64BIT_BASE capability is set, ext_lfb_base will contain the
-@@ -105,7 +106,15 @@ __init int create_simplefb(const struct screen_info *si,
- 	if (res.end <= res.start)
- 		return -EINVAL;
- 
--	pd = platform_device_register_resndata(NULL, "simple-framebuffer", 0,
--					       &res, 1, mode, sizeof(*mode));
--	return PTR_ERR_OR_ZERO(pd);
-+	pd->name = "simple-framebuffer";
-+
-+	ret = platform_device_add_resources(pd, &res, 1);
-+	if (ret)
-+		return ret;
-+
-+	ret = platform_device_add_data(pd, mode, sizeof(*mode));
-+	if (ret)
-+		return ret;
-+
-+	return platform_device_add(pd);
- }
-diff --git a/include/linux/sysfb.h b/include/linux/sysfb.h
-index 3e5355769dc..d97162f4b97 100644
---- a/include/linux/sysfb.h
-+++ b/include/linux/sysfb.h
-@@ -58,37 +58,39 @@ struct efifb_dmi_info {
- #ifdef CONFIG_EFI
- 
- extern struct efifb_dmi_info efifb_dmi_list[];
--void sysfb_apply_efi_quirks(void);
-+void sysfb_apply_efi_quirks(struct platform_device *pd);
- 
- #else /* CONFIG_EFI */
- 
--static inline void sysfb_apply_efi_quirks(void)
-+static inline void sysfb_apply_efi_quirks(struct platform_device *pd)
- {
- }
- 
- #endif /* CONFIG_EFI */
- 
--#ifdef CONFIG_X86_SYSFB
-+#ifdef CONFIG_SYSFB_SIMPLEFB
- 
--bool parse_mode(const struct screen_info *si,
--		struct simplefb_platform_data *mode);
--int create_simplefb(const struct screen_info *si,
--		    const struct simplefb_platform_data *mode);
-+bool sysfb_parse_mode(const struct screen_info *si,
-+		      struct simplefb_platform_data *mode);
-+int sysfb_create_simplefb(const struct screen_info *si,
-+			  const struct simplefb_platform_data *mode,
-+			  struct platform_device *pd);
- 
--#else /* CONFIG_X86_SYSFB */
-+#else /* CONFIG_SYSFB_SIMPLE */
- 
--static inline bool parse_mode(const struct screen_info *si,
--			      struct simplefb_platform_data *mode)
-+static inline bool sysfb_parse_mode(const struct screen_info *si,
-+				    struct simplefb_platform_data *mode)
- {
- 	return false;
- }
- 
--static inline int create_simplefb(const struct screen_info *si,
--				  const struct simplefb_platform_data *mode)
-+static inline int sysfb_create_simplefb(const struct screen_info *si,
-+					 const struct simplefb_platform_data *mode,
-+					 struct platform_device *pd)
- {
- 	return -EINVAL;
- }
- 
--#endif /* CONFIG_X86_SYSFB */
-+#endif /* CONFIG_SYSFB_SIMPLE */
- 
- #endif /* _LINUX_SYSFB_H */
--- 
-2.31.1
+UAPI Changes:
 
+ * Use DRM driver names for fbdev
+
+Cross-subsystem Changes:
+
+Core Changes:
+
+ * Fix leaked DMA handles
+
+ * Improve documentation around DRM_CLIENT_CAP_*
+
+ * Cleanups
+
+ * dp_mst: Use kHz as link-rate unit during init
+
+ * fourcc: Remove drm_gem_format_name() and drm_format_name_buf
+
+ * gem-cma: Fix mmap for buffers with write combining
+
+ * ttm: Don't override pre-set vm_ops; ttm_bo_mmap() removal and cleanups
+
+Driver Changes:
+
+ * drm/amdgpu: Fix hot unplug during suspend; Implement mmap as GEM object
+   function; Use %p4cc format-string modifier; Cleanups
+
+ * drm/bridge: Cdns: Fix PM reference leak, Cleanups; Lt8912b: Fix Coccinelle
+   warnings; Fix Kconfig dependencies; Fixes and cleanups
+
+ * drm/hisilicon/kirin: Cleanups
+
+ * drm/nouveau: Implement mmap as GEM object function
+
+ * drm/radeon: Implement mmap as GEM object function
+
+ * drm/rockchip: Remove generic drivers during init; Add scaling for RK3036
+   win1; Fix missing registers for RK3066 and 3188; Add alpha support for
+   RK3036, RK3066, RK3126 and RK3188; Fixes and cleanups
+
+ * drm/simpledrm: Use %p4cc: format-string modifier
+
+ * drm/vmwgfx: Cleanups
+
+ * fbdev/matrox: Use modern module_init()
+The following changes since commit 5522e9f7b0fbe2a0cb89c199b574523becc8c3ab:
+
+  Merge v5.13-rc3 into drm-next (2021-05-27 13:07:47 +0200)
+
+are available in the Git repository at:
+
+  git://anongit.freedesktop.org/drm/drm-misc tags/drm-misc-next-2021-06-01
+
+for you to fetch changes up to 2e290c8d8d29278b9a20e2765ab8f6df02f2e707:
+
+  drm: document minimum kernel version for DRM_CLIENT_CAP_* (2021-05-31 18:57:22 +0200)
+
+----------------------------------------------------------------
+drm-misc-next for 5.14:
+
+UAPI Changes:
+
+ * DRM_IOCTL_IRQ_BUSID is now marked as legacy; returns -EINVAL if
+   legacy drivers are disabled
+
+ * Use DRM driver names for fbdev
+
+Cross-subsystem Changes:
+
+ * PCI: Add support for dev_groups
+
+ * vgaarb: Use ACPI HID to find integrated GPU
+
+Core Changes:
+
+ * Log errors in drm_gem_fb_init_with_funcs()
+
+ * Fix leaked DMA handles
+
+ * Improve documentation around DRM_CLIENT_CAP_*
+
+ * Cleanups
+
+ * dp_mst: Use kHz as link-rate unit during init
+
+ * fourcc: Remove drm_gem_format_name() and drm_format_name_buf
+
+ * gem-cma: Add support for non-coherent (i.e., cached) page mappings; Fix
+   mmap for buffers with write combining
+
+ * legacy: Drop some unnecessary includes and code; Add missing unlocks
+   and frees in drm_legacy_addbufs_pci()
+
+ * sched: Make timeout timer rearm conditional; Fix data corruptions and
+   hangs
+
+ * ttm: Remap all page faults to per-process dummy page (for device removal);
+   Don't override pre-set vm_ops; ttm_bo_mmap() removal and cleanups;
+   Documentation
+
+Driver Changes:
+
+ * drm/amdgpu: A long list of patches that enable device hot-unplug;
+   Implement mmap as GEM object function; Use %p4cc format-string
+   modifier; Cleanups
+
+ * drm/bridge: Lt66121: Fix error code and leak in probe; Anx7625: Use
+   runtime PM and add synchronous suspend/resume hooks; Ti-sn65dsi86: Fix
+   a returned value's type; Anx7688: Add driver plus DT bindings;
+   Cdns: Fix PM reference leak, Cleanups; Lt8912b: Fix Coccinelle
+   warnings; Fix Kconfig dependencies; Fixes and cleanups
+
+ * drm/hisilicon/kirin: Cleanups
+
+ * drm/ingenic: Fix pixcloc for 24-bit serial panels; Use non-coherent BO
+   mappings with explict synchronization if possible
+
+ * drm/nouveau: Implement mmap as GEM object function
+
+ * drm/panel: Simple-panel: Add missing pm_runtime_dont_use_autosuspend()
+
+ * drm/radeon: Implement mmap as GEM object function
+
+ * drm/rockchip: Remove generic drivers during init; Add scaling for RK3036
+   win1; Fix missing registers for RK3066 and 3188; Add alpha support for
+   RK3036, RK3066, RK3126 and RK3188; Fixes and cleanups
+
+ * drm/simpledrm: Use %p4cc: format-string modifier
+
+ * drm/tve200: Convert DT bindings to YAML
+
+ * drm/vc4: Support BCM2711 VEC plus DT bindings; Pipeline setup fixes; HDMI
+   fixes
+
+ * drm/vmwgfx: Cleanups
+
+ * drm/virtio: Fix NULL pointer in probe; Fix double-free in probe; Free
+   virtqueues in probe
+
+ * fbdev/matrox: Use modern module_init()
+
+----------------------------------------------------------------
+Alex Bee (5):
+      drm: rockchip: add scaling for RK3036 win1
+      drm: rockchip: add missing registers for RK3188
+      drm: rockchip: add missing registers for RK3066
+      drm: rockchip: add alpha support for RK3036, RK3066, RK3126 and RK3188
+      drm: rockchip: set alpha_en to 0 if it is not used
+
+Andrey Grodzovsky (19):
+      drm/ttm: Remap all page faults to per process dummy page.
+      drm/amdgpu: Split amdgpu_device_fini into early and late
+      drm/amdgpu: Add early fini callback
+      drm/amdgpu: Handle IOMMU enabled case.
+      drm/amdgpu: Remap all page faults to per process dummy page.
+      PCI: Add support for dev_groups to struct pci_driver
+      drm/amdgpu: Convert driver sysfs attributes to static attributes
+      drm/amdgpu: Guard against write accesses after device removal
+      drm/sched: Make timeout timer rearm conditional.
+      drm/amdgpu: Prevent any job recoveries after device is unplugged.
+      drm/amdgpu: Fix hang on device removal.
+      drm/scheduler: Fix hang when sched_entity released
+      drm/sched: Avoid data corruptions
+      drm/amd/display: Remove superfluous drm_mode_config_cleanup
+      drm/amdgpu: Verify DMA opearations from device are done
+      drm/amdgpu: Unmap all MMIO mappings
+      drm/amdgpu: Rename flag which prevents HW access
+      drm/amdgpu: Fix crash when hot unplug in BACO
+      drm/amdgpu: Fix clang warning: unused label 'exit'
+
+Arnd Bergmann (1):
+      fbdev: matrox: use modern module_init()
+
+Christophe JAILLET (1):
+      drm/rockchip: lvds: Fix an error handling path
+
+Colin Ian King (1):
+      drm/rockchip: cdn-dp: fix sign extension on an int multiply for a u64 result
+
+Corentin Labbe (1):
+      dt-bindings: display: convert faraday,tve200
+
+Dafna Hirschfeld (1):
+      dt-bindings: display: add google, cros-ec-anx7688.yaml
+
+Dan Carpenter (3):
+      drm: bridge: it66121: fix an error code in it66121_probe()
+      drm: bridge: it66121: fix a resource leak in probe
+      drm/bridge: ti-sn65dsi86: fix a ternary type promotion bug
+
+Daniel Vetter (1):
+      drm/ttm: Explain why ttm_bo_add_move_fence uses a shared slot
+
+Douglas Anderson (1):
+      drm/panel: panel-simple: Add missing pm_runtime_dont_use_autosuspend() calls
+
+Enric Balletbo i Serra (1):
+      drm/bridge: Add ChromeOS EC ANX7688 bridge driver support
+
+Geert Uytterhoeven (1):
+      drm/bridge: DRM_CROS_EC_ANX7688 should depend on I2C_CROS_EC_TUNNEL
+
+Hao Fang (1):
+      drm/hisilicon/kirin: Use the correct HiSilicon copyright
+
+Javier Martinez Canillas (2):
+      drm/fb-helper: improve DRM fbdev emulation device names
+      drm/rockchip: remove existing generic drivers to take over the device
+
+Jiapeng Chong (2):
+      drm: bridge: cdns-mhdp8546: Fix inconsistent indenting
+      drm/rockchip: remove unused function
+
+Johan Jonker (1):
+      drm/rockchip: vop: add PX30 version info
+
+Joseph Kogut (1):
+      drm: fix leaked dma handles after removing drm_pci_free
+
+Kai-Heng Feng (1):
+      vgaarb: Use ACPI HID name to find integrated GPU
+
+Linus Walleij (2):
+      drm/panel: s6e63m0: Depromote debug prints
+      drm/bridge: lt8912b: Drop unused includes
+
+Mateusz Kwiatkowski (3):
+      drm/vc4: Fix clock source for VEC PixelValve on BCM2711
+      dt-bindings: display: bcm2835-vec: Add BCM2711 compatible
+      drm/vc4: Separate VEC compatible variants
+
+Mauro Carvalho Chehab (1):
+      gpu: drm: replace occurrences of invalid character
+
+Maxime Ripard (12):
+      drm/vc4: txp: Properly set the possible_crtcs mask
+      drm/vc4: crtc: Skip the TXP
+      drm/vc4: crtc: Pass the drm_atomic_state to config_pv
+      drm/vc4: crtc: Fix vc4_get_crtc_encoder logic
+      drm/vc4: crtc: Lookup the encoder from the register at boot
+      drm/vc4: hdmi: Prevent clock unbalance
+      drm/vc4: hvs: Make the HVS bind first
+      drm/vc4: hdmi: Properly compute the BVB clock rate
+      drm/vc4: hdmi: Check and warn if we can't reach 4kp60 frequencies
+      drm/vc4: hdmi: Enable the scrambler
+      drm/vc4: hdmi: Add a workqueue to set scrambling
+      Merge drm/drm-next into drm-misc-next
+
+Nikola Cornij (1):
+      drm/dp_mst: Use kHz as link rate units when settig source max link caps at init
+
+Paul Cercueil (5):
+      drm/ingenic: Fix pixclock rate for 24-bit serial panels
+      drm: Add support for GEM buffers backed by non-coherent memory
+      drm: Add and export function drm_fb_cma_sync_non_coherent
+      drm/ingenic: Add option to alloc cached GEM buffers
+      drm: Fix for GEM buffers with write-combine memory
+
+Peter Robinson (1):
+      drm/rockchip: cdn-dp-core: add MODULE_FIRMWARE macro
+
+Pi-Hsun Shih (3):
+      drm/bridge: anx7625: refactor power control to use runtime PM framework
+      drm/bridge: anx7625: add suspend / resume hooks
+      drm/bridge: anx7625: Synchronously run runtime suspend.
+
+Sakari Ailus (1):
+      drm: Remove drm_get_format_name()
+
+Simon Ser (4):
+      drm: log errors in drm_gem_fb_init_with_funcs
+      drm: reference mode flags in DRM_CLIENT_CAP_* docs
+      drm: clarify and linkify DRM_CLIENT_CAP_WRITEBACK_CONNECTORS docs
+      drm: document minimum kernel version for DRM_CLIENT_CAP_*
+
+Thomas Hebb (2):
+      drm/rockchip: dsi: move all lane config except LCDC mux to bind()
+      drm/rockchip: dsi: remove extra component_del() call
+
+Thomas Zimmermann (17):
+      drm/i915: Don't include drm_legacy.h
+      drm/nouveau: Don't include drm_legacy.h
+      drm: Don't include drm_legacy.h in drm_lease.c
+      drm: Remove unused branch in legacy PCI initialization
+      drm: Mark IRQ_BUSID ioctl as legacy
+      Merge drm/drm-next into drm-misc-next
+      drm/ttm: Don't override vm_ops callbacks, if set
+      drm/amdgpu: Implement mmap as GEM object function
+      drm/radeon: Implement mmap as GEM object function
+      drm/nouveau: Implement mmap as GEM object function
+      drm/vmwgfx: Inline ttm_bo_mmap() into vmwgfx driver
+      drm/vmwgfx: Inline vmw_verify_access()
+      drm/ttm: Remove ttm_bo_mmap() and friends
+      drm/kconfig: Remove unused select of DRM_KMS_FB_HELPER
+      drm/amdgpu: Use %p4cc to print 4CC format
+      drm/simpledrm: Use %p4cc to print 4CC format
+      drm/fourcc: Remove struct drm_format_buf_name
+
+Xie Yongji (3):
+      drm/virtio: Fixes a potential NULL pointer dereference on probe failure
+      drm/virtio: Fix double free on probe failure
+      drm/virtio: free virtqueues on probe failure
+
+Yang Yingliang (1):
+      drm/rockchip: cdn-dp-core: add missing clk_disable_unprepare() on error in cdn_dp_grf_write()
+
+Yu Kuai (1):
+      drm: bridge: cdns-mhdp8546: Fix PM reference leak in
+
+Zhen Lei (1):
+      drm/mcde: Remove redundant error printing in mcde_dsi_probe()
+
+Zou Wei (4):
+      drm: Fix missing unlock and free on error in drm_legacy_addbufs_pci()
+      drm/vc4: hdmi: Fix PM reference leak in vc4_hdmi_encoder_pre_crtc_co()
+      drm/bridge: cdns: Fix PM reference leak in cdns_dsi_transfer()
+      drm/bridge: lt8912b: fix platform_no_drv_owner.cocci warnings
+
+ .../bindings/display/brcm,bcm2835-vec.yaml         |   4 +-
+ .../display/bridge/google,cros-ec-anx7688.yaml     |  82 +++++++++
+ .../devicetree/bindings/display/faraday,tve200.txt |  54 ------
+ .../bindings/display/faraday,tve200.yaml           |  68 ++++++++
+ drivers/gpu/drm/Kconfig                            |   1 -
+ drivers/gpu/drm/amd/amdgpu/amdgpu.h                |   8 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.c         |   2 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.h         |   2 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_atombios.c       |  17 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_device.c         | 131 ++++++++++----
+ drivers/gpu/drm/amd/amdgpu/amdgpu_display.c        |   7 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c        |  46 -----
+ drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.h        |   2 -
+ drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c            |  34 +++-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c          |  31 +++-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_gart.c           |  14 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_gart.h           |   2 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c            |  55 ++++++
+ drivers/gpu/drm/amd/amdgpu/amdgpu_gmc.c            |   9 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c        |  25 ++-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ih.c             |   6 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_irq.c            |  31 ++--
+ drivers/gpu/drm/amd/amdgpu/amdgpu_irq.h            |   3 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_job.c            |  19 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c            |  12 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_object.c         |   4 -
+ drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c            |  68 +++++---
+ drivers/gpu/drm/amd/amdgpu/amdgpu_psp.h            |   2 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c            |   1 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ring.h           |   3 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c            |  68 --------
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h            |   1 -
+ drivers/gpu/drm/amd/amdgpu/amdgpu_uvd.c            |  31 ++--
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vce.c            |  11 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vcn.c            |  22 ++-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c             |   7 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c       |  14 +-
+ drivers/gpu/drm/amd/amdgpu/cik_ih.c                |   3 +-
+ drivers/gpu/drm/amd/amdgpu/cz_ih.c                 |   3 +-
+ drivers/gpu/drm/amd/amdgpu/gfx_v10_0.c             |   2 +-
+ drivers/gpu/drm/amd/amdgpu/gmc_v10_0.c             |   1 -
+ drivers/gpu/drm/amd/amdgpu/gmc_v6_0.c              |   1 -
+ drivers/gpu/drm/amd/amdgpu/gmc_v7_0.c              |   1 -
+ drivers/gpu/drm/amd/amdgpu/gmc_v8_0.c              |   1 -
+ drivers/gpu/drm/amd/amdgpu/gmc_v9_0.c              |   1 -
+ drivers/gpu/drm/amd/amdgpu/iceland_ih.c            |   3 +-
+ drivers/gpu/drm/amd/amdgpu/navi10_ih.c             |   6 +-
+ drivers/gpu/drm/amd/amdgpu/psp_v11_0.c             |  44 ++---
+ drivers/gpu/drm/amd/amdgpu/psp_v12_0.c             |   8 +-
+ drivers/gpu/drm/amd/amdgpu/psp_v3_1.c              |   8 +-
+ drivers/gpu/drm/amd/amdgpu/si_ih.c                 |   3 +-
+ drivers/gpu/drm/amd/amdgpu/tonga_ih.c              |   3 +-
+ drivers/gpu/drm/amd/amdgpu/vce_v4_0.c              |  26 ++-
+ drivers/gpu/drm/amd/amdgpu/vcn_v3_0.c              |  22 ++-
+ drivers/gpu/drm/amd/amdgpu/vega10_ih.c             |   6 +-
+ drivers/gpu/drm/amd/amdgpu/vega20_ih.c             |   6 +-
+ drivers/gpu/drm/amd/amdkfd/kfd_device.c            |   1 -
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c  |  13 +-
+ .../amd/display/amdgpu_dm/amdgpu_dm_mst_types.c    |   4 +-
+ drivers/gpu/drm/amd/include/amd_shared.h           |   2 +
+ drivers/gpu/drm/amd/include/atombios.h             |  10 +-
+ drivers/gpu/drm/amd/pm/swsmu/smu_cmn.c             |   2 +-
+ drivers/gpu/drm/bridge/Kconfig                     |  13 ++
+ drivers/gpu/drm/bridge/Makefile                    |   1 +
+ drivers/gpu/drm/bridge/analogix/anx7625.c          | 181 ++++++++++---------
+ drivers/gpu/drm/bridge/analogix/anx7625.h          |   1 -
+ .../gpu/drm/bridge/cadence/cdns-mhdp8546-core.c    |   6 +-
+ drivers/gpu/drm/bridge/cdns-dsi.c                  |   2 +-
+ drivers/gpu/drm/bridge/cros-ec-anx7688.c           | 191 +++++++++++++++++++++
+ drivers/gpu/drm/bridge/ite-it66121.c               |  10 +-
+ drivers/gpu/drm/bridge/lontium-lt8912b.c           |   3 -
+ drivers/gpu/drm/bridge/ti-sn65dsi86.c              |   4 +-
+ drivers/gpu/drm/drm_bufs.c                         |  11 +-
+ drivers/gpu/drm/drm_dp_mst_topology.c              |   8 +-
+ drivers/gpu/drm/drm_fb_cma_helper.c                |  46 +++++
+ drivers/gpu/drm/drm_fb_helper.c                    |   2 +-
+ drivers/gpu/drm/drm_fourcc.c                       |  25 ---
+ drivers/gpu/drm/drm_gem_cma_helper.c               |  41 ++++-
+ drivers/gpu/drm/drm_gem_framebuffer_helper.c       |   7 +-
+ drivers/gpu/drm/drm_internal.h                     |   8 -
+ drivers/gpu/drm/drm_ioctl.c                        |   3 +-
+ drivers/gpu/drm/drm_lease.c                        |   1 -
+ drivers/gpu/drm/drm_legacy.h                       |   8 +
+ drivers/gpu/drm/drm_pci.c                          |  11 +-
+ drivers/gpu/drm/hisilicon/kirin/dw_drm_dsi.c       |   2 +-
+ drivers/gpu/drm/hisilicon/kirin/dw_dsi_reg.h       |   2 +-
+ drivers/gpu/drm/hisilicon/kirin/kirin_ade_reg.h    |   2 +-
+ drivers/gpu/drm/hisilicon/kirin/kirin_drm_ade.c    |   2 +-
+ drivers/gpu/drm/hisilicon/kirin/kirin_drm_drv.c    |   2 +-
+ drivers/gpu/drm/hisilicon/kirin/kirin_drm_drv.h    |   2 +-
+ drivers/gpu/drm/i915/display/intel_dp_mst.c        |   4 +-
+ drivers/gpu/drm/i915/gem/i915_gem_phys.c           |   1 -
+ drivers/gpu/drm/i915/gt/intel_gpu_commands.h       |   2 +-
+ drivers/gpu/drm/i915/i915_drv.h                    |   1 -
+ drivers/gpu/drm/i915/i915_gpu_error.h              |   2 +-
+ drivers/gpu/drm/ingenic/ingenic-drm-drv.c          |  61 ++++++-
+ drivers/gpu/drm/ingenic/ingenic-drm.h              |   1 +
+ drivers/gpu/drm/ingenic/ingenic-ipu.c              |  21 ++-
+ drivers/gpu/drm/mcde/mcde_dsi.c                    |   4 +-
+ drivers/gpu/drm/nouveau/dispnv50/disp.c            |   5 +-
+ drivers/gpu/drm/nouveau/nouveau_bo.c               |  10 --
+ drivers/gpu/drm/nouveau/nouveau_drm.c              |   3 +-
+ drivers/gpu/drm/nouveau/nouveau_gem.c              |  36 ++++
+ drivers/gpu/drm/nouveau/nouveau_ttm.c              |  51 ------
+ drivers/gpu/drm/nouveau/nouveau_ttm.h              |   1 -
+ drivers/gpu/drm/panel/panel-samsung-s6e63m0-dsi.c  |   6 +-
+ drivers/gpu/drm/panel/panel-simple.c               |   2 +
+ drivers/gpu/drm/r128/ati_pcigart.c                 |   2 +
+ drivers/gpu/drm/r128/r128_drv.h                    |   2 +-
+ drivers/gpu/drm/radeon/radeon_dp_mst.c             |   2 +-
+ drivers/gpu/drm/radeon/radeon_drv.c                |   3 +-
+ drivers/gpu/drm/radeon/radeon_gem.c                |  49 ++++++
+ drivers/gpu/drm/radeon/radeon_ttm.c                |  65 -------
+ drivers/gpu/drm/radeon/radeon_ttm.h                |   1 -
+ drivers/gpu/drm/rockchip/cdn-dp-core.c             |   2 +
+ drivers/gpu/drm/rockchip/cdn-dp-reg.c              |   2 +-
+ drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c    |  45 +++--
+ drivers/gpu/drm/rockchip/rockchip_drm_drv.c        |  10 ++
+ drivers/gpu/drm/rockchip/rockchip_drm_vop.c        |   1 +
+ drivers/gpu/drm/rockchip/rockchip_lvds.c           |   4 +-
+ drivers/gpu/drm/rockchip/rockchip_vop_reg.c        |  54 ++++--
+ drivers/gpu/drm/rockchip/rockchip_vop_reg.h        |   1 +
+ drivers/gpu/drm/scheduler/sched_entity.c           |   8 +-
+ drivers/gpu/drm/scheduler/sched_main.c             |  35 +++-
+ drivers/gpu/drm/tiny/simpledrm.c                   |   6 +-
+ drivers/gpu/drm/ttm/ttm_bo.c                       |   4 +-
+ drivers/gpu/drm/ttm/ttm_bo_vm.c                    | 114 ++++++------
+ drivers/gpu/drm/vc4/vc4_crtc.c                     |  68 ++++++--
+ drivers/gpu/drm/vc4/vc4_drv.c                      |  11 +-
+ drivers/gpu/drm/vc4/vc4_hdmi.c                     | 147 +++++++++++++++-
+ drivers/gpu/drm/vc4/vc4_hdmi.h                     |  10 ++
+ drivers/gpu/drm/vc4/vc4_hdmi_regs.h                |   3 +
+ drivers/gpu/drm/vc4/vc4_txp.c                      |   2 +-
+ drivers/gpu/drm/vc4/vc4_vec.c                      |  27 ++-
+ drivers/gpu/drm/virtio/virtgpu_drv.c               |   4 +-
+ drivers/gpu/drm/virtio/virtgpu_kms.c               |   4 +
+ drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c         |   9 -
+ drivers/gpu/drm/vmwgfx/vmwgfx_ttm_glue.c           |  53 +++++-
+ drivers/gpu/vga/vgaarb.c                           |  31 +++-
+ drivers/pci/pci-driver.c                           |   1 +
+ drivers/video/fbdev/matrox/matroxfb_base.c         |   5 +-
+ include/drm/drm_dp_mst_helper.h                    |   8 +-
+ include/drm/drm_fb_cma_helper.h                    |   5 +
+ include/drm/drm_fourcc.h                           |   9 -
+ include/drm/drm_gem_cma_helper.h                   |   3 +
+ include/drm/ttm/ttm_bo_api.h                       |  15 +-
+ include/drm/ttm/ttm_device.h                       |  15 --
+ include/linux/pci.h                                |   3 +
+ include/uapi/drm/drm.h                             |  28 ++-
+ 149 files changed, 1809 insertions(+), 945 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/display/bridge/google,cros-ec-anx7688.yaml
+ delete mode 100644 Documentation/devicetree/bindings/display/faraday,tve200.txt
+ create mode 100644 Documentation/devicetree/bindings/display/faraday,tve200.yaml
+ create mode 100644 drivers/gpu/drm/bridge/cros-ec-anx7688.c
+
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Maxfeldstr. 5, 90409 Nürnberg, Germany
+(HRB 36809, AG Nürnberg)
+Geschäftsführer: Felix Imendörffer
