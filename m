@@ -2,38 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8E803970F0
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Jun 2021 12:06:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A10B39710F
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Jun 2021 12:16:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4F5576E9D4;
-	Tue,  1 Jun 2021 10:06:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8D4C16E9E1;
+	Tue,  1 Jun 2021 10:16:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1638C6E9DE;
- Tue,  1 Jun 2021 10:06:03 +0000 (UTC)
-IronPort-SDR: 3bGnSxKDRG8wRYpbL8Gr57YHiDcLRpB6BscGK4tPCsx64GSAOt6P0m4r2PobgWixVr1vSAcBJD
- pE69eoZjK3zA==
-X-IronPort-AV: E=McAfee;i="6200,9189,10001"; a="183197776"
-X-IronPort-AV: E=Sophos;i="5.83,239,1616482800"; d="scan'208";a="183197776"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Jun 2021 03:06:01 -0700
-IronPort-SDR: nAMCoBFdy5aRuUvxZGNXIUYlF7/TEDzuXVuVdXHIkhqzlAbPQPRmcwM2u0+Ej9pCok3rF6az2v
- GHHo6Gw2vBVA==
-X-IronPort-AV: E=Sophos;i="5.83,239,1616482800"; d="scan'208";a="399245279"
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8EA306E9D9;
+ Tue,  1 Jun 2021 10:16:01 +0000 (UTC)
+IronPort-SDR: Kwf104kHRfsRShwzjF3Gt2EjMC9LYYOZXTRj9yAz26Hrll7eTKab8m2ETHUTjeMkLavt01TUqv
+ TkcPHdN9EpvQ==
+X-IronPort-AV: E=McAfee;i="6200,9189,10001"; a="203549919"
+X-IronPort-AV: E=Sophos;i="5.83,239,1616482800"; d="scan'208";a="203549919"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Jun 2021 03:16:00 -0700
+IronPort-SDR: 6NVnKJLIXKRSq7BaIhQEG088/oEdNOljDWrve0QFRCvQeV5wgjNVHkopoO2KmfOAAr/vgPKIWy
+ AQ95b2Cn6ylQ==
+X-IronPort-AV: E=Sophos;i="5.83,239,1616482800"; d="scan'208";a="482431132"
 Received: from linux-desktop.iind.intel.com ([10.223.34.178])
- by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Jun 2021 03:05:59 -0700
+ by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Jun 2021 03:15:58 -0700
 From: Uma Shankar <uma.shankar@intel.com>
 To: intel-gfx@lists.freedesktop.org,
 	dri-devel@lists.freedesktop.org
-Subject: [PATCH 9/9] drm/i915/xelpd: Enable XE_LPD Gamma Lut readout
-Date: Tue,  1 Jun 2021 16:11:35 +0530
-Message-Id: <20210601104135.29020-10-uma.shankar@intel.com>
+Subject: [PATCH 00/21] Add Support for Plane Color Lut and CSC features
+Date: Tue,  1 Jun 2021 16:21:57 +0530
+Message-Id: <20210601105218.29185-1-uma.shankar@intel.com>
 X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20210601104135.29020-1-uma.shankar@intel.com>
-References: <20210601104135.29020-1-uma.shankar@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -52,128 +50,122 @@ Cc: Uma Shankar <uma.shankar@intel.com>, bhanuprakash.modem@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Enable support for Logarithmic gamma readout for XE_LPD.
+This is how a typical display color hardware pipeline looks like:
+ +-------------------------------------------+
+ |                RAM                        |
+ |  +------+    +---------+    +---------+   |
+ |  | FB 1 |    |  FB 2   |    | FB N    |   |
+ |  +------+    +---------+    +---------+   |
+ +-------------------------------------------+
+       |  Plane Color Hardware Block |
+ +--------------------------------------------+
+ | +---v-----+   +---v-------+   +---v------+ |
+ | | Plane A |   | Plane B   |   | Plane N  | |
+ | | DeGamma |   | Degamma   |   | Degamma  | |
+ | +---+-----+   +---+-------+   +---+------+ |
+ |     |             |               |        |
+ | +---v-----+   +---v-------+   +---v------+ |
+ | |Plane A  |   | Plane B   |   | Plane N  | |
+ | |CSC/CTM  |   | CSC/CTM   |   | CSC/CTM  | |
+ | +---+-----+   +----+------+   +----+-----+ |
+ |     |              |               |       |
+ | +---v-----+   +----v------+   +----v-----+ |
+ | | Plane A |   | Plane B   |   | Plane N  | |
+ | | Gamma   |   | Gamma     |   | Gamma    | |
+ | +---+-----+   +----+------+   +----+-----+ |
+ |     |              |               |       |
+ +--------------------------------------------+
++------v--------------v---------------v-------|
+||                                           ||
+||           Pipe Blender                    ||
++--------------------+------------------------+
+|                    |                        |
+|        +-----------v----------+             |
+|        |  Pipe DeGamma        |             |
+|        |                      |             |
+|        +-----------+----------+             |
+|                    |            Pipe Color  |
+|        +-----------v----------+ Hardware    |
+|        |  Pipe CSC/CTM        |             |
+|        |                      |             |
+|        +-----------+----------+             |
+|                    |                        |
+|        +-----------v----------+             |
+|        |  Pipe Gamma          |             |
+|        |                      |             |
+|        +-----------+----------+             |
+|                    |                        |
++---------------------------------------------+
+                     |
+                     v
+               Pipe Output
 
-Signed-off-by: Uma Shankar <uma.shankar@intel.com>
----
- drivers/gpu/drm/i915/display/intel_color.c | 72 ++++++++++++++++++++++
- drivers/gpu/drm/i915/i915_reg.h            |  6 ++
- 2 files changed, 78 insertions(+)
+This patch series adds properties for plane color features. It adds
+properties for degamma used to linearize data and CSC used for gamut
+conversion. It also includes Gamma support used to again non-linearize
+data as per panel supported color space. These can be utilize by user
+space to convert planes from one format to another, one color space to
+another etc.
 
-diff --git a/drivers/gpu/drm/i915/display/intel_color.c b/drivers/gpu/drm/i915/display/intel_color.c
-index a8b771f22880..1238fe05b358 100644
---- a/drivers/gpu/drm/i915/display/intel_color.c
-+++ b/drivers/gpu/drm/i915/display/intel_color.c
-@@ -486,6 +486,17 @@ static void icl_lut_multi_seg_pack(struct drm_color_lut *entry, u32 ldw, u32 udw
- 				    REG_FIELD_GET(PAL_PREC_MULTI_SEG_BLUE_LDW_MASK, ldw);
- }
- 
-+static void d13_lut_logarithmic_pack(struct drm_color_lut *entry,
-+				     u32 ldw, u32 udw)
-+{
-+	entry->red = REG_FIELD_GET(PAL_PREC_LOGARITHMIC_RED_UDW_MASK, udw) << 6 |
-+				   REG_FIELD_GET(PAL_PREC_LOGARITHMIC_RED_LDW_MASK, ldw);
-+	entry->green = REG_FIELD_GET(PAL_PREC_LOGARITHMIC_GREEN_UDW_MASK, udw) << 6 |
-+				     REG_FIELD_GET(PAL_PREC_LOGARITHMIC_GREEN_LDW_MASK, ldw);
-+	entry->blue = REG_FIELD_GET(PAL_PREC_LOGARITHMIC_BLUE_UDW_MASK, udw) << 6 |
-+				    REG_FIELD_GET(PAL_PREC_LOGARITHMIC_BLUE_LDW_MASK, ldw);
-+}
-+
- static void i9xx_color_commit(const struct intel_crtc_state *crtc_state)
- {
- 	struct intel_crtc *crtc = to_intel_crtc(crtc_state->uapi.crtc);
-@@ -2434,6 +2445,66 @@ static void d13_load_luts(const struct intel_crtc_state *crtc_state)
- 	intel_dsb_commit(crtc_state);
- }
- 
-+static struct drm_property_blob *
-+d13_read_lut_logarithmic(struct intel_crtc *crtc)
-+{
-+	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
-+	int i, lut_size = INTEL_INFO(dev_priv)->color.gamma_lut_size;
-+	enum pipe pipe = crtc->pipe;
-+	struct drm_property_blob *blob;
-+	struct drm_color_lut *lut;
-+	u32 gamma_max_val = 0xFFFF;
-+
-+	blob = drm_property_create_blob(&dev_priv->drm,
-+					sizeof(struct drm_color_lut) * lut_size,
-+					NULL);
-+	if (IS_ERR(blob))
-+		return NULL;
-+
-+	lut = blob->data;
-+
-+	intel_de_write(dev_priv, PREC_PAL_INDEX(pipe),
-+		       PAL_PREC_AUTO_INCREMENT);
-+
-+	for (i = 0; i < lut_size - 3; i++) {
-+		u32 ldw = intel_de_read(dev_priv, PREC_PAL_DATA(pipe));
-+		u32 udw = intel_de_read(dev_priv, PREC_PAL_DATA(pipe));
-+
-+		d13_lut_logarithmic_pack(&lut[i], ldw, udw);
-+	}
-+
-+	/* All the extended ranges are now limited to last value of 1.0 */
-+	while (i < lut_size) {
-+		lut[i].red = gamma_max_val;
-+		lut[i].green = gamma_max_val;
-+		lut[i].blue = gamma_max_val;
-+		i++;
-+	};
-+
-+	intel_de_write(dev_priv, PREC_PAL_INDEX(pipe), 0);
-+
-+	return blob;
-+}
-+
-+static void d13_read_luts(struct intel_crtc_state *crtc_state)
-+{
-+	struct intel_crtc *crtc = to_intel_crtc(crtc_state->uapi.crtc);
-+
-+	if ((crtc_state->gamma_mode & POST_CSC_GAMMA_ENABLE) == 0)
-+		return;
-+
-+	switch (crtc_state->gamma_mode & GAMMA_MODE_MODE_MASK) {
-+	case GAMMA_MODE_MODE_8BIT:
-+		crtc_state->hw.gamma_lut = ilk_read_lut_8(crtc);
-+		break;
-+	case GAMMA_MODE_MODE_12BIT_LOGARITHMIC:
-+		crtc_state->hw.gamma_lut = d13_read_lut_logarithmic(crtc);
-+		break;
-+	default:
-+		crtc_state->hw.gamma_lut = bdw_read_lut_10(crtc, PAL_PREC_INDEX_VALUE(0));
-+	}
-+}
-+
- void intel_color_init(struct intel_crtc *crtc)
- {
- 	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
-@@ -2488,6 +2559,7 @@ void intel_color_init(struct intel_crtc *crtc)
- 
- 		if (DISPLAY_VER(dev_priv) >= 13) {
- 			dev_priv->display.load_luts = d13_load_luts;
-+			dev_priv->display.read_luts = d13_read_luts;
- 		} else if (DISPLAY_VER(dev_priv) >= 11) {
- 			dev_priv->display.load_luts = icl_load_luts;
- 			dev_priv->display.read_luts = icl_read_luts;
-diff --git a/drivers/gpu/drm/i915/i915_reg.h b/drivers/gpu/drm/i915/i915_reg.h
-index 957f97edf035..dc10b5e2ff3c 100644
---- a/drivers/gpu/drm/i915/i915_reg.h
-+++ b/drivers/gpu/drm/i915/i915_reg.h
-@@ -7750,6 +7750,12 @@ enum {
- #define  GAMMA_MODE_MODE_SPLIT	(3 << 0) /* ivb-bdw */
- #define  GAMMA_MODE_MODE_12BIT_MULTI_SEGMENTED	(3 << 0) /* icl + */
- #define  GAMMA_MODE_MODE_12BIT_LOGARITHMIC	(3 << 0) /* D13+ + */
-+#define  PAL_PREC_LOGARITHMIC_RED_LDW_MASK	REG_GENMASK(29, 24)
-+#define  PAL_PREC_LOGARITHMIC_RED_UDW_MASK	REG_GENMASK(29, 20)
-+#define  PAL_PREC_LOGARITHMIC_GREEN_LDW_MASK	REG_GENMASK(19, 14)
-+#define  PAL_PREC_LOGARITHMIC_GREEN_UDW_MASK	REG_GENMASK(19, 10)
-+#define  PAL_PREC_LOGARITHMIC_BLUE_LDW_MASK	REG_GENMASK(9, 4)
-+#define  PAL_PREC_LOGARITHMIC_BLUE_UDW_MASK	REG_GENMASK(9, 0)
- 
- /* DMC */
- #define DMC_PROGRAM(i)		_MMIO(0x80000 + (i) * 4)
+Userspace can take smart blending decisions and utilize these hardware
+supported plane color features to get accurate color profile. The same
+can help in consistent color quality from source to panel taking
+advantage of advanced color features in hardware.
+
+These patches add the property interfaces and enable helper functions.
+This series adds Intel's XE_LPD hw specific plane gamma feature. We
+can build up and add other platform/hardware specific implementation
+on top of this series.
+
+Credits: Special mention and credits to Ville Syrjala for coming up
+with a design for this feature and inputs. This series is based on
+his original design and idea.
+
+Note: Userspace support for this new UAPI will be done on Chrome. We
+will notify the list once we have that ready for review.
+
+ToDo: State readout for this feature will be added next.
+
+Uma Shankar (21):
+  drm: Add Enhanced Gamma and color lut range attributes
+  drm: Add Plane Degamma Mode property
+  drm: Add Plane Degamma Lut property
+  drm/i915/xelpd: Define Degamma Lut range struct for HDR planes
+  drm/i915/xelpd: Add register definitions for Plane Degamma
+  drm/i915/xelpd: Enable plane color features
+  drm/i915/xelpd: Add color capabilities of SDR planes
+  drm/i915/xelpd: Program Plane Degamma Registers
+  drm/i915/xelpd: Add plane color check to glk_plane_color_ctl
+  drm/i915/xelpd: Initialize plane color features
+  drm/i915/xelpd: Load plane color luts from atomic flip
+  drm: Add Plane CTM property
+  drm: Add helper to attach Plane ctm property
+  drm/i915/xelpd: Define Plane CSC Registers
+  drm/i915/xelpd: Enable Plane CSC
+  drm: Add Plane Gamma Mode property
+  drm: Add Plane Gamma Lut property
+  drm/i915/xelpd: Define and Initialize Plane Gamma Lut range
+  drm/i915/xelpd: Add register definitions for Plane Gamma
+  drm/i915/xelpd: Program Plane Gamma Registers
+  drm/i915/xelpd: Enable plane gamma
+
+ Documentation/gpu/drm-kms.rst                 |  90 +++
+ drivers/gpu/drm/drm_atomic.c                  |   1 +
+ drivers/gpu/drm/drm_atomic_state_helper.c     |  12 +
+ drivers/gpu/drm/drm_atomic_uapi.c             |  38 ++
+ drivers/gpu/drm/drm_color_mgmt.c              | 177 +++++-
+ .../gpu/drm/i915/display/intel_atomic_plane.c |   6 +
+ .../gpu/drm/i915/display/intel_atomic_plane.h |   2 +
+ drivers/gpu/drm/i915/display/intel_color.c    | 513 ++++++++++++++++++
+ drivers/gpu/drm/i915/display/intel_color.h    |   2 +
+ .../drm/i915/display/skl_universal_plane.c    |  15 +-
+ drivers/gpu/drm/i915/i915_drv.h               |   3 +
+ drivers/gpu/drm/i915/i915_reg.h               | 176 +++++-
+ include/drm/drm_mode_object.h                 |   2 +-
+ include/drm/drm_plane.h                       |  81 +++
+ include/uapi/drm/drm_mode.h                   |  58 ++
+ 15 files changed, 1170 insertions(+), 6 deletions(-)
+
 -- 
 2.26.2
 
