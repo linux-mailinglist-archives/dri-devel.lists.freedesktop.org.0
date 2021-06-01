@@ -2,42 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3EFAB397333
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Jun 2021 14:27:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C81D6397336
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Jun 2021 14:30:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DAA8E6EA39;
-	Tue,  1 Jun 2021 12:27:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3CC286EA46;
+	Tue,  1 Jun 2021 12:30:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 15D546EA35;
- Tue,  1 Jun 2021 12:27:44 +0000 (UTC)
-IronPort-SDR: 9J8iNcsfvvEe/iBgV4krw++1CWjk++7PxKPcb4Yn6ygeV+Nc7vWHC1PnuB/iyGRp0kAoe01gEW
- xydRDbGhotYg==
-X-IronPort-AV: E=McAfee;i="6200,9189,10001"; a="190650258"
-X-IronPort-AV: E=Sophos;i="5.83,239,1616482800"; d="scan'208";a="190650258"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Jun 2021 05:27:43 -0700
-IronPort-SDR: 3alkzTWieqoqD0FyT6ZmkL4P3b4wzc/Nq9alCj91uIAN/JW05buGSBXVJYExFYYXQD0HcV35xi
- kF/q+hpoGoLQ==
-X-IronPort-AV: E=Sophos;i="5.83,239,1616482800"; d="scan'208";a="445316204"
-Received: from ycohenha-mobl1.ger.corp.intel.com (HELO localhost)
- ([10.252.54.130])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Jun 2021 05:27:40 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v9 07/15] drm: Add a prefetching memcpy_from_wc
-In-Reply-To: <20210601074654.3103-8-thomas.hellstrom@linux.intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20210601074654.3103-1-thomas.hellstrom@linux.intel.com>
- <20210601074654.3103-8-thomas.hellstrom@linux.intel.com>
-Date: Tue, 01 Jun 2021 15:27:37 +0300
-Message-ID: <87im2xrcqu.fsf@intel.com>
+Received: from mail-ot1-x334.google.com (mail-ot1-x334.google.com
+ [IPv6:2607:f8b0:4864:20::334])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 53C476EA4A
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Jun 2021 12:30:21 +0000 (UTC)
+Received: by mail-ot1-x334.google.com with SMTP id
+ i12-20020a05683033ecb02903346fa0f74dso13946285otu.10
+ for <dri-devel@lists.freedesktop.org>; Tue, 01 Jun 2021 05:30:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=9CVuECGP+ngG8kCpf9iHMJirwaI/jhJpxfFXjok8z+0=;
+ b=RbswaBKEeVFsooJg0a8OXXcvU52yjfK4dXMrbcR+0rSmushymIlH1OjTLkR1zPQDuF
+ Eq5rY8Rg4bF3M+hqzYtA9KGwRF0m+ACW8SoNtcft3hbBZYxBZK0Qy/yJI6O9PPTftyma
+ uQemfssuD/18IKTTqgWLdwvU8+O/GIUqXKf74=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=9CVuECGP+ngG8kCpf9iHMJirwaI/jhJpxfFXjok8z+0=;
+ b=NBtb6JB64SVUe3jA/Zychefucb8A8kJAxhPsh0XVHobX7a/UVQQK0AcbMz+1hcMlcm
+ eumKJomAaohVtJjysrxY/7dlHzWBtuADeD0f4MuCMj/cSuJEhdImR/B6VXawRqsNujQ5
+ 1/FAUN3bc4jIEYIYj3E2VFRBU08YTG3nTiWYp7TBieu5BC2yvmp4VDaj8o+rJGcQeX9M
+ Na1RV1cpTSYW6X4kCzqlBjptlHLzgxgGelLZd4KZ/1K8w0ronDUVD793KN/52Qcp6UGQ
+ TRCWLWlsEBh9q+Hpe5feIT+YFtwQmUmAKbVkajCTzc9wjQIxh4M9d7VLY/CHps8BpN63
+ /f4A==
+X-Gm-Message-State: AOAM533CfwnzyPv2ND5IjiLx2+KZLkWFFVgfwTYiOheB5NlpTwCQJrSw
+ qhG7sBBYbYH1CBVXBRHyn6Nni58AUYfipkf4QcLDV3m/B8s=
+X-Google-Smtp-Source: ABdhPJyJ13SFeNB0xu3oxmcu2eXE4PCYdARS26/VhNEKtWYZcNyRRLf7cmmJtolQBRGJ7hvmZ4x5LzAD3JBGs4UCf3c=
+X-Received: by 2002:a05:6830:1155:: with SMTP id
+ x21mr21098200otq.303.1622550620634; 
+ Tue, 01 Jun 2021 05:30:20 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+References: <CAAxE2A4XS2mCXOdvxm1ZAhG2OY9w1P0X2E1ac1TXNFKDekog5g@mail.gmail.com>
+ <e7cb9833-1044-0426-5ce4-5b5fc32a3603@daenzer.net>
+ <327e4008-b29f-f5b7-bb30-532fa52c797f@gmail.com>
+ <7f19e3c7-b6b2-5200-95eb-3fed8d22a6b3@daenzer.net>
+ <b0d65f94-cc56-a4db-3158-7b1de3952792@gmail.com>
+In-Reply-To: <b0d65f94-cc56-a4db-3158-7b1de3952792@gmail.com>
+From: Daniel Vetter <daniel@ffwll.ch>
+Date: Tue, 1 Jun 2021 14:30:09 +0200
+Message-ID: <CAKMK7uGaD_LuX-SZDALuDuEOMZNX=Q3FAq0xYf_pTVtNe6VUaw@mail.gmail.com>
+Subject: Re: [Mesa-dev] Linux Graphics Next: Userspace submission update
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -51,281 +66,104 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Christian =?utf-8?Q?K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: =?UTF-8?B?TWFyZWsgT2zFocOhaw==?= <maraeo@gmail.com>,
+ =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel@daenzer.net>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Jason Ekstrand <jason@jlekstrand.net>,
+ ML Mesa-dev <mesa-dev@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 01 Jun 2021, Thomas Hellstr=C3=B6m <thomas.hellstrom@linux.intel.co=
-m> wrote:
-> Reading out of write-combining mapped memory is typically very slow
-> since the CPU doesn't prefetch. However some archs have special
-> instructions to do this.
+On Tue, Jun 1, 2021 at 2:10 PM Christian K=C3=B6nig
+<ckoenig.leichtzumerken@gmail.com> wrote:
 >
-> So add a best-effort memcpy_from_wc taking dma-buf-map pointer
-> arguments that attempts to use a fast prefetching memcpy and
-> otherwise falls back to ordinary memcopies, taking the iomem tagging
-> into account.
+> Am 01.06.21 um 12:49 schrieb Michel D=C3=A4nzer:
+> > On 2021-06-01 12:21 p.m., Christian K=C3=B6nig wrote:
+> >> Am 01.06.21 um 11:02 schrieb Michel D=C3=A4nzer:
+> >>> On 2021-05-27 11:51 p.m., Marek Ol=C5=A1=C3=A1k wrote:
+> >>>> 3) Compositors (and other privileged processes, and display flipping=
+) can't trust imported/exported fences. They need a timeout recovery mechan=
+ism from the beginning, and the following are some possible solutions to ti=
+meouts:
+> >>>>
+> >>>> a) use a CPU wait with a small absolute timeout, and display the pre=
+vious content on timeout
+> >>>> b) use a GPU wait with a small absolute timeout, and conditional ren=
+dering will choose between the latest content (if signalled) and previous c=
+ontent (if timed out)
+> >>>>
+> >>>> The result would be that the desktop can run close to 60 fps even if=
+ an app runs at 1 fps.
+> >>> FWIW, this is working with
+> >>> https://gitlab.gnome.org/GNOME/mutter/-/merge_requests/1880 , even wi=
+th implicit sync (on current Intel GPUs; amdgpu/radeonsi would need to prov=
+ide the same dma-buf poll semantics as other drivers and high priority GFX =
+contexts via EGL_IMG_context_priority which can preempt lower priority ones=
+).
+> >> Yeah, that is really nice to have.
+> >>
+> >> One question is if you wait on the CPU or the GPU for the new surface =
+to become available?
+> > It's based on polling dma-buf fds, i.e. CPU.
+> >
+> >> The former is a bit bad for latency and power management.
+> > There isn't a choice for Wayland compositors in general, since there ca=
+n be arbitrary other state which needs to be applied atomically together wi=
+th the new buffer. (Though in theory, a compositor might get fancy and spec=
+ial-case surface commits which can be handled by waiting on the GPU)
+> >
+> > Latency is largely a matter of scheduling in the compositor. The latenc=
+y incurred by the compositor shouldn't have to be more than single-digit mi=
+lliseconds. (I've seen total latency from when the client starts processing=
+ a (static) frame to when it starts being scanned out as low as ~6 ms with =
+https://gitlab.gnome.org/GNOME/mutter/-/merge_requests/1620, lower than typ=
+ical with Xorg)
 >
-> The code is largely copied from i915_memcpy_from_wc.
+> Well let me describe it like this:
 >
-> Cc: Daniel Vetter <daniel@ffwll.ch>
-> Cc: Christian K=C3=B6nig <christian.koenig@amd.com>
-> Suggested-by: Daniel Vetter <daniel@ffwll.ch>
-> Signed-off-by: Thomas Hellstr=C3=B6m <thomas.hellstrom@linux.intel.com>
-> Acked-by: Christian K=C3=B6nig <christian.koenig@amd.com>
-> Acked-by: Daniel Vetter <daniel@ffwll.ch>
-> ---
-> v7:
-> - Perform a memcpy even if warning with in_interrupt(). Suggested by
->   Christian K=C3=B6nig.
-> - Fix compilation failure on !X86 (Reported by kernel test robot
->   lkp@intel.com)
-> v8:
-> - Skip kerneldoc for drm_memcpy_init_early()
-> - Export drm_memcpy_from_wc() also for non-x86.
-> ---
->  Documentation/gpu/drm-mm.rst |   2 +-
->  drivers/gpu/drm/drm_cache.c  | 148 +++++++++++++++++++++++++++++++++++
->  drivers/gpu/drm/drm_drv.c    |   2 +
->  include/drm/drm_cache.h      |   7 ++
->  4 files changed, 158 insertions(+), 1 deletion(-)
+> We have an use cases for 144 Hz guaranteed refresh rate. That
+> essentially means that the client application needs to be able to spit
+> out one frame/window content every ~6.9ms. That's tough, but doable.
 >
-> diff --git a/Documentation/gpu/drm-mm.rst b/Documentation/gpu/drm-mm.rst
-> index 21be6deadc12..c66058c5bce7 100644
-> --- a/Documentation/gpu/drm-mm.rst
-> +++ b/Documentation/gpu/drm-mm.rst
-> @@ -469,7 +469,7 @@ DRM MM Range Allocator Function References
->  .. kernel-doc:: drivers/gpu/drm/drm_mm.c
->     :export:
->=20=20
-> -DRM Cache Handling
-> +DRM Cache Handling and Fast WC memcpy()
->  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> When you now add 6ms latency in the compositor that means the client
+> application has only .9ms left for it's frame which is basically
+> impossible to do.
+>
+> See for the user fences handling the display engine will learn to read
+> sequence numbers from memory and decide on it's own if the old frame or
+> the new one is scanned out. To get the latency there as low as possible.
 
-The title underline needs to be as long as the title.
+This won't work with implicit sync at all.
 
-BR,
-Jani.
+If you want to enable this use-case with driver magic and without the
+compositor being aware of what's going on, the solution is EGLStreams.
+Not sure we want to go there, but it's definitely a lot more feasible
+than trying to stuff eglstreams semantics into dma-buf implicit
+fencing support in a desperate attempt to not change compositors.
 
->=20=20
->  .. kernel-doc:: drivers/gpu/drm/drm_cache.c
-> diff --git a/drivers/gpu/drm/drm_cache.c b/drivers/gpu/drm/drm_cache.c
-> index 79a50ef1250f..546599f19a93 100644
-> --- a/drivers/gpu/drm/drm_cache.c
-> +++ b/drivers/gpu/drm/drm_cache.c
-> @@ -28,6 +28,7 @@
->   * Authors: Thomas Hellstr=C3=B6m <thomas-at-tungstengraphics-dot-com>
->   */
->=20=20
-> +#include <linux/dma-buf-map.h>
->  #include <linux/export.h>
->  #include <linux/highmem.h>
->  #include <linux/mem_encrypt.h>
-> @@ -35,6 +36,9 @@
->=20=20
->  #include <drm/drm_cache.h>
->=20=20
-> +/* A small bounce buffer that fits on the stack. */
-> +#define MEMCPY_BOUNCE_SIZE 128
-> +
->  #if defined(CONFIG_X86)
->  #include <asm/smp.h>
->=20=20
-> @@ -209,3 +213,147 @@ bool drm_need_swiotlb(int dma_bits)
->  	return max_iomem > ((u64)1 << dma_bits);
->  }
->  EXPORT_SYMBOL(drm_need_swiotlb);
-> +
-> +static void memcpy_fallback(struct dma_buf_map *dst,
-> +			    const struct dma_buf_map *src,
-> +			    unsigned long len)
-> +{
-> +	if (!dst->is_iomem && !src->is_iomem) {
-> +		memcpy(dst->vaddr, src->vaddr, len);
-> +	} else if (!src->is_iomem) {
-> +		dma_buf_map_memcpy_to(dst, src->vaddr, len);
-> +	} else if (!dst->is_iomem) {
-> +		memcpy_fromio(dst->vaddr, src->vaddr_iomem, len);
-> +	} else {
-> +		/*
-> +		 * Bounce size is not performance tuned, but using a
-> +		 * bounce buffer like this is significantly faster than
-> +		 * resorting to ioreadxx() + iowritexx().
-> +		 */
-> +		char bounce[MEMCPY_BOUNCE_SIZE];
-> +		void __iomem *_src =3D src->vaddr_iomem;
-> +		void __iomem *_dst =3D dst->vaddr_iomem;
-> +
-> +		while (len >=3D MEMCPY_BOUNCE_SIZE) {
-> +			memcpy_fromio(bounce, _src, MEMCPY_BOUNCE_SIZE);
-> +			memcpy_toio(_dst, bounce, MEMCPY_BOUNCE_SIZE);
-> +			_src +=3D MEMCPY_BOUNCE_SIZE;
-> +			_dst +=3D MEMCPY_BOUNCE_SIZE;
-> +			len -=3D MEMCPY_BOUNCE_SIZE;
-> +		}
-> +		if (len) {
-> +			memcpy_fromio(bounce, _src, MEMCPY_BOUNCE_SIZE);
-> +			memcpy_toio(_dst, bounce, MEMCPY_BOUNCE_SIZE);
-> +		}
-> +	}
-> +}
-> +
-> +#ifdef CONFIG_X86
-> +
-> +static DEFINE_STATIC_KEY_FALSE(has_movntdqa);
-> +
-> +static void __memcpy_ntdqa(void *dst, const void *src, unsigned long len)
-> +{
-> +	kernel_fpu_begin();
-> +
-> +	while (len >=3D 4) {
-> +		asm("movntdqa	(%0), %%xmm0\n"
-> +		    "movntdqa 16(%0), %%xmm1\n"
-> +		    "movntdqa 32(%0), %%xmm2\n"
-> +		    "movntdqa 48(%0), %%xmm3\n"
-> +		    "movaps %%xmm0,   (%1)\n"
-> +		    "movaps %%xmm1, 16(%1)\n"
-> +		    "movaps %%xmm2, 32(%1)\n"
-> +		    "movaps %%xmm3, 48(%1)\n"
-> +		    :: "r" (src), "r" (dst) : "memory");
-> +		src +=3D 64;
-> +		dst +=3D 64;
-> +		len -=3D 4;
-> +	}
-> +	while (len--) {
-> +		asm("movntdqa (%0), %%xmm0\n"
-> +		    "movaps %%xmm0, (%1)\n"
-> +		    :: "r" (src), "r" (dst) : "memory");
-> +		src +=3D 16;
-> +		dst +=3D 16;
-> +	}
-> +
-> +	kernel_fpu_end();
-> +}
-> +
-> +/*
-> + * __drm_memcpy_from_wc copies @len bytes from @src to @dst using
-> + * non-temporal instructions where available. Note that all arguments
-> + * (@src, @dst) must be aligned to 16 bytes and @len must be a multiple
-> + * of 16.
-> + */
-> +static void __drm_memcpy_from_wc(void *dst, const void *src, unsigned lo=
-ng len)
-> +{
-> +	if (unlikely(((unsigned long)dst | (unsigned long)src | len) & 15))
-> +		memcpy(dst, src, len);
-> +	else if (likely(len))
-> +		__memcpy_ntdqa(dst, src, len >> 4);
-> +}
-> +
-> +/**
-> + * drm_memcpy_from_wc - Perform the fastest available memcpy from a sour=
-ce
-> + * that may be WC.
-> + * @dst: The destination pointer
-> + * @src: The source pointer
-> + * @len: The size of the area o transfer in bytes
-> + *
-> + * Tries an arch optimized memcpy for prefetching reading out of a WC re=
-gion,
-> + * and if no such beast is available, falls back to a normal memcpy.
-> + */
-> +void drm_memcpy_from_wc(struct dma_buf_map *dst,
-> +			const struct dma_buf_map *src,
-> +			unsigned long len)
-> +{
-> +	if (WARN_ON(in_interrupt())) {
-> +		memcpy_fallback(dst, src, len);
-> +		return;
-> +	}
-> +
-> +	if (static_branch_likely(&has_movntdqa)) {
-> +		__drm_memcpy_from_wc(dst->is_iomem ?
-> +				     (void __force *)dst->vaddr_iomem :
-> +				     dst->vaddr,
-> +				     src->is_iomem ?
-> +				     (void const __force *)src->vaddr_iomem :
-> +				     src->vaddr,
-> +				     len);
-> +		return;
-> +	}
-> +
-> +	memcpy_fallback(dst, src, len);
-> +}
-> +EXPORT_SYMBOL(drm_memcpy_from_wc);
-> +
-> +/*
-> + * drm_memcpy_init_early - One time initialization of the WC memcpy code
-> + */
-> +void drm_memcpy_init_early(void)
-> +{
-> +	/*
-> +	 * Some hypervisors (e.g. KVM) don't support VEX-prefix instructions
-> +	 * emulation. So don't enable movntdqa in hypervisor guest.
-> +	 */
-> +	if (static_cpu_has(X86_FEATURE_XMM4_1) &&
-> +	    !boot_cpu_has(X86_FEATURE_HYPERVISOR))
-> +		static_branch_enable(&has_movntdqa);
-> +}
-> +#else
-> +void drm_memcpy_from_wc(struct dma_buf_map *dst,
-> +			const struct dma_buf_map *src,
-> +			unsigned long len)
-> +{
-> +	WARN_ON(in_interrupt());
-> +
-> +	memcpy_fallback(dst, src, len);
-> +}
-> +EXPORT_SYMBOL(drm_memcpy_from_wc);
-> +
-> +void drm_memcpy_init_early(void)
-> +{
-> +}
-> +#endif /* CONFIG_X86 */
-> diff --git a/drivers/gpu/drm/drm_drv.c b/drivers/gpu/drm/drm_drv.c
-> index 3d8d68a98b95..8804ec7d3215 100644
-> --- a/drivers/gpu/drm/drm_drv.c
-> +++ b/drivers/gpu/drm/drm_drv.c
-> @@ -35,6 +35,7 @@
->  #include <linux/slab.h>
->  #include <linux/srcu.h>
->=20=20
-> +#include <drm/drm_cache.h>
->  #include <drm/drm_client.h>
->  #include <drm/drm_color_mgmt.h>
->  #include <drm/drm_drv.h>
-> @@ -1041,6 +1042,7 @@ static int __init drm_core_init(void)
->=20=20
->  	drm_connector_ida_init();
->  	idr_init(&drm_minors_idr);
-> +	drm_memcpy_init_early();
->=20=20
->  	ret =3D drm_sysfs_init();
->  	if (ret < 0) {
-> diff --git a/include/drm/drm_cache.h b/include/drm/drm_cache.h
-> index e9ad4863d915..cc9de1632dd3 100644
-> --- a/include/drm/drm_cache.h
-> +++ b/include/drm/drm_cache.h
-> @@ -35,6 +35,8 @@
->=20=20
->  #include <linux/scatterlist.h>
->=20=20
-> +struct dma_buf_map;
-> +
->  void drm_clflush_pages(struct page *pages[], unsigned long num_pages);
->  void drm_clflush_sg(struct sg_table *st);
->  void drm_clflush_virt_range(void *addr, unsigned long length);
-> @@ -70,4 +72,9 @@ static inline bool drm_arch_can_wc_memory(void)
->  #endif
->  }
->=20=20
-> +void drm_memcpy_init_early(void);
-> +
-> +void drm_memcpy_from_wc(struct dma_buf_map *dst,
-> +			const struct dma_buf_map *src,
-> +			unsigned long len);
->  #endif
+I still think the most reasonable approach here is that we wrap a
+dma_fence compat layer/mode over new hw for existing
+userspace/compositors. And then enable userspace memory fences and the
+fancy new features those allow with a new model that's built for them.
+Also even with dma_fence we could implement your model of staying with
+the previous buffer (or an older buffer at that's already rendered),
+but it needs explicit involvement of the compositor. At least without
+adding eglstreams fd to the kernel and wiring up all the relevant
+extensions.
+-Daniel
+
+> >> Another question is if that is sufficient as security for the display =
+server or if we need further handling down the road? I mean essentially we =
+are moving the reliability problem into the display server.
+> > Good question. This should generally protect the display server from fr=
+eezing due to client fences never signalling, but there might still be corn=
+er cases.
+> >
+> >
+>
+
 
 --=20
-Jani Nikula, Intel Open Source Graphics Center
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
