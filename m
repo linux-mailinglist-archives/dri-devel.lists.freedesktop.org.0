@@ -2,36 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC92C396E2A
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Jun 2021 09:47:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C9C28396E2D
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Jun 2021 09:47:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6A3726E8B3;
-	Tue,  1 Jun 2021 07:47:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9DBC16E8B6;
+	Tue,  1 Jun 2021 07:47:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E50B16E89A;
- Tue,  1 Jun 2021 07:47:27 +0000 (UTC)
-IronPort-SDR: uN5pD8xfMHvK8eclNWKLZ5eaIBE9mSwPpsvi7e5MK0BqNGm6wxsqDSWiq7IJhfn6OvsqDE8iOm
- m6eZKGZgt7lA==
-X-IronPort-AV: E=McAfee;i="6200,9189,10001"; a="289114203"
-X-IronPort-AV: E=Sophos;i="5.83,239,1616482800"; d="scan'208";a="289114203"
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 354F56E8B6;
+ Tue,  1 Jun 2021 07:47:30 +0000 (UTC)
+IronPort-SDR: UXmyJp8MsSslzvqy1BqFNi399yFmPEtTaUY3yTpkL37WsEwZMNlNP/2tYtOC0CvU1nOKhIBmLB
+ SlORIxK5t/Eg==
+X-IronPort-AV: E=McAfee;i="6200,9189,10001"; a="289114204"
+X-IronPort-AV: E=Sophos;i="5.83,239,1616482800"; d="scan'208";a="289114204"
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Jun 2021 00:47:26 -0700
-IronPort-SDR: fLWQHUhBmQAPG0mMUj9sXMCTytEomK/JbRzyZaHpLGudGU58CkYfhe99B3wIHG7ZUurSiFhUBm
- 562xSq2Ur7ag==
-X-IronPort-AV: E=Sophos;i="5.83,239,1616482800"; d="scan'208";a="549648764"
+ 01 Jun 2021 00:47:28 -0700
+IronPort-SDR: p6FBFqokgUba0+l3IMXbUOw9JO57d7uc2zWva2yf+xZFXhRpJj5w2yOQWNPeWffe42Pf7KFYa2
+ hholqByR6+Tw==
+X-IronPort-AV: E=Sophos;i="5.83,239,1616482800"; d="scan'208";a="549648769"
 Received: from clillies-mobl.ger.corp.intel.com (HELO thellst-mobl1.intel.com)
  ([10.249.254.18])
  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Jun 2021 00:47:25 -0700
+ 01 Jun 2021 00:47:26 -0700
 From: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
 To: intel-gfx@lists.freedesktop.org,
 	dri-devel@lists.freedesktop.org
-Subject: [PATCH v9 13/15] drm/i915: Disable mmap ioctl for gen12+
-Date: Tue,  1 Jun 2021 09:46:52 +0200
-Message-Id: <20210601074654.3103-14-thomas.hellstrom@linux.intel.com>
+Subject: [PATCH v9 14/15] drm/vma: Add a driver_private member to vma_node.
+Date: Tue,  1 Jun 2021 09:46:53 +0200
+Message-Id: <20210601074654.3103-15-thomas.hellstrom@linux.intel.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210601074654.3103-1-thomas.hellstrom@linux.intel.com>
 References: <20210601074654.3103-1-thomas.hellstrom@linux.intel.com>
@@ -56,37 +56,53 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
 
-The platform should exclusively use mmap_offset, one less path to worry
-about for discrete.
+This allows drivers to distinguish between different types of vma_node's.
+The readonly flag was unused and is thus removed.
+
+This is a temporary solution, until i915 is converted completely to
+use ttm for bo's.
 
 Signed-off-by: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
 Reviewed-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+Acked-by: Daniel Vetter <daniel@ffwll.ch> #irc
 ---
- drivers/gpu/drm/i915/gem/i915_gem_mman.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+ drivers/gpu/drm/drm_gem.c     | 9 ---------
+ include/drm/drm_vma_manager.h | 2 +-
+ 2 files changed, 1 insertion(+), 10 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_mman.c b/drivers/gpu/drm/i915/gem/i915_gem_mman.c
-index f6fe5cb01438..fd1c9714f8d8 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_mman.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_mman.c
-@@ -56,10 +56,17 @@ int
- i915_gem_mmap_ioctl(struct drm_device *dev, void *data,
- 		    struct drm_file *file)
- {
-+	struct drm_i915_private *i915 = to_i915(dev);
- 	struct drm_i915_gem_mmap *args = data;
- 	struct drm_i915_gem_object *obj;
- 	unsigned long addr;
+diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
+index 9989425e9875..e710e79069f6 100644
+--- a/drivers/gpu/drm/drm_gem.c
++++ b/drivers/gpu/drm/drm_gem.c
+@@ -1149,15 +1149,6 @@ int drm_gem_mmap(struct file *filp, struct vm_area_struct *vma)
+ 		return -EACCES;
+ 	}
  
-+	/* mmap ioctl is disallowed for all platforms after TGL-LP.  This also
-+	 * covers all platforms with local memory.
-+	 */
-+	if (INTEL_GEN(i915) >= 12 && !IS_TIGERLAKE(i915))
-+		return -EOPNOTSUPP;
-+
- 	if (args->flags & ~(I915_MMAP_WC))
- 		return -EINVAL;
+-	if (node->readonly) {
+-		if (vma->vm_flags & VM_WRITE) {
+-			drm_gem_object_put(obj);
+-			return -EINVAL;
+-		}
+-
+-		vma->vm_flags &= ~VM_MAYWRITE;
+-	}
+-
+ 	ret = drm_gem_mmap_obj(obj, drm_vma_node_size(node) << PAGE_SHIFT,
+ 			       vma);
  
+diff --git a/include/drm/drm_vma_manager.h b/include/drm/drm_vma_manager.h
+index 76ac5e97a559..4f8c35206f7c 100644
+--- a/include/drm/drm_vma_manager.h
++++ b/include/drm/drm_vma_manager.h
+@@ -53,7 +53,7 @@ struct drm_vma_offset_node {
+ 	rwlock_t vm_lock;
+ 	struct drm_mm_node vm_node;
+ 	struct rb_root vm_files;
+-	bool readonly:1;
++	void *driver_private;
+ };
+ 
+ struct drm_vma_offset_manager {
 -- 
 2.31.1
 
