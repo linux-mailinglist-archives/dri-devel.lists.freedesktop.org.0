@@ -2,57 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1218397E4D
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Jun 2021 03:57:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC4E6397E55
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Jun 2021 04:00:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BA4BD6EB4B;
-	Wed,  2 Jun 2021 01:57:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DAA5F6EB4C;
+	Wed,  2 Jun 2021 02:00:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x231.google.com (mail-oi1-x231.google.com
- [IPv6:2607:f8b0:4864:20::231])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E5B9B6EB45;
- Wed,  2 Jun 2021 01:57:46 +0000 (UTC)
-Received: by mail-oi1-x231.google.com with SMTP id h9so1265832oih.4;
- Tue, 01 Jun 2021 18:57:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=SU3VNhIHP4qFfMS6BHdB+T/4wdfQUGXE54wCPeu58gQ=;
- b=QQO75cNDTpDKr0tOdLOk5vG9ysCKgZa/phRsAdD89jlR+TT9Wjgl3mHuc1yXOnZu9L
- xsRhHTI9U8g5BYgBihgDXw6SikyKy9uI+vcBR/0GRLeuZPZPL/sZ+Q8NyhCrFi6h/8Rq
- ZEOkfNeRAWeAfwfI/4mLVNOdfpqIvjsk/+BgiSUjprCSv3xhbHyQZJvd23gxCfFk6QKD
- QOImaejnjZGYi3c+IWhtKD14pHWKC11iaZ1fLPcXIYgwoFVMWYOv7mN3EYxOAP7W4T9/
- yHHTxTAYdLhrWVepaPX/WcM0IxKK2z1R8oLv3rcFrSmis3GkxABc1obOY4Yh0u0nmFw4
- Ckkw==
+Received: from mail-ot1-x334.google.com (mail-ot1-x334.google.com
+ [IPv6:2607:f8b0:4864:20::334])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1C39D6EB45
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Jun 2021 02:00:07 +0000 (UTC)
+Received: by mail-ot1-x334.google.com with SMTP id
+ i12-20020a05683033ecb02903346fa0f74dso1108860otu.10
+ for <dri-devel@lists.freedesktop.org>; Tue, 01 Jun 2021 19:00:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:in-reply-to:references:from:user-agent:date:message-id
+ :subject:to:cc;
+ bh=dEnLLx1tkRZoNKWtmVCz6hV85sEb57r1guLX8xpZjyo=;
+ b=g6GirZuUiOk5ToppH7B4pWFsZdHwFM+mqHbMV3kUzl/EKBopUUPpTXsK+vJ8rcTO0B
+ kFJa6AVebp/mYmG3+IR+zG/kCXhWEk3ZlfgeUIqS9kuQhY9U75I5A/KqWIjSwzicHfsF
+ wgoM44oOLVW/400gxKU0C97CgTsIkHlkjkxXQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=SU3VNhIHP4qFfMS6BHdB+T/4wdfQUGXE54wCPeu58gQ=;
- b=lLXCuB+djC/lRxyr1ylcoW2FeCAoLbNFPW28QlS0Ueq2Q7fIFhXovaDUHwBu8NDK6i
- mCf5LqVHdY/TcVVxw5zONqFDfzNmdu0aHxxfxWB7+IG9WU0A9jC81ymvzia1JVk5pehH
- DTjnM7toDbhmImRegm4X29F+2FZStf6W/16qBDnQanWR1hDQHaixJcvyntt6Zxww0dvW
- QNAeOAh3AKfWpvgiaP2VD9qJeselx6EckhVhNZvTee3yBC47lvi+d7YTf5QM1JmyMi7G
- dUNDbFVYifmj6xRpF5VUq3aE8zMiFWI/4XNnH4BVto0jnPU6Xb67vVZPoQLAeg74fOk9
- ODQw==
-X-Gm-Message-State: AOAM532739sYzXFBsS+Nj5ahW19xv3fuRpvjwdrY+/n3sLu2V1Z62j23
- FEEOrzHg4uZjsZ5e7WVMfXrjDcD2tz2NSwr9d04=
-X-Google-Smtp-Source: ABdhPJz1oJcj/TIW7IPXKfUGMx+mKb7O5I8+KY9nNPCZgngt3Y0TTxSNjp3R9qmQkBVU/dtI0mfS9UGxQ14qdDZsEFg=
-X-Received: by 2002:a05:6808:1592:: with SMTP id
- t18mr19903224oiw.123.1622599066060; 
- Tue, 01 Jun 2021 18:57:46 -0700 (PDT)
+ h=x-gm-message-state:mime-version:in-reply-to:references:from
+ :user-agent:date:message-id:subject:to:cc;
+ bh=dEnLLx1tkRZoNKWtmVCz6hV85sEb57r1guLX8xpZjyo=;
+ b=nOyYEyVukgzQJMYBiFoL4SxFRFZipQxG+xgQOcb03LiG6XzJG4obhO7sf7lNOHM0DE
+ lIUUnn8gTo6gUKCVJwzgytpNBC37cqDKlQuWctpIMxujOxiV8ke7qzOQkLudwFmcBK0n
+ eYRgRRYwLoQRSpCKEsrxeYNoKfUBdVPHruiawDBeTvDIPTAf3Z9hJ2RbcSlw/lDFoKAj
+ L9kxaAIlpWGPlZ7cDauNoG2d47pN3bpblplP8laBdDHO2JVIRQXVo8yIbF38FHrwJn6V
+ 24RgogBPYWDPhKA1AGk1i4Pbcng2t4oa9MREPEUNq/cFtvZXKer8zQ2thcJe7HcenQ2b
+ NmSA==
+X-Gm-Message-State: AOAM532soutBEnvtzFS6r88x3aKHgrQSoYRbJ5ZwwL5cihe1+SdInb3Q
+ jd/zQwixwow8zDpCkN971NvLt727FOFxK1KVdc5vrg==
+X-Google-Smtp-Source: ABdhPJyx3D5dt9HhEl4vjIYswJL7/b+W9JLEakEh7TMCg3c3Iq0lypuLPEbmafmsmlf4YjeBaSV75iQt/60XKjuXHsU=
+X-Received: by 2002:a9d:18e:: with SMTP id e14mr5051666ote.34.1622599206303;
+ Tue, 01 Jun 2021 19:00:06 -0700 (PDT)
+Received: from 753933720722 named unknown by gmailapi.google.com with
+ HTTPREST; Tue, 1 Jun 2021 19:00:05 -0700
 MIME-Version: 1.0
-References: <1622194158-70898-1-git-send-email-jiapeng.chong@linux.alibaba.com>
- <37a4f0bf-4acb-3961-699b-8335e194e315@amd.com>
-In-Reply-To: <37a4f0bf-4acb-3961-699b-8335e194e315@amd.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Tue, 1 Jun 2021 21:57:35 -0400
-Message-ID: <CADnq5_NY_uWzB6QjsM0_+xcbQkMfy1wm2gQx3v7xW_eHQ804YA@mail.gmail.com>
-Subject: Re: [PATCH v3] amdgpu: remove unreachable code
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <1622591408-5465-1-git-send-email-khsieh@codeaurora.org>
+References: <1622591408-5465-1-git-send-email-khsieh@codeaurora.org>
+From: Stephen Boyd <swboyd@chromium.org>
+User-Agent: alot/0.9.1
+Date: Tue, 1 Jun 2021 19:00:05 -0700
+Message-ID: <CAE-0n52wAmQ1ZZ0pfGfXwsM23D+R5FFVBrpzr1a8YGDdWNb_gw@mail.gmail.com>
+Subject: Re: [PATCH v3] drm/msm/dp: power off DP phy at suspend
+To: Kuogee Hsieh <khsieh@codeaurora.org>, agross@kernel.org,
+ bjorn.andersson@linaro.org, 
+ robdclark@gmail.com, sean@poorly.run, vkoul@kernel.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,63 +65,157 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>,
- Dave Airlie <airlied@linux.ie>, LKML <linux-kernel@vger.kernel.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>, "Deucher,
- Alexander" <alexander.deucher@amd.com>,
- linux-media <linux-media@vger.kernel.org>
+Cc: linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, abhinavk@codeaurora.org,
+ aravindh@codeaurora.org, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Applied.  Thanks!
+Please add dri-devel@lists.freedesktop.org next time
 
-On Fri, May 28, 2021 at 8:18 AM Christian K=C3=B6nig
-<christian.koenig@amd.com> wrote:
+Quoting Kuogee Hsieh (2021-06-01 16:50:08)
+> Normal DP suspend operation contains two steps, display off followed
+> by dp suspend, to complete system wide suspending cycle if display is
+> up at that time. In this case, DP phy will be powered off at display
+> off. However there is an exception case that depending on the timing
+> of dongle plug in during system wide suspending, sometimes display off
+> procedure may be skipped and dp suspend was called directly. In this
+> case, dp phy is stay at powered on (phy->power_count = 1) so that at
+> next resume dp driver crash at main link clock enable due to phy is
+> not physically powered on. This patch will call dp_ctrl_off_link_stream()
+> to tear down main link and power off phy at dp_pm_suspend() if main link
+> had been brought up.
 >
-> Am 28.05.21 um 11:29 schrieb Jiapeng Chong:
-> > In the function amdgpu_uvd_cs_msg(), every branch in the switch
-> > statement will have a return, so the code below the switch statement
-> > will not be executed.
-> >
-> > Eliminate the follow smatch warning:
-> >
-> > drivers/gpu/drm/amd/amdgpu/amdgpu_uvd.c:845 amdgpu_uvd_cs_msg() warn:
-> > ignoring unreachable code.
-> >
-> > Reported-by: Abaci Robot <abaci@linux.alibaba.com>
-> > Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
+> Changes in V2:
+> -- stashed changes into dp_ctrl.c
+> -- add is_phy_on to monitor phy state
 >
-> Reviewed-by: Christian K=C3=B6nig <christian.koenig@amd.com>
+> Changes in V3:
+> -- delete is_phy_on
+> -- call dp_ctrl_off_link_stream() from dp_pm_suspend()
 >
-> > ---
-> > Changes in v2:
-> >    -For the follow advice: https://lore.kernel.org/patchwork/patch/1435=
-968/
-> >
-> >   drivers/gpu/drm/amd/amdgpu/amdgpu_uvd.c | 3 +--
-> >   1 file changed, 1 insertion(+), 2 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_uvd.c b/drivers/gpu/drm/=
-amd/amdgpu/amdgpu_uvd.c
-> > index c6dbc08..35f6874 100644
-> > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_uvd.c
-> > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_uvd.c
-> > @@ -829,9 +829,8 @@ static int amdgpu_uvd_cs_msg(struct amdgpu_uvd_cs_c=
-tx *ctx,
-> >
-> >       default:
-> >               DRM_ERROR("Illegal UVD message type (%d)!\n", msg_type);
-> > -             return -EINVAL;
-> >       }
-> > -     BUG();
-> > +
-> >       return -EINVAL;
-> >   }
-> >
+> Fixes: 0114f31a2903 ("drm/msm/dp: handle irq_hpd with sink_count = 0 correctly)
+> Signed-off-by: Kuogee Hsieh <khsieh@codeaurora.org>
+> ---
+>  drivers/gpu/drm/msm/dp/dp_ctrl.c    | 10 +++++++++-
+>  drivers/gpu/drm/msm/dp/dp_display.c |  4 +++-
+>  drivers/gpu/drm/msm/dp/dp_power.c   | 15 +++++++++++++++
+>  3 files changed, 27 insertions(+), 2 deletions(-)
 >
-> _______________________________________________
-> amd-gfx mailing list
-> amd-gfx@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/amd-gfx
+> diff --git a/drivers/gpu/drm/msm/dp/dp_ctrl.c b/drivers/gpu/drm/msm/dp/dp_ctrl.c
+> index dbd8943..8324a453 100644
+> --- a/drivers/gpu/drm/msm/dp/dp_ctrl.c
+> +++ b/drivers/gpu/drm/msm/dp/dp_ctrl.c
+> @@ -1414,6 +1414,7 @@ void dp_ctrl_host_deinit(struct dp_ctrl *dp_ctrl)
+>         phy = dp_io->phy;
+>
+>         dp_catalog_ctrl_enable_irq(ctrl->catalog, false);
+> +
+>         phy_exit(phy);
+>
+>         DRM_DEBUG_DP("Host deinitialized successfully\n");
+> @@ -1457,6 +1458,7 @@ static int dp_ctrl_reinitialize_mainlink(struct dp_ctrl_private *ctrl)
+>                 return ret;
+>         }
+>         phy_power_off(phy);
+> +
+>         /* hw recommended delay before re-enabling clocks */
+>         msleep(20);
+>
+> @@ -1488,6 +1490,7 @@ static int dp_ctrl_deinitialize_mainlink(struct dp_ctrl_private *ctrl)
+>         }
+>
+>         phy_power_off(phy);
+> +
+>         phy_exit(phy);
+>
+>         return 0;
+
+None of these hunks are useful. Can we drop them?
+
+> @@ -1816,12 +1819,16 @@ int dp_ctrl_off_link_stream(struct dp_ctrl *dp_ctrl)
+>         struct dp_ctrl_private *ctrl;
+>         struct dp_io *dp_io;
+>         struct phy *phy;
+> -       int ret;
+> +       int ret = 0;
+
+Drop this.
+
+>
+>         ctrl = container_of(dp_ctrl, struct dp_ctrl_private, dp_ctrl);
+>         dp_io = &ctrl->parser->io;
+>         phy = dp_io->phy;
+>
+> +       /* main link is off */
+> +       if (!dp_power_clk_status(ctrl->power, DP_CTRL_PM))
+> +               return ret;
+
+and then return 0?
+
+> +
+>         /* set dongle to D3 (power off) mode */
+>         dp_link_psm_config(ctrl->link, &ctrl->panel->link_info, true);
+>
+> @@ -1894,6 +1901,7 @@ int dp_ctrl_off(struct dp_ctrl *dp_ctrl)
+>         }
+>
+>         phy_power_off(phy);
+> +
+>         phy_exit(phy);
+>
+>         DRM_DEBUG_DP("DP off done\n");
+
+Drop?
+
+> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
+> index cdec0a3..5abd769 100644
+> --- a/drivers/gpu/drm/msm/dp/dp_display.c
+> +++ b/drivers/gpu/drm/msm/dp/dp_display.c
+> @@ -1327,8 +1327,10 @@ static int dp_pm_suspend(struct device *dev)
+>
+>         mutex_lock(&dp->event_mutex);
+>
+> -       if (dp->core_initialized == true)
+> +       if (dp->core_initialized == true) {
+> +               dp_ctrl_off_link_stream(dp->ctrl);
+
+Why not just check here for dp_power_clk_status()?
+
+>                 dp_display_host_deinit(dp);
+> +       }
+>
+>         dp->hpd_state = ST_SUSPENDED;
+>
+> diff --git a/drivers/gpu/drm/msm/dp/dp_power.c b/drivers/gpu/drm/msm/dp/dp_power.c
+> index 9c4ea00..980924a9 100644
+> --- a/drivers/gpu/drm/msm/dp/dp_power.c
+> +++ b/drivers/gpu/drm/msm/dp/dp_power.c
+> @@ -262,6 +262,21 @@ int dp_power_clk_enable(struct dp_power *dp_power,
+>                         }
+>                         dp_power->core_clks_on = true;
+>                 }
+> +       } else {
+> +               if (pm_type == DP_CORE_PM && !dp_power->core_clks_on) {
+> +                       DRM_DEBUG_DP("core clks already disabled\n");
+> +                       return 0;
+> +               }
+> +
+> +               if (pm_type == DP_CTRL_PM && !dp_power->link_clks_on) {
+> +                       DRM_DEBUG_DP("links clks already disabled\n");
+> +                       return 0;
+> +               }
+> +
+> +               if (pm_type == DP_STREAM_PM && !dp_power->stream_clks_on) {
+> +                       DRM_DEBUG_DP("pixel clks already disabled\n");
+> +                       return 0;
+> +               }
+>         }
+
+If this happens isn't something wrong? Like we've somehow lost track of
+the proper state and no we're trying to disable clks when we don't need
+to. And given that clks already manage their own refcount that would be
+pretty obvious if it went wrong
+
+>
+>         rc = dp_power_clk_set_rate(power, pm_type, enable);
