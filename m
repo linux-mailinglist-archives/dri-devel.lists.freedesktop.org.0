@@ -1,49 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 535183986A2
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Jun 2021 12:36:20 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B7E1139876A
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Jun 2021 12:57:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E6A7E6E072;
-	Wed,  2 Jun 2021 10:36:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C4C366E3D2;
+	Wed,  2 Jun 2021 10:57:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 754FE6E072
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Jun 2021 10:36:16 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 7A0DA613B8
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Jun 2021 10:36:15 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 60CCE6E3C1;
+ Wed,  2 Jun 2021 10:57:02 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 5FF1460FF2;
+ Wed,  2 Jun 2021 10:57:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1622630175;
- bh=Xa5oz/ILz8vjR97/pJYCvyY/NNpND8pGb1w+9hOSe2I=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=gIC784woqMHBUpdHqC4l/yXihvsojUnxUi/YZdAsG4IEVgyQ9h/MEwJANPU35aBxt
- FlefHOvvpOayn3NgdkTlwM0iGzb9ietQJ2c8lCv6a5XFjn9m9qJv8nGSvbhVjamAWg
- mHdXvDCnuWXhd30vLCmg13W7ryiIppvrPq7fMWez494zpDbFOMlQDLoOwRdCsHpmVK
- fNZjoeke+ThTSDvKUprTYgTD4WhiW6w1DDa8TgPQ0qWElcpLsODYSFtKgYfD9swLNE
- 5LuHrsjO1b4tnTPCe42qEgELSdKAAOz131izgpCoyowEiuUH1rn3FiFw/uFklLk9Zh
- KBdhmh98miM2Q==
-Received: by mail-io1-f46.google.com with SMTP id r4so1979639iol.6
- for <dri-devel@lists.freedesktop.org>; Wed, 02 Jun 2021 03:36:15 -0700 (PDT)
-X-Gm-Message-State: AOAM531EBrznVLljsu8lo54kgJH3aiv9Tl7GMYxEgwnvw/5rE5mPEvGe
- S0/qu1YCTrQ2w6BW2pda8JHS8QwuwYymkSMW1Ao=
-X-Google-Smtp-Source: ABdhPJy/mXkJVCvdeq/DzKWm7d6euHfmEfP1hs6djPIcQz4qO7uJsKLN55Yd2IKaNFbYd6h7OEJETU/0qqW//YOVjTo=
-X-Received: by 2002:a05:6638:1202:: with SMTP id
- n2mr3174690jas.57.1622630174963; 
- Wed, 02 Jun 2021 03:36:14 -0700 (PDT)
+ s=k20201202; t=1622631422;
+ bh=4Kqd06H4tk196Fea2oUyUzPCeW3WtfbykgTc6Olq6aI=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=NQ54KWhccDSvwlRvVWIWPFBMdCHFM40ckBKp6C0O5pVbaEfpXntyDYDIZR1FIkfVd
+ b03Za3uUGuo/Zj39zpCr1+1lWnv/u0cP4LFi/yd7RtFku3JFlWJf2ZxwT5f7jAgsBP
+ bcQ92lU7Z9HmuqOmHCs32ugqc6ToKMXLQ97btza9X9vl98ZMo0BBTIX/hXmN+tlrjz
+ s3ZeJunw3tPwq38VH4nTDl4fOD0zztQYA6ctd/OsneYD22ko3V9NN+aP7lTyWMDVOC
+ +ZIfuUA6BIgJOAP78YqTd1+yvM9FzcKekN/MsRDOCMeAnVXT1CsRs9IVj5IU+JMc3u
+ k3H3NIyX1NJ8A==
+Date: Wed, 2 Jun 2021 16:26:58 +0530
+From: Vinod Koul <vkoul@kernel.org>
+To: Jeffrey Hugo <jeffrey.l.hugo@gmail.com>
+Subject: Re: [Freedreno] [RFC PATCH 00/13] drm/msm: Add Display Stream
+ Compression Support
+Message-ID: <YLdj+nu3rUiIQL0k@vkoul-mobl>
+References: <20210521124946.3617862-1-vkoul@kernel.org>
+ <CAOCk7Nqep_Db+z3fr5asHZ1u0j8+6fKkPFs2Ai8CbA_zGqV6ZA@mail.gmail.com>
+ <YK3gxqXBRupN/N+Q@vkoul-mobl.Dlink>
+ <CAOCk7NqvhGvYw8xCBctqj7H+o-Qwp2UuUJK1gatW9EWfXv56xA@mail.gmail.com>
 MIME-Version: 1.0
-References: <20210528082607.2015145-1-chenhuacai@loongson.cn>
- <YLZYuM6SepbeLcI7@phenom.ffwll.local> <YLZqe14Lf2+5Lbf3@kroah.com>
- <YLZ2WJlHu0EZT7H9@phenom.ffwll.local>
-In-Reply-To: <YLZ2WJlHu0EZT7H9@phenom.ffwll.local>
-From: Huacai Chen <chenhuacai@kernel.org>
-Date: Wed, 2 Jun 2021 18:36:03 +0800
-X-Gmail-Original-Message-ID: <CAAhV-H5Mt7tmmDVoix6sY3UtfhjxGvHovve2N=5o5xtvmFeQOA@mail.gmail.com>
-Message-ID: <CAAhV-H5Mt7tmmDVoix6sY3UtfhjxGvHovve2N=5o5xtvmFeQOA@mail.gmail.com>
-Subject: Re: [PATCH] vgaarb: Call vga_arb_device_init() after PCI enumeration
-To: Daniel Vetter <daniel@ffwll.ch>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAOCk7NqvhGvYw8xCBctqj7H+o-Qwp2UuUJK1gatW9EWfXv56xA@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,58 +50,92 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Greg KH <gregkh@linuxfoundation.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- Bjorn Helgaas <bhelgaas@google.com>, Xuefeng Li <lixuefeng@loongson.cn>,
- Huacai Chen <chenhuacai@loongson.cn>
+Cc: DTML <devicetree@vger.kernel.org>, Jonathan Marek <jonathan@marek.ca>,
+ David Airlie <airlied@linux.ie>, MSM <linux-arm-msm@vger.kernel.org>,
+ lkml <linux-kernel@vger.kernel.org>, Abhinav Kumar <abhinavk@codeaurora.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>, Rob Herring <robh+dt@kernel.org>,
+ "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ freedreno <freedreno@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi, Daniel,
-
-On Wed, Jun 2, 2021 at 2:03 AM Daniel Vetter <daniel@ffwll.ch> wrote:
->
-> On Tue, Jun 01, 2021 at 07:12:27PM +0200, Greg KH wrote:
-> > On Tue, Jun 01, 2021 at 05:56:40PM +0200, Daniel Vetter wrote:
-> > > On Fri, May 28, 2021 at 04:26:07PM +0800, Huacai Chen wrote:
-> > > > We should call vga_arb_device_init() after PCI enumeration, otherwise it
-> > > > may fail to select the default VGA device. Since vga_arb_device_init()
-> > > > and PCI enumeration function (i.e., pcibios_init() or acpi_init()) are
-> > > > both wrapped by subsys_initcall(), their sequence is not assured. So, we
-> > > > use subsys_initcall_sync() instead of subsys_initcall() to wrap vga_arb_
-> > > > device_init().
+On 26-05-21, 09:00, Jeffrey Hugo wrote:
+> On Tue, May 25, 2021 at 11:46 PM Vinod Koul <vkoul@kernel.org> wrote:
+> > On 21-05-21, 08:09, Jeffrey Hugo wrote:
+> > > On Fri, May 21, 2021 at 6:50 AM Vinod Koul <vkoul@kernel.org> wrote:
+> > > >
+> > > > Display Stream Compression (DSC) compresses the display stream in host which
+> > > > is later decoded by panel. This series enables this for Qualcomm msm driver.
+> > > > This was tested on Google Pixel3 phone which use LGE SW43408 panel.
+> > > >
+> > > > The changes include adding DT properties for DSC then hardware blocks support
+> > > > required in DPU1 driver and support in encoder. We also add support in DSI
+> > > > and introduce required topology changes.
+> > > >
+> > > > In order for panel to set the DSC parameters we add dsc in drm_panel and set
+> > > > it from the msm driver.
+> > > >
+> > > > Complete changes which enable this for Pixel3 along with panel driver (not
+> > > > part of this series) and DT changes can be found at:
+> > > > git.linaro.org/people/vinod.koul/kernel.git pixel/dsc_rfc
+> > > >
+> > > > Comments welcome!
+> > >
+> > > This feels backwards to me.  I've only skimmed this series, and the DT
+> > > changes didn't come through for me, so perhaps I have an incomplete
+> > > view.
 > >
-> > Trying to juggle levels like this always fails if you build the code as
-> > a module.
+> > Not sure why, I see it on lore:
+> > https://lore.kernel.org/dri-devel/20210521124946.3617862-3-vkoul@kernel.org/
 > >
-> > Why not fix it properly and handle the out-of-order loading by returning
-> > a "deferred" error if you do not have your resources yet?
->
-> It's not a driver, it's kinda a bolted-on-the-side subsytem of pci. So not
-> something you can -EPROBE_DEFER I think, without potentially upsetting the
-> drivers that need this.
->
-> Which might mean we should move this into pci subsystem proper perhaps?
-> Then adding the init call at the right time becomes trivial since we just
-> plug it in at the end of pci init.
->
-> Also maybe that's how distros avoid this pain, pci is built-in, vgaarb is
-> generally a module, problem solved.
->
-> Bjorn, would you take this entire vgaarb.c thing? From a quick look I
-> don't think it has a drm-ism in it (unlike vga_switcheroo, but that works
-> a bit differently and doesn't have this init order issue).
-Emmm, this patch cannot handle the hotplug case and module case, it
-just handles the case that vgaarb, drm driver and pci all built-in.
-But I think this is enough, because the original problem only happens
-on very few BMC-based VGA cards (BMC doesn't set the VGA Enable bit on
-the bridge, which breaks vgaarb).
+> > > DSC is not MSM specific.  There is a standard for it.  Yet it looks
+> > > like everything is implemented in a MSM specific way, and then pushed
+> > > to the panel.  So, every vendor needs to implement their vendor
+> > > specific way to get the DSC info, and then push it to the panel?
+> > > Seems wrong, given there is an actual standard for this feature.
+> >
+> > I have added slice and bpp info in the DT here under the host and then
+> > pass the generic struct drm_dsc_config to panel which allows panel to
+> > write the pps cmd
+> >
+> > Nothing above is MSM specific.. It can very well work with non MSM
+> > controllers too.
+> 
+> I disagree.
+> 
+> The DT bindings you defined (thanks for the direct link) are MSM
+> specific.  I'm not talking (yet) about the properties you defined, but
+> purely from the stand point that you defined the binding within the
+> scope of the MSM dsi binding.  No other vendor can use those bindings.
+> Of course, if we look at the properties themselves, they are prefixed
+> with "qcom", which is vendor specific.
+> 
+> So, purely on the face of it, this is MSM specific.
+> 
+> Assuming we want a DT solution for DSC, I think it should be something
+> like Documentation/devicetree/bindings/clock/clock-bindings.txt (the
+> first example that comes to mind), which is a non-vendor specific
+> generic set of properties that each vendor/device specific binding can
+> inherit.  Panel has similar things.
+> 
+> Specific to the properties, I don't much like that you duplicate BPP,
+> which is already associated with the panel (although perhaps not in
+> the scope of DT).  What if the panel and your DSC bindings disagree?
+> Also, I guess I need to ask, have you read the DSC spec?  Last I
+> looked, there were something like 3 dozen properties that could be
+> configured.  You have five in your proposed binding.  To me, this is
+> not a generic DSC solution, this is MSM specific (and frankly I don't
+> think this supports all the configuration the MSM hardware can do,
+> either).
 
-Huacai
->
-> Thoughts on this?
-> -Daniel
-> --
-> Daniel Vetter
-> Software Engineer, Intel Corporation
-> http://blog.ffwll.ch
+I would concede the point that DT is msm specific. I dont disagree on
+making them a common dsc biding which anyone can use. I think your idea
+does have merits...
+
+I am still not sure who should include these properties, would it be the
+panel or host. Either would work and rest of the system can use these
+properties...
+
+-- 
+~Vinod
