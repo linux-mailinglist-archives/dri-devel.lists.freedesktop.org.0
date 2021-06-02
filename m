@@ -1,59 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7EF4C398141
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Jun 2021 08:41:40 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 87302398143
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Jun 2021 08:41:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9AF8E6EB61;
-	Wed,  2 Jun 2021 06:41:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B8BA26EB5F;
+	Wed,  2 Jun 2021 06:41:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x22c.google.com (mail-lj1-x22c.google.com
- [IPv6:2a00:1450:4864:20::22c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7A1B46EB61;
- Wed,  2 Jun 2021 06:41:35 +0000 (UTC)
-Received: by mail-lj1-x22c.google.com with SMTP id c11so1200264ljd.6;
- Tue, 01 Jun 2021 23:41:35 -0700 (PDT)
+Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com
+ [IPv6:2a00:1450:4864:20::12a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 359376EB5F;
+ Wed,  2 Jun 2021 06:41:48 +0000 (UTC)
+Received: by mail-lf1-x12a.google.com with SMTP id a2so1652558lfc.9;
+ Tue, 01 Jun 2021 23:41:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-transfer-encoding:content-language;
- bh=R9/y5IYzZfRPi/Fhac+yR1YulSNV9LadEvMh90LaCeo=;
- b=fNktISO3ADDDsqDFNCHQNvS3oGdIRn90B+HEZhYWQIOATUmuiqRmBFT/MYEXvpeILU
- 4C+xjCwTKEj9/is8jhqvBxyfJtuRVUEvzhRGsilHbsXkyaGn8Lu9EuCxobg+OhaqOpGX
- lWhUWqJo/fubku/juKeHOhh/KbKp8HBlRYJcaj8QzvCC3SFQcvkGSBmMyt/KEBu+ulaP
- ggV4lU2XPaz1kzNDBxYkfIYRtiZLbvC8G1Am5Q2YHOU+pB9g9LTdC5Ht8nYAxrP9QFXk
- Nt6dHOjNKPseUN/43FwZag3PUV8JuU8QfTxiNZEdmhWh/M6Ogz/dswY4Z5dgsl6Zh93G
- R84w==
+ bh=JuA6X6SLX6jIYFhYDQ4PSI4qy/mD4F92gXt5+pzqhiw=;
+ b=KCV/BGdWMOqxiMziTgxJG87UDnnpW8xslLWy99uLb7VpB0RQjUpAWx3hwYAp9Kx5Dl
+ IjTIIwlQYDW5T7AXT2g3YaWicvlr0QoZq8pSc/suf79ln6bq3X8planLEx+zhml1LRDt
+ Mun9Yaawf9AiZbfMNOTlrFcP8dbphUV94K0FW0FoGk+JaHCkKpr5nEsWTE46qHOgssXF
+ dhsOdlXifGmZQnIFGM+g2cIN585b68PiWEuCsFf0hMVvWeV2dYsBNs4tCNYIhxqAJ/b8
+ K0oNCfR+mBnCAgtWDyanW4oLNUX9ZWtxwZBpN3Ks13wNdZ57GC5dswRWQGLYavDjHvS5
+ cwmg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-transfer-encoding
  :content-language;
- bh=R9/y5IYzZfRPi/Fhac+yR1YulSNV9LadEvMh90LaCeo=;
- b=GV91xw3j4gJpB7nLck042nPBwJ6V6euchWg+DzgK+PMcR35aJxipR1FoaQjjZsl4kK
- wmCjVZByyL9vlRMpuN+Tb2rJEgLXc7zXk5Wdk5bxvXsTH2l8S4LUtu1Dre9GRBtEs1e/
- jMx65tEH28G9VYtJPqUuUOMGj3arqn3EW1jIrXAr+0tA/WIF6jMxJWdsNKLZGcu7OTXE
- QzsOO1TQoOFgwhQBKyX+wbgn4+qVJQGwbftpW0NRwGoVl9nPlSERetnUN487yVo3disz
- Hu1YpIXaTCaIPiIy4MSVUmFQw8jfokRfdauQR92tfpzT+s9RSgaPWdXi3W64vRGwGF9G
- kx0w==
-X-Gm-Message-State: AOAM5331pkwAy+z05cQ5kaeUG58AMR5Frv9zWkeQyDgY9PsnI+DI4b6z
- kkRP3k1bWsU/L8G2Qfm675E=
-X-Google-Smtp-Source: ABdhPJzIYkFbmi5Oc3PCYAwJ8UX0rROeI+UMxIzbiDuMK1nt2p50i5/fIbdVxXEjQoGuBZlJZMSTzg==
-X-Received: by 2002:a2e:9182:: with SMTP id f2mr12972872ljg.223.1622616093901; 
- Tue, 01 Jun 2021 23:41:33 -0700 (PDT)
+ bh=JuA6X6SLX6jIYFhYDQ4PSI4qy/mD4F92gXt5+pzqhiw=;
+ b=oOj2/j9V3gfIXHu7lQdSdH1r86UcSvSTZEGK21Mf0imMs0c+TcpS/r6zeWeInRaJT8
+ 5KRGTcMqOeSHEi2/Wy/YEzkPwBwnWXcMKTNgzq7HCuqq5hheUkq7TijznZg/zDrKtfov
+ o8hUUV8Ltw7nKGXQPAlu/+z+0xsnxcr8lYKxdDPhdCKgcQ3MmYWkL3lvQvvgZAKMVioD
+ z7rJhqwybUx2+jCDOcQvymGWCnNTBMXGmiGueH/LztDz2oy1ipf3tzVubuCG6g1rgcsO
+ OvGcI1wiYTDQ/iYFq99NTBG1NMX+Jiyx4niy7XaFNXbXOmnxAf2D8ErRSQVhsrlhXOmz
+ pUYA==
+X-Gm-Message-State: AOAM530AMiuoqkXikQ1/g3RRuoLqCBr74bTlykAC/Geaom2GIrKh81eK
+ C8gf3kzHT+MN4RWhl7PtK/M=
+X-Google-Smtp-Source: ABdhPJyISRYTRVb7ufM2hmPTe5uCl/aVs5YEhYnXhErkpU6mZCC8AlR8jCTkc4ir85CpRK9jN25aVg==
+X-Received: by 2002:a05:6512:1188:: with SMTP id
+ g8mr21596868lfr.410.1622616106489; 
+ Tue, 01 Jun 2021 23:41:46 -0700 (PDT)
 Received: from ?IPv6:2a02:908:1252:fb60:cd07:2759:3eec:1d00?
  ([2a02:908:1252:fb60:cd07:2759:3eec:1d00])
- by smtp.gmail.com with ESMTPSA id q7sm581480ljm.109.2021.06.01.23.41.32
+ by smtp.gmail.com with ESMTPSA id y8sm146731lfj.192.2021.06.01.23.41.44
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 01 Jun 2021 23:41:33 -0700 (PDT)
+ Tue, 01 Jun 2021 23:41:45 -0700 (PDT)
 Subject: Re: [PATCH -next] drm/radeon/radeon_pm: use DEVICE_ATTR_RW macro
 To: Alex Deucher <alexdeucher@gmail.com>, YueHaibing <yuehaibing@huawei.com>
 References: <20210528070217.9204-1-yuehaibing@huawei.com>
  <CADnq5_M2dSDqafpgEvuaRZRHk1j0=obTyYcYX0GGRGiBzs5eMQ@mail.gmail.com>
 From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-Message-ID: <39b4c939-9f40-3e44-13d8-f98b01808d05@gmail.com>
-Date: Wed, 2 Jun 2021 08:41:31 +0200
+Message-ID: <2920ae60-0064-a972-94fd-57b0caa0c01d@gmail.com>
+Date: Wed, 2 Jun 2021 08:41:43 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
@@ -94,7 +95,7 @@ Am 02.06.21 um 03:53 schrieb Alex Deucher:
 > but I don't have a particularly strong opinion of others feel
 > differently.
 
-I agree, especially dropping the amdgpu prefix from the functions 
+I agree, especially dropping the amdgpu/radeon prefix from the functions 
 doesn't sound like something we want.
 
 Christian.
