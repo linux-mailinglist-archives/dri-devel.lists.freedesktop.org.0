@@ -2,79 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E06D397CF4
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Jun 2021 01:18:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DFA96397D96
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Jun 2021 02:10:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 43F286E093;
-	Tue,  1 Jun 2021 23:18:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 432A06E2A3;
+	Wed,  2 Jun 2021 00:10:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 1315 seconds by postgrey-1.36 at gabe;
- Tue, 01 Jun 2021 23:18:47 UTC
-Received: from gateway20.websitewelcome.com (gateway20.websitewelcome.com
- [192.185.54.2])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BF5C76E093
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Jun 2021 23:18:47 +0000 (UTC)
-Received: from cm13.websitewelcome.com (cm13.websitewelcome.com [100.42.49.6])
- by gateway20.websitewelcome.com (Postfix) with ESMTP id EF688400DA9CE
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Jun 2021 17:44:16 -0500 (CDT)
-Received: from gator4166.hostgator.com ([108.167.133.22]) by cmsmtp with SMTP
- id oDKAl6xFYVBxyoDKAlauN0; Tue, 01 Jun 2021 17:57:26 -0500
-X-Authority-Reason: nr=8
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=embeddedor.com; s=default; h=Content-Transfer-Encoding:Content-Type:
- In-Reply-To:MIME-Version:Date:Message-ID:References:Cc:To:From:Subject:Sender
- :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
- Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
- List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=EJjRNBIb1t/JVbuc9ZYLViGQoZmuO/z8cpH4lbWGbvQ=; b=JOidhVBNMgAlBwN/pL8izI0orq
- 28RS3VeyVKl5j9UeURZQpF3Pi/zNn8Ahj2qcT8HpEsxOvZcany91xRaW2KxaO/iPeM224rF8VfYiE
- iTwTN9n9PR1uOqi0tMyr8XNYlnSdo8kw2kzxYAtun6ShA32tMQ0Oom7plfPoG0iS/xBXcqiejEAja
- XRVgYBb9w3CxOtsyY99ealNQ+vPZ58qi9kTfFdwQcByIKCfYxsTSJZs49KOopzhJ8BZIk1pEzFTMi
- cwCFYTSgkO1Yk0YGrb9/F34YJ0mZFK6SecrT0W4fxHXu7D6SUIFIDdwL6KiJXZfnLvredKFKpomTN
- kbej1dUg==;
-Received: from 187-162-31-110.static.axtel.net ([187.162.31.110]:53078
- helo=[192.168.15.8])
- by gator4166.hostgator.com with esmtpsa (TLS1.2) tls
- TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256 (Exim 4.94.2)
- (envelope-from <gustavo@embeddedor.com>)
- id 1loDK7-000vU5-0n; Tue, 01 Jun 2021 17:57:23 -0500
-Subject: Re: [PATCH RESEND][next] drm/nouveau/therm: Fix fall-through warnings
- for Clang
-From: "Gustavo A. R. Silva" <gustavo@embeddedor.com>
-To: "Gustavo A. R. Silva" <gustavoars@kernel.org>,
- Ben Skeggs <bskeggs@redhat.com>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>
-References: <20210305095807.GA142125@embeddedor>
- <af4363d5-982d-3168-21aa-921c65f35554@embeddedor.com>
-Message-ID: <b3daee1b-95da-c9d0-3214-661807d22f50@embeddedor.com>
-Date: Tue, 1 Jun 2021 17:58:27 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1815D6EB3E
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Jun 2021 00:10:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1622592634;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=g6XERwupFZipcAmg6D1I1zxjEbLYz5zppsdgraxGF7Q=;
+ b=ZCSLw/lyvlQACVz8Hr6sOBefF39Tz+PZebRYr8i/WAZZWDD8I3teL6OusznVFkOpZHBQ/G
+ ybbXxN/4GM1J7G0t4CKVj5rrEIta/fUyne3LLgZ5lhKPz/WLVaYukAqnm2PNJOIJ99QfhF
+ S9aFIWzskRlJziD74aL8Q7G1HBE67dw=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-272-f-9waTJINKC-iPzDIt5ewA-1; Tue, 01 Jun 2021 20:10:31 -0400
+X-MC-Unique: f-9waTJINKC-iPzDIt5ewA-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ x10-20020adfc18a0000b029010d83c83f2aso210104wre.8
+ for <dri-devel@lists.freedesktop.org>; Tue, 01 Jun 2021 17:10:31 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=g6XERwupFZipcAmg6D1I1zxjEbLYz5zppsdgraxGF7Q=;
+ b=IcPYCUnSk2MJJoxwxTBeMwFSIZiXkt+twVxwEEDcCvwnJ384nu8S+4gJDyZGP294HN
+ 0vlqhi6bi6bx8sP55Jzo2DS84Lfu9JbskbIPM635wZm2eqYuxbwbijEM8ScgffR817KI
+ bgoniwxJgrQRxWeCdQbykX5HzMGNhHVyXpsZG3AEo1Vhe0JlPYs8uFTCkUye25Kiqwaa
+ HuqlDaV265zn8uhCMx46JtjXs0w6Ts+Y9nTTct+x6eN+bTQU9nJnBxWncerkxMvH1oH1
+ 3Gcau8BYqXpDeyk90koC2OzDxNtMunL3qEESfgZDJtTxnqoQObQEJxzk+zQF16uqiqEX
+ eLbA==
+X-Gm-Message-State: AOAM530fm9VWM2npQUA8n+izDbMbkz12k+Onviyl6lnVGYOUS/axZUJT
+ YVjrztJTVLt0q3nttnhuGXNavyrK61qnJz0G76QgMXdSNYnqPZqtRimq38iLgQ3LeHpIMc9QyBc
+ S27bmgeMWtuiYoqEp2l4Fz33jLZnzfuTiZJlS5ghP6AhX
+X-Received: by 2002:adf:dcc3:: with SMTP id x3mr8763245wrm.177.1622592629526; 
+ Tue, 01 Jun 2021 17:10:29 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJy+7ytifh8Tq7X7nnucf7aYm2Vw3csWvxa0+c2QJbbdpuaVNF93Pvls4Lv1rmxm1PeJU5y+Ay/NirV8hdJrDSY=
+X-Received: by 2002:adf:dcc3:: with SMTP id x3mr8763219wrm.177.1622592629297; 
+ Tue, 01 Jun 2021 17:10:29 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <af4363d5-982d-3168-21aa-921c65f35554@embeddedor.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-AntiAbuse: This header was added to track abuse,
- please include it with any abuse report
-X-AntiAbuse: Primary Hostname - gator4166.hostgator.com
-X-AntiAbuse: Original Domain - lists.freedesktop.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - embeddedor.com
-X-BWhitelist: no
-X-Source-IP: 187.162.31.110
-X-Source-L: No
-X-Exim-ID: 1loDK7-000vU5-0n
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-X-Source-Sender: 187-162-31-110.static.axtel.net ([192.168.15.8])
- [187.162.31.110]:53078
-X-Source-Auth: gustavo@embeddedor.com
-X-Email-Count: 37
-X-Source-Cap: Z3V6aWRpbmU7Z3V6aWRpbmU7Z2F0b3I0MTY2Lmhvc3RnYXRvci5jb20=
-X-Local-Domain: yes
+References: <20210305095657.GA142006@embeddedor>
+ <79ff569a-5828-ef21-538b-12d07d34a4ff@embeddedor.com>
+ <1ec627af-514e-b24a-da88-13eb561ccb15@embeddedor.com>
+In-Reply-To: <1ec627af-514e-b24a-da88-13eb561ccb15@embeddedor.com>
+From: Karol Herbst <kherbst@redhat.com>
+Date: Wed, 2 Jun 2021 02:10:18 +0200
+Message-ID: <CACO55tv3o72GwG8ORcUYQ-nXFDi1Qo0uKG5T_4iVmuhdDxPdqg@mail.gmail.com>
+Subject: Re: [Nouveau] [PATCH RESEND][next] drm/nouveau: Fix fall-through
+ warnings for Clang
+To: "Gustavo A. R. Silva" <gustavo@embeddedor.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kherbst@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,55 +76,88 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Kees Cook <keescook@chromium.org>, nouveau@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+Cc: Kees Cook <keescook@chromium.org>, David Airlie <airlied@linux.ie>,
+ nouveau <nouveau@lists.freedesktop.org>,
+ "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ LKML <linux-kernel@vger.kernel.org>, Ben Skeggs <bskeggs@redhat.com>,
  linux-hardening@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+all three nouveau patches are
 
-Friendly second ping: who can take this?
+Reviewed-by: Karol Herbst <kherbst@redhat.com>
 
-I can add this to my -next branch for 5.14 if you don't mind.
+and I don't think anybody would mind if those get into through other
+trees, but maybe drm-mist would be a good place for it if other
+patches involve other drm drivers?
 
-JFYI: We had thousands of these sorts of warnings and now we are down
-to just 23 in linux-next. This is one of those last remaining warnings.
-
-Thanks
---
-Gustavo
-
-On 4/20/21 15:13, Gustavo A. R. Silva wrote:
-> Hi all,
-> 
-> Friendly ping: who can take this, please?
-> 
+On Wed, Jun 2, 2021 at 1:16 AM Gustavo A. R. Silva
+<gustavo@embeddedor.com> wrote:
+>
+> Hi,
+>
+> Friendly second ping: who can take this?
+>
+> I can add this to my -next branch for 5.14 if you don't mind.
+>
+> JFYI: We had thousands of these sorts of warnings and now we are down
+> to just 23 in linux-next. This is one of those last remaining warnings.
+>
 > Thanks
 > --
 > Gustavo
-> 
-> On 3/5/21 03:58, Gustavo A. R. Silva wrote:
->> In preparation to enable -Wimplicit-fallthrough for Clang, fix a warning
->> by explicitly adding a break statement instead of letting the code fall
->> through to the next case.
->>
->> Link: https://github.com/KSPP/linux/issues/115
->> Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
->> ---
->>  drivers/gpu/drm/nouveau/nvkm/subdev/therm/gf119.c | 1 +
->>  1 file changed, 1 insertion(+)
->>
->> diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/therm/gf119.c b/drivers/gpu/drm/nouveau/nvkm/subdev/therm/gf119.c
->> index 2b031d4eaeb6..684aff7437ee 100644
->> --- a/drivers/gpu/drm/nouveau/nvkm/subdev/therm/gf119.c
->> +++ b/drivers/gpu/drm/nouveau/nvkm/subdev/therm/gf119.c
->> @@ -41,6 +41,7 @@ pwm_info(struct nvkm_therm *therm, int line)
->>  		default:
->>  			break;
->>  		}
->> +		break;
->>  	default:
->>  		break;
->>  	}
->>
+>
+> On 4/20/21 15:13, Gustavo A. R. Silva wrote:
+> > Hi all,
+> >
+> > Friendly ping: who can take this, please?
+> >
+> > Thanks
+> > --
+> > Gustavo
+> >
+> > On 3/5/21 03:56, Gustavo A. R. Silva wrote:
+> >> In preparation to enable -Wimplicit-fallthrough for Clang, fix a couple
+> >> of warnings by explicitly adding a couple of break statements instead
+> >> of letting the code fall through to the next case.
+> >>
+> >> Link: https://github.com/KSPP/linux/issues/115
+> >> Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
+> >> ---
+> >>  drivers/gpu/drm/nouveau/nouveau_bo.c        | 1 +
+> >>  drivers/gpu/drm/nouveau/nouveau_connector.c | 1 +
+> >>  2 files changed, 2 insertions(+)
+> >>
+> >> diff --git a/drivers/gpu/drm/nouveau/nouveau_bo.c b/drivers/gpu/drm/nouveau/nouveau_bo.c
+> >> index 2375711877cf..62903c3b368d 100644
+> >> --- a/drivers/gpu/drm/nouveau/nouveau_bo.c
+> >> +++ b/drivers/gpu/drm/nouveau/nouveau_bo.c
+> >> @@ -443,6 +443,7 @@ nouveau_bo_pin(struct nouveau_bo *nvbo, uint32_t domain, bool contig)
+> >>                      break;
+> >>              case TTM_PL_TT:
+> >>                      error |= !(domain & NOUVEAU_GEM_DOMAIN_GART);
+> >> +                    break;
+> >>              default:
+> >>                      break;
+> >>              }
+> >> diff --git a/drivers/gpu/drm/nouveau/nouveau_connector.c b/drivers/gpu/drm/nouveau/nouveau_connector.c
+> >> index 61e6d7412505..eb844cdcaec2 100644
+> >> --- a/drivers/gpu/drm/nouveau/nouveau_connector.c
+> >> +++ b/drivers/gpu/drm/nouveau/nouveau_connector.c
+> >> @@ -157,6 +157,7 @@ nouveau_conn_atomic_set_property(struct drm_connector *connector,
+> >>                      default:
+> >>                              break;
+> >>                      }
+> >> +                    break;
+> >>              case DRM_MODE_SCALE_FULLSCREEN:
+> >>              case DRM_MODE_SCALE_CENTER:
+> >>              case DRM_MODE_SCALE_ASPECT:
+> >>
+> _______________________________________________
+> Nouveau mailing list
+> Nouveau@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/nouveau
+>
+
