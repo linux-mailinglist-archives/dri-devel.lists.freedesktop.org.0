@@ -2,66 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC3503989C3
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Jun 2021 14:37:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5FF713989D4
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Jun 2021 14:41:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C72E56EC66;
-	Wed,  2 Jun 2021 12:37:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 07BF56EC7B;
+	Wed,  2 Jun 2021 12:41:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com
- [IPv6:2a00:1450:4864:20::636])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9959C6EC66
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Jun 2021 12:37:00 +0000 (UTC)
-Received: by mail-ej1-x636.google.com with SMTP id g20so3711342ejt.0
- for <dri-devel@lists.freedesktop.org>; Wed, 02 Jun 2021 05:37:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-transfer-encoding:content-language;
- bh=x7gNhpf4yMDzjzmQHesomGdiWDQSdpVpp1q6LWeXgTE=;
- b=gzXQ8TC6wWBmFfpJEYmnjPeMWlLAYlh8cxqdiGoPXCIdI2+zjESR7HPU+JTLSXVCd0
- O0uFds4CUYrkI+e+iWbmJHMM6JOLpDdW0NdUWUYUdO8fh7g+OygdC7mqRhxnABiPfFK9
- WJ2tzecXNX/2Ns7nfHaSRE0T26pEelukHwMRSHsIR9jFRc2ip1KYNV7VgK4BZfo+/CJo
- 8XJLQbO2+gWKeuW9Mpj2dOGMXw/+bH82C41MYO8F3/+iWy3ZFNtdOOvB8Dz2MbP9C9K9
- FfYy/JTU+adFneVkZ2jzcMmhHPdViz0GR4pBfNK3i82UW9898+7In0RYwnjVKEW/hHfS
- 7uSg==
+Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com
+ [IPv6:2a00:1450:4864:20::633])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1F56D6EC7B
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Jun 2021 12:41:33 +0000 (UTC)
+Received: by mail-ej1-x633.google.com with SMTP id jt22so3633930ejb.7
+ for <dri-devel@lists.freedesktop.org>; Wed, 02 Jun 2021 05:41:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=4H2HyJ+5yfl0LsJaV8QZfV2xPEecKr6ZSnYPtzSRJAk=;
+ b=ib8Tq60AaaC6O7ZREkd9zp1c1DCQPPQgizx4PMwXF7UU08//UaDKLJTnbNZ79xEgqP
+ 3ZXfo3VNcRggqfUkYJC4Wkb+tCl+TvoxhERVKKnlLfKi7/XIs5AQnoSi6F6RmK9bKban
+ IGEGX99KxcIFrY0wk2BP39yy20BLTFH4byH/s=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-transfer-encoding
- :content-language;
- bh=x7gNhpf4yMDzjzmQHesomGdiWDQSdpVpp1q6LWeXgTE=;
- b=dyoBHPYDk55QNjXWFZ7HQzs2UuVnVZ/uFk8kDJLQ5KM7OIkAQGWUajpzQVZcjL9SKI
- CBM0sUa0RVQev7vbfSA2g8eQPMeku7+Ii0CpNDNQaMihWqDjzHX5WXhUo8kr/k370wV0
- SQBCG1d6wTEFe44KIHOvP0nyEZg1BtMRAUTkClqA6l4sWkQtwT0XRw5PK2hpaTmD9Ixv
- jGOKieSP8B/LORqmG5mtjPIdEk23Yc4Z2+P73GXCNzVqhliUc2Gn7M99ej1kSKEAnRVi
- E8MAGY/yfBqmmRGshVpj6zLn0Jllr9sS+2ZwezHzHaHIWoUR8gjS7K90SSQbZzQcYs/k
- 5aLg==
-X-Gm-Message-State: AOAM533pNXnTkTkb4du0FeyRFWAatZm0jo4yxA4CtnBWMl96WpDU17yY
- 4KNkD3+r6Lu5FZjDnPKK9UKgZlnWKrc=
-X-Google-Smtp-Source: ABdhPJzFX7xlJTCuN1fJs3cVRA/mo+KYFYC4F7bslbIFhYAZDyKsqIhop8yQJb/iiLB/qGt2ewNzUg==
-X-Received: by 2002:a17:906:498b:: with SMTP id
- p11mr34702192eju.295.1622637419389; 
- Wed, 02 Jun 2021 05:36:59 -0700 (PDT)
-Received: from ?IPv6:2a02:908:1252:fb60:cd07:2759:3eec:1d00?
- ([2a02:908:1252:fb60:cd07:2759:3eec:1d00])
- by smtp.gmail.com with ESMTPSA id p15sm1271345edr.50.2021.06.02.05.36.58
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 02 Jun 2021 05:36:58 -0700 (PDT)
-Subject: Re: [PATCH 1/7] dma-buf: fix inconsistent debug print
-To: Daniel Vetter <daniel@ffwll.ch>
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=4H2HyJ+5yfl0LsJaV8QZfV2xPEecKr6ZSnYPtzSRJAk=;
+ b=sSSTDR2VgJ6joUrSbUp4SqnBayY0zkwJNMfW4Vyasd0iLEzRkdp2qa2aWRNiKekm2v
+ qc6FEsoilOV1FAHCjzFZEcpW45Va189kQbS//b98LWTre2s7+AUroFoIGGc5q9qE9hEv
+ uA/rCJN7Ad/EkIsSzDjn9SkFgvO6z2FyjoYtBjzLNUR5rJvo+OAqgFJftKSogyael5xO
+ uY6Q7cpcmQfl8DIHIHTjNBGycLamwOF2yBxMryyKFm045rlNUt6FkpAqs7cmVHd5CEek
+ Peygwp7605o9LXidwKtEfuFHJGPShC6Q6CBUjXN5zYf3x5IhpGSX583m8MR7jNa3mLFm
+ 5nhA==
+X-Gm-Message-State: AOAM530BEEVPFsl0XqMT1RWPDa9exa16CJCt86dKq6HbuCRA69diR3eV
+ CDZ+QXBwvnn0MAoj3HkIFFzvIQ==
+X-Google-Smtp-Source: ABdhPJzozKfvYMCxgldy/OqpZI+LzEVV5l7LBFLs1dzrmqjnShwfvBPs+VvldFAm6THXIYHd+J6ocA==
+X-Received: by 2002:a17:906:49c8:: with SMTP id
+ w8mr24781041ejv.497.1622637692529; 
+ Wed, 02 Jun 2021 05:41:32 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id t18sm1304070edw.47.2021.06.02.05.41.31
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 02 Jun 2021 05:41:31 -0700 (PDT)
+Date: Wed, 2 Jun 2021 14:41:30 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>
+Subject: Re: [PATCH 3/7] dma-buf: cleanup dma-resv shared fence debugging a bit
+Message-ID: <YLd8ekMOcB1r0oVm@phenom.ffwll.local>
 References: <20210602111714.212426-1-christian.koenig@amd.com>
- <YLd6k+LIHLja07V9@phenom.ffwll.local>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-Message-ID: <c40b4c90-b595-9be0-29db-01b7bb5d24a6@gmail.com>
-Date: Wed, 2 Jun 2021 14:36:58 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ <20210602111714.212426-3-christian.koenig@amd.com>
 MIME-Version: 1.0
-In-Reply-To: <YLd6k+LIHLja07V9@phenom.ffwll.local>
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+In-Reply-To: <20210602111714.212426-3-christian.koenig@amd.com>
+X-Operating-System: Linux phenom 5.10.32scarlett+ 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,84 +73,100 @@ Cc: dri-devel@lists.freedesktop.org, jason@jlekstrand.net
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Wed, Jun 02, 2021 at 01:17:10PM +0200, Christian König wrote:
+> Make that a function instead of inline.
+> 
+> Signed-off-by: Christian König <christian.koenig@amd.com>
+
+Hm yeah pulling that out makes some sense.
+
+> ---
+>  drivers/dma-buf/dma-resv.c | 18 ++++++++++++++++++
+>  include/linux/dma-resv.h   | 15 +++++++--------
+>  2 files changed, 25 insertions(+), 8 deletions(-)
+> 
+> diff --git a/drivers/dma-buf/dma-resv.c b/drivers/dma-buf/dma-resv.c
+> index 87f5d82d992a..6c6195315e9f 100644
+> --- a/drivers/dma-buf/dma-resv.c
+> +++ b/drivers/dma-buf/dma-resv.c
+> @@ -208,6 +208,24 @@ int dma_resv_reserve_shared(struct dma_resv *obj, unsigned int num_fences)
+>  }
+>  EXPORT_SYMBOL(dma_resv_reserve_shared);
+>  
+> +#ifdef CONFIG_DEBUG_MUTEXES
+> +/**
+> + * dma_resv_reset_shared_max - reset shared fences for debugging
+> + * @obj: the dma_resv object to reset
+> + *
+> + * Reset the shared_max to test if drivers do correct slot allocation.
+
+I'd phrase this as
+
+"Reset the number of pre-reserved shared slots to test that drivers do
+correct slot allocation using dma_resv_reserve_shared(). See also
+&dma_resv_list.shared_max."
+
+That way it's a bit clearer how it all ties together.
+
+The kerneldoc for dma_resv_list is also a bit thin, but another patch for
+that. With the kerneldoc polish:
+
+Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 
 
-Am 02.06.21 um 14:33 schrieb Daniel Vetter:
-> On Wed, Jun 02, 2021 at 01:17:08PM +0200, Christian KÃ¶nig wrote:
->> The code tries to acquire the rcu protected fence list, but then ignores
->> individual fences which have been modified while holding the rcu.
->>
->> Stop that madness and just note cleanly that the list was concurrently modified.
->>
->> Signed-off-by: Christian KÃ¶nig <christian.koenig@amd.com>
-> Yeah it's debugfs, it's better not to be fancy here and if you race you
-> can just re-grab it all.
->
-> What's worse, we do grab the dma_resv_lock, which means no one should be
-> able to race with us. I think 100% right thing here is actually to drop
-> the rcu_read_lock too, and switch over to rcu_dereference_protected().
->
-> And also drop the seqcount check, that would be a bug. seqcount is only
-> to get a consistent snapshot of all fences on the read (i.e. protected by
-> rcu only) section. We hold the write lock with dma_resv_lock here.
+> + */
+> +void dma_resv_reset_shared_max(struct dma_resv *obj)
+> +{
+> +	/* Test shared fence slot reservation */
+> +	if (rcu_access_pointer(obj->fence)) {
+> +		struct dma_resv_list *fence = dma_resv_get_list(obj);
+> +
+> +		fence->shared_max = fence->shared_count;
+> +	}
+> +}
+> +#endif
+> +
+>  /**
+>   * dma_resv_add_shared_fence - Add a fence to a shared slot
+>   * @obj: the reservation object
+> diff --git a/include/linux/dma-resv.h b/include/linux/dma-resv.h
+> index d44a77e8a7e3..f32a3d176513 100644
+> --- a/include/linux/dma-resv.h
+> +++ b/include/linux/dma-resv.h
+> @@ -92,6 +92,12 @@ static inline struct dma_resv_list *dma_resv_get_list(struct dma_resv *obj)
+>  					 dma_resv_held(obj));
+>  }
+>  
+> +#ifdef CONFIG_DEBUG_MUTEXES
+> +void dma_resv_reset_shared_max(struct dma_resv *obj);
+> +#else
+> +static inline void dma_resv_reset_shared_max(struct dma_resv *obj) {}
+> +#endif
+> +
+>  /**
+>   * dma_resv_lock - lock the reservation object
+>   * @obj: the reservation object
+> @@ -215,14 +221,7 @@ static inline struct ww_acquire_ctx *dma_resv_locking_ctx(struct dma_resv *obj)
+>   */
+>  static inline void dma_resv_unlock(struct dma_resv *obj)
+>  {
+> -#ifdef CONFIG_DEBUG_MUTEXES
+> -	/* Test shared fence slot reservation */
+> -	if (rcu_access_pointer(obj->fence)) {
+> -		struct dma_resv_list *fence = dma_resv_get_list(obj);
+> -
+> -		fence->shared_max = fence->shared_count;
+> -	}
+> -#endif
+> +	dma_resv_reset_shared_max(obj);
+>  	ww_mutex_unlock(&obj->lock);
+>  }
+>  
+> -- 
+> 2.25.1
+> 
 
-Yes that what I had in mind as alternative as well.
-
-Just wasn't 100% sure which way to go here.
-
-Going to adjust that,
-Christian.
-
->
-> Cheers, Daniel
->
->> ---
->>   drivers/dma-buf/dma-buf.c | 19 ++++++++-----------
->>   1 file changed, 8 insertions(+), 11 deletions(-)
->>
->> diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
->> index eadd1eaa2fb5..d3b4e370dbc1 100644
->> --- a/drivers/dma-buf/dma-buf.c
->> +++ b/drivers/dma-buf/dma-buf.c
->> @@ -1383,22 +1383,17 @@ static int dma_buf_debug_show(struct seq_file *s, void *unused)
->>   				buf_obj->name ?: "");
->>   
->>   		robj = buf_obj->resv;
->> -		while (true) {
->> -			seq = read_seqcount_begin(&robj->seq);
->> -			rcu_read_lock();
->> -			fobj = rcu_dereference(robj->fence);
->> -			shared_count = fobj ? fobj->shared_count : 0;
->> -			fence = rcu_dereference(robj->fence_excl);
->> -			if (!read_seqcount_retry(&robj->seq, seq))
->> -				break;
->> -			rcu_read_unlock();
->> -		}
->> -
->> +		seq = read_seqcount_begin(&robj->seq);
->> +		rcu_read_lock();
->> +		fence = rcu_dereference(robj->fence_excl);
->>   		if (fence)
->>   			seq_printf(s, "\tExclusive fence: %s %s %ssignalled\n",
->>   				   fence->ops->get_driver_name(fence),
->>   				   fence->ops->get_timeline_name(fence),
->>   				   dma_fence_is_signaled(fence) ? "" : "un");
->> +
->> +		fobj = rcu_dereference(robj->fence);
->> +		shared_count = fobj ? fobj->shared_count : 0;
->>   		for (i = 0; i < shared_count; i++) {
->>   			fence = rcu_dereference(fobj->shared[i]);
->>   			if (!dma_fence_get_rcu(fence))
->> @@ -1410,6 +1405,8 @@ static int dma_buf_debug_show(struct seq_file *s, void *unused)
->>   			dma_fence_put(fence);
->>   		}
->>   		rcu_read_unlock();
->> +		if (read_seqcount_retry(&robj->seq, seq))
->> +			seq_printf(s, "\tFences concurrently modified\n");
->>   
->>   		seq_puts(s, "\tAttached Devices:\n");
->>   		attach_count = 0;
->> -- 
->> 2.25.1
->>
-
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
