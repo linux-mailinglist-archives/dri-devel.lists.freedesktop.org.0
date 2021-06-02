@@ -1,63 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4239F39899B
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Jun 2021 14:33:29 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id AB0C139899C
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Jun 2021 14:33:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F37A56EC5F;
-	Wed,  2 Jun 2021 12:33:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 920556EC4E;
+	Wed,  2 Jun 2021 12:33:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from pio-pvt-msa2.bahnhof.se (pio-pvt-msa2.bahnhof.se [79.136.2.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 93E4489F4A
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Jun 2021 12:33:23 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by pio-pvt-msa2.bahnhof.se (Postfix) with ESMTP id DC5C940366;
- Wed,  2 Jun 2021 14:33:21 +0200 (CEST)
-Authentication-Results: pio-pvt-msa2.bahnhof.se; dkim=pass (1024-bit key;
- unprotected) header.d=shipmail.org header.i=@shipmail.org header.b="W9ittKG2";
- dkim-atps=neutral
-X-Virus-Scanned: Debian amavisd-new at bahnhof.se
-X-Spam-Flag: NO
-X-Spam-Score: -2.717
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.717 tagged_above=-999 required=6.31
- tests=[BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.618,
- URIBL_BLOCKED=0.001] autolearn=ham autolearn_force=no
-Received: from pio-pvt-msa2.bahnhof.se ([127.0.0.1])
- by localhost (pio-pvt-msa2.bahnhof.se [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id BNIVvHyoXX2C; Wed,  2 Jun 2021 14:33:20 +0200 (CEST)
-Received: by pio-pvt-msa2.bahnhof.se (Postfix) with ESMTPA id 24E943F9F1;
- Wed,  2 Jun 2021 14:33:19 +0200 (CEST)
-Received: from [192.168.0.209] (unknown [192.55.54.42])
- by mail1.shipmail.org (Postfix) with ESMTPSA id 0250C36012A;
- Wed,  2 Jun 2021 14:33:17 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=shipmail.org; s=mail;
- t=1622637199; bh=baetTJtO7XG0Z2p5+jkL3rtWUCRjtn5lN4KdG1TKdeY=;
- h=Subject:To:References:From:Date:In-Reply-To:From;
- b=W9ittKG2OJUUz/qL9kuQcYlkg/GaEkHlUTD6TLpTnBhWvSS+DtTuhG29I323lbs/o
- C7EPQvatnhe3wQEECB/fM1AxX6+38DWpDuFTq8OULcpnMLeUUCqeTygczVVdEmeTun
- zlGFTKUbHUMB5yjNfPOcFuKutRabck2QgvUxB4Cg=
-Subject: Re: [PATCH 02/10] drm/ttm: flip over the range manager to self
- allocated nodes
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
- matthew.auld@intel.com, dri-devel@lists.freedesktop.org
-References: <20210602100914.46246-1-christian.koenig@amd.com>
- <20210602100914.46246-2-christian.koenig@amd.com>
- <9b01d58f-6474-70de-4364-6adad59717a5@shipmail.org>
- <2354a311-c88f-04c5-0211-360c8116b811@gmail.com>
-From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m_=28Intel=29?= <thomas_os@shipmail.org>
-Message-ID: <23afc41d-09ae-93f3-77b8-e18c8f72dd5a@shipmail.org>
-Date: Wed, 2 Jun 2021 14:33:11 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com
+ [IPv6:2a00:1450:4864:20::52f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 350966EC4E
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Jun 2021 12:33:28 +0000 (UTC)
+Received: by mail-ed1-x52f.google.com with SMTP id g18so701445edq.8
+ for <dri-devel@lists.freedesktop.org>; Wed, 02 Jun 2021 05:33:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=BJeePl5cUfJEBPGSl3E+GKOvoESsrfS0hwpK1cLcFSg=;
+ b=ET0cS8aGaIULDC3BOE2BjHeJdAa1Z3AIYRMigpZ2R2uMQn/2YB3XKfVjOaXbTcZHar
+ KjhE9UUYHQwOMTx5vndWrOAc634HA6lViOuaI/Z/v1BvOyt8X4vMAbiAfOTWD/OJ5zve
+ /KzxD39pEUqJWpUKmUL3j+/5VfDZhgx5ONdXs=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=BJeePl5cUfJEBPGSl3E+GKOvoESsrfS0hwpK1cLcFSg=;
+ b=mUt/Ib7iI0K2EDQeVl0qb45QSD8e11u0QzYrSApsBc5Dmv9A+62HtWGUP37QpHyE/D
+ lount9E7cu+i20d+u5arpnh/kr59aR19FCp2xPhN6bd2swjv4cvIwK2Q/40hd63zIo6z
+ XGDpTBeLdEgr/zL7D6RlPB/OBKEFg14So93V42MAdtu1Y7ekBw9LWAZl+4uRTkkG3tO3
+ W5gVQsFeyBEpZCMDATJlB07iuKqNqDNRVrKrnZ/2FmfAu8u3rGe4eo0zHz9DJaredjhv
+ 5vZG3NFP+YXiZiq6m776ZMGTMHz+Bjk8i4OXSYqwc86PcODSiYXc4iQ/y4/cRwKySgub
+ G5Bg==
+X-Gm-Message-State: AOAM530LRVwDRA3tZtI0aqdVVVr6V4oh01daDxz0G9QdYNc07gCqur0P
+ oMGwKOGRv0hUL5t4DxPlA5SW0Q==
+X-Google-Smtp-Source: ABdhPJx+kWulmatwT8az1BiUnJ1aegENH8q30c9cD3tsjgrgOgshOfiJdOjw0sZKna11XmEWFkSmrA==
+X-Received: by 2002:aa7:d28a:: with SMTP id w10mr9208886edq.23.1622637206628; 
+ Wed, 02 Jun 2021 05:33:26 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id au11sm4182557ejc.88.2021.06.02.05.33.25
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 02 Jun 2021 05:33:25 -0700 (PDT)
+Date: Wed, 2 Jun 2021 14:33:23 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>
+Subject: Re: [PATCH 1/7] dma-buf: fix inconsistent debug print
+Message-ID: <YLd6k+LIHLja07V9@phenom.ffwll.local>
+References: <20210602111714.212426-1-christian.koenig@amd.com>
 MIME-Version: 1.0
-In-Reply-To: <2354a311-c88f-04c5-0211-360c8116b811@gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+In-Reply-To: <20210602111714.212426-1-christian.koenig@amd.com>
+X-Operating-System: Linux phenom 5.10.32scarlett+ 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,180 +67,82 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: dri-devel@lists.freedesktop.org, jason@jlekstrand.net
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Wed, Jun 02, 2021 at 01:17:08PM +0200, Christian K�nig wrote:
+> The code tries to acquire the rcu protected fence list, but then ignores
+> individual fences which have been modified while holding the rcu.
+> 
+> Stop that madness and just note cleanly that the list was concurrently modified.
+> 
+> Signed-off-by: Christian K�nig <christian.koenig@amd.com>
 
-On 6/2/21 2:11 PM, Christian König wrote:
-> Am 02.06.21 um 13:44 schrieb Thomas Hellström (Intel):
->>
->> On 6/2/21 12:09 PM, Christian König wrote:
->>> Start with the range manager to make the resource object the base
->>> class for the allocated nodes.
->>>
->>> While at it cleanup a lot of the code around that.
->>>
->>> Signed-off-by: Christian König <christian.koenig@amd.com>
->>> Reviewed-by: Matthew Auld <matthew.auld@intel.com>
->>> ---
->>>   drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c |  1 +
->>>   drivers/gpu/drm/drm_gem_vram_helper.c   |  2 +
->>>   drivers/gpu/drm/nouveau/nouveau_ttm.c   |  2 +
->>>   drivers/gpu/drm/qxl/qxl_ttm.c           |  1 +
->>>   drivers/gpu/drm/radeon/radeon_ttm.c     |  1 +
->>>   drivers/gpu/drm/ttm/ttm_range_manager.c | 56 
->>> ++++++++++++++++++-------
->>>   drivers/gpu/drm/ttm/ttm_resource.c      | 26 ++++++++----
->>>   include/drm/ttm/ttm_bo_driver.h         | 26 ------------
->>>   include/drm/ttm/ttm_range_manager.h     | 43 +++++++++++++++++++
->>>   include/drm/ttm/ttm_resource.h          |  3 ++
->>>   10 files changed, 111 insertions(+), 50 deletions(-)
->>>   create mode 100644 include/drm/ttm/ttm_range_manager.h
->>>
->>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c 
->>> b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
->>> index 69db89261650..df1f185faae9 100644
->>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
->>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
->>> @@ -45,6 +45,7 @@
->>>   #include <drm/ttm/ttm_bo_api.h>
->>>   #include <drm/ttm/ttm_bo_driver.h>
->>>   #include <drm/ttm/ttm_placement.h>
->>> +#include <drm/ttm/ttm_range_manager.h>
->>>     #include <drm/amdgpu_drm.h>
->>>   diff --git a/drivers/gpu/drm/drm_gem_vram_helper.c 
->>> b/drivers/gpu/drm/drm_gem_vram_helper.c
->>> index 83e7258c7f90..17a4c5d47b6a 100644
->>> --- a/drivers/gpu/drm/drm_gem_vram_helper.c
->>> +++ b/drivers/gpu/drm/drm_gem_vram_helper.c
->>> @@ -17,6 +17,8 @@
->>>   #include <drm/drm_prime.h>
->>>   #include <drm/drm_simple_kms_helper.h>
->>>   +#include <drm/ttm/ttm_range_manager.h>
->>> +
->>>   static const struct drm_gem_object_funcs drm_gem_vram_object_funcs;
->>>     /**
->>> diff --git a/drivers/gpu/drm/nouveau/nouveau_ttm.c 
->>> b/drivers/gpu/drm/nouveau/nouveau_ttm.c
->>> index 65430912ff72..b08b8efeefba 100644
->>> --- a/drivers/gpu/drm/nouveau/nouveau_ttm.c
->>> +++ b/drivers/gpu/drm/nouveau/nouveau_ttm.c
->>> @@ -26,6 +26,8 @@
->>>   #include <linux/limits.h>
->>>   #include <linux/swiotlb.h>
->>>   +#include <drm/ttm/ttm_range_manager.h>
->>> +
->>>   #include "nouveau_drv.h"
->>>   #include "nouveau_gem.h"
->>>   #include "nouveau_mem.h"
->>> diff --git a/drivers/gpu/drm/qxl/qxl_ttm.c 
->>> b/drivers/gpu/drm/qxl/qxl_ttm.c
->>> index 8aa87b8edb9c..19fd39d9a00c 100644
->>> --- a/drivers/gpu/drm/qxl/qxl_ttm.c
->>> +++ b/drivers/gpu/drm/qxl/qxl_ttm.c
->>> @@ -32,6 +32,7 @@
->>>   #include <drm/ttm/ttm_bo_api.h>
->>>   #include <drm/ttm/ttm_bo_driver.h>
->>>   #include <drm/ttm/ttm_placement.h>
->>> +#include <drm/ttm/ttm_range_manager.h>
->>>     #include "qxl_drv.h"
->>>   #include "qxl_object.h"
->>> diff --git a/drivers/gpu/drm/radeon/radeon_ttm.c 
->>> b/drivers/gpu/drm/radeon/radeon_ttm.c
->>> index cdffa9b65108..ad2a5a791bba 100644
->>> --- a/drivers/gpu/drm/radeon/radeon_ttm.c
->>> +++ b/drivers/gpu/drm/radeon/radeon_ttm.c
->>> @@ -45,6 +45,7 @@
->>>   #include <drm/ttm/ttm_bo_api.h>
->>>   #include <drm/ttm/ttm_bo_driver.h>
->>>   #include <drm/ttm/ttm_placement.h>
->>> +#include <drm/ttm/ttm_range_manager.h>
->>>     #include "radeon_reg.h"
->>>   #include "radeon.h"
->>> diff --git a/drivers/gpu/drm/ttm/ttm_range_manager.c 
->>> b/drivers/gpu/drm/ttm/ttm_range_manager.c
->>> index b9d5da6e6a81..ce5d07ca384c 100644
->>> --- a/drivers/gpu/drm/ttm/ttm_range_manager.c
->>> +++ b/drivers/gpu/drm/ttm/ttm_range_manager.c
->>> @@ -29,12 +29,13 @@
->>>    * Authors: Thomas Hellstrom <thellstrom-at-vmware-dot-com>
->>>    */
->>>   -#include <drm/ttm/ttm_bo_driver.h>
->>> +#include <drm/ttm/ttm_device.h>
->>>   #include <drm/ttm/ttm_placement.h>
->>> +#include <drm/ttm/ttm_range_manager.h>
->>> +#include <drm/ttm/ttm_bo_api.h>
->>>   #include <drm/drm_mm.h>
->>>   #include <linux/slab.h>
->>>   #include <linux/spinlock.h>
->>> -#include <linux/module.h>
->>>     /*
->>>    * Currently we use a spinlock for the lock, but a mutex *may* be
->>> @@ -60,8 +61,8 @@ static int ttm_range_man_alloc(struct 
->>> ttm_resource_manager *man,
->>>                      struct ttm_resource *mem)
->>>   {
->>>       struct ttm_range_manager *rman = to_range_manager(man);
->>> +    struct ttm_range_mgr_node *node;
->>>       struct drm_mm *mm = &rman->mm;
->>> -    struct drm_mm_node *node;
->>>       enum drm_mm_insert_mode mode;
->>>       unsigned long lpfn;
->>>       int ret;
->>> @@ -70,7 +71,7 @@ static int ttm_range_man_alloc(struct 
->>> ttm_resource_manager *man,
->>>       if (!lpfn)
->>>           lpfn = man->size;
->>>   -    node = kzalloc(sizeof(*node), GFP_KERNEL);
->>> +    node = kzalloc(struct_size(node, mm_nodes, 1), GFP_KERNEL);
->>
->> I'm still a bit confused  about the situation where a driver wants to 
->> attach private data to a struct ttm_resource without having to 
->> re-implement its own range manager?
->>
->> Could be cached sg-tables, list of GPU bindings etc. Wouldn't work 
->> with the above unless we have a void *driver_private member on the 
->> struct ttm_resource. Is that the plan going forward here? Or that the 
->> driver actually does the re-implementation?
->
-> I don't really understand your concern here. The basic idea is that 
-> drivers use ttm_resource as a base class for their own implementation.
->
-> See for example how nouveau does that:
->
-> struct nouveau_mem {
->         struct ttm_resource base;
->         struct nouveau_cli *cli;
->         u8 kind;
->         u8 comp;
->         struct nvif_mem mem;
->         struct nvif_vma vma[2];
-> };
->
-> The range manager is helping driver specific resource managers which 
-> want to implement something drm_mm_nodes based. E.g. amdgpu_gtt_mgr 
-> and amdgpu_vram_mgr, but it can also be used stand alone.
->
-> The ttm_range_mgr_node can then be used as base class for this 
-> functionality. I already want to move some more code from 
-> amdgpu_vram_mgr.c into the range manager, but that is just minor 
-> cleanup work.
->
-Sure but if you embed a ttm_range_mgr_node in your struct i915_resource, 
-and wanted to use the ttm range manager for it, it would allocate a 
-struct ttm_range_mgr_node rather than a struct i915_resource? Or am I 
-missing something?
+Yeah it's debugfs, it's better not to be fancy here and if you race you
+can just re-grab it all.
 
-/Thomas
+What's worse, we do grab the dma_resv_lock, which means no one should be
+able to race with us. I think 100% right thing here is actually to drop
+the rcu_read_lock too, and switch over to rcu_dereference_protected().
 
+And also drop the seqcount check, that would be a bug. seqcount is only
+to get a consistent snapshot of all fences on the read (i.e. protected by
+rcu only) section. We hold the write lock with dma_resv_lock here.
 
+Cheers, Daniel
 
-> Regards,
-> Christian.
->
->>
->> Thanks,
->>
->> Thomas
->>
->>
+> ---
+>  drivers/dma-buf/dma-buf.c | 19 ++++++++-----------
+>  1 file changed, 8 insertions(+), 11 deletions(-)
+> 
+> diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+> index eadd1eaa2fb5..d3b4e370dbc1 100644
+> --- a/drivers/dma-buf/dma-buf.c
+> +++ b/drivers/dma-buf/dma-buf.c
+> @@ -1383,22 +1383,17 @@ static int dma_buf_debug_show(struct seq_file *s, void *unused)
+>  				buf_obj->name ?: "");
+>  
+>  		robj = buf_obj->resv;
+> -		while (true) {
+> -			seq = read_seqcount_begin(&robj->seq);
+> -			rcu_read_lock();
+> -			fobj = rcu_dereference(robj->fence);
+> -			shared_count = fobj ? fobj->shared_count : 0;
+> -			fence = rcu_dereference(robj->fence_excl);
+> -			if (!read_seqcount_retry(&robj->seq, seq))
+> -				break;
+> -			rcu_read_unlock();
+> -		}
+> -
+> +		seq = read_seqcount_begin(&robj->seq);
+> +		rcu_read_lock();
+> +		fence = rcu_dereference(robj->fence_excl);
+>  		if (fence)
+>  			seq_printf(s, "\tExclusive fence: %s %s %ssignalled\n",
+>  				   fence->ops->get_driver_name(fence),
+>  				   fence->ops->get_timeline_name(fence),
+>  				   dma_fence_is_signaled(fence) ? "" : "un");
+> +
+> +		fobj = rcu_dereference(robj->fence);
+> +		shared_count = fobj ? fobj->shared_count : 0;
+>  		for (i = 0; i < shared_count; i++) {
+>  			fence = rcu_dereference(fobj->shared[i]);
+>  			if (!dma_fence_get_rcu(fence))
+> @@ -1410,6 +1405,8 @@ static int dma_buf_debug_show(struct seq_file *s, void *unused)
+>  			dma_fence_put(fence);
+>  		}
+>  		rcu_read_unlock();
+> +		if (read_seqcount_retry(&robj->seq, seq))
+> +			seq_printf(s, "\tFences concurrently modified\n");
+>  
+>  		seq_puts(s, "\tAttached Devices:\n");
+>  		attach_count = 0;
+> -- 
+> 2.25.1
+> 
+
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
