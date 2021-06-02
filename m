@@ -1,61 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C718398547
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Jun 2021 11:29:01 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A772398557
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Jun 2021 11:33:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AA5F96E3AA;
-	Wed,  2 Jun 2021 09:28:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A0D3E6EC1D;
+	Wed,  2 Jun 2021 09:33:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x232.google.com (mail-lj1-x232.google.com
- [IPv6:2a00:1450:4864:20::232])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 711C86E342;
- Wed,  2 Jun 2021 09:28:55 +0000 (UTC)
-Received: by mail-lj1-x232.google.com with SMTP id e11so1701507ljn.13;
- Wed, 02 Jun 2021 02:28:55 -0700 (PDT)
+Received: from mail-lj1-x230.google.com (mail-lj1-x230.google.com
+ [IPv6:2a00:1450:4864:20::230])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 76A456EC1D;
+ Wed,  2 Jun 2021 09:33:40 +0000 (UTC)
+Received: by mail-lj1-x230.google.com with SMTP id m3so1722961lji.12;
+ Wed, 02 Jun 2021 02:33:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=date:from:to:cc:subject:message-id:in-reply-to:references
- :mime-version; bh=M194TrS8bcD9yZ374WYAbnYqYQmXXMUwq5hbG1LKbbI=;
- b=Cvubv3hrkV8pnrF9fd8fgRIgKXsMg4xWaazZ4KFAAgKQfXV+tvAtchazY/+vLWNTC4
- y1o/FhcNkoA7KGjcDJ43VhXA3n+pSNKMStzEZLnj14umhcBfui0bQqf2PYRM5geb29H/
- b1aQMmvFl7Z+sMFwItV8v8To213ci1d9MmqJsWDIz+jfQkwmYXBy0e0yhmO5mzgmsUum
- 8fi9YCLS11jQXLYugoJiOxpK/I4BwI9PqexyEuAdCs46weA+2+dbfyWdv5sWMLsVyRAR
- M4yiHBSp9WOFNIOiKtj3A6JeJxvT2KPW/MMUeYRMKYHUWiOPEa+fAznZvD04/WdArbDx
- TQIQ==
+ :mime-version; bh=vJx77L+mVHsoE5Xisv+Qu97I6LH51bfnvz5NIaE6Cfs=;
+ b=HEc2SfxweU4O5z9UuyszUXXOkJ4wHOAYedAcOZqpY6Yffmfj7y7no3B2BVy2RJRy9C
+ onYwtFJ/iNbx9o02OtkCi5LjwsCIZi+CRGptV/4+oX1bQD2r+igYcHW/S0qcLnghkyyv
+ LLxHIJUSJxPXV4+hhwTXDlNaMeI0WPWV61IEEuuzNIE0Z9Hena5QCKp11AxOPRC1nFeD
+ ItVpiD7UnactKsopOoEWC+10MTMNff2QtH491Eryg1QWV4qG6dx5xJ2sgikRxdPtF+rl
+ K8vRpU+8AhAcXNci8vf03Gs7iOrVr18YUXBSRBBmc9JgA06tqZHt3RLRdg+pqKROXbfS
+ EiVQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
  :references:mime-version;
- bh=M194TrS8bcD9yZ374WYAbnYqYQmXXMUwq5hbG1LKbbI=;
- b=Me8pKPd3vXgt9ozC1jWktKceactKtN63Wb1R0t2TNodaekmBPSgyldscaQUaJdA0rP
- LU4+BCtqDlNgrqvF/jfpoL73n3bxKOWRj6e+cCC5rIQwnj90hWddJr2IqXEwyHShFIR+
- Cx9jF/ahtf+RvImv5grF5rMB65xdWEupyid10U8a0p0Q7g0JFQGrpDfrw9YNJbveSdtU
- kJxIBwql1fwVuZ7/gZ90oRG//fT9Oh5Z/dH8zNQSRnxPES9HHjV8MmhpEEzAvznb8yU2
- SXgGhWi1UnAP7WZrgqwe1jUTSnr1MHXSuOxW/HBgA97TbPnJsGBUkYMPB+SzkW/5712o
- PkYQ==
-X-Gm-Message-State: AOAM532/Cd7J/9HECFdwMMdbE7GCHfCIhFo1pvg327LhRY3U/fQzxqZy
- odNX+Sa0K01tcGSQhriOKbw=
-X-Google-Smtp-Source: ABdhPJxI1iDKl354xhC/C/tCOy4/GoJ2BxK6BrPrYklMca2vRk4pecvpEAQbUcJDYmGxdFm/WHxkfQ==
-X-Received: by 2002:a05:651c:151:: with SMTP id
- c17mr2434843ljd.314.1622626133888; 
- Wed, 02 Jun 2021 02:28:53 -0700 (PDT)
+ bh=vJx77L+mVHsoE5Xisv+Qu97I6LH51bfnvz5NIaE6Cfs=;
+ b=Qk8ZNMbV7HmrK3zc3ufvbx6MZPGcsY1ALv/aMifskMl9cRTkPW0/yWJfNqkdoShEez
+ JYalAoobRv9qsO+jSHoz6siaFalBEJIU+N5b40oQvn8rC5hYCUtbt++McsclSeLLsWet
+ GnmgMMVwgJ1rYeC9saCqs0VcSlG13RwOF+OkHMSUmIjcGIqgfERceKQu6iF5dGPOSJEQ
+ Fi2cmnPJCQQyvYtDtrAaSKXFPc3gJ153H7hoP2cmYTvQLJ1THTevbfB1rCb1z0NvGrDB
+ D1LJmYVW7pQU+bE6AnCZ/n+l1X1ejHOaHALWG4IqaMqr4NfTG70lv78bhA3ei1jrjxyk
+ NZ0Q==
+X-Gm-Message-State: AOAM531V0EbPrMZUEY8QRIAHqB0UNhbuygk3Yo8Tufy9lUTHtJVTkjb4
+ 2k4cPod3oQ7D43sVc0SxjMw=
+X-Google-Smtp-Source: ABdhPJwNhJCSB1eIdRvrt9b/qMoK/gV+NcvWDMd5mpx9kAf71HL9oQ6G6wRhfXv5yazFfDy9/QQD7g==
+X-Received: by 2002:a05:651c:502:: with SMTP id
+ o2mr24331105ljp.105.1622626418864; 
+ Wed, 02 Jun 2021 02:33:38 -0700 (PDT)
 Received: from eldfell ([194.136.85.206])
- by smtp.gmail.com with ESMTPSA id u4sm2134895lfl.100.2021.06.02.02.28.53
+ by smtp.gmail.com with ESMTPSA id u22sm2291455lja.5.2021.06.02.02.33.38
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 02 Jun 2021 02:28:53 -0700 (PDT)
-Date: Wed, 2 Jun 2021 12:28:50 +0300
+ Wed, 02 Jun 2021 02:33:38 -0700 (PDT)
+Date: Wed, 2 Jun 2021 12:33:35 +0300
 From: Pekka Paalanen <ppaalanen@gmail.com>
 To: Uma Shankar <uma.shankar@intel.com>
-Subject: Re: [PATCH 00/21] Add Support for Plane Color Lut and CSC features
-Message-ID: <20210602122850.29412a29@eldfell>
-In-Reply-To: <20210601105218.29185-1-uma.shankar@intel.com>
+Subject: Re: [PATCH 01/21] drm: Add Enhanced Gamma and color lut range
+ attributes
+Message-ID: <20210602123335.29045e06@eldfell>
+In-Reply-To: <20210601105218.29185-2-uma.shankar@intel.com>
 References: <20210601105218.29185-1-uma.shankar@intel.com>
+ <20210601105218.29185-2-uma.shankar@intel.com>
 X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- boundary="Sig_/31hJ5jTLg3OyoeedSz07hM."; protocol="application/pgp-signature"
+ boundary="Sig_/A+9DFkfVbYmc.+3dMui5jn/"; protocol="application/pgp-signature"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,188 +75,130 @@ Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/31hJ5jTLg3OyoeedSz07hM.
+--Sig_/A+9DFkfVbYmc.+3dMui5jn/
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 
-On Tue,  1 Jun 2021 16:21:57 +0530
+On Tue,  1 Jun 2021 16:21:58 +0530
 Uma Shankar <uma.shankar@intel.com> wrote:
 
-> This is how a typical display color hardware pipeline looks like:
->  +-------------------------------------------+
->  |                RAM                        |
->  |  +------+    +---------+    +---------+   |
->  |  | FB 1 |    |  FB 2   |    | FB N    |   |
->  |  +------+    +---------+    +---------+   |
->  +-------------------------------------------+
->        |  Plane Color Hardware Block |
->  +--------------------------------------------+
->  | +---v-----+   +---v-------+   +---v------+ |
->  | | Plane A |   | Plane B   |   | Plane N  | |
->  | | DeGamma |   | Degamma   |   | Degamma  | |
->  | +---+-----+   +---+-------+   +---+------+ |
->  |     |             |               |        |
->  | +---v-----+   +---v-------+   +---v------+ |
->  | |Plane A  |   | Plane B   |   | Plane N  | |
->  | |CSC/CTM  |   | CSC/CTM   |   | CSC/CTM  | |
->  | +---+-----+   +----+------+   +----+-----+ |
->  |     |              |               |       |
->  | +---v-----+   +----v------+   +----v-----+ |
->  | | Plane A |   | Plane B   |   | Plane N  | |
->  | | Gamma   |   | Gamma     |   | Gamma    | |
->  | +---+-----+   +----+------+   +----+-----+ |
->  |     |              |               |       |
->  +--------------------------------------------+
-> +------v--------------v---------------v-------|
-> ||                                           ||
-> ||           Pipe Blender                    ||
-> +--------------------+------------------------+
-> |                    |                        |
-> |        +-----------v----------+             |
-> |        |  Pipe DeGamma        |             |
-> |        |                      |             |
-> |        +-----------+----------+             |
-> |                    |            Pipe Color  |
-> |        +-----------v----------+ Hardware    |
-> |        |  Pipe CSC/CTM        |             |
-> |        |                      |             |
-> |        +-----------+----------+             |
-> |                    |                        |
-> |        +-----------v----------+             |
-> |        |  Pipe Gamma          |             |
-> |        |                      |             |
-> |        +-----------+----------+             |
-> |                    |                        |
-> +---------------------------------------------+
->                      |
->                      v
->                Pipe Output
+> Existing LUT precision structure is having only 16 bit
+> precision. This is not enough for upcoming enhanced hardwares
+> and advance usecases like HDR processing. Hence added a new
+> structure with 32 bit precision values.
+>=20
+> This also defines a new structure to define color lut ranges,
+> along with related macro definitions and enums. This will help
+> describe multi segmented lut ranges in the hardware.
+>=20
+> Signed-off-by: Uma Shankar <uma.shankar@intel.com>
+> ---
+>  include/uapi/drm/drm_mode.h | 58 +++++++++++++++++++++++++++++++++++++
+>  1 file changed, 58 insertions(+)
+>=20
+> diff --git a/include/uapi/drm/drm_mode.h b/include/uapi/drm/drm_mode.h
+> index 9b6722d45f36..d0ce48d2e732 100644
+> --- a/include/uapi/drm/drm_mode.h
+> +++ b/include/uapi/drm/drm_mode.h
+> @@ -819,6 +819,64 @@ struct hdr_output_metadata {
+>  	};
+>  };
+> =20
+> +/*
+> + * DRM_MODE_LUT_GAMMA|DRM_MODE_LUT_DEGAMMA is legal and means the LUT
+> + * can be used for either purpose, but not simultaneously. To expose
+> + * modes that support gamma and degamma simultaneously the gamma mode
+> + * must declare distinct DRM_MODE_LUT_GAMMA and DRM_MODE_LUT_DEGAMMA
+> + * ranges.
+> + */
+> +/* LUT is for gamma (after CTM) */
+> +#define DRM_MODE_LUT_GAMMA BIT(0)
+> +/* LUT is for degamma (before CTM) */
+> +#define DRM_MODE_LUT_DEGAMMA BIT(1)
+> +/* linearly interpolate between the points */
+> +#define DRM_MODE_LUT_INTERPOLATE BIT(2)
+> +/*
+> + * the last value of the previous range is the
+> + * first value of the current range.
+> + */
+> +#define DRM_MODE_LUT_REUSE_LAST BIT(3)
+> +/* the curve must be non-decreasing */
+> +#define DRM_MODE_LUT_NON_DECREASING BIT(4)
+> +/* the curve is reflected across origin for negative inputs */
+> +#define DRM_MODE_LUT_REFLECT_NEGATIVE BIT(5)
+> +/* the same curve (red) is used for blue and green channels as well */
+> +#define DRM_MODE_LUT_SINGLE_CHANNEL BIT(6)
+> +
+> +struct drm_color_lut_range {
+> +	/* DRM_MODE_LUT_* */
+> +	__u32 flags;
+> +	/* number of points on the curve */
+> +	__u16 count;
+> +	/* input/output bits per component */
+> +	__u8 input_bpc, output_bpc;
+> +	/* input start/end values */
+> +	__s32 start, end;
+> +	/* output min/max values */
+> +	__s32 min, max;
+> +};
+> +
+> +enum lut_type {
 
-Hi,
+Unprefixed type name in UAPI headers is probably not a good idea.
 
-this is an excellent picture. I have long been wanting schematics like
-that in the DRM UAPI documentation. Another note on that:
-https://lists.freedesktop.org/archives/dri-devel/2021-May/307310.html
+> +	LUT_TYPE_DEGAMMA =3D 0,
+> +	LUT_TYPE_GAMMA =3D 1,
+> +};
 
-But the schematic for DRM UAPI documentation needs to be written in
-terms of the abstract KMS pipeline with property names spelled out,
-like in what Ville sketched in that email.
-
-> This patch series adds properties for plane color features. It adds
-> properties for degamma used to linearize data and CSC used for gamut
-> conversion. It also includes Gamma support used to again non-linearize
-> data as per panel supported color space. These can be utilize by user
-> space to convert planes from one format to another, one color space to
-> another etc.
-
-This is very much welcome!
-
-There is also the thread:
-https://lists.freedesktop.org/archives/dri-devel/2021-May/306726.html
-
-Everything mentioned will interact with each other by changing what the
-abstract KMS pixel pipeline does. I think you and Harry should probably
-look at each others' suggestions and see how to fit them all into a
-single abstract KMS pipeline.
-
-People are adding new pieces into KMS left and right, and I fear we
-lose sight of how everything will actually work together when all KMS
-properties are supposed to be generic and potentially present
-simultaneously. This is why I would very much like to have that *whole*
-abstract KMS pipeline documented with *everything*. Otherwise it is
-coming really hard fast to figure out how generic userspace should use
-all these KMS properties together.
-
-Or if there cannot be a single abstract KMS pipeline, then sure, have
-multiple, as long as they are documented and how userspace will know
-which pipeline it is dealing with, and what things are mutually
-exclusive so we can avoid writing userspace code for combinations that
-will never exist.
+All the above stuff seems to be the same in your other patch series'
+patch "[PATCH 1/9] drm: Add gamma mode property". Is this series
+replacing the series "[PATCH 0/9] Enhance pipe color support for multi
+segmented luts" or what does this mean?
 
 
 Thanks,
 pq
 
-> Userspace can take smart blending decisions and utilize these hardware
-> supported plane color features to get accurate color profile. The same
-> can help in consistent color quality from source to panel taking
-> advantage of advanced color features in hardware.
->=20
-> These patches add the property interfaces and enable helper functions.
-> This series adds Intel's XE_LPD hw specific plane gamma feature. We
-> can build up and add other platform/hardware specific implementation
-> on top of this series.
->=20
-> Credits: Special mention and credits to Ville Syrjala for coming up
-> with a design for this feature and inputs. This series is based on
-> his original design and idea.
->=20
-> Note: Userspace support for this new UAPI will be done on Chrome. We
-> will notify the list once we have that ready for review.
->=20
-> ToDo: State readout for this feature will be added next.
->=20
-> Uma Shankar (21):
->   drm: Add Enhanced Gamma and color lut range attributes
->   drm: Add Plane Degamma Mode property
->   drm: Add Plane Degamma Lut property
->   drm/i915/xelpd: Define Degamma Lut range struct for HDR planes
->   drm/i915/xelpd: Add register definitions for Plane Degamma
->   drm/i915/xelpd: Enable plane color features
->   drm/i915/xelpd: Add color capabilities of SDR planes
->   drm/i915/xelpd: Program Plane Degamma Registers
->   drm/i915/xelpd: Add plane color check to glk_plane_color_ctl
->   drm/i915/xelpd: Initialize plane color features
->   drm/i915/xelpd: Load plane color luts from atomic flip
->   drm: Add Plane CTM property
->   drm: Add helper to attach Plane ctm property
->   drm/i915/xelpd: Define Plane CSC Registers
->   drm/i915/xelpd: Enable Plane CSC
->   drm: Add Plane Gamma Mode property
->   drm: Add Plane Gamma Lut property
->   drm/i915/xelpd: Define and Initialize Plane Gamma Lut range
->   drm/i915/xelpd: Add register definitions for Plane Gamma
->   drm/i915/xelpd: Program Plane Gamma Registers
->   drm/i915/xelpd: Enable plane gamma
->=20
->  Documentation/gpu/drm-kms.rst                 |  90 +++
->  drivers/gpu/drm/drm_atomic.c                  |   1 +
->  drivers/gpu/drm/drm_atomic_state_helper.c     |  12 +
->  drivers/gpu/drm/drm_atomic_uapi.c             |  38 ++
->  drivers/gpu/drm/drm_color_mgmt.c              | 177 +++++-
->  .../gpu/drm/i915/display/intel_atomic_plane.c |   6 +
->  .../gpu/drm/i915/display/intel_atomic_plane.h |   2 +
->  drivers/gpu/drm/i915/display/intel_color.c    | 513 ++++++++++++++++++
->  drivers/gpu/drm/i915/display/intel_color.h    |   2 +
->  .../drm/i915/display/skl_universal_plane.c    |  15 +-
->  drivers/gpu/drm/i915/i915_drv.h               |   3 +
->  drivers/gpu/drm/i915/i915_reg.h               | 176 +++++-
->  include/drm/drm_mode_object.h                 |   2 +-
->  include/drm/drm_plane.h                       |  81 +++
->  include/uapi/drm/drm_mode.h                   |  58 ++
->  15 files changed, 1170 insertions(+), 6 deletions(-)
->=20
+> +
+> +/*
+> + * Creating 64 bit palette entries for better data
+> + * precision. This will be required for HDR and
+> + * similar color processing usecases.
+> + */
+> +struct drm_color_lut_ext {
+> +	/*
+> +	 * Data is U32.32 fixed point format.
+> +	 */
+> +	__u64 red;
+> +	__u64 green;
+> +	__u64 blue;
+> +	__u64 reserved;
+> +};
+> +
+>  #define DRM_MODE_PAGE_FLIP_EVENT 0x01
+>  #define DRM_MODE_PAGE_FLIP_ASYNC 0x02
+>  #define DRM_MODE_PAGE_FLIP_TARGET_ABSOLUTE 0x4
 
 
---Sig_/31hJ5jTLg3OyoeedSz07hM.
+--Sig_/A+9DFkfVbYmc.+3dMui5jn/
 Content-Type: application/pgp-signature
 Content-Description: OpenPGP digital signature
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmC3T1IACgkQI1/ltBGq
-qqfCvA//bbl5B3LEsCaWaE3Zy7KrzTIBY3dND2M6tt2soXtzv1p14YEB8ei6kGjm
-S4vc06P5qYCRj3dlj6nWW9gAAl8IKVFu20a0zUfBwZts4eOT3/wqFzeI0LTJTANg
-VEdFK1eFJAntDb15VYky6CrNaVKS8VzwbNonSaptWg2U64FWFFNhdKKoipdH2Pqv
-GbncerDI4QxCyZ9Y9h21cdR6OyAHm2Ih55I/7CXquthQvbCHudDl3WLLj7Q2dKD5
-m6mISCON7RrELzFrKJpIm+dz2l2O9AAMzBRZ62kPx86iAHD+GYE4wQif6+l8pMSF
-T6DtDK2F4aCrshSthcVhehq28TSeKj1O1lY6zu5r+iCk9fi6epuUvGD5Dk8KKqlV
-6ZVXIhgcogNikjoZ/TRs8fOjO9XubT/H+uzqmofC8Z007A+PB2DoGG7qzXM+FHuY
-AvSkUov1+HYP5Jo5HyOnAyFCU7aeStfAZp104dEJY0NVQwCyftCdQIguhLd9gv8t
-K9snvCf2aSzC55wrRl5qxSdKFk01KEfvKClFOkE9vMgS0LkU8cKYOIdFHmrupnNC
-cGU4DejMI9XPCF4nyVmwM0QcSTU6pUk4AbTJjdANwx8z0SW0cCRlJrm90YyYJOXl
-lf6zx303Mldaq2uG28dV4W+sT0R9iFMUoyezQq0Rv1tntEHZET4=
-=iZ+4
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmC3UG8ACgkQI1/ltBGq
+qqcQuQ//ZczEGpeM2w6esWjGpPdwaTxDJKJbxeEg/BwEnL+b1CAm8HGsU5o813Fz
+Wn9RcI06rHtRyTNGl+zOIigOqB8No+2gF9/XQVRJ7xlEx0eB0oin3Nc4d4WYY3Gb
+Y5A+NHHVdK06LMVcuXiv5DZrMWVr78IIgUD5SqVFJEbXEo/LxUOtr9piN3mb06nQ
+xfaEd3+ArpxJ15rN+F4Y3taLhnks2aXoqgdJ7g/EBpkYelgnRvsmNsDaS66ziuKm
+eNyJccwRigXBXhrJKhftRmsX4hBhTpMN+yYCsrlrKDowkf+b1hU4Mr3gSLxkQSy8
+RQ2XT/AdH7S8R3ZWzt3NnIp42oZEviQXJj0ppZEJvTuDVxkFEfVhG/Pl/ePo9m4B
++hrazrkV82S31ITxFcVEcQwy6Vf1uEvWPTh3JEtyvuskgaiYmCCXtvsszjw6uukM
+WN0jMl1+FEhqE6MKrO+dhTDMAtKLzxJ2J/sSImUECzOrcqRaPCiY8Sc5P2ZmXx/j
+oz1I7Ro8eVz8q8EcTjj8oWI96aZ5w2NpH+W4lpfsgpiVDD710iGgZV6gr6eaP5GP
+MAGDfL+25hObNVyGXh4T2hY/FGmSLgXOHw1+updFbzM9sH8l0n3CuaW8q0BPQucT
+Jnmhfx7j4oW1nhVFtyeSQoPBqBccihNZNqgjKbZw7HxhhOhGBCA=
+=Xvoq
 -----END PGP SIGNATURE-----
 
---Sig_/31hJ5jTLg3OyoeedSz07hM.--
+--Sig_/A+9DFkfVbYmc.+3dMui5jn/--
