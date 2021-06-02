@@ -2,46 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 660703994D3
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Jun 2021 22:50:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 65171399560
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Jun 2021 23:25:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D69906EE6F;
-	Wed,  2 Jun 2021 20:49:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A7C6D6EE6A;
+	Wed,  2 Jun 2021 21:24:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from phobos.denx.de (phobos.denx.de
- [IPv6:2a01:238:438b:c500:173d:9f52:ddab:ee01])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9079A6EE6C
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Jun 2021 20:49:53 +0000 (UTC)
-Received: from tr.lan (ip-89-176-112-137.net.upcbroadband.cz [89.176.112.137])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (No client certificate requested)
- (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id D3D7F82F3D;
- Wed,  2 Jun 2021 22:49:51 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
- s=phobos-20191101; t=1622666992;
- bh=HBdxbRFdIwtKBnv8EoJShXhSNVCrIP07qseOSlKNhPs=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=jPFhM62PGpnNDO7eNBLLEtY+y3wba2+soXLP4wyePzbL+PB/bD3HVD1mJBvPxJWx/
- /KCGxxBSuWkkt1J0wBiUigbuU//c8dVEkLFWZOkvbiCcjSZCSHxbVEkStz312d5dfe
- QNv1NJAZ7pqQUywwl503AB+AaVxF3KQPQE8yVlZtFk9/9FNIafsOep3Hryj4lXoKwP
- FnKUtq9UFbirIzNBo+IB0hcupLsak5ki7dowHGg0xLvjJAVHFR6RWLtZ/hARI9rNyV
- oPLe0mW1qrJP/iDobEy83yhbqR9nn/rfkWOj4hbog5wMyNp4ljuT6CRWgVT+wfIGwi
- s0NrNGIB9Ov9A==
-From: Marek Vasut <marex@denx.de>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH V5 2/2] drm/bridge: ti-sn65dsi83: Add TI SN65DSI83 and
- SN65DSI84 driver
-Date: Wed,  2 Jun 2021 22:49:28 +0200
-Message-Id: <20210602204928.420342-2-marex@denx.de>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210602204928.420342-1-marex@denx.de>
-References: <20210602204928.420342-1-marex@denx.de>
+Received: from mail-yb1-xb35.google.com (mail-yb1-xb35.google.com
+ [IPv6:2607:f8b0:4864:20::b35])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CE8CF6EE74
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Jun 2021 21:24:54 +0000 (UTC)
+Received: by mail-yb1-xb35.google.com with SMTP id y2so5760992ybq.13
+ for <dri-devel@lists.freedesktop.org>; Wed, 02 Jun 2021 14:24:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=jlekstrand-net.20150623.gappssmtp.com; s=20150623;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=G51rildGrc4KjQJB/eWXCtw0VzLC7Z6eZIMi/Wu0Vuk=;
+ b=FqC/V2E90xYtcxZTxkeOG06MEjaTWq8KOtiO4mSpncUzDvxratrbgkoSR6gP+uP/MF
+ inZ2XR9fHxLzPIm+SiHLXKSQOzOQ9xTdC3TGcOhCv3ImiMYbIHr36IK7LevXH90Syhqc
+ dl5NiOX/XCsoifv/x5Ww2XYwBk/H7O03elYbqW7YmLuCa8wKJHPtX3C9Pz+kM5LVfYbQ
+ EW0+UGvOWJASNoQlnxtqt4/dzcZ9cA7UaLcqbog8pnuTx01vyu5r6ESLw6pZa7Ngi9oW
+ d7CH5U260nwo86oiB1svah6jTomWG/Mi/8d4NT3LYypvke/Bq5QIkqqQFfKqEzW5n/eP
+ M++w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=G51rildGrc4KjQJB/eWXCtw0VzLC7Z6eZIMi/Wu0Vuk=;
+ b=ArDFv7RweV9DvtJZcJ/8F606U2yjio/AIzE2DVwYLLM5GyLCmoMyFxUe6/N961QnAO
+ Gcplbnxlx0wU179jfpLkrm/xa6VWt2duW3LqQUb7iRbvlzzPqQ+9HK9Fh67ZiQGCjJPy
+ AobnL5h20RNZGbDC4KEGQHAlP5GHaI2oDWU0kdQrZ46n8OvMvb5UQBIdvcQ4yHKMvLKu
+ Ul+Q/Q69FwlLi8U6sJ5WRyrhxP/E1JALdVXeTNP7S+M2dr2mEh2rPJzHB03BpUrxXn7b
+ w2VrMZQ32Q3fmS6Df/Ov20r2YEE0KbN26cASmm+izzUq6BnNcOhNrcBFSrpEEKEdBk4x
+ y0DQ==
+X-Gm-Message-State: AOAM531K6Bi6J99RnideAVOaUWrCBHx0dLh2OLrzS+M2fUKUfW7XBNYX
+ hXtJo6z634k5OwHPTZKVSzUJxXkWSTMjB/CzDACdFw==
+X-Google-Smtp-Source: ABdhPJyAxN9UT6PSvaT2XsuegpQIhKe2bZJLIOS/tF6O0OLhOisLKsJ360b94Hu2gkwFNkIgVyEuEP26Vkfe3a6kroY=
+X-Received: by 2002:a25:3415:: with SMTP id b21mr13439619yba.241.1622669093656; 
+ Wed, 02 Jun 2021 14:24:53 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Virus-Scanned: clamav-milter 0.102.4 at phobos.denx.de
-X-Virus-Status: Clean
+References: <20210527162650.1182544-1-jason@jlekstrand.net>
+ <20210527162650.1182544-17-jason@jlekstrand.net>
+ <YLSimneuNgwaB31A@phenom.ffwll.local>
+In-Reply-To: <YLSimneuNgwaB31A@phenom.ffwll.local>
+From: Jason Ekstrand <jason@jlekstrand.net>
+Date: Wed, 2 Jun 2021 16:24:42 -0500
+Message-ID: <CAOFGe97E=JJjSHb=gy64oZYoV6hRpvPpGJ6joj8YnpQi9AtzrA@mail.gmail.com>
+Subject: Re: [Intel-gfx] [PATCH 16/29] drm/i915/gem: Add an intermediate
+ proto_context struct
+To: Daniel Vetter <daniel@ffwll.ch>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,822 +65,400 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, Loic Poulain <loic.poulain@linaro.org>,
- ch@denx.de, Sam Ravnborg <sam@ravnborg.org>,
- Douglas Anderson <dianders@chromium.org>,
- Frieder Schrempf <frieder.schrempf@kontron.de>,
- Stephen Boyd <swboyd@chromium.org>,
- Philippe Schenker <philippe.schenker@toradex.com>,
- Jagan Teki <jagan@amarulasolutions.com>,
- Valentin Raevsky <valentin@compulab.co.il>, Adam Ford <aford173@gmail.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Intel GFX <intel-gfx@lists.freedesktop.org>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add driver for TI SN65DSI83 Single-link DSI to Single-link LVDS bridge
-and TI SN65DSI84 Single-link DSI to Dual-link or 2x Single-link LVDS
-bridge. TI SN65DSI85 is unsupported due to lack of hardware to test on,
-but easy to add.
+On Mon, May 31, 2021 at 3:47 AM Daniel Vetter <daniel@ffwll.ch> wrote:
+>
+> On Thu, May 27, 2021 at 11:26:37AM -0500, Jason Ekstrand wrote:
+> > The current context uAPI allows for two methods of setting context
+> > parameters: SET_CONTEXT_PARAM and CONTEXT_CREATE_EXT_SETPARAM.  The
+> > former is allowed to be called at any time while the later happens as
+> > part of GEM_CONTEXT_CREATE.  Currently, everything settable via one is
+> > settable via the other.  While some params are fairly simple and setting
+> > them on a live context is harmless such the context priority, others are
+> > far trickier such as the VM or the set of engines.  In order to swap out
+> > the VM, for instance, we have to delay until all current in-flight work
+> > is complete, swap in the new VM, and then continue.  This leads to a
+> > plethora of potential race conditions we'd really rather avoid.
+> >
+> > Unfortunately, both methods of setting the VM and engine set are in
+>
+>                                                    ^the
+>
+> At least my English parser jumped there a bit and got confused :-)
 
-The driver operates the chip via I2C bus. Currently the LVDS clock are
-always derived from DSI clock lane, which is the usual mode of operation.
-Support for clock from external oscillator is not implemented, but it is
-easy to add if ever needed. Only RGB888 pixel format is implemented, the
-LVDS666 is not supported, but could be added if needed.
+I believe what I wrote was correct but I'm happy to tweak it if it
+helps others' parsers.
 
-Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
-Reviewed-by: Frieder Schrempf <frieder.schrempf@kontron.de>
-Tested-by: Frieder Schrempf <frieder.schrempf@kontron.de>
-Tested-by: Adam Ford <aford173@gmail.com>
-Signed-off-by: Marek Vasut <marex@denx.de>
-Cc: Douglas Anderson <dianders@chromium.org>
-Cc: Jagan Teki <jagan@amarulasolutions.com>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Linus Walleij <linus.walleij@linaro.org>
-Cc: Loic Poulain <loic.poulain@linaro.org>
-Cc: Philippe Schenker <philippe.schenker@toradex.com>
-Cc: Sam Ravnborg <sam@ravnborg.org>
-Cc: Stephen Boyd <swboyd@chromium.org>
-Cc: Valentin Raevsky <valentin@compulab.co.il>
-To: dri-devel@lists.freedesktop.org
----
-V2: - Use dev_err_probe()
-    - Set REG_RC_RESET as volatile
-    - Wait for PLL stabilization by polling REG_RC_LVDS_PLL
-    - Use ctx->mode = *adj instead of *mode in sn65dsi83_mode_set
-    - Add tested DSI84 support in dual-link mode
-    - Correctly set VCOM
-    - Fill in missing DSI CHB and LVDS CHB bits from DSI84 and DSI85
-      datasheets, with that all the reserved bits make far more sense
-      as the DSI83 and DSI84 seems to be reduced version of DSI85
-V3: - Handle the dual-link LVDS with two port panel or bridge
-V4: - Add RB from Linus Walleij
-    - Rename REG_DSI_LANE_LVDS_LINK_CFG_DUAL to
-      REG_DSI_LANE_DSI_CHANNEL_MODE_SINGLE and fill in the remaining
-      DSI link options from DSI85 datasheet. DSI85 can do dual and 2x
-      single DSI mode, but DSI85 is currently unsupported by the
-      driver. Add a comment about DSI85, so that all the places which
-      need to be adjusted for DSI85 are marked accordingly.
-    - Add REG_DSI_LANE_LEFT_RIGHT_PIXELS bit for DSI
-    - Add handling for JEIDA18/JEIDA24/SPWG24 LVDS formats. Use SPWG24
-      as fallback on output bridges until they are all fixed.
-    - Patch DSI bus format to fixed RGB888_1X24 instead of passing
-      through the LVDS bus format.
-V5: - Move bus format patching to mode_fixup
-    - Use cpu_to_le16() to guarantee endianness in regmap_bulk_write()
----
- drivers/gpu/drm/bridge/Kconfig        |  10 +
- drivers/gpu/drm/bridge/Makefile       |   1 +
- drivers/gpu/drm/bridge/ti-sn65dsi83.c | 707 ++++++++++++++++++++++++++
- 3 files changed, 718 insertions(+)
- create mode 100644 drivers/gpu/drm/bridge/ti-sn65dsi83.c
+> > active use today so we can't simply disallow setting the VM or engine
+> > set vial SET_CONTEXT_PARAM.  In order to work around this wart, this
+> > commit adds a proto-context struct which contains all the context create
+> > parameters.
+> >
+> > Signed-off-by: Jason Ekstrand <jason@jlekstrand.net>
+>
+> I also looked at my review from the previous round and I think we have a
+> few opens there that haven't been addressed here. Would be nice to check
+> that out too and my reply there if you're disagreeing and want to paint
+> the shed differently :-)
 
-diff --git a/drivers/gpu/drm/bridge/Kconfig b/drivers/gpu/drm/bridge/Kconfig
-index 8e15b387e0131..1df1704262d0d 100644
---- a/drivers/gpu/drm/bridge/Kconfig
-+++ b/drivers/gpu/drm/bridge/Kconfig
-@@ -300,6 +300,16 @@ config DRM_TI_TFP410
- 	help
- 	  Texas Instruments TFP410 DVI/HDMI Transmitter driver
- 
-+config DRM_TI_SN65DSI83
-+	tristate "TI SN65DSI83 and SN65DSI84 DSI to LVDS bridge"
-+	depends on OF
-+	select DRM_KMS_HELPER
-+	select REGMAP_I2C
-+	select DRM_PANEL
-+	select DRM_MIPI_DSI
-+	help
-+	  Texas Instruments SN65DSI83 and SN65DSI84 DSI to LVDS Bridge driver
-+
- config DRM_TI_SN65DSI86
- 	tristate "TI SN65DSI86 DSI to eDP bridge"
- 	depends on OF
-diff --git a/drivers/gpu/drm/bridge/Makefile b/drivers/gpu/drm/bridge/Makefile
-index e2218e40b3b3c..61302be291afb 100644
---- a/drivers/gpu/drm/bridge/Makefile
-+++ b/drivers/gpu/drm/bridge/Makefile
-@@ -25,6 +25,7 @@ obj-$(CONFIG_DRM_TOSHIBA_TC358767) += tc358767.o
- obj-$(CONFIG_DRM_TOSHIBA_TC358768) += tc358768.o
- obj-$(CONFIG_DRM_TOSHIBA_TC358775) += tc358775.o
- obj-$(CONFIG_DRM_I2C_ADV7511) += adv7511/
-+obj-$(CONFIG_DRM_TI_SN65DSI83) += ti-sn65dsi83.o
- obj-$(CONFIG_DRM_TI_SN65DSI86) += ti-sn65dsi86.o
- obj-$(CONFIG_DRM_TI_TFP410) += ti-tfp410.o
- obj-$(CONFIG_DRM_TI_TPD12S015) += ti-tpd12s015.o
-diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi83.c b/drivers/gpu/drm/bridge/ti-sn65dsi83.c
-new file mode 100644
-index 0000000000000..2adb24834d3df
---- /dev/null
-+++ b/drivers/gpu/drm/bridge/ti-sn65dsi83.c
-@@ -0,0 +1,707 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * TI SN65DSI83,84,85 driver
-+ *
-+ * Currently supported:
-+ * - SN65DSI83
-+ *   = 1x Single-link DSI ~ 1x Single-link LVDS
-+ *   - Supported
-+ *   - Single-link LVDS mode tested
-+ * - SN65DSI84
-+ *   = 1x Single-link DSI ~ 2x Single-link or 1x Dual-link LVDS
-+ *   - Supported
-+ *   - Dual-link LVDS mode tested
-+ *   - 2x Single-link LVDS mode unsupported
-+ *     (should be easy to add by someone who has the HW)
-+ * - SN65DSI85
-+ *   = 2x Single-link or 1x Dual-link DSI ~ 2x Single-link or 1x Dual-link LVDS
-+ *   - Unsupported
-+ *     (should be easy to add by someone who has the HW)
-+ *
-+ * Copyright (C) 2021 Marek Vasut <marex@denx.de>
-+ *
-+ * Based on previous work of:
-+ * Valentin Raevsky <valentin@compulab.co.il>
-+ * Philippe Schenker <philippe.schenker@toradex.com>
-+ */
-+
-+#include <linux/bits.h>
-+#include <linux/clk.h>
-+#include <linux/gpio/consumer.h>
-+#include <linux/i2c.h>
-+#include <linux/module.h>
-+#include <linux/of_device.h>
-+#include <linux/of_graph.h>
-+#include <linux/regmap.h>
-+
-+#include <drm/drm_atomic_helper.h>
-+#include <drm/drm_bridge.h>
-+#include <drm/drm_mipi_dsi.h>
-+#include <drm/drm_of.h>
-+#include <drm/drm_panel.h>
-+#include <drm/drm_print.h>
-+#include <drm/drm_probe_helper.h>
-+
-+/* ID registers */
-+#define REG_ID(n)				(0x00 + (n))
-+/* Reset and clock registers */
-+#define REG_RC_RESET				0x09
-+#define  REG_RC_RESET_SOFT_RESET		BIT(0)
-+#define REG_RC_LVDS_PLL				0x0a
-+#define  REG_RC_LVDS_PLL_PLL_EN_STAT		BIT(7)
-+#define  REG_RC_LVDS_PLL_LVDS_CLK_RANGE(n)	(((n) & 0x7) << 1)
-+#define  REG_RC_LVDS_PLL_HS_CLK_SRC_DPHY	BIT(0)
-+#define REG_RC_DSI_CLK				0x0b
-+#define  REG_RC_DSI_CLK_DSI_CLK_DIVIDER(n)	(((n) & 0x1f) << 3)
-+#define  REG_RC_DSI_CLK_REFCLK_MULTIPLIER(n)	((n) & 0x3)
-+#define REG_RC_PLL_EN				0x0d
-+#define  REG_RC_PLL_EN_PLL_EN			BIT(0)
-+/* DSI registers */
-+#define REG_DSI_LANE				0x10
-+#define  REG_DSI_LANE_LEFT_RIGHT_PIXELS		BIT(7)	/* DSI85-only */
-+#define  REG_DSI_LANE_DSI_CHANNEL_MODE_DUAL	0	/* DSI85-only */
-+#define  REG_DSI_LANE_DSI_CHANNEL_MODE_2SINGLE	BIT(6)	/* DSI85-only */
-+#define  REG_DSI_LANE_DSI_CHANNEL_MODE_SINGLE	BIT(5)
-+#define  REG_DSI_LANE_CHA_DSI_LANES(n)		(((n) & 0x3) << 3)
-+#define  REG_DSI_LANE_CHB_DSI_LANES(n)		(((n) & 0x3) << 1)
-+#define  REG_DSI_LANE_SOT_ERR_TOL_DIS		BIT(0)
-+#define REG_DSI_EQ				0x11
-+#define  REG_DSI_EQ_CHA_DSI_DATA_EQ(n)		(((n) & 0x3) << 6)
-+#define  REG_DSI_EQ_CHA_DSI_CLK_EQ(n)		(((n) & 0x3) << 2)
-+#define REG_DSI_CLK				0x12
-+#define  REG_DSI_CLK_CHA_DSI_CLK_RANGE(n)	((n) & 0xff)
-+/* LVDS registers */
-+#define REG_LVDS_FMT				0x18
-+#define  REG_LVDS_FMT_DE_NEG_POLARITY		BIT(7)
-+#define  REG_LVDS_FMT_HS_NEG_POLARITY		BIT(6)
-+#define  REG_LVDS_FMT_VS_NEG_POLARITY		BIT(5)
-+#define  REG_LVDS_FMT_LVDS_LINK_CFG		BIT(4)	/* 0:AB 1:A-only */
-+#define  REG_LVDS_FMT_CHA_24BPP_MODE		BIT(3)
-+#define  REG_LVDS_FMT_CHB_24BPP_MODE		BIT(2)
-+#define  REG_LVDS_FMT_CHA_24BPP_FORMAT1		BIT(1)
-+#define  REG_LVDS_FMT_CHB_24BPP_FORMAT1		BIT(0)
-+#define REG_LVDS_VCOM				0x19
-+#define  REG_LVDS_VCOM_CHA_LVDS_VOCM		BIT(6)
-+#define  REG_LVDS_VCOM_CHB_LVDS_VOCM		BIT(4)
-+#define  REG_LVDS_VCOM_CHA_LVDS_VOD_SWING(n)	(((n) & 0x3) << 2)
-+#define  REG_LVDS_VCOM_CHB_LVDS_VOD_SWING(n)	((n) & 0x3)
-+#define REG_LVDS_LANE				0x1a
-+#define  REG_LVDS_LANE_EVEN_ODD_SWAP		BIT(6)
-+#define  REG_LVDS_LANE_CHA_REVERSE_LVDS		BIT(5)
-+#define  REG_LVDS_LANE_CHB_REVERSE_LVDS		BIT(4)
-+#define  REG_LVDS_LANE_CHA_LVDS_TERM		BIT(1)
-+#define  REG_LVDS_LANE_CHB_LVDS_TERM		BIT(0)
-+#define REG_LVDS_CM				0x1b
-+#define  REG_LVDS_CM_CHA_LVDS_CM_ADJUST(n)	(((n) & 0x3) << 4)
-+#define  REG_LVDS_CM_CHB_LVDS_CM_ADJUST(n)	((n) & 0x3)
-+/* Video registers */
-+#define REG_VID_CHA_ACTIVE_LINE_LENGTH_LOW	0x20
-+#define REG_VID_CHA_ACTIVE_LINE_LENGTH_HIGH	0x21
-+#define REG_VID_CHA_VERTICAL_DISPLAY_SIZE_LOW	0x24
-+#define REG_VID_CHA_VERTICAL_DISPLAY_SIZE_HIGH	0x25
-+#define REG_VID_CHA_SYNC_DELAY_LOW		0x28
-+#define REG_VID_CHA_SYNC_DELAY_HIGH		0x29
-+#define REG_VID_CHA_HSYNC_PULSE_WIDTH_LOW	0x2c
-+#define REG_VID_CHA_HSYNC_PULSE_WIDTH_HIGH	0x2d
-+#define REG_VID_CHA_VSYNC_PULSE_WIDTH_LOW	0x30
-+#define REG_VID_CHA_VSYNC_PULSE_WIDTH_HIGH	0x31
-+#define REG_VID_CHA_HORIZONTAL_BACK_PORCH	0x34
-+#define REG_VID_CHA_VERTICAL_BACK_PORCH		0x36
-+#define REG_VID_CHA_HORIZONTAL_FRONT_PORCH	0x38
-+#define REG_VID_CHA_VERTICAL_FRONT_PORCH	0x3a
-+#define REG_VID_CHA_TEST_PATTERN		0x3c
-+/* IRQ registers */
-+#define REG_IRQ_GLOBAL				0xe0
-+#define  REG_IRQ_GLOBAL_IRQ_EN			BIT(0)
-+#define REG_IRQ_EN				0xe1
-+#define  REG_IRQ_EN_CHA_SYNCH_ERR_EN		BIT(7)
-+#define  REG_IRQ_EN_CHA_CRC_ERR_EN		BIT(6)
-+#define  REG_IRQ_EN_CHA_UNC_ECC_ERR_EN		BIT(5)
-+#define  REG_IRQ_EN_CHA_COR_ECC_ERR_EN		BIT(4)
-+#define  REG_IRQ_EN_CHA_LLP_ERR_EN		BIT(3)
-+#define  REG_IRQ_EN_CHA_SOT_BIT_ERR_EN		BIT(2)
-+#define  REG_IRQ_EN_CHA_PLL_UNLOCK_EN		BIT(0)
-+#define REG_IRQ_STAT				0xe5
-+#define  REG_IRQ_STAT_CHA_SYNCH_ERR		BIT(7)
-+#define  REG_IRQ_STAT_CHA_CRC_ERR		BIT(6)
-+#define  REG_IRQ_STAT_CHA_UNC_ECC_ERR		BIT(5)
-+#define  REG_IRQ_STAT_CHA_COR_ECC_ERR		BIT(4)
-+#define  REG_IRQ_STAT_CHA_LLP_ERR		BIT(3)
-+#define  REG_IRQ_STAT_CHA_SOT_BIT_ERR		BIT(2)
-+#define  REG_IRQ_STAT_CHA_PLL_UNLOCK		BIT(0)
-+
-+enum sn65dsi83_model {
-+	MODEL_SN65DSI83,
-+	MODEL_SN65DSI84,
-+};
-+
-+struct sn65dsi83 {
-+	struct drm_bridge		bridge;
-+	struct drm_display_mode		mode;
-+	struct device			*dev;
-+	struct regmap			*regmap;
-+	struct device_node		*host_node;
-+	struct mipi_dsi_device		*dsi;
-+	struct drm_bridge		*panel_bridge;
-+	struct gpio_desc		*enable_gpio;
-+	int				dsi_lanes;
-+	bool				lvds_dual_link;
-+	bool				lvds_dual_link_even_odd_swap;
-+	bool				lvds_format_24bpp;
-+	bool				lvds_format_jeida;
-+};
-+
-+static const struct regmap_range sn65dsi83_readable_ranges[] = {
-+	regmap_reg_range(REG_ID(0), REG_ID(8)),
-+	regmap_reg_range(REG_RC_LVDS_PLL, REG_RC_DSI_CLK),
-+	regmap_reg_range(REG_RC_PLL_EN, REG_RC_PLL_EN),
-+	regmap_reg_range(REG_DSI_LANE, REG_DSI_CLK),
-+	regmap_reg_range(REG_LVDS_FMT, REG_LVDS_CM),
-+	regmap_reg_range(REG_VID_CHA_ACTIVE_LINE_LENGTH_LOW,
-+			 REG_VID_CHA_ACTIVE_LINE_LENGTH_HIGH),
-+	regmap_reg_range(REG_VID_CHA_VERTICAL_DISPLAY_SIZE_LOW,
-+			 REG_VID_CHA_VERTICAL_DISPLAY_SIZE_HIGH),
-+	regmap_reg_range(REG_VID_CHA_SYNC_DELAY_LOW,
-+			 REG_VID_CHA_SYNC_DELAY_HIGH),
-+	regmap_reg_range(REG_VID_CHA_HSYNC_PULSE_WIDTH_LOW,
-+			 REG_VID_CHA_HSYNC_PULSE_WIDTH_HIGH),
-+	regmap_reg_range(REG_VID_CHA_VSYNC_PULSE_WIDTH_LOW,
-+			 REG_VID_CHA_VSYNC_PULSE_WIDTH_HIGH),
-+	regmap_reg_range(REG_VID_CHA_HORIZONTAL_BACK_PORCH,
-+			 REG_VID_CHA_HORIZONTAL_BACK_PORCH),
-+	regmap_reg_range(REG_VID_CHA_VERTICAL_BACK_PORCH,
-+			 REG_VID_CHA_VERTICAL_BACK_PORCH),
-+	regmap_reg_range(REG_VID_CHA_HORIZONTAL_FRONT_PORCH,
-+			 REG_VID_CHA_HORIZONTAL_FRONT_PORCH),
-+	regmap_reg_range(REG_VID_CHA_VERTICAL_FRONT_PORCH,
-+			 REG_VID_CHA_VERTICAL_FRONT_PORCH),
-+	regmap_reg_range(REG_VID_CHA_TEST_PATTERN, REG_VID_CHA_TEST_PATTERN),
-+	regmap_reg_range(REG_IRQ_GLOBAL, REG_IRQ_EN),
-+	regmap_reg_range(REG_IRQ_STAT, REG_IRQ_STAT),
-+};
-+
-+static const struct regmap_access_table sn65dsi83_readable_table = {
-+	.yes_ranges = sn65dsi83_readable_ranges,
-+	.n_yes_ranges = ARRAY_SIZE(sn65dsi83_readable_ranges),
-+};
-+
-+static const struct regmap_range sn65dsi83_writeable_ranges[] = {
-+	regmap_reg_range(REG_RC_RESET, REG_RC_DSI_CLK),
-+	regmap_reg_range(REG_RC_PLL_EN, REG_RC_PLL_EN),
-+	regmap_reg_range(REG_DSI_LANE, REG_DSI_CLK),
-+	regmap_reg_range(REG_LVDS_FMT, REG_LVDS_CM),
-+	regmap_reg_range(REG_VID_CHA_ACTIVE_LINE_LENGTH_LOW,
-+			 REG_VID_CHA_ACTIVE_LINE_LENGTH_HIGH),
-+	regmap_reg_range(REG_VID_CHA_VERTICAL_DISPLAY_SIZE_LOW,
-+			 REG_VID_CHA_VERTICAL_DISPLAY_SIZE_HIGH),
-+	regmap_reg_range(REG_VID_CHA_SYNC_DELAY_LOW,
-+			 REG_VID_CHA_SYNC_DELAY_HIGH),
-+	regmap_reg_range(REG_VID_CHA_HSYNC_PULSE_WIDTH_LOW,
-+			 REG_VID_CHA_HSYNC_PULSE_WIDTH_HIGH),
-+	regmap_reg_range(REG_VID_CHA_VSYNC_PULSE_WIDTH_LOW,
-+			 REG_VID_CHA_VSYNC_PULSE_WIDTH_HIGH),
-+	regmap_reg_range(REG_VID_CHA_HORIZONTAL_BACK_PORCH,
-+			 REG_VID_CHA_HORIZONTAL_BACK_PORCH),
-+	regmap_reg_range(REG_VID_CHA_VERTICAL_BACK_PORCH,
-+			 REG_VID_CHA_VERTICAL_BACK_PORCH),
-+	regmap_reg_range(REG_VID_CHA_HORIZONTAL_FRONT_PORCH,
-+			 REG_VID_CHA_HORIZONTAL_FRONT_PORCH),
-+	regmap_reg_range(REG_VID_CHA_VERTICAL_FRONT_PORCH,
-+			 REG_VID_CHA_VERTICAL_FRONT_PORCH),
-+	regmap_reg_range(REG_VID_CHA_TEST_PATTERN, REG_VID_CHA_TEST_PATTERN),
-+	regmap_reg_range(REG_IRQ_GLOBAL, REG_IRQ_EN),
-+	regmap_reg_range(REG_IRQ_STAT, REG_IRQ_STAT),
-+};
-+
-+static const struct regmap_access_table sn65dsi83_writeable_table = {
-+	.yes_ranges = sn65dsi83_writeable_ranges,
-+	.n_yes_ranges = ARRAY_SIZE(sn65dsi83_writeable_ranges),
-+};
-+
-+static const struct regmap_range sn65dsi83_volatile_ranges[] = {
-+	regmap_reg_range(REG_RC_RESET, REG_RC_RESET),
-+	regmap_reg_range(REG_RC_LVDS_PLL, REG_RC_LVDS_PLL),
-+	regmap_reg_range(REG_IRQ_STAT, REG_IRQ_STAT),
-+};
-+
-+static const struct regmap_access_table sn65dsi83_volatile_table = {
-+	.yes_ranges = sn65dsi83_volatile_ranges,
-+	.n_yes_ranges = ARRAY_SIZE(sn65dsi83_volatile_ranges),
-+};
-+
-+static const struct regmap_config sn65dsi83_regmap_config = {
-+	.reg_bits = 8,
-+	.val_bits = 8,
-+	.rd_table = &sn65dsi83_readable_table,
-+	.wr_table = &sn65dsi83_writeable_table,
-+	.volatile_table = &sn65dsi83_volatile_table,
-+	.cache_type = REGCACHE_RBTREE,
-+	.max_register = REG_IRQ_STAT,
-+};
-+
-+static struct sn65dsi83 *bridge_to_sn65dsi83(struct drm_bridge *bridge)
-+{
-+	return container_of(bridge, struct sn65dsi83, bridge);
-+}
-+
-+static int sn65dsi83_attach(struct drm_bridge *bridge,
-+			    enum drm_bridge_attach_flags flags)
-+{
-+	struct sn65dsi83 *ctx = bridge_to_sn65dsi83(bridge);
-+	struct device *dev = ctx->dev;
-+	struct mipi_dsi_device *dsi;
-+	struct mipi_dsi_host *host;
-+	int ret = 0;
-+
-+	const struct mipi_dsi_device_info info = {
-+		.type = "sn65dsi83",
-+		.channel = 0,
-+		.node = NULL,
-+	};
-+
-+	host = of_find_mipi_dsi_host_by_node(ctx->host_node);
-+	if (!host) {
-+		dev_err(dev, "failed to find dsi host\n");
-+		return -EPROBE_DEFER;
-+	}
-+
-+	dsi = mipi_dsi_device_register_full(host, &info);
-+	if (IS_ERR(dsi)) {
-+		return dev_err_probe(dev, PTR_ERR(dsi),
-+				     "failed to create dsi device\n");
-+	}
-+
-+	ctx->dsi = dsi;
-+
-+	dsi->lanes = ctx->dsi_lanes;
-+	dsi->format = MIPI_DSI_FMT_RGB888;
-+	dsi->mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_BURST;
-+
-+	ret = mipi_dsi_attach(dsi);
-+	if (ret < 0) {
-+		dev_err(dev, "failed to attach dsi to host\n");
-+		goto err_dsi_attach;
-+	}
-+
-+	return drm_bridge_attach(bridge->encoder, ctx->panel_bridge,
-+				 &ctx->bridge, flags);
-+
-+err_dsi_attach:
-+	mipi_dsi_device_unregister(dsi);
-+	return ret;
-+}
-+
-+static void sn65dsi83_pre_enable(struct drm_bridge *bridge)
-+{
-+	struct sn65dsi83 *ctx = bridge_to_sn65dsi83(bridge);
-+
-+	/*
-+	 * Reset the chip, pull EN line low for t_reset=10ms,
-+	 * then high for t_en=1ms.
-+	 */
-+	regcache_mark_dirty(ctx->regmap);
-+	gpiod_set_value(ctx->enable_gpio, 0);
-+	usleep_range(10000, 11000);
-+	gpiod_set_value(ctx->enable_gpio, 1);
-+	usleep_range(1000, 1100);
-+}
-+
-+static u8 sn65dsi83_get_lvds_range(struct sn65dsi83 *ctx)
-+{
-+	/*
-+	 * The encoding of the LVDS_CLK_RANGE is as follows:
-+	 * 000 - 25 MHz <= LVDS_CLK < 37.5 MHz
-+	 * 001 - 37.5 MHz <= LVDS_CLK < 62.5 MHz
-+	 * 010 - 62.5 MHz <= LVDS_CLK < 87.5 MHz
-+	 * 011 - 87.5 MHz <= LVDS_CLK < 112.5 MHz
-+	 * 100 - 112.5 MHz <= LVDS_CLK < 137.5 MHz
-+	 * 101 - 137.5 MHz <= LVDS_CLK <= 154 MHz
-+	 * which is a range of 12.5MHz..162.5MHz in 50MHz steps, except that
-+	 * the ends of the ranges are clamped to the supported range. Since
-+	 * sn65dsi83_mode_valid() already filters the valid modes and limits
-+	 * the clock to 25..154 MHz, the range calculation can be simplified
-+	 * as follows:
-+	 */
-+	int mode_clock = ctx->mode.clock;
-+
-+	if (ctx->lvds_dual_link)
-+		mode_clock /= 2;
-+
-+	return (mode_clock - 12500) / 25000;
-+}
-+
-+static u8 sn65dsi83_get_dsi_range(struct sn65dsi83 *ctx)
-+{
-+	/*
-+	 * The encoding of the CHA_DSI_CLK_RANGE is as follows:
-+	 * 0x00 through 0x07 - Reserved
-+	 * 0x08 - 40 <= DSI_CLK < 45 MHz
-+	 * 0x09 - 45 <= DSI_CLK < 50 MHz
-+	 * ...
-+	 * 0x63 - 495 <= DSI_CLK < 500 MHz
-+	 * 0x64 - 500 MHz
-+	 * 0x65 through 0xFF - Reserved
-+	 * which is DSI clock in 5 MHz steps, clamped to 40..500 MHz.
-+	 * The DSI clock are calculated as:
-+	 *  DSI_CLK = mode clock * bpp / dsi_data_lanes / 2
-+	 * the 2 is there because the bus is DDR.
-+	 */
-+	return DIV_ROUND_UP(clamp((unsigned int)ctx->mode.clock *
-+			    mipi_dsi_pixel_format_to_bpp(ctx->dsi->format) /
-+			    ctx->dsi_lanes / 2, 40000U, 500000U), 5000U);
-+}
-+
-+static u8 sn65dsi83_get_dsi_div(struct sn65dsi83 *ctx)
-+{
-+	/* The divider is (DSI_CLK / LVDS_CLK) - 1, which really is: */
-+	unsigned int dsi_div = mipi_dsi_pixel_format_to_bpp(ctx->dsi->format);
-+
-+	dsi_div /= ctx->dsi_lanes;
-+
-+	if (!ctx->lvds_dual_link)
-+		dsi_div /= 2;
-+
-+	return dsi_div - 1;
-+}
-+
-+static void sn65dsi83_enable(struct drm_bridge *bridge)
-+{
-+	struct sn65dsi83 *ctx = bridge_to_sn65dsi83(bridge);
-+	unsigned int pval;
-+	u16 val;
-+	int ret;
-+
-+	/* Clear reset, disable PLL */
-+	regmap_write(ctx->regmap, REG_RC_RESET, 0x00);
-+	regmap_write(ctx->regmap, REG_RC_PLL_EN, 0x00);
-+
-+	/* Reference clock derived from DSI link clock. */
-+	regmap_write(ctx->regmap, REG_RC_LVDS_PLL,
-+		REG_RC_LVDS_PLL_LVDS_CLK_RANGE(sn65dsi83_get_lvds_range(ctx)) |
-+		REG_RC_LVDS_PLL_HS_CLK_SRC_DPHY);
-+	regmap_write(ctx->regmap, REG_DSI_CLK,
-+		REG_DSI_CLK_CHA_DSI_CLK_RANGE(sn65dsi83_get_dsi_range(ctx)));
-+	regmap_write(ctx->regmap, REG_RC_DSI_CLK,
-+		REG_RC_DSI_CLK_DSI_CLK_DIVIDER(sn65dsi83_get_dsi_div(ctx)));
-+
-+	/* Set number of DSI lanes and LVDS link config. */
-+	regmap_write(ctx->regmap, REG_DSI_LANE,
-+		REG_DSI_LANE_DSI_CHANNEL_MODE_SINGLE |
-+		REG_DSI_LANE_CHA_DSI_LANES(~(ctx->dsi_lanes - 1)) |
-+		/* CHB is DSI85-only, set to default on DSI83/DSI84 */
-+		REG_DSI_LANE_CHB_DSI_LANES(3));
-+	/* No equalization. */
-+	regmap_write(ctx->regmap, REG_DSI_EQ, 0x00);
-+
-+	/* Set up sync signal polarity. */
-+	val = (ctx->mode.flags & DRM_MODE_FLAG_NHSYNC ?
-+	       REG_LVDS_FMT_HS_NEG_POLARITY : 0) |
-+	      (ctx->mode.flags & DRM_MODE_FLAG_NVSYNC ?
-+	       REG_LVDS_FMT_VS_NEG_POLARITY : 0);
-+
-+	/* Set up bits-per-pixel, 18bpp or 24bpp. */
-+	if (ctx->lvds_format_24bpp) {
-+		val |= REG_LVDS_FMT_CHA_24BPP_MODE;
-+		if (ctx->lvds_dual_link)
-+			val |= REG_LVDS_FMT_CHB_24BPP_MODE;
-+	}
-+
-+	/* Set up LVDS format, JEIDA/Format 1 or SPWG/Format 2 */
-+	if (ctx->lvds_format_jeida) {
-+		val |= REG_LVDS_FMT_CHA_24BPP_FORMAT1;
-+		if (ctx->lvds_dual_link)
-+			val |= REG_LVDS_FMT_CHB_24BPP_FORMAT1;
-+	}
-+
-+	/* Set up LVDS output config (DSI84,DSI85) */
-+	if (!ctx->lvds_dual_link)
-+		val |= REG_LVDS_FMT_LVDS_LINK_CFG;
-+
-+	regmap_write(ctx->regmap, REG_LVDS_FMT, val);
-+	regmap_write(ctx->regmap, REG_LVDS_VCOM, 0x05);
-+	regmap_write(ctx->regmap, REG_LVDS_LANE,
-+		(ctx->lvds_dual_link_even_odd_swap ?
-+		 REG_LVDS_LANE_EVEN_ODD_SWAP : 0) |
-+		REG_LVDS_LANE_CHA_LVDS_TERM |
-+		REG_LVDS_LANE_CHB_LVDS_TERM);
-+	regmap_write(ctx->regmap, REG_LVDS_CM, 0x00);
-+
-+	val = cpu_to_le16(ctx->mode.hdisplay);
-+	regmap_bulk_write(ctx->regmap, REG_VID_CHA_ACTIVE_LINE_LENGTH_LOW,
-+			  &val, 2);
-+	val = cpu_to_le16(ctx->mode.vdisplay);
-+	regmap_bulk_write(ctx->regmap, REG_VID_CHA_VERTICAL_DISPLAY_SIZE_LOW,
-+			  &val, 2);
-+	/* 32 + 1 pixel clock to ensure proper operation */
-+	val = cpu_to_le16(32 + 1);
-+	regmap_bulk_write(ctx->regmap, REG_VID_CHA_SYNC_DELAY_LOW, &val, 2);
-+	val = cpu_to_le16(ctx->mode.hsync_end - ctx->mode.hsync_start);
-+	regmap_bulk_write(ctx->regmap, REG_VID_CHA_HSYNC_PULSE_WIDTH_LOW,
-+			  &val, 2);
-+	val = cpu_to_le16(ctx->mode.vsync_end - ctx->mode.vsync_start);
-+	regmap_bulk_write(ctx->regmap, REG_VID_CHA_VSYNC_PULSE_WIDTH_LOW,
-+			  &val, 2);
-+	regmap_write(ctx->regmap, REG_VID_CHA_HORIZONTAL_BACK_PORCH,
-+		     ctx->mode.htotal - ctx->mode.hsync_end);
-+	regmap_write(ctx->regmap, REG_VID_CHA_VERTICAL_BACK_PORCH,
-+		     ctx->mode.vtotal - ctx->mode.vsync_end);
-+	regmap_write(ctx->regmap, REG_VID_CHA_HORIZONTAL_FRONT_PORCH,
-+		     ctx->mode.hsync_start - ctx->mode.hdisplay);
-+	regmap_write(ctx->regmap, REG_VID_CHA_VERTICAL_FRONT_PORCH,
-+		     ctx->mode.vsync_start - ctx->mode.vdisplay);
-+	regmap_write(ctx->regmap, REG_VID_CHA_TEST_PATTERN, 0x00);
-+
-+	/* Enable PLL */
-+	regmap_write(ctx->regmap, REG_RC_PLL_EN, REG_RC_PLL_EN_PLL_EN);
-+	usleep_range(3000, 4000);
-+	ret = regmap_read_poll_timeout(ctx->regmap, REG_RC_LVDS_PLL, pval,
-+					pval & REG_RC_LVDS_PLL_PLL_EN_STAT,
-+					1000, 100000);
-+	if (ret) {
-+		dev_err(ctx->dev, "failed to lock PLL, ret=%i\n", ret);
-+		/* On failure, disable PLL again and exit. */
-+		regmap_write(ctx->regmap, REG_RC_PLL_EN, 0x00);
-+		return;
-+	}
-+
-+	/* Trigger reset after CSR register update. */
-+	regmap_write(ctx->regmap, REG_RC_RESET, REG_RC_RESET_SOFT_RESET);
-+
-+	/* Clear all errors that got asserted during initialization. */
-+	regmap_read(ctx->regmap, REG_IRQ_STAT, &pval);
-+	regmap_write(ctx->regmap, REG_IRQ_STAT, pval);
-+}
-+
-+static void sn65dsi83_disable(struct drm_bridge *bridge)
-+{
-+	struct sn65dsi83 *ctx = bridge_to_sn65dsi83(bridge);
-+
-+	/* Clear reset, disable PLL */
-+	regmap_write(ctx->regmap, REG_RC_RESET, 0x00);
-+	regmap_write(ctx->regmap, REG_RC_PLL_EN, 0x00);
-+}
-+
-+static void sn65dsi83_post_disable(struct drm_bridge *bridge)
-+{
-+	struct sn65dsi83 *ctx = bridge_to_sn65dsi83(bridge);
-+
-+	/* Put the chip in reset, pull EN line low. */
-+	gpiod_set_value(ctx->enable_gpio, 0);
-+}
-+
-+static enum drm_mode_status
-+sn65dsi83_mode_valid(struct drm_bridge *bridge,
-+		     const struct drm_display_info *info,
-+		     const struct drm_display_mode *mode)
-+{
-+	/* LVDS output clock range 25..154 MHz */
-+	if (mode->clock < 25000)
-+		return MODE_CLOCK_LOW;
-+	if (mode->clock > 154000)
-+		return MODE_CLOCK_HIGH;
-+
-+	return MODE_OK;
-+}
-+
-+static void sn65dsi83_mode_set(struct drm_bridge *bridge,
-+			       const struct drm_display_mode *mode,
-+			       const struct drm_display_mode *adj)
-+{
-+	struct sn65dsi83 *ctx = bridge_to_sn65dsi83(bridge);
-+
-+	ctx->mode = *adj;
-+}
-+
-+static bool sn65dsi83_mode_fixup(struct drm_bridge *bridge,
-+			       const struct drm_display_mode *mode,
-+			       struct drm_display_mode *adj)
-+{
-+	struct sn65dsi83 *ctx = bridge_to_sn65dsi83(bridge);
-+	u32 input_bus_format = MEDIA_BUS_FMT_RGB888_1X24;
-+	struct drm_encoder *encoder = bridge->encoder;
-+	struct drm_device *ddev = encoder->dev;
-+	struct drm_connector *connector;
-+
-+	/* The DSI format is always RGB888_1X24 */
-+	list_for_each_entry(connector, &ddev->mode_config.connector_list, head) {
-+		switch (connector->display_info.bus_formats[0]) {
-+		case MEDIA_BUS_FMT_RGB666_1X7X3_SPWG:
-+			ctx->lvds_format_24bpp = false;
-+			ctx->lvds_format_jeida = true;
-+			break;
-+		case MEDIA_BUS_FMT_RGB888_1X7X4_JEIDA:
-+			ctx->lvds_format_24bpp = true;
-+			ctx->lvds_format_jeida = true;
-+			break;
-+		case MEDIA_BUS_FMT_RGB888_1X7X4_SPWG:
-+			ctx->lvds_format_24bpp = true;
-+			ctx->lvds_format_jeida = false;
-+			break;
-+		default:
-+			/*
-+			 * Some bridges still don't set the correct
-+			 * LVDS bus pixel format, use SPWG24 default
-+			 * format until those are fixed.
-+			 */
-+			ctx->lvds_format_24bpp = true;
-+			ctx->lvds_format_jeida = false;
-+			dev_warn(ctx->dev,
-+				"Unsupported LVDS bus format 0x%04x, please check output bridge driver. Falling back to SPWG24.\n",
-+				connector->display_info.bus_formats[0]);
-+			break;
-+		}
-+
-+		drm_display_info_set_bus_formats(&connector->display_info,
-+						 &input_bus_format, 1);
-+	}
-+
-+	return true;
-+}
-+
-+static const struct drm_bridge_funcs sn65dsi83_funcs = {
-+	.attach		= sn65dsi83_attach,
-+	.pre_enable	= sn65dsi83_pre_enable,
-+	.enable		= sn65dsi83_enable,
-+	.disable	= sn65dsi83_disable,
-+	.post_disable	= sn65dsi83_post_disable,
-+	.mode_valid	= sn65dsi83_mode_valid,
-+	.mode_set	= sn65dsi83_mode_set,
-+	.mode_fixup	= sn65dsi83_mode_fixup,
-+};
-+
-+static int sn65dsi83_parse_dt(struct sn65dsi83 *ctx, enum sn65dsi83_model model)
-+{
-+	struct drm_bridge *panel_bridge;
-+	struct device *dev = ctx->dev;
-+	struct device_node *endpoint;
-+	struct drm_panel *panel;
-+	int ret;
-+
-+	endpoint = of_graph_get_endpoint_by_regs(dev->of_node, 0, 0);
-+	ctx->dsi_lanes = of_property_count_u32_elems(endpoint, "data-lanes");
-+	ctx->host_node = of_graph_get_remote_port_parent(endpoint);
-+	of_node_put(endpoint);
-+
-+	if (ctx->dsi_lanes < 0 || ctx->dsi_lanes > 4)
-+		return -EINVAL;
-+	if (!ctx->host_node)
-+		return -ENODEV;
-+
-+	ctx->lvds_dual_link = false;
-+	ctx->lvds_dual_link_even_odd_swap = false;
-+	if (model != MODEL_SN65DSI83) {
-+		struct device_node *port2, *port3;
-+		int dual_link;
-+
-+		port2 = of_graph_get_port_by_id(dev->of_node, 2);
-+		port3 = of_graph_get_port_by_id(dev->of_node, 3);
-+		dual_link = drm_of_lvds_get_dual_link_pixel_order(port2, port3);
-+		of_node_put(port2);
-+		of_node_put(port3);
-+
-+		if (dual_link == DRM_LVDS_DUAL_LINK_ODD_EVEN_PIXELS) {
-+			ctx->lvds_dual_link = true;
-+			/* Odd pixels to LVDS Channel A, even pixels to B */
-+			ctx->lvds_dual_link_even_odd_swap = false;
-+		} else if (dual_link == DRM_LVDS_DUAL_LINK_EVEN_ODD_PIXELS) {
-+			ctx->lvds_dual_link = true;
-+			/* Even pixels to LVDS Channel A, odd pixels to B */
-+			ctx->lvds_dual_link_even_odd_swap = true;
-+		}
-+	}
-+
-+	ret = drm_of_find_panel_or_bridge(dev->of_node, 2, 0, &panel, &panel_bridge);
-+	if (ret < 0)
-+		return ret;
-+	if (panel) {
-+		panel_bridge = devm_drm_panel_bridge_add(dev, panel);
-+		if (IS_ERR(panel_bridge))
-+			return PTR_ERR(panel_bridge);
-+	}
-+
-+	ctx->panel_bridge = panel_bridge;
-+
-+	return 0;
-+}
-+
-+static int sn65dsi83_probe(struct i2c_client *client,
-+			   const struct i2c_device_id *id)
-+{
-+	struct device *dev = &client->dev;
-+	enum sn65dsi83_model model;
-+	struct sn65dsi83 *ctx;
-+	int ret;
-+
-+	ctx = devm_kzalloc(dev, sizeof(*ctx), GFP_KERNEL);
-+	if (!ctx)
-+		return -ENOMEM;
-+
-+	ctx->dev = dev;
-+
-+	if (dev->of_node)
-+		model = (enum sn65dsi83_model)of_device_get_match_data(dev);
-+	else
-+		model = id->driver_data;
-+
-+	ctx->enable_gpio = devm_gpiod_get(ctx->dev, "enable", GPIOD_OUT_LOW);
-+	if (IS_ERR(ctx->enable_gpio))
-+		return PTR_ERR(ctx->enable_gpio);
-+
-+	ret = sn65dsi83_parse_dt(ctx, model);
-+	if (ret)
-+		return ret;
-+
-+	ctx->regmap = devm_regmap_init_i2c(client, &sn65dsi83_regmap_config);
-+	if (IS_ERR(ctx->regmap))
-+		return PTR_ERR(ctx->regmap);
-+
-+	dev_set_drvdata(dev, ctx);
-+	i2c_set_clientdata(client, ctx);
-+
-+	ctx->bridge.funcs = &sn65dsi83_funcs;
-+	ctx->bridge.of_node = dev->of_node;
-+	drm_bridge_add(&ctx->bridge);
-+
-+	return 0;
-+}
-+
-+static int sn65dsi83_remove(struct i2c_client *client)
-+{
-+	struct sn65dsi83 *ctx = i2c_get_clientdata(client);
-+
-+	mipi_dsi_detach(ctx->dsi);
-+	mipi_dsi_device_unregister(ctx->dsi);
-+	drm_bridge_remove(&ctx->bridge);
-+	of_node_put(ctx->host_node);
-+
-+	return 0;
-+}
-+
-+static struct i2c_device_id sn65dsi83_id[] = {
-+	{ "ti,sn65dsi83", MODEL_SN65DSI83 },
-+	{ "ti,sn65dsi84", MODEL_SN65DSI84 },
-+	{},
-+};
-+MODULE_DEVICE_TABLE(i2c, sn65dsi83_id);
-+
-+static const struct of_device_id sn65dsi83_match_table[] = {
-+	{ .compatible = "ti,sn65dsi83", .data = (void *)MODEL_SN65DSI83 },
-+	{ .compatible = "ti,sn65dsi84", .data = (void *)MODEL_SN65DSI84 },
-+	{},
-+};
-+MODULE_DEVICE_TABLE(of, sn65dsi83_match_table);
-+
-+static struct i2c_driver sn65dsi83_driver = {
-+	.probe = sn65dsi83_probe,
-+	.remove = sn65dsi83_remove,
-+	.id_table = sn65dsi83_id,
-+	.driver = {
-+		.name = "sn65dsi83",
-+		.of_match_table = sn65dsi83_match_table,
-+	},
-+};
-+module_i2c_driver(sn65dsi83_driver);
-+
-+MODULE_AUTHOR("Marek Vasut <marex@denx.de>");
-+MODULE_DESCRIPTION("TI SN65DSI83 DSI to LVDS bridge driver");
-+MODULE_LICENSE("GPL v2");
--- 
-2.30.2
+Ok, I'll try to dig it up.  I miss GitLab and it's "resolve
+discussion" button so much....
 
+> I've found a few other things needing polish below on top of the earlier
+> bits.
+> -Daniel
+>
+> > ---
+> >  drivers/gpu/drm/i915/gem/i915_gem_context.c   | 145 ++++++++++++++----
+> >  .../gpu/drm/i915/gem/i915_gem_context_types.h |  22 +++
+> >  .../gpu/drm/i915/gem/selftests/mock_context.c |  16 +-
+> >  3 files changed, 153 insertions(+), 30 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context.c b/drivers/gpu/drm/i915/gem/i915_gem_context.c
+> > index fc471243aa769..10bff488444b6 100644
+> > --- a/drivers/gpu/drm/i915/gem/i915_gem_context.c
+> > +++ b/drivers/gpu/drm/i915/gem/i915_gem_context.c
+> > @@ -191,6 +191,97 @@ static int validate_priority(struct drm_i915_private *i915,
+> >       return 0;
+> >  }
+> >
+> > +static void proto_context_close(struct i915_gem_proto_context *pc)
+> > +{
+> > +     if (pc->vm)
+> > +             i915_vm_put(pc->vm);
+> > +     kfree(pc);
+> > +}
+> > +
+> > +static int proto_context_set_persistence(struct drm_i915_private *i915,
+> > +                                      struct i915_gem_proto_context *pc,
+> > +                                      bool persist)
+> > +{
+> > +     if (persist) {
+> > +             /*
+> > +              * Only contexts that are short-lived [that will expire or be
+> > +              * reset] are allowed to survive past termination. We require
+> > +              * hangcheck to ensure that the persistent requests are healthy.
+> > +              */
+> > +             if (!i915->params.enable_hangcheck)
+> > +                     return -EINVAL;
+> > +
+> > +             __set_bit(UCONTEXT_PERSISTENCE, &pc->user_flags);
+> > +     } else {
+> > +             /* To cancel a context we use "preempt-to-idle" */
+> > +             if (!(i915->caps.scheduler & I915_SCHEDULER_CAP_PREEMPTION))
+> > +                     return -ENODEV;
+> > +
+> > +             /*
+> > +              * If the cancel fails, we then need to reset, cleanly!
+> > +              *
+> > +              * If the per-engine reset fails, all hope is lost! We resort
+> > +              * to a full GPU reset in that unlikely case, but realistically
+> > +              * if the engine could not reset, the full reset does not fare
+> > +              * much better. The damage has been done.
+> > +              *
+> > +              * However, if we cannot reset an engine by itself, we cannot
+> > +              * cleanup a hanging persistent context without causing
+> > +              * colateral damage, and we should not pretend we can by
+> > +              * exposing the interface.
+> > +              */
+> > +             if (!intel_has_reset_engine(&i915->gt))
+> > +                     return -ENODEV;
+> > +
+> > +             __clear_bit(UCONTEXT_PERSISTENCE, &pc->user_flags);
+> > +     }
+> > +
+> > +     return 0;
+> > +}
+> > +
+> > +static struct i915_gem_proto_context *
+> > +proto_context_create(struct drm_i915_private *i915, unsigned int flags)
+> > +{
+> > +     struct i915_gem_proto_context *pc, *err;
+> > +
+> > +     pc = kzalloc(sizeof(*pc), GFP_KERNEL);
+> > +     if (!pc)
+> > +             return ERR_PTR(-ENOMEM);
+> > +
+> > +     if (HAS_FULL_PPGTT(i915)) {
+> > +             struct i915_ppgtt *ppgtt;
+> > +
+> > +             ppgtt = i915_ppgtt_create(&i915->gt);
+> > +             if (IS_ERR(ppgtt)) {
+> > +                     drm_dbg(&i915->drm, "PPGTT setup failed (%ld)\n",
+> > +                             PTR_ERR(ppgtt));
+> > +                     err = ERR_CAST(ppgtt);
+> > +                     goto proto_close;
+> > +             }
+> > +             pc->vm = &ppgtt->vm;
+> > +     }
+> > +
+> > +     pc->user_flags = 0;
+> > +     __set_bit(UCONTEXT_BANNABLE, &pc->user_flags);
+> > +     __set_bit(UCONTEXT_RECOVERABLE, &pc->user_flags);
+> > +     proto_context_set_persistence(i915, pc, true);
+>
+> You've lost the error handling here.
+
+No, I've not.  This is where that helper is both wonderful and crazy
+annoying.  We could have a helper to check whether or not a particular
+persistence setting is allowed.  Instead (and this is what the old
+code does too), it's initialized to false by kzalloc and then we try
+to set it to true and ignore the failure.  This ensures that,
+regardless of which options are allowed, we'll end up with an allowed
+one.  Yeah, the more I type here the more I realize just how bad of an
+idea that is. :-)  If you'd like, we can refactor things to have a
+validation function persistence_setting_valid() or maybe a pair
+requires_persistence() and persistence_allowed().  I'm open to other
+suggestions too.
+
+> > +     pc->sched.priority = I915_PRIORITY_NORMAL;
+> > +
+> > +     if (flags & I915_CONTEXT_CREATE_FLAGS_SINGLE_TIMELINE) {
+> > +             if (!HAS_EXECLISTS(i915)) {
+> > +                     err = ERR_PTR(-EINVAL);
+> > +                     goto proto_close;
+> > +             }
+> > +             pc->single_timeline = true;
+> > +     }
+> > +
+> > +     return pc;
+> > +
+> > +proto_close:
+> > +     proto_context_close(pc);
+> > +     return err;
+> > +}
+> > +
+> >  static struct i915_address_space *
+> >  context_get_vm_rcu(struct i915_gem_context *ctx)
+> >  {
+> > @@ -660,7 +751,8 @@ static int __context_set_persistence(struct i915_gem_context *ctx, bool state)
+> >  }
+> >
+> >  static struct i915_gem_context *
+> > -__create_context(struct drm_i915_private *i915)
+> > +__create_context(struct drm_i915_private *i915,
+> > +              const struct i915_gem_proto_context *pc)
+> >  {
+> >       struct i915_gem_context *ctx;
+> >       struct i915_gem_engines *e;
+> > @@ -673,7 +765,7 @@ __create_context(struct drm_i915_private *i915)
+> >
+> >       kref_init(&ctx->ref);
+> >       ctx->i915 = i915;
+> > -     ctx->sched.priority = I915_PRIORITY_NORMAL;
+> > +     ctx->sched = pc->sched;
+> >       mutex_init(&ctx->mutex);
+> >       INIT_LIST_HEAD(&ctx->link);
+> >
+> > @@ -696,9 +788,7 @@ __create_context(struct drm_i915_private *i915)
+> >        * is no remap info, it will be a NOP. */
+> >       ctx->remap_slice = ALL_L3_SLICES(i915);
+> >
+> > -     i915_gem_context_set_bannable(ctx);
+> > -     i915_gem_context_set_recoverable(ctx);
+> > -     __context_set_persistence(ctx, true /* cgroup hook? */);
+> > +     ctx->user_flags = pc->user_flags;
+> >
+> >       for (i = 0; i < ARRAY_SIZE(ctx->hang_timestamp); i++)
+> >               ctx->hang_timestamp[i] = jiffies - CONTEXT_FAST_HANG_JIFFIES;
+> > @@ -786,38 +876,23 @@ static void __assign_ppgtt(struct i915_gem_context *ctx,
+> >  }
+> >
+> >  static struct i915_gem_context *
+> > -i915_gem_create_context(struct drm_i915_private *i915, unsigned int flags)
+> > +i915_gem_create_context(struct drm_i915_private *i915,
+> > +                     const struct i915_gem_proto_context *pc)
+> >  {
+> >       struct i915_gem_context *ctx;
+> >       int ret;
+> >
+> > -     if (flags & I915_CONTEXT_CREATE_FLAGS_SINGLE_TIMELINE &&
+> > -         !HAS_EXECLISTS(i915))
+> > -             return ERR_PTR(-EINVAL);
+> > -
+> > -     ctx = __create_context(i915);
+> > +     ctx = __create_context(i915, pc);
+> >       if (IS_ERR(ctx))
+> >               return ctx;
+> >
+> > -     if (HAS_FULL_PPGTT(i915)) {
+> > -             struct i915_ppgtt *ppgtt;
+> > -
+> > -             ppgtt = i915_ppgtt_create(&i915->gt);
+> > -             if (IS_ERR(ppgtt)) {
+> > -                     drm_dbg(&i915->drm, "PPGTT setup failed (%ld)\n",
+> > -                             PTR_ERR(ppgtt));
+> > -                     context_close(ctx);
+> > -                     return ERR_CAST(ppgtt);
+> > -             }
+> > -
+> > +     if (pc->vm) {
+> >               mutex_lock(&ctx->mutex);
+> > -             __assign_ppgtt(ctx, &ppgtt->vm);
+> > +             __assign_ppgtt(ctx, pc->vm);
+> >               mutex_unlock(&ctx->mutex);
+> > -
+> > -             i915_vm_put(&ppgtt->vm);
+> >       }
+> >
+> > -     if (flags & I915_CONTEXT_CREATE_FLAGS_SINGLE_TIMELINE) {
+> > +     if (pc->single_timeline) {
+> >               ret = drm_syncobj_create(&ctx->syncobj,
+> >                                        DRM_SYNCOBJ_CREATE_SIGNALED,
+> >                                        NULL);
+> > @@ -883,6 +958,7 @@ int i915_gem_context_open(struct drm_i915_private *i915,
+> >                         struct drm_file *file)
+> >  {
+> >       struct drm_i915_file_private *file_priv = file->driver_priv;
+> > +     struct i915_gem_proto_context *pc;
+> >       struct i915_gem_context *ctx;
+> >       int err;
+> >       u32 id;
+> > @@ -892,7 +968,14 @@ int i915_gem_context_open(struct drm_i915_private *i915,
+> >       /* 0 reserved for invalid/unassigned ppgtt */
+> >       xa_init_flags(&file_priv->vm_xa, XA_FLAGS_ALLOC1);
+> >
+> > -     ctx = i915_gem_create_context(i915, 0);
+> > +     pc = proto_context_create(i915, 0);
+> > +     if (IS_ERR(pc)) {
+> > +             err = PTR_ERR(pc);
+> > +             goto err;
+> > +     }
+> > +
+> > +     ctx = i915_gem_create_context(i915, pc);
+> > +     proto_context_close(pc);
+> >       if (IS_ERR(ctx)) {
+> >               err = PTR_ERR(ctx);
+> >               goto err;
+> > @@ -1884,6 +1967,7 @@ int i915_gem_context_create_ioctl(struct drm_device *dev, void *data,
+> >  {
+> >       struct drm_i915_private *i915 = to_i915(dev);
+> >       struct drm_i915_gem_context_create_ext *args = data;
+> > +     struct i915_gem_proto_context *pc;
+> >       struct create_ext ext_data;
+> >       int ret;
+> >       u32 id;
+> > @@ -1906,7 +1990,12 @@ int i915_gem_context_create_ioctl(struct drm_device *dev, void *data,
+> >               return -EIO;
+> >       }
+> >
+> > -     ext_data.ctx = i915_gem_create_context(i915, args->flags);
+> > +     pc = proto_context_create(i915, args->flags);
+> > +     if (IS_ERR(pc))
+> > +             return PTR_ERR(pc);
+> > +
+> > +     ext_data.ctx = i915_gem_create_context(i915, pc);
+> > +     proto_context_close(pc);
+> >       if (IS_ERR(ext_data.ctx))
+> >               return PTR_ERR(ext_data.ctx);
+> >
+> > diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context_types.h b/drivers/gpu/drm/i915/gem/i915_gem_context_types.h
+> > index 5f0673a2129f9..0bf337b6d89ac 100644
+> > --- a/drivers/gpu/drm/i915/gem/i915_gem_context_types.h
+> > +++ b/drivers/gpu/drm/i915/gem/i915_gem_context_types.h
+> > @@ -66,6 +66,28 @@ struct i915_gem_engines_iter {
+> >       const struct i915_gem_engines *engines;
+> >  };
+> >
+> > +/**
+> > + * struct i915_gem_proto_context - prototype context
+> > + *
+> > + * The struct i915_gem_proto_context represents the creation parameters for
+> > + * an i915_gem_context.  This is used to gather parameters provided either
+>
+> a struct i915_gem_context
+
+Done.
+
+> With that you get an automatic neat hyperlink. See
+>
+> https://dri.freedesktop.org/docs/drm/doc-guide/kernel-doc.html#highlights-and-cross-references
+>
+> for what it all recognizes automatically.
+>
+> > + * through creation flags or via SET_CONTEXT_PARAM so that, when we create
+> > + * the final i915_gem_context, those parameters can be immutable.
+> > + */
+> > +struct i915_gem_proto_context {
+> > +     /** @vm: See i915_gem_context::vm */
+>
+> Hyperlinks need &i915_gem_context.vm in kerneldoc. Same for the others
+> below.
+
+Fixed.
+
+I'll try to dig through your previous one now.  I thought I'd gotten
+everything but clearly you found something I hadn't.
+
+--Jason
+
+> > +     struct i915_address_space *vm;
+> > +
+> > +     /** @user_flags: See i915_gem_context::user_flags */
+> > +     unsigned long user_flags;
+> > +
+> > +     /** @sched: See i915_gem_context::sched */
+> > +     struct i915_sched_attr sched;
+> > +
+> > +     /** @single_timeline: See See i915_gem_context::syncobj */
+> > +     bool single_timeline;
+> > +};
+> > +
+> >  /**
+> >   * struct i915_gem_context - client state
+> >   *
+> > diff --git a/drivers/gpu/drm/i915/gem/selftests/mock_context.c b/drivers/gpu/drm/i915/gem/selftests/mock_context.c
+> > index 51b5a3421b400..e0f512ef7f3c6 100644
+> > --- a/drivers/gpu/drm/i915/gem/selftests/mock_context.c
+> > +++ b/drivers/gpu/drm/i915/gem/selftests/mock_context.c
+> > @@ -80,11 +80,17 @@ void mock_init_contexts(struct drm_i915_private *i915)
+> >  struct i915_gem_context *
+> >  live_context(struct drm_i915_private *i915, struct file *file)
+> >  {
+> > +     struct i915_gem_proto_context *pc;
+> >       struct i915_gem_context *ctx;
+> >       int err;
+> >       u32 id;
+> >
+> > -     ctx = i915_gem_create_context(i915, 0);
+> > +     pc = proto_context_create(i915, 0);
+> > +     if (IS_ERR(pc))
+> > +             return ERR_CAST(pc);
+> > +
+> > +     ctx = i915_gem_create_context(i915, pc);
+> > +     proto_context_close(pc);
+> >       if (IS_ERR(ctx))
+> >               return ctx;
+> >
+> > @@ -142,8 +148,14 @@ struct i915_gem_context *
+> >  kernel_context(struct drm_i915_private *i915)
+> >  {
+> >       struct i915_gem_context *ctx;
+> > +     struct i915_gem_proto_context *pc;
+> > +
+> > +     pc = proto_context_create(i915, 0);
+> > +     if (IS_ERR(pc))
+> > +             return ERR_CAST(pc);
+> >
+> > -     ctx = i915_gem_create_context(i915, 0);
+> > +     ctx = i915_gem_create_context(i915, pc);
+> > +     proto_context_close(pc);
+> >       if (IS_ERR(ctx))
+> >               return ctx;
+> >
+> > --
+> > 2.31.1
+> >
+> > _______________________________________________
+> > Intel-gfx mailing list
+> > Intel-gfx@lists.freedesktop.org
+> > https://lists.freedesktop.org/mailman/listinfo/intel-gfx
+>
+> --
+> Daniel Vetter
+> Software Engineer, Intel Corporation
+> http://blog.ffwll.ch
