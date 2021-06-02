@@ -1,59 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A51C398FE2
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Jun 2021 18:24:03 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3AF29398FF6
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Jun 2021 18:30:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0FB236EB14;
-	Wed,  2 Jun 2021 16:24:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DF36F6ECFB;
+	Wed,  2 Jun 2021 16:29:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x331.google.com (mail-ot1-x331.google.com
- [IPv6:2607:f8b0:4864:20::331])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4ED5F6EB14;
- Wed,  2 Jun 2021 16:24:00 +0000 (UTC)
-Received: by mail-ot1-x331.google.com with SMTP id
- t10-20020a05683022eab0290304ed8bc759so2897999otc.12; 
- Wed, 02 Jun 2021 09:24:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+Received: from mail-oo1-xc2e.google.com (mail-oo1-xc2e.google.com
+ [IPv6:2607:f8b0:4864:20::c2e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1EAB86ECFA
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Jun 2021 16:29:59 +0000 (UTC)
+Received: by mail-oo1-xc2e.google.com with SMTP id
+ v13-20020a4aa40d0000b02902052145a469so687801ool.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 02 Jun 2021 09:29:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=cZmDB0R8MYQqdnFyr5kHgXADjM/v40Bk8pYmSEReiu8=;
- b=F2U7lDM58wl86JVA1xx0TFZsmY+sP2repFNTtnLXvAyoTyVb2DTr52JEIZr7nQzXZy
- P1kneitgTOhGVeSgMP1nlppsALjNo//w7ADbiCMxLeE+FqeNqWKc/+8Huo/0rofqphuO
- g14rUobx7YSbZqaQXt8mdxVRi2Z5MXfqHS3hAl+0Owh2keTbCkZyg4aH/CjfuX2hOkcr
- BMq4hwdV54azgJ0fwA/2+THNgEqPevpLeMVoBif67GgdcVLfVVe6U5iyOhX9NqftZ7FX
- OQsyvo81qBEfuURklq7nsVhmqx6tiTtq/yjGYxPY8h/JqmYT17nfjmW4OfpVHsRgVW67
- atbw==
+ :cc; bh=3v0CaAheTlxjmmPei15tvmu0PTy52IsOiEAYcQmlPrg=;
+ b=TYBJ9hzmPh2KwEX1FfLqUXto+Z0/P1HpozNsDWZGKRvxePdLdFcQsKgv9guz7zShrp
+ 6LiiD1AvCHulsWL5HDFf+BKYepSdZmkg+CcS85D9yemtcgnN4Z3NWIfjZsUtx3mX2mQg
+ 7h6KqsyxPLNds/N0MceOUR25pwtI9kIQ4wsFw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=cZmDB0R8MYQqdnFyr5kHgXADjM/v40Bk8pYmSEReiu8=;
- b=t6yIKjBTSZ19wPuRjNSaYb6f5R+rO40Eodk8O9yCG4hBuj9UnRLF9Oiue0VeSuGSv2
- Bi+b4c/7Vlm6PeEs3HQjuF/9gGDqmrk/ifW5h+kOgRz+M0kFs3qkMFuNWTFUGJvDw3vE
- zf8Tlv/VuFgT67GShPElC+gfnrEgu5ZgYsypyb2oQs1X7zNfAoX8sBqMp7D/KRC+WRmh
- DLCSHkJKtinkBNfNJUrmjTM8D3KFr3R0W3aZpDqjxQr8KzkSwlwZ4PPVQaxJEG5+lmZp
- muP3jC80MkwaIaFVqEsv5o9h4yxyIeFSPAWGtkk5ruefaoIRrJWOsKHP4Z6MkvrdLxC6
- E3TQ==
-X-Gm-Message-State: AOAM533BOPACXfUGUCNFIwmGmP6RYhGpIctSE1395u3Z6vypCMo0gCBC
- iY7JRgNZ2kflxsYUliFYcwQ41noaj8iL3HkrFfo9ioljEuM=
-X-Google-Smtp-Source: ABdhPJz1BaV5VzBqVZFn1mtftXfq2NvR/yvqHSfO4Le2Pj/qDgFg26ZzK8ynsMmLvPKySfldKZGgP9zN7tvy/eu1WKg=
-X-Received: by 2002:a9d:6548:: with SMTP id q8mr26590805otl.311.1622651039670; 
- Wed, 02 Jun 2021 09:23:59 -0700 (PDT)
+ :message-id:subject:to:cc;
+ bh=3v0CaAheTlxjmmPei15tvmu0PTy52IsOiEAYcQmlPrg=;
+ b=WTc8ouRitYjggce1FyG46XXeiXeuQP7GIksJQOA330DUpXrNvSNPqjl2wskPrN3YBw
+ qJhpBj/vguHzrz3EmFtduj/eXDi4wGRBBUWnb7KJ8lrFHUy7Q160znOdbXmKb7jmqPJK
+ eceaikS1I7RJLQp1qLGyy6MGLmflk99WpVtcxIvMs7sdg6qC62kl7cXFd+jxH8xNKB7c
+ RZLRG7BZSZP9mt5kW2+BqHsj8/zC3LBfV1jZrsl/jf7LR9Oh93hi0XXlwleykRyx6I33
+ INd7O3dA9a0rYWS7a8pErXpxxccTSwupL70Jdc7c9OuXjJRCEVDAOtk2dRO9FmAV7/xM
+ Tf7A==
+X-Gm-Message-State: AOAM5339CpUMTuZPNLLLq58MdYIbRIjo8f8N9ZKA/xz5qsUaHeLm3/8I
+ Su5XV2/Iq+/jCoD+wp90tYblVUhDc5bGU0kg57fI+g==
+X-Google-Smtp-Source: ABdhPJxpMNqZc0NO3stW2JeuEBU5RxjJDH13C6Inw+STNbmDa9ogUNWoVhh/xFCG/9zI2XeOFPJprv+i3bY26HuuNL8=
+X-Received: by 2002:a4a:8e04:: with SMTP id q4mr25214762ook.28.1622651398323; 
+ Wed, 02 Jun 2021 09:29:58 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210602143300.2330146-1-lee.jones@linaro.org>
- <20210602143300.2330146-17-lee.jones@linaro.org>
-In-Reply-To: <20210602143300.2330146-17-lee.jones@linaro.org>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Wed, 2 Jun 2021 12:23:48 -0400
-Message-ID: <CADnq5_MHcth1p_00d=0ey+kg8o=_ZQk4t-RcU7zx3fb+35uy+g@mail.gmail.com>
-Subject: Re: [RESEND 16/26] drm/amd/display/dc/dce/dce_transform: Remove
- superfluous re-initialisation of DCFE_MEM_LIGHT_SLEEP_CNTL,
-To: Lee Jones <lee.jones@linaro.org>
+References: <20210527185145.458021-1-matthew.auld@intel.com>
+ <CAM0jSHOOB7=SLC+cgmXn4pWets+BJzdk=R+7LVzE+Aje2_FW5Q@mail.gmail.com>
+ <CAKMK7uE1yrh-_+shOR5EuLZQaQyckDHNA8uhgwAx6-pLQaHifA@mail.gmail.com>
+ <CAM0jSHOy7R13m27pC+bZHr2S9wGQjT2CmWxVWfu8d58zM9=Gbw@mail.gmail.com>
+In-Reply-To: <CAM0jSHOy7R13m27pC+bZHr2S9wGQjT2CmWxVWfu8d58zM9=Gbw@mail.gmail.com>
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
+Date: Wed, 2 Jun 2021 18:29:47 +0200
+Message-ID: <CAKMK7uFS_X8z3CkGejpqYbje4p30u4KAyQrs0=G5b04fCk0szQ@mail.gmail.com>
+Subject: Re: [Intel-gfx] [PATCH] Revert "i915: use io_mapping_map_user"
+To: Matthew Auld <matthew.william.auld@gmail.com>,
+ Jani Nikula <jani.nikula@intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,86 +63,217 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Leo Li <sunpeng.li@amd.com>, Mauro Rossi <issor.oruam@gmail.com>,
- LKML <linux-kernel@vger.kernel.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- David Airlie <airlied@linux.ie>, amd-gfx list <amd-gfx@lists.freedesktop.org>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Linus Torvalds <torvalds@linux-foundation.org>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>, Christoph Hellwig <hch@lst.de>,
+ Matthew Auld <matthew.auld@intel.com>,
+ Eero Tamminen <eero.t.tamminen@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jun 2, 2021 at 10:33 AM Lee Jones <lee.jones@linaro.org> wrote:
->
-> Fixes the following W=3D1 kernel build warning(s):
->
->  drivers/gpu/drm/amd/amdgpu/../display/modules/hdcp/hdcp_psp.c:374:22: wa=
-rning: no previous prototype for =E2=80=98mod_hdcp_hdcp1_get_link_encryptio=
-n_status=E2=80=99
->  In file included from drivers/gpu/drm/amd/amdgpu/../display/dc/dce60/dce=
-60_resource.c:28:
->  drivers/gpu/drm/amd/amdgpu/../include/asic_reg/dce/dce_6_0_d.h:568:43: w=
-arning: initialized field overwritten [-Woverride-init]
->  drivers/gpu/drm/amd/amdgpu/../display/dc/dce60/dce60_resource.c:157:14: =
-note: in expansion of macro =E2=80=98mmCRTC0_DCFE_MEM_LIGHT_SLEEP_CNTL=E2=
-=80=99
->  drivers/gpu/drm/amd/amdgpu/../display/dc/dce/dce_transform.h:170:2: note=
-: in expansion of macro =E2=80=98SRI=E2=80=99
->  drivers/gpu/drm/amd/amdgpu/../display/dc/dce60/dce60_resource.c:183:3: n=
-ote: in expansion of macro =E2=80=98XFM_COMMON_REG_LIST_DCE60=E2=80=99
->  drivers/gpu/drm/amd/amdgpu/../display/dc/dce60/dce60_resource.c:187:3: n=
-ote: in expansion of macro =E2=80=98transform_regs=E2=80=99
->  drivers/gpu/drm/amd/amdgpu/../include/asic_reg/dce/dce_6_0_d.h:568:43: n=
-ote: (near initialization for =E2=80=98xfm_regs[0].DCFE_MEM_LIGHT_SLEEP_CNT=
-L=E2=80=99)
->  drivers/gpu/drm/amd/amdgpu/../display/dc/dce60/dce60_resource.c:157:14: =
-note: in expansion of macro =E2=80=98mmCRTC0_DCFE_MEM_LIGHT_SLEEP_CNTL=E2=
-=80=99
->  drivers/gpu/drm/amd/amdgpu/../display/dc/dce/dce_transform.h:170:2: note=
-: in expansion of macro =E2=80=98SRI=E2=80=99
->  drivers/gpu/drm/amd/amdgpu/../display/dc/dce60/dce60_resource.c:183:3: n=
-ote: in expansion of macro =E2=80=98XFM_COMMON_REG_LIST_DCE60=E2=80=99
->  drivers/gpu/drm/amd/amdgpu/../display/dc/dce60/dce60_resource.c:187:3: n=
-ote: in expansion of macro =E2=80=98transform_regs=E2=80=99
->  drivers/gpu/drm/amd/amdgpu/../include/asic_reg/dce/dce_6_0_d.h:645:43: w=
-arning: initialized field overwritten [-Woverride-init]
->
-> Cc: Harry Wentland <harry.wentland@amd.com>
-> Cc: Leo Li <sunpeng.li@amd.com>
-> Cc: Alex Deucher <alexander.deucher@amd.com>
-> Cc: "Christian K=C3=B6nig" <christian.koenig@amd.com>
-> Cc: David Airlie <airlied@linux.ie>
-> Cc: Daniel Vetter <daniel@ffwll.ch>
-> Cc: Mauro Rossi <issor.oruam@gmail.com>
-> Cc: amd-gfx@lists.freedesktop.org
-> Cc: dri-devel@lists.freedesktop.org
-> Signed-off-by: Lee Jones <lee.jones@linaro.org>
-> ---
->  drivers/gpu/drm/amd/display/dc/dce/dce_transform.h | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
->
-> diff --git a/drivers/gpu/drm/amd/display/dc/dce/dce_transform.h b/drivers=
-/gpu/drm/amd/display/dc/dce/dce_transform.h
-> index cbce194ec7b82..e98b5d4141739 100644
-> --- a/drivers/gpu/drm/amd/display/dc/dce/dce_transform.h
-> +++ b/drivers/gpu/drm/amd/display/dc/dce/dce_transform.h
-> @@ -166,8 +166,7 @@
->         SRI(SCL_F_SHARP_CONTROL, SCL, id)
->
->  #define XFM_COMMON_REG_LIST_DCE60(id) \
-> -       XFM_COMMON_REG_LIST_DCE60_BASE(id), \
-> -       SRI(DCFE_MEM_LIGHT_SLEEP_CNTL, CRTC, id)
-> +       XFM_COMMON_REG_LIST_DCE60_BASE(id)
+Adding Jani and Rodrigo since drm-intel-fixes is on them.
+-Daniel
 
-I believe DCFE_MEM_LIGHT_SLEEP_CNTL should be kept here and it should
-be removed from
-XFM_COMMON_REG_LIST_DCE60_BASE() to align with other asics.
-
-Alex
-
->  #endif
+On Wed, Jun 2, 2021 at 12:10 PM Matthew Auld
+<matthew.william.auld@gmail.com> wrote:
 >
->  #define XFM_SF(reg_name, field_name, post_fix)\
-> --
-> 2.31.1
+> On Wed, 2 Jun 2021 at 09:01, Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
+> >
+> > On Wed, Jun 2, 2021 at 9:28 AM Matthew Auld
+> > <matthew.william.auld@gmail.com> wrote:
+> > >
+> > > On Thu, 27 May 2021 at 19:52, Matthew Auld <matthew.auld@intel.com> wrote:
+> > > >
+> > > > This reverts commit b739f125e4ebd73d10ed30a856574e13649119ed.
+> > > >
+> > > > We are unfortunately seeing more issues like we did in 293837b9ac8d
+> > > > ("Revert "i915: fix remap_io_sg to verify the pgprot""), except this is
+> > > > now for the vm_fault_gtt path, where we are now hitting the same
+> > > > BUG_ON(!pte_none(*pte)):
+> > > >
+> > > > [10887.466150] kernel BUG at mm/memory.c:2183!
+> > > > [10887.466162] invalid opcode: 0000 [#1] PREEMPT SMP PTI
+> > > > [10887.466168] CPU: 0 PID: 7775 Comm: ffmpeg Tainted: G     U            5.13.0-rc3-CI-Nightly #1
+> > > > [10887.466174] Hardware name: To Be Filled By O.E.M. To Be Filled By O.E.M./J4205-ITX, BIOS P1.40 07/14/2017
+> > > > [10887.466177] RIP: 0010:remap_pfn_range_notrack+0x30f/0x440
+> > > > [10887.466188] Code: e8 96 d7 e0 ff 84 c0 0f 84 27 01 00 00 48 ba 00 f0 ff ff ff ff 0f 00 4c 89 e0 48 c1 e0 0c 4d 85 ed 75 96 48 21 d0 31 f6 eb a9 <0f> 0b 48 39 37 0f 85 0e 01 00 00 48 8b 0c 24 48 39 4f 08 0f 85 00
+> > > > [10887.466193] RSP: 0018:ffffc90006e33c50 EFLAGS: 00010286
+> > > > [10887.466198] RAX: 800000000000002f RBX: 00007f5e01800000 RCX: 0000000000000028
+> > > > [10887.466201] RDX: 0000000000000001 RSI: ffffea0000000000 RDI: 0000000000000000
+> > > > [10887.466204] RBP: ffffea000033fea8 R08: 800000000000002f R09: ffff8881072256e0
+> > > > [10887.466207] R10: ffffc9000b84fff8 R11: 0000000017dab000 R12: 0000000000089f9f
+> > > > [10887.466210] R13: 800000000000002f R14: 00007f5e017e4000 R15: ffff88800cffaf20
+> > > > [10887.466213] FS:  00007f5e04849640(0000) GS:ffff888278000000(0000) knlGS:0000000000000000
+> > > > [10887.466216] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+> > > > [10887.466220] CR2: 00007fd9b191a2ac CR3: 00000001829ac000 CR4: 00000000003506f0
+> > > > [10887.466223] Call Trace:
+> > > > [10887.466233]  vm_fault_gtt+0x1ca/0x5d0 [i915]
+> > > > [10887.466381]  ? ktime_get+0x38/0x90
+> > > > [10887.466389]  __do_fault+0x37/0x90
+> > > > [10887.466395]  __handle_mm_fault+0xc46/0x1200
+> > > > [10887.466402]  handle_mm_fault+0xce/0x2a0
+> > > > [10887.466407]  do_user_addr_fault+0x1c5/0x660
+> > > >
+> > > > Reverting this commit is reported to fix the issue.
+> > > >
+> > > > Reported-by: Eero Tamminen <eero.t.tamminen@intel.com>
+> > > > References: https://gitlab.freedesktop.org/drm/intel/-/issues/3519
+> > > > Fixes: b739f125e4eb ("i915: use io_mapping_map_user")
+> > > > Cc: Christoph Hellwig <hch@lst.de>
+> > > > Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+> > > > Signed-off-by: Matthew Auld <matthew.auld@intel.com>
+> > >
+> > > Could someone give an ack for this? There are at least two separate
+> > > user reports for this issue.
+> >
+> > I was assuming Christoph would ack this, but fwiw:
+> >
+> > Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 >
+> Pushed to gt-next. Thanks for the ack Daniel.
+>
+> >
+> > Also adding Joonas to make sure this doesn't miss the -fixes pull
+> > request train. Also can't hurt to cc Linus since he reverted the other
+> > part of this already in -rc3.
+> > -Daniel
+> > >
+> > > > ---
+> > > >  drivers/gpu/drm/i915/Kconfig             |  1 -
+> > > >  drivers/gpu/drm/i915/gem/i915_gem_mman.c |  9 ++---
+> > > >  drivers/gpu/drm/i915/i915_drv.h          |  3 ++
+> > > >  drivers/gpu/drm/i915/i915_mm.c           | 44 ++++++++++++++++++++++++
+> > > >  4 files changed, 52 insertions(+), 5 deletions(-)
+> > > >
+> > > > diff --git a/drivers/gpu/drm/i915/Kconfig b/drivers/gpu/drm/i915/Kconfig
+> > > > index 93f4d059fc89..1e1cb245fca7 100644
+> > > > --- a/drivers/gpu/drm/i915/Kconfig
+> > > > +++ b/drivers/gpu/drm/i915/Kconfig
+> > > > @@ -20,7 +20,6 @@ config DRM_I915
+> > > >         select INPUT if ACPI
+> > > >         select ACPI_VIDEO if ACPI
+> > > >         select ACPI_BUTTON if ACPI
+> > > > -       select IO_MAPPING
+> > > >         select SYNC_FILE
+> > > >         select IOSF_MBI
+> > > >         select CRC32
+> > > > diff --git a/drivers/gpu/drm/i915/gem/i915_gem_mman.c b/drivers/gpu/drm/i915/gem/i915_gem_mman.c
+> > > > index f6fe5cb01438..8598a1c78a4c 100644
+> > > > --- a/drivers/gpu/drm/i915/gem/i915_gem_mman.c
+> > > > +++ b/drivers/gpu/drm/i915/gem/i915_gem_mman.c
+> > > > @@ -367,10 +367,11 @@ static vm_fault_t vm_fault_gtt(struct vm_fault *vmf)
+> > > >                 goto err_unpin;
+> > > >
+> > > >         /* Finally, remap it using the new GTT offset */
+> > > > -       ret = io_mapping_map_user(&ggtt->iomap, area, area->vm_start +
+> > > > -                       (vma->ggtt_view.partial.offset << PAGE_SHIFT),
+> > > > -                       (ggtt->gmadr.start + vma->node.start) >> PAGE_SHIFT,
+> > > > -                       min_t(u64, vma->size, area->vm_end - area->vm_start));
+> > > > +       ret = remap_io_mapping(area,
+> > > > +                              area->vm_start + (vma->ggtt_view.partial.offset << PAGE_SHIFT),
+> > > > +                              (ggtt->gmadr.start + vma->node.start) >> PAGE_SHIFT,
+> > > > +                              min_t(u64, vma->size, area->vm_end - area->vm_start),
+> > > > +                              &ggtt->iomap);
+> > > >         if (ret)
+> > > >                 goto err_fence;
+> > > >
+> > > > diff --git a/drivers/gpu/drm/i915/i915_drv.h b/drivers/gpu/drm/i915/i915_drv.h
+> > > > index 0f6d27da69ac..e926f20c5b82 100644
+> > > > --- a/drivers/gpu/drm/i915/i915_drv.h
+> > > > +++ b/drivers/gpu/drm/i915/i915_drv.h
+> > > > @@ -1941,6 +1941,9 @@ int i915_reg_read_ioctl(struct drm_device *dev, void *data,
+> > > >                         struct drm_file *file);
+> > > >
+> > > >  /* i915_mm.c */
+> > > > +int remap_io_mapping(struct vm_area_struct *vma,
+> > > > +                    unsigned long addr, unsigned long pfn, unsigned long size,
+> > > > +                    struct io_mapping *iomap);
+> > > >  int remap_io_sg(struct vm_area_struct *vma,
+> > > >                 unsigned long addr, unsigned long size,
+> > > >                 struct scatterlist *sgl, resource_size_t iobase);
+> > > > diff --git a/drivers/gpu/drm/i915/i915_mm.c b/drivers/gpu/drm/i915/i915_mm.c
+> > > > index 9a777b0ff59b..666808cb3a32 100644
+> > > > --- a/drivers/gpu/drm/i915/i915_mm.c
+> > > > +++ b/drivers/gpu/drm/i915/i915_mm.c
+> > > > @@ -37,6 +37,17 @@ struct remap_pfn {
+> > > >         resource_size_t iobase;
+> > > >  };
+> > > >
+> > > > +static int remap_pfn(pte_t *pte, unsigned long addr, void *data)
+> > > > +{
+> > > > +       struct remap_pfn *r = data;
+> > > > +
+> > > > +       /* Special PTE are not associated with any struct page */
+> > > > +       set_pte_at(r->mm, addr, pte, pte_mkspecial(pfn_pte(r->pfn, r->prot)));
+> > > > +       r->pfn++;
+> > > > +
+> > > > +       return 0;
+> > > > +}
+> > > > +
+> > > >  #define use_dma(io) ((io) != -1)
+> > > >
+> > > >  static inline unsigned long sgt_pfn(const struct remap_pfn *r)
+> > > > @@ -66,7 +77,40 @@ static int remap_sg(pte_t *pte, unsigned long addr, void *data)
+> > > >         return 0;
+> > > >  }
+> > > >
+> > > > +/**
+> > > > + * remap_io_mapping - remap an IO mapping to userspace
+> > > > + * @vma: user vma to map to
+> > > > + * @addr: target user address to start at
+> > > > + * @pfn: physical address of kernel memory
+> > > > + * @size: size of map area
+> > > > + * @iomap: the source io_mapping
+> > > > + *
+> > > > + *  Note: this is only safe if the mm semaphore is held when called.
+> > > > + */
+> > > > +int remap_io_mapping(struct vm_area_struct *vma,
+> > > > +                    unsigned long addr, unsigned long pfn, unsigned long size,
+> > > > +                    struct io_mapping *iomap)
+> > > > +{
+> > > > +       struct remap_pfn r;
+> > > > +       int err;
+> > > > +
+> > > >  #define EXPECTED_FLAGS (VM_PFNMAP | VM_DONTEXPAND | VM_DONTDUMP)
+> > > > +       GEM_BUG_ON((vma->vm_flags & EXPECTED_FLAGS) != EXPECTED_FLAGS);
+> > > > +
+> > > > +       /* We rely on prevalidation of the io-mapping to skip track_pfn(). */
+> > > > +       r.mm = vma->vm_mm;
+> > > > +       r.pfn = pfn;
+> > > > +       r.prot = __pgprot((pgprot_val(iomap->prot) & _PAGE_CACHE_MASK) |
+> > > > +                         (pgprot_val(vma->vm_page_prot) & ~_PAGE_CACHE_MASK));
+> > > > +
+> > > > +       err = apply_to_page_range(r.mm, addr, size, remap_pfn, &r);
+> > > > +       if (unlikely(err)) {
+> > > > +               zap_vma_ptes(vma, addr, (r.pfn - pfn) << PAGE_SHIFT);
+> > > > +               return err;
+> > > > +       }
+> > > > +
+> > > > +       return 0;
+> > > > +}
+> > > >
+> > > >  /**
+> > > >   * remap_io_sg - remap an IO mapping to userspace
+> > > > --
+> > > > 2.26.3
+> > > >
+> > > > _______________________________________________
+> > > > Intel-gfx mailing list
+> > > > Intel-gfx@lists.freedesktop.org
+> > > > https://lists.freedesktop.org/mailman/listinfo/intel-gfx
+> >
+> >
+> >
+> > --
+> > Daniel Vetter
+> > Software Engineer, Intel Corporation
+> > http://blog.ffwll.ch
+
+
+
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
