@@ -2,61 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A906399379
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Jun 2021 21:26:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BD3639939B
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Jun 2021 21:35:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0B91F6E52F;
-	Wed,  2 Jun 2021 19:26:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 43A326EE4F;
+	Wed,  2 Jun 2021 19:35:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com
- [IPv6:2a00:1450:4864:20::42f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 14F5C6EE46
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Jun 2021 19:26:50 +0000 (UTC)
-Received: by mail-wr1-x42f.google.com with SMTP id z8so3376789wrp.12
- for <dri-devel@lists.freedesktop.org>; Wed, 02 Jun 2021 12:26:49 -0700 (PDT)
+Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com
+ [IPv6:2a00:1450:4864:20::434])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D2BA36EE4F
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Jun 2021 19:35:29 +0000 (UTC)
+Received: by mail-wr1-x434.google.com with SMTP id q5so3437991wrs.4
+ for <dri-devel@lists.freedesktop.org>; Wed, 02 Jun 2021 12:35:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=KCZuEVHY8PRAMaR2f9HZU/XO764Lhf/TagYEBckEfyk=;
- b=J1PYEz6797hxcf0mfVCZKMT/kYRL+HZl89cL+q+fU+ZSou/9cWTF2Gd6zK4S/5tHoY
- 4JMbd8ETj3jfQZ5/CerZJAWHFPWfjL3re8PPPmR3XUonT0ucZqYsfShAO0DsVRCYYmqv
- P1YIkAHwyOVQMhXaaZeOCN32x1GWn80yt4YJg=
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=K7N8MhJSPUEAtj3Y+TrLv0noK7r5l2LqG6bCmU1+PME=;
+ b=FrufczjsCvhO+ry6JJQliDhq2dR46uHyVTOMD0wOcLNFTh+qe5rGjqrbfIpGP+ioiF
+ RYETmrIiuO6TIxFRBQ2Uf9NyoY6oK7HF8bz/4PSdxK6XJQfTgwQ3JiSCx5z8sxJtwszk
+ Fsqpd3vPrGGulF5agLgRzBK0nF9WFPH56B/lA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=KCZuEVHY8PRAMaR2f9HZU/XO764Lhf/TagYEBckEfyk=;
- b=LDOG6xqnBZG8qqvyDqeV1bl4c+/7z40aFLEYEhYh16PIx5ZxWPy7LOMQNvJLNIcfsQ
- qiiIkNNK50L2DfZQfCSQxnsU1TxwRLMh1UmRR7ASHtLG7AieXF6ofaBmXCibWb5UyWRM
- imtUj0ddcfhPaG49mm88hT+2L2HvK/FUdQBvsvX7ErbZWQI0NSa08SFCQh4eYZ4AnQZk
- uMsKWwQBlGy/eou2frK/clcPJ65iglR361qoGGpU1H4ENIbB4o9tnrTcoD6zO+XLVY5B
- Q2vuApe6TAbgflDsHjoyPk1SeKFWqcavUi0HdUAOzY86jpy1kvYE+j4boocbu6e0vzQ0
- 6Pow==
-X-Gm-Message-State: AOAM531itPa7bSkNe7/TR+QnZf/eyNfR9UWj7c4z5nWL4Q+BJmeWHZmY
- JkX/XyfonXecbss3UEaUfhGYcpQltHU85w==
-X-Google-Smtp-Source: ABdhPJyOw8Ogx4gG1a7Z4NEzammiy7JdJWo2SWFLgLrDuqK7vUnEZ6kh2jQpOzRa99LCsglTO+e5Rw==
-X-Received: by 2002:a5d:6082:: with SMTP id w2mr9331686wrt.209.1622662008747; 
- Wed, 02 Jun 2021 12:26:48 -0700 (PDT)
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=K7N8MhJSPUEAtj3Y+TrLv0noK7r5l2LqG6bCmU1+PME=;
+ b=aCW7ItmAgQs2PIbtWtF8XSbzapqPUyN2ijP6BHhAL+zhxus+ktLMjFFW6p/vAPduef
+ 8yKsUE5aUO9zgtfy6HyLfYWyPBXEmSyaLXb1j1VVJ+KpblwbPFlfAkfk9FQ2/OHqT6Bf
+ 0RKkAb1lK+pSrDwLDniTdwwsK/clWPPqu7bP19vBFLJop0P9tHTCFBHxiX/rc5S3goag
+ wvjPRG1j9tRMvJOEw0WmHqNzKcGLzmR8Cbv/ZXE3LRiBSqOKsrEgIsGVFVWgzOJ/LgTe
+ pWr59jyzIm3kAwiQckBxyJwjoB/AXvgEaNN6ikE9+cMSgBgxOGqIFWRhsomQPKQojRx9
+ JePA==
+X-Gm-Message-State: AOAM5324trGRgovGqY9HCJrGXgLfPm0tiUPopUZGmlu7Kz45DDQ1F7Mi
+ Zi77VnZ9xY+c9bZLXxpp2aivFw==
+X-Google-Smtp-Source: ABdhPJx1l/W5vimat08YSVfV0mJwBx/MSwmsCJiPC6MmTzRrOSodyI1TzdES0s3Bnbc/bFoCl8y+4w==
+X-Received: by 2002:a5d:6382:: with SMTP id p2mr17998868wru.338.1622662528600; 
+ Wed, 02 Jun 2021 12:35:28 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id y2sm4214347wmq.45.2021.06.02.12.26.47
+ by smtp.gmail.com with ESMTPSA id o3sm909197wrm.78.2021.06.02.12.35.27
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 02 Jun 2021 12:26:48 -0700 (PDT)
-Date: Wed, 2 Jun 2021 21:26:46 +0200
+ Wed, 02 Jun 2021 12:35:28 -0700 (PDT)
+Date: Wed, 2 Jun 2021 21:35:26 +0200
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Bjorn Helgaas <bhelgaas@google.com>
-Subject: Re: [PATCH] vgaarb: Call vga_arb_device_init() after PCI enumeration
-Message-ID: <YLfbdj8Eb310D/Ps@phenom.ffwll.local>
-References: <20210528082607.2015145-1-chenhuacai@loongson.cn>
- <YLZYuM6SepbeLcI7@phenom.ffwll.local> <YLZqe14Lf2+5Lbf3@kroah.com>
- <YLZ2WJlHu0EZT7H9@phenom.ffwll.local>
- <CAAhV-H5Mt7tmmDVoix6sY3UtfhjxGvHovve2N=5o5xtvmFeQOA@mail.gmail.com>
- <YLewShl3lMyqJ1WZ@phenom.ffwll.local>
- <CAErSpo4cLp4YHGh0Lp=hZ70=1A4WBEtUhM-KUKk=SnNmTVzmRg@mail.gmail.com>
+To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>
+Subject: Re: [PATCH 1/2] dma-buf: fix inconsistent debug print v2
+Message-ID: <YLfdfkK0JFVaa2b5@phenom.ffwll.local>
+References: <20210602140359.272601-1-christian.koenig@amd.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <CAErSpo4cLp4YHGh0Lp=hZ70=1A4WBEtUhM-KUKk=SnNmTVzmRg@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210602140359.272601-1-christian.koenig@amd.com>
 X-Operating-System: Linux phenom 5.10.32scarlett+ 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -70,100 +67,90 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Greg KH <gregkh@linuxfoundation.org>,
- Huacai Chen <chenhuacai@kernel.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- Linux PCI <linux-pci@vger.kernel.org>, Xuefeng Li <lixuefeng@loongson.cn>,
- Huacai Chen <chenhuacai@loongson.cn>
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jun 02, 2021 at 01:31:16PM -0500, Bjorn Helgaas wrote:
+On Wed, Jun 02, 2021 at 04:03:58PM +0200, Christian König wrote:
+> Drop the whole rcu handling since we are holding the resv lock anyway.
 > 
-> On Wed, Jun 2, 2021 at 11:22 AM Daniel Vetter <daniel@ffwll.ch> wrote:
-> > On Wed, Jun 02, 2021 at 06:36:03PM +0800, Huacai Chen wrote:
-> > > On Wed, Jun 2, 2021 at 2:03 AM Daniel Vetter <daniel@ffwll.ch> wrote:
-> > > > On Tue, Jun 01, 2021 at 07:12:27PM +0200, Greg KH wrote:
-> > > > > On Tue, Jun 01, 2021 at 05:56:40PM +0200, Daniel Vetter wrote:
-> > > > > > On Fri, May 28, 2021 at 04:26:07PM +0800, Huacai Chen wrote:
-> > > > > > > We should call vga_arb_device_init() after PCI enumeration, otherwise it
-> > > > > > > may fail to select the default VGA device. Since vga_arb_device_init()
-> > > > > > > and PCI enumeration function (i.e., pcibios_init() or acpi_init()) are
-> > > > > > > both wrapped by subsys_initcall(), their sequence is not assured. So, we
-> > > > > > > use subsys_initcall_sync() instead of subsys_initcall() to wrap vga_arb_
-> > > > > > > device_init().
-> > > > >
-> > > > > Trying to juggle levels like this always fails if you build the code as
-> > > > > a module.
-> > > > >
-> > > > > Why not fix it properly and handle the out-of-order loading by returning
-> > > > > a "deferred" error if you do not have your resources yet?
-> > > >
-> > > > It's not a driver, it's kinda a bolted-on-the-side subsytem of pci. So not
-> > > > something you can -EPROBE_DEFER I think, without potentially upsetting the
-> > > > drivers that need this.
-> > > >
-> > > > Which might mean we should move this into pci subsystem proper perhaps?
-> > > > Then adding the init call at the right time becomes trivial since we just
-> > > > plug it in at the end of pci init.
-> > > >
-> > > > Also maybe that's how distros avoid this pain, pci is built-in, vgaarb is
-> > > > generally a module, problem solved.
-> > > >
-> > > > Bjorn, would you take this entire vgaarb.c thing? From a quick look I
-> > > > don't think it has a drm-ism in it (unlike vga_switcheroo, but that works
-> > > > a bit differently and doesn't have this init order issue).
-> > > Emmm, this patch cannot handle the hotplug case and module case, it
-> > > just handles the case that vgaarb, drm driver and pci all built-in.
-> > > But I think this is enough, because the original problem only happens
-> > > on very few BMC-based VGA cards (BMC doesn't set the VGA Enable bit on
-> > > the bridge, which breaks vgaarb).
-> >
-> > I'm not talking aout hotplug, just ordering the various pieces correctly.
-> > That vgaarb isn't really a driver and also can't really handle hotplug is
-> > my point. I guess that got lost a bit?
-> >
-> > Anyway my proposal is essentially to do a
-> >
-> > $ git move drivers/gpu/vga/vgaarb.c drivers/pci
-> >
-> > But I just realized that vgaarb is a bool option, so module isn't possible
-> > anyway, and we could fix this by calling vgaarb from pcibios init (with an
-> > empty static inline in the header if vgaarb is disabled). That makes the
-> > dependency very explicit and guarantees it works correctly.
+> v2: drop all rcu handling instead.
 > 
-> pcibios_init() is also an initcall and is implemented by every arch.
-> I agree that calling vga_arb_device_init() directly from
-> pcibios_init() would probably fix this problem, and it would be really
-> nice to have it not be an initcall.  But it's also kind of a pain to
-> have to update all those copies of pcibios_init(), and I would be
-> looking for a way to unify it since it's not really an arch-specific
-> thing.
-> 
-> I think the simplest solution, which I suggested earlier [1], would be
-> to explicitly call vga_arbiter_add_pci_device() directly from the PCI
-> core when it enumerates a VGA device.  Then there's no initcall and no
-> need for the BUS_NOTIFY_ADD/DEL_DEVICE stuff.
-> vga_arbiter_add_pci_device() could set the default VGA device when it
-> is enumerated, and change the default device if we enumerate a
-> "better" one.  And hotplug VGA devices would work automatically.
+> Signed-off-by: Christian König <christian.koenig@amd.com>
 
-Hm yeah that sounds most reasonable, and if it doesn't work I guess
-unifying the pcibios_init() stuff a bit and adding it there.
+Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 
-And somehow I missed that mail thread, too much stuff going on.
-
-> > Whether we move vgaarb into drivers/pci or not is then kinda orthogonal.
+> ---
+>  drivers/dma-buf/dma-buf.c | 27 +++++++++------------------
+>  1 file changed, 9 insertions(+), 18 deletions(-)
 > 
-> I'm fine with moving it to drivers/pci if that makes anything easier.
-> It definitely is PCI-related stuff, not GPU-related stuff.
+> diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+> index eadd1eaa2fb5..ee04fb442015 100644
+> --- a/drivers/dma-buf/dma-buf.c
+> +++ b/drivers/dma-buf/dma-buf.c
+> @@ -1349,15 +1349,14 @@ EXPORT_SYMBOL_GPL(dma_buf_vunmap);
+>  #ifdef CONFIG_DEBUG_FS
+>  static int dma_buf_debug_show(struct seq_file *s, void *unused)
+>  {
+> -	int ret;
+>  	struct dma_buf *buf_obj;
+>  	struct dma_buf_attachment *attach_obj;
+>  	struct dma_resv *robj;
+>  	struct dma_resv_list *fobj;
+>  	struct dma_fence *fence;
+> -	unsigned seq;
+>  	int count = 0, attach_count, shared_count, i;
+>  	size_t size = 0;
+> +	int ret;
+>  
+>  	ret = mutex_lock_interruptible(&db_list.lock);
+>  
+> @@ -1383,33 +1382,25 @@ static int dma_buf_debug_show(struct seq_file *s, void *unused)
+>  				buf_obj->name ?: "");
+>  
+>  		robj = buf_obj->resv;
+> -		while (true) {
+> -			seq = read_seqcount_begin(&robj->seq);
+> -			rcu_read_lock();
+> -			fobj = rcu_dereference(robj->fence);
+> -			shared_count = fobj ? fobj->shared_count : 0;
+> -			fence = rcu_dereference(robj->fence_excl);
+> -			if (!read_seqcount_retry(&robj->seq, seq))
+> -				break;
+> -			rcu_read_unlock();
+> -		}
+> -
+> +		fence = rcu_dereference_protected(robj->fence_excl,
+> +						  dma_resv_held(robj));
+>  		if (fence)
+>  			seq_printf(s, "\tExclusive fence: %s %s %ssignalled\n",
+>  				   fence->ops->get_driver_name(fence),
+>  				   fence->ops->get_timeline_name(fence),
+>  				   dma_fence_is_signaled(fence) ? "" : "un");
+> +
+> +		fobj = rcu_dereference_protected(robj->fence,
+> +						 dma_resv_held(robj));
+> +		shared_count = fobj ? fobj->shared_count : 0;
+>  		for (i = 0; i < shared_count; i++) {
+> -			fence = rcu_dereference(fobj->shared[i]);
+> -			if (!dma_fence_get_rcu(fence))
+> -				continue;
+> +			fence = rcu_dereference_protected(fobj->shared[i],
+> +							  dma_resv_held(robj));
+>  			seq_printf(s, "\tShared fence: %s %s %ssignalled\n",
+>  				   fence->ops->get_driver_name(fence),
+>  				   fence->ops->get_timeline_name(fence),
+>  				   dma_fence_is_signaled(fence) ? "" : "un");
+> -			dma_fence_put(fence);
+>  		}
+> -		rcu_read_unlock();
+>  
+>  		seq_puts(s, "\tAttached Devices:\n");
+>  		attach_count = 0;
+> -- 
+> 2.25.1
 > 
-> [1] https://lore.kernel.org/r/20210526182940.GA1303599@bjorn-Precision-5520
 
-Yeah I think it'd fit in pci better tbh, but not strong opinion I guess.
-If we move it we probably want to keep the entry to Cc: dri-devel still
-since it's really just for gpus.
--Daniel
 -- 
 Daniel Vetter
 Software Engineer, Intel Corporation
