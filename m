@@ -1,78 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 384D03992EA
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Jun 2021 20:53:34 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id BA7AC3992F4
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Jun 2021 20:57:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4CE8B6E1F1;
-	Wed,  2 Jun 2021 18:53:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 17DDE6EDF6;
+	Wed,  2 Jun 2021 18:57:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com
- [IPv6:2a00:1450:4864:20::62f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EB2246E1F1
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Jun 2021 18:53:30 +0000 (UTC)
-Received: by mail-ej1-x62f.google.com with SMTP id a11so4672441ejf.3
- for <dri-devel@lists.freedesktop.org>; Wed, 02 Jun 2021 11:53:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:references:from:message-id:date:user-agent:mime-version
- :in-reply-to:content-transfer-encoding:content-language;
- bh=KnfQDIXt726/WoTHDU0y2I9pVA0g5sP5dXNNQupIAeI=;
- b=SdGEO9VoZlIHW15RB8pQAWnqqIKBSekItsyVfRYbyLIZzbFqwlTDacpkMTQgW2KOgQ
- rAEsl4xSFHtbuMzrsAxTY6ekhcy2rZruBjWx3fja5xeJTefsLkKtwViubYvhCOcoA8IS
- tpBSpbB+h6cwXMoRoQrIwFIoEG0JtwUuj+8vaqn6NzYrcr4NvKESsMAFs4uLXUEoaOyU
- Dz/JhqkofKjGLQE9K8yl8SZXoYL8YMA0ZLR8tgtHDgmvpluuNIxBo61CloBJnx25VRwB
- q9il2IeFxL211Z+a25rjGeQ/5lpm35ZmgHrjw46hsq3LNNrdW7bTwIssSJ9EjqrNjLeA
- tJ1Q==
+Received: from mail-ot1-x32b.google.com (mail-ot1-x32b.google.com
+ [IPv6:2607:f8b0:4864:20::32b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4CE6A6EDF4
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Jun 2021 18:57:14 +0000 (UTC)
+Received: by mail-ot1-x32b.google.com with SMTP id
+ c31-20020a056830349fb02903a5bfa6138bso3390553otu.7
+ for <dri-devel@lists.freedesktop.org>; Wed, 02 Jun 2021 11:57:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=DUMfivhVs39RWD9wbM4YeN4uJSv83VCUPBJGHjzj9MA=;
+ b=cD19riI7ex0LEM/TS2fNESRC6SoVoIiB7zjRq660rtF2/uO8+upcuq2WOQgb0khrbU
+ O3GBnKFe/sUP5hXxdfjMrBuaXb7HBsnbQ+pB9zjcjikNzgd925qELN9bErGpmtPgxywf
+ OICGwI6NKg1tfFMSYwANFRpeVMKuxx1KJJyAQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-transfer-encoding
- :content-language;
- bh=KnfQDIXt726/WoTHDU0y2I9pVA0g5sP5dXNNQupIAeI=;
- b=BCfn/zm8Zksf7/OBj9klUAWodFCCa/5JyE1Lihh4iNwXv5l8uZESyEFi02A4dLoHJO
- w0Eqyn1Ua2Te8RLkh6pqsaanSMOu0aNb6gIwTQKbUT7M3okBFIvwvtEKRGsrY5gWBm0b
- Buas/PSoHxCVz9QH9ZZK1BdMRyDhe4m/sI4wASnW+t/JwV5a5uOZZWoI9OO0H0ifm+bT
- NkIAyM2MsfASj5WhoNXICfZbUv9Rw56LNydwh8lJ7P9LQRTEQw8pP0fs1SUVIAAuNPK8
- Pjx6L0LLsG+AambdGTAvPyvKhTavQbP3KJS1sE0v8oZ8u2z1/EjeLW/+w8diGBrYRhOc
- S5Bg==
-X-Gm-Message-State: AOAM533o7g8aM6ZaIB9dqNQ+Iux1PIQ/Bl+B//ZHINpYOvo7y/ynKXO/
- PE5rQsACEEXtAeeihU4iVWg/i3D1xCE=
-X-Google-Smtp-Source: ABdhPJxaGZSXN3orcZGZJqdSGCWEjUqqqttNhGtglrtVU3EpWzk9T9Sr9GSet9BscOeSbtOk7SO0tA==
-X-Received: by 2002:a17:906:bfc8:: with SMTP id
- us8mr23192719ejb.217.1622660009562; 
- Wed, 02 Jun 2021 11:53:29 -0700 (PDT)
-Received: from ?IPv6:2a02:908:1252:fb60:cd07:2759:3eec:1d00?
- ([2a02:908:1252:fb60:cd07:2759:3eec:1d00])
- by smtp.gmail.com with ESMTPSA id br21sm392918ejb.124.2021.06.02.11.53.28
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 02 Jun 2021 11:53:29 -0700 (PDT)
-Subject: Re: [PATCH 02/10] drm/ttm: flip over the range manager to self
- allocated nodes
-To: =?UTF-8?Q?Thomas_Hellstr=c3=b6m_=28Intel=29?= <thomas_os@shipmail.org>,
- matthew.auld@intel.com, dri-devel@lists.freedesktop.org
-References: <20210602100914.46246-1-christian.koenig@amd.com>
- <20210602100914.46246-2-christian.koenig@amd.com>
- <9b01d58f-6474-70de-4364-6adad59717a5@shipmail.org>
- <2354a311-c88f-04c5-0211-360c8116b811@gmail.com>
- <23afc41d-09ae-93f3-77b8-e18c8f72dd5a@shipmail.org>
- <b818e5f8-66a4-4df0-ba5b-cc22125d72a2@gmail.com>
- <2719e7af-dbba-2917-0e29-9e36fbc6de00@shipmail.org>
- <55f59f1e-f988-f58a-4e3f-7d419a846ae6@gmail.com>
- <d6f0b8e1-f4a2-cbbd-8b0c-6700ae4f7e58@shipmail.org>
- <fd5e275a-0ed5-3242-07b4-125fcb4e1cfa@gmail.com>
- <3e23fcc1-85a1-3d3f-dc60-563406edc5af@shipmail.org>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-Message-ID: <a196c79b-e5d1-9693-9891-737983de0ae2@gmail.com>
-Date: Wed, 2 Jun 2021 20:53:28 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=DUMfivhVs39RWD9wbM4YeN4uJSv83VCUPBJGHjzj9MA=;
+ b=DIP/830tC7Xm1rXwDqPi0Z6OpQRwoz15Ue1Grv8aZe8cC4LAc6oIYkDKeHcnJmtPSE
+ 624LwPRcLmtCJPFsv3aZ90XMVEqLMfC7HILC3qxZXB5ZR8i2jK4Pp+5GkBZyCy1fbnsg
+ O+9hE8oKAM4AK9F3Esl6lD5ykzZLPhdubK0yQav26z+mgRfhyRcon9OFsDdhAqGKkef6
+ 8l/xOu0nsVKx/V18C8nY6aDv8cO21LUkncjdqelSIodYY2GtWi4f4GGiUj2r0KRDnWIT
+ m3oBB55XWvqOjyYuZpFHdhrebPjAbWtoWJTgTc/Qr45BF+33CJs7KlHziJPNWicbhhv/
+ b3ZQ==
+X-Gm-Message-State: AOAM530WTC6aXDBK5ARNu5SeEPP1/NMMJ8DqgE67onhnuVrWKEVXvua1
+ h7zeQd/BvW1n3JxpJYPZ36Dtgp/oYElvDdi9usx1I1bm4s4=
+X-Google-Smtp-Source: ABdhPJwZ+ppkfviLb32tBhF+dK1B80dh3UYuX6QSc9NHT+jWfkZpImuNXGhgUqUHqDcPkpXAW32TZ4efxYaCAuyd9uI=
+X-Received: by 2002:a9d:27a4:: with SMTP id c33mr26320854otb.281.1622660233643; 
+ Wed, 02 Jun 2021 11:57:13 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <3e23fcc1-85a1-3d3f-dc60-563406edc5af@shipmail.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+References: <20210506191451.77768-1-matthew.brost@intel.com>
+ <de3965d8-d997-5685-0399-646d8823a27f@linux.intel.com>
+ <20210525164504.GA9971@sdutt-i7>
+ <d76ab0ec-4f0c-19ed-adaa-ed227af63c0e@linux.intel.com>
+In-Reply-To: <d76ab0ec-4f0c-19ed-adaa-ed227af63c0e@linux.intel.com>
+From: Daniel Vetter <daniel@ffwll.ch>
+Date: Wed, 2 Jun 2021 20:57:02 +0200
+Message-ID: <CAKMK7uHT2mPTyX9QiTBFP2Lt28vV3JcJLPAx_hMdTtyLJ=DZ2g@mail.gmail.com>
+Subject: Re: [Intel-gfx] [RFC PATCH 00/97] Basic GuC submission support in the
+ i915
+To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,233 +63,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Matthew Brost <matthew.brost@intel.com>,
+ Jason Ekstrand <jason.ekstrand@intel.com>,
+ intel-gfx <intel-gfx@lists.freedesktop.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Daniel Vetter <daniel.vetter@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-Am 02.06.21 um 20:52 schrieb Thomas Hellström (Intel):
+On Wed, Jun 2, 2021 at 5:27 PM Tvrtko Ursulin
+<tvrtko.ursulin@linux.intel.com> wrote:
+> On 25/05/2021 17:45, Matthew Brost wrote:
+> > On Tue, May 25, 2021 at 11:32:26AM +0100, Tvrtko Ursulin wrote:
+> >>   * Context pinning code with it's magical two adds, subtract and cmpxchg is
+> >> dodgy as well.
+> >
+> > Daniele tried to remove this and it proved quite difficult + created
+> > even more races in the backend code. This was prior to the pre-pin and
+> > post-unpin code which makes this even more difficult to fix as I believe
+> > these functions would need to be removed first. Not saying we can't
+> > revisit this someday but I personally really like it - it is a clever
+> > way to avoid reentering the pin / unpin code while asynchronous things
+> > are happening rather than some complex locking scheme. Lastly, this code
+> > has proved incredibly stable as I don't think we've had to fix a single
+> > thing in this area since we've been using this code internally.
 >
-> On 6/2/21 8:41 PM, Christian König wrote:
->> Am 02.06.21 um 17:28 schrieb Thomas Hellström (Intel):
->>> Hi!
->>>
->>> On 6/2/21 4:17 PM, Christian König wrote:
->>>> Am 02.06.21 um 16:13 schrieb Thomas Hellström (Intel):
->>>>>
->>>>> On 6/2/21 3:07 PM, Christian König wrote:
->>>>>>
->>>>>>
->>>>>> Am 02.06.21 um 14:33 schrieb Thomas Hellström (Intel):
->>>>>>>
->>>>>>> On 6/2/21 2:11 PM, Christian König wrote:
->>>>>>>> Am 02.06.21 um 13:44 schrieb Thomas Hellström (Intel):
->>>>>>>>>
->>>>>>>>> On 6/2/21 12:09 PM, Christian König wrote:
->>>>>>>>>> Start with the range manager to make the resource object the 
->>>>>>>>>> base
->>>>>>>>>> class for the allocated nodes.
->>>>>>>>>>
->>>>>>>>>> While at it cleanup a lot of the code around that.
->>>>>>>>>>
->>>>>>>>>> Signed-off-by: Christian König <christian.koenig@amd.com>
->>>>>>>>>> Reviewed-by: Matthew Auld <matthew.auld@intel.com>
->>>>>>>>>> ---
->>>>>>>>>>   drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c |  1 +
->>>>>>>>>>   drivers/gpu/drm/drm_gem_vram_helper.c   |  2 +
->>>>>>>>>>   drivers/gpu/drm/nouveau/nouveau_ttm.c   |  2 +
->>>>>>>>>>   drivers/gpu/drm/qxl/qxl_ttm.c           |  1 +
->>>>>>>>>>   drivers/gpu/drm/radeon/radeon_ttm.c     |  1 +
->>>>>>>>>>   drivers/gpu/drm/ttm/ttm_range_manager.c | 56 
->>>>>>>>>> ++++++++++++++++++-------
->>>>>>>>>>   drivers/gpu/drm/ttm/ttm_resource.c      | 26 ++++++++----
->>>>>>>>>>   include/drm/ttm/ttm_bo_driver.h         | 26 ------------
->>>>>>>>>>   include/drm/ttm/ttm_range_manager.h     | 43 
->>>>>>>>>> +++++++++++++++++++
->>>>>>>>>>   include/drm/ttm/ttm_resource.h          |  3 ++
->>>>>>>>>>   10 files changed, 111 insertions(+), 50 deletions(-)
->>>>>>>>>>   create mode 100644 include/drm/ttm/ttm_range_manager.h
->>>>>>>>>>
->>>>>>>>>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c 
->>>>>>>>>> b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
->>>>>>>>>> index 69db89261650..df1f185faae9 100644
->>>>>>>>>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
->>>>>>>>>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
->>>>>>>>>> @@ -45,6 +45,7 @@
->>>>>>>>>>   #include <drm/ttm/ttm_bo_api.h>
->>>>>>>>>>   #include <drm/ttm/ttm_bo_driver.h>
->>>>>>>>>>   #include <drm/ttm/ttm_placement.h>
->>>>>>>>>> +#include <drm/ttm/ttm_range_manager.h>
->>>>>>>>>>     #include <drm/amdgpu_drm.h>
->>>>>>>>>>   diff --git a/drivers/gpu/drm/drm_gem_vram_helper.c 
->>>>>>>>>> b/drivers/gpu/drm/drm_gem_vram_helper.c
->>>>>>>>>> index 83e7258c7f90..17a4c5d47b6a 100644
->>>>>>>>>> --- a/drivers/gpu/drm/drm_gem_vram_helper.c
->>>>>>>>>> +++ b/drivers/gpu/drm/drm_gem_vram_helper.c
->>>>>>>>>> @@ -17,6 +17,8 @@
->>>>>>>>>>   #include <drm/drm_prime.h>
->>>>>>>>>>   #include <drm/drm_simple_kms_helper.h>
->>>>>>>>>>   +#include <drm/ttm/ttm_range_manager.h>
->>>>>>>>>> +
->>>>>>>>>>   static const struct drm_gem_object_funcs 
->>>>>>>>>> drm_gem_vram_object_funcs;
->>>>>>>>>>     /**
->>>>>>>>>> diff --git a/drivers/gpu/drm/nouveau/nouveau_ttm.c 
->>>>>>>>>> b/drivers/gpu/drm/nouveau/nouveau_ttm.c
->>>>>>>>>> index 65430912ff72..b08b8efeefba 100644
->>>>>>>>>> --- a/drivers/gpu/drm/nouveau/nouveau_ttm.c
->>>>>>>>>> +++ b/drivers/gpu/drm/nouveau/nouveau_ttm.c
->>>>>>>>>> @@ -26,6 +26,8 @@
->>>>>>>>>>   #include <linux/limits.h>
->>>>>>>>>>   #include <linux/swiotlb.h>
->>>>>>>>>>   +#include <drm/ttm/ttm_range_manager.h>
->>>>>>>>>> +
->>>>>>>>>>   #include "nouveau_drv.h"
->>>>>>>>>>   #include "nouveau_gem.h"
->>>>>>>>>>   #include "nouveau_mem.h"
->>>>>>>>>> diff --git a/drivers/gpu/drm/qxl/qxl_ttm.c 
->>>>>>>>>> b/drivers/gpu/drm/qxl/qxl_ttm.c
->>>>>>>>>> index 8aa87b8edb9c..19fd39d9a00c 100644
->>>>>>>>>> --- a/drivers/gpu/drm/qxl/qxl_ttm.c
->>>>>>>>>> +++ b/drivers/gpu/drm/qxl/qxl_ttm.c
->>>>>>>>>> @@ -32,6 +32,7 @@
->>>>>>>>>>   #include <drm/ttm/ttm_bo_api.h>
->>>>>>>>>>   #include <drm/ttm/ttm_bo_driver.h>
->>>>>>>>>>   #include <drm/ttm/ttm_placement.h>
->>>>>>>>>> +#include <drm/ttm/ttm_range_manager.h>
->>>>>>>>>>     #include "qxl_drv.h"
->>>>>>>>>>   #include "qxl_object.h"
->>>>>>>>>> diff --git a/drivers/gpu/drm/radeon/radeon_ttm.c 
->>>>>>>>>> b/drivers/gpu/drm/radeon/radeon_ttm.c
->>>>>>>>>> index cdffa9b65108..ad2a5a791bba 100644
->>>>>>>>>> --- a/drivers/gpu/drm/radeon/radeon_ttm.c
->>>>>>>>>> +++ b/drivers/gpu/drm/radeon/radeon_ttm.c
->>>>>>>>>> @@ -45,6 +45,7 @@
->>>>>>>>>>   #include <drm/ttm/ttm_bo_api.h>
->>>>>>>>>>   #include <drm/ttm/ttm_bo_driver.h>
->>>>>>>>>>   #include <drm/ttm/ttm_placement.h>
->>>>>>>>>> +#include <drm/ttm/ttm_range_manager.h>
->>>>>>>>>>     #include "radeon_reg.h"
->>>>>>>>>>   #include "radeon.h"
->>>>>>>>>> diff --git a/drivers/gpu/drm/ttm/ttm_range_manager.c 
->>>>>>>>>> b/drivers/gpu/drm/ttm/ttm_range_manager.c
->>>>>>>>>> index b9d5da6e6a81..ce5d07ca384c 100644
->>>>>>>>>> --- a/drivers/gpu/drm/ttm/ttm_range_manager.c
->>>>>>>>>> +++ b/drivers/gpu/drm/ttm/ttm_range_manager.c
->>>>>>>>>> @@ -29,12 +29,13 @@
->>>>>>>>>>    * Authors: Thomas Hellstrom <thellstrom-at-vmware-dot-com>
->>>>>>>>>>    */
->>>>>>>>>>   -#include <drm/ttm/ttm_bo_driver.h>
->>>>>>>>>> +#include <drm/ttm/ttm_device.h>
->>>>>>>>>>   #include <drm/ttm/ttm_placement.h>
->>>>>>>>>> +#include <drm/ttm/ttm_range_manager.h>
->>>>>>>>>> +#include <drm/ttm/ttm_bo_api.h>
->>>>>>>>>>   #include <drm/drm_mm.h>
->>>>>>>>>>   #include <linux/slab.h>
->>>>>>>>>>   #include <linux/spinlock.h>
->>>>>>>>>> -#include <linux/module.h>
->>>>>>>>>>     /*
->>>>>>>>>>    * Currently we use a spinlock for the lock, but a mutex 
->>>>>>>>>> *may* be
->>>>>>>>>> @@ -60,8 +61,8 @@ static int ttm_range_man_alloc(struct 
->>>>>>>>>> ttm_resource_manager *man,
->>>>>>>>>>                      struct ttm_resource *mem)
->>>>>>>>>>   {
->>>>>>>>>>       struct ttm_range_manager *rman = to_range_manager(man);
->>>>>>>>>> +    struct ttm_range_mgr_node *node;
->>>>>>>>>>       struct drm_mm *mm = &rman->mm;
->>>>>>>>>> -    struct drm_mm_node *node;
->>>>>>>>>>       enum drm_mm_insert_mode mode;
->>>>>>>>>>       unsigned long lpfn;
->>>>>>>>>>       int ret;
->>>>>>>>>> @@ -70,7 +71,7 @@ static int ttm_range_man_alloc(struct 
->>>>>>>>>> ttm_resource_manager *man,
->>>>>>>>>>       if (!lpfn)
->>>>>>>>>>           lpfn = man->size;
->>>>>>>>>>   -    node = kzalloc(sizeof(*node), GFP_KERNEL);
->>>>>>>>>> +    node = kzalloc(struct_size(node, mm_nodes, 1), GFP_KERNEL);
->>>>>>>>>
->>>>>>>>> I'm still a bit confused  about the situation where a driver 
->>>>>>>>> wants to attach private data to a struct ttm_resource without 
->>>>>>>>> having to re-implement its own range manager?
->>>>>>>>>
->>>>>>>>> Could be cached sg-tables, list of GPU bindings etc. Wouldn't 
->>>>>>>>> work with the above unless we have a void *driver_private 
->>>>>>>>> member on the struct ttm_resource. Is that the plan going 
->>>>>>>>> forward here? Or that the driver actually does the 
->>>>>>>>> re-implementation?
->>>>>>>>
->>>>>>>> I don't really understand your concern here. The basic idea is 
->>>>>>>> that drivers use ttm_resource as a base class for their own 
->>>>>>>> implementation.
->>>>>>>>
->>>>>>>> See for example how nouveau does that:
->>>>>>>>
->>>>>>>> struct nouveau_mem {
->>>>>>>>         struct ttm_resource base;
->>>>>>>>         struct nouveau_cli *cli;
->>>>>>>>         u8 kind;
->>>>>>>>         u8 comp;
->>>>>>>>         struct nvif_mem mem;
->>>>>>>>         struct nvif_vma vma[2];
->>>>>>>> };
->>>>>>>>
->>>>>>>> The range manager is helping driver specific resource managers 
->>>>>>>> which want to implement something drm_mm_nodes based. E.g. 
->>>>>>>> amdgpu_gtt_mgr and amdgpu_vram_mgr, but it can also be used 
->>>>>>>> stand alone.
->>>>>>>>
->>>>>>>> The ttm_range_mgr_node can then be used as base class for this 
->>>>>>>> functionality. I already want to move some more code from 
->>>>>>>> amdgpu_vram_mgr.c into the range manager, but that is just 
->>>>>>>> minor cleanup work.
->>>>>>>>
->>>>>>> Sure but if you embed a ttm_range_mgr_node in your struct 
->>>>>>> i915_resource, and wanted to use the ttm range manager for it, 
->>>>>>> it would allocate a struct ttm_range_mgr_node rather than a 
->>>>>>> struct i915_resource? Or am I missing something?
->>>>>>
->>>>>> Yes, that's the general idea I'm targeting for. I'm just not 
->>>>>> fully there yet.
->>>>>
->>>>> Hmm, I don't fully understand the reply, I described a buggy 
->>>>> scenario and you replied that's what we're targeting for?
->>>>
->>>> Ok, I don't seem to understand what you mean here. What is buggy on 
->>>> that?
->>>
->>> The buggy thing I'm trying to describe is a scenario where I want to 
->>> have a struct i915_ttm_resource which embeds a struct 
->>> ttm_range_mgr_node, but there is no way I can tell the generic ttm 
->>> range manager to allocate a struct i915_ttm_resource instead of a 
->>> struct ttm_range_mgr_node.
->>>
->>> So what I want to be able to do: I have
->>>
->>> struct i915_ttm_resource {
->>>         struct i915_gpu_bindings gpu_bindings;
->>>         struct ttm_range_mgr_node range_node;
->>> };
->>>
->>> Now I want to be able to share common code as much as possible and 
->>> use the generic ttm_range_manager here. How would I go about doing 
->>> that with the proposed changes?
->>
->> Ah, yes that is the part I haven't moved over yet. In other words 
->> that is not possible yet.
+> Pretty much same as above. The code like:
 >
-> OK, that "yet" sounds good. So this will be possible moving forward? 
-> (Basically it's the overall design that's not completely clear to me 
-> yet, not really the code itself)
+> static inline void __intel_context_unpin(struct intel_context *ce)
+> {
+>         if (!ce->ops->sched_disable) {
+>                 __intel_context_do_unpin(ce, 1);
+>         } else {
+>                 while (!atomic_add_unless(&ce->pin_count, -1, 1)) {
+>                         if (atomic_cmpxchg(&ce->pin_count, 1, 2) == 1) {
+>                                 ce->ops->sched_disable(ce);
+>                                 break;
+>                         }
+>                 }
+>         }
+> }
+>
+> That's pretty much impenetrable for me and the only thing I can think of
+> here is **ALARM** must be broken! See what others think..
 
-Yes, absolutely.
+pin_count is a hand-rolled mutex, except not actually a real one, and
+it's absolutely hiliarous in it's various incarnations (there's one
+each on i915_vm, vma, obj and probably a few more).
 
-Christian.
+Not the worst one I've seen by far in the code we've merged already.
+Minimally this needs a comment here and in the struct next to
+@pin_count to explain where all this is abused, which would already
+make it better than most of the in-tree ones.
 
->
-> Thanks,
->
-> Thomas
->
->
+As part of the ttm conversion we have a plan to sunset the "pin_count
+as a lock" stuff, depending how bad that goes we might need to split
+up the task for each struct that has such a pin_count.
 
+-Daniel
+--
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
