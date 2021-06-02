@@ -2,76 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E257D398D36
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Jun 2021 16:37:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7171F398D53
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Jun 2021 16:43:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E31C66ECC4;
-	Wed,  2 Jun 2021 14:37:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D704F6ECDE;
+	Wed,  2 Jun 2021 14:43:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [216.205.24.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A3C066ECC3
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Jun 2021 14:37:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1622644657;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=m/QwAefnsRXdsP3/z6cvtajoG5iQ+RdDqTRbmixBgeQ=;
- b=PZxBvMZW1FC2WzalZzxVNddLZQ7A8lL3M9+gn5JxFs8gcOsXl4jp+uwZDmEFGcycCV1aA1
- NoZlD+OkmC94VOE5IPfx/QXX28A0TiS8Mw3SEqtfGaRF686w4LNvdDX6MiWP+qgmDDEMZx
- mVG1cOH2v/Ksqd7KRdLI0kLj1dN0lZ8=
-Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
- [209.85.222.197]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-493-Psi5f8dbNQavRuv1HAP-Sw-1; Wed, 02 Jun 2021 10:37:33 -0400
-X-MC-Unique: Psi5f8dbNQavRuv1HAP-Sw-1
-Received: by mail-qk1-f197.google.com with SMTP id
- d15-20020a05620a136fb02902e9e93c69c8so1733727qkl.23
- for <dri-devel@lists.freedesktop.org>; Wed, 02 Jun 2021 07:37:33 -0700 (PDT)
+Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com
+ [IPv6:2a00:1450:4864:20::132])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7EE786ECD7
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Jun 2021 14:43:28 +0000 (UTC)
+Received: by mail-lf1-x132.google.com with SMTP id i9so3745702lfe.13
+ for <dri-devel@lists.freedesktop.org>; Wed, 02 Jun 2021 07:43:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=vLB3XwmxK0zMI/2Bdlf99xPYv4+65cX8NiEmcXIBNu4=;
+ b=KjSQ8Np8t9HvPOoGH0lPLWrBVeIuTnB6BbpmrASpGO3TD579VkNIWpIBoUY0uMMAkp
+ QMoCmPYWET7a1cGyWMc3JTtzu/5ELyPyHmmOEyq3KQRCaBHJ92/c0vleAAG5+cDMM8JR
+ qs43pjzjS1CoUQFKbkjCQLmcD4hvSbG3aCM7dXfcX/GDUdEGj5RXqT/PRtEGlSN4IS/b
+ a9n4ZsMenuzdEEveAEyeztQlS6XGZzvJx/jJLAbZcJ3ckJ+XRXUMKtvToKbfBzXV3DqQ
+ /5mIZChCsq7fE4IdWE9RX8BDDMmeVljjPYsTQVOgGdU4ePL1SbiRpAT8TRFo1iHwEW5Q
+ sfjA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=m/QwAefnsRXdsP3/z6cvtajoG5iQ+RdDqTRbmixBgeQ=;
- b=pDslxloBDVKRsMl2+/UChyZDUEfMThQyyVa+DU/x9UimO+4GP8UzNv7lIylKUvoNbe
- Ya9mFbm1x2fkzotSk+T+XLDe0EHXNiRuGChyIB5/hnt5U5TlDJ/f/f1anyW8cMdaDfhf
- lsatZV1VTvddtjoP/7PZKRrxzhrFVXlPyEpujbcobAk5THQpJVDxdL90u8pDeDWF+bHO
- jYtTiNXfY3EtoOF37RidKWDualp5wszqtlSbiCtTAAFZ2bosTKdL4ogpZ9EcxdDRXMQx
- T/pz6iimQesljshk+Adu38nC2dWb2klKJMv6zyGrXevlMQB15zCqmKKXFrDmM0Bof1LX
- iCGg==
-X-Gm-Message-State: AOAM531JcIW+x0qHSsNNJYiO6k+7CK3BJ4HFbSN6JZ5RkXraR7/KUd83
- cnnzK6pj7hEy6DKNzw5Fxg6+NG/kK/wTdpKYnBTq9Mi92bs4zZoSoDSAyS4WcSqM7cK/CbRFHxU
- aaI20l3TA8HLH6Sleh1Gq3xPD4JS5
-X-Received: by 2002:ac8:5b81:: with SMTP id a1mr24760222qta.303.1622644653346; 
- Wed, 02 Jun 2021 07:37:33 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxTs6tJ8uqmSORfD2Z3iGZv/0i+S2lgFtI+HHVdQRE2EuDI89DE3ak/M7GvRJs9513WyidOxA==
-X-Received: by 2002:ac8:5b81:: with SMTP id a1mr24760200qta.303.1622644652986; 
- Wed, 02 Jun 2021 07:37:32 -0700 (PDT)
-Received: from t490s
- (bras-base-toroon474qw-grc-61-184-147-118-108.dsl.bell.ca. [184.147.118.108])
- by smtp.gmail.com with ESMTPSA id e127sm87950qkf.62.2021.06.02.07.37.31
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=vLB3XwmxK0zMI/2Bdlf99xPYv4+65cX8NiEmcXIBNu4=;
+ b=iia3bAtOjxvGAdmmqUrMtvCxpOSV5OVufjtKjqC/NYZopwObs7hrEkTwVL5OMnCkB1
+ k/ZflbqalszaLnz86O8R3A6IPiFu8ZFPwsmOrCZbRPoVNnDQSLmoWue5VeSLLvxWjuKr
+ pQSWGKTHg/0EfLI0E5zfjazYwERwFXiSz2vFVZpFPiTorejtCUG4F0LleZgEnEsKyU81
+ Wv1M6f+YKfrPIQIIaBXCna8p2EB/yfh8RqvfmM0dpUKnqDkamIc+xEhFy6Sqej22huK/
+ InmGy0+cmSnnWNw5FtMW29WmWmV6VidFIgaFoInI2qNKOPjfZkqr3qs6bwcG9zcWdl1k
+ lM4g==
+X-Gm-Message-State: AOAM533KHLMZ4Zq69k+KdR3ux2zXTi/z0B8J+sIvgD2d4cKIcDVWdXWQ
+ glzISttnNa1TQnxHgT8rg1NwmA==
+X-Google-Smtp-Source: ABdhPJw7P/BCAOSQX3byZQarwxQsK6P7A43ULyli3J1aVu2kfeFZl/AAUakQIKCh9hlItQqnTXGysg==
+X-Received: by 2002:ac2:4e8e:: with SMTP id o14mr23110001lfr.8.1622645006798; 
+ Wed, 02 Jun 2021 07:43:26 -0700 (PDT)
+Received: from eriador.lan ([37.153.55.125])
+ by smtp.gmail.com with ESMTPSA id t3sm1997ljo.71.2021.06.02.07.43.26
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 02 Jun 2021 07:37:32 -0700 (PDT)
-Date: Wed, 2 Jun 2021 10:37:30 -0400
-From: Peter Xu <peterx@redhat.com>
-To: Balbir Singh <bsingharora@gmail.com>
-Subject: Re: [PATCH v9 07/10] mm: Device exclusive memory access
-Message-ID: <YLeXqp/U0DgylI/u@t490s>
-References: <20210524132725.12697-1-apopple@nvidia.com>
- <20210524132725.12697-8-apopple@nvidia.com>
- <20210524151157.2dc5d2bb510ff86dc449bf0c@linux-foundation.org>
- <YKzk0ILRsyazMs2W@balbir-desktop>
- <8844f8c1-d78c-e0f9-c046-592bd75d4c07@nvidia.com>
- <YLdGXSw0zdiovn4i@balbir-desktop>
+ Wed, 02 Jun 2021 07:43:26 -0700 (PDT)
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Abhinav Kumar <abhinavk@codeaurora.org>
+Subject: [PATCH] drm/msm/dsi: add continuous clock support for 7nm PHY
+Date: Wed,  2 Jun 2021 17:43:25 +0300
+Message-Id: <20210602144325.901560-1-dmitry.baryshkov@linaro.org>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-In-Reply-To: <YLdGXSw0zdiovn4i@balbir-desktop>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,89 +67,233 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: rcampbell@nvidia.com, willy@infradead.org, linux-doc@vger.kernel.org,
- nouveau@lists.freedesktop.org, Alistair Popple <apopple@nvidia.com>,
- hughd@google.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, hch@infradead.org, linux-mm@kvack.org,
- jglisse@redhat.com, bskeggs@redhat.com, jgg@nvidia.com,
- John Hubbard <jhubbard@nvidia.com>, Andrew Morton <akpm@linux-foundation.org>,
- Christoph Hellwig <hch@lst.de>
+Cc: Jonathan Marek <jonathan@marek.ca>, Stephen Boyd <sboyd@kernel.org>,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ David Airlie <airlied@linux.ie>, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jun 02, 2021 at 06:50:37PM +1000, Balbir Singh wrote:
-> On Wed, May 26, 2021 at 12:17:18AM -0700, John Hubbard wrote:
-> > On 5/25/21 4:51 AM, Balbir Singh wrote:
-> > ...
-> > > > How beneficial is this code to nouveau users?  I see that it permits a
-> > > > part of OpenCL to be implemented, but how useful/important is this in
-> > > > the real world?
-> > > 
-> > > That is a very good question! I've not reviewed the code, but a sample
-> > > program with the described use case would make things easy to parse.
-> > > I suspect that is not easy to build at the moment?
-> > > 
-> > 
-> > The cover letter says this:
-> > 
-> > This has been tested with upstream Mesa 21.1.0 and a simple OpenCL program
-> > which checks that GPU atomic accesses to system memory are atomic. Without
-> > this series the test fails as there is no way of write-protecting the page
-> > mapping which results in the device clobbering CPU writes. For reference
-> > the test is available at https://ozlabs.org/~apopple/opencl_svm_atomics/
-> > 
-> > Further testing has been performed by adding support for testing exclusive
-> > access to the hmm-tests kselftests.
-> > 
-> > ...so that seems to cover the "sample program" request, at least.
-> 
-> Thanks, I'll take a look
-> 
-> > 
-> > > I wonder how we co-ordinate all the work the mm is doing, page migration,
-> > > reclaim with device exclusive access? Do we have any numbers for the worst
-> > > case page fault latency when something is marked away for exclusive access?
-> > 
-> > CPU page fault latency is approximately "terrible", if a page is resident on
-> > the GPU. We have to spin up a DMA engine on the GPU and have it copy the page
-> > over the PCIe bus, after all.
-> > 
-> > > I presume for now this is anonymous memory only? SWP_DEVICE_EXCLUSIVE would
-> > 
-> > Yes, for now.
-> > 
-> > > only impact the address space of programs using the GPU. Should the exclusively
-> > > marked range live in the unreclaimable list and recycled back to active/in-active
-> > > to account for the fact that
-> > > 
-> > > 1. It is not reclaimable and reclaim will only hurt via page faults?
-> > > 2. It ages the page correctly or at-least allows for that possibility when the
-> > >     page is used by the GPU.
-> > 
-> > I'm not sure that that is *necessarily* something we can conclude. It depends upon
-> > access patterns of each program. For example, a "reduction" parallel program sends
-> > over lots of data to the GPU, and only a tiny bit of (reduced!) data comes back
-> > to the CPU. In that case, freeing the physical page on the CPU is actually the
-> > best decision for the OS to make (if the OS is sufficiently prescient).
-> >
-> 
-> With a shared device or a device exclusive range, it would be good to get the device
-> usage pattern and update the mm with that knowledge, so that the LRU can be better
-> maintained. With your comment you seem to suggest that a page used by the GPU might
-> be a good candidate for reclaim based on the CPU's understanding of the age of
-> the page should not account for use by the device
-> (are GPU workloads - access once and discard?) 
+Unlike previous generations, 7nm PHYs are required to collaborate with
+the host for conitnuos clock mode. Add changes neccessary to enable
+continuous clock mode in the 7nm DSI PHYs.
 
-Hmm, besides the aging info, this reminded me: do we need to isolate the page
-from lru too when marking device exclusive access?
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+---
+ drivers/gpu/drm/msm/dsi/dsi.h             |  4 +++-
+ drivers/gpu/drm/msm/dsi/dsi.xml.h         |  1 +
+ drivers/gpu/drm/msm/dsi/dsi_host.c        | 12 ++++++++----
+ drivers/gpu/drm/msm/dsi/dsi_manager.c     |  4 ++--
+ drivers/gpu/drm/msm/dsi/phy/dsi_phy.c     | 15 +++++++++++++++
+ drivers/gpu/drm/msm/dsi/phy/dsi_phy.h     |  2 ++
+ drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c | 17 +++++++++++++++++
+ 7 files changed, 48 insertions(+), 7 deletions(-)
 
-Afaict the current patch didn't do that so I think it's reclaimable.  If we
-still have the rmap then we'll get a mmu notify CLEAR when unmapping that
-special pte, so device driver should be able to drop the ownership.  However we
-dropped the rmap when marking exclusive.  Now I don't know whether and how
-it'll work if page reclaim runs with the page being exclusively owned if
-without isolating the page..
-
+diff --git a/drivers/gpu/drm/msm/dsi/dsi.h b/drivers/gpu/drm/msm/dsi/dsi.h
+index 7abfeab08165..c4e7cace120c 100644
+--- a/drivers/gpu/drm/msm/dsi/dsi.h
++++ b/drivers/gpu/drm/msm/dsi/dsi.h
+@@ -108,7 +108,7 @@ int msm_dsi_host_enable(struct mipi_dsi_host *host);
+ int msm_dsi_host_disable(struct mipi_dsi_host *host);
+ int msm_dsi_host_power_on(struct mipi_dsi_host *host,
+ 			struct msm_dsi_phy_shared_timings *phy_shared_timings,
+-			bool is_dual_dsi);
++			bool is_dual_dsi, struct msm_dsi_phy *phy);
+ int msm_dsi_host_power_off(struct mipi_dsi_host *host);
+ int msm_dsi_host_set_display_mode(struct mipi_dsi_host *host,
+ 				  const struct drm_display_mode *mode);
+@@ -173,6 +173,8 @@ int msm_dsi_phy_get_clk_provider(struct msm_dsi_phy *phy,
+ 	struct clk **byte_clk_provider, struct clk **pixel_clk_provider);
+ void msm_dsi_phy_pll_save_state(struct msm_dsi_phy *phy);
+ int msm_dsi_phy_pll_restore_state(struct msm_dsi_phy *phy);
++bool msm_dsi_phy_needs_hs_phy_sel(struct msm_dsi_phy *phy);
++void msm_dsi_phy_set_continuous_clock(struct msm_dsi_phy *phy, bool enable);
+ 
+ #endif /* __DSI_CONNECTOR_H__ */
+ 
+diff --git a/drivers/gpu/drm/msm/dsi/dsi.xml.h b/drivers/gpu/drm/msm/dsi/dsi.xml.h
+index 50eb4d1b8fdd..b1b668ff7e10 100644
+--- a/drivers/gpu/drm/msm/dsi/dsi.xml.h
++++ b/drivers/gpu/drm/msm/dsi/dsi.xml.h
+@@ -511,6 +511,7 @@ static inline uint32_t DSI_CLKOUT_TIMING_CTRL_T_CLK_POST(uint32_t val)
+ 
+ #define REG_DSI_LANE_CTRL					0x000000a8
+ #define DSI_LANE_CTRL_CLKLN_HS_FORCE_REQUEST			0x10000000
++#define DSI_LANE_CTRL_HS_REQ_SEL_PHY				0x01000000
+ 
+ #define REG_DSI_LANE_SWAP_CTRL					0x000000ac
+ #define DSI_LANE_SWAP_CTRL_DLN_SWAP_SEL__MASK			0x00000007
+diff --git a/drivers/gpu/drm/msm/dsi/dsi_host.c b/drivers/gpu/drm/msm/dsi/dsi_host.c
+index 41e1d0f7ab6e..4507c16c9385 100644
+--- a/drivers/gpu/drm/msm/dsi/dsi_host.c
++++ b/drivers/gpu/drm/msm/dsi/dsi_host.c
+@@ -835,7 +835,7 @@ static inline enum dsi_cmd_dst_format dsi_get_cmd_fmt(
+ }
+ 
+ static void dsi_ctrl_config(struct msm_dsi_host *msm_host, bool enable,
+-			struct msm_dsi_phy_shared_timings *phy_shared_timings)
++			struct msm_dsi_phy_shared_timings *phy_shared_timings, struct msm_dsi_phy *phy)
+ {
+ 	u32 flags = msm_host->mode_flags;
+ 	enum mipi_dsi_pixel_format mipi_fmt = msm_host->format;
+@@ -930,8 +930,12 @@ static void dsi_ctrl_config(struct msm_dsi_host *msm_host, bool enable,
+ 
+ 	if (!(flags & MIPI_DSI_CLOCK_NON_CONTINUOUS)) {
+ 		lane_ctrl = dsi_read(msm_host, REG_DSI_LANE_CTRL);
++		if (msm_dsi_phy_needs_hs_phy_sel(phy))
++			lane_ctrl |= DSI_LANE_CTRL_HS_REQ_SEL_PHY;
+ 		dsi_write(msm_host, REG_DSI_LANE_CTRL,
+ 			lane_ctrl | DSI_LANE_CTRL_CLKLN_HS_FORCE_REQUEST);
++		if (msm_dsi_phy_needs_hs_phy_sel(phy))
++			msm_dsi_phy_set_continuous_clock(phy, enable);
+ 	}
+ 
+ 	data |= DSI_CTRL_ENABLE;
+@@ -2360,7 +2364,7 @@ static void msm_dsi_sfpb_config(struct msm_dsi_host *msm_host, bool enable)
+ 
+ int msm_dsi_host_power_on(struct mipi_dsi_host *host,
+ 			struct msm_dsi_phy_shared_timings *phy_shared_timings,
+-			bool is_dual_dsi)
++			bool is_dual_dsi, struct msm_dsi_phy *phy)
+ {
+ 	struct msm_dsi_host *msm_host = to_msm_dsi_host(host);
+ 	const struct msm_dsi_cfg_handler *cfg_hnd = msm_host->cfg_hnd;
+@@ -2400,7 +2404,7 @@ int msm_dsi_host_power_on(struct mipi_dsi_host *host,
+ 
+ 	dsi_timing_setup(msm_host, is_dual_dsi);
+ 	dsi_sw_reset(msm_host);
+-	dsi_ctrl_config(msm_host, true, phy_shared_timings);
++	dsi_ctrl_config(msm_host, true, phy_shared_timings, phy);
+ 
+ 	if (msm_host->disp_en_gpio)
+ 		gpiod_set_value(msm_host->disp_en_gpio, 1);
+@@ -2431,7 +2435,7 @@ int msm_dsi_host_power_off(struct mipi_dsi_host *host)
+ 		goto unlock_ret;
+ 	}
+ 
+-	dsi_ctrl_config(msm_host, false, NULL);
++	dsi_ctrl_config(msm_host, false, NULL, NULL);
+ 
+ 	if (msm_host->disp_en_gpio)
+ 		gpiod_set_value(msm_host->disp_en_gpio, 0);
+diff --git a/drivers/gpu/drm/msm/dsi/dsi_manager.c b/drivers/gpu/drm/msm/dsi/dsi_manager.c
+index e138a0c16085..082a20565886 100644
+--- a/drivers/gpu/drm/msm/dsi/dsi_manager.c
++++ b/drivers/gpu/drm/msm/dsi/dsi_manager.c
+@@ -382,7 +382,7 @@ static void dsi_mgr_bridge_pre_enable(struct drm_bridge *bridge)
+ 	if (is_dual_dsi && !IS_MASTER_DSI_LINK(id))
+ 		return;
+ 
+-	ret = msm_dsi_host_power_on(host, &phy_shared_timings[id], is_dual_dsi);
++	ret = msm_dsi_host_power_on(host, &phy_shared_timings[id], is_dual_dsi, msm_dsi->phy);
+ 	if (ret) {
+ 		pr_err("%s: power on host %d failed, %d\n", __func__, id, ret);
+ 		goto host_on_fail;
+@@ -390,7 +390,7 @@ static void dsi_mgr_bridge_pre_enable(struct drm_bridge *bridge)
+ 
+ 	if (is_dual_dsi && msm_dsi1) {
+ 		ret = msm_dsi_host_power_on(msm_dsi1->host,
+-				&phy_shared_timings[DSI_1], is_dual_dsi);
++				&phy_shared_timings[DSI_1], is_dual_dsi, msm_dsi->phy);
+ 		if (ret) {
+ 			pr_err("%s: power on host1 failed, %d\n",
+ 							__func__, ret);
+diff --git a/drivers/gpu/drm/msm/dsi/phy/dsi_phy.c b/drivers/gpu/drm/msm/dsi/phy/dsi_phy.c
+index ccbd19f7d9cf..c2c7a46463ac 100644
+--- a/drivers/gpu/drm/msm/dsi/phy/dsi_phy.c
++++ b/drivers/gpu/drm/msm/dsi/phy/dsi_phy.c
+@@ -851,6 +851,21 @@ void msm_dsi_phy_set_usecase(struct msm_dsi_phy *phy,
+ 		phy->usecase = uc;
+ }
+ 
++bool msm_dsi_phy_needs_hs_phy_sel(struct msm_dsi_phy *phy)
++{
++	if (!phy)
++		return false;
++	return phy->cfg->needs_continuous_clock;
++}
++
++void msm_dsi_phy_set_continuous_clock(struct msm_dsi_phy *phy, bool enable)
++{
++	if (!phy || !phy->cfg->ops.set_continuous_clock)
++		return;
++
++	phy->cfg->ops.set_continuous_clock(phy, enable);
++}
++
+ int msm_dsi_phy_get_clk_provider(struct msm_dsi_phy *phy,
+ 	struct clk **byte_clk_provider, struct clk **pixel_clk_provider)
+ {
+diff --git a/drivers/gpu/drm/msm/dsi/phy/dsi_phy.h b/drivers/gpu/drm/msm/dsi/phy/dsi_phy.h
+index 94a77ac364d3..16d974f4d536 100644
+--- a/drivers/gpu/drm/msm/dsi/phy/dsi_phy.h
++++ b/drivers/gpu/drm/msm/dsi/phy/dsi_phy.h
+@@ -24,6 +24,7 @@ struct msm_dsi_phy_ops {
+ 	void (*disable)(struct msm_dsi_phy *phy);
+ 	void (*save_pll_state)(struct msm_dsi_phy *phy);
+ 	int (*restore_pll_state)(struct msm_dsi_phy *phy);
++	void (*set_continuous_clock)(struct msm_dsi_phy *phy, bool enable);
+ };
+ 
+ struct msm_dsi_phy_cfg {
+@@ -38,6 +39,7 @@ struct msm_dsi_phy_cfg {
+ 	const int quirks;
+ 	bool has_phy_regulator;
+ 	bool has_phy_lane;
++	bool needs_continuous_clock;
+ };
+ 
+ extern const struct msm_dsi_phy_cfg dsi_phy_28nm_hpm_cfgs;
+diff --git a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c
+index e76ce40a12ab..771fb31eb607 100644
+--- a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c
++++ b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c
+@@ -930,6 +930,19 @@ static int dsi_7nm_phy_enable(struct msm_dsi_phy *phy,
+ 	return 0;
+ }
+ 
++static void dsi_7nm_set_continuous_clock(struct msm_dsi_phy *phy, bool enable)
++{
++	void __iomem *base = phy->base;
++	u32 data;
++
++	data = dsi_phy_read(base + REG_DSI_7nm_PHY_CMN_LANE_CTRL1);
++	if (enable)
++		data |= BIT(5) | BIT(6);
++	else
++		data &= ~(BIT(5) | BIT(6));
++	dsi_phy_write(base + REG_DSI_7nm_PHY_CMN_LANE_CTRL1, data);
++}
++
+ static void dsi_7nm_phy_disable(struct msm_dsi_phy *phy)
+ {
+ 	void __iomem *base = phy->base;
+@@ -970,12 +983,14 @@ const struct msm_dsi_phy_cfg dsi_phy_7nm_cfgs = {
+ 		.pll_init = dsi_pll_7nm_init,
+ 		.save_pll_state = dsi_7nm_pll_save_state,
+ 		.restore_pll_state = dsi_7nm_pll_restore_state,
++		.set_continuous_clock = dsi_7nm_set_continuous_clock,
+ 	},
+ 	.min_pll_rate = 600000000UL,
+ 	.max_pll_rate = (5000000000ULL < ULONG_MAX) ? 5000000000ULL : ULONG_MAX,
+ 	.io_start = { 0xae94400, 0xae96400 },
+ 	.num_dsi_phy = 2,
+ 	.quirks = DSI_PHY_7NM_QUIRK_V4_1,
++	.needs_continuous_clock = true,
+ };
+ 
+ const struct msm_dsi_phy_cfg dsi_phy_7nm_8150_cfgs = {
+@@ -992,9 +1007,11 @@ const struct msm_dsi_phy_cfg dsi_phy_7nm_8150_cfgs = {
+ 		.pll_init = dsi_pll_7nm_init,
+ 		.save_pll_state = dsi_7nm_pll_save_state,
+ 		.restore_pll_state = dsi_7nm_pll_restore_state,
++		.set_continuous_clock = dsi_7nm_set_continuous_clock,
+ 	},
+ 	.min_pll_rate = 1000000000UL,
+ 	.max_pll_rate = 3500000000UL,
+ 	.io_start = { 0xae94400, 0xae96400 },
+ 	.num_dsi_phy = 2,
++	.needs_continuous_clock = true,
+ };
 -- 
-Peter Xu
+2.30.2
 
