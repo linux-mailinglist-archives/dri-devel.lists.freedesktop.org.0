@@ -1,59 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26B173985F7
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Jun 2021 12:09:31 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BCB963985F9
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Jun 2021 12:09:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2D2206EC27;
-	Wed,  2 Jun 2021 10:09:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7B6A36EC3E;
+	Wed,  2 Jun 2021 10:09:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com
- [IPv6:2a00:1450:4864:20::629])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 05CEE6EC3D
+Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com
+ [IPv6:2a00:1450:4864:20::536])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9B64B6EC27
  for <dri-devel@lists.freedesktop.org>; Wed,  2 Jun 2021 10:09:22 +0000 (UTC)
-Received: by mail-ej1-x629.google.com with SMTP id jt22so3003963ejb.7
- for <dri-devel@lists.freedesktop.org>; Wed, 02 Jun 2021 03:09:21 -0700 (PDT)
+Received: by mail-ed1-x536.google.com with SMTP id i13so2210940edb.9
+ for <dri-devel@lists.freedesktop.org>; Wed, 02 Jun 2021 03:09:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=jnQq72+JO1BIyLYzEE5E18Rg96h+FVtRl0xhLQBiCDc=;
- b=WkvMcftqM13OV2CMSEA5HmzJk9Se1oY+o7E9dMB3LuEFgizw0OQG3f9JD1RkdlX2TM
- WXLbVBknzGK4o0VuAq02893ENH7Ezmrw9msboItNyChLu8JI44xqd9o6yhezv3n9R/yJ
- 3mHvA1+80IET/QtZV4DF/aoTxNqLeeSvTbX77hU8jWzjxlkrJkEKdP0tOynCR9TkrKEh
- XjCgyy3J541QCT2W5QNszS/edCfCxttvSnOJAC+lAe7WN//K19ATt6L7d6BQqhiWXEHF
- jR8p000giA977X5I09Pt9MKSMfFj1hGjcrgWs2Xydw2aWS3aoVg+whuKTk3/ANTHuy8O
- zTrw==
+ bh=9kVpvVLyhwVbnqliyoxOgazgDOeFeOyUUOa+njvh4HA=;
+ b=B3b2Wvlr7r/n6Vgx4FeCwpgVn0ULdLOt07Zdxy0wBDCO1d5KeC4V7eo3cv0W7JQgTN
+ 1CikM/Qf28nvqJMYX4VXC3pfMf91BsGb+ol5b+4d/5uNg0YDKzwrxaRTwiut/BnS4mfF
+ voyxL/5JkIuHgoOK3O3c5V4+B+YPKfv2Rw1NzHmjimsybQdVWELoYMOLwV4dFjkN23PD
+ YU3CVHCTA5LNLyej3viiEoobyR3CAe0okcO4H4iSoboAiIYAbOpJ8m+2IjDChlrhMcR+
+ 0iof+Tin5n9pXZvkWnfNSjJO9l3TqFfVjJ2Dy+LQr/lQuXP8UIIQ7Va8hg0jw/zlI/rl
+ I+sg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=jnQq72+JO1BIyLYzEE5E18Rg96h+FVtRl0xhLQBiCDc=;
- b=TPFqEXO6C1GC6krbNQtg70Q9SM9FHg5ZDSpj4jeTw/6VRmaCKOz8GqC2OZ+Oqkftew
- cYx2GKLrVABHe1jx+37gNMLuNNDPsd7dwMhSj/CdcP3fk9Htln72At/K0bBmr4k1+S4o
- MCvwJNzuXYGOCfdlPR2//iCsSlZEefsmPZZkEtmEdgMK+bgnAtd3NkoDvNCRzZhoLILV
- 1SetlEtL2XiW6mfXkbID61YCnRy+Zv9+KmUKXAzGHLLi2swl940b9E3R+QAQOx7LKbi7
- K/rO2Qr2394cIfjbR+o9US7QUfgq0K9i6pyoc+7gutT70mGQz5LDvS2+u7IT9TmccNMz
- P0Ew==
-X-Gm-Message-State: AOAM530RPKu0/huHCk1WX3Fg8rwbXmOaMG6ZSuSwYh4DOFm5ySFLbPV1
- 1akINyWAsoB/a784OaMBPE4=
-X-Google-Smtp-Source: ABdhPJwlHd2V44B0EZjQicfidyv0jmgQOZi9vfnxsVhw56As29ds40c+crtQ8z38CujD79s7s0HsZg==
-X-Received: by 2002:a17:906:b2c1:: with SMTP id
- cf1mr33064776ejb.544.1622628560684; 
- Wed, 02 Jun 2021 03:09:20 -0700 (PDT)
+ bh=9kVpvVLyhwVbnqliyoxOgazgDOeFeOyUUOa+njvh4HA=;
+ b=Cj7LSGsOtpE340rw8WbehlVuD0CNaD8Zu2yM8NkRWr8fxPbI2NEYxs4BmfI5y9byNV
+ L/tXLczx9l9yXl2EZKvKowjulgnf/m5UgEs57Kl31aU/eCJodbr/O3yes0WFCXtROYbZ
+ c3WahMXUotDvN52F+RZ1+xjNidXTyogLLc8vAz+plmTVL0xCepYERUgCuEu5VO72JyDa
+ RFxuP1dFdVYIbUGfTZZ2vTYjUrqDeT1MrCZNtXo6mv7/y+gxnjIJO160bwQPxc7f+fIP
+ nIc1l9eGqM10i9at7bVhXuRl40D2YssCfl8d165RK+IB9ffcshvU4BEOB8WPrEGzdGF2
+ 0apA==
+X-Gm-Message-State: AOAM531bNHRiO7kH05lwf95dV2PoaWxvcbVVidjPQmnpc9CNmqGW4d6V
+ Z4iGauKKpsGUb4RWmcfhdmE=
+X-Google-Smtp-Source: ABdhPJx126uJ08+1SYtSC6pGB1P7Yn1iK1kvhBgI8awa4I+Elb5bNhiGpFTbHgiJCoSOAIf7Eg6DZQ==
+X-Received: by 2002:a05:6402:1d8e:: with SMTP id
+ dk14mr38050018edb.385.1622628561409; 
+ Wed, 02 Jun 2021 03:09:21 -0700 (PDT)
 Received: from abel.fritz.box ([2a02:908:1252:fb60:e6a4:731d:6be0:e698])
  by smtp.gmail.com with ESMTPSA id g4sm1017468edw.8.2021.06.02.03.09.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 02 Jun 2021 03:09:20 -0700 (PDT)
+ Wed, 02 Jun 2021 03:09:21 -0700 (PDT)
 From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
 X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
  <christian.koenig@amd.com>
 To: matthew.auld@intel.com, thomas_os@shipmail.org,
  dri-devel@lists.freedesktop.org
-Subject: [PATCH 08/10] drm/nouveau: switch the TTM backends to self alloc
-Date: Wed,  2 Jun 2021 12:09:12 +0200
-Message-Id: <20210602100914.46246-8-christian.koenig@amd.com>
+Subject: [PATCH 09/10] drm/vmwgfx: switch the TTM backends to self alloc
+Date: Wed,  2 Jun 2021 12:09:13 +0200
+Message-Id: <20210602100914.46246-9-christian.koenig@amd.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210602100914.46246-1-christian.koenig@amd.com>
 References: <20210602100914.46246-1-christian.koenig@amd.com>
@@ -80,51 +80,143 @@ Similar to the TTM range manager.
 Signed-off-by: Christian König <christian.koenig@amd.com>
 Reviewed-by: Matthew Auld <matthew.auld@intel.com>
 ---
- drivers/gpu/drm/nouveau/nouveau_mem.h | 1 +
- drivers/gpu/drm/nouveau/nouveau_ttm.c | 4 ++++
- 2 files changed, 5 insertions(+)
+ drivers/gpu/drm/vmwgfx/vmwgfx_gmrid_manager.c | 18 +++++----
+ drivers/gpu/drm/vmwgfx/vmwgfx_thp.c           | 37 ++++++++++---------
+ 2 files changed, 31 insertions(+), 24 deletions(-)
 
-diff --git a/drivers/gpu/drm/nouveau/nouveau_mem.h b/drivers/gpu/drm/nouveau/nouveau_mem.h
-index 7df3848e85aa..3a6a1be2ed52 100644
---- a/drivers/gpu/drm/nouveau/nouveau_mem.h
-+++ b/drivers/gpu/drm/nouveau/nouveau_mem.h
-@@ -13,6 +13,7 @@ nouveau_mem(struct ttm_resource *reg)
- }
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_gmrid_manager.c b/drivers/gpu/drm/vmwgfx/vmwgfx_gmrid_manager.c
+index 1774960d1b89..82a5e6489810 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_gmrid_manager.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_gmrid_manager.c
+@@ -57,6 +57,12 @@ static int vmw_gmrid_man_get_node(struct ttm_resource_manager *man,
+ 	struct vmwgfx_gmrid_man *gman = to_gmrid_manager(man);
+ 	int id;
  
- struct nouveau_mem {
-+	struct ttm_resource base;
- 	struct nouveau_cli *cli;
- 	u8 kind;
- 	u8 comp;
-diff --git a/drivers/gpu/drm/nouveau/nouveau_ttm.c b/drivers/gpu/drm/nouveau/nouveau_ttm.c
-index b08b8efeefba..1ac2417effc0 100644
---- a/drivers/gpu/drm/nouveau/nouveau_ttm.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_ttm.c
-@@ -58,6 +58,8 @@ nouveau_vram_manager_new(struct ttm_resource_manager *man,
- 	if (ret)
- 		return ret;
- 
-+	ttm_resource_init(bo, place, reg->mm_node);
++	mem->mm_node = kmalloc(sizeof(*mem), GFP_KERNEL);
++	if (!mem->mm_node)
++		return -ENOMEM;
 +
- 	ret = nouveau_mem_vram(reg, nvbo->contig, nvbo->page);
- 	if (ret) {
- 		nouveau_mem_del(reg);
-@@ -86,6 +88,7 @@ nouveau_gart_manager_new(struct ttm_resource_manager *man,
- 	if (ret)
- 		return ret;
++	ttm_resource_init(bo, place, mem->mm_node);
++
+ 	id = ida_alloc_max(&gman->gmr_ida, gman->max_gmr_ids - 1, GFP_KERNEL);
+ 	if (id < 0)
+ 		return id;
+@@ -87,13 +93,11 @@ static void vmw_gmrid_man_put_node(struct ttm_resource_manager *man,
+ {
+ 	struct vmwgfx_gmrid_man *gman = to_gmrid_manager(man);
  
-+	ttm_resource_init(bo, place, reg->mm_node);
- 	reg->start = 0;
- 	return 0;
+-	if (mem->mm_node) {
+-		ida_free(&gman->gmr_ida, mem->start);
+-		spin_lock(&gman->lock);
+-		gman->used_gmr_pages -= mem->num_pages;
+-		spin_unlock(&gman->lock);
+-		mem->mm_node = NULL;
+-	}
++	ida_free(&gman->gmr_ida, mem->start);
++	spin_lock(&gman->lock);
++	gman->used_gmr_pages -= mem->num_pages;
++	spin_unlock(&gman->lock);
++	kfree(mem->mm_node);
  }
-@@ -111,6 +114,7 @@ nv04_gart_manager_new(struct ttm_resource_manager *man,
- 	if (ret)
- 		return ret;
  
-+	ttm_resource_init(bo, place, reg->mm_node);
- 	ret = nvif_vmm_get(&mem->cli->vmm.vmm, PTES, false, 12, 0,
- 			   (long)reg->num_pages << PAGE_SHIFT, &mem->vma[0]);
- 	if (ret) {
+ static const struct ttm_resource_manager_func vmw_gmrid_manager_func;
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_thp.c b/drivers/gpu/drm/vmwgfx/vmwgfx_thp.c
+index 5ccc35b3194c..8765835696ac 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_thp.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_thp.c
+@@ -7,6 +7,7 @@
+ #include "vmwgfx_drv.h"
+ #include <drm/ttm/ttm_bo_driver.h>
+ #include <drm/ttm/ttm_placement.h>
++#include <drm/ttm/ttm_range_manager.h>
+ 
+ /**
+  * struct vmw_thp_manager - Range manager implementing huge page alignment
+@@ -54,16 +55,18 @@ static int vmw_thp_get_node(struct ttm_resource_manager *man,
+ {
+ 	struct vmw_thp_manager *rman = to_thp_manager(man);
+ 	struct drm_mm *mm = &rman->mm;
+-	struct drm_mm_node *node;
++	struct ttm_range_mgr_node *node;
+ 	unsigned long align_pages;
+ 	unsigned long lpfn;
+ 	enum drm_mm_insert_mode mode = DRM_MM_INSERT_BEST;
+ 	int ret;
+ 
+-	node = kzalloc(sizeof(*node), GFP_KERNEL);
++	node = kzalloc(struct_size(node, mm_nodes, 1), GFP_KERNEL);
+ 	if (!node)
+ 		return -ENOMEM;
+ 
++	ttm_resource_init(bo, place, &node->base);
++
+ 	lpfn = place->lpfn;
+ 	if (!lpfn)
+ 		lpfn = man->size;
+@@ -76,8 +79,9 @@ static int vmw_thp_get_node(struct ttm_resource_manager *man,
+ 	if (IS_ENABLED(CONFIG_HAVE_ARCH_TRANSPARENT_HUGEPAGE_PUD)) {
+ 		align_pages = (HPAGE_PUD_SIZE >> PAGE_SHIFT);
+ 		if (mem->num_pages >= align_pages) {
+-			ret = vmw_thp_insert_aligned(bo, mm, node, align_pages,
+-						     place, mem, lpfn, mode);
++			ret = vmw_thp_insert_aligned(bo, mm, &node->mm_nodes[0],
++						     align_pages, place, mem,
++						     lpfn, mode);
+ 			if (!ret)
+ 				goto found_unlock;
+ 		}
+@@ -85,14 +89,15 @@ static int vmw_thp_get_node(struct ttm_resource_manager *man,
+ 
+ 	align_pages = (HPAGE_PMD_SIZE >> PAGE_SHIFT);
+ 	if (mem->num_pages >= align_pages) {
+-		ret = vmw_thp_insert_aligned(bo, mm, node, align_pages, place,
+-					     mem, lpfn, mode);
++		ret = vmw_thp_insert_aligned(bo, mm, &node->mm_nodes[0],
++					     align_pages, place, mem, lpfn,
++					     mode);
+ 		if (!ret)
+ 			goto found_unlock;
+ 	}
+ 
+-	ret = drm_mm_insert_node_in_range(mm, node, mem->num_pages,
+-					  bo->page_alignment, 0,
++	ret = drm_mm_insert_node_in_range(mm, &node->mm_nodes[0],
++					  mem->num_pages, bo->page_alignment, 0,
+ 					  place->fpfn, lpfn, mode);
+ found_unlock:
+ 	spin_unlock(&rman->lock);
+@@ -100,8 +105,8 @@ static int vmw_thp_get_node(struct ttm_resource_manager *man,
+ 	if (unlikely(ret)) {
+ 		kfree(node);
+ 	} else {
+-		mem->mm_node = node;
+-		mem->start = node->start;
++		mem->mm_node = &node->mm_nodes[0];
++		mem->start = node->mm_nodes[0].start;
+ 	}
+ 
+ 	return ret;
+@@ -113,15 +118,13 @@ static void vmw_thp_put_node(struct ttm_resource_manager *man,
+ 			     struct ttm_resource *mem)
+ {
+ 	struct vmw_thp_manager *rman = to_thp_manager(man);
++	struct ttm_range_mgr_node * node = mem->mm_node;
+ 
+-	if (mem->mm_node) {
+-		spin_lock(&rman->lock);
+-		drm_mm_remove_node(mem->mm_node);
+-		spin_unlock(&rman->lock);
++	spin_lock(&rman->lock);
++	drm_mm_remove_node(&node->mm_nodes[0]);
++	spin_unlock(&rman->lock);
+ 
+-		kfree(mem->mm_node);
+-		mem->mm_node = NULL;
+-	}
++	kfree(node);
+ }
+ 
+ int vmw_thp_init(struct vmw_private *dev_priv)
 -- 
 2.25.1
 
