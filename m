@@ -2,52 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 295FC3983D8
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Jun 2021 10:09:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB99539840E
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Jun 2021 10:27:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B351D6EB79;
-	Wed,  2 Jun 2021 08:09:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1B6956E372;
+	Wed,  2 Jun 2021 08:26:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from netline-mail3.netline.ch (mail.netline.ch [148.251.143.180])
- by gabe.freedesktop.org (Postfix) with ESMTP id 67D656EB75;
- Wed,  2 Jun 2021 08:09:05 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by netline-mail3.netline.ch (Postfix) with ESMTP id 60E4C20201C;
- Wed,  2 Jun 2021 10:09:04 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at netline-mail3.netline.ch
-Received: from netline-mail3.netline.ch ([127.0.0.1])
- by localhost (netline-mail3.netline.ch [127.0.0.1]) (amavisd-new, port 10024)
- with LMTP id Fmj8wpSck2lY; Wed,  2 Jun 2021 10:09:04 +0200 (CEST)
-Received: from thor (24.99.2.85.dynamic.wline.res.cust.swisscom.ch
- [85.2.99.24])
- by netline-mail3.netline.ch (Postfix) with ESMTPA id E0D0220201A;
- Wed,  2 Jun 2021 10:09:03 +0200 (CEST)
-Received: from [::1] by thor with esmtp (Exim 4.94.2)
- (envelope-from <michel@daenzer.net>)
- id 1loLvy-001wmH-1G; Wed, 02 Jun 2021 10:09:02 +0200
-From: =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel@daenzer.net>
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
- =?UTF-8?B?TWFyZWsgT2zFocOhaw==?= <maraeo@gmail.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- ML Mesa-dev <mesa-dev@lists.freedesktop.org>,
- Alex Deucher <alexdeucher@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Dave Airlie <airlied@gmail.com>, Jason Ekstrand <jason@jlekstrand.net>,
- Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>
-References: <CAAxE2A4XS2mCXOdvxm1ZAhG2OY9w1P0X2E1ac1TXNFKDekog5g@mail.gmail.com>
- <e7cb9833-1044-0426-5ce4-5b5fc32a3603@daenzer.net>
- <327e4008-b29f-f5b7-bb30-532fa52c797f@gmail.com>
- <7f19e3c7-b6b2-5200-95eb-3fed8d22a6b3@daenzer.net>
-Subject: Re: Linux Graphics Next: Userspace submission update
-Message-ID: <bfb76361-c06e-71c5-6c6e-4d65373e58a1@daenzer.net>
-Date: Wed, 2 Jun 2021 10:09:01 +0200
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D614A6E372;
+ Wed,  2 Jun 2021 08:26:56 +0000 (UTC)
+IronPort-SDR: 4GPXkZWuhVtiTcRKED4doO3wQc1Qw8gDLsUMlI96hhsu9wQfJDGGE/zNytm1XP3n9Lr74AgVqn
+ 5DzPp7ElHTLg==
+X-IronPort-AV: E=McAfee;i="6200,9189,10002"; a="264916906"
+X-IronPort-AV: E=Sophos;i="5.83,241,1616482800"; d="scan'208";a="264916906"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Jun 2021 01:26:55 -0700
+IronPort-SDR: BC9wJka3Zyj+6dx+zjZsqHYQ49i5zviK0DxMAE3zf7vjuTTtlroFpQkShwq9LxCaGywLG3jg78
+ 2+Czmwevnb3Q==
+X-IronPort-AV: E=Sophos;i="5.83,241,1616482800"; d="scan'208";a="635787562"
+Received: from lmarkel-mobl1.ger.corp.intel.com (HELO [10.249.254.49])
+ ([10.249.254.49])
+ by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Jun 2021 01:26:53 -0700
+To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>
+From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>
+Subject: Merging TTM branches through the Intel tree?
+Message-ID: <a29eaef9-2457-1393-6757-40956811daf8@linux.intel.com>
+Date: Wed, 2 Jun 2021 10:26:50 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.0
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-In-Reply-To: <7f19e3c7-b6b2-5200-95eb-3fed8d22a6b3@daenzer.net>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-CA
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,19 +51,14 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Matthew Auld <matthew.auld@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2021-06-01 12:49 p.m., Michel Dänzer wrote:
-> On 2021-06-01 12:21 p.m., Christian König wrote:
-> 
->> Another question is if that is sufficient as security for the display server or if we need further handling down the road? I mean essentially we are moving the reliability problem into the display server.
-> 
-> Good question. This should generally protect the display server from freezing due to client fences never signalling, but there might still be corner cases.
+Christian, Are you OK with merging the TTM brances from the i915 TTM 
+enablement series through the intel tree?
 
-E.g. a client might be able to sneak in a fence between when the compositor checks fences and when it submits its drawing to the kernel.
+Thanks,
+Thomas
 
 
--- 
-Earthling Michel Dänzer               |               https://redhat.com
-Libre software enthusiast             |             Mesa and X developer
