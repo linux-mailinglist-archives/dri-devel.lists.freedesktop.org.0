@@ -2,47 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21BC339890C
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Jun 2021 14:09:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 23973398912
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Jun 2021 14:11:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E6EB76EC64;
-	Wed,  2 Jun 2021 12:09:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 840D86E3EE;
+	Wed,  2 Jun 2021 12:11:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5D5986E3EE;
- Wed,  2 Jun 2021 12:09:12 +0000 (UTC)
-IronPort-SDR: IMqWuTS4YkeWK98DA3obk14jnKVq9cFg7DRexD2kT/tuRMvbxLovauq0TVXwHlJ8QwlqXw3UcB
- 2xw8ObJa5D/g==
-X-IronPort-AV: E=McAfee;i="6200,9189,10002"; a="264952349"
-X-IronPort-AV: E=Sophos;i="5.83,242,1616482800"; d="scan'208";a="264952349"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Jun 2021 05:09:09 -0700
-IronPort-SDR: U07W7piHukoa5Z60+vZwWR3F+u77IvBXNdR5nznL7HortkeJprIKl4KAQHJL6MGRX0JWP5Crv3
- wBvSnmZNPyow==
-X-IronPort-AV: E=Sophos;i="5.83,242,1616482800"; d="scan'208";a="447379681"
-Received: from tstaplex-mobl1.ger.corp.intel.com (HELO [10.213.195.193])
- ([10.213.195.193])
- by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Jun 2021 05:09:07 -0700
-Subject: Re: [Intel-gfx] [RFC PATCH 60/97] drm/i915: Track 'serial' counts for
- virtual engines
-To: Matthew Brost <matthew.brost@intel.com>, intel-gfx@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org
-References: <20210506191451.77768-1-matthew.brost@intel.com>
- <20210506191451.77768-61-matthew.brost@intel.com>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-Message-ID: <d405fb3d-0c78-f56a-e60e-26583fce4ea0@linux.intel.com>
-Date: Wed, 2 Jun 2021 13:09:05 +0100
+Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com
+ [IPv6:2a00:1450:4864:20::636])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DB8B06E3EE
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Jun 2021 12:11:50 +0000 (UTC)
+Received: by mail-ej1-x636.google.com with SMTP id k7so3443880ejv.12
+ for <dri-devel@lists.freedesktop.org>; Wed, 02 Jun 2021 05:11:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=subject:to:references:from:message-id:date:user-agent:mime-version
+ :in-reply-to:content-transfer-encoding:content-language;
+ bh=tTp1g7mzJCZvO8mc+gL6JvJp+VhaBMjn3b40DrShSN4=;
+ b=pmLOz4GiBWNNTgKO4LvLtL26cJeJl6nzzBv+sJSgU+CJtiwjxMw8glam2omqCzsEzl
+ 81bO+fdplznM+vZpmCDjeKBU/lMsinUdxLS4ABRYeZtjSc7D7vg5NIcT0j6z0U4q0/Gm
+ Jwvq9qv4A14HaKj3WDH3RXQrTI0JKoVx0D0PIVQ5tliQZYVl0/+3tD2ra9bqcrzYx47l
+ cIW7KFVWGsyy29qmA1bHtil4dJU2db/P1nAtuBHY/CXwWa9YyJXKA13S3jlnrDAXNBCa
+ eHs4E566pv46Kh0YrdmXbTBrXlmzC7Q3FwUYP7Wx6ibGpLqpS3M8f7JRm3t9xGloOggy
+ QLww==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-transfer-encoding
+ :content-language;
+ bh=tTp1g7mzJCZvO8mc+gL6JvJp+VhaBMjn3b40DrShSN4=;
+ b=LDPbWwPmjoNZyqpOqnHnUbOB0BhVamwQ1YkWBz9YOAZb+uMBnTJNx3UfdDPjBq0Aqf
+ gc+QArnV/pV3p6MLo+4uWonZl3qmpZ0wrk+pa2tNZ3Ib685ad3zmaps9qFJncmin8w9/
+ vqtwNPhcleW0nFEBNb1ei4WE7KQ7RweGg5CJlRBK96bNOvjV0R3/lLcGM0qTxD6OAW7J
+ xPok862mYPT9/vLZAtJJHoCTlmGtXgnvRqJkZ5NwDW60LJ4SqBylxr8RxgZZhPwfYDLl
+ gtuWAEhcCzU3MrdxseDH9iDFzvhka0hKe4iztsglcWOoWAgXquqyONrBNHnzuKb8VQh8
+ 77iA==
+X-Gm-Message-State: AOAM530wN5IJWd1r2LOwpspE9PseJ3c3EysW8VqQggy2MYpZD6pHVOCl
+ 0xybI9dA+t+38djrwSpZRh+AEDV1c3g=
+X-Google-Smtp-Source: ABdhPJyuvww6IRmZYXYO1JNwZAZrLzd7imjdlm/hYzxUXLr5UWwcB9075ekpGE72jN3CFG0MmB5tEA==
+X-Received: by 2002:a17:906:f0cd:: with SMTP id
+ dk13mr33944541ejb.11.1622635909421; 
+ Wed, 02 Jun 2021 05:11:49 -0700 (PDT)
+Received: from ?IPv6:2a02:908:1252:fb60:cd07:2759:3eec:1d00?
+ ([2a02:908:1252:fb60:cd07:2759:3eec:1d00])
+ by smtp.gmail.com with ESMTPSA id g11sm1238161edt.85.2021.06.02.05.11.48
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 02 Jun 2021 05:11:49 -0700 (PDT)
+Subject: Re: [PATCH 02/10] drm/ttm: flip over the range manager to self
+ allocated nodes
+To: =?UTF-8?Q?Thomas_Hellstr=c3=b6m_=28Intel=29?= <thomas_os@shipmail.org>,
+ matthew.auld@intel.com, dri-devel@lists.freedesktop.org
+References: <20210602100914.46246-1-christian.koenig@amd.com>
+ <20210602100914.46246-2-christian.koenig@amd.com>
+ <9b01d58f-6474-70de-4364-6adad59717a5@shipmail.org>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+Message-ID: <2354a311-c88f-04c5-0211-360c8116b811@gmail.com>
+Date: Wed, 2 Jun 2021 14:11:48 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <20210506191451.77768-61-matthew.brost@intel.com>
+In-Reply-To: <9b01d58f-6474-70de-4364-6adad59717a5@shipmail.org>
 Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,197 +77,169 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: jason.ekstrand@intel.com, daniel.vetter@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Am 02.06.21 um 13:44 schrieb Thomas Hellström (Intel):
+>
+> On 6/2/21 12:09 PM, Christian König wrote:
+>> Start with the range manager to make the resource object the base
+>> class for the allocated nodes.
+>>
+>> While at it cleanup a lot of the code around that.
+>>
+>> Signed-off-by: Christian König <christian.koenig@amd.com>
+>> Reviewed-by: Matthew Auld <matthew.auld@intel.com>
+>> ---
+>>   drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c |  1 +
+>>   drivers/gpu/drm/drm_gem_vram_helper.c   |  2 +
+>>   drivers/gpu/drm/nouveau/nouveau_ttm.c   |  2 +
+>>   drivers/gpu/drm/qxl/qxl_ttm.c           |  1 +
+>>   drivers/gpu/drm/radeon/radeon_ttm.c     |  1 +
+>>   drivers/gpu/drm/ttm/ttm_range_manager.c | 56 ++++++++++++++++++-------
+>>   drivers/gpu/drm/ttm/ttm_resource.c      | 26 ++++++++----
+>>   include/drm/ttm/ttm_bo_driver.h         | 26 ------------
+>>   include/drm/ttm/ttm_range_manager.h     | 43 +++++++++++++++++++
+>>   include/drm/ttm/ttm_resource.h          |  3 ++
+>>   10 files changed, 111 insertions(+), 50 deletions(-)
+>>   create mode 100644 include/drm/ttm/ttm_range_manager.h
+>>
+>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c 
+>> b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+>> index 69db89261650..df1f185faae9 100644
+>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+>> @@ -45,6 +45,7 @@
+>>   #include <drm/ttm/ttm_bo_api.h>
+>>   #include <drm/ttm/ttm_bo_driver.h>
+>>   #include <drm/ttm/ttm_placement.h>
+>> +#include <drm/ttm/ttm_range_manager.h>
+>>     #include <drm/amdgpu_drm.h>
+>>   diff --git a/drivers/gpu/drm/drm_gem_vram_helper.c 
+>> b/drivers/gpu/drm/drm_gem_vram_helper.c
+>> index 83e7258c7f90..17a4c5d47b6a 100644
+>> --- a/drivers/gpu/drm/drm_gem_vram_helper.c
+>> +++ b/drivers/gpu/drm/drm_gem_vram_helper.c
+>> @@ -17,6 +17,8 @@
+>>   #include <drm/drm_prime.h>
+>>   #include <drm/drm_simple_kms_helper.h>
+>>   +#include <drm/ttm/ttm_range_manager.h>
+>> +
+>>   static const struct drm_gem_object_funcs drm_gem_vram_object_funcs;
+>>     /**
+>> diff --git a/drivers/gpu/drm/nouveau/nouveau_ttm.c 
+>> b/drivers/gpu/drm/nouveau/nouveau_ttm.c
+>> index 65430912ff72..b08b8efeefba 100644
+>> --- a/drivers/gpu/drm/nouveau/nouveau_ttm.c
+>> +++ b/drivers/gpu/drm/nouveau/nouveau_ttm.c
+>> @@ -26,6 +26,8 @@
+>>   #include <linux/limits.h>
+>>   #include <linux/swiotlb.h>
+>>   +#include <drm/ttm/ttm_range_manager.h>
+>> +
+>>   #include "nouveau_drv.h"
+>>   #include "nouveau_gem.h"
+>>   #include "nouveau_mem.h"
+>> diff --git a/drivers/gpu/drm/qxl/qxl_ttm.c 
+>> b/drivers/gpu/drm/qxl/qxl_ttm.c
+>> index 8aa87b8edb9c..19fd39d9a00c 100644
+>> --- a/drivers/gpu/drm/qxl/qxl_ttm.c
+>> +++ b/drivers/gpu/drm/qxl/qxl_ttm.c
+>> @@ -32,6 +32,7 @@
+>>   #include <drm/ttm/ttm_bo_api.h>
+>>   #include <drm/ttm/ttm_bo_driver.h>
+>>   #include <drm/ttm/ttm_placement.h>
+>> +#include <drm/ttm/ttm_range_manager.h>
+>>     #include "qxl_drv.h"
+>>   #include "qxl_object.h"
+>> diff --git a/drivers/gpu/drm/radeon/radeon_ttm.c 
+>> b/drivers/gpu/drm/radeon/radeon_ttm.c
+>> index cdffa9b65108..ad2a5a791bba 100644
+>> --- a/drivers/gpu/drm/radeon/radeon_ttm.c
+>> +++ b/drivers/gpu/drm/radeon/radeon_ttm.c
+>> @@ -45,6 +45,7 @@
+>>   #include <drm/ttm/ttm_bo_api.h>
+>>   #include <drm/ttm/ttm_bo_driver.h>
+>>   #include <drm/ttm/ttm_placement.h>
+>> +#include <drm/ttm/ttm_range_manager.h>
+>>     #include "radeon_reg.h"
+>>   #include "radeon.h"
+>> diff --git a/drivers/gpu/drm/ttm/ttm_range_manager.c 
+>> b/drivers/gpu/drm/ttm/ttm_range_manager.c
+>> index b9d5da6e6a81..ce5d07ca384c 100644
+>> --- a/drivers/gpu/drm/ttm/ttm_range_manager.c
+>> +++ b/drivers/gpu/drm/ttm/ttm_range_manager.c
+>> @@ -29,12 +29,13 @@
+>>    * Authors: Thomas Hellstrom <thellstrom-at-vmware-dot-com>
+>>    */
+>>   -#include <drm/ttm/ttm_bo_driver.h>
+>> +#include <drm/ttm/ttm_device.h>
+>>   #include <drm/ttm/ttm_placement.h>
+>> +#include <drm/ttm/ttm_range_manager.h>
+>> +#include <drm/ttm/ttm_bo_api.h>
+>>   #include <drm/drm_mm.h>
+>>   #include <linux/slab.h>
+>>   #include <linux/spinlock.h>
+>> -#include <linux/module.h>
+>>     /*
+>>    * Currently we use a spinlock for the lock, but a mutex *may* be
+>> @@ -60,8 +61,8 @@ static int ttm_range_man_alloc(struct 
+>> ttm_resource_manager *man,
+>>                      struct ttm_resource *mem)
+>>   {
+>>       struct ttm_range_manager *rman = to_range_manager(man);
+>> +    struct ttm_range_mgr_node *node;
+>>       struct drm_mm *mm = &rman->mm;
+>> -    struct drm_mm_node *node;
+>>       enum drm_mm_insert_mode mode;
+>>       unsigned long lpfn;
+>>       int ret;
+>> @@ -70,7 +71,7 @@ static int ttm_range_man_alloc(struct 
+>> ttm_resource_manager *man,
+>>       if (!lpfn)
+>>           lpfn = man->size;
+>>   -    node = kzalloc(sizeof(*node), GFP_KERNEL);
+>> +    node = kzalloc(struct_size(node, mm_nodes, 1), GFP_KERNEL);
+>
+> I'm still a bit confused  about the situation where a driver wants to 
+> attach private data to a struct ttm_resource without having to 
+> re-implement its own range manager?
+>
+> Could be cached sg-tables, list of GPU bindings etc. Wouldn't work 
+> with the above unless we have a void *driver_private member on the 
+> struct ttm_resource. Is that the plan going forward here? Or that the 
+> driver actually does the re-implementation?
 
-On 06/05/2021 20:14, Matthew Brost wrote:
-> From: John Harrison <John.C.Harrison@Intel.com>
-> 
-> The serial number tracking of engines happens at the backend of
-> request submission and was expecting to only be given physical
-> engines. However, in GuC submission mode, the decomposition of virtual
-> to physical engines does not happen in i915. Instead, requests are
-> submitted to their virtual engine mask all the way through to the
-> hardware (i.e. to GuC). This would mean that the heart beat code
-> thinks the physical engines are idle due to the serial number not
-> incrementing.
-> 
-> This patch updates the tracking to decompose virtual engines into
-> their physical constituents and tracks the request against each. This
-> is not entirely accurate as the GuC will only be issuing the request
-> to one physical engine. However, it is the best that i915 can do given
-> that it has no knowledge of the GuC's scheduling decisions.
-> 
-> Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
-> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
-> ---
->   drivers/gpu/drm/i915/gt/intel_engine_types.h     |  2 ++
->   .../gpu/drm/i915/gt/intel_execlists_submission.c |  6 ++++++
->   drivers/gpu/drm/i915/gt/intel_ring_submission.c  |  6 ++++++
->   drivers/gpu/drm/i915/gt/mock_engine.c            |  6 ++++++
->   .../gpu/drm/i915/gt/uc/intel_guc_submission.c    | 16 ++++++++++++++++
->   drivers/gpu/drm/i915/i915_request.c              |  4 +++-
->   6 files changed, 39 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/gt/intel_engine_types.h b/drivers/gpu/drm/i915/gt/intel_engine_types.h
-> index 86302e6d86b2..e2b5cda6dbc4 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_engine_types.h
-> +++ b/drivers/gpu/drm/i915/gt/intel_engine_types.h
-> @@ -389,6 +389,8 @@ struct intel_engine_cs {
->   	void		(*park)(struct intel_engine_cs *engine);
->   	void		(*unpark)(struct intel_engine_cs *engine);
->   
-> +	void		(*bump_serial)(struct intel_engine_cs *engine);
-> +
->   	void		(*set_default_submission)(struct intel_engine_cs *engine);
->   
->   	const struct intel_context_ops *cops;
-> diff --git a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
-> index ae12d7f19ecd..02880ea5d693 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
-> +++ b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
-> @@ -3199,6 +3199,11 @@ static void execlists_release(struct intel_engine_cs *engine)
->   	lrc_fini_wa_ctx(engine);
->   }
->   
-> +static void execlist_bump_serial(struct intel_engine_cs *engine)
-> +{
-> +	engine->serial++;
-> +}
-> +
->   static void
->   logical_ring_default_vfuncs(struct intel_engine_cs *engine)
->   {
-> @@ -3208,6 +3213,7 @@ logical_ring_default_vfuncs(struct intel_engine_cs *engine)
->   
->   	engine->cops = &execlists_context_ops;
->   	engine->request_alloc = execlists_request_alloc;
-> +	engine->bump_serial = execlist_bump_serial;
->   
->   	engine->reset.prepare = execlists_reset_prepare;
->   	engine->reset.rewind = execlists_reset_rewind;
-> diff --git a/drivers/gpu/drm/i915/gt/intel_ring_submission.c b/drivers/gpu/drm/i915/gt/intel_ring_submission.c
-> index 14aa31879a37..39dd7c4ed0a9 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_ring_submission.c
-> +++ b/drivers/gpu/drm/i915/gt/intel_ring_submission.c
-> @@ -1045,6 +1045,11 @@ static void setup_irq(struct intel_engine_cs *engine)
->   	}
->   }
->   
-> +static void ring_bump_serial(struct intel_engine_cs *engine)
-> +{
-> +	engine->serial++;
-> +}
-> +
->   static void setup_common(struct intel_engine_cs *engine)
->   {
->   	struct drm_i915_private *i915 = engine->i915;
-> @@ -1064,6 +1069,7 @@ static void setup_common(struct intel_engine_cs *engine)
->   
->   	engine->cops = &ring_context_ops;
->   	engine->request_alloc = ring_request_alloc;
-> +	engine->bump_serial = ring_bump_serial;
->   
->   	/*
->   	 * Using a global execution timeline; the previous final breadcrumb is
-> diff --git a/drivers/gpu/drm/i915/gt/mock_engine.c b/drivers/gpu/drm/i915/gt/mock_engine.c
-> index bd005c1b6fd5..97b10fd60b55 100644
-> --- a/drivers/gpu/drm/i915/gt/mock_engine.c
-> +++ b/drivers/gpu/drm/i915/gt/mock_engine.c
-> @@ -292,6 +292,11 @@ static void mock_engine_release(struct intel_engine_cs *engine)
->   	intel_engine_fini_retire(engine);
->   }
->   
-> +static void mock_bump_serial(struct intel_engine_cs *engine)
-> +{
-> +	engine->serial++;
-> +}
-> +
->   struct intel_engine_cs *mock_engine(struct drm_i915_private *i915,
->   				    const char *name,
->   				    int id)
-> @@ -318,6 +323,7 @@ struct intel_engine_cs *mock_engine(struct drm_i915_private *i915,
->   
->   	engine->base.cops = &mock_context_ops;
->   	engine->base.request_alloc = mock_request_alloc;
-> +	engine->base.bump_serial = mock_bump_serial;
->   	engine->base.emit_flush = mock_emit_flush;
->   	engine->base.emit_fini_breadcrumb = mock_emit_breadcrumb;
->   	engine->base.submit_request = mock_submit_request;
-> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> index dc79d287c50a..f0e5731bcef6 100644
-> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> @@ -1500,6 +1500,20 @@ static void guc_release(struct intel_engine_cs *engine)
->   	lrc_fini_wa_ctx(engine);
->   }
->   
-> +static void guc_bump_serial(struct intel_engine_cs *engine)
-> +{
-> +	engine->serial++;
-> +}
-> +
-> +static void virtual_guc_bump_serial(struct intel_engine_cs *engine)
-> +{
-> +	struct intel_engine_cs *e;
-> +	intel_engine_mask_t tmp, mask = engine->mask;
-> +
-> +	for_each_engine_masked(e, engine->gt, mask, tmp)
-> +		e->serial++;
-> +}
-> +
->   static void guc_default_vfuncs(struct intel_engine_cs *engine)
->   {
->   	/* Default vfuncs which can be overridden by each engine. */
-> @@ -1508,6 +1522,7 @@ static void guc_default_vfuncs(struct intel_engine_cs *engine)
->   
->   	engine->cops = &guc_context_ops;
->   	engine->request_alloc = guc_request_alloc;
-> +	engine->bump_serial = guc_bump_serial;
->   
->   	engine->sched_engine->schedule = i915_schedule;
->   
-> @@ -1843,6 +1858,7 @@ guc_create_virtual(struct intel_engine_cs **siblings, unsigned int count)
->   
->   	ve->base.cops = &virtual_guc_context_ops;
->   	ve->base.request_alloc = guc_request_alloc;
-> +	ve->base.bump_serial = virtual_guc_bump_serial;
->   
->   	ve->base.submit_request = guc_submit_request;
->   
-> diff --git a/drivers/gpu/drm/i915/i915_request.c b/drivers/gpu/drm/i915/i915_request.c
-> index 9542a5baa45a..127d60b36422 100644
-> --- a/drivers/gpu/drm/i915/i915_request.c
-> +++ b/drivers/gpu/drm/i915/i915_request.c
-> @@ -692,7 +692,9 @@ bool __i915_request_submit(struct i915_request *request)
->   				     request->ring->vaddr + request->postfix);
->   
->   	trace_i915_request_execute(request);
-> -	engine->serial++;
-> +	if (engine->bump_serial)
-> +		engine->bump_serial(engine);
-> +
+I don't really understand your concern here. The basic idea is that 
+drivers use ttm_resource as a base class for their own implementation.
 
-As long as you have to handle null vfunc, you could make the patch way 
-smaller by doing:
+See for example how nouveau does that:
 
-   if (engine->bump_serial)
-	engine->bump_serial(engine);
-   else
-	engine->serial++;
+struct nouveau_mem {
+         struct ttm_resource base;
+         struct nouveau_cli *cli;
+         u8 kind;
+         u8 comp;
+         struct nvif_mem mem;
+         struct nvif_vma vma[2];
+};
 
-Added bonus you avoid a function call with execlists making the patch 
-not introduce a double penalty. Or just make bump_serial always point to 
-a valid/default function. No need for both a new branch *and* a function 
-call I think. I'd prefer the code snippet as above though.
+The range manager is helping driver specific resource managers which 
+want to implement something drm_mm_nodes based. E.g. amdgpu_gtt_mgr and 
+amdgpu_vram_mgr, but it can also be used stand alone.
+
+The ttm_range_mgr_node can then be used as base class for this 
+functionality. I already want to move some more code from 
+amdgpu_vram_mgr.c into the range manager, but that is just minor cleanup 
+work.
 
 Regards,
+Christian.
 
-Tvrtko
+>
+> Thanks,
+>
+> Thomas
+>
+>
 
->   	result = true;
->   
->   	GEM_BUG_ON(test_bit(I915_FENCE_FLAG_ACTIVE, &request->fence.flags));
-> 
