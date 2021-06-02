@@ -2,61 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD39939947C
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Jun 2021 22:22:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 50F02399480
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Jun 2021 22:22:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 750C96EE60;
-	Wed,  2 Jun 2021 20:22:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2AA186EE64;
+	Wed,  2 Jun 2021 20:22:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 727DA6EE60;
- Wed,  2 Jun 2021 20:22:39 +0000 (UTC)
-IronPort-SDR: +nxuYznuEh0ZPZaZiuwjDKkHKwZreUsa8CI6d91+awA3M/jcggtN6PTWbjq+am/gkZNQla9Lry
- 3Zwi3eJPk/dw==
-X-IronPort-AV: E=McAfee;i="6200,9189,10003"; a="225180308"
-X-IronPort-AV: E=Sophos;i="5.83,242,1616482800"; d="scan'208";a="225180308"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Jun 2021 13:22:37 -0700
-IronPort-SDR: qfIdZ5lxpMfzVDp7dQsS3lyxocIJUXRt+0ePcaQPX1S8keBS7xY3qRcTXtriuxkcgzqXIkpbZJ
- g6oY/045p8BA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.83,242,1616482800"; d="scan'208";a="400174838"
-Received: from fmsmsx605.amr.corp.intel.com ([10.18.126.85])
- by orsmga006.jf.intel.com with ESMTP; 02 Jun 2021 13:22:37 -0700
-Received: from bgsmsx606.gar.corp.intel.com (10.67.234.8) by
- fmsmsx605.amr.corp.intel.com (10.18.126.85) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.4; Wed, 2 Jun 2021 13:22:36 -0700
-Received: from bgsmsx604.gar.corp.intel.com (10.67.234.6) by
- BGSMSX606.gar.corp.intel.com (10.67.234.8) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.4; Thu, 3 Jun 2021 01:52:34 +0530
-Received: from bgsmsx604.gar.corp.intel.com ([10.67.234.6]) by
- BGSMSX604.gar.corp.intel.com ([10.67.234.6]) with mapi id 15.01.2242.008;
- Thu, 3 Jun 2021 01:52:33 +0530
-From: "Shankar, Uma" <uma.shankar@intel.com>
-To: Pekka Paalanen <ppaalanen@gmail.com>
-Subject: RE: [PATCH 00/21] Add Support for Plane Color Lut and CSC features
-Thread-Topic: [PATCH 00/21] Add Support for Plane Color Lut and CSC features
-Thread-Index: AQHXVs8fT5zmdeaE5UiCHnxqtZHD0qsAGZIAgAERuqA=
-Date: Wed, 2 Jun 2021 20:22:33 +0000
-Message-ID: <5a9a8c3ee8d54c3ca2ccaca4aa5ad1d9@intel.com>
-References: <20210601105218.29185-1-uma.shankar@intel.com>
- <20210602122850.29412a29@eldfell>
-In-Reply-To: <20210602122850.29412a29@eldfell>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-product: dlpe-windows
-dlp-reaction: no-action
-dlp-version: 11.5.1.3
-x-originating-ip: [10.223.10.1]
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+Received: from mail-yb1-xb2d.google.com (mail-yb1-xb2d.google.com
+ [IPv6:2607:f8b0:4864:20::b2d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 118666EE75
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Jun 2021 20:22:52 +0000 (UTC)
+Received: by mail-yb1-xb2d.google.com with SMTP id n133so5598423ybf.6
+ for <dri-devel@lists.freedesktop.org>; Wed, 02 Jun 2021 13:22:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=jlekstrand-net.20150623.gappssmtp.com; s=20150623;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=I0I9U+wng/m5Ohb4jhB0kRxv+JanGj3Wf3cxblry0nQ=;
+ b=vNARSVm3ZWTKxPSoGoHeMsRTfozNRfsa/uDgp1QLYub5tJ73Il/L7doyZ8s7CsAkCx
+ erFtczZCobyh6TKUvC5jKUbzgarJOmFWJcSigJ85qpNiOFqW1reOLtKGNVQlDOrnhTkD
+ Dn3hVzGNLWyzKNu77225MKlnRS2s1O/97Ncf9E/cOVby00LNBxjedIg1EibvsZ1L59GZ
+ RBoJh2U+rdCNLWSVwRipWiZalskfij388wLudbx/gZmiBGhgVySTLm+QXGJ6/Ik8Jnob
+ rFB8UFydPdjjq39I1mDNF+vGqJWAqOfi6aagUDj7w9wnL0Os3JgGd6w6XoA2xfkcDmCF
+ yGRg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=I0I9U+wng/m5Ohb4jhB0kRxv+JanGj3Wf3cxblry0nQ=;
+ b=GOepn7PB+R5c0Oi4LexIn0StdpC3MR8fyT6lc8giSTjV27Zob8wXN7uEkJCmJLpYRg
+ 0FX89XIk8p/MYa5i9lztKKXYuYXBEEpGw4jRfUwk23SdeU/m+PQV102skFeGh8384FVQ
+ IbZaf1cL8SAwgHvKQxUmsK5hetEV+BhQt7X8pmy41ZBGLEzuuQ5atiLwmZziJSlOu55o
+ cpdVaGbTviL+RK+EWQ/087tMqHlnNmt6fOwUiaqAByLmhBrjw/K11HyDe+udg3aLlQgr
+ jXJuwDEZDuRsD6v/U+blQ7OzbGlAjwYrtvwjNk3dD6RIkuzTI/zHtlEtFKcQLkLn0E+L
+ 6EcA==
+X-Gm-Message-State: AOAM533XjKIJfpUJP0Hq2t3RunCcg+dXxGD/t6ocjqsDmgSt0GsvMsH4
+ glBWPXPaViCOsijUIxAPycoP5cOixh0cy6BCLQoHWA==
+X-Google-Smtp-Source: ABdhPJzt18+0E9ceX8KZYlthSfNNB0JBSD1DrJCjQd/FueL3YDl74dJP51Bp46ngU7NetLNVFod7ftO3dv6oNDmpdZ4=
+X-Received: by 2002:a25:8804:: with SMTP id c4mr49859931ybl.469.1622665371052; 
+ Wed, 02 Jun 2021 13:22:51 -0700 (PDT)
 MIME-Version: 1.0
+References: <20210602111714.212426-1-christian.koenig@amd.com>
+ <20210602111714.212426-5-christian.koenig@amd.com>
+In-Reply-To: <20210602111714.212426-5-christian.koenig@amd.com>
+From: Jason Ekstrand <jason@jlekstrand.net>
+Date: Wed, 2 Jun 2021 15:22:39 -0500
+Message-ID: <CAOFGe96ZUA6JM5oJF4p6B6XB6=xyjPg13wv8X4qkAAvJUCXNbg@mail.gmail.com>
+Subject: Re: [PATCH 5/7] dma-buf: rename and cleanup dma_resv_get_list
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,203 +65,392 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, "Modem, 
- Bhanuprakash" <bhanuprakash.modem@intel.com>
+Cc: Maling list - DRI developers <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Wed, Jun 2, 2021 at 6:17 AM Christian K=C3=B6nig
+<ckoenig.leichtzumerken@gmail.com> wrote:
+>
+> When the comment needs to state explicitly that this is doesn't get a ref=
+erence
+> to the object then the function is named rather badly.
+>
+> Rename the function and use it in even more places.
+>
+> Signed-off-by: Christian K=C3=B6nig <christian.koenig@amd.com>
+> ---
+>  drivers/dma-buf/dma-resv.c                    | 32 +++++++++----------
+>  .../gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c  |  2 +-
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c   |  2 +-
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_sync.c      |  2 +-
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c       |  2 +-
+>  drivers/gpu/drm/etnaviv/etnaviv_gem.c         |  2 +-
+>  drivers/gpu/drm/i915/gem/i915_gem_busy.c      |  2 +-
+>  drivers/gpu/drm/msm/msm_gem.c                 |  4 +--
+>  drivers/gpu/drm/nouveau/nouveau_fence.c       |  2 +-
+>  drivers/gpu/drm/qxl/qxl_debugfs.c             |  2 +-
+>  drivers/gpu/drm/radeon/radeon_sync.c          |  2 +-
+>  drivers/gpu/drm/ttm/ttm_bo.c                  |  2 +-
+>  include/linux/dma-resv.h                      | 25 +++++++--------
+>  13 files changed, 39 insertions(+), 42 deletions(-)
+>
+> diff --git a/drivers/dma-buf/dma-resv.c b/drivers/dma-buf/dma-resv.c
+> index 81b032b43457..b1a1a31dc009 100644
+> --- a/drivers/dma-buf/dma-resv.c
+> +++ b/drivers/dma-buf/dma-resv.c
+> @@ -149,8 +149,7 @@ int dma_resv_reserve_shared(struct dma_resv *obj, uns=
+igned int num_fences)
+>
+>         dma_resv_assert_held(obj);
+>
+> -       old =3D dma_resv_get_list(obj);
+> -
+> +       old =3D dma_resv_shared(obj);
+>         if (old && old->shared_max) {
+>                 if ((old->shared_count + num_fences) <=3D old->shared_max=
+)
+>                         return 0;
+> @@ -217,12 +216,13 @@ EXPORT_SYMBOL(dma_resv_reserve_shared);
+>   */
+>  void dma_resv_reset_shared_max(struct dma_resv *obj)
+>  {
+> -       /* Test shared fence slot reservation */
+> -       if (rcu_access_pointer(obj->fence)) {
+> -               struct dma_resv_list *fence =3D dma_resv_get_list(obj);
+> +       struct dma_resv_list *fences =3D dma_resv_shared(obj);
+>
+> -               fence->shared_max =3D fence->shared_count;
+> -       }
+> +       dma_resv_assert_held(obj);
 
+Does it make sense to assert we hold the lock *before* we touch it
+with something that requires that we do?  Maybe it doesn't matter?
 
-> -----Original Message-----
-> From: Pekka Paalanen <ppaalanen@gmail.com>
-> Sent: Wednesday, June 2, 2021 2:59 PM
-> To: Shankar, Uma <uma.shankar@intel.com>
-> Cc: intel-gfx@lists.freedesktop.org; dri-devel@lists.freedesktop.org; Mod=
-em,
-> Bhanuprakash <bhanuprakash.modem@intel.com>; Harry Wentland
-> <harry.wentland@amd.com>
-> Subject: Re: [PATCH 00/21] Add Support for Plane Color Lut and CSC featur=
-es
->=20
-> On Tue,  1 Jun 2021 16:21:57 +0530
-> Uma Shankar <uma.shankar@intel.com> wrote:
->=20
-> > This is how a typical display color hardware pipeline looks like:
-> >  +-------------------------------------------+
-> >  |                RAM                        |
-> >  |  +------+    +---------+    +---------+   |
-> >  |  | FB 1 |    |  FB 2   |    | FB N    |   |
-> >  |  +------+    +---------+    +---------+   |
-> >  +-------------------------------------------+
-> >        |  Plane Color Hardware Block |
-> > +--------------------------------------------+
-> >  | +---v-----+   +---v-------+   +---v------+ |
-> >  | | Plane A |   | Plane B   |   | Plane N  | |
-> >  | | DeGamma |   | Degamma   |   | Degamma  | |
-> >  | +---+-----+   +---+-------+   +---+------+ |
-> >  |     |             |               |        |
-> >  | +---v-----+   +---v-------+   +---v------+ |
-> >  | |Plane A  |   | Plane B   |   | Plane N  | |
-> >  | |CSC/CTM  |   | CSC/CTM   |   | CSC/CTM  | |
-> >  | +---+-----+   +----+------+   +----+-----+ |
-> >  |     |              |               |       |
-> >  | +---v-----+   +----v------+   +----v-----+ |
-> >  | | Plane A |   | Plane B   |   | Plane N  | |
-> >  | | Gamma   |   | Gamma     |   | Gamma    | |
-> >  | +---+-----+   +----+------+   +----+-----+ |
-> >  |     |              |               |       |
-> >  +--------------------------------------------+
-> > +------v--------------v---------------v-------|
-> > ||                                           ||
-> > ||           Pipe Blender                    ||
-> > +--------------------+------------------------+
-> > |                    |                        |
-> > |        +-----------v----------+             |
-> > |        |  Pipe DeGamma        |             |
-> > |        |                      |             |
-> > |        +-----------+----------+             |
-> > |                    |            Pipe Color  |
-> > |        +-----------v----------+ Hardware    |
-> > |        |  Pipe CSC/CTM        |             |
-> > |        |                      |             |
-> > |        +-----------+----------+             |
-> > |                    |                        |
-> > |        +-----------v----------+             |
-> > |        |  Pipe Gamma          |             |
-> > |        |                      |             |
-> > |        +-----------+----------+             |
-> > |                    |                        |
-> > +---------------------------------------------+
-> >                      |
-> >                      v
-> >                Pipe Output
->=20
-> Hi,
->=20
-> this is an excellent picture. I have long been wanting schematics like th=
-at in the DRM
-> UAPI documentation. Another note on that:
-> https://lists.freedesktop.org/archives/dri-devel/2021-May/307310.html
->=20
-> But the schematic for DRM UAPI documentation needs to be written in terms=
- of the
-> abstract KMS pipeline with property names spelled out, like in what Ville=
- sketched in
-> that email.
+> +
+> +       /* Test shared fence slot reservation */
+> +       if (fences)
+> +               fences->shared_max =3D fences->shared_count;
+>  }
+>  #endif
+>
+> @@ -244,7 +244,7 @@ void dma_resv_add_shared_fence(struct dma_resv *obj, =
+struct dma_fence *fence)
+>
+>         dma_resv_assert_held(obj);
+>
+> -       fobj =3D dma_resv_get_list(obj);
+> +       fobj =3D dma_resv_shared(obj);
+>         count =3D fobj->shared_count;
+>
+>         write_seqcount_begin(&obj->seq);
+> @@ -287,7 +287,7 @@ void dma_resv_add_excl_fence(struct dma_resv *obj, st=
+ruct dma_fence *fence)
+>
+>         dma_resv_assert_held(obj);
+>
+> -       old =3D dma_resv_get_list(obj);
+> +       old =3D dma_resv_shared(obj);
+>         if (old)
+>                 i =3D old->shared_count;
+>
+> @@ -326,7 +326,7 @@ int dma_resv_copy_fences(struct dma_resv *dst, struct=
+ dma_resv *src)
+>         dma_resv_assert_held(dst);
+>
+>         rcu_read_lock();
+> -       src_list =3D rcu_dereference(src->fence);
+> +       src_list =3D dma_resv_shared(src);
+>
+>  retry:
+>         if (src_list) {
+> @@ -339,7 +339,7 @@ int dma_resv_copy_fences(struct dma_resv *dst, struct=
+ dma_resv *src)
+>                         return -ENOMEM;
+>
+>                 rcu_read_lock();
+> -               src_list =3D rcu_dereference(src->fence);
+> +               src_list =3D dma_resv_shared(src);
+>                 if (!src_list || src_list->shared_count > shared_count) {
+>                         kfree(dst_list);
+>                         goto retry;
+> @@ -357,7 +357,7 @@ int dma_resv_copy_fences(struct dma_resv *dst, struct=
+ dma_resv *src)
+>
+>                         if (!dma_fence_get_rcu(fence)) {
+>                                 dma_resv_list_free(dst_list);
+> -                               src_list =3D rcu_dereference(src->fence);
+> +                               src_list =3D dma_resv_shared(src);
+>                                 goto retry;
+>                         }
+>
+> @@ -376,7 +376,7 @@ int dma_resv_copy_fences(struct dma_resv *dst, struct=
+ dma_resv *src)
+>         new =3D dma_fence_get_rcu_safe(&src->fence_excl);
+>         rcu_read_unlock();
+>
+> -       src_list =3D dma_resv_get_list(dst);
+> +       src_list =3D dma_resv_shared(dst);
+>         old =3D dma_resv_exclusive(dst);
+>
+>         write_seqcount_begin(&dst->seq);
+> @@ -429,7 +429,7 @@ int dma_resv_get_fences_rcu(struct dma_resv *obj,
+>                 if (fence_excl && !dma_fence_get_rcu(fence_excl))
+>                         goto unlock;
+>
+> -               fobj =3D rcu_dereference(obj->fence);
+> +               fobj =3D dma_resv_shared(obj);
+>                 if (fobj)
+>                         sz +=3D sizeof(*shared) * fobj->shared_max;
+>
+> @@ -535,7 +535,7 @@ long dma_resv_wait_timeout_rcu(struct dma_resv *obj,
+>         }
+>
+>         if (wait_all) {
+> -               struct dma_resv_list *fobj =3D rcu_dereference(obj->fence=
+);
+> +               struct dma_resv_list *fobj =3D dma_resv_shared(obj);
+>
+>                 if (fobj)
+>                         shared_count =3D fobj->shared_count;
+> @@ -620,7 +620,7 @@ bool dma_resv_test_signaled_rcu(struct dma_resv *obj,=
+ bool test_all)
+>         seq =3D read_seqcount_begin(&obj->seq);
+>
+>         if (test_all) {
+> -               struct dma_resv_list *fobj =3D rcu_dereference(obj->fence=
+);
+> +               struct dma_resv_list *fobj =3D dma_resv_shared(obj);
+>                 unsigned int i;
+>
+>                 if (fobj)
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c b/drivers/g=
+pu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
+> index d5e6519bdea1..e90495ca49fd 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
+> @@ -247,7 +247,7 @@ static int amdgpu_amdkfd_remove_eviction_fence(struct=
+ amdgpu_bo *bo,
+>         if (!ef)
+>                 return -EINVAL;
+>
+> -       old =3D dma_resv_get_list(resv);
+> +       old =3D dma_resv_shared(resv);
+>         if (!old)
+>                 return 0;
+>
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c b/drivers/gpu/dr=
+m/amd/amdgpu/amdgpu_dma_buf.c
+> index 6dd0ea6e9e24..3b13c8a38c4e 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c
+> @@ -49,7 +49,7 @@ __dma_resv_make_exclusive(struct dma_resv *obj)
+>         unsigned int count;
+>         int r;
+>
+> -       if (!dma_resv_get_list(obj)) /* no shared fences to convert */
+> +       if (!dma_resv_shared(obj)) /* no shared fences to convert */
+>                 return 0;
+>
+>         r =3D dma_resv_get_fences_rcu(obj, NULL, &count, &fences);
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_sync.c b/drivers/gpu/drm/a=
+md/amdgpu/amdgpu_sync.c
+> index c84d5b843985..c50d9f92a0cd 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_sync.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_sync.c
+> @@ -213,7 +213,7 @@ int amdgpu_sync_resv(struct amdgpu_device *adev, stru=
+ct amdgpu_sync *sync,
+>         f =3D dma_resv_exclusive(resv);
+>         r =3D amdgpu_sync_fence(sync, f);
+>
+> -       flist =3D dma_resv_get_list(resv);
+> +       flist =3D dma_resv_shared(resv);
+>         if (!flist || r)
+>                 return r;
+>
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c b/drivers/gpu/drm/am=
+d/amdgpu/amdgpu_ttm.c
+> index 663aa7d2e2ea..ddb6ce7d48bc 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+> @@ -1338,7 +1338,7 @@ static bool amdgpu_ttm_bo_eviction_valuable(struct =
+ttm_buffer_object *bo,
+>          * If true, then return false as any KFD process needs all its BO=
+s to
+>          * be resident to run successfully
+>          */
+> -       flist =3D dma_resv_get_list(bo->base.resv);
+> +       flist =3D dma_resv_shared(bo->base.resv);
+>         if (flist) {
+>                 for (i =3D 0; i < flist->shared_count; ++i) {
+>                         f =3D rcu_dereference_protected(flist->shared[i],
+> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem.c b/drivers/gpu/drm/etna=
+viv/etnaviv_gem.c
+> index d4f54dea8ac1..4d43b8630f0e 100644
+> --- a/drivers/gpu/drm/etnaviv/etnaviv_gem.c
+> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gem.c
+> @@ -461,7 +461,7 @@ static void etnaviv_gem_describe(struct drm_gem_objec=
+t *obj, struct seq_file *m)
+>                         off, etnaviv_obj->vaddr, obj->size);
+>
+>         rcu_read_lock();
+> -       fobj =3D rcu_dereference(robj->fence);
+> +       fobj =3D dma_resv_shared(robj);
+>         if (fobj) {
+>                 unsigned int i, shared_count =3D fobj->shared_count;
+>
+> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_busy.c b/drivers/gpu/drm/i=
+915/gem/i915_gem_busy.c
+> index 02312a0c3a36..3f94becac541 100644
+> --- a/drivers/gpu/drm/i915/gem/i915_gem_busy.c
+> +++ b/drivers/gpu/drm/i915/gem/i915_gem_busy.c
+> @@ -116,7 +116,7 @@ i915_gem_busy_ioctl(struct drm_device *dev, void *dat=
+a,
+>         args->busy =3D busy_check_writer(dma_resv_exclusive(obj->base.res=
+v));
+>
+>         /* Translate shared fences to READ set of engines */
+> -       list =3D rcu_dereference(obj->base.resv->fence);
+> +       list =3D dma_resv_shared(obj->base.resv);
+>         if (list) {
+>                 unsigned int shared_count =3D list->shared_count, i;
+>
+> diff --git a/drivers/gpu/drm/msm/msm_gem.c b/drivers/gpu/drm/msm/msm_gem.=
+c
+> index 54c1b53426d6..43af91df552e 100644
+> --- a/drivers/gpu/drm/msm/msm_gem.c
+> +++ b/drivers/gpu/drm/msm/msm_gem.c
+> @@ -817,7 +817,7 @@ int msm_gem_sync_object(struct drm_gem_object *obj,
+>         struct dma_fence *fence;
+>         int i, ret;
+>
+> -       fobj =3D dma_resv_get_list(obj->resv);
+> +       fobj =3D dma_resv_shared(obj->resv);
+>         if (!fobj || (fobj->shared_count =3D=3D 0)) {
+>                 fence =3D dma_resv_exclusive(obj->resv);
+>                 /* don't need to wait on our own fences, since ring is fi=
+fo */
+> @@ -1025,7 +1025,7 @@ void msm_gem_describe(struct drm_gem_object *obj, s=
+truct seq_file *m,
+>         }
+>
+>         rcu_read_lock();
+> -       fobj =3D rcu_dereference(robj->fence);
+> +       fobj =3D dma_resv_shared(robj);
+>         if (fobj) {
+>                 unsigned int i, shared_count =3D fobj->shared_count;
+>
+> diff --git a/drivers/gpu/drm/nouveau/nouveau_fence.c b/drivers/gpu/drm/no=
+uveau/nouveau_fence.c
+> index a6cb35181aee..5ce441c655ea 100644
+> --- a/drivers/gpu/drm/nouveau/nouveau_fence.c
+> +++ b/drivers/gpu/drm/nouveau/nouveau_fence.c
+> @@ -355,7 +355,7 @@ nouveau_fence_sync(struct nouveau_bo *nvbo, struct no=
+uveau_channel *chan, bool e
+>                         return ret;
+>         }
+>
+> -       fobj =3D dma_resv_get_list(resv);
+> +       fobj =3D dma_resv_shared(resv);
+>         fence =3D dma_resv_exclusive(resv);
+>
+>         if (fence && (!exclusive || !fobj || !fobj->shared_count)) {
+> diff --git a/drivers/gpu/drm/qxl/qxl_debugfs.c b/drivers/gpu/drm/qxl/qxl_=
+debugfs.c
+> index 183d15e2cf58..0acc70a6d3dd 100644
+> --- a/drivers/gpu/drm/qxl/qxl_debugfs.c
+> +++ b/drivers/gpu/drm/qxl/qxl_debugfs.c
+> @@ -61,7 +61,7 @@ qxl_debugfs_buffers_info(struct seq_file *m, void *data=
+)
+>                 int rel;
+>
+>                 rcu_read_lock();
+> -               fobj =3D rcu_dereference(bo->tbo.base.resv->fence);
+> +               fobj =3D dma_resv_shared(bo->tbo.base.resv);
+>                 rel =3D fobj ? fobj->shared_count : 0;
+>                 rcu_read_unlock();
+>
+> diff --git a/drivers/gpu/drm/radeon/radeon_sync.c b/drivers/gpu/drm/radeo=
+n/radeon_sync.c
+> index e476f90ef1c1..a9cdb88da173 100644
+> --- a/drivers/gpu/drm/radeon/radeon_sync.c
+> +++ b/drivers/gpu/drm/radeon/radeon_sync.c
+> @@ -105,7 +105,7 @@ int radeon_sync_resv(struct radeon_device *rdev,
+>         else if (f)
+>                 r =3D dma_fence_wait(f, true);
+>
+> -       flist =3D dma_resv_get_list(resv);
+> +       flist =3D dma_resv_shared(resv);
+>         if (shared || !flist || r)
+>                 return r;
+>
+> diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
+> index 92361556bf0b..c41ef0caa492 100644
+> --- a/drivers/gpu/drm/ttm/ttm_bo.c
+> +++ b/drivers/gpu/drm/ttm/ttm_bo.c
+> @@ -261,7 +261,7 @@ static void ttm_bo_flush_all_fences(struct ttm_buffer=
+_object *bo)
+>         int i;
+>
+>         rcu_read_lock();
+> -       fobj =3D rcu_dereference(resv->fence);
+> +       fobj =3D dma_resv_shared(resv);
+>         fence =3D dma_resv_exclusive(resv);
+>         if (fence && !fence->ops->signaled)
+>                 dma_fence_enable_sw_signaling(fence);
+> diff --git a/include/linux/dma-resv.h b/include/linux/dma-resv.h
+> index 7549ec5eb35c..98ac66fecb71 100644
+> --- a/include/linux/dma-resv.h
+> +++ b/include/linux/dma-resv.h
+> @@ -78,20 +78,6 @@ struct dma_resv {
+>  #define dma_resv_held(obj) lockdep_is_held(&(obj)->lock.base)
+>  #define dma_resv_assert_held(obj) lockdep_assert_held(&(obj)->lock.base)
+>
+> -/**
+> - * dma_resv_get_list - get the reservation object's
+> - * shared fence list, with update-side lock held
+> - * @obj: the reservation object
+> - *
+> - * Returns the shared fence list.  Does NOT take references to
+> - * the fence.  The obj->lock must be held.
+> - */
+> -static inline struct dma_resv_list *dma_resv_get_list(struct dma_resv *o=
+bj)
+> -{
+> -       return rcu_dereference_protected(obj->fence,
+> -                                        dma_resv_held(obj));
+> -}
+> -
+>  #ifdef CONFIG_DEBUG_MUTEXES
+>  void dma_resv_reset_shared_max(struct dma_resv *obj);
+>  #else
+> @@ -267,6 +253,17 @@ dma_resv_get_excl_rcu(struct dma_resv *obj)
+>         return fence;
+>  }
+>
+> +/**
+> + * dma_resv_shared - get the reservation object's shared fence list
+> + * @obj: the reservation object
+> + *
+> + * Returns the shared fence list. The obj->lock or rcu read side must be=
+ held.
+> + */
+> +static inline struct dma_resv_list *dma_resv_shared(struct dma_resv *obj=
+)
 
-Sure Pekka, I can add that.
+Maybe dma_resv_shared_list() just to be a little more clear what's
+being returned?
 
-> > This patch series adds properties for plane color features. It adds
-> > properties for degamma used to linearize data and CSC used for gamut
-> > conversion. It also includes Gamma support used to again non-linearize
-> > data as per panel supported color space. These can be utilize by user
-> > space to convert planes from one format to another, one color space to
-> > another etc.
->=20
-> This is very much welcome!
->=20
-> There is also the thread:
-> https://lists.freedesktop.org/archives/dri-devel/2021-May/306726.html
->=20
-> Everything mentioned will interact with each other by changing what the a=
-bstract
-> KMS pixel pipeline does. I think you and Harry should probably look at ea=
-ch others'
-> suggestions and see how to fit them all into a single abstract KMS pipeli=
-ne.
->=20
-> People are adding new pieces into KMS left and right, and I fear we lose =
-sight of how
-> everything will actually work together when all KMS properties are suppos=
-ed to be
-> generic and potentially present simultaneously. This is why I would very =
-much like to
-> have that *whole* abstract KMS pipeline documented with *everything*. Oth=
-erwise
-> it is coming really hard fast to figure out how generic userspace should =
-use all these
-> KMS properties together.
->=20
-> Or if there cannot be a single abstract KMS pipeline, then sure, have mul=
-tiple, as long
-> as they are documented and how userspace will know which pipeline it is d=
-ealing
-> with, and what things are mutually exclusive so we can avoid writing user=
-space code
-> for combinations that will never exist.
+--Jason
 
-This is a good suggestion to have the whole pipeline and properties documen=
-ted along with
-the exact usages. We may end with 2 properties almost doing similar work bu=
-t needed due to
-underlying hardware, but we can get that properly documented and defined.=20
-
-I will discuss with Harry and Ville as well to define this.
-
-Regards,
-Uma Shankar
->=20
-> Thanks,
-> pq
->=20
-> > Userspace can take smart blending decisions and utilize these hardware
-> > supported plane color features to get accurate color profile. The same
-> > can help in consistent color quality from source to panel taking
-> > advantage of advanced color features in hardware.
-> >
-> > These patches add the property interfaces and enable helper functions.
-> > This series adds Intel's XE_LPD hw specific plane gamma feature. We
-> > can build up and add other platform/hardware specific implementation
-> > on top of this series.
-> >
-> > Credits: Special mention and credits to Ville Syrjala for coming up
-> > with a design for this feature and inputs. This series is based on his
-> > original design and idea.
-> >
-> > Note: Userspace support for this new UAPI will be done on Chrome. We
-> > will notify the list once we have that ready for review.
-> >
-> > ToDo: State readout for this feature will be added next.
-> >
-> > Uma Shankar (21):
-> >   drm: Add Enhanced Gamma and color lut range attributes
-> >   drm: Add Plane Degamma Mode property
-> >   drm: Add Plane Degamma Lut property
-> >   drm/i915/xelpd: Define Degamma Lut range struct for HDR planes
-> >   drm/i915/xelpd: Add register definitions for Plane Degamma
-> >   drm/i915/xelpd: Enable plane color features
-> >   drm/i915/xelpd: Add color capabilities of SDR planes
-> >   drm/i915/xelpd: Program Plane Degamma Registers
-> >   drm/i915/xelpd: Add plane color check to glk_plane_color_ctl
-> >   drm/i915/xelpd: Initialize plane color features
-> >   drm/i915/xelpd: Load plane color luts from atomic flip
-> >   drm: Add Plane CTM property
-> >   drm: Add helper to attach Plane ctm property
-> >   drm/i915/xelpd: Define Plane CSC Registers
-> >   drm/i915/xelpd: Enable Plane CSC
-> >   drm: Add Plane Gamma Mode property
-> >   drm: Add Plane Gamma Lut property
-> >   drm/i915/xelpd: Define and Initialize Plane Gamma Lut range
-> >   drm/i915/xelpd: Add register definitions for Plane Gamma
-> >   drm/i915/xelpd: Program Plane Gamma Registers
-> >   drm/i915/xelpd: Enable plane gamma
-> >
-> >  Documentation/gpu/drm-kms.rst                 |  90 +++
-> >  drivers/gpu/drm/drm_atomic.c                  |   1 +
-> >  drivers/gpu/drm/drm_atomic_state_helper.c     |  12 +
-> >  drivers/gpu/drm/drm_atomic_uapi.c             |  38 ++
-> >  drivers/gpu/drm/drm_color_mgmt.c              | 177 +++++-
-> >  .../gpu/drm/i915/display/intel_atomic_plane.c |   6 +
-> >  .../gpu/drm/i915/display/intel_atomic_plane.h |   2 +
-> >  drivers/gpu/drm/i915/display/intel_color.c    | 513 ++++++++++++++++++
-> >  drivers/gpu/drm/i915/display/intel_color.h    |   2 +
-> >  .../drm/i915/display/skl_universal_plane.c    |  15 +-
-> >  drivers/gpu/drm/i915/i915_drv.h               |   3 +
-> >  drivers/gpu/drm/i915/i915_reg.h               | 176 +++++-
-> >  include/drm/drm_mode_object.h                 |   2 +-
-> >  include/drm/drm_plane.h                       |  81 +++
-> >  include/uapi/drm/drm_mode.h                   |  58 ++
-> >  15 files changed, 1170 insertions(+), 6 deletions(-)
-> >
-
+> +{
+> +       return rcu_dereference_check(obj->fence, dma_resv_held(obj));
+> +}
+> +
+>  void dma_resv_init(struct dma_resv *obj);
+>  void dma_resv_fini(struct dma_resv *obj);
+>  int dma_resv_reserve_shared(struct dma_resv *obj, unsigned int num_fence=
+s);
+> --
+> 2.25.1
+>
