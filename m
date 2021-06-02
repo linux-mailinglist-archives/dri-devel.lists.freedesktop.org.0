@@ -2,54 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8356739924E
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Jun 2021 20:16:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE96839925A
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Jun 2021 20:18:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 53FE76E544;
-	Wed,  2 Jun 2021 18:16:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A6D486E0D7;
+	Wed,  2 Jun 2021 18:18:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-f54.google.com (mail-ot1-f54.google.com
- [209.85.210.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2B1D76E544
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Jun 2021 18:16:25 +0000 (UTC)
-Received: by mail-ot1-f54.google.com with SMTP id
- i12-20020a05683033ecb02903346fa0f74dso3258434otu.10
- for <dri-devel@lists.freedesktop.org>; Wed, 02 Jun 2021 11:16:25 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=YGs3ySUz+5yWOPGnnKcSs4d7r1g1klxeD4AjriZfMMk=;
- b=GM+NIC8LFPzn9eg9xRYCOam6gLsOEL7AiNZzmgqwEuSBOeeECh7XPGmYZmqXbmKV7w
- 7xrOV/v43OVLBWJWS6NShad2ed8BaOcMadgF1Blb/RtYLZkqSqst2wNunao7wNcgkwJT
- aiG4U1tlBFb3jEqhcyVA2kwZdgTZw/YMtszGoq4WWEt8nTP/yGA+5fHGxTBcRvstzfOu
- nKsJNlmk4JWdY4alFmeGOGwJpDZeTSfCBqf5NXhbVFgkTie7WOYXC57hFMcMHNT0zgAW
- MivN+PhP8MpnXJ/WHno6UA1LkCwfbE4pacglLpacsp06R/X/tRkyEPEbHMf4nOLrjNEs
- sBig==
-X-Gm-Message-State: AOAM530yxCdqTaIgNiySflEu24bHGRmUA76hf6Utact5ZDR0PQqKAcL8
- OWOos1YaBg/STG60NLVXGA==
-X-Google-Smtp-Source: ABdhPJy6S/YWhSYolU2l1/6RinXushQyOPCztVxygHdQZ9YEIyxTE/T30sxKhvx+av2QZ1DrkGThfQ==
-X-Received: by 2002:a9d:729d:: with SMTP id t29mr5989930otj.256.1622657784498; 
- Wed, 02 Jun 2021 11:16:24 -0700 (PDT)
-Received: from robh.at.kernel.org (24-155-109-49.dyn.grandenetworks.net.
- [24.155.109.49])
- by smtp.gmail.com with ESMTPSA id m66sm138702oia.28.2021.06.02.11.16.22
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 02 Jun 2021 11:16:23 -0700 (PDT)
-Received: (nullmailer pid 3703237 invoked by uid 1000);
- Wed, 02 Jun 2021 18:16:21 -0000
-Date: Wed, 2 Jun 2021 13:16:21 -0500
-From: Rob Herring <robh@kernel.org>
-To: Douglas Anderson <dianders@chromium.org>
-Subject: Re: [PATCH v8 04/11] dt-bindings: drm/aux-bus: Add an example
-Message-ID: <20210602181621.GB3692772@robh.at.kernel.org>
-References: <20210525000159.3384921-1-dianders@chromium.org>
- <20210524165920.v8.4.I79c7ed8815a07d285dd3b38e680e980d1024dbf1@changeid>
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 728EB6E0D7;
+ Wed,  2 Jun 2021 18:18:45 +0000 (UTC)
+IronPort-SDR: vJ8X3Y4UEvzOofYOE5tW0h+pb4Y7q34QQTymx+805Wg5vdddavjGjGBCE13zMYdfarBx1wJw7E
+ kwvGyA3sd6Rg==
+X-IronPort-AV: E=McAfee;i="6200,9189,10003"; a="265036123"
+X-IronPort-AV: E=Sophos;i="5.83,242,1616482800"; d="scan'208";a="265036123"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Jun 2021 11:18:41 -0700
+IronPort-SDR: uAgv8z7cI816FMOtm5O5/nBxAXkPBN98K8BLBUxq2+YZtshZmf6mJcEbheAGQtp34oa050Vf27
+ gmfDTp4lM2bQ==
+X-IronPort-AV: E=Sophos;i="5.83,242,1616482800"; d="scan'208";a="617313029"
+Received: from ticela-az-103.amr.corp.intel.com (HELO intel.com)
+ ([10.254.2.125])
+ by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Jun 2021 11:18:41 -0700
+Date: Wed, 2 Jun 2021 14:18:39 -0400
+From: Rodrigo Vivi <rodrigo.vivi@intel.com>
+To: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+Subject: Re: [PATCH v4 04/17] drm/i915/gt: Export the pinned context
+ constructor and destructor
+Message-ID: <YLfLf5HhoPc8jTKd@intel.com>
+References: <20210525054803.7387-1-daniele.ceraolospurio@intel.com>
+ <20210525054803.7387-5-daniele.ceraolospurio@intel.com>
+ <YLaWdU2mLu/Ih2Yp@intel.com>
+ <0960d940-1fca-a7e7-8cce-ef149dbda717@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210524165920.v8.4.I79c7ed8815a07d285dd3b38e680e980d1024dbf1@changeid>
+In-Reply-To: <0960d940-1fca-a7e7-8cce-ef149dbda717@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,32 +52,141 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: robdclark@chromium.org, devicetree@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Jonas Karlman <jonas@kwiboo.se>,
- David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
- Neil Armstrong <narmstrong@baylibre.com>, linux-kernel@vger.kernel.org,
- Steev Klimaszewski <steev@kali.org>,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- Stanislav Lisovskiy <stanislav.lisovskiy@intel.com>,
- Andrzej Hajda <a.hajda@samsung.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Stephen Boyd <swboyd@chromium.org>, Thierry Reding <treding@nvidia.com>,
- Sam Ravnborg <sam@ravnborg.org>
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Chris Wilson <chris@chris-wilson.co.uk>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, May 24, 2021 at 05:01:52PM -0700, Douglas Anderson wrote:
-> Now that we have an eDP controller that lists aux-bus, we can safely
-> add an example to the aux-bus bindings.
+On Tue, Jun 01, 2021 at 02:23:00PM -0700, Daniele Ceraolo Spurio wrote:
 > 
-> NOTE: this example is just a copy of the one in the 'ti-sn65dsi86'
-> one. It feels useful to have the example in both places simply because
-> it's important to document the interaction between the two bindings in
-> both places.
+> 
+> On 6/1/2021 1:20 PM, Rodrigo Vivi wrote:
+> > On Mon, May 24, 2021 at 10:47:50PM -0700, Daniele Ceraolo Spurio wrote:
+> > > From: Chris Wilson <chris@chris-wilson.co.uk>
+> > > 
+> > > Allow internal clients to create a pinned context.
+> > > 
+> > > v2 (Daniele): export destructor as well, allow optional usage of custom
+> > > vm for maximum flexibility.
+> > > 
+> > > Signed-off-by: Chris Wilson <chris@chris-wilson.co.uk>
+> > > Signed-off-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+> > > ---
+> > >   drivers/gpu/drm/i915/gt/intel_engine.h    | 10 ++++++++
+> > >   drivers/gpu/drm/i915/gt/intel_engine_cs.c | 29 +++++++++++++++--------
+> > >   2 files changed, 29 insertions(+), 10 deletions(-)
+> > > 
+> > > diff --git a/drivers/gpu/drm/i915/gt/intel_engine.h b/drivers/gpu/drm/i915/gt/intel_engine.h
+> > > index 47ee8578e511..a64d28aba257 100644
+> > > --- a/drivers/gpu/drm/i915/gt/intel_engine.h
+> > > +++ b/drivers/gpu/drm/i915/gt/intel_engine.h
+> > > @@ -18,7 +18,9 @@
+> > >   #include "intel_workarounds.h"
+> > >   struct drm_printer;
+> > > +struct intel_context;
+> > >   struct intel_gt;
+> > > +struct lock_class_key;
+> > >   /* Early gen2 devices have a cacheline of just 32 bytes, using 64 is overkill,
+> > >    * but keeps the logic simple. Indeed, the whole purpose of this macro is just
+> > > @@ -255,6 +257,14 @@ struct i915_request *
+> > >   intel_engine_find_active_request(struct intel_engine_cs *engine);
+> > >   u32 intel_engine_context_size(struct intel_gt *gt, u8 class);
+> > > +struct intel_context *
+> > > +intel_engine_create_pinned_context(struct intel_engine_cs *engine,
+> > > +				   struct i915_address_space *vm,
+> > > +				   unsigned int ring_size,
+> > > +				   unsigned int hwsp,
+> > > +				   struct lock_class_key *key,
+> > > +				   const char *name);
+> > > +void intel_engine_destroy_pinned_context(struct intel_context *ce);
+> > >   void intel_engine_init_active(struct intel_engine_cs *engine,
+> > >   			      unsigned int subclass);
+> > > diff --git a/drivers/gpu/drm/i915/gt/intel_engine_cs.c b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
+> > > index eba2da9679a5..8cbf11497e8e 100644
+> > > --- a/drivers/gpu/drm/i915/gt/intel_engine_cs.c
+> > > +++ b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
+> > > @@ -801,11 +801,13 @@ intel_engine_init_active(struct intel_engine_cs *engine, unsigned int subclass)
+> > >   #endif
+> > >   }
+> > > -static struct intel_context *
+> > > -create_pinned_context(struct intel_engine_cs *engine,
+> > > -		      unsigned int hwsp,
+> > > -		      struct lock_class_key *key,
+> > > -		      const char *name)
+> > > +struct intel_context *
+> > > +intel_engine_create_pinned_context(struct intel_engine_cs *engine,
+> > > +				   struct i915_address_space *vm,
+> > > +				   unsigned int ring_size,
+> > > +				   unsigned int hwsp,
+> > > +				   struct lock_class_key *key,
+> > > +				   const char *name)
+> > >   {
+> > >   	struct intel_context *ce;
+> > >   	int err;
+> > > @@ -816,6 +818,12 @@ create_pinned_context(struct intel_engine_cs *engine,
+> > >   	__set_bit(CONTEXT_BARRIER_BIT, &ce->flags);
+> > >   	ce->timeline = page_pack_bits(NULL, hwsp);
+> > > +	ce->ring = __intel_context_ring_size(ring_size);
+> > why do we need this now and we didn't need before?
+> 
+> Since we're now exporting the function as a more "official" interface, the
+> idea was to provide as much flexibility as possible. The ring size could be
+> used if e.g. we decide to use more pxp sessions and therefore need more
+> space in the ring to insert instructions. Same for the vm below.
 
-Don't forget the 3rd copy that exists in some .dts file most likely. 
-That's 3 places to fix when we improve or add some schema.
+it makes sense. thanks for the explanation.
 
-I've generally been trying to de-duplicate examples...
 
-Rob
+Reviewed-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
+
+
+
+> 
+> Daniele
+> 
+> > 
+> > > +
+> > > +	if (vm) {
+> > > +		i915_vm_put(ce->vm);
+> > > +		ce->vm = i915_vm_get(vm);
+> > > +	}
+> > same question here...
+> > 
+> > >   	err = intel_context_pin(ce); /* perma-pin so it is always available */
+> > >   	if (err) {
+> > > @@ -834,7 +842,7 @@ create_pinned_context(struct intel_engine_cs *engine,
+> > >   	return ce;
+> > >   }
+> > > -static void destroy_pinned_context(struct intel_context *ce)
+> > > +void intel_engine_destroy_pinned_context(struct intel_context *ce)
+> > >   {
+> > >   	struct intel_engine_cs *engine = ce->engine;
+> > >   	struct i915_vma *hwsp = engine->status_page.vma;
+> > > @@ -854,8 +862,9 @@ create_kernel_context(struct intel_engine_cs *engine)
+> > >   {
+> > >   	static struct lock_class_key kernel;
+> > > -	return create_pinned_context(engine, I915_GEM_HWS_SEQNO_ADDR,
+> > > -				     &kernel, "kernel_context");
+> > > +	return intel_engine_create_pinned_context(engine, NULL, SZ_4K,
+> > > +						  I915_GEM_HWS_SEQNO_ADDR,
+> > > +						  &kernel, "kernel_context");
+> > >   }
+> > >   /**
+> > > @@ -898,7 +907,7 @@ static int engine_init_common(struct intel_engine_cs *engine)
+> > >   	return 0;
+> > >   err_context:
+> > > -	destroy_pinned_context(ce);
+> > > +	intel_engine_destroy_pinned_context(ce);
+> > >   	return ret;
+> > >   }
+> > > @@ -956,7 +965,7 @@ void intel_engine_cleanup_common(struct intel_engine_cs *engine)
+> > >   		fput(engine->default_state);
+> > >   	if (engine->kernel_context)
+> > > -		destroy_pinned_context(engine->kernel_context);
+> > > +		intel_engine_destroy_pinned_context(engine->kernel_context);
+> > >   	GEM_BUG_ON(!llist_empty(&engine->barrier_tasks));
+> > >   	cleanup_status_page(engine);
+> > > -- 
+> > > 2.29.2
+> > > 
+> 
