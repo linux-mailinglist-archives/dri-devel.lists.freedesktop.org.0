@@ -2,63 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9281B398A1C
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Jun 2021 14:55:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E83CB398A34
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Jun 2021 15:07:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 513026EC97;
-	Wed,  2 Jun 2021 12:55:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4C2F26E0BF;
+	Wed,  2 Jun 2021 13:07:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com
- [IPv6:2a00:1450:4864:20::631])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 39E306EC97
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Jun 2021 12:55:50 +0000 (UTC)
-Received: by mail-ej1-x631.google.com with SMTP id k7so3640021ejv.12
- for <dri-devel@lists.freedesktop.org>; Wed, 02 Jun 2021 05:55:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=BGdK0GWrR19hcLHpsh70m2uOhBDdCatcfYfJEqWg4U4=;
- b=ZyqbgI68xEGrQJ1uwtzsQmnYkWdzGNMkxvvoSllXVDJg4V1DjhBjwQZtqvXP6OiOGw
- WIjVtZRodEgu2DNw3SA2f5op69VaWkIhYhbzv3TMOpXEHoEFzVLBKvkjWUAz4uVIdwj3
- iIiEyjkMETOZcHR52XmpeP4FclzhZIAQ9NplQ=
+Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com
+ [IPv6:2a00:1450:4864:20::636])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 807646E0BF
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Jun 2021 13:07:49 +0000 (UTC)
+Received: by mail-ej1-x636.google.com with SMTP id b9so3694405ejc.13
+ for <dri-devel@lists.freedesktop.org>; Wed, 02 Jun 2021 06:07:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=subject:to:references:from:message-id:date:user-agent:mime-version
+ :in-reply-to:content-transfer-encoding:content-language;
+ bh=svP2ss+qbN7gdOZWU4oE2zE9R9jvjPQFkzHT08wZxzg=;
+ b=kfycYyV67ZdwXZm6ajnPZHPSYcBFqr2uvMOMfC62Mazv3W530El4AC7u7ZkBzz/wST
+ WOZ07Rjf0jKFNRL/V61ua/YkAaizmiRayGf0nUldjcV6l42qb6XK0OjLJR1R88sl/feg
+ aoXZgtOoYTcpVIlDiBHOxrny3c6LEiV+zPMNvEPTtosKueaR+cutcCaeTtpyyOfFRLEp
+ Gwn1Cyq9XpiRvp1IXkY0Xp/7Lv3vEY3ppqL5ezleNKxfTuvC0WUkWoYCP4M0zYndCvQo
+ TTvF+ZVaffDlqORk+rTcgUxRXUxxa9w4NDyYEFuHE6nOzIMpM7s8EBUxN5hIBzqYPhiQ
+ AkSw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=BGdK0GWrR19hcLHpsh70m2uOhBDdCatcfYfJEqWg4U4=;
- b=GqbZMJ/R0675mA8qbVxZeZC1fIrtI6N28qQ8Q4PMM6FZLlkhSgtPktgJCIIJX5uaNV
- waNyRdmV5l/fWnn66rYXkjCaWXTFiXPTZgeF/c9z3orZh39Sw9/CpfHle21TK3EvX4Kr
- NJ6HkoTcQgO3p0WJsaYMG0LrbZY2v98o14Xuly6Y3u5bC4DxVG2DsyX4Iy+OYpSiZ9wJ
- rpGhSKfpUs7Gzqytupbf8x1pVdfSLhGs7pYP2wWE1pEY0uux0ZF94KZsSzxsKuvxm42q
- kWjCYtDzAfyKtdtM8rdGgXNhnTjWIslyx2+ohRf5UgsqAxCzSxjPGmmRcc9Iz9o4jguZ
- lgVg==
-X-Gm-Message-State: AOAM532HslUH8qiZ+9NBFlMLLyU7hXbS5mOplxxmLaSCWoRkdBp1HIwn
- X5StOti5cc1D7mrnwTENkJjrjA==
-X-Google-Smtp-Source: ABdhPJx3nvxv/Fl3Hs8KaAEUXkrY9ZxdccRAjzSysS772lwvYR4lgyouO4yoAGlDRctOg3YRljDF4g==
-X-Received: by 2002:a17:906:c1ca:: with SMTP id
- bw10mr34843655ejb.512.1622638548874; 
- Wed, 02 Jun 2021 05:55:48 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id bq1sm4194210ejb.66.2021.06.02.05.55.48
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 02 Jun 2021 05:55:48 -0700 (PDT)
-Date: Wed, 2 Jun 2021 14:55:46 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>
-Subject: Re: [PATCH 2/7] dma-buf: add SPDX header and fix style in dma-resv.c
-Message-ID: <YLd/0sTGXHEp3ZEW@phenom.ffwll.local>
-References: <20210602111714.212426-1-christian.koenig@amd.com>
- <20210602111714.212426-2-christian.koenig@amd.com>
- <YLd6761iGBs2MYsw@phenom.ffwll.local>
- <9f0d39d3-400e-8744-e80f-6e1b45eeabff@gmail.com>
+ h=x-gm-message-state:subject:to:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-transfer-encoding
+ :content-language;
+ bh=svP2ss+qbN7gdOZWU4oE2zE9R9jvjPQFkzHT08wZxzg=;
+ b=V9IvbubKmAxmTDITTrfdc5YObePhtgiX8jLWmGeKTAZDvWYNifJJ3Qow/t/tR15tCS
+ 6n7ZABoKFEojgir0DfsCrBHWf0wlegEY4I7UOPQdyGWZtn/InHPinEggGqsbVWM8hocQ
+ QSUIiGbX5uLzZScxMEhHFLovqZsbvAhYA5xDTwpCm2UkL+IgR4PLpKN+odrsrO+UD2QI
+ ZH3d/oIUQJ2Cl2XgnKFMqY94WZbpf8Tz30aNGVLWCDQ5AfITMzYpMtxGICdWW8KiSO7V
+ cczyQL96VAQwFq+A8+SmSK5r//It5W/e0sgMB5OOgZxttOrU4zeAsTc4qCsgjxn9C/NK
+ +gcQ==
+X-Gm-Message-State: AOAM5334kTbrs1oczfxE3DLEues+hqwUChGduc2OyFCs3KCzXoYt1oLX
+ zMPZU7is78GiokY/x/j7XbJeprUMnkg=
+X-Google-Smtp-Source: ABdhPJyRWEeMTz0+gZ7N4KgwU2ysAXNm23gV7feVyY0FEOa7om/QgDqbqtJ/Jp0rzv0lTTPxpxlJTg==
+X-Received: by 2002:a17:906:33d6:: with SMTP id
+ w22mr33552199eja.222.1622639268177; 
+ Wed, 02 Jun 2021 06:07:48 -0700 (PDT)
+Received: from ?IPv6:2a02:908:1252:fb60:cd07:2759:3eec:1d00?
+ ([2a02:908:1252:fb60:cd07:2759:3eec:1d00])
+ by smtp.gmail.com with ESMTPSA id i12sm1321720edx.13.2021.06.02.06.07.45
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 02 Jun 2021 06:07:46 -0700 (PDT)
+Subject: Re: [PATCH 02/10] drm/ttm: flip over the range manager to self
+ allocated nodes
+To: =?UTF-8?Q?Thomas_Hellstr=c3=b6m_=28Intel=29?= <thomas_os@shipmail.org>,
+ matthew.auld@intel.com, dri-devel@lists.freedesktop.org
+References: <20210602100914.46246-1-christian.koenig@amd.com>
+ <20210602100914.46246-2-christian.koenig@amd.com>
+ <9b01d58f-6474-70de-4364-6adad59717a5@shipmail.org>
+ <2354a311-c88f-04c5-0211-360c8116b811@gmail.com>
+ <23afc41d-09ae-93f3-77b8-e18c8f72dd5a@shipmail.org>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+Message-ID: <b818e5f8-66a4-4df0-ba5b-cc22125d72a2@gmail.com>
+Date: Wed, 2 Jun 2021 15:07:45 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+In-Reply-To: <23afc41d-09ae-93f3-77b8-e18c8f72dd5a@shipmail.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <9f0d39d3-400e-8744-e80f-6e1b45eeabff@gmail.com>
-X-Operating-System: Linux phenom 5.10.32scarlett+ 
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,259 +79,194 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, jason@jlekstrand.net
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jun 02, 2021 at 02:47:25PM +0200, Christian K�nig wrote:
-> 
-> 
-> Am 02.06.21 um 14:34 schrieb Daniel Vetter:
-> > On Wed, Jun 02, 2021 at 01:17:09PM +0200, Christian K�nig wrote:
-> > > No functional change.
-> > > 
-> > > Signed-off-by: Christian K�nig <christian.koenig@amd.com>
-> > Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-> > 
-> > Maybe add the checkpatch warnings you're fixing here to the commit
-> > message. I didn't know that initcalls should be at the bottom ...
-> 
-> Well dma_resv_lockdep() had some tab/space mixup and moving it around was
-> the easiest way to fix that in the editor :)
-> 
-> Moving it to the end seemed logical to me.
 
-Ah whack that into the commit message then, I was confused for a bit :-)
--Daniel
 
-> 
-> Christian.
-> 
-> > -Daniel
-> > 
-> > 
-> > > ---
-> > >   drivers/dma-buf/dma-resv.c | 128 +++++++++++++++++++------------------
-> > >   1 file changed, 65 insertions(+), 63 deletions(-)
-> > > 
-> > > diff --git a/drivers/dma-buf/dma-resv.c b/drivers/dma-buf/dma-resv.c
-> > > index 6ddbeb5dfbf6..87f5d82d992a 100644
-> > > --- a/drivers/dma-buf/dma-resv.c
-> > > +++ b/drivers/dma-buf/dma-resv.c
-> > > @@ -1,3 +1,4 @@
-> > > +// SPDX-License-Identifier: MIT
-> > >   /*
-> > >    * Copyright (C) 2012-2014 Canonical Ltd (Maarten Lankhorst)
-> > >    *
-> > > @@ -92,49 +93,6 @@ static void dma_resv_list_free(struct dma_resv_list *list)
-> > >   	kfree_rcu(list, rcu);
-> > >   }
-> > > -#if IS_ENABLED(CONFIG_LOCKDEP)
-> > > -static int __init dma_resv_lockdep(void)
-> > > -{
-> > > -	struct mm_struct *mm = mm_alloc();
-> > > -	struct ww_acquire_ctx ctx;
-> > > -	struct dma_resv obj;
-> > > -	struct address_space mapping;
-> > > -	int ret;
-> > > -
-> > > -	if (!mm)
-> > > -		return -ENOMEM;
-> > > -
-> > > -	dma_resv_init(&obj);
-> > > -	address_space_init_once(&mapping);
-> > > -
-> > > -	mmap_read_lock(mm);
-> > > -	ww_acquire_init(&ctx, &reservation_ww_class);
-> > > -	ret = dma_resv_lock(&obj, &ctx);
-> > > -	if (ret == -EDEADLK)
-> > > -		dma_resv_lock_slow(&obj, &ctx);
-> > > -	fs_reclaim_acquire(GFP_KERNEL);
-> > > -	/* for unmap_mapping_range on trylocked buffer objects in shrinkers */
-> > > -	i_mmap_lock_write(&mapping);
-> > > -	i_mmap_unlock_write(&mapping);
-> > > -#ifdef CONFIG_MMU_NOTIFIER
-> > > -	lock_map_acquire(&__mmu_notifier_invalidate_range_start_map);
-> > > -	__dma_fence_might_wait();
-> > > -	lock_map_release(&__mmu_notifier_invalidate_range_start_map);
-> > > -#else
-> > > -	__dma_fence_might_wait();
-> > > -#endif
-> > > -	fs_reclaim_release(GFP_KERNEL);
-> > > -	ww_mutex_unlock(&obj.lock);
-> > > -	ww_acquire_fini(&ctx);
-> > > -	mmap_read_unlock(mm);
-> > > -	
-> > > -	mmput(mm);
-> > > -
-> > > -	return 0;
-> > > -}
-> > > -subsys_initcall(dma_resv_lockdep);
-> > > -#endif
-> > > -
-> > >   /**
-> > >    * dma_resv_init - initialize a reservation object
-> > >    * @obj: the reservation object
-> > > @@ -196,9 +154,7 @@ int dma_resv_reserve_shared(struct dma_resv *obj, unsigned int num_fences)
-> > >   	if (old && old->shared_max) {
-> > >   		if ((old->shared_count + num_fences) <= old->shared_max)
-> > >   			return 0;
-> > > -		else
-> > > -			max = max(old->shared_count + num_fences,
-> > > -				  old->shared_max * 2);
-> > > +		max = max(old->shared_count + num_fences, old->shared_max * 2);
-> > >   	} else {
-> > >   		max = max(4ul, roundup_pow_of_two(num_fences));
-> > >   	}
-> > > @@ -337,17 +293,17 @@ void dma_resv_add_excl_fence(struct dma_resv *obj, struct dma_fence *fence)
-> > >   EXPORT_SYMBOL(dma_resv_add_excl_fence);
-> > >   /**
-> > > -* dma_resv_copy_fences - Copy all fences from src to dst.
-> > > -* @dst: the destination reservation object
-> > > -* @src: the source reservation object
-> > > -*
-> > > -* Copy all fences from src to dst. dst-lock must be held.
-> > > -*/
-> > > + * dma_resv_copy_fences - Copy all fences from src to dst.
-> > > + * @dst: the destination reservation object
-> > > + * @src: the source reservation object
-> > > + *
-> > > + * Copy all fences from src to dst. dst-lock must be held.
-> > > + */
-> > >   int dma_resv_copy_fences(struct dma_resv *dst, struct dma_resv *src)
-> > >   {
-> > >   	struct dma_resv_list *src_list, *dst_list;
-> > >   	struct dma_fence *old, *new;
-> > > -	unsigned i;
-> > > +	unsigned int i;
-> > >   	dma_resv_assert_held(dst);
-> > > @@ -356,7 +312,7 @@ int dma_resv_copy_fences(struct dma_resv *dst, struct dma_resv *src)
-> > >   retry:
-> > >   	if (src_list) {
-> > > -		unsigned shared_count = src_list->shared_count;
-> > > +		unsigned int shared_count = src_list->shared_count;
-> > >   		rcu_read_unlock();
-> > > @@ -373,6 +329,7 @@ int dma_resv_copy_fences(struct dma_resv *dst, struct dma_resv *src)
-> > >   		dst_list->shared_count = 0;
-> > >   		for (i = 0; i < src_list->shared_count; ++i) {
-> > > +			struct dma_fence __rcu **dst;
-> > >   			struct dma_fence *fence;
-> > >   			fence = rcu_dereference(src_list->shared[i]);
-> > > @@ -391,7 +348,8 @@ int dma_resv_copy_fences(struct dma_resv *dst, struct dma_resv *src)
-> > >   				continue;
-> > >   			}
-> > > -			rcu_assign_pointer(dst_list->shared[dst_list->shared_count++], fence);
-> > > +			dst = &dst_list->shared[dst_list->shared_count++];
-> > > +			rcu_assign_pointer(*dst, fence);
-> > >   		}
-> > >   	} else {
-> > >   		dst_list = NULL;
-> > > @@ -431,7 +389,7 @@ EXPORT_SYMBOL(dma_resv_copy_fences);
-> > >    */
-> > >   int dma_resv_get_fences_rcu(struct dma_resv *obj,
-> > >   			    struct dma_fence **pfence_excl,
-> > > -			    unsigned *pshared_count,
-> > > +			    unsigned int *pshared_count,
-> > >   			    struct dma_fence ***pshared)
-> > >   {
-> > >   	struct dma_fence **shared = NULL;
-> > > @@ -533,9 +491,9 @@ long dma_resv_wait_timeout_rcu(struct dma_resv *obj,
-> > >   			       bool wait_all, bool intr,
-> > >   			       unsigned long timeout)
-> > >   {
-> > > -	struct dma_fence *fence;
-> > > -	unsigned seq, shared_count;
-> > >   	long ret = timeout ? timeout : 1;
-> > > +	unsigned int seq, shared_count;
-> > > +	struct dma_fence *fence;
-> > >   	int i;
-> > >   retry:
-> > > @@ -565,8 +523,9 @@ long dma_resv_wait_timeout_rcu(struct dma_resv *obj,
-> > >   			shared_count = fobj->shared_count;
-> > >   		for (i = 0; !fence && i < shared_count; ++i) {
-> > > -			struct dma_fence *lfence = rcu_dereference(fobj->shared[i]);
-> > > +			struct dma_fence *lfence;
-> > > +			lfence = rcu_dereference(fobj->shared[i]);
-> > >   			if (test_bit(DMA_FENCE_FLAG_SIGNALED_BIT,
-> > >   				     &lfence->flags))
-> > >   				continue;
-> > > @@ -633,7 +592,7 @@ static inline int dma_resv_test_signaled_single(struct dma_fence *passed_fence)
-> > >    */
-> > >   bool dma_resv_test_signaled_rcu(struct dma_resv *obj, bool test_all)
-> > >   {
-> > > -	unsigned seq, shared_count;
-> > > +	unsigned int seq, shared_count;
-> > >   	int ret;
-> > >   	rcu_read_lock();
-> > > @@ -643,16 +602,16 @@ bool dma_resv_test_signaled_rcu(struct dma_resv *obj, bool test_all)
-> > >   	seq = read_seqcount_begin(&obj->seq);
-> > >   	if (test_all) {
-> > > -		unsigned i;
-> > > -
-> > >   		struct dma_resv_list *fobj = rcu_dereference(obj->fence);
-> > > +		unsigned int i;
-> > >   		if (fobj)
-> > >   			shared_count = fobj->shared_count;
-> > >   		for (i = 0; i < shared_count; ++i) {
-> > > -			struct dma_fence *fence = rcu_dereference(fobj->shared[i]);
-> > > +			struct dma_fence *fence;
-> > > +			fence = rcu_dereference(fobj->shared[i]);
-> > >   			ret = dma_resv_test_signaled_single(fence);
-> > >   			if (ret < 0)
-> > >   				goto retry;
-> > > @@ -681,3 +640,46 @@ bool dma_resv_test_signaled_rcu(struct dma_resv *obj, bool test_all)
-> > >   	return ret;
-> > >   }
-> > >   EXPORT_SYMBOL_GPL(dma_resv_test_signaled_rcu);
-> > > +
-> > > +#if IS_ENABLED(CONFIG_LOCKDEP)
-> > > +static int __init dma_resv_lockdep(void)
-> > > +{
-> > > +	struct mm_struct *mm = mm_alloc();
-> > > +	struct ww_acquire_ctx ctx;
-> > > +	struct dma_resv obj;
-> > > +	struct address_space mapping;
-> > > +	int ret;
-> > > +
-> > > +	if (!mm)
-> > > +		return -ENOMEM;
-> > > +
-> > > +	dma_resv_init(&obj);
-> > > +	address_space_init_once(&mapping);
-> > > +
-> > > +	mmap_read_lock(mm);
-> > > +	ww_acquire_init(&ctx, &reservation_ww_class);
-> > > +	ret = dma_resv_lock(&obj, &ctx);
-> > > +	if (ret == -EDEADLK)
-> > > +		dma_resv_lock_slow(&obj, &ctx);
-> > > +	fs_reclaim_acquire(GFP_KERNEL);
-> > > +	/* for unmap_mapping_range on trylocked buffer objects in shrinkers */
-> > > +	i_mmap_lock_write(&mapping);
-> > > +	i_mmap_unlock_write(&mapping);
-> > > +#ifdef CONFIG_MMU_NOTIFIER
-> > > +	lock_map_acquire(&__mmu_notifier_invalidate_range_start_map);
-> > > +	__dma_fence_might_wait();
-> > > +	lock_map_release(&__mmu_notifier_invalidate_range_start_map);
-> > > +#else
-> > > +	__dma_fence_might_wait();
-> > > +#endif
-> > > +	fs_reclaim_release(GFP_KERNEL);
-> > > +	ww_mutex_unlock(&obj.lock);
-> > > +	ww_acquire_fini(&ctx);
-> > > +	mmap_read_unlock(mm);
-> > > +
-> > > +	mmput(mm);
-> > > +
-> > > +	return 0;
-> > > +}
-> > > +subsys_initcall(dma_resv_lockdep);
-> > > +#endif
-> > > -- 
-> > > 2.25.1
-> > > 
-> 
+Am 02.06.21 um 14:33 schrieb Thomas Hellström (Intel):
+>
+> On 6/2/21 2:11 PM, Christian König wrote:
+>> Am 02.06.21 um 13:44 schrieb Thomas Hellström (Intel):
+>>>
+>>> On 6/2/21 12:09 PM, Christian König wrote:
+>>>> Start with the range manager to make the resource object the base
+>>>> class for the allocated nodes.
+>>>>
+>>>> While at it cleanup a lot of the code around that.
+>>>>
+>>>> Signed-off-by: Christian König <christian.koenig@amd.com>
+>>>> Reviewed-by: Matthew Auld <matthew.auld@intel.com>
+>>>> ---
+>>>>   drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c |  1 +
+>>>>   drivers/gpu/drm/drm_gem_vram_helper.c   |  2 +
+>>>>   drivers/gpu/drm/nouveau/nouveau_ttm.c   |  2 +
+>>>>   drivers/gpu/drm/qxl/qxl_ttm.c           |  1 +
+>>>>   drivers/gpu/drm/radeon/radeon_ttm.c     |  1 +
+>>>>   drivers/gpu/drm/ttm/ttm_range_manager.c | 56 
+>>>> ++++++++++++++++++-------
+>>>>   drivers/gpu/drm/ttm/ttm_resource.c      | 26 ++++++++----
+>>>>   include/drm/ttm/ttm_bo_driver.h         | 26 ------------
+>>>>   include/drm/ttm/ttm_range_manager.h     | 43 +++++++++++++++++++
+>>>>   include/drm/ttm/ttm_resource.h          |  3 ++
+>>>>   10 files changed, 111 insertions(+), 50 deletions(-)
+>>>>   create mode 100644 include/drm/ttm/ttm_range_manager.h
+>>>>
+>>>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c 
+>>>> b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+>>>> index 69db89261650..df1f185faae9 100644
+>>>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+>>>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+>>>> @@ -45,6 +45,7 @@
+>>>>   #include <drm/ttm/ttm_bo_api.h>
+>>>>   #include <drm/ttm/ttm_bo_driver.h>
+>>>>   #include <drm/ttm/ttm_placement.h>
+>>>> +#include <drm/ttm/ttm_range_manager.h>
+>>>>     #include <drm/amdgpu_drm.h>
+>>>>   diff --git a/drivers/gpu/drm/drm_gem_vram_helper.c 
+>>>> b/drivers/gpu/drm/drm_gem_vram_helper.c
+>>>> index 83e7258c7f90..17a4c5d47b6a 100644
+>>>> --- a/drivers/gpu/drm/drm_gem_vram_helper.c
+>>>> +++ b/drivers/gpu/drm/drm_gem_vram_helper.c
+>>>> @@ -17,6 +17,8 @@
+>>>>   #include <drm/drm_prime.h>
+>>>>   #include <drm/drm_simple_kms_helper.h>
+>>>>   +#include <drm/ttm/ttm_range_manager.h>
+>>>> +
+>>>>   static const struct drm_gem_object_funcs drm_gem_vram_object_funcs;
+>>>>     /**
+>>>> diff --git a/drivers/gpu/drm/nouveau/nouveau_ttm.c 
+>>>> b/drivers/gpu/drm/nouveau/nouveau_ttm.c
+>>>> index 65430912ff72..b08b8efeefba 100644
+>>>> --- a/drivers/gpu/drm/nouveau/nouveau_ttm.c
+>>>> +++ b/drivers/gpu/drm/nouveau/nouveau_ttm.c
+>>>> @@ -26,6 +26,8 @@
+>>>>   #include <linux/limits.h>
+>>>>   #include <linux/swiotlb.h>
+>>>>   +#include <drm/ttm/ttm_range_manager.h>
+>>>> +
+>>>>   #include "nouveau_drv.h"
+>>>>   #include "nouveau_gem.h"
+>>>>   #include "nouveau_mem.h"
+>>>> diff --git a/drivers/gpu/drm/qxl/qxl_ttm.c 
+>>>> b/drivers/gpu/drm/qxl/qxl_ttm.c
+>>>> index 8aa87b8edb9c..19fd39d9a00c 100644
+>>>> --- a/drivers/gpu/drm/qxl/qxl_ttm.c
+>>>> +++ b/drivers/gpu/drm/qxl/qxl_ttm.c
+>>>> @@ -32,6 +32,7 @@
+>>>>   #include <drm/ttm/ttm_bo_api.h>
+>>>>   #include <drm/ttm/ttm_bo_driver.h>
+>>>>   #include <drm/ttm/ttm_placement.h>
+>>>> +#include <drm/ttm/ttm_range_manager.h>
+>>>>     #include "qxl_drv.h"
+>>>>   #include "qxl_object.h"
+>>>> diff --git a/drivers/gpu/drm/radeon/radeon_ttm.c 
+>>>> b/drivers/gpu/drm/radeon/radeon_ttm.c
+>>>> index cdffa9b65108..ad2a5a791bba 100644
+>>>> --- a/drivers/gpu/drm/radeon/radeon_ttm.c
+>>>> +++ b/drivers/gpu/drm/radeon/radeon_ttm.c
+>>>> @@ -45,6 +45,7 @@
+>>>>   #include <drm/ttm/ttm_bo_api.h>
+>>>>   #include <drm/ttm/ttm_bo_driver.h>
+>>>>   #include <drm/ttm/ttm_placement.h>
+>>>> +#include <drm/ttm/ttm_range_manager.h>
+>>>>     #include "radeon_reg.h"
+>>>>   #include "radeon.h"
+>>>> diff --git a/drivers/gpu/drm/ttm/ttm_range_manager.c 
+>>>> b/drivers/gpu/drm/ttm/ttm_range_manager.c
+>>>> index b9d5da6e6a81..ce5d07ca384c 100644
+>>>> --- a/drivers/gpu/drm/ttm/ttm_range_manager.c
+>>>> +++ b/drivers/gpu/drm/ttm/ttm_range_manager.c
+>>>> @@ -29,12 +29,13 @@
+>>>>    * Authors: Thomas Hellstrom <thellstrom-at-vmware-dot-com>
+>>>>    */
+>>>>   -#include <drm/ttm/ttm_bo_driver.h>
+>>>> +#include <drm/ttm/ttm_device.h>
+>>>>   #include <drm/ttm/ttm_placement.h>
+>>>> +#include <drm/ttm/ttm_range_manager.h>
+>>>> +#include <drm/ttm/ttm_bo_api.h>
+>>>>   #include <drm/drm_mm.h>
+>>>>   #include <linux/slab.h>
+>>>>   #include <linux/spinlock.h>
+>>>> -#include <linux/module.h>
+>>>>     /*
+>>>>    * Currently we use a spinlock for the lock, but a mutex *may* be
+>>>> @@ -60,8 +61,8 @@ static int ttm_range_man_alloc(struct 
+>>>> ttm_resource_manager *man,
+>>>>                      struct ttm_resource *mem)
+>>>>   {
+>>>>       struct ttm_range_manager *rman = to_range_manager(man);
+>>>> +    struct ttm_range_mgr_node *node;
+>>>>       struct drm_mm *mm = &rman->mm;
+>>>> -    struct drm_mm_node *node;
+>>>>       enum drm_mm_insert_mode mode;
+>>>>       unsigned long lpfn;
+>>>>       int ret;
+>>>> @@ -70,7 +71,7 @@ static int ttm_range_man_alloc(struct 
+>>>> ttm_resource_manager *man,
+>>>>       if (!lpfn)
+>>>>           lpfn = man->size;
+>>>>   -    node = kzalloc(sizeof(*node), GFP_KERNEL);
+>>>> +    node = kzalloc(struct_size(node, mm_nodes, 1), GFP_KERNEL);
+>>>
+>>> I'm still a bit confused  about the situation where a driver wants 
+>>> to attach private data to a struct ttm_resource without having to 
+>>> re-implement its own range manager?
+>>>
+>>> Could be cached sg-tables, list of GPU bindings etc. Wouldn't work 
+>>> with the above unless we have a void *driver_private member on the 
+>>> struct ttm_resource. Is that the plan going forward here? Or that 
+>>> the driver actually does the re-implementation?
+>>
+>> I don't really understand your concern here. The basic idea is that 
+>> drivers use ttm_resource as a base class for their own implementation.
+>>
+>> See for example how nouveau does that:
+>>
+>> struct nouveau_mem {
+>>         struct ttm_resource base;
+>>         struct nouveau_cli *cli;
+>>         u8 kind;
+>>         u8 comp;
+>>         struct nvif_mem mem;
+>>         struct nvif_vma vma[2];
+>> };
+>>
+>> The range manager is helping driver specific resource managers which 
+>> want to implement something drm_mm_nodes based. E.g. amdgpu_gtt_mgr 
+>> and amdgpu_vram_mgr, but it can also be used stand alone.
+>>
+>> The ttm_range_mgr_node can then be used as base class for this 
+>> functionality. I already want to move some more code from 
+>> amdgpu_vram_mgr.c into the range manager, but that is just minor 
+>> cleanup work.
+>>
+> Sure but if you embed a ttm_range_mgr_node in your struct 
+> i915_resource, and wanted to use the ttm range manager for it, it 
+> would allocate a struct ttm_range_mgr_node rather than a struct 
+> i915_resource? Or am I missing something?
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Yes, that's the general idea I'm targeting for. I'm just not fully there 
+yet.
+
+The ttm range manager then provides functions to implement debugging 
+and/or the iterator for example while the driver specific parts only 
+implement stuff like special placement handling.
+
+Christian.
+
+>
+> /Thomas
+>
+>
+>
+>> Regards,
+>> Christian.
+>>
+>>>
+>>> Thanks,
+>>>
+>>> Thomas
+>>>
+>>>
+
