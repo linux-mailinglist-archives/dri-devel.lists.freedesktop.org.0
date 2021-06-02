@@ -1,56 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF029398CD4
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Jun 2021 16:33:26 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 45B7F398CD5
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Jun 2021 16:33:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 959D96ECB6;
-	Wed,  2 Jun 2021 14:33:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E97A86ECB7;
+	Wed,  2 Jun 2021 14:33:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com
- [IPv6:2a00:1450:4864:20::42a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1FC046ECB3
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Jun 2021 14:33:14 +0000 (UTC)
-Received: by mail-wr1-x42a.google.com with SMTP id n4so2555447wrw.3
- for <dri-devel@lists.freedesktop.org>; Wed, 02 Jun 2021 07:33:14 -0700 (PDT)
+Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com
+ [IPv6:2a00:1450:4864:20::330])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2A1706ECB5
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Jun 2021 14:33:15 +0000 (UTC)
+Received: by mail-wm1-x330.google.com with SMTP id r13so1454871wmq.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 02 Jun 2021 07:33:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=rMlp5Ni2aMFHyMfn1NEHDx/+WQIjP8upodgZGGEhVrs=;
- b=K+TM+jok6dmGLiVfdJ5aHvkAyTXlaxEkUvu3eR15jQnSiQZDOVbl7Ad7UABtuK84F+
- SiGyWlm0Q/Roo4MaHxBw0hVagJn3kB7B36ned7f9VZ7qKdW9ew8tDax4JyeliwEfgol3
- LzTH/V9mmfZPWw8etltfOUAbOOTdt4Q0Ftc5FSS8fWAxZyn2LdeeVc0x7fAv7i5SeeiV
- RyQyKw94rLiFXSNIvLFJOHuBXAj1BVslRvQMMPFHt2y5OtRXJV3gKAa/0ebcSulVTrhy
- 2+LLiMiabV/zAlV49XtTFoV3pIDQSZGzBFWLFN2PAdXSdV+a0OFPsprrfDXJgipgQSRi
- 8lMg==
+ bh=71fOhHlO0apSNak4OgEIaxdLa+/aWkYj9kGsKGdRvTY=;
+ b=xUhef00MAVJBy+PY/e3mmGBGxXvIB8iTo9q2dRXzdTl6KgRNOFx3Yh5yZm5G5EDaa4
+ MqdznlwSY7+USlsU8c+sFceCBC4jbvyxI1T0bdvESoujA+UP7urnlvjIJSKSVIG9CZpp
+ 3y1jKPC6xkQRU3IbTX6PaBsEUEQoVuT5KWblMlVi/2luDXltDZnS8VexfxbJrdoQ5jvr
+ MXkykFkPCdRogUZ1amrbUundmf8LFslbw3D9ChQKatF0ihn61jSwGhg0tiwejOxV3UCG
+ OshO5G93Twyyo8dVe3UVrzg9/ZziR1X4PrgmJqOYNb61iGuhDts2f6VYWZjl2Oh8g5kM
+ dFTg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=rMlp5Ni2aMFHyMfn1NEHDx/+WQIjP8upodgZGGEhVrs=;
- b=EGCSL5ZCedN0q65vB3fU9O4mfN5vc3lp0nCjXDBi9YjcYwDfO1sP4pVXvv4cstz+pP
- /beky/mXsB1vqYVU56bBS8a240aXtGaLZw0Xp8B2DNC/q9gwB1kAxzlcgZBwi5rxtAvq
- B2reGdkVQe7uc5RgmmVVrGobpvVmee2o964U4P8vgTq0nLH+ajdxZvcxnyeO0Gbvd7hc
- 2YKYcNh98JjM3tjjDK3ExWW/SInK3uOV57ApYx5PllGsXs/gzBxoFGIA8wGJxwwkHCVR
- 2qrXhdrxajsGfwnCGFJeXBaGXTDbYPvzGvs0tt/BbW57t4edvX7SC/hnHEsYb/3ADBT3
- PadA==
-X-Gm-Message-State: AOAM5316fsOE78O4zxQxGWAqIP28GMS+CfpCZmMnjXd2htTKkN5LccDT
- Zwb/EBiPJsF499nTfUKeSr6hDA==
-X-Google-Smtp-Source: ABdhPJyyjExdHvRbSDp8SXi+SPDREQCiQw3FO2lfDCB5q7ocoF+sb8JiXyCVcFPptQi4DQIZ2IRr1A==
-X-Received: by 2002:a05:6000:1542:: with SMTP id 2mr3202490wry.4.1622644392816; 
- Wed, 02 Jun 2021 07:33:12 -0700 (PDT)
+ bh=71fOhHlO0apSNak4OgEIaxdLa+/aWkYj9kGsKGdRvTY=;
+ b=Qj6lYPMcno76n6c/U3lgch2nbyWTDNpxj4NuJ2fp80x/327y7KysnMm84qf4dpWRi9
+ Bf+1PbhlA5rO1VliXG4ITE1DuzvYTLZNKpQ0LxBCIrhKfAUxuOEIGyZ+GUqaKsw3SaK2
+ L5gPFXLJIGIYMjBfIGQEqhS8HCkXfFFW8mbmocY3F5LiopdFuwJ2DpV/be8wv/VZYio6
+ LrAzJPNqlwL+69gQ2NeeTofU3nultbZepEk5evxTsbqon+NktarSHWFJs3qZmbbFClzB
+ auZOLk/7lMH79YvVQMYwIe9DS6cV4F6oLjllfVhc+Klqvrzq3jzNPngtp7a0z0UwLk0C
+ 1nzg==
+X-Gm-Message-State: AOAM531N/WP4tFGuGqpMrms+7UNMoTl8at/5ny1vz23zz8Q6IhqH0Cfu
+ jq/o+ApORvdWNVpdOKx4kKIMcQ==
+X-Google-Smtp-Source: ABdhPJzulksV7rbktUjzhrFg74d46BeymCpz5NyUxNhoO0P/xDn9e9UnTwrPNud6bo/oRxePX9B7aA==
+X-Received: by 2002:a1c:bc09:: with SMTP id m9mr15311724wmf.143.1622644393843; 
+ Wed, 02 Jun 2021 07:33:13 -0700 (PDT)
 Received: from dell.default ([91.110.221.214])
  by smtp.gmail.com with ESMTPSA id o11sm132315wrq.93.2021.06.02.07.33.12
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 02 Jun 2021 07:33:12 -0700 (PDT)
+ Wed, 02 Jun 2021 07:33:13 -0700 (PDT)
 From: Lee Jones <lee.jones@linaro.org>
 To: lee.jones@linaro.org
-Subject: [RESEND 03/26] drm/mediatek/mtk_disp_ovl: Strip and demote
- non-conformant header
-Date: Wed,  2 Jun 2021 15:32:37 +0100
-Message-Id: <20210602143300.2330146-4-lee.jones@linaro.org>
+Subject: [RESEND 04/26] drm/mediatek/mtk_disp_rdma: Strip and demote
+ non-conformant kernel-doc header
+Date: Wed,  2 Jun 2021 15:32:38 +0100
+Message-Id: <20210602143300.2330146-5-lee.jones@linaro.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210602143300.2330146-1-lee.jones@linaro.org>
 References: <20210602143300.2330146-1-lee.jones@linaro.org>
@@ -77,11 +77,12 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Fixes the following W=1 kernel build warning(s):
 
- drivers/gpu/drm/mediatek/mtk_disp_ovl.c:83: warning: Function parameter or member 'clk' not described in 'mtk_disp_ovl'
- drivers/gpu/drm/mediatek/mtk_disp_ovl.c:83: warning: Function parameter or member 'regs' not described in 'mtk_disp_ovl'
- drivers/gpu/drm/mediatek/mtk_disp_ovl.c:83: warning: Function parameter or member 'cmdq_reg' not described in 'mtk_disp_ovl'
- drivers/gpu/drm/mediatek/mtk_disp_ovl.c:83: warning: Function parameter or member 'vblank_cb' not described in 'mtk_disp_ovl'
- drivers/gpu/drm/mediatek/mtk_disp_ovl.c:83: warning: Function parameter or member 'vblank_cb_data' not described in 'mtk_disp_ovl'
+ drivers/gpu/drm/mediatek/mtk_disp_rdma.c:72: warning: Function parameter or member 'clk' not described in 'mtk_disp_rdma'
+ drivers/gpu/drm/mediatek/mtk_disp_rdma.c:72: warning: Function parameter or member 'regs' not described in 'mtk_disp_rdma'
+ drivers/gpu/drm/mediatek/mtk_disp_rdma.c:72: warning: Function parameter or member 'cmdq_reg' not described in 'mtk_disp_rdma'
+ drivers/gpu/drm/mediatek/mtk_disp_rdma.c:72: warning: Function parameter or member 'vblank_cb' not described in 'mtk_disp_rdma'
+ drivers/gpu/drm/mediatek/mtk_disp_rdma.c:72: warning: Function parameter or member 'vblank_cb_data' not described in 'mtk_disp_rdma'
+ drivers/gpu/drm/mediatek/mtk_disp_rdma.c:72: warning: Function parameter or member 'fifo_size' not described in 'mtk_disp_rdma'
 
 Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>
 Cc: Philipp Zabel <p.zabel@pengutronix.de>
@@ -93,24 +94,25 @@ Cc: linux-mediatek@lists.infradead.org
 Cc: linux-arm-kernel@lists.infradead.org
 Signed-off-by: Lee Jones <lee.jones@linaro.org>
 ---
- drivers/gpu/drm/mediatek/mtk_disp_ovl.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ drivers/gpu/drm/mediatek/mtk_disp_rdma.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_disp_ovl.c b/drivers/gpu/drm/mediatek/mtk_disp_ovl.c
-index 961f87f8d4d15..fa9d79963cd34 100644
---- a/drivers/gpu/drm/mediatek/mtk_disp_ovl.c
-+++ b/drivers/gpu/drm/mediatek/mtk_disp_ovl.c
-@@ -66,9 +66,8 @@ struct mtk_disp_ovl_data {
- 	bool smi_id_en;
+diff --git a/drivers/gpu/drm/mediatek/mtk_disp_rdma.c b/drivers/gpu/drm/mediatek/mtk_disp_rdma.c
+index 728aaadfea8cf..705f28ceb4ddd 100644
+--- a/drivers/gpu/drm/mediatek/mtk_disp_rdma.c
++++ b/drivers/gpu/drm/mediatek/mtk_disp_rdma.c
+@@ -55,10 +55,8 @@ struct mtk_disp_rdma_data {
+ 	unsigned int fifo_size;
  };
  
 -/**
 +/*
-  * struct mtk_disp_ovl - DISP_OVL driver structure
+  * struct mtk_disp_rdma - DISP_RDMA driver structure
 - * @ddp_comp: structure containing type enum and hardware resources
-  * @crtc: associated crtc to report vblank events to
-  * @data: platform data
+- * @crtc: associated crtc to report irq events to
+  * @data: local driver data
   */
+ struct mtk_disp_rdma {
 -- 
 2.31.1
 
