@@ -2,67 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 614CE3989FD
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Jun 2021 14:47:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA0A63989FE
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Jun 2021 14:47:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 871996EC8E;
-	Wed,  2 Jun 2021 12:47:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DE0016EC90;
+	Wed,  2 Jun 2021 12:47:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com
- [IPv6:2a00:1450:4864:20::62a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5E0226EC8C
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Jun 2021 12:47:28 +0000 (UTC)
-Received: by mail-ej1-x62a.google.com with SMTP id g8so3707046ejx.1
- for <dri-devel@lists.freedesktop.org>; Wed, 02 Jun 2021 05:47:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-transfer-encoding:content-language;
- bh=lSWMgvQ9fgqFep8qsYjP05VwMF9L/pAStNKl3cWmxUc=;
- b=VXac/RP+AvrKuvulQ2Hon5Np03QI3dFBdHM/u5jgkSIxaCsQOK7BmuAPmA3zWPVA5h
- eN2icJzDhiijlUp5+GKZIJYQkrcgj9lUD95lBOF91vPvDYhbuGh6QH2/v5IjKEuGbdZN
- Gj5jZIuoJZFyhqjwlJrlqS7NFZwKL/PANPHQK8HaYJUjo4oD77o4AjIO/wOc1lVxhM4o
- s5ThKwu4iDEkTLiRa8Owwna/XIKmAzwpWBq6z6NTop1qNNtRCYKqhqZ78io7ixVDE2+/
- eiLGxAFOcrExmHm6A6904FGZY+aZRHqqm/eYv5L1L5KTwkknbDzI4mPNLb/Ne3XirvxW
- EMjg==
+Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com
+ [IPv6:2a00:1450:4864:20::32c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CA4856EC90
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Jun 2021 12:47:44 +0000 (UTC)
+Received: by mail-wm1-x32c.google.com with SMTP id f17so1206798wmf.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 02 Jun 2021 05:47:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=x8cYutjMf+bEkjbjESgKFNPWUTa5t2NSipNDBrN3cPM=;
+ b=WCk6zu5YzuKbuCCfYJ9mG9kytrknq7WhfLJQ6/yuwpZfcrtcjfimV4iHnpGNQU/4Sn
+ DP40vYIbQtf5w3qkqbYZ1Hhrc3AutYdAqDYUkyJashro/wm2FpDSNucljxFSn81mi+km
+ xmkI2glDKyFpAt0DowU419hrUQZp3HsbFMSMk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-transfer-encoding
- :content-language;
- bh=lSWMgvQ9fgqFep8qsYjP05VwMF9L/pAStNKl3cWmxUc=;
- b=umP58RojjFYwtbtYYWEnIcOGuqN8Ulrpzcer1fhkg7EQXBkeLQlgO/I8ZirVrGgy2c
- aF4XS4TSkZhiL8LXuS1tLfKR7aqKlN1HLwZ7NsAs0v9rzWv2XPJ78TcmrV4iVYjm/2Rc
- Qio1l0ahsSSxHgimWrgH79HYY/AlHB5QT4cNTutHl1UiUlLjV/VNT9PvAfKCu+eUxMc+
- tR6AU2zJGfSpz3Ebq19wbA/GrANSnjzDmdILqQfiYWefUdNFXbOHxUcivg8lryn08oBu
- APsSnDDEIPi+5HbKLVbS5H6Mz4tU5beqgisVYBujcMuq5o+1HR/ZA4IKZzJ/6QXtEPqE
- tXcQ==
-X-Gm-Message-State: AOAM533gp/v7siJS/rIjzJg14LhKey54C31AoTE6hQz/EbRaLUnoV9B7
- +aitCtoKHHdcjXyfH0adqC7ITXj3L7k=
-X-Google-Smtp-Source: ABdhPJww5jCGxU1Rhm5eDYS3Ec3SjtBevNm7GiwFSYMWZqG8cJphS9lrs60OuesKsf0CpzwVrEUiyA==
-X-Received: by 2002:a17:906:1591:: with SMTP id
- k17mr34725754ejd.401.1622638047023; 
- Wed, 02 Jun 2021 05:47:27 -0700 (PDT)
-Received: from ?IPv6:2a02:908:1252:fb60:cd07:2759:3eec:1d00?
- ([2a02:908:1252:fb60:cd07:2759:3eec:1d00])
- by smtp.gmail.com with ESMTPSA id dy19sm1306251edb.68.2021.06.02.05.47.26
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 02 Jun 2021 05:47:26 -0700 (PDT)
-Subject: Re: [PATCH 2/7] dma-buf: add SPDX header and fix style in dma-resv.c
-To: Daniel Vetter <daniel@ffwll.ch>
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=x8cYutjMf+bEkjbjESgKFNPWUTa5t2NSipNDBrN3cPM=;
+ b=mUMt2QeHnmrJFw2c7SZurO+eTQxRlMpA6gGVqbOz4qI2BL3HDI3WcXUP04sa/0MQRZ
+ jeBfffQAEaxjM8zU6+c8sFiFLW/cTtnJKSJMbi+qdDfLTADFEp2ngZc65unm+OwSb7Xw
+ iCMTX9EsylgGwSwZNwnpOwMhdpbTM6SVNbvitfiHmjJZkyRHFeEq/Dd0fMM3/jkrEgMB
+ Pp3zmW61cPBJnfXLxufI2Ku7voia14eZtgp/r0ZaD5ULDQrlR+wj8JHj77z0TdEtJN2h
+ E9r6NK7TzpFZZSVYrbS1Swt2eRlR6estUhQPzTXmWrFf3AP9BJuMYmjy9qri6rRyxvC/
+ Bk0g==
+X-Gm-Message-State: AOAM530LMMvHNmMkkoYH6EXOhBGCY6zQM7UEusS1fRZgEEO1vUDEJb3C
+ ITiZ98131q/d7DQyIcUxA1GGaw==
+X-Google-Smtp-Source: ABdhPJztMFy6z0CjMI9MPAmRQg7AVTvfMb7lDSKOMf/3xrN4ydxhT+1e3Y6DXrUqfSAfTWn7XP7dCw==
+X-Received: by 2002:a1c:5f09:: with SMTP id t9mr3832920wmb.42.1622638063661;
+ Wed, 02 Jun 2021 05:47:43 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id n9sm2653048wmc.20.2021.06.02.05.47.42
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 02 Jun 2021 05:47:43 -0700 (PDT)
+Date: Wed, 2 Jun 2021 14:47:41 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>
+Subject: Re: [PATCH 6/7] dma-buf: rename dma_resv_get_excl_rcu to _unlocked
+Message-ID: <YLd97ZWH7X6PqRyU@phenom.ffwll.local>
 References: <20210602111714.212426-1-christian.koenig@amd.com>
- <20210602111714.212426-2-christian.koenig@amd.com>
- <YLd6761iGBs2MYsw@phenom.ffwll.local>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-Message-ID: <9f0d39d3-400e-8744-e80f-6e1b45eeabff@gmail.com>
-Date: Wed, 2 Jun 2021 14:47:25 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ <20210602111714.212426-6-christian.koenig@amd.com>
 MIME-Version: 1.0
-In-Reply-To: <YLd6761iGBs2MYsw@phenom.ffwll.local>
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+In-Reply-To: <20210602111714.212426-6-christian.koenig@amd.com>
+X-Operating-System: Linux phenom 5.10.32scarlett+ 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,263 +72,193 @@ Cc: dri-devel@lists.freedesktop.org, jason@jlekstrand.net
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Wed, Jun 02, 2021 at 01:17:13PM +0200, Christian König wrote:
+> That describes much better what the function is doing here.
+> 
+> Signed-off-by: Christian König <christian.koenig@amd.com>
 
+Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 
-Am 02.06.21 um 14:34 schrieb Daniel Vetter:
-> On Wed, Jun 02, 2021 at 01:17:09PM +0200, Christian KÃ¶nig wrote:
->> No functional change.
->>
->> Signed-off-by: Christian KÃ¶nig <christian.koenig@amd.com>
-> Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
->
-> Maybe add the checkpatch warnings you're fixing here to the commit
-> message. I didn't know that initcalls should be at the bottom ...
+> ---
+>  drivers/gpu/drm/drm_gem.c                    | 2 +-
+>  drivers/gpu/drm/drm_gem_atomic_helper.c      | 2 +-
+>  drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c | 2 +-
+>  drivers/gpu/drm/i915/display/intel_display.c | 2 +-
+>  drivers/gpu/drm/i915/gem/i915_gem_object.h   | 2 +-
+>  drivers/gpu/drm/i915/gem/i915_gem_wait.c     | 4 ++--
+>  drivers/gpu/drm/i915/i915_request.c          | 2 +-
+>  drivers/gpu/drm/i915/i915_sw_fence.c         | 2 +-
+>  drivers/gpu/drm/nouveau/dispnv50/wndw.c      | 2 +-
+>  drivers/gpu/drm/panfrost/panfrost_job.c      | 2 +-
+>  include/linux/dma-resv.h                     | 4 ++--
+>  11 files changed, 13 insertions(+), 13 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
+> index 9989425e9875..263b4fb03303 100644
+> --- a/drivers/gpu/drm/drm_gem.c
+> +++ b/drivers/gpu/drm/drm_gem.c
+> @@ -1375,7 +1375,7 @@ int drm_gem_fence_array_add_implicit(struct xarray *fence_array,
+>  
+>  	if (!write) {
+>  		struct dma_fence *fence =
+> -			dma_resv_get_excl_rcu(obj->resv);
+> +			dma_resv_get_excl_unlocked(obj->resv);
+>  
+>  		return drm_gem_fence_array_add(fence_array, fence);
+>  	}
+> diff --git a/drivers/gpu/drm/drm_gem_atomic_helper.c b/drivers/gpu/drm/drm_gem_atomic_helper.c
+> index a005c5a0ba46..a27135084ae5 100644
+> --- a/drivers/gpu/drm/drm_gem_atomic_helper.c
+> +++ b/drivers/gpu/drm/drm_gem_atomic_helper.c
+> @@ -147,7 +147,7 @@ int drm_gem_plane_helper_prepare_fb(struct drm_plane *plane, struct drm_plane_st
+>  		return 0;
+>  
+>  	obj = drm_gem_fb_get_obj(state->fb, 0);
+> -	fence = dma_resv_get_excl_rcu(obj->resv);
+> +	fence = dma_resv_get_excl_unlocked(obj->resv);
+>  	drm_atomic_set_fence_for_plane(state, fence);
+>  
+>  	return 0;
+> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c b/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
+> index d05c35994579..c942d2a8c252 100644
+> --- a/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
+> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
+> @@ -195,7 +195,7 @@ static int submit_fence_sync(struct etnaviv_gem_submit *submit)
+>  			if (ret)
+>  				return ret;
+>  		} else {
+> -			bo->excl = dma_resv_get_excl_rcu(robj);
+> +			bo->excl = dma_resv_get_excl_unlocked(robj);
+>  		}
+>  
+>  	}
+> diff --git a/drivers/gpu/drm/i915/display/intel_display.c b/drivers/gpu/drm/i915/display/intel_display.c
+> index 384ff0bb6e19..f17c5f54feb6 100644
+> --- a/drivers/gpu/drm/i915/display/intel_display.c
+> +++ b/drivers/gpu/drm/i915/display/intel_display.c
+> @@ -11040,7 +11040,7 @@ intel_prepare_plane_fb(struct drm_plane *_plane,
+>  		if (ret < 0)
+>  			goto unpin_fb;
+>  
+> -		fence = dma_resv_get_excl_rcu(obj->base.resv);
+> +		fence = dma_resv_get_excl_unlocked(obj->base.resv);
+>  		if (fence) {
+>  			add_rps_boost_after_vblank(new_plane_state->hw.crtc,
+>  						   fence);
+> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object.h b/drivers/gpu/drm/i915/gem/i915_gem_object.h
+> index 2ebd79537aea..7c0eb425cb3b 100644
+> --- a/drivers/gpu/drm/i915/gem/i915_gem_object.h
+> +++ b/drivers/gpu/drm/i915/gem/i915_gem_object.h
+> @@ -500,7 +500,7 @@ i915_gem_object_last_write_engine(struct drm_i915_gem_object *obj)
+>  	struct dma_fence *fence;
+>  
+>  	rcu_read_lock();
+> -	fence = dma_resv_get_excl_rcu(obj->base.resv);
+> +	fence = dma_resv_get_excl_unlocked(obj->base.resv);
+>  	rcu_read_unlock();
+>  
+>  	if (fence && dma_fence_is_i915(fence) && !dma_fence_is_signaled(fence))
+> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_wait.c b/drivers/gpu/drm/i915/gem/i915_gem_wait.c
+> index 4b9856d5ba14..c13aeddf5aa7 100644
+> --- a/drivers/gpu/drm/i915/gem/i915_gem_wait.c
+> +++ b/drivers/gpu/drm/i915/gem/i915_gem_wait.c
+> @@ -73,7 +73,7 @@ i915_gem_object_wait_reservation(struct dma_resv *resv,
+>  		 */
+>  		prune_fences = count && timeout >= 0;
+>  	} else {
+> -		excl = dma_resv_get_excl_rcu(resv);
+> +		excl = dma_resv_get_excl_unlocked(resv);
+>  	}
+>  
+>  	if (excl && timeout >= 0)
+> @@ -170,7 +170,7 @@ i915_gem_object_wait_priority(struct drm_i915_gem_object *obj,
+>  
+>  		kfree(shared);
+>  	} else {
+> -		excl = dma_resv_get_excl_rcu(obj->base.resv);
+> +		excl = dma_resv_get_excl_unlocked(obj->base.resv);
+>  	}
+>  
+>  	if (excl) {
+> diff --git a/drivers/gpu/drm/i915/i915_request.c b/drivers/gpu/drm/i915/i915_request.c
+> index bec9c3652188..c85494f411f4 100644
+> --- a/drivers/gpu/drm/i915/i915_request.c
+> +++ b/drivers/gpu/drm/i915/i915_request.c
+> @@ -1611,7 +1611,7 @@ i915_request_await_object(struct i915_request *to,
+>  			dma_fence_put(shared[i]);
+>  		kfree(shared);
+>  	} else {
+> -		excl = dma_resv_get_excl_rcu(obj->base.resv);
+> +		excl = dma_resv_get_excl_unlocked(obj->base.resv);
+>  	}
+>  
+>  	if (excl) {
+> diff --git a/drivers/gpu/drm/i915/i915_sw_fence.c b/drivers/gpu/drm/i915/i915_sw_fence.c
+> index 2744558f3050..7aaf74552d06 100644
+> --- a/drivers/gpu/drm/i915/i915_sw_fence.c
+> +++ b/drivers/gpu/drm/i915/i915_sw_fence.c
+> @@ -606,7 +606,7 @@ int i915_sw_fence_await_reservation(struct i915_sw_fence *fence,
+>  			dma_fence_put(shared[i]);
+>  		kfree(shared);
+>  	} else {
+> -		excl = dma_resv_get_excl_rcu(resv);
+> +		excl = dma_resv_get_excl_unlocked(resv);
+>  	}
+>  
+>  	if (ret >= 0 && excl && excl->ops != exclude) {
+> diff --git a/drivers/gpu/drm/nouveau/dispnv50/wndw.c b/drivers/gpu/drm/nouveau/dispnv50/wndw.c
+> index 0cb1f9d848d3..8d048bacd6f0 100644
+> --- a/drivers/gpu/drm/nouveau/dispnv50/wndw.c
+> +++ b/drivers/gpu/drm/nouveau/dispnv50/wndw.c
+> @@ -561,7 +561,7 @@ nv50_wndw_prepare_fb(struct drm_plane *plane, struct drm_plane_state *state)
+>  			asyw->image.handle[0] = ctxdma->object.handle;
+>  	}
+>  
+> -	asyw->state.fence = dma_resv_get_excl_rcu(nvbo->bo.base.resv);
+> +	asyw->state.fence = dma_resv_get_excl_unlocked(nvbo->bo.base.resv);
+>  	asyw->image.offset[0] = nvbo->offset;
+>  
+>  	if (wndw->func->prepare) {
+> diff --git a/drivers/gpu/drm/panfrost/panfrost_job.c b/drivers/gpu/drm/panfrost/panfrost_job.c
+> index 6003cfeb1322..2df3e999a38d 100644
+> --- a/drivers/gpu/drm/panfrost/panfrost_job.c
+> +++ b/drivers/gpu/drm/panfrost/panfrost_job.c
+> @@ -203,7 +203,7 @@ static void panfrost_acquire_object_fences(struct drm_gem_object **bos,
+>  	int i;
+>  
+>  	for (i = 0; i < bo_count; i++)
+> -		implicit_fences[i] = dma_resv_get_excl_rcu(bos[i]->resv);
+> +		implicit_fences[i] = dma_resv_get_excl_unlocked(bos[i]->resv);
+>  }
+>  
+>  static void panfrost_attach_object_fences(struct drm_gem_object **bos,
+> diff --git a/include/linux/dma-resv.h b/include/linux/dma-resv.h
+> index 98ac66fecb71..f6b71712c029 100644
+> --- a/include/linux/dma-resv.h
+> +++ b/include/linux/dma-resv.h
+> @@ -228,7 +228,7 @@ dma_resv_exclusive(struct dma_resv *obj)
+>  }
+>  
+>  /**
+> - * dma_resv_get_excl_rcu - get the reservation object's
+> + * dma_resv_get_excl_unlocked - get the reservation object's
+>   * exclusive fence, without lock held.
+>   * @obj: the reservation object
+>   *
+> @@ -239,7 +239,7 @@ dma_resv_exclusive(struct dma_resv *obj)
+>   * The exclusive fence or NULL if none
+>   */
+>  static inline struct dma_fence *
+> -dma_resv_get_excl_rcu(struct dma_resv *obj)
+> +dma_resv_get_excl_unlocked(struct dma_resv *obj)
+>  {
+>  	struct dma_fence *fence;
+>  
+> -- 
+> 2.25.1
+> 
 
-Well dma_resv_lockdep() had some tab/space mixup and moving it around 
-was the easiest way to fix that in the editor :)
-
-Moving it to the end seemed logical to me.
-
-Christian.
-
-> -Daniel
->
->
->> ---
->>   drivers/dma-buf/dma-resv.c | 128 +++++++++++++++++++------------------
->>   1 file changed, 65 insertions(+), 63 deletions(-)
->>
->> diff --git a/drivers/dma-buf/dma-resv.c b/drivers/dma-buf/dma-resv.c
->> index 6ddbeb5dfbf6..87f5d82d992a 100644
->> --- a/drivers/dma-buf/dma-resv.c
->> +++ b/drivers/dma-buf/dma-resv.c
->> @@ -1,3 +1,4 @@
->> +// SPDX-License-Identifier: MIT
->>   /*
->>    * Copyright (C) 2012-2014 Canonical Ltd (Maarten Lankhorst)
->>    *
->> @@ -92,49 +93,6 @@ static void dma_resv_list_free(struct dma_resv_list *list)
->>   	kfree_rcu(list, rcu);
->>   }
->>   
->> -#if IS_ENABLED(CONFIG_LOCKDEP)
->> -static int __init dma_resv_lockdep(void)
->> -{
->> -	struct mm_struct *mm = mm_alloc();
->> -	struct ww_acquire_ctx ctx;
->> -	struct dma_resv obj;
->> -	struct address_space mapping;
->> -	int ret;
->> -
->> -	if (!mm)
->> -		return -ENOMEM;
->> -
->> -	dma_resv_init(&obj);
->> -	address_space_init_once(&mapping);
->> -
->> -	mmap_read_lock(mm);
->> -	ww_acquire_init(&ctx, &reservation_ww_class);
->> -	ret = dma_resv_lock(&obj, &ctx);
->> -	if (ret == -EDEADLK)
->> -		dma_resv_lock_slow(&obj, &ctx);
->> -	fs_reclaim_acquire(GFP_KERNEL);
->> -	/* for unmap_mapping_range on trylocked buffer objects in shrinkers */
->> -	i_mmap_lock_write(&mapping);
->> -	i_mmap_unlock_write(&mapping);
->> -#ifdef CONFIG_MMU_NOTIFIER
->> -	lock_map_acquire(&__mmu_notifier_invalidate_range_start_map);
->> -	__dma_fence_might_wait();
->> -	lock_map_release(&__mmu_notifier_invalidate_range_start_map);
->> -#else
->> -	__dma_fence_might_wait();
->> -#endif
->> -	fs_reclaim_release(GFP_KERNEL);
->> -	ww_mutex_unlock(&obj.lock);
->> -	ww_acquire_fini(&ctx);
->> -	mmap_read_unlock(mm);
->> -	
->> -	mmput(mm);
->> -
->> -	return 0;
->> -}
->> -subsys_initcall(dma_resv_lockdep);
->> -#endif
->> -
->>   /**
->>    * dma_resv_init - initialize a reservation object
->>    * @obj: the reservation object
->> @@ -196,9 +154,7 @@ int dma_resv_reserve_shared(struct dma_resv *obj, unsigned int num_fences)
->>   	if (old && old->shared_max) {
->>   		if ((old->shared_count + num_fences) <= old->shared_max)
->>   			return 0;
->> -		else
->> -			max = max(old->shared_count + num_fences,
->> -				  old->shared_max * 2);
->> +		max = max(old->shared_count + num_fences, old->shared_max * 2);
->>   	} else {
->>   		max = max(4ul, roundup_pow_of_two(num_fences));
->>   	}
->> @@ -337,17 +293,17 @@ void dma_resv_add_excl_fence(struct dma_resv *obj, struct dma_fence *fence)
->>   EXPORT_SYMBOL(dma_resv_add_excl_fence);
->>   
->>   /**
->> -* dma_resv_copy_fences - Copy all fences from src to dst.
->> -* @dst: the destination reservation object
->> -* @src: the source reservation object
->> -*
->> -* Copy all fences from src to dst. dst-lock must be held.
->> -*/
->> + * dma_resv_copy_fences - Copy all fences from src to dst.
->> + * @dst: the destination reservation object
->> + * @src: the source reservation object
->> + *
->> + * Copy all fences from src to dst. dst-lock must be held.
->> + */
->>   int dma_resv_copy_fences(struct dma_resv *dst, struct dma_resv *src)
->>   {
->>   	struct dma_resv_list *src_list, *dst_list;
->>   	struct dma_fence *old, *new;
->> -	unsigned i;
->> +	unsigned int i;
->>   
->>   	dma_resv_assert_held(dst);
->>   
->> @@ -356,7 +312,7 @@ int dma_resv_copy_fences(struct dma_resv *dst, struct dma_resv *src)
->>   
->>   retry:
->>   	if (src_list) {
->> -		unsigned shared_count = src_list->shared_count;
->> +		unsigned int shared_count = src_list->shared_count;
->>   
->>   		rcu_read_unlock();
->>   
->> @@ -373,6 +329,7 @@ int dma_resv_copy_fences(struct dma_resv *dst, struct dma_resv *src)
->>   
->>   		dst_list->shared_count = 0;
->>   		for (i = 0; i < src_list->shared_count; ++i) {
->> +			struct dma_fence __rcu **dst;
->>   			struct dma_fence *fence;
->>   
->>   			fence = rcu_dereference(src_list->shared[i]);
->> @@ -391,7 +348,8 @@ int dma_resv_copy_fences(struct dma_resv *dst, struct dma_resv *src)
->>   				continue;
->>   			}
->>   
->> -			rcu_assign_pointer(dst_list->shared[dst_list->shared_count++], fence);
->> +			dst = &dst_list->shared[dst_list->shared_count++];
->> +			rcu_assign_pointer(*dst, fence);
->>   		}
->>   	} else {
->>   		dst_list = NULL;
->> @@ -431,7 +389,7 @@ EXPORT_SYMBOL(dma_resv_copy_fences);
->>    */
->>   int dma_resv_get_fences_rcu(struct dma_resv *obj,
->>   			    struct dma_fence **pfence_excl,
->> -			    unsigned *pshared_count,
->> +			    unsigned int *pshared_count,
->>   			    struct dma_fence ***pshared)
->>   {
->>   	struct dma_fence **shared = NULL;
->> @@ -533,9 +491,9 @@ long dma_resv_wait_timeout_rcu(struct dma_resv *obj,
->>   			       bool wait_all, bool intr,
->>   			       unsigned long timeout)
->>   {
->> -	struct dma_fence *fence;
->> -	unsigned seq, shared_count;
->>   	long ret = timeout ? timeout : 1;
->> +	unsigned int seq, shared_count;
->> +	struct dma_fence *fence;
->>   	int i;
->>   
->>   retry:
->> @@ -565,8 +523,9 @@ long dma_resv_wait_timeout_rcu(struct dma_resv *obj,
->>   			shared_count = fobj->shared_count;
->>   
->>   		for (i = 0; !fence && i < shared_count; ++i) {
->> -			struct dma_fence *lfence = rcu_dereference(fobj->shared[i]);
->> +			struct dma_fence *lfence;
->>   
->> +			lfence = rcu_dereference(fobj->shared[i]);
->>   			if (test_bit(DMA_FENCE_FLAG_SIGNALED_BIT,
->>   				     &lfence->flags))
->>   				continue;
->> @@ -633,7 +592,7 @@ static inline int dma_resv_test_signaled_single(struct dma_fence *passed_fence)
->>    */
->>   bool dma_resv_test_signaled_rcu(struct dma_resv *obj, bool test_all)
->>   {
->> -	unsigned seq, shared_count;
->> +	unsigned int seq, shared_count;
->>   	int ret;
->>   
->>   	rcu_read_lock();
->> @@ -643,16 +602,16 @@ bool dma_resv_test_signaled_rcu(struct dma_resv *obj, bool test_all)
->>   	seq = read_seqcount_begin(&obj->seq);
->>   
->>   	if (test_all) {
->> -		unsigned i;
->> -
->>   		struct dma_resv_list *fobj = rcu_dereference(obj->fence);
->> +		unsigned int i;
->>   
->>   		if (fobj)
->>   			shared_count = fobj->shared_count;
->>   
->>   		for (i = 0; i < shared_count; ++i) {
->> -			struct dma_fence *fence = rcu_dereference(fobj->shared[i]);
->> +			struct dma_fence *fence;
->>   
->> +			fence = rcu_dereference(fobj->shared[i]);
->>   			ret = dma_resv_test_signaled_single(fence);
->>   			if (ret < 0)
->>   				goto retry;
->> @@ -681,3 +640,46 @@ bool dma_resv_test_signaled_rcu(struct dma_resv *obj, bool test_all)
->>   	return ret;
->>   }
->>   EXPORT_SYMBOL_GPL(dma_resv_test_signaled_rcu);
->> +
->> +#if IS_ENABLED(CONFIG_LOCKDEP)
->> +static int __init dma_resv_lockdep(void)
->> +{
->> +	struct mm_struct *mm = mm_alloc();
->> +	struct ww_acquire_ctx ctx;
->> +	struct dma_resv obj;
->> +	struct address_space mapping;
->> +	int ret;
->> +
->> +	if (!mm)
->> +		return -ENOMEM;
->> +
->> +	dma_resv_init(&obj);
->> +	address_space_init_once(&mapping);
->> +
->> +	mmap_read_lock(mm);
->> +	ww_acquire_init(&ctx, &reservation_ww_class);
->> +	ret = dma_resv_lock(&obj, &ctx);
->> +	if (ret == -EDEADLK)
->> +		dma_resv_lock_slow(&obj, &ctx);
->> +	fs_reclaim_acquire(GFP_KERNEL);
->> +	/* for unmap_mapping_range on trylocked buffer objects in shrinkers */
->> +	i_mmap_lock_write(&mapping);
->> +	i_mmap_unlock_write(&mapping);
->> +#ifdef CONFIG_MMU_NOTIFIER
->> +	lock_map_acquire(&__mmu_notifier_invalidate_range_start_map);
->> +	__dma_fence_might_wait();
->> +	lock_map_release(&__mmu_notifier_invalidate_range_start_map);
->> +#else
->> +	__dma_fence_might_wait();
->> +#endif
->> +	fs_reclaim_release(GFP_KERNEL);
->> +	ww_mutex_unlock(&obj.lock);
->> +	ww_acquire_fini(&ctx);
->> +	mmap_read_unlock(mm);
->> +
->> +	mmput(mm);
->> +
->> +	return 0;
->> +}
->> +subsys_initcall(dma_resv_lockdep);
->> +#endif
->> -- 
->> 2.25.1
->>
-
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
