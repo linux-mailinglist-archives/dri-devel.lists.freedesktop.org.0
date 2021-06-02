@@ -1,58 +1,92 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35F0739961D
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Jun 2021 00:56:03 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0119C399672
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Jun 2021 01:42:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DB7736E441;
-	Wed,  2 Jun 2021 22:55:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 158046EB11;
+	Wed,  2 Jun 2021 23:42:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb29.google.com (mail-yb1-xb29.google.com
- [IPv6:2607:f8b0:4864:20::b29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F190B6E441
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Jun 2021 22:55:56 +0000 (UTC)
-Received: by mail-yb1-xb29.google.com with SMTP id b13so6107649ybk.4
- for <dri-devel@lists.freedesktop.org>; Wed, 02 Jun 2021 15:55:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=jlekstrand-net.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=lJXhXSRoFwOMg8mhbx4vTsePBOk0RICgBQ2LIg1Pb98=;
- b=U2CmfWNMD5ilNuBUUcu5X61rqfrLyJVUwiGlb3HYlgaXVN13m/XKWAIFKh/spQYEbw
- 1/oWkNkTwOOMtCW7OP3xzarJqnNsObULHZMA32QxCtUnCKg2uWi3nxUtyBENH8uZ5Jlb
- AKVZYJIsp46hr7YrLKgN6za6m9BS7MjWaDGtbV27QlkQdjMNS9TqxVbeDzZT8TmdyxWn
- l9YjnHyssp+EYnDNFw5wih7EwdxuUrSiFK++xq5y+71WWYmQG9slbvoJ7KWkx9nuUP65
- RSRMbLF5ADxq6ysiv+6U9oHXe8iX1TBAH6IduyOVAWGWNEWzvw8msz8F1esxuNIskEHs
- vK4A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=lJXhXSRoFwOMg8mhbx4vTsePBOk0RICgBQ2LIg1Pb98=;
- b=MLPBVgD/5Q5umdENlL/gXx2cMMfOFSv3I3+EFdI4DwWiIi/EyyqBHx4UwgAToMEQ6b
- U/7+dJ2+vLADikQRWdidmttCu4r3ZZjkWI64iM12UOQzoTp/fLW5LZma+MXSnPVje6/X
- rUq5c25Lvkg7OzutPhCGeYFe0+ceW9PdyJUttVcDnkj+QJm4p8SQgvP3WUxGl3Clv7pw
- wEgLIqYA48tgjpvwmTZD6kJVJfefNzhzl4WmI1ypx+s78mZimzIAblSDM1hYhXu+uwVH
- VT6B0MoVktJHvofzKl0UzbJVgENBko63akJhovP3moM7IAcvIAchuHZ4qQhFCj7GA5fy
- kuHQ==
-X-Gm-Message-State: AOAM531UcJqAWfG56O3YD8/Rx4SLdPlfr0nQV6aO5R5WWrHcdVldzoT4
- QTRlriS0j5JuU/erD7b5EoAYS4G99B694A9ZfVd7T9B5ldk=
-X-Google-Smtp-Source: ABdhPJwf5YcWe2bksDbpI2ZyJu/ktUrkn5ulmmlLfrRtLwZnkdFwoxtBy/GOKRO0lD+6bNzpjZUt/SLmC7PoG6ozEKc=
-X-Received: by 2002:a25:208b:: with SMTP id
- g133mr47277517ybg.211.1622674555702; 
- Wed, 02 Jun 2021 15:55:55 -0700 (PDT)
+Received: from NAM04-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam08on2078.outbound.protection.outlook.com [40.107.102.78])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2EDEC6E04E;
+ Wed,  2 Jun 2021 23:42:28 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=c2QiNkCt2cbZe/zJth6mJoY1AyvQtjUubsxSmIySwdWFTkDIyEt0DUhNQ7AnTqXxj2xWtmAGpzGoW2sO02m9RnWQVYzK9mEKIA5NP2Xfx//zLH4B10He0JRH7ZAG8WF41Iiv2CWMTIS8BB6gYTLYX4fmsR3rx5R4uxHJobtTG7/asrSPqcc+zP19gtXV+2aMqqtymnrRkpboQA+3LHscvF2s8G5fVC0tUN78Al/B9SMTmkShjimI2Fp257NZPcs5ntWMD6Avo6eMtKDEjKLo6wwO71Fyi/CKF3FRQcbEkYJkpVwDr4fEIJf6JojPNYkNKulqa9qgl2TqAOQbkeQ+Lw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=5yp1phFX2/hzUe7vxhgKk59cZLeDFuhjXBQLLMdLduc=;
+ b=GvghCiJD8NvPOor/beL9daEfb+F3JoqCBE/1wwtPrWUnne80Kiit+XQPhJnvmaJce55EQRAs3U0IQPsMOrQprhEaLEu7xBsNvBEGj9ea3l2uJlk9M76bRIKMBVAlWSexyDfqX0BQjLYICuKi+uaxIzRgCO8bZrakRSoRdzDVBc17mmE3NMPLajB5vs+UycgXopfDUAQ+6ePQwMN5Bjm38ALqNSnoMnHxEpH1QmAwQVGP/d7V36l21zF14SPBzVPDK70Z9TJ4PymbKeJm8kP79pQ8/EfDg7tEyYDqoxhBI7SxnARaHGpg/Q0lH7zZufilgrlXddxHSjHnKIYX64/ofA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=5yp1phFX2/hzUe7vxhgKk59cZLeDFuhjXBQLLMdLduc=;
+ b=Jdtu9z9n1McMxoSncL8s1tNFXTLiFyO2kgZy8qJJQKEUXOxqXWLSqDh62ZwC82FihRyDZeee/SiAbl0igL4+GAYvhEhOrKPQ55cN+1mQdPQkw4jtmrkZSlmdqZaZkRj4GnrwPIqArN7ql2i2kmORBmMqUUfsbZxbhMCtMUyZ5CE=
+Authentication-Results: intel.com; dkim=none (message not signed)
+ header.d=none;intel.com; dmarc=none action=none header.from=amd.com;
+Received: from CO6PR12MB5427.namprd12.prod.outlook.com (2603:10b6:5:358::13)
+ by CO6PR12MB5475.namprd12.prod.outlook.com (2603:10b6:5:354::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4195.20; Wed, 2 Jun
+ 2021 23:42:24 +0000
+Received: from CO6PR12MB5427.namprd12.prod.outlook.com
+ ([fe80::f455:b0b4:439:2753]) by CO6PR12MB5427.namprd12.prod.outlook.com
+ ([fe80::f455:b0b4:439:2753%3]) with mapi id 15.20.4173.030; Wed, 2 Jun 2021
+ 23:42:24 +0000
+Subject: Re: [PATCH 00/21] Add Support for Plane Color Lut and CSC features
+To: "Shankar, Uma" <uma.shankar@intel.com>,
+ Pekka Paalanen <ppaalanen@gmail.com>
+References: <20210601105218.29185-1-uma.shankar@intel.com>
+ <20210602122850.29412a29@eldfell>
+ <5a9a8c3ee8d54c3ca2ccaca4aa5ad1d9@intel.com>
+From: Harry Wentland <harry.wentland@amd.com>
+Message-ID: <95e6a3e9-70d2-42d3-1289-a7de33f266c4@amd.com>
+Date: Wed, 2 Jun 2021 19:42:19 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.2
+In-Reply-To: <5a9a8c3ee8d54c3ca2ccaca4aa5ad1d9@intel.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [198.200.67.154]
+X-ClientProxiedBy: YQBPR0101CA0042.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:c00:1::19) To CO6PR12MB5427.namprd12.prod.outlook.com
+ (2603:10b6:5:358::13)
 MIME-Version: 1.0
-References: <20210527162650.1182544-1-jason@jlekstrand.net>
- <20210527162650.1182544-25-jason@jlekstrand.net>
- <YLSxdSTd9xl1c7hY@phenom.ffwll.local>
-In-Reply-To: <YLSxdSTd9xl1c7hY@phenom.ffwll.local>
-From: Jason Ekstrand <jason@jlekstrand.net>
-Date: Wed, 2 Jun 2021 17:55:44 -0500
-Message-ID: <CAOFGe95Bgob9DJhfdrTV9SLSosRwSAfyYBKw6iGVXKzJywdKZA@mail.gmail.com>
-Subject: Re: [PATCH 24/29] drm/i915/gem: Delay context creation
-To: Daniel Vetter <daniel@ffwll.ch>
-Content-Type: text/plain; charset="UTF-8"
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.50.3] (198.200.67.154) by
+ YQBPR0101CA0042.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:c00:1::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4173.26 via Frontend
+ Transport; Wed, 2 Jun 2021 23:42:23 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 2a8767cf-1722-49d8-5cb7-08d926201277
+X-MS-TrafficTypeDiagnostic: CO6PR12MB5475:
+X-Microsoft-Antispam-PRVS: <CO6PR12MB54750E22DBE5673B15AA1CE58C3D9@CO6PR12MB5475.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: dn20pd6JqZbXiJisu36U0LD7I5dC4erSrB1XBvbM1hCBfgmB6FXJ0I/y0x+UlfKvbaBYcHlkdMWm/cJF7o4ri9A3OCQYttn0ejBevGYypOiov4Jvg60CFKJkDHTtQM65pnz0C+NLwmXxkcMSmoW/7ka3QGeKDNIGLz78tEPzCyCcFiXNYRj5zcklKn5hY9CEE60RxtL5HedIACtpt1hyacTlZ7ETVLf6xg4AFTh8Vc1Eo1e2b9QXyT1GDnx6keOj9TKJsR3LFxGNFbIdqd+ddUB6sNLDi2LvJ5iH1kkEPOlTFQqNSlpC/dZ3u44wK991joim9pj1VjiggIfWXtT+aPjlgljsODnIkfEEii78IA0nemCbHV/nJ5RH7uYn/S69aJzvpawKtbicHkfwPriL8A2KrB51MIzAwcWg1EVYUIMJ9pYncl3Sj54TwAnNoBLtKCoV/zFEUvWtX8qNfUlhooJEnoluJb9mVo7QrGGyO/yKLjhJ6uDnmrzh7+EBlFny+tfr7qoLuwO/Z2WFR3Kpf2ux0ANwMM9GsPgw1hVxQPsEIu5iP80IZoMkb/DlooT4LMDM6nGJlnqZbsPrvgWm2YRQGwom1KP1i7Rk9MzdviiVBWqf2crQUmir8z76rjyfiKC1Fy1FC7MnXu4xVPyH5Nd2F9s01spRSn+LBuWbzxWxYLB0i+K/VwooNfA6RbyJDiYQNYuJmlXkqgbzlbow+hOcNR3ETrT2CrUJV+QJfcg=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CO6PR12MB5427.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(396003)(39850400004)(376002)(366004)(346002)(136003)(2906002)(36756003)(316002)(110136005)(54906003)(16576012)(83380400001)(5660300002)(66556008)(31686004)(66476007)(66946007)(53546011)(16526019)(8676002)(186003)(6486002)(8936002)(38100700002)(966005)(31696002)(478600001)(4326008)(2616005)(86362001)(6666004)(44832011)(26005)(956004)(45980500001)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData: aP9D/3BSS7btNG1nubqK2WU72oArGMvQRosSJpcjY0Bu3nEp5KUeELR1Mjclu0gcbsfyXBdIf8CItmUtXUJzYxgZmGKadoqxhKAA8TsGK6rf79f/SiEWeUwbcy9/8s5T/g3LYYjA3zPouJksPHnnQq9/zDv/GxJFveRuQVYp8p/C1wpil7ee84AbDAMD7oZKd9LoUgGNP/As2idQ8cY/IFyiQK08iVbUR8YLe89AbA+pc4wskzpNVQ/MJFcQI8tLniWZe2MWQZzUrQiTDQRbYT+ft73iD7v1qWTaqUqRZV3JUri2OYulPPGjFU6bQmayC6LpbcvLVeUg0Iod33ZNS3mOVj1cDw9i2voVkFyDE2cS8BsooKYeRJ0ivHeMNAeiGERzgsTJ9odT7vjYyOlvD1fdK7HBrCvpbsZXnVuLfUOHGHsSotyPSh4RYrOVP7/hr5I/Mg+Elh//EFTAJC50s9+x+uBg1QdBNXwoOh4DnXaptTXEYW3e72hq1/FQWiqrrFU7P8yU6ku5YAV1gOPryiEGpzeECb8dqkslzxt69I0Oy42UA7a/IStIQNYQR6iPxnsTaVCnNkVfa0dK3YqgeV8l/3U9YJXsUPU42D60l0biszR0jX8EPmLIPcFVKBV5tRpXz3WN92/B5JLpLO29VIGemuQ5yrv64v1+uaF953XzkYw+egDEXCETl6AgCfmAZjoSu0iN70jNCwjQXJ0YhLzIBzhlTYi2jKYoDJfFuj4clDYTN9yWVD90E/l93SGW
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2a8767cf-1722-49d8-5cb7-08d926201277
+X-MS-Exchange-CrossTenant-AuthSource: CO6PR12MB5427.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Jun 2021 23:42:24.3532 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: fL5Bb1v+OQpnMK0dEEyRRUPsmmI5s8pUOaQfYZtDJoJnDR/I6Igz1gcGZTikWiUBTgBeONRl5o+X6peJ4tiR/w==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO6PR12MB5475
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,643 +99,197 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Intel GFX <intel-gfx@lists.freedesktop.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>
+Cc: "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, "Modem,
+ Bhanuprakash" <bhanuprakash.modem@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, May 31, 2021 at 4:50 AM Daniel Vetter <daniel@ffwll.ch> wrote:
->
-> On Thu, May 27, 2021 at 11:26:45AM -0500, Jason Ekstrand wrote:
-> > The current context uAPI allows for two methods of setting context
-> > parameters: SET_CONTEXT_PARAM and CONTEXT_CREATE_EXT_SETPARAM.  The
-> > former is allowed to be called at any time while the later happens as
-> > part of GEM_CONTEXT_CREATE.  Currently, everything settable via one is
-> > settable via the other.  While some params are fairly simple and setting
-> > them on a live context is harmless such the context priority, others are
->
-> such _as_ the
 
-Done.
 
-> > far trickier such as the VM or the set of engines.  In order to swap out
-> > the VM, for instance, we have to delay until all current in-flight work
-> > is complete, swap in the new VM, and then continue.  This leads to a
-> > plethora of potential race conditions we'd really rather avoid.
-> >
-> > In previous patches, we added a i915_gem_proto_context struct which is
-> > capable of storing and tracking all such create parameters.  This commit
-> > delays the creation of the actual context until after the client is done
-> > configuring it with SET_CONTEXT_PARAM.  From the perspective of the
-> > client, it has the same u32 context ID the whole time.  From the
-> > perspective of i915, however, it's an i915_gem_proto_context right up
-> > until the point where we attempt to do something which the proto-context
-> > can't handle at which point the real context gets created.
->
-> s/ at which point/. Then/
->
-> At least feels a bit like a run-on sentence :-)
+On 2021-06-02 4:22 p.m., Shankar, Uma wrote:
+> 
+> 
+>> -----Original Message-----
+>> From: Pekka Paalanen <ppaalanen@gmail.com>
+>> Sent: Wednesday, June 2, 2021 2:59 PM
+>> To: Shankar, Uma <uma.shankar@intel.com>
+>> Cc: intel-gfx@lists.freedesktop.org; dri-devel@lists.freedesktop.org; Modem,
+>> Bhanuprakash <bhanuprakash.modem@intel.com>; Harry Wentland
+>> <harry.wentland@amd.com>
+>> Subject: Re: [PATCH 00/21] Add Support for Plane Color Lut and CSC features
+>>
+>> On Tue,  1 Jun 2021 16:21:57 +0530
+>> Uma Shankar <uma.shankar@intel.com> wrote:
+>>
+>>> This is how a typical display color hardware pipeline looks like:
+>>>  +-------------------------------------------+
+>>>  |                RAM                        |
+>>>  |  +------+    +---------+    +---------+   |
+>>>  |  | FB 1 |    |  FB 2   |    | FB N    |   |
+>>>  |  +------+    +---------+    +---------+   |
+>>>  +-------------------------------------------+
+>>>        |  Plane Color Hardware Block |
+>>> +--------------------------------------------+
+>>>  | +---v-----+   +---v-------+   +---v------+ |
+>>>  | | Plane A |   | Plane B   |   | Plane N  | |
+>>>  | | DeGamma |   | Degamma   |   | Degamma  | |
+>>>  | +---+-----+   +---+-------+   +---+------+ |
+>>>  |     |             |               |        |
+>>>  | +---v-----+   +---v-------+   +---v------+ |
+>>>  | |Plane A  |   | Plane B   |   | Plane N  | |
+>>>  | |CSC/CTM  |   | CSC/CTM   |   | CSC/CTM  | |
+>>>  | +---+-----+   +----+------+   +----+-----+ |
+>>>  |     |              |               |       |
+>>>  | +---v-----+   +----v------+   +----v-----+ |
+>>>  | | Plane A |   | Plane B   |   | Plane N  | |
+>>>  | | Gamma   |   | Gamma     |   | Gamma    | |
+>>>  | +---+-----+   +----+------+   +----+-----+ |
+>>>  |     |              |               |       |
+>>>  +--------------------------------------------+
+>>> +------v--------------v---------------v-------|
+>>> ||                                           ||
+>>> ||           Pipe Blender                    ||
+>>> +--------------------+------------------------+
+>>> |                    |                        |
+>>> |        +-----------v----------+             |
+>>> |        |  Pipe DeGamma        |             |
+>>> |        |                      |             |
+>>> |        +-----------+----------+             |
+>>> |                    |            Pipe Color  |
+>>> |        +-----------v----------+ Hardware    |
+>>> |        |  Pipe CSC/CTM        |             |
+>>> |        |                      |             |
+>>> |        +-----------+----------+             |
+>>> |                    |                        |
+>>> |        +-----------v----------+             |
+>>> |        |  Pipe Gamma          |             |
+>>> |        |                      |             |
+>>> |        +-----------+----------+             |
+>>> |                    |                        |
+>>> +---------------------------------------------+
+>>>                      |
+>>>                      v
+>>>                Pipe Output
+>>
+>> Hi,
+>>
+>> this is an excellent picture. I have long been wanting schematics like that in the DRM
+>> UAPI documentation. Another note on that:
+>> https://lists.freedesktop.org/archives/dri-devel/2021-May/307310.html>>>
+>> But the schematic for DRM UAPI documentation needs to be written in terms of the
+>> abstract KMS pipeline with property names spelled out, like in what Ville sketched in
+>> that email.
+> 
+> Sure Pekka, I can add that.
+> 
+>>> This patch series adds properties for plane color features. It adds
+>>> properties for degamma used to linearize data and CSC used for gamut
+>>> conversion. It also includes Gamma support used to again non-linearize
+>>> data as per panel supported color space. These can be utilize by user
+>>> space to convert planes from one format to another, one color space to
+>>> another etc.
+>>
+>> This is very much welcome!
+>>
+>> There is also the thread:
+>> https://lists.freedesktop.org/archives/dri-devel/2021-May/306726.html>>>
+>> Everything mentioned will interact with each other by changing what the abstract
+>> KMS pixel pipeline does. I think you and Harry should probably look at each others'
+>> suggestions and see how to fit them all into a single abstract KMS pipeline.
+>>
+>> People are adding new pieces into KMS left and right, and I fear we lose sight of how
+>> everything will actually work together when all KMS properties are supposed to be
+>> generic and potentially present simultaneously. This is why I would very much like to
+>> have that *whole* abstract KMS pipeline documented with *everything*. Otherwise
+>> it is coming really hard fast to figure out how generic userspace should use all these
+>> KMS properties together.
+>>
+>> Or if there cannot be a single abstract KMS pipeline, then sure, have multiple, as long
+>> as they are documented and how userspace will know which pipeline it is dealing
+>> with, and what things are mutually exclusive so we can avoid writing userspace code
+>> for combinations that will never exist.
+> 
+> This is a good suggestion to have the whole pipeline and properties documented along with
+> the exact usages. We may end with 2 properties almost doing similar work but needed due to
+> underlying hardware, but we can get that properly documented and defined. 
+> 
+> I will discuss with Harry and Ville as well to define this.
+> 
 
-Done.
+Just wanted to let you know that I've seen and read through both of Shankar's patchsets
+and had some thoughts but haven't found the time to respond. I will respond soon.
 
-> > This is accomplished via a little xarray dance.  When GEM_CONTEXT_CREATE
-> > is called, we create a proto-context, reserve a slot in context_xa but
-> > leave it NULL, the proto-context in the corresponding slot in
-> > proto_context_xa.  Then, whenever we go to look up a context, we first
-> > check context_xa.  If it's there, we return the i915_gem_context and
-> > we're done.  If it's not, we look in proto_context_xa and, if we find it
-> > there, we create the actual context and kill the proto-context.
-> >
-> > In order for this dance to work properly, everything which ever touches
-> > a proto-context is guarded by drm_i915_file_private::proto_context_lock,
-> > including context creation.  Yes, this means context creation now takes
-> > a giant global lock but it can't really be helped and that should never
-> > be on any driver's fast-path anyway.
-> >
-> > Signed-off-by: Jason Ekstrand <jason@jlekstrand.net>
-> > ---
-> >  drivers/gpu/drm/i915/gem/i915_gem_context.c   | 211 ++++++++++++++----
-> >  drivers/gpu/drm/i915/gem/i915_gem_context.h   |   3 +
-> >  .../gpu/drm/i915/gem/i915_gem_context_types.h |  54 +++++
-> >  .../gpu/drm/i915/gem/selftests/mock_context.c |   5 +-
-> >  drivers/gpu/drm/i915/i915_drv.h               |  24 +-
-> >  5 files changed, 239 insertions(+), 58 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context.c b/drivers/gpu/drm/i915/gem/i915_gem_context.c
-> > index 8288af0d33245..f7c83730ee07f 100644
-> > --- a/drivers/gpu/drm/i915/gem/i915_gem_context.c
-> > +++ b/drivers/gpu/drm/i915/gem/i915_gem_context.c
-> > @@ -298,6 +298,42 @@ proto_context_create(struct drm_i915_private *i915, unsigned int flags)
-> >       return err;
-> >  }
-> >
-> > +static int proto_context_register_locked(struct drm_i915_file_private *fpriv,
-> > +                                      struct i915_gem_proto_context *pc,
-> > +                                      u32 *id)
-> > +{
-> > +     int ret;
-> > +     void *old;
-> > +
-> > +     lockdep_assert_held(&fpriv->proto_context_lock);
-> > +
-> > +     ret = xa_alloc(&fpriv->context_xa, id, NULL, xa_limit_32b, GFP_KERNEL);
-> > +     if (ret)
-> > +             return ret;
-> > +
-> > +     old = xa_store(&fpriv->proto_context_xa, *id, pc, GFP_KERNEL);
-> > +     if (xa_is_err(old)) {
-> > +             xa_erase(&fpriv->context_xa, *id);
-> > +             return xa_err(old);
-> > +     }
-> > +     GEM_BUG_ON(old);
->
-> I'd go with WARN_ON here. We just leak, and BUG_ON kills the box.
-> GEM_BUG_ON is for the additional gem consistency checks which are too
-> expensive to have enabled in production. Registering a proto context isn't
-> one of these things.
+I very much agree with Pekka. We need to make sure this all plays well together and is
+well documented. Maybe a library to deal with DRM KMS color management/HDR would even
+be helpful. Not sure yet how I feel about that.
 
-Done.
+Harry
 
-> > +
-> > +     return 0;
-> > +}
-> > +
-> > +static int proto_context_register(struct drm_i915_file_private *fpriv,
-> > +                               struct i915_gem_proto_context *pc,
-> > +                               u32 *id)
-> > +{
-> > +     int ret;
-> > +
-> > +     mutex_lock(&fpriv->proto_context_lock);
-> > +     ret = proto_context_register_locked(fpriv, pc, id);
-> > +     mutex_unlock(&fpriv->proto_context_lock);
-> > +
-> > +     return ret;
-> > +}
-> > +
-> >  static int set_proto_ctx_vm(struct drm_i915_file_private *fpriv,
-> >                           struct i915_gem_proto_context *pc,
-> >                           const struct drm_i915_gem_context_param *args)
-> > @@ -1448,12 +1484,12 @@ void i915_gem_init__contexts(struct drm_i915_private *i915)
-> >       init_contexts(&i915->gem.contexts);
-> >  }
-> >
-> > -static int gem_context_register(struct i915_gem_context *ctx,
-> > -                             struct drm_i915_file_private *fpriv,
-> > -                             u32 *id)
-> > +static void gem_context_register(struct i915_gem_context *ctx,
-> > +                              struct drm_i915_file_private *fpriv,
-> > +                              u32 id)
-> >  {
-> >       struct drm_i915_private *i915 = ctx->i915;
-> > -     int ret;
-> > +     void *old;
-> >
-> >       ctx->file_priv = fpriv;
-> >
-> > @@ -1462,19 +1498,12 @@ static int gem_context_register(struct i915_gem_context *ctx,
-> >                current->comm, pid_nr(ctx->pid));
-> >
-> >       /* And finally expose ourselves to userspace via the idr */
-> > -     ret = xa_alloc(&fpriv->context_xa, id, ctx, xa_limit_32b, GFP_KERNEL);
-> > -     if (ret)
-> > -             goto err_pid;
-> > +     old = xa_store(&fpriv->context_xa, id, ctx, GFP_KERNEL);
-> > +     GEM_BUG_ON(old);
->
-> Same song about WARN_ON here.
+> Regards,
+> Uma Shankar
+>>
+>> Thanks,
+>> pq
+>>
+>>> Userspace can take smart blending decisions and utilize these hardware
+>>> supported plane color features to get accurate color profile. The same
+>>> can help in consistent color quality from source to panel taking
+>>> advantage of advanced color features in hardware.
+>>>
+>>> These patches add the property interfaces and enable helper functions.
+>>> This series adds Intel's XE_LPD hw specific plane gamma feature. We
+>>> can build up and add other platform/hardware specific implementation
+>>> on top of this series.
+>>>
+>>> Credits: Special mention and credits to Ville Syrjala for coming up
+>>> with a design for this feature and inputs. This series is based on his
+>>> original design and idea.
+>>>
+>>> Note: Userspace support for this new UAPI will be done on Chrome. We
+>>> will notify the list once we have that ready for review.
+>>>
+>>> ToDo: State readout for this feature will be added next.
+>>>
+>>> Uma Shankar (21):
+>>>   drm: Add Enhanced Gamma and color lut range attributes
+>>>   drm: Add Plane Degamma Mode property
+>>>   drm: Add Plane Degamma Lut property
+>>>   drm/i915/xelpd: Define Degamma Lut range struct for HDR planes
+>>>   drm/i915/xelpd: Add register definitions for Plane Degamma
+>>>   drm/i915/xelpd: Enable plane color features
+>>>   drm/i915/xelpd: Add color capabilities of SDR planes
+>>>   drm/i915/xelpd: Program Plane Degamma Registers
+>>>   drm/i915/xelpd: Add plane color check to glk_plane_color_ctl
+>>>   drm/i915/xelpd: Initialize plane color features
+>>>   drm/i915/xelpd: Load plane color luts from atomic flip
+>>>   drm: Add Plane CTM property
+>>>   drm: Add helper to attach Plane ctm property
+>>>   drm/i915/xelpd: Define Plane CSC Registers
+>>>   drm/i915/xelpd: Enable Plane CSC
+>>>   drm: Add Plane Gamma Mode property
+>>>   drm: Add Plane Gamma Lut property
+>>>   drm/i915/xelpd: Define and Initialize Plane Gamma Lut range
+>>>   drm/i915/xelpd: Add register definitions for Plane Gamma
+>>>   drm/i915/xelpd: Program Plane Gamma Registers
+>>>   drm/i915/xelpd: Enable plane gamma
+>>>
+>>>  Documentation/gpu/drm-kms.rst                 |  90 +++
+>>>  drivers/gpu/drm/drm_atomic.c                  |   1 +
+>>>  drivers/gpu/drm/drm_atomic_state_helper.c     |  12 +
+>>>  drivers/gpu/drm/drm_atomic_uapi.c             |  38 ++
+>>>  drivers/gpu/drm/drm_color_mgmt.c              | 177 +++++-
+>>>  .../gpu/drm/i915/display/intel_atomic_plane.c |   6 +
+>>>  .../gpu/drm/i915/display/intel_atomic_plane.h |   2 +
+>>>  drivers/gpu/drm/i915/display/intel_color.c    | 513 ++++++++++++++++++
+>>>  drivers/gpu/drm/i915/display/intel_color.h    |   2 +
+>>>  .../drm/i915/display/skl_universal_plane.c    |  15 +-
+>>>  drivers/gpu/drm/i915/i915_drv.h               |   3 +
+>>>  drivers/gpu/drm/i915/i915_reg.h               | 176 +++++-
+>>>  include/drm/drm_mode_object.h                 |   2 +-
+>>>  include/drm/drm_plane.h                       |  81 +++
+>>>  include/uapi/drm/drm_mode.h                   |  58 ++
+>>>  15 files changed, 1170 insertions(+), 6 deletions(-)
+>>>
+> 
 
-Yup.
-
-> >
-> >       spin_lock(&i915->gem.contexts.lock);
-> >       list_add_tail(&ctx->link, &i915->gem.contexts.list);
-> >       spin_unlock(&i915->gem.contexts.lock);
-> > -
-> > -     return 0;
-> > -
-> > -err_pid:
-> > -     put_pid(fetch_and_zero(&ctx->pid));
-> > -     return ret;
-> >  }
-> >
-> >  int i915_gem_context_open(struct drm_i915_private *i915,
-> > @@ -1484,9 +1513,12 @@ int i915_gem_context_open(struct drm_i915_private *i915,
-> >       struct i915_gem_proto_context *pc;
-> >       struct i915_gem_context *ctx;
-> >       int err;
-> > -     u32 id;
-> >
-> > -     xa_init_flags(&file_priv->context_xa, XA_FLAGS_ALLOC);
-> > +     mutex_init(&file_priv->proto_context_lock);
-> > +     xa_init_flags(&file_priv->proto_context_xa, XA_FLAGS_ALLOC);
-> > +
-> > +     /* 0 reserved for the default context */
-> > +     xa_init_flags(&file_priv->context_xa, XA_FLAGS_ALLOC1);
-> >
-> >       /* 0 reserved for invalid/unassigned ppgtt */
-> >       xa_init_flags(&file_priv->vm_xa, XA_FLAGS_ALLOC1);
-> > @@ -1504,28 +1536,31 @@ int i915_gem_context_open(struct drm_i915_private *i915,
-> >               goto err;
-> >       }
-> >
-> > -     err = gem_context_register(ctx, file_priv, &id);
-> > -     if (err < 0)
-> > -             goto err_ctx;
-> > +     gem_context_register(ctx, file_priv, 0);
-> >
-> > -     GEM_BUG_ON(id);
-> >       return 0;
-> >
-> > -err_ctx:
-> > -     context_close(ctx);
-> >  err:
-> >       xa_destroy(&file_priv->vm_xa);
-> >       xa_destroy(&file_priv->context_xa);
-> > +     xa_destroy(&file_priv->proto_context_xa);
-> > +     mutex_destroy(&file_priv->proto_context_lock);
-> >       return err;
-> >  }
-> >
-> >  void i915_gem_context_close(struct drm_file *file)
-> >  {
-> >       struct drm_i915_file_private *file_priv = file->driver_priv;
-> > +     struct i915_gem_proto_context *pc;
-> >       struct i915_address_space *vm;
-> >       struct i915_gem_context *ctx;
-> >       unsigned long idx;
-> >
-> > +     xa_for_each(&file_priv->proto_context_xa, idx, pc)
-> > +             proto_context_close(pc);
-> > +     xa_destroy(&file_priv->proto_context_xa);
-> > +     mutex_destroy(&file_priv->proto_context_lock);
-> > +
-> >       xa_for_each(&file_priv->context_xa, idx, ctx)
-> >               context_close(ctx);
-> >       xa_destroy(&file_priv->context_xa);
-> > @@ -2480,12 +2515,73 @@ static bool client_is_banned(struct drm_i915_file_private *file_priv)
-> >       return atomic_read(&file_priv->ban_score) >= I915_CLIENT_SCORE_BANNED;
-> >  }
-> >
-> > +static inline struct i915_gem_context *
-> > +__context_lookup(struct drm_i915_file_private *file_priv, u32 id)
-> > +{
-> > +     struct i915_gem_context *ctx;
-> > +
-> > +     rcu_read_lock();
-> > +     ctx = xa_load(&file_priv->context_xa, id);
-> > +     if (ctx && !kref_get_unless_zero(&ctx->ref))
-> > +             ctx = NULL;
-> > +     rcu_read_unlock();
-> > +
-> > +     return ctx;
-> > +}
-> > +
-> > +struct i915_gem_context *
-> > +lazy_create_context_locked(struct drm_i915_file_private *file_priv,
-> > +                        struct i915_gem_proto_context *pc, u32 id)
->
-> My bikeshed would call this finalize_create_context_locked or something
-> like that ... At least I'm thinking of this more as "finializing the
-> process of creating a context" and less of "creating context on-demand".
-> The latter is e.g. what we're doing with the default engine set. Different
-> beasts conceptually.
-
-Fine with me.
-
-> > +{
-> > +     struct i915_gem_context *ctx;
-> > +     void *old;
-> > +
-> > +     lockdep_assert_held(&file_priv->proto_context_lock);
-> > +
-> > +     ctx = i915_gem_create_context(file_priv->dev_priv, pc);
-> > +     if (IS_ERR(ctx))
-> > +             return ctx;
-> > +
-> > +     gem_context_register(ctx, file_priv, id);
-> > +
-> > +     old = xa_erase(&file_priv->proto_context_xa, id);
-> > +     GEM_BUG_ON(old != pc);
-> > +     proto_context_close(pc);
-> > +
-> > +     /* One for the xarray and one for the caller */
-> > +     return i915_gem_context_get(ctx);
-> > +}
-> > +
-> > +struct i915_gem_context *
-> > +i915_gem_context_lookup(struct drm_i915_file_private *file_priv, u32 id)
-> > +{
-> > +     struct i915_gem_proto_context *pc;
-> > +     struct i915_gem_context *ctx;
-> > +
-> > +     ctx = __context_lookup(file_priv, id);
-> > +     if (ctx)
-> > +             return ctx;
-> > +
-> > +     mutex_lock(&file_priv->proto_context_lock);
-> > +     /* Try one more time under the lock */
-> > +     ctx = __context_lookup(file_priv, id);
-> > +     if (!ctx) {
-> > +             pc = xa_load(&file_priv->proto_context_xa, id);
-> > +             if (!pc)
-> > +                     ctx = ERR_PTR(-ENOENT);
-> > +             else
-> > +                     ctx = lazy_create_context_locked(file_priv, pc, id);
-> > +     }
-> > +     mutex_unlock(&file_priv->proto_context_lock);
-> > +
-> > +     return ctx;
-> > +}
-> > +
-> >  int i915_gem_context_create_ioctl(struct drm_device *dev, void *data,
-> >                                 struct drm_file *file)
-> >  {
-> >       struct drm_i915_private *i915 = to_i915(dev);
-> >       struct drm_i915_gem_context_create_ext *args = data;
-> > -     struct i915_gem_context *ctx;
-> >       struct create_ext ext_data;
-> >       int ret;
-> >       u32 id;
-> > @@ -2517,28 +2613,21 @@ int i915_gem_context_create_ioctl(struct drm_device *dev, void *data,
-> >                                          create_extensions,
-> >                                          ARRAY_SIZE(create_extensions),
-> >                                          &ext_data);
-> > -             if (ret) {
-> > -                     proto_context_close(ext_data.pc);
-> > -                     return ret;
-> > -             }
-> > +             if (ret)
-> > +                     goto err_pc;
-> >       }
-> >
-> > -     ctx = i915_gem_create_context(i915, ext_data.pc);
-> > -     proto_context_close(ext_data.pc);
-> > -     if (IS_ERR(ctx))
-> > -             return PTR_ERR(ctx);
-> > -
-> > -     ret = gem_context_register(ctx, ext_data.fpriv, &id);
-> > +     ret = proto_context_register(ext_data.fpriv, ext_data.pc, &id);
-> >       if (ret < 0)
-> > -             goto err_ctx;
-> > +             goto err_pc;
-> >
-> >       args->ctx_id = id;
-> >       drm_dbg(&i915->drm, "HW context %d created\n", args->ctx_id);
-> >
-> >       return 0;
-> >
-> > -err_ctx:
-> > -     context_close(ctx);
-> > +err_pc:
-> > +     proto_context_close(ext_data.pc);
-> >       return ret;
-> >  }
-> >
-> > @@ -2547,6 +2636,7 @@ int i915_gem_context_destroy_ioctl(struct drm_device *dev, void *data,
-> >  {
-> >       struct drm_i915_gem_context_destroy *args = data;
-> >       struct drm_i915_file_private *file_priv = file->driver_priv;
-> > +     struct i915_gem_proto_context *pc;
-> >       struct i915_gem_context *ctx;
-> >
-> >       if (args->pad != 0)
-> > @@ -2555,11 +2645,21 @@ int i915_gem_context_destroy_ioctl(struct drm_device *dev, void *data,
-> >       if (!args->ctx_id)
-> >               return -ENOENT;
-> >
-> > +     mutex_lock(&file_priv->proto_context_lock);
->
-> I think a comment here that we need to hold the proto mutex even for
-> finalized context to avoid races with finalization would be nice.
-
-Added.
-
-> >       ctx = xa_erase(&file_priv->context_xa, args->ctx_id);
-> > -     if (!ctx)
-> > +     pc = xa_erase(&file_priv->proto_context_xa, args->ctx_id);
-> > +     mutex_unlock(&file_priv->proto_context_lock);
-> > +
-> > +     if (!ctx && !pc)
-> >               return -ENOENT;
-> > +     GEM_WARN_ON(ctx && pc);
-> > +
-> > +     if (pc)
-> > +             proto_context_close(pc);
-> > +
-> > +     if (ctx)
-> > +             context_close(ctx);
-> >
-> > -     context_close(ctx);
-> >       return 0;
-> >  }
-> >
-> > @@ -2692,16 +2792,41 @@ int i915_gem_context_setparam_ioctl(struct drm_device *dev, void *data,
-> >  {
-> >       struct drm_i915_file_private *file_priv = file->driver_priv;
-> >       struct drm_i915_gem_context_param *args = data;
-> > +     struct i915_gem_proto_context *pc;
-> >       struct i915_gem_context *ctx;
-> > -     int ret;
-> > +     int ret = 0;
-> >
-> > -     ctx = i915_gem_context_lookup(file_priv, args->ctx_id);
-> > -     if (IS_ERR(ctx))
-> > -             return PTR_ERR(ctx);
-> > +     ctx = __context_lookup(file_priv, args->ctx_id);
-> > +     if (ctx)
-> > +             goto set_ctx_param;
-> >
-> > -     ret = ctx_setparam(file_priv, ctx, args);
-> > +     mutex_lock(&file_priv->proto_context_lock);
-> > +     ctx = __context_lookup(file_priv, args->ctx_id);
->
-> Not unconditionally taking the mutex here feels a bit like overkill? Do we
-> really need that fast path?
-
-Probably not.  If someone writes a setparam benchmark, I will actively not care.
-
-> > +     if (ctx)
-> > +             goto unlock;
-> > +
-> > +     pc = xa_load(&file_priv->proto_context_xa, args->ctx_id);
-> > +     if (!pc) {
-> > +             ret = -ENOENT;
-> > +             goto unlock;
-> > +     }
-> > +
-> > +     /* FIXME: We should consider disallowing SET_CONTEXT_PARAM for most
-> > +      * things on future platforms.  Clients should be using
-> > +      * CONTEXT_CREATE_EXT_PARAM instead.
-> > +      */
->
-> I think the way to do that is to finalize the context creation from
-> CONTEXT_CREATE_EXT on these platforms. That plugs this hole for good and
-> by design. Maybe on gen13+ or something like that. Or whatever it is we're
-> using for enumerating generations now.
-
-Yup.  I agree.  Do you want me to add that now?
-
-> > +     ret = set_proto_ctx_param(file_priv, pc, args);
-> > +
-> > +unlock:
-> > +     mutex_unlock(&file_priv->proto_context_lock);
-> > +
-> > +set_ctx_param:
-> > +     if (!ret && ctx)
->
-> I don't think you need to check for ret here? It's not set by any path
-> leading to here where ctx != NULL.
-
-I think
-
-> Also mildly unhappy about the control flow here, we could simplify it if
-> we don't do the lockless faspath.
-
-Yeah, I think I've made it a lot better.  You may want to re-review on
-the next go 'round though.
-
-> > +             ret = ctx_setparam(file_priv, ctx, args);
-> > +
-> > +     if (ctx)
-> > +             i915_gem_context_put(ctx);
-> >
-> > -     i915_gem_context_put(ctx);
-> >       return ret;
-> >  }
-> >
-> > diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context.h b/drivers/gpu/drm/i915/gem/i915_gem_context.h
-> > index b5c908f3f4f22..20411db84914a 100644
-> > --- a/drivers/gpu/drm/i915/gem/i915_gem_context.h
-> > +++ b/drivers/gpu/drm/i915/gem/i915_gem_context.h
-> > @@ -133,6 +133,9 @@ int i915_gem_context_setparam_ioctl(struct drm_device *dev, void *data,
-> >  int i915_gem_context_reset_stats_ioctl(struct drm_device *dev, void *data,
-> >                                      struct drm_file *file);
-> >
-> > +struct i915_gem_context *
-> > +i915_gem_context_lookup(struct drm_i915_file_private *file_priv, u32 id);
-> > +
-> >  static inline struct i915_gem_context *
-> >  i915_gem_context_get(struct i915_gem_context *ctx)
-> >  {
-> > diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context_types.h b/drivers/gpu/drm/i915/gem/i915_gem_context_types.h
-> > index 2ac341f805c8f..b673061f4f5ba 100644
-> > --- a/drivers/gpu/drm/i915/gem/i915_gem_context_types.h
-> > +++ b/drivers/gpu/drm/i915/gem/i915_gem_context_types.h
-> > @@ -122,6 +122,60 @@ struct i915_gem_proto_engine {
-> >   * an i915_gem_context.  This is used to gather parameters provided either
-> >   * through creation flags or via SET_CONTEXT_PARAM so that, when we create
-> >   * the final i915_gem_context, those parameters can be immutable.
-> > + *
-> > + * The context uAPI allows for two methods of setting context parameters:
-> > + * SET_CONTEXT_PARAM and CONTEXT_CREATE_EXT_SETPARAM.  The former is
-> > + * allowed to be called at any time while the later happens as part of
-> > + * GEM_CONTEXT_CREATE.  When these were initially added, Currently,
-> > + * everything settable via one is settable via the other.  While some
-> > + * params are fairly simple and setting them on a live context is harmless
-> > + * such the context priority, others are far trickier such as the VM or the
-> > + * set of engines.  To avoid some truly nasty race conditions, we don't
-> > + * allow setting the VM or the set of engines on live contexts.
-> > + *
-> > + * The way we dealt with this without breaking older userspace that sets
-> > + * the VM or engine set via SET_CONTEXT_PARAM is to delay the creation of
-> > + * the actual context until after the client is done configuring it with
-> > + * SET_CONTEXT_PARAM.  From the perspective of the client, it has the same
-> > + * u32 context ID the whole time.  From the perspective of i915, however,
-> > + * it's an i915_gem_proto_context right up until the point where we attempt
-> > + * to do something which the proto-context can't handle at which point the
-> > + * real context gets created.
-> > + *
-> > + * This is accomplished via a little xarray dance.  When GEM_CONTEXT_CREATE
-> > + * is called, we create a proto-context, reserve a slot in context_xa but
-> > + * leave it NULL, the proto-context in the corresponding slot in
-> > + * proto_context_xa.  Then, whenever we go to look up a context, we first
-> > + * check context_xa.  If it's there, we return the i915_gem_context and
-> > + * we're done.  If it's not, we look in proto_context_xa and, if we find it
-> > + * there, we create the actual context and kill the proto-context.
-> > + *
-> > + * At the time we made this change (April, 2021), we did a fairly complete
-> > + * audit of existing userspace to ensure this wouldn't break anything:
-> > + *
-> > + *  - Mesa/i965 didn't use the engines or VM APIs at all
-> > + *
-> > + *  - Mesa/ANV used the engines API but via CONTEXT_CREATE_EXT_SETPARAM and
-> > + *    didn't use the VM API.
-> > + *
-> > + *  - Mesa/iris didn't use the engines or VM APIs at all
-> > + *
-> > + *  - The open-source compute-runtime didn't yet use the engines API but
-> > + *    did use the VM API via SET_CONTEXT_PARAM.  However, CONTEXT_SETPARAM
-> > + *    was always the second ioctl on that context, immediately following
-> > + *    GEM_CONTEXT_CREATE.
-> > + *
-> > + *  - The media driver sets engines and bonding/balancing via
-> > + *    SET_CONTEXT_PARAM.  However, CONTEXT_SETPARAM to set the VM was
-> > + *    always the second ioctl on that context, immediately following
-> > + *    GEM_CONTEXT_CREATE and setting engines immediately followed that.
-> > + *
-> > + * In order for this dance to work properly, any modification to an
-> > + * i915_gem_proto_context that is exposed to the client via
-> > + * drm_i915_file_private::proto_context_xa must be guarded by
-> > + * drm_i915_file_private::proto_context_lock.  The exception is when a
-> > + * proto-context has not yet been exposed such as when handling
-> > + * CONTEXT_CREATE_SET_PARAM during GEM_CONTEXT_CREATE.
-> >   */
-> >  struct i915_gem_proto_context {
-> >       /** @vm: See i915_gem_context::vm */
-> > diff --git a/drivers/gpu/drm/i915/gem/selftests/mock_context.c b/drivers/gpu/drm/i915/gem/selftests/mock_context.c
-> > index cbeefd060e97b..61aaac4a334cf 100644
-> > --- a/drivers/gpu/drm/i915/gem/selftests/mock_context.c
-> > +++ b/drivers/gpu/drm/i915/gem/selftests/mock_context.c
-> > @@ -81,6 +81,7 @@ void mock_init_contexts(struct drm_i915_private *i915)
-> >  struct i915_gem_context *
-> >  live_context(struct drm_i915_private *i915, struct file *file)
-> >  {
-> > +     struct drm_i915_file_private *fpriv = to_drm_file(file)->driver_priv;
-> >       struct i915_gem_proto_context *pc;
-> >       struct i915_gem_context *ctx;
-> >       int err;
-> > @@ -97,10 +98,12 @@ live_context(struct drm_i915_private *i915, struct file *file)
-> >
-> >       i915_gem_context_set_no_error_capture(ctx);
-> >
-> > -     err = gem_context_register(ctx, to_drm_file(file)->driver_priv, &id);
-> > +     err = xa_alloc(&fpriv->context_xa, &id, NULL, xa_limit_32b, GFP_KERNEL);
-> >       if (err < 0)
-> >               goto err_ctx;
-> >
-> > +     gem_context_register(ctx, fpriv, id);
-> > +
-> >       return ctx;
-> >
-> >  err_ctx:
-> > diff --git a/drivers/gpu/drm/i915/i915_drv.h b/drivers/gpu/drm/i915/i915_drv.h
-> > index d7bd732ceacfc..8b00292e1ae56 100644
-> > --- a/drivers/gpu/drm/i915/i915_drv.h
-> > +++ b/
-> > @@ -201,6 +201,16 @@ struct drm_i915_file_private {
-> >               struct rcu_head rcu;
-> >       };
-> >
-> > +     /** @proto_context_lock: Guards all i915_gem_proto_context operations
-> > +      *
-> > +      * See i915_gem_proto_context.
->
-> Please add locking rules here, like "This is always held whenever we
-> manipulate any proto context, including finalizing it on first actual use
-> of the GEM context".
-
-Done.
-
-> > +      */
-> > +     struct mutex proto_context_lock;
-> > +
-> > +     /** @proto_context_xa: xarray of i915_gem_proto_context */
->
-> Pls fix hyperlinks.
->
-> Also please put your nice explainer from the commit message here ...
-
-Done.
-
-> > +     struct xarray proto_context_xa;
-> > +
-> > +     /** @context_xa: xarray of fully created i915_gem_context */
->
-> ... and reference it with a "See @proto_context_xa" here.
->
-> Maybe also reference i915_gem_context_lookup() from these so readers of
-> the code can easily find all the pieces of this magic.
-
-Done.
-
-> Also mention here that write access to @context_xa is protected by
-> @proto_context_lock. It must be held to avoid races with finalization of
-> proto context in e.g. i915_gem_context_destroy_ioctl(), and this wasn't
-> obvious to me at all.
-
-Done.
-
->
-> >       struct xarray context_xa;
-> >       struct xarray vm_xa;
-> >
-> > @@ -1857,20 +1867,6 @@ struct drm_gem_object *i915_gem_prime_import(struct drm_device *dev,
-> >
-> >  struct dma_buf *i915_gem_prime_export(struct drm_gem_object *gem_obj, int flags);
-> >
-> > -static inline struct i915_gem_context *
-> > -i915_gem_context_lookup(struct drm_i915_file_private *file_priv, u32 id)
-> > -{
-> > -     struct i915_gem_context *ctx;
-> > -
-> > -     rcu_read_lock();
-> > -     ctx = xa_load(&file_priv->context_xa, id);
-> > -     if (ctx && !kref_get_unless_zero(&ctx->ref))
-> > -             ctx = NULL;
-> > -     rcu_read_unlock();
-> > -
-> > -     return ctx ? ctx : ERR_PTR(-ENOENT);
-> > -}
-> > -
-> >  static inline struct i915_address_space *
-> >  i915_gem_vm_lookup(struct drm_i915_file_private *file_priv, u32 id)
-> >  {
-> > --
-> > 2.31.1
->
-> Nothing big looks wrong, with the nits addressed:
->
-> Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-
-If you don't mind, I'd like you to look at the new set_param logic as
-well as the added comments on the next go 'round.
-
---Jason
-
-> >
->
-> --
-> Daniel Vetter
-> Software Engineer, Intel Corporation
-> http://blog.ffwll.ch
