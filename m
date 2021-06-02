@@ -2,63 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18F473983C5
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Jun 2021 10:02:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 295FC3983D8
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Jun 2021 10:09:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 541C06EB74;
-	Wed,  2 Jun 2021 08:02:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B351D6EB79;
+	Wed,  2 Jun 2021 08:09:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com
- [IPv6:2607:f8b0:4864:20::102a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 61D8B6EB74
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Jun 2021 08:02:28 +0000 (UTC)
-Received: by mail-pj1-x102a.google.com with SMTP id
- jz2-20020a17090b14c2b0290162cf0b5a35so2972679pjb.5
- for <dri-devel@lists.freedesktop.org>; Wed, 02 Jun 2021 01:02:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=02lHhfAhDq/BBAvi74B9e064tWGyy9vbCO1eroU+qno=;
- b=u1ryXFkSvsAEYZ+uPIFhIuVePkCzK4HehzqpdC8Am7BJaL2NRh9dd3nf+LP84yrNjJ
- NAAOuESPsyd2JOuQLAd3ayAEwFD9FKCorwfKoOppIcTaalwONFEH3Rl12W0n/Izr0yvP
- 9scM2jz5fuiagQv1RMDEMTKqrLzkrOyy4Z9EJ5alV+R83ZfzkqWQi7tiBRjj8VSqD1AL
- YEEpsmzacHB+1WU6VKjkISsDc2lPfhO3GrnwDQArvXgdxZrM9a+lN9/dC1+P9afew0or
- ubUQNM5Wy5VpBUg40daz+kEBDePJm6/x+3cXcP1hKsjQnKtCletrvGZP1IOG8zH1LN4o
- GdNw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=02lHhfAhDq/BBAvi74B9e064tWGyy9vbCO1eroU+qno=;
- b=PczmEoaSh4Khl1a46Q5WnTzbGGJYJK2Zr9PPmMKLL/XLfpLG8+GM5vCk9Pg4Z+5q0I
- IE0Tfr4G9KjWhNGZVyYt5q+6rVZTKEpKVbaQfRZuYSJwFWOed2lX/zrAekXNklZP/KUa
- IsyTVBsza/I7+6STc5ODvFIPTH5z9pWZxOR96BfuYHw7YRdO0b/PZpTr2NKBZGYhBOHy
- FWiVk5v+yltGjFDclMCIltFesiAz6aEhWucfkRf9zxzWq37UgEZ/Qpw5ICZQ1pqd93X8
- XXi9F1f8/AdqNL6Pej6ejrKRzJxnFpV925Higl2GjFpx25YnDCJ+K/7EuzfWeBp8ZeLG
- N1kw==
-X-Gm-Message-State: AOAM531lICf0UsS0AYZTQ0itJMEc0eVoQC9AtZ1fwFMD9CmFPMbANoLs
- TOOhLqnjiTrNZ2YHa0K/N8k=
-X-Google-Smtp-Source: ABdhPJwZj521mEUfCJQhdlbkixXBugXjsDZMrppxRTIFdGees+XZ69j8CuVFihztyyqUBF4Il/siOA==
-X-Received: by 2002:a17:90b:4b04:: with SMTP id
- lx4mr4355874pjb.54.1622620947943; 
- Wed, 02 Jun 2021 01:02:27 -0700 (PDT)
-Received: from localhost.localdomain ([2405:201:9005:8001:2df9:2568:9194:5f9])
- by smtp.gmail.com with ESMTPSA id
- h1sm15379903pfh.72.2021.06.02.01.02.23
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 02 Jun 2021 01:02:27 -0700 (PDT)
-From: Souptick Joarder <jrdr.linux@gmail.com>
-To: hjc@rock-chips.com,
-	heiko@sntech.de,
-	airlied@linux.ie,
-	daniel@ffwll.ch
-Subject: [PATCH] drm/rockchip: defined struct rockchip_dp_dt_ids[] under
- CONFIG_OF
-Date: Wed,  2 Jun 2021 13:32:12 +0530
-Message-Id: <20210602080212.4992-1-jrdr.linux@gmail.com>
-X-Mailer: git-send-email 2.25.1
+Received: from netline-mail3.netline.ch (mail.netline.ch [148.251.143.180])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 67D656EB75;
+ Wed,  2 Jun 2021 08:09:05 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by netline-mail3.netline.ch (Postfix) with ESMTP id 60E4C20201C;
+ Wed,  2 Jun 2021 10:09:04 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at netline-mail3.netline.ch
+Received: from netline-mail3.netline.ch ([127.0.0.1])
+ by localhost (netline-mail3.netline.ch [127.0.0.1]) (amavisd-new, port 10024)
+ with LMTP id Fmj8wpSck2lY; Wed,  2 Jun 2021 10:09:04 +0200 (CEST)
+Received: from thor (24.99.2.85.dynamic.wline.res.cust.swisscom.ch
+ [85.2.99.24])
+ by netline-mail3.netline.ch (Postfix) with ESMTPA id E0D0220201A;
+ Wed,  2 Jun 2021 10:09:03 +0200 (CEST)
+Received: from [::1] by thor with esmtp (Exim 4.94.2)
+ (envelope-from <michel@daenzer.net>)
+ id 1loLvy-001wmH-1G; Wed, 02 Jun 2021 10:09:02 +0200
+From: =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel@daenzer.net>
+To: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ =?UTF-8?B?TWFyZWsgT2zFocOhaw==?= <maraeo@gmail.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ ML Mesa-dev <mesa-dev@lists.freedesktop.org>,
+ Alex Deucher <alexdeucher@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Dave Airlie <airlied@gmail.com>, Jason Ekstrand <jason@jlekstrand.net>,
+ Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>
+References: <CAAxE2A4XS2mCXOdvxm1ZAhG2OY9w1P0X2E1ac1TXNFKDekog5g@mail.gmail.com>
+ <e7cb9833-1044-0426-5ce4-5b5fc32a3603@daenzer.net>
+ <327e4008-b29f-f5b7-bb30-532fa52c797f@gmail.com>
+ <7f19e3c7-b6b2-5200-95eb-3fed8d22a6b3@daenzer.net>
+Subject: Re: Linux Graphics Next: Userspace submission update
+Message-ID: <bfb76361-c06e-71c5-6c6e-4d65373e58a1@daenzer.net>
+Date: Wed, 2 Jun 2021 10:09:01 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.0
 MIME-Version: 1.0
+In-Reply-To: <7f19e3c7-b6b2-5200-95eb-3fed8d22a6b3@daenzer.net>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-CA
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -72,46 +60,19 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel test robot <lkp@intel.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-rockchip@lists.infradead.org,
- Souptick Joarder <jrdr.linux@gmail.com>, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Kernel test robot throws below warning when CONFIG_OF
-is not set.
+On 2021-06-01 12:49 p.m., Michel Dänzer wrote:
+> On 2021-06-01 12:21 p.m., Christian König wrote:
+> 
+>> Another question is if that is sufficient as security for the display server or if we need further handling down the road? I mean essentially we are moving the reliability problem into the display server.
+> 
+> Good question. This should generally protect the display server from freezing due to client fences never signalling, but there might still be corner cases.
 
->> drivers/gpu/drm/rockchip/analogix_dp-rockchip.c:457:34:
-warning: unused variable 'rockchip_dp_dt_ids' [-Wunused-const-variable]
-   static const struct of_device_id rockchip_dp_dt_ids[] = {
+E.g. a client might be able to sneak in a fence between when the compositor checks fences and when it submits its drawing to the kernel.
 
-Fixed it by defining rockchip_dp_dt_ids[] under CONFIG_OF.
 
-Reported-by: kernel test robot <lkp@intel.com>
-Signed-off-by: Souptick Joarder <jrdr.linux@gmail.com>
----
- drivers/gpu/drm/rockchip/analogix_dp-rockchip.c | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/drivers/gpu/drm/rockchip/analogix_dp-rockchip.c b/drivers/gpu/drm/rockchip/analogix_dp-rockchip.c
-index ade2327a10e2..9b79ebaeae97 100644
---- a/drivers/gpu/drm/rockchip/analogix_dp-rockchip.c
-+++ b/drivers/gpu/drm/rockchip/analogix_dp-rockchip.c
-@@ -454,12 +454,14 @@ static const struct rockchip_dp_chip_data rk3288_dp = {
- 	.chip_type = RK3288_DP,
- };
- 
-+#ifdef CONFIG_OF
- static const struct of_device_id rockchip_dp_dt_ids[] = {
- 	{.compatible = "rockchip,rk3288-dp", .data = &rk3288_dp },
- 	{.compatible = "rockchip,rk3399-edp", .data = &rk3399_edp },
- 	{}
- };
- MODULE_DEVICE_TABLE(of, rockchip_dp_dt_ids);
-+#endif
- 
- struct platform_driver rockchip_dp_driver = {
- 	.probe = rockchip_dp_probe,
 -- 
-2.25.1
-
+Earthling Michel Dänzer               |               https://redhat.com
+Libre software enthusiast             |             Mesa and X developer
