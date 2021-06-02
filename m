@@ -2,43 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BEDA9399341
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Jun 2021 21:10:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1ED38399367
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Jun 2021 21:19:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A22C76ECFF;
-	Wed,  2 Jun 2021 19:10:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BC5F26E598;
+	Wed,  2 Jun 2021 19:19:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2A11F6E546;
- Wed,  2 Jun 2021 19:10:19 +0000 (UTC)
-IronPort-SDR: mWZFaIogw6tPwgm6br2mp4fceM3bDV0D6u7XiVQ3wEcR0CquxQN2gM/yEQCzgeqeAwA8Ifi3qV
- 4AzN3aKkLAVA==
-X-IronPort-AV: E=McAfee;i="6200,9189,10003"; a="203682239"
-X-IronPort-AV: E=Sophos;i="5.83,242,1616482800"; d="scan'208";a="203682239"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Jun 2021 12:10:17 -0700
-IronPort-SDR: bEKxTlZiVbWC+phq4yJ9EzILe8jU4xiMWqq/nD0BEnYyxCAqDKylAkTAXEhK11Ixz2aMktsXJ9
- CLkZYaVuGGsw==
-X-IronPort-AV: E=Sophos;i="5.83,242,1616482800"; d="scan'208";a="438518297"
-Received: from ticela-az-103.amr.corp.intel.com (HELO intel.com)
- ([10.254.2.125])
- by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Jun 2021 12:10:14 -0700
-Date: Wed, 2 Jun 2021 15:10:12 -0400
-From: Rodrigo Vivi <rodrigo.vivi@intel.com>
-To: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
- tomas.winkler@intel.com
-Subject: Re: [PATCH v4 02/17] mei: pxp: export pavp client to me client bus
-Message-ID: <YLfXlBdCwe6/DWgD@intel.com>
-References: <20210525054803.7387-1-daniele.ceraolospurio@intel.com>
- <20210525054803.7387-3-daniele.ceraolospurio@intel.com>
+Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com
+ [IPv6:2a00:1450:4864:20::32c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6C4726E598
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Jun 2021 19:19:11 +0000 (UTC)
+Received: by mail-wm1-x32c.google.com with SMTP id
+ s5-20020a7bc0c50000b0290147d0c21c51so2291605wmh.4
+ for <dri-devel@lists.freedesktop.org>; Wed, 02 Jun 2021 12:19:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=eUENJ8IFVfyuEIR6EvsJ1XRveroP2COJUQKbXp+QSIs=;
+ b=jrv6dYTJesnR7SFafmMVlPBYL0uwrdWD3/fVHuWImOUcB6JFSXUkMw+B5pVbVZbAOK
+ +kmX2LkIXmotrUfvVA0mCwspGBs1kFyDehUiqKT9FJMix84MVMm4zcD45BV3nQIkx8iD
+ lh9yuLJueXKNpTKldmzGHyhp+MGwsZedfIjvs=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=eUENJ8IFVfyuEIR6EvsJ1XRveroP2COJUQKbXp+QSIs=;
+ b=DiJMabG2n/HugtJ5nrN5u4HdSbI9gj6AfPBE0hOdupsECqcHfdASbIslOom7UJ5Jhu
+ cpp6Fzrx+pvZm1yLYv1cDPQHjxmAP8hIlPwDq82UUO+2/mU0n7sxBkfUzOUyshqPam8A
+ DDPci11uR4j6I6BC54Rm7KUQGlkR2qm9lPScPDGKD9oTHBJ8sAdNK3FZHZZxP8GtfMDS
+ DaYSyccioQvEdKaWMVzzH4jA3B08cJ4X9EETNWUemhQ4sClemZ0zQUFu2P+mxqT75Xbs
+ 880/eeitvoqK6sZPxRDUK7/4E9d1g3oO5nvNPDKEUKOoePyirkkfUMbArD2bs6Fii1Up
+ y/pA==
+X-Gm-Message-State: AOAM5315dBToFABesSpESWi0Izm6DosNNohEKqzuPFOfePIZLzGiPAUZ
+ XJzkctLf8R40kcWLDGXsjCDGGw==
+X-Google-Smtp-Source: ABdhPJzHexJFaFRGofqLk07sCaIJNzh501NCGToLbjzHqOyeJiF8ofNIlbuZdtWyXRHPrsQgDTnr2g==
+X-Received: by 2002:a1c:7fd0:: with SMTP id
+ a199mr33324776wmd.161.1622661550098; 
+ Wed, 02 Jun 2021 12:19:10 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id j18sm532474wmq.27.2021.06.02.12.19.08
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 02 Jun 2021 12:19:09 -0700 (PDT)
+Date: Wed, 2 Jun 2021 21:19:07 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>
+Subject: Re: [Mesa-dev] Linux Graphics Next: Userspace submission update
+Message-ID: <YLfZq5lAaR/RiFV8@phenom.ffwll.local>
+References: <327e4008-b29f-f5b7-bb30-532fa52c797f@gmail.com>
+ <7f19e3c7-b6b2-5200-95eb-3fed8d22a6b3@daenzer.net>
+ <b0d65f94-cc56-a4db-3158-7b1de3952792@gmail.com>
+ <CAKMK7uGaD_LuX-SZDALuDuEOMZNX=Q3FAq0xYf_pTVtNe6VUaw@mail.gmail.com>
+ <c7190219-c185-3b7e-42a6-691934f79fb3@gmail.com>
+ <CAPj87rPbiFf3qDo35gmirAoTOOJ5fEE6UxQdJKtfjX_VTqc6pg@mail.gmail.com>
+ <CAAxE2A4kC4A9gV_V-W3eRW20O=9S1pv8=KMBdJxdLQ-ZXGa37Q@mail.gmail.com>
+ <CAAxE2A7FJSaYfrYRpoCr-3h-AqBjOOJerhMVCcQZzQu0a+J0zg@mail.gmail.com>
+ <YLfSbxhyDQmHjV4r@phenom.ffwll.local>
+ <a43f81f6-fe41-a6db-442e-83eb163124b9@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210525054803.7387-3-daniele.ceraolospurio@intel.com>
+In-Reply-To: <a43f81f6-fe41-a6db-442e-83eb163124b9@gmail.com>
+X-Operating-System: Linux phenom 5.10.32scarlett+ 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,358 +78,136 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, Tomas Winkler <tomas.winkler@intel.com>,
- dri-devel@lists.freedesktop.org, Vitaly Lubart <vitaly.lubart@intel.com>
+Cc: Marek =?utf-8?B?T2zFocOhaw==?= <maraeo@gmail.com>,
+ Michel =?iso-8859-1?Q?D=E4nzer?= <michel@daenzer.net>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Jason Ekstrand <jason@jlekstrand.net>,
+ ML Mesa-dev <mesa-dev@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, May 24, 2021 at 10:47:48PM -0700, Daniele Ceraolo Spurio wrote:
-> From: Vitaly Lubart <vitaly.lubart@intel.com>
+On Wed, Jun 02, 2021 at 08:52:38PM +0200, Christian König wrote:
 > 
-> Export PAVP client to work with i915 driver,
-> for binding it uses kernel component framework.
 > 
-> Signed-off-by: Vitaly Lubart <vitaly.lubart@intel.com>
-> Signed-off-by: Tomas Winkler <tomas.winkler@intel.com>
-> Signed-off-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
-> ---
->  drivers/misc/mei/Kconfig       |   2 +
->  drivers/misc/mei/Makefile      |   1 +
->  drivers/misc/mei/pxp/Kconfig   |  13 ++
->  drivers/misc/mei/pxp/Makefile  |   7 +
->  drivers/misc/mei/pxp/mei_pxp.c | 233 +++++++++++++++++++++++++++++++++
->  drivers/misc/mei/pxp/mei_pxp.h |  18 +++
->  6 files changed, 274 insertions(+)
->  create mode 100644 drivers/misc/mei/pxp/Kconfig
->  create mode 100644 drivers/misc/mei/pxp/Makefile
->  create mode 100644 drivers/misc/mei/pxp/mei_pxp.c
->  create mode 100644 drivers/misc/mei/pxp/mei_pxp.h
+> Am 02.06.21 um 20:48 schrieb Daniel Vetter:
+> > On Wed, Jun 02, 2021 at 05:38:51AM -0400, Marek Olšák wrote:
+> > > On Wed, Jun 2, 2021 at 5:34 AM Marek Olšák <maraeo@gmail.com> wrote:
+> > > 
+> > > > Yes, we can't break anything because we don't want to complicate things
+> > > > for us. It's pretty much all NAK'd already. We are trying to gather more
+> > > > knowledge and then make better decisions.
+> > > > 
+> > > > The idea we are considering is that we'll expose memory-based sync objects
+> > > > to userspace for read only, and the kernel or hw will strictly control the
+> > > > memory writes to those sync objects. The hole in that idea is that
+> > > > userspace can decide not to signal a job, so even if userspace can't
+> > > > overwrite memory-based sync object states arbitrarily, it can still decide
+> > > > not to signal them, and then a future fence is born.
+> > > > 
+> > > This would actually be treated as a GPU hang caused by that context, so it
+> > > should be fine.
+> > This is practically what I proposed already, except your not doing it with
+> > dma_fence. And on the memory fence side this also doesn't actually give
+> > what you want for that compute model.
+> > 
+> > This seems like a bit a worst of both worlds approach to me? Tons of work
+> > in the kernel to hide these not-dma_fence-but-almost, and still pain to
+> > actually drive the hardware like it should be for compute or direct
+> > display.
+> > 
+> > Also maybe I've missed it, but I didn't see any replies to my suggestion
+> > how to fake the entire dma_fence stuff on top of new hw. Would be
+> > interesting to know what doesn't work there instead of amd folks going of
+> > into internal again and then coming back with another rfc from out of
+> > nowhere :-)
 > 
-> diff --git a/drivers/misc/mei/Kconfig b/drivers/misc/mei/Kconfig
-> index f5fd5b786607..0e0bcd0da852 100644
-> --- a/drivers/misc/mei/Kconfig
-> +++ b/drivers/misc/mei/Kconfig
-> @@ -47,3 +47,5 @@ config INTEL_MEI_TXE
->  	  Intel Bay Trail
->  
->  source "drivers/misc/mei/hdcp/Kconfig"
-> +source "drivers/misc/mei/pxp/Kconfig"
-> +
-> diff --git a/drivers/misc/mei/Makefile b/drivers/misc/mei/Makefile
-> index f1c76f7ee804..d8e5165917f2 100644
-> --- a/drivers/misc/mei/Makefile
-> +++ b/drivers/misc/mei/Makefile
-> @@ -26,3 +26,4 @@ mei-$(CONFIG_EVENT_TRACING) += mei-trace.o
->  CFLAGS_mei-trace.o = -I$(src)
->  
->  obj-$(CONFIG_INTEL_MEI_HDCP) += hdcp/
-> +obj-$(CONFIG_INTEL_MEI_PXP) += pxp/
-> diff --git a/drivers/misc/mei/pxp/Kconfig b/drivers/misc/mei/pxp/Kconfig
-> new file mode 100644
-> index 000000000000..4029b96afc04
-> --- /dev/null
-> +++ b/drivers/misc/mei/pxp/Kconfig
-> @@ -0,0 +1,13 @@
-> +
-> +# SPDX-License-Identifier: GPL-2.0
-> +# Copyright (c) 2020, Intel Corporation. All rights reserved.
-> +#
-s> +config INTEL_MEI_PXP
-> +	tristate "Intel PXP services of ME Interface"
-> +	select INTEL_MEI_ME
-> +	depends on DRM_I915
-> +	help
-> +	  MEI Support for PXP Services on Intel platforms.
-> +
-> +	  Enables the ME FW services required for PXP support through
-> +	  I915 display driver of Intel.
-> diff --git a/drivers/misc/mei/pxp/Makefile b/drivers/misc/mei/pxp/Makefile
-> new file mode 100644
-> index 000000000000..0329950d5794
-> --- /dev/null
-> +++ b/drivers/misc/mei/pxp/Makefile
-> @@ -0,0 +1,7 @@
-> +# SPDX-License-Identifier: GPL-2.0
-> +#
-> +# Copyright (c) 2020, Intel Corporation. All rights reserved.
-> +#
-> +# Makefile - PXP client driver for Intel MEI Bus Driver.
-> +
-> +obj-$(CONFIG_INTEL_MEI_PXP) += mei_pxp.o
-> diff --git a/drivers/misc/mei/pxp/mei_pxp.c b/drivers/misc/mei/pxp/mei_pxp.c
-> new file mode 100644
-> index 000000000000..cacfbedb640a
-> --- /dev/null
-> +++ b/drivers/misc/mei/pxp/mei_pxp.c
-> @@ -0,0 +1,233 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * Copyright � 2020 Intel Corporation
-> + */
-> +
-> +/**
-> + * DOC: MEI_PXP Client Driver
-> + *
-> + * The mei_pxp driver acts as a translation layer between PXP
-> + * protocol  implementer (I915) and ME FW by translating PXP
-> + * negotiation messages to ME FW command payloads and vice versa.
-> + */
-> +
-> +#include <linux/module.h>
-> +#include <linux/slab.h>
-> +#include <linux/uuid.h>
-> +#include <linux/mei_cl_bus.h>
-> +#include <linux/component.h>
-> +#include <drm/drm_connector.h>
-> +#include <drm/i915_component.h>
-> +#include <drm/i915_pxp_tee_interface.h>
-> +
-> +#include "mei_pxp.h"
-> +
-> +/**
-> + * mei_pxp_send_message() - Sends a PXP message to ME FW.
-> + * @dev: device corresponding to the mei_cl_device
-> + * @message: a message buffer to send
-> + * @size: size of the message
-> + * Return: 0 on Success, <0 on Failure
-> + */
-> +static int
-> +mei_pxp_send_message(struct device *dev, const void *message, size_t size)
-> +{
-> +	struct mei_cl_device *cldev;
-> +	ssize_t byte;
-> +
-> +	if (!dev || !message)
-> +		return -EINVAL;
-> +
-> +	cldev = to_mei_cl_device(dev);
-> +
-> +	/* temporary drop const qualifier till the API is fixed */
-> +	byte = mei_cldev_send(cldev, (u8 *)message, size);
-> +	if (byte < 0) {
-> +		dev_dbg(dev, "mei_cldev_send failed. %zd\n", byte);
-> +		return byte;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +/**
-> + * mei_pxp_receive_message() - Receives a PXP message from ME FW.
-> + * @dev: device corresponding to the mei_cl_device
-> + * @buffer: a message buffer to contain the received message
-> + * @size: size of the buffer
-> + * Return: bytes sent on Success, <0 on Failure
-> + */
-> +static int
-> +mei_pxp_receive_message(struct device *dev, void *buffer, size_t size)
-> +{
-> +	struct mei_cl_device *cldev;
-> +	ssize_t byte;
-> +
-> +	if (!dev || !buffer)
-> +		return -EINVAL;
-> +
-> +	cldev = to_mei_cl_device(dev);
-> +
-> +	byte = mei_cldev_recv(cldev, buffer, size);
-> +	if (byte < 0) {
-> +		dev_dbg(dev, "mei_cldev_recv failed. %zd\n", byte);
-> +		return byte;
-> +	}
-> +
-> +	return byte;
-> +}
-> +
-> +static const struct i915_pxp_component_ops mei_pxp_ops = {
-> +	.owner = THIS_MODULE,
-> +	.send = mei_pxp_send_message,
-> +	.recv = mei_pxp_receive_message,
-> +};
-> +
-> +static int mei_component_master_bind(struct device *dev)
-> +{
-> +	struct mei_cl_device *cldev = to_mei_cl_device(dev);
-> +	struct i915_pxp_component *comp_master = mei_cldev_get_drvdata(cldev);
-> +	int ret;
-> +
-> +	dev_dbg(dev, "%s\n", __func__);
-> +	comp_master->ops = &mei_pxp_ops;
-> +	comp_master->tee_dev = dev;
-> +	ret = component_bind_all(dev, comp_master);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	return 0;
-> +}
-> +
-> +static void mei_component_master_unbind(struct device *dev)
-> +{
-> +	struct mei_cl_device *cldev = to_mei_cl_device(dev);
-> +	struct i915_pxp_component *comp_master = mei_cldev_get_drvdata(cldev);
-> +
-> +	dev_dbg(dev, "%s\n", __func__);
-> +	component_unbind_all(dev, comp_master);
-> +}
-> +
-> +static const struct component_master_ops mei_component_master_ops = {
-> +	.bind = mei_component_master_bind,
-> +	.unbind = mei_component_master_unbind,
-> +};
-> +
-> +/**
-> + * mei_pxp_component_match - compare function for matching mei pxp.
-> + *
-> + *    The function checks if the driver is i915, the subcomponent is PXP
-> + *    and the grand parent of pxp and the parent of i915 are the same
-> + *    PCH device.
-> + *
-> + * @dev: master device
-> + * @subcomponent: subcomponent to match (I915_COMPONENT_PXP)
-> + * @data: compare data (mei pxp device)
-> + *
-> + * Return:
-> + * * 1 - if components match
-> + * * 0 - otherwise
-> + */
-> +static int mei_pxp_component_match(struct device *dev, int subcomponent,
-> +				   void *data)
-> +{
-> +	struct device *base = data;
-> +
-> +	if (subcomponent != I915_COMPONENT_PXP)
-> +		return 0;
-> +
-> +	if (strcmp(dev->driver->name, "i915") == 0) {
-> +		base = base->parent;
-> +		if (!base)
-> +			return 0;
-> +
-> +		base = base->parent;
-> +		dev = dev->parent;
-> +		return (base && dev && dev == base);
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static int mei_pxp_probe(struct mei_cl_device *cldev,
-> +			 const struct mei_cl_device_id *id)
-> +{
-> +	struct i915_pxp_component *comp_master;
-> +	struct component_match *master_match;
-> +	int ret;
-> +
-> +	ret = mei_cldev_enable(cldev);
-> +	if (ret < 0) {
-> +		dev_err(&cldev->dev, "mei_cldev_enable Failed. %d\n", ret);
-> +		goto enable_err_exit;
-> +	}
-> +
-> +	comp_master = kzalloc(sizeof(*comp_master), GFP_KERNEL);
-> +	if (!comp_master) {
-> +		ret = -ENOMEM;
-> +		goto err_exit;
-> +	}
-> +
-> +	master_match = NULL;
-> +	component_match_add_typed(&cldev->dev, &master_match,
-> +				  mei_pxp_component_match, &cldev->dev);
-> +	if (IS_ERR_OR_NULL(master_match)) {
-> +		ret = -ENOMEM;
-> +		goto err_exit;
-> +	}
-> +
-> +	mei_cldev_set_drvdata(cldev, comp_master);
-> +	ret = component_master_add_with_match(&cldev->dev,
-> +					      &mei_component_master_ops,
-> +					      master_match);
-> +	if (ret < 0) {
-> +		dev_err(&cldev->dev, "Master comp add failed %d\n", ret);
-> +		goto err_exit;
-> +	}
-> +
-> +	return 0;
-> +
-> +err_exit:
-> +	mei_cldev_set_drvdata(cldev, NULL);
-> +	kfree(comp_master);
-> +	mei_cldev_disable(cldev);
-> +enable_err_exit:
-> +	return ret;
-> +}
-> +
-> +static void mei_pxp_remove(struct mei_cl_device *cldev)
-> +{
-> +	struct i915_pxp_component *comp_master = mei_cldev_get_drvdata(cldev);
-> +	int ret;
-> +
-> +	component_master_del(&cldev->dev, &mei_component_master_ops);
-> +	kfree(comp_master);
-> +	mei_cldev_set_drvdata(cldev, NULL);
-> +
-> +	ret = mei_cldev_disable(cldev);
-> +	if (ret)
-> +		dev_warn(&cldev->dev, "mei_cldev_disable() failed\n");
-> +}
-> +
-> +/* fbf6fcf1-96cf-4e2e-a6a6-1bab8cbe36b1 : PAVP GUID*/
-                                                      ^ missing space
-> +#define MEI_GUID_PXP GUID_INIT(0xfbf6fcf1, 0x96cf, 0x4e2e, 0xA6, \
-> +			       0xa6, 0x1b, 0xab, 0x8c, 0xbe, 0x36, 0xb1)
+> Well to be honest I would just push back on our hardware/firmware guys that
+> we need to keep kernel queues forever before going down that route.
 
-I don't have the spec to confirm this... that said...
+I looked again, and you said the model wont work because preemption is way
+too slow, even when the context is idle.
 
-the implementation looks clean and with the very little that I learned
-from MEI on the recent months I'm comfortable in adding:
+I guess at that point I got maybe too fed up and just figured "not my
+problem", but if preempt is too slow as the unload fence, you can do it
+with pte removal and tlb shootdown too (that is hopefully not too slow,
+otherwise your hw is just garbage and wont even be fast for direct submit
+compute workloads).
 
-Reviewed-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
+The only thing that you need to do when you use pte clearing + tlb
+shootdown instad of preemption as the unload fence for buffers that get
+moved is that if you get any gpu page fault, you don't serve that, but
+instead treat it as a tdr and shot the context permanently.
 
-Tomas, ack to get it from drm/drm-intel tree?
+So summarizing the model I proposed:
 
-> +
-> +static struct mei_cl_device_id mei_pxp_tbl[] = {
-> +	{ .uuid = MEI_GUID_PXP, .version = MEI_CL_VERSION_ANY },
-> +	{ }
-> +};
-> +MODULE_DEVICE_TABLE(mei, mei_pxp_tbl);
-> +
-> +static struct mei_cl_driver mei_pxp_driver = {
-> +	.id_table = mei_pxp_tbl,
-> +	.name = KBUILD_MODNAME,
-> +	.probe = mei_pxp_probe,
-> +	.remove	= mei_pxp_remove,
-> +};
-> +
-> +module_mei_cl_driver(mei_pxp_driver);
-> +
-> +MODULE_AUTHOR("Intel Corporation");
-> +MODULE_LICENSE("GPL");
-> +MODULE_DESCRIPTION("MEI PXP");
-> diff --git a/drivers/misc/mei/pxp/mei_pxp.h b/drivers/misc/mei/pxp/mei_pxp.h
-> new file mode 100644
-> index 000000000000..e7b15373fefd
-> --- /dev/null
-> +++ b/drivers/misc/mei/pxp/mei_pxp.h
-> @@ -0,0 +1,18 @@
-> +/* SPDX-License-Identifier: GPL-2.0 */
-> +/*
-> + * Copyright � 2020 Intel Corporation
-> + *
-> + * Authors:
-> + * Vitaly Lubart <vitaly.lubart@intel.com>
-> + */
-> +
-> +#ifndef __MEI_PXP_H__
-> +#define __MEI_PXP_H__
-> +
-> +/* me_pxp_status: Enumeration of all PXP Status Codes */
-> +enum me_pxp_status {
-> +	ME_PXP_STATUS_SUCCESS			= 0x0000,
-> +
-> +};
-> +
-> +#endif /* __MEI_PXP_H__ */
-> -- 
-> 2.29.2
-> 
+- you allow userspace to directly write into the ringbuffer, and also
+  write the fences directly
+
+- actual submit is done by the kernel, using drm/scheduler. The kernel
+  blindly trusts userspace to set up everything else, and even just wraps
+  dma_fences around the userspace memory fences.
+
+- the only check is tdr. If a fence doesn't complete an tdr fires, a) the
+  kernel shot the entire context and b) userspace recovers by setting up a
+  new ringbuffer
+
+- memory management is done using ttm only, you still need to supply the
+  buffer list (ofc that list includes the always present ones, so CS will
+  only get the list of special buffers like today). If you hw can't trun
+  gpu page faults and you ever get one we pull up the same old solution:
+  Kernel shots the entire context.
+
+  The important thing is that from the gpu pov memory management works
+  exactly like compute workload with direct submit, except that you just
+  terminate the context on _any_ page fault, instead of only those that go
+  somewhere where there's really no mapping and repair the others.
+
+  Also I guess from reading the old thread this means you'd disable page
+  fault retry because that is apparently also way too slow for anything.
+
+- memory management uses an unload fence. That unload fences waits for all
+  userspace memory fences (represented as dma_fence) to complete, with
+  maybe some fudge to busy-spin until we've reached the actual end of the
+  ringbuffer (maybe you have a IB tail there after the memory fence write,
+  we have that on intel hw), and it waits for the memory to get
+  "unloaded". This is either preemption, or pte clearing + tlb shootdown,
+  or whatever else your hw provides which is a) used for dynamic memory
+  management b) fast enough for actual memory management.
+
+- any time a context dies we force-complete all it's pending fences,
+  in-order ofc
+
+So from hw pov this looks 99% like direct userspace submit, with the exact
+same mappings, command sequences and everything else. The only difference
+is that the rinbuffer head/tail updates happen from drm/scheduler, instead
+of directly from userspace.
+
+None of this stuff needs funny tricks where the kernel controls the
+writes to memory fences, or where you need kernel ringbuffers, or anything
+like thist. Userspace is allowed to do anything stupid, the rules are
+guaranteed with:
+
+- we rely on the hw isolation features to work, but _exactly_ like compute
+  direct submit would too
+
+- dying on any page fault captures memory management issues
+
+- dying (without kernel recover, this is up to userspace if it cares) on
+  any tdr makes sure fences complete still
+
+> That syncfile and all that Android stuff isn't working out of the box with
+> the new shiny user queue submission model (which in turn is mostly because
+> of Windows) already raised some eyebrows here.
+
+I think if you really want to make sure the current linux stack doesn't
+break the _only_ option you have is provide a ctx mode that allows
+dma_fence and drm/scheduler to be used like today.
+
+For everything else it sounds you're a few years too late, because even
+just huge kernel changes wont happen in time. Much less rewriting
+userspace protocols.
+-Daniel
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
