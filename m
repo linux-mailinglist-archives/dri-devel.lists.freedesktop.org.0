@@ -1,62 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CFAE5398CF6
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Jun 2021 16:33:49 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id ACAE9398CF5
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Jun 2021 16:33:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 37A0C6ECC8;
+	by gabe.freedesktop.org (Postfix) with ESMTP id B6A726ECCB;
 	Wed,  2 Jun 2021 14:33:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com
- [IPv6:2a00:1450:4864:20::435])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7864A6ECC3
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Jun 2021 14:33:28 +0000 (UTC)
-Received: by mail-wr1-x435.google.com with SMTP id q5so2555750wrs.4
- for <dri-devel@lists.freedesktop.org>; Wed, 02 Jun 2021 07:33:28 -0700 (PDT)
+Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com
+ [IPv6:2a00:1450:4864:20::32f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5754C6ECC8
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Jun 2021 14:33:29 +0000 (UTC)
+Received: by mail-wm1-x32f.google.com with SMTP id
+ p13-20020a05600c358db029019f44afc845so1805558wmq.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 02 Jun 2021 07:33:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=457+N/Rh8MOrxunbiCqh3NZ4tXXcJQCrqwWFpwHmuoQ=;
- b=uActT3hvfwlLPIZ6RHgWI18UgapOBE6UhJ2FV+Z+7kx0FYvKBWb1JGMK+67m4XiN9W
- 6KPxYFTp5kApYGtKlboWnuuZKOMlm55yon52q3jbgurwUFvSAZaacGVCHpXtSaZLG8r+
- MJN7c8Z58Duav2e+ZBSjATW+gRHrbGOFQl1xeUto/T3dFqI1TZOKJmL+QZmah37Sx6zO
- ha4P1AtfU02ImH5mnEFK0btmUyvMrEeraouty6b/pRgossm0hMwhryMK9NxXtJaOWuo3
- auIC+ZbLq7w/uCK8T+qn2Ejsr5/wyntXgh3uyC7WkVgTX13doyl1Vym8AkivxbZitD/T
- OnyA==
+ bh=gCK0jqtaLc6j+lM4CKdqVnjdeawCrSThn6Bsjq7wZAM=;
+ b=kVawvm9tl5zizmZlEJdZ0FnvSGVuL0luhzw/GSgmx6esjexCvNfHHyDG0z0L6UO6dD
+ wgbWSIyuUW4QRNeBRJF/HS/Ri4n8Z/VFfaBWfyS9o8M+UBn/U4XGkh6ADyGzkR4ykU7U
+ AvdY3RQaTeBiVKl0MliHWeJyl01xacXxCyqNaf4biEbfB2gwPyEvYYlyQa3lvTucU6TE
+ ZkgBaZX6ywoFAJvV7Fh8RJijupn2jhRk1KyEtAbOivtycNORWqILYzmT84iwD3SS23aO
+ j5F/28TV4fqpKqN1gCV0WLgLCzckqUBvdBEfgsEdAme1krhu5abpjnoQMKcNlWZwsCn/
+ HJSw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=457+N/Rh8MOrxunbiCqh3NZ4tXXcJQCrqwWFpwHmuoQ=;
- b=MqahDKAMQLn9msDfveC8d7HhtlnsJYuqw9Qw6kkAAx7t/aAuGlZCGu8BqmBIB+yuot
- yfHEPPyUc63Au2qz2I6jGCFKP3JwqlsWHvEqd2lmsOmw2WplXJzkLhQruZhKVxpLUURb
- ZW0/yuL0ouV4/czP2Hp2x23fvwxPmPxT/kvTniCBmuFlYC3RBZL/4bEQ0ucz15XnY5OL
- uirCD5j8NRN8uuiRLE03qj2ttndYvvbmH8Rhrrfp1UBGDcDDw/F8k7cWngXMvA0q8wBK
- SnjesdCFRkHTfghva3oME/cnwWxYNCM7fpSYL/Cy8mnbTmhcSr5PXs9nxFsIxVR+jxRe
- 6czQ==
-X-Gm-Message-State: AOAM533YVc7Q5WKUePt9XLDkdy89Hi7gaDhWgSKR7FOf0xyx8LNrrBtd
- uzo7v5AopwY6g1nQ4RllHMp8WQ==
-X-Google-Smtp-Source: ABdhPJyVZdTdil8cZTIEEb4JxiStiib0c/SBUoFAYxulgJqOyRrYcJQd+VVKJ3BGvVLvI19muxWRrw==
-X-Received: by 2002:a05:6000:508:: with SMTP id
- a8mr33884629wrf.315.1622644407227; 
- Wed, 02 Jun 2021 07:33:27 -0700 (PDT)
+ bh=gCK0jqtaLc6j+lM4CKdqVnjdeawCrSThn6Bsjq7wZAM=;
+ b=AJ/KxhRwY/MdHIuPZBJcUZlcOHzS1QcYXgv7qqDouThzCn++gnKWvIFb7M022Z2pkA
+ Okt2VnkS5fGHOQnAyvVvwR2i9f5bKwxV9gFjPGNLmVzdCMfvR0sRpQQs7cDZRkEXraM7
+ Dzcc3vWD+taK2trv3XgK/xmNpdtZJzWcWG6anaSLc8/Qk54umj+g0F0KZxPZW3zDA1Ev
+ HgQyArUP+gxaVLogsf9Kp0ejmxBsIxO/YtZ+D2eiqf0xLwn/Ti3IxBAgdK1C7mZySLWM
+ n4o6galM6vxYAkD4fL97ET7EiUg+brDYrmxvL56dr+yzO4fMWx3wtkF3tNiAepu20rqF
+ 5UCg==
+X-Gm-Message-State: AOAM531Z5GFzqQ4zCm1Sz88GrgLuYhpeW7ezkjoRZN1s9bglKznOqHyZ
+ pEhY7RJzKybSr1ZmvDmMnl7HuLPdcHruww==
+X-Google-Smtp-Source: ABdhPJxTtSEFhoNefmPKjFMRd2qURDi/HNEXhrSYPmBba4g0Ds6da+YzMYlZsUEsDWgrqcVTg9+9Rw==
+X-Received: by 2002:a1c:5452:: with SMTP id p18mr19646142wmi.176.1622644408057; 
+ Wed, 02 Jun 2021 07:33:28 -0700 (PDT)
 Received: from dell.default ([91.110.221.214])
- by smtp.gmail.com with ESMTPSA id o11sm132315wrq.93.2021.06.02.07.33.26
+ by smtp.gmail.com with ESMTPSA id o11sm132315wrq.93.2021.06.02.07.33.27
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 02 Jun 2021 07:33:26 -0700 (PDT)
+ Wed, 02 Jun 2021 07:33:27 -0700 (PDT)
 From: Lee Jones <lee.jones@linaro.org>
 To: lee.jones@linaro.org
-Subject: [RESEND 16/26] drm/amd/display/dc/dce/dce_transform: Remove
- superfluous re-initialisation of DCFE_MEM_LIGHT_SLEEP_CNTL, 
-Date: Wed,  2 Jun 2021 15:32:50 +0100
-Message-Id: <20210602143300.2330146-17-lee.jones@linaro.org>
+Subject: [RESEND 17/26] drm/xlnx/zynqmp_disp: Fix incorrectly named enum
+ 'zynqmp_disp_layer_id'
+Date: Wed,  2 Jun 2021 15:32:51 +0100
+Message-Id: <20210602143300.2330146-18-lee.jones@linaro.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210602143300.2330146-1-lee.jones@linaro.org>
 References: <20210602143300.2330146-1-lee.jones@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -70,58 +69,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Leo Li <sunpeng.li@amd.com>, Mauro Rossi <issor.oruam@gmail.com>,
- linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
- David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: Hyun Kwon <hyun.kwon@xilinx.com>, David Airlie <airlied@linux.ie>,
+ Michal Simek <michal.simek@xilinx.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Fixes the following W=1 kernel build warning(s):
 
- drivers/gpu/drm/amd/amdgpu/../display/modules/hdcp/hdcp_psp.c:374:22: warning: no previous prototype for ‘mod_hdcp_hdcp1_get_link_encryption_status’
- In file included from drivers/gpu/drm/amd/amdgpu/../display/dc/dce60/dce60_resource.c:28:
- drivers/gpu/drm/amd/amdgpu/../include/asic_reg/dce/dce_6_0_d.h:568:43: warning: initialized field overwritten [-Woverride-init]
- drivers/gpu/drm/amd/amdgpu/../display/dc/dce60/dce60_resource.c:157:14: note: in expansion of macro ‘mmCRTC0_DCFE_MEM_LIGHT_SLEEP_CNTL’
- drivers/gpu/drm/amd/amdgpu/../display/dc/dce/dce_transform.h:170:2: note: in expansion of macro ‘SRI’
- drivers/gpu/drm/amd/amdgpu/../display/dc/dce60/dce60_resource.c:183:3: note: in expansion of macro ‘XFM_COMMON_REG_LIST_DCE60’
- drivers/gpu/drm/amd/amdgpu/../display/dc/dce60/dce60_resource.c:187:3: note: in expansion of macro ‘transform_regs’
- drivers/gpu/drm/amd/amdgpu/../include/asic_reg/dce/dce_6_0_d.h:568:43: note: (near initialization for ‘xfm_regs[0].DCFE_MEM_LIGHT_SLEEP_CNTL’)
- drivers/gpu/drm/amd/amdgpu/../display/dc/dce60/dce60_resource.c:157:14: note: in expansion of macro ‘mmCRTC0_DCFE_MEM_LIGHT_SLEEP_CNTL’
- drivers/gpu/drm/amd/amdgpu/../display/dc/dce/dce_transform.h:170:2: note: in expansion of macro ‘SRI’
- drivers/gpu/drm/amd/amdgpu/../display/dc/dce60/dce60_resource.c:183:3: note: in expansion of macro ‘XFM_COMMON_REG_LIST_DCE60’
- drivers/gpu/drm/amd/amdgpu/../display/dc/dce60/dce60_resource.c:187:3: note: in expansion of macro ‘transform_regs’
- drivers/gpu/drm/amd/amdgpu/../include/asic_reg/dce/dce_6_0_d.h:645:43: warning: initialized field overwritten [-Woverride-init]
+ drivers/gpu/drm/xlnx/zynqmp_disp.c:101: warning: expecting prototype for enum zynqmp_disp_id. Prototype was for enum zynqmp_disp_layer_id instead
 
-Cc: Harry Wentland <harry.wentland@amd.com>
-Cc: Leo Li <sunpeng.li@amd.com>
-Cc: Alex Deucher <alexander.deucher@amd.com>
-Cc: "Christian König" <christian.koenig@amd.com>
+Cc: Hyun Kwon <hyun.kwon@xilinx.com>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Cc: David Airlie <airlied@linux.ie>
 Cc: Daniel Vetter <daniel@ffwll.ch>
-Cc: Mauro Rossi <issor.oruam@gmail.com>
-Cc: amd-gfx@lists.freedesktop.org
+Cc: Michal Simek <michal.simek@xilinx.com>
 Cc: dri-devel@lists.freedesktop.org
+Cc: linux-arm-kernel@lists.infradead.org
 Signed-off-by: Lee Jones <lee.jones@linaro.org>
 ---
- drivers/gpu/drm/amd/display/dc/dce/dce_transform.h | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ drivers/gpu/drm/xlnx/zynqmp_disp.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/dce/dce_transform.h b/drivers/gpu/drm/amd/display/dc/dce/dce_transform.h
-index cbce194ec7b82..e98b5d4141739 100644
---- a/drivers/gpu/drm/amd/display/dc/dce/dce_transform.h
-+++ b/drivers/gpu/drm/amd/display/dc/dce/dce_transform.h
-@@ -166,8 +166,7 @@
- 	SRI(SCL_F_SHARP_CONTROL, SCL, id)
+diff --git a/drivers/gpu/drm/xlnx/zynqmp_disp.c b/drivers/gpu/drm/xlnx/zynqmp_disp.c
+index 109d627968ac0..ca1161ec9e16f 100644
+--- a/drivers/gpu/drm/xlnx/zynqmp_disp.c
++++ b/drivers/gpu/drm/xlnx/zynqmp_disp.c
+@@ -91,7 +91,7 @@ struct zynqmp_disp_format {
+ };
  
- #define XFM_COMMON_REG_LIST_DCE60(id) \
--	XFM_COMMON_REG_LIST_DCE60_BASE(id), \
--	SRI(DCFE_MEM_LIGHT_SLEEP_CNTL, CRTC, id)
-+	XFM_COMMON_REG_LIST_DCE60_BASE(id)
- #endif
- 
- #define XFM_SF(reg_name, field_name, post_fix)\
+ /**
+- * enum zynqmp_disp_id - Layer identifier
++ * enum zynqmp_disp_layer_id - Layer identifier
+  * @ZYNQMP_DISP_LAYER_VID: Video layer
+  * @ZYNQMP_DISP_LAYER_GFX: Graphics layer
+  */
 -- 
 2.31.1
 
