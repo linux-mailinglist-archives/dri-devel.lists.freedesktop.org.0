@@ -2,63 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31FBA39848B
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Jun 2021 10:50:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB8603984BB
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Jun 2021 10:57:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B99826E3C6;
-	Wed,  2 Jun 2021 08:50:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F18C36EBD0;
+	Wed,  2 Jun 2021 08:57:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com
- [IPv6:2607:f8b0:4864:20::102d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 249446E3C6;
- Wed,  2 Jun 2021 08:50:42 +0000 (UTC)
-Received: by mail-pj1-x102d.google.com with SMTP id k5so1295012pjj.1;
- Wed, 02 Jun 2021 01:50:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=o9lxecdQ+sUFtyWEQYnGHVSA9kUb7tM0XtaGYDbglIU=;
- b=EHucTEQtsxnfYE2QIpFkB+b80UKPVtGTuj44cfEGTctDfweDXFNWILx2kT/juLet+7
- oBhCr11wzlo8i3a1kMBkNGW2KgkQ3mL4ZdNrvSnEz/Q7rkxkl386Ip3wJ5rYkzSFOCqo
- 1zamko+VpG6K/7JTBgdROITcvin5vhpWh6Ts6QOaJTg1HC88CFOon2Ut2v59IkScKCTj
- SexhOHCDaGtsqxI5BtUNlmmeY0E5hYObhyd8wqYN2Jzv0Jpbfh5n7Edss6F6dEFLlD4f
- 32xH8cG/3ZD0vLVicGYr+P+g7E5syLUrogiZ/hqtvZHLW6GDp5MH71RbPal+/6f5MOCS
- hb/g==
+Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com
+ [IPv6:2a00:1450:4864:20::32d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EED026EBED
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Jun 2021 08:57:34 +0000 (UTC)
+Received: by mail-wm1-x32d.google.com with SMTP id
+ t4-20020a1c77040000b029019d22d84ebdso3251082wmi.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 02 Jun 2021 01:57:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=fooishbar-org.20150623.gappssmtp.com; s=20150623;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=brL3Kj/KAhdw9wVkWElMJ2rpOminFezvYvb4e68I3Js=;
+ b=YOiDzlaBMHYzYUgpD0IJx/Brn7VUqdB/J8V0sJ0P1WuyfDp/vEGdOfyFTuj3gFNWY2
+ iYs1WwMv6L5OjvWwL18waXErpPIqEKudm5lhn43a4PMTB0eKy04d89VCbpHy4jaIxAxX
+ Rxczfm0dmQGKslfyNLYrbaGkB6EptI+QjR8Q+PYq7phNwG0EPvbpuCNVPfmeNwdDXgLc
+ GQ0p9Fe5NM9e5V9Yk01zeOag0ewJr55y/Ua0+UUWog3A7PjbS7EQy9JiwQoFV6PDxCgN
+ WZq5JbRGGypN5Z57wbfvDkXOLXLTQucGo99l/kyahfWpGHCPQ7tCvv7ypmoy/lyzgSZ8
+ e8VQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=o9lxecdQ+sUFtyWEQYnGHVSA9kUb7tM0XtaGYDbglIU=;
- b=tmisFiptQSM3mA6yJpgtv9HSj+US/KJfxOsGdiChzl9LTnQMG8hTx0pJA9ITfTPjNq
- fLEU7N9aAv2MhsGy4EMhLKlay0uTHteM+OBK7emuoeJOGtxwGkUX7Ip9wJ14b+ZDeTKN
- 4C+6C3qHUzxGNoZ3n6VPHaGoUWCiMVn566nGYBK3vv7HbdDJV8hLdoShN3pzHFrvpp/C
- 7M/EPAEqa+87IdW73jLPkn2MMgxwuSG93lGpkC6Ln/nbtqJPq7ok8qcpab73p+icbisU
- GVzYRlONoATaMHNrwl95G19ghs1WYvekonVuZVIx7sFBuYR1rP1tN0R2aVViybVcTwER
- Hz7Q==
-X-Gm-Message-State: AOAM531RSruvKXgJevT8ArIMdHpVWKFln9Y7proW3X1k6nBQ+9xTp/zS
- vweYBYuW7Y7ju3CzCwawnuQ=
-X-Google-Smtp-Source: ABdhPJyaugF6+CYwrJI3pVkj2b4jzGpeXPEYzpUFLG3awQAK21ZuritpgNYaqMGnLzReJocPn1YhKg==
-X-Received: by 2002:a17:90a:6e07:: with SMTP id b7mr4431857pjk.7.1622623841640; 
- Wed, 02 Jun 2021 01:50:41 -0700 (PDT)
-Received: from localhost (60-242-95-222.static.tpgi.com.au. [60.242.95.222])
- by smtp.gmail.com with ESMTPSA id nn6sm5443508pjb.57.2021.06.02.01.50.39
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 02 Jun 2021 01:50:40 -0700 (PDT)
-Date: Wed, 2 Jun 2021 18:50:37 +1000
-From: Balbir Singh <bsingharora@gmail.com>
-To: John Hubbard <jhubbard@nvidia.com>
-Subject: Re: [PATCH v9 07/10] mm: Device exclusive memory access
-Message-ID: <YLdGXSw0zdiovn4i@balbir-desktop>
-References: <20210524132725.12697-1-apopple@nvidia.com>
- <20210524132725.12697-8-apopple@nvidia.com>
- <20210524151157.2dc5d2bb510ff86dc449bf0c@linux-foundation.org>
- <YKzk0ILRsyazMs2W@balbir-desktop>
- <8844f8c1-d78c-e0f9-c046-592bd75d4c07@nvidia.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=brL3Kj/KAhdw9wVkWElMJ2rpOminFezvYvb4e68I3Js=;
+ b=FCjyeIGamRP4hR9CBNsikxitE8BJ4Juz0jHkM1vDriuyeNJ3MW7XNBwdXwFJnyKNRe
+ Y7oHojk0g/JNnEdmt9iJ+Rw9GJ9KYlmpYH9BS37h0FBDdkipJK9zU2CYbze57+56v5Ex
+ cba45BSCqdK8pn7nc1iJ9BlbJDniVXWL7hXGyAtz2LvTnq5OonYLybdFPz4sRaGEBJk1
+ jtzrp9CVNztmVtR3kPFxYw2x590Zi58W3GV366aDsNnCmWp6VoEaYDvtNSKip0MGujhP
+ kZZyTAoBR585l/2IIJJ4EHULTZ0PsizJYa3tZhhe5DP6rFUQebTfwV4D2Mldl4zKHr77
+ NVSA==
+X-Gm-Message-State: AOAM531wTH+q/S8Tlm4GLIunJGJKwcRdocLlQHdsP/W02bQ9rV5qvfqg
+ uzf33A2cef+DBjq+bfZHASe4sbEQIfppvaMFYLinSA==
+X-Google-Smtp-Source: ABdhPJynluux7Xl+9azDQKlQ78oxfF0/t1vC7CBZ6vCduB8o3ZQ8UPHn5jNVkGdQCW6vs+q6TByLV7p503BEfiAjXNI=
+X-Received: by 2002:a7b:cd04:: with SMTP id f4mr31715058wmj.84.1622624252692; 
+ Wed, 02 Jun 2021 01:57:32 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <8844f8c1-d78c-e0f9-c046-592bd75d4c07@nvidia.com>
+References: <CAAxE2A4XS2mCXOdvxm1ZAhG2OY9w1P0X2E1ac1TXNFKDekog5g@mail.gmail.com>
+ <e7cb9833-1044-0426-5ce4-5b5fc32a3603@daenzer.net>
+ <327e4008-b29f-f5b7-bb30-532fa52c797f@gmail.com>
+ <7f19e3c7-b6b2-5200-95eb-3fed8d22a6b3@daenzer.net>
+ <b0d65f94-cc56-a4db-3158-7b1de3952792@gmail.com>
+ <CAKMK7uGaD_LuX-SZDALuDuEOMZNX=Q3FAq0xYf_pTVtNe6VUaw@mail.gmail.com>
+ <c7190219-c185-3b7e-42a6-691934f79fb3@gmail.com>
+In-Reply-To: <c7190219-c185-3b7e-42a6-691934f79fb3@gmail.com>
+From: Daniel Stone <daniel@fooishbar.org>
+Date: Wed, 2 Jun 2021 09:57:20 +0100
+Message-ID: <CAPj87rPbiFf3qDo35gmirAoTOOJ5fEE6UxQdJKtfjX_VTqc6pg@mail.gmail.com>
+Subject: Re: [Mesa-dev] Linux Graphics Next: Userspace submission update
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,76 +71,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: rcampbell@nvidia.com, willy@infradead.org, linux-doc@vger.kernel.org,
- nouveau@lists.freedesktop.org, Alistair Popple <apopple@nvidia.com>,
- hughd@google.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, peterx@redhat.com, hch@infradead.org,
- linux-mm@kvack.org, jglisse@redhat.com, bskeggs@redhat.com, jgg@nvidia.com,
- Andrew Morton <akpm@linux-foundation.org>, Christoph Hellwig <hch@lst.de>
+Cc: =?UTF-8?B?TWFyZWsgT2zFocOhaw==?= <maraeo@gmail.com>,
+ =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel@daenzer.net>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Jason Ekstrand <jason@jlekstrand.net>,
+ ML Mesa-dev <mesa-dev@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, May 26, 2021 at 12:17:18AM -0700, John Hubbard wrote:
-> On 5/25/21 4:51 AM, Balbir Singh wrote:
-> ...
-> > > How beneficial is this code to nouveau users?  I see that it permits a
-> > > part of OpenCL to be implemented, but how useful/important is this in
-> > > the real world?
-> > 
-> > That is a very good question! I've not reviewed the code, but a sample
-> > program with the described use case would make things easy to parse.
-> > I suspect that is not easy to build at the moment?
-> > 
-> 
-> The cover letter says this:
-> 
-> This has been tested with upstream Mesa 21.1.0 and a simple OpenCL program
-> which checks that GPU atomic accesses to system memory are atomic. Without
-> this series the test fails as there is no way of write-protecting the page
-> mapping which results in the device clobbering CPU writes. For reference
-> the test is available at https://ozlabs.org/~apopple/opencl_svm_atomics/
-> 
-> Further testing has been performed by adding support for testing exclusive
-> access to the hmm-tests kselftests.
-> 
-> ...so that seems to cover the "sample program" request, at least.
+Hi Christian,
 
-Thanks, I'll take a look
-
-> 
-> > I wonder how we co-ordinate all the work the mm is doing, page migration,
-> > reclaim with device exclusive access? Do we have any numbers for the worst
-> > case page fault latency when something is marked away for exclusive access?
-> 
-> CPU page fault latency is approximately "terrible", if a page is resident on
-> the GPU. We have to spin up a DMA engine on the GPU and have it copy the page
-> over the PCIe bus, after all.
-> 
-> > I presume for now this is anonymous memory only? SWP_DEVICE_EXCLUSIVE would
-> 
-> Yes, for now.
-> 
-> > only impact the address space of programs using the GPU. Should the exclusively
-> > marked range live in the unreclaimable list and recycled back to active/in-active
-> > to account for the fact that
-> > 
-> > 1. It is not reclaimable and reclaim will only hurt via page faults?
-> > 2. It ages the page correctly or at-least allows for that possibility when the
-> >     page is used by the GPU.
-> 
-> I'm not sure that that is *necessarily* something we can conclude. It depends upon
-> access patterns of each program. For example, a "reduction" parallel program sends
-> over lots of data to the GPU, and only a tiny bit of (reduced!) data comes back
-> to the CPU. In that case, freeing the physical page on the CPU is actually the
-> best decision for the OS to make (if the OS is sufficiently prescient).
+On Tue, 1 Jun 2021 at 13:51, Christian K=C3=B6nig
+<ckoenig.leichtzumerken@gmail.com> wrote:
+> Am 01.06.21 um 14:30 schrieb Daniel Vetter:
+> > If you want to enable this use-case with driver magic and without the
+> > compositor being aware of what's going on, the solution is EGLStreams.
+> > Not sure we want to go there, but it's definitely a lot more feasible
+> > than trying to stuff eglstreams semantics into dma-buf implicit
+> > fencing support in a desperate attempt to not change compositors.
 >
+> Well not changing compositors is certainly not something I would try
+> with this use case.
+>
+> Not changing compositors is more like ok we have Ubuntu 20.04 and need
+> to support that we the newest hardware generation.
 
-With a shared device or a device exclusive range, it would be good to get the device
-usage pattern and update the mm with that knowledge, so that the LRU can be better
-maintained. With your comment you seem to suggest that a page used by the GPU might
-be a good candidate for reclaim based on the CPU's understanding of the age of
-the page should not account for use by the device
-(are GPU workloads - access once and discard?) 
+Serious question, have you talked to Canonical?
 
-Balbir Singh.
+I mean there's a hell of a lot of effort being expended here, but it
+seems to all be predicated on the assumption that Ubuntu's LTS
+HWE/backport policy is totally immutable, and that we might need to
+make the kernel do backflips to work around that. But ... is it? Has
+anyone actually asked them how they feel about this?
 
+I mean, my answer to the first email is 'no, absolutely not' from the
+technical perspective (the initial proposal totally breaks current and
+future userspace), from a design perspective (it breaks a lot of
+usecases which aren't single-vendor GPU+display+codec, or aren't just
+a simple desktop), and from a sustainability perspective (cutting
+Android adrift again isn't acceptable collateral damage to make it
+easier to backport things to last year's Ubuntu release).
+
+But then again, I don't even know what I'm NAKing here ... ? The
+original email just lists a proposal to break a ton of things, with
+proposed replacements which aren't technically viable, and it's not
+clear why? Can we please have some more details and some reasoning
+behind them?
+
+I don't mind that userspace (compositor, protocols, clients like Mesa
+as well as codec APIs) need to do a lot of work to support the new
+model. I do really care though that the hard-binary-switch model works
+fine enough for AMD but totally breaks heterogeneous systems and makes
+it impossible for userspace to do the right thing.
+
+Cheers,
+Daniel
