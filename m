@@ -1,66 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C70FA3995F1
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Jun 2021 00:29:49 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 35F0739961D
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Jun 2021 00:56:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F2CAC6EE89;
-	Wed,  2 Jun 2021 22:29:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DB7736E441;
+	Wed,  2 Jun 2021 22:55:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb49.google.com (mail-yb1-xb49.google.com
- [IPv6:2607:f8b0:4864:20::b49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E17726EE89
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Jun 2021 22:29:45 +0000 (UTC)
-Received: by mail-yb1-xb49.google.com with SMTP id
- o12-20020a5b050c0000b02904f4a117bd74so5004000ybp.17
- for <dri-devel@lists.freedesktop.org>; Wed, 02 Jun 2021 15:29:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=date:message-id:mime-version:subject:from:to:cc
- :content-transfer-encoding;
- bh=q+Xu+x4tPXqeCP0K0fziEQ32Q2TKXGZjhOO3Wuty7dM=;
- b=LDgGS+RIx3MVx90p4DHf1OboZw9Z+QDn3R8cmFB4OM75Xoh5XcQWxHOWYprgEnUDTm
- Tg9eIwt2m3eVUw5Jbf165LmG49MiR3FBgaXw7xKEIVO7CBtkInNqW8T7BGHquSqw9slM
- XuOv4E0AsMUoqVzXmuiH+ltrpUbuIvjVMlHniYgr7mk6qtXZG3WN0IBCjWiRUcIX+VE5
- +hk6fzfUyxcePPNZZwdsBsBjlnaw93I6gr5ZlZG9S3ztv3oTQNKLgRS00iMF5cskJUeb
- jgNQpVrCGYsbiK3c32RYRp2npuQxwHWJIR8YeJJ4Hp62hUK8ykOF8vp2MoqDxUgrY6B+
- httw==
+Received: from mail-yb1-xb29.google.com (mail-yb1-xb29.google.com
+ [IPv6:2607:f8b0:4864:20::b29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F190B6E441
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Jun 2021 22:55:56 +0000 (UTC)
+Received: by mail-yb1-xb29.google.com with SMTP id b13so6107649ybk.4
+ for <dri-devel@lists.freedesktop.org>; Wed, 02 Jun 2021 15:55:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=jlekstrand-net.20150623.gappssmtp.com; s=20150623;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=lJXhXSRoFwOMg8mhbx4vTsePBOk0RICgBQ2LIg1Pb98=;
+ b=U2CmfWNMD5ilNuBUUcu5X61rqfrLyJVUwiGlb3HYlgaXVN13m/XKWAIFKh/spQYEbw
+ 1/oWkNkTwOOMtCW7OP3xzarJqnNsObULHZMA32QxCtUnCKg2uWi3nxUtyBENH8uZ5Jlb
+ AKVZYJIsp46hr7YrLKgN6za6m9BS7MjWaDGtbV27QlkQdjMNS9TqxVbeDzZT8TmdyxWn
+ l9YjnHyssp+EYnDNFw5wih7EwdxuUrSiFK++xq5y+71WWYmQG9slbvoJ7KWkx9nuUP65
+ RSRMbLF5ADxq6ysiv+6U9oHXe8iX1TBAH6IduyOVAWGWNEWzvw8msz8F1esxuNIskEHs
+ vK4A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc
- :content-transfer-encoding;
- bh=q+Xu+x4tPXqeCP0K0fziEQ32Q2TKXGZjhOO3Wuty7dM=;
- b=dgem9WKIUw4jM1juzAwPMY8/uHPxd+9+DYpHus194ovD9bwDa+cJA5RNZadV+d1tgC
- kOp7ug2jBjofFcaRwN1hYa7yBgnUQkariLRhMZJ2RiidNNRSMbyvTfXWF8I79UUf5Vl3
- c97R3nMNLunq1FQB++RLB+5S0SkOA1/N8v3nY5pczwpT68hf/DvVuH64W8WMqtNDAnSE
- Jvh54C18tKtSuUdjwf0Rdt+z+9lwyEifqF1R25PJHvDCRsylEN8lqSJixrD10RANXPZP
- RzADQ0h0Sh4AMU0xcFkRZ30jehRnVZTka90o9RZPT5vo1j1K/2ozHhqEMWh7ivD5vmUM
- RihA==
-X-Gm-Message-State: AOAM531V6AtHLSqYWaCh2ahktt2ECsfN5e2gKIgtwBQ0Bws7SBhJVdNI
- LmdDKk4TSeNOxEAKK7sa5KQ47pT1qIs=
-X-Google-Smtp-Source: ABdhPJw6SSy4JrNd5qkaO6fF+2yahNuOeD039vgP70e6j4SCFAegmEL4wWXXXk+pyi1NQ6XQBGyehB5cFfU=
-X-Received: from hridya.mtv.corp.google.com
- ([2620:15c:211:200:f962:b81c:963f:82cb])
- (user=hridya job=sendgmr) by 2002:a25:3817:: with SMTP id
- f23mr48260991yba.192.1622672984775; 
- Wed, 02 Jun 2021 15:29:44 -0700 (PDT)
-Date: Wed,  2 Jun 2021 15:29:30 -0700
-Message-Id: <20210602222937.2628266-1-hridya@google.com>
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.32.0.rc0.204.g9fa02ecfa5-goog
-Subject: [PATCH v5] dmabuf: Add the capability to expose DMA-BUF stats in sysfs
-From: Hridya Valsaraju <hridya@google.com>
-To: daniel@ffwll.ch, Sumit Semwal <sumit.semwal@linaro.org>, 
- "=?UTF-8?q?Christian=20K=C3=B6nig?=" <christian.koenig@amd.com>,
- Jonathan Corbet <corbet@lwn.net>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Hridya Valsaraju <hridya@google.com>, 
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
- linux-doc@vger.kernel.org
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=lJXhXSRoFwOMg8mhbx4vTsePBOk0RICgBQ2LIg1Pb98=;
+ b=MLPBVgD/5Q5umdENlL/gXx2cMMfOFSv3I3+EFdI4DwWiIi/EyyqBHx4UwgAToMEQ6b
+ U/7+dJ2+vLADikQRWdidmttCu4r3ZZjkWI64iM12UOQzoTp/fLW5LZma+MXSnPVje6/X
+ rUq5c25Lvkg7OzutPhCGeYFe0+ceW9PdyJUttVcDnkj+QJm4p8SQgvP3WUxGl3Clv7pw
+ wEgLIqYA48tgjpvwmTZD6kJVJfefNzhzl4WmI1ypx+s78mZimzIAblSDM1hYhXu+uwVH
+ VT6B0MoVktJHvofzKl0UzbJVgENBko63akJhovP3moM7IAcvIAchuHZ4qQhFCj7GA5fy
+ kuHQ==
+X-Gm-Message-State: AOAM531UcJqAWfG56O3YD8/Rx4SLdPlfr0nQV6aO5R5WWrHcdVldzoT4
+ QTRlriS0j5JuU/erD7b5EoAYS4G99B694A9ZfVd7T9B5ldk=
+X-Google-Smtp-Source: ABdhPJwf5YcWe2bksDbpI2ZyJu/ktUrkn5ulmmlLfrRtLwZnkdFwoxtBy/GOKRO0lD+6bNzpjZUt/SLmC7PoG6ozEKc=
+X-Received: by 2002:a25:208b:: with SMTP id
+ g133mr47277517ybg.211.1622674555702; 
+ Wed, 02 Jun 2021 15:55:55 -0700 (PDT)
+MIME-Version: 1.0
+References: <20210527162650.1182544-1-jason@jlekstrand.net>
+ <20210527162650.1182544-25-jason@jlekstrand.net>
+ <YLSxdSTd9xl1c7hY@phenom.ffwll.local>
+In-Reply-To: <YLSxdSTd9xl1c7hY@phenom.ffwll.local>
+From: Jason Ekstrand <jason@jlekstrand.net>
+Date: Wed, 2 Jun 2021 17:55:44 -0500
+Message-ID: <CAOFGe95Bgob9DJhfdrTV9SLSosRwSAfyYBKw6iGVXKzJywdKZA@mail.gmail.com>
+Subject: Re: [PATCH 24/29] drm/i915/gem: Delay context creation
+To: Daniel Vetter <daniel@ffwll.ch>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,886 +65,643 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: surenb@google.com, kernel-team@android.com,
- kernel test robot <lkp@intel.com>
+Cc: Intel GFX <intel-gfx@lists.freedesktop.org>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Overview
-=3D=3D=3D=3D=3D=3D=3D=3D
-The patch adds DMA-BUF statistics to /sys/kernel/dmabuf/buffers. It
-allows statistics to be enabled for each DMA-BUF in sysfs by enabling
-the config CONFIG_DMABUF_SYSFS_STATS.
+On Mon, May 31, 2021 at 4:50 AM Daniel Vetter <daniel@ffwll.ch> wrote:
+>
+> On Thu, May 27, 2021 at 11:26:45AM -0500, Jason Ekstrand wrote:
+> > The current context uAPI allows for two methods of setting context
+> > parameters: SET_CONTEXT_PARAM and CONTEXT_CREATE_EXT_SETPARAM.  The
+> > former is allowed to be called at any time while the later happens as
+> > part of GEM_CONTEXT_CREATE.  Currently, everything settable via one is
+> > settable via the other.  While some params are fairly simple and setting
+> > them on a live context is harmless such the context priority, others are
+>
+> such _as_ the
 
-The following stats will be exposed by the interface:
+Done.
 
-/sys/kernel/dmabuf/buffers/<inode_number>/exporter_name
-/sys/kernel/dmabuf/buffers/<inode_number>/size
-/sys/kernel/dmabuf/buffers/<inode_number>/attachments/<attach_uid>/device
-/sys/kernel/dmabuf/buffers/<inode_number>/attachments/<attach_uid>/map_coun=
-ter
+> > far trickier such as the VM or the set of engines.  In order to swap out
+> > the VM, for instance, we have to delay until all current in-flight work
+> > is complete, swap in the new VM, and then continue.  This leads to a
+> > plethora of potential race conditions we'd really rather avoid.
+> >
+> > In previous patches, we added a i915_gem_proto_context struct which is
+> > capable of storing and tracking all such create parameters.  This commit
+> > delays the creation of the actual context until after the client is done
+> > configuring it with SET_CONTEXT_PARAM.  From the perspective of the
+> > client, it has the same u32 context ID the whole time.  From the
+> > perspective of i915, however, it's an i915_gem_proto_context right up
+> > until the point where we attempt to do something which the proto-context
+> > can't handle at which point the real context gets created.
+>
+> s/ at which point/. Then/
+>
+> At least feels a bit like a run-on sentence :-)
 
-The inode_number is unique for each DMA-BUF and was added earlier [1]
-in order to allow userspace to track DMA-BUF usage across different
-processes.
+Done.
 
-Use Cases
-=3D=3D=3D=3D=3D=3D=3D=3D=3D
-The interface provides a way to gather DMA-BUF per-buffer statistics
-from production devices. These statistics will be used to derive DMA-BUF
-per-exporter stats and per-device usage stats for Android Bug reports.
-The corresponding userspace changes can be found at [2].
-Telemetry tools will also capture this information(along with other
-memory metrics) periodically as well as on important events like a
-foreground app kill (which might have been triggered by Low Memory
-Killer). It will also contribute to provide a snapshot of the system
-memory usage on other events such as OOM kills and Application Not
-Responding events.
+> > This is accomplished via a little xarray dance.  When GEM_CONTEXT_CREATE
+> > is called, we create a proto-context, reserve a slot in context_xa but
+> > leave it NULL, the proto-context in the corresponding slot in
+> > proto_context_xa.  Then, whenever we go to look up a context, we first
+> > check context_xa.  If it's there, we return the i915_gem_context and
+> > we're done.  If it's not, we look in proto_context_xa and, if we find it
+> > there, we create the actual context and kill the proto-context.
+> >
+> > In order for this dance to work properly, everything which ever touches
+> > a proto-context is guarded by drm_i915_file_private::proto_context_lock,
+> > including context creation.  Yes, this means context creation now takes
+> > a giant global lock but it can't really be helped and that should never
+> > be on any driver's fast-path anyway.
+> >
+> > Signed-off-by: Jason Ekstrand <jason@jlekstrand.net>
+> > ---
+> >  drivers/gpu/drm/i915/gem/i915_gem_context.c   | 211 ++++++++++++++----
+> >  drivers/gpu/drm/i915/gem/i915_gem_context.h   |   3 +
+> >  .../gpu/drm/i915/gem/i915_gem_context_types.h |  54 +++++
+> >  .../gpu/drm/i915/gem/selftests/mock_context.c |   5 +-
+> >  drivers/gpu/drm/i915/i915_drv.h               |  24 +-
+> >  5 files changed, 239 insertions(+), 58 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context.c b/drivers/gpu/drm/i915/gem/i915_gem_context.c
+> > index 8288af0d33245..f7c83730ee07f 100644
+> > --- a/drivers/gpu/drm/i915/gem/i915_gem_context.c
+> > +++ b/drivers/gpu/drm/i915/gem/i915_gem_context.c
+> > @@ -298,6 +298,42 @@ proto_context_create(struct drm_i915_private *i915, unsigned int flags)
+> >       return err;
+> >  }
+> >
+> > +static int proto_context_register_locked(struct drm_i915_file_private *fpriv,
+> > +                                      struct i915_gem_proto_context *pc,
+> > +                                      u32 *id)
+> > +{
+> > +     int ret;
+> > +     void *old;
+> > +
+> > +     lockdep_assert_held(&fpriv->proto_context_lock);
+> > +
+> > +     ret = xa_alloc(&fpriv->context_xa, id, NULL, xa_limit_32b, GFP_KERNEL);
+> > +     if (ret)
+> > +             return ret;
+> > +
+> > +     old = xa_store(&fpriv->proto_context_xa, *id, pc, GFP_KERNEL);
+> > +     if (xa_is_err(old)) {
+> > +             xa_erase(&fpriv->context_xa, *id);
+> > +             return xa_err(old);
+> > +     }
+> > +     GEM_BUG_ON(old);
+>
+> I'd go with WARN_ON here. We just leak, and BUG_ON kills the box.
+> GEM_BUG_ON is for the additional gem consistency checks which are too
+> expensive to have enabled in production. Registering a proto context isn't
+> one of these things.
 
-Background
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-Currently, there are two existing interfaces that provide information
-about DMA-BUFs.
-1) /sys/kernel/debug/dma_buf/bufinfo
-debugfs is however unsuitable to be mounted in production systems and
-cannot be considered as an alternative to the sysfs interface being
-proposed.
-2) proc/<pid>/fdinfo/<fd>
-The proc/<pid>/fdinfo/<fd> files expose information about DMA-BUF fds.
-However, the existing procfs interfaces can only provide information
-about the buffers for which processes hold fds or have the buffers
-mmapped into their address space. Since the procfs interfaces alone
-cannot provide a full picture of all DMA-BUFs in the system, there is
-the need for an alternate interface to provide this information on
-production systems.
+Done.
 
-The patch contains the following major improvements over v1:
-1) Each attachment is represented by its own directory to allow creating
-a symlink to the importing device and to also provide room for future
-expansion.
-2) The number of distinct mappings of each attachment is exposed in a
-separate file.
-3) The per-buffer statistics are now in /sys/kernel/dmabuf/buffers
-inorder to make the interface expandable in future.
+> > +
+> > +     return 0;
+> > +}
+> > +
+> > +static int proto_context_register(struct drm_i915_file_private *fpriv,
+> > +                               struct i915_gem_proto_context *pc,
+> > +                               u32 *id)
+> > +{
+> > +     int ret;
+> > +
+> > +     mutex_lock(&fpriv->proto_context_lock);
+> > +     ret = proto_context_register_locked(fpriv, pc, id);
+> > +     mutex_unlock(&fpriv->proto_context_lock);
+> > +
+> > +     return ret;
+> > +}
+> > +
+> >  static int set_proto_ctx_vm(struct drm_i915_file_private *fpriv,
+> >                           struct i915_gem_proto_context *pc,
+> >                           const struct drm_i915_gem_context_param *args)
+> > @@ -1448,12 +1484,12 @@ void i915_gem_init__contexts(struct drm_i915_private *i915)
+> >       init_contexts(&i915->gem.contexts);
+> >  }
+> >
+> > -static int gem_context_register(struct i915_gem_context *ctx,
+> > -                             struct drm_i915_file_private *fpriv,
+> > -                             u32 *id)
+> > +static void gem_context_register(struct i915_gem_context *ctx,
+> > +                              struct drm_i915_file_private *fpriv,
+> > +                              u32 id)
+> >  {
+> >       struct drm_i915_private *i915 = ctx->i915;
+> > -     int ret;
+> > +     void *old;
+> >
+> >       ctx->file_priv = fpriv;
+> >
+> > @@ -1462,19 +1498,12 @@ static int gem_context_register(struct i915_gem_context *ctx,
+> >                current->comm, pid_nr(ctx->pid));
+> >
+> >       /* And finally expose ourselves to userspace via the idr */
+> > -     ret = xa_alloc(&fpriv->context_xa, id, ctx, xa_limit_32b, GFP_KERNEL);
+> > -     if (ret)
+> > -             goto err_pid;
+> > +     old = xa_store(&fpriv->context_xa, id, ctx, GFP_KERNEL);
+> > +     GEM_BUG_ON(old);
+>
+> Same song about WARN_ON here.
 
-All of the improvements above are based on suggestions/feedback from
-Daniel Vetter and Christian K=C3=B6nig.
+Yup.
 
-A shell script that can be run on a classic Linux environment to read
-out the DMA-BUF statistics can be found at [3](suggested by John
-Stultz).
+> >
+> >       spin_lock(&i915->gem.contexts.lock);
+> >       list_add_tail(&ctx->link, &i915->gem.contexts.list);
+> >       spin_unlock(&i915->gem.contexts.lock);
+> > -
+> > -     return 0;
+> > -
+> > -err_pid:
+> > -     put_pid(fetch_and_zero(&ctx->pid));
+> > -     return ret;
+> >  }
+> >
+> >  int i915_gem_context_open(struct drm_i915_private *i915,
+> > @@ -1484,9 +1513,12 @@ int i915_gem_context_open(struct drm_i915_private *i915,
+> >       struct i915_gem_proto_context *pc;
+> >       struct i915_gem_context *ctx;
+> >       int err;
+> > -     u32 id;
+> >
+> > -     xa_init_flags(&file_priv->context_xa, XA_FLAGS_ALLOC);
+> > +     mutex_init(&file_priv->proto_context_lock);
+> > +     xa_init_flags(&file_priv->proto_context_xa, XA_FLAGS_ALLOC);
+> > +
+> > +     /* 0 reserved for the default context */
+> > +     xa_init_flags(&file_priv->context_xa, XA_FLAGS_ALLOC1);
+> >
+> >       /* 0 reserved for invalid/unassigned ppgtt */
+> >       xa_init_flags(&file_priv->vm_xa, XA_FLAGS_ALLOC1);
+> > @@ -1504,28 +1536,31 @@ int i915_gem_context_open(struct drm_i915_private *i915,
+> >               goto err;
+> >       }
+> >
+> > -     err = gem_context_register(ctx, file_priv, &id);
+> > -     if (err < 0)
+> > -             goto err_ctx;
+> > +     gem_context_register(ctx, file_priv, 0);
+> >
+> > -     GEM_BUG_ON(id);
+> >       return 0;
+> >
+> > -err_ctx:
+> > -     context_close(ctx);
+> >  err:
+> >       xa_destroy(&file_priv->vm_xa);
+> >       xa_destroy(&file_priv->context_xa);
+> > +     xa_destroy(&file_priv->proto_context_xa);
+> > +     mutex_destroy(&file_priv->proto_context_lock);
+> >       return err;
+> >  }
+> >
+> >  void i915_gem_context_close(struct drm_file *file)
+> >  {
+> >       struct drm_i915_file_private *file_priv = file->driver_priv;
+> > +     struct i915_gem_proto_context *pc;
+> >       struct i915_address_space *vm;
+> >       struct i915_gem_context *ctx;
+> >       unsigned long idx;
+> >
+> > +     xa_for_each(&file_priv->proto_context_xa, idx, pc)
+> > +             proto_context_close(pc);
+> > +     xa_destroy(&file_priv->proto_context_xa);
+> > +     mutex_destroy(&file_priv->proto_context_lock);
+> > +
+> >       xa_for_each(&file_priv->context_xa, idx, ctx)
+> >               context_close(ctx);
+> >       xa_destroy(&file_priv->context_xa);
+> > @@ -2480,12 +2515,73 @@ static bool client_is_banned(struct drm_i915_file_private *file_priv)
+> >       return atomic_read(&file_priv->ban_score) >= I915_CLIENT_SCORE_BANNED;
+> >  }
+> >
+> > +static inline struct i915_gem_context *
+> > +__context_lookup(struct drm_i915_file_private *file_priv, u32 id)
+> > +{
+> > +     struct i915_gem_context *ctx;
+> > +
+> > +     rcu_read_lock();
+> > +     ctx = xa_load(&file_priv->context_xa, id);
+> > +     if (ctx && !kref_get_unless_zero(&ctx->ref))
+> > +             ctx = NULL;
+> > +     rcu_read_unlock();
+> > +
+> > +     return ctx;
+> > +}
+> > +
+> > +struct i915_gem_context *
+> > +lazy_create_context_locked(struct drm_i915_file_private *file_priv,
+> > +                        struct i915_gem_proto_context *pc, u32 id)
+>
+> My bikeshed would call this finalize_create_context_locked or something
+> like that ... At least I'm thinking of this more as "finializing the
+> process of creating a context" and less of "creating context on-demand".
+> The latter is e.g. what we're doing with the default engine set. Different
+> beasts conceptually.
 
-[1]: https://lore.kernel.org/patchwork/patch/1088791/
-[2]: https://android-review.googlesource.com/q/topic:%22dmabuf-sysfs%22+(st=
-atus:open%20OR%20status:merged)
-[3]: https://android-review.googlesource.com/c/platform/system/memory/libme=
-minfo/+/1549734
+Fine with me.
 
-Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Signed-off-by: Hridya Valsaraju <hridya@google.com>
-Reported-by: kernel test robot <lkp@intel.com>
----
+> > +{
+> > +     struct i915_gem_context *ctx;
+> > +     void *old;
+> > +
+> > +     lockdep_assert_held(&file_priv->proto_context_lock);
+> > +
+> > +     ctx = i915_gem_create_context(file_priv->dev_priv, pc);
+> > +     if (IS_ERR(ctx))
+> > +             return ctx;
+> > +
+> > +     gem_context_register(ctx, file_priv, id);
+> > +
+> > +     old = xa_erase(&file_priv->proto_context_xa, id);
+> > +     GEM_BUG_ON(old != pc);
+> > +     proto_context_close(pc);
+> > +
+> > +     /* One for the xarray and one for the caller */
+> > +     return i915_gem_context_get(ctx);
+> > +}
+> > +
+> > +struct i915_gem_context *
+> > +i915_gem_context_lookup(struct drm_i915_file_private *file_priv, u32 id)
+> > +{
+> > +     struct i915_gem_proto_context *pc;
+> > +     struct i915_gem_context *ctx;
+> > +
+> > +     ctx = __context_lookup(file_priv, id);
+> > +     if (ctx)
+> > +             return ctx;
+> > +
+> > +     mutex_lock(&file_priv->proto_context_lock);
+> > +     /* Try one more time under the lock */
+> > +     ctx = __context_lookup(file_priv, id);
+> > +     if (!ctx) {
+> > +             pc = xa_load(&file_priv->proto_context_xa, id);
+> > +             if (!pc)
+> > +                     ctx = ERR_PTR(-ENOENT);
+> > +             else
+> > +                     ctx = lazy_create_context_locked(file_priv, pc, id);
+> > +     }
+> > +     mutex_unlock(&file_priv->proto_context_lock);
+> > +
+> > +     return ctx;
+> > +}
+> > +
+> >  int i915_gem_context_create_ioctl(struct drm_device *dev, void *data,
+> >                                 struct drm_file *file)
+> >  {
+> >       struct drm_i915_private *i915 = to_i915(dev);
+> >       struct drm_i915_gem_context_create_ext *args = data;
+> > -     struct i915_gem_context *ctx;
+> >       struct create_ext ext_data;
+> >       int ret;
+> >       u32 id;
+> > @@ -2517,28 +2613,21 @@ int i915_gem_context_create_ioctl(struct drm_device *dev, void *data,
+> >                                          create_extensions,
+> >                                          ARRAY_SIZE(create_extensions),
+> >                                          &ext_data);
+> > -             if (ret) {
+> > -                     proto_context_close(ext_data.pc);
+> > -                     return ret;
+> > -             }
+> > +             if (ret)
+> > +                     goto err_pc;
+> >       }
+> >
+> > -     ctx = i915_gem_create_context(i915, ext_data.pc);
+> > -     proto_context_close(ext_data.pc);
+> > -     if (IS_ERR(ctx))
+> > -             return PTR_ERR(ctx);
+> > -
+> > -     ret = gem_context_register(ctx, ext_data.fpriv, &id);
+> > +     ret = proto_context_register(ext_data.fpriv, ext_data.pc, &id);
+> >       if (ret < 0)
+> > -             goto err_ctx;
+> > +             goto err_pc;
+> >
+> >       args->ctx_id = id;
+> >       drm_dbg(&i915->drm, "HW context %d created\n", args->ctx_id);
+> >
+> >       return 0;
+> >
+> > -err_ctx:
+> > -     context_close(ctx);
+> > +err_pc:
+> > +     proto_context_close(ext_data.pc);
+> >       return ret;
+> >  }
+> >
+> > @@ -2547,6 +2636,7 @@ int i915_gem_context_destroy_ioctl(struct drm_device *dev, void *data,
+> >  {
+> >       struct drm_i915_gem_context_destroy *args = data;
+> >       struct drm_i915_file_private *file_priv = file->driver_priv;
+> > +     struct i915_gem_proto_context *pc;
+> >       struct i915_gem_context *ctx;
+> >
+> >       if (args->pad != 0)
+> > @@ -2555,11 +2645,21 @@ int i915_gem_context_destroy_ioctl(struct drm_device *dev, void *data,
+> >       if (!args->ctx_id)
+> >               return -ENOENT;
+> >
+> > +     mutex_lock(&file_priv->proto_context_lock);
+>
+> I think a comment here that we need to hold the proto mutex even for
+> finalized context to avoid races with finalization would be nice.
 
-Hi Daniel,
+Added.
 
-I rewrote the commit message and added a new section to
-Documentation/driver-api/dma-buf.rst as per your suggestions. Please
-do take another look when you get a chance. Thanks again for the
-guidance.
+> >       ctx = xa_erase(&file_priv->context_xa, args->ctx_id);
+> > -     if (!ctx)
+> > +     pc = xa_erase(&file_priv->proto_context_xa, args->ctx_id);
+> > +     mutex_unlock(&file_priv->proto_context_lock);
+> > +
+> > +     if (!ctx && !pc)
+> >               return -ENOENT;
+> > +     GEM_WARN_ON(ctx && pc);
+> > +
+> > +     if (pc)
+> > +             proto_context_close(pc);
+> > +
+> > +     if (ctx)
+> > +             context_close(ctx);
+> >
+> > -     context_close(ctx);
+> >       return 0;
+> >  }
+> >
+> > @@ -2692,16 +2792,41 @@ int i915_gem_context_setparam_ioctl(struct drm_device *dev, void *data,
+> >  {
+> >       struct drm_i915_file_private *file_priv = file->driver_priv;
+> >       struct drm_i915_gem_context_param *args = data;
+> > +     struct i915_gem_proto_context *pc;
+> >       struct i915_gem_context *ctx;
+> > -     int ret;
+> > +     int ret = 0;
+> >
+> > -     ctx = i915_gem_context_lookup(file_priv, args->ctx_id);
+> > -     if (IS_ERR(ctx))
+> > -             return PTR_ERR(ctx);
+> > +     ctx = __context_lookup(file_priv, args->ctx_id);
+> > +     if (ctx)
+> > +             goto set_ctx_param;
+> >
+> > -     ret = ctx_setparam(file_priv, ctx, args);
+> > +     mutex_lock(&file_priv->proto_context_lock);
+> > +     ctx = __context_lookup(file_priv, args->ctx_id);
+>
+> Not unconditionally taking the mutex here feels a bit like overkill? Do we
+> really need that fast path?
 
-Regards,
-Hridya
+Probably not.  If someone writes a setparam benchmark, I will actively not care.
 
-Change in v5:
--Added a section on DMA-BUF statistics to
-Documentation/driver-api/dma-buf.rst. Organized the commit message to
-clearly state the need for the new interface and provide the
-background on why the existing means of DMA-BUF accounting will not
-suffice. Based on feedback from Daniel Vetter.
+> > +     if (ctx)
+> > +             goto unlock;
+> > +
+> > +     pc = xa_load(&file_priv->proto_context_xa, args->ctx_id);
+> > +     if (!pc) {
+> > +             ret = -ENOENT;
+> > +             goto unlock;
+> > +     }
+> > +
+> > +     /* FIXME: We should consider disallowing SET_CONTEXT_PARAM for most
+> > +      * things on future platforms.  Clients should be using
+> > +      * CONTEXT_CREATE_EXT_PARAM instead.
+> > +      */
+>
+> I think the way to do that is to finalize the context creation from
+> CONTEXT_CREATE_EXT on these platforms. That plugs this hole for good and
+> by design. Maybe on gen13+ or something like that. Or whatever it is we're
+> using for enumerating generations now.
 
-Changes in v4:
--Suppress uevents from kset creation to avoid waking up uevent listeners
-on DMA-BUF export/release.
+Yup.  I agree.  Do you want me to add that now?
 
-Changes in v3:
--Fix a warning reported by the kernel test robot.
+> > +     ret = set_proto_ctx_param(file_priv, pc, args);
+> > +
+> > +unlock:
+> > +     mutex_unlock(&file_priv->proto_context_lock);
+> > +
+> > +set_ctx_param:
+> > +     if (!ret && ctx)
+>
+> I don't think you need to check for ret here? It's not set by any path
+> leading to here where ctx != NULL.
 
-Changes in v2:
--Move statistics to /sys/kernel/dmabuf/buffers in oder to allow addition
-of other DMA-BUF-related sysfs stats in future. Based on feedback from
-Daniel Vetter.
--Each attachment has its own directory to represent attached devices as
-symlinks and to introduce map_count as a separate file. Based on
-feedback from Daniel Vetter and Christian K=C3=B6nig. Thank you both!
--Commit messages updated to point to userspace code in AOSP that will
-read the DMA-BUF sysfs stats.
+I think
 
- .../ABI/testing/sysfs-kernel-dmabuf-buffers   |  52 +++
- Documentation/driver-api/dma-buf.rst          |  34 ++
- drivers/dma-buf/Kconfig                       |  11 +
- drivers/dma-buf/Makefile                      |   1 +
- drivers/dma-buf/dma-buf-sysfs-stats.c         | 300 ++++++++++++++++++
- drivers/dma-buf/dma-buf-sysfs-stats.h         |  62 ++++
- drivers/dma-buf/dma-buf.c                     |  37 +++
- include/linux/dma-buf.h                       |  20 ++
- 8 files changed, 517 insertions(+)
- create mode 100644 Documentation/ABI/testing/sysfs-kernel-dmabuf-buffers
- create mode 100644 drivers/dma-buf/dma-buf-sysfs-stats.c
- create mode 100644 drivers/dma-buf/dma-buf-sysfs-stats.h
+> Also mildly unhappy about the control flow here, we could simplify it if
+> we don't do the lockless faspath.
 
-diff --git a/Documentation/ABI/testing/sysfs-kernel-dmabuf-buffers b/Docume=
-ntation/ABI/testing/sysfs-kernel-dmabuf-buffers
-new file mode 100644
-index 000000000000..a243984ed420
---- /dev/null
-+++ b/Documentation/ABI/testing/sysfs-kernel-dmabuf-buffers
-@@ -0,0 +1,52 @@
-+What:		/sys/kernel/dmabuf/buffers
-+Date:		May 2021
-+KernelVersion:	v5.13
-+Contact:	Hridya Valsaraju <hridya@google.com>
-+Description:	The /sys/kernel/dmabuf/buffers directory contains a
-+		snapshot of the internal state of every DMA-BUF.
-+		/sys/kernel/dmabuf/buffers/<inode_number> will contain the
-+		statistics for the DMA-BUF with the unique inode number
-+		<inode_number>
-+Users:		kernel memory tuning/debugging tools
-+
-+What:		/sys/kernel/dmabuf/buffers/<inode_number>/exporter_name
-+Date:		May 2021
-+KernelVersion:	v5.13
-+Contact:	Hridya Valsaraju <hridya@google.com>
-+Description:	This file is read-only and contains the name of the exporter =
-of
-+		the DMA-BUF.
-+
-+What:		/sys/kernel/dmabuf/buffers/<inode_number>/size
-+Date:		May 2021
-+KernelVersion:	v5.13
-+Contact:	Hridya Valsaraju <hridya@google.com>
-+Description:	This file is read-only and specifies the size of the DMA-BUF =
-in
-+		bytes.
-+
-+What:		/sys/kernel/dmabuf/buffers/<inode_number>/attachments
-+Date:		May 2021
-+KernelVersion:	v5.13
-+Contact:	Hridya Valsaraju <hridya@google.com>
-+Description:	This directory will contain subdirectories representing every
-+		attachment of the DMA-BUF.
-+
-+What:		/sys/kernel/dmabuf/buffers/<inode_number>/attachments/<attachment_u=
-id>
-+Date:		May 2021
-+KernelVersion:	v5.13
-+Contact:	Hridya Valsaraju <hridya@google.com>
-+Description:	This directory will contain information on the attached devic=
-e
-+		and the number of current distinct device mappings.
-+
-+What:		/sys/kernel/dmabuf/buffers/<inode_number>/attachments/<attachment_u=
-id>/device
-+Date:		May 2021
-+KernelVersion:	v5.13
-+Contact:	Hridya Valsaraju <hridya@google.com>
-+Description:	This file is read-only and is a symlink to the attached devic=
-e's
-+		sysfs entry.
-+
-+What:		/sys/kernel/dmabuf/buffers/<inode_number>/attachments/<attachment_u=
-id>/map_counter
-+Date:		May 2021
-+KernelVersion:	v5.13
-+Contact:	Hridya Valsaraju <hridya@google.com>
-+Description:	This file is read-only and contains a map_counter indicating =
-the
-+		number of distinct device mappings of the attachment.
-diff --git a/Documentation/driver-api/dma-buf.rst b/Documentation/driver-ap=
-i/dma-buf.rst
-index 7f37ec30d9fd..4027762a824a 100644
---- a/Documentation/driver-api/dma-buf.rst
-+++ b/Documentation/driver-api/dma-buf.rst
-@@ -106,6 +106,40 @@ Implicit Fence Poll Support
- .. kernel-doc:: drivers/dma-buf/dma-buf.c
-    :doc: implicit fence polling
-=20
-+DMA-BUF statistics
-+~~~~~~~~~~~~~~~~~~
-+
-+``/sys/kernel/debug/dma_buf/bufinfo`` provides an overview of every DMA-BU=
-F in the
-+system. However, since debugfs is not safe to be mounted in production,
-+procfs and sysfs can be used to gather DMA-BUF statistics on production sy=
-stems.
-+
-+The ``/proc/<pid>/fdinfo/<fd>`` files in procfs can be used to gather info=
-rmation
-+about DMA-BUF fds. Detailed documentation about the interface is present i=
-n
-+Documentation/filesystems/proc.rst.
-+Unfortunately, the existing procfs interfaces can only provide information=
- about
-+the DMA-BUFs for which processes hold fds or have the buffers mmapped into=
- their
-+address space. This necessitated the creation of the DMA-BUF sysfs statist=
-ics
-+interface to provide per-buffer information on production systems.
-+
-+The interface at ``/sys/kernel/dma-buf/buffers`` exposes information about
-+every DMA-BUF when ``CONFIG_DMABUF_SYSFS_STATS`` is enabled.
-+
-+The following stats are exposed by the interface:
-+
-+* ``/sys/kernel/dmabuf/buffers/<inode_number>/exporter_name``
-+* ``/sys/kernel/dmabuf/buffers/<inode_number>/size``
-+* ``/sys/kernel/dmabuf/buffers/<inode_number>/attachments/<attach_uid>/dev=
-ice``
-+* ``/sys/kernel/dmabuf/buffers/<inode_number>/attachments/<attach_uid>/map=
-_counter``
-+
-+The information in the interface can also be used to derive per-exporter a=
-nd
-+per-device usage statistics. The data from the interface can be gathered
-+on error conditions or other important events to provide a snapshot of
-+DMA-BUF usage. It can also be collected periodically by telemetry to monit=
-or
-+various metrics.
-+
-+Detailed documentation about the interface is present in
-+Documentation/ABI/testing/sysfs-kernel-dmabuf-buffers
-+
- Kernel Functions and Structures Reference
- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-=20
-diff --git a/drivers/dma-buf/Kconfig b/drivers/dma-buf/Kconfig
-index 4e16c71c24b7..9561e3d2d428 100644
---- a/drivers/dma-buf/Kconfig
-+++ b/drivers/dma-buf/Kconfig
-@@ -72,6 +72,17 @@ menuconfig DMABUF_HEAPS
- 	  allows userspace to allocate dma-bufs that can be shared
- 	  between drivers.
-=20
-+menuconfig DMABUF_SYSFS_STATS
-+	bool "DMA-BUF sysfs statistics"
-+	select DMA_SHARED_BUFFER
-+	help
-+	   Choose this option to enable DMA-BUF sysfs statistics
-+	   in location /sys/kernel/dmabuf/buffers.
-+
-+	   /sys/kernel/dmabuf/buffers/<inode_number> will contain
-+	   statistics for the DMA-BUF with the unique inode number
-+	   <inode_number>.
-+
- source "drivers/dma-buf/heaps/Kconfig"
-=20
- endmenu
-diff --git a/drivers/dma-buf/Makefile b/drivers/dma-buf/Makefile
-index 995e05f609ff..40d81f23cacf 100644
---- a/drivers/dma-buf/Makefile
-+++ b/drivers/dma-buf/Makefile
-@@ -6,6 +6,7 @@ obj-$(CONFIG_DMABUF_HEAPS)	+=3D heaps/
- obj-$(CONFIG_SYNC_FILE)		+=3D sync_file.o
- obj-$(CONFIG_SW_SYNC)		+=3D sw_sync.o sync_debug.o
- obj-$(CONFIG_UDMABUF)		+=3D udmabuf.o
-+obj-$(CONFIG_DMABUF_SYSFS_STATS) +=3D dma-buf-sysfs-stats.o
-=20
- dmabuf_selftests-y :=3D \
- 	selftest.o \
-diff --git a/drivers/dma-buf/dma-buf-sysfs-stats.c b/drivers/dma-buf/dma-bu=
-f-sysfs-stats.c
-new file mode 100644
-index 000000000000..45717c8108c8
---- /dev/null
-+++ b/drivers/dma-buf/dma-buf-sysfs-stats.c
-@@ -0,0 +1,300 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * DMA-BUF sysfs statistics.
-+ *
-+ * Copyright (C) 2021 Google LLC.
-+ */
-+
-+#include <linux/dma-buf.h>
-+#include <linux/dma-resv.h>
-+#include <linux/kobject.h>
-+#include <linux/printk.h>
-+#include <linux/slab.h>
-+#include <linux/sysfs.h>
-+
-+#include "dma-buf-sysfs-stats.h"
-+
-+#define to_dma_buf_entry_from_kobj(x) container_of(x, struct dma_buf_sysfs=
-_entry, kobj)
-+
-+struct dma_buf_stats_attribute {
-+	struct attribute attr;
-+	ssize_t (*show)(struct dma_buf *dmabuf,
-+			struct dma_buf_stats_attribute *attr, char *buf);
-+};
-+#define to_dma_buf_stats_attr(x) container_of(x, struct dma_buf_stats_attr=
-ibute, attr)
-+
-+static ssize_t dma_buf_stats_attribute_show(struct kobject *kobj,
-+					    struct attribute *attr,
-+					    char *buf)
-+{
-+	struct dma_buf_stats_attribute *attribute;
-+	struct dma_buf_sysfs_entry *sysfs_entry;
-+	struct dma_buf *dmabuf;
-+
-+	attribute =3D to_dma_buf_stats_attr(attr);
-+	sysfs_entry =3D to_dma_buf_entry_from_kobj(kobj);
-+	dmabuf =3D sysfs_entry->dmabuf;
-+
-+	if (!dmabuf || !attribute->show)
-+		return -EIO;
-+
-+	return attribute->show(dmabuf, attribute, buf);
-+}
-+
-+static const struct sysfs_ops dma_buf_stats_sysfs_ops =3D {
-+	.show =3D dma_buf_stats_attribute_show,
-+};
-+
-+static ssize_t exporter_name_show(struct dma_buf *dmabuf,
-+				  struct dma_buf_stats_attribute *attr,
-+				  char *buf)
-+{
-+	return sysfs_emit(buf, "%s\n", dmabuf->exp_name);
-+}
-+
-+static ssize_t size_show(struct dma_buf *dmabuf,
-+			 struct dma_buf_stats_attribute *attr,
-+			 char *buf)
-+{
-+	return sysfs_emit(buf, "%zu\n", dmabuf->size);
-+}
-+
-+static struct dma_buf_stats_attribute exporter_name_attribute =3D
-+	__ATTR_RO(exporter_name);
-+static struct dma_buf_stats_attribute size_attribute =3D __ATTR_RO(size);
-+
-+static struct attribute *dma_buf_stats_default_attrs[] =3D {
-+	&exporter_name_attribute.attr,
-+	&size_attribute.attr,
-+	NULL,
-+};
-+ATTRIBUTE_GROUPS(dma_buf_stats_default);
-+
-+static void dma_buf_sysfs_release(struct kobject *kobj)
-+{
-+	struct dma_buf_sysfs_entry *sysfs_entry;
-+
-+	sysfs_entry =3D to_dma_buf_entry_from_kobj(kobj);
-+	kfree(sysfs_entry);
-+}
-+
-+static struct kobj_type dma_buf_ktype =3D {
-+	.sysfs_ops =3D &dma_buf_stats_sysfs_ops,
-+	.release =3D dma_buf_sysfs_release,
-+	.default_groups =3D dma_buf_stats_default_groups,
-+};
-+
-+#define to_dma_buf_attach_entry_from_kobj(x) container_of(x, struct dma_bu=
-f_attach_sysfs_entry, kobj)
-+
-+struct dma_buf_attach_stats_attribute {
-+	struct attribute attr;
-+	ssize_t (*show)(struct dma_buf_attach_sysfs_entry *sysfs_entry,
-+			struct dma_buf_attach_stats_attribute *attr, char *buf);
-+};
-+#define to_dma_buf_attach_stats_attr(x) container_of(x, struct dma_buf_att=
-ach_stats_attribute, attr)
-+
-+static ssize_t dma_buf_attach_stats_attribute_show(struct kobject *kobj,
-+						   struct attribute *attr,
-+						   char *buf)
-+{
-+	struct dma_buf_attach_stats_attribute *attribute;
-+	struct dma_buf_attach_sysfs_entry *sysfs_entry;
-+
-+	attribute =3D to_dma_buf_attach_stats_attr(attr);
-+	sysfs_entry =3D to_dma_buf_attach_entry_from_kobj(kobj);
-+
-+	if (!attribute->show)
-+		return -EIO;
-+
-+	return attribute->show(sysfs_entry, attribute, buf);
-+}
-+
-+static const struct sysfs_ops dma_buf_attach_stats_sysfs_ops =3D {
-+	.show =3D dma_buf_attach_stats_attribute_show,
-+};
-+
-+static ssize_t map_counter_show(struct dma_buf_attach_sysfs_entry *sysfs_e=
-ntry,
-+				struct dma_buf_attach_stats_attribute *attr,
-+				char *buf)
-+{
-+	return sysfs_emit(buf, "%u\n", sysfs_entry->map_counter);
-+}
-+
-+static struct dma_buf_attach_stats_attribute map_counter_attribute =3D
-+	__ATTR_RO(map_counter);
-+
-+static struct attribute *dma_buf_attach_stats_default_attrs[] =3D {
-+	&map_counter_attribute.attr,
-+	NULL,
-+};
-+ATTRIBUTE_GROUPS(dma_buf_attach_stats_default);
-+
-+static void dma_buf_attach_sysfs_release(struct kobject *kobj)
-+{
-+	struct dma_buf_attach_sysfs_entry *sysfs_entry;
-+
-+	sysfs_entry =3D to_dma_buf_attach_entry_from_kobj(kobj);
-+	kfree(sysfs_entry);
-+}
-+
-+static struct kobj_type dma_buf_attach_ktype =3D {
-+	.sysfs_ops =3D &dma_buf_attach_stats_sysfs_ops,
-+	.release =3D dma_buf_attach_sysfs_release,
-+	.default_groups =3D dma_buf_attach_stats_default_groups,
-+};
-+
-+void dma_buf_attach_stats_teardown(struct dma_buf_attachment *attach)
-+{
-+	struct dma_buf_attach_sysfs_entry *sysfs_entry;
-+
-+	sysfs_entry =3D attach->sysfs_entry;
-+	if (!sysfs_entry)
-+		return;
-+
-+	sysfs_delete_link(&sysfs_entry->kobj, &attach->dev->kobj, "device");
-+
-+	kobject_del(&sysfs_entry->kobj);
-+	kobject_put(&sysfs_entry->kobj);
-+}
-+
-+int dma_buf_attach_stats_setup(struct dma_buf_attachment *attach,
-+			       unsigned int uid)
-+{
-+	struct dma_buf_attach_sysfs_entry *sysfs_entry;
-+	int ret;
-+	struct dma_buf *dmabuf;
-+
-+	if (!attach)
-+		return -EINVAL;
-+
-+	dmabuf =3D attach->dmabuf;
-+
-+	sysfs_entry =3D kzalloc(sizeof(struct dma_buf_attach_sysfs_entry),
-+			      GFP_KERNEL);
-+	if (!sysfs_entry)
-+		return -ENOMEM;
-+
-+	sysfs_entry->kobj.kset =3D dmabuf->sysfs_entry->attach_stats_kset;
-+
-+	attach->sysfs_entry =3D sysfs_entry;
-+
-+	ret =3D kobject_init_and_add(&sysfs_entry->kobj, &dma_buf_attach_ktype,
-+				   NULL, "%u", uid);
-+	if (ret)
-+		goto kobj_err;
-+
-+	ret =3D sysfs_create_link(&sysfs_entry->kobj, &attach->dev->kobj,
-+				"device");
-+	if (ret)
-+		goto link_err;
-+
-+	return 0;
-+
-+link_err:
-+	kobject_del(&sysfs_entry->kobj);
-+kobj_err:
-+	kobject_put(&sysfs_entry->kobj);
-+	attach->sysfs_entry =3D NULL;
-+
-+	return ret;
-+}
-+void dma_buf_stats_teardown(struct dma_buf *dmabuf)
-+{
-+	struct dma_buf_sysfs_entry *sysfs_entry;
-+
-+	sysfs_entry =3D dmabuf->sysfs_entry;
-+	if (!sysfs_entry)
-+		return;
-+
-+	kset_unregister(sysfs_entry->attach_stats_kset);
-+	kobject_del(&sysfs_entry->kobj);
-+	kobject_put(&sysfs_entry->kobj);
-+}
-+
-+
-+/* Statistics files do not need to send uevents. */
-+static int dmabuf_sysfs_uevent_filter(struct kset *kset, struct kobject *k=
-obj)
-+{
-+	return 0;
-+}
-+
-+static const struct kset_uevent_ops dmabuf_sysfs_no_uevent_ops =3D {
-+	.filter =3D dmabuf_sysfs_uevent_filter,
-+};
-+
-+static struct kset *dma_buf_stats_kset;
-+static struct kset *dma_buf_per_buffer_stats_kset;
-+int dma_buf_init_sysfs_statistics(void)
-+{
-+	dma_buf_stats_kset =3D kset_create_and_add("dmabuf",
-+						 &dmabuf_sysfs_no_uevent_ops,
-+						 kernel_kobj);
-+	if (!dma_buf_stats_kset)
-+		return -ENOMEM;
-+
-+	dma_buf_per_buffer_stats_kset =3D kset_create_and_add("buffers",
-+							    &dmabuf_sysfs_no_uevent_ops,
-+							    &dma_buf_stats_kset->kobj);
-+	if (!dma_buf_per_buffer_stats_kset) {
-+		kset_unregister(dma_buf_stats_kset);
-+		return -ENOMEM;
-+	}
-+
-+	return 0;
-+}
-+
-+void dma_buf_uninit_sysfs_statistics(void)
-+{
-+	kset_unregister(dma_buf_per_buffer_stats_kset);
-+	kset_unregister(dma_buf_stats_kset);
-+}
-+
-+int dma_buf_stats_setup(struct dma_buf *dmabuf)
-+{
-+	struct dma_buf_sysfs_entry *sysfs_entry;
-+	int ret;
-+	struct kset *attach_stats_kset;
-+
-+	if (!dmabuf || !dmabuf->file)
-+		return -EINVAL;
-+
-+	if (!dmabuf->exp_name) {
-+		pr_err("exporter name must not be empty if stats needed\n");
-+		return -EINVAL;
-+	}
-+
-+	sysfs_entry =3D kzalloc(sizeof(struct dma_buf_sysfs_entry), GFP_KERNEL);
-+	if (!sysfs_entry)
-+		return -ENOMEM;
-+
-+	sysfs_entry->kobj.kset =3D dma_buf_per_buffer_stats_kset;
-+	sysfs_entry->dmabuf =3D dmabuf;
-+
-+	dmabuf->sysfs_entry =3D sysfs_entry;
-+
-+	/* create the directory for buffer stats */
-+	ret =3D kobject_init_and_add(&sysfs_entry->kobj, &dma_buf_ktype, NULL,
-+				   "%lu", file_inode(dmabuf->file)->i_ino);
-+	if (ret)
-+		goto err_sysfs_dmabuf;
-+
-+	/* create the directory for attachment stats */
-+	attach_stats_kset =3D kset_create_and_add("attachments",
-+						&dmabuf_sysfs_no_uevent_ops,
-+						&sysfs_entry->kobj);
-+	if (!attach_stats_kset) {
-+		ret =3D -ENOMEM;
-+		goto err_sysfs_attach;
-+	}
-+
-+	sysfs_entry->attach_stats_kset =3D attach_stats_kset;
-+
-+	return 0;
-+
-+err_sysfs_attach:
-+	kobject_del(&sysfs_entry->kobj);
-+err_sysfs_dmabuf:
-+	kobject_put(&sysfs_entry->kobj);
-+	dmabuf->sysfs_entry =3D NULL;
-+	return ret;
-+}
-diff --git a/drivers/dma-buf/dma-buf-sysfs-stats.h b/drivers/dma-buf/dma-bu=
-f-sysfs-stats.h
-new file mode 100644
-index 000000000000..5f4703249117
---- /dev/null
-+++ b/drivers/dma-buf/dma-buf-sysfs-stats.h
-@@ -0,0 +1,62 @@
-+/* SPDX-License-Identifier: GPL-2.0-only */
-+/*
-+ * DMA-BUF sysfs statistics.
-+ *
-+ * Copyright (C) 2021 Google LLC.
-+ */
-+
-+#ifndef _DMA_BUF_SYSFS_STATS_H
-+#define _DMA_BUF_SYSFS_STATS_H
-+
-+#ifdef CONFIG_DMABUF_SYSFS_STATS
-+
-+int dma_buf_init_sysfs_statistics(void);
-+void dma_buf_uninit_sysfs_statistics(void);
-+
-+int dma_buf_stats_setup(struct dma_buf *dmabuf);
-+int dma_buf_attach_stats_setup(struct dma_buf_attachment *attach,
-+			       unsigned int uid);
-+static inline void dma_buf_update_attachment_map_count(struct dma_buf_atta=
-chment *attach,
-+						       int delta)
-+{
-+	struct dma_buf_attach_sysfs_entry *entry =3D attach->sysfs_entry;
-+
-+	entry->map_counter +=3D delta;
-+}
-+void dma_buf_stats_teardown(struct dma_buf *dmabuf);
-+void dma_buf_attach_stats_teardown(struct dma_buf_attachment *attach);
-+static inline unsigned int dma_buf_update_attach_uid(struct dma_buf *dmabu=
-f)
-+{
-+	struct dma_buf_sysfs_entry *entry =3D dmabuf->sysfs_entry;
-+
-+	return entry->attachment_uid++;
-+}
-+#else
-+
-+static inline int dma_buf_init_sysfs_statistics(void)
-+{
-+	return 0;
-+}
-+
-+static inline void dma_buf_uninit_sysfs_statistics(void) {}
-+
-+static inline int dma_buf_stats_setup(struct dma_buf *dmabuf)
-+{
-+	return 0;
-+}
-+static inline int dma_buf_attach_stats_setup(struct dma_buf_attachment *at=
-tach,
-+					     unsigned int uid)
-+{
-+	return 0;
-+}
-+
-+static inline void dma_buf_stats_teardown(struct dma_buf *dmabuf) {}
-+static inline void dma_buf_attach_stats_teardown(struct dma_buf_attachment=
- *attach) {}
-+static inline void dma_buf_update_attachment_map_count(struct dma_buf_atta=
-chment *attach,
-+						       int delta) {}
-+static inline unsigned int dma_buf_update_attach_uid(struct dma_buf *dmabu=
-f)
-+{
-+	return 0;
-+}
-+#endif
-+#endif // _DMA_BUF_SYSFS_STATS_H
-diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-index f264b70c383e..184dd7acb1ed 100644
---- a/drivers/dma-buf/dma-buf.c
-+++ b/drivers/dma-buf/dma-buf.c
-@@ -29,6 +29,8 @@
- #include <uapi/linux/dma-buf.h>
- #include <uapi/linux/magic.h>
-=20
-+#include "dma-buf-sysfs-stats.h"
-+
- static inline int is_dma_buf_file(struct file *);
-=20
- struct dma_buf_list {
-@@ -79,6 +81,7 @@ static void dma_buf_release(struct dentry *dentry)
- 	if (dmabuf->resv =3D=3D (struct dma_resv *)&dmabuf[1])
- 		dma_resv_fini(dmabuf->resv);
-=20
-+	dma_buf_stats_teardown(dmabuf);
- 	module_put(dmabuf->owner);
- 	kfree(dmabuf->name);
- 	kfree(dmabuf);
-@@ -580,6 +583,10 @@ struct dma_buf *dma_buf_export(const struct dma_buf_ex=
-port_info *exp_info)
- 	file->f_mode |=3D FMODE_LSEEK;
- 	dmabuf->file =3D file;
-=20
-+	ret =3D dma_buf_stats_setup(dmabuf);
-+	if (ret)
-+		goto err_sysfs;
-+
- 	mutex_init(&dmabuf->lock);
- 	INIT_LIST_HEAD(&dmabuf->attachments);
-=20
-@@ -589,6 +596,14 @@ struct dma_buf *dma_buf_export(const struct dma_buf_ex=
-port_info *exp_info)
-=20
- 	return dmabuf;
-=20
-+err_sysfs:
-+	/*
-+	 * Set file->f_path.dentry->d_fsdata to NULL so that when
-+	 * dma_buf_release() gets invoked by dentry_ops, it exits
-+	 * early before calling the release() dma_buf op.
-+	 */
-+	file->f_path.dentry->d_fsdata =3D NULL;
-+	fput(file);
- err_dmabuf:
- 	kfree(dmabuf);
- err_module:
-@@ -723,6 +738,7 @@ dma_buf_dynamic_attach(struct dma_buf *dmabuf, struct d=
-evice *dev,
- {
- 	struct dma_buf_attachment *attach;
- 	int ret;
-+	unsigned int attach_uid;
-=20
- 	if (WARN_ON(!dmabuf || !dev))
- 		return ERR_PTR(-EINVAL);
-@@ -748,8 +764,13 @@ dma_buf_dynamic_attach(struct dma_buf *dmabuf, struct =
-device *dev,
- 	}
- 	dma_resv_lock(dmabuf->resv, NULL);
- 	list_add(&attach->node, &dmabuf->attachments);
-+	attach_uid =3D dma_buf_update_attach_uid(dmabuf);
- 	dma_resv_unlock(dmabuf->resv);
-=20
-+	ret =3D dma_buf_attach_stats_setup(attach, attach_uid);
-+	if (ret)
-+		goto err_sysfs;
-+
- 	/* When either the importer or the exporter can't handle dynamic
- 	 * mappings we cache the mapping here to avoid issues with the
- 	 * reservation object lock.
-@@ -776,6 +797,7 @@ dma_buf_dynamic_attach(struct dma_buf *dmabuf, struct d=
-evice *dev,
- 			dma_resv_unlock(attach->dmabuf->resv);
- 		attach->sgt =3D sgt;
- 		attach->dir =3D DMA_BIDIRECTIONAL;
-+		dma_buf_update_attachment_map_count(attach, 1 /* delta */);
- 	}
-=20
- 	return attach;
-@@ -792,6 +814,7 @@ dma_buf_dynamic_attach(struct dma_buf *dmabuf, struct d=
-evice *dev,
- 	if (dma_buf_is_dynamic(attach->dmabuf))
- 		dma_resv_unlock(attach->dmabuf->resv);
-=20
-+err_sysfs:
- 	dma_buf_detach(dmabuf, attach);
- 	return ERR_PTR(ret);
- }
-@@ -841,6 +864,7 @@ void dma_buf_detach(struct dma_buf *dmabuf, struct dma_=
-buf_attachment *attach)
- 			dma_resv_lock(attach->dmabuf->resv, NULL);
-=20
- 		__unmap_dma_buf(attach, attach->sgt, attach->dir);
-+		dma_buf_update_attachment_map_count(attach, -1 /* delta */);
-=20
- 		if (dma_buf_is_dynamic(attach->dmabuf)) {
- 			dma_buf_unpin(attach);
-@@ -854,6 +878,7 @@ void dma_buf_detach(struct dma_buf *dmabuf, struct dma_=
-buf_attachment *attach)
- 	if (dmabuf->ops->detach)
- 		dmabuf->ops->detach(dmabuf, attach);
-=20
-+	dma_buf_attach_stats_teardown(attach);
- 	kfree(attach);
- }
- EXPORT_SYMBOL_GPL(dma_buf_detach);
-@@ -993,6 +1018,9 @@ struct sg_table *dma_buf_map_attachment(struct dma_buf=
-_attachment *attach,
- 	}
- #endif /* CONFIG_DMA_API_DEBUG */
-=20
-+	if (!IS_ERR(sg_table))
-+		dma_buf_update_attachment_map_count(attach, 1 /* delta */);
-+
- 	return sg_table;
- }
- EXPORT_SYMBOL_GPL(dma_buf_map_attachment);
-@@ -1030,6 +1058,8 @@ void dma_buf_unmap_attachment(struct dma_buf_attachme=
-nt *attach,
- 	if (dma_buf_is_dynamic(attach->dmabuf) &&
- 	    !IS_ENABLED(CONFIG_DMABUF_MOVE_NOTIFY))
- 		dma_buf_unpin(attach);
-+
-+	dma_buf_update_attachment_map_count(attach, -1 /* delta */);
- }
- EXPORT_SYMBOL_GPL(dma_buf_unmap_attachment);
-=20
-@@ -1480,6 +1510,12 @@ static inline void dma_buf_uninit_debugfs(void)
-=20
- static int __init dma_buf_init(void)
- {
-+	int ret;
-+
-+	ret =3D dma_buf_init_sysfs_statistics();
-+	if (ret)
-+		return ret;
-+
- 	dma_buf_mnt =3D kern_mount(&dma_buf_fs_type);
- 	if (IS_ERR(dma_buf_mnt))
- 		return PTR_ERR(dma_buf_mnt);
-@@ -1495,5 +1531,6 @@ static void __exit dma_buf_deinit(void)
- {
- 	dma_buf_uninit_debugfs();
- 	kern_unmount(dma_buf_mnt);
-+	dma_buf_uninit_sysfs_statistics();
- }
- __exitcall(dma_buf_deinit);
-diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
-index efdc56b9d95f..342585bd6dff 100644
---- a/include/linux/dma-buf.h
-+++ b/include/linux/dma-buf.h
-@@ -295,6 +295,9 @@ struct dma_buf_ops {
-  * @poll: for userspace poll support
-  * @cb_excl: for userspace poll support
-  * @cb_shared: for userspace poll support
-+ * @sysfs_entry: for exposing information about this buffer in sysfs.
-+ * The attachment_uid member of @sysfs_entry is protected by dma_resv lock
-+ * and is incremented on each attach.
-  *
-  * This represents a shared buffer, created by calling dma_buf_export(). T=
-he
-  * userspace representation is a normal file descriptor, which can be crea=
-ted by
-@@ -330,6 +333,15 @@ struct dma_buf {
-=20
- 		__poll_t active;
- 	} cb_excl, cb_shared;
-+#ifdef CONFIG_DMABUF_SYSFS_STATS
-+	/* for sysfs stats */
-+	struct dma_buf_sysfs_entry {
-+		struct kobject kobj;
-+		struct dma_buf *dmabuf;
-+		unsigned int attachment_uid;
-+		struct kset *attach_stats_kset;
-+	} *sysfs_entry;
-+#endif
- };
-=20
- /**
-@@ -379,6 +391,7 @@ struct dma_buf_attach_ops {
-  * @importer_ops: importer operations for this attachment, if provided
-  * dma_buf_map/unmap_attachment() must be called with the dma_resv lock he=
-ld.
-  * @importer_priv: importer specific attachment data.
-+ * @sysfs_entry: For exposing information about this attachment in sysfs.
-  *
-  * This structure holds the attachment information between the dma_buf buf=
-fer
-  * and its user device(s). The list contains one attachment struct per dev=
-ice
-@@ -399,6 +412,13 @@ struct dma_buf_attachment {
- 	const struct dma_buf_attach_ops *importer_ops;
- 	void *importer_priv;
- 	void *priv;
-+#ifdef CONFIG_DMABUF_SYSFS_STATS
-+	/* for sysfs stats */
-+	struct dma_buf_attach_sysfs_entry {
-+		struct kobject kobj;
-+		unsigned int map_counter;
-+	} *sysfs_entry;
-+#endif
- };
-=20
- /**
---=20
-2.32.0.rc0.204.g9fa02ecfa5-goog
+Yeah, I think I've made it a lot better.  You may want to re-review on
+the next go 'round though.
 
+> > +             ret = ctx_setparam(file_priv, ctx, args);
+> > +
+> > +     if (ctx)
+> > +             i915_gem_context_put(ctx);
+> >
+> > -     i915_gem_context_put(ctx);
+> >       return ret;
+> >  }
+> >
+> > diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context.h b/drivers/gpu/drm/i915/gem/i915_gem_context.h
+> > index b5c908f3f4f22..20411db84914a 100644
+> > --- a/drivers/gpu/drm/i915/gem/i915_gem_context.h
+> > +++ b/drivers/gpu/drm/i915/gem/i915_gem_context.h
+> > @@ -133,6 +133,9 @@ int i915_gem_context_setparam_ioctl(struct drm_device *dev, void *data,
+> >  int i915_gem_context_reset_stats_ioctl(struct drm_device *dev, void *data,
+> >                                      struct drm_file *file);
+> >
+> > +struct i915_gem_context *
+> > +i915_gem_context_lookup(struct drm_i915_file_private *file_priv, u32 id);
+> > +
+> >  static inline struct i915_gem_context *
+> >  i915_gem_context_get(struct i915_gem_context *ctx)
+> >  {
+> > diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context_types.h b/drivers/gpu/drm/i915/gem/i915_gem_context_types.h
+> > index 2ac341f805c8f..b673061f4f5ba 100644
+> > --- a/drivers/gpu/drm/i915/gem/i915_gem_context_types.h
+> > +++ b/drivers/gpu/drm/i915/gem/i915_gem_context_types.h
+> > @@ -122,6 +122,60 @@ struct i915_gem_proto_engine {
+> >   * an i915_gem_context.  This is used to gather parameters provided either
+> >   * through creation flags or via SET_CONTEXT_PARAM so that, when we create
+> >   * the final i915_gem_context, those parameters can be immutable.
+> > + *
+> > + * The context uAPI allows for two methods of setting context parameters:
+> > + * SET_CONTEXT_PARAM and CONTEXT_CREATE_EXT_SETPARAM.  The former is
+> > + * allowed to be called at any time while the later happens as part of
+> > + * GEM_CONTEXT_CREATE.  When these were initially added, Currently,
+> > + * everything settable via one is settable via the other.  While some
+> > + * params are fairly simple and setting them on a live context is harmless
+> > + * such the context priority, others are far trickier such as the VM or the
+> > + * set of engines.  To avoid some truly nasty race conditions, we don't
+> > + * allow setting the VM or the set of engines on live contexts.
+> > + *
+> > + * The way we dealt with this without breaking older userspace that sets
+> > + * the VM or engine set via SET_CONTEXT_PARAM is to delay the creation of
+> > + * the actual context until after the client is done configuring it with
+> > + * SET_CONTEXT_PARAM.  From the perspective of the client, it has the same
+> > + * u32 context ID the whole time.  From the perspective of i915, however,
+> > + * it's an i915_gem_proto_context right up until the point where we attempt
+> > + * to do something which the proto-context can't handle at which point the
+> > + * real context gets created.
+> > + *
+> > + * This is accomplished via a little xarray dance.  When GEM_CONTEXT_CREATE
+> > + * is called, we create a proto-context, reserve a slot in context_xa but
+> > + * leave it NULL, the proto-context in the corresponding slot in
+> > + * proto_context_xa.  Then, whenever we go to look up a context, we first
+> > + * check context_xa.  If it's there, we return the i915_gem_context and
+> > + * we're done.  If it's not, we look in proto_context_xa and, if we find it
+> > + * there, we create the actual context and kill the proto-context.
+> > + *
+> > + * At the time we made this change (April, 2021), we did a fairly complete
+> > + * audit of existing userspace to ensure this wouldn't break anything:
+> > + *
+> > + *  - Mesa/i965 didn't use the engines or VM APIs at all
+> > + *
+> > + *  - Mesa/ANV used the engines API but via CONTEXT_CREATE_EXT_SETPARAM and
+> > + *    didn't use the VM API.
+> > + *
+> > + *  - Mesa/iris didn't use the engines or VM APIs at all
+> > + *
+> > + *  - The open-source compute-runtime didn't yet use the engines API but
+> > + *    did use the VM API via SET_CONTEXT_PARAM.  However, CONTEXT_SETPARAM
+> > + *    was always the second ioctl on that context, immediately following
+> > + *    GEM_CONTEXT_CREATE.
+> > + *
+> > + *  - The media driver sets engines and bonding/balancing via
+> > + *    SET_CONTEXT_PARAM.  However, CONTEXT_SETPARAM to set the VM was
+> > + *    always the second ioctl on that context, immediately following
+> > + *    GEM_CONTEXT_CREATE and setting engines immediately followed that.
+> > + *
+> > + * In order for this dance to work properly, any modification to an
+> > + * i915_gem_proto_context that is exposed to the client via
+> > + * drm_i915_file_private::proto_context_xa must be guarded by
+> > + * drm_i915_file_private::proto_context_lock.  The exception is when a
+> > + * proto-context has not yet been exposed such as when handling
+> > + * CONTEXT_CREATE_SET_PARAM during GEM_CONTEXT_CREATE.
+> >   */
+> >  struct i915_gem_proto_context {
+> >       /** @vm: See i915_gem_context::vm */
+> > diff --git a/drivers/gpu/drm/i915/gem/selftests/mock_context.c b/drivers/gpu/drm/i915/gem/selftests/mock_context.c
+> > index cbeefd060e97b..61aaac4a334cf 100644
+> > --- a/drivers/gpu/drm/i915/gem/selftests/mock_context.c
+> > +++ b/drivers/gpu/drm/i915/gem/selftests/mock_context.c
+> > @@ -81,6 +81,7 @@ void mock_init_contexts(struct drm_i915_private *i915)
+> >  struct i915_gem_context *
+> >  live_context(struct drm_i915_private *i915, struct file *file)
+> >  {
+> > +     struct drm_i915_file_private *fpriv = to_drm_file(file)->driver_priv;
+> >       struct i915_gem_proto_context *pc;
+> >       struct i915_gem_context *ctx;
+> >       int err;
+> > @@ -97,10 +98,12 @@ live_context(struct drm_i915_private *i915, struct file *file)
+> >
+> >       i915_gem_context_set_no_error_capture(ctx);
+> >
+> > -     err = gem_context_register(ctx, to_drm_file(file)->driver_priv, &id);
+> > +     err = xa_alloc(&fpriv->context_xa, &id, NULL, xa_limit_32b, GFP_KERNEL);
+> >       if (err < 0)
+> >               goto err_ctx;
+> >
+> > +     gem_context_register(ctx, fpriv, id);
+> > +
+> >       return ctx;
+> >
+> >  err_ctx:
+> > diff --git a/drivers/gpu/drm/i915/i915_drv.h b/drivers/gpu/drm/i915/i915_drv.h
+> > index d7bd732ceacfc..8b00292e1ae56 100644
+> > --- a/drivers/gpu/drm/i915/i915_drv.h
+> > +++ b/
+> > @@ -201,6 +201,16 @@ struct drm_i915_file_private {
+> >               struct rcu_head rcu;
+> >       };
+> >
+> > +     /** @proto_context_lock: Guards all i915_gem_proto_context operations
+> > +      *
+> > +      * See i915_gem_proto_context.
+>
+> Please add locking rules here, like "This is always held whenever we
+> manipulate any proto context, including finalizing it on first actual use
+> of the GEM context".
+
+Done.
+
+> > +      */
+> > +     struct mutex proto_context_lock;
+> > +
+> > +     /** @proto_context_xa: xarray of i915_gem_proto_context */
+>
+> Pls fix hyperlinks.
+>
+> Also please put your nice explainer from the commit message here ...
+
+Done.
+
+> > +     struct xarray proto_context_xa;
+> > +
+> > +     /** @context_xa: xarray of fully created i915_gem_context */
+>
+> ... and reference it with a "See @proto_context_xa" here.
+>
+> Maybe also reference i915_gem_context_lookup() from these so readers of
+> the code can easily find all the pieces of this magic.
+
+Done.
+
+> Also mention here that write access to @context_xa is protected by
+> @proto_context_lock. It must be held to avoid races with finalization of
+> proto context in e.g. i915_gem_context_destroy_ioctl(), and this wasn't
+> obvious to me at all.
+
+Done.
+
+>
+> >       struct xarray context_xa;
+> >       struct xarray vm_xa;
+> >
+> > @@ -1857,20 +1867,6 @@ struct drm_gem_object *i915_gem_prime_import(struct drm_device *dev,
+> >
+> >  struct dma_buf *i915_gem_prime_export(struct drm_gem_object *gem_obj, int flags);
+> >
+> > -static inline struct i915_gem_context *
+> > -i915_gem_context_lookup(struct drm_i915_file_private *file_priv, u32 id)
+> > -{
+> > -     struct i915_gem_context *ctx;
+> > -
+> > -     rcu_read_lock();
+> > -     ctx = xa_load(&file_priv->context_xa, id);
+> > -     if (ctx && !kref_get_unless_zero(&ctx->ref))
+> > -             ctx = NULL;
+> > -     rcu_read_unlock();
+> > -
+> > -     return ctx ? ctx : ERR_PTR(-ENOENT);
+> > -}
+> > -
+> >  static inline struct i915_address_space *
+> >  i915_gem_vm_lookup(struct drm_i915_file_private *file_priv, u32 id)
+> >  {
+> > --
+> > 2.31.1
+>
+> Nothing big looks wrong, with the nits addressed:
+>
+> Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+
+If you don't mind, I'd like you to look at the new set_param logic as
+well as the added comments on the next go 'round.
+
+--Jason
+
+> >
+>
+> --
+> Daniel Vetter
+> Software Engineer, Intel Corporation
+> http://blog.ffwll.ch
