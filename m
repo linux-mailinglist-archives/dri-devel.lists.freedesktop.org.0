@@ -1,48 +1,70 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB520398E91
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Jun 2021 17:27:34 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 32EC2398E93
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Jun 2021 17:28:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E5DD06E425;
-	Wed,  2 Jun 2021 15:27:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 30A586ECE9;
+	Wed,  2 Jun 2021 15:28:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0E2096E3FE;
- Wed,  2 Jun 2021 15:27:28 +0000 (UTC)
-IronPort-SDR: eVSZBEcAnCgX38HtPb00i2d04woJV2x4IKhNXXayS7oHo4PUG4ekmoAM1kasUxh9VYpfD0NL0B
- kMWhBqmRYT/Q==
-X-IronPort-AV: E=McAfee;i="6200,9189,10003"; a="267688420"
-X-IronPort-AV: E=Sophos;i="5.83,242,1616482800"; d="scan'208";a="267688420"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Jun 2021 08:27:21 -0700
-IronPort-SDR: T5XJiVdO7bx5h3sn7ybJxmgsOwP9WBE0Uxs1mhH4TmBPnOwNvwrh4CFmmGLSvzfjWlL0usie+Y
- 33mBQz1lBm2g==
-X-IronPort-AV: E=Sophos;i="5.83,242,1616482800"; d="scan'208";a="447444550"
-Received: from tstaplex-mobl1.ger.corp.intel.com (HELO [10.213.195.193])
- ([10.213.195.193])
- by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Jun 2021 08:27:18 -0700
-Subject: Re: [Intel-gfx] [RFC PATCH 00/97] Basic GuC submission support in the
- i915
-To: Matthew Brost <matthew.brost@intel.com>
-References: <20210506191451.77768-1-matthew.brost@intel.com>
- <de3965d8-d997-5685-0399-646d8823a27f@linux.intel.com>
- <20210525164504.GA9971@sdutt-i7>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-Message-ID: <d76ab0ec-4f0c-19ed-adaa-ed227af63c0e@linux.intel.com>
-Date: Wed, 2 Jun 2021 16:27:18 +0100
+Received: from ste-pvt-msa2.bahnhof.se (ste-pvt-msa2.bahnhof.se
+ [213.80.101.71])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B507A6ECE6
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Jun 2021 15:28:46 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by ste-pvt-msa2.bahnhof.se (Postfix) with ESMTP id BD6A53F884;
+ Wed,  2 Jun 2021 17:28:44 +0200 (CEST)
+Authentication-Results: ste-pvt-msa2.bahnhof.se; dkim=pass (1024-bit key;
+ unprotected) header.d=shipmail.org header.i=@shipmail.org header.b="FvAo3LjN";
+ dkim-atps=neutral
+X-Virus-Scanned: Debian amavisd-new at bahnhof.se
+X-Spam-Flag: NO
+X-Spam-Score: -0.818
+X-Spam-Level: 
+X-Spam-Status: No, score=-0.818 tagged_above=-999 required=6.31
+ tests=[BAYES_20=-0.001, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.618,
+ URIBL_BLOCKED=0.001] autolearn=ham autolearn_force=no
+Authentication-Results: ste-ftg-msa2.bahnhof.se (amavisd-new);
+ dkim=pass (1024-bit key) header.d=shipmail.org
+Received: from ste-pvt-msa2.bahnhof.se ([127.0.0.1])
+ by localhost (ste-ftg-msa2.bahnhof.se [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id I5b3vtk1kzuv; Wed,  2 Jun 2021 17:28:43 +0200 (CEST)
+Received: by ste-pvt-msa2.bahnhof.se (Postfix) with ESMTPA id E751B3F490;
+ Wed,  2 Jun 2021 17:28:41 +0200 (CEST)
+Received: from [192.168.0.209] (unknown [192.55.54.42])
+ by mail1.shipmail.org (Postfix) with ESMTPSA id D31E836016C;
+ Wed,  2 Jun 2021 17:28:39 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=shipmail.org; s=mail;
+ t=1622647721; bh=u2s/GT/n34kdaUBaL/T6vyrS8XGoC0DeOGhVGWlp3p0=;
+ h=Subject:To:References:From:Date:In-Reply-To:From;
+ b=FvAo3LjNe7J7jB1vyLt5UdEfK0qMwNK7s4DnAHq3dH/fIOFHt9lpFfCNtYYawNOkk
+ Phls+72V0YJTGilL9mvI38jDj7YSxGV6cRIRMiZSs5sCWHwGZ5HEyevpGVdYP9/pgo
+ haxrT0BvkjxUAoRn4SJ69CJJl+ddliFn2ffcUBGE=
+Subject: Re: [PATCH 02/10] drm/ttm: flip over the range manager to self
+ allocated nodes
+To: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ matthew.auld@intel.com, dri-devel@lists.freedesktop.org
+References: <20210602100914.46246-1-christian.koenig@amd.com>
+ <20210602100914.46246-2-christian.koenig@amd.com>
+ <9b01d58f-6474-70de-4364-6adad59717a5@shipmail.org>
+ <2354a311-c88f-04c5-0211-360c8116b811@gmail.com>
+ <23afc41d-09ae-93f3-77b8-e18c8f72dd5a@shipmail.org>
+ <b818e5f8-66a4-4df0-ba5b-cc22125d72a2@gmail.com>
+ <2719e7af-dbba-2917-0e29-9e36fbc6de00@shipmail.org>
+ <55f59f1e-f988-f58a-4e3f-7d419a846ae6@gmail.com>
+From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m_=28Intel=29?= <thomas_os@shipmail.org>
+Message-ID: <d6f0b8e1-f4a2-cbbd-8b0c-6700ae4f7e58@shipmail.org>
+Date: Wed, 2 Jun 2021 17:28:35 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-In-Reply-To: <20210525164504.GA9971@sdutt-i7>
+In-Reply-To: <55f59f1e-f988-f58a-4e3f-7d419a846ae6@gmail.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,168 +77,237 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: jason.ekstrand@intel.com, daniel.vetter@intel.com,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi!
 
-On 25/05/2021 17:45, Matthew Brost wrote:
-> On Tue, May 25, 2021 at 11:32:26AM +0100, Tvrtko Ursulin wrote:
+On 6/2/21 4:17 PM, Christian König wrote:
+> Am 02.06.21 um 16:13 schrieb Thomas Hellström (Intel):
 >>
->> On 06/05/2021 20:13, Matthew Brost wrote:
->>> Basic GuC submission support. This is the first bullet point in the
->>> upstreaming plan covered in the following RFC [1].
+>> On 6/2/21 3:07 PM, Christian König wrote:
 >>>
->>> At a very high level the GuC is a piece of firmware which sits between
->>> the i915 and the GPU. It offloads some of the scheduling of contexts
->>> from the i915 and programs the GPU to submit contexts. The i915
->>> communicates with the GuC and the GuC communicates with the GPU.
 >>>
->>> GuC submission will be disabled by default on all current upstream
->>> platforms behind a module parameter - enable_guc. A value of 3 will
->>> enable submission and HuC loading via the GuC. GuC submission should
->>> work on all gen11+ platforms assuming the GuC firmware is present.
+>>> Am 02.06.21 um 14:33 schrieb Thomas Hellström (Intel):
+>>>>
+>>>> On 6/2/21 2:11 PM, Christian König wrote:
+>>>>> Am 02.06.21 um 13:44 schrieb Thomas Hellström (Intel):
+>>>>>>
+>>>>>> On 6/2/21 12:09 PM, Christian König wrote:
+>>>>>>> Start with the range manager to make the resource object the base
+>>>>>>> class for the allocated nodes.
+>>>>>>>
+>>>>>>> While at it cleanup a lot of the code around that.
+>>>>>>>
+>>>>>>> Signed-off-by: Christian König <christian.koenig@amd.com>
+>>>>>>> Reviewed-by: Matthew Auld <matthew.auld@intel.com>
+>>>>>>> ---
+>>>>>>>   drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c |  1 +
+>>>>>>>   drivers/gpu/drm/drm_gem_vram_helper.c   |  2 +
+>>>>>>>   drivers/gpu/drm/nouveau/nouveau_ttm.c   |  2 +
+>>>>>>>   drivers/gpu/drm/qxl/qxl_ttm.c           |  1 +
+>>>>>>>   drivers/gpu/drm/radeon/radeon_ttm.c     |  1 +
+>>>>>>>   drivers/gpu/drm/ttm/ttm_range_manager.c | 56 
+>>>>>>> ++++++++++++++++++-------
+>>>>>>>   drivers/gpu/drm/ttm/ttm_resource.c      | 26 ++++++++----
+>>>>>>>   include/drm/ttm/ttm_bo_driver.h         | 26 ------------
+>>>>>>>   include/drm/ttm/ttm_range_manager.h     | 43 +++++++++++++++++++
+>>>>>>>   include/drm/ttm/ttm_resource.h          |  3 ++
+>>>>>>>   10 files changed, 111 insertions(+), 50 deletions(-)
+>>>>>>>   create mode 100644 include/drm/ttm/ttm_range_manager.h
+>>>>>>>
+>>>>>>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c 
+>>>>>>> b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+>>>>>>> index 69db89261650..df1f185faae9 100644
+>>>>>>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+>>>>>>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+>>>>>>> @@ -45,6 +45,7 @@
+>>>>>>>   #include <drm/ttm/ttm_bo_api.h>
+>>>>>>>   #include <drm/ttm/ttm_bo_driver.h>
+>>>>>>>   #include <drm/ttm/ttm_placement.h>
+>>>>>>> +#include <drm/ttm/ttm_range_manager.h>
+>>>>>>>     #include <drm/amdgpu_drm.h>
+>>>>>>>   diff --git a/drivers/gpu/drm/drm_gem_vram_helper.c 
+>>>>>>> b/drivers/gpu/drm/drm_gem_vram_helper.c
+>>>>>>> index 83e7258c7f90..17a4c5d47b6a 100644
+>>>>>>> --- a/drivers/gpu/drm/drm_gem_vram_helper.c
+>>>>>>> +++ b/drivers/gpu/drm/drm_gem_vram_helper.c
+>>>>>>> @@ -17,6 +17,8 @@
+>>>>>>>   #include <drm/drm_prime.h>
+>>>>>>>   #include <drm/drm_simple_kms_helper.h>
+>>>>>>>   +#include <drm/ttm/ttm_range_manager.h>
+>>>>>>> +
+>>>>>>>   static const struct drm_gem_object_funcs 
+>>>>>>> drm_gem_vram_object_funcs;
+>>>>>>>     /**
+>>>>>>> diff --git a/drivers/gpu/drm/nouveau/nouveau_ttm.c 
+>>>>>>> b/drivers/gpu/drm/nouveau/nouveau_ttm.c
+>>>>>>> index 65430912ff72..b08b8efeefba 100644
+>>>>>>> --- a/drivers/gpu/drm/nouveau/nouveau_ttm.c
+>>>>>>> +++ b/drivers/gpu/drm/nouveau/nouveau_ttm.c
+>>>>>>> @@ -26,6 +26,8 @@
+>>>>>>>   #include <linux/limits.h>
+>>>>>>>   #include <linux/swiotlb.h>
+>>>>>>>   +#include <drm/ttm/ttm_range_manager.h>
+>>>>>>> +
+>>>>>>>   #include "nouveau_drv.h"
+>>>>>>>   #include "nouveau_gem.h"
+>>>>>>>   #include "nouveau_mem.h"
+>>>>>>> diff --git a/drivers/gpu/drm/qxl/qxl_ttm.c 
+>>>>>>> b/drivers/gpu/drm/qxl/qxl_ttm.c
+>>>>>>> index 8aa87b8edb9c..19fd39d9a00c 100644
+>>>>>>> --- a/drivers/gpu/drm/qxl/qxl_ttm.c
+>>>>>>> +++ b/drivers/gpu/drm/qxl/qxl_ttm.c
+>>>>>>> @@ -32,6 +32,7 @@
+>>>>>>>   #include <drm/ttm/ttm_bo_api.h>
+>>>>>>>   #include <drm/ttm/ttm_bo_driver.h>
+>>>>>>>   #include <drm/ttm/ttm_placement.h>
+>>>>>>> +#include <drm/ttm/ttm_range_manager.h>
+>>>>>>>     #include "qxl_drv.h"
+>>>>>>>   #include "qxl_object.h"
+>>>>>>> diff --git a/drivers/gpu/drm/radeon/radeon_ttm.c 
+>>>>>>> b/drivers/gpu/drm/radeon/radeon_ttm.c
+>>>>>>> index cdffa9b65108..ad2a5a791bba 100644
+>>>>>>> --- a/drivers/gpu/drm/radeon/radeon_ttm.c
+>>>>>>> +++ b/drivers/gpu/drm/radeon/radeon_ttm.c
+>>>>>>> @@ -45,6 +45,7 @@
+>>>>>>>   #include <drm/ttm/ttm_bo_api.h>
+>>>>>>>   #include <drm/ttm/ttm_bo_driver.h>
+>>>>>>>   #include <drm/ttm/ttm_placement.h>
+>>>>>>> +#include <drm/ttm/ttm_range_manager.h>
+>>>>>>>     #include "radeon_reg.h"
+>>>>>>>   #include "radeon.h"
+>>>>>>> diff --git a/drivers/gpu/drm/ttm/ttm_range_manager.c 
+>>>>>>> b/drivers/gpu/drm/ttm/ttm_range_manager.c
+>>>>>>> index b9d5da6e6a81..ce5d07ca384c 100644
+>>>>>>> --- a/drivers/gpu/drm/ttm/ttm_range_manager.c
+>>>>>>> +++ b/drivers/gpu/drm/ttm/ttm_range_manager.c
+>>>>>>> @@ -29,12 +29,13 @@
+>>>>>>>    * Authors: Thomas Hellstrom <thellstrom-at-vmware-dot-com>
+>>>>>>>    */
+>>>>>>>   -#include <drm/ttm/ttm_bo_driver.h>
+>>>>>>> +#include <drm/ttm/ttm_device.h>
+>>>>>>>   #include <drm/ttm/ttm_placement.h>
+>>>>>>> +#include <drm/ttm/ttm_range_manager.h>
+>>>>>>> +#include <drm/ttm/ttm_bo_api.h>
+>>>>>>>   #include <drm/drm_mm.h>
+>>>>>>>   #include <linux/slab.h>
+>>>>>>>   #include <linux/spinlock.h>
+>>>>>>> -#include <linux/module.h>
+>>>>>>>     /*
+>>>>>>>    * Currently we use a spinlock for the lock, but a mutex *may* be
+>>>>>>> @@ -60,8 +61,8 @@ static int ttm_range_man_alloc(struct 
+>>>>>>> ttm_resource_manager *man,
+>>>>>>>                      struct ttm_resource *mem)
+>>>>>>>   {
+>>>>>>>       struct ttm_range_manager *rman = to_range_manager(man);
+>>>>>>> +    struct ttm_range_mgr_node *node;
+>>>>>>>       struct drm_mm *mm = &rman->mm;
+>>>>>>> -    struct drm_mm_node *node;
+>>>>>>>       enum drm_mm_insert_mode mode;
+>>>>>>>       unsigned long lpfn;
+>>>>>>>       int ret;
+>>>>>>> @@ -70,7 +71,7 @@ static int ttm_range_man_alloc(struct 
+>>>>>>> ttm_resource_manager *man,
+>>>>>>>       if (!lpfn)
+>>>>>>>           lpfn = man->size;
+>>>>>>>   -    node = kzalloc(sizeof(*node), GFP_KERNEL);
+>>>>>>> +    node = kzalloc(struct_size(node, mm_nodes, 1), GFP_KERNEL);
+>>>>>>
+>>>>>> I'm still a bit confused  about the situation where a driver 
+>>>>>> wants to attach private data to a struct ttm_resource without 
+>>>>>> having to re-implement its own range manager?
+>>>>>>
+>>>>>> Could be cached sg-tables, list of GPU bindings etc. Wouldn't 
+>>>>>> work with the above unless we have a void *driver_private member 
+>>>>>> on the struct ttm_resource. Is that the plan going forward here? 
+>>>>>> Or that the driver actually does the re-implementation?
+>>>>>
+>>>>> I don't really understand your concern here. The basic idea is 
+>>>>> that drivers use ttm_resource as a base class for their own 
+>>>>> implementation.
+>>>>>
+>>>>> See for example how nouveau does that:
+>>>>>
+>>>>> struct nouveau_mem {
+>>>>>         struct ttm_resource base;
+>>>>>         struct nouveau_cli *cli;
+>>>>>         u8 kind;
+>>>>>         u8 comp;
+>>>>>         struct nvif_mem mem;
+>>>>>         struct nvif_vma vma[2];
+>>>>> };
+>>>>>
+>>>>> The range manager is helping driver specific resource managers 
+>>>>> which want to implement something drm_mm_nodes based. E.g. 
+>>>>> amdgpu_gtt_mgr and amdgpu_vram_mgr, but it can also be used stand 
+>>>>> alone.
+>>>>>
+>>>>> The ttm_range_mgr_node can then be used as base class for this 
+>>>>> functionality. I already want to move some more code from 
+>>>>> amdgpu_vram_mgr.c into the range manager, but that is just minor 
+>>>>> cleanup work.
+>>>>>
+>>>> Sure but if you embed a ttm_range_mgr_node in your struct 
+>>>> i915_resource, and wanted to use the ttm range manager for it, it 
+>>>> would allocate a struct ttm_range_mgr_node rather than a struct 
+>>>> i915_resource? Or am I missing something?
 >>>
->>> This is a huge series and it is completely unrealistic to merge all of
->>> these patches at once. Fortunately I believe we can break down the
->>> series into different merges:
->>>
->>> 1. Merge Chris Wilson's patches. These have already been reviewed
->>> upstream and I fully agree with these patches as a precursor to GuC
->>> submission.
->>>
->>> 2. Update to GuC 60.1.2. These are largely Michal's patches.
->>>
->>> 3. Turn on GuC/HuC auto mode by default.
->>>
->>> 4. Additional patches needed to support GuC submission. This is any
->>> patch not covered by 1-3 in the first 34 patches. e.g. 'Engine relative
->>> MMIO'
->>>
->>> 5. GuC submission support. Patches number 35+. These all don't have to
->>> merge at once though as we don't actually allow GuC submission until the
->>> last patch of this series.
+>>> Yes, that's the general idea I'm targeting for. I'm just not fully 
+>>> there yet.
 >>
->> For the GuC backend/submission part only - it seems to me none of my review
->> comments I made in December 2019 have been implemented. At that point I
-> 
-> I wouldn't say none of the fixes have done, lots have just not
-> everything you wanted.
-> 
->> stated, and this was all internally at the time mind you, that I do not
->> think the series is ready and there were several high level issues that
->> would need to be sorted out. I don't think I gave my ack or r-b back then
->> and the promise was a few things would be worked on post (internal) merge.
->> That was supposed to include upstream refactoring to enable GuC better
->> slotting in as a backed. Fast forward a year and a half later and the only
->> progress we had in this area has been deleted.
+>> Hmm, I don't fully understand the reply, I described a buggy scenario 
+>> and you replied that's what we're targeting for?
+>
+> Ok, I don't seem to understand what you mean here. What is buggy on that?
+
+The buggy thing I'm trying to describe is a scenario where I want to 
+have a struct i915_ttm_resource which embeds a struct 
+ttm_range_mgr_node, but there is no way I can tell the generic ttm range 
+manager to allocate a struct i915_ttm_resource instead of a struct 
+ttm_range_mgr_node.
+
+So what I want to be able to do: I have
+
+struct i915_ttm_resource {
+         struct i915_gpu_bindings gpu_bindings;
+         struct ttm_range_mgr_node range_node;
+};
+
+Now I want to be able to share common code as much as possible and use 
+the generic ttm_range_manager here. How would I go about doing that with 
+the proposed changes?
+
+Thanks,
+
+Thomas
+
+
+
+
+
+
+
+
+
+
+>
+>> I assume you mean we're going to get an init() method for the range 
+>> manager, and a destroy method for the struct ttm_resource?
+>
+> Well the ttm_range_manager is just another component implementing some 
+> functionality by extending the ttm_resource object.
+>
+> We currently don't have a destroy function for ttm_resource object 
+> because that isn't necessary at the moment. But I'm probably going to 
+> add one at some point.
+>
+> Regards,
+> Christian.
+>
 >>
->>  From the top of my head, and having glanced the series as posted:
+>> Thanks,
 >>
->>   * Self-churn factor in the series is too high.
-> 
-> Not sure what you mean by this? The patches have been reworked
-> internally too much?
-
-No, I meant series adds and removes, changes the same code a bit much 
-which makes it harder to review. It is much easier when the flow is 
-logical and typical, where it starts with refactoring, generalising, 
-building infrastructure and then plugging bits in, than it is to review 
-patches which add stuff which then get removed or changed significantly 
-a few patches down the line.
-
->>   * Patch ordering issues.
-> 
-> We are going to clean up some of the ordering as these 97 patches are
-> posted in smaller mergeable series but at the end of the day this is a
-> bit of a bikeshed. GuC submission can't be turned until patch 97 so IMO
-> it really isn't all that big of a deal the order of which patches before
-> that land as we are not breaking anything.
-
-Yes some leeway for ordering is fine.
-
->>   * GuC context state machine is way too dodgy to have any confidence it can
->> be read and race conditions understood.
-> 
-> I know you don't really like the state machine but no other real way to
-> not have DoS on resources and no real way to fairly distribute guc_ids
-> without it. I know you have had other suggestions here but none of your
-> suggestions either will work or they are no less complicated in the end.
-> 
-> For what it is worth, the state machine will get simplified when we hook
-> into the DRM scheduler as won't have to deal with submitting from IRQ
-> contexts in the backend or having more than 1 request in the backend at
-> a time.
-
-Dunno. A mix of self-churn, locks, inconsistent naming, verbosity and 
-magic makes it super hard to review. States in functions like 
-guc_context_ban, guc_context_sched_disable, guc_context_block, .. I find 
-it impossible to follow what's going on. Some under lock, some outside, 
-jumps, returns, add magic two .. Perhaps it is just me so wait and see 
-what other reviewers will think.
-
->>   * Context pinning code with it's magical two adds, subtract and cmpxchg is
->> dodgy as well.
-> 
-> Daniele tried to remove this and it proved quite difficult + created
-> even more races in the backend code. This was prior to the pre-pin and
-> post-unpin code which makes this even more difficult to fix as I believe
-> these functions would need to be removed first. Not saying we can't
-> revisit this someday but I personally really like it - it is a clever
-> way to avoid reentering the pin / unpin code while asynchronous things
-> are happening rather than some complex locking scheme. Lastly, this code
-> has proved incredibly stable as I don't think we've had to fix a single
-> thing in this area since we've been using this code internally.
-
-Pretty much same as above. The code like:
-
-static inline void __intel_context_unpin(struct intel_context *ce)
-{
-	if (!ce->ops->sched_disable) {
-		__intel_context_do_unpin(ce, 1);
-	} else {
-		while (!atomic_add_unless(&ce->pin_count, -1, 1)) {
-			if (atomic_cmpxchg(&ce->pin_count, 1, 2) == 1) {
-				ce->ops->sched_disable(ce);
-				break;
-			}
-		}
-	}
-}
-
-That's pretty much impenetrable for me and the only thing I can think of 
-here is **ALARM** must be broken! See what others think..
-
->>   * Kludgy way of interfacing with rest of the driver instead of refactoring
->> to fit (idling, breadcrumbs, scheduler, tasklets, ...).
+>> Thomas
 >>
-> 
-> Idling and breadcrumbs seem clean to me. Scheduler + tasklet are going
-> away once the DRM scheduler lands. No need rework those as we are just
-> going to rework this again.
-
-Well today I read the breadcrumbs patch and there is no way that's 
-clean. It goes and creates one object per engine, then deletes them, 
-replacing with GuC special one. All in the same engine setup. The same 
-pattern of bolting on the GuC repeats too much for my taste.
-
->> Now perhaps the latest plan is to ignore all these issues and still merge,
->> then follow up with throwing it away, mostly or at least largely, in which
->> case there isn't any point really to review the current state yet again. But
->> it is sad that we got to this state. So just for the record - all this was
->> reviewed in Nov/Dec 2019. By me among other folks and I at least deemed it
->> not ready in this form.
 >>
-> 
-> I personally don't think it is really in that bad of shape. The fact
-> that I could put together a PoC more or less fully integrating this
-> backend into the DRM scheduler within a few days I think speaks to the
-> quality and flexablitiy of this backend compared to execlists.
-
-Or that you are much more familiar with it. Anyway, it's not the line of 
-argument I think we should continue.
-
-Regards,
-
-Tvrtko
