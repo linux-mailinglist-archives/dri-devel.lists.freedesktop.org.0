@@ -1,53 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E535A3989E0
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Jun 2021 14:43:52 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D8483989F8
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Jun 2021 14:46:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 58F7C6EC7F;
-	Wed,  2 Jun 2021 12:43:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 039026EC87;
+	Wed,  2 Jun 2021 12:46:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x533.google.com (mail-ed1-x533.google.com
- [IPv6:2a00:1450:4864:20::533])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BF23F6EC7F
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Jun 2021 12:43:47 +0000 (UTC)
-Received: by mail-ed1-x533.google.com with SMTP id w21so2647943edv.3
- for <dri-devel@lists.freedesktop.org>; Wed, 02 Jun 2021 05:43:47 -0700 (PDT)
+Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com
+ [IPv6:2a00:1450:4864:20::62c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 25B506EC87
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Jun 2021 12:46:19 +0000 (UTC)
+Received: by mail-ej1-x62c.google.com with SMTP id k7so3598154ejv.12
+ for <dri-devel@lists.freedesktop.org>; Wed, 02 Jun 2021 05:46:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:content-transfer-encoding:in-reply-to;
- bh=SCrza2GnMYdu4yYdzQta6JoSlzzd1YIwTbO5bkeqm5M=;
- b=DzMhYwIcZelNI0qgs60nf76h0/HY2xG0D0VY2JSDC30WLCSMkOwTMwGIv/ZuVWhAYT
- nb8jKhRo3o3NrqvJDQry8fCFJK++ZR8aRdEIdyMza53QU4dYnP5AsBN7ixs4WfMqKa4b
- W9xDvaosfPZc0oJjG2HABqf5loCOMYK/iR1R4=
+ bh=pNALq4jdCTj6Js/olk/gx6O79vbcdYCnpBmr6bW8H1I=;
+ b=LsAr8OXv2IONBAythYdlK4yom3iqj7MWVWAXgg7MMWZQ8w6uqEeQ0LI73F0PyhPako
+ OqYLTvVEJyZkmWx/knahYgsEavSntmAStfJi8B1ABpvMpU4e8zcdEkEPO3FNkfmRxbKi
+ vU+YbSoD+NEmeF9sKaR9PH8RDa4NqfXCB2UeM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:content-transfer-encoding
  :in-reply-to;
- bh=SCrza2GnMYdu4yYdzQta6JoSlzzd1YIwTbO5bkeqm5M=;
- b=hbt5tnv1AxsBt5fgiu2z+NrvyqRc6wfbyYQwsA3+xhbZNf9uAmlnhQR4WywN9ToPTT
- eHED7/iUNoD9jy6tS1zOixtWL4ojzSH8/k46iOXq2EuIliGzO9XEsn0+ryqmMMOTFwsg
- cPQ99SZhyFRAVRFQl693LWvxAGP0GCdaf9Moub4PCDRikvK9OPXjpTqfH0cyeqK+oAql
- LvEDL7qdJm5q6kJlnQqAeNzueLV1F008skvrVI2sFfI67ahlUGR+FfJ4nTVp2hzuMKup
- WyrB5BBQ8rO0HT6fgNZhj3tF/P8PvZSp/zVprmfwl3c9m3rhdymKJ4Vi9lBUAjMSoTJ5
- kTig==
-X-Gm-Message-State: AOAM530AuEtilBVqsiR0qyUkVty1D/nQ6RREdOSDwiHa+uiLIE6nqi+B
- h1Oxqri8eAKb5vin9NX3aNDFKq7gWR9w+Q==
-X-Google-Smtp-Source: ABdhPJzY8ec7DOnV3ysuEgYQkVfiqTcd/RA6oCnRItdE8Sh6U8OATh522CQ4TOGQUeWTW4Uqfb34kw==
-X-Received: by 2002:a50:bb6a:: with SMTP id y97mr10252702ede.345.1622637826433; 
- Wed, 02 Jun 2021 05:43:46 -0700 (PDT)
+ bh=pNALq4jdCTj6Js/olk/gx6O79vbcdYCnpBmr6bW8H1I=;
+ b=IbqBSW6UgJcW/szgMenPicTAy4rKnqWa65U2CiHniNkF/t3CU4rzGrFD48m4m3z7Km
+ D4REpnvLzuzJ01nPLeWGuXeIycK8BsWYGlVQ6DQpdpYj8cd52PkX7mopo5OYQVevBHNj
+ ycQs7LkrS2gZAWpPu81ey6F2btxxkatizEoPweYOHqRsAXFYHc6/CAh62xonpK8O+gqc
+ 1FqzHDShSgPkD+kLW+Fl7pxCjF6AYDHx++ZzINcy25YcHNLhSHj/bvKlyEZ2uvbUH4+y
+ RpoO0Jb1SfIQboQ6X4qpMgPa46jjVu+oMiECK97O0kui5Agpy0x9f8qje/wVXNLNvkF9
+ 0L/Q==
+X-Gm-Message-State: AOAM533TwnZfKK+32B9odG57j2sFzm+s2CArXGtClnGq3ncnhk/kFyRs
+ cp64L/DAexj8yKrVmkgpa/Efhg==
+X-Google-Smtp-Source: ABdhPJxm74OROdUxhqTMpEOxD04VkvQjxTzYxeaqG1qkAsfD8IbXID6Ti8ULDfKg/OtOpEjnokXBjQ==
+X-Received: by 2002:a17:906:b317:: with SMTP id
+ n23mr16718647ejz.324.1622637977823; 
+ Wed, 02 Jun 2021 05:46:17 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id l8sm1283244edt.69.2021.06.02.05.43.45
+ by smtp.gmail.com with ESMTPSA id v21sm1272156edt.48.2021.06.02.05.46.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 02 Jun 2021 05:43:45 -0700 (PDT)
-Date: Wed, 2 Jun 2021 14:43:44 +0200
+ Wed, 02 Jun 2021 05:46:17 -0700 (PDT)
+Date: Wed, 2 Jun 2021 14:46:15 +0200
 From: Daniel Vetter <daniel@ffwll.ch>
 To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>
 Subject: Re: [PATCH 4/7] dma-buf: rename and cleanup dma_resv_get_excl
-Message-ID: <YLd9AEupJZMeiG7L@phenom.ffwll.local>
+Message-ID: <YLd9l0QkgFXTOmtP@phenom.ffwll.local>
 References: <20210602111714.212426-1-christian.koenig@amd.com>
  <20210602111714.212426-4-christian.koenig@amd.com>
 MIME-Version: 1.0
@@ -82,14 +83,6 @@ On Wed, Jun 02, 2021 at 01:17:11PM +0200, Christian König wrote:
 > critical sections.
 > 
 > Signed-off-by: Christian König <christian.koenig@amd.com>
-
-I'd call this dma_resv_exlusive_fence, since without that it's a bit close
-to dma_resv_make_exclusive or something like that. But this is definitely
-better than the previous pointer deref in a "I'm totally getting you a
-full reference" trenchcoat thing.
-
-Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-
 > ---
 >  drivers/dma-buf/dma-buf.c                |  4 ++--
 >  drivers/dma-buf/dma-resv.c               | 10 +++++-----
@@ -363,6 +356,15 @@ Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 > - * hold a RCU read side lock.
 > + * Returns the exclusive fence (if any). Caller must either hold the objects
 > + * lock or the rcu read side lock.
+
+For some kerneldoc goodies, please spell this out with "object lock
+through dma_resv_lock() or the RCU read side lock through rcu_read_lock(),
+or one of the variants of each".
+
+I just like a to throw around a lot of hyperlinks around to let people who
+read docs navigate to all the pieces easily.
+-Daniel
+
 >   *
 >   * RETURNS
 >   * The exclusive fence or NULL
