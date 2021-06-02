@@ -2,55 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F60E397E77
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Jun 2021 04:09:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A572397E7B
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Jun 2021 04:10:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CA73C6EB51;
-	Wed,  2 Jun 2021 02:09:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 998EA6EB55;
+	Wed,  2 Jun 2021 02:10:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x32e.google.com (mail-ot1-x32e.google.com
- [IPv6:2607:f8b0:4864:20::32e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8183A6EB51;
- Wed,  2 Jun 2021 02:09:17 +0000 (UTC)
-Received: by mail-ot1-x32e.google.com with SMTP id
- 36-20020a9d0ba70000b02902e0a0a8fe36so1136126oth.8; 
- Tue, 01 Jun 2021 19:09:17 -0700 (PDT)
+Received: from mail-oi1-x235.google.com (mail-oi1-x235.google.com
+ [IPv6:2607:f8b0:4864:20::235])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9848B6EB52;
+ Wed,  2 Jun 2021 02:10:39 +0000 (UTC)
+Received: by mail-oi1-x235.google.com with SMTP id x15so1249523oic.13;
+ Tue, 01 Jun 2021 19:10:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=YPBYvPlS0K1zlhnzHZtyafJWkRJauflA9nW2uiGpd1c=;
- b=LwttXAwFxPamIN3ybe5PExKaFx+iTEj0k814aFbA8BkTwE5PAnTlajOEaknKl/aA+8
- yee5FvDsp1o2lf4ncU89MhI3kehAq6aSj2KpMnNU0QtBIkZkhah1Kmi31JjU4ZPsh8Bm
- jyTZs2j0lQ0XnbvL1EaYCvIu9dQpFVeE9vSMXFqPzUzYiIjak67cu3WwDoyq6g+nY0X6
- eWe/F3zW2h47vigLnjb5uKEudJMC1MIuUtZFcIwURcn+jVsdlYiztExhqN8L8GAruWXc
- ibyLW+uPwMMKqlJhFDdtJ8nBU13u4wsJ1zmo5mY/P4MHv/oi3VNAGPPwoiTt5DqTJGYV
- 97fA==
+ :cc:content-transfer-encoding;
+ bh=NcO1usTOKbaR3rWsTNsRVfXwWTgve8HOLpfInMO7jOg=;
+ b=stwjulCJ/ezQ81/3ev84sUD1Herx16tkPjrGfAC4klYBObtf4nW6dsCWcWEVmHOEQM
+ 9C/nt8fTtGL0ylO2WX3SHUzzQert+vvwvA1QE3RoRzzYgnOh9LThqXneewVZQJzmIe9A
+ +pfn5eBJDHpeKyoapttvmYrhPXW2eSDA6inwlTagJ6KipEXaCKbasMUncoTBEDdPuB7v
+ 7+gC2PHJIyjhqklE0wodXnQ1AY5h/HuczYbrLoYZ0fMcFZipJzI96klhjGQQxgWdFmpx
+ QCW0M+A3mIArXSbsQaNA2V+7NRvJaZ0juQtoyO9+BP0FSPRo+m0ot+LvdoY3E42/Lgau
+ 7i+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=YPBYvPlS0K1zlhnzHZtyafJWkRJauflA9nW2uiGpd1c=;
- b=FMWhM+Sx7DdQmWDDEK7+DlfvqAaFY1LPAux5HMVJsXzHTEgUfG1WNKvxAuHOKPmkiN
- c6Io8tw8rvjm7AuEWTlGXyE1AWTnYXopfb3ayRudfgz2ZheXwezbqwkoC+ONpHaCTnV9
- 2qtECytd3x1nrH5CusJXYcYi9X0qj8g9NBeQ/Hglw8U+yVdXEWK63iwjPYlQ0IAhS/ZN
- FbGtfErqeFaRuliqAk5Fi1MdI5TJ06mqdw04sn1BInHmiqiE3SL6DQChJtvKviT8hvdR
- wj8hiiQeuZ05sQK7w1s8t0+2STSvVokZHUBhaBZuqeP94mTK2860rHHz/v63QBgfrBMx
- oQ8A==
-X-Gm-Message-State: AOAM531QYxddPy2hcw0KPLc2x1cWxXgMBcHMmvzw8oiJJM6fs6SXds+J
- uN8UyyIIb+cINBzbyi2z22umqa31tGuOKOLLy09TuflT
-X-Google-Smtp-Source: ABdhPJyah/aLlIeg5qBASYFezB7EkSuhr9yCyEIhk2VbI36rcmTm8tf7w9++WXYWSRbHJEbh6D1TRWxRXAiRiVYNDIc=
-X-Received: by 2002:a9d:57cd:: with SMTP id q13mr24139206oti.23.1622599756908; 
- Tue, 01 Jun 2021 19:09:16 -0700 (PDT)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=NcO1usTOKbaR3rWsTNsRVfXwWTgve8HOLpfInMO7jOg=;
+ b=RuOICVupnodear++q9OZXW0nynxJLZmvV1B9oMImSGsaLEiu50rGf7949jx7WRRnUt
+ kvdT0Lb4siTdYDj3XmPDl6Rg/0dr+3WKI0nfhFwEfJEy0FrH9kLa1TEhpQBdbkAmMePQ
+ PjqpaxKgc4LM9UJmMWEeMniiq/8EFWDopIlQLMEV0TJSYRzvsuNa74n0ioXJUkW/UOms
+ JrudN2GliMusKCl3DoTDCU6ZkMtYtKpkWqMFk/GiD7riHjZsvMIa+kjub+kzbUgt8/KE
+ fg7/9EBtH4vzeAMJFDYAh7y2sQgy/N0OoIEzsWKYoFANtOjEk6gKT9YSNWz7GYt6+WQL
+ qPyg==
+X-Gm-Message-State: AOAM532lWPBc3F8PkJvBpr5tCMkBiatcdvvmz6tJbpo9D7OeDjgoSG5M
+ MxvV9By16ZuYpfjAuLAF21EWoRSzFdSuJDDBhV67J2TZ
+X-Google-Smtp-Source: ABdhPJz5WcC84uOEnyxWV+Hz6xl4AOEOsIx+R3/ZGWzYiqB/HKGc6k5jSWbYXvnBwF1Su+E93seRlnSt/54viidHYSY=
+X-Received: by 2002:a05:6808:1592:: with SMTP id
+ t18mr19934254oiw.123.1622599838843; 
+ Tue, 01 Jun 2021 19:10:38 -0700 (PDT)
 MIME-Version: 1.0
-References: <1622453406-50092-1-git-send-email-zhangshaokun@hisilicon.com>
-In-Reply-To: <1622453406-50092-1-git-send-email-zhangshaokun@hisilicon.com>
+References: <20210601081400.123089-1-libaokun1@huawei.com>
+In-Reply-To: <20210601081400.123089-1-libaokun1@huawei.com>
 From: Alex Deucher <alexdeucher@gmail.com>
-Date: Tue, 1 Jun 2021 22:09:05 -0400
-Message-ID: <CADnq5_MG3=KRa-5EBEKbixaz9LHWZjhmbPD5yQ9bKDky0RwOcw@mail.gmail.com>
-Subject: Re: [PATCH] drm/amd/display: Remove the redundant initialization of
- local variable
-To: Shaokun Zhang <zhangshaokun@hisilicon.com>
+Date: Tue, 1 Jun 2021 22:10:27 -0400
+Message-ID: <CADnq5_NuuogmYcmTDofwt0txUHJhx1EJvseeUWwQdq39z74MCw@mail.gmail.com>
+Subject: =?UTF-8?B?UmU6IFtQQVRDSCAtbmV4dF0gZHJtL2FtZC9kaXNwbGF5OiBmaXggd2FybmluZzog4oCYdQ==?=
+ =?UTF-8?B?cGRhdGVfZHNjX2NhcHPigJkgYW5kIOKAmGFwcGx5X2RzY19wb2xpY3lfZm9yX3N0cmVhbeKAmSBkZWZp?=
+ =?UTF-8?B?bmVkIGJ1dCBub3QgdXNlZA==?=
+To: Baokun Li <libaokun1@huawei.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,107 +66,112 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Leo Li <sunpeng.li@amd.com>, Alex Deucher <alexander.deucher@amd.com>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>
+Cc: Wayne Lin <Wayne.Lin@amd.com>, "Leo \(Sunpeng\) Li" <sunpeng.li@amd.com>,
+ YueHaibing <yuehaibing@huawei.com>, Qingqing Zhuo <qingqing.zhuo@amd.com>,
+ xinhui pan <Xinhui.Pan@amd.com>, "Siqueira,
+ Rodrigo" <Rodrigo.Siqueira@amd.com>, LKML <linux-kernel@vger.kernel.org>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>, "Kazlauskas,
+ Nicholas" <nicholas.kazlauskas@amd.com>, Dave Airlie <airlied@linux.ie>,
+ Aurabindo Pillai <aurabindo.pillai@amd.com>,
+ Wei Yongjun <weiyongjun1@huawei.com>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>, "Deucher,
+ Alexander" <alexander.deucher@amd.com>, yu kuai <yukuai3@huawei.com>,
+ yangjihong1@huawei.com, Nikola Cornij <nikola.cornij@amd.com>,
+ Christian Koenig <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Applied.  Thanks!
 
-Alex
-
-On Mon, May 31, 2021 at 5:30 AM Shaokun Zhang
-<zhangshaokun@hisilicon.com> wrote:
+On Tue, Jun 1, 2021 at 4:04 AM Baokun Li <libaokun1@huawei.com> wrote:
 >
-> Local variable 'i' and 'j' will be initialized in the for loop, so
-> remove the redundant initialization.
+> Fixes gcc '-Wunused-function' warning:
 >
-> Cc: Harry Wentland <harry.wentland@amd.com>
-> Cc: Leo Li <sunpeng.li@amd.com>
-> Cc: Alex Deucher <alexander.deucher@amd.com>
-> Signed-off-by: Shaokun Zhang <zhangshaokun@hisilicon.com>
+> =E2=80=98update_dsc_caps=E2=80=99 and =E2=80=98apply_dsc_policy_for_strea=
+m=E2=80=99 are only used
+> if 'CONFIG_DRM_AMD_DC_DCN' is defined,
+>
+> however, it's defined even if 'CONFIG_DRM_AMD_DC_DCN' is not defined.
+> Thus gcc will report following warning
+> if 'CONFIG_DRM_AMD_DC_DCN' is not defined:
+>
+> drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:5572:13: warn=
+ing:
+> =E2=80=98apply_dsc_policy_for_stream=E2=80=99 defined but not used [-Wunu=
+sed-function]
+>
+> drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:5556:13: warn=
+ing:
+> =E2=80=98update_dsc_caps=E2=80=99 defined but not used [-Wunused-function=
+]
+>
+> Thus move the definition of =E2=80=98update_dsc_caps=E2=80=99 and
+> =E2=80=98apply_dsc_policy_for_stream=E2=80=99 inside define macro to fix =
+it.
+>
+> Signed-off-by: Baokun Li <libaokun1@huawei.com>
 > ---
->  drivers/gpu/drm/amd/display/dc/core/dc.c | 17 ++++++++---------
->  1 file changed, 8 insertions(+), 9 deletions(-)
+>  drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 6 ++----
+>  1 file changed, 2 insertions(+), 4 deletions(-)
 >
-> diff --git a/drivers/gpu/drm/amd/display/dc/core/dc.c b/drivers/gpu/drm/amd/display/dc/core/dc.c
-> index 4713f09bcbf1..e4f2a2d3a819 100644
-> --- a/drivers/gpu/drm/amd/display/dc/core/dc.c
-> +++ b/drivers/gpu/drm/amd/display/dc/core/dc.c
-> @@ -304,7 +304,7 @@ bool dc_stream_adjust_vmin_vmax(struct dc *dc,
->                 struct dc_stream_state *stream,
->                 struct dc_crtc_timing_adjust *adjust)
->  {
-> -       int i = 0;
-> +       int i;
->         bool ret = false;
+> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/=
+gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> index f0adfda32213..e0af394103aa 100644
+> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> @@ -5553,6 +5553,7 @@ static void dm_enable_per_frame_crtc_master_sync(st=
+ruct dc_state *context)
+>         }
+>  }
 >
->         stream->adjust.v_total_max = adjust->v_total_max;
-> @@ -332,7 +332,7 @@ bool dc_stream_get_crtc_position(struct dc *dc,
->  {
->         /* TODO: Support multiple streams */
->         const struct dc_stream_state *stream = streams[0];
-> -       int i = 0;
-> +       int i;
->         bool ret = false;
->         struct crtc_position position;
+> +#if defined(CONFIG_DRM_AMD_DC_DCN)
+>  static void update_dsc_caps(struct amdgpu_dm_connector *aconnector,
+>                                                         struct dc_sink *s=
+ink, struct dc_stream_state *stream,
+>                                                         struct dsc_dec_dp=
+cd_caps *dsc_caps)
+> @@ -5560,12 +5561,10 @@ static void update_dsc_caps(struct amdgpu_dm_conn=
+ector *aconnector,
+>         stream->timing.flags.DSC =3D 0;
 >
-> @@ -539,7 +539,7 @@ void dc_stream_set_dyn_expansion(struct dc *dc, struct dc_stream_state *stream,
->                 enum dc_dynamic_expansion option)
->  {
->         /* OPP FMT dyn expansion updates*/
-> -       int i = 0;
-> +       int i;
->         struct pipe_ctx *pipe_ctx;
+>         if (aconnector->dc_link && sink->sink_signal =3D=3D SIGNAL_TYPE_D=
+ISPLAY_PORT) {
+> -#if defined(CONFIG_DRM_AMD_DC_DCN)
+>                 dc_dsc_parse_dsc_dpcd(aconnector->dc_link->ctx->dc,
+>                                       aconnector->dc_link->dpcd_caps.dsc_=
+caps.dsc_basic_caps.raw,
+>                                       aconnector->dc_link->dpcd_caps.dsc_=
+caps.dsc_branch_decoder_caps.raw,
+>                                       dsc_caps);
+> -#endif
+>         }
+>  }
 >
->         for (i = 0; i < MAX_PIPES; i++) {
-> @@ -597,7 +597,7 @@ void dc_stream_set_dither_option(struct dc_stream_state *stream,
+> @@ -5578,7 +5577,6 @@ static void apply_dsc_policy_for_stream(struct amdg=
+pu_dm_connector *aconnector,
 >
->  bool dc_stream_set_gamut_remap(struct dc *dc, const struct dc_stream_state *stream)
->  {
-> -       int i = 0;
-> +       int i;
->         bool ret = false;
->         struct pipe_ctx *pipes;
+>         link_bandwidth_kbps =3D dc_link_bandwidth_kbps(aconnector->dc_lin=
+k,
+>                                                         dc_link_get_link_=
+cap(aconnector->dc_link));
+> -#if defined(CONFIG_DRM_AMD_DC_DCN)
+>         /* Set DSC policy according to dsc_clock_en */
+>         dc_dsc_policy_set_enable_dsc_when_not_needed(
+>                 aconnector->dsc_settings.dsc_force_enable =3D=3D DSC_CLK_=
+FORCE_ENABLE);
+> @@ -5609,8 +5607,8 @@ static void apply_dsc_policy_for_stream(struct amdg=
+pu_dm_connector *aconnector,
 >
-> @@ -614,7 +614,7 @@ bool dc_stream_set_gamut_remap(struct dc *dc, const struct dc_stream_state *stre
+>         if (stream->timing.flags.DSC && aconnector->dsc_settings.dsc_bits=
+_per_pixel)
+>                 stream->timing.dsc_cfg.bits_per_pixel =3D aconnector->dsc=
+_settings.dsc_bits_per_pixel;
+> -#endif
+>  }
+> +#endif
 >
->  bool dc_stream_program_csc_matrix(struct dc *dc, struct dc_stream_state *stream)
->  {
-> -       int i = 0;
-> +       int i;
->         bool ret = false;
->         struct pipe_ctx *pipes;
->
-> @@ -640,8 +640,7 @@ void dc_stream_set_static_screen_params(struct dc *dc,
->                 int num_streams,
->                 const struct dc_static_screen_params *params)
->  {
-> -       int i = 0;
-> -       int j = 0;
-> +       int i, j;
->         struct pipe_ctx *pipes_affected[MAX_PIPES];
->         int num_pipes_affected = 0;
->
-> @@ -896,7 +895,7 @@ static void disable_all_writeback_pipes_for_stream(
->  static void apply_ctx_interdependent_lock(struct dc *dc, struct dc_state *context,
->                                           struct dc_stream_state *stream, bool lock)
->  {
-> -       int i = 0;
-> +       int i;
->
->         /* Checks if interdependent update function pointer is NULL or not, takes care of DCE110 case */
->         if (dc->hwss.interdependent_update_lock)
-> @@ -1156,7 +1155,7 @@ static void enable_timing_multisync(
->                 struct dc *dc,
->                 struct dc_state *ctx)
->  {
-> -       int i = 0, multisync_count = 0;
-> +       int i, multisync_count = 0;
->         int pipe_count = dc->res_pool->pipe_count;
->         struct pipe_ctx *multisync_pipes[MAX_PIPES] = { NULL };
->
+>  static struct drm_display_mode *
+>  get_highest_refresh_rate_mode(struct amdgpu_dm_connector *aconnector,
 > --
-> 2.7.4
+> 2.31.1
 >
