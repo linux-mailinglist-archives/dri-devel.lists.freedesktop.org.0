@@ -2,46 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C093C398953
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Jun 2021 14:21:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4239F39899B
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Jun 2021 14:33:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 064136E96C;
-	Wed,  2 Jun 2021 12:21:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F37A56EC5F;
+	Wed,  2 Jun 2021 12:33:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0302A6E96C
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Jun 2021 12:21:21 +0000 (UTC)
-IronPort-SDR: Ekc3eAUp6nFRDL2v2IPn8WkG5dfdlwE29Hcby5bMrtQYwqOpGH/W9GEZm+SuYg0UmItsjzL90O
- eGHZRCKxXDrg==
-X-IronPort-AV: E=McAfee;i="6200,9189,10002"; a="184141804"
-X-IronPort-AV: E=Sophos;i="5.83,242,1616482800"; d="scan'208";a="184141804"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Jun 2021 05:21:21 -0700
-IronPort-SDR: HzAEudMoW43W49xUpozFZlAxPkXqNr1Z+ke2CXNHGzS8Vl++qh31PPy8ZmATFkE4UQBea9G+73
- Ddi4u5oCk+nA==
-X-IronPort-AV: E=Sophos;i="5.83,242,1616482800"; d="scan'208";a="399705606"
-Received: from ibanaga-mobl.ger.corp.intel.com (HELO [10.249.254.50])
- ([10.249.254.50])
- by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Jun 2021 05:21:19 -0700
-Subject: Re: [PATCH] drm/ttm: nuke VM_MIXEDMAP on BO mappings
+Received: from pio-pvt-msa2.bahnhof.se (pio-pvt-msa2.bahnhof.se [79.136.2.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 93E4489F4A
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Jun 2021 12:33:23 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by pio-pvt-msa2.bahnhof.se (Postfix) with ESMTP id DC5C940366;
+ Wed,  2 Jun 2021 14:33:21 +0200 (CEST)
+Authentication-Results: pio-pvt-msa2.bahnhof.se; dkim=pass (1024-bit key;
+ unprotected) header.d=shipmail.org header.i=@shipmail.org header.b="W9ittKG2";
+ dkim-atps=neutral
+X-Virus-Scanned: Debian amavisd-new at bahnhof.se
+X-Spam-Flag: NO
+X-Spam-Score: -2.717
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.717 tagged_above=-999 required=6.31
+ tests=[BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.618,
+ URIBL_BLOCKED=0.001] autolearn=ham autolearn_force=no
+Received: from pio-pvt-msa2.bahnhof.se ([127.0.0.1])
+ by localhost (pio-pvt-msa2.bahnhof.se [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id BNIVvHyoXX2C; Wed,  2 Jun 2021 14:33:20 +0200 (CEST)
+Received: by pio-pvt-msa2.bahnhof.se (Postfix) with ESMTPA id 24E943F9F1;
+ Wed,  2 Jun 2021 14:33:19 +0200 (CEST)
+Received: from [192.168.0.209] (unknown [192.55.54.42])
+ by mail1.shipmail.org (Postfix) with ESMTPSA id 0250C36012A;
+ Wed,  2 Jun 2021 14:33:17 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=shipmail.org; s=mail;
+ t=1622637199; bh=baetTJtO7XG0Z2p5+jkL3rtWUCRjtn5lN4KdG1TKdeY=;
+ h=Subject:To:References:From:Date:In-Reply-To:From;
+ b=W9ittKG2OJUUz/qL9kuQcYlkg/GaEkHlUTD6TLpTnBhWvSS+DtTuhG29I323lbs/o
+ C7EPQvatnhe3wQEECB/fM1AxX6+38DWpDuFTq8OULcpnMLeUUCqeTygczVVdEmeTun
+ zlGFTKUbHUMB5yjNfPOcFuKutRabck2QgvUxB4Cg=
+Subject: Re: [PATCH 02/10] drm/ttm: flip over the range manager to self
+ allocated nodes
 To: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
- =?UTF-8?Q?Thomas_Hellstr=c3=b6m_=28Intel=29?= <thomas_os@shipmail.org>,
- daniel@ffwll.ch, jgg@ziepe.ca
-References: <20210602083013.1561-1-christian.koenig@amd.com>
- <54c5dc94-b367-70dd-ca8f-afcbda7598c6@shipmail.org>
- <001df485-eed3-3638-0464-9a2ab67ac73f@gmail.com>
- <32d661ae-1eab-918d-cd98-40109e6073df@shipmail.org>
- <37a0336b-48d6-67bb-6a71-bba4daef6aa6@gmail.com>
-From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>
-Message-ID: <eac33818-b266-e973-f811-ba2ffbcd0a2f@linux.intel.com>
-Date: Wed, 2 Jun 2021 14:21:17 +0200
+ matthew.auld@intel.com, dri-devel@lists.freedesktop.org
+References: <20210602100914.46246-1-christian.koenig@amd.com>
+ <20210602100914.46246-2-christian.koenig@amd.com>
+ <9b01d58f-6474-70de-4364-6adad59717a5@shipmail.org>
+ <2354a311-c88f-04c5-0211-360c8116b811@gmail.com>
+From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m_=28Intel=29?= <thomas_os@shipmail.org>
+Message-ID: <23afc41d-09ae-93f3-77b8-e18c8f72dd5a@shipmail.org>
+Date: Wed, 2 Jun 2021 14:33:11 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.10.1
 MIME-Version: 1.0
-In-Reply-To: <37a0336b-48d6-67bb-6a71-bba4daef6aa6@gmail.com>
+In-Reply-To: <2354a311-c88f-04c5-0211-360c8116b811@gmail.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
 Content-Language: en-US
@@ -57,101 +70,180 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On 6/2/21 2:04 PM, Christian König wrote:
->
->
-> Am 02.06.21 um 13:24 schrieb Thomas Hellström (Intel):
->> [SNIP]
->>>>> @@ -576,14 +565,10 @@ static void ttm_bo_mmap_vma_setup(struct 
->>>>> ttm_buffer_object *bo, struct vm_area_s
->>>>>         vma->vm_private_data = bo;
->>>>>   -    /*
->>>>> -     * We'd like to use VM_PFNMAP on shared mappings, where
->>>>> -     * (vma->vm_flags & VM_SHARED) != 0, for performance reasons,
->>>>> -     * but for some reason VM_PFNMAP + x86 PAT + write-combine is 
->>>>> very
->>>>> -     * bad for performance. Until that has been sorted out, use
->>>>> -     * VM_MIXEDMAP on all mappings. See freedesktop.org bug #75719
->>>>> +    /* Enforce VM_SHARED here since no driver backend actually 
->>>>> supports COW
->>>>> +     * on TTM buffer object mappings.
->>>>
->>>> I think by default all TTM drivers support COW mappings in the 
->>>> sense that written data never makes it to the bo but stays in 
->>>> anonymous pages, although I can't find a single usecase. So comment 
->>>> should be changed to state that they are useless for us and that we 
->>>> can't support COW mappings with VM_PFNMAP.
->>>
->>> Well the problem I see with that is that it only works as long as 
->>> the BO is in system memory. When it then suddenly migrates to VRAM 
->>> everybody sees the same content again and the COW pages are dropped. 
->>> That is really inconsistent and I can't see why we would want to do 
->>> that.
->> Hmm, yes, that's actually a bug in drm_vma_manager().
->
-> Hui? How is that related to drm_vma_manager() ?
->
-Last argument of "unmap_mapping_range()" is "even_cows".
->>>
->>> Additionally to that when you allow COW mappings you need to make 
->>> sure your COWed pages have the right caching attribute and that the 
->>> reference count is initialized and taken into account properly. Not 
->>> driver actually gets that right at the moment.
+On 6/2/21 2:11 PM, Christian König wrote:
+> Am 02.06.21 um 13:44 schrieb Thomas Hellström (Intel):
 >>
->> I was under the impression that COW'ed pages were handled 
->> transparently by the vm, you'd always get cached properly refcounted 
->> COW'ed pages but anyway since we're going to ditch support for them, 
->> doesn't really matter.
->
-> Yeah, but I would have expected that the new COWed page should have 
-> the same caching attributes as the old one and that is not really the 
-> case.
->
+>> On 6/2/21 12:09 PM, Christian König wrote:
+>>> Start with the range manager to make the resource object the base
+>>> class for the allocated nodes.
+>>>
+>>> While at it cleanup a lot of the code around that.
+>>>
+>>> Signed-off-by: Christian König <christian.koenig@amd.com>
+>>> Reviewed-by: Matthew Auld <matthew.auld@intel.com>
+>>> ---
+>>>   drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c |  1 +
+>>>   drivers/gpu/drm/drm_gem_vram_helper.c   |  2 +
+>>>   drivers/gpu/drm/nouveau/nouveau_ttm.c   |  2 +
+>>>   drivers/gpu/drm/qxl/qxl_ttm.c           |  1 +
+>>>   drivers/gpu/drm/radeon/radeon_ttm.c     |  1 +
+>>>   drivers/gpu/drm/ttm/ttm_range_manager.c | 56 
+>>> ++++++++++++++++++-------
+>>>   drivers/gpu/drm/ttm/ttm_resource.c      | 26 ++++++++----
+>>>   include/drm/ttm/ttm_bo_driver.h         | 26 ------------
+>>>   include/drm/ttm/ttm_range_manager.h     | 43 +++++++++++++++++++
+>>>   include/drm/ttm/ttm_resource.h          |  3 ++
+>>>   10 files changed, 111 insertions(+), 50 deletions(-)
+>>>   create mode 100644 include/drm/ttm/ttm_range_manager.h
+>>>
+>>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c 
+>>> b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+>>> index 69db89261650..df1f185faae9 100644
+>>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+>>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+>>> @@ -45,6 +45,7 @@
+>>>   #include <drm/ttm/ttm_bo_api.h>
+>>>   #include <drm/ttm/ttm_bo_driver.h>
+>>>   #include <drm/ttm/ttm_placement.h>
+>>> +#include <drm/ttm/ttm_range_manager.h>
+>>>     #include <drm/amdgpu_drm.h>
+>>>   diff --git a/drivers/gpu/drm/drm_gem_vram_helper.c 
+>>> b/drivers/gpu/drm/drm_gem_vram_helper.c
+>>> index 83e7258c7f90..17a4c5d47b6a 100644
+>>> --- a/drivers/gpu/drm/drm_gem_vram_helper.c
+>>> +++ b/drivers/gpu/drm/drm_gem_vram_helper.c
+>>> @@ -17,6 +17,8 @@
+>>>   #include <drm/drm_prime.h>
+>>>   #include <drm/drm_simple_kms_helper.h>
+>>>   +#include <drm/ttm/ttm_range_manager.h>
+>>> +
+>>>   static const struct drm_gem_object_funcs drm_gem_vram_object_funcs;
+>>>     /**
+>>> diff --git a/drivers/gpu/drm/nouveau/nouveau_ttm.c 
+>>> b/drivers/gpu/drm/nouveau/nouveau_ttm.c
+>>> index 65430912ff72..b08b8efeefba 100644
+>>> --- a/drivers/gpu/drm/nouveau/nouveau_ttm.c
+>>> +++ b/drivers/gpu/drm/nouveau/nouveau_ttm.c
+>>> @@ -26,6 +26,8 @@
+>>>   #include <linux/limits.h>
+>>>   #include <linux/swiotlb.h>
+>>>   +#include <drm/ttm/ttm_range_manager.h>
+>>> +
+>>>   #include "nouveau_drv.h"
+>>>   #include "nouveau_gem.h"
+>>>   #include "nouveau_mem.h"
+>>> diff --git a/drivers/gpu/drm/qxl/qxl_ttm.c 
+>>> b/drivers/gpu/drm/qxl/qxl_ttm.c
+>>> index 8aa87b8edb9c..19fd39d9a00c 100644
+>>> --- a/drivers/gpu/drm/qxl/qxl_ttm.c
+>>> +++ b/drivers/gpu/drm/qxl/qxl_ttm.c
+>>> @@ -32,6 +32,7 @@
+>>>   #include <drm/ttm/ttm_bo_api.h>
+>>>   #include <drm/ttm/ttm_bo_driver.h>
+>>>   #include <drm/ttm/ttm_placement.h>
+>>> +#include <drm/ttm/ttm_range_manager.h>
+>>>     #include "qxl_drv.h"
+>>>   #include "qxl_object.h"
+>>> diff --git a/drivers/gpu/drm/radeon/radeon_ttm.c 
+>>> b/drivers/gpu/drm/radeon/radeon_ttm.c
+>>> index cdffa9b65108..ad2a5a791bba 100644
+>>> --- a/drivers/gpu/drm/radeon/radeon_ttm.c
+>>> +++ b/drivers/gpu/drm/radeon/radeon_ttm.c
+>>> @@ -45,6 +45,7 @@
+>>>   #include <drm/ttm/ttm_bo_api.h>
+>>>   #include <drm/ttm/ttm_bo_driver.h>
+>>>   #include <drm/ttm/ttm_placement.h>
+>>> +#include <drm/ttm/ttm_range_manager.h>
+>>>     #include "radeon_reg.h"
+>>>   #include "radeon.h"
+>>> diff --git a/drivers/gpu/drm/ttm/ttm_range_manager.c 
+>>> b/drivers/gpu/drm/ttm/ttm_range_manager.c
+>>> index b9d5da6e6a81..ce5d07ca384c 100644
+>>> --- a/drivers/gpu/drm/ttm/ttm_range_manager.c
+>>> +++ b/drivers/gpu/drm/ttm/ttm_range_manager.c
+>>> @@ -29,12 +29,13 @@
+>>>    * Authors: Thomas Hellstrom <thellstrom-at-vmware-dot-com>
+>>>    */
+>>>   -#include <drm/ttm/ttm_bo_driver.h>
+>>> +#include <drm/ttm/ttm_device.h>
+>>>   #include <drm/ttm/ttm_placement.h>
+>>> +#include <drm/ttm/ttm_range_manager.h>
+>>> +#include <drm/ttm/ttm_bo_api.h>
+>>>   #include <drm/drm_mm.h>
+>>>   #include <linux/slab.h>
+>>>   #include <linux/spinlock.h>
+>>> -#include <linux/module.h>
+>>>     /*
+>>>    * Currently we use a spinlock for the lock, but a mutex *may* be
+>>> @@ -60,8 +61,8 @@ static int ttm_range_man_alloc(struct 
+>>> ttm_resource_manager *man,
+>>>                      struct ttm_resource *mem)
+>>>   {
+>>>       struct ttm_range_manager *rman = to_range_manager(man);
+>>> +    struct ttm_range_mgr_node *node;
+>>>       struct drm_mm *mm = &rman->mm;
+>>> -    struct drm_mm_node *node;
+>>>       enum drm_mm_insert_mode mode;
+>>>       unsigned long lpfn;
+>>>       int ret;
+>>> @@ -70,7 +71,7 @@ static int ttm_range_man_alloc(struct 
+>>> ttm_resource_manager *man,
+>>>       if (!lpfn)
+>>>           lpfn = man->size;
+>>>   -    node = kzalloc(sizeof(*node), GFP_KERNEL);
+>>> +    node = kzalloc(struct_size(node, mm_nodes, 1), GFP_KERNEL);
 >>
->>>
->>>>
->>>>>        */
->>>>> -    vma->vm_flags |= VM_MIXEDMAP;
->>>>> +    vma->vm_flags |= VM_PFNMAP | VM_SHARED;
->>>>
->>>> Hmm, shouldn't we refuse COW mappings instead, like my old patch on 
->>>> this subject did? In theory someone could be setting up what she 
->>>> thinks is a private mapping to a shared buffer object, and write 
->>>> sensitive data to it, which will immediately leak. It's a simple 
->>>> check, could open-code if necessary.
->>>
->>> Yeah, though about that as well. Rejecting things would mean we 
->>> potentially break userspace which just happened to work by 
->>> coincident previously. Not totally evil, but not nice either.
->>>
->>> How about we do a WARN_ON_ONCE(!(vma->vm_flags & VM_SHARED)); instead?
+>> I'm still a bit confused  about the situation where a driver wants to 
+>> attach private data to a struct ttm_resource without having to 
+>> re-implement its own range manager?
 >>
->> Umm, yes but that wouldn't notify the user, and would be triggerable 
->> from user-space. But you can also set up legal non-COW mappings 
->> without the VM_SHARED flag, IIRC, see is_cow_mapping(). I think when 
->> this was up for discussion last time we arrived in a 
->> vma_is_cow_mapping() utility...
+>> Could be cached sg-tables, list of GPU bindings etc. Wouldn't work 
+>> with the above unless we have a void *driver_private member on the 
+>> struct ttm_resource. Is that the plan going forward here? Or that the 
+>> driver actually does the re-implementation?
 >
-> Well userspace could trigger that only once, so no spamming of the log 
-> can be expected here. And extra warnings in the logs are usually 
-> reported by people rather quickly.
-
-OK, I'm mostly worried about adding a security flaw that we know about 
-from the start.
+> I don't really understand your concern here. The basic idea is that 
+> drivers use ttm_resource as a base class for their own implementation.
+>
+> See for example how nouveau does that:
+>
+> struct nouveau_mem {
+>         struct ttm_resource base;
+>         struct nouveau_cli *cli;
+>         u8 kind;
+>         u8 comp;
+>         struct nvif_mem mem;
+>         struct nvif_vma vma[2];
+> };
+>
+> The range manager is helping driver specific resource managers which 
+> want to implement something drm_mm_nodes based. E.g. amdgpu_gtt_mgr 
+> and amdgpu_vram_mgr, but it can also be used stand alone.
+>
+> The ttm_range_mgr_node can then be used as base class for this 
+> functionality. I already want to move some more code from 
+> amdgpu_vram_mgr.c into the range manager, but that is just minor 
+> cleanup work.
+>
+Sure but if you embed a ttm_range_mgr_node in your struct i915_resource, 
+and wanted to use the ttm range manager for it, it would allocate a 
+struct ttm_range_mgr_node rather than a struct i915_resource? Or am I 
+missing something?
 
 /Thomas
 
 
->
+
+> Regards,
 > Christian.
 >
 >>
->> /Thomas
+>> Thanks,
+>>
+>> Thomas
 >>
 >>
->
