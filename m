@@ -1,69 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DFA96397D96
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Jun 2021 02:10:42 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D079397DAC
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Jun 2021 02:29:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 432A06E2A3;
-	Wed,  2 Jun 2021 00:10:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BC6286E25B;
+	Wed,  2 Jun 2021 00:29:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1815D6EB3E
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Jun 2021 00:10:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1622592634;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=g6XERwupFZipcAmg6D1I1zxjEbLYz5zppsdgraxGF7Q=;
- b=ZCSLw/lyvlQACVz8Hr6sOBefF39Tz+PZebRYr8i/WAZZWDD8I3teL6OusznVFkOpZHBQ/G
- ybbXxN/4GM1J7G0t4CKVj5rrEIta/fUyne3LLgZ5lhKPz/WLVaYukAqnm2PNJOIJ99QfhF
- S9aFIWzskRlJziD74aL8Q7G1HBE67dw=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-272-f-9waTJINKC-iPzDIt5ewA-1; Tue, 01 Jun 2021 20:10:31 -0400
-X-MC-Unique: f-9waTJINKC-iPzDIt5ewA-1
-Received: by mail-wr1-f70.google.com with SMTP id
- x10-20020adfc18a0000b029010d83c83f2aso210104wre.8
- for <dri-devel@lists.freedesktop.org>; Tue, 01 Jun 2021 17:10:31 -0700 (PDT)
+Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com
+ [IPv6:2a00:1450:4864:20::635])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 767BC6E23D;
+ Wed,  2 Jun 2021 00:29:05 +0000 (UTC)
+Received: by mail-ej1-x635.google.com with SMTP id ci15so1110994ejc.10;
+ Tue, 01 Jun 2021 17:29:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=Ivpimr5UEBy4VjR8v1jihFin4LFrn+m6NRxKCwqITWI=;
+ b=fg0i7TIaKz5x6zOlHJE7A7UQ3bKAJn9J6MePt/lhQJvnAiK4kV5bpr5nmyY6QnasBF
+ os2L5g2xwk6satqO9n/l4QfkEWLkC7okfM52XpiZjE4VeIIyVPVqsbvlQmjiWMYvFmVV
+ NuNBX9/mCx16kVWFI1kstV0s4yy5JKEJdgvNVSmtaDF3qMIy+oaZG3p0csmtEbaG4le8
+ JEDOqiZ3KzlNYS5zjU6qr2RGlQWToKAXjkFubj4t+nwiVVR0xn6NFm18AErB06KiTvrz
+ OtW3BEiihOf2Kjsb9nOibWy1QhDoNL35uVVufn9SyfS808y6xJCbQVn041z9sAqSDd76
+ bpVA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=g6XERwupFZipcAmg6D1I1zxjEbLYz5zppsdgraxGF7Q=;
- b=IcPYCUnSk2MJJoxwxTBeMwFSIZiXkt+twVxwEEDcCvwnJ384nu8S+4gJDyZGP294HN
- 0vlqhi6bi6bx8sP55Jzo2DS84Lfu9JbskbIPM635wZm2eqYuxbwbijEM8ScgffR817KI
- bgoniwxJgrQRxWeCdQbykX5HzMGNhHVyXpsZG3AEo1Vhe0JlPYs8uFTCkUye25Kiqwaa
- HuqlDaV265zn8uhCMx46JtjXs0w6Ts+Y9nTTct+x6eN+bTQU9nJnBxWncerkxMvH1oH1
- 3Gcau8BYqXpDeyk90koC2OzDxNtMunL3qEESfgZDJtTxnqoQObQEJxzk+zQF16uqiqEX
- eLbA==
-X-Gm-Message-State: AOAM530fm9VWM2npQUA8n+izDbMbkz12k+Onviyl6lnVGYOUS/axZUJT
- YVjrztJTVLt0q3nttnhuGXNavyrK61qnJz0G76QgMXdSNYnqPZqtRimq38iLgQ3LeHpIMc9QyBc
- S27bmgeMWtuiYoqEp2l4Fz33jLZnzfuTiZJlS5ghP6AhX
-X-Received: by 2002:adf:dcc3:: with SMTP id x3mr8763245wrm.177.1622592629526; 
- Tue, 01 Jun 2021 17:10:29 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJy+7ytifh8Tq7X7nnucf7aYm2Vw3csWvxa0+c2QJbbdpuaVNF93Pvls4Lv1rmxm1PeJU5y+Ay/NirV8hdJrDSY=
-X-Received: by 2002:adf:dcc3:: with SMTP id x3mr8763219wrm.177.1622592629297; 
- Tue, 01 Jun 2021 17:10:29 -0700 (PDT)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=Ivpimr5UEBy4VjR8v1jihFin4LFrn+m6NRxKCwqITWI=;
+ b=fMKJal2woI9IqWVevHduSW2zFbAg16CzrJfTVeUvGW7jRuog/Lhwl9mDYrB/Z0VBQz
+ tEov2FFGBAjxIMJ9hPBAFPyOgs/P4lgM+61utjdN7C4ImoXjBQms/opzi/yxW2iqKgtz
+ MmPoQW3SMXWZGWx0AZBvI9NPqagp7sw+MVgH1W7ebYEDEJJahSBdALwDdrmslJtXYqQd
+ NTtltX0j0XWOdf0SijFLwKVkHSLtEUwzByWj8OXMZYxJLkSfh1D8nysSwksDmbJdnjXE
+ MrqurHB6CA9Ei9a+/ZGPcN8G5Xt6J72QtyywbjFbZMr7KAh9iU/A5nvuv5Kry8inDzcc
+ 5McQ==
+X-Gm-Message-State: AOAM533MtMrkpyOZZT19PYf4jcI2Y8GFMQ6Cm+W5N21PIkzeqCFK+7Lf
+ YG28lXJgP6I6KoGZoOEkISq7XVQ8D6iu40LViaA=
+X-Google-Smtp-Source: ABdhPJzZPakSBUebOyHJBaTZvKuhrSGCBRpOqgRTy0joHqluMNY0J+iP/AkLcJDYBNKhm1UGH9PDMVlwZVhN+/a+uRU=
+X-Received: by 2002:a17:907:d92:: with SMTP id
+ go18mr13908746ejc.317.1622593743961; 
+ Tue, 01 Jun 2021 17:29:03 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210305095657.GA142006@embeddedor>
- <79ff569a-5828-ef21-538b-12d07d34a4ff@embeddedor.com>
- <1ec627af-514e-b24a-da88-13eb561ccb15@embeddedor.com>
-In-Reply-To: <1ec627af-514e-b24a-da88-13eb561ccb15@embeddedor.com>
-From: Karol Herbst <kherbst@redhat.com>
-Date: Wed, 2 Jun 2021 02:10:18 +0200
-Message-ID: <CACO55tv3o72GwG8ORcUYQ-nXFDi1Qo0uKG5T_4iVmuhdDxPdqg@mail.gmail.com>
-Subject: Re: [Nouveau] [PATCH RESEND][next] drm/nouveau: Fix fall-through
- warnings for Clang
-To: "Gustavo A. R. Silva" <gustavo@embeddedor.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kherbst@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+References: <YLCbBR22BsQ/dpJB@jlahtine-mobl.ger.corp.intel.com>
+ <162218682866.9100.50543809230103499@jlahtine-mobl.ger.corp.intel.com>
+In-Reply-To: <162218682866.9100.50543809230103499@jlahtine-mobl.ger.corp.intel.com>
+From: Dave Airlie <airlied@gmail.com>
+Date: Wed, 2 Jun 2021 10:28:52 +1000
+Message-ID: <CAPM=9twwritR-5-iN-D4AvMMnng9PkCfZmsU3zhZZBFkGGx9Ww@mail.gmail.com>
+Subject: Re: [PULL] drm-intel-gt-next
+To: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,88 +65,384 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Kees Cook <keescook@chromium.org>, David Airlie <airlied@linux.ie>,
- nouveau <nouveau@lists.freedesktop.org>,
- "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+Cc: "DRM maintainer tools announcements, discussion,
+ and development" <dim-tools@lists.freedesktop.org>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
  dri-devel <dri-devel@lists.freedesktop.org>,
- LKML <linux-kernel@vger.kernel.org>, Ben Skeggs <bskeggs@redhat.com>,
- linux-hardening@vger.kernel.org
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Sean Paul <sean@poorly.run>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-all three nouveau patches are
+This has these two patches applied, and it doesn't build.
 
-Reviewed-by: Karol Herbst <kherbst@redhat.com>
+  drm/i915: drop the __i915_active_call pointer packing
+  drm/i915: Fix crash in auto_retire
 
-and I don't think anybody would mind if those get into through other
-trees, but maybe drm-mist would be a good place for it if other
-patches involve other drm drivers?
+The latter patch shouldn't be necessary after the former, please fix
+that up and resend and please build test trees before I get them in
+future.
 
-On Wed, Jun 2, 2021 at 1:16 AM Gustavo A. R. Silva
-<gustavo@embeddedor.com> wrote:
+Dave.
+
+
+On Fri, 28 May 2021 at 17:27, Joonas Lahtinen
+<joonas.lahtinen@linux.intel.com> wrote:
 >
-> Hi,
->
-> Friendly second ping: who can take this?
->
-> I can add this to my -next branch for 5.14 if you don't mind.
->
-> JFYI: We had thousands of these sorts of warnings and now we are down
-> to just 23 in linux-next. This is one of those last remaining warnings.
->
-> Thanks
-> --
-> Gustavo
->
-> On 4/20/21 15:13, Gustavo A. R. Silva wrote:
-> > Hi all,
+> Quoting Joonas Lahtinen (2021-05-28 10:25:57)
+> > Hi Dave & Daniel,
 > >
-> > Friendly ping: who can take this, please?
+> > Here's drm-intel-gt-next pull request.
 > >
-> > Thanks
-> > --
-> > Gustavo
+> > Most notably it has the reworked DG1 uAPI (behind CONFIG_BROKEN)
+> > as requested. Important fix for Gitlab issues #3293 and #3450 and
+> > one another kernel crash. Adds missing workarounds for Gen11 and
+> > Gen12. Hiding of modparams for compiled-out features. Conversion
+> > to use trylock shrinking for BSW VT-d and BXT.
 > >
-> > On 3/5/21 03:56, Gustavo A. R. Silva wrote:
-> >> In preparation to enable -Wimplicit-fallthrough for Clang, fix a couple
-> >> of warnings by explicitly adding a couple of break statements instead
-> >> of letting the code fall through to the next case.
-> >>
-> >> Link: https://github.com/KSPP/linux/issues/115
-> >> Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
-> >> ---
-> >>  drivers/gpu/drm/nouveau/nouveau_bo.c        | 1 +
-> >>  drivers/gpu/drm/nouveau/nouveau_connector.c | 1 +
-> >>  2 files changed, 2 insertions(+)
-> >>
-> >> diff --git a/drivers/gpu/drm/nouveau/nouveau_bo.c b/drivers/gpu/drm/nouveau/nouveau_bo.c
-> >> index 2375711877cf..62903c3b368d 100644
-> >> --- a/drivers/gpu/drm/nouveau/nouveau_bo.c
-> >> +++ b/drivers/gpu/drm/nouveau/nouveau_bo.c
-> >> @@ -443,6 +443,7 @@ nouveau_bo_pin(struct nouveau_bo *nvbo, uint32_t domain, bool contig)
-> >>                      break;
-> >>              case TTM_PL_TT:
-> >>                      error |= !(domain & NOUVEAU_GEM_DOMAIN_GART);
-> >> +                    break;
-> >>              default:
-> >>                      break;
-> >>              }
-> >> diff --git a/drivers/gpu/drm/nouveau/nouveau_connector.c b/drivers/gpu/drm/nouveau/nouveau_connector.c
-> >> index 61e6d7412505..eb844cdcaec2 100644
-> >> --- a/drivers/gpu/drm/nouveau/nouveau_connector.c
-> >> +++ b/drivers/gpu/drm/nouveau/nouveau_connector.c
-> >> @@ -157,6 +157,7 @@ nouveau_conn_atomic_set_property(struct drm_connector *connector,
-> >>                      default:
-> >>                              break;
-> >>                      }
-> >> +                    break;
-> >>              case DRM_MODE_SCALE_FULLSCREEN:
-> >>              case DRM_MODE_SCALE_CENTER:
-> >>              case DRM_MODE_SCALE_ASPECT:
-> >>
-> _______________________________________________
-> Nouveau mailing list
-> Nouveau@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/nouveau
+> > Then there are the uAPI kerneldoc improvements as part of the DG1
+> > uAPI rework. Usual amount smaller fixes, code refactoring and
+> > cleanups as prep for upcoming patches.
 >
-
+> And includes tag 'topic/intel-gen-to-ver-2021-04-19' (but that is
+> already merged to drm-next).
+>
+> Regards, Joonas
+>
+> > Regards, Joonas
+> >
+> > ***
+> >
+> > drm-intel-gt-next-2021-05-28:
+> >
+> > UAPI Changes:
+> > - Add reworked uAPI for DG1 behind CONFIG_BROKEN (Matt A, Abdiel)
+> >
+> > Driver Changes:
+> >
+> > - Fix for Gitlab issues #3293 and #3450:
+> >   Avoid kernel crash on older L-shape memory machines
+> >
+> > - Hide modparams for compiled-out features (Tvrtko)
+> > - Add Wa_14010733141 (VDBox SFC reset) for Gen11+ (Aditya)
+> > - Fix crash in auto_retire active retire callback due to
+> >   misalignment (Stephane)
+> > - Use trylock in shrinker for GGTT on BSW VT-d and BXT (Maarten)
+> > - Fix overlay active retire callback alignment (Tvrtko)
+> > - Eliminate need to align active retire callbacks (Matt A, Ville,
+> >   Daniel)
+> > - Program FF_MODE2 tuning value for all Gen12 platforms (Caz)
+> > - Add Wa_14011060649 for TGL,RKL,DG1 and ADLS (Swathi)
+> > - Create stolen memory region from local memory on DG1 (CQ)
+> > - Place PD in LMEM on dGFX (Matt A)
+> > - Use WC when default state object is allocated in LMEM (Venkata)
+> > - Determine the coherent map type based on object location (Venkata)
+> > - Use lmem physical addresses for fb_mmap() on discrete (Mohammed)
+> > - Bypass aperture on fbdev when LMEM is available (Anusha)
+> > - Return error value when displayable BO not in LMEM for dGFX (Mohammed=
+)
+> > - Do release kernel context if breadcrumb measure fails (Janusz)
+> > - Apply Wa_22010271021 for all Gen11 platforms (Caz)
+> > - Fix unlikely ref count race in arming the watchdog timer (Tvrtko)
+> > - Check actual RC6 enable status in PMU (Tvrtko)
+> > - Fix a double free in gen8_preallocate_top_level_pdp (Lv)
+> > - Remove erroneous i915_is_ggtt check for
+> >   I915_GEM_OBJECT_UNBIND_VM_TRYLOCK (Maarten)
+> >
+> > - Convert uAPI headers to real kerneldoc (Matt A)
+> > - Clean up kerneldoc warnings headers (Matt A, Maarten)
+> > - Fail driver if LMEM training failed (Matt R)
+> > - Avoid div-by-zero on Gen2 (Ville)
+> > - Read C0DRB3/C1DRB3 as 16 bits again and add _BW suffix (Ville)
+> > - Remove reference to struct drm_device.pdev (Thomas)
+> > - Increase separation between GuC and execlists code (Chris, Matt B)
+> >
+> > - Use might_alloc() (Bernard)
+> > - Split DGFX_FEATURES from GEN12_FEATURES (Lucas)
+> > - Deduplicate Wa_22010271021 programming on (Jose)
+> > - Drop duplicate WaDisable4x2SubspanOptimization:hsw (Tvrtko)
+> > - Selftest improvements (Chris, Hsin-Yi, Tvrtko)
+> > - Shuffle around init_memory_region for stolen (Matt)
+> > - Typo fixes (wengjianfeng)
+> >
+> > The following changes since commit 425390c5dce6da76578389629d19517fcd79=
+c959:
+> >
+> >   drm/i915: split dgfx features from gen 12 (2021-04-14 13:05:06 +0300)
+> >
+> > are available in the Git repository at:
+> >
+> >   git://anongit.freedesktop.org/drm/drm-intel tags/drm-intel-gt-next-20=
+21-05-28
+> >
+> > for you to fetch changes up to 5b26d57fdb499c2363f3d895ef008e73ec02eb9b=
+:
+> >
+> >   drm/i915: Add Wa_14010733141 (2021-05-27 11:05:09 -0700)
+> >
+> > ----------------------------------------------------------------
+> > UAPI Changes:
+> > - Add reworked uAPI for DG1 behind CONFIG_BROKEN (Matt A, Abdiel)
+> >
+> > Driver Changes:
+> >
+> > - Fix for Gitlab issues #3293 and #3450:
+> >   Avoid kernel crash on older L-shape memory machines
+> >
+> > - Add Wa_14010733141 (VDBox SFC reset) for Gen11+ (Aditya)
+> > - Fix crash in auto_retire active retire callback due to
+> >   misalignment (Stephane)
+> > - Fix overlay active retire callback alignment (Tvrtko)
+> > - Eliminate need to align active retire callbacks (Matt A, Ville,
+> >   Daniel)
+> > - Program FF_MODE2 tuning value for all Gen12 platforms (Caz)
+> > - Add Wa_14011060649 for TGL,RKL,DG1 and ADLS (Swathi)
+> > - Create stolen memory region from local memory on DG1 (CQ)
+> > - Place PD in LMEM on dGFX (Matt A)
+> > - Use WC when default state object is allocated in LMEM (Venkata)
+> > - Determine the coherent map type based on object location (Venkata)
+> > - Use lmem physical addresses for fb_mmap() on discrete (Mohammed)
+> > - Bypass aperture on fbdev when LMEM is available (Anusha)
+> > - Return error value when displayable BO not in LMEM for dGFX (Mohammed=
+)
+> > - Do release kernel context if breadcrumb measure fails (Janusz)
+> > - Hide modparams for compiled-out features (Tvrtko)
+> > - Apply Wa_22010271021 for all Gen11 platforms (Caz)
+> > - Fix unlikely ref count race in arming the watchdog timer (Tvrtko)
+> > - Check actual RC6 enable status in PMU (Tvrtko)
+> > - Fix a double free in gen8_preallocate_top_level_pdp (Lv)
+> > - Use trylock in shrinker for GGTT on BSW VT-d and BXT (Maarten)
+> > - Remove erroneous i915_is_ggtt check for
+> >   I915_GEM_OBJECT_UNBIND_VM_TRYLOCK (Maarten)
+> >
+> > - Convert uAPI headers to real kerneldoc (Matt A)
+> > - Clean up kerneldoc warnings headers (Matt A, Maarten)
+> > - Fail driver if LMEM training failed (Matt R)
+> > - Avoid div-by-zero on Gen2 (Ville)
+> > - Read C0DRB3/C1DRB3 as 16 bits again and add _BW suffix (Ville)
+> > - Remove reference to struct drm_device.pdev (Thomas)
+> > - Increase separation between GuC and execlists code (Chris, Matt B)
+> >
+> > - Use might_alloc() (Bernard)
+> > - Split DGFX_FEATURES from GEN12_FEATURES (Lucas)
+> > - Deduplicate Wa_22010271021 programming on (Jose)
+> > - Drop duplicate WaDisable4x2SubspanOptimization:hsw (Tvrtko)
+> > - Selftest improvements (Chris, Hsin-Yi, Tvrtko)
+> > - Shuffle around init_memory_region for stolen (Matt)
+> > - Typo fixes (wengjianfeng)
+> >
+> > ----------------------------------------------------------------
+> > Abdiel Janulgue (1):
+> >       drm/i915/query: Expose memory regions through the query uAPI
+> >
+> > Aditya Swarup (1):
+> >       drm/i915: Add Wa_14010733141
+> >
+> > Anusha Srivatsa (1):
+> >       drm/i915/lmem: Bypass aperture when lmem is available
+> >
+> > Bernard Zhao (1):
+> >       drm/i915: Use might_alloc()
+> >
+> > CQ Tang (2):
+> >       drm/i915: Create stolen memory region from local memory
+> >       drm/i915/stolen: enforce the min_page_size contract
+> >
+> > Caz Yokoyama (2):
+> >       drm/i915/gen12: Add recommended hardware tuning value
+> >       drm/i915/icl: add Wa_22010271021 for all gen11
+> >
+> > Chris Wilson (6):
+> >       drm/i915/selftests: Skip aperture remapping selftest where there =
+is no aperture
+> >       drm/i915/selftests: Only query RAPL for integrated power measurem=
+ents
+> >       drm/i915/gem: Pin the L-shape quirked object as unshrinkable
+> >       drm/i915/gt: Move engine setup out of set_default_submission
+> >       drm/i915/gt: Move submission_method into intel_gt
+> >       drm/i915/gt: Move CS interrupt handler to the backend
+> >
+> > Hsin-Yi Wang (1):
+> >       drm/i915/selftests: Rename pm_ prefixed functions names
+> >
+> > Janusz Krzysztofik (1):
+> >       drm/i915/gt: Do release kernel context if breadcrumb measure fail=
+s
+> >
+> > Joonas Lahtinen (1):
+> >       Merge tag 'topic/intel-gen-to-ver-2021-04-19' of git://anongit.fr=
+eedesktop.org/drm/drm-intel into drm-intel-gt-next
+> >
+> > Jos=C3=A9 Roberto de Souza (1):
+> >       drm/i915: Move Wa_16011163337 to gen12_ctx_workarounds_init()
+> >
+> > Lv Yunlong (1):
+> >       drm/i915/gt: Fix a double free in gen8_preallocate_top_level_pdp
+> >
+> > Maarten Lankhorst (4):
+> >       drm/i915: Fix docbook descriptions for i915_gem_shrinker
+> >       drm/i915: Fix docbook descriptions for i915_cmd_parser
+> >       drm/i915: Use trylock in shrinker for ggtt on bsw vt-d and bxt, v=
+2.
+> >       drm/i915: Remove erroneous i915_is_ggtt check for I915_GEM_OBJECT=
+_UNBIND_VM_TRYLOCK
+> >
+> > Matt Roper (1):
+> >       drm/i915/lmem: Fail driver init if LMEM training failed
+> >
+> > Matthew Auld (19):
+> >       drm/i915/uapi: fix kernel doc warnings
+> >       drm/i915/uapi: convert i915_user_extension to kernel doc
+> >       drm/i915/uapi: convert i915_query and friend to kernel doc
+> >       drm/doc: add section for driver uAPI
+> >       drm/i915/stolen: treat stolen local as normal local memory
+> >       drm/i915/stolen: actually mark as contiguous
+> >       drm/i915/gtt: map the PD up front
+> >       drm/i915/gtt/dgfx: place the PD in LMEM
+> >       drm/doc/rfc: i915 DG1 uAPI
+> >       drm/i915: mark stolen as private
+> >       drm/i915: rework gem_create flow for upcoming extensions
+> >       drm/i915/uapi: introduce drm_i915_gem_create_ext
+> >       drm/i915/uapi: implement object placement extension
+> >       drm/i915/lmem: support optional CPU clearing for special internal=
+ use
+> >       drm/i915/gem: clear userspace buffers for LMEM
+> >       drm/i915/gem: hide new uAPI behind CONFIG_BROKEN
+> >       drm/i915: drop the __i915_active_call pointer packing
+> >       drm/i915/stolen: shuffle around init_memory_region
+> >       drm/doc/rfc: drop the i915_gem_lmem.h header
+> >
+> > Mohammed Khajapasha (2):
+> >       drm/i915/fbdev: Use lmem physical addresses for fb_mmap() on disc=
+rete
+> >       drm/i915: Return error value when bo not in LMEM for discrete
+> >
+> > St=C3=A9phane Marchesin (1):
+> >       drm/i915: Fix crash in auto_retire
+> >
+> > Swathi Dhanavanthri (1):
+> >       drm/i915: Add Wa_14011060649
+> >
+> > Thomas Zimmermann (1):
+> >       drm/i915/gem: Remove reference to struct drm_device.pdev
+> >
+> > Tvrtko Ursulin (6):
+> >       drm/i915: Take request reference before arming the watchdog timer
+> >       drm/i915/pmu: Check actual RC6 status
+> >       drm/i915/overlay: Fix active retire callback alignment
+> >       drm/i915/selftests: Fix active retire callback alignment
+> >       drm/i915: Drop duplicate WaDisable4x2SubspanOptimization:hsw
+> >       drm/i915/params: Align visibility of device level and global modp=
+arams
+> >
+> > Venkata Ramana Nayana (1):
+> >       drm/i915/dg1: Fix mapping type for default state object
+> >
+> > Venkata Sandeep Dhanalakota (1):
+> >       drm/i915: Update the helper to set correct mapping
+> >
+> > Ville Syrj=C3=A4l=C3=A4 (3):
+> >       drm/i915: Avoid div-by-zero on gen2
+> >       drm/i915: Read C0DRB3/C1DRB3 as 16 bits again
+> >       drm/i915: Give C0DRB3/C1DRB3 a _BW suffix
+> >
+> > wengjianfeng (1):
+> >       drm/i915/gt: fix typo issue
+> >
+> >  Documentation/gpu/driver-uapi.rst                  |   8 +
+> >  Documentation/gpu/index.rst                        |   1 +
+> >  Documentation/gpu/rfc/i915_gem_lmem.rst            | 131 +++++++
+> >  Documentation/gpu/rfc/index.rst                    |   4 +
+> >  drivers/gpu/drm/i915/display/intel_display.c       |  10 +
+> >  drivers/gpu/drm/i915/display/intel_fbdev.c         |  51 ++-
+> >  drivers/gpu/drm/i915/display/intel_frontbuffer.c   |   4 +-
+> >  drivers/gpu/drm/i915/display/intel_overlay.c       |   5 +-
+> >  drivers/gpu/drm/i915/gem/i915_gem_context.c        |   3 +-
+> >  drivers/gpu/drm/i915/gem/i915_gem_create.c         | 345 +++++++++++++=
++++--
+> >  drivers/gpu/drm/i915/gem/i915_gem_ioctls.h         |   2 +
+> >  drivers/gpu/drm/i915/gem/i915_gem_lmem.c           |  20 +-
+> >  drivers/gpu/drm/i915/gem/i915_gem_lmem.h           |   5 +
+> >  drivers/gpu/drm/i915/gem/i915_gem_mman.c           |   2 +-
+> >  drivers/gpu/drm/i915/gem/i915_gem_object.c         |   3 +
+> >  drivers/gpu/drm/i915/gem/i915_gem_object_types.h   |  14 +-
+> >  drivers/gpu/drm/i915/gem/i915_gem_pages.c          |   2 +
+> >  drivers/gpu/drm/i915/gem/i915_gem_region.c         |  22 ++
+> >  drivers/gpu/drm/i915/gem/i915_gem_shrinker.c       |  14 +-
+> >  drivers/gpu/drm/i915/gem/i915_gem_stolen.c         | 159 +++++++--
+> >  drivers/gpu/drm/i915/gem/i915_gem_stolen.h         |   3 +-
+> >  .../gpu/drm/i915/gem/selftests/i915_gem_context.c  |  11 +-
+> >  drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c |  26 ++
+> >  drivers/gpu/drm/i915/gt/gen6_ppgtt.c               |  13 +-
+> >  drivers/gpu/drm/i915/gt/gen8_ppgtt.c               |  32 +-
+> >  drivers/gpu/drm/i915/gt/intel_context.c            |   3 +-
+> >  drivers/gpu/drm/i915/gt/intel_engine.h             |   8 +-
+> >  drivers/gpu/drm/i915/gt/intel_engine_cs.c          |  21 +-
+> >  drivers/gpu/drm/i915/gt/intel_engine_pm.c          |   2 +-
+> >  drivers/gpu/drm/i915/gt/intel_engine_types.h       |  14 +-
+> >  .../gpu/drm/i915/gt/intel_execlists_submission.c   |  95 +++--
+> >  .../gpu/drm/i915/gt/intel_execlists_submission.h   |   3 -
+> >  drivers/gpu/drm/i915/gt/intel_ggtt.c               |  10 +-
+> >  drivers/gpu/drm/i915/gt/intel_ggtt_fencing.c       |   6 +-
+> >  drivers/gpu/drm/i915/gt/intel_gt_buffer_pool.c     |   3 +-
+> >  drivers/gpu/drm/i915/gt/intel_gt_irq.c             |  82 ++---
+> >  drivers/gpu/drm/i915/gt/intel_gt_irq.h             |  23 ++
+> >  drivers/gpu/drm/i915/gt/intel_gt_types.h           |   7 +
+> >  drivers/gpu/drm/i915/gt/intel_gtt.c                |  91 +++--
+> >  drivers/gpu/drm/i915/gt/intel_gtt.h                |  12 +-
+> >  drivers/gpu/drm/i915/gt/intel_lrc.c                |   4 +-
+> >  drivers/gpu/drm/i915/gt/intel_ppgtt.c              |   7 +-
+> >  drivers/gpu/drm/i915/gt/intel_reset.c              | 201 +++++++----
+> >  drivers/gpu/drm/i915/gt/intel_ring.c               |  11 +-
+> >  drivers/gpu/drm/i915/gt/intel_ring_submission.c    |  12 +-
+> >  drivers/gpu/drm/i915/gt/intel_rps.c                |   2 +-
+> >  drivers/gpu/drm/i915/gt/intel_timeline.c           |   4 +-
+> >  drivers/gpu/drm/i915/gt/intel_workarounds.c        | 100 ++++--
+> >  drivers/gpu/drm/i915/gt/mock_engine.c              |   2 +-
+> >  drivers/gpu/drm/i915/gt/selftest_context.c         |   3 +-
+> >  .../gpu/drm/i915/gt/selftest_engine_heartbeat.c    |   2 +-
+> >  drivers/gpu/drm/i915/gt/selftest_execlists.c       |   2 +-
+> >  drivers/gpu/drm/i915/gt/selftest_hangcheck.c       |   4 +-
+> >  drivers/gpu/drm/i915/gt/selftest_lrc.c             |   4 +-
+> >  drivers/gpu/drm/i915/gt/selftest_rc6.c             |  32 +-
+> >  drivers/gpu/drm/i915/gt/selftest_ring_submission.c |   2 +-
+> >  drivers/gpu/drm/i915/gt/selftest_rps.c             |   6 +-
+> >  drivers/gpu/drm/i915/gt/shmem_utils.c              |   4 +-
+> >  drivers/gpu/drm/i915/gt/uc/intel_guc.c             |   4 +-
+> >  drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c  |  64 ++--
+> >  drivers/gpu/drm/i915/gt/uc/intel_guc_submission.h  |   1 -
+> >  drivers/gpu/drm/i915/gt/uc/intel_huc.c             |   4 +-
+> >  drivers/gpu/drm/i915/i915_active.c                 |  11 +-
+> >  drivers/gpu/drm/i915/i915_active.h                 |  11 +-
+> >  drivers/gpu/drm/i915/i915_active_types.h           |   5 -
+> >  drivers/gpu/drm/i915/i915_cmd_parser.c             |  18 +-
+> >  drivers/gpu/drm/i915/i915_debugfs.c                |   4 +-
+> >  drivers/gpu/drm/i915/i915_drv.c                    |   1 +
+> >  drivers/gpu/drm/i915/i915_drv.h                    |  29 +-
+> >  drivers/gpu/drm/i915/i915_gem.c                    |  25 +-
+> >  drivers/gpu/drm/i915/i915_irq.c                    |  10 +-
+> >  drivers/gpu/drm/i915/i915_params.h                 |   8 +-
+> >  drivers/gpu/drm/i915/i915_pci.c                    |   2 +-
+> >  drivers/gpu/drm/i915/i915_perf.c                   |  10 +-
+> >  drivers/gpu/drm/i915/i915_pmu.c                    |   4 +-
+> >  drivers/gpu/drm/i915/i915_query.c                  |  62 ++++
+> >  drivers/gpu/drm/i915/i915_reg.h                    |  17 +-
+> >  drivers/gpu/drm/i915/i915_request.c                |   5 +-
+> >  drivers/gpu/drm/i915/i915_vma.c                    |  31 +-
+> >  drivers/gpu/drm/i915/intel_memory_region.c         |  29 +-
+> >  drivers/gpu/drm/i915/intel_memory_region.h         |  18 +-
+> >  drivers/gpu/drm/i915/intel_uncore.c                |  12 +
+> >  drivers/gpu/drm/i915/selftests/i915_active.c       |   2 +-
+> >  drivers/gpu/drm/i915/selftests/i915_gem.c          |  20 +-
+> >  drivers/gpu/drm/i915/selftests/i915_gem_gtt.c      |  10 +-
+> >  drivers/gpu/drm/i915/selftests/i915_perf.c         |   3 +-
+> >  drivers/gpu/drm/i915/selftests/i915_vma.c          |   3 +
+> >  drivers/gpu/drm/i915/selftests/igt_spinner.c       |   4 +-
+> >  .../gpu/drm/i915/selftests/intel_memory_region.c   |  87 ++++-
+> >  drivers/gpu/drm/i915/selftests/librapl.c           |  10 +
+> >  drivers/gpu/drm/i915/selftests/librapl.h           |   4 +
+> >  include/uapi/drm/i915_drm.h                        | 393 +++++++++++++=
+++++++--
+> >  92 files changed, 2018 insertions(+), 575 deletions(-)
+> >  create mode 100644 Documentation/gpu/driver-uapi.rst
+> >  create mode 100644 Documentation/gpu/rfc/i915_gem_lmem.rst
