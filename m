@@ -2,42 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48C1539930E
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Jun 2021 21:01:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BEDA9399341
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Jun 2021 21:10:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3A9D26E53C;
-	Wed,  2 Jun 2021 19:00:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A22C76ECFF;
+	Wed,  2 Jun 2021 19:10:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C29886E536;
- Wed,  2 Jun 2021 19:00:53 +0000 (UTC)
-IronPort-SDR: D0mmiYlW4Q6zOzwxqtPJXvxPSEM6cWBCqrkTzjhRXMHzYVKqYXdnxFSKuUDSffstm3CdudWcq8
- CMKuO8mZmX8g==
-X-IronPort-AV: E=McAfee;i="6200,9189,10003"; a="202010264"
-X-IronPort-AV: E=Sophos;i="5.83,242,1616482800"; d="scan'208";a="202010264"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Jun 2021 12:00:52 -0700
-IronPort-SDR: AcMYCYTY1Bommok5VowuYHbsfjWASCiGwAWCdHlSfuPs7RqFYwJqKsnXxylqe82Lr+RIJ6bzCu
- 2RyYaOOHsObw==
-X-IronPort-AV: E=Sophos;i="5.83,242,1616482800"; d="scan'208";a="411729300"
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2A11F6E546;
+ Wed,  2 Jun 2021 19:10:19 +0000 (UTC)
+IronPort-SDR: mWZFaIogw6tPwgm6br2mp4fceM3bDV0D6u7XiVQ3wEcR0CquxQN2gM/yEQCzgeqeAwA8Ifi3qV
+ 4AzN3aKkLAVA==
+X-IronPort-AV: E=McAfee;i="6200,9189,10003"; a="203682239"
+X-IronPort-AV: E=Sophos;i="5.83,242,1616482800"; d="scan'208";a="203682239"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Jun 2021 12:10:17 -0700
+IronPort-SDR: bEKxTlZiVbWC+phq4yJ9EzILe8jU4xiMWqq/nD0BEnYyxCAqDKylAkTAXEhK11Ixz2aMktsXJ9
+ CLkZYaVuGGsw==
+X-IronPort-AV: E=Sophos;i="5.83,242,1616482800"; d="scan'208";a="438518297"
 Received: from ticela-az-103.amr.corp.intel.com (HELO intel.com)
  ([10.254.2.125])
- by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Jun 2021 12:00:51 -0700
-Date: Wed, 2 Jun 2021 15:00:50 -0400
+ by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Jun 2021 12:10:14 -0700
+Date: Wed, 2 Jun 2021 15:10:12 -0400
 From: Rodrigo Vivi <rodrigo.vivi@intel.com>
-To: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
-Subject: Re: [PATCH v4 16/17] drm/i915/pxp: black pixels on pxp disabled
-Message-ID: <YLfVYne2yPu/pnZY@intel.com>
+To: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
+ tomas.winkler@intel.com
+Subject: Re: [PATCH v4 02/17] mei: pxp: export pavp client to me client bus
+Message-ID: <YLfXlBdCwe6/DWgD@intel.com>
 References: <20210525054803.7387-1-daniele.ceraolospurio@intel.com>
- <20210525054803.7387-17-daniele.ceraolospurio@intel.com>
+ <20210525054803.7387-3-daniele.ceraolospurio@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210525054803.7387-17-daniele.ceraolospurio@intel.com>
+In-Reply-To: <20210525054803.7387-3-daniele.ceraolospurio@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,222 +51,358 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Anshuman Gupta <anshuman.gupta@intel.com>, intel-gfx@lists.freedesktop.org,
- Shankar Uma <uma.shankar@intel.com>, dri-devel@lists.freedesktop.org,
- Gaurav Kumar <kumar.gaurav@intel.com>
+Cc: intel-gfx@lists.freedesktop.org, Tomas Winkler <tomas.winkler@intel.com>,
+ dri-devel@lists.freedesktop.org, Vitaly Lubart <vitaly.lubart@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, May 24, 2021 at 10:48:02PM -0700, Daniele Ceraolo Spurio wrote:
-> From: Anshuman Gupta <anshuman.gupta@intel.com>
+On Mon, May 24, 2021 at 10:47:48PM -0700, Daniele Ceraolo Spurio wrote:
+> From: Vitaly Lubart <vitaly.lubart@intel.com>
 > 
-> When protected sufaces has flipped and pxp session is disabled,
-> display black pixels by using plane color CTM correction.
+> Export PAVP client to work with i915 driver,
+> for binding it uses kernel component framework.
 > 
-> v2:
-> - Display black pixels in async flip too.
-> 
-> v3:
-> - Removed the black pixels logic for async flip. [Ville]
-> - Used plane state to force black pixels. [Ville]
-> 
-> v4 (Daniele): update pxp_is_borked check.
-> 
-> Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
-> Cc: Gaurav Kumar <kumar.gaurav@intel.com>
-> Cc: Shankar Uma <uma.shankar@intel.com>
-> Signed-off-by: Anshuman Gupta <anshuman.gupta@intel.com>
+> Signed-off-by: Vitaly Lubart <vitaly.lubart@intel.com>
+> Signed-off-by: Tomas Winkler <tomas.winkler@intel.com>
 > Signed-off-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
 > ---
->  .../gpu/drm/i915/display/intel_atomic_plane.c | 13 +++++-
->  .../drm/i915/display/intel_display_types.h    |  3 ++
->  .../drm/i915/display/skl_universal_plane.c    | 36 ++++++++++++++-
->  drivers/gpu/drm/i915/i915_reg.h               | 46 +++++++++++++++++++
->  4 files changed, 95 insertions(+), 3 deletions(-)
+>  drivers/misc/mei/Kconfig       |   2 +
+>  drivers/misc/mei/Makefile      |   1 +
+>  drivers/misc/mei/pxp/Kconfig   |  13 ++
+>  drivers/misc/mei/pxp/Makefile  |   7 +
+>  drivers/misc/mei/pxp/mei_pxp.c | 233 +++++++++++++++++++++++++++++++++
+>  drivers/misc/mei/pxp/mei_pxp.h |  18 +++
+>  6 files changed, 274 insertions(+)
+>  create mode 100644 drivers/misc/mei/pxp/Kconfig
+>  create mode 100644 drivers/misc/mei/pxp/Makefile
+>  create mode 100644 drivers/misc/mei/pxp/mei_pxp.c
+>  create mode 100644 drivers/misc/mei/pxp/mei_pxp.h
 > 
-> diff --git a/drivers/gpu/drm/i915/display/intel_atomic_plane.c b/drivers/gpu/drm/i915/display/intel_atomic_plane.c
-> index 88b3272c0b00..44d7a5072090 100644
-> --- a/drivers/gpu/drm/i915/display/intel_atomic_plane.c
-> +++ b/drivers/gpu/drm/i915/display/intel_atomic_plane.c
-> @@ -392,6 +392,11 @@ static int bo_has_valid_encryption(const struct drm_i915_gem_object *obj)
->  	       intel_pxp_is_active(&i915->gt.pxp);
->  }
+> diff --git a/drivers/misc/mei/Kconfig b/drivers/misc/mei/Kconfig
+> index f5fd5b786607..0e0bcd0da852 100644
+> --- a/drivers/misc/mei/Kconfig
+> +++ b/drivers/misc/mei/Kconfig
+> @@ -47,3 +47,5 @@ config INTEL_MEI_TXE
+>  	  Intel Bay Trail
 >  
-> +static bool pxp_is_borked(const struct drm_i915_gem_object *obj)
+>  source "drivers/misc/mei/hdcp/Kconfig"
+> +source "drivers/misc/mei/pxp/Kconfig"
+> +
+> diff --git a/drivers/misc/mei/Makefile b/drivers/misc/mei/Makefile
+> index f1c76f7ee804..d8e5165917f2 100644
+> --- a/drivers/misc/mei/Makefile
+> +++ b/drivers/misc/mei/Makefile
+> @@ -26,3 +26,4 @@ mei-$(CONFIG_EVENT_TRACING) += mei-trace.o
+>  CFLAGS_mei-trace.o = -I$(src)
+>  
+>  obj-$(CONFIG_INTEL_MEI_HDCP) += hdcp/
+> +obj-$(CONFIG_INTEL_MEI_PXP) += pxp/
+> diff --git a/drivers/misc/mei/pxp/Kconfig b/drivers/misc/mei/pxp/Kconfig
+> new file mode 100644
+> index 000000000000..4029b96afc04
+> --- /dev/null
+> +++ b/drivers/misc/mei/pxp/Kconfig
+> @@ -0,0 +1,13 @@
+> +
+> +# SPDX-License-Identifier: GPL-2.0
+> +# Copyright (c) 2020, Intel Corporation. All rights reserved.
+> +#
+s> +config INTEL_MEI_PXP
+> +	tristate "Intel PXP services of ME Interface"
+> +	select INTEL_MEI_ME
+> +	depends on DRM_I915
+> +	help
+> +	  MEI Support for PXP Services on Intel platforms.
+> +
+> +	  Enables the ME FW services required for PXP support through
+> +	  I915 display driver of Intel.
+> diff --git a/drivers/misc/mei/pxp/Makefile b/drivers/misc/mei/pxp/Makefile
+> new file mode 100644
+> index 000000000000..0329950d5794
+> --- /dev/null
+> +++ b/drivers/misc/mei/pxp/Makefile
+> @@ -0,0 +1,7 @@
+> +# SPDX-License-Identifier: GPL-2.0
+> +#
+> +# Copyright (c) 2020, Intel Corporation. All rights reserved.
+> +#
+> +# Makefile - PXP client driver for Intel MEI Bus Driver.
+> +
+> +obj-$(CONFIG_INTEL_MEI_PXP) += mei_pxp.o
+> diff --git a/drivers/misc/mei/pxp/mei_pxp.c b/drivers/misc/mei/pxp/mei_pxp.c
+> new file mode 100644
+> index 000000000000..cacfbedb640a
+> --- /dev/null
+> +++ b/drivers/misc/mei/pxp/mei_pxp.c
+> @@ -0,0 +1,233 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * Copyright © 2020 Intel Corporation
+> + */
+> +
+> +/**
+> + * DOC: MEI_PXP Client Driver
+> + *
+> + * The mei_pxp driver acts as a translation layer between PXP
+> + * protocol  implementer (I915) and ME FW by translating PXP
+> + * negotiation messages to ME FW command payloads and vice versa.
+> + */
+> +
+> +#include <linux/module.h>
+> +#include <linux/slab.h>
+> +#include <linux/uuid.h>
+> +#include <linux/mei_cl_bus.h>
+> +#include <linux/component.h>
+> +#include <drm/drm_connector.h>
+> +#include <drm/i915_component.h>
+> +#include <drm/i915_pxp_tee_interface.h>
+> +
+> +#include "mei_pxp.h"
+> +
+> +/**
+> + * mei_pxp_send_message() - Sends a PXP message to ME FW.
+> + * @dev: device corresponding to the mei_cl_device
+> + * @message: a message buffer to send
+> + * @size: size of the message
+> + * Return: 0 on Success, <0 on Failure
+> + */
+> +static int
+> +mei_pxp_send_message(struct device *dev, const void *message, size_t size)
 > +{
-> +	return i915_gem_object_is_protected(obj) && !bo_has_valid_encryption(obj);
+> +	struct mei_cl_device *cldev;
+> +	ssize_t byte;
+> +
+> +	if (!dev || !message)
+> +		return -EINVAL;
+> +
+> +	cldev = to_mei_cl_device(dev);
+> +
+> +	/* temporary drop const qualifier till the API is fixed */
+> +	byte = mei_cldev_send(cldev, (u8 *)message, size);
+> +	if (byte < 0) {
+> +		dev_dbg(dev, "mei_cldev_send failed. %zd\n", byte);
+> +		return byte;
+> +	}
+> +
+> +	return 0;
 > +}
 > +
->  int intel_plane_atomic_check(struct intel_atomic_state *state,
->  			     struct intel_plane *plane)
->  {
-> @@ -424,10 +429,14 @@ int intel_plane_atomic_check(struct intel_atomic_state *state,
->  					  crtc);
->  
->  	fb = new_plane_state->hw.fb;
-> -	if (fb)
-> +	if (fb) {
->  		new_plane_state->decrypt = bo_has_valid_encryption(intel_fb_obj(fb));
-> -	else
-> +		new_plane_state->force_black = pxp_is_borked(intel_fb_obj(fb));
-> +
-> +	} else {
->  		new_plane_state->decrypt = old_plane_state->decrypt;
-> +		new_plane_state->force_black = old_plane_state->force_black;
-> +	}
->  
->  	new_plane_state->uapi.visible = false;
->  	if (!new_crtc_state)
-> diff --git a/drivers/gpu/drm/i915/display/intel_display_types.h b/drivers/gpu/drm/i915/display/intel_display_types.h
-> index 6b5dab9e1c40..88c0b882b844 100644
-> --- a/drivers/gpu/drm/i915/display/intel_display_types.h
-> +++ b/drivers/gpu/drm/i915/display/intel_display_types.h
-> @@ -624,6 +624,9 @@ struct intel_plane_state {
->  	/* Plane pxp decryption state */
->  	bool decrypt;
->  
-> +	/* Plane state to display black pixels when pxp is borked */
-> +	bool force_black;
-> +
->  	/* plane control register */
->  	u32 ctl;
->  
-> diff --git a/drivers/gpu/drm/i915/display/skl_universal_plane.c b/drivers/gpu/drm/i915/display/skl_universal_plane.c
-> index 2c8e88e8ad83..d4eb43b96ffd 100644
-> --- a/drivers/gpu/drm/i915/display/skl_universal_plane.c
-> +++ b/drivers/gpu/drm/i915/display/skl_universal_plane.c
-> @@ -975,6 +975,33 @@ static u32 skl_surf_address(const struct intel_plane_state *plane_state,
->  	}
->  }
->  
-> +static void intel_load_plane_csc_black(struct intel_plane *intel_plane)
+> +/**
+> + * mei_pxp_receive_message() - Receives a PXP message from ME FW.
+> + * @dev: device corresponding to the mei_cl_device
+> + * @buffer: a message buffer to contain the received message
+> + * @size: size of the buffer
+> + * Return: bytes sent on Success, <0 on Failure
+> + */
+> +static int
+> +mei_pxp_receive_message(struct device *dev, void *buffer, size_t size)
 > +{
-> +	struct drm_i915_private *dev_priv = to_i915(intel_plane->base.dev);
-> +	enum pipe pipe = intel_plane->pipe;
-> +	enum plane_id plane = intel_plane->id;
-> +	u16 postoff = 0;
+> +	struct mei_cl_device *cldev;
+> +	ssize_t byte;
 > +
-> +	drm_dbg_kms(&dev_priv->drm, "plane color CTM to black  %s:%d\n",
-> +		    intel_plane->base.name, plane);
-> +	intel_de_write_fw(dev_priv, PLANE_CSC_COEFF(pipe, plane, 0), 0);
-> +	intel_de_write_fw(dev_priv, PLANE_CSC_COEFF(pipe, plane, 1), 0);
+> +	if (!dev || !buffer)
+> +		return -EINVAL;
 > +
-> +	intel_de_write_fw(dev_priv, PLANE_CSC_COEFF(pipe, plane, 2), 0);
-> +	intel_de_write_fw(dev_priv, PLANE_CSC_COEFF(pipe, plane, 3), 0);
+> +	cldev = to_mei_cl_device(dev);
 > +
-> +	intel_de_write_fw(dev_priv, PLANE_CSC_COEFF(pipe, plane, 4), 0);
-> +	intel_de_write_fw(dev_priv, PLANE_CSC_COEFF(pipe, plane, 5), 0);
+> +	byte = mei_cldev_recv(cldev, buffer, size);
+> +	if (byte < 0) {
+> +		dev_dbg(dev, "mei_cldev_recv failed. %zd\n", byte);
+> +		return byte;
+> +	}
 > +
-> +	intel_de_write_fw(dev_priv, PLANE_CSC_PREOFF(pipe, plane, 0), 0);
-> +	intel_de_write_fw(dev_priv, PLANE_CSC_PREOFF(pipe, plane, 1), 0);
-> +	intel_de_write_fw(dev_priv, PLANE_CSC_PREOFF(pipe, plane, 2), 0);
-> +
-> +	intel_de_write_fw(dev_priv, PLANE_CSC_POSTOFF(pipe, plane, 0), postoff);
-> +	intel_de_write_fw(dev_priv, PLANE_CSC_POSTOFF(pipe, plane, 1), postoff);
-> +	intel_de_write_fw(dev_priv, PLANE_CSC_POSTOFF(pipe, plane, 2), postoff);
+> +	return byte;
 > +}
 > +
->  static void
->  skl_program_plane(struct intel_plane *plane,
->  		  const struct intel_crtc_state *crtc_state,
-> @@ -1088,14 +1115,21 @@ skl_program_plane(struct intel_plane *plane,
->  	 */
->  	intel_de_write_fw(dev_priv, PLANE_CTL(pipe, plane_id), plane_ctl);
->  	plane_surf = intel_plane_ggtt_offset(plane_state) + surf_addr;
-> +	plane_color_ctl = intel_de_read_fw(dev_priv, PLANE_COLOR_CTL(pipe, plane_id));
->  
->  	/*
->  	 * FIXME: pxp session invalidation can hit any time even at time of commit
->  	 * or after the commit, display content will be garbage.
->  	 */
-> -	if (plane_state->decrypt)
-> +	if (plane_state->decrypt) {
->  		plane_surf |= PLANE_SURF_DECRYPT;
-> +	} else if (plane_state->force_black) {
-> +		intel_load_plane_csc_black(plane);
-> +		plane_color_ctl |= PLANE_COLOR_PLANE_CSC_ENABLE;
-> +	}
->  
-> +	intel_de_write_fw(dev_priv, PLANE_COLOR_CTL(pipe, plane_id),
-> +			  plane_color_ctl);
->  	intel_de_write_fw(dev_priv, PLANE_SURF(pipe, plane_id), plane_surf);
->  
->  	spin_unlock_irqrestore(&dev_priv->uncore.lock, irqflags);
-> diff --git a/drivers/gpu/drm/i915/i915_reg.h b/drivers/gpu/drm/i915/i915_reg.h
-> index b3eaf45ae3ab..3ad6577b7fa4 100644
-> --- a/drivers/gpu/drm/i915/i915_reg.h
-> +++ b/drivers/gpu/drm/i915/i915_reg.h
-> @@ -7161,6 +7161,7 @@ enum {
->  #define _PLANE_COLOR_CTL_3_A			0x703CC /* GLK+ */
->  #define   PLANE_COLOR_PIPE_GAMMA_ENABLE		(1 << 30) /* Pre-ICL */
->  #define   PLANE_COLOR_YUV_RANGE_CORRECTION_DISABLE	(1 << 28)
-> +#define   PLANE_COLOR_PLANE_CSC_ENABLE			REG_BIT(21) /* ICL+ */
->  #define   PLANE_COLOR_INPUT_CSC_ENABLE		(1 << 20) /* ICL+ */
->  #define   PLANE_COLOR_PIPE_CSC_ENABLE		(1 << 23) /* Pre-ICL */
->  #define   PLANE_COLOR_CSC_MODE_BYPASS			(0 << 17)
-> @@ -11276,6 +11277,51 @@ enum skl_power_gate {
->  					_PAL_PREC_MULTI_SEG_DATA_A, \
->  					_PAL_PREC_MULTI_SEG_DATA_B)
->  
-> +#define _MMIO_PLANE_GAMC(plane, i, a, b)  _MMIO(_PIPE(plane, a, b) + (i) * 4)
+> +static const struct i915_pxp_component_ops mei_pxp_ops = {
+> +	.owner = THIS_MODULE,
+> +	.send = mei_pxp_send_message,
+> +	.recv = mei_pxp_receive_message,
+> +};
 > +
-> +/* Plane CSC Registers */
-> +#define _PLANE_CSC_RY_GY_1_A	0x70210
+> +static int mei_component_master_bind(struct device *dev)
+> +{
+> +	struct mei_cl_device *cldev = to_mei_cl_device(dev);
+> +	struct i915_pxp_component *comp_master = mei_cldev_get_drvdata(cldev);
+> +	int ret;
+> +
+> +	dev_dbg(dev, "%s\n", __func__);
+> +	comp_master->ops = &mei_pxp_ops;
+> +	comp_master->tee_dev = dev;
+> +	ret = component_bind_all(dev, comp_master);
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	return 0;
+> +}
+> +
+> +static void mei_component_master_unbind(struct device *dev)
+> +{
+> +	struct mei_cl_device *cldev = to_mei_cl_device(dev);
+> +	struct i915_pxp_component *comp_master = mei_cldev_get_drvdata(cldev);
+> +
+> +	dev_dbg(dev, "%s\n", __func__);
+> +	component_unbind_all(dev, comp_master);
+> +}
+> +
+> +static const struct component_master_ops mei_component_master_ops = {
+> +	.bind = mei_component_master_bind,
+> +	.unbind = mei_component_master_unbind,
+> +};
+> +
+> +/**
+> + * mei_pxp_component_match - compare function for matching mei pxp.
+> + *
+> + *    The function checks if the driver is i915, the subcomponent is PXP
+> + *    and the grand parent of pxp and the parent of i915 are the same
+> + *    PCH device.
+> + *
+> + * @dev: master device
+> + * @subcomponent: subcomponent to match (I915_COMPONENT_PXP)
+> + * @data: compare data (mei pxp device)
+> + *
+> + * Return:
+> + * * 1 - if components match
+> + * * 0 - otherwise
+> + */
+> +static int mei_pxp_component_match(struct device *dev, int subcomponent,
+> +				   void *data)
+> +{
+> +	struct device *base = data;
+> +
+> +	if (subcomponent != I915_COMPONENT_PXP)
+> +		return 0;
+> +
+> +	if (strcmp(dev->driver->name, "i915") == 0) {
+> +		base = base->parent;
+> +		if (!base)
+> +			return 0;
+> +
+> +		base = base->parent;
+> +		dev = dev->parent;
+> +		return (base && dev && dev == base);
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static int mei_pxp_probe(struct mei_cl_device *cldev,
+> +			 const struct mei_cl_device_id *id)
+> +{
+> +	struct i915_pxp_component *comp_master;
+> +	struct component_match *master_match;
+> +	int ret;
+> +
+> +	ret = mei_cldev_enable(cldev);
+> +	if (ret < 0) {
+> +		dev_err(&cldev->dev, "mei_cldev_enable Failed. %d\n", ret);
+> +		goto enable_err_exit;
+> +	}
+> +
+> +	comp_master = kzalloc(sizeof(*comp_master), GFP_KERNEL);
+> +	if (!comp_master) {
+> +		ret = -ENOMEM;
+> +		goto err_exit;
+> +	}
+> +
+> +	master_match = NULL;
+> +	component_match_add_typed(&cldev->dev, &master_match,
+> +				  mei_pxp_component_match, &cldev->dev);
+> +	if (IS_ERR_OR_NULL(master_match)) {
+> +		ret = -ENOMEM;
+> +		goto err_exit;
+> +	}
+> +
+> +	mei_cldev_set_drvdata(cldev, comp_master);
+> +	ret = component_master_add_with_match(&cldev->dev,
+> +					      &mei_component_master_ops,
+> +					      master_match);
+> +	if (ret < 0) {
+> +		dev_err(&cldev->dev, "Master comp add failed %d\n", ret);
+> +		goto err_exit;
+> +	}
+> +
+> +	return 0;
+> +
+> +err_exit:
+> +	mei_cldev_set_drvdata(cldev, NULL);
+> +	kfree(comp_master);
+> +	mei_cldev_disable(cldev);
+> +enable_err_exit:
+> +	return ret;
+> +}
+> +
+> +static void mei_pxp_remove(struct mei_cl_device *cldev)
+> +{
+> +	struct i915_pxp_component *comp_master = mei_cldev_get_drvdata(cldev);
+> +	int ret;
+> +
+> +	component_master_del(&cldev->dev, &mei_component_master_ops);
+> +	kfree(comp_master);
+> +	mei_cldev_set_drvdata(cldev, NULL);
+> +
+> +	ret = mei_cldev_disable(cldev);
+> +	if (ret)
+> +		dev_warn(&cldev->dev, "mei_cldev_disable() failed\n");
+> +}
+> +
+> +/* fbf6fcf1-96cf-4e2e-a6a6-1bab8cbe36b1 : PAVP GUID*/
+                                                      ^ missing space
+> +#define MEI_GUID_PXP GUID_INIT(0xfbf6fcf1, 0x96cf, 0x4e2e, 0xA6, \
+> +			       0xa6, 0x1b, 0xab, 0x8c, 0xbe, 0x36, 0xb1)
 
-registers could have followed spec and be simply PLANCE_CSC_1_A ...
-and also "HI" removed from the ones below.
+I don't have the spec to confirm this... that said...
 
-But anyway, they are right and the patch looks right.
-
-I wish we had some kind of solution for the async flips as well,
-but, this is already very good:
+the implementation looks clean and with the very little that I learned
+from MEI on the recent months I'm comfortable in adding:
 
 Reviewed-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
 
-> +#define _PLANE_CSC_RY_GY_2_A	0x70310
+Tomas, ack to get it from drm/drm-intel tree?
+
 > +
-> +#define _PLANE_CSC_RY_GY_1_B	0x71210
-> +#define _PLANE_CSC_RY_GY_2_B	0x71310
+> +static struct mei_cl_device_id mei_pxp_tbl[] = {
+> +	{ .uuid = MEI_GUID_PXP, .version = MEI_CL_VERSION_ANY },
+> +	{ }
+> +};
+> +MODULE_DEVICE_TABLE(mei, mei_pxp_tbl);
 > +
-> +#define _PLANE_CSC_RY_GY_1(pipe)	_PIPE(pipe, _PLANE_CSC_RY_GY_1_A, \
-> +					      _PLANE_CSC_RY_GY_1_B)
-> +#define _PLANE_CSC_RY_GY_2(pipe)	_PIPE(pipe, _PLANE_INPUT_CSC_RY_GY_2_A, \
-> +					      _PLANE_INPUT_CSC_RY_GY_2_B)
-> +#define PLANE_CSC_COEFF(pipe, plane, index)	_MMIO_PLANE(plane, \
-> +							    _PLANE_CSC_RY_GY_1(pipe) +  (index) * 4, \
-> +							    _PLANE_CSC_RY_GY_2(pipe) + (index) * 4)
+> +static struct mei_cl_driver mei_pxp_driver = {
+> +	.id_table = mei_pxp_tbl,
+> +	.name = KBUILD_MODNAME,
+> +	.probe = mei_pxp_probe,
+> +	.remove	= mei_pxp_remove,
+> +};
 > +
-> +#define _PLANE_CSC_PREOFF_HI_1_A		0x70228
-> +#define _PLANE_CSC_PREOFF_HI_2_A		0x70328
+> +module_mei_cl_driver(mei_pxp_driver);
 > +
-> +#define _PLANE_CSC_PREOFF_HI_1_B		0x71228
-> +#define _PLANE_CSC_PREOFF_HI_2_B		0x71328
+> +MODULE_AUTHOR("Intel Corporation");
+> +MODULE_LICENSE("GPL");
+> +MODULE_DESCRIPTION("MEI PXP");
+> diff --git a/drivers/misc/mei/pxp/mei_pxp.h b/drivers/misc/mei/pxp/mei_pxp.h
+> new file mode 100644
+> index 000000000000..e7b15373fefd
+> --- /dev/null
+> +++ b/drivers/misc/mei/pxp/mei_pxp.h
+> @@ -0,0 +1,18 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +/*
+> + * Copyright © 2020 Intel Corporation
+> + *
+> + * Authors:
+> + * Vitaly Lubart <vitaly.lubart@intel.com>
+> + */
 > +
-> +#define _PLANE_CSC_PREOFF_HI_1(pipe)	_PIPE(pipe, _PLANE_CSC_PREOFF_HI_1_A, \
-> +					      _PLANE_CSC_PREOFF_HI_1_B)
-> +#define _PLANE_CSC_PREOFF_HI_2(pipe)	_PIPE(pipe, _PLANE_CSC_PREOFF_HI_2_A, \
-> +					      _PLANE_CSC_PREOFF_HI_2_B)
-> +#define PLANE_CSC_PREOFF(pipe, plane, index)	_MMIO_PLANE(plane, _PLANE_CSC_PREOFF_HI_1(pipe) + \
-> +							    (index) * 4, _PLANE_CSC_PREOFF_HI_2(pipe) + \
-> +							    (index) * 4)
+> +#ifndef __MEI_PXP_H__
+> +#define __MEI_PXP_H__
 > +
-> +#define _PLANE_CSC_POSTOFF_HI_1_A		0x70234
-> +#define _PLANE_CSC_POSTOFF_HI_2_A		0x70334
+> +/* me_pxp_status: Enumeration of all PXP Status Codes */
+> +enum me_pxp_status {
+> +	ME_PXP_STATUS_SUCCESS			= 0x0000,
 > +
-> +#define _PLANE_CSC_POSTOFF_HI_1_B		0x71234
-> +#define _PLANE_CSC_POSTOFF_HI_2_B		0x71334
+> +};
 > +
-> +#define _PLANE_CSC_POSTOFF_HI_1(pipe)	_PIPE(pipe, _PLANE_CSC_POSTOFF_HI_1_A, \
-> +					      _PLANE_CSC_POSTOFF_HI_1_B)
-> +#define _PLANE_CSC_POSTOFF_HI_2(pipe)	_PIPE(pipe, _PLANE_CSC_POSTOFF_HI_2_A, \
-> +					      _PLANE_CSC_POSTOFF_HI_2_B)
-> +#define PLANE_CSC_POSTOFF(pipe, plane, index)	_MMIO_PLANE(plane, _PLANE_CSC_POSTOFF_HI_1(pipe) + \
-> +							    (index) * 4, _PLANE_CSC_POSTOFF_HI_2(pipe) + \
-> +							    (index) * 4)
-> +
->  /* pipe CSC & degamma/gamma LUTs on CHV */
->  #define _CGM_PIPE_A_CSC_COEFF01	(VLV_DISPLAY_BASE + 0x67900)
->  #define _CGM_PIPE_A_CSC_COEFF23	(VLV_DISPLAY_BASE + 0x67904)
+> +#endif /* __MEI_PXP_H__ */
 > -- 
 > 2.29.2
 > 
