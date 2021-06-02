@@ -1,126 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 217E53985A0
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Jun 2021 11:48:52 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 230373985C4
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Jun 2021 11:59:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E40736EC30;
-	Wed,  2 Jun 2021 09:48:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3FE1F6EC32;
+	Wed,  2 Jun 2021 09:59:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam10on2064.outbound.protection.outlook.com [40.107.94.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DAE7D6EC2A;
- Wed,  2 Jun 2021 09:48:48 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=HmKZK3C69/8837esQ7m7Ed7CjTiwCY8yt2585nRoNPQVA7p4A0NRM5MYiDVGYYBu6SrGxUQhO+uc7bkcVDoYzZleY1CeXKpsU6ZzIj5NhGjQ6Qt7z0R1xhgncI8gbfNsFG2eKdfH9V9OBmPgBSLjfy2KS978zJ2H09Oh0ndgV0X4b4YW1/XNJdeDGURG19FDAaqzvtqA4v8TyUeKmythoyzzzThSAK7bVuv64Mn73H+t6wTGBwuJsEP4Omk3lxqdDX6ugth7wYT7B0CUcqfLQJwbyz3UDUb5ECsFzf8+MwDmjW1mgToa97PV2BDCff7sMlnDh8YzJ9oizt7e4E7EsA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=HhPaXbPX08+iakB3xOheq46SMgx5/f/VSakvK4DHJBA=;
- b=BEHy1/yKs/g5uEbYcU9S3cJlw2yco76OdqYAAtpIfg7t1rjQBpb+j5DK8dVJ76rOD/Z23xx5Bzr/CJW/EPOMEyCMLVM7ATPCfUz8SbJC8XEwWIDG9Qe9lYG6+CmD91o5L1w1kglUDq5pVNT1EyTif2iCAoA+bKJlJmr2EYAtRDy5tixUK4nZqRtImkdJzz/LpIsu78VCrW6UW44z+RjnjsQn47i9ykuFOPc6nWzWCVxe0SnOma7AWxd9l4GSSrUsy5LbAMZF8jMPkonJNIr47315eMuUBRf4aoB4KUlQMpUDeIChz2lft4nYE8dPWcRPDDtZIEGFgxbc756sVThIjA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=HhPaXbPX08+iakB3xOheq46SMgx5/f/VSakvK4DHJBA=;
- b=U0nKisfFerAbl+PSekA73opFeTYRli6fGz+fPO4T6JWsCXE9bu5vBzZfq1R0+vOA+813q+B5dKcCC5R7AZDGPy0gfzwx2FzntXjZDV90uJ1sQrbm0AZtLPlyzt9oMg2WxMJ0PzB1YCWmVDy1Qe0XwQYs+q3W4PRLcwjKzU5+zqk=
-Authentication-Results: intel.com; dkim=none (message not signed)
- header.d=none;intel.com; dmarc=none action=none header.from=amd.com;
-Received: from MN2PR12MB3775.namprd12.prod.outlook.com (2603:10b6:208:159::19)
- by BL0PR12MB4930.namprd12.prod.outlook.com (2603:10b6:208:1c8::7)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4195.20; Wed, 2 Jun
- 2021 09:48:47 +0000
-Received: from MN2PR12MB3775.namprd12.prod.outlook.com
- ([fe80::6d4d:4674:1cf6:8d34]) by MN2PR12MB3775.namprd12.prod.outlook.com
- ([fe80::6d4d:4674:1cf6:8d34%6]) with mapi id 15.20.4173.033; Wed, 2 Jun 2021
- 09:48:47 +0000
-Subject: Re: Merging TTM branches through the Intel tree?
-To: =?UTF-8?Q?Thomas_Hellstr=c3=b6m_=28Intel=29?= <thomas_os@shipmail.org>,
- =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>
-References: <a29eaef9-2457-1393-6757-40956811daf8@linux.intel.com>
- <a6965639-acf6-b5f5-482c-2715e7fa69d4@amd.com>
- <b4c18e45-98c9-ce7f-b22c-c00c795844c2@shipmail.org>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-Message-ID: <baf4f828-76c8-6b47-5bba-9b9c8e7b307b@amd.com>
-Date: Wed, 2 Jun 2021 11:48:41 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
-In-Reply-To: <b4c18e45-98c9-ce7f-b22c-c00c795844c2@shipmail.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-Originating-IP: [2a02:908:1252:fb60:cd07:2759:3eec:1d00]
-X-ClientProxiedBy: PR1PR01CA0034.eurprd01.prod.exchangelabs.com
- (2603:10a6:102::47) To MN2PR12MB3775.namprd12.prod.outlook.com
- (2603:10b6:208:159::19)
+Received: from mail-pg1-x534.google.com (mail-pg1-x534.google.com
+ [IPv6:2607:f8b0:4864:20::534])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 57E0A6EC33;
+ Wed,  2 Jun 2021 09:59:08 +0000 (UTC)
+Received: by mail-pg1-x534.google.com with SMTP id q15so1780267pgg.12;
+ Wed, 02 Jun 2021 02:59:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=4gTx0tK/yg/Xl6aA7PaAETBuKXT+TqY4PqFZZiXyZqc=;
+ b=fz5wvP7uaoq4a2gJhyAV/cHgjhOISZLlwpQgblpamSnBe5jTEonuosXVjUbkG/lpN7
+ hUHSqPwVOHIRXLq/S7OQAfryBnTWlsE1+TVEsQtUju4Sj1nLq/nJpLGOeVoWMpwmIF2d
+ +Dve4wz8AtPHnJZq0shtaHxthpBIHWGM9yXgZG+qVvmxFIN0ChiHyRSwN2JedrziqUS9
+ KdJMtXaTgzByo9b/a6sZCRNybP6uPAE2+YTcCLwa+v4gKMuZiecND9DFYyM4KHAbKrx3
+ kGodESaDzOQ4sC/2aPmc1W9zpoCXYg7Arws8CWMDmf5PXeUmd5hGMl2KDNVdQS6df50m
+ /Mlw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=4gTx0tK/yg/Xl6aA7PaAETBuKXT+TqY4PqFZZiXyZqc=;
+ b=RLleuWdOAVq/rMGWOKuN8XB9eg7wVGh7GDHJtqIxBVQUnOmbjfoJ7fyrPyS0sboVSi
+ 0yKB1EIYu9DGw9OxRqsJ+1/mCXtoxUHWOyB+ZEsOF78S6FlQ+bJUR4om2VfJuBh4mALr
+ QntRXae75ttJ9I6PFa9IzAC1dJbWDAZtAX3hYq4Z57fSmBZrhrFGGCqAkzbblgLi1U42
+ cmg4EVDxc57sO0CLpwI2XJC5pc2oPdPFm5nQCnsuUl0G5Z9fY+hG+k02o9Dhir8Odc5q
+ YAqGNJDtIA/Em/L889SOq0/nhoLK+kXLG1Qb2JXDdZJ9pvTdG40GjZ+6j9B0O2UoP9ox
+ u36A==
+X-Gm-Message-State: AOAM530uvoY7ChyKO81XJrZ6byeAGPuP+4V4HHhMQTuF3osSM6j+gvS0
+ lp7XCZ5Sw5st5VB5SugT4LNJ1X2ziVVrqoYFd04=
+X-Google-Smtp-Source: ABdhPJyHDa17BqVg0TZZ1LobxrDBgurHYER2isWHQEf5wAbC+MRyGcylYXn/rkf37rdYtXAWKcM65UfT76XtU/efFKk=
+X-Received: by 2002:a05:6a00:22c1:b029:2dc:edbe:5e9 with SMTP id
+ f1-20020a056a0022c1b02902dcedbe05e9mr26677096pfj.51.1622627947888; Wed, 02
+ Jun 2021 02:59:07 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [IPv6:2a02:908:1252:fb60:cd07:2759:3eec:1d00]
- (2a02:908:1252:fb60:cd07:2759:3eec:1d00) by
- PR1PR01CA0034.eurprd01.prod.exchangelabs.com (2603:10a6:102::47) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4173.24 via Frontend
- Transport; Wed, 2 Jun 2021 09:48:46 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: f7b91892-ca52-4166-8c4f-08d925ab9dd9
-X-MS-TrafficTypeDiagnostic: BL0PR12MB4930:
-X-Microsoft-Antispam-PRVS: <BL0PR12MB49300146984CE1B1DB131962833D9@BL0PR12MB4930.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:6430;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: UT1VLC9Xg9zupkQcUxYU979VCG4SwmIsBMMFyW0lMVTItcbwaABHgnNO0MARIxjZl33FwfU5PBU0/SYCeRbzF3ZydxWhjCQ9mmSIzWexDf8k4XeDyazDXSJUIdS325GyVM7i5E8FCAeuzyoAvbXAxuqV9GbO+1JEjUzhFmPXL9qxMDYF/WL2IVjvbl2ypdvRiYLI2vWf/j6logB8Sd3zdzoxkqZDHH19skuyQvvFGRZYMev4y/v38G5BPzpsYKrIvwrUfs+X/2n5iKF6pC0EiBCPibQCVRg291plFEOGx/WHrfKtUtri/ncrUTVd+AirOL6i/AQKyAnQ33AEtkH+Ko2fElXPfrG5H1cfChkQ/E+0XfgEsVCZB0wGk7zQVgaKneoa7gfd7aPy48HfrZJzobCtjTaogaYm6FCOHIStaS2B0g1oaOIkMFPCC8+KJZhI9G+pY6AjzICCO/8DgmuOgONnCHim7X7TpwViF2SB82gfKVxrEsbVDcbB4xIlaohS99xBxlKbmxdBTXRS1sdRa8wusPnClOTcM8/eXekkuEoGH/wgEjPw2aJjrYjA9HLc1V1b/2ItTKkQ8gfGSi460BjbA6/zDJ32XKsdCQW+reZM77fww8apWRRSR5Gl72HLWybPpTSa3vMwBzZJ7oGwSemUuuRrNM+rGMQDJ2R/T1U=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN2PR12MB3775.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(396003)(39860400002)(376002)(366004)(346002)(136003)(2906002)(36756003)(316002)(66574015)(110136005)(5660300002)(66476007)(66556008)(31686004)(4744005)(66946007)(53546011)(6666004)(8676002)(186003)(6486002)(16526019)(8936002)(38100700002)(31696002)(2616005)(86362001)(478600001)(4326008)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?cUxoQUxhWjQxdUZmNlVXMzEzWVM1SFdYRnA2MDlOUkdJMWpkN3FsY3VweWJH?=
- =?utf-8?B?OEtHemsrb1RJTjBnK1kxZTN5c0tMQjJ6T29uYXBwS0tNdUQ4aitqc3IyejRl?=
- =?utf-8?B?N2xMSFBSUC8wbklCcEgyYTBDeGxHK2ROZ3Mya0EzQ1RqSDRrb2dweFZXQ0Zx?=
- =?utf-8?B?ZmwxTElxVnIvVk5nNFFkNUQ5amlkWThvZTJ6QXhHc1poQ1dEOU5QRkJZajha?=
- =?utf-8?B?Q01YZ2JvL3NqYlpCREdjQlVmVWZOZVl3L0s2eVArWnp2WVBZSWdVUzR4VFdq?=
- =?utf-8?B?cklWOGxXUnBneldEUEVwOW9yQ21zTFcyOXFJcE5FYms1UXg1cXE4N3lGUFN6?=
- =?utf-8?B?aXVRKy9iUU45bWNFMjBxMlM4TGtHQzl2U0ZyaG9zdjdyT1pMRGhVdWd2NmZy?=
- =?utf-8?B?eDBORjV1SStpRUJPNENIM1YzeE5NQ2dqRlg4ME10U3lLdXZES1NBNEhiSFY1?=
- =?utf-8?B?MjJaZklDaGdOZmVzeVhuQkNHdFFKYXI3R0lBSEQ0Z1RXZHJ0QW1nUzFRUTR3?=
- =?utf-8?B?eG9rTkc4Y3huMlhJSXVHT1Jtbnh1dTZnZkVEdGVPSkhqVjZhZE9YSWVCT2hO?=
- =?utf-8?B?a2hRY3k4RlMwcDlKZzBNa0NsTVlrTHJMbE1WUy9LYUVjSVRuOGpqQy9rdWJB?=
- =?utf-8?B?UTVKSnhKdk43ZmkzaGZkYjJnN0RlcnFJL01pRVZzZVB0THNXNkZjR3d5UlZS?=
- =?utf-8?B?cVU0eUREc0dZTkdaTXg2dGJkVjE0UGx6aHFJNlgwK3dWYTN0REFRVG9wU2ZC?=
- =?utf-8?B?VXcvWkpWVlpVeUQyRWJReldJTFFIb2tLbEdZZmlQYWNmN2F6aTllOWxwR0lS?=
- =?utf-8?B?Z1VSazk4SGc1OW01eXZQM1V2dGlYMlk4aS94dlM2NHI5NjMrVjJqNXFXaW5h?=
- =?utf-8?B?UHFFVzh3K3NmNkowL3UwczhIM0xnSVVENThBcGhsL0FtRHVhRzViSUlHZGpT?=
- =?utf-8?B?NEFlczdTNUJwb01scmRZMFdpcGkvZVVmVlVKb0dMSVplaWFuQjJQMzhQcnZ3?=
- =?utf-8?B?VVl5SFdqWTNCTzh2czZLZ0dWa1ZHVE5LeVhadkFNVytxdU9lMXhpQ0daMS9Q?=
- =?utf-8?B?ZWRSVzlOOEZ0WkF1M1RtOHVNUSt3MHU3RGFqdDcvVzkrSlRicHcrQVZ3dERM?=
- =?utf-8?B?Y0g5WXg5NTcvNE4wcVB0L3lVL1RMaTdsbEhVZ1FNTHN6ZThWUXlNVWJxeCtK?=
- =?utf-8?B?bThITlJUdThkZDY0a2I0THJqU2NUQVBmZk1RVG81MjdsN2xLdXpjRUNCcHcy?=
- =?utf-8?B?bmxsaC9LcjY3UHdFOVFrY1FXRFdDaEZzZnVsWlowR0UrbkJCTUVrOGV6eEsx?=
- =?utf-8?B?VVBHV202RWRMK2VHRzR5UEwrNG5nQzVlWHpkZ1R1KytDNkFkVDBOTlhmQUFv?=
- =?utf-8?B?Sm9PVGt5TjJnMU9JaXlObk5MODVvUnhXVW5hSXYvdWl3TVJhVFF0ZnVGQ0Rv?=
- =?utf-8?B?K1Z1NWFsWDVORjBJNFRRMjFYd1dSKzQ2QUNWRnFBUzNNZmlJeEhWTXM4NkNw?=
- =?utf-8?B?c2dZWHhicDVtTms1UE9VL2MyVHR1QVZweEM4SDB3WG1jUGlNY2JKSWFaRmI4?=
- =?utf-8?B?cU1VV3hpZVVtK2tWTkdzL2ZTUEFrVXRZMi9MQlViVGxDK25EYkk0OVB5cEgz?=
- =?utf-8?B?eG9hbXN1b2N4NnRjTDVzK3ZRN0Y4UFNvMXM1TGQyTWxCbjNNRDQ1OWRGallD?=
- =?utf-8?B?TmJuTHpMbzB5cVRSaVNZWmRlRzgyQWdINHpVRzA2Ykd3blVZKzhFZEh6a3hL?=
- =?utf-8?B?aStXcEJ2QktTby9ZaE9yME9mVTYxM3hOKzNacklZZmFzMktHYjBBUDlWRjlH?=
- =?utf-8?B?SFN6ZXNVcjlNSjVKQTdmM1BWNzA0TzFsQ1crOUltYnFBWVdRaTdEYVI5V1Ft?=
- =?utf-8?Q?mCumsiuCnPsA6?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f7b91892-ca52-4166-8c4f-08d925ab9dd9
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3775.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Jun 2021 09:48:47.0329 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: vqN9NEoIlKpMfTRbduPozDia+um/PgxC6WfkYsLrEvY85XnjTK5PEhbbnzW6fj3V
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL0PR12MB4930
+References: <CAAxE2A4XS2mCXOdvxm1ZAhG2OY9w1P0X2E1ac1TXNFKDekog5g@mail.gmail.com>
+ <e7cb9833-1044-0426-5ce4-5b5fc32a3603@daenzer.net>
+ <327e4008-b29f-f5b7-bb30-532fa52c797f@gmail.com>
+ <7f19e3c7-b6b2-5200-95eb-3fed8d22a6b3@daenzer.net>
+ <b0d65f94-cc56-a4db-3158-7b1de3952792@gmail.com>
+ <CAKMK7uGaD_LuX-SZDALuDuEOMZNX=Q3FAq0xYf_pTVtNe6VUaw@mail.gmail.com>
+ <c7190219-c185-3b7e-42a6-691934f79fb3@gmail.com>
+ <CAPj87rPbiFf3qDo35gmirAoTOOJ5fEE6UxQdJKtfjX_VTqc6pg@mail.gmail.com>
+ <bbb990cf-008a-e4d3-93d3-a9adc2f202b7@gmail.com>
+In-Reply-To: <bbb990cf-008a-e4d3-93d3-a9adc2f202b7@gmail.com>
+From: =?UTF-8?B?TWFyZWsgT2zFocOhaw==?= <maraeo@gmail.com>
+Date: Wed, 2 Jun 2021 05:58:31 -0400
+Message-ID: <CAAxE2A5Hrw7oqYKttEYBdd7k6onqZc8ksak5T-Ry1oKJEZtSbw@mail.gmail.com>
+Subject: Re: [Mesa-dev] Linux Graphics Next: Userspace submission update
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
+Content-Type: multipart/alternative; boundary="0000000000006fc5b805c3c58259"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -133,38 +70,190 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Matthew Auld <matthew.auld@intel.com>
+Cc: =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel@daenzer.net>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Jason Ekstrand <jason@jlekstrand.net>,
+ ML Mesa-dev <mesa-dev@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 02.06.21 um 11:16 schrieb Thomas Hellström (Intel):
+--0000000000006fc5b805c3c58259
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+On Wed, Jun 2, 2021 at 5:44 AM Christian K=C3=B6nig <
+ckoenig.leichtzumerken@gmail.com> wrote:
+
+> Am 02.06.21 um 10:57 schrieb Daniel Stone:
+> > Hi Christian,
+> >
+> > On Tue, 1 Jun 2021 at 13:51, Christian K=C3=B6nig
+> > <ckoenig.leichtzumerken@gmail.com> wrote:
+> >> Am 01.06.21 um 14:30 schrieb Daniel Vetter:
+> >>> If you want to enable this use-case with driver magic and without the
+> >>> compositor being aware of what's going on, the solution is EGLStreams=
+.
+> >>> Not sure we want to go there, but it's definitely a lot more feasible
+> >>> than trying to stuff eglstreams semantics into dma-buf implicit
+> >>> fencing support in a desperate attempt to not change compositors.
+> >> Well not changing compositors is certainly not something I would try
+> >> with this use case.
+> >>
+> >> Not changing compositors is more like ok we have Ubuntu 20.04 and need
+> >> to support that we the newest hardware generation.
+> > Serious question, have you talked to Canonical?
+> >
+> > I mean there's a hell of a lot of effort being expended here, but it
+> > seems to all be predicated on the assumption that Ubuntu's LTS
+> > HWE/backport policy is totally immutable, and that we might need to
+> > make the kernel do backflips to work around that. But ... is it? Has
+> > anyone actually asked them how they feel about this?
 >
-> On 6/2/21 10:32 AM, Christian König wrote:
->> Uff I'm just waiting for feedback from Philip to merge a large patch 
->> set for TTM through drm-misc-next.
->>
->> I'm pretty sure we will run into merge conflicts if you try to push 
->> your changes through the Intel tree.
->>
->> Christian.
+> This was merely an example. What I wanted to say is that we need to
+> support system already deployed.
 >
-> OK, so what would be the best approach here?, Adding the TTM patches 
-> to drm-misc-next when your set has landed?
-
-I think I will send out out my set to Matthew once more for review, then 
-push the common TTM stuff to drm-misc-next as much as possible.
-
-Then you should be able to land your stuff to drm-misc-next and rebase 
-on the end result.
-
-Just need to note to David that drm-misc-next should be merged to 
-drm-next before the Intel patches depending on that stuff land as well.
-
-Christian.
-
+> In other words our customers won't accept that they need to replace the
+> compositor just because they switch to a new hardware generation.
 >
-> Thanks,
+> > I mean, my answer to the first email is 'no, absolutely not' from the
+> > technical perspective (the initial proposal totally breaks current and
+> > future userspace), from a design perspective (it breaks a lot of
+> > usecases which aren't single-vendor GPU+display+codec, or aren't just
+> > a simple desktop), and from a sustainability perspective (cutting
+> > Android adrift again isn't acceptable collateral damage to make it
+> > easier to backport things to last year's Ubuntu release).
+> >
+> > But then again, I don't even know what I'm NAKing here ... ? The
+> > original email just lists a proposal to break a ton of things, with
+> > proposed replacements which aren't technically viable, and it's not
+> > clear why? Can we please have some more details and some reasoning
+> > behind them?
+> >
+> > I don't mind that userspace (compositor, protocols, clients like Mesa
+> > as well as codec APIs) need to do a lot of work to support the new
+> > model. I do really care though that the hard-binary-switch model works
+> > fine enough for AMD but totally breaks heterogeneous systems and makes
+> > it impossible for userspace to do the right thing.
 >
-> Thomas
+> Well how the handling for new Android, distributions etc... is going to
+> look like is a completely different story.
+>
+> And I completely agree with both Daniel Vetter and you that we need to
+> keep this in mind when designing the compatibility with older software.
+>
+> For Android I'm really not sure what to do. In general Android is
+> already trying to do the right thing by using explicit sync, the problem
+> is that this is build around the idea that this explicit sync is
+> syncfile kernel based.
+>
+> Either we need to change Android and come up with something that works
+> with user fences as well or we somehow invent a compatibility layer for
+> syncfile as well.
 >
 
+What's the issue with syncfiles that syncobjs don't suffer from?
+
+Marek
+
+--0000000000006fc5b805c3c58259
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail=
+_attr">On Wed, Jun 2, 2021 at 5:44 AM Christian K=C3=B6nig &lt;<a href=3D"m=
+ailto:ckoenig.leichtzumerken@gmail.com">ckoenig.leichtzumerken@gmail.com</a=
+>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px=
+ 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Am =
+02.06.21 um 10:57 schrieb Daniel Stone:<br>
+&gt; Hi Christian,<br>
+&gt;<br>
+&gt; On Tue, 1 Jun 2021 at 13:51, Christian K=C3=B6nig<br>
+&gt; &lt;<a href=3D"mailto:ckoenig.leichtzumerken@gmail.com" target=3D"_bla=
+nk">ckoenig.leichtzumerken@gmail.com</a>&gt; wrote:<br>
+&gt;&gt; Am 01.06.21 um 14:30 schrieb Daniel Vetter:<br>
+&gt;&gt;&gt; If you want to enable this use-case with driver magic and with=
+out the<br>
+&gt;&gt;&gt; compositor being aware of what&#39;s going on, the solution is=
+ EGLStreams.<br>
+&gt;&gt;&gt; Not sure we want to go there, but it&#39;s definitely a lot mo=
+re feasible<br>
+&gt;&gt;&gt; than trying to stuff eglstreams semantics into dma-buf implici=
+t<br>
+&gt;&gt;&gt; fencing support in a desperate attempt to not change composito=
+rs.<br>
+&gt;&gt; Well not changing compositors is certainly not something I would t=
+ry<br>
+&gt;&gt; with this use case.<br>
+&gt;&gt;<br>
+&gt;&gt; Not changing compositors is more like ok we have Ubuntu 20.04 and =
+need<br>
+&gt;&gt; to support that we the newest hardware generation.<br>
+&gt; Serious question, have you talked to Canonical?<br>
+&gt;<br>
+&gt; I mean there&#39;s a hell of a lot of effort being expended here, but =
+it<br>
+&gt; seems to all be predicated on the assumption that Ubuntu&#39;s LTS<br>
+&gt; HWE/backport policy is totally immutable, and that we might need to<br=
+>
+&gt; make the kernel do backflips to work around that. But ... is it? Has<b=
+r>
+&gt; anyone actually asked them how they feel about this?<br>
+<br>
+This was merely an example. What I wanted to say is that we need to <br>
+support system already deployed.<br>
+<br>
+In other words our customers won&#39;t accept that they need to replace the=
+ <br>
+compositor just because they switch to a new hardware generation.<br>
+<br>
+&gt; I mean, my answer to the first email is &#39;no, absolutely not&#39; f=
+rom the<br>
+&gt; technical perspective (the initial proposal totally breaks current and=
+<br>
+&gt; future userspace), from a design perspective (it breaks a lot of<br>
+&gt; usecases which aren&#39;t single-vendor GPU+display+codec, or aren&#39=
+;t just<br>
+&gt; a simple desktop), and from a sustainability perspective (cutting<br>
+&gt; Android adrift again isn&#39;t acceptable collateral damage to make it=
+<br>
+&gt; easier to backport things to last year&#39;s Ubuntu release).<br>
+&gt;<br>
+&gt; But then again, I don&#39;t even know what I&#39;m NAKing here ... ? T=
+he<br>
+&gt; original email just lists a proposal to break a ton of things, with<br=
+>
+&gt; proposed replacements which aren&#39;t technically viable, and it&#39;=
+s not<br>
+&gt; clear why? Can we please have some more details and some reasoning<br>
+&gt; behind them?<br>
+&gt;<br>
+&gt; I don&#39;t mind that userspace (compositor, protocols, clients like M=
+esa<br>
+&gt; as well as codec APIs) need to do a lot of work to support the new<br>
+&gt; model. I do really care though that the hard-binary-switch model works=
+<br>
+&gt; fine enough for AMD but totally breaks heterogeneous systems and makes=
+<br>
+&gt; it impossible for userspace to do the right thing.<br>
+<br>
+Well how the handling for new Android, distributions etc... is going to <br=
+>
+look like is a completely different story.<br>
+<br>
+And I completely agree with both Daniel Vetter and you that we need to <br>
+keep this in mind when designing the compatibility with older software.<br>
+<br>
+For Android I&#39;m really not sure what to do. In general Android is <br>
+already trying to do the right thing by using explicit sync, the problem <b=
+r>
+is that this is build around the idea that this explicit sync is <br>
+syncfile kernel based.<br>
+<br>
+Either we need to change Android and come up with something that works <br>
+with user fences as well or we somehow invent a compatibility layer for <br=
+>
+syncfile as well.<br></blockquote><div><br></div>What&#39;s the issue with =
+syncfiles that syncobjs don&#39;t suffer from?</div><div class=3D"gmail_quo=
+te"><br></div><div class=3D"gmail_quote">Marek<br></div></div>
+
+--0000000000006fc5b805c3c58259--
