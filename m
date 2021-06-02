@@ -2,121 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3221139842B
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Jun 2021 10:32:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 40A7C398447
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Jun 2021 10:38:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2893C6EB80;
-	Wed,  2 Jun 2021 08:32:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7DEBC6EB7F;
+	Wed,  2 Jun 2021 08:38:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com
- (mail-bn7nam10on2076.outbound.protection.outlook.com [40.107.92.76])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A283B6EB86;
- Wed,  2 Jun 2021 08:32:17 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Zi1XASfX06VCecjUN91XjVHwYQ8xRJpqmn3r5Q1n/gG0seJ1hG1Zss3+M/1eWPfc5LwAwHPj1ByIeTyWtai8yY5e8Sh+HBNdKcjjVi2HBSdomHWl3rqW4flOaWWOE9gB3Lb3/cTnYUYkofXlhaBsyrIgKowbnKk+z1wuFhTaD0MxMPT5+y/YvDIAoI2vuTDOp/JlNY5uO8NASxT8tBqFo482Tp+/QtUOc12ftC9f0Imjd5slGoCANAAwQhQzyOvmQ13lAmnNqKCgA9+jI5cckcQzn4h0Xs5qaL6ECSwARRDxPfDt6jyV2FqGdv4PEwVn3YrVsDc0gtVkXlNCpTGbYQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=vB5B5+/yqOLYB02HK2C54wmZgImJKSbJ3OZNZTurjuA=;
- b=TCVDOkqQC1Sf/jerR8kljHt/96DhudL5W1CXq+WvIdc5AAg5kIRrvR7b+qbC0y9Z1d2vLTjbw6Ovjcu89f4a2gIRiXa9p+pM2KmV5wNyGPR2wc8QqQjg+iq8Sx/abbxpfDCJbs2ortbuIsGCGyJVxpdJsDWAS+jedfBxEJRfhchOoj0UxT4Q/plszLfeg/NrIkXqfE4xw5qNhE0jS1w4s3hma1AdIEafwehA+izTQ4up4bz0NdTUIC1NIbhU4uScFIb80Nzct/i1f1u7fUdTZbtQUxwxW8oTPIH1g5TZ70iuxtdEMgwPzsw4WmDP/FIX0voitOfCOxqn4pm1pxJVnQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=vB5B5+/yqOLYB02HK2C54wmZgImJKSbJ3OZNZTurjuA=;
- b=GMfg7hvFiphxGvdDRY7YDdpNjeWWxbKCDm3FkkjhbXZqoyV1dZLK3TwYqDLCR3AGI6CtyW3JEUqd8Z3LV+ACdkRFp8bjECvb10YzQPyqLkOTpAe3WocYg/RLsa5qcglE9kFpf5e/8Z2q+4O9hyTXeIJXWwEJPr6gu5IwexiMHSk=
-Authentication-Results: intel.com; dkim=none (message not signed)
- header.d=none;intel.com; dmarc=none action=none header.from=amd.com;
-Received: from MN2PR12MB3775.namprd12.prod.outlook.com (2603:10b6:208:159::19)
- by MN2PR12MB4094.namprd12.prod.outlook.com (2603:10b6:208:15f::23)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4173.22; Wed, 2 Jun
- 2021 08:32:13 +0000
-Received: from MN2PR12MB3775.namprd12.prod.outlook.com
- ([fe80::6d4d:4674:1cf6:8d34]) by MN2PR12MB3775.namprd12.prod.outlook.com
- ([fe80::6d4d:4674:1cf6:8d34%6]) with mapi id 15.20.4173.033; Wed, 2 Jun 2021
- 08:32:13 +0000
-Subject: Re: Merging TTM branches through the Intel tree?
-To: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>
-References: <a29eaef9-2457-1393-6757-40956811daf8@linux.intel.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-Message-ID: <a6965639-acf6-b5f5-482c-2715e7fa69d4@amd.com>
-Date: Wed, 2 Jun 2021 10:32:07 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
-In-Reply-To: <a29eaef9-2457-1393-6757-40956811daf8@linux.intel.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-Originating-IP: [2a02:908:1252:fb60:cd07:2759:3eec:1d00]
-X-ClientProxiedBy: PR3P189CA0089.EURP189.PROD.OUTLOOK.COM
- (2603:10a6:102:b4::34) To MN2PR12MB3775.namprd12.prod.outlook.com
- (2603:10b6:208:159::19)
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 06C066EB7F;
+ Wed,  2 Jun 2021 08:38:32 +0000 (UTC)
+IronPort-SDR: vBn1RQyeif8X8BHUsqk91Q9LZWKbBY5Sami0t77kFnGvC7+vZ7rMv1Y6k/Kv6C9EjxSAUwU+qS
+ RAKPauG1GhmQ==
+X-IronPort-AV: E=McAfee;i="6200,9189,10002"; a="225026217"
+X-IronPort-AV: E=Sophos;i="5.83,241,1616482800"; d="scan'208";a="225026217"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Jun 2021 01:38:31 -0700
+IronPort-SDR: STuE+3y5YhzvcyQFJXeenKXE0mBV1gGtkdEhi0hRI7DLRjAJd+fe6wIoqljUDCDbQEltoJjNud
+ eFrtVqb02saQ==
+X-IronPort-AV: E=Sophos;i="5.83,241,1616482800"; d="scan'208";a="467376282"
+Received: from lmarkel-mobl1.ger.corp.intel.com (HELO thellst-mobl1.intel.com)
+ ([10.249.254.49])
+ by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Jun 2021 01:38:29 -0700
+From: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
+To: intel-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org
+Subject: [PATCH v10 00/11] Move LMEM (VRAM) management over to TTM
+Date: Wed,  2 Jun 2021 10:38:07 +0200
+Message-Id: <20210602083818.241793-1-thomas.hellstrom@linux.intel.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [IPv6:2a02:908:1252:fb60:cd07:2759:3eec:1d00]
- (2a02:908:1252:fb60:cd07:2759:3eec:1d00) by
- PR3P189CA0089.EURP189.PROD.OUTLOOK.COM (2603:10a6:102:b4::34) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4195.15 via Frontend Transport; Wed, 2 Jun 2021 08:32:11 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: f1159efb-3b8c-4d75-ef13-08d925a0eb85
-X-MS-TrafficTypeDiagnostic: MN2PR12MB4094:
-X-Microsoft-Antispam-PRVS: <MN2PR12MB4094A1D08BB0FDB78501A11A833D9@MN2PR12MB4094.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:4941;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 8dha7mBNW4hSybw7nGC4lSnm87hcWWVRQgQChou50Zu4jYliDeJ+f+NEW/iuuyLSrsrW8HioK1bLI6s3CkCYcxh6LD3BwTeWVexC99VyPzweoXErJ0jBvgPp2qssC+Dfwo4qO/lefJvfiAGUq2CBAmhwaiLyX/SV+qyWTULiJo0iTP15o70i8Q8j/KjOB2O+ZLSqB0/zuHjgaOfOvN7xiAbJQ5L9vyIW8IEMECf7deME5FYpYDpnCdpx3ZAZKRHNzN9d2SNpEUPoQu5EQjIOu8SQEubpO4Rcub9sW84TnO9BSbXToXOeBkOUukd9q7dEcROVlqbhoKciZFkCwKKsPLGgE87AI7xZlbEjtZBcKm4wu4Jkn3F1SZnmQthYwhFcfUGuWDdPyR9iOxPx+qzpNuc12CRvtNMFgW5oS6EiOzGdtcCAkCJS+guHRYLolQf3Z1REVNOjy2FT09hVyj/YvLO2WaPY0xDaTfD3KoWG8JQTomTQFwerR5pihCGQt94A7Nq3t2YqHI9jhbCKnmr0K0nWDJXCl7ipmL9v2hdDA/GZmddeJbNwGl1OUKN26efJZNXhWZE03CTZImD58eojXn7clKJsNiTX3eOWTghekhrYGTR1uFDHT1TfkJoH5n//1PHLdn2BX2RKuTA6ihcntMNFgQ3JC9j/bri7M/aI0n7h3BqpYFHGzbJqTXwo3svA
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN2PR12MB3775.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(346002)(366004)(136003)(39860400002)(396003)(376002)(36756003)(6486002)(66946007)(110136005)(478600001)(316002)(16526019)(6666004)(31696002)(31686004)(2906002)(86362001)(66556008)(66476007)(4744005)(5660300002)(8936002)(2616005)(38100700002)(8676002)(186003)(4326008)(45980500001)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?MWlPZU54cWYyTTBKTElPS3l2REQ5L2JxaEdUalVnMTlZOXc0eVFKbTVCMGtp?=
- =?utf-8?B?cGI0SDVabmFyK0pLRnFyblJaL0RaMjdYeEtiWDhDcjlMTmgvZXdRTU1yQVJ1?=
- =?utf-8?B?Z1FIR1BWYThaZWMvZERCVHJxN3IxMTI4a3dNMU4zMEFZR1AxT3pQRlFxM2VQ?=
- =?utf-8?B?NThCNWFZbGhpYS9rcm1GZkFtVEVSUkdsZktJK2p6RENPbUdtZjhFRC96S3hM?=
- =?utf-8?B?UU1nY1JXU2ZURkVsczlyWGhmMU9HUWc4bytqWThPdzZBRGFobCt5RDFtaU1K?=
- =?utf-8?B?cDNKcUZUR1N4c2hlWGFzT2xCYkZ5QnN4QmhCMXZpY21NR1N1bkxXaWZhYzM1?=
- =?utf-8?B?N0UxMld3TU1YQUw1Sm5kUTBRNnFJSG0wUzMra2k4cHF2OG91QTlGOUw2aThm?=
- =?utf-8?B?RENDZjE1em1PNDU4UzV2aUJHL3QzbDBTWHpoejBuVjg5b0lnbjJxVUFmKzIy?=
- =?utf-8?B?M3lrcXVudERhRXRndTZIMXFNK2c4aVV1TFY3YnU0SW5lLzMvb2cyZXAyc3ZK?=
- =?utf-8?B?SjhKRjBpbUFDTzAxTjAwNGZBWnQyZEFGYjhaZnJqTk5FaHVWcGdEdU8rSzhh?=
- =?utf-8?B?QnhrWnZaVzNsS1d5dCs0ZHFNT0k0Y0JkcHpFOVFpRndQU1poYkdTMTlTUzQ2?=
- =?utf-8?B?bThRMkVjcUJVT3dhSkFGZS9lczI5WTk4eGRvc21BZzVqWVNrbEwrMndybC8y?=
- =?utf-8?B?ZndSR3ZZdVhBeEo0RXl1cG1VQUJGMUtNN1RCSm81b1FPSVVPWkhydWZGVXVE?=
- =?utf-8?B?VnRkVEQ0MzBVVUNPRDZlZ3JzbldSQ01rZFpORVllWGFiYVk5ZzBjekNUbUdO?=
- =?utf-8?B?MmdudllPS01wR2E5QUpMbmlDSnRtNVBjSnB3VmxBejlBVkNIVEt0a0RJMXZV?=
- =?utf-8?B?bWhzcnFmN3lSc1ZNbEJJR0xxTnFPeXV1WTc1V0U4ZGt5SlYzQUV6R05FNW5K?=
- =?utf-8?B?VElFYnFOSDNtWTl2Qlhlb1ZmanNaMFZQSmZ0Zjc5NWU0dVdJT1BzWkRNcVNC?=
- =?utf-8?B?RmlRSzhnc3VIVE5PMURibWpvNWxlSGZWSEsydFhpNExGZENzMklQT0R5ckVW?=
- =?utf-8?B?aGtWc2hXN3FIK3NZeG01NGFtUDNiLy9xU0drOTNHb1VTeDJvN3FoNm5aRzAy?=
- =?utf-8?B?NUNvdlBDTlZVZEh5NzFzV1FYcnVzb2xKRkt2V01EejlIcVRyTlBtWEdGY1Nm?=
- =?utf-8?B?aG5pc3pDMC9kc2NHMlFMU0FoaDA2WS9zLzVYM09UamxKMDNCbVZ1bnVYK3Z2?=
- =?utf-8?B?YTU5RzUwVzN6R2tnOE1OTUR5allDei9iTmptVVFTaWZQc1pZaGttY1l0dUZ3?=
- =?utf-8?B?Mjh4emMwMTdBZFRyZnZId3lyWUtmOVZtRGM3T294N0ozZG5tL1FDZUh6VjFj?=
- =?utf-8?B?ak1DYlBZZlZycjVheFI0VW9JK3ZUcWpjR25zMkVKTCtOcmIwZkVleWEwM0pB?=
- =?utf-8?B?ZjM1anl0YnRJTUlCdG1QeVVQcFFpMGlreUdta05HVWRiVVF1VzNJWEtOK1pB?=
- =?utf-8?B?SFZVckdBMEthYnlpdGFlV1VxbHJVRk5oMlp5dmMzdjJYc3R6aWtac1pjWS9p?=
- =?utf-8?B?cGgxNUoyb1RJQkQ1ZlNUY1VyUmpYVDBubDY0endaU1BQNUttU0llS0xEZGFx?=
- =?utf-8?B?VS9WN284dmxmY2hya0c0UnRPcG12d2YyRVFtUVFOa2UzRnNQZFFmS29FaTlG?=
- =?utf-8?B?MVUrUzVLaXdNTzkxNmh6SkdDemdRemU4Z2l5V1dMNDRDWmZwYkphV0lyNVFR?=
- =?utf-8?B?VytSMmkvUTFVdy8xRHpncFRieVJaWkh6K0IvYmtQTzMxVGlJUmhRNDdDV1FX?=
- =?utf-8?B?QkJWNDUzUmcrbWJ6NkJTaHFLditaS1Q0ZllreTYxQ1Bnd0xKQ3hXMUI2ejB4?=
- =?utf-8?Q?W52Oy7iSVga/j?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f1159efb-3b8c-4d75-ef13-08d925a0eb85
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3775.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Jun 2021 08:32:13.0461 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: JWWPORBjETLb8Ve6UhfkmmvWezGZzlKdbNKvNZ31Y7bUibugoGxiOxjv8Tda0py0
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4094
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -129,24 +48,160 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Matthew Auld <matthew.auld@intel.com>
+Cc: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Uff I'm just waiting for feedback from Philip to merge a large patch set 
-for TTM through drm-misc-next.
+This is an initial patch series to move discrete memory management over to
+TTM. It will be followed up shortly with adding more functionality.
 
-I'm pretty sure we will run into merge conflicts if you try to push your 
-changes through the Intel tree.
+The buddy allocator is temporarily removed along with its selftests and
+It is replaced with the TTM range manager and some selftests are adjusted
+to account for introduced fragmentation. Work is ongoing to reintroduce the
+buddy allocator as a TTM resource manager.
 
-Christian.
+A new memcpy ttm move is introduced that uses kmap_local() functionality
+rather than vmap(). Among other things stated in the patch commit message
+it helps us deal with page-pased LMEM memory. It is generic enough to replace
+the ttm memcpy move with some additional work if so desired. On x86 it also
+enables prefetching reads from write-combined memory.
 
-Am 02.06.21 um 10:26 schrieb Thomas Hellström:
-> Christian, Are you OK with merging the TTM brances from the i915 TTM 
-> enablement series through the intel tree?
->
-> Thanks,
-> Thomas
->
->
+Finally the old i915 gem object LMEM backend is replaced with a
+i915 gem object TTM backend and some additional i915 gem object ops are
+introduced to support the added functionality.
+Currently it is used only to support management and eviction of the LMEM
+region, but work is underway to extend the support to system memory. In this
+way we use TTM the way it was originally intended, having the GPU binding
+taken care of by driver code.
+
+Intention is to follow up with
+- System memory support
+- Pipelined accelerated moves / migration
+- Re-added buddy allocator in the TTM framework
+
+v2:
+- Add patches to move pagefaulting over to TTM
+- Break out TTM changes to separate patches
+- Address various review comments as detailed in the affected patches
+
+v3:
+- Drop TTM pagefaulting patches for now due changing approach due to a NAK.
+- Address feedback on TTM patches
+- Move the new TTM memcpy functionality into TTM.
+- Move fast WC memcpy to drm
+- Various fixes all over the place as shown in patch commit messages.
+
+v4:
+- Re-add TTM pagefaulting patches.
+- Addressed review feedback mainly from Matthew Auld
+- Fixed the mock ttm device code that was using an incorrect approach.
+
+v5:
+- Cleanups in the TTM pagefaulting patches.
+- Just add the WC memcpy to DRM without removing from i915
+  (Suggested by Daniel Vetter).
+- Various minor fixes as reported in patch log messages.
+v6:
+- Fix a merge conflict causing build error.
+v7:
+- Fix the WC memcpy compilation and perform a fallback memcpy in addition to
+  warning in interrupt (Suggested by Christian König)
+- Renistate check for ttm_tt_is_populated() on swapout.
+v8:
+- Added a couple of acks and r-bs
+- pgoff_t -> u32 in interface of ttm_move_memcpy.
+- Fix missing export in !X86 WC memcpy.
+v9:
+- Fix a NULL pointer deref if bo->ttm == NULL
+v10:
+- Fix a kerneldoc title underline
+
+Cc: Christian König <christian.koenig@amd.com>
+
+Maarten Lankhorst (2):
+  drm/vma: Add a driver_private member to vma_node.
+  drm/i915: Use ttm mmap handling for ttm bo's.
+
+Thomas Hellström (9):
+  drm/i915/ttm Initialize the ttm device and memory managers
+  drm/i915/ttm: Embed a ttm buffer object in the i915 gem object
+  drm/ttm: Add a generic TTM memcpy move for page-based iomem
+  drm: Add a prefetching memcpy_from_wc
+  drm/ttm: Use drm_memcpy_from_wc for TTM bo moves
+  drm/ttm: Document and optimize ttm_bo_pipeline_gutting()
+  drm/ttm, drm/amdgpu: Allow the driver some control over swapping
+  drm/i915/ttm: Introduce a TTM i915 gem object backend
+  drm/i915/lmem: Verify checks for lmem residency
+
+ Documentation/gpu/drm-mm.rst                  |   4 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c       |   4 +
+ drivers/gpu/drm/drm_cache.c                   | 148 ++++
+ drivers/gpu/drm/drm_drv.c                     |   2 +
+ drivers/gpu/drm/drm_gem.c                     |   9 -
+ drivers/gpu/drm/i915/Kconfig                  |   1 +
+ drivers/gpu/drm/i915/Makefile                 |   3 +-
+ drivers/gpu/drm/i915/display/intel_display.c  |   2 +-
+ drivers/gpu/drm/i915/gem/i915_gem_create.c    |   9 +-
+ drivers/gpu/drm/i915/gem/i915_gem_lmem.c      |  71 +-
+ drivers/gpu/drm/i915/gem/i915_gem_lmem.h      |   5 -
+ drivers/gpu/drm/i915/gem/i915_gem_mman.c      |  83 +-
+ drivers/gpu/drm/i915/gem/i915_gem_object.c    | 150 +++-
+ drivers/gpu/drm/i915/gem/i915_gem_object.h    |  19 +-
+ .../gpu/drm/i915/gem/i915_gem_object_types.h  |  48 +-
+ drivers/gpu/drm/i915/gem/i915_gem_pages.c     |   6 +-
+ drivers/gpu/drm/i915/gem/i915_gem_region.c    | 126 +--
+ drivers/gpu/drm/i915/gem/i915_gem_region.h    |   4 -
+ drivers/gpu/drm/i915/gem/i915_gem_shmem.c     |   4 +-
+ drivers/gpu/drm/i915/gem/i915_gem_stolen.c    |  10 +-
+ drivers/gpu/drm/i915/gem/i915_gem_stolen.h    |   9 +-
+ drivers/gpu/drm/i915/gem/i915_gem_ttm.c       | 647 ++++++++++++++
+ drivers/gpu/drm/i915/gem/i915_gem_ttm.h       |  48 ++
+ .../drm/i915/gem/selftests/i915_gem_mman.c    |  90 +-
+ drivers/gpu/drm/i915/gt/intel_gt.c            |   2 -
+ drivers/gpu/drm/i915/gt/intel_region_lmem.c   |  30 +-
+ drivers/gpu/drm/i915/i915_buddy.c             | 435 ----------
+ drivers/gpu/drm/i915/i915_buddy.h             | 131 ---
+ drivers/gpu/drm/i915/i915_drv.c               |   8 +
+ drivers/gpu/drm/i915/i915_drv.h               |   8 +-
+ drivers/gpu/drm/i915/i915_gem.c               |   6 +-
+ drivers/gpu/drm/i915/i915_globals.c           |   1 -
+ drivers/gpu/drm/i915/i915_globals.h           |   1 -
+ drivers/gpu/drm/i915/i915_scatterlist.c       |  70 ++
+ drivers/gpu/drm/i915/i915_scatterlist.h       |   4 +
+ drivers/gpu/drm/i915/intel_memory_region.c    | 181 ++--
+ drivers/gpu/drm/i915/intel_memory_region.h    |  45 +-
+ drivers/gpu/drm/i915/intel_region_ttm.c       | 220 +++++
+ drivers/gpu/drm/i915/intel_region_ttm.h       |  37 +
+ drivers/gpu/drm/i915/selftests/i915_buddy.c   | 789 ------------------
+ .../drm/i915/selftests/i915_mock_selftests.h  |   1 -
+ drivers/gpu/drm/i915/selftests/igt_mmap.c     |  25 +-
+ drivers/gpu/drm/i915/selftests/igt_mmap.h     |  12 +-
+ .../drm/i915/selftests/intel_memory_region.c  | 133 +--
+ .../gpu/drm/i915/selftests/mock_gem_device.c  |  10 +
+ drivers/gpu/drm/i915/selftests/mock_region.c  |  70 +-
+ drivers/gpu/drm/ttm/ttm_bo.c                  |  66 +-
+ drivers/gpu/drm/ttm/ttm_bo_util.c             | 320 +++----
+ drivers/gpu/drm/ttm/ttm_module.c              |  35 +
+ drivers/gpu/drm/ttm/ttm_resource.c            | 193 +++++
+ drivers/gpu/drm/ttm/ttm_tt.c                  |  45 +
+ include/drm/drm_cache.h                       |   7 +
+ include/drm/drm_vma_manager.h                 |   2 +-
+ include/drm/ttm/ttm_bo_driver.h               |  28 +
+ include/drm/ttm/ttm_caching.h                 |   2 +
+ include/drm/ttm/ttm_kmap_iter.h               |  61 ++
+ include/drm/ttm/ttm_resource.h                |  61 ++
+ include/drm/ttm/ttm_tt.h                      |  29 +
+ 58 files changed, 2416 insertions(+), 2154 deletions(-)
+ create mode 100644 drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+ create mode 100644 drivers/gpu/drm/i915/gem/i915_gem_ttm.h
+ delete mode 100644 drivers/gpu/drm/i915/i915_buddy.c
+ delete mode 100644 drivers/gpu/drm/i915/i915_buddy.h
+ create mode 100644 drivers/gpu/drm/i915/intel_region_ttm.c
+ create mode 100644 drivers/gpu/drm/i915/intel_region_ttm.h
+ delete mode 100644 drivers/gpu/drm/i915/selftests/i915_buddy.c
+ create mode 100644 include/drm/ttm/ttm_kmap_iter.h
+
+-- 
+2.31.1
 
