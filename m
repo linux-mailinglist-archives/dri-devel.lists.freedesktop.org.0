@@ -2,69 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA2BD3988DB
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Jun 2021 14:04:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21BC339890C
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Jun 2021 14:09:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 361176EC55;
-	Wed,  2 Jun 2021 12:04:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E6EB76EC64;
+	Wed,  2 Jun 2021 12:09:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com
- [IPv6:2a00:1450:4864:20::62e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 96FF86EC55
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Jun 2021 12:04:26 +0000 (UTC)
-Received: by mail-ej1-x62e.google.com with SMTP id h24so3497831ejy.2
- for <dri-devel@lists.freedesktop.org>; Wed, 02 Jun 2021 05:04:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-transfer-encoding:content-language;
- bh=LmBqwR2LBmBCFFgFblIc9CBZUvdDr0CehQMRUNWvfis=;
- b=G0qKbAfOVw/A+MwOHlbAly+CDJXMHzv0ScEgbSOG3/GZHrf5koNB0sWFzSoUqT25mR
- kd3hYpJyh4qb34FlMQ9a0BhXJCxb1zYxENlT7fMI9zgyvylIrp/cmuRt537gv0GqMK9G
- 882QHcRgI0/tJCe2OOuBLk4Za75/tAbJSngmwk4vF1YAH+egKobVOiOqmpXi1JZs8Rg8
- vez+gRb+2UAoTuIUl2x6Y2RKVr2RJ/B7rmO6kleZoaqlQNScDVSRksJDQhs5prxl287U
- bLPUPAUOV7LqQVaKJefhQICoej7Kw9napio9IcPqfG7uQG8VPCz5m/9jbnUtiKDGB3ad
- XvTQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-transfer-encoding
- :content-language;
- bh=LmBqwR2LBmBCFFgFblIc9CBZUvdDr0CehQMRUNWvfis=;
- b=SSi6lswD7oh48FNc2FlOPzs1F++F4cOPJMUsErttAo+yuHcn2IaEup4emtbg7z8bZ3
- eis4EA1isLjHWGPs7QaK117z5P7AYpZEfcEX4qOyQ68H/5oKzaBKekcD7CF+Srxzrpx4
- PnE1qFIBI6nX/e8Pd3WGnA/AjRE74892nPFE4chDWpG9fk3Tcultlg0ZPu5/8htGhZH6
- tmHE/P0tjcPhlVbDlm2Kyxn1d4lYDxxY7770PBsGvrT/IP1EI+voHGGqRgIHg5oxxkXL
- 4nTSIajOu8GGDJiOysLnr89x+rvnQTzuDDR5fydv3EEjvxenWsgyLfFWyxZSwomSjh4I
- vXjA==
-X-Gm-Message-State: AOAM532fIYyhpVDw4CVahMD48XaOH3Hw4becyd6uP1Tj6hPt2rPePJT/
- NoEFHdGpMJXLlmoJYAgBvJMhqWJXW60=
-X-Google-Smtp-Source: ABdhPJyKop57xqReJmk/Eq7n5HZlsUPJB6L50i4qJLKtbCEStvWRdSKhTDJ2KPoY3FgSaWFybTTS+Q==
-X-Received: by 2002:a17:906:80ce:: with SMTP id
- a14mr33023384ejx.311.1622635465296; 
- Wed, 02 Jun 2021 05:04:25 -0700 (PDT)
-Received: from ?IPv6:2a02:908:1252:fb60:cd07:2759:3eec:1d00?
- ([2a02:908:1252:fb60:cd07:2759:3eec:1d00])
- by smtp.gmail.com with ESMTPSA id v1sm5502368ejg.22.2021.06.02.05.04.24
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 02 Jun 2021 05:04:24 -0700 (PDT)
-Subject: Re: [PATCH] drm/ttm: nuke VM_MIXEDMAP on BO mappings
-To: =?UTF-8?Q?Thomas_Hellstr=c3=b6m_=28Intel=29?= <thomas_os@shipmail.org>,
- daniel@ffwll.ch, jgg@ziepe.ca, thomas.hellstrom@linux.intel.com
-References: <20210602083013.1561-1-christian.koenig@amd.com>
- <54c5dc94-b367-70dd-ca8f-afcbda7598c6@shipmail.org>
- <001df485-eed3-3638-0464-9a2ab67ac73f@gmail.com>
- <32d661ae-1eab-918d-cd98-40109e6073df@shipmail.org>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-Message-ID: <37a0336b-48d6-67bb-6a71-bba4daef6aa6@gmail.com>
-Date: Wed, 2 Jun 2021 14:04:23 +0200
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5D5986E3EE;
+ Wed,  2 Jun 2021 12:09:12 +0000 (UTC)
+IronPort-SDR: IMqWuTS4YkeWK98DA3obk14jnKVq9cFg7DRexD2kT/tuRMvbxLovauq0TVXwHlJ8QwlqXw3UcB
+ 2xw8ObJa5D/g==
+X-IronPort-AV: E=McAfee;i="6200,9189,10002"; a="264952349"
+X-IronPort-AV: E=Sophos;i="5.83,242,1616482800"; d="scan'208";a="264952349"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Jun 2021 05:09:09 -0700
+IronPort-SDR: U07W7piHukoa5Z60+vZwWR3F+u77IvBXNdR5nznL7HortkeJprIKl4KAQHJL6MGRX0JWP5Crv3
+ wBvSnmZNPyow==
+X-IronPort-AV: E=Sophos;i="5.83,242,1616482800"; d="scan'208";a="447379681"
+Received: from tstaplex-mobl1.ger.corp.intel.com (HELO [10.213.195.193])
+ ([10.213.195.193])
+ by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Jun 2021 05:09:07 -0700
+Subject: Re: [Intel-gfx] [RFC PATCH 60/97] drm/i915: Track 'serial' counts for
+ virtual engines
+To: Matthew Brost <matthew.brost@intel.com>, intel-gfx@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org
+References: <20210506191451.77768-1-matthew.brost@intel.com>
+ <20210506191451.77768-61-matthew.brost@intel.com>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+Message-ID: <d405fb3d-0c78-f56a-e60e-26583fce4ea0@linux.intel.com>
+Date: Wed, 2 Jun 2021 13:09:05 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <32d661ae-1eab-918d-cd98-40109e6073df@shipmail.org>
+In-Reply-To: <20210506191451.77768-61-matthew.brost@intel.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
 Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,90 +55,197 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: jason.ekstrand@intel.com, daniel.vetter@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
+On 06/05/2021 20:14, Matthew Brost wrote:
+> From: John Harrison <John.C.Harrison@Intel.com>
+> 
+> The serial number tracking of engines happens at the backend of
+> request submission and was expecting to only be given physical
+> engines. However, in GuC submission mode, the decomposition of virtual
+> to physical engines does not happen in i915. Instead, requests are
+> submitted to their virtual engine mask all the way through to the
+> hardware (i.e. to GuC). This would mean that the heart beat code
+> thinks the physical engines are idle due to the serial number not
+> incrementing.
+> 
+> This patch updates the tracking to decompose virtual engines into
+> their physical constituents and tracks the request against each. This
+> is not entirely accurate as the GuC will only be issuing the request
+> to one physical engine. However, it is the best that i915 can do given
+> that it has no knowledge of the GuC's scheduling decisions.
+> 
+> Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
+> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+> ---
+>   drivers/gpu/drm/i915/gt/intel_engine_types.h     |  2 ++
+>   .../gpu/drm/i915/gt/intel_execlists_submission.c |  6 ++++++
+>   drivers/gpu/drm/i915/gt/intel_ring_submission.c  |  6 ++++++
+>   drivers/gpu/drm/i915/gt/mock_engine.c            |  6 ++++++
+>   .../gpu/drm/i915/gt/uc/intel_guc_submission.c    | 16 ++++++++++++++++
+>   drivers/gpu/drm/i915/i915_request.c              |  4 +++-
+>   6 files changed, 39 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/gt/intel_engine_types.h b/drivers/gpu/drm/i915/gt/intel_engine_types.h
+> index 86302e6d86b2..e2b5cda6dbc4 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_engine_types.h
+> +++ b/drivers/gpu/drm/i915/gt/intel_engine_types.h
+> @@ -389,6 +389,8 @@ struct intel_engine_cs {
+>   	void		(*park)(struct intel_engine_cs *engine);
+>   	void		(*unpark)(struct intel_engine_cs *engine);
+>   
+> +	void		(*bump_serial)(struct intel_engine_cs *engine);
+> +
+>   	void		(*set_default_submission)(struct intel_engine_cs *engine);
+>   
+>   	const struct intel_context_ops *cops;
+> diff --git a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
+> index ae12d7f19ecd..02880ea5d693 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
+> @@ -3199,6 +3199,11 @@ static void execlists_release(struct intel_engine_cs *engine)
+>   	lrc_fini_wa_ctx(engine);
+>   }
+>   
+> +static void execlist_bump_serial(struct intel_engine_cs *engine)
+> +{
+> +	engine->serial++;
+> +}
+> +
+>   static void
+>   logical_ring_default_vfuncs(struct intel_engine_cs *engine)
+>   {
+> @@ -3208,6 +3213,7 @@ logical_ring_default_vfuncs(struct intel_engine_cs *engine)
+>   
+>   	engine->cops = &execlists_context_ops;
+>   	engine->request_alloc = execlists_request_alloc;
+> +	engine->bump_serial = execlist_bump_serial;
+>   
+>   	engine->reset.prepare = execlists_reset_prepare;
+>   	engine->reset.rewind = execlists_reset_rewind;
+> diff --git a/drivers/gpu/drm/i915/gt/intel_ring_submission.c b/drivers/gpu/drm/i915/gt/intel_ring_submission.c
+> index 14aa31879a37..39dd7c4ed0a9 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_ring_submission.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_ring_submission.c
+> @@ -1045,6 +1045,11 @@ static void setup_irq(struct intel_engine_cs *engine)
+>   	}
+>   }
+>   
+> +static void ring_bump_serial(struct intel_engine_cs *engine)
+> +{
+> +	engine->serial++;
+> +}
+> +
+>   static void setup_common(struct intel_engine_cs *engine)
+>   {
+>   	struct drm_i915_private *i915 = engine->i915;
+> @@ -1064,6 +1069,7 @@ static void setup_common(struct intel_engine_cs *engine)
+>   
+>   	engine->cops = &ring_context_ops;
+>   	engine->request_alloc = ring_request_alloc;
+> +	engine->bump_serial = ring_bump_serial;
+>   
+>   	/*
+>   	 * Using a global execution timeline; the previous final breadcrumb is
+> diff --git a/drivers/gpu/drm/i915/gt/mock_engine.c b/drivers/gpu/drm/i915/gt/mock_engine.c
+> index bd005c1b6fd5..97b10fd60b55 100644
+> --- a/drivers/gpu/drm/i915/gt/mock_engine.c
+> +++ b/drivers/gpu/drm/i915/gt/mock_engine.c
+> @@ -292,6 +292,11 @@ static void mock_engine_release(struct intel_engine_cs *engine)
+>   	intel_engine_fini_retire(engine);
+>   }
+>   
+> +static void mock_bump_serial(struct intel_engine_cs *engine)
+> +{
+> +	engine->serial++;
+> +}
+> +
+>   struct intel_engine_cs *mock_engine(struct drm_i915_private *i915,
+>   				    const char *name,
+>   				    int id)
+> @@ -318,6 +323,7 @@ struct intel_engine_cs *mock_engine(struct drm_i915_private *i915,
+>   
+>   	engine->base.cops = &mock_context_ops;
+>   	engine->base.request_alloc = mock_request_alloc;
+> +	engine->base.bump_serial = mock_bump_serial;
+>   	engine->base.emit_flush = mock_emit_flush;
+>   	engine->base.emit_fini_breadcrumb = mock_emit_breadcrumb;
+>   	engine->base.submit_request = mock_submit_request;
+> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> index dc79d287c50a..f0e5731bcef6 100644
+> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> @@ -1500,6 +1500,20 @@ static void guc_release(struct intel_engine_cs *engine)
+>   	lrc_fini_wa_ctx(engine);
+>   }
+>   
+> +static void guc_bump_serial(struct intel_engine_cs *engine)
+> +{
+> +	engine->serial++;
+> +}
+> +
+> +static void virtual_guc_bump_serial(struct intel_engine_cs *engine)
+> +{
+> +	struct intel_engine_cs *e;
+> +	intel_engine_mask_t tmp, mask = engine->mask;
+> +
+> +	for_each_engine_masked(e, engine->gt, mask, tmp)
+> +		e->serial++;
+> +}
+> +
+>   static void guc_default_vfuncs(struct intel_engine_cs *engine)
+>   {
+>   	/* Default vfuncs which can be overridden by each engine. */
+> @@ -1508,6 +1522,7 @@ static void guc_default_vfuncs(struct intel_engine_cs *engine)
+>   
+>   	engine->cops = &guc_context_ops;
+>   	engine->request_alloc = guc_request_alloc;
+> +	engine->bump_serial = guc_bump_serial;
+>   
+>   	engine->sched_engine->schedule = i915_schedule;
+>   
+> @@ -1843,6 +1858,7 @@ guc_create_virtual(struct intel_engine_cs **siblings, unsigned int count)
+>   
+>   	ve->base.cops = &virtual_guc_context_ops;
+>   	ve->base.request_alloc = guc_request_alloc;
+> +	ve->base.bump_serial = virtual_guc_bump_serial;
+>   
+>   	ve->base.submit_request = guc_submit_request;
+>   
+> diff --git a/drivers/gpu/drm/i915/i915_request.c b/drivers/gpu/drm/i915/i915_request.c
+> index 9542a5baa45a..127d60b36422 100644
+> --- a/drivers/gpu/drm/i915/i915_request.c
+> +++ b/drivers/gpu/drm/i915/i915_request.c
+> @@ -692,7 +692,9 @@ bool __i915_request_submit(struct i915_request *request)
+>   				     request->ring->vaddr + request->postfix);
+>   
+>   	trace_i915_request_execute(request);
+> -	engine->serial++;
+> +	if (engine->bump_serial)
+> +		engine->bump_serial(engine);
+> +
 
-Am 02.06.21 um 13:24 schrieb Thomas Hellström (Intel):
-> [SNIP]
->>>> @@ -576,14 +565,10 @@ static void ttm_bo_mmap_vma_setup(struct 
->>>> ttm_buffer_object *bo, struct vm_area_s
->>>>         vma->vm_private_data = bo;
->>>>   -    /*
->>>> -     * We'd like to use VM_PFNMAP on shared mappings, where
->>>> -     * (vma->vm_flags & VM_SHARED) != 0, for performance reasons,
->>>> -     * but for some reason VM_PFNMAP + x86 PAT + write-combine is 
->>>> very
->>>> -     * bad for performance. Until that has been sorted out, use
->>>> -     * VM_MIXEDMAP on all mappings. See freedesktop.org bug #75719
->>>> +    /* Enforce VM_SHARED here since no driver backend actually 
->>>> supports COW
->>>> +     * on TTM buffer object mappings.
->>>
->>> I think by default all TTM drivers support COW mappings in the sense 
->>> that written data never makes it to the bo but stays in anonymous 
->>> pages, although I can't find a single usecase. So comment should be 
->>> changed to state that they are useless for us and that we can't 
->>> support COW mappings with VM_PFNMAP.
->>
->> Well the problem I see with that is that it only works as long as the 
->> BO is in system memory. When it then suddenly migrates to VRAM 
->> everybody sees the same content again and the COW pages are dropped. 
->> That is really inconsistent and I can't see why we would want to do 
->> that.
-> Hmm, yes, that's actually a bug in drm_vma_manager().
+As long as you have to handle null vfunc, you could make the patch way 
+smaller by doing:
 
-Hui? How is that related to drm_vma_manager() ?
+   if (engine->bump_serial)
+	engine->bump_serial(engine);
+   else
+	engine->serial++;
 
->>
->> Additionally to that when you allow COW mappings you need to make 
->> sure your COWed pages have the right caching attribute and that the 
->> reference count is initialized and taken into account properly. Not 
->> driver actually gets that right at the moment.
->
-> I was under the impression that COW'ed pages were handled 
-> transparently by the vm, you'd always get cached properly refcounted 
-> COW'ed pages but anyway since we're going to ditch support for them, 
-> doesn't really matter.
+Added bonus you avoid a function call with execlists making the patch 
+not introduce a double penalty. Or just make bump_serial always point to 
+a valid/default function. No need for both a new branch *and* a function 
+call I think. I'd prefer the code snippet as above though.
 
-Yeah, but I would have expected that the new COWed page should have the 
-same caching attributes as the old one and that is not really the case.
+Regards,
 
->
->>
->>>
->>>>        */
->>>> -    vma->vm_flags |= VM_MIXEDMAP;
->>>> +    vma->vm_flags |= VM_PFNMAP | VM_SHARED;
->>>
->>> Hmm, shouldn't we refuse COW mappings instead, like my old patch on 
->>> this subject did? In theory someone could be setting up what she 
->>> thinks is a private mapping to a shared buffer object, and write 
->>> sensitive data to it, which will immediately leak. It's a simple 
->>> check, could open-code if necessary.
->>
->> Yeah, though about that as well. Rejecting things would mean we 
->> potentially break userspace which just happened to work by coincident 
->> previously. Not totally evil, but not nice either.
->>
->> How about we do a WARN_ON_ONCE(!(vma->vm_flags & VM_SHARED)); instead?
->
-> Umm, yes but that wouldn't notify the user, and would be triggerable 
-> from user-space. But you can also set up legal non-COW mappings 
-> without the VM_SHARED flag, IIRC, see is_cow_mapping(). I think when 
-> this was up for discussion last time we arrived in a 
-> vma_is_cow_mapping() utility...
+Tvrtko
 
-Well userspace could trigger that only once, so no spamming of the log 
-can be expected here. And extra warnings in the logs are usually 
-reported by people rather quickly.
-
-Christian.
-
->
-> /Thomas
->
->
-
+>   	result = true;
+>   
+>   	GEM_BUG_ON(test_bit(I915_FENCE_FLAG_ACTIVE, &request->fence.flags));
+> 
