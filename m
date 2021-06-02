@@ -2,70 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1ED38399367
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Jun 2021 21:19:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FCA9399368
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Jun 2021 21:20:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BC5F26E598;
-	Wed,  2 Jun 2021 19:19:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 013C06EE0E;
+	Wed,  2 Jun 2021 19:20:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com
- [IPv6:2a00:1450:4864:20::32c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6C4726E598
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Jun 2021 19:19:11 +0000 (UTC)
-Received: by mail-wm1-x32c.google.com with SMTP id
- s5-20020a7bc0c50000b0290147d0c21c51so2291605wmh.4
- for <dri-devel@lists.freedesktop.org>; Wed, 02 Jun 2021 12:19:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=eUENJ8IFVfyuEIR6EvsJ1XRveroP2COJUQKbXp+QSIs=;
- b=jrv6dYTJesnR7SFafmMVlPBYL0uwrdWD3/fVHuWImOUcB6JFSXUkMw+B5pVbVZbAOK
- +kmX2LkIXmotrUfvVA0mCwspGBs1kFyDehUiqKT9FJMix84MVMm4zcD45BV3nQIkx8iD
- lh9yuLJueXKNpTKldmzGHyhp+MGwsZedfIjvs=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=eUENJ8IFVfyuEIR6EvsJ1XRveroP2COJUQKbXp+QSIs=;
- b=DiJMabG2n/HugtJ5nrN5u4HdSbI9gj6AfPBE0hOdupsECqcHfdASbIslOom7UJ5Jhu
- cpp6Fzrx+pvZm1yLYv1cDPQHjxmAP8hIlPwDq82UUO+2/mU0n7sxBkfUzOUyshqPam8A
- DDPci11uR4j6I6BC54Rm7KUQGlkR2qm9lPScPDGKD9oTHBJ8sAdNK3FZHZZxP8GtfMDS
- DaYSyccioQvEdKaWMVzzH4jA3B08cJ4X9EETNWUemhQ4sClemZ0zQUFu2P+mxqT75Xbs
- 880/eeitvoqK6sZPxRDUK7/4E9d1g3oO5nvNPDKEUKOoePyirkkfUMbArD2bs6Fii1Up
- y/pA==
-X-Gm-Message-State: AOAM5315dBToFABesSpESWi0Izm6DosNNohEKqzuPFOfePIZLzGiPAUZ
- XJzkctLf8R40kcWLDGXsjCDGGw==
-X-Google-Smtp-Source: ABdhPJzHexJFaFRGofqLk07sCaIJNzh501NCGToLbjzHqOyeJiF8ofNIlbuZdtWyXRHPrsQgDTnr2g==
-X-Received: by 2002:a1c:7fd0:: with SMTP id
- a199mr33324776wmd.161.1622661550098; 
- Wed, 02 Jun 2021 12:19:10 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id j18sm532474wmq.27.2021.06.02.12.19.08
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 02 Jun 2021 12:19:09 -0700 (PDT)
-Date: Wed, 2 Jun 2021 21:19:07 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>
-Subject: Re: [Mesa-dev] Linux Graphics Next: Userspace submission update
-Message-ID: <YLfZq5lAaR/RiFV8@phenom.ffwll.local>
-References: <327e4008-b29f-f5b7-bb30-532fa52c797f@gmail.com>
- <7f19e3c7-b6b2-5200-95eb-3fed8d22a6b3@daenzer.net>
- <b0d65f94-cc56-a4db-3158-7b1de3952792@gmail.com>
- <CAKMK7uGaD_LuX-SZDALuDuEOMZNX=Q3FAq0xYf_pTVtNe6VUaw@mail.gmail.com>
- <c7190219-c185-3b7e-42a6-691934f79fb3@gmail.com>
- <CAPj87rPbiFf3qDo35gmirAoTOOJ5fEE6UxQdJKtfjX_VTqc6pg@mail.gmail.com>
- <CAAxE2A4kC4A9gV_V-W3eRW20O=9S1pv8=KMBdJxdLQ-ZXGa37Q@mail.gmail.com>
- <CAAxE2A7FJSaYfrYRpoCr-3h-AqBjOOJerhMVCcQZzQu0a+J0zg@mail.gmail.com>
- <YLfSbxhyDQmHjV4r@phenom.ffwll.local>
- <a43f81f6-fe41-a6db-442e-83eb163124b9@gmail.com>
+Received: from ste-pvt-msa2.bahnhof.se (ste-pvt-msa2.bahnhof.se
+ [213.80.101.71])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 08A7A6EE0E
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Jun 2021 19:20:25 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by ste-pvt-msa2.bahnhof.se (Postfix) with ESMTP id 7F3BD3FF3E;
+ Wed,  2 Jun 2021 21:20:23 +0200 (CEST)
+Authentication-Results: ste-pvt-msa2.bahnhof.se; dkim=pass (1024-bit key;
+ unprotected) header.d=shipmail.org header.i=@shipmail.org header.b="g3WjQkqo";
+ dkim-atps=neutral
+X-Virus-Scanned: Debian amavisd-new at bahnhof.se
+X-Spam-Flag: NO
+X-Spam-Score: -2.717
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.717 tagged_above=-999 required=6.31
+ tests=[BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.618,
+ URIBL_BLOCKED=0.001] autolearn=ham autolearn_force=no
+Authentication-Results: ste-ftg-msa2.bahnhof.se (amavisd-new);
+ dkim=pass (1024-bit key) header.d=shipmail.org
+Received: from ste-pvt-msa2.bahnhof.se ([127.0.0.1])
+ by localhost (ste-ftg-msa2.bahnhof.se [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 0tyjH8yeM7kf; Wed,  2 Jun 2021 21:20:22 +0200 (CEST)
+Received: by ste-pvt-msa2.bahnhof.se (Postfix) with ESMTPA id F0E6C3FF2E;
+ Wed,  2 Jun 2021 21:20:20 +0200 (CEST)
+Received: from [192.168.0.209] (unknown [192.55.54.42])
+ by mail1.shipmail.org (Postfix) with ESMTPSA id 2CF2736016C;
+ Wed,  2 Jun 2021 21:20:17 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=shipmail.org; s=mail;
+ t=1622661620; bh=hKnoweJXn/tksu72PrCS6rpPpP/4N8+krGmWSBbwU7Q=;
+ h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+ b=g3WjQkqoHNmiYWAXkx6XGGDO4MHCluKJb0lcqBz6Y21jRtCjr8th71k28h+Gfhxt5
+ 6VoO7AxHyAGQxRmxtZTNZmaxQSQH870hAknBj5eSkbagns36qEqLCfDT4OYQdKBhRm
+ +e7aW/4sjXrBfihvLwTK8mUxil18eobHvRBXQ9Wk=
+Subject: Re: [PATCH] drm/ttm: nuke VM_MIXEDMAP on BO mappings
+To: Daniel Vetter <daniel@ffwll.ch>,
+ =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>
+References: <20210602083013.1561-1-christian.koenig@amd.com>
+ <54c5dc94-b367-70dd-ca8f-afcbda7598c6@shipmail.org>
+ <001df485-eed3-3638-0464-9a2ab67ac73f@gmail.com>
+ <32d661ae-1eab-918d-cd98-40109e6073df@shipmail.org>
+ <37a0336b-48d6-67bb-6a71-bba4daef6aa6@gmail.com>
+ <eac33818-b266-e973-f811-ba2ffbcd0a2f@linux.intel.com>
+ <YLfPk+7NHrc3I9MQ@phenom.ffwll.local>
+From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m_=28Intel=29?= <thomas_os@shipmail.org>
+Message-ID: <8473075c-8360-8735-706b-2742bd5538b1@shipmail.org>
+Date: Wed, 2 Jun 2021 21:20:12 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+In-Reply-To: <YLfPk+7NHrc3I9MQ@phenom.ffwll.local>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <a43f81f6-fe41-a6db-442e-83eb163124b9@gmail.com>
-X-Operating-System: Linux phenom 5.10.32scarlett+ 
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,136 +75,119 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek =?utf-8?B?T2zFocOhaw==?= <maraeo@gmail.com>,
- Michel =?iso-8859-1?Q?D=E4nzer?= <michel@daenzer.net>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Jason Ekstrand <jason@jlekstrand.net>,
- ML Mesa-dev <mesa-dev@lists.freedesktop.org>
+Cc: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ dri-devel@lists.freedesktop.org, jgg@ziepe.ca
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jun 02, 2021 at 08:52:38PM +0200, Christian König wrote:
-> 
-> 
-> Am 02.06.21 um 20:48 schrieb Daniel Vetter:
-> > On Wed, Jun 02, 2021 at 05:38:51AM -0400, Marek Olšák wrote:
-> > > On Wed, Jun 2, 2021 at 5:34 AM Marek Olšák <maraeo@gmail.com> wrote:
-> > > 
-> > > > Yes, we can't break anything because we don't want to complicate things
-> > > > for us. It's pretty much all NAK'd already. We are trying to gather more
-> > > > knowledge and then make better decisions.
-> > > > 
-> > > > The idea we are considering is that we'll expose memory-based sync objects
-> > > > to userspace for read only, and the kernel or hw will strictly control the
-> > > > memory writes to those sync objects. The hole in that idea is that
-> > > > userspace can decide not to signal a job, so even if userspace can't
-> > > > overwrite memory-based sync object states arbitrarily, it can still decide
-> > > > not to signal them, and then a future fence is born.
-> > > > 
-> > > This would actually be treated as a GPU hang caused by that context, so it
-> > > should be fine.
-> > This is practically what I proposed already, except your not doing it with
-> > dma_fence. And on the memory fence side this also doesn't actually give
-> > what you want for that compute model.
-> > 
-> > This seems like a bit a worst of both worlds approach to me? Tons of work
-> > in the kernel to hide these not-dma_fence-but-almost, and still pain to
-> > actually drive the hardware like it should be for compute or direct
-> > display.
-> > 
-> > Also maybe I've missed it, but I didn't see any replies to my suggestion
-> > how to fake the entire dma_fence stuff on top of new hw. Would be
-> > interesting to know what doesn't work there instead of amd folks going of
-> > into internal again and then coming back with another rfc from out of
-> > nowhere :-)
-> 
-> Well to be honest I would just push back on our hardware/firmware guys that
-> we need to keep kernel queues forever before going down that route.
 
-I looked again, and you said the model wont work because preemption is way
-too slow, even when the context is idle.
+On 6/2/21 8:36 PM, Daniel Vetter wrote:
+> On Wed, Jun 02, 2021 at 02:21:17PM +0200, Thomas Hellström wrote:
+>> On 6/2/21 2:04 PM, Christian König wrote:
+>>>
+>>> Am 02.06.21 um 13:24 schrieb Thomas Hellström (Intel):
+>>>> [SNIP]
+>>>>>>> @@ -576,14 +565,10 @@ static void
+>>>>>>> ttm_bo_mmap_vma_setup(struct ttm_buffer_object *bo,
+>>>>>>> struct vm_area_s
+>>>>>>>          vma->vm_private_data = bo;
+>>>>>>>    -    /*
+>>>>>>> -     * We'd like to use VM_PFNMAP on shared mappings, where
+>>>>>>> -     * (vma->vm_flags & VM_SHARED) != 0, for performance reasons,
+>>>>>>> -     * but for some reason VM_PFNMAP + x86 PAT +
+>>>>>>> write-combine is very
+>>>>>>> -     * bad for performance. Until that has been sorted out, use
+>>>>>>> -     * VM_MIXEDMAP on all mappings. See freedesktop.org bug #75719
+>>>>>>> +    /* Enforce VM_SHARED here since no driver backend
+>>>>>>> actually supports COW
+>>>>>>> +     * on TTM buffer object mappings.
+>>>>>> I think by default all TTM drivers support COW mappings in
+>>>>>> the sense that written data never makes it to the bo but
+>>>>>> stays in anonymous pages, although I can't find a single
+>>>>>> usecase. So comment should be changed to state that they are
+>>>>>> useless for us and that we can't support COW mappings with
+>>>>>> VM_PFNMAP.
+>>>>> Well the problem I see with that is that it only works as long
+>>>>> as the BO is in system memory. When it then suddenly migrates to
+>>>>> VRAM everybody sees the same content again and the COW pages are
+>>>>> dropped. That is really inconsistent and I can't see why we
+>>>>> would want to do that.
+>>>> Hmm, yes, that's actually a bug in drm_vma_manager().
+>>> Hui? How is that related to drm_vma_manager() ?
+>>>
+>> Last argument of "unmap_mapping_range()" is "even_cows".
+>>>>> Additionally to that when you allow COW mappings you need to
+>>>>> make sure your COWed pages have the right caching attribute and
+>>>>> that the reference count is initialized and taken into account
+>>>>> properly. Not driver actually gets that right at the moment.
+>>>> I was under the impression that COW'ed pages were handled
+>>>> transparently by the vm, you'd always get cached properly refcounted
+>>>> COW'ed pages but anyway since we're going to ditch support for them,
+>>>> doesn't really matter.
+>>> Yeah, but I would have expected that the new COWed page should have the
+>>> same caching attributes as the old one and that is not really the case.
+>>>
+>>>>>>>         */
+>>>>>>> -    vma->vm_flags |= VM_MIXEDMAP;
+>>>>>>> +    vma->vm_flags |= VM_PFNMAP | VM_SHARED;
+>>>>>> Hmm, shouldn't we refuse COW mappings instead, like my old
+>>>>>> patch on this subject did? In theory someone could be
+>>>>>> setting up what she thinks is a private mapping to a shared
+>>>>>> buffer object, and write sensitive data to it, which will
+>>>>>> immediately leak. It's a simple check, could open-code if
+>>>>>> necessary.
+>>>>> Yeah, though about that as well. Rejecting things would mean we
+>>>>> potentially break userspace which just happened to work by
+>>>>> coincident previously. Not totally evil, but not nice either.
+>>>>>
+>>>>> How about we do a WARN_ON_ONCE(!(vma->vm_flags & VM_SHARED)); instead?
+>>>> Umm, yes but that wouldn't notify the user, and would be triggerable
+>>>> from user-space. But you can also set up legal non-COW mappings
+>>>> without the VM_SHARED flag, IIRC, see is_cow_mapping(). I think when
+>>>> this was up for discussion last time we arrived in a
+>>>> vma_is_cow_mapping() utility...
+>>> Well userspace could trigger that only once, so no spamming of the log
+>>> can be expected here. And extra warnings in the logs are usually
+>>> reported by people rather quickly.
+>> OK, I'm mostly worried about adding a security flaw that we know about from
+>> the start.
+> VM_SHARED is already cleared in vma_set_page_prot() due to the VM_PFNMAP
+> check in vma_wants_writenotify.
+Yes, but that's only on a local variable to get a write-protected prot. 
+vmwgfx does the same for its dirty-tracking. Here we're debating setting 
+VM_SHARED on a private mapping.
+>
+> I'm honestly not sure whether userspace then even can notice this or
+> anything, so might be worth a quick testcase.
 
-I guess at that point I got maybe too fed up and just figured "not my
-problem", but if preempt is too slow as the unload fence, you can do it
-with pte removal and tlb shootdown too (that is hopefully not too slow,
-otherwise your hw is just garbage and wont even be fast for direct submit
-compute workloads).
+The net result is that in the very unlikely case the user requested a 
+private GPU mapping to write secret data into, That secret data is no 
+longer secret. And, for example in the case of AMD's SEV encryption that 
+data would have been encrypted in an anonymous page with COW mappings, 
+but not so if we add VM_SHARED, then it will be unencrypted in in GPU 
+pages. Then I think it's better to refuse COW mappings in mmap:
 
-The only thing that you need to do when you use pte clearing + tlb
-shootdown instad of preemption as the unload fence for buffers that get
-moved is that if you get any gpu page fault, you don't serve that, but
-instead treat it as a tdr and shot the context permanently.
+if (is_cow_mapping(vma->vm_flags))
+    return -EINVAL;
 
-So summarizing the model I proposed:
+This will still allow private read-only mappings which is OK. And if 
+someone was actually relying on private COW'd GPU mappings, we'd only 
+break the code slightly more...
 
-- you allow userspace to directly write into the ringbuffer, and also
-  write the fences directly
+/Thomas
 
-- actual submit is done by the kernel, using drm/scheduler. The kernel
-  blindly trusts userspace to set up everything else, and even just wraps
-  dma_fences around the userspace memory fences.
 
-- the only check is tdr. If a fence doesn't complete an tdr fires, a) the
-  kernel shot the entire context and b) userspace recovers by setting up a
-  new ringbuffer
-
-- memory management is done using ttm only, you still need to supply the
-  buffer list (ofc that list includes the always present ones, so CS will
-  only get the list of special buffers like today). If you hw can't trun
-  gpu page faults and you ever get one we pull up the same old solution:
-  Kernel shots the entire context.
-
-  The important thing is that from the gpu pov memory management works
-  exactly like compute workload with direct submit, except that you just
-  terminate the context on _any_ page fault, instead of only those that go
-  somewhere where there's really no mapping and repair the others.
-
-  Also I guess from reading the old thread this means you'd disable page
-  fault retry because that is apparently also way too slow for anything.
-
-- memory management uses an unload fence. That unload fences waits for all
-  userspace memory fences (represented as dma_fence) to complete, with
-  maybe some fudge to busy-spin until we've reached the actual end of the
-  ringbuffer (maybe you have a IB tail there after the memory fence write,
-  we have that on intel hw), and it waits for the memory to get
-  "unloaded". This is either preemption, or pte clearing + tlb shootdown,
-  or whatever else your hw provides which is a) used for dynamic memory
-  management b) fast enough for actual memory management.
-
-- any time a context dies we force-complete all it's pending fences,
-  in-order ofc
-
-So from hw pov this looks 99% like direct userspace submit, with the exact
-same mappings, command sequences and everything else. The only difference
-is that the rinbuffer head/tail updates happen from drm/scheduler, instead
-of directly from userspace.
-
-None of this stuff needs funny tricks where the kernel controls the
-writes to memory fences, or where you need kernel ringbuffers, or anything
-like thist. Userspace is allowed to do anything stupid, the rules are
-guaranteed with:
-
-- we rely on the hw isolation features to work, but _exactly_ like compute
-  direct submit would too
-
-- dying on any page fault captures memory management issues
-
-- dying (without kernel recover, this is up to userspace if it cares) on
-  any tdr makes sure fences complete still
-
-> That syncfile and all that Android stuff isn't working out of the box with
-> the new shiny user queue submission model (which in turn is mostly because
-> of Windows) already raised some eyebrows here.
-
-I think if you really want to make sure the current linux stack doesn't
-break the _only_ option you have is provide a ctx mode that allows
-dma_fence and drm/scheduler to be used like today.
-
-For everything else it sounds you're a few years too late, because even
-just huge kernel changes wont happen in time. Much less rewriting
-userspace protocols.
--Daniel
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+>
+> Even if I'm wrong here we shouldn't allow cow mappings of gem_bo, that
+> just seems too nasty with all the side-effects.
+Completely agree.
+> -Daniel
+>
+>> /Thomas
+>>
+>>
+>>> Christian.
+>>>
+>>>> /Thomas
+>>>>
+>>>>
