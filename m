@@ -1,38 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD7103985E9
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Jun 2021 12:07:18 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 53AC33985EF
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Jun 2021 12:09:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F202C6E0CB;
-	Wed,  2 Jun 2021 10:07:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8091D6EC35;
+	Wed,  2 Jun 2021 10:09:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 816A56E0CB
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Jun 2021 10:07:15 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C349E1042;
- Wed,  2 Jun 2021 03:07:13 -0700 (PDT)
-Received: from [10.57.73.64] (unknown [10.57.73.64])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 22D5A3F73D;
- Wed,  2 Jun 2021 03:07:12 -0700 (PDT)
-Subject: Re: [PATCH] drm/rockchip: defined struct rockchip_dp_dt_ids[] under
- CONFIG_OF
-To: Souptick Joarder <jrdr.linux@gmail.com>, hjc@rock-chips.com,
- heiko@sntech.de, airlied@linux.ie, daniel@ffwll.ch
-References: <20210602080212.4992-1-jrdr.linux@gmail.com>
-From: Robin Murphy <robin.murphy@arm.com>
-Message-ID: <8027801c-5260-8b1b-c758-fdfb8c18e9a7@arm.com>
-Date: Wed, 2 Jun 2021 11:07:06 +0100
-User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com
+ [IPv6:2a00:1450:4864:20::62e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7645B6EC35
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Jun 2021 10:09:17 +0000 (UTC)
+Received: by mail-ej1-x62e.google.com with SMTP id ce15so3013776ejb.4
+ for <dri-devel@lists.freedesktop.org>; Wed, 02 Jun 2021 03:09:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=toLw161hKnmAyw+rIWHxhqsorTr2Z3as1oUj5hYkv3A=;
+ b=M8z2z84bZbqFLs/H9/Iolu5zwELc6JTv0DNyA80XaXuK0BBdU1MSjnpfacs7zNBC7J
+ AAsyRmL8j4G9ZRyz+ewG5MjI+DsaA3EokzdoyqKrpOHKGo7XdgvCcU0w4TQijj7P/yLL
+ /CxRTlPii/4cgrywmEGlCuB1Uodu+lz/ScSxOwJuO94ff5VC+RQNgoOUMBgWC5Q/K1wb
+ CwgPFZlTPWeVyo0KEZPrQHef5fs7UHgw/uh+jNlkholmQxP/VyuH8u5OnkyJtPrjkAa7
+ kfMR/asT3sRwWY+QHnIhkPShGRnIcuV+2P+Hvm11aNMc+SGQv8djmxZJTSG7ndUqWGA9
+ paxw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=toLw161hKnmAyw+rIWHxhqsorTr2Z3as1oUj5hYkv3A=;
+ b=PZPnETk37Gx9kWP4wwQUACp2JcquJfQVl59EGmNTwgYcmCdCPp5OXhoZAVUZxx+F5D
+ Dy6b7CwUW9zqyzjH6cayB9NXAJ0L7WBmyZUf/PZBJ67st7nStgsPgxBbVWtljdB63BFR
+ 3Ot9cJ4glaAY/E7NFYWgT96ogDmj2N7QZlBLBL6/W0f+tqNmMDgFkQMEmBC/kw+Dd9PC
+ 83aK2cCovA3DQk3BUfjTqoAe1wjoRqLNdqVGzZQIP1gdIXxuBD815k/ZIWQ94GGbleDZ
+ eHQbH/pa0BJXGBvG/f1Rk9kXxjnKmMIzKDyLSZrk28ULqMcxrrrZjKQVckzoj3ql2eXg
+ rNjQ==
+X-Gm-Message-State: AOAM533/A1wQdk0OcqEB2Q4+QkINZ6G6yoBbxhW1lX+bPYn/APGIJHuI
+ dZg6UfE9TCUWLcDOPXidJoJQts6EGZc=
+X-Google-Smtp-Source: ABdhPJxAvzmS4I1YqUrECXWLQpkWYZ0CTwbCtOLtOo2pho4dbzhGbTeHzWoGD+G4AMcjIEizd1zu3g==
+X-Received: by 2002:a17:906:16cb:: with SMTP id
+ t11mr7286648ejd.112.1622628556018; 
+ Wed, 02 Jun 2021 03:09:16 -0700 (PDT)
+Received: from abel.fritz.box ([2a02:908:1252:fb60:e6a4:731d:6be0:e698])
+ by smtp.gmail.com with ESMTPSA id g4sm1017468edw.8.2021.06.02.03.09.15
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 02 Jun 2021 03:09:15 -0700 (PDT)
+From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
+X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
+ <christian.koenig@amd.com>
+To: matthew.auld@intel.com, thomas_os@shipmail.org,
+ dri-devel@lists.freedesktop.org
+Subject: [PATCH 01/10] drm/ttm: allocate resource object instead of embedding
+ it v2
+Date: Wed,  2 Jun 2021 12:09:05 +0200
+Message-Id: <20210602100914.46246-1-christian.koenig@amd.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <20210602080212.4992-1-jrdr.linux@gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,52 +71,638 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-rockchip@lists.infradead.org, kernel test robot <lkp@intel.com>,
- linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2021-06-02 09:02, Souptick Joarder wrote:
-> Kernel test robot throws below warning when CONFIG_OF
-> is not set.
-> 
->>> drivers/gpu/drm/rockchip/analogix_dp-rockchip.c:457:34:
-> warning: unused variable 'rockchip_dp_dt_ids' [-Wunused-const-variable]
->     static const struct of_device_id rockchip_dp_dt_ids[] = {
-> 
-> Fixed it by defining rockchip_dp_dt_ids[] under CONFIG_OF.
+To improve the handling we want the establish the resource object as base
+class for the backend allocations.
 
-I think the __maybe_unused annotation is generally preferred over 
-#ifdefs these days. However, since these drivers only work with 
-devicetree anyway, it probably makes more sense to just remove the 
-of_match_ptr() uses which lead to these warnings in the first place.
+v2: add missing error handling
 
-Robin.
+Signed-off-by: Christian König <christian.koenig@amd.com>
+---
+ drivers/gpu/drm/amd/amdgpu/amdgpu_object.c |  4 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c    | 54 +++++++-------
+ drivers/gpu/drm/nouveau/nouveau_bo.c       |  2 +-
+ drivers/gpu/drm/radeon/radeon_ttm.c        |  2 +-
+ drivers/gpu/drm/ttm/ttm_bo.c               | 83 ++++++++--------------
+ drivers/gpu/drm/ttm/ttm_bo_util.c          | 43 ++++++-----
+ drivers/gpu/drm/ttm/ttm_resource.c         | 31 +++++---
+ drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c |  2 +-
+ include/drm/ttm/ttm_bo_api.h               |  1 -
+ include/drm/ttm/ttm_bo_driver.h            | 10 ++-
+ include/drm/ttm/ttm_resource.h             |  4 +-
+ 11 files changed, 110 insertions(+), 126 deletions(-)
 
-> Reported-by: kernel test robot <lkp@intel.com>
-> Signed-off-by: Souptick Joarder <jrdr.linux@gmail.com>
-> ---
->   drivers/gpu/drm/rockchip/analogix_dp-rockchip.c | 2 ++
->   1 file changed, 2 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/rockchip/analogix_dp-rockchip.c b/drivers/gpu/drm/rockchip/analogix_dp-rockchip.c
-> index ade2327a10e2..9b79ebaeae97 100644
-> --- a/drivers/gpu/drm/rockchip/analogix_dp-rockchip.c
-> +++ b/drivers/gpu/drm/rockchip/analogix_dp-rockchip.c
-> @@ -454,12 +454,14 @@ static const struct rockchip_dp_chip_data rk3288_dp = {
->   	.chip_type = RK3288_DP,
->   };
->   
-> +#ifdef CONFIG_OF
->   static const struct of_device_id rockchip_dp_dt_ids[] = {
->   	{.compatible = "rockchip,rk3288-dp", .data = &rk3288_dp },
->   	{.compatible = "rockchip,rk3399-edp", .data = &rk3399_edp },
->   	{}
->   };
->   MODULE_DEVICE_TABLE(of, rockchip_dp_dt_ids);
-> +#endif
->   
->   struct platform_driver rockchip_dp_driver = {
->   	.probe = rockchip_dp_probe,
-> 
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
+index 03c6b63d1d54..59723c3d5826 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
+@@ -362,14 +362,14 @@ int amdgpu_bo_create_kernel_at(struct amdgpu_device *adev,
+ 	if (cpu_addr)
+ 		amdgpu_bo_kunmap(*bo_ptr);
+ 
+-	ttm_resource_free(&(*bo_ptr)->tbo, (*bo_ptr)->tbo.resource);
++	ttm_resource_free(&(*bo_ptr)->tbo, &(*bo_ptr)->tbo.resource);
+ 
+ 	for (i = 0; i < (*bo_ptr)->placement.num_placement; ++i) {
+ 		(*bo_ptr)->placements[i].fpfn = offset >> PAGE_SHIFT;
+ 		(*bo_ptr)->placements[i].lpfn = (offset + size) >> PAGE_SHIFT;
+ 	}
+ 	r = ttm_bo_mem_space(&(*bo_ptr)->tbo, &(*bo_ptr)->placement,
+-			     (*bo_ptr)->tbo.resource, &ctx);
++			     &(*bo_ptr)->tbo.resource, &ctx);
+ 	if (r)
+ 		goto error;
+ 
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+index 663aa7d2e2ea..69db89261650 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+@@ -491,7 +491,7 @@ static int amdgpu_bo_move(struct ttm_buffer_object *bo, bool evict,
+ 			return r;
+ 
+ 		amdgpu_ttm_backend_unbind(bo->bdev, bo->ttm);
+-		ttm_resource_free(bo, bo->resource);
++		ttm_resource_free(bo, &bo->resource);
+ 		ttm_bo_assign_mem(bo, new_mem);
+ 		goto out;
+ 	}
+@@ -950,9 +950,9 @@ int amdgpu_ttm_alloc_gart(struct ttm_buffer_object *bo)
+ 	struct amdgpu_device *adev = amdgpu_ttm_adev(bo->bdev);
+ 	struct ttm_operation_ctx ctx = { false, false };
+ 	struct amdgpu_ttm_tt *gtt = (void *)bo->ttm;
+-	struct ttm_resource tmp;
+ 	struct ttm_placement placement;
+ 	struct ttm_place placements;
++	struct ttm_resource *tmp;
+ 	uint64_t addr, flags;
+ 	int r;
+ 
+@@ -962,37 +962,37 @@ int amdgpu_ttm_alloc_gart(struct ttm_buffer_object *bo)
+ 	addr = amdgpu_gmc_agp_addr(bo);
+ 	if (addr != AMDGPU_BO_INVALID_OFFSET) {
+ 		bo->resource->start = addr >> PAGE_SHIFT;
+-	} else {
++		return 0;
++	}
+ 
+-		/* allocate GART space */
+-		placement.num_placement = 1;
+-		placement.placement = &placements;
+-		placement.num_busy_placement = 1;
+-		placement.busy_placement = &placements;
+-		placements.fpfn = 0;
+-		placements.lpfn = adev->gmc.gart_size >> PAGE_SHIFT;
+-		placements.mem_type = TTM_PL_TT;
+-		placements.flags = bo->resource->placement;
+-
+-		r = ttm_bo_mem_space(bo, &placement, &tmp, &ctx);
+-		if (unlikely(r))
+-			return r;
++	/* allocate GART space */
++	placement.num_placement = 1;
++	placement.placement = &placements;
++	placement.num_busy_placement = 1;
++	placement.busy_placement = &placements;
++	placements.fpfn = 0;
++	placements.lpfn = adev->gmc.gart_size >> PAGE_SHIFT;
++	placements.mem_type = TTM_PL_TT;
++	placements.flags = bo->resource->placement;
+ 
+-		/* compute PTE flags for this buffer object */
+-		flags = amdgpu_ttm_tt_pte_flags(adev, bo->ttm, &tmp);
++	r = ttm_bo_mem_space(bo, &placement, &tmp, &ctx);
++	if (unlikely(r))
++		return r;
+ 
+-		/* Bind pages */
+-		gtt->offset = (u64)tmp.start << PAGE_SHIFT;
+-		r = amdgpu_ttm_gart_bind(adev, bo, flags);
+-		if (unlikely(r)) {
+-			ttm_resource_free(bo, &tmp);
+-			return r;
+-		}
++	/* compute PTE flags for this buffer object */
++	flags = amdgpu_ttm_tt_pte_flags(adev, bo->ttm, tmp);
+ 
+-		ttm_resource_free(bo, bo->resource);
+-		ttm_bo_assign_mem(bo, &tmp);
++	/* Bind pages */
++	gtt->offset = (u64)tmp->start << PAGE_SHIFT;
++	r = amdgpu_ttm_gart_bind(adev, bo, flags);
++	if (unlikely(r)) {
++		ttm_resource_free(bo, &tmp);
++		return r;
+ 	}
+ 
++	ttm_resource_free(bo, &bo->resource);
++	ttm_bo_assign_mem(bo, tmp);
++
+ 	return 0;
+ }
+ 
+diff --git a/drivers/gpu/drm/nouveau/nouveau_bo.c b/drivers/gpu/drm/nouveau/nouveau_bo.c
+index e688ca77483d..3a0d9b3bf991 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_bo.c
++++ b/drivers/gpu/drm/nouveau/nouveau_bo.c
+@@ -1009,7 +1009,7 @@ nouveau_bo_move(struct ttm_buffer_object *bo, bool evict,
+ 	if (old_reg->mem_type == TTM_PL_TT &&
+ 	    new_reg->mem_type == TTM_PL_SYSTEM) {
+ 		nouveau_ttm_tt_unbind(bo->bdev, bo->ttm);
+-		ttm_resource_free(bo, bo->resource);
++		ttm_resource_free(bo, &bo->resource);
+ 		ttm_bo_assign_mem(bo, new_reg);
+ 		goto out;
+ 	}
+diff --git a/drivers/gpu/drm/radeon/radeon_ttm.c b/drivers/gpu/drm/radeon/radeon_ttm.c
+index 2507c1741681..cdffa9b65108 100644
+--- a/drivers/gpu/drm/radeon/radeon_ttm.c
++++ b/drivers/gpu/drm/radeon/radeon_ttm.c
+@@ -229,7 +229,7 @@ static int radeon_bo_move(struct ttm_buffer_object *bo, bool evict,
+ 	if (old_mem->mem_type == TTM_PL_TT &&
+ 	    new_mem->mem_type == TTM_PL_SYSTEM) {
+ 		radeon_ttm_tt_unbind(bo->bdev, bo->ttm);
+-		ttm_resource_free(bo, bo->resource);
++		ttm_resource_free(bo, &bo->resource);
+ 		ttm_bo_assign_mem(bo, new_mem);
+ 		goto out;
+ 	}
+diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
+index 5a7ab4b35b2d..4ed56520b81d 100644
+--- a/drivers/gpu/drm/ttm/ttm_bo.c
++++ b/drivers/gpu/drm/ttm/ttm_bo.c
+@@ -223,7 +223,7 @@ static void ttm_bo_cleanup_memtype_use(struct ttm_buffer_object *bo)
+ 		bo->bdev->funcs->delete_mem_notify(bo);
+ 
+ 	ttm_bo_tt_destroy(bo);
+-	ttm_resource_free(bo, bo->resource);
++	ttm_resource_free(bo, &bo->resource);
+ }
+ 
+ static int ttm_bo_individualize_resv(struct ttm_buffer_object *bo)
+@@ -489,7 +489,7 @@ static int ttm_bo_evict(struct ttm_buffer_object *bo,
+ 			struct ttm_operation_ctx *ctx)
+ {
+ 	struct ttm_device *bdev = bo->bdev;
+-	struct ttm_resource evict_mem;
++	struct ttm_resource *evict_mem;
+ 	struct ttm_placement placement;
+ 	struct ttm_place hop;
+ 	int ret = 0;
+@@ -519,7 +519,7 @@ static int ttm_bo_evict(struct ttm_buffer_object *bo,
+ 		goto out;
+ 	}
+ 
+-	ret = ttm_bo_handle_move_mem(bo, &evict_mem, true, ctx, &hop);
++	ret = ttm_bo_handle_move_mem(bo, evict_mem, true, ctx, &hop);
+ 	if (unlikely(ret)) {
+ 		WARN(ret == -EMULTIHOP, "Unexpected multihop in eviction - likely driver bug\n");
+ 		if (ret != -ERESTARTSYS)
+@@ -728,14 +728,15 @@ static int ttm_bo_add_move_fence(struct ttm_buffer_object *bo,
+  */
+ static int ttm_bo_mem_force_space(struct ttm_buffer_object *bo,
+ 				  const struct ttm_place *place,
+-				  struct ttm_resource *mem,
++				  struct ttm_resource **mem,
+ 				  struct ttm_operation_ctx *ctx)
+ {
+ 	struct ttm_device *bdev = bo->bdev;
+-	struct ttm_resource_manager *man = ttm_manager_type(bdev, mem->mem_type);
++	struct ttm_resource_manager *man;
+ 	struct ww_acquire_ctx *ticket;
+ 	int ret;
+ 
++	man = ttm_manager_type(bdev, (*mem)->mem_type);
+ 	ticket = dma_resv_locking_ctx(bo->base.resv);
+ 	do {
+ 		ret = ttm_resource_alloc(bo, place, mem);
+@@ -749,37 +750,7 @@ static int ttm_bo_mem_force_space(struct ttm_buffer_object *bo,
+ 			return ret;
+ 	} while (1);
+ 
+-	return ttm_bo_add_move_fence(bo, man, mem, ctx->no_wait_gpu);
+-}
+-
+-/**
+- * ttm_bo_mem_placement - check if placement is compatible
+- * @bo: BO to find memory for
+- * @place: where to search
+- * @mem: the memory object to fill in
+- *
+- * Check if placement is compatible and fill in mem structure.
+- * Returns -EBUSY if placement won't work or negative error code.
+- * 0 when placement can be used.
+- */
+-static int ttm_bo_mem_placement(struct ttm_buffer_object *bo,
+-				const struct ttm_place *place,
+-				struct ttm_resource *mem)
+-{
+-	struct ttm_device *bdev = bo->bdev;
+-	struct ttm_resource_manager *man;
+-
+-	man = ttm_manager_type(bdev, place->mem_type);
+-	if (!man || !ttm_resource_manager_used(man))
+-		return -EBUSY;
+-
+-	mem->mem_type = place->mem_type;
+-	mem->placement = place->flags;
+-
+-	spin_lock(&bo->bdev->lru_lock);
+-	ttm_bo_move_to_lru_tail(bo, mem, NULL);
+-	spin_unlock(&bo->bdev->lru_lock);
+-	return 0;
++	return ttm_bo_add_move_fence(bo, man, *mem, ctx->no_wait_gpu);
+ }
+ 
+ /*
+@@ -792,7 +763,7 @@ static int ttm_bo_mem_placement(struct ttm_buffer_object *bo,
+  */
+ int ttm_bo_mem_space(struct ttm_buffer_object *bo,
+ 			struct ttm_placement *placement,
+-			struct ttm_resource *mem,
++			struct ttm_resource **mem,
+ 			struct ttm_operation_ctx *ctx)
+ {
+ 	struct ttm_device *bdev = bo->bdev;
+@@ -807,8 +778,8 @@ int ttm_bo_mem_space(struct ttm_buffer_object *bo,
+ 		const struct ttm_place *place = &placement->placement[i];
+ 		struct ttm_resource_manager *man;
+ 
+-		ret = ttm_bo_mem_placement(bo, place, mem);
+-		if (ret)
++		man = ttm_manager_type(bdev, place->mem_type);
++		if (!man || !ttm_resource_manager_used(man))
+ 			continue;
+ 
+ 		type_found = true;
+@@ -818,8 +789,7 @@ int ttm_bo_mem_space(struct ttm_buffer_object *bo,
+ 		if (unlikely(ret))
+ 			goto error;
+ 
+-		man = ttm_manager_type(bdev, mem->mem_type);
+-		ret = ttm_bo_add_move_fence(bo, man, mem, ctx->no_wait_gpu);
++		ret = ttm_bo_add_move_fence(bo, man, *mem, ctx->no_wait_gpu);
+ 		if (unlikely(ret)) {
+ 			ttm_resource_free(bo, mem);
+ 			if (ret == -EBUSY)
+@@ -832,9 +802,10 @@ int ttm_bo_mem_space(struct ttm_buffer_object *bo,
+ 
+ 	for (i = 0; i < placement->num_busy_placement; ++i) {
+ 		const struct ttm_place *place = &placement->busy_placement[i];
++		struct ttm_resource_manager *man;
+ 
+-		ret = ttm_bo_mem_placement(bo, place, mem);
+-		if (ret)
++		man = ttm_manager_type(bdev, place->mem_type);
++		if (!man || !ttm_resource_manager_used(man))
+ 			continue;
+ 
+ 		type_found = true;
+@@ -861,12 +832,12 @@ int ttm_bo_mem_space(struct ttm_buffer_object *bo,
+ EXPORT_SYMBOL(ttm_bo_mem_space);
+ 
+ static int ttm_bo_bounce_temp_buffer(struct ttm_buffer_object *bo,
+-				     struct ttm_resource *mem,
++				     struct ttm_resource **mem,
+ 				     struct ttm_operation_ctx *ctx,
+ 				     struct ttm_place *hop)
+ {
+ 	struct ttm_placement hop_placement;
+-	struct ttm_resource hop_mem;
++	struct ttm_resource *hop_mem;
+ 	int ret;
+ 
+ 	hop_placement.num_placement = hop_placement.num_busy_placement = 1;
+@@ -877,7 +848,7 @@ static int ttm_bo_bounce_temp_buffer(struct ttm_buffer_object *bo,
+ 	if (ret)
+ 		return ret;
+ 	/* move to the bounce domain */
+-	ret = ttm_bo_handle_move_mem(bo, &hop_mem, false, ctx, NULL);
++	ret = ttm_bo_handle_move_mem(bo, hop_mem, false, ctx, NULL);
+ 	if (ret) {
+ 		ttm_resource_free(bo, &hop_mem);
+ 		return ret;
+@@ -889,14 +860,12 @@ static int ttm_bo_move_buffer(struct ttm_buffer_object *bo,
+ 			      struct ttm_placement *placement,
+ 			      struct ttm_operation_ctx *ctx)
+ {
++	struct ttm_resource *mem;
+ 	struct ttm_place hop;
+-	struct ttm_resource mem;
+ 	int ret;
+ 
+ 	dma_resv_assert_held(bo->base.resv);
+ 
+-	memset(&hop, 0, sizeof(hop));
+-
+ 	/*
+ 	 * Determine where to move the buffer.
+ 	 *
+@@ -910,7 +879,7 @@ static int ttm_bo_move_buffer(struct ttm_buffer_object *bo,
+ 	if (ret)
+ 		return ret;
+ bounce:
+-	ret = ttm_bo_handle_move_mem(bo, &mem, false, ctx, &hop);
++	ret = ttm_bo_handle_move_mem(bo, mem, false, ctx, &hop);
+ 	if (ret == -EMULTIHOP) {
+ 		ret = ttm_bo_bounce_temp_buffer(bo, &mem, ctx, &hop);
+ 		if (ret)
+@@ -1019,7 +988,7 @@ int ttm_bo_init_reserved(struct ttm_device *bdev,
+ {
+ 	static const struct ttm_place sys_mem = { .mem_type = TTM_PL_SYSTEM };
+ 	bool locked;
+-	int ret = 0;
++	int ret;
+ 
+ 	bo->destroy = destroy ? destroy : ttm_bo_default_destroy;
+ 
+@@ -1029,8 +998,6 @@ int ttm_bo_init_reserved(struct ttm_device *bdev,
+ 	bo->bdev = bdev;
+ 	bo->type = type;
+ 	bo->page_alignment = page_alignment;
+-	bo->resource = &bo->_mem;
+-	ttm_resource_alloc(bo, &sys_mem, bo->resource);
+ 	bo->moving = NULL;
+ 	bo->pin_count = 0;
+ 	bo->sg = sg;
+@@ -1042,6 +1009,12 @@ int ttm_bo_init_reserved(struct ttm_device *bdev,
+ 	}
+ 	atomic_inc(&ttm_glob.bo_count);
+ 
++	ret = ttm_resource_alloc(bo, &sys_mem, &bo->resource);
++	if (unlikely(ret)) {
++		ttm_bo_put(bo);
++		return ret;
++	}
++
+ 	/*
+ 	 * For ttm_bo_type_device buffers, allocate
+ 	 * address space from the device.
+@@ -1170,7 +1143,7 @@ int ttm_bo_swapout(struct ttm_buffer_object *bo, struct ttm_operation_ctx *ctx,
+ 	 */
+ 	if (bo->resource->mem_type != TTM_PL_SYSTEM) {
+ 		struct ttm_operation_ctx ctx = { false, false };
+-		struct ttm_resource evict_mem;
++		struct ttm_resource *evict_mem;
+ 		struct ttm_place place, hop;
+ 
+ 		memset(&place, 0, sizeof(place));
+@@ -1182,7 +1155,7 @@ int ttm_bo_swapout(struct ttm_buffer_object *bo, struct ttm_operation_ctx *ctx,
+ 		if (unlikely(ret))
+ 			goto out;
+ 
+-		ret = ttm_bo_handle_move_mem(bo, &evict_mem, true, &ctx, &hop);
++		ret = ttm_bo_handle_move_mem(bo, evict_mem, true, &ctx, &hop);
+ 		if (unlikely(ret != 0)) {
+ 			WARN(ret == -EMULTIHOP, "Unexpected multihop in swaput - likely driver bug.\n");
+ 			goto out;
+diff --git a/drivers/gpu/drm/ttm/ttm_bo_util.c b/drivers/gpu/drm/ttm/ttm_bo_util.c
+index aedf02a31c70..1b326e70cb02 100644
+--- a/drivers/gpu/drm/ttm/ttm_bo_util.c
++++ b/drivers/gpu/drm/ttm/ttm_bo_util.c
+@@ -176,16 +176,17 @@ int ttm_bo_move_memcpy(struct ttm_buffer_object *bo,
+ 		       struct ttm_operation_ctx *ctx,
+ 		       struct ttm_resource *new_mem)
+ {
++	struct ttm_resource *old_mem = bo->resource;
+ 	struct ttm_device *bdev = bo->bdev;
+-	struct ttm_resource_manager *man = ttm_manager_type(bdev, new_mem->mem_type);
++	struct ttm_resource_manager *man;
+ 	struct ttm_tt *ttm = bo->ttm;
+-	struct ttm_resource *old_mem = bo->resource;
+-	struct ttm_resource old_copy = *old_mem;
+ 	void *old_iomap;
+ 	void *new_iomap;
+ 	int ret;
+ 	unsigned long i;
+ 
++	man = ttm_manager_type(bdev, new_mem->mem_type);
++
+ 	ret = ttm_bo_wait_ctx(bo, ctx);
+ 	if (ret)
+ 		return ret;
+@@ -201,7 +202,7 @@ int ttm_bo_move_memcpy(struct ttm_buffer_object *bo,
+ 	 * Single TTM move. NOP.
+ 	 */
+ 	if (old_iomap == NULL && new_iomap == NULL)
+-		goto out2;
++		goto out1;
+ 
+ 	/*
+ 	 * Don't move nonexistent data. Clear destination instead.
+@@ -210,7 +211,7 @@ int ttm_bo_move_memcpy(struct ttm_buffer_object *bo,
+ 	    (ttm == NULL || (!ttm_tt_is_populated(ttm) &&
+ 			     !(ttm->page_flags & TTM_PAGE_FLAG_SWAPPED)))) {
+ 		memset_io(new_iomap, 0, new_mem->num_pages*PAGE_SIZE);
+-		goto out2;
++		goto out1;
+ 	}
+ 
+ 	/*
+@@ -235,27 +236,25 @@ int ttm_bo_move_memcpy(struct ttm_buffer_object *bo,
+ 			ret = ttm_copy_io_page(new_iomap, old_iomap, i);
+ 		}
+ 		if (ret)
+-			goto out1;
++			break;
+ 	}
+ 	mb();
+-out2:
+-	old_copy = *old_mem;
++out1:
++	ttm_resource_iounmap(bdev, new_mem, new_iomap);
++out:
++	ttm_resource_iounmap(bdev, old_mem, old_iomap);
++
++	if (ret) {
++		ttm_resource_free(bo, &new_mem);
++		return ret;
++	}
+ 
++	ttm_resource_free(bo, &bo->resource);
+ 	ttm_bo_assign_mem(bo, new_mem);
+ 
+ 	if (!man->use_tt)
+ 		ttm_bo_tt_destroy(bo);
+ 
+-out1:
+-	ttm_resource_iounmap(bdev, old_mem, new_iomap);
+-out:
+-	ttm_resource_iounmap(bdev, &old_copy, old_iomap);
+-
+-	/*
+-	 * On error, keep the mm node!
+-	 */
+-	if (!ret)
+-		ttm_resource_free(bo, &old_copy);
+ 	return ret;
+ }
+ EXPORT_SYMBOL(ttm_bo_move_memcpy);
+@@ -566,7 +565,7 @@ static int ttm_bo_wait_free_node(struct ttm_buffer_object *bo,
+ 
+ 	if (!dst_use_tt)
+ 		ttm_bo_tt_destroy(bo);
+-	ttm_resource_free(bo, bo->resource);
++	ttm_resource_free(bo, &bo->resource);
+ 	return 0;
+ }
+ 
+@@ -629,7 +628,7 @@ static void ttm_bo_move_pipeline_evict(struct ttm_buffer_object *bo,
+ 	}
+ 	spin_unlock(&from->move_lock);
+ 
+-	ttm_resource_free(bo, bo->resource);
++	ttm_resource_free(bo, &bo->resource);
+ 
+ 	dma_fence_put(bo->moving);
+ 	bo->moving = dma_fence_get(fence);
+@@ -678,11 +677,11 @@ int ttm_bo_pipeline_gutting(struct ttm_buffer_object *bo)
+ 	if (ret)
+ 		ttm_bo_wait(bo, false, false);
+ 
+-	ttm_resource_alloc(bo, &sys_mem, bo->resource);
++	ret = ttm_resource_alloc(bo, &sys_mem, &bo->resource);
+ 	bo->ttm = NULL;
+ 
+ 	dma_resv_unlock(&ghost->base._resv);
+ 	ttm_bo_put(ghost);
+ 
+-	return 0;
++	return ret;
+ }
+diff --git a/drivers/gpu/drm/ttm/ttm_resource.c b/drivers/gpu/drm/ttm/ttm_resource.c
+index 59e2b7157e41..65451e1bc303 100644
+--- a/drivers/gpu/drm/ttm/ttm_resource.c
++++ b/drivers/gpu/drm/ttm/ttm_resource.c
+@@ -27,10 +27,16 @@
+ 
+ int ttm_resource_alloc(struct ttm_buffer_object *bo,
+ 		       const struct ttm_place *place,
+-		       struct ttm_resource *res)
++		       struct ttm_resource **res_ptr)
+ {
+ 	struct ttm_resource_manager *man =
+ 		ttm_manager_type(bo->bdev, place->mem_type);
++	struct ttm_resource *res;
++	int r;
++
++	res = kmalloc(sizeof(*res), GFP_KERNEL);
++	if (!res)
++		return -ENOMEM;
+ 
+ 	res->mm_node = NULL;
+ 	res->start = 0;
+@@ -41,18 +47,27 @@ int ttm_resource_alloc(struct ttm_buffer_object *bo,
+ 	res->bus.offset = 0;
+ 	res->bus.is_iomem = false;
+ 	res->bus.caching = ttm_cached;
++	r = man->func->alloc(man, bo, place, res);
++	if (r) {
++		kfree(res);
++		return r;
++	}
+ 
+-	return man->func->alloc(man, bo, place, res);
++	*res_ptr = res;
++	return 0;
+ }
+ 
+-void ttm_resource_free(struct ttm_buffer_object *bo, struct ttm_resource *res)
++void ttm_resource_free(struct ttm_buffer_object *bo, struct ttm_resource **res)
+ {
+-	struct ttm_resource_manager *man =
+-		ttm_manager_type(bo->bdev, res->mem_type);
++	struct ttm_resource_manager *man;
+ 
+-	man->func->free(man, res);
+-	res->mm_node = NULL;
+-	res->mem_type = TTM_PL_SYSTEM;
++	if (!*res)
++		return;
++
++	man = ttm_manager_type(bo->bdev, (*res)->mem_type);
++	man->func->free(man, *res);
++	kfree(*res);
++	*res = NULL;
+ }
+ EXPORT_SYMBOL(ttm_resource_free);
+ 
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c b/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c
+index ed8563ef9a3b..bfcf31bf7e37 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c
+@@ -741,7 +741,7 @@ static int vmw_move(struct ttm_buffer_object *bo,
+ 			goto fail;
+ 
+ 		vmw_ttm_unbind(bo->bdev, bo->ttm);
+-		ttm_resource_free(bo, bo->resource);
++		ttm_resource_free(bo, &bo->resource);
+ 		ttm_bo_assign_mem(bo, new_mem);
+ 		return 0;
+ 	} else {
+diff --git a/include/drm/ttm/ttm_bo_api.h b/include/drm/ttm/ttm_bo_api.h
+index 291a339a7e08..f681bbdbc698 100644
+--- a/include/drm/ttm/ttm_bo_api.h
++++ b/include/drm/ttm/ttm_bo_api.h
+@@ -137,7 +137,6 @@ struct ttm_buffer_object {
+ 	 */
+ 
+ 	struct ttm_resource *resource;
+-	struct ttm_resource _mem;
+ 	struct ttm_tt *ttm;
+ 	bool deleted;
+ 
+diff --git a/include/drm/ttm/ttm_bo_driver.h b/include/drm/ttm/ttm_bo_driver.h
+index 1a9ba0b13622..ead0ef7136c8 100644
+--- a/include/drm/ttm/ttm_bo_driver.h
++++ b/include/drm/ttm/ttm_bo_driver.h
+@@ -96,7 +96,7 @@ struct ttm_lru_bulk_move {
+  */
+ int ttm_bo_mem_space(struct ttm_buffer_object *bo,
+ 		     struct ttm_placement *placement,
+-		     struct ttm_resource *mem,
++		     struct ttm_resource **mem,
+ 		     struct ttm_operation_ctx *ctx);
+ 
+ /**
+@@ -188,8 +188,8 @@ ttm_bo_move_to_lru_tail_unlocked(struct ttm_buffer_object *bo)
+ static inline void ttm_bo_assign_mem(struct ttm_buffer_object *bo,
+ 				     struct ttm_resource *new_mem)
+ {
+-	bo->_mem = *new_mem;
+-	new_mem->mm_node = NULL;
++	WARN_ON(bo->resource);
++	bo->resource = new_mem;
+ }
+ 
+ /**
+@@ -202,9 +202,7 @@ static inline void ttm_bo_assign_mem(struct ttm_buffer_object *bo,
+ static inline void ttm_bo_move_null(struct ttm_buffer_object *bo,
+ 				    struct ttm_resource *new_mem)
+ {
+-	struct ttm_resource *old_mem = bo->resource;
+-
+-	WARN_ON(old_mem->mm_node != NULL);
++	ttm_resource_free(bo, &bo->resource);
+ 	ttm_bo_assign_mem(bo, new_mem);
+ }
+ 
+diff --git a/include/drm/ttm/ttm_resource.h b/include/drm/ttm/ttm_resource.h
+index 890b9d369519..c17c1a52070d 100644
+--- a/include/drm/ttm/ttm_resource.h
++++ b/include/drm/ttm/ttm_resource.h
+@@ -225,8 +225,8 @@ ttm_resource_manager_cleanup(struct ttm_resource_manager *man)
+ 
+ int ttm_resource_alloc(struct ttm_buffer_object *bo,
+ 		       const struct ttm_place *place,
+-		       struct ttm_resource *res);
+-void ttm_resource_free(struct ttm_buffer_object *bo, struct ttm_resource *res);
++		       struct ttm_resource **res);
++void ttm_resource_free(struct ttm_buffer_object *bo, struct ttm_resource **res);
+ 
+ void ttm_resource_manager_init(struct ttm_resource_manager *man,
+ 			       unsigned long p_size);
+-- 
+2.25.1
+
