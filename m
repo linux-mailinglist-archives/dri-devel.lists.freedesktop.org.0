@@ -2,69 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23973398912
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Jun 2021 14:11:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 97576398948
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Jun 2021 14:18:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 840D86E3EE;
-	Wed,  2 Jun 2021 12:11:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3C52C6E0DB;
+	Wed,  2 Jun 2021 12:18:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com
- [IPv6:2a00:1450:4864:20::636])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DB8B06E3EE
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Jun 2021 12:11:50 +0000 (UTC)
-Received: by mail-ej1-x636.google.com with SMTP id k7so3443880ejv.12
- for <dri-devel@lists.freedesktop.org>; Wed, 02 Jun 2021 05:11:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:references:from:message-id:date:user-agent:mime-version
- :in-reply-to:content-transfer-encoding:content-language;
- bh=tTp1g7mzJCZvO8mc+gL6JvJp+VhaBMjn3b40DrShSN4=;
- b=pmLOz4GiBWNNTgKO4LvLtL26cJeJl6nzzBv+sJSgU+CJtiwjxMw8glam2omqCzsEzl
- 81bO+fdplznM+vZpmCDjeKBU/lMsinUdxLS4ABRYeZtjSc7D7vg5NIcT0j6z0U4q0/Gm
- Jwvq9qv4A14HaKj3WDH3RXQrTI0JKoVx0D0PIVQ5tliQZYVl0/+3tD2ra9bqcrzYx47l
- cIW7KFVWGsyy29qmA1bHtil4dJU2db/P1nAtuBHY/CXwWa9YyJXKA13S3jlnrDAXNBCa
- eHs4E566pv46Kh0YrdmXbTBrXlmzC7Q3FwUYP7Wx6ibGpLqpS3M8f7JRm3t9xGloOggy
- QLww==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-transfer-encoding
- :content-language;
- bh=tTp1g7mzJCZvO8mc+gL6JvJp+VhaBMjn3b40DrShSN4=;
- b=LDPbWwPmjoNZyqpOqnHnUbOB0BhVamwQ1YkWBz9YOAZb+uMBnTJNx3UfdDPjBq0Aqf
- gc+QArnV/pV3p6MLo+4uWonZl3qmpZ0wrk+pa2tNZ3Ib685ad3zmaps9qFJncmin8w9/
- vqtwNPhcleW0nFEBNb1ei4WE7KQ7RweGg5CJlRBK96bNOvjV0R3/lLcGM0qTxD6OAW7J
- xPok862mYPT9/vLZAtJJHoCTlmGtXgnvRqJkZ5NwDW60LJ4SqBylxr8RxgZZhPwfYDLl
- gtuWAEhcCzU3MrdxseDH9iDFzvhka0hKe4iztsglcWOoWAgXquqyONrBNHnzuKb8VQh8
- 77iA==
-X-Gm-Message-State: AOAM530wN5IJWd1r2LOwpspE9PseJ3c3EysW8VqQggy2MYpZD6pHVOCl
- 0xybI9dA+t+38djrwSpZRh+AEDV1c3g=
-X-Google-Smtp-Source: ABdhPJyuvww6IRmZYXYO1JNwZAZrLzd7imjdlm/hYzxUXLr5UWwcB9075ekpGE72jN3CFG0MmB5tEA==
-X-Received: by 2002:a17:906:f0cd:: with SMTP id
- dk13mr33944541ejb.11.1622635909421; 
- Wed, 02 Jun 2021 05:11:49 -0700 (PDT)
-Received: from ?IPv6:2a02:908:1252:fb60:cd07:2759:3eec:1d00?
- ([2a02:908:1252:fb60:cd07:2759:3eec:1d00])
- by smtp.gmail.com with ESMTPSA id g11sm1238161edt.85.2021.06.02.05.11.48
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 02 Jun 2021 05:11:49 -0700 (PDT)
-Subject: Re: [PATCH 02/10] drm/ttm: flip over the range manager to self
- allocated nodes
-To: =?UTF-8?Q?Thomas_Hellstr=c3=b6m_=28Intel=29?= <thomas_os@shipmail.org>,
- matthew.auld@intel.com, dri-devel@lists.freedesktop.org
-References: <20210602100914.46246-1-christian.koenig@amd.com>
- <20210602100914.46246-2-christian.koenig@amd.com>
- <9b01d58f-6474-70de-4364-6adad59717a5@shipmail.org>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-Message-ID: <2354a311-c88f-04c5-0211-360c8116b811@gmail.com>
-Date: Wed, 2 Jun 2021 14:11:48 +0200
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 818A86E09E;
+ Wed,  2 Jun 2021 12:18:51 +0000 (UTC)
+IronPort-SDR: Vvpk6k6CoCFCjyLGMMBtpcAKR0mDI2J1AXt6g+PNJQk68oVIqVlOb0E+epwUOxJ9XD2h15uhA7
+ 5uneU2645HYA==
+X-IronPort-AV: E=McAfee;i="6200,9189,10002"; a="203767555"
+X-IronPort-AV: E=Sophos;i="5.83,242,1616482800"; d="scan'208";a="203767555"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Jun 2021 05:18:50 -0700
+IronPort-SDR: 4+JbLYa3aTwmlV+B3Asz7lEEcsZm+L7Si/shpUtus0YB19GBC5z6SKOTTiUXEev3KJ9vtmJ6cI
+ o1Db+ue03XeQ==
+X-IronPort-AV: E=Sophos;i="5.83,242,1616482800"; d="scan'208";a="447382516"
+Received: from tstaplex-mobl1.ger.corp.intel.com (HELO [10.213.195.193])
+ ([10.213.195.193])
+ by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Jun 2021 05:18:49 -0700
+Subject: Re: [Intel-gfx] [RFC PATCH 61/97] drm/i915: Hold reference to
+ intel_context over life of i915_request
+To: Matthew Brost <matthew.brost@intel.com>, intel-gfx@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org
+References: <20210506191451.77768-1-matthew.brost@intel.com>
+ <20210506191451.77768-62-matthew.brost@intel.com>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+Message-ID: <9d27e06c-bbc7-b643-e52e-8e2714f2e98f@linux.intel.com>
+Date: Wed, 2 Jun 2021 13:18:47 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <9b01d58f-6474-70de-4364-6adad59717a5@shipmail.org>
+In-Reply-To: <20210506191451.77768-62-matthew.brost@intel.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
 Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,169 +55,118 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: jason.ekstrand@intel.com, daniel.vetter@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 02.06.21 um 13:44 schrieb Thomas Hellström (Intel):
->
-> On 6/2/21 12:09 PM, Christian König wrote:
->> Start with the range manager to make the resource object the base
->> class for the allocated nodes.
->>
->> While at it cleanup a lot of the code around that.
->>
->> Signed-off-by: Christian König <christian.koenig@amd.com>
->> Reviewed-by: Matthew Auld <matthew.auld@intel.com>
->> ---
->>   drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c |  1 +
->>   drivers/gpu/drm/drm_gem_vram_helper.c   |  2 +
->>   drivers/gpu/drm/nouveau/nouveau_ttm.c   |  2 +
->>   drivers/gpu/drm/qxl/qxl_ttm.c           |  1 +
->>   drivers/gpu/drm/radeon/radeon_ttm.c     |  1 +
->>   drivers/gpu/drm/ttm/ttm_range_manager.c | 56 ++++++++++++++++++-------
->>   drivers/gpu/drm/ttm/ttm_resource.c      | 26 ++++++++----
->>   include/drm/ttm/ttm_bo_driver.h         | 26 ------------
->>   include/drm/ttm/ttm_range_manager.h     | 43 +++++++++++++++++++
->>   include/drm/ttm/ttm_resource.h          |  3 ++
->>   10 files changed, 111 insertions(+), 50 deletions(-)
->>   create mode 100644 include/drm/ttm/ttm_range_manager.h
->>
->> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c 
->> b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
->> index 69db89261650..df1f185faae9 100644
->> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
->> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
->> @@ -45,6 +45,7 @@
->>   #include <drm/ttm/ttm_bo_api.h>
->>   #include <drm/ttm/ttm_bo_driver.h>
->>   #include <drm/ttm/ttm_placement.h>
->> +#include <drm/ttm/ttm_range_manager.h>
->>     #include <drm/amdgpu_drm.h>
->>   diff --git a/drivers/gpu/drm/drm_gem_vram_helper.c 
->> b/drivers/gpu/drm/drm_gem_vram_helper.c
->> index 83e7258c7f90..17a4c5d47b6a 100644
->> --- a/drivers/gpu/drm/drm_gem_vram_helper.c
->> +++ b/drivers/gpu/drm/drm_gem_vram_helper.c
->> @@ -17,6 +17,8 @@
->>   #include <drm/drm_prime.h>
->>   #include <drm/drm_simple_kms_helper.h>
->>   +#include <drm/ttm/ttm_range_manager.h>
->> +
->>   static const struct drm_gem_object_funcs drm_gem_vram_object_funcs;
->>     /**
->> diff --git a/drivers/gpu/drm/nouveau/nouveau_ttm.c 
->> b/drivers/gpu/drm/nouveau/nouveau_ttm.c
->> index 65430912ff72..b08b8efeefba 100644
->> --- a/drivers/gpu/drm/nouveau/nouveau_ttm.c
->> +++ b/drivers/gpu/drm/nouveau/nouveau_ttm.c
->> @@ -26,6 +26,8 @@
->>   #include <linux/limits.h>
->>   #include <linux/swiotlb.h>
->>   +#include <drm/ttm/ttm_range_manager.h>
->> +
->>   #include "nouveau_drv.h"
->>   #include "nouveau_gem.h"
->>   #include "nouveau_mem.h"
->> diff --git a/drivers/gpu/drm/qxl/qxl_ttm.c 
->> b/drivers/gpu/drm/qxl/qxl_ttm.c
->> index 8aa87b8edb9c..19fd39d9a00c 100644
->> --- a/drivers/gpu/drm/qxl/qxl_ttm.c
->> +++ b/drivers/gpu/drm/qxl/qxl_ttm.c
->> @@ -32,6 +32,7 @@
->>   #include <drm/ttm/ttm_bo_api.h>
->>   #include <drm/ttm/ttm_bo_driver.h>
->>   #include <drm/ttm/ttm_placement.h>
->> +#include <drm/ttm/ttm_range_manager.h>
->>     #include "qxl_drv.h"
->>   #include "qxl_object.h"
->> diff --git a/drivers/gpu/drm/radeon/radeon_ttm.c 
->> b/drivers/gpu/drm/radeon/radeon_ttm.c
->> index cdffa9b65108..ad2a5a791bba 100644
->> --- a/drivers/gpu/drm/radeon/radeon_ttm.c
->> +++ b/drivers/gpu/drm/radeon/radeon_ttm.c
->> @@ -45,6 +45,7 @@
->>   #include <drm/ttm/ttm_bo_api.h>
->>   #include <drm/ttm/ttm_bo_driver.h>
->>   #include <drm/ttm/ttm_placement.h>
->> +#include <drm/ttm/ttm_range_manager.h>
->>     #include "radeon_reg.h"
->>   #include "radeon.h"
->> diff --git a/drivers/gpu/drm/ttm/ttm_range_manager.c 
->> b/drivers/gpu/drm/ttm/ttm_range_manager.c
->> index b9d5da6e6a81..ce5d07ca384c 100644
->> --- a/drivers/gpu/drm/ttm/ttm_range_manager.c
->> +++ b/drivers/gpu/drm/ttm/ttm_range_manager.c
->> @@ -29,12 +29,13 @@
->>    * Authors: Thomas Hellstrom <thellstrom-at-vmware-dot-com>
->>    */
->>   -#include <drm/ttm/ttm_bo_driver.h>
->> +#include <drm/ttm/ttm_device.h>
->>   #include <drm/ttm/ttm_placement.h>
->> +#include <drm/ttm/ttm_range_manager.h>
->> +#include <drm/ttm/ttm_bo_api.h>
->>   #include <drm/drm_mm.h>
->>   #include <linux/slab.h>
->>   #include <linux/spinlock.h>
->> -#include <linux/module.h>
->>     /*
->>    * Currently we use a spinlock for the lock, but a mutex *may* be
->> @@ -60,8 +61,8 @@ static int ttm_range_man_alloc(struct 
->> ttm_resource_manager *man,
->>                      struct ttm_resource *mem)
->>   {
->>       struct ttm_range_manager *rman = to_range_manager(man);
->> +    struct ttm_range_mgr_node *node;
->>       struct drm_mm *mm = &rman->mm;
->> -    struct drm_mm_node *node;
->>       enum drm_mm_insert_mode mode;
->>       unsigned long lpfn;
->>       int ret;
->> @@ -70,7 +71,7 @@ static int ttm_range_man_alloc(struct 
->> ttm_resource_manager *man,
->>       if (!lpfn)
->>           lpfn = man->size;
->>   -    node = kzalloc(sizeof(*node), GFP_KERNEL);
->> +    node = kzalloc(struct_size(node, mm_nodes, 1), GFP_KERNEL);
->
-> I'm still a bit confused  about the situation where a driver wants to 
-> attach private data to a struct ttm_resource without having to 
-> re-implement its own range manager?
->
-> Could be cached sg-tables, list of GPU bindings etc. Wouldn't work 
-> with the above unless we have a void *driver_private member on the 
-> struct ttm_resource. Is that the plan going forward here? Or that the 
-> driver actually does the re-implementation?
 
-I don't really understand your concern here. The basic idea is that 
-drivers use ttm_resource as a base class for their own implementation.
+On 06/05/2021 20:14, Matthew Brost wrote:
+> Hold a reference to the intel_context over life of an i915_request.
+> Without this an i915_request can exist after the context has been
+> destroyed (e.g. request retired, context closed, but user space holds a
+> reference to the request from an out fence). In the case of GuC
+> submission + virtual engine, the engine that the request references is
+> also destroyed which can trigger bad pointer dref in fence ops (e.g.
+> i915_fence_get_driver_name). We could likely change
+> i915_fence_get_driver_name to avoid touching the engine but let's just
+> be safe and hold the intel_context reference.
 
-See for example how nouveau does that:
+Isn't this a bug in present upstream as well? Like calling sync fence 
+info on retired requests or something else?
 
-struct nouveau_mem {
-         struct ttm_resource base;
-         struct nouveau_cli *cli;
-         u8 kind;
-         u8 comp;
-         struct nvif_mem mem;
-         struct nvif_vma vma[2];
-};
-
-The range manager is helping driver specific resource managers which 
-want to implement something drm_mm_nodes based. E.g. amdgpu_gtt_mgr and 
-amdgpu_vram_mgr, but it can also be used stand alone.
-
-The ttm_range_mgr_node can then be used as base class for this 
-functionality. I already want to move some more code from 
-amdgpu_vram_mgr.c into the range manager, but that is just minor cleanup 
-work.
+If it is a bug in upstream then I think a single patch to deal with the 
+issue should be posted independently. It may be as simple as checking 
+for the signaled bit in i915_fence_get_driver_name and dereferencing 
+with rcu protection.
 
 Regards,
-Christian.
 
->
-> Thanks,
->
-> Thomas
->
->
+Tvrtko
 
+> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+> ---
+>   drivers/gpu/drm/i915/i915_request.c | 54 ++++++++++++-----------------
+>   1 file changed, 22 insertions(+), 32 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/i915_request.c b/drivers/gpu/drm/i915/i915_request.c
+> index 127d60b36422..0b96b824ea06 100644
+> --- a/drivers/gpu/drm/i915/i915_request.c
+> +++ b/drivers/gpu/drm/i915/i915_request.c
+> @@ -126,39 +126,17 @@ static void i915_fence_release(struct dma_fence *fence)
+>   	i915_sw_fence_fini(&rq->semaphore);
+>   
+>   	/*
+> -	 * Keep one request on each engine for reserved use under mempressure
+> -	 *
+> -	 * We do not hold a reference to the engine here and so have to be
+> -	 * very careful in what rq->engine we poke. The virtual engine is
+> -	 * referenced via the rq->context and we released that ref during
+> -	 * i915_request_retire(), ergo we must not dereference a virtual
+> -	 * engine here. Not that we would want to, as the only consumer of
+> -	 * the reserved engine->request_pool is the power management parking,
+> -	 * which must-not-fail, and that is only run on the physical engines.
+> -	 *
+> -	 * Since the request must have been executed to be have completed,
+> -	 * we know that it will have been processed by the HW and will
+> -	 * not be unsubmitted again, so rq->engine and rq->execution_mask
+> -	 * at this point is stable. rq->execution_mask will be a single
+> -	 * bit if the last and _only_ engine it could execution on was a
+> -	 * physical engine, if it's multiple bits then it started on and
+> -	 * could still be on a virtual engine. Thus if the mask is not a
+> -	 * power-of-two we assume that rq->engine may still be a virtual
+> -	 * engine and so a dangling invalid pointer that we cannot dereference
+> -	 *
+> -	 * For example, consider the flow of a bonded request through a virtual
+> -	 * engine. The request is created with a wide engine mask (all engines
+> -	 * that we might execute on). On processing the bond, the request mask
+> -	 * is reduced to one or more engines. If the request is subsequently
+> -	 * bound to a single engine, it will then be constrained to only
+> -	 * execute on that engine and never returned to the virtual engine
+> -	 * after timeslicing away, see __unwind_incomplete_requests(). Thus we
+> -	 * know that if the rq->execution_mask is a single bit, rq->engine
+> -	 * can be a physical engine with the exact corresponding mask.
+> +	 * Keep one request on each engine for reserved use under mempressure,
+> +	 * do not use with virtual engines as this really is only needed for
+> +	 * kernel contexts.
+>   	 */
+> -	if (is_power_of_2(rq->execution_mask) &&
+> -	    !cmpxchg(&rq->engine->request_pool, NULL, rq))
+> +	if (!intel_engine_is_virtual(rq->engine) &&
+> +	    !cmpxchg(&rq->engine->request_pool, NULL, rq)) {
+> +		intel_context_put(rq->context);
+>   		return;
+> +	}
+> +
+> +	intel_context_put(rq->context);
+>   
+>   	kmem_cache_free(global.slab_requests, rq);
+>   }
+> @@ -977,7 +955,18 @@ __i915_request_create(struct intel_context *ce, gfp_t gfp)
+>   		}
+>   	}
+>   
+> -	rq->context = ce;
+> +	/*
+> +	 * Hold a reference to the intel_context over life of an i915_request.
+> +	 * Without this an i915_request can exist after the context has been
+> +	 * destroyed (e.g. request retired, context closed, but user space holds
+> +	 * a reference to the request from an out fence). In the case of GuC
+> +	 * submission + virtual engine, the engine that the request references
+> +	 * is also destroyed which can trigger bad pointer dref in fence ops
+> +	 * (e.g. i915_fence_get_driver_name). We could likely change these
+> +	 * functions to avoid touching the engine but let's just be safe and
+> +	 * hold the intel_context reference.
+> +	 */
+> +	rq->context = intel_context_get(ce);
+>   	rq->engine = ce->engine;
+>   	rq->ring = ce->ring;
+>   	rq->execution_mask = ce->engine->mask;
+> @@ -1054,6 +1043,7 @@ __i915_request_create(struct intel_context *ce, gfp_t gfp)
+>   	GEM_BUG_ON(!list_empty(&rq->sched.waiters_list));
+>   
+>   err_free:
+> +	intel_context_put(ce);
+>   	kmem_cache_free(global.slab_requests, rq);
+>   err_unreserve:
+>   	intel_context_unpin(ce);
+> 
