@@ -1,39 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E39E398BA1
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Jun 2021 16:07:02 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F0A9398C11
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Jun 2021 16:13:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 792546ECA4;
-	Wed,  2 Jun 2021 14:06:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 904E46ECA6;
+	Wed,  2 Jun 2021 14:13:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id EEB156ECA4;
- Wed,  2 Jun 2021 14:06:54 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 44A161042;
- Wed,  2 Jun 2021 07:06:53 -0700 (PDT)
-Received: from [192.168.1.179] (unknown [172.31.20.19])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 47D133F73D;
- Wed,  2 Jun 2021 07:06:51 -0700 (PDT)
-Subject: Re: [PATCH 03/11] drm/panfrost: Use xarray and helpers for depedency
- tracking
-To: Daniel Vetter <daniel.vetter@ffwll.ch>,
- DRI Development <dri-devel@lists.freedesktop.org>
-References: <20210521090959.1663703-1-daniel.vetter@ffwll.ch>
- <20210521090959.1663703-3-daniel.vetter@ffwll.ch>
-From: Steven Price <steven.price@arm.com>
-Message-ID: <2054fee7-dcd2-a4fa-5d50-7fe6f1b474be@arm.com>
-Date: Wed, 2 Jun 2021 15:06:50 +0100
+Received: from pio-pvt-msa1.bahnhof.se (pio-pvt-msa1.bahnhof.se [79.136.2.40])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BF3436ECA6
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Jun 2021 14:13:14 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by pio-pvt-msa1.bahnhof.se (Postfix) with ESMTP id BE4813F70D;
+ Wed,  2 Jun 2021 16:13:12 +0200 (CEST)
+Authentication-Results: pio-pvt-msa1.bahnhof.se; dkim=pass (1024-bit key;
+ unprotected) header.d=shipmail.org header.i=@shipmail.org header.b="TwQ0uMWp";
+ dkim-atps=neutral
+X-Virus-Scanned: Debian amavisd-new at bahnhof.se
+X-Spam-Flag: NO
+X-Spam-Score: -2.717
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.717 tagged_above=-999 required=6.31
+ tests=[BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.618,
+ URIBL_BLOCKED=0.001] autolearn=ham autolearn_force=no
+Received: from pio-pvt-msa1.bahnhof.se ([127.0.0.1])
+ by localhost (pio-pvt-msa1.bahnhof.se [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 8a_0HV5RTyAJ; Wed,  2 Jun 2021 16:13:11 +0200 (CEST)
+Received: by pio-pvt-msa1.bahnhof.se (Postfix) with ESMTPA id 76A123F3AC;
+ Wed,  2 Jun 2021 16:13:10 +0200 (CEST)
+Received: from [192.168.0.209] (unknown [192.55.54.42])
+ by mail1.shipmail.org (Postfix) with ESMTPSA id 51B2636016C;
+ Wed,  2 Jun 2021 16:13:07 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=shipmail.org; s=mail;
+ t=1622643190; bh=xDS/tE+FF0V7f0+UD+fRxZYKvvMlLFPi3TqBjPaQSMU=;
+ h=Subject:To:References:From:Date:In-Reply-To:From;
+ b=TwQ0uMWpJJdJIfaWEHNW2SunNnfhf7Ms+3vNwCELV5CU8IgoehSSDWXlR1d+jZvGq
+ Ps/KYKXdxEDLKupGyShbURB7e1xu87AWZ1UnMCJSveV+Ut3EsIkgWTWgMW+3mO8oRL
+ +JarQCTR+dwTAKM8QaTALM8kL7xOAvyj9s21dLb8=
+Subject: Re: [PATCH 02/10] drm/ttm: flip over the range manager to self
+ allocated nodes
+To: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ matthew.auld@intel.com, dri-devel@lists.freedesktop.org
+References: <20210602100914.46246-1-christian.koenig@amd.com>
+ <20210602100914.46246-2-christian.koenig@amd.com>
+ <9b01d58f-6474-70de-4364-6adad59717a5@shipmail.org>
+ <2354a311-c88f-04c5-0211-360c8116b811@gmail.com>
+ <23afc41d-09ae-93f3-77b8-e18c8f72dd5a@shipmail.org>
+ <b818e5f8-66a4-4df0-ba5b-cc22125d72a2@gmail.com>
+From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m_=28Intel=29?= <thomas_os@shipmail.org>
+Message-ID: <2719e7af-dbba-2917-0e29-9e36fbc6de00@shipmail.org>
+Date: Wed, 2 Jun 2021 16:13:02 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-In-Reply-To: <20210521090959.1663703-3-daniel.vetter@ffwll.ch>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-GB
+In-Reply-To: <b818e5f8-66a4-4df0-ba5b-cc22125d72a2@gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,272 +72,186 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tomeu Vizoso <tomeu.vizoso@collabora.com>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- linaro-mm-sig@lists.linaro.org, Luben Tuikov <luben.tuikov@amd.com>,
- Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- Daniel Vetter <daniel.vetter@intel.com>, Lee Jones <lee.jones@linaro.org>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 21/05/2021 10:09, Daniel Vetter wrote:
-> More consistency and prep work for the next patch.
-> 
-> Aside: I wonder whether we shouldn't just move this entire xarray
-> business into the scheduler so that not everyone has to reinvent the
-> same wheels. Cc'ing some scheduler people for this too.
-> 
-> Cc: "Christian König" <christian.koenig@amd.com>
-> Cc: Luben Tuikov <luben.tuikov@amd.com>
-> Cc: Alex Deucher <alexander.deucher@amd.com>
-> Cc: Lee Jones <lee.jones@linaro.org>
-> Cc: Steven Price <steven.price@arm.com>
-> Cc: Rob Herring <robh@kernel.org>
-> Cc: Tomeu Vizoso <tomeu.vizoso@collabora.com>
-> Cc: Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
-> Cc: Sumit Semwal <sumit.semwal@linaro.org>
-> Cc: linux-media@vger.kernel.org
-> Cc: linaro-mm-sig@lists.linaro.org
-> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
 
-Two comments below, but otherwise looks like a nice cleanup.
+On 6/2/21 3:07 PM, Christian König wrote:
+>
+>
+> Am 02.06.21 um 14:33 schrieb Thomas Hellström (Intel):
+>>
+>> On 6/2/21 2:11 PM, Christian König wrote:
+>>> Am 02.06.21 um 13:44 schrieb Thomas Hellström (Intel):
+>>>>
+>>>> On 6/2/21 12:09 PM, Christian König wrote:
+>>>>> Start with the range manager to make the resource object the base
+>>>>> class for the allocated nodes.
+>>>>>
+>>>>> While at it cleanup a lot of the code around that.
+>>>>>
+>>>>> Signed-off-by: Christian König <christian.koenig@amd.com>
+>>>>> Reviewed-by: Matthew Auld <matthew.auld@intel.com>
+>>>>> ---
+>>>>>   drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c |  1 +
+>>>>>   drivers/gpu/drm/drm_gem_vram_helper.c   |  2 +
+>>>>>   drivers/gpu/drm/nouveau/nouveau_ttm.c   |  2 +
+>>>>>   drivers/gpu/drm/qxl/qxl_ttm.c           |  1 +
+>>>>>   drivers/gpu/drm/radeon/radeon_ttm.c     |  1 +
+>>>>>   drivers/gpu/drm/ttm/ttm_range_manager.c | 56 
+>>>>> ++++++++++++++++++-------
+>>>>>   drivers/gpu/drm/ttm/ttm_resource.c      | 26 ++++++++----
+>>>>>   include/drm/ttm/ttm_bo_driver.h         | 26 ------------
+>>>>>   include/drm/ttm/ttm_range_manager.h     | 43 +++++++++++++++++++
+>>>>>   include/drm/ttm/ttm_resource.h          |  3 ++
+>>>>>   10 files changed, 111 insertions(+), 50 deletions(-)
+>>>>>   create mode 100644 include/drm/ttm/ttm_range_manager.h
+>>>>>
+>>>>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c 
+>>>>> b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+>>>>> index 69db89261650..df1f185faae9 100644
+>>>>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+>>>>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+>>>>> @@ -45,6 +45,7 @@
+>>>>>   #include <drm/ttm/ttm_bo_api.h>
+>>>>>   #include <drm/ttm/ttm_bo_driver.h>
+>>>>>   #include <drm/ttm/ttm_placement.h>
+>>>>> +#include <drm/ttm/ttm_range_manager.h>
+>>>>>     #include <drm/amdgpu_drm.h>
+>>>>>   diff --git a/drivers/gpu/drm/drm_gem_vram_helper.c 
+>>>>> b/drivers/gpu/drm/drm_gem_vram_helper.c
+>>>>> index 83e7258c7f90..17a4c5d47b6a 100644
+>>>>> --- a/drivers/gpu/drm/drm_gem_vram_helper.c
+>>>>> +++ b/drivers/gpu/drm/drm_gem_vram_helper.c
+>>>>> @@ -17,6 +17,8 @@
+>>>>>   #include <drm/drm_prime.h>
+>>>>>   #include <drm/drm_simple_kms_helper.h>
+>>>>>   +#include <drm/ttm/ttm_range_manager.h>
+>>>>> +
+>>>>>   static const struct drm_gem_object_funcs drm_gem_vram_object_funcs;
+>>>>>     /**
+>>>>> diff --git a/drivers/gpu/drm/nouveau/nouveau_ttm.c 
+>>>>> b/drivers/gpu/drm/nouveau/nouveau_ttm.c
+>>>>> index 65430912ff72..b08b8efeefba 100644
+>>>>> --- a/drivers/gpu/drm/nouveau/nouveau_ttm.c
+>>>>> +++ b/drivers/gpu/drm/nouveau/nouveau_ttm.c
+>>>>> @@ -26,6 +26,8 @@
+>>>>>   #include <linux/limits.h>
+>>>>>   #include <linux/swiotlb.h>
+>>>>>   +#include <drm/ttm/ttm_range_manager.h>
+>>>>> +
+>>>>>   #include "nouveau_drv.h"
+>>>>>   #include "nouveau_gem.h"
+>>>>>   #include "nouveau_mem.h"
+>>>>> diff --git a/drivers/gpu/drm/qxl/qxl_ttm.c 
+>>>>> b/drivers/gpu/drm/qxl/qxl_ttm.c
+>>>>> index 8aa87b8edb9c..19fd39d9a00c 100644
+>>>>> --- a/drivers/gpu/drm/qxl/qxl_ttm.c
+>>>>> +++ b/drivers/gpu/drm/qxl/qxl_ttm.c
+>>>>> @@ -32,6 +32,7 @@
+>>>>>   #include <drm/ttm/ttm_bo_api.h>
+>>>>>   #include <drm/ttm/ttm_bo_driver.h>
+>>>>>   #include <drm/ttm/ttm_placement.h>
+>>>>> +#include <drm/ttm/ttm_range_manager.h>
+>>>>>     #include "qxl_drv.h"
+>>>>>   #include "qxl_object.h"
+>>>>> diff --git a/drivers/gpu/drm/radeon/radeon_ttm.c 
+>>>>> b/drivers/gpu/drm/radeon/radeon_ttm.c
+>>>>> index cdffa9b65108..ad2a5a791bba 100644
+>>>>> --- a/drivers/gpu/drm/radeon/radeon_ttm.c
+>>>>> +++ b/drivers/gpu/drm/radeon/radeon_ttm.c
+>>>>> @@ -45,6 +45,7 @@
+>>>>>   #include <drm/ttm/ttm_bo_api.h>
+>>>>>   #include <drm/ttm/ttm_bo_driver.h>
+>>>>>   #include <drm/ttm/ttm_placement.h>
+>>>>> +#include <drm/ttm/ttm_range_manager.h>
+>>>>>     #include "radeon_reg.h"
+>>>>>   #include "radeon.h"
+>>>>> diff --git a/drivers/gpu/drm/ttm/ttm_range_manager.c 
+>>>>> b/drivers/gpu/drm/ttm/ttm_range_manager.c
+>>>>> index b9d5da6e6a81..ce5d07ca384c 100644
+>>>>> --- a/drivers/gpu/drm/ttm/ttm_range_manager.c
+>>>>> +++ b/drivers/gpu/drm/ttm/ttm_range_manager.c
+>>>>> @@ -29,12 +29,13 @@
+>>>>>    * Authors: Thomas Hellstrom <thellstrom-at-vmware-dot-com>
+>>>>>    */
+>>>>>   -#include <drm/ttm/ttm_bo_driver.h>
+>>>>> +#include <drm/ttm/ttm_device.h>
+>>>>>   #include <drm/ttm/ttm_placement.h>
+>>>>> +#include <drm/ttm/ttm_range_manager.h>
+>>>>> +#include <drm/ttm/ttm_bo_api.h>
+>>>>>   #include <drm/drm_mm.h>
+>>>>>   #include <linux/slab.h>
+>>>>>   #include <linux/spinlock.h>
+>>>>> -#include <linux/module.h>
+>>>>>     /*
+>>>>>    * Currently we use a spinlock for the lock, but a mutex *may* be
+>>>>> @@ -60,8 +61,8 @@ static int ttm_range_man_alloc(struct 
+>>>>> ttm_resource_manager *man,
+>>>>>                      struct ttm_resource *mem)
+>>>>>   {
+>>>>>       struct ttm_range_manager *rman = to_range_manager(man);
+>>>>> +    struct ttm_range_mgr_node *node;
+>>>>>       struct drm_mm *mm = &rman->mm;
+>>>>> -    struct drm_mm_node *node;
+>>>>>       enum drm_mm_insert_mode mode;
+>>>>>       unsigned long lpfn;
+>>>>>       int ret;
+>>>>> @@ -70,7 +71,7 @@ static int ttm_range_man_alloc(struct 
+>>>>> ttm_resource_manager *man,
+>>>>>       if (!lpfn)
+>>>>>           lpfn = man->size;
+>>>>>   -    node = kzalloc(sizeof(*node), GFP_KERNEL);
+>>>>> +    node = kzalloc(struct_size(node, mm_nodes, 1), GFP_KERNEL);
+>>>>
+>>>> I'm still a bit confused  about the situation where a driver wants 
+>>>> to attach private data to a struct ttm_resource without having to 
+>>>> re-implement its own range manager?
+>>>>
+>>>> Could be cached sg-tables, list of GPU bindings etc. Wouldn't work 
+>>>> with the above unless we have a void *driver_private member on the 
+>>>> struct ttm_resource. Is that the plan going forward here? Or that 
+>>>> the driver actually does the re-implementation?
+>>>
+>>> I don't really understand your concern here. The basic idea is that 
+>>> drivers use ttm_resource as a base class for their own implementation.
+>>>
+>>> See for example how nouveau does that:
+>>>
+>>> struct nouveau_mem {
+>>>         struct ttm_resource base;
+>>>         struct nouveau_cli *cli;
+>>>         u8 kind;
+>>>         u8 comp;
+>>>         struct nvif_mem mem;
+>>>         struct nvif_vma vma[2];
+>>> };
+>>>
+>>> The range manager is helping driver specific resource managers which 
+>>> want to implement something drm_mm_nodes based. E.g. amdgpu_gtt_mgr 
+>>> and amdgpu_vram_mgr, but it can also be used stand alone.
+>>>
+>>> The ttm_range_mgr_node can then be used as base class for this 
+>>> functionality. I already want to move some more code from 
+>>> amdgpu_vram_mgr.c into the range manager, but that is just minor 
+>>> cleanup work.
+>>>
+>> Sure but if you embed a ttm_range_mgr_node in your struct 
+>> i915_resource, and wanted to use the ttm range manager for it, it 
+>> would allocate a struct ttm_range_mgr_node rather than a struct 
+>> i915_resource? Or am I missing something?
+>
+> Yes, that's the general idea I'm targeting for. I'm just not fully 
+> there yet.
 
-> ---
->  drivers/gpu/drm/panfrost/panfrost_drv.c | 41 ++++++++---------
->  drivers/gpu/drm/panfrost/panfrost_job.c | 61 ++++++++++---------------
->  drivers/gpu/drm/panfrost/panfrost_job.h |  8 ++--
->  3 files changed, 46 insertions(+), 64 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_drv.c b/drivers/gpu/drm/panfrost/panfrost_drv.c
-> index ca07098a6141..7977b4752b5c 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_drv.c
-> +++ b/drivers/gpu/drm/panfrost/panfrost_drv.c
-> @@ -137,12 +137,6 @@ panfrost_lookup_bos(struct drm_device *dev,
->  	if (!job->bo_count)
->  		return 0;
->  
-> -	job->implicit_fences = kvmalloc_array(job->bo_count,
-> -				  sizeof(struct dma_fence *),
-> -				  GFP_KERNEL | __GFP_ZERO);
-> -	if (!job->implicit_fences)
-> -		return -ENOMEM;
-> -
->  	ret = drm_gem_objects_lookup(file_priv,
->  				     (void __user *)(uintptr_t)args->bo_handles,
->  				     job->bo_count, &job->bos);
-> @@ -173,7 +167,7 @@ panfrost_lookup_bos(struct drm_device *dev,
->  }
->  
->  /**
-> - * panfrost_copy_in_sync() - Sets up job->in_fences[] with the sync objects
-> + * panfrost_copy_in_sync() - Sets up job->deps with the sync objects
->   * referenced by the job.
->   * @dev: DRM device
->   * @file_priv: DRM file for this fd
-> @@ -193,22 +187,14 @@ panfrost_copy_in_sync(struct drm_device *dev,
->  {
->  	u32 *handles;
->  	int ret = 0;
-> -	int i;
-> +	int i, in_fence_count;
->  
-> -	job->in_fence_count = args->in_sync_count;
-> +	in_fence_count = args->in_sync_count;
->  
-> -	if (!job->in_fence_count)
-> +	if (!in_fence_count)
->  		return 0;
->  
-> -	job->in_fences = kvmalloc_array(job->in_fence_count,
-> -					sizeof(struct dma_fence *),
-> -					GFP_KERNEL | __GFP_ZERO);
-> -	if (!job->in_fences) {
-> -		DRM_DEBUG("Failed to allocate job in fences\n");
-> -		return -ENOMEM;
-> -	}
-> -
-> -	handles = kvmalloc_array(job->in_fence_count, sizeof(u32), GFP_KERNEL);
-> +	handles = kvmalloc_array(in_fence_count, sizeof(u32), GFP_KERNEL);
->  	if (!handles) {
->  		ret = -ENOMEM;
->  		DRM_DEBUG("Failed to allocate incoming syncobj handles\n");
-> @@ -217,16 +203,23 @@ panfrost_copy_in_sync(struct drm_device *dev,
->  
->  	if (copy_from_user(handles,
->  			   (void __user *)(uintptr_t)args->in_syncs,
-> -			   job->in_fence_count * sizeof(u32))) {
-> +			   in_fence_count * sizeof(u32))) {
->  		ret = -EFAULT;
->  		DRM_DEBUG("Failed to copy in syncobj handles\n");
->  		goto fail;
->  	}
->  
-> -	for (i = 0; i < job->in_fence_count; i++) {
-> +	for (i = 0; i < in_fence_count; i++) {
-> +		struct dma_fence *fence;
-> +
->  		ret = drm_syncobj_find_fence(file_priv, handles[i], 0, 0,
-> -					     &job->in_fences[i]);
-> -		if (ret == -EINVAL)
-> +					     &fence);
-> +		if (ret)
-> +			goto fail;
-> +
-> +		ret = drm_gem_fence_array_add(&job->deps, fence);
-> +
-> +		if (ret)
->  			goto fail;
->  	}
->  
-> @@ -264,6 +257,8 @@ static int panfrost_ioctl_submit(struct drm_device *dev, void *data,
->  
->  	kref_init(&job->refcount);
->  
-> +	xa_init_flags(&job->deps, XA_FLAGS_ALLOC);
-> +
->  	job->pfdev = pfdev;
->  	job->jc = args->jc;
->  	job->requirements = args->requirements;
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_job.c b/drivers/gpu/drm/panfrost/panfrost_job.c
-> index f5d39ee14ab5..707d912ff64a 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_job.c
-> +++ b/drivers/gpu/drm/panfrost/panfrost_job.c
-> @@ -196,14 +196,21 @@ static void panfrost_job_hw_submit(struct panfrost_job *job, int js)
->  	job_write(pfdev, JS_COMMAND_NEXT(js), JS_COMMAND_START);
->  }
->  
-> -static void panfrost_acquire_object_fences(struct drm_gem_object **bos,
-> -					   int bo_count,
-> -					   struct dma_fence **implicit_fences)
-> +static int panfrost_acquire_object_fences(struct drm_gem_object **bos,
-> +					  int bo_count,
-> +					  struct xarray *deps)
->  {
-> -	int i;
-> +	int i, ret;
->  
-> -	for (i = 0; i < bo_count; i++)
-> -		implicit_fences[i] = dma_resv_get_excl_rcu(bos[i]->resv);
-> +	for (i = 0; i < bo_count; i++) {
-> +		struct dma_fence *fence = dma_resv_get_excl_rcu(bos[i]->resv);
-> +
-> +		ret = drm_gem_fence_array_add(deps, fence);
-> +		if (ret)
-> +			return ret;
-> +	}
-> +
-> +	return 0;
->  }
->  
->  static void panfrost_attach_object_fences(struct drm_gem_object **bos,
-> @@ -236,8 +243,10 @@ int panfrost_job_push(struct panfrost_job *job)
->  
->  	kref_get(&job->refcount); /* put by scheduler job completion */
->  
-> -	panfrost_acquire_object_fences(job->bos, job->bo_count,
-> -				       job->implicit_fences);
-> +	ret = panfrost_acquire_object_fences(job->bos, job->bo_count,
-> +					     &job->deps);
-> +	if (ret)
-> +		goto unlock;
+Hmm, I don't fully understand the reply, I described a buggy scenario 
+and you replied that's what we're targeting for?
 
-I think this needs to move above the kref_get() otherwise we'll leak the
-job on failure.
+I assume you mean we're going to get an init() method for the range 
+manager, and a destroy method for the struct ttm_resource?
 
->  
->  	drm_sched_entity_push_job(&job->base, entity);
->  
-> @@ -254,18 +263,15 @@ static void panfrost_job_cleanup(struct kref *ref)
->  {
->  	struct panfrost_job *job = container_of(ref, struct panfrost_job,
->  						refcount);
-> +	struct dma_fence *fence;
-> +	unsigned long index;
->  	unsigned int i;
->  
-> -	if (job->in_fences) {
-> -		for (i = 0; i < job->in_fence_count; i++)
-> -			dma_fence_put(job->in_fences[i]);
-> -		kvfree(job->in_fences);
-> -	}
-> -	if (job->implicit_fences) {
-> -		for (i = 0; i < job->bo_count; i++)
-> -			dma_fence_put(job->implicit_fences[i]);
-> -		kvfree(job->implicit_fences);
-> +	xa_for_each(&job->deps, index, fence) {
-> +		dma_fence_put(fence);
->  	}
-> +	xa_destroy(&job->deps);
-> +
->  	dma_fence_put(job->done_fence);
->  	dma_fence_put(job->render_done_fence);
->  
-> @@ -308,26 +314,9 @@ static struct dma_fence *panfrost_job_dependency(struct drm_sched_job *sched_job
->  						 struct drm_sched_entity *s_entity)
->  {
->  	struct panfrost_job *job = to_panfrost_job(sched_job);
-> -	struct dma_fence *fence;
-> -	unsigned int i;
->  
-> -	/* Explicit fences */
-> -	for (i = 0; i < job->in_fence_count; i++) {
-> -		if (job->in_fences[i]) {
-> -			fence = job->in_fences[i];
-> -			job->in_fences[i] = NULL;
-> -			return fence;
-> -		}
-> -	}
-> -
-> -	/* Implicit fences, max. one per BO */
-> -	for (i = 0; i < job->bo_count; i++) {
-> -		if (job->implicit_fences[i]) {
-> -			fence = job->implicit_fences[i];
-> -			job->implicit_fences[i] = NULL;
-> -			return fence;
-> -		}
-> -	}
-> +	if (!xa_empty(&job->deps))
-> +		return xa_erase(&job->deps, job->last_dep++);
+Thanks,
 
-Rather than tracking last_dep separately this could be written using
-xa_find():
+Thomas
 
-    if (xa_find(&job->deps, &i, ULONG_MAX, XA_PRESENT))
-	return xa_erase(&job->deps, &i);
-
-Steve
-
->  
->  	return NULL;
->  }
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_job.h b/drivers/gpu/drm/panfrost/panfrost_job.h
-> index bbd3ba97ff67..82306a03b57e 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_job.h
-> +++ b/drivers/gpu/drm/panfrost/panfrost_job.h
-> @@ -19,9 +19,9 @@ struct panfrost_job {
->  	struct panfrost_device *pfdev;
->  	struct panfrost_file_priv *file_priv;
->  
-> -	/* Optional fences userspace can pass in for the job to depend on. */
-> -	struct dma_fence **in_fences;
-> -	u32 in_fence_count;
-> +	/* Contains both explicit and implicit fences */
-> +	struct xarray deps;
-> +	unsigned long last_dep;
->  
->  	/* Fence to be signaled by IRQ handler when the job is complete. */
->  	struct dma_fence *done_fence;
-> @@ -30,8 +30,6 @@ struct panfrost_job {
->  	__u32 requirements;
->  	__u32 flush_id;
->  
-> -	/* Exclusive fences we have taken from the BOs to wait for */
-> -	struct dma_fence **implicit_fences;
->  	struct panfrost_gem_mapping **mappings;
->  	struct drm_gem_object **bos;
->  	u32 bo_count;
-> 
 
