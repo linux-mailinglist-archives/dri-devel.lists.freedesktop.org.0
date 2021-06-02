@@ -2,39 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16E8039855F
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Jun 2021 11:37:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD0BF398569
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Jun 2021 11:39:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 65EB66EC24;
-	Wed,  2 Jun 2021 09:37:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 170F56E5BB;
+	Wed,  2 Jun 2021 09:39:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2134D6EC23;
- Wed,  2 Jun 2021 09:37:06 +0000 (UTC)
-IronPort-SDR: +4vmjtdcHivywMuLfJ/JBV6TYm5O8bYVFOlkvMoeLeqIUnHyF5vBRcBF23qmVDd23FVF02N4Fl
- AcCRtdyZ1RTw==
-X-IronPort-AV: E=McAfee;i="6200,9189,10002"; a="183427550"
-X-IronPort-AV: E=Sophos;i="5.83,241,1616482800"; d="scan'208";a="183427550"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Jun 2021 02:37:05 -0700
-IronPort-SDR: xlJE9KM5keKPu/iJcmLvBKWqIPJyBYkZ3F3U8YL8vDo4/O3Drb+TTZ5ztYAj0+x5EuT61+g+Rd
- CdQyHVsBfyZQ==
-X-IronPort-AV: E=Sophos;i="5.83,241,1616482800"; d="scan'208";a="447334848"
-Received: from klim31-mobl1.gar.corp.intel.com (HELO mwauld-desk1.intel.com)
- ([10.213.150.164])
- by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Jun 2021 02:37:01 -0700
-From: Matthew Auld <matthew.auld@intel.com>
-To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH] drm/i915/gem/mman: only allow WC for lmem
-Date: Wed,  2 Jun 2021 10:36:36 +0100
-Message-Id: <20210602093636.167070-1-matthew.auld@intel.com>
-X-Mailer: git-send-email 2.26.3
+Received: from mail-pf1-x429.google.com (mail-pf1-x429.google.com
+ [IPv6:2607:f8b0:4864:20::429])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 65F516E5BB;
+ Wed,  2 Jun 2021 09:39:27 +0000 (UTC)
+Received: by mail-pf1-x429.google.com with SMTP id t28so1712910pfg.10;
+ Wed, 02 Jun 2021 02:39:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=UoqfQasLN0pZ00mRIInlwQ56qBNCyjrvVbN90p7EI58=;
+ b=kdXFzSq+Og4JjpWrwbfWDW+BJgr5KKzHJZcpprrqzrd3iepnUEPQsBoqEeoyGYoI3E
+ 2z5ZVZWUWxVChlcqfuKuFuovtyJLAL+0dbzRsl8cRAP8lVagFIWoXEtHxGV4t0cQ5a7Y
+ 6v4iC1Fwv7KPl4zT9e5eqUvw5ICfpQkUv7G+tznQGkj3v45F5DkEuR7l7wHklYICDV0/
+ 5U1nANEcGG+lz/S2boote+bEUDl7XyhBbHbyLy/KDDbkWcYfmjiIjb+u+/Sv4jpvTIPg
+ JLx0bglSzIuL1dHdYwNWlaMffUivTT+T16GcwEKkDjmSxaX4Q8nnuM+6qZOdn4hArBZY
+ UOYQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=UoqfQasLN0pZ00mRIInlwQ56qBNCyjrvVbN90p7EI58=;
+ b=H+sOEJ+dBtHTiNgClYNYgY98flSPWgSQy66eMozt+PIxE0g1gXJFJk8ybEaVG4SZhl
+ KbZ4tygVo5Q2N9pyJvg/cr484P68PfQDpZL20NM0w+vYogsDNBWT3/HzVbfh5wsmGEsV
+ uP7b+42i2vxGxOF7fbq23AHCr9+yzZ8+0seRZo43V9gMN/3Dx5JJnArsbjBWb1xAvU/R
+ 1bX3AuQQXuFDFsXyo2Cl+HNpE+gSNS2eGxlJW/e43DhRzyw7M1np/5zmYFB9eWmrb6eh
+ QJ7/D2969PqMYbItXouHN+CA3pnQd+GRP00Je9Ks5IbxiWbKC31csny5ymFyIoRabMOB
+ kGaQ==
+X-Gm-Message-State: AOAM531X2z1u0iV8MmuGDLVUGIrrn3xJMVvdi83UbKbBK6uXkKnHHbET
+ 4nZzKKow0J2wJW7fEMIGhKyoV8ThKvfKmi0yrlM=
+X-Google-Smtp-Source: ABdhPJzcq3eoBhDZ2b5+lw46fl0RPclCovg50g49UBs5csgPlYIiJ8kjVdePKg32AJBpb1t+cUsAuBCS4wokwTDWp6U=
+X-Received: by 2002:a63:4e4f:: with SMTP id o15mr33045814pgl.208.1622626767063; 
+ Wed, 02 Jun 2021 02:39:27 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <CAAxE2A4XS2mCXOdvxm1ZAhG2OY9w1P0X2E1ac1TXNFKDekog5g@mail.gmail.com>
+ <e7cb9833-1044-0426-5ce4-5b5fc32a3603@daenzer.net>
+ <327e4008-b29f-f5b7-bb30-532fa52c797f@gmail.com>
+ <7f19e3c7-b6b2-5200-95eb-3fed8d22a6b3@daenzer.net>
+ <b0d65f94-cc56-a4db-3158-7b1de3952792@gmail.com>
+ <CAKMK7uGaD_LuX-SZDALuDuEOMZNX=Q3FAq0xYf_pTVtNe6VUaw@mail.gmail.com>
+ <c7190219-c185-3b7e-42a6-691934f79fb3@gmail.com>
+ <CAPj87rPbiFf3qDo35gmirAoTOOJ5fEE6UxQdJKtfjX_VTqc6pg@mail.gmail.com>
+ <CAAxE2A4kC4A9gV_V-W3eRW20O=9S1pv8=KMBdJxdLQ-ZXGa37Q@mail.gmail.com>
+In-Reply-To: <CAAxE2A4kC4A9gV_V-W3eRW20O=9S1pv8=KMBdJxdLQ-ZXGa37Q@mail.gmail.com>
+From: =?UTF-8?B?TWFyZWsgT2zFocOhaw==?= <maraeo@gmail.com>
+Date: Wed, 2 Jun 2021 05:38:51 -0400
+Message-ID: <CAAxE2A7FJSaYfrYRpoCr-3h-AqBjOOJerhMVCcQZzQu0a+J0zg@mail.gmail.com>
+Subject: Re: [Mesa-dev] Linux Graphics Next: Userspace submission update
+To: Daniel Stone <daniel@fooishbar.org>
+Content-Type: multipart/alternative; boundary="0000000000000dcfbf05c3c53ca4"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,96 +69,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- dri-devel@lists.freedesktop.org, Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel@daenzer.net>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Jason Ekstrand <jason@jlekstrand.net>,
+ ML Mesa-dev <mesa-dev@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-For dgfx where we now have lmem and ttm, we can only support single mmap
-mode for the lifetime of the object, and for lmem objects this should be
-WC, so reject all other mapping modes for mmap_offset, including if the
-object can be placed in both smem and lmem.
+--0000000000000dcfbf05c3c53ca4
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Matthew Auld <matthew.auld@intel.com>
-Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
----
- drivers/gpu/drm/i915/gem/i915_gem_mman.c   |  4 ++++
- drivers/gpu/drm/i915/gem/i915_gem_object.c | 22 ++++++++++++++++++++++
- drivers/gpu/drm/i915/gem/i915_gem_object.h |  4 ++++
- 3 files changed, 30 insertions(+)
+On Wed, Jun 2, 2021 at 5:34 AM Marek Ol=C5=A1=C3=A1k <maraeo@gmail.com> wro=
+te:
 
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_mman.c b/drivers/gpu/drm/i915/gem/i915_gem_mman.c
-index fd1c9714f8d8..32f88f236771 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_mman.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_mman.c
-@@ -689,6 +689,10 @@ __assign_mmap_offset(struct drm_file *file,
- 		goto out;
- 	}
- 
-+	if (mmap_type != I915_MMAP_TYPE_WC &&
-+	    i915_gem_object_placements_contain_type(obj, INTEL_MEMORY_LOCAL))
-+		return -ENODEV;
-+
- 	mmo = mmap_offset_attach(obj, mmap_type, file);
- 	if (IS_ERR(mmo)) {
- 		err = PTR_ERR(mmo);
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object.c b/drivers/gpu/drm/i915/gem/i915_gem_object.c
-index 2be6109d0093..d4b0da8ed969 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_object.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_object.c
-@@ -403,6 +403,28 @@ int i915_gem_object_read_from_page(struct drm_i915_gem_object *obj, u64 offset,
- 	return 0;
- }
- 
-+/**
-+ * i915_gem_object_placements_contain_type - Check whether the object can be
-+ * placed at certain memory type
-+ * @obj: Pointer to the object
-+ * @type: The memory type to check
-+ *
-+ * Return: True if the object can be placed in @type. False otherwise.
-+ */
-+bool i915_gem_object_placements_contain_type(struct drm_i915_gem_object *obj,
-+					     enum intel_memory_type type)
-+{
-+	unsigned int i;
-+
-+	/* TODO: consider maybe storing as a mask when doing gem_create_ext */
-+	for (i = 0; i < obj->mm.n_placements; i++) {
-+		if (obj->mm.placements[i]->type == type)
-+			return true;
-+	}
-+
-+	return false;
-+}
-+
- void i915_gem_init__objects(struct drm_i915_private *i915)
- {
- 	INIT_WORK(&i915->mm.free_work, __i915_gem_free_work);
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object.h b/drivers/gpu/drm/i915/gem/i915_gem_object.h
-index 2ebd79537aea..4d6ea9e07df0 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_object.h
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_object.h
-@@ -12,6 +12,7 @@
- #include <drm/drm_device.h>
- 
- #include "display/intel_frontbuffer.h"
-+#include "intel_memory_region.h"
- #include "i915_gem_object_types.h"
- #include "i915_gem_gtt.h"
- #include "i915_vma_types.h"
-@@ -587,6 +588,9 @@ int i915_gem_object_read_from_page(struct drm_i915_gem_object *obj, u64 offset,
- 
- bool i915_gem_object_is_shmem(const struct drm_i915_gem_object *obj);
- 
-+bool i915_gem_object_placements_contain_type(struct drm_i915_gem_object *obj,
-+					     enum intel_memory_type type);
-+
- #ifdef CONFIG_MMU_NOTIFIER
- static inline bool
- i915_gem_object_is_userptr(struct drm_i915_gem_object *obj)
--- 
-2.26.3
+> Yes, we can't break anything because we don't want to complicate things
+> for us. It's pretty much all NAK'd already. We are trying to gather more
+> knowledge and then make better decisions.
+>
+> The idea we are considering is that we'll expose memory-based sync object=
+s
+> to userspace for read only, and the kernel or hw will strictly control th=
+e
+> memory writes to those sync objects. The hole in that idea is that
+> userspace can decide not to signal a job, so even if userspace can't
+> overwrite memory-based sync object states arbitrarily, it can still decid=
+e
+> not to signal them, and then a future fence is born.
+>
 
+This would actually be treated as a GPU hang caused by that context, so it
+should be fine.
+
+Marek
+
+--0000000000000dcfbf05c3c53ca4
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"g=
+mail_attr">On Wed, Jun 2, 2021 at 5:34 AM Marek Ol=C5=A1=C3=A1k &lt;<a href=
+=3D"mailto:maraeo@gmail.com">maraeo@gmail.com</a>&gt; wrote:<br></div><bloc=
+kquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:=
+1px solid rgb(204,204,204);padding-left:1ex"><div dir=3D"ltr"><div>Yes, we =
+can&#39;t break anything because we don&#39;t want to complicate things for=
+ us. It&#39;s pretty much all NAK&#39;d already. We are trying to gather mo=
+re knowledge and then make better decisions.</div><div><br></div><div>The i=
+dea we are considering is that we&#39;ll expose memory-based sync objects t=
+o userspace for read only, and the kernel or hw will strictly control the m=
+emory writes to those sync objects. The hole in that idea is that userspace=
+ can decide not to signal a job, so even if userspace can&#39;t overwrite m=
+emory-based sync object states arbitrarily, it can still decide not to sign=
+al them, and then a future fence is born.</div></div></blockquote><div><br>=
+</div><div>This would actually be treated as a GPU hang caused by that cont=
+ext, so it should be fine.</div><div><br></div><div>Marek</div></div></div>
+
+--0000000000000dcfbf05c3c53ca4--
