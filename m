@@ -1,59 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7774539A4DB
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Jun 2021 17:40:48 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7EDE039A4DE
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Jun 2021 17:40:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 54BF56F4B8;
-	Thu,  3 Jun 2021 15:40:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 51B356F4C1;
+	Thu,  3 Jun 2021 15:40:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1034.google.com (mail-pj1-x1034.google.com
- [IPv6:2607:f8b0:4864:20::1034])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EF3C16F4B7
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Jun 2021 15:40:40 +0000 (UTC)
-Received: by mail-pj1-x1034.google.com with SMTP id
- o17-20020a17090a9f91b029015cef5b3c50so5697089pjp.4
- for <dri-devel@lists.freedesktop.org>; Thu, 03 Jun 2021 08:40:40 -0700 (PDT)
+Received: from mail-pg1-x52d.google.com (mail-pg1-x52d.google.com
+ [IPv6:2607:f8b0:4864:20::52d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 02DAC6F4B7
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Jun 2021 15:40:42 +0000 (UTC)
+Received: by mail-pg1-x52d.google.com with SMTP id v14so5438977pgi.6
+ for <dri-devel@lists.freedesktop.org>; Thu, 03 Jun 2021 08:40:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=jlekstrand-net.20150623.gappssmtp.com; s=20150623;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=ISJVvStMAR7Z60QZoYOnA+cgPbsN3FkGO0+5Gj/UFns=;
- b=La1zBKRpRqXwWJ2ibhGrpAyOTr+gPfu0AGUF0zix3njs/44yrzT0KhZv2ItHY6vlQB
- br0Yw77SA1tqEH9UYSr5yDvkk1WPkq8h+BvGD5dJ7kDq3B6Y3FwIuXcL938moJrsTntO
- khmShN+1frpmwgNaD1EL+kIpL3ZOF1UQ7MyK9YX2Nh6Elzu4Avrx+jSQfHbBrizPiYWu
- TkexhLHf9VuXPAFiA7qH7Y2HZCvoczXLdR67SnJgBcdbWnnSS4KzTfcp1CTzBxJog3xn
- b8I3sg1scI+AEFYGt1sAk8LGl0+3BTCxJdXu0gLYBWDE0mxW8yfUQw3QSnXSM7f0OOTx
- rHOQ==
+ bh=LZpq7f5pIJW2dDuLII86TMWxTbEjjl9Ioc6Cn93MUc8=;
+ b=1a7CYz1qC7FklL6VqFEMj67DRmxSPiG4m6WbJPykddyzmDvCWZLUKyZtJ2RH22CzOv
+ tQ46nZ1C9BwKTfZCjHApzDCEK+4HT+jM39ijzE5MKn4QT7fZxbk0v5BaPyhiuwl5cFJN
+ Uz6xexqnRrO7/P8VaVSdQui1tMhyWh9v40odVnClU5ts4+OTeIbAhGh5ajwolCt5GK+o
+ AWIbb1Lx5++7rpq6UNslXgHij/km6qusEl6VnpvhsLMez8dLOScNEEfWwpnj/ui8yIBk
+ 2k3dsGZgibXloLvyTL7QbruC8YqzqNw+jtK5jk8tn9nP3rpTjtCd+ZQbzAGTyhajiQhV
+ 26NA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=ISJVvStMAR7Z60QZoYOnA+cgPbsN3FkGO0+5Gj/UFns=;
- b=YVhVTUo+h1pptjnPld9J9y9WC+3Y3ZSZ+Fxu/yAxuedcR0AEtVE+qfnnp0Y65JWo3e
- zU6b4dJyw4X7RD68E1i22GVJ3/RC9s6wEvzLpbL8kWHs03Hi+II+mFQCKlNNmeSwbG7m
- VGYk3n0DKGXEVvtaJmdBOgT29ht2b72ELGX7HUhKP/7aItNZXOHHR289bMu8wSAmhAiy
- BmaXFnmzhENtg88Dc2YooUy+wodmf79GEE1i65bHYG79RZ//0N4Mo0fx0LXWixOKUhBt
- qLsPZq2sF2WkpdsksfvlalfNdFSF9efOnBY/Q9QXV1K3SM84u4tAPOsThFXaJ6C9FREp
- v1Dw==
-X-Gm-Message-State: AOAM530b8rfPc0D1Jp7tDuO7CCrlgWpXf8PIVQ37GZ+6q7t7ep7aa3as
- PagbPa4EiWV1HEN+5mpcfVcYcw==
-X-Google-Smtp-Source: ABdhPJyfBAVxYAYGiZ9QgnjgfEpd9spDvcZl51O0uXY06e49Npl6ddcjP6f4BBhw/VXJSdr7VplptQ==
-X-Received: by 2002:a17:90a:af8b:: with SMTP id
- w11mr576389pjq.228.1622734839686; 
- Thu, 03 Jun 2021 08:40:39 -0700 (PDT)
+ bh=LZpq7f5pIJW2dDuLII86TMWxTbEjjl9Ioc6Cn93MUc8=;
+ b=gUIzsaFhVal4vTBV2EGTiHeNNbOh70urjmmLl1PMmgx6uIK8qYFwUG+H9Ie2Prk9DI
+ ocIjTmHciyTFlpXWxIhxRxvBGjMAGKNz4wuNrKIT8QX/H5YwiMA/OEJvvgm93CIoah+j
+ qgS+p5dZS/WNMAuwJ7ytW2SK62yxIB4/SeNk+5wwxzHpuFNu3KU5cmY4M3UVNj7pZ7HZ
+ GJXwQEEz6KGI0lg9/nJ7DAa9DjRjtn48AUmW36L+73twDRy8uIHmG/G2YIkR6q3PLRFE
+ 8mNATAbEBoNoK50wookYdzAHKhQMn5aoKDaQh8aG3+m/6WkpmLg1DuxiXgMAC9uUubNx
+ NVVA==
+X-Gm-Message-State: AOAM532z3m/BCJmQZ6+6tctwoZnX9KkwtfpLTd0A5BzA91hU/zOKzzdH
+ 1biozqss7MJ1WbCXT92LIHHxKA==
+X-Google-Smtp-Source: ABdhPJyNA+dcEpwlJnsF5fN3j4ZSdFBOrqsQxFzV2HJkXCXq2H7Sa6lkhXN1kXJilu8tQT8otKeeXg==
+X-Received: by 2002:a63:da15:: with SMTP id c21mr81239pgh.227.1622734841589;
+ Thu, 03 Jun 2021 08:40:41 -0700 (PDT)
 Received: from omlet.lan ([134.134.139.76])
- by smtp.gmail.com with ESMTPSA id mp21sm2681789pjb.50.2021.06.03.08.40.37
+ by smtp.gmail.com with ESMTPSA id mp21sm2681789pjb.50.2021.06.03.08.40.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 03 Jun 2021 08:40:39 -0700 (PDT)
+ Thu, 03 Jun 2021 08:40:41 -0700 (PDT)
 From: Jason Ekstrand <jason@jlekstrand.net>
 To: intel-gfx@lists.freedesktop.org,
 	dri-devel@lists.freedesktop.org
-Subject: [PATCH 3/5] drm/i915: Remove allow_alloc from i915_gem_object_get_sg*
-Date: Thu,  3 Jun 2021 10:40:25 -0500
-Message-Id: <20210603154027.594906-4-jason@jlekstrand.net>
+Subject: [PATCH 4/5] drm/i915: Drop error handling from dma_fence_work
+Date: Thu,  3 Jun 2021 10:40:26 -0500
+Message-Id: <20210603154027.594906-5-jason@jlekstrand.net>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210603154027.594906-1-jason@jlekstrand.net>
 References: <20210603154027.594906-1-jason@jlekstrand.net>
@@ -77,126 +75,89 @@ Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This reverts the rest of 0edbb9ba1bfe ("drm/i915: Move cmd parser
-pinning to execbuffer").  Now that the only user of i915_gem_object_get_sg
-without allow_alloc has been removed, we can drop the parameter.  This
-portion of the revert was broken into its own patch to aid review.
+Asynchronous command parsing was the only thing which ever returned a
+non-zero error.  With that gone, we can drop the error handling from
+dma_fence_work.
 
 Signed-off-by: Jason Ekstrand <jason@jlekstrand.net>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
 Reviewed-by: Jon Bloomfield <jon.bloomfield@intel.com>
 Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 ---
- drivers/gpu/drm/i915/gem/i915_gem_object.h | 10 +++++-----
- drivers/gpu/drm/i915/gem/i915_gem_pages.c  | 21 ++++-----------------
- drivers/gpu/drm/i915/gt/intel_ggtt.c       |  2 +-
- 3 files changed, 10 insertions(+), 23 deletions(-)
+ drivers/gpu/drm/i915/gem/i915_gem_clflush.c | 4 +---
+ drivers/gpu/drm/i915/i915_sw_fence_work.c   | 5 +----
+ drivers/gpu/drm/i915/i915_sw_fence_work.h   | 2 +-
+ drivers/gpu/drm/i915/i915_vma.c             | 3 +--
+ 4 files changed, 4 insertions(+), 10 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object.h b/drivers/gpu/drm/i915/gem/i915_gem_object.h
-index 2ebd79537aea9..329d848f3ff6d 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_object.h
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_object.h
-@@ -339,22 +339,22 @@ struct scatterlist *
- __i915_gem_object_get_sg(struct drm_i915_gem_object *obj,
- 			 struct i915_gem_object_page_iter *iter,
- 			 unsigned int n,
--			 unsigned int *offset, bool allow_alloc);
-+			 unsigned int *offset);
- 
- static inline struct scatterlist *
- i915_gem_object_get_sg(struct drm_i915_gem_object *obj,
- 		       unsigned int n,
--		       unsigned int *offset, bool allow_alloc)
-+		       unsigned int *offset)
- {
--	return __i915_gem_object_get_sg(obj, &obj->mm.get_page, n, offset, allow_alloc);
-+	return __i915_gem_object_get_sg(obj, &obj->mm.get_page, n, offset);
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_clflush.c b/drivers/gpu/drm/i915/gem/i915_gem_clflush.c
+index daf9284ef1f54..f0435c6feb68b 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_clflush.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_clflush.c
+@@ -24,13 +24,11 @@ static void __do_clflush(struct drm_i915_gem_object *obj)
+ 	i915_gem_object_flush_frontbuffer(obj, ORIGIN_CPU);
  }
  
- static inline struct scatterlist *
- i915_gem_object_get_sg_dma(struct drm_i915_gem_object *obj,
- 			   unsigned int n,
--			   unsigned int *offset, bool allow_alloc)
-+			   unsigned int *offset)
+-static int clflush_work(struct dma_fence_work *base)
++static void clflush_work(struct dma_fence_work *base)
  {
--	return __i915_gem_object_get_sg(obj, &obj->mm.get_dma_page, n, offset, allow_alloc);
-+	return __i915_gem_object_get_sg(obj, &obj->mm.get_dma_page, n, offset);
+ 	struct clflush *clflush = container_of(base, typeof(*clflush), base);
+ 
+ 	__do_clflush(clflush->obj);
+-
+-	return 0;
  }
  
- struct page *
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_pages.c b/drivers/gpu/drm/i915/gem/i915_gem_pages.c
-index 6444e097016da..f234bd5bf22fc 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_pages.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_pages.c
-@@ -466,8 +466,7 @@ struct scatterlist *
- __i915_gem_object_get_sg(struct drm_i915_gem_object *obj,
- 			 struct i915_gem_object_page_iter *iter,
- 			 unsigned int n,
--			 unsigned int *offset,
--			 bool allow_alloc)
-+			 unsigned int *offset)
+ static void clflush_release(struct dma_fence_work *base)
+diff --git a/drivers/gpu/drm/i915/i915_sw_fence_work.c b/drivers/gpu/drm/i915/i915_sw_fence_work.c
+index a3a81bb8f2c36..5b33ef23d54c9 100644
+--- a/drivers/gpu/drm/i915/i915_sw_fence_work.c
++++ b/drivers/gpu/drm/i915/i915_sw_fence_work.c
+@@ -16,11 +16,8 @@ static void fence_complete(struct dma_fence_work *f)
+ static void fence_work(struct work_struct *work)
  {
- 	const bool dma = iter == &obj->mm.get_dma_page;
- 	struct scatterlist *sg;
-@@ -490,9 +489,6 @@ __i915_gem_object_get_sg(struct drm_i915_gem_object *obj,
- 	if (n < READ_ONCE(iter->sg_idx))
- 		goto lookup;
+ 	struct dma_fence_work *f = container_of(work, typeof(*f), work);
+-	int err;
  
--	if (!allow_alloc)
--		goto manual_lookup;
--
- 	mutex_lock(&iter->lock);
+-	err = f->ops->work(f);
+-	if (err)
+-		dma_fence_set_error(&f->dma, err);
++	f->ops->work(f);
  
- 	/* We prefer to reuse the last sg so that repeated lookup of this
-@@ -542,16 +538,7 @@ __i915_gem_object_get_sg(struct drm_i915_gem_object *obj,
- 	if (unlikely(n < idx)) /* insertion completed by another thread */
- 		goto lookup;
+ 	fence_complete(f);
+ 	dma_fence_put(&f->dma);
+diff --git a/drivers/gpu/drm/i915/i915_sw_fence_work.h b/drivers/gpu/drm/i915/i915_sw_fence_work.h
+index 2c409f11c5c59..d56806918d131 100644
+--- a/drivers/gpu/drm/i915/i915_sw_fence_work.h
++++ b/drivers/gpu/drm/i915/i915_sw_fence_work.h
+@@ -17,7 +17,7 @@ struct dma_fence_work;
  
--	goto manual_walk;
--
--manual_lookup:
--	idx = 0;
--	sg = obj->mm.pages->sgl;
--	count = __sg_page_count(sg);
--
--manual_walk:
--	/*
--	 * In case we failed to insert the entry into the radixtree, we need
-+	/* In case we failed to insert the entry into the radixtree, we need
- 	 * to look beyond the current sg.
- 	 */
- 	while (idx + count <= n) {
-@@ -598,7 +585,7 @@ i915_gem_object_get_page(struct drm_i915_gem_object *obj, unsigned int n)
+ struct dma_fence_work_ops {
+ 	const char *name;
+-	int (*work)(struct dma_fence_work *f);
++	void (*work)(struct dma_fence_work *f);
+ 	void (*release)(struct dma_fence_work *f);
+ };
  
- 	GEM_BUG_ON(!i915_gem_object_has_struct_page(obj));
+diff --git a/drivers/gpu/drm/i915/i915_vma.c b/drivers/gpu/drm/i915/i915_vma.c
+index 0f227f28b2802..5b9dce0f443b0 100644
+--- a/drivers/gpu/drm/i915/i915_vma.c
++++ b/drivers/gpu/drm/i915/i915_vma.c
+@@ -300,14 +300,13 @@ struct i915_vma_work {
+ 	unsigned int flags;
+ };
  
--	sg = i915_gem_object_get_sg(obj, n, &offset, true);
-+	sg = i915_gem_object_get_sg(obj, n, &offset);
- 	return nth_page(sg_page(sg), offset);
+-static int __vma_bind(struct dma_fence_work *work)
++static void __vma_bind(struct dma_fence_work *work)
+ {
+ 	struct i915_vma_work *vw = container_of(work, typeof(*vw), base);
+ 	struct i915_vma *vma = vw->vma;
+ 
+ 	vma->ops->bind_vma(vw->vm, &vw->stash,
+ 			   vma, vw->cache_level, vw->flags);
+-	return 0;
  }
  
-@@ -624,7 +611,7 @@ i915_gem_object_get_dma_address_len(struct drm_i915_gem_object *obj,
- 	struct scatterlist *sg;
- 	unsigned int offset;
- 
--	sg = i915_gem_object_get_sg_dma(obj, n, &offset, true);
-+	sg = i915_gem_object_get_sg_dma(obj, n, &offset);
- 
- 	if (len)
- 		*len = sg_dma_len(sg) - (offset << PAGE_SHIFT);
-diff --git a/drivers/gpu/drm/i915/gt/intel_ggtt.c b/drivers/gpu/drm/i915/gt/intel_ggtt.c
-index 10c23a749a950..46c98887f17e3 100644
---- a/drivers/gpu/drm/i915/gt/intel_ggtt.c
-+++ b/drivers/gpu/drm/i915/gt/intel_ggtt.c
-@@ -1494,7 +1494,7 @@ intel_partial_pages(const struct i915_ggtt_view *view,
- 	if (ret)
- 		goto err_sg_alloc;
- 
--	iter = i915_gem_object_get_sg_dma(obj, view->partial.offset, &offset, true);
-+	iter = i915_gem_object_get_sg_dma(obj, view->partial.offset, &offset);
- 	GEM_BUG_ON(!iter);
- 
- 	sg = st->sgl;
+ static void __vma_release(struct dma_fence_work *work)
 -- 
 2.31.1
 
