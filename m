@@ -2,98 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70E9539A03C
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Jun 2021 13:52:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 49C6F39A071
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Jun 2021 13:59:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A0C5A6EDBE;
-	Thu,  3 Jun 2021 11:52:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9D1A06EB09;
+	Thu,  3 Jun 2021 11:59:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com
- [IPv6:2a00:1450:4864:20::329])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A4D6C6EB09
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Jun 2021 11:52:38 +0000 (UTC)
-Received: by mail-wm1-x329.google.com with SMTP id o127so3213627wmo.4
- for <dri-devel@lists.freedesktop.org>; Thu, 03 Jun 2021 04:52:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=Nxij94IMFMsp61zYWJS5XKMycKfWOvntSLUdgR9Luec=;
- b=PP1Vx2P7z4p7uzC7frRq63E4x3I08msTGMShcvAdEGFQwbgoSQLam6TY7qFtZnfrip
- sZ2vdZz58OMVJtBV+LV7UtfH3hRj1TGjasngZ2KltASWY+0UFk1GkCFvbmMy1zh8VBMP
- dPoAp8/Papp6e6Y9syxE5WTIn3EkF63IUFXhjOyvBnTk1EZXXSJ1zWN+ZFpLmyfRRgmV
- zaZeW5clEklapwp4mQNAksAoChe6wCnp4zD6/sK7bIoELjiqOV1BWj7Fd7qq0A12wR59
- YBj4xTZnnoKIwJpwtS8WL69eLi0TYKCyPQcOnDWAOzYthTaMGxq+z6P1knTVhENqAX1n
- l+Kg==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [216.205.24.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0C5E86EB09
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Jun 2021 11:59:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1622721574;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=e/FZoX4WIIm6XZW0ArQELD2C1vsdBoERWuy3oEiMfj0=;
+ b=Hkh54+7cL4aVEvsXcbUMlOUXoOBYJhyVj7nnjnd1GI9QfZKMmIumMHU8IyFGqeoHmvm6zO
+ qP/AL6b3ifcTpY8y5IJPQt4Y0I3ynSFZTmCY9eZiKXvnx8wU1ZD6gZzxD6CoaaaxbGXd1G
+ Kkc0MgAiiF9pxjddkPbYjSK//g2Zv4c=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-325-v8vbjgMLPeyO81C8bMfHYQ-1; Thu, 03 Jun 2021 07:59:33 -0400
+X-MC-Unique: v8vbjgMLPeyO81C8bMfHYQ-1
+Received: by mail-ej1-f72.google.com with SMTP id
+ hz18-20020a1709072cf2b02903fbaae9f4faso1856102ejc.4
+ for <dri-devel@lists.freedesktop.org>; Thu, 03 Jun 2021 04:59:33 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=Nxij94IMFMsp61zYWJS5XKMycKfWOvntSLUdgR9Luec=;
- b=ctpEYyTj/oFJPBlTYuCTOD/PRCPW+zq7eW0Lyfaasj86XogIY8Gas8ibZtqxTnIngy
- 9BS33wUfSe66o5U51lf+q1bmnaxda5DOsrGb/tMZIG9LFiln5yX/1bNBt0oZxNASy+3p
- 9p1+oDCW/VOo/lRfZlGhZwkDu2O3V8y82r6shiFLReqdopX0830w/z/qqiXNgxIQ50aq
- 4JUCXj99SpViLR8nb3FCPCkAzOnc8GA46J7Mb3j+QCApkjDSRHzXlMpiNaYwfZFLMWt3
- 1Pa9t7Fe5wUw+pVIJNu1jro4qIzTRaGsisQjH4ffWTCpQ1mObNq1BDY7QYCNRVtFj9ZM
- 17fA==
-X-Gm-Message-State: AOAM530R2kmOHGcwlzweJ+CLD3yhxf5iAWWRrWAvwWChA0SoX/AnDSag
- eh6x6EAai1UvhphBlzahqBBfDw==
-X-Google-Smtp-Source: ABdhPJy5Njm66nMjE/L6HCMm1K6dzFQlD8FyCcfSndwd7kIwe0+i4mO9AXShjFboYjDIKB2XcsUlUA==
-X-Received: by 2002:a05:600c:4e8b:: with SMTP id
- f11mr4461550wmq.40.1622721157306; 
- Thu, 03 Jun 2021 04:52:37 -0700 (PDT)
-Received: from dell ([91.110.221.214])
- by smtp.gmail.com with ESMTPSA id h9sm2479488wmb.35.2021.06.03.04.52.35
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 03 Jun 2021 04:52:36 -0700 (PDT)
-Date: Thu, 3 Jun 2021 12:52:34 +0100
-From: Lee Jones <lee.jones@linaro.org>
-To: linux-kernel@vger.kernel.org, Adam Jackson <ajax@redhat.com>,
- Ajay Kumar <ajaykumar.rs@samsung.com>, Akshu Agarwal <akshua@gmail.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- Alistair Popple <apopple@nvidia.com>, amd-gfx@lists.freedesktop.org,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
- Benjamin Gaignard <benjamin.gaignard@linaro.org>,
- Ben Skeggs <bskeggs@redhat.com>, Ben Widawsky <ben@bwidawsk.net>,
- Chandan Uddaraju <chandanu@codeaurora.org>,
- Christian Koenig <christian.koenig@amd.com>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
- Eric Anholt <eric@anholt.net>, Fabien Dessenne <fabien.dessenne@st.com>,
- freedreno@lists.freedesktop.org, Hans de Goede <hdegoede@redhat.com>,
- Harry Wentland <harry.wentland@amd.com>,
- Huang Rui <ray.huang@amd.com>, Hyun Kwon <hyun.kwon@xilinx.com>,
- Inki Dae <inki.dae@samsung.com>, Jagan Teki <jagan@amarulasolutions.com>,
- Joonyoung Shim <jy0922.shim@samsung.com>,
- Krishna Manikandan <mkrishn@codeaurora.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
- Kuogee Hsieh <khsieh@codeaurora.org>,
- Kyungmin Park <kyungmin.park@samsung.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Leo Li <sunpeng.li@amd.com>, linaro-mm-sig@lists.linaro.org,
- linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
- linux-mediatek@lists.infradead.org, linux-media@vger.kernel.org,
- linux-samsung-soc@vger.kernel.org,
- Marek Szyprowski <m.szyprowski@samsung.com>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- Mauro Rossi <issor.oruam@gmail.com>,
- Michal Simek <michal.simek@xilinx.com>, nouveau@lists.freedesktop.org,
- Philipp Zabel <p.zabel@pengutronix.de>,
- Rob Clark <robdclark@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
- Sean Paul <sean@poorly.run>, Seung-Woo Kim <sw0312.kim@samsung.com>,
- Stephen Boyd <swboyd@chromium.org>, Sumit Semwal <sumit.semwal@linaro.org>,
- Thierry Reding <thierry.reding@gmail.com>,
- Vincent Abriou <vincent.abriou@st.com>
-Subject: Re: [RESEND 00/26] Rid W=1 warnings from GPU
-Message-ID: <20210603115234.GA2435141@dell>
-References: <20210602143300.2330146-1-lee.jones@linaro.org>
- <YLi+KJrLjKbdXLxH@phenom.ffwll.local>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=e/FZoX4WIIm6XZW0ArQELD2C1vsdBoERWuy3oEiMfj0=;
+ b=OkpeQzin5A2MXZBWEf+6sgEOVHNg3RqF1xwnbd0woFphoi7hdFkrrZHwenWU4HKGR7
+ pA3qi0wKTSIxkDC3KD5b8UgcNq5G3AQWZm12hdGV+l6QxiPIGHkAKp087wOdfmQYXeKs
+ YPyq53U+z+sLfgACC8Xqk7GmoB6pHmA6W4J6b18eusdbKlW3y2D/+yEY6iK4BNf41kQc
+ +aFUVIsZq0YSHumkOa6qT/XNTk199kFlcQG4wItm5ePGCs7TuiEfbP4kEmazoZPwirh/
+ wJaCT8+BH/MDKXOpiERcD0FPi8lhM/2NOQMq8wX/5QBclX759+YjWutTGtXVwumd0alK
+ zxNA==
+X-Gm-Message-State: AOAM531uYz7CIbflBCAgvot3eTVAor7BXMynuohmLoot6ejIsonL0o49
+ FehJsyZoN1X3h4eCX/1f6s3KsaqGZAok5DXG5n1+27Q8NrHfMTsWCvu3kFt0s8/N8idZtgt7N13
+ azgrHrF2uxcW09b8yZ34aOOp+283U
+X-Received: by 2002:a17:906:2b85:: with SMTP id
+ m5mr39462385ejg.141.1622721572028; 
+ Thu, 03 Jun 2021 04:59:32 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwLrhoVTSXNrq9oOLzdqRELKVnqXPHLA//ELnJuvPrh+jVnzjKXUa2Z3o+3O301UXhhaYNPDA==
+X-Received: by 2002:a17:906:2b85:: with SMTP id
+ m5mr39462359ejg.141.1622721571851; 
+ Thu, 03 Jun 2021 04:59:31 -0700 (PDT)
+Received: from x1.localdomain
+ (2001-1c00-0c1e-bf00-1054-9d19-e0f0-8214.cable.dynamic.v6.ziggo.nl.
+ [2001:1c00:c1e:bf00:1054:9d19:e0f0:8214])
+ by smtp.gmail.com with ESMTPSA id j22sm1484711ejt.11.2021.06.03.04.59.31
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 03 Jun 2021 04:59:31 -0700 (PDT)
+Subject: Re: [Intel-gfx] [PATCH v2 2/9] drm: Add privacy-screen class (v2)
+To: Emil Velikov <emil.l.velikov@gmail.com>
+References: <20210421204804.589962-1-hdegoede@redhat.com>
+ <20210421204804.589962-3-hdegoede@redhat.com>
+ <CACvgo50onXuRvtXySYNHJZshSkmX8ukcMitNJAKC4dEMPTyXYw@mail.gmail.com>
+From: Hans de Goede <hdegoede@redhat.com>
+Message-ID: <fb2209f1-a6d8-4a1e-de58-00ee788aa6c2@redhat.com>
+Date: Thu, 3 Jun 2021 13:59:30 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
+In-Reply-To: <CACvgo50onXuRvtXySYNHJZshSkmX8ukcMitNJAKC4dEMPTyXYw@mail.gmail.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hdegoede@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <YLi+KJrLjKbdXLxH@phenom.ffwll.local>
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -106,68 +89,139 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: ML dri-devel <dri-devel@lists.freedesktop.org>,
+ Marco Trevisan <marco.trevisan@canonical.com>,
+ Mark Gross <mgross@linux.intel.com>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Sebastien Bacher <seb128@ubuntu.com>, David Airlie <airlied@linux.ie>,
+ Mario Limonciello <mario.limonciello@outlook.com>,
+ intel-gfx <intel-gfx@lists.freedesktop.org>,
+ platform-driver-x86@vger.kernel.org, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Pekka Paalanen <pekka.paalanen@collabora.com>,
+ Mark Pearson <markpearson@lenovo.com>, Rajat Jain <rajatja@google.com>,
+ Andy Shevchenko <andy@infradead.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 03 Jun 2021, Daniel Vetter wrote:
+Hi,
 
-> On Wed, Jun 02, 2021 at 03:32:34PM +0100, Lee Jones wrote:
-> > Some off these patches have been knocking around for a while.
-> > 
-> > Who will hoover them up please?
-> > 
-> > This set is part of a larger effort attempting to clean-up W=1
-> > kernel builds, which are currently overwhelmingly riddled with
-> > niggly little warnings.
-> > 
-> > Lee Jones (26):
-> >   drm/mediatek/mtk_disp_color: Strip incorrect doc and demote header
-> >   drm/mediatek/mtk_disp_gamma: Strip and demote non-conformant
-> >     kernel-doc header
-> >   drm/mediatek/mtk_disp_ovl: Strip and demote non-conformant header
-> >   drm/mediatek/mtk_disp_rdma: Strip and demote non-conformant kernel-doc
-> >     header
-> >   drm/sti/sti_hdmi_tx3g4c28phy: Provide function names for kernel-doc
-> >     headers
-> >   drm/sti/sti_hda: Provide missing function names
-> >   drm/sti/sti_tvout: Provide a bunch of missing function names
-> >   drm/sti/sti_hqvdp: Fix incorrectly named function 'sti_hqvdp_vtg_cb()'
-> >   drm/msm/disp/dpu1/dpu_encoder_phys_cmd: Remove unused variable
-> >     'cmd_enc'
-> >   drm/msm/disp/dpu1/dpu_hw_interrupts: Demote a bunch of kernel-doc
-> >     abuses
-> >   drm/msm/disp/dpu1/dpu_plane: Fix a couple of naming issues
-> >   drm/msm/msm_gem: Demote kernel-doc abuses
-> >   drm/msm/dp/dp_catalog: Correctly document param 'dp_catalog'
-> >   drm/msm/dp/dp_link: Fix some potential doc-rot
-> >   drm/nouveau/nvkm/subdev/mc/tu102: Make functions called by reference
-> >     static
-> >   drm/amd/display/dc/dce/dce_transform: Remove superfluous
-> >     re-initialisation of DCFE_MEM_LIGHT_SLEEP_CNTL,
-> >   drm/xlnx/zynqmp_disp: Fix incorrectly named enum
-> >     'zynqmp_disp_layer_id'
-> >   drm/xlnx/zynqmp_dp: Fix incorrectly name function 'zynqmp_dp_train()'
-> >   drm/ttm/ttm_tt: Demote non-conformant kernel-doc header
-> >   drm/panel/panel-raspberrypi-touchscreen: Demote kernel-doc abuse
-> >   drm/panel/panel-sitronix-st7701: Demote kernel-doc abuse
-> >   drm/vgem/vgem_drv: Standard comment blocks should not use kernel-doc
-> >     format
-> >   drm/exynos/exynos7_drm_decon: Fix incorrect naming of
-> >     'decon_shadow_protect_win()'
-> >   drm/exynos/exynos_drm_ipp: Fix documentation for
-> >     'exynos_drm_ipp_get_{caps,res}_ioctl()'
-> >   drm/vboxvideo/hgsmi_base: Place function names into headers
-> >   drm/vboxvideo/modesetting: Provide function names for prototype
-> >     headers
+On 6/1/21 5:31 PM, Emil Velikov wrote:
+> Hi Hans,
 > 
-> Except for msm (Rob Clark promised on irc he'll pick them up for 5.14
-> soon) and amd (Alex is on top of things I think) I picked them all up and
-> merged into drm-misc-next.
+> What happened with this series, did it fall through the cracks?
 
-Superstar!  Thanks Daniel.
+Sorta, as Marco already mentioned I think people are waiting for the
+user-space branches which he has on his personal git repos to be submitted
+as offical merge-req-s to GNOME.
 
--- 
-Lee Jones [李琼斯]
-Senior Technical Lead - Developer Services
-Linaro.org │ Open source software for Arm SoCs
-Follow Linaro: Facebook | Twitter | Blog
+> On Wed, 21 Apr 2021 at 21:48, Hans de Goede <hdegoede@redhat.com> wrote:
+> 
+>> --- /dev/null
+>> +++ b/drivers/gpu/drm/drm_privacy_screen.c
+> 
+>> +#include "drm_internal.h"
+> 
+> I think we don't need this include, do we?
+
+The drm_privacy_screen device registered by a provider
+uses /sys/class/drm as its class, quoting from
+drm_privacy_screen.c drm_privacy_screen_register():
+
+        priv->dev.class = drm_class;
+        priv->dev.type = &drm_privacy_screen_type;
+        priv->dev.parent = parent;
+        priv->dev.release = drm_privacy_screen_device_release;
+        dev_set_name(&priv->dev, "privacy_screen-%s", dev_name(parent));
+        priv->ops = ops;
+
+        priv->ops->get_hw_state(priv);
+
+        ret = device_register(&priv->dev);
+
+Notice the "priv->dev.class = drm_class", the drm_class
+variable is declared in "drm_internal.h".
+
+Note this was not present in v2. As I mentioned in the commit msg:
+
+Changes in v2:
+- Make CONFIG_DRM_PRIVACY_SCREEN a bool which controls if the drm_privacy
+  code gets built as part of the main drm module rather then making it
+  a tristate which builds its own module.
+- Add a #if IS_ENABLED(CONFIG_DRM_PRIVACY_SCREEN) check to
+  drm_privacy_screen_consumer.h and define stubs when the check fails.
+  Together these 2 changes fix several dependency issues.
+- Remove module related code now that this is part of the main drm.ko
+- Use drm_class as class for the privacy-screen devices instead of
+  adding a separate class for this
+
+This is something which I changed in v2. I changed this since I didn't
+really see any good reason for drm_privacy_screen devices having their
+own class, rather then just having them sit under /sys/class/drm .
+
+I'm open to changing this if people dislike this choice.
+
+
+
+>> --- /dev/null
+>> +++ b/include/drm/drm_privacy_screen_consumer.h
+> 
+>> +#include <drm/drm_connector.h>
+> 
+> Ditto
+
+The "enum drm_privacy_screen_status" used in various places
+comes from drm/drm_connector.h (it is the same enum which is
+used for the possible values of the drm-connector properties).
+
+
+>> --- /dev/null
+>> +++ b/include/drm/drm_privacy_screen_driver.h
+> 
+>> +#include <drm/drm_connector.h>
+> 
+> Ditto
+> 
+> I like how you avoided leaking any DRM details within the new code,
+> modulo the includes above.
+
+I'm glad you like it. I did indeed try to make the code mostly
+independent, but as you can see above there are still some
+inter-dependencies.
+
+Because of this, the CONFIG_DRM_PRIVACY_SCREEN option also does
+not control building this into a separate module. Like many other
+DRM Kconfig options, this controls if the privacy-screen code will
+be added to drm.ko or not.
+
+Despite being 99% independent, the 2 are still intertwined at such
+a level that this is necessary. Specifically drm_core_init() calls
+drm_privacy_screen_lookup_init() to initialize the static lookup
+table which is used to see if there is a privacy-screen (and to which
+GPU,output combo it should be mapped). So if CONFIG_DRM_PRIVACY_SCREEN
+is enabled and drm.ko is builtin then it must be builtin too, at which
+point it is easiest to just make it part of drm.ko .
+
+And there also is the later added dep from drm_privacy_screen.c on
+the drm_class symbol, which means there are now symbol-deps in both
+directions, which makes building the code into drm.ko the only option.
+
+> With above tweaks, the series is:
+> Reviewed-by: Emil Velikov <emil.l.velikov@gmail.com>
+
+As I've tried to explain, the includes are necessary, does your
+Reviewed-by still stands when I keep the includes ?
+
+> Theoretically one could also remove the `depends on DRM` from patch
+> 8/9 but I'm not sure how much that saves us.
+
+The depends in is necessary since CONFIG_DRM_PRIVACY_SCREEN just controls
+if privacy-screen support will be added to drm.ko, if it is enabled we
+still need drm.ko ti actually be built for things to work.
+
+> HTH
+
+Yes, actually getting a review of this code helps a lot, thank you.
+
+Regards,
+
+Hans
+
