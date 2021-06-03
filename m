@@ -2,55 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F08D399FA1
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Jun 2021 13:17:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 512D9399FB6
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Jun 2021 13:22:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 127DE6E506;
-	Thu,  3 Jun 2021 11:17:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 45CF16E87F;
+	Thu,  3 Jun 2021 11:22:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x72e.google.com (mail-qk1-x72e.google.com
- [IPv6:2607:f8b0:4864:20::72e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 47A966E150;
- Thu,  3 Jun 2021 11:17:29 +0000 (UTC)
-Received: by mail-qk1-x72e.google.com with SMTP id 76so5442287qkn.13;
- Thu, 03 Jun 2021 04:17:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+Received: from mail-ot1-x32d.google.com (mail-ot1-x32d.google.com
+ [IPv6:2607:f8b0:4864:20::32d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 283156E196
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Jun 2021 11:22:27 +0000 (UTC)
+Received: by mail-ot1-x32d.google.com with SMTP id
+ c31-20020a056830349fb02903a5bfa6138bso5385151otu.7
+ for <dri-devel@lists.freedesktop.org>; Thu, 03 Jun 2021 04:22:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=2ypkkOaIQMmr4XUSylFBzyegctBbWzMZkJwaTgYYlQ8=;
- b=HKDam01Rzb1JQ4ePBsb/8ZacasxSR6hdeV43czHsWfDuMlBr8veQBEh5/Ryeg03Ou/
- PCOr+JNHsOVLwFuHlyHjw0OKNsvIhS873HjHUeHRWSEmFwRjPKz2vLqpkLKCq4Rv6CEX
- Y8KnehnAcGppck/FJt7JL5Z/iWP20Va/D61X17JDmozoN7AQGdIm71zc9ieS1DwLnzfp
- OrnnWj9JRH+uMoce0sLneRjx1HDJao7TSKaA1ErDK70k6yhS6ZUN2nXYv/qkWJDJqm3u
- trbvK0c3V4W0OsnckUxgBLAvJbA80mnTafx+rCWjcO+9JEFD3+vWIRcZE90Y52do3se4
- 5ASg==
+ bh=Jv0HuV+zhzJxByTLBegAWmiwt1qRIt00HcuvyFHU60o=;
+ b=ZEiqGGpFUfyXQQOPsXfnkz1eEQ2rH6IhjAuuQcDUR00J51vRw8QbUmNG3wP8bhAwzL
+ 2ytzNafvKN7JVVu+xfkCwZFWNLYi32LOfY6ly/wm3lOP6cxaE3bS4oLbaSTCjTq3uNQp
+ G3jeUf/vDyE502kovjkPEFs5L0dKSo80vQeMY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=2ypkkOaIQMmr4XUSylFBzyegctBbWzMZkJwaTgYYlQ8=;
- b=Py7PbZyMNskmvP68TESzo0q7WwJUSEXHFjd7+6UrgN8pzTRVt3QIPPK3Kz/LT2TiWz
- CeFfzJyLW6tfGu7GjGg5GMBxAXaObdrPj4/PNZARNylq9i6E3f3KlgQFCEDNolViFaag
- KRM4KwRTp2GrsAMqs/YxECPCIgYofLsdIFal38F5ynx/t2wPICDncgQWdQ8lyUM9jmO8
- pnhkQp1wLvLeGFoyC5mqygio8v3osQsIU4ZU4waU3szpW57CCIu7SrrRTw4Tjiqe/oVL
- 4dwUUbsNfRWqFozouyaczKsOwi90fcD/hdF1u9Nym6Kx9LUKtaV8LHWWIbLuC4fwbmje
- QvTg==
-X-Gm-Message-State: AOAM531KXa76mzG32yrJg0s/z3VpiQkRYdaBvutat5CR7SPBIorEpqmO
- GbI47NEC1814HnsjHS7pU5DAxwnhofYAsPKPWKMuatcYbt0=
-X-Google-Smtp-Source: ABdhPJy7XTq2EkJwFsxqy03SOcvKyf2eERrK3JX/l8n5dvorbEX4jx/FGcdZweX0OPsTJcvZXGuELZFiBN6gTQukZTE=
-X-Received: by 2002:a37:9a0b:: with SMTP id c11mr11831885qke.327.1622719048601; 
- Thu, 03 Jun 2021 04:17:28 -0700 (PDT)
+ bh=Jv0HuV+zhzJxByTLBegAWmiwt1qRIt00HcuvyFHU60o=;
+ b=kfhYIZnEtyxsJMNMTnTCvXfQWjHZDcYqwCdvaOAHH+Al/pofK9cFOjWN63Xr7kgdT0
+ OJx1FYMtBDOBnWBPQJdylht6HtlaCcVvJaFJMDExz2Ok7e29zKy3MMQZClnsjYCv/86r
+ RnowZJ/EcDQEwU5UWPT8vHz/LZ8h0iVS5W29Q5DOG37ZlPlJiX+CxHd3FAHn6LTE6Uc3
+ s3yBM2zMT/F5eNlIIBUylSt7ewsusl4vggppRkucWpql2zJncL3ZOihb0CklDbtjOelu
+ iaojmyKhTbxL9CI0hp7jhXCnVUSe5ENOPKNhKUn1VbCF51nKQn9LyuMzyQhMBjTrEemP
+ YQEg==
+X-Gm-Message-State: AOAM530YJSF3aWQj4WOMavt0wE9BumdJ5GpdtQDnujGqWDQ/4wclQKX4
+ 04SqJWQmZVeaH4tr3uVCqP5tIpJun2Y7lzTj0tSUkw==
+X-Google-Smtp-Source: ABdhPJyoKxUEx3b+pk/DbRj9YfF6Dah5nLAEBaazbZDpXm7gG97Nba7CU5nqaTIhwdlGEgCmWuD286ywK7m3aUC9QRU=
+X-Received: by 2002:a9d:27a4:: with SMTP id c33mr28877942otb.281.1622719346320; 
+ Thu, 03 Jun 2021 04:22:26 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210602170716.280491-1-thomas.hellstrom@linux.intel.com>
- <20210602170716.280491-2-thomas.hellstrom@linux.intel.com>
-In-Reply-To: <20210602170716.280491-2-thomas.hellstrom@linux.intel.com>
-From: Matthew Auld <matthew.william.auld@gmail.com>
-Date: Thu, 3 Jun 2021 12:17:01 +0100
-Message-ID: <CAM0jSHNwY8BEL1BjTqioZu3BYZ=86qkuqooaZPOgHb=03Pj+dQ@mail.gmail.com>
-Subject: Re: [Intel-gfx] [PATCH 1/5] drm/i915: Update object placement flags
- to be mutable
-To: =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
+References: <b0d65f94-cc56-a4db-3158-7b1de3952792@gmail.com>
+ <CAKMK7uGaD_LuX-SZDALuDuEOMZNX=Q3FAq0xYf_pTVtNe6VUaw@mail.gmail.com>
+ <c7190219-c185-3b7e-42a6-691934f79fb3@gmail.com>
+ <CAPj87rPbiFf3qDo35gmirAoTOOJ5fEE6UxQdJKtfjX_VTqc6pg@mail.gmail.com>
+ <CAAxE2A4kC4A9gV_V-W3eRW20O=9S1pv8=KMBdJxdLQ-ZXGa37Q@mail.gmail.com>
+ <CAAxE2A7FJSaYfrYRpoCr-3h-AqBjOOJerhMVCcQZzQu0a+J0zg@mail.gmail.com>
+ <YLfSbxhyDQmHjV4r@phenom.ffwll.local>
+ <CAAxE2A7uK7zumDiaU1XpEi_RNv8Q+QQHU-dLB0HrES2BkdP-cw@mail.gmail.com>
+ <YLiJFdcaxzXsstt6@phenom.ffwll.local>
+ <CAAxE2A4VPYMrjbq1W9z3pNXHP_Msn9HCFMPew9jf2h72rfK3dA@mail.gmail.com>
+ <YLio7wyoMRJyFoO/@phenom.ffwll.local>
+ <CAAxE2A5=DmvCrh5+dfxPtyv7L2UPPevYOqa=GtFpuaxvMVfK9Q@mail.gmail.com>
+In-Reply-To: <CAAxE2A5=DmvCrh5+dfxPtyv7L2UPPevYOqa=GtFpuaxvMVfK9Q@mail.gmail.com>
+From: Daniel Vetter <daniel@ffwll.ch>
+Date: Thu, 3 Jun 2021 13:22:15 +0200
+Message-ID: <CAKMK7uF_CEEY+55o07irnG1G+xbo8Y9tNmcMZD4G9GFUFJr4zw@mail.gmail.com>
+Subject: Re: [Mesa-dev] Linux Graphics Next: Userspace submission update
+To: =?UTF-8?B?TWFyZWsgT2zFocOhaw==?= <maraeo@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -65,436 +72,309 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- ML dri-devel <dri-devel@lists.freedesktop.org>
+Cc: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel@daenzer.net>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Jason Ekstrand <jason@jlekstrand.net>,
+ ML Mesa-dev <mesa-dev@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 2 Jun 2021 at 18:08, Thomas Hellstr=C3=B6m
-<thomas.hellstrom@linux.intel.com> wrote:
+On Thu, Jun 3, 2021 at 12:55 PM Marek Ol=C5=A1=C3=A1k <maraeo@gmail.com> wr=
+ote:
 >
-> The object ops i915_GEM_OBJECT_HAS_IOMEM and the object
-> I915_BO_ALLOC_STRUCT_PAGE flags are considered immutable by
-> much of our code. Introduce a new mem_flags member to hold these
-> and make sure checks for these flags being set are either done
-> under the object lock or with pages properly pinned. The flags
-> will change during migration under the object lock.
+> On Thu., Jun. 3, 2021, 06:03 Daniel Vetter, <daniel@ffwll.ch> wrote:
+>>
+>> On Thu, Jun 03, 2021 at 04:20:18AM -0400, Marek Ol=C5=A1=C3=A1k wrote:
+>> > On Thu, Jun 3, 2021 at 3:47 AM Daniel Vetter <daniel@ffwll.ch> wrote:
+>> >
+>> > > On Wed, Jun 02, 2021 at 11:16:39PM -0400, Marek Ol=C5=A1=C3=A1k wrot=
+e:
+>> > > > On Wed, Jun 2, 2021 at 2:48 PM Daniel Vetter <daniel@ffwll.ch> wro=
+te:
+>> > > >
+>> > > > > On Wed, Jun 02, 2021 at 05:38:51AM -0400, Marek Ol=C5=A1=C3=A1k =
+wrote:
+>> > > > > > On Wed, Jun 2, 2021 at 5:34 AM Marek Ol=C5=A1=C3=A1k <maraeo@g=
+mail.com> wrote:
+>> > > > > >
+>> > > > > > > Yes, we can't break anything because we don't want to compli=
+cate
+>> > > things
+>> > > > > > > for us. It's pretty much all NAK'd already. We are trying to=
+ gather
+>> > > > > more
+>> > > > > > > knowledge and then make better decisions.
+>> > > > > > >
+>> > > > > > > The idea we are considering is that we'll expose memory-base=
+d sync
+>> > > > > objects
+>> > > > > > > to userspace for read only, and the kernel or hw will strict=
+ly
+>> > > control
+>> > > > > the
+>> > > > > > > memory writes to those sync objects. The hole in that idea i=
+s that
+>> > > > > > > userspace can decide not to signal a job, so even if userspa=
+ce
+>> > > can't
+>> > > > > > > overwrite memory-based sync object states arbitrarily, it ca=
+n still
+>> > > > > decide
+>> > > > > > > not to signal them, and then a future fence is born.
+>> > > > > > >
+>> > > > > >
+>> > > > > > This would actually be treated as a GPU hang caused by that co=
+ntext,
+>> > > so
+>> > > > > it
+>> > > > > > should be fine.
+>> > > > >
+>> > > > > This is practically what I proposed already, except your not doi=
+ng it
+>> > > with
+>> > > > > dma_fence. And on the memory fence side this also doesn't actual=
+ly give
+>> > > > > what you want for that compute model.
+>> > > > >
+>> > > > > This seems like a bit a worst of both worlds approach to me? Ton=
+s of
+>> > > work
+>> > > > > in the kernel to hide these not-dma_fence-but-almost, and still =
+pain to
+>> > > > > actually drive the hardware like it should be for compute or dir=
+ect
+>> > > > > display.
+>> > > > >
+>> > > > > Also maybe I've missed it, but I didn't see any replies to my
+>> > > suggestion
+>> > > > > how to fake the entire dma_fence stuff on top of new hw. Would b=
+e
+>> > > > > interesting to know what doesn't work there instead of amd folks=
+ going
+>> > > of
+>> > > > > into internal again and then coming back with another rfc from o=
+ut of
+>> > > > > nowhere :-)
+>> > > > >
+>> > > >
+>> > > > Going internal again is probably a good idea to spare you the long
+>> > > > discussions and not waste your time, but we haven't talked about t=
+he
+>> > > > dma_fence stuff internally other than acknowledging that it can be
+>> > > solved.
+>> > > >
+>> > > > The compute use case already uses the hw as-is with no inter-proce=
+ss
+>> > > > sharing, which mostly keeps the kernel out of the picture. It uses
+>> > > glFinish
+>> > > > to sync with GL.
+>> > > >
+>> > > > The gfx use case needs new hardware logic to support implicit and
+>> > > explicit
+>> > > > sync. When we propose a solution, it's usually torn apart the next=
+ day by
+>> > > > ourselves.
+>> > > >
+>> > > > Since we are talking about next hw or next next hw, preemption sho=
+uld be
+>> > > > better.
+>> > > >
+>> > > > user queue =3D user-mapped ring buffer
+>> > > >
+>> > > > For implicit sync, we will only let userspace lock access to a buf=
+fer
+>> > > via a
+>> > > > user queue, which waits for the per-buffer sequence counter in mem=
+ory to
+>> > > be
+>> > > > >=3D the number assigned by the kernel, and later unlock the acces=
+s with
+>> > > > another command, which increments the per-buffer sequence counter =
+in
+>> > > memory
+>> > > > with atomic_inc regardless of the number assigned by the kernel. T=
+he
+>> > > kernel
+>> > > > counter and the counter in memory can be out-of-sync, and I'll exp=
+lain
+>> > > why
+>> > > > it's OK. If a process increments the kernel counter but not the me=
+mory
+>> > > > counter, that's its problem and it's the same as a GPU hang caused=
+ by
+>> > > that
+>> > > > process. If a process increments the memory counter but not the ke=
+rnel
+>> > > > counter, the ">=3D" condition alongside atomic_inc guarantee that
+>> > > signaling n
+>> > > > will signal n+1, so it will never deadlock but also it will effect=
+ively
+>> > > > disable synchronization. This method of disabling synchronization =
+is
+>> > > > similar to a process corrupting the buffer, which should be fine. =
+Can you
+>> > > > find any flaw in it? I can't find any.
+>> > >
+>> > > Hm maybe I misunderstood what exactly you wanted to do earlier. That=
+ kind
+>> > > of "we let userspace free-wheel whatever it wants, kernel ensures
+>> > > correctness of the resulting chain of dma_fence with reset the entir=
+e
+>> > > context" is what I proposed too.
+>> > >
+>> > > Like you say, userspace is allowed to render garbage already.
+>> > >
+>> > > > The explicit submit can be done by userspace (if there is no
+>> > > > synchronization), but we plan to use the kernel to do it for impli=
+cit
+>> > > sync.
+>> > > > Essentially, the kernel will receive a buffer list and addresses o=
+f wait
+>> > > > commands in the user queue. It will assign new sequence numbers to=
+ all
+>> > > > buffers and write those numbers into the wait commands, and ring t=
+he hw
+>> > > > doorbell to start execution of that queue.
+>> > >
+>> > > Yeah for implicit sync I think kernel and using drm/scheduler to sor=
+t out
+>> > > the dma_fence dependencies is probably best. Since you can filter ou=
+t
+>> > > which dma_fence you hand to the scheduler for dependency tracking yo=
+u can
+>> > > filter out your own ones and let the hw handle those directly (depen=
+ding
+>> > > how much your hw can do an all that). On i915 we might do that to be=
+ able
+>> > > to use MI_SEMAPHORE_WAIT/SIGNAL functionality in the hw and fw sched=
+uler.
+>> > >
+>> > > For buffer tracking with implicit sync I think cleanest is probably =
+to
+>> > > still keep them wrapped as dma_fence and stuffed into dma_resv, but
+>> > > conceptually it's the same. If we let every driver reinvent their ow=
+n
+>> > > buffer tracking just because the hw works a bit different it'll be a=
+ mess.
+>> > >
+>> > > Wrt wait commands: I'm honestly not sure why you'd do that. Userspac=
+e gets
+>> > > to keep the pieces if it gets it wrong. You do still need to handle
+>> > > external dma_fence though, hence drm/scheduler frontend to sort thes=
+e out.
+>> > >
+>> >
+>> > The reason is to disallow lower-privileged process to deadlock/hang a
+>> > higher-privileged process where the kernel can't tell who did it. If t=
+he
+>> > implicit-sync sequence counter is read only to userspace and only
+>> > incrementable by the unlock-signal command after the lock-wait command
+>> > appeared in the same queue (both together forming a critical section),
+>> > userspace can't manipulate it arbitrarily and we get almost the exact =
+same
+>> > behavior as implicit sync has today. That means any implicitly-sync'd
+>> > buffer from any process can be fully trusted by a compositor to signal=
+ in a
+>> > finite time, and possibly even trusted by the kernel. The only thing t=
+hat's
+>> > different is that a malicious process can disable implicit sync for a
+>> > buffer in all processes/kernel, but it can't hang other processes/kern=
+el
+>> > (it can only hang itself and the kernel will be notified). So I'm a ha=
+ppy
+>> > panda now. :)
+>>
+>> Yeah I think that's not going to work too well, and is too many piled up
+>> hacks. Within a drm_file fd you can do whatever you feel like, since it'=
+s
+>> just one client.
+>>
+>> But once implicit sync kicks in I think you need to go with dma_fence an=
+d
+>> drm/scheduler to handle the dependencies, and tdr kicking it. With the
+>> dma_fence you do know who's the offender - you might not know why, but
+>> that doesn't matter, you just shred the entire context and let that
+>> userspace figure out the details.
+>>
+>> I think trying to make memory fences work as implicit sync directly,
+>> without wrapping them in a dma_fence and assorted guarantees, will just
+>> not work.
+>>
+>> And once you do wrap them in dma_fence, then all the other problems go
+>> away: cross-driver sync, syncfiles, ... So I really don't see the benefi=
+t
+>> of this half-way approach.
+>>
+>> Yes there's going to be a tad bit of overhead, but that's already there =
+in
+>> the current model. And it can't hurt to have a bit of motivation for
+>> compositors to switch over to userspace memory fences properly.
+>
+>
+> Well, Christian thinks that we need a high level synchronization primitiv=
+e in hw. I don't know myself and you may be right. A software scheduler wit=
+h user queues might be one option. My part is only to find out how much of =
+the scheduler logic can be moved to the hardware.
+>
+> We plan to have memory timeline semaphores, or simply monotonic counters,=
+ and a fence will be represented by the counter address and a constant sequ=
+ence number for the <=3D comparison. One counter can represent up to 2^64 d=
+ifferent fences. Giving any process write access to a fence is the same as =
+giving it the power to manipulate the signalled state of a sequence of up t=
+o 2^64 fences. That could mess up a lot of things. However, if the hardware=
+ had a high level synchronization primitive with access rights and a limite=
+d set of clearly defined operations such that we can formally prove whether=
+ it's safe for everybody, we could have a solution where we don't have to i=
+nvolve the software scheduler and just let the hardware do everything.
 
-What are the rules for the gem_object_ops flags? Like is_shrinkable?
-Can't we just move these there(IOMEM vs PAGE)?
+I don't think hw access rights control on memory fences makes sense.
+There's two cases:
 
->
-> Signed-off-by: Thomas Hellstr=C3=B6m <thomas.hellstrom@linux.intel.com>
-> ---
->  drivers/gpu/drm/i915/gem/i915_gem_internal.c  |  4 +-
->  drivers/gpu/drm/i915/gem/i915_gem_mman.c      |  7 +++-
->  drivers/gpu/drm/i915/gem/i915_gem_object.c    | 38 +++++++++++++++++++
->  drivers/gpu/drm/i915/gem/i915_gem_object.h    | 14 ++-----
->  .../gpu/drm/i915/gem/i915_gem_object_types.h  | 20 +++++-----
->  drivers/gpu/drm/i915/gem/i915_gem_pages.c     |  2 +-
->  drivers/gpu/drm/i915/gem/i915_gem_phys.c      |  2 +-
->  drivers/gpu/drm/i915/gem/i915_gem_shmem.c     | 10 +++--
->  drivers/gpu/drm/i915/gem/i915_gem_ttm.c       |  2 +-
->  drivers/gpu/drm/i915/gem/i915_gem_userptr.c   |  4 +-
->  .../drm/i915/gem/selftests/huge_gem_object.c  |  4 +-
->  .../gpu/drm/i915/gem/selftests/huge_pages.c   |  5 +--
->  .../drm/i915/gem/selftests/i915_gem_mman.c    |  4 +-
->  .../drm/i915/gem/selftests/i915_gem_phys.c    |  3 +-
->  14 files changed, 78 insertions(+), 41 deletions(-)
->
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_internal.c b/drivers/gpu/d=
-rm/i915/gem/i915_gem_internal.c
-> index ce6b664b10aa..13b217f75055 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_internal.c
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_internal.c
-> @@ -177,8 +177,8 @@ i915_gem_object_create_internal(struct drm_i915_priva=
-te *i915,
->                 return ERR_PTR(-ENOMEM);
->
->         drm_gem_private_object_init(&i915->drm, &obj->base, size);
-> -       i915_gem_object_init(obj, &i915_gem_object_internal_ops, &lock_cl=
-ass,
-> -                            I915_BO_ALLOC_STRUCT_PAGE);
-> +       i915_gem_object_init(obj, &i915_gem_object_internal_ops, &lock_cl=
-ass, 0);
-> +       obj->mem_flags |=3D I915_BO_FLAG_STRUCT_PAGE;
->
->         /*
->          * Mark the object as volatile, such that the pages are marked as
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_mman.c b/drivers/gpu/drm/i=
-915/gem/i915_gem_mman.c
-> index d1de97e4adfd..171a21ca930c 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_mman.c
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_mman.c
-> @@ -683,7 +683,7 @@ __assign_mmap_offset(struct drm_i915_gem_object *obj,
->
->         if (mmap_type !=3D I915_MMAP_TYPE_GTT &&
->             !i915_gem_object_has_struct_page(obj) &&
-> -           !i915_gem_object_type_has(obj, I915_GEM_OBJECT_HAS_IOMEM))
-> +           !i915_gem_object_has_iomem(obj))
->                 return -ENODEV;
->
->         mmo =3D mmap_offset_attach(obj, mmap_type, file);
-> @@ -707,7 +707,12 @@ __assign_mmap_offset_handle(struct drm_file *file,
->         if (!obj)
->                 return -ENOENT;
->
-> +       err =3D i915_gem_object_lock_interruptible(obj, NULL);
-> +       if (err)
-> +               goto out_put;
->         err =3D __assign_mmap_offset(obj, mmap_type, offset, file);
-> +       i915_gem_object_unlock(obj);
-> +out_put:
->         i915_gem_object_put(obj);
->         return err;
->  }
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object.c b/drivers/gpu/drm=
-/i915/gem/i915_gem_object.c
-> index cf18c430d51f..07e8ff9a8aae 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_object.c
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_object.c
-> @@ -475,6 +475,44 @@ bool i915_gem_object_migratable(struct drm_i915_gem_=
-object *obj)
->         return obj->mm.n_placements > 1;
->  }
->
-> +/**
-> + * i915_gem_object_has_struct_page - Whether the object is page-backed
-> + * @obj: The object to query.
-> + *
-> + * This function should only be called while the object is locked or pin=
-ned,
-> + * otherwise the page backing may change under the caller.
-> + *
-> + * Return: True if page-backed, false otherwise.
-> + */
-> +bool i915_gem_object_has_struct_page(const struct drm_i915_gem_object *o=
-bj)
-> +{
-> +#ifdef CONFIG_LOCKDEP
-> +       if (IS_DGFX(to_i915(obj->base.dev)) &&
-> +           i915_gem_object_evictable((void __force *)obj))
-> +               assert_object_held_shared(obj);
-> +#endif
-> +       return obj->mem_flags & I915_BO_FLAG_STRUCT_PAGE;
-> +}
-> +
-> +/**
-> + * i915_gem_object_has_iomem - Whether the object is iomem-backed
-> + * @obj: The object to query.
-> + *
-> + * This function should only be called while the object is locked or pin=
-ned,
-> + * otherwise the iomem backing may change under the caller.
-> + *
-> + * Return: True if iomem-backed, false otherwise.
-> + */
-> +bool i915_gem_object_has_iomem(const struct drm_i915_gem_object *obj)
-> +{
-> +#ifdef CONFIG_LOCKDEP
-> +       if (IS_DGFX(to_i915(obj->base.dev)) &&
-> +           i915_gem_object_evictable((void __force *)obj))
-> +               assert_object_held_shared(obj);
-> +#endif
-> +       return obj->mem_flags & I915_BO_FLAG_IOMEM;
-> +}
-> +
->  void i915_gem_init__objects(struct drm_i915_private *i915)
->  {
->         INIT_WORK(&i915->mm.free_work, __i915_gem_free_work);
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object.h b/drivers/gpu/drm=
-/i915/gem/i915_gem_object.h
-> index ff59e6c640e6..23e26f6b1db9 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_object.h
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_object.h
-> @@ -147,7 +147,7 @@ i915_gem_object_put(struct drm_i915_gem_object *obj)
->  /*
->   * If more than one potential simultaneous locker, assert held.
->   */
-> -static inline void assert_object_held_shared(struct drm_i915_gem_object =
-*obj)
-> +static inline void assert_object_held_shared(const struct drm_i915_gem_o=
-bject *obj)
->  {
->         /*
->          * Note mm list lookup is protected by
-> @@ -261,17 +261,9 @@ i915_gem_object_type_has(const struct drm_i915_gem_o=
-bject *obj,
->         return obj->ops->flags & flags;
->  }
->
-> -static inline bool
-> -i915_gem_object_has_struct_page(const struct drm_i915_gem_object *obj)
-> -{
-> -       return obj->flags & I915_BO_ALLOC_STRUCT_PAGE;
-> -}
-> +bool i915_gem_object_has_struct_page(const struct drm_i915_gem_object *o=
-bj);
->
-> -static inline bool
-> -i915_gem_object_has_iomem(const struct drm_i915_gem_object *obj)
-> -{
-> -       return i915_gem_object_type_has(obj, I915_GEM_OBJECT_HAS_IOMEM);
-> -}
-> +bool i915_gem_object_has_iomem(const struct drm_i915_gem_object *obj);
->
->  static inline bool
->  i915_gem_object_is_shrinkable(const struct drm_i915_gem_object *obj)
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object_types.h b/drivers/g=
-pu/drm/i915/gem/i915_gem_object_types.h
-> index 2a23b77424b3..fb9ccc3f50e7 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_object_types.h
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_object_types.h
-> @@ -33,10 +33,9 @@ struct i915_lut_handle {
->
->  struct drm_i915_gem_object_ops {
->         unsigned int flags;
-> -#define I915_GEM_OBJECT_HAS_IOMEM      BIT(1)
-> -#define I915_GEM_OBJECT_IS_SHRINKABLE  BIT(2)
-> -#define I915_GEM_OBJECT_IS_PROXY       BIT(3)
-> -#define I915_GEM_OBJECT_NO_MMAP                BIT(4)
-> +#define I915_GEM_OBJECT_IS_SHRINKABLE  BIT(1)
-> +#define I915_GEM_OBJECT_IS_PROXY       BIT(2)
-> +#define I915_GEM_OBJECT_NO_MMAP                BIT(3)
->
->         /* Interface between the GEM object and its backing storage.
->          * get_pages() is called once prior to the use of the associated =
-set
-> @@ -201,17 +200,18 @@ struct drm_i915_gem_object {
->         unsigned long flags;
->  #define I915_BO_ALLOC_CONTIGUOUS BIT(0)
->  #define I915_BO_ALLOC_VOLATILE   BIT(1)
-> -#define I915_BO_ALLOC_STRUCT_PAGE BIT(2)
-> -#define I915_BO_ALLOC_CPU_CLEAR  BIT(3)
-> -#define I915_BO_ALLOC_USER       BIT(4)
-> +#define I915_BO_ALLOC_CPU_CLEAR  BIT(2)
-> +#define I915_BO_ALLOC_USER       BIT(3)
->  #define I915_BO_ALLOC_FLAGS (I915_BO_ALLOC_CONTIGUOUS | \
->                              I915_BO_ALLOC_VOLATILE | \
-> -                            I915_BO_ALLOC_STRUCT_PAGE | \
->                              I915_BO_ALLOC_CPU_CLEAR | \
->                              I915_BO_ALLOC_USER)
-> -#define I915_BO_READONLY         BIT(5)
-> -#define I915_TILING_QUIRK_BIT    6 /* unknown swizzling; do not release!=
- */
-> +#define I915_BO_READONLY         BIT(4)
-> +#define I915_TILING_QUIRK_BIT    5 /* unknown swizzling; do not release!=
- */
->
-> +       unsigned int mem_flags:2;
-> +#define I915_BO_FLAG_STRUCT_PAGE BIT(0)
-> +#define I915_BO_FLAG_IOMEM       BIT(1)
->         /*
->          * Is the object to be mapped as read-only to the GPU
->          * Only honoured if hardware has relevant pte bit
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_pages.c b/drivers/gpu/drm/=
-i915/gem/i915_gem_pages.c
-> index 086005c1c7ea..f2f850e31b8e 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_pages.c
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_pages.c
-> @@ -351,7 +351,7 @@ void *i915_gem_object_pin_map(struct drm_i915_gem_obj=
-ect *obj,
->         int err;
->
->         if (!i915_gem_object_has_struct_page(obj) &&
-> -           !i915_gem_object_type_has(obj, I915_GEM_OBJECT_HAS_IOMEM))
-> +           !i915_gem_object_has_iomem(obj))
->                 return ERR_PTR(-ENXIO);
->
->         assert_object_held(obj);
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_phys.c b/drivers/gpu/drm/i=
-915/gem/i915_gem_phys.c
-> index be72ad0634ba..7986612f48fa 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_phys.c
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_phys.c
-> @@ -76,7 +76,7 @@ static int i915_gem_object_get_pages_phys(struct drm_i9=
-15_gem_object *obj)
->         intel_gt_chipset_flush(&to_i915(obj->base.dev)->gt);
->
->         /* We're no longer struct page backed */
-> -       obj->flags &=3D ~I915_BO_ALLOC_STRUCT_PAGE;
-> +       obj->mem_flags &=3D ~I915_BO_FLAG_STRUCT_PAGE;
->         __i915_gem_object_set_pages(obj, st, sg->length);
->
->         return 0;
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_shmem.c b/drivers/gpu/drm/=
-i915/gem/i915_gem_shmem.c
-> index 5d16c4462fda..3648ae1d6628 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_shmem.c
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_shmem.c
-> @@ -284,6 +284,7 @@ __i915_gem_object_release_shmem(struct drm_i915_gem_o=
-bject *obj,
->                                 bool needs_clflush)
->  {
->         GEM_BUG_ON(obj->mm.madv =3D=3D __I915_MADV_PURGED);
-> +       GEM_WARN_ON(IS_DGFX(to_i915(obj->base.dev)));
->
->         if (obj->mm.madv =3D=3D I915_MADV_DONTNEED)
->                 obj->mm.dirty =3D false;
-> @@ -302,6 +303,7 @@ void i915_gem_object_put_pages_shmem(struct drm_i915_=
-gem_object *obj, struct sg_
->         struct pagevec pvec;
->         struct page *page;
->
-> +       GEM_WARN_ON(IS_DGFX(to_i915(obj->base.dev)));
->         __i915_gem_object_release_shmem(obj, pages, true);
->
->         i915_gem_gtt_finish_pages(obj, pages);
-> @@ -444,7 +446,7 @@ shmem_pread(struct drm_i915_gem_object *obj,
->
->  static void shmem_release(struct drm_i915_gem_object *obj)
->  {
-> -       if (obj->flags & I915_BO_ALLOC_STRUCT_PAGE)
-> +       if (i915_gem_object_has_struct_page(obj))
->                 i915_gem_object_release_memory_region(obj);
->
->         fput(obj->base.filp);
-> @@ -513,9 +515,8 @@ static int shmem_object_init(struct intel_memory_regi=
-on *mem,
->         mapping_set_gfp_mask(mapping, mask);
->         GEM_BUG_ON(!(mapping_gfp_mask(mapping) & __GFP_RECLAIM));
->
-> -       i915_gem_object_init(obj, &i915_gem_shmem_ops, &lock_class,
-> -                            I915_BO_ALLOC_STRUCT_PAGE);
-> -
-> +       i915_gem_object_init(obj, &i915_gem_shmem_ops, &lock_class, 0);
-> +       obj->mem_flags |=3D I915_BO_FLAG_STRUCT_PAGE;
->         obj->write_domain =3D I915_GEM_DOMAIN_CPU;
->         obj->read_domains =3D I915_GEM_DOMAIN_CPU;
->
-> @@ -561,6 +562,7 @@ i915_gem_object_create_shmem_from_data(struct drm_i91=
-5_private *dev_priv,
->         resource_size_t offset;
->         int err;
->
-> +       GEM_WARN_ON(IS_DGFX(dev_priv));
->         obj =3D i915_gem_object_create_shmem(dev_priv, round_up(size, PAG=
-E_SIZE));
->         if (IS_ERR(obj))
->                 return obj;
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c b/drivers/gpu/drm/i9=
-15/gem/i915_gem_ttm.c
-> index 3748098b42d5..ae12a2be11a2 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-> @@ -563,7 +563,6 @@ static u64 i915_ttm_mmap_offset(struct drm_i915_gem_o=
-bject *obj)
->
->  const struct drm_i915_gem_object_ops i915_gem_ttm_obj_ops =3D {
->         .name =3D "i915_gem_object_ttm",
-> -       .flags =3D I915_GEM_OBJECT_HAS_IOMEM,
->
->         .get_pages =3D i915_ttm_get_pages,
->         .put_pages =3D i915_ttm_put_pages,
-> @@ -620,6 +619,7 @@ int __i915_gem_ttm_object_init(struct intel_memory_re=
-gion *mem,
->         i915_gem_object_init_memory_region(obj, mem);
->         i915_gem_object_make_unshrinkable(obj);
->         obj->read_domains =3D I915_GEM_DOMAIN_WC | I915_GEM_DOMAIN_GTT;
-> +       obj->mem_flags |=3D I915_BO_FLAG_IOMEM;
->         i915_gem_object_set_cache_coherency(obj, I915_CACHE_NONE);
->         INIT_RADIX_TREE(&obj->ttm.get_io_page.radix, GFP_KERNEL | __GFP_N=
-OWARN);
->         mutex_init(&obj->ttm.get_io_page.lock);
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_userptr.c b/drivers/gpu/dr=
-m/i915/gem/i915_gem_userptr.c
-> index 602f0ed983ec..41dfcb75f05b 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_userptr.c
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_userptr.c
-> @@ -538,8 +538,8 @@ i915_gem_userptr_ioctl(struct drm_device *dev,
->                 return -ENOMEM;
->
->         drm_gem_private_object_init(dev, &obj->base, args->user_size);
-> -       i915_gem_object_init(obj, &i915_gem_userptr_ops, &lock_class,
-> -                            I915_BO_ALLOC_STRUCT_PAGE);
-> +       i915_gem_object_init(obj, &i915_gem_userptr_ops, &lock_class, 0);
-> +       obj->mem_flags =3D I915_BO_FLAG_STRUCT_PAGE;
->         obj->read_domains =3D I915_GEM_DOMAIN_CPU;
->         obj->write_domain =3D I915_GEM_DOMAIN_CPU;
->         i915_gem_object_set_cache_coherency(obj, I915_CACHE_LLC);
-> diff --git a/drivers/gpu/drm/i915/gem/selftests/huge_gem_object.c b/drive=
-rs/gpu/drm/i915/gem/selftests/huge_gem_object.c
-> index 0c8ecfdf5405..f963b8e1e37b 100644
-> --- a/drivers/gpu/drm/i915/gem/selftests/huge_gem_object.c
-> +++ b/drivers/gpu/drm/i915/gem/selftests/huge_gem_object.c
-> @@ -114,8 +114,8 @@ huge_gem_object(struct drm_i915_private *i915,
->                 return ERR_PTR(-ENOMEM);
->
->         drm_gem_private_object_init(&i915->drm, &obj->base, dma_size);
-> -       i915_gem_object_init(obj, &huge_ops, &lock_class,
-> -                            I915_BO_ALLOC_STRUCT_PAGE);
-> +       i915_gem_object_init(obj, &huge_ops, &lock_class, 0);
-> +       obj->mem_flags |=3D I915_BO_FLAG_STRUCT_PAGE;
->
->         obj->read_domains =3D I915_GEM_DOMAIN_CPU;
->         obj->write_domain =3D I915_GEM_DOMAIN_CPU;
-> diff --git a/drivers/gpu/drm/i915/gem/selftests/huge_pages.c b/drivers/gp=
-u/drm/i915/gem/selftests/huge_pages.c
-> index dadd485bc52f..ccc67ed1a84b 100644
-> --- a/drivers/gpu/drm/i915/gem/selftests/huge_pages.c
-> +++ b/drivers/gpu/drm/i915/gem/selftests/huge_pages.c
-> @@ -167,9 +167,8 @@ huge_pages_object(struct drm_i915_private *i915,
->                 return ERR_PTR(-ENOMEM);
->
->         drm_gem_private_object_init(&i915->drm, &obj->base, size);
-> -       i915_gem_object_init(obj, &huge_page_ops, &lock_class,
-> -                            I915_BO_ALLOC_STRUCT_PAGE);
-> -
-> +       i915_gem_object_init(obj, &huge_page_ops, &lock_class, 0);
-> +       obj->mem_flags |=3D I915_BO_FLAG_STRUCT_PAGE;
->         i915_gem_object_set_volatile(obj);
->
->         obj->write_domain =3D I915_GEM_DOMAIN_CPU;
-> diff --git a/drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c b/drivers=
-/gpu/drm/i915/gem/selftests/i915_gem_mman.c
-> index ca69a29b7f2a..bfb35270a1f0 100644
-> --- a/drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c
-> +++ b/drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c
-> @@ -837,7 +837,7 @@ static bool can_mmap(struct drm_i915_gem_object *obj,=
- enum i915_mmap_type type)
->
->         if (type !=3D I915_MMAP_TYPE_GTT &&
->             !i915_gem_object_has_struct_page(obj) &&
-> -           !i915_gem_object_type_has(obj, I915_GEM_OBJECT_HAS_IOMEM))
-> +           !i915_gem_object_has_iomem(obj))
->                 return false;
->
->         return true;
-> @@ -991,7 +991,7 @@ static const char *repr_mmap_type(enum i915_mmap_type=
- type)
->  static bool can_access(const struct drm_i915_gem_object *obj)
->  {
->         return i915_gem_object_has_struct_page(obj) ||
-> -              i915_gem_object_type_has(obj, I915_GEM_OBJECT_HAS_IOMEM);
-> +              i915_gem_object_has_iomem(obj);
->  }
->
->  static int __igt_mmap_access(struct drm_i915_private *i915,
-> diff --git a/drivers/gpu/drm/i915/gem/selftests/i915_gem_phys.c b/drivers=
-/gpu/drm/i915/gem/selftests/i915_gem_phys.c
-> index 3a6ce87f8b52..d43d8dae0f69 100644
-> --- a/drivers/gpu/drm/i915/gem/selftests/i915_gem_phys.c
-> +++ b/drivers/gpu/drm/i915/gem/selftests/i915_gem_phys.c
-> @@ -25,13 +25,14 @@ static int mock_phys_object(void *arg)
->                 goto out;
->         }
->
-> +       i915_gem_object_lock(obj, NULL);
->         if (!i915_gem_object_has_struct_page(obj)) {
-> +               i915_gem_object_unlock(obj);
->                 err =3D -EINVAL;
->                 pr_err("shmem has no struct page\n");
->                 goto out_obj;
->         }
->
-> -       i915_gem_object_lock(obj, NULL);
->         err =3D i915_gem_object_attach_phys(obj, PAGE_SIZE);
->         i915_gem_object_unlock(obj);
->         if (err) {
-> --
-> 2.31.1
->
-> _______________________________________________
-> Intel-gfx mailing list
-> Intel-gfx@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/intel-gfx
+- brave new world of native userspace memory fences. Currently that's
+compute, maybe direct display vk, hopefully/eventually compositors and
+desktops too. If you get an untrusted fence, you need to have fallback
+logic no matter what, and by design. vk is explicit in stating that if
+things hang, you get to keep all the pieces. So the compositor needs
+to _always_ treat userspace memory fences as hostile, wrap them in a
+timeout, and have a fallback frame/scene in its rendering path.
+Probably same for the kernel on display side, maybe down to the
+display hw picking the "right" frame depending upon the fence value
+right before scanout as we discussed earlier. There's no point in hw
+access rights because by design, even if no one tampers with your
+fence, it might never signal. So you have to cope with a hostile fence
+from untrusted sources anyway (and within an app it's trusted and you
+just die as in stuck in an endless loop until someon sends a SIGKILL
+when you deadlock or get it wrong some other way).
+
+- old compat mode where we need to use dma_fence, otherwise we end up
+with another round of "amdgpu redefines implicit sync in incompatible
+ways", and Christian&me don't even know yet how to fix the current
+round without breaking use-cases badly yet. So it has to be dma_fence,
+and it has to be the same rules as on old hw, or it's just not going
+to work. This means you need to force in-order retiring of fences in
+the kernel, and you need to enforce timeout. None of this needs hw
+access rights control, since once more it's just software constructs
+in the kernel. As a first appromixation, drm/scheduler + the fence
+chain we already have in syncobj is probably good enough for this.
+E.g. if userspace rolls the fence backwards then the kernel just
+ignores that, because its internal dma_fence has signalled, and
+dma_fences never unsignal (it's a bit in struct dma_fence, once it's
+set we stop checking hw). And if it doesn't signal in time, then tdr
+jumps in and fixes the mess. Hw access control doesn't fix anything
+here, because you have to deal with timeout and ordering already
+anyway, or the dma_fence contract is broken.
+
+So in both cases hw access control gains you nothing (at least I'm not
+seeing anything), it just makes the design more tricky. "Userspace can
+manipulate the fences" is _intentionally_ how these things work, we
+need a design that works with that hw design, not against it and
+somehow tries to get us back to the old world, but only halfway (i.e.
+not useful at all, since old userspace needs us to go all the way back
+to dma_fence, and new userspace wants to fully exploit userspace
+memory fences without artificial limitations for no reason).
+-Daniel
+--=20
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
