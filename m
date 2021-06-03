@@ -2,69 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C340E399E68
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Jun 2021 12:03:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 311D5399F0D
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Jun 2021 12:36:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D07A86E8AA;
-	Thu,  3 Jun 2021 10:03:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8301B6E10F;
+	Thu,  3 Jun 2021 10:36:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com
- [IPv6:2a00:1450:4864:20::62e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2CCDC6E8AA
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Jun 2021 10:03:31 +0000 (UTC)
-Received: by mail-ej1-x62e.google.com with SMTP id h24so8398387ejy.2
- for <dri-devel@lists.freedesktop.org>; Thu, 03 Jun 2021 03:03:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=ldprfd697gquwl7J5tMr9JccbAsne9zo5nSIMBMfeKo=;
- b=AxiwtXY/+R3cFmGEx8MrQ6z5h8v8KvjBCbN76U0aVgCTlVO52pFkpCxAVDSbxMvr6/
- XKTD+gMvDsKAMsvQno9LTyDxAuCj7P5QwmsGoa0CIu807dy79mXhtyvB6yQjNKVkHJwj
- xVQfzPe5PDZjNAof4xv9X+hf2ZI/3RrsjH51E=
+Received: from mail-qk1-x72f.google.com (mail-qk1-x72f.google.com
+ [IPv6:2607:f8b0:4864:20::72f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 209586E10F;
+ Thu,  3 Jun 2021 10:36:09 +0000 (UTC)
+Received: by mail-qk1-x72f.google.com with SMTP id q10so5405568qkc.5;
+ Thu, 03 Jun 2021 03:36:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=iCA3pwL1D0+G+ilLrTS/MUk0FJDAD7c+0qAyMacdQ2k=;
+ b=SWy6c5QDmVf5FOhIJ4ALP3OdBEU6OOBcNHjrBG30bf33yu7tImzNO1gqoI9NWvMm0x
+ Uonu7R52qFX+hGpZ/OnSNf94dfSuuePkDrFtmcTKmhTaRHgAngGk7ufWCNI0jMr2x+oj
+ BIP3zdYYaFyK9hOEx/hqv5EzKPHTB4Rbwpa80iRBIwTany8dQ5d+l2wg6hZnP3ne3lGe
+ 5x/jj+fL3vwo5v+py+MPeWuLMKm4+IliG2RXzZKdrgntPxlg27QhTQ0uTP7TPiH03utl
+ 41z6ptgjg7d11FOyQPozoHkNBJKkncc7siJNcxFFnpzsBEARpL0ma8pV3RHhWz6HIuEQ
+ Pn4Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=ldprfd697gquwl7J5tMr9JccbAsne9zo5nSIMBMfeKo=;
- b=kIcdJhRSeDDzKNfLVFL4k6JVmexf26ipupfueYP60g3LsxphIOycJtw6o7bElYt9Sn
- ctGO4uJvH6S1n2VCMGMlY9TWugFrvbhnHqwG3E0beRJpklsaL8wKQBQDLoiDmJN9QPCW
- hCPS0xIsHGn7O6qJrOUjRleOhEKqpjk+sWD4rWFvLWyWQBQSSeA0K5oQK796XP6POh19
- gwLtQIkPTGlFaEbXcBASPv1cYDXSg0DsNThBzzWXW3q36eFtp7CgK1sdk+wU2XtRSZ2x
- aXBF+h23l+w4Jd8GYUrCHHPml2Tax7SG8nNeoYCbWAVFlghVAoJUpjxwf5q9a/CXItDW
- wJxw==
-X-Gm-Message-State: AOAM530TfOqyAb6mIayZEweswl3KjL8jP1/Q8NUOR/AUkiTP6KoiVB0x
- hZUuXiVpL6txhuNBq1BVptutrA==
-X-Google-Smtp-Source: ABdhPJwj94XvBEERNRuM0LxQP/qg7UUlkP4MHX6F0r8Jzo0ma39StJ9NDa9KM4QuqaFYDQxTUpAwMQ==
-X-Received: by 2002:a17:906:dfea:: with SMTP id
- lc10mr20296031ejc.148.1622714609786; 
- Thu, 03 Jun 2021 03:03:29 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id bc4sm1480058edb.63.2021.06.03.03.03.28
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 03 Jun 2021 03:03:29 -0700 (PDT)
-Date: Thu, 3 Jun 2021 12:03:27 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Marek =?utf-8?B?T2zFocOhaw==?= <maraeo@gmail.com>
-Subject: Re: [Mesa-dev] Linux Graphics Next: Userspace submission update
-Message-ID: <YLio7wyoMRJyFoO/@phenom.ffwll.local>
-References: <b0d65f94-cc56-a4db-3158-7b1de3952792@gmail.com>
- <CAKMK7uGaD_LuX-SZDALuDuEOMZNX=Q3FAq0xYf_pTVtNe6VUaw@mail.gmail.com>
- <c7190219-c185-3b7e-42a6-691934f79fb3@gmail.com>
- <CAPj87rPbiFf3qDo35gmirAoTOOJ5fEE6UxQdJKtfjX_VTqc6pg@mail.gmail.com>
- <CAAxE2A4kC4A9gV_V-W3eRW20O=9S1pv8=KMBdJxdLQ-ZXGa37Q@mail.gmail.com>
- <CAAxE2A7FJSaYfrYRpoCr-3h-AqBjOOJerhMVCcQZzQu0a+J0zg@mail.gmail.com>
- <YLfSbxhyDQmHjV4r@phenom.ffwll.local>
- <CAAxE2A7uK7zumDiaU1XpEi_RNv8Q+QQHU-dLB0HrES2BkdP-cw@mail.gmail.com>
- <YLiJFdcaxzXsstt6@phenom.ffwll.local>
- <CAAxE2A4VPYMrjbq1W9z3pNXHP_Msn9HCFMPew9jf2h72rfK3dA@mail.gmail.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=iCA3pwL1D0+G+ilLrTS/MUk0FJDAD7c+0qAyMacdQ2k=;
+ b=uKeRm9Mvln7Fun43s6TcRrUAGRaZ2c+MR7VVNXIQcueF51I+nW1PzruNtEaGfrFTrO
+ LoIqPCvL7nXAyz5nYt6ApRBe+Bu+2FsOR6C+qrXdTxI2ws7CyrSaEE/X8A5n6uIp9lhk
+ /+hZ4hXF/th7xCjsuiOhEdGBhBaQSeHoxg8uArbBTJmAYheJxt0jE47iy9GvhFRLRO29
+ WiaF6+SJ74jQrgckxhUI30jQxI3zok7TXs3zKnMeLyRll1AacxMHYf5FVUOnZPEyuWHn
+ w++Ab1kLrzzc1UrSNQZ1aBOpYoIW486GMdDZxe37TmhqkFqzIJpD97RR7tg0yCI2Zw1m
+ 42hA==
+X-Gm-Message-State: AOAM53020lFyhSWQpRHHD9dM0E4YFwG3atelJWrk95GLXY2QLT8j3l/I
+ p3NaiKhMziwXuCNAEwr1lWtFFLH3KfLAI6Ddx/wyxeVr9RrhxA==
+X-Google-Smtp-Source: ABdhPJzvox2/4CqsZXaGqVkfOMQxXi3wzep9XaePbeukGeH9qo7qjZI783jb7QsS9/2dRBhChTfrV7MHeYoCTaWgIJk=
+X-Received: by 2002:a37:9a0b:: with SMTP id c11mr11690572qke.327.1622716567558; 
+ Thu, 03 Jun 2021 03:36:07 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAAxE2A4VPYMrjbq1W9z3pNXHP_Msn9HCFMPew9jf2h72rfK3dA@mail.gmail.com>
-X-Operating-System: Linux phenom 5.10.32scarlett+ 
+References: <20210602170716.280491-1-thomas.hellstrom@linux.intel.com>
+ <20210602170716.280491-3-thomas.hellstrom@linux.intel.com>
+In-Reply-To: <20210602170716.280491-3-thomas.hellstrom@linux.intel.com>
+From: Matthew Auld <matthew.william.auld@gmail.com>
+Date: Thu, 3 Jun 2021 11:35:41 +0100
+Message-ID: <CAM0jSHNp8Z4zMKUhKvEDN2GrMKqxAW7vDtEsr8mkfRTZtC91vA@mail.gmail.com>
+Subject: Re: [Intel-gfx] [PATCH 2/5] drm/i915/ttm: Adjust gem flags and
+ caching settings after a move
+To: =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,178 +65,304 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jason Ekstrand <jason@jlekstrand.net>,
- Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>,
- Michel =?iso-8859-1?Q?D=E4nzer?= <michel@daenzer.net>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- ML Mesa-dev <mesa-dev@lists.freedesktop.org>
+Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jun 03, 2021 at 04:20:18AM -0400, Marek Olšák wrote:
-> On Thu, Jun 3, 2021 at 3:47 AM Daniel Vetter <daniel@ffwll.ch> wrote:
-> 
-> > On Wed, Jun 02, 2021 at 11:16:39PM -0400, Marek Olšák wrote:
-> > > On Wed, Jun 2, 2021 at 2:48 PM Daniel Vetter <daniel@ffwll.ch> wrote:
-> > >
-> > > > On Wed, Jun 02, 2021 at 05:38:51AM -0400, Marek Olšák wrote:
-> > > > > On Wed, Jun 2, 2021 at 5:34 AM Marek Olšák <maraeo@gmail.com> wrote:
-> > > > >
-> > > > > > Yes, we can't break anything because we don't want to complicate
-> > things
-> > > > > > for us. It's pretty much all NAK'd already. We are trying to gather
-> > > > more
-> > > > > > knowledge and then make better decisions.
-> > > > > >
-> > > > > > The idea we are considering is that we'll expose memory-based sync
-> > > > objects
-> > > > > > to userspace for read only, and the kernel or hw will strictly
-> > control
-> > > > the
-> > > > > > memory writes to those sync objects. The hole in that idea is that
-> > > > > > userspace can decide not to signal a job, so even if userspace
-> > can't
-> > > > > > overwrite memory-based sync object states arbitrarily, it can still
-> > > > decide
-> > > > > > not to signal them, and then a future fence is born.
-> > > > > >
-> > > > >
-> > > > > This would actually be treated as a GPU hang caused by that context,
-> > so
-> > > > it
-> > > > > should be fine.
-> > > >
-> > > > This is practically what I proposed already, except your not doing it
-> > with
-> > > > dma_fence. And on the memory fence side this also doesn't actually give
-> > > > what you want for that compute model.
-> > > >
-> > > > This seems like a bit a worst of both worlds approach to me? Tons of
-> > work
-> > > > in the kernel to hide these not-dma_fence-but-almost, and still pain to
-> > > > actually drive the hardware like it should be for compute or direct
-> > > > display.
-> > > >
-> > > > Also maybe I've missed it, but I didn't see any replies to my
-> > suggestion
-> > > > how to fake the entire dma_fence stuff on top of new hw. Would be
-> > > > interesting to know what doesn't work there instead of amd folks going
-> > of
-> > > > into internal again and then coming back with another rfc from out of
-> > > > nowhere :-)
-> > > >
-> > >
-> > > Going internal again is probably a good idea to spare you the long
-> > > discussions and not waste your time, but we haven't talked about the
-> > > dma_fence stuff internally other than acknowledging that it can be
-> > solved.
-> > >
-> > > The compute use case already uses the hw as-is with no inter-process
-> > > sharing, which mostly keeps the kernel out of the picture. It uses
-> > glFinish
-> > > to sync with GL.
-> > >
-> > > The gfx use case needs new hardware logic to support implicit and
-> > explicit
-> > > sync. When we propose a solution, it's usually torn apart the next day by
-> > > ourselves.
-> > >
-> > > Since we are talking about next hw or next next hw, preemption should be
-> > > better.
-> > >
-> > > user queue = user-mapped ring buffer
-> > >
-> > > For implicit sync, we will only let userspace lock access to a buffer
-> > via a
-> > > user queue, which waits for the per-buffer sequence counter in memory to
-> > be
-> > > >= the number assigned by the kernel, and later unlock the access with
-> > > another command, which increments the per-buffer sequence counter in
-> > memory
-> > > with atomic_inc regardless of the number assigned by the kernel. The
-> > kernel
-> > > counter and the counter in memory can be out-of-sync, and I'll explain
-> > why
-> > > it's OK. If a process increments the kernel counter but not the memory
-> > > counter, that's its problem and it's the same as a GPU hang caused by
-> > that
-> > > process. If a process increments the memory counter but not the kernel
-> > > counter, the ">=" condition alongside atomic_inc guarantee that
-> > signaling n
-> > > will signal n+1, so it will never deadlock but also it will effectively
-> > > disable synchronization. This method of disabling synchronization is
-> > > similar to a process corrupting the buffer, which should be fine. Can you
-> > > find any flaw in it? I can't find any.
-> >
-> > Hm maybe I misunderstood what exactly you wanted to do earlier. That kind
-> > of "we let userspace free-wheel whatever it wants, kernel ensures
-> > correctness of the resulting chain of dma_fence with reset the entire
-> > context" is what I proposed too.
-> >
-> > Like you say, userspace is allowed to render garbage already.
-> >
-> > > The explicit submit can be done by userspace (if there is no
-> > > synchronization), but we plan to use the kernel to do it for implicit
-> > sync.
-> > > Essentially, the kernel will receive a buffer list and addresses of wait
-> > > commands in the user queue. It will assign new sequence numbers to all
-> > > buffers and write those numbers into the wait commands, and ring the hw
-> > > doorbell to start execution of that queue.
-> >
-> > Yeah for implicit sync I think kernel and using drm/scheduler to sort out
-> > the dma_fence dependencies is probably best. Since you can filter out
-> > which dma_fence you hand to the scheduler for dependency tracking you can
-> > filter out your own ones and let the hw handle those directly (depending
-> > how much your hw can do an all that). On i915 we might do that to be able
-> > to use MI_SEMAPHORE_WAIT/SIGNAL functionality in the hw and fw scheduler.
-> >
-> > For buffer tracking with implicit sync I think cleanest is probably to
-> > still keep them wrapped as dma_fence and stuffed into dma_resv, but
-> > conceptually it's the same. If we let every driver reinvent their own
-> > buffer tracking just because the hw works a bit different it'll be a mess.
-> >
-> > Wrt wait commands: I'm honestly not sure why you'd do that. Userspace gets
-> > to keep the pieces if it gets it wrong. You do still need to handle
-> > external dma_fence though, hence drm/scheduler frontend to sort these out.
-> >
-> 
-> The reason is to disallow lower-privileged process to deadlock/hang a
-> higher-privileged process where the kernel can't tell who did it. If the
-> implicit-sync sequence counter is read only to userspace and only
-> incrementable by the unlock-signal command after the lock-wait command
-> appeared in the same queue (both together forming a critical section),
-> userspace can't manipulate it arbitrarily and we get almost the exact same
-> behavior as implicit sync has today. That means any implicitly-sync'd
-> buffer from any process can be fully trusted by a compositor to signal in a
-> finite time, and possibly even trusted by the kernel. The only thing that's
-> different is that a malicious process can disable implicit sync for a
-> buffer in all processes/kernel, but it can't hang other processes/kernel
-> (it can only hang itself and the kernel will be notified). So I'm a happy
-> panda now. :)
+On Wed, 2 Jun 2021 at 18:08, Thomas Hellstr=C3=B6m
+<thomas.hellstrom@linux.intel.com> wrote:
+>
+> After a TTM move we need to update the i915 gem flags and caching
+> settings to reflect the new placement.
+> Also introduce gpu_binds_iomem() and cpu_maps_iomem() to clean up the
+> various ways we previously used to detect this.
+> Finally, initialize the TTM object reserved to be able to update
+> flags and caching before anyone else gets hold of the object.
+>
+> Signed-off-by: Thomas Hellstr=C3=B6m <thomas.hellstrom@linux.intel.com>
+> ---
+>  drivers/gpu/drm/i915/gem/i915_gem_ttm.c | 112 +++++++++++++++++++-----
+>  1 file changed, 90 insertions(+), 22 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c b/drivers/gpu/drm/i9=
+15/gem/i915_gem_ttm.c
+> index ae12a2be11a2..c73c51755c20 100644
+> --- a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+> +++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+> @@ -70,6 +70,17 @@ static struct ttm_placement i915_sys_placement =3D {
+>         .busy_placement =3D &lmem0_sys_placement_flags[1],
+>  };
+>
+> +static bool gpu_binds_iomem(struct ttm_resource *mem)
 
-Yeah I think that's not going to work too well, and is too many piled up
-hacks. Within a drm_file fd you can do whatever you feel like, since it's
-just one client.
+What does gpu_binds mean here? It's mapped though the GTT?
 
-But once implicit sync kicks in I think you need to go with dma_fence and
-drm/scheduler to handle the dependencies, and tdr kicking it. With the
-dma_fence you do know who's the offender - you might not know why, but
-that doesn't matter, you just shred the entire context and let that
-userspace figure out the details.
+> +{
+> +       return (mem->mem_type !=3D TTM_PL_SYSTEM);
+> +}
+> +
+> +static bool cpu_maps_iomem(struct ttm_resource *mem)
+> +{
+> +       /* Once / if we support GGTT, this is also false for cached ttm_t=
+ts */
+> +       return (mem->mem_type !=3D TTM_PL_SYSTEM);
+> +}
 
-I think trying to make memory fences work as implicit sync directly,
-without wrapping them in a dma_fence and assorted guarantees, will just
-not work.
+Can drop the extra brackets.
 
-And once you do wrap them in dma_fence, then all the other problems go
-away: cross-driver sync, syncfiles, ... So I really don't see the benefit
-of this half-way approach.
+> +
+>  static void i915_ttm_adjust_lru(struct drm_i915_gem_object *obj);
+>
+>  static struct ttm_tt *i915_ttm_tt_create(struct ttm_buffer_object *bo,
+> @@ -175,6 +186,41 @@ static void i915_ttm_free_cached_io_st(struct drm_i9=
+15_gem_object *obj)
+>         obj->ttm.cached_io_st =3D NULL;
+>  }
+>
+> +static void
+> +i915_ttm_adjust_domains_after_cpu_move(struct drm_i915_gem_object *obj)
+> +{
+> +       struct ttm_buffer_object *bo =3D i915_gem_to_ttm(obj);
+> +
+> +       if (cpu_maps_iomem(&bo->mem) || bo->ttm->caching !=3D ttm_cached)=
+ {
+> +               obj->write_domain =3D I915_GEM_DOMAIN_WC;
+> +               obj->read_domains =3D I915_GEM_DOMAIN_WC;
+> +       } else {
+> +               obj->write_domain =3D I915_GEM_DOMAIN_CPU;
+> +               obj->read_domains =3D I915_GEM_DOMAIN_CPU;
+> +       }
+> +}
+> +
+> +static void i915_ttm_adjust_gem_after_move(struct drm_i915_gem_object *o=
+bj)
+> +{
+> +       struct drm_i915_private *i915 =3D to_i915(obj->base.dev);
+> +       struct ttm_buffer_object *bo =3D i915_gem_to_ttm(obj);
+> +       unsigned int cache_level;
+> +
+> +       obj->mem_flags &=3D ~(I915_BO_FLAG_STRUCT_PAGE | I915_BO_FLAG_IOM=
+EM);
+> +
+> +       obj->mem_flags |=3D cpu_maps_iomem(&bo->mem) ? I915_BO_FLAG_IOMEM=
+ :
+> +               I915_BO_FLAG_STRUCT_PAGE;
+> +
+> +       if ((HAS_LLC(i915) || HAS_SNOOP(i915)) && !gpu_binds_iomem(&bo->m=
+em) &&
 
-Yes there's going to be a tad bit of overhead, but that's already there in
-the current model. And it can't hurt to have a bit of motivation for
-compositors to switch over to userspace memory fences properly.
--Daniel
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+I think all modern hw has support for snooping or the fast shared LLC.
+Are we expecting to hit this path for non-dgpu? Also by default we
+will choose ttm_cached at least for platforms like dg1? Also pin_map()
+is still a separate interface at this point?
+
+> +           bo->ttm->caching =3D=3D ttm_cached) {
+> +               cache_level =3D I915_CACHE_LLC;
+> +       } else {
+> +               cache_level =3D I915_CACHE_NONE;
+> +       }
+> +
+> +       i915_gem_object_set_cache_coherency(obj, cache_level);
+> +}
+> +
+>  static void i915_ttm_purge(struct drm_i915_gem_object *obj)
+>  {
+>         struct ttm_buffer_object *bo =3D i915_gem_to_ttm(obj);
+> @@ -190,8 +236,10 @@ static void i915_ttm_purge(struct drm_i915_gem_objec=
+t *obj)
+>
+>         /* TTM's purge interface. Note that we might be reentering. */
+>         ret =3D ttm_bo_validate(bo, &place, &ctx);
+> -
+>         if (!ret) {
+> +               obj->write_domain =3D 0;
+> +               obj->read_domains =3D 0;
+> +               i915_ttm_adjust_gem_after_move(obj);
+>                 i915_ttm_free_cached_io_st(obj);
+>                 obj->mm.madv =3D __I915_MADV_PURGED;
+>         }
+> @@ -273,12 +321,15 @@ i915_ttm_resource_get_st(struct drm_i915_gem_object=
+ *obj,
+>                          struct ttm_resource *res)
+>  {
+>         struct ttm_buffer_object *bo =3D i915_gem_to_ttm(obj);
+> -       struct ttm_resource_manager *man =3D
+> -               ttm_manager_type(bo->bdev, res->mem_type);
+>
+> -       if (man->use_tt)
+> +       if (!gpu_binds_iomem(res))
+>                 return i915_ttm_tt_get_st(bo->ttm);
+>
+> +       /*
+> +        * If CPU mapping differs, we need to add the ttm_tt pages to
+> +        * the resulting st. Might make sense for GGTT.
+> +        */
+> +       GEM_WARN_ON(!cpu_maps_iomem(res));
+>         return intel_region_ttm_node_to_st(obj->mm.region, res->mm_node);
+>  }
+>
+> @@ -290,8 +341,6 @@ static int i915_ttm_move(struct ttm_buffer_object *bo=
+, bool evict,
+>         struct drm_i915_gem_object *obj =3D i915_ttm_to_gem(bo);
+>         struct ttm_resource_manager *dst_man =3D
+>                 ttm_manager_type(bo->bdev, dst_mem->mem_type);
+> -       struct ttm_resource_manager *src_man =3D
+> -               ttm_manager_type(bo->bdev, bo->mem.mem_type);
+>         struct intel_memory_region *dst_reg, *src_reg;
+>         union {
+>                 struct ttm_kmap_iter_tt tt;
+> @@ -332,34 +381,36 @@ static int i915_ttm_move(struct ttm_buffer_object *=
+bo, bool evict,
+>         if (IS_ERR(dst_st))
+>                 return PTR_ERR(dst_st);
+>
+> -       /* If we start mapping GGTT, we can no longer use man::use_tt her=
+e. */
+> -       dst_iter =3D dst_man->use_tt ?
+> +       dst_iter =3D !cpu_maps_iomem(dst_mem) ?
+>                 ttm_kmap_iter_tt_init(&_dst_iter.tt, bo->ttm) :
+>                 ttm_kmap_iter_iomap_init(&_dst_iter.io, &dst_reg->iomap,
+>                                          dst_st, dst_reg->region.start);
+>
+> -       src_iter =3D src_man->use_tt ?
+> +       src_iter =3D !cpu_maps_iomem(&bo->mem) ?
+>                 ttm_kmap_iter_tt_init(&_src_iter.tt, bo->ttm) :
+>                 ttm_kmap_iter_iomap_init(&_src_iter.io, &src_reg->iomap,
+>                                          obj->ttm.cached_io_st,
+>                                          src_reg->region.start);
+>
+>         ttm_move_memcpy(bo, dst_mem->num_pages, dst_iter, src_iter);
+> +       /* Below dst_mem becomes bo->mem. */
+>         ttm_bo_move_sync_cleanup(bo, dst_mem);
+> +       i915_ttm_adjust_domains_after_cpu_move(obj);
+>         i915_ttm_free_cached_io_st(obj);
+>
+> -       if (!dst_man->use_tt) {
+> +       if (gpu_binds_iomem(dst_mem) || cpu_maps_iomem(dst_mem)) {
+>                 obj->ttm.cached_io_st =3D dst_st;
+>                 obj->ttm.get_io_page.sg_pos =3D dst_st->sgl;
+>                 obj->ttm.get_io_page.sg_idx =3D 0;
+>         }
+>
+> +       i915_ttm_adjust_gem_after_move(obj);
+>         return 0;
+>  }
+>
+>  static int i915_ttm_io_mem_reserve(struct ttm_device *bdev, struct ttm_r=
+esource *mem)
+>  {
+> -       if (mem->mem_type < I915_PL_LMEM0)
+> +       if (!cpu_maps_iomem(mem))
+>                 return 0;
+>
+>         mem->bus.caching =3D ttm_write_combined;
+> @@ -421,6 +472,16 @@ static int i915_ttm_get_pages(struct drm_i915_gem_ob=
+ject *obj)
+>         if (ret)
+>                 return ret =3D=3D -ENOSPC ? -ENXIO : ret;
+>
+> +       i915_ttm_adjust_lru(obj);
+> +       if (bo->ttm && !ttm_tt_is_populated(bo->ttm)) {
+> +               ret =3D ttm_tt_populate(bo->bdev, bo->ttm, &ctx);
+> +               if (ret)
+> +                       return ret;
+> +
+> +               i915_ttm_adjust_domains_after_cpu_move(obj);
+> +               i915_ttm_adjust_gem_after_move(obj);
+> +       }
+> +
+>         /* Object either has a page vector or is an iomem object */
+>         st =3D bo->ttm ? i915_ttm_tt_get_st(bo->ttm) : obj->ttm.cached_io=
+_st;
+>         if (IS_ERR(st))
+> @@ -428,8 +489,6 @@ static int i915_ttm_get_pages(struct drm_i915_gem_obj=
+ect *obj)
+>
+>         __i915_gem_object_set_pages(obj, st, i915_sg_dma_sizes(st->sgl));
+>
+> -       i915_ttm_adjust_lru(obj);
+> -
+>         return ret;
+>  }
+>
+> @@ -563,6 +622,7 @@ static u64 i915_ttm_mmap_offset(struct drm_i915_gem_o=
+bject *obj)
+>
+>  const struct drm_i915_gem_object_ops i915_gem_ttm_obj_ops =3D {
+>         .name =3D "i915_gem_object_ttm",
+> +       .flags =3D I915_GEM_OBJECT_IS_SHRINKABLE,
+>
+>         .get_pages =3D i915_ttm_get_pages,
+>         .put_pages =3D i915_ttm_put_pages,
+> @@ -599,6 +659,10 @@ int __i915_gem_ttm_object_init(struct intel_memory_r=
+egion *mem,
+>  {
+>         static struct lock_class_key lock_class;
+>         struct drm_i915_private *i915 =3D mem->i915;
+> +       struct ttm_operation_ctx ctx =3D {
+> +               .interruptible =3D true,
+> +               .no_wait_gpu =3D false,
+> +       };
+>         enum ttm_bo_type bo_type;
+>         size_t alignment =3D 0;
+>         int ret;
+> @@ -618,15 +682,14 @@ int __i915_gem_ttm_object_init(struct intel_memory_=
+region *mem,
+>         i915_gem_object_init(obj, &i915_gem_ttm_obj_ops, &lock_class, fla=
+gs);
+>         i915_gem_object_init_memory_region(obj, mem);
+>         i915_gem_object_make_unshrinkable(obj);
+> -       obj->read_domains =3D I915_GEM_DOMAIN_WC | I915_GEM_DOMAIN_GTT;
+> -       obj->mem_flags |=3D I915_BO_FLAG_IOMEM;
+> -       i915_gem_object_set_cache_coherency(obj, I915_CACHE_NONE);
+>         INIT_RADIX_TREE(&obj->ttm.get_io_page.radix, GFP_KERNEL | __GFP_N=
+OWARN);
+>         mutex_init(&obj->ttm.get_io_page.lock);
+>
+>         bo_type =3D (obj->flags & I915_BO_ALLOC_USER) ? ttm_bo_type_devic=
+e :
+>                 ttm_bo_type_kernel;
+>
+> +       obj->base.vma_node.driver_private =3D i915_gem_to_ttm(obj);
+> +
+>         /*
+>          * If this function fails, it will call the destructor, but
+>          * our caller still owns the object. So no freeing in the
+> @@ -634,14 +697,19 @@ int __i915_gem_ttm_object_init(struct intel_memory_=
+region *mem,
+>          * Similarly, in delayed_destroy, we can't call ttm_bo_put()
+>          * until successful initialization.
+>          */
+> -       obj->base.vma_node.driver_private =3D i915_gem_to_ttm(obj);
+> -       ret =3D ttm_bo_init(&i915->bdev, i915_gem_to_ttm(obj), size,
+> -                         bo_type, &i915_sys_placement, alignment,
+> -                         true, NULL, NULL, i915_ttm_bo_destroy);
+> +       ret =3D ttm_bo_init_reserved(&i915->bdev, i915_gem_to_ttm(obj), s=
+ize,
+> +                                  bo_type, &i915_sys_placement, alignmen=
+t,
+> +                                  &ctx, NULL, NULL, i915_ttm_bo_destroy)=
+;
+> +
+> +       if (ret)
+> +               goto out;
+>
+> -       if (!ret)
+> -               obj->ttm.created =3D true;
+> +       obj->ttm.created =3D true;
+> +       i915_ttm_adjust_domains_after_cpu_move(obj);
+> +       i915_ttm_adjust_gem_after_move(obj);
+> +       i915_gem_object_unlock(obj);
+>
+> +out:
+>         /* i915 wants -ENXIO when out of memory region space. */
+>         return (ret =3D=3D -ENOSPC) ? -ENXIO : ret;
+>  }
+> --
+> 2.31.1
+>
+> _______________________________________________
+> Intel-gfx mailing list
+> Intel-gfx@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/intel-gfx
