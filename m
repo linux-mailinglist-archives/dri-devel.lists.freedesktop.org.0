@@ -2,58 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8193E39AE5E
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Jun 2021 00:46:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B50539AE5C
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Jun 2021 00:46:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AFB4B6F53F;
-	Thu,  3 Jun 2021 22:46:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9F3046F53E;
+	Thu,  3 Jun 2021 22:46:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x232.google.com (mail-lj1-x232.google.com
- [IPv6:2a00:1450:4864:20::232])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 432C06F53F
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Jun 2021 22:46:39 +0000 (UTC)
-Received: by mail-lj1-x232.google.com with SMTP id c11so9122083ljd.6
- for <dri-devel@lists.freedesktop.org>; Thu, 03 Jun 2021 15:46:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=DfhY/QNJwoAcR0w/J0pS6U38bj1S77B4Ht7nL6DWsLo=;
- b=E8AGxvpRnNYLKhu04jhQNO2Mt//q2iJkK3GvTiCnPc7lfDRJWS+zxS4YLKRBZb3di3
- hEdguPkdo2wPV112Ng8DWjJOjeybRfUJOmGTP3bqDX920ED+tG4mzVu2wsW6ufWrJElM
- jptsycj3jLvj4BI/RPnSqtU5Sw6HHjAY65nu1eZfphhDoEcpvwzG6L3Ond2HrMdH9mc7
- BdjjxFcG/nSVz402bqmWvRVjp7QQ03dIbP7EmCp0mAybnTKEBdXKhE+kixYh9SvLVl7c
- ob1tag+CDB2LMOD81Ec8K028+ldxTlEtaYToHcMNyDLUlIfPCflemr7WnBjPFx9cYhdc
- 9JBg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=DfhY/QNJwoAcR0w/J0pS6U38bj1S77B4Ht7nL6DWsLo=;
- b=S4PrZMHq9DvdHwAK+XK20sTqLAXowNBsWhjvIaKJuv4LKrnv1skDxqHoyzzJqJsRfJ
- KX3wTdB7Fdy1WxV0nFAifopk0VW2FQWDyxxkM2Q18Ci57o5oNDQT1+unyOVOgegyGdPN
- adfUPoWKgkZVOdW3AaEEeyh9TCpWUZmqH5PPUAwK0AQyMFvkOG76Pllxc0S7h/bZUHpj
- 7qCb20nhp7zla8ie2jy6OiHBfw4PW6G3d86uwowi8JaCa8KqrV93RI4lHi75umIkn9bJ
- KXYYaM1RZGg/QqvWNOvA/23oZ293hGF1smrd5i2o2blQsHFS/hSP0Hkerl0HltQo5zTx
- 6uMw==
-X-Gm-Message-State: AOAM533wmJwiUVTESFA0qsDqnz1Bn8ruKyBBqkGGV0v4Z43b561rQ2+b
- JvABtQmZr+1YCjAXcpkyU6ivmg==
-X-Google-Smtp-Source: ABdhPJxRT6gfHdN3xSo/ORYCBDnIQt8hcLXvqYB1XMdoKGpU6Toe6iv9hLBXLy4z28W1+TsqTGKuuQ==
-X-Received: by 2002:a2e:9ec4:: with SMTP id h4mr1104318ljk.442.1622760397541; 
- Thu, 03 Jun 2021 15:46:37 -0700 (PDT)
-Received: from localhost.localdomain
- (c-fdcc225c.014-348-6c756e10.bbcust.telenor.se. [92.34.204.253])
- by smtp.gmail.com with ESMTPSA id z13sm502099lji.115.2021.06.03.15.46.36
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 03 Jun 2021 15:46:37 -0700 (PDT)
-From: Linus Walleij <linus.walleij@linaro.org>
-To: Lee Jones <lee.jones@linaro.org>,
- Daniel Thompson <daniel.thompson@linaro.org>,
- Jingoo Han <jingoohan1@gmail.com>, dri-devel@lists.freedesktop.org
-Subject: [PATCH v2] backlight: ktd253: Stabilize backlight
-Date: Fri,  4 Jun 2021 00:43:48 +0200
-Message-Id: <20210603224348.3165584-1-linus.walleij@linaro.org>
-X-Mailer: git-send-email 2.31.1
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BBDB96E110;
+ Thu,  3 Jun 2021 22:46:20 +0000 (UTC)
+IronPort-SDR: Sfr3SFstAfGiDnvxbWvvjneEpPlEZARgRMBmyiPTh60DWdTQSzWLAz9/C0ocQS6tL/u6oLKx0T
+ RTwM9nIWBU4g==
+X-IronPort-AV: E=McAfee;i="6200,9189,10004"; a="191280005"
+X-IronPort-AV: E=Sophos;i="5.83,246,1616482800"; d="scan'208";a="191280005"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Jun 2021 15:46:17 -0700
+IronPort-SDR: Eh+Fv++PXllqd3gakBt+csvv5opEtRLIHUN9v+gFg5nGwjTQJNKQf6qcwIZLKVyNqTXQ2bRVmo
+ KSfhh/Yuig6w==
+X-IronPort-AV: E=Sophos;i="5.83,246,1616482800"; d="scan'208";a="468130295"
+Received: from dhiatt-server.jf.intel.com ([10.54.81.3])
+ by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Jun 2021 15:46:16 -0700
+From: Matthew Brost <matthew.brost@intel.com>
+To: <daniel.vetter@intel.com>
+Subject: [v3 PATCH 1/2] drm/i915/guc: Replace CTB array with explicit members
+Date: Thu,  3 Jun 2021 16:04:07 -0700
+Message-Id: <20210603230408.54856-1-matthew.brost@intel.com>
+X-Mailer: git-send-email 2.28.0
+In-Reply-To: <YLlLlTdvaTGrNmzV@phenom.ffwll.local>
+References: <YLlLlTdvaTGrNmzV@phenom.ffwll.local>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -68,152 +47,155 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: newbyte@disroot.org, Stephan Gerhold <stephan@gerhold.net>
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Remove interrupt disablement during backlight setting. It is
-way to dangerous and makes platforms instable by having it
-miss vblank IRQs leading to the graphics derailing.
+From: Michal Wajdeczko <michal.wajdeczko@intel.com>
 
-The code is using ndelay() which is not available on
-platforms such as ARM and will result in 32 * udelay(1)
-which is substantial.
+Upcoming GuC firmware will always require just two CTBs and we
+also plan to configure them with different sizes, so definining
+them as array is no longer suitable.
 
-Add some code to detect if an interrupt occurs during the
-tight loop and in that case just redo it from the top.
+v2: Use %p for ptrdiff print
+v3: Use %tx for ptrdiff print
 
-Fixes: 5317f37e48b9 ("backlight: Add Kinetic KTD253 backlight driver")
-Cc: Stephan Gerhold <stephan@gerhold.net>
-Reported-by: newbyte@disroot.org
-Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
+Signed-off-by: Michal Wajdeczko <michal.wajdeczko@intel.com>
+Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+Reviewed-by: Matthew Brost <matthew.brost@intel.com>
+Reported-by: kernel test robot <lkp@intel.com>
 ---
-ChangeLog v1->v2:
-- Alter the dimming code to check for how many ns the pulse
-  is low, and if it gets to ~100 us then redo from start.
-  This is to account for the advent that an IRQ arrives while
-  setting backlight and hits the low pulse making it way
-  too long.
----
- drivers/video/backlight/ktd253-backlight.c | 70 ++++++++++++++++------
- 1 file changed, 53 insertions(+), 17 deletions(-)
+ drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c | 46 ++++++++++++-----------
+ drivers/gpu/drm/i915/gt/uc/intel_guc_ct.h |  7 +++-
+ 2 files changed, 30 insertions(+), 23 deletions(-)
 
-diff --git a/drivers/video/backlight/ktd253-backlight.c b/drivers/video/backlight/ktd253-backlight.c
-index a7df5bcca9da..dca19769846e 100644
---- a/drivers/video/backlight/ktd253-backlight.c
-+++ b/drivers/video/backlight/ktd253-backlight.c
-@@ -25,6 +25,7 @@
+diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
+index 34c582105860..ec795d7c3a7d 100644
+--- a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
++++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
+@@ -168,10 +168,10 @@ int intel_guc_ct_init(struct intel_guc_ct *ct)
+ 	struct intel_guc *guc = ct_to_guc(ct);
+ 	struct guc_ct_buffer_desc *desc;
+ 	u32 blob_size;
++	u32 cmds_size;
+ 	void *blob;
+ 	u32 *cmds;
+ 	int err;
+-	int i;
  
- #define KTD253_T_LOW_NS (200 + 10) /* Additional 10ns as safety factor */
- #define KTD253_T_HIGH_NS (200 + 10) /* Additional 10ns as safety factor */
-+#define KTD253_T_OFF_CRIT_NS 100000 /* 100 us, now it doesn't look good */
- #define KTD253_T_OFF_MS 3
+ 	GEM_BUG_ON(ct->vma);
  
- struct ktd253_backlight {
-@@ -34,13 +35,50 @@ struct ktd253_backlight {
- 	u16 ratio;
- };
+@@ -207,15 +207,23 @@ int intel_guc_ct_init(struct intel_guc_ct *ct)
  
-+static void ktd253_backlight_set_max_ratio(struct ktd253_backlight *ktd253)
-+{
-+	gpiod_set_value_cansleep(ktd253->gpiod, 1);
-+	ndelay(KTD253_T_HIGH_NS);
-+	/* We always fall back to this when we power on */
-+}
+ 	CT_DEBUG(ct, "base=%#x size=%u\n", intel_guc_ggtt_offset(guc, ct->vma), blob_size);
+ 
+-	/* store pointers to desc and cmds */
+-	for (i = 0; i < ARRAY_SIZE(ct->ctbs); i++) {
+-		GEM_BUG_ON((i !=  CTB_SEND) && (i != CTB_RECV));
++	/* store pointers to desc and cmds for send ctb */
++	desc = blob;
++	cmds = blob + PAGE_SIZE / 2;
++	cmds_size = PAGE_SIZE / 4;
++	CT_DEBUG(ct, "%s desc %#tx cmds %#tx size %u\n", "send",
++		 ptrdiff(desc, blob), ptrdiff(cmds, blob), cmds_size);
+ 
+-		desc = blob + PAGE_SIZE / 4 * i;
+-		cmds = blob + PAGE_SIZE / 4 * i + PAGE_SIZE / 2;
++	guc_ct_buffer_init(&ct->ctbs.send, desc, cmds, cmds_size);
+ 
+-		guc_ct_buffer_init(&ct->ctbs[i], desc, cmds, PAGE_SIZE / 4);
+-	}
++	/* store pointers to desc and cmds for recv ctb */
++	desc = blob + PAGE_SIZE / 4;
++	cmds = blob + PAGE_SIZE / 4 + PAGE_SIZE / 2;
++	cmds_size = PAGE_SIZE / 4;
++	CT_DEBUG(ct, "%s desc %#tx cmds %#tx size %u\n", "recv",
++		 ptrdiff(desc, blob), ptrdiff(cmds, blob), cmds_size);
 +
-+static int ktd253_backlight_stepdown(struct ktd253_backlight *ktd253)
-+{
-+	/*
-+	 * These GPIO operations absolutely can NOT sleep so no _cansleep
-+	 * suffixes, and no using GPIO expanders on slow buses for this!
-+	 *
-+	 * The maximum number of cycles of the loop is 32  so the time taken
-+	 * should nominally be:
-+	 * (T_LOW_NS + T_HIGH_NS + loop_time) * 32
-+	 *
-+	 * Architectures do not always support ndelay() and we will get a few us
-+	 * instead. If we get to a critical time limit an interrupt has likely
-+	 * occured in the low part of the loop and we need to restart from the
-+	 * top so we have the backlight in a known state.
-+	 */
-+	u64 ns;
-+
-+	ns = ktime_get_ns();
-+	gpiod_set_value(ktd253->gpiod, 0);
-+	ndelay(KTD253_T_LOW_NS);
-+	gpiod_set_value(ktd253->gpiod, 1);
-+	ns = ktime_get_ns() - ns;
-+	if (ns >= KTD253_T_OFF_CRIT_NS) {
-+		dev_err(ktd253->dev, "PCM on backlight took too long (%llu ns)\n", ns);
-+		return -EAGAIN;
-+	}
-+	ndelay(KTD253_T_HIGH_NS);
-+	return 0;
-+}
-+
- static int ktd253_backlight_update_status(struct backlight_device *bl)
++	guc_ct_buffer_init(&ct->ctbs.recv, desc, cmds, cmds_size);
+ 
+ 	return 0;
+ }
+@@ -246,7 +254,6 @@ int intel_guc_ct_enable(struct intel_guc_ct *ct)
+ 	u32 base, cmds;
+ 	void *blob;
+ 	int err;
+-	int i;
+ 
+ 	GEM_BUG_ON(ct->enabled);
+ 
+@@ -257,28 +264,25 @@ int intel_guc_ct_enable(struct intel_guc_ct *ct)
+ 
+ 	/* blob should start with send descriptor */
+ 	blob = __px_vaddr(ct->vma->obj);
+-	GEM_BUG_ON(blob != ct->ctbs[CTB_SEND].desc);
++	GEM_BUG_ON(blob != ct->ctbs.send.desc);
+ 
+ 	/* (re)initialize descriptors */
+-	for (i = 0; i < ARRAY_SIZE(ct->ctbs); i++) {
+-		GEM_BUG_ON((i != CTB_SEND) && (i != CTB_RECV));
++	cmds = base + ptrdiff(ct->ctbs.send.cmds, blob);
++	guc_ct_buffer_reset(&ct->ctbs.send, cmds);
+ 
+-		cmds = base + ptrdiff(ct->ctbs[i].cmds, blob);
+-		CT_DEBUG(ct, "%d: cmds addr=%#x\n", i, cmds);
+-
+-		guc_ct_buffer_reset(&ct->ctbs[i], cmds);
+-	}
++	cmds = base + ptrdiff(ct->ctbs.recv.cmds, blob);
++	guc_ct_buffer_reset(&ct->ctbs.recv, cmds);
+ 
+ 	/*
+ 	 * Register both CT buffers starting with RECV buffer.
+ 	 * Descriptors are in first half of the blob.
+ 	 */
+-	err = ct_register_buffer(ct, base + ptrdiff(ct->ctbs[CTB_RECV].desc, blob),
++	err = ct_register_buffer(ct, base + ptrdiff(ct->ctbs.recv.desc, blob),
+ 				 INTEL_GUC_CT_BUFFER_TYPE_RECV);
+ 	if (unlikely(err))
+ 		goto err_out;
+ 
+-	err = ct_register_buffer(ct, base + ptrdiff(ct->ctbs[CTB_SEND].desc, blob),
++	err = ct_register_buffer(ct, base + ptrdiff(ct->ctbs.send.desc, blob),
+ 				 INTEL_GUC_CT_BUFFER_TYPE_SEND);
+ 	if (unlikely(err))
+ 		goto err_deregister;
+@@ -341,7 +345,7 @@ static int ct_write(struct intel_guc_ct *ct,
+ 		    u32 len /* in dwords */,
+ 		    u32 fence)
  {
- 	struct ktd253_backlight *ktd253 = bl_get_data(bl);
- 	int brightness = backlight_get_brightness(bl);
- 	u16 target_ratio;
- 	u16 current_ratio = ktd253->ratio;
--	unsigned long flags;
-+	int ret;
+-	struct intel_guc_ct_buffer *ctb = &ct->ctbs[CTB_SEND];
++	struct intel_guc_ct_buffer *ctb = &ct->ctbs.send;
+ 	struct guc_ct_buffer_desc *desc = ctb->desc;
+ 	u32 head = desc->head;
+ 	u32 tail = desc->tail;
+@@ -557,7 +561,7 @@ static inline bool ct_header_is_response(u32 header)
  
- 	dev_dbg(ktd253->dev, "new brightness/ratio: %d/32\n", brightness);
+ static int ct_read(struct intel_guc_ct *ct, u32 *data)
+ {
+-	struct intel_guc_ct_buffer *ctb = &ct->ctbs[CTB_RECV];
++	struct intel_guc_ct_buffer *ctb = &ct->ctbs.recv;
+ 	struct guc_ct_buffer_desc *desc = ctb->desc;
+ 	u32 head = desc->head;
+ 	u32 tail = desc->tail;
+diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.h b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.h
+index 4009e2dd0de4..fc9486779e87 100644
+--- a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.h
++++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.h
+@@ -47,8 +47,11 @@ struct intel_guc_ct {
+ 	struct i915_vma *vma;
+ 	bool enabled;
  
-@@ -62,37 +100,35 @@ static int ktd253_backlight_update_status(struct backlight_device *bl)
- 	}
+-	/* buffers for sending(0) and receiving(1) commands */
+-	struct intel_guc_ct_buffer ctbs[2];
++	/* buffers for sending and receiving commands */
++	struct {
++		struct intel_guc_ct_buffer send;
++		struct intel_guc_ct_buffer recv;
++	} ctbs;
  
- 	if (current_ratio == 0) {
--		gpiod_set_value_cansleep(ktd253->gpiod, 1);
--		ndelay(KTD253_T_HIGH_NS);
--		/* We always fall back to this when we power on */
-+		ktd253_backlight_set_max_ratio(ktd253);
- 		current_ratio = KTD253_MAX_RATIO;
- 	}
- 
--	/*
--	 * WARNING:
--	 * The loop to set the correct current level is performed
--	 * with interrupts disabled as it is timing critical.
--	 * The maximum number of cycles of the loop is 32
--	 * so the time taken will be (T_LOW_NS + T_HIGH_NS + loop_time) * 32,
--	 */
--	local_irq_save(flags);
- 	while (current_ratio != target_ratio) {
- 		/*
- 		 * These GPIO operations absolutely can NOT sleep so no
- 		 * _cansleep suffixes, and no using GPIO expanders on
- 		 * slow buses for this!
- 		 */
--		gpiod_set_value(ktd253->gpiod, 0);
--		ndelay(KTD253_T_LOW_NS);
--		gpiod_set_value(ktd253->gpiod, 1);
--		ndelay(KTD253_T_HIGH_NS);
-+		ret = ktd253_backlight_stepdown(ktd253);
-+		if (ret == -EAGAIN) {
-+			/*
-+			 * Something disturbed the backlight setting code when
-+			 * running so we need to bring the PWM back to a known
-+			 * state. This shouldn't happen too much.
-+			 */
-+			gpiod_set_value_cansleep(ktd253->gpiod, 0);
-+			msleep(KTD253_T_OFF_MS);
-+			ktd253_backlight_set_max_ratio(ktd253);
-+			current_ratio = KTD253_MAX_RATIO;
-+		}
-+
- 		/* After 1/32 we loop back to 32/32 */
- 		if (current_ratio == KTD253_MIN_RATIO)
- 			current_ratio = KTD253_MAX_RATIO;
- 		else
- 			current_ratio--;
- 	}
--	local_irq_restore(flags);
- 	ktd253->ratio = current_ratio;
- 
- 	dev_dbg(ktd253->dev, "new ratio set to %d/32\n", target_ratio);
+ 	struct {
+ 		u32 last_fence; /* last fence used to send request */
 -- 
-2.31.1
+2.28.0
 
