@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6C5939A656
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Jun 2021 18:55:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E4A339A662
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Jun 2021 18:55:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9975A6F4D5;
-	Thu,  3 Jun 2021 16:55:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 16F576F4E5;
+	Thu,  3 Jun 2021 16:55:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5F8796F4CC;
- Thu,  3 Jun 2021 16:55:05 +0000 (UTC)
-IronPort-SDR: qFeORSo/FMfZUYhsa9UqXdjQNlwuhVHtH7h6t5YlZTCipkJ1qzqJ5llwCeHGR/REz8fysazzgm
- MqIzWfuo1dfA==
-X-IronPort-AV: E=McAfee;i="6200,9189,10004"; a="184464194"
-X-IronPort-AV: E=Sophos;i="5.83,246,1616482800"; d="scan'208";a="184464194"
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 823C56F4CC;
+ Thu,  3 Jun 2021 16:55:06 +0000 (UTC)
+IronPort-SDR: fl5MPBo+o3iI9Ti4sUQ9u6ISmi2dp/3BBeKwcKNwz6ERY+KPTMqBeZ1WDiNzteQjiVC9yZLPcm
+ 84agZt4BJc/w==
+X-IronPort-AV: E=McAfee;i="6200,9189,10004"; a="184464195"
+X-IronPort-AV: E=Sophos;i="5.83,246,1616482800"; d="scan'208";a="184464195"
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  03 Jun 2021 09:54:51 -0700
-IronPort-SDR: egbW+qHx38S5WUcF2+YvGPpE/z+zlSqt/K4qtntI6dBFalf3eEk4sI2p2Yi/u8d53VMUooR2GO
- SMzNtPs3CriA==
-X-IronPort-AV: E=Sophos;i="5.83,246,1616482800"; d="scan'208";a="400643676"
+IronPort-SDR: WUoNArlooGI7cpR0Dky4qaX0FdajAuH+jY4c1MFg/WYDKWchMSi3GCPl1z1ed5jFv6M8TNCDTt
+ KZssjCxxnYTA==
+X-IronPort-AV: E=Sophos;i="5.83,246,1616482800"; d="scan'208";a="400643678"
 Received: from lucas-s2600cw.jf.intel.com ([10.165.21.202])
  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  03 Jun 2021 09:54:51 -0700
 From: Lucas De Marchi <lucas.demarchi@intel.com>
 To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH v3 3/7] drm/i915/gem: replace IS_GEN and friends with
+Subject: [PATCH v3 4/7] drm/i915/gvt: replace IS_GEN and friends with
  GRAPHICS_VER
-Date: Thu,  3 Jun 2021 09:54:24 -0700
-Message-Id: <20210603165428.3625495-4-lucas.demarchi@intel.com>
+Date: Thu,  3 Jun 2021 09:54:25 -0700
+Message-Id: <20210603165428.3625495-5-lucas.demarchi@intel.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210603165428.3625495-1-lucas.demarchi@intel.com>
 References: <20210603165428.3625495-1-lucas.demarchi@intel.com>
@@ -48,7 +48,7 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: intel-gvt-dev@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
@@ -93,520 +93,261 @@ This was done by the following semantic patch:
 It also takes care of renaming the variable we assign to GRAPHICS_VER()
 so to use "ver" rather than "gen".
 
+Cc: intel-gvt-dev@lists.freedesktop.org
+Cc: Zhenyu Wang <zhenyuw@linux.intel.com>
 Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
 Reviewed-by: Matt Roper <matthew.d.roper@intel.com>
 ---
- drivers/gpu/drm/i915/gem/i915_gem_context.c      |  6 +++---
- drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c   | 10 +++++-----
- drivers/gpu/drm/i915/gem/i915_gem_mman.c         |  2 +-
- drivers/gpu/drm/i915/gem/i915_gem_object_blt.c   |  8 ++++----
- drivers/gpu/drm/i915/gem/i915_gem_stolen.c       | 16 ++++++++--------
- drivers/gpu/drm/i915/gem/i915_gem_tiling.c       | 12 ++++++------
- .../drm/i915/gem/selftests/i915_gem_client_blt.c | 10 +++++-----
- .../drm/i915/gem/selftests/i915_gem_coherency.c  |  4 ++--
- .../drm/i915/gem/selftests/i915_gem_context.c    | 16 ++++++++--------
- .../gpu/drm/i915/gem/selftests/i915_gem_mman.c   | 14 +++++++-------
- .../gpu/drm/i915/gem/selftests/igt_gem_utils.c   | 10 +++++-----
- 11 files changed, 54 insertions(+), 54 deletions(-)
+ drivers/gpu/drm/i915/gvt/cmd_parser.c   |  8 ++++----
+ drivers/gpu/drm/i915/gvt/dmabuf.c       |  2 +-
+ drivers/gpu/drm/i915/gvt/fb_decoder.c   | 10 +++++-----
+ drivers/gpu/drm/i915/gvt/gtt.c          |  4 ++--
+ drivers/gpu/drm/i915/gvt/handlers.c     |  6 +++---
+ drivers/gpu/drm/i915/gvt/interrupt.c    |  2 +-
+ drivers/gpu/drm/i915/gvt/mmio_context.c | 10 +++++-----
+ drivers/gpu/drm/i915/gvt/scheduler.c    |  4 ++--
+ drivers/gpu/drm/i915/gvt/vgpu.c         |  4 ++--
+ 9 files changed, 25 insertions(+), 25 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context.c b/drivers/gpu/drm/i915/gem/i915_gem_context.c
-index 188dee13e017..7720b8c22c81 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_context.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_context.c
-@@ -1190,7 +1190,7 @@ static void set_ppgtt_barrier(void *data)
+diff --git a/drivers/gpu/drm/i915/gvt/cmd_parser.c b/drivers/gpu/drm/i915/gvt/cmd_parser.c
+index ca9c9e27a43d..c4118b808268 100644
+--- a/drivers/gpu/drm/i915/gvt/cmd_parser.c
++++ b/drivers/gpu/drm/i915/gvt/cmd_parser.c
+@@ -1006,7 +1006,7 @@ static int cmd_reg_handler(struct parser_exec_state *s,
+ 	 * update reg values in it into vregs, so LRIs in workload with
+ 	 * inhibit context will restore with correct values
+ 	 */
+-	if (IS_GEN(s->engine->i915, 9) &&
++	if (GRAPHICS_VER(s->engine->i915) == 9 &&
+ 	    intel_gvt_mmio_is_sr_in_ctx(gvt, offset) &&
+ 	    !strncmp(cmd, "lri", 3)) {
+ 		intel_gvt_hypervisor_read_gpa(s->vgpu,
+@@ -1390,7 +1390,7 @@ static int gen8_check_mi_display_flip(struct parser_exec_state *s,
+ 	if (!info->async_flip)
+ 		return 0;
+ 
+-	if (INTEL_GEN(s->engine->i915) >= 9) {
++	if (GRAPHICS_VER(s->engine->i915) >= 9) {
+ 		stride = vgpu_vreg_t(s->vgpu, info->stride_reg) & GENMASK(9, 0);
+ 		tile = (vgpu_vreg_t(s->vgpu, info->ctrl_reg) &
+ 				GENMASK(12, 10)) >> 10;
+@@ -1418,7 +1418,7 @@ static int gen8_update_plane_mmio_from_mi_display_flip(
+ 
+ 	set_mask_bits(&vgpu_vreg_t(vgpu, info->surf_reg), GENMASK(31, 12),
+ 		      info->surf_val << 12);
+-	if (INTEL_GEN(dev_priv) >= 9) {
++	if (GRAPHICS_VER(dev_priv) >= 9) {
+ 		set_mask_bits(&vgpu_vreg_t(vgpu, info->stride_reg), GENMASK(9, 0),
+ 			      info->stride_val);
+ 		set_mask_bits(&vgpu_vreg_t(vgpu, info->ctrl_reg), GENMASK(12, 10),
+@@ -1446,7 +1446,7 @@ static int decode_mi_display_flip(struct parser_exec_state *s,
  {
- 	struct i915_address_space *old = data;
+ 	if (IS_BROADWELL(s->engine->i915))
+ 		return gen8_decode_mi_display_flip(s, info);
+-	if (INTEL_GEN(s->engine->i915) >= 9)
++	if (GRAPHICS_VER(s->engine->i915) >= 9)
+ 		return skl_decode_mi_display_flip(s, info);
  
--	if (INTEL_GEN(old->i915) < 8)
-+	if (GRAPHICS_VER(old->i915) < 8)
- 		gen6_ppgtt_unpin_all(i915_vm_to_ppgtt(old));
+ 	return -ENODEV;
+diff --git a/drivers/gpu/drm/i915/gvt/dmabuf.c b/drivers/gpu/drm/i915/gvt/dmabuf.c
+index d4f883f35b95..8e65cd8258b9 100644
+--- a/drivers/gpu/drm/i915/gvt/dmabuf.c
++++ b/drivers/gpu/drm/i915/gvt/dmabuf.c
+@@ -223,7 +223,7 @@ static struct drm_i915_gem_object *vgpu_create_gem(struct drm_device *dev,
  
- 	i915_vm_close(old);
-@@ -1436,7 +1436,7 @@ i915_gem_user_to_context_sseu(struct intel_gt *gt,
- 	context->max_eus_per_subslice = user->max_eus_per_subslice;
+ 	obj->read_domains = I915_GEM_DOMAIN_GTT;
+ 	obj->write_domain = 0;
+-	if (INTEL_GEN(dev_priv) >= 9) {
++	if (GRAPHICS_VER(dev_priv) >= 9) {
+ 		unsigned int tiling_mode = 0;
+ 		unsigned int stride = 0;
  
- 	/* Part specific restrictions. */
--	if (IS_GEN(i915, 11)) {
-+	if (GRAPHICS_VER(i915) == 11) {
- 		unsigned int hw_s = hweight8(device->slice_mask);
- 		unsigned int hw_ss_per_s = hweight8(device->subslice_mask[0]);
- 		unsigned int req_s = hweight8(context->slice_mask);
-@@ -1503,7 +1503,7 @@ static int set_sseu(struct i915_gem_context *ctx,
- 	if (args->size < sizeof(user_sseu))
- 		return -EINVAL;
+diff --git a/drivers/gpu/drm/i915/gvt/fb_decoder.c b/drivers/gpu/drm/i915/gvt/fb_decoder.c
+index 0889ad8291b0..11a8baba6822 100644
+--- a/drivers/gpu/drm/i915/gvt/fb_decoder.c
++++ b/drivers/gpu/drm/i915/gvt/fb_decoder.c
+@@ -151,7 +151,7 @@ static u32 intel_vgpu_get_stride(struct intel_vgpu *vgpu, int pipe,
+ 	u32 stride_reg = vgpu_vreg_t(vgpu, DSPSTRIDE(pipe)) & stride_mask;
+ 	u32 stride = stride_reg;
  
--	if (!IS_GEN(i915, 11))
-+	if (GRAPHICS_VER(i915) != 11)
+-	if (INTEL_GEN(dev_priv) >= 9) {
++	if (GRAPHICS_VER(dev_priv) >= 9) {
+ 		switch (tiled) {
+ 		case PLANE_CTL_TILED_LINEAR:
+ 			stride = stride_reg * 64;
+@@ -215,7 +215,7 @@ int intel_vgpu_decode_primary_plane(struct intel_vgpu *vgpu,
+ 	if (!plane->enabled)
  		return -ENODEV;
  
- 	if (copy_from_user(&user_sseu, u64_to_user_ptr(args->value),
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
-index 297143511f99..24c0582e46fb 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
-@@ -500,7 +500,7 @@ eb_validate_vma(struct i915_execbuffer *eb,
- 	 * also covers all platforms with local memory.
- 	 */
- 	if (entry->relocation_count &&
--	    INTEL_GEN(eb->i915) >= 12 && !IS_TIGERLAKE(eb->i915))
-+	    GRAPHICS_VER(eb->i915) >= 12 && !IS_TIGERLAKE(eb->i915))
- 		return -EINVAL;
+-	if (INTEL_GEN(dev_priv) >= 9) {
++	if (GRAPHICS_VER(dev_priv) >= 9) {
+ 		plane->tiled = val & PLANE_CTL_TILED_MASK;
+ 		fmt = skl_format_to_drm(
+ 			val & PLANE_CTL_FORMAT_MASK,
+@@ -256,9 +256,9 @@ int intel_vgpu_decode_primary_plane(struct intel_vgpu *vgpu,
+ 	}
  
- 	if (unlikely(entry->flags & eb->invalid_flags))
-@@ -1439,7 +1439,7 @@ static int __reloc_gpu_alloc(struct i915_execbuffer *eb,
+ 	plane->stride = intel_vgpu_get_stride(vgpu, pipe, plane->tiled,
+-		(INTEL_GEN(dev_priv) >= 9) ?
+-			(_PRI_PLANE_STRIDE_MASK >> 6) :
+-				_PRI_PLANE_STRIDE_MASK, plane->bpp);
++		(GRAPHICS_VER(dev_priv) >= 9) ?
++		(_PRI_PLANE_STRIDE_MASK >> 6) :
++		_PRI_PLANE_STRIDE_MASK, plane->bpp);
  
- static bool reloc_can_use_engine(const struct intel_engine_cs *engine)
+ 	plane->width = (vgpu_vreg_t(vgpu, PIPESRC(pipe)) & _PIPE_H_SRCSZ_MASK) >>
+ 		_PIPE_H_SRCSZ_SHIFT;
+diff --git a/drivers/gpu/drm/i915/gvt/gtt.c b/drivers/gpu/drm/i915/gvt/gtt.c
+index 9478c132d7b6..cc2c05e18206 100644
+--- a/drivers/gpu/drm/i915/gvt/gtt.c
++++ b/drivers/gpu/drm/i915/gvt/gtt.c
+@@ -1055,12 +1055,12 @@ static bool vgpu_ips_enabled(struct intel_vgpu *vgpu)
  {
--	return engine->class != VIDEO_DECODE_CLASS || !IS_GEN(engine->i915, 6);
-+	return engine->class != VIDEO_DECODE_CLASS || GRAPHICS_VER(engine->i915) != 6;
- }
+ 	struct drm_i915_private *dev_priv = vgpu->gvt->gt->i915;
  
- static u32 *reloc_gpu(struct i915_execbuffer *eb,
-@@ -1671,7 +1671,7 @@ eb_relocate_entry(struct i915_execbuffer *eb,
- 		 * batchbuffers.
+-	if (INTEL_GEN(dev_priv) == 9 || INTEL_GEN(dev_priv) == 10) {
++	if (GRAPHICS_VER(dev_priv) == 9 || GRAPHICS_VER(dev_priv) == 10) {
+ 		u32 ips = vgpu_vreg_t(vgpu, GEN8_GAMW_ECO_DEV_RW_IA) &
+ 			GAMW_ECO_ENABLE_64K_IPS_FIELD;
+ 
+ 		return ips == GAMW_ECO_ENABLE_64K_IPS_FIELD;
+-	} else if (INTEL_GEN(dev_priv) >= 11) {
++	} else if (GRAPHICS_VER(dev_priv) >= 11) {
+ 		/* 64K paging only controlled by IPS bit in PTE now. */
+ 		return true;
+ 	} else
+diff --git a/drivers/gpu/drm/i915/gvt/handlers.c b/drivers/gpu/drm/i915/gvt/handlers.c
+index 33496397a74f..98eb48c24c46 100644
+--- a/drivers/gpu/drm/i915/gvt/handlers.c
++++ b/drivers/gpu/drm/i915/gvt/handlers.c
+@@ -220,7 +220,7 @@ static int gamw_echo_dev_rw_ia_write(struct intel_vgpu *vgpu,
+ {
+ 	u32 ips = (*(u32 *)p_data) & GAMW_ECO_ENABLE_64K_IPS_FIELD;
+ 
+-	if (INTEL_GEN(vgpu->gvt->gt->i915) <= 10) {
++	if (GRAPHICS_VER(vgpu->gvt->gt->i915) <= 10) {
+ 		if (ips == GAMW_ECO_ENABLE_64K_IPS_FIELD)
+ 			gvt_dbg_core("vgpu%d: ips enabled\n", vgpu->id);
+ 		else if (!ips)
+@@ -286,7 +286,7 @@ static int mul_force_wake_write(struct intel_vgpu *vgpu,
+ 	old = vgpu_vreg(vgpu, offset);
+ 	new = CALC_MODE_MASK_REG(old, *(u32 *)p_data);
+ 
+-	if (INTEL_GEN(vgpu->gvt->gt->i915)  >=  9) {
++	if (GRAPHICS_VER(vgpu->gvt->gt->i915)  >=  9) {
+ 		switch (offset) {
+ 		case FORCEWAKE_RENDER_GEN9_REG:
+ 			ack_reg_offset = FORCEWAKE_ACK_RENDER_GEN9_REG;
+@@ -1174,7 +1174,7 @@ static int dp_aux_ch_ctl_mmio_write(struct intel_vgpu *vgpu,
+ 	write_vreg(vgpu, offset, p_data, bytes);
+ 	data = vgpu_vreg(vgpu, offset);
+ 
+-	if ((INTEL_GEN(vgpu->gvt->gt->i915) >= 9)
++	if ((GRAPHICS_VER(vgpu->gvt->gt->i915) >= 9)
+ 		&& offset != _REG_SKL_DP_AUX_CH_CTL(port_index)) {
+ 		/* SKL DPB/C/D aux ctl register changed */
+ 		return 0;
+diff --git a/drivers/gpu/drm/i915/gvt/interrupt.c b/drivers/gpu/drm/i915/gvt/interrupt.c
+index 497d28ce47df..614b951d919f 100644
+--- a/drivers/gpu/drm/i915/gvt/interrupt.c
++++ b/drivers/gpu/drm/i915/gvt/interrupt.c
+@@ -585,7 +585,7 @@ static void gen8_init_irq(
+ 
+ 		SET_BIT_INFO(irq, 4, PRIMARY_C_FLIP_DONE, INTEL_GVT_IRQ_INFO_DE_PIPE_C);
+ 		SET_BIT_INFO(irq, 5, SPRITE_C_FLIP_DONE, INTEL_GVT_IRQ_INFO_DE_PIPE_C);
+-	} else if (INTEL_GEN(gvt->gt->i915) >= 9) {
++	} else if (GRAPHICS_VER(gvt->gt->i915) >= 9) {
+ 		SET_BIT_INFO(irq, 25, AUX_CHANNEL_B, INTEL_GVT_IRQ_INFO_DE_PORT);
+ 		SET_BIT_INFO(irq, 26, AUX_CHANNEL_C, INTEL_GVT_IRQ_INFO_DE_PORT);
+ 		SET_BIT_INFO(irq, 27, AUX_CHANNEL_D, INTEL_GVT_IRQ_INFO_DE_PORT);
+diff --git a/drivers/gpu/drm/i915/gvt/mmio_context.c b/drivers/gpu/drm/i915/gvt/mmio_context.c
+index c9589e26af93..b8ac80765461 100644
+--- a/drivers/gpu/drm/i915/gvt/mmio_context.c
++++ b/drivers/gpu/drm/i915/gvt/mmio_context.c
+@@ -373,7 +373,7 @@ static void handle_tlb_pending_event(struct intel_vgpu *vgpu,
+ 	 */
+ 	fw = intel_uncore_forcewake_for_reg(uncore, reg,
+ 					    FW_REG_READ | FW_REG_WRITE);
+-	if (engine->id == RCS0 && INTEL_GEN(engine->i915) >= 9)
++	if (engine->id == RCS0 && GRAPHICS_VER(engine->i915) >= 9)
+ 		fw |= FORCEWAKE_RENDER;
+ 
+ 	intel_uncore_forcewake_get(uncore, fw);
+@@ -409,7 +409,7 @@ static void switch_mocs(struct intel_vgpu *pre, struct intel_vgpu *next,
+ 	if (drm_WARN_ON(&engine->i915->drm, engine->id >= ARRAY_SIZE(regs)))
+ 		return;
+ 
+-	if (engine->id == RCS0 && IS_GEN(engine->i915, 9))
++	if (engine->id == RCS0 && GRAPHICS_VER(engine->i915) == 9)
+ 		return;
+ 
+ 	if (!pre && !gen9_render_mocs.initialized)
+@@ -474,7 +474,7 @@ static void switch_mmio(struct intel_vgpu *pre,
+ 	struct engine_mmio *mmio;
+ 	u32 old_v, new_v;
+ 
+-	if (INTEL_GEN(engine->i915) >= 9)
++	if (GRAPHICS_VER(engine->i915) >= 9)
+ 		switch_mocs(pre, next, engine);
+ 
+ 	for (mmio = engine->i915->gvt->engine_mmio_list.mmio;
+@@ -486,7 +486,7 @@ static void switch_mmio(struct intel_vgpu *pre,
+ 		 * state image on gen9, it's initialized by lri command and
+ 		 * save or restore with context together.
  		 */
- 		if (reloc->write_domain == I915_GEM_DOMAIN_INSTRUCTION &&
--		    IS_GEN(eb->i915, 6)) {
-+		    GRAPHICS_VER(eb->i915) == 6) {
- 			err = i915_vma_bind(target->vma,
- 					    target->vma->obj->cache_level,
- 					    PIN_GLOBAL, NULL);
-@@ -2332,7 +2332,7 @@ static int i915_reset_gen7_sol_offsets(struct i915_request *rq)
+-		if (IS_GEN(engine->i915, 9) && mmio->in_context)
++		if (GRAPHICS_VER(engine->i915) == 9 && mmio->in_context)
+ 			continue;
+ 
+ 		// save
+@@ -580,7 +580,7 @@ void intel_gvt_init_engine_mmio_context(struct intel_gvt *gvt)
+ {
+ 	struct engine_mmio *mmio;
+ 
+-	if (INTEL_GEN(gvt->gt->i915) >= 9) {
++	if (GRAPHICS_VER(gvt->gt->i915) >= 9) {
+ 		gvt->engine_mmio_list.mmio = gen9_engine_mmio_list;
+ 		gvt->engine_mmio_list.tlb_mmio_offset_list = gen8_tlb_mmio_offset_list;
+ 		gvt->engine_mmio_list.tlb_mmio_offset_list_cnt = ARRAY_SIZE(gen8_tlb_mmio_offset_list);
+diff --git a/drivers/gpu/drm/i915/gvt/scheduler.c b/drivers/gpu/drm/i915/gvt/scheduler.c
+index fc735692f21f..734c37c5e347 100644
+--- a/drivers/gpu/drm/i915/gvt/scheduler.c
++++ b/drivers/gpu/drm/i915/gvt/scheduler.c
+@@ -364,7 +364,7 @@ static int copy_workload_to_ring_buffer(struct intel_vgpu_workload *workload)
  	u32 *cs;
- 	int i;
- 
--	if (!IS_GEN(rq->engine->i915, 7) || rq->engine->id != RCS0) {
-+	if (GRAPHICS_VER(rq->engine->i915) != 7 || rq->engine->id != RCS0) {
- 		drm_dbg(&rq->engine->i915->drm, "sol reset is gen7/rcs only\n");
- 		return -EINVAL;
- 	}
-@@ -3375,7 +3375,7 @@ i915_gem_do_execbuffer(struct drm_device *dev,
- 
- 	eb.batch_flags = 0;
- 	if (args->flags & I915_EXEC_SECURE) {
--		if (INTEL_GEN(i915) >= 11)
-+		if (GRAPHICS_VER(i915) >= 11)
- 			return -ENODEV;
- 
- 		/* Return -EPERM to trigger fallback code on old binaries. */
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_mman.c b/drivers/gpu/drm/i915/gem/i915_gem_mman.c
-index 65db290efd16..ee0bf8811388 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_mman.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_mman.c
-@@ -64,7 +64,7 @@ i915_gem_mmap_ioctl(struct drm_device *dev, void *data,
- 	/* mmap ioctl is disallowed for all platforms after TGL-LP.  This also
- 	 * covers all platforms with local memory.
- 	 */
--	if (INTEL_GEN(i915) >= 12 && !IS_TIGERLAKE(i915))
-+	if (GRAPHICS_VER(i915) >= 12 && !IS_TIGERLAKE(i915))
- 		return -EOPNOTSUPP;
- 
- 	if (args->flags & ~(I915_MMAP_WC))
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object_blt.c b/drivers/gpu/drm/i915/gem/i915_gem_object_blt.c
-index df8e8c18c6c9..3e28c68fda3e 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_object_blt.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_object_blt.c
-@@ -72,7 +72,7 @@ struct i915_vma *intel_emit_vma_fill_blt(struct intel_context *ce,
- 
- 		GEM_BUG_ON(size >> PAGE_SHIFT > S16_MAX);
- 
--		if (INTEL_GEN(i915) >= 8) {
-+		if (GRAPHICS_VER(i915) >= 8) {
- 			*cmd++ = XY_COLOR_BLT_CMD | BLT_WRITE_RGBA | (7 - 2);
- 			*cmd++ = BLT_DEPTH_32 | BLT_ROP_COLOR_COPY | PAGE_SIZE;
- 			*cmd++ = 0;
-@@ -232,7 +232,7 @@ static bool wa_1209644611_applies(struct drm_i915_private *i915, u32 size)
- {
- 	u32 height = size >> PAGE_SHIFT;
- 
--	if (!IS_GEN(i915, 11))
-+	if (GRAPHICS_VER(i915) != 11)
- 		return false;
- 
- 	return height % 4 == 3 && height <= 8;
-@@ -297,7 +297,7 @@ struct i915_vma *intel_emit_vma_copy_blt(struct intel_context *ce,
- 		size = min_t(u64, rem, block_size);
- 		GEM_BUG_ON(size >> PAGE_SHIFT > S16_MAX);
- 
--		if (INTEL_GEN(i915) >= 9 &&
-+		if (GRAPHICS_VER(i915) >= 9 &&
- 		    !wa_1209644611_applies(i915, size)) {
- 			*cmd++ = GEN9_XY_FAST_COPY_BLT_CMD | (10 - 2);
- 			*cmd++ = BLT_DEPTH_32 | PAGE_SIZE;
-@@ -309,7 +309,7 @@ struct i915_vma *intel_emit_vma_copy_blt(struct intel_context *ce,
- 			*cmd++ = PAGE_SIZE;
- 			*cmd++ = lower_32_bits(src_offset);
- 			*cmd++ = upper_32_bits(src_offset);
--		} else if (INTEL_GEN(i915) >= 8) {
-+		} else if (GRAPHICS_VER(i915) >= 8) {
- 			*cmd++ = XY_SRC_COPY_BLT_CMD | BLT_WRITE_RGBA | (10 - 2);
- 			*cmd++ = BLT_DEPTH_32 | BLT_ROP_SRC_COPY | PAGE_SIZE;
- 			*cmd++ = 0;
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_stolen.c b/drivers/gpu/drm/i915/gem/i915_gem_stolen.c
-index 092d7a21de82..b0c3a7dc60d1 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_stolen.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_stolen.c
-@@ -38,7 +38,7 @@ int i915_gem_stolen_insert_node_in_range(struct drm_i915_private *i915,
- 		return -ENODEV;
- 
- 	/* WaSkipStolenMemoryFirstPage:bdw+ */
--	if (INTEL_GEN(i915) >= 8 && start < 4096)
-+	if (GRAPHICS_VER(i915) >= 8 && start < 4096)
- 		start = 4096;
- 
- 	mutex_lock(&i915->mm.stolen_lock);
-@@ -84,14 +84,14 @@ static int i915_adjust_stolen(struct drm_i915_private *i915,
- 	 */
- 
- 	/* Make sure we don't clobber the GTT if it's within stolen memory */
--	if (INTEL_GEN(i915) <= 4 &&
-+	if (GRAPHICS_VER(i915) <= 4 &&
- 	    !IS_G33(i915) && !IS_PINEVIEW(i915) && !IS_G4X(i915)) {
- 		struct resource stolen[2] = {*dsm, *dsm};
- 		struct resource ggtt_res;
- 		resource_size_t ggtt_start;
- 
- 		ggtt_start = intel_uncore_read(uncore, PGTBL_CTL);
--		if (IS_GEN(i915, 4))
-+		if (GRAPHICS_VER(i915) == 4)
- 			ggtt_start = (ggtt_start & PGTBL_ADDRESS_LO_MASK) |
- 				     (ggtt_start & PGTBL_ADDRESS_HI_MASK) << 28;
- 		else
-@@ -156,7 +156,7 @@ static int i915_adjust_stolen(struct drm_i915_private *i915,
- 		 * GEN3 firmware likes to smash pci bridges into the stolen
- 		 * range. Apparently this works.
- 		 */
--		if (!r && !IS_GEN(i915, 3)) {
-+		if (!r && GRAPHICS_VER(i915) != 3) {
- 			drm_err(&i915->drm,
- 				"conflict detected with stolen region: %pR\n",
- 				dsm);
-@@ -197,7 +197,7 @@ static void g4x_get_stolen_reserved(struct drm_i915_private *i915,
- 	 * Whether ILK really reuses the ELK register for this is unclear.
- 	 * Let's see if we catch anyone with this supposedly enabled on ILK.
- 	 */
--	drm_WARN(&i915->drm, IS_GEN(i915, 5),
-+	drm_WARN(&i915->drm, GRAPHICS_VER(i915) == 5,
- 		 "ILK stolen reserved found? 0x%08x\n",
- 		 reg_val);
- 
-@@ -399,7 +399,7 @@ static int i915_gem_init_stolen(struct intel_memory_region *mem)
- 		return 0;
- 	}
- 
--	if (intel_vtd_active() && INTEL_GEN(i915) < 8) {
-+	if (intel_vtd_active() && GRAPHICS_VER(i915) < 8) {
- 		drm_notice(&i915->drm,
- 			   "%s, disabling use of stolen memory\n",
- 			   "DMAR active");
-@@ -421,7 +421,7 @@ static int i915_gem_init_stolen(struct intel_memory_region *mem)
- 	reserved_base = stolen_top;
- 	reserved_size = 0;
- 
--	switch (INTEL_GEN(i915)) {
-+	switch (GRAPHICS_VER(i915)) {
- 	case 2:
- 	case 3:
- 		break;
-@@ -456,7 +456,7 @@ static int i915_gem_init_stolen(struct intel_memory_region *mem)
- 						&reserved_base, &reserved_size);
- 		break;
- 	default:
--		MISSING_CASE(INTEL_GEN(i915));
-+		MISSING_CASE(GRAPHICS_VER(i915));
- 		fallthrough;
- 	case 11:
- 	case 12:
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_tiling.c b/drivers/gpu/drm/i915/gem/i915_gem_tiling.c
-index 9e8945013090..ef4d0f7dc118 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_tiling.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_tiling.c
-@@ -62,14 +62,14 @@ u32 i915_gem_fence_size(struct drm_i915_private *i915,
- 
- 	GEM_BUG_ON(!stride);
- 
--	if (INTEL_GEN(i915) >= 4) {
-+	if (GRAPHICS_VER(i915) >= 4) {
- 		stride *= i915_gem_tile_height(tiling);
- 		GEM_BUG_ON(!IS_ALIGNED(stride, I965_FENCE_PAGE));
- 		return roundup(size, stride);
- 	}
- 
- 	/* Previous chips need a power-of-two fence region when tiling */
--	if (IS_GEN(i915, 3))
-+	if (GRAPHICS_VER(i915) == 3)
- 		ggtt_size = 1024*1024;
- 	else
- 		ggtt_size = 512*1024;
-@@ -102,7 +102,7 @@ u32 i915_gem_fence_alignment(struct drm_i915_private *i915, u32 size,
- 	if (tiling == I915_TILING_NONE)
- 		return I915_GTT_MIN_ALIGNMENT;
- 
--	if (INTEL_GEN(i915) >= 4)
-+	if (GRAPHICS_VER(i915) >= 4)
- 		return I965_FENCE_PAGE;
- 
- 	/*
-@@ -130,10 +130,10 @@ i915_tiling_ok(struct drm_i915_gem_object *obj,
- 	/* check maximum stride & object size */
- 	/* i965+ stores the end address of the gtt mapping in the fence
- 	 * reg, so dont bother to check the size */
--	if (INTEL_GEN(i915) >= 7) {
-+	if (GRAPHICS_VER(i915) >= 7) {
- 		if (stride / 128 > GEN7_FENCE_MAX_PITCH_VAL)
- 			return false;
--	} else if (INTEL_GEN(i915) >= 4) {
-+	} else if (GRAPHICS_VER(i915) >= 4) {
- 		if (stride / 128 > I965_FENCE_MAX_PITCH_VAL)
- 			return false;
- 	} else {
-@@ -144,7 +144,7 @@ i915_tiling_ok(struct drm_i915_gem_object *obj,
- 			return false;
- 	}
- 
--	if (IS_GEN(i915, 2) ||
-+	if (GRAPHICS_VER(i915) == 2 ||
- 	    (tiling == I915_TILING_Y && HAS_128_BYTE_Y_TILING(i915)))
- 		tile_width = 128;
- 	else
-diff --git a/drivers/gpu/drm/i915/gem/selftests/i915_gem_client_blt.c b/drivers/gpu/drm/i915/gem/selftests/i915_gem_client_blt.c
-index d36873885cc1..176e6b22f87f 100644
---- a/drivers/gpu/drm/i915/gem/selftests/i915_gem_client_blt.c
-+++ b/drivers/gpu/drm/i915/gem/selftests/i915_gem_client_blt.c
-@@ -152,8 +152,8 @@ static int prepare_blit(const struct tiled_blits *t,
- 			struct blit_buffer *src,
- 			struct drm_i915_gem_object *batch)
- {
--	const int gen = INTEL_GEN(to_i915(batch->base.dev));
--	bool use_64b_reloc = gen >= 8;
-+	const int ver = GRAPHICS_VER(to_i915(batch->base.dev));
-+	bool use_64b_reloc = ver >= 8;
- 	u32 src_pitch, dst_pitch;
- 	u32 cmd, *cs;
- 
-@@ -171,7 +171,7 @@ static int prepare_blit(const struct tiled_blits *t,
- 	*cs++ = cmd;
- 
- 	cmd = MI_FLUSH_DW;
--	if (gen >= 8)
-+	if (ver >= 8)
- 		cmd++;
- 	*cs++ = cmd;
- 	*cs++ = 0;
-@@ -179,7 +179,7 @@ static int prepare_blit(const struct tiled_blits *t,
- 	*cs++ = 0;
- 
- 	cmd = XY_SRC_COPY_BLT_CMD | BLT_WRITE_RGBA | (8 - 2);
--	if (gen >= 8)
-+	if (ver >= 8)
- 		cmd += 2;
- 
- 	src_pitch = t->width * 4;
-@@ -666,7 +666,7 @@ static int igt_client_tiled_blits(void *arg)
- 	int inst = 0;
- 
- 	/* Test requires explicit BLT tiling controls */
--	if (INTEL_GEN(i915) < 4)
-+	if (GRAPHICS_VER(i915) < 4)
- 		return 0;
- 
- 	if (bad_swizzling(i915)) /* Requires sane (sub-page) swizzling */
-diff --git a/drivers/gpu/drm/i915/gem/selftests/i915_gem_coherency.c b/drivers/gpu/drm/i915/gem/selftests/i915_gem_coherency.c
-index e937b6629019..13b088cc787e 100644
---- a/drivers/gpu/drm/i915/gem/selftests/i915_gem_coherency.c
-+++ b/drivers/gpu/drm/i915/gem/selftests/i915_gem_coherency.c
-@@ -221,12 +221,12 @@ static int gpu_set(struct context *ctx, unsigned long offset, u32 v)
- 		goto out_rq;
- 	}
- 
--	if (INTEL_GEN(ctx->engine->i915) >= 8) {
-+	if (GRAPHICS_VER(ctx->engine->i915) >= 8) {
- 		*cs++ = MI_STORE_DWORD_IMM_GEN4 | 1 << 22;
- 		*cs++ = lower_32_bits(i915_ggtt_offset(vma) + offset);
- 		*cs++ = upper_32_bits(i915_ggtt_offset(vma) + offset);
- 		*cs++ = v;
--	} else if (INTEL_GEN(ctx->engine->i915) >= 4) {
-+	} else if (GRAPHICS_VER(ctx->engine->i915) >= 4) {
- 		*cs++ = MI_STORE_DWORD_IMM_GEN4 | MI_USE_GGTT;
- 		*cs++ = 0;
- 		*cs++ = i915_ggtt_offset(vma) + offset;
-diff --git a/drivers/gpu/drm/i915/gem/selftests/i915_gem_context.c b/drivers/gpu/drm/i915/gem/selftests/i915_gem_context.c
-index ce70d0a3afb2..dbcfa28a9d91 100644
---- a/drivers/gpu/drm/i915/gem/selftests/i915_gem_context.c
-+++ b/drivers/gpu/drm/i915/gem/selftests/i915_gem_context.c
-@@ -897,7 +897,7 @@ static int rpcs_query_batch(struct drm_i915_gem_object *rpcs, struct i915_vma *v
- {
- 	u32 *cmd;
- 
--	GEM_BUG_ON(INTEL_GEN(vma->vm->i915) < 8);
-+	GEM_BUG_ON(GRAPHICS_VER(vma->vm->i915) < 8);
- 
- 	cmd = i915_gem_object_pin_map(rpcs, I915_MAP_WB);
- 	if (IS_ERR(cmd))
-@@ -932,7 +932,7 @@ emit_rpcs_query(struct drm_i915_gem_object *obj,
- 
- 	GEM_BUG_ON(!intel_engine_can_store_dword(ce->engine));
- 
--	if (INTEL_GEN(i915) < 8)
-+	if (GRAPHICS_VER(i915) < 8)
- 		return -EINVAL;
- 
- 	vma = i915_vma_instance(obj, ce->vm, NULL);
-@@ -1100,7 +1100,7 @@ __read_slice_count(struct intel_context *ce,
- 		return ret;
- 	}
- 
--	if (INTEL_GEN(ce->engine->i915) >= 11) {
-+	if (GRAPHICS_VER(ce->engine->i915) >= 11) {
- 		s_mask = GEN11_RPCS_S_CNT_MASK;
- 		s_shift = GEN11_RPCS_S_CNT_SHIFT;
- 	} else {
-@@ -1229,7 +1229,7 @@ __igt_ctx_sseu(struct drm_i915_private *i915,
- 	int inst = 0;
- 	int ret = 0;
- 
--	if (INTEL_GEN(i915) < 9)
-+	if (GRAPHICS_VER(i915) < 9)
- 		return 0;
- 
- 	if (flags & TEST_RESET)
-@@ -1518,7 +1518,7 @@ static int write_to_scratch(struct i915_gem_context *ctx,
- 	}
- 
- 	*cmd++ = MI_STORE_DWORD_IMM_GEN4;
--	if (INTEL_GEN(i915) >= 8) {
-+	if (GRAPHICS_VER(i915) >= 8) {
- 		*cmd++ = lower_32_bits(offset);
- 		*cmd++ = upper_32_bits(offset);
- 	} else {
-@@ -1608,7 +1608,7 @@ static int read_from_scratch(struct i915_gem_context *ctx,
- 	if (IS_ERR(obj))
- 		return PTR_ERR(obj);
- 
--	if (INTEL_GEN(i915) >= 8) {
-+	if (GRAPHICS_VER(i915) >= 8) {
- 		const u32 GPR0 = engine->mmio_base + 0x600;
- 
- 		vm = i915_gem_context_get_vm_rcu(ctx);
-@@ -1776,7 +1776,7 @@ static int igt_vm_isolation(void *arg)
- 	u32 expected;
  	int err;
  
--	if (INTEL_GEN(i915) < 7)
-+	if (GRAPHICS_VER(i915) < 7)
- 		return 0;
+-	if (IS_GEN(req->engine->i915, 9) && is_inhibit_context(req->context))
++	if (GRAPHICS_VER(req->engine->i915) == 9 && is_inhibit_context(req->context))
+ 		intel_vgpu_restore_inhibit_context(vgpu, req);
  
  	/*
-@@ -1830,7 +1830,7 @@ static int igt_vm_isolation(void *arg)
- 			continue;
- 
- 		/* Not all engines have their own GPR! */
--		if (INTEL_GEN(i915) < 8 && engine->class != RENDER_CLASS)
-+		if (GRAPHICS_VER(i915) < 8 && engine->class != RENDER_CLASS)
- 			continue;
- 
- 		while (!__igt_timeout(end_time, NULL)) {
-diff --git a/drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c b/drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c
-index 05a3b29f545e..3a30955285d6 100644
---- a/drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c
-+++ b/drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c
-@@ -273,7 +273,7 @@ static int check_partial_mappings(struct drm_i915_gem_object *obj,
- static unsigned int
- setup_tile_size(struct tile *tile, struct drm_i915_private *i915)
+@@ -1148,7 +1148,7 @@ static void complete_current_workload(struct intel_gvt *gvt, int ring_id)
+ static int workload_thread(void *arg)
  {
--	if (INTEL_GEN(i915) <= 2) {
-+	if (GRAPHICS_VER(i915) <= 2) {
- 		tile->height = 16;
- 		tile->width = 128;
- 		tile->size = 11;
-@@ -288,9 +288,9 @@ setup_tile_size(struct tile *tile, struct drm_i915_private *i915)
- 		tile->size = 12;
- 	}
+ 	struct intel_engine_cs *engine = arg;
+-	const bool need_force_wake = INTEL_GEN(engine->i915) >= 9;
++	const bool need_force_wake = GRAPHICS_VER(engine->i915) >= 9;
+ 	struct intel_gvt *gvt = engine->i915->gvt;
+ 	struct intel_gvt_workload_scheduler *scheduler = &gvt->scheduler;
+ 	struct intel_vgpu_workload *workload = NULL;
+diff --git a/drivers/gpu/drm/i915/gvt/vgpu.c b/drivers/gpu/drm/i915/gvt/vgpu.c
+index 9039787f123a..fa6b92615799 100644
+--- a/drivers/gpu/drm/i915/gvt/vgpu.c
++++ b/drivers/gpu/drm/i915/gvt/vgpu.c
+@@ -149,10 +149,10 @@ int intel_gvt_init_vgpu_types(struct intel_gvt *gvt)
+ 		gvt->types[i].avail_instance = min(low_avail / vgpu_types[i].low_mm,
+ 						   high_avail / vgpu_types[i].high_mm);
  
--	if (INTEL_GEN(i915) < 4)
-+	if (GRAPHICS_VER(i915) < 4)
- 		return 8192 / tile->width;
--	else if (INTEL_GEN(i915) < 7)
-+	else if (GRAPHICS_VER(i915) < 7)
- 		return 128 * I965_FENCE_MAX_PITCH_VAL / tile->width;
- 	else
- 		return 128 * GEN7_FENCE_MAX_PITCH_VAL / tile->width;
-@@ -386,7 +386,7 @@ static int igt_partial_tiling(void *arg)
- 			if (err)
- 				goto out_unlock;
+-		if (IS_GEN(gvt->gt->i915, 8))
++		if (GRAPHICS_VER(gvt->gt->i915) == 8)
+ 			sprintf(gvt->types[i].name, "GVTg_V4_%s",
+ 				vgpu_types[i].name);
+-		else if (IS_GEN(gvt->gt->i915, 9))
++		else if (GRAPHICS_VER(gvt->gt->i915) == 9)
+ 			sprintf(gvt->types[i].name, "GVTg_V5_%s",
+ 				vgpu_types[i].name);
  
--			if (pitch > 2 && INTEL_GEN(i915) >= 4) {
-+			if (pitch > 2 && GRAPHICS_VER(i915) >= 4) {
- 				tile.stride = tile.width * (pitch - 1);
- 				err = check_partial_mappings(obj, &tile, end);
- 				if (err == -EINTR)
-@@ -395,7 +395,7 @@ static int igt_partial_tiling(void *arg)
- 					goto out_unlock;
- 			}
- 
--			if (pitch < max_pitch && INTEL_GEN(i915) >= 4) {
-+			if (pitch < max_pitch && GRAPHICS_VER(i915) >= 4) {
- 				tile.stride = tile.width * (pitch + 1);
- 				err = check_partial_mappings(obj, &tile, end);
- 				if (err == -EINTR)
-@@ -405,7 +405,7 @@ static int igt_partial_tiling(void *arg)
- 			}
- 		}
- 
--		if (INTEL_GEN(i915) >= 4) {
-+		if (GRAPHICS_VER(i915) >= 4) {
- 			for_each_prime_number(pitch, max_pitch) {
- 				tile.stride = tile.width * pitch;
- 				err = check_partial_mappings(obj, &tile, end);
-@@ -501,7 +501,7 @@ static int igt_smoke_tiling(void *arg)
- 			tile.stride =
- 				i915_prandom_u32_max_state(max_pitch, &prng);
- 			tile.stride = (1 + tile.stride) * tile.width;
--			if (INTEL_GEN(i915) < 4)
-+			if (GRAPHICS_VER(i915) < 4)
- 				tile.stride = rounddown_pow_of_two(tile.stride);
- 		}
- 
-diff --git a/drivers/gpu/drm/i915/gem/selftests/igt_gem_utils.c b/drivers/gpu/drm/i915/gem/selftests/igt_gem_utils.c
-index 0b092c62bb34..b35c1219c852 100644
---- a/drivers/gpu/drm/i915/gem/selftests/igt_gem_utils.c
-+++ b/drivers/gpu/drm/i915/gem/selftests/igt_gem_utils.c
-@@ -44,7 +44,7 @@ igt_emit_store_dw(struct i915_vma *vma,
- 		  u32 val)
- {
- 	struct drm_i915_gem_object *obj;
--	const int gen = INTEL_GEN(vma->vm->i915);
-+	const int ver = GRAPHICS_VER(vma->vm->i915);
- 	unsigned long n, size;
- 	u32 *cmd;
- 	int err;
-@@ -65,14 +65,14 @@ igt_emit_store_dw(struct i915_vma *vma,
- 	offset += vma->node.start;
- 
- 	for (n = 0; n < count; n++) {
--		if (gen >= 8) {
-+		if (ver >= 8) {
- 			*cmd++ = MI_STORE_DWORD_IMM_GEN4;
- 			*cmd++ = lower_32_bits(offset);
- 			*cmd++ = upper_32_bits(offset);
- 			*cmd++ = val;
--		} else if (gen >= 4) {
-+		} else if (ver >= 4) {
- 			*cmd++ = MI_STORE_DWORD_IMM_GEN4 |
--				(gen < 6 ? MI_USE_GGTT : 0);
-+				(ver < 6 ? MI_USE_GGTT : 0);
- 			*cmd++ = 0;
- 			*cmd++ = offset;
- 			*cmd++ = val;
-@@ -146,7 +146,7 @@ int igt_gpu_fill_dw(struct intel_context *ce,
- 		goto skip_request;
- 
- 	flags = 0;
--	if (INTEL_GEN(ce->vm->i915) <= 5)
-+	if (GRAPHICS_VER(ce->vm->i915) <= 5)
- 		flags |= I915_DISPATCH_SECURE;
- 
- 	err = rq->engine->emit_bb_start(rq,
 -- 
 2.31.1
 
