@@ -2,52 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 521F6399B3F
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Jun 2021 09:07:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC558399B46
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Jun 2021 09:09:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9F6176F402;
-	Thu,  3 Jun 2021 07:07:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8E7646F3F7;
+	Thu,  3 Jun 2021 07:09:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-oi1-x232.google.com (mail-oi1-x232.google.com
  [IPv6:2607:f8b0:4864:20::232])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 150716F408
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Jun 2021 07:07:20 +0000 (UTC)
-Received: by mail-oi1-x232.google.com with SMTP id t140so105809oih.0
- for <dri-devel@lists.freedesktop.org>; Thu, 03 Jun 2021 00:07:20 -0700 (PDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0AD036F3F7
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Jun 2021 07:09:35 +0000 (UTC)
+Received: by mail-oi1-x232.google.com with SMTP id x196so4960134oif.10
+ for <dri-devel@lists.freedesktop.org>; Thu, 03 Jun 2021 00:09:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=InI1Jsa5VQBKXnEdnkuPr3En9jwhF+MmJySqJWbOQlo=;
- b=eXMY5az+fwbsRehO+eKCLm04GHubwUHACfEh2TLaUis5wCxV6pHtl1M8lM70J3GarC
- HNgGDZb+THT1+zLUlysum0fUT4kiGhq7ALkqapSHBIXj1HHZJg97ZVm5on9QqBJc+Ggm
- aULlC5DBLfqc845cATKKetPd54wgMZeG9L6Xs=
+ :cc; bh=36Pkx9zPWURHJepXV4iZ6QusrX9OKoQCAwX2iReFL/w=;
+ b=d9wLMrI/C7lu8LItzVRv+W2FdYrBAVvvLGBedf9Dnja5WpewjdHqFKzGE+cdfnqwbM
+ uq7RBoz/feyIlhmP0C+5UiieUMICWR65+NnZK+oWbz2Rc/E9TiA07yTIYv0ggTtJa7T6
+ RhRbMW/eG3TjjqSUNtM0g7zhEAQTMLozJFipU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=InI1Jsa5VQBKXnEdnkuPr3En9jwhF+MmJySqJWbOQlo=;
- b=PCEzdXKOmxxZu2nQOKFE0+Tb8fRdZWxthW2ZtmJK2UXOMmp9prqdjS6L1Ai0hRcmzK
- NVYCyToroeQ1mldZU6DYfYMgAaEZPLX8jH0edRtfGwCT1O821EbvGwOFc3vSLGJNe2zL
- AI4/SuX6i0l4jbhqv69yaVG90bMU2mv0oILsJrQbHPS2lUnIH+8tizNkLhqEG0iCU4KW
- HVuEs0ooUdRUM257ge785h5PnERRAnlgzsET8zUvrZN22m4U+/GuWdAJEyKkQ4r1QVSq
- Or4hmArGhcXdhn4i+nSOWVP8atvfwr44OC0c8UydwmwStYKzLejGAh84FLKRCljvWvni
- sr1A==
-X-Gm-Message-State: AOAM531kTbnmZhCuegVjJgV5gWLbM2/2vPSKcILXkuVqvfSpQe+Q1nyu
- ZnSbY31ErnPtDY+1tODmhDAkvPSzRs4H4XgsDgRbfg==
-X-Google-Smtp-Source: ABdhPJznHhegoNKdlels+0PjcHJQWGT9LfUIm6RpHTw8Ichs/toOxzVdq9cM93RtWED0eGnoS5IFqFNaQLdakUDFrSM=
-X-Received: by 2002:a54:4809:: with SMTP id j9mr6300744oij.14.1622704039990;
- Thu, 03 Jun 2021 00:07:19 -0700 (PDT)
+ bh=36Pkx9zPWURHJepXV4iZ6QusrX9OKoQCAwX2iReFL/w=;
+ b=M19ybp2dlnYK0jaAG7yYrLUtK311ezj6G8J9kGhwPiPaL9CwbNQcF5+MZNWQd8vXiP
+ JegW1mebBUTgjMOn9YPh3g/XR4Gv/1RwuYyfR6hsmKx/NiJNY4Ci1c+86PhCloj2sa+2
+ /i6t9iliCzGKNbIRFuNXExo+s8CThngTkTQE6+mB/xpdjy+r6hpXan/S7a11gBFpkgVv
+ UyFVRWT5HuEE6pTO+iaMZtm2pjBgI4wcc8XCkS6b/XTfjiTmcvRaW/O67JNl2DeUkX02
+ NCm839SHxOr/c/ffPKTNQPU6F9tBuP//IUuTjuAPOTcJ14oRZ1IuV4VX4D+qrGG4/EWB
+ 5RiA==
+X-Gm-Message-State: AOAM532kwafDTNDTf48hE3ViwWdTeB984WiWUEB1Qsd1hT4agqy3OiiY
+ 2Q8Fr0I+KTQTe52Dgzof82UJORhyQebuh40B6Uvwo/869K4=
+X-Google-Smtp-Source: ABdhPJzDgdquEUPF/dzQ81q4UlmNahbsujvD94qeWPi/0tPj2yJPU/fmzwpgNeDhjIXsP1+IKmn+nh4ciEDrte+/yNQ=
+X-Received: by 2002:aca:5701:: with SMTP id l1mr8442813oib.128.1622704174284; 
+ Thu, 03 Jun 2021 00:09:34 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210503155748.1961781-1-jason@jlekstrand.net>
- <20210503155748.1961781-17-jason@jlekstrand.net>
- <YJFyvfVFmE3427pl@phenom.ffwll.local>
- <CAOFGe95QvExvfx9QyWYH+jcMgXQVcvPLtK4TE_w_B26feYyPLg@mail.gmail.com>
-In-Reply-To: <CAOFGe95QvExvfx9QyWYH+jcMgXQVcvPLtK4TE_w_B26feYyPLg@mail.gmail.com>
+References: <20210527162650.1182544-1-jason@jlekstrand.net>
+ <20210527162650.1182544-17-jason@jlekstrand.net>
+ <YLSimneuNgwaB31A@phenom.ffwll.local>
+ <CAOFGe97E=JJjSHb=gy64oZYoV6hRpvPpGJ6joj8YnpQi9AtzrA@mail.gmail.com>
+In-Reply-To: <CAOFGe97E=JJjSHb=gy64oZYoV6hRpvPpGJ6joj8YnpQi9AtzrA@mail.gmail.com>
 From: Daniel Vetter <daniel@ffwll.ch>
-Date: Thu, 3 Jun 2021 09:07:08 +0200
-Message-ID: <CAKMK7uGjfJd=x1VRcX0WiErTXCkJbs8e149+6TPezuO98nD8pA@mail.gmail.com>
-Subject: Re: [PATCH 16/27] drm/i915/gem: Add an intermediate proto_context
- struct
+Date: Thu, 3 Jun 2021 09:09:23 +0200
+Message-ID: <CAKMK7uE-jB1v0QLVaLnzG0LMLn_KapnG48sj3tfaUZOTssXCLA@mail.gmail.com>
+Subject: Re: [Intel-gfx] [PATCH 16/29] drm/i915/gem: Add an intermediate
+ proto_context struct
 To: Jason Ekstrand <jason@jlekstrand.net>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -67,11 +67,11 @@ Cc: Intel GFX <intel-gfx@lists.freedesktop.org>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jun 2, 2021 at 11:53 PM Jason Ekstrand <jason@jlekstrand.net> wrote:
+On Wed, Jun 2, 2021 at 11:24 PM Jason Ekstrand <jason@jlekstrand.net> wrote:
 >
-> On Tue, May 4, 2021 at 11:13 AM Daniel Vetter <daniel@ffwll.ch> wrote:
+> On Mon, May 31, 2021 at 3:47 AM Daniel Vetter <daniel@ffwll.ch> wrote:
 > >
-> > On Mon, May 03, 2021 at 10:57:37AM -0500, Jason Ekstrand wrote:
+> > On Thu, May 27, 2021 at 11:26:37AM -0500, Jason Ekstrand wrote:
 > > > The current context uAPI allows for two methods of setting context
 > > > parameters: SET_CONTEXT_PARAM and CONTEXT_CREATE_EXT_SETPARAM.  The
 > > > former is allowed to be called at any time while the later happens as
@@ -84,6 +84,16 @@ On Wed, Jun 2, 2021 at 11:53 PM Jason Ekstrand <jason@jlekstrand.net> wrote:
 > > > plethora of potential race conditions we'd really rather avoid.
 > > >
 > > > Unfortunately, both methods of setting the VM and engine set are in
+> >
+> >                                                    ^the
+> >
+> > At least my English parser jumped there a bit and got confused :-)
+>
+> I believe what I wrote was correct but I'm happy to tweak it if it
+> helps others' parsers.
+
+Hm yeah I think that was just a fluke, leave it as-is.
+
 > > > active use today so we can't simply disallow setting the VM or engine
 > > > set vial SET_CONTEXT_PARAM.  In order to work around this wart, this
 > > > commit adds a proto-context struct which contains all the context create
@@ -91,10 +101,18 @@ On Wed, Jun 2, 2021 at 11:53 PM Jason Ekstrand <jason@jlekstrand.net> wrote:
 > > >
 > > > Signed-off-by: Jason Ekstrand <jason@jlekstrand.net>
 > >
-> > Per-patch changelog pls.
+> > I also looked at my review from the previous round and I think we have a
+> > few opens there that haven't been addressed here. Would be nice to check
+> > that out too and my reply there if you're disagreeing and want to paint
+> > the shed differently :-)
 >
-> Done.
+> Ok, I'll try to dig it up.  I miss GitLab and it's "resolve
+> discussion" button so much....
 >
+> > I've found a few other things needing polish below on top of the earlier
+> > bits.
+> > -Daniel
+> >
 > > > ---
 > > >  drivers/gpu/drm/i915/gem/i915_gem_context.c   | 145 ++++++++++++++----
 > > >  .../gpu/drm/i915/gem/i915_gem_context_types.h |  22 +++
@@ -102,7 +120,7 @@ On Wed, Jun 2, 2021 at 11:53 PM Jason Ekstrand <jason@jlekstrand.net> wrote:
 > > >  3 files changed, 153 insertions(+), 30 deletions(-)
 > > >
 > > > diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context.c b/drivers/gpu/drm/i915/gem/i915_gem_context.c
-> > > index 4835991898ac9..10bd1b6dd1774 100644
+> > > index fc471243aa769..10bff488444b6 100644
 > > > --- a/drivers/gpu/drm/i915/gem/i915_gem_context.c
 > > > +++ b/drivers/gpu/drm/i915/gem/i915_gem_context.c
 > > > @@ -191,6 +191,97 @@ static int validate_priority(struct drm_i915_private *i915,
@@ -130,18 +148,6 @@ On Wed, Jun 2, 2021 at 11:53 PM Jason Ekstrand <jason@jlekstrand.net> wrote:
 > > > +                     return -EINVAL;
 > > > +
 > > > +             __set_bit(UCONTEXT_PERSISTENCE, &pc->user_flags);
-> >
-> > Ok so I looked, and the reason __set_bit and friends is for endless
-> > bitfields, i.e. where user_flags is an actually dynamically sized array.
-> >
-> > Given that this is complete overkill I think fully open-coding the bitops
-> > is the right bikeshed color choice. So
->
-> I've fixed it now.  I had fixed it in the last version but it ended up
-> squashed into the wrong patch. :-(
->
-> >                 user_flags &= UCONTEXT_PERSISTENCE;
-> >
 > > > +     } else {
 > > > +             /* To cancel a context we use "preempt-to-idle" */
 > > > +             if (!(i915->caps.scheduler & I915_SCHEDULER_CAP_PREEMPTION))
@@ -164,11 +170,6 @@ On Wed, Jun 2, 2021 at 11:53 PM Jason Ekstrand <jason@jlekstrand.net> wrote:
 > > > +                     return -ENODEV;
 > > > +
 > > > +             __clear_bit(UCONTEXT_PERSISTENCE, &pc->user_flags);
-> >
-> >                 user_flags &= ~UCONTEXT_PERSISTENCE;
-> >
-> > Similar for all the others.
-> >
 > > > +     }
 > > > +
 > > > +     return 0;
@@ -194,25 +195,6 @@ On Wed, Jun 2, 2021 at 11:53 PM Jason Ekstrand <jason@jlekstrand.net> wrote:
 > > > +                     goto proto_close;
 > > > +             }
 > > > +             pc->vm = &ppgtt->vm;
-> >
-> > I'm not understanding why we're creating the default vm as part of the
-> > proto context? If we end up setting one this is kinda just wasted
-> > conditionals, and we're not really gaining in code simplicity. It's just
-> > whether we create the default vm here (and might need to delete it) or
-> > when we finalize the context in i915_gem_create_context().
-> >
-> > Or am I missing something?
-> >
-> > If it's cleaner overall I'm ok with this, just feels a bit silly.
->
-> Hrm... I guess there's no particularly good reason.  I think I did it
-> this way because it seemed like a closer match to the code we had
-> before.  Also, we need to do it this way if we want GET_CONTEXT_PARAM
-> with CONTEXT_PARAM_VM to work on a proto-context without finalizing
-> it.  However, in the end, I'm always finalizing contexts on
-> GET_CONTEXT_PARAM so that's a non-reason.  I'll see what it looks like
-> to move it.
->
 > > > +     }
 > > > +
 > > > +     pc->user_flags = 0;
@@ -220,41 +202,25 @@ On Wed, Jun 2, 2021 at 11:53 PM Jason Ekstrand <jason@jlekstrand.net> wrote:
 > > > +     __set_bit(UCONTEXT_RECOVERABLE, &pc->user_flags);
 > > > +     proto_context_set_persistence(i915, pc, true);
 > >
-> > So this I think is another case of trying too hard to share code, because
-> > what this essentially does is pick the default through a _very_ contrived
-> > way:
-> > - we start out with false since we kzalloc, so everything is cleared
-> > - we try to enable persistence, but we fail silently, so if the module
-> >   options don't allow persistence we silently keep it at false
+> > You've lost the error handling here.
 >
-> Yeah, it's pretty horrible.  It's a copy+paste of what was there
-> before but that was terrible too.
->
-> > I think open-coding this condition would be a lot better. Also disabling
-> > hangcheck isn't a thing anymore, but we still have code in it.
-> >
-> > I think the right thing here is a patch which removes all occurences of
-> > params.enable_hangcheck and replaces it with the default (which is true).
-> >
-> > And then just set this default here directly, because not doing so would
-> > randomly break some mesa depending how a modparam is set which otherwise
-> > has 0 impact. Also I think the other code which checks this could end up
-> > with a refcount underrun on !execlist platforms.
->
-> Yeah, I think this would make things clearer.  Before I go off and do
-> that, it looks to me like the param still exists.  Maybe we just
-> ignore it?  Should I delete the whole param?  Just trying to confirm
-> before I go off and type the wrong code.
+> No, I've not.  This is where that helper is both wonderful and crazy
+> annoying.  We could have a helper to check whether or not a particular
+> persistence setting is allowed.  Instead (and this is what the old
+> code does too), it's initialized to false by kzalloc and then we try
+> to set it to true and ignore the failure.  This ensures that,
+> regardless of which options are allowed, we'll end up with an allowed
+> one.  Yeah, the more I type here the more I realize just how bad of an
+> idea that is. :-)  If you'd like, we can refactor things to have a
+> validation function persistence_setting_valid() or maybe a pair
+> requires_persistence() and persistence_allowed().  I'm open to other
+> suggestions too.
 
-After more reading and talking with Tvrtko I realized that the
-hangcheck modparam does actually do something still. So no ripping out
-that modparam. I'm also wondering whether we should do an upfront
-patch first, but then the bisect history for this proto-context is
-nasty anyway, just highlighting the change in the commit message here
-should be enough.
+Oh right, _that_ story. That's even the story I brought up in the
+previous round, analyzed there correctly, but totally forgot the
+conclusion :-/
 -Daniel
 
-> --Jason
 >
 > > > +     pc->sched.priority = I915_PRIORITY_NORMAL;
 > > > +
@@ -375,7 +341,7 @@ should be enough.
 > > >       if (IS_ERR(ctx)) {
 > > >               err = PTR_ERR(ctx);
 > > >               goto err;
-> > > @@ -1885,6 +1968,7 @@ int i915_gem_context_create_ioctl(struct drm_device *dev, void *data,
+> > > @@ -1884,6 +1967,7 @@ int i915_gem_context_create_ioctl(struct drm_device *dev, void *data,
 > > >  {
 > > >       struct drm_i915_private *i915 = to_i915(dev);
 > > >       struct drm_i915_gem_context_create_ext *args = data;
@@ -383,7 +349,7 @@ should be enough.
 > > >       struct create_ext ext_data;
 > > >       int ret;
 > > >       u32 id;
-> > > @@ -1907,7 +1991,12 @@ int i915_gem_context_create_ioctl(struct drm_device *dev, void *data,
+> > > @@ -1906,7 +1990,12 @@ int i915_gem_context_create_ioctl(struct drm_device *dev, void *data,
 > > >               return -EIO;
 > > >       }
 > > >
@@ -410,11 +376,33 @@ should be enough.
 > > > + *
 > > > + * The struct i915_gem_proto_context represents the creation parameters for
 > > > + * an i915_gem_context.  This is used to gather parameters provided either
+> >
+> > a struct i915_gem_context
+>
+> Done.
+>
+> > With that you get an automatic neat hyperlink. See
+> >
+> > https://dri.freedesktop.org/docs/drm/doc-guide/kernel-doc.html#highlights-and-cross-references
+> >
+> > for what it all recognizes automatically.
+> >
 > > > + * through creation flags or via SET_CONTEXT_PARAM so that, when we create
 > > > + * the final i915_gem_context, those parameters can be immutable.
 > > > + */
 > > > +struct i915_gem_proto_context {
 > > > +     /** @vm: See i915_gem_context::vm */
+> >
+> > Hyperlinks need &i915_gem_context.vm in kerneldoc. Same for the others
+> > below.
+>
+> Fixed.
+>
+> I'll try to dig through your previous one now.  I thought I'd gotten
+> everything but clearly you found something I hadn't.
+>
+> --Jason
+>
 > > > +     struct i915_address_space *vm;
 > > > +
 > > > +     /** @user_flags: See i915_gem_context::user_flags */
@@ -466,10 +454,6 @@ should be enough.
 > > > -     ctx = i915_gem_create_context(i915, 0);
 > > > +     ctx = i915_gem_create_context(i915, pc);
 > > > +     proto_context_close(pc);
-> >
-> > I think at large still looks pretty good, but some polish needed.
-> > -Daniel
-> >
 > > >       if (IS_ERR(ctx))
 > > >               return ctx;
 > > >
@@ -477,9 +461,9 @@ should be enough.
 > > > 2.31.1
 > > >
 > > > _______________________________________________
-> > > dri-devel mailing list
-> > > dri-devel@lists.freedesktop.org
-> > > https://lists.freedesktop.org/mailman/listinfo/dri-devel
+> > > Intel-gfx mailing list
+> > > Intel-gfx@lists.freedesktop.org
+> > > https://lists.freedesktop.org/mailman/listinfo/intel-gfx
 > >
 > > --
 > > Daniel Vetter
