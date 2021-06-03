@@ -2,48 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30BD3399D88
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Jun 2021 11:17:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E79A5399DDC
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Jun 2021 11:32:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 527E36F467;
-	Thu,  3 Jun 2021 09:17:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9112C6E0DC;
+	Thu,  3 Jun 2021 09:32:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 74AE96F45D;
- Thu,  3 Jun 2021 09:17:11 +0000 (UTC)
-IronPort-SDR: J3TSOnt0XRYgj8N4/8+UfGGrdMtfnSOZ/D4qMiD/qq+5EIPE6Me9Vs1y8dEBczgSW/U7SR5jVA
- WS+8ATSD2wkQ==
-X-IronPort-AV: E=McAfee;i="6200,9189,10003"; a="203815095"
-X-IronPort-AV: E=Sophos;i="5.83,244,1616482800"; d="scan'208";a="203815095"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Jun 2021 02:17:08 -0700
-IronPort-SDR: GiFlEA2d98S0y3fZX2hwn2y9S0cggQtERcJvUzDDX14kZt+3xkig3EyHLndhd45VWF76KFBNLM
- XY2WVcRmIijA==
-X-IronPort-AV: E=Sophos;i="5.83,244,1616482800"; d="scan'208";a="483398225"
-Received: from aburk3x-mobl2.ger.corp.intel.com (HELO [10.213.243.139])
- ([10.213.243.139])
- by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Jun 2021 02:17:06 -0700
-Subject: Re: [Intel-gfx] i915 and swiotlb_max_segment
-To: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Christoph Hellwig <hch@lst.de>,
- Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
- Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-References: <20210510152525.GA30093@lst.de> <YKZ8eqnSnaso3aoe@0xbeefdead.lan>
- <162270961054.11739.9148402963893484386@jlahtine-mobl.ger.corp.intel.com>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-Message-ID: <d7bd2bde-2b95-44fa-18b0-fd883c78e3b6@linux.intel.com>
-Date: Thu, 3 Jun 2021 10:17:04 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+Received: from ozlabs.org (bilbo.ozlabs.org [IPv6:2401:3900:2:1::2])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4A0F66E0DC
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Jun 2021 09:32:46 +0000 (UTC)
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4Fwgfg3bPVz9sPf;
+ Thu,  3 Jun 2021 19:32:42 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=canb.auug.org.au;
+ s=201702; t=1622712765;
+ bh=O+KtTbQf+6wyiQAN9S+ojq8+vfTh0V/4wgvl1In0Auk=;
+ h=Date:From:To:Cc:Subject:From;
+ b=Zwv/UCWmaj5l9RvqEEpiR+TlcPcXtSsSTpEyU/WVHcwwypWkftK7CrbfGztIaEcFJ
+ fUTCsMeDgohvqH0p0F/gpufk4dO7wPaaR+yUb/3g2USt8KGB/9aSspU9s3ajT2gwFd
+ l8IrbiRC0NjEl+m9m5Blr/MTrauZoT0GxGK4OggDcnjijoXSdfxA8vNNZcHdfev+Fj
+ DH21adlx0tgdCnPJIeT9IVrU+AgNM/CPwPYgL0HfZqeIWZeE6ptewgxWs8LUqu1uUq
+ Z2xmFTEVGRn3Z5GqWWDI2RyRaclLXTbKHhKMV8MpBUgvoFcCqab5BuXgRRbQ9vk5zx
+ 3U4P7lE90ek3Q==
+Date: Thu, 3 Jun 2021 19:32:42 +1000
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+To: Dave Airlie <airlied@linux.ie>, DRI <dri-devel@lists.freedesktop.org>
+Subject: linux-next: build warnings after merge of the drm tree
+Message-ID: <20210603193242.1ce99344@canb.auug.org.au>
 MIME-Version: 1.0
-In-Reply-To: <162270961054.11739.9148402963893484386@jlahtine-mobl.ger.corp.intel.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; boundary="Sig_/X=z7ep.m8R.YqP5_zcYmvjT";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,73 +48,64 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, iommu@lists.linux-foundation.org,
- dri-devel@lists.freedesktop.org
+Cc: Linux Next Mailing List <linux-next@vger.kernel.org>,
+ Matthew Auld <matthew.auld@intel.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+--Sig_/X=z7ep.m8R.YqP5_zcYmvjT
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-Hi,
+Hi all,
 
-On 03/06/2021 09:40, Joonas Lahtinen wrote:
-> + Tvrtko to take a look
-> 
-> Quoting Konrad Rzeszutek Wilk (2021-05-20 18:12:58)
->> On Mon, May 10, 2021 at 05:25:25PM +0200, Christoph Hellwig wrote:
->>> Hi all,
->>>
->>> swiotlb_max_segment is a rather strange "API" export by swiotlb.c,
->>> and i915 is the only (remaining) user.
->>>
->>> swiotlb_max_segment returns 0 if swiotlb is not in use, 1 if
->>> SWIOTLB_FORCE is set or swiotlb-zen is set, and the swiotlb segment
->>> size when swiotlb is otherwise enabled.
->>>
->>> i915 then uses it to:
->>>
->>>   a) decided on the max order in i915_gem_object_get_pages_internal
->>>   b) decide on a max segment size in i915_sg_segment_size
->>>
->>> for a) it really seems i915 should switch to dma_alloc_noncoherent
->>> or dma_alloc_noncontigous ASAP instead of using alloc_page and
->>> streaming DMA mappings.  Any chance I could trick one of the i915
->>> maintaines into doing just that given that the callchain is not
->>> exactly trivial?
->>>
->>> For b) I'm not sure swiotlb and i915 really agree on the meaning
->>> of the value.  swiotlb_set_max_segment basically returns the entire
->>> size of the swiotlb buffer, while i915 seems to use it to limit
->>> the size each scatterlist entry.  It seems like dma_max_mapping_size
->>> might be the best value to use here.
->>
->> Yes. The background behind that was SWIOTLB would fail because well, the
->> size of the sg was too large. And some way to limit it to max size
->> was needed - the dma_max_mapping_size "should" be just fine.
+After merging the drm tree, today's linux-next build (htmldocs) produced
+these warnings:
 
-Can't say I am 100% at home here but what I remember is that the limiting factor was maximum size of a sg segment and not total size of the mapping.
+Documentation/gpu/driver-uapi.rst:2412: WARNING: Duplicate C declaration, a=
+lso defined at gpu/rfc/i915_gem_lmem:1393.
+Declaration is '.. c:enum:: drm_i915_gem_memory_class'.
+Documentation/gpu/driver-uapi.rst:2484: WARNING: Duplicate C declaration, a=
+lso defined at gpu/rfc/i915_gem_lmem:2484.
+Declaration is '.. c:struct:: drm_i915_gem_memory_class_instance'.
+Documentation/gpu/driver-uapi.rst:7: WARNING: Duplicate C declaration, also=
+ defined at gpu/rfc/i915_gem_lmem:7.
+Declaration is '.. c:struct:: drm_i915_memory_region_info'.
+Documentation/gpu/driver-uapi.rst:2531: WARNING: Duplicate C declaration, a=
+lso defined at gpu/rfc/i915_gem_lmem:2531.
+Declaration is '.. c:struct:: drm_i915_query_memory_regions'.
+Documentation/gpu/driver-uapi.rst:2595: WARNING: Duplicate C declaration, a=
+lso defined at gpu/rfc/i915_gem_lmem:1393.
+Declaration is '.. c:struct:: drm_i915_gem_create_ext'.
+Documentation/gpu/driver-uapi.rst:2615: WARNING: Duplicate C declaration, a=
+lso defined at gpu/rfc/i915_gem_lmem:1393.
+Declaration is '.. c:struct:: drm_i915_gem_create_ext_memory_regions'.
 
-Looking at the code today, if we would replace usage swiotlb_max_segment() with dma_max_mapping_size(), I don't see that would work when we call dma_map_sg_attrs().
+Introduced by (one or more of) commits
 
-Because AFAICT code can end up in dma_direct_max_mapping_size() (not sure when the ops->map_sg path is active and where to trace that) where we have:
+  0c1a77cbdafb ("drm/doc: add section for driver uAPI")
+  2bc9c04ea702 ("drm/doc/rfc: i915 DG1 uAPI")
+  727ecd99a4c9 ("drm/doc/rfc: drop the i915_gem_lmem.h header")
 
-size_t dma_direct_max_mapping_size(struct device *dev)
-{
-	/* If SWIOTLB is active, use its maximum mapping size */
-	if (is_swiotlb_active() &&
-	    (dma_addressing_limited(dev) || swiotlb_force == SWIOTLB_FORCE))
-		return swiotlb_max_mapping_size(dev);
-	return SIZE_MAX;
-}
+--=20
+Cheers,
+Stephen Rothwell
 
-So for all swiotlb cases, including force, we get:
+--Sig_/X=z7ep.m8R.YqP5_zcYmvjT
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
 
-size_t swiotlb_max_mapping_size(struct device *dev)
-{
-	return ((size_t)IO_TLB_SIZE) * IO_TLB_SEGSIZE;
-}
+-----BEGIN PGP SIGNATURE-----
 
-Which is fixed and doesn't align with swiotlb_max_segment(). But you guys are the experts here so please feel to correct me.
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmC4oboACgkQAVBC80lX
+0GyAIwgAlnugat8uTrMp3uyPGuQQYyGtaz4KuUlZm3b30TPz3bvCpyXUHNmho5B5
+LvgpqfOtGZv9DxDzS9OCTZFZNt2MpNRRz3drBvxtkP0E6nnRuSKQLc60LdWmp1SQ
+6tX7wtb5MDk3UXDXc2ui6hlf0/B3pxdyeWYWGxFlBCAnFbUQc4Cfl5H5roFvwXW+
+WcSIasiR/cyR8AWrhIQOW3X5X4JJtGMmB4UyAkLqLiwrAHkmtKp5SKdqi0BxlUPQ
+HJXboTW38wzgVnMKSIhZ8DflHDU9F2mvSLkmNYk3OQbs9wgAw6pUajR+X4NfncsK
+pt5WP8DoQgTM0KUWNYldhXWvimCb3g==
+=io8C
+-----END PGP SIGNATURE-----
 
-Regards,
-
-Tvrtko
+--Sig_/X=z7ep.m8R.YqP5_zcYmvjT--
