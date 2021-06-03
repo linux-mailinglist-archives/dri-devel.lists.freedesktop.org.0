@@ -2,44 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74E7F399CC3
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Jun 2021 10:40:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 20A38399CC9
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Jun 2021 10:41:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 58E116F44D;
-	Thu,  3 Jun 2021 08:40:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 79E826F44F;
+	Thu,  3 Jun 2021 08:41:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C210A6F43F;
- Thu,  3 Jun 2021 08:40:21 +0000 (UTC)
-IronPort-SDR: +HVZj8A+3v0q4ccsI3MZczvg5m4DrDWz90wMl7FyOh4/o1RlwM5h1fd7MbK/6QP9CAhbo/H3tV
- ctaVkzw4qLRw==
-X-IronPort-AV: E=McAfee;i="6200,9189,10003"; a="265171402"
-X-IronPort-AV: E=Sophos;i="5.83,244,1616482800"; d="scan'208";a="265171402"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Jun 2021 01:40:16 -0700
-IronPort-SDR: zaG+TekgVIYKs3X+kNC3Jpsm3GjArPLb8T4622NANIInNlDbUKxCtdKvLc+2gWRl4PG2o1KJSB
- DWHRmeXMxOlg==
-X-IronPort-AV: E=Sophos;i="5.83,244,1616482800"; d="scan'208";a="447770231"
-Received: from nichilds-mobl1.ger.corp.intel.com (HELO localhost)
- ([10.252.26.250])
- by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Jun 2021 01:40:13 -0700
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <YKZ8eqnSnaso3aoe@0xbeefdead.lan>
-References: <20210510152525.GA30093@lst.de> <YKZ8eqnSnaso3aoe@0xbeefdead.lan>
-Subject: Re: i915 and swiotlb_max_segment
-To: Christoph Hellwig <hch@lst.de>,
- Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
- Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-From: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6ED376F44C;
+ Thu,  3 Jun 2021 08:41:17 +0000 (UTC)
+IronPort-SDR: 064dET+kJvi4P0usM5dGtZGAf4FP74Ny6Xwglt2QUKUY6v/Ifz0S+E8zJ4xMfLiyIU0Y3tt4ny
+ /ibLAIj5Gy8Q==
+X-IronPort-AV: E=McAfee;i="6200,9189,10003"; a="204026966"
+X-IronPort-AV: E=Sophos;i="5.83,244,1616482800"; d="scan'208";a="204026966"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Jun 2021 01:41:12 -0700
+IronPort-SDR: DBiwALqy6WN0lm7fKOoYBI2/5BEsOpN1PnbQgKmSsQHzLpZCuhBUn8jTpmH5YBwglBlqPvY20H
+ pjjSBtSsnE2w==
+X-IronPort-AV: E=Sophos;i="5.83,244,1616482800"; d="scan'208";a="480142969"
+Received: from sleader-mobl.ger.corp.intel.com (HELO localhost)
+ ([10.252.54.200])
+ by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Jun 2021 01:41:07 -0700
+From: Jani Nikula <jani.nikula@intel.com>
+To: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Matthew Auld <matthew.william.auld@gmail.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>
+Subject: Re: [Intel-gfx] [PATCH] Revert "i915: use io_mapping_map_user"
+In-Reply-To: <CAKMK7uFS_X8z3CkGejpqYbje4p30u4KAyQrs0=G5b04fCk0szQ@mail.gmail.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-Message-ID: <162270961054.11739.9148402963893484386@jlahtine-mobl.ger.corp.intel.com>
-User-Agent: alot/0.8.1
-Date: Thu, 03 Jun 2021 11:40:10 +0300
+References: <20210527185145.458021-1-matthew.auld@intel.com>
+ <CAM0jSHOOB7=SLC+cgmXn4pWets+BJzdk=R+7LVzE+Aje2_FW5Q@mail.gmail.com>
+ <CAKMK7uE1yrh-_+shOR5EuLZQaQyckDHNA8uhgwAx6-pLQaHifA@mail.gmail.com>
+ <CAM0jSHOy7R13m27pC+bZHr2S9wGQjT2CmWxVWfu8d58zM9=Gbw@mail.gmail.com>
+ <CAKMK7uFS_X8z3CkGejpqYbje4p30u4KAyQrs0=G5b04fCk0szQ@mail.gmail.com>
+Date: Thu, 03 Jun 2021 11:41:03 +0300
+Message-ID: <87im2vpcgw.fsf@intel.com>
+MIME-Version: 1.0
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,45 +54,27 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- iommu@lists.linux-foundation.org, Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Linus Torvalds <torvalds@linux-foundation.org>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>, Christoph Hellwig <hch@lst.de>,
+ Matthew Auld <matthew.auld@intel.com>,
+ Eero Tamminen <eero.t.tamminen@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-+ Tvrtko to take a look
+On Wed, 02 Jun 2021, Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
+> Adding Jani and Rodrigo since drm-intel-fixes is on them.
 
-Quoting Konrad Rzeszutek Wilk (2021-05-20 18:12:58)
-> On Mon, May 10, 2021 at 05:25:25PM +0200, Christoph Hellwig wrote:
-> > Hi all,
-> >=20
-> > swiotlb_max_segment is a rather strange "API" export by swiotlb.c,
-> > and i915 is the only (remaining) user.
-> >=20
-> > swiotlb_max_segment returns 0 if swiotlb is not in use, 1 if
-> > SWIOTLB_FORCE is set or swiotlb-zen is set, and the swiotlb segment
-> > size when swiotlb is otherwise enabled.
-> >=20
-> > i915 then uses it to:
-> >=20
-> >  a) decided on the max order in i915_gem_object_get_pages_internal
-> >  b) decide on a max segment size in i915_sg_segment_size
-> >=20
-> > for a) it really seems i915 should switch to dma_alloc_noncoherent
-> > or dma_alloc_noncontigous ASAP instead of using alloc_page and
-> > streaming DMA mappings.  Any chance I could trick one of the i915
-> > maintaines into doing just that given that the callchain is not
-> > exactly trivial?
-> >=20
-> > For b) I'm not sure swiotlb and i915 really agree on the meaning
-> > of the value.  swiotlb_set_max_segment basically returns the entire
-> > size of the swiotlb buffer, while i915 seems to use it to limit
-> > the size each scatterlist entry.  It seems like dma_max_mapping_size
-> > might be the best value to use here.
->=20
-> Yes. The background behind that was SWIOTLB would fail because well, the
-> size of the sg was too large. And some way to limit it to max size
-> was needed - the dma_max_mapping_size "should" be just fine.
->=20
-> >=20
-> > Once that is fixed I'd like to kill off swiotlb_max_segment as it is
-> > a horribly confusing API.
+Just sent the fixes pull request with this for v5.13-rc5:
+
+https://lore.kernel.org/r/87lf7rpcmp.fsf@intel.com
+
+
+BR,
+Jani.
+
+
+-- 
+Jani Nikula, Intel Open Source Graphics Center
