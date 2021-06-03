@@ -1,65 +1,70 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0369139AD23
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Jun 2021 23:48:09 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D0B739AD55
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Jun 2021 23:58:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 18BF46EE8D;
-	Thu,  3 Jun 2021 21:48:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0CADF6F510;
+	Thu,  3 Jun 2021 21:58:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com
- [IPv6:2607:f8b0:4864:20::102e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A6D9E6EE8B
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Jun 2021 21:48:04 +0000 (UTC)
-Received: by mail-pj1-x102e.google.com with SMTP id
- d5-20020a17090ab305b02901675357c371so5938783pjr.1
- for <dri-devel@lists.freedesktop.org>; Thu, 03 Jun 2021 14:48:04 -0700 (PDT)
+Received: from mail-pg1-x52e.google.com (mail-pg1-x52e.google.com
+ [IPv6:2607:f8b0:4864:20::52e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BD1586F512
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Jun 2021 21:58:22 +0000 (UTC)
+Received: by mail-pg1-x52e.google.com with SMTP id q15so6176435pgg.12
+ for <dri-devel@lists.freedesktop.org>; Thu, 03 Jun 2021 14:58:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=QqXRTpXf7sx1+OokWNkO2qG4MJggJMiTrRyc0ECoLWE=;
- b=hkT3hbUI1YBMsByk48wopSF97/Fwy4pqJHtvWITZ2dTFR/Rxwdg3us4HvlF8PtKaH+
- tpfSmq74QsTvxl7eyQQ+CN2eythJ0AorLh7v14h69oPro+ldUv5+V7LBVAEItcqmzABg
- j8hmYXZONQqIDFKrLWUHhGTggeoxM3keaJHTA=
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=E33VpkCicrhCD0xawQsjRc1s2X6KLPP55EFBcN78Cmc=;
+ b=nd4t1yTL9raf7I8N8sAjsgYkU70Ab2nau6dmvWEfLhnanrinOsInyFOhBhumFZlseO
+ lyMIV/jfFI4ED1tOQb60ZpS+dJXppW/3nJIge3AwipnFz3YqMJ/bgNbNuT5vKBITn+eB
+ w6kwf/KK5HHx1/q8pXLk50QeWTpNu3HloDAGo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=QqXRTpXf7sx1+OokWNkO2qG4MJggJMiTrRyc0ECoLWE=;
- b=lTYuyvna38XCxnJhf0wM8sXldrfZtNtYiGMOLu+OoSM5f9yRRn+AbLDcdkMtvD2MXR
- sbcDXZk7a5wU9EnyhVTzSaLdrfYsmVIfq+MjDWrIaHGt6zYljbnOhB8mBAzYoGlxRKm9
- HDpdcYLHLoFgpxOgY8cJVN1dSavsfhhXe+MhzQ7t3hFp6/PR/ChX06NjS4RN6JW87py7
- YJ6lk9dy5nai6xtigSeAKtna9qURab1CHOYLlSxcavtKTx6g2JBk7LrM0VW84Twqj2yE
- MnPi5FegieAz4aBr2eW9yRvux+H3ihZzdzN9WlbZsfKnAVok8qbA0ze1D3A7ksmPJsXo
- 1Zvg==
-X-Gm-Message-State: AOAM533U4CFvCuvAfyL2lPK2LDc4dH9JQdSwbqqXPAyBahckIhdQSIXp
- LMClEI8s2g9u2ajWC9YGyvoogw==
-X-Google-Smtp-Source: ABdhPJwnxxBuRrDoQVbRE7Noh8VcVCpr7l9zfI0XLSh6GWGnTE5M/mMzheRi1/2Aks7qGmHQeNoYMw==
-X-Received: by 2002:a17:90b:4ad2:: with SMTP id
- mh18mr1334461pjb.148.1622756884311; 
- Thu, 03 Jun 2021 14:48:04 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=E33VpkCicrhCD0xawQsjRc1s2X6KLPP55EFBcN78Cmc=;
+ b=pXAFGeN1D9lybSPCIYeG3tAJAwCzTlHB4XbsTozu6nXflnro0Qh3vWTFpX6jLd3dLx
+ kTbOcreQazbHOOglh6N6a0pJ4ZRw/p3P6ieWzl9Q3IR+wr+hB4TvrmzSqEzj6if8gSDH
+ b1hcVsSHjp2QLdKbM4P/hTFA5jtRB20L35nbqkAaF6PFRVeOIqp/M9jHWjEQMAd59AIA
+ Tv/bGfTSfGKdIh6U2r5yE/M1N8nTe5A9QnwDMEmipe3F15fkkRRGqxCNI2ql7GUecMca
+ 804ZFxr3ofvfsCGpDGKi0Oob6zgRTH9QY8rkdCu1kdgXq1amM3nCunJVvd/6vZh9LxL5
+ C9/Q==
+X-Gm-Message-State: AOAM53283o+xG/6yuXVknJ8ztm9F94sEvuSVurvJkWglxfgTjI9icC8t
+ j4amD398MSbiDsA/Q1W7ObpTTQ==
+X-Google-Smtp-Source: ABdhPJygDyZYIs+VBgxVm5pLVAz896xD2LcmZZzYpzb/eyQ0hxw0nPGLcmTwWUQp9bMimcTR7TQQhw==
+X-Received: by 2002:a65:584d:: with SMTP id s13mr1547265pgr.77.1622757502408; 
+ Thu, 03 Jun 2021 14:58:22 -0700 (PDT)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
- by smtp.gmail.com with ESMTPSA id 141sm49184pgf.92.2021.06.03.14.48.03
+ by smtp.gmail.com with ESMTPSA id v9sm56165pfn.22.2021.06.03.14.58.21
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 03 Jun 2021 14:48:03 -0700 (PDT)
-Date: Thu, 3 Jun 2021 14:48:02 -0700
+ Thu, 03 Jun 2021 14:58:21 -0700 (PDT)
 From: Kees Cook <keescook@chromium.org>
 To: Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [PATCH 3/3] drm/pl111: depend on CONFIG_VEXPRESS_CONFIG
-Message-ID: <202106031447.09F7AE9EE4@keescook>
-References: <20210602215252.695994-1-keescook@chromium.org>
- <20210602215252.695994-4-keescook@chromium.org>
- <CAL_JsqLO_YbT3VU0+uHH2t6ONs_dWfBhqds9okYD0254ZiBf=A@mail.gmail.com>
- <CAKMK7uFBQk+KA0fPdjkB9=7By2a9V5i=u84ufO+n3dmjayq+vw@mail.gmail.com>
- <202106031357.BE2A09DA8F@keescook>
- <202106031422.FD9E3C5755@keescook>
- <CAKMK7uG8ZiToP2vFsr7TuhntWWh0yiaHkwU5mx5EaESoy+tTHQ@mail.gmail.com>
+Subject: [PATCH] drm/pl111: Actually fix CONFIG_VEXPRESS_CONFIG depends
+Date: Thu,  3 Jun 2021 14:58:19 -0700
+Message-Id: <20210603215819.3904733-1-keescook@chromium.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAKMK7uG8ZiToP2vFsr7TuhntWWh0yiaHkwU5mx5EaESoy+tTHQ@mail.gmail.com>
+X-Patch-Hashes: v=1; h=sha256; g=6b805c2a72c424d5883995daad5dea751e3e4227;
+ i=DwQ2M6JPPIp1aqGMVRBW/n1FD/gTXx2QUVMc6SXkj4M=;
+ m=uJeVtt0ygoQEka7D4SNZAzuRePykX/n9wjq3wzQ7W9A=;
+ p=h0Hb7farsgywRDtpFu8qUGXsdKoc6UYbZMLMBkRugeI=
+X-Patch-Sig: m=pgp; i=keescook@chromium.org; s=0x0x8972F4DFDC6DC026;
+ b=iQIzBAABCgAdFiEEpcP2jyKd1g9yPm4TiXL039xtwCYFAmC5UHoACgkQiXL039xtwCZOJw//S1J
+ PbQg8xZKTtx+9Xkya3J7A1st3vMPy2XF9A56Uj3IXo7NSqHQJbBAJ1EbTuG4UbSOVCFOOuLqkVcmd
+ YGgtoNZzhhy+YDuGuDZdlbuiP1f58Jea54BRb3IaN5v8LFRSNzN9wj5py1/YCqt9m0L+y+D6bzFjV
+ LPvDImivp1i0z07MmRaCd1pHegHX0AhN9G1n5ApHyXROtb9yMVZA9bhTUUr0M2sRtihNblo5LkW7o
+ 5ydp50FvtWjGdljCc/jwvRmzucQuZycEGxfh9/PnKTmb2AOzcw9gL2fexCYD9wjBk1WhsBTxt2vfM
+ ZtfaMcCr6VZZ+8p9TCYrxrBx6qC/d586r9L8fckkoOVmXtuJonJYSfo4enbqe6YTh/fNC6jg/0Eal
+ SpE/WHIZ/MEjK2ORJG8C8mKfQkffLZOnhYEEiniul7fq9+cN51yof3G1Uh3OuvfO9SduU/pqLobGB
+ o2ajlYLZ6C8Y10t7k1Rt9F8/g5asRfXa6SKVn43u5J2TzjcxNt2dhC0lODJBnXF+qAHM5Uz3UJiGO
+ K3BNzgcy1Xj4N+58hnpMMOG+2sBS7OBcvAGm7LUkI6QKv7tHmml7BV1SM3TAfeAGOghlU0YTeGQb6
+ d2CorJwF886Lf6m/fLNlvd85Xpg6pY7BHWKnXPkCfAA8a8vxIxIPth4jDZlweZpw=
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,69 +77,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>,
- kernel test robot <lkp@intel.com>, Emma Anholt <emma@anholt.net>,
- Arnd Bergmann <arnd@kernel.org>, David Airlie <airlied@linux.ie>,
- Sam Ravnborg <sam@ravnborg.org>, Sharat Masetty <smasetty@codeaurora.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- Dave Airlie <airlied@redhat.com>, freedreno <freedreno@lists.freedesktop.org>,
- Sean Paul <sean@poorly.run>
+Cc: Kees Cook <keescook@chromium.org>, Emma Anholt <emma@anholt.net>,
+ David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jun 03, 2021 at 11:41:01PM +0200, Daniel Vetter wrote:
-> On Thu, Jun 3, 2021 at 11:29 PM Kees Cook <keescook@chromium.org> wrote:
-> >
-> > On Thu, Jun 03, 2021 at 02:19:52PM -0700, Kees Cook wrote:
-> > > On Thu, Jun 03, 2021 at 09:19:42PM +0200, Daniel Vetter wrote:
-> > > > On Thu, Jun 3, 2021 at 8:43 PM Rob Herring <robh@kernel.org> wrote:
-> > > > >
-> > > > > On Wed, Jun 2, 2021 at 4:53 PM Kees Cook <keescook@chromium.org> wrote:
-> > > > > >
-> > > > > > Avoid randconfig build failures by requiring VEXPRESS_CONFIG:
-> > > > > >
-> > > > > > aarch64-linux-gnu-ld: drivers/gpu/drm/pl111/pl111_versatile.o: in function `pl111_vexpress_clcd_init':
-> > > > > > pl111_versatile.c:(.text+0x220): undefined reference to `devm_regmap_init_vexpress_config'
-> > > > >
-> > > > > pl111_vexpress_clcd_init() starts with:
-> > > > >
-> > > > > if (!IS_ENABLED(CONFIG_VEXPRESS_CONFIG))
-> > > > >                 return -ENODEV;
-> > > > >
-> > > > > Isn't that supposed to be enough to avoid an undefined reference?
-> > >
-> > > Ah! I missed that when reading the code. I see the problem now. It's
-> > > because of:
-> > >
-> > > CONFIG_VEXPRESS_CONFIG=m
-> > > CONFIG_DRM_PL111=y
-> > >
-> > > I think the right fix is:
-> > >
-> > > diff --git a/drivers/gpu/drm/pl111/Kconfig b/drivers/gpu/drm/pl111/Kconfig
-> > > index 80f6748055e3..662fc38f92ba 100644
-> > > --- a/drivers/gpu/drm/pl111/Kconfig
-> > > +++ b/drivers/gpu/drm/pl111/Kconfig
-> > > @@ -3,6 +3,7 @@ config DRM_PL111
-> > >       tristate "DRM Support for PL111 CLCD Controller"
-> > >       depends on DRM
-> > >       depends on ARM || ARM64 || COMPILE_TEST
-> > > +     depends on VEXPRESS_CONFIG=y || VEXPRESS_CONFIG=DRM
-> >
-> > Oops, no, I had this backwairds:
-> >
-> >         depends on !VEXPRESS_CONFIG || VEXPRESS_CONFIG=DRM
-> 
-> Can you pls throw this into an incremental patch on top of
-> drm-misc-next? It's a non-rebasing tree and all that (linux-next
-> should have it next day too I guess).
+VEXPRESS_CONFIG needs to either be missing, built-in, or modular when
+pl111 is modular. Update the Kconfig to reflect the need.
 
-Ah! Yes, sorry. I wasn't sure if you'd reverted it yet. One moment...
+Cc: Emma Anholt <emma@anholt.net>
+Cc: David Airlie <airlied@linux.ie>
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org
+Fixes: 4dc7c97d04dc ("drm/pl111: depend on CONFIG_VEXPRESS_CONFIG")
+Signed-off-by: Kees Cook <keescook@chromium.org>
+---
+ drivers/gpu/drm/pl111/Kconfig | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
--Kees
-
+diff --git a/drivers/gpu/drm/pl111/Kconfig b/drivers/gpu/drm/pl111/Kconfig
+index c5210a5bef1b..b84879ca430d 100644
+--- a/drivers/gpu/drm/pl111/Kconfig
++++ b/drivers/gpu/drm/pl111/Kconfig
+@@ -2,7 +2,8 @@
+ config DRM_PL111
+ 	tristate "DRM Support for PL111 CLCD Controller"
+ 	depends on DRM
+-	depends on VEXPRESS_CONFIG
++	depends on ARM || ARM64 || COMPILE_TEST
++	depends on !VEXPRESS_CONFIG || VEXPRESS_CONFIG=DRM
+ 	depends on COMMON_CLK
+ 	select DRM_KMS_HELPER
+ 	select DRM_KMS_CMA_HELPER
 -- 
-Kees Cook
+2.25.1
+
