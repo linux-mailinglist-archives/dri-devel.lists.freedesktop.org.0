@@ -2,48 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0FB2E39AB1C
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Jun 2021 21:54:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A2BF39ABC7
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Jun 2021 22:27:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DEAA56E5B9;
-	Thu,  3 Jun 2021 19:54:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 837C86F4F7;
+	Thu,  3 Jun 2021 20:27:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 15AA06E5A1;
- Thu,  3 Jun 2021 19:54:17 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id C47E961403;
- Thu,  3 Jun 2021 19:54:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1622750056;
- bh=A8bTRZWGyUBja/MSUQ29VA/mAZj6QtYjbvJCbANIqsE=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=lfvGW1xaIASaWdfnsj8Xa660kIIT0mmbK6felqgEx4EDG7tPnuUtWGLq9bZeqboYv
- jFvKEAaYpYW6PQOCOemYaLD6rVqaUJmOPXUycexgYypJfAlqP1xhsXpPhj2AD6fGgE
- iOAZbfFS2LGvC0fw2keWywTtHxmEkVsSa5/RR0djNImU9X2aZtCSVY5pViIUIC+7MU
- AYBLRvSSIkgyKad41421ycs7ejiZ1pdWOJMQJYtt6D8qItdbbJI89CpbkYfsaKPBLb
- mGpj8e8CkhwtWk0dhrRb/AiSG6CcvKzb6zYq4JfvZ2Zvbzw+RRp0UHjrjQ6u3Mkr6i
- XrlU86O1/zRgg==
-Received: by mail-ej1-f48.google.com with SMTP id jt22so11004529ejb.7;
- Thu, 03 Jun 2021 12:54:16 -0700 (PDT)
-X-Gm-Message-State: AOAM531Iwb6eZQLhFRmIgQIpHWSFw/ifI+y+LhmiidXQ+T2AmjqSDYvy
- +SxYtdMjaGbvNeGJlMUZ6+rrotjOwyYpvNzN7g==
-X-Google-Smtp-Source: ABdhPJwDQD3xcAB0EXKWI0UDWW+ahHSVny9rQ0wOAWpa2cEgFyxpNPLRRrZrFwuDL+b/HEK8on4d0VTBOUxATJD7qJU=
-X-Received: by 2002:a17:906:fa13:: with SMTP id
- lo19mr895806ejb.468.1622750055293; 
- Thu, 03 Jun 2021 12:54:15 -0700 (PDT)
+Received: from mail.skyhub.de (mail.skyhub.de [5.9.137.197])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 01F766F4F7
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Jun 2021 20:27:28 +0000 (UTC)
+Received: from zn.tnic (p200300ec2f138500c7e12fc0802db454.dip0.t-ipconnect.de
+ [IPv6:2003:ec:2f13:8500:c7e1:2fc0:802d:b454])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 0C77C1EC0246;
+ Thu,  3 Jun 2021 22:27:22 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+ t=1622752042;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+ bh=OdHEZyA0Yz82G9giMJIrJ6sLC/3gLs0Aj9USNqocCdM=;
+ b=n/qUCf7CAevYLO1ua7Xqqjpw/2DKzujCT+H1jn+x5ugKmQ4H2WI5rxAl9X5LimeJKHbs2M
+ kOUvyxeDDa1NQg8mJHgE84zLB/p8lkOiGljmxRGNZS3q9J3rhUJ5BPqkeW+gwtYIwq7KLo
+ 9nn344GKcSr0hzTiGpQkueO8Paj9s3Q=
+Date: Thu, 3 Jun 2021 22:27:19 +0200
+From: Borislav Petkov <bp@alien8.de>
+To: Javier Martinez Canillas <javierm@redhat.com>
+Subject: Re: [PATCH v2 0/2] allow simple{fb,drm} drivers to be used on
+ non-x86 EFI platforms
+Message-ID: <YLk7HjX2OnLhMt4V@zn.tnic>
+References: <20210601145912.774054-1-javierm@redhat.com>
 MIME-Version: 1.0
-References: <20210602215252.695994-1-keescook@chromium.org>
- <20210602215252.695994-4-keescook@chromium.org>
- <CAL_JsqLO_YbT3VU0+uHH2t6ONs_dWfBhqds9okYD0254ZiBf=A@mail.gmail.com>
-In-Reply-To: <CAL_JsqLO_YbT3VU0+uHH2t6ONs_dWfBhqds9okYD0254ZiBf=A@mail.gmail.com>
-From: Rob Herring <robh@kernel.org>
-Date: Thu, 3 Jun 2021 14:54:03 -0500
-X-Gmail-Original-Message-ID: <CAL_JsqLF6WhsoSWtxVUqUPDRMM8qwGwZqWa_xtNqsVyq8OCz6w@mail.gmail.com>
-Message-ID: <CAL_JsqLF6WhsoSWtxVUqUPDRMM8qwGwZqWa_xtNqsVyq8OCz6w@mail.gmail.com>
-Subject: Re: [PATCH 3/3] drm/pl111: depend on CONFIG_VEXPRESS_CONFIG
-To: Kees Cook <keescook@chromium.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20210601145912.774054-1-javierm@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,48 +50,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Arnd Bergmann <arnd@kernel.org>,
- Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Emma Anholt <emma@anholt.net>,
- David Airlie <airlied@linux.ie>, Sam Ravnborg <sam@ravnborg.org>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-arm-msm@vger.kernel.org, Dave Airlie <airlied@redhat.com>,
- freedreno@lists.freedesktop.org, Sean Paul <sean@poorly.run>,
- kernel test robot <lkp@intel.com>
+Cc: linux-efi@vger.kernel.org, Brijesh Singh <brijesh.singh@amd.com>,
+ David Airlie <airlied@linux.ie>, Catalin Marinas <catalin.marinas@arm.com>,
+ Paul Walmsley <paul.walmsley@sifive.com>, dri-devel@lists.freedesktop.org,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Arvind Sankar <nivedita@alum.mit.edu>, Joerg Roedel <jroedel@suse.de>,
+ "H. Peter Anvin" <hpa@zytor.com>, linux-riscv@lists.infradead.org,
+ Will Deacon <will@kernel.org>, Ard Biesheuvel <ardb@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>, x86@kernel.org,
+ Russell King <linux@armlinux.org.uk>,
+ "Peter Zijlstra \(Intel\)" <peterz@infradead.org>,
+ Ingo Molnar <mingo@redhat.com>, Peter Robinson <pbrobinson@gmail.com>,
+ linux-arm-kernel@lists.infradead.org, Albert Ou <aou@eecs.berkeley.edu>,
+ Chester Lin <clin@suse.com>, Hans de Goede <hdegoede@redhat.com>,
+ Josh Poimboeuf <jpoimboe@redhat.com>, Thomas Gleixner <tglx@linutronix.de>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Kalle Valo <kvalo@codeaurora.org>, Juergen Gross <jgross@suse.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org,
+ Dinh Nguyen <dinguyen@kernel.org>, Nicolas Saenz Julienne <nsaenz@kernel.org>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Sudeep Holla <sudeep.holla@arm.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jun 3, 2021 at 1:42 PM Rob Herring <robh@kernel.org> wrote:
->
-> On Wed, Jun 2, 2021 at 4:53 PM Kees Cook <keescook@chromium.org> wrote:
-> >
-> > Avoid randconfig build failures by requiring VEXPRESS_CONFIG:
-> >
-> > aarch64-linux-gnu-ld: drivers/gpu/drm/pl111/pl111_versatile.o: in function `pl111_vexpress_clcd_init':
-> > pl111_versatile.c:(.text+0x220): undefined reference to `devm_regmap_init_vexpress_config'
->
-> pl111_vexpress_clcd_init() starts with:
->
-> if (!IS_ENABLED(CONFIG_VEXPRESS_CONFIG))
->                 return -ENODEV;
->
-> Isn't that supposed to be enough to avoid an undefined reference?
->
-> Making the whole file depend on VEXPRESS_CONFIG is not right either.
-> Not all platforms need it.
+On Tue, Jun 01, 2021 at 04:59:10PM +0200, Javier Martinez Canillas wrote:
+> The series touches different subystems and will need coordination between
+> maintainers. Ard Biesheuvel said that can be merged through the EFI tree.
 
-Specifically, these defconfigs will break as they all use PL111 but
-don't need nor enable VEXPRESS_CONFIG:
+I'm always happy when code from arch/x86/ moves away so
 
-arch/arm/configs/integrator_defconfig:CONFIG_DRM_PL111=y
-arch/arm/configs/lpc18xx_defconfig:CONFIG_DRM_PL111=y
-arch/arm/configs/lpc32xx_defconfig:CONFIG_DRM_PL111=y
-arch/arm/configs/nhk8815_defconfig:CONFIG_DRM_PL111=y
-arch/arm/configs/realview_defconfig:CONFIG_DRM_PL111=y
-arch/arm/configs/spear3xx_defconfig:CONFIG_DRM_PL111=y
-arch/arm/configs/versatile_defconfig:CONFIG_DRM_PL111=y
+Acked-by: Borislav Petkov <bp@suse.de>
 
-These defconfigs should all be failing with the same error, but don't
-from what I've tried nor have I seen any kernelci failures.
+Btw, for the future, please CC everyone on the whole patchset - I had to
+go look at your 2/2 on lore to see what it does because I had only 1/2
+in my mbox.
 
-Rob
+Thx.
+
+-- 
+Regards/Gruss,
+    Boris.
+
+https://people.kernel.org/tglx/notes-about-netiquette
