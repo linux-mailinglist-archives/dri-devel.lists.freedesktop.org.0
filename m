@@ -1,41 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E79A5399DDC
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Jun 2021 11:32:52 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 26F79399DFA
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Jun 2021 11:44:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9112C6E0DC;
-	Thu,  3 Jun 2021 09:32:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F2B126ECA2;
+	Thu,  3 Jun 2021 09:44:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ozlabs.org (bilbo.ozlabs.org [IPv6:2401:3900:2:1::2])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4A0F66E0DC
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Jun 2021 09:32:46 +0000 (UTC)
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
- SHA256) (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4Fwgfg3bPVz9sPf;
- Thu,  3 Jun 2021 19:32:42 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=canb.auug.org.au;
- s=201702; t=1622712765;
- bh=O+KtTbQf+6wyiQAN9S+ojq8+vfTh0V/4wgvl1In0Auk=;
- h=Date:From:To:Cc:Subject:From;
- b=Zwv/UCWmaj5l9RvqEEpiR+TlcPcXtSsSTpEyU/WVHcwwypWkftK7CrbfGztIaEcFJ
- fUTCsMeDgohvqH0p0F/gpufk4dO7wPaaR+yUb/3g2USt8KGB/9aSspU9s3ajT2gwFd
- l8IrbiRC0NjEl+m9m5Blr/MTrauZoT0GxGK4OggDcnjijoXSdfxA8vNNZcHdfev+Fj
- DH21adlx0tgdCnPJIeT9IVrU+AgNM/CPwPYgL0HfZqeIWZeE6ptewgxWs8LUqu1uUq
- Z2xmFTEVGRn3Z5GqWWDI2RyRaclLXTbKHhKMV8MpBUgvoFcCqab5BuXgRRbQ9vk5zx
- 3U4P7lE90ek3Q==
-Date: Thu, 3 Jun 2021 19:32:42 +1000
-From: Stephen Rothwell <sfr@canb.auug.org.au>
-To: Dave Airlie <airlied@linux.ie>, DRI <dri-devel@lists.freedesktop.org>
-Subject: linux-next: build warnings after merge of the drm tree
-Message-ID: <20210603193242.1ce99344@canb.auug.org.au>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 126EE6E0EB
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Jun 2021 09:44:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1622713468;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=vC5rGzm6on6bXKfFOO2UymBEC8RbfHFYmhvbvZmpg4w=;
+ b=V535i3AaZi52xJ2z6Zqkk8ZfGSPoELwKMGBdzxdSa53jsh1IJTWAjkaf+iQstCuaCu76Mc
+ d5YYF05ZjMH/U0s0Z9M5ZpCEvjt4vrHn8iw9znyG4Tx/Am17nHgT8qHvEDXggPNFOp+OAo
+ m0uQPZHGk+SO7FL+EGD/jw5mUZUkHsQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-274-KwsqpEpPMKGCOjQ0kfwU4A-1; Thu, 03 Jun 2021 05:44:27 -0400
+X-MC-Unique: KwsqpEpPMKGCOjQ0kfwU4A-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 35F84106BB29;
+ Thu,  3 Jun 2021 09:44:26 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-113-69.ams2.redhat.com
+ [10.36.113.69])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0010861008;
+ Thu,  3 Jun 2021 09:44:25 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 2B46B18000B2; Thu,  3 Jun 2021 11:44:24 +0200 (CEST)
+Date: Thu, 3 Jun 2021 11:44:24 +0200
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Vivek Kasireddy <vivek.kasireddy@intel.com>
+Subject: Re: [PATCH] udmabuf: Add support for mapping hugepages
+Message-ID: <20210603094424.p6hx7dx42nkmzoqz@sirius.home.kraxel.org>
+References: <20210603085231.285768-1-vivek.kasireddy@intel.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/X=z7ep.m8R.YqP5_zcYmvjT";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+In-Reply-To: <20210603085231.285768-1-vivek.kasireddy@intel.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,64 +65,32 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux Next Mailing List <linux-next@vger.kernel.org>,
- Matthew Auld <matthew.auld@intel.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/X=z7ep.m8R.YqP5_zcYmvjT
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+  Hi,
 
-Hi all,
+> +		if (is_file_hugepages(memfd)) {
+> +			hpstate = hstate_file(memfd);
+> +			pgoff = list[i].offset >> huge_page_shift(hpstate);
+> +			subpgoff = (list[i].offset &
+> +				    ~huge_page_mask(hpstate)) >> PAGE_SHIFT;
+> +			hpage = find_get_page_flags(
+> +					file_inode(memfd)->i_mapping,
+> +					pgoff, FGP_ACCESSED);
+> +			if (IS_ERR(hpage)) {
+> +				ret = PTR_ERR(hpage);
+>  				goto err;
+>  			}
+> +		}
+> +		for (pgidx = 0; pgidx < pgcnt; pgidx++) {
+> +			if (is_file_hugepages(memfd)) {
+> +				page = hpage + subpgoff + pgidx;
+> +				get_page(page);
 
-After merging the drm tree, today's linux-next build (htmldocs) produced
-these warnings:
+Hmm.  Does this work in case the page range spans multiple huge pages?
 
-Documentation/gpu/driver-uapi.rst:2412: WARNING: Duplicate C declaration, a=
-lso defined at gpu/rfc/i915_gem_lmem:1393.
-Declaration is '.. c:enum:: drm_i915_gem_memory_class'.
-Documentation/gpu/driver-uapi.rst:2484: WARNING: Duplicate C declaration, a=
-lso defined at gpu/rfc/i915_gem_lmem:2484.
-Declaration is '.. c:struct:: drm_i915_gem_memory_class_instance'.
-Documentation/gpu/driver-uapi.rst:7: WARNING: Duplicate C declaration, also=
- defined at gpu/rfc/i915_gem_lmem:7.
-Declaration is '.. c:struct:: drm_i915_memory_region_info'.
-Documentation/gpu/driver-uapi.rst:2531: WARNING: Duplicate C declaration, a=
-lso defined at gpu/rfc/i915_gem_lmem:2531.
-Declaration is '.. c:struct:: drm_i915_query_memory_regions'.
-Documentation/gpu/driver-uapi.rst:2595: WARNING: Duplicate C declaration, a=
-lso defined at gpu/rfc/i915_gem_lmem:1393.
-Declaration is '.. c:struct:: drm_i915_gem_create_ext'.
-Documentation/gpu/driver-uapi.rst:2615: WARNING: Duplicate C declaration, a=
-lso defined at gpu/rfc/i915_gem_lmem:1393.
-Declaration is '.. c:struct:: drm_i915_gem_create_ext_memory_regions'.
+take care,
+  Gerd
 
-Introduced by (one or more of) commits
-
-  0c1a77cbdafb ("drm/doc: add section for driver uAPI")
-  2bc9c04ea702 ("drm/doc/rfc: i915 DG1 uAPI")
-  727ecd99a4c9 ("drm/doc/rfc: drop the i915_gem_lmem.h header")
-
---=20
-Cheers,
-Stephen Rothwell
-
---Sig_/X=z7ep.m8R.YqP5_zcYmvjT
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmC4oboACgkQAVBC80lX
-0GyAIwgAlnugat8uTrMp3uyPGuQQYyGtaz4KuUlZm3b30TPz3bvCpyXUHNmho5B5
-LvgpqfOtGZv9DxDzS9OCTZFZNt2MpNRRz3drBvxtkP0E6nnRuSKQLc60LdWmp1SQ
-6tX7wtb5MDk3UXDXc2ui6hlf0/B3pxdyeWYWGxFlBCAnFbUQc4Cfl5H5roFvwXW+
-WcSIasiR/cyR8AWrhIQOW3X5X4JJtGMmB4UyAkLqLiwrAHkmtKp5SKdqi0BxlUPQ
-HJXboTW38wzgVnMKSIhZ8DflHDU9F2mvSLkmNYk3OQbs9wgAw6pUajR+X4NfncsK
-pt5WP8DoQgTM0KUWNYldhXWvimCb3g==
-=io8C
------END PGP SIGNATURE-----
-
---Sig_/X=z7ep.m8R.YqP5_zcYmvjT--
