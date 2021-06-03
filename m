@@ -2,63 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56698399C3D
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Jun 2021 10:05:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 59D43399C68
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Jun 2021 10:18:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 11F8F6F41C;
-	Thu,  3 Jun 2021 08:05:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4344E6E0E8;
+	Thu,  3 Jun 2021 08:18:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com
- [IPv6:2a00:1450:4864:20::132])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 141A16F41C;
- Thu,  3 Jun 2021 08:05:41 +0000 (UTC)
-Received: by mail-lf1-x132.google.com with SMTP id i9so7451701lfe.13;
- Thu, 03 Jun 2021 01:05:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:in-reply-to:references
- :mime-version; bh=Qjlzl7LKAJKi8TUo9KnlRb8pzUxi6orV6bBvxpPrnLA=;
- b=RtcnG8cLpdUdwWSza30NsCnZRL6mXDE+x/JANlIJm20Yl2inTU2/m2qoFgC+qKNyiD
- tAezYDMsO+wrxrdRnrUTfKw0Jbx5xue7mYwFhb5o5QWvZq0EBYbagdvnf7/C72Hu2ZxZ
- a23gdj7mEXEiB9FePuONDZgx57V+k9kEQ2HfP2m4BHdtrAPlkKckH3r5S1xwye9tncue
- VwZUOnYhtjGEQ+aF/PT7c/iUf8hXogb3mHFwB5FbUuG7fczMo2bAF1Pl5rBV2vcaW+bO
- dR1ltLU3OUIKajvYXmHYbgUr2FiKlF1mWeF6ptDQx62UtlWPzoD7HIXih4Yr74+zZlAF
- i/KA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version;
- bh=Qjlzl7LKAJKi8TUo9KnlRb8pzUxi6orV6bBvxpPrnLA=;
- b=oKUV5RtbGb7qDf/uRkOBY/Mb9agYFjQVztX0u9sO25GLep89OkXzaMoIzhQ2N58mEx
- b9Cihh4WYW35lo3y+uT85mz0ofse92I/TLyvW5Q/ZIheHhG7a13nyX7O++qF+wx/Lj6k
- e+9M+iDfJEetCbQEX3MRcVxP48T1kiiZ5iLGmf4NIs0spsmzX22WG5vTWa6IWhkKLCSz
- e2HjOQGmXhjzHj0xZGZlRDBlK7YitymN0rJKCS/Y4RN5i7W5iObJna6eO0ZlIAlOeQ+k
- r0AYz0xqUwhuDf+nEyE9IvlAUEX4sTadlJ5WEnikENMw9dItRADSd75ib26OrWYFdpUD
- z+2A==
-X-Gm-Message-State: AOAM532z6w3SYROROm0RmDjdpB0Wdp3oxt54rj0URgMHXZJ9KDSBa6sO
- PmXEVqIxrzYpAl6nzoRpbO0=
-X-Google-Smtp-Source: ABdhPJx5fVz/7fYZXZYji0VvPOBKEqTHc5qekvk0fccj1TVB04EHKVXaOzHn5+F546qyaNh3R+31Ew==
-X-Received: by 2002:a05:6512:c02:: with SMTP id
- z2mr456476lfu.303.1622707539454; 
- Thu, 03 Jun 2021 01:05:39 -0700 (PDT)
-Received: from eldfell ([194.136.85.206])
- by smtp.gmail.com with ESMTPSA id a22sm298152ljp.72.2021.06.03.01.05.38
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 03 Jun 2021 01:05:39 -0700 (PDT)
-Date: Thu, 3 Jun 2021 11:05:27 +0300
-From: Pekka Paalanen <ppaalanen@gmail.com>
-To: "Shankar, Uma" <uma.shankar@intel.com>
-Subject: Re: [PATCH 1/9] drm: Add gamma mode property
-Message-ID: <20210603110527.39ead45e@eldfell>
-In-Reply-To: <33e9b79a413346309519f2a2499de367@intel.com>
-References: <20210601104135.29020-1-uma.shankar@intel.com>
- <20210601104135.29020-2-uma.shankar@intel.com>
- <20210602120957.7a154640@eldfell>
- <33e9b79a413346309519f2a2499de367@intel.com>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+Received: from new4-smtp.messagingengine.com (new4-smtp.messagingengine.com
+ [66.111.4.230])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B1D066E0E8
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Jun 2021 08:18:51 +0000 (UTC)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailnew.nyi.internal (Postfix) with ESMTP id 5D547580D7B;
+ Thu,  3 Jun 2021 04:18:48 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute3.internal (MEProxy); Thu, 03 Jun 2021 04:18:48 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+ date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm3; bh=TwuV2ha2tJsTpTc91CLj3/nFVE9
+ pHYO8daaw5cAu/GA=; b=bmc529wQ/ycDZT1mFhRMsS5hx2i+7bVsoVSMBpt1R2E
+ /XTVA58cdE+uhOYWpksVNPd6m2RigwpliF/zpb4KwAVsV/0ewE5nfsDAOp0vu5PP
+ 4agDFkGE/RmBRlz8D7J2lOj1yU5InJLXG/kzts+EJgpsY+UK0+saKXPkWFZwuD0J
+ HaQQIREDCXqP6EG7zFbfFQ2/EAVuXmzz6KfZ/GcGyXSJTo6MQMFDNJiqwPhJwEtT
+ WzeKeGwTmgKiuvt2UV51IgFwlTZxcpHFrGJYXnw2UnHRiskKj8iU+X8unZ1fBQ37
+ t7qSxgVha2kDQc9iPKBEs0zJ96GNo50B9bS9LkvG+7Q==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=TwuV2h
+ a2tJsTpTc91CLj3/nFVE9pHYO8daaw5cAu/GA=; b=cXN7HapewSBA26vXGphUOj
+ KTO3JU8zvSB+2zoOxEuo8VBWwGQPUOdmbvonVDLpAbwMo9hbFEkyRm5JcH0xT2TT
+ CeOkvNNeg4e0K1WYGbYVBJ+0eeA6rUYGBW7pGIFVgf2T38n+VzdOccwvvfjOTU/m
+ rWe3y47+JtQyQx6V27xYJL+LrPsM4alHivsuLrJoZXnndw33kwiIEZ+6OpFvw9Fm
+ rxtfnApe9yP1jDQbR3l3KdUwMNZu5qFKbKpMwuEmC4CI0PNsBtFSj/pZBYuM9Sr0
+ 23gm05asHBlVddMdtjxj8aA4MrehKYtzJV/aVdSs2zTCbJq/TyQKUe8lYNqgH3zg
+ ==
+X-ME-Sender: <xms:ZpC4YAyP1DoSpNjxBM9snafm74YZe9v1HNc20eO9Lu0ZpChEgaYCJw>
+ <xme:ZpC4YETMC5Tn8Ks6QwW1BQjwdTtMTW8sNG6YCfBHwmvE3nvFMBxvfdtWAfZHmwwhS
+ oes8lrqzOtyJHo897w>
+X-ME-Received: <xmr:ZpC4YCVpm-Dd8yskZiENlD6BG5M3hh7pi8ZqgcyVT8WsvIwi2h7f_N7va8471NLYl_deMvJhSjNb7xouQBBHC0aQwhScHy6fIF5X>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvdelledgtdduucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
+ vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
+ htvghrnhepleekgeehhfdutdeljefgleejffehfffgieejhffgueefhfdtveetgeehieeh
+ gedunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmh
+ grgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:ZpC4YOhuoovgCtB9ahz98RraRepUfHrwGs1oRpbSzOH5fq3sorGrLQ>
+ <xmx:ZpC4YCBt8Q3HGL-b_3WDuaSh_8z_-KgwfBQSZTqr1hupYrULkTMfIw>
+ <xmx:ZpC4YPLSPLKbhiFwrgrp5aVHUC87bgIZEkvt4MA1oF5WZLU-xEtgHw>
+ <xmx:aJC4YDwuoE0lyEmcAHKW0O8fMxzaGEbBYXAF9H32z6jEnNSWstq_wQ>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 3 Jun 2021 04:18:46 -0400 (EDT)
+Date: Thu, 3 Jun 2021 10:18:43 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: Mark Brown <broonie@kernel.org>
+Subject: Re: [PATCH v2 05/12] ASoC: hdmi-codec: Add a prepare hook
+Message-ID: <20210603081843.nwjlcoik7aubct2p@gilmour>
+References: <20210525132354.297468-1-maxime@cerno.tech>
+ <20210525132354.297468-6-maxime@cerno.tech>
+ <YK4lWaB6Lx+SPjpF@sirena.org.uk>
+ <20210531094213.kuuunk7ytu3q6sq6@gilmour>
+ <s5hzgwb17ji.wl-tiwai@suse.de>
+ <20210601123600.GA4089@sirena.org.uk>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- boundary="Sig_/sh8hlzAqrJ2W8d.HBkYXJrA"; protocol="application/pgp-signature"
+ protocol="application/pgp-signature"; boundary="rkj45skaaxwizccg"
+Content-Disposition: inline
+In-Reply-To: <20210601123600.GA4089@sirena.org.uk>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,108 +84,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, "Modem,
- Bhanuprakash" <bhanuprakash.modem@intel.com>
+Cc: alsa-devel@alsa-project.org, Tim Gover <tim.gover@raspberrypi.com>,
+ linux-doc@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Liam Girdwood <lgirdwood@gmail.com>, Daniel Vetter <daniel.vetter@intel.com>,
+ Phil Elwell <phil@raspberrypi.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ David Airlie <airlied@linux.ie>, bcm-kernel-feedback-list@broadcom.com,
+ devicetree@vger.kernel.org, Nicolas Saenz Julienne <nsaenz@kernel.org>,
+ Rob Herring <robh+dt@kernel.org>, linux-rpi-kernel@lists.infradead.org,
+ Jaroslav Kysela <perex@perex.cz>, linux-arm-kernel@lists.infradead.org,
+ Dom Cobley <dom@raspberrypi.com>, Jonathan Corbet <corbet@lwn.net>,
+ linux-kernel@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/sh8hlzAqrJ2W8d.HBkYXJrA
-Content-Type: text/plain; charset=US-ASCII
+
+--rkj45skaaxwizccg
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, 2 Jun 2021 20:18:19 +0000
-"Shankar, Uma" <uma.shankar@intel.com> wrote:
+Hi,
 
-> > -----Original Message-----
-> > From: Pekka Paalanen <ppaalanen@gmail.com>
-> > Sent: Wednesday, June 2, 2021 2:40 PM
-> > To: Shankar, Uma <uma.shankar@intel.com>
-> > Cc: intel-gfx@lists.freedesktop.org; dri-devel@lists.freedesktop.org; M=
-odem,
-> > Bhanuprakash <bhanuprakash.modem@intel.com>
-> > Subject: Re: [PATCH 1/9] drm: Add gamma mode property
-> >=20
-> > On Tue,  1 Jun 2021 16:11:27 +0530
-> > Uma Shankar <uma.shankar@intel.com> wrote:
-> >  =20
-> > > Add a gamma mode property to enable various kind of gamma modes
-> > > supported by platforms like: Interpolated, Split, Multi Segmented,
-> > > Logarithmic etc. Userspace can get this property and should be able to
-> > > get the platform capabilities wrt various gamma modes possible and the
-> > > possible ranges.
-> > >
-> > > It can select one of the modes exposed as blob_id as an enum and set
-> > > the respective mode.
-> > >
-> > > It can then create the LUT and send it to driver using already
-> > > available GAMMA_LUT property as blob.
-> > >
-> > > Note: This is based on design by Ville and is being carried forward
-> > > based on his original idea.
-> > >
-> > > Signed-off-by: Uma Shankar <uma.shankar@intel.com>
-> > > ---
-> > >  drivers/gpu/drm/drm_atomic_uapi.c |  5 +++
-> > > drivers/gpu/drm/drm_color_mgmt.c  | 75 +++++++++++++++++++++++++++++++
-> > >  include/drm/drm_color_mgmt.h      |  8 ++++
-> > >  include/drm/drm_crtc.h            | 14 ++++++
-> > >  include/uapi/drm/drm_mode.h       | 43 ++++++++++++++++++
-> > >  5 files changed, 145 insertions(+)
+On Tue, Jun 01, 2021 at 01:36:24PM +0100, Mark Brown wrote:
+> On Mon, May 31, 2021 at 01:12:17PM +0200, Takashi Iwai wrote:
+> > Maxime Ripard wrote:
+>=20
+> > > There's a build dependency between the DRM bits and the new hook
+> > > introduced in hdmi-codec, would you be ok with merging it through the
+> > > drm tree?
+>=20
+> > Speaking of ALSA core changes, I'm fine with that.
+>=20
+> Yeah, a pull request for the shared bits would be handy in case there's
+> some collision with other work.
 
-...
+I guess the easiest then would be for you to merge the patches and send
+a PR? Assuming you don't want to pull half of DRM of course :)
 
-> > Hi,
-> >=20
-> > where is the UAPI documentation for this new GAMMA_MODE?
-> > As a userspace dev, I have no idea what to do with the above based on w=
-hat's
-> > written here. =20
->=20
-> Got that, I will add more details on the UAPI usage to make things a bit =
-clearer.
->=20
-> > Also, reading the description of DRM_CLIENT_CAP_ADVANCE_GAMMA_MODES in
-> > patch 5/9, what difference does it make whether userspace sets or does =
-not set that
-> > cap? I don't understand the implications from the description. =20
->=20
-> The reason we have this Client caps is to have it co-exist with legacy cr=
-tc color properties.
-> The idea is that driver will describe the h/w luts to userspace through G=
-AMMA_MODE UAPI,
-> but the actual lut samples will still be sent through the legacy GAMMA_LU=
-T UAPI. This client
-> cap will help distinguish between legacy and this new implementation.
->=20
-> I will add more details in the UAPI description to avoid ambiguity and ex=
-plain the rationale and
-> usage of this UAPI.
->=20
-> Thanks Pekka for the looking into the series and the initial feedback.
+Maxime
 
-Thanks a lot, will be interesting to read those docs.
-pq
 
---Sig_/sh8hlzAqrJ2W8d.HBkYXJrA
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
+--rkj45skaaxwizccg
+Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmC4jUcACgkQI1/ltBGq
-qqe2gQ//ZKWcS5z202c8pnPboJV49xzTEU2lRyfWxc1qxMyvx1LzIlZI3AhQCCod
-qzp8LvVf7zM+U5XmKKRRDV5H0SCCDkOGUxXb5ijOLFfPRZiyimacrOZrxobaUfK1
-418Qc41tuwQwWJCaCBd9xUniSBE8HbGo9bWlZ2OhYc1sC4W1KeAYd3/htKyWGbiK
-qjxuUan0wSXBReEXRSbcXW7/gkWEaXe2JYHyjJ/9nr0L9TtqMuT8fEfW55/ZnZiY
-ENYBsECYIlkd3FcBtaSiZ0M4DQVnmqRdv7YBrpdWZttrjY9QmySomaZlL6ELs2LG
-wHXJKznGWq+PcxhiaNieQ8caQCwmpAsDkCUFgDlcJS2H79YgibBfzdnGtufVJPmb
-CwBx6ZZgbS/CEXvNziJ0+cP2PWdScreNs/l6WhwEcWSSJJHaH77Y0kRarGWod7sB
-PU+wAOGGmOSnCIGAirYAfuCGp7sGXJqijHtrlKp9QfSoGcYkcBBfuzoFTbgIL/zC
-2kwVrb3xjvDab2yMHAo8/sAIyrFfGsGNILyyrY9Il8usbcCD4ZPZ7ldbT+KeZAvi
-fs8c8pmDcFbXi7C78kNpjdXPH8zTlct2YRfcrAWmuWwsnP7MkJHVvRKPLqDeiOi7
-9AZlBOm+r64NUdEimeU/ZxGmkq44Eo1eM9h/RqkBkvt11VEm+UU=
-=kr+R
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYLiQYwAKCRDj7w1vZxhR
+xY3tAQCNDRo7aulJ5VeVRzqdd+tlvfHDwEv8T2XuJbx+a2+uQwD9GYltrs50+UPd
+23Wv2j7Qynv07biPvFD4miTXZeE54gw=
+=G3gn
 -----END PGP SIGNATURE-----
 
---Sig_/sh8hlzAqrJ2W8d.HBkYXJrA--
+--rkj45skaaxwizccg--
