@@ -1,58 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD5C339A4D9
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Jun 2021 17:40:46 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7774539A4DB
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Jun 2021 17:40:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 863C06F4BE;
-	Thu,  3 Jun 2021 15:40:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 54BF56F4B8;
+	Thu,  3 Jun 2021 15:40:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x42a.google.com (mail-pf1-x42a.google.com
- [IPv6:2607:f8b0:4864:20::42a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E954D6F4B7
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Jun 2021 15:40:38 +0000 (UTC)
-Received: by mail-pf1-x42a.google.com with SMTP id c12so5191702pfl.3
- for <dri-devel@lists.freedesktop.org>; Thu, 03 Jun 2021 08:40:38 -0700 (PDT)
+Received: from mail-pj1-x1034.google.com (mail-pj1-x1034.google.com
+ [IPv6:2607:f8b0:4864:20::1034])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EF3C16F4B7
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Jun 2021 15:40:40 +0000 (UTC)
+Received: by mail-pj1-x1034.google.com with SMTP id
+ o17-20020a17090a9f91b029015cef5b3c50so5697089pjp.4
+ for <dri-devel@lists.freedesktop.org>; Thu, 03 Jun 2021 08:40:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=jlekstrand-net.20150623.gappssmtp.com; s=20150623;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=xNx+orAcFBlIoQQ1IaqOvr+hd5jyTpS3B9hPQkDBVcM=;
- b=s2wAYwLqtRx6adqavH5RZMLRoiRDBRLsVcXbIAaD9UnezFqmXZyhXgk5Ua/oBpARSG
- IYf4RW8yGyK8p11Ve0Ts2Bbjb0Qh6GZNvTfyCXcCR8+oGjIVfa3dkV0dae5bfCjpYscQ
- nEu/FgFf79H51S/HdOP5ZT4W7LGCzzfsf9N5m9aTlsGemovA8Zrxigh/2bPQUk8wspqN
- ZFHJeTKkSf47T/3Ciw9JagHEpqmnUmyeItsuMvXuupeQbG9+fez2rtLbGLNZ5hULbA8f
- YjHciUqVT0UI/IHqqnP8zdrsfJJP1g5axPvqwkpnk4UI4lIhovuoWoloJ3nq5/zuuA5k
- r0gQ==
+ bh=ISJVvStMAR7Z60QZoYOnA+cgPbsN3FkGO0+5Gj/UFns=;
+ b=La1zBKRpRqXwWJ2ibhGrpAyOTr+gPfu0AGUF0zix3njs/44yrzT0KhZv2ItHY6vlQB
+ br0Yw77SA1tqEH9UYSr5yDvkk1WPkq8h+BvGD5dJ7kDq3B6Y3FwIuXcL938moJrsTntO
+ khmShN+1frpmwgNaD1EL+kIpL3ZOF1UQ7MyK9YX2Nh6Elzu4Avrx+jSQfHbBrizPiYWu
+ TkexhLHf9VuXPAFiA7qH7Y2HZCvoczXLdR67SnJgBcdbWnnSS4KzTfcp1CTzBxJog3xn
+ b8I3sg1scI+AEFYGt1sAk8LGl0+3BTCxJdXu0gLYBWDE0mxW8yfUQw3QSnXSM7f0OOTx
+ rHOQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=xNx+orAcFBlIoQQ1IaqOvr+hd5jyTpS3B9hPQkDBVcM=;
- b=VxxVYp5kvz/imOs3m1WE6Q9p2qRX1QxuqVXkzfSG61Uo+zEGJ51dpqT6g7Bq+ZM5tm
- iDb/o9Xhh/0xCDsG667UXDmXKs71H/XyWAIkvp9buHN6Ya/6O8/pMZOnSJV6/zecb4Cg
- COzVK3qnnn7ZCI8wmOKNrhNYIbPzV5wsVi+A2b+Ing+MLaGFSqF9gcceGaweCOKyN3HH
- t1w503dXPSg3G8X6cV91QBeLRUkN/O5iPAuUwA9w9Cg4hXWaZ/rGkJiSDjyLiZSnuWCE
- 7BNtG1HcRkzWhA/vgEjr2dNCl/DOr8Saee91oOSgWKQCfYWpVo+mOxbWSgYZYJ52wzxq
- aQbg==
-X-Gm-Message-State: AOAM533ZdQh3F1nLqrSpGdGuy1VXtzA2xN5f/UJguY2wYRLBRHoBaJPA
- eL0NC8ZHRBTg3g4Ek1RSGJw0RLiJjiwNpw==
-X-Google-Smtp-Source: ABdhPJxTFvmDeWylRort61MMfCnKq9X6uQFEbkGSzp80ux0O34MNh5Mtnj1NXolC1YQwt57zs/erjw==
-X-Received: by 2002:a63:dd4b:: with SMTP id g11mr113407pgj.300.1622734837631; 
- Thu, 03 Jun 2021 08:40:37 -0700 (PDT)
+ bh=ISJVvStMAR7Z60QZoYOnA+cgPbsN3FkGO0+5Gj/UFns=;
+ b=YVhVTUo+h1pptjnPld9J9y9WC+3Y3ZSZ+Fxu/yAxuedcR0AEtVE+qfnnp0Y65JWo3e
+ zU6b4dJyw4X7RD68E1i22GVJ3/RC9s6wEvzLpbL8kWHs03Hi+II+mFQCKlNNmeSwbG7m
+ VGYk3n0DKGXEVvtaJmdBOgT29ht2b72ELGX7HUhKP/7aItNZXOHHR289bMu8wSAmhAiy
+ BmaXFnmzhENtg88Dc2YooUy+wodmf79GEE1i65bHYG79RZ//0N4Mo0fx0LXWixOKUhBt
+ qLsPZq2sF2WkpdsksfvlalfNdFSF9efOnBY/Q9QXV1K3SM84u4tAPOsThFXaJ6C9FREp
+ v1Dw==
+X-Gm-Message-State: AOAM530b8rfPc0D1Jp7tDuO7CCrlgWpXf8PIVQ37GZ+6q7t7ep7aa3as
+ PagbPa4EiWV1HEN+5mpcfVcYcw==
+X-Google-Smtp-Source: ABdhPJyfBAVxYAYGiZ9QgnjgfEpd9spDvcZl51O0uXY06e49Npl6ddcjP6f4BBhw/VXJSdr7VplptQ==
+X-Received: by 2002:a17:90a:af8b:: with SMTP id
+ w11mr576389pjq.228.1622734839686; 
+ Thu, 03 Jun 2021 08:40:39 -0700 (PDT)
 Received: from omlet.lan ([134.134.139.76])
- by smtp.gmail.com with ESMTPSA id mp21sm2681789pjb.50.2021.06.03.08.40.35
+ by smtp.gmail.com with ESMTPSA id mp21sm2681789pjb.50.2021.06.03.08.40.37
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 03 Jun 2021 08:40:37 -0700 (PDT)
+ Thu, 03 Jun 2021 08:40:39 -0700 (PDT)
 From: Jason Ekstrand <jason@jlekstrand.net>
 To: intel-gfx@lists.freedesktop.org,
 	dri-devel@lists.freedesktop.org
-Subject: [PATCH 2/5] Revert "drm/i915: Propagate errors on awaiting already
- signaled fences"
-Date: Thu,  3 Jun 2021 10:40:24 -0500
-Message-Id: <20210603154027.594906-3-jason@jlekstrand.net>
+Subject: [PATCH 3/5] drm/i915: Remove allow_alloc from i915_gem_object_get_sg*
+Date: Thu,  3 Jun 2021 10:40:25 -0500
+Message-Id: <20210603154027.594906-4-jason@jlekstrand.net>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210603154027.594906-1-jason@jlekstrand.net>
 References: <20210603154027.594906-1-jason@jlekstrand.net>
@@ -70,90 +71,132 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, stable@vger.kernel.org,
- Jason Ekstrand <jason.ekstrand@intel.com>,
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
  Jon Bloomfield <jon.bloomfield@intel.com>,
- Jason Ekstrand <jason@jlekstrand.net>,
- Marcin Slusarz <marcin.slusarz@intel.com>
+ Jason Ekstrand <jason@jlekstrand.net>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This reverts commit 9e31c1fe45d555a948ff66f1f0e3fe1f83ca63f7.  Ever
-since that commit, we've been having issues where a hang in one client
-can propagate to another.  In particular, a hang in an app can propagate
-to the X server which causes the whole desktop to lock up.
-
-Error propagation along fences sound like a good idea, but as your bug
-shows, surprising consequences, since propagating errors across security
-boundaries is not a good thing.
-
-What we do have is track the hangs on the ctx, and report information to
-userspace using RESET_STATS. That's how arb_robustness works. Also, if my
-understanding is still correct, the EIO from execbuf is when your context
-is banned (because not recoverable or too many hangs). And in all these
-cases it's up to userspace to figure out what is all impacted and should
-be reported to the application, that's not on the kernel to guess and
-automatically propagate.
-
-What's more, we're also building more features on top of ctx error
-reporting with RESET_STATS ioctl: Encrypted buffers use the same, and the
-userspace fence wait also relies on that mechanism. So it is the path
-going forward for reporting gpu hangs and resets to userspace.
-
-So all together that's why I think we should just bury this idea again as
-not quite the direction we want to go to, hence why I think the revert is
-the right option here.
-
-For backporters: Please note that you _must_ have a backport of
-https://lore.kernel.org/dri-devel/20210602164149.391653-2-jason@jlekstrand.net/
-for otherwise backporting just this patch opens up a security bug.
-
-v2: Augment commit message. Also restore Jason's sob that I
-accidentally lost.
-
-v3: Add a note for backporters
+This reverts the rest of 0edbb9ba1bfe ("drm/i915: Move cmd parser
+pinning to execbuffer").  Now that the only user of i915_gem_object_get_sg
+without allow_alloc has been removed, we can drop the parameter.  This
+portion of the revert was broken into its own patch to aid review.
 
 Signed-off-by: Jason Ekstrand <jason@jlekstrand.net>
-Reported-by: Marcin Slusarz <marcin.slusarz@intel.com>
-Cc: <stable@vger.kernel.org> # v5.6+
-Cc: Jason Ekstrand <jason.ekstrand@intel.com>
-Cc: Marcin Slusarz <marcin.slusarz@intel.com>
-Closes: https://gitlab.freedesktop.org/drm/intel/-/issues/3080
-Fixes: 9e31c1fe45d5 ("drm/i915: Propagate errors on awaiting already signaled fences")
-Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
 Reviewed-by: Jon Bloomfield <jon.bloomfield@intel.com>
+Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 ---
- drivers/gpu/drm/i915/i915_request.c | 8 ++------
- 1 file changed, 2 insertions(+), 6 deletions(-)
+ drivers/gpu/drm/i915/gem/i915_gem_object.h | 10 +++++-----
+ drivers/gpu/drm/i915/gem/i915_gem_pages.c  | 21 ++++-----------------
+ drivers/gpu/drm/i915/gt/intel_ggtt.c       |  2 +-
+ 3 files changed, 10 insertions(+), 23 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/i915_request.c b/drivers/gpu/drm/i915/i915_request.c
-index 970d8f4986bbe..b796197c07722 100644
---- a/drivers/gpu/drm/i915/i915_request.c
-+++ b/drivers/gpu/drm/i915/i915_request.c
-@@ -1426,10 +1426,8 @@ i915_request_await_execution(struct i915_request *rq,
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object.h b/drivers/gpu/drm/i915/gem/i915_gem_object.h
+index 2ebd79537aea9..329d848f3ff6d 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_object.h
++++ b/drivers/gpu/drm/i915/gem/i915_gem_object.h
+@@ -339,22 +339,22 @@ struct scatterlist *
+ __i915_gem_object_get_sg(struct drm_i915_gem_object *obj,
+ 			 struct i915_gem_object_page_iter *iter,
+ 			 unsigned int n,
+-			 unsigned int *offset, bool allow_alloc);
++			 unsigned int *offset);
  
- 	do {
- 		fence = *child++;
--		if (test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->flags)) {
--			i915_sw_fence_set_error_once(&rq->submit, fence->error);
-+		if (test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->flags))
- 			continue;
--		}
+ static inline struct scatterlist *
+ i915_gem_object_get_sg(struct drm_i915_gem_object *obj,
+ 		       unsigned int n,
+-		       unsigned int *offset, bool allow_alloc)
++		       unsigned int *offset)
+ {
+-	return __i915_gem_object_get_sg(obj, &obj->mm.get_page, n, offset, allow_alloc);
++	return __i915_gem_object_get_sg(obj, &obj->mm.get_page, n, offset);
+ }
  
- 		if (fence->context == rq->fence.context)
- 			continue;
-@@ -1527,10 +1525,8 @@ i915_request_await_dma_fence(struct i915_request *rq, struct dma_fence *fence)
+ static inline struct scatterlist *
+ i915_gem_object_get_sg_dma(struct drm_i915_gem_object *obj,
+ 			   unsigned int n,
+-			   unsigned int *offset, bool allow_alloc)
++			   unsigned int *offset)
+ {
+-	return __i915_gem_object_get_sg(obj, &obj->mm.get_dma_page, n, offset, allow_alloc);
++	return __i915_gem_object_get_sg(obj, &obj->mm.get_dma_page, n, offset);
+ }
  
- 	do {
- 		fence = *child++;
--		if (test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->flags)) {
--			i915_sw_fence_set_error_once(&rq->submit, fence->error);
-+		if (test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->flags))
- 			continue;
--		}
+ struct page *
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_pages.c b/drivers/gpu/drm/i915/gem/i915_gem_pages.c
+index 6444e097016da..f234bd5bf22fc 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_pages.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_pages.c
+@@ -466,8 +466,7 @@ struct scatterlist *
+ __i915_gem_object_get_sg(struct drm_i915_gem_object *obj,
+ 			 struct i915_gem_object_page_iter *iter,
+ 			 unsigned int n,
+-			 unsigned int *offset,
+-			 bool allow_alloc)
++			 unsigned int *offset)
+ {
+ 	const bool dma = iter == &obj->mm.get_dma_page;
+ 	struct scatterlist *sg;
+@@ -490,9 +489,6 @@ __i915_gem_object_get_sg(struct drm_i915_gem_object *obj,
+ 	if (n < READ_ONCE(iter->sg_idx))
+ 		goto lookup;
  
- 		/*
- 		 * Requests on the same timeline are explicitly ordered, along
+-	if (!allow_alloc)
+-		goto manual_lookup;
+-
+ 	mutex_lock(&iter->lock);
+ 
+ 	/* We prefer to reuse the last sg so that repeated lookup of this
+@@ -542,16 +538,7 @@ __i915_gem_object_get_sg(struct drm_i915_gem_object *obj,
+ 	if (unlikely(n < idx)) /* insertion completed by another thread */
+ 		goto lookup;
+ 
+-	goto manual_walk;
+-
+-manual_lookup:
+-	idx = 0;
+-	sg = obj->mm.pages->sgl;
+-	count = __sg_page_count(sg);
+-
+-manual_walk:
+-	/*
+-	 * In case we failed to insert the entry into the radixtree, we need
++	/* In case we failed to insert the entry into the radixtree, we need
+ 	 * to look beyond the current sg.
+ 	 */
+ 	while (idx + count <= n) {
+@@ -598,7 +585,7 @@ i915_gem_object_get_page(struct drm_i915_gem_object *obj, unsigned int n)
+ 
+ 	GEM_BUG_ON(!i915_gem_object_has_struct_page(obj));
+ 
+-	sg = i915_gem_object_get_sg(obj, n, &offset, true);
++	sg = i915_gem_object_get_sg(obj, n, &offset);
+ 	return nth_page(sg_page(sg), offset);
+ }
+ 
+@@ -624,7 +611,7 @@ i915_gem_object_get_dma_address_len(struct drm_i915_gem_object *obj,
+ 	struct scatterlist *sg;
+ 	unsigned int offset;
+ 
+-	sg = i915_gem_object_get_sg_dma(obj, n, &offset, true);
++	sg = i915_gem_object_get_sg_dma(obj, n, &offset);
+ 
+ 	if (len)
+ 		*len = sg_dma_len(sg) - (offset << PAGE_SHIFT);
+diff --git a/drivers/gpu/drm/i915/gt/intel_ggtt.c b/drivers/gpu/drm/i915/gt/intel_ggtt.c
+index 10c23a749a950..46c98887f17e3 100644
+--- a/drivers/gpu/drm/i915/gt/intel_ggtt.c
++++ b/drivers/gpu/drm/i915/gt/intel_ggtt.c
+@@ -1494,7 +1494,7 @@ intel_partial_pages(const struct i915_ggtt_view *view,
+ 	if (ret)
+ 		goto err_sg_alloc;
+ 
+-	iter = i915_gem_object_get_sg_dma(obj, view->partial.offset, &offset, true);
++	iter = i915_gem_object_get_sg_dma(obj, view->partial.offset, &offset);
+ 	GEM_BUG_ON(!iter);
+ 
+ 	sg = st->sgl;
 -- 
 2.31.1
 
