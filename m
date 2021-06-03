@@ -2,40 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84FBF399993
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Jun 2021 06:59:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E1C2E39998D
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Jun 2021 06:59:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DFDF26F3C9;
-	Thu,  3 Jun 2021 04:58:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 147E96F3F4;
+	Thu,  3 Jun 2021 04:58:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D49936F3A0;
- Thu,  3 Jun 2021 04:58:42 +0000 (UTC)
-IronPort-SDR: /T3rbgvxD7ak0aC9ZWz7/dWMl4OKxAna9harWajE5Y/Zd775UYv/1cAgh0ID8XnGMQxLo0UC/S
- IWHYL36RrXkQ==
-X-IronPort-AV: E=McAfee;i="6200,9189,10003"; a="265138297"
-X-IronPort-AV: E=Sophos;i="5.83,244,1616482800"; d="scan'208";a="265138297"
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C7C636F3CE;
+ Thu,  3 Jun 2021 04:58:44 +0000 (UTC)
+IronPort-SDR: a/FTKHQS5NKl2wC8HwoyQJuQfC9xsCgpMoiR/WtEaZyUJVYKOXas5u/7AqFXQkOjvYc7XS0moB
+ 53RWYkDg5BzQ==
+X-IronPort-AV: E=McAfee;i="6200,9189,10003"; a="203956526"
+X-IronPort-AV: E=Sophos;i="5.83,244,1616482800"; d="scan'208";a="203956526"
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  02 Jun 2021 21:58:41 -0700
-IronPort-SDR: TG2t9nmQU7Vn/XPy3BPWvwoPr+Bh/2swECxmDTeOOWkxMVmZXNM9+JFS1bx0j9002I/iagLmS2
- qDxwkdoinWvQ==
-X-IronPort-AV: E=Sophos;i="5.83,244,1616482800"; d="scan'208";a="480020040"
+IronPort-SDR: AbYO5MnyHAcHXS3/JZmqOLjm9ehOZig6J5sdC4IEOm9m0ZjS10xhfbcp2qmppFsoYiAGQBera+
+ 4WN8B89H3FAA==
+X-IronPort-AV: E=Sophos;i="5.83,244,1616482800"; d="scan'208";a="480020042"
 Received: from dhiatt-server.jf.intel.com ([10.54.81.3])
  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  02 Jun 2021 21:58:41 -0700
 From: Matthew Brost <matthew.brost@intel.com>
 To: <intel-gfx@lists.freedesktop.org>,
 	<dri-devel@lists.freedesktop.org>
-Subject: [PATCH 18/20] drm/i915/guc: Always copy CT message to new allocation
-Date: Wed,  2 Jun 2021 22:16:28 -0700
-Message-Id: <20210603051630.2635-19-matthew.brost@intel.com>
+Subject: [PATCH 19/20] drm/i915/guc: Early initialization of GuC send registers
+Date: Wed,  2 Jun 2021 22:16:29 -0700
+Message-Id: <20210603051630.2635-20-matthew.brost@intel.com>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20210603051630.2635-1-matthew.brost@intel.com>
 References: <20210603051630.2635-1-matthew.brost@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -55,358 +54,59 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Michal Wajdeczko <michal.wajdeczko@intel.com>
 
-Since most of future CT traffic will be based on G2H requests,
-instead of copying incoming CT message to static buffer and then
-create new allocation for such request, always copy incoming CT
-message to new allocation. Also by doing it while reading CT
-header, we can safely fallback if that atomic allocation fails.
+Base offset and count of the GuC scratch registers, used for
+sending MMIO messages to GuC, can be initialized earlier with
+other GuC members that also depends on platform.
 
 Signed-off-by: Michal Wajdeczko <michal.wajdeczko@intel.com>
 Signed-off-by: Matthew Brost <matthew.brost@intel.com>
 Reviewed-by: Matthew Brost <matthew.brost@intel.com>
-Cc: Piotr Piórkowski <piotr.piorkowski@intel.com>
+Cc: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
 ---
- drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c | 180 ++++++++++++++--------
- 1 file changed, 120 insertions(+), 60 deletions(-)
+ drivers/gpu/drm/i915/gt/uc/intel_guc.c | 18 +++++++++---------
+ 1 file changed, 9 insertions(+), 9 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
-index 4fac9e4bced4..8869f9ebb4c8 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
-@@ -72,8 +72,9 @@ struct ct_request {
- 	u32 *response_buf;
- };
- 
--struct ct_incoming_request {
-+struct ct_incoming_msg {
- 	struct list_head link;
-+	u32 size;
- 	u32 msg[];
- };
- 
-@@ -600,7 +601,26 @@ static inline bool ct_header_is_response(u32 header)
- 	return !!(header & GUC_CT_MSG_IS_RESPONSE);
- }
- 
--static int ct_read(struct intel_guc_ct *ct, u32 *data)
-+static struct ct_incoming_msg *ct_alloc_msg(u32 num_dwords)
-+{
-+	struct ct_incoming_msg *msg;
-+
-+	msg = kmalloc(sizeof(*msg) + sizeof(u32) * num_dwords, GFP_ATOMIC);
-+	if (msg)
-+		msg->size = num_dwords;
-+	return msg;
-+}
-+
-+static void ct_free_msg(struct ct_incoming_msg *msg)
-+{
-+	kfree(msg);
-+}
-+
-+/*
-+ * Return: number available remaining dwords to read (0 if empty)
-+ *         or a negative error code on failure
-+ */
-+static int ct_read(struct intel_guc_ct *ct, struct ct_incoming_msg **msg)
- {
- 	struct intel_guc_ct_buffer *ctb = &ct->ctbs.recv;
- 	struct guc_ct_buffer_desc *desc = ctb->desc;
-@@ -611,6 +631,7 @@ static int ct_read(struct intel_guc_ct *ct, u32 *data)
- 	s32 available;
- 	unsigned int len;
+diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc.c b/drivers/gpu/drm/i915/gt/uc/intel_guc.c
+index 18da9ed15728..fcfa4fd93841 100644
+--- a/drivers/gpu/drm/i915/gt/uc/intel_guc.c
++++ b/drivers/gpu/drm/i915/gt/uc/intel_guc.c
+@@ -60,15 +60,8 @@ void intel_guc_init_send_regs(struct intel_guc *guc)
+ 	enum forcewake_domains fw_domains = 0;
  	unsigned int i;
-+	u32 header;
  
- 	if (unlikely(desc->is_in_error))
- 		return -EPIPE;
-@@ -626,8 +647,10 @@ static int ct_read(struct intel_guc_ct *ct, u32 *data)
- 
- 	/* tail == head condition indicates empty */
- 	available = tail - head;
--	if (unlikely(available == 0))
--		return -ENODATA;
-+	if (unlikely(available == 0)) {
-+		*msg = NULL;
-+		return 0;
-+	}
- 
- 	/* beware of buffer wrap case */
- 	if (unlikely(available < 0))
-@@ -635,14 +658,14 @@ static int ct_read(struct intel_guc_ct *ct, u32 *data)
- 	CT_DEBUG(ct, "available %d (%u:%u)\n", available, head, tail);
- 	GEM_BUG_ON(available < 0);
- 
--	data[0] = cmds[head];
-+	header = cmds[head];
- 	head = (head + 1) % size;
- 
- 	/* message len with header */
--	len = ct_header_get_len(data[0]) + 1;
-+	len = ct_header_get_len(header) + 1;
- 	if (unlikely(len > (u32)available)) {
- 		CT_ERROR(ct, "Incomplete message %*ph %*ph %*ph\n",
--			 4, data,
-+			 4, &header,
- 			 4 * (head + available - 1 > size ?
- 			      size - head : available - 1), &cmds[head],
- 			 4 * (head + available - 1 > size ?
-@@ -650,11 +673,24 @@ static int ct_read(struct intel_guc_ct *ct, u32 *data)
- 		goto corrupted;
- 	}
- 
-+	*msg = ct_alloc_msg(len);
-+	if (!*msg) {
-+		CT_ERROR(ct, "No memory for message %*ph %*ph %*ph\n",
-+			 4, &header,
-+			 4 * (head + available - 1 > size ?
-+			      size - head : available - 1), &cmds[head],
-+			 4 * (head + available - 1 > size ?
-+			      available - 1 - size + head : 0), &cmds[0]);
-+		return available;
-+	}
-+
-+	(*msg)->msg[0] = header;
-+
- 	for (i = 1; i < len; i++) {
--		data[i] = cmds[head];
-+		(*msg)->msg[i] = cmds[head];
- 		head = (head + 1) % size;
- 	}
--	CT_DEBUG(ct, "received %*ph\n", 4 * len, data);
-+	CT_DEBUG(ct, "received %*ph\n", 4 * len, (*msg)->msg);
- 
- 	desc->head = head * 4;
- 	return available - len;
-@@ -684,33 +720,33 @@ static int ct_read(struct intel_guc_ct *ct, u32 *data)
-  *                   ^-----------------------len-----------------------^
-  */
- 
--static int ct_handle_response(struct intel_guc_ct *ct, const u32 *msg)
-+static int ct_handle_response(struct intel_guc_ct *ct, struct ct_incoming_msg *response)
- {
--	u32 header = msg[0];
-+	u32 header = response->msg[0];
- 	u32 len = ct_header_get_len(header);
--	u32 msgsize = (len + 1) * sizeof(u32); /* msg size in bytes w/header */
- 	u32 fence;
- 	u32 status;
- 	u32 datalen;
- 	struct ct_request *req;
- 	unsigned long flags;
- 	bool found = false;
-+	int err = 0;
- 
- 	GEM_BUG_ON(!ct_header_is_response(header));
- 
- 	/* Response payload shall at least include fence and status */
- 	if (unlikely(len < 2)) {
--		CT_ERROR(ct, "Corrupted response %*ph\n", msgsize, msg);
-+		CT_ERROR(ct, "Corrupted response (len %u)\n", len);
- 		return -EPROTO;
- 	}
- 
--	fence = msg[1];
--	status = msg[2];
-+	fence = response->msg[1];
-+	status = response->msg[2];
- 	datalen = len - 2;
- 
- 	/* Format of the status follows RESPONSE message */
- 	if (unlikely(!INTEL_GUC_MSG_IS_RESPONSE(status))) {
--		CT_ERROR(ct, "Corrupted response %*ph\n", msgsize, msg);
-+		CT_ERROR(ct, "Corrupted response (status %#x)\n", status);
- 		return -EPROTO;
- 	}
- 
-@@ -724,12 +760,13 @@ static int ct_handle_response(struct intel_guc_ct *ct, const u32 *msg)
- 			continue;
- 		}
- 		if (unlikely(datalen > req->response_len)) {
--			CT_ERROR(ct, "Response for %u is too long %*ph\n",
--				 req->fence, msgsize, msg);
--			datalen = 0;
-+			CT_ERROR(ct, "Response %u too long (datalen %u > %u)\n",
-+				 req->fence, datalen, req->response_len);
-+			datalen = min(datalen, req->response_len);
-+			err = -EMSGSIZE;
- 		}
- 		if (datalen)
--			memcpy(req->response_buf, msg + 3, 4 * datalen);
-+			memcpy(req->response_buf, response->msg + 3, 4 * datalen);
- 		req->response_len = datalen;
- 		WRITE_ONCE(req->status, status);
- 		found = true;
-@@ -737,45 +774,61 @@ static int ct_handle_response(struct intel_guc_ct *ct, const u32 *msg)
- 	}
- 	spin_unlock_irqrestore(&ct->requests.lock, flags);
- 
--	if (!found)
--		CT_ERROR(ct, "Unsolicited response %*ph\n", msgsize, msg);
-+	if (!found) {
-+		CT_ERROR(ct, "Unsolicited response (fence %u)\n", fence);
-+		return -ENOKEY;
-+	}
-+
-+	if (unlikely(err))
-+		return err;
-+
-+	ct_free_msg(response);
- 	return 0;
- }
- 
--static void ct_process_request(struct intel_guc_ct *ct,
--			       u32 action, u32 len, const u32 *payload)
-+static int ct_process_request(struct intel_guc_ct *ct, struct ct_incoming_msg *request)
- {
- 	struct intel_guc *guc = ct_to_guc(ct);
-+	u32 header, action, len;
-+	const u32 *payload;
- 	int ret;
- 
-+	header = request->msg[0];
-+	payload = &request->msg[1];
-+	action = ct_header_get_action(header);
-+	len = ct_header_get_len(header);
-+
- 	CT_DEBUG(ct, "request %x %*ph\n", action, 4 * len, payload);
- 
- 	switch (action) {
- 	case INTEL_GUC_ACTION_DEFAULT:
- 		ret = intel_guc_to_host_process_recv_msg(guc, payload, len);
--		if (unlikely(ret))
--			goto fail_unexpected;
- 		break;
--
- 	default:
--fail_unexpected:
--		CT_ERROR(ct, "Unexpected request %x %*ph\n",
--			 action, 4 * len, payload);
-+		ret = -EOPNOTSUPP;
- 		break;
- 	}
-+
-+	if (unlikely(ret)) {
-+		CT_ERROR(ct, "Failed to process request %04x (%pe)\n",
-+			 action, ERR_PTR(ret));
-+		return ret;
-+	}
-+
-+	ct_free_msg(request);
-+	return 0;
- }
- 
- static bool ct_process_incoming_requests(struct intel_guc_ct *ct)
- {
- 	unsigned long flags;
--	struct ct_incoming_request *request;
--	u32 header;
--	u32 *payload;
-+	struct ct_incoming_msg *request;
- 	bool done;
-+	int err;
- 
- 	spin_lock_irqsave(&ct->requests.lock, flags);
- 	request = list_first_entry_or_null(&ct->requests.incoming,
--					   struct ct_incoming_request, link);
-+					   struct ct_incoming_msg, link);
- 	if (request)
- 		list_del(&request->link);
- 	done = !!list_empty(&ct->requests.incoming);
-@@ -784,14 +837,13 @@ static bool ct_process_incoming_requests(struct intel_guc_ct *ct)
- 	if (!request)
- 		return true;
- 
--	header = request->msg[0];
--	payload = &request->msg[1];
--	ct_process_request(ct,
--			   ct_header_get_action(header),
--			   ct_header_get_len(header),
--			   payload);
-+	err = ct_process_request(ct, request);
-+	if (unlikely(err)) {
-+		CT_ERROR(ct, "Failed to process CT message (%pe) %*ph\n",
-+			 ERR_PTR(err), 4 * request->size, request->msg);
-+		ct_free_msg(request);
-+	}
- 
--	kfree(request);
- 	return done;
- }
- 
-@@ -824,22 +876,11 @@ static void ct_incoming_request_worker_func(struct work_struct *w)
-  *                   ^-----------------------len-----------------------^
-  */
- 
--static int ct_handle_request(struct intel_guc_ct *ct, const u32 *msg)
-+static int ct_handle_request(struct intel_guc_ct *ct, struct ct_incoming_msg *request)
- {
--	u32 header = msg[0];
--	u32 len = ct_header_get_len(header);
--	u32 msgsize = (len + 1) * sizeof(u32); /* msg size in bytes w/header */
--	struct ct_incoming_request *request;
- 	unsigned long flags;
- 
--	GEM_BUG_ON(ct_header_is_response(header));
--
--	request = kmalloc(sizeof(*request) + msgsize, GFP_ATOMIC);
--	if (unlikely(!request)) {
--		CT_ERROR(ct, "Dropping request %*ph\n", msgsize, msg);
--		return 0; /* XXX: -ENOMEM ? */
+-	if (INTEL_GEN(gt->i915) >= 11) {
+-		guc->send_regs.base =
+-				i915_mmio_reg_offset(GEN11_SOFT_SCRATCH(0));
+-		guc->send_regs.count = GEN11_SOFT_SCRATCH_COUNT;
+-	} else {
+-		guc->send_regs.base = i915_mmio_reg_offset(SOFT_SCRATCH(0));
+-		guc->send_regs.count = GUC_MAX_MMIO_MSG_LEN;
+-		BUILD_BUG_ON(GUC_MAX_MMIO_MSG_LEN > SOFT_SCRATCH_COUNT);
 -	}
--	memcpy(request->msg, msg, msgsize);
-+	GEM_BUG_ON(ct_header_is_response(request->msg[0]));
++	GEM_BUG_ON(!guc->send_regs.base);
++	GEM_BUG_ON(!guc->send_regs.count);
  
- 	spin_lock_irqsave(&ct->requests.lock, flags);
- 	list_add_tail(&request->link, &ct->requests.incoming);
-@@ -849,22 +890,41 @@ static int ct_handle_request(struct intel_guc_ct *ct, const u32 *msg)
- 	return 0;
+ 	for (i = 0; i < guc->send_regs.count; i++) {
+ 		fw_domains |= intel_uncore_forcewake_for_reg(gt->uncore,
+@@ -172,11 +165,18 @@ void intel_guc_init_early(struct intel_guc *guc)
+ 		guc->interrupts.reset = gen11_reset_guc_interrupts;
+ 		guc->interrupts.enable = gen11_enable_guc_interrupts;
+ 		guc->interrupts.disable = gen11_disable_guc_interrupts;
++		guc->send_regs.base =
++			i915_mmio_reg_offset(GEN11_SOFT_SCRATCH(0));
++		guc->send_regs.count = GEN11_SOFT_SCRATCH_COUNT;
++
+ 	} else {
+ 		guc->notify_reg = GUC_SEND_INTERRUPT;
+ 		guc->interrupts.reset = gen9_reset_guc_interrupts;
+ 		guc->interrupts.enable = gen9_enable_guc_interrupts;
+ 		guc->interrupts.disable = gen9_disable_guc_interrupts;
++		guc->send_regs.base = i915_mmio_reg_offset(SOFT_SCRATCH(0));
++		guc->send_regs.count = GUC_MAX_MMIO_MSG_LEN;
++		BUILD_BUG_ON(GUC_MAX_MMIO_MSG_LEN > SOFT_SCRATCH_COUNT);
+ 	}
  }
  
-+static void ct_handle_msg(struct intel_guc_ct *ct, struct ct_incoming_msg *msg)
-+{
-+	u32 header = msg->msg[0];
-+	int err;
-+
-+	if (ct_header_is_response(header))
-+		err = ct_handle_response(ct, msg);
-+	else
-+		err = ct_handle_request(ct, msg);
-+
-+	if (unlikely(err)) {
-+		CT_ERROR(ct, "Failed to process CT message (%pe) %*ph\n",
-+			 ERR_PTR(err), 4 * msg->size, msg->msg);
-+		ct_free_msg(msg);
-+	}
-+}
-+
-+/*
-+ * Return: number available remaining dwords to read (0 if empty)
-+ *         or a negative error code on failure
-+ */
- static int ct_receive(struct intel_guc_ct *ct)
- {
--	u32 msg[GUC_CT_MSG_LEN_MASK + 1]; /* one extra dw for the header */
-+	struct ct_incoming_msg *msg = NULL;
- 	unsigned long flags;
- 	int ret;
- 
- 	spin_lock_irqsave(&ct->ctbs.recv.lock, flags);
--	ret = ct_read(ct, msg);
-+	ret = ct_read(ct, &msg);
- 	spin_unlock_irqrestore(&ct->ctbs.recv.lock, flags);
- 	if (ret < 0)
- 		return ret;
- 
--	if (ct_header_is_response(msg[0]))
--		ct_handle_response(ct, msg);
--	else
--		ct_handle_request(ct, msg);
-+	if (msg)
-+		ct_handle_msg(ct, msg);
- 
- 	return ret;
- }
 -- 
 2.28.0
 
