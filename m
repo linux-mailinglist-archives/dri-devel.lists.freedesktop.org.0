@@ -2,108 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C3463998D1
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Jun 2021 06:04:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 96C9F3998ED
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Jun 2021 06:17:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EA5046F38C;
-	Thu,  3 Jun 2021 04:04:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8C0D86F388;
+	Thu,  3 Jun 2021 04:17:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com
- (mail-bn7nam10on2063.outbound.protection.outlook.com [40.107.92.63])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8EAB06F38C;
- Thu,  3 Jun 2021 04:04:28 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Q19B/tmwRyuGI0HAOg+QPmk2llfwb41A2w2mdHzt3ZajFwdW66qqLQcZZtyAXoh43NAHlMzen1lY3vdmHVDsbMGWKpq237PFgHlebGVKpEAZk1rtzkNnpgANEKDkZ5dxvyVpqbr/I9XJztWpeWM61cZf9FbjQz/b+QFqH0BXLUhv7jjeXFOb5OtJGZ/UgGnJ5z+uB6O5CP7jj0smjvzGPOybiFXWiBLDYuMCw/3bh244rtOhtUaSj8O9cD7fg2Be/dbuK9Ux5xd8e665lVuqsmYlCOMewSwM2GD72GwIfEkBxoUc1Cpc/NQ7si/I/iEw4TyxTRTNZsSUiL38Ak0vYw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=cVx0peunXJ7KuE4b1YrOG8AwK9+XSkhqe6/mJYNscBo=;
- b=RDsTiOO6T5qPo3+6uXkDnuUlESH0esyL6fjvRn0ulUBNmzwRED7t4v5XLGPdv0tmI93yaxmdJD/jfZ0/JKfiDSKoVmajKlYRQ0mAhdI2N+cThMlG4v06vXn/K0YRNIiGtFxL0xOVQunNvjmqPe+hkBqfE3bxEasJcxPDGg69ThEeMfnBkSA6lhkyka2vH7FN+nggfc4D3tWAMM37XbICvKhZw5Vncz+TK+Z3GsXWT2ldYVxBq6327HkZVc0BsWJ5X8JbQH5LLTL7ZURspKThN2GNYXCi7w7bEFb41WrTYqKb1Anb8bsvOd62NFJX6vHB1XbuSIsIlpI3MFAHGUVY6g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=cVx0peunXJ7KuE4b1YrOG8AwK9+XSkhqe6/mJYNscBo=;
- b=zGs1BB9tl8ZLyFZrV9MHG03OVKvJidT3Tno1y4pDwKPyg8Uf6tISGLkMBsupcb1nSirIaVAJ70FP63TqMa94veMWionuVDCV2z0ZpkwtpYqQ/CaJ+fHbbZr/lmPZYeIv+eDYClrb/+zNOX3s6FhqkYx8u2DfhnMlqAQGjn5TAI4=
-Authentication-Results: lists.freedesktop.org; dkim=none (message not signed)
- header.d=none; lists.freedesktop.org;
- dmarc=none action=none header.from=amd.com;
-Received: from MN2PR12MB4488.namprd12.prod.outlook.com (2603:10b6:208:24e::19)
- by MN2PR12MB3758.namprd12.prod.outlook.com (2603:10b6:208:169::28)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4195.21; Thu, 3 Jun
- 2021 04:04:26 +0000
-Received: from MN2PR12MB4488.namprd12.prod.outlook.com
- ([fe80::25f7:664:3a8f:25b6]) by MN2PR12MB4488.namprd12.prod.outlook.com
- ([fe80::25f7:664:3a8f:25b6%7]) with mapi id 15.20.4173.030; Thu, 3 Jun 2021
- 04:04:26 +0000
-From: Alex Deucher <alexander.deucher@amd.com>
-To: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- airlied@gmail.com, daniel.vetter@ffwll.ch
-Subject: [pull] amdgpu drm-fixes-5.13
-Date: Thu,  3 Jun 2021 00:04:10 -0400
-Message-Id: <20210603040410.4080-1-alexander.deucher@amd.com>
-X-Mailer: git-send-email 2.31.1
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [192.161.79.207]
-X-ClientProxiedBy: MN2PR01CA0016.prod.exchangelabs.com (2603:10b6:208:10c::29)
- To MN2PR12MB4488.namprd12.prod.outlook.com
- (2603:10b6:208:24e::19)
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 728216E194;
+ Thu,  3 Jun 2021 04:17:22 +0000 (UTC)
+IronPort-SDR: grwHSvS6kLDQ544kLHouluP2xGSRx4MY6nJMc14raIhfHYvqEQjN/FogZN1KfVV93AGOjG5DWw
+ x+nVyEnHIEbg==
+X-IronPort-AV: E=McAfee;i="6200,9189,10003"; a="203990306"
+X-IronPort-AV: E=Sophos;i="5.83,244,1616482800"; d="scan'208";a="203990306"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Jun 2021 21:17:21 -0700
+IronPort-SDR: LHFp3/R6qffs3I+SiqC4RAKlm70ECuF/2oLnWLCq49774rknRq8St9HlJFzrhi3yOEZ1mhhi3y
+ rh0q8VeoElJA==
+X-IronPort-AV: E=Sophos;i="5.83,244,1616482800"; d="scan'208";a="447695359"
+Received: from unknown (HELO sdutt-i7) ([10.165.21.147])
+ by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Jun 2021 21:17:21 -0700
+Date: Wed, 2 Jun 2021 21:10:20 -0700
+From: Matthew Brost <matthew.brost@intel.com>
+To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Subject: Re: [Intel-gfx] [RFC PATCH 00/97] Basic GuC submission support in
+ the i915
+Message-ID: <20210603041020.GA10469@sdutt-i7>
+References: <20210506191451.77768-1-matthew.brost@intel.com>
+ <de3965d8-d997-5685-0399-646d8823a27f@linux.intel.com>
+ <20210525164504.GA9971@sdutt-i7>
+ <d76ab0ec-4f0c-19ed-adaa-ed227af63c0e@linux.intel.com>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from localhost.localdomain (192.161.79.207) by
- MN2PR01CA0016.prod.exchangelabs.com (2603:10b6:208:10c::29) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4195.21 via Frontend Transport; Thu, 3 Jun 2021 04:04:26 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 29201739-1111-4132-f951-08d92644ada8
-X-MS-TrafficTypeDiagnostic: MN2PR12MB3758:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <MN2PR12MB3758C89E4C427591F159E368F73C9@MN2PR12MB3758.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:478;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: GOWEne9lE2dD7pYmVfj+VQkFGqAj1dGmMB9+nXxrYuDj2mtPFCqRslO74V8iheQBJOMxTSM1+D12LZyHbj3eDqTptq1Ph3ril3K72EFCsa7/LI9v98OlfYWx+53bDCsJ5vIaD/p5o++RxCWlaZmByiQDcd3e55tLz71OG1ZUogOd+QFdYX/dM/9f7wcX7WxlIdwyc+Y2hWHBbnbqiI2nw5u1EBL7n5ByXK5RYnF1LkalPwCpoWXUxbKAQCbd4XcmXIMTwdKUouFknKqGXf4mFhUU0ArKpaSmmRNEV3FwhsrlxjwcZg+fnO++LiqoyuWfg2Kr/HAZmJtC9S/oJw/dTqfCxrudBuSpMjWxRiLTGAnl6ZH4poQYfHcppXI+55zWWXNGBnZfkQp95cTkNF8XST9aA9qlR4kzDsANtyjmzdraTz+79sVROQavYI51h4+2a6QE+tAuOT28pHpWr2xDUDbzaCqWRm7gqbrcABhXfTidaEbUrcy56we+vOO1vj87EXgIi9FsHDs2v4Ki/yumPXRwVBGDky5hlg7VYt6biqLeYguGPatPqnvF2P9LFPACQtsTTc7aZMtUvyJM9OSeRtp3AC6VW5Bw6XOqM3KCOYK21E5xcr1Wr3ajvLNIyeq3++9eY2BhM5fvZx+TbqSHPIyBK4/OoLw8QLgB2GnZMqh7tOEHyAYtjmCFt4ytdnRmKb5FyQhEbCmOnD1ZHqrvWVH1F71TthunE6UmFaXuqEg=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN2PR12MB4488.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(39860400002)(376002)(346002)(136003)(396003)(8676002)(4326008)(5660300002)(8936002)(966005)(6666004)(478600001)(316002)(83380400001)(1076003)(6506007)(26005)(16526019)(956004)(2616005)(52116002)(66946007)(66476007)(2906002)(38350700002)(38100700002)(66556008)(186003)(86362001)(6512007)(6486002)(36756003)(69590400013);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?JtpWkGd+KzZZCLbEWjr1CtlCPcYHvKe+Y9FcgQV2NmBDvKMg+0etEuFU5GIb?=
- =?us-ascii?Q?88qu3o4xUGfrASH7hMpTokRSqa2h65RnSUquJuEnBvoMz86V3kx4eCSN0dnn?=
- =?us-ascii?Q?eQpYIutqGbONdN3O+2jk2RlvKaeOFmZtOQ5jx9Ic4O/fe8KbceDNHfN+xmjM?=
- =?us-ascii?Q?hNtKyFiEYhqlSzne/I8gVZH1Wf79xzWgwyFbSjxQLXNuF5txkDPRcZ8ffOTm?=
- =?us-ascii?Q?v2U2SYu74xxD5/Bcewkw/XtEnwpvC3lybOjhupnpg8WKoi/K2bKp0dXi2VWb?=
- =?us-ascii?Q?Y1vZ5RfjcNLnG0iMP9rTdqia3bPNg8PHfAvRIC6IxZs7M7gFDUOS5sGNpwVz?=
- =?us-ascii?Q?TfN86g9fwMSe9lM1d9nwrVj4bNdkI1DM/78+gTzs6bdOEJt6UKqdSSvzBFIv?=
- =?us-ascii?Q?TJCZq24gwSqfvCQms5HqYc8xRByQ+l6TGtVGFWgs4UDawNOZ3OrJ0m0S7aN3?=
- =?us-ascii?Q?scCqNYgRLq7OnocO+PQNRIyE4EQUSnY8bTPXvF8JXdnrbIfXLWy7f6QheArV?=
- =?us-ascii?Q?Zn+a1Me2JukaxCHX4nIdqlrN9/Guj92Yzvvy5Ax/6mlYUpPmuGtO2YlNWsww?=
- =?us-ascii?Q?KZRG0dQ8nr2UEp4itr4QP+ir2SRv/0dORrHJJ0rOhJRJGsRxYWWWN0zN8cD2?=
- =?us-ascii?Q?Duu8ZXzi4akkdYKU3S8eXXD41pM8GHppa/Ix/ScHRBZoe74FJRs17zxfR/Mv?=
- =?us-ascii?Q?7bz1OPUH2ZaipCVVTLI0WRRX6hEqjN1M/yHTU7PYEyY/utk6wM0S5nnG9mdw?=
- =?us-ascii?Q?Bp3qsw9XEn96wFq2okXDQfor7vJOqZofxayXrUlza8Vxqebdh6g/r/DIeMHf?=
- =?us-ascii?Q?b5w1kjstnpOi7efsTvn8cI4wVrpHDXhbCPV7vamAYBte5tQ4IzutSqlteXju?=
- =?us-ascii?Q?Egm2Ke4F5ngKnNH3GKI3pBSYQJQ0z6xBmUf10d94NE7vNc/h2SdxbTMD4/B0?=
- =?us-ascii?Q?3oxksSVxXyMkX1XlmZ1j+CUr3VNBmpu9kZ72qU3p8ZYPGDGhixtzazL3gChZ?=
- =?us-ascii?Q?5LRV8FCxJCfDbH02D5s6YhYyxXC+6y31yK1Sm6cDoy6lCqcKCi1KgSmB9Abx?=
- =?us-ascii?Q?Jgp7CNGfc9m1mrPXCMhsRYXtUZdpuHrP0DA523gimKZhSyHIxEgtb4pP/EH4?=
- =?us-ascii?Q?zJGO7FMGJRunRjd209BBKFp2QS7MHvg5OtXsWdlqKhDwmBC5GVkwKaIytB76?=
- =?us-ascii?Q?LxjkGC9tSHAZDe4EVvSwwfmk3LtTkRvedVGmDY26vsm9DO9BO77QLQVKE86T?=
- =?us-ascii?Q?QUMEwjRhJOmk9nkE4Zyg4xSo7cD1rysAlLNlEJK1AU72pl+Y49Qqzu50kcag?=
- =?us-ascii?Q?BQkGrFKUvKtPSmR2PuS/SKo6qW7GCFfmIQpCTYjV0HAnWA=3D=3D?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 29201739-1111-4132-f951-08d92644ada8
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB4488.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Jun 2021 04:04:26.4990 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: g7L6GvRp2VXlQRvFQGGeGup4RhuC35lb42i3EG0K10G3f9DC91nDwGqGCaXpN1vR6LHFFnrMb/cso9ijsxqGtw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB3758
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <d76ab0ec-4f0c-19ed-adaa-ed227af63c0e@linux.intel.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -116,74 +52,223 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alex Deucher <alexander.deucher@amd.com>
+Cc: jason.ekstrand@intel.com, daniel.vetter@intel.com,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave, Daniel,
+On Wed, Jun 02, 2021 at 04:27:18PM +0100, Tvrtko Ursulin wrote:
+> 
+> On 25/05/2021 17:45, Matthew Brost wrote:
+> > On Tue, May 25, 2021 at 11:32:26AM +0100, Tvrtko Ursulin wrote:
+> > > 
+> > > On 06/05/2021 20:13, Matthew Brost wrote:
+> > > > Basic GuC submission support. This is the first bullet point in the
+> > > > upstreaming plan covered in the following RFC [1].
+> > > > 
+> > > > At a very high level the GuC is a piece of firmware which sits between
+> > > > the i915 and the GPU. It offloads some of the scheduling of contexts
+> > > > from the i915 and programs the GPU to submit contexts. The i915
+> > > > communicates with the GuC and the GuC communicates with the GPU.
+> > > > 
+> > > > GuC submission will be disabled by default on all current upstream
+> > > > platforms behind a module parameter - enable_guc. A value of 3 will
+> > > > enable submission and HuC loading via the GuC. GuC submission should
+> > > > work on all gen11+ platforms assuming the GuC firmware is present.
+> > > > 
+> > > > This is a huge series and it is completely unrealistic to merge all of
+> > > > these patches at once. Fortunately I believe we can break down the
+> > > > series into different merges:
+> > > > 
+> > > > 1. Merge Chris Wilson's patches. These have already been reviewed
+> > > > upstream and I fully agree with these patches as a precursor to GuC
+> > > > submission.
+> > > > 
+> > > > 2. Update to GuC 60.1.2. These are largely Michal's patches.
+> > > > 
+> > > > 3. Turn on GuC/HuC auto mode by default.
+> > > > 
+> > > > 4. Additional patches needed to support GuC submission. This is any
+> > > > patch not covered by 1-3 in the first 34 patches. e.g. 'Engine relative
+> > > > MMIO'
+> > > > 
+> > > > 5. GuC submission support. Patches number 35+. These all don't have to
+> > > > merge at once though as we don't actually allow GuC submission until the
+> > > > last patch of this series.
+> > > 
+> > > For the GuC backend/submission part only - it seems to me none of my review
+> > > comments I made in December 2019 have been implemented. At that point I
+> > 
+> > I wouldn't say none of the fixes have done, lots have just not
+> > everything you wanted.
+> > 
+> > > stated, and this was all internally at the time mind you, that I do not
+> > > think the series is ready and there were several high level issues that
+> > > would need to be sorted out. I don't think I gave my ack or r-b back then
+> > > and the promise was a few things would be worked on post (internal) merge.
+> > > That was supposed to include upstream refactoring to enable GuC better
+> > > slotting in as a backed. Fast forward a year and a half later and the only
+> > > progress we had in this area has been deleted.
+> > > 
+> > >  From the top of my head, and having glanced the series as posted:
+> > > 
+> > >   * Self-churn factor in the series is too high.
+> > 
+> > Not sure what you mean by this? The patches have been reworked
+> > internally too much?
+> 
+> No, I meant series adds and removes, changes the same code a bit much which
+> makes it harder to review. It is much easier when the flow is logical and
+> typical, where it starts with refactoring, generalising, building
+> infrastructure and then plugging bits in, than it is to review patches which
+> add stuff which then get removed or changed significantly a few patches down
+> the line.
+>
 
-Fixes for 5.13.
+This has been part of the internal churn but most of this should go
+away as it gets posted / merged in smaller sets of patches.
+ 
+> > >   * Patch ordering issues.
+> > 
+> > We are going to clean up some of the ordering as these 97 patches are
+> > posted in smaller mergeable series but at the end of the day this is a
+> > bit of a bikeshed. GuC submission can't be turned until patch 97 so IMO
+> > it really isn't all that big of a deal the order of which patches before
+> > that land as we are not breaking anything.
+> 
+> Yes some leeway for ordering is fine.
+> 
+> > >   * GuC context state machine is way too dodgy to have any confidence it can
+> > > be read and race conditions understood.
+> > 
+> > I know you don't really like the state machine but no other real way to
+> > not have DoS on resources and no real way to fairly distribute guc_ids
+> > without it. I know you have had other suggestions here but none of your
+> > suggestions either will work or they are no less complicated in the end.
+> > 
+> > For what it is worth, the state machine will get simplified when we hook
+> > into the DRM scheduler as won't have to deal with submitting from IRQ
+> > contexts in the backend or having more than 1 request in the backend at
+> > a time.
+> 
+> Dunno. A mix of self-churn, locks, inconsistent naming, verbosity and magic
+> makes it super hard to review. States in functions like guc_context_ban,
+> guc_context_sched_disable, guc_context_block, .. I find it impossible to
+> follow what's going on. Some under lock, some outside, jumps, returns, add
+> magic two .. Perhaps it is just me so wait and see what other reviewers will
+> think.
+> 
 
-The following changes since commit 8124c8a6b35386f73523d27eacb71b5364a68c4c:
+No doubt it is a bit complex as all of the above function can be
+executing at the same time, so can a reset, so can a submission, and the
+GuC is also responding to the all of the above functions asynchronously.
+When you have 6 things that can be operating on the same state, yes the
+locking is going to be a bit confusing. I do write documentation in a
+patch towards the end of this series explaining the locking rules + all
+the races.
 
-  Linux 5.13-rc4 (2021-05-30 11:58:25 -1000)
+> > >   * Context pinning code with it's magical two adds, subtract and cmpxchg is
+> > > dodgy as well.
+> > 
+> > Daniele tried to remove this and it proved quite difficult + created
+> > even more races in the backend code. This was prior to the pre-pin and
+> > post-unpin code which makes this even more difficult to fix as I believe
+> > these functions would need to be removed first. Not saying we can't
+> > revisit this someday but I personally really like it - it is a clever
+> > way to avoid reentering the pin / unpin code while asynchronous things
+> > are happening rather than some complex locking scheme. Lastly, this code
+> > has proved incredibly stable as I don't think we've had to fix a single
+> > thing in this area since we've been using this code internally.
+> 
+> Pretty much same as above. The code like:
+> 
+> static inline void __intel_context_unpin(struct intel_context *ce)
+> {
+> 	if (!ce->ops->sched_disable) {
+> 		__intel_context_do_unpin(ce, 1);
+> 	} else {
+> 		while (!atomic_add_unless(&ce->pin_count, -1, 1)) {
+> 			if (atomic_cmpxchg(&ce->pin_count, 1, 2) == 1) {
+> 				ce->ops->sched_disable(ce);
+> 				break;
+> 			}
+> 		}
+> 	}
+> }
+> 
+> That's pretty much impenetrable for me and the only thing I can think of
+> here is **ALARM** must be broken! See what others think..
+> 
 
-are available in the Git repository at:
+Answered in a reply to Daniel's reply but I'll repeat. Should have a
+comment here:
 
-  https://gitlab.freedesktop.org/agd5f/linux.git tags/amd-drm-fixes-5.13-2021-06-02
+/*
+ * If the context has the sched_disable function, it isn't safe to unpin
+ * until this function completes. This function is allowed to complete
+ * asynchronously too. To avoid this function from being entered twice
+ * and move ownership of the unpin to this function's completion, adjust
+ * the pin count to 2 before it is entered. When this function completes
+ * the context can call intel_context_sched_unpin which decrements the
+ * pin count by 2 potentially resulting in an unpin.
+ *
+ * A while loop is needed to ensure the atomicity of the pin count. e.g.
+ * The below if / else statement has a race:
+ *
+ * if (atomic_cmpxchg(&ce->pin_count, 1, 2) == 1)
+ * 	ce->ops->sched_disable(ce);
+ * else
+ * 	atomic_dec(ce, 1);
+ *
+ * Two threads could simultaneously fail the if clause resulting in the
+ * pin_count going to 0 with scheduling enabled + the context pinned. 
+ */
 
-for you to fetch changes up to e7591a8d56bab89c617dae055446b6337ec32dc9:
+> > >   * Kludgy way of interfacing with rest of the driver instead of refactoring
+> > > to fit (idling, breadcrumbs, scheduler, tasklets, ...).
+> > > 
+> > 
+> > Idling and breadcrumbs seem clean to me. Scheduler + tasklet are going
+> > away once the DRM scheduler lands. No need rework those as we are just
+> > going to rework this again.
+> 
+> Well today I read the breadcrumbs patch and there is no way that's clean. It
+> goes and creates one object per engine, then deletes them, replacing with
+> GuC special one. All in the same engine setup. The same pattern of bolting
+> on the GuC repeats too much for my taste.
+> 
 
-  amd/display: convert DRM_DEBUG_ATOMIC to drm_dbg_atomic (2021-06-02 17:58:11 -0400)
+I don't think creating a default object /w a ref count then decrementing
+the ref count + replacing it with a new object is that hard to
+understand. IMO that is way better than how things worked previously
+where we just made implicit assumptions all over the driver of the
+execlists backend behavior. If this was done properly in the current
+i915 code base this really wouldn't be an issue.
 
-----------------------------------------------------------------
-amd-drm-fixes-5.13-2021-06-02:
+> > > Now perhaps the latest plan is to ignore all these issues and still merge,
+> > > then follow up with throwing it away, mostly or at least largely, in which
+> > > case there isn't any point really to review the current state yet again. But
+> > > it is sad that we got to this state. So just for the record - all this was
+> > > reviewed in Nov/Dec 2019. By me among other folks and I at least deemed it
+> > > not ready in this form.
+> > > 
+> > 
+> > I personally don't think it is really in that bad of shape. The fact
+> > that I could put together a PoC more or less fully integrating this
+> > backend into the DRM scheduler within a few days I think speaks to the
+> > quality and flexablitiy of this backend compared to execlists.
+> 
+> Or that you are much more familiar with it. Anyway, it's not the line of
+> argument I think we should continue.
+>
 
-amdgpu:
-- Display fixes
-- FRU EEPROM error handling fix
-- RAS fix
-- PSP fix
-- Releasing pinned BO fix
+Yes, obviously more familiar with this code but I think the argument
+holds when it relates to DRM scheduler. Please someone who is familiar
+with the execlists backend try to integrate that with the DRM scheduler
+- I guarantee it will be a nightmare / total hack job.
 
-----------------------------------------------------------------
-Asher Song (1):
-      drm/amdgpu: add judgement for dc support
+Matt
 
-Bindu Ramamurthy (1):
-      drm/amd/display: Allow bandwidth validation for 0 streams.
-
-Jiansong Chen (1):
-      drm/amdgpu: refine amdgpu_fru_get_product_info
-
-Luben Tuikov (1):
-      drm/amdgpu: Don't query CE and UE errors
-
-Nicholas Kazlauskas (1):
-      drm/amd/display: Fix GPU scaling regression by FS video support
-
-Nirmoy Das (1):
-      drm/amdgpu: make sure we unpin the UVD BO
-
-Rodrigo Siqueira (1):
-      drm/amd/display: Fix overlay validation by considering cursors
-
-Roman Li (1):
-      drm/amd/display: Fix potential memory leak in DMUB hw_init
-
-Simon Ser (1):
-      amd/display: convert DRM_DEBUG_ATOMIC to drm_dbg_atomic
-
-Victor Zhao (1):
-      drm/amd/amdgpu:save psp ring wptr to avoid attack
-
- drivers/gpu/drm/amd/amdgpu/amdgpu_ctx.c            | 16 ---------
- drivers/gpu/drm/amd/amdgpu/amdgpu_device.c         |  4 ++-
- drivers/gpu/drm/amd/amdgpu/amdgpu_fru_eeprom.c     | 42 ++++++++++++----------
- drivers/gpu/drm/amd/amdgpu/amdgpu_psp.h            |  1 +
- drivers/gpu/drm/amd/amdgpu/psp_v11_0.c             |  3 +-
- drivers/gpu/drm/amd/amdgpu/psp_v3_1.c              |  3 +-
- drivers/gpu/drm/amd/amdgpu/uvd_v6_0.c              |  1 +
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c  | 30 ++++++++++------
- .../gpu/drm/amd/display/dc/dcn20/dcn20_resource.c  |  2 +-
- 9 files changed, 52 insertions(+), 50 deletions(-)
+> Regards,
+> 
+> Tvrtko
