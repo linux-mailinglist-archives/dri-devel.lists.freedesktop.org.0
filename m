@@ -2,58 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3566939AC44
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Jun 2021 23:09:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 586C439AC65
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Jun 2021 23:11:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2B77A6E833;
-	Thu,  3 Jun 2021 21:09:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B2AEC6EE9E;
+	Thu,  3 Jun 2021 21:11:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com
- [IPv6:2a00:1450:4864:20::335])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 354566E833
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Jun 2021 21:09:16 +0000 (UTC)
-Received: by mail-wm1-x335.google.com with SMTP id
- l18-20020a1ced120000b029014c1adff1edso6674372wmh.4
- for <dri-devel@lists.freedesktop.org>; Thu, 03 Jun 2021 14:09:16 -0700 (PDT)
+Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com
+ [IPv6:2a00:1450:4864:20::430])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 08ACD6EEAA
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Jun 2021 21:11:53 +0000 (UTC)
+Received: by mail-wr1-x430.google.com with SMTP id c5so7174064wrq.9
+ for <dri-devel@lists.freedesktop.org>; Thu, 03 Jun 2021 14:11:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=cATjLSOJcOOz7JCVCxEiDKtDajabgMF8aPYcGJHbekA=;
- b=SYiUGsuLaav+QNv2uW5ilqNx3UMiatT4Qd365Ly6iWocUTU2ikDmHGCIcqN5C6LxKm
- X9eGbCHqmawYdt0Sy9ANzKCSrIulNRmAlrvMT7KiCX4ToyAFbCMPwLdf1Dhak1gmqYYA
- AE1WC4RVDQUWHPSSNAPyoWQQidwDuNSQpHIRo=
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=qo81W0COu/9T+MtdH15dWO35zb4IKBH3tap7L13Ay+g=;
+ b=Ep1C99k65ha6o9n/Xnv083Ka95kqOxU0nc+P1Su4LgSF7LEKJoAw+0C8/4y3YWA1Uk
+ 9jmI+6Kg3RoJYHfcWvod76BaO3A0UqaPypcfqM4GZ8bcRyRWiPfoGo4yubuBwZwQAuBH
+ WuAqsi7sTEuX8lJzK1mBf4J7nel1IMd5d6hks=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=cATjLSOJcOOz7JCVCxEiDKtDajabgMF8aPYcGJHbekA=;
- b=GUB2T9dGswhd+9WwF9pZ/aUnTNaH0oJ4uWeTvExm+9hqfyQQfwESl7xIuxicdTLt/H
- Jy9ElmCs9IxmzQdokz1vW7s6EsmI7tps0tkuy+PGp9q2/p7FT0KuwjWGG/lidOnJo1R6
- 9TlcLyTYvBk4u/NaoexIEsK9qMYpXACzylbRltfKN23QorMFii5Goc2oxIed/Wlb+oAQ
- hqgT6kvmg7rhcVQ3U4ZCbNi2BMzR9zFT9c6fMQOuQPxds8LY9FewKWOlYQsnze9bsPtd
- 7sjybS/xrtgJ02T+AnruHjvNkMU9a6Z44fenF7E924l1MsAd8OxiwoRb1p/57GDYTDI8
- V7Mw==
-X-Gm-Message-State: AOAM530XCLMLNlHPQJIQuKumwB0tJqJ/NnStLHXGyWbFqHETKpSA1fKz
- PwreaQDqtQoxGvrO05tdx/eXjAbQe8Go9A==
-X-Google-Smtp-Source: ABdhPJzm1jzULQm7YEWCLyohNJYt8OvE8rbw6i1FWgyhOmg96p6TpZn5EPPhbXcJ7XbEJjx58OTFug==
-X-Received: by 2002:a7b:c189:: with SMTP id y9mr370349wmi.106.1622754554886;
- Thu, 03 Jun 2021 14:09:14 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=qo81W0COu/9T+MtdH15dWO35zb4IKBH3tap7L13Ay+g=;
+ b=kMSAm4vAgJ4E1cRMOYixWOrEbVYrgkfJYabSHW1HtxgpP4h9Tm6bXV1v9hbzI4NOVx
+ /PvmSWg4Imu8/ALNFZzllo4/7wO9Wzt+Bdoxro6TeZTSMOeUV2XQWHyjx2ikvkKiG/uX
+ nZ7n7KbngJPi9Jaf39A8PyxBLakmDHSBBgVjrYetA4Amsbn7AWTz39QsHoNKEJPNbgIH
+ w0WXDsXtPov9b5re97xMa7DWQll40Bv9CLYMPTF7H+DOLGVVDjjkcJgmawHsO2vkn1Xn
+ y54Xcq8Hr/COwzs4fnzacCqIMPS0oPdmGPD/4yQVn/iQsECxZs2e1AjvQYGeHB7dBs7Q
+ QzQQ==
+X-Gm-Message-State: AOAM530U+lsyE4AsvinS9kff6n5CU+bbQhdJV5Tu71B6uinnfmk79HmV
+ o9FC7XbZNrrTmkyH2SyF2ziR2g==
+X-Google-Smtp-Source: ABdhPJx8yjSE12ygh5q4XzGrGDcVw6g7J7uRZbzliCwqbFJIqvVK1qA/BT1I8/4oa8K2GVWvDzxesA==
+X-Received: by 2002:adf:a489:: with SMTP id g9mr387883wrb.103.1622754712405;
+ Thu, 03 Jun 2021 14:11:52 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id l22sm6624393wmq.28.2021.06.03.14.09.13
+ by smtp.gmail.com with ESMTPSA id a1sm5056623wrg.92.2021.06.03.14.11.51
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 03 Jun 2021 14:09:14 -0700 (PDT)
-From: Daniel Vetter <daniel.vetter@ffwll.ch>
-To: DRI Development <dri-devel@lists.freedesktop.org>
-Subject: [PATCH] drm/vgem: use shmem helpers
-Date: Thu,  3 Jun 2021 23:09:09 +0200
-Message-Id: <20210603210909.1492425-1-daniel.vetter@ffwll.ch>
-X-Mailer: git-send-email 2.31.0
-In-Reply-To: <20210603164113.1433476-5-daniel.vetter@ffwll.ch>
-References: <20210603164113.1433476-5-daniel.vetter@ffwll.ch>
+ Thu, 03 Jun 2021 14:11:51 -0700 (PDT)
+Date: Thu, 3 Jun 2021 23:11:50 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
+Subject: Re: [PATCH 0/7] libdrm tests for hot-unplug feature
+Message-ID: <YLlFlq1orNnGLXRH@phenom.ffwll.local>
+References: <20210601201702.23316-1-andrey.grodzovsky@amd.com>
+ <CAKMK7uFoLmOFCTkPMm4mMSScF0xa+MnHvY2FVmfBUM8b8S0_PQ@mail.gmail.com>
+ <de4b3521-42f7-7fc2-7271-e4fa3cd91708@amd.com>
+ <baf1d1f8-48c7-ed83-8e42-a4a317bfa74d@amd.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <baf1d1f8-48c7-ed83-8e42-a4a317bfa74d@amd.com>
+X-Operating-System: Linux phenom 5.10.32scarlett+ 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,468 +70,91 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Melissa Wen <melissa.srw@gmail.com>, Thomas Zimmermann <tzimmermann@suse.de>,
- Daniel Vetter <daniel.vetter@intel.com>,
- Chris Wilson <chris@chris-wilson.co.uk>
+Cc: Alex Deucher <Alexander.Deucher@amd.com>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Aside from deleting lots of code the real motivation here is to switch
-the mmap over to VM_PFNMAP, to be more consistent with what real gpu
-drivers do. They're all VM_PFNMP, which means get_user_pages doesn't
-work, and even if you try and there's a struct page behind that,
-touching it and mucking around with its refcount can upset drivers
-real bad.
+On Thu, Jun 03, 2021 at 10:22:37AM -0400, Andrey Grodzovsky wrote:
+> Ping
+> 
+> Andrey
+> 
+> On 2021-06-02 10:20 a.m., Andrey Grodzovsky wrote:
+> > 
+> > On 2021-06-02 3:59 a.m., Daniel Vetter wrote:
+> > > On Tue, Jun 1, 2021 at 10:17 PM Andrey Grodzovsky
+> > > <andrey.grodzovsky@amd.com> wrote:
+> > > > Adding some tests to acompany the recently added hot-unplug
+> > > > feature. For now the test suite is disabled until the feature
+> > > > propagates from drm-misc-next to drm-next.
+> > > > 
+> > > > Andrey Grodzovsky (7):
+> > > >    tests/amdgpu: Fix valgrind warning
+> > > >    xf86drm: Add function to retrieve char device path
+> > > >    test/amdgpu: Add helper functions for hot unplug
+> > > >    test/amdgpu/hotunplug: Add test suite for GPU unplug
+> > > >    test/amdgpu/hotunplug: Add basic test
+> > > >    tests/amdgpu/hotunplug: Add unplug with cs test.
+> > > >    tests/amdgpu/hotunplug: Add hotunplug with exported bo test
+> > > Given how nasty hotunplug is I really think collaborating on igt tests
+> > > on this would be best for everyone ... do we have to keep doing
+> > > parallel tests here for amdgpu?
+> > > -Daniel
+> > 
+> > AFAIK as far as AMD goes a lot of developers use libdrm for regression
+> > testing
+> > while developing their features and also QA as i can see from some
+> > internal ticket
+> > specifically opened for failing to pass libdrm tests. From my bitter
+> > experience with
+> > GPU reset - features which are not part of a common use case such as
+> > device loading,
+> > mode setting or commands submissions tend to very quickly break as
+> > people develop
+> > features but never test them in those uncommon use cases - this is why I
+> > feel it will be
+> > very helpful to include those tests in libdrm.
+> > 
+> > Also given that this is libdrm amdgpu code it fits naturally into libdrm.
+> > 
+> > Regarding IGT - as you may remember I have them there too -
+> > https://gitlab.freedesktop.org/agrodzov/igt-gpu-tools/-/commits/master
+> > I hit some compile breakage on debian platform there which i need to
+> > resolve before i will submit for review there too.
 
-v2: Review from Thomas:
-- sort #include
-- drop more dead code that I didn't spot somehow
+Why can't amd run the igt tests? Afaiui on the display side this is
+happening already, at least sometimes.
 
-v3: select DRM_GEM_SHMEM_HELPER to make it build (intel-gfx-ci)
+And yes regression tests matter, it just feels silly that we need to have
+them 2x for amdgpu. For old stuff the old repo is all fine, but for new
+feature it looks a bit silly.
+-Daniel
 
-v4: I got tricked by 0cf2ef46c6c0 ("drm/shmem-helper: Use cached
-mappings by default"), and we need WC in vgem because vgem doesn't
-have explicit begin/end cpu access ioctls.
+> > 
+> > Andrey
+> > 
+> > 
+> > > 
+> > > >   tests/amdgpu/amdgpu_test.c     |  42 +++-
+> > > >   tests/amdgpu/amdgpu_test.h     |  26 +++
+> > > >   tests/amdgpu/basic_tests.c     |   5 +-
+> > > >   tests/amdgpu/hotunplug_tests.c | 357
+> > > > +++++++++++++++++++++++++++++++++
+> > > >   tests/amdgpu/meson.build       |   1 +
+> > > >   xf86drm.c                      |  23 +++
+> > > >   xf86drm.h                      |   1 +
+> > > >   7 files changed, 450 insertions(+), 5 deletions(-)
+> > > >   create mode 100644 tests/amdgpu/hotunplug_tests.c
+> > > > 
+> > > > -- 
+> > > > 2.25.1
+> > > > 
+> > > 
 
-Also add a comment why exactly vgem has to use wc.
-
-v5: Don't set obj->base.funcs, it will default to drm_gem_shmem_funcs
-(Thomas)
-
-v6: vgem also needs an MMU for remapping
-
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: John Stultz <john.stultz@linaro.org>
-Cc: Sumit Semwal <sumit.semwal@linaro.org>
-Cc: "Christian KÃ¶nig" <christian.koenig@amd.com>
-Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-Cc: Melissa Wen <melissa.srw@gmail.com>
-Cc: Chris Wilson <chris@chris-wilson.co.uk>
----
- drivers/gpu/drm/Kconfig         |   5 +-
- drivers/gpu/drm/vgem/vgem_drv.c | 342 ++------------------------------
- 2 files changed, 16 insertions(+), 331 deletions(-)
-
-diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
-index 9c21527b791f..1b785ec4b80a 100644
---- a/drivers/gpu/drm/Kconfig
-+++ b/drivers/gpu/drm/Kconfig
-@@ -267,7 +267,8 @@ source "drivers/gpu/drm/kmb/Kconfig"
- 
- config DRM_VGEM
- 	tristate "Virtual GEM provider"
--	depends on DRM
-+	depends on DRM && MMU
-+	select DRM_GEM_SHMEM_HELPER
- 	help
- 	  Choose this option to get a virtual graphics memory manager,
- 	  as used by Mesa's software renderer for enhanced performance.
-@@ -275,7 +276,7 @@ config DRM_VGEM
- 
- config DRM_VKMS
- 	tristate "Virtual KMS (EXPERIMENTAL)"
--	depends on DRM
-+	depends on DRM && MMU
- 	select DRM_KMS_HELPER
- 	select DRM_GEM_SHMEM_HELPER
- 	select CRC32
-diff --git a/drivers/gpu/drm/vgem/vgem_drv.c b/drivers/gpu/drm/vgem/vgem_drv.c
-index bf38a7e319d1..a87eafa89e9f 100644
---- a/drivers/gpu/drm/vgem/vgem_drv.c
-+++ b/drivers/gpu/drm/vgem/vgem_drv.c
-@@ -38,6 +38,7 @@
- 
- #include <drm/drm_drv.h>
- #include <drm/drm_file.h>
-+#include <drm/drm_gem_shmem_helper.h>
- #include <drm/drm_ioctl.h>
- #include <drm/drm_managed.h>
- #include <drm/drm_prime.h>
-@@ -50,87 +51,11 @@
- #define DRIVER_MAJOR	1
- #define DRIVER_MINOR	0
- 
--static const struct drm_gem_object_funcs vgem_gem_object_funcs;
--
- static struct vgem_device {
- 	struct drm_device drm;
- 	struct platform_device *platform;
- } *vgem_device;
- 
--static void vgem_gem_free_object(struct drm_gem_object *obj)
--{
--	struct drm_vgem_gem_object *vgem_obj = to_vgem_bo(obj);
--
--	kvfree(vgem_obj->pages);
--	mutex_destroy(&vgem_obj->pages_lock);
--
--	if (obj->import_attach)
--		drm_prime_gem_destroy(obj, vgem_obj->table);
--
--	drm_gem_object_release(obj);
--	kfree(vgem_obj);
--}
--
--static vm_fault_t vgem_gem_fault(struct vm_fault *vmf)
--{
--	struct vm_area_struct *vma = vmf->vma;
--	struct drm_vgem_gem_object *obj = vma->vm_private_data;
--	/* We don't use vmf->pgoff since that has the fake offset */
--	unsigned long vaddr = vmf->address;
--	vm_fault_t ret = VM_FAULT_SIGBUS;
--	loff_t num_pages;
--	pgoff_t page_offset;
--	page_offset = (vaddr - vma->vm_start) >> PAGE_SHIFT;
--
--	num_pages = DIV_ROUND_UP(obj->base.size, PAGE_SIZE);
--
--	if (page_offset >= num_pages)
--		return VM_FAULT_SIGBUS;
--
--	mutex_lock(&obj->pages_lock);
--	if (obj->pages) {
--		get_page(obj->pages[page_offset]);
--		vmf->page = obj->pages[page_offset];
--		ret = 0;
--	}
--	mutex_unlock(&obj->pages_lock);
--	if (ret) {
--		struct page *page;
--
--		page = shmem_read_mapping_page(
--					file_inode(obj->base.filp)->i_mapping,
--					page_offset);
--		if (!IS_ERR(page)) {
--			vmf->page = page;
--			ret = 0;
--		} else switch (PTR_ERR(page)) {
--			case -ENOSPC:
--			case -ENOMEM:
--				ret = VM_FAULT_OOM;
--				break;
--			case -EBUSY:
--				ret = VM_FAULT_RETRY;
--				break;
--			case -EFAULT:
--			case -EINVAL:
--				ret = VM_FAULT_SIGBUS;
--				break;
--			default:
--				WARN_ON(PTR_ERR(page));
--				ret = VM_FAULT_SIGBUS;
--				break;
--		}
--
--	}
--	return ret;
--}
--
--static const struct vm_operations_struct vgem_gem_vm_ops = {
--	.fault = vgem_gem_fault,
--	.open = drm_gem_vm_open,
--	.close = drm_gem_vm_close,
--};
--
- static int vgem_open(struct drm_device *dev, struct drm_file *file)
- {
- 	struct vgem_file *vfile;
-@@ -159,266 +84,30 @@ static void vgem_postclose(struct drm_device *dev, struct drm_file *file)
- 	kfree(vfile);
- }
- 
--static struct drm_vgem_gem_object *__vgem_gem_create(struct drm_device *dev,
--						unsigned long size)
--{
--	struct drm_vgem_gem_object *obj;
--	int ret;
--
--	obj = kzalloc(sizeof(*obj), GFP_KERNEL);
--	if (!obj)
--		return ERR_PTR(-ENOMEM);
--
--	obj->base.funcs = &vgem_gem_object_funcs;
--
--	ret = drm_gem_object_init(dev, &obj->base, roundup(size, PAGE_SIZE));
--	if (ret) {
--		kfree(obj);
--		return ERR_PTR(ret);
--	}
--
--	mutex_init(&obj->pages_lock);
--
--	return obj;
--}
--
--static void __vgem_gem_destroy(struct drm_vgem_gem_object *obj)
--{
--	drm_gem_object_release(&obj->base);
--	kfree(obj);
--}
--
--static struct drm_gem_object *vgem_gem_create(struct drm_device *dev,
--					      struct drm_file *file,
--					      unsigned int *handle,
--					      unsigned long size)
--{
--	struct drm_vgem_gem_object *obj;
--	int ret;
--
--	obj = __vgem_gem_create(dev, size);
--	if (IS_ERR(obj))
--		return ERR_CAST(obj);
--
--	ret = drm_gem_handle_create(file, &obj->base, handle);
--	if (ret) {
--		drm_gem_object_put(&obj->base);
--		return ERR_PTR(ret);
--	}
--
--	return &obj->base;
--}
--
--static int vgem_gem_dumb_create(struct drm_file *file, struct drm_device *dev,
--				struct drm_mode_create_dumb *args)
--{
--	struct drm_gem_object *gem_object;
--	u64 pitch, size;
--
--	pitch = args->width * DIV_ROUND_UP(args->bpp, 8);
--	size = args->height * pitch;
--	if (size == 0)
--		return -EINVAL;
--
--	gem_object = vgem_gem_create(dev, file, &args->handle, size);
--	if (IS_ERR(gem_object))
--		return PTR_ERR(gem_object);
--
--	args->size = gem_object->size;
--	args->pitch = pitch;
--
--	drm_gem_object_put(gem_object);
--
--	DRM_DEBUG("Created object of size %llu\n", args->size);
--
--	return 0;
--}
--
- static struct drm_ioctl_desc vgem_ioctls[] = {
- 	DRM_IOCTL_DEF_DRV(VGEM_FENCE_ATTACH, vgem_fence_attach_ioctl, DRM_RENDER_ALLOW),
- 	DRM_IOCTL_DEF_DRV(VGEM_FENCE_SIGNAL, vgem_fence_signal_ioctl, DRM_RENDER_ALLOW),
- };
- 
--static int vgem_mmap(struct file *filp, struct vm_area_struct *vma)
--{
--	unsigned long flags = vma->vm_flags;
--	int ret;
--
--	ret = drm_gem_mmap(filp, vma);
--	if (ret)
--		return ret;
--
--	/* Keep the WC mmaping set by drm_gem_mmap() but our pages
--	 * are ordinary and not special.
--	 */
--	vma->vm_flags = flags | VM_DONTEXPAND | VM_DONTDUMP;
--	return 0;
--}
-+DEFINE_DRM_GEM_FOPS(vgem_driver_fops);
- 
--static const struct file_operations vgem_driver_fops = {
--	.owner		= THIS_MODULE,
--	.open		= drm_open,
--	.mmap		= vgem_mmap,
--	.poll		= drm_poll,
--	.read		= drm_read,
--	.unlocked_ioctl = drm_ioctl,
--	.compat_ioctl	= drm_compat_ioctl,
--	.release	= drm_release,
--};
--
--static struct page **vgem_pin_pages(struct drm_vgem_gem_object *bo)
--{
--	mutex_lock(&bo->pages_lock);
--	if (bo->pages_pin_count++ == 0) {
--		struct page **pages;
--
--		pages = drm_gem_get_pages(&bo->base);
--		if (IS_ERR(pages)) {
--			bo->pages_pin_count--;
--			mutex_unlock(&bo->pages_lock);
--			return pages;
--		}
--
--		bo->pages = pages;
--	}
--	mutex_unlock(&bo->pages_lock);
--
--	return bo->pages;
--}
--
--static void vgem_unpin_pages(struct drm_vgem_gem_object *bo)
--{
--	mutex_lock(&bo->pages_lock);
--	if (--bo->pages_pin_count == 0) {
--		drm_gem_put_pages(&bo->base, bo->pages, true, true);
--		bo->pages = NULL;
--	}
--	mutex_unlock(&bo->pages_lock);
--}
--
--static int vgem_prime_pin(struct drm_gem_object *obj)
-+static struct drm_gem_object *vgem_gem_create_object(struct drm_device *dev, size_t size)
- {
--	struct drm_vgem_gem_object *bo = to_vgem_bo(obj);
--	long n_pages = obj->size >> PAGE_SHIFT;
--	struct page **pages;
-+	struct drm_gem_shmem_object *obj;
- 
--	pages = vgem_pin_pages(bo);
--	if (IS_ERR(pages))
--		return PTR_ERR(pages);
-+	obj = kzalloc(sizeof(*obj), GFP_KERNEL);
-+	if (!obj)
-+		return NULL;
- 
--	/* Flush the object from the CPU cache so that importers can rely
--	 * on coherent indirect access via the exported dma-address.
-+	/*
-+	 * vgem doesn't have any begin/end cpu access ioctls, therefore must use
-+	 * coherent memory or dma-buf sharing just wont work.
- 	 */
--	drm_clflush_pages(pages, n_pages);
--
--	return 0;
--}
--
--static void vgem_prime_unpin(struct drm_gem_object *obj)
--{
--	struct drm_vgem_gem_object *bo = to_vgem_bo(obj);
--
--	vgem_unpin_pages(bo);
--}
--
--static struct sg_table *vgem_prime_get_sg_table(struct drm_gem_object *obj)
--{
--	struct drm_vgem_gem_object *bo = to_vgem_bo(obj);
--
--	return drm_prime_pages_to_sg(obj->dev, bo->pages, bo->base.size >> PAGE_SHIFT);
--}
--
--static struct drm_gem_object* vgem_prime_import(struct drm_device *dev,
--						struct dma_buf *dma_buf)
--{
--	struct vgem_device *vgem = container_of(dev, typeof(*vgem), drm);
--
--	return drm_gem_prime_import_dev(dev, dma_buf, &vgem->platform->dev);
--}
--
--static struct drm_gem_object *vgem_prime_import_sg_table(struct drm_device *dev,
--			struct dma_buf_attachment *attach, struct sg_table *sg)
--{
--	struct drm_vgem_gem_object *obj;
--	int npages;
--
--	obj = __vgem_gem_create(dev, attach->dmabuf->size);
--	if (IS_ERR(obj))
--		return ERR_CAST(obj);
-+	obj->map_wc = true;
- 
--	npages = PAGE_ALIGN(attach->dmabuf->size) / PAGE_SIZE;
--
--	obj->table = sg;
--	obj->pages = kvmalloc_array(npages, sizeof(struct page *), GFP_KERNEL);
--	if (!obj->pages) {
--		__vgem_gem_destroy(obj);
--		return ERR_PTR(-ENOMEM);
--	}
--
--	obj->pages_pin_count++; /* perma-pinned */
--	drm_prime_sg_to_page_array(obj->table, obj->pages, npages);
- 	return &obj->base;
- }
- 
--static int vgem_prime_vmap(struct drm_gem_object *obj, struct dma_buf_map *map)
--{
--	struct drm_vgem_gem_object *bo = to_vgem_bo(obj);
--	long n_pages = obj->size >> PAGE_SHIFT;
--	struct page **pages;
--	void *vaddr;
--
--	pages = vgem_pin_pages(bo);
--	if (IS_ERR(pages))
--		return PTR_ERR(pages);
--
--	vaddr = vmap(pages, n_pages, 0, pgprot_writecombine(PAGE_KERNEL));
--	if (!vaddr)
--		return -ENOMEM;
--	dma_buf_map_set_vaddr(map, vaddr);
--
--	return 0;
--}
--
--static void vgem_prime_vunmap(struct drm_gem_object *obj, struct dma_buf_map *map)
--{
--	struct drm_vgem_gem_object *bo = to_vgem_bo(obj);
--
--	vunmap(map->vaddr);
--	vgem_unpin_pages(bo);
--}
--
--static int vgem_prime_mmap(struct drm_gem_object *obj,
--			   struct vm_area_struct *vma)
--{
--	int ret;
--
--	if (obj->size < vma->vm_end - vma->vm_start)
--		return -EINVAL;
--
--	if (!obj->filp)
--		return -ENODEV;
--
--	ret = call_mmap(obj->filp, vma);
--	if (ret)
--		return ret;
--
--	vma_set_file(vma, obj->filp);
--	vma->vm_flags |= VM_DONTEXPAND | VM_DONTDUMP;
--	vma->vm_page_prot = pgprot_writecombine(vm_get_page_prot(vma->vm_flags));
--
--	return 0;
--}
--
--static const struct drm_gem_object_funcs vgem_gem_object_funcs = {
--	.free = vgem_gem_free_object,
--	.pin = vgem_prime_pin,
--	.unpin = vgem_prime_unpin,
--	.get_sg_table = vgem_prime_get_sg_table,
--	.vmap = vgem_prime_vmap,
--	.vunmap = vgem_prime_vunmap,
--	.vm_ops = &vgem_gem_vm_ops,
--};
--
- static const struct drm_driver vgem_driver = {
- 	.driver_features		= DRIVER_GEM | DRIVER_RENDER,
- 	.open				= vgem_open,
-@@ -427,13 +116,8 @@ static const struct drm_driver vgem_driver = {
- 	.num_ioctls 			= ARRAY_SIZE(vgem_ioctls),
- 	.fops				= &vgem_driver_fops,
- 
--	.dumb_create			= vgem_gem_dumb_create,
--
--	.prime_handle_to_fd = drm_gem_prime_handle_to_fd,
--	.prime_fd_to_handle = drm_gem_prime_fd_to_handle,
--	.gem_prime_import = vgem_prime_import,
--	.gem_prime_import_sg_table = vgem_prime_import_sg_table,
--	.gem_prime_mmap = vgem_prime_mmap,
-+	DRM_GEM_SHMEM_DRIVER_OPS,
-+	.gem_create_object		= vgem_gem_create_object,
- 
- 	.name	= DRIVER_NAME,
- 	.desc	= DRIVER_DESC,
 -- 
-2.31.0
-
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
