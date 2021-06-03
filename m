@@ -2,54 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BAAF399B9E
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Jun 2021 09:32:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0FD89399BB1
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Jun 2021 09:37:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C1DB66F40B;
-	Thu,  3 Jun 2021 07:32:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2BD286F412;
+	Thu,  3 Jun 2021 07:37:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x234.google.com (mail-oi1-x234.google.com
- [IPv6:2607:f8b0:4864:20::234])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9F03C6F40B
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Jun 2021 07:32:37 +0000 (UTC)
-Received: by mail-oi1-x234.google.com with SMTP id d21so5391369oic.11
- for <dri-devel@lists.freedesktop.org>; Thu, 03 Jun 2021 00:32:37 -0700 (PDT)
+Received: from mail-ot1-x333.google.com (mail-ot1-x333.google.com
+ [IPv6:2607:f8b0:4864:20::333])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 82F716F410
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Jun 2021 07:37:07 +0000 (UTC)
+Received: by mail-ot1-x333.google.com with SMTP id
+ 5-20020a9d01050000b02903c700c45721so3866852otu.6
+ for <dri-devel@lists.freedesktop.org>; Thu, 03 Jun 2021 00:37:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=tbqXxzBQan5qZOKDHud6woka91j0ECnjHRdGUPfgw84=;
- b=UNDElItiuSVuFJY6RhUGyRLX/vcc9GuhIfJzApQ7tzNzc+K4jbKnP4HS8091PodGsR
- BeY6HZRqDMDA+abrWzc+7zQ2iW1kXpvoDUtEws2/ldepeZsMV+l5JdAg0flQHAoozBxt
- cOV0ddcIdwtjDjbo1UMBO9kV4gBKWu2Mri238=
+ :cc:content-transfer-encoding;
+ bh=ExEFQgMl9rp1X5xOtaDvHjwFVhy8KtZGitPAjQyeU+k=;
+ b=HV6mkhbyHezmEwjAjCtgPN/dKoASk1HxP4kR7EiuHKw1bYsgsmoT4Mdtb0vQWzrj5q
+ rwhJWo6TY/b+3m7fNwQr2O8jrWCCubbNOOw56XwjJSNuC/ZBSMl6OIP00ciufjQP4FnF
+ 1TlWmX+OHk86YH3PEEsXPdJYmWBbNxtdXhqhs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=tbqXxzBQan5qZOKDHud6woka91j0ECnjHRdGUPfgw84=;
- b=BKS1MN05ZdxuuGvFr9cfjQOfsO/8uekZdBXy57VMQlBnxyxhdwL5+hH+z1h/Szwtbc
- cFXC7bWOLBKebRj2+ni0CAlnIsUjqzYry2D4dXbIJemmsN3lYGqtAr9B1Fq7sQeG8h+8
- 3GBWd2c8OeuxCuXsfUh+yQzkxHVJeSelwXUszJqefQkRod02ANx0gmEFa+DjxpmJSkTz
- ce9MyU0kQxxEexkbk3JR8xkcTLRHB3aXja3FEDQx746MwuysH26Xo2BjE82ZWjMT8KQZ
- r+AkuFBtt7Vy1wXo47GDjP3L3iz5F4AV6a4+nYBhHL7YSkf/Ii6HjpB3YnunuFsMxJbb
- ZTvQ==
-X-Gm-Message-State: AOAM532ii5yOmKoDMAd5btKubmnwcEZlygBqQUCzpuSBOj4NnafUsMtZ
- MCRIl2CsCpd80roUykIBPeZC4FBF1d/wK6oVBaV8B7JCfmI=
-X-Google-Smtp-Source: ABdhPJxsXyGXmMMwj+H0+yYoAAlJQ64btO9wlxK2VBEVYaIliZxWr/H8ggDlea1r4cS40Kqq6SjWOB30zJwcIwIdUY4=
-X-Received: by 2002:aca:5701:: with SMTP id l1mr8487681oib.128.1622705556953; 
- Thu, 03 Jun 2021 00:32:36 -0700 (PDT)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=ExEFQgMl9rp1X5xOtaDvHjwFVhy8KtZGitPAjQyeU+k=;
+ b=THOWlSqINjFBNEGLUVD3meVq2FMrfd0SVjg2ZMMDtF24QIRzFy3z/7WfxWxrJjPbDk
+ oh8BwfYat+/grgSSLSxOY8D0AJkxRP4HuVgBrA+39PQkQXtL/W5/2KLlcCiU8c/xLis0
+ peS3d4pa2ETUUlGJeKezIVTpZdHT93lTGaAPpT7MUVW4UkGj1gp/p0/FPufNrSQKmG0x
+ LrWyIxT7KudABO4o1QtKkueE7jewfIyoS8f6irs11EL7j5+r2CSbrszBuBfioPVwi31a
+ gQ5nyElpwN/is9ABgK5vv8mmJ0ntZP3NwD7bK80X71UZ/8CZTZHe2ZoXzctNFyxr9h6q
+ V4+w==
+X-Gm-Message-State: AOAM531qRBcaXuXo2cuEF/WPu94mDdw93JWXiFtj19tGrKFb2mPSXh/M
+ KCTwevpJhp1A4FmAiosGB+dWCp5hP7bkozq4D/Rinw==
+X-Google-Smtp-Source: ABdhPJzCSS/8X7dQ8j1SXKGE/jsm8QaKzNF+fwhMKQdzDFzXRkrAAUr/P4T2iret6WbC2kyk8TeBTpmd/cNwKjhVAQA=
+X-Received: by 2002:a05:6830:1155:: with SMTP id
+ x21mr28713270otq.303.1622705826902; 
+ Thu, 03 Jun 2021 00:37:06 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210527162650.1182544-1-jason@jlekstrand.net>
- <20210527162650.1182544-22-jason@jlekstrand.net>
- <YLSoXSnKlZV/EQwD@phenom.ffwll.local>
- <CAOFGe973O_GJ9iqKQaE17TmWoKpaCYokxupzyOkuKG6U9pEyfg@mail.gmail.com>
-In-Reply-To: <CAOFGe973O_GJ9iqKQaE17TmWoKpaCYokxupzyOkuKG6U9pEyfg@mail.gmail.com>
+References: <a29eaef9-2457-1393-6757-40956811daf8@linux.intel.com>
+ <a6965639-acf6-b5f5-482c-2715e7fa69d4@amd.com>
+ <b4c18e45-98c9-ce7f-b22c-c00c795844c2@shipmail.org>
+ <baf4f828-76c8-6b47-5bba-9b9c8e7b307b@amd.com>
+ <YLfQplT8H6PdCCLX@phenom.ffwll.local>
+ <c50fa98f-3735-fe04-d3f9-8a7a08a7562e@linux.intel.com>
+In-Reply-To: <c50fa98f-3735-fe04-d3f9-8a7a08a7562e@linux.intel.com>
 From: Daniel Vetter <daniel@ffwll.ch>
-Date: Thu, 3 Jun 2021 09:32:26 +0200
-Message-ID: <CAKMK7uGcs_x50R98TC_c0jTXNdmgN-0AH6Vg6itn5sPU3nB6Jg@mail.gmail.com>
-Subject: Re: [PATCH 21/29] drm/i915/gem: Use the proto-context to handle
- create parameters (v2)
-To: Jason Ekstrand <jason@jlekstrand.net>
+Date: Thu, 3 Jun 2021 09:36:55 +0200
+Message-ID: <CAKMK7uE+fB_+UG668O=QMXwQ9_Xb--KhzehT77HLfBoWve-zLg@mail.gmail.com>
+Subject: Re: [Intel-gfx] Merging TTM branches through the Intel tree?
+To: =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,57 +68,76 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Intel GFX <intel-gfx@lists.freedesktop.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>
+Cc: =?UTF-8?Q?Thomas_Hellstr=C3=B6m_=28Intel=29?= <thomas_os@shipmail.org>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Matthew Auld <matthew.auld@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jun 3, 2021 at 12:23 AM Jason Ekstrand <jason@jlekstrand.net> wrote:
+On Thu, Jun 3, 2021 at 8:50 AM Thomas Hellstr=C3=B6m
+<thomas.hellstrom@linux.intel.com> wrote:
 >
-> On Mon, May 31, 2021 at 4:12 AM Daniel Vetter <daniel@ffwll.ch> wrote:
-> >
-> > On Thu, May 27, 2021 at 11:26:42AM -0500, Jason Ekstrand wrote:
-> > > +static int set_proto_ctx_engines(struct drm_i915_file_private *fpriv,
-> > > +                              struct i915_gem_proto_context *pc,
-> > > +                              const struct drm_i915_gem_context_param *args)
-> > > +{
-> > > +     struct drm_i915_private *i915 = fpriv->dev_priv;
-> > > +     struct set_proto_ctx_engines set = { .i915 = i915 };
-> > > +     struct i915_context_param_engines __user *user =
-> > > +             u64_to_user_ptr(args->value);
-> > > +     unsigned int n;
-> > > +     u64 extensions;
-> > > +     int err;
-> > > +
-> > > +     if (!args->size) {
-> > > +             proto_context_free_user_engines(pc);
-> > > +             memset(&pc->legacy_rcs_sseu, 0, sizeof(pc->legacy_rcs_sseu));
-> >
-> > Hm I wonder whether we shouldn't put this into the cleanup helper, and
-> > then maybe call it proto_context_reset_user_engines()? I think that makes
-> > the entire user engines vs sseu flow a notch clearer again.
 >
-> I fought with myself over this.  The other two callers of
-> free_user_engines() would be fine with clearing out the SSEU as well,
-> I think, but neither of them need it.  I erred on the side of putting
-> it in the one place it's actually needed to make it clear what's going
-> on here.  I can move it if you'd like.
+> On 6/2/21 8:40 PM, Daniel Vetter wrote:
+> > On Wed, Jun 02, 2021 at 11:48:41AM +0200, Christian K=C3=B6nig wrote:
+> >> Am 02.06.21 um 11:16 schrieb Thomas Hellstr=C3=B6m (Intel):
+> >>> On 6/2/21 10:32 AM, Christian K=C3=B6nig wrote:
+> >>>> Uff I'm just waiting for feedback from Philip to merge a large patch
+> >>>> set for TTM through drm-misc-next.
+> >>>>
+> >>>> I'm pretty sure we will run into merge conflicts if you try to push
+> >>>> your changes through the Intel tree.
+> >>>>
+> >>>> Christian.
+> >>> OK, so what would be the best approach here?, Adding the TTM patches =
+to
+> >>> drm-misc-next when your set has landed?
+> >> I think I will send out out my set to Matthew once more for review, th=
+en
+> >> push the common TTM stuff to drm-misc-next as much as possible.
+> >>
+> >> Then you should be able to land your stuff to drm-misc-next and rebase=
+ on
+> >> the end result.
+> >>
+> >> Just need to note to David that drm-misc-next should be merged to drm-=
+next
+> >> before the Intel patches depending on that stuff land as well.
+> > Other option (because the backmerges tend to be slow) is a topic branch=
+,
+> > and we just eat/resolve the conflicts in both drm-misc-next and
+> > drm-intel-gt-next in the merge commit. If it's not too bad (I haven't
+> > looked at what exactly we need for the i915 side from ttm in detail).
+> >
+> > But also often figuring out the topic branch logistics takes longer tha=
+n
+> > just merging to drm-misc-next as the patches get ready.
+> > -Daniel
+>
+> Daniel: So the thing we need to get into TTM is the iterator-based
+> move_memcpy which is more adaptable than the current one and needed to
+> support non-linear lmem buffers, some bug-fixes and minor changes to be
+> able to keep our short-term-pinning while on the LRU. A necessary evil.
+>
+> Christian: it looks like you have landed some TTM changes already, in
+> particular the &bo->mem -> bo->resource change which is the main
+> conflict I think. Is the 10 patches self-allocation series the main
+> remaining part? That will probably cause some conflicts with already
+> pushed i915 TTM setup code, but otherwise will not conflict with the
+> rest of the TTM code I think, which should make it possible to bring in
+> our TTM changes after conflict resolution with what you've already
+> pushed. The memcpy code is pretty self-contained.
 
-So I'm wondering about semantics here a bit, and whether this is all
-real, as in, used in real userspace:
-
-Instead of resetting engines here, shouldn't we just complain if
-there's more than one engines_set command, ever, on a context?
-
-> As a bit of a P.S., I really hate the SSEU handling.  It's horrible.
-> If I had it to do all over again, SSEU would be a purly dynamic
-> context param that you aren't allowed to set at create time.  But,
-> sadly, we're in the mess we're in. :-(
-
-Yeah it's rather annoying. If we go with "only one engines_set per ctx
-create", then maybe we could streamline the SSEU stuff some more too?
+I think in that case topic branch on top of drm-next (once the ttm
+bits we conflict with are there) is probably best, and then pull that
+into drm-misc-next and drm-intel-gt-next. Merge window freeze is also
+approach, so without topic branch we'd be stuck until like -rc2 when
+drm-next reopens. I guess Maarten can do the topic branch logistics in
+drm-misc.git for this.
 -Daniel
---
+--=20
 Daniel Vetter
 Software Engineer, Intel Corporation
 http://blog.ffwll.ch
