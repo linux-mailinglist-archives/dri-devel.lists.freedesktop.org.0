@@ -1,50 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABE8D399DFD
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Jun 2021 11:45:09 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C3F5399E0D
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Jun 2021 11:48:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DCDA36E103;
-	Thu,  3 Jun 2021 09:45:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3BFF76ECEE;
+	Thu,  3 Jun 2021 09:48:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7CDE56E0EB;
- Thu,  3 Jun 2021 09:45:05 +0000 (UTC)
-IronPort-SDR: kVub9A2X9AdEVQ6MKkyczbuL+KzRx0Ha70cqsiVTjApIAZbT+2+SQ0byP8RrURAm0Ed1BX1KOC
- ITy/OsIuc45g==
-X-IronPort-AV: E=McAfee;i="6200,9189,10003"; a="183688912"
-X-IronPort-AV: E=Sophos;i="5.83,244,1616482800"; d="scan'208";a="183688912"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Jun 2021 02:45:00 -0700
-IronPort-SDR: +MLnEqQ22aneiTIVDwrWYYE9rRGCn6xWyzCf/fHC7/iDWyK2xNeG8CELTZJsn3Ve3SUZdn5bD+
- lsN9WK6yBm+A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.83,244,1616482800"; d="scan'208";a="447790162"
-Received: from irvmail001.ir.intel.com ([10.43.11.63])
- by fmsmga008.fm.intel.com with ESMTP; 03 Jun 2021 02:44:57 -0700
-Received: from [10.249.138.11] (mwajdecz-MOBL.ger.corp.intel.com
- [10.249.138.11])
- by irvmail001.ir.intel.com (8.14.3/8.13.6/MailSET/Hub) with ESMTP id
- 1539ivWw004939; Thu, 3 Jun 2021 10:44:57 +0100
-Subject: Re: [Intel-gfx] [PATCH 15/20] drm/i915/guc: Ensure H2G buffer updates
- visible before tail update
-To: Matthew Brost <matthew.brost@intel.com>, intel-gfx@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org
-References: <20210603051630.2635-1-matthew.brost@intel.com>
- <20210603051630.2635-16-matthew.brost@intel.com>
-From: Michal Wajdeczko <michal.wajdeczko@intel.com>
-Message-ID: <454067aa-cb2b-541d-21a7-84706a2d93a6@intel.com>
-Date: Thu, 3 Jun 2021 11:44:57 +0200
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.2
+Received: from mail-qt1-x831.google.com (mail-qt1-x831.google.com
+ [IPv6:2607:f8b0:4864:20::831])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2C4CD6E84A;
+ Thu,  3 Jun 2021 09:48:43 +0000 (UTC)
+Received: by mail-qt1-x831.google.com with SMTP id v4so3967419qtp.1;
+ Thu, 03 Jun 2021 02:48:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=dSSOsIAjSoeXvheN+mVsxIwibgECqv9CPqBUuH9ed0I=;
+ b=UAmWHQ/oOpxa7fk0NbJAONnXxmoo07blTHjMxfwApTfOIpPaHQcZ2F27b2cNLv0RGO
+ hvY+bbYelWJRhwLWBzic0gB55D2fS5n0CJX5a1Rk3qyIgQkKKHpwKqO1mpv9gq2/yXZD
+ QvkE4AVHlreR1OTecrMJHzFaSxWhcbMxIYyDMh2SoQEad6MRF4DJhhFazedE+APZB/zJ
+ 0Vt9AuJzc6AdhwrHsTQxfdLB1eIeBfKdT2DlcMRrTZnmG4vIjVlfb4tGHhHWrD8g8Pit
+ JLyvUa2EJs2qf0d/wDEsHLuP15PLhDipTYjCYevz3wf7U49OdYhDz7RxWPAHiqCCDkZP
+ 3jcw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=dSSOsIAjSoeXvheN+mVsxIwibgECqv9CPqBUuH9ed0I=;
+ b=PJwcQO5v9MCzB5otrb42CmycRzlQtR3twiHDEBO4EoRHGbLRdFm6OT6JKFgtoDpe4/
+ tiOsfYh7V+mE5eywj7KAxEgrKa1hmt642noX4kD32JxKbAVyTSkgYy0ErKsxoWlRf3di
+ 7UXpW/IYQyYa0G9fMp1xTuazNEv6HFi+WSQvt6a21XQv8zgM0F6S7C4Wtg7osjpccNFx
+ 52q7Vv3JIeWRgMPVVH7HErdzG7QOYFTAFhYbnLvCcpVQpMbLQZhqROPdLl0sAqSpAX1S
+ YeJpQzKLFi4AZGb/cksTNboG7eeGLzuMCbpz4etegJEXV7jIG77LwaXBjQmO1ZUxUGpK
+ LP/w==
+X-Gm-Message-State: AOAM533CwhWrZpV+AUPNd9Hz7PTwdSR/YqJzZoW0CqeUi37RqOZdfnWZ
+ P+hqd/SSHcnKjGCg6U9uCkIlOmyfDTm1dhhqilLvj5pKoyFG/w==
+X-Google-Smtp-Source: ABdhPJwFmWQaQnmwql0RxeJR4wLEoltqz8xhFgdBcFzuBjvtMXLfY3skExCasCEm+V4kRpeF39e6k/rzVqHcG3OMIlI=
+X-Received: by 2002:ac8:75d4:: with SMTP id z20mr27860812qtq.265.1622713722146; 
+ Thu, 03 Jun 2021 02:48:42 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210603051630.2635-16-matthew.brost@intel.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <20210602170716.280491-1-thomas.hellstrom@linux.intel.com>
+ <20210602170716.280491-5-thomas.hellstrom@linux.intel.com>
+In-Reply-To: <20210602170716.280491-5-thomas.hellstrom@linux.intel.com>
+From: Matthew Auld <matthew.william.auld@gmail.com>
+Date: Thu, 3 Jun 2021 10:48:15 +0100
+Message-ID: <CAM0jSHPfNhw3e9y4eD5X+Bk-i1nkZqb1Tw194mhOFNGbHZD8xw@mail.gmail.com>
+Subject: Re: [Intel-gfx] [PATCH 4/5] drm/i915/ttm: Use TTM for system memory
+To: =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,87 +64,128 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: daniel.vetter@intel.com
+Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-On 03.06.2021 07:16, Matthew Brost wrote:
-> Ensure H2G buffer updates are visible before descriptor tail updates by
-> inserting a barrier between the H2G buffer update and the tail. The
-> barrier is simple wmb() for SMEM and is register write for LMEM. This is
-> needed if more than 1 H2G can be inflight at once.
-> 
-> If this barrier is not inserted it is possible the descriptor tail
-> update is scene by the GuC before H2G buffer update which results in the
-> GuC reading a corrupt H2G value. This can bring down the H2G channel
-> among other bad things.
-> 
-> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
-> Cc: Michal Wajdeczko <michal.wajdeczko@intel.com>
-> Reviewed-by: John Harrison <John.C.Harrison@Intel.com>
+On Wed, 2 Jun 2021 at 18:08, Thomas Hellstr=C3=B6m
+<thomas.hellstrom@linux.intel.com> wrote:
+>
+> For discrete, use TTM for both cached and WC system memory. That means
+> we currently rely on the TTM memory accounting / shrinker. For cached
+> system memory we should consider remaining shmem-backed, which can be
+> implemented from our ttm_tt_populate calback. We can then also reuse our
+> own very elaborate shrinker for that memory.
+>
+> Signed-off-by: Thomas Hellstr=C3=B6m <thomas.hellstrom@linux.intel.com>
 > ---
->  drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c | 28 +++++++++++++++++++++++
->  1 file changed, 28 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
-> index 80976fe40fbf..31f83956bfc3 100644
-> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
-> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
-> @@ -328,6 +328,28 @@ static u32 ct_get_next_fence(struct intel_guc_ct *ct)
->  	return ++ct->requests.last_fence;
+>  drivers/gpu/drm/i915/gem/i915_gem_ttm.c    | 22 ++++++++++++++++++++++
+>  drivers/gpu/drm/i915/i915_drv.h            |  3 ---
+>  drivers/gpu/drm/i915/intel_memory_region.c |  7 ++++++-
+>  drivers/gpu/drm/i915/intel_memory_region.h |  8 ++++++++
+>  4 files changed, 36 insertions(+), 4 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c b/drivers/gpu/drm/i9=
+15/gem/i915_gem_ttm.c
+> index 8e1c01168c6d..42e89bf43708 100644
+> --- a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+> +++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+> @@ -755,3 +755,25 @@ int __i915_gem_ttm_object_init(struct intel_memory_r=
+egion *mem,
+>         /* i915 wants -ENXIO when out of memory region space. */
+>         return (ret =3D=3D -ENOSPC) ? -ENXIO : ret;
 >  }
->  
-> +static void write_barrier(struct intel_guc_ct *ct)
+> +
+> +static const struct intel_memory_region_ops ttm_system_region_ops =3D {
+> +       .init_object =3D __i915_gem_ttm_object_init,
+> +};
+> +
+> +struct intel_memory_region *
+> +i915_gem_ttm_system_setup(struct drm_i915_private *i915,
+> +                         u16 type, u16 instance)
 > +{
-> +	struct intel_guc *guc = ct_to_guc(ct);
-> +	struct intel_gt *gt = guc_to_gt(guc);
+> +       struct intel_memory_region *mr;
 > +
-> +	if (i915_gem_object_is_lmem(guc->ct.vma->obj)) {
-> +		GEM_BUG_ON(guc->send_regs.fw_domains);
-> +		/*
-> +		 * This register is used by the i915 and GuC for MMIO based
-> +		 * communication. Once we are in this code CTBs are the only
-> +		 * method the i915 uses to communicate with the GuC so it is
-> +		 * safe to write to this register (a value of 0 is NOP for MMIO
-> +		 * communication). If we ever start mixing CTBs and MMIOs a new
-> +		 * register will have to be chosen.
-> +		 */
-> +		intel_uncore_write_fw(gt->uncore, GEN11_SOFT_SCRATCH(0), 0);
+> +       mr =3D intel_memory_region_create(i915, 0,
+> +                                       totalram_pages() << PAGE_SHIFT,
+> +                                       PAGE_SIZE, 0,
+> +                                       type, instance,
+> +                                       &ttm_system_region_ops);
+> +       if (IS_ERR_OR_NULL(mr))
 
-can't we at least start with SOFT_SCRATCH register that is not used for
-GuC MMIO based communication on Gen12 LMEM platforms? see [1]
+region_create can't return NULL.
 
-I really don't feel comfortable that we are touching a register that
-elsewhere is protected with the mutex. And mixing CTBs and MMIO is not
-far away.
-
-Michal
-
-[1]
-https://lore.kernel.org/intel-gfx/51b9bd05-7d6f-29f1-de0f-3a14bade6c9c@intel.com/
-
-> +	} else {
-> +		/* wmb() sufficient for a barrier if in smem */
-> +		wmb();
-> +	}
+> +               return mr;
+> +
+> +       intel_memory_region_set_name(mr, "system-ttm");
+> +       return mr;
 > +}
+> diff --git a/drivers/gpu/drm/i915/i915_drv.h b/drivers/gpu/drm/i915/i915_=
+drv.h
+> index 524aaeb0e842..c6cc16ccce36 100644
+> --- a/drivers/gpu/drm/i915/i915_drv.h
+> +++ b/drivers/gpu/drm/i915/i915_drv.h
+> @@ -1768,9 +1768,6 @@ void i915_gem_cleanup_userptr(struct drm_i915_priva=
+te *dev_priv);
+>  void i915_gem_init_early(struct drm_i915_private *dev_priv);
+>  void i915_gem_cleanup_early(struct drm_i915_private *dev_priv);
+>
+> -struct intel_memory_region *i915_gem_shmem_setup(struct drm_i915_private=
+ *i915,
+> -                                                u16 type, u16 instance);
+> -
+>  static inline void i915_gem_drain_freed_objects(struct drm_i915_private =
+*i915)
+>  {
+>         /*
+> diff --git a/drivers/gpu/drm/i915/intel_memory_region.c b/drivers/gpu/drm=
+/i915/intel_memory_region.c
+> index bd27e897d4d0..a42bb36c2aea 100644
+> --- a/drivers/gpu/drm/i915/intel_memory_region.c
+> +++ b/drivers/gpu/drm/i915/intel_memory_region.c
+> @@ -220,7 +220,12 @@ int intel_memory_regions_hw_probe(struct drm_i915_pr=
+ivate *i915)
+>                 instance =3D intel_region_map[i].instance;
+>                 switch (type) {
+>                 case INTEL_MEMORY_SYSTEM:
+> -                       mem =3D i915_gem_shmem_setup(i915, type, instance=
+);
+> +                       if (IS_DGFX(i915))
+> +                               mem =3D i915_gem_ttm_system_setup(i915, t=
+ype,
+> +                                                               instance)=
+;
+> +                       else
+> +                               mem =3D i915_gem_shmem_setup(i915, type,
+> +                                                          instance);
+>                         break;
+>                 case INTEL_MEMORY_STOLEN_LOCAL:
+>                         mem =3D i915_gem_stolen_lmem_setup(i915, type, in=
+stance);
+> diff --git a/drivers/gpu/drm/i915/intel_memory_region.h b/drivers/gpu/drm=
+/i915/intel_memory_region.h
+> index 7b5fa97c0b59..4d084424b55c 100644
+> --- a/drivers/gpu/drm/i915/intel_memory_region.h
+> +++ b/drivers/gpu/drm/i915/intel_memory_region.h
+> @@ -142,4 +142,12 @@ void intel_memory_region_unreserve(struct intel_memo=
+ry_region *mem);
+>  int intel_memory_region_reserve(struct intel_memory_region *mem,
+>                                 resource_size_t offset,
+>                                 resource_size_t size);
 > +
->  /**
->   * DOC: CTB Host to GuC request
->   *
-> @@ -411,6 +433,12 @@ static int ct_write(struct intel_guc_ct *ct,
->  	}
->  	GEM_BUG_ON(tail > size);
->  
-> +	/*
-> +	 * make sure H2G buffer update and LRC tail update (if this triggering a
-> +	 * submission) are visible before updating the descriptor tail
-> +	 */
-> +	write_barrier(ct);
+> +struct intel_memory_region *
+> +i915_gem_ttm_system_setup(struct drm_i915_private *i915,
+> +                         u16 type, u16 instance);
+> +struct intel_memory_region *
+> +i915_gem_shmem_setup(struct drm_i915_private *i915,
+> +                    u16 type, u16 instance);
 > +
->  	/* now update desc tail (back in bytes) */
->  	desc->tail = tail * 4;
->  	return 0;
-> 
+>  #endif
+> --
+> 2.31.1
+>
+> _______________________________________________
+> Intel-gfx mailing list
+> Intel-gfx@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/intel-gfx
