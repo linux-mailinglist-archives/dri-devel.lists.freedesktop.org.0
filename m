@@ -1,76 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F29C39A3A2
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Jun 2021 16:47:52 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D2AB39A3E6
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Jun 2021 17:03:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E24426F490;
-	Thu,  3 Jun 2021 14:47:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BC3776E1E0;
+	Thu,  3 Jun 2021 15:03:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 70A876F48E
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Jun 2021 14:47:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1622731666;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=ggwAzDwYsJe761/h5KeyH0+JH3HJIdjU1YmA0yiaMkI=;
- b=c6KbUWHozjlgPRGeKkkVLjeAZIWBPqMyh56ebADi0rfZcqAJGEBYATvwEoUYnfBI9VRW8f
- Gjk4IeEfuXNd/w7x4TXUjO2lOEmf8jgt5gI0IaRTryfSZKkzbgRUPYZn0vYcMtNngguA7V
- mIztC+qrLSMk4ynNtaj0G+X5RfORWt0=
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
- [209.85.222.200]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-80-ZmA5-xT-P62-13PmBy7L0g-1; Thu, 03 Jun 2021 10:47:43 -0400
-X-MC-Unique: ZmA5-xT-P62-13PmBy7L0g-1
-Received: by mail-qk1-f200.google.com with SMTP id
- o14-20020a05620a130eb02902ea53a6ef80so4470723qkj.6
- for <dri-devel@lists.freedesktop.org>; Thu, 03 Jun 2021 07:47:43 -0700 (PDT)
+Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com
+ [IPv6:2a00:1450:4864:20::629])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 408456F48E
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Jun 2021 15:03:33 +0000 (UTC)
+Received: by mail-ej1-x629.google.com with SMTP id h24so9748975ejy.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 03 Jun 2021 08:03:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=mpf+22HJp3bXTLvdn/Ycffjhcm4o9o/MNAerroFOnOE=;
+ b=U7IQY+Yqtz8Hrs1nZlKCD2HYN2Uwh9i/SaVt9a8FCgR1Hqe0kGwMmrDJFOcHByMJP/
+ mRjVr8TzYc4a/3ub/VBedTorux2Z4d69vFEaftpVWp1cIrZMCmXC9FCywAJ1pnzfSlZ/
+ eruSWGAN4HZ3hlo5u5dTlfL5BsnVVjyFExfdg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=ggwAzDwYsJe761/h5KeyH0+JH3HJIdjU1YmA0yiaMkI=;
- b=gZorFBwiPjgCi19W/TwhKZ0w3F0qfG9BhoymK44ID4CN+16K8w9Qxi1HQ3ySxsahnj
- FNmiyj0iIRFXgjY6t63XRfHSa7UMS4YgmzqgrkqwrNL2/Yyg3AjcHypU3DYhp3/Q+hq3
- BXk8yL5A/kO27yfcF4zaPxQLtitcZ8AGX5Q2X2bPMA4gjt8E4ofYhgQaVwPD/0YEuupd
- WrCyAOrrIEaAS8ZkvyQgXzbNSjOV06JTYOSCbGkvan3itFFnzmByyYKP3Sm+craJ4dPg
- 3BUhfAox7pnAOKvGireBEoX/S7ZjKrcJ7Gi2Djm+Z3IuPcaC6apOPx5Jgzbpu7di2Lwe
- Ek4g==
-X-Gm-Message-State: AOAM533znEtb0npLXiQwPWbAFsUEw+XpW0w8ItFOrln4EeUiTj/awl5R
- eIHA7JbqPXhxOv7+mLzxFu3SZqRyFK6nOFyXlb5dB5Y/deW3QVHZbtI17WMvdbmyxwzCuWag1ei
- cmgVMhqs2f5vZe17a02K/S1uQnD9D
-X-Received: by 2002:a37:ae81:: with SMTP id
- x123mr31891343qke.251.1622731662880; 
- Thu, 03 Jun 2021 07:47:42 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJw8G2sTC80gzexHAH3BN9zjekxO4BROz6GuR6h2LK/qUHy5QdzjC03iGstjtnqP8uH7ytX0pw==
-X-Received: by 2002:a37:ae81:: with SMTP id
- x123mr31891297qke.251.1622731662359; 
- Thu, 03 Jun 2021 07:47:42 -0700 (PDT)
-Received: from t490s
- (bras-base-toroon474qw-grc-61-184-147-118-108.dsl.bell.ca. [184.147.118.108])
- by smtp.gmail.com with ESMTPSA id j28sm2041208qkl.35.2021.06.03.07.47.40
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=mpf+22HJp3bXTLvdn/Ycffjhcm4o9o/MNAerroFOnOE=;
+ b=DxmNA3SyjoWJCHiWgc9Ed7qA2wmfvsfHiNp/mK0FLICR0OD0thnGZyLwji+3tsue1J
+ cUaMsVplF8ILmGq1nKgkcxxhaM06X8o3TG3vEVXwNYB06L5jH1pYYklH8zgeigWvfcd6
+ g+DN3qwR54pY0gFk3kHpV29osZn7qw7Hqx4uRLTniEm7bKCoqQzG2+Wb42TrpWPV6jph
+ xUDr+ue563M8GQVV0MFnGyOG1EmdzBmCiRtsSVueb3ByzIHEczS9L9twv7SFnAaV4lRX
+ fMxqpiBpzufAB8x8q1HaEWBIh1rINDqfg1b/l6IMX4fP9l9ZP4CapWmXJU4Gauv9CC42
+ WtRw==
+X-Gm-Message-State: AOAM532M9YgjFN6wVzGViaMU2rYhIaseEN0zZDDH+Vziyl6OjUVgBhEI
+ YD1ImTg3GfkMgoJfjItY8qumqnbbdCBkcA==
+X-Google-Smtp-Source: ABdhPJy9MJtoY89TBW+O0pLEcP09O9i8V8ABSjmBxpFj085wKOBfvRcttMvXAKfEerjN5ZUybgdPqA==
+X-Received: by 2002:a17:906:1701:: with SMTP id c1mr13936eje.425.1622732611935; 
+ Thu, 03 Jun 2021 08:03:31 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id hz10sm1621791ejc.40.2021.06.03.08.03.31
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 03 Jun 2021 07:47:41 -0700 (PDT)
-Date: Thu, 3 Jun 2021 10:47:40 -0400
-From: Peter Xu <peterx@redhat.com>
-To: Alistair Popple <apopple@nvidia.com>
-Subject: Re: [PATCH v9 07/10] mm: Device exclusive memory access
-Message-ID: <YLjrjJXMP9Y3bvej@t490s>
-References: <20210524132725.12697-1-apopple@nvidia.com>
- <YLdGXSw0zdiovn4i@balbir-desktop> <YLeXqp/U0DgylI/u@t490s>
- <3853054.AI2YdRgKcH@nvdebian>
+ Thu, 03 Jun 2021 08:03:31 -0700 (PDT)
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
+To: Intel Graphics Development <intel-gfx@lists.freedesktop.org>
+Subject: [PATCH v2 0/4] shmem helpers for igt
+Date: Thu,  3 Jun 2021 17:03:22 +0200
+Message-Id: <20210603150326.1326658-1-daniel.vetter@ffwll.ch>
+X-Mailer: git-send-email 2.31.0
 MIME-Version: 1.0
-In-Reply-To: <3853054.AI2YdRgKcH@nvdebian>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,23 +63,32 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: rcampbell@nvidia.com, willy@infradead.org, linux-doc@vger.kernel.org,
- nouveau@lists.freedesktop.org, Balbir Singh <bsingharora@gmail.com>,
- hughd@google.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, hch@infradead.org, linux-mm@kvack.org,
- jglisse@redhat.com, bskeggs@redhat.com, jgg@nvidia.com,
- John Hubbard <jhubbard@nvidia.com>, Andrew Morton <akpm@linux-foundation.org>,
- Christoph Hellwig <hch@lst.de>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ DRI Development <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jun 03, 2021 at 09:39:32PM +1000, Alistair Popple wrote:
-> Reclaim won't run on the page due to the extra references from the special 
-> swap entries.
+Hi all,
 
-That sounds reasonable, but I didn't find the point that stops it, probably due
-to my limited knowledge on the reclaim code.  Could you elaborate?
+I finally figured out why CI is unhappy on some machines, we've lost WC
+mode on the vgem side!
+
+Test-with: 20210527140732.5762-1-daniel.vetter@ffwll.ch
+
+Cheers, Daniel
+
+Daniel Vetter (4):
+  drm/gem-shmem-helper: Export drm_gem_shmem_funcs
+  drm/shmem-helper: Switch to vmf_insert_pfn
+  drm/shmem-helper: Align to page size in dumb_create
+  drm/vgem: use shmem helpers
+
+ drivers/gpu/drm/Kconfig                |   3 +-
+ drivers/gpu/drm/drm_gem_shmem_helper.c |  11 +-
+ drivers/gpu/drm/vgem/vgem_drv.c        | 346 ++-----------------------
+ include/drm/drm_gem_shmem_helper.h     |   1 +
+ 4 files changed, 25 insertions(+), 336 deletions(-)
 
 -- 
-Peter Xu
+2.31.0
 
