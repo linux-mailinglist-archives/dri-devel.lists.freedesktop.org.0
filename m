@@ -1,57 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67FD639A5FB
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Jun 2021 18:41:37 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F2E339A65F
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Jun 2021 18:55:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4FE5A6EA8F;
-	Thu,  3 Jun 2021 16:41:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 498A36E85E;
+	Thu,  3 Jun 2021 16:55:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com
- [IPv6:2a00:1450:4864:20::434])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 352456F4E0
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Jun 2021 16:41:24 +0000 (UTC)
-Received: by mail-wr1-x434.google.com with SMTP id f2so6491403wri.11
- for <dri-devel@lists.freedesktop.org>; Thu, 03 Jun 2021 09:41:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=xuE7+DubtXsWe4XG5+0FaGn82S8AZVxemm9kzZuBxdE=;
- b=W//AaDtsShvEYLyBH19AcZx/ad14aBMqgneW2h0tc++E9tbCET+roFF9O4eDnS9VoS
- EtMpT4qEX4WN6sIR0t07Fq374PvnTskUhlT45gwluFFMil3buuTNIdIrYXy1taFJerxn
- cirOfD/ci8sn9hA1EqaJd8xn2bqSGR9TtJ6TE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=xuE7+DubtXsWe4XG5+0FaGn82S8AZVxemm9kzZuBxdE=;
- b=SaX10p8C0zR4kCGmcBDRmtPGeWn0z/MfCC9G8QOaBWMOQdqbwqinlOtV0gUgsN/QPV
- jT3g7gp7MpddLcnYstwUlsqhWRqF3SNgYLxOE0epF5xIORqAAmj+ZoeYYvP+RmbYgj4A
- +06UTqj7jiLCEAfz+86C9akSTQvEbmDVaVjUXzbU9E2grUKD7bUb8Aj/qDG76l+VMECr
- TclkyClKHYDMM5xqk347AhJoAoE11lnjwglSZGoA7TdKwV/rxZs0KtnGoc7TDNJwzAiW
- XZuIU57vURRdApo78MbcHZtDZwsmhpF7gOVMPmve7AzzZm3wdDs/+xvoGTXAzNqceaDw
- 4C1g==
-X-Gm-Message-State: AOAM530R2af2Qabf0CibexluN9U95Q/0fxQrIxycUL/zjAkHoBmbgVtH
- gIUhyjofEGnhnAnotOBbvCfIpA==
-X-Google-Smtp-Source: ABdhPJwPdXd08BFZLS0H2BtAT/CPMNK7g9i9mZq2KD3I1G5ITq2VFtnJIO6CrPq8ZWs5/j5n4i1f9A==
-X-Received: by 2002:adf:f1c3:: with SMTP id z3mr777808wro.375.1622738482840;
- Thu, 03 Jun 2021 09:41:22 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id s28sm4992683wra.54.2021.06.03.09.41.21
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 03 Jun 2021 09:41:22 -0700 (PDT)
-From: Daniel Vetter <daniel.vetter@ffwll.ch>
-To: Intel Graphics Development <intel-gfx@lists.freedesktop.org>
-Subject: [PATCH v3 4/4] drm/vgem: use shmem helpers
-Date: Thu,  3 Jun 2021 18:41:13 +0200
-Message-Id: <20210603164113.1433476-5-daniel.vetter@ffwll.ch>
-X-Mailer: git-send-email 2.31.0
-In-Reply-To: <20210603164113.1433476-1-daniel.vetter@ffwll.ch>
-References: <20210603164113.1433476-1-daniel.vetter@ffwll.ch>
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0F6516F4CC;
+ Thu,  3 Jun 2021 16:55:06 +0000 (UTC)
+IronPort-SDR: TyeLg8/D5lnNbgYsu+Xeit3W6rgvNlx1nFBwsTofpJqnGRmS8webYYPycQ35KzoECE42NAkQTl
+ b/Fe8PJqtDrw==
+X-IronPort-AV: E=McAfee;i="6200,9189,10004"; a="184464191"
+X-IronPort-AV: E=Sophos;i="5.83,246,1616482800"; d="scan'208";a="184464191"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Jun 2021 09:54:51 -0700
+IronPort-SDR: o0eJgzseCGIMKXg2i7k6Z81ibRjsSYXJRNSeE9cew67BFlMjeb1pMHjqP7PCHVXPzuLL2VqGiW
+ Z28+khilc7kw==
+X-IronPort-AV: E=Sophos;i="5.83,246,1616482800"; d="scan'208";a="400643667"
+Received: from lucas-s2600cw.jf.intel.com ([10.165.21.202])
+ by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Jun 2021 09:54:50 -0700
+From: Lucas De Marchi <lucas.demarchi@intel.com>
+To: intel-gfx@lists.freedesktop.org
+Subject: [PATCH v3 0/7] drm/i915: Finish conversion to GRAPHICS_VER
+Date: Thu,  3 Jun 2021 09:54:21 -0700
+Message-Id: <20210603165428.3625495-1-lucas.demarchi@intel.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -65,455 +45,150 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Melissa Wen <melissa.srw@gmail.com>, Thomas Zimmermann <tzimmermann@suse.de>,
- Daniel Vetter <daniel.vetter@intel.com>,
- Chris Wilson <chris@chris-wilson.co.uk>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: intel-gvt-dev@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Aside from deleting lots of code the real motivation here is to switch
-the mmap over to VM_PFNMAP, to be more consistent with what real gpu
-drivers do. They're all VM_PFNMP, which means get_user_pages doesn't
-work, and even if you try and there's a struct page behind that,
-touching it and mucking around with its refcount can upset drivers
-real bad.
+v3 is a resend from v2 (https://patchwork.freedesktop.org/series/90693/)
+now with dri-devel Cc'ed. Notice that this patch series can be applied
+splitting it up through the trees, it's not necessary to apply them
+together. The intention is to apply first 3 patches on drm-intel-gt-next
+and the remaining on drm-intel-next.  I'm intentionally _not_ removing
+the INTEL_GEN/IS_GEN/IS_GEN_RANGE macros now. A few days/weeks after
+this is applied and when drm-intel-gt-next and drm-intel-next is back in
+sync, we can remove any leftovers that went in and remove the macros via
+a topic branch.
 
-v2: Review from Thomas:
-- sort #include
-- drop more dead code that I didn't spot somehow
+Latest version of previous series "drm/i915: Extend GEN renames to the
+rest of the driver" (https://patchwork.freedesktop.org/series/88825/)
+dropped one patch converting all the instances of IS_GEN() and
+INTEL_GEN() to GRAPHICS_VER() due to the patches changing the
+meaning of the macros IS_GRAPHICS_VER/GRAPHICS_VER and removal of
+IS_GRAPHICS_RANGE().
 
-v3: select DRM_GEM_SHMEM_HELPER to make it build (intel-gfx-ci)
+I couldn't find a way to convince coccinelle to fix all places, so I
+just did it manually in separate commits the places that were not
+updated.
 
-v4: I got tricked by 0cf2ef46c6c0 ("drm/shmem-helper: Use cached
-mappings by default"), and we need WC in vgem because vgem doesn't
-have explicit begin/end cpu access ioctls.
+Finish the conversion splitting the changes so it can go to the
+different branches (drm-intel-gt-next and drm-intel-next). I also split
+the gvt changes, but I think it would be easier to take this directly on
+drm-intel-next.
 
-Also add a comment why exactly vgem has to use wc.
+v2: update commit messages with the proper semantic patch (Matt Roper)
+and regenerate the patches to also convert changes that got added in
+between.
 
-v5: Don't set obj->base.funcs, it will default to drm_gem_shmem_funcs
-(Thomas)
+v3: resend with dri-devel Cc'ed since we are touching gt/gem/core. Also,
+let's get an ack on merge strategy
 
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: John Stultz <john.stultz@linaro.org>
-Cc: Sumit Semwal <sumit.semwal@linaro.org>
-Cc: "Christian König" <christian.koenig@amd.com>
-Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-Cc: Melissa Wen <melissa.srw@gmail.com>
-Cc: Chris Wilson <chris@chris-wilson.co.uk>
----
- drivers/gpu/drm/Kconfig         |   1 +
- drivers/gpu/drm/vgem/vgem_drv.c | 342 ++------------------------------
- 2 files changed, 14 insertions(+), 329 deletions(-)
+Cc: intel-gvt-dev@lists.freedesktop.org
+Cc: Zhenyu Wang <zhenyuw@linux.intel.com>
 
-diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
-index 9c21527b791f..fb38ef7b3206 100644
---- a/drivers/gpu/drm/Kconfig
-+++ b/drivers/gpu/drm/Kconfig
-@@ -268,6 +268,7 @@ source "drivers/gpu/drm/kmb/Kconfig"
- config DRM_VGEM
- 	tristate "Virtual GEM provider"
- 	depends on DRM
-+	select DRM_GEM_SHMEM_HELPER
- 	help
- 	  Choose this option to get a virtual graphics memory manager,
- 	  as used by Mesa's software renderer for enhanced performance.
-diff --git a/drivers/gpu/drm/vgem/vgem_drv.c b/drivers/gpu/drm/vgem/vgem_drv.c
-index bf38a7e319d1..a87eafa89e9f 100644
---- a/drivers/gpu/drm/vgem/vgem_drv.c
-+++ b/drivers/gpu/drm/vgem/vgem_drv.c
-@@ -38,6 +38,7 @@
- 
- #include <drm/drm_drv.h>
- #include <drm/drm_file.h>
-+#include <drm/drm_gem_shmem_helper.h>
- #include <drm/drm_ioctl.h>
- #include <drm/drm_managed.h>
- #include <drm/drm_prime.h>
-@@ -50,87 +51,11 @@
- #define DRIVER_MAJOR	1
- #define DRIVER_MINOR	0
- 
--static const struct drm_gem_object_funcs vgem_gem_object_funcs;
--
- static struct vgem_device {
- 	struct drm_device drm;
- 	struct platform_device *platform;
- } *vgem_device;
- 
--static void vgem_gem_free_object(struct drm_gem_object *obj)
--{
--	struct drm_vgem_gem_object *vgem_obj = to_vgem_bo(obj);
--
--	kvfree(vgem_obj->pages);
--	mutex_destroy(&vgem_obj->pages_lock);
--
--	if (obj->import_attach)
--		drm_prime_gem_destroy(obj, vgem_obj->table);
--
--	drm_gem_object_release(obj);
--	kfree(vgem_obj);
--}
--
--static vm_fault_t vgem_gem_fault(struct vm_fault *vmf)
--{
--	struct vm_area_struct *vma = vmf->vma;
--	struct drm_vgem_gem_object *obj = vma->vm_private_data;
--	/* We don't use vmf->pgoff since that has the fake offset */
--	unsigned long vaddr = vmf->address;
--	vm_fault_t ret = VM_FAULT_SIGBUS;
--	loff_t num_pages;
--	pgoff_t page_offset;
--	page_offset = (vaddr - vma->vm_start) >> PAGE_SHIFT;
--
--	num_pages = DIV_ROUND_UP(obj->base.size, PAGE_SIZE);
--
--	if (page_offset >= num_pages)
--		return VM_FAULT_SIGBUS;
--
--	mutex_lock(&obj->pages_lock);
--	if (obj->pages) {
--		get_page(obj->pages[page_offset]);
--		vmf->page = obj->pages[page_offset];
--		ret = 0;
--	}
--	mutex_unlock(&obj->pages_lock);
--	if (ret) {
--		struct page *page;
--
--		page = shmem_read_mapping_page(
--					file_inode(obj->base.filp)->i_mapping,
--					page_offset);
--		if (!IS_ERR(page)) {
--			vmf->page = page;
--			ret = 0;
--		} else switch (PTR_ERR(page)) {
--			case -ENOSPC:
--			case -ENOMEM:
--				ret = VM_FAULT_OOM;
--				break;
--			case -EBUSY:
--				ret = VM_FAULT_RETRY;
--				break;
--			case -EFAULT:
--			case -EINVAL:
--				ret = VM_FAULT_SIGBUS;
--				break;
--			default:
--				WARN_ON(PTR_ERR(page));
--				ret = VM_FAULT_SIGBUS;
--				break;
--		}
--
--	}
--	return ret;
--}
--
--static const struct vm_operations_struct vgem_gem_vm_ops = {
--	.fault = vgem_gem_fault,
--	.open = drm_gem_vm_open,
--	.close = drm_gem_vm_close,
--};
--
- static int vgem_open(struct drm_device *dev, struct drm_file *file)
- {
- 	struct vgem_file *vfile;
-@@ -159,266 +84,30 @@ static void vgem_postclose(struct drm_device *dev, struct drm_file *file)
- 	kfree(vfile);
- }
- 
--static struct drm_vgem_gem_object *__vgem_gem_create(struct drm_device *dev,
--						unsigned long size)
--{
--	struct drm_vgem_gem_object *obj;
--	int ret;
--
--	obj = kzalloc(sizeof(*obj), GFP_KERNEL);
--	if (!obj)
--		return ERR_PTR(-ENOMEM);
--
--	obj->base.funcs = &vgem_gem_object_funcs;
--
--	ret = drm_gem_object_init(dev, &obj->base, roundup(size, PAGE_SIZE));
--	if (ret) {
--		kfree(obj);
--		return ERR_PTR(ret);
--	}
--
--	mutex_init(&obj->pages_lock);
--
--	return obj;
--}
--
--static void __vgem_gem_destroy(struct drm_vgem_gem_object *obj)
--{
--	drm_gem_object_release(&obj->base);
--	kfree(obj);
--}
--
--static struct drm_gem_object *vgem_gem_create(struct drm_device *dev,
--					      struct drm_file *file,
--					      unsigned int *handle,
--					      unsigned long size)
--{
--	struct drm_vgem_gem_object *obj;
--	int ret;
--
--	obj = __vgem_gem_create(dev, size);
--	if (IS_ERR(obj))
--		return ERR_CAST(obj);
--
--	ret = drm_gem_handle_create(file, &obj->base, handle);
--	if (ret) {
--		drm_gem_object_put(&obj->base);
--		return ERR_PTR(ret);
--	}
--
--	return &obj->base;
--}
--
--static int vgem_gem_dumb_create(struct drm_file *file, struct drm_device *dev,
--				struct drm_mode_create_dumb *args)
--{
--	struct drm_gem_object *gem_object;
--	u64 pitch, size;
--
--	pitch = args->width * DIV_ROUND_UP(args->bpp, 8);
--	size = args->height * pitch;
--	if (size == 0)
--		return -EINVAL;
--
--	gem_object = vgem_gem_create(dev, file, &args->handle, size);
--	if (IS_ERR(gem_object))
--		return PTR_ERR(gem_object);
--
--	args->size = gem_object->size;
--	args->pitch = pitch;
--
--	drm_gem_object_put(gem_object);
--
--	DRM_DEBUG("Created object of size %llu\n", args->size);
--
--	return 0;
--}
--
- static struct drm_ioctl_desc vgem_ioctls[] = {
- 	DRM_IOCTL_DEF_DRV(VGEM_FENCE_ATTACH, vgem_fence_attach_ioctl, DRM_RENDER_ALLOW),
- 	DRM_IOCTL_DEF_DRV(VGEM_FENCE_SIGNAL, vgem_fence_signal_ioctl, DRM_RENDER_ALLOW),
- };
- 
--static int vgem_mmap(struct file *filp, struct vm_area_struct *vma)
--{
--	unsigned long flags = vma->vm_flags;
--	int ret;
--
--	ret = drm_gem_mmap(filp, vma);
--	if (ret)
--		return ret;
--
--	/* Keep the WC mmaping set by drm_gem_mmap() but our pages
--	 * are ordinary and not special.
--	 */
--	vma->vm_flags = flags | VM_DONTEXPAND | VM_DONTDUMP;
--	return 0;
--}
-+DEFINE_DRM_GEM_FOPS(vgem_driver_fops);
- 
--static const struct file_operations vgem_driver_fops = {
--	.owner		= THIS_MODULE,
--	.open		= drm_open,
--	.mmap		= vgem_mmap,
--	.poll		= drm_poll,
--	.read		= drm_read,
--	.unlocked_ioctl = drm_ioctl,
--	.compat_ioctl	= drm_compat_ioctl,
--	.release	= drm_release,
--};
--
--static struct page **vgem_pin_pages(struct drm_vgem_gem_object *bo)
--{
--	mutex_lock(&bo->pages_lock);
--	if (bo->pages_pin_count++ == 0) {
--		struct page **pages;
--
--		pages = drm_gem_get_pages(&bo->base);
--		if (IS_ERR(pages)) {
--			bo->pages_pin_count--;
--			mutex_unlock(&bo->pages_lock);
--			return pages;
--		}
--
--		bo->pages = pages;
--	}
--	mutex_unlock(&bo->pages_lock);
--
--	return bo->pages;
--}
--
--static void vgem_unpin_pages(struct drm_vgem_gem_object *bo)
--{
--	mutex_lock(&bo->pages_lock);
--	if (--bo->pages_pin_count == 0) {
--		drm_gem_put_pages(&bo->base, bo->pages, true, true);
--		bo->pages = NULL;
--	}
--	mutex_unlock(&bo->pages_lock);
--}
--
--static int vgem_prime_pin(struct drm_gem_object *obj)
-+static struct drm_gem_object *vgem_gem_create_object(struct drm_device *dev, size_t size)
- {
--	struct drm_vgem_gem_object *bo = to_vgem_bo(obj);
--	long n_pages = obj->size >> PAGE_SHIFT;
--	struct page **pages;
-+	struct drm_gem_shmem_object *obj;
- 
--	pages = vgem_pin_pages(bo);
--	if (IS_ERR(pages))
--		return PTR_ERR(pages);
-+	obj = kzalloc(sizeof(*obj), GFP_KERNEL);
-+	if (!obj)
-+		return NULL;
- 
--	/* Flush the object from the CPU cache so that importers can rely
--	 * on coherent indirect access via the exported dma-address.
-+	/*
-+	 * vgem doesn't have any begin/end cpu access ioctls, therefore must use
-+	 * coherent memory or dma-buf sharing just wont work.
- 	 */
--	drm_clflush_pages(pages, n_pages);
--
--	return 0;
--}
--
--static void vgem_prime_unpin(struct drm_gem_object *obj)
--{
--	struct drm_vgem_gem_object *bo = to_vgem_bo(obj);
--
--	vgem_unpin_pages(bo);
--}
--
--static struct sg_table *vgem_prime_get_sg_table(struct drm_gem_object *obj)
--{
--	struct drm_vgem_gem_object *bo = to_vgem_bo(obj);
--
--	return drm_prime_pages_to_sg(obj->dev, bo->pages, bo->base.size >> PAGE_SHIFT);
--}
--
--static struct drm_gem_object* vgem_prime_import(struct drm_device *dev,
--						struct dma_buf *dma_buf)
--{
--	struct vgem_device *vgem = container_of(dev, typeof(*vgem), drm);
--
--	return drm_gem_prime_import_dev(dev, dma_buf, &vgem->platform->dev);
--}
--
--static struct drm_gem_object *vgem_prime_import_sg_table(struct drm_device *dev,
--			struct dma_buf_attachment *attach, struct sg_table *sg)
--{
--	struct drm_vgem_gem_object *obj;
--	int npages;
--
--	obj = __vgem_gem_create(dev, attach->dmabuf->size);
--	if (IS_ERR(obj))
--		return ERR_CAST(obj);
-+	obj->map_wc = true;
- 
--	npages = PAGE_ALIGN(attach->dmabuf->size) / PAGE_SIZE;
--
--	obj->table = sg;
--	obj->pages = kvmalloc_array(npages, sizeof(struct page *), GFP_KERNEL);
--	if (!obj->pages) {
--		__vgem_gem_destroy(obj);
--		return ERR_PTR(-ENOMEM);
--	}
--
--	obj->pages_pin_count++; /* perma-pinned */
--	drm_prime_sg_to_page_array(obj->table, obj->pages, npages);
- 	return &obj->base;
- }
- 
--static int vgem_prime_vmap(struct drm_gem_object *obj, struct dma_buf_map *map)
--{
--	struct drm_vgem_gem_object *bo = to_vgem_bo(obj);
--	long n_pages = obj->size >> PAGE_SHIFT;
--	struct page **pages;
--	void *vaddr;
--
--	pages = vgem_pin_pages(bo);
--	if (IS_ERR(pages))
--		return PTR_ERR(pages);
--
--	vaddr = vmap(pages, n_pages, 0, pgprot_writecombine(PAGE_KERNEL));
--	if (!vaddr)
--		return -ENOMEM;
--	dma_buf_map_set_vaddr(map, vaddr);
--
--	return 0;
--}
--
--static void vgem_prime_vunmap(struct drm_gem_object *obj, struct dma_buf_map *map)
--{
--	struct drm_vgem_gem_object *bo = to_vgem_bo(obj);
--
--	vunmap(map->vaddr);
--	vgem_unpin_pages(bo);
--}
--
--static int vgem_prime_mmap(struct drm_gem_object *obj,
--			   struct vm_area_struct *vma)
--{
--	int ret;
--
--	if (obj->size < vma->vm_end - vma->vm_start)
--		return -EINVAL;
--
--	if (!obj->filp)
--		return -ENODEV;
--
--	ret = call_mmap(obj->filp, vma);
--	if (ret)
--		return ret;
--
--	vma_set_file(vma, obj->filp);
--	vma->vm_flags |= VM_DONTEXPAND | VM_DONTDUMP;
--	vma->vm_page_prot = pgprot_writecombine(vm_get_page_prot(vma->vm_flags));
--
--	return 0;
--}
--
--static const struct drm_gem_object_funcs vgem_gem_object_funcs = {
--	.free = vgem_gem_free_object,
--	.pin = vgem_prime_pin,
--	.unpin = vgem_prime_unpin,
--	.get_sg_table = vgem_prime_get_sg_table,
--	.vmap = vgem_prime_vmap,
--	.vunmap = vgem_prime_vunmap,
--	.vm_ops = &vgem_gem_vm_ops,
--};
--
- static const struct drm_driver vgem_driver = {
- 	.driver_features		= DRIVER_GEM | DRIVER_RENDER,
- 	.open				= vgem_open,
-@@ -427,13 +116,8 @@ static const struct drm_driver vgem_driver = {
- 	.num_ioctls 			= ARRAY_SIZE(vgem_ioctls),
- 	.fops				= &vgem_driver_fops,
- 
--	.dumb_create			= vgem_gem_dumb_create,
--
--	.prime_handle_to_fd = drm_gem_prime_handle_to_fd,
--	.prime_fd_to_handle = drm_gem_prime_fd_to_handle,
--	.gem_prime_import = vgem_prime_import,
--	.gem_prime_import_sg_table = vgem_prime_import_sg_table,
--	.gem_prime_mmap = vgem_prime_mmap,
-+	DRM_GEM_SHMEM_DRIVER_OPS,
-+	.gem_create_object		= vgem_gem_create_object,
- 
- 	.name	= DRIVER_NAME,
- 	.desc	= DRIVER_DESC,
+Lucas De Marchi (7):
+  drm/i915/gt: replace IS_GEN and friends with GRAPHICS_VER
+  drm/i915/gt: Add remaining conversions to GRAPHICS_VER
+  drm/i915/gem: replace IS_GEN and friends with GRAPHICS_VER
+  drm/i915/gvt: replace IS_GEN and friends with GRAPHICS_VER
+  drm/i915: replace IS_GEN and friends with GRAPHICS_VER
+  drm/i915: Add remaining conversions to GRAPHICS_VER
+  drm/i915/display: replace IS_GEN() in commented code
+
+ drivers/gpu/drm/i915/display/intel_tv.c       |  2 +-
+ drivers/gpu/drm/i915/gem/i915_gem_context.c   |  6 +-
+ .../gpu/drm/i915/gem/i915_gem_execbuffer.c    | 10 +--
+ drivers/gpu/drm/i915/gem/i915_gem_mman.c      |  2 +-
+ .../gpu/drm/i915/gem/i915_gem_object_blt.c    |  8 +-
+ drivers/gpu/drm/i915/gem/i915_gem_stolen.c    | 16 ++--
+ drivers/gpu/drm/i915/gem/i915_gem_tiling.c    | 12 +--
+ .../i915/gem/selftests/i915_gem_client_blt.c  | 10 +--
+ .../i915/gem/selftests/i915_gem_coherency.c   |  4 +-
+ .../drm/i915/gem/selftests/i915_gem_context.c | 16 ++--
+ .../drm/i915/gem/selftests/i915_gem_mman.c    | 14 ++--
+ .../drm/i915/gem/selftests/igt_gem_utils.c    | 10 +--
+ drivers/gpu/drm/i915/gt/debugfs_gt_pm.c       | 40 +++++-----
+ drivers/gpu/drm/i915/gt/gen2_engine_cs.c      |  2 +-
+ drivers/gpu/drm/i915/gt/gen8_engine_cs.c      |  2 +-
+ drivers/gpu/drm/i915/gt/gen8_ppgtt.c          |  2 +-
+ drivers/gpu/drm/i915/gt/intel_context_sseu.c  |  2 +-
+ drivers/gpu/drm/i915/gt/intel_engine_cs.c     | 54 ++++++-------
+ drivers/gpu/drm/i915/gt/intel_engine_types.h  |  4 +-
+ .../drm/i915/gt/intel_execlists_submission.c  | 18 ++---
+ drivers/gpu/drm/i915/gt/intel_ggtt.c          | 18 ++---
+ drivers/gpu/drm/i915/gt/intel_ggtt_fencing.c  | 34 ++++----
+ drivers/gpu/drm/i915/gt/intel_gt.c            | 27 ++++---
+ .../gpu/drm/i915/gt/intel_gt_clock_utils.c    | 12 +--
+ drivers/gpu/drm/i915/gt/intel_gt_irq.c        |  6 +-
+ drivers/gpu/drm/i915/gt/intel_gt_pm_irq.c     | 10 +--
+ drivers/gpu/drm/i915/gt/intel_gtt.c           | 14 ++--
+ drivers/gpu/drm/i915/gt/intel_llc.c           |  6 +-
+ drivers/gpu/drm/i915/gt/intel_lrc.c           | 46 +++++------
+ drivers/gpu/drm/i915/gt/intel_mocs.c          |  8 +-
+ drivers/gpu/drm/i915/gt/intel_ppgtt.c         |  6 +-
+ drivers/gpu/drm/i915/gt/intel_rc6.c           | 16 ++--
+ drivers/gpu/drm/i915/gt/intel_renderstate.c   |  2 +-
+ drivers/gpu/drm/i915/gt/intel_reset.c         | 14 ++--
+ .../gpu/drm/i915/gt/intel_ring_submission.c   | 64 +++++++--------
+ drivers/gpu/drm/i915/gt/intel_rps.c           | 60 +++++++-------
+ drivers/gpu/drm/i915/gt/intel_sseu.c          | 14 ++--
+ drivers/gpu/drm/i915/gt/intel_sseu_debugfs.c  |  6 +-
+ drivers/gpu/drm/i915/gt/intel_workarounds.c   | 66 +++++++--------
+ drivers/gpu/drm/i915/gt/selftest_engine_cs.c  |  6 +-
+ drivers/gpu/drm/i915/gt/selftest_engine_pm.c  |  2 +-
+ drivers/gpu/drm/i915/gt/selftest_execlists.c  |  4 +-
+ drivers/gpu/drm/i915/gt/selftest_gt_pm.c      |  8 +-
+ drivers/gpu/drm/i915/gt/selftest_hangcheck.c  |  8 +-
+ drivers/gpu/drm/i915/gt/selftest_llc.c        |  4 +-
+ drivers/gpu/drm/i915/gt/selftest_lrc.c        |  8 +-
+ drivers/gpu/drm/i915/gt/selftest_mocs.c       |  2 +-
+ drivers/gpu/drm/i915/gt/selftest_rc6.c        |  4 +-
+ .../drm/i915/gt/selftest_ring_submission.c    |  6 +-
+ drivers/gpu/drm/i915/gt/selftest_rps.c        | 16 ++--
+ drivers/gpu/drm/i915/gt/selftest_timeline.c   |  6 +-
+ .../gpu/drm/i915/gt/selftest_workarounds.c    |  8 +-
+ drivers/gpu/drm/i915/gt/uc/intel_guc.c        |  4 +-
+ drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c    |  2 +-
+ drivers/gpu/drm/i915/gt/uc/intel_guc_fw.c     |  2 +-
+ .../gpu/drm/i915/gt/uc/intel_guc_submission.c | 10 +--
+ drivers/gpu/drm/i915/gt/uc/intel_huc.c        |  2 +-
+ drivers/gpu/drm/i915/gt/uc/intel_uc.c         |  4 +-
+ drivers/gpu/drm/i915/gvt/cmd_parser.c         |  8 +-
+ drivers/gpu/drm/i915/gvt/dmabuf.c             |  2 +-
+ drivers/gpu/drm/i915/gvt/fb_decoder.c         | 10 +--
+ drivers/gpu/drm/i915/gvt/gtt.c                |  4 +-
+ drivers/gpu/drm/i915/gvt/handlers.c           |  6 +-
+ drivers/gpu/drm/i915/gvt/interrupt.c          |  2 +-
+ drivers/gpu/drm/i915/gvt/mmio_context.c       | 10 +--
+ drivers/gpu/drm/i915/gvt/scheduler.c          |  4 +-
+ drivers/gpu/drm/i915/gvt/vgpu.c               |  4 +-
+ drivers/gpu/drm/i915/i915_cmd_parser.c        | 10 +--
+ drivers/gpu/drm/i915/i915_debugfs.c           | 32 ++++----
+ drivers/gpu/drm/i915/i915_drv.c               | 20 ++---
+ drivers/gpu/drm/i915/i915_drv.h               | 37 +++++----
+ drivers/gpu/drm/i915/i915_gem.c               |  4 +-
+ drivers/gpu/drm/i915/i915_gpu_error.c         | 80 +++++++++----------
+ drivers/gpu/drm/i915/i915_irq.c               | 34 ++++----
+ drivers/gpu/drm/i915/i915_perf.c              | 44 +++++-----
+ drivers/gpu/drm/i915/i915_pmu.c               |  8 +-
+ drivers/gpu/drm/i915/i915_reg.h               | 26 +++---
+ drivers/gpu/drm/i915/i915_request.c           |  4 +-
+ drivers/gpu/drm/i915/i915_suspend.c           | 16 ++--
+ drivers/gpu/drm/i915/i915_sysfs.c             |  2 +-
+ drivers/gpu/drm/i915/i915_vgpu.c              |  2 +-
+ drivers/gpu/drm/i915/intel_device_info.c      | 22 ++---
+ drivers/gpu/drm/i915/intel_dram.c             | 14 ++--
+ drivers/gpu/drm/i915/intel_pch.c              | 10 +--
+ drivers/gpu/drm/i915/intel_pm.c               | 14 ++--
+ drivers/gpu/drm/i915/intel_sideband.c         |  2 +-
+ drivers/gpu/drm/i915/intel_uncore.c           | 26 +++---
+ drivers/gpu/drm/i915/intel_wopcm.c            | 10 +--
+ drivers/gpu/drm/i915/selftests/i915_gem_gtt.c |  4 +-
+ drivers/gpu/drm/i915/selftests/i915_perf.c    |  6 +-
+ drivers/gpu/drm/i915/selftests/i915_request.c |  8 +-
+ drivers/gpu/drm/i915/selftests/igt_spinner.c  | 12 +--
+ drivers/gpu/drm/i915/selftests/intel_uncore.c |  2 +-
+ 93 files changed, 634 insertions(+), 634 deletions(-)
+
 -- 
-2.31.0
+2.31.1
 
