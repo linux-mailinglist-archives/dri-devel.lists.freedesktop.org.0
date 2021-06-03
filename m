@@ -2,58 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E703539A392
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Jun 2021 16:44:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F29C39A3A2
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Jun 2021 16:47:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0A8576F485;
-	Thu,  3 Jun 2021 14:44:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E24426F490;
+	Thu,  3 Jun 2021 14:47:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com
- [IPv6:2a00:1450:4864:20::62a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F11BE6F485
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Jun 2021 14:44:48 +0000 (UTC)
-Received: by mail-ej1-x62a.google.com with SMTP id og14so4318305ejc.5
- for <dri-devel@lists.freedesktop.org>; Thu, 03 Jun 2021 07:44:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=ZXLqiOa12mOANiH6iRvvdtf+Rzu4NjYP7cxzBWRRCz4=;
- b=O0htkDFetyqZPg96aJ4tEwmk+QMgeSEg2Cv+gVKdr6Z9NSw8vhRn3vABWRYmsuLHWT
- kv8mSJepTmxi9cEk5vQn320xfh7Wrv83OUHQOUxybeGIFOcvRWtVBQAEhYyZ8jvNP5u5
- p1wScg4sc0rmtwnV3JhF47uPFshJkPPG8l7oxYgxOj+8qR7tXCmneMODUHQUqYfUzZoA
- GS2KG5PSdqIZFAVQjQDnRGnJreoKxTdiYCe29qlY2Mk8eoJRykrysnitYGIvOeTgotaB
- j5J+7da/rB3JTRrZnuJDyCHIUEx8Jlq4w7nsRTlTG95O8gUjyjRVMegoTs1C1F9vebHS
- RXEw==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 70A876F48E
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Jun 2021 14:47:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1622731666;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=ggwAzDwYsJe761/h5KeyH0+JH3HJIdjU1YmA0yiaMkI=;
+ b=c6KbUWHozjlgPRGeKkkVLjeAZIWBPqMyh56ebADi0rfZcqAJGEBYATvwEoUYnfBI9VRW8f
+ Gjk4IeEfuXNd/w7x4TXUjO2lOEmf8jgt5gI0IaRTryfSZKkzbgRUPYZn0vYcMtNngguA7V
+ mIztC+qrLSMk4ynNtaj0G+X5RfORWt0=
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
+ [209.85.222.200]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-80-ZmA5-xT-P62-13PmBy7L0g-1; Thu, 03 Jun 2021 10:47:43 -0400
+X-MC-Unique: ZmA5-xT-P62-13PmBy7L0g-1
+Received: by mail-qk1-f200.google.com with SMTP id
+ o14-20020a05620a130eb02902ea53a6ef80so4470723qkj.6
+ for <dri-devel@lists.freedesktop.org>; Thu, 03 Jun 2021 07:47:43 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=ZXLqiOa12mOANiH6iRvvdtf+Rzu4NjYP7cxzBWRRCz4=;
- b=p+N1jgK0dJgz38mqkY7g0oIpQRUae/WcEQyD07Hsyscb4VmShSh+Hkzy6gt6eTKMsg
- fYYym9N7kU/Jh6w5E2pIA/eX1ZywIX4bkJCIBQMgY57ct4hmahY3V/ycCS3wL31GMloL
- MN2qd43XT+60/YvEYC/1jeok6q7Kajv5QbZv/QU4u+frumedOGEl6wB0QEuJme5CFjkx
- jrz1Lwa2WzpjNzWrmH0wWMlEj0VVyx18Yo9nqsRzla6lA6SbaRVE4OWyHUKX9O+bInbZ
- tw9ysIxJKIiQX+azaeVcj6Ku62mzljC+ZSTaoPvIk8gp1+MxA5MEvtPaWi3iWh6yhKvn
- Fo7Q==
-X-Gm-Message-State: AOAM531vSjatvV6hh1KnHK0y7FBgZCRpXoRUN3Q9XzF7BcCRjYXnvMzN
- T/C6jamz3F8NQ/V7+gTxf0OrYpG/4WU=
-X-Google-Smtp-Source: ABdhPJyStZwDn50aWLKiU71mTpym6Ev22KVpxVwBfFs2WgoyNdMlal60WPPy4AWvFhNSuuJ3djKucg==
-X-Received: by 2002:a17:907:7b9e:: with SMTP id
- ne30mr24962413ejc.389.1622731487699; 
- Thu, 03 Jun 2021 07:44:47 -0700 (PDT)
-Received: from localhost ([62.96.65.119])
- by smtp.gmail.com with ESMTPSA id v1sm1558622ejw.117.2021.06.03.07.44.46
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=ggwAzDwYsJe761/h5KeyH0+JH3HJIdjU1YmA0yiaMkI=;
+ b=gZorFBwiPjgCi19W/TwhKZ0w3F0qfG9BhoymK44ID4CN+16K8w9Qxi1HQ3ySxsahnj
+ FNmiyj0iIRFXgjY6t63XRfHSa7UMS4YgmzqgrkqwrNL2/Yyg3AjcHypU3DYhp3/Q+hq3
+ BXk8yL5A/kO27yfcF4zaPxQLtitcZ8AGX5Q2X2bPMA4gjt8E4ofYhgQaVwPD/0YEuupd
+ WrCyAOrrIEaAS8ZkvyQgXzbNSjOV06JTYOSCbGkvan3itFFnzmByyYKP3Sm+craJ4dPg
+ 3BUhfAox7pnAOKvGireBEoX/S7ZjKrcJ7Gi2Djm+Z3IuPcaC6apOPx5Jgzbpu7di2Lwe
+ Ek4g==
+X-Gm-Message-State: AOAM533znEtb0npLXiQwPWbAFsUEw+XpW0w8ItFOrln4EeUiTj/awl5R
+ eIHA7JbqPXhxOv7+mLzxFu3SZqRyFK6nOFyXlb5dB5Y/deW3QVHZbtI17WMvdbmyxwzCuWag1ei
+ cmgVMhqs2f5vZe17a02K/S1uQnD9D
+X-Received: by 2002:a37:ae81:: with SMTP id
+ x123mr31891343qke.251.1622731662880; 
+ Thu, 03 Jun 2021 07:47:42 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJw8G2sTC80gzexHAH3BN9zjekxO4BROz6GuR6h2LK/qUHy5QdzjC03iGstjtnqP8uH7ytX0pw==
+X-Received: by 2002:a37:ae81:: with SMTP id
+ x123mr31891297qke.251.1622731662359; 
+ Thu, 03 Jun 2021 07:47:42 -0700 (PDT)
+Received: from t490s
+ (bras-base-toroon474qw-grc-61-184-147-118-108.dsl.bell.ca. [184.147.118.108])
+ by smtp.gmail.com with ESMTPSA id j28sm2041208qkl.35.2021.06.03.07.47.40
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 03 Jun 2021 07:44:46 -0700 (PDT)
-From: Thierry Reding <thierry.reding@gmail.com>
-To: Dave Airlie <airlied@gmail.com>
-Subject: [GIT PULL] drm/tegra: Fixes for v5.13-rc5
-Date: Thu,  3 Jun 2021 16:46:24 +0200
-Message-Id: <20210603144624.788861-1-thierry.reding@gmail.com>
-X-Mailer: git-send-email 2.31.1
+ Thu, 03 Jun 2021 07:47:41 -0700 (PDT)
+Date: Thu, 3 Jun 2021 10:47:40 -0400
+From: Peter Xu <peterx@redhat.com>
+To: Alistair Popple <apopple@nvidia.com>
+Subject: Re: [PATCH v9 07/10] mm: Device exclusive memory access
+Message-ID: <YLjrjJXMP9Y3bvej@t490s>
+References: <20210524132725.12697-1-apopple@nvidia.com>
+ <YLdGXSw0zdiovn4i@balbir-desktop> <YLeXqp/U0DgylI/u@t490s>
+ <3853054.AI2YdRgKcH@nvdebian>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <3853054.AI2YdRgKcH@nvdebian>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,59 +83,23 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-tegra@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: rcampbell@nvidia.com, willy@infradead.org, linux-doc@vger.kernel.org,
+ nouveau@lists.freedesktop.org, Balbir Singh <bsingharora@gmail.com>,
+ hughd@google.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, hch@infradead.org, linux-mm@kvack.org,
+ jglisse@redhat.com, bskeggs@redhat.com, jgg@nvidia.com,
+ John Hubbard <jhubbard@nvidia.com>, Andrew Morton <akpm@linux-foundation.org>,
+ Christoph Hellwig <hch@lst.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave,
+On Thu, Jun 03, 2021 at 09:39:32PM +1000, Alistair Popple wrote:
+> Reclaim won't run on the page due to the extra references from the special 
+> swap entries.
 
-The following changes since commit 6efb943b8616ec53a5e444193dccf1af9ad627b5:
+That sounds reasonable, but I didn't find the point that stops it, probably due
+to my limited knowledge on the reclaim code.  Could you elaborate?
 
-  Linux 5.13-rc1 (2021-05-09 14:17:44 -0700)
+-- 
+Peter Xu
 
-are available in the Git repository at:
-
-  ssh://git.freedesktop.org/git/tegra/linux.git tags/drm/tegra/for-5.13-rc5
-
-for you to fetch changes up to 671cc352acd3e2b2832b59787ed8027d9f80ccc9:
-
-  drm/tegra: Correct DRM_FORMAT_MOD_NVIDIA_SECTOR_LAYOUT (2021-05-31 14:29:44 +0200)
-
-Thanks,
-Thierry
-
-----------------------------------------------------------------
-drm/tegra: Fixes for v5.13-rc5
-
-The most important change here fixes a race condition that causes either
-HDA or (more frequently) display to malfunction because they race for
-enabling the SOR power domain at probe time.
-
-Other than that, there's a couple of build warnings for issues
-introduced in v5.13 as well as some minor fixes, such as reference leak
-plugs.
-
-----------------------------------------------------------------
-Dmitry Osipenko (1):
-      drm/tegra: Correct DRM_FORMAT_MOD_NVIDIA_SECTOR_LAYOUT
-
-Lyude Paul (1):
-      drm/tegra: Get ref for DP AUX channel, not its ddc adapter
-
-Nathan Chancellor (1):
-      drm/tegra: Fix shift overflow in tegra_shared_plane_atomic_update
-
-Pavel Machek (CIP) (1):
-      drm/tegra: sor: Do not leak runtime PM reference
-
-Thierry Reding (3):
-      gpu: host1x: Split up client initalization and registration
-      drm/tegra: sor: Fully initialize SOR before registration
-      drm/tegra: sor: Fix AUX device reference leak
-
- drivers/gpu/drm/tegra/drm.h |  2 +-
- drivers/gpu/drm/tegra/hub.c |  2 +-
- drivers/gpu/drm/tegra/sor.c | 70 +++++++++++++++++++++++++++------------------
- drivers/gpu/host1x/bus.c    | 30 +++++++++++++++----
- include/linux/host1x.h      | 30 +++++++++++++++----
- 5 files changed, 92 insertions(+), 42 deletions(-)
