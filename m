@@ -1,49 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3020439AA75
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Jun 2021 20:48:38 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D55139AA89
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Jun 2021 20:54:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4D3516E1A2;
-	Thu,  3 Jun 2021 18:48:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 113786E7E6;
+	Thu,  3 Jun 2021 18:54:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 480856E1A2;
- Thu,  3 Jun 2021 18:48:33 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 1D1B66140D;
- Thu,  3 Jun 2021 18:48:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1622746113;
- bh=ZUGi28CzawjzJFRPa1IvCeYStgPTnkk5SqqRbIhNZDM=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=soH8j4t25NOwvyZBPPkJbKQtyXAAn4mzrtMX7uqb2Ajqfc9qqVQZzXVxgrOqs77qY
- Xl3ftEyqTMUxxFHbsiZM07FAsNHDEbrAWM763p1acyUeLmoTPFia89LgdzyfvXdZdX
- g1nv5X+rzVxk8jvbe6aH/34P0mjtMvILQPExuvv4LSgrMHxdTAqwtV3HIWvRuJ9cwd
- z4yOK6cm7k8NyboSpL4W6Whr+46niYdAyMZ0lcy1HscbNbU+x14tCvJE7xdzIfjgIk
- sn+N8oOYCTktX17MTbukrUS3kiVKP7JYisWZBiEmDkLTuciLPzA1gH3nut4+bc+aVp
- 0BdMkvyhHybHQ==
-Received: by mail-ej1-f47.google.com with SMTP id k25so5250414eja.9;
- Thu, 03 Jun 2021 11:48:33 -0700 (PDT)
-X-Gm-Message-State: AOAM532s1JDcBLTQMWw+ixoqeaYhZvluWJlSXovgnDT95jYdP4IywZsE
- q0+ltvMjCTk1c0AEOlA0zHZ/qZMJCSVQBWxMmg==
-X-Google-Smtp-Source: ABdhPJw6rdWaR+EBOCW3Z6uvG9Ev3pS5OtlzkBci2gYyzny++PgdOWYgLxObTC4SuMLjl6sYA51sEw2fqRUI5kQVgOo=
-X-Received: by 2002:a17:906:1d0a:: with SMTP id
- n10mr660877ejh.341.1622746111501; 
- Thu, 03 Jun 2021 11:48:31 -0700 (PDT)
+Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com
+ [IPv6:2a00:1450:4864:20::435])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9F3D36F4E7
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Jun 2021 18:54:52 +0000 (UTC)
+Received: by mail-wr1-x435.google.com with SMTP id l2so6888024wrw.6
+ for <dri-devel@lists.freedesktop.org>; Thu, 03 Jun 2021 11:54:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=CO3ETpEHYd4w+2hgDav4tTvKCQRKE5zL1+PtSeefNgs=;
+ b=TK1eABGIeC2/pzA214WhfnCGMBYoUOIP3zKtzA1HMCyLo1OAbAfVmB8xldgKZNf6is
+ IeXTVzPDmu999SAU/iQnP+XoXCfPWoKDPsQtIfo2Td8/p0h8XwgxYIB2aDSh4CGYQOHH
+ Qf0TTQYozFnk46z27eQJiodzW4RnSwHTQcm5w=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=CO3ETpEHYd4w+2hgDav4tTvKCQRKE5zL1+PtSeefNgs=;
+ b=FOnugDTnxsP6mNLOVfp212VXI7s9dkw1H0qNOnvh1XYOzOSvZZxZM4TGlmTmdKEJY3
+ YsMoBuKiKjb8revlDSW+PfjE8e2kQCtEq0BcO1s2YVSy/vn4PMcwmuVvwv9YSdSCksqb
+ iZjcVFezn23KvLeFcLq5GSfJVOXcc//dRBGWcl7X3VIfJn0FoUcWy2/rVlhaNTs98YGJ
+ PpIgpmqqENiI10xVBx2mEiehvDs0C3alUpEoxVbiI0WTfH8Bt0eCKiXrkLuuihvp7Y4R
+ Q8g98hLGmepyZy5gfyepCO7Y7m0+GDrmFkeqp/pejNurBM1LsxqJeYprfkGBE/4ZHNXN
+ meOA==
+X-Gm-Message-State: AOAM531CMvjUbXpG96pRdnfjg71x/59iraIQ2hugFG/5g53vc1N35WlL
+ Ter1zVJKf7V63EpdTnvSTaxtLQ==
+X-Google-Smtp-Source: ABdhPJyLu2cECG1IBQe8k1JlS4f/T5QUU1oCs7BYak1SsQOhzg5N3a/KD4VnVhlWss3Oe2BjAyoxXw==
+X-Received: by 2002:a05:6000:2ca:: with SMTP id
+ o10mr422650wry.234.1622746491310; 
+ Thu, 03 Jun 2021 11:54:51 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id d131sm6692460wmd.4.2021.06.03.11.54.50
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 03 Jun 2021 11:54:50 -0700 (PDT)
+Date: Thu, 3 Jun 2021 20:54:48 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Andi Shyti <andi.shyti@intel.com>
+Subject: Re: [Intel-gfx] [PATCH v2 4/4] drm/vgem: use shmem helpers
+Message-ID: <YLkleG2uo5bGYpdV@phenom.ffwll.local>
+References: <20210603150326.1326658-1-daniel.vetter@ffwll.ch>
+ <20210603150326.1326658-5-daniel.vetter@ffwll.ch>
+ <YLkieISPHgzmUnD4@intel.intel>
 MIME-Version: 1.0
-References: <20210602215252.695994-1-keescook@chromium.org>
- <20210602215252.695994-2-keescook@chromium.org>
- <YLiXYa8OG9hlaEE5@phenom.ffwll.local>
-In-Reply-To: <YLiXYa8OG9hlaEE5@phenom.ffwll.local>
-From: Rob Herring <robh@kernel.org>
-Date: Thu, 3 Jun 2021 13:48:19 -0500
-X-Gmail-Original-Message-ID: <CAL_Jsq+Vjz9V=of5XXizTBGEq1Cbx3hU9vi-CC3587B1BXphDQ@mail.gmail.com>
-Message-ID: <CAL_Jsq+Vjz9V=of5XXizTBGEq1Cbx3hU9vi-CC3587B1BXphDQ@mail.gmail.com>
-Subject: Re: [PATCH 1/3] drm: Avoid circular dependencies for CONFIG_FB
-To: Kees Cook <keescook@chromium.org>, Daniel Vetter <daniel@ffwll.ch>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YLkieISPHgzmUnD4@intel.intel>
+X-Operating-System: Linux phenom 5.10.32scarlett+ 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,32 +68,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Arnd Bergmann <arnd@kernel.org>,
- Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>,
- kernel test robot <lkp@intel.com>, Emma Anholt <emma@anholt.net>,
- David Airlie <airlied@linux.ie>, Sam Ravnborg <sam@ravnborg.org>,
- Sharat Masetty <smasetty@codeaurora.org>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
- linux-arm-msm@vger.kernel.org, Dave Airlie <airlied@redhat.com>,
- freedreno@lists.freedesktop.org, Sean Paul <sean@poorly.run>
+Cc: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Chris Wilson <chris@chris-wilson.co.uk>, Melissa Wen <melissa.srw@gmail.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Daniel Vetter <daniel.vetter@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jun 3, 2021 at 3:48 AM Daniel Vetter <daniel@ffwll.ch> wrote:
->
-> On Wed, Jun 02, 2021 at 02:52:50PM -0700, Kees Cook wrote:
-> > When cleaning up other drm config dependencies, it is too easy to create
-> > larger problems. Instead, mark CONFIG_FB as a "depends":
-> >
-> > drivers/gpu/drm/Kconfig:74:error: recursive dependency detected!
-> >
-> > Suggested-by: Arnd Bergmann <arnd@kernel.org>
-> > Link: https://lore.kernel.org/lkml/CAK8P3a3jUQs6c5tESSNMbqfuymewj9FhqRizyHcfOXf8Rgy-nA@mail.gmail.com/
-> > Signed-off-by: Kees Cook <keescook@chromium.org>
->
-> I rebased this one for -next and applied all three patches to
-> drm-misc-next.
+On Thu, Jun 03, 2021 at 09:42:00PM +0300, Andi Shyti wrote:
+> Hi Daniel,
+> 
+> > +/*
+> > + * This just sets wc mode for shmem helpers. vgem doesn't have any begin/end cpu
+> > + * access ioctls, there must use coherent memory or dma-buf sharing just wont
+> > + * work.
+> > + */
+> > +static struct drm_gem_object *vgem_gem_create_object(struct drm_device *dev, size_t size)
+> >  {
+> > -	struct drm_vgem_gem_object *obj;
+> > -	int npages;
+> > +	struct drm_gem_shmem_object *obj;
+> >  
+> > -	obj = __vgem_gem_create(dev, attach->dmabuf->size);
+> > -	if (IS_ERR(obj))
+> > -		return ERR_CAST(obj);
+> > -
+> > -	npages = PAGE_ALIGN(attach->dmabuf->size) / PAGE_SIZE;
+> > +	obj = kzalloc(sizeof(*obj), GFP_KERNEL);
+> > +	if (!obj)
+> > +		return NULL;
+> >  
+> > -	obj->table = sg;
+> > -	obj->pages = kvmalloc_array(npages, sizeof(struct page *), GFP_KERNEL);
+> > -	if (!obj->pages) {
+> > -		__vgem_gem_destroy(obj);
+> > -		return ERR_PTR(-ENOMEM);
+> > -	}
+> > +	obj->base.funcs = &drm_gem_shmem_funcs;
+> > +	obj->map_wc = true;
+> >  
+> > -	obj->pages_pin_count++; /* perma-pinned */
+> > -	drm_prime_sg_to_page_array(obj->table, obj->pages, npages);
+> >  	return &obj->base;
+> 
+> here you are allocating a bigger object than what you are
+> returning, in size. How does it get freed?
 
-Patch 3 is not the right fix and I think breaks some platforms.
-
-Rob
+We're using the drm_gem_shmem_helper.c helpers, which set up all the shmem
+functions for us, including an appropriate free callback.
+-Daniel
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
