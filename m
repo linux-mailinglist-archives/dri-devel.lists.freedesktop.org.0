@@ -1,46 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39C9539A322
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Jun 2021 16:27:48 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3017439A385
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Jun 2021 16:41:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7FFCE6F488;
-	Thu,  3 Jun 2021 14:27:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 70C3F6F489;
+	Thu,  3 Jun 2021 14:41:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 21AC56F488;
- Thu,  3 Jun 2021 14:27:43 +0000 (UTC)
-IronPort-SDR: b1/osmsYoeG4a04NWF3jBsWEXaGvqGz/8zM7U1yQWx0NbICPN9iALPeYGvmtCA+YT3Ix7236E3
- QD3lPaTp8L8w==
-X-IronPort-AV: E=McAfee;i="6200,9189,10004"; a="184430036"
-X-IronPort-AV: E=Sophos;i="5.83,246,1616482800"; d="scan'208";a="184430036"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Jun 2021 07:27:42 -0700
-IronPort-SDR: YxgxSwY3anv8UkL3PdgrwSLdfzIXCV0Ek8HGMtGLFpW18bsSv8kZznadoLCEqXJ2RpKXdCEX64
- K2olv/D+rqfA==
-X-IronPort-AV: E=Sophos;i="5.83,246,1616482800"; d="scan'208";a="417398092"
-Received: from vkubarev-mobl1.ccr.corp.intel.com (HELO [10.249.254.167])
- ([10.249.254.167])
- by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Jun 2021 07:27:39 -0700
-Subject: Re: [Intel-gfx] [PATCH 4/5] drm/i915/ttm: Use TTM for system memory
-To: Matthew Auld <matthew.william.auld@gmail.com>
-References: <20210602170716.280491-1-thomas.hellstrom@linux.intel.com>
- <20210602170716.280491-5-thomas.hellstrom@linux.intel.com>
- <CAM0jSHPfNhw3e9y4eD5X+Bk-i1nkZqb1Tw194mhOFNGbHZD8xw@mail.gmail.com>
-From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>
-Message-ID: <da197ad6-f408-004b-dd7b-9348ca602f0d@linux.intel.com>
-Date: Thu, 3 Jun 2021 16:27:34 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com
+ [IPv6:2a00:1450:4864:20::335])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CD36D6F487;
+ Thu,  3 Jun 2021 14:41:17 +0000 (UTC)
+Received: by mail-wm1-x335.google.com with SMTP id
+ l11-20020a05600c4f0bb029017a7cd488f5so3892290wmq.0; 
+ Thu, 03 Jun 2021 07:41:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=S3gLIzTlRm90Fbhfv86Iy9u6F5Oz2fyU1X9eaD/GjVg=;
+ b=WM9zOqh5gwb3s1mR9PW/RGNOGO0iK7n40nVvmbpNnVgKkrWMoT01LlIDTIooL47lZJ
+ 7wDfbvY95NRzX/etYxYVZJ0lFAbsNs2qggFooGWI9jDjT+tTsM2sleFx7MvygUqm5mNy
+ tx4ths746VwyI8UlKOqNeZaaiNoaWg9Qcm+XNZinKI39t9ly9M3WH+fIrjBnS0t7hDUV
+ +xNRHxXYoBlortSAdAl/cv89eXehnmCwmss/2JWB5KpXW7vJMjE7wPeLsda/wFVWmHQG
+ PdLKJlv4sh3GYkdxrucmXLOeYn04K8DfEzLxyjr0IHvR5dICwZ3wB3MMY/+q222K4gCX
+ GSag==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=S3gLIzTlRm90Fbhfv86Iy9u6F5Oz2fyU1X9eaD/GjVg=;
+ b=tyVmoVcKwcNrC/NRupl2DfLLHvNEAg+BAhoOH8jfWG6hjH2nQWe7//ZYt49v/dVbCK
+ BP4aPtWcsDrQ1dROQ3l5UVfjWAAGATHZfFDlKI+c6861ZL55XJo5wpXkwN+I0A658ccU
+ aMq/NDuQeEBi1VSCjfl/AlfH+APCy289/hDe0wbUbjKi0arrUc5BOuK4PLJtUM8QUg0N
+ IlBl0LmYNHm6X07zBPbfzQjkMR10RkL16o5QJ7VVjOWiXHC2gnBd3bMaE9rJP4G/Z1Dc
+ Aa4H+gaYTgUS/3a7vOxMMajWfYzegOQBtxmD+E+6ZRPi/Yiva1gQ4knwWe3K4Hzk7hhW
+ +3YA==
+X-Gm-Message-State: AOAM5332wQxh/qE+epjNeUeIcqp5gxiQIM8Rh0RbHDtqY/J9cuf/aqP9
+ 5J9hLnhFkrsJ5V9yTXWdHq7+K2hxsfpERBhT0TQ=
+X-Google-Smtp-Source: ABdhPJxLV3SbPwFjb3ZelCeB3oIW2qicl9OJM5oD+Ojp6ILkGuMfs/U2Y4M5ZPWAahsbGutVXx7C1LLUVpuzzeu/4is=
+X-Received: by 2002:a7b:ca44:: with SMTP id m4mr10634794wml.123.1622731276458; 
+ Thu, 03 Jun 2021 07:41:16 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CAM0jSHPfNhw3e9y4eD5X+Bk-i1nkZqb1Tw194mhOFNGbHZD8xw@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+References: <20210529002508.3839467-1-dmitry.baryshkov@linaro.org>
+ <20210529002508.3839467-6-dmitry.baryshkov@linaro.org>
+In-Reply-To: <20210529002508.3839467-6-dmitry.baryshkov@linaro.org>
+From: Rob Clark <robdclark@gmail.com>
+Date: Thu, 3 Jun 2021 07:45:08 -0700
+Message-ID: <CAF6AEGsoUET_=P1YkAKb7GMRyrZV5_jmGeMHZhB1u4uE9m7B9A@mail.gmail.com>
+Subject: Re: [RFC 5/8] lib: add small API for handling register snapshots
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,54 +63,96 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- ML dri-devel <dri-devel@lists.freedesktop.org>
+Cc: freedreno <freedreno@lists.freedesktop.org>,
+ Jonathan Marek <jonathan@marek.ca>, Stephen Boyd <sboyd@kernel.org>,
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ Michael Turquette <mturquette@baylibre.com>,
+ Abhinav Kumar <abhinavk@codeaurora.org>, David Airlie <airlied@linux.ie>,
+ dri-devel <dri-devel@lists.freedesktop.org>, Sean Paul <sean@poorly.run>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Fri, May 28, 2021 at 5:25 PM Dmitry Baryshkov
+<dmitry.baryshkov@linaro.org> wrote:
+>
+> Add small API covering lists of register dumps. Currently this is a part
+> of MSM DRM driver, but is extracted as it might be usefull to other
+> drivers too.
+>
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> ---
+>  include/linux/dump_state.h | 78 ++++++++++++++++++++++++++++++++++++++
+>  lib/Kconfig                |  3 ++
+>  lib/Makefile               |  1 +
+>  lib/dump_state.c           | 51 +++++++++++++++++++++++++
+>  4 files changed, 133 insertions(+)
+>  create mode 100644 include/linux/dump_state.h
+>  create mode 100644 lib/dump_state.c
+>
+[snip]
+> diff --git a/lib/dump_state.c b/lib/dump_state.c
+> new file mode 100644
+> index 000000000000..58d88be65c0a
+> --- /dev/null
+> +++ b/lib/dump_state.c
+> @@ -0,0 +1,51 @@
+> +/* SPDX-License-Identifier: GPL-2.0-only */
+> +/*
+> + * Copyright (c) 2020-2021, The Linux Foundation. All rights reserved.
+> + * Copyright (c) 2021, Linaro Ltd
+> + */
+> +
+> +#include <linux/dump_state.h>
+> +#include <linux/slab.h>
+> +
+> +void dump_state_free_blocks(struct dump_state *state)
+> +{
+> +       struct dump_state_block *block, *tmp;
+> +
+> +       list_for_each_entry_safe(block, tmp, &state->blocks, node) {
+> +               list_del(&block->node);
+> +               kfree(block);
+> +       }
+> +}
+> +EXPORT_SYMBOL(dump_state_free_blocks);
 
-On 6/3/21 11:48 AM, Matthew Auld wrote:
-> On Wed, 2 Jun 2021 at 18:08, Thomas Hellström
-> <thomas.hellstrom@linux.intel.com> wrote:
->> For discrete, use TTM for both cached and WC system memory. That means
->> we currently rely on the TTM memory accounting / shrinker. For cached
->> system memory we should consider remaining shmem-backed, which can be
->> implemented from our ttm_tt_populate calback. We can then also reuse our
->> own very elaborate shrinker for that memory.
->>
->> Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
->> ---
->>   drivers/gpu/drm/i915/gem/i915_gem_ttm.c    | 22 ++++++++++++++++++++++
->>   drivers/gpu/drm/i915/i915_drv.h            |  3 ---
->>   drivers/gpu/drm/i915/intel_memory_region.c |  7 ++++++-
->>   drivers/gpu/drm/i915/intel_memory_region.h |  8 ++++++++
->>   4 files changed, 36 insertions(+), 4 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
->> index 8e1c01168c6d..42e89bf43708 100644
->> --- a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
->> +++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
->> @@ -755,3 +755,25 @@ int __i915_gem_ttm_object_init(struct intel_memory_region *mem,
->>          /* i915 wants -ENXIO when out of memory region space. */
->>          return (ret == -ENOSPC) ? -ENXIO : ret;
->>   }
->> +
->> +static const struct intel_memory_region_ops ttm_system_region_ops = {
->> +       .init_object = __i915_gem_ttm_object_init,
->> +};
->> +
->> +struct intel_memory_region *
->> +i915_gem_ttm_system_setup(struct drm_i915_private *i915,
->> +                         u16 type, u16 instance)
->> +{
->> +       struct intel_memory_region *mr;
->> +
->> +       mr = intel_memory_region_create(i915, 0,
->> +                                       totalram_pages() << PAGE_SHIFT,
->> +                                       PAGE_SIZE, 0,
->> +                                       type, instance,
->> +                                       &ttm_system_region_ops);
->> +       if (IS_ERR_OR_NULL(mr))
-> region_create can't return NULL.
-OK, will fix.
+nit, perhaps EXPORT_SYMBOL_GPL()?
 
+BR,
+-R
+
+> +
+> +struct dump_state_block *dump_state_allocate_block_va(void __iomem *base_addr, size_t len, gfp_t gfp, const char *fmt, va_list args)
+> +{
+> +       struct dump_state_block *block = kzalloc(sizeof(*block) + len, gfp);
+> +
+> +       if (!block)
+> +               return ERR_PTR(-ENOMEM);
+> +
+> +       vsnprintf(block->name, sizeof(block->name), fmt, args);
+> +
+> +       INIT_LIST_HEAD(&block->node);
+> +       block->size = len;
+> +       block->base_addr = base_addr;
+> +
+> +       return block;
+> +}
+> +EXPORT_SYMBOL(dump_state_allocate_block);
+> +
+> +struct dump_state_block *dump_state_allocate_block(void __iomem *base_addr, size_t len, gfp_t gfp, const char *fmt, ...)
+> +{
+> +       struct dump_state_block *block;
+> +       va_list va;
+> +
+> +       va_start(va, fmt);
+> +
+> +       block = dump_state_allocate_block_va(base_addr, len, gfp, fmt, va);
+> +
+> +       va_end(va);
+> +
+> +       return block;
+> +}
+> +EXPORT_SYMBOL(dump_state_allocate_block_va);
+> --
+> 2.30.2
+>
