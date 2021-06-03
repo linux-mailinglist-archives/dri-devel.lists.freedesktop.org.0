@@ -2,68 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CEFA39A969
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Jun 2021 19:42:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C1B0B39A993
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Jun 2021 19:53:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9726B6E824;
-	Thu,  3 Jun 2021 17:42:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 556F16F4CC;
+	Thu,  3 Jun 2021 17:53:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb32.google.com (mail-yb1-xb32.google.com
- [IPv6:2607:f8b0:4864:20::b32])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D93946E824
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Jun 2021 17:42:47 +0000 (UTC)
-Received: by mail-yb1-xb32.google.com with SMTP id p184so9944398yba.11
- for <dri-devel@lists.freedesktop.org>; Thu, 03 Jun 2021 10:42:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+Received: from mail-pg1-x532.google.com (mail-pg1-x532.google.com
+ [IPv6:2607:f8b0:4864:20::532])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A489D6F4CC;
+ Thu,  3 Jun 2021 17:53:25 +0000 (UTC)
+Received: by mail-pg1-x532.google.com with SMTP id i5so5767591pgm.0;
+ Thu, 03 Jun 2021 10:53:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=bSf8HIzifq5t+ejp3eet91XEVP/weh/LmVpTBENTEAw=;
- b=v3d4F6egiAGlx0v0iFukLr/SYZXzCkGMj6eVILuoN02bYZGCmgzulxNoORZ6fc6T5I
- KtYWwZy7vpG4k3ZgL3X9wQnaR9bVJGI6RFeMZjJSgI2bnhiZsUKoHxtmDOwyTOklr1ax
- TDfAOhepm6mS4+bHCjnJoVKxMtdTQjuoBzoXR0ruZNpPYheeMkgvKwys57lrHOXtb4Oq
- k6BYJGJpux85f5VvFwPP8Wbq3xsj0R4VybjF+QzgG5ULueRR7vcnF0ZqBjGeUlUpFvIS
- qCPMVuOgM6IL4H54KWE2LsfWTuhzzbykowshZPD4TO86Zl7v+0078sK3dZ3Qzgt3fAQs
- 9I4w==
+ :cc; bh=9NAd92JoyVcG5s8M+xu8HXuP+10RNT/g/WGvURFWSJQ=;
+ b=g8HSEpBKVka4VIpF5Rh3ruK2micRsVADwiJT0Pxn1NzA/4bQwZZf0k8G5eqgkDwsDF
+ QFccsXLe4LgSoYUpQFlOqCxNhrODxnVqurGf2Ip2Z+JzKd2UB7hQCrPSNd47xrwo6vN3
+ rZ/RH3eCuzO9TcKlsSOwDm4BJEin+qUPVzaKXNivU2F1ht5ckL7MmttvYwJ0D1bugxwf
+ J95s4cQbTpWGoN74arT6l0WRS0L3UoEQqkunTmCi+HKmF2LaDCwP3FzuhnlKYWF8s/9O
+ 7g9V6wv+qBpyIvznI8Qm/Ol/Rzx4FRHE8W269Z7DKa9NktWBSfvgC9IrIAhe39Gk/FE0
+ bzCw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=bSf8HIzifq5t+ejp3eet91XEVP/weh/LmVpTBENTEAw=;
- b=hDoWdgn2Pgx7DqJgg97/K6Or+dIia9rYoUOSKNLcpXDzHI8ficMebmVlArAp3Db+Qa
- 9iA47QlbDqfyEw5+XiOsRY+RV5r11jga2WuOAijTAL9IdXp2BndZH0qT1qaH3QJRwzv9
- BNT/wg/Pcgn1h/IsnKnw5oc2C9dS6jwylCDHJ9cbJ9//efy4rMmcXuNUy0jbeZEUrg2Z
- ezmsNUXg2LUfMC/8+cI8AmXMA09Mtk7Z92ZoBTf1s3NkctbJWPhiSBHlofSV0wycRARQ
- W/DnrhoRP3U64zCsVts2fiS1mqQiopfwNrkWK+sXye1WTaFDBa1pHixVIJVqI8cWb/OL
- DekA==
-X-Gm-Message-State: AOAM532Pe7z4pFtrd90d0WB9FvAQ3xXKGULR5UZtr3k03PVDro3wkXXU
- lZK+1nhlXaIPA4CVTMiEgHDcVJcZLvIRKUGiQXL9AQ==
-X-Google-Smtp-Source: ABdhPJwtUyvquWyG7gydPSnRm4/hyMsu5xOf/Swlu5jW4p2vYizW9kOCmoIc8ByC4hfC3x5j8KcioMFI6rcmLj4fGag=
-X-Received: by 2002:a25:6a42:: with SMTP id f63mr406673ybc.490.1622742166579; 
- Thu, 03 Jun 2021 10:42:46 -0700 (PDT)
+ :message-id:subject:to:cc;
+ bh=9NAd92JoyVcG5s8M+xu8HXuP+10RNT/g/WGvURFWSJQ=;
+ b=cV/Ba5PhuwAwjRG0fvnGNDgDuTc0AGSShwSc6+pdRY9HVsFhT1nN4KeiGRuka+6SiX
+ 1YdWJ3JmoOa0ZVo/sw9ROq7hQ8t9x8iBkoVEKgNBcWyN7ucVxjvIVN5AL6CfOHxSXX+H
+ Z7E/H+XmmR86a6tKFVlDNoQRZgWJoxnTvivcCjuGQgSzWIv+mIE0n8J+jQH7zfSDH6Lq
+ 7hwwHfxDIxsFxdkpOP4BVlh44T6RwxdigVsQAayqgP0U5XOTyvvLs3LSmwJQR5fC+WgO
+ tue4fUBcKE8tv13+7oDEMmERydIjoR/UvMQIw+TB5xuKGFvBhDh1odjFo6d4QHM1wSf0
+ 2/Lg==
+X-Gm-Message-State: AOAM531KXdqrKSU7rc25DVVamiLxZ0smPE27KRJDrEn3dx8xO64jiQyb
+ sSnMk4c04yp9ONSQeRx2uZFOj/KKf6LGG18Yb7Q=
+X-Google-Smtp-Source: ABdhPJxgIzxhOEBBXMdeFlR+QPwd8gK6r6+pOsoDNP5NrwGiTxP5hTcQ3r3cBS7KtifTtilp6qIfNqNjE5khq10MmRE=
+X-Received: by 2002:a63:4d47:: with SMTP id n7mr686724pgl.82.1622742805293;
+ Thu, 03 Jun 2021 10:53:25 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210602222937.2628266-1-hridya@google.com>
- <YLiYH/FdHIXPTAUX@phenom.ffwll.local>
-In-Reply-To: <YLiYH/FdHIXPTAUX@phenom.ffwll.local>
-From: Hridya Valsaraju <hridya@google.com>
-Date: Thu, 3 Jun 2021 10:42:10 -0700
-Message-ID: <CA+wgaPPOH0Zdf7V_7de6MdTBgiU9OtCT+=VsPbUeR5dTjewd9A@mail.gmail.com>
-Subject: Re: [PATCH v5] dmabuf: Add the capability to expose DMA-BUF stats in
- sysfs
-To: Hridya Valsaraju <hridya@google.com>,
- Sumit Semwal <sumit.semwal@linaro.org>, 
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- Jonathan Corbet <corbet@lwn.net>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- LKML <linux-kernel@vger.kernel.org>, 
- "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, 
- "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
- linux-doc@vger.kernel.org, Android Kernel Team <kernel-team@android.com>,
- John Stultz <john.stultz@linaro.org>, 
- Suren Baghdasaryan <surenb@google.com>, kernel test robot <lkp@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+References: <b0d65f94-cc56-a4db-3158-7b1de3952792@gmail.com>
+ <CAKMK7uGaD_LuX-SZDALuDuEOMZNX=Q3FAq0xYf_pTVtNe6VUaw@mail.gmail.com>
+ <c7190219-c185-3b7e-42a6-691934f79fb3@gmail.com>
+ <CAPj87rPbiFf3qDo35gmirAoTOOJ5fEE6UxQdJKtfjX_VTqc6pg@mail.gmail.com>
+ <CAAxE2A4kC4A9gV_V-W3eRW20O=9S1pv8=KMBdJxdLQ-ZXGa37Q@mail.gmail.com>
+ <CAAxE2A7FJSaYfrYRpoCr-3h-AqBjOOJerhMVCcQZzQu0a+J0zg@mail.gmail.com>
+ <YLfSbxhyDQmHjV4r@phenom.ffwll.local>
+ <CAAxE2A7uK7zumDiaU1XpEi_RNv8Q+QQHU-dLB0HrES2BkdP-cw@mail.gmail.com>
+ <YLiJFdcaxzXsstt6@phenom.ffwll.local>
+ <CAAxE2A4VPYMrjbq1W9z3pNXHP_Msn9HCFMPew9jf2h72rfK3dA@mail.gmail.com>
+ <YLio7wyoMRJyFoO/@phenom.ffwll.local>
+ <CAAxE2A5=DmvCrh5+dfxPtyv7L2UPPevYOqa=GtFpuaxvMVfK9Q@mail.gmail.com>
+ <CAKMK7uF_CEEY+55o07irnG1G+xbo8Y9tNmcMZD4G9GFUFJr4zw@mail.gmail.com>
+In-Reply-To: <CAKMK7uF_CEEY+55o07irnG1G+xbo8Y9tNmcMZD4G9GFUFJr4zw@mail.gmail.com>
+From: =?UTF-8?B?TWFyZWsgT2zFocOhaw==?= <maraeo@gmail.com>
+Date: Thu, 3 Jun 2021 13:52:49 -0400
+Message-ID: <CAAxE2A50WbrSTqDAMWS_SYLWPUpm1dfO-WbYchXB9HYwgHmfQw@mail.gmail.com>
+Subject: Re: [Mesa-dev] Linux Graphics Next: Userspace submission update
+To: Daniel Vetter <daniel@ffwll.ch>
+Content-Type: multipart/alternative; boundary="00000000000078ae6105c3e04015"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,948 +73,720 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel@daenzer.net>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Jason Ekstrand <jason@jlekstrand.net>,
+ ML Mesa-dev <mesa-dev@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jun 3, 2021 at 1:51 AM Daniel Vetter <daniel@ffwll.ch> wrote:
->
-> On Wed, Jun 02, 2021 at 03:29:30PM -0700, Hridya Valsaraju wrote:
-> > Overview
-> > =3D=3D=3D=3D=3D=3D=3D=3D
-> > The patch adds DMA-BUF statistics to /sys/kernel/dmabuf/buffers. It
-> > allows statistics to be enabled for each DMA-BUF in sysfs by enabling
-> > the config CONFIG_DMABUF_SYSFS_STATS.
+--00000000000078ae6105c3e04015
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+Daniel, I think what you are suggesting is that we need to enable user
+queues with the drm scheduler and dma_fence first, and once that works, we
+can investigate how much of that kernel logic can be moved to the hw. Would
+that work? In theory it shouldn't matter whether the kernel does it or the
+hw does it. It's the same code, just in a different place.
+
+Thanks,
+Marek
+
+On Thu, Jun 3, 2021 at 7:22 AM Daniel Vetter <daniel@ffwll.ch> wrote:
+
+> On Thu, Jun 3, 2021 at 12:55 PM Marek Ol=C5=A1=C3=A1k <maraeo@gmail.com> =
+wrote:
 > >
-> > The following stats will be exposed by the interface:
-> >
-> > /sys/kernel/dmabuf/buffers/<inode_number>/exporter_name
-> > /sys/kernel/dmabuf/buffers/<inode_number>/size
-> > /sys/kernel/dmabuf/buffers/<inode_number>/attachments/<attach_uid>/devi=
-ce
-> > /sys/kernel/dmabuf/buffers/<inode_number>/attachments/<attach_uid>/map_=
-counter
-> >
-> > The inode_number is unique for each DMA-BUF and was added earlier [1]
-> > in order to allow userspace to track DMA-BUF usage across different
-> > processes.
-> >
-> > Use Cases
-> > =3D=3D=3D=3D=3D=3D=3D=3D=3D
-> > The interface provides a way to gather DMA-BUF per-buffer statistics
-> > from production devices. These statistics will be used to derive DMA-BU=
-F
-> > per-exporter stats and per-device usage stats for Android Bug reports.
-> > The corresponding userspace changes can be found at [2].
-> > Telemetry tools will also capture this information(along with other
-> > memory metrics) periodically as well as on important events like a
-> > foreground app kill (which might have been triggered by Low Memory
-> > Killer). It will also contribute to provide a snapshot of the system
-> > memory usage on other events such as OOM kills and Application Not
-> > Responding events.
-> >
-> > Background
-> > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> > Currently, there are two existing interfaces that provide information
-> > about DMA-BUFs.
-> > 1) /sys/kernel/debug/dma_buf/bufinfo
-> > debugfs is however unsuitable to be mounted in production systems and
-> > cannot be considered as an alternative to the sysfs interface being
-> > proposed.
-> > 2) proc/<pid>/fdinfo/<fd>
-> > The proc/<pid>/fdinfo/<fd> files expose information about DMA-BUF fds.
-> > However, the existing procfs interfaces can only provide information
-> > about the buffers for which processes hold fds or have the buffers
-> > mmapped into their address space. Since the procfs interfaces alone
-> > cannot provide a full picture of all DMA-BUFs in the system, there is
-> > the need for an alternate interface to provide this information on
-> > production systems.
-> >
-> > The patch contains the following major improvements over v1:
-> > 1) Each attachment is represented by its own directory to allow creatin=
-g
-> > a symlink to the importing device and to also provide room for future
-> > expansion.
-> > 2) The number of distinct mappings of each attachment is exposed in a
-> > separate file.
-> > 3) The per-buffer statistics are now in /sys/kernel/dmabuf/buffers
-> > inorder to make the interface expandable in future.
-> >
-> > All of the improvements above are based on suggestions/feedback from
-> > Daniel Vetter and Christian K=C3=B6nig.
-> >
-> > A shell script that can be run on a classic Linux environment to read
-> > out the DMA-BUF statistics can be found at [3](suggested by John
-> > Stultz).
-> >
-> > [1]: https://lore.kernel.org/patchwork/patch/1088791/
-> > [2]: https://android-review.googlesource.com/q/topic:%22dmabuf-sysfs%22=
-+(status:open%20OR%20status:merged)
-> > [3]: https://android-review.googlesource.com/c/platform/system/memory/l=
-ibmeminfo/+/1549734
-> >
-> > Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> > Signed-off-by: Hridya Valsaraju <hridya@google.com>
-> > Reported-by: kernel test robot <lkp@intel.com>
-> > ---
-> >
-> > Hi Daniel,
-> >
-> > I rewrote the commit message and added a new section to
-> > Documentation/driver-api/dma-buf.rst as per your suggestions. Please
-> > do take another look when you get a chance. Thanks again for the
-> > guidance.
-> >
-> > Regards,
-> > Hridya
-> >
-> > Change in v5:
-> > -Added a section on DMA-BUF statistics to
-> > Documentation/driver-api/dma-buf.rst. Organized the commit message to
-> > clearly state the need for the new interface and provide the
-> > background on why the existing means of DMA-BUF accounting will not
-> > suffice. Based on feedback from Daniel Vetter.
-> >
-> > Changes in v4:
-> > -Suppress uevents from kset creation to avoid waking up uevent listener=
-s
-> > on DMA-BUF export/release.
-> >
-> > Changes in v3:
-> > -Fix a warning reported by the kernel test robot.
-> >
-> > Changes in v2:
-> > -Move statistics to /sys/kernel/dmabuf/buffers in oder to allow additio=
+> > On Thu., Jun. 3, 2021, 06:03 Daniel Vetter, <daniel@ffwll.ch> wrote:
+> >>
+> >> On Thu, Jun 03, 2021 at 04:20:18AM -0400, Marek Ol=C5=A1=C3=A1k wrote:
+> >> > On Thu, Jun 3, 2021 at 3:47 AM Daniel Vetter <daniel@ffwll.ch> wrote=
+:
+> >> >
+> >> > > On Wed, Jun 02, 2021 at 11:16:39PM -0400, Marek Ol=C5=A1=C3=A1k wr=
+ote:
+> >> > > > On Wed, Jun 2, 2021 at 2:48 PM Daniel Vetter <daniel@ffwll.ch>
+> wrote:
+> >> > > >
+> >> > > > > On Wed, Jun 02, 2021 at 05:38:51AM -0400, Marek Ol=C5=A1=C3=A1=
+k wrote:
+> >> > > > > > On Wed, Jun 2, 2021 at 5:34 AM Marek Ol=C5=A1=C3=A1k <maraeo=
+@gmail.com>
+> wrote:
+> >> > > > > >
+> >> > > > > > > Yes, we can't break anything because we don't want to
+> complicate
+> >> > > things
+> >> > > > > > > for us. It's pretty much all NAK'd already. We are trying
+> to gather
+> >> > > > > more
+> >> > > > > > > knowledge and then make better decisions.
+> >> > > > > > >
+> >> > > > > > > The idea we are considering is that we'll expose
+> memory-based sync
+> >> > > > > objects
+> >> > > > > > > to userspace for read only, and the kernel or hw will
+> strictly
+> >> > > control
+> >> > > > > the
+> >> > > > > > > memory writes to those sync objects. The hole in that idea
+> is that
+> >> > > > > > > userspace can decide not to signal a job, so even if
+> userspace
+> >> > > can't
+> >> > > > > > > overwrite memory-based sync object states arbitrarily, it
+> can still
+> >> > > > > decide
+> >> > > > > > > not to signal them, and then a future fence is born.
+> >> > > > > > >
+> >> > > > > >
+> >> > > > > > This would actually be treated as a GPU hang caused by that
+> context,
+> >> > > so
+> >> > > > > it
+> >> > > > > > should be fine.
+> >> > > > >
+> >> > > > > This is practically what I proposed already, except your not
+> doing it
+> >> > > with
+> >> > > > > dma_fence. And on the memory fence side this also doesn't
+> actually give
+> >> > > > > what you want for that compute model.
+> >> > > > >
+> >> > > > > This seems like a bit a worst of both worlds approach to me?
+> Tons of
+> >> > > work
+> >> > > > > in the kernel to hide these not-dma_fence-but-almost, and stil=
+l
+> pain to
+> >> > > > > actually drive the hardware like it should be for compute or
+> direct
+> >> > > > > display.
+> >> > > > >
+> >> > > > > Also maybe I've missed it, but I didn't see any replies to my
+> >> > > suggestion
+> >> > > > > how to fake the entire dma_fence stuff on top of new hw. Would
+> be
+> >> > > > > interesting to know what doesn't work there instead of amd
+> folks going
+> >> > > of
+> >> > > > > into internal again and then coming back with another rfc from
+> out of
+> >> > > > > nowhere :-)
+> >> > > > >
+> >> > > >
+> >> > > > Going internal again is probably a good idea to spare you the lo=
+ng
+> >> > > > discussions and not waste your time, but we haven't talked about
+> the
+> >> > > > dma_fence stuff internally other than acknowledging that it can =
+be
+> >> > > solved.
+> >> > > >
+> >> > > > The compute use case already uses the hw as-is with no
+> inter-process
+> >> > > > sharing, which mostly keeps the kernel out of the picture. It us=
+es
+> >> > > glFinish
+> >> > > > to sync with GL.
+> >> > > >
+> >> > > > The gfx use case needs new hardware logic to support implicit an=
+d
+> >> > > explicit
+> >> > > > sync. When we propose a solution, it's usually torn apart the
+> next day by
+> >> > > > ourselves.
+> >> > > >
+> >> > > > Since we are talking about next hw or next next hw, preemption
+> should be
+> >> > > > better.
+> >> > > >
+> >> > > > user queue =3D user-mapped ring buffer
+> >> > > >
+> >> > > > For implicit sync, we will only let userspace lock access to a
+> buffer
+> >> > > via a
+> >> > > > user queue, which waits for the per-buffer sequence counter in
+> memory to
+> >> > > be
+> >> > > > >=3D the number assigned by the kernel, and later unlock the acc=
+ess
+> with
+> >> > > > another command, which increments the per-buffer sequence counte=
+r
+> in
+> >> > > memory
+> >> > > > with atomic_inc regardless of the number assigned by the kernel.
+> The
+> >> > > kernel
+> >> > > > counter and the counter in memory can be out-of-sync, and I'll
+> explain
+> >> > > why
+> >> > > > it's OK. If a process increments the kernel counter but not the
+> memory
+> >> > > > counter, that's its problem and it's the same as a GPU hang
+> caused by
+> >> > > that
+> >> > > > process. If a process increments the memory counter but not the
+> kernel
+> >> > > > counter, the ">=3D" condition alongside atomic_inc guarantee tha=
+t
+> >> > > signaling n
+> >> > > > will signal n+1, so it will never deadlock but also it will
+> effectively
+> >> > > > disable synchronization. This method of disabling synchronizatio=
 n
-> > of other DMA-BUF-related sysfs stats in future. Based on feedback from
-> > Daniel Vetter.
-> > -Each attachment has its own directory to represent attached devices as
-> > symlinks and to introduce map_count as a separate file. Based on
-> > feedback from Daniel Vetter and Christian K=C3=B6nig. Thank you both!
-> > -Commit messages updated to point to userspace code in AOSP that will
-> > read the DMA-BUF sysfs stats.
-> >
-> >  .../ABI/testing/sysfs-kernel-dmabuf-buffers   |  52 +++
-> >  Documentation/driver-api/dma-buf.rst          |  34 ++
-> >  drivers/dma-buf/Kconfig                       |  11 +
-> >  drivers/dma-buf/Makefile                      |   1 +
-> >  drivers/dma-buf/dma-buf-sysfs-stats.c         | 300 ++++++++++++++++++
-> >  drivers/dma-buf/dma-buf-sysfs-stats.h         |  62 ++++
-> >  drivers/dma-buf/dma-buf.c                     |  37 +++
-> >  include/linux/dma-buf.h                       |  20 ++
-> >  8 files changed, 517 insertions(+)
-> >  create mode 100644 Documentation/ABI/testing/sysfs-kernel-dmabuf-buffe=
-rs
-> >  create mode 100644 drivers/dma-buf/dma-buf-sysfs-stats.c
-> >  create mode 100644 drivers/dma-buf/dma-buf-sysfs-stats.h
-> >
-> > diff --git a/Documentation/ABI/testing/sysfs-kernel-dmabuf-buffers b/Do=
-cumentation/ABI/testing/sysfs-kernel-dmabuf-buffers
-> > new file mode 100644
-> > index 000000000000..a243984ed420
-> > --- /dev/null
-> > +++ b/Documentation/ABI/testing/sysfs-kernel-dmabuf-buffers
-> > @@ -0,0 +1,52 @@
-> > +What:                /sys/kernel/dmabuf/buffers
-> > +Date:                May 2021
-> > +KernelVersion:       v5.13
-> > +Contact:     Hridya Valsaraju <hridya@google.com>
-> > +Description: The /sys/kernel/dmabuf/buffers directory contains a
-> > +             snapshot of the internal state of every DMA-BUF.
-> > +             /sys/kernel/dmabuf/buffers/<inode_number> will contain th=
+> is
+> >> > > > similar to a process corrupting the buffer, which should be fine=
+.
+> Can you
+> >> > > > find any flaw in it? I can't find any.
+> >> > >
+> >> > > Hm maybe I misunderstood what exactly you wanted to do earlier.
+> That kind
+> >> > > of "we let userspace free-wheel whatever it wants, kernel ensures
+> >> > > correctness of the resulting chain of dma_fence with reset the
+> entire
+> >> > > context" is what I proposed too.
+> >> > >
+> >> > > Like you say, userspace is allowed to render garbage already.
+> >> > >
+> >> > > > The explicit submit can be done by userspace (if there is no
+> >> > > > synchronization), but we plan to use the kernel to do it for
+> implicit
+> >> > > sync.
+> >> > > > Essentially, the kernel will receive a buffer list and addresses
+> of wait
+> >> > > > commands in the user queue. It will assign new sequence numbers
+> to all
+> >> > > > buffers and write those numbers into the wait commands, and ring
+> the hw
+> >> > > > doorbell to start execution of that queue.
+> >> > >
+> >> > > Yeah for implicit sync I think kernel and using drm/scheduler to
+> sort out
+> >> > > the dma_fence dependencies is probably best. Since you can filter
+> out
+> >> > > which dma_fence you hand to the scheduler for dependency tracking
+> you can
+> >> > > filter out your own ones and let the hw handle those directly
+> (depending
+> >> > > how much your hw can do an all that). On i915 we might do that to
+> be able
+> >> > > to use MI_SEMAPHORE_WAIT/SIGNAL functionality in the hw and fw
+> scheduler.
+> >> > >
+> >> > > For buffer tracking with implicit sync I think cleanest is probabl=
+y
+> to
+> >> > > still keep them wrapped as dma_fence and stuffed into dma_resv, bu=
+t
+> >> > > conceptually it's the same. If we let every driver reinvent their
+> own
+> >> > > buffer tracking just because the hw works a bit different it'll be
+> a mess.
+> >> > >
+> >> > > Wrt wait commands: I'm honestly not sure why you'd do that.
+> Userspace gets
+> >> > > to keep the pieces if it gets it wrong. You do still need to handl=
 e
-> > +             statistics for the DMA-BUF with the unique inode number
-> > +             <inode_number>
-> > +Users:               kernel memory tuning/debugging tools
-> > +
-> > +What:                /sys/kernel/dmabuf/buffers/<inode_number>/exporte=
-r_name
-> > +Date:                May 2021
-> > +KernelVersion:       v5.13
-> > +Contact:     Hridya Valsaraju <hridya@google.com>
-> > +Description: This file is read-only and contains the name of the expor=
-ter of
-> > +             the DMA-BUF.
-> > +
-> > +What:                /sys/kernel/dmabuf/buffers/<inode_number>/size
-> > +Date:                May 2021
-> > +KernelVersion:       v5.13
-> > +Contact:     Hridya Valsaraju <hridya@google.com>
-> > +Description: This file is read-only and specifies the size of the DMA-=
-BUF in
-> > +             bytes.
-> > +
-> > +What:                /sys/kernel/dmabuf/buffers/<inode_number>/attachm=
-ents
-> > +Date:                May 2021
-> > +KernelVersion:       v5.13
-> > +Contact:     Hridya Valsaraju <hridya@google.com>
-> > +Description: This directory will contain subdirectories representing e=
-very
-> > +             attachment of the DMA-BUF.
-> > +
-> > +What:                /sys/kernel/dmabuf/buffers/<inode_number>/attachm=
-ents/<attachment_uid>
-> > +Date:                May 2021
-> > +KernelVersion:       v5.13
-> > +Contact:     Hridya Valsaraju <hridya@google.com>
-> > +Description: This directory will contain information on the attached d=
-evice
-> > +             and the number of current distinct device mappings.
-> > +
-> > +What:                /sys/kernel/dmabuf/buffers/<inode_number>/attachm=
-ents/<attachment_uid>/device
-> > +Date:                May 2021
-> > +KernelVersion:       v5.13
-> > +Contact:     Hridya Valsaraju <hridya@google.com>
-> > +Description: This file is read-only and is a symlink to the attached d=
-evice's
-> > +             sysfs entry.
-> > +
-> > +What:                /sys/kernel/dmabuf/buffers/<inode_number>/attachm=
-ents/<attachment_uid>/map_counter
-> > +Date:                May 2021
-> > +KernelVersion:       v5.13
-> > +Contact:     Hridya Valsaraju <hridya@google.com>
-> > +Description: This file is read-only and contains a map_counter indicat=
-ing the
-> > +             number of distinct device mappings of the attachment.
-> > diff --git a/Documentation/driver-api/dma-buf.rst b/Documentation/drive=
-r-api/dma-buf.rst
-> > index 7f37ec30d9fd..4027762a824a 100644
-> > --- a/Documentation/driver-api/dma-buf.rst
-> > +++ b/Documentation/driver-api/dma-buf.rst
-> > @@ -106,6 +106,40 @@ Implicit Fence Poll Support
-> >  .. kernel-doc:: drivers/dma-buf/dma-buf.c
-> >     :doc: implicit fence polling
+> >> > > external dma_fence though, hence drm/scheduler frontend to sort
+> these out.
+> >> > >
+> >> >
+> >> > The reason is to disallow lower-privileged process to deadlock/hang =
+a
+> >> > higher-privileged process where the kernel can't tell who did it. If
+> the
+> >> > implicit-sync sequence counter is read only to userspace and only
+> >> > incrementable by the unlock-signal command after the lock-wait comma=
+nd
+> >> > appeared in the same queue (both together forming a critical section=
+),
+> >> > userspace can't manipulate it arbitrarily and we get almost the exac=
+t
+> same
+> >> > behavior as implicit sync has today. That means any implicitly-sync'=
+d
+> >> > buffer from any process can be fully trusted by a compositor to
+> signal in a
+> >> > finite time, and possibly even trusted by the kernel. The only thing
+> that's
+> >> > different is that a malicious process can disable implicit sync for =
+a
+> >> > buffer in all processes/kernel, but it can't hang other
+> processes/kernel
+> >> > (it can only hang itself and the kernel will be notified). So I'm a
+> happy
+> >> > panda now. :)
+> >>
+> >> Yeah I think that's not going to work too well, and is too many piled =
+up
+> >> hacks. Within a drm_file fd you can do whatever you feel like, since
+> it's
+> >> just one client.
+> >>
+> >> But once implicit sync kicks in I think you need to go with dma_fence
+> and
+> >> drm/scheduler to handle the dependencies, and tdr kicking it. With the
+> >> dma_fence you do know who's the offender - you might not know why, but
+> >> that doesn't matter, you just shred the entire context and let that
+> >> userspace figure out the details.
+> >>
+> >> I think trying to make memory fences work as implicit sync directly,
+> >> without wrapping them in a dma_fence and assorted guarantees, will jus=
+t
+> >> not work.
+> >>
+> >> And once you do wrap them in dma_fence, then all the other problems go
+> >> away: cross-driver sync, syncfiles, ... So I really don't see the
+> benefit
+> >> of this half-way approach.
+> >>
+> >> Yes there's going to be a tad bit of overhead, but that's already ther=
+e
+> in
+> >> the current model. And it can't hurt to have a bit of motivation for
+> >> compositors to switch over to userspace memory fences properly.
 > >
-> > +DMA-BUF statistics
-> > +~~~~~~~~~~~~~~~~~~
-> > +
-> > +``/sys/kernel/debug/dma_buf/bufinfo`` provides an overview of every DM=
-A-BUF in the
-> > +system. However, since debugfs is not safe to be mounted in production=
-,
-> > +procfs and sysfs can be used to gather DMA-BUF statistics on productio=
-n systems.
-> > +
-> > +The ``/proc/<pid>/fdinfo/<fd>`` files in procfs can be used to gather =
-information
-> > +about DMA-BUF fds. Detailed documentation about the interface is prese=
-nt in
-> > +Documentation/filesystems/proc.rst.
-> > +Unfortunately, the existing procfs interfaces can only provide informa=
-tion about
-> > +the DMA-BUFs for which processes hold fds or have the buffers mmapped =
-into their
-> > +address space. This necessitated the creation of the DMA-BUF sysfs sta=
-tistics
-> > +interface to provide per-buffer information on production systems.
-> > +
-> > +The interface at ``/sys/kernel/dma-buf/buffers`` exposes information a=
-bout
-> > +every DMA-BUF when ``CONFIG_DMABUF_SYSFS_STATS`` is enabled.
-> > +
-> > +The following stats are exposed by the interface:
-> > +
-> > +* ``/sys/kernel/dmabuf/buffers/<inode_number>/exporter_name``
-> > +* ``/sys/kernel/dmabuf/buffers/<inode_number>/size``
-> > +* ``/sys/kernel/dmabuf/buffers/<inode_number>/attachments/<attach_uid>=
-/device``
-> > +* ``/sys/kernel/dmabuf/buffers/<inode_number>/attachments/<attach_uid>=
-/map_counter``
-> > +
-> > +The information in the interface can also be used to derive per-export=
-er and
-> > +per-device usage statistics. The data from the interface can be gather=
-ed
-> > +on error conditions or other important events to provide a snapshot of
-> > +DMA-BUF usage. It can also be collected periodically by telemetry to m=
-onitor
-> > +various metrics.
-> > +
-> > +Detailed documentation about the interface is present in
-> > +Documentation/ABI/testing/sysfs-kernel-dmabuf-buffers
+> >
+> > Well, Christian thinks that we need a high level synchronization
+> primitive in hw. I don't know myself and you may be right. A software
+> scheduler with user queues might be one option. My part is only to find o=
+ut
+> how much of the scheduler logic can be moved to the hardware.
+> >
+> > We plan to have memory timeline semaphores, or simply monotonic
+> counters, and a fence will be represented by the counter address and a
+> constant sequence number for the <=3D comparison. One counter can represe=
+nt
+> up to 2^64 different fences. Giving any process write access to a fence i=
+s
+> the same as giving it the power to manipulate the signalled state of a
+> sequence of up to 2^64 fences. That could mess up a lot of things. Howeve=
+r,
+> if the hardware had a high level synchronization primitive with access
+> rights and a limited set of clearly defined operations such that we can
+> formally prove whether it's safe for everybody, we could have a solution
+> where we don't have to involve the software scheduler and just let the
+> hardware do everything.
 >
-> Ok this looks neat, but I prefer if this is done as a DOC: overview
-> section in the source code, and pulled into the documentation with an
-> include directive. That way the docs are closer to the code, and so highe=
-r
-> chances they get updated if something changes.
+> I don't think hw access rights control on memory fences makes sense.
+> There's two cases:
 >
-> And since add an entire new file for this I think this makes more sense.
+> - brave new world of native userspace memory fences. Currently that's
+> compute, maybe direct display vk, hopefully/eventually compositors and
+> desktops too. If you get an untrusted fence, you need to have fallback
+> logic no matter what, and by design. vk is explicit in stating that if
+> things hang, you get to keep all the pieces. So the compositor needs
+> to _always_ treat userspace memory fences as hostile, wrap them in a
+> timeout, and have a fallback frame/scene in its rendering path.
+> Probably same for the kernel on display side, maybe down to the
+> display hw picking the "right" frame depending upon the fence value
+> right before scanout as we discussed earlier. There's no point in hw
+> access rights because by design, even if no one tampers with your
+> fence, it might never signal. So you have to cope with a hostile fence
+> from untrusted sources anyway (and within an app it's trusted and you
+> just die as in stuck in an endless loop until someon sends a SIGKILL
+> when you deadlock or get it wrong some other way).
 >
-> Can you pls respin once more with that? I think then we're really good fo=
-r
-> sure.
-
-Of course! Thank you Daniel, yes let me do that and send out another versio=
-n.
-
-Regards,
-Hridya
-
+> - old compat mode where we need to use dma_fence, otherwise we end up
+> with another round of "amdgpu redefines implicit sync in incompatible
+> ways", and Christian&me don't even know yet how to fix the current
+> round without breaking use-cases badly yet. So it has to be dma_fence,
+> and it has to be the same rules as on old hw, or it's just not going
+> to work. This means you need to force in-order retiring of fences in
+> the kernel, and you need to enforce timeout. None of this needs hw
+> access rights control, since once more it's just software constructs
+> in the kernel. As a first appromixation, drm/scheduler + the fence
+> chain we already have in syncobj is probably good enough for this.
+> E.g. if userspace rolls the fence backwards then the kernel just
+> ignores that, because its internal dma_fence has signalled, and
+> dma_fences never unsignal (it's a bit in struct dma_fence, once it's
+> set we stop checking hw). And if it doesn't signal in time, then tdr
+> jumps in and fixes the mess. Hw access control doesn't fix anything
+> here, because you have to deal with timeout and ordering already
+> anyway, or the dma_fence contract is broken.
+>
+> So in both cases hw access control gains you nothing (at least I'm not
+> seeing anything), it just makes the design more tricky. "Userspace can
+> manipulate the fences" is _intentionally_ how these things work, we
+> need a design that works with that hw design, not against it and
+> somehow tries to get us back to the old world, but only halfway (i.e.
+> not useful at all, since old userspace needs us to go all the way back
+> to dma_fence, and new userspace wants to fully exploit userspace
+> memory fences without artificial limitations for no reason).
 > -Daniel
->
-> > +
-> >  Kernel Functions and Structures Reference
-> >  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> >
-> > diff --git a/drivers/dma-buf/Kconfig b/drivers/dma-buf/Kconfig
-> > index 4e16c71c24b7..9561e3d2d428 100644
-> > --- a/drivers/dma-buf/Kconfig
-> > +++ b/drivers/dma-buf/Kconfig
-> > @@ -72,6 +72,17 @@ menuconfig DMABUF_HEAPS
-> >         allows userspace to allocate dma-bufs that can be shared
-> >         between drivers.
-> >
-> > +menuconfig DMABUF_SYSFS_STATS
-> > +     bool "DMA-BUF sysfs statistics"
-> > +     select DMA_SHARED_BUFFER
-> > +     help
-> > +        Choose this option to enable DMA-BUF sysfs statistics
-> > +        in location /sys/kernel/dmabuf/buffers.
-> > +
-> > +        /sys/kernel/dmabuf/buffers/<inode_number> will contain
-> > +        statistics for the DMA-BUF with the unique inode number
-> > +        <inode_number>.
-> > +
-> >  source "drivers/dma-buf/heaps/Kconfig"
-> >
-> >  endmenu
-> > diff --git a/drivers/dma-buf/Makefile b/drivers/dma-buf/Makefile
-> > index 995e05f609ff..40d81f23cacf 100644
-> > --- a/drivers/dma-buf/Makefile
-> > +++ b/drivers/dma-buf/Makefile
-> > @@ -6,6 +6,7 @@ obj-$(CONFIG_DMABUF_HEAPS)    +=3D heaps/
-> >  obj-$(CONFIG_SYNC_FILE)              +=3D sync_file.o
-> >  obj-$(CONFIG_SW_SYNC)                +=3D sw_sync.o sync_debug.o
-> >  obj-$(CONFIG_UDMABUF)                +=3D udmabuf.o
-> > +obj-$(CONFIG_DMABUF_SYSFS_STATS) +=3D dma-buf-sysfs-stats.o
-> >
-> >  dmabuf_selftests-y :=3D \
-> >       selftest.o \
-> > diff --git a/drivers/dma-buf/dma-buf-sysfs-stats.c b/drivers/dma-buf/dm=
-a-buf-sysfs-stats.c
-> > new file mode 100644
-> > index 000000000000..45717c8108c8
-> > --- /dev/null
-> > +++ b/drivers/dma-buf/dma-buf-sysfs-stats.c
-> > @@ -0,0 +1,300 @@
-> > +// SPDX-License-Identifier: GPL-2.0-only
-> > +/*
-> > + * DMA-BUF sysfs statistics.
-> > + *
-> > + * Copyright (C) 2021 Google LLC.
-> > + */
-> > +
-> > +#include <linux/dma-buf.h>
-> > +#include <linux/dma-resv.h>
-> > +#include <linux/kobject.h>
-> > +#include <linux/printk.h>
-> > +#include <linux/slab.h>
-> > +#include <linux/sysfs.h>
-> > +
-> > +#include "dma-buf-sysfs-stats.h"
-> > +
-> > +#define to_dma_buf_entry_from_kobj(x) container_of(x, struct dma_buf_s=
-ysfs_entry, kobj)
-> > +
-> > +struct dma_buf_stats_attribute {
-> > +     struct attribute attr;
-> > +     ssize_t (*show)(struct dma_buf *dmabuf,
-> > +                     struct dma_buf_stats_attribute *attr, char *buf);
-> > +};
-> > +#define to_dma_buf_stats_attr(x) container_of(x, struct dma_buf_stats_=
-attribute, attr)
-> > +
-> > +static ssize_t dma_buf_stats_attribute_show(struct kobject *kobj,
-> > +                                         struct attribute *attr,
-> > +                                         char *buf)
-> > +{
-> > +     struct dma_buf_stats_attribute *attribute;
-> > +     struct dma_buf_sysfs_entry *sysfs_entry;
-> > +     struct dma_buf *dmabuf;
-> > +
-> > +     attribute =3D to_dma_buf_stats_attr(attr);
-> > +     sysfs_entry =3D to_dma_buf_entry_from_kobj(kobj);
-> > +     dmabuf =3D sysfs_entry->dmabuf;
-> > +
-> > +     if (!dmabuf || !attribute->show)
-> > +             return -EIO;
-> > +
-> > +     return attribute->show(dmabuf, attribute, buf);
-> > +}
-> > +
-> > +static const struct sysfs_ops dma_buf_stats_sysfs_ops =3D {
-> > +     .show =3D dma_buf_stats_attribute_show,
-> > +};
-> > +
-> > +static ssize_t exporter_name_show(struct dma_buf *dmabuf,
-> > +                               struct dma_buf_stats_attribute *attr,
-> > +                               char *buf)
-> > +{
-> > +     return sysfs_emit(buf, "%s\n", dmabuf->exp_name);
-> > +}
-> > +
-> > +static ssize_t size_show(struct dma_buf *dmabuf,
-> > +                      struct dma_buf_stats_attribute *attr,
-> > +                      char *buf)
-> > +{
-> > +     return sysfs_emit(buf, "%zu\n", dmabuf->size);
-> > +}
-> > +
-> > +static struct dma_buf_stats_attribute exporter_name_attribute =3D
-> > +     __ATTR_RO(exporter_name);
-> > +static struct dma_buf_stats_attribute size_attribute =3D __ATTR_RO(siz=
-e);
-> > +
-> > +static struct attribute *dma_buf_stats_default_attrs[] =3D {
-> > +     &exporter_name_attribute.attr,
-> > +     &size_attribute.attr,
-> > +     NULL,
-> > +};
-> > +ATTRIBUTE_GROUPS(dma_buf_stats_default);
-> > +
-> > +static void dma_buf_sysfs_release(struct kobject *kobj)
-> > +{
-> > +     struct dma_buf_sysfs_entry *sysfs_entry;
-> > +
-> > +     sysfs_entry =3D to_dma_buf_entry_from_kobj(kobj);
-> > +     kfree(sysfs_entry);
-> > +}
-> > +
-> > +static struct kobj_type dma_buf_ktype =3D {
-> > +     .sysfs_ops =3D &dma_buf_stats_sysfs_ops,
-> > +     .release =3D dma_buf_sysfs_release,
-> > +     .default_groups =3D dma_buf_stats_default_groups,
-> > +};
-> > +
-> > +#define to_dma_buf_attach_entry_from_kobj(x) container_of(x, struct dm=
-a_buf_attach_sysfs_entry, kobj)
-> > +
-> > +struct dma_buf_attach_stats_attribute {
-> > +     struct attribute attr;
-> > +     ssize_t (*show)(struct dma_buf_attach_sysfs_entry *sysfs_entry,
-> > +                     struct dma_buf_attach_stats_attribute *attr, char=
- *buf);
-> > +};
-> > +#define to_dma_buf_attach_stats_attr(x) container_of(x, struct dma_buf=
-_attach_stats_attribute, attr)
-> > +
-> > +static ssize_t dma_buf_attach_stats_attribute_show(struct kobject *kob=
-j,
-> > +                                                struct attribute *attr=
-,
-> > +                                                char *buf)
-> > +{
-> > +     struct dma_buf_attach_stats_attribute *attribute;
-> > +     struct dma_buf_attach_sysfs_entry *sysfs_entry;
-> > +
-> > +     attribute =3D to_dma_buf_attach_stats_attr(attr);
-> > +     sysfs_entry =3D to_dma_buf_attach_entry_from_kobj(kobj);
-> > +
-> > +     if (!attribute->show)
-> > +             return -EIO;
-> > +
-> > +     return attribute->show(sysfs_entry, attribute, buf);
-> > +}
-> > +
-> > +static const struct sysfs_ops dma_buf_attach_stats_sysfs_ops =3D {
-> > +     .show =3D dma_buf_attach_stats_attribute_show,
-> > +};
-> > +
-> > +static ssize_t map_counter_show(struct dma_buf_attach_sysfs_entry *sys=
-fs_entry,
-> > +                             struct dma_buf_attach_stats_attribute *at=
-tr,
-> > +                             char *buf)
-> > +{
-> > +     return sysfs_emit(buf, "%u\n", sysfs_entry->map_counter);
-> > +}
-> > +
-> > +static struct dma_buf_attach_stats_attribute map_counter_attribute =3D
-> > +     __ATTR_RO(map_counter);
-> > +
-> > +static struct attribute *dma_buf_attach_stats_default_attrs[] =3D {
-> > +     &map_counter_attribute.attr,
-> > +     NULL,
-> > +};
-> > +ATTRIBUTE_GROUPS(dma_buf_attach_stats_default);
-> > +
-> > +static void dma_buf_attach_sysfs_release(struct kobject *kobj)
-> > +{
-> > +     struct dma_buf_attach_sysfs_entry *sysfs_entry;
-> > +
-> > +     sysfs_entry =3D to_dma_buf_attach_entry_from_kobj(kobj);
-> > +     kfree(sysfs_entry);
-> > +}
-> > +
-> > +static struct kobj_type dma_buf_attach_ktype =3D {
-> > +     .sysfs_ops =3D &dma_buf_attach_stats_sysfs_ops,
-> > +     .release =3D dma_buf_attach_sysfs_release,
-> > +     .default_groups =3D dma_buf_attach_stats_default_groups,
-> > +};
-> > +
-> > +void dma_buf_attach_stats_teardown(struct dma_buf_attachment *attach)
-> > +{
-> > +     struct dma_buf_attach_sysfs_entry *sysfs_entry;
-> > +
-> > +     sysfs_entry =3D attach->sysfs_entry;
-> > +     if (!sysfs_entry)
-> > +             return;
-> > +
-> > +     sysfs_delete_link(&sysfs_entry->kobj, &attach->dev->kobj, "device=
-");
-> > +
-> > +     kobject_del(&sysfs_entry->kobj);
-> > +     kobject_put(&sysfs_entry->kobj);
-> > +}
-> > +
-> > +int dma_buf_attach_stats_setup(struct dma_buf_attachment *attach,
-> > +                            unsigned int uid)
-> > +{
-> > +     struct dma_buf_attach_sysfs_entry *sysfs_entry;
-> > +     int ret;
-> > +     struct dma_buf *dmabuf;
-> > +
-> > +     if (!attach)
-> > +             return -EINVAL;
-> > +
-> > +     dmabuf =3D attach->dmabuf;
-> > +
-> > +     sysfs_entry =3D kzalloc(sizeof(struct dma_buf_attach_sysfs_entry)=
-,
-> > +                           GFP_KERNEL);
-> > +     if (!sysfs_entry)
-> > +             return -ENOMEM;
-> > +
-> > +     sysfs_entry->kobj.kset =3D dmabuf->sysfs_entry->attach_stats_kset=
-;
-> > +
-> > +     attach->sysfs_entry =3D sysfs_entry;
-> > +
-> > +     ret =3D kobject_init_and_add(&sysfs_entry->kobj, &dma_buf_attach_=
-ktype,
-> > +                                NULL, "%u", uid);
-> > +     if (ret)
-> > +             goto kobj_err;
-> > +
-> > +     ret =3D sysfs_create_link(&sysfs_entry->kobj, &attach->dev->kobj,
-> > +                             "device");
-> > +     if (ret)
-> > +             goto link_err;
-> > +
-> > +     return 0;
-> > +
-> > +link_err:
-> > +     kobject_del(&sysfs_entry->kobj);
-> > +kobj_err:
-> > +     kobject_put(&sysfs_entry->kobj);
-> > +     attach->sysfs_entry =3D NULL;
-> > +
-> > +     return ret;
-> > +}
-> > +void dma_buf_stats_teardown(struct dma_buf *dmabuf)
-> > +{
-> > +     struct dma_buf_sysfs_entry *sysfs_entry;
-> > +
-> > +     sysfs_entry =3D dmabuf->sysfs_entry;
-> > +     if (!sysfs_entry)
-> > +             return;
-> > +
-> > +     kset_unregister(sysfs_entry->attach_stats_kset);
-> > +     kobject_del(&sysfs_entry->kobj);
-> > +     kobject_put(&sysfs_entry->kobj);
-> > +}
-> > +
-> > +
-> > +/* Statistics files do not need to send uevents. */
-> > +static int dmabuf_sysfs_uevent_filter(struct kset *kset, struct kobjec=
-t *kobj)
-> > +{
-> > +     return 0;
-> > +}
-> > +
-> > +static const struct kset_uevent_ops dmabuf_sysfs_no_uevent_ops =3D {
-> > +     .filter =3D dmabuf_sysfs_uevent_filter,
-> > +};
-> > +
-> > +static struct kset *dma_buf_stats_kset;
-> > +static struct kset *dma_buf_per_buffer_stats_kset;
-> > +int dma_buf_init_sysfs_statistics(void)
-> > +{
-> > +     dma_buf_stats_kset =3D kset_create_and_add("dmabuf",
-> > +                                              &dmabuf_sysfs_no_uevent_=
-ops,
-> > +                                              kernel_kobj);
-> > +     if (!dma_buf_stats_kset)
-> > +             return -ENOMEM;
-> > +
-> > +     dma_buf_per_buffer_stats_kset =3D kset_create_and_add("buffers",
-> > +                                                         &dmabuf_sysfs=
-_no_uevent_ops,
-> > +                                                         &dma_buf_stat=
-s_kset->kobj);
-> > +     if (!dma_buf_per_buffer_stats_kset) {
-> > +             kset_unregister(dma_buf_stats_kset);
-> > +             return -ENOMEM;
-> > +     }
-> > +
-> > +     return 0;
-> > +}
-> > +
-> > +void dma_buf_uninit_sysfs_statistics(void)
-> > +{
-> > +     kset_unregister(dma_buf_per_buffer_stats_kset);
-> > +     kset_unregister(dma_buf_stats_kset);
-> > +}
-> > +
-> > +int dma_buf_stats_setup(struct dma_buf *dmabuf)
-> > +{
-> > +     struct dma_buf_sysfs_entry *sysfs_entry;
-> > +     int ret;
-> > +     struct kset *attach_stats_kset;
-> > +
-> > +     if (!dmabuf || !dmabuf->file)
-> > +             return -EINVAL;
-> > +
-> > +     if (!dmabuf->exp_name) {
-> > +             pr_err("exporter name must not be empty if stats needed\n=
-");
-> > +             return -EINVAL;
-> > +     }
-> > +
-> > +     sysfs_entry =3D kzalloc(sizeof(struct dma_buf_sysfs_entry), GFP_K=
-ERNEL);
-> > +     if (!sysfs_entry)
-> > +             return -ENOMEM;
-> > +
-> > +     sysfs_entry->kobj.kset =3D dma_buf_per_buffer_stats_kset;
-> > +     sysfs_entry->dmabuf =3D dmabuf;
-> > +
-> > +     dmabuf->sysfs_entry =3D sysfs_entry;
-> > +
-> > +     /* create the directory for buffer stats */
-> > +     ret =3D kobject_init_and_add(&sysfs_entry->kobj, &dma_buf_ktype, =
-NULL,
-> > +                                "%lu", file_inode(dmabuf->file)->i_ino=
-);
-> > +     if (ret)
-> > +             goto err_sysfs_dmabuf;
-> > +
-> > +     /* create the directory for attachment stats */
-> > +     attach_stats_kset =3D kset_create_and_add("attachments",
-> > +                                             &dmabuf_sysfs_no_uevent_o=
-ps,
-> > +                                             &sysfs_entry->kobj);
-> > +     if (!attach_stats_kset) {
-> > +             ret =3D -ENOMEM;
-> > +             goto err_sysfs_attach;
-> > +     }
-> > +
-> > +     sysfs_entry->attach_stats_kset =3D attach_stats_kset;
-> > +
-> > +     return 0;
-> > +
-> > +err_sysfs_attach:
-> > +     kobject_del(&sysfs_entry->kobj);
-> > +err_sysfs_dmabuf:
-> > +     kobject_put(&sysfs_entry->kobj);
-> > +     dmabuf->sysfs_entry =3D NULL;
-> > +     return ret;
-> > +}
-> > diff --git a/drivers/dma-buf/dma-buf-sysfs-stats.h b/drivers/dma-buf/dm=
-a-buf-sysfs-stats.h
-> > new file mode 100644
-> > index 000000000000..5f4703249117
-> > --- /dev/null
-> > +++ b/drivers/dma-buf/dma-buf-sysfs-stats.h
-> > @@ -0,0 +1,62 @@
-> > +/* SPDX-License-Identifier: GPL-2.0-only */
-> > +/*
-> > + * DMA-BUF sysfs statistics.
-> > + *
-> > + * Copyright (C) 2021 Google LLC.
-> > + */
-> > +
-> > +#ifndef _DMA_BUF_SYSFS_STATS_H
-> > +#define _DMA_BUF_SYSFS_STATS_H
-> > +
-> > +#ifdef CONFIG_DMABUF_SYSFS_STATS
-> > +
-> > +int dma_buf_init_sysfs_statistics(void);
-> > +void dma_buf_uninit_sysfs_statistics(void);
-> > +
-> > +int dma_buf_stats_setup(struct dma_buf *dmabuf);
-> > +int dma_buf_attach_stats_setup(struct dma_buf_attachment *attach,
-> > +                            unsigned int uid);
-> > +static inline void dma_buf_update_attachment_map_count(struct dma_buf_=
-attachment *attach,
-> > +                                                    int delta)
-> > +{
-> > +     struct dma_buf_attach_sysfs_entry *entry =3D attach->sysfs_entry;
-> > +
-> > +     entry->map_counter +=3D delta;
-> > +}
-> > +void dma_buf_stats_teardown(struct dma_buf *dmabuf);
-> > +void dma_buf_attach_stats_teardown(struct dma_buf_attachment *attach);
-> > +static inline unsigned int dma_buf_update_attach_uid(struct dma_buf *d=
-mabuf)
-> > +{
-> > +     struct dma_buf_sysfs_entry *entry =3D dmabuf->sysfs_entry;
-> > +
-> > +     return entry->attachment_uid++;
-> > +}
-> > +#else
-> > +
-> > +static inline int dma_buf_init_sysfs_statistics(void)
-> > +{
-> > +     return 0;
-> > +}
-> > +
-> > +static inline void dma_buf_uninit_sysfs_statistics(void) {}
-> > +
-> > +static inline int dma_buf_stats_setup(struct dma_buf *dmabuf)
-> > +{
-> > +     return 0;
-> > +}
-> > +static inline int dma_buf_attach_stats_setup(struct dma_buf_attachment=
- *attach,
-> > +                                          unsigned int uid)
-> > +{
-> > +     return 0;
-> > +}
-> > +
-> > +static inline void dma_buf_stats_teardown(struct dma_buf *dmabuf) {}
-> > +static inline void dma_buf_attach_stats_teardown(struct dma_buf_attach=
-ment *attach) {}
-> > +static inline void dma_buf_update_attachment_map_count(struct dma_buf_=
-attachment *attach,
-> > +                                                    int delta) {}
-> > +static inline unsigned int dma_buf_update_attach_uid(struct dma_buf *d=
-mabuf)
-> > +{
-> > +     return 0;
-> > +}
-> > +#endif
-> > +#endif // _DMA_BUF_SYSFS_STATS_H
-> > diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-> > index f264b70c383e..184dd7acb1ed 100644
-> > --- a/drivers/dma-buf/dma-buf.c
-> > +++ b/drivers/dma-buf/dma-buf.c
-> > @@ -29,6 +29,8 @@
-> >  #include <uapi/linux/dma-buf.h>
-> >  #include <uapi/linux/magic.h>
-> >
-> > +#include "dma-buf-sysfs-stats.h"
-> > +
-> >  static inline int is_dma_buf_file(struct file *);
-> >
-> >  struct dma_buf_list {
-> > @@ -79,6 +81,7 @@ static void dma_buf_release(struct dentry *dentry)
-> >       if (dmabuf->resv =3D=3D (struct dma_resv *)&dmabuf[1])
-> >               dma_resv_fini(dmabuf->resv);
-> >
-> > +     dma_buf_stats_teardown(dmabuf);
-> >       module_put(dmabuf->owner);
-> >       kfree(dmabuf->name);
-> >       kfree(dmabuf);
-> > @@ -580,6 +583,10 @@ struct dma_buf *dma_buf_export(const struct dma_bu=
-f_export_info *exp_info)
-> >       file->f_mode |=3D FMODE_LSEEK;
-> >       dmabuf->file =3D file;
-> >
-> > +     ret =3D dma_buf_stats_setup(dmabuf);
-> > +     if (ret)
-> > +             goto err_sysfs;
-> > +
-> >       mutex_init(&dmabuf->lock);
-> >       INIT_LIST_HEAD(&dmabuf->attachments);
-> >
-> > @@ -589,6 +596,14 @@ struct dma_buf *dma_buf_export(const struct dma_bu=
-f_export_info *exp_info)
-> >
-> >       return dmabuf;
-> >
-> > +err_sysfs:
-> > +     /*
-> > +      * Set file->f_path.dentry->d_fsdata to NULL so that when
-> > +      * dma_buf_release() gets invoked by dentry_ops, it exits
-> > +      * early before calling the release() dma_buf op.
-> > +      */
-> > +     file->f_path.dentry->d_fsdata =3D NULL;
-> > +     fput(file);
-> >  err_dmabuf:
-> >       kfree(dmabuf);
-> >  err_module:
-> > @@ -723,6 +738,7 @@ dma_buf_dynamic_attach(struct dma_buf *dmabuf, stru=
-ct device *dev,
-> >  {
-> >       struct dma_buf_attachment *attach;
-> >       int ret;
-> > +     unsigned int attach_uid;
-> >
-> >       if (WARN_ON(!dmabuf || !dev))
-> >               return ERR_PTR(-EINVAL);
-> > @@ -748,8 +764,13 @@ dma_buf_dynamic_attach(struct dma_buf *dmabuf, str=
-uct device *dev,
-> >       }
-> >       dma_resv_lock(dmabuf->resv, NULL);
-> >       list_add(&attach->node, &dmabuf->attachments);
-> > +     attach_uid =3D dma_buf_update_attach_uid(dmabuf);
-> >       dma_resv_unlock(dmabuf->resv);
-> >
-> > +     ret =3D dma_buf_attach_stats_setup(attach, attach_uid);
-> > +     if (ret)
-> > +             goto err_sysfs;
-> > +
-> >       /* When either the importer or the exporter can't handle dynamic
-> >        * mappings we cache the mapping here to avoid issues with the
-> >        * reservation object lock.
-> > @@ -776,6 +797,7 @@ dma_buf_dynamic_attach(struct dma_buf *dmabuf, stru=
-ct device *dev,
-> >                       dma_resv_unlock(attach->dmabuf->resv);
-> >               attach->sgt =3D sgt;
-> >               attach->dir =3D DMA_BIDIRECTIONAL;
-> > +             dma_buf_update_attachment_map_count(attach, 1 /* delta */=
-);
-> >       }
-> >
-> >       return attach;
-> > @@ -792,6 +814,7 @@ dma_buf_dynamic_attach(struct dma_buf *dmabuf, stru=
-ct device *dev,
-> >       if (dma_buf_is_dynamic(attach->dmabuf))
-> >               dma_resv_unlock(attach->dmabuf->resv);
-> >
-> > +err_sysfs:
-> >       dma_buf_detach(dmabuf, attach);
-> >       return ERR_PTR(ret);
-> >  }
-> > @@ -841,6 +864,7 @@ void dma_buf_detach(struct dma_buf *dmabuf, struct =
-dma_buf_attachment *attach)
-> >                       dma_resv_lock(attach->dmabuf->resv, NULL);
-> >
-> >               __unmap_dma_buf(attach, attach->sgt, attach->dir);
-> > +             dma_buf_update_attachment_map_count(attach, -1 /* delta *=
-/);
-> >
-> >               if (dma_buf_is_dynamic(attach->dmabuf)) {
-> >                       dma_buf_unpin(attach);
-> > @@ -854,6 +878,7 @@ void dma_buf_detach(struct dma_buf *dmabuf, struct =
-dma_buf_attachment *attach)
-> >       if (dmabuf->ops->detach)
-> >               dmabuf->ops->detach(dmabuf, attach);
-> >
-> > +     dma_buf_attach_stats_teardown(attach);
-> >       kfree(attach);
-> >  }
-> >  EXPORT_SYMBOL_GPL(dma_buf_detach);
-> > @@ -993,6 +1018,9 @@ struct sg_table *dma_buf_map_attachment(struct dma=
-_buf_attachment *attach,
-> >       }
-> >  #endif /* CONFIG_DMA_API_DEBUG */
-> >
-> > +     if (!IS_ERR(sg_table))
-> > +             dma_buf_update_attachment_map_count(attach, 1 /* delta */=
-);
-> > +
-> >       return sg_table;
-> >  }
-> >  EXPORT_SYMBOL_GPL(dma_buf_map_attachment);
-> > @@ -1030,6 +1058,8 @@ void dma_buf_unmap_attachment(struct dma_buf_atta=
-chment *attach,
-> >       if (dma_buf_is_dynamic(attach->dmabuf) &&
-> >           !IS_ENABLED(CONFIG_DMABUF_MOVE_NOTIFY))
-> >               dma_buf_unpin(attach);
-> > +
-> > +     dma_buf_update_attachment_map_count(attach, -1 /* delta */);
-> >  }
-> >  EXPORT_SYMBOL_GPL(dma_buf_unmap_attachment);
-> >
-> > @@ -1480,6 +1510,12 @@ static inline void dma_buf_uninit_debugfs(void)
-> >
-> >  static int __init dma_buf_init(void)
-> >  {
-> > +     int ret;
-> > +
-> > +     ret =3D dma_buf_init_sysfs_statistics();
-> > +     if (ret)
-> > +             return ret;
-> > +
-> >       dma_buf_mnt =3D kern_mount(&dma_buf_fs_type);
-> >       if (IS_ERR(dma_buf_mnt))
-> >               return PTR_ERR(dma_buf_mnt);
-> > @@ -1495,5 +1531,6 @@ static void __exit dma_buf_deinit(void)
-> >  {
-> >       dma_buf_uninit_debugfs();
-> >       kern_unmount(dma_buf_mnt);
-> > +     dma_buf_uninit_sysfs_statistics();
-> >  }
-> >  __exitcall(dma_buf_deinit);
-> > diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
-> > index efdc56b9d95f..342585bd6dff 100644
-> > --- a/include/linux/dma-buf.h
-> > +++ b/include/linux/dma-buf.h
-> > @@ -295,6 +295,9 @@ struct dma_buf_ops {
-> >   * @poll: for userspace poll support
-> >   * @cb_excl: for userspace poll support
-> >   * @cb_shared: for userspace poll support
-> > + * @sysfs_entry: for exposing information about this buffer in sysfs.
-> > + * The attachment_uid member of @sysfs_entry is protected by dma_resv =
-lock
-> > + * and is incremented on each attach.
-> >   *
-> >   * This represents a shared buffer, created by calling dma_buf_export(=
-). The
-> >   * userspace representation is a normal file descriptor, which can be =
-created by
-> > @@ -330,6 +333,15 @@ struct dma_buf {
-> >
-> >               __poll_t active;
-> >       } cb_excl, cb_shared;
-> > +#ifdef CONFIG_DMABUF_SYSFS_STATS
-> > +     /* for sysfs stats */
-> > +     struct dma_buf_sysfs_entry {
-> > +             struct kobject kobj;
-> > +             struct dma_buf *dmabuf;
-> > +             unsigned int attachment_uid;
-> > +             struct kset *attach_stats_kset;
-> > +     } *sysfs_entry;
-> > +#endif
-> >  };
-> >
-> >  /**
-> > @@ -379,6 +391,7 @@ struct dma_buf_attach_ops {
-> >   * @importer_ops: importer operations for this attachment, if provided
-> >   * dma_buf_map/unmap_attachment() must be called with the dma_resv loc=
-k held.
-> >   * @importer_priv: importer specific attachment data.
-> > + * @sysfs_entry: For exposing information about this attachment in sys=
-fs.
-> >   *
-> >   * This structure holds the attachment information between the dma_buf=
- buffer
-> >   * and its user device(s). The list contains one attachment struct per=
- device
-> > @@ -399,6 +412,13 @@ struct dma_buf_attachment {
-> >       const struct dma_buf_attach_ops *importer_ops;
-> >       void *importer_priv;
-> >       void *priv;
-> > +#ifdef CONFIG_DMABUF_SYSFS_STATS
-> > +     /* for sysfs stats */
-> > +     struct dma_buf_attach_sysfs_entry {
-> > +             struct kobject kobj;
-> > +             unsigned int map_counter;
-> > +     } *sysfs_entry;
-> > +#endif
-> >  };
-> >
-> >  /**
-> > --
-> > 2.32.0.rc0.204.g9fa02ecfa5-goog
-> >
->
 > --
 > Daniel Vetter
 > Software Engineer, Intel Corporation
 > http://blog.ffwll.ch
+>
+
+--00000000000078ae6105c3e04015
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div>Daniel, I think what you are suggesting is that we ne=
+ed to enable user queues with the drm scheduler and dma_fence first, and on=
+ce that works, we can investigate how much of that kernel logic can be move=
+d to the hw. Would that work? In theory it shouldn&#39;t matter whether the=
+ kernel does it or the hw does it. It&#39;s the same code, just in a differ=
+ent place.<br></div><div><br></div><div>Thanks,</div><div>Marek<br></div></=
+div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On=
+ Thu, Jun 3, 2021 at 7:22 AM Daniel Vetter &lt;<a href=3D"mailto:daniel@ffw=
+ll.ch">daniel@ffwll.ch</a>&gt; wrote:<br></div><blockquote class=3D"gmail_q=
+uote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,2=
+04);padding-left:1ex">On Thu, Jun 3, 2021 at 12:55 PM Marek Ol=C5=A1=C3=A1k=
+ &lt;<a href=3D"mailto:maraeo@gmail.com" target=3D"_blank">maraeo@gmail.com=
+</a>&gt; wrote:<br>
+&gt;<br>
+&gt; On Thu., Jun. 3, 2021, 06:03 Daniel Vetter, &lt;<a href=3D"mailto:dani=
+el@ffwll.ch" target=3D"_blank">daniel@ffwll.ch</a>&gt; wrote:<br>
+&gt;&gt;<br>
+&gt;&gt; On Thu, Jun 03, 2021 at 04:20:18AM -0400, Marek Ol=C5=A1=C3=A1k wr=
+ote:<br>
+&gt;&gt; &gt; On Thu, Jun 3, 2021 at 3:47 AM Daniel Vetter &lt;<a href=3D"m=
+ailto:daniel@ffwll.ch" target=3D"_blank">daniel@ffwll.ch</a>&gt; wrote:<br>
+&gt;&gt; &gt;<br>
+&gt;&gt; &gt; &gt; On Wed, Jun 02, 2021 at 11:16:39PM -0400, Marek Ol=C5=A1=
+=C3=A1k wrote:<br>
+&gt;&gt; &gt; &gt; &gt; On Wed, Jun 2, 2021 at 2:48 PM Daniel Vetter &lt;<a=
+ href=3D"mailto:daniel@ffwll.ch" target=3D"_blank">daniel@ffwll.ch</a>&gt; =
+wrote:<br>
+&gt;&gt; &gt; &gt; &gt;<br>
+&gt;&gt; &gt; &gt; &gt; &gt; On Wed, Jun 02, 2021 at 05:38:51AM -0400, Mare=
+k Ol=C5=A1=C3=A1k wrote:<br>
+&gt;&gt; &gt; &gt; &gt; &gt; &gt; On Wed, Jun 2, 2021 at 5:34 AM Marek Ol=
+=C5=A1=C3=A1k &lt;<a href=3D"mailto:maraeo@gmail.com" target=3D"_blank">mar=
+aeo@gmail.com</a>&gt; wrote:<br>
+&gt;&gt; &gt; &gt; &gt; &gt; &gt;<br>
+&gt;&gt; &gt; &gt; &gt; &gt; &gt; &gt; Yes, we can&#39;t break anything bec=
+ause we don&#39;t want to complicate<br>
+&gt;&gt; &gt; &gt; things<br>
+&gt;&gt; &gt; &gt; &gt; &gt; &gt; &gt; for us. It&#39;s pretty much all NAK=
+&#39;d already. We are trying to gather<br>
+&gt;&gt; &gt; &gt; &gt; &gt; more<br>
+&gt;&gt; &gt; &gt; &gt; &gt; &gt; &gt; knowledge and then make better decis=
+ions.<br>
+&gt;&gt; &gt; &gt; &gt; &gt; &gt; &gt;<br>
+&gt;&gt; &gt; &gt; &gt; &gt; &gt; &gt; The idea we are considering is that =
+we&#39;ll expose memory-based sync<br>
+&gt;&gt; &gt; &gt; &gt; &gt; objects<br>
+&gt;&gt; &gt; &gt; &gt; &gt; &gt; &gt; to userspace for read only, and the =
+kernel or hw will strictly<br>
+&gt;&gt; &gt; &gt; control<br>
+&gt;&gt; &gt; &gt; &gt; &gt; the<br>
+&gt;&gt; &gt; &gt; &gt; &gt; &gt; &gt; memory writes to those sync objects.=
+ The hole in that idea is that<br>
+&gt;&gt; &gt; &gt; &gt; &gt; &gt; &gt; userspace can decide not to signal a=
+ job, so even if userspace<br>
+&gt;&gt; &gt; &gt; can&#39;t<br>
+&gt;&gt; &gt; &gt; &gt; &gt; &gt; &gt; overwrite memory-based sync object s=
+tates arbitrarily, it can still<br>
+&gt;&gt; &gt; &gt; &gt; &gt; decide<br>
+&gt;&gt; &gt; &gt; &gt; &gt; &gt; &gt; not to signal them, and then a futur=
+e fence is born.<br>
+&gt;&gt; &gt; &gt; &gt; &gt; &gt; &gt;<br>
+&gt;&gt; &gt; &gt; &gt; &gt; &gt;<br>
+&gt;&gt; &gt; &gt; &gt; &gt; &gt; This would actually be treated as a GPU h=
+ang caused by that context,<br>
+&gt;&gt; &gt; &gt; so<br>
+&gt;&gt; &gt; &gt; &gt; &gt; it<br>
+&gt;&gt; &gt; &gt; &gt; &gt; &gt; should be fine.<br>
+&gt;&gt; &gt; &gt; &gt; &gt;<br>
+&gt;&gt; &gt; &gt; &gt; &gt; This is practically what I proposed already, e=
+xcept your not doing it<br>
+&gt;&gt; &gt; &gt; with<br>
+&gt;&gt; &gt; &gt; &gt; &gt; dma_fence. And on the memory fence side this a=
+lso doesn&#39;t actually give<br>
+&gt;&gt; &gt; &gt; &gt; &gt; what you want for that compute model.<br>
+&gt;&gt; &gt; &gt; &gt; &gt;<br>
+&gt;&gt; &gt; &gt; &gt; &gt; This seems like a bit a worst of both worlds a=
+pproach to me? Tons of<br>
+&gt;&gt; &gt; &gt; work<br>
+&gt;&gt; &gt; &gt; &gt; &gt; in the kernel to hide these not-dma_fence-but-=
+almost, and still pain to<br>
+&gt;&gt; &gt; &gt; &gt; &gt; actually drive the hardware like it should be =
+for compute or direct<br>
+&gt;&gt; &gt; &gt; &gt; &gt; display.<br>
+&gt;&gt; &gt; &gt; &gt; &gt;<br>
+&gt;&gt; &gt; &gt; &gt; &gt; Also maybe I&#39;ve missed it, but I didn&#39;=
+t see any replies to my<br>
+&gt;&gt; &gt; &gt; suggestion<br>
+&gt;&gt; &gt; &gt; &gt; &gt; how to fake the entire dma_fence stuff on top =
+of new hw. Would be<br>
+&gt;&gt; &gt; &gt; &gt; &gt; interesting to know what doesn&#39;t work ther=
+e instead of amd folks going<br>
+&gt;&gt; &gt; &gt; of<br>
+&gt;&gt; &gt; &gt; &gt; &gt; into internal again and then coming back with =
+another rfc from out of<br>
+&gt;&gt; &gt; &gt; &gt; &gt; nowhere :-)<br>
+&gt;&gt; &gt; &gt; &gt; &gt;<br>
+&gt;&gt; &gt; &gt; &gt;<br>
+&gt;&gt; &gt; &gt; &gt; Going internal again is probably a good idea to spa=
+re you the long<br>
+&gt;&gt; &gt; &gt; &gt; discussions and not waste your time, but we haven&#=
+39;t talked about the<br>
+&gt;&gt; &gt; &gt; &gt; dma_fence stuff internally other than acknowledging=
+ that it can be<br>
+&gt;&gt; &gt; &gt; solved.<br>
+&gt;&gt; &gt; &gt; &gt;<br>
+&gt;&gt; &gt; &gt; &gt; The compute use case already uses the hw as-is with=
+ no inter-process<br>
+&gt;&gt; &gt; &gt; &gt; sharing, which mostly keeps the kernel out of the p=
+icture. It uses<br>
+&gt;&gt; &gt; &gt; glFinish<br>
+&gt;&gt; &gt; &gt; &gt; to sync with GL.<br>
+&gt;&gt; &gt; &gt; &gt;<br>
+&gt;&gt; &gt; &gt; &gt; The gfx use case needs new hardware logic to suppor=
+t implicit and<br>
+&gt;&gt; &gt; &gt; explicit<br>
+&gt;&gt; &gt; &gt; &gt; sync. When we propose a solution, it&#39;s usually =
+torn apart the next day by<br>
+&gt;&gt; &gt; &gt; &gt; ourselves.<br>
+&gt;&gt; &gt; &gt; &gt;<br>
+&gt;&gt; &gt; &gt; &gt; Since we are talking about next hw or next next hw,=
+ preemption should be<br>
+&gt;&gt; &gt; &gt; &gt; better.<br>
+&gt;&gt; &gt; &gt; &gt;<br>
+&gt;&gt; &gt; &gt; &gt; user queue =3D user-mapped ring buffer<br>
+&gt;&gt; &gt; &gt; &gt;<br>
+&gt;&gt; &gt; &gt; &gt; For implicit sync, we will only let userspace lock =
+access to a buffer<br>
+&gt;&gt; &gt; &gt; via a<br>
+&gt;&gt; &gt; &gt; &gt; user queue, which waits for the per-buffer sequence=
+ counter in memory to<br>
+&gt;&gt; &gt; &gt; be<br>
+&gt;&gt; &gt; &gt; &gt; &gt;=3D the number assigned by the kernel, and late=
+r unlock the access with<br>
+&gt;&gt; &gt; &gt; &gt; another command, which increments the per-buffer se=
+quence counter in<br>
+&gt;&gt; &gt; &gt; memory<br>
+&gt;&gt; &gt; &gt; &gt; with atomic_inc regardless of the number assigned b=
+y the kernel. The<br>
+&gt;&gt; &gt; &gt; kernel<br>
+&gt;&gt; &gt; &gt; &gt; counter and the counter in memory can be out-of-syn=
+c, and I&#39;ll explain<br>
+&gt;&gt; &gt; &gt; why<br>
+&gt;&gt; &gt; &gt; &gt; it&#39;s OK. If a process increments the kernel cou=
+nter but not the memory<br>
+&gt;&gt; &gt; &gt; &gt; counter, that&#39;s its problem and it&#39;s the sa=
+me as a GPU hang caused by<br>
+&gt;&gt; &gt; &gt; that<br>
+&gt;&gt; &gt; &gt; &gt; process. If a process increments the memory counter=
+ but not the kernel<br>
+&gt;&gt; &gt; &gt; &gt; counter, the &quot;&gt;=3D&quot; condition alongsid=
+e atomic_inc guarantee that<br>
+&gt;&gt; &gt; &gt; signaling n<br>
+&gt;&gt; &gt; &gt; &gt; will signal n+1, so it will never deadlock but also=
+ it will effectively<br>
+&gt;&gt; &gt; &gt; &gt; disable synchronization. This method of disabling s=
+ynchronization is<br>
+&gt;&gt; &gt; &gt; &gt; similar to a process corrupting the buffer, which s=
+hould be fine. Can you<br>
+&gt;&gt; &gt; &gt; &gt; find any flaw in it? I can&#39;t find any.<br>
+&gt;&gt; &gt; &gt;<br>
+&gt;&gt; &gt; &gt; Hm maybe I misunderstood what exactly you wanted to do e=
+arlier. That kind<br>
+&gt;&gt; &gt; &gt; of &quot;we let userspace free-wheel whatever it wants, =
+kernel ensures<br>
+&gt;&gt; &gt; &gt; correctness of the resulting chain of dma_fence with res=
+et the entire<br>
+&gt;&gt; &gt; &gt; context&quot; is what I proposed too.<br>
+&gt;&gt; &gt; &gt;<br>
+&gt;&gt; &gt; &gt; Like you say, userspace is allowed to render garbage alr=
+eady.<br>
+&gt;&gt; &gt; &gt;<br>
+&gt;&gt; &gt; &gt; &gt; The explicit submit can be done by userspace (if th=
+ere is no<br>
+&gt;&gt; &gt; &gt; &gt; synchronization), but we plan to use the kernel to =
+do it for implicit<br>
+&gt;&gt; &gt; &gt; sync.<br>
+&gt;&gt; &gt; &gt; &gt; Essentially, the kernel will receive a buffer list =
+and addresses of wait<br>
+&gt;&gt; &gt; &gt; &gt; commands in the user queue. It will assign new sequ=
+ence numbers to all<br>
+&gt;&gt; &gt; &gt; &gt; buffers and write those numbers into the wait comma=
+nds, and ring the hw<br>
+&gt;&gt; &gt; &gt; &gt; doorbell to start execution of that queue.<br>
+&gt;&gt; &gt; &gt;<br>
+&gt;&gt; &gt; &gt; Yeah for implicit sync I think kernel and using drm/sche=
+duler to sort out<br>
+&gt;&gt; &gt; &gt; the dma_fence dependencies is probably best. Since you c=
+an filter out<br>
+&gt;&gt; &gt; &gt; which dma_fence you hand to the scheduler for dependency=
+ tracking you can<br>
+&gt;&gt; &gt; &gt; filter out your own ones and let the hw handle those dir=
+ectly (depending<br>
+&gt;&gt; &gt; &gt; how much your hw can do an all that). On i915 we might d=
+o that to be able<br>
+&gt;&gt; &gt; &gt; to use MI_SEMAPHORE_WAIT/SIGNAL functionality in the hw =
+and fw scheduler.<br>
+&gt;&gt; &gt; &gt;<br>
+&gt;&gt; &gt; &gt; For buffer tracking with implicit sync I think cleanest =
+is probably to<br>
+&gt;&gt; &gt; &gt; still keep them wrapped as dma_fence and stuffed into dm=
+a_resv, but<br>
+&gt;&gt; &gt; &gt; conceptually it&#39;s the same. If we let every driver r=
+einvent their own<br>
+&gt;&gt; &gt; &gt; buffer tracking just because the hw works a bit differen=
+t it&#39;ll be a mess.<br>
+&gt;&gt; &gt; &gt;<br>
+&gt;&gt; &gt; &gt; Wrt wait commands: I&#39;m honestly not sure why you&#39=
+;d do that. Userspace gets<br>
+&gt;&gt; &gt; &gt; to keep the pieces if it gets it wrong. You do still nee=
+d to handle<br>
+&gt;&gt; &gt; &gt; external dma_fence though, hence drm/scheduler frontend =
+to sort these out.<br>
+&gt;&gt; &gt; &gt;<br>
+&gt;&gt; &gt;<br>
+&gt;&gt; &gt; The reason is to disallow lower-privileged process to deadloc=
+k/hang a<br>
+&gt;&gt; &gt; higher-privileged process where the kernel can&#39;t tell who=
+ did it. If the<br>
+&gt;&gt; &gt; implicit-sync sequence counter is read only to userspace and =
+only<br>
+&gt;&gt; &gt; incrementable by the unlock-signal command after the lock-wai=
+t command<br>
+&gt;&gt; &gt; appeared in the same queue (both together forming a critical =
+section),<br>
+&gt;&gt; &gt; userspace can&#39;t manipulate it arbitrarily and we get almo=
+st the exact same<br>
+&gt;&gt; &gt; behavior as implicit sync has today. That means any implicitl=
+y-sync&#39;d<br>
+&gt;&gt; &gt; buffer from any process can be fully trusted by a compositor =
+to signal in a<br>
+&gt;&gt; &gt; finite time, and possibly even trusted by the kernel. The onl=
+y thing that&#39;s<br>
+&gt;&gt; &gt; different is that a malicious process can disable implicit sy=
+nc for a<br>
+&gt;&gt; &gt; buffer in all processes/kernel, but it can&#39;t hang other p=
+rocesses/kernel<br>
+&gt;&gt; &gt; (it can only hang itself and the kernel will be notified). So=
+ I&#39;m a happy<br>
+&gt;&gt; &gt; panda now. :)<br>
+&gt;&gt;<br>
+&gt;&gt; Yeah I think that&#39;s not going to work too well, and is too man=
+y piled up<br>
+&gt;&gt; hacks. Within a drm_file fd you can do whatever you feel like, sin=
+ce it&#39;s<br>
+&gt;&gt; just one client.<br>
+&gt;&gt;<br>
+&gt;&gt; But once implicit sync kicks in I think you need to go with dma_fe=
+nce and<br>
+&gt;&gt; drm/scheduler to handle the dependencies, and tdr kicking it. With=
+ the<br>
+&gt;&gt; dma_fence you do know who&#39;s the offender - you might not know =
+why, but<br>
+&gt;&gt; that doesn&#39;t matter, you just shred the entire context and let=
+ that<br>
+&gt;&gt; userspace figure out the details.<br>
+&gt;&gt;<br>
+&gt;&gt; I think trying to make memory fences work as implicit sync directl=
+y,<br>
+&gt;&gt; without wrapping them in a dma_fence and assorted guarantees, will=
+ just<br>
+&gt;&gt; not work.<br>
+&gt;&gt;<br>
+&gt;&gt; And once you do wrap them in dma_fence, then all the other problem=
+s go<br>
+&gt;&gt; away: cross-driver sync, syncfiles, ... So I really don&#39;t see =
+the benefit<br>
+&gt;&gt; of this half-way approach.<br>
+&gt;&gt;<br>
+&gt;&gt; Yes there&#39;s going to be a tad bit of overhead, but that&#39;s =
+already there in<br>
+&gt;&gt; the current model. And it can&#39;t hurt to have a bit of motivati=
+on for<br>
+&gt;&gt; compositors to switch over to userspace memory fences properly.<br=
+>
+&gt;<br>
+&gt;<br>
+&gt; Well, Christian thinks that we need a high level synchronization primi=
+tive in hw. I don&#39;t know myself and you may be right. A software schedu=
+ler with user queues might be one option. My part is only to find out how m=
+uch of the scheduler logic can be moved to the hardware.<br>
+&gt;<br>
+&gt; We plan to have memory timeline semaphores, or simply monotonic counte=
+rs, and a fence will be represented by the counter address and a constant s=
+equence number for the &lt;=3D comparison. One counter can represent up to =
+2^64 different fences. Giving any process write access to a fence is the sa=
+me as giving it the power to manipulate the signalled state of a sequence o=
+f up to 2^64 fences. That could mess up a lot of things. However, if the ha=
+rdware had a high level synchronization primitive with access rights and a =
+limited set of clearly defined operations such that we can formally prove w=
+hether it&#39;s safe for everybody, we could have a solution where we don&#=
+39;t have to involve the software scheduler and just let the hardware do ev=
+erything.<br>
+<br>
+I don&#39;t think hw access rights control on memory fences makes sense.<br=
+>
+There&#39;s two cases:<br>
+<br>
+- brave new world of native userspace memory fences. Currently that&#39;s<b=
+r>
+compute, maybe direct display vk, hopefully/eventually compositors and<br>
+desktops too. If you get an untrusted fence, you need to have fallback<br>
+logic no matter what, and by design. vk is explicit in stating that if<br>
+things hang, you get to keep all the pieces. So the compositor needs<br>
+to _always_ treat userspace memory fences as hostile, wrap them in a<br>
+timeout, and have a fallback frame/scene in its rendering path.<br>
+Probably same for the kernel on display side, maybe down to the<br>
+display hw picking the &quot;right&quot; frame depending upon the fence val=
+ue<br>
+right before scanout as we discussed earlier. There&#39;s no point in hw<br=
+>
+access rights because by design, even if no one tampers with your<br>
+fence, it might never signal. So you have to cope with a hostile fence<br>
+from untrusted sources anyway (and within an app it&#39;s trusted and you<b=
+r>
+just die as in stuck in an endless loop until someon sends a SIGKILL<br>
+when you deadlock or get it wrong some other way).<br>
+<br>
+- old compat mode where we need to use dma_fence, otherwise we end up<br>
+with another round of &quot;amdgpu redefines implicit sync in incompatible<=
+br>
+ways&quot;, and Christian&amp;me don&#39;t even know yet how to fix the cur=
+rent<br>
+round without breaking use-cases badly yet. So it has to be dma_fence,<br>
+and it has to be the same rules as on old hw, or it&#39;s just not going<br=
+>
+to work. This means you need to force in-order retiring of fences in<br>
+the kernel, and you need to enforce timeout. None of this needs hw<br>
+access rights control, since once more it&#39;s just software constructs<br=
+>
+in the kernel. As a first appromixation, drm/scheduler + the fence<br>
+chain we already have in syncobj is probably good enough for this.<br>
+E.g. if userspace rolls the fence backwards then the kernel just<br>
+ignores that, because its internal dma_fence has signalled, and<br>
+dma_fences never unsignal (it&#39;s a bit in struct dma_fence, once it&#39;=
+s<br>
+set we stop checking hw). And if it doesn&#39;t signal in time, then tdr<br=
+>
+jumps in and fixes the mess. Hw access control doesn&#39;t fix anything<br>
+here, because you have to deal with timeout and ordering already<br>
+anyway, or the dma_fence contract is broken.<br>
+<br>
+So in both cases hw access control gains you nothing (at least I&#39;m not<=
+br>
+seeing anything), it just makes the design more tricky. &quot;Userspace can=
+<br>
+manipulate the fences&quot; is _intentionally_ how these things work, we<br=
+>
+need a design that works with that hw design, not against it and<br>
+somehow tries to get us back to the old world, but only halfway (i.e.<br>
+not useful at all, since old userspace needs us to go all the way back<br>
+to dma_fence, and new userspace wants to fully exploit userspace<br>
+memory fences without artificial limitations for no reason).<br>
+-Daniel<br>
+-- <br>
+Daniel Vetter<br>
+Software Engineer, Intel Corporation<br>
+<a href=3D"http://blog.ffwll.ch" rel=3D"noreferrer" target=3D"_blank">http:=
+//blog.ffwll.ch</a><br>
+</blockquote></div>
+
+--00000000000078ae6105c3e04015--
