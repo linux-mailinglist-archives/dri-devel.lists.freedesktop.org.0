@@ -2,103 +2,93 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7492399FDE
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Jun 2021 13:34:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D11A399FFB
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Jun 2021 13:39:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A7D176EA18;
-	Thu,  3 Jun 2021 11:34:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5F0D06EA03;
+	Thu,  3 Jun 2021 11:39:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x632.google.com (mail-ej1-x632.google.com
- [IPv6:2a00:1450:4864:20::632])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1C6E56E270
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Jun 2021 11:34:05 +0000 (UTC)
-Received: by mail-ej1-x632.google.com with SMTP id l1so8722155ejb.6
- for <dri-devel@lists.freedesktop.org>; Thu, 03 Jun 2021 04:34:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:mail-followup-to:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to; bh=6HvIM789SubGuMYbkNpXgOUOzv2hDzoCVUlTW74s4fU=;
- b=Icz+hjCozpAbugnKTylUiZbczne6xNvCGiJZU4Ly+Y0sTLpTodbh9k4gjcGfRsjGg/
- no7FFQmnsdBfKr9sK4hrwdOb1O14S9safSd/B9yMITPwQlvWCp+FhIUkoUgp/bmsqz9c
- 88sMh5y11ExAwXNyPJkPGgqwn4tfntMA/Y84s=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id
- :mail-followup-to:references:mime-version:content-disposition
- :content-transfer-encoding:in-reply-to;
- bh=6HvIM789SubGuMYbkNpXgOUOzv2hDzoCVUlTW74s4fU=;
- b=QobIxznja76a9v2DdztLh9VBLyFFE7epQoXm+DnnjuE8wGCz5WLpN1pwamE2IV50aw
- /jCysd6rz/1Blubx3upeD7wNSm2ed0LWu6jzAFFF1D5OIIZ2EMqrmeUfOTno0DrSMLAW
- HbNkT+8D5EPM6u8Bw7WStc5P9knf5moMevJVOM9bq+nSlxazAMQGwE7wwMjQxpl0geLh
- fqv8pYahGoGvnZ8DPIY71oKhRglkOjN7lDVyEfuCpOrUi8CjnHy9pzVLHXcIMkhU0aOb
- JDlCV6vW+qDxsji6tS3zLbrEGCbxQ2n5UlB2hVB8wz51aO6Kts7QeSPf0OPeFnl84K54
- u/Bw==
-X-Gm-Message-State: AOAM533ruw3xaUINcAGFKHOMxUS2xkdcbJtDYgt0MUIND4LkkFotwjor
- hJA6aknwqSnGbxA67FMVgIA2eg==
-X-Google-Smtp-Source: ABdhPJyCwjLRS9cmLZJ0uTIlfsEVYF9kSAF6LM5y2zAtZNY0+nXGguY0rzWF/YLHqYcWC2qrUHt3Fw==
-X-Received: by 2002:a17:906:51d8:: with SMTP id
- v24mr23819138ejk.264.1622720043762; 
- Thu, 03 Jun 2021 04:34:03 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id p7sm1638842edw.43.2021.06.03.04.34.01
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 03 Jun 2021 04:34:03 -0700 (PDT)
-Date: Thu, 3 Jun 2021 13:34:00 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Lee Jones <lee.jones@linaro.org>
-Subject: Re: [RESEND 00/26] Rid W=1 warnings from GPU
-Message-ID: <YLi+KJrLjKbdXLxH@phenom.ffwll.local>
-Mail-Followup-To: Lee Jones <lee.jones@linaro.org>,
- linux-kernel@vger.kernel.org, Adam Jackson <ajax@redhat.com>,
- Ajay Kumar <ajaykumar.rs@samsung.com>,
- Akshu Agarwal <akshua@gmail.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- Alistair Popple <apopple@nvidia.com>, amd-gfx@lists.freedesktop.org,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
- Benjamin Gaignard <benjamin.gaignard@linaro.org>,
- Ben Skeggs <bskeggs@redhat.com>, Ben Widawsky <ben@bwidawsk.net>,
- Chandan Uddaraju <chandanu@codeaurora.org>,
- Christian Koenig <christian.koenig@amd.com>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
- Eric Anholt <eric@anholt.net>,
- Fabien Dessenne <fabien.dessenne@st.com>,
- freedreno@lists.freedesktop.org,
- Hans de Goede <hdegoede@redhat.com>,
- Harry Wentland <harry.wentland@amd.com>,
- Huang Rui <ray.huang@amd.com>, Hyun Kwon <hyun.kwon@xilinx.com>,
- Inki Dae <inki.dae@samsung.com>,
- Jagan Teki <jagan@amarulasolutions.com>,
- Joonyoung Shim <jy0922.shim@samsung.com>,
- Krishna Manikandan <mkrishn@codeaurora.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
- Kuogee Hsieh <khsieh@codeaurora.org>,
- Kyungmin Park <kyungmin.park@samsung.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Leo Li <sunpeng.li@amd.com>, linaro-mm-sig@lists.linaro.org,
- linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
- linux-mediatek@lists.infradead.org, linux-media@vger.kernel.org,
- linux-samsung-soc@vger.kernel.org,
- Marek Szyprowski <m.szyprowski@samsung.com>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- Mauro Rossi <issor.oruam@gmail.com>,
- Michal Simek <michal.simek@xilinx.com>,
- nouveau@lists.freedesktop.org,
- Philipp Zabel <p.zabel@pengutronix.de>,
- Rob Clark <robdclark@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
- Sean Paul <sean@poorly.run>, Seung-Woo Kim <sw0312.kim@samsung.com>,
- Stephen Boyd <swboyd@chromium.org>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- Thierry Reding <thierry.reding@gmail.com>,
- Vincent Abriou <vincent.abriou@st.com>
-References: <20210602143300.2330146-1-lee.jones@linaro.org>
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam11on2066.outbound.protection.outlook.com [40.107.223.66])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2B7F96EA03;
+ Thu,  3 Jun 2021 11:39:42 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=X5QYTg87ElbWpzxPOOzEeKeG/Hje/m3Plj9en1TVQ5gava1v/t1XeMVN0KmA1MIPv4/GbaLotEvOsJDQSMdUB1bo4R0qMgdIAAMsf9vEJvmEY374J7/Xr21lDUXkQY0hlBaIDP1NAastqHGTpLAjPS6H3+OqQUB6I8hOpgLUDS4FlEKdEdXZTSCheNGE2CAOmNCLBtjbQnPcNV2txVHFajp4UYdxV4Ops3ZZvg75Hl9wAnJkCzHkYP/03SfgQy52bLFC2uRTxGtVtj4YNXoye2HeL3kOQHVR2BqcxmIp2DNup4F4kk8dtSGjPKFukOWGgGSQdkwvINE3HWDV2hQ3Lw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=9+nRT/IplMZnWnH1VX2m3EkwFBAgRY6eDoR5xRm/YeA=;
+ b=iFSu4pUL762OyOiSEqvY9MSsgc+jxr1bqh9pBb/kxFyzALh6UwbJE3kxBT8eeU8wCwT/y8FYnEMWdtPm5NfCvz6zahhs38wltbwfPG7xX2O2SJxevZgCm6XVYniRkksjhRKV+/y3BC19wjGKhp9bGwQVPM/Dz6pe/vM6ZYhcoQcIhWaopzPMPGgse2/3wbShTUzcKdOt4pqGo1xZfOPg/VZBFL5FE4Wa3Ds1SWN3HqEKbQ2LJgwEueEmnC2pEX1zV7yFYbopM0o9MmyPAr4mGmEY9SPKzaeHjE3NLK1G4DAaqHPoG2dJ0n8BqYMJatTSWNPCBi/jEhQhKJVe6+nmHA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.112.34) smtp.rcpttodomain=infradead.org smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=none sp=none pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=9+nRT/IplMZnWnH1VX2m3EkwFBAgRY6eDoR5xRm/YeA=;
+ b=eCvIPhUhJV5Ulv7Znv5x6twv4LvMgvvxL3dC9svdMZKkVQomqg7eNjsf+UKHNWvzc3zpWjfQW6tDBOHE0bB0tp/qaPydgwwAIDl5sIzIiqYG6NV71xLbo8jZJ3cYgbD91ouOhx5fWRESe6haYdH7GtMOxpfUXxlqVi7NWZhn+T+V6vXwC/sAW/ggkMx2aemYbr6rvd81rlyufy3tnCu82Zj83pP7jj7E4RW5h+3eUmGcnzZiatCeIcxCIs5bJKS1yDXnzqCHyeMYXlIRNlnONDO0ROdqc6AV+xzFw3eKTL8wWCe7Ad5Os7TVFDzUaexkaAzh1QhsbHrK7YYLkb2aag==
+Received: from DM5PR06CA0051.namprd06.prod.outlook.com (2603:10b6:3:37::13) by
+ DM5PR1201MB0154.namprd12.prod.outlook.com (2603:10b6:4:58::9) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4173.22; Thu, 3 Jun 2021 11:39:40 +0000
+Received: from DM6NAM11FT051.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:3:37:cafe::21) by DM5PR06CA0051.outlook.office365.com
+ (2603:10b6:3:37::13) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4195.20 via Frontend
+ Transport; Thu, 3 Jun 2021 11:39:40 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.112.34)
+ smtp.mailfrom=nvidia.com; infradead.org; dkim=none (message not signed)
+ header.d=none;infradead.org; dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.112.34 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.112.34; helo=mail.nvidia.com;
+Received: from mail.nvidia.com (216.228.112.34) by
+ DM6NAM11FT051.mail.protection.outlook.com (10.13.172.243) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.20.4195.22 via Frontend Transport; Thu, 3 Jun 2021 11:39:38 +0000
+Received: from nvdebian.localnet (172.20.187.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Thu, 3 Jun
+ 2021 11:39:35 +0000
+From: Alistair Popple <apopple@nvidia.com>
+To: Peter Xu <peterx@redhat.com>
+Subject: Re: [PATCH v9 07/10] mm: Device exclusive memory access
+Date: Thu, 3 Jun 2021 21:39:32 +1000
+Message-ID: <3853054.AI2YdRgKcH@nvdebian>
+In-Reply-To: <YLeXqp/U0DgylI/u@t490s>
+References: <20210524132725.12697-1-apopple@nvidia.com>
+ <YLdGXSw0zdiovn4i@balbir-desktop> <YLeXqp/U0DgylI/u@t490s>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210602143300.2330146-1-lee.jones@linaro.org>
-X-Operating-System: Linux phenom 5.10.32scarlett+ 
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+X-Originating-IP: [172.20.187.5]
+X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: da1a8c05-f034-472a-f7fa-08d926844524
+X-MS-TrafficTypeDiagnostic: DM5PR1201MB0154:
+X-Microsoft-Antispam-PRVS: <DM5PR1201MB015468AB4EEFD3462C125280DF3C9@DM5PR1201MB0154.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: cu5nmTyoC00d68XOsqh1ADdwyt77dxqxpI42/gA5/B3/ASBG/rsAud0QVEkLap10LDrGld3JrJEoOUuXSA9goMPnws2u+HNyp1xvLuJ8PFxZbQc3qrD0MFyZtZKxTpeRAu1+vkjz2Am+VOGMSUNDiq6rJHvS0lst+wMhdWqPCSvM94KxePPcmqOpfh+TClvZosvcDd2aZDHC9hJYlalG9DnQQG3uat+IhmmsEfcz6Qa+YcjFS17404C+jAB+f2gtx9VdQTcXev+2O5jSBbkOqCjzJe9AeAVZo9OZpPdvyPePpjI8u466D1NhJs7L1qrx2BIAMs+d9RBfj7h8xe8X/05vVYD+sAMjT6W2cQ4xXWtMHFH+ECmF/oFeP+L+jrMpCFuwlnBHQfp/p/hFpKG7E+ux0fvykgPqmSTz97kB3oOsq4Kj+2so/+f491DxXHNfljP3UYedhKSc0Gk1vwv8J5/AcHu/uW3uZO3kFfczjEWfdSq9a0ILxv7Xgi6GaLERz6wG1942E5djhfqBou/VssvXeOQAh3WYTFkL7XLRWGg8/+nSVQhveNuV8Ju80iaq5ToxBOUXsopILunu5fHim87oHOSykbl+Ox3rThbmZ+IaVzC8ufwOfMhmB4TFtqRUJCEgUCBySc8SvU7LLAm6Qaj1J4tcJXEFapuNNmDOSIcXUpS6vcJwGjSm38KFWhcnJ9PEKZ6gWF9qqUuyYaiNdyJKu0qyiT4LSvcAopRSibZZm7tsgJniCWyjxm18FLfahliV/nyM2xtHlxioLlsHbOydu9//3hvAc4mJZ6p+mVY=
+X-Forefront-Antispam-Report: CIP:216.228.112.34; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:mail.nvidia.com; PTR:schybrid03.nvidia.com; CAT:NONE;
+ SFS:(4636009)(346002)(39860400002)(136003)(396003)(376002)(46966006)(36840700001)(36860700001)(5660300002)(6666004)(83380400001)(36906005)(53546011)(9686003)(8676002)(426003)(336012)(8936002)(7416002)(9576002)(2906002)(82740400003)(4326008)(316002)(356005)(478600001)(86362001)(54906003)(6916009)(82310400003)(16526019)(26005)(33716001)(70206006)(966005)(7636003)(47076005)(186003)(70586007)(39026012);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Jun 2021 11:39:38.6137 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: da1a8c05-f034-472a-f7fa-08d926844524
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a; Ip=[216.228.112.34];
+ Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT051.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR1201MB0154
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -111,178 +101,108 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, nouveau@lists.freedesktop.org,
- Mauro Rossi <issor.oruam@gmail.com>, dri-devel@lists.freedesktop.org,
- Huang Rui <ray.huang@amd.com>, Fabien Dessenne <fabien.dessenne@st.com>,
- Benjamin Gaignard <benjamin.gaignard@linaro.org>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
- Kuogee Hsieh <khsieh@codeaurora.org>, Sam Ravnborg <sam@ravnborg.org>,
- Ajay Kumar <ajaykumar.rs@samsung.com>,
- Chandan Uddaraju <chandanu@codeaurora.org>,
- Marek Szyprowski <m.szyprowski@samsung.com>, Ben Widawsky <ben@bwidawsk.net>,
- linux-samsung-soc@vger.kernel.org, Joonyoung Shim <jy0922.shim@samsung.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
- Vincent Abriou <vincent.abriou@st.com>, Alistair Popple <apopple@nvidia.com>,
- Michal Simek <michal.simek@xilinx.com>, amd-gfx@lists.freedesktop.org,
- Ben Skeggs <bskeggs@redhat.com>, Jagan Teki <jagan@amarulasolutions.com>,
- Thierry Reding <thierry.reding@gmail.com>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>, Leo Li <sunpeng.li@amd.com>,
- linux-arm-msm@vger.kernel.org, Stephen Boyd <swboyd@chromium.org>,
- Hans de Goede <hdegoede@redhat.com>, Akshu Agarwal <akshua@gmail.com>,
- Matthias Brugger <matthias.bgg@gmail.com>, Sean Paul <sean@poorly.run>,
- linux-arm-kernel@lists.infradead.org,
- Krishna Manikandan <mkrishn@codeaurora.org>, Hyun Kwon <hyun.kwon@xilinx.com>,
- Seung-Woo Kim <sw0312.kim@samsung.com>, linux-kernel@vger.kernel.org,
- Kyungmin Park <kyungmin.park@samsung.com>, linaro-mm-sig@lists.linaro.org,
- Alex Deucher <alexander.deucher@amd.com>, linux-mediatek@lists.infradead.org,
- linux-media@vger.kernel.org, freedreno@lists.freedesktop.org,
- Christian Koenig <christian.koenig@amd.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: rcampbell@nvidia.com, willy@infradead.org, linux-doc@vger.kernel.org,
+ nouveau@lists.freedesktop.org, Balbir Singh <bsingharora@gmail.com>,
+ hughd@google.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, hch@infradead.org, linux-mm@kvack.org,
+ jglisse@redhat.com, bskeggs@redhat.com, jgg@nvidia.com,
+ John Hubbard <jhubbard@nvidia.com>, Andrew Morton <akpm@linux-foundation.org>,
+ Christoph Hellwig <hch@lst.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jun 02, 2021 at 03:32:34PM +0100, Lee Jones wrote:
-> Some off these patches have been knocking around for a while.
+On Thursday, 3 June 2021 12:37:30 AM AEST Peter Xu wrote:
+> External email: Use caution opening links or attachments
 > 
-> Who will hoover them up please?
+> On Wed, Jun 02, 2021 at 06:50:37PM +1000, Balbir Singh wrote:
+> > On Wed, May 26, 2021 at 12:17:18AM -0700, John Hubbard wrote:
+> > > On 5/25/21 4:51 AM, Balbir Singh wrote:
+> > > ...
+> > > 
+> > > > > How beneficial is this code to nouveau users?  I see that it permits
+> > > > > a
+> > > > > part of OpenCL to be implemented, but how useful/important is this
+> > > > > in
+> > > > > the real world?
+> > > > 
+> > > > That is a very good question! I've not reviewed the code, but a sample
+> > > > program with the described use case would make things easy to parse.
+> > > > I suspect that is not easy to build at the moment?
+> > > 
+> > > The cover letter says this:
+> > > 
+> > > This has been tested with upstream Mesa 21.1.0 and a simple OpenCL
+> > > program
+> > > which checks that GPU atomic accesses to system memory are atomic.
+> > > Without
+> > > this series the test fails as there is no way of write-protecting the
+> > > page
+> > > mapping which results in the device clobbering CPU writes. For reference
+> > > the test is available at https://ozlabs.org/~apopple/opencl_svm_atomics/
+> > > 
+> > > Further testing has been performed by adding support for testing
+> > > exclusive
+> > > access to the hmm-tests kselftests.
+> > > 
+> > > ...so that seems to cover the "sample program" request, at least.
+> > 
+> > Thanks, I'll take a look
+> > 
+> > > > I wonder how we co-ordinate all the work the mm is doing, page
+> > > > migration,
+> > > > reclaim with device exclusive access? Do we have any numbers for the
+> > > > worst
+> > > > case page fault latency when something is marked away for exclusive
+> > > > access?
+> > > 
+> > > CPU page fault latency is approximately "terrible", if a page is
+> > > resident on the GPU. We have to spin up a DMA engine on the GPU and
+> > > have it copy the page over the PCIe bus, after all.
+> > > 
+> > > > I presume for now this is anonymous memory only? SWP_DEVICE_EXCLUSIVE
+> > > > would
+> > > 
+> > > Yes, for now.
+> > > 
+> > > > only impact the address space of programs using the GPU. Should the
+> > > > exclusively marked range live in the unreclaimable list and recycled
+> > > > back to active/in-active to account for the fact that
+> > > > 
+> > > > 1. It is not reclaimable and reclaim will only hurt via page faults?
+> > > > 2. It ages the page correctly or at-least allows for that possibility
+> > > > when the> > > 
+> > > >     page is used by the GPU.
+> > > 
+> > > I'm not sure that that is *necessarily* something we can conclude. It
+> > > depends upon access patterns of each program. For example, a
+> > > "reduction" parallel program sends over lots of data to the GPU, and
+> > > only a tiny bit of (reduced!) data comes back to the CPU. In that case,
+> > > freeing the physical page on the CPU is actually the best decision for
+> > > the OS to make (if the OS is sufficiently prescient).> 
+> > With a shared device or a device exclusive range, it would be good to get
+> > the device usage pattern and update the mm with that knowledge, so that
+> > the LRU can be better maintained. With your comment you seem to suggest
+> > that a page used by the GPU might be a good candidate for reclaim based
+> > on the CPU's understanding of the age of the page should not account for
+> > use by the device
+> > (are GPU workloads - access once and discard?)
 > 
-> This set is part of a larger effort attempting to clean-up W=1
-> kernel builds, which are currently overwhelmingly riddled with
-> niggly little warnings.
+> Hmm, besides the aging info, this reminded me: do we need to isolate the
+> page from lru too when marking device exclusive access?
 > 
-> Lee Jones (26):
->   drm/mediatek/mtk_disp_color: Strip incorrect doc and demote header
->   drm/mediatek/mtk_disp_gamma: Strip and demote non-conformant
->     kernel-doc header
->   drm/mediatek/mtk_disp_ovl: Strip and demote non-conformant header
->   drm/mediatek/mtk_disp_rdma: Strip and demote non-conformant kernel-doc
->     header
->   drm/sti/sti_hdmi_tx3g4c28phy: Provide function names for kernel-doc
->     headers
->   drm/sti/sti_hda: Provide missing function names
->   drm/sti/sti_tvout: Provide a bunch of missing function names
->   drm/sti/sti_hqvdp: Fix incorrectly named function 'sti_hqvdp_vtg_cb()'
->   drm/msm/disp/dpu1/dpu_encoder_phys_cmd: Remove unused variable
->     'cmd_enc'
->   drm/msm/disp/dpu1/dpu_hw_interrupts: Demote a bunch of kernel-doc
->     abuses
->   drm/msm/disp/dpu1/dpu_plane: Fix a couple of naming issues
->   drm/msm/msm_gem: Demote kernel-doc abuses
->   drm/msm/dp/dp_catalog: Correctly document param 'dp_catalog'
->   drm/msm/dp/dp_link: Fix some potential doc-rot
->   drm/nouveau/nvkm/subdev/mc/tu102: Make functions called by reference
->     static
->   drm/amd/display/dc/dce/dce_transform: Remove superfluous
->     re-initialisation of DCFE_MEM_LIGHT_SLEEP_CNTL,
->   drm/xlnx/zynqmp_disp: Fix incorrectly named enum
->     'zynqmp_disp_layer_id'
->   drm/xlnx/zynqmp_dp: Fix incorrectly name function 'zynqmp_dp_train()'
->   drm/ttm/ttm_tt: Demote non-conformant kernel-doc header
->   drm/panel/panel-raspberrypi-touchscreen: Demote kernel-doc abuse
->   drm/panel/panel-sitronix-st7701: Demote kernel-doc abuse
->   drm/vgem/vgem_drv: Standard comment blocks should not use kernel-doc
->     format
->   drm/exynos/exynos7_drm_decon: Fix incorrect naming of
->     'decon_shadow_protect_win()'
->   drm/exynos/exynos_drm_ipp: Fix documentation for
->     'exynos_drm_ipp_get_{caps,res}_ioctl()'
->   drm/vboxvideo/hgsmi_base: Place function names into headers
->   drm/vboxvideo/modesetting: Provide function names for prototype
->     headers
+> Afaict the current patch didn't do that so I think it's reclaimable.  If we
+> still have the rmap then we'll get a mmu notify CLEAR when unmapping that
+> special pte, so device driver should be able to drop the ownership.  However
+> we dropped the rmap when marking exclusive.  Now I don't know whether and
+> how it'll work if page reclaim runs with the page being exclusively owned
+> if without isolating the page..
 
-Except for msm (Rob Clark promised on irc he'll pick them up for 5.14
-soon) and amd (Alex is on top of things I think) I picked them all up and
-merged into drm-misc-next.
+Reclaim won't run on the page due to the extra references from the special 
+swap entries.
 
-Thanks, Daniel
+> --
+> Peter Xu
 
-> 
->  .../drm/amd/display/dc/dce/dce_transform.h    |  3 +-
->  drivers/gpu/drm/exynos/exynos7_drm_decon.c    |  2 +-
->  drivers/gpu/drm/exynos/exynos_drm_ipp.c       |  4 +--
->  drivers/gpu/drm/mediatek/mtk_disp_color.c     |  3 +-
->  drivers/gpu/drm/mediatek/mtk_disp_gamma.c     |  4 +--
->  drivers/gpu/drm/mediatek/mtk_disp_ovl.c       |  3 +-
->  drivers/gpu/drm/mediatek/mtk_disp_rdma.c      |  4 +--
->  .../drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c  |  4 ---
->  .../gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c | 32 +++++++++----------
->  drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c     |  4 +--
->  drivers/gpu/drm/msm/dp/dp_catalog.c           |  2 +-
->  drivers/gpu/drm/msm/dp/dp_link.c              |  6 ++--
->  drivers/gpu/drm/msm/msm_gem.c                 |  4 +--
->  .../gpu/drm/nouveau/nvkm/subdev/mc/tu102.c    |  6 ++--
->  .../drm/panel/panel-raspberrypi-touchscreen.c |  2 +-
->  drivers/gpu/drm/panel/panel-sitronix-st7701.c |  2 +-
->  drivers/gpu/drm/sti/sti_hda.c                 |  6 ++--
->  drivers/gpu/drm/sti/sti_hdmi_tx3g4c28phy.c    |  4 +--
->  drivers/gpu/drm/sti/sti_hqvdp.c               |  2 +-
->  drivers/gpu/drm/sti/sti_tvout.c               | 18 +++++------
->  drivers/gpu/drm/ttm/ttm_tt.c                  |  2 +-
->  drivers/gpu/drm/vboxvideo/hgsmi_base.c        | 19 +++++++----
->  drivers/gpu/drm/vboxvideo/modesetting.c       | 20 +++++++-----
->  drivers/gpu/drm/vgem/vgem_drv.c               |  2 +-
->  drivers/gpu/drm/xlnx/zynqmp_disp.c            |  2 +-
->  drivers/gpu/drm/xlnx/zynqmp_dp.c              |  2 +-
->  26 files changed, 80 insertions(+), 82 deletions(-)
-> 
-> Cc: Adam Jackson <ajax@redhat.com>
-> Cc: Ajay Kumar <ajaykumar.rs@samsung.com>
-> Cc: Akshu Agarwal <akshua@gmail.com>
-> Cc: Alex Deucher <alexander.deucher@amd.com>
-> Cc: Alistair Popple <apopple@nvidia.com>
-> Cc: amd-gfx@lists.freedesktop.org
-> Cc: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
-> Cc: Benjamin Gaignard <benjamin.gaignard@linaro.org>
-> Cc: Ben Skeggs <bskeggs@redhat.com>
-> Cc: Ben Widawsky <ben@bwidawsk.net>
-> Cc: Chandan Uddaraju <chandanu@codeaurora.org>
-> Cc: Christian Koenig <christian.koenig@amd.com>
-> Cc: "Christian König" <christian.koenig@amd.com>
-> Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-> Cc: Daniel Vetter <daniel@ffwll.ch>
-> Cc: David Airlie <airlied@linux.ie>
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: Eric Anholt <eric@anholt.net>
-> Cc: Fabien Dessenne <fabien.dessenne@st.com>
-> Cc: freedreno@lists.freedesktop.org
-> Cc: Hans de Goede <hdegoede@redhat.com>
-> Cc: Harry Wentland <harry.wentland@amd.com>
-> Cc: Huang Rui <ray.huang@amd.com>
-> Cc: Hyun Kwon <hyun.kwon@xilinx.com>
-> Cc: Inki Dae <inki.dae@samsung.com>
-> Cc: Jagan Teki <jagan@amarulasolutions.com>
-> Cc: Joonyoung Shim <jy0922.shim@samsung.com>
-> Cc: Krishna Manikandan <mkrishn@codeaurora.org>
-> Cc: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
-> Cc: Kuogee Hsieh <khsieh@codeaurora.org>
-> Cc: Kyungmin Park <kyungmin.park@samsung.com>
-> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Cc: Leo Li <sunpeng.li@amd.com>
-> Cc: linaro-mm-sig@lists.linaro.org
-> Cc: linux-arm-kernel@lists.infradead.org
-> Cc: linux-arm-msm@vger.kernel.org
-> Cc: linux-mediatek@lists.infradead.org
-> Cc: linux-media@vger.kernel.org
-> Cc: linux-samsung-soc@vger.kernel.org
-> Cc: Marek Szyprowski <m.szyprowski@samsung.com>
-> Cc: Matthias Brugger <matthias.bgg@gmail.com>
-> Cc: Mauro Rossi <issor.oruam@gmail.com>
-> Cc: Michal Simek <michal.simek@xilinx.com>
-> Cc: nouveau@lists.freedesktop.org
-> Cc: Philipp Zabel <p.zabel@pengutronix.de>
-> Cc: Rob Clark <robdclark@gmail.com>
-> Cc: Sam Ravnborg <sam@ravnborg.org>
-> Cc: Sean Paul <sean@poorly.run>
-> Cc: Seung-Woo Kim <sw0312.kim@samsung.com>
-> Cc: Stephen Boyd <swboyd@chromium.org>
-> Cc: Sumit Semwal <sumit.semwal@linaro.org>
-> Cc: Thierry Reding <thierry.reding@gmail.com>
-> Cc: Vincent Abriou <vincent.abriou@st.com>
-> -- 
-> 2.31.1
-> 
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+
+
