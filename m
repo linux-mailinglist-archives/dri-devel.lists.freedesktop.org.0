@@ -1,56 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3017439A385
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Jun 2021 16:41:23 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E703539A392
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Jun 2021 16:44:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 70C3F6F489;
-	Thu,  3 Jun 2021 14:41:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0A8576F485;
+	Thu,  3 Jun 2021 14:44:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com
- [IPv6:2a00:1450:4864:20::335])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CD36D6F487;
- Thu,  3 Jun 2021 14:41:17 +0000 (UTC)
-Received: by mail-wm1-x335.google.com with SMTP id
- l11-20020a05600c4f0bb029017a7cd488f5so3892290wmq.0; 
- Thu, 03 Jun 2021 07:41:17 -0700 (PDT)
+Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com
+ [IPv6:2a00:1450:4864:20::62a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F11BE6F485
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Jun 2021 14:44:48 +0000 (UTC)
+Received: by mail-ej1-x62a.google.com with SMTP id og14so4318305ejc.5
+ for <dri-devel@lists.freedesktop.org>; Thu, 03 Jun 2021 07:44:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=S3gLIzTlRm90Fbhfv86Iy9u6F5Oz2fyU1X9eaD/GjVg=;
- b=WM9zOqh5gwb3s1mR9PW/RGNOGO0iK7n40nVvmbpNnVgKkrWMoT01LlIDTIooL47lZJ
- 7wDfbvY95NRzX/etYxYVZJ0lFAbsNs2qggFooGWI9jDjT+tTsM2sleFx7MvygUqm5mNy
- tx4ths746VwyI8UlKOqNeZaaiNoaWg9Qcm+XNZinKI39t9ly9M3WH+fIrjBnS0t7hDUV
- +xNRHxXYoBlortSAdAl/cv89eXehnmCwmss/2JWB5KpXW7vJMjE7wPeLsda/wFVWmHQG
- PdLKJlv4sh3GYkdxrucmXLOeYn04K8DfEzLxyjr0IHvR5dICwZ3wB3MMY/+q222K4gCX
- GSag==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=ZXLqiOa12mOANiH6iRvvdtf+Rzu4NjYP7cxzBWRRCz4=;
+ b=O0htkDFetyqZPg96aJ4tEwmk+QMgeSEg2Cv+gVKdr6Z9NSw8vhRn3vABWRYmsuLHWT
+ kv8mSJepTmxi9cEk5vQn320xfh7Wrv83OUHQOUxybeGIFOcvRWtVBQAEhYyZ8jvNP5u5
+ p1wScg4sc0rmtwnV3JhF47uPFshJkPPG8l7oxYgxOj+8qR7tXCmneMODUHQUqYfUzZoA
+ GS2KG5PSdqIZFAVQjQDnRGnJreoKxTdiYCe29qlY2Mk8eoJRykrysnitYGIvOeTgotaB
+ j5J+7da/rB3JTRrZnuJDyCHIUEx8Jlq4w7nsRTlTG95O8gUjyjRVMegoTs1C1F9vebHS
+ RXEw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=S3gLIzTlRm90Fbhfv86Iy9u6F5Oz2fyU1X9eaD/GjVg=;
- b=tyVmoVcKwcNrC/NRupl2DfLLHvNEAg+BAhoOH8jfWG6hjH2nQWe7//ZYt49v/dVbCK
- BP4aPtWcsDrQ1dROQ3l5UVfjWAAGATHZfFDlKI+c6861ZL55XJo5wpXkwN+I0A658ccU
- aMq/NDuQeEBi1VSCjfl/AlfH+APCy289/hDe0wbUbjKi0arrUc5BOuK4PLJtUM8QUg0N
- IlBl0LmYNHm6X07zBPbfzQjkMR10RkL16o5QJ7VVjOWiXHC2gnBd3bMaE9rJP4G/Z1Dc
- Aa4H+gaYTgUS/3a7vOxMMajWfYzegOQBtxmD+E+6ZRPi/Yiva1gQ4knwWe3K4Hzk7hhW
- +3YA==
-X-Gm-Message-State: AOAM5332wQxh/qE+epjNeUeIcqp5gxiQIM8Rh0RbHDtqY/J9cuf/aqP9
- 5J9hLnhFkrsJ5V9yTXWdHq7+K2hxsfpERBhT0TQ=
-X-Google-Smtp-Source: ABdhPJxLV3SbPwFjb3ZelCeB3oIW2qicl9OJM5oD+Ojp6ILkGuMfs/U2Y4M5ZPWAahsbGutVXx7C1LLUVpuzzeu/4is=
-X-Received: by 2002:a7b:ca44:: with SMTP id m4mr10634794wml.123.1622731276458; 
- Thu, 03 Jun 2021 07:41:16 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=ZXLqiOa12mOANiH6iRvvdtf+Rzu4NjYP7cxzBWRRCz4=;
+ b=p+N1jgK0dJgz38mqkY7g0oIpQRUae/WcEQyD07Hsyscb4VmShSh+Hkzy6gt6eTKMsg
+ fYYym9N7kU/Jh6w5E2pIA/eX1ZywIX4bkJCIBQMgY57ct4hmahY3V/ycCS3wL31GMloL
+ MN2qd43XT+60/YvEYC/1jeok6q7Kajv5QbZv/QU4u+frumedOGEl6wB0QEuJme5CFjkx
+ jrz1Lwa2WzpjNzWrmH0wWMlEj0VVyx18Yo9nqsRzla6lA6SbaRVE4OWyHUKX9O+bInbZ
+ tw9ysIxJKIiQX+azaeVcj6Ku62mzljC+ZSTaoPvIk8gp1+MxA5MEvtPaWi3iWh6yhKvn
+ Fo7Q==
+X-Gm-Message-State: AOAM531vSjatvV6hh1KnHK0y7FBgZCRpXoRUN3Q9XzF7BcCRjYXnvMzN
+ T/C6jamz3F8NQ/V7+gTxf0OrYpG/4WU=
+X-Google-Smtp-Source: ABdhPJyStZwDn50aWLKiU71mTpym6Ev22KVpxVwBfFs2WgoyNdMlal60WPPy4AWvFhNSuuJ3djKucg==
+X-Received: by 2002:a17:907:7b9e:: with SMTP id
+ ne30mr24962413ejc.389.1622731487699; 
+ Thu, 03 Jun 2021 07:44:47 -0700 (PDT)
+Received: from localhost ([62.96.65.119])
+ by smtp.gmail.com with ESMTPSA id v1sm1558622ejw.117.2021.06.03.07.44.46
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 03 Jun 2021 07:44:46 -0700 (PDT)
+From: Thierry Reding <thierry.reding@gmail.com>
+To: Dave Airlie <airlied@gmail.com>
+Subject: [GIT PULL] drm/tegra: Fixes for v5.13-rc5
+Date: Thu,  3 Jun 2021 16:46:24 +0200
+Message-Id: <20210603144624.788861-1-thierry.reding@gmail.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-References: <20210529002508.3839467-1-dmitry.baryshkov@linaro.org>
- <20210529002508.3839467-6-dmitry.baryshkov@linaro.org>
-In-Reply-To: <20210529002508.3839467-6-dmitry.baryshkov@linaro.org>
-From: Rob Clark <robdclark@gmail.com>
-Date: Thu, 3 Jun 2021 07:45:08 -0700
-Message-ID: <CAF6AEGsoUET_=P1YkAKb7GMRyrZV5_jmGeMHZhB1u4uE9m7B9A@mail.gmail.com>
-Subject: Re: [RFC 5/8] lib: add small API for handling register snapshots
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,96 +66,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno <freedreno@lists.freedesktop.org>,
- Jonathan Marek <jonathan@marek.ca>, Stephen Boyd <sboyd@kernel.org>,
- linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- Michael Turquette <mturquette@baylibre.com>,
- Abhinav Kumar <abhinavk@codeaurora.org>, David Airlie <airlied@linux.ie>,
- dri-devel <dri-devel@lists.freedesktop.org>, Sean Paul <sean@poorly.run>
+Cc: linux-tegra@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, May 28, 2021 at 5:25 PM Dmitry Baryshkov
-<dmitry.baryshkov@linaro.org> wrote:
->
-> Add small API covering lists of register dumps. Currently this is a part
-> of MSM DRM driver, but is extracted as it might be usefull to other
-> drivers too.
->
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> ---
->  include/linux/dump_state.h | 78 ++++++++++++++++++++++++++++++++++++++
->  lib/Kconfig                |  3 ++
->  lib/Makefile               |  1 +
->  lib/dump_state.c           | 51 +++++++++++++++++++++++++
->  4 files changed, 133 insertions(+)
->  create mode 100644 include/linux/dump_state.h
->  create mode 100644 lib/dump_state.c
->
-[snip]
-> diff --git a/lib/dump_state.c b/lib/dump_state.c
-> new file mode 100644
-> index 000000000000..58d88be65c0a
-> --- /dev/null
-> +++ b/lib/dump_state.c
-> @@ -0,0 +1,51 @@
-> +/* SPDX-License-Identifier: GPL-2.0-only */
-> +/*
-> + * Copyright (c) 2020-2021, The Linux Foundation. All rights reserved.
-> + * Copyright (c) 2021, Linaro Ltd
-> + */
-> +
-> +#include <linux/dump_state.h>
-> +#include <linux/slab.h>
-> +
-> +void dump_state_free_blocks(struct dump_state *state)
-> +{
-> +       struct dump_state_block *block, *tmp;
-> +
-> +       list_for_each_entry_safe(block, tmp, &state->blocks, node) {
-> +               list_del(&block->node);
-> +               kfree(block);
-> +       }
-> +}
-> +EXPORT_SYMBOL(dump_state_free_blocks);
+Hi Dave,
 
-nit, perhaps EXPORT_SYMBOL_GPL()?
+The following changes since commit 6efb943b8616ec53a5e444193dccf1af9ad627b5:
 
-BR,
--R
+  Linux 5.13-rc1 (2021-05-09 14:17:44 -0700)
 
-> +
-> +struct dump_state_block *dump_state_allocate_block_va(void __iomem *base_addr, size_t len, gfp_t gfp, const char *fmt, va_list args)
-> +{
-> +       struct dump_state_block *block = kzalloc(sizeof(*block) + len, gfp);
-> +
-> +       if (!block)
-> +               return ERR_PTR(-ENOMEM);
-> +
-> +       vsnprintf(block->name, sizeof(block->name), fmt, args);
-> +
-> +       INIT_LIST_HEAD(&block->node);
-> +       block->size = len;
-> +       block->base_addr = base_addr;
-> +
-> +       return block;
-> +}
-> +EXPORT_SYMBOL(dump_state_allocate_block);
-> +
-> +struct dump_state_block *dump_state_allocate_block(void __iomem *base_addr, size_t len, gfp_t gfp, const char *fmt, ...)
-> +{
-> +       struct dump_state_block *block;
-> +       va_list va;
-> +
-> +       va_start(va, fmt);
-> +
-> +       block = dump_state_allocate_block_va(base_addr, len, gfp, fmt, va);
-> +
-> +       va_end(va);
-> +
-> +       return block;
-> +}
-> +EXPORT_SYMBOL(dump_state_allocate_block_va);
-> --
-> 2.30.2
->
+are available in the Git repository at:
+
+  ssh://git.freedesktop.org/git/tegra/linux.git tags/drm/tegra/for-5.13-rc5
+
+for you to fetch changes up to 671cc352acd3e2b2832b59787ed8027d9f80ccc9:
+
+  drm/tegra: Correct DRM_FORMAT_MOD_NVIDIA_SECTOR_LAYOUT (2021-05-31 14:29:44 +0200)
+
+Thanks,
+Thierry
+
+----------------------------------------------------------------
+drm/tegra: Fixes for v5.13-rc5
+
+The most important change here fixes a race condition that causes either
+HDA or (more frequently) display to malfunction because they race for
+enabling the SOR power domain at probe time.
+
+Other than that, there's a couple of build warnings for issues
+introduced in v5.13 as well as some minor fixes, such as reference leak
+plugs.
+
+----------------------------------------------------------------
+Dmitry Osipenko (1):
+      drm/tegra: Correct DRM_FORMAT_MOD_NVIDIA_SECTOR_LAYOUT
+
+Lyude Paul (1):
+      drm/tegra: Get ref for DP AUX channel, not its ddc adapter
+
+Nathan Chancellor (1):
+      drm/tegra: Fix shift overflow in tegra_shared_plane_atomic_update
+
+Pavel Machek (CIP) (1):
+      drm/tegra: sor: Do not leak runtime PM reference
+
+Thierry Reding (3):
+      gpu: host1x: Split up client initalization and registration
+      drm/tegra: sor: Fully initialize SOR before registration
+      drm/tegra: sor: Fix AUX device reference leak
+
+ drivers/gpu/drm/tegra/drm.h |  2 +-
+ drivers/gpu/drm/tegra/hub.c |  2 +-
+ drivers/gpu/drm/tegra/sor.c | 70 +++++++++++++++++++++++++++------------------
+ drivers/gpu/host1x/bus.c    | 30 +++++++++++++++----
+ include/linux/host1x.h      | 30 +++++++++++++++----
+ 5 files changed, 92 insertions(+), 42 deletions(-)
