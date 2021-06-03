@@ -1,46 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E709399CF4
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Jun 2021 10:45:20 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B1014399D06
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Jun 2021 10:47:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8A4536F42D;
-	Thu,  3 Jun 2021 08:45:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1641A6F452;
+	Thu,  3 Jun 2021 08:47:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CA9F46F42D
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Jun 2021 08:45:17 +0000 (UTC)
-IronPort-SDR: b1moHLmnHtYbdRCBYTQtCC2iXw0LXeP0Q87Hcz11qYERwUGZBds5rh4ww6t9EFvwCcGFWxdjNm
- LsmJbIzhmtLw==
-X-IronPort-AV: E=McAfee;i="6200,9189,10003"; a="265172024"
-X-IronPort-AV: E=Sophos;i="5.83,244,1616482800"; d="scan'208";a="265172024"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Jun 2021 01:45:13 -0700
-IronPort-SDR: 2+haOxi/z11x5pcW7upU2tEXE4qMdn3DRRJvYbTVi+TnbqxWYoM1+Tcaox7GciQ8FBNCHuH86d
- 09ktPSiSzivQ==
-X-IronPort-AV: E=Sophos;i="5.83,244,1616482800"; d="scan'208";a="480143824"
-Received: from rdavies-mobl.ger.corp.intel.com (HELO [10.252.26.83])
- ([10.252.26.83])
- by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Jun 2021 01:45:12 -0700
-Subject: Re: [PATCH 01/10] drm/ttm: allocate resource object instead of
- embedding it v2
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
- thomas_os@shipmail.org, dri-devel@lists.freedesktop.org
-References: <20210602100914.46246-1-christian.koenig@amd.com>
-From: Matthew Auld <matthew.auld@intel.com>
-Message-ID: <a17599a1-97c9-0b35-82f8-b06a0526af22@intel.com>
-Date: Thu, 3 Jun 2021 09:45:09 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+Received: from mail-lj1-x235.google.com (mail-lj1-x235.google.com
+ [IPv6:2a00:1450:4864:20::235])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 689B36F452;
+ Thu,  3 Jun 2021 08:47:35 +0000 (UTC)
+Received: by mail-lj1-x235.google.com with SMTP id m3so6096303lji.12;
+ Thu, 03 Jun 2021 01:47:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:in-reply-to:references
+ :mime-version; bh=ZuJyLGUZ9eETZYtATcExeQniLwSvNr4HyouP2yx3loE=;
+ b=pVpzI7+VrnY6w9Hl82HDojwpJkVboEbyj2H0+7t3OrGdo+nh6bd5b8A1UlGv7oCDSz
+ LU4Xgftem40pIgAQqKo8IeMMProC6mIzYoYYktJ8uD6UO0f0SyqR3j/0UxzLrTzqItlj
+ frvfxMFiT1jCyWf+Hba5yusPx7ir3wH6aa0hb45PxtBsdQ79+Xnf8SH268mE9gt9UisV
+ SP9zozBU6I4Dc+xU9ufsiEAyidsuJ7Egg23g/9D0YlapWp/i7rIIUp/DabNJhEOen+OT
+ 1JClNodx31OiStv53+BgDQEyksq7Icl4LoYmZOOkR7Env1Vm2ACV7o5SsltWHzJEJgjw
+ M9kQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version;
+ bh=ZuJyLGUZ9eETZYtATcExeQniLwSvNr4HyouP2yx3loE=;
+ b=SyAMbgM1BOWr1jep6FCZQsLuPSvGfcAiJRVunVxR0uPLxDfW380suyHS92l0CUeb/a
+ 3gFippbtKgliFrQIh05ZEgJfrF6epgNgJBQv6uWftQU6SOYCWf8Vreve5XP+pKLDQ0Uj
+ MWaB+bKmmQCldFc39P/UJ1NrsbrCEiJ2ew78yewOqWt611ZSkPwVaE4d5fiqbxG1g/CF
+ kp7boZShz1OIDJLv97BhddV2nX2jotKmK7JxQEH7LR1+Arurql9Dbl0QT1PMmLRlHqLv
+ YHBF7oRwhTKWrIQ4419SXYXTIEPlt9bG+0UP/NhPbVFcqIcBMk4lkPV9SS7G/n4aEbrj
+ Gi5Q==
+X-Gm-Message-State: AOAM531YyqKXITHB6IO4+NtbiypOwwSoRFJuUk810t8HKtJQKQG8Ap20
+ Gx+4n6CGM6rUXwm0Oicj8KA=
+X-Google-Smtp-Source: ABdhPJzRpsgnq2qzFdwsbGhVCl1W6zMQyWZNnsilx9MPyc3MNTqveM6V7R9f7sCfj864z9FSKEUP0w==
+X-Received: by 2002:a2e:9798:: with SMTP id y24mr28505987lji.480.1622710053839; 
+ Thu, 03 Jun 2021 01:47:33 -0700 (PDT)
+Received: from eldfell ([194.136.85.206])
+ by smtp.gmail.com with ESMTPSA id n130sm272470lfa.10.2021.06.03.01.47.33
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 03 Jun 2021 01:47:33 -0700 (PDT)
+Date: Thu, 3 Jun 2021 11:47:30 +0300
+From: Pekka Paalanen <ppaalanen@gmail.com>
+To: Harry Wentland <harry.wentland@amd.com>
+Subject: Re: [PATCH 00/21] Add Support for Plane Color Lut and CSC features
+Message-ID: <20210603114730.08e66ad0@eldfell>
+In-Reply-To: <95e6a3e9-70d2-42d3-1289-a7de33f266c4@amd.com>
+References: <20210601105218.29185-1-uma.shankar@intel.com>
+ <20210602122850.29412a29@eldfell>
+ <5a9a8c3ee8d54c3ca2ccaca4aa5ad1d9@intel.com>
+ <95e6a3e9-70d2-42d3-1289-a7de33f266c4@amd.com>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <20210602100914.46246-1-christian.koenig@amd.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ boundary="Sig_/NEziXo06/iEZ.MZCNPjoeGi"; protocol="application/pgp-signature"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,246 +70,204 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Sebastian Wick <sebastian@sebastianwick.net>, "Shankar,
+ Uma" <uma.shankar@intel.com>, Vitaly Prosyak <vitaly.prosyak@amd.com>, "Modem,
+ Bhanuprakash" <bhanuprakash.modem@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 02/06/2021 11:09, Christian König wrote:
-> To improve the handling we want the establish the resource object as base
-> class for the backend allocations.
-> 
-> v2: add missing error handling
-> 
-> Signed-off-by: Christian König <christian.koenig@amd.com>
-> ---
->   drivers/gpu/drm/amd/amdgpu/amdgpu_object.c |  4 +-
->   drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c    | 54 +++++++-------
->   drivers/gpu/drm/nouveau/nouveau_bo.c       |  2 +-
->   drivers/gpu/drm/radeon/radeon_ttm.c        |  2 +-
->   drivers/gpu/drm/ttm/ttm_bo.c               | 83 ++++++++--------------
->   drivers/gpu/drm/ttm/ttm_bo_util.c          | 43 ++++++-----
->   drivers/gpu/drm/ttm/ttm_resource.c         | 31 +++++---
->   drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c |  2 +-
->   include/drm/ttm/ttm_bo_api.h               |  1 -
->   include/drm/ttm/ttm_bo_driver.h            | 10 ++-
->   include/drm/ttm/ttm_resource.h             |  4 +-
->   11 files changed, 110 insertions(+), 126 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
-> index 03c6b63d1d54..59723c3d5826 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
-> @@ -362,14 +362,14 @@ int amdgpu_bo_create_kernel_at(struct amdgpu_device *adev,
->   	if (cpu_addr)
->   		amdgpu_bo_kunmap(*bo_ptr);
->   
-> -	ttm_resource_free(&(*bo_ptr)->tbo, (*bo_ptr)->tbo.resource);
-> +	ttm_resource_free(&(*bo_ptr)->tbo, &(*bo_ptr)->tbo.resource);
->   
->   	for (i = 0; i < (*bo_ptr)->placement.num_placement; ++i) {
->   		(*bo_ptr)->placements[i].fpfn = offset >> PAGE_SHIFT;
->   		(*bo_ptr)->placements[i].lpfn = (offset + size) >> PAGE_SHIFT;
->   	}
->   	r = ttm_bo_mem_space(&(*bo_ptr)->tbo, &(*bo_ptr)->placement,
-> -			     (*bo_ptr)->tbo.resource, &ctx);
-> +			     &(*bo_ptr)->tbo.resource, &ctx);
->   	if (r)
->   		goto error;
->   
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-> index 663aa7d2e2ea..69db89261650 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-> @@ -491,7 +491,7 @@ static int amdgpu_bo_move(struct ttm_buffer_object *bo, bool evict,
->   			return r;
->   
->   		amdgpu_ttm_backend_unbind(bo->bdev, bo->ttm);
-> -		ttm_resource_free(bo, bo->resource);
-> +		ttm_resource_free(bo, &bo->resource);
->   		ttm_bo_assign_mem(bo, new_mem);
->   		goto out;
->   	}
-> @@ -950,9 +950,9 @@ int amdgpu_ttm_alloc_gart(struct ttm_buffer_object *bo)
->   	struct amdgpu_device *adev = amdgpu_ttm_adev(bo->bdev);
->   	struct ttm_operation_ctx ctx = { false, false };
->   	struct amdgpu_ttm_tt *gtt = (void *)bo->ttm;
-> -	struct ttm_resource tmp;
->   	struct ttm_placement placement;
->   	struct ttm_place placements;
-> +	struct ttm_resource *tmp;
->   	uint64_t addr, flags;
->   	int r;
->   
-> @@ -962,37 +962,37 @@ int amdgpu_ttm_alloc_gart(struct ttm_buffer_object *bo)
->   	addr = amdgpu_gmc_agp_addr(bo);
->   	if (addr != AMDGPU_BO_INVALID_OFFSET) {
->   		bo->resource->start = addr >> PAGE_SHIFT;
-> -	} else {
-> +		return 0;
-> +	}
->   
-> -		/* allocate GART space */
-> -		placement.num_placement = 1;
-> -		placement.placement = &placements;
-> -		placement.num_busy_placement = 1;
-> -		placement.busy_placement = &placements;
-> -		placements.fpfn = 0;
-> -		placements.lpfn = adev->gmc.gart_size >> PAGE_SHIFT;
-> -		placements.mem_type = TTM_PL_TT;
-> -		placements.flags = bo->resource->placement;
-> -
-> -		r = ttm_bo_mem_space(bo, &placement, &tmp, &ctx);
-> -		if (unlikely(r))
-> -			return r;
-> +	/* allocate GART space */
-> +	placement.num_placement = 1;
-> +	placement.placement = &placements;
-> +	placement.num_busy_placement = 1;
-> +	placement.busy_placement = &placements;
-> +	placements.fpfn = 0;
-> +	placements.lpfn = adev->gmc.gart_size >> PAGE_SHIFT;
-> +	placements.mem_type = TTM_PL_TT;
-> +	placements.flags = bo->resource->placement;
->   
-> -		/* compute PTE flags for this buffer object */
-> -		flags = amdgpu_ttm_tt_pte_flags(adev, bo->ttm, &tmp);
-> +	r = ttm_bo_mem_space(bo, &placement, &tmp, &ctx);
-> +	if (unlikely(r))
-> +		return r;
->   
-> -		/* Bind pages */
-> -		gtt->offset = (u64)tmp.start << PAGE_SHIFT;
-> -		r = amdgpu_ttm_gart_bind(adev, bo, flags);
-> -		if (unlikely(r)) {
-> -			ttm_resource_free(bo, &tmp);
-> -			return r;
-> -		}
-> +	/* compute PTE flags for this buffer object */
-> +	flags = amdgpu_ttm_tt_pte_flags(adev, bo->ttm, tmp);
->   
-> -		ttm_resource_free(bo, bo->resource);
-> -		ttm_bo_assign_mem(bo, &tmp);
-> +	/* Bind pages */
-> +	gtt->offset = (u64)tmp->start << PAGE_SHIFT;
-> +	r = amdgpu_ttm_gart_bind(adev, bo, flags);
-> +	if (unlikely(r)) {
-> +		ttm_resource_free(bo, &tmp);
-> +		return r;
->   	}
->   
-> +	ttm_resource_free(bo, &bo->resource);
-> +	ttm_bo_assign_mem(bo, tmp);
-> +
->   	return 0;
->   }
->   
-> diff --git a/drivers/gpu/drm/nouveau/nouveau_bo.c b/drivers/gpu/drm/nouveau/nouveau_bo.c
-> index e688ca77483d..3a0d9b3bf991 100644
-> --- a/drivers/gpu/drm/nouveau/nouveau_bo.c
-> +++ b/drivers/gpu/drm/nouveau/nouveau_bo.c
-> @@ -1009,7 +1009,7 @@ nouveau_bo_move(struct ttm_buffer_object *bo, bool evict,
->   	if (old_reg->mem_type == TTM_PL_TT &&
->   	    new_reg->mem_type == TTM_PL_SYSTEM) {
->   		nouveau_ttm_tt_unbind(bo->bdev, bo->ttm);
-> -		ttm_resource_free(bo, bo->resource);
-> +		ttm_resource_free(bo, &bo->resource);
->   		ttm_bo_assign_mem(bo, new_reg);
->   		goto out;
->   	}
-> diff --git a/drivers/gpu/drm/radeon/radeon_ttm.c b/drivers/gpu/drm/radeon/radeon_ttm.c
-> index 2507c1741681..cdffa9b65108 100644
-> --- a/drivers/gpu/drm/radeon/radeon_ttm.c
-> +++ b/drivers/gpu/drm/radeon/radeon_ttm.c
-> @@ -229,7 +229,7 @@ static int radeon_bo_move(struct ttm_buffer_object *bo, bool evict,
->   	if (old_mem->mem_type == TTM_PL_TT &&
->   	    new_mem->mem_type == TTM_PL_SYSTEM) {
->   		radeon_ttm_tt_unbind(bo->bdev, bo->ttm);
-> -		ttm_resource_free(bo, bo->resource);
-> +		ttm_resource_free(bo, &bo->resource);
->   		ttm_bo_assign_mem(bo, new_mem);
->   		goto out;
->   	}
-> diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
-> index 5a7ab4b35b2d..4ed56520b81d 100644
-> --- a/drivers/gpu/drm/ttm/ttm_bo.c
-> +++ b/drivers/gpu/drm/ttm/ttm_bo.c
-> @@ -223,7 +223,7 @@ static void ttm_bo_cleanup_memtype_use(struct ttm_buffer_object *bo)
->   		bo->bdev->funcs->delete_mem_notify(bo);
->   
->   	ttm_bo_tt_destroy(bo);
-> -	ttm_resource_free(bo, bo->resource);
-> +	ttm_resource_free(bo, &bo->resource);
->   }
->   
->   static int ttm_bo_individualize_resv(struct ttm_buffer_object *bo)
-> @@ -489,7 +489,7 @@ static int ttm_bo_evict(struct ttm_buffer_object *bo,
->   			struct ttm_operation_ctx *ctx)
->   {
->   	struct ttm_device *bdev = bo->bdev;
-> -	struct ttm_resource evict_mem;
-> +	struct ttm_resource *evict_mem;
->   	struct ttm_placement placement;
->   	struct ttm_place hop;
->   	int ret = 0;
-> @@ -519,7 +519,7 @@ static int ttm_bo_evict(struct ttm_buffer_object *bo,
->   		goto out;
->   	}
->   
-> -	ret = ttm_bo_handle_move_mem(bo, &evict_mem, true, ctx, &hop);
-> +	ret = ttm_bo_handle_move_mem(bo, evict_mem, true, ctx, &hop);
->   	if (unlikely(ret)) {
->   		WARN(ret == -EMULTIHOP, "Unexpected multihop in eviction - likely driver bug\n");
->   		if (ret != -ERESTARTSYS)
-> @@ -728,14 +728,15 @@ static int ttm_bo_add_move_fence(struct ttm_buffer_object *bo,
->    */
->   static int ttm_bo_mem_force_space(struct ttm_buffer_object *bo,
->   				  const struct ttm_place *place,
-> -				  struct ttm_resource *mem,
-> +				  struct ttm_resource **mem,
->   				  struct ttm_operation_ctx *ctx)
->   {
->   	struct ttm_device *bdev = bo->bdev;
-> -	struct ttm_resource_manager *man = ttm_manager_type(bdev, mem->mem_type);
-> +	struct ttm_resource_manager *man;
->   	struct ww_acquire_ctx *ticket;
->   	int ret;
->   
-> +	man = ttm_manager_type(bdev, (*mem)->mem_type);
->   	ticket = dma_resv_locking_ctx(bo->base.resv);
->   	do {
->   		ret = ttm_resource_alloc(bo, place, mem);
-> @@ -749,37 +750,7 @@ static int ttm_bo_mem_force_space(struct ttm_buffer_object *bo,
->   			return ret;
->   	} while (1);
->   
-> -	return ttm_bo_add_move_fence(bo, man, mem, ctx->no_wait_gpu);
-> -}
-> -
-> -/**
-> - * ttm_bo_mem_placement - check if placement is compatible
-> - * @bo: BO to find memory for
-> - * @place: where to search
-> - * @mem: the memory object to fill in
-> - *
-> - * Check if placement is compatible and fill in mem structure.
-> - * Returns -EBUSY if placement won't work or negative error code.
-> - * 0 when placement can be used.
-> - */
-> -static int ttm_bo_mem_placement(struct ttm_buffer_object *bo,
-> -				const struct ttm_place *place,
-> -				struct ttm_resource *mem)
-> -{
-> -	struct ttm_device *bdev = bo->bdev;
-> -	struct ttm_resource_manager *man;
-> -
-> -	man = ttm_manager_type(bdev, place->mem_type);
-> -	if (!man || !ttm_resource_manager_used(man))
-> -		return -EBUSY;
-> -
-> -	mem->mem_type = place->mem_type;
-> -	mem->placement = place->flags;
-> -
-> -	spin_lock(&bo->bdev->lru_lock);
-> -	ttm_bo_move_to_lru_tail(bo, mem, NULL);
-> -	spin_unlock(&bo->bdev->lru_lock);
+--Sig_/NEziXo06/iEZ.MZCNPjoeGi
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-Why do we drop the move_to_lru_tail here?
+On Wed, 2 Jun 2021 19:42:19 -0400
+Harry Wentland <harry.wentland@amd.com> wrote:
+
+> On 2021-06-02 4:22 p.m., Shankar, Uma wrote:
+> >=20
+> >  =20
+> >> -----Original Message-----
+> >> From: Pekka Paalanen <ppaalanen@gmail.com>
+> >> Sent: Wednesday, June 2, 2021 2:59 PM
+> >> To: Shankar, Uma <uma.shankar@intel.com>
+> >> Cc: intel-gfx@lists.freedesktop.org; dri-devel@lists.freedesktop.org; =
+Modem,
+> >> Bhanuprakash <bhanuprakash.modem@intel.com>; Harry Wentland
+> >> <harry.wentland@amd.com>
+> >> Subject: Re: [PATCH 00/21] Add Support for Plane Color Lut and CSC fea=
+tures
+> >>
+> >> On Tue,  1 Jun 2021 16:21:57 +0530
+> >> Uma Shankar <uma.shankar@intel.com> wrote:
+> >> =20
+> >>> This is how a typical display color hardware pipeline looks like:
+
+...
+
+> >>> This patch series adds properties for plane color features. It adds
+> >>> properties for degamma used to linearize data and CSC used for gamut
+> >>> conversion. It also includes Gamma support used to again non-linearize
+> >>> data as per panel supported color space. These can be utilize by user
+> >>> space to convert planes from one format to another, one color space to
+> >>> another etc. =20
+> >>
+> >> This is very much welcome!
+> >>
+> >> There is also the thread:
+> >> https://lists.freedesktop.org/archives/dri-devel/2021-May/306726.html>=
+>>
+> >> Everything mentioned will interact with each other by changing what th=
+e abstract
+> >> KMS pixel pipeline does. I think you and Harry should probably look at=
+ each others'
+> >> suggestions and see how to fit them all into a single abstract KMS pip=
+eline.
+> >>
+> >> People are adding new pieces into KMS left and right, and I fear we lo=
+se sight of how
+> >> everything will actually work together when all KMS properties are sup=
+posed to be
+> >> generic and potentially present simultaneously. This is why I would ve=
+ry much like to
+> >> have that *whole* abstract KMS pipeline documented with *everything*. =
+Otherwise
+> >> it is coming really hard fast to figure out how generic userspace shou=
+ld use all these
+> >> KMS properties together.
+> >>
+> >> Or if there cannot be a single abstract KMS pipeline, then sure, have =
+multiple, as long
+> >> as they are documented and how userspace will know which pipeline it i=
+s dealing
+> >> with, and what things are mutually exclusive so we can avoid writing u=
+serspace code
+> >> for combinations that will never exist. =20
+> >=20
+> > This is a good suggestion to have the whole pipeline and properties doc=
+umented along with
+> > the exact usages. We may end with 2 properties almost doing similar wor=
+k but needed due to
+> > underlying hardware, but we can get that properly documented and define=
+d.=20
+> >=20
+> > I will discuss with Harry and Ville as well to define this.
+> >  =20
+>=20
+> Just wanted to let you know that I've seen and read through both of Shank=
+ar's patchsets
+> and had some thoughts but haven't found the time to respond. I will respo=
+nd soon.
+
+Hi Harry,
+
+awesome!
+
+> I very much agree with Pekka. We need to make sure this all plays well to=
+gether and is
+> well documented. Maybe a library to deal with DRM KMS color management/HD=
+R would even
+> be helpful. Not sure yet how I feel about that.
+
+That is an excellent question. While I am working on Weston CM&HDR, I
+already have issues with how to represent the color related
+transformations. These new hardware features exposed here are nothing I
+have prepared for, and would probably need changes to accommodate.
+
+The main Weston roadmap is drafted in
+https://gitlab.freedesktop.org/wayland/weston/-/issues/467
+
+The MR that introduces the concept of a color transformation, and also
+the whole beginnings of color management, is
+https://gitlab.freedesktop.org/wayland/weston/-/merge_requests/582
+
+In that MR, there is a patch introducing struct weston_color_transform:
+https://gitlab.freedesktop.org/wayland/weston/-/merge_requests/582/diffs?co=
+mmit_id=3Dcffbf7c6b2faf7391b73ff9202774f660343bd34#ba0b86259533d5000d81c9c8=
+8109c9010eb0f641_0_77
+
+The design idea there is that libweston shall have what I call "color
+manager" module. That module handles all the policy decisions about
+color, it uses a CMM (Little CMS 2 in this case) for all the color
+profile computations, and based on all information it has available
+from display EDID, ICC profile files, Wayland clients via the CM&HDR
+protocol extension and more, it will ultimately produce
+weston_color_transform objects.
+
+weston_color_transform is a complete description of how to map a pixel
+in one color model/space/encoding into another, maybe with user
+preferred tuning/tone-mapping. E.g. from client content to the output's
+blending space (output space but light-linear), or from output's
+blending space to output's framebuffer space or maybe even monitor wire
+space.
+
+The mapping described by weston_color_transform shall be implemented by
+libweston's GL-renderer or by the DRM-backend using KMS properties,
+whatever works for each case. So the description cannot be opaque, it
+has to map to GLSL shaders (easy) and KMS properties (???).
+
+Now the problem is, what should weston_color_transform look like?
+
+The current design has two steps in a color transform:
+- Transfer function: identity, the traditional set of three 1D LUTs, or
+  something else.
+- Color mapping: identity, a 3D LUT, or something else.
+
+"Something else" is a placeholder for whatever we want to have, but the
+problem in adding new types of transfer function or color mapping
+representations (e.g. the fancy new GAMMA_MODEs) is how will the color
+manager create the parameters for those?
+
+If we have ICC profiles as the original data, then we are probably
+limited to what LCMS2 can produce. The issue with ICC profiles is that
+they may contain 3D LUTs themselves, so not what I would call a
+parametric model. OTOH, if we have, say, enumerated operations defined
+by various HDR standards, we have to code those ourselves and then
+producing whatever fancy representation is less of a problem.
+
+Maybe that is how it has to be. If the color transformations are
+defined by ICC profiles, we might be stuck with old-school KMS color
+properties, but HDR stuff that doesn't rely on ICC can use the fancier
+KMS properties. I'm sure interesting questions will arise when e.g. you
+have the monitor in HDR mode, described with standard HDR terms, and
+then you have application content described with an ICC profile (maybe
+SDR, maybe not).
+
+We can always get a 3D LUT out of LCMS2, so theoretically it would be
+possible to get a huge LUT and then optimise whatever parameterised
+model you have to that data set. But I worry that might be too costly
+to do in-flight, at least in a way that blocks the compositor. Maybe do
+what I hear shader compilers do: produce an unoptimal model fast, then
+compute an optimised model asynchronously and replace when ready. And
+disk cache(?).
+
+A library probably makes sense in the long run, but for now, I would
+have no idea at all what it should look like.
+
+
+Thanks,
+pq
+
+--Sig_/NEziXo06/iEZ.MZCNPjoeGi
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmC4lyIACgkQI1/ltBGq
+qqdrLBAAsm0YTJLIvAMQBkDDs8QPnia5uRsReIR2+7MFkNNXqwL/jOCbyrTpVKUd
+z2y0N2fhVW9J/MfCtfir5osq4aqss84MaQOqaLYbpJKhKpkeuVuYA10EraUjMbNw
+YyKuiTEjo+uJilbQLrlggkGeCxG84GRHPsWDlOvIsxAqTs6xJBqJ/5kZvzvMZ39G
+QF5aZbhRbGb/dJdHv1prL5Zpj00KLwiHIJjAtQFuv+wgfPPRpbrgEn9GSjXANTPu
+bv059kV2cSBD+KoAQ/ioYUGo0/P54iiDqfXY1q4zXO2ORumC4yXMFROYkcz+9ycd
+LISWqaPAIuGANoxCzkopAtPQEFKADKr1CPfx+xoU1NMAuC9sfxuNeb5zHZqo34kr
+1JTp06rwBJQOA76vz5J7jQWVzete4cSgCaE0ecWU2HcKVr+yvFNIUg6JRJdN0Kew
+kw3wI+UY02V+jEyW9EhZ+47yYAczIqwbmKKQBkEoLGcDzf+vqGDqRRZ51ZdWPeN8
++NE1ai0L5MxaHPzqE5WnKV3y/p+lXoaYCqdAKpfzUM+PREpGi1todNWP7pyJOU5H
+AY3iAOILXTX5VytjYiW3muwhQTSWOLc8sxdkccvCrOMIowSgNP/Om2Cvu7ZV6mZj
+ZAyBQ9x0A2KglNk41Y1uZmO4xSo43W10xIvUfqE9mXG+ZCdOogw=
+=nYdW
+-----END PGP SIGNATURE-----
+
+--Sig_/NEziXo06/iEZ.MZCNPjoeGi--
