@@ -2,58 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F96639BCD2
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Jun 2021 18:15:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 959F339BD66
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Jun 2021 18:40:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 314206E07F;
-	Fri,  4 Jun 2021 16:15:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DFB486F615;
+	Fri,  4 Jun 2021 16:40:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb30.google.com (mail-yb1-xb30.google.com
- [IPv6:2607:f8b0:4864:20::b30])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D5AFC6E07F
- for <dri-devel@lists.freedesktop.org>; Fri,  4 Jun 2021 16:15:04 +0000 (UTC)
-Received: by mail-yb1-xb30.google.com with SMTP id m9so7962542ybo.5
- for <dri-devel@lists.freedesktop.org>; Fri, 04 Jun 2021 09:15:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=jlekstrand-net.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=cHqepmK+EIGQKcbSlFGvfjVNFBN5RmudswxwfB7pw00=;
- b=gpkSiRHqaUSYt3p3/MlBJAS4AnqZ1/SHMvYwrQxgcwn/plytqUIgui0lG6ti8Krt/I
- 6BC8XlwAefHJp5noB6oWwvfC9IGvG4I5q/iqcLuQ+JSMAQWe2sp+rnJKjVfObStHTIdm
- u19wRqwxr2JQz3BRnAyh7jc+zCapx2W9MSkCcXh51kacRcqL+puCBPQDr8RWjw1IM75A
- CXIGPyL4ogCvN/sFFdjtI837EJ8JJcrWkCoLnheE1O5HBYJLBfLTTBsZsBfLYDTUBXUl
- kCdGS1IUCgu7IHKAlXHZ/qdY1tChZo5eObHDSBO983x/UifS4eNDGYC+ajNZZ4po2UE6
- YCNw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=cHqepmK+EIGQKcbSlFGvfjVNFBN5RmudswxwfB7pw00=;
- b=KIe4wp8QBesDTK3gdSG9djuXfD9/1GXW74s8h9VKHQaZRSC9DmCvSRMkCC/HhjaWnc
- mV0d5CFaU+LmrBreWaDQIP5GxpgFntgXZY/4hOiug0jaI2Ug5d5txdnSjQQDinpMBGKP
- dHLNgDzBTmvK0BvyUq4yDiQucX4fOvQeJCK15G3DPBogt20bbwWfB5ngnGZztwjo8g12
- mBbueBH653VmPv9VWyPXAlz2HhJQQK5BpCvaBu8OpCUtLLtqcVNm0GlvbnKFaS/FgGUM
- LevaYBd4SQ6GAKDs6g98VX/AWCNUrgbD640ttkv0byVrrPiyTH8H55hZatn3t2xoDBvZ
- S7RQ==
-X-Gm-Message-State: AOAM530G7mVrl95li2tln7CPWct4+7XR2UHZW/uvzvZyLoFq7thdD9GU
- 9/JVd+QvCK8s44RzWVrVvoClpqc2VTsYZxKMEo2lwQ==
-X-Google-Smtp-Source: ABdhPJwK+qPeJOkR8o9OoC6TpoI0orpuAIZwVe1sEUyRa6TgLZBtYhclfntAhFBtW2oqTfkM9l39akb8DPOheRMIC10=
-X-Received: by 2002:a25:3415:: with SMTP id b21mr6242061yba.241.1622823303777; 
- Fri, 04 Jun 2021 09:15:03 -0700 (PDT)
+Received: from m43-7.mailgun.net (m43-7.mailgun.net [69.72.43.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 350A56F615
+ for <dri-devel@lists.freedesktop.org>; Fri,  4 Jun 2021 16:39:57 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1622824800; h=Message-ID: References: In-Reply-To: Subject:
+ Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
+ MIME-Version: Sender; bh=HXpIdY2vbj0NojzSaJ7Uyrt36oUIaQcEBDyp08XuLIQ=;
+ b=grH1xHgg/N8UcgB9/73eq+21DbkNVGkdOBN2N/4JcMIaeVxVG0MF5AC7uPwp/buC8WPUS0t1
+ 4cfiopvuQAlejsqLG3KzLvLgtbl7bTV6jUnzYZM0zaEhx+YQ4hkCNxxhsana1kd3uyANr5xh
+ g9sbK/0tFqVlI0Oxl23rjU9FkuM=
+X-Mailgun-Sending-Ip: 69.72.43.7
+X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n05.prod.us-east-1.postgun.com with SMTP id
+ 60ba5753f726fa4188469674 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Fri, 04 Jun 2021 16:39:47
+ GMT
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id 710E4C4323A; Fri,  4 Jun 2021 16:39:46 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00,
+ URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
+Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
+ (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+ (No client certificate requested) (Authenticated sender: abhinavk)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id B435CC433D3;
+ Fri,  4 Jun 2021 16:39:45 +0000 (UTC)
 MIME-Version: 1.0
-References: <20210604155228.616679-1-christian.koenig@amd.com>
- <CADnq5_Mrm8GtG2uMxKac+Ev3kTFv6Hn+nL5F8vEFcWHJsceu8Q@mail.gmail.com>
-In-Reply-To: <CADnq5_Mrm8GtG2uMxKac+Ev3kTFv6Hn+nL5F8vEFcWHJsceu8Q@mail.gmail.com>
-From: Jason Ekstrand <jason@jlekstrand.net>
-Date: Fri, 4 Jun 2021 11:14:52 -0500
-Message-ID: <CAOFGe94Zx_DVVj9XEGG9tvwtNGctxboJb8oCLK5a2FKJV26SQQ@mail.gmail.com>
-Subject: Re: [PATCH] dma-buf: add missing EXPORT_SYMBOL
-To: Alex Deucher <alexdeucher@gmail.com>, 
- =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+Date: Fri, 04 Jun 2021 09:39:45 -0700
+From: abhinavk@codeaurora.org
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Subject: Re: [Freedreno] [PATCH] drm/msm/dsi: print error code when MIPI DSI
+ host registration fails
+In-Reply-To: <20210604104433.1442949-1-dmitry.baryshkov@linaro.org>
+References: <20210604104433.1442949-1-dmitry.baryshkov@linaro.org>
+Message-ID: <ed82ef06b4e751354fbc73815453aca4@codeaurora.org>
+X-Sender: abhinavk@codeaurora.org
+User-Agent: Roundcube Webmail/1.3.9
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,43 +66,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: freedreno@lists.freedesktop.org, Jonathan Marek <jonathan@marek.ca>,
+ Stephen Boyd <sboyd@kernel.org>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Bjorn Andersson <bjorn.andersson@linaro.org>,
+ David Airlie <airlied@linux.ie>, Sean Paul <sean@poorly.run>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Reviewed-by: Jason Ekstrand <jason@jlekstrand.net>
-
-On Fri, Jun 4, 2021 at 10:59 AM Alex Deucher <alexdeucher@gmail.com> wrote:
->
-> On Fri, Jun 4, 2021 at 11:52 AM Christian K=C3=B6nig
-> <ckoenig.leichtzumerken@gmail.com> wrote:
-> >
-> > The newly added dma_resv_reset_shared_max() is used from an inline
-> > function, so it can appear in drivers as well.
-> >
-> > Signed-off-by: Christian K=C3=B6nig <christian.koenig@amd.com>
->
-> Acked-by: Alex Deucher <alexander.deucher@amd.com>
->
-> > ---
-> >  drivers/dma-buf/dma-resv.c | 1 +
-> >  1 file changed, 1 insertion(+)
-> >
-> > diff --git a/drivers/dma-buf/dma-resv.c b/drivers/dma-buf/dma-resv.c
-> > index 3964df438505..6132ba631991 100644
-> > --- a/drivers/dma-buf/dma-resv.c
-> > +++ b/drivers/dma-buf/dma-resv.c
-> > @@ -226,6 +226,7 @@ void dma_resv_reset_shared_max(struct dma_resv *obj=
-)
-> >                 fence->shared_max =3D fence->shared_count;
-> >         }
-> >  }
-> > +EXPORT_SYMBOL(dma_resv_reset_shared_max);
-> >  #endif
-> >
-> >  /**
-> > --
-> > 2.25.1
-> >
+On 2021-06-04 03:44, Dmitry Baryshkov wrote:
+> In order to ease debugging of DSI host registration issues, print 
+> return
+> code of dsi_mgr_setup_components().
+> 
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Reviewed-by: Abhinav Kumar <abhinavk@codeaurora.org>
+> ---
+>  drivers/gpu/drm/msm/dsi/dsi_manager.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/dsi/dsi_manager.c
+> b/drivers/gpu/drm/msm/dsi/dsi_manager.c
+> index cd016576e8c5..4df5defdbf4c 100644
+> --- a/drivers/gpu/drm/msm/dsi/dsi_manager.c
+> +++ b/drivers/gpu/drm/msm/dsi/dsi_manager.c
+> @@ -817,8 +817,8 @@ int msm_dsi_manager_register(struct msm_dsi 
+> *msm_dsi)
+> 
+>  	ret = dsi_mgr_setup_components(id);
+>  	if (ret) {
+> -		pr_err("%s: failed to register mipi dsi host for DSI %d\n",
+> -			__func__, id);
+> +		pr_err("%s: failed to register mipi dsi host for DSI %d: %d\n",
+> +			__func__, id, ret);
+>  		goto fail;
+>  	}
