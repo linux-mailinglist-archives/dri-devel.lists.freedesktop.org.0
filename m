@@ -2,27 +2,25 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23D3C39B3C6
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Jun 2021 09:24:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D133339B3C3
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Jun 2021 09:24:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1FB636F5B7;
-	Fri,  4 Jun 2021 07:24:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 843FA6E05C;
+	Fri,  4 Jun 2021 07:24:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 335 seconds by postgrey-1.36 at gabe;
- Fri, 04 Jun 2021 03:06:12 UTC
 Received: from smtphy.263.net (sg-smtp01.263.net [54.255.195.220])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0D82E6F56E;
- Fri,  4 Jun 2021 03:06:12 +0000 (UTC)
-Received: from smtp.263.net (unknown [211.157.147.162])
- by smtphy.263.net (Postfix) with ESMTPS id C1CFB153;
- Fri,  4 Jun 2021 11:00:34 +0800 (CST)
-Received: from regular1.263xmail.com (unknown [192.168.165.185])
- by smtp.263.net (Postfix) with ESMTP id B2B69270;
- Fri,  4 Jun 2021 11:00:25 +0800 (CST)
-Received: from localhost (unknown [192.168.167.16])
- by regular1.263xmail.com (Postfix) with ESMTP id 0DA005B0;
- Fri,  4 Jun 2021 11:00:23 +0800 (CST)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AEE1F6F56F;
+ Fri,  4 Jun 2021 03:11:11 +0000 (UTC)
+Received: from smtp.263.net (unknown [211.157.147.163])
+ by smtphy.263.net (Postfix) with ESMTPS id DD2953C;
+ Fri,  4 Jun 2021 11:03:08 +0800 (CST)
+Received: from regular1.263xmail.com (unknown [192.168.165.234])
+ by smtp.263.net (Postfix) with ESMTP id A92D7199A;
+ Fri,  4 Jun 2021 11:03:05 +0800 (CST)
+Received: from localhost (unknown [192.168.167.235])
+ by regular1.263xmail.com (Postfix) with ESMTP id 609DE12DF;
+ Fri,  4 Jun 2021 11:03:03 +0800 (CST)
 X-MAIL-GRAY: 0
 X-MAIL-DELIVERY: 1
 X-ADDR-CHECKED4: 1
@@ -31,26 +29,27 @@ X-SKE-CHECKED: 1
 X-ABS-CHECKED: 1
 Received: from manjaro.uniontech.com (unknown [58.246.122.242])
  by smtp.263.net (postfix) whith ESMTP id
- P32527T140357287958272S1622775623149520_; 
- Fri, 04 Jun 2021 11:00:23 +0800 (CST)
+ P31747T140094956619520S1622775773028026_; 
+ Fri, 04 Jun 2021 11:02:53 +0800 (CST)
 X-IP-DOMAINF: 1
-X-UNIQUE-TAG: <dc45011b04a8292baf2e6c2c7c1f32db>
+X-UNIQUE-TAG: <d160252276998c041bcbb83e5564fe5f>
 X-RL-SENDER: chenli@uniontech.com
 X-SENDER: chenli@uniontech.com
 X-LOGIN-NAME: chenli@uniontech.com
-X-FST-TO: alexdeucher@gmail.com
-X-RCPT-COUNT: 5
+X-FST-TO: alexander.deucher@amd.com
+X-RCPT-COUNT: 4
 X-SENDER-IP: 58.246.122.242
 X-ATTACHMENT-NUM: 0
 X-System-Flag: 0
-Date: Fri, 04 Jun 2021 11:00:22 +0800
-Message-ID: <87mts6fi61.wl-chenli@uniontech.com>
+Date: Fri, 04 Jun 2021 11:02:52 +0800
+Message-ID: <87lf7qfi1v.wl-chenli@uniontech.com>
 From: Chen Li <chenli@uniontech.com>
-To: Alex Deucher <alexdeucher@gmail.com>
-Subject: [PATCH v2 0/2] use memcpy_to/fromio for UVD fw upload
-In-Reply-To: <CADnq5_PorxhXnVXY8NxqjTj-1y-n0589QSiqUQc=QGNVhzP0xw@mail.gmail.com>
+To: Alex Deucher <alexander.deucher@amd.com>,	=?ISO-8859-1?Q?=22Christian_?=
+ =?ISO-8859-1?Q?K=F6nig=22?= <christian.koenig@amd.com>,
+ dri-devel@lists.freedesktop.org,	amd-gfx@lists.freedesktop.org
+Subject: [PATCH v2 1/2] radeon: fix coding issues reported from sparse
+In-Reply-To: <87o8cnfr3s.wl-chenli@uniontech.com>
 References: <87o8cnfr3s.wl-chenli@uniontech.com>
- <CADnq5_PorxhXnVXY8NxqjTj-1y-n0589QSiqUQc=QGNVhzP0xw@mail.gmail.com>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
  FLIM-LB/1.14.9 (=?ISO-8859-4?Q?Goj=F2?=) APEL-LB/10.8 EasyPG/1.0.0
  Emacs/28.0.50 (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
@@ -69,25 +68,72 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alex Deucher <alexander.deucher@amd.com>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- Christian =?ISO-8859-1?Q?K?= =?ISO-8859-1?Q?=F6nig?=
- <christian.koenig@amd.com>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-changelog:
-    v1->v2: split sparse and memcp/memset fix
+Also fix some coding issue reported from sparse.
 
-Chen Li (2):
-  radeon: fix coding issues reported from sparse
-  radeon: use memcpy_to/fromio for UVD fw upload
+Signed-off-by: Chen Li <chenli@uniontech.com>
+---
+ drivers/gpu/drm/radeon/radeon_uvd.c | 24 +++++++++++++-----------
+ 1 file changed, 13 insertions(+), 11 deletions(-)
 
- drivers/gpu/drm/radeon/radeon_uvd.c | 30 ++++++++++++++++-------------
- 1 file changed, 17 insertions(+), 13 deletions(-)
-
+diff --git a/drivers/gpu/drm/radeon/radeon_uvd.c b/drivers/gpu/drm/radeon/radeon_uvd.c
+index dfa9fdbe98da..85a1f2c31749 100644
+--- a/drivers/gpu/drm/radeon/radeon_uvd.c
++++ b/drivers/gpu/drm/radeon/radeon_uvd.c
+@@ -152,9 +152,11 @@ int radeon_uvd_init(struct radeon_device *rdev)
+ 
+ 			rdev->uvd.fw_header_present = true;
+ 
+-			family_id = le32_to_cpu(hdr->ucode_version) & 0xff;
+-			version_major = (le32_to_cpu(hdr->ucode_version) >> 24) & 0xff;
+-			version_minor = (le32_to_cpu(hdr->ucode_version) >> 8) & 0xff;
++			family_id = (__force u32)(hdr->ucode_version) & 0xff;
++			version_major = (le32_to_cpu((__force __le32)(hdr->ucode_version))
++							 >> 24) & 0xff;
++			version_minor = (le32_to_cpu((__force __le32)(hdr->ucode_version))
++							 >> 8) & 0xff;
+ 			DRM_INFO("Found UVD firmware Version: %u.%u Family ID: %u\n",
+ 				 version_major, version_minor, family_id);
+ 
+@@ -791,17 +793,17 @@ int radeon_uvd_get_create_msg(struct radeon_device *rdev, int ring,
+ 		return r;
+ 
+ 	/* stitch together an UVD create msg */
+-	writel(cpu_to_le32(0x00000de4), &msg[0]);
++	writel((__force u32)cpu_to_le32(0x00000de4), &msg[0]);
+ 	writel(0x0, (void __iomem *)&msg[1]);
+-	writel(cpu_to_le32(handle), &msg[2]);
++	writel((__force u32)cpu_to_le32(handle), &msg[2]);
+ 	writel(0x0, &msg[3]);
+ 	writel(0x0, &msg[4]);
+ 	writel(0x0, &msg[5]);
+ 	writel(0x0, &msg[6]);
+-	writel(cpu_to_le32(0x00000780), &msg[7]);
+-	writel(cpu_to_le32(0x00000440), &msg[8]);
++	writel((__force u32)cpu_to_le32(0x00000780), &msg[7]);
++	writel((__force u32)cpu_to_le32(0x00000440), &msg[8]);
+ 	writel(0x0, &msg[9]);
+-	writel(cpu_to_le32(0x01b37000), &msg[10]);
++	writel((__force u32)cpu_to_le32(0x01b37000), &msg[10]);
+ 	for (i = 11; i < 1024; ++i)
+ 		writel(0x0, &msg[i]);
+ 
+@@ -827,9 +829,9 @@ int radeon_uvd_get_destroy_msg(struct radeon_device *rdev, int ring,
+ 		return r;
+ 
+ 	/* stitch together an UVD destroy msg */
+-	writel(cpu_to_le32(0x00000de4), &msg[0]);
+-	writel(cpu_to_le32(0x00000002), &msg[1]);
+-	writel(cpu_to_le32(handle), &msg[2]);
++	writel((__force u32)cpu_to_le32(0x00000de4), &msg[0]);
++	writel((__force u32)cpu_to_le32(0x00000002), &msg[1]);
++	writel((__force u32)cpu_to_le32(handle), &msg[2]);
+ 	writel(0x0, &msg[3]);
+ 	for (i = 4; i < 1024; ++i)
+ 		writel(0x0, &msg[i]);
 -- 
 2.31.1
 
