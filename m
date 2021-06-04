@@ -2,55 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A587539AFF4
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Jun 2021 03:37:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F92139AFF6
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Jun 2021 03:41:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 10D0E6F554;
-	Fri,  4 Jun 2021 01:37:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5689B6F556;
+	Fri,  4 Jun 2021 01:41:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com
- [IPv6:2a00:1450:4864:20::62a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 275766F553;
- Fri,  4 Jun 2021 01:37:17 +0000 (UTC)
-Received: by mail-ej1-x62a.google.com with SMTP id g8so12061859ejx.1;
- Thu, 03 Jun 2021 18:37:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=DmDwyfiUpk4MzADbJZuAJIcu3kCE/Kytx8Q+Lh8fxLg=;
- b=D1MmLWnh/4tPMDvS54FuKlMsDPerGoj9PNax6boNdMKfbt+pbam3+WqgKAOTFAGPox
- qKUfbWwBVdjZ0rEkIErTtnaE5c4YMt6kMcehXGcSwvrOtBrtM0WzIorwWpMMZPUg/0dS
- 7jxQXfN0wgaJIboKk9Y9s3X8KxRnGe5ep+gCn3rOlXfe5YPfjequIkgJDgMhHVn3oXrH
- EBlzPYxaiYXTJqE8m8B5lHNQUzsNnhNMF+Xnlu+FnApCi06Mihj1dGrvRR24XQ1GEDQn
- p9pOJxOMvF7z3dvTmYHyedyWqTPlE6xE7NCZ+/httq0bmJOshxXY5DHkwEZHZzXsK0Zl
- ybFQ==
+Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com
+ [IPv6:2607:f8b0:4864:20::102e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0F2EA6F556
+ for <dri-devel@lists.freedesktop.org>; Fri,  4 Jun 2021 01:40:59 +0000 (UTC)
+Received: by mail-pj1-x102e.google.com with SMTP id k7so4688814pjf.5
+ for <dri-devel@lists.freedesktop.org>; Thu, 03 Jun 2021 18:40:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=XiCEBFYQs1wHoBsBq8qZHCHeWtBmY7GOb/awBPWsVM0=;
+ b=hbR43tKlLsrx/D3uOQI9CXZlXNW70odw9gD6sUiwz/hnGkNBRz7RCKWP1KPxE7IVX0
+ USzfmD0O7brF4DU3eI2z8LVM8cxTC6CQIZ3JV1J8xU7X8RWb1v6v9LyjxZgmMv37VudU
+ yrF39zW/TcU4NhYz5DqbTCS8/lhN71tLLpGvk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=DmDwyfiUpk4MzADbJZuAJIcu3kCE/Kytx8Q+Lh8fxLg=;
- b=PQnW8qnfZ4QS9EDkfaduBuRhzaVDGHp5znEkrgWjXnqcMwKcN2B/lpBL7zedpXfnLU
- wwqFrA+Hh+ejSbJqNA5yefN453YMWhItTanQ+FUW/iPuVCp1BhSfPz6P6i8jf/0VKcMv
- Vz2ssfgmhAjFYFXIYaQZAjh7bYVJCOLj3EKHbRxnZXghSyDBSHx+7Cit9u+0yrhxG/Io
- bQfBJHSZ7/BtmeYnqEKp8koSKdzRLbKs+4yOQDSADACRNqpsj+TJOg/cGmB2f1QStZIf
- d+iWhR+fdl1wWn2oaD66g2W3ms3mzVycYrYLdDxeMi6i0pKZa8tDcA8dv/PNxOO5DSDH
- 55xg==
-X-Gm-Message-State: AOAM533WcEgbzHhKVok6nLrQ21tLaN0grn8UYcLb/wliUPfDe8ufiuAz
- oAWPsnm3sJdNerzvCCffIblh9gxAYidr15ryVi4=
-X-Google-Smtp-Source: ABdhPJxKo2rMgh/XfOxymxh2x0163+/YrtzFqMwn6wsiH74huoJoqb6VdRHmuvv/zq4K/a5cKaG+2sFhpBzadDUwSD0=
-X-Received: by 2002:a17:906:4747:: with SMTP id
- j7mr1878454ejs.419.1622770635803; 
- Thu, 03 Jun 2021 18:37:15 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=XiCEBFYQs1wHoBsBq8qZHCHeWtBmY7GOb/awBPWsVM0=;
+ b=Dhgg3OenPOt0wuiZUyz8Lyi6whcNGXrZPnlqRIJSdhh/eQOarg4SSkdDB5Nw+X7cn+
+ nllvng+NIpoIl6bKt+gM9dpp3CmlcEXxy3Ff596rwOuoYlDZsdQfOUm2dP0LshNj0vG1
+ zscFmUroamHt8lar30d5ehzvmoXhmYo7VS9P6XlQr1cHaaTaN+XToHcKq9cgNeIkEeTS
+ AH8ZO9LO3EVUS7ZOwbow/NwGbyWSwejtaVwOUbYJA7wwFuvm48LDgSclYtVTdSc+w68y
+ 6zJm+QL7LwW2y+kAc89R7Kc07IHz7VrCsvX3b1g58hEEOFd4zRZdmZIgaBrE4rqLaaRJ
+ vxAw==
+X-Gm-Message-State: AOAM531FkjpUz3Py5omgpPvpCgaxAhwuOY6wS8o+4ulJT7u+OTtTSSv3
+ eqbhpqMaaZvcgBxhYjzpbjCcSg==
+X-Google-Smtp-Source: ABdhPJy6vUfFFweAQh1fJ/gd2t/8skp7dOMu1If6hoqtSK41KY3KdYZDUbkW/1Rw0btPE7HztchCYQ==
+X-Received: by 2002:a17:90a:e541:: with SMTP id
+ ei1mr2181414pjb.189.1622770858832; 
+ Thu, 03 Jun 2021 18:40:58 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+ by smtp.gmail.com with ESMTPSA id d22sm261601pfn.147.2021.06.03.18.40.57
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 03 Jun 2021 18:40:57 -0700 (PDT)
+From: Kees Cook <keescook@chromium.org>
+To: Daniel Vetter <daniel@ffwll.ch>
+Subject: [PATCH v2] drm/pl111: Actually fix CONFIG_VEXPRESS_CONFIG depends
+Date: Thu,  3 Jun 2021 18:40:55 -0700
+Message-Id: <20210604014055.4060521-1-keescook@chromium.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20210601201702.23316-1-andrey.grodzovsky@amd.com>
- <CADnq5_Nfs_j9XE1Siou2wGYuwd5cvTD1T7m9gFpS9z74D=AuAQ@mail.gmail.com>
-In-Reply-To: <CADnq5_Nfs_j9XE1Siou2wGYuwd5cvTD1T7m9gFpS9z74D=AuAQ@mail.gmail.com>
-From: Dave Airlie <airlied@gmail.com>
-Date: Fri, 4 Jun 2021 11:37:04 +1000
-Message-ID: <CAPM=9tznFeKrL-La1RqCtAib4N+Stf=2epQYabrm=vYnds6LwQ@mail.gmail.com>
-Subject: Re: [PATCH 0/7] libdrm tests for hot-unplug feature
-To: Alex Deucher <alexdeucher@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+X-Patch-Hashes: v=1; h=sha256; g=14c1e26a99e7a5c0826947861880974d3dec799c;
+ i=DwQ2M6JPPIp1aqGMVRBW/n1FD/gTXx2QUVMc6SXkj4M=;
+ m=E+lJDbe/6hLH7r7M/V+C+IdMvMSqFV7vypoHLWtjYP4=;
+ p=KlVnos6MMZObwZsBAYHQc0hRN6QGRSQebq9sCHvfiro=
+X-Patch-Sig: m=pgp; i=keescook@chromium.org; s=0x0x8972F4DFDC6DC026;
+ b=iQIzBAABCgAdFiEEpcP2jyKd1g9yPm4TiXL039xtwCYFAmC5hKYACgkQiXL039xtwCYwKg//SiS
+ PhS38XmQqoSASnS9fIRyRodfKTHbNzV4rtVnziiv7X1ZPPQ0tsp0nW5/CJB1Pf5VCvjRJO5rXiq/8
+ lvD9INTOkWCGCkiiCy08m2p3d0gQiwJlk/X5GLb3qmfeFiruJD+fIHUKwPaRl7EOsVbMxZurlHrdl
+ Si92Z/PBMWreYp8SeUXFyGjS2+TzSIfGNlMrhhxbtqYH9MIwZPuCN5GN58Y34kpn7MqwV2x2NCXLZ
+ d78SyRzgIo0Qd4PRUrjrKrtSS31fOgO+gMTkWf6+8zTpZEivcMkodr8gb+gZALDm/ku2FIHJqaLsE
+ Ho7MWVmUhi5B9cAiQc/cFsu3vbYhvBW/1nbHn9VITSQ6PfeR/tICFzkLRA4KG1xsxVkhlVB91HxgM
+ IqGOYSh4KmTupDsFhbwVmMD/fVxSqUzlNP2DNFkdZ8+0jV+gGVRJAFaFRgshXx0tpSQefsVt/Fxxh
+ Pmx5CwPdjKN05pnqtDM3vJz0TATQ/a3nUZpOPhovCZRYQy1/TjrTdCfj92TVMeASn1ziO4UVcorw0
+ Dnq1deOCgrD8xkfRmUMXm4WQfV+fVlHhW5MBI1/m4ygHdBYRRQBzGjPaYnyoqWmJRh0wf9UZnH6g5
+ uReNa0xN2nF1uQZlLDWxSnDKQvEO4degSHTK5Qf4BZi50yQNGMDW29EfjqTMcNkA=
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,24 +78,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Deucher, Alexander" <Alexander.Deucher@amd.com>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
+Cc: Kees Cook <keescook@chromium.org>, Emma Anholt <emma@anholt.net>,
+ David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 4 Jun 2021 at 07:20, Alex Deucher <alexdeucher@gmail.com> wrote:
->
-> Please open a gitlab MR for these.
->
+VEXPRESS_CONFIG needs to either be missing, built-in, or modular when
+pl111 is modular. Update the Kconfig to reflect the need.
 
-I'd really prefer these tests all get migrated out of here into igt. I
-don't think libdrm_amdgpu really should have tests that test the
-kernel level infrastructure.
+Fixes: 4dc7c97d04dc ("drm/pl111: depend on CONFIG_VEXPRESS_CONFIG")
+Signed-off-by: Kees Cook <keescook@chromium.org>
+---
+v2: use expected Kconfig style to express this. :)
+v1: https://lore.kernel.org/lkml/20210603215819.3904733-1-keescook@chromium.org
+---
+ drivers/gpu/drm/pl111/Kconfig | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-I know some people at AMD had issues in the past with igt because the
-i might have stood for intel back in time, but at this point I think
-we should be moving past that.
+diff --git a/drivers/gpu/drm/pl111/Kconfig b/drivers/gpu/drm/pl111/Kconfig
+index c5210a5bef1b..3aae387a96af 100644
+--- a/drivers/gpu/drm/pl111/Kconfig
++++ b/drivers/gpu/drm/pl111/Kconfig
+@@ -2,7 +2,8 @@
+ config DRM_PL111
+ 	tristate "DRM Support for PL111 CLCD Controller"
+ 	depends on DRM
+-	depends on VEXPRESS_CONFIG
++	depends on ARM || ARM64 || COMPILE_TEST
++	depends on VEXPRESS_CONFIG || VEXPRESS_CONFIG=n
+ 	depends on COMMON_CLK
+ 	select DRM_KMS_HELPER
+ 	select DRM_KMS_CMA_HELPER
+-- 
+2.25.1
 
-Dave.
