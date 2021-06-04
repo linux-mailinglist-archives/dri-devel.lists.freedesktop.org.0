@@ -1,56 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96BF739C069
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Jun 2021 21:26:55 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 66AA639C07B
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Jun 2021 21:38:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C42B86F8CC;
-	Fri,  4 Jun 2021 19:26:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8CC316F8CF;
+	Fri,  4 Jun 2021 19:38:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb29.google.com (mail-yb1-xb29.google.com
- [IPv6:2607:f8b0:4864:20::b29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D8B966F8CC
- for <dri-devel@lists.freedesktop.org>; Fri,  4 Jun 2021 19:26:50 +0000 (UTC)
-Received: by mail-yb1-xb29.google.com with SMTP id i4so15216700ybe.2
- for <dri-devel@lists.freedesktop.org>; Fri, 04 Jun 2021 12:26:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=jlekstrand-net.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=vaCkCgZDi+iGB4YTkmNw3BNsf+xrl+mM6+m/McSmW+4=;
- b=Lzvpw/RM2p34p5FqDcIPNSCmTmVJ6dWXxmd3MkX89/bpSeKd5bOtne8/nHtAUXT+zz
- mZSnLS5y9kMUaZlc3R47lgx2d8oXkCfenX+Yxcy6ATdEqXHFYiEQE+W9iYN6TN16nDb6
- Jpqj2n64+nLvDNnjSC52g0ft1FiNqXqfmdGMDEJHkFo4U9E7CZcOivHPvZzmJkXHDBPt
- VsoeaaoAqwa29WfA5MSipqUE4t74hw6jzEPEkhoIpAMkfwelcFJTqdQVlLSjmTwY6kT3
- iLzL+xCKmfH7/i741BcVMi7tcYffpZVVNvesmntdIi1x9WH5OT482IdOzHV7qyt48KaD
- 9Q5g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=vaCkCgZDi+iGB4YTkmNw3BNsf+xrl+mM6+m/McSmW+4=;
- b=bOR+xTcui8HZkCtkplpkYjeSGDlEHn8asZdJomUHj8iQ6SI/1T1xJ4yM2nPAlAW+xu
- MeSx3Q+JHWEz+/6PQ7deasrkGMqymoFNnrmOq1r0Pc6cyVO/o5PBhKq2Hprqfcqby+37
- pfD7Qj6YufBZZRfEfMm5++KLaSY5WDhPH5kIBcAer+nIgwnmZVpWyVe9MnlRzHJzAjI+
- a0q9XAvGvuEQH89i0OusMivhTfMLGhw8TPhyv6MiEi6Q3+GGKKp3BtHgXdCWHwPS3QZP
- J4j/vF+ubvDawNqNnnkKtecT1B4+dQyUYo/JerF0HXJ3fxqWaiVqqB9waDTCfWaLxXuw
- 8vLg==
-X-Gm-Message-State: AOAM5304SUVYyfvaDJXXTJJiOaI1M7y0kVx6XCP1002G5qc6HiMI6zys
- bcY8elVAPsncF9fQimoyOgGEnWWm10LZr5LzreFvOA==
-X-Google-Smtp-Source: ABdhPJygVZsNvURocmKNNcAU5te/45xXANfscPFNwd9z5Sj0eLyvFDhpMdvzX4Jf1yDMJhnFfI9zF9CPJJp1EM4lHew=
-X-Received: by 2002:a25:81c5:: with SMTP id n5mr7594243ybm.323.1622834809798; 
- Fri, 04 Jun 2021 12:26:49 -0700 (PDT)
+Received: from smtprelay.hostedemail.com (smtprelay0053.hostedemail.com
+ [216.40.44.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 68AA46F8CF;
+ Fri,  4 Jun 2021 19:38:11 +0000 (UTC)
+Received: from omf13.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
+ by smtprelay04.hostedemail.com (Postfix) with ESMTP id 86FD4181B956E;
+ Fri,  4 Jun 2021 19:38:10 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by
+ omf13.hostedemail.com (Postfix) with ESMTPA id 80AD71124FA; 
+ Fri,  4 Jun 2021 19:38:08 +0000 (UTC)
+Message-ID: <144460ce4f34a51dabb76e422a718573db77cdc8.camel@perches.com>
+Subject: [PATCH] treewide: Add missing semicolons to __assign_str uses
+From: Joe Perches <joe@perches.com>
+To: Steven Rostedt <rostedt@goodmis.org>
+Date: Fri, 04 Jun 2021 12:38:07 -0700
+In-Reply-To: <20210604122128.0d348960@oasis.local.home>
+References: <cover.1621024265.git.bristot@redhat.com>
+ <2c59beee3b36b15592bfbb9f26dee7f8b55fd814.1621024265.git.bristot@redhat.com>
+ <20210603172902.41648183@gandalf.local.home>
+ <1e068d21106bb6db05b735b4916bb420e6c9842a.camel@perches.com>
+ <20210604122128.0d348960@oasis.local.home>
+Content-Type: text/plain; charset="ISO-8859-1"
+User-Agent: Evolution 3.38.1-1 
 MIME-Version: 1.0
-References: <20210603212722.59719-1-matthew.brost@intel.com>
- <20210603212722.59719-9-matthew.brost@intel.com>
-In-Reply-To: <20210603212722.59719-9-matthew.brost@intel.com>
-From: Jason Ekstrand <jason@jlekstrand.net>
-Date: Fri, 4 Jun 2021 14:26:38 -0500
-Message-ID: <CAOFGe94z7r1tk8-t7+RJZTyNOYD785HY9-FcLmn5mmKdGUn1cg@mail.gmail.com>
-Subject: Re: [PATCH 8/9] drm/i915: Move submission tasklet to i915_sched_engine
-To: Matthew Brost <matthew.brost@intel.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.90
+X-Rspamd-Server: rspamout05
+X-Rspamd-Queue-Id: 80AD71124FA
+X-Stat-Signature: phq1t84r7hdy78tyjsrpdrat168hrsik
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-Session-ID: U2FsdGVkX1/PIeFEZ46D7snJ1nSJmE2kCP8dD8iXWeo=
+X-HE-Tag: 1622835488-93370
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,726 +53,685 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@intel.com>,
- Intel GFX <intel-gfx@lists.freedesktop.org>,
- Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>
+Cc: linux-nfs@vger.kernel.org, lima@lists.freedesktop.org,
+ linux-rdma@vger.kernel.org, netdev@vger.kernel.org, linux-usb@vger.kernel.org,
+ linux-wireless@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ amd-gfx@lists.freedesktop.org, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jun 3, 2021 at 4:09 PM Matthew Brost <matthew.brost@intel.com> wrote:
->
-> The submission tasklet operates on i915_sched_engine, thus it is the
-> correct place for it.
->
-> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
-> ---
->  drivers/gpu/drm/i915/gt/intel_engine.h        | 14 ---
->  drivers/gpu/drm/i915/gt/intel_engine_cs.c     | 12 +--
->  drivers/gpu/drm/i915/gt/intel_engine_types.h  |  5 --
->  .../drm/i915/gt/intel_execlists_submission.c  | 86 ++++++++++---------
->  drivers/gpu/drm/i915/gt/mock_engine.c         |  1 +
->  drivers/gpu/drm/i915/gt/selftest_execlists.c  | 16 ++--
->  drivers/gpu/drm/i915/gt/selftest_hangcheck.c  |  2 +-
->  drivers/gpu/drm/i915/gt/selftest_lrc.c        |  6 +-
->  drivers/gpu/drm/i915/gt/selftest_reset.c      |  2 +-
->  .../gpu/drm/i915/gt/uc/intel_guc_submission.c | 25 +++---
->  drivers/gpu/drm/i915/i915_scheduler.c         |  1 +
->  drivers/gpu/drm/i915/i915_scheduler.h         | 14 +++
->  drivers/gpu/drm/i915/i915_scheduler_types.h   |  8 ++
->  13 files changed, 99 insertions(+), 93 deletions(-)
->
-> diff --git a/drivers/gpu/drm/i915/gt/intel_engine.h b/drivers/gpu/drm/i915/gt/intel_engine.h
-> index a8b2174b4395..988d9688ae4d 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_engine.h
-> +++ b/drivers/gpu/drm/i915/gt/intel_engine.h
-> @@ -123,20 +123,6 @@ execlists_active(const struct intel_engine_execlists *execlists)
->         return active;
->  }
->
-> -static inline void
-> -execlists_active_lock_bh(struct intel_engine_execlists *execlists)
-> -{
-> -       local_bh_disable(); /* prevent local softirq and lock recursion */
-> -       tasklet_lock(&execlists->tasklet);
-> -}
-> -
-> -static inline void
-> -execlists_active_unlock_bh(struct intel_engine_execlists *execlists)
-> -{
-> -       tasklet_unlock(&execlists->tasklet);
-> -       local_bh_enable(); /* restore softirq, and kick ksoftirqd! */
-> -}
-> -
->  struct i915_request *
->  execlists_unwind_incomplete_requests(struct intel_engine_execlists *execlists);
->
-> diff --git a/drivers/gpu/drm/i915/gt/intel_engine_cs.c b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
-> index b480fcb1aad1..837d2132e31b 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_engine_cs.c
-> +++ b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
-> @@ -711,6 +711,7 @@ static int engine_setup_common(struct intel_engine_cs *engine)
->                 err = -ENOMEM;
->                 goto err_sched_engine;
->         }
-> +       engine->sched_engine->engine = engine;
+The __assign_str macro has an unusual ending semicolon but the vast
+majority of uses of the macro already have semicolon termination.
 
-This bothers me.  If we're trying to separate things, why do we have a
-back pointer?  Yes, I know it's because we need to access our engine
-back-end somehow.  Makes me wonder if it should be some sort of a
-void* private data pointer instead of the engine.  That's probably
-less safe but it seems more "right" in some sense?  I don't know.
+$ git grep -P '\b__assign_str\b' | wc -l
+551
+$ git grep -P '\b__assign_str\b.*;' | wc -l
+480
 
-Also, dumb question but what's a tasklet?
+Add semicolons to the __assign_str() uses without semicolon termination
+and all the other uses without semicolon termination via additional defines
+that are equivalent to __assign_str() with the eventual goal of removing
+the semicolon from the __assign_str() macro definition.
 
---Jason
+Link: https://lore.kernel.org/lkml/1e068d21106bb6db05b735b4916bb420e6c9842a.camel@perches.com/
 
->
->         err = intel_engine_init_cmd_parser(engine);
->         if (err)
-> @@ -935,7 +936,6 @@ int intel_engines_init(struct intel_gt *gt)
->  void intel_engine_cleanup_common(struct intel_engine_cs *engine)
->  {
->         GEM_BUG_ON(!list_empty(&engine->sched_engine->requests));
-> -       tasklet_kill(&engine->execlists.tasklet); /* flush the callback */
->
->         i915_sched_engine_put(engine->sched_engine);
->         intel_breadcrumbs_free(engine->breadcrumbs);
-> @@ -1221,7 +1221,7 @@ static bool ring_is_idle(struct intel_engine_cs *engine)
->
->  void __intel_engine_flush_submission(struct intel_engine_cs *engine, bool sync)
->  {
-> -       struct tasklet_struct *t = &engine->execlists.tasklet;
-> +       struct tasklet_struct *t = &engine->sched_engine->tasklet;
->
->         if (!t->callback)
->                 return;
-> @@ -1482,8 +1482,8 @@ static void intel_engine_print_registers(struct intel_engine_cs *engine,
->
->                 drm_printf(m, "\tExeclist tasklet queued? %s (%s), preempt? %s, timeslice? %s\n",
->                            yesno(test_bit(TASKLET_STATE_SCHED,
-> -                                         &engine->execlists.tasklet.state)),
-> -                          enableddisabled(!atomic_read(&engine->execlists.tasklet.count)),
-> +                                         &engine->sched_engine->tasklet.state)),
-> +                          enableddisabled(!atomic_read(&engine->sched_engine->tasklet.count)),
->                            repr_timer(&engine->execlists.preempt),
->                            repr_timer(&engine->execlists.timer));
->
-> @@ -1507,7 +1507,7 @@ static void intel_engine_print_registers(struct intel_engine_cs *engine,
->                                    idx, hws[idx * 2], hws[idx * 2 + 1]);
->                 }
->
-> -               execlists_active_lock_bh(execlists);
-> +               i915_sched_engine_active_lock_bh(engine->sched_engine);
->                 rcu_read_lock();
->                 for (port = execlists->active; (rq = *port); port++) {
->                         char hdr[160];
-> @@ -1538,7 +1538,7 @@ static void intel_engine_print_registers(struct intel_engine_cs *engine,
->                         i915_request_show(m, rq, hdr, 0);
->                 }
->                 rcu_read_unlock();
-> -               execlists_active_unlock_bh(execlists);
-> +               i915_sched_engine_active_unlock_bh(engine->sched_engine);
->         } else if (INTEL_GEN(dev_priv) > 6) {
->                 drm_printf(m, "\tPP_DIR_BASE: 0x%08x\n",
->                            ENGINE_READ(engine, RING_PP_DIR_BASE));
-> diff --git a/drivers/gpu/drm/i915/gt/intel_engine_types.h b/drivers/gpu/drm/i915/gt/intel_engine_types.h
-> index f1b14aff5118..6f2fd6f13ac4 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_engine_types.h
-> +++ b/drivers/gpu/drm/i915/gt/intel_engine_types.h
-> @@ -138,11 +138,6 @@ struct st_preempt_hang {
->   * driver and the hardware state for execlist mode of submission.
->   */
->  struct intel_engine_execlists {
-> -       /**
-> -        * @tasklet: softirq tasklet for bottom handler
-> -        */
-> -       struct tasklet_struct tasklet;
-> -
->         /**
->          * @timer: kick the current context if its timeslice expires
->          */
-> diff --git a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
-> index 7240c153be35..7a93aec3f6a9 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
-> +++ b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
-> @@ -570,7 +570,7 @@ static void kick_siblings(struct i915_request *rq, struct intel_context *ce)
->                 resubmit_virtual_request(rq, ve);
->
->         if (READ_ONCE(ve->request))
-> -               tasklet_hi_schedule(&ve->base.execlists.tasklet);
-> +               tasklet_hi_schedule(&ve->base.sched_engine->tasklet);
->  }
->
->  static void __execlists_schedule_out(struct i915_request * const rq,
-> @@ -739,9 +739,9 @@ trace_ports(const struct intel_engine_execlists *execlists,
->  }
->
->  static bool
-> -reset_in_progress(const struct intel_engine_execlists *execlists)
-> +reset_in_progress(const struct intel_engine_cs *engine)
->  {
-> -       return unlikely(!__tasklet_is_enabled(&execlists->tasklet));
-> +       return unlikely(!__tasklet_is_enabled(&engine->sched_engine->tasklet));
->  }
->
->  static __maybe_unused noinline bool
-> @@ -757,7 +757,7 @@ assert_pending_valid(const struct intel_engine_execlists *execlists,
->         trace_ports(execlists, msg, execlists->pending);
->
->         /* We may be messing around with the lists during reset, lalala */
-> -       if (reset_in_progress(execlists))
-> +       if (reset_in_progress(engine))
->                 return true;
->
->         if (!execlists->pending[0]) {
-> @@ -1190,7 +1190,7 @@ static void start_timeslice(struct intel_engine_cs *engine)
->                          * its timeslice, so recheck.
->                          */
->                         if (!timer_pending(&el->timer))
-> -                               tasklet_hi_schedule(&el->tasklet);
-> +                               tasklet_hi_schedule(&engine->sched_engine->tasklet);
->                         return;
->                 }
->
-> @@ -1772,8 +1772,8 @@ process_csb(struct intel_engine_cs *engine, struct i915_request **inactive)
->          * access. Either we are inside the tasklet, or the tasklet is disabled
->          * and we assume that is only inside the reset paths and so serialised.
->          */
-> -       GEM_BUG_ON(!tasklet_is_locked(&execlists->tasklet) &&
-> -                  !reset_in_progress(execlists));
-> +       GEM_BUG_ON(!tasklet_is_locked(&engine->sched_engine->tasklet) &&
-> +                  !reset_in_progress(engine));
->
->         /*
->          * Note that csb_write, csb_status may be either in HWSP or mmio.
-> @@ -2131,7 +2131,7 @@ static void execlists_unhold(struct intel_engine_cs *engine,
->
->         if (rq_prio(rq) > engine->sched_engine->queue_priority_hint) {
->                 engine->sched_engine->queue_priority_hint = rq_prio(rq);
-> -               tasklet_hi_schedule(&engine->execlists.tasklet);
-> +               tasklet_hi_schedule(&engine->sched_engine->tasklet);
->         }
->
->         spin_unlock_irq(&engine->sched_engine->lock);
-> @@ -2322,13 +2322,13 @@ static void execlists_reset(struct intel_engine_cs *engine, const char *msg)
->         ENGINE_TRACE(engine, "reset for %s\n", msg);
->
->         /* Mark this tasklet as disabled to avoid waiting for it to complete */
-> -       tasklet_disable_nosync(&engine->execlists.tasklet);
-> +       tasklet_disable_nosync(&engine->sched_engine->tasklet);
->
->         ring_set_paused(engine, 1); /* Freeze the current request in place */
->         execlists_capture(engine);
->         intel_engine_reset(engine, msg);
->
-> -       tasklet_enable(&engine->execlists.tasklet);
-> +       tasklet_enable(&engine->sched_engine->tasklet);
->         clear_and_wake_up_bit(bit, lock);
->  }
->
-> @@ -2351,8 +2351,9 @@ static bool preempt_timeout(const struct intel_engine_cs *const engine)
->   */
->  static void execlists_submission_tasklet(struct tasklet_struct *t)
->  {
-> -       struct intel_engine_cs * const engine =
-> -               from_tasklet(engine, t, execlists.tasklet);
-> +       struct i915_sched_engine *sched_engine =
-> +               from_tasklet(sched_engine, t, tasklet);
-> +       struct intel_engine_cs * const engine = sched_engine->engine;
->         struct i915_request *post[2 * EXECLIST_MAX_PORTS];
->         struct i915_request **inactive;
->
-> @@ -2427,13 +2428,16 @@ static void execlists_irq_handler(struct intel_engine_cs *engine, u16 iir)
->                 intel_engine_signal_breadcrumbs(engine);
->
->         if (tasklet)
-> -               tasklet_hi_schedule(&engine->execlists.tasklet);
-> +               tasklet_hi_schedule(&engine->sched_engine->tasklet);
->  }
->
->  static void __execlists_kick(struct intel_engine_execlists *execlists)
->  {
-> +       struct intel_engine_cs *engine =
-> +               container_of(execlists, typeof(*engine), execlists);
-> +
->         /* Kick the tasklet for some interrupt coalescing and reset handling */
-> -       tasklet_hi_schedule(&execlists->tasklet);
-> +       tasklet_hi_schedule(&engine->sched_engine->tasklet);
->  }
->
->  #define execlists_kick(t, member) \
-> @@ -2808,10 +2812,8 @@ static int execlists_resume(struct intel_engine_cs *engine)
->
->  static void execlists_reset_prepare(struct intel_engine_cs *engine)
->  {
-> -       struct intel_engine_execlists * const execlists = &engine->execlists;
-> -
->         ENGINE_TRACE(engine, "depth<-%d\n",
-> -                    atomic_read(&execlists->tasklet.count));
-> +                    atomic_read(&engine->sched_engine->tasklet.count));
->
->         /*
->          * Prevent request submission to the hardware until we have
-> @@ -2822,8 +2824,8 @@ static void execlists_reset_prepare(struct intel_engine_cs *engine)
->          * Turning off the execlists->tasklet until the reset is over
->          * prevents the race.
->          */
-> -       __tasklet_disable_sync_once(&execlists->tasklet);
-> -       GEM_BUG_ON(!reset_in_progress(execlists));
-> +       __tasklet_disable_sync_once(&engine->sched_engine->tasklet);
-> +       GEM_BUG_ON(!reset_in_progress(engine));
->
->         /*
->          * We stop engines, otherwise we might get failed reset and a
-> @@ -2973,8 +2975,9 @@ static void execlists_reset_rewind(struct intel_engine_cs *engine, bool stalled)
->
->  static void nop_submission_tasklet(struct tasklet_struct *t)
->  {
-> -       struct intel_engine_cs * const engine =
-> -               from_tasklet(engine, t, execlists.tasklet);
-> +       struct i915_sched_engine *sched_engine =
-> +               from_tasklet(sched_engine, t, tasklet);
-> +       struct intel_engine_cs * const engine = sched_engine->engine;
->
->         /* The driver is wedged; don't process any more events. */
->         WRITE_ONCE(engine->sched_engine->queue_priority_hint, INT_MIN);
-> @@ -3061,8 +3064,8 @@ static void execlists_reset_cancel(struct intel_engine_cs *engine)
->         sched_engine->queue_priority_hint = INT_MIN;
->         sched_engine->queue = RB_ROOT_CACHED;
->
-> -       GEM_BUG_ON(__tasklet_is_enabled(&execlists->tasklet));
-> -       execlists->tasklet.callback = nop_submission_tasklet;
-> +       GEM_BUG_ON(__tasklet_is_enabled(&engine->sched_engine->tasklet));
-> +       engine->sched_engine->tasklet.callback = nop_submission_tasklet;
->
->         spin_unlock_irqrestore(&engine->sched_engine->lock, flags);
->         rcu_read_unlock();
-> @@ -3082,14 +3085,14 @@ static void execlists_reset_finish(struct intel_engine_cs *engine)
->          * reset as the next level of recovery, and as a final resort we
->          * will declare the device wedged.
->          */
-> -       GEM_BUG_ON(!reset_in_progress(execlists));
-> +       GEM_BUG_ON(!reset_in_progress(engine));
->
->         /* And kick in case we missed a new request submission. */
-> -       if (__tasklet_enable(&execlists->tasklet))
-> +       if (__tasklet_enable(&engine->sched_engine->tasklet))
->                 __execlists_kick(execlists);
->
->         ENGINE_TRACE(engine, "depth->%d\n",
-> -                    atomic_read(&execlists->tasklet.count));
-> +                    atomic_read(&engine->sched_engine->tasklet.count));
->  }
->
->  static void gen8_logical_ring_enable_irq(struct intel_engine_cs *engine)
-> @@ -3153,8 +3156,6 @@ static void kick_execlists(const struct i915_request *rq, int prio)
->                      inflight->fence.context, inflight->fence.seqno,
->                      inflight->sched.attr.priority);
->
-> -       sched_engine->queue_priority_hint = prio;
-> -
->         /*
->          * Allow preemption of low -> normal -> high, but we do
->          * not allow low priority tasks to preempt other low priority
-> @@ -3163,7 +3164,7 @@ static void kick_execlists(const struct i915_request *rq, int prio)
->          * so kiss.
->          */
->         if (prio >= max(I915_PRIORITY_NORMAL, rq_prio(inflight)))
-> -               tasklet_hi_schedule(&engine->execlists.tasklet);
-> +               tasklet_hi_schedule(&sched_engine->tasklet);
->
->  unlock:
->         rcu_read_unlock();
-> @@ -3174,7 +3175,7 @@ static void execlists_set_default_submission(struct intel_engine_cs *engine)
->         engine->submit_request = execlists_submit_request;
->         engine->sched_engine->schedule = i915_schedule;
->         engine->sched_engine->kick_backend = kick_execlists;
-> -       engine->execlists.tasklet.callback = execlists_submission_tasklet;
-> +       engine->sched_engine->tasklet.callback = execlists_submission_tasklet;
->  }
->
->  static void execlists_shutdown(struct intel_engine_cs *engine)
-> @@ -3182,7 +3183,7 @@ static void execlists_shutdown(struct intel_engine_cs *engine)
->         /* Synchronise with residual timers and any softirq they raise */
->         del_timer_sync(&engine->execlists.timer);
->         del_timer_sync(&engine->execlists.preempt);
-> -       tasklet_kill(&engine->execlists.tasklet);
-> +       tasklet_kill(&engine->sched_engine->tasklet);
->  }
->
->  static void execlists_release(struct intel_engine_cs *engine)
-> @@ -3298,7 +3299,7 @@ int intel_execlists_submission_setup(struct intel_engine_cs *engine)
->         struct intel_uncore *uncore = engine->uncore;
->         u32 base = engine->mmio_base;
->
-> -       tasklet_setup(&engine->execlists.tasklet, execlists_submission_tasklet);
-> +       tasklet_setup(&engine->sched_engine->tasklet, execlists_submission_tasklet);
->         timer_setup(&engine->execlists.timer, execlists_timeslice, 0);
->         timer_setup(&engine->execlists.preempt, execlists_preempt, 0);
->
-> @@ -3380,7 +3381,7 @@ static void rcu_virtual_context_destroy(struct work_struct *wrk)
->          * rbtrees as in the case it is running in parallel, it may reinsert
->          * the rb_node into a sibling.
->          */
-> -       tasklet_kill(&ve->base.execlists.tasklet);
-> +       tasklet_kill(&ve->base.sched_engine->tasklet);
->
->         /* Decouple ourselves from the siblings, no more access allowed. */
->         for (n = 0; n < ve->num_siblings; n++) {
-> @@ -3392,13 +3393,13 @@ static void rcu_virtual_context_destroy(struct work_struct *wrk)
->
->                 spin_lock_irq(&sibling->sched_engine->lock);
->
-> -               /* Detachment is lazily performed in the execlists tasklet */
-> +               /* Detachment is lazily performed in the sched_engine->tasklet */
->                 if (!RB_EMPTY_NODE(node))
->                         rb_erase_cached(node, &sibling->execlists.virtual);
->
->                 spin_unlock_irq(&sibling->sched_engine->lock);
->         }
-> -       GEM_BUG_ON(__tasklet_is_scheduled(&ve->base.execlists.tasklet));
-> +       GEM_BUG_ON(__tasklet_is_scheduled(&ve->base.sched_engine->tasklet));
->         GEM_BUG_ON(!list_empty(virtual_queue(ve)));
->
->         lrc_fini(&ve->context);
-> @@ -3545,9 +3546,11 @@ static intel_engine_mask_t virtual_submission_mask(struct virtual_engine *ve)
->
->  static void virtual_submission_tasklet(struct tasklet_struct *t)
->  {
-> +       struct i915_sched_engine *sched_engine =
-> +               from_tasklet(sched_engine, t, tasklet);
->         struct virtual_engine * const ve =
-> -               from_tasklet(ve, t, base.execlists.tasklet);
-> -       const int prio = READ_ONCE(ve->base.sched_engine->queue_priority_hint);
-> +               (struct virtual_engine *)sched_engine->engine;
-> +       const int prio = READ_ONCE(sched_engine->queue_priority_hint);
->         intel_engine_mask_t mask;
->         unsigned int n;
->
-> @@ -3616,7 +3619,7 @@ static void virtual_submission_tasklet(struct tasklet_struct *t)
->                 GEM_BUG_ON(RB_EMPTY_NODE(&node->rb));
->                 node->prio = prio;
->                 if (first && prio > sibling->sched_engine->queue_priority_hint)
-> -                       tasklet_hi_schedule(&sibling->execlists.tasklet);
-> +                       tasklet_hi_schedule(&sibling->sched_engine->tasklet);
->
->  unlock_engine:
->                 spin_unlock_irq(&sibling->sched_engine->lock);
-> @@ -3657,7 +3660,7 @@ static void virtual_submit_request(struct i915_request *rq)
->         GEM_BUG_ON(!list_empty(virtual_queue(ve)));
->         list_move_tail(&rq->sched.link, virtual_queue(ve));
->
-> -       tasklet_hi_schedule(&ve->base.execlists.tasklet);
-> +       tasklet_hi_schedule(&ve->base.sched_engine->tasklet);
->
->  unlock:
->         spin_unlock_irqrestore(&ve->base.sched_engine->lock, flags);
-> @@ -3751,6 +3754,7 @@ intel_execlists_create_virtual(struct intel_engine_cs **siblings,
->                 err = -ENOMEM;
->                 goto err_put;
->         }
-> +       ve->base.sched_engine->engine = &ve->base;
->
->         ve->base.cops = &virtual_context_ops;
->         ve->base.request_alloc = execlists_request_alloc;
-> @@ -3761,7 +3765,7 @@ intel_execlists_create_virtual(struct intel_engine_cs **siblings,
->         ve->base.bond_execute = virtual_bond_execute;
->
->         INIT_LIST_HEAD(virtual_queue(ve));
-> -       tasklet_setup(&ve->base.execlists.tasklet, virtual_submission_tasklet);
-> +       tasklet_setup(&ve->base.sched_engine->tasklet, virtual_submission_tasklet);
->
->         intel_context_init(&ve->context, &ve->base);
->
-> @@ -3789,7 +3793,7 @@ intel_execlists_create_virtual(struct intel_engine_cs **siblings,
->                  * layering if we handle cloning of the requests and
->                  * submitting a copy into each backend.
->                  */
-> -               if (sibling->execlists.tasklet.callback !=
-> +               if (sibling->sched_engine->tasklet.callback !=
->                     execlists_submission_tasklet) {
->                         err = -ENODEV;
->                         goto err_put;
-> diff --git a/drivers/gpu/drm/i915/gt/mock_engine.c b/drivers/gpu/drm/i915/gt/mock_engine.c
-> index a49fd3039f13..bd005c1b6fd5 100644
-> --- a/drivers/gpu/drm/i915/gt/mock_engine.c
-> +++ b/drivers/gpu/drm/i915/gt/mock_engine.c
-> @@ -349,6 +349,7 @@ int mock_engine_init(struct intel_engine_cs *engine)
->         engine->sched_engine = i915_sched_engine_create(ENGINE_MOCK);
->         if (!engine->sched_engine)
->                 return -ENOMEM;
-> +       engine->sched_engine->engine = engine;
->
->         intel_engine_init_execlists(engine);
->         intel_engine_init__pm(engine);
-> diff --git a/drivers/gpu/drm/i915/gt/selftest_execlists.c b/drivers/gpu/drm/i915/gt/selftest_execlists.c
-> index 5cc7648d1e5a..2554a2f343b4 100644
-> --- a/drivers/gpu/drm/i915/gt/selftest_execlists.c
-> +++ b/drivers/gpu/drm/i915/gt/selftest_execlists.c
-> @@ -43,7 +43,7 @@ static int wait_for_submit(struct intel_engine_cs *engine,
->                            unsigned long timeout)
->  {
->         /* Ignore our own attempts to suppress excess tasklets */
-> -       tasklet_hi_schedule(&engine->execlists.tasklet);
-> +       tasklet_hi_schedule(&engine->sched_engine->tasklet);
->
->         timeout += jiffies;
->         do {
-> @@ -606,9 +606,9 @@ static int live_hold_reset(void *arg)
->                         err = -EBUSY;
->                         goto out;
->                 }
-> -               tasklet_disable(&engine->execlists.tasklet);
-> +               tasklet_disable(&engine->sched_engine->tasklet);
->
-> -               engine->execlists.tasklet.callback(&engine->execlists.tasklet);
-> +               engine->sched_engine->tasklet.callback(&engine->sched_engine->tasklet);
->                 GEM_BUG_ON(execlists_active(&engine->execlists) != rq);
->
->                 i915_request_get(rq);
-> @@ -618,7 +618,7 @@ static int live_hold_reset(void *arg)
->                 __intel_engine_reset_bh(engine, NULL);
->                 GEM_BUG_ON(rq->fence.error != -EIO);
->
-> -               tasklet_enable(&engine->execlists.tasklet);
-> +               tasklet_enable(&engine->sched_engine->tasklet);
->                 clear_and_wake_up_bit(I915_RESET_ENGINE + id,
->                                       &gt->reset.flags);
->                 local_bh_enable();
-> @@ -1183,7 +1183,7 @@ static int live_timeslice_rewind(void *arg)
->                 while (i915_request_is_active(rq[A2])) { /* semaphore yield! */
->                         /* Wait for the timeslice to kick in */
->                         del_timer(&engine->execlists.timer);
-> -                       tasklet_hi_schedule(&engine->execlists.tasklet);
-> +                       tasklet_hi_schedule(&engine->sched_engine->tasklet);
->                         intel_engine_flush_submission(engine);
->                 }
->                 /* -> ELSP[] = { { A:rq1 }, { B:rq1 } } */
-> @@ -4593,9 +4593,9 @@ static int reset_virtual_engine(struct intel_gt *gt,
->                 err = -EBUSY;
->                 goto out_heartbeat;
->         }
-> -       tasklet_disable(&engine->execlists.tasklet);
-> +       tasklet_disable(&engine->sched_engine->tasklet);
->
-> -       engine->execlists.tasklet.callback(&engine->execlists.tasklet);
-> +       engine->sched_engine->tasklet.callback(&engine->sched_engine->tasklet);
->         GEM_BUG_ON(execlists_active(&engine->execlists) != rq);
->
->         /* Fake a preemption event; failed of course */
-> @@ -4612,7 +4612,7 @@ static int reset_virtual_engine(struct intel_gt *gt,
->         GEM_BUG_ON(rq->fence.error != -EIO);
->
->         /* Release our grasp on the engine, letting CS flow again */
-> -       tasklet_enable(&engine->execlists.tasklet);
-> +       tasklet_enable(&engine->sched_engine->tasklet);
->         clear_and_wake_up_bit(I915_RESET_ENGINE + engine->id, &gt->reset.flags);
->         local_bh_enable();
->
-> diff --git a/drivers/gpu/drm/i915/gt/selftest_hangcheck.c b/drivers/gpu/drm/i915/gt/selftest_hangcheck.c
-> index e57dc900ae8d..cbcb800e2ca0 100644
-> --- a/drivers/gpu/drm/i915/gt/selftest_hangcheck.c
-> +++ b/drivers/gpu/drm/i915/gt/selftest_hangcheck.c
-> @@ -1702,7 +1702,7 @@ static int __igt_atomic_reset_engine(struct intel_engine_cs *engine,
->                                      const struct igt_atomic_section *p,
->                                      const char *mode)
->  {
-> -       struct tasklet_struct * const t = &engine->execlists.tasklet;
-> +       struct tasklet_struct * const t = &engine->sched_engine->tasklet;
->         int err;
->
->         GEM_TRACE("i915_reset_engine(%s:%s) under %s\n",
-> diff --git a/drivers/gpu/drm/i915/gt/selftest_lrc.c b/drivers/gpu/drm/i915/gt/selftest_lrc.c
-> index d8f6623524e8..6a3a0d89dcd2 100644
-> --- a/drivers/gpu/drm/i915/gt/selftest_lrc.c
-> +++ b/drivers/gpu/drm/i915/gt/selftest_lrc.c
-> @@ -49,7 +49,7 @@ static int wait_for_submit(struct intel_engine_cs *engine,
->                            unsigned long timeout)
->  {
->         /* Ignore our own attempts to suppress excess tasklets */
-> -       tasklet_hi_schedule(&engine->execlists.tasklet);
-> +       tasklet_hi_schedule(&engine->sched_engine->tasklet);
->
->         timeout += jiffies;
->         do {
-> @@ -1613,12 +1613,12 @@ static void garbage_reset(struct intel_engine_cs *engine,
->
->         local_bh_disable();
->         if (!test_and_set_bit(bit, lock)) {
-> -               tasklet_disable(&engine->execlists.tasklet);
-> +               tasklet_disable(&engine->sched_engine->tasklet);
->
->                 if (!rq->fence.error)
->                         __intel_engine_reset_bh(engine, NULL);
->
-> -               tasklet_enable(&engine->execlists.tasklet);
-> +               tasklet_enable(&engine->sched_engine->tasklet);
->                 clear_and_wake_up_bit(bit, lock);
->         }
->         local_bh_enable();
-> diff --git a/drivers/gpu/drm/i915/gt/selftest_reset.c b/drivers/gpu/drm/i915/gt/selftest_reset.c
-> index 8784257ec808..7a50c9f4071b 100644
-> --- a/drivers/gpu/drm/i915/gt/selftest_reset.c
-> +++ b/drivers/gpu/drm/i915/gt/selftest_reset.c
-> @@ -321,7 +321,7 @@ static int igt_atomic_engine_reset(void *arg)
->                 goto out_unlock;
->
->         for_each_engine(engine, gt, id) {
-> -               struct tasklet_struct *t = &engine->execlists.tasklet;
-> +               struct tasklet_struct *t = &engine->sched_engine->tasklet;
->
->                 if (t->func)
->                         tasklet_disable(t);
-> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> index 7ed21670ef14..95c6f6af4047 100644
-> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> @@ -241,8 +241,9 @@ static void __guc_dequeue(struct intel_engine_cs *engine)
->
->  static void guc_submission_tasklet(struct tasklet_struct *t)
->  {
-> -       struct intel_engine_cs * const engine =
-> -               from_tasklet(engine, t, execlists.tasklet);
-> +       struct i915_sched_engine *sched_engine =
-> +               from_tasklet(sched_engine, t, tasklet);
-> +       struct intel_engine_cs * const engine = sched_engine->engine;
->         struct intel_engine_execlists * const execlists = &engine->execlists;
->         struct i915_request **port, *rq;
->         unsigned long flags;
-> @@ -272,14 +273,12 @@ static void cs_irq_handler(struct intel_engine_cs *engine, u16 iir)
->  {
->         if (iir & GT_RENDER_USER_INTERRUPT) {
->                 intel_engine_signal_breadcrumbs(engine);
-> -               tasklet_hi_schedule(&engine->execlists.tasklet);
-> +               tasklet_hi_schedule(&engine->sched_engine->tasklet);
->         }
->  }
->
->  static void guc_reset_prepare(struct intel_engine_cs *engine)
->  {
-> -       struct intel_engine_execlists * const execlists = &engine->execlists;
-> -
->         ENGINE_TRACE(engine, "\n");
->
->         /*
-> @@ -291,7 +290,7 @@ static void guc_reset_prepare(struct intel_engine_cs *engine)
->          * Turning off the execlists->tasklet until the reset is over
->          * prevents the race.
->          */
-> -       __tasklet_disable_sync_once(&execlists->tasklet);
-> +       __tasklet_disable_sync_once(&engine->sched_engine->tasklet);
->  }
->
->  static void guc_reset_state(struct intel_context *ce,
-> @@ -395,14 +394,12 @@ static void guc_reset_cancel(struct intel_engine_cs *engine)
->
->  static void guc_reset_finish(struct intel_engine_cs *engine)
->  {
-> -       struct intel_engine_execlists * const execlists = &engine->execlists;
-> -
-> -       if (__tasklet_enable(&execlists->tasklet))
-> +       if (__tasklet_enable(&engine->sched_engine->tasklet))
->                 /* And kick in case we missed a new request submission. */
-> -               tasklet_hi_schedule(&execlists->tasklet);
-> +               tasklet_hi_schedule(&engine->sched_engine->tasklet);
->
->         ENGINE_TRACE(engine, "depth->%d\n",
-> -                    atomic_read(&execlists->tasklet.count));
-> +                    atomic_read(&engine->sched_engine->tasklet.count));
->  }
->
->  /*
-> @@ -546,7 +543,7 @@ static void guc_submit_request(struct i915_request *rq)
->         GEM_BUG_ON(i915_sched_engine_is_empty(engine->sched_engine));
->         GEM_BUG_ON(list_empty(&rq->sched.link));
->
-> -       tasklet_hi_schedule(&engine->execlists.tasklet);
-> +       tasklet_hi_schedule(&engine->sched_engine->tasklet);
->
->         spin_unlock_irqrestore(&engine->sched_engine->lock, flags);
->  }
-> @@ -626,7 +623,7 @@ static void guc_release(struct intel_engine_cs *engine)
->  {
->         engine->sanitize = NULL; /* no longer in control, nothing to sanitize */
->
-> -       tasklet_kill(&engine->execlists.tasklet);
-> +       tasklet_kill(&engine->sched_engine->tasklet);
->
->         intel_engine_cleanup_common(engine);
->         lrc_fini_wa_ctx(engine);
-> @@ -705,7 +702,7 @@ int intel_guc_submission_setup(struct intel_engine_cs *engine)
->          */
->         GEM_BUG_ON(INTEL_GEN(i915) < 11);
->
-> -       tasklet_setup(&engine->execlists.tasklet, guc_submission_tasklet);
-> +       tasklet_setup(&engine->sched_engine->tasklet, guc_submission_tasklet);
->
->         guc_default_vfuncs(engine);
->         guc_default_irqs(engine);
-> diff --git a/drivers/gpu/drm/i915/i915_scheduler.c b/drivers/gpu/drm/i915/i915_scheduler.c
-> index 3d36e4447b5d..6f082579ee9e 100644
-> --- a/drivers/gpu/drm/i915/i915_scheduler.c
-> +++ b/drivers/gpu/drm/i915/i915_scheduler.c
-> @@ -436,6 +436,7 @@ void i915_sched_engine_free(struct kref *kref)
->         struct i915_sched_engine *sched_engine =
->                 container_of(kref, typeof(*sched_engine), ref);
->
-> +       tasklet_kill(&sched_engine->tasklet); /* flush the callback */
->         kfree(sched_engine);
->  }
->
-> diff --git a/drivers/gpu/drm/i915/i915_scheduler.h b/drivers/gpu/drm/i915/i915_scheduler.h
-> index 0014745bda30..650ab8e0db9f 100644
-> --- a/drivers/gpu/drm/i915/i915_scheduler.h
-> +++ b/drivers/gpu/drm/i915/i915_scheduler.h
-> @@ -79,6 +79,20 @@ i915_sched_engine_reset_on_empty(struct i915_sched_engine *sched_engine)
->                 sched_engine->no_priolist = false;
->  }
->
-> +static inline void
-> +i915_sched_engine_active_lock_bh(struct i915_sched_engine *sched_engine)
-> +{
-> +       local_bh_disable(); /* prevent local softirq and lock recursion */
-> +       tasklet_lock(&sched_engine->tasklet);
-> +}
-> +
-> +static inline void
-> +i915_sched_engine_active_unlock_bh(struct i915_sched_engine *sched_engine)
-> +{
-> +       tasklet_unlock(&sched_engine->tasklet);
-> +       local_bh_enable(); /* restore softirq, and kick ksoftirqd! */
-> +}
-> +
->  void i915_request_show_with_schedule(struct drm_printer *m,
->                                      const struct i915_request *rq,
->                                      const char *prefix,
-> diff --git a/drivers/gpu/drm/i915/i915_scheduler_types.h b/drivers/gpu/drm/i915/i915_scheduler_types.h
-> index 8b3af536e6cf..9d79514450de 100644
-> --- a/drivers/gpu/drm/i915/i915_scheduler_types.h
-> +++ b/drivers/gpu/drm/i915/i915_scheduler_types.h
-> @@ -103,6 +103,11 @@ struct i915_sched_engine {
->         struct list_head requests;
->         struct list_head hold; /* ready requests, but on hold */
->
-> +       /**
-> +        * @tasklet: softirq tasklet for bottom handler
-> +        */
-> +       struct tasklet_struct tasklet;
-> +
->         /**
->          * @default_priolist: priority list for I915_PRIORITY_NORMAL
->          */
-> @@ -132,6 +137,9 @@ struct i915_sched_engine {
->          */
->         bool no_priolist;
->
-> +       /* Back pointer to engine */
-> +       struct intel_engine_cs *engine;
-> +
->         /* Kick backend */
->         void    (*kick_backend)(const struct i915_request *rq,
->                                 int prio);
-> --
-> 2.28.0
->
+Signed-off-by: Joe Perches <joe@perches.com>
+---
+
+Resending without all the direct cc's, only the mailing lists as
+it seems not to have gone through via vger.
+
+Compiled x84-64 allyesconfig
+
+On Fri, 2021-06-04 at 12:21 -0400, Steven Rostedt wrote:
+> I have no problem taking a clean up patch that adds semicolons to all
+> use cases of "__assign_str()" and ever remove the one from where it is
+> defined. As long as it doesn't break any builds, I'm fine with that.
+
+Removing the semicolon from the macro definition is left for another patch.
+
+ drivers/gpu/drm/amd/amdgpu/amdgpu_trace.h          | 14 ++++----
+ drivers/gpu/drm/lima/lima_trace.h                  |  2 +-
+ drivers/infiniband/hw/hfi1/trace_misc.h            |  4 +--
+ drivers/infiniband/hw/hfi1/trace_rc.h              |  4 +--
+ drivers/infiniband/hw/hfi1/trace_tid.h             |  6 ++--
+ drivers/infiniband/hw/hfi1/trace_tx.h              |  8 ++---
+ drivers/infiniband/sw/rdmavt/trace_cq.h            |  4 +--
+ drivers/infiniband/sw/rdmavt/trace_mr.h            |  2 +-
+ drivers/infiniband/sw/rdmavt/trace_qp.h            |  4 +--
+ drivers/infiniband/sw/rdmavt/trace_rc.h            |  2 +-
+ drivers/infiniband/sw/rdmavt/trace_tx.h            |  4 +--
+ drivers/misc/mei/mei-trace.h                       |  6 ++--
+ .../net/ethernet/marvell/octeontx2/af/rvu_trace.h  | 12 +++----
+ drivers/net/fjes/fjes_trace.h                      |  4 +--
+ drivers/usb/cdns3/cdnsp-trace.h                    |  2 +-
+ fs/nfs/nfs4trace.h                                 |  6 ++--
+ fs/nfs/nfstrace.h                                  |  4 +--
+ include/trace/events/btrfs.h                       |  2 +-
+ include/trace/events/dma_fence.h                   |  4 +--
+ include/trace/events/rpcgss.h                      |  4 +--
+ include/trace/events/sunrpc.h                      | 40 +++++++++++-----------
+ net/mac80211/trace.h                               |  2 +-
+ 22 files changed, 70 insertions(+), 70 deletions(-)
+
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_trace.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_trace.h
+index 0527772fe1b80..d855cb53c7e09 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_trace.h
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_trace.h
+@@ -176,10 +176,10 @@ TRACE_EVENT(amdgpu_cs_ioctl,
+ 
+ 	    TP_fast_assign(
+ 			   __entry->sched_job_id = job->base.id;
+-			   __assign_str(timeline, AMDGPU_JOB_GET_TIMELINE_NAME(job))
++			   __assign_str(timeline, AMDGPU_JOB_GET_TIMELINE_NAME(job));
+ 			   __entry->context = job->base.s_fence->finished.context;
+ 			   __entry->seqno = job->base.s_fence->finished.seqno;
+-			   __assign_str(ring, to_amdgpu_ring(job->base.sched)->name)
++			   __assign_str(ring, to_amdgpu_ring(job->base.sched)->name);
+ 			   __entry->num_ibs = job->num_ibs;
+ 			   ),
+ 	    TP_printk("sched_job=%llu, timeline=%s, context=%u, seqno=%u, ring_name=%s, num_ibs=%u",
+@@ -201,10 +201,10 @@ TRACE_EVENT(amdgpu_sched_run_job,
+ 
+ 	    TP_fast_assign(
+ 			   __entry->sched_job_id = job->base.id;
+-			   __assign_str(timeline, AMDGPU_JOB_GET_TIMELINE_NAME(job))
++			   __assign_str(timeline, AMDGPU_JOB_GET_TIMELINE_NAME(job));
+ 			   __entry->context = job->base.s_fence->finished.context;
+ 			   __entry->seqno = job->base.s_fence->finished.seqno;
+-			   __assign_str(ring, to_amdgpu_ring(job->base.sched)->name)
++			   __assign_str(ring, to_amdgpu_ring(job->base.sched)->name);
+ 			   __entry->num_ibs = job->num_ibs;
+ 			   ),
+ 	    TP_printk("sched_job=%llu, timeline=%s, context=%u, seqno=%u, ring_name=%s, num_ibs=%u",
+@@ -229,7 +229,7 @@ TRACE_EVENT(amdgpu_vm_grab_id,
+ 
+ 	    TP_fast_assign(
+ 			   __entry->pasid = vm->pasid;
+-			   __assign_str(ring, ring->name)
++			   __assign_str(ring, ring->name);
+ 			   __entry->vmid = job->vmid;
+ 			   __entry->vm_hub = ring->funcs->vmhub,
+ 			   __entry->pd_addr = job->vm_pd_addr;
+@@ -424,7 +424,7 @@ TRACE_EVENT(amdgpu_vm_flush,
+ 			     ),
+ 
+ 	    TP_fast_assign(
+-			   __assign_str(ring, ring->name)
++			   __assign_str(ring, ring->name);
+ 			   __entry->vmid = vmid;
+ 			   __entry->vm_hub = ring->funcs->vmhub;
+ 			   __entry->pd_addr = pd_addr;
+@@ -525,7 +525,7 @@ TRACE_EVENT(amdgpu_ib_pipe_sync,
+ 			     ),
+ 
+ 	    TP_fast_assign(
+-			   __assign_str(ring, sched_job->base.sched->name)
++			   __assign_str(ring, sched_job->base.sched->name);
+ 			   __entry->id = sched_job->base.id;
+ 			   __entry->fence = fence;
+ 			   __entry->ctx = fence->context;
+diff --git a/drivers/gpu/drm/lima/lima_trace.h b/drivers/gpu/drm/lima/lima_trace.h
+index 3a430e93d384c..494b9790b1daf 100644
+--- a/drivers/gpu/drm/lima/lima_trace.h
++++ b/drivers/gpu/drm/lima/lima_trace.h
+@@ -24,7 +24,7 @@ DECLARE_EVENT_CLASS(lima_task,
+ 		__entry->task_id = task->base.id;
+ 		__entry->context = task->base.s_fence->finished.context;
+ 		__entry->seqno = task->base.s_fence->finished.seqno;
+-		__assign_str(pipe, task->base.sched->name)
++		__assign_str(pipe, task->base.sched->name);
+ 		),
+ 
+ 	TP_printk("task=%llu, context=%u seqno=%u pipe=%s",
+diff --git a/drivers/infiniband/hw/hfi1/trace_misc.h b/drivers/infiniband/hw/hfi1/trace_misc.h
+index 8db2253523ffe..93338988b9220 100644
+--- a/drivers/infiniband/hw/hfi1/trace_misc.h
++++ b/drivers/infiniband/hw/hfi1/trace_misc.h
+@@ -63,7 +63,7 @@ TRACE_EVENT(hfi1_interrupt,
+ 			     __array(char, buf, 64)
+ 			     __field(int, src)
+ 			     ),
+-	    TP_fast_assign(DD_DEV_ASSIGN(dd)
++	    TP_fast_assign(DD_DEV_ASSIGN(dd);
+ 			   is_entry->is_name(__entry->buf, 64,
+ 					     src - is_entry->start);
+ 			   __entry->src = src;
+@@ -100,7 +100,7 @@ TRACE_EVENT(hfi1_fault_opcode,
+ 			     __field(u32, qpn)
+ 			     __field(u8, opcode)
+ 			     ),
+-	    TP_fast_assign(DD_DEV_ASSIGN(dd_from_ibdev(qp->ibqp.device))
++	    TP_fast_assign(DD_DEV_ASSIGN(dd_from_ibdev(qp->ibqp.device));
+ 			   __entry->qpn = qp->ibqp.qp_num;
+ 			   __entry->opcode = opcode;
+ 			   ),
+diff --git a/drivers/infiniband/hw/hfi1/trace_rc.h b/drivers/infiniband/hw/hfi1/trace_rc.h
+index 1ebca37862e06..5f49e1eeb2116 100644
+--- a/drivers/infiniband/hw/hfi1/trace_rc.h
++++ b/drivers/infiniband/hw/hfi1/trace_rc.h
+@@ -70,7 +70,7 @@ DECLARE_EVENT_CLASS(hfi1_rc_template,
+ 			__field(u32, r_psn)
+ 			),
+ 		    TP_fast_assign(
+-			DD_DEV_ASSIGN(dd_from_ibdev(qp->ibqp.device))
++			DD_DEV_ASSIGN(dd_from_ibdev(qp->ibqp.device));
+ 			__entry->qpn = qp->ibqp.qp_num;
+ 			__entry->s_flags = qp->s_flags;
+ 			__entry->psn = psn;
+@@ -130,7 +130,7 @@ DECLARE_EVENT_CLASS(/* rc_ack */
+ 		__field(u32, lpsn)
+ 	),
+ 	TP_fast_assign(/* assign */
+-		DD_DEV_ASSIGN(dd_from_ibdev(qp->ibqp.device))
++		DD_DEV_ASSIGN(dd_from_ibdev(qp->ibqp.device));
+ 		__entry->qpn = qp->ibqp.qp_num;
+ 		__entry->aeth = aeth;
+ 		__entry->psn = psn;
+diff --git a/drivers/infiniband/hw/hfi1/trace_tid.h b/drivers/infiniband/hw/hfi1/trace_tid.h
+index 985ffa9cc958f..d129b81959599 100644
+--- a/drivers/infiniband/hw/hfi1/trace_tid.h
++++ b/drivers/infiniband/hw/hfi1/trace_tid.h
+@@ -886,7 +886,7 @@ DECLARE_EVENT_CLASS(/* sender_info */
+ 		__field(u8, s_retry)
+ 	),
+ 	TP_fast_assign(/* assign */
+-		DD_DEV_ASSIGN(dd_from_ibdev(qp->ibqp.device))
++		DD_DEV_ASSIGN(dd_from_ibdev(qp->ibqp.device));
+ 		__entry->qpn = qp->ibqp.qp_num;
+ 		__entry->state = qp->state;
+ 		__entry->s_cur = qp->s_cur;
+@@ -1285,7 +1285,7 @@ DECLARE_EVENT_CLASS(/* rc_rcv_err */
+ 		__field(int, diff)
+ 	),
+ 	TP_fast_assign(/* assign */
+-		DD_DEV_ASSIGN(dd_from_ibdev(qp->ibqp.device))
++		DD_DEV_ASSIGN(dd_from_ibdev(qp->ibqp.device));
+ 		__entry->qpn = qp->ibqp.qp_num;
+ 		__entry->s_flags = qp->s_flags;
+ 		__entry->state = qp->state;
+@@ -1574,7 +1574,7 @@ DECLARE_EVENT_CLASS(/* tid_ack */
+ 		__field(u32, resync_psn)
+ 	),
+ 	TP_fast_assign(/* assign */
+-		DD_DEV_ASSIGN(dd_from_ibdev(qp->ibqp.device))
++		DD_DEV_ASSIGN(dd_from_ibdev(qp->ibqp.device));
+ 		__entry->qpn = qp->ibqp.qp_num;
+ 		__entry->aeth = aeth;
+ 		__entry->psn = psn;
+diff --git a/drivers/infiniband/hw/hfi1/trace_tx.h b/drivers/infiniband/hw/hfi1/trace_tx.h
+index d44fc54858b90..f1922a7619fe8 100644
+--- a/drivers/infiniband/hw/hfi1/trace_tx.h
++++ b/drivers/infiniband/hw/hfi1/trace_tx.h
+@@ -120,7 +120,7 @@ DECLARE_EVENT_CLASS(hfi1_qpsleepwakeup_template,
+ 		    __field(unsigned long, iow_flags)
+ 		    ),
+ 		    TP_fast_assign(
+-		    DD_DEV_ASSIGN(dd_from_ibdev(qp->ibqp.device))
++		    DD_DEV_ASSIGN(dd_from_ibdev(qp->ibqp.device));
+ 		    __entry->flags = flags;
+ 		    __entry->qpn = qp->ibqp.qp_num;
+ 		    __entry->s_flags = qp->s_flags;
+@@ -868,7 +868,7 @@ TRACE_EVENT(
+ 		__field(int, send_flags)
+ 	),
+ 	TP_fast_assign(
+-		DD_DEV_ASSIGN(dd_from_ibdev(qp->ibqp.device))
++		DD_DEV_ASSIGN(dd_from_ibdev(qp->ibqp.device));
+ 		__entry->wqe = wqe;
+ 		__entry->wr_id = wqe->wr.wr_id;
+ 		__entry->qpn = qp->ibqp.qp_num;
+@@ -904,7 +904,7 @@ DECLARE_EVENT_CLASS(
+ 		__field(bool, flag)
+ 	),
+ 	TP_fast_assign(
+-		DD_DEV_ASSIGN(dd_from_ibdev(qp->ibqp.device))
++		DD_DEV_ASSIGN(dd_from_ibdev(qp->ibqp.device));
+ 		__entry->qpn = qp->ibqp.qp_num;
+ 		__entry->flag = flag;
+ 	),
+@@ -952,7 +952,7 @@ DECLARE_EVENT_CLASS(/* AIP  */
+ 		__field(u8, stopped)
+ 	),
+ 	TP_fast_assign(/* assign */
+-		DD_DEV_ASSIGN(txq->priv->dd)
++		DD_DEV_ASSIGN(txq->priv->dd);
+ 		__entry->txq = txq;
+ 		__entry->sde = txq->sde;
+ 		__entry->head = txq->tx_ring.head;
+diff --git a/drivers/infiniband/sw/rdmavt/trace_cq.h b/drivers/infiniband/sw/rdmavt/trace_cq.h
+index e3c416c6f900f..91bc192cee5e4 100644
+--- a/drivers/infiniband/sw/rdmavt/trace_cq.h
++++ b/drivers/infiniband/sw/rdmavt/trace_cq.h
+@@ -85,7 +85,7 @@ DECLARE_EVENT_CLASS(rvt_cq_template,
+ 				     __field(int, comp_vector_cpu)
+ 				     __field(u32, flags)
+ 				     ),
+-		    TP_fast_assign(RDI_DEV_ASSIGN(cq->rdi)
++		    TP_fast_assign(RDI_DEV_ASSIGN(cq->rdi);
+ 				   __entry->ip = cq->ip;
+ 				   __entry->cqe = attr->cqe;
+ 				   __entry->comp_vector = attr->comp_vector;
+@@ -123,7 +123,7 @@ DECLARE_EVENT_CLASS(
+ 		__field(u32, imm)
+ 	),
+ 	TP_fast_assign(
+-		RDI_DEV_ASSIGN(cq->rdi)
++		RDI_DEV_ASSIGN(cq->rdi);
+ 		__entry->wr_id = wc->wr_id;
+ 		__entry->status = wc->status;
+ 		__entry->opcode = wc->opcode;
+diff --git a/drivers/infiniband/sw/rdmavt/trace_mr.h b/drivers/infiniband/sw/rdmavt/trace_mr.h
+index 95b8a0e3b8bdb..c5b675ca4fa08 100644
+--- a/drivers/infiniband/sw/rdmavt/trace_mr.h
++++ b/drivers/infiniband/sw/rdmavt/trace_mr.h
+@@ -195,7 +195,7 @@ TRACE_EVENT(
+ 		__field(uint, sg_offset)
+ 	),
+ 	TP_fast_assign(
+-		RDI_DEV_ASSIGN(ib_to_rvt(to_imr(ibmr)->mr.pd->device))
++		RDI_DEV_ASSIGN(ib_to_rvt(to_imr(ibmr)->mr.pd->device));
+ 		__entry->ibmr_iova = ibmr->iova;
+ 		__entry->iova = to_imr(ibmr)->mr.iova;
+ 		__entry->user_base = to_imr(ibmr)->mr.user_base;
+diff --git a/drivers/infiniband/sw/rdmavt/trace_qp.h b/drivers/infiniband/sw/rdmavt/trace_qp.h
+index c32d21cc615e4..800cec8bb3c76 100644
+--- a/drivers/infiniband/sw/rdmavt/trace_qp.h
++++ b/drivers/infiniband/sw/rdmavt/trace_qp.h
+@@ -65,7 +65,7 @@ DECLARE_EVENT_CLASS(rvt_qphash_template,
+ 		__field(u32, bucket)
+ 	),
+ 	TP_fast_assign(
+-		RDI_DEV_ASSIGN(ib_to_rvt(qp->ibqp.device))
++		RDI_DEV_ASSIGN(ib_to_rvt(qp->ibqp.device));
+ 		__entry->qpn = qp->ibqp.qp_num;
+ 		__entry->bucket = bucket;
+ 	),
+@@ -97,7 +97,7 @@ DECLARE_EVENT_CLASS(
+ 		__field(u32, to)
+ 	),
+ 	TP_fast_assign(
+-		RDI_DEV_ASSIGN(ib_to_rvt(qp->ibqp.device))
++		RDI_DEV_ASSIGN(ib_to_rvt(qp->ibqp.device));
+ 		__entry->qpn = qp->ibqp.qp_num;
+ 		__entry->hrtimer = &qp->s_rnr_timer;
+ 		__entry->s_flags = qp->s_flags;
+diff --git a/drivers/infiniband/sw/rdmavt/trace_rc.h b/drivers/infiniband/sw/rdmavt/trace_rc.h
+index c47357af20998..9de52e1380251 100644
+--- a/drivers/infiniband/sw/rdmavt/trace_rc.h
++++ b/drivers/infiniband/sw/rdmavt/trace_rc.h
+@@ -71,7 +71,7 @@ DECLARE_EVENT_CLASS(rvt_rc_template,
+ 			__field(u32, r_psn)
+ 			),
+ 		    TP_fast_assign(
+-			RDI_DEV_ASSIGN(ib_to_rvt(qp->ibqp.device))
++			RDI_DEV_ASSIGN(ib_to_rvt(qp->ibqp.device));
+ 			__entry->qpn = qp->ibqp.qp_num;
+ 			__entry->s_flags = qp->s_flags;
+ 			__entry->psn = psn;
+diff --git a/drivers/infiniband/sw/rdmavt/trace_tx.h b/drivers/infiniband/sw/rdmavt/trace_tx.h
+index d963ca755828f..cb96be0f8f194 100644
+--- a/drivers/infiniband/sw/rdmavt/trace_tx.h
++++ b/drivers/infiniband/sw/rdmavt/trace_tx.h
+@@ -111,7 +111,7 @@ TRACE_EVENT(
+ 		__field(int, wr_num_sge)
+ 	),
+ 	TP_fast_assign(
+-		RDI_DEV_ASSIGN(ib_to_rvt(qp->ibqp.device))
++		RDI_DEV_ASSIGN(ib_to_rvt(qp->ibqp.device));
+ 		__entry->wqe = wqe;
+ 		__entry->wr_id = wqe->wr.wr_id;
+ 		__entry->qpn = qp->ibqp.qp_num;
+@@ -170,7 +170,7 @@ TRACE_EVENT(
+ 		__field(int, send_flags)
+ 	),
+ 	TP_fast_assign(
+-		RDI_DEV_ASSIGN(ib_to_rvt(qp->ibqp.device))
++		RDI_DEV_ASSIGN(ib_to_rvt(qp->ibqp.device));
+ 		__entry->wqe = wqe;
+ 		__entry->wr_id = wqe->wr.wr_id;
+ 		__entry->qpn = qp->ibqp.qp_num;
+diff --git a/drivers/misc/mei/mei-trace.h b/drivers/misc/mei/mei-trace.h
+index df758033dc937..fe46ff2b9d69f 100644
+--- a/drivers/misc/mei/mei-trace.h
++++ b/drivers/misc/mei/mei-trace.h
+@@ -26,7 +26,7 @@ TRACE_EVENT(mei_reg_read,
+ 		__field(u32, val)
+ 	),
+ 	TP_fast_assign(
+-		__assign_str(dev, dev_name(dev))
++		__assign_str(dev, dev_name(dev));
+ 		__entry->reg  = reg;
+ 		__entry->offs = offs;
+ 		__entry->val = val;
+@@ -45,7 +45,7 @@ TRACE_EVENT(mei_reg_write,
+ 		__field(u32, val)
+ 	),
+ 	TP_fast_assign(
+-		__assign_str(dev, dev_name(dev))
++		__assign_str(dev, dev_name(dev));
+ 		__entry->reg = reg;
+ 		__entry->offs = offs;
+ 		__entry->val = val;
+@@ -64,7 +64,7 @@ TRACE_EVENT(mei_pci_cfg_read,
+ 		__field(u32, val)
+ 	),
+ 	TP_fast_assign(
+-		__assign_str(dev, dev_name(dev))
++		__assign_str(dev, dev_name(dev));
+ 		__entry->reg  = reg;
+ 		__entry->offs = offs;
+ 		__entry->val = val;
+diff --git a/drivers/net/ethernet/marvell/octeontx2/af/rvu_trace.h b/drivers/net/ethernet/marvell/octeontx2/af/rvu_trace.h
+index e6609068e81be..64aa7d350df16 100644
+--- a/drivers/net/ethernet/marvell/octeontx2/af/rvu_trace.h
++++ b/drivers/net/ethernet/marvell/octeontx2/af/rvu_trace.h
+@@ -21,7 +21,7 @@ TRACE_EVENT(otx2_msg_alloc,
+ 			     __field(u16, id)
+ 			     __field(u64, size)
+ 	    ),
+-	    TP_fast_assign(__assign_str(dev, pci_name(pdev))
++	    TP_fast_assign(__assign_str(dev, pci_name(pdev));
+ 			   __entry->id = id;
+ 			   __entry->size = size;
+ 	    ),
+@@ -36,7 +36,7 @@ TRACE_EVENT(otx2_msg_send,
+ 			     __field(u16, num_msgs)
+ 			     __field(u64, msg_size)
+ 	    ),
+-	    TP_fast_assign(__assign_str(dev, pci_name(pdev))
++	    TP_fast_assign(__assign_str(dev, pci_name(pdev));
+ 			   __entry->num_msgs = num_msgs;
+ 			   __entry->msg_size = msg_size;
+ 	    ),
+@@ -52,7 +52,7 @@ TRACE_EVENT(otx2_msg_check,
+ 			     __field(u16, rspid)
+ 			     __field(int, rc)
+ 	    ),
+-	    TP_fast_assign(__assign_str(dev, pci_name(pdev))
++	    TP_fast_assign(__assign_str(dev, pci_name(pdev));
+ 			   __entry->reqid = reqid;
+ 			   __entry->rspid = rspid;
+ 			   __entry->rc = rc;
+@@ -69,8 +69,8 @@ TRACE_EVENT(otx2_msg_interrupt,
+ 			     __string(str, msg)
+ 			     __field(u64, intr)
+ 	    ),
+-	    TP_fast_assign(__assign_str(dev, pci_name(pdev))
+-			   __assign_str(str, msg)
++	    TP_fast_assign(__assign_str(dev, pci_name(pdev));
++			   __assign_str(str, msg);
+ 			   __entry->intr = intr;
+ 	    ),
+ 	    TP_printk("[%s] mbox interrupt %s (0x%llx)\n", __get_str(dev),
+@@ -84,7 +84,7 @@ TRACE_EVENT(otx2_msg_process,
+ 			     __field(u16, id)
+ 			     __field(int, err)
+ 	    ),
+-	    TP_fast_assign(__assign_str(dev, pci_name(pdev))
++	    TP_fast_assign(__assign_str(dev, pci_name(pdev));
+ 			   __entry->id = id;
+ 			   __entry->err = err;
+ 	    ),
+diff --git a/drivers/net/fjes/fjes_trace.h b/drivers/net/fjes/fjes_trace.h
+index 9237b69d8e217..6437ddbd7842e 100644
+--- a/drivers/net/fjes/fjes_trace.h
++++ b/drivers/net/fjes/fjes_trace.h
+@@ -232,7 +232,7 @@ TRACE_EVENT(fjes_hw_start_debug_err,
+ 		 __string(err, err)
+ 	),
+ 	TP_fast_assign(
+-		__assign_str(err, err)
++		__assign_str(err, err);
+ 	),
+ 	TP_printk("%s", __get_str(err))
+ );
+@@ -258,7 +258,7 @@ TRACE_EVENT(fjes_hw_stop_debug_err,
+ 		 __string(err, err)
+ 	),
+ 	TP_fast_assign(
+-		__assign_str(err, err)
++		__assign_str(err, err);
+ 	),
+ 	TP_printk("%s", __get_str(err))
+ );
+diff --git a/drivers/usb/cdns3/cdnsp-trace.h b/drivers/usb/cdns3/cdnsp-trace.h
+index 5aa88ca012de1..6a2571c6aa9ed 100644
+--- a/drivers/usb/cdns3/cdnsp-trace.h
++++ b/drivers/usb/cdns3/cdnsp-trace.h
+@@ -138,7 +138,7 @@ DECLARE_EVENT_CLASS(cdnsp_log_simple,
+ 		__string(text, msg)
+ 	),
+ 	TP_fast_assign(
+-		__assign_str(text, msg)
++		__assign_str(text, msg);
+ 	),
+ 	TP_printk("%s", __get_str(text))
+ );
+diff --git a/fs/nfs/nfs4trace.h b/fs/nfs/nfs4trace.h
+index 2ef75caad6dab..7a2567aa2b86d 100644
+--- a/fs/nfs/nfs4trace.h
++++ b/fs/nfs/nfs4trace.h
+@@ -625,7 +625,7 @@ TRACE_EVENT(nfs4_state_mgr,
+ 
+ 		TP_fast_assign(
+ 			__entry->state = clp->cl_state;
+-			__assign_str(hostname, clp->cl_hostname)
++			__assign_str(hostname, clp->cl_hostname);
+ 		),
+ 
+ 		TP_printk(
+@@ -1637,7 +1637,7 @@ DECLARE_EVENT_CLASS(nfs4_inode_callback_event,
+ 				__entry->fileid = 0;
+ 				__entry->dev = 0;
+ 			}
+-			__assign_str(dstaddr, clp ? clp->cl_hostname : "unknown")
++			__assign_str(dstaddr, clp ? clp->cl_hostname : "unknown");
+ 		),
+ 
+ 		TP_printk(
+@@ -1694,7 +1694,7 @@ DECLARE_EVENT_CLASS(nfs4_inode_stateid_callback_event,
+ 				__entry->fileid = 0;
+ 				__entry->dev = 0;
+ 			}
+-			__assign_str(dstaddr, clp ? clp->cl_hostname : "unknown")
++			__assign_str(dstaddr, clp ? clp->cl_hostname : "unknown");
+ 			__entry->stateid_seq =
+ 				be32_to_cpu(stateid->seqid);
+ 			__entry->stateid_hash =
+diff --git a/fs/nfs/nfstrace.h b/fs/nfs/nfstrace.h
+index eb1ef3462e842..dd0df132772a2 100644
+--- a/fs/nfs/nfstrace.h
++++ b/fs/nfs/nfstrace.h
+@@ -1431,8 +1431,8 @@ DECLARE_EVENT_CLASS(nfs_xdr_event,
+ 			__entry->version = task->tk_client->cl_vers;
+ 			__entry->error = error;
+ 			__assign_str(program,
+-				     task->tk_client->cl_program->name)
+-			__assign_str(procedure, task->tk_msg.rpc_proc->p_name)
++				     task->tk_client->cl_program->name);
++			__assign_str(procedure, task->tk_msg.rpc_proc->p_name);
+ 		),
+ 
+ 		TP_printk(
+diff --git a/include/trace/events/btrfs.h b/include/trace/events/btrfs.h
+index 76e0be7e14d05..8cf61e42900e8 100644
+--- a/include/trace/events/btrfs.h
++++ b/include/trace/events/btrfs.h
+@@ -1093,7 +1093,7 @@ TRACE_EVENT(btrfs_trigger_flush,
+ 		__entry->flags	= flags;
+ 		__entry->bytes	= bytes;
+ 		__entry->flush	= flush;
+-		__assign_str(reason, reason)
++		__assign_str(reason, reason);
+ 	),
+ 
+ 	TP_printk_btrfs("%s: flush=%d(%s) flags=%llu(%s) bytes=%llu",
+diff --git a/include/trace/events/dma_fence.h b/include/trace/events/dma_fence.h
+index 64e92d56c6a8f..3963e79ca7b42 100644
+--- a/include/trace/events/dma_fence.h
++++ b/include/trace/events/dma_fence.h
+@@ -23,8 +23,8 @@ DECLARE_EVENT_CLASS(dma_fence,
+ 	),
+ 
+ 	TP_fast_assign(
+-		__assign_str(driver, fence->ops->get_driver_name(fence))
+-		__assign_str(timeline, fence->ops->get_timeline_name(fence))
++		__assign_str(driver, fence->ops->get_driver_name(fence));
++		__assign_str(timeline, fence->ops->get_timeline_name(fence));
+ 		__entry->context = fence->context;
+ 		__entry->seqno = fence->seqno;
+ 	),
+diff --git a/include/trace/events/rpcgss.h b/include/trace/events/rpcgss.h
+index ffdbe6f85da8b..b2a2672e66322 100644
+--- a/include/trace/events/rpcgss.h
++++ b/include/trace/events/rpcgss.h
+@@ -152,7 +152,7 @@ DECLARE_EVENT_CLASS(rpcgss_ctx_class,
+ 	TP_fast_assign(
+ 		__entry->cred = gc;
+ 		__entry->service = gc->gc_service;
+-		__assign_str(principal, gc->gc_principal)
++		__assign_str(principal, gc->gc_principal);
+ 	),
+ 
+ 	TP_printk("cred=%p service=%s principal='%s'",
+@@ -535,7 +535,7 @@ TRACE_EVENT(rpcgss_upcall_msg,
+ 	),
+ 
+ 	TP_fast_assign(
+-		__assign_str(msg, buf)
++		__assign_str(msg, buf);
+ 	),
+ 
+ 	TP_printk("msg='%s'", __get_str(msg))
+diff --git a/include/trace/events/sunrpc.h b/include/trace/events/sunrpc.h
+index d02e01a27b690..861f199896c6a 100644
+--- a/include/trace/events/sunrpc.h
++++ b/include/trace/events/sunrpc.h
+@@ -154,8 +154,8 @@ TRACE_EVENT(rpc_clnt_new,
+ 		__entry->client_id = clnt->cl_clid;
+ 		__assign_str(addr, xprt->address_strings[RPC_DISPLAY_ADDR]);
+ 		__assign_str(port, xprt->address_strings[RPC_DISPLAY_PORT]);
+-		__assign_str(program, program)
+-		__assign_str(server, server)
++		__assign_str(program, program);
++		__assign_str(server, server);
+ 	),
+ 
+ 	TP_printk("client=%u peer=[%s]:%s program=%s server=%s",
+@@ -180,8 +180,8 @@ TRACE_EVENT(rpc_clnt_new_err,
+ 
+ 	TP_fast_assign(
+ 		__entry->error = error;
+-		__assign_str(program, program)
+-		__assign_str(server, server)
++		__assign_str(program, program);
++		__assign_str(server, server);
+ 	),
+ 
+ 	TP_printk("program=%s server=%s error=%d",
+@@ -284,8 +284,8 @@ TRACE_EVENT(rpc_request,
+ 		__entry->client_id = task->tk_client->cl_clid;
+ 		__entry->version = task->tk_client->cl_vers;
+ 		__entry->async = RPC_IS_ASYNC(task);
+-		__assign_str(progname, task->tk_client->cl_program->name)
+-		__assign_str(procname, rpc_proc_name(task))
++		__assign_str(progname, task->tk_client->cl_program->name);
++		__assign_str(procname, rpc_proc_name(task));
+ 	),
+ 
+ 	TP_printk("task:%u@%u %sv%d %s (%ssync)",
+@@ -494,10 +494,10 @@ DECLARE_EVENT_CLASS(rpc_reply_event,
+ 		__entry->task_id = task->tk_pid;
+ 		__entry->client_id = task->tk_client->cl_clid;
+ 		__entry->xid = be32_to_cpu(task->tk_rqstp->rq_xid);
+-		__assign_str(progname, task->tk_client->cl_program->name)
++		__assign_str(progname, task->tk_client->cl_program->name);
+ 		__entry->version = task->tk_client->cl_vers;
+-		__assign_str(procname, rpc_proc_name(task))
+-		__assign_str(servername, task->tk_xprt->servername)
++		__assign_str(procname, rpc_proc_name(task));
++		__assign_str(servername, task->tk_xprt->servername);
+ 	),
+ 
+ 	TP_printk("task:%u@%d server=%s xid=0x%08x %sv%d %s",
+@@ -622,8 +622,8 @@ TRACE_EVENT(rpc_stats_latency,
+ 		__entry->task_id = task->tk_pid;
+ 		__entry->xid = be32_to_cpu(task->tk_rqstp->rq_xid);
+ 		__entry->version = task->tk_client->cl_vers;
+-		__assign_str(progname, task->tk_client->cl_program->name)
+-		__assign_str(procname, rpc_proc_name(task))
++		__assign_str(progname, task->tk_client->cl_program->name);
++		__assign_str(procname, rpc_proc_name(task));
+ 		__entry->backlog = ktime_to_us(backlog);
+ 		__entry->rtt = ktime_to_us(rtt);
+ 		__entry->execute = ktime_to_us(execute);
+@@ -669,15 +669,15 @@ TRACE_EVENT(rpc_xdr_overflow,
+ 			__entry->task_id = task->tk_pid;
+ 			__entry->client_id = task->tk_client->cl_clid;
+ 			__assign_str(progname,
+-				     task->tk_client->cl_program->name)
++				     task->tk_client->cl_program->name);
+ 			__entry->version = task->tk_client->cl_vers;
+-			__assign_str(procedure, task->tk_msg.rpc_proc->p_name)
++			__assign_str(procedure, task->tk_msg.rpc_proc->p_name);
+ 		} else {
+ 			__entry->task_id = 0;
+ 			__entry->client_id = 0;
+-			__assign_str(progname, "unknown")
++			__assign_str(progname, "unknown");
+ 			__entry->version = 0;
+-			__assign_str(procedure, "unknown")
++			__assign_str(procedure, "unknown");
+ 		}
+ 		__entry->requested = requested;
+ 		__entry->end = xdr->end;
+@@ -735,9 +735,9 @@ TRACE_EVENT(rpc_xdr_alignment,
+ 		__entry->task_id = task->tk_pid;
+ 		__entry->client_id = task->tk_client->cl_clid;
+ 		__assign_str(progname,
+-			     task->tk_client->cl_program->name)
++			     task->tk_client->cl_program->name);
+ 		__entry->version = task->tk_client->cl_vers;
+-		__assign_str(procedure, task->tk_msg.rpc_proc->p_name)
++		__assign_str(procedure, task->tk_msg.rpc_proc->p_name);
+ 
+ 		__entry->offset = offset;
+ 		__entry->copied = copied;
+@@ -1107,9 +1107,9 @@ TRACE_EVENT(xprt_retransmit,
+ 		__entry->xid = be32_to_cpu(rqst->rq_xid);
+ 		__entry->ntrans = rqst->rq_ntrans;
+ 		__assign_str(progname,
+-			     task->tk_client->cl_program->name)
++			     task->tk_client->cl_program->name);
+ 		__entry->version = task->tk_client->cl_vers;
+-		__assign_str(procedure, task->tk_msg.rpc_proc->p_name)
++		__assign_str(procedure, task->tk_msg.rpc_proc->p_name);
+ 	),
+ 
+ 	TP_printk(
+@@ -1842,7 +1842,7 @@ TRACE_EVENT(svc_xprt_accept,
+ 
+ 	TP_fast_assign(
+ 		__assign_str(addr, xprt->xpt_remotebuf);
+-		__assign_str(protocol, xprt->xpt_class->xcl_name)
++		__assign_str(protocol, xprt->xpt_class->xcl_name);
+ 		__assign_str(service, service);
+ 	),
+ 
+diff --git a/net/mac80211/trace.h b/net/mac80211/trace.h
+index 8fcc390564029..3fc1e4c5344c0 100644
+--- a/net/mac80211/trace.h
++++ b/net/mac80211/trace.h
+@@ -33,7 +33,7 @@
+ 			__string(vif_name, sdata->name)
+ #define VIF_ASSIGN	__entry->vif_type = sdata->vif.type; __entry->sdata = sdata;	\
+ 			__entry->p2p = sdata->vif.p2p;					\
+-			__assign_str(vif_name, sdata->name)
++			__assign_str(vif_name, sdata->name);
+ #define VIF_PR_FMT	" vif:%s(%d%s)"
+ #define VIF_PR_ARG	__get_str(vif_name), __entry->vif_type, __entry->p2p ? "/p2p" : ""
+ 
+
+
