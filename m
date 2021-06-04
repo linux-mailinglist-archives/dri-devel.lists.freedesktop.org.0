@@ -1,57 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46B4639B099
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Jun 2021 04:53:27 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C75339B0A2
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Jun 2021 04:57:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6F2E26F56A;
-	Fri,  4 Jun 2021 02:53:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2D18B6F56D;
+	Fri,  4 Jun 2021 02:56:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-xc2e.google.com (mail-oo1-xc2e.google.com
- [IPv6:2607:f8b0:4864:20::c2e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 944956F56A;
- Fri,  4 Jun 2021 02:53:22 +0000 (UTC)
-Received: by mail-oo1-xc2e.google.com with SMTP id
- q20-20020a4a6c140000b029024915d1bd7cso242799ooc.12; 
- Thu, 03 Jun 2021 19:53:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=59/o5WUFh0HgVtIfqnBcRLjnuCEyEPLe7i9E9Et2Nk0=;
- b=sDNdiWlwKUJ3hMjk3uR3Joh9gi0v3zzKJJfFKNTy3CHj55/JTgBm8Kvw21uS94yBjy
- uV7vur1Q8ATD4tgVEUUrxfHDsRTmTe9O9tXHa/VfLlY26kx2t0bNQGaNIZ0YR2G4Rb52
- aoh7/w4Ikj3MCbUGaXmr3VaIqN1kIRmXUouw3W43tA6lw9oX6RglpIqUFTdJMZ6jytw3
- ++EAlp4Et8/0xCpjau424k0LIe3eAV+PEDry2ayGkjhMgfm9WpxdLLNA5BxdsWeWy+HI
- fDi+Ph5SNXjSnD2asCgD4d1lZ//LjujV6/kImxH3CzxG5b0Duscd0pDFh4fZqgPFbHoB
- 1kDQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=59/o5WUFh0HgVtIfqnBcRLjnuCEyEPLe7i9E9Et2Nk0=;
- b=ZUn5BCGbcHefszBpJfCLznr3vGyUaf5xIXBAf6KcKMDikV3CxjTlSVP5grBt2Gd7Rc
- Tn0IIzdkvhlAijAycSYdISlNdavyKZQ09SqIqD2T/y3WDs2rbN8uiJ8TCuze+b6KwM1K
- 9sczXwTIWiujXBXsADsINQE4VyxIiTn7KSnM5C5Y54Eyoia4JYzSffQy//WWjVv8rTNj
- 6+w/G0DlRLJi9gbzUcGTWoiTGst+RLo+wpPHly6Nt11H7YvcIBhWSZ7p8TJevi8Oq+3Z
- b6AVqiB6EgZYOcts453YAuaiy35w/9S28UCAwuNRSXPqeIV8LCfrn/O/oPZFNu3txadx
- YXOA==
-X-Gm-Message-State: AOAM531NBH83DN0F+/Zb1fAkyis22ld3Rlwk0K9bPe6bd1v6tWZ17yMy
- 2c3/IArlHyAuxC9XreXjfJYNpE08XeTSXwPJEYA=
-X-Google-Smtp-Source: ABdhPJytfvSP1Lg7K9HXPuiuhCUyS1i3M9tOa/IoW8cmSYko9U7xwaVmBK1twuGf2I7oa9uz5y8O8GsM9nKBQemjdZI=
-X-Received: by 2002:a4a:d004:: with SMTP id h4mr1877872oor.90.1622775201900;
- Thu, 03 Jun 2021 19:53:21 -0700 (PDT)
+Received: from m12-12.163.com (m12-12.163.com [220.181.12.12])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 750086F56D
+ for <dri-devel@lists.freedesktop.org>; Fri,  4 Jun 2021 02:56:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+ s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=67SyH
+ 5ZOavcPxAra7gc1Zli3sCtHraoSINoTVQU9/8c=; b=UhpwYurjsQSIXG1Ua4f7k
+ 09ADijh8Jo83HH3OU3Kj3ZytS4unyBd7LUIpcgiXOQB+QygrPOzoOvZZggWpxOPY
+ 8j9zz6eXkRg9hGkXYukz/7W3xl5755qJO2kNeE/6AFfuFJhRjUT9qiArrL782+Uz
+ RjsXumcEdG7Yc2D0ZFfYpk=
+Received: from localhost.localdomain (unknown [218.17.89.92])
+ by smtp8 (Coremail) with SMTP id DMCowAC3vQlylrlg3pK_Hw--.54443S2;
+ Fri, 04 Jun 2021 10:56:51 +0800 (CST)
+From: lijian_8010a29@163.com
+To: kys@microsoft.com, haiyangz@microsoft.com, sthemmin@microsoft.com,
+ wei.liu@kernel.org, decui@microsoft.com
+Subject: [PATCH] video: fbdev: hyperv_fb: Removed unnecessary 'return'
+Date: Fri,  4 Jun 2021 10:55:52 +0800
+Message-Id: <20210604025552.106888-1-lijian_8010a29@163.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20210601201702.23316-1-andrey.grodzovsky@amd.com>
- <CADnq5_Nfs_j9XE1Siou2wGYuwd5cvTD1T7m9gFpS9z74D=AuAQ@mail.gmail.com>
- <CAPM=9tznFeKrL-La1RqCtAib4N+Stf=2epQYabrm=vYnds6LwQ@mail.gmail.com>
-In-Reply-To: <CAPM=9tznFeKrL-La1RqCtAib4N+Stf=2epQYabrm=vYnds6LwQ@mail.gmail.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Thu, 3 Jun 2021 22:53:09 -0400
-Message-ID: <CADnq5_OJt6YUixqhfkvVq6RKACNYtEHNKb8wY1h+7d6G1a3P3Q@mail.gmail.com>
-Subject: Re: [PATCH 0/7] libdrm tests for hot-unplug feature
-To: Dave Airlie <airlied@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: DMCowAC3vQlylrlg3pK_Hw--.54443S2
+X-Coremail-Antispam: 1Uf129KBjDUn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7v73
+ VFW2AGmfu7bjvjm3AaLaJ3UbIYCTnIWIevJa73UjIFyTuYvjxUDWEEUUUUU
+X-Originating-IP: [218.17.89.92]
+X-CM-SenderInfo: 5olmxttqbyiikqdsmqqrwthudrp/xtbBEROnUFaEEmK0EAAAsz
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,34 +47,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Deucher, Alexander" <Alexander.Deucher@amd.com>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
+Cc: lijian <lijian@yulong.com>, linux-hyperv@vger.kernel.org,
+ linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jun 3, 2021 at 9:37 PM Dave Airlie <airlied@gmail.com> wrote:
->
-> On Fri, 4 Jun 2021 at 07:20, Alex Deucher <alexdeucher@gmail.com> wrote:
-> >
-> > Please open a gitlab MR for these.
-> >
->
-> I'd really prefer these tests all get migrated out of here into igt. I
-> don't think libdrm_amdgpu really should have tests that test the
-> kernel level infrastructure.
->
+From: lijian <lijian@yulong.com>
 
-We are providing equivalent patches for IGT as well.  There are some
-teams and customers that would prefer to stick with libdrm_amdgpu.
+Removed unnecessary 'return' in void function hvfb_get_option().
 
-> I know some people at AMD had issues in the past with igt because the
-> i might have stood for intel back in time, but at this point I think
-> we should be moving past that.
+Signed-off-by: lijian <lijian@yulong.com>
+---
+ drivers/video/fbdev/hyperv_fb.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-I don't think that was ever an issue.  It's more that some teams built
-a bunch of infrastructure that used libdrm tests and haven't had the
-resources to switch to IGT yet.
+diff --git a/drivers/video/fbdev/hyperv_fb.c b/drivers/video/fbdev/hyperv_fb.c
+index 23999df52739..c8e57a513896 100644
+--- a/drivers/video/fbdev/hyperv_fb.c
++++ b/drivers/video/fbdev/hyperv_fb.c
+@@ -952,7 +952,6 @@ static void hvfb_get_option(struct fb_info *info)
+ 
+ 	screen_width = x;
+ 	screen_height = y;
+-	return;
+ }
+ 
+ /*
+-- 
+2.25.1
 
-Alex
+
