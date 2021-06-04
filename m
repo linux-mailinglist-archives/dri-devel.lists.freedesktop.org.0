@@ -2,124 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16B4839B4F8
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Jun 2021 10:36:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E59739B4E7
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Jun 2021 10:32:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 470286F5DD;
-	Fri,  4 Jun 2021 08:35:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 39D0E6E15D;
+	Fri,  4 Jun 2021 08:32:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com
- (mail-co1nam11on2081.outbound.protection.outlook.com [40.107.220.81])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4CFD86E97B;
- Fri,  4 Jun 2021 08:35:58 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=JCoL/kf2sBbXFfFiqkExHMOVqDYEgvox8clEDbU+fWsLKlDkbGH0lqqc/HO1PKYlJzEwLequxevBhdx0NW278ttMFOjDg+BMUr6Lwm6SFZQRd9PldL462sxK7Y/OJ4GNLVwU8VM0ky2TzkxaT5L0UhBLNC9i6UzEv0vtKYZYBftXddNEpnHpioJBSBMCQBuOY6BY+Bello/TUgT+4hjverYKDYT98XJ0RDd6P6aj9u8WT+2Hw6i9nfFqs83sNjrkOwLY4+sQ5/w+jm3e7YR9ZduOKwNpmU5F7ds5SPPsd4FG41TfZy22vCWbhIAYr6rc6kdjg7pjol4ZR/vh2oqwdA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=SVIsiyNTi/CzBASnSvckYnwI40nRWhrvL9or+RJpgzg=;
- b=KRaV8dCovsX/VATA7nt+kBbDDWkh/SzakCtyVYbzEoo3wa1BDBBK1vrR29mQhZpfNdk3B8MwvV0kfJQzAxgArAAgo5ZXDjOMxpV2pxZ6iOi5kSvhGsbuKovmjgaZ+gfTYwgGUnsRPgV/dhfsegtuaY9KqZ/QYKUmU1XNgNgs2hxZ0KnxNiIjEXBmc4sv+sQaWR7b0R2pdF1mZI5xIPJUnH6TLEn30SLAfDGm1lT8DBbIJmn+c4J1QEAGuj5XJf8yVOrQMEsNP0tWBXKsA9+J2WT7BZ6lFuVCnEfqXbovAri3z8tsD39ez1WmVFN2f5HMnVSKLlfQoG3LjT4S9JYKdQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=SVIsiyNTi/CzBASnSvckYnwI40nRWhrvL9or+RJpgzg=;
- b=ZHqmA2jG412YUzMWpyRcH+mC7hxYT41LT/lzPkYPHhxJpg5Zn5y2IvjVWzgVPhsE8uXpTdVv+8t8dmnoNMtA2ibd7DOkwGvrKxJ2BLWB1oPs46aLtWpFBgvOvxg4TqzMfrsbr8WWhXgo2WVIfVfSwhSuBmcSDL650jU1JCGZ5CQ=
-Authentication-Results: lists.freedesktop.org; dkim=none (message not signed)
- header.d=none; lists.freedesktop.org;
- dmarc=none action=none header.from=amd.com;
-Received: from MN2PR12MB3775.namprd12.prod.outlook.com (2603:10b6:208:159::19)
- by MN2PR12MB3678.namprd12.prod.outlook.com (2603:10b6:208:158::26)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4195.23; Fri, 4 Jun
- 2021 08:35:56 +0000
-Received: from MN2PR12MB3775.namprd12.prod.outlook.com
- ([fe80::6d4d:4674:1cf6:8d34]) by MN2PR12MB3775.namprd12.prod.outlook.com
- ([fe80::6d4d:4674:1cf6:8d34%6]) with mapi id 15.20.4195.024; Fri, 4 Jun 2021
- 08:35:56 +0000
-Subject: Re: [PATCH v3 2/2] radeon: use memcpy_to/fromio for UVD fw upload
-To: Chen Li <chenli@uniontech.com>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-References: <87o8cnfr3s.wl-chenli@uniontech.com>
- <87im2ufhyz.wl-chenli@uniontech.com>
- <0689a006-a0a2-698a-12d8-cb11156e469a@gmail.com>
- <877djacbfx.wl-chenli@uniontech.com>
- <c4941cb6-8c40-aad1-e61a-2786ba1ab225@gmail.com>
- <875yyuc9tt.wl-chenli@uniontech.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-Message-ID: <7bf7e03a-4733-bf66-4a81-ac712582539c@amd.com>
-Date: Fri, 4 Jun 2021 10:31:28 +0200
+Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com
+ [IPv6:2a00:1450:4864:20::136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9F0E96E15D
+ for <dri-devel@lists.freedesktop.org>; Fri,  4 Jun 2021 08:32:33 +0000 (UTC)
+Received: by mail-lf1-x136.google.com with SMTP id r5so12912127lfr.5
+ for <dri-devel@lists.freedesktop.org>; Fri, 04 Jun 2021 01:32:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=zP2dna87z6RKrxkkJWo2LQdu7tVCeYap9nb/k2QVk5I=;
+ b=BI1l2w090NvUuzjJirHDmxRkq5GWasjScNptw7r1C+4lSVHeu39FVyxAFCG19UwVsb
+ QxNh+Il5+n5v+KRUCdKpM4b0uCO0sut+buOkmxGTq1IGt4oTCexVpen6XunnkT3+A6sb
+ sJ5F3VD+VPhD66FtwJMqy7xgI4zXHyFKw9qbY+eymmVAtJEukFRIHGN4iZZ/+N9Ln3/T
+ L2QlfItJLRowUqeTs7AE9ktEuVgQ7Yw/hNIz9CdbORDFFHYL8svVvvPJAK4kS5justFA
+ io1E8bvEjd+eMlzxU2MoTjoqrZe3vFU9sleiCEEc1tVzGj9y6QmUkWq/w3WkeAl2+wcu
+ HhdA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=zP2dna87z6RKrxkkJWo2LQdu7tVCeYap9nb/k2QVk5I=;
+ b=hUR+8XUOlo2qYdung+PUa+ZtAIeMk2K/XvWnAUIC18Kcbyl8/CryR2WqxY77dmfc7n
+ abC8wrRuERjzTylPOn5Ykk+5fNanPvYChyHoP8/GvdiNAP2OvqnD+3AIzGtB5nMsRbKh
+ yYicayN08cLDGWOStecPdbb7jRwhzZFC1B46DATI6mYx1gUinfudorovF09J2FsHpqyT
+ Y9JGigAi0fR+yhgZY4YXfKh/+Tv5SS+HtN9P9ukUKyKFnQ+NMYY7NGT/qG4Z7HStHScf
+ 91ptO9OmzKjuBasK0YFvCx/WbGBiIpsvGfH1L2/0RcxwFHaeSC+8nQ8vADIMgHiI/Pcr
+ u+/Q==
+X-Gm-Message-State: AOAM531+IyOT+eSKED4vrdLa2BQBDFk7LSiQx2KYgqohltwOpFS3CUAq
+ +jso412dNQ0NCrjMGB9NTlMBfg==
+X-Google-Smtp-Source: ABdhPJykew9bOeZhphWWjOUQEebLS58YJSEt6mkLnOTlh99S+hukQhlFyBqTV9fKQ9UndvHQGxvMFA==
+X-Received: by 2002:a05:6512:33cb:: with SMTP id
+ d11mr2097111lfg.180.1622795551966; 
+ Fri, 04 Jun 2021 01:32:31 -0700 (PDT)
+Received: from [192.168.1.211] ([37.153.55.125])
+ by smtp.gmail.com with ESMTPSA id i127sm544870lfd.216.2021.06.04.01.32.31
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 04 Jun 2021 01:32:31 -0700 (PDT)
+Subject: Re: [RESEND 10/26] drm/msm/disp/dpu1/dpu_hw_interrupts: Demote a
+ bunch of kernel-doc abuses
+To: Lee Jones <lee.jones@linaro.org>
+References: <20210602143300.2330146-1-lee.jones@linaro.org>
+ <20210602143300.2330146-11-lee.jones@linaro.org>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Message-ID: <85bd6c24-0e4e-6f18-ccf0-6acf62d0f0ff@linaro.org>
+Date: Fri, 4 Jun 2021 11:32:30 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
-In-Reply-To: <875yyuc9tt.wl-chenli@uniontech.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-Originating-IP: [178.202.40.45]
-X-ClientProxiedBy: AM0PR02CA0202.eurprd02.prod.outlook.com
- (2603:10a6:20b:28f::9) To MN2PR12MB3775.namprd12.prod.outlook.com
- (2603:10b6:208:159::19)
+ Thunderbird/78.10.0
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.137.54] (178.202.40.45) by
- AM0PR02CA0202.eurprd02.prod.outlook.com (2603:10a6:20b:28f::9) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4195.22 via Frontend Transport; Fri, 4 Jun 2021 08:35:54 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: e48312c8-5196-41d6-3630-08d92733c51b
-X-MS-TrafficTypeDiagnostic: MN2PR12MB3678:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <MN2PR12MB3678358BE189C244613CF7EE833B9@MN2PR12MB3678.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:3173;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: VTj++Rls/sMf3vHIxX4I9hxKX7x3Fh0otbO6BjROPu0Wk07ZQtNu40DbJ30AvfvC8iDka0KwwL6R8RB+HqFZ5SbNMMXZrZFAZXKtev574H8DeFgY5CUbgFkkxwGezldRf8K5XrZ8PjgfHDcCXqYk7Vw1erS1Bnc+wJpgTb6lMN40huGocw8XJzKOz5g5B0fYaoVM2XlZQAMSgRgVIbBw+cOQvcMqasCoajt0TBxU+5GFHULJ5eIZ5XYL7pjCY9PBbS9JtIeoCvJx/kikoeaHIFZe3MXUZbVNzT7Rm3mn7GMqm+WjHcbZiAiXicIw9Jti1DDBIJieQ0BVmiKslOoA4OPUgcogwRM89uJGD8z7Kwtpz0yJbtewG3RTVQ+QMVb3IRHmE3ADkwzBAa/B5Ag+LRpizE0MZy1zZLkhbu6ex9JO8/GCYCc0GeJSuHZWgrlQ8IPXSh4UPwKjTE5jHCr8pJ/4VG59TdEwA/a6LdMBaMQHpEYpKTs1Czr00jb5Q7RRMLrtX87CxWjCslmIaIWKqx+NQNhDDbAQpOI39d3lyafTULWo5LtwVAPGelCM2qH3Um0FiDhCsAZReOmQMCg/okgqnR1otgm6jWQYxfn495sC7msgNOVtQDa0Hbiwwnj5XuSHJ17oQckzXj/z0glhUL7o+tQKqdg64nicsFwU1Q37hZ7BxLEK/Ysu1w7Q46in5CO1ggammdYGJrKnj6jEPfnGzYtbL3jknHHciNbfp6vt8VgklUXJxXi929a1EAC0QO/HFDHQvQeNg6wlrEqIvh1LE8Ve25dhWoqpBqT1xBY+BzvAB4YQLvPKzjFkOep1
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN2PR12MB3775.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(376002)(346002)(396003)(39860400002)(136003)(966005)(45080400002)(478600001)(38100700002)(83380400001)(2906002)(4326008)(5660300002)(6666004)(36756003)(16526019)(186003)(26005)(316002)(16576012)(66556008)(110136005)(66476007)(66946007)(31686004)(2616005)(956004)(8676002)(86362001)(31696002)(6486002)(8936002)(45980500001)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?Sk9DZExjSzh6dzFBNkdjKzhLa09Td1hDN3lld1RPOVNqWVJidUhxT0RpNGh3?=
- =?utf-8?B?cW5uK1lPWXA1RUM0bEw2elJOenVENVJpc0lQbzZaRVdlZVZ4ZUJUclVKcXlY?=
- =?utf-8?B?TzkybXorbUhOczh6eGpjVFl3OXU4bXJ1WWlWTUFEUUF3UmtINjRNN2ZnVVE4?=
- =?utf-8?B?bTFUU0R4MFNieTNRSGhKT2tNVXhWM1RyRHBiQ0tXMERMRnJkWSt6VnN4YnJS?=
- =?utf-8?B?QkwrcHZQUnJzRGk2SC9pZVRKSnRMNzdoLzFMc2lyRmNoMTl5U0N5RjJGVFhp?=
- =?utf-8?B?NzcrcWtzWHB4UW1lRUt2M2pEY2pNdlRvNlNpNDFsZ2VmcjUrbGg4QzBEcjlp?=
- =?utf-8?B?VzZUcVFiSzk3VUdEeGhheVE0enh4Nm1mbnYzMHphZDlEM1JlN2p2eC8ycy9V?=
- =?utf-8?B?UUFYbG1YaWZhaEtuZTZsSmRzOFZuOU1Tcm5OeHRacVVSMWE1Z1JBUnJRYWdV?=
- =?utf-8?B?SHdzQUxPMkg3TXpieldOZzB4b2xmSkliVGcvUEcrMjhreHBNZVY0b2RCSkw2?=
- =?utf-8?B?UlpmWHU4VlllWlY4bU4zVDA4TVhrU1l3Q09VM2xKZFhrVWxaS1g3Yjl4SnlP?=
- =?utf-8?B?bTUrYzF1S3UvNFRhU2dtSzNKS1RJbVJpSzdRNnNUcEJkanF6Zjllc1IzYnNi?=
- =?utf-8?B?bWN1SnNnamNaQkVqNEpkYmI0VW9vbU9sRjJkNkdDOWNxb1BzbVh5eUl3aDEy?=
- =?utf-8?B?eE12NEpEdFFHK1d2VXBROG03cHgwa01HYWliSEtDUFp2clpFYnZuSFZDM3dY?=
- =?utf-8?B?d3AxUmxWUFBJd1k4Y3V2VXVFY1VYYTFZZG9vS055aVRyUExnNVA4Ulp0SGFH?=
- =?utf-8?B?VisrL1JkVTVReEdPWEJndkFSSlZLbFp1SmczVHF5U1p1djhLcEl4U3pZZTlM?=
- =?utf-8?B?RDlZekc2VEpOYm9SZ1UrVlpWeFZzN3FJczNNN0NFWWpkdG1ISG44ZjRZNW45?=
- =?utf-8?B?aWdSYWkzQlU5WjlkN1R4NkV5bDZwTE9POWt4VVZ3cWx6akxjc1NaWmhCUncr?=
- =?utf-8?B?RXFZVzBJWUxrZVlieXQ5Rk81TUFSc2VuK2xGTkJXb2l5QW5nMDN4Z1lQOGZH?=
- =?utf-8?B?VG1Eek1DQWhWZXFtYm5SN2JORnpDMUZTZWdueDE3Sk1jS3psQ0YraHNycHF6?=
- =?utf-8?B?TytQYXRGZWZ4RUh3bm5TT1JPTFc2cXZDaHhYL1FFOVRHd2xrdTlnc0JtRnNL?=
- =?utf-8?B?bTlqdzNnS3BjR1EyMm9ra3V4UXExVjVCeUhrV3BHZWtOd0dyZGttSEpPa2VC?=
- =?utf-8?B?V2V5UWJFa0VUb2VTQTdvV0U3T1NLT3FCL0FMd3d5ZGJ4b1VHWW5ZblJaUmhL?=
- =?utf-8?B?RVZSbEFnRjFtQXBwcDNKNitNWVhraHdNNzRieUVoa25jQVBpMkxJVmI0eDlm?=
- =?utf-8?B?clVNODJQMStYcU5mNHRIcThIQVc1Qy9MSHN2ZVVVOW41UFptSFFYaFBacktP?=
- =?utf-8?B?NGxlSktJR3NYaXJxTUg3UmtRMHRKcFk2SDhUaXJsMHpucEwrYTg5M05sdStR?=
- =?utf-8?B?cWw5TUhIRHFhSkJGcUQ2Rm91SFFZamVvOFltT1dqWWVtZ1hkUUF2T0tsZHhx?=
- =?utf-8?B?OUFVUmxrZmhraHFlV1MzNVNTUkF6N2hQS1pSQWZ0bzNybkZDUVJHMnhQUzdD?=
- =?utf-8?B?cUQ3Tmw0T05Oc1FTWHhkOTJqcHBHWVJOd2VRTkV1aDFLL1c5NHA1L1ltRUti?=
- =?utf-8?B?M1Yyc0Fyek8xbG1zakZwbnczVThlS2F6THdNckh2SCtraDBnVTZobitDcDBt?=
- =?utf-8?Q?9gEnrbBHnwvpv4pceG/ArffgWbanrXpQTjTgjaL?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e48312c8-5196-41d6-3630-08d92733c51b
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3775.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Jun 2021 08:35:55.8033 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 8fHCiTFuWqqAhYrJCagqJFNFTpU5ciWOqMUgiR6rz3KNQxwEmqdZjDnhskJ/bmTZ
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB3678
+In-Reply-To: <20210602143300.2330146-11-lee.jones@linaro.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -132,75 +74,197 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alex Deucher <alexander.deucher@amd.com>, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
+Cc: Krishna Manikandan <mkrishn@codeaurora.org>,
+ David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, Sean Paul <sean@poorly.run>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 02/06/2021 17:32, Lee Jones wrote:
+> Fixes the following W=1 kernel build warning(s):
+> 
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c:17: warning: expecting prototype for Register offsets in MDSS register file for the interrupt registers(). Prototype was for MDP_SSPP_TOP0_OFF() instead
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c:35: warning: expecting prototype for WB interrupt status bit definitions(). Prototype was for DPU_INTR_WB_0_DONE() instead
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c:42: warning: expecting prototype for WDOG timer interrupt status bit definitions(). Prototype was for DPU_INTR_WD_TIMER_0_DONE() instead
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c:51: warning: expecting prototype for Pingpong interrupt status bit definitions(). Prototype was for DPU_INTR_PING_PONG_0_DONE() instead
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c:71: warning: expecting prototype for Interface interrupt status bit definitions(). Prototype was for DPU_INTR_INTF_0_UNDERRUN() instead
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c:85: warning: expecting prototype for Pingpong Secondary interrupt status bit definitions(). Prototype was for DPU_INTR_PING_PONG_S0_AUTOREFRESH_DONE() instead
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c:94: warning: expecting prototype for Pingpong TEAR detection interrupt status bit definitions(). Prototype was for DPU_INTR_PING_PONG_0_TEAR_DETECTED() instead
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c:102: warning: expecting prototype for Pingpong TE detection interrupt status bit definitions(). Prototype was for DPU_INTR_PING_PONG_0_TE_DETECTED() instead
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c:110: warning: expecting prototype for Ctl start interrupt status bit definitions(). Prototype was for DPU_INTR_CTL_0_START() instead
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c:119: warning: expecting prototype for Concurrent WB overflow interrupt status bit definitions(). Prototype was for DPU_INTR_CWB_2_OVERFLOW() instead
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c:125: warning: expecting prototype for Histogram VIG done interrupt status bit definitions(). Prototype was for DPU_INTR_HIST_VIG_0_DONE() instead
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c:133: warning: expecting prototype for Histogram VIG reset Sequence done interrupt status bit definitions(). Prototype was for DPU_INTR_HIST_VIG_0_RSTSEQ_DONE() instead
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c:141: warning: expecting prototype for Histogram DSPP done interrupt status bit definitions(). Prototype was for DPU_INTR_HIST_DSPP_0_DONE() instead
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c:149: warning: expecting prototype for Histogram DSPP reset Sequence done interrupt status bit definitions(). Prototype was for DPU_INTR_HIST_DSPP_0_RSTSEQ_DONE() instead
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c:157: warning: expecting prototype for INTF interrupt status bit definitions(). Prototype was for DPU_INTR_VIDEO_INTO_STATIC() instead
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c:170: warning: expecting prototype for AD4 interrupt status bit definitions(). Prototype was for DPU_INTR_BACKLIGHT_UPDATED() instead
+
+Most of these defines are gone in msm/msm-next. Could you please rebase 
+and repost just this patch? Other patches apply clearly.
+
+> Cc: Rob Clark <robdclark@gmail.com>
+> Cc: Sean Paul <sean@poorly.run>
+> Cc: David Airlie <airlied@linux.ie>
+> Cc: Daniel Vetter <daniel@ffwll.ch>
+> Cc: Krishna Manikandan <mkrishn@codeaurora.org>
+> Cc: linux-arm-msm@vger.kernel.org
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: freedreno@lists.freedesktop.org
+> Signed-off-by: Lee Jones <lee.jones@linaro.org>
+> ---
+>   .../gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c | 32 +++++++++----------
+>   1 file changed, 16 insertions(+), 16 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c
+> index 48c96b8121268..aaf251741dc27 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c
+> @@ -10,7 +10,7 @@
+>   #include "dpu_hw_util.h"
+>   #include "dpu_hw_mdss.h"
+>   
+> -/**
+> +/*
+>    * Register offsets in MDSS register file for the interrupt registers
+>    * w.r.t. to the MDP base
+>    */
+> @@ -29,14 +29,14 @@
+>   #define MDP_INTF_1_OFF_REV_7xxx             0x35000
+>   #define MDP_INTF_5_OFF_REV_7xxx             0x39000
+>   
+> -/**
+> +/*
+>    * WB interrupt status bit definitions
+>    */
+>   #define DPU_INTR_WB_0_DONE BIT(0)
+>   #define DPU_INTR_WB_1_DONE BIT(1)
+>   #define DPU_INTR_WB_2_DONE BIT(4)
+>   
+> -/**
+> +/*
+>    * WDOG timer interrupt status bit definitions
+>    */
+>   #define DPU_INTR_WD_TIMER_0_DONE BIT(2)
+> @@ -45,7 +45,7 @@
+>   #define DPU_INTR_WD_TIMER_3_DONE BIT(6)
+>   #define DPU_INTR_WD_TIMER_4_DONE BIT(7)
+>   
+> -/**
+> +/*
+>    * Pingpong interrupt status bit definitions
+>    */
+>   #define DPU_INTR_PING_PONG_0_DONE BIT(8)
+> @@ -65,7 +65,7 @@
+>   #define DPU_INTR_PING_PONG_2_AUTOREFRESH_DONE BIT(22)
+>   #define DPU_INTR_PING_PONG_3_AUTOREFRESH_DONE BIT(23)
+>   
+> -/**
+> +/*
+>    * Interface interrupt status bit definitions
+>    */
+>   #define DPU_INTR_INTF_0_UNDERRUN BIT(24)
+> @@ -79,7 +79,7 @@
+>   #define DPU_INTR_INTF_3_VSYNC BIT(31)
+>   #define DPU_INTR_INTF_5_VSYNC BIT(23)
+>   
+> -/**
+> +/*
+>    * Pingpong Secondary interrupt status bit definitions
+>    */
+>   #define DPU_INTR_PING_PONG_S0_AUTOREFRESH_DONE BIT(0)
+> @@ -88,7 +88,7 @@
+>   #define DPU_INTR_PING_PONG_S0_TEAR_DETECTED BIT(22)
+>   #define DPU_INTR_PING_PONG_S0_TE_DETECTED BIT(28)
+>   
+> -/**
+> +/*
+>    * Pingpong TEAR detection interrupt status bit definitions
+>    */
+>   #define DPU_INTR_PING_PONG_0_TEAR_DETECTED BIT(16)
+> @@ -96,7 +96,7 @@
+>   #define DPU_INTR_PING_PONG_2_TEAR_DETECTED BIT(18)
+>   #define DPU_INTR_PING_PONG_3_TEAR_DETECTED BIT(19)
+>   
+> -/**
+> +/*
+>    * Pingpong TE detection interrupt status bit definitions
+>    */
+>   #define DPU_INTR_PING_PONG_0_TE_DETECTED BIT(24)
+> @@ -104,7 +104,7 @@
+>   #define DPU_INTR_PING_PONG_2_TE_DETECTED BIT(26)
+>   #define DPU_INTR_PING_PONG_3_TE_DETECTED BIT(27)
+>   
+> -/**
+> +/*
+>    * Ctl start interrupt status bit definitions
+>    */
+>   #define DPU_INTR_CTL_0_START BIT(9)
+> @@ -113,13 +113,13 @@
+>   #define DPU_INTR_CTL_3_START BIT(12)
+>   #define DPU_INTR_CTL_4_START BIT(13)
+>   
+> -/**
+> +/*
+>    * Concurrent WB overflow interrupt status bit definitions
+>    */
+>   #define DPU_INTR_CWB_2_OVERFLOW BIT(14)
+>   #define DPU_INTR_CWB_3_OVERFLOW BIT(15)
+>   
+> -/**
+> +/*
+>    * Histogram VIG done interrupt status bit definitions
+>    */
+>   #define DPU_INTR_HIST_VIG_0_DONE BIT(0)
+> @@ -127,7 +127,7 @@
+>   #define DPU_INTR_HIST_VIG_2_DONE BIT(8)
+>   #define DPU_INTR_HIST_VIG_3_DONE BIT(10)
+>   
+> -/**
+> +/*
+>    * Histogram VIG reset Sequence done interrupt status bit definitions
+>    */
+>   #define DPU_INTR_HIST_VIG_0_RSTSEQ_DONE BIT(1)
+> @@ -135,7 +135,7 @@
+>   #define DPU_INTR_HIST_VIG_2_RSTSEQ_DONE BIT(9)
+>   #define DPU_INTR_HIST_VIG_3_RSTSEQ_DONE BIT(11)
+>   
+> -/**
+> +/*
+>    * Histogram DSPP done interrupt status bit definitions
+>    */
+>   #define DPU_INTR_HIST_DSPP_0_DONE BIT(12)
+> @@ -143,7 +143,7 @@
+>   #define DPU_INTR_HIST_DSPP_2_DONE BIT(20)
+>   #define DPU_INTR_HIST_DSPP_3_DONE BIT(22)
+>   
+> -/**
+> +/*
+>    * Histogram DSPP reset Sequence done interrupt status bit definitions
+>    */
+>   #define DPU_INTR_HIST_DSPP_0_RSTSEQ_DONE BIT(13)
+> @@ -151,7 +151,7 @@
+>   #define DPU_INTR_HIST_DSPP_2_RSTSEQ_DONE BIT(21)
+>   #define DPU_INTR_HIST_DSPP_3_RSTSEQ_DONE BIT(23)
+>   
+> -/**
+> +/*
+>    * INTF interrupt status bit definitions
+>    */
+>   #define DPU_INTR_VIDEO_INTO_STATIC BIT(0)
+> @@ -164,7 +164,7 @@
+>   #define DPU_INTR_DSICMD_2_OUTOF_STATIC BIT(7)
+>   #define DPU_INTR_PROG_LINE BIT(8)
+>   
+> -/**
+> +/*
+>    * AD4 interrupt status bit definitions
+>    */
+>   #define DPU_INTR_BACKLIGHT_UPDATED BIT(0)
+> 
 
 
-Am 04.06.21 um 10:28 schrieb Chen Li:
-> On Fri, 04 Jun 2021 16:08:26 +0800,
-> Christian König wrote:
->>
->>
->> Am 04.06.21 um 09:53 schrieb Chen Li:
->>> I met a gpu addr bug recently and the kernel log
->>> tells me the pc is memcpy/memset and link register is
->>> radeon_uvd_resume.
->>>
->>> As we know, in some architectures, optimized memcpy/memset
->>> may not work well on device memory. Trival memcpy_toio/memset_io
->>> can fix this problem.
->>>
->>> BTW, amdgpu has already done it in:
->>> commit ba0b2275a678 ("drm/amdgpu: use memcpy_to/fromio for UVD fw upload"),
->>> that's why it has no this issue on the same gpu and platform.
->>>
->>> Signed-off-by: Chen Li <chenli@uniontech.com>
->>> ---
->>>    drivers/gpu/drm/radeon/radeon_uvd.c | 6 ++++--
->>>    1 file changed, 4 insertions(+), 2 deletions(-)
->>>
->>> diff --git a/drivers/gpu/drm/radeon/radeon_uvd.c b/drivers/gpu/drm/radeon/radeon_uvd.c
->>> index 85a1f2c31749..55abf9a9623b 100644
->>> --- a/drivers/gpu/drm/radeon/radeon_uvd.c
->>> +++ b/drivers/gpu/drm/radeon/radeon_uvd.c
->>> @@ -288,7 +288,9 @@ int radeon_uvd_resume(struct radeon_device *rdev)
->>>    	if (rdev->uvd.vcpu_bo == NULL)
->>>    		return -EINVAL;
->>>    -	memcpy(rdev->uvd.cpu_addr, rdev->uvd_fw->data, rdev->uvd_fw->size);
->>> +	memcpy_toio((void __iomem *)rdev->uvd.cpu_addr,
->>> +				rdev->uvd_fw->data,
->>> +				rdev->uvd_fw->size);
->> The coding style still looks wrong here, e.g. it is indented to far to the right
->> and data/size can be on one line.
-> It's really werid that the patch before being replyed has not this coding style issue and do always indent the same with previous memcpy(in all of v1, v2 and v3),
-> you can check at https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Fpatchwork.kernel.org%2Fproject%2Fdri-devel%2Fpatch%2F87im2ufhyz.wl-chenli%40uniontech.com%2F&amp;data=04%7C01%7Cchristian.koenig%40amd.com%7C3faf061c19b54a68e72508d92732cd5e%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637583921450406148%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&amp;sdata=b0726ORwyeLQsKVzqjfZEMaU4Vi543szpFYoHekPMIU%3D&amp;reserved=0 Cannot figure out what happened, sorry.
->
-> I'll take merge them in single line in the next series, thanks.
-
-It's not much of an issue, just make sure that checkpatch.pl doesn't 
-complain.
-
-Christian.
-
->> Apart from that the patch is Reviewed-by: Christian König
->> <christian.koenig@amd.com>
->>
->> Regards,
->> Christian.
->>
->>>      	size = radeon_bo_size(rdev->uvd.vcpu_bo);
->>>    	size -= rdev->uvd_fw->size;
->>> @@ -296,7 +298,7 @@ int radeon_uvd_resume(struct radeon_device *rdev)
->>>    	ptr = rdev->uvd.cpu_addr;
->>>    	ptr += rdev->uvd_fw->size;
->>>    -	memset(ptr, 0, size);
->>> +	memset_io((void __iomem *)ptr, 0, size);
->>>      	return 0;
->>>    }
->>
->>
->
-
+-- 
+With best wishes
+Dmitry
