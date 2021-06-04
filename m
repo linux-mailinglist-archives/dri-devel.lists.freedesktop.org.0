@@ -1,66 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99AC239B564
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Jun 2021 10:57:59 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D3DE39B56F
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Jun 2021 11:01:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 962826F5E0;
-	Fri,  4 Jun 2021 08:57:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 293B36F5DA;
+	Fri,  4 Jun 2021 09:01:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com
- [IPv6:2a00:1450:4864:20::32c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7E1016F5DF
- for <dri-devel@lists.freedesktop.org>; Fri,  4 Jun 2021 08:57:56 +0000 (UTC)
-Received: by mail-wm1-x32c.google.com with SMTP id f20so695671wmg.0
- for <dri-devel@lists.freedesktop.org>; Fri, 04 Jun 2021 01:57:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=/0XS+taR8uO0Puxfl2+DmxsoWoL/hO28ux66/TfeXRE=;
- b=WfJOqL6TtKt8J4Be3wgOm4JHJ8FOJwSwNKlkmW/uNwzuaZ/SyU+xkNLZD5idPTHDB8
- TvyBoiOtv7ZEwPlikHdvUA46RQCybUiS27Cth69Dz0oxwSB45rhkkwf9nYHUJVwue+0A
- iwnZKX4V54W2Sw8Fz6RP/n/idZWnjG3fobAMtTQaJIQSKG/sanGE8KpnFzoDpbicJ0qU
- 1aGEdAoZpGiBpFlD+goILCI7RhOHiBgjfyKTsDjkDuJOMGLZpnwDGmqjEVSE33SiKDX5
- q4bS0Ag4SzLVxMFIJGr2VB2Vogv/PrBZIKcyssJud6xsHVYQB0nrRD6bKzHr0fUSCKHl
- 6IwA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=/0XS+taR8uO0Puxfl2+DmxsoWoL/hO28ux66/TfeXRE=;
- b=gVG0Z60MarwkNEXg2OHNyxdFOPcfWuvfzdmPXQJ/ROEl075UwcLCCUANxd/qHfKbXp
- jLyn+aDMG6xxF0cagTqmuz+5hO1HwAnQWqs92cBJb6NCYPoh3PisIOjDwL+kj03Ps4uq
- wauHhmdMnzYYr6fYq1Ks5ZcdocdgwVjxjcmEaWMpetGEc4TeU6F9tCDPE7lzew8pnz7w
- orfthFBn2aAXHPHTPbIGIheuE47XrFM0D9KBmC1ilGVlpde0RYgGg1LwV/c4fodQdrcz
- 0iCOWp0XYrfw3BiaKNj6ocpi84nZmEmQ8LKHpe60lPovumZ3Vr3/kk2EXbphR9LC9UoM
- /slQ==
-X-Gm-Message-State: AOAM532YgojrNMNZCgP46ad1XsyO9U7ANKWKSqQJo0VxGw6dlz/x+rVX
- lFq8A3gkVzMQz6OAg38QibVF0A==
-X-Google-Smtp-Source: ABdhPJxSerMJo/NyEAwIjmxLZAscEMfLRp3dsxK1fpB61fIULrq5CngQm+FyXIn4sq6jKtWiJ2gD8A==
-X-Received: by 2002:a05:600c:4f0f:: with SMTP id
- l15mr2515531wmq.143.1622797075254; 
- Fri, 04 Jun 2021 01:57:55 -0700 (PDT)
-Received: from dell ([91.110.221.214])
- by smtp.gmail.com with ESMTPSA id x11sm6033904wru.87.2021.06.04.01.57.54
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 04 Jun 2021 01:57:54 -0700 (PDT)
-Date: Fri, 4 Jun 2021 09:57:52 +0100
-From: Lee Jones <lee.jones@linaro.org>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Subject: Re: [RESEND 10/26] drm/msm/disp/dpu1/dpu_hw_interrupts: Demote a
- bunch of kernel-doc abuses
-Message-ID: <20210604085752.GI2435141@dell>
-References: <20210602143300.2330146-1-lee.jones@linaro.org>
- <20210602143300.2330146-11-lee.jones@linaro.org>
- <85bd6c24-0e4e-6f18-ccf0-6acf62d0f0ff@linaro.org>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 05BCB6F5DA;
+ Fri,  4 Jun 2021 09:01:46 +0000 (UTC)
+IronPort-SDR: n9KeJr1ysiayJUKszTnxtM3F9Aoe74JvBnyhis3e0+e14Bs3voyDyQ4xDhE0d4yxEvEwiheZaq
+ HnRJHgIqv+VA==
+X-IronPort-AV: E=McAfee;i="6200,9189,10004"; a="191362613"
+X-IronPort-AV: E=Sophos;i="5.83,247,1616482800"; d="scan'208";a="191362613"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Jun 2021 02:01:44 -0700
+IronPort-SDR: 9G3b3ztjFYHK+ovsfibgfE3FQUGBWpuV8Qn4Nq+ppjbmCm0m2C5xR5Lpr+v6kzd1MlcovVl3b/
+ 8yXJdgDKIVyQ==
+X-IronPort-AV: E=Sophos;i="5.83,247,1616482800"; d="scan'208";a="618201600"
+Received: from janlundk-mobl1.ger.corp.intel.com (HELO [10.249.254.183])
+ ([10.249.254.183])
+ by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Jun 2021 02:01:42 -0700
+Subject: Re: [Intel-gfx] Merging TTM branches through the Intel tree?
+To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ Daniel Vetter <daniel@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+References: <a29eaef9-2457-1393-6757-40956811daf8@linux.intel.com>
+ <a6965639-acf6-b5f5-482c-2715e7fa69d4@amd.com>
+ <b4c18e45-98c9-ce7f-b22c-c00c795844c2@shipmail.org>
+ <baf4f828-76c8-6b47-5bba-9b9c8e7b307b@amd.com>
+ <YLfQplT8H6PdCCLX@phenom.ffwll.local>
+ <c50fa98f-3735-fe04-d3f9-8a7a08a7562e@linux.intel.com>
+ <CAKMK7uE+fB_+UG668O=QMXwQ9_Xb--KhzehT77HLfBoWve-zLg@mail.gmail.com>
+ <68e6057c-df17-64ce-3116-cd5e79578795@amd.com>
+From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>
+Message-ID: <a3f789a0-9e75-280a-7602-4728738024eb@linux.intel.com>
+Date: Fri, 4 Jun 2021 11:01:40 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+In-Reply-To: <68e6057c-df17-64ce-3116-cd5e79578795@amd.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <85bd6c24-0e4e-6f18-ccf0-6acf62d0f0ff@linaro.org>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,42 +60,124 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Krishna Manikandan <mkrishn@codeaurora.org>,
- David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, Sean Paul <sean@poorly.run>
+Cc: =?UTF-8?Q?Thomas_Hellstr=c3=b6m_=28Intel=29?= <thomas_os@shipmail.org>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Matthew Auld <matthew.auld@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 04 Jun 2021, Dmitry Baryshkov wrote:
 
-> On 02/06/2021 17:32, Lee Jones wrote:
-> > Fixes the following W=1 kernel build warning(s):
-> > 
-> >   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c:17: warning: expecting prototype for Register offsets in MDSS register file for the interrupt registers(). Prototype was for MDP_SSPP_TOP0_OFF() instead
-> >   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c:35: warning: expecting prototype for WB interrupt status bit definitions(). Prototype was for DPU_INTR_WB_0_DONE() instead
-> >   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c:42: warning: expecting prototype for WDOG timer interrupt status bit definitions(). Prototype was for DPU_INTR_WD_TIMER_0_DONE() instead
-> >   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c:51: warning: expecting prototype for Pingpong interrupt status bit definitions(). Prototype was for DPU_INTR_PING_PONG_0_DONE() instead
-> >   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c:71: warning: expecting prototype for Interface interrupt status bit definitions(). Prototype was for DPU_INTR_INTF_0_UNDERRUN() instead
-> >   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c:85: warning: expecting prototype for Pingpong Secondary interrupt status bit definitions(). Prototype was for DPU_INTR_PING_PONG_S0_AUTOREFRESH_DONE() instead
-> >   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c:94: warning: expecting prototype for Pingpong TEAR detection interrupt status bit definitions(). Prototype was for DPU_INTR_PING_PONG_0_TEAR_DETECTED() instead
-> >   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c:102: warning: expecting prototype for Pingpong TE detection interrupt status bit definitions(). Prototype was for DPU_INTR_PING_PONG_0_TE_DETECTED() instead
-> >   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c:110: warning: expecting prototype for Ctl start interrupt status bit definitions(). Prototype was for DPU_INTR_CTL_0_START() instead
-> >   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c:119: warning: expecting prototype for Concurrent WB overflow interrupt status bit definitions(). Prototype was for DPU_INTR_CWB_2_OVERFLOW() instead
-> >   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c:125: warning: expecting prototype for Histogram VIG done interrupt status bit definitions(). Prototype was for DPU_INTR_HIST_VIG_0_DONE() instead
-> >   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c:133: warning: expecting prototype for Histogram VIG reset Sequence done interrupt status bit definitions(). Prototype was for DPU_INTR_HIST_VIG_0_RSTSEQ_DONE() instead
-> >   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c:141: warning: expecting prototype for Histogram DSPP done interrupt status bit definitions(). Prototype was for DPU_INTR_HIST_DSPP_0_DONE() instead
-> >   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c:149: warning: expecting prototype for Histogram DSPP reset Sequence done interrupt status bit definitions(). Prototype was for DPU_INTR_HIST_DSPP_0_RSTSEQ_DONE() instead
-> >   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c:157: warning: expecting prototype for INTF interrupt status bit definitions(). Prototype was for DPU_INTR_VIDEO_INTO_STATIC() instead
-> >   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c:170: warning: expecting prototype for AD4 interrupt status bit definitions(). Prototype was for DPU_INTR_BACKLIGHT_UPDATED() instead
-> 
-> Most of these defines are gone in msm/msm-next. Could you please rebase and
-> repost just this patch? Other patches apply clearly.
+On 6/4/21 9:51 AM, Christian König wrote:
+> Am 03.06.21 um 09:36 schrieb Daniel Vetter:
+>> On Thu, Jun 3, 2021 at 8:50 AM Thomas Hellström
+>> <thomas.hellstrom@linux.intel.com> wrote:
+>>>
+>>> On 6/2/21 8:40 PM, Daniel Vetter wrote:
+>>>> On Wed, Jun 02, 2021 at 11:48:41AM +0200, Christian König wrote:
+>>>>> Am 02.06.21 um 11:16 schrieb Thomas Hellström (Intel):
+>>>>>> On 6/2/21 10:32 AM, Christian König wrote:
+>>>>>>> Uff I'm just waiting for feedback from Philip to merge a large 
+>>>>>>> patch
+>>>>>>> set for TTM through drm-misc-next.
+>>>>>>>
+>>>>>>> I'm pretty sure we will run into merge conflicts if you try to push
+>>>>>>> your changes through the Intel tree.
+>>>>>>>
+>>>>>>> Christian.
+>>>>>> OK, so what would be the best approach here?, Adding the TTM 
+>>>>>> patches to
+>>>>>> drm-misc-next when your set has landed?
+>>>>> I think I will send out out my set to Matthew once more for 
+>>>>> review, then
+>>>>> push the common TTM stuff to drm-misc-next as much as possible.
+>>>>>
+>>>>> Then you should be able to land your stuff to drm-misc-next and 
+>>>>> rebase on
+>>>>> the end result.
+>>>>>
+>>>>> Just need to note to David that drm-misc-next should be merged to 
+>>>>> drm-next
+>>>>> before the Intel patches depending on that stuff land as well.
+>>>> Other option (because the backmerges tend to be slow) is a topic 
+>>>> branch,
+>>>> and we just eat/resolve the conflicts in both drm-misc-next and
+>>>> drm-intel-gt-next in the merge commit. If it's not too bad (I haven't
+>>>> looked at what exactly we need for the i915 side from ttm in detail).
+>>>>
+>>>> But also often figuring out the topic branch logistics takes longer 
+>>>> than
+>>>> just merging to drm-misc-next as the patches get ready.
+>>>> -Daniel
+>>> Daniel: So the thing we need to get into TTM is the iterator-based
+>>> move_memcpy which is more adaptable than the current one and needed to
+>>> support non-linear lmem buffers, some bug-fixes and minor changes to be
+>>> able to keep our short-term-pinning while on the LRU. A necessary evil.
+>>>
+>>> Christian: it looks like you have landed some TTM changes already, in
+>>> particular the &bo->mem -> bo->resource change which is the main
+>>> conflict I think.
+>
+> Yes, I thought that pushing this with Matthew rb should solve at least 
+> a bit of the conflict.
+>
+>>> Is the 10 patches self-allocation series the main
+>>> remaining part?
+>
+> Yes, exactly. I only need Matthew's, Daniel's or your ok and I'm good 
+> to go as well
+>
+>>> That will probably cause some conflicts with already
+>>> pushed i915 TTM setup code, but otherwise will not conflict with the
+>>> rest of the TTM code I think, which should make it possible to bring in
+>>> our TTM changes after conflict resolution with what you've already
+>>> pushed. The memcpy code is pretty self-contained.
+>> I think in that case topic branch on top of drm-next (once the ttm
+>> bits we conflict with are there) is probably best, and then pull that
+>> into drm-misc-next and drm-intel-gt-next. Merge window freeze is also
+>> approach, so without topic branch we'd be stuck until like -rc2 when
+>> drm-next reopens. I guess Maarten can do the topic branch logistics in
+>> drm-misc.git for this.
+>
+> That approach sounds good to me as well.
+>
+> The amdgpu branch had some merge conflicts as well, but nothing we 
+> couldn't fix.
 
-Sure.
+OK, so this is going to be a little tricky, I guess.
 
--- 
-Lee Jones [李琼斯]
-Senior Technical Lead - Developer Services
-Linaro.org │ Open source software for Arm SoCs
-Follow Linaro: Facebook | Twitter | Blog
+ From what I can tell, the memcpy TTM stuff is resolved locally and can 
+be merged to drm-misc-next immediately. It might have a very minor 
+conflict with your 10 patches I think, if any.
+
+Your 10 patches will conflict slightly with current drm-intel-gt-next I 
+think.
+
+Remaining intel patches will conflict only with current drm-misc-next.
+
+So We could have pull order
+
+- drm-misc-next up to bot not including your 10 patches,
+- drm-intel-gt-next
+- drm-misc-next from your 10 paches and onwards,
+- Intel's ttm enablement topic branch.
+
+Whether I push the ttm memcpy stuff before your 10 patches or after 
+shouldn't really matter except it might take some time to resolve the 10 
+patches - drm-intel-gt-next conflict in drm-tip.
+
+So OK to merge the memcpy stuff to drm-misc-next now or do you want me 
+to hold on?
+
+I'll take a look at what's remaining to review in your series. I guess 
+it's in our interest that both these series get merged asap.
+
+/Thomas
+
+
+
+>
+> Christian.
+>
+>> -Daniel
+>
