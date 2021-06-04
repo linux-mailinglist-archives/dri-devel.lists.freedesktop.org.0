@@ -1,45 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00E3339B06C
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Jun 2021 04:33:18 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7885E39B06B
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Jun 2021 04:32:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0D0356F565;
-	Fri,  4 Jun 2021 02:33:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AE1B26F566;
+	Fri,  4 Jun 2021 02:32:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ozlabs.org (bilbo.ozlabs.org [203.11.71.1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8175E6F565;
- Fri,  4 Jun 2021 02:33:15 +0000 (UTC)
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
- SHA256) (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4Fx6J66Q5gz9s24;
- Fri,  4 Jun 2021 12:33:10 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=canb.auug.org.au;
- s=201702; t=1622773993;
- bh=PI/M/29Ock5JHzx2zr66W++GeZ/U0IKD0LbQp0JwrXU=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=tS0GnyhRUyMX7YkKooRxu4MD0k2C8Yr8GOOdkrrI7lN0UR9zA6HVu5xEI6BZVDhpz
- kiqH0osXpGTdPRvMW6rSnt6iYlOnteYDzU7r95vLwHb2prnU3RTRkHfx94GotArtH1
- Po/+4445iECQnlLUdewS2OQrgt/NnwoszzAeTQy5IlZf1ttyPye/UQXJ0uHMUxBPzM
- V8cObkW5OGbK8AjRLeBl19uhcfwYRafbKTqJawH2Rm1VS/aMUHT3aGeZSfS9jaV9K5
- SoOIXMpD3WRR51Mtme4a+hJmJVBFTSQda8dsWLwD3/6IYv3Wmn0yVRN6lGIQe9+qrl
- fvsUb+R6DI8qg==
-Date: Fri, 4 Jun 2021 12:33:09 +1000
-From: Stephen Rothwell <sfr@canb.auug.org.au>
-To: Daniel Vetter <daniel.vetter@ffwll.ch>, Intel Graphics
- <intel-gfx@lists.freedesktop.org>, DRI <dri-devel@lists.freedesktop.org>,
- Dave Airlie <airlied@linux.ie>
-Subject: Re: linux-next: manual merge of the amdgpu tree with the drm-misc tree
-Message-ID: <20210604123309.2e5b546a@canb.auug.org.au>
-In-Reply-To: <20210603124847.19a6dacf@canb.auug.org.au>
-References: <20210603124847.19a6dacf@canb.auug.org.au>
+Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com
+ [IPv6:2a00:1450:4864:20::335])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E45186F565;
+ Fri,  4 Jun 2021 02:32:51 +0000 (UTC)
+Received: by mail-wm1-x335.google.com with SMTP id
+ v206-20020a1cded70000b02901a586d3fa23so473729wmg.4; 
+ Thu, 03 Jun 2021 19:32:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=XfVLX4YtEZs428uaQPfb/mY1tDAn6l5ncSwMdycpblI=;
+ b=p5drJ8OPu0/hfTaQXi2OyrCV3UE0/bcH3ckTmA6EC2x2//1neicrguJZw+egplGj7e
+ cbrQ9OpDwX1uZqU9IGP7ncGktMXUx4UviQhIeb20d06j/E5NfmU1+gfXjEag7tXpmj+I
+ i2uG7BIAYtnWU4xdCU0QenmkqC2pTBAEcWq0SuNYcncS1waJTJcR4CZZZqIqul4845tD
+ wlf1Kv9hg49UzNfmMHyN5Geif4mqiUUMBRTbyMWtjpNgrIrS5Npb17wxil5Gpc4cXEhd
+ ye7CeseV4uBnq37kFnGOz1WtIqvJPs60R9aq1HK4S3jxjF2K6Udk3uDqLlPin73no4HA
+ VOUw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=XfVLX4YtEZs428uaQPfb/mY1tDAn6l5ncSwMdycpblI=;
+ b=M5fqAk0cLQxvghFMoBHmiEApZkTeY9L+xFEnvvasdmMN0Jtzp2mFC5pPTJW81slH/D
+ 8H3pdpDcaHqZgCEvSCYGP9vGhD7Xo3xRy8OQ+VfH1hzWkggymWUAtav5tBHUw+q0/dkX
+ u/KQJz5DJlm4ZfMf1wik+WxZ2qPI7s6R4KG+UtNMWc/3rDUAzNmPmgSkxsk03VcSkI6y
+ eqHTGliOS+xyYZUgdxMS7sEZ4XUdadsvvAQc1FK0j1sMz+4EeTJbS/3589gshKA62xZE
+ ysmgqbdP8q8+lxlNQbS14fKIIwP7/w4O4+Hbw5o+Qe/PlbzJB4eR1I7QiZ0Mr9MCpGMe
+ oY+A==
+X-Gm-Message-State: AOAM531o+oSwzpf7UZSYrb1FKIqByRY53e7KVy5fHIdpIFE2yTQqWluH
+ LnodIYhiRIe7X7EIIGRHigtgs0GSZqYGiFxcNak=
+X-Google-Smtp-Source: ABdhPJxmpIfDqZXuShm76OqWvHKkOU4l5zonimZqTYUKsjU+Sqv/oJyOxy/U8P1238Okoxuj2H3MGCtE1stmFsOfTU4=
+X-Received: by 2002:a05:600c:2054:: with SMTP id
+ p20mr843886wmg.175.1622773970471; 
+ Thu, 03 Jun 2021 19:32:50 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/yECzrtYfgiiWPQ5yqoFW6qz";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+References: <20210521124946.3617862-1-vkoul@kernel.org>
+ <CAOCk7Nqep_Db+z3fr5asHZ1u0j8+6fKkPFs2Ai8CbA_zGqV6ZA@mail.gmail.com>
+ <YK3gxqXBRupN/N+Q@vkoul-mobl.Dlink>
+ <CAOCk7NqvhGvYw8xCBctqj7H+o-Qwp2UuUJK1gatW9EWfXv56xA@mail.gmail.com>
+ <CAF6AEGuoyPr8PgfwFX0JCYZ7S_pryn_OXacHBqoMAAPvSq6aRw@mail.gmail.com>
+ <YLdlEB3Ea6OWaLw4@vkoul-mobl>
+In-Reply-To: <YLdlEB3Ea6OWaLw4@vkoul-mobl>
+From: Rob Clark <robdclark@gmail.com>
+Date: Thu, 3 Jun 2021 19:36:42 -0700
+Message-ID: <CAF6AEGvS2uL1eEeCKQ5wDX4+yRZuOTHzFOv9Kiu09HO2r9xzHQ@mail.gmail.com>
+Subject: Re: [Freedreno] [RFC PATCH 00/13] drm/msm: Add Display Stream
+ Compression Support
+To: Vinod Koul <vkoul@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,188 +69,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Felix Kuehling <Felix.Kuehling@amd.com>, Nirmoy Das <nirmoy.das@amd.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Alex Deucher <alexander.deucher@amd.com>,
- Linux Next Mailing List <linux-next@vger.kernel.org>,
- Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>
+Cc: DTML <devicetree@vger.kernel.org>, Jonathan Marek <jonathan@marek.ca>,
+ Jeffrey Hugo <jeffrey.l.hugo@gmail.com>, David Airlie <airlied@linux.ie>,
+ MSM <linux-arm-msm@vger.kernel.org>, lkml <linux-kernel@vger.kernel.org>,
+ Abhinav Kumar <abhinavk@codeaurora.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>, Rob Herring <robh+dt@kernel.org>,
+ "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ freedreno <freedreno@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/yECzrtYfgiiWPQ5yqoFW6qz
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
-
-Hi all,
-
-On Thu, 3 Jun 2021 12:48:47 +1000 Stephen Rothwell <sfr@canb.auug.org.au> w=
-rote:
+On Wed, Jun 2, 2021 at 4:01 AM Vinod Koul <vkoul@kernel.org> wrote:
 >
-> Today's linux-next merge of the amdgpu tree got conflicts in:
->=20
->   drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
->   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
->=20
-> between commit:
->=20
->   d3116756a710 ("drm/ttm: rename bo->mem and make it a pointer")
->=20
-> from the drm-misc tree and commits:
->=20
->   b453e42a6e8b ("drm/amdgpu: Add new placement for preemptible SG BOs")
->   2a675640bc2d ("drm/amdgpu: move shadow bo validation to VM code")
->   59276f056fb7 ("drm/amdgpu: switch to amdgpu_bo_vm for vm code")
->   19a1d9350be6 ("drm/amdgpu: flush gart changes after all BO recovery")
->=20
-> from the amdgpu tree.
->=20
-> I fixed it up (see below) and can carry the fix as necessary. This
-> is now fixed as far as linux-next is concerned, but any non trivial
-> conflicts should be mentioned to your upstream maintainer when your tree
-> is submitted for merging.  You may also want to consider cooperating
-> with the maintainer of the conflicting tree to minimise any particularly
-> complex conflicts.
->=20
-> --=20
-> Cheers,
-> Stephen Rothwell
->=20
-> diff --cc drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-> index 663aa7d2e2ea,86259435803e..000000000000
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-> @@@ -459,10 -479,11 +461,11 @@@ static int amdgpu_bo_move(struct ttm_bu
->   {
->   	struct amdgpu_device *adev;
->   	struct amdgpu_bo *abo;
->  -	struct ttm_resource *old_mem =3D &bo->mem;
->  +	struct ttm_resource *old_mem =3D bo->resource;
->   	int r;
->  =20
-> - 	if (new_mem->mem_type =3D=3D TTM_PL_TT) {
-> + 	if (new_mem->mem_type =3D=3D TTM_PL_TT ||
-> + 	    new_mem->mem_type =3D=3D AMDGPU_PL_PREEMPT) {
->   		r =3D amdgpu_ttm_backend_bind(bo->bdev, bo->ttm, new_mem);
->   		if (r)
->   			return r;
-> @@@ -989,8 -1012,9 +995,9 @@@ int amdgpu_ttm_alloc_gart(struct ttm_bu
->   			return r;
->   		}
->  =20
-> + 		amdgpu_gart_invalidate_tlb(adev);
->  -		ttm_resource_free(bo, &bo->mem);
->  -		bo->mem =3D tmp;
->  +		ttm_resource_free(bo, bo->resource);
->  +		ttm_bo_assign_mem(bo, &tmp);
->   	}
->  =20
->   	return 0;
-> @@@ -1348,7 -1373,16 +1356,16 @@@ static bool amdgpu_ttm_bo_eviction_valu
->   		}
->   	}
->  =20
->  -	switch (bo->mem.mem_type) {
->  +	switch (bo->resource->mem_type) {
-> + 	case AMDGPU_PL_PREEMPT:
-> + 		/* Preemptible BOs don't own system resources managed by the
-> + 		 * driver (pages, VRAM, GART space). They point to resources
-> + 		 * owned by someone else (e.g. pageable memory in user mode
-> + 		 * or a DMABuf). They are used in a preemptible context so we
-> + 		 * can guarantee no deadlocks and good QoS in case of MMU
-> + 		 * notifiers or DMABuf move notifiers from the resource owner.
-> + 		 */
-> + 		return false;
->   	case TTM_PL_TT:
->   		if (amdgpu_bo_is_amdgpu_bo(bo) &&
->   		    amdgpu_bo_encrypted(ttm_to_amdgpu_bo(bo)))
-> @@@ -1767,8 -1809,13 +1791,9 @@@ void amdgpu_ttm_fini(struct amdgpu_devi
->   	amdgpu_bo_free_kernel(&adev->mman.discovery_memory, NULL, NULL);
->   	amdgpu_ttm_fw_reserve_vram_fini(adev);
->  =20
->  -	if (adev->mman.aper_base_kaddr)
->  -		iounmap(adev->mman.aper_base_kaddr);
->  -	adev->mman.aper_base_kaddr =3D NULL;
->  -
->   	amdgpu_vram_mgr_fini(adev);
->   	amdgpu_gtt_mgr_fini(adev);
-> + 	amdgpu_preempt_mgr_fini(adev);
->   	ttm_range_man_fini(&adev->mman.bdev, AMDGPU_PL_GDS);
->   	ttm_range_man_fini(&adev->mman.bdev, AMDGPU_PL_GWS);
->   	ttm_range_man_fini(&adev->mman.bdev, AMDGPU_PL_OA);
-> @@@ -1919,7 -2010,12 +1944,12 @@@ int amdgpu_fill_buffer(struct amdgpu_b
->   		return -EINVAL;
->   	}
->  =20
->  -	if (bo->tbo.mem.mem_type =3D=3D AMDGPU_PL_PREEMPT) {
-> ++	if (bo->tbo.resource->mem_type =3D=3D AMDGPU_PL_PREEMPT) {
-> + 		DRM_ERROR("Trying to clear preemptible memory.\n");
-> + 		return -EINVAL;
-> + 	}
-> +=20
->  -	if (bo->tbo.mem.mem_type =3D=3D TTM_PL_TT) {
->  +	if (bo->tbo.resource->mem_type =3D=3D TTM_PL_TT) {
->   		r =3D amdgpu_ttm_alloc_gart(&bo->tbo);
->   		if (r)
->   			return r;
-> diff --cc drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
-> index bcfd4a8d0288,1923f035713a..000000000000
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
-> @@@ -657,11 -657,10 +658,11 @@@ void amdgpu_vm_move_to_lru_tail(struct=20
->   		if (!bo->parent)
->   			continue;
->  =20
->  -		ttm_bo_move_to_lru_tail(&bo->tbo, &bo->tbo.mem,
->  +		ttm_bo_move_to_lru_tail(&bo->tbo, bo->tbo.resource,
->   					&vm->lru_bulk_move);
-> - 		if (bo->shadow)
-> - 			ttm_bo_move_to_lru_tail(&bo->shadow->tbo,
-> + 		if (shadow)
->  -			ttm_bo_move_to_lru_tail(&shadow->tbo, &shadow->tbo.mem,
-> ++			ttm_bo_move_to_lru_tail(&shadow->tbo,
->  +						shadow->tbo.resource,
->   						&vm->lru_bulk_move);
->   	}
->   	spin_unlock(&adev->mman.bdev.lru_lock);
-> @@@ -1818,11 -1853,12 +1859,12 @@@ int amdgpu_vm_bo_update(struct amdgpu_d
->   			struct drm_gem_object *gobj =3D dma_buf->priv;
->   			struct amdgpu_bo *abo =3D gem_to_amdgpu_bo(gobj);
->  =20
->  -			if (abo->tbo.mem.mem_type =3D=3D TTM_PL_VRAM)
->  +			if (abo->tbo.resource->mem_type =3D=3D TTM_PL_VRAM)
->   				bo =3D gem_to_amdgpu_bo(gobj);
->   		}
->  -		mem =3D &bo->tbo.mem;
->  +		mem =3D bo->tbo.resource;
-> - 		if (mem->mem_type =3D=3D TTM_PL_TT)
-> + 		if (mem->mem_type =3D=3D TTM_PL_TT ||
-> + 		    mem->mem_type =3D=3D AMDGPU_PL_PREEMPT)
->   			pages_addr =3D bo->tbo.ttm->dma_address;
->   	}
->  =20
+> On 27-05-21, 16:30, Rob Clark wrote:
+> > On Wed, May 26, 2021 at 8:00 AM Jeffrey Hugo <jeffrey.l.hugo@gmail.com> wrote:
+> > > On Tue, May 25, 2021 at 11:46 PM Vinod Koul <vkoul@kernel.org> wrote:
+>
+> > > Frankly, I don't like the MSM ACPI solution that I've seen on the laptops.
+> > > The ACPI assumes the entire MDSS (including DSI parts) and GPU is one
+> > > device, and ultimately handled by one driver.  That driver needs to
+> > > get a value from UEFI (set by the bootloader) that is the "panel id".
+> > > Then the driver calls into ACPI (I think its _ROM, but I might be
+> > > mistaken, doing this from memory) with that id.  It gets back a binary
+> > > blob which is mostly an xml file (format is publicly documented) that
+> > > contains the panel timings and such.
+> >
+> > tbh, I kinda suspect that having a single "gpu" device (which also
+> > includes venus, in addition to display, IIRC) in the ACPI tables is a
+> > windowsism, trying to make things look to userspace like a single "GPU
+> > card" in the x86 world.. but either way, I think the ACPI tables on
+> > the windows arm laptops which use dsi->bridge->edp is too much of a
+> > lost cause to even consider here.  Possibly ACPI boot on these devices
+> > would be more feasible on newer devices which have direct eDP out of
+> > the SoC without requiring external bridge/panel glue.
+>
+> yeah that is always a very different world. although it might make sense
+> to use information in tables and try to deduce information about the
+> system can be helpful...
+>
+> > I'd worry more about what makes sense in a DT world, when it comes to
+> > DT bindings.
+>
+> And do you have thoughts on that..?
 
-This is now a conflict between the drm-misc tree and the drm tree.
+Only that I wouldn't get too hung up on existing snapdragon ACPI
+tables.. not sure if there is prior art as far as ACPI tables for this
+on x86 systems, if so that *might* be a thing to consider, but
+otherwise it does sound a bit like we want less qcom specific bindings
+here.  But other than that I'll leave it to folks who spend more time
+thinking about bindings.. left to my own devices I'd come up with a
+point solution and go back to working on mesa, so that probably isn't
+the opinion you want to follow ;-)
 
-(I fixed up the resolution above)
-
---=20
-Cheers,
-Stephen Rothwell
-
---Sig_/yECzrtYfgiiWPQ5yqoFW6qz
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmC5kOUACgkQAVBC80lX
-0GwEiAf/VGcAUYUYLioC3aoowvJpGA8nk3tWS96lNH3jMLTFMMSBkypojeycWOSN
-Mo2EWWOMmr2YQFQ1mq7QHBZINzPo65Kji3y5s3dqMAtMSQtZW05c/D78nHJvmjf1
-IBG/JFS/XQRkl33n8eQaekSSRvc0Fz+vLaBQCWcMVE9dTnZ5vGcZC/S2V32cpTj1
-x5WizJeAN9gJyg7v98tPETlYQSTtQ1vioepYpzvGrxSe4g4AxXs1Wv1kuu+kIc1i
-9IVAfKb9n+FBfaW+Obyw1hrLSQ4bpp/ejI76uNNdqGI6EcGCEUm3VphwJ+HE26gu
-5zGWLzlPJWpMoDM1qGc9pIIMnkTEgQ==
-=dudl
------END PGP SIGNATURE-----
-
---Sig_/yECzrtYfgiiWPQ5yqoFW6qz--
+BR,
+-R
