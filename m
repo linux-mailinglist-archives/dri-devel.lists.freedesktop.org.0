@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15B0339C28E
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Jun 2021 23:37:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 616CD39C29A
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Jun 2021 23:38:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9283F6F527;
-	Fri,  4 Jun 2021 21:37:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 54B156E40B;
+	Fri,  4 Jun 2021 21:38:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 594D76F527
- for <dri-devel@lists.freedesktop.org>; Fri,  4 Jun 2021 21:37:19 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPS id 280C861406
- for <dri-devel@lists.freedesktop.org>; Fri,  4 Jun 2021 21:37:19 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2CCDB6E40B
+ for <dri-devel@lists.freedesktop.org>; Fri,  4 Jun 2021 21:38:25 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id 0366A613EC
+ for <dri-devel@lists.freedesktop.org>; Fri,  4 Jun 2021 21:38:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1622842639;
- bh=zm6nUIddZflUj4gbeTh0Onf/3xUrexUbv5zl6V7p1jo=;
+ s=k20201202; t=1622842705;
+ bh=DqEM4FLRjhG0TzYhtAvo1TFJUjF0h6cyCfUgkgtxauc=;
  h=From:To:Subject:Date:In-Reply-To:References:From;
- b=WxMynocrLk1BqtWbtc/5y1/rXlh7smWZI4GxNCgdRWqLY/BDOUU2VLBql2lHJlIBC
- tWlvJSlN/Y0glJ/SNa1zqhEYVfDgVYQxNaDCN43VJUz46YyUuSS/XAsjWm5CZ2+Nn3
- TicWjZKaHMu9SieYatQAIF6W1RtxDwmAPMB5EoOS4rS2QEI/t8gfh4lu4BG2yPwa04
- YdHB+CpH3MSfsl72ZgP6I0upAkvS6nzoIZ0QToDIZnZ/qAt9/C8+LZD+2KYdeD5e1B
- Q1U4lW4uTizlqHfKmAT2CQLfCATwGuBi/qFrb8Ap3ogHjz1Zvn0kGfrJPA2uBVqYAf
- 5tJgta4+/Iq6g==
+ b=aOrduVRLQojFMVnyI+75i7HF7B5nOcEFv9PrT+GmowNWuIIW3rq6l2JSudYgdDIpM
+ dovtGp37/TtjZgodHzUQeykbC+di9ZKY4K+vnby/as58QcMLgGXJvRJDsaUH7K4Tny
+ Omca4YJabqZiFbpRUbG1uz6WlnQJT7q1wXcMaJvRTuS2u3zHOAg9eswnaHL9XRRha0
+ E4nhfb5N7t86Yz69wgpusSc+96vjuLEH0eOJ+sy6VbG46wMsupZYyUz5aRMIlAzy4p
+ yy5env7y3fFLEqmlgPzy8ybF/fN0kK1vMLsMlQRw7dSVXuW0c3lsn5R8nOj9Af6GAG
+ LOcsyiVQEfmSg==
 Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
- id 1AC4B6127B; Fri,  4 Jun 2021 21:37:19 +0000 (UTC)
+ id ED3F56124C; Fri,  4 Jun 2021 21:38:24 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 213145] AMDGPU resets, timesout and crashes after "*ERROR*
  Waiting for fences timed out!"
-Date: Fri, 04 Jun 2021 21:37:18 +0000
+Date: Fri, 04 Jun 2021 21:38:24 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -45,8 +45,8 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-213145-2300-Bg3iSNE8mJ@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: cf_kernel_version
+Message-ID: <bug-213145-2300-nc2q1uPy65@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-213145-2300@https.bugzilla.kernel.org/>
 References: <bug-213145-2300@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
@@ -71,14 +71,11 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=3D213145
 
---- Comment #4 from Tomas Gayoso (tgayoso@gmail.com) ---
-Created attachment 297161
-  --> https://bugzilla.kernel.org/attachment.cgi?id=3D297161&action=3Dedit
-5.10.42 dmesg output with crash aftrer reset
+Tomas Gayoso (tgayoso@gmail.com) changed:
 
-Bug is still present on 5.10.42. Locking and crashing X after driver fails =
-to
-reset. Attaching dmesg output.
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+     Kernel Version|5.10.37 and 5.10.38         |5.10.37 until 5.10.42
 
 --=20
 You may reply to this email to add a comment.
