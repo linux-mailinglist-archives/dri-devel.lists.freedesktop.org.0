@@ -2,70 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F92139AFF6
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Jun 2021 03:41:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A9F339AFF8
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Jun 2021 03:43:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5689B6F556;
-	Fri,  4 Jun 2021 01:41:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 934F26F557;
+	Fri,  4 Jun 2021 01:43:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com
- [IPv6:2607:f8b0:4864:20::102e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0F2EA6F556
- for <dri-devel@lists.freedesktop.org>; Fri,  4 Jun 2021 01:40:59 +0000 (UTC)
-Received: by mail-pj1-x102e.google.com with SMTP id k7so4688814pjf.5
- for <dri-devel@lists.freedesktop.org>; Thu, 03 Jun 2021 18:40:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=XiCEBFYQs1wHoBsBq8qZHCHeWtBmY7GOb/awBPWsVM0=;
- b=hbR43tKlLsrx/D3uOQI9CXZlXNW70odw9gD6sUiwz/hnGkNBRz7RCKWP1KPxE7IVX0
- USzfmD0O7brF4DU3eI2z8LVM8cxTC6CQIZ3JV1J8xU7X8RWb1v6v9LyjxZgmMv37VudU
- yrF39zW/TcU4NhYz5DqbTCS8/lhN71tLLpGvk=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=XiCEBFYQs1wHoBsBq8qZHCHeWtBmY7GOb/awBPWsVM0=;
- b=Dhgg3OenPOt0wuiZUyz8Lyi6whcNGXrZPnlqRIJSdhh/eQOarg4SSkdDB5Nw+X7cn+
- nllvng+NIpoIl6bKt+gM9dpp3CmlcEXxy3Ff596rwOuoYlDZsdQfOUm2dP0LshNj0vG1
- zscFmUroamHt8lar30d5ehzvmoXhmYo7VS9P6XlQr1cHaaTaN+XToHcKq9cgNeIkEeTS
- AH8ZO9LO3EVUS7ZOwbow/NwGbyWSwejtaVwOUbYJA7wwFuvm48LDgSclYtVTdSc+w68y
- 6zJm+QL7LwW2y+kAc89R7Kc07IHz7VrCsvX3b1g58hEEOFd4zRZdmZIgaBrE4rqLaaRJ
- vxAw==
-X-Gm-Message-State: AOAM531FkjpUz3Py5omgpPvpCgaxAhwuOY6wS8o+4ulJT7u+OTtTSSv3
- eqbhpqMaaZvcgBxhYjzpbjCcSg==
-X-Google-Smtp-Source: ABdhPJy6vUfFFweAQh1fJ/gd2t/8skp7dOMu1If6hoqtSK41KY3KdYZDUbkW/1Rw0btPE7HztchCYQ==
-X-Received: by 2002:a17:90a:e541:: with SMTP id
- ei1mr2181414pjb.189.1622770858832; 
- Thu, 03 Jun 2021 18:40:58 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
- by smtp.gmail.com with ESMTPSA id d22sm261601pfn.147.2021.06.03.18.40.57
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 03 Jun 2021 18:40:57 -0700 (PDT)
-From: Kees Cook <keescook@chromium.org>
-To: Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH v2] drm/pl111: Actually fix CONFIG_VEXPRESS_CONFIG depends
-Date: Thu,  3 Jun 2021 18:40:55 -0700
-Message-Id: <20210604014055.4060521-1-keescook@chromium.org>
-X-Mailer: git-send-email 2.25.1
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 82A586F557
+ for <dri-devel@lists.freedesktop.org>; Fri,  4 Jun 2021 01:43:51 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id 4A47961402
+ for <dri-devel@lists.freedesktop.org>; Fri,  4 Jun 2021 01:43:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1622771031;
+ bh=g++JA5IX8J4DeEID4mMY2nXaYdTeOQKcglPzZn7nsf4=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=I4M/yyKY9gJKR+Yt5i3pfn2eFP+QQevL5Je+U5zMlBZU4dXK7taPgCf/ZdGsje21/
+ XAX/ODYWixONtcqq8p3y2bkD1O1b76fKiGl5Fjed4J+8SRt8NmGuQ84B1BgnAIIUf9
+ a7opIhkIv/ALO2RyMMzEG8smqeyXUxAtHvdQAmXSS9AGLNibHcqGnhoF6/F7WjxPP7
+ wQj0bqihbuEmPNsgWh+lNqViFHiCEzVZOjiegO4F8dUuOKIv6pVboMQwpH/i8wE6JF
+ i639w3HnVvd43iJ3plH53XtZibnCv5i0IRM2uH3M5rsJ2gmfPZuWBTkRAyY6M18hsx
+ MSiniklRLMpmw==
+Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
+ id 3BC9D6120C; Fri,  4 Jun 2021 01:43:51 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 213321] Laptop not waking from sleep
+Date: Fri, 04 Jun 2021 01:43:51 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: high
+X-Bugzilla-Who: sujay1844@protonmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-213321-2300-lLI2Ytx1Qw@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-213321-2300@https.bugzilla.kernel.org/>
+References: <bug-213321-2300@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-X-Patch-Hashes: v=1; h=sha256; g=14c1e26a99e7a5c0826947861880974d3dec799c;
- i=DwQ2M6JPPIp1aqGMVRBW/n1FD/gTXx2QUVMc6SXkj4M=;
- m=E+lJDbe/6hLH7r7M/V+C+IdMvMSqFV7vypoHLWtjYP4=;
- p=KlVnos6MMZObwZsBAYHQc0hRN6QGRSQebq9sCHvfiro=
-X-Patch-Sig: m=pgp; i=keescook@chromium.org; s=0x0x8972F4DFDC6DC026;
- b=iQIzBAABCgAdFiEEpcP2jyKd1g9yPm4TiXL039xtwCYFAmC5hKYACgkQiXL039xtwCYwKg//SiS
- PhS38XmQqoSASnS9fIRyRodfKTHbNzV4rtVnziiv7X1ZPPQ0tsp0nW5/CJB1Pf5VCvjRJO5rXiq/8
- lvD9INTOkWCGCkiiCy08m2p3d0gQiwJlk/X5GLb3qmfeFiruJD+fIHUKwPaRl7EOsVbMxZurlHrdl
- Si92Z/PBMWreYp8SeUXFyGjS2+TzSIfGNlMrhhxbtqYH9MIwZPuCN5GN58Y34kpn7MqwV2x2NCXLZ
- d78SyRzgIo0Qd4PRUrjrKrtSS31fOgO+gMTkWf6+8zTpZEivcMkodr8gb+gZALDm/ku2FIHJqaLsE
- Ho7MWVmUhi5B9cAiQc/cFsu3vbYhvBW/1nbHn9VITSQ6PfeR/tICFzkLRA4KG1xsxVkhlVB91HxgM
- IqGOYSh4KmTupDsFhbwVmMD/fVxSqUzlNP2DNFkdZ8+0jV+gGVRJAFaFRgshXx0tpSQefsVt/Fxxh
- Pmx5CwPdjKN05pnqtDM3vJz0TATQ/a3nUZpOPhovCZRYQy1/TjrTdCfj92TVMeASn1ziO4UVcorw0
- Dnq1deOCgrD8xkfRmUMXm4WQfV+fVlHhW5MBI1/m4ygHdBYRRQBzGjPaYnyoqWmJRh0wf9UZnH6g5
- uReNa0xN2nF1uQZlLDWxSnDKQvEO4degSHTK5Qf4BZi50yQNGMDW29EfjqTMcNkA=
-Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,38 +65,20 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Kees Cook <keescook@chromium.org>, Emma Anholt <emma@anholt.net>,
- David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-VEXPRESS_CONFIG needs to either be missing, built-in, or modular when
-pl111 is modular. Update the Kconfig to reflect the need.
+https://bugzilla.kernel.org/show_bug.cgi?id=3D213321
 
-Fixes: 4dc7c97d04dc ("drm/pl111: depend on CONFIG_VEXPRESS_CONFIG")
-Signed-off-by: Kees Cook <keescook@chromium.org>
----
-v2: use expected Kconfig style to express this. :)
-v1: https://lore.kernel.org/lkml/20210603215819.3904733-1-keescook@chromium.org
----
- drivers/gpu/drm/pl111/Kconfig | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+--- Comment #5 from Sujay1844 (sujay1844@protonmail.com) ---
+K that guy says, it'll be fixed by 5.14
+When will that be released??
+I heard that 5.14 will be having support for the new Alder Lake M CPUs from
+Intel. So I think, we can expect 5.14 to released right around the time of
+release of the processors right??
 
-diff --git a/drivers/gpu/drm/pl111/Kconfig b/drivers/gpu/drm/pl111/Kconfig
-index c5210a5bef1b..3aae387a96af 100644
---- a/drivers/gpu/drm/pl111/Kconfig
-+++ b/drivers/gpu/drm/pl111/Kconfig
-@@ -2,7 +2,8 @@
- config DRM_PL111
- 	tristate "DRM Support for PL111 CLCD Controller"
- 	depends on DRM
--	depends on VEXPRESS_CONFIG
-+	depends on ARM || ARM64 || COMPILE_TEST
-+	depends on VEXPRESS_CONFIG || VEXPRESS_CONFIG=n
- 	depends on COMMON_CLK
- 	select DRM_KMS_HELPER
- 	select DRM_KMS_CMA_HELPER
--- 
-2.25.1
+--=20
+You may reply to this email to add a comment.
 
+You are receiving this mail because:
+You are watching the assignee of the bug.=
