@@ -1,81 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94C3239B19C
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Jun 2021 06:48:35 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 852F339B1A1
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Jun 2021 06:50:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 693CF6E221;
-	Fri,  4 Jun 2021 04:48:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C96D26E879;
+	Fri,  4 Jun 2021 04:50:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 1229 seconds by postgrey-1.36 at gabe;
- Fri, 04 Jun 2021 04:48:30 UTC
-Received: from gateway30.websitewelcome.com (gateway30.websitewelcome.com
- [192.185.146.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 31AF16E221
- for <dri-devel@lists.freedesktop.org>; Fri,  4 Jun 2021 04:48:30 +0000 (UTC)
-Received: from cm17.websitewelcome.com (cm17.websitewelcome.com [100.42.49.20])
- by gateway30.websitewelcome.com (Postfix) with ESMTP id 426C15907
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Jun 2021 23:27:59 -0500 (CDT)
-Received: from gator4166.hostgator.com ([108.167.133.22]) by cmsmtp with SMTP
- id p1R9ldLYZMGeEp1R9lWISu; Thu, 03 Jun 2021 23:27:59 -0500
-X-Authority-Reason: nr=8
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=embeddedor.com; s=default; h=Content-Transfer-Encoding:Content-Type:
- In-Reply-To:MIME-Version:Date:Message-ID:References:Cc:To:From:Subject:Sender
- :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
- Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
- List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=tmKbVxD5QRNxYgvET2f9iyU8zdJK3B5xkoywFvU0nbk=; b=hZL3R8CSFrFaOxPOz5slqALI+k
- roRKk+v9sPJQ9gnFQc9uOepXmRAWoulACY5m+961nuL24ylRa+zDiI3aV6Hpvz7W2qTmAWuoZ6c6w
- XwVgMuhufVFdLPr/FCjiMVUUDl79AYrZLli1NuXUM0HJstNLNGNh9zhaMUutfKij2R3ooRKgwSAYE
- yYpqaoTzBL2/lOTqJQScSplI927IYPVYpJr1cZYGINYW7l4GfK5t7hoPVQxv9itrNbnQF/NSIfjCO
- qIXDhBOP/yWNUlnbHLIc/QwnqJ6XY9zv0PzEI60ulZ8ymInArz/9XP9457v2SXq2sWFYCEeuy44Wq
- 2/JgdJIg==;
-Received: from 187-162-31-110.static.axtel.net ([187.162.31.110]:34478
- helo=[192.168.15.8])
- by gator4166.hostgator.com with esmtpsa (TLS1.2) tls
- TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256 (Exim 4.94.2)
- (envelope-from <gustavo@embeddedor.com>)
- id 1lp1R5-00182o-6d; Thu, 03 Jun 2021 23:27:55 -0500
-Subject: Re: [PATCH RESEND][next] drm/nouveau/clk: Fix fall-through warnings
- for Clang
-From: "Gustavo A. R. Silva" <gustavo@embeddedor.com>
-To: "Gustavo A. R. Silva" <gustavoars@kernel.org>,
- Ben Skeggs <bskeggs@redhat.com>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>
-References: <20210305095609.GA141907@embeddedor>
- <b42a6c20-e70d-c56a-795a-072ecc772bf2@embeddedor.com>
- <2aaf5382-3907-ac2a-ebff-a33b308aaf7d@embeddedor.com>
-Message-ID: <f6834e09-c329-8546-19c1-d58adbf0f36a@embeddedor.com>
-Date: Thu, 3 Jun 2021 23:28:57 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2D52A6E879
+ for <dri-devel@lists.freedesktop.org>; Fri,  4 Jun 2021 04:50:17 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id C659261412
+ for <dri-devel@lists.freedesktop.org>; Fri,  4 Jun 2021 04:50:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1622782216;
+ bh=qE8jySZf7O68StYikD3YxeyG/IpIT2hs3H0U8WcThuM=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=ZAvwAMi97bZQmCMygNzKVc6sx/3F7XkcMnDYU6aacIt/LXpRWXZjbMjQbbMUTjF08
+ vYbKvKbm3W+7Emn7T/7sT6y0cZZmJYflwphaHq81i6vd/3eG+MJVAbvwvpEWQgbwtr
+ UoSQbPyEHs5eFT9InGn4xA3IUF1QTMUlbSSR+fS5N4yPZcUM6jpkHHl3VME+1Zml6l
+ RYr5oZKg5LUkfo2utfO/vqt5idXnoq1KmFrD3xR4j6wkKY+uSVsQol17t3l3VjTASh
+ QX9FsxoEyrxWubn2JHKvSgMDgFGfLbApK8UAttT3WUvuihdGb0rG3qJ0nDU7K57Kle
+ aZQYD+6bTCkFw==
+Received: by mail-io1-f44.google.com with SMTP id r4so8724843iol.6
+ for <dri-devel@lists.freedesktop.org>; Thu, 03 Jun 2021 21:50:16 -0700 (PDT)
+X-Gm-Message-State: AOAM5317slCr7stjyWzPotWg1KInf5fH17d44jJEZ/6VC1I6RCzNErTp
+ gyfhCH3OF//PWf1gVsQmYTi6xPJRpxWqUm5CiCM=
+X-Google-Smtp-Source: ABdhPJx6DVloRZJ8q1rh4Ivr+Pat40frkD3DUIkUMtub6ohxE16nUSOWY7CdFneJWh1f4as8340HZSblh/t9q2H4mfM=
+X-Received: by 2002:a5e:a806:: with SMTP id c6mr2175064ioa.180.1622782216204; 
+ Thu, 03 Jun 2021 21:50:16 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <2aaf5382-3907-ac2a-ebff-a33b308aaf7d@embeddedor.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-AntiAbuse: This header was added to track abuse,
- please include it with any abuse report
-X-AntiAbuse: Primary Hostname - gator4166.hostgator.com
-X-AntiAbuse: Original Domain - lists.freedesktop.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - embeddedor.com
-X-BWhitelist: no
-X-Source-IP: 187.162.31.110
-X-Source-L: No
-X-Exim-ID: 1lp1R5-00182o-6d
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-X-Source-Sender: 187-162-31-110.static.axtel.net ([192.168.15.8])
- [187.162.31.110]:34478
-X-Source-Auth: gustavo@embeddedor.com
-X-Email-Count: 24
-X-Source-Cap: Z3V6aWRpbmU7Z3V6aWRpbmU7Z2F0b3I0MTY2Lmhvc3RnYXRvci5jb20=
-X-Local-Domain: yes
+References: <20210528082607.2015145-1-chenhuacai@loongson.cn>
+ <YLZYuM6SepbeLcI7@phenom.ffwll.local> <YLZqe14Lf2+5Lbf3@kroah.com>
+ <YLZ2WJlHu0EZT7H9@phenom.ffwll.local>
+ <CAAhV-H5Mt7tmmDVoix6sY3UtfhjxGvHovve2N=5o5xtvmFeQOA@mail.gmail.com>
+ <YLewShl3lMyqJ1WZ@phenom.ffwll.local>
+ <CAErSpo4cLp4YHGh0Lp=hZ70=1A4WBEtUhM-KUKk=SnNmTVzmRg@mail.gmail.com>
+In-Reply-To: <CAErSpo4cLp4YHGh0Lp=hZ70=1A4WBEtUhM-KUKk=SnNmTVzmRg@mail.gmail.com>
+From: Huacai Chen <chenhuacai@kernel.org>
+Date: Fri, 4 Jun 2021 12:50:03 +0800
+X-Gmail-Original-Message-ID: <CAAhV-H5bO5MAshcxo=xehfxU5zMBKep4ebYaLQ1oT8uuTjqoSQ@mail.gmail.com>
+Message-ID: <CAAhV-H5bO5MAshcxo=xehfxU5zMBKep4ebYaLQ1oT8uuTjqoSQ@mail.gmail.com>
+Subject: Re: [PATCH] vgaarb: Call vga_arb_device_init() after PCI enumeration
+To: Bjorn Helgaas <bhelgaas@google.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,66 +58,100 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Kees Cook <keescook@chromium.org>, nouveau@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-hardening@vger.kernel.org
+Cc: David Airlie <airlied@linux.ie>, Greg KH <gregkh@linuxfoundation.org>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ Linux PCI <linux-pci@vger.kernel.org>, Xuefeng Li <lixuefeng@loongson.cn>,
+ Huacai Chen <chenhuacai@loongson.cn>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi all,
+Hi, Bjorn,
 
-If you don't mind, I'm taking this in my -next[1] branch for v5.14.
+On Thu, Jun 3, 2021 at 2:31 AM Bjorn Helgaas <bhelgaas@google.com> wrote:
+>
+> [+cc linux-pci]
+>
+> On Wed, Jun 2, 2021 at 11:22 AM Daniel Vetter <daniel@ffwll.ch> wrote:
+> > On Wed, Jun 02, 2021 at 06:36:03PM +0800, Huacai Chen wrote:
+> > > On Wed, Jun 2, 2021 at 2:03 AM Daniel Vetter <daniel@ffwll.ch> wrote:
+> > > > On Tue, Jun 01, 2021 at 07:12:27PM +0200, Greg KH wrote:
+> > > > > On Tue, Jun 01, 2021 at 05:56:40PM +0200, Daniel Vetter wrote:
+> > > > > > On Fri, May 28, 2021 at 04:26:07PM +0800, Huacai Chen wrote:
+> > > > > > > We should call vga_arb_device_init() after PCI enumeration, otherwise it
+> > > > > > > may fail to select the default VGA device. Since vga_arb_device_init()
+> > > > > > > and PCI enumeration function (i.e., pcibios_init() or acpi_init()) are
+> > > > > > > both wrapped by subsys_initcall(), their sequence is not assured. So, we
+> > > > > > > use subsys_initcall_sync() instead of subsys_initcall() to wrap vga_arb_
+> > > > > > > device_init().
+> > > > >
+> > > > > Trying to juggle levels like this always fails if you build the code as
+> > > > > a module.
+> > > > >
+> > > > > Why not fix it properly and handle the out-of-order loading by returning
+> > > > > a "deferred" error if you do not have your resources yet?
+> > > >
+> > > > It's not a driver, it's kinda a bolted-on-the-side subsytem of pci. So not
+> > > > something you can -EPROBE_DEFER I think, without potentially upsetting the
+> > > > drivers that need this.
+> > > >
+> > > > Which might mean we should move this into pci subsystem proper perhaps?
+> > > > Then adding the init call at the right time becomes trivial since we just
+> > > > plug it in at the end of pci init.
+> > > >
+> > > > Also maybe that's how distros avoid this pain, pci is built-in, vgaarb is
+> > > > generally a module, problem solved.
+> > > >
+> > > > Bjorn, would you take this entire vgaarb.c thing? From a quick look I
+> > > > don't think it has a drm-ism in it (unlike vga_switcheroo, but that works
+> > > > a bit differently and doesn't have this init order issue).
+> > > Emmm, this patch cannot handle the hotplug case and module case, it
+> > > just handles the case that vgaarb, drm driver and pci all built-in.
+> > > But I think this is enough, because the original problem only happens
+> > > on very few BMC-based VGA cards (BMC doesn't set the VGA Enable bit on
+> > > the bridge, which breaks vgaarb).
+> >
+> > I'm not talking aout hotplug, just ordering the various pieces correctly.
+> > That vgaarb isn't really a driver and also can't really handle hotplug is
+> > my point. I guess that got lost a bit?
+> >
+> > Anyway my proposal is essentially to do a
+> >
+> > $ git move drivers/gpu/vga/vgaarb.c drivers/pci
+> >
+> > But I just realized that vgaarb is a bool option, so module isn't possible
+> > anyway, and we could fix this by calling vgaarb from pcibios init (with an
+> > empty static inline in the header if vgaarb is disabled). That makes the
+> > dependency very explicit and guarantees it works correctly.
+>
+> pcibios_init() is also an initcall and is implemented by every arch.
+> I agree that calling vga_arb_device_init() directly from
+> pcibios_init() would probably fix this problem, and it would be really
+> nice to have it not be an initcall.  But it's also kind of a pain to
+> have to update all those copies of pcibios_init(), and I would be
+> looking for a way to unify it since it's not really an arch-specific
+> thing.
+>
+> I think the simplest solution, which I suggested earlier [1], would be
+> to explicitly call vga_arbiter_add_pci_device() directly from the PCI
+> core when it enumerates a VGA device.  Then there's no initcall and no
+> need for the BUS_NOTIFY_ADD/DEL_DEVICE stuff.
+> vga_arbiter_add_pci_device() could set the default VGA device when it
+> is enumerated, and change the default device if we enumerate a
+> "better" one.  And hotplug VGA devices would work automatically.
+Emm, It seems that your solution has some difficulties to remove the
+whole initcall(vga_arb_device_init): we call
+vga_arbiter_add_pci_device() in pci_bus_add_device(), the
+list_for_each_entry() loop can be moved to
+vga_arbiter_check_bridge_sharing(), vga_arb_select_default_device()
+can be renamed to vga_arb_update_default_device() and be called in
+vga_arbiter_add_pci_device(), but how to handle
+misc_register(&vga_arb_device)?
 
-Thanks
---
-Gustavo
-
-[1] https://git.kernel.org/pub/scm/linux/kernel/git/gustavoars/linux.git/log/?h=for-next/kspp
-
-On 6/1/21 17:57, Gustavo A. R. Silva wrote:
-> Hi,
-> 
-> Friendly second ping: who can take this?
-> 
-> I can add this to my -next branch for 5.14 if you don't mind.
-> 
-> JFYI: We had thousands of these sorts of warnings and now we are down
-> to just 23 in linux-next. This is one of those last remaining warnings.
-> 
-> Thanks
-> --
-> Gustavo
-> 
-> On 4/20/21 15:13, Gustavo A. R. Silva wrote:
->> Hi all,
->>
->> Friendly ping: who can take this, please?
->>
->> Thanks
->> --
->> Gustavo
->>
->> On 3/5/21 03:56, Gustavo A. R. Silva wrote:
->>> In preparation to enable -Wimplicit-fallthrough for Clang, fix a warning
->>> by explicitly adding a break statement instead of letting the code fall
->>> through to the next case.
->>>
->>> Link: https://github.com/KSPP/linux/issues/115
->>> Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
->>> ---
->>>  drivers/gpu/drm/nouveau/nvkm/subdev/clk/nv50.c | 1 +
->>>  1 file changed, 1 insertion(+)
->>>
->>> diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/clk/nv50.c b/drivers/gpu/drm/nouveau/nvkm/subdev/clk/nv50.c
->>> index 83067763c0ec..e1d31c62f9ec 100644
->>> --- a/drivers/gpu/drm/nouveau/nvkm/subdev/clk/nv50.c
->>> +++ b/drivers/gpu/drm/nouveau/nvkm/subdev/clk/nv50.c
->>> @@ -313,6 +313,7 @@ nv50_clk_read(struct nvkm_clk *base, enum nv_clk_src src)
->>>  		default:
->>>  			break;
->>>  		}
->>> +		break;
->>>  	default:
->>>  		break;
->>>  	}
->>>
+Huacai
+>
+> > Whether we move vgaarb into drivers/pci or not is then kinda orthogonal.
+>
+> I'm fine with moving it to drivers/pci if that makes anything easier.
+> It definitely is PCI-related stuff, not GPU-related stuff.
+>
+> [1] https://lore.kernel.org/r/20210526182940.GA1303599@bjorn-Precision-5520
