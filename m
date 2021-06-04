@@ -1,62 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B79539BE71
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Jun 2021 19:19:32 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 00DB339BE79
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Jun 2021 19:20:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 230526F640;
-	Fri,  4 Jun 2021 17:19:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7144B6F642;
+	Fri,  4 Jun 2021 17:20:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-xc2f.google.com (mail-oo1-xc2f.google.com
- [IPv6:2607:f8b0:4864:20::c2f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C82C56F629;
- Fri,  4 Jun 2021 17:19:28 +0000 (UTC)
-Received: by mail-oo1-xc2f.google.com with SMTP id
- q20-20020a4a6c140000b029024915d1bd7cso745551ooc.12; 
- Fri, 04 Jun 2021 10:19:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+Received: from mail-yb1-xb2c.google.com (mail-yb1-xb2c.google.com
+ [IPv6:2607:f8b0:4864:20::b2c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3D58A6F641
+ for <dri-devel@lists.freedesktop.org>; Fri,  4 Jun 2021 17:20:48 +0000 (UTC)
+Received: by mail-yb1-xb2c.google.com with SMTP id f84so14794024ybg.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 04 Jun 2021 10:20:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=jlekstrand-net.20150623.gappssmtp.com; s=20150623;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=LOI6wvAzaGYd8kqemXzTNGyTEREL1+gKJT9TY9+po4w=;
- b=PMcm+m0QV24OruZ57oXcb0P09vCXAE854+eIezs8Cw/sfSmzAtpUDumAIIYi+cUcI+
- IEWQtAH9uMev8my+b3douUqO5tOzJVqEXv/uQHkXsuCDoqNT7NbDayA7+JkWhNydGnYw
- uMFh5/Ivcz2xP9/w+8Q40almV/q9QgS8hl628EfbQ3z8YVD5iLbodf9zhUEKpJgSHXz2
- 8DoFf/hMk9QvMJoHC5l5GT2G8iYcDjejZ7ovMsFl0GHQUWgABYC1zXy8fKWUS4qs6p7p
- x5ilIm9KjCG6US2OZR/9auwGnom2efnTN3kmV482IcSJmVf8+hxI6kOBEymNjj993xjw
- wu9g==
+ :cc; bh=SUPFyDU8gb+9eh1f5Cot/VymaAh+/91MoEY3HOiLtio=;
+ b=AkOrF6w/y8fs2uWPKMHBtw7iS//cmDg9KPLRSXgu377d3Olx+zLml8VG+octmxEFKY
+ /mwweD+QJJqP+KSqddU23xgG9L5YSisvwSeDY5X22OvuiA2fUdjFFtXjgVP0JJsjjcsR
+ iJHpzXPsO+lkhKskOPdCgoqBw/rdRuv8ANL6/xyfxtmvUewiuBE1UQZlFt+jN6iGUVM0
+ 6nrz7vTbIHCMoC51q8dkAx1DDauazyaSzb9k8x0gNWLVq5fMxlI8U22aC9Vt2wKmQ7Jo
+ R+kJhQXTTt6+JSEida7agIpw7/xWhqek2kMlypMnaJmqQbura2lrLIfQ97puKlK6Nm4T
+ AQOw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=LOI6wvAzaGYd8kqemXzTNGyTEREL1+gKJT9TY9+po4w=;
- b=JTozIZrPq8/8fj4YIXe12r0VtYXPhhbMeh4P5QvC0ARtVvd6oczFnun5n0i+arCxd9
- E4uCblK/GpQXQyfiDcJUSenpgEDFiBsTOz93Hk/5zVIV5yJdG7alz7+zZPLqtIdHsgyn
- eEYuAOSxNqe821HkXxYEoejWBqB1MRyZ0ok9Ke7X5h+6RM2dyrFim0wQZ4WxczCOmT0j
- hWtYUH+Zo6stsx4uWB/Po2u/oTHAE5Lh4hmRl8uJ0vJ9BEA2GggJovnM3JIb/NNlIfJI
- UQDMJpgwIGfkTNgT00lZXk3ppaM6146JpQJYyatIfa7XgrHJqNcm2u2MDcsvz7BzV4to
- w1Vw==
-X-Gm-Message-State: AOAM533MD5LqugajD4TP1mp6ukhCF2gI66nOW6orHr1PY6HtqR0TiliR
- DozrT2SpJF60Sg/9AvC/uCaQ8lqSz3bjgE/y5z8=
-X-Google-Smtp-Source: ABdhPJybHagCp5avGzAYCedTNRzoZD7xTPDNemYCX6J7vz75/ba1WW5jrhOpgCd+WTXOur81Mdd2tG+fUa4gkeWfjHs=
-X-Received: by 2002:a4a:8c09:: with SMTP id u9mr4402516ooj.72.1622827168120;
- Fri, 04 Jun 2021 10:19:28 -0700 (PDT)
+ :message-id:subject:to:cc;
+ bh=SUPFyDU8gb+9eh1f5Cot/VymaAh+/91MoEY3HOiLtio=;
+ b=I0maOhtuotk2WbUm3UCd3QEQJ7thV3Lg359Q1PFGoDJIkN7L1Jxb7PZSEI6iteHcMg
+ dnM+CtW+XL4Pd8EAoHkuX0oNfJnQrXvKQ6zGmmvYkDxBvQnhkzLQPtM8FPiTBsVBdJTA
+ nM8qtkVMxIJe73G5zeUi59LzpFe16PajIsK5y6e1S3uNB2wIeQYVGv3lOz3CIm7y7eWE
+ SyBe/bOInJ/BNeMRq+I7+rmk2lszIrnccGJMxdd7w2J6Ctqt4SJHJyARUeUw5avVxZtf
+ 5ZY7H6RKassjMg70c6dly+bFPz2Bq0KokZ3K9i4AzuI0Wpi4FaxByPSws3Xmz/8MNiMr
+ E1gg==
+X-Gm-Message-State: AOAM533MWzWW6UQGZjy7/eubhrsVzGY02k5KfhZdHEOhmoB+wjweo1Wn
+ NZQoAXPuisyWQs3WZxu2Y9ei8dLa2TGMaHVES7gzxg==
+X-Google-Smtp-Source: ABdhPJy6zZMU+3YjEwF2ge3PIfaabrkhHKtKQgiTxR3inoNPeiw6P+1xkTO2d9IsYd3Kuwu8M4ljSU2AYveinwUZWVg=
+X-Received: by 2002:a25:81c5:: with SMTP id n5mr6866426ybm.323.1622827247334; 
+ Fri, 04 Jun 2021 10:20:47 -0700 (PDT)
 MIME-Version: 1.0
-References: <87o8cnfr3s.wl-chenli@uniontech.com>
- <87im2ufhyz.wl-chenli@uniontech.com>
- <0689a006-a0a2-698a-12d8-cb11156e469a@gmail.com>
- <877djacbfx.wl-chenli@uniontech.com>
- <c4941cb6-8c40-aad1-e61a-2786ba1ab225@gmail.com>
- <871r9ic9a7.wl-chenli@uniontech.com>
-In-Reply-To: <871r9ic9a7.wl-chenli@uniontech.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Fri, 4 Jun 2021 13:19:17 -0400
-Message-ID: <CADnq5_ODqHuBxXQJfmxvG1sJpf6pQfhGvNnEXWbC+Lav4cexgw@mail.gmail.com>
-Subject: Re: [PATCH v4 1/2] radeon: fix coding issues reported from sparse
-To: Chen Li <chenli@uniontech.com>
+References: <20210603212722.59719-1-matthew.brost@intel.com>
+ <20210603212722.59719-10-matthew.brost@intel.com>
+In-Reply-To: <20210603212722.59719-10-matthew.brost@intel.com>
+From: Jason Ekstrand <jason@jlekstrand.net>
+Date: Fri, 4 Jun 2021 12:20:36 -0500
+Message-ID: <CAOFGe97toNPXOhSP=PQrb4PNzYVLXOP7+tNY6B9qBMLSKrC0xw@mail.gmail.com>
+Subject: Re: [Intel-gfx] [PATCH 9/9] drm/i915/doc: Add kernel doc for
+ i915_sched_engine
+To: Matthew Brost <matthew.brost@intel.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,103 +64,116 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: Daniel Vetter <daniel.vetter@intel.com>,
+ Intel GFX <intel-gfx@lists.freedesktop.org>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Applied.  Thanks!
-
-Alex
-
-On Fri, Jun 4, 2021 at 7:53 AM Chen Li <chenli@uniontech.com> wrote:
+On Thu, Jun 3, 2021 at 4:09 PM Matthew Brost <matthew.brost@intel.com> wrote:
 >
->
-> Also fix some coding issues reported from sparse.
->
-> Signed-off-by: Chen Li <chenli@uniontech.com>
-> Acked-by: Christian K=C3=B6nig <christian.koenig@amd.com>
+> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
 > ---
->  drivers/gpu/drm/radeon/radeon_uvd.c | 24 +++++++++++++-----------
->  1 file changed, 13 insertions(+), 11 deletions(-)
+>  Documentation/gpu/i915.rst                  |  6 ++++
+>  drivers/gpu/drm/i915/i915_scheduler_types.h | 37 ++++++++++++++++++---
+>  2 files changed, 38 insertions(+), 5 deletions(-)
 >
-> diff --git a/drivers/gpu/drm/radeon/radeon_uvd.c b/drivers/gpu/drm/radeon=
-/radeon_uvd.c
-> index dfa9fdbe98da..85a1f2c31749 100644
-> --- a/drivers/gpu/drm/radeon/radeon_uvd.c
-> +++ b/drivers/gpu/drm/radeon/radeon_uvd.c
-> @@ -152,9 +152,11 @@ int radeon_uvd_init(struct radeon_device *rdev)
+> diff --git a/Documentation/gpu/i915.rst b/Documentation/gpu/i915.rst
+> index 42ce0196930a..8f4f5471a05b 100644
+> --- a/Documentation/gpu/i915.rst
+> +++ b/Documentation/gpu/i915.rst
+> @@ -425,6 +425,12 @@ User Batchbuffer Execution
+>  .. kernel-doc:: drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
+>     :doc: User command execution
 >
->                         rdev->uvd.fw_header_present =3D true;
+> +Scheduling
+> +----------
+> +.. kernel-doc:: drivers/gpu/drm/i915/i915_scheduler_types.h
+> +   :functions: i915_sched_engine
+> +
+> +
+>  Logical Rings, Logical Ring Contexts and Execlists
+>  --------------------------------------------------
 >
-> -                       family_id =3D le32_to_cpu(hdr->ucode_version) & 0=
-xff;
-> -                       version_major =3D (le32_to_cpu(hdr->ucode_version=
-) >> 24) & 0xff;
-> -                       version_minor =3D (le32_to_cpu(hdr->ucode_version=
-) >> 8) & 0xff;
-> +                       family_id =3D (__force u32)(hdr->ucode_version) &=
- 0xff;
-> +                       version_major =3D (le32_to_cpu((__force __le32)(h=
-dr->ucode_version))
-> +                                                        >> 24) & 0xff;
-> +                       version_minor =3D (le32_to_cpu((__force __le32)(h=
-dr->ucode_version))
-> +                                                        >> 8) & 0xff;
->                         DRM_INFO("Found UVD firmware Version: %u.%u Famil=
-y ID: %u\n",
->                                  version_major, version_minor, family_id)=
-;
+> diff --git a/drivers/gpu/drm/i915/i915_scheduler_types.h b/drivers/gpu/drm/i915/i915_scheduler_types.h
+> index 9d79514450de..e3da7517853f 100644
+> --- a/drivers/gpu/drm/i915/i915_scheduler_types.h
+> +++ b/drivers/gpu/drm/i915/i915_scheduler_types.h
+> @@ -91,7 +91,21 @@ struct i915_dependency {
+>                                 &(rq__)->sched.signalers_list, \
+>                                 signal_link)
 >
-> @@ -791,17 +793,17 @@ int radeon_uvd_get_create_msg(struct radeon_device =
-*rdev, int ring,
->                 return r;
+> +/**
+> + * sturct i915_sched_engine - scheduler engine
+> + *
+> + * A schedule engine represents a submission queue with different priority
+> + * bands. It contains all the common state (relative to the backend) to queue,
+> + * track, and submit a request.
+> + *
+> + * This object at the moment is quite i915 specific but will transition into a
+> + * container for the drm_gpu_scheduler plus a few other variables once the i915
+> + * is integrated with the DRM scheduler.
+> + */
+
+Why is this its own patch?  The above comment would be nice to have in
+patch 1/9 and the kref could be documented there too.
+
+>  struct i915_sched_engine {
+> +       /**
+> +        * @ref: reference count of schedule engine object
+> +        */
+>         struct kref ref;
 >
->         /* stitch together an UVD create msg */
-> -       writel(cpu_to_le32(0x00000de4), &msg[0]);
-> +       writel((__force u32)cpu_to_le32(0x00000de4), &msg[0]);
->         writel(0x0, (void __iomem *)&msg[1]);
-> -       writel(cpu_to_le32(handle), &msg[2]);
-> +       writel((__force u32)cpu_to_le32(handle), &msg[2]);
->         writel(0x0, &msg[3]);
->         writel(0x0, &msg[4]);
->         writel(0x0, &msg[5]);
->         writel(0x0, &msg[6]);
-> -       writel(cpu_to_le32(0x00000780), &msg[7]);
-> -       writel(cpu_to_le32(0x00000440), &msg[8]);
-> +       writel((__force u32)cpu_to_le32(0x00000780), &msg[7]);
-> +       writel((__force u32)cpu_to_le32(0x00000440), &msg[8]);
->         writel(0x0, &msg[9]);
-> -       writel(cpu_to_le32(0x01b37000), &msg[10]);
-> +       writel((__force u32)cpu_to_le32(0x01b37000), &msg[10]);
->         for (i =3D 11; i < 1024; ++i)
->                 writel(0x0, &msg[i]);
+>         /**
+> @@ -100,11 +114,18 @@ struct i915_sched_engine {
+>          */
+>         spinlock_t lock;
 >
-> @@ -827,9 +829,9 @@ int radeon_uvd_get_destroy_msg(struct radeon_device *=
-rdev, int ring,
->                 return r;
+> +       /**
+> +        * @requests: list of requests inflight on this schedule engine
+> +        */
+>         struct list_head requests;
+> -       struct list_head hold; /* ready requests, but on hold */
 >
->         /* stitch together an UVD destroy msg */
-> -       writel(cpu_to_le32(0x00000de4), &msg[0]);
-> -       writel(cpu_to_le32(0x00000002), &msg[1]);
-> -       writel(cpu_to_le32(handle), &msg[2]);
-> +       writel((__force u32)cpu_to_le32(0x00000de4), &msg[0]);
-> +       writel((__force u32)cpu_to_le32(0x00000002), &msg[1]);
-> +       writel((__force u32)cpu_to_le32(handle), &msg[2]);
->         writel(0x0, &msg[3]);
->         for (i =3D 4; i < 1024; ++i)
->                 writel(0x0, &msg[i]);
+>         /**
+> -        * @tasklet: softirq tasklet for bottom handler
+> +        * @hold: list of requests on hold.
+> +        */
+> +       struct list_head hold;
+> +
+> +       /**
+> +        * @tasklet: softirq tasklet for submission
+>          */
+>         struct tasklet_struct tasklet;
+>
+> @@ -137,14 +158,20 @@ struct i915_sched_engine {
+>          */
+>         bool no_priolist;
+>
+> -       /* Back pointer to engine */
+> +       /**
+> +        * @engine: back pointer to engine
+> +        */
+>         struct intel_engine_cs *engine;
+>
+> -       /* Kick backend */
+> +       /**
+> +        * @kick_backed: kick back after a request's priority has changed
+> +        */
+>         void    (*kick_backend)(const struct i915_request *rq,
+>                                 int prio);
+>
+> -       /*
+> +       /**
+> +        * @schedule: schedule function to adjust priority of request
+> +        *
+>          * Call when the priority on a request has changed and it and its
+>          * dependencies may need rescheduling. Note the request itself may
+>          * not be ready to run!
 > --
-> 2.31.1
->
->
->
->
+> 2.28.0
 >
 > _______________________________________________
-> amd-gfx mailing list
-> amd-gfx@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/amd-gfx
+> Intel-gfx mailing list
+> Intel-gfx@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/intel-gfx
