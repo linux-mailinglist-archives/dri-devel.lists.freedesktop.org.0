@@ -2,59 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A96E39C0CD
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Jun 2021 21:49:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1014039C0DA
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Jun 2021 21:56:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E096D6F8E6;
-	Fri,  4 Jun 2021 19:49:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0CFB86E098;
+	Fri,  4 Jun 2021 19:56:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6CD1A6F8E6
- for <dri-devel@lists.freedesktop.org>; Fri,  4 Jun 2021 19:49:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1622836157;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=f4jIl7S9wDq/SPEA83mol1nOQbqHjQRoUaDkzD/cpq0=;
- b=WuUNg2w0RlHXQwF3OdJjhuE3OF8TkjhPsiHikBAyP2iiqBKrxm3qZ1eiFJdINN5CDs/M8d
- kOUzZ2UQGj64Isrk9mwbPECP9xOtNBHTXlyL0DOYzpGc58QuuHeRJHuLqNh4lXcsxZjxgQ
- GMqf3p5zNIYr3IXDQdo8xkFNzIixxEI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-388-BagUPIcXNRyYlLQhICu8pg-1; Fri, 04 Jun 2021 15:49:14 -0400
-X-MC-Unique: BagUPIcXNRyYlLQhICu8pg-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6C9D2180FD67;
- Fri,  4 Jun 2021 19:49:12 +0000 (UTC)
-Received: from x1.localdomain (ovpn-112-54.ams2.redhat.com [10.36.112.54])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9527E189CE;
- Fri,  4 Jun 2021 19:49:09 +0000 (UTC)
-From: Hans de Goede <hdegoede@redhat.com>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Daniel Vetter <daniel@ffwll.ch>,
- David Airlie <airlied@linux.ie>, Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Imre Deak <imre.deak@intel.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Guenter Roeck <linux@roeck-us.net>,
- Heikki Krogerus <heikki.krogerus@linux.intel.com>
-Subject: [PATCH 8/8] usb: typec: altmodes/displayport: Notify drm subsys of
- hotplug events
-Date: Fri,  4 Jun 2021 21:48:40 +0200
-Message-Id: <20210604194840.14655-9-hdegoede@redhat.com>
-In-Reply-To: <20210604194840.14655-1-hdegoede@redhat.com>
-References: <20210604194840.14655-1-hdegoede@redhat.com>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D44916E06D
+ for <dri-devel@lists.freedesktop.org>; Fri,  4 Jun 2021 19:56:47 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 68F7F613EA;
+ Fri,  4 Jun 2021 19:56:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1622836607;
+ bh=AFpjjiA99h0nt4kcs5wc/Q6hDKnPZPZchEi3dNIHl9U=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:From;
+ b=IEGObJaYdVHGM3hMxpDIBzCL7QUfZbpGqzGMgMaCg1NFWMTq+wZsTW8b+lvq7zIbi
+ 7A95NF9c6OGnid9mt4NR45qJUAFOBjchGRVyg2yVDD6zzt8BQEk+HSlW6iDr08P2wI
+ XY+AM9Pca+6xWnkddlv6L/p9zNn/Q7h9fcKiA+TIaHDjfAqsRhlgypM46yBUNhipVN
+ Z/uSxdZOLx+bigF78FS01uKVUNjmqclyGU20vjEmoOgqWZQrpJULJ8LH/1lUaXMc8r
+ wygraoTn9dXHDeUON02TEE6+czyAjA4ehQBuXlu6/Ygi6lGNGANVYJzJGKE1n+s0DP
+ 3dwpbgbdTM4Uw==
+Date: Fri, 4 Jun 2021 14:56:46 -0500
+From: Bjorn Helgaas <helgaas@kernel.org>
+To: Huacai Chen <chenhuacai@kernel.org>
+Subject: Re: [PATCH] vgaarb: Call vga_arb_device_init() after PCI enumeration
+Message-ID: <20210604195646.GA2231573@bjorn-Precision-5520>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAAhV-H5bO5MAshcxo=xehfxU5zMBKep4ebYaLQ1oT8uuTjqoSQ@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,126 +45,93 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Hans de Goede <hdegoede@redhat.com>,
- intel-gfx <intel-gfx@lists.freedesktop.org>, linux-usb@vger.kernel.org,
- dri-devel@lists.freedesktop.org, platform-driver-x86@vger.kernel.org
+Cc: David Airlie <airlied@linux.ie>, Greg KH <gregkh@linuxfoundation.org>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ Linux PCI <linux-pci@vger.kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
+ Xuefeng Li <lixuefeng@loongson.cn>, Huacai Chen <chenhuacai@loongson.cn>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Use the new drm_connector_oob_hotplug_event() functions to let drm/kms
-drivers know about DisplayPort over Type-C hotplug events.
+On Fri, Jun 04, 2021 at 12:50:03PM +0800, Huacai Chen wrote:
+> On Thu, Jun 3, 2021 at 2:31 AM Bjorn Helgaas <bhelgaas@google.com> wrote:
+> >
+> > [+cc linux-pci]
+> >
+> > On Wed, Jun 2, 2021 at 11:22 AM Daniel Vetter <daniel@ffwll.ch> wrote:
+> > > On Wed, Jun 02, 2021 at 06:36:03PM +0800, Huacai Chen wrote:
+> > > > On Wed, Jun 2, 2021 at 2:03 AM Daniel Vetter <daniel@ffwll.ch> wrote:
+> > > > > On Tue, Jun 01, 2021 at 07:12:27PM +0200, Greg KH wrote:
+> > > > > > On Tue, Jun 01, 2021 at 05:56:40PM +0200, Daniel Vetter wrote:
+> > > > > > > On Fri, May 28, 2021 at 04:26:07PM +0800, Huacai Chen wrote:
+> > > > > > > > We should call vga_arb_device_init() after PCI enumeration, otherwise it
+> > > > > > > > may fail to select the default VGA device. Since vga_arb_device_init()
+> > > > > > > > and PCI enumeration function (i.e., pcibios_init() or acpi_init()) are
+> > > > > > > > both wrapped by subsys_initcall(), their sequence is not assured. So, we
+> > > > > > > > use subsys_initcall_sync() instead of subsys_initcall() to wrap vga_arb_
+> > > > > > > > device_init().
+> > > > > >
+> > > > > > Trying to juggle levels like this always fails if you build the code as
+> > > > > > a module.
+> > > > > >
+> > > > > > Why not fix it properly and handle the out-of-order loading by returning
+> > > > > > a "deferred" error if you do not have your resources yet?
+> > > > >
+> > > > > It's not a driver, it's kinda a bolted-on-the-side subsytem of pci. So not
+> > > > > something you can -EPROBE_DEFER I think, without potentially upsetting the
+> > > > > drivers that need this.
+> > > > >
+> > > > > Which might mean we should move this into pci subsystem proper perhaps?
+> > > > > Then adding the init call at the right time becomes trivial since we just
+> > > > > plug it in at the end of pci init.
+> > > > >
+> > > > > Also maybe that's how distros avoid this pain, pci is built-in, vgaarb is
+> > > > > generally a module, problem solved.
+> > > > >
+> > > > > Bjorn, would you take this entire vgaarb.c thing? From a quick look I
+> > > > > don't think it has a drm-ism in it (unlike vga_switcheroo, but that works
+> > > > > a bit differently and doesn't have this init order issue).
+> > > > Emmm, this patch cannot handle the hotplug case and module case, it
+> > > > just handles the case that vgaarb, drm driver and pci all built-in.
+> > > > But I think this is enough, because the original problem only happens
+> > > > on very few BMC-based VGA cards (BMC doesn't set the VGA Enable bit on
+> > > > the bridge, which breaks vgaarb).
+> > >
+> > > I'm not talking aout hotplug, just ordering the various pieces correctly.
+> > > That vgaarb isn't really a driver and also can't really handle hotplug is
+> > > my point. I guess that got lost a bit?
+> > >
+> > > Anyway my proposal is essentially to do a
+> > >
+> > > $ git move drivers/gpu/vga/vgaarb.c drivers/pci
+> > >
+> > > But I just realized that vgaarb is a bool option, so module isn't possible
+> > > anyway, and we could fix this by calling vgaarb from pcibios init (with an
+> > > empty static inline in the header if vgaarb is disabled). That makes the
+> > > dependency very explicit and guarantees it works correctly.
+> >
+> > pcibios_init() is also an initcall and is implemented by every arch.
+> > I agree that calling vga_arb_device_init() directly from
+> > pcibios_init() would probably fix this problem, and it would be really
+> > nice to have it not be an initcall.  But it's also kind of a pain to
+> > have to update all those copies of pcibios_init(), and I would be
+> > looking for a way to unify it since it's not really an arch-specific
+> > thing.
+> >
+> > I think the simplest solution, which I suggested earlier [1], would be
+> > to explicitly call vga_arbiter_add_pci_device() directly from the PCI
+> > core when it enumerates a VGA device.  Then there's no initcall and no
+> > need for the BUS_NOTIFY_ADD/DEL_DEVICE stuff.
+> > vga_arbiter_add_pci_device() could set the default VGA device when it
+> > is enumerated, and change the default device if we enumerate a
+> > "better" one.  And hotplug VGA devices would work automatically.
+> Emm, It seems that your solution has some difficulties to remove the
+> whole initcall(vga_arb_device_init): we call
+> vga_arbiter_add_pci_device() in pci_bus_add_device(), the
+> list_for_each_entry() loop can be moved to
+> vga_arbiter_check_bridge_sharing(), vga_arb_select_default_device()
+> can be renamed to vga_arb_update_default_device() and be called in
+> vga_arbiter_add_pci_device(), but how to handle
+> misc_register(&vga_arb_device)?
 
-Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-Tested-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
----
-Changes in v3:
-- Only call drm_connector_oob_hotplug_event() on hpd status bit change
-- Adjust for drm_connector_oob_hotplug_event() no longer having a data
-  argument
-
-Changes in v2:
-- Add missing depends on DRM to TYPEC_DP_ALTMODE Kconfig entry
----
- drivers/usb/typec/altmodes/Kconfig       |  1 +
- drivers/usb/typec/altmodes/displayport.c | 23 +++++++++++++++++++++++
- 2 files changed, 24 insertions(+)
-
-diff --git a/drivers/usb/typec/altmodes/Kconfig b/drivers/usb/typec/altmodes/Kconfig
-index 60d375e9c3c7..1a6b5e872b0d 100644
---- a/drivers/usb/typec/altmodes/Kconfig
-+++ b/drivers/usb/typec/altmodes/Kconfig
-@@ -4,6 +4,7 @@ menu "USB Type-C Alternate Mode drivers"
- 
- config TYPEC_DP_ALTMODE
- 	tristate "DisplayPort Alternate Mode driver"
-+	depends on DRM
- 	help
- 	  DisplayPort USB Type-C Alternate Mode allows DisplayPort
- 	  displays and adapters to be attached to the USB Type-C
-diff --git a/drivers/usb/typec/altmodes/displayport.c b/drivers/usb/typec/altmodes/displayport.c
-index aa669b9cf70e..c1d8c23baa39 100644
---- a/drivers/usb/typec/altmodes/displayport.c
-+++ b/drivers/usb/typec/altmodes/displayport.c
-@@ -11,8 +11,10 @@
- #include <linux/delay.h>
- #include <linux/mutex.h>
- #include <linux/module.h>
-+#include <linux/property.h>
- #include <linux/usb/pd_vdo.h>
- #include <linux/usb/typec_dp.h>
-+#include <drm/drm_connector.h>
- #include "displayport.h"
- 
- #define DP_HEADER(_dp, ver, cmd)	(VDO((_dp)->alt->svid, 1, ver, cmd)	\
-@@ -57,11 +59,13 @@ struct dp_altmode {
- 	struct typec_displayport_data data;
- 
- 	enum dp_state state;
-+	bool hpd;
- 
- 	struct mutex lock; /* device lock */
- 	struct work_struct work;
- 	struct typec_altmode *alt;
- 	const struct typec_altmode *port;
-+	struct fwnode_handle *connector_fwnode;
- };
- 
- static int dp_altmode_notify(struct dp_altmode *dp)
-@@ -125,6 +129,7 @@ static int dp_altmode_configure(struct dp_altmode *dp, u8 con)
- static int dp_altmode_status_update(struct dp_altmode *dp)
- {
- 	bool configured = !!DP_CONF_GET_PIN_ASSIGN(dp->data.conf);
-+	bool hpd = !!(dp->data.status & DP_STATUS_HPD_STATE);
- 	u8 con = DP_STATUS_CONNECTION(dp->data.status);
- 	int ret = 0;
- 
-@@ -137,6 +142,11 @@ static int dp_altmode_status_update(struct dp_altmode *dp)
- 		ret = dp_altmode_configure(dp, con);
- 		if (!ret)
- 			dp->state = DP_STATE_CONFIGURE;
-+	} else {
-+		if (dp->hpd != hpd) {
-+			drm_connector_oob_hotplug_event(dp->connector_fwnode);
-+			dp->hpd = hpd;
-+		}
- 	}
- 
- 	return ret;
-@@ -512,6 +522,7 @@ static const struct attribute_group dp_altmode_group = {
- int dp_altmode_probe(struct typec_altmode *alt)
- {
- 	const struct typec_altmode *port = typec_altmode_get_partner(alt);
-+	struct fwnode_handle *fwnode;
- 	struct dp_altmode *dp;
- 	int ret;
- 
-@@ -540,6 +551,11 @@ int dp_altmode_probe(struct typec_altmode *alt)
- 	alt->desc = "DisplayPort";
- 	alt->ops = &dp_altmode_ops;
- 
-+	fwnode = dev_fwnode(alt->dev.parent->parent); /* typec_port fwnode */
-+	dp->connector_fwnode = fwnode_find_reference(fwnode, "displayport", 0);
-+	if (IS_ERR(dp->connector_fwnode))
-+		dp->connector_fwnode = NULL;
-+
- 	typec_altmode_set_drvdata(alt, dp);
- 
- 	dp->state = DP_STATE_ENTER;
-@@ -555,6 +571,13 @@ void dp_altmode_remove(struct typec_altmode *alt)
- 
- 	sysfs_remove_group(&alt->dev.kobj, &dp_altmode_group);
- 	cancel_work_sync(&dp->work);
-+
-+	if (dp->connector_fwnode) {
-+		if (dp->hpd)
-+			drm_connector_oob_hotplug_event(dp->connector_fwnode);
-+
-+		fwnode_handle_put(dp->connector_fwnode);
-+	}
- }
- EXPORT_SYMBOL_GPL(dp_altmode_remove);
- 
--- 
-2.31.1
-
+Might need to keep vga_arb_device_init() as an initcall, but remove
+everything from it except the misc_register().
