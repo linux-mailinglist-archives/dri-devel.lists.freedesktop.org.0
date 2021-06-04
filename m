@@ -1,69 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D60D339B49D
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Jun 2021 10:08:33 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C8B4A39B4A5
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Jun 2021 10:11:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 091636F5D5;
-	Fri,  4 Jun 2021 08:08:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6866E6F5CA;
+	Fri,  4 Jun 2021 08:11:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com
- [IPv6:2a00:1450:4864:20::62d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ABC566F5D5;
- Fri,  4 Jun 2021 08:08:29 +0000 (UTC)
-Received: by mail-ej1-x62d.google.com with SMTP id og14so7857986ejc.5;
- Fri, 04 Jun 2021 01:08:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-transfer-encoding:content-language;
- bh=x1leB78G46naHPzZJQXi/DCDYCAszkWEJfdXDpTHiWk=;
- b=arlNWd6gloEwocm2HbsItwvL1nS9tcJVgvXvPIOMAiWKxtomOtF1q98J+CYx9r9bgl
- VzfYndH/HnOWNbBdnVgVBnOTg3HWlBmMzDul5bJhJ0TA2inT9M8aYTC/ZMAofPoiycAg
- r025XB4KsguNwMsqdHrB6XA+HQZOBkTreC3C38qBqzygKATTqCoUbhfgSfhHx6gX2yfl
- ylJpKtnS6Skc1I9pgbeAckmnQulBudEf6lvjhPnbWHYn09XAi1fTmMSzCTkOJ7dmHJVt
- YPe/fbGJbIU9OMsCrGAOez42AlqgFKOB/mVrui9+vDadL/Fs5beVrkVMFi37SsQetsyP
- pwCA==
+Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com
+ [IPv6:2a00:1450:4864:20::331])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 325516F5CA
+ for <dri-devel@lists.freedesktop.org>; Fri,  4 Jun 2021 08:11:07 +0000 (UTC)
+Received: by mail-wm1-x331.google.com with SMTP id
+ l18-20020a1ced120000b029014c1adff1edso7345996wmh.4
+ for <dri-devel@lists.freedesktop.org>; Fri, 04 Jun 2021 01:11:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=JbXWfw7rrnkJO0+fk5lbZKzFiOhfx+LiMyaaEdW/mjw=;
+ b=lclALgIiYw54A8W7+Ox+5Eh42U4Ays74e35ike/aCCIFEkx0hv6CFw7xjO2L9hIuir
+ nzJppMwAuODotlb2Xd6braAJE6iY5LwBYhNakOAZaVCXWkenjqjukYkOGOQVy9dydCBx
+ Yrh1qJf7Uy/f8rulc40YO8noDoyouJxE3c4Yc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-transfer-encoding
- :content-language;
- bh=x1leB78G46naHPzZJQXi/DCDYCAszkWEJfdXDpTHiWk=;
- b=WKBbc0Xrqs6thXdsIw5DSyZ3JbbnQB5Gq2P1QYQkkt/KO8fN0ufp7CTsoEBPUnd8nu
- oTYwcx4o5mSXBPbuyT/eiwlrL/wLFKYJ4HKnTM428U+NMk32iar1Rt6ECmvGWpWvLtcq
- 0PfdXxPFs+6pae8/10wiFtp2vbSF4ozZWY6iVEjgMkLI6FkRbaKEhxdRUInXWNWrGjKQ
- UK/ZIQByR3e4yZgjJTEQsmoOW84vmlArjPS1nz1dPaNp1Wsp9O/5kI6uqzFWz2C20IfW
- zbpHtkIE5UdQUX+1LbiIvOU45MQxE+So5vIrFEs6Kej7mD8Ollsz/eqfdtB+xgYQu0n2
- s2wA==
-X-Gm-Message-State: AOAM533bq5fpg6NMir5T0L4bMzDETz3JzzNbfcAAwnRZ/F7LkYSO+2N9
- 0Bey5HOtQsfuUCB4WN+Gt+giiDfeGFg=
-X-Google-Smtp-Source: ABdhPJw6hx3rF9XTeQTb6a6rLhWG+YpMeSd9gPcge8+kszFV+U+TsxRIrbvzO8SdE98hT9vtTTqS3w==
-X-Received: by 2002:a17:906:b191:: with SMTP id
- w17mr3111041ejy.200.1622794108428; 
- Fri, 04 Jun 2021 01:08:28 -0700 (PDT)
-Received: from ?IPv6:2a02:908:1252:fb60:7b4b:873a:17b5:b581?
- ([2a02:908:1252:fb60:7b4b:873a:17b5:b581])
- by smtp.gmail.com with ESMTPSA id di16sm2812246edb.62.2021.06.04.01.08.27
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 04 Jun 2021 01:08:27 -0700 (PDT)
-Subject: Re: [PATCH v3 2/2] radeon: use memcpy_to/fromio for UVD fw upload
-To: Chen Li <chenli@uniontech.com>
-References: <87o8cnfr3s.wl-chenli@uniontech.com>
- <87im2ufhyz.wl-chenli@uniontech.com>
- <0689a006-a0a2-698a-12d8-cb11156e469a@gmail.com>
- <877djacbfx.wl-chenli@uniontech.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-Message-ID: <c4941cb6-8c40-aad1-e61a-2786ba1ab225@gmail.com>
-Date: Fri, 4 Jun 2021 10:08:26 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=JbXWfw7rrnkJO0+fk5lbZKzFiOhfx+LiMyaaEdW/mjw=;
+ b=drh6eKYQmpTcssHcEdPmIOjeG4QoYRLU9L5xhjnBl4CrKbUhP9zMuPIAIlwRmUqFDI
+ UY1GVQYybUhgf6HEoSp5Gf3Rv0aWO3DVmmyiOYFta/zRIYoI0o07p9HmoYtfjzp48OsL
+ 4DnJ9qY5CDxUj+epU529TsapZFtvgkpZz4gRz4eYfZ4ly15ym7J38GrpOnnFK1m3UDlz
+ yha+9qFxke8jvq0FnMREVFBjVd0j/+poNtP4mamcXNhrvRz+s+tK9THyeV8fxHq1STQN
+ DfpuA7pDe8njQ+amIXtYP+mzgROrl+IU3sHk2MFfDBvZv+yrIhG2S4rlXGd3/dFLLmP8
+ IZQQ==
+X-Gm-Message-State: AOAM533PhkArMz9o3oly5zU0ziszdNfxv7urVVcuHdPE4NlXSmDHVSHi
+ SJh5YeGvXs59Wmwl/288qZjktw==
+X-Google-Smtp-Source: ABdhPJwo/rZ2UdOad6ixL+y3zRpZ3JGzpRCVu+1JGIU6Q3hgIw6c/ULqcmX7Q/gJw7Kw7RUkeRMWHw==
+X-Received: by 2002:a1c:e343:: with SMTP id a64mr2408669wmh.114.1622794265825; 
+ Fri, 04 Jun 2021 01:11:05 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id i2sm4737107wmo.40.2021.06.04.01.11.04
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 04 Jun 2021 01:11:05 -0700 (PDT)
+Date: Fri, 4 Jun 2021 10:11:02 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Matthew Brost <matthew.brost@intel.com>
+Subject: Re: [PATCH 08/20] drm/i915: Promote ptrdiff() to i915_utils.h
+Message-ID: <YLngFj1NhZaoLfV1@phenom.ffwll.local>
+References: <20210603051630.2635-1-matthew.brost@intel.com>
+ <20210603051630.2635-9-matthew.brost@intel.com>
+ <YLlLIG9sBjouIJE2@phenom.ffwll.local>
+ <20210604020257.GA7149@sdutt-i7>
 MIME-Version: 1.0
-In-Reply-To: <877djacbfx.wl-chenli@uniontech.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210604020257.GA7149@sdutt-i7>
+X-Operating-System: Linux phenom 5.10.32scarlett+ 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,64 +69,89 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alex Deucher <alexander.deucher@amd.com>, amd-gfx@lists.freedesktop.org,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+Cc: daniel.vetter@intel.com, intel-gfx@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Thu, Jun 03, 2021 at 07:02:57PM -0700, Matthew Brost wrote:
+> On Thu, Jun 03, 2021 at 11:35:28PM +0200, Daniel Vetter wrote:
+> > On Wed, Jun 02, 2021 at 10:16:18PM -0700, Matthew Brost wrote:
+> > > From: Michal Wajdeczko <michal.wajdeczko@intel.com>
+> > > 
+> > > Generic helpers should be placed in i915_utils.h.
+> > 
+> > Random rant, but we're _way_ too happy to just stuff random things into
+> > i915_utils.h without trying to properly upstream it.
+> > 
+> > For thinks like this the general dumping ground would be kernel.h, there's
+> > a few pointer helpers there already. Follow up patch maybe nice.
+> > -Daniel
+> > 
+> 
+> Sure. I've added this to a list of follow ups so this comment doesn't
+> get lost.
 
+btw I think we probably want to rename it, because it's not just the
+well-defined C pointer difference. We convert to void * so we get the
+difference in bytes. So maybe ptr_offset or ptrdiff_in_bytes or something
+like that which makes it clear.
+-Daniel
 
-Am 04.06.21 um 09:53 schrieb Chen Li:
-> I met a gpu addr bug recently and the kernel log
-> tells me the pc is memcpy/memset and link register is
-> radeon_uvd_resume.
->
-> As we know, in some architectures, optimized memcpy/memset
-> may not work well on device memory. Trival memcpy_toio/memset_io
-> can fix this problem.
->
-> BTW, amdgpu has already done it in:
-> commit ba0b2275a678 ("drm/amdgpu: use memcpy_to/fromio for UVD fw upload"),
-> that's why it has no this issue on the same gpu and platform.
->
-> Signed-off-by: Chen Li <chenli@uniontech.com>
-> ---
->   drivers/gpu/drm/radeon/radeon_uvd.c | 6 ++++--
->   1 file changed, 4 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/gpu/drm/radeon/radeon_uvd.c b/drivers/gpu/drm/radeon/radeon_uvd.c
-> index 85a1f2c31749..55abf9a9623b 100644
-> --- a/drivers/gpu/drm/radeon/radeon_uvd.c
-> +++ b/drivers/gpu/drm/radeon/radeon_uvd.c
-> @@ -288,7 +288,9 @@ int radeon_uvd_resume(struct radeon_device *rdev)
->   	if (rdev->uvd.vcpu_bo == NULL)
->   		return -EINVAL;
->   
-> -	memcpy(rdev->uvd.cpu_addr, rdev->uvd_fw->data, rdev->uvd_fw->size);
-> +	memcpy_toio((void __iomem *)rdev->uvd.cpu_addr,
-> +				rdev->uvd_fw->data,
-> +				rdev->uvd_fw->size);
+> 
+> Matt
+> 
+> > > 
+> > > Signed-off-by: Michal Wajdeczko <michal.wajdeczko@intel.com>
+> > > Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+> > > Reviewed-by: Matthew Brost <matthew.brost@intel.com>
+> > > ---
+> > >  drivers/gpu/drm/i915/i915_utils.h | 5 +++++
+> > >  drivers/gpu/drm/i915/i915_vma.h   | 5 -----
+> > >  2 files changed, 5 insertions(+), 5 deletions(-)
+> > > 
+> > > diff --git a/drivers/gpu/drm/i915/i915_utils.h b/drivers/gpu/drm/i915/i915_utils.h
+> > > index f02f52ab5070..5259edacde38 100644
+> > > --- a/drivers/gpu/drm/i915/i915_utils.h
+> > > +++ b/drivers/gpu/drm/i915/i915_utils.h
+> > > @@ -201,6 +201,11 @@ __check_struct_size(size_t base, size_t arr, size_t count, size_t *size)
+> > >  	__T;								\
+> > >  })
+> > >  
+> > > +static __always_inline ptrdiff_t ptrdiff(const void *a, const void *b)
+> > > +{
+> > > +	return a - b;
+> > > +}
+> > > +
+> > >  /*
+> > >   * container_of_user: Extract the superclass from a pointer to a member.
+> > >   *
+> > > diff --git a/drivers/gpu/drm/i915/i915_vma.h b/drivers/gpu/drm/i915/i915_vma.h
+> > > index dc6926d89626..eca452a9851f 100644
+> > > --- a/drivers/gpu/drm/i915/i915_vma.h
+> > > +++ b/drivers/gpu/drm/i915/i915_vma.h
+> > > @@ -151,11 +151,6 @@ static inline void i915_vma_put(struct i915_vma *vma)
+> > >  	i915_gem_object_put(vma->obj);
+> > >  }
+> > >  
+> > > -static __always_inline ptrdiff_t ptrdiff(const void *a, const void *b)
+> > > -{
+> > > -	return a - b;
+> > > -}
+> > > -
+> > >  static inline long
+> > >  i915_vma_compare(struct i915_vma *vma,
+> > >  		 struct i915_address_space *vm,
+> > > -- 
+> > > 2.28.0
+> > > 
+> > 
+> > -- 
+> > Daniel Vetter
+> > Software Engineer, Intel Corporation
+> > http://blog.ffwll.ch
 
-The coding style still looks wrong here, e.g. it is indented to far to 
-the right and data/size can be on one line.
-
-Apart from that the patch is Reviewed-by: Christian König 
-<christian.koenig@amd.com>
-
-Regards,
-Christian.
-
->   
->   	size = radeon_bo_size(rdev->uvd.vcpu_bo);
->   	size -= rdev->uvd_fw->size;
-> @@ -296,7 +298,7 @@ int radeon_uvd_resume(struct radeon_device *rdev)
->   	ptr = rdev->uvd.cpu_addr;
->   	ptr += rdev->uvd_fw->size;
->   
-> -	memset(ptr, 0, size);
-> +	memset_io((void __iomem *)ptr, 0, size);
->   
->   	return 0;
->   }
-
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
