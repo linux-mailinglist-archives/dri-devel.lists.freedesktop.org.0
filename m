@@ -1,79 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA25739BAC2
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Jun 2021 16:14:19 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 97BCF39BBA7
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Jun 2021 17:20:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 011806E194;
-	Fri,  4 Jun 2021 14:14:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E26C56F612;
+	Fri,  4 Jun 2021 15:20:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com
- [IPv6:2a00:1450:4864:20::530])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8E3146E1BA;
- Fri,  4 Jun 2021 14:14:16 +0000 (UTC)
-Received: by mail-ed1-x530.google.com with SMTP id f5so6323650eds.0;
- Fri, 04 Jun 2021 07:14:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-transfer-encoding:content-language;
- bh=qLav8QtVH57dM8C4dKalXjLL+mYwvFEFfkxWmNbOqyA=;
- b=YuS6dFxvSc7ksPTyZ/SnYaLPoBLl/q+F4fGx6D4UfF6Qy6FV1UUZ9PBzWpKSXYogNv
- 9b/B6jpM/vXk2QFyvgcDuPnObzNI5FDe6faUbXC6bEOaOINiaQ2kTKWQpw23em+hdf2w
- 5Dx0RNDehGjvwyVHcwbHgmhpFZ9Cj+ZYc3yWwYFtkQUNV/GxxdM9zquL1prQR8WYxuPo
- FoX7+VPxBE1bzd/M6ffI23oJC0gBJNIzT11nHWARANn3URnKYIcETcKjlA+Z/4s/alNv
- YPJpsPooRU7LSjru4D1NifJ5ksiMyiqT3gt6PHVqXMlt+47TYOC3SdMKwmyO3xAMgge5
- D5VA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-transfer-encoding
- :content-language;
- bh=qLav8QtVH57dM8C4dKalXjLL+mYwvFEFfkxWmNbOqyA=;
- b=UNltBNWbA7Om4NAKw/vQEaXMMRPikvewsUj8yYmDDpBIGm94SXywpIhXDWjd/nCvt1
- KK0IcO2SzvnjaR1k23E4fASd/u67KDmnjeEqQP5qJ5lME2KKB8f7U5PK7AVQbFXU7pOk
- lKvMrL/70AL4srzWFWDnOKxOjmx9nzqISkUWsNlFLGfbPIWRRpPYqDEM4p4GhxURBA9M
- w7QaCrZhSJMjYKdj7J76eQxStrxZHpa05ET/ow89MGjkaeqcOVkiyMalls399ZRDh7Pf
- /4omkeH3tT0s8WkBGbBgJJ9WFF8MhTRfSurj23sGaeTqGhJaQs1X+E/fZOViYAQmefk4
- +Mrg==
-X-Gm-Message-State: AOAM531kx8M95Vw/188uw7+HiClMOCMy/ngoxNRzUFYxd7pv5n1QlsF6
- 7XDVJweNWgdatIYwcORgsZg=
-X-Google-Smtp-Source: ABdhPJwMfN0eaqVmX0QZ7FO1wHyfiJt/l08prHgchSKE3IWIG4FlmrvP9vXPoUqgX8pLets3cqk5mQ==
-X-Received: by 2002:aa7:c7d3:: with SMTP id o19mr4893940eds.142.1622816055280; 
- Fri, 04 Jun 2021 07:14:15 -0700 (PDT)
-Received: from ?IPv6:2a02:908:1252:fb60:7b4b:873a:17b5:b581?
- ([2a02:908:1252:fb60:7b4b:873a:17b5:b581])
- by smtp.gmail.com with ESMTPSA id q16sm2860012ejm.12.2021.06.04.07.14.14
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 04 Jun 2021 07:14:14 -0700 (PDT)
-Subject: Re: [Intel-gfx] Merging TTM branches through the Intel tree?
-To: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>,
- Daniel Vetter <daniel@ffwll.ch>, Dave Airlie <airlied@gmail.com>
-References: <a29eaef9-2457-1393-6757-40956811daf8@linux.intel.com>
- <a6965639-acf6-b5f5-482c-2715e7fa69d4@amd.com>
- <b4c18e45-98c9-ce7f-b22c-c00c795844c2@shipmail.org>
- <baf4f828-76c8-6b47-5bba-9b9c8e7b307b@amd.com>
- <YLfQplT8H6PdCCLX@phenom.ffwll.local>
- <c50fa98f-3735-fe04-d3f9-8a7a08a7562e@linux.intel.com>
- <CAKMK7uE+fB_+UG668O=QMXwQ9_Xb--KhzehT77HLfBoWve-zLg@mail.gmail.com>
- <68e6057c-df17-64ce-3116-cd5e79578795@amd.com>
- <a3f789a0-9e75-280a-7602-4728738024eb@linux.intel.com>
- <YLnuj0jmF8q05pta@phenom.ffwll.local>
- <b81637c8-fd97-0927-f356-51fa98604bd1@gmail.com>
- <4e465ada6f8b1a8b76fea782adcf3043630efa5e.camel@linux.intel.com>
- <fd0fa98b-876d-d3e6-0b67-9537d944d33f@gmail.com>
- <9aef1767b510737556fb573897f77cfbd6a1cc20.camel@linux.intel.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-Message-ID: <ecfe24a4-f683-fed2-4a36-bc5e903c973a@gmail.com>
-Date: Fri, 4 Jun 2021 16:14:13 +0200
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id D96186F612
+ for <dri-devel@lists.freedesktop.org>; Fri,  4 Jun 2021 15:20:25 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E1DF41063;
+ Fri,  4 Jun 2021 08:20:24 -0700 (PDT)
+Received: from [192.168.1.179] (unknown [172.31.20.19])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 30B773F774;
+ Fri,  4 Jun 2021 08:20:24 -0700 (PDT)
+Subject: Re: [PATCH v4] drm/panfrost: Add AFBC_FEATURES parameter
+To: Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+ dri-devel@lists.freedesktop.org
+References: <20210604130011.3203-1-alyssa.rosenzweig@collabora.com>
+From: Steven Price <steven.price@arm.com>
+Message-ID: <66673c76-08e5-7fe5-c1fb-dae6dcb60f9f@arm.com>
+Date: Fri, 4 Jun 2021 16:20:23 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <9aef1767b510737556fb573897f77cfbd6a1cc20.camel@linux.intel.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+In-Reply-To: <20210604130011.3203-1-alyssa.rosenzweig@collabora.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,213 +44,130 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?Q?Thomas_Hellstr=c3=b6m_=28Intel=29?= <thomas_os@shipmail.org>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Matthew Auld <matthew.auld@intel.com>
+Cc: Tomeu Vizoso <tomeu.vizoso@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-Am 04.06.21 um 16:11 schrieb Thomas Hellström:
-> On Fri, 2021-06-04 at 16:06 +0200, Christian König wrote:
->> Am 04.06.21 um 16:03 schrieb Thomas Hellström:
->>> On Fri, 2021-06-04 at 15:38 +0200, Christian König wrote:
->>>> Am 04.06.21 um 11:12 schrieb Daniel Vetter:
->>>>> On Fri, Jun 04, 2021 at 11:01:40AM +0200, Thomas Hellström
->>>>> wrote:
->>>>>> On 6/4/21 9:51 AM, Christian König wrote:
->>>>>>> Am 03.06.21 um 09:36 schrieb Daniel Vetter:
->>>>>>>> On Thu, Jun 3, 2021 at 8:50 AM Thomas Hellström
->>>>>>>> <thomas.hellstrom@linux.intel.com> wrote:
->>>>>>>>> On 6/2/21 8:40 PM, Daniel Vetter wrote:
->>>>>>>>>> On Wed, Jun 02, 2021 at 11:48:41AM +0200, Christian
->>>>>>>>>> König
->>>>>>>>>> wrote:
->>>>>>>>>>> Am 02.06.21 um 11:16 schrieb Thomas Hellström
->>>>>>>>>>> (Intel):
->>>>>>>>>>>> On 6/2/21 10:32 AM, Christian König wrote:
->>>>>>>>>>>>> Uff I'm just waiting for feedback from Philip
->>>>>>>>>>>>> to
->>>>>>>>>>>>> merge a large patch
->>>>>>>>>>>>> set for TTM through drm-misc-next.
->>>>>>>>>>>>>
->>>>>>>>>>>>> I'm pretty sure we will run into merge
->>>>>>>>>>>>> conflicts if
->>>>>>>>>>>>> you try to push
->>>>>>>>>>>>> your changes through the Intel tree.
->>>>>>>>>>>>>
->>>>>>>>>>>>> Christian.
->>>>>>>>>>>> OK, so what would be the best approach here?,
->>>>>>>>>>>> Adding
->>>>>>>>>>>> the TTM patches to
->>>>>>>>>>>> drm-misc-next when your set has landed?
->>>>>>>>>>> I think I will send out out my set to Matthew once
->>>>>>>>>>> more
->>>>>>>>>>> for review, then
->>>>>>>>>>> push the common TTM stuff to drm-misc-next as much
->>>>>>>>>>> as
->>>>>>>>>>> possible.
->>>>>>>>>>>
->>>>>>>>>>> Then you should be able to land your stuff to
->>>>>>>>>>> drm-misc-next and rebase on
->>>>>>>>>>> the end result.
->>>>>>>>>>>
->>>>>>>>>>> Just need to note to David that drm-misc-next
->>>>>>>>>>> should be
->>>>>>>>>>> merged to drm-next
->>>>>>>>>>> before the Intel patches depending on that stuff
->>>>>>>>>>> land
->>>>>>>>>>> as well.
->>>>>>>>>> Other option (because the backmerges tend to be slow)
->>>>>>>>>> is
->>>>>>>>>> a
->>>>>>>>>> topic branch,
->>>>>>>>>> and we just eat/resolve the conflicts in both drm-
->>>>>>>>>> misc-
->>>>>>>>>> next and
->>>>>>>>>> drm-intel-gt-next in the merge commit. If it's not
->>>>>>>>>> too
->>>>>>>>>> bad (I haven't
->>>>>>>>>> looked at what exactly we need for the i915 side from
->>>>>>>>>> ttm
->>>>>>>>>> in detail).
->>>>>>>>>>
->>>>>>>>>> But also often figuring out the topic branch
->>>>>>>>>> logistics
->>>>>>>>>> takes
->>>>>>>>>> longer than
->>>>>>>>>> just merging to drm-misc-next as the patches get
->>>>>>>>>> ready.
->>>>>>>>>> -Daniel
->>>>>>>>> Daniel: So the thing we need to get into TTM is the
->>>>>>>>> iterator-based
->>>>>>>>> move_memcpy which is more adaptable than the current
->>>>>>>>> one
->>>>>>>>> and needed to
->>>>>>>>> support non-linear lmem buffers, some bug-fixes and
->>>>>>>>> minor
->>>>>>>>> changes to be
->>>>>>>>> able to keep our short-term-pinning while on the LRU. A
->>>>>>>>> necessary evil.
->>>>>>>>>
->>>>>>>>> Christian: it looks like you have landed some TTM
->>>>>>>>> changes
->>>>>>>>> already, in
->>>>>>>>> particular the &bo->mem -> bo->resource change which is
->>>>>>>>> the
->>>>>>>>> main
->>>>>>>>> conflict I think.
->>>>>>> Yes, I thought that pushing this with Matthew rb should
->>>>>>> solve
->>>>>>> at least a
->>>>>>> bit of the conflict.
->>>>>>>
->>>>>>>>> Is the 10 patches self-allocation series the main
->>>>>>>>> remaining part?
->>>>>>> Yes, exactly. I only need Matthew's, Daniel's or your ok
->>>>>>> and
->>>>>>> I'm good to
->>>>>>> go as well
->>>>>>>
->>>>>>>>> That will probably cause some conflicts with already
->>>>>>>>> pushed i915 TTM setup code, but otherwise will not
->>>>>>>>> conflict
->>>>>>>>> with the
->>>>>>>>> rest of the TTM code I think, which should make it
->>>>>>>>> possible
->>>>>>>>> to bring in
->>>>>>>>> our TTM changes after conflict resolution with what
->>>>>>>>> you've
->>>>>>>>> already
->>>>>>>>> pushed. The memcpy code is pretty self-contained.
->>>>>>>> I think in that case topic branch on top of drm-next
->>>>>>>> (once
->>>>>>>> the ttm
->>>>>>>> bits we conflict with are there) is probably best, and
->>>>>>>> then
->>>>>>>> pull that
->>>>>>>> into drm-misc-next and drm-intel-gt-next. Merge window
->>>>>>>> freeze
->>>>>>>> is also
->>>>>>>> approach, so without topic branch we'd be stuck until
->>>>>>>> like -
->>>>>>>> rc2 when
->>>>>>>> drm-next reopens. I guess Maarten can do the topic branch
->>>>>>>> logistics in
->>>>>>>> drm-misc.git for this.
->>>>>>> That approach sounds good to me as well.
->>>>>>>
->>>>>>> The amdgpu branch had some merge conflicts as well, but
->>>>>>> nothing
->>>>>>> we
->>>>>>> couldn't fix.
->>>>>> OK, so this is going to be a little tricky, I guess.
->>>>>>
->>>>>>    From what I can tell, the memcpy TTM stuff is resolved
->>>>>> locally
->>>>>> and can be
->>>>>> merged to drm-misc-next immediately. It might have a very
->>>>>> minor
->>>>>> conflict
->>>>>> with your 10 patches I think, if any.
->>>>>>
->>>>>> Your 10 patches will conflict slightly with current drm-
->>>>>> intel-gt-
->>>>>> next I
->>>>>> think.
->>>>>>
->>>>>> Remaining intel patches will conflict only with current drm-
->>>>>> misc-
->>>>>> next.
->>>>>>
->>>>>> So We could have pull order
->>>>>>
->>>>>> - drm-misc-next up to bot not including your 10 patches,
->>>>>> - drm-intel-gt-next
->>>>>> - drm-misc-next from your 10 paches and onwards,
->>>>>> - Intel's ttm enablement topic branch.
->>>>> If it's just slight conflicts then I wouldn't bother with
->>>>> careful
->>>>> merge
->>>>> order. Because if we do this we can get around to the i915 ttm
->>>>> topic
->>>>> branch only when we're back to -rc2.
->>>> I've just pushed the remaining 10 patches to drm-misc-next and
->>>> ran
->>>> into
->>>> minor merge conflicts in drm-tip.
->>>>
->>>> I'm working on this, but I'm not very familiar with drm-tip
->>>> handling.
->>>>
->>>> Christian.
->>> Np, I'll hold off until Monday.
->> Ok I've fixed up drm-tip for amdgpu, but there are also merge
->> conflicts
->> for i915.
->>
->> Can you handle those? Doesn't looks to hard, but I would prefer not
->> to
->> touch code I can't test.
->>
->> Christian.
-> Hi, Christian,
-> Unfortunately I can't (not until monday at least as I'm off for the
-> weekend). But I did warn you twice about those.
-
-Ok in this case I will just fix them up as best as I can.
+On 04/06/2021 14:00, Alyssa Rosenzweig wrote:
+> The value of the AFBC_FEATURES register is required by userspace to
+> determine AFBC support on Bifrost. A user on our IRC channel (#panfrost)
+> reported a workload that raised a fault on one system's Mali G31 but
+> worked flawlessly with another system's Mali G31. We determined the
+> cause to be missing AFBC support on one vendor's Mali implementation --
+> it turns out AFBC is optional on Bifrost!
+> 
+> Whether AFBC is supported or not is exposed in the AFBC_FEATURES
+> register on Bifrost, which reads back as 0 on Midgard. A zero value
+> indicates AFBC is fully supported, provided the architecture itself
+> supports AFBC, allowing backwards-compatibility with Midgard. Bits 0 and
+> 15 indicate that AFBC support is absent for texturing and rendering
+> respectively.
+> 
+> The user experiencing the fault reports that AFBC_FEATURES reads back
+> 0x10001 on their system, confirming the architectural lack of AFBC.
+> Userspace needs this this parameter to know to disable AFBC on that
+                  ^^^^^^^^^
+Repeated word ;) But I've fixed that up and pushed it to drm-misc-next.
 
 Thanks,
-Christian.
 
->
-> /Thomas
->
->
->>> /Thomas
->>>
->>>
->
+Steve
+
+> chip, and perhaps others.
+> 
+> v2: Fix typo from copy-paste fail.
+> 
+> v3: Bump the UABI version. This commit was cherry-picked from another
+> series so chalking this up to a rebase fail.
+> 
+> Signed-off-by: Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
+> Reviewed-by: Steven Price <steven.price@arm.com>
+> Cc: Rob Herring <robh@kernel.org>
+> Cc: Tomeu Vizoso <tomeu.vizoso@collabora.com>
+> ---
+>  drivers/gpu/drm/panfrost/panfrost_device.h | 1 +
+>  drivers/gpu/drm/panfrost/panfrost_drv.c    | 4 +++-
+>  drivers/gpu/drm/panfrost/panfrost_gpu.c    | 1 +
+>  drivers/gpu/drm/panfrost/panfrost_regs.h   | 1 +
+>  include/uapi/drm/panfrost_drm.h            | 1 +
+>  5 files changed, 7 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/panfrost/panfrost_device.h b/drivers/gpu/drm/panfrost/panfrost_device.h
+> index 597cf1459..f614e9877 100644
+> --- a/drivers/gpu/drm/panfrost/panfrost_device.h
+> +++ b/drivers/gpu/drm/panfrost/panfrost_device.h
+> @@ -45,6 +45,7 @@ struct panfrost_features {
+>  	u32 thread_max_workgroup_sz;
+>  	u32 thread_max_barrier_sz;
+>  	u32 coherency_features;
+> +	u32 afbc_features;
+>  	u32 texture_features[4];
+>  	u32 js_features[16];
+>  
+> diff --git a/drivers/gpu/drm/panfrost/panfrost_drv.c b/drivers/gpu/drm/panfrost/panfrost_drv.c
+> index ca07098a6..1596559f3 100644
+> --- a/drivers/gpu/drm/panfrost/panfrost_drv.c
+> +++ b/drivers/gpu/drm/panfrost/panfrost_drv.c
+> @@ -63,6 +63,7 @@ static int panfrost_ioctl_get_param(struct drm_device *ddev, void *data, struct
+>  		PANFROST_FEATURE(THREAD_MAX_BARRIER_SZ,
+>  				thread_max_barrier_sz);
+>  		PANFROST_FEATURE(COHERENCY_FEATURES, coherency_features);
+> +		PANFROST_FEATURE(AFBC_FEATURES, afbc_features);
+>  		PANFROST_FEATURE_ARRAY(TEXTURE_FEATURES, texture_features, 3);
+>  		PANFROST_FEATURE_ARRAY(JS_FEATURES, js_features, 15);
+>  		PANFROST_FEATURE(NR_CORE_GROUPS, nr_core_groups);
+> @@ -547,6 +548,7 @@ DEFINE_DRM_GEM_FOPS(panfrost_drm_driver_fops);
+>   * Panfrost driver version:
+>   * - 1.0 - initial interface
+>   * - 1.1 - adds HEAP and NOEXEC flags for CREATE_BO
+> + * - 1.2 - adds AFBC_FEATURES query
+>   */
+>  static const struct drm_driver panfrost_drm_driver = {
+>  	.driver_features	= DRIVER_RENDER | DRIVER_GEM | DRIVER_SYNCOBJ,
+> @@ -559,7 +561,7 @@ static const struct drm_driver panfrost_drm_driver = {
+>  	.desc			= "panfrost DRM",
+>  	.date			= "20180908",
+>  	.major			= 1,
+> -	.minor			= 1,
+> +	.minor			= 2,
+>  
+>  	.gem_create_object	= panfrost_gem_create_object,
+>  	.prime_handle_to_fd	= drm_gem_prime_handle_to_fd,
+> diff --git a/drivers/gpu/drm/panfrost/panfrost_gpu.c b/drivers/gpu/drm/panfrost/panfrost_gpu.c
+> index 2aae636f1..0e70e27fd 100644
+> --- a/drivers/gpu/drm/panfrost/panfrost_gpu.c
+> +++ b/drivers/gpu/drm/panfrost/panfrost_gpu.c
+> @@ -228,6 +228,7 @@ static void panfrost_gpu_init_features(struct panfrost_device *pfdev)
+>  	pfdev->features.thread_max_workgroup_sz = gpu_read(pfdev, GPU_THREAD_MAX_WORKGROUP_SIZE);
+>  	pfdev->features.thread_max_barrier_sz = gpu_read(pfdev, GPU_THREAD_MAX_BARRIER_SIZE);
+>  	pfdev->features.coherency_features = gpu_read(pfdev, GPU_COHERENCY_FEATURES);
+> +	pfdev->features.afbc_features = gpu_read(pfdev, GPU_AFBC_FEATURES);
+>  	for (i = 0; i < 4; i++)
+>  		pfdev->features.texture_features[i] = gpu_read(pfdev, GPU_TEXTURE_FEATURES(i));
+>  
+> diff --git a/drivers/gpu/drm/panfrost/panfrost_regs.h b/drivers/gpu/drm/panfrost/panfrost_regs.h
+> index eddaa62ad..dc9df5457 100644
+> --- a/drivers/gpu/drm/panfrost/panfrost_regs.h
+> +++ b/drivers/gpu/drm/panfrost/panfrost_regs.h
+> @@ -82,6 +82,7 @@
+>  
+>  #define GPU_TEXTURE_FEATURES(n)		(0x0B0 + ((n) * 4))
+>  #define GPU_JS_FEATURES(n)		(0x0C0 + ((n) * 4))
+> +#define GPU_AFBC_FEATURES		(0x4C)	/* (RO) AFBC support on Bifrost */
+>  
+>  #define GPU_SHADER_PRESENT_LO		0x100	/* (RO) Shader core present bitmap, low word */
+>  #define GPU_SHADER_PRESENT_HI		0x104	/* (RO) Shader core present bitmap, high word */
+> diff --git a/include/uapi/drm/panfrost_drm.h b/include/uapi/drm/panfrost_drm.h
+> index ec19db1ee..061e700dd 100644
+> --- a/include/uapi/drm/panfrost_drm.h
+> +++ b/include/uapi/drm/panfrost_drm.h
+> @@ -171,6 +171,7 @@ enum drm_panfrost_param {
+>  	DRM_PANFROST_PARAM_JS_FEATURES15,
+>  	DRM_PANFROST_PARAM_NR_CORE_GROUPS,
+>  	DRM_PANFROST_PARAM_THREAD_TLS_ALLOC,
+> +	DRM_PANFROST_PARAM_AFBC_FEATURES,
+>  };
+>  
+>  struct drm_panfrost_get_param {
+> 
 
