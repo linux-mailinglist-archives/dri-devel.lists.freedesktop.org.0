@@ -2,66 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E59739B4E7
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Jun 2021 10:32:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A46DA39B4EB
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Jun 2021 10:33:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 39D0E6E15D;
-	Fri,  4 Jun 2021 08:32:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B8B2D6E28A;
+	Fri,  4 Jun 2021 08:33:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com
- [IPv6:2a00:1450:4864:20::136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9F0E96E15D
- for <dri-devel@lists.freedesktop.org>; Fri,  4 Jun 2021 08:32:33 +0000 (UTC)
-Received: by mail-lf1-x136.google.com with SMTP id r5so12912127lfr.5
- for <dri-devel@lists.freedesktop.org>; Fri, 04 Jun 2021 01:32:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=zP2dna87z6RKrxkkJWo2LQdu7tVCeYap9nb/k2QVk5I=;
- b=BI1l2w090NvUuzjJirHDmxRkq5GWasjScNptw7r1C+4lSVHeu39FVyxAFCG19UwVsb
- QxNh+Il5+n5v+KRUCdKpM4b0uCO0sut+buOkmxGTq1IGt4oTCexVpen6XunnkT3+A6sb
- sJ5F3VD+VPhD66FtwJMqy7xgI4zXHyFKw9qbY+eymmVAtJEukFRIHGN4iZZ/+N9Ln3/T
- L2QlfItJLRowUqeTs7AE9ktEuVgQ7Yw/hNIz9CdbORDFFHYL8svVvvPJAK4kS5justFA
- io1E8bvEjd+eMlzxU2MoTjoqrZe3vFU9sleiCEEc1tVzGj9y6QmUkWq/w3WkeAl2+wcu
- HhdA==
+Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com
+ [IPv6:2a00:1450:4864:20::332])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DAD3C6E28A
+ for <dri-devel@lists.freedesktop.org>; Fri,  4 Jun 2021 08:33:11 +0000 (UTC)
+Received: by mail-wm1-x332.google.com with SMTP id r13so4887881wmq.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 04 Jun 2021 01:33:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=xMmsbYICx0bmcd8SbULA2wWW7KeqB0BAXT80yg8/o3E=;
+ b=EaQ5I4xwR2fyrELNr/VGKGM7TspTtKrRNoAxHlLouGtnfLi67OYwHBw6FgVdlGHtao
+ KL6W5pXnlJML2TIAtvFZ0OsyM0Hgi0eApprcDCxfpThF0Ye2QGuFGZkzfH3JTrfpiJq5
+ D3ZA8wiMpIAinLE23StUPfXOsV/BFt7X7xIJs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=zP2dna87z6RKrxkkJWo2LQdu7tVCeYap9nb/k2QVk5I=;
- b=hUR+8XUOlo2qYdung+PUa+ZtAIeMk2K/XvWnAUIC18Kcbyl8/CryR2WqxY77dmfc7n
- abC8wrRuERjzTylPOn5Ykk+5fNanPvYChyHoP8/GvdiNAP2OvqnD+3AIzGtB5nMsRbKh
- yYicayN08cLDGWOStecPdbb7jRwhzZFC1B46DATI6mYx1gUinfudorovF09J2FsHpqyT
- Y9JGigAi0fR+yhgZY4YXfKh/+Tv5SS+HtN9P9ukUKyKFnQ+NMYY7NGT/qG4Z7HStHScf
- 91ptO9OmzKjuBasK0YFvCx/WbGBiIpsvGfH1L2/0RcxwFHaeSC+8nQ8vADIMgHiI/Pcr
- u+/Q==
-X-Gm-Message-State: AOAM531+IyOT+eSKED4vrdLa2BQBDFk7LSiQx2KYgqohltwOpFS3CUAq
- +jso412dNQ0NCrjMGB9NTlMBfg==
-X-Google-Smtp-Source: ABdhPJykew9bOeZhphWWjOUQEebLS58YJSEt6mkLnOTlh99S+hukQhlFyBqTV9fKQ9UndvHQGxvMFA==
-X-Received: by 2002:a05:6512:33cb:: with SMTP id
- d11mr2097111lfg.180.1622795551966; 
- Fri, 04 Jun 2021 01:32:31 -0700 (PDT)
-Received: from [192.168.1.211] ([37.153.55.125])
- by smtp.gmail.com with ESMTPSA id i127sm544870lfd.216.2021.06.04.01.32.31
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 04 Jun 2021 01:32:31 -0700 (PDT)
-Subject: Re: [RESEND 10/26] drm/msm/disp/dpu1/dpu_hw_interrupts: Demote a
- bunch of kernel-doc abuses
-To: Lee Jones <lee.jones@linaro.org>
-References: <20210602143300.2330146-1-lee.jones@linaro.org>
- <20210602143300.2330146-11-lee.jones@linaro.org>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Message-ID: <85bd6c24-0e4e-6f18-ccf0-6acf62d0f0ff@linaro.org>
-Date: Fri, 4 Jun 2021 11:32:30 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.0
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=xMmsbYICx0bmcd8SbULA2wWW7KeqB0BAXT80yg8/o3E=;
+ b=X0YQY7xYYHdgEGaDVBPCEoVY4ImPgW8YOPDu3W1bNCnJ8ST7r7a35nvdYpl8U6EC9M
+ TIxroyV1cpaRKmLVQB7rvPGoxwJHHStZ1+w6GmbynD3j3iLeI80h4u7DbZ8rU5plsFTG
+ BoeBlQxfk+jsPHVG4jVSZF7vy16kSCTugSyuGPEzcLLbcqLJHPx0bG5MhcPcszR1lXHN
+ nAau7B1pFdxmQD+rJF9nN2BwdivCSxcD/XdxZqU/Sj1lOsFFXouIeASDECrYf3dQDPFl
+ K0INCoO460SUTnqBx7mKYEq3hWV9FIsW/UFQ/OXKNK4hVPngg9rXB0lu3xOA1uJU1/YI
+ sZPg==
+X-Gm-Message-State: AOAM5332iLMoDpD70JWD0ZxBt3+nk9cndIeTgG3Pd0zf6AInwJIIz2rA
+ fZJb9c5mtUjsSZJrHwZFpz3S3cOR6fONQw==
+X-Google-Smtp-Source: ABdhPJz3PLydBzWpcS+7asn0SKurz+Q8bSiXIbtDVdziaGyb6Lehpkwt4Ue0u6nKR9V+WLLS6z+QDA==
+X-Received: by 2002:a7b:ce13:: with SMTP id m19mr1944541wmc.159.1622795590574; 
+ Fri, 04 Jun 2021 01:33:10 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id a123sm9260028wmd.2.2021.06.04.01.33.09
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 04 Jun 2021 01:33:09 -0700 (PDT)
+Date: Fri, 4 Jun 2021 10:33:07 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Matthew Brost <matthew.brost@intel.com>
+Subject: Re: [Intel-gfx] [PATCH 13/20] drm/i915/guc: Relax CTB response timeout
+Message-ID: <YLnlQyPJZygHTHxk@phenom.ffwll.local>
+References: <20210603051630.2635-1-matthew.brost@intel.com>
+ <20210603051630.2635-14-matthew.brost@intel.com>
 MIME-Version: 1.0
-In-Reply-To: <20210602143300.2330146-11-lee.jones@linaro.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210603051630.2635-14-matthew.brost@intel.com>
+X-Operating-System: Linux phenom 5.10.32scarlett+ 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,197 +66,125 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Krishna Manikandan <mkrishn@codeaurora.org>,
- David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, Sean Paul <sean@poorly.run>
+Cc: daniel.vetter@intel.com, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 02/06/2021 17:32, Lee Jones wrote:
-> Fixes the following W=1 kernel build warning(s):
+On Wed, Jun 02, 2021 at 10:16:23PM -0700, Matthew Brost wrote:
+> From: Michal Wajdeczko <michal.wajdeczko@intel.com>
 > 
->   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c:17: warning: expecting prototype for Register offsets in MDSS register file for the interrupt registers(). Prototype was for MDP_SSPP_TOP0_OFF() instead
->   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c:35: warning: expecting prototype for WB interrupt status bit definitions(). Prototype was for DPU_INTR_WB_0_DONE() instead
->   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c:42: warning: expecting prototype for WDOG timer interrupt status bit definitions(). Prototype was for DPU_INTR_WD_TIMER_0_DONE() instead
->   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c:51: warning: expecting prototype for Pingpong interrupt status bit definitions(). Prototype was for DPU_INTR_PING_PONG_0_DONE() instead
->   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c:71: warning: expecting prototype for Interface interrupt status bit definitions(). Prototype was for DPU_INTR_INTF_0_UNDERRUN() instead
->   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c:85: warning: expecting prototype for Pingpong Secondary interrupt status bit definitions(). Prototype was for DPU_INTR_PING_PONG_S0_AUTOREFRESH_DONE() instead
->   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c:94: warning: expecting prototype for Pingpong TEAR detection interrupt status bit definitions(). Prototype was for DPU_INTR_PING_PONG_0_TEAR_DETECTED() instead
->   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c:102: warning: expecting prototype for Pingpong TE detection interrupt status bit definitions(). Prototype was for DPU_INTR_PING_PONG_0_TE_DETECTED() instead
->   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c:110: warning: expecting prototype for Ctl start interrupt status bit definitions(). Prototype was for DPU_INTR_CTL_0_START() instead
->   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c:119: warning: expecting prototype for Concurrent WB overflow interrupt status bit definitions(). Prototype was for DPU_INTR_CWB_2_OVERFLOW() instead
->   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c:125: warning: expecting prototype for Histogram VIG done interrupt status bit definitions(). Prototype was for DPU_INTR_HIST_VIG_0_DONE() instead
->   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c:133: warning: expecting prototype for Histogram VIG reset Sequence done interrupt status bit definitions(). Prototype was for DPU_INTR_HIST_VIG_0_RSTSEQ_DONE() instead
->   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c:141: warning: expecting prototype for Histogram DSPP done interrupt status bit definitions(). Prototype was for DPU_INTR_HIST_DSPP_0_DONE() instead
->   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c:149: warning: expecting prototype for Histogram DSPP reset Sequence done interrupt status bit definitions(). Prototype was for DPU_INTR_HIST_DSPP_0_RSTSEQ_DONE() instead
->   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c:157: warning: expecting prototype for INTF interrupt status bit definitions(). Prototype was for DPU_INTR_VIDEO_INTO_STATIC() instead
->   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c:170: warning: expecting prototype for AD4 interrupt status bit definitions(). Prototype was for DPU_INTR_BACKLIGHT_UPDATED() instead
+> In upcoming patch we will allow more CTB requests to be sent in
+> parallel to the GuC for processing, so we shouldn't assume any more
+> that GuC will always reply without 10ms.
+> 
+> Use bigger value from CONFIG_DRM_I915_GUC_CTB_TIMEOUT instead.
+> 
+> v2: Add CONFIG_DRM_I915_GUC_CTB_TIMEOUT config option
+> 
+> Signed-off-by: Michal Wajdeczko <michal.wajdeczko@intel.com>
+> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+> Reviewed-by: Matthew Brost <matthew.brost@intel.com>
 
-Most of these defines are gone in msm/msm-next. Could you please rebase 
-and repost just this patch? Other patches apply clearly.
+So this is a rant, but for upstream we really need to do better than
+internal:
 
-> Cc: Rob Clark <robdclark@gmail.com>
-> Cc: Sean Paul <sean@poorly.run>
-> Cc: David Airlie <airlied@linux.ie>
-> Cc: Daniel Vetter <daniel@ffwll.ch>
-> Cc: Krishna Manikandan <mkrishn@codeaurora.org>
-> Cc: linux-arm-msm@vger.kernel.org
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: freedreno@lists.freedesktop.org
-> Signed-off-by: Lee Jones <lee.jones@linaro.org>
+- The driver must work by default in the optimal configuration.
+
+- Any config change that we haven't validated _must_ taint the kernel
+  (this is especially for module options, but also for config settings)
+
+- Config need a real reason beyond "was useful for bring-up".
+
+Our internal tree is an absolute disaster right now, with multi-line
+kernel configs (different on each platform) and bespoke kernel config or
+the driver just fails. We're the expert on our own hw, we should know how
+it works, not offload that to users essentially asking them "how shitty do
+you think Intel hw is in responding timely".
+
+Yes I know there's a lot of these there already, they don't make a lot of
+sense either.
+
+Except if there's a real reason for this (aside from us just offloading
+testing to our users instead of doing it ourselves properly) I think we
+should hardcode this, with a comment explaining why. Maybe with a switch
+between the PF/VF case once that's landed.
+
 > ---
->   .../gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c | 32 +++++++++----------
->   1 file changed, 16 insertions(+), 16 deletions(-)
+>  drivers/gpu/drm/i915/Kconfig.profile      | 10 ++++++++++
+>  drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c |  5 ++++-
+>  2 files changed, 14 insertions(+), 1 deletion(-)
 > 
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c
-> index 48c96b8121268..aaf251741dc27 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c
-> @@ -10,7 +10,7 @@
->   #include "dpu_hw_util.h"
->   #include "dpu_hw_mdss.h"
->   
-> -/**
-> +/*
->    * Register offsets in MDSS register file for the interrupt registers
->    * w.r.t. to the MDP base
->    */
-> @@ -29,14 +29,14 @@
->   #define MDP_INTF_1_OFF_REV_7xxx             0x35000
->   #define MDP_INTF_5_OFF_REV_7xxx             0x39000
->   
-> -/**
-> +/*
->    * WB interrupt status bit definitions
->    */
->   #define DPU_INTR_WB_0_DONE BIT(0)
->   #define DPU_INTR_WB_1_DONE BIT(1)
->   #define DPU_INTR_WB_2_DONE BIT(4)
->   
-> -/**
-> +/*
->    * WDOG timer interrupt status bit definitions
->    */
->   #define DPU_INTR_WD_TIMER_0_DONE BIT(2)
-> @@ -45,7 +45,7 @@
->   #define DPU_INTR_WD_TIMER_3_DONE BIT(6)
->   #define DPU_INTR_WD_TIMER_4_DONE BIT(7)
->   
-> -/**
-> +/*
->    * Pingpong interrupt status bit definitions
->    */
->   #define DPU_INTR_PING_PONG_0_DONE BIT(8)
-> @@ -65,7 +65,7 @@
->   #define DPU_INTR_PING_PONG_2_AUTOREFRESH_DONE BIT(22)
->   #define DPU_INTR_PING_PONG_3_AUTOREFRESH_DONE BIT(23)
->   
-> -/**
-> +/*
->    * Interface interrupt status bit definitions
->    */
->   #define DPU_INTR_INTF_0_UNDERRUN BIT(24)
-> @@ -79,7 +79,7 @@
->   #define DPU_INTR_INTF_3_VSYNC BIT(31)
->   #define DPU_INTR_INTF_5_VSYNC BIT(23)
->   
-> -/**
-> +/*
->    * Pingpong Secondary interrupt status bit definitions
->    */
->   #define DPU_INTR_PING_PONG_S0_AUTOREFRESH_DONE BIT(0)
-> @@ -88,7 +88,7 @@
->   #define DPU_INTR_PING_PONG_S0_TEAR_DETECTED BIT(22)
->   #define DPU_INTR_PING_PONG_S0_TE_DETECTED BIT(28)
->   
-> -/**
-> +/*
->    * Pingpong TEAR detection interrupt status bit definitions
->    */
->   #define DPU_INTR_PING_PONG_0_TEAR_DETECTED BIT(16)
-> @@ -96,7 +96,7 @@
->   #define DPU_INTR_PING_PONG_2_TEAR_DETECTED BIT(18)
->   #define DPU_INTR_PING_PONG_3_TEAR_DETECTED BIT(19)
->   
-> -/**
-> +/*
->    * Pingpong TE detection interrupt status bit definitions
->    */
->   #define DPU_INTR_PING_PONG_0_TE_DETECTED BIT(24)
-> @@ -104,7 +104,7 @@
->   #define DPU_INTR_PING_PONG_2_TE_DETECTED BIT(26)
->   #define DPU_INTR_PING_PONG_3_TE_DETECTED BIT(27)
->   
-> -/**
-> +/*
->    * Ctl start interrupt status bit definitions
->    */
->   #define DPU_INTR_CTL_0_START BIT(9)
-> @@ -113,13 +113,13 @@
->   #define DPU_INTR_CTL_3_START BIT(12)
->   #define DPU_INTR_CTL_4_START BIT(13)
->   
-> -/**
-> +/*
->    * Concurrent WB overflow interrupt status bit definitions
->    */
->   #define DPU_INTR_CWB_2_OVERFLOW BIT(14)
->   #define DPU_INTR_CWB_3_OVERFLOW BIT(15)
->   
-> -/**
-> +/*
->    * Histogram VIG done interrupt status bit definitions
->    */
->   #define DPU_INTR_HIST_VIG_0_DONE BIT(0)
-> @@ -127,7 +127,7 @@
->   #define DPU_INTR_HIST_VIG_2_DONE BIT(8)
->   #define DPU_INTR_HIST_VIG_3_DONE BIT(10)
->   
-> -/**
-> +/*
->    * Histogram VIG reset Sequence done interrupt status bit definitions
->    */
->   #define DPU_INTR_HIST_VIG_0_RSTSEQ_DONE BIT(1)
-> @@ -135,7 +135,7 @@
->   #define DPU_INTR_HIST_VIG_2_RSTSEQ_DONE BIT(9)
->   #define DPU_INTR_HIST_VIG_3_RSTSEQ_DONE BIT(11)
->   
-> -/**
-> +/*
->    * Histogram DSPP done interrupt status bit definitions
->    */
->   #define DPU_INTR_HIST_DSPP_0_DONE BIT(12)
-> @@ -143,7 +143,7 @@
->   #define DPU_INTR_HIST_DSPP_2_DONE BIT(20)
->   #define DPU_INTR_HIST_DSPP_3_DONE BIT(22)
->   
-> -/**
-> +/*
->    * Histogram DSPP reset Sequence done interrupt status bit definitions
->    */
->   #define DPU_INTR_HIST_DSPP_0_RSTSEQ_DONE BIT(13)
-> @@ -151,7 +151,7 @@
->   #define DPU_INTR_HIST_DSPP_2_RSTSEQ_DONE BIT(21)
->   #define DPU_INTR_HIST_DSPP_3_RSTSEQ_DONE BIT(23)
->   
-> -/**
-> +/*
->    * INTF interrupt status bit definitions
->    */
->   #define DPU_INTR_VIDEO_INTO_STATIC BIT(0)
-> @@ -164,7 +164,7 @@
->   #define DPU_INTR_DSICMD_2_OUTOF_STATIC BIT(7)
->   #define DPU_INTR_PROG_LINE BIT(8)
->   
-> -/**
-> +/*
->    * AD4 interrupt status bit definitions
->    */
->   #define DPU_INTR_BACKLIGHT_UPDATED BIT(0)
-> 
+> diff --git a/drivers/gpu/drm/i915/Kconfig.profile b/drivers/gpu/drm/i915/Kconfig.profile
+> index 39328567c200..0d5475b5f28a 100644
+> --- a/drivers/gpu/drm/i915/Kconfig.profile
+> +++ b/drivers/gpu/drm/i915/Kconfig.profile
+> @@ -38,6 +38,16 @@ config DRM_I915_USERFAULT_AUTOSUSPEND
+>  	  May be 0 to disable the extra delay and solely use the device level
+>  	  runtime pm autosuspend delay tunable.
+>  
+> +config DRM_I915_GUC_CTB_TIMEOUT
+> +	int "How long to wait for the GuC to make forward progress on CTBs (ms)"
+> +	default 1500 # milliseconds
+> +	range 10 60000
 
+Also range is definitely off, drm/scheduler will probably nuke you
+beforehand :-)
+
+That's kinda another issue I have with all these kconfig knobs: Maybe we
+need a knob for "relax with reset attempts, my workloads overload my gpus
+routinely", which then scales _all_ timeouts proportionally. But letting
+the user set them all, with silly combiniations like resetting the
+workload before heartbeat or stuff like that doesn't make much sense.
+
+Anyway, tiny patch so hopefully I can leave this one out for now until
+we've closed this.
+-Daniel
+
+> +	help
+> +	  Configures the default timeout waiting for GuC the to make forward
+> +	  progress on CTBs. e.g. Waiting for a response to a requeset.
+> +
+> +	  A range of 10 ms to 60000 ms is allowed.
+> +
+>  config DRM_I915_HEARTBEAT_INTERVAL
+>  	int "Interval between heartbeat pulses (ms)"
+>  	default 2500 # milliseconds
+> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
+> index 916c2b80c841..cf1fb09ef766 100644
+> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
+> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
+> @@ -436,6 +436,7 @@ static int ct_write(struct intel_guc_ct *ct,
+>   */
+>  static int wait_for_ct_request_update(struct ct_request *req, u32 *status)
+>  {
+> +	long timeout;
+>  	int err;
+>  
+>  	/*
+> @@ -443,10 +444,12 @@ static int wait_for_ct_request_update(struct ct_request *req, u32 *status)
+>  	 * up to that length of time, then switch to a slower sleep-wait loop.
+>  	 * No GuC command should ever take longer than 10ms.
+>  	 */
+> +	timeout = CONFIG_DRM_I915_GUC_CTB_TIMEOUT;
+> +
+>  #define done INTEL_GUC_MSG_IS_RESPONSE(READ_ONCE(req->status))
+>  	err = wait_for_us(done, 10);
+>  	if (err)
+> -		err = wait_for(done, 10);
+> +		err = wait_for(done, timeout);
+>  #undef done
+>  
+>  	if (unlikely(err))
+> -- 
+> 2.28.0
+> 
+> _______________________________________________
+> Intel-gfx mailing list
+> Intel-gfx@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/intel-gfx
 
 -- 
-With best wishes
-Dmitry
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
