@@ -2,59 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3420939BC39
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Jun 2021 17:49:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E27DC39BC47
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Jun 2021 17:52:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0457E6E223;
-	Fri,  4 Jun 2021 15:49:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 89B1D6F61D;
+	Fri,  4 Jun 2021 15:52:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com
- [IPv6:2a00:1450:4864:20::331])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F025A6E108;
- Fri,  4 Jun 2021 15:49:15 +0000 (UTC)
-Received: by mail-wm1-x331.google.com with SMTP id
- u5-20020a7bc0450000b02901480e40338bso4489330wmc.1; 
- Fri, 04 Jun 2021 08:49:15 -0700 (PDT)
+Received: from mail-ed1-x534.google.com (mail-ed1-x534.google.com
+ [IPv6:2a00:1450:4864:20::534])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5AF786F624
+ for <dri-devel@lists.freedesktop.org>; Fri,  4 Jun 2021 15:52:31 +0000 (UTC)
+Received: by mail-ed1-x534.google.com with SMTP id cb9so11741274edb.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 04 Jun 2021 08:52:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=8Lds9gCzJwmMKr7vdvMacl9HXd9kFnM3fe++EpLc6XI=;
- b=Hb80MpfOc48FLtbkirFjbEeHKIL92v34ZABsiS1LKXskELp+cbV4SnZctXC1pYQFMv
- PPahz53BgO3B8SOX95O2xCs2EsnxxkmG77fM83vPaf3hISzo2jVh3jHNYCdskCRlQLBx
- YFho2iwtTwqrSmQGBofgEEC85Oylz7FvUzL2gy8aHm/1RqLJ6yZuL6Inas3lmNu9+51S
- vmkf7mzXutogHdltk/zkNlqMR1+pEVr6YXqllmzqdddtAAIQFqAPp4ESQzTiAkTkrytW
- B1rVndOCiWAbQbeL+5fsFdfumhgcRvXvtv25o3/eclON6TAC327dH7fTKtizmh9QMA8v
- ETfA==
+ bh=IeVQ/JL2MoNgBdSE7s2jBAuH6UR55nAw/9XvPWX2rUg=;
+ b=ozQjGCMtX9vlPYE7whGrVNR8k+wCZepcgL+R0QqjnsnEhfvI6NWV6hSvOOTgC38hm3
+ aa6sEP5BNJceE7z9QJC+C3CX3RVolM4PaWgGtFjkOIWZMEmC8r6FQek0FCcnRnGCocxe
+ qhO2r3n3D3fspPXMEKNl/bCUP9T//oK7hPoaQt+3JGnVX3DkeUewt1slo+VR4gjw9ZYX
+ srTFTN8J/NsHTRgQJ4tltbG8mpNOAimSxTsVhURUJ560/4ohzCk+KdIsE4vmwznx4WXS
+ ZEeBcchSkfFbIQx4rjVsr8Q4DS1W5SzpXrW6Zac/e1MBRYpVuffHrORzlT8aN9HQR3IN
+ fbLg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=8Lds9gCzJwmMKr7vdvMacl9HXd9kFnM3fe++EpLc6XI=;
- b=TTlLvojWAFUgMUmgNU7GGriMPxjFk14a44GEj3dL8BSYRK8dBHbf9n7Jz3L1LwV1k6
- vlEeMo7qknQTjB437UAXHRRJnsL6FGI+aksWVtPDCIc7IRhecroExE+305HAEeXjpeoM
- fse0ts7iVCT/+HrokTHrq5wTVI9tedRGM//+DYqgzhR7rev6cw96Y3h+mG/AgFb2poZ/
- 7BNmWFS2FisxeeStnXfLcVWkatopBV6E+T6vNk0pTIQ2NTyXrry4ej9SmhF00HR0upGP
- NAmoRJJqKJmqlBQSNeYcGhkXsas8c2gsstG8TViJPEDC7xM/3gOd9ksmBHjlY3CDl3ox
- P8ZA==
-X-Gm-Message-State: AOAM532ByFi3oCUrcFQtWjBy25srk1EjSgY0IaHGibsEkoaWAiwJ75xU
- TVW06+vRvCkrQCfjykYH5iE=
-X-Google-Smtp-Source: ABdhPJzaOYoCYA6fUg6Ei9tUTrEb0T4E+kCm+gsuurm0f2hxSqdutq+dX9WdDmPOKBTIyAj2E4Ktyw==
-X-Received: by 2002:a1c:b387:: with SMTP id c129mr4314530wmf.121.1622821754549; 
- Fri, 04 Jun 2021 08:49:14 -0700 (PDT)
-Received: from arch-x1c3.. (cpc92308-cmbg19-2-0-cust99.5-4.cable.virginm.net.
- [82.24.248.100])
- by smtp.gmail.com with ESMTPSA id n6sm5797743wmq.34.2021.06.04.08.49.12
+ bh=IeVQ/JL2MoNgBdSE7s2jBAuH6UR55nAw/9XvPWX2rUg=;
+ b=Xrq/W4pIXSWcWROdmS5zXpOhN9G6pBxZR1cz6/4h29V66ahqoofEZGSuqWzH4yEm+I
+ Hj0ej/JlMIah15v63gC2dj/yWGs8jly6g7Z+BItMKMxAUyCcklde4Za6LmjghFPIX4ax
+ zE7N9R9J/eaXI8GFhvNeYax7sOxDXw0MxGfCrOLjVNMnu5UfxRZKv5QHzR/kPt64XVvu
+ wXsdu8MQoxmOmo8QOKxVkvuYdq2n9KTzIRjR4pFY7wIPHELElki/WT2OkkCNJX1P7mQs
+ O+3OmsyJieV2k5F1tWajVaH5Eslx71pUGUmuqzbahtCuuMbqzpqhDoVt1Dew3fCwVzoK
+ Z9fw==
+X-Gm-Message-State: AOAM5322vZCfUTj1g/4XFTdWRHGcaGdkT5IxW1dNRpHqwrNb0hDQaori
+ 1sIfKrv0ELV9JDT1l684Wf4=
+X-Google-Smtp-Source: ABdhPJz3UJa8k+Xe3a2U7/BOwG2lYmX2OUCfKsW6ztYufSN09hceuPTvpawkxut3PojRcDcuJJillQ==
+X-Received: by 2002:a05:6402:b82:: with SMTP id
+ cf2mr5477651edb.351.1622821950162; 
+ Fri, 04 Jun 2021 08:52:30 -0700 (PDT)
+Received: from abel.fritz.box ([2a02:908:1252:fb60:4fbc:6ebf:9275:5757])
+ by smtp.gmail.com with ESMTPSA id w14sm3405209edj.6.2021.06.04.08.52.29
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 04 Jun 2021 08:49:13 -0700 (PDT)
-From: Emil Velikov <emil.l.velikov@gmail.com>
-To: Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>
-Subject: [PATCH] drm/i915: apply WaEnableVGAAccessThroughIOPort as needed
-Date: Fri,  4 Jun 2021 16:49:05 +0100
-Message-Id: <20210604154905.660142-1-emil.l.velikov@gmail.com>
-X-Mailer: git-send-email 2.31.1
+ Fri, 04 Jun 2021 08:52:29 -0700 (PDT)
+From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
+X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
+ <christian.koenig@amd.com>
+To: daniel.vetter@ffwll.ch
+Subject: [PATCH] dma-buf: add missing EXPORT_SYMBOL
+Date: Fri,  4 Jun 2021 17:52:28 +0200
+Message-Id: <20210604155228.616679-1-christian.koenig@amd.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -70,65 +69,30 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, kernel@collabora.com,
- dri-devel@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Emil Velikov <emil.velikov@collabora.com>
+The newly added dma_resv_reset_shared_max() is used from an inline
+function, so it can appear in drivers as well.
 
-Currently as the workaround is applied the screen flickers. As a result
-we do not achieve seamless boot experience.
-
-Avoiding the issue in the common use-case might be hard, although we can
-resolve it for dual GPU setups - when the "other" GPU is primary and/or
-outputs are connected to it.
-
-With this I was able to get seamless experience on my Intel/Nvidia box,
-running systemd-boot and sddm/Xorg. Note that the i915 driver is within
-initrd while the Nvidia one is not.
-
-Without this patch, the splash presented by systemd-boot (UEFI BGRT) is
-torn down as the code-path kicks in, leaving the monitor blank until the
-login manager starts.
-
-Same issue were reported with plymouth/grub, although personally I
-wasn't able to get them to behave on my setup.
-
-Suggested-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
-Signed-off-by: Emil Velikov <emil.velikov@collabora.com>
+Signed-off-by: Christian König <christian.koenig@amd.com>
 ---
+ drivers/dma-buf/dma-resv.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-Supersedes
-https://lore.kernel.org/dri-devel/20210516171432.1734268-1-emil.l.velikov@gmail.com/
-
-Ville, others,
-
-Patch is based against drm-intel/drm-intel-next and will apply cleanly
-against drm-intel/drm-intel-fixes.
-
-If possible, can one of the i915 maintainers apply it to the latter?
-
-Thanks
-Emil
----
- drivers/gpu/drm/i915/display/intel_vga.c | 3 +++
- 1 file changed, 3 insertions(+)
-
-diff --git a/drivers/gpu/drm/i915/display/intel_vga.c b/drivers/gpu/drm/i915/display/intel_vga.c
-index be333699c515..7beef1206097 100644
---- a/drivers/gpu/drm/i915/display/intel_vga.c
-+++ b/drivers/gpu/drm/i915/display/intel_vga.c
-@@ -29,6 +29,9 @@ void intel_vga_disable(struct drm_i915_private *dev_priv)
- 	i915_reg_t vga_reg = intel_vga_cntrl_reg(dev_priv);
- 	u8 sr1;
+diff --git a/drivers/dma-buf/dma-resv.c b/drivers/dma-buf/dma-resv.c
+index 3964df438505..6132ba631991 100644
+--- a/drivers/dma-buf/dma-resv.c
++++ b/drivers/dma-buf/dma-resv.c
+@@ -226,6 +226,7 @@ void dma_resv_reset_shared_max(struct dma_resv *obj)
+ 		fence->shared_max = fence->shared_count;
+ 	}
+ }
++EXPORT_SYMBOL(dma_resv_reset_shared_max);
+ #endif
  
-+	if (intel_de_read(dev_priv, vga_reg) & VGA_DISP_DISABLE)
-+		return;
-+
- 	/* WaEnableVGAAccessThroughIOPort:ctg,elk,ilk,snb,ivb,vlv,hsw */
- 	vga_get_uninterruptible(pdev, VGA_RSRC_LEGACY_IO);
- 	outb(SR01, VGA_SR_INDEX);
+ /**
 -- 
-2.31.1
+2.25.1
 
