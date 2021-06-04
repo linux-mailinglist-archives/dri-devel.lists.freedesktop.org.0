@@ -1,72 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C33639B387
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Jun 2021 09:03:19 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A3AB739B3A3
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Jun 2021 09:14:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BFDF56F5A8;
-	Fri,  4 Jun 2021 07:03:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1597D6F5AD;
+	Fri,  4 Jun 2021 07:14:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com
- [IPv6:2a00:1450:4864:20::635])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1D9C06F5A5;
- Fri,  4 Jun 2021 07:03:14 +0000 (UTC)
-Received: by mail-ej1-x635.google.com with SMTP id l1so12919753ejb.6;
- Fri, 04 Jun 2021 00:03:14 -0700 (PDT)
+Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com
+ [IPv6:2a00:1450:4864:20::636])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 29FE76E091;
+ Fri,  4 Jun 2021 07:14:19 +0000 (UTC)
+Received: by mail-ej1-x636.google.com with SMTP id og14so7651236ejc.5;
+ Fri, 04 Jun 2021 00:14:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=subject:to:references:from:message-id:date:user-agent:mime-version
  :in-reply-to:content-transfer-encoding:content-language;
- bh=JxPiXyyxmrcft44toq/bGBBHxD6goLW29hTUFEaks9I=;
- b=DqZfNfrcD/kZVU60HoE1MhYt+t5wnXPhiB29YDLOjzGIkia1orIae3vA6RUd/SMjAh
- NIlW5e5QcJFUbZYMkW98wKUkjfJpAEqr9cC4NdJsVBUokvj5gl7BG+J2hoKVfACcvZnh
- dCESB2q1vobP96x3gTtRM3E05+XcBF6UyxL2GLoed7BAligajoeLzr2vlR9/f7ze0uw3
- 6NpdlsCQn/NIX3XI7TPZ26e4QZd1D83DoHqB/Ia8PtozdJxRlMtlKjEK+Pr46QawXYgd
- sJQ17QV7NUdaiZpOelFF63E/2Tp2L/R+K9lwZdaxjjIyOz1h5kwFc70DHR2Vajstg8UL
- 0fbA==
+ bh=/P6C5qybY/q+1vxzvn7jQLyL3bc3qA6knEuzqM8bOeI=;
+ b=sdAjb+7y9XnZqeiLqrH1Y6sUvIDUM+UCNXPdcFMtsz9Scw9z553DE2mIpv7gEoRc1I
+ 7oFcEiBDvG8N4bdsKxVXz1nxqj+IrOCBvQTqLnhVJUqZlfj7mprlCZTvIEBQD8GnN2S1
+ h2/OFVzrMDU+7ErwECzqJrbg+fOh6CnOB5EGWaGmSBZPmhH1wJc5eFF/MdFnUA0+lJk2
+ uC33Ywu5Q/83lAy5Vt6IB9koBU7W1bOpbYWshO1CszaNarFnyTGxRa+Hv9Te0k47Ax9e
+ VhnhJQS7fUx7MObGaJvLWnnW+4vve/ZwRFXqVrXlC3ooocytRX/cnZNKJjGzUJ7XGog/
+ c2Uw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-transfer-encoding
  :content-language;
- bh=JxPiXyyxmrcft44toq/bGBBHxD6goLW29hTUFEaks9I=;
- b=N/MxhQOJvyHkF1XBOSszdnltXjTOQswLE2ENnKwa5CcgH5VlTWoBRH68txgMfHrUye
- GmCOhso5AerzMeyS0zvKebNz7WxygFxjLuG8gTn6kCXt1QUuYFQ9L3xtk8gq6/OgcTDk
- ZCZrl3ntMj12iPh098gNZHbeVO5z+RRveWYl2ZmKB9mkD3O67Z7rNDNn3La+Tw4CeeuO
- O1xS/iTuQGRnSUTOkMIjA59/4zvayjkVb7zSvs6PWPA+MGZz3ay7hHnEGVKyOuavVGdD
- fGYASyqtgRRKiGC5VulUKHNmssgzJlkXki8MVH5CmjBR/PUHVeRQiGJlwuV7uaP8BDzm
- v1Iw==
-X-Gm-Message-State: AOAM53045CR3AXmNYtw7BZmF0d3SW9GRR/jibqlupFh3c/EmOE5s3XJw
- sBc4msVXv7yFhwZAbsD/RtQ=
-X-Google-Smtp-Source: ABdhPJx2vnZVx5FWV0r9/ik2kgxEsnp35h53vw1wSJF3RN31o1NnkMZDceURVJhlfhN1mSkfN+w/iQ==
-X-Received: by 2002:a17:906:4341:: with SMTP id
- z1mr2909890ejm.422.1622790192787; 
- Fri, 04 Jun 2021 00:03:12 -0700 (PDT)
+ bh=/P6C5qybY/q+1vxzvn7jQLyL3bc3qA6knEuzqM8bOeI=;
+ b=jrISxA3R2y6HaMtMlU5WiFM3vNasttmNJT8a1NxoGs8Zy0KvSohT6QjmpL6t13h5qU
+ ws3QPe6/SrF0cKWNyVQdKjFzBhzndQ0DkpKfs6AQrbP8zq1nQQkZ/AL5pQYowTW/VOd9
+ 3N/G9cEUiwlvljH8Qdg6vuDaHnJW3A8esFKVxI+3aipU40p+H5MCB7QmTNtyj8+MeiRS
+ E7V44wCvdKVRenIY4+KbmmBNfFuCJEmu9PSeKxOYjBL/FFxH3041Nl/5Wc8BIVL9+jwa
+ suSh4LZxAvLFo0SjVvT71WzqnEUGUnDY0HQ9DmDN+wYqTwBkSpOmQ9k1Gypu3FialAX8
+ KuYA==
+X-Gm-Message-State: AOAM532AK8BCeGYB258xr2VX/1vpJV9HOq3w6V6TspEyJY19JWx+0blz
+ N4+xJDjlDSlhe4hm7HmyKaxSWfJOBqo=
+X-Google-Smtp-Source: ABdhPJwJELdgn0P0dMdg+NANfZtY50Z/FwT+gyijse6tn22fK5QP5EXZsAj56rMN30TDbJhuBCS0Fw==
+X-Received: by 2002:a17:906:ccd9:: with SMTP id
+ ot25mr2855004ejb.386.1622790857901; 
+ Fri, 04 Jun 2021 00:14:17 -0700 (PDT)
 Received: from ?IPv6:2a02:908:1252:fb60:7b4b:873a:17b5:b581?
  ([2a02:908:1252:fb60:7b4b:873a:17b5:b581])
- by smtp.gmail.com with ESMTPSA id t2sm2355698ejx.72.2021.06.04.00.03.11
+ by smtp.gmail.com with ESMTPSA id c19sm2874714edv.36.2021.06.04.00.14.16
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 04 Jun 2021 00:03:12 -0700 (PDT)
-Subject: Re: [PATCH] drm: amdgpu: Remove unneeded semicolon in amdgpu_vm.c
-To: Wan Jiabing <wanjiabing@vivo.com>,
- Alex Deucher <alexander.deucher@amd.com>,
+ Fri, 04 Jun 2021 00:14:17 -0700 (PDT)
+Subject: Re: [PATCH v2 1/2] radeon: fix coding issues reported from sparse
+To: Chen Li <chenli@uniontech.com>, Alex Deucher <alexander.deucher@amd.com>, 
  =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- "Pan, Xinhui" <Xinhui.Pan@amd.com>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, Felix Kuehling <Felix.Kuehling@amd.com>,
- Nirmoy Das <nirmoy.das@amd.com>, Dave Airlie <airlied@redhat.com>,
- Philip Yang <Philip.Yang@amd.com>, Mihir Bhogilal Patel
- <Mihir.Patel@amd.com>, Roy Sun <Roy.Sun@amd.com>,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-References: <1622690940-10972-1-git-send-email-wanjiabing@vivo.com>
+ dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
+References: <87o8cnfr3s.wl-chenli@uniontech.com>
+ <87lf7qfi1v.wl-chenli@uniontech.com>
 From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-Message-ID: <3d7fcdb9-990b-270b-f87b-d7fe157c6b2f@gmail.com>
-Date: Fri, 4 Jun 2021 09:03:10 +0200
+Message-ID: <12eca88f-908c-4112-fb62-1f35c171b1f2@gmail.com>
+Date: Fri, 4 Jun 2021 09:14:15 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <1622690940-10972-1-git-send-email-wanjiabing@vivo.com>
+In-Reply-To: <87lf7qfi1v.wl-chenli@uniontech.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
 Content-Language: en-US
@@ -85,29 +79,70 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 03.06.21 um 05:28 schrieb Wan Jiabing:
-> Fix following coccicheck warning:
-> ./drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:1726:2-3: Unneeded semicolon
+Am 04.06.21 um 05:02 schrieb Chen Li:
+> Also fix some coding issue reported from sparse.
 >
-> Signed-off-by: Wan Jiabing <wanjiabing@vivo.com>
+> Signed-off-by: Chen Li <chenli@uniontech.com>
 
-Reviewed-by: Christian König <christian.koenig@amd.com>
+Acked-by: Christian König <christian.koenig@amd.com>
 
 > ---
->   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+>   drivers/gpu/drm/radeon/radeon_uvd.c | 24 +++++++++++++-----------
+>   1 file changed, 13 insertions(+), 11 deletions(-)
 >
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
-> index 2460371..231745b 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
-> @@ -1723,7 +1723,7 @@ int amdgpu_vm_bo_update_mapping(struct amdgpu_device *adev,
+> diff --git a/drivers/gpu/drm/radeon/radeon_uvd.c b/drivers/gpu/drm/radeon/radeon_uvd.c
+> index dfa9fdbe98da..85a1f2c31749 100644
+> --- a/drivers/gpu/drm/radeon/radeon_uvd.c
+> +++ b/drivers/gpu/drm/radeon/radeon_uvd.c
+> @@ -152,9 +152,11 @@ int radeon_uvd_init(struct radeon_device *rdev)
 >   
->   		amdgpu_res_next(&cursor, num_entries * AMDGPU_GPU_PAGE_SIZE);
->   		start = tmp;
-> -	};
-> +	}
+>   			rdev->uvd.fw_header_present = true;
 >   
->   	r = vm->update_funcs->commit(&params, fence);
+> -			family_id = le32_to_cpu(hdr->ucode_version) & 0xff;
+> -			version_major = (le32_to_cpu(hdr->ucode_version) >> 24) & 0xff;
+> -			version_minor = (le32_to_cpu(hdr->ucode_version) >> 8) & 0xff;
+> +			family_id = (__force u32)(hdr->ucode_version) & 0xff;
+> +			version_major = (le32_to_cpu((__force __le32)(hdr->ucode_version))
+> +							 >> 24) & 0xff;
+> +			version_minor = (le32_to_cpu((__force __le32)(hdr->ucode_version))
+> +							 >> 8) & 0xff;
+>   			DRM_INFO("Found UVD firmware Version: %u.%u Family ID: %u\n",
+>   				 version_major, version_minor, family_id);
 >   
+> @@ -791,17 +793,17 @@ int radeon_uvd_get_create_msg(struct radeon_device *rdev, int ring,
+>   		return r;
+>   
+>   	/* stitch together an UVD create msg */
+> -	writel(cpu_to_le32(0x00000de4), &msg[0]);
+> +	writel((__force u32)cpu_to_le32(0x00000de4), &msg[0]);
+>   	writel(0x0, (void __iomem *)&msg[1]);
+> -	writel(cpu_to_le32(handle), &msg[2]);
+> +	writel((__force u32)cpu_to_le32(handle), &msg[2]);
+>   	writel(0x0, &msg[3]);
+>   	writel(0x0, &msg[4]);
+>   	writel(0x0, &msg[5]);
+>   	writel(0x0, &msg[6]);
+> -	writel(cpu_to_le32(0x00000780), &msg[7]);
+> -	writel(cpu_to_le32(0x00000440), &msg[8]);
+> +	writel((__force u32)cpu_to_le32(0x00000780), &msg[7]);
+> +	writel((__force u32)cpu_to_le32(0x00000440), &msg[8]);
+>   	writel(0x0, &msg[9]);
+> -	writel(cpu_to_le32(0x01b37000), &msg[10]);
+> +	writel((__force u32)cpu_to_le32(0x01b37000), &msg[10]);
+>   	for (i = 11; i < 1024; ++i)
+>   		writel(0x0, &msg[i]);
+>   
+> @@ -827,9 +829,9 @@ int radeon_uvd_get_destroy_msg(struct radeon_device *rdev, int ring,
+>   		return r;
+>   
+>   	/* stitch together an UVD destroy msg */
+> -	writel(cpu_to_le32(0x00000de4), &msg[0]);
+> -	writel(cpu_to_le32(0x00000002), &msg[1]);
+> -	writel(cpu_to_le32(handle), &msg[2]);
+> +	writel((__force u32)cpu_to_le32(0x00000de4), &msg[0]);
+> +	writel((__force u32)cpu_to_le32(0x00000002), &msg[1]);
+> +	writel((__force u32)cpu_to_le32(handle), &msg[2]);
+>   	writel(0x0, &msg[3]);
+>   	for (i = 4; i < 1024; ++i)
+>   		writel(0x0, &msg[i]);
 
