@@ -1,30 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 031C739B95B
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Jun 2021 15:00:24 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id EC36839B957
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Jun 2021 15:00:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2200C6E536;
-	Fri,  4 Jun 2021 13:00:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 45B246E975;
+	Fri,  4 Jun 2021 13:00:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E2E496F4D0
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com
+ [209.85.128.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 610026F4D0
  for <dri-devel@lists.freedesktop.org>; Fri,  4 Jun 2021 13:00:18 +0000 (UTC)
-Received: from localhost.localdomain (unknown [IPv6:2600:8800:8c09:5500::19dc])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested) (Authenticated sender: alyssa)
- by bhuna.collabora.co.uk (Postfix) with ESMTPSA id C96231F439C8;
- Fri,  4 Jun 2021 14:00:16 +0100 (BST)
-From: Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v4] drm/panfrost: Add AFBC_FEATURES parameter
-Date: Fri,  4 Jun 2021 09:00:11 -0400
-Message-Id: <20210604130011.3203-1-alyssa.rosenzweig@collabora.com>
-X-Mailer: git-send-email 2.30.2
+Received: by mail-wm1-f51.google.com with SMTP id
+ p13-20020a05600c358db029019f44afc845so5552282wmq.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 04 Jun 2021 06:00:18 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=sDvJ/P2CUwJS1UkHCdeZqkrV0wm/XZF87IhduHAN14A=;
+ b=jsDnwNjB0Zr5H/LLFtAAsv/FiXOmGWIlpOeK4xZOIAC4X8zP2PPa4xTxYiKhQKDPJg
+ dZ9mBlCZvbpS6WqCfo420xvKH133nqyBfz/Nt9FlozGMITezu6QdqXZOOcy1DTdIqVRN
+ xY7Q9xHUZtJpZrfDZ8YoLILmB0bulgkLP3TjHWwA7RowQDrksHFtpMg8QvZTkejmw9QD
+ NqSXQa3rScxI77/bGSidp/wo4dQ0dUL6x55g7JK1NKYfXH4oEHrenyKrgQwJ1iRPS1K5
+ 0R3WVx8Dn+s8i1TYj4bFjnNk7vm02pip7Mh+q4lRaWBiohQtZeR8+bNNS3KduMq9knOZ
+ BXNA==
+X-Gm-Message-State: AOAM531gkEHoyG8OoasaNnaN1Ft6nGsOvnzet17J3f7lItuhA476+QP0
+ /nM4wF1u/6pg4qxWNd3nMF0=
+X-Google-Smtp-Source: ABdhPJyFEW9QabvckxrTXanJXK76Qm2nxTXcxOzdGCgtNeZIbg7MFr6vkW9qMHfgph8dhTL8s9wXuQ==
+X-Received: by 2002:a7b:c7cd:: with SMTP id z13mr3476024wmk.54.1622811617069; 
+ Fri, 04 Jun 2021 06:00:17 -0700 (PDT)
+Received: from liuwe-devbox-debian-v2 ([51.145.34.42])
+ by smtp.gmail.com with ESMTPSA id f14sm6499240wry.40.2021.06.04.06.00.16
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 04 Jun 2021 06:00:16 -0700 (PDT)
+Date: Fri, 4 Jun 2021 13:00:14 +0000
+From: Wei Liu <wei.liu@kernel.org>
+To: Vitaly Kuznetsov <vkuznets@redhat.com>
+Subject: Re: [bug report] Commit ccf953d8f3d6 ("fb_defio: Remove custom
+ address_space_operations") breaks Hyper-V FB driver
+Message-ID: <20210604130014.tkeozyn4wxdsr6o2@liuwe-devbox-debian-v2>
+References: <87v96tzujm.fsf@vitty.brq.redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <87v96tzujm.fsf@vitty.brq.redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -37,124 +59,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
- Tomeu Vizoso <tomeu.vizoso@collabora.com>, Steven Price <steven.price@arm.com>
+Cc: linux-hyperv@vger.kernel.org, Dexuan Cui <decui@microsoft.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Michael Kelley <mikelley@microsoft.com>, wei.liu@kernel.org,
+ Matthew Wilcox <willy@infradead.org>, linux-fbdev@vger.kernel.org,
+ viremana@linux.microsoft.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The value of the AFBC_FEATURES register is required by userspace to
-determine AFBC support on Bifrost. A user on our IRC channel (#panfrost)
-reported a workload that raised a fault on one system's Mali G31 but
-worked flawlessly with another system's Mali G31. We determined the
-cause to be missing AFBC support on one vendor's Mali implementation --
-it turns out AFBC is optional on Bifrost!
+On Fri, Jun 04, 2021 at 02:25:01PM +0200, Vitaly Kuznetsov wrote:
+> Hi,
+> 
+> Commit ccf953d8f3d6 ("fb_defio: Remove custom address_space_operations")
+> seems to be breaking Hyper-V framebuffer
+> (drivers/video/fbdev/hyperv_fb.c) driver for me: Hyper-V guest boots
+> well and plymouth even works but when I try starting Gnome, virtual
+> screen just goes black. Reverting the above mentioned commit on top of
+> 5.13-rc4 saves the day. The behavior is 100% reproducible. I'm using
+> Gen2 guest runing on Hyper-V 2019. It was also reported that Gen1 guests
+> are equally broken.
+> 
+> Is this something known?
+> 
 
-Whether AFBC is supported or not is exposed in the AFBC_FEATURES
-register on Bifrost, which reads back as 0 on Midgard. A zero value
-indicates AFBC is fully supported, provided the architecture itself
-supports AFBC, allowing backwards-compatibility with Midgard. Bits 0 and
-15 indicate that AFBC support is absent for texturing and rendering
-respectively.
+I've heard a similar report from Vineeth but we didn't get to the bottom
+of this.
 
-The user experiencing the fault reports that AFBC_FEATURES reads back
-0x10001 on their system, confirming the architectural lack of AFBC.
-Userspace needs this this parameter to know to disable AFBC on that
-chip, and perhaps others.
+Wei.
 
-v2: Fix typo from copy-paste fail.
-
-v3: Bump the UABI version. This commit was cherry-picked from another
-series so chalking this up to a rebase fail.
-
-Signed-off-by: Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
-Reviewed-by: Steven Price <steven.price@arm.com>
-Cc: Rob Herring <robh@kernel.org>
-Cc: Tomeu Vizoso <tomeu.vizoso@collabora.com>
----
- drivers/gpu/drm/panfrost/panfrost_device.h | 1 +
- drivers/gpu/drm/panfrost/panfrost_drv.c    | 4 +++-
- drivers/gpu/drm/panfrost/panfrost_gpu.c    | 1 +
- drivers/gpu/drm/panfrost/panfrost_regs.h   | 1 +
- include/uapi/drm/panfrost_drm.h            | 1 +
- 5 files changed, 7 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/panfrost/panfrost_device.h b/drivers/gpu/drm/panfrost/panfrost_device.h
-index 597cf1459..f614e9877 100644
---- a/drivers/gpu/drm/panfrost/panfrost_device.h
-+++ b/drivers/gpu/drm/panfrost/panfrost_device.h
-@@ -45,6 +45,7 @@ struct panfrost_features {
- 	u32 thread_max_workgroup_sz;
- 	u32 thread_max_barrier_sz;
- 	u32 coherency_features;
-+	u32 afbc_features;
- 	u32 texture_features[4];
- 	u32 js_features[16];
- 
-diff --git a/drivers/gpu/drm/panfrost/panfrost_drv.c b/drivers/gpu/drm/panfrost/panfrost_drv.c
-index ca07098a6..1596559f3 100644
---- a/drivers/gpu/drm/panfrost/panfrost_drv.c
-+++ b/drivers/gpu/drm/panfrost/panfrost_drv.c
-@@ -63,6 +63,7 @@ static int panfrost_ioctl_get_param(struct drm_device *ddev, void *data, struct
- 		PANFROST_FEATURE(THREAD_MAX_BARRIER_SZ,
- 				thread_max_barrier_sz);
- 		PANFROST_FEATURE(COHERENCY_FEATURES, coherency_features);
-+		PANFROST_FEATURE(AFBC_FEATURES, afbc_features);
- 		PANFROST_FEATURE_ARRAY(TEXTURE_FEATURES, texture_features, 3);
- 		PANFROST_FEATURE_ARRAY(JS_FEATURES, js_features, 15);
- 		PANFROST_FEATURE(NR_CORE_GROUPS, nr_core_groups);
-@@ -547,6 +548,7 @@ DEFINE_DRM_GEM_FOPS(panfrost_drm_driver_fops);
-  * Panfrost driver version:
-  * - 1.0 - initial interface
-  * - 1.1 - adds HEAP and NOEXEC flags for CREATE_BO
-+ * - 1.2 - adds AFBC_FEATURES query
-  */
- static const struct drm_driver panfrost_drm_driver = {
- 	.driver_features	= DRIVER_RENDER | DRIVER_GEM | DRIVER_SYNCOBJ,
-@@ -559,7 +561,7 @@ static const struct drm_driver panfrost_drm_driver = {
- 	.desc			= "panfrost DRM",
- 	.date			= "20180908",
- 	.major			= 1,
--	.minor			= 1,
-+	.minor			= 2,
- 
- 	.gem_create_object	= panfrost_gem_create_object,
- 	.prime_handle_to_fd	= drm_gem_prime_handle_to_fd,
-diff --git a/drivers/gpu/drm/panfrost/panfrost_gpu.c b/drivers/gpu/drm/panfrost/panfrost_gpu.c
-index 2aae636f1..0e70e27fd 100644
---- a/drivers/gpu/drm/panfrost/panfrost_gpu.c
-+++ b/drivers/gpu/drm/panfrost/panfrost_gpu.c
-@@ -228,6 +228,7 @@ static void panfrost_gpu_init_features(struct panfrost_device *pfdev)
- 	pfdev->features.thread_max_workgroup_sz = gpu_read(pfdev, GPU_THREAD_MAX_WORKGROUP_SIZE);
- 	pfdev->features.thread_max_barrier_sz = gpu_read(pfdev, GPU_THREAD_MAX_BARRIER_SIZE);
- 	pfdev->features.coherency_features = gpu_read(pfdev, GPU_COHERENCY_FEATURES);
-+	pfdev->features.afbc_features = gpu_read(pfdev, GPU_AFBC_FEATURES);
- 	for (i = 0; i < 4; i++)
- 		pfdev->features.texture_features[i] = gpu_read(pfdev, GPU_TEXTURE_FEATURES(i));
- 
-diff --git a/drivers/gpu/drm/panfrost/panfrost_regs.h b/drivers/gpu/drm/panfrost/panfrost_regs.h
-index eddaa62ad..dc9df5457 100644
---- a/drivers/gpu/drm/panfrost/panfrost_regs.h
-+++ b/drivers/gpu/drm/panfrost/panfrost_regs.h
-@@ -82,6 +82,7 @@
- 
- #define GPU_TEXTURE_FEATURES(n)		(0x0B0 + ((n) * 4))
- #define GPU_JS_FEATURES(n)		(0x0C0 + ((n) * 4))
-+#define GPU_AFBC_FEATURES		(0x4C)	/* (RO) AFBC support on Bifrost */
- 
- #define GPU_SHADER_PRESENT_LO		0x100	/* (RO) Shader core present bitmap, low word */
- #define GPU_SHADER_PRESENT_HI		0x104	/* (RO) Shader core present bitmap, high word */
-diff --git a/include/uapi/drm/panfrost_drm.h b/include/uapi/drm/panfrost_drm.h
-index ec19db1ee..061e700dd 100644
---- a/include/uapi/drm/panfrost_drm.h
-+++ b/include/uapi/drm/panfrost_drm.h
-@@ -171,6 +171,7 @@ enum drm_panfrost_param {
- 	DRM_PANFROST_PARAM_JS_FEATURES15,
- 	DRM_PANFROST_PARAM_NR_CORE_GROUPS,
- 	DRM_PANFROST_PARAM_THREAD_TLS_ALLOC,
-+	DRM_PANFROST_PARAM_AFBC_FEATURES,
- };
- 
- struct drm_panfrost_get_param {
--- 
-2.30.2
-
+> -- 
+> Vitaly
+> 
