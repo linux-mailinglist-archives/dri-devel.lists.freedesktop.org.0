@@ -1,44 +1,121 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23F5839C10B
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Jun 2021 22:13:12 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5199F39C11E
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Jun 2021 22:17:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7364B6F58E;
-	Fri,  4 Jun 2021 20:13:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7F6E96E3AC;
+	Fri,  4 Jun 2021 20:17:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2DAFD6E3A0;
- Fri,  4 Jun 2021 20:13:05 +0000 (UTC)
-IronPort-SDR: LRLEcMwFTG6H7QRSABB+7iPF53Ty2EAxNrCXpZp1B6k2SW4Nz4kFzua964n5IvT7gioKwXc6Q/
- QWZjnuRxUj+w==
-X-IronPort-AV: E=McAfee;i="6200,9189,10005"; a="184044644"
-X-IronPort-AV: E=Sophos;i="5.83,248,1616482800"; d="scan'208";a="184044644"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Jun 2021 13:13:03 -0700
-IronPort-SDR: Tr9t5Dgb5TFgULHjqvpgy/v8rTa5jGWgSRWZixZZQZRHOHX1MQ8XOZuRaAxcsBD0SQLpCJMflq
- +7/3XdAdxO0g==
-X-IronPort-AV: E=Sophos;i="5.83,248,1616482800"; d="scan'208";a="412481186"
-Received: from unknown (HELO sdutt-i7) ([10.165.21.147])
- by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Jun 2021 13:13:03 -0700
-Date: Fri, 4 Jun 2021 13:06:04 -0700
-From: Matthew Brost <matthew.brost@intel.com>
-To: Jason Ekstrand <jason@jlekstrand.net>
-Subject: Re: [Intel-gfx] [PATCH 5/9] drm/i915: Move engine->schedule to
- i915_sched_engine
-Message-ID: <20210604200604.GA6253@sdutt-i7>
-References: <20210603212722.59719-1-matthew.brost@intel.com>
- <20210603212722.59719-6-matthew.brost@intel.com>
- <CAOFGe94Pi6kEaDXsx7Yz6H_kfG2Ep3iWHPm9kwFEWjqeUZgrOw@mail.gmail.com>
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam12on2081.outbound.protection.outlook.com [40.107.244.81])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 13DB66E3AC;
+ Fri,  4 Jun 2021 20:17:14 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=ftJE1R226BO5kTOYjZJ7QCEMJ3tUaLnOWcS6r6+/fnwmWsl9bvi2jnpfVlSlb8gNID6Fc+R47bTnGm9VyJDgGwqycF4f3rRhNxnW76tiR2m0uYGGGOawriHOhU45qDCnll0kuQEAr4CCaXb9SVqOTFlLIFGdTZQjfnlDQNCLepHy9aMUH1DAb5Xa966v4PHw1WHfDPSr7f+d1f7H4KC+MX07pGVzwpUEUbQzHbsh4hPKepHwzfFQ/umOrIIjVJ8qj4DGk+4N/vuC2FPHa+5cw4cI1ZLPd+EoYYVLdP816s+w6xkqp9AE2mMyo98YNtNOkwcwoXWsxlaAVABzz7i1iA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=5j/A1ZJm47BRL64ZUyCyb1MFYFnlqcFro0pn+OefEdk=;
+ b=f9rN7IfKst9wy4WGQ47iS7vY3xDu6j+aGfOx+oBGOhcGn7RkULCFfUHvYF/bqHnHkMGTWl+tB3S9N7GwtRA9A99GgtEnTcVSNsm8Ts0NZlfYwRKA+V2TAOKQphbSbiPANa6PCNlZSD+QmedO/Tvs3FVHSp43gREmfLSGfFufEvMdOxfowe+iTTLt2pYGDrQUzyCNoOHdf/pJn49J6r76Svbch0Q1vE3zm7hnaFAQ61B1MTCkz6O5ddN1tGOby4zpI+FKJbUW5p4l1EZFSmbs1XmwLgrjqSAEIAsPpZeX2rQu6WmrBi2XXmbe3fbj47enKWwt/vAymrzwH0ggZXB2Tw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=5j/A1ZJm47BRL64ZUyCyb1MFYFnlqcFro0pn+OefEdk=;
+ b=abNWcofc/zeR1dTA7sON/D2cav35eGw0A5k50b3jGz4tmEkp3/y9qxHexP2lK+BCQf9s4KGYfXyM7q3QaWYHJiKqDe4NLquvizK8cp6v+oqYTuCgS+VPdz22hXavr09WfBJfQJGk0U82O6XySwRbr/8GlPO6MbLiY2CDhFBKP2k=
+Authentication-Results: google.com; dkim=none (message not signed)
+ header.d=none;google.com; dmarc=none action=none header.from=amd.com;
+Received: from CO6PR12MB5427.namprd12.prod.outlook.com (2603:10b6:5:358::13)
+ by CO6PR12MB5441.namprd12.prod.outlook.com (2603:10b6:303:13b::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4195.23; Fri, 4 Jun
+ 2021 20:17:11 +0000
+Received: from CO6PR12MB5427.namprd12.prod.outlook.com
+ ([fe80::f455:b0b4:439:2753]) by CO6PR12MB5427.namprd12.prod.outlook.com
+ ([fe80::f455:b0b4:439:2753%3]) with mapi id 15.20.4195.025; Fri, 4 Jun 2021
+ 20:17:11 +0000
+Subject: Re: [PATCH] drm/amd/display: Verify Gamma & Degamma LUT sizes in
+ amdgpu_dm_atomic_check
+To: Mark Yacoub <markyacoub@chromium.org>, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+References: <20210604170107.2023162-1-markyacoub@chromium.org>
+From: Harry Wentland <harry.wentland@amd.com>
+Message-ID: <906d0ab3-ddca-8cb9-68f5-1b495cc4be5c@amd.com>
+Date: Fri, 4 Jun 2021 16:17:08 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.2
+In-Reply-To: <20210604170107.2023162-1-markyacoub@chromium.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [198.200.67.154]
+X-ClientProxiedBy: YQBPR0101CA0114.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:c01:5::17) To CO6PR12MB5427.namprd12.prod.outlook.com
+ (2603:10b6:5:358::13)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAOFGe94Pi6kEaDXsx7Yz6H_kfG2Ep3iWHPm9kwFEWjqeUZgrOw@mail.gmail.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.50.3] (198.200.67.154) by
+ YQBPR0101CA0114.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:c01:5::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4173.27 via Frontend
+ Transport; Fri, 4 Jun 2021 20:17:10 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: f9085670-6a92-4127-335a-08d92795bc7f
+X-MS-TrafficTypeDiagnostic: CO6PR12MB5441:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <CO6PR12MB54411690CC0BC13EBD7554BD8C3B9@CO6PR12MB5441.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:7219;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: V0jdM54f3DfxRgKQYKEERW6zVc5daBL+uPmdKxMvdEZZTtJHQqvstLkt4FgH+cTVIE6I0gM/9O8ZFoSJZnHGLqCNfTyKjkuRN+shRLzILWMqCYxYbUSbV8LJ0w+ievU7S5mN3aIdfD15McstxPpHyTIZQNBNW2QKog6Nd6B0T/G+xdgDQdcZbAgpWVAmlzlU9wP0Sz11IiTeHFExMcKJ1LqsrHhVQr+5qGDNtSyyTV1rHPKRf4Rjxe9qB5puTTOFedVX0awZe/vkIsYr6P2IHff5UFKxE4tIFQ91wqXr4nbS8TCGArx1UJMKrcw7FJuOt1cziWFzKheg9DAzlkUBLM/1oe68t9/zGgYgLBy3jDAD2r5MefW9jv8KVeO+n+wajao5ksJ1K4xyGaQYpLArDZ6RRYcuEAPNWRkbtfv2hnfcyCp5yROlqRQYDPqYL3/XhQ8Q1/zJ/trHHJjepgIm81Hs4dFxqrwrze6iyFeQZAKhvm6/vteRrcf+bzF0Sby2IkYpj7M/gCZ3S03gwuDE2U5EWPRqmKWdFQ8Qy1xM/HM8yMGGBRrMUAjV7JztyX/CgvsLTGG7Pd0U9VPpJZ3e40qKfIqac+SdYsMV+nZMQeHL9Gr/+oUMuy4y8/4Ca+t5uSV/0rf5zLD8VWpRXUKTfy68GlaK2YV+xr9dYx1iNH/bUgnZ8Vt19ET+sZ1SLO2n
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CO6PR12MB5427.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(396003)(366004)(136003)(346002)(376002)(39860400002)(478600001)(38100700002)(2906002)(5660300002)(4326008)(83380400001)(36756003)(53546011)(186003)(26005)(16576012)(316002)(66476007)(66946007)(66556008)(31686004)(2616005)(956004)(8676002)(86362001)(16526019)(44832011)(31696002)(6486002)(8936002)(45980500001)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?L211bVErbTlwUlBNUGhkMXlRNWk3dENvL0srNVgrNnZzcE1PN3B3dWZvZGZN?=
+ =?utf-8?B?eit4aUxmam9aWlN2Z2J6dGk1UmNIazU2d1RCL2xVeVhVV3lSeDF0UTJ0dmRU?=
+ =?utf-8?B?dzh4L08wOWI0T0RRbldFYlB3ejhqSmdvK0JwVS81YzRxY1NRWVhiOExrd2dm?=
+ =?utf-8?B?TWxXVUpQVWR6VDluSWJ1cCtsR0pOWlhCR09iK0pRaUUyTENPSHZwejJPYUM2?=
+ =?utf-8?B?Zm1sZFZUSitGMkZFdzFSL0xUWWVMVEloNVZOblBZZWhEbXV1TXgxQzQ0REcx?=
+ =?utf-8?B?b3lLbGlTTmxDY3h3NmRFTllNWHMzZHFsYTliT1hid0dvajRqTEZMN2hUbERl?=
+ =?utf-8?B?Wlc4VEw4REtwUHQ1ZktEYUdKcUNaWUxLNlNuT3d2eVUycGJpVFllY0dlUHNn?=
+ =?utf-8?B?Y2Nnb1NZSk40U0s5cW05Zlk2ak8vcWFQc3p3b0ZJMTdzRkxzT204VWg0WXM3?=
+ =?utf-8?B?bTJHK1pGMmRDNnNmVVNDWXF3RFhSVk9XSUFaZXgrck51U2xLdVJDUjZKWXpZ?=
+ =?utf-8?B?eU9QcjRBVWVwTXhmVi8vSjAxZ1NZdWNsb0VGcjFoQUZlVlNiSnpobWVaOHds?=
+ =?utf-8?B?aEkzSStzUEd5aE5SZGhiV3dEYW5nYWFuU3paMjdKc20zOHhPLzg3ZDhNamJM?=
+ =?utf-8?B?RVVuWCtYaDlwaGlHcUtLK3gzR0Z0d0c2Q0RBRnhTSkllcDJXMFdHbnYvMUF1?=
+ =?utf-8?B?TzArTE42UThsOFovcG55cHNBM0pxK3d5Y25iSm9mRTdKMUhjSUhRVW14bll1?=
+ =?utf-8?B?enNXOFNFT3J2dm83SWVWcnQ0Yms4dmlZdGt0bnNVT0NicUc0MTd4WUlpRUFx?=
+ =?utf-8?B?elBVV2RQT0ZMN1pmY0xkakk0Z203Y3pPUTBVRlBHOTBvdjduUHNJdSt1bUFU?=
+ =?utf-8?B?bzRrVVFLdHBoaEVEN24rcHBvNVhKYk0wSmh2N0MwRHdDcjhuTUZFR2duVU5l?=
+ =?utf-8?B?MlFhN28yTUJEZ044SFRvOHRQT2JVSHl2dzliSFlhZGRHRXJ3ckJhYnBVWitr?=
+ =?utf-8?B?a1doNGJDNzdZY1ppQk9zUzJpbEo0Y3NlRUt1dmVEb0ppdU5DT3IwZ2Zmb2ZB?=
+ =?utf-8?B?a0ludlNTd1hBVk1aSEd5a2ZPMmJ5TnlRN3owZDQ2NlhURzlnd1JNQUk2NUxI?=
+ =?utf-8?B?cGloT0h0RmdhR2lGNlRuU1B5cjNFb2N2KzVoejRKcmZPWmJvVkVPTDZOOUxP?=
+ =?utf-8?B?b0RJYWovTUd1V2l6a0FRT0Iwa1Y1ejZmNHRkaFlTTXI0VTh2KzJPRGY2QTd1?=
+ =?utf-8?B?a1cybVVSSm14MVVsQnRzdVltWkcyVFNhell1aVRJRFNzcmhZSlFMa1p1UzJz?=
+ =?utf-8?B?OHVtRm80blFNRHBuRU04MXZSNCtlSnlDVURjSEtXS0F3ZWJhbGh4eDYzUlIx?=
+ =?utf-8?B?eUFZZGRmRVRmSVNRQmV6cDBMNlNLSDhTOVZpUkhXS1NEQU5FZk5IVURMN2Zk?=
+ =?utf-8?B?SGpKWkxicmx1RHhxR1dJekJyRFluTncrYmVqZTdvcFhucERWVVdzbVkrcTlL?=
+ =?utf-8?B?RkdKQmVjMU9DVXE3SEZhS250T25EZVFyVmI0aTdMMGpkWVJoSGdoN0N3Vnkv?=
+ =?utf-8?B?eHlnZ3VkMkNadjNoSEN2SWVoQ2F4NlJMYjhlTVl3Ky9IOHAyWVVSZWpKcENv?=
+ =?utf-8?B?anRkK1JIQ01aUlZyT2ZsVEZpQWo4Z1o1NUk1ZHlJQ3RTSWhLT2hESFpLODk4?=
+ =?utf-8?B?QzV6cm1nZ0d6ZUliM2RlYnprNmM2OU5sa2JPT0Y0WHN6TG1Jbm1ONkEzTVUr?=
+ =?utf-8?Q?PBMUeZbr5f8QexH+SXRwajqCcjfKN+9zMR/AAbf?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f9085670-6a92-4127-335a-08d92795bc7f
+X-MS-Exchange-CrossTenant-AuthSource: CO6PR12MB5427.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Jun 2021 20:17:11.7939 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: IG8PlTjv/PfcBOzd+sNdsBlktM1/0IWo57R3zcgYOuTDcUxBVOP+gIZB6gNVPkHhwAiraJ/DcXGl4gvJK3lZvg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO6PR12MB5441
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,326 +128,123 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@intel.com>,
- Intel GFX <intel-gfx@lists.freedesktop.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>
+Cc: alexander.deucher@amd.com, seanpaul@chromium.org, rodrigo.siqueira@amd.com,
+ Mark Yacoub <markyacoub@google.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jun 04, 2021 at 02:03:46PM -0500, Jason Ekstrand wrote:
-> On Thu, Jun 3, 2021 at 4:09 PM Matthew Brost <matthew.brost@intel.com> wrote:
-> >
-> > The schedule function should be in the schedule object.
-> >
-> > Signed-off-by: Matthew Brost <matthew.brost@intel.com>
-> > ---
-> >  drivers/gpu/drm/i915/gem/i915_gem_wait.c         |  4 ++--
-> >  drivers/gpu/drm/i915/gt/intel_engine_cs.c        |  3 ---
-> >  drivers/gpu/drm/i915/gt/intel_engine_heartbeat.c |  4 ++--
-> >  drivers/gpu/drm/i915/gt/intel_engine_types.h     |  8 --------
-> >  drivers/gpu/drm/i915/gt/intel_engine_user.c      |  2 +-
-> >  .../gpu/drm/i915/gt/intel_execlists_submission.c |  4 ++--
-> >  drivers/gpu/drm/i915/gt/selftest_execlists.c     | 16 ++++++++--------
-> >  drivers/gpu/drm/i915/gt/selftest_hangcheck.c     |  4 ++--
-> >  .../gpu/drm/i915/gt/uc/intel_guc_submission.c    |  2 +-
-> >  drivers/gpu/drm/i915/i915_request.c              | 10 +++++-----
-> >  drivers/gpu/drm/i915/i915_scheduler_types.h      |  8 ++++++++
-> >  11 files changed, 31 insertions(+), 34 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/i915/gem/i915_gem_wait.c b/drivers/gpu/drm/i915/gem/i915_gem_wait.c
-> > index 4b9856d5ba14..af1fbf8e2a9a 100644
-> > --- a/drivers/gpu/drm/i915/gem/i915_gem_wait.c
-> > +++ b/drivers/gpu/drm/i915/gem/i915_gem_wait.c
-> > @@ -104,8 +104,8 @@ static void fence_set_priority(struct dma_fence *fence,
-> >         engine = rq->engine;
-> >
-> >         rcu_read_lock(); /* RCU serialisation for set-wedged protection */
-> > -       if (engine->schedule)
-> > -               engine->schedule(rq, attr);
-> > +       if (engine->sched_engine->schedule)
-> > +               engine->sched_engine->schedule(rq, attr);
-> >         rcu_read_unlock();
-> >  }
-> >
-> > diff --git a/drivers/gpu/drm/i915/gt/intel_engine_cs.c b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
-> > index 33d879137908..b480fcb1aad1 100644
-> > --- a/drivers/gpu/drm/i915/gt/intel_engine_cs.c
-> > +++ b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
-> > @@ -326,9 +326,6 @@ static int intel_engine_setup(struct intel_gt *gt, enum intel_engine_id id)
-> >         if (engine->context_size)
-> >                 DRIVER_CAPS(i915)->has_logical_contexts = true;
-> >
-> > -       /* Nothing to do here, execute in order of dependencies */
-> > -       engine->schedule = NULL;
-> > -
-> >         ewma__engine_latency_init(&engine->latency);
-> >         seqcount_init(&engine->stats.lock);
-> >
-> > diff --git a/drivers/gpu/drm/i915/gt/intel_engine_heartbeat.c b/drivers/gpu/drm/i915/gt/intel_engine_heartbeat.c
-> > index b99ac41695f3..b6a305e6a974 100644
-> > --- a/drivers/gpu/drm/i915/gt/intel_engine_heartbeat.c
-> > +++ b/drivers/gpu/drm/i915/gt/intel_engine_heartbeat.c
-> > @@ -121,7 +121,7 @@ static void heartbeat(struct work_struct *wrk)
-> >                          * but all other contexts, including the kernel
-> >                          * context are stuck waiting for the signal.
-> >                          */
-> > -               } else if (engine->schedule &&
-> > +               } else if (engine->sched_engine->schedule &&
-> >                            rq->sched.attr.priority < I915_PRIORITY_BARRIER) {
-> >                         /*
-> >                          * Gradually raise the priority of the heartbeat to
-> > @@ -136,7 +136,7 @@ static void heartbeat(struct work_struct *wrk)
-> >                                 attr.priority = I915_PRIORITY_BARRIER;
-> >
-> >                         local_bh_disable();
-> > -                       engine->schedule(rq, &attr);
-> > +                       engine->sched_engine->schedule(rq, &attr);
-> >                         local_bh_enable();
-> >                 } else {
-> >                         if (IS_ENABLED(CONFIG_DRM_I915_DEBUG_GEM))
-> > diff --git a/drivers/gpu/drm/i915/gt/intel_engine_types.h b/drivers/gpu/drm/i915/gt/intel_engine_types.h
-> > index 7197b9fa5e35..f1b14aff5118 100644
-> > --- a/drivers/gpu/drm/i915/gt/intel_engine_types.h
-> > +++ b/drivers/gpu/drm/i915/gt/intel_engine_types.h
-> > @@ -426,14 +426,6 @@ struct intel_engine_cs {
-> >         void            (*bond_execute)(struct i915_request *rq,
-> >                                         struct dma_fence *signal);
-> >
-> > -       /*
-> > -        * Call when the priority on a request has changed and it and its
-> > -        * dependencies may need rescheduling. Note the request itself may
-> > -        * not be ready to run!
-> > -        */
-> > -       void            (*schedule)(struct i915_request *request,
-> > -                                   const struct i915_sched_attr *attr);
-> > -
-> >         void            (*release)(struct intel_engine_cs *engine);
-> >
-> >         struct intel_engine_execlists execlists;
-> > diff --git a/drivers/gpu/drm/i915/gt/intel_engine_user.c b/drivers/gpu/drm/i915/gt/intel_engine_user.c
-> > index 3cca7ea2d6ea..84142127ebd8 100644
-> > --- a/drivers/gpu/drm/i915/gt/intel_engine_user.c
-> > +++ b/drivers/gpu/drm/i915/gt/intel_engine_user.c
-> > @@ -108,7 +108,7 @@ static void set_scheduler_caps(struct drm_i915_private *i915)
-> >         for_each_uabi_engine(engine, i915) { /* all engines must agree! */
-> >                 int i;
-> >
-> > -               if (engine->schedule)
-> > +               if (engine->sched_engine->schedule)
-> >                         enabled |= (I915_SCHEDULER_CAP_ENABLED |
-> >                                     I915_SCHEDULER_CAP_PRIORITY);
-> >                 else
-> > diff --git a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
-> > index 0413ba87cc1e..23fd03815ad0 100644
-> > --- a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
-> > +++ b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
-> > @@ -3119,7 +3119,7 @@ static bool can_preempt(struct intel_engine_cs *engine)
-> >  static void execlists_set_default_submission(struct intel_engine_cs *engine)
-> >  {
-> >         engine->submit_request = execlists_submit_request;
-> > -       engine->schedule = i915_schedule;
-> > +       engine->sched_engine->schedule = i915_schedule;
+
+
+On 2021-06-04 1:01 p.m., Mark Yacoub wrote:
+> From: Mark Yacoub <markyacoub@google.com>
 > 
-> Dumb question:  Why is this a function pointer?  It's always set to
-> i915_schedule.
->
-
-Ring submission doesn't set this and decisions are made whether it is
-set or not.
-
-Not trying to repeat myself but this is something that will away with
-the DRM scheduler. Both the test if scheduler exists and the scheduler
-function pointer being fixed functions within the DRM scheduler.
-
-Matt
- 
-> --Jason
+> For each CRTC state, check the size of Gamma and Degamma LUTs  so
+> unexpected and larger sizes wouldn't slip through.
 > 
-> >         engine->execlists.tasklet.callback = execlists_submission_tasklet;
-> >  }
-> >
-> > @@ -3701,7 +3701,7 @@ intel_execlists_create_virtual(struct intel_engine_cs **siblings,
-> >         ve->base.cops = &virtual_context_ops;
-> >         ve->base.request_alloc = execlists_request_alloc;
-> >
-> > -       ve->base.schedule = i915_schedule;
-> > +       ve->base.sched_engine->schedule = i915_schedule;
-> >         ve->base.submit_request = virtual_submit_request;
-> >         ve->base.bond_execute = virtual_bond_execute;
-> >
-> > diff --git a/drivers/gpu/drm/i915/gt/selftest_execlists.c b/drivers/gpu/drm/i915/gt/selftest_execlists.c
-> > index fd824fa329c2..5cc7648d1e5a 100644
-> > --- a/drivers/gpu/drm/i915/gt/selftest_execlists.c
-> > +++ b/drivers/gpu/drm/i915/gt/selftest_execlists.c
-> > @@ -273,7 +273,7 @@ static int live_unlite_restore(struct intel_gt *gt, int prio)
-> >                         };
-> >
-> >                         /* Alternatively preempt the spinner with ce[1] */
-> > -                       engine->schedule(rq[1], &attr);
-> > +                       engine->sched_engine->schedule(rq[1], &attr);
-> >                 }
-> >
-> >                 /* And switch back to ce[0] for good measure */
-> > @@ -900,7 +900,7 @@ release_queue(struct intel_engine_cs *engine,
-> >         i915_request_add(rq);
-> >
-> >         local_bh_disable();
-> > -       engine->schedule(rq, &attr);
-> > +       engine->sched_engine->schedule(rq, &attr);
-> >         local_bh_enable(); /* kick tasklet */
-> >
-> >         i915_request_put(rq);
-> > @@ -1325,7 +1325,7 @@ static int live_timeslice_queue(void *arg)
-> >                         err = PTR_ERR(rq);
-> >                         goto err_heartbeat;
-> >                 }
-> > -               engine->schedule(rq, &attr);
-> > +               engine->sched_engine->schedule(rq, &attr);
-> >                 err = wait_for_submit(engine, rq, HZ / 2);
-> >                 if (err) {
-> >                         pr_err("%s: Timed out trying to submit semaphores\n",
-> > @@ -1867,7 +1867,7 @@ static int live_late_preempt(void *arg)
-> >                 }
-> >
-> >                 attr.priority = I915_PRIORITY_MAX;
-> > -               engine->schedule(rq, &attr);
-> > +               engine->sched_engine->schedule(rq, &attr);
-> >
-> >                 if (!igt_wait_for_spinner(&spin_hi, rq)) {
-> >                         pr_err("High priority context failed to preempt the low priority context\n");
-> > @@ -2480,7 +2480,7 @@ static int live_suppress_self_preempt(void *arg)
-> >                         i915_request_add(rq_b);
-> >
-> >                         GEM_BUG_ON(i915_request_completed(rq_a));
-> > -                       engine->schedule(rq_a, &attr);
-> > +                       engine->sched_engine->schedule(rq_a, &attr);
-> >                         igt_spinner_end(&a.spin);
-> >
-> >                         if (!igt_wait_for_spinner(&b.spin, rq_b)) {
-> > @@ -2612,7 +2612,7 @@ static int live_chain_preempt(void *arg)
-> >
-> >                         i915_request_get(rq);
-> >                         i915_request_add(rq);
-> > -                       engine->schedule(rq, &attr);
-> > +                       engine->sched_engine->schedule(rq, &attr);
-> >
-> >                         igt_spinner_end(&hi.spin);
-> >                         if (i915_request_wait(rq, 0, HZ / 5) < 0) {
-> > @@ -2971,7 +2971,7 @@ static int live_preempt_gang(void *arg)
-> >                                 break;
-> >
-> >                         /* Submit each spinner at increasing priority */
-> > -                       engine->schedule(rq, &attr);
-> > +                       engine->sched_engine->schedule(rq, &attr);
-> >                 } while (prio <= I915_PRIORITY_MAX &&
-> >                          !__igt_timeout(end_time, NULL));
-> >                 pr_debug("%s: Preempt chain of %d requests\n",
-> > @@ -3219,7 +3219,7 @@ static int preempt_user(struct intel_engine_cs *engine,
-> >         i915_request_get(rq);
-> >         i915_request_add(rq);
-> >
-> > -       engine->schedule(rq, &attr);
-> > +       engine->sched_engine->schedule(rq, &attr);
-> >
-> >         if (i915_request_wait(rq, 0, HZ / 2) < 0)
-> >                 err = -ETIME;
-> > diff --git a/drivers/gpu/drm/i915/gt/selftest_hangcheck.c b/drivers/gpu/drm/i915/gt/selftest_hangcheck.c
-> > index 5b63d4df8c93..e57dc900ae8d 100644
-> > --- a/drivers/gpu/drm/i915/gt/selftest_hangcheck.c
-> > +++ b/drivers/gpu/drm/i915/gt/selftest_hangcheck.c
-> > @@ -858,12 +858,12 @@ static int active_engine(void *data)
-> >                 rq[idx] = i915_request_get(new);
-> >                 i915_request_add(new);
-> >
-> > -               if (engine->schedule && arg->flags & TEST_PRIORITY) {
-> > +               if (engine->sched_engine->schedule && arg->flags & TEST_PRIORITY) {
-> >                         struct i915_sched_attr attr = {
-> >                                 .priority =
-> >                                         i915_prandom_u32_max_state(512, &prng),
-> >                         };
-> > -                       engine->schedule(rq[idx], &attr);
-> > +                       engine->sched_engine->schedule(rq[idx], &attr);
-> >                 }
-> >
-> >                 err = active_request_put(old);
-> > diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> > index 2551019ee217..4c5bbec0775d 100644
-> > --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> > +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> > @@ -641,7 +641,7 @@ static void guc_default_vfuncs(struct intel_engine_cs *engine)
-> >         engine->cops = &guc_context_ops;
-> >         engine->request_alloc = guc_request_alloc;
-> >
-> > -       engine->schedule = i915_schedule;
-> > +       engine->sched_engine->schedule = i915_schedule;
-> >
-> >         engine->reset.prepare = guc_reset_prepare;
-> >         engine->reset.rewind = guc_reset_rewind;
-> > diff --git a/drivers/gpu/drm/i915/i915_request.c b/drivers/gpu/drm/i915/i915_request.c
-> > index 95e859c319ca..f0cb8820fb97 100644
-> > --- a/drivers/gpu/drm/i915/i915_request.c
-> > +++ b/drivers/gpu/drm/i915/i915_request.c
-> > @@ -1343,7 +1343,7 @@ __i915_request_await_execution(struct i915_request *to,
-> >         }
-> >
-> >         /* Couple the dependency tree for PI on this exposed to->fence */
-> > -       if (to->engine->schedule) {
-> > +       if (to->engine->sched_engine->schedule) {
-> >                 err = i915_sched_node_add_dependency(&to->sched,
-> >                                                      &from->sched,
-> >                                                      I915_DEPENDENCY_WEAK);
-> > @@ -1484,7 +1484,7 @@ i915_request_await_request(struct i915_request *to, struct i915_request *from)
-> >                 return 0;
-> >         }
-> >
-> > -       if (to->engine->schedule) {
-> > +       if (to->engine->sched_engine->schedule) {
-> >                 ret = i915_sched_node_add_dependency(&to->sched,
-> >                                                      &from->sched,
-> >                                                      I915_DEPENDENCY_EXTERNAL);
-> > @@ -1671,7 +1671,7 @@ __i915_request_add_to_timeline(struct i915_request *rq)
-> >                         __i915_sw_fence_await_dma_fence(&rq->submit,
-> >                                                         &prev->fence,
-> >                                                         &rq->dmaq);
-> > -               if (rq->engine->schedule)
-> > +               if (rq->engine->sched_engine->schedule)
-> >                         __i915_sched_node_add_dependency(&rq->sched,
-> >                                                          &prev->sched,
-> >                                                          &rq->dep,
-> > @@ -1743,8 +1743,8 @@ void __i915_request_queue(struct i915_request *rq,
-> >          * decide whether to preempt the entire chain so that it is ready to
-> >          * run at the earliest possible convenience.
-> >          */
-> > -       if (attr && rq->engine->schedule)
-> > -               rq->engine->schedule(rq, attr);
-> > +       if (attr && rq->engine->sched_engine->schedule)
-> > +               rq->engine->sched_engine->schedule(rq, attr);
-> >
-> >         local_bh_disable();
-> >         __i915_request_queue_bh(rq);
-> > diff --git a/drivers/gpu/drm/i915/i915_scheduler_types.h b/drivers/gpu/drm/i915/i915_scheduler_types.h
-> > index 5cb0b1c98d6b..3f462f8b06f2 100644
-> > --- a/drivers/gpu/drm/i915/i915_scheduler_types.h
-> > +++ b/drivers/gpu/drm/i915/i915_scheduler_types.h
-> > @@ -131,6 +131,14 @@ struct i915_sched_engine {
-> >          * @no_priolist: priority lists disabled
-> >          */
-> >         bool no_priolist;
-> > +
-> > +       /*
-> > +        * Call when the priority on a request has changed and it and its
-> > +        * dependencies may need rescheduling. Note the request itself may
-> > +        * not be ready to run!
-> > +        */
-> > +       void    (*schedule)(struct i915_request *request,
-> > +                           const struct i915_sched_attr *attr);
-> >  };
-> >
-> >  #endif /* _I915_SCHEDULER_TYPES_H_ */
-> > --
-> > 2.28.0
-> >
-> > _______________________________________________
-> > Intel-gfx mailing list
-> > Intel-gfx@lists.freedesktop.org
-> > https://lists.freedesktop.org/mailman/listinfo/intel-gfx
+> TEST: IGT:kms_color::pipe-invalid-gamma-lut-sizes
+> 
+> Signed-off-by: Mark Yacoub <markyacoub@chromium.org>
+> Change-Id: I9d513a38e8ac2af1b4bf802e1feb1a4d726fba4c
+> ---
+>  .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c |  3 ++
+>  .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h |  1 +
+>  .../amd/display/amdgpu_dm/amdgpu_dm_color.c   | 40 ++++++++++++++++---
+>  3 files changed, 38 insertions(+), 6 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> index 38d497d30dba8..f6cd522b42a80 100644
+> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> @@ -9402,6 +9402,9 @@ static int amdgpu_dm_atomic_check(struct drm_device *dev,
+>  			dm_old_crtc_state->dsc_force_changed == false)
+>  			continue;
+>  
+> +		if ((ret = amdgpu_dm_verify_lut_sizes(new_crtc_state)))
+> +			goto fail;
+> +
+>  		if (!new_crtc_state->enable)
+>  			continue;
+>  
+> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
+> index 8bfe901cf2374..1b77cd2612691 100644
+> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
+> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
+> @@ -541,6 +541,7 @@ void amdgpu_dm_trigger_timing_sync(struct drm_device *dev);
+>  #define MAX_COLOR_LEGACY_LUT_ENTRIES 256
+>  
+>  void amdgpu_dm_init_color_mod(void);
+> +int amdgpu_dm_verify_lut_sizes(const struct drm_crtc_state *crtc_state);
+>  int amdgpu_dm_update_crtc_color_mgmt(struct dm_crtc_state *crtc);
+>  int amdgpu_dm_update_plane_color_mgmt(struct dm_crtc_state *crtc,
+>  				      struct dc_plane_state *dc_plane_state);
+> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c
+> index 157fe4efbb599..da6f9fcc0b415 100644
+> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c
+> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c
+> @@ -284,6 +284,37 @@ static int __set_input_tf(struct dc_transfer_func *func,
+>  	return res ? 0 : -ENOMEM;
+>  }
+>  
+> +/**
+> + * Verifies that the Degamma and Gamma LUTs attached to the |crtc_state| are of
+> + * the expected size.
+> + * Returns 0 on success.
+> + */
+> +int amdgpu_dm_verify_lut_sizes(const struct drm_crtc_state *crtc_state)
+> +{
+> +	const struct drm_color_lut *lut = NULL;
+> +	uint32_t size = 0;
+> +
+> +	lut = __extract_blob_lut(crtc_state->degamma_lut, &size);
+> +	if (lut && size != MAX_COLOR_LUT_ENTRIES) {
+
+Isn't the point of the LUT size that it can be variable? Did you observe any
+problems with LUTs that are not of size 4096?
+
+Legacy X-based userspace will give us 256 size LUTs. We can't break support for
+that. See MAX_COLOR_LEGACY_LUT_ENTRIES.
+
+Harry
+
+> +		DRM_DEBUG_DRIVER(
+> +			"Invalid Degamma LUT size. Should be %u but got %u.\n",
+> +			MAX_COLOR_LUT_ENTRIES, size);
+> +		return -EINVAL;
+> +	}
+> +
+> +	lut = __extract_blob_lut(crtc_state->gamma_lut, &size);
+> +	if (lut && size != MAX_COLOR_LUT_ENTRIES &&
+> +	    size != MAX_COLOR_LEGACY_LUT_ENTRIES) {
+> +		DRM_DEBUG_DRIVER(
+> +			"Invalid Gamma LUT size. Should be %u (or %u for legacy) but got %u.\n",
+> +			MAX_COLOR_LUT_ENTRIES, MAX_COLOR_LEGACY_LUT_ENTRIES,
+> +			size);
+> +		return -EINVAL;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+>  /**
+>   * amdgpu_dm_update_crtc_color_mgmt: Maps DRM color management to DC stream.
+>   * @crtc: amdgpu_dm crtc state
+> @@ -317,14 +348,11 @@ int amdgpu_dm_update_crtc_color_mgmt(struct dm_crtc_state *crtc)
+>  	bool is_legacy;
+>  	int r;
+>  
+> -	degamma_lut = __extract_blob_lut(crtc->base.degamma_lut, &degamma_size);
+> -	if (degamma_lut && degamma_size != MAX_COLOR_LUT_ENTRIES)
+> -		return -EINVAL;
+> +	if ((r = amdgpu_dm_verify_lut_sizes(&crtc->base)))
+> +		return r;
+>  
+> +	degamma_lut = __extract_blob_lut(crtc->base.degamma_lut, &degamma_size);
+>  	regamma_lut = __extract_blob_lut(crtc->base.gamma_lut, &regamma_size);
+> -	if (regamma_lut && regamma_size != MAX_COLOR_LUT_ENTRIES &&
+> -	    regamma_size != MAX_COLOR_LEGACY_LUT_ENTRIES)
+> -		return -EINVAL;
+>  
+>  	has_degamma =
+>  		degamma_lut && !__is_lut_linear(degamma_lut, degamma_size);
+> 
+
