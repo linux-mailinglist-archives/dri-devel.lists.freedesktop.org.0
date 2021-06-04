@@ -2,52 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D805A39B013
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Jun 2021 03:54:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1977839B035
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Jun 2021 04:10:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E7BDA6F55A;
-	Fri,  4 Jun 2021 01:54:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 389FC6F55C;
+	Fri,  4 Jun 2021 02:10:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com
- [IPv6:2a00:1450:4864:20::629])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5C40C6F55A
- for <dri-devel@lists.freedesktop.org>; Fri,  4 Jun 2021 01:54:41 +0000 (UTC)
-Received: by mail-ej1-x629.google.com with SMTP id g8so12102142ejx.1
- for <dri-devel@lists.freedesktop.org>; Thu, 03 Jun 2021 18:54:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:from:date:message-id:subject:to:cc;
- bh=tc/qAItokwzgjvCvvsYDtFIf92L7YKjy17RuwLzgZN8=;
- b=JCgwGXqfazlPuJtac4/0352ECh+80WAszKHL8UI+2sZGR/L6V/NcA4oTBlvBogZxQ+
- mjXm0767Rc4MKUQ69kywDWDc0GPUjvgDmGyW647xT+mc1AWeQSgYRuHs0dsER2jqdlyW
- dSyJcyCVSGwdfGjPoPgNfqRA1yYcMLwZ3lJ4A4L7r7/PKqNT14wBeYseFCGR5S4fGHxe
- sPPf1Tmf8+aBut6z4lrZWdeHrtYZ+vf/sAzMhUdZTZWT66hjOZFGsE4JipFaSbWErUHe
- PiIpt8exRB+8meGvgSfp4+6quZ9h7Yw4YDMKjTQjV4N5y8mDBC0SUbbIVhiqe1+FGBGh
- VlwQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
- bh=tc/qAItokwzgjvCvvsYDtFIf92L7YKjy17RuwLzgZN8=;
- b=iuYf9JpeXX7bt7wp5wu1lW8l51EvXmxSX6D0UT6WXIPU06som9AfjLeSHzw9cZsCXP
- WQ9CrIY9IlRr8i3Pnpfwhdb9d85SsCjKE9B6Nc5V5CtS46S9tVze3WyAYxa+zkP8fS/+
- xKlbp0E3IuPAIZaVUAGJT46a5oJ56NGMteAJ66Qw6g9IrLJis1lL1TgyRypYRanylqRO
- Blk8jj61508PcERthW/RNX9sZ5dvYX/JgFfeGuK54sizkgQnNfT2CCplCIy8IMveeFt/
- nybCveIn/c0olATUTXOnU+54HIeYa4vw/+4ndphe7IyWHZX357UDYcNy+VYQn1TPu8FL
- RVsA==
-X-Gm-Message-State: AOAM532vUiD9wWeJhydP2vQRoHxWcvHfTpPua0ybYt6Y5j/BJ1yGreb1
- LHBxURH68aW6r3M9NWt7DK1BoaE02uAsL1KFRWwXwPKz+Jo=
-X-Google-Smtp-Source: ABdhPJx19ckfxijYnzHqF5dvdT8DiywQEIbBKXxgY1Xuk9poz/OvqcBSdpMDSCC0PHJJwNacx5ynJCcMsaaZacgoviE=
-X-Received: by 2002:a17:906:264c:: with SMTP id
- i12mr1903476ejc.101.1622771679717; 
- Thu, 03 Jun 2021 18:54:39 -0700 (PDT)
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0968B6F55C;
+ Fri,  4 Jun 2021 02:10:04 +0000 (UTC)
+IronPort-SDR: lnUEQR/Ek3Kc1pW95CF0m6SFEX0cxKdB6/vyYRf0oaVwkYdQ2ot+nXsCZf0rr+h3wHlZk/geAA
+ cwsWl2rBOB9Q==
+X-IronPort-AV: E=McAfee;i="6200,9189,10004"; a="191312453"
+X-IronPort-AV: E=Sophos;i="5.83,246,1616482800"; d="scan'208";a="191312453"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Jun 2021 19:09:58 -0700
+IronPort-SDR: 6e/3RGUIr5TDMkDiZmZ00VFMNp/s12BKDZ7F7mjrlS1h5pZOm/sa43tCW8Ax8oSgkV1tVpWxYP
+ vL3xAiZIVUew==
+X-IronPort-AV: E=Sophos;i="5.83,246,1616482800"; d="scan'208";a="475294456"
+Received: from unknown (HELO sdutt-i7) ([10.165.21.147])
+ by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Jun 2021 19:09:57 -0700
+Date: Thu, 3 Jun 2021 19:02:57 -0700
+From: Matthew Brost <matthew.brost@intel.com>
+To: Daniel Vetter <daniel@ffwll.ch>
+Subject: Re: [PATCH 08/20] drm/i915: Promote ptrdiff() to i915_utils.h
+Message-ID: <20210604020257.GA7149@sdutt-i7>
+References: <20210603051630.2635-1-matthew.brost@intel.com>
+ <20210603051630.2635-9-matthew.brost@intel.com>
+ <YLlLIG9sBjouIJE2@phenom.ffwll.local>
 MIME-Version: 1.0
-From: Dave Airlie <airlied@gmail.com>
-Date: Fri, 4 Jun 2021 11:54:28 +1000
-Message-ID: <CAPM=9txo9kjV=iiFKVN5nS6aATwOD+dZ4RLZD7O6Ezya3tLAaA@mail.gmail.com>
-Subject: [git pull] drm fixes for 5.13-rc5
-To: Linus Torvalds <torvalds@linux-foundation.org>,
- Daniel Vetter <daniel.vetter@ffwll.ch>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YLlLIG9sBjouIJE2@phenom.ffwll.local>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,166 +50,76 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
+Cc: daniel.vetter@intel.com, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hey Linus,
+On Thu, Jun 03, 2021 at 11:35:28PM +0200, Daniel Vetter wrote:
+> On Wed, Jun 02, 2021 at 10:16:18PM -0700, Matthew Brost wrote:
+> > From: Michal Wajdeczko <michal.wajdeczko@intel.com>
+> > 
+> > Generic helpers should be placed in i915_utils.h.
+> 
+> Random rant, but we're _way_ too happy to just stuff random things into
+> i915_utils.h without trying to properly upstream it.
+> 
+> For thinks like this the general dumping ground would be kernel.h, there's
+> a few pointer helpers there already. Follow up patch maybe nice.
+> -Daniel
+> 
 
-Two big regression reverts in here, one for fbdev and one i915.
-Otherwise it's mostly amdgpu display fixes, and tegra fixes.
+Sure. I've added this to a list of follow ups so this comment doesn't
+get lost.
 
-Seems about right for rc5.
+Matt
 
-Dave.
-
-drm-fixes-2021-06-04-1:
-drm fixes for 5.13-rc5
-
-fb:
-- revert broken fb_defio patch
-
-amdgpu:
-- Display fixes
-- FRU EEPROM error handling fix
-- RAS fix
-- PSP fix
-- Releasing pinned BO fix
-
-i915:
-- Revert conversion to io_mapping_map_user() which lead to BUG_ON()
-- Fix check for error valued returns in a selftest
-
-tegra:
-- SOR power domain race condition fix
-- build warning fix
-- runtime pm ref leak fix
-- modifier fix
-The following changes since commit 8124c8a6b35386f73523d27eacb71b5364a68c4c:
-
-  Linux 5.13-rc4 (2021-05-30 11:58:25 -1000)
-
-are available in the Git repository at:
-
-  git://anongit.freedesktop.org/drm/drm tags/drm-fixes-2021-06-04-1
-
-for you to fetch changes up to 37e2f2e800dc6d65aa77f9d4dbc4512d841e2f0b:
-
-  Merge tag 'drm/tegra/for-5.13-rc5' of
-ssh://git.freedesktop.org/git/tegra/linux into drm-fixes (2021-06-04
-10:23:57 +1000)
-
-----------------------------------------------------------------
-drm fixes for 5.13-rc5
-
-fb:
-- revert broken fb_defio patch
-
-amdgpu:
-- Display fixes
-- FRU EEPROM error handling fix
-- RAS fix
-- PSP fix
-- Releasing pinned BO fix
-
-i915:
-- Revert conversion to io_mapping_map_user() which lead to BUG_ON()
-- Fix check for error valued returns in a selftest
-
-tegra:
-- SOR power domain race condition fix
-- build warning fix
-- runtime pm ref leak fix
-- modifier fix
-
-----------------------------------------------------------------
-Asher Song (1):
-      drm/amdgpu: add judgement for dc support
-
-Bindu Ramamurthy (1):
-      drm/amd/display: Allow bandwidth validation for 0 streams.
-
-Dave Airlie (4):
-      Merge tag 'drm-misc-fixes-2021-06-03' of
-git://anongit.freedesktop.org/drm/drm-misc into drm-fixes
-      Merge tag 'drm-intel-fixes-2021-06-03' of
-git://anongit.freedesktop.org/drm/drm-intel into drm-fixes
-      Merge tag 'amd-drm-fixes-5.13-2021-06-02' of
-https://gitlab.freedesktop.org/agd5f/linux into drm-fixes
-      Merge tag 'drm/tegra/for-5.13-rc5' of
-ssh://git.freedesktop.org/git/tegra/linux into drm-fixes
-
-Dmitry Osipenko (1):
-      drm/tegra: Correct DRM_FORMAT_MOD_NVIDIA_SECTOR_LAYOUT
-
-Jiansong Chen (1):
-      drm/amdgpu: refine amdgpu_fru_get_product_info
-
-Luben Tuikov (1):
-      drm/amdgpu: Don't query CE and UE errors
-
-Lyude Paul (1):
-      drm/tegra: Get ref for DP AUX channel, not its ddc adapter
-
-Matthew Auld (1):
-      Revert "i915: use io_mapping_map_user"
-
-Matthew Wilcox (1):
-      Revert "fb_defio: Remove custom address_space_operations"
-
-Nathan Chancellor (1):
-      drm/tegra: Fix shift overflow in tegra_shared_plane_atomic_update
-
-Nicholas Kazlauskas (1):
-      drm/amd/display: Fix GPU scaling regression by FS video support
-
-Nirmoy Das (1):
-      drm/amdgpu: make sure we unpin the UVD BO
-
-Pavel Machek (CIP) (1):
-      drm/tegra: sor: Do not leak runtime PM reference
-
-Rodrigo Siqueira (1):
-      drm/amd/display: Fix overlay validation by considering cursors
-
-Roman Li (1):
-      drm/amd/display: Fix potential memory leak in DMUB hw_init
-
-Simon Ser (1):
-      amd/display: convert DRM_DEBUG_ATOMIC to drm_dbg_atomic
-
-Thierry Reding (3):
-      gpu: host1x: Split up client initalization and registration
-      drm/tegra: sor: Fully initialize SOR before registration
-      drm/tegra: sor: Fix AUX device reference leak
-
-Victor Zhao (1):
-      drm/amd/amdgpu:save psp ring wptr to avoid attack
-
-Zhihao Cheng (1):
-      drm/i915/selftests: Fix return value check in live_breadcrumbs_smoketest()
-
- drivers/gpu/drm/amd/amdgpu/amdgpu_ctx.c            | 16 -----
- drivers/gpu/drm/amd/amdgpu/amdgpu_device.c         |  4 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_fru_eeprom.c     | 42 +++++++------
- drivers/gpu/drm/amd/amdgpu/amdgpu_psp.h            |  1 +
- drivers/gpu/drm/amd/amdgpu/psp_v11_0.c             |  3 +-
- drivers/gpu/drm/amd/amdgpu/psp_v3_1.c              |  3 +-
- drivers/gpu/drm/amd/amdgpu/uvd_v6_0.c              |  1 +
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c  | 30 ++++++----
- .../gpu/drm/amd/display/dc/dcn20/dcn20_resource.c  |  2 +-
- drivers/gpu/drm/i915/Kconfig                       |  1 -
- drivers/gpu/drm/i915/gem/i915_gem_mman.c           |  9 +--
- drivers/gpu/drm/i915/i915_drv.h                    |  3 +
- drivers/gpu/drm/i915/i915_mm.c                     | 44 ++++++++++++++
- drivers/gpu/drm/i915/selftests/i915_request.c      |  4 +-
- drivers/gpu/drm/tegra/drm.h                        |  2 +-
- drivers/gpu/drm/tegra/hub.c                        |  2 +-
- drivers/gpu/drm/tegra/sor.c                        | 70 +++++++++++++---------
- drivers/gpu/host1x/bus.c                           | 30 ++++++++--
- drivers/video/fbdev/core/fb_defio.c                | 35 +++++++++++
- drivers/video/fbdev/core/fbmem.c                   |  4 ++
- include/linux/fb.h                                 |  3 +
- include/linux/host1x.h                             | 30 ++++++++--
- 22 files changed, 240 insertions(+), 99 deletions(-)
+> > 
+> > Signed-off-by: Michal Wajdeczko <michal.wajdeczko@intel.com>
+> > Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+> > Reviewed-by: Matthew Brost <matthew.brost@intel.com>
+> > ---
+> >  drivers/gpu/drm/i915/i915_utils.h | 5 +++++
+> >  drivers/gpu/drm/i915/i915_vma.h   | 5 -----
+> >  2 files changed, 5 insertions(+), 5 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/i915/i915_utils.h b/drivers/gpu/drm/i915/i915_utils.h
+> > index f02f52ab5070..5259edacde38 100644
+> > --- a/drivers/gpu/drm/i915/i915_utils.h
+> > +++ b/drivers/gpu/drm/i915/i915_utils.h
+> > @@ -201,6 +201,11 @@ __check_struct_size(size_t base, size_t arr, size_t count, size_t *size)
+> >  	__T;								\
+> >  })
+> >  
+> > +static __always_inline ptrdiff_t ptrdiff(const void *a, const void *b)
+> > +{
+> > +	return a - b;
+> > +}
+> > +
+> >  /*
+> >   * container_of_user: Extract the superclass from a pointer to a member.
+> >   *
+> > diff --git a/drivers/gpu/drm/i915/i915_vma.h b/drivers/gpu/drm/i915/i915_vma.h
+> > index dc6926d89626..eca452a9851f 100644
+> > --- a/drivers/gpu/drm/i915/i915_vma.h
+> > +++ b/drivers/gpu/drm/i915/i915_vma.h
+> > @@ -151,11 +151,6 @@ static inline void i915_vma_put(struct i915_vma *vma)
+> >  	i915_gem_object_put(vma->obj);
+> >  }
+> >  
+> > -static __always_inline ptrdiff_t ptrdiff(const void *a, const void *b)
+> > -{
+> > -	return a - b;
+> > -}
+> > -
+> >  static inline long
+> >  i915_vma_compare(struct i915_vma *vma,
+> >  		 struct i915_address_space *vm,
+> > -- 
+> > 2.28.0
+> > 
+> 
+> -- 
+> Daniel Vetter
+> Software Engineer, Intel Corporation
+> http://blog.ffwll.ch
