@@ -2,51 +2,28 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5040339B93C
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Jun 2021 14:53:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2DD2839B945
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Jun 2021 14:57:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C70976E418;
-	Fri,  4 Jun 2021 12:53:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 72E7F6E44E;
+	Fri,  4 Jun 2021 12:57:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ED5906E418;
- Fri,  4 Jun 2021 12:53:20 +0000 (UTC)
-IronPort-SDR: AubuWmhDw3Yo6rQO5zJT7sD3pvpMkSGEovvKqPjf8vKU9J4ZtPZK3mF93VHZJ39w9RJ+SciA+x
- 8OaTq9xdiA4Q==
-X-IronPort-AV: E=McAfee;i="6200,9189,10004"; a="204261142"
-X-IronPort-AV: E=Sophos;i="5.83,248,1616482800"; d="scan'208";a="204261142"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Jun 2021 05:53:19 -0700
-IronPort-SDR: 6164XZxGRCG/sRuFoQKNG1Z4imWGj8+18dzLn8D1q13mkBJ3KdctpmJUdKEsF6Rkt3VxdmU5ah
- ZRxtXk2hhRAg==
-X-IronPort-AV: E=Sophos;i="5.83,248,1616482800"; d="scan'208";a="480624846"
-Received: from seanmc5x-mobl5.ger.corp.intel.com (HELO [10.213.231.164])
- ([10.213.231.164])
- by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Jun 2021 05:53:18 -0700
-Subject: Re: [Intel-gfx] [PATCH 1/1] Let userspace know if they can trust
- timeslicing by including it as part of the
- I915_PARAM_HAS_SCHEDULER::I915_SCHEDULER_CAP_TIMESLICING
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-To: Daniel Vetter <daniel@ffwll.ch>
-References: <20210525135508.244659-1-tejaskumarx.surendrakumar.upadhyay@intel.com>
- <20210525135508.244659-2-tejaskumarx.surendrakumar.upadhyay@intel.com>
- <b9ae1daa-6add-1c67-58b4-16491f2e1431@linux.intel.com>
- <YK0OHJcSwWY1mm7v@phenom.ffwll.local>
- <8cf2c5f4-87a3-ce6b-150c-65fa054586a4@linux.intel.com>
- <YK9wrCayUwSDzMWG@phenom.ffwll.local>
- <59d2eee9-35c1-01fc-c226-50ad98aadb99@linux.intel.com>
-Organization: Intel Corporation UK Plc
-Message-ID: <036d1a59-e78a-3eb2-c9e7-ff6909002124@linux.intel.com>
-Date: Fri, 4 Jun 2021 13:53:16 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4ADA86E44E
+ for <dri-devel@lists.freedesktop.org>; Fri,  4 Jun 2021 12:57:36 +0000 (UTC)
+Received: from localhost.localdomain (unknown [IPv6:2600:8800:8c09:5500::19dc])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested) (Authenticated sender: alyssa)
+ by bhuna.collabora.co.uk (Postfix) with ESMTPSA id DBBAA1F439C8;
+ Fri,  4 Jun 2021 13:57:33 +0100 (BST)
+From: Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH v4] drm/panfrost: Add AFBC_FEATURES parameter
+Date: Fri,  4 Jun 2021 08:57:25 -0400
+Message-Id: <20210604125725.2781-1-alyssa.rosenzweig@collabora.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-In-Reply-To: <59d2eee9-35c1-01fc-c226-50ad98aadb99@linux.intel.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -60,113 +37,124 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org,
- Tejas Upadhyay <tejaskumarx.surendrakumar.upadhyay@intel.com>,
- DRI Development <dri-devel@lists.freedesktop.org>, mahesh.meena@intel.com
+Cc: Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+ Tomeu Vizoso <tomeu.vizoso@collabora.com>, Steven Price <steven.price@arm.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+The value of the AFBC_FEATURES register is required by userspace to
+determine AFBC support on Bifrost. A user on our IRC channel (#panfrost)
+reported a workload that raised a fault on one system's Mali G31 but
+worked flawlessly with another system's Mali G31. We determined the
+cause to be missing AFBC support on one vendor's Mali implementation --
+it turns out AFBC is optional on Bifrost!
 
-On 27/05/2021 11:22, Tvrtko Ursulin wrote:
-> 
-> On 27/05/2021 11:13, Daniel Vetter wrote:
->> On Wed, May 26, 2021 at 11:20:13AM +0100, Tvrtko Ursulin wrote:
->>>
->>> On 25/05/2021 15:47, Daniel Vetter wrote:
->>>> On Tue, May 25, 2021 at 03:19:47PM +0100, Tvrtko Ursulin wrote:
->>>>>
->>>>> + dri-devel as per process
->>>>>
->>>>> On 25/05/2021 14:55, Tejas Upadhyay wrote:
->>>>>> v2: Only declare timeslicing if we can safely preempt userspace.
->>>>>
->>>>> Commit message got butchered up somehow so you'll need to fix that 
->>>>> at some
->>>>> point.
->>>>>
->>>>> Regards,
->>>>>
->>>>> Tvrtko
->>>>>
->>>>>> Fixes: 8ee36e048c98 ("drm/i915/execlists: Minimalistic timeslicing")
->>>>>> Signed-off-by: Chris Wilson <chris@chris-wilson.co.uk>
->>>>>> Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
->>>>>> Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
->>>>>> ---
->>>>>>     drivers/gpu/drm/i915/gt/intel_engine_user.c | 1 +
->>>>>>     include/uapi/drm/i915_drm.h                 | 1 +
->>>>>>     2 files changed, 2 insertions(+)
->>>>>>
->>>>>> diff --git a/drivers/gpu/drm/i915/gt/intel_engine_user.c 
->>>>>> b/drivers/gpu/drm/i915/gt/intel_engine_user.c
->>>>>> index 3cca7ea2d6ea..12d165566ed2 100644
->>>>>> --- a/drivers/gpu/drm/i915/gt/intel_engine_user.c
->>>>>> +++ b/drivers/gpu/drm/i915/gt/intel_engine_user.c
->>>>>> @@ -98,6 +98,7 @@ static void set_scheduler_caps(struct 
->>>>>> drm_i915_private *i915)
->>>>>>             MAP(HAS_PREEMPTION, PREEMPTION),
->>>>>>             MAP(HAS_SEMAPHORES, SEMAPHORES),
->>>>>>             MAP(SUPPORTS_STATS, ENGINE_BUSY_STATS),
->>>>>> +        MAP(TIMESLICE_BIT, TIMESLICING),
->>>>>>     #undef MAP
->>>>>>         };
->>>>>>         struct intel_engine_cs *engine;
->>>>>> diff --git a/include/uapi/drm/i915_drm.h 
->>>>>> b/include/uapi/drm/i915_drm.h
->>>>>> index c2c7759b7d2e..af2212d6113c 100644
->>>>>> --- a/include/uapi/drm/i915_drm.h
->>>>>> +++ b/include/uapi/drm/i915_drm.h
->>>>>> @@ -572,6 +572,7 @@ typedef struct drm_i915_irq_wait {
->>>>>>     #define   I915_SCHEDULER_CAP_PREEMPTION    (1ul << 2)
->>>>>>     #define   I915_SCHEDULER_CAP_SEMAPHORES    (1ul << 3)
->>>>>>     #define   I915_SCHEDULER_CAP_ENGINE_BUSY_STATS    (1ul << 4)
->>>>>> +#define   I915_SCHEDULER_CAP_TIMESLICING    (1ul << 5)
->>>>
->>>> Since this is uapi I think we should at least have some nice kerneldoc
->>>> that explains what exactly this is, what for (link to userspace) and 
->>>> all
->>>> that. Ideally also minimally filing in the gaps in our uapi docs for 
->>>> stuff
->>>> this references.
->>>
->>> IIUC there is no userspace apart from IGT needing it not to fail 
->>> scheduling
->>> tests on ADL.
->>>
->>> Current tests use "has preemption + has semaphores" as a proxy to 
->>> answer the
->>> "does the kernel support timeslicing" question. This stops working 
->>> with the
->>> Guc backend because GuC decided not to support semaphores (for 
->>> reasons yet
->>> unknown, see other thread), so explicit "has timeslicing" flag is 
->>> needed in
->>> order for tests to know that GuC is supposed to support timeslicing, 
->>> even if
->>> it doesn't use semaphores for inter-ring synchronisation.
->>
->> Since this if for igt only: Cant we do just extend the check in igt with
->> an || GEN >= 12? I really hope that our future hw will continue to 
->> support
->> timeslicing ...
-> 
-> Not the gen 12 check, but possible I think. Explicit feature test would 
-> be better, but if definitely not allowed then along the lines of:
-> 
-> has_timeslicing =
->      (has_preemption && has_semaphores) || uses_guc_submission;
+Whether AFBC is supported or not is exposed in the AFBC_FEATURES
+register on Bifrost, which reads back as 0 on Midgard. A zero value
+indicates AFBC is fully supported, provided the architecture itself
+supports AFBC, allowing backwards-compatibility with Midgard. Bits 0 and
+15 indicate that AFBC support is absent for texturing and rendering
+respectively.
 
-One catch is that timeslicing in GuC will be disabled both if at compile 
-time CONFIG_DRM_I915_TIMESLICE_DURATION is set to zero, or if at runtime 
-engine->props.timeslice_duration_ms is equally set to zero.
+The user experiencing the fault reports that AFBC_FEATURES reads back
+0x10001 on their system, confirming the architectural lack of AFBC.
+Userspace needs this this parameter to know to disable AFBC on that
+chip, and perhaps others.
 
-So I think what is needed on top of the above check is to walk all 
-engines in sysfs and check that timeslicing hasn't explicitly been 
-disabled for any one of them.
+v2: Fix typo from copy-paste fail.
 
-If we are talking about the global flag at least. Per engine tests could 
-do better I guess, but I don't think that complication is worth the effort.
+v3: Bump the UABI version. This commit was cherry-picked from another
+series so chalking this up to a rebase fail.
 
-Regards,
+Signed-off-by: Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
+Reviewed-by: Steven Price <steven.price@arm.com>
+Cc: Rob Herring <robh@kernel.org>
+Cc: Tomeu Vizoso <tomeu.vizoso@collabora.com>
+---
+ drivers/gpu/drm/panfrost/panfrost_device.h | 1 +
+ drivers/gpu/drm/panfrost/panfrost_drv.c    | 4 +++-
+ drivers/gpu/drm/panfrost/panfrost_gpu.c    | 1 +
+ drivers/gpu/drm/panfrost/panfrost_regs.h   | 1 +
+ include/uapi/drm/panfrost_drm.h            | 1 +
+ 5 files changed, 7 insertions(+), 1 deletion(-)
 
-Tvrtko
+diff --git a/drivers/gpu/drm/panfrost/panfrost_device.h b/drivers/gpu/drm/panfrost/panfrost_device.h
+index 597cf1459..f614e9877 100644
+--- a/drivers/gpu/drm/panfrost/panfrost_device.h
++++ b/drivers/gpu/drm/panfrost/panfrost_device.h
+@@ -45,6 +45,7 @@ struct panfrost_features {
+ 	u32 thread_max_workgroup_sz;
+ 	u32 thread_max_barrier_sz;
+ 	u32 coherency_features;
++	u32 afbc_features;
+ 	u32 texture_features[4];
+ 	u32 js_features[16];
+ 
+diff --git a/drivers/gpu/drm/panfrost/panfrost_drv.c b/drivers/gpu/drm/panfrost/panfrost_drv.c
+index ca07098a6..1596559f3 100644
+--- a/drivers/gpu/drm/panfrost/panfrost_drv.c
++++ b/drivers/gpu/drm/panfrost/panfrost_drv.c
+@@ -63,6 +63,7 @@ static int panfrost_ioctl_get_param(struct drm_device *ddev, void *data, struct
+ 		PANFROST_FEATURE(THREAD_MAX_BARRIER_SZ,
+ 				thread_max_barrier_sz);
+ 		PANFROST_FEATURE(COHERENCY_FEATURES, coherency_features);
++		PANFROST_FEATURE(AFBC_FEATURES, afbc_features);
+ 		PANFROST_FEATURE_ARRAY(TEXTURE_FEATURES, texture_features, 3);
+ 		PANFROST_FEATURE_ARRAY(JS_FEATURES, js_features, 15);
+ 		PANFROST_FEATURE(NR_CORE_GROUPS, nr_core_groups);
+@@ -547,6 +548,7 @@ DEFINE_DRM_GEM_FOPS(panfrost_drm_driver_fops);
+  * Panfrost driver version:
+  * - 1.0 - initial interface
+  * - 1.1 - adds HEAP and NOEXEC flags for CREATE_BO
++ * - 1.2 - adds AFBC_FEATURES query
+  */
+ static const struct drm_driver panfrost_drm_driver = {
+ 	.driver_features	= DRIVER_RENDER | DRIVER_GEM | DRIVER_SYNCOBJ,
+@@ -559,7 +561,7 @@ static const struct drm_driver panfrost_drm_driver = {
+ 	.desc			= "panfrost DRM",
+ 	.date			= "20180908",
+ 	.major			= 1,
+-	.minor			= 1,
++	.minor			= 2,
+ 
+ 	.gem_create_object	= panfrost_gem_create_object,
+ 	.prime_handle_to_fd	= drm_gem_prime_handle_to_fd,
+diff --git a/drivers/gpu/drm/panfrost/panfrost_gpu.c b/drivers/gpu/drm/panfrost/panfrost_gpu.c
+index 2aae636f1..0e70e27fd 100644
+--- a/drivers/gpu/drm/panfrost/panfrost_gpu.c
++++ b/drivers/gpu/drm/panfrost/panfrost_gpu.c
+@@ -228,6 +228,7 @@ static void panfrost_gpu_init_features(struct panfrost_device *pfdev)
+ 	pfdev->features.thread_max_workgroup_sz = gpu_read(pfdev, GPU_THREAD_MAX_WORKGROUP_SIZE);
+ 	pfdev->features.thread_max_barrier_sz = gpu_read(pfdev, GPU_THREAD_MAX_BARRIER_SIZE);
+ 	pfdev->features.coherency_features = gpu_read(pfdev, GPU_COHERENCY_FEATURES);
++	pfdev->features.afbc_features = gpu_read(pfdev, GPU_AFBC_FEATURES);
+ 	for (i = 0; i < 4; i++)
+ 		pfdev->features.texture_features[i] = gpu_read(pfdev, GPU_TEXTURE_FEATURES(i));
+ 
+diff --git a/drivers/gpu/drm/panfrost/panfrost_regs.h b/drivers/gpu/drm/panfrost/panfrost_regs.h
+index eddaa62ad..dc9df5457 100644
+--- a/drivers/gpu/drm/panfrost/panfrost_regs.h
++++ b/drivers/gpu/drm/panfrost/panfrost_regs.h
+@@ -82,6 +82,7 @@
+ 
+ #define GPU_TEXTURE_FEATURES(n)		(0x0B0 + ((n) * 4))
+ #define GPU_JS_FEATURES(n)		(0x0C0 + ((n) * 4))
++#define GPU_AFBC_FEATURES		(0x4C)	/* (RO) AFBC support on Bifrost */
+ 
+ #define GPU_SHADER_PRESENT_LO		0x100	/* (RO) Shader core present bitmap, low word */
+ #define GPU_SHADER_PRESENT_HI		0x104	/* (RO) Shader core present bitmap, high word */
+diff --git a/include/uapi/drm/panfrost_drm.h b/include/uapi/drm/panfrost_drm.h
+index ec19db1ee..061e700dd 100644
+--- a/include/uapi/drm/panfrost_drm.h
++++ b/include/uapi/drm/panfrost_drm.h
+@@ -171,6 +171,7 @@ enum drm_panfrost_param {
+ 	DRM_PANFROST_PARAM_JS_FEATURES15,
+ 	DRM_PANFROST_PARAM_NR_CORE_GROUPS,
+ 	DRM_PANFROST_PARAM_THREAD_TLS_ALLOC,
++	DRM_PANFROST_PARAM_AFBC_FEATURES,
+ };
+ 
+ struct drm_panfrost_get_param {
+-- 
+2.30.2
+
