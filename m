@@ -2,42 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1977839B035
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Jun 2021 04:10:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D829739B05A
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Jun 2021 04:27:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 389FC6F55C;
-	Fri,  4 Jun 2021 02:10:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 116646F564;
+	Fri,  4 Jun 2021 02:27:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0968B6F55C;
- Fri,  4 Jun 2021 02:10:04 +0000 (UTC)
-IronPort-SDR: lnUEQR/Ek3Kc1pW95CF0m6SFEX0cxKdB6/vyYRf0oaVwkYdQ2ot+nXsCZf0rr+h3wHlZk/geAA
- cwsWl2rBOB9Q==
-X-IronPort-AV: E=McAfee;i="6200,9189,10004"; a="191312453"
-X-IronPort-AV: E=Sophos;i="5.83,246,1616482800"; d="scan'208";a="191312453"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Jun 2021 19:09:58 -0700
-IronPort-SDR: 6e/3RGUIr5TDMkDiZmZ00VFMNp/s12BKDZ7F7mjrlS1h5pZOm/sa43tCW8Ax8oSgkV1tVpWxYP
- vL3xAiZIVUew==
-X-IronPort-AV: E=Sophos;i="5.83,246,1616482800"; d="scan'208";a="475294456"
-Received: from unknown (HELO sdutt-i7) ([10.165.21.147])
- by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Jun 2021 19:09:57 -0700
-Date: Thu, 3 Jun 2021 19:02:57 -0700
-From: Matthew Brost <matthew.brost@intel.com>
-To: Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [PATCH 08/20] drm/i915: Promote ptrdiff() to i915_utils.h
-Message-ID: <20210604020257.GA7149@sdutt-i7>
-References: <20210603051630.2635-1-matthew.brost@intel.com>
- <20210603051630.2635-9-matthew.brost@intel.com>
- <YLlLIG9sBjouIJE2@phenom.ffwll.local>
+Received: from mail-oi1-x22b.google.com (mail-oi1-x22b.google.com
+ [IPv6:2607:f8b0:4864:20::22b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 411706F562;
+ Fri,  4 Jun 2021 02:27:09 +0000 (UTC)
+Received: by mail-oi1-x22b.google.com with SMTP id h9so8345078oih.4;
+ Thu, 03 Jun 2021 19:27:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=pE5R9j4HEkPd8MdPqUgxVbiZqCWuyrT3IDLp/mbt3qY=;
+ b=Np2g+MNLp25WhMdkzaTHezh5gMyacMltrtvwl7SZF6bT2q3BfvHaKJW1n2DSpPcRZk
+ 0aNsbWUHE0H2ETqjGD5wAQoxdHK9J1ulleTkRBNhLFmlP8r8JrDy4n+N9wx7CB7sfSBA
+ BXjuGHNQQas3bptTIstPMc8pLCGXGWEXQTnnZpewxX4BEwviB8DJBtNL0j5OICj1OLwC
+ UoZX7he46V4vT8dYRScKOvSYQ2iSZL1uko6Gd4qPPwKGMlNEBsIG8zXxaiIJ2z15IsEf
+ EXHaDUL2OPV6NVnmUkypSBba3EdsPYH+1CLxeNjqpeuA9DL1m4ybo4kiMv/bgHY8I/lC
+ MAKA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=pE5R9j4HEkPd8MdPqUgxVbiZqCWuyrT3IDLp/mbt3qY=;
+ b=K9sErgWC4yS6T9/61gNHppd4iepn+6ASMtw3TsDWPE8lv1apQeuG03Le2ov08S9M52
+ j3s8TzaoLW5VbtBrJ7UcynOlPNJNLWvL4SVAyA/BjJjYZ+CsDqZES6uGQtDPYCcRXqma
+ EV+YYTgYxE59t5A5+8ZcZWLa7FPYb4iA00xAY+/xjvlGUrNYbZkRtk4zCdR4QaUK5KK+
+ JXnc2lVgSUkK3Lqq1/Xnm93KTPFj+5ly+7K+E8wCJ2rhFle6TbO0fTEu4J+x5bsFURhS
+ f4lOLKZoqi16cbGJP57LU78ipGfivb1PCsL2MTofgxDYYLA20Xky0YeZByduZKT7Qa1o
+ IQSA==
+X-Gm-Message-State: AOAM532rXWgzgiWaEC/hhqq8J0HlmbaNRQfkGIhykbTClTGo8/B0sMZF
+ ty7Iez4hSntM0gMDwv+goNDvsp8xC5aMl0sTfh0=
+X-Google-Smtp-Source: ABdhPJyDcRuVRzgC8zDo9W6dLEycPTgTGFW2pEFgCL3sMqXZzx0a4PKbnKfzlUBri+5gjHGvn5BOUDiTctWAtio7YMo=
+X-Received: by 2002:a05:6808:1592:: with SMTP id
+ t18mr1466289oiw.123.1622773628625; 
+ Thu, 03 Jun 2021 19:27:08 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YLlLIG9sBjouIJE2@phenom.ffwll.local>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+References: <20210601201702.23316-1-andrey.grodzovsky@amd.com>
+ <CADnq5_Nfs_j9XE1Siou2wGYuwd5cvTD1T7m9gFpS9z74D=AuAQ@mail.gmail.com>
+ <SN6PR12MB46230F8575C786B53056FE79EA3C9@SN6PR12MB4623.namprd12.prod.outlook.com>
+In-Reply-To: <SN6PR12MB46230F8575C786B53056FE79EA3C9@SN6PR12MB4623.namprd12.prod.outlook.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Thu, 3 Jun 2021 22:26:57 -0400
+Message-ID: <CADnq5_OHQ3Dtq3ZikvDPR=pSubSBq0pN_uRkXW8FaVcbr2pWAQ@mail.gmail.com>
+Subject: Re: [PATCH 0/7] libdrm tests for hot-unplug fe goature
+To: "Grodzovsky, Andrey" <Andrey.Grodzovsky@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,76 +66,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: daniel.vetter@intel.com, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
+Cc: "Deucher, Alexander" <Alexander.Deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jun 03, 2021 at 11:35:28PM +0200, Daniel Vetter wrote:
-> On Wed, Jun 02, 2021 at 10:16:18PM -0700, Matthew Brost wrote:
-> > From: Michal Wajdeczko <michal.wajdeczko@intel.com>
-> > 
-> > Generic helpers should be placed in i915_utils.h.
-> 
-> Random rant, but we're _way_ too happy to just stuff random things into
-> i915_utils.h without trying to properly upstream it.
-> 
-> For thinks like this the general dumping ground would be kernel.h, there's
-> a few pointer helpers there already. Follow up patch maybe nice.
-> -Daniel
-> 
+Code review happens on gitlab now for libdrm.
 
-Sure. I've added this to a list of follow ups so this comment doesn't
-get lost.
+Alex
 
-Matt
-
-> > 
-> > Signed-off-by: Michal Wajdeczko <michal.wajdeczko@intel.com>
-> > Signed-off-by: Matthew Brost <matthew.brost@intel.com>
-> > Reviewed-by: Matthew Brost <matthew.brost@intel.com>
-> > ---
-> >  drivers/gpu/drm/i915/i915_utils.h | 5 +++++
-> >  drivers/gpu/drm/i915/i915_vma.h   | 5 -----
-> >  2 files changed, 5 insertions(+), 5 deletions(-)
-> > 
-> > diff --git a/drivers/gpu/drm/i915/i915_utils.h b/drivers/gpu/drm/i915/i915_utils.h
-> > index f02f52ab5070..5259edacde38 100644
-> > --- a/drivers/gpu/drm/i915/i915_utils.h
-> > +++ b/drivers/gpu/drm/i915/i915_utils.h
-> > @@ -201,6 +201,11 @@ __check_struct_size(size_t base, size_t arr, size_t count, size_t *size)
-> >  	__T;								\
-> >  })
-> >  
-> > +static __always_inline ptrdiff_t ptrdiff(const void *a, const void *b)
-> > +{
-> > +	return a - b;
-> > +}
-> > +
-> >  /*
-> >   * container_of_user: Extract the superclass from a pointer to a member.
-> >   *
-> > diff --git a/drivers/gpu/drm/i915/i915_vma.h b/drivers/gpu/drm/i915/i915_vma.h
-> > index dc6926d89626..eca452a9851f 100644
-> > --- a/drivers/gpu/drm/i915/i915_vma.h
-> > +++ b/drivers/gpu/drm/i915/i915_vma.h
-> > @@ -151,11 +151,6 @@ static inline void i915_vma_put(struct i915_vma *vma)
-> >  	i915_gem_object_put(vma->obj);
-> >  }
-> >  
-> > -static __always_inline ptrdiff_t ptrdiff(const void *a, const void *b)
-> > -{
-> > -	return a - b;
-> > -}
-> > -
-> >  static inline long
-> >  i915_vma_compare(struct i915_vma *vma,
-> >  		 struct i915_address_space *vm,
-> > -- 
-> > 2.28.0
-> > 
-> 
-> -- 
-> Daniel Vetter
-> Software Engineer, Intel Corporation
-> http://blog.ffwll.ch
+On Thu, Jun 3, 2021 at 6:02 PM Grodzovsky, Andrey
+<Andrey.Grodzovsky@amd.com> wrote:
+>
+> Is libdrm on gitlab ? I wasn't aware of this. I assumed code reviews stil=
+l go through dri-devel.
+>
+> Andrey
+>
+> ________________________________
+> From: Alex Deucher <alexdeucher@gmail.com>
+> Sent: 03 June 2021 17:20
+> To: Grodzovsky, Andrey <Andrey.Grodzovsky@amd.com>
+> Cc: Maling list - DRI developers <dri-devel@lists.freedesktop.org>; amd-g=
+fx list <amd-gfx@lists.freedesktop.org>; Deucher, Alexander <Alexander.Deuc=
+her@amd.com>; Christian K=C3=B6nig <ckoenig.leichtzumerken@gmail.com>
+> Subject: Re: [PATCH 0/7] libdrm tests for hot-unplug feature
+>
+> Please open a gitlab MR for these.
+>
+> Alex
+>
+> On Tue, Jun 1, 2021 at 4:17 PM Andrey Grodzovsky
+> <andrey.grodzovsky@amd.com> wrote:
+> >
+> > Adding some tests to acompany the recently added hot-unplug
+> > feature. For now the test suite is disabled until the feature
+> > propagates from drm-misc-next to drm-next.
+> >
+> > Andrey Grodzovsky (7):
+> >   tests/amdgpu: Fix valgrind warning
+> >   xf86drm: Add function to retrieve char device path
+> >   test/amdgpu: Add helper functions for hot unplug
+> >   test/amdgpu/hotunplug: Add test suite for GPU unplug
+> >   test/amdgpu/hotunplug: Add basic test
+> >   tests/amdgpu/hotunplug: Add unplug with cs test.
+> >   tests/amdgpu/hotunplug: Add hotunplug with exported bo test
+> >
+> >  tests/amdgpu/amdgpu_test.c     |  42 +++-
+> >  tests/amdgpu/amdgpu_test.h     |  26 +++
+> >  tests/amdgpu/basic_tests.c     |   5 +-
+> >  tests/amdgpu/hotunplug_tests.c | 357 +++++++++++++++++++++++++++++++++
+> >  tests/amdgpu/meson.build       |   1 +
+> >  xf86drm.c                      |  23 +++
+> >  xf86drm.h                      |   1 +
+> >  7 files changed, 450 insertions(+), 5 deletions(-)
+> >  create mode 100644 tests/amdgpu/hotunplug_tests.c
+> >
+> > --
+> > 2.25.1
+> >
+> > _______________________________________________
+> > amd-gfx mailing list
+> > amd-gfx@lists.freedesktop.org
+> > https://nam11.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Flis=
+ts.freedesktop.org%2Fmailman%2Flistinfo%2Famd-gfx&amp;data=3D04%7C01%7Candr=
+ey.grodzovsky%40amd.com%7C8fb7f614798b4d19572e08d926d57530%7C3dd8961fe4884e=
+608e11a82d994e183d%7C0%7C0%7C637583520507282588%7CUnknown%7CTWFpbGZsb3d8eyJ=
+WIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&amp;=
+sdata=3DozqlNQACGvLJugQ2GNvFl8CKgAH0thqMRpWjHpURlyc%3D&amp;reserved=3D0
