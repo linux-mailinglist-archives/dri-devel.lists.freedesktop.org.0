@@ -2,19 +2,19 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18C0039C669
-	for <lists+dri-devel@lfdr.de>; Sat,  5 Jun 2021 08:48:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9365239C664
+	for <lists+dri-devel@lfdr.de>; Sat,  5 Jun 2021 08:48:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 659696F5AC;
-	Sat,  5 Jun 2021 06:48:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 50BF26F4EB;
+	Sat,  5 Jun 2021 06:48:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from regular1.263xmail.com (regular1.263xmail.com [211.150.70.205])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 155B46F5CF;
- Fri,  4 Jun 2021 08:40:35 +0000 (UTC)
-Received: from localhost (unknown [192.168.167.69])
- by regular1.263xmail.com (Postfix) with ESMTP id 458A7904;
- Fri,  4 Jun 2021 16:40:33 +0800 (CST)
+Received: from regular1.263xmail.com (regular1.263xmail.com [211.150.70.202])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 647356F5CF;
+ Fri,  4 Jun 2021 08:43:06 +0000 (UTC)
+Received: from localhost (unknown [192.168.167.16])
+ by regular1.263xmail.com (Postfix) with ESMTP id 70A9E829;
+ Fri,  4 Jun 2021 16:43:04 +0800 (CST)
 X-MAIL-GRAY: 0
 X-MAIL-DELIVERY: 1
 X-ADDR-CHECKED4: 1
@@ -23,10 +23,10 @@ X-SKE-CHECKED: 1
 X-ABS-CHECKED: 1
 Received: from manjaro.uniontech.com (unknown [58.246.122.242])
  by smtp.263.net (postfix) whith ESMTP id
- P31903T140446719883008S1622796031951602_; 
- Fri, 04 Jun 2021 16:40:32 +0800 (CST)
+ P32527T140357308937984S1622796183596910_; 
+ Fri, 04 Jun 2021 16:43:04 +0800 (CST)
 X-IP-DOMAINF: 1
-X-UNIQUE-TAG: <b257bbb59944a62dbcba445ff41dd260>
+X-UNIQUE-TAG: <45363ea924c1af503493fe091a2fa4bc>
 X-RL-SENDER: chenli@uniontech.com
 X-SENDER: chenli@uniontech.com
 X-LOGIN-NAME: chenli@uniontech.com
@@ -35,11 +35,11 @@ X-RCPT-COUNT: 6
 X-SENDER-IP: 58.246.122.242
 X-ATTACHMENT-NUM: 0
 X-System-Flag: 0
-Date: Fri, 04 Jun 2021 16:40:32 +0800
-Message-ID: <871r9ic9a7.wl-chenli@uniontech.com>
+Date: Fri, 04 Jun 2021 16:43:02 +0800
+Message-ID: <87zgw6aull.wl-chenli@uniontech.com>
 From: Chen Li <chenli@uniontech.com>
 To: Christian =?ISO-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>
-Subject: [PATCH v4 1/2] radeon: fix coding issues reported from sparse
+Subject: [PATCH v4 2/2] radeon: use memcpy_to/fromio for UVD fw upload
 In-Reply-To: <c4941cb6-8c40-aad1-e61a-2786ba1ab225@gmail.com>
 References: <87o8cnfr3s.wl-chenli@uniontech.com>
  <87im2ufhyz.wl-chenli@uniontech.com>
@@ -72,75 +72,50 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-Also fix some coding issues reported from sparse.
+I met a gpu addr bug recently and the kernel log
+tells me the pc is memcpy/memset and link register is
+radeon_uvd_resume.
+
+As we know, in some architectures, optimized memcpy/memset
+may not work well on device memory. Trival memcpy_toio/memset_io
+can fix this problem.
+
+BTW, amdgpu has already done it in:
+commit ba0b2275a678 ("drm/amdgpu: use memcpy_to/fromio for UVD fw upload"),
+that's why it has no this issue on the same gpu and platform.
 
 Signed-off-by: Chen Li <chenli@uniontech.com>
-Acked-by: Christian K=F6nig <christian.koenig@amd.com>
+Reviewed-by: Christian K=F6nig
 ---
- drivers/gpu/drm/radeon/radeon_uvd.c | 24 +++++++++++++-----------
- 1 file changed, 13 insertions(+), 11 deletions(-)
+ drivers/gpu/drm/radeon/radeon_uvd.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/gpu/drm/radeon/radeon_uvd.c b/drivers/gpu/drm/radeon/r=
 adeon_uvd.c
-index dfa9fdbe98da..85a1f2c31749 100644
+index 85a1f2c31749..753da95e6abb 100644
 --- a/drivers/gpu/drm/radeon/radeon_uvd.c
 +++ b/drivers/gpu/drm/radeon/radeon_uvd.c
-@@ -152,9 +152,11 @@ int radeon_uvd_init(struct radeon_device *rdev)
+@@ -288,7 +288,7 @@ int radeon_uvd_resume(struct radeon_device *rdev)
+ 	if (rdev->uvd.vcpu_bo =3D=3D NULL)
+ 		return -EINVAL;
 =20
- 			rdev->uvd.fw_header_present =3D true;
+-	memcpy(rdev->uvd.cpu_addr, rdev->uvd_fw->data, rdev->uvd_fw->size);
++	memcpy_toio((void __iomem *)rdev->uvd.cpu_addr, rdev->uvd_fw->data, rdev-=
+>uvd_fw->size);
 =20
--			family_id =3D le32_to_cpu(hdr->ucode_version) & 0xff;
--			version_major =3D (le32_to_cpu(hdr->ucode_version) >> 24) & 0xff;
--			version_minor =3D (le32_to_cpu(hdr->ucode_version) >> 8) & 0xff;
-+			family_id =3D (__force u32)(hdr->ucode_version) & 0xff;
-+			version_major =3D (le32_to_cpu((__force __le32)(hdr->ucode_version))
-+							 >> 24) & 0xff;
-+			version_minor =3D (le32_to_cpu((__force __le32)(hdr->ucode_version))
-+							 >> 8) & 0xff;
- 			DRM_INFO("Found UVD firmware Version: %u.%u Family ID: %u\n",
- 				 version_major, version_minor, family_id);
+ 	size =3D radeon_bo_size(rdev->uvd.vcpu_bo);
+ 	size -=3D rdev->uvd_fw->size;
+@@ -296,7 +296,7 @@ int radeon_uvd_resume(struct radeon_device *rdev)
+ 	ptr =3D rdev->uvd.cpu_addr;
+ 	ptr +=3D rdev->uvd_fw->size;
 =20
-@@ -791,17 +793,17 @@ int radeon_uvd_get_create_msg(struct radeon_device *r=
-dev, int ring,
- 		return r;
+-	memset(ptr, 0, size);
++	memset_io((void __iomem *)ptr, 0, size);
 =20
- 	/* stitch together an UVD create msg */
--	writel(cpu_to_le32(0x00000de4), &msg[0]);
-+	writel((__force u32)cpu_to_le32(0x00000de4), &msg[0]);
- 	writel(0x0, (void __iomem *)&msg[1]);
--	writel(cpu_to_le32(handle), &msg[2]);
-+	writel((__force u32)cpu_to_le32(handle), &msg[2]);
- 	writel(0x0, &msg[3]);
- 	writel(0x0, &msg[4]);
- 	writel(0x0, &msg[5]);
- 	writel(0x0, &msg[6]);
--	writel(cpu_to_le32(0x00000780), &msg[7]);
--	writel(cpu_to_le32(0x00000440), &msg[8]);
-+	writel((__force u32)cpu_to_le32(0x00000780), &msg[7]);
-+	writel((__force u32)cpu_to_le32(0x00000440), &msg[8]);
- 	writel(0x0, &msg[9]);
--	writel(cpu_to_le32(0x01b37000), &msg[10]);
-+	writel((__force u32)cpu_to_le32(0x01b37000), &msg[10]);
- 	for (i =3D 11; i < 1024; ++i)
- 		writel(0x0, &msg[i]);
-=20
-@@ -827,9 +829,9 @@ int radeon_uvd_get_destroy_msg(struct radeon_device *rd=
-ev, int ring,
- 		return r;
-=20
- 	/* stitch together an UVD destroy msg */
--	writel(cpu_to_le32(0x00000de4), &msg[0]);
--	writel(cpu_to_le32(0x00000002), &msg[1]);
--	writel(cpu_to_le32(handle), &msg[2]);
-+	writel((__force u32)cpu_to_le32(0x00000de4), &msg[0]);
-+	writel((__force u32)cpu_to_le32(0x00000002), &msg[1]);
-+	writel((__force u32)cpu_to_le32(handle), &msg[2]);
- 	writel(0x0, &msg[3]);
- 	for (i =3D 4; i < 1024; ++i)
- 		writel(0x0, &msg[i]);
+ 	return 0;
+ }
 --=20
 2.31.1
-
 
 
 
