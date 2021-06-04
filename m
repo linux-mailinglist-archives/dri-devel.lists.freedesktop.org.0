@@ -2,59 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9753039BA24
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Jun 2021 15:47:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E4E239BA7D
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Jun 2021 16:03:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DBE496E5BF;
-	Fri,  4 Jun 2021 13:47:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4ED8A6F5FD;
+	Fri,  4 Jun 2021 14:03:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vs1-xe31.google.com (mail-vs1-xe31.google.com
- [IPv6:2607:f8b0:4864:20::e31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 96A266E5BD;
- Fri,  4 Jun 2021 13:47:28 +0000 (UTC)
-Received: by mail-vs1-xe31.google.com with SMTP id z7so1037959vso.3;
- Fri, 04 Jun 2021 06:47:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=op04Di3PZdwaBM43wkV7mDypOrvb+rZhXxhpmN4buHA=;
- b=uJL73wGFWEV+jOhqR9TLUv8l4zsIKpNu3jBVH/rcaEZWA0Zt/ShlPOUWHoOU9yGDaL
- pQDnaoFe0eX+8Ufr7JPW7h2d1wTVrHNAvPTAIwvtTjfFq4hOxhM0YTqbnAMbUTuJZb1r
- yP5gKN8WfIT2IEZMprUMVlEjC9WXzAcUH13IjItRfAzBPuYVk/zIZLjC2dEVh/riZ4Zn
- ZSva7EnYOLprgsEr1GjX2eEugjCme54OR1EycNZXTrKLshdhgt2L9RubZQn0bLiSyBPO
- CHDHSbiiv8tBWQv5sQ95YQbpTVgB96Fy8t0fXqSZHuk6LhsieUNSDsoBc8Ij6c3S065g
- losA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=op04Di3PZdwaBM43wkV7mDypOrvb+rZhXxhpmN4buHA=;
- b=LTYqFwbDbUvQVom45iUX/3h9UQYUibeNivQTDmIbk62mZZZODiH03RThJUs98C77ow
- 8yLAqJ954DdCxTlIS/L1XBlGOp3i6BVlMiuInbE9i2trO6LnJd2Dp25ir+hpzcflKWuD
- qJytmSlex0kGM301VUSlzy45b4zYiH7D7ovMojRIRsUAGxsj6ziB5xHcNKRkX5hnXnWo
- HSBm7tnQ76yw2mKr/uaItCMHCPSFIP1rR1HHld3dDU0ySMZK1UciOm2lzS+WH6DLrJOT
- m4adOb8EGyGS9SDUgeEkm2pTVESMf5YOhuGzioob59ZFboIxs9tIr+NIeCE2RC7DkQ2T
- X4bA==
-X-Gm-Message-State: AOAM532/XNEOWvVb2OLSh1gZkk/MGHZeW5nrWDCUDHSfifgg7vIsclsI
- MIFvo9qLZ12tw0oDx6ycFftBQP02445baXce14c=
-X-Google-Smtp-Source: ABdhPJxQ/ctDBqtFrWZiAb6a5E5zZSvNln33fiDTOMOoYg7pUqsRD9CM0Hwq8khxERaFai1PpbpDFPxvKaKKLdbhPUw=
-X-Received: by 2002:a67:878a:: with SMTP id j132mr2553712vsd.18.1622814447786; 
- Fri, 04 Jun 2021 06:47:27 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210516171432.1734268-1-emil.l.velikov@gmail.com>
- <YKKmsbvTZBwCUiRu@intel.com>
- <CACvgo53H7GAjN_aFsCBOw+xtVbjcbR1q-U3vdgjT1KUPKoMkkg@mail.gmail.com>
- <YKOiN1EFXz7TfYyV@intel.com>
- <CACvgo52f_8XzkKpzAsgQ-E4VHn9md+rZVbTau5H40PPRVa4SdQ@mail.gmail.com>
-In-Reply-To: <CACvgo52f_8XzkKpzAsgQ-E4VHn9md+rZVbTau5H40PPRVa4SdQ@mail.gmail.com>
-From: Emil Velikov <emil.l.velikov@gmail.com>
-Date: Fri, 4 Jun 2021 14:47:16 +0100
-Message-ID: <CACvgo53nKn0nKL195FEJ6gRyTyA_23QnLnP-awPXOtv4DwDyiQ@mail.gmail.com>
-Subject: Re: [PATCH] drm/i915: only disable default vga device
-To: =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 781B26E059;
+ Fri,  4 Jun 2021 14:03:45 +0000 (UTC)
+IronPort-SDR: MZQoROx07G/ozK6RDY2EDGU7yOSRmb4HLel9C1Ar1vbP6BCgDIVI14NN3Cl+jL0U0sQhd2BO7A
+ XdwPZz/Opqng==
+X-IronPort-AV: E=McAfee;i="6200,9189,10004"; a="201275100"
+X-IronPort-AV: E=Sophos;i="5.83,248,1616482800"; d="scan'208";a="201275100"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Jun 2021 07:03:43 -0700
+IronPort-SDR: Ew1FqcoGE5c/5qbm81e3w61N3YXCw/Qdul+CFkFcX0k+Rg0eVVbJy5cBbrSsMLabb5kAbN7ypf
+ zgML+WDK8Dkg==
+X-IronPort-AV: E=Sophos;i="5.83,248,1616482800"; d="scan'208";a="468330568"
+Received: from janlundk-mobl1.ger.corp.intel.com (HELO [10.249.254.183])
+ ([10.249.254.183])
+ by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Jun 2021 07:03:41 -0700
+Message-ID: <4e465ada6f8b1a8b76fea782adcf3043630efa5e.camel@linux.intel.com>
+Subject: Re: [Intel-gfx] Merging TTM branches through the Intel tree?
+From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
+To: Christian =?ISO-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>, 
+ Daniel Vetter <daniel@ffwll.ch>, Dave Airlie <airlied@gmail.com>
+Date: Fri, 04 Jun 2021 16:03:39 +0200
+In-Reply-To: <b81637c8-fd97-0927-f356-51fa98604bd1@gmail.com>
+References: <a29eaef9-2457-1393-6757-40956811daf8@linux.intel.com>
+ <a6965639-acf6-b5f5-482c-2715e7fa69d4@amd.com>
+ <b4c18e45-98c9-ce7f-b22c-c00c795844c2@shipmail.org>
+ <baf4f828-76c8-6b47-5bba-9b9c8e7b307b@amd.com>
+ <YLfQplT8H6PdCCLX@phenom.ffwll.local>
+ <c50fa98f-3735-fe04-d3f9-8a7a08a7562e@linux.intel.com>
+ <CAKMK7uE+fB_+UG668O=QMXwQ9_Xb--KhzehT77HLfBoWve-zLg@mail.gmail.com>
+ <68e6057c-df17-64ce-3116-cd5e79578795@amd.com>
+ <a3f789a0-9e75-280a-7602-4728738024eb@linux.intel.com>
+ <YLnuj0jmF8q05pta@phenom.ffwll.local>
+ <b81637c8-fd97-0927-f356-51fa98604bd1@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.40.1 (3.40.1-1.fc34) 
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,77 +60,150 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- kernel@collabora.com, ML dri-devel <dri-devel@lists.freedesktop.org>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: "Thomas =?ISO-8859-1?Q?Hellstr=F6m?= \(Intel\)" <thomas_os@shipmail.org>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Matthew Auld <matthew.auld@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 26 May 2021 at 17:21, Emil Velikov <emil.l.velikov@gmail.com> wrote=
-:
->
-> Hi Ville,
->
-> On Tue, 18 May 2021 at 12:17, Ville Syrj=C3=A4l=C3=A4
-> <ville.syrjala@linux.intel.com> wrote:
-> >
-> > On Tue, May 18, 2021 at 12:09:56PM +0100, Emil Velikov wrote:
-> > > Hi Ville,
-> > >
-> > > On Mon, 17 May 2021 at 18:24, Ville Syrj=C3=A4l=C3=A4
-> > > <ville.syrjala@linux.intel.com> wrote:
-> > > >
-> > > > On Sun, May 16, 2021 at 06:14:32PM +0100, Emil Velikov wrote:
-> > > > > From: Vivek Das Mohapatra <vivek@collabora.com>
-> > > > >
-> > > > > This patch is to do with seamless handover, eg when the sequence =
-is
-> > > > > bootloader =E2=86=92 plymouth =E2=86=92 desktop.
-> > > > >
-> > > > > It switches the vga arbiter from the "other" GPU to the default o=
-ne
-> > > > > (intel in this case), so the driver can issue some io().
-> > > >
-> > > > I don't understand what this commit message is trying to say.
-> > > >
-> > > Bunch of context is lost due to the patch age, so I'm not 100% sure o=
-f
-> > > the actual hardware setup where this occurs.
-> > > Does the following make sense?
-> > >
-> > > Currently on dual GPU systems, we do not get seamless handover as the
-> > > output flickers during the transition bootloader -> plymouth ->
-> > > desktop.
-> > > This happens as a result of switching (via the VGA arbiter) from the
-> > > "other" GPU back to the default i915 one and issuing io() commands.
-> >
-> > Hmm. Does this work?
-> >
-> > --- a/drivers/gpu/drm/i915/display/intel_vga.c
-> > +++ b/drivers/gpu/drm/i915/display/intel_vga.c
-> > @@ -29,6 +29,9 @@ void intel_vga_disable(struct drm_i915_private *dev_p=
-riv)
-> >         i915_reg_t vga_reg =3D intel_vga_cntrl_reg(dev_priv);
-> >         u8 sr1;
-> >
-> > +       if (intel_de_read(dev_priv, vga_reg) & VGA_DISP_DISABLE)
-> > +               return;
-> > +
-> >         /* WaEnableVGAAccessThroughIOPort:ctg,elk,ilk,snb,ivb,vlv,hsw *=
-/
-> >         vga_get_uninterruptible(pdev, VGA_RSRC_LEGACY_IO);
-> >         outb(SR01, VGA_SR_INDEX);
-> >
-> Was able to replicate the issue somewhat and the above does help quite a =
-lot.
-> Feel free to add my:
-> Reviewed-by: Emil Velikov <emil.velikov@collabora.com>
-> Tested-by: Emil Velikov <emil.velikov@collabora.com>
->
-Humble poke.
+On Fri, 2021-06-04 at 15:38 +0200, Christian König wrote:
+> Am 04.06.21 um 11:12 schrieb Daniel Vetter:
+> > On Fri, Jun 04, 2021 at 11:01:40AM +0200, Thomas Hellström wrote:
+> > > On 6/4/21 9:51 AM, Christian König wrote:
+> > > > Am 03.06.21 um 09:36 schrieb Daniel Vetter:
+> > > > > On Thu, Jun 3, 2021 at 8:50 AM Thomas Hellström
+> > > > > <thomas.hellstrom@linux.intel.com> wrote:
+> > > > > > On 6/2/21 8:40 PM, Daniel Vetter wrote:
+> > > > > > > On Wed, Jun 02, 2021 at 11:48:41AM +0200, Christian König
+> > > > > > > wrote:
+> > > > > > > > Am 02.06.21 um 11:16 schrieb Thomas Hellström (Intel):
+> > > > > > > > > On 6/2/21 10:32 AM, Christian König wrote:
+> > > > > > > > > > Uff I'm just waiting for feedback from Philip to
+> > > > > > > > > > merge a large patch
+> > > > > > > > > > set for TTM through drm-misc-next.
+> > > > > > > > > > 
+> > > > > > > > > > I'm pretty sure we will run into merge conflicts if
+> > > > > > > > > > you try to push
+> > > > > > > > > > your changes through the Intel tree.
+> > > > > > > > > > 
+> > > > > > > > > > Christian.
+> > > > > > > > > OK, so what would be the best approach here?, Adding
+> > > > > > > > > the TTM patches to
+> > > > > > > > > drm-misc-next when your set has landed?
+> > > > > > > > I think I will send out out my set to Matthew once more
+> > > > > > > > for review, then
+> > > > > > > > push the common TTM stuff to drm-misc-next as much as
+> > > > > > > > possible.
+> > > > > > > > 
+> > > > > > > > Then you should be able to land your stuff to
+> > > > > > > > drm-misc-next and rebase on
+> > > > > > > > the end result.
+> > > > > > > > 
+> > > > > > > > Just need to note to David that drm-misc-next should be
+> > > > > > > > merged to drm-next
+> > > > > > > > before the Intel patches depending on that stuff land
+> > > > > > > > as well.
+> > > > > > > Other option (because the backmerges tend to be slow) is
+> > > > > > > a
+> > > > > > > topic branch,
+> > > > > > > and we just eat/resolve the conflicts in both drm-misc-
+> > > > > > > next and
+> > > > > > > drm-intel-gt-next in the merge commit. If it's not too
+> > > > > > > bad (I haven't
+> > > > > > > looked at what exactly we need for the i915 side from ttm
+> > > > > > > in detail).
+> > > > > > > 
+> > > > > > > But also often figuring out the topic branch logistics
+> > > > > > > takes
+> > > > > > > longer than
+> > > > > > > just merging to drm-misc-next as the patches get ready.
+> > > > > > > -Daniel
+> > > > > > Daniel: So the thing we need to get into TTM is the
+> > > > > > iterator-based
+> > > > > > move_memcpy which is more adaptable than the current one
+> > > > > > and needed to
+> > > > > > support non-linear lmem buffers, some bug-fixes and minor
+> > > > > > changes to be
+> > > > > > able to keep our short-term-pinning while on the LRU. A
+> > > > > > necessary evil.
+> > > > > > 
+> > > > > > Christian: it looks like you have landed some TTM changes
+> > > > > > already, in
+> > > > > > particular the &bo->mem -> bo->resource change which is the
+> > > > > > main
+> > > > > > conflict I think.
+> > > > Yes, I thought that pushing this with Matthew rb should solve
+> > > > at least a
+> > > > bit of the conflict.
+> > > > 
+> > > > > > Is the 10 patches self-allocation series the main
+> > > > > > remaining part?
+> > > > Yes, exactly. I only need Matthew's, Daniel's or your ok and
+> > > > I'm good to
+> > > > go as well
+> > > > 
+> > > > > > That will probably cause some conflicts with already
+> > > > > > pushed i915 TTM setup code, but otherwise will not conflict
+> > > > > > with the
+> > > > > > rest of the TTM code I think, which should make it possible
+> > > > > > to bring in
+> > > > > > our TTM changes after conflict resolution with what you've
+> > > > > > already
+> > > > > > pushed. The memcpy code is pretty self-contained.
+> > > > > I think in that case topic branch on top of drm-next (once
+> > > > > the ttm
+> > > > > bits we conflict with are there) is probably best, and then
+> > > > > pull that
+> > > > > into drm-misc-next and drm-intel-gt-next. Merge window freeze
+> > > > > is also
+> > > > > approach, so without topic branch we'd be stuck until like -
+> > > > > rc2 when
+> > > > > drm-next reopens. I guess Maarten can do the topic branch
+> > > > > logistics in
+> > > > > drm-misc.git for this.
+> > > > That approach sounds good to me as well.
+> > > > 
+> > > > The amdgpu branch had some merge conflicts as well, but nothing
+> > > > we
+> > > > couldn't fix.
+> > > OK, so this is going to be a little tricky, I guess.
+> > > 
+> > >  From what I can tell, the memcpy TTM stuff is resolved locally
+> > > and can be
+> > > merged to drm-misc-next immediately. It might have a very minor
+> > > conflict
+> > > with your 10 patches I think, if any.
+> > > 
+> > > Your 10 patches will conflict slightly with current drm-intel-gt-
+> > > next I
+> > > think.
+> > > 
+> > > Remaining intel patches will conflict only with current drm-misc-
+> > > next.
+> > > 
+> > > So We could have pull order
+> > > 
+> > > - drm-misc-next up to bot not including your 10 patches,
+> > > - drm-intel-gt-next
+> > > - drm-misc-next from your 10 paches and onwards,
+> > > - Intel's ttm enablement topic branch.
+> > If it's just slight conflicts then I wouldn't bother with careful
+> > merge
+> > order. Because if we do this we can get around to the i915 ttm
+> > topic
+> > branch only when we're back to -rc2.
+> 
+> I've just pushed the remaining 10 patches to drm-misc-next and ran
+> into 
+> minor merge conflicts in drm-tip.
+> 
+> I'm working on this, but I'm not very familiar with drm-tip handling.
+> 
+> Christian.
 
-Cannot see this patch in the drm-misc or drm-intel trees. Is there
-anything I do to help move it forward?
+Np, I'll hold off until Monday.
 
-Thanks
--Emil
+/Thomas
+
+
