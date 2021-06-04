@@ -2,60 +2,120 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6F9A39BF69
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Jun 2021 20:14:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CBDD39BF85
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Jun 2021 20:24:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1712A6F88D;
-	Fri,  4 Jun 2021 18:14:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2D89B6E165;
+	Fri,  4 Jun 2021 18:24:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb2d.google.com (mail-yb1-xb2d.google.com
- [IPv6:2607:f8b0:4864:20::b2d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DAA896F88D
- for <dri-devel@lists.freedesktop.org>; Fri,  4 Jun 2021 18:14:44 +0000 (UTC)
-Received: by mail-yb1-xb2d.google.com with SMTP id p184so14896693yba.11
- for <dri-devel@lists.freedesktop.org>; Fri, 04 Jun 2021 11:14:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=jlekstrand-net.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=z/1wKLmqT+efNr2bWMZ+eYUJ8DWV7S41jOPk0rztU9s=;
- b=TdCV0TJClBd9qd2LOaCdhtAyiW61Q7DMTmXb6SI1yS6923ryFr7muXgJxQY0PsWOFt
- bNSS/p1VSUMoENGxjElQ8IDjhxvIsRLNlYrA69raED5D/89TsT48zVkRe1TTBzEfRLe7
- iicmQmIduWSEYXFMAkmugwSL0f0GFPYUvsA+chMzE0+c9CxXUoTp2tJeWjZWb29i+1Et
- ImrJ1P4ktV7cMblhpIr+mANmpZBW2M2uk3DYtG2AqzG+tHQiQVHTfTqZ1vOr6bNEgCvA
- GFrgYFmWC5SLgaqfHpiKAJ6kLPIfiqK0S3/z1e05B06qwKlOqlq9bphYeP9ZkBhEiqQj
- 6cFA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=z/1wKLmqT+efNr2bWMZ+eYUJ8DWV7S41jOPk0rztU9s=;
- b=QMEZEPDIir9LAxBOP2+lqsfyg1H2e97hMI5WEQJW6BUJmlWCvNgxvABVUF9slXehQg
- XmsYcM8T6yexSNXfKoEL3pHYSJEsDaQMIUvvxa3g2KyOL3p5xZnuxhhw51dVrpw2LUI4
- 4kyzNOiKpp76VAB4G0t3YlcHGAVhfBcwfbnleXbjEswZO6c1RlSNGRJ0hL9TH0go6Uw9
- 1fkGe/B0dNzkMrXfFaN6lmlIkEpyQzOQ4WGkutglXfl4QRZf0GVev8dW2/ZF+D5kZEzU
- nK7Zs+y+v1xRpzqHTBYzgWmZyjkGTG4CCLWWdfVdZvnult0cSQEkbxkAZZpNONv7SdLe
- pKVQ==
-X-Gm-Message-State: AOAM532eFuPhnao5JmNod4QJpHUqQGIHmqZYAfnFq0NATfRyK0cSBMNj
- KSe6DwdYRYIe21EXHIRWeGvBYD/bV7m3OKXFMpxXdQ==
-X-Google-Smtp-Source: ABdhPJzCKZB9jUiJ2VCUa7K4lmZa43maFl4/KSCNM68HGjOri+QK5tW3iYkGH50qnYWP34nfEhlwQmdvG7awJa11n88=
-X-Received: by 2002:a25:208b:: with SMTP id g133mr6533851ybg.211.1622830483413; 
- Fri, 04 Jun 2021 11:14:43 -0700 (PDT)
+Received: from NAM02-DM3-obe.outbound.protection.outlook.com
+ (mail-dm3nam07on2077.outbound.protection.outlook.com [40.107.95.77])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AD4D36E165;
+ Fri,  4 Jun 2021 18:24:33 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=gpcYVsvTCGSvfAv8hP2yNOoIyU/gZ78pEBl65sYss3bmPP61qriwPrBMWgxdAkG0vUmVmKWhefqsg+IZ4HrdxDxzsfwuiRR2Dg2N/ItjlWlhOR5utVdpw7Uej2oSnhFBBowDE9yJNs0E2U55wFgpeCg0HXivn+hE5aLDNDs7Qyeg32CxqPAhroQvdaemwmIKq1S0aXo838vzXqR2bi777OmBd5u2qJEDvHtdNBQ0Dcwg9YKzKHOkbQkwOwznDgE+7LFcypuwwsHjogQ96wg8I0dsOveDxLpTi3+4ZV9BH3iraCVr36vrBcwZRvO2HLCu37VrfewbQZOAwkcgIswshQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=HHUE9k9bmyumRMmPmaL8bBPP6/Rv5s+2Crf42Qy+VSQ=;
+ b=YOEtYtGznxER4mwZQDYJ0AKxg21V7aR758RuTaHoCWKDOuEJ4xUURWSdIMVL0ck1e32FmHaRLveFB0JdGVpDmsSAuMQKmytTMvczDAiK7RBk/3H1xSUykf+AqhvhmSJGOt354mHjMdJF3W32YufO0JiOgxbbCD2E8IlB9/ljsOCL9eR56p8dW3VPXMGXbja3EBZcKyqJRX17g2iv5pIJObYiqKQsgSQc0hC+9kWxHS+Dr2BuK95iUX3d78jTXEXOfqKMWdOf0kuOwyxsLI8W6XaLQZhBptDIWU7cGWN01fOeqzX0yqpOX9F7EFuChlU7guY+kCorOLAMmIRzZ0lKfw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=HHUE9k9bmyumRMmPmaL8bBPP6/Rv5s+2Crf42Qy+VSQ=;
+ b=2JqnQckEn58QZG6ebkcs8Os5pydmTEPHCkVfVGndukJ8HphdjWjO+vhnY9KZqYnBR46yQJ0dacCMe5v0Z/6QyGY+PQ2xcLG5k9p5bI2r9dm2SBKhsp8wgBqts/Fr8BpqYz7gcouSVYcH4oLcjeVIA9kWpeVopmgS1aAt9vmXuno=
+Authentication-Results: amd.com; dkim=none (message not signed)
+ header.d=none;amd.com; dmarc=none action=none header.from=amd.com;
+Received: from CO6PR12MB5427.namprd12.prod.outlook.com (2603:10b6:5:358::13)
+ by CO6PR12MB5489.namprd12.prod.outlook.com (2603:10b6:303:139::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4195.24; Fri, 4 Jun
+ 2021 18:24:32 +0000
+Received: from CO6PR12MB5427.namprd12.prod.outlook.com
+ ([fe80::f455:b0b4:439:2753]) by CO6PR12MB5427.namprd12.prod.outlook.com
+ ([fe80::f455:b0b4:439:2753%3]) with mapi id 15.20.4195.025; Fri, 4 Jun 2021
+ 18:24:31 +0000
+Subject: Re: [PATCH 02/21] drm: Add Plane Degamma Mode property
+To: Uma Shankar <uma.shankar@intel.com>, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+References: <20210601105218.29185-1-uma.shankar@intel.com>
+ <20210601105218.29185-3-uma.shankar@intel.com>
+From: Harry Wentland <harry.wentland@amd.com>
+Message-ID: <2154f1d1-2c86-ede7-4b23-acab93e3eb00@amd.com>
+Date: Fri, 4 Jun 2021 14:24:28 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.2
+In-Reply-To: <20210601105218.29185-3-uma.shankar@intel.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [198.200.67.154]
+X-ClientProxiedBy: YQXPR0101CA0019.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:c00:15::32) To CO6PR12MB5427.namprd12.prod.outlook.com
+ (2603:10b6:5:358::13)
 MIME-Version: 1.0
-References: <20210603212722.59719-1-matthew.brost@intel.com>
- <20210603212722.59719-2-matthew.brost@intel.com>
- <CAOFGe964fTFG7f04Z9ktvu4bahHaPMP_gdvKjUpfC3+kwDc_og@mail.gmail.com>
- <20210604173508.GA20279@sdutt-i7>
- <CAOFGe94PY3eV=Qh6iMHsD+uTMJL=1jBwp9WsqtKhgztVC2Nbbg@mail.gmail.com>
- <20210604175156.GA22366@sdutt-i7>
-In-Reply-To: <20210604175156.GA22366@sdutt-i7>
-From: Jason Ekstrand <jason@jlekstrand.net>
-Date: Fri, 4 Jun 2021 13:14:31 -0500
-Message-ID: <CAOFGe97jR46XytdXxBauVafes_5xoh6H712+xRgr7cLVdnPfCQ@mail.gmail.com>
-Subject: Re: [PATCH 1/9] drm/i915: Move priolist to new i915_sched_engine
- object
-To: Matthew Brost <matthew.brost@intel.com>
-Content-Type: text/plain; charset="UTF-8"
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.50.3] (198.200.67.154) by
+ YQXPR0101CA0019.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:c00:15::32) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4173.27 via Frontend
+ Transport; Fri, 4 Jun 2021 18:24:30 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: cdb16d13-70f1-4a08-1bda-08d92785ff2f
+X-MS-TrafficTypeDiagnostic: CO6PR12MB5489:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <CO6PR12MB54890A886364FDBB1F18BF478C3B9@CO6PR12MB5489.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: fz9CayxSc8byDZxD6tbU1Ikz1WPKlKc7PZubwPwrw1RfAuMxbQu4kB3Z2VGr6Z/jUQ66bgf3J8KPAaI5mMnKO7c13Tm2oFFcSRo7y76fvj3ddrpOCKA+L9IB4YND4WkcnMTfGXsh6+nQHXlwsow4PSKMaaPB8Y5mfxpJC88X15h6hutRUOTKEJdn4aD65/mPV9e2fsDul2hX1sOshte72woh6qmdjaWe70NpC9PVafzBDGPIsm7ig/4e1IjgSVOjOY/lQMIY9SNkNtSnp1plz95jWeDYk7nNcAVFNpjU9Vu0Hheg+U6MMWEUoXiNXg85xjfA6WYSr0E3i90EvhGwbVhj77RX8NlO63D8x2TcDml+9kj6MG3MHoT6UZKvkX0eo0z6V4WBb8l75254rldLuYHYnQIDo2bWHUNEcpojI4hdK/pDqqS/BSc/ZrJLSL8+CAcShfkNJ0dqeqjvk0s3c3Y0gAz606NTMqv5CSsWSu/EUipEcQcnghpf6ANWEKjeWL9LVDiUSlZcf63LoaCNs51Op3tSeg+06P3fHiWuUVugVHNwr4dI+p8wkd32TU4DTKGlhO9sRS0d++x3i1ilWVEbZhwyc8GM8tqNzCHsn/C4vOsKA3V95GivkV/uMMEMN6vcvfuLrd66NNKnAmcexZ/gV1bkuGaFIloa32M1NVMlNPvYobvfnTzuIudaWUHDMPLFvAhpjIVFVrsWkS6s1KYk3hJFy8sOYZ1fi2qU94Jak81/IrRFj+7Zo/Ngwh0jnBMIqqPXEqXjBho4hZGQDrvS2AeKFtt9tBpA4CiUnGU=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CO6PR12MB5427.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(136003)(376002)(39860400002)(396003)(366004)(346002)(66946007)(31686004)(44832011)(316002)(66476007)(956004)(2616005)(30864003)(86362001)(16576012)(31696002)(66556008)(83380400001)(38100700002)(966005)(36756003)(8676002)(186003)(8936002)(16526019)(53546011)(6486002)(4326008)(5660300002)(2906002)(478600001)(26005)(43740500002)(45980500001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?MVExMU0xSnhhc1YzOHpOOTg0OENQM0tUdGtWRUwvUXM1VVNHcWJnVG9HeVNS?=
+ =?utf-8?B?Vk5KaENyU3ZjWDVGMmE2b0t3MGxMTndWckdkaXpnek5lRTEyU1p5ZnRqSFlN?=
+ =?utf-8?B?emdPOXFvMG1nd2p6Z2JQemlVcG9IVWswVE9OdzRRZVAxSlpkbDBtM3hab0Vy?=
+ =?utf-8?B?SDBLWUtpVzVnSDZRTkE2Q0FVUmF2dVVzd201eXNmeEFUWjRLbVNGcHNab1pt?=
+ =?utf-8?B?OWxvdVE2WlV6eFpWK0ZxRWJnTFYydjR3cjZ6UU90MDNXMVdYdEJCREkyNHph?=
+ =?utf-8?B?R3RXbEVCV0xZaDNwWjVxbTl5dUtkd3RTSE43UjVrUlVvSUtvTXhRL1JDVFVC?=
+ =?utf-8?B?M0FTNW1SemZEcUNFaGJnTWNqYnhhK1cyZ1NrU3RlUGFTUk9kSzhxdHpXejE5?=
+ =?utf-8?B?OXJGRFVTaENUK2F5RSs3WlpyUWpid09OcG1BMk5WQUZxaHYvUmhKMlBvRHNk?=
+ =?utf-8?B?S1BncS9FME1EaTV3Qnk5YVBHbFFNb08vNTRBdUsvbk5GQ2pyQTBiZGJ4bnVQ?=
+ =?utf-8?B?UmFNZ2JxOFBEZVVoNDgrQm5UendicUxONU54Vy8rbzZHTUtub2p2QnllM3Vy?=
+ =?utf-8?B?eXNXL0JpVExKWG04WVRnMCtRNXBnWjhDN25mL1dDdzF4WDRGajBZd3RncDFP?=
+ =?utf-8?B?cHkrelFXbHVIb1I1STdFdFhPNjZsaTN4bXhaMmE4cW1XUVFsU1ZJMis3TU9N?=
+ =?utf-8?B?bWdhdEgzRm9LbHpxSTJ6amxZR1l0K29vd3VyaFNvZlpzaDZhZGFMRjdtTzhl?=
+ =?utf-8?B?ZWlSZm1kSU52dVMrYUk1cXNQanZzSVU5cWhsRjR4UEpnT2dlK3EwL1RncXFC?=
+ =?utf-8?B?d0Mzb2gyTm0vaVl4bXZVcTl1QTdJSWpyUEZOekZTOHA2aEV2RHhRa1kyM1E1?=
+ =?utf-8?B?aG1WOS9YOWgrL051MmorczNvek9xeWFOaU1SNEdrdmIySDJFQnpndXdIMVVj?=
+ =?utf-8?B?Z0YxNXdsTHJNblFXMUZOajBOdGt5QVl6ZlpBVHd4QmIwOStTd1ZRdGhDSHlW?=
+ =?utf-8?B?Q1dSbkFZZkxUWnBWWHlrTDh6bGpjVmMwZ1VtM01FV1E5Y05aQ1dQNndXQjJo?=
+ =?utf-8?B?U2E0Q1pxV3lkNkkxRHhoVE9ld3FjRWMwR0pNOVRRYWF1VHFrNUxDNWNPcHd6?=
+ =?utf-8?B?NnNFa0Y5T01ZMkIzWmUySmVzRWtVSnNMRjkvdGVGeG5neG1tQkY0empTSDBV?=
+ =?utf-8?B?b21IR01YTGhUOS9rVEFuc0F2QkVTcDJ1N1hWMGNzYWdNY05jZ3RhbTRUVTlE?=
+ =?utf-8?B?bzZIN3JTZlk5S0FFOHhDTnlVN2J6bnpCTDU5N2hZcEdUY0FNUWNIU0h3TFYx?=
+ =?utf-8?B?azdvQTNqd2w0R01vbFVnbG02VjlBM1BqeWYxYldXUFVtYUIxMmExT2F1NFhG?=
+ =?utf-8?B?eFl6RHlqRjZlK3d3MldrSU1vbUt4ZzhITVZqL1hONXptaUpKUmhEMThDa05C?=
+ =?utf-8?B?bFB6NFVQSXhva3M0WGpVdlFhNE84bWFlVWkrS1FzK1EwTjJoYmNkcDdCRWNI?=
+ =?utf-8?B?ZWhCN3BVeEEzZEhnSnU5cFl6K2lndmRKbXRRVEhPUkhCM1dVdlNhRTZrNHJ2?=
+ =?utf-8?B?TkE0ZktNQS92YXFyOGt0TVJYVis2UFdMeXBqS2VyR0ZKYVM0UWN4TTVHdE5r?=
+ =?utf-8?B?OHVTZXpiSHQya3k5a09UYzJGMUtmUGRWVXFQcWRWU0ZEUXFmSzAweDhuTDMr?=
+ =?utf-8?B?TFpBNjhJbFU4aGdERWgvRTRFY3dETDFpUmJCdWlVbVU0TE9xN0cxS2lhdWEw?=
+ =?utf-8?Q?/iwJuvqZk3w6R05QSXKmZhbtPMHg8biad21+j7z?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: cdb16d13-70f1-4a08-1bda-08d92785ff2f
+X-MS-Exchange-CrossTenant-AuthSource: CO6PR12MB5427.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Jun 2021 18:24:31.7834 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: VtpquIRIgV+7ve3DoRfEVX/nxxGEpW+EsN3ON5HGIzM2gHSbg+4Kw6Xi5QrBd30BAunNrt6K6sW70RjAzaAeJA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO6PR12MB5489
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,875 +128,390 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@intel.com>,
- Intel GFX <intel-gfx@lists.freedesktop.org>,
- Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>
+Cc: bhanuprakash.modem@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jun 4, 2021 at 12:59 PM Matthew Brost <matthew.brost@intel.com> wrote:
->
-> On Fri, Jun 04, 2021 at 12:51:43PM -0500, Jason Ekstrand wrote:
-> > On Fri, Jun 4, 2021 at 12:42 PM Matthew Brost <matthew.brost@intel.com> wrote:
-> > >
-> > > On Fri, Jun 04, 2021 at 12:38:22PM -0500, Jason Ekstrand wrote:
-> > > > On Thu, Jun 3, 2021 at 4:09 PM Matthew Brost <matthew.brost@intel.com> wrote:
-> > > > >
-> > > > > Introduce i915_sched_engine object which is lower level data structure
-> > > > > that i915_scheduler / generic code can operate on without touching
-> > > > > execlist specific structures. This allows additional submission backends
-> > > > > to be added without breaking the layering.
-> > > > >
-> > > > > This is a bit of detour to integrating the i915 with the DRM scheduler
-> > > > > but this object will still exist when the DRM scheduler lands in the
-> > > > > i915. It will however look a bit different. It will encapsulate the
-> > > > > drm_gpu_scheduler object plus and common variables (to the backends)
-> > > > > related to scheduling. Regardless this is a step in the right direction.
-> > > > >
-> > > > > This patch starts the aforementioned transition by moving the the
-> > > > > priolist into the i915_sched_engine object.
-> > > > >
-> > > > > Signed-off-by: Matthew Brost <matthew.brost@intel.com>
-> > > > > ---
-> > > > >  drivers/gpu/drm/i915/gt/intel_engine_cs.c     | 14 +++-
-> > > > >  drivers/gpu/drm/i915/gt/intel_engine_pm.c     |  4 +-
-> > > > >  drivers/gpu/drm/i915/gt/intel_engine_types.h  | 30 +------
-> > > > >  .../drm/i915/gt/intel_execlists_submission.c  | 81 +++++++++++--------
-> > > > >  drivers/gpu/drm/i915/gt/mock_engine.c         |  9 ++-
-> > > > >  .../gpu/drm/i915/gt/uc/intel_guc_submission.c | 19 ++---
-> > > > >  drivers/gpu/drm/i915/i915_scheduler.c         | 51 +++++++++---
-> > > > >  drivers/gpu/drm/i915/i915_scheduler.h         | 18 +++++
-> > > > >  drivers/gpu/drm/i915/i915_scheduler_types.h   | 33 ++++++++
-> > > > >  9 files changed, 169 insertions(+), 90 deletions(-)
-> > > > >
-> > > > > diff --git a/drivers/gpu/drm/i915/gt/intel_engine_cs.c b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
-> > > > > index 3f9a811eb02b..d0f3814440f6 100644
-> > > > > --- a/drivers/gpu/drm/i915/gt/intel_engine_cs.c
-> > > > > +++ b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
-> > > > > @@ -583,9 +583,6 @@ void intel_engine_init_execlists(struct intel_engine_cs *engine)
-> > > > >         memset(execlists->pending, 0, sizeof(execlists->pending));
-> > > > >         execlists->active =
-> > > > >                 memset(execlists->inflight, 0, sizeof(execlists->inflight));
-> > > > > -
-> > > > > -       execlists->queue_priority_hint = INT_MIN;
-> > > > > -       execlists->queue = RB_ROOT_CACHED;
-> > > > >  }
-> > > > >
-> > > > >  static void cleanup_status_page(struct intel_engine_cs *engine)
-> > > > > @@ -712,6 +709,12 @@ static int engine_setup_common(struct intel_engine_cs *engine)
-> > > > >                 goto err_status;
-> > > > >         }
-> > > > >
-> > > > > +       engine->sched_engine = i915_sched_engine_create(ENGINE_PHYSICAL);
-> > > > > +       if (!engine->sched_engine) {
-> > > > > +               err = -ENOMEM;
-> > > > > +               goto err_sched_engine;
-> > > > > +       }
-> > > > > +
-> > > > >         err = intel_engine_init_cmd_parser(engine);
-> > > > >         if (err)
-> > > > >                 goto err_cmd_parser;
-> > > > > @@ -735,6 +738,8 @@ static int engine_setup_common(struct intel_engine_cs *engine)
-> > > > >         return 0;
-> > > > >
-> > > > >  err_cmd_parser:
-> > > > > +       i915_sched_engine_put(engine->sched_engine);
-> > > > > +err_sched_engine:
-> > > > >         intel_breadcrumbs_free(engine->breadcrumbs);
-> > > > >  err_status:
-> > > > >         cleanup_status_page(engine);
-> > > > > @@ -958,6 +963,7 @@ void intel_engine_cleanup_common(struct intel_engine_cs *engine)
-> > > > >         GEM_BUG_ON(!list_empty(&engine->active.requests));
-> > > > >         tasklet_kill(&engine->execlists.tasklet); /* flush the callback */
-> > > > >
-> > > > > +       i915_sched_engine_put(engine->sched_engine);
-> > > > >         intel_breadcrumbs_free(engine->breadcrumbs);
-> > > > >
-> > > > >         intel_engine_fini_retire(engine);
-> > > > > @@ -1281,7 +1287,7 @@ bool intel_engine_is_idle(struct intel_engine_cs *engine)
-> > > > >         intel_engine_flush_submission(engine);
-> > > > >
-> > > > >         /* ELSP is empty, but there are ready requests? E.g. after reset */
-> > > > > -       if (!RB_EMPTY_ROOT(&engine->execlists.queue.rb_root))
-> > > > > +       if (!RB_EMPTY_ROOT(&engine->sched_engine->queue.rb_root))
-> > > > >                 return false;
-> > > > >
-> > > > >         /* Ring stopped? */
-> > > > > diff --git a/drivers/gpu/drm/i915/gt/intel_engine_pm.c b/drivers/gpu/drm/i915/gt/intel_engine_pm.c
-> > > > > index 47f4397095e5..b6a00dd72808 100644
-> > > > > --- a/drivers/gpu/drm/i915/gt/intel_engine_pm.c
-> > > > > +++ b/drivers/gpu/drm/i915/gt/intel_engine_pm.c
-> > > > > @@ -275,12 +275,12 @@ static int __engine_park(struct intel_wakeref *wf)
-> > > > >         intel_breadcrumbs_park(engine->breadcrumbs);
-> > > > >
-> > > > >         /* Must be reset upon idling, or we may miss the busy wakeup. */
-> > > > > -       GEM_BUG_ON(engine->execlists.queue_priority_hint != INT_MIN);
-> > > > > +       GEM_BUG_ON(engine->sched_engine->queue_priority_hint != INT_MIN);
-> > > > >
-> > > > >         if (engine->park)
-> > > > >                 engine->park(engine);
-> > > > >
-> > > > > -       engine->execlists.no_priolist = false;
-> > > > > +       engine->sched_engine->no_priolist = false;
-> > > > >
-> > > > >         /* While gt calls i915_vma_parked(), we have to break the lock cycle */
-> > > > >         intel_gt_pm_put_async(engine->gt);
-> > > > > diff --git a/drivers/gpu/drm/i915/gt/intel_engine_types.h b/drivers/gpu/drm/i915/gt/intel_engine_types.h
-> > > > > index 9ef349cd5cea..86b41ddec373 100644
-> > > > > --- a/drivers/gpu/drm/i915/gt/intel_engine_types.h
-> > > > > +++ b/drivers/gpu/drm/i915/gt/intel_engine_types.h
-> > > > > @@ -59,6 +59,7 @@ struct drm_i915_reg_table;
-> > > > >  struct i915_gem_context;
-> > > > >  struct i915_request;
-> > > > >  struct i915_sched_attr;
-> > > > > +struct i915_sched_engine;
-> > > > >  struct intel_gt;
-> > > > >  struct intel_ring;
-> > > > >  struct intel_uncore;
-> > > > > @@ -152,11 +153,6 @@ struct intel_engine_execlists {
-> > > > >          */
-> > > > >         struct timer_list preempt;
-> > > > >
-> > > > > -       /**
-> > > > > -        * @default_priolist: priority list for I915_PRIORITY_NORMAL
-> > > > > -        */
-> > > > > -       struct i915_priolist default_priolist;
-> > > > > -
-> > > > >         /**
-> > > > >          * @ccid: identifier for contexts submitted to this engine
-> > > > >          */
-> > > > > @@ -191,11 +187,6 @@ struct intel_engine_execlists {
-> > > > >          */
-> > > > >         u32 reset_ccid;
-> > > > >
-> > > > > -       /**
-> > > > > -        * @no_priolist: priority lists disabled
-> > > > > -        */
-> > > > > -       bool no_priolist;
-> > > > > -
-> > > > >         /**
-> > > > >          * @submit_reg: gen-specific execlist submission register
-> > > > >          * set to the ExecList Submission Port (elsp) register pre-Gen11 and to
-> > > > > @@ -238,23 +229,8 @@ struct intel_engine_execlists {
-> > > > >         unsigned int port_mask;
-> > > > >
-> > > > >         /**
-> > > > > -        * @queue_priority_hint: Highest pending priority.
-> > > > > -        *
-> > > > > -        * When we add requests into the queue, or adjust the priority of
-> > > > > -        * executing requests, we compute the maximum priority of those
-> > > > > -        * pending requests. We can then use this value to determine if
-> > > > > -        * we need to preempt the executing requests to service the queue.
-> > > > > -        * However, since the we may have recorded the priority of an inflight
-> > > > > -        * request we wanted to preempt but since completed, at the time of
-> > > > > -        * dequeuing the priority hint may no longer may match the highest
-> > > > > -        * available request priority.
-> > > > > +        * @virtual: virtual of requests, in priority lists
-> > > >
-> > > > Having trouble parsing this.  Did you mean "queue of virtual
-> > > > requests"?  Or maybe "virtual queue of requests"?
-> > > >
-> > >
-> > > Yep, this doesn't really make sense. How about:
-> > > 'queue of requests on a virtual engine, in priority lists'
-> >
-> > I'm not sure what "in priority lists" means.
-> >
->
-> Ah, this is confusing to explain. Let me try to this again.
->
-> 'Queue of requets on a virtual engine, sorted by priority. Each RB entry
-> is a i915_priolist containing a list of requests of the same priority.'
+On 2021-06-01 6:51 a.m., Uma Shankar wrote:
+> Add Plane Degamma Mode as an enum property. Create a helper
+> function for all plane color management features.
+> 
+> This is an enum property with values as blob_id's and exposes
+> the various gamma modes supported and the lut ranges. Getting
+> the blob id in userspace, user can get the mode supported and
+> also the range of gamma mode supported with number of lut
+> coefficients. It can then set one of the modes using this
+> enum property.
+> 
+> Lut values will be sent through separate GAMMA_LUT blob property.
+> 
+> Signed-off-by: Uma Shankar <uma.shankar@intel.com>
+> ---
+>  Documentation/gpu/drm-kms.rst             | 90 ++++++++++++++++++++++
+>  drivers/gpu/drm/drm_atomic.c              |  1 +
+>  drivers/gpu/drm/drm_atomic_state_helper.c |  2 +
+>  drivers/gpu/drm/drm_atomic_uapi.c         |  4 +
+>  drivers/gpu/drm/drm_color_mgmt.c          | 93 ++++++++++++++++++++++-
+>  include/drm/drm_mode_object.h             |  2 +-
+>  include/drm/drm_plane.h                   | 23 ++++++
+>  7 files changed, 212 insertions(+), 3 deletions(-)
+> 
+> diff --git a/Documentation/gpu/drm-kms.rst b/Documentation/gpu/drm-kms.rst
+> index 87e5023e3f55..752be545e7d7 100644
+> --- a/Documentation/gpu/drm-kms.rst
+> +++ b/Documentation/gpu/drm-kms.rst
+> @@ -514,9 +514,99 @@ Damage Tracking Properties
+>  Color Management Properties
+>  ---------------------------
+>  
+> +Below is how a typical hardware pipeline for color
+> +will look like:
+> +
+> +.. kernel-render:: DOT
+> +   :alt: Display Color Pipeline
+> +   :caption: Display Color Pipeline Overview
+> +
+> +   digraph "KMS" {
+> +      node [shape=box]
+> +
+> +      subgraph cluster_static {
+> +          style=dashed
+> +          label="Display Color Hardware Blocks"
+> +
+> +          node [bgcolor=grey style=filled]
+> +          "Plane Degamma A" -> "Plane CSC/CTM A"
+> +          "Plane CSC/CTM A" -> "Plane Gamma A"
+> +          "Pipe Blender" [color=lightblue,style=filled, width=5.25, height=0.75];
+> +          "Plane Gamma A" -> "Pipe Blender"
+> +	  "Pipe Blender" -> "Pipe DeGamma"
+> +          "Pipe DeGamma" -> "Pipe CSC/CTM"
+> +          "Pipe CSC/CTM" -> "Pipe Gamma"
+> +          "Pipe Gamma" -> "Pipe Output"
+> +      }
+> +
 
-Way better!  Maybe throw a "struct" in front of "i915_priolist" so
-that kerneldoc will hyperlink properly.
+It might be worthwhile to also highlight the YCbCr coefficient matrix in the pipeline,
+between the FB and Plane degamma, i.e.
+  YCbCr coefficients > plane degamma > csc > ...
 
---Jason
+One problem with this view is that not all HW will support all (or any) of these
+CM blocks on all planes. For example, on AMD HW cursors are very different from
+other planes and don't really have full CM support.
 
->
-> Matt
->
->
-> > --Jason
-> >
-> > > > >          */
-> > > > > -       int queue_priority_hint;
-> > > > > -
-> > > > > -       /**
-> > > > > -        * @queue: queue of requests, in priority lists
-> > > > > -        */
-> > > > > -       struct rb_root_cached queue;
-> > > > >         struct rb_root_cached virtual;
-> > > > >
-> > > > >         /**
-> > > > > @@ -332,6 +308,8 @@ struct intel_engine_cs {
-> > > > >                 struct list_head hold; /* ready requests, but on hold */
-> > > > >         } active;
-> > > > >
-> > > > > +       struct i915_sched_engine *sched_engine;
-> > > > > +
-> > > > >         /* keep a request in reserve for a [pm] barrier under oom */
-> > > > >         struct i915_request *request_pool;
-> > > > >
-> > > > > diff --git a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
-> > > > > index 8db200422950..d1dc1db3e378 100644
-> > > > > --- a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
-> > > > > +++ b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
-> > > > > @@ -273,11 +273,11 @@ static int effective_prio(const struct i915_request *rq)
-> > > > >         return prio;
-> > > > >  }
-> > > > >
-> > > > > -static int queue_prio(const struct intel_engine_execlists *execlists)
-> > > > > +static int queue_prio(const struct i915_sched_engine *sched_engine)
-> > > > >  {
-> > > > >         struct rb_node *rb;
-> > > > >
-> > > > > -       rb = rb_first_cached(&execlists->queue);
-> > > > > +       rb = rb_first_cached(&sched_engine->queue);
-> > > > >         if (!rb)
-> > > > >                 return INT_MIN;
-> > > > >
-> > > > > @@ -318,7 +318,7 @@ static bool need_preempt(const struct intel_engine_cs *engine,
-> > > > >          * to preserve FIFO ordering of dependencies.
-> > > > >          */
-> > > > >         last_prio = max(effective_prio(rq), I915_PRIORITY_NORMAL - 1);
-> > > > > -       if (engine->execlists.queue_priority_hint <= last_prio)
-> > > > > +       if (engine->sched_engine->queue_priority_hint <= last_prio)
-> > > > >                 return false;
-> > > > >
-> > > > >         /*
-> > > > > @@ -340,7 +340,7 @@ static bool need_preempt(const struct intel_engine_cs *engine,
-> > > > >          * context, it's priority would not exceed ELSP[0] aka last_prio.
-> > > > >          */
-> > > > >         return max(virtual_prio(&engine->execlists),
-> > > > > -                  queue_prio(&engine->execlists)) > last_prio;
-> > > > > +                  queue_prio(engine->sched_engine)) > last_prio;
-> > > > >  }
-> > > > >
-> > > > >  __maybe_unused static bool
-> > > > > @@ -384,7 +384,7 @@ __unwind_incomplete_requests(struct intel_engine_cs *engine)
-> > > > >                         prio = rq_prio(rq);
-> > > > >                         pl = i915_sched_lookup_priolist(engine, prio);
-> > > > >                 }
-> > > > > -               GEM_BUG_ON(RB_EMPTY_ROOT(&engine->execlists.queue.rb_root));
-> > > > > +               GEM_BUG_ON(RB_EMPTY_ROOT(&engine->sched_engine->queue.rb_root));
-> > > > >
-> > > > >                 list_move(&rq->sched.link, pl);
-> > > > >                 set_bit(I915_FENCE_FLAG_PQUEUE, &rq->fence.flags);
-> > > > > @@ -1139,7 +1139,7 @@ static bool needs_timeslice(const struct intel_engine_cs *engine,
-> > > > >         }
-> > > > >
-> > > > >         /* Otherwise, ELSP[0] is by itself, but may be waiting in the queue */
-> > > > > -       if (!RB_EMPTY_ROOT(&engine->execlists.queue.rb_root)) {
-> > > > > +       if (!RB_EMPTY_ROOT(&engine->sched_engine->queue.rb_root)) {
-> > > > >                 ENGINE_TRACE(engine, "timeslice required for queue\n");
-> > > > >                 return true;
-> > > > >         }
-> > > > > @@ -1236,6 +1236,7 @@ static bool completed(const struct i915_request *rq)
-> > > > >  static void execlists_dequeue(struct intel_engine_cs *engine)
-> > > > >  {
-> > > > >         struct intel_engine_execlists * const execlists = &engine->execlists;
-> > > > > +       struct i915_sched_engine * const sched_engine = engine->sched_engine;
-> > > > >         struct i915_request **port = execlists->pending;
-> > > > >         struct i915_request ** const last_port = port + execlists->port_mask;
-> > > > >         struct i915_request *last, * const *active;
-> > > > > @@ -1287,7 +1288,7 @@ static void execlists_dequeue(struct intel_engine_cs *engine)
-> > > > >                                      last->fence.context,
-> > > > >                                      last->fence.seqno,
-> > > > >                                      last->sched.attr.priority,
-> > > > > -                                    execlists->queue_priority_hint);
-> > > > > +                                    sched_engine->queue_priority_hint);
-> > > > >                         record_preemption(execlists);
-> > > > >
-> > > > >                         /*
-> > > > > @@ -1313,7 +1314,7 @@ static void execlists_dequeue(struct intel_engine_cs *engine)
-> > > > >                                      yesno(timer_expired(&execlists->timer)),
-> > > > >                                      last->fence.context, last->fence.seqno,
-> > > > >                                      rq_prio(last),
-> > > > > -                                    execlists->queue_priority_hint,
-> > > > > +                                    sched_engine->queue_priority_hint,
-> > > > >                                      yesno(timeslice_yield(execlists, last)));
-> > > > >
-> > > > >                         /*
-> > > > > @@ -1384,7 +1385,7 @@ static void execlists_dequeue(struct intel_engine_cs *engine)
-> > > > >                 GEM_BUG_ON(rq->engine != &ve->base);
-> > > > >                 GEM_BUG_ON(rq->context != &ve->context);
-> > > > >
-> > > > > -               if (unlikely(rq_prio(rq) < queue_prio(execlists))) {
-> > > > > +               if (unlikely(rq_prio(rq) < queue_prio(sched_engine))) {
-> > > > >                         spin_unlock(&ve->base.active.lock);
-> > > > >                         break;
-> > > > >                 }
-> > > > > @@ -1405,7 +1406,7 @@ static void execlists_dequeue(struct intel_engine_cs *engine)
-> > > > >                              yesno(engine != ve->siblings[0]));
-> > > > >
-> > > > >                 WRITE_ONCE(ve->request, NULL);
-> > > > > -               WRITE_ONCE(ve->base.execlists.queue_priority_hint, INT_MIN);
-> > > > > +               WRITE_ONCE(ve->base.sched_engine->queue_priority_hint, INT_MIN);
-> > > > >
-> > > > >                 rb = &ve->nodes[engine->id].rb;
-> > > > >                 rb_erase_cached(rb, &execlists->virtual);
-> > > > > @@ -1450,7 +1451,7 @@ static void execlists_dequeue(struct intel_engine_cs *engine)
-> > > > >                         break;
-> > > > >         }
-> > > > >
-> > > > > -       while ((rb = rb_first_cached(&execlists->queue))) {
-> > > > > +       while ((rb = rb_first_cached(&sched_engine->queue))) {
-> > > > >                 struct i915_priolist *p = to_priolist(rb);
-> > > > >                 struct i915_request *rq, *rn;
-> > > > >
-> > > > > @@ -1529,7 +1530,7 @@ static void execlists_dequeue(struct intel_engine_cs *engine)
-> > > > >                         }
-> > > > >                 }
-> > > > >
-> > > > > -               rb_erase_cached(&p->node, &execlists->queue);
-> > > > > +               rb_erase_cached(&p->node, &sched_engine->queue);
-> > > > >                 i915_priolist_free(p);
-> > > > >         }
-> > > > >  done:
-> > > > > @@ -1551,7 +1552,7 @@ static void execlists_dequeue(struct intel_engine_cs *engine)
-> > > > >          * request triggering preemption on the next dequeue (or subsequent
-> > > > >          * interrupt for secondary ports).
-> > > > >          */
-> > > > > -       execlists->queue_priority_hint = queue_prio(execlists);
-> > > > > +       sched_engine->queue_priority_hint = queue_prio(sched_engine);
-> > > > >         spin_unlock(&engine->active.lock);
-> > > > >
-> > > > >         /*
-> > > > > @@ -2123,8 +2124,8 @@ static void execlists_unhold(struct intel_engine_cs *engine,
-> > > > >          */
-> > > > >         __execlists_unhold(rq);
-> > > > >
-> > > > > -       if (rq_prio(rq) > engine->execlists.queue_priority_hint) {
-> > > > > -               engine->execlists.queue_priority_hint = rq_prio(rq);
-> > > > > +       if (rq_prio(rq) > engine->sched_engine->queue_priority_hint) {
-> > > > > +               engine->sched_engine->queue_priority_hint = rq_prio(rq);
-> > > > >                 tasklet_hi_schedule(&engine->execlists.tasklet);
-> > > > >         }
-> > > > >
-> > > > > @@ -2455,12 +2456,12 @@ static void queue_request(struct intel_engine_cs *engine,
-> > > > >  static bool submit_queue(struct intel_engine_cs *engine,
-> > > > >                          const struct i915_request *rq)
-> > > > >  {
-> > > > > -       struct intel_engine_execlists *execlists = &engine->execlists;
-> > > > > +       struct i915_sched_engine *sched_engine = engine->sched_engine;
-> > > > >
-> > > > > -       if (rq_prio(rq) <= execlists->queue_priority_hint)
-> > > > > +       if (rq_prio(rq) <= sched_engine->queue_priority_hint)
-> > > > >                 return false;
-> > > > >
-> > > > > -       execlists->queue_priority_hint = rq_prio(rq);
-> > > > > +       sched_engine->queue_priority_hint = rq_prio(rq);
-> > > > >         return true;
-> > > > >  }
-> > > > >
-> > > > > @@ -2486,7 +2487,7 @@ static void execlists_submit_request(struct i915_request *request)
-> > > > >         } else {
-> > > > >                 queue_request(engine, request);
-> > > > >
-> > > > > -               GEM_BUG_ON(RB_EMPTY_ROOT(&engine->execlists.queue.rb_root));
-> > > > > +               GEM_BUG_ON(RB_EMPTY_ROOT(&engine->sched_engine->queue.rb_root));
-> > > > >                 GEM_BUG_ON(list_empty(&request->sched.link));
-> > > > >
-> > > > >                 if (submit_queue(engine, request))
-> > > > > @@ -2969,12 +2970,13 @@ static void nop_submission_tasklet(struct tasklet_struct *t)
-> > > > >                 from_tasklet(engine, t, execlists.tasklet);
-> > > > >
-> > > > >         /* The driver is wedged; don't process any more events. */
-> > > > > -       WRITE_ONCE(engine->execlists.queue_priority_hint, INT_MIN);
-> > > > > +       WRITE_ONCE(engine->sched_engine->queue_priority_hint, INT_MIN);
-> > > > >  }
-> > > > >
-> > > > >  static void execlists_reset_cancel(struct intel_engine_cs *engine)
-> > > > >  {
-> > > > >         struct intel_engine_execlists * const execlists = &engine->execlists;
-> > > > > +       struct i915_sched_engine * const sched_engine = engine->sched_engine;
-> > > > >         struct i915_request *rq, *rn;
-> > > > >         struct rb_node *rb;
-> > > > >         unsigned long flags;
-> > > > > @@ -3006,7 +3008,7 @@ static void execlists_reset_cancel(struct intel_engine_cs *engine)
-> > > > >         intel_engine_signal_breadcrumbs(engine);
-> > > > >
-> > > > >         /* Flush the queued requests to the timeline list (for retiring). */
-> > > > > -       while ((rb = rb_first_cached(&execlists->queue))) {
-> > > > > +       while ((rb = rb_first_cached(&sched_engine->queue))) {
-> > > > >                 struct i915_priolist *p = to_priolist(rb);
-> > > > >
-> > > > >                 priolist_for_each_request_consume(rq, rn, p) {
-> > > > > @@ -3016,7 +3018,7 @@ static void execlists_reset_cancel(struct intel_engine_cs *engine)
-> > > > >                         }
-> > > > >                 }
-> > > > >
-> > > > > -               rb_erase_cached(&p->node, &execlists->queue);
-> > > > > +               rb_erase_cached(&p->node, &sched_engine->queue);
-> > > > >                 i915_priolist_free(p);
-> > > > >         }
-> > > > >
-> > > > > @@ -3042,15 +3044,15 @@ static void execlists_reset_cancel(struct intel_engine_cs *engine)
-> > > > >                         }
-> > > > >                         i915_request_put(rq);
-> > > > >
-> > > > > -                       ve->base.execlists.queue_priority_hint = INT_MIN;
-> > > > > +                       ve->base.sched_engine->queue_priority_hint = INT_MIN;
-> > > > >                 }
-> > > > >                 spin_unlock(&ve->base.active.lock);
-> > > > >         }
-> > > > >
-> > > > >         /* Remaining _unready_ requests will be nop'ed when submitted */
-> > > > >
-> > > > > -       execlists->queue_priority_hint = INT_MIN;
-> > > > > -       execlists->queue = RB_ROOT_CACHED;
-> > > > > +       sched_engine->queue_priority_hint = INT_MIN;
-> > > > > +       sched_engine->queue = RB_ROOT_CACHED;
-> > > > >
-> > > > >         GEM_BUG_ON(__tasklet_is_enabled(&execlists->tasklet));
-> > > > >         execlists->tasklet.callback = nop_submission_tasklet;
-> > > > > @@ -3286,7 +3288,7 @@ int intel_execlists_submission_setup(struct intel_engine_cs *engine)
-> > > > >
-> > > > >  static struct list_head *virtual_queue(struct virtual_engine *ve)
-> > > > >  {
-> > > > > -       return &ve->base.execlists.default_priolist.requests;
-> > > > > +       return &ve->base.sched_engine->default_priolist.requests;
-> > > > >  }
-> > > > >
-> > > > >  static void rcu_virtual_context_destroy(struct work_struct *wrk)
-> > > > > @@ -3344,7 +3346,10 @@ static void rcu_virtual_context_destroy(struct work_struct *wrk)
-> > > > >         lrc_fini(&ve->context);
-> > > > >         intel_context_fini(&ve->context);
-> > > > >
-> > > > > -       intel_breadcrumbs_free(ve->base.breadcrumbs);
-> > > > > +       if (ve->base.breadcrumbs)
-> > > > > +               intel_breadcrumbs_free(ve->base.breadcrumbs);
-> > > > > +       if (ve->base.sched_engine)
-> > > > > +               i915_sched_engine_put(ve->base.sched_engine);
-> > > >
-> > > > Will either of these ever actually be NULL?  The first line or two
-> > > > seems to indicate that breadcrumbs never is.
-> > > >
-> > > > >         intel_engine_free_request_pool(&ve->base);
-> > > > >
-> > > > >         kfree(ve->bonds);
-> > > > > @@ -3475,7 +3480,7 @@ static intel_engine_mask_t virtual_submission_mask(struct virtual_engine *ve)
-> > > > >
-> > > > >         ENGINE_TRACE(&ve->base, "rq=%llx:%lld, mask=%x, prio=%d\n",
-> > > > >                      rq->fence.context, rq->fence.seqno,
-> > > > > -                    mask, ve->base.execlists.queue_priority_hint);
-> > > > > +                    mask, ve->base.sched_engine->queue_priority_hint);
-> > > > >
-> > > > >         return mask;
-> > > > >  }
-> > > > > @@ -3484,7 +3489,7 @@ static void virtual_submission_tasklet(struct tasklet_struct *t)
-> > > > >  {
-> > > > >         struct virtual_engine * const ve =
-> > > > >                 from_tasklet(ve, t, base.execlists.tasklet);
-> > > > > -       const int prio = READ_ONCE(ve->base.execlists.queue_priority_hint);
-> > > > > +       const int prio = READ_ONCE(ve->base.sched_engine->queue_priority_hint);
-> > > > >         intel_engine_mask_t mask;
-> > > > >         unsigned int n;
-> > > > >
-> > > > > @@ -3552,7 +3557,7 @@ static void virtual_submission_tasklet(struct tasklet_struct *t)
-> > > > >  submit_engine:
-> > > > >                 GEM_BUG_ON(RB_EMPTY_NODE(&node->rb));
-> > > > >                 node->prio = prio;
-> > > > > -               if (first && prio > sibling->execlists.queue_priority_hint)
-> > > > > +               if (first && prio > sibling->sched_engine->queue_priority_hint)
-> > > > >                         tasklet_hi_schedule(&sibling->execlists.tasklet);
-> > > > >
-> > > > >  unlock_engine:
-> > > > > @@ -3588,7 +3593,7 @@ static void virtual_submit_request(struct i915_request *rq)
-> > > > >                 i915_request_put(ve->request);
-> > > > >         }
-> > > > >
-> > > > > -       ve->base.execlists.queue_priority_hint = rq_prio(rq);
-> > > > > +       ve->base.sched_engine->queue_priority_hint = rq_prio(rq);
-> > > > >         ve->request = i915_request_get(rq);
-> > > > >
-> > > > >         GEM_BUG_ON(!list_empty(virtual_queue(ve)));
-> > > > > @@ -3684,6 +3689,12 @@ intel_execlists_create_virtual(struct intel_engine_cs **siblings,
-> > > > >         intel_engine_init_active(&ve->base, ENGINE_VIRTUAL);
-> > > > >         intel_engine_init_execlists(&ve->base);
-> > > > >
-> > > > > +       ve->base.sched_engine = i915_sched_engine_create(ENGINE_VIRTUAL);
-> > > > > +       if (!ve->base.sched_engine) {
-> > > > > +               err = -ENOMEM;
-> > > > > +               goto err_put;
-> > > > > +       }
-> > > > > +
-> > > > >         ve->base.cops = &virtual_context_ops;
-> > > > >         ve->base.request_alloc = execlists_request_alloc;
-> > > > >
-> > > > > @@ -3692,7 +3703,6 @@ intel_execlists_create_virtual(struct intel_engine_cs **siblings,
-> > > > >         ve->base.bond_execute = virtual_bond_execute;
-> > > > >
-> > > > >         INIT_LIST_HEAD(virtual_queue(ve));
-> > > > > -       ve->base.execlists.queue_priority_hint = INT_MIN;
-> > > > >         tasklet_setup(&ve->base.execlists.tasklet, virtual_submission_tasklet);
-> > > > >
-> > > > >         intel_context_init(&ve->context, &ve->base);
-> > > > > @@ -3849,6 +3859,7 @@ void intel_execlists_show_requests(struct intel_engine_cs *engine,
-> > > > >                                    unsigned int max)
-> > > > >  {
-> > > > >         const struct intel_engine_execlists *execlists = &engine->execlists;
-> > > > > +       const struct i915_sched_engine *sched_engine = engine->sched_engine;
-> > > > >         struct i915_request *rq, *last;
-> > > > >         unsigned long flags;
-> > > > >         unsigned int count;
-> > > > > @@ -3873,13 +3884,13 @@ void intel_execlists_show_requests(struct intel_engine_cs *engine,
-> > > > >                 show_request(m, last, "\t\t", 0);
-> > > > >         }
-> > > > >
-> > > > > -       if (execlists->queue_priority_hint != INT_MIN)
-> > > > > +       if (sched_engine->queue_priority_hint != INT_MIN)
-> > > > >                 drm_printf(m, "\t\tQueue priority hint: %d\n",
-> > > > > -                          READ_ONCE(execlists->queue_priority_hint));
-> > > > > +                          READ_ONCE(sched_engine->queue_priority_hint));
-> > > > >
-> > > > >         last = NULL;
-> > > > >         count = 0;
-> > > > > -       for (rb = rb_first_cached(&execlists->queue); rb; rb = rb_next(rb)) {
-> > > > > +       for (rb = rb_first_cached(&sched_engine->queue); rb; rb = rb_next(rb)) {
-> > > > >                 struct i915_priolist *p = rb_entry(rb, typeof(*p), node);
-> > > > >
-> > > > >                 priolist_for_each_request(rq, p) {
-> > > > > diff --git a/drivers/gpu/drm/i915/gt/mock_engine.c b/drivers/gpu/drm/i915/gt/mock_engine.c
-> > > > > index 32589c6625e1..b1fdba13e900 100644
-> > > > > --- a/drivers/gpu/drm/i915/gt/mock_engine.c
-> > > > > +++ b/drivers/gpu/drm/i915/gt/mock_engine.c
-> > > > > @@ -283,6 +283,7 @@ static void mock_engine_release(struct intel_engine_cs *engine)
-> > > > >
-> > > > >         GEM_BUG_ON(timer_pending(&mock->hw_delay));
-> > > > >
-> > > > > +       i915_sched_engine_put(engine->sched_engine);
-> > > > >         intel_breadcrumbs_free(engine->breadcrumbs);
-> > > > >
-> > > > >         intel_context_unpin(engine->kernel_context);
-> > > > > @@ -345,6 +346,10 @@ int mock_engine_init(struct intel_engine_cs *engine)
-> > > > >  {
-> > > > >         struct intel_context *ce;
-> > > > >
-> > > > > +       engine->sched_engine = i915_sched_engine_create(ENGINE_MOCK);
-> > > > > +       if (!engine->sched_engine)
-> > > > > +               return -ENOMEM;
-> > > > > +
-> > > > >         intel_engine_init_active(engine, ENGINE_MOCK);
-> > > > >         intel_engine_init_execlists(engine);
-> > > > >         intel_engine_init__pm(engine);
-> > > > > @@ -352,7 +357,7 @@ int mock_engine_init(struct intel_engine_cs *engine)
-> > > > >
-> > > > >         engine->breadcrumbs = intel_breadcrumbs_create(NULL);
-> > > > >         if (!engine->breadcrumbs)
-> > > > > -               return -ENOMEM;
-> > > > > +               goto err_schedule;
-> > > > >
-> > > > >         ce = create_kernel_context(engine);
-> > > > >         if (IS_ERR(ce))
-> > > > > @@ -366,6 +371,8 @@ int mock_engine_init(struct intel_engine_cs *engine)
-> > > > >
-> > > > >  err_breadcrumbs:
-> > > > >         intel_breadcrumbs_free(engine->breadcrumbs);
-> > > > > +err_schedule:
-> > > > > +       i915_sched_engine_put(engine->sched_engine);
-> > > > >         return -ENOMEM;
-> > > > >  }
-> > > > >
-> > > > > diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> > > > > index 335719f17490..d42dea79ee64 100644
-> > > > > --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> > > > > +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> > > > > @@ -182,6 +182,7 @@ static void schedule_out(struct i915_request *rq)
-> > > > >  static void __guc_dequeue(struct intel_engine_cs *engine)
-> > > > >  {
-> > > > >         struct intel_engine_execlists * const execlists = &engine->execlists;
-> > > > > +       struct i915_sched_engine * const sched_engine = engine->sched_engine;
-> > > > >         struct i915_request **first = execlists->inflight;
-> > > > >         struct i915_request ** const last_port = first + execlists->port_mask;
-> > > > >         struct i915_request *last = first[0];
-> > > > > @@ -204,7 +205,7 @@ static void __guc_dequeue(struct intel_engine_cs *engine)
-> > > > >          * event.
-> > > > >          */
-> > > > >         port = first;
-> > > > > -       while ((rb = rb_first_cached(&execlists->queue))) {
-> > > > > +       while ((rb = rb_first_cached(&sched_engine->queue))) {
-> > > > >                 struct i915_priolist *p = to_priolist(rb);
-> > > > >                 struct i915_request *rq, *rn;
-> > > > >
-> > > > > @@ -224,11 +225,11 @@ static void __guc_dequeue(struct intel_engine_cs *engine)
-> > > > >                         last = rq;
-> > > > >                 }
-> > > > >
-> > > > > -               rb_erase_cached(&p->node, &execlists->queue);
-> > > > > +               rb_erase_cached(&p->node, &sched_engine->queue);
-> > > > >                 i915_priolist_free(p);
-> > > > >         }
-> > > > >  done:
-> > > > > -       execlists->queue_priority_hint =
-> > > > > +       sched_engine->queue_priority_hint =
-> > > > >                 rb ? to_priolist(rb)->priority : INT_MIN;
-> > > > >         if (submit) {
-> > > > >                 *port = schedule_in(last, port - execlists->inflight);
-> > > > > @@ -338,7 +339,7 @@ static void guc_reset_rewind(struct intel_engine_cs *engine, bool stalled)
-> > > > >
-> > > > >  static void guc_reset_cancel(struct intel_engine_cs *engine)
-> > > > >  {
-> > > > > -       struct intel_engine_execlists * const execlists = &engine->execlists;
-> > > > > +       struct i915_sched_engine * const sched_engine = engine->sched_engine;
-> > > > >         struct i915_request *rq, *rn;
-> > > > >         struct rb_node *rb;
-> > > > >         unsigned long flags;
-> > > > > @@ -368,7 +369,7 @@ static void guc_reset_cancel(struct intel_engine_cs *engine)
-> > > > >         }
-> > > > >
-> > > > >         /* Flush the queued requests to the timeline list (for retiring). */
-> > > > > -       while ((rb = rb_first_cached(&execlists->queue))) {
-> > > > > +       while ((rb = rb_first_cached(&sched_engine->queue))) {
-> > > > >                 struct i915_priolist *p = to_priolist(rb);
-> > > > >
-> > > > >                 priolist_for_each_request_consume(rq, rn, p) {
-> > > > > @@ -378,14 +379,14 @@ static void guc_reset_cancel(struct intel_engine_cs *engine)
-> > > > >                         i915_request_mark_complete(rq);
-> > > > >                 }
-> > > > >
-> > > > > -               rb_erase_cached(&p->node, &execlists->queue);
-> > > > > +               rb_erase_cached(&p->node, &sched_engine->queue);
-> > > > >                 i915_priolist_free(p);
-> > > > >         }
-> > > > >
-> > > > >         /* Remaining _unready_ requests will be nop'ed when submitted */
-> > > > >
-> > > > > -       execlists->queue_priority_hint = INT_MIN;
-> > > > > -       execlists->queue = RB_ROOT_CACHED;
-> > > > > +       sched_engine->queue_priority_hint = INT_MIN;
-> > > > > +       sched_engine->queue = RB_ROOT_CACHED;
-> > > > >
-> > > > >         spin_unlock_irqrestore(&engine->active.lock, flags);
-> > > > >  }
-> > > > > @@ -540,7 +541,7 @@ static void guc_submit_request(struct i915_request *rq)
-> > > > >
-> > > > >         queue_request(engine, rq, rq_prio(rq));
-> > > > >
-> > > > > -       GEM_BUG_ON(RB_EMPTY_ROOT(&engine->execlists.queue.rb_root));
-> > > > > +       GEM_BUG_ON(RB_EMPTY_ROOT(&engine->sched_engine->queue.rb_root));
-> > > > >         GEM_BUG_ON(list_empty(&rq->sched.link));
-> > > > >
-> > > > >         tasklet_hi_schedule(&engine->execlists.tasklet);
-> > > > > diff --git a/drivers/gpu/drm/i915/i915_scheduler.c b/drivers/gpu/drm/i915/i915_scheduler.c
-> > > > > index efa638c3acc7..4953874a9ba6 100644
-> > > > > --- a/drivers/gpu/drm/i915/i915_scheduler.c
-> > > > > +++ b/drivers/gpu/drm/i915/i915_scheduler.c
-> > > > > @@ -40,7 +40,7 @@ static inline struct i915_priolist *to_priolist(struct rb_node *rb)
-> > > > >         return rb_entry(rb, struct i915_priolist, node);
-> > > > >  }
-> > > > >
-> > > > > -static void assert_priolists(struct intel_engine_execlists * const execlists)
-> > > > > +static void assert_priolists(struct i915_sched_engine * const sched_engine)
-> > > > >  {
-> > > > >         struct rb_node *rb;
-> > > > >         long last_prio;
-> > > > > @@ -48,11 +48,11 @@ static void assert_priolists(struct intel_engine_execlists * const execlists)
-> > > > >         if (!IS_ENABLED(CONFIG_DRM_I915_DEBUG_GEM))
-> > > > >                 return;
-> > > > >
-> > > > > -       GEM_BUG_ON(rb_first_cached(&execlists->queue) !=
-> > > > > -                  rb_first(&execlists->queue.rb_root));
-> > > > > +       GEM_BUG_ON(rb_first_cached(&sched_engine->queue) !=
-> > > > > +                  rb_first(&sched_engine->queue.rb_root));
-> > > > >
-> > > > >         last_prio = INT_MAX;
-> > > > > -       for (rb = rb_first_cached(&execlists->queue); rb; rb = rb_next(rb)) {
-> > > > > +       for (rb = rb_first_cached(&sched_engine->queue); rb; rb = rb_next(rb)) {
-> > > > >                 const struct i915_priolist *p = to_priolist(rb);
-> > > > >
-> > > > >                 GEM_BUG_ON(p->priority > last_prio);
-> > > > > @@ -63,21 +63,21 @@ static void assert_priolists(struct intel_engine_execlists * const execlists)
-> > > > >  struct list_head *
-> > > > >  i915_sched_lookup_priolist(struct intel_engine_cs *engine, int prio)
-> > > > >  {
-> > > > > -       struct intel_engine_execlists * const execlists = &engine->execlists;
-> > > > > +       struct i915_sched_engine * const sched_engine = engine->sched_engine;
-> > > > >         struct i915_priolist *p;
-> > > > >         struct rb_node **parent, *rb;
-> > > > >         bool first = true;
-> > > > >
-> > > > >         lockdep_assert_held(&engine->active.lock);
-> > > > > -       assert_priolists(execlists);
-> > > > > +       assert_priolists(sched_engine);
-> > > > >
-> > > > > -       if (unlikely(execlists->no_priolist))
-> > > > > +       if (unlikely(sched_engine->no_priolist))
-> > > > >                 prio = I915_PRIORITY_NORMAL;
-> > > > >
-> > > > >  find_priolist:
-> > > > >         /* most positive priority is scheduled first, equal priorities fifo */
-> > > > >         rb = NULL;
-> > > > > -       parent = &execlists->queue.rb_root.rb_node;
-> > > > > +       parent = &sched_engine->queue.rb_root.rb_node;
-> > > > >         while (*parent) {
-> > > > >                 rb = *parent;
-> > > > >                 p = to_priolist(rb);
-> > > > > @@ -92,7 +92,7 @@ i915_sched_lookup_priolist(struct intel_engine_cs *engine, int prio)
-> > > > >         }
-> > > > >
-> > > > >         if (prio == I915_PRIORITY_NORMAL) {
-> > > > > -               p = &execlists->default_priolist;
-> > > > > +               p = &sched_engine->default_priolist;
-> > > > >         } else {
-> > > > >                 p = kmem_cache_alloc(global.slab_priorities, GFP_ATOMIC);
-> > > > >                 /* Convert an allocation failure to a priority bump */
-> > > > > @@ -107,7 +107,7 @@ i915_sched_lookup_priolist(struct intel_engine_cs *engine, int prio)
-> > > > >                          * requests, so if userspace lied about their
-> > > > >                          * dependencies that reordering may be visible.
-> > > > >                          */
-> > > > > -                       execlists->no_priolist = true;
-> > > > > +                       sched_engine->no_priolist = true;
-> > > > >                         goto find_priolist;
-> > > > >                 }
-> > > > >         }
-> > > > > @@ -116,7 +116,7 @@ i915_sched_lookup_priolist(struct intel_engine_cs *engine, int prio)
-> > > > >         INIT_LIST_HEAD(&p->requests);
-> > > > >
-> > > > >         rb_link_node(&p->node, rb, parent);
-> > > > > -       rb_insert_color_cached(&p->node, &execlists->queue, first);
-> > > > > +       rb_insert_color_cached(&p->node, &sched_engine->queue, first);
-> > > > >
-> > > > >         return &p->requests;
-> > > > >  }
-> > > > > @@ -184,7 +184,7 @@ static void kick_submission(struct intel_engine_cs *engine,
-> > > > >          * We only need to kick the tasklet once for the high priority
-> > > > >          * new context we add into the queue.
-> > > > >          */
-> > > > > -       if (prio <= engine->execlists.queue_priority_hint)
-> > > > > +       if (prio <= engine->sched_engine->queue_priority_hint)
-> > > > >                 return;
-> > > > >
-> > > > >         rcu_read_lock();
-> > > > > @@ -208,7 +208,7 @@ static void kick_submission(struct intel_engine_cs *engine,
-> > > > >                      inflight->fence.context, inflight->fence.seqno,
-> > > > >                      inflight->sched.attr.priority);
-> > > > >
-> > > > > -       engine->execlists.queue_priority_hint = prio;
-> > > > > +       engine->sched_engine->queue_priority_hint = prio;
-> > > > >         if (need_preempt(prio, rq_prio(inflight)))
-> > > > >                 tasklet_hi_schedule(&engine->execlists.tasklet);
-> > > > >
-> > > > > @@ -489,6 +489,31 @@ void i915_request_show_with_schedule(struct drm_printer *m,
-> > > > >         rcu_read_unlock();
-> > > > >  }
-> > > > >
-> > > > > +void i915_sched_engine_free(struct kref *kref)
-> > > > > +{
-> > > > > +       struct i915_sched_engine *sched_engine =
-> > > > > +               container_of(kref, typeof(*sched_engine), ref);
-> > > > > +
-> > > > > +       kfree(sched_engine);
-> > > > > +}
-> > > > > +
-> > > > > +struct i915_sched_engine *
-> > > > > +i915_sched_engine_create(unsigned int subclass)
-> > > > > +{
-> > > > > +       struct i915_sched_engine *sched_engine;
-> > > > > +
-> > > > > +       sched_engine = kzalloc(sizeof(*sched_engine), GFP_KERNEL);
-> > > > > +       if (!sched_engine)
-> > > > > +               return NULL;
-> > > > > +
-> > > > > +       kref_init(&sched_engine->ref);
-> > > > > +
-> > > > > +       sched_engine->queue = RB_ROOT_CACHED;
-> > > > > +       sched_engine->queue_priority_hint = INT_MIN;
-> > > > > +
-> > > > > +       return sched_engine;
-> > > > > +}
-> > > > > +
-> > > > >  static void i915_global_scheduler_shrink(void)
-> > > > >  {
-> > > > >         kmem_cache_shrink(global.slab_dependencies);
-> > > > > diff --git a/drivers/gpu/drm/i915/i915_scheduler.h b/drivers/gpu/drm/i915/i915_scheduler.h
-> > > > > index 858a0938f47a..91a04e34cac5 100644
-> > > > > --- a/drivers/gpu/drm/i915/i915_scheduler.h
-> > > > > +++ b/drivers/gpu/drm/i915/i915_scheduler.h
-> > > > > @@ -48,6 +48,24 @@ static inline void i915_priolist_free(struct i915_priolist *p)
-> > > > >                 __i915_priolist_free(p);
-> > > > >  }
-> > > > >
-> > > > > +struct i915_sched_engine *
-> > > > > +i915_sched_engine_create(unsigned int subclass);
-> > > > > +
-> > > > > +void i915_sched_engine_free(struct kref *kref);
-> > > > > +
-> > > > > +static inline struct i915_sched_engine *
-> > > > > +i915_sched_engine_get(struct i915_sched_engine *sched_engine)
-> > > > > +{
-> > > > > +       kref_get(&sched_engine->ref);
-> > > > > +       return sched_engine;
-> > > > > +}
-> > > > > +
-> > > > > +static inline void
-> > > > > +i915_sched_engine_put(struct i915_sched_engine *sched_engine)
-> > > > > +{
-> > > > > +       kref_put(&sched_engine->ref, i915_sched_engine_free);
-> > > > > +}
-> > > > > +
-> > > > >  void i915_request_show_with_schedule(struct drm_printer *m,
-> > > > >                                      const struct i915_request *rq,
-> > > > >                                      const char *prefix,
-> > > > > diff --git a/drivers/gpu/drm/i915/i915_scheduler_types.h b/drivers/gpu/drm/i915/i915_scheduler_types.h
-> > > > > index 343ed44d5ed4..16a054e67760 100644
-> > > > > --- a/drivers/gpu/drm/i915/i915_scheduler_types.h
-> > > > > +++ b/drivers/gpu/drm/i915/i915_scheduler_types.h
-> > > >
-> > > > Dumb question for which I'm not really in the position of having an
-> > > > opinion:  Should this go in its own file?
-> > > >
-> > >
-> > > I think this is in the right file.
-> > >
-> > > Matt
-> > >
-> > > > Patch seems mostly mechanically correct.  Not sure where this is going
-> > > > yet, though.  I'll keep reading. :-)
-> > > >
-> > > > --Jason
-> > > >
-> > > >
-> > > > > @@ -91,4 +91,37 @@ struct i915_dependency {
-> > > > >                                 &(rq__)->sched.signalers_list, \
-> > > > >                                 signal_link)
-> > > > >
-> > > > > +struct i915_sched_engine {
-> > > > > +       struct kref ref;
-> > > > > +
-> > > > > +       /**
-> > > > > +        * @default_priolist: priority list for I915_PRIORITY_NORMAL
-> > > > > +        */
-> > > > > +       struct i915_priolist default_priolist;
-> > > > > +
-> > > > > +       /**
-> > > > > +        * @queue_priority_hint: Highest pending priority.
-> > > > > +        *
-> > > > > +        * When we add requests into the queue, or adjust the priority of
-> > > > > +        * executing requests, we compute the maximum priority of those
-> > > > > +        * pending requests. We can then use this value to determine if
-> > > > > +        * we need to preempt the executing requests to service the queue.
-> > > > > +        * However, since the we may have recorded the priority of an inflight
-> > > > > +        * request we wanted to preempt but since completed, at the time of
-> > > > > +        * dequeuing the priority hint may no longer may match the highest
-> > > > > +        * available request priority.
-> > > > > +        */
-> > > > > +       int queue_priority_hint;
-> > > > > +
-> > > > > +       /**
-> > > > > +        * @queue: queue of requests, in priority lists
-> > > > > +        */
-> > > > > +       struct rb_root_cached queue;
-> > > > > +
-> > > > > +       /**
-> > > > > +        * @no_priolist: priority lists disabled
-> > > > > +        */
-> > > > > +       bool no_priolist;
-> > > > > +};
-> > > > > +
-> > > > >  #endif /* _I915_SCHEDULER_TYPES_H_ */
-> > > > > --
-> > > > > 2.28.0
-> > > > >
+> +      subgraph cluster_static {
+> +          style=dashed
+> +
+> +          node [shape=box]
+> +          "Plane Degamma B" -> "Plane CSC/CTM B"
+> +          "Plane CSC/CTM B" -> "Plane Gamma B"
+> +          "Plane Gamma B" -> "Pipe Blender"
+> +      }
+> +
+> +      subgraph cluster_static {
+> +          style=dashed
+> +
+> +          node [shape=box]
+> +          "Plane Degamma C" -> "Plane CSC/CTM C"
+> +          "Plane CSC/CTM C" -> "Plane Gamma C"
+> +          "Plane Gamma C" -> "Pipe Blender"
+> +      }
+> +
+> +      subgraph cluster_fb {
+> +          style=dashed
+> +          label="RAM"
+> +
+> +          node [shape=box width=1.7 height=0.2]
+> +
+> +          "FB 1" -> "Plane Degamma A"
+> +          "FB 2" -> "Plane Degamma B"
+> +          "FB 3" -> "Plane Degamma C"
+> +      }
+> +   }
+> +
+> +In real world usecases,
+> +
+> +1. Plane Degamma can be used to linearize a non linear gamma
+> +encoded framebuffer. This is needed to do any linear math like
+> +color space conversion. For ex, linearize frames encoded in SRGB
+> +or by HDR curve.
+> +
+> +2. Later Plane CTM block can convert the content to some different
+> +colorspace. For ex, SRGB to BT2020 etc.
+> +
+> +3. Plane Gamma block can be used later to re-apply the non-linear
+> +curve. This can also be used to apply Tone Mapping for HDR usecases.
+> +
+
+This would mean you're blending in gamma space which is likely not what
+most compositors expect. There are numerous articles that describe why
+blending in gamma space is problematic, such as [1]
+
+[1] https://ninedegreesbelow.com/photography/linear-gamma-blur-normal-blend.html
+
+To blend in linear space this should be configured to do
+
+  Plane Degamma > Plane CTM > CRTC Gamma
+
+I think it would also be good if we moved away from calling this gamma. It's
+really only gamma for legacy SDR scenarios. For HDR cases I would never expect
+these to use gamma and even though the sRGB transfer function is based on gamma
+functions it's complicated [2].
+
+[2] https://en.wikipedia.org/wiki/SRGB
+
+A better way to describe these would be as "transfer function" and "inverse
+transfer function." The space at various stages could then be described as linear
+or non-linear, specifically PQ, HLG, sRGB, BT709, or using another transfer
+function.
+
+Harry
+
+> +All the layers or framebuffers need to be converted to same color
+> +space and format before blending. The plane color hardware blocks
+> +can help with this. Once the Data is blended, similar color processing
+> +can be done on blended output using pipe color hardware blocks.
+> +
+> +DRM Properties have been created to define and expose all these
+> +hardware blocks to userspace. A userspace application (compositor
+> +or any color app) can use these interfaces and define policies to
+> +efficiently use the display hardware for such color operations.
+> +
+> +Pipe Color Management Properties
+> +---------------------------------
+> +
+>  .. kernel-doc:: drivers/gpu/drm/drm_color_mgmt.c
+>     :doc: overview
+>  
+> +Plane Color Management Properties
+> +---------------------------------
+> +
+> +.. kernel-doc:: drivers/gpu/drm/drm_color_mgmt.c
+> +   :doc: Plane Color Properties
+> +
+> +.. kernel-doc:: drivers/gpu/drm/drm_color_mgmt.c
+> +   :doc: export
+> +
+>  Tile Group Property
+>  -------------------
+>  
+> diff --git a/drivers/gpu/drm/drm_atomic.c b/drivers/gpu/drm/drm_atomic.c
+> index a8bbb021684b..8892d03602f7 100644
+> --- a/drivers/gpu/drm/drm_atomic.c
+> +++ b/drivers/gpu/drm/drm_atomic.c
+> @@ -708,6 +708,7 @@ static void drm_atomic_plane_print_state(struct drm_printer *p,
+>  		   drm_get_color_encoding_name(state->color_encoding));
+>  	drm_printf(p, "\tcolor-range=%s\n",
+>  		   drm_get_color_range_name(state->color_range));
+> +	drm_printf(p, "\tcolor_mgmt_changed=%d\n", state->color_mgmt_changed);
+>  
+>  	if (plane->funcs->atomic_print_state)
+>  		plane->funcs->atomic_print_state(p, state);
+> diff --git a/drivers/gpu/drm/drm_atomic_state_helper.c b/drivers/gpu/drm/drm_atomic_state_helper.c
+> index ddcf5c2c8e6a..f26b03853711 100644
+> --- a/drivers/gpu/drm/drm_atomic_state_helper.c
+> +++ b/drivers/gpu/drm/drm_atomic_state_helper.c
+> @@ -311,6 +311,8 @@ void __drm_atomic_helper_plane_duplicate_state(struct drm_plane *plane,
+>  	state->fence = NULL;
+>  	state->commit = NULL;
+>  	state->fb_damage_clips = NULL;
+> +
+> +	state->color_mgmt_changed = false;
+>  }
+>  EXPORT_SYMBOL(__drm_atomic_helper_plane_duplicate_state);
+>  
+> diff --git a/drivers/gpu/drm/drm_atomic_uapi.c b/drivers/gpu/drm/drm_atomic_uapi.c
+> index 438e9585b225..40fa05fa33dc 100644
+> --- a/drivers/gpu/drm/drm_atomic_uapi.c
+> +++ b/drivers/gpu/drm/drm_atomic_uapi.c
+> @@ -595,6 +595,8 @@ static int drm_atomic_plane_set_property(struct drm_plane *plane,
+>  		state->color_encoding = val;
+>  	} else if (property == plane->color_range_property) {
+>  		state->color_range = val;
+> +	} else if (property == plane->degamma_mode_property) {
+> +		state->degamma_mode = val;
+>  	} else if (property == config->prop_fb_damage_clips) {
+>  		ret = drm_atomic_replace_property_blob_from_id(dev,
+>  					&state->fb_damage_clips,
+> @@ -661,6 +663,8 @@ drm_atomic_plane_get_property(struct drm_plane *plane,
+>  		*val = state->color_encoding;
+>  	} else if (property == plane->color_range_property) {
+>  		*val = state->color_range;
+> +	} else if (property == plane->degamma_mode_property) {
+> +		*val = state->degamma_mode;
+>  	} else if (property == config->prop_fb_damage_clips) {
+>  		*val = (state->fb_damage_clips) ?
+>  			state->fb_damage_clips->base.id : 0;
+> diff --git a/drivers/gpu/drm/drm_color_mgmt.c b/drivers/gpu/drm/drm_color_mgmt.c
+> index bb14f488c8f6..085ed0d0db00 100644
+> --- a/drivers/gpu/drm/drm_color_mgmt.c
+> +++ b/drivers/gpu/drm/drm_color_mgmt.c
+> @@ -34,8 +34,8 @@
+>  /**
+>   * DOC: overview
+>   *
+> - * Color management or color space adjustments is supported through a set of 5
+> - * properties on the &drm_crtc object. They are set up by calling
+> + * Pipe Color management or color space adjustments is supported through a
+> + * set of 5 properties on the &drm_crtc object. They are set up by calling
+>   * drm_crtc_enable_color_mgmt().
+>   *
+>   * "DEGAMMA_LUT”:
+> @@ -584,6 +584,95 @@ int drm_plane_create_color_properties(struct drm_plane *plane,
+>  }
+>  EXPORT_SYMBOL(drm_plane_create_color_properties);
+>  
+> +/**
+> + * DOC: Plane Color Properties
+> + *
+> + * Plane Color management or color space adjustments is supported
+> + * through a set of 5 properties on the &drm_plane object.
+> + *
+> + * degamma_mode_property:
+> + *     Blob property which advertizes the possible degamma modes and
+> + *     lut ranges supported by the platform. This  allows userspace
+> + *     to query and get the plane degamma color caps and choose the
+> + *     appropriate degamma mode and create lut values accordingly
+> + *
+> + */
+> +int drm_plane_create_color_mgmt_properties(struct drm_device *dev,
+> +					   struct drm_plane *plane,
+> +					   int num_values)
+> +{
+> +	struct drm_property *prop;
+> +
+> +	prop = drm_property_create(dev, DRM_MODE_PROP_ENUM,
+> +				   "PLANE_DEGAMMA_MODE", num_values);
+> +	if (!prop)
+> +		return -ENOMEM;
+> +
+> +	plane->degamma_mode_property = prop;
+> +
+> +	return 0;
+> +}
+> +EXPORT_SYMBOL(drm_plane_create_color_mgmt_properties);
+> +
+> +void drm_plane_attach_degamma_properties(struct drm_plane *plane)
+> +{
+> +	if (!plane->degamma_mode_property)
+> +		return;
+> +
+> +	drm_object_attach_property(&plane->base,
+> +				   plane->degamma_mode_property, 0);
+> +}
+> +EXPORT_SYMBOL(drm_plane_attach_degamma_properties);
+> +
+> +int drm_plane_color_add_gamma_degamma_mode_range(struct drm_plane *plane,
+> +						 const char *name,
+> +						 const struct drm_color_lut_range *ranges,
+> +						 size_t length, enum lut_type type)
+> +{
+> +	struct drm_property_blob *blob;
+> +	struct drm_property *prop = NULL;
+> +	int num_ranges = length / sizeof(ranges[0]);
+> +	int i, ret, num_types_0;
+> +
+> +	if (type == LUT_TYPE_DEGAMMA)
+> +		prop = plane->degamma_mode_property;
+> +
+> +	if (!prop)
+> +		return -EINVAL;
+> +
+> +	if (length == 0 && name)
+> +		return drm_property_add_enum(prop, 0, name);
+> +
+> +	if (WARN_ON(length == 0 || length % sizeof(ranges[0]) != 0))
+> +		return -EINVAL;
+> +	num_types_0 = hweight8(ranges[0].flags & (DRM_MODE_LUT_GAMMA |
+> +			       DRM_MODE_LUT_DEGAMMA));
+> +	if (num_types_0 == 0)
+> +		return -EINVAL;
+> +
+> +	for (i = 1; i < num_ranges; i++) {
+> +		int num_types = hweight8(ranges[i].flags & (DRM_MODE_LUT_GAMMA |
+> +					 DRM_MODE_LUT_DEGAMMA));
+> +
+> +		/* either all ranges have DEGAMMA|GAMMA or none have it */
+> +		if (num_types_0 != num_types)
+> +			return -EINVAL;
+> +	}
+> +
+> +	blob = drm_property_create_blob(plane->dev, length, ranges);
+> +	if (IS_ERR(blob))
+> +		return PTR_ERR(blob);
+> +
+> +	ret = drm_property_add_enum(prop, blob->base.id, name);
+> +	if (ret) {
+> +		drm_property_blob_put(blob);
+> +		return ret;
+> +	}
+> +
+> +	return 0;
+> +}
+> +EXPORT_SYMBOL(drm_plane_color_add_gamma_degamma_mode_range);
+> +
+>  /**
+>   * drm_color_lut_check - check validity of lookup table
+>   * @lut: property blob containing LUT to check
+> diff --git a/include/drm/drm_mode_object.h b/include/drm/drm_mode_object.h
+> index c34a3e8030e1..d4128c7daa08 100644
+> --- a/include/drm/drm_mode_object.h
+> +++ b/include/drm/drm_mode_object.h
+> @@ -60,7 +60,7 @@ struct drm_mode_object {
+>  	void (*free_cb)(struct kref *kref);
+>  };
+>  
+> -#define DRM_OBJECT_MAX_PROPERTY 24
+> +#define DRM_OBJECT_MAX_PROPERTY 26
+>  /**
+>   * struct drm_object_properties - property tracking for &drm_mode_object
+>   */
+> diff --git a/include/drm/drm_plane.h b/include/drm/drm_plane.h
+> index 1294610e84f4..e476a5939f8e 100644
+> --- a/include/drm/drm_plane.h
+> +++ b/include/drm/drm_plane.h
+> @@ -236,6 +236,15 @@ struct drm_plane_state {
+>  
+>  	/** @state: backpointer to global drm_atomic_state */
+>  	struct drm_atomic_state *state;
+> +
+> +	/**
+> +	 * @degamma_mode: This is a blob_id and exposes the platform capabilities
+> +	 * wrt to various gamma modes and the respective lut ranges. This also
+> +	 * helps user select a degamma mode amongst the supported ones.
+> +	 */
+> +	u32 degamma_mode;
+> +
+> +	u8 color_mgmt_changed : 1;
+>  };
+>  
+>  static inline struct drm_rect
+> @@ -747,6 +756,12 @@ struct drm_plane {
+>  	 * scaling.
+>  	 */
+>  	struct drm_property *scaling_filter_property;
+> +
+> +	/**
+> +	 * @degamma_mode_property: Optional Plane property to set the LUT
+> +	 * used to convert the framebuffer's colors to linear gamma.
+> +	 */
+> +	struct drm_property *degamma_mode_property;
+>  };
+>  
+>  #define obj_to_plane(x) container_of(x, struct drm_plane, base)
+> @@ -838,6 +853,14 @@ void drm_plane_force_disable(struct drm_plane *plane);
+>  int drm_mode_plane_set_obj_prop(struct drm_plane *plane,
+>  				       struct drm_property *property,
+>  				       uint64_t value);
+> +int drm_plane_create_color_mgmt_properties(struct drm_device *dev,
+> +					   struct drm_plane *plane,
+> +					   int num_values);
+> +void drm_plane_attach_degamma_properties(struct drm_plane *plane);
+> +int drm_plane_color_add_gamma_degamma_mode_range(struct drm_plane *plane,
+> +						 const char *name,
+> +						 const struct drm_color_lut_range *ranges,
+> +						 size_t length, enum lut_type type);
+>  
+>  /**
+>   * drm_plane_find - find a &drm_plane
+> 
+
