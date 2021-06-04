@@ -1,41 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1306039C0BA
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Jun 2021 21:49:08 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0217239C0BE
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Jun 2021 21:49:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3F48F6F8D5;
-	Fri,  4 Jun 2021 19:49:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 98E5B6F8DD;
+	Fri,  4 Jun 2021 19:49:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [216.205.24.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D861A6F8DB
- for <dri-devel@lists.freedesktop.org>; Fri,  4 Jun 2021 19:49:04 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 569D66F8DB
+ for <dri-devel@lists.freedesktop.org>; Fri,  4 Jun 2021 19:49:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1622836143;
+ s=mimecast20190719; t=1622836146;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=juMatxoZ5WJNsERIZBWsd2D6FjcNfB9F4FH1g1FxQVo=;
- b=fCQFHaUbWYEYi5sEXdvR+k/BCP9JbWBRANRZMAebmf8Rfd2zbPKQJnmMyy9fLmUXQl2/rS
- 4bqMUVPu5UD5gFVsNKByE76UuTVEExEf/myTXs2DUXH2h8h15s34gC1E0AbraUbLZP7fp9
- uumD7UOJsN4RJR8ANy51y9kC/FG4mLU=
+ bh=KnKENwqe4EBGQS68k6hkPodM/W1Bpk2n6E/n7pAXjt8=;
+ b=VMsTPu4/zoKrHTJa4i+QphWjZicH2bWZdPmZMWu6xaTATfv28cK0pQGS9VHWubHVLdeGO9
+ 9QuiydGs92RSI74O0osowgnBQ9R+EMYZ11qg7ePEfe3lcG6ZlQoH4S99H+lAsM4Lp1reYL
+ s5moVqp3BwO+f5Pe8aWd9+Qqhr+WoRQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-389-tCMTjzQoOFaAlECh5sX-gA-1; Fri, 04 Jun 2021 15:49:02 -0400
-X-MC-Unique: tCMTjzQoOFaAlECh5sX-gA-1
+ us-mta-472-b92evbQqMm2WNFmX2fylhQ-1; Fri, 04 Jun 2021 15:49:04 -0400
+X-MC-Unique: b92evbQqMm2WNFmX2fylhQ-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F21FF10074A8;
- Fri,  4 Jun 2021 19:48:59 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 166E8801817;
+ Fri,  4 Jun 2021 19:49:03 +0000 (UTC)
 Received: from x1.localdomain (ovpn-112-54.ams2.redhat.com [10.36.112.54])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2D697620DE;
- Fri,  4 Jun 2021 19:48:57 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 43B3C19CBC;
+ Fri,  4 Jun 2021 19:49:00 +0000 (UTC)
 From: Hans de Goede <hdegoede@redhat.com>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
@@ -46,10 +46,10 @@ To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
  Guenter Roeck <linux@roeck-us.net>,
  Heikki Krogerus <heikki.krogerus@linux.intel.com>
-Subject: [PATCH 4/8] drm/connector: Add support for out-of-band hotplug
- notification (v3)
-Date: Fri,  4 Jun 2021 21:48:36 +0200
-Message-Id: <20210604194840.14655-5-hdegoede@redhat.com>
+Subject: [PATCH 5/8] drm/i915: Associate ACPI connector nodes with connector
+ entries (v2)
+Date: Fri,  4 Jun 2021 21:48:37 +0200
+Message-Id: <20210604194840.14655-6-hdegoede@redhat.com>
 In-Reply-To: <20210604194840.14655-1-hdegoede@redhat.com>
 References: <20210604194840.14655-1-hdegoede@redhat.com>
 MIME-Version: 1.0
@@ -73,101 +73,121 @@ Cc: Hans de Goede <hdegoede@redhat.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add a new drm_connector_oob_hotplug_event() function and
-oob_hotplug_event drm_connector_funcs member.
+From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
 
-On some hardware a hotplug event notification may come from outside the
-display driver / device. An example of this is some USB Type-C setups
-where the hardware muxes the DisplayPort data and aux-lines but does
-not pass the altmode HPD status bit to the GPU's DP HPD pin.
+On Intel platforms we know that the ACPI connector device
+node order will follow the order the driver (i915) decides.
+The decision is made using the custom Intel ACPI OpRegion
+(intel_opregion.c), though the driver does not actually know
+that the values it sends to ACPI there are used for
+associating a device node for the connectors, and assigning
+address for them.
 
-In cases like this the new drm_connector_oob_hotplug_event() function can
-be used to report these out-of-band events.
+In reality that custom Intel ACPI OpRegion actually violates
+ACPI specification (we supply dynamic information to objects
+that are defined static, for example _ADR), however, it
+makes assigning correct connector node for a connector entry
+straightforward (it's one-on-one mapping).
 
-Changes in v2:
-- Make drm_connector_oob_hotplug_event() take a fwnode as argument and
-  have it call drm_connector_find_by_fwnode() internally. This allows
-  making drm_connector_find_by_fwnode() a drm-internal function and
-  avoids code outside the drm subsystem potentially holding on the
-  a drm_connector reference for a longer period.
+Changes in v2 (Hans de goede):
+- Take a reference on the fwnode which we assign to the connector,
+  for ACPI nodes this is a no-op but in the future we may see
+  software-fwnodes assigned to connectors which are ref-counted.
 
-Changes in v3:
-- Drop the data argument to the drm_connector_oob_hotplug_event
-  function since it is not used atm. This can be re-added later when
-  a use for it actually arises.
-
+Signed-off-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
 Tested-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
 Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 ---
- drivers/gpu/drm/drm_connector.c | 27 +++++++++++++++++++++++++++
- include/drm/drm_connector.h     |  9 +++++++++
- 2 files changed, 36 insertions(+)
+ drivers/gpu/drm/i915/display/intel_acpi.c    | 46 ++++++++++++++++++++
+ drivers/gpu/drm/i915/display/intel_acpi.h    |  3 ++
+ drivers/gpu/drm/i915/display/intel_display.c |  1 +
+ 3 files changed, 50 insertions(+)
 
-diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
-index 14644053a678..88ff7a011002 100644
---- a/drivers/gpu/drm/drm_connector.c
-+++ b/drivers/gpu/drm/drm_connector.c
-@@ -2592,6 +2592,33 @@ struct drm_connector *drm_connector_find_by_fwnode(struct fwnode_handle *fwnode)
- 	return found;
+diff --git a/drivers/gpu/drm/i915/display/intel_acpi.c b/drivers/gpu/drm/i915/display/intel_acpi.c
+index 833d0c1be4f1..37077b19cf58 100644
+--- a/drivers/gpu/drm/i915/display/intel_acpi.c
++++ b/drivers/gpu/drm/i915/display/intel_acpi.c
+@@ -263,3 +263,49 @@ void intel_acpi_device_id_update(struct drm_i915_private *dev_priv)
+ 	}
+ 	drm_connector_list_iter_end(&conn_iter);
  }
- 
-+/**
-+ * drm_connector_oob_hotplug_event - Report out-of-band hotplug event to connector
-+ * @connector: connector to report the event on
-+ *
-+ * On some hardware a hotplug event notification may come from outside the display
-+ * driver / device. An example of this is some USB Type-C setups where the hardware
-+ * muxes the DisplayPort data and aux-lines but does not pass the altmode HPD
-+ * status bit to the GPU's DP HPD pin.
-+ *
-+ * This function can be used to report these out-of-band events after obtaining
-+ * a drm_connector reference through calling drm_connector_find_by_fwnode().
-+ */
-+void drm_connector_oob_hotplug_event(struct fwnode_handle *connector_fwnode)
++
++/* NOTE: The connector order must be final before this is called. */
++void intel_acpi_assign_connector_fwnodes(struct drm_i915_private *i915)
 +{
++	struct drm_connector_list_iter conn_iter;
++	struct drm_device *drm_dev = &i915->drm;
++	struct fwnode_handle *fwnode = NULL;
 +	struct drm_connector *connector;
++	struct acpi_device *adev;
 +
-+	connector = drm_connector_find_by_fwnode(connector_fwnode);
-+	if (IS_ERR(connector))
-+		return;
++	drm_connector_list_iter_begin(drm_dev, &conn_iter);
++	drm_for_each_connector_iter(connector, &conn_iter) {
++		/* Always getting the next, even when the last was not used. */
++		fwnode = device_get_next_child_node(drm_dev->dev, fwnode);
++		if (!fwnode)
++			break;
 +
-+	if (connector->funcs->oob_hotplug_event)
-+		connector->funcs->oob_hotplug_event(connector);
-+
-+	drm_connector_put(connector);
-+}
-+EXPORT_SYMBOL(drm_connector_oob_hotplug_event);
-+
- 
- /**
-  * DOC: Tile group
-diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
-index b4b08c7a538e..1d896a8e3fa7 100644
---- a/include/drm/drm_connector.h
-+++ b/include/drm/drm_connector.h
-@@ -1079,6 +1079,14 @@ struct drm_connector_funcs {
- 	 */
- 	void (*atomic_print_state)(struct drm_printer *p,
- 				   const struct drm_connector_state *state);
-+
-+	/**
-+	 * @oob_hotplug_event:
-+	 *
-+	 * This will get called when a hotplug-event for a drm-connector
-+	 * has been received from a source outside the display driver / device.
++		switch (connector->connector_type) {
++		case DRM_MODE_CONNECTOR_LVDS:
++		case DRM_MODE_CONNECTOR_eDP:
++		case DRM_MODE_CONNECTOR_DSI:
++			/*
++			 * Integrated displays have a specific address 0x1f on
++			 * most Intel platforms, but not on all of them.
++			 */
++			adev = acpi_find_child_device(ACPI_COMPANION(drm_dev->dev),
++						      0x1f, 0);
++			if (adev) {
++				connector->fwnode =
++					fwnode_handle_get(acpi_fwnode_handle(adev));
++				break;
++			}
++			fallthrough;
++		default:
++			connector->fwnode = fwnode_handle_get(fwnode);
++			break;
++		}
++	}
++	drm_connector_list_iter_end(&conn_iter);
++	/*
++	 * device_get_next_child_node() takes a reference on the fwnode, if
++	 * we stopped iterating because we are out of connectors we need to
++	 * put this, otherwise fwnode is NULL and the put is a no-op.
 +	 */
-+	void (*oob_hotplug_event)(struct drm_connector *connector);
- };
++	fwnode_handle_put(fwnode);
++}
+diff --git a/drivers/gpu/drm/i915/display/intel_acpi.h b/drivers/gpu/drm/i915/display/intel_acpi.h
+index e8b068661d22..d2435691f4b5 100644
+--- a/drivers/gpu/drm/i915/display/intel_acpi.h
++++ b/drivers/gpu/drm/i915/display/intel_acpi.h
+@@ -12,11 +12,14 @@ struct drm_i915_private;
+ void intel_register_dsm_handler(void);
+ void intel_unregister_dsm_handler(void);
+ void intel_acpi_device_id_update(struct drm_i915_private *i915);
++void intel_acpi_assign_connector_fwnodes(struct drm_i915_private *i915);
+ #else
+ static inline void intel_register_dsm_handler(void) { return; }
+ static inline void intel_unregister_dsm_handler(void) { return; }
+ static inline
+ void intel_acpi_device_id_update(struct drm_i915_private *i915) { return; }
++static inline
++void intel_acpi_assign_connector_fwnodes(struct drm_i915_private *i915) { return; }
+ #endif /* CONFIG_ACPI */
  
- /**
-@@ -1661,6 +1669,7 @@ drm_connector_is_unregistered(struct drm_connector *connector)
- 		DRM_CONNECTOR_UNREGISTERED;
- }
+ #endif /* __INTEL_ACPI_H__ */
+diff --git a/drivers/gpu/drm/i915/display/intel_display.c b/drivers/gpu/drm/i915/display/intel_display.c
+index caf0414e0b50..4133f657f6a0 100644
+--- a/drivers/gpu/drm/i915/display/intel_display.c
++++ b/drivers/gpu/drm/i915/display/intel_display.c
+@@ -12381,6 +12381,7 @@ int intel_modeset_init_nogem(struct drm_i915_private *i915)
  
-+void drm_connector_oob_hotplug_event(struct fwnode_handle *connector_fwnode);
- const char *drm_get_connector_type_name(unsigned int connector_type);
- const char *drm_get_connector_status_name(enum drm_connector_status status);
- const char *drm_get_subpixel_order_name(enum subpixel_order order);
+ 	drm_modeset_lock_all(dev);
+ 	intel_modeset_setup_hw_state(dev, dev->mode_config.acquire_ctx);
++	intel_acpi_assign_connector_fwnodes(i915);
+ 	drm_modeset_unlock_all(dev);
+ 
+ 	for_each_intel_crtc(dev, crtc) {
 -- 
 2.31.1
 
