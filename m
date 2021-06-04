@@ -2,61 +2,125 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F4AA39B518
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Jun 2021 10:44:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD7CA39B531
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Jun 2021 10:50:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8D6D06E084;
-	Fri,  4 Jun 2021 08:44:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4A8126F5D8;
+	Fri,  4 Jun 2021 08:50:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com
- [IPv6:2a00:1450:4864:20::32a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 78BDC88E46
- for <dri-devel@lists.freedesktop.org>; Fri,  4 Jun 2021 08:44:34 +0000 (UTC)
-Received: by mail-wm1-x32a.google.com with SMTP id
- l18-20020a1ced120000b029014c1adff1edso7405576wmh.4
- for <dri-devel@lists.freedesktop.org>; Fri, 04 Jun 2021 01:44:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=98t3jcB/Fdg1AdBVHgse4XHISKzcSb0lH365dIHSDog=;
- b=k/bqaHNYqEwm7WYuQzrb0JX9aKZiXYm4PYQPFTZ7QK2V6WlBy5dGefcxfZttSSmCCn
- BivKSdMNKLZTVXnCtd9Xtp7pPrYxRdBSdexcg5+ODaU5QEIVA1m2v4Co8M0txfLl70QV
- oCyJJt7WY9CE1QkkcfQkuTJILlBgWt4KOaU3U=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=98t3jcB/Fdg1AdBVHgse4XHISKzcSb0lH365dIHSDog=;
- b=s7sU2Y3Fm9jh4Bu8ZPRwGNGHuO0G/JmacNSjmM+wxrJ1LxjkA8sUkyb84E0J6OFztc
- 22BtvCag5feMm7INXayAHGBp02ullhyIWUlglFi73P+cVzFiKQYnC67KE910wLFCyqe2
- KSS/x2fs2vWlYW0d1/sMXZ9SgkYNBoOiyyChQ/7ELXMpE/jijofXGUdAjFucfRUdLU4w
- BxMQ1dfv5th0NjwpLrVT2c3rOF5TZxVvjwozJaf8SFKMnDMvA82D3eWDa6milYzpP2PT
- jxlxw9hbGG7oj4iDPofIiQqEIPJJoVQuXODxTkPlpK0JaXyocX+VcwlSDfByWymlxaJM
- /Kmw==
-X-Gm-Message-State: AOAM532ahDX5z1fMpLi1j4w7+lYBIHwb9lP7/wecEaW5FQdiDDPKLMKz
- GnT1RO+LNXrW5Bv9UZ49Hxt42w==
-X-Google-Smtp-Source: ABdhPJzAPYcGdAkl6R7L7CE1ZVEZt0jpuZnpBjk3pKKVsSiaEo9SpSqArqxKpvKTsw/BedCrdeEMgg==
-X-Received: by 2002:a05:600c:4f01:: with SMTP id
- l1mr2483577wmq.123.1622796273214; 
- Fri, 04 Jun 2021 01:44:33 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id n9sm5173099wmc.20.2021.06.04.01.44.32
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 04 Jun 2021 01:44:32 -0700 (PDT)
-Date: Fri, 4 Jun 2021 10:44:31 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Matthew Brost <matthew.brost@intel.com>
-Subject: Re: [PATCH 20/20] drm/i915/guc: Use guc_class instead of
- engine_class in fw interface
-Message-ID: <YLnn78vKzkU9PIu1@phenom.ffwll.local>
-References: <20210603051630.2635-1-matthew.brost@intel.com>
- <20210603051630.2635-21-matthew.brost@intel.com>
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam12on2055.outbound.protection.outlook.com [40.107.243.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 65C096F5D7;
+ Fri,  4 Jun 2021 08:50:05 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=TjtyFOyCOi4QwA4v73HH5rO4ytSp+dzIPrzFqTXU15MDkWecXh05eliS+djoRsg6+pTC1joa0KaWrFdcwmpn6ssbIGyYGv9yZOwJl1j/lRYc4devhfpZtqm4wHOpBmvoa5MjgAqiKBsckLAnJECwBoANMgr+olmQwTi6zVejKJDY1ePp/Zl9oHVhwZT3EjKPiSqx0Z9ijIEiLCXqx8yiM6X3mMzHdv2WKPipqkENR3ua6HMECyf6NQP7CulyKQjf7sqVeCvLxspMYxRheCW9UJqBAlpLd3aCPnpalCbHHmS6NfxpEKb0D3UJXipz0oH+ybCAuTb1IgcHnAGL7ZG0PQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=0IgNDYs4uXXJzPAdy9Tu8IKkssLChz0Yb+eqPV1UdGY=;
+ b=ag4l6E9FfbL0Z0CjBdiIcHX3FHhXZgxa5hWxBbHHPl6x45/p+2FDrPa7etNpDsrpTsUeQKbLs+jpbTObHwKJ+ML95Fv61i5+e5LLyFbacfteITraaTI6+YtA/D4GdW3o2Z1QyvFk0p/3jcuCamFwfbsvhGpIxPZF0qT7WymUPKryv/vjUleAQEFrqj4Fb24264QRY1uIyJFp12WzIlmeeKEZaYn8TViOTKAddTdhcZwsyWX71tsxT+euPd/1i8cerfX4cYSRVQwEFpUjiokz6LcCIm1WZ55tHYrlmR0kCSRLTjiHOty9GexHlo72TfmMPLba7rT15qA5eYhZ2eK/HA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=0IgNDYs4uXXJzPAdy9Tu8IKkssLChz0Yb+eqPV1UdGY=;
+ b=MIRnHeoVYFBCwqGHrVcfryQUR3yxJ9rut9W+TP2RxuSMgVUnx6fnrsl2H/emmOR7EYqZUg+Qn8VLDcsGLQGfxIEX/p9mMSBMu2ePSu4YGdTSrD/QHWhXhagguvUbZ7TR2vmayeFQN4zzp+fycymth9aDt965JgtkDBZimiU351I=
+Authentication-Results: lists.freedesktop.org; dkim=none (message not signed)
+ header.d=none; lists.freedesktop.org;
+ dmarc=none action=none header.from=amd.com;
+Received: from MN2PR12MB3775.namprd12.prod.outlook.com (2603:10b6:208:159::19)
+ by MN2PR12MB3949.namprd12.prod.outlook.com (2603:10b6:208:167::22)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4173.26; Fri, 4 Jun
+ 2021 08:50:02 +0000
+Received: from MN2PR12MB3775.namprd12.prod.outlook.com
+ ([fe80::6d4d:4674:1cf6:8d34]) by MN2PR12MB3775.namprd12.prod.outlook.com
+ ([fe80::6d4d:4674:1cf6:8d34%6]) with mapi id 15.20.4195.024; Fri, 4 Jun 2021
+ 08:50:02 +0000
+Subject: Re: [PATCH v4 2/2] radeon: use memcpy_to/fromio for UVD fw upload
+To: Chen Li <chenli@uniontech.com>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+References: <87o8cnfr3s.wl-chenli@uniontech.com>
+ <87im2ufhyz.wl-chenli@uniontech.com>
+ <0689a006-a0a2-698a-12d8-cb11156e469a@gmail.com>
+ <877djacbfx.wl-chenli@uniontech.com>
+ <c4941cb6-8c40-aad1-e61a-2786ba1ab225@gmail.com>
+ <87zgw6aull.wl-chenli@uniontech.com>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Message-ID: <36d0b0e1-12d5-6795-82da-38f188499486@amd.com>
+Date: Fri, 4 Jun 2021 10:47:46 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
+In-Reply-To: <87zgw6aull.wl-chenli@uniontech.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+X-Originating-IP: [178.202.40.45]
+X-ClientProxiedBy: PR1PR01CA0005.eurprd01.prod.exchangelabs.com
+ (2603:10a6:102::18) To MN2PR12MB3775.namprd12.prod.outlook.com
+ (2603:10b6:208:159::19)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210603051630.2635-21-matthew.brost@intel.com>
-X-Operating-System: Linux phenom 5.10.32scarlett+ 
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.137.54] (178.202.40.45) by
+ PR1PR01CA0005.eurprd01.prod.exchangelabs.com (2603:10a6:102::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4195.15 via Frontend
+ Transport; Fri, 4 Jun 2021 08:50:01 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 26608ba5-bb0d-4cb2-5139-08d92735bdbc
+X-MS-TrafficTypeDiagnostic: MN2PR12MB3949:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <MN2PR12MB39491FF6A3DF8D5927D23719833B9@MN2PR12MB3949.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:1060;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: v1B9QmJ2n0ARssPUvLHRRPsrOLn7j9YA7N2FsoCE083Nsaw2KtbijBHbHGXOhHbxzlHzqekH1KrVZS7G+JPn6aDd7MOMVjrDtViPPMcq5yT2nFRVl7PDnebe+BF51g+c6lfPY9IqtP4FSeM3FIOgY2F/f60orELbb9WA/wI2E2U1ovQIr+WAHcSSpBFFcSwes7VsmN3f1ISxn0z8im9M9AAMVOqAZ0l+uGrlA2iVcM6qjIPPCC4bGyHuQoI4x4GJ7QVho1jXfwo3GrTV7kejarux8Mw0NxYyXyRmfbFrwlrRCNVMRzGcum71cbRGR7CXBN1vU9y1UMlxwlir/yPxzcSRN18TFcmRBdqrYn5QhIKJBJRq5UTEMO9gvGy7Kuq3yrEuYlQFrnkIy+XKCAogxfY6lH6nkregX7q97WvbokjjNVEIDEuKypgk/QdFci0Fpu9e21AcQzRJlHEp4jFjj3Kga8UNSJJFz7mQFFRDZfAZNuCfjWGjbP6XfsvqGa+RXvFkne604ZM4w8+4QaObk3Xq5sJ2UYT5OzrvyyhqyauTrQOFryHAHAzqPc+su/4JSpULZOBTHt3pHJROwXAJMSfFOLbbGGACIc7MzA6376sa+zNkY3VSzFKvmMiBl51SRymacTz16O8h+lgad7wkhGnLysjDHnweN60i7anqMtw=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MN2PR12MB3775.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(396003)(366004)(39860400002)(136003)(376002)(346002)(26005)(186003)(8936002)(8676002)(16526019)(6486002)(66476007)(83380400001)(956004)(2616005)(38100700002)(4326008)(31696002)(110136005)(16576012)(86362001)(478600001)(6666004)(36756003)(31686004)(316002)(66556008)(2906002)(66946007)(5660300002)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?eC9sSnJjVEZjMVNjVXdGWmZqaE02bjNwT3E5cXpTaXNIOFVucDlPbGhLVkxY?=
+ =?utf-8?B?L2lyTUQvdWdnMXUvTSszM1BsbDhTVGkvajV3TC9XOFBMcUUwcU9KcGdERDRO?=
+ =?utf-8?B?d1Y1MlBDbmczeHh6Z004U3RHTDd1d0xwOWtseGFvMG13c3k4bEZxS0JkQjJ3?=
+ =?utf-8?B?UHVyM3dEMFR3ZTA1a0xPS1dUT0ZLSmNqb0xoTlhRa09Qc3JYeWNlNmQ4a1kz?=
+ =?utf-8?B?akJVaC80QWEwQjB1TmU4WnJtRWlmaXZFejIyelBhUmNvQmlKdDJ6cHA2Kzdy?=
+ =?utf-8?B?cVdzMU1JZysxbmVwaFRNNmc4Z2I3emlzZHlJYXVPWnRLZDEwMFoxdFQxRUZ5?=
+ =?utf-8?B?ZzdkQzRuYnpaL01xbTRkN0lCbWFKM0dER2xuN3JPY2w2TDgyejFGSmY5VWgv?=
+ =?utf-8?B?elhndGNmeHg3VkNDam5wZ1FmcnhpS0hrVktPbkdHTDlPMDNqU0dxRkdybkRx?=
+ =?utf-8?B?RThMQ2Y3K3NUNVNGK0owNjErVlRmbFNMUFA2Q3NFa0FOSHkwUlRGbXF6d1hm?=
+ =?utf-8?B?a01vZkJ4UitqcDQrM1E4bktic2RYV0krL3dDaGxoRUZTRFlZbVVGdi9aS1ZV?=
+ =?utf-8?B?Z0YxK2d6d2JkYzhBcU5BaDROTjRzcURQMWdqaVVzQVQ2U2luWXFRYUlnUEgz?=
+ =?utf-8?B?TklBNUxWQlRNWHNyZU1VakZwclNoajBQVEx1cTJINzNHQW41eEJYcEhrdklu?=
+ =?utf-8?B?ODdWeEI1eWUyendIZHFYV1RnZ1BCUmovQ2pBSXBOWG1jWjgzcm9xdmNLMko3?=
+ =?utf-8?B?NjE2VURFR2tJcThmdjJTU1NXYjNyL2RYRmllQXZhRW9kTlJST1ZFcGROSXJH?=
+ =?utf-8?B?bzBtUWZhd0NyMmNmODNVbG1ZL25MQVVmdE1GMkpOZjM5NmNrTXN5MUFOeDRs?=
+ =?utf-8?B?S3JpZmdqSkNhS0ZnTDlpWU56ZjhqbzR4SDlzcGhKK09CTGV2UzdTbVdRWWRK?=
+ =?utf-8?B?M2llRllEM2V4R2hFeEMyOWZBcTVsWTdiK0dncStrSTZJN3BhZkNYQ1M4NjZP?=
+ =?utf-8?B?Y0Uwb1I5QXVwczNFT2YwRkR5WnNzbWpGbVMyNmhNMWFCbm8wOUw0bHYzbWFO?=
+ =?utf-8?B?N3BYZWNJelVHQnJ3TjdscDRLWTVzb29TTXFwUGY0RGtPd0hWazY4QURncmRR?=
+ =?utf-8?B?S3Vsc3BjSnFRYXNxa2pFdUh0N2VTeWVkWC9RdlRoL2J0V0ZXd2lQRkRGL08w?=
+ =?utf-8?B?WnIyUVhENmJsMDFLaUZhNVVSMmt4cktKK2RTZTg1emkvUExFRGNwWldQZkJp?=
+ =?utf-8?B?RVpXb01zemoyNHhNc2FTTW5KZGlCKzdIMEgva1BKVm44cHlON0VXcXF2MUJu?=
+ =?utf-8?B?YWZ0YmFDc2E4ZTU4Y1JqNGF1Ylh0SVlJaHdlMXAzaWh4cmlHSjdVd2l2NFdS?=
+ =?utf-8?B?WWFQcXc1eUN0alpKeWlaY3h3bXh3WlpFWmRjM3dDTVRmM1g3K2Y3ZTRWd1Jq?=
+ =?utf-8?B?U0M3d2RoaFZuSzJGYnlGN3QyWnRsbm9KZ0VDU1dFQlB5OXcwRDhMYUhrMGdj?=
+ =?utf-8?B?Q1crVGlhTFJSRG5ESTFrVUNxRGZieFZOK2ZRZU05NUhQNERvNXVSY1U0aUgz?=
+ =?utf-8?B?U0FyOCs4ZExNMjRmY2pFZXJ4TVkzY3FWb3dHWEhoMkVjWXJ2VmVyRkNyOCtr?=
+ =?utf-8?B?b3p4OG5XRlllcHlidHdPOFpReVRBajkzeGQzdzVZdUFMeEV4V2xUR3VLSWhH?=
+ =?utf-8?B?alhiVThncmw5d3lSK2JTME1oY2ZhNkREOUhUN3lEOG1VMGtTR1c1OFNpYTV5?=
+ =?utf-8?Q?sEXGCaUXpYyop3y+DTptVcswXynUN1RLmFhI6aD?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 26608ba5-bb0d-4cb2-5139-08d92735bdbc
+X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3775.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Jun 2021 08:50:02.0960 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: seonLPez32NbCfFB77S7IdOoKcsBj5INEhBdYNg17uN0pVTL3rI6TnN6r1FOUiXi
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB3949
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,180 +133,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: daniel.vetter@intel.com, intel-gfx@lists.freedesktop.org,
+Cc: Alex Deucher <alexander.deucher@amd.com>, amd-gfx@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jun 02, 2021 at 10:16:30PM -0700, Matthew Brost wrote:
-> From: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
-> 
-> GuC has its own defines for the engine classes. They're currently
-> mapping 1:1 to the defines used by the driver, but there is no guarantee
-> this will continue in the future. Given that we've been caught off-guard
-> in the past by similar divergences, we can prepare for the changes by
-> introducing helper functions to convert from engine class to GuC class and
-> back again.
-> 
-> Signed-off-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
-> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
-> Reviewed-by: Matthew Brost <matthew.brost@intel.com>
-> Cc: John Harrison <John.C.Harrison@Intel.com>
-> Cc: Michal Wajdeczko <michal.wajdeczko@intel.com>
+Am 04.06.21 um 10:43 schrieb Chen Li:
+> I met a gpu addr bug recently and the kernel log
+> tells me the pc is memcpy/memset and link register is
+> radeon_uvd_resume.
+>
+> As we know, in some architectures, optimized memcpy/memset
+> may not work well on device memory. Trival memcpy_toio/memset_io
+> can fix this problem.
+>
+> BTW, amdgpu has already done it in:
+> commit ba0b2275a678 ("drm/amdgpu: use memcpy_to/fromio for UVD fw upload"),
+> that's why it has no this issue on the same gpu and platform.
+>
+> Signed-off-by: Chen Li <chenli@uniontech.com>
+> Reviewed-by: Christian König
 
-Applied all up to this, except the Kconfig one.
+Reviewed-by: Christian König <christian.koenig@amd.com>
 
-Thanks, Daniel
+Alex will probably now pick them up for upstreaming.
+
+Christian.
 
 > ---
->  drivers/gpu/drm/i915/gt/intel_engine_cs.c   |  6 +++--
->  drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c  | 20 +++++++++-------
->  drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h | 26 +++++++++++++++++++++
->  3 files changed, 42 insertions(+), 10 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/gt/intel_engine_cs.c b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
-> index 3f9a811eb02b..69281b5aba51 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_engine_cs.c
-> +++ b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
-> @@ -265,6 +265,7 @@ static int intel_engine_setup(struct intel_gt *gt, enum intel_engine_id id)
->  	const struct engine_info *info = &intel_engines[id];
->  	struct drm_i915_private *i915 = gt->i915;
->  	struct intel_engine_cs *engine;
-> +	u8 guc_class;
->  
->  	BUILD_BUG_ON(MAX_ENGINE_CLASS >= BIT(GEN11_ENGINE_CLASS_WIDTH));
->  	BUILD_BUG_ON(MAX_ENGINE_INSTANCE >= BIT(GEN11_ENGINE_INSTANCE_WIDTH));
-> @@ -293,9 +294,10 @@ static int intel_engine_setup(struct intel_gt *gt, enum intel_engine_id id)
->  	engine->i915 = i915;
->  	engine->gt = gt;
->  	engine->uncore = gt->uncore;
-> -	engine->mmio_base = __engine_mmio_base(i915, info->mmio_bases);
->  	engine->hw_id = info->hw_id;
-> -	engine->guc_id = MAKE_GUC_ID(info->class, info->instance);
-> +	guc_class = engine_class_to_guc_class(info->class);
-> +	engine->guc_id = MAKE_GUC_ID(guc_class, info->instance);
-> +	engine->mmio_base = __engine_mmio_base(i915, info->mmio_bases);
->  
->  	engine->irq_handler = nop_irq_handler;
->  
-> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c
-> index 17526717368c..efdce309b6f1 100644
-> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c
-> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c
-> @@ -6,6 +6,7 @@
->  #include "gt/intel_gt.h"
->  #include "gt/intel_lrc.h"
->  #include "intel_guc_ads.h"
-> +#include "intel_guc_fwif.h"
->  #include "intel_uc.h"
->  #include "i915_drv.h"
->  
-> @@ -104,7 +105,7 @@ static void guc_mapping_table_init(struct intel_gt *gt,
->  				GUC_MAX_INSTANCES_PER_CLASS;
->  
->  	for_each_engine(engine, gt, id) {
-> -		u8 guc_class = engine->class;
-> +		u8 guc_class = engine_class_to_guc_class(engine->class);
->  
->  		system_info->mapping_table[guc_class][engine->instance] =
->  			engine->instance;
-> @@ -124,7 +125,7 @@ static void __guc_ads_init(struct intel_guc *guc)
->  	struct __guc_ads_blob *blob = guc->ads_blob;
->  	const u32 skipped_size = LRC_PPHWSP_SZ * PAGE_SIZE + LR_HW_CONTEXT_SIZE;
->  	u32 base;
-> -	u8 engine_class;
-> +	u8 engine_class, guc_class;
->  
->  	/* GuC scheduling policies */
->  	guc_policies_init(&blob->policies);
-> @@ -140,22 +141,25 @@ static void __guc_ads_init(struct intel_guc *guc)
->  	for (engine_class = 0; engine_class <= MAX_ENGINE_CLASS; ++engine_class) {
->  		if (engine_class == OTHER_CLASS)
->  			continue;
-> +
-> +		guc_class = engine_class_to_guc_class(engine_class);
-> +
->  		/*
->  		 * TODO: Set context pointer to default state to allow
->  		 * GuC to re-init guilty contexts after internal reset.
->  		 */
-> -		blob->ads.golden_context_lrca[engine_class] = 0;
-> -		blob->ads.eng_state_size[engine_class] =
-> +		blob->ads.golden_context_lrca[guc_class] = 0;
-> +		blob->ads.eng_state_size[guc_class] =
->  			intel_engine_context_size(guc_to_gt(guc),
->  						  engine_class) -
->  			skipped_size;
->  	}
->  
->  	/* System info */
-> -	blob->system_info.engine_enabled_masks[RENDER_CLASS] = 1;
-> -	blob->system_info.engine_enabled_masks[COPY_ENGINE_CLASS] = 1;
-> -	blob->system_info.engine_enabled_masks[VIDEO_DECODE_CLASS] = VDBOX_MASK(gt);
-> -	blob->system_info.engine_enabled_masks[VIDEO_ENHANCEMENT_CLASS] = VEBOX_MASK(gt);
-> +	blob->system_info.engine_enabled_masks[GUC_RENDER_CLASS] = 1;
-> +	blob->system_info.engine_enabled_masks[GUC_BLITTER_CLASS] = 1;
-> +	blob->system_info.engine_enabled_masks[GUC_VIDEO_CLASS] = VDBOX_MASK(gt);
-> +	blob->system_info.engine_enabled_masks[GUC_VIDEOENHANCE_CLASS] = VEBOX_MASK(gt);
->  
->  	blob->system_info.generic_gt_sysinfo[GUC_GENERIC_GT_SYSINFO_SLICE_ENABLED] =
->  		hweight8(gt->info.sseu.slice_mask);
-> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h b/drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h
-> index 9bf35240e723..e9a9d85e2aa3 100644
-> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h
-> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h
-> @@ -9,6 +9,7 @@
->  #include <linux/bits.h>
->  #include <linux/compiler.h>
->  #include <linux/types.h>
-> +#include "gt/intel_engine_types.h"
->  
->  #include "abi/guc_actions_abi.h"
->  #include "abi/guc_errors_abi.h"
-> @@ -32,6 +33,12 @@
->  #define GUC_VIDEO_ENGINE2		4
->  #define GUC_MAX_ENGINES_NUM		(GUC_VIDEO_ENGINE2 + 1)
->  
-> +#define GUC_RENDER_CLASS		0
-> +#define GUC_VIDEO_CLASS			1
-> +#define GUC_VIDEOENHANCE_CLASS		2
-> +#define GUC_BLITTER_CLASS		3
-> +#define GUC_RESERVED_CLASS		4
-> +#define GUC_LAST_ENGINE_CLASS		GUC_RESERVED_CLASS
->  #define GUC_MAX_ENGINE_CLASSES		16
->  #define GUC_MAX_INSTANCES_PER_CLASS	32
->  
-> @@ -129,6 +136,25 @@
->  #define GUC_ID_TO_ENGINE_INSTANCE(guc_id) \
->  	(((guc_id) & GUC_ENGINE_INSTANCE_MASK) >> GUC_ENGINE_INSTANCE_SHIFT)
->  
-> +static inline u8 engine_class_to_guc_class(u8 class)
-> +{
-> +	BUILD_BUG_ON(GUC_RENDER_CLASS != RENDER_CLASS);
-> +	BUILD_BUG_ON(GUC_BLITTER_CLASS != COPY_ENGINE_CLASS);
-> +	BUILD_BUG_ON(GUC_VIDEO_CLASS != VIDEO_DECODE_CLASS);
-> +	BUILD_BUG_ON(GUC_VIDEOENHANCE_CLASS != VIDEO_ENHANCEMENT_CLASS);
-> +	GEM_BUG_ON(class > MAX_ENGINE_CLASS || class == OTHER_CLASS);
-> +
-> +	return class;
-> +}
-> +
-> +static inline u8 guc_class_to_engine_class(u8 guc_class)
-> +{
-> +	GEM_BUG_ON(guc_class > GUC_LAST_ENGINE_CLASS);
-> +	GEM_BUG_ON(guc_class == GUC_RESERVED_CLASS);
-> +
-> +	return guc_class;
-> +}
-> +
->  /* Work item for submitting workloads into work queue of GuC. */
->  struct guc_wq_item {
->  	u32 header;
-> -- 
-> 2.28.0
-> 
+>   drivers/gpu/drm/radeon/radeon_uvd.c | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/radeon/radeon_uvd.c b/drivers/gpu/drm/radeon/radeon_uvd.c
+> index 85a1f2c31749..753da95e6abb 100644
+> --- a/drivers/gpu/drm/radeon/radeon_uvd.c
+> +++ b/drivers/gpu/drm/radeon/radeon_uvd.c
+> @@ -288,7 +288,7 @@ int radeon_uvd_resume(struct radeon_device *rdev)
+>   	if (rdev->uvd.vcpu_bo == NULL)
+>   		return -EINVAL;
+>   
+> -	memcpy(rdev->uvd.cpu_addr, rdev->uvd_fw->data, rdev->uvd_fw->size);
+> +	memcpy_toio((void __iomem *)rdev->uvd.cpu_addr, rdev->uvd_fw->data, rdev->uvd_fw->size);
+>   
+>   	size = radeon_bo_size(rdev->uvd.vcpu_bo);
+>   	size -= rdev->uvd_fw->size;
+> @@ -296,7 +296,7 @@ int radeon_uvd_resume(struct radeon_device *rdev)
+>   	ptr = rdev->uvd.cpu_addr;
+>   	ptr += rdev->uvd_fw->size;
+>   
+> -	memset(ptr, 0, size);
+> +	memset_io((void __iomem *)ptr, 0, size);
+>   
+>   	return 0;
+>   }
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
