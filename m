@@ -1,44 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 495AB39BEE1
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Jun 2021 19:33:11 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E51239BECF
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Jun 2021 19:31:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 207256F874;
-	Fri,  4 Jun 2021 17:33:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 325D26F64D;
+	Fri,  4 Jun 2021 17:31:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 10B7C6F874;
- Fri,  4 Jun 2021 17:33:07 +0000 (UTC)
-IronPort-SDR: 9jVB1YwPSRF+emXss7uO3c6DqjF6XUyTa/TDhpxurOKzozZztiXqf50svHQCTIiFFgruUH2oSE
- rwQ7mTmKKqSg==
-X-IronPort-AV: E=McAfee;i="6200,9189,10005"; a="202477271"
-X-IronPort-AV: E=Sophos;i="5.83,248,1616482800"; d="scan'208";a="202477271"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Jun 2021 10:33:04 -0700
-IronPort-SDR: RQD1iMe456wpZ821pPL/T8/wGbe1o6IE/aBfXc5cBTblQPyDnoF2cdp/McJ8zaOtLC/Bl382r0
- pjVo+FbUe4jw==
-X-IronPort-AV: E=Sophos;i="5.83,248,1616482800"; d="scan'208";a="401028069"
-Received: from unknown (HELO sdutt-i7) ([10.165.21.147])
- by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Jun 2021 10:33:03 -0700
-Date: Fri, 4 Jun 2021 10:26:04 -0700
-From: Matthew Brost <matthew.brost@intel.com>
-To: Jason Ekstrand <jason@jlekstrand.net>
-Subject: Re: [Intel-gfx] [PATCH 9/9] drm/i915/doc: Add kernel doc for
- i915_sched_engine
-Message-ID: <20210604172604.GA19273@sdutt-i7>
-References: <20210603212722.59719-1-matthew.brost@intel.com>
- <20210603212722.59719-10-matthew.brost@intel.com>
- <CAOFGe97toNPXOhSP=PQrb4PNzYVLXOP7+tNY6B9qBMLSKrC0xw@mail.gmail.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8A6406F64A;
+ Fri,  4 Jun 2021 17:31:12 +0000 (UTC)
+IronPort-SDR: MgeBixsI15jMiIkRPMwEQkNb52Q3OBQpdIt/Ba7cK/1ax5xbUmDR9RhnLFbpb274hPj9KKIn2S
+ vUrn+2O4YjaQ==
+X-IronPort-AV: E=McAfee;i="6200,9189,10005"; a="225654437"
+X-IronPort-AV: E=Sophos;i="5.83,248,1616482800"; d="scan'208";a="225654437"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Jun 2021 10:30:59 -0700
+IronPort-SDR: E6f8vel3p5Bo3KoNnpIKKX3N7n331JqiLdiBnwP8qXAgkaOWsthLpEHPipQE1fQ/cLpudqh2py
+ spnGTxfVCyjA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.83,248,1616482800"; d="scan'208";a="412432857"
+Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.171])
+ by fmsmga007.fm.intel.com with SMTP; 04 Jun 2021 10:30:53 -0700
+Received: by stinkbox (sSMTP sendmail emulation);
+ Fri, 04 Jun 2021 20:30:52 +0300
+Date: Fri, 4 Jun 2021 20:30:52 +0300
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Werner Sembach <wse@tuxedocomputers.com>
+Subject: Re: [PATCH 4/4] drm/i915/display: Add handling for new "active bpc"
+ property
+Message-ID: <YLpjTMegcjT22vQE@intel.com>
+References: <20210604171723.10276-1-wse@tuxedocomputers.com>
+ <20210604171723.10276-5-wse@tuxedocomputers.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <CAOFGe97toNPXOhSP=PQrb4PNzYVLXOP7+tNY6B9qBMLSKrC0xw@mail.gmail.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210604171723.10276-5-wse@tuxedocomputers.com>
+X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,123 +53,119 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@intel.com>,
- Intel GFX <intel-gfx@lists.freedesktop.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>
+Cc: amd-gfx@lists.freedesktop.org, tzimmermann@suse.de,
+ intel-gfx@lists.freedesktop.org, sunpeng.li@amd.com,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ airlied@linux.ie, rodrigo.vivi@intel.com, alexander.deucher@amd.com,
+ christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jun 04, 2021 at 12:20:36PM -0500, Jason Ekstrand wrote:
-> On Thu, Jun 3, 2021 at 4:09 PM Matthew Brost <matthew.brost@intel.com> wrote:
-> >
-> > Signed-off-by: Matthew Brost <matthew.brost@intel.com>
-> > ---
-> >  Documentation/gpu/i915.rst                  |  6 ++++
-> >  drivers/gpu/drm/i915/i915_scheduler_types.h | 37 ++++++++++++++++++---
-> >  2 files changed, 38 insertions(+), 5 deletions(-)
-> >
-> > diff --git a/Documentation/gpu/i915.rst b/Documentation/gpu/i915.rst
-> > index 42ce0196930a..8f4f5471a05b 100644
-> > --- a/Documentation/gpu/i915.rst
-> > +++ b/Documentation/gpu/i915.rst
-> > @@ -425,6 +425,12 @@ User Batchbuffer Execution
-> >  .. kernel-doc:: drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
-> >     :doc: User command execution
-> >
-> > +Scheduling
-> > +----------
-> > +.. kernel-doc:: drivers/gpu/drm/i915/i915_scheduler_types.h
-> > +   :functions: i915_sched_engine
-> > +
-> > +
-> >  Logical Rings, Logical Ring Contexts and Execlists
-> >  --------------------------------------------------
-> >
-> > diff --git a/drivers/gpu/drm/i915/i915_scheduler_types.h b/drivers/gpu/drm/i915/i915_scheduler_types.h
-> > index 9d79514450de..e3da7517853f 100644
-> > --- a/drivers/gpu/drm/i915/i915_scheduler_types.h
-> > +++ b/drivers/gpu/drm/i915/i915_scheduler_types.h
-> > @@ -91,7 +91,21 @@ struct i915_dependency {
-> >                                 &(rq__)->sched.signalers_list, \
-> >                                 signal_link)
-> >
-> > +/**
-> > + * sturct i915_sched_engine - scheduler engine
-> > + *
-> > + * A schedule engine represents a submission queue with different priority
-> > + * bands. It contains all the common state (relative to the backend) to queue,
-> > + * track, and submit a request.
-> > + *
-> > + * This object at the moment is quite i915 specific but will transition into a
-> > + * container for the drm_gpu_scheduler plus a few other variables once the i915
-> > + * is integrated with the DRM scheduler.
-> > + */
+On Fri, Jun 04, 2021 at 07:17:23PM +0200, Werner Sembach wrote:
+> This commits implements the "active bpc" drm property for the Intel GPU driver.
 > 
-> Why is this its own patch?  The above comment would be nice to have in
-> patch 1/9 and the kref could be documented there too.
+> Signed-off-by: Werner Sembach <wse@tuxedocomputers.com>
+> ---
+>  drivers/gpu/drm/i915/display/intel_display.c | 13 +++++++++++++
+>  drivers/gpu/drm/i915/display/intel_dp.c      |  8 ++++++--
+>  drivers/gpu/drm/i915/display/intel_dp_mst.c  |  4 +++-
+>  drivers/gpu/drm/i915/display/intel_hdmi.c    |  4 +++-
+>  4 files changed, 25 insertions(+), 4 deletions(-)
 > 
+> diff --git a/drivers/gpu/drm/i915/display/intel_display.c b/drivers/gpu/drm/i915/display/intel_display.c
+> index 64e9107d70f7..f7898d9d7438 100644
+> --- a/drivers/gpu/drm/i915/display/intel_display.c
+> +++ b/drivers/gpu/drm/i915/display/intel_display.c
+> @@ -10164,6 +10164,8 @@ static void intel_atomic_commit_tail(struct intel_atomic_state *state)
+>  	struct drm_i915_private *dev_priv = to_i915(dev);
+>  	struct intel_crtc_state *new_crtc_state, *old_crtc_state;
+>  	struct intel_crtc *crtc;
+> +	struct drm_connector *connector;
+> +	struct drm_connector_state *new_conn_state;
+>  	u64 put_domains[I915_MAX_PIPES] = {};
+>  	intel_wakeref_t wakeref = 0;
+>  	int i;
+> @@ -10324,6 +10326,17 @@ static void intel_atomic_commit_tail(struct intel_atomic_state *state)
+>  	}
+>  	intel_runtime_pm_put(&dev_priv->runtime_pm, state->wakeref);
+>  
+> +	/* Extract information from crtc to communicate it to userspace as connector properties */
+> +	for_each_new_connector_in_state(&state->base, connector, new_conn_state, i) {
+> +		struct drm_crtc *crtc = new_conn_state->crtc;
+> +		if (crtc) {
+> +			new_crtc_state = to_intel_crtc_state(drm_atomic_get_new_crtc_state(&state->base, crtc));
 
-I thought it make the review easier? Either way, can squash this patch into the
-previous 8 as needed in next rev.
+intel_atomic_get_new_crtc_state()
 
-Matt
+> +			new_conn_state->active_bpc = new_crtc_state->pipe_bpp / 3;
+> +		}
+> +		else
+> +			new_conn_state->active_bpc = 0;
+> +	}
 
-> >  struct i915_sched_engine {
-> > +       /**
-> > +        * @ref: reference count of schedule engine object
-> > +        */
-> >         struct kref ref;
-> >
-> >         /**
-> > @@ -100,11 +114,18 @@ struct i915_sched_engine {
-> >          */
-> >         spinlock_t lock;
-> >
-> > +       /**
-> > +        * @requests: list of requests inflight on this schedule engine
-> > +        */
-> >         struct list_head requests;
-> > -       struct list_head hold; /* ready requests, but on hold */
-> >
-> >         /**
-> > -        * @tasklet: softirq tasklet for bottom handler
-> > +        * @hold: list of requests on hold.
-> > +        */
-> > +       struct list_head hold;
-> > +
-> > +       /**
-> > +        * @tasklet: softirq tasklet for submission
-> >          */
-> >         struct tasklet_struct tasklet;
-> >
-> > @@ -137,14 +158,20 @@ struct i915_sched_engine {
-> >          */
-> >         bool no_priolist;
-> >
-> > -       /* Back pointer to engine */
-> > +       /**
-> > +        * @engine: back pointer to engine
-> > +        */
-> >         struct intel_engine_cs *engine;
-> >
-> > -       /* Kick backend */
-> > +       /**
-> > +        * @kick_backed: kick back after a request's priority has changed
-> > +        */
-> >         void    (*kick_backend)(const struct i915_request *rq,
-> >                                 int prio);
-> >
-> > -       /*
-> > +       /**
-> > +        * @schedule: schedule function to adjust priority of request
-> > +        *
-> >          * Call when the priority on a request has changed and it and its
-> >          * dependencies may need rescheduling. Note the request itself may
-> >          * not be ready to run!
-> > --
-> > 2.28.0
-> >
-> > _______________________________________________
-> > Intel-gfx mailing list
-> > Intel-gfx@lists.freedesktop.org
-> > https://lists.freedesktop.org/mailman/listinfo/intel-gfx
+This also seems too late. I think the whole thing should be
+done somewhere around the normal swap_state() stuff.
+
+> +
+>  	/*
+>  	 * Defer the cleanup of the old state to a separate worker to not
+>  	 * impede the current task (userspace for blocking modesets) that
+> diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
+> index 642c60f3d9b1..67826ba976ed 100644
+> --- a/drivers/gpu/drm/i915/display/intel_dp.c
+> +++ b/drivers/gpu/drm/i915/display/intel_dp.c
+> @@ -4671,10 +4671,14 @@ intel_dp_add_properties(struct intel_dp *intel_dp, struct drm_connector *connect
+>  		intel_attach_force_audio_property(connector);
+>  
+>  	intel_attach_broadcast_rgb_property(connector);
+> -	if (HAS_GMCH(dev_priv))
+> +	if (HAS_GMCH(dev_priv)) {
+>  		drm_connector_attach_max_bpc_property(connector, 6, 10);
+> -	else if (DISPLAY_VER(dev_priv) >= 5)
+> +		drm_connector_attach_active_bpc_property(connector, 6, 10);
+> +	}
+> +	else if (DISPLAY_VER(dev_priv) >= 5) {
+>  		drm_connector_attach_max_bpc_property(connector, 6, 12);
+> +		drm_connector_attach_active_bpc_property(connector, 6, 12);
+> +	}
+>  
+>  	/* Register HDMI colorspace for case of lspcon */
+>  	if (intel_bios_is_lspcon_present(dev_priv, port)) {
+> diff --git a/drivers/gpu/drm/i915/display/intel_dp_mst.c b/drivers/gpu/drm/i915/display/intel_dp_mst.c
+> index 2daa3f67791e..5a1869dc2210 100644
+> --- a/drivers/gpu/drm/i915/display/intel_dp_mst.c
+> +++ b/drivers/gpu/drm/i915/display/intel_dp_mst.c
+> @@ -844,8 +844,10 @@ static struct drm_connector *intel_dp_add_mst_connector(struct drm_dp_mst_topolo
+>  	 */
+>  	connector->max_bpc_property =
+>  		intel_dp->attached_connector->base.max_bpc_property;
+> -	if (connector->max_bpc_property)
+> +	if (connector->max_bpc_property) {
+>  		drm_connector_attach_max_bpc_property(connector, 6, 12);
+> +		drm_connector_attach_active_bpc_property(connector, 6, 12);
+> +	}
+>  
+>  	return connector;
+>  
+> diff --git a/drivers/gpu/drm/i915/display/intel_hdmi.c b/drivers/gpu/drm/i915/display/intel_hdmi.c
+> index d69f0a6dc26d..8af78b27b6ce 100644
+> --- a/drivers/gpu/drm/i915/display/intel_hdmi.c
+> +++ b/drivers/gpu/drm/i915/display/intel_hdmi.c
+> @@ -2463,8 +2463,10 @@ intel_hdmi_add_properties(struct intel_hdmi *intel_hdmi, struct drm_connector *c
+>  		drm_object_attach_property(&connector->base,
+>  			connector->dev->mode_config.hdr_output_metadata_property, 0);
+>  
+> -	if (!HAS_GMCH(dev_priv))
+> +	if (!HAS_GMCH(dev_priv)) {
+>  		drm_connector_attach_max_bpc_property(connector, 8, 12);
+> +		drm_connector_attach_active_bpc_property(connector, 8, 12);
+> +	}
+>  }
+>  
+>  /*
+> -- 
+> 2.25.1
+
+-- 
+Ville Syrjälä
+Intel
