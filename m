@@ -1,53 +1,73 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D3DE39B56F
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Jun 2021 11:01:52 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id F3EA239B572
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Jun 2021 11:02:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 293B36F5DA;
-	Fri,  4 Jun 2021 09:01:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 047666F5E2;
+	Fri,  4 Jun 2021 09:02:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 05BCB6F5DA;
- Fri,  4 Jun 2021 09:01:46 +0000 (UTC)
-IronPort-SDR: n9KeJr1ysiayJUKszTnxtM3F9Aoe74JvBnyhis3e0+e14Bs3voyDyQ4xDhE0d4yxEvEwiheZaq
- HnRJHgIqv+VA==
-X-IronPort-AV: E=McAfee;i="6200,9189,10004"; a="191362613"
-X-IronPort-AV: E=Sophos;i="5.83,247,1616482800"; d="scan'208";a="191362613"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Jun 2021 02:01:44 -0700
-IronPort-SDR: 9G3b3ztjFYHK+ovsfibgfE3FQUGBWpuV8Qn4Nq+ppjbmCm0m2C5xR5Lpr+v6kzd1MlcovVl3b/
- 8yXJdgDKIVyQ==
-X-IronPort-AV: E=Sophos;i="5.83,247,1616482800"; d="scan'208";a="618201600"
-Received: from janlundk-mobl1.ger.corp.intel.com (HELO [10.249.254.183])
- ([10.249.254.183])
- by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Jun 2021 02:01:42 -0700
-Subject: Re: [Intel-gfx] Merging TTM branches through the Intel tree?
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- Daniel Vetter <daniel@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-References: <a29eaef9-2457-1393-6757-40956811daf8@linux.intel.com>
- <a6965639-acf6-b5f5-482c-2715e7fa69d4@amd.com>
- <b4c18e45-98c9-ce7f-b22c-c00c795844c2@shipmail.org>
- <baf4f828-76c8-6b47-5bba-9b9c8e7b307b@amd.com>
- <YLfQplT8H6PdCCLX@phenom.ffwll.local>
- <c50fa98f-3735-fe04-d3f9-8a7a08a7562e@linux.intel.com>
- <CAKMK7uE+fB_+UG668O=QMXwQ9_Xb--KhzehT77HLfBoWve-zLg@mail.gmail.com>
- <68e6057c-df17-64ce-3116-cd5e79578795@amd.com>
-From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>
-Message-ID: <a3f789a0-9e75-280a-7602-4728738024eb@linux.intel.com>
-Date: Fri, 4 Jun 2021 11:01:40 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com
+ [66.111.4.27])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2A5B76F5E2
+ for <dri-devel@lists.freedesktop.org>; Fri,  4 Jun 2021 09:02:20 +0000 (UTC)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
+ by mailout.nyi.internal (Postfix) with ESMTP id 805EB5C0099;
+ Fri,  4 Jun 2021 05:02:18 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute6.internal (MEProxy); Fri, 04 Jun 2021 05:02:18 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+ date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm3; bh=1jc38/kMYOUNay+MdgNpZ95kVoj
+ aHlQ7YITnlCiwzew=; b=D0FMWIwKAeylm7rcRHJo0h3cuGEqbKFymISkCyZfOQE
+ k7UhYcq0Rvgyq7k1nz+2WBUuyTxmqtrUvLrLBWjpIZEidRgQTwsXw8ge47Uv+Pkt
+ j/GCf4/7Uy3kzrDXimcBKeA54jNHMPQFz2GNyCbZVOnQuYcpciQUDZNwFS9TKCrD
+ faj0khlrsYilddvQnv9YfZzHdB+Wt7JrErhVpu6oZ70OlWbYI3pHLrfk7WAiNmrK
+ NrQy142IbdADl4FdMxwGTy8WnAulyB/N+EjGm3umGXexXIYYmI4qfoBIKqSfcASO
+ U+bjvI7udOCVCMSuTdL10ec8t8U6N1t5BKctItAIQlA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=1jc38/
+ kMYOUNay+MdgNpZ95kVojaHlQ7YITnlCiwzew=; b=Lantx2gbJF7PJ8Iog9V/4O
+ 0Mv4JmyHGPlHknfeH4hsCD7a6b1E5McZKlmje+HCh1GIec22VKh9lZAvzfpmDzIm
+ aK75jqvLIdUxNQVek2QI8hl6S1Z+mnL/WLCN19SG1DGZk6l2ZVMFT+OaOMMNrt2R
+ 55X21s6WLQ6JA4sGemt3El+2Dp+pbhAKjaPryhYSgA4dlH4AbIc5+wp9VQKSSlZR
+ 5/nO3hLdTjtgRX5IIo1patgBUvbJ6k+T/3Uz9eZKFL/SODh4hnVWOx+Ef228DEfi
+ Hv/6ObxmX0DZWrQ9ip73Ejp5rQ/rymf/3fCraoQhy4/UINliHeIK+Kerhzdpnbrw
+ ==
+X-ME-Sender: <xms:Gey5YHD6CwLEnqnk2nx5wzXpkIzUBZjcy3QLmH_hBCJFNAutB8SFEQ>
+ <xme:Gey5YNhdUOmUC-ipW9sqdjyGCVpO-5E7oQPEcH8cGe8GOa1B1GW2vuPagS_0jOEhg
+ wl89F8l0QIawPAbEh4>
+X-ME-Received: <xmr:Gey5YCldCFZ1tRrv5n6addj9qTEGJvPInYRUgznE1VfeTXusb4FlpE5MzVrIlcv6RQKNXmHkG44GU5HSK5cHB29HJRl6czeeMgEv>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrfedtuddguddtucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddunecuhfhrohhmpeforgigihhm
+ vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
+ htvghrnhepjeekkefftdffhffhvedvudetgfdtleejveffvedvvdetgeeltdfggefhhedv
+ ieffnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvghrufhiiigvpe
+ dtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:Gey5YJzs8dnLppNnzKTxnpq8iy3DdalWp7YeUev7RACqHVSVFKCtNA>
+ <xmx:Gey5YMSqqcrcpucnhdw5U6bZPiN1SgACK1QHQWej75kC5ILknmv1Mw>
+ <xmx:Gey5YMZpQJ8NbBseRceAqZacZJcM43RzG2NC8o2qdRZaHwjEnMWpag>
+ <xmx:Guy5YHfMDaj-4QgxYCssv7sUgEXx3iOmRGHussqllP33CKHBAXustg>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 4 Jun 2021 05:02:17 -0400 (EDT)
+Date: Fri, 4 Jun 2021 11:02:15 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: Stefan Wahren <stefan.wahren@i2se.com>
+Subject: Re: vc4: hdmi: audio: ASoC: error at snd_soc_dai_startup on
+ fef00700.hdmi
+Message-ID: <20210604090215.cpvoryvwrfzj5ikx@gilmour>
+References: <612b134c-d356-f027-46d7-322bdaff37a4@i2se.com>
 MIME-Version: 1.0
-In-Reply-To: <68e6057c-df17-64ce-3116-cd5e79578795@amd.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="cowixb2ckvc6iema"
+Content-Disposition: inline
+In-Reply-To: <612b134c-d356-f027-46d7-322bdaff37a4@i2se.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,124 +80,76 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?Q?Thomas_Hellstr=c3=b6m_=28Intel=29?= <thomas_os@shipmail.org>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+Cc: alsa-devel@alsa-project.org,
  DRI Development <dri-devel@lists.freedesktop.org>,
- Matthew Auld <matthew.auld@intel.com>
+ Emma Anholt <emma@anholt.net>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On 6/4/21 9:51 AM, Christian König wrote:
-> Am 03.06.21 um 09:36 schrieb Daniel Vetter:
->> On Thu, Jun 3, 2021 at 8:50 AM Thomas Hellström
->> <thomas.hellstrom@linux.intel.com> wrote:
->>>
->>> On 6/2/21 8:40 PM, Daniel Vetter wrote:
->>>> On Wed, Jun 02, 2021 at 11:48:41AM +0200, Christian König wrote:
->>>>> Am 02.06.21 um 11:16 schrieb Thomas Hellström (Intel):
->>>>>> On 6/2/21 10:32 AM, Christian König wrote:
->>>>>>> Uff I'm just waiting for feedback from Philip to merge a large 
->>>>>>> patch
->>>>>>> set for TTM through drm-misc-next.
->>>>>>>
->>>>>>> I'm pretty sure we will run into merge conflicts if you try to push
->>>>>>> your changes through the Intel tree.
->>>>>>>
->>>>>>> Christian.
->>>>>> OK, so what would be the best approach here?, Adding the TTM 
->>>>>> patches to
->>>>>> drm-misc-next when your set has landed?
->>>>> I think I will send out out my set to Matthew once more for 
->>>>> review, then
->>>>> push the common TTM stuff to drm-misc-next as much as possible.
->>>>>
->>>>> Then you should be able to land your stuff to drm-misc-next and 
->>>>> rebase on
->>>>> the end result.
->>>>>
->>>>> Just need to note to David that drm-misc-next should be merged to 
->>>>> drm-next
->>>>> before the Intel patches depending on that stuff land as well.
->>>> Other option (because the backmerges tend to be slow) is a topic 
->>>> branch,
->>>> and we just eat/resolve the conflicts in both drm-misc-next and
->>>> drm-intel-gt-next in the merge commit. If it's not too bad (I haven't
->>>> looked at what exactly we need for the i915 side from ttm in detail).
->>>>
->>>> But also often figuring out the topic branch logistics takes longer 
->>>> than
->>>> just merging to drm-misc-next as the patches get ready.
->>>> -Daniel
->>> Daniel: So the thing we need to get into TTM is the iterator-based
->>> move_memcpy which is more adaptable than the current one and needed to
->>> support non-linear lmem buffers, some bug-fixes and minor changes to be
->>> able to keep our short-term-pinning while on the LRU. A necessary evil.
->>>
->>> Christian: it looks like you have landed some TTM changes already, in
->>> particular the &bo->mem -> bo->resource change which is the main
->>> conflict I think.
->
-> Yes, I thought that pushing this with Matthew rb should solve at least 
-> a bit of the conflict.
->
->>> Is the 10 patches self-allocation series the main
->>> remaining part?
->
-> Yes, exactly. I only need Matthew's, Daniel's or your ok and I'm good 
-> to go as well
->
->>> That will probably cause some conflicts with already
->>> pushed i915 TTM setup code, but otherwise will not conflict with the
->>> rest of the TTM code I think, which should make it possible to bring in
->>> our TTM changes after conflict resolution with what you've already
->>> pushed. The memcpy code is pretty self-contained.
->> I think in that case topic branch on top of drm-next (once the ttm
->> bits we conflict with are there) is probably best, and then pull that
->> into drm-misc-next and drm-intel-gt-next. Merge window freeze is also
->> approach, so without topic branch we'd be stuck until like -rc2 when
->> drm-next reopens. I guess Maarten can do the topic branch logistics in
->> drm-misc.git for this.
->
-> That approach sounds good to me as well.
->
-> The amdgpu branch had some merge conflicts as well, but nothing we 
-> couldn't fix.
+--cowixb2ckvc6iema
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-OK, so this is going to be a little tricky, I guess.
+Hi Stefan,
 
- From what I can tell, the memcpy TTM stuff is resolved locally and can 
-be merged to drm-misc-next immediately. It might have a very minor 
-conflict with your 10 patches I think, if any.
+On Wed, May 26, 2021 at 12:47:29PM +0200, Stefan Wahren wrote:
+> Hi,
+>=20
+> yesterday i was testing with Linux 5.13-rc3 on my Raspberry Pi 4 B
+> (multi_v7_defconfig) and i'm getting the following errors during boot:
+>=20
+> [=A0=A0 25.947494] vc4_hdmi fef00700.hdmi: ASoC: error at
+> snd_soc_dai_startup on fef00700.hdmi: -19
+> [=A0=A0 25.947512]=A0 MAI: soc_pcm_open() failed (-19)
+> [=A0=A0 25.947883] vc4_hdmi fef00700.hdmi: ASoC: error at
+> snd_soc_dai_startup on fef00700.hdmi: -19
+> [=A0=A0 25.947891]=A0 MAI: soc_pcm_open() failed (-19)
+> [=A0=A0 25.948566] vc4_hdmi fef00700.hdmi: ASoC: error at
+> snd_soc_dai_startup on fef00700.hdmi: -19
+> [=A0=A0 25.948577]=A0 MAI: soc_pcm_open() failed (-19)
+> [=A0=A0 26.500049] vc4_hdmi fef00700.hdmi: ASoC: error at
+> snd_soc_dai_startup on fef00700.hdmi: -19
+> [=A0=A0 26.500065]=A0 MAI: soc_pcm_open() failed (-19)
+> [=A0=A0 26.500608] vc4_hdmi fef00700.hdmi: ASoC: error at
+> snd_soc_dai_startup on fef00700.hdmi: -19
+> [=A0=A0 26.500617]=A0 MAI: soc_pcm_open() failed (-19)
+> [=A0=A0 26.502339] vc4_hdmi fef00700.hdmi: ASoC: error at
+> snd_soc_dai_startup on fef00700.hdmi: -19
+> [=A0=A0 26.502353]=A0 MAI: soc_pcm_open() failed (-19)
+> [=A0=A0 26.502569] vc4_hdmi fef00700.hdmi: ASoC: error at
+> snd_soc_dai_startup on fef00700.hdmi: -19
+> [=A0=A0 26.502578]=A0 MAI: soc_pcm_open() failed (-19)
+>=20
+> Rootfs: Raspberry Pi OS 32 bit (April 2021)
+>=20
+> But according to aplay -l both hdmi devices have been registered. Does
+> anyone have seen this, too?
 
-Your 10 patches will conflict slightly with current drm-intel-gt-next I 
-think.
+I would assume it's due to this:
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/dri=
+vers/gpu/drm/vc4/vc4_hdmi.c#n1083
 
-Remaining intel patches will conflict only with current drm-misc-next.
+It pre-dates my time working on the vc4 driver so I'm not really sure
+what this is supposed to prevent, but my guess is that it's there to
+avoid someone using the audio card before we have a display detected and
+connected, and its capabilities known (the first and more obvious one
+being does it support audio in the first place).
 
-So We could have pull order
+It's nothing new though, maybe it's the error printing itself that is?
 
-- drm-misc-next up to bot not including your 10 patches,
-- drm-intel-gt-next
-- drm-misc-next from your 10 paches and onwards,
-- Intel's ttm enablement topic branch.
+Maxime
 
-Whether I push the ttm memcpy stuff before your 10 patches or after 
-shouldn't really matter except it might take some time to resolve the 10 
-patches - drm-intel-gt-next conflict in drm-tip.
+--cowixb2ckvc6iema
+Content-Type: application/pgp-signature; name="signature.asc"
 
-So OK to merge the memcpy stuff to drm-misc-next now or do you want me 
-to hold on?
+-----BEGIN PGP SIGNATURE-----
 
-I'll take a look at what's remaining to review in your series. I guess 
-it's in our interest that both these series get merged asap.
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYLnsFgAKCRDj7w1vZxhR
+xYo7AP4gasQXZNwx0uZo+1T1j85hsw4A2gK7D9fEPvnksbfYdwD+O6sJPi2spLyf
+6udavnhBnHFmt2Enn3q5NJD39iNJDQA=
+=Rxgh
+-----END PGP SIGNATURE-----
 
-/Thomas
-
-
-
->
-> Christian.
->
->> -Daniel
->
+--cowixb2ckvc6iema--
