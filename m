@@ -2,36 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97BCF39BBA7
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Jun 2021 17:20:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C4A6C39BBAA
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Jun 2021 17:20:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E26C56F612;
-	Fri,  4 Jun 2021 15:20:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E03576F617;
+	Fri,  4 Jun 2021 15:20:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id D96186F612
- for <dri-devel@lists.freedesktop.org>; Fri,  4 Jun 2021 15:20:25 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E1DF41063;
- Fri,  4 Jun 2021 08:20:24 -0700 (PDT)
-Received: from [192.168.1.179] (unknown [172.31.20.19])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 30B773F774;
- Fri,  4 Jun 2021 08:20:24 -0700 (PDT)
-Subject: Re: [PATCH v4] drm/panfrost: Add AFBC_FEATURES parameter
-To: Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
- dri-devel@lists.freedesktop.org
-References: <20210604130011.3203-1-alyssa.rosenzweig@collabora.com>
-From: Steven Price <steven.price@arm.com>
-Message-ID: <66673c76-08e5-7fe5-c1fb-dae6dcb60f9f@arm.com>
-Date: Fri, 4 Jun 2021 16:20:23 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [216.205.24.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6FD276F617
+ for <dri-devel@lists.freedesktop.org>; Fri,  4 Jun 2021 15:20:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1622820055;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=4AbIlLedm5Mu+ovdpvNjPfOsXH7m99kQNtIejaRsUUU=;
+ b=aeqKdawg7sPeFs5OAk/SZXNhGlTx0+oUowDFRIqBJlbei1qvU7oefc7LKk7MjK621tZebS
+ iTKdhb46fY2pfj6P/zWd/cqLVJgaSXXMMuqrvDLycyJVSFcUdEtnYUNpPbr4g06Qgk/tdu
+ uFLbyEB8tl/hcZHUEcF5An6yyjXiZyk=
+Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
+ [209.85.222.199]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-311-FozbT41iPZiPsLXbBrscBg-1; Fri, 04 Jun 2021 11:20:51 -0400
+X-MC-Unique: FozbT41iPZiPsLXbBrscBg-1
+Received: by mail-qk1-f199.google.com with SMTP id
+ z12-20020a05620a08ccb02902ea1e4a963dso6807848qkz.13
+ for <dri-devel@lists.freedesktop.org>; Fri, 04 Jun 2021 08:20:51 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=4AbIlLedm5Mu+ovdpvNjPfOsXH7m99kQNtIejaRsUUU=;
+ b=UHxI3fzyg582t5SVHbMZ2BV2BxwA6RYDsZuB+NCeEgFa77nU+Anx+VZEndiU3r4HCo
+ UOiZIYFzJPzgTuQq8Y//muXFaHwlyzMgtfsrxu9rh5eWMHtekl6xJbPk0FUOCyrd4WNO
+ Tt/pc9DZxbwKNHAYdRzEY06onbMn1n9O4VDl4+S8YUTB27JPhkz2+/+uF9TMs1u74q4r
+ MUE4//uOacWsK90+6iHykgZYodg3XJnSADAEe6qLDgEmQVCLPADiy0AMJyzloZeAHYbo
+ YxqcJSju9Xq+du/qGv46cgiveJh6S35R1lVGB69dgyzhcS3uhaF5j4KHltfkodich69i
+ W9nw==
+X-Gm-Message-State: AOAM53370BzIA/sRHM2KQ5975qPZ3ZeI98uLZpnD3my5oqsWlSghkmwS
+ i1+xUgIhrQfcVG3n+y6ase+MUwG5UXAC4LwTHl2XOH+JrTUqqtP+2r2/xUtkhKnvH0HZ+rwMd1b
+ oYiYI2K5VeFBkb6wlc0Z3CkogyodZ
+X-Received: by 2002:a37:911:: with SMTP id 17mr2506634qkj.436.1622820051429;
+ Fri, 04 Jun 2021 08:20:51 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwSkb15icJCjCC2a0yzUkFB8Tk/1b3Gxyat2dgZri3GuoK2EOI4ZaPq1ePBkTLwQGSCPYLtvg==
+X-Received: by 2002:a37:911:: with SMTP id 17mr2506604qkj.436.1622820051225;
+ Fri, 04 Jun 2021 08:20:51 -0700 (PDT)
+Received: from t490s
+ (bras-base-toroon474qw-grc-61-184-147-118-108.dsl.bell.ca. [184.147.118.108])
+ by smtp.gmail.com with ESMTPSA id x9sm3701082qtf.76.2021.06.04.08.20.49
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 04 Jun 2021 08:20:50 -0700 (PDT)
+Date: Fri, 4 Jun 2021 11:20:49 -0400
+From: Peter Xu <peterx@redhat.com>
+To: Alistair Popple <apopple@nvidia.com>
+Subject: Re: [PATCH v9 07/10] mm: Device exclusive memory access
+Message-ID: <YLpE0U789jvD2zxN@t490s>
+References: <20210524132725.12697-1-apopple@nvidia.com>
+ <3853054.AI2YdRgKcH@nvdebian> <YLjrjJXMP9Y3bvej@t490s>
+ <10231977.pWpf7cJbZl@nvdebian>
 MIME-Version: 1.0
-In-Reply-To: <20210604130011.3203-1-alyssa.rosenzweig@collabora.com>
+In-Reply-To: <10231977.pWpf7cJbZl@nvdebian>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -44,130 +81,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tomeu Vizoso <tomeu.vizoso@collabora.com>
+Cc: rcampbell@nvidia.com, willy@infradead.org, linux-doc@vger.kernel.org,
+ nouveau@lists.freedesktop.org, Balbir Singh <bsingharora@gmail.com>,
+ hughd@google.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, hch@infradead.org, linux-mm@kvack.org,
+ jglisse@redhat.com, bskeggs@redhat.com, jgg@nvidia.com,
+ John Hubbard <jhubbard@nvidia.com>, Andrew Morton <akpm@linux-foundation.org>,
+ Christoph Hellwig <hch@lst.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 04/06/2021 14:00, Alyssa Rosenzweig wrote:
-> The value of the AFBC_FEATURES register is required by userspace to
-> determine AFBC support on Bifrost. A user on our IRC channel (#panfrost)
-> reported a workload that raised a fault on one system's Mali G31 but
-> worked flawlessly with another system's Mali G31. We determined the
-> cause to be missing AFBC support on one vendor's Mali implementation --
-> it turns out AFBC is optional on Bifrost!
+On Fri, Jun 04, 2021 at 11:07:42AM +1000, Alistair Popple wrote:
+> On Friday, 4 June 2021 12:47:40 AM AEST Peter Xu wrote:
+> > External email: Use caution opening links or attachments
+> > 
+> > On Thu, Jun 03, 2021 at 09:39:32PM +1000, Alistair Popple wrote:
+> > > Reclaim won't run on the page due to the extra references from the special
+> > > swap entries.
+> > 
+> > That sounds reasonable, but I didn't find the point that stops it, probably
+> > due to my limited knowledge on the reclaim code.  Could you elaborate?
 > 
-> Whether AFBC is supported or not is exposed in the AFBC_FEATURES
-> register on Bifrost, which reads back as 0 on Midgard. A zero value
-> indicates AFBC is fully supported, provided the architecture itself
-> supports AFBC, allowing backwards-compatibility with Midgard. Bits 0 and
-> 15 indicate that AFBC support is absent for texturing and rendering
-> respectively.
+> Sure, it isn't immediately obvious but it ends up being detected at the start 
+> of is_page_cache_freeable() in the pageout code:
 > 
-> The user experiencing the fault reports that AFBC_FEATURES reads back
-> 0x10001 on their system, confirming the architectural lack of AFBC.
-> Userspace needs this this parameter to know to disable AFBC on that
-                  ^^^^^^^^^
-Repeated word ;) But I've fixed that up and pushed it to drm-misc-next.
+> 
+> static pageout_t pageout(struct page *page, struct address_space *mapping)
+> {
+> 
+> [...]
+> 
+> 	if (!is_page_cache_freeable(page))
+> 		return PAGE_KEEP;
 
-Thanks,
+I did look at pageout() but still missed this small helper indeed (while it's
+so important to know..), thanks!
 
-Steve
-
-> chip, and perhaps others.
-> 
-> v2: Fix typo from copy-paste fail.
-> 
-> v3: Bump the UABI version. This commit was cherry-picked from another
-> series so chalking this up to a rebase fail.
-> 
-> Signed-off-by: Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
-> Reviewed-by: Steven Price <steven.price@arm.com>
-> Cc: Rob Herring <robh@kernel.org>
-> Cc: Tomeu Vizoso <tomeu.vizoso@collabora.com>
-> ---
->  drivers/gpu/drm/panfrost/panfrost_device.h | 1 +
->  drivers/gpu/drm/panfrost/panfrost_drv.c    | 4 +++-
->  drivers/gpu/drm/panfrost/panfrost_gpu.c    | 1 +
->  drivers/gpu/drm/panfrost/panfrost_regs.h   | 1 +
->  include/uapi/drm/panfrost_drm.h            | 1 +
->  5 files changed, 7 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_device.h b/drivers/gpu/drm/panfrost/panfrost_device.h
-> index 597cf1459..f614e9877 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_device.h
-> +++ b/drivers/gpu/drm/panfrost/panfrost_device.h
-> @@ -45,6 +45,7 @@ struct panfrost_features {
->  	u32 thread_max_workgroup_sz;
->  	u32 thread_max_barrier_sz;
->  	u32 coherency_features;
-> +	u32 afbc_features;
->  	u32 texture_features[4];
->  	u32 js_features[16];
->  
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_drv.c b/drivers/gpu/drm/panfrost/panfrost_drv.c
-> index ca07098a6..1596559f3 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_drv.c
-> +++ b/drivers/gpu/drm/panfrost/panfrost_drv.c
-> @@ -63,6 +63,7 @@ static int panfrost_ioctl_get_param(struct drm_device *ddev, void *data, struct
->  		PANFROST_FEATURE(THREAD_MAX_BARRIER_SZ,
->  				thread_max_barrier_sz);
->  		PANFROST_FEATURE(COHERENCY_FEATURES, coherency_features);
-> +		PANFROST_FEATURE(AFBC_FEATURES, afbc_features);
->  		PANFROST_FEATURE_ARRAY(TEXTURE_FEATURES, texture_features, 3);
->  		PANFROST_FEATURE_ARRAY(JS_FEATURES, js_features, 15);
->  		PANFROST_FEATURE(NR_CORE_GROUPS, nr_core_groups);
-> @@ -547,6 +548,7 @@ DEFINE_DRM_GEM_FOPS(panfrost_drm_driver_fops);
->   * Panfrost driver version:
->   * - 1.0 - initial interface
->   * - 1.1 - adds HEAP and NOEXEC flags for CREATE_BO
-> + * - 1.2 - adds AFBC_FEATURES query
->   */
->  static const struct drm_driver panfrost_drm_driver = {
->  	.driver_features	= DRIVER_RENDER | DRIVER_GEM | DRIVER_SYNCOBJ,
-> @@ -559,7 +561,7 @@ static const struct drm_driver panfrost_drm_driver = {
->  	.desc			= "panfrost DRM",
->  	.date			= "20180908",
->  	.major			= 1,
-> -	.minor			= 1,
-> +	.minor			= 2,
->  
->  	.gem_create_object	= panfrost_gem_create_object,
->  	.prime_handle_to_fd	= drm_gem_prime_handle_to_fd,
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_gpu.c b/drivers/gpu/drm/panfrost/panfrost_gpu.c
-> index 2aae636f1..0e70e27fd 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_gpu.c
-> +++ b/drivers/gpu/drm/panfrost/panfrost_gpu.c
-> @@ -228,6 +228,7 @@ static void panfrost_gpu_init_features(struct panfrost_device *pfdev)
->  	pfdev->features.thread_max_workgroup_sz = gpu_read(pfdev, GPU_THREAD_MAX_WORKGROUP_SIZE);
->  	pfdev->features.thread_max_barrier_sz = gpu_read(pfdev, GPU_THREAD_MAX_BARRIER_SIZE);
->  	pfdev->features.coherency_features = gpu_read(pfdev, GPU_COHERENCY_FEATURES);
-> +	pfdev->features.afbc_features = gpu_read(pfdev, GPU_AFBC_FEATURES);
->  	for (i = 0; i < 4; i++)
->  		pfdev->features.texture_features[i] = gpu_read(pfdev, GPU_TEXTURE_FEATURES(i));
->  
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_regs.h b/drivers/gpu/drm/panfrost/panfrost_regs.h
-> index eddaa62ad..dc9df5457 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_regs.h
-> +++ b/drivers/gpu/drm/panfrost/panfrost_regs.h
-> @@ -82,6 +82,7 @@
->  
->  #define GPU_TEXTURE_FEATURES(n)		(0x0B0 + ((n) * 4))
->  #define GPU_JS_FEATURES(n)		(0x0C0 + ((n) * 4))
-> +#define GPU_AFBC_FEATURES		(0x4C)	/* (RO) AFBC support on Bifrost */
->  
->  #define GPU_SHADER_PRESENT_LO		0x100	/* (RO) Shader core present bitmap, low word */
->  #define GPU_SHADER_PRESENT_HI		0x104	/* (RO) Shader core present bitmap, high word */
-> diff --git a/include/uapi/drm/panfrost_drm.h b/include/uapi/drm/panfrost_drm.h
-> index ec19db1ee..061e700dd 100644
-> --- a/include/uapi/drm/panfrost_drm.h
-> +++ b/include/uapi/drm/panfrost_drm.h
-> @@ -171,6 +171,7 @@ enum drm_panfrost_param {
->  	DRM_PANFROST_PARAM_JS_FEATURES15,
->  	DRM_PANFROST_PARAM_NR_CORE_GROUPS,
->  	DRM_PANFROST_PARAM_THREAD_TLS_ALLOC,
-> +	DRM_PANFROST_PARAM_AFBC_FEATURES,
->  };
->  
->  struct drm_panfrost_get_param {
-> 
+-- 
+Peter Xu
 
