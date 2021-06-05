@@ -2,54 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BCF1139D59F
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Jun 2021 09:11:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 56F5539D5A1
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Jun 2021 09:11:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4090D6E2C0;
-	Mon,  7 Jun 2021 07:11:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 104C16E2D5;
+	Mon,  7 Jun 2021 07:11:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x72e.google.com (mail-qk1-x72e.google.com
- [IPv6:2607:f8b0:4864:20::72e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3CD186E0C4
- for <dri-devel@lists.freedesktop.org>; Sat,  5 Jun 2021 12:18:24 +0000 (UTC)
-Received: by mail-qk1-x72e.google.com with SMTP id r17so12039971qkp.10
- for <dri-devel@lists.freedesktop.org>; Sat, 05 Jun 2021 05:18:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=2XU5HDbmcHnF712wVpqM6iQ1X7EhYZWOfK4vwV87prU=;
- b=FWobSpgrhp0Af/hcJqRgDfsHgRC3XmmPbsTFVx7BVZIZsbDAiAq6QmHzQc9wN6ld5l
- 6OlQdRVBJ4+zJAXiNK0mBkcTt5KDuPzVbIfcnPn0aHjMdOO+fXMorjb5pGOISWE05oWS
- E+545N6/1rPXvrj+XtwR4xKiapXjMbyzDxyvv1TIezV2LtV2Gc7EJTx4sr9E4BXgjl08
- Mp/gY390Qh61pvf0wqhzTTtw4+GUeasRTiDSVrtZWD6CUES2pnc6QT+2onqSTsGLX+TT
- cKiijQcGu3QN5k2RzM47GLUs61t7zUhpLlYQC9rx9SK1AGJJTyeklrKsl9XqbPS5rlEV
- wEDQ==
+Received: from mail-io1-f70.google.com (mail-io1-f70.google.com
+ [209.85.166.70])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 324876E0C4
+ for <dri-devel@lists.freedesktop.org>; Sat,  5 Jun 2021 13:00:20 +0000 (UTC)
+Received: by mail-io1-f70.google.com with SMTP id
+ i15-20020a6bee0f0000b029043af67da217so8244479ioh.3
+ for <dri-devel@lists.freedesktop.org>; Sat, 05 Jun 2021 06:00:20 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=2XU5HDbmcHnF712wVpqM6iQ1X7EhYZWOfK4vwV87prU=;
- b=gIxf1ZDis9rqzuzjVRzx6Zpr5ciCGhT9VtvtV2MBN+mFmzbIeJROJU7mCf2JSae/4Z
- LELfJYso5ia1L6XZ3X3FJovSDh8XN8J9ZT14najmioy3sLSIygqxSfOGQXFxMWA/eLXy
- CAMR2DwFDJZh75XAFX3FWi39eP5irQSR7HL9dlV5Nk5IeNuwtzzPpgp7xDZbx5UiIxi3
- gtIjL4dPwapovPsabeZFwP93yBS7lnyhuTjSyf1vBwArrdIzKLf4W1lXdKGea3To2/vg
- WXcVrCdy7M0GgCAuHQ/oTmKHNPAatQsjjXToGtqpSzzf1aav2G4OTEmMH8sgX2qOrF+i
- eePw==
-X-Gm-Message-State: AOAM530yyz4i4duuHGfQaZCzpDYdGHLJSe2h2/HSFI1s1OU7N3KKHrbz
- xK71iSC4jP7ebBzLLkSzbv8cFUyzBl9oJUzQrA0=
-X-Google-Smtp-Source: ABdhPJz616zbzLkCG4N8pskE1XrPJz4cf9/NOusosJu2q74PjtNEUUCHcdBR5LFqOAKT12RVqIG5z0nyLpZzvcV8Bos=
-X-Received: by 2002:a05:620a:119c:: with SMTP id
- b28mr8701321qkk.374.1622895503195; 
- Sat, 05 Jun 2021 05:18:23 -0700 (PDT)
+ h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
+ bh=iFXTtA8X2z+eX4opBgGHQYkpp91LW96NGV28D3XR+Ng=;
+ b=RMR9HhPUtMj1smC4/DnXuBc6SL9mvdTYdpVhLRa9UEgnfR6PGSfT2pdbx4UihKpJn+
+ hKs7Vv06aipO2wxlAut74hcGmU47mkmgTgCfQYZmVxKkFy8QTgrtEFA5BI78IMZLPE8a
+ gZo66LbG4rV8oq77h4QfiUmaP8d2WVLHOAYvlBnlnle6AbAkJ/f1qxdq8EhpUa7hSA3C
+ rhD8FAN76PdFfXuRy7NLtydjhV6oIs+vN7RsLPIgNuxj+ALidiRpt2V91M7u6h3bkj69
+ IIk44cce8FsuSxgig33GVT+7B0HBi8mpwm9r21px95/TQyCo2Keb0fDFhobtZHLCXlhY
+ kxRA==
+X-Gm-Message-State: AOAM533sARgjTRx/XMcxOBfDrPh6eJgm/fBYGuO67K+WzTO893GU+M+w
+ Hsd1B2W1KkwSKY+wJKXqr7FsxIWRXx15rtBS+rnY6AkEiEs3
+X-Google-Smtp-Source: ABdhPJxtDacZtV+pZIa+ZFcWZKxKwjVxI6fAAwh1dDcQ4+ayVG4yStlGizPDvEBT3naENRsqWpk52UnlWZEPebrRZZHbdFh5UbRF
 MIME-Version: 1.0
-References: <20210605104942.39487-1-konrad.dybcio@somainline.org>
- <20210605104942.39487-2-konrad.dybcio@somainline.org>
-In-Reply-To: <20210605104942.39487-2-konrad.dybcio@somainline.org>
-From: Marijn Suijten <marijns95@gmail.com>
-Date: Sat, 5 Jun 2021 14:18:12 +0200
-Message-ID: <CANX-K3t35412cnsWwiG=oi7MK9qYoOFCD5NBOqCwzXFA9OamsQ@mail.gmail.com>
-Subject: Re: [PATCH v2 2/2] drm/panel: Add support for SONY JDI Synaptics panel
-To: Konrad Dybcio <konrad.dybcio@somainline.org>
+X-Received: by 2002:a5d:83ce:: with SMTP id u14mr7879807ior.45.1622898019609; 
+ Sat, 05 Jun 2021 06:00:19 -0700 (PDT)
+Date: Sat, 05 Jun 2021 06:00:19 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <000000000000f7365905c4046327@google.com>
+Subject: [syzbot] WARNING in dlfb_set_video_mode/usb_submit_urb
+From: syzbot <syzbot+b70e32fc4c6568d6d19e@syzkaller.appspotmail.com>
+To: bernie@plugable.com, dri-devel@lists.freedesktop.org, 
+ linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ syzkaller-bugs@googlegroups.com
 Content-Type: text/plain; charset="UTF-8"
 X-Mailman-Approved-At: Mon, 07 Jun 2021 07:11:17 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -64,70 +55,87 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- jamipkettunen@somainline.org, Rob Herring <robh+dt@kernel.org>,
- Thierry Reding <thierry.reding@gmail.com>, martin.botka@somainline.org,
- ~postmarketos/upstreaming@lists.sr.ht,
- angelogioacchino.delregno@somainline.org, marijn.suijten@somainline.org,
- Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, 5 Jun 2021 at 12:49, Konrad Dybcio <konrad.dybcio@somainline.org> wrote:
->
-> From: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
->
-> This commit adds support for Synaptics+JDI display panels
-> used in SONY Xperia X, X Compact, X Performance, XZ and XZs
-> smartphones.
->
-> Due to the nature of phone manufacturing, it is impossible
-> to retrieve the actual panel names, hence the replacement
-> ones, detailing the devices they are used on.
->
-> Co-developed-by: Konrad Dybcio <konrad.dybcio@somainline.org>
-> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
-> Signed-off-by: Konrad Dybcio <konrad.dybcio@somainline.org>
-> ---
->  drivers/gpu/drm/panel/Kconfig                 |  10 +
->  drivers/gpu/drm/panel/Makefile                |   1 +
->  .../gpu/drm/panel/panel-sony-synaptics-jdi.c  | 511 ++++++++++++++++++
->  3 files changed, 522 insertions(+)
->  create mode 100644 drivers/gpu/drm/panel/panel-sony-synaptics-jdi.c
->
-[..]
-> diff --git a/drivers/gpu/drm/panel/panel-sony-synaptics-jdi.c b/drivers/gpu/drm/panel/panel-sony-synaptics-jdi.c
-> new file mode 100644
-> index 000000000000..2b1972dea58a
-> --- /dev/null
-> +++ b/drivers/gpu/drm/panel/panel-sony-synaptics-jdi.c
-> @@ -0,0 +1,511 @@
-[..]
-> +struct synaptics_jdi_panel {
-> +       struct drm_panel base;
-> +       struct mipi_dsi_device *dsi;
-> +
-> +       struct backlight_device *backlight;
+Hello,
 
-As mentioned in pre-review, don't forget to actually probe the
-backlight.  It is not necessary to store the backlight (anymore), it
-is already kept in base->backli  Something like this should work:
+syzbot found the following issue on:
 
-    rc = drm_panel_of_backlight(&synaptics_jdi_panel->base);
-    if (rc)
-            return dev_err_probe(dev, rc,
-                    "cannot register of backlight\n");
+HEAD commit:    c2131f7e Merge tag 'gfs2-v5.13-rc2-fixes' of git://git.ker..
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=1204b5d3d00000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=e2ecf1aa681aadc1
+dashboard link: https://syzkaller.appspot.com/bug?extid=b70e32fc4c6568d6d19e
+compiler:       Debian clang version 11.0.1-2
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=15282db7d00000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=1763504dd00000
 
-> +       struct regulator_bulk_data supplies[5];
-> +
-> +       struct gpio_desc *pan_reset_gpio;
-> +       struct gpio_desc *ts_reset_gpio;
-> +
-> +       bool prepared;
-> +       bool enabled;
-> +
-> +       const struct synaptics_jdi_panel_desc *desc;
-> +};
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+b70e32fc4c6568d6d19e@syzkaller.appspotmail.com
 
-Thanks!
+usb 1-1: Read EDID byte 0 failed: -71
+usb 1-1: Read EDID byte 0 failed: -71
+usb 1-1: Read EDID byte 0 failed: -71
+usb 1-1: Unable to get valid EDID from device/display
+------------[ cut here ]------------
+usb 1-1: BOGUS urb xfer, pipe 3 != type 1
+WARNING: CPU: 0 PID: 8629 at drivers/usb/core/urb.c:494 usb_submit_urb+0xacd/0x1550 drivers/usb/core/urb.c:493
+Modules linked in:
+CPU: 0 PID: 8629 Comm: kworker/0:4 Not tainted 5.13.0-rc4-syzkaller #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/01/2011
+Workqueue: usb_hub_wq hub_event
+RIP: 0010:usb_submit_urb+0xacd/0x1550 drivers/usb/core/urb.c:493
+Code: d8 48 c1 e8 03 42 8a 04 28 84 c0 0f 85 bd 07 00 00 44 8b 03 48 c7 c7 80 86 e1 8a 4c 89 f6 4c 89 fa 89 e9 31 c0 e8 63 c7 8f fb <0f> 0b 4c 8b 74 24 30 45 89 f7 4c 89 ff 48 c7 c6 70 e1 8d 8d e8 6a
+RSP: 0018:ffffc90001f36660 EFLAGS: 00010246
+RAX: 0baf7fe5b4c01b00 RBX: ffffffff8ae184ac RCX: ffff888035c09c40
+RDX: 0000000000000000 RSI: 0000000080000000 RDI: 0000000000000000
+RBP: 0000000000000003 R08: ffffffff81655632 R09: ffffed1017345f90
+R10: ffffed1017345f90 R11: 0000000000000000 R12: ffff888017813700
+R13: dffffc0000000000 R14: ffffffff8ae226e0 R15: ffff888017212b90
+FS:  0000000000000000(0000) GS:ffff8880b9a00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007fe721263740 CR3: 0000000017ff3000 CR4: 00000000001506f0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+Call Trace:
+ dlfb_submit_urb drivers/video/fbdev/udlfb.c:1969 [inline]
+ dlfb_set_video_mode+0x1b2a/0x3500 drivers/video/fbdev/udlfb.c:315
+ dlfb_ops_set_par+0x731/0xb50 drivers/video/fbdev/udlfb.c:1110
+ dlfb_usb_probe+0x184e/0x21b0 drivers/video/fbdev/udlfb.c:1732
+ usb_probe_interface+0x633/0xb40 drivers/usb/core/driver.c:396
+ really_probe+0x3cb/0x1020 drivers/base/dd.c:580
+ driver_probe_device+0x178/0x350 drivers/base/dd.c:763
+ bus_for_each_drv+0x16a/0x1f0 drivers/base/bus.c:431
+ __device_attach+0x301/0x560 drivers/base/dd.c:938
+ bus_probe_device+0xb8/0x1f0 drivers/base/bus.c:491
+ device_add+0x11fc/0x1670 drivers/base/core.c:3324
+ usb_set_configuration+0x1a86/0x2100 drivers/usb/core/message.c:2164
+ usb_generic_driver_probe+0x83/0x140 drivers/usb/core/generic.c:238
+ usb_probe_device+0x13a/0x260 drivers/usb/core/driver.c:293
+ really_probe+0x3cb/0x1020 drivers/base/dd.c:580
+ driver_probe_device+0x178/0x350 drivers/base/dd.c:763
+ bus_for_each_drv+0x16a/0x1f0 drivers/base/bus.c:431
+ __device_attach+0x301/0x560 drivers/base/dd.c:938
+ bus_probe_device+0xb8/0x1f0 drivers/base/bus.c:491
+ device_add+0x11fc/0x1670 drivers/base/core.c:3324
+ usb_new_device+0xd45/0x1790 drivers/usb/core/hub.c:2556
+ hub_port_connect+0x1055/0x27a0 drivers/usb/core/hub.c:5276
+ hub_port_connect_change+0x5d0/0xbf0 drivers/usb/core/hub.c:5416
+ port_event+0xaee/0x1140 drivers/usb/core/hub.c:5562
+ hub_event+0x48d/0xd90 drivers/usb/core/hub.c:5644
+ process_one_work+0x833/0x10c0 kernel/workqueue.c:2276
+ worker_thread+0xac1/0x1300 kernel/workqueue.c:2422
+ kthread+0x39a/0x3c0 kernel/kthread.c:313
+ ret_from_fork+0x1f/0x30 arch/x86/entry/entry_64.S:294
+
+
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+syzbot can test patches for this issue, for details see:
+https://goo.gl/tpsmEJ#testing-patches
