@@ -2,46 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56F5539D5A1
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Jun 2021 09:11:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3101539D59E
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Jun 2021 09:11:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 104C16E2D5;
-	Mon,  7 Jun 2021 07:11:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D3B196E2B8;
+	Mon,  7 Jun 2021 07:11:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-f70.google.com (mail-io1-f70.google.com
- [209.85.166.70])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 324876E0C4
- for <dri-devel@lists.freedesktop.org>; Sat,  5 Jun 2021 13:00:20 +0000 (UTC)
-Received: by mail-io1-f70.google.com with SMTP id
- i15-20020a6bee0f0000b029043af67da217so8244479ioh.3
- for <dri-devel@lists.freedesktop.org>; Sat, 05 Jun 2021 06:00:20 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
- bh=iFXTtA8X2z+eX4opBgGHQYkpp91LW96NGV28D3XR+Ng=;
- b=RMR9HhPUtMj1smC4/DnXuBc6SL9mvdTYdpVhLRa9UEgnfR6PGSfT2pdbx4UihKpJn+
- hKs7Vv06aipO2wxlAut74hcGmU47mkmgTgCfQYZmVxKkFy8QTgrtEFA5BI78IMZLPE8a
- gZo66LbG4rV8oq77h4QfiUmaP8d2WVLHOAYvlBnlnle6AbAkJ/f1qxdq8EhpUa7hSA3C
- rhD8FAN76PdFfXuRy7NLtydjhV6oIs+vN7RsLPIgNuxj+ALidiRpt2V91M7u6h3bkj69
- IIk44cce8FsuSxgig33GVT+7B0HBi8mpwm9r21px95/TQyCo2Keb0fDFhobtZHLCXlhY
- kxRA==
-X-Gm-Message-State: AOAM533sARgjTRx/XMcxOBfDrPh6eJgm/fBYGuO67K+WzTO893GU+M+w
- Hsd1B2W1KkwSKY+wJKXqr7FsxIWRXx15rtBS+rnY6AkEiEs3
-X-Google-Smtp-Source: ABdhPJxtDacZtV+pZIa+ZFcWZKxKwjVxI6fAAwh1dDcQ4+ayVG4yStlGizPDvEBT3naENRsqWpk52UnlWZEPebrRZZHbdFh5UbRF
+X-Greylist: delayed 552 seconds by postgrey-1.36 at gabe;
+ Sat, 05 Jun 2021 19:53:10 UTC
+Received: from hosting.gsystem.sk (hosting.gsystem.sk [212.5.213.30])
+ by gabe.freedesktop.org (Postfix) with ESMTP id D2E056E1F9;
+ Sat,  5 Jun 2021 19:53:10 +0000 (UTC)
+Received: from [192.168.0.2] (188-167-68-178.dynamic.chello.sk
+ [188.167.68.178])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by hosting.gsystem.sk (Postfix) with ESMTPSA id 93AA07A021C;
+ Sat,  5 Jun 2021 21:43:56 +0200 (CEST)
+From: Ondrej Zary <linux@zary.sk>
+To: Ben Skeggs <bskeggs@redhat.com>
+Subject: nouveau broken on Riva TNT2 in 5.13.0-rc4: NULL pointer dereference
+ in nouveau_bo_sync_for_device
+Date: Sat, 5 Jun 2021 21:43:52 +0200
+User-Agent: KMail/1.9.10
 MIME-Version: 1.0
-X-Received: by 2002:a5d:83ce:: with SMTP id u14mr7879807ior.45.1622898019609; 
- Sat, 05 Jun 2021 06:00:19 -0700 (PDT)
-Date: Sat, 05 Jun 2021 06:00:19 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <000000000000f7365905c4046327@google.com>
-Subject: [syzbot] WARNING in dlfb_set_video_mode/usb_submit_urb
-From: syzbot <syzbot+b70e32fc4c6568d6d19e@syzkaller.appspotmail.com>
-To: bernie@plugable.com, dri-devel@lists.freedesktop.org, 
- linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
- syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain;
+  charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+Message-Id: <202106052143.52488.linux@zary.sk>
 X-Mailman-Approved-At: Mon, 07 Jun 2021 07:11:17 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -55,87 +45,78 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: nouveau@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hello,
+I'm testing 5.13.0-rc4 and nouveau crashes with NULL pointer dereference in nouveau_bo_sync_for_device.
+Found various reports like this but that was back in februaryso that should be fixed now.
 
-syzbot found the following issue on:
-
-HEAD commit:    c2131f7e Merge tag 'gfs2-v5.13-rc2-fixes' of git://git.ker..
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=1204b5d3d00000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=e2ecf1aa681aadc1
-dashboard link: https://syzkaller.appspot.com/bug?extid=b70e32fc4c6568d6d19e
-compiler:       Debian clang version 11.0.1-2
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=15282db7d00000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=1763504dd00000
-
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+b70e32fc4c6568d6d19e@syzkaller.appspotmail.com
-
-usb 1-1: Read EDID byte 0 failed: -71
-usb 1-1: Read EDID byte 0 failed: -71
-usb 1-1: Read EDID byte 0 failed: -71
-usb 1-1: Unable to get valid EDID from device/display
-------------[ cut here ]------------
-usb 1-1: BOGUS urb xfer, pipe 3 != type 1
-WARNING: CPU: 0 PID: 8629 at drivers/usb/core/urb.c:494 usb_submit_urb+0xacd/0x1550 drivers/usb/core/urb.c:493
-Modules linked in:
-CPU: 0 PID: 8629 Comm: kworker/0:4 Not tainted 5.13.0-rc4-syzkaller #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/01/2011
-Workqueue: usb_hub_wq hub_event
-RIP: 0010:usb_submit_urb+0xacd/0x1550 drivers/usb/core/urb.c:493
-Code: d8 48 c1 e8 03 42 8a 04 28 84 c0 0f 85 bd 07 00 00 44 8b 03 48 c7 c7 80 86 e1 8a 4c 89 f6 4c 89 fa 89 e9 31 c0 e8 63 c7 8f fb <0f> 0b 4c 8b 74 24 30 45 89 f7 4c 89 ff 48 c7 c6 70 e1 8d 8d e8 6a
-RSP: 0018:ffffc90001f36660 EFLAGS: 00010246
-RAX: 0baf7fe5b4c01b00 RBX: ffffffff8ae184ac RCX: ffff888035c09c40
-RDX: 0000000000000000 RSI: 0000000080000000 RDI: 0000000000000000
-RBP: 0000000000000003 R08: ffffffff81655632 R09: ffffed1017345f90
-R10: ffffed1017345f90 R11: 0000000000000000 R12: ffff888017813700
-R13: dffffc0000000000 R14: ffffffff8ae226e0 R15: ffff888017212b90
-FS:  0000000000000000(0000) GS:ffff8880b9a00000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 00007fe721263740 CR3: 0000000017ff3000 CR4: 00000000001506f0
-DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
-Call Trace:
- dlfb_submit_urb drivers/video/fbdev/udlfb.c:1969 [inline]
- dlfb_set_video_mode+0x1b2a/0x3500 drivers/video/fbdev/udlfb.c:315
- dlfb_ops_set_par+0x731/0xb50 drivers/video/fbdev/udlfb.c:1110
- dlfb_usb_probe+0x184e/0x21b0 drivers/video/fbdev/udlfb.c:1732
- usb_probe_interface+0x633/0xb40 drivers/usb/core/driver.c:396
- really_probe+0x3cb/0x1020 drivers/base/dd.c:580
- driver_probe_device+0x178/0x350 drivers/base/dd.c:763
- bus_for_each_drv+0x16a/0x1f0 drivers/base/bus.c:431
- __device_attach+0x301/0x560 drivers/base/dd.c:938
- bus_probe_device+0xb8/0x1f0 drivers/base/bus.c:491
- device_add+0x11fc/0x1670 drivers/base/core.c:3324
- usb_set_configuration+0x1a86/0x2100 drivers/usb/core/message.c:2164
- usb_generic_driver_probe+0x83/0x140 drivers/usb/core/generic.c:238
- usb_probe_device+0x13a/0x260 drivers/usb/core/driver.c:293
- really_probe+0x3cb/0x1020 drivers/base/dd.c:580
- driver_probe_device+0x178/0x350 drivers/base/dd.c:763
- bus_for_each_drv+0x16a/0x1f0 drivers/base/bus.c:431
- __device_attach+0x301/0x560 drivers/base/dd.c:938
- bus_probe_device+0xb8/0x1f0 drivers/base/bus.c:491
- device_add+0x11fc/0x1670 drivers/base/core.c:3324
- usb_new_device+0xd45/0x1790 drivers/usb/core/hub.c:2556
- hub_port_connect+0x1055/0x27a0 drivers/usb/core/hub.c:5276
- hub_port_connect_change+0x5d0/0xbf0 drivers/usb/core/hub.c:5416
- port_event+0xaee/0x1140 drivers/usb/core/hub.c:5562
- hub_event+0x48d/0xd90 drivers/usb/core/hub.c:5644
- process_one_work+0x833/0x10c0 kernel/workqueue.c:2276
- worker_thread+0xac1/0x1300 kernel/workqueue.c:2422
- kthread+0x39a/0x3c0 kernel/kthread.c:313
- ret_from_fork+0x1f/0x30 arch/x86/entry/entry_64.S:294
+[   21.003216] BUG: kernel NULL pointer dereference, address: 00000000
+[   21.003235] #PF: supervisor read access in kernel mode
+[   21.003243] #PF: error_code(0x0000) - not-present page
+[   21.003250] *pde = 00000000
+[   21.003258] Oops: 0000 [#1] SMP
+[   21.003268] CPU: 0 PID: 222 Comm: systemd-udevd Not tainted 5.13.0-rc4+ #327
+[   21.003278] Hardware name:  /848P-ICH5, BIOS 6.00 PG 02/03/2005
+[   21.003285] EIP: nouveau_bo_sync_for_device+0x9e/0xbf [nouveau]
+[   21.003571] Code: 02 89 45 e8 01 d1 8b 19 89 5d ec bb 01 00 00 00 3b 5d e8 74 0d 89 d8 c1 e0 05 03 45 ec 39 04 99 74 1e 8b 46 10 89 d9 c1 e1 0c <8b> 14 10 8b 47 e0 8b 40 08 6a 01 e8 d5 03 55 df 01 5d f0 58 eb ae
+[   21.003588] EAX: 00000000 EBX: 00000010 ECX: 00010000 EDX: 00000000
+[   21.003597] ESI: c3e90280 EDI: c185a494 EBP: c2ed7c10 ESP: c2ed7bf8
+[   21.003606] DS: 007b ES: 007b FS: 00d8 GS: 0033 SS: 0068 EFLAGS: 00210206
+[   21.003615] CR0: 80050033 CR2: 00000000 CR3: 02ecb000 CR4: 00000690
+[   21.003625] Call Trace:
+[   21.003635]  nouveau_bo_validate+0x3f/0x48 [nouveau]
+[   21.003911]  nouveau_bo_pin+0xf0/0x187 [nouveau]
+[   21.004182]  nouveau_channel_prep+0xc0/0x269 [nouveau]
+[   21.004454]  nouveau_channel_new+0x3c/0x5f5 [nouveau]
+[   21.004725]  ? slab_free_freelist_hook+0x3b/0xa7
+[   21.004740]  ? kfree+0x9e/0x11a
+[   21.004749]  ? nvif_object_sclass_put+0xd/0x16 [nouveau]
+[   21.004944]  nouveau_drm_device_init+0x2e2/0x646 [nouveau]
+[   21.005186]  ? pci_enable_device_flags+0x23/0x97
+[   21.005202]  nouveau_drm_probe+0xe5/0x182 [nouveau]
+[   21.005443]  ? nouveau_drm_device_init+0x646/0x646 [nouveau]
+[   21.005683]  pci_device_probe+0x89/0xe9
+[   21.005696]  really_probe+0x127/0x2b9
+[   21.005707]  driver_probe_device+0x62/0x89
+[   21.005715]  device_driver_attach+0x2e/0x41
+[   21.005724]  __driver_attach+0x83/0x8a
+[   21.005732]  bus_for_each_dev+0x4c/0x66
+[   21.005740]  driver_attach+0x14/0x16
+[   21.005747]  ? device_driver_attach+0x41/0x41
+[   21.005756]  bus_add_driver+0xc5/0x16c
+[   21.005764]  driver_register+0x87/0xb9
+[   21.005772]  __pci_register_driver+0x38/0x3b
+[   21.005780]  ? 0xf0be4000
+[   21.005787]  nouveau_drm_init+0x14c/0x1000 [nouveau]
+[   21.005964]  do_one_initcall+0x5a/0x134
+[   21.005975]  ? __vunmap+0x124/0x12d
+[   21.005984]  ? __vunmap+0x124/0x12d
+[   21.005992]  ? kmem_cache_alloc+0xa8/0xb6
+[   21.006001]  ? do_init_module+0x17/0x1cf
+[   21.006012]  do_init_module+0x46/0x1cf
+[   21.006021]  load_module+0x1799/0x1bcb
+[   21.006032]  __ia32_sys_finit_module+0x72/0x7a
+[   21.006044]  do_int80_syscall_32+0x53/0x62
+[   21.006054]  entry_INT80_32+0xf0/0xf0
+[   21.006063] EIP: 0xb7f40092
+[   21.006071] Code: 00 00 00 e9 90 ff ff ff ff a3 24 00 00 00 68 30 00 00 00 e9 80 ff ff ff ff a3 e8 ff ff ff 66 90 00 00 00 00 00 00 00 00 cd 80 <c3> 8d b4 26 00 00 00 00 8d b6 00 00 00 00 8b 1c 24 c3 8d b4 26 00
+[   21.006086] EAX: ffffffda EBX: 00000010 ECX: b7e9bbdd EDX: 00000000
+[   21.006095] ESI: 008f27d0 EDI: 008f9e10 EBP: 00000000 ESP: bfa140b8
+[   21.006103] DS: 007b ES: 007b FS: 0000 GS: 0033 SS: 007b EFLAGS: 00200296
+[   21.006114] Modules linked in: nouveau(+) snd_intel8x0 snd_ac97_codec pcmcia wmi hwmon ac97_bus yenta_socket pcmcia_rsrc drm_ttm_helper snd_pcm ttm snd_timer pcmcia_core psmouse 8139cp snd sg soundcore serio_raw parport_pc intel_agp parport
+[   21.006165] CR2: 0000000000000000
+[   21.006201] ---[ end trace 02dc541683feafc6 ]---
+[   21.006211] EIP: nouveau_bo_sync_for_device+0x9e/0xbf [nouveau]
+[   21.006460] Code: 02 89 45 e8 01 d1 8b 19 89 5d ec bb 01 00 00 00 3b 5d e8 74 0d 89 d8 c1 e0 05 03 45 ec 39 04 99 74 1e 8b 46 10 89 d9 c1 e1 0c <8b> 14 10 8b 47 e0 8b 40 08 6a 01 e8 d5 03 55 df 01 5d f0 58 eb ae
+[   21.006476] EAX: 00000000 EBX: 00000010 ECX: 00010000 EDX: 00000000
+[   21.006485] ESI: c3e90280 EDI: c185a494 EBP: c2ed7c10 ESP: c2ed7bf8
+[   21.006494] DS: 007b ES: 007b FS: 00d8 GS: 0033 SS: 0068 EFLAGS: 00210206
+[   21.006503] CR0: 80050033 CR2: 00000000 CR3: 02ecb000 CR4: 00000690
 
 
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
-
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-syzbot can test patches for this issue, for details see:
-https://goo.gl/tpsmEJ#testing-patches
+-- 
+Ondrej Zary
