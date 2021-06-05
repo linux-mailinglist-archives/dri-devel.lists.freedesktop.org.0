@@ -2,38 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 311FA39C44B
-	for <lists+dri-devel@lfdr.de>; Sat,  5 Jun 2021 02:21:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D4E039C483
+	for <lists+dri-devel@lfdr.de>; Sat,  5 Jun 2021 02:38:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C95B66E436;
-	Sat,  5 Jun 2021 00:20:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 522676E435;
+	Sat,  5 Jun 2021 00:38:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 01D216E436;
- Sat,  5 Jun 2021 00:20:58 +0000 (UTC)
-IronPort-SDR: /E8YdxfUS6UW9yP8VP3Nk7oh68+N2mZ9olJtjV5y7AXvT6sqFBHKVtJcLGJlyty2pBDzIHvy5z
- i8n296vFaDNg==
-X-IronPort-AV: E=McAfee;i="6200,9189,10005"; a="204369565"
-X-IronPort-AV: E=Sophos;i="5.83,249,1616482800"; d="scan'208";a="204369565"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Jun 2021 17:20:58 -0700
-IronPort-SDR: CtqDjBcYidukEhlgPPtYwvyv3qllyOrBvMVR6VKC0Fb40ObDiAWBrY8WRvlTyJDUln9KbBhm2U
- 3Ic1T8gwaNkg==
-X-IronPort-AV: E=Sophos;i="5.83,249,1616482800"; d="scan'208";a="446862419"
-Received: from lucas-s2600cw.jf.intel.com ([10.165.21.202])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Jun 2021 17:20:58 -0700
-From: Lucas De Marchi <lucas.demarchi@intel.com>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9996A6E435
+ for <dri-devel@lists.freedesktop.org>; Sat,  5 Jun 2021 00:38:05 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id A2BCE613D8
+ for <dri-devel@lists.freedesktop.org>; Sat,  5 Jun 2021 00:38:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1622853484;
+ bh=cAZG9S9zTdSjXLlVb8/aX0uP8gmFFYUycryi+oJNfa8=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=ekaogpgLKIfjKG1ap6M2RcUc4obAQZSKCRsbLrwXabSWtGTTNiFmuWJoGC1B8Qa8r
+ uFpOiG5ybYCGYgeHMUUJMm4chy08wd0dfTwQlfDqFtfDQTHkl3bbItNn2ycWvtg1H5
+ m6B+0XjfC8b4kfGdBdjV2uwP8sam0drIwIdeiBr/7Mt0IaMdoLQzS0Tdm3EBHRZ+25
+ ruwUnKJa/KkMYz9/Ujqw12ZlC/NhZr9AucqIMt7X9vU8WhFS4wwT993eKctvaJg679
+ Lg5uRd4+Ehw8kRfZN3rYhKD6q4rwmv0w7Ox9wYuPKb/tMuymGhTDtcY6avfSJ4hyWG
+ 3E0jaDib1wiIw==
+Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
+ id 963B96127B; Sat,  5 Jun 2021 00:38:04 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH] dma-buf: fix build due to missing export
-Date: Fri,  4 Jun 2021 17:20:07 -0700
-Message-Id: <20210605002007.4153933-1-lucas.demarchi@intel.com>
-X-Mailer: git-send-email 2.31.1
+Subject: [Bug 213145] AMDGPU resets, timesout and crashes after "*ERROR*
+ Waiting for fences timed out!"
+Date: Sat, 05 Jun 2021 00:38:04 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: high
+X-Bugzilla-Who: meep@binary-kitchen.de
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-213145-2300-8s1tgMLPEO@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-213145-2300@https.bugzilla.kernel.org/>
+References: <bug-213145-2300@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,51 +66,25 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, intel-gfx@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Commit 0c6b522abc2a ("dma-buf: cleanup dma-resv shared fence debugging a bit v2")
-turned dma_resv_reset_shared_max() into a function when
-CONFIG_DEBUG_MUTEXES is set, but forgot to export it. That resulted in a
-broken build:
+https://bugzilla.kernel.org/show_bug.cgi?id=3D213145
 
-	ERROR: modpost: "dma_resv_reset_shared_max" [drivers/gpu/drm/vgem/vgem.ko] undefined!
-	ERROR: modpost: "dma_resv_reset_shared_max" [drivers/gpu/drm/i915/i915.ko] undefined!
-	ERROR: modpost: "dma_resv_reset_shared_max" [drivers/gpu/drm/amd/amdgpu/amdgpu.ko] undefined!
-	ERROR: modpost: "dma_resv_reset_shared_max" [drivers/gpu/drm/ttm/ttm.ko] undefined!
-	ERROR: modpost: "dma_resv_reset_shared_max" [drivers/gpu/drm/drm.ko] undefined!
-	ERROR: modpost: "dma_resv_reset_shared_max" [drivers/gpu/drm/drm_vram_helper.ko] undefined!
-	make[1]: *** [scripts/Makefile.modpost:150: modules-only.symvers] Error 1
+--- Comment #5 from meep@binary-kitchen.de ---
+https://gitlab.freedesktop.org/mesa/mesa/-/issues/4866
 
-Fixes: 0c6b522abc2a ("dma-buf: cleanup dma-resv shared fence debugging a bit v2")
-Cc: Christian König <christian.koenig@amd.com>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc: Sumit Semwal <sumit.semwal@linaro.org>
-Cc: "Christian König" <christian.koenig@amd.com>
-Cc: linux-media@vger.kernel.org
-Cc: dri-devel@lists.freedesktop.org
-Cc: linaro-mm-sig@lists.linaro.org
-Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
----
- drivers/dma-buf/dma-resv.c | 1 +
- 1 file changed, 1 insertion(+)
+seems exactly same Problem, same config as another guy.
+seems to be introduced with removing some check from mesa to test size of
+drawbuffer against zero.
+not yet decided if its a bug to remove this,
+or if radeonsi or amdgpu firmware should handle this case.
 
-diff --git a/drivers/dma-buf/dma-resv.c b/drivers/dma-buf/dma-resv.c
-index 3964df438505..6132ba631991 100644
---- a/drivers/dma-buf/dma-resv.c
-+++ b/drivers/dma-buf/dma-resv.c
-@@ -226,6 +226,7 @@ void dma_resv_reset_shared_max(struct dma_resv *obj)
- 		fence->shared_max = fence->shared_count;
- 	}
- }
-+EXPORT_SYMBOL(dma_resv_reset_shared_max);
- #endif
- 
- /**
--- 
-2.31.1
+there are some solutions and quickfixes posted,
+you could try them and report back then.
 
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
