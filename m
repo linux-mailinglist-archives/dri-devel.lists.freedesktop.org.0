@@ -1,58 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B051839C931
-	for <lists+dri-devel@lfdr.de>; Sat,  5 Jun 2021 16:45:21 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D8DFC39C9A7
+	for <lists+dri-devel@lfdr.de>; Sat,  5 Jun 2021 17:54:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D060B6E49D;
-	Sat,  5 Jun 2021 14:45:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A731F6E4D4;
+	Sat,  5 Jun 2021 15:54:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-xd2d.google.com (mail-io1-xd2d.google.com
- [IPv6:2607:f8b0:4864:20::d2d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DC7466E49D
- for <dri-devel@lists.freedesktop.org>; Sat,  5 Jun 2021 14:45:16 +0000 (UTC)
-Received: by mail-io1-xd2d.google.com with SMTP id q7so13502083iob.4
- for <dri-devel@lists.freedesktop.org>; Sat, 05 Jun 2021 07:45:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=Zg4tYXBzFYTBPFnbctrrXgasqQu5Pw6BoMCMzX+63xw=;
- b=YDdB/B93y8jqL8m3kNXOFQoQMw6GRgw3LCqXlsgsHY0cudicrKsqX5VHP5Zdtkofap
- aqSHeutWXVtW78zmVAl2VllGmq9l9Y3cpDxkp0EGZPnBRHyKl4Y0vPlMowfED4djV8dt
- hyOBWryx0gwNZR22nO2mF5oz3xr8ZP/s6RaYZNHKIDeNN3NAYMnGiXerPWZCsaOTwe9n
- ol1u6Cnnhc2pAkRyeiWbz5lISIH54hgPnfaas/HHTwJQjYm7A6GaYChIZhwHQZZ9exTu
- QEklAqdeAKMbcOwjb+4ozYJq/s6CrIMyKQo1h3myslH0+OFP38mf44iqafMoh8eZntNJ
- FE4A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=Zg4tYXBzFYTBPFnbctrrXgasqQu5Pw6BoMCMzX+63xw=;
- b=kne37p8m5eOcemgSnz8lQLMqSKBrSywXzZsptLrZx28O63+i8EuAlS7puZx6mO4WIz
- Az/9UuvWnk/2MJbZUwhbbgVIxa4CBV+rax2lmWeNsYbD34uU16UGsAHUZahCpt86usW1
- /RZWVSeSxd2DnxM+5sviSxAD0i1Sp6ED0Purqj9v+rJoWuwEibcxz0IhQuZdOfi0WO3O
- ttqDUVrm13dEWJRHi8z0WBdLM2kFlAFsV9zUwS0GKjRtOX0m7f+6syfRBRQkZqC7ilw2
- Os7vPmSwbSKwHhcmASnSB06/cKJr+xci9Jbl5lNQaycf8o6nKGxz+jOXUhSFSMA9PvHB
- vzXg==
-X-Gm-Message-State: AOAM530i2/Fj+9CPREJD9vpZ2fnlFNUgCknJta/z3GvEfy40MaC0Dp/N
- Eq964VBk1LtOOD7xDbBQHVW5nTCX2qsCYDXqHnI=
-X-Google-Smtp-Source: ABdhPJxiHjc2m9ixm1mjO3AqnnoHf+aSsnodDIwDUP3L8cPMM987HK6yUJHr1WsyWFd0VIHtNJlVFZi124gSBdHdoMU=
-X-Received: by 2002:a6b:b74e:: with SMTP id h75mr8124782iof.125.1622904315421; 
- Sat, 05 Jun 2021 07:45:15 -0700 (PDT)
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DCD7A6E3D0;
+ Sat,  5 Jun 2021 15:54:19 +0000 (UTC)
+IronPort-SDR: Rp6SmKLdIHG9vT0ybim9oY0PlAuj0/wW4DhFnTzEwxzTo6CfMv2A0wd7Xdk/XYBN69ZpLQdyix
+ VNclHrYrwQEg==
+X-IronPort-AV: E=McAfee;i="6200,9189,10006"; a="202586563"
+X-IronPort-AV: E=Sophos;i="5.83,251,1616482800"; d="scan'208";a="202586563"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Jun 2021 08:54:16 -0700
+IronPort-SDR: bC5+1ACN+/wxCHbEtCrWH4gX3aYxZtFUuNt0sv6nZHH6XYT+57DiSPQjEsunxF40A5axJWN+0y
+ aW2+12XQdaOw==
+X-IronPort-AV: E=Sophos;i="5.83,251,1616482800"; d="scan'208";a="636855088"
+Received: from lucas-s2600cw.jf.intel.com ([10.165.21.202])
+ by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Jun 2021 08:54:14 -0700
+From: Lucas De Marchi <lucas.demarchi@intel.com>
+To: intel-gfx@lists.freedesktop.org
+Subject: [PATCH v4 0/5] drm/i915: Finish conversion to GRAPHICS_VER
+Date: Sat,  5 Jun 2021 08:53:51 -0700
+Message-Id: <20210605155356.4183026-1-lucas.demarchi@intel.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-References: <20210531102838.2423918-1-linus.walleij@linaro.org>
- <CAD=FV=XHzqi67_bf0EUCF=cgzGt-uX=+-ehkOfjm32Wg8YBt5Q@mail.gmail.com>
- <CACRpkdYvdPBWm8zc5EB9iEXoCXFv=0VwPXvLTxNXAoV3RbsYZw@mail.gmail.com>
-In-Reply-To: <CACRpkdYvdPBWm8zc5EB9iEXoCXFv=0VwPXvLTxNXAoV3RbsYZw@mail.gmail.com>
-From: Dillon Hua <dillonhua@gmail.com>
-Date: Sat, 5 Jun 2021 22:45:04 +0800
-Message-ID: <CAPTRvH=V5S0qPABA+eF2YFrwg3-c8A=VK+MPW6_CEgQoWmxX0g@mail.gmail.com>
-Subject: Re: [PATCH v2] drm/panel: db7430: Add driver for Samsung DB7430
-To: Linus Walleij <linus.walleij@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,57 +45,137 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
- Doug Anderson <dianders@chromium.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Linus
+v3 is a resend from v2 (https://patchwork.freedesktop.org/series/90693/)
+now with dri-devel Cc'ed. Notice that this patch series can be applied
+splitting it up through the trees, it's not necessary to apply them
+together. The intention is to apply first 3 patches on drm-intel-gt-next
+and the remaining on drm-intel-next.  I'm intentionally _not_ removing
+the INTEL_GEN/IS_GEN/IS_GEN_RANGE macros now. A few days/weeks after
+this is applied and when drm-intel-gt-next and drm-intel-next is back in
+sync, we can remove any leftovers that went in and remove the macros via
+a topic branch.
 
-Linus Walleij <linus.walleij@linaro.org> =E4=BA=8E2021=E5=B9=B46=E6=9C=885=
-=E6=97=A5=E5=91=A8=E5=85=AD =E4=B8=8A=E5=8D=887:19=E5=86=99=E9=81=93=EF=BC=
-=9A
->
-> On Tue, Jun 1, 2021 at 11:31 PM Doug Anderson <dianders@chromium.org> wro=
-te:
->
-> > Still hoping that this can work atop DBI so we can avoid the raw SPI
-> > writes. You said you're trying for it for v3 so I'm looking forward to
-> > checking it out there.
->
-> Struggling with this. The DBI bus is only used by tiny DRM
-> for the panel drivers that are jitted with that display controller
-> ATM. No normal panel driver is using it.
+Latest version of previous series "drm/i915: Extend GEN renames to the
+rest of the driver" (https://patchwork.freedesktop.org/series/88825/)
+dropped one patch converting all the instances of IS_GEN() and
+INTEL_GEN() to GRAPHICS_VER() due to the patches changing the
+meaning of the macros IS_GRAPHICS_VER/GRAPHICS_VER and removal of
+IS_GRAPHICS_RANGE().
 
-Quite similar to my ili9341 driver submission last year [1].
-I guess, if it just simply combines tinyDRM and dpi driver
-into one source code like what i was doing. it's might not
-easy to get accepted from maintainers.
+I couldn't find a way to convince coccinelle to fix all places, so I
+just did it manually in separate commits the places that were not
+updated.
 
-Anyway, there was a discussion on support dbi & dsi by one
-driver [2], hope it'll give some help for you on this work.
+Finish the conversion splitting the changes so it can go to the
+different branches (drm-intel-gt-next and drm-intel-next). I also split
+the gvt changes, but I think it would be easier to take this directly on
+drm-intel-next.
 
-[1] https://lore.kernel.org/lkml/1590378348-8115-7-git-send-email-dillon.mi=
-nfei@gmail.com/
-[2] https://lists.freedesktop.org/archives/dri-devel/2020-May/267031.html
+v2: update commit messages with the proper semantic patch (Matt Roper)
+and regenerate the patches to also convert changes that got added in
+between.
 
-Best Regards.
-Dillon
+v3: resend with dri-devel Cc'ed since we are touching gt/gem/core. Also,
+let's get an ack on merge strategy
 
->
-> > panel-simple also sets the bpc in the "display_info". Do you need to?
-> >
-> > I didn't see a reply, so I'm still curious about the answer.
->
-> I think it depends on whether the display controller/bridge actually
-> make use of this or not. It is implied from the MEDIA_BUS_FMT*
-> in practice and this controller (MCDE) only had settings for
-> BPP, no fine grained bits to fiddle for BPC.
->
-> But I added it for completeness, why not! Who knows who else
-> will come along. I think I should patch a few other drivers with
-> this as well.
->
-> Yours,
-> Linus Walleij
+v4: rebase and remove patches already applied
+
+Lucas De Marchi (5):
+  drm/i915/gt: replace IS_GEN and friends with GRAPHICS_VER
+  drm/i915/gt: Add remaining conversions to GRAPHICS_VER
+  drm/i915/gem: replace IS_GEN and friends with GRAPHICS_VER
+  drm/i915: replace IS_GEN and friends with GRAPHICS_VER
+  drm/i915: Add remaining conversions to GRAPHICS_VER
+
+ drivers/gpu/drm/i915/gem/i915_gem_context.c   |  6 +-
+ .../gpu/drm/i915/gem/i915_gem_execbuffer.c    | 10 +--
+ drivers/gpu/drm/i915/gem/i915_gem_mman.c      |  2 +-
+ .../gpu/drm/i915/gem/i915_gem_object_blt.c    |  8 +-
+ drivers/gpu/drm/i915/gem/i915_gem_stolen.c    | 16 ++--
+ drivers/gpu/drm/i915/gem/i915_gem_tiling.c    | 12 +--
+ .../i915/gem/selftests/i915_gem_client_blt.c  | 10 +--
+ .../i915/gem/selftests/i915_gem_coherency.c   |  4 +-
+ .../drm/i915/gem/selftests/i915_gem_context.c | 16 ++--
+ .../drm/i915/gem/selftests/i915_gem_mman.c    | 14 ++--
+ .../drm/i915/gem/selftests/igt_gem_utils.c    | 10 +--
+ drivers/gpu/drm/i915/gt/debugfs_gt_pm.c       | 40 +++++-----
+ drivers/gpu/drm/i915/gt/gen2_engine_cs.c      |  2 +-
+ drivers/gpu/drm/i915/gt/gen8_engine_cs.c      |  2 +-
+ drivers/gpu/drm/i915/gt/gen8_ppgtt.c          |  2 +-
+ drivers/gpu/drm/i915/gt/intel_context_sseu.c  |  2 +-
+ drivers/gpu/drm/i915/gt/intel_engine_cs.c     | 54 ++++++-------
+ drivers/gpu/drm/i915/gt/intel_engine_types.h  |  4 +-
+ .../drm/i915/gt/intel_execlists_submission.c  | 18 ++---
+ drivers/gpu/drm/i915/gt/intel_ggtt.c          | 18 ++---
+ drivers/gpu/drm/i915/gt/intel_ggtt_fencing.c  | 34 ++++----
+ drivers/gpu/drm/i915/gt/intel_gt.c            | 27 ++++---
+ .../gpu/drm/i915/gt/intel_gt_clock_utils.c    | 12 +--
+ drivers/gpu/drm/i915/gt/intel_gt_irq.c        |  6 +-
+ drivers/gpu/drm/i915/gt/intel_gt_pm_irq.c     | 10 +--
+ drivers/gpu/drm/i915/gt/intel_gtt.c           | 14 ++--
+ drivers/gpu/drm/i915/gt/intel_llc.c           |  6 +-
+ drivers/gpu/drm/i915/gt/intel_lrc.c           | 46 +++++------
+ drivers/gpu/drm/i915/gt/intel_mocs.c          |  8 +-
+ drivers/gpu/drm/i915/gt/intel_ppgtt.c         |  6 +-
+ drivers/gpu/drm/i915/gt/intel_rc6.c           | 16 ++--
+ drivers/gpu/drm/i915/gt/intel_renderstate.c   |  2 +-
+ drivers/gpu/drm/i915/gt/intel_reset.c         | 14 ++--
+ .../gpu/drm/i915/gt/intel_ring_submission.c   | 64 +++++++--------
+ drivers/gpu/drm/i915/gt/intel_rps.c           | 60 +++++++-------
+ drivers/gpu/drm/i915/gt/intel_sseu.c          | 14 ++--
+ drivers/gpu/drm/i915/gt/intel_sseu_debugfs.c  |  6 +-
+ drivers/gpu/drm/i915/gt/intel_workarounds.c   | 66 +++++++--------
+ drivers/gpu/drm/i915/gt/selftest_engine_cs.c  |  6 +-
+ drivers/gpu/drm/i915/gt/selftest_engine_pm.c  |  2 +-
+ drivers/gpu/drm/i915/gt/selftest_execlists.c  |  4 +-
+ drivers/gpu/drm/i915/gt/selftest_gt_pm.c      |  8 +-
+ drivers/gpu/drm/i915/gt/selftest_hangcheck.c  |  8 +-
+ drivers/gpu/drm/i915/gt/selftest_llc.c        |  4 +-
+ drivers/gpu/drm/i915/gt/selftest_lrc.c        |  8 +-
+ drivers/gpu/drm/i915/gt/selftest_mocs.c       |  2 +-
+ drivers/gpu/drm/i915/gt/selftest_rc6.c        |  4 +-
+ .../drm/i915/gt/selftest_ring_submission.c    |  6 +-
+ drivers/gpu/drm/i915/gt/selftest_rps.c        | 16 ++--
+ drivers/gpu/drm/i915/gt/selftest_timeline.c   |  6 +-
+ .../gpu/drm/i915/gt/selftest_workarounds.c    |  8 +-
+ drivers/gpu/drm/i915/gt/uc/intel_guc.c        |  2 +-
+ drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c    |  2 +-
+ drivers/gpu/drm/i915/gt/uc/intel_guc_fw.c     |  2 +-
+ .../gpu/drm/i915/gt/uc/intel_guc_submission.c |  6 +-
+ drivers/gpu/drm/i915/gt/uc/intel_huc.c        |  2 +-
+ drivers/gpu/drm/i915/gt/uc/intel_uc.c         |  4 +-
+ drivers/gpu/drm/i915/i915_cmd_parser.c        | 10 +--
+ drivers/gpu/drm/i915/i915_debugfs.c           | 32 ++++----
+ drivers/gpu/drm/i915/i915_drv.c               | 20 ++---
+ drivers/gpu/drm/i915/i915_drv.h               | 37 +++++----
+ drivers/gpu/drm/i915/i915_gem.c               |  4 +-
+ drivers/gpu/drm/i915/i915_gpu_error.c         | 80 +++++++++----------
+ drivers/gpu/drm/i915/i915_irq.c               | 34 ++++----
+ drivers/gpu/drm/i915/i915_perf.c              | 44 +++++-----
+ drivers/gpu/drm/i915/i915_pmu.c               |  8 +-
+ drivers/gpu/drm/i915/i915_reg.h               | 26 +++---
+ drivers/gpu/drm/i915/i915_request.c           |  4 +-
+ drivers/gpu/drm/i915/i915_suspend.c           | 16 ++--
+ drivers/gpu/drm/i915/i915_sysfs.c             |  2 +-
+ drivers/gpu/drm/i915/i915_vgpu.c              |  2 +-
+ drivers/gpu/drm/i915/intel_device_info.c      | 22 ++---
+ drivers/gpu/drm/i915/intel_dram.c             | 14 ++--
+ drivers/gpu/drm/i915/intel_pch.c              | 10 +--
+ drivers/gpu/drm/i915/intel_pm.c               | 14 ++--
+ drivers/gpu/drm/i915/intel_sideband.c         |  2 +-
+ drivers/gpu/drm/i915/intel_uncore.c           | 26 +++---
+ drivers/gpu/drm/i915/intel_wopcm.c            | 10 +--
+ drivers/gpu/drm/i915/selftests/i915_gem_gtt.c |  4 +-
+ drivers/gpu/drm/i915/selftests/i915_perf.c    |  6 +-
+ drivers/gpu/drm/i915/selftests/i915_request.c |  8 +-
+ drivers/gpu/drm/i915/selftests/igt_spinner.c  | 12 +--
+ drivers/gpu/drm/i915/selftests/intel_uncore.c |  2 +-
+ 83 files changed, 605 insertions(+), 605 deletions(-)
+
+-- 
+2.31.1
+
