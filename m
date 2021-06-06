@@ -1,49 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3AEBE39CE81
-	for <lists+dri-devel@lfdr.de>; Sun,  6 Jun 2021 12:03:26 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A6FDB39CE82
+	for <lists+dri-devel@lfdr.de>; Sun,  6 Jun 2021 12:03:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 94DE26E02D;
-	Sun,  6 Jun 2021 10:03:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1B2016E497;
+	Sun,  6 Jun 2021 10:03:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com
- [IPv6:2a00:1450:4864:20::62b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CFDCF6E48C
- for <dri-devel@lists.freedesktop.org>; Sun,  6 Jun 2021 10:03:18 +0000 (UTC)
-Received: by mail-ej1-x62b.google.com with SMTP id g20so21646475ejt.0
- for <dri-devel@lists.freedesktop.org>; Sun, 06 Jun 2021 03:03:18 -0700 (PDT)
+Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com
+ [IPv6:2a00:1450:4864:20::530])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 48CED6E02D
+ for <dri-devel@lists.freedesktop.org>; Sun,  6 Jun 2021 10:03:19 +0000 (UTC)
+Received: by mail-ed1-x530.google.com with SMTP id b11so16526197edy.4
+ for <dri-devel@lists.freedesktop.org>; Sun, 06 Jun 2021 03:03:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=QG/Bcse/WwVT2/GPFpdvzIrOUv/CCY38Q315BSZqR1Q=;
- b=OzvcJJDyXHJVs2NTI+uA/NtLFZV8xNpxZgxR2NrVv/bc2Pc+5qG3s6x5Hw+lqhQ2xY
- 0C4RHGKdbKL1bBFJq5/GwpPGmljs2S0Aik2wC/tjTQOirqrMi74M8FpOADCFc+CpQ4Wj
- VrWbBGnRxM6qObBLbeQm2oubnVoPALulhAeB7yy9IJlUIJOQk680K9Ku2Z9yuwEo0/K5
- 7tjed0Sf4cNKWxY7NbYx63qE38x7tmHNK0n8Nen8ypagF1uDj2u/5WywX9RH5s3y38Gh
- c1QKazgDe4DwRokNEudNjth/NnrL4dOPfut9LXMXRu0R1g/uHcJceCxsbRRGdB6NCIQo
- 07oA==
+ bh=reCaOiS5oovNonK+oIEwI0YUolyY3qyhwqVKx8y4qUA=;
+ b=YMj4kS8C/F1JS1bw3BRI0QD21gj5bfCC6XAArgNIaoD6dv3VzEBCYCxre4AoFJFQFs
+ aA/vtjI+6BTPcJamwX5Z6/yTr07El4FGt0qejh3KdsFuKvc1y42DmMuACXq3CvwrkiZG
+ fAjR6+ZK7DZQhxHJfaifoRJIKaRw1KPJEEzGLN+QJEhIZdFE2wYUQce0hR4yEjZhs8vx
+ dCBxG9Ye8GIVV0f0IDtg8h7Qe0bq364oODR8JPEhxzVgpHUAOg9UGjmtvQE/0//BWHfn
+ xAH2ITlScVWkrnV655NPPl1eAtXIV79YxnYcKPhJArx/suYnx+ecmuiYJ9QnEaolm/Qn
+ Qlow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=QG/Bcse/WwVT2/GPFpdvzIrOUv/CCY38Q315BSZqR1Q=;
- b=se1zyYmQd7QszFrIymm95QrfxR51plp9eE5OK7+XWYCDvG6ITNIkCCE5IajmHnNouc
- tfqTQU1GyjpfnZcNHRm87ZRSg3YO6lgAyzjIQ6A/ZrKtqS4IcxXSZ6bnftlgKH333/nH
- rwtIWAGQJhKssKpFYRfExLRpGcycGlAnyV4OzNO2EU10IJTaGSxRcQGY4bLenNyRcmje
- G4RZmArf6n+dHa3D/O1gyEARRif0i/BwYHij75TPix/TODybt4LoTa3nY2+cVYS9++31
- bMskwk1GbNFSTLFXK8v8BuWoIKUSeO9HAdOPdoUUyPAFrsLe+diKVufmpmGZ2eZq7RpM
- zJKQ==
-X-Gm-Message-State: AOAM533X5v4nRFIJk2OM3YJPE2dlhv040V4yyZLCv81P4DLave9rDd7m
- SIVVqWgvi3I6LVAvaKDD6Tk=
-X-Google-Smtp-Source: ABdhPJy9kWJ3LtX7n71cE2e85H8TXhDKdoKaFRtb69sOnFkqO1BjV/3nhaKVSMaUFiPKDKXp9FA1Xg==
-X-Received: by 2002:a17:906:2419:: with SMTP id
- z25mr13141602eja.343.1622973797400; 
+ bh=reCaOiS5oovNonK+oIEwI0YUolyY3qyhwqVKx8y4qUA=;
+ b=MzTmd2qwKga1dfGC/KSMx5h1t0b8L7cpc5qTHut9V1F8pZrCvS5Mo2Ul/1KH2J9TK8
+ SrQ3hWvfZR6oZOWbqwR9aHuKjQeVuQe1qEiVkirr7xKXcTsOj5wjUDf2JwhbEfR3yRjq
+ 7JIyp8f5ZoKQ0BEjNJQR6PtC2WlSl00tZbvF6/tSi9QmC1vvAujv3NDCPdi4c9eHDNU7
+ D6GKIcsZMemTDHV0ivuIifP7qYdGrFQIipzpJic7QYJGLbzqBbk8YDlx/7tPfgI0j4xj
+ ZLg3fqLiQ75lGeQGcoNQy6mL+fkjUaZoheeBBwl3hlCUzrZuI6XX1Jx0xaN+kx9Zc4mn
+ 33xg==
+X-Gm-Message-State: AOAM530oEBTd91CLKNvqF96As9DXzZ/xT8N4h/SZO12TdoVGstkd80vS
+ Ye9DI/5nX0U4ewL7cSvUD1E=
+X-Google-Smtp-Source: ABdhPJzlu69bSwMt3wpKnYGWB0vT9OqFDBrP8ya2fZ+HNd4T/GwvMoiiOc59eb9y/dPJwSqrX1rwng==
+X-Received: by 2002:aa7:c445:: with SMTP id n5mr14591993edr.64.1622973797989; 
  Sun, 06 Jun 2021 03:03:17 -0700 (PDT)
 Received: from abel.fritz.box ([2a02:908:1252:fb60:78a4:bc57:b741:16b2])
- by smtp.gmail.com with ESMTPSA id r12sm6077531edv.82.2021.06.06.03.03.16
+ by smtp.gmail.com with ESMTPSA id r12sm6077531edv.82.2021.06.06.03.03.17
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Sun, 06 Jun 2021 03:03:17 -0700 (PDT)
 From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
@@ -51,9 +50,10 @@ X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
  <christian.koenig@amd.com>
 To: daniel@ffwll.ch,
 	dri-devel@lists.freedesktop.org
-Subject: [PATCH 2/3] drm/nouveau: always wait for the exclusive fence
-Date: Sun,  6 Jun 2021 12:03:11 +0200
-Message-Id: <20210606100312.119176-3-christian.koenig@amd.com>
+Subject: [PATCH 3/3] drm/amdgpu: drop workaround for adding page table clears
+ as shared fence
+Date: Sun,  6 Jun 2021 12:03:12 +0200
+Message-Id: <20210606100312.119176-4-christian.koenig@amd.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210606100312.119176-1-christian.koenig@amd.com>
 References: <20210606100312.119176-1-christian.koenig@amd.com>
@@ -75,30 +75,43 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-As discussed with Daniel we want to drop the rule that all
-shared fences must signal after the exclusive fence.
+We no longer need to add the exclusive fence as shared fence as
+welldrm/amdgpu: drop workaround for adding page table clears as shared
+fence
 
-This means that drivers also need to to sync to the
-exclusive fence when a shared one is present.
+We no longer need to add the exclusive fence as shared fence as well..
 
 Signed-off-by: Christian König <christian.koenig@amd.com>
 ---
- drivers/gpu/drm/nouveau/nouveau_fence.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c | 8 +-------
+ 1 file changed, 1 insertion(+), 7 deletions(-)
 
-diff --git a/drivers/gpu/drm/nouveau/nouveau_fence.c b/drivers/gpu/drm/nouveau/nouveau_fence.c
-index 6b43918035df..05d0b3eb3690 100644
---- a/drivers/gpu/drm/nouveau/nouveau_fence.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_fence.c
-@@ -358,7 +358,7 @@ nouveau_fence_sync(struct nouveau_bo *nvbo, struct nouveau_channel *chan, bool e
- 	fobj = dma_resv_shared_list(resv);
- 	fence = dma_resv_excl_fence(resv);
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c
+index 1c3e3b608332..156c39cd858d 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c
+@@ -207,7 +207,7 @@ static void amdgpu_gem_object_close(struct drm_gem_object *obj,
+ 	INIT_LIST_HEAD(&duplicates);
  
--	if (fence && (!exclusive || !fobj || !fobj->shared_count)) {
-+	if (fence) {
- 		struct nouveau_channel *prev = NULL;
- 		bool must_wait = true;
+ 	tv.bo = &bo->tbo;
+-	tv.num_shared = 2;
++	tv.num_shared = 1;
+ 	list_add(&tv.head, &list);
  
+ 	amdgpu_vm_get_pd_bo(vm, &list, &vm_pd);
+@@ -226,12 +226,6 @@ static void amdgpu_gem_object_close(struct drm_gem_object *obj,
+ 	if (!amdgpu_vm_ready(vm))
+ 		goto out_unlock;
+ 
+-	fence = dma_resv_excl_fence(bo->tbo.base.resv);
+-	if (fence) {
+-		amdgpu_bo_fence(bo, fence, true);
+-		fence = NULL;
+-	}
+-
+ 	r = amdgpu_vm_clear_freed(adev, vm, &fence);
+ 	if (r || !fence)
+ 		goto out_unlock;
 -- 
 2.25.1
 
