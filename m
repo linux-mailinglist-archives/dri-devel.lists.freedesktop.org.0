@@ -2,59 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E316D39E590
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Jun 2021 19:35:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD90639E5B1
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Jun 2021 19:43:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 04E116E973;
-	Mon,  7 Jun 2021 17:35:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 78F6F6E97A;
+	Mon,  7 Jun 2021 17:43:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from pio-pvt-msa3.bahnhof.se (pio-pvt-msa3.bahnhof.se [79.136.2.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9162E6E973
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Jun 2021 17:35:17 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by pio-pvt-msa3.bahnhof.se (Postfix) with ESMTP id 990A63F462;
- Mon,  7 Jun 2021 19:35:15 +0200 (CEST)
-Authentication-Results: pio-pvt-msa3.bahnhof.se; dkim=pass (1024-bit key;
- unprotected) header.d=shipmail.org header.i=@shipmail.org header.b="n7zS2qtx";
- dkim-atps=neutral
-X-Virus-Scanned: Debian amavisd-new at bahnhof.se
-X-Spam-Flag: NO
-X-Spam-Score: -2.1
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.1 tagged_above=-999 required=6.31
- tests=[BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- URIBL_BLOCKED=0.001] autolearn=ham autolearn_force=no
-Received: from pio-pvt-msa3.bahnhof.se ([127.0.0.1])
- by localhost (pio-pvt-msa3.bahnhof.se [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id RUVXLLch55a8; Mon,  7 Jun 2021 19:35:13 +0200 (CEST)
-Received: by pio-pvt-msa3.bahnhof.se (Postfix) with ESMTPA id 7705B3F439;
- Mon,  7 Jun 2021 19:35:13 +0200 (CEST)
-Received: from [192.168.0.209] (h-155-4-205-35.A357.priv.bahnhof.se
- [155.4.205.35])
- by mail1.shipmail.org (Postfix) with ESMTPSA id 040933600BE;
- Mon,  7 Jun 2021 19:35:13 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=shipmail.org; s=mail;
- t=1623087313; bh=f0IFpF7vHABw1Ero2fjoOJXtcawV7BxUvIqeGOxYbSY=;
- h=Subject:To:References:From:Date:In-Reply-To:From;
- b=n7zS2qtxON8Xq34PBAqysLtjdkwdI1njwwgc5KAx+C9SCvomagEmWQtit/FNbdU3f
- SOMJ2ZOvKJIpkdit3YjX+3U4hkAiBCDLDyWUirjqSPD+9Y1VECiUNSEGMKaFLuI4+5
- AahGYC2ux7RJCGXAxaYL5Um0GTxTuBBh/Re7sIOw=
-Subject: Re: [PATCH] drm/ttm: fix access to uninitialized variable.
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
- dri-devel@lists.freedesktop.org
-References: <20210607171152.15914-1-christian.koenig@amd.com>
-From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m_=28Intel=29?= <thomas_os@shipmail.org>
-Message-ID: <b623c6c3-407b-f1c9-eb5f-22ae248e78c3@shipmail.org>
-Date: Mon, 7 Jun 2021 19:35:12 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CC7E96E97A
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Jun 2021 17:43:15 +0000 (UTC)
+Received: from tr.lan (ip-89-176-112-137.net.upcbroadband.cz [89.176.112.137])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (No client certificate requested)
+ (Authenticated sender: marex@denx.de)
+ by phobos.denx.de (Postfix) with ESMTPSA id B9BF282B30;
+ Mon,  7 Jun 2021 19:43:13 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+ s=phobos-20191101; t=1623087794;
+ bh=stznHuOkG6Yt1ec7cFgRTCKbbVVOLWzqpSZf/gbu6Ww=;
+ h=From:To:Cc:Subject:Date:From;
+ b=ET843w0/XfN8wL0NLZh1a5i+CeAf2ajQ0o0/qj0xA5lgU9JaI65G0Zc4KZyrtg8Im
+ b5+6KcRIZFWvJ6GqbVPdfFCtDNT/Fyu0pE0E7aoNexTGNUvh+/ky5C6uNFc6WO8Kdn
+ Y0aIGhKMJbw05b2ef5r5A9rveYhGJBWa1lA76TKCezOKPhD0hLKdvQX629Hae2Kud+
+ WH2oPXTilSzCtrcIRG6t1/nyvfNRkrm/wHqL8joOddAdvLNnMhnjkUSjzLZu4Zil7L
+ 3JSptiFuvr8p6N66GAnA9TbrDgnHERvsnBoS1Qc7P4uTwF6AAouEGUjIJk6w0PloOJ
+ x6LaYpXL5C8EQ==
+From: Marek Vasut <marex@denx.de>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH V6 1/2] dt-bindings: drm/bridge: ti-sn65dsi83: Add TI
+ SN65DSI83 and SN65DSI84 bindings
+Date: Mon,  7 Jun 2021 19:42:57 +0200
+Message-Id: <20210607174258.16300-1-marex@denx.de>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-In-Reply-To: <20210607171152.15914-1-christian.koenig@amd.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+X-Virus-Scanned: clamav-milter 0.102.4 at phobos.denx.de
+X-Virus-Status: Clean
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,34 +51,217 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Marek Vasut <marex@denx.de>, ch@denx.de, devicetree@vger.kernel.org,
+ Douglas Anderson <dianders@chromium.org>, Stephen Boyd <swboyd@chromium.org>,
+ Rob Herring <robh+dt@kernel.org>, Jagan Teki <jagan@amarulasolutions.com>,
+ Sam Ravnborg <sam@ravnborg.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Add DT binding document for TI SN65DSI83 and SN65DSI84 DSI to LVDS bridge.
 
-On 6/7/21 7:11 PM, Christian König wrote:
-> The resource is not allocated yet, so no chance that this will work.
->
-> Use the placement instead.
->
-> Signed-off-by: Christian König <christian.koenig@amd.com>
+Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+Reviewed-by: Rob Herring <robh@kernel.org>
+Signed-off-by: Marek Vasut <marex@denx.de>
+Cc: Douglas Anderson <dianders@chromium.org>
+Cc: Jagan Teki <jagan@amarulasolutions.com>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Linus Walleij <linus.walleij@linaro.org>
+Cc: Rob Herring <robh+dt@kernel.org>
+Cc: Sam Ravnborg <sam@ravnborg.org>
+Cc: Stephen Boyd <swboyd@chromium.org>
+Cc: devicetree@vger.kernel.org
+To: dri-devel@lists.freedesktop.org
+---
+V2: Add compatible string for SN65DSI84, since this is now tested on it
+V3: - Add 0x2c as valid i2c address
+    - Switch to schemas/graph.yaml
+    - Constraint data-lanes to <1>, <1 2>, <1 2 3>, <1 2 3 4> only
+    - Indent example by 4 spaces
+    - Handle dual-link LVDS with two ports and describe the second DSI
+      channel-B port as well. Based on the register defaults of DSI83
+      and DSI84, it is likely that the LVDS-channel-B and DSI-channel-B
+      hardware is present in all the chips, so just reuse port@0 and 2
+      for DSI83, port@0,2,3 for DSI84 and all of 0,1,2,3 for DSI85 when
+      that is supported
+V4: - Fix typo in port@3 description
+    - Add RB from Linus Walleij
+    - Replace oneOf: and const with enum:
+    - ref /schemas/media/video-interfaces.yaml#
+    - Drop empty endpoint: and properties:
+V5: - Add RB from Rob Herring
+V6: - No change
+---
+ .../bindings/display/bridge/ti,sn65dsi83.yaml | 159 ++++++++++++++++++
+ 1 file changed, 159 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/display/bridge/ti,sn65dsi83.yaml
 
-Reviewed-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+diff --git a/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi83.yaml b/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi83.yaml
+new file mode 100644
+index 000000000000..d101233ae17f
+--- /dev/null
++++ b/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi83.yaml
+@@ -0,0 +1,159 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/display/bridge/ti,sn65dsi83.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: SN65DSI83 and SN65DSI84 DSI to LVDS bridge chip
++
++maintainers:
++  - Marek Vasut <marex@denx.de>
++
++description: |
++  Texas Instruments SN65DSI83 1x Single-link MIPI DSI
++  to 1x Single-link LVDS
++  https://www.ti.com/lit/gpn/sn65dsi83
++  Texas Instruments SN65DSI84 1x Single-link MIPI DSI
++  to 1x Dual-link or 2x Single-link LVDS
++  https://www.ti.com/lit/gpn/sn65dsi84
++
++properties:
++  compatible:
++    enum:
++      - ti,sn65dsi83
++      - ti,sn65dsi84
++
++  reg:
++    enum:
++      - 0x2c
++      - 0x2d
++
++  enable-gpios:
++    maxItems: 1
++    description: GPIO specifier for bridge_en pin (active high).
++
++  ports:
++    $ref: /schemas/graph.yaml#/properties/ports
++
++    properties:
++      port@0:
++        $ref: /schemas/graph.yaml#/properties/port
++        description: Video port for MIPI DSI Channel-A input
++
++        properties:
++          endpoint:
++            $ref: /schemas/media/video-interfaces.yaml#
++            unevaluatedProperties: false
++
++            properties:
++              data-lanes:
++                description: array of physical DSI data lane indexes.
++                minItems: 1
++                maxItems: 4
++                items:
++                  - const: 1
++                  - const: 2
++                  - const: 3
++                  - const: 4
++
++      port@1:
++        $ref: /schemas/graph.yaml#/properties/port
++        description: Video port for MIPI DSI Channel-B input
++
++        properties:
++          endpoint:
++            $ref: /schemas/media/video-interfaces.yaml#
++            unevaluatedProperties: false
++
++            properties:
++              data-lanes:
++                description: array of physical DSI data lane indexes.
++                minItems: 1
++                maxItems: 4
++                items:
++                  - const: 1
++                  - const: 2
++                  - const: 3
++                  - const: 4
++
++      port@2:
++        $ref: /schemas/graph.yaml#/properties/port
++        description: Video port for LVDS Channel-A output (panel or bridge).
++
++      port@3:
++        $ref: /schemas/graph.yaml#/properties/port
++        description: Video port for LVDS Channel-B output (panel or bridge).
++
++    required:
++      - port@0
++      - port@2
++
++required:
++  - compatible
++  - reg
++  - enable-gpios
++  - ports
++
++allOf:
++  - if:
++      properties:
++        compatible:
++          contains:
++            const: ti,sn65dsi83
++    then:
++      properties:
++        ports:
++          properties:
++            port@1: false
++            port@3: false
++
++  - if:
++      properties:
++        compatible:
++          contains:
++            const: ti,sn65dsi84
++    then:
++      properties:
++        ports:
++          properties:
++            port@1: false
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/gpio/gpio.h>
++
++    i2c {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        bridge@2d {
++            compatible = "ti,sn65dsi83";
++            reg = <0x2d>;
++
++            enable-gpios = <&gpio2 1 GPIO_ACTIVE_HIGH>;
++
++            ports {
++                #address-cells = <1>;
++                #size-cells = <0>;
++
++                port@0 {
++                    reg = <0>;
++
++                    endpoint {
++                        remote-endpoint = <&dsi0_out>;
++                        data-lanes = <1 2 3 4>;
++                    };
++                };
++
++                port@2 {
++                    reg = <2>;
++
++                    endpoint {
++                        remote-endpoint = <&panel_in_lvds>;
++                    };
++                };
++            };
++        };
++    };
+-- 
+2.30.2
 
-
-> ---
->   drivers/gpu/drm/ttm/ttm_bo.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
-> index 7e7284da5630..0c74f4cb2a3b 100644
-> --- a/drivers/gpu/drm/ttm/ttm_bo.c
-> +++ b/drivers/gpu/drm/ttm/ttm_bo.c
-> @@ -736,7 +736,7 @@ static int ttm_bo_mem_force_space(struct ttm_buffer_object *bo,
->   	struct ww_acquire_ctx *ticket;
->   	int ret;
->   
-> -	man = ttm_manager_type(bdev, (*mem)->mem_type);
-> +	man = ttm_manager_type(bdev, place->mem_type);
->   	ticket = dma_resv_locking_ctx(bo->base.resv);
->   	do {
->   		ret = ttm_resource_alloc(bo, place, mem);
