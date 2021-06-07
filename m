@@ -1,63 +1,92 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DA7E39D65C
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Jun 2021 09:52:45 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F36D39D66D
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Jun 2021 09:59:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7D8A988A56;
-	Mon,  7 Jun 2021 07:52:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CA1876E584;
+	Mon,  7 Jun 2021 07:59:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x232.google.com (mail-lj1-x232.google.com
- [IPv6:2a00:1450:4864:20::232])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6EC3388A56;
- Mon,  7 Jun 2021 07:52:39 +0000 (UTC)
-Received: by mail-lj1-x232.google.com with SMTP id z22so4953805ljh.8;
- Mon, 07 Jun 2021 00:52:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:in-reply-to:references
- :mime-version; bh=VnwLRNd5kR0LUPEcbUD7x6J+EfFd1ZumEapw+492kUI=;
- b=M6YHQmqDQrHfqJsSaBCfrOSFeYuAx/4Wuvxqxfz55b1SM2edz/SvDqQXdLIzSnXa//
- Pmy+lXBSk4AVN0Ua2/qwhB/5yWuvGtiQdGZnG1ZrTghgDXGH8W/pC6UPS+ZnP5yu4ocG
- ZLj3bhWthn4w9J7LzPEyEuqZzaVSXUb9NrSsVMcW7s4i++gu2GoyImrsXh/lJFkNj+k8
- lvLBTozTgdtSUrDcQQ+xF7yxIBLY4noTaY5vHWPsjSuOfDo2UIvVYpJEhUILYE5YpNzC
- aCwzGGPoRoyyWSFmzpxalQLHJAFZLr/mag5V6p8Sn90DdYx6D24J3AWODazxugWCsemb
- e4vA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version;
- bh=VnwLRNd5kR0LUPEcbUD7x6J+EfFd1ZumEapw+492kUI=;
- b=slXaj4uzP0KKqwyGZ0an3+fWoYPjOw5RgxxDHJ/IgToIXWRR8aJ6fTAB/xdqOIwYkl
- OUt2UwHDa87RS+p0OlEC3Dr9MR+iSxbIfobmhbF9dXvtNekdvaSNhoGrVlvaLqFR+L/8
- l0bVs05LMD2jGwQFQXCuEY852s3qvR99EXNnUrbheYIoORlWfBWTWtUuiaofrYrsiglH
- X2vaC3gp6BBvMENv3/J3RJ37BLgio+vGhjPw7ekF8GtEH4lca1DBHz8cBOl+POuNo4kX
- CRiAhhsw1H2MRT6YSJ664xZY09jhnlj2GfHfB9gvMSSK3GsuaRTOpVLh0xnjtlxS5/qU
- /lqg==
-X-Gm-Message-State: AOAM5326O9usy2D7lxU56nYxQq7RPVmYf2tz5sFpEwfLn+IuZQT9xEMB
- wB/hQU5cFjObAPm4RGJXnAM=
-X-Google-Smtp-Source: ABdhPJz+lZIAtnEawBFkr/CaeDTWVqXJP2b4seJMifEs5d4X8i1rjyEr38elPNLJqEl0HLg7HjyMPQ==
-X-Received: by 2002:a05:651c:1138:: with SMTP id
- e24mr13811331ljo.403.1623052357820; 
- Mon, 07 Jun 2021 00:52:37 -0700 (PDT)
-Received: from eldfell ([194.136.85.206])
- by smtp.gmail.com with ESMTPSA id e9sm896925lfc.144.2021.06.07.00.52.36
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 07 Jun 2021 00:52:37 -0700 (PDT)
-Date: Mon, 7 Jun 2021 10:52:34 +0300
-From: Pekka Paalanen <ppaalanen@gmail.com>
-To: Werner Sembach <wse@tuxedocomputers.com>
-Subject: Re: [PATCH 2/4] drm/uAPI: Add "active bpc" as feedback channel for
- "max bpc" drm property
-Message-ID: <20210607105234.4bb8aae6@eldfell>
-In-Reply-To: <20210604171723.10276-3-wse@tuxedocomputers.com>
-References: <20210604171723.10276-1-wse@tuxedocomputers.com>
- <20210604171723.10276-3-wse@tuxedocomputers.com>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam12on2056.outbound.protection.outlook.com [40.107.237.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 85BC76E584;
+ Mon,  7 Jun 2021 07:59:16 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=FPl05t3awl5m9SOSdVL/8hfluDafvD7jPH99cZ1t7A4g1YHmPWXkP0r9eZX7rLb6GAxVWOmjfiXMCCna/ofSfYL/LZPjPQllaaPqFGfzeuO+O73yPoIXQrSCFPlr5K1ap/2tAFOkkdrspvMwodoUHANvXTHLmfDkeduSyV/lMo6JiB6ih6nEAfDaUlQlcky0aZegLxQ0k/vcDNKqnnWMzC1L7WxhCQgcYGNMfOnvOae9Ak8M53KqQVrWn+vdhQQu/Zz4upknGGW01XNLrtUlqqitpnShzfmk3haR3L5lsuh7hhap5puJJNWt6HlxbjxA1qmljtgvqeCmOWJRJjMQBg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=RTdPujpSig7hrjH9JkvJrkg7F+aiz0ZUkI3BC14mMSU=;
+ b=QUy/vCue7ddPNx8ST+LGLyOIonpBGasbiOT8Rz+tRMsl6hIcwVaUewHal9jTWzIj/p4IjwMP8Qvno3nPI19OAFkMwwHOnXw4eV7h6d6n0mVlhfizeO3bNHteTCK23drVY5Fq7bBLVPaAfS+AyiDxOWMfLT5nbM3CkQE6kk2K5+yKOhk0dwUA8yG6I40DPEkhtAkV21FPCboPyav1GNN9BzJgA98qno1ohH6jk8LagucQyaf5l/pWom2U72ssTk9fLaCOGjfm+Cm353YDuI7fYXF4jG2qgay2aqmbkFzL7l6bZyqooS6OrQcikhnpaSDYK5i2CKSRTHgS/Mb49ZfcwA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.112.34) smtp.rcpttodomain=redhat.com smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=none sp=none pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=RTdPujpSig7hrjH9JkvJrkg7F+aiz0ZUkI3BC14mMSU=;
+ b=iCgwJ7WhSlTDOhTchv7vpfvdriC45zytiPv8+SWptRoM9Wi+kWcAQ3LKOlNzB+1MrgbLle0/X38vmc69IUY9gzerqTLcpE6Fu0D9KDqg9oSQTVMgYMVDJ4pwVTv8CfNoLwgzm2ZslSdEYgnoPVTh9xpmLo+by8Q6g/OPkEbM645XyYSbJVocWeJNLqeLDF3Pi+YLGEprF6Grx7TM5DvP7AKXzd1Xg+ncISzpi4l/Ph/bGqv3nhTm54UK2bLBcyg1jwNmzh75nHvJmflHOQFkZo+zmxlrbjoG+qyFsoj06YFQa78qx1huEWB1wF0syr438GOu8ZgZqkG1iNF9Zek6rg==
+Received: from DM5PR1101CA0002.namprd11.prod.outlook.com (2603:10b6:4:4c::12)
+ by DM5PR12MB1660.namprd12.prod.outlook.com (2603:10b6:4:9::22) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4195.22; Mon, 7 Jun 2021 07:59:14 +0000
+Received: from DM6NAM11FT057.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:4:4c:cafe::cd) by DM5PR1101CA0002.outlook.office365.com
+ (2603:10b6:4:4c::12) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4195.22 via Frontend
+ Transport; Mon, 7 Jun 2021 07:59:14 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.112.34)
+ smtp.mailfrom=nvidia.com; redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.112.34 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.112.34; helo=mail.nvidia.com;
+Received: from mail.nvidia.com (216.228.112.34) by
+ DM6NAM11FT057.mail.protection.outlook.com (10.13.172.252) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.20.4195.22 via Frontend Transport; Mon, 7 Jun 2021 07:59:14 +0000
+Received: from localhost (172.20.187.6) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Mon, 7 Jun
+ 2021 07:59:13 +0000
+From: Alistair Popple <apopple@nvidia.com>
+To: <linux-mm@kvack.org>, <akpm@linux-foundation.org>
+Subject: [PATCH v10 00/10] Add support for SVM atomics in Nouveau
+Date: Mon, 7 Jun 2021 17:58:45 +1000
+Message-ID: <20210607075855.5084-1-apopple@nvidia.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- boundary="Sig_/Pr+2/0V=PQE=VGC=tSRkY=f"; protocol="application/pgp-signature"
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [172.20.187.6]
+X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 8acf322c-44b8-4385-b1b0-08d9298a249b
+X-MS-TrafficTypeDiagnostic: DM5PR12MB1660:
+X-Microsoft-Antispam-PRVS: <DM5PR12MB1660EC633D9ABE3EFA5CA7D4DF389@DM5PR12MB1660.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: wXMrdIjNSiInk/zmpGN3j5xA0GbRVnXwbZk1lf8JxCAIYAOFiLWHByxsHezCfDVqGU7b/c+B1BofLIdJEolAlFWQRUAHzs5fjNS0vmG9vySImwzG28bO0SOqL/4up3J/XJFIDvk7LduFJNgNBvDs9wrZCMAAf7Xe1MM2ffI88C+Ru0CdAQQctLprfGnKBs9qmmvzaSozcLbgj4qSvIqDX2UdjleaOmhQ+VZQggE8ol5m3ISvsXPkU2l71K6ZwUeeA2f1FZMIXoOuRBV0Kai5NlRWY2Vc0wbS+mtjzm77yjjCXydxrYnmXu62JTSig4NMtL3b1/302bk7ICzYdENyq+yqPuJEPAgD5Kgnwwn6IRLj4LLY4PoDQGLK0U0dP9YGUiXKYW7j6NaAVTltZJCDzyMc5/bvoSR5p1pucolYLmQaVeia+t3TFS5ZmJspahYR/BSjYLYopbV+XOy8L/lR3Pl/bvt3/hQE2oUUvO4uDx1EBUqXyqq1f15+aypzRO5K1B7obW2cUCsG8W1Fy+dlXpIDUTBcNZJZl8wrUrNzSdRSx4YgDtcqk/LfeIH+eI5e15sPa6ifeLjGEL0qK3KUwhOADzPnFAfOH4wkhxo8cnMV4WbFh0ZZ1/6zCgTFnju1MXFSKT7gssQLlYTmumm+IqF6QttkWHfo30UbybzE3wtLm4mdOnYBsR6658ODUe+rVMUMBAaotMR8cCgJyDTO6UcesIHjd3lRwCva5m+Rn16MYNAAh46xi5q6ShqfeIxEOaCST53TrrF5Q9uN41cpsIXchd5vjwe7UiJecWNohccwYoib+jt7On3YKibaUpcs
+X-Forefront-Antispam-Report: CIP:216.228.112.34; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:mail.nvidia.com; PTR:schybrid03.nvidia.com; CAT:NONE;
+ SFS:(4636009)(39860400002)(136003)(396003)(346002)(376002)(46966006)(36840700001)(110136005)(6666004)(5660300002)(54906003)(426003)(186003)(16526019)(83380400001)(356005)(4326008)(7416002)(82740400003)(47076005)(336012)(1076003)(478600001)(107886003)(8676002)(70586007)(966005)(2616005)(2906002)(36756003)(36860700001)(316002)(7636003)(26005)(36906005)(86362001)(8936002)(70206006)(82310400003);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Jun 2021 07:59:14.4925 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8acf322c-44b8-4385-b1b0-08d9298a249b
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a; Ip=[216.228.112.34];
+ Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT057.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR12MB1660
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,213 +99,142 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: amd-gfx@lists.freedesktop.org, tzimmermann@suse.de,
- intel-gfx@lists.freedesktop.org, sunpeng.li@amd.com,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- airlied@linux.ie, rodrigo.vivi@intel.com, alexander.deucher@amd.com,
- christian.koenig@amd.com
+Cc: rcampbell@nvidia.com, willy@infradead.org, linux-doc@vger.kernel.org,
+ nouveau@lists.freedesktop.org, Alistair Popple <apopple@nvidia.com>,
+ hughd@google.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, hch@infradead.org, peterx@redhat.com,
+ shakeelb@google.com, bskeggs@redhat.com, jgg@nvidia.com, jhubbard@nvidia.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/Pr+2/0V=PQE=VGC=tSRkY=f
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+Hi Andrew,
 
-On Fri,  4 Jun 2021 19:17:21 +0200
-Werner Sembach <wse@tuxedocomputers.com> wrote:
+This is an update to address some comments on the previous version of
+this series. Most are code comment updates, although there were a couple
+of code changes as well. The most significant are:
 
-> Add a new general drm property "active bpc" which can be used by graphic =
-drivers
-> to report the applied bit depth per pixel back to userspace.
->=20
-> While "max bpc" can be used to change the color depth, there was no way t=
-o check
-> which one actually got used. While in theory the driver chooses the best/=
-highest
-> color depth within the max bpc setting a user might not be fully aware wh=
-at his
-> hardware is or isn't capable off. This is meant as a quick way to double =
-check
-> the setup.
->=20
-> In the future, automatic color calibration for screens might also depend =
-on this
-> information available.
->=20
-> Signed-off-by: Werner Sembach <wse@tuxedocomputers.com>
-> ---
->  drivers/gpu/drm/drm_atomic_uapi.c |  2 ++
->  drivers/gpu/drm/drm_connector.c   | 40 +++++++++++++++++++++++++++++++
->  include/drm/drm_connector.h       | 15 ++++++++++++
->  3 files changed, 57 insertions(+)
->=20
-> diff --git a/drivers/gpu/drm/drm_atomic_uapi.c b/drivers/gpu/drm/drm_atom=
-ic_uapi.c
-> index 268bb69c2e2f..7ae4e40936b5 100644
-> --- a/drivers/gpu/drm/drm_atomic_uapi.c
-> +++ b/drivers/gpu/drm/drm_atomic_uapi.c
-> @@ -873,6 +873,8 @@ drm_atomic_connector_get_property(struct drm_connecto=
-r *connector,
->  		*val =3D 0;
->  	} else if (property =3D=3D connector->max_bpc_property) {
->  		*val =3D state->max_requested_bpc;
-> +	} else if (property =3D=3D connector->active_bpc_property) {
-> +		*val =3D state->active_bpc;
->  	} else if (connector->funcs->atomic_get_property) {
->  		return connector->funcs->atomic_get_property(connector,
->  				state, property, val);
-> diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connec=
-tor.c
-> index 7631f76e7f34..5f42a5be5822 100644
-> --- a/drivers/gpu/drm/drm_connector.c
-> +++ b/drivers/gpu/drm/drm_connector.c
-> @@ -1195,6 +1195,13 @@ static const struct drm_prop_enum_list dp_colorspa=
-ces[] =3D {
->   *	drm_connector_attach_max_bpc_property() to create and attach the
->   *	property to the connector during initialization.
->   *
-> + * active bpc:
-> + *	This read-only range property is used by userspace check the bit depth
-> + *	actually applied by the GPU driver after evaluation all hardware
-> + *	capabilities and max bpc. Drivers to use the function
-> + *	drm_connector_attach_active_bpc_property() to create and attach the
-> + *	property to the connector during initialization.
-> + *
+ - Re-introduce the check of VM_LOCKED under the PTL in
+   page_mlock_one(). This was present in an earlier version of the series
+   but removed because we thought it was redundant. However Shakeel
+   provided some background making it clear it is needed.
 
-Hi Werner,
+ - Reworked the return codes in copy_pte_range() based on suggestions
+   from Peter Xu to hopefully make the code clearer and less error-prone.
 
-the idea looks good to me, but the above doc could be a little more
-fluent. May I suggest something like:
+ - Integrated a fix to the Nouveau code reported by Colin King.
 
-	This read-only range property tells userspace the pixel color
-	bit depth actually used by the hardware display engine on "the
-	cable" on a connector. The chosen value depends on hardware
-	capabilities, both display engine and connected monitor, and
-	the "max bpc" property. Drivers shall use
-	drm_connector_attach_active_bpc_property() to install this
-	property.
+As discussed to minimise impact I have also made this dependent on
+CONFIG_DEVICE_PRIVATE. Hopefully these changes don't break any other series that
+may have been based on the previous version. I see there has been some
+discussion from Hugh and others around patch order, so if you need me to rebase
+these to a different branch let me know.
 
-There should also be something said about dithering done by the display
-engine (not monitor), but I'm not sure how that should be worded. It
-may also depend on if and how userspace can know about dithering. So if
-a dithering related property is added later, maybe add a note here too
-in that patch.
+Introduction
+============
 
+Some devices have features such as atomic PTE bits that can be used to
+implement atomic access to system memory. To support atomic operations to a
+shared virtual memory page such a device needs access to that page which is
+exclusive of the CPU. This series introduces a mechanism to temporarily
+unmap pages granting exclusive access to a device.
 
-Thanks,
-pq
+These changes are required to support OpenCL atomic operations in Nouveau
+to shared virtual memory (SVM) regions allocated with the
+CL_MEM_SVM_ATOMICS clSVMAlloc flag. A more complete description of the
+OpenCL SVM feature is available at
+https://www.khronos.org/registry/OpenCL/specs/3.0-unified/html/
+OpenCL_API.html#_shared_virtual_memory .
 
+Implementation
+==============
 
->   * Connectors also have one standardized atomic property:
->   *
->   * CRTC_ID:
-> @@ -2150,6 +2157,39 @@ int drm_connector_attach_max_bpc_property(struct d=
-rm_connector *connector,
->  }
->  EXPORT_SYMBOL(drm_connector_attach_max_bpc_property);
-> =20
-> +/**
-> + * drm_connector_attach_active_bpc_property - attach "active bpc" proper=
-ty
-> + * @connector: connector to attach active bpc property on.
-> + * @min: The minimum bit depth supported by the connector.
-> + * @max: The maximum bit depth supported by the connector.
-> + *
-> + * This is used to check the applied bit depth on a connector.
-> + *
-> + * Returns:
-> + * Zero on success, negative errno on failure.
-> + */
-> +int drm_connector_attach_active_bpc_property(struct drm_connector *conne=
-ctor,
-> +					  int min, int max)
-> +{
-> +	struct drm_device *dev =3D connector->dev;
-> +	struct drm_property *prop;
-> +
-> +	prop =3D connector->active_bpc_property;
-> +	if (!prop) {
-> +		prop =3D drm_property_create_range(dev, 0, "active bpc", min, max);
-> +		if (!prop)
-> +			return -ENOMEM;
-> +
-> +		connector->active_bpc_property =3D prop;
-> +	}
-> +
-> +	drm_object_attach_property(&connector->base, prop, 0);
-> +	connector->state->active_bpc =3D 0;
-> +
-> +	return 0;
-> +}
-> +EXPORT_SYMBOL(drm_connector_attach_active_bpc_property);
-> +
->  /**
->   * drm_connector_set_vrr_capable_property - sets the variable refresh ra=
-te
->   * capable property for a connector
-> diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
-> index 1922b278ffad..c58cba2b6afe 100644
-> --- a/include/drm/drm_connector.h
-> +++ b/include/drm/drm_connector.h
-> @@ -781,6 +781,13 @@ struct drm_connector_state {
->  	 */
->  	u8 max_bpc;
-> =20
-> +	/**
-> +	 * @active_bpc: Read only property set by the GPU driver to the actually
-> +	 * applied bit depth of the pixels after evaluating all hardware
-> +	 * limitations.
-> +	 */
-> +	u8 active_bpc;
-> +
->  	/**
->  	 * @hdr_output_metadata:
->  	 * DRM blob property for HDR output metadata
-> @@ -1380,6 +1387,12 @@ struct drm_connector {
->  	 */
->  	struct drm_property *max_bpc_property;
-> =20
-> +	/**
-> +	 * @active_bpc_property: Default connector property for the active bpc
-> +	 * to be driven out of the connector.
-> +	 */
-> +	struct drm_property *active_bpc_property;
-> +
->  #define DRM_CONNECTOR_POLL_HPD (1 << 0)
->  #define DRM_CONNECTOR_POLL_CONNECT (1 << 1)
->  #define DRM_CONNECTOR_POLL_DISCONNECT (1 << 2)
-> @@ -1698,6 +1711,8 @@ int drm_connector_set_panel_orientation_with_quirk(
->  	int width, int height);
->  int drm_connector_attach_max_bpc_property(struct drm_connector *connecto=
-r,
->  					  int min, int max);
-> +int drm_connector_attach_active_bpc_property(struct drm_connector *conne=
-ctor,
-> +					  int min, int max);
-> =20
->  /**
->   * struct drm_tile_group - Tile group metadata
+Exclusive device access is implemented by adding a new swap entry type
+(SWAP_DEVICE_EXCLUSIVE) which is similar to a migration entry. The main
+difference is that on fault the original entry is immediately restored by
+the fault handler instead of waiting.
+
+Restoring the entry triggers calls to MMU notifers which allows a device
+driver to revoke the atomic access permission from the GPU prior to the CPU
+finalising the entry.
+
+Patches
+=======
+
+Patches 1 & 2 refactor existing migration and device private entry
+functions.
+
+Patches 3 & 4 rework try_to_unmap_one() by splitting out unrelated
+functionality into separate functions - try_to_migrate_one() and
+try_to_munlock_one().
+
+Patch 5 renames some existing code but does not introduce functionality.
+
+Patch 6 is a small clean-up to swap entry handling in copy_pte_range().
+
+Patch 7 contains the bulk of the implementation for device exclusive
+memory.
+
+Patch 8 contains some additions to the HMM selftests to ensure everything
+works as expected.
+
+Patch 9 is a cleanup for the Nouveau SVM implementation.
+
+Patch 10 contains the implementation of atomic access for the Nouveau
+driver.
+
+Testing
+=======
+
+This has been tested with upstream Mesa 21.1.0 and a simple OpenCL program
+which checks that GPU atomic accesses to system memory are atomic. Without
+this series the test fails as there is no way of write-protecting the page
+mapping which results in the device clobbering CPU writes. For reference
+the test is available at https://ozlabs.org/~apopple/opencl_svm_atomics/
+
+Further testing has been performed by adding support for testing exclusive
+access to the hmm-tests kselftests.
 
 
---Sig_/Pr+2/0V=PQE=VGC=tSRkY=f
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
+Alistair Popple (10):
+  mm: Remove special swap entry functions
+  mm/swapops: Rework swap entry manipulation code
+  mm/rmap: Split try_to_munlock from try_to_unmap
+  mm/rmap: Split migration into its own function
+  mm: Rename migrate_pgmap_owner
+  mm/memory.c: Allow different return codes for copy_nonpresent_pte()
+  mm: Device exclusive memory access
+  mm: Selftests for exclusive device memory
+  nouveau/svm: Refactor nouveau_range_fault
+  nouveau/svm: Implement atomic SVM access
 
------BEGIN PGP SIGNATURE-----
+ Documentation/vm/hmm.rst                      |  19 +-
+ Documentation/vm/unevictable-lru.rst          |  33 +-
+ arch/s390/mm/pgtable.c                        |   2 +-
+ drivers/gpu/drm/nouveau/include/nvif/if000c.h |   1 +
+ drivers/gpu/drm/nouveau/nouveau_svm.c         | 156 ++++-
+ drivers/gpu/drm/nouveau/nvkm/subdev/mmu/vmm.h |   1 +
+ .../drm/nouveau/nvkm/subdev/mmu/vmmgp100.c    |   6 +
+ fs/proc/task_mmu.c                            |  23 +-
+ include/linux/mmu_notifier.h                  |  26 +-
+ include/linux/rmap.h                          |  11 +-
+ include/linux/swap.h                          |  13 +-
+ include/linux/swapops.h                       | 123 ++--
+ lib/test_hmm.c                                | 126 +++-
+ lib/test_hmm_uapi.h                           |   2 +
+ mm/debug_vm_pgtable.c                         |  12 +-
+ mm/hmm.c                                      |  12 +-
+ mm/huge_memory.c                              |  45 +-
+ mm/hugetlb.c                                  |  10 +-
+ mm/memcontrol.c                               |   2 +-
+ mm/memory.c                                   | 173 ++++-
+ mm/migrate.c                                  |  51 +-
+ mm/mlock.c                                    |  12 +-
+ mm/mprotect.c                                 |  18 +-
+ mm/page_vma_mapped.c                          |  15 +-
+ mm/rmap.c                                     | 602 +++++++++++++++---
+ tools/testing/selftests/vm/hmm-tests.c        | 158 +++++
+ 26 files changed, 1328 insertions(+), 324 deletions(-)
 
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmC90EIACgkQI1/ltBGq
-qqdGCQ//cRerWSb24BlhxlzYGB8NQvHZrLXOSiGRs2viHwBP913JnXJGRViEDx5x
-clhIXqdHwsmh+ezmYxHhAgi6lrgNhCr+9MBkLqhX5YbHmXdwSzQBWezRibzXjbYW
-KeTvPx0z8Nvh3ViRHcb/dd4LcXflp7Ii9ksSW2avNktSJR7EZu6o+krZxTuOgKmx
-nOWXVqxEwTcLDxp/ubDbEEOTvaaYyQVpGa3wSuyOVuW4ea4i/cm9Ax+N2f0/aHCH
-Bj0F9S2qYNgGTDpGSm3myipPx2Lqd/teEqiEXH+Gxr6+vI8V+cfZz/xjoe0Ko84b
-2BEuD3t22bDLSlC6C214virxbxV7R5fWRD72XfyDmDJrILVBWV2b2ftG9pKbS4GE
-hJSbYs8eRS44o7RplbFYrJMVRf7DK3k/l8H9kpasLG36GxRMvaVtSCgrZLUBnCEb
-gMKcqvf824YjA7FWFEAASHr0lDbroSxGuzxU8Ts2wYLyuK6PCvXv9TDwc3tcMB94
-zhB3rToba+3Rmw+/lSLwp85EyHvtRTV/OrJMAZASLRVJs/mMsYCWupW1783Ueh4L
-tvRnZ/MBz48DoZpYo3bOLySG4Nb7jhGgjmYI6I9huWXHUuBcknGf4oFn7cwPXFR2
-3IOghkwAL3prSMIz80cfPeLBg7ahq2zA6C8KGj1xLU8IOST/knU=
-=6CeT
------END PGP SIGNATURE-----
+-- 
+2.20.1
 
---Sig_/Pr+2/0V=PQE=VGC=tSRkY=f--
