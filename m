@@ -1,61 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0EE5139E3D2
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Jun 2021 18:40:22 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 490FB39E4BE
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Jun 2021 19:06:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3AEE96E3FC;
-	Mon,  7 Jun 2021 16:40:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AC9976E50B;
+	Mon,  7 Jun 2021 17:06:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ste-pvt-msa1.bahnhof.se (ste-pvt-msa1.bahnhof.se
- [213.80.101.70])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2F21A6E3FC
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Jun 2021 16:40:15 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by ste-pvt-msa1.bahnhof.se (Postfix) with ESMTP id 9ACB93FB5C;
- Mon,  7 Jun 2021 18:40:13 +0200 (CEST)
-Authentication-Results: ste-pvt-msa1.bahnhof.se; dkim=pass (1024-bit key;
- unprotected) header.d=shipmail.org header.i=@shipmail.org header.b="W3e8cxqQ";
- dkim-atps=neutral
-X-Virus-Scanned: Debian amavisd-new at bahnhof.se
-X-Spam-Flag: NO
-X-Spam-Score: -2.1
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.1 tagged_above=-999 required=6.31
- tests=[BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- URIBL_BLOCKED=0.001] autolearn=ham autolearn_force=no
-Received: from ste-pvt-msa1.bahnhof.se ([127.0.0.1])
- by localhost (ste-pvt-msa1.bahnhof.se [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id lRbCxKJtZ_p3; Mon,  7 Jun 2021 18:40:12 +0200 (CEST)
-Received: by ste-pvt-msa1.bahnhof.se (Postfix) with ESMTPA id EA7823FB37;
- Mon,  7 Jun 2021 18:40:10 +0200 (CEST)
-Received: from [192.168.0.209] (unknown [192.55.55.41])
- by mail1.shipmail.org (Postfix) with ESMTPSA id 12C443600BE;
- Mon,  7 Jun 2021 18:40:08 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=shipmail.org; s=mail;
- t=1623084010; bh=s1pA1qOitQXAR7AyVtLMgMefG/xeBCFCq2SY6VCEtIY=;
- h=Subject:To:References:From:Date:In-Reply-To:From;
- b=W3e8cxqQRkMkt1ZSB/PanLyqpozhw+Ren9bjsq7rf3oH0fCzPSaUMg6MtRZbjdcls
- MSUF5dkO+L5Ha9kuhLvvyWnQEjuQiAVeDVY5En/3w0n0NnxMPyAKv6kjk2dJMBFF17
- alSBY09qCUBTej+G9pUVBzmJuhaJLSF4+tZNETPQ=
-Subject: Re: [PATCH 01/10] drm/ttm: allocate resource object instead of
- embedding it v2
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
- matthew.auld@intel.com, dri-devel@lists.freedesktop.org
-References: <20210602100914.46246-1-christian.koenig@amd.com>
-From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m_=28Intel=29?= <thomas_os@shipmail.org>
-Message-ID: <e5e6f3d0-af80-fa59-ba55-bafbb8e7670a@shipmail.org>
-Date: Mon, 7 Jun 2021 18:40:03 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+Received: from mail-pg1-x52b.google.com (mail-pg1-x52b.google.com
+ [IPv6:2607:f8b0:4864:20::52b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7B0226E50B
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Jun 2021 17:06:16 +0000 (UTC)
+Received: by mail-pg1-x52b.google.com with SMTP id y12so2467328pgk.6
+ for <dri-devel@lists.freedesktop.org>; Mon, 07 Jun 2021 10:06:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=h1KlkStLvRStBVJTSQFYwmRz+Osk/Ua5tWW4TsExsnQ=;
+ b=JjGREny0zqtnXUIvzi865hDU8o/5J9xd3glLyUEUxz8AJyDIDzkllfB707Xi93Vncm
+ xsLGlCMFwsg8jX6EdLFvztxWNsXfJo8gTSE62syPgNUD8xYgdlq7D65h2Hcp1L3+68Nc
+ mui8QFN4XuzfbMUW2HFBr9DMsLiX7w1aANTWo=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=h1KlkStLvRStBVJTSQFYwmRz+Osk/Ua5tWW4TsExsnQ=;
+ b=UEeNmeK3atWcWCcH13ECxdmxkpLThcntep5XyTKyKB3uVmfuXIRHZcTt4NHTa6f+1A
+ SAhXDShejMe7VKii3wxnrzNtJcwoNKmaOEZxFcQeFBK0BP9ywMk+mJKdbyU1j8C5PYNp
+ 130vSHk7HApjBW51J4of8MrNQ3w1dRE5wziihs1nnFvBJ8lsDIGO8E+tXxU5QoI9xngm
+ jkGLJ0UD5yGBcaFKu6EHy0r7kVCrD+i1kowiAe+UNl0lBVw90rr/bVYSSbF0aqovZAgA
+ EKyHIxEjb4XIDvAKBe1UR/hHGF5N5gcaXdOof0HzTb7a6yx4wax4rtH3efWtQfde/klm
+ V8yQ==
+X-Gm-Message-State: AOAM531xCrrSlI/Kd5cVQnrtSzz6D0assg0ZEtc9UhkpT17gJrOoeHKn
+ NryWyom2h6NTPQJlo8XqHqJMhQ==
+X-Google-Smtp-Source: ABdhPJwEfiZm77qEdH3k3vccPX5tPvVMCtHuG5+GI/0giuu5WAtkte5L9u8ICH/G1ZkDyKcuDboEeg==
+X-Received: by 2002:a63:1260:: with SMTP id 32mr18681828pgs.232.1623085575938; 
+ Mon, 07 Jun 2021 10:06:15 -0700 (PDT)
+Received: from tictac2.mtv.corp.google.com
+ ([2620:15c:202:201:f656:ffce:6348:a42a])
+ by smtp.gmail.com with ESMTPSA id fs24sm12897639pjb.6.2021.06.07.10.06.14
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 07 Jun 2021 10:06:15 -0700 (PDT)
+From: Douglas Anderson <dianders@chromium.org>
+To: Andrzej Hajda <a.hajda@samsung.com>,
+ Neil Armstrong <narmstrong@baylibre.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Sam Ravnborg <sam@ravnborg.org>
+Subject: [PATCH v9 00/11] drm: Fix EDID reading on ti-sn65dsi86 by introducing
+ the DP AUX bus
+Date: Mon,  7 Jun 2021 10:05:44 -0700
+Message-Id: <20210607170555.4006050-1-dianders@chromium.org>
+X-Mailer: git-send-email 2.32.0.rc1.229.g3e70b5a671-goog
 MIME-Version: 1.0
-In-Reply-To: <20210602100914.46246-1-christian.koenig@amd.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,34 +67,156 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: David Airlie <airlied@linux.ie>, Sandeep Panda <spanda@codeaurora.org>,
+ Steev Klimaszewski <steev@kali.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>, robdclark@chromium.org,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Stanislav Lisovskiy <stanislav.lisovskiy@intel.com>,
+ Andy Gross <agross@kernel.org>, Thierry Reding <treding@nvidia.com>,
+ devicetree@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ linux-arm-msm@vger.kernel.org, Stephen Boyd <swboyd@chromium.org>,
+ Rob Herring <robh+dt@kernel.org>, dri-devel@lists.freedesktop.org,
+ Douglas Anderson <dianders@chromium.org>, Robert Foss <robert.foss@linaro.org>,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+The primary goal of this series is to try to properly fix EDID reading
+for eDP panels using the ti-sn65dsi86 bridge.
 
-On 6/2/21 12:09 PM, Christian König wrote:
-...
-> @@ -728,14 +728,15 @@ static int ttm_bo_add_move_fence(struct ttm_buffer_object *bo,
->    */
->   static int ttm_bo_mem_force_space(struct ttm_buffer_object *bo,
->   				  const struct ttm_place *place,
-> -				  struct ttm_resource *mem,
-> +				  struct ttm_resource **mem,
->   				  struct ttm_operation_ctx *ctx)
->   {
->   	struct ttm_device *bdev = bo->bdev;
-> -	struct ttm_resource_manager *man = ttm_manager_type(bdev, mem->mem_type);
-> +	struct ttm_resource_manager *man;
->   	struct ww_acquire_ctx *ticket;
->   	int ret;
->   
-> +	man = ttm_manager_type(bdev, (*mem)->mem_type);
+Previously we had a patch that added EDID reading but it turned out
+not to work at bootup. This caused some extra churn at bootup as we
+tried (and failed) to read the EDID several times and also ended up
+forcing us to use the hardcoded mode at boot. With this patch series I
+believe EDID reading is reliable at boot now and we never use the
+hardcoded mode.
 
-Isn't (*mem) uninitialized here? Should be place->mem_type? Eviction is 
-immediately sent to the bushes.
+High level note: in this series the EDID reading is driven by the
+panel driver, not by the bridge chip driver. I believe this makes a
+reasonable amount of sense since the panel driver already _could_
+drive reading the EDID if provided with the DDC bus and in future
+planned work we'll want to give the panel driver the DDC bus (to make
+decisions based on EDID) and the AUX bus (to control the
+backlight). There are also planned patches from Laurent to make
+ti-sn65dsi86 able to drive full DP monitors. In that case the bridge
+chip will still be in charge of reading the EDID, but it's not hard to
+make this dynamic.
 
-Got at least one additional NULL pointer deref to track down in the 
-eviction code, but could be a merge error of mine as well.
+This series is the logical successor to the 3-part series containing
+the patch ("drm/bridge: ti-sn65dsi86: Properly get the EDID, but only
+if refclk") [1].
 
-/Thomas
+This patch was tested against drm-misc-next commit 24994b91ecc5
+("MAINTAINERS: Add maintainer for hyperv video device") on a
+sc7180-trogdor-lazor device.
 
+At v9 now this just had a few tiny tweaks / bugfixes. I also added a
+patch to the end to make deferred probe a bit prettier. I _think_ this
+series is now ready to land and seems to be fairly well-reviewed. I
+believe all that's left is Laurent's official blessing that it's OK
+for the panel to drive the EDID reading in this case.
+
+Between v2 and v3, high-level view of changes:
+- stop doing the EDID caching in the core.
+
+Between v3 and v4, high-level view of changes:
+- EDID reading is actually driven by the panel driver now. See above.
+- Lots of chicken-and-egg problems solved w/ sub-devices.
+
+Between v4 and v5, high-level view of changes.
+- Some of the early patches landed, so dropped from series.
+- New pm_runtime_disable() fix (fixed a patch that already landed).
+- Added Bjorn's tags to most patches
+- Fixed problems when building as a module.
+- Reordered debugfs patch and fixed error handling there.
+- Dropped last patch. I'm not convinced it's safe w/out more work.
+
+Between v5 and v6, high-level view of changes:
+- Added the patch ("drm/dp: Allow an early call to register DDC i2c
+  bus")
+- Many patches had been landed, so only a few "controversial" ones
+  left.
+
+Between v6 and v7, high-level view of changes:
+- New AUX DP bus!
+
+Between v7 and v8, high-level view of changes:
+- More bindings work.
+- Fixed allmodconfig.
+
+Between v8 and v9, high-level view of changes:
+- Fixed error/remove in panel.
+- Properly handle of_node in sub-devices in sn65dsi86.
+- Tiny bindings touchup including dropping "Example" patch.
+- Added review tags.
+- Added error message cleanup patch at the end.
+- First patch (bugfix) dropped (it landed).
+
+[1] https://lore.kernel.org/r/20210304155144.3.I60a7fb23ce4589006bc95c64ab8d15c74b876e68@changeid/
+
+Changes in v9:
+- ("Improve probe errors") patch new for v9.
+- Commit message now notes aux-bus yaml won't have an "Example".
+- Fix error handling / remove case when using AUX bus for DDC.
+- Properly set the of_node of sn65dsi86 auxbus devices now.
+- Rebased atop v9 ("Promote the AUX channel") patch.
+- Use an absolute path to refer to aux-bus schema.
+
+Changes in v8:
+- Allow dp-aux-bus to be a module to fix allmodconfig builds
+- Explain better why HPD needs to be in panel-simple in commit msg.
+- Separate DP AUX bus binding is new for v8.
+- ti-sn65dsi86 references the new aux bus bindings.
+
+Changes in v7:
+- Adjusted commit message to talk about DP AUX bus.
+- Beefed up commit message in context of the DP AUX bus.
+- List hpd properties bindings patch new for v7.
+- Panel now under bridge chip instead of getting a link to ddc-i2c
+- Patch introducing the DP AUX bus is new for v7.
+- Patch to allow panel-simple to be DP AUX EP new for v7.
+- Patch to support for DP AUX bus on ti-sn65dsi86 new for v7.
+- Patch using the DP AUX for DDC new for v7.
+- Remove use of now-dropped drm_dp_aux_register_ddc() call.
+- Set the proper sub-device "dev" pointer in the AUX structure.
+- ti-sn65dsi86: Add aux-bus child patch new for v7.
+
+Changes in v6:
+- Use new drm_dp_aux_register_ddc() calls.
+
+Douglas Anderson (11):
+  dt-bindings: display: simple: List hpd properties in panel-simple
+  dt-bindings: drm: Introduce the DP AUX bus
+  dt-bindings: drm/bridge: ti-sn65dsi86: Add aux-bus child
+  drm: Introduce the DP AUX bus
+  drm/panel: panel-simple: Allow panel-simple be a DP AUX endpoint
+    device
+  drm/panel: panel-simple: Stash DP AUX bus; allow using it for DDC
+  drm/bridge: ti-sn65dsi86: Promote the AUX channel to its own sub-dev
+  drm/bridge: ti-sn65dsi86: Add support for the DP AUX bus
+  drm/bridge: ti-sn65dsi86: Don't read EDID blob over DDC
+  drm/bridge: ti-sn65dsi86: Improve probe errors with dev_err_probe()
+  arm64: dts: qcom: sc7180-trogdor: Move panel under the bridge chip
+
+ .../bindings/display/bridge/ti,sn65dsi86.yaml |  20 +-
+ .../bindings/display/dp-aux-bus.yaml          |  37 ++
+ .../bindings/display/panel/panel-simple.yaml  |   2 +
+ arch/arm64/boot/dts/qcom/sc7180-trogdor.dtsi  |  30 +-
+ drivers/gpu/drm/Kconfig                       |   5 +
+ drivers/gpu/drm/Makefile                      |   2 +
+ drivers/gpu/drm/bridge/Kconfig                |   1 +
+ drivers/gpu/drm/bridge/ti-sn65dsi86.c         | 129 +++----
+ drivers/gpu/drm/drm_dp_aux_bus.c              | 326 ++++++++++++++++++
+ drivers/gpu/drm/panel/Kconfig                 |   1 +
+ drivers/gpu/drm/panel/panel-simple.c          |  68 +++-
+ include/drm/drm_dp_aux_bus.h                  |  57 +++
+ 12 files changed, 594 insertions(+), 84 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/display/dp-aux-bus.yaml
+ create mode 100644 drivers/gpu/drm/drm_dp_aux_bus.c
+ create mode 100644 include/drm/drm_dp_aux_bus.h
+
+-- 
+2.32.0.rc1.229.g3e70b5a671-goog
 
