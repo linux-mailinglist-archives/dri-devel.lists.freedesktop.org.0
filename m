@@ -1,68 +1,123 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97E3439DD3C
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Jun 2021 15:01:13 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E520239DD83
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Jun 2021 15:20:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E5E8B6E8B0;
-	Mon,  7 Jun 2021 13:01:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D15CD6E8BF;
+	Mon,  7 Jun 2021 13:19:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com
- [IPv6:2a00:1450:4864:20::433])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0AC826E8B0
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Jun 2021 13:01:08 +0000 (UTC)
-Received: by mail-wr1-x433.google.com with SMTP id h8so17509935wrz.8
- for <dri-devel@lists.freedesktop.org>; Mon, 07 Jun 2021 06:01:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language;
- bh=Ip7WAmn26bJSRytvPb1CU10wgClEIXRXGPWRzCPad9c=;
- b=jfdHT1nbM35//WdF3yBp6ufe8wmBiCIUFa07l9VQ1+DHXrS6CQURgWEg8P3b0TlRHQ
- OruqJmh4D0urm/MOgdvwyUhNvhdChi7RRJFERkoPiQ27b6TJ8Jr+HG7RC1Dv5HOjHxy+
- jnA4E3i1RChSNn5DXimesC/lm4FN7MUc2PMGF0ZSlBZe1Aleh+rKdwx2UEHcE7GkrdsL
- kcY2dhBggPAO0F6HiIApMEu7vsGXGcMzWdtQTDaSfHpdRi1D/XUms80XsRTdHITsZ452
- mAK4G+IxHt5IdOce5cc3kXdpD6DLY+QbiDTHxjmxzWSlyocB7FziZMCLOo83wFB/Clev
- avtw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language;
- bh=Ip7WAmn26bJSRytvPb1CU10wgClEIXRXGPWRzCPad9c=;
- b=Ig98dZi8BXGWGXBp+Az/pZuxobFTC9pHcwR2W3+5o70J+U5p/mWwfhOmnTI7N9GA6W
- kv9vcMRGj7KHZNeVkdnp824mM/Ff++uFMeLnwWWA/bcaE9YzfRWpSVBnF1DB2e5H50X+
- XweR0RXTMF4LWGab1jokE81kSLIbGVArDnBwC8imYiPMO42K58hREKFR3Lq1SP9lL6b8
- cDdRfRl83KxfQ8ku+oBnX/47r6Lb5aTNWBgV6s4KgCgkIamK6Bv5tESneLkbzabq9Jx8
- FAZS8GX0+IsJi/0zAsENb27mGMwco0wUC453PtTfEtbwI7LmftoMl4CMgNANaYYlyXE3
- LIlA==
-X-Gm-Message-State: AOAM532uCrS2pGLu9np4F/Jp4s7sWuB4vki8+bCRMh1rrG0qHbZ25tWD
- h4lX3myxCKDqXPI2evGgq0H0MvtbF8U=
-X-Google-Smtp-Source: ABdhPJwk9dbXi4Wa9mAk3WvsMgrQM4gG/F+6zdl37nm056ZhmeqUYNF8MH1J9c9pyCdZwWxxzJRNtg==
-X-Received: by 2002:adf:9c93:: with SMTP id d19mr16887813wre.17.1623070866798; 
- Mon, 07 Jun 2021 06:01:06 -0700 (PDT)
-Received: from ?IPv6:2a02:908:1252:fb60:ce67:4e4d:875d:ffeb?
- ([2a02:908:1252:fb60:ce67:4e4d:875d:ffeb])
- by smtp.gmail.com with ESMTPSA id i16sm14140603wmm.9.2021.06.07.06.01.06
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 07 Jun 2021 06:01:06 -0700 (PDT)
-Subject: Re: [PATCH 1/4] drm/ttm: add TTM_PL_FLAG_TEMPORARY flag v3
-To: Nirmoy Das <nirmoy.das@amd.com>
-References: <20210601122528.1643-1-christian.koenig@amd.com>
- <0051cab9-8d65-d28f-956e-3a60718bf000@gmail.com>
- <0fc2844d-b954-2386-17e3-e2c4232fc247@shipmail.org>
- <f067ec3f-ae6c-fb9d-d87b-e31311bf3cf3@gmail.com>
- <DM6PR12MB4250A90CF8058DD28AB1B04FFB389@DM6PR12MB4250.namprd12.prod.outlook.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-Message-ID: <1a18dab0-45ee-3406-05f6-fe3ae3b2d136@gmail.com>
-Date: Mon, 7 Jun 2021 15:01:05 +0200
+Received: from NAM02-SN1-obe.outbound.protection.outlook.com
+ (mail-sn1anam02on2074.outbound.protection.outlook.com [40.107.96.74])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 407746E8BA;
+ Mon,  7 Jun 2021 13:19:55 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=iAOSpVShLfqXFCFDtcx+IbvKvlhaCZVYmpQCfRsYwxHQoKSFU+ITEI899Tsbsw01cZ0HJQNJCdOg5v08Be2Hps/PWMDIDV1uzf4XOWUszg1HHNCQj47p96cF8puQrXZndc82Jf2r1s7kTQ40OsN5H6zJzJl9kgTTkcohTHQbvQbf5nF2wWIgVj0vDCvoSI1+DI/35xQNA8R3bVZqopKsM8NQ2Gq+LLlboGayaF8VU+HMow6NHNEpbOKBml3hD7UC50vCeDmRsynINwrh/0lIo72DYmWL1U2npxN2qnP7VJD0GQuoAd58J4xXfWF5aSHN9987gfT0KrwaHsp+X4fwOQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=k61OScfR8zCh4liHmnVuexzePxIZHP5CkmGC6HJlvk0=;
+ b=F0T2hqXuf5DrZGJ6aSmiTZI6VOXearEdh4D14+dKbU8/ImNgmur1kfBOyq2z8yQPtJnVwOyiYftnT8hROLgfeFgfab8zwjvAcX2OVPpHWClF7R0Zr14vrRHuUYTjh2CuKWua7qTMjlp+XgvpUs1ga5SOiTziiuhtViD1+4Pu363da53UgZSf3C8zDrSQwYXUxNkFHjAykrVdU0bOYozjXt4zmJ4lnv/uxfSfQNyiVNKEXaXFtGlt/wOSb4Tb5seCKqXuTbvdVZPDzJUD+1wfWC29RhfWfWLp/Uh2Z7rMuBdOj+Wn2Pz4Fxjjs6cY3+4JSC1CXyoMMXPwUskcOfosHQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=k61OScfR8zCh4liHmnVuexzePxIZHP5CkmGC6HJlvk0=;
+ b=YmUxuzpHshazi/t1E/eaEL3A6zATr/Qi8McYSloSOixyuOWfrVQBKulhOgsBSMWF8pWqX7bZi5S4OFmo1M60VdFVJDlZ1IE9qC4ikRdunDW4sAc7nOBuIj35hXJRJooKz2PuBam8/vQMMCI/iHRTWI5QnXy8Vt4mlBMMR58oRXg=
+Authentication-Results: vger.kernel.org; dkim=none (message not signed)
+ header.d=none;vger.kernel.org; dmarc=none action=none header.from=amd.com;
+Received: from BN9PR12MB5129.namprd12.prod.outlook.com (2603:10b6:408:136::12)
+ by BN9PR12MB5162.namprd12.prod.outlook.com (2603:10b6:408:11b::14)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4195.24; Mon, 7 Jun
+ 2021 13:19:52 +0000
+Received: from BN9PR12MB5129.namprd12.prod.outlook.com
+ ([fe80::3c78:e58b:fba7:b8dd]) by BN9PR12MB5129.namprd12.prod.outlook.com
+ ([fe80::3c78:e58b:fba7:b8dd%6]) with mapi id 15.20.4195.030; Mon, 7 Jun 2021
+ 13:19:52 +0000
+Subject: Re: [PATCH] drm/amdkfd: remove duplicate include of kfd_svm.h
+To: Wan Jiabing <wanjiabing@vivo.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ "Pan, Xinhui" <Xinhui.Pan@amd.com>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <20210605025406.14058-1-wanjiabing@vivo.com>
+From: Felix Kuehling <felix.kuehling@amd.com>
+Message-ID: <8c03bb1b-d14a-81d8-b2bc-c44df34f43f6@amd.com>
+Date: Mon, 7 Jun 2021 09:19:49 -0400
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
-MIME-Version: 1.0
-In-Reply-To: <DM6PR12MB4250A90CF8058DD28AB1B04FFB389@DM6PR12MB4250.namprd12.prod.outlook.com>
-Content-Type: multipart/alternative;
- boundary="------------F01417D7F0A08938DAE2D150"
+In-Reply-To: <20210605025406.14058-1-wanjiabing@vivo.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
 Content-Language: en-US
+X-Originating-IP: [142.116.203.225]
+X-ClientProxiedBy: YT1PR01CA0092.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b01:2d::31) To BN9PR12MB5129.namprd12.prod.outlook.com
+ (2603:10b6:408:136::12)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.2.100] (142.116.203.225) by
+ YT1PR01CA0092.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:b01:2d::31) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4195.25 via Frontend Transport; Mon, 7 Jun 2021 13:19:51 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: f6000661-d7f5-4296-aa97-08d929b6ef16
+X-MS-TrafficTypeDiagnostic: BN9PR12MB5162:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <BN9PR12MB51624FE1335817C61C6D97AE92389@BN9PR12MB5162.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:605;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: XsGK7JVDHbCgrrVG6s9DBuYLNF1Ne98SGxEDYBsjIptxui+HFR/OrwEy/vZ7+bpZ3wt3BG0+rmLVf3HPfxK5IkQoi4RB2kOeNJq7ajnJEGECVTUY9hfnW/LMMKB1ssxgwr2mm/hUEFUmlmxpidijw/lG4DIrMC2Jflc90oYsKh6vxsx6XIYVRD2mHtbDmfd3Cl2VmyX+sAuvPcyKGDhy0iYj3UScxvncI3XxU01BFEn1VO2NzL+Kwk8M7jLa76bdT6DpoYtS4UCEe6wVPR2V6mn7FaU6kecahYy/KglXyOXyK46whIHznEsupeFfkXj2xrpYCTI1BZRfRZN0PHWraDKq8MPO95pWaRytu5NQzF9a8N6YNHiD7JG0deNlniHV4obXfI78k2aMQvcNGOYQbWAkLlCAxI5bt+csGsowrxWX8n0XgN2bMhHU+2KufhdC1GZ1VeghHN3WRXH2dWnoHHHC3vnVhR4gKhs6iPzJ22ew6qe8OtpDCiMu7WJi+s4xQOrTswHo8VnYBRXq+PnSkr42qqxH570Wa/4z32EGsQAIqbjJF+G4h0zMtfoBcU1VDcPd0x2tbcT5xqovvG5TOZ69zSnXssfcNlXUvekLRaVjidqfRKSFt8S95DXpA5AnTO7qDxZUZP7cRTRhXEigE1IqggyHBMib+AENboVkWqtMfXM/ZMU3jIf4/kWkit1gKscHLP7yIw+3SlCITTULDA==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BN9PR12MB5129.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(86362001)(66946007)(66556008)(66476007)(110136005)(16576012)(5660300002)(956004)(26005)(31686004)(16526019)(921005)(31696002)(8676002)(8936002)(36756003)(6486002)(2906002)(38100700002)(186003)(498600001)(2616005)(83380400001)(44832011)(4744005)(45980500001)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?UzkzWWE1ZFRxZVNSZFRHL3c1anhJNDRXOEUwakt3UHFtMzFuQlVxSThrSnB2?=
+ =?utf-8?B?YnhDeHB1c2x1TUplRk5nUUtReGlwb2N6SVFBazF4UkM4c3NHcU02QTF6cDVJ?=
+ =?utf-8?B?YSt2WVBKaC9LVFd4VThoUFo1TCtvZStIdmxYb21KeUxrVmVDSndSZmc4TFJT?=
+ =?utf-8?B?byt4emxxTHgwbHJCQmgyc3FrT0ZNTWJ0OGxtTUphRGVXM1ZQNUtGZnUrbUpr?=
+ =?utf-8?B?eDczWjg4czVuSXEyYTRQU3NHR0VFa0dBNjRCaVJtM05URnlDOUNud1FGTUtX?=
+ =?utf-8?B?SUlIcVkzMkdHallBU2NwUFBhem5MNGRKSmxHR2xIVDhUdzFRNEFyQ2Z1VlM3?=
+ =?utf-8?B?dlZrSlp0ZUh0SDN1N1UyUjY1YnRaVWVPRmdva2lCZmtHeXlkRDlteVdnNElW?=
+ =?utf-8?B?Q0JlV01od2wxUnBSODBHL0RoSmtIL1M3WVpUOFk0UFpkd1VIOFYzOUpxNHRL?=
+ =?utf-8?B?WmVtVjZvek55czcySTJRcDFrK3o2Zk1HYnZaVWdPK2RLRTNLVFRCTXNpZGwv?=
+ =?utf-8?B?L2owWTNrMlE5aUtkanY1Y3U3U05KN3dFM2JCVHlsVU9tUjFSblhudllmM3VE?=
+ =?utf-8?B?a3M4dzVOOS9UYXV6NE9NSkpBT2dmQ3dZNENxaTEzdmdJUEY1cmV3ZERpd2xP?=
+ =?utf-8?B?Z2kzbzk4Zm9rZDRDZnFXVWV1VW1GSEVqNVdZR1lNVklpLzZsSXJ5Um00eEtQ?=
+ =?utf-8?B?ZllRNXpEZ3IwN2N0d2phS1JSRW1Xa2FpRHJYVUpGUS9wOUNzSllOc01zZVN0?=
+ =?utf-8?B?Rlg5TW1jSXR5eFAxS3RpckNFTFFCY2ZiYXdXNnlGRm5rRW1lQXBxWk5paXlo?=
+ =?utf-8?B?QWVweXE1VUZYRUs1aTJaSDY5dDc2Wk1GMUxWMUlPQU5ZbUhDc3hvanRLNjE1?=
+ =?utf-8?B?aE1qUElOY2JmTHdLSnI3N3h2VnNQc1pRcXRuQTZnNUh5aEV2YzlhazVrVWJ6?=
+ =?utf-8?B?bGNoNGtmSUhuMm82ZlJnbFZLTncwczNXSFVTa0gwV0JOSXk3ckFrNUpCaTZk?=
+ =?utf-8?B?K0plMW5nZFFtbGxsVHhrcER5VGRldDJ5T3NNMldDRVVhK3V6NUVkb0pvc2Zl?=
+ =?utf-8?B?VXY1VVRlaUxxckNUbFdzc3NkSHA3ZVN5TE8vS1ptZ3dMQzBVemhvSDI3YVNL?=
+ =?utf-8?B?Nk5yMjFGU09SL2dpWDVBdFE0WFRuYXNURlFjZXNjSnhYbTNGYzR0c240ejJV?=
+ =?utf-8?B?ZkhBS2FkZjFQSzJxK2tDNWE2VVRPTXc2Z3BUbmhkOHVaNVczbWhXU2RGajZZ?=
+ =?utf-8?B?VVNaZi9XbTlYZWdEYTlvb2UzK1JjbTFLeDM3OEpCdGVXR3JDd1NOdm5TdDFv?=
+ =?utf-8?B?cUFNM3VObEd3Sk94aDlqWG4vY2RYOVRMemdwRmh4cHl2QXpUbVZROGZKSGxy?=
+ =?utf-8?B?dEh1U1pZM3hFTGlqYmEzOWY0RzY3YXQ0OFF6VG1QSHBnc0J5eEJKSXEvMVRV?=
+ =?utf-8?B?eHFUTWhETlM4UnNBUkZjL00yTlBmMU44LzZIT1VyWGRQRjBOaEtNQjlNVFB2?=
+ =?utf-8?B?MGdYeXkrSTRNOTl2L1p6S2hFTyt1cEtxY2JlUkQ0MDJZNHJ4eEtPdThzNTAw?=
+ =?utf-8?B?Y3hmTzY3QmlQWWQwaEEzU2tvNllhN2NUT2lkUDlrdmhWYlhkM29ibVVZTDYy?=
+ =?utf-8?B?eUpHTEdQVDlGVEQzQkxkNTRZa0xsM2lYRmhiNHdpRDVXNjV2V0xLcHZkY09N?=
+ =?utf-8?B?TDVaWHpnMHNSZjd5UWc4cjMyb3lGOE54WllwV3V5TkFNa3oyckJQUVZSVVQz?=
+ =?utf-8?Q?el5IuhYyP7urpgdg4LCrr1U3zCTiSY2BTHj0Z7u?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f6000661-d7f5-4296-aa97-08d929b6ef16
+X-MS-Exchange-CrossTenant-AuthSource: BN9PR12MB5129.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Jun 2021 13:19:52.3315 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: HNbAEDps3Cqv3KwVQ4bTaP81+9bbjlAPax7TMX/N0FtihaV1xeykOt9aaeyXhnT3wbzOsRR7fBCtSIeHb7sREQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN9PR12MB5162
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,294 +130,35 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Yu, Lang" <Lang.Yu@amd.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is a multi-part message in MIME format.
---------------F01417D7F0A08938DAE2D150
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Am 2021-06-04 um 10:54 p.m. schrieb Wan Jiabing:
+> kfd_svm.h is included duplicately in commit 42de677f79999
+> ("drm/amdkfd: register svm range"). 
+>
+> After checking possible related header files,
+> remove the former one to make the code format more reasonable.
+>
+> Signed-off-by: Wan Jiabing <wanjiabing@vivo.com>
 
-Hi Nirmoy,
+Reviewed-by: Felix Kuehling <Felix.Kuehling@amd.com>
 
-can you give that patch set a testing round and an review?
+I will apply the patch to amd-staging-drm-next. Thanks.
 
-The memory stress test with low VRAM on APUs should be sufficient and 
-you should have that setup still around.
-
-Thanks in advance,
-Christian.
-
-Am 07.06.21 um 14:58 schrieb Yu, Lang:
+> ---
+>  drivers/gpu/drm/amd/amdkfd/kfd_process.c | 1 -
+>  1 file changed, 1 deletion(-)
 >
-> [AMD Official Use Only]
->
->
-> Thanks，please let Nirmoy do it.
->
-> Regards，
-> Lang
->
-> 获取 Outlook for iOS <https://aka.ms/o0ukef>
-> ------------------------------------------------------------------------
-> *发件人:* Christian König <ckoenig.leichtzumerken@gmail.com>
-> *发送时间:* Monday, June 7, 2021 8:41:49 PM
-> *收件人:* Thomas Hellström (Intel) <thomas_os@shipmail.org>; Yu, Lang 
-> <Lang.Yu@amd.com>
-> *抄送:* dri-devel@lists.freedesktop.org <dri-devel@lists.freedesktop.org>
-> *主题:* Re: [PATCH 1/4] drm/ttm: add TTM_PL_FLAG_TEMPORARY flag v3
-> Thanks!
->
-> Lang can anybody from your team give as an reviewed-by/test-by on the
-> amdgpu patches? I just want another pair of eyes looking over it.
->
-> If nobody else has time I will ask Nirmoy for a quick testing round.
->
-> Thanks,
-> Christian.
->
-> Am 07.06.21 um 14:38 schrieb Thomas Hellström (Intel):
-> > Sure. LGTM,
-> >
-> > Reviewed-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-> >
-> >
-> > On 6/7/21 2:36 PM, Christian König wrote:
-> >> Thomas any comments on this?
-> >>
-> >> Is the purpose of this now clear enough?
-> >>
-> >> Thanks,
-> >> Christian.
-> >>
-> >> Am 01.06.21 um 14:25 schrieb Christian König:
-> >>> From: Lang Yu <Lang.Yu@amd.com>
-> >>>
-> >>> Sometimes drivers need to use bounce buffers to evict BOs. While
-> >>> those reside
-> >>> in some domain they are not necessarily suitable for CS.
-> >>>
-> >>> Add a flag so that drivers can note that a bounce buffers needs to be
-> >>> reallocated during validation.
-> >>>
-> >>> v2: add detailed comments
-> >>> v3 (chk): merge commits and rework commit message
-> >>>
-> >>> Suggested-by: Christian König <christian.koenig@amd.com>
-> >>> Signed-off-by: Lang Yu <Lang.Yu@amd.com>
-> >>> Signed-off-by: Christian König <christian.koenig@amd.com>
-> >>> ---
-> >>>   drivers/gpu/drm/ttm/ttm_bo.c    | 3 +++
-> >>>   include/drm/ttm/ttm_placement.h | 7 +++++--
-> >>>   2 files changed, 8 insertions(+), 2 deletions(-)
-> >>>
-> >>> diff --git a/drivers/gpu/drm/ttm/ttm_bo.c
-> >>> b/drivers/gpu/drm/ttm/ttm_bo.c
-> >>> index 51a94fd63bd7..6b393502198e 100644
-> >>> --- a/drivers/gpu/drm/ttm/ttm_bo.c
-> >>> +++ b/drivers/gpu/drm/ttm/ttm_bo.c
-> >>> @@ -929,6 +929,9 @@ static bool ttm_bo_places_compat(const struct
-> >>> ttm_place *places,
-> >>>   {
-> >>>       unsigned i;
-> >>>   +    if (mem->placement & TTM_PL_FLAG_TEMPORARY)
-> >>> +        return false;
-> >>> +
-> >>>       for (i = 0; i < num_placement; i++) {
-> >>>           const struct ttm_place *heap = &places[i];
-> >>>   diff --git a/include/drm/ttm/ttm_placement.h
-> >>> b/include/drm/ttm/ttm_placement.h
-> >>> index aa6ba4d0cf78..8995c9e4ec1b 100644
-> >>> --- a/include/drm/ttm/ttm_placement.h
-> >>> +++ b/include/drm/ttm/ttm_placement.h
-> >>> @@ -47,8 +47,11 @@
-> >>>    * top of the memory area, instead of the bottom.
-> >>>    */
-> >>>   -#define TTM_PL_FLAG_CONTIGUOUS  (1 << 19)
-> >>> -#define TTM_PL_FLAG_TOPDOWN     (1 << 22)
-> >>> +#define TTM_PL_FLAG_CONTIGUOUS  (1 << 0)
-> >>> +#define TTM_PL_FLAG_TOPDOWN     (1 << 1)
-> >>> +
-> >>> +/* For multihop handling */
-> >>> +#define TTM_PL_FLAG_TEMPORARY   (1 << 2)
-> >>>     /**
-> >>>    * struct ttm_place
->
-
-
---------------F01417D7F0A08938DAE2D150
-Content-Type: text/html; charset=utf-8
-Content-Transfer-Encoding: 8bit
-
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  </head>
-  <body>
-    Hi Nirmoy,<br>
-    <br>
-    can you give that patch set a testing round and an review?<br>
-    <br>
-    The memory stress test with low VRAM on APUs should be sufficient
-    and you should have that setup still around.<br>
-    <br>
-    Thanks in advance,<br>
-    Christian.<br>
-    <br>
-    <div class="moz-cite-prefix">Am 07.06.21 um 14:58 schrieb Yu, Lang:<br>
-    </div>
-    <blockquote type="cite"
-cite="mid:DM6PR12MB4250A90CF8058DD28AB1B04FFB389@DM6PR12MB4250.namprd12.prod.outlook.com">
-      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-      <p
-        style="font-family:Arial;font-size:10pt;color:#0000FF;margin:15pt;"
-        align="Left">
-        [AMD Official Use Only]<br>
-      </p>
-      <br>
-      <div>
-        <div>
-          <div>
-            <div dir="ltr" data-ogsc="" style="">
-              <div dir="ltr" data-ogsc="" style="">Thanks，please let
-                Nirmoy do it.</div>
-              <div dir="ltr" data-ogsc="" style=""><br>
-              </div>
-              <div dir="ltr" data-ogsc="" style="">Regards，</div>
-              <div dir="ltr" data-ogsc="" style="">Lang</div>
-            </div>
-          </div>
-          <div><br>
-          </div>
-          <div class="ms-outlook-ios-signature">获取 <a
-              href="https://aka.ms/o0ukef" moz-do-not-send="true">Outlook
-              for iOS</a></div>
-        </div>
-        <hr style="display:inline-block;width:98%" tabindex="-1">
-        <div id="divRplyFwdMsg" dir="ltr"><font style="font-size:11pt"
-            face="Calibri, sans-serif" color="#000000"><b>发件人:</b>
-            Christian König <a class="moz-txt-link-rfc2396E" href="mailto:ckoenig.leichtzumerken@gmail.com">&lt;ckoenig.leichtzumerken@gmail.com&gt;</a><br>
-            <b>发送时间:</b> Monday, June 7, 2021 8:41:49 PM<br>
-            <b>收件人:</b> Thomas Hellström (Intel)
-            <a class="moz-txt-link-rfc2396E" href="mailto:thomas_os@shipmail.org">&lt;thomas_os@shipmail.org&gt;</a>; Yu, Lang
-            <a class="moz-txt-link-rfc2396E" href="mailto:Lang.Yu@amd.com">&lt;Lang.Yu@amd.com&gt;</a><br>
-            <b>抄送:</b> <a class="moz-txt-link-abbreviated" href="mailto:dri-devel@lists.freedesktop.org">dri-devel@lists.freedesktop.org</a>
-            <a class="moz-txt-link-rfc2396E" href="mailto:dri-devel@lists.freedesktop.org">&lt;dri-devel@lists.freedesktop.org&gt;</a><br>
-            <b>主题:</b> Re: [PATCH 1/4] drm/ttm: add
-            TTM_PL_FLAG_TEMPORARY flag v3</font>
-          <div> </div>
-        </div>
-        <div class="BodyFragment"><font size="2"><span
-              style="font-size:11pt;">
-              <div class="PlainText">Thanks!<br>
-                <br>
-                Lang can anybody from your team give as an
-                reviewed-by/test-by on the <br>
-                amdgpu patches? I just want another pair of eyes looking
-                over it.<br>
-                <br>
-                If nobody else has time I will ask Nirmoy for a quick
-                testing round.<br>
-                <br>
-                Thanks,<br>
-                Christian.<br>
-                <br>
-                Am 07.06.21 um 14:38 schrieb Thomas Hellström (Intel):<br>
-                &gt; Sure. LGTM,<br>
-                &gt;<br>
-                &gt; Reviewed-by: Thomas Hellström
-                <a class="moz-txt-link-rfc2396E" href="mailto:thomas.hellstrom@linux.intel.com">&lt;thomas.hellstrom@linux.intel.com&gt;</a><br>
-                &gt;<br>
-                &gt;<br>
-                &gt; On 6/7/21 2:36 PM, Christian König wrote:<br>
-                &gt;&gt; Thomas any comments on this?<br>
-                &gt;&gt;<br>
-                &gt;&gt; Is the purpose of this now clear enough?<br>
-                &gt;&gt;<br>
-                &gt;&gt; Thanks,<br>
-                &gt;&gt; Christian.<br>
-                &gt;&gt;<br>
-                &gt;&gt; Am 01.06.21 um 14:25 schrieb Christian König:<br>
-                &gt;&gt;&gt; From: Lang Yu <a class="moz-txt-link-rfc2396E" href="mailto:Lang.Yu@amd.com">&lt;Lang.Yu@amd.com&gt;</a><br>
-                &gt;&gt;&gt;<br>
-                &gt;&gt;&gt; Sometimes drivers need to use bounce
-                buffers to evict BOs. While <br>
-                &gt;&gt;&gt; those reside<br>
-                &gt;&gt;&gt; in some domain they are not necessarily
-                suitable for CS.<br>
-                &gt;&gt;&gt;<br>
-                &gt;&gt;&gt; Add a flag so that drivers can note that a
-                bounce buffers needs to be<br>
-                &gt;&gt;&gt; reallocated during validation.<br>
-                &gt;&gt;&gt;<br>
-                &gt;&gt;&gt; v2: add detailed comments<br>
-                &gt;&gt;&gt; v3 (chk): merge commits and rework commit
-                message<br>
-                &gt;&gt;&gt;<br>
-                &gt;&gt;&gt; Suggested-by: Christian König
-                <a class="moz-txt-link-rfc2396E" href="mailto:christian.koenig@amd.com">&lt;christian.koenig@amd.com&gt;</a><br>
-                &gt;&gt;&gt; Signed-off-by: Lang Yu
-                <a class="moz-txt-link-rfc2396E" href="mailto:Lang.Yu@amd.com">&lt;Lang.Yu@amd.com&gt;</a><br>
-                &gt;&gt;&gt; Signed-off-by: Christian König
-                <a class="moz-txt-link-rfc2396E" href="mailto:christian.koenig@amd.com">&lt;christian.koenig@amd.com&gt;</a><br>
-                &gt;&gt;&gt; ---<br>
-                &gt;&gt;&gt;   drivers/gpu/drm/ttm/ttm_bo.c    | 3 +++<br>
-                &gt;&gt;&gt;   include/drm/ttm/ttm_placement.h | 7
-                +++++--<br>
-                &gt;&gt;&gt;   2 files changed, 8 insertions(+), 2
-                deletions(-)<br>
-                &gt;&gt;&gt;<br>
-                &gt;&gt;&gt; diff --git a/drivers/gpu/drm/ttm/ttm_bo.c <br>
-                &gt;&gt;&gt; b/drivers/gpu/drm/ttm/ttm_bo.c<br>
-                &gt;&gt;&gt; index 51a94fd63bd7..6b393502198e 100644<br>
-                &gt;&gt;&gt; --- a/drivers/gpu/drm/ttm/ttm_bo.c<br>
-                &gt;&gt;&gt; +++ b/drivers/gpu/drm/ttm/ttm_bo.c<br>
-                &gt;&gt;&gt; @@ -929,6 +929,9 @@ static bool
-                ttm_bo_places_compat(const struct <br>
-                &gt;&gt;&gt; ttm_place *places,<br>
-                &gt;&gt;&gt;   {<br>
-                &gt;&gt;&gt;       unsigned i;<br>
-                &gt;&gt;&gt;   +    if (mem-&gt;placement &amp;
-                TTM_PL_FLAG_TEMPORARY)<br>
-                &gt;&gt;&gt; +        return false;<br>
-                &gt;&gt;&gt; +<br>
-                &gt;&gt;&gt;       for (i = 0; i &lt; num_placement;
-                i++) {<br>
-                &gt;&gt;&gt;           const struct ttm_place *heap =
-                &amp;places[i];<br>
-                &gt;&gt;&gt;   diff --git
-                a/include/drm/ttm/ttm_placement.h <br>
-                &gt;&gt;&gt; b/include/drm/ttm/ttm_placement.h<br>
-                &gt;&gt;&gt; index aa6ba4d0cf78..8995c9e4ec1b 100644<br>
-                &gt;&gt;&gt; --- a/include/drm/ttm/ttm_placement.h<br>
-                &gt;&gt;&gt; +++ b/include/drm/ttm/ttm_placement.h<br>
-                &gt;&gt;&gt; @@ -47,8 +47,11 @@<br>
-                &gt;&gt;&gt;    * top of the memory area, instead of the
-                bottom.<br>
-                &gt;&gt;&gt;    */<br>
-                &gt;&gt;&gt;   -#define TTM_PL_FLAG_CONTIGUOUS  (1
-                &lt;&lt; 19)<br>
-                &gt;&gt;&gt; -#define TTM_PL_FLAG_TOPDOWN     (1
-                &lt;&lt; 22)<br>
-                &gt;&gt;&gt; +#define TTM_PL_FLAG_CONTIGUOUS  (1
-                &lt;&lt; 0)<br>
-                &gt;&gt;&gt; +#define TTM_PL_FLAG_TOPDOWN     (1
-                &lt;&lt; 1)<br>
-                &gt;&gt;&gt; +<br>
-                &gt;&gt;&gt; +/* For multihop handling */<br>
-                &gt;&gt;&gt; +#define TTM_PL_FLAG_TEMPORARY   (1
-                &lt;&lt; 2)<br>
-                &gt;&gt;&gt;     /**<br>
-                &gt;&gt;&gt;    * struct ttm_place<br>
-                <br>
-              </div>
-            </span></font></div>
-      </div>
-    </blockquote>
-    <br>
-  </body>
-</html>
-
---------------F01417D7F0A08938DAE2D150--
+> diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_process.c b/drivers/gpu/drm/amd/amdkfd/kfd_process.c
+> index bfa6c4cd2f44..f1f40bba5c60 100644
+> --- a/drivers/gpu/drm/amd/amdkfd/kfd_process.c
+> +++ b/drivers/gpu/drm/amd/amdkfd/kfd_process.c
+> @@ -35,7 +35,6 @@
+>  #include <linux/pm_runtime.h>
+>  #include "amdgpu_amdkfd.h"
+>  #include "amdgpu.h"
+> -#include "kfd_svm.h"
+>  
+>  struct mm_struct;
+>  
