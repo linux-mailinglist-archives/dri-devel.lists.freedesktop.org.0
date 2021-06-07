@@ -2,43 +2,116 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64CFF39DE9E
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Jun 2021 16:23:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6034F39DE71
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Jun 2021 16:14:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C1A296E8E4;
-	Mon,  7 Jun 2021 14:23:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DD04C6E0BF;
+	Mon,  7 Jun 2021 14:14:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 4706B6E507
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Jun 2021 13:57:04 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 642821063;
- Mon,  7 Jun 2021 06:57:03 -0700 (PDT)
-Received: from C02TD0UTHF1T.local (unknown [10.57.4.24])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 7601F3F694;
- Mon,  7 Jun 2021 06:57:01 -0700 (PDT)
-Date: Mon, 7 Jun 2021 14:56:59 +0100
-From: Mark Rutland <mark.rutland@arm.com>
-To: Will Deacon <will@kernel.org>
-Subject: Re: [PATCH] arm64: cache: Lower ARCH_DMA_MINALIGN to 64
- (L1_CACHE_BYTES)
-Message-ID: <20210607135659.GE97489@C02TD0UTHF1T.local>
-References: <20210527124356.22367-1-will@kernel.org>
- <CGME20210602132541eucas1p17127696041c26c00d1d2f50bef9cfaf0@eucas1p1.samsung.com>
- <4d0c8318-bad8-2be7-e292-fc8f70c198de@samsung.com>
- <20210602135123.GD12753@C02TD0UTHF1T.local>
- <130ce34f-460a-0046-f722-00144f2d5502@samsung.com>
- <20210604100114.GC64162@C02TD0UTHF1T.local>
- <0d10411d-49fe-fbca-0479-e2983af16aa8@samsung.com>
- <20210607120118.GC97489@C02TD0UTHF1T.local>
- <20210607130859.GD97489@C02TD0UTHF1T.local>
- <20210607133953.GB7330@willie-the-truck>
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam11on2067.outbound.protection.outlook.com [40.107.223.67])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4B5676E0BF
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Jun 2021 14:14:45 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=nle1g8gcWuelYU58H4D3YqQM80DbdjVdfjYCuO0RrBM6/oXSRefbfREyboysIzm8hfI3tCYhT2gbQTSa6mc/1CiUSOjcF61DQL581JDJH83c3wxNkwbDv9hPzWfCfMMpz/HBy5R0qzXyhZDBo46VocRMc+3bywd20ycXDGK57RSnHGM0KPStl9BnMQNcH3ENT5jboNVvJsNDKr5YcH7/Omb4KBiIO11XcZJcfa+Y1dVnw8ZqV92qL47kElSR3NhJQ0gQYVm06q4TsmQaeDPxqnYyPN1bVcl+vOQd4ctWimH+S/BYlOLlr++Kj+QZq+jpXvDaTpKbVnoWqHkh2qGmmw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=1nyxQEey+oSL9dhTSFLCNnh7HRmkrf6WQser6I6DCQk=;
+ b=Wy2q/JqDMRXUWG84k4F+BrVi2Jre3wr0jPutSfPX+3pCdMdCVLw4NFdZjv8L2ft5rXyai578JFgk0/WJeRRjp5mgxp0UcVyJZiCTjqN0yeGYRhHtxsLRvNwlefVjBFvAahDIOJKGRcHn9vekse5VSEGdhGf8XiM8IK54qjc6KOmeLqXbF+ysWtX8PPGyFmUX84WpWYsssQiW0X1PZaDn34cnIgLZB977oaoSShwkXKHwwSlH5MQ2YWUhOeHI1dHmVf+Vj45UXPkA+DJWdG2KiZ2BhawtGzdk+dRj4sN3JaTAM0y15a9CxxGI3E+R2AJm4P7ytoiat3MCUI1CRa4EWQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=1nyxQEey+oSL9dhTSFLCNnh7HRmkrf6WQser6I6DCQk=;
+ b=AM1khi9MtcXnNb09tB2Jz+HzZPm6pxDPqsADIi/cBrIt/xnk7al5FuIe/kY04APZbd2BFh/Tw9UQlyJUgh40kvkIfGl2p4Y9dSEAV30IoH4QiYTvkp34jUwTWXwdN9A0JPM/FUntf6NctRRSjv39d087Z8wMvKN7wLRJeKPxl5g=
+Received: from DM4PR12MB5165.namprd12.prod.outlook.com (2603:10b6:5:394::9) by
+ DM4PR12MB5389.namprd12.prod.outlook.com (2603:10b6:5:39a::7) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4195.23; Mon, 7 Jun 2021 14:14:43 +0000
+Received: from DM4PR12MB5165.namprd12.prod.outlook.com
+ ([fe80::2091:3f28:3f68:508]) by DM4PR12MB5165.namprd12.prod.outlook.com
+ ([fe80::2091:3f28:3f68:508%5]) with mapi id 15.20.4195.030; Mon, 7 Jun 2021
+ 14:14:43 +0000
+From: "Pan, Xinhui" <Xinhui.Pan@amd.com>
+To: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, "Das, 
+ Nirmoy" <Nirmoy.Das@amd.com>, "Huang, Ray" <Ray.Huang@amd.com>,
+ =?iso-8859-1?Q?Christian_K=F6nig?= <ckoenig.leichtzumerken@gmail.com>
+Subject: Re: [PATCH] drm/ttm: fix deref of bo->ttm without holding the lock v2
+Thread-Topic: [PATCH] drm/ttm: fix deref of bo->ttm without holding the lock v2
+Thread-Index: AQHXU8F5JFan/2AF1ECinDA7gAm6D6r43R6AgA+zR4CAABaByQ==
+Date: Mon, 7 Jun 2021 14:14:43 +0000
+Message-ID: <DM4PR12MB5165EDA10869E4A37D94CED387389@DM4PR12MB5165.namprd12.prod.outlook.com>
+References: <20210528130041.1683-1-christian.koenig@amd.com>
+ <aa17b7d5-1c44-4d2b-431f-5f361481f039@linux.intel.com>,
+ <279b72f6-cf27-c1bb-370e-a04348387105@gmail.com>
+In-Reply-To: <279b72f6-cf27-c1bb-370e-a04348387105@gmail.com>
+Accept-Language: zh-CN, en-US
+Content-Language: zh-CN
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: MSIP_Label_88914ebd-7e6c-4e12-a031-a9906be2db14_Enabled=True;
+ MSIP_Label_88914ebd-7e6c-4e12-a031-a9906be2db14_SiteId=3dd8961f-e488-4e60-8e11-a82d994e183d;
+ MSIP_Label_88914ebd-7e6c-4e12-a031-a9906be2db14_SetDate=2021-06-07T14:12:53.5300653Z;
+ MSIP_Label_88914ebd-7e6c-4e12-a031-a9906be2db14_ContentBits=0;
+ MSIP_Label_88914ebd-7e6c-4e12-a031-a9906be2db14_Method=Privileged
+authentication-results: lists.freedesktop.org; dkim=none (message not signed)
+ header.d=none; lists.freedesktop.org;
+ dmarc=none action=none header.from=amd.com;
+x-originating-ip: [180.129.192.98]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: c240edfc-33f9-406e-7388-08d929be9918
+x-ms-traffictypediagnostic: DM4PR12MB5389:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <DM4PR12MB5389DB0841AD28AE63B9461487389@DM4PR12MB5389.namprd12.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:6790;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: cNZAt4VEIueFrsBI0PFKshKNlyTzWkc1D4/Al5+K3hzZhRpCJXI8gJ1fkcY4WzqESq3WjDN5SYO+vc7+KiITpZy5fanh37Mnh6fEepP8hsKnMg4rffhCjMKJtSix7P0+I6WrkdTYhnDCyWbtoCBV4hVTEBO9CtW9JTB8Oh03QUBxVyE/bq3rFP33jHXvxNzy7/qfpt7wM59qYyWUk3KGw8sc41XQnvUqv8vq8GmAfIDLooaIjHvxSb6ZJsbs+TYJspIUm3WVRnq1X7gh6evKdsS8GzdHO7Ohl4Q6SAmWk8CD9PWXFfbZjkuotvbQoKy460Tv19Demma3HRPlevPD+KiR9yq9WVtQSSxJg2J1B2p8HyGwR90bQsbaRGo0in1LKiU3g7xleQWxm9+sev7MbJLJAxr/g3WalpGyWVInMjBN7TPMEVQYLUrB8L6bRVnD2NaApfGjTHJIb29w3qT1kIje7L2+tsEdgdooOItBf5fcz57SLcU+zKLrrIABD2SXKQtqY3BteHm9i0jVHR11x7MxBv/AgtQZLh+4Rsj4WQ7gT9ewNh9Zlb9Dh17gMG1XiXm2bdSNnasMi+selHVE/fLCl61vm4/+OS9CKOJCxs0=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM4PR12MB5165.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(396003)(376002)(346002)(39860400002)(366004)(136003)(316002)(186003)(110136005)(4326008)(7696005)(2906002)(8676002)(122000001)(5660300002)(33656002)(26005)(86362001)(6506007)(53546011)(52536014)(478600001)(66574015)(9686003)(55016002)(71200400001)(83380400001)(64756008)(66556008)(66476007)(66946007)(66446008)(8936002)(76116006)(91956017)(38100700002);
+ DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata: =?iso-8859-1?Q?+GRQSl+0SKhP7WPBVCiTcsdusTyDappiMoRWXfUsIrN2jJA7ZH9dkaaAUg?=
+ =?iso-8859-1?Q?O8/ucy1mTmvfqJvqIM3DjC4PEt5tXzFneox3McRmTrWaeeudEqyMbpbwmo?=
+ =?iso-8859-1?Q?N4u2pxqjv2IzJMwtDQUsOwF4gbuGptqlYoPZKHrTWVYPWaPt25Jmkj+6JK?=
+ =?iso-8859-1?Q?DF2UrMHC/wlkdk4yAj10oGsb2/0EqsuF0LFElfOO11uIhrz/9gIK/J+N0T?=
+ =?iso-8859-1?Q?DTMMnx3h9Mq6GPuIj+XbS2ZaB0juJfzEKgjzGceK4tWqeI1JZQ7KIX9GDE?=
+ =?iso-8859-1?Q?1gYMbk5ToVYj62zuboYAov3TscyDlzqW9QMQjMFz2Y0oFT0ODdswcDaW8k?=
+ =?iso-8859-1?Q?KoS2z7NYjoYVApRDCSzUn4WCtNYaIKgRPNN/a91lGe7FBZJb///j1ufnB0?=
+ =?iso-8859-1?Q?vShBfebfoagaWahndnwtR18MAbAFGNGcLX26+W7St0AUUTy1i0wlHtGFIk?=
+ =?iso-8859-1?Q?Ti1KSEDt+StxBzIDwM6zqLMSJrLHINGuBecTpbLLC1N/kmGY4jN5vbHs9U?=
+ =?iso-8859-1?Q?RT9ISk9GUxPZoYEu37JiSNpaVxaVotZQmY+W5reoECNc6MwqeU+m+FfM8W?=
+ =?iso-8859-1?Q?glQ84WmYMkMlgr6rdmPmAGwT1dTV2sPkhGBDFqoUmOyP5Tl8pqOXWeztsn?=
+ =?iso-8859-1?Q?gLKlN6I9NcleTFVLyt/cAoM3hwql4xxelJfrZzgp1dNjlinu3G+6JJa+PA?=
+ =?iso-8859-1?Q?nEup43XoC7CgWTAEd6JclKykkPWKN9HcnuE7ELC1NmJrawYp8a3Zrq4Trv?=
+ =?iso-8859-1?Q?L9Pm3ftj1hiTmxJuaW5+W1+zyxPE6TdWag0YoL7LfdiOIsr+V/olpKPsA7?=
+ =?iso-8859-1?Q?XW3AnHQP5YKmLzNVcN8PqrZ9J14FWl5HOvgomGdVyEwM1J/00J6we5hIV4?=
+ =?iso-8859-1?Q?9+KPTsPCh8gNBkEoFoWD0yr1KYElzNJnf8F7RklBWA12xQwZhV1OtqdybS?=
+ =?iso-8859-1?Q?SOleWo+hZUrJC//JJveZO8NlzJf64bBL0zM/34K4FFO2TFk5cr6Rb1RxoK?=
+ =?iso-8859-1?Q?k49obQELakvwVXU+LL9alYTADugfUPqOuaeXTzvRcXoF9wi8HeRnPPqCUu?=
+ =?iso-8859-1?Q?RXzCH0mzH0veMzpiKFKQ4aqJiZvggiX0QLqv8196000jjN8wyD2D3FL1sw?=
+ =?iso-8859-1?Q?XW2nmfjotfrekYL+YYMXHF/TfIoa0E7bw1o9LitnEy0ZuFvkHOan0k+Nb0?=
+ =?iso-8859-1?Q?SkAo5/tvrAySYBCnyYmgty6XV2M6aSnhBajFMSCWIVpceEsQduD+09+9d4?=
+ =?iso-8859-1?Q?I0h3qAtGrVoF408FClxlbBNHpcj7HqT3crRjdRwyfkhJIP48gjjzbPQI+m?=
+ =?iso-8859-1?Q?CffvjTE2FpT1gMctrg1LRHOXY1xEKtskAJd1FXt5G/5nUbFZxHXGOcKjr3?=
+ =?iso-8859-1?Q?Hlygyd86gY9O4rFFAK52dqW2xQNHSEoQ=3D=3D?=
+Content-Type: multipart/alternative;
+ boundary="_000_DM4PR12MB5165EDA10869E4A37D94CED387389DM4PR12MB5165namp_"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210607133953.GB7330@willie-the-truck>
-X-Mailman-Approved-At: Mon, 07 Jun 2021 14:23:15 +0000
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB5165.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c240edfc-33f9-406e-7388-08d929be9918
+X-MS-Exchange-CrossTenant-originalarrivaltime: 07 Jun 2021 14:14:43.6118 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 7iFaKpMS96nrUfYLicnypgC+yn9WDXhphTgy8U5vEzCRLa5a80kDXmPVX+og3x3E
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB5389
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,192 +124,243 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Arnd Bergmann <arnd@arndb.de>, emma@anholt.net,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- Catalin Marinas <catalin.marinas@arm.com>,
- Vincent Whitchurch <vincent.whitchurch@axis.com>,
- dri-devel@lists.freedesktop.org, kernel-team@android.com,
- Ard Biesheuvel <ardb@kernel.org>, linux-arm-kernel@lists.infradead.org,
- Marek Szyprowski <m.szyprowski@samsung.com>
+Cc: =?iso-8859-1?Q?Thomas_Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jun 07, 2021 at 02:39:54PM +0100, Will Deacon wrote:
-> [Adding VC4 folks -- please see the KASAN splat below!]
-> 
-> Background here is that reducing ARCH_DMA_MINALIGN to 64 on arm64 (queued in
-> -next) is causing vc4 to hang on Rpi3b due to a probable driver bug.
-> 
-> Will
-> 
-> On Mon, Jun 07, 2021 at 02:08:59PM +0100, Mark Rutland wrote:
-> > On Mon, Jun 07, 2021 at 01:01:18PM +0100, Mark Rutland wrote:
-> > > On Mon, Jun 07, 2021 at 11:58:32AM +0200, Marek Szyprowski wrote:
-> > > > I've just checked with the latest firmware from 
-> > > > https://github.com/raspberrypi/firmware (master branch, just copied 
-> > > > everything to /boot) and the issue is still there.
-> > > > 
-> > > > If you start from arm64/defconfig without modules, please make sure you 
-> > > > have enabled all RPi drivers, otherwise VC4 DRM won't come up. I've 
-> > > > managed to reproduce the issue without the modules with the following 
-> > > > changes to arm64's defconfig:
-> > > > 
-> > > > ./scripts/config -e DRM -e DRM_VC4 -e CONFIG_CLK_RASPBERRYPI -e 
-> > > > CONFIG_SENSORS_RASPBERRYPI_HWMON -e CONFIG_I2C_BCM2835 -e 
-> > > > CONFIG_ARM_RASPBERRYPI_CPUFREQ
-> > > 
-> > > Thanks for this!
-> > > 
-> > > With that config on commit 65688d2a05deb9f0 I also see a hang at the end
-> > > of boot, but before reaching userspace, with the last messages in dmesg
-> > > as below.
-> > > 
-> > > I'll go check that the ARCH_DMA_MINALIGN affects this, then I'll go play
-> > > with debug options.
-> > 
-> > I can confirm that with the ARCH_DMA_MINALIGN change reverted, the hang
-> > goes away. Running with that reverted andwith KASAN, I get the
-> > slab-out-of-bounds splat below, which occurs at the time the hang would
-> > otherwise occur, and is possibly the problem:
-> > 
-> > [    3.609515] vc4-drm soc:gpu: bound 3f902000.hdmi (ops vc4_hdmi_ops)
-> > [    3.621451] vc4-drm soc:gpu: bound 3f806000.vec (ops vc4_vec_ops)
-> > [    3.628344] vc4-drm soc:gpu: bound 3f400000.hvs (ops vc4_hvs_ops)
-> > [    3.635904] vc4-drm soc:gpu: bound 3f004000.txp (ops vc4_txp_ops)
-> > [    3.643351] vc4-drm soc:gpu: bound 3f206000.pixelvalve (ops vc4_crtc_ops)
-> > [    3.651238] vc4-drm soc:gpu: bound 3f207000.pixelvalve (ops vc4_crtc_ops)
-> > [    3.659167] vc4-drm soc:gpu: bound 3f807000.pixelvalve (ops vc4_crtc_ops)
-> > [    3.666499] vc4-drm soc:gpu: bound 3fc00000.v3d (ops vc4_v3d_ops)
-> > [    3.688560] [drm] Initialized vc4 0.0.0 20140616 for soc:gpu on minor 0
-> > [    3.728010] ==================================================================
-> > [    3.728042] BUG: KASAN: slab-out-of-bounds in vc4_atomic_commit_tail+0x1cc/0x910
-> > [    3.728123] Read of size 8 at addr ffff000007360440 by task kworker/u8:0/7
+--_000_DM4PR12MB5165EDA10869E4A37D94CED387389DM4PR12MB5165namp_
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 
-FWIW, faddr2line tells me this is:
+[AMD Official Use Only]
 
-[mark@lakrids:~/src/linux]% ./scripts/faddr2line vmlinux vc4_atomic_commit_tail+0x1cc/0x910
-vc4_atomic_commit_tail+0x1cc/0x910:
-vc4_atomic_commit_tail at drivers/gpu/drm/vc4/vc4_kms.c:375
+Looks good to me.
+________________________________
+From: Christian K=F6nig <ckoenig.leichtzumerken@gmail.com>
+Sent: Monday, June 7, 2021 8:52:21 PM
+To: dri-devel@lists.freedesktop.org <dri-devel@lists.freedesktop.org>; Pan,=
+ Xinhui <Xinhui.Pan@amd.com>; Das, Nirmoy <Nirmoy.Das@amd.com>; Huang, Ray =
+<Ray.Huang@amd.com>
+Cc: Thomas Hellstr=F6m <thomas.hellstrom@linux.intel.com>
+Subject: Re: [PATCH] drm/ttm: fix deref of bo->ttm without holding the lock=
+ v2
 
-... which is:
 
-| ret = drm_crtc_commit_wait(old_hvs_state->fifo_state[i].pending_commit);
+
+Am 28.05.21 um 15:06 schrieb Thomas Hellstr=F6m:
+>
+> On 5/28/21 3:00 PM, Christian K=F6nig wrote:
+>> We need to grab the resv lock first before doing that check.
+>>
+>> v2 (chk): simplify the change for -fixes
+>>
+>> Signed-off-by: Christian K=F6nig <christian.koenig@amd.com>
+>> Signed-off-by: Thomas Hellstr=F6m <thomas.hellstrom@linux.intel.com>
+>
+> Hmm, OK, but this doesn't fix the swapped-bo-not-on-lru and
+> unpopulating from swap_notify issues. Are you planning a follow up
+> patch for those?
+
+As discussed in a separate thread this needs to be applied as needed
+when the DG1 branch is merged.
+
+Xinhui, Nirmoy, Rui can anybody give be an rb/ab so that I can push this?
 
 Thanks,
-Mark.
+Christian.
 
-> > [    3.728153]
-> > [    3.728169] CPU: 2 PID: 7 Comm: kworker/u8:0 Not tainted 5.13.0-rc3-00009-g694c523e7267 #3
-> > [    3.728203] Hardware name: Raspberry Pi 3 Model B (DT)
-> > [    3.728225] Workqueue: events_unbound deferred_probe_work_func
-> > [    3.728290] Call trace:
-> > [    3.728301]  dump_backtrace+0x0/0x2b4
-> > [    3.728358]  show_stack+0x1c/0x30
-> > [    3.728407]  dump_stack+0xfc/0x168
-> > [    3.728445]  print_address_description.constprop.0+0x2c/0x2c0
-> > [    3.728495]  kasan_report+0x1dc/0x240
-> > [    3.728529]  __asan_load8+0x98/0xd4
-> > [    3.728565]  vc4_atomic_commit_tail+0x1cc/0x910
-> > [    3.728621]  commit_tail+0x100/0x210
-> > [    3.728675]  drm_atomic_helper_commit+0x1c4/0x3dc
-> > [    3.728730]  drm_atomic_commit+0x80/0x94
-> > [    3.728768]  drm_client_modeset_commit_atomic+0x2f4/0x3a0
-> > [    3.728821]  drm_client_modeset_commit_locked+0x8c/0x230
-> > [    3.728872]  drm_fb_helper_pan_display+0x164/0x3a0
-> > [    3.728924]  fb_pan_display+0x12c/0x1fc
-> > [    3.728963]  bit_update_start+0x34/0xa0
-> > [    3.729013]  fbcon_switch+0x678/0x920
-> > [    3.729058]  redraw_screen+0x17c/0x35c
-> > [    3.729095]  fbcon_prepare_logo+0x484/0x5bc
-> > [    3.729143]  fbcon_init+0x77c/0x970
-> > [    3.729187]  visual_init+0x14c/0x1e4
-> > [    3.729239]  do_bind_con_driver.isra.0+0x2c4/0x530
-> > [    3.729279]  do_take_over_console+0x200/0x2e0
-> > [    3.729317]  do_fbcon_takeover+0x90/0x120
-> > [    3.729363]  fbcon_fb_registered+0x14c/0x164
-> > [    3.729412]  register_framebuffer+0x308/0x4e0
-> > [    3.729451]  __drm_fb_helper_initial_config_and_unlock+0x538/0x7d0
-> > [    3.729506]  drm_fbdev_client_hotplug+0x204/0x374
-> > [    3.729556]  drm_fbdev_generic_setup+0xf4/0x24c
-> > [    3.729604]  vc4_drm_bind+0x1d4/0x1f0
-> > [    3.729654]  try_to_bring_up_master+0x254/0x2dc
-> > [    3.729709]  __component_add+0x10c/0x240
-> > [    3.729759]  component_add+0x18/0x24
-> > [    3.729807]  vc4_v3d_dev_probe+0x20/0x30
-> > [    3.729854]  platform_probe+0x90/0x110
-> > [    3.729907]  really_probe+0x148/0x744
-> > [    3.729952]  driver_probe_device+0x8c/0xfc
-> > [    3.729998]  __device_attach_driver+0x120/0x180
-> > [    3.730048]  bus_for_each_drv+0xf4/0x15c
-> > [    3.730091]  __device_attach+0x168/0x250
-> > [    3.730137]  device_initial_probe+0x18/0x24
-> > [    3.730186]  bus_probe_device+0xec/0x100
-> > [    3.730230]  deferred_probe_work_func+0xe8/0x130
-> > [    3.730279]  process_one_work+0x3b8/0x650
-> > [    3.730319]  worker_thread+0x3cc/0x72c
-> > [    3.730356]  kthread+0x21c/0x224
-> > [    3.730402]  ret_from_fork+0x10/0x38
-> > [    3.730442]
-> > [    3.730453] Allocated by task 7:
-> > [    3.730470]  kasan_save_stack+0x2c/0x60
-> > [    3.730526]  __kasan_kmalloc+0x90/0xb4
-> > [    3.730577]  vc4_hvs_channels_duplicate_state+0x60/0x1a0
-> > [    3.730637]  drm_atomic_get_private_obj_state+0x144/0x230
-> > [    3.730680]  vc4_atomic_check+0x40/0x73c
-> > [    3.730732]  drm_atomic_check_only+0x998/0xe60
-> > [    3.730769]  drm_atomic_commit+0x34/0x94
-> > [    3.730804]  drm_client_modeset_commit_atomic+0x2f4/0x3a0
-> > [    3.730854]  drm_client_modeset_commit_locked+0x8c/0x230
-> > [    3.730904]  drm_client_modeset_commit+0x38/0x60
-> > [    3.730951]  drm_fb_helper_set_par+0x104/0x17c
-> > [    3.730998]  fbcon_init+0x43c/0x970
-> > [    3.731041]  visual_init+0x14c/0x1e4
-> > [    3.731090]  do_bind_con_driver.isra.0+0x2c4/0x530
-> > [    3.731128]  do_take_over_console+0x200/0x2e0
-> > [    3.731165]  do_fbcon_takeover+0x90/0x120
-> > [    3.731210]  fbcon_fb_registered+0x14c/0x164
-> > [    3.731258]  register_framebuffer+0x308/0x4e0
-> > [    3.731296]  __drm_fb_helper_initial_config_and_unlock+0x538/0x7d0
-> > [    3.731349]  drm_fbdev_client_hotplug+0x204/0x374
-> > [    3.731398]  drm_fbdev_generic_setup+0xf4/0x24c
-> > [    3.731446]  vc4_drm_bind+0x1d4/0x1f0
-> > [    3.731493]  try_to_bring_up_master+0x254/0x2dc
-> > [    3.731546]  __component_add+0x10c/0x240
-> > [    3.731594]  component_add+0x18/0x24
-> > [    3.731642]  vc4_v3d_dev_probe+0x20/0x30
-> > [    3.731686]  platform_probe+0x90/0x110
-> > [    3.731737]  really_probe+0x148/0x744
-> > [    3.731781]  driver_probe_device+0x8c/0xfc
-> > [    3.731827]  __device_attach_driver+0x120/0x180
-> > [    3.731875]  bus_for_each_drv+0xf4/0x15c
-> > [    3.731916]  __device_attach+0x168/0x250
-> > [    3.731962]  device_initial_probe+0x18/0x24
-> > [    3.732009]  bus_probe_device+0xec/0x100
-> > [    3.732052]  deferred_probe_work_func+0xe8/0x130
-> > [    3.732100]  process_one_work+0x3b8/0x650
-> > [    3.732137]  worker_thread+0x3cc/0x72c
-> > [    3.732172]  kthread+0x21c/0x224
-> > [    3.732215]  ret_from_fork+0x10/0x38
-> > [    3.732253]
-> > [    3.732262] The buggy address belongs to the object at ffff000007360400
-> > [    3.732262]  which belongs to the cache kmalloc-128 of size 128
-> > [    3.732293] The buggy address is located 64 bytes inside of
-> > [    3.732293]  128-byte region [ffff000007360400, ffff000007360480)
-> > [    3.732329] The buggy address belongs to the page:
-> > [    3.732344] page:(____ptrval____) refcount:1 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x7360
-> > [    3.732380] flags: 0x3fffc0000000200(slab|node=0|zone=0|lastcpupid=0xffff)
-> > [    3.732442] raw: 03fffc0000000200 dead000000000100 dead000000000122 ffff000004c02300
-> > [    3.732478] raw: 0000000000000000 0000000000100010 00000001ffffffff 0000000000000000
-> > [    3.732501] page dumped because: kasan: bad access detected
-> > [    3.732518]
-> > [    3.732527] Memory state around the buggy address:
-> > [    3.732549]  ffff000007360300: fa fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-> > [    3.732579]  ffff000007360380: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
-> > [    3.732608] >ffff000007360400: 00 00 00 00 00 00 00 fc fc fc fc fc fc fc fc fc
-> > [    3.732629]                                            ^
-> > [    3.732652]  ffff000007360480: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
-> > [    3.732682]  ffff000007360500: fa fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-> > [    3.732703] ==================================================================
-> > [    3.732718] Disabling lock debugging due to kernel taint
-> > [    3.769129] Console: switching to colour frame buffer device 90x30
-> > [    5.148699] vc4-drm soc:gpu: [drm] fb0: vc4drmfb frame buffer device
+>
+> Thanks,
+>
+> Thomas
+>
+>> ---
+>>   drivers/gpu/drm/ttm/ttm_bo.c     | 5 ++++-
+>>   drivers/gpu/drm/ttm/ttm_device.c | 8 +-------
+>>   2 files changed, 5 insertions(+), 8 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
+>> index cfd0b9292397..ebcffe794adb 100644
+>> --- a/drivers/gpu/drm/ttm/ttm_bo.c
+>> +++ b/drivers/gpu/drm/ttm/ttm_bo.c
+>> @@ -1172,7 +1172,10 @@ int ttm_bo_swapout(struct ttm_buffer_object
+>> *bo, struct ttm_operation_ctx *ctx,
+>>       if (!ttm_bo_evict_swapout_allowable(bo, ctx, &locked, NULL))
+>>           return -EBUSY;
+>>   -    if (!ttm_bo_get_unless_zero(bo)) {
+>> +    if (!bo->ttm || !ttm_tt_is_populated(bo->ttm) ||
+>> +        bo->ttm->page_flags & TTM_PAGE_FLAG_SG ||
+>> +        bo->ttm->page_flags & TTM_PAGE_FLAG_SWAPPED ||
+>> +        !ttm_bo_get_unless_zero(bo)) {
+>>           if (locked)
+>>               dma_resv_unlock(bo->base.resv);
+>>           return -EBUSY;
+>> diff --git a/drivers/gpu/drm/ttm/ttm_device.c
+>> b/drivers/gpu/drm/ttm/ttm_device.c
+>> index a1dcf7d55c90..3d9c62b93e29 100644
+>> --- a/drivers/gpu/drm/ttm/ttm_device.c
+>> +++ b/drivers/gpu/drm/ttm/ttm_device.c
+>> @@ -143,14 +143,8 @@ int ttm_device_swapout(struct ttm_device *bdev,
+>> struct ttm_operation_ctx *ctx,
+>>             for (j =3D 0; j < TTM_MAX_BO_PRIORITY; ++j) {
+>>               list_for_each_entry(bo, &man->lru[j], lru) {
+>> -                uint32_t num_pages;
+>> +                uint32_t num_pages =3D PFN_UP(bo->base.size);
+>>   -                if (!bo->ttm || !ttm_tt_is_populated(bo->ttm) ||
+>> -                    bo->ttm->page_flags & TTM_PAGE_FLAG_SG ||
+>> -                    bo->ttm->page_flags & TTM_PAGE_FLAG_SWAPPED)
+>> -                    continue;
+>> -
+>> -                num_pages =3D bo->ttm->num_pages;
+>>                   ret =3D ttm_bo_swapout(bo, ctx, gfp_flags);
+>>                   /* ttm_bo_swapout has dropped the lru_lock */
+>>                   if (!ret)
+
+
+--_000_DM4PR12MB5165EDA10869E4A37D94CED387389DM4PR12MB5165namp_
+Content-Type: text/html; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
+
+<html>
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Diso-8859-=
+1">
+</head>
+<body>
+<p style=3D"font-family:Arial;font-size:10pt;color:#0000FF;margin:15pt;" al=
+ign=3D"Left">
+[AMD Official Use Only]<br>
+</p>
+<br>
+<div>
+<div dir=3D"auto" style=3D"direction: ltr; margin: 0px; padding: 0px; font-=
+family: sans-serif; font-size: 11pt; color: black; text-align: left;">
+Looks good to me.</div>
+<hr style=3D"display:inline-block;width:98%" tabindex=3D"-1">
+<div id=3D"divRplyFwdMsg" dir=3D"ltr"><font face=3D"Calibri, sans-serif" st=
+yle=3D"font-size:11pt" color=3D"#000000"><b>From:</b> Christian K=F6nig &lt=
+;ckoenig.leichtzumerken@gmail.com&gt;<br>
+<b>Sent:</b> Monday, June 7, 2021 8:52:21 PM<br>
+<b>To:</b> dri-devel@lists.freedesktop.org &lt;dri-devel@lists.freedesktop.=
+org&gt;; Pan, Xinhui &lt;Xinhui.Pan@amd.com&gt;; Das, Nirmoy &lt;Nirmoy.Das=
+@amd.com&gt;; Huang, Ray &lt;Ray.Huang@amd.com&gt;<br>
+<b>Cc:</b> Thomas Hellstr=F6m &lt;thomas.hellstrom@linux.intel.com&gt;<br>
+<b>Subject:</b> Re: [PATCH] drm/ttm: fix deref of bo-&gt;ttm without holdin=
+g the lock v2</font>
+<div>&nbsp;</div>
+</div>
+<div class=3D"BodyFragment"><font size=3D"2"><span style=3D"font-size:11pt;=
+">
+<div class=3D"PlainText"><br>
+<br>
+Am 28.05.21 um 15:06 schrieb Thomas Hellstr=F6m:<br>
+&gt;<br>
+&gt; On 5/28/21 3:00 PM, Christian K=F6nig wrote:<br>
+&gt;&gt; We need to grab the resv lock first before doing that check.<br>
+&gt;&gt;<br>
+&gt;&gt; v2 (chk): simplify the change for -fixes<br>
+&gt;&gt;<br>
+&gt;&gt; Signed-off-by: Christian K=F6nig &lt;christian.koenig@amd.com&gt;<=
+br>
+&gt;&gt; Signed-off-by: Thomas Hellstr=F6m &lt;thomas.hellstrom@linux.intel=
+.com&gt;<br>
+&gt;<br>
+&gt; Hmm, OK, but this doesn't fix the swapped-bo-not-on-lru and <br>
+&gt; unpopulating from swap_notify issues. Are you planning a follow up <br=
+>
+&gt; patch for those?<br>
+<br>
+As discussed in a separate thread this needs to be applied as needed <br>
+when the DG1 branch is merged.<br>
+<br>
+Xinhui, Nirmoy, Rui can anybody give be an rb/ab so that I can push this?<b=
+r>
+<br>
+Thanks,<br>
+Christian.<br>
+<br>
+&gt;<br>
+&gt; Thanks,<br>
+&gt;<br>
+&gt; Thomas<br>
+&gt;<br>
+&gt;&gt; ---<br>
+&gt;&gt; &nbsp; drivers/gpu/drm/ttm/ttm_bo.c&nbsp;&nbsp;&nbsp;&nbsp; | 5 ++=
+++-<br>
+&gt;&gt; &nbsp; drivers/gpu/drm/ttm/ttm_device.c | 8 +-------<br>
+&gt;&gt; &nbsp; 2 files changed, 5 insertions(+), 8 deletions(-)<br>
+&gt;&gt;<br>
+&gt;&gt; diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/tt=
+m_bo.c<br>
+&gt;&gt; index cfd0b9292397..ebcffe794adb 100644<br>
+&gt;&gt; --- a/drivers/gpu/drm/ttm/ttm_bo.c<br>
+&gt;&gt; +++ b/drivers/gpu/drm/ttm/ttm_bo.c<br>
+&gt;&gt; @@ -1172,7 +1172,10 @@ int ttm_bo_swapout(struct ttm_buffer_object=
+ <br>
+&gt;&gt; *bo, struct ttm_operation_ctx *ctx,<br>
+&gt;&gt; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (!ttm_bo_evict_swapout_allowable=
+(bo, ctx, &amp;locked, NULL))<br>
+&gt;&gt; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return -EBU=
+SY;<br>
+&gt;&gt; &nbsp; -&nbsp;&nbsp;&nbsp; if (!ttm_bo_get_unless_zero(bo)) {<br>
+&gt;&gt; +&nbsp;&nbsp;&nbsp; if (!bo-&gt;ttm || !ttm_tt_is_populated(bo-&gt=
+;ttm) ||<br>
+&gt;&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; bo-&gt;ttm-&gt;page_fl=
+ags &amp; TTM_PAGE_FLAG_SG ||<br>
+&gt;&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; bo-&gt;ttm-&gt;page_fl=
+ags &amp; TTM_PAGE_FLAG_SWAPPED ||<br>
+&gt;&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; !ttm_bo_get_unless_zer=
+o(bo)) {<br>
+&gt;&gt; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (locked)=
+<br>
+&gt;&gt; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp; dma_resv_unlock(bo-&gt;base.resv);<br>
+&gt;&gt; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return -EBU=
+SY;<br>
+&gt;&gt; diff --git a/drivers/gpu/drm/ttm/ttm_device.c <br>
+&gt;&gt; b/drivers/gpu/drm/ttm/ttm_device.c<br>
+&gt;&gt; index a1dcf7d55c90..3d9c62b93e29 100644<br>
+&gt;&gt; --- a/drivers/gpu/drm/ttm/ttm_device.c<br>
+&gt;&gt; +++ b/drivers/gpu/drm/ttm/ttm_device.c<br>
+&gt;&gt; @@ -143,14 +143,8 @@ int ttm_device_swapout(struct ttm_device *bde=
+v, <br>
+&gt;&gt; struct ttm_operation_ctx *ctx,<br>
+&gt;&gt; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; for =
+(j =3D 0; j &lt; TTM_MAX_BO_PRIORITY; ++j) {<br>
+&gt;&gt; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp; list_for_each_entry(bo, &amp;man-&gt;lru[j], lru) {<br>
+&gt;&gt; -&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;&nbsp; uint32_t num_pages;<br>
+&gt;&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;&nbsp; uint32_t num_pages =3D PFN_UP(bo-&gt;base.size);<=
+br>
+&gt;&gt; &nbsp; -&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (!bo-&gt;ttm || !ttm_tt_is_populated(bo=
+-&gt;ttm) ||<br>
+&gt;&gt; -&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; bo-&gt;ttm-&gt;page_flags=
+ &amp; TTM_PAGE_FLAG_SG ||<br>
+&gt;&gt; -&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; bo-&gt;ttm-&gt;page_flags=
+ &amp; TTM_PAGE_FLAG_SWAPPED)<br>
+&gt;&gt; -&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; continue;<br>
+&gt;&gt; -<br>
+&gt;&gt; -&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;&nbsp; num_pages =3D bo-&gt;ttm-&gt;num_pages;<br>
+&gt;&gt; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ret =3D ttm_bo_swapout(bo, ctx, gfp_fl=
+ags);<br>
+&gt;&gt; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /* ttm_bo_swapout has dropped the lru_=
+lock */<br>
+&gt;&gt; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (!ret)<br>
+<br>
+</div>
+</span></font></div>
+</div>
+</body>
+</html>
+
+--_000_DM4PR12MB5165EDA10869E4A37D94CED387389DM4PR12MB5165namp_--
