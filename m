@@ -2,72 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0198C39DBA7
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Jun 2021 13:42:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE31F39DBD5
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Jun 2021 13:58:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7A47C6E069;
-	Mon,  7 Jun 2021 11:41:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7C6EF6E3C1;
+	Mon,  7 Jun 2021 11:58:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com
- [66.111.4.27])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 908ED6E069
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Jun 2021 11:41:54 +0000 (UTC)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.42])
- by mailout.nyi.internal (Postfix) with ESMTP id 1F34E5C004D;
- Mon,  7 Jun 2021 07:41:52 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute2.internal (MEProxy); Mon, 07 Jun 2021 07:41:52 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
- date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm3; bh=G5Ws2mdv15PvC68TLAqW5lgwuqX
- ZpoJNGuY6oJsLBA8=; b=3tRyPHtyeXaFQftLKvhJoTkFW51BVly26aSE6sSJI+R
- IoB1DpfQ47ZDZJRU6QS6J4+0tISxsn/zU4Y+gXSbtSjqikD2risJg6UIm0SYWpEy
- OrALQsrSV32mV54JbKzINJvk16OBmCq7VRM63RLYZ69rb0LdQrS2DNrNqy5rCb8L
- KUsUilvadarIzaHCh4SCleujYPmfbHvSHQL0sKfVfOl0aefR6S1RTlKzLiak3teL
- qpJTLrl46YLcEI3ciCKYgetk1GCiZe7vrPKvHoE4fZDJ9N3oPmf/GmJIVPHwhk8V
- zYpinUefpNcbjw+MMj5WUhRmovJBwAM6ChEO3lCwjtQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=G5Ws2m
- dv15PvC68TLAqW5lgwuqXZpoJNGuY6oJsLBA8=; b=ein3MXW5EAS7eaYMMuhBtd
- cneBPNnvS/L3YRnF3N/degKzLXVryCMneXOCg23tdXcRzekEsRqk7p5ziTyLpT7k
- CkSaZ/2oI1KdFX2Cmvl9+eNmHUOJiI1/ROE8wxiL1S2bDyP8x6oZpouHriLXzmSE
- JhU5RHEQr8GMx8R45ZY0ti+MWQw+9ClGJ/7gZt50jkUsfcRxStCEfcKs6tHuLxDD
- AwZthKqOgP0P8Iiu7e2OhN35S2P11pp5AWXNkUtbMMDNZdhPr2nj5xmYVWo1UWXl
- s6fA+iTFTGSDm2bvF6QY/wiFEVMTbiR15a+BbVvDrd6lM8R1/D+qzlfpFMddQbdw
- ==
-X-ME-Sender: <xms:_QW-YPL6pMGk8TJMk-zTM29PAGcZYasbjgr8OmTJ8lNXWahD0-dhTg>
- <xme:_QW-YDJhwidlZb6p4_PXhfq8phUHDCbhdBrYJ1pmnlS9Gbw4V_Wmpj36eiOWQwvLw
- ozTwP2DR9IvhP3fVZY>
-X-ME-Received: <xmr:_QW-YHumjn6lyCpBZJkSc-g9v83X-9V_JJTEgFuf2jTPS_93no5pqFQqqNsf1kHOvvpDZ5l6faKUb-PBof8ZWAR4YWH5eLYUsvBK>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrfedtjedggeefucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
- vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
- htvghrnhepfefhhfehieekffffgfdutdevhfehffdvtedtfeeugffggedtudeivdehgffh
- uedunecuffhomhgrihhnpehlkhhmlhdrohhrghenucevlhhushhtvghrufhiiigvpedtne
- curfgrrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:_QW-YIbQlnTgAWwZJonFgPgKXxYSEwaJZWA3H_iectFg8HKcWz35Cw>
- <xmx:_QW-YGbxWs9wDkr3JcxlTDLJ28Ef_pIVYj6C1XfKb1vAAcnHhGxTnw>
- <xmx:_QW-YMAIiX3-Dg4s4Htkf1RQeNL6DaSGPDDBInuoNYtekze33S9qHg>
- <xmx:AAa-YMMj8AbTZogx7CGTsth4upd75pVGpUsh0krHQgUO-UsOfxEQhQ>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 7 Jun 2021 07:41:48 -0400 (EDT)
-Date: Mon, 7 Jun 2021 13:41:46 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: Ondrej Jirman <megous@megous.com>
-Subject: Re: [PATCH v2] drm/sun4i: dw-hdmi: Make HDMI PHY into a platform
- device
-Message-ID: <20210607114146.ohiqf4ousibfu4wm@gilmour>
-References: <20210607085836.2827429-1-megous@megous.com>
+Received: from youngberry.canonical.com (youngberry.canonical.com
+ [91.189.89.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D8CD76E3C1;
+ Mon,  7 Jun 2021 11:58:51 +0000 (UTC)
+Received: from 1.general.cking.uk.vpn ([10.172.193.212] helo=localhost)
+ by youngberry.canonical.com with esmtpsa (TLS1.2) tls
+ TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256 (Exim 4.93)
+ (envelope-from <colin.king@canonical.com>)
+ id 1lqDrb-00048n-It; Mon, 07 Jun 2021 11:56:15 +0000
+From: Colin King <colin.king@canonical.com>
+To: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Xinhui.Pan@amd.com, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Subject: [PATCH][next] drm/amd/display: Fix two spelling mistakes,
+ clean wide lines
+Date: Mon,  7 Jun 2021 12:56:15 +0100
+Message-Id: <20210607115615.83162-1-colin.king@canonical.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="go2u3onasjnikotj"
-Content-Disposition: inline
-In-Reply-To: <20210607085836.2827429-1-megous@megous.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,60 +45,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Saravana Kannan <saravanak@google.com>, David Airlie <airlied@linux.ie>,
- open list <linux-kernel@vger.kernel.org>,
- "open list:DRM DRIVER FOR ALLWINNER DE2 AND DE3 ENGINE"
- <dri-devel@lists.freedesktop.org>, Chen-Yu Tsai <wens@csie.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- "open list:ARM/Allwinner sunXi SoC support" <linux-sunxi@lists.linux.dev>,
- "moderated list:ARM/Allwinner sunXi SoC support"
- <linux-arm-kernel@lists.infradead.org>
+Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+From: Colin Ian King <colin.king@canonical.com>
 
---go2u3onasjnikotj
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+There are two spelling mistakes in dml_print messages, fix these and
+clear up checkpatch warning on overly wide line length.
 
-On Mon, Jun 07, 2021 at 10:58:36AM +0200, Ondrej Jirman wrote:
-> From: Saravana Kannan <saravanak@google.com>
->=20
-> On sunxi boards that use HDMI output, HDMI device probe keeps being
-> avoided indefinitely with these repeated messages in dmesg:
->=20
->   platform 1ee0000.hdmi: probe deferral - supplier 1ef0000.hdmi-phy
->     not ready
->=20
-> There's a fwnode_link being created with fw_devlink=3Don between hdmi
-> and hdmi-phy nodes, because both nodes have 'compatible' property set.
->=20
-> Fw_devlink code assumes that nodes that have compatible property
-> set will also have a device associated with them by some driver
-> eventually. This is not the case with the current sun8i-hdmi
-> driver.
->=20
-> This commit makes sun8i-hdmi-phy into a proper platform device
-> and fixes the display pipeline probe on sunxi boards that use HDMI.
->=20
-> More context: https://lkml.org/lkml/2021/5/16/203
->=20
-> Signed-off-by: Saravana Kannan <saravanak@google.com>
-> Signed-off-by: Ondrej Jirman <megous@megous.com>
+Signed-off-by: Colin Ian King <colin.king@canonical.com>
+---
+ .../drm/amd/display/dc/dml/dcn31/display_mode_vba_31.c | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
 
-Applied, thanks
-Maxime
+diff --git a/drivers/gpu/drm/amd/display/dc/dml/dcn31/display_mode_vba_31.c b/drivers/gpu/drm/amd/display/dc/dml/dcn31/display_mode_vba_31.c
+index c725160a095b..d655655baaba 100644
+--- a/drivers/gpu/drm/amd/display/dc/dml/dcn31/display_mode_vba_31.c
++++ b/drivers/gpu/drm/amd/display/dc/dml/dcn31/display_mode_vba_31.c
+@@ -1494,10 +1494,11 @@ static bool CalculatePrefetchSchedule(
+ 		dml_print(
+ 				"DML:  Tsw: %fus = time to fetch enough pixel data and cursor data to feed the scalers init position and detile\n",
+ 				(double) LinesToRequestPrefetchPixelData * LineTime);
+-		dml_print("DML: To: %fus - time for propogation from scaler to optc\n", (*DSTYAfterScaler + ((double) (*DSTXAfterScaler) / (double) myPipe->HTotal)) * LineTime);
++		dml_print("DML: To: %fus - time for propagation from scaler to optc\n",
++			  (*DSTYAfterScaler + ((double) (*DSTXAfterScaler) /
++			  (double) myPipe->HTotal)) * LineTime);
+ 		dml_print("DML: Tvstartup - TSetup - Tcalc - Twait - Tpre - To > 0\n");
+-		dml_print(
+-				"DML: Tslack(pre): %fus - time left over in schedule\n",
++		dml_print("DML: Tslack(pre): %fus - time left over in schedule\n",
+ 				VStartup * LineTime - TimeForFetchingMetaPTE - 2 * TimeForFetchingRowInVBlank
+ 						- (*DSTYAfterScaler + ((double) (*DSTXAfterScaler) / (double) myPipe->HTotal)) * LineTime - TWait - TCalc - *TSetup);
+ 		dml_print("DML: row_bytes = dpte_row_bytes (per_pipe) = PixelPTEBytesPerRow = : %d\n", PixelPTEBytesPerRow);
+@@ -3023,7 +3024,8 @@ static void DISPCLKDPPCLKDCFCLKDeepSleepPrefetchParametersWatermarksAndPerforman
+ 			for (k = 0; k < v->NumberOfActivePlanes; ++k) {
+ 				if (v->ImmediateFlipSupportedForPipe[k] == false) {
+ #ifdef __DML_VBA_DEBUG__
+-					dml_print("DML::%s: Pipe %0d not supporing iflip\n", __func__, k);
++					dml_print("DML::%s: Pipe %0d not supporting iflip\n",
++						  __func__, k);
+ #endif
+ 					v->ImmediateFlipSupported = false;
+ 				}
+-- 
+2.31.1
 
---go2u3onasjnikotj
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYL4F+gAKCRDj7w1vZxhR
-xQEfAP9vP3jokTFEfVVEzY9r1WA2vwZlSzf/+NvOVPNtT5JpAwD/bqlz7iyVFUtu
-CEYuLVjcA1hWAZsRTGT2RlI5eDbqnQQ=
-=y6rg
------END PGP SIGNATURE-----
-
---go2u3onasjnikotj--
