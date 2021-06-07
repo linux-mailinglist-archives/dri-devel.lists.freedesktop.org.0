@@ -2,63 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DDCDD39E601
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Jun 2021 19:57:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5219B39E604
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Jun 2021 19:58:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DF9F76E9A5;
-	Mon,  7 Jun 2021 17:57:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 727336E8B1;
+	Mon,  7 Jun 2021 17:58:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com
- [IPv6:2a00:1450:4864:20::336])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A8B3E6E9A5
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Jun 2021 17:57:39 +0000 (UTC)
-Received: by mail-wm1-x336.google.com with SMTP id
- v206-20020a1cded70000b02901a586d3fa23so167017wmg.4
- for <dri-devel@lists.freedesktop.org>; Mon, 07 Jun 2021 10:57:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=1u+ckWwthwNK3SRed0B5Kc4CE3s0y8cz4/Ch47hZvr4=;
- b=qKCIurkMBAv/Q6gsO5vKlM/gWR48sRrFHCa+L8uCPq4sB6+d0imqJ5kzgzoRIHrYE0
- NRM8CcL4jWTt5c8Xwir3wqRyYYYsIcuPTcxK25nn67k3wQB9kBObq+IMF6Xh6kOj2iMs
- iTuNO4RNchCZ+holHyARfxuLDZ78+pqM2sNCX+PFQIjHB/SrzfpmUccE6DR1xW3of67z
- Wt6ac9lLQbrQOZBx9gEPJHS7Kdlv/nNORvYmsIOEgP19vykBhhHE20Hbpp4Yx4YTITGO
- 5BHVmuJTk3lCJ15Nqhu1KXVkEhDW9OHmtqYKmKwBQuW1YLnuQ1bmQqBBKTueCWmJSxu/
- ThRA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=1u+ckWwthwNK3SRed0B5Kc4CE3s0y8cz4/Ch47hZvr4=;
- b=FsRxkN1/blx33kbyNpn1Zsk5tyxWF014Xlll2nmzwgDUO5EBXlIoYcovObo01EB+bD
- g36DKY6tWrZ/U1G5nkpNIiXf6b86bf745pdCzGCNt/KXTOTFSooUDwRCwoWS+wjtSypu
- RlUVDWLMd5sKyl07III+zVI6UXEq7/CHWl/lYQaIAljcNAlqt9aGiErVnENytl0JkQ32
- DykYABLQqmyoiK1giI8ejOWfruRABnEhlrD4ElYOxvpVg8MaX8z2EM148bJMfvGX1TGZ
- q/4E8+RDcFltcUsCWt+qmbGxERPbzSkdKozr10+qolbJOGiODvNU7qyDbMcgjH1VhmcS
- bXbQ==
-X-Gm-Message-State: AOAM530axz2FYnxxZzh38JUMFPmClaeOsI+8TvbdsWBqMopjjE6NmRJ4
- DrP3qjs0s/m6sFhJBk4DIVE=
-X-Google-Smtp-Source: ABdhPJzw/yrAzJFr0c0COEOfOOYsBlPuF1SjIklkpkQH/y4W4FZhNdhR5PUTUhVNdpI392mDCRZvUA==
-X-Received: by 2002:a05:600c:3544:: with SMTP id
- i4mr327386wmq.112.1623088658233; 
- Mon, 07 Jun 2021 10:57:38 -0700 (PDT)
-Received: from abel.fritz.box ([2a02:908:1252:fb60:13d5:cbb0:b736:cf3e])
- by smtp.gmail.com with ESMTPSA id z19sm215157wmf.31.2021.06.07.10.57.37
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 07 Jun 2021 10:57:37 -0700 (PDT)
-From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
-X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
- <christian.koenig@amd.com>
-To: thomas_os@shipmail.org,
-	dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/ttm: fix warning after moving resource to ghost obj
-Date: Mon,  7 Jun 2021 19:57:37 +0200
-Message-Id: <20210607175737.1405-1-christian.koenig@amd.com>
-X-Mailer: git-send-email 2.25.1
+Received: from pio-pvt-msa2.bahnhof.se (pio-pvt-msa2.bahnhof.se [79.136.2.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A7E246E8B1
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Jun 2021 17:58:45 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by pio-pvt-msa2.bahnhof.se (Postfix) with ESMTP id 030DC3F29E;
+ Mon,  7 Jun 2021 19:58:44 +0200 (CEST)
+Authentication-Results: pio-pvt-msa2.bahnhof.se; dkim=pass (1024-bit key;
+ unprotected) header.d=shipmail.org header.i=@shipmail.org header.b="cDRGWE/s";
+ dkim-atps=neutral
+X-Virus-Scanned: Debian amavisd-new at bahnhof.se
+X-Spam-Flag: NO
+X-Spam-Score: -2.689
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.689 tagged_above=-999 required=6.31
+ tests=[BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.59,
+ URIBL_BLOCKED=0.001] autolearn=ham autolearn_force=no
+Received: from pio-pvt-msa2.bahnhof.se ([127.0.0.1])
+ by localhost (pio-pvt-msa2.bahnhof.se [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 09MtKzzLPqzd; Mon,  7 Jun 2021 19:58:43 +0200 (CEST)
+Received: by pio-pvt-msa2.bahnhof.se (Postfix) with ESMTPA id 5F1C53F29C;
+ Mon,  7 Jun 2021 19:58:41 +0200 (CEST)
+Received: from [192.168.0.209] (h-155-4-205-35.A357.priv.bahnhof.se
+ [155.4.205.35])
+ by mail1.shipmail.org (Postfix) with ESMTPSA id D33293600BE;
+ Mon,  7 Jun 2021 19:58:40 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=shipmail.org; s=mail;
+ t=1623088720; bh=ajLoBqypKHL04/NagZj/yRLUIepVQVjcfAhAffxQVsA=;
+ h=Subject:To:References:From:Date:In-Reply-To:From;
+ b=cDRGWE/soN70gEzTewq87Kcpbg6QzgaNcG9nwGqdmKwUmd+tNUmacp9ROjw3y7ZBY
+ S5Z5cNqyBzrbQRsATzzkLmOkf574dMwEyovGuyK2qGIg4g1765eQqfYYIcI6FuP8Zh
+ +5VYnkXIy7+1hC86YPeO2x/C7o2WqiV6f7bssmJM=
+Subject: Re: [PATCH 01/10] drm/ttm: allocate resource object instead of
+ embedding it v2
+To: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ matthew.auld@intel.com, dri-devel@lists.freedesktop.org
+References: <20210602100914.46246-1-christian.koenig@amd.com>
+ <e5e6f3d0-af80-fa59-ba55-bafbb8e7670a@shipmail.org>
+ <abe421ae-e09c-101a-5bfb-9a0de40a0e03@shipmail.org>
+ <78dbb6a2-99f3-2362-8d74-6489e78df21a@gmail.com>
+From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m_=28Intel=29?= <thomas_os@shipmail.org>
+Message-ID: <94009311-6161-19ae-d846-59fb396a69b6@shipmail.org>
+Date: Mon, 7 Jun 2021 19:58:40 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <78dbb6a2-99f3-2362-8d74-6489e78df21a@gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,26 +74,59 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-After we moved the resource to the ghost the bo->resource pointer needs
-to be resetted since the owner of the resource is now the ghost.
 
-Signed-off-by: Christian König <christian.koenig@amd.com>
----
- drivers/gpu/drm/ttm/ttm_bo_util.c | 1 +
- 1 file changed, 1 insertion(+)
+On 6/7/21 7:54 PM, Christian König wrote:
+>
+>
+> Am 07.06.21 um 19:06 schrieb Thomas Hellström (Intel):
+>>
+>> On 6/7/21 6:40 PM, Thomas Hellström (Intel) wrote:
+>>>
+>>> On 6/2/21 12:09 PM, Christian König wrote:
+>>> ...
+>>>> @@ -728,14 +728,15 @@ static int ttm_bo_add_move_fence(struct 
+>>>> ttm_buffer_object *bo,
+>>>>    */
+>>>>   static int ttm_bo_mem_force_space(struct ttm_buffer_object *bo,
+>>>>                     const struct ttm_place *place,
+>>>> -                  struct ttm_resource *mem,
+>>>> +                  struct ttm_resource **mem,
+>>>>                     struct ttm_operation_ctx *ctx)
+>>>>   {
+>>>>       struct ttm_device *bdev = bo->bdev;
+>>>> -    struct ttm_resource_manager *man = ttm_manager_type(bdev, 
+>>>> mem->mem_type);
+>>>> +    struct ttm_resource_manager *man;
+>>>>       struct ww_acquire_ctx *ticket;
+>>>>       int ret;
+>>>>   +    man = ttm_manager_type(bdev, (*mem)->mem_type);
+>>>
+>>> Isn't (*mem) uninitialized here? Should be place->mem_type? Eviction 
+>>> is immediately sent to the bushes.
+>>>
+>>> Got at least one additional NULL pointer deref to track down in the 
+>>> eviction code, but could be a merge error of mine as well.
+>>
+>> Actually this last one was probably due to a bad temporary fix of the 
+>> above one.
+>
+> I've found one more warning during my testing now. But that is just a 
+> false positive.
+>
+> Apart from that I haven't seen any other fallout, but fingers crossed.
 
-diff --git a/drivers/gpu/drm/ttm/ttm_bo_util.c b/drivers/gpu/drm/ttm/ttm_bo_util.c
-index 1b326e70cb02..a2b97cd84d8f 100644
---- a/drivers/gpu/drm/ttm/ttm_bo_util.c
-+++ b/drivers/gpu/drm/ttm/ttm_bo_util.c
-@@ -603,6 +603,7 @@ static int ttm_bo_move_to_ghost(struct ttm_buffer_object *bo,
- 		ghost_obj->ttm = NULL;
- 	else
- 		bo->ttm = NULL;
-+	bo->resource = NULL;
- 
- 	dma_resv_unlock(&ghost_obj->base._resv);
- 	ttm_bo_put(ghost_obj);
--- 
-2.25.1
+vmwgfx doesn't seem to happy. It works AFAICT., but warns in vmw_move() 
+about ttm_bo_assign_mem() replacing an existing resource.
 
+/Thomas
+
+
+
+>
+> Christian.
+>
+>>
+>> /Thomas
+>>
+>>>
+>>>
