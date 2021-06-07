@@ -1,56 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 201A639E531
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Jun 2021 19:20:35 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A6E3939E553
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Jun 2021 19:25:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0BC526E96C;
-	Mon,  7 Jun 2021 17:20:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 626436E96D;
+	Mon,  7 Jun 2021 17:25:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x32e.google.com (mail-ot1-x32e.google.com
- [IPv6:2607:f8b0:4864:20::32e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2FB446E961;
- Mon,  7 Jun 2021 17:20:32 +0000 (UTC)
-Received: by mail-ot1-x32e.google.com with SMTP id
- 5-20020a9d01050000b02903c700c45721so16398233otu.6; 
- Mon, 07 Jun 2021 10:20:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=wIsZEzKuedmNrkE8sWmADzsVq5Ce7bsvNlcNsZxTnRY=;
- b=g13yFXluOkzEJmOZQmZQEQXcaP5WqUhlO0+vdTKZ+lHxSMjjYXxAPEbAfNwkDboqTH
- qb1kOYOjC10Rb2yEMyYhFHgRGH5aqUBpJqrCgamlEp/drI181Kw1NC0eP/fbQaUGqgjf
- lhQ8uJNbtt3vMqD3kalgHbYJAztqVaWdAjhcwZHYRliQfsbFSc0aS426zQ9y/5lo9Z1a
- cHbJ/l3t/8ToWpcggpaX0kcdYI3JX8mUD09TUlFI4VsveMbMVQtazwsktniMjcPPIjXy
- mpaTh0FgX2P8TbVNDNi7o4rKHl2X3RFUUSKXmkWi3FtgMaVF018evvpg0idGYoIzmrcn
- nXAQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=wIsZEzKuedmNrkE8sWmADzsVq5Ce7bsvNlcNsZxTnRY=;
- b=KxMQosWhF0mSWzpu6z0s0ngwlfscr+WtGFtrp2WcWW5Ft/t7iZi3WwVrxjwS4ND82+
- QvWXvD1k/jHmPXoczDgwvRBgNod+cnC0wodqJJ697+rfjx72xMMlxHPaAcZTH3OM8ifp
- nTxOhkYURyKDNrWnZsneloZTg3TtrG43sYehSjdT0V14vzFBXS+1R26FfqQkJEQr+NlW
- gUoE4kQpGJf25n60Le0Bn+zhzMoXIxNbGYRQPPyVZnIBK6MmVCXxC+Zl+7lThO60N1dF
- yZTaQZ0oqfYLHNBDg9Qh7fpxcQArXrBgvvinfmPcEQOMahdr+rCho2CRMGuiYfEVR/LH
- arpQ==
-X-Gm-Message-State: AOAM530YX81eDPyZRBKypxVjIYggzFPzAeaLqgXslEqc7LXnFeM9wchM
- mFmx7HUOORsq5boSeJBKIULULdkhBimO6vUeZdh7huWt
-X-Google-Smtp-Source: ABdhPJyEPIh1daP/HlBQeYnqMwlKB+lCnze26NeJPRgO+gQi876Ow+pkdIucW4umZTuqTIDRv1izuUb+vrRu7TofTFU=
-X-Received: by 2002:a9d:6548:: with SMTP id q8mr14588598otl.311.1623086431533; 
- Mon, 07 Jun 2021 10:20:31 -0700 (PDT)
+Received: from phobos.denx.de (phobos.denx.de
+ [IPv6:2a01:238:438b:c500:173d:9f52:ddab:ee01])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BA2AE6E96D
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Jun 2021 17:25:14 +0000 (UTC)
+Received: from tr.lan (ip-89-176-112-137.net.upcbroadband.cz [89.176.112.137])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (No client certificate requested)
+ (Authenticated sender: marex@denx.de)
+ by phobos.denx.de (Postfix) with ESMTPSA id 6797D826AA;
+ Mon,  7 Jun 2021 19:25:12 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+ s=phobos-20191101; t=1623086712;
+ bh=p3eOiV058Lu3C5PA8aP1sUi9dv/4rSIfV7mxOaXnpiA=;
+ h=From:To:Cc:Subject:Date:From;
+ b=q1le/g3S2Lcwu0shiaQKw8AdyjwlWZlZ+jukhDnY3Vm9Jw8XsU5rTSGNzyZoni0dP
+ nad7bwoJhdQtDz7EFDCVo0ZVCPLodjq35d+gEk8BFUNFDo5bXJt7TmOjh0y+mOCH7J
+ 4b3O76NGmFAJjuixQfnzQICcWQHUoMVn3qkjzSvv0FvnroINUIVfxC0QG9Fmr0wFbL
+ uYmhla1mG2VKxOfKA6io/lz8H210OdSIkVFG01MgERQXQmEdLWB0C3jzfKtzXWkIy2
+ 2fXz/W0WmzHi/N9lZpTEwe8keuz4wTWQZiNV0LT+eu7CpCbzPmU/GU0K3M1/80Ogph
+ tAIMSGl/h2YoQ==
+From: Marek Vasut <marex@denx.de>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/stm: Remove usage of drm_display_mode_to_videomode()
+Date: Mon,  7 Jun 2021 19:24:57 +0200
+Message-Id: <20210607172457.14471-1-marex@denx.de>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-References: <20210607115615.83162-1-colin.king@canonical.com>
-In-Reply-To: <20210607115615.83162-1-colin.king@canonical.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Mon, 7 Jun 2021 13:20:20 -0400
-Message-ID: <CADnq5_N=++KR_YjOO2DURYfe4Hp3b5=eDVh4Gp7xpcfPXFF8_w@mail.gmail.com>
-Subject: Re: [PATCH][next] drm/amd/display: Fix two spelling mistakes, clean
- wide lines
-To: Colin King <colin.king@canonical.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Virus-Scanned: clamav-milter 0.102.4 at phobos.denx.de
+X-Virus-Status: Clean
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,60 +51,99 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Leo Li <sunpeng.li@amd.com>, xinhui pan <Xinhui.Pan@amd.com>,
- kernel-janitors@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>, David Airlie <airlied@linux.ie>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: Marek Vasut <marex@denx.de>, Antonio Borneo <antonio.borneo@foss.st.com>,
+ Benjamin Gaignard <benjamin.gaignard@foss.st.com>,
+ Yannick Fertre <yannick.fertre@foss.st.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ Vincent Abriou <vincent.abriou@foss.st.com>,
+ Philippe Cornu <philippe.cornu@foss.st.com>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
+ linux-stm32@st-md-mailman.stormreply.com, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Applied.  Thanks!
+There is not much value in the extra conversion step, the calculations
+required for the LTDC IP are different than what is used in the
+drm_display_mode_to_videomode(), so just do the right ones in the LTDC
+driver right away.
 
-Alex
+Signed-off-by: Marek Vasut <marex@denx.de>
+Cc: Alexandre Torgue <alexandre.torgue@foss.st.com>
+Cc: Antonio Borneo <antonio.borneo@foss.st.com>
+Cc: Benjamin Gaignard <benjamin.gaignard@foss.st.com>
+Cc: Maxime Coquelin <mcoquelin.stm32@gmail.com>
+Cc: Philippe Cornu <philippe.cornu@foss.st.com>
+Cc: Sam Ravnborg <sam@ravnborg.org>
+Cc: Vincent Abriou <vincent.abriou@foss.st.com>
+Cc: Yannick Fertre <yannick.fertre@foss.st.com>
+Cc: linux-arm-kernel@lists.infradead.org
+Cc: linux-stm32@st-md-mailman.stormreply.com
+To: dri-devel@lists.freedesktop.org
+---
+ drivers/gpu/drm/stm/ltdc.c | 33 +++++++++++++++++----------------
+ 1 file changed, 17 insertions(+), 16 deletions(-)
 
-On Mon, Jun 7, 2021 at 7:58 AM Colin King <colin.king@canonical.com> wrote:
->
-> From: Colin Ian King <colin.king@canonical.com>
->
-> There are two spelling mistakes in dml_print messages, fix these and
-> clear up checkpatch warning on overly wide line length.
->
-> Signed-off-by: Colin Ian King <colin.king@canonical.com>
-> ---
->  .../drm/amd/display/dc/dml/dcn31/display_mode_vba_31.c | 10 ++++++----
->  1 file changed, 6 insertions(+), 4 deletions(-)
->
-> diff --git a/drivers/gpu/drm/amd/display/dc/dml/dcn31/display_mode_vba_31.c b/drivers/gpu/drm/amd/display/dc/dml/dcn31/display_mode_vba_31.c
-> index c725160a095b..d655655baaba 100644
-> --- a/drivers/gpu/drm/amd/display/dc/dml/dcn31/display_mode_vba_31.c
-> +++ b/drivers/gpu/drm/amd/display/dc/dml/dcn31/display_mode_vba_31.c
-> @@ -1494,10 +1494,11 @@ static bool CalculatePrefetchSchedule(
->                 dml_print(
->                                 "DML:  Tsw: %fus = time to fetch enough pixel data and cursor data to feed the scalers init position and detile\n",
->                                 (double) LinesToRequestPrefetchPixelData * LineTime);
-> -               dml_print("DML: To: %fus - time for propogation from scaler to optc\n", (*DSTYAfterScaler + ((double) (*DSTXAfterScaler) / (double) myPipe->HTotal)) * LineTime);
-> +               dml_print("DML: To: %fus - time for propagation from scaler to optc\n",
-> +                         (*DSTYAfterScaler + ((double) (*DSTXAfterScaler) /
-> +                         (double) myPipe->HTotal)) * LineTime);
->                 dml_print("DML: Tvstartup - TSetup - Tcalc - Twait - Tpre - To > 0\n");
-> -               dml_print(
-> -                               "DML: Tslack(pre): %fus - time left over in schedule\n",
-> +               dml_print("DML: Tslack(pre): %fus - time left over in schedule\n",
->                                 VStartup * LineTime - TimeForFetchingMetaPTE - 2 * TimeForFetchingRowInVBlank
->                                                 - (*DSTYAfterScaler + ((double) (*DSTXAfterScaler) / (double) myPipe->HTotal)) * LineTime - TWait - TCalc - *TSetup);
->                 dml_print("DML: row_bytes = dpte_row_bytes (per_pipe) = PixelPTEBytesPerRow = : %d\n", PixelPTEBytesPerRow);
-> @@ -3023,7 +3024,8 @@ static void DISPCLKDPPCLKDCFCLKDeepSleepPrefetchParametersWatermarksAndPerforman
->                         for (k = 0; k < v->NumberOfActivePlanes; ++k) {
->                                 if (v->ImmediateFlipSupportedForPipe[k] == false) {
->  #ifdef __DML_VBA_DEBUG__
-> -                                       dml_print("DML::%s: Pipe %0d not supporing iflip\n", __func__, k);
-> +                                       dml_print("DML::%s: Pipe %0d not supporting iflip\n",
-> +                                                 __func__, k);
->  #endif
->                                         v->ImmediateFlipSupported = false;
->                                 }
-> --
-> 2.31.1
->
+diff --git a/drivers/gpu/drm/stm/ltdc.c b/drivers/gpu/drm/stm/ltdc.c
+index e99771b947b6..08b71248044d 100644
+--- a/drivers/gpu/drm/stm/ltdc.c
++++ b/drivers/gpu/drm/stm/ltdc.c
+@@ -531,7 +531,6 @@ static void ltdc_crtc_mode_set_nofb(struct drm_crtc *crtc)
+ 	struct drm_encoder *encoder = NULL;
+ 	struct drm_bridge *bridge = NULL;
+ 	struct drm_display_mode *mode = &crtc->state->adjusted_mode;
+-	struct videomode vm;
+ 	u32 hsync, vsync, accum_hbp, accum_vbp, accum_act_w, accum_act_h;
+ 	u32 total_width, total_height;
+ 	u32 bus_flags = 0;
+@@ -570,31 +569,33 @@ static void ltdc_crtc_mode_set_nofb(struct drm_crtc *crtc)
+ 		}
+ 	}
+ 
+-	drm_display_mode_to_videomode(mode, &vm);
+-
+ 	DRM_DEBUG_DRIVER("CRTC:%d mode:%s\n", crtc->base.id, mode->name);
+-	DRM_DEBUG_DRIVER("Video mode: %dx%d", vm.hactive, vm.vactive);
++	DRM_DEBUG_DRIVER("Video mode: %dx%d", mode->hdisplay, mode->vdisplay);
+ 	DRM_DEBUG_DRIVER(" hfp %d hbp %d hsl %d vfp %d vbp %d vsl %d\n",
+-			 vm.hfront_porch, vm.hback_porch, vm.hsync_len,
+-			 vm.vfront_porch, vm.vback_porch, vm.vsync_len);
++			 mode->hsync_start - mode->hdisplay,
++			 mode->htotal - mode->hsync_end,
++			 mode->hsync_end - mode->hsync_start,
++			 mode->vsync_start - mode->vdisplay,
++			 mode->vtotal - mode->vsync_end,
++			 mode->vsync_end - mode->vsync_start);
+ 
+ 	/* Convert video timings to ltdc timings */
+-	hsync = vm.hsync_len - 1;
+-	vsync = vm.vsync_len - 1;
+-	accum_hbp = hsync + vm.hback_porch;
+-	accum_vbp = vsync + vm.vback_porch;
+-	accum_act_w = accum_hbp + vm.hactive;
+-	accum_act_h = accum_vbp + vm.vactive;
+-	total_width = accum_act_w + vm.hfront_porch;
+-	total_height = accum_act_h + vm.vfront_porch;
++	hsync = mode->hsync_end - mode->hsync_start - 1;
++	vsync = mode->vsync_end - mode->vsync_start - 1;
++	accum_hbp = mode->htotal - mode->hsync_start - 1;
++	accum_vbp = mode->vtotal - mode->vsync_start - 1;
++	accum_act_w = accum_hbp + mode->hdisplay;
++	accum_act_h = accum_vbp + mode->vdisplay;
++	total_width = mode->htotal - 1;
++	total_height = mode->vtotal - 1;
+ 
+ 	/* Configures the HS, VS, DE and PC polarities. Default Active Low */
+ 	val = 0;
+ 
+-	if (vm.flags & DISPLAY_FLAGS_HSYNC_HIGH)
++	if (mode->flags & DRM_MODE_FLAG_PHSYNC)
+ 		val |= GCR_HSPOL;
+ 
+-	if (vm.flags & DISPLAY_FLAGS_VSYNC_HIGH)
++	if (mode->flags & DRM_MODE_FLAG_PVSYNC)
+ 		val |= GCR_VSPOL;
+ 
+ 	if (bus_flags & DRM_BUS_FLAG_DE_LOW)
+-- 
+2.30.2
+
