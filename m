@@ -1,69 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B80F39D9DC
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Jun 2021 12:37:51 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9124539D9E5
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Jun 2021 12:40:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D08CF6E3B2;
-	Mon,  7 Jun 2021 10:37:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 261B46E40A;
+	Mon,  7 Jun 2021 10:40:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com
- [IPv6:2a00:1450:4864:20::42e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8A6D56E3B2
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Jun 2021 10:37:46 +0000 (UTC)
-Received: by mail-wr1-x42e.google.com with SMTP id c9so8322782wrt.5
- for <dri-devel@lists.freedesktop.org>; Mon, 07 Jun 2021 03:37:46 -0700 (PDT)
+Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com
+ [IPv6:2a00:1450:4864:20::32d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A10F36E8A6
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Jun 2021 10:40:42 +0000 (UTC)
+Received: by mail-wm1-x32d.google.com with SMTP id
+ l7-20020a05600c1d07b02901b0e2ebd6deso1581881wms.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 07 Jun 2021 03:40:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:references:from:message-id:date:user-agent:mime-version
- :in-reply-to:content-transfer-encoding:content-language;
- bh=21/TgqfW8C5BR2/gbvmwEmQNwprc3UPV4NtxlfmGbWs=;
- b=RHfyewd+vUgw2BZSAwBoXsV7J90rzaREOWnspld2iDWXJBzW7DgMlI4p8zbwhCBrdF
- LB8tiQ8AzjvmZUzu2wxtB5xAFNTUb2EGpo8AGT7G5zT9IXwQCb31YakaQI5zXEkpURBK
- 0Z716Zxsi3GwwtO+SDZ7Hccwj2p3SPK5bhtfpLMIlNhQxC4LtWCz+up6il+NfMA85JeE
- Da3hvAVIVuypGEbAVUVcG5UrlW0LwkFX3zvOdt1CbzXsD5fLzwKjW6S5rouuZ1jS8ZAk
- +tA+Ep3iKKTtpEERqlWi/8+m5nb1uyPVtl1TURxqNKFp/F+eGj9YcsTLnTO3BwYbi0Ub
- jong==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=G/eGUHufc4QuNlUJ/IW1FBJqs8nniN+2MJCPR9IueSg=;
+ b=tzvWLVp6D5oukkVtaiT3tZrQL2Ohz+82XyN4CG7Hrxz5VpvoVNqGYsYSuuQtyCqEba
+ pPBORT1Ox9tjmGsCX+BY9/bbwiYZJCJE4Ylyy02kzJRfA77DOXXHxSzmmqUz18IEgn61
+ OM3YsPpRAiKkDHJil7X85s6NatF65RKhasaB1VpOSp9EUoJ5W48tdHuw7gmaTwcDTu+4
+ fDC/rCd1CsETzRKF0cGWf9bZu5u0Sy3VSgqhlkrGlIbkrFtdF64JF5HBfT/6Emxbw4tG
+ 3cIxcM0a5GEINptNBkuq6FDUedp8W8yPogfDCDZz7a+iearqJ/XCp8k1rLj9CoQLfKhZ
+ tVfQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-transfer-encoding
- :content-language;
- bh=21/TgqfW8C5BR2/gbvmwEmQNwprc3UPV4NtxlfmGbWs=;
- b=tmhREhJXEuuyae8gR9MoJIktS1Popqr54Njl5gJWmNNH3+Ep1p0W2zxZu72FVNE9ur
- 1KIG49XmDji3zVSX/VZrfLVArX6qe+DViVbS548lg8jRrlLt9zQ0qN8sH+lUOD8Yxjhv
- hFoN5srp9fQmhqCcNziDwX6OBa+kHfY6/ssinCpXUkleqBFhjuN5GmFwpUxCfzK4rKXW
- 2VUOi3ddFPNUepb67yUEYAc2b091kyBRqJJMipc7Dh9c8AWZMWleA/khQqr85L8ToMqL
- QvmwwsVhMi5lbExIsf+rkd49zzBLrJO3g1FPgLlRu3644eUx+MBtGlwu0fuD2+aedmnA
- WFdw==
-X-Gm-Message-State: AOAM533nHDSbGm3LwSVRMMOPA1eQu3GQai7Ogwy1GQr8It85I/+EIqbD
- gtL5VGCuDw8qW4umkCAwgIKLgFX00eU=
-X-Google-Smtp-Source: ABdhPJyHNh4k5CQ9Z/Fog1VxO2zmtP4dkix1pcBc83UtD2tT4kEktkC2CCsneIqXl2plhn2CAe4z4A==
-X-Received: by 2002:a5d:698e:: with SMTP id g14mr16482034wru.212.1623062265276; 
- Mon, 07 Jun 2021 03:37:45 -0700 (PDT)
-Received: from ?IPv6:2a02:908:1252:fb60:ce67:4e4d:875d:ffeb?
- ([2a02:908:1252:fb60:ce67:4e4d:875d:ffeb])
- by smtp.gmail.com with ESMTPSA id y26sm6820736wma.33.2021.06.07.03.37.42
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 07 Jun 2021 03:37:43 -0700 (PDT)
-Subject: Re: [PATCH 10/10] drm/ttm: flip the switch for driver allocated
- resources v2
-To: =?UTF-8?Q?Thomas_Hellstr=c3=b6m_=28Intel=29?= <thomas_os@shipmail.org>,
- matthew.auld@intel.com, dri-devel@lists.freedesktop.org
-References: <20210602100914.46246-1-christian.koenig@amd.com>
- <20210602100914.46246-10-christian.koenig@amd.com>
- <c7163102-61e7-435d-f10a-83ee1926fe1f@shipmail.org>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-Message-ID: <6c2ccd57-73bb-fcc5-a22c-0e6b5be12566@gmail.com>
-Date: Mon, 7 Jun 2021 12:37:42 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=G/eGUHufc4QuNlUJ/IW1FBJqs8nniN+2MJCPR9IueSg=;
+ b=TuN00Fo4F7MuD163d+ZH/NSbQJUho7NN0rDw6kEyxqtszSd/c03Zsx4EYtYoHy8+qT
+ zEpRKqXduoItZ3K+bliwCuWj8oS9U9A/6CyQxhbqssVngyNIARdAzbTAJNq3INS1JDhO
+ oLFWG4tTTPepKXI2jqPOnz8aLoggQb3BP27L5uYiQ2ZE1JrmtbTlPfjnTGiiM841tRoF
+ MEh4hoUToezlclAM4mfezBFnljJGXqnK8llO71pDJvAJMgcsrCkXUzM3py/6YhCQ/e3E
+ TLjv68pJcSVqtZzGE38xfiGTP1qg+LsNcvbg+mnFV2em9VDAkFJJ4xa+GqLxks2hysnL
+ U5nQ==
+X-Gm-Message-State: AOAM533qCU05nue+DRAGLBhzsUw1EfHD6DOKX3PdLLRDir+WIR2ySfCV
+ KJvpswkHARsEQZEjZhsquzqRck2tbMA=
+X-Google-Smtp-Source: ABdhPJz+D5yJeOxNhKqBINYOhZjyIpC+MS2i9R1lUa9Pt9xIeG8jWP9rvSfy30Iy3LbnoudEr6o44w==
+X-Received: by 2002:a7b:c30f:: with SMTP id k15mr16512123wmj.128.1623062441340; 
+ Mon, 07 Jun 2021 03:40:41 -0700 (PDT)
+Received: from abel.fritz.box ([2a02:908:1252:fb60:281b:1208:a095:f965])
+ by smtp.gmail.com with ESMTPSA id t9sm8874737wmq.14.2021.06.07.03.40.40
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 07 Jun 2021 03:40:41 -0700 (PDT)
+From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
+X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
+ <christian.koenig@amd.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/ttm: fix missing res assignment in ttm_range_man_alloc
+Date: Mon,  7 Jun 2021 12:40:40 +0200
+Message-Id: <20210607104040.22017-1-christian.koenig@amd.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <c7163102-61e7-435d-f10a-83ee1926fe1f@shipmail.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,90 +69,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: thomas_os@shipmail.org, matthew.auld@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 07.06.21 um 12:15 schrieb Thomas Hellström (Intel):
->
-> On 6/2/21 12:09 PM, Christian König wrote:
->> Instead of both driver and TTM allocating memory finalize embedding the
->> ttm_resource object as base into the driver backends.
->>
->> v2: fix typo in vmwgfx grid mgr and double init in amdgpu_vram_mgr.c
->>
->> Signed-off-by: Christian König <christian.koenig@amd.com>
->> Reviewed-by: Matthew Auld <matthew.auld@intel.com>
->> ---
->>   drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c   | 44 ++++++--------
->>   drivers/gpu/drm/amd/amdgpu/amdgpu_object.c    |  2 +-
->>   .../gpu/drm/amd/amdgpu/amdgpu_res_cursor.h    |  5 +-
->>   drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c  | 60 +++++++++----------
->>   drivers/gpu/drm/drm_gem_vram_helper.c         |  3 +-
->>   drivers/gpu/drm/nouveau/nouveau_bo.c          |  8 +--
->>   drivers/gpu/drm/nouveau/nouveau_mem.c         | 11 ++--
->>   drivers/gpu/drm/nouveau/nouveau_mem.h         | 14 ++---
->>   drivers/gpu/drm/nouveau/nouveau_ttm.c         | 32 +++++-----
->>   drivers/gpu/drm/ttm/ttm_range_manager.c       | 23 +++----
->>   drivers/gpu/drm/ttm/ttm_resource.c            | 18 +-----
->>   drivers/gpu/drm/ttm/ttm_sys_manager.c         | 12 ++--
->>   drivers/gpu/drm/vmwgfx/vmwgfx_gmrid_manager.c | 24 ++++----
->>   drivers/gpu/drm/vmwgfx/vmwgfx_thp.c           | 27 ++++-----
->>   include/drm/ttm/ttm_range_manager.h           |  3 +-
->>   include/drm/ttm/ttm_resource.h                | 43 ++++++-------
->>   16 files changed, 140 insertions(+), 189 deletions(-)
-> ...
->>   diff --git a/drivers/gpu/drm/ttm/ttm_range_manager.c 
->> b/drivers/gpu/drm/ttm/ttm_range_manager.c
->> index ce5d07ca384c..c32e1aee2481 100644
->> --- a/drivers/gpu/drm/ttm/ttm_range_manager.c
->> +++ b/drivers/gpu/drm/ttm/ttm_range_manager.c
->> @@ -58,7 +58,7 @@ to_range_manager(struct ttm_resource_manager *man)
->>   static int ttm_range_man_alloc(struct ttm_resource_manager *man,
->>                      struct ttm_buffer_object *bo,
->>                      const struct ttm_place *place,
->> -                   struct ttm_resource *mem)
->> +                   struct ttm_resource **res)
->>   {
->>       struct ttm_range_manager *rman = to_range_manager(man);
->>       struct ttm_range_mgr_node *node;
->> @@ -83,37 +83,30 @@ static int ttm_range_man_alloc(struct 
->> ttm_resource_manager *man,
->>         spin_lock(&rman->lock);
->>       ret = drm_mm_insert_node_in_range(mm, &node->mm_nodes[0],
->> -                      mem->num_pages, bo->page_alignment, 0,
->> +                      node->base.num_pages,
->> +                      bo->page_alignment, 0,
->>                         place->fpfn, lpfn, mode);
->>       spin_unlock(&rman->lock);
->>   -    if (unlikely(ret)) {
->> +    if (unlikely(ret))
->>           kfree(node);
->> -    } else {
->> -        mem->mm_node = &node->mm_nodes[0];
->> -        mem->start = node->mm_nodes[0].start;
->> -    }
->> +    else
->> +        node->base.start = node->mm_nodes[0].start;
->>         return ret;
->>   }
->
-> Looks like this patch forgets to assign *@res. Null pointer derefs 
-> when testing i915.
+That somehow got missing.
 
-I should really CC the Intel list for TTM patches as well. The CI system 
-should have spotted that.
+Signed-off-by: Christian König <christian.koenig@amd.com>
+Fixes: cb1c81467af3 ("drm/ttm: flip the switch for driver allocated resources v2")
+---
+ drivers/gpu/drm/ttm/ttm_range_manager.c | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
 
->
-> BTW shouldn't we return the struct ttm_resource ptr here rather than 
-> passing it as an argument?
-
-Yeah, good idea.
-
-Thanks for the report,
-Christian.
-
->
-> /Thomas
->
->
+diff --git a/drivers/gpu/drm/ttm/ttm_range_manager.c b/drivers/gpu/drm/ttm/ttm_range_manager.c
+index c32e1aee2481..03395386e8a7 100644
+--- a/drivers/gpu/drm/ttm/ttm_range_manager.c
++++ b/drivers/gpu/drm/ttm/ttm_range_manager.c
+@@ -88,12 +88,14 @@ static int ttm_range_man_alloc(struct ttm_resource_manager *man,
+ 					  place->fpfn, lpfn, mode);
+ 	spin_unlock(&rman->lock);
+ 
+-	if (unlikely(ret))
++	if (unlikely(ret)) {
+ 		kfree(node);
+-	else
+-		node->base.start = node->mm_nodes[0].start;
++		return ret;
++	}
+ 
+-	return ret;
++	node->base.start = node->mm_nodes[0].start;
++	*res = &node->base;
++	return 0;
+ }
+ 
+ static void ttm_range_man_free(struct ttm_resource_manager *man,
+-- 
+2.25.1
 
