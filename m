@@ -1,65 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E10A739E2D8
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Jun 2021 18:22:08 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7817F39E2DA
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Jun 2021 18:25:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D24B06E922;
-	Mon,  7 Jun 2021 16:22:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 091FB6E923;
+	Mon,  7 Jun 2021 16:25:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com
- [IPv6:2a00:1450:4864:20::331])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DDFC36E923
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Jun 2021 16:22:02 +0000 (UTC)
-Received: by mail-wm1-x331.google.com with SMTP id d184so60575wmd.0
- for <dri-devel@lists.freedesktop.org>; Mon, 07 Jun 2021 09:22:02 -0700 (PDT)
+Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com
+ [IPv6:2a00:1450:4864:20::432])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 680326E923
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Jun 2021 16:25:45 +0000 (UTC)
+Received: by mail-wr1-x432.google.com with SMTP id h8so18316511wrz.8
+ for <dri-devel@lists.freedesktop.org>; Mon, 07 Jun 2021 09:25:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:references:from:message-id:date:user-agent:mime-version
- :in-reply-to:content-transfer-encoding:content-language;
- bh=ZbfN1u89ctBxBR5eooH3ahTq+H5V5lBBxtIKJZytxVI=;
- b=rRaBMk3Ma83nNn0wkmxVjpM8MqbS87jdBrpSOC2K3fHWQl0i5RhTe7ZJssq8hsejIh
- AsCNmsY90HoODMN9gx7jZ62Y/QB3g0lvjxrjlqbHnarMBnM3WShUt/D2gr6eJwbjr0yl
- +heR4dnMLoLr0ZkssUQ2gNaqS403RMz7vZxJFGqKCpQ/PV+WbDRbIqcSKGke2YCre7Q8
- mCELMDJYryK3Xv8L7D7sLdTikO3Wp6nQae0uoxgIr3hsfoIvdyEgADIBT4zLHjVlbBcW
- xFSGdw4ej2UNBpjagwXztQm16Ve5bpj0pzWKc/dUQPx2w/eDxWMhPsoEDSHse4pt+1mV
- Rv6g==
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-transfer-encoding:content-language;
+ bh=YTSAB9rCscSz/zCVqN4u6grlyBe2uFlHNhTk1S/AroM=;
+ b=omY0Nmk58pKP0NjsBFlOGm69gb8fO9V61rCbHgH9+s+fwmMy3D7XxXNQiRs5jUjkxq
+ Pzz0LeRVmAAAHpg1m3f/Ei3rEux3Nbe1aX4sxcKtefgeyOy3eKEA56xLhfGZ1EZjzEl9
+ uI1UcAL+srqoM7yXjp61xKEAJqRK15hmGUGMC3lz1so+YTqhSFubyR5uEgfQYoTVtCdy
+ oGFA1Pub5tkd+TdviIgXLdUMirMt602Y0kYFoZt/wqNu0CJph8PTajnsXEwwp0dleC7e
+ sEupDzwvAuIFaDWQpUwFQJbWIG4plgAsZEOu+DwFAlGfTBxpXsUmOCfcpNE6oVr6MT07
+ DkUA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:message-id:date
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-transfer-encoding
  :content-language;
- bh=ZbfN1u89ctBxBR5eooH3ahTq+H5V5lBBxtIKJZytxVI=;
- b=quNcF7MuN1Ch+Ql1xFay0YlEtjJteQrrM7VzMl/8j+fkpMBuGNs/9orm7NDVY4kQCN
- 8fOfc5fdtxyEz2pp9MPThEmXinDn7+yyGzltYIETbN5IBgYNJP4r0MV1V/UDXyJpR6f/
- WifSiNJDbI2FmEulZVeHWov+QL2a08ijmWVUyzmqmziBgYkBAJmku2eueMHVGFMdNvna
- pQctXS2AGByhEFTHJHOPsFOCUHaEqWKET/aDGgp6GwVOIheC8YFdg+LQdFXwx7Vhq8EQ
- NqztmzX3nQ9WCf7jNpaK2f2+8g5aPs2xR0p9EC25bEtxOkOwklqqbxAGuQOQqI7kPKsE
- 1Miw==
-X-Gm-Message-State: AOAM533Sr7x3juUyxrEj+E1uZjeu79ObBKhNIzjMXKH4+ans0D0sa80c
- JBQTJV4yS47t7UqhijqiRBvCF1dV0Jk=
-X-Google-Smtp-Source: ABdhPJzbplwNcB4eowpJVzisKxa0gX6CvV2Z8H0L7AAtcqDo+OuejPdweCUy6M4J48yk6pyZAEwkTA==
-X-Received: by 2002:a1c:a785:: with SMTP id q127mr1756570wme.152.1623082921596; 
- Mon, 07 Jun 2021 09:22:01 -0700 (PDT)
+ bh=YTSAB9rCscSz/zCVqN4u6grlyBe2uFlHNhTk1S/AroM=;
+ b=unwOVyjCEGijZhJBzSTt3o4xBIprdYF7DJDI5mn3lTGnG0Bp6sTLp+h1BR0KROld6w
+ nQcw2SNkQFuV0ShRpu4C8J6MN/rWRI9M2S00+vSNQxbyPmZGxDZfuPzRPzxcRhefBIG6
+ z03nPjt0yl2wA0SAs5CS3hMUaii16wWn8Y8K0mmlIyyiUmhy5Erz/RLFHck8bgC/fkNB
+ brRjYGXDFoMd4GNrHtCfcS4zwPumwlYMllLIhN5sV3+PC6rMVmUkM5EFWMllsVjjYBe2
+ ZDwnA9p3r0fe2+ecUx3PL9N8K4B+rRz2ErPywf+DN2OcK90sxIYnTnYEFGZ9N8dc+7WV
+ 3I4Q==
+X-Gm-Message-State: AOAM532h/au9+PdSz49vOL8XvGohD/r0mBIqCUAIlKtQywcauhAY3Yf/
+ DauO3iFFVVKDlc2/oUWkcF2VKEi17n0=
+X-Google-Smtp-Source: ABdhPJzrQImBmFvlKSf/9eMTe40x/egMA12t5CHKtp7LU80FCusfTKG5KwjAfsIUj3iATj7J11TBAA==
+X-Received: by 2002:adf:f182:: with SMTP id h2mr7513325wro.313.1623083144061; 
+ Mon, 07 Jun 2021 09:25:44 -0700 (PDT)
 Received: from ?IPv6:2a02:908:1252:fb60:ce67:4e4d:875d:ffeb?
  ([2a02:908:1252:fb60:ce67:4e4d:875d:ffeb])
- by smtp.gmail.com with ESMTPSA id v17sm7903272wrp.36.2021.06.07.09.22.00
+ by smtp.gmail.com with ESMTPSA id j18sm16565713wrw.30.2021.06.07.09.25.43
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 07 Jun 2021 09:22:01 -0700 (PDT)
-Subject: Re: [PATCH] drm/ttm: nuke VM_MIXEDMAP on BO mappings v2
-To: =?UTF-8?Q?Thomas_Hellstr=c3=b6m_=28Intel=29?= <thomas_os@shipmail.org>,
- thomas.hellstrom@linux.intel.com, daniel@ffwll.ch,
- dri-devel@lists.freedesktop.org
-References: <20210607135830.8574-1-christian.koenig@amd.com>
- <2e0ebce3-2519-2db3-f803-589d03a0d4c2@shipmail.org>
+ Mon, 07 Jun 2021 09:25:43 -0700 (PDT)
+Subject: Re: handle exclusive fence similar to shared ones
+To: Daniel Vetter <daniel@ffwll.ch>
+References: <20210606100312.119176-1-christian.koenig@amd.com>
+ <CAKMK7uGX7z2KdymWus2fk9VR57wU+Rj4jcS0j=j_sYwaH8zrLg@mail.gmail.com>
+ <3fdb2dbe-748b-5297-277f-6a8394100725@gmail.com>
+ <YL42scoTq8RUuEkD@phenom.ffwll.local>
 From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-Message-ID: <0a2add50-99c7-8363-1030-31f8d82ac0c6@gmail.com>
-Date: Mon, 7 Jun 2021 18:21:59 +0200
+Message-ID: <78ab1102-0b59-36ba-b5ef-526356ffe630@gmail.com>
+Date: Mon, 7 Jun 2021 18:25:42 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <2e0ebce3-2519-2db3-f803-589d03a0d4c2@shipmail.org>
+In-Reply-To: <YL42scoTq8RUuEkD@phenom.ffwll.local>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
 Content-Language: en-US
@@ -75,135 +75,206 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: dri-devel <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 
-Am 07.06.21 um 18:13 schrieb Thomas Hellström (Intel):
+Am 07.06.21 um 17:09 schrieb Daniel Vetter:
+> On Mon, Jun 07, 2021 at 11:59:11AM +0200, Christian König wrote:
+>> Am 07.06.21 um 10:58 schrieb Daniel Vetter:
+>>> Hi Christian,
+>>>
+>>> So unfortunately I got distracted with some i915 bugs and fun last
+>>> week completely, so didn't get around to it.
+>>>
+>>> On Sun, Jun 6, 2021 at 12:03 PM Christian König
+>>> <ckoenig.leichtzumerken@gmail.com> wrote:
+>>>> Hi Daniel,
+>>>>
+>>>> as discussed here are the patches which change the handle around exclusive fence handling.
+>>>>
+>>>> The main problem seems to have been the dma_resv_test_signaled() function which ignored the exclusive fence when shared fences where present. This was already rather inconsistent since dma_fence_wait_timeout() takes the exclusive one into account even if shared ones are present.
+>>>>
+>>>> The second patch then fixes nouveu to also always take the exclusive fence into account.
+>>>>
+>>>> The third then removes the workaround in amdgpu around the VM page table clearing handling. Since I'm not sure if there are no other places which relies on the existing behavior I will hold this one back for a while.
+>>>>
+>>>> Is that what you had in mind as well?
+>>> I think from the semantics something where we treat the exclusive
+>>> fence as an IPC mechanism that the kernel doesn't care much about
+>>> (exceptions apply), and but more consistently count all access from
+>>> any CS as a shared fence. So in a way what you've done here, and also
+>>> what you've done in the earlier series with setting the read/write
+>>> flags on shared fences.
+>> Yeah, I think that this will work for me as well.
+>>
+>>> For actual approach what I've picked is a bit of what amdgpu does +
+>>> what other drivers do with NO_IMPLICIT, but with the bugs fixed
+>>> (there's a bunch of them): Essentially we try to always set the shared
+>>> fences, and exclusive fences are set additionally on top when the
+>>> implicit sync IPC calls for that. And on the depdendency side we do
+>>> clever logic to only take in the exclusive fence when required.
+>>> Currently for amdgpu this means introspecting the fence owner (there's
+>>> some nasty tricks there I think to do to make this work and not be a
+>>> security bug), for others that's done with the NO_IMPLICIT flag (but
+>>> again some nasty corners there, which I think a bunch of drivers get
+>>> wrong).
+>> For amdgpu I have been pondering on the following idea  last week to make it
+>> behave the same as the other drivers:
+>>
+>> 1. We allow setting the explicit fence without touching the shared fences.
+>>      As far as I understand it this is also part of your idea above.
+>>
+>> 2. During command submission amdgpu uses a dma_fence_chain node to chain
+>> together the new CS with the existing explicit sync.
+>>
+>> 3. During command synchronization amdgpu takes a look at the explicit fence
+>> and walks the dma_fence_chain history.
+>>      Submissions from the same process (the owner) are not synced to (e.g.
+>> same behavior as of today), but as soon as we see something which doesn't
+>> fit into the amdgpu CS model we sync to the remaining chain.
+>>
+>> That would give us both keeping the current amdgpu CS behavior (which we
+>> then can extend) as well as setting the explicit fence according to the
+>> DMA-buf rules.
+> So what I had in mind is:
 >
-> On 6/7/21 3:58 PM, Christian König wrote:
->> We discussed if that is really the right approach for quite a while 
->> now, but
->> digging deeper into a bug report on arm turned out that this is actually
->> horrible broken right now.
->>
->> The reason for this is that vmf_insert_mixed_prot() always tries to grab
->> a reference to the underlaying page on architectures without
->> ARCH_HAS_PTE_SPECIAL and as far as I can see also enabled GUP.
->>
->> So nuke using VM_MIXEDMAP here and use VM_PFNMAP instead.
->>
->> Also make sure to reject mappings without VM_SHARED.
->>
->> v2: reject COW mappings, merge function with only caller
->>
->> Signed-off-by: Christian König <christian.koenig@amd.com>
->> Bugs: https://gitlab.freedesktop.org/drm/amd/-/issues/1606#note_936174
->> ---
->>   drivers/gpu/drm/ttm/ttm_bo_vm.c | 44 +++++++++++----------------------
->>   1 file changed, 14 insertions(+), 30 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/ttm/ttm_bo_vm.c 
->> b/drivers/gpu/drm/ttm/ttm_bo_vm.c
->> index 61828488ae2b..c9edb75626d9 100644
->> --- a/drivers/gpu/drm/ttm/ttm_bo_vm.c
->> +++ b/drivers/gpu/drm/ttm/ttm_bo_vm.c
->> @@ -359,12 +359,7 @@ vm_fault_t ttm_bo_vm_fault_reserved(struct 
->> vm_fault *vmf,
->>            * at arbitrary times while the data is mmap'ed.
->>            * See vmf_insert_mixed_prot() for a discussion.
->>            */
->> -        if (vma->vm_flags & VM_MIXEDMAP)
->> -            ret = vmf_insert_mixed_prot(vma, address,
->> -                            __pfn_to_pfn_t(pfn, PFN_DEV),
->> -                            prot);
->> -        else
->> -            ret = vmf_insert_pfn_prot(vma, address, pfn, prot);
->> +        ret = vmf_insert_pfn_prot(vma, address, pfn, prot);
->>             /* Never error on prefaulted PTEs */
->>           if (unlikely((ret & VM_FAULT_ERROR))) {
->> @@ -411,15 +406,9 @@ vm_fault_t ttm_bo_vm_dummy_page(struct vm_fault 
->> *vmf, pgprot_t prot)
->>       pfn = page_to_pfn(page);
->>         /* Prefault the entire VMA range right away to avoid further 
->> faults */
->> -    for (address = vma->vm_start; address < vma->vm_end; address += 
->> PAGE_SIZE) {
->> -
->> -        if (vma->vm_flags & VM_MIXEDMAP)
->> -            ret = vmf_insert_mixed_prot(vma, address,
->> -                            __pfn_to_pfn_t(pfn, PFN_DEV),
->> -                            prot);
->> -        else
->> -            ret = vmf_insert_pfn_prot(vma, address, pfn, prot);
->> -    }
->> +    for (address = vma->vm_start; address < vma->vm_end;
->> +         address += PAGE_SIZE)
->> +        ret = vmf_insert_pfn_prot(vma, address, pfn, prot);
->>         return ret;
->>   }
->> @@ -560,8 +549,16 @@ static const struct vm_operations_struct 
->> ttm_bo_vm_ops = {
->>       .access = ttm_bo_vm_access,
->>   };
->>   -static void ttm_bo_mmap_vma_setup(struct ttm_buffer_object *bo, 
->> struct vm_area_struct *vma)
->> +int ttm_bo_mmap_obj(struct vm_area_struct *vma, struct 
->> ttm_buffer_object *bo)
->>   {
->> +    /* Enforce VM_SHARED here since without it we would have really 
->> strange
->> +     * behavior on COW.
->> +     */
+> 1. we reserve 3 additional shared slots (so one more than currently)
 >
-> Nit: Perhaps "Enforce no COW.." since mappings are allowed with 
-> VM_SHARED iff VM_MAYWRITE is not set. Also style consistency with 
-> comments: First /* followed by line-break or are you adapting the 
-> above style for ttm?
+> 2. when we pull in depedencies we ignore exclusive fences when they're an
+> amdgpu/amdkfd one, only when it's a OWNER_UNKNOWN do we take it
+>
+> 3. above obviously breaks buffer moves, to fix that we always add the
+> ttm_bo->moving fence. If amggpu would support a "ignore implicit fencing"
+> flag like other drivers with NO_IMPLICIT, then we'd also need to overrule
+> that for a dynamically shared dma-buf (since for those we don't have a
+> ->moving fence slot). Non-dynamic dma-buf aren't a problem since they are
+> guaranteed to be pinned, so can't move.
+>
+> 4. When we add fences we
+> - always add the exclusive fence (like in my patch)
+> - keep the current set of shared fences
+> - add our own fences also as a shared one (so that amdpug can ignore the
+>    exclusive fence for any sync against amdgpu, whether same owner or other
+>    owner). This is the critical piece to make sure the current uapi for
+>    amdgpu isn't changed
+> - add the previous exclusive fence if a) there is one and b) it's not an
+>    amdgpu/kfd one. This is where we need the additional fence slot
 
-Good point and no not really. I just sometimes forget to hit enter here 
-and we don't have any automated script complaining.
+That won't work. The problem is that you have only one exclusive slot, 
+but multiple submissions which execute out of order and compose the 
+buffer object together.
 
->
-> With that fixed,
->
-> Reviewed-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+That's why I suggested to use the dma_fence_chain to circumvent this.
 
-Thanks,
+But if you are ok that amdgpu sets the exclusive fence without changing 
+the shared ones than the solution I've outlined should already work as well.
+
+Regards,
 Christian.
 
 >
+> At first glance this throws away foreign exclusive fences, which could
+> break implicit sync. But by moving foreign exclusive fences to the shared
+> slot, we can rely on the amdgpu implicit sync logic of only looking at the
+> owner (and not whether a fence is exclusive of shared), and we get the
+> right implicit fencing even on subsequent CS.
 >
->> +    if (is_cow_mapping(vma->vm_flags))
->> +        return -EINVAL;
->> +
->> +    ttm_bo_get(bo);
->> +
->>       /*
->>        * Drivers may want to override the vm_ops field. Otherwise we
->>        * use TTM's default callbacks.
->> @@ -576,21 +573,8 @@ static void ttm_bo_mmap_vma_setup(struct 
->> ttm_buffer_object *bo, struct vm_area_s
->>         vma->vm_private_data = bo;
->>   -    /*
->> -     * We'd like to use VM_PFNMAP on shared mappings, where
->> -     * (vma->vm_flags & VM_SHARED) != 0, for performance reasons,
->> -     * but for some reason VM_PFNMAP + x86 PAT + write-combine is very
->> -     * bad for performance. Until that has been sorted out, use
->> -     * VM_MIXEDMAP on all mappings. See freedesktop.org bug #75719
->> -     */
->> -    vma->vm_flags |= VM_MIXEDMAP;
->> +    vma->vm_flags |= VM_PFNMAP;
->>       vma->vm_flags |= VM_IO | VM_DONTEXPAND | VM_DONTDUMP;
->> -}
->> -
->> -int ttm_bo_mmap_obj(struct vm_area_struct *vma, struct 
->> ttm_buffer_object *bo)
->> -{
->> -    ttm_bo_get(bo);
->> -    ttm_bo_mmap_vma_setup(bo, vma);
->>       return 0;
->>   }
->>   EXPORT_SYMBOL(ttm_bo_mmap_obj);
+> And for foreign drivers it also all works, because the exlusive fence is
+> always set, and because amdgpu doesn't ignore foreign fences (even if
+> they're set as shared we force a sync iirc) there's a dependency chain
+> that makes sure everything is correct and ordered. Same for dma-buf
+> poll/sync_file export, that would then work on amdgpu correctly too
+> because the exclusive slot is set.
+>
+> The only downside here is that amdgpu always sets the exclusive fence
+> slot, but that can't be fixed without an uapi revision since the kernel
+> simply doesn't know that. But amdgpu isn't the only driver, panfrost does
+> the same so *shrugh*.
+>
+> So I think this should work but
+> - it's a hellalot of auditing to make sure I didn't miss anything
+> - and it's like attempt no 5 or so of me trying to slice this knot without
+>    breaking anything, or changing the current dma_resv rules.
+>
+>>> There's two reasons I'm more leaning in that direction:
+>>> - The annoying thing is that the audit on the dependency side is a lot
+>>> trickier since everyone rolls their own dependency handling.
+>> Yes, absolutely agree. That's why I said we need to have use case based
+>> functionality here.
+>>
+>> In other words what we need is something like an
+>> dma_resv_for_each_sync_fence(for_write) macro.
+>>
+>> E.g. drivers then only do something like:
+>>
+>> dma_resv_for_each_sync_fence(resv, for_write, fence)
+>>      driver_specific_syncing_to_fence(fence);
+>>
+>> And not every driver calling the underlying functions on it's own and then
+>> doing whatever it pleases.
+> Yeah, but amdgpu can't use those, so we're back to square one. amdgpu
+> currently has zero information from userspace about which CS are writes
+> and which are not. Other drivers (aside from panfrost) generally have
+> that, so they can do smarter things here.
+>
+> Also we could fairly trivially fix this by adding new uapi so that amdgpu
+> would know this, and just oversyncing on old uerspace. But you made it
+> pretty clear when I proposed that that this option isn't on the table.
+>
+> So for now we need to be more clever to get amdgpu aligned. And then when
+> that's done we (well you guys, maybe using the patches from Jason + a CS
+> flag to not do implicit sync at all) can add the uapi to make this
+> smarter.
+>
+> Then, and only then, do we have the pieces to look into smarter/use-case
+> dependent dma_resv helpers.
+>
+> Also, some of these helpers already exist, and are used by the drivers
+> derived from v3d. But amdgpu can't use them, because the "just oversync
+> for current userspace" approach you nacked. So you'll have to live with
+> your own quirks. I don't want to make helpers for that because then other
+> drivers might come up with the idea to use them :-)
+>
+>>> If we don't change (for now at least) the rules around dma_resv then an
+>>> oversight in the audit isn't going to be a huge problem.
+>>> - Wording becomes inconsistent: An exclusive fence which is also a
+>>> shared is a bit confusing. I think it's better if we stick to the
+>>> current rules for dma_resv, change the semantics we want in drivers (I
+>>> think that's doable, at maybe some code cost e.g. Jason's import ioctl
+>>> would be simpler with your changed rules, but still doable with the
+>>> current dma_resv rules). And then when we have that, we figure out
+>>> what to change with the dma_resv struct/rules.
+>> But then at least do the minimal change so that we can get amdgpu in line
+>> with all other drivers like I outlined above.
+>>
+>> We can keep that as a hack in amdgpu if that makes you feel better. Chaining
+>> the exclusive fence together is roughly 4 times slower than the shared
+>> approach, but I think that this is negligible compared to all the other
+>> stuff we do.
+> Yeah I was pondering on the chaining, and for the intentional sync it's
+> not a problem because it's just 1 winsys buffer we touch like this. So
+> totally fine in Jason's approach. But not for amdgpu, where with the
+> current uapi means you have to annotate _all_ buffers as written to.
+>
+> So not great, and which is why I've thrown a few variants of this idea out
+> already as unpractical. Hence the current idea I'm toying with above.
+>
+> Cheers, Daniel
+>
+>
+>> Regards,
+>> Christian.
+>>
+>>> Wrt the patches: Good thing is that what you change here and what I've
+>>> found thus far is 100% not overlapping, so at least we didn't waste
+>>> time auditing the same code :-)
+>>>
+>>> Cheers, Daniel
+>>>> Regards,
+>>>> Christian.
+>>>>
+>>>>
 
