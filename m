@@ -1,46 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08C3839E9C0
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Jun 2021 00:46:35 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8525039E9DD
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Jun 2021 01:00:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A7C356EA2B;
-	Mon,  7 Jun 2021 22:46:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 913EC6EA3B;
+	Mon,  7 Jun 2021 23:00:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3EEF86EA29;
- Mon,  7 Jun 2021 22:46:28 +0000 (UTC)
-IronPort-SDR: sdLjohkh1y4G1w1AypPMq2umIAXsReG7ZnYCNuDLFx1EmHc9OTUUu7GdUnNAmuYg9+X1w7yAH8
- 0pClH0UqHD3A==
-X-IronPort-AV: E=McAfee;i="6200,9189,10008"; a="265881316"
-X-IronPort-AV: E=Sophos;i="5.83,256,1616482800"; d="scan'208";a="265881316"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Jun 2021 15:46:27 -0700
-IronPort-SDR: rcmvm4SKYPpc+bWyPsyFharAwq3JZmO+f51S9O/BbV77gkq+uXTuu7VMBdNbKSDvJ5NFiIeB85
- j83wzuRVrPig==
-X-IronPort-AV: E=Sophos;i="5.83,256,1616482800"; d="scan'208";a="476381742"
-Received: from dceraolo-mobl.amr.corp.intel.com (HELO [10.209.129.6])
- ([10.209.129.6])
- by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Jun 2021 15:46:27 -0700
-Subject: Re: [PATCH 01/13] drm/i915/guc: Introduce unified HXG messages
-To: Matthew Brost <matthew.brost@intel.com>, intel-gfx@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org
-References: <20210607180356.165785-1-matthew.brost@intel.com>
- <20210607180356.165785-2-matthew.brost@intel.com>
-From: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
-Message-ID: <2cf32a16-d2db-65e5-5004-d739eeae0d05@intel.com>
-Date: Mon, 7 Jun 2021 15:46:24 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com
+ [IPv6:2a00:1450:4864:20::129])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F1B376EA3B
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Jun 2021 23:00:23 +0000 (UTC)
+Received: by mail-lf1-x129.google.com with SMTP id v22so27633725lfa.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 07 Jun 2021 16:00:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=cUjBLXnpV1iWFZE5eRvQPhesNYRGBZVyBF+9wetSE0k=;
+ b=IoEm9Z/IpaShQzvp+SjRBJlFyRIFztTEk+3wmnBYX+/a9DQv8dOvk2nI23r+pQFfu5
+ WDrflzTV18ToM7HId4Wi/1v9MZ50DI9nB5Fx2kK6tCv6YnXiR4F+bOmJz2nBG72G+ZtC
+ +pDRLQcUcF5oINzPOcCb2TJ2deqfGvkWAOUrI3x8NyXdpxDs0QPe7bWXzee3WiiVUW3N
+ f0NF2ntQ+ufdPOPBDOjXN6urSvRUIWob0y4KDJZEePq5xg1fbmgK9e7t0ppheRqlEC0k
+ lw79DB7ioBEqzC7yjwejPcbvdGmGZjOL/9BZ9hsGzL/ocwNmbfSR85S4Tv5uisBvb565
+ IZRw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=cUjBLXnpV1iWFZE5eRvQPhesNYRGBZVyBF+9wetSE0k=;
+ b=cWexS9GXssYUPszcR22C9rQzqT6tbfxYjAJA4JcIDyUrGqAGY8GW9u58np6qWgZvpi
+ El9VEdndH/Q/n2hVV8WGEh1k88ofXZTy8q6uQd7YjRcQHC1TWZkcyPY2wgTipiFutcAX
+ 2a5Nte6NwtPa2Xuvl5yoJ1MVtlzje4gQr/LQDnBpzsJSjtV8AV8hKXx7WoaCiR3SVC1E
+ 2q7LzbD9fKjo1aWU/At0qn5ky5Cu7rCFEkl+h4NUtOXoMoEYSSCu8qIomvfHs+ce3JMG
+ iZSyqNVcbNjhAWLahuVQ+vMT1JRwQbByRDkl8IbZZqCsXD0XrkZhNnSfMBgTxwnWGE6O
+ nPLA==
+X-Gm-Message-State: AOAM531sgLRWcC5O36Pjggd004E2sgfRrEqZpt4FqGCDgfLw9So90yrY
+ Hj9eDvD/Q0t/mniPBfkcWrF++w==
+X-Google-Smtp-Source: ABdhPJxsh3oBtPj1Zeb/LurkBb4PHYYdd/HNPsI/Rj52JRWzArLPzhsmY49d2yzMPRZzjZiMbKbr2g==
+X-Received: by 2002:a05:6512:c02:: with SMTP id
+ z2mr13172092lfu.303.1623106822243; 
+ Mon, 07 Jun 2021 16:00:22 -0700 (PDT)
+Received: from eriador.lan ([37.153.55.125])
+ by smtp.gmail.com with ESMTPSA id c20sm1648176lfv.291.2021.06.07.16.00.21
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 07 Jun 2021 16:00:21 -0700 (PDT)
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Abhinav Kumar <abhinavk@codeaurora.org>
+Subject: [PATCH v3] drm/msm/dsi: add continuous clock support for 7nm PHY
+Date: Tue,  8 Jun 2021 02:00:21 +0300
+Message-Id: <20210607230021.2193253-1-dmitry.baryshkov@linaro.org>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-In-Reply-To: <20210607180356.165785-2-matthew.brost@intel.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,268 +68,216 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: john.c.harrison@intel.com, Michal.Wajdeczko@intel.com
+Cc: Jonathan Marek <jonathan@marek.ca>, Stephen Boyd <sboyd@kernel.org>,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ David Airlie <airlied@linux.ie>, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Unlike previous generations, 7nm PHYs are required to collaborate with
+the host for conitnuos clock mode. Add changes neccessary to enable
+continuous clock mode in the 7nm DSI PHYs.
 
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+---
 
-On 6/7/2021 11:03 AM, Matthew Brost wrote:
-> From: Michal Wajdeczko <michal.wajdeczko@intel.com>
->
-> New GuC firmware will unify format of MMIO and CTB H2G messages.
-> Introduce their definitions now to allow gradual transition of
-> our code to match new changes.
->
-> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
-> Signed-off-by: Michal Wajdeczko <michal.wajdeczko@intel.com>
-> Cc: Michał Winiarski <michal.winiarski@intel.com>
-> ---
->   .../gpu/drm/i915/gt/uc/abi/guc_messages_abi.h | 213 ++++++++++++++++++
->   1 file changed, 213 insertions(+)
->
-> diff --git a/drivers/gpu/drm/i915/gt/uc/abi/guc_messages_abi.h b/drivers/gpu/drm/i915/gt/uc/abi/guc_messages_abi.h
-> index 775e21f3058c..29ac823acd4c 100644
-> --- a/drivers/gpu/drm/i915/gt/uc/abi/guc_messages_abi.h
-> +++ b/drivers/gpu/drm/i915/gt/uc/abi/guc_messages_abi.h
-> @@ -6,6 +6,219 @@
->   #ifndef _ABI_GUC_MESSAGES_ABI_H
->   #define _ABI_GUC_MESSAGES_ABI_H
->   
-> +/**
-> + * DOC: HXG Message
-> + *
-> + * All messages exchanged with GuC are defined using 32 bit dwords.
-> + * First dword is treated as a message header. Remaining dwords are optional.
-> + *
-> + *  +---+-------+--------------------------------------------------------------+
-> + *  |   | Bits  | Description                                                  |
-> + *  +===+=======+==============================================================+
-> + *  |   |       |                                                              |
-> + *  | 0 |    31 | **ORIGIN** - originator of the message                       |
-> + *  |   |       |   - _`GUC_HXG_ORIGIN_HOST` = 0                               |
-> + *  |   |       |   - _`GUC_HXG_ORIGIN_GUC` = 1                                |
-> + *  |   |       |                                                              |
-> + *  |   +-------+--------------------------------------------------------------+
-> + *  |   | 30:28 | **TYPE** - message type                                      |
-> + *  |   |       |   - _`GUC_HXG_TYPE_REQUEST` = 0                              |
-> + *  |   |       |   - _`GUC_HXG_TYPE_EVENT` = 1                                |
-> + *  |   |       |   - _`GUC_HXG_TYPE_NO_RESPONSE_BUSY` = 3                     |
-> + *  |   |       |   - _`GUC_HXG_TYPE_NO_RESPONSE_RETRY` = 5                    |
-> + *  |   |       |   - _`GUC_HXG_TYPE_RESPONSE_FAILURE` = 6                     |
-> + *  |   |       |   - _`GUC_HXG_TYPE_RESPONSE_SUCCESS` = 7                     |
-> + *  |   +-------+--------------------------------------------------------------+
-> + *  |   |  27:0 | **AUX** - auxiliary data (depends on TYPE)                   |
-> + *  +---+-------+--------------------------------------------------------------+
-> + *  | 1 |  31:0 |                                                              |
-> + *  +---+-------+                                                              |
-> + *  |...|       | **PAYLOAD** - optional payload (depends on TYPE)             |
-> + *  +---+-------+                                                              |
-> + *  | n |  31:0 |                                                              |
-> + *  +---+-------+--------------------------------------------------------------+
-> + */
-> +
-> +#define GUC_HXG_MSG_MIN_LEN			1u
-> +#define GUC_HXG_MSG_0_ORIGIN			(0x1 << 31)
+Changes since v2:
+ - Really drop msm_dsi_phy_needs_hs_phy_sel()
 
-Any reason not to use BIT(31) here? same below with other bits and with 
-GENMASK for masks.
+Changes since v1:
+ - Remove the need for a separate msm_dsi_phy_needs_hs_phy_sel() call
+ - Fix setting continuous clock for a dual DSI case.
 
-> +#define   GUC_HXG_ORIGIN_HOST			0u
-> +#define   GUC_HXG_ORIGIN_GUC			1u
-> +#define GUC_HXG_MSG_0_TYPE			(0x7 << 28)
+---
+ drivers/gpu/drm/msm/dsi/dsi.h             |  3 ++-
+ drivers/gpu/drm/msm/dsi/dsi.xml.h         |  1 +
+ drivers/gpu/drm/msm/dsi/dsi_host.c        | 12 ++++++++----
+ drivers/gpu/drm/msm/dsi/dsi_manager.c     |  4 ++--
+ drivers/gpu/drm/msm/dsi/phy/dsi_phy.c     |  9 +++++++++
+ drivers/gpu/drm/msm/dsi/phy/dsi_phy.h     |  1 +
+ drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c | 17 +++++++++++++++++
+ 7 files changed, 40 insertions(+), 7 deletions(-)
 
-I think the masks could use a _MASK postfix
-
-> +#define   GUC_HXG_TYPE_REQUEST			0u
-> +#define   GUC_HXG_TYPE_EVENT			1u
-> +#define   GUC_HXG_TYPE_NO_RESPONSE_BUSY		3u
-> +#define   GUC_HXG_TYPE_NO_RESPONSE_RETRY	5u
-> +#define   GUC_HXG_TYPE_RESPONSE_FAILURE		6u
-> +#define   GUC_HXG_TYPE_RESPONSE_SUCCESS		7u
-> +#define GUC_HXG_MSG_0_AUX			(0xfffffff << 0)
-> +#define GUC_HXG_MSG_n_PAYLOAD			(0xffffffff << 0)
-
-Is a mask that covers the whole u32 really needed? Even for future 
-proofing, I find it very unlikely that we'll ever have a case where the 
-payload is not an entire dword.
-
-> +
-> +/**
-> + * DOC: HXG Request
-> + *
-> + * The `HXG Request`_ message should be used to initiate synchronous activity
-> + * for which confirmation or return data is expected.
-> + *
-> + * The recipient of this message shall use `HXG Response`_, `HXG Failure`_
-> + * or `HXG Retry`_ message as a definite reply, and may use `HXG Busy`_
-> + * message as a intermediate reply.
-> + *
-> + * Format of @DATA0 and all @DATAn fields depends on the @ACTION code.
-> + *
-> + *  +---+-------+--------------------------------------------------------------+
-> + *  |   | Bits  | Description                                                  |
-> + *  +===+=======+==============================================================+
-> + *  | 0 |    31 | ORIGIN                                                       |
-> + *  |   +-------+--------------------------------------------------------------+
-> + *  |   | 30:28 | TYPE = GUC_HXG_TYPE_REQUEST_                                 |
-> + *  |   +-------+--------------------------------------------------------------+
-> + *  |   | 27:16 | **DATA0** - request data (depends on ACTION)                 |
-> + *  |   +-------+--------------------------------------------------------------+
-> + *  |   |  15:0 | **ACTION** - requested action code                           |
-> + *  +---+-------+--------------------------------------------------------------+
-> + *  | 1 |  31:0 |                                                              |
-> + *  +---+-------+                                                              |
-> + *  |...|       | **DATAn** - optional data (depends on ACTION)                |
-> + *  +---+-------+                                                              |
-> + *  | n |  31:0 |                                                              |
-> + *  +---+-------+--------------------------------------------------------------+
-> + */
-> +
-> +#define GUC_HXG_REQUEST_MSG_MIN_LEN		GUC_HXG_MSG_MIN_LEN
-> +#define GUC_HXG_REQUEST_MSG_0_DATA0		(0xfff << 16)
-> +#define GUC_HXG_REQUEST_MSG_0_ACTION		(0xffff << 0)
-> +#define GUC_HXG_REQUEST_MSG_n_DATAn		GUC_HXG_MSG_n_PAYLOAD
-> +
-> +/**
-> + * DOC: HXG Event
-> + *
-> + * The `HXG Event`_ message should be used to initiate asynchronous activity
-> + * that does not involves immediate confirmation nor data.
-> + *
-> + * Format of @DATA0 and all @DATAn fields depends on the @ACTION code.
-> + *
-> + *  +---+-------+--------------------------------------------------------------+
-> + *  |   | Bits  | Description                                                  |
-> + *  +===+=======+==============================================================+
-> + *  | 0 |    31 | ORIGIN                                                       |
-> + *  |   +-------+--------------------------------------------------------------+
-> + *  |   | 30:28 | TYPE = GUC_HXG_TYPE_EVENT_                                   |
-> + *  |   +-------+--------------------------------------------------------------+
-> + *  |   | 27:16 | **DATA0** - event data (depends on ACTION)                   |
-> + *  |   +-------+--------------------------------------------------------------+
-> + *  |   |  15:0 | **ACTION** - event action code                               |
-> + *  +---+-------+--------------------------------------------------------------+
-> + *  | 1 |  31:0 |                                                              |
-> + *  +---+-------+                                                              |
-> + *  |...|       | **DATAn** - optional event  data (depends on ACTION)         |
-> + *  +---+-------+                                                              |
-> + *  | n |  31:0 |                                                              |
-> + *  +---+-------+--------------------------------------------------------------+
-> + */
-> +
-> +#define GUC_HXG_EVENT_MSG_MIN_LEN		GUC_HXG_MSG_MIN_LEN
-> +#define GUC_HXG_EVENT_MSG_0_DATA0		(0xfff << 16)
-> +#define GUC_HXG_EVENT_MSG_0_ACTION		(0xffff << 0)
-> +#define GUC_HXG_EVENT_MSG_n_DATAn		GUC_HXG_MSG_n_PAYLOAD
-> +
-> +/**
-> + * DOC: HXG Busy
-> + *
-> + * The `HXG Busy`_ message may be used to acknowledge reception of the `HXG Request`_
-> + * message if the recipient expects that it processing will be longer than default
-> + * timeout.
-> + *
-> + * The @COUNTER field may be used as a progress indicator.
-> + *
-> + *  +---+-------+--------------------------------------------------------------+
-> + *  |   | Bits  | Description                                                  |
-> + *  +===+=======+==============================================================+
-> + *  | 0 |    31 | ORIGIN                                                       |
-> + *  |   +-------+--------------------------------------------------------------+
-> + *  |   | 30:28 | TYPE = GUC_HXG_TYPE_NO_RESPONSE_BUSY_                        |
-> + *  |   +-------+--------------------------------------------------------------+
-> + *  |   |  27:0 | **COUNTER** - progress indicator                             |
-> + *  +---+-------+--------------------------------------------------------------+
-> + */
-> +
-> +#define GUC_HXG_BUSY_MSG_LEN			GUC_HXG_MSG_MIN_LEN
-> +#define GUC_HXG_BUSY_MSG_0_COUNTER		GUC_HXG_MSG_0_AUX
-> +
-> +/**
-> + * DOC: HXG Retry
-> + *
-> + * The `HXG Retry`_ message should be used by recipient to indicate that the
-> + * `HXG Request`_ message was dropped and it should be resent again.
-> + *
-> + * The @REASON field may be used to provide additional information.
-> + *
-> + *  +---+-------+--------------------------------------------------------------+
-> + *  |   | Bits  | Description                                                  |
-> + *  +===+=======+==============================================================+
-> + *  | 0 |    31 | ORIGIN                                                       |
-> + *  |   +-------+--------------------------------------------------------------+
-> + *  |   | 30:28 | TYPE = GUC_HXG_TYPE_NO_RESPONSE_RETRY_                       |
-> + *  |   +-------+--------------------------------------------------------------+
-> + *  |   |  27:0 | **REASON** - reason for retry                                |
-> + *  |   |       |  - _`GUC_HXG_RETRY_REASON_UNSPECIFIED` = 0                   |
-
-AFAICS in the specs for 62.0.0 this field is actually a MBZ. Where does 
-the "reason" classification come from?
-
-Apart from this, all the defines match the specs.
-
-Daniele
-
-> + *  +---+-------+--------------------------------------------------------------+
-> + */
-> +
-> +#define GUC_HXG_RETRY_MSG_LEN			GUC_HXG_MSG_MIN_LEN
-> +#define GUC_HXG_RETRY_MSG_0_REASON		GUC_HXG_MSG_0_AUX
-> +#define   GUC_HXG_RETRY_REASON_UNSPECIFIED	0u
-> +
-> +/**
-> + * DOC: HXG Failure
-> + *
-> + * The `HXG Failure`_ message shall be used as a reply to the `HXG Request`_
-> + * message that could not be processed due to an error.
-> + *
-> + *  +---+-------+--------------------------------------------------------------+
-> + *  |   | Bits  | Description                                                  |
-> + *  +===+=======+==============================================================+
-> + *  | 0 |    31 | ORIGIN                                                       |
-> + *  |   +-------+--------------------------------------------------------------+
-> + *  |   | 30:28 | TYPE = GUC_HXG_TYPE_RESPONSE_FAILURE_                        |
-> + *  |   +-------+--------------------------------------------------------------+
-> + *  |   | 27:16 | **HINT** - additional error hint                             |
-> + *  |   +-------+--------------------------------------------------------------+
-> + *  |   |  15:0 | **ERROR** - error/result code                                |
-> + *  +---+-------+--------------------------------------------------------------+
-> + */
-> +
-> +#define GUC_HXG_FAILURE_MSG_LEN			GUC_HXG_MSG_MIN_LEN
-> +#define GUC_HXG_FAILURE_MSG_0_HINT		(0xfff << 16)
-> +#define GUC_HXG_FAILURE_MSG_0_ERROR		(0xffff << 0)
-> +
-> +/**
-> + * DOC: HXG Response
-> + *
-> + * The `HXG Response`_ message shall be used as a reply to the `HXG Request`_
-> + * message that was successfully processed without an error.
-> + *
-> + *  +---+-------+--------------------------------------------------------------+
-> + *  |   | Bits  | Description                                                  |
-> + *  +===+=======+==============================================================+
-> + *  | 0 |    31 | ORIGIN                                                       |
-> + *  |   +-------+--------------------------------------------------------------+
-> + *  |   | 30:28 | TYPE = GUC_HXG_TYPE_RESPONSE_SUCCESS_                        |
-> + *  |   +-------+--------------------------------------------------------------+
-> + *  |   |  27:0 | **DATA0** - data (depends on ACTION from `HXG Request`_)     |
-> + *  +---+-------+--------------------------------------------------------------+
-> + *  | 1 |  31:0 |                                                              |
-> + *  +---+-------+                                                              |
-> + *  |...|       | **DATAn** - data (depends on ACTION from `HXG Request`_)     |
-> + *  +---+-------+                                                              |
-> + *  | n |  31:0 |                                                              |
-> + *  +---+-------+--------------------------------------------------------------+
-> + */
-> +
-> +#define GUC_HXG_RESPONSE_MSG_MIN_LEN		GUC_HXG_MSG_MIN_LEN
-> +#define GUC_HXG_RESPONSE_MSG_0_DATA0		GUC_HXG_MSG_0_AUX
-> +#define GUC_HXG_RESPONSE_MSG_n_DATAn		GUC_HXG_MSG_n_PAYLOAD
-> +
-> +/* deprecated */
->   #define INTEL_GUC_MSG_TYPE_SHIFT	28
->   #define INTEL_GUC_MSG_TYPE_MASK		(0xF << INTEL_GUC_MSG_TYPE_SHIFT)
->   #define INTEL_GUC_MSG_DATA_SHIFT	16
+diff --git a/drivers/gpu/drm/msm/dsi/dsi.h b/drivers/gpu/drm/msm/dsi/dsi.h
+index 7abfeab08165..5be458c701d2 100644
+--- a/drivers/gpu/drm/msm/dsi/dsi.h
++++ b/drivers/gpu/drm/msm/dsi/dsi.h
+@@ -108,7 +108,7 @@ int msm_dsi_host_enable(struct mipi_dsi_host *host);
+ int msm_dsi_host_disable(struct mipi_dsi_host *host);
+ int msm_dsi_host_power_on(struct mipi_dsi_host *host,
+ 			struct msm_dsi_phy_shared_timings *phy_shared_timings,
+-			bool is_dual_dsi);
++			bool is_dual_dsi, struct msm_dsi_phy *phy);
+ int msm_dsi_host_power_off(struct mipi_dsi_host *host);
+ int msm_dsi_host_set_display_mode(struct mipi_dsi_host *host,
+ 				  const struct drm_display_mode *mode);
+@@ -173,6 +173,7 @@ int msm_dsi_phy_get_clk_provider(struct msm_dsi_phy *phy,
+ 	struct clk **byte_clk_provider, struct clk **pixel_clk_provider);
+ void msm_dsi_phy_pll_save_state(struct msm_dsi_phy *phy);
+ int msm_dsi_phy_pll_restore_state(struct msm_dsi_phy *phy);
++bool msm_dsi_phy_set_continuous_clock(struct msm_dsi_phy *phy, bool enable);
+ 
+ #endif /* __DSI_CONNECTOR_H__ */
+ 
+diff --git a/drivers/gpu/drm/msm/dsi/dsi.xml.h b/drivers/gpu/drm/msm/dsi/dsi.xml.h
+index 50eb4d1b8fdd..9762af6035e9 100644
+--- a/drivers/gpu/drm/msm/dsi/dsi.xml.h
++++ b/drivers/gpu/drm/msm/dsi/dsi.xml.h
+@@ -510,6 +510,7 @@ static inline uint32_t DSI_CLKOUT_TIMING_CTRL_T_CLK_POST(uint32_t val)
+ #define DSI_LANE_STATUS_DLN0_DIRECTION				0x00010000
+ 
+ #define REG_DSI_LANE_CTRL					0x000000a8
++#define DSI_LANE_CTRL_HS_REQ_SEL_PHY				0x01000000
+ #define DSI_LANE_CTRL_CLKLN_HS_FORCE_REQUEST			0x10000000
+ 
+ #define REG_DSI_LANE_SWAP_CTRL					0x000000ac
+diff --git a/drivers/gpu/drm/msm/dsi/dsi_host.c b/drivers/gpu/drm/msm/dsi/dsi_host.c
+index 41e1d0f7ab6e..50be935edcad 100644
+--- a/drivers/gpu/drm/msm/dsi/dsi_host.c
++++ b/drivers/gpu/drm/msm/dsi/dsi_host.c
+@@ -835,7 +835,7 @@ static inline enum dsi_cmd_dst_format dsi_get_cmd_fmt(
+ }
+ 
+ static void dsi_ctrl_config(struct msm_dsi_host *msm_host, bool enable,
+-			struct msm_dsi_phy_shared_timings *phy_shared_timings)
++			struct msm_dsi_phy_shared_timings *phy_shared_timings, struct msm_dsi_phy *phy)
+ {
+ 	u32 flags = msm_host->mode_flags;
+ 	enum mipi_dsi_pixel_format mipi_fmt = msm_host->format;
+@@ -930,6 +930,10 @@ static void dsi_ctrl_config(struct msm_dsi_host *msm_host, bool enable,
+ 
+ 	if (!(flags & MIPI_DSI_CLOCK_NON_CONTINUOUS)) {
+ 		lane_ctrl = dsi_read(msm_host, REG_DSI_LANE_CTRL);
++
++		if (msm_dsi_phy_set_continuous_clock(phy, enable))
++			lane_ctrl |= DSI_LANE_CTRL_HS_REQ_SEL_PHY;
++
+ 		dsi_write(msm_host, REG_DSI_LANE_CTRL,
+ 			lane_ctrl | DSI_LANE_CTRL_CLKLN_HS_FORCE_REQUEST);
+ 	}
+@@ -2360,7 +2364,7 @@ static void msm_dsi_sfpb_config(struct msm_dsi_host *msm_host, bool enable)
+ 
+ int msm_dsi_host_power_on(struct mipi_dsi_host *host,
+ 			struct msm_dsi_phy_shared_timings *phy_shared_timings,
+-			bool is_dual_dsi)
++			bool is_dual_dsi, struct msm_dsi_phy *phy)
+ {
+ 	struct msm_dsi_host *msm_host = to_msm_dsi_host(host);
+ 	const struct msm_dsi_cfg_handler *cfg_hnd = msm_host->cfg_hnd;
+@@ -2400,7 +2404,7 @@ int msm_dsi_host_power_on(struct mipi_dsi_host *host,
+ 
+ 	dsi_timing_setup(msm_host, is_dual_dsi);
+ 	dsi_sw_reset(msm_host);
+-	dsi_ctrl_config(msm_host, true, phy_shared_timings);
++	dsi_ctrl_config(msm_host, true, phy_shared_timings, phy);
+ 
+ 	if (msm_host->disp_en_gpio)
+ 		gpiod_set_value(msm_host->disp_en_gpio, 1);
+@@ -2431,7 +2435,7 @@ int msm_dsi_host_power_off(struct mipi_dsi_host *host)
+ 		goto unlock_ret;
+ 	}
+ 
+-	dsi_ctrl_config(msm_host, false, NULL);
++	dsi_ctrl_config(msm_host, false, NULL, NULL);
+ 
+ 	if (msm_host->disp_en_gpio)
+ 		gpiod_set_value(msm_host->disp_en_gpio, 0);
+diff --git a/drivers/gpu/drm/msm/dsi/dsi_manager.c b/drivers/gpu/drm/msm/dsi/dsi_manager.c
+index e138a0c16085..cc18ea2b244c 100644
+--- a/drivers/gpu/drm/msm/dsi/dsi_manager.c
++++ b/drivers/gpu/drm/msm/dsi/dsi_manager.c
+@@ -382,7 +382,7 @@ static void dsi_mgr_bridge_pre_enable(struct drm_bridge *bridge)
+ 	if (is_dual_dsi && !IS_MASTER_DSI_LINK(id))
+ 		return;
+ 
+-	ret = msm_dsi_host_power_on(host, &phy_shared_timings[id], is_dual_dsi);
++	ret = msm_dsi_host_power_on(host, &phy_shared_timings[id], is_dual_dsi, msm_dsi->phy);
+ 	if (ret) {
+ 		pr_err("%s: power on host %d failed, %d\n", __func__, id, ret);
+ 		goto host_on_fail;
+@@ -390,7 +390,7 @@ static void dsi_mgr_bridge_pre_enable(struct drm_bridge *bridge)
+ 
+ 	if (is_dual_dsi && msm_dsi1) {
+ 		ret = msm_dsi_host_power_on(msm_dsi1->host,
+-				&phy_shared_timings[DSI_1], is_dual_dsi);
++				&phy_shared_timings[DSI_1], is_dual_dsi, msm_dsi1->phy);
+ 		if (ret) {
+ 			pr_err("%s: power on host1 failed, %d\n",
+ 							__func__, ret);
+diff --git a/drivers/gpu/drm/msm/dsi/phy/dsi_phy.c b/drivers/gpu/drm/msm/dsi/phy/dsi_phy.c
+index ccbd19f7d9cf..1b11c0337a59 100644
+--- a/drivers/gpu/drm/msm/dsi/phy/dsi_phy.c
++++ b/drivers/gpu/drm/msm/dsi/phy/dsi_phy.c
+@@ -851,6 +851,15 @@ void msm_dsi_phy_set_usecase(struct msm_dsi_phy *phy,
+ 		phy->usecase = uc;
+ }
+ 
++/* Returns true if we have to enable DSI_LANE_CTRL.HS_REQ_SEL_PHY */
++bool msm_dsi_phy_set_continuous_clock(struct msm_dsi_phy *phy, bool enable)
++{
++	if (!phy || !phy->cfg->ops.set_continuous_clock)
++		return false;
++
++	return phy->cfg->ops.set_continuous_clock(phy, enable);
++}
++
+ int msm_dsi_phy_get_clk_provider(struct msm_dsi_phy *phy,
+ 	struct clk **byte_clk_provider, struct clk **pixel_clk_provider)
+ {
+diff --git a/drivers/gpu/drm/msm/dsi/phy/dsi_phy.h b/drivers/gpu/drm/msm/dsi/phy/dsi_phy.h
+index 94a77ac364d3..08e516d0dac4 100644
+--- a/drivers/gpu/drm/msm/dsi/phy/dsi_phy.h
++++ b/drivers/gpu/drm/msm/dsi/phy/dsi_phy.h
+@@ -24,6 +24,7 @@ struct msm_dsi_phy_ops {
+ 	void (*disable)(struct msm_dsi_phy *phy);
+ 	void (*save_pll_state)(struct msm_dsi_phy *phy);
+ 	int (*restore_pll_state)(struct msm_dsi_phy *phy);
++	bool (*set_continuous_clock)(struct msm_dsi_phy *phy, bool enable);
+ };
+ 
+ struct msm_dsi_phy_cfg {
+diff --git a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c
+index e76ce40a12ab..310b15653fa3 100644
+--- a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c
++++ b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c
+@@ -930,6 +930,21 @@ static int dsi_7nm_phy_enable(struct msm_dsi_phy *phy,
+ 	return 0;
+ }
+ 
++static bool dsi_7nm_set_continuous_clock(struct msm_dsi_phy *phy, bool enable)
++{
++	void __iomem *base = phy->base;
++	u32 data;
++
++	data = dsi_phy_read(base + REG_DSI_7nm_PHY_CMN_LANE_CTRL1);
++	if (enable)
++		data |= BIT(5) | BIT(6);
++	else
++		data &= ~(BIT(5) | BIT(6));
++	dsi_phy_write(base + REG_DSI_7nm_PHY_CMN_LANE_CTRL1, data);
++
++	return enable;
++}
++
+ static void dsi_7nm_phy_disable(struct msm_dsi_phy *phy)
+ {
+ 	void __iomem *base = phy->base;
+@@ -970,6 +985,7 @@ const struct msm_dsi_phy_cfg dsi_phy_7nm_cfgs = {
+ 		.pll_init = dsi_pll_7nm_init,
+ 		.save_pll_state = dsi_7nm_pll_save_state,
+ 		.restore_pll_state = dsi_7nm_pll_restore_state,
++		.set_continuous_clock = dsi_7nm_set_continuous_clock,
+ 	},
+ 	.min_pll_rate = 600000000UL,
+ 	.max_pll_rate = (5000000000ULL < ULONG_MAX) ? 5000000000ULL : ULONG_MAX,
+@@ -992,6 +1008,7 @@ const struct msm_dsi_phy_cfg dsi_phy_7nm_8150_cfgs = {
+ 		.pll_init = dsi_pll_7nm_init,
+ 		.save_pll_state = dsi_7nm_pll_save_state,
+ 		.restore_pll_state = dsi_7nm_pll_restore_state,
++		.set_continuous_clock = dsi_7nm_set_continuous_clock,
+ 	},
+ 	.min_pll_rate = 1000000000UL,
+ 	.max_pll_rate = 3500000000UL,
+-- 
+2.30.2
 
