@@ -2,61 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D4C939E928
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Jun 2021 23:39:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C6A639E973
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Jun 2021 00:19:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0E0766EA20;
-	Mon,  7 Jun 2021 21:39:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C8F3C6E532;
+	Mon,  7 Jun 2021 22:19:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x22e.google.com (mail-lj1-x22e.google.com
- [IPv6:2a00:1450:4864:20::22e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BE55E6EA20
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Jun 2021 21:39:11 +0000 (UTC)
-Received: by mail-lj1-x22e.google.com with SMTP id u18so4016655lju.12
- for <dri-devel@lists.freedesktop.org>; Mon, 07 Jun 2021 14:39:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=u8CKvwSQLjjj+5EJDA8ATWx2yaOhMI1EEsNUtEuV8bk=;
- b=EE8BrWdnOfaSRktSGtAbHGRjUb/zfSuaXZNayvdpAMV6+DhBqv7HwiJZ0qtfYNTipo
- lUc1kkM4MrYxw1Unia3/QlQHLVsp7W2Ei8iqe4/yzsfmKBtaWgEabb57y5gDrGw2jm92
- hDCA6mfDG9VTnyL/IBIHWRuJRfu/0eL2bQUuypQ2OsMoh67O4c+Z1AdM9IDmn48oXrfS
- 3ZH5HeNa1Qz1koFEd+YVMvYjQJEw5tToGmVQIOPYbDhABy0MtXqGMKcyfCeoxlI+uXBz
- f1ea1+X7+bWPSZla4TFXywzmTYkDMi1Sk/G4JkL44zsIi5c4+9Gtv/MVafOuGuA3DiU/
- 5y4A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=u8CKvwSQLjjj+5EJDA8ATWx2yaOhMI1EEsNUtEuV8bk=;
- b=nmLZxVMrsREcNSuofNf2MW9XXKVP3BQhsUZvDkHlN9qGcWvSNxcowrq2PNl01h6U71
- 6GoiT0xGREVrehOT934NFUroMZKsNurRQrakm0ug8AU5p9dboExHbs0ltuvXIataYejz
- ZfSE55HZUtRfRJ3+d7G8QQ8a2TiB2OgnqFun4qXRc5NcIyYxQXA75+jk/qst/avHVHkr
- jcqCqLOP87SaIWY9TroDsfRo/ERDy06OD262ekhOxq74r6y4uncbp/I7LNb4m97xX8Uk
- m5a+TfayMnMII5gJ9E1WpeSgDoFFbdODXN/jeC4rFKcZBesuRGeifIBjzfRx8h3MgZaB
- B2XA==
-X-Gm-Message-State: AOAM532jI+deln+eKy5v7k6X8B4gojZ9xOQfqSXTNzzU1+yP6r11JQzZ
- /MYMR4JCZDnPTWOVwMlju99CmA==
-X-Google-Smtp-Source: ABdhPJxopuAC3ib67JMkqaKVp9CX94BbYI9bARVwAKqMkZLRE+Amgp4fyqCYVPbLrcOGlFPzfAvW3Q==
-X-Received: by 2002:a05:651c:38b:: with SMTP id
- e11mr15788576ljp.198.1623101950184; 
- Mon, 07 Jun 2021 14:39:10 -0700 (PDT)
-Received: from eriador.lan ([37.153.55.125])
- by smtp.gmail.com with ESMTPSA id h22sm688111ljk.133.2021.06.07.14.39.09
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 07 Jun 2021 14:39:09 -0700 (PDT)
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Bjorn Andersson <bjorn.andersson@linaro.org>,
- Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Abhinav Kumar <abhinavk@codeaurora.org>
-Subject: [PATCH] drm/msm/dsi: do not enable PHYs when called for the slave DSI
- interface
-Date: Tue,  8 Jun 2021 00:39:09 +0300
-Message-Id: <20210607213909.2186556-1-dmitry.baryshkov@linaro.org>
-X-Mailer: git-send-email 2.30.2
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0507F6E532;
+ Mon,  7 Jun 2021 22:19:15 +0000 (UTC)
+IronPort-SDR: PwxOVddPLXfc0C0bq0Xfb4sxbpGqm2NSNGuPY3WKmzkEPUtyLFwUWUYXRrkChi+i6Vt/F229hX
+ w7y3sT3aTn/Q==
+X-IronPort-AV: E=McAfee;i="6200,9189,10008"; a="185097758"
+X-IronPort-AV: E=Sophos;i="5.83,256,1616482800"; d="scan'208";a="185097758"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Jun 2021 15:19:15 -0700
+IronPort-SDR: ADIUi6Tnf4BlfgqJqW0WqNcI3SbQBmp7BkF7cZd4mIWVswWaC8DBNo1hNcStm+mw2C584D8HcX
+ YzT/vW0hesDQ==
+X-IronPort-AV: E=Sophos;i="5.83,256,1616482800"; d="scan'208";a="476373647"
+Received: from dceraolo-mobl.amr.corp.intel.com (HELO [10.209.129.6])
+ ([10.209.129.6])
+ by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Jun 2021 15:19:14 -0700
+Subject: Re: [PATCH 00/13] Update firmware to v62.0.0
+To: Matthew Brost <matthew.brost@intel.com>, intel-gfx@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org
+References: <20210607180356.165785-1-matthew.brost@intel.com>
+From: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+Message-ID: <f270bb24-d9d3-c65e-0944-5d7dcb4f3b30@intel.com>
+Date: Mon, 7 Jun 2021 15:19:11 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210607180356.165785-1-matthew.brost@intel.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,44 +52,62 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jonathan Marek <jonathan@marek.ca>, Stephen Boyd <sboyd@kernel.org>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- David Airlie <airlied@linux.ie>, freedreno@lists.freedesktop.org
+Cc: john.c.harrison@intel.com, Michal.Wajdeczko@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Move the call to dsi_mgr_phy_enable after checking whether the DSI
-interface is slave, so that PHY enablement happens together with the
-host enablement.
 
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
----
- drivers/gpu/drm/msm/dsi/dsi_manager.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/dsi/dsi_manager.c b/drivers/gpu/drm/msm/dsi/dsi_manager.c
-index cc18ea2b244c..d77693904a15 100644
---- a/drivers/gpu/drm/msm/dsi/dsi_manager.c
-+++ b/drivers/gpu/drm/msm/dsi/dsi_manager.c
-@@ -374,14 +374,14 @@ static void dsi_mgr_bridge_pre_enable(struct drm_bridge *bridge)
- 	if (!msm_dsi_device_connected(msm_dsi))
- 		return;
- 
--	ret = dsi_mgr_phy_enable(id, phy_shared_timings);
--	if (ret)
--		goto phy_en_fail;
--
- 	/* Do nothing with the host if it is slave-DSI in case of dual DSI */
- 	if (is_dual_dsi && !IS_MASTER_DSI_LINK(id))
- 		return;
- 
-+	ret = dsi_mgr_phy_enable(id, phy_shared_timings);
-+	if (ret)
-+		goto phy_en_fail;
-+
- 	ret = msm_dsi_host_power_on(host, &phy_shared_timings[id], is_dual_dsi, msm_dsi->phy);
- 	if (ret) {
- 		pr_err("%s: power on host %d failed, %d\n", __func__, id, ret);
--- 
-2.30.2
+On 6/7/2021 11:03 AM, Matthew Brost wrote:
+> As part of enabling GuC submission [1] we need to update to the latest
+> and greatest firmware. This series does that. This is a destructive
+> change. e.g. Without all the patches in this series it will break the
+> i915 driver. As such, after we review all of these patches they will
+> squashed into a single patch for merging.
+
+Can you resubmit with an added HAX patch for enable_guc=2 after the 
+first round of review? none of the machines in CI seems to have 
+attempted to load the guc, not even cfl-guc and kbl-guc. If all the 
+reviews are good maybe just resubmit the squashed patch and the 
+enablement with a CI tag, so we can merge once we get the results.
+
+Daniele
+
+>
+> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+>
+> [1] https://patchwork.freedesktop.org/series/89844/
+>
+> John Harrison (3):
+>    drm/i915/guc: Support per context scheduling policies
+>    drm/i915/guc: Unified GuC log
+>    drm/i915/guc: Update firmware to v62.0.0
+>
+> Michal Wajdeczko (10):
+>    drm/i915/guc: Introduce unified HXG messages
+>    drm/i915/guc: Update MMIO based communication
+>    drm/i915/guc: Update CTB response status definition
+>    drm/i915/guc: Add flag for mark broken CTB
+>    drm/i915/guc: New definition of the CTB descriptor
+>    drm/i915/guc: New definition of the CTB registration action
+>    drm/i915/guc: New CTB based communication
+>    drm/i915/doc: Include GuC ABI documentation
+>    drm/i915/guc: Kill guc_clients.ct_pool
+>    drm/i915/guc: Kill ads.client_info
+>
+>   Documentation/gpu/i915.rst                    |   8 +
+>   .../gpu/drm/i915/gt/uc/abi/guc_actions_abi.h  | 107 ++++++
+>   .../gt/uc/abi/guc_communication_ctb_abi.h     | 130 +++++--
+>   .../gt/uc/abi/guc_communication_mmio_abi.h    |  63 ++--
+>   .../gpu/drm/i915/gt/uc/abi/guc_messages_abi.h | 213 +++++++++++
+>   drivers/gpu/drm/i915/gt/uc/intel_guc.c        | 107 ++++--
+>   drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c    |  45 +--
+>   drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c     | 355 +++++++++---------
+>   drivers/gpu/drm/i915/gt/uc/intel_guc_ct.h     |   6 +-
+>   drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h   |  75 +---
+>   drivers/gpu/drm/i915/gt/uc/intel_guc_log.c    |  29 +-
+>   drivers/gpu/drm/i915/gt/uc/intel_guc_log.h    |   6 +-
+>   drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c      |  26 +-
+>   13 files changed, 750 insertions(+), 420 deletions(-)
+>
 
