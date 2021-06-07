@@ -2,45 +2,115 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06EB639E9E7
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Jun 2021 01:07:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E5ED39EA03
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Jun 2021 01:18:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E8B756E057;
-	Mon,  7 Jun 2021 23:07:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B90116EA4A;
+	Mon,  7 Jun 2021 23:18:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C428A6E057;
- Mon,  7 Jun 2021 23:07:01 +0000 (UTC)
-IronPort-SDR: HI3XS57TEoaSkP9mfwHmIGMy/fTicTznJ8YsR83bq3wXylSxmNmI51NzNwQT5xqh+sHRG8Tq7/
- 1u2DKpzwqfZQ==
-X-IronPort-AV: E=McAfee;i="6200,9189,10008"; a="201714173"
-X-IronPort-AV: E=Sophos;i="5.83,256,1616482800"; d="scan'208";a="201714173"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Jun 2021 16:06:58 -0700
-IronPort-SDR: +sJ69eIRkwZWaeApv+UZ9TCJ78foKs12O7HEH5wDHS17aQNS26EahiJgRL67oU26p7w+9ZtRFR
- iC8WNGbBpuvw==
-X-IronPort-AV: E=Sophos;i="5.83,256,1616482800"; d="scan'208";a="476386900"
-Received: from dceraolo-mobl.amr.corp.intel.com (HELO [10.209.129.6])
- ([10.209.129.6])
- by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Jun 2021 16:06:57 -0700
-Subject: Re: [PATCH 02/13] drm/i915/guc: Update MMIO based communication
-To: Matthew Brost <matthew.brost@intel.com>, intel-gfx@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org
-References: <20210607180356.165785-1-matthew.brost@intel.com>
- <20210607180356.165785-3-matthew.brost@intel.com>
-From: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
-Message-ID: <707a404a-c20b-39e6-af85-7ab93e9d3c5e@intel.com>
-Date: Mon, 7 Jun 2021 16:06:53 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+Received: from NAM02-BN1-obe.outbound.protection.outlook.com
+ (mail-bn1nam07on2066.outbound.protection.outlook.com [40.107.212.66])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C8F516E442;
+ Mon,  7 Jun 2021 23:18:41 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=SxIwi4Xhcnkklb6lhyEtkOHNC+kNNzHXIoezBroFJweqL1X7rdEtS13l6MggGcPkb9tKpQsutosjc6FJoxfw4zUqs/4gfGvm9vTMjzsGB1BhFzN8b6Yw9VqlplFWyJfuSOWeB9e+Ce6NhC0yLAhDob7vu9xynLOKjRjGPRmcKwV+Kj2VEmbIX0sjZOkhww951HNn+A+8kI51nNU35344bFwk6Vpiof4f9ikc19cYBL0E1p9v1pSK8V5VNqTvOyDeuG+TlaKxNWM+DYqioevOdiIzDGjy0X7T2ppsHy1hHIZQneeDdWwqiGLIqCXCB7RQhNg/nc/mXsEMaigQCxvQyw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=WcqCMQrGavgYjOt2lGIXN2oQn3dkrM4UhcUIjURHt0M=;
+ b=dYyTx2EA95CQwtvWvJGbofqZaWcLG7jQk47A5wF7Ei/0VRwN9bLBv3iPIaYAe4LP+2VjQjMngj1dCFt/4+3VqCpiboCE1XP+U2aNhnNpUTNv3tiarMTigBsLpbGMSfrq7ylKgfbY1R1mTjoz+aWZPuxx+kd6+jcPLGdY84AGYS5+rLR3SZcopGzTfzoOrWLS2F424ushifWz7ScSJPHd2wMQ0Y2dv7ipaMNdiFl4gBdVitwJ2LTEowv1fo22PCNg14RbHwMrWMOMPsyMe430sGg0u6DueubS9F4JDuII4k54HLzqWbwSvlB/rCMyj4z+dlgP/Kvqem7ar3HXmRUTeg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=WcqCMQrGavgYjOt2lGIXN2oQn3dkrM4UhcUIjURHt0M=;
+ b=MkT3r8M0OYsEVLO7cCOXyS5OTiRNjN7sizRQjEARwUa01DPPfMX0K0Tp7aH6w9nddh9AwelmTtGK54XDmi+N25V6z6J6pSzfIaWWYktx8jXZw5I96HB8HSerCS8BMxYU5H2pflFpU2vFF1uNNYfghNMHYmTYuI4lEml9y3rIIKLGYjLO24ceI2ToyUAF7HMO13snbfm6deOP7ZtHhz43SNU81sCn7AXiYfoOl8qUBUTje+zHtFc3k+5mJKqCjxMQV9IuQDjFGU+QMtEPxzT/CWcNbXWcBw4yjn6zYH4syd83AOO//h5aa0FtaqA1zfhhja4VD6Pce0tdDtIXf6Puwg==
+Authentication-Results: perches.com; dkim=none (message not signed)
+ header.d=none;perches.com; dmarc=none action=none header.from=nvidia.com;
+Received: from BL0PR12MB5506.namprd12.prod.outlook.com (2603:10b6:208:1cb::22)
+ by BL1PR12MB5318.namprd12.prod.outlook.com (2603:10b6:208:31d::20)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4195.21; Mon, 7 Jun
+ 2021 23:18:39 +0000
+Received: from BL0PR12MB5506.namprd12.prod.outlook.com
+ ([fe80::3d51:a3b9:8611:684e]) by BL0PR12MB5506.namprd12.prod.outlook.com
+ ([fe80::3d51:a3b9:8611:684e%6]) with mapi id 15.20.4195.030; Mon, 7 Jun 2021
+ 23:18:38 +0000
+Date: Mon, 7 Jun 2021 20:18:37 -0300
+From: Jason Gunthorpe <jgg@nvidia.com>
+To: Joe Perches <joe@perches.com>
+Subject: Re: [PATCH] treewide: Add missing semicolons to __assign_str uses
+Message-ID: <20210607231837.GA831267@nvidia.com>
+References: <cover.1621024265.git.bristot@redhat.com>
+ <2c59beee3b36b15592bfbb9f26dee7f8b55fd814.1621024265.git.bristot@redhat.com>
+ <20210603172902.41648183@gandalf.local.home>
+ <1e068d21106bb6db05b735b4916bb420e6c9842a.camel@perches.com>
+ <20210604122128.0d348960@oasis.local.home>
+ <144460ce4f34a51dabb76e422a718573db77cdc8.camel@perches.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <144460ce4f34a51dabb76e422a718573db77cdc8.camel@perches.com>
+X-Originating-IP: [47.55.113.94]
+X-ClientProxiedBy: BL1PR13CA0007.namprd13.prod.outlook.com
+ (2603:10b6:208:256::12) To BL0PR12MB5506.namprd12.prod.outlook.com
+ (2603:10b6:208:1cb::22)
 MIME-Version: 1.0
-In-Reply-To: <20210607180356.165785-3-matthew.brost@intel.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from mlx.ziepe.ca (47.55.113.94) by
+ BL1PR13CA0007.namprd13.prod.outlook.com (2603:10b6:208:256::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4219.10 via Frontend
+ Transport; Mon, 7 Jun 2021 23:18:38 +0000
+Received: from jgg by mlx with local (Exim 4.94)	(envelope-from
+ <jgg@nvidia.com>)	id 1lqOVx-003UGN-4z; Mon, 07 Jun 2021 20:18:37 -0300
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: ea855673-a817-4d6b-036a-08d92a0a94b6
+X-MS-TrafficTypeDiagnostic: BL1PR12MB5318:
+X-Microsoft-Antispam-PRVS: <BL1PR12MB531868D60C97342FEC81E141C2389@BL1PR12MB5318.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:7219;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 1IQIx1Kt2aRGjU2JT97DmzuN4KpSkwPKVfdKyU0IUzq+uIc0ZdBJDlIXVKX0czRpEvtl1/rlvruGzP8W4QwKNAWQ4SQ696qtZKeZ/JHZPVEOGO5DT6ukNWcuVo3IPkBzGUHijB/mtXnRn4Jv7OIL05WjtfOnDdaqbAjXWe8xlDWcfCE60CVCxR4UT3KzjS6dN/rmebdAvKEhE9MK7CkVMPXEQB2DUMtWnakKFUxeyKoI8obrLm8bQWMNU7L/Vwr8vwWET5dNUP7zATZ67NKsFP9VUkEA0lPHFGFc17IQSxbrbU8Mh8rQg9D/zemTYCfTd5Sdi814M3bfLQNAyRYmJA6iqwhsMKdKibcU3dCJ40VRETy4n9pI71BnNtZlEKob/BCUW99/0szsyZ2YibVsyr8wvG6AchchcbIFhWHLcA88S4NwYhBC5VtlVPT9jMpsWhMNuEqiinlWwd1XFONHMUnCTwrPbrTnqcpd5rI8PDqNNTMTSHNqI0nyNu0/mKpboma0BGwM0p1Hh42EqWhjl4yDqItkAKqJBEgIhz5L7fCQsxKoNwePab9wLw4rXdjTJCP25j00FLxTYQfIubEoVXRLK675yZrIJr/krobFjLiTGneeMNY0PbBaXk+9gfi3OoZDsPnVcTGCYV2Wedid9A==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BL0PR12MB5506.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(376002)(366004)(136003)(396003)(39860400002)(346002)(7416002)(478600001)(83380400001)(36756003)(8936002)(2906002)(66556008)(186003)(66946007)(6916009)(2616005)(66476007)(38100700002)(86362001)(4326008)(8676002)(4744005)(316002)(26005)(426003)(5660300002)(9746002)(1076003)(9786002)(33656002)(27376004);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?yfBM5qtu8tW6vwBJ0j080dK2cZ8vkOmiwZLJ63PMA+/80r8loKMql6hfUJtv?=
+ =?us-ascii?Q?6/bo86HhiNe2f9aiBnzKG4hmtbrNTVQVN0yMwYTXE0+44JTFlyj5VUPCdlh3?=
+ =?us-ascii?Q?zXT0us0CVFTOq6IpG+kPrQ9iyYbsfAGp+P9v/x2G/nPCHp+2J1B89B/NEXUd?=
+ =?us-ascii?Q?43NyjGvlkhtynXZ9+gKXfRo319yGsWXE8Bm4qVP2x8J6GsNlZ6JpBB78zlon?=
+ =?us-ascii?Q?JuFGZw1w7PzLN4uFvfW3RV7Rw4AROjhJSAufSqHjpnzDZ4cWQFICGXNXyB1Z?=
+ =?us-ascii?Q?a8OS6DDubFGFVGi2ZtPdAZCAVFPQ+jzlZcfh+j7Z/F1j4l726Imb1BZzt7RL?=
+ =?us-ascii?Q?YvjCyCdhaS4MxEL7XJ6Qr4zGq01QA5KQdfa0bAStdAoJZkBuHH42IxknlE8N?=
+ =?us-ascii?Q?krqaxuS5f0Q3uW1V6XB2Tzs1zzlRzPe7EeQzkBGAZWALu1pKkcaE3z67CuGT?=
+ =?us-ascii?Q?4aW3/iuFkKePhFQWWAD0BgN9n2ZyGkg/SQC5JwiZHOY5W3+MJovVTXcoo2i4?=
+ =?us-ascii?Q?Xhi3LVT2VxW3+7Jbup3Ls3Z2A0502lvQpkoDUsiJF1Z2o7XLYKPRKowZiiC0?=
+ =?us-ascii?Q?3yVhtkjYo2DTJSl8xTkjw+ArZYHYEnOSKszHzRqJdACQi5vhSQeMJwYsSPwa?=
+ =?us-ascii?Q?eqhGRK9pSpM+8c7pkEJX3B+5TOMS4N2U057w5Y2LtauHW0AKePCeCRFP5tya?=
+ =?us-ascii?Q?ZBmIa0dSvfgOSYjgdGPgGe2jVSDVT69E94/HM5Rh2CtjSmUBpGsS9dcwhlJK?=
+ =?us-ascii?Q?qyCM1GN1HDU6ZNX/Jg9TbRM/vnZZZ1jTt8QHYhSgNKVlSXDX3fTMUwEATJA+?=
+ =?us-ascii?Q?o3DfCY1T6MscrU9x9qc/aqzf+Z4efgpjIedZgDIIyZX56CJDC/2IqAN5GNDq?=
+ =?us-ascii?Q?IhPFRAItHkfHEWtba6cZTZIRipHhFMmD4Bo/pDW+TCVHNHi+3FczVbX0Jj72?=
+ =?us-ascii?Q?U4JL5OpQuYz/ZNg+9otDanDtkI3MWVP3xac56nWxoUA42yEA5wdZh6sad4UE?=
+ =?us-ascii?Q?tXcfX6BXEv3VCwEbEFVrrNab76IGdhT9hG0EQL6PlWSKLvI7oLIBptOmo5E0?=
+ =?us-ascii?Q?lS3Yb5MZ+SzW2wyXMWw0g7OkvII/rdaRuJFmRS+KG+c/XxCMjIDM6GZLt89c?=
+ =?us-ascii?Q?hmi89HoDAvgn2SqtZhNMLE8lVXxDJ2/YfA8OPJpFkj/6fQR1u+f1nZm2yeSQ?=
+ =?us-ascii?Q?5ms2a6uMnSEZLYTV53qY8dkjWED1YMeoDgmLuaKOnL5z+KeIZo+WBhKpXdhg?=
+ =?us-ascii?Q?OTEWOgO3p+d8j5Qxms6gqTsPeJA3rKOHB8opXaX1K+0Kbkcbxv8c6gM9LSj/?=
+ =?us-ascii?Q?nncr1s2JcbTuYBXrU4ZST25Q?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: ea855673-a817-4d6b-036a-08d92a0a94b6
+X-MS-Exchange-CrossTenant-AuthSource: BL0PR12MB5506.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Jun 2021 23:18:38.5967 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: neQlgCFaKGpzHFVPgyILIvzKgtLEt7yz1tRHrJ5G3XSQq+P1Tt3kJpJYuZGkAwLn
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR12MB5318
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,261 +123,29 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: john.c.harrison@intel.com, Michal.Wajdeczko@intel.com
+Cc: linux-nfs@vger.kernel.org, lima@lists.freedesktop.org,
+ linux-rdma@vger.kernel.org, netdev@vger.kernel.org, linux-usb@vger.kernel.org,
+ linux-wireless@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ Steven Rostedt <rostedt@goodmis.org>, amd-gfx@lists.freedesktop.org,
+ linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Fri, Jun 04, 2021 at 12:38:07PM -0700, Joe Perches wrote:
+> The __assign_str macro has an unusual ending semicolon but the vast
+> majority of uses of the macro already have semicolon termination.
+> 
+> $ git grep -P '\b__assign_str\b' | wc -l
+> 551
+> $ git grep -P '\b__assign_str\b.*;' | wc -l
+> 480
+> 
+> Add semicolons to the __assign_str() uses without semicolon termination
+> and all the other uses without semicolon termination via additional defines
+> that are equivalent to __assign_str() with the eventual goal of removing
+> the semicolon from the __assign_str() macro definition.
 
+Acked-by: Jason Gunthorpe <jgg@nvidia.com>
 
-On 6/7/2021 11:03 AM, Matthew Brost wrote:
-> From: Michal Wajdeczko <michal.wajdeczko@intel.com>
->
-> The MMIO based Host-to-GuC communication protocol has been
-> updated to use unified HXG messages.
->
-> Update our intel_guc_send_mmio() function by correctly handle
-> BUSY, RETRY and FAILURE replies. Also update our documentation.
->
-> GuC: 55.0.0
-> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
-> Signed-off-by: Michal Wajdeczko <michal.wajdeczko@intel.com>
-> Cc: Piotr Piórkowski <piotr.piorkowski@intel.com>
-> Cc: Michal Winiarski <michal.winiarski@intel.com> #v3
-> ---
->   .../gt/uc/abi/guc_communication_mmio_abi.h    | 63 ++++++-------
->   drivers/gpu/drm/i915/gt/uc/intel_guc.c        | 92 ++++++++++++++-----
->   2 files changed, 97 insertions(+), 58 deletions(-)
->
-> diff --git a/drivers/gpu/drm/i915/gt/uc/abi/guc_communication_mmio_abi.h b/drivers/gpu/drm/i915/gt/uc/abi/guc_communication_mmio_abi.h
-> index be066a62e9e0..3f9039e3ef9d 100644
-> --- a/drivers/gpu/drm/i915/gt/uc/abi/guc_communication_mmio_abi.h
-> +++ b/drivers/gpu/drm/i915/gt/uc/abi/guc_communication_mmio_abi.h
-> @@ -7,46 +7,43 @@
->   #define _ABI_GUC_COMMUNICATION_MMIO_ABI_H
->   
->   /**
-> - * DOC: MMIO based communication
-> + * DOC: GuC MMIO based communication
->    *
-> - * The MMIO based communication between Host and GuC uses software scratch
-> - * registers, where first register holds data treated as message header,
-> - * and other registers are used to hold message payload.
-> + * The MMIO based communication between Host and GuC relies on special
-> + * hardware registers which format could be defined by the software
-> + * (so called scratch registers).
->    *
-> - * For Gen9+, GuC uses software scratch registers 0xC180-0xC1B8,
-> - * but no H2G command takes more than 8 parameters and the GuC FW
-> - * itself uses an 8-element array to store the H2G message.
-> - *
-> - *      +-----------+---------+---------+---------+
-> - *      |  MMIO[0]  | MMIO[1] |   ...   | MMIO[n] |
-> - *      +-----------+---------+---------+---------+
-> - *      | header    |      optional payload       |
-> - *      +======+====+=========+=========+=========+
-> - *      | 31:28|type|         |         |         |
-> - *      +------+----+         |         |         |
-> - *      | 27:16|data|         |         |         |
-> - *      +------+----+         |         |         |
-> - *      |  15:0|code|         |         |         |
-> - *      +------+----+---------+---------+---------+
-> - *
-> - * The message header consists of:
-> - *
-> - * - **type**, indicates message type
-> - * - **code**, indicates message code, is specific for **type**
-> - * - **data**, indicates message data, optional, depends on **code**
-> + * Each MMIO based message, both Host to GuC (H2G) and GuC to Host (G2H)
-> + * messages, which maximum length depends on number of available scratch
-> + * registers, is directly written into those scratch registers.
->    *
-> - * The following message **types** are supported:
-> + * For Gen9+, there are 16 software scratch registers 0xC180-0xC1B8,
-> + * but no H2G command takes more than 8 parameters and the GuC firmware
-> + * itself uses an 8-element array to store the H2G message.
-
-Is this statement still true? I believe no MMIO H2G is over 4 DWs (given 
-the limitation of the new gen11+ scratch regs), while CTB messages can 
-be longer than 8 DWs.
-
->    *
-> - * - **REQUEST**, indicates Host-to-GuC request, requested GuC action code
-> - *   must be priovided in **code** field. Optional action specific parameters
-> - *   can be provided in remaining payload registers or **data** field.
-> + * For Gen11+, there are additional 4 registers 0x190240-0x19024C, which
-> + * are, regardless on lower count, preffered over legacy ones.
-
-typo: preffered -> preferred
-
->    *
-> - * - **RESPONSE**, indicates GuC-to-Host response from earlier GuC request,
-> - *   action response status will be provided in **code** field. Optional
-> - *   response data can be returned in remaining payload registers or **data**
-> - *   field.
-> + * The MMIO based communication is mainly used during driver initialization
-> + * phase to setup the `CTB based communication`_ that will be used afterwards.
->    */
->   
->   #define GUC_MAX_MMIO_MSG_LEN		8
-
-See comment above. Reduce this to 4?
-
->   
-> +/**
-> + * DOC: MMIO HXG Message
-> + *
-> + * Format of the MMIO messages follows definitions of `HXG Message`_.
-> + *
-> + *  +---+-------+--------------------------------------------------------------+
-> + *  |   | Bits  | Description                                                  |
-> + *  +===+=======+==============================================================+
-> + *  | 0 |  31:0 |  +--------------------------------------------------------+  |
-> + *  +---+-------+  |                                                        |  |
-> + *  |...|       |  |  Embedded `HXG Message`_                               |  |
-> + *  +---+-------+  |                                                        |  |
-> + *  | n |  31:0 |  +--------------------------------------------------------+  |
-> + *  +---+-------+--------------------------------------------------------------+
-> + */
-> +
->   #endif /* _ABI_GUC_COMMUNICATION_MMIO_ABI_H */
-> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc.c b/drivers/gpu/drm/i915/gt/uc/intel_guc.c
-> index f147cb389a20..b773567cb080 100644
-> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc.c
-> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc.c
-> @@ -376,29 +376,27 @@ void intel_guc_fini(struct intel_guc *guc)
->   /*
->    * This function implements the MMIO based host to GuC interface.
->    */
-> -int intel_guc_send_mmio(struct intel_guc *guc, const u32 *action, u32 len,
-> +int intel_guc_send_mmio(struct intel_guc *guc, const u32 *request, u32 len,
->   			u32 *response_buf, u32 response_buf_size)
->   {
-> +	struct drm_i915_private *i915 = guc_to_gt(guc)->i915;
->   	struct intel_uncore *uncore = guc_to_gt(guc)->uncore;
-> -	u32 status;
-> +	u32 header;
->   	int i;
->   	int ret;
->   
->   	GEM_BUG_ON(!len);
->   	GEM_BUG_ON(len > guc->send_regs.count);
->   
-> -	/* We expect only action code */
-> -	GEM_BUG_ON(*action & ~INTEL_GUC_MSG_CODE_MASK);
-> -
-> -	/* If CT is available, we expect to use MMIO only during init/fini */
-> -	GEM_BUG_ON(*action != INTEL_GUC_ACTION_REGISTER_COMMAND_TRANSPORT_BUFFER &&
-> -		   *action != INTEL_GUC_ACTION_DEREGISTER_COMMAND_TRANSPORT_BUFFER);
-> +	GEM_BUG_ON(FIELD_GET(GUC_HXG_MSG_0_ORIGIN, request[0]) != GUC_HXG_ORIGIN_HOST);
-> +	GEM_BUG_ON(FIELD_GET(GUC_HXG_MSG_0_TYPE, request[0]) != GUC_HXG_TYPE_REQUEST);
->   
->   	mutex_lock(&guc->send_mutex);
->   	intel_uncore_forcewake_get(uncore, guc->send_regs.fw_domains);
->   
-> +retry:
->   	for (i = 0; i < len; i++)
-> -		intel_uncore_write(uncore, guc_send_reg(guc, i), action[i]);
-> +		intel_uncore_write(uncore, guc_send_reg(guc, i), request[i]);
->   
->   	intel_uncore_posting_read(uncore, guc_send_reg(guc, i - 1));
->   
-> @@ -410,30 +408,74 @@ int intel_guc_send_mmio(struct intel_guc *guc, const u32 *action, u32 len,
->   	 */
->   	ret = __intel_wait_for_register_fw(uncore,
->   					   guc_send_reg(guc, 0),
-> -					   INTEL_GUC_MSG_TYPE_MASK,
-> -					   INTEL_GUC_MSG_TYPE_RESPONSE <<
-> -					   INTEL_GUC_MSG_TYPE_SHIFT,
-> -					   10, 10, &status);
-> -	/* If GuC explicitly returned an error, convert it to -EIO */
-> -	if (!ret && !INTEL_GUC_MSG_IS_RESPONSE_SUCCESS(status))
-> -		ret = -EIO;
-> +					   GUC_HXG_MSG_0_ORIGIN,
-> +					   FIELD_PREP(GUC_HXG_MSG_0_ORIGIN,
-> +						      GUC_HXG_ORIGIN_GUC),
-> +					   10, 10, &header);
-> +	if (unlikely(ret)) {
-> +timeout:
-> +		drm_err(&i915->drm, "mmio request %#x: no reply %x\n",
-> +			request[0], header);
-> +		goto out;
-> +	}
->   
-> -	if (ret) {
-> -		DRM_ERROR("MMIO: GuC action %#x failed with error %d %#x\n",
-> -			  action[0], ret, status);
-> +	if (FIELD_GET(GUC_HXG_MSG_0_TYPE, header) == GUC_HXG_TYPE_NO_RESPONSE_BUSY) {
-> +#define done ({ header = intel_uncore_read(uncore, guc_send_reg(guc, 0)); \
-> +		FIELD_GET(GUC_HXG_MSG_0_ORIGIN, header) != GUC_HXG_ORIGIN_GUC || \
-> +		FIELD_GET(GUC_HXG_MSG_0_TYPE, header) != GUC_HXG_TYPE_NO_RESPONSE_BUSY; })
-> +
-> +		ret = wait_for(done, 1000);
-> +		if (unlikely(ret))
-> +			goto timeout;
-> +		if (unlikely(FIELD_GET(GUC_HXG_MSG_0_ORIGIN, header) !=
-> +				       GUC_HXG_ORIGIN_GUC))
-> +			goto proto;
-> +#undef done
-> +	}
-> +
-> +	if (FIELD_GET(GUC_HXG_MSG_0_TYPE, header) == GUC_HXG_TYPE_NO_RESPONSE_RETRY) {
-> +		u32 reason = FIELD_GET(GUC_HXG_RETRY_MSG_0_REASON, header);
-> +
-> +		drm_dbg(&i915->drm, "mmio request %#x: retrying, reason %u\n",
-> +			request[0], reason);
-> +		goto retry;
-> +	}
-> +
-> +	if (FIELD_GET(GUC_HXG_MSG_0_TYPE, header) == GUC_HXG_TYPE_RESPONSE_FAILURE) {
-> +		u32 hint = FIELD_GET(GUC_HXG_FAILURE_MSG_0_HINT, header);
-> +		u32 error = FIELD_GET(GUC_HXG_FAILURE_MSG_0_ERROR, header);
-> +
-> +		drm_err(&i915->drm, "mmio request %#x: failure %x/%u\n",
-> +			request[0], error, hint);
-> +		ret = -ENXIO;
-> +		goto out;
-> +	}
-> +
-> +	if (FIELD_GET(GUC_HXG_MSG_0_TYPE, header) != GUC_HXG_TYPE_RESPONSE_SUCCESS) {
-> +proto:
-> +		drm_err(&i915->drm, "mmio request %#x: unexpected reply %#x\n",
-> +			request[0], header);
-> +		ret = -EPROTO;
->   		goto out;
->   	}
->   
->   	if (response_buf) {
-> -		int count = min(response_buf_size, guc->send_regs.count - 1);
-> +		int count = min(response_buf_size, guc->send_regs.count);
->   
-> -		for (i = 0; i < count; i++)
-> +		GEM_BUG_ON(!count);
-> +
-> +		response_buf[0] = header;
-> +
-> +		for (i = 1; i < count; i++)
->   			response_buf[i] = intel_uncore_read(uncore,
-> -							    guc_send_reg(guc, i + 1));
-> -	}
-> +							    guc_send_reg(guc, i));
-
-This could use a note in the commit message to remark that we have no 
-users for the returned data yet and therefore nothing will break if we 
-change what we return through it.
-
-Apart from the nits, the logic looks good to me.
-Daniele
-
->   
-> -	/* Use data from the GuC response as our return value */
-> -	ret = INTEL_GUC_MSG_TO_DATA(status);
-> +		/* Use number of copied dwords as our return value */
-> +		ret = count;
-> +	} else {
-> +		/* Use data from the GuC response as our return value */
-> +		ret = FIELD_GET(GUC_HXG_RESPONSE_MSG_0_DATA0, header);
-> +	}
->   
->   out:
->   	intel_uncore_forcewake_put(uncore, guc->send_regs.fw_domains);
-
+Jason
