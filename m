@@ -1,61 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7423939E1AA
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Jun 2021 18:13:51 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 69BD739E1B8
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Jun 2021 18:14:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9C3B06E90B;
-	Mon,  7 Jun 2021 16:13:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 84FC66E903;
+	Mon,  7 Jun 2021 16:14:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ste-pvt-msa1.bahnhof.se (ste-pvt-msa1.bahnhof.se
- [213.80.101.70])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6839E6E90B
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Jun 2021 16:13:47 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by ste-pvt-msa1.bahnhof.se (Postfix) with ESMTP id E8C953F9D5;
- Mon,  7 Jun 2021 18:13:45 +0200 (CEST)
-Authentication-Results: ste-pvt-msa1.bahnhof.se; dkim=pass (1024-bit key;
- unprotected) header.d=shipmail.org header.i=@shipmail.org header.b="BS3dDM23";
- dkim-atps=neutral
-X-Virus-Scanned: Debian amavisd-new at bahnhof.se
-X-Spam-Flag: NO
-X-Spam-Score: -2.1
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.1 tagged_above=-999 required=6.31
- tests=[BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- URIBL_BLOCKED=0.001] autolearn=ham autolearn_force=no
-Received: from ste-pvt-msa1.bahnhof.se ([127.0.0.1])
- by localhost (ste-pvt-msa1.bahnhof.se [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id QPCtNa6C24rI; Mon,  7 Jun 2021 18:13:44 +0200 (CEST)
-Received: by ste-pvt-msa1.bahnhof.se (Postfix) with ESMTPA id 84C523F918;
- Mon,  7 Jun 2021 18:13:43 +0200 (CEST)
-Received: from [192.168.0.209] (unknown [192.55.55.41])
- by mail1.shipmail.org (Postfix) with ESMTPSA id 041FA3600BE;
- Mon,  7 Jun 2021 18:13:40 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=shipmail.org; s=mail;
- t=1623082422; bh=e2JmG0QJSVoB4UkdJ2WjoXAp0RcmmyG6uImDetXeuDU=;
- h=Subject:To:References:From:Date:In-Reply-To:From;
- b=BS3dDM23kt/R69eVwk5rIAjAwIvwAWeDYHhvWlR+eoVT2uSlQId63pWJQx86X5wvB
- A14OamLrpXiKLXacrdyk6lVfXqRTbWpl5/E0daE1BR60BA4JDTctIEu3AS3UmWQj2x
- 6Ge6iOcpcdTzWdm0JZFrdZ83hLeUEGHDJzQOtpo0=
-Subject: Re: [PATCH] drm/ttm: nuke VM_MIXEDMAP on BO mappings v2
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
- thomas.hellstrom@linux.intel.com, daniel@ffwll.ch,
- dri-devel@lists.freedesktop.org
-References: <20210607135830.8574-1-christian.koenig@amd.com>
-From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m_=28Intel=29?= <thomas_os@shipmail.org>
-Message-ID: <2e0ebce3-2519-2db3-f803-589d03a0d4c2@shipmail.org>
-Date: Mon, 7 Jun 2021 18:13:34 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BAF636E903
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Jun 2021 16:14:22 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id CD6B56147D;
+ Mon,  7 Jun 2021 16:14:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1623082462;
+ bh=EoTNmkIv+BtWajlT5rFMTZnF88Sm8j3UhB6yO/D6bOE=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=YJlJXHOuP/fOjQ43iqNC0vbEyOxPeMFISRSyo6dk09fWqkhvkJlVGHw3EcJxpekKH
+ akAQZloS5sKdmLJRlt462m5z1hXa9EKgUN6i1h04KOMaGE3C0615qq5BspWkPpnjiz
+ yrYi4TXm9Y1BC31JFfl7c+bWg49rfYavs9Ctnby73hL/4VSVxTjbgMCwNC/+mNjc9z
+ IpUwE3gFdtV0ooKexoFcqrlGKmXrK2MPlWNt+6cldN/3O+bhq92EcM9vzOeh9Mx9Ex
+ Imnr4d8stLkWW8Nla67tes/qCUgNOmCLpsOsKhLes4TiY0UGiXvI92/Gin/43Vt4sF
+ UlFYXq2rUeiGg==
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.4 09/29] drm/tegra: sor: Do not leak runtime PM
+ reference
+Date: Mon,  7 Jun 2021 12:13:50 -0400
+Message-Id: <20210607161410.3584036-9-sashal@kernel.org>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20210607161410.3584036-1-sashal@kernel.org>
+References: <20210607161410.3584036-1-sashal@kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <20210607135830.8574-1-christian.koenig@amd.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
+X-stable: review
+X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
-Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,117 +50,84 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Sasha Levin <sashal@kernel.org>, "Pavel Machek \(CIP\)" <pavel@denx.de>,
+ Thierry Reding <treding@nvidia.com>, linux-tegra@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+From: "Pavel Machek (CIP)" <pavel@denx.de>
 
-On 6/7/21 3:58 PM, Christian König wrote:
-> We discussed if that is really the right approach for quite a while now, but
-> digging deeper into a bug report on arm turned out that this is actually
-> horrible broken right now.
->
-> The reason for this is that vmf_insert_mixed_prot() always tries to grab
-> a reference to the underlaying page on architectures without
-> ARCH_HAS_PTE_SPECIAL and as far as I can see also enabled GUP.
->
-> So nuke using VM_MIXEDMAP here and use VM_PFNMAP instead.
->
-> Also make sure to reject mappings without VM_SHARED.
->
-> v2: reject COW mappings, merge function with only caller
->
-> Signed-off-by: Christian König <christian.koenig@amd.com>
-> Bugs: https://gitlab.freedesktop.org/drm/amd/-/issues/1606#note_936174
-> ---
->   drivers/gpu/drm/ttm/ttm_bo_vm.c | 44 +++++++++++----------------------
->   1 file changed, 14 insertions(+), 30 deletions(-)
->
-> diff --git a/drivers/gpu/drm/ttm/ttm_bo_vm.c b/drivers/gpu/drm/ttm/ttm_bo_vm.c
-> index 61828488ae2b..c9edb75626d9 100644
-> --- a/drivers/gpu/drm/ttm/ttm_bo_vm.c
-> +++ b/drivers/gpu/drm/ttm/ttm_bo_vm.c
-> @@ -359,12 +359,7 @@ vm_fault_t ttm_bo_vm_fault_reserved(struct vm_fault *vmf,
->   		 * at arbitrary times while the data is mmap'ed.
->   		 * See vmf_insert_mixed_prot() for a discussion.
->   		 */
-> -		if (vma->vm_flags & VM_MIXEDMAP)
-> -			ret = vmf_insert_mixed_prot(vma, address,
-> -						    __pfn_to_pfn_t(pfn, PFN_DEV),
-> -						    prot);
-> -		else
-> -			ret = vmf_insert_pfn_prot(vma, address, pfn, prot);
-> +		ret = vmf_insert_pfn_prot(vma, address, pfn, prot);
->   
->   		/* Never error on prefaulted PTEs */
->   		if (unlikely((ret & VM_FAULT_ERROR))) {
-> @@ -411,15 +406,9 @@ vm_fault_t ttm_bo_vm_dummy_page(struct vm_fault *vmf, pgprot_t prot)
->   	pfn = page_to_pfn(page);
->   
->   	/* Prefault the entire VMA range right away to avoid further faults */
-> -	for (address = vma->vm_start; address < vma->vm_end; address += PAGE_SIZE) {
-> -
-> -		if (vma->vm_flags & VM_MIXEDMAP)
-> -			ret = vmf_insert_mixed_prot(vma, address,
-> -						    __pfn_to_pfn_t(pfn, PFN_DEV),
-> -						    prot);
-> -		else
-> -			ret = vmf_insert_pfn_prot(vma, address, pfn, prot);
-> -	}
-> +	for (address = vma->vm_start; address < vma->vm_end;
-> +	     address += PAGE_SIZE)
-> +		ret = vmf_insert_pfn_prot(vma, address, pfn, prot);
->   
->   	return ret;
->   }
-> @@ -560,8 +549,16 @@ static const struct vm_operations_struct ttm_bo_vm_ops = {
->   	.access = ttm_bo_vm_access,
->   };
->   
-> -static void ttm_bo_mmap_vma_setup(struct ttm_buffer_object *bo, struct vm_area_struct *vma)
-> +int ttm_bo_mmap_obj(struct vm_area_struct *vma, struct ttm_buffer_object *bo)
->   {
-> +	/* Enforce VM_SHARED here since without it we would have really strange
-> +	 * behavior on COW.
-> +	 */
+[ Upstream commit 73a395c46704304b96bc5e2ee19be31124025c0c ]
 
-Nit: Perhaps "Enforce no COW.." since mappings are allowed with 
-VM_SHARED iff VM_MAYWRITE is not set. Also style consistency with 
-comments: First /* followed by line-break or are you adapting the above 
-style for ttm?
+It's theoretically possible for the runtime PM reference to leak if the
+code fails anywhere between the pm_runtime_resume_and_get() and
+pm_runtime_put() calls, so make sure to release the runtime PM reference
+in that case.
 
-With that fixed,
+Practically this will never happen because none of the functions will
+fail on Tegra, but it's better for the code to be pedantic in case these
+assumptions will ever become wrong.
 
-Reviewed-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+Signed-off-by: Pavel Machek (CIP) <pavel@denx.de>
+[treding@nvidia.com: add commit message]
+Signed-off-by: Thierry Reding <treding@nvidia.com>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/gpu/drm/tegra/sor.c | 14 ++++++++++----
+ 1 file changed, 10 insertions(+), 4 deletions(-)
 
+diff --git a/drivers/gpu/drm/tegra/sor.c b/drivers/gpu/drm/tegra/sor.c
+index 6c3d22165239..0419b6105c8a 100644
+--- a/drivers/gpu/drm/tegra/sor.c
++++ b/drivers/gpu/drm/tegra/sor.c
+@@ -2875,21 +2875,21 @@ static int tegra_sor_init(struct host1x_client *client)
+ 		if (err < 0) {
+ 			dev_err(sor->dev, "failed to acquire SOR reset: %d\n",
+ 				err);
+-			return err;
++			goto rpm_put;
+ 		}
+ 
+ 		err = reset_control_assert(sor->rst);
+ 		if (err < 0) {
+ 			dev_err(sor->dev, "failed to assert SOR reset: %d\n",
+ 				err);
+-			return err;
++			goto rpm_put;
+ 		}
+ 	}
+ 
+ 	err = clk_prepare_enable(sor->clk);
+ 	if (err < 0) {
+ 		dev_err(sor->dev, "failed to enable clock: %d\n", err);
+-		return err;
++		goto rpm_put;
+ 	}
+ 
+ 	usleep_range(1000, 3000);
+@@ -2900,7 +2900,7 @@ static int tegra_sor_init(struct host1x_client *client)
+ 			dev_err(sor->dev, "failed to deassert SOR reset: %d\n",
+ 				err);
+ 			clk_disable_unprepare(sor->clk);
+-			return err;
++			goto rpm_put;
+ 		}
+ 
+ 		reset_control_release(sor->rst);
+@@ -2929,6 +2929,12 @@ static int tegra_sor_init(struct host1x_client *client)
+ 	tegra_sor_writel(sor, value, SOR_INT_MASK);
+ 
+ 	return 0;
++
++rpm_put:
++	if (sor->rst)
++		pm_runtime_put(sor->dev);
++
++	return err;
+ }
+ 
+ static int tegra_sor_exit(struct host1x_client *client)
+-- 
+2.30.2
 
-> +	if (is_cow_mapping(vma->vm_flags))
-> +		return -EINVAL;
-> +
-> +	ttm_bo_get(bo);
-> +
->   	/*
->   	 * Drivers may want to override the vm_ops field. Otherwise we
->   	 * use TTM's default callbacks.
-> @@ -576,21 +573,8 @@ static void ttm_bo_mmap_vma_setup(struct ttm_buffer_object *bo, struct vm_area_s
->   
->   	vma->vm_private_data = bo;
->   
-> -	/*
-> -	 * We'd like to use VM_PFNMAP on shared mappings, where
-> -	 * (vma->vm_flags & VM_SHARED) != 0, for performance reasons,
-> -	 * but for some reason VM_PFNMAP + x86 PAT + write-combine is very
-> -	 * bad for performance. Until that has been sorted out, use
-> -	 * VM_MIXEDMAP on all mappings. See freedesktop.org bug #75719
-> -	 */
-> -	vma->vm_flags |= VM_MIXEDMAP;
-> +	vma->vm_flags |= VM_PFNMAP;
->   	vma->vm_flags |= VM_IO | VM_DONTEXPAND | VM_DONTDUMP;
-> -}
-> -
-> -int ttm_bo_mmap_obj(struct vm_area_struct *vma, struct ttm_buffer_object *bo)
-> -{
-> -	ttm_bo_get(bo);
-> -	ttm_bo_mmap_vma_setup(bo, vma);
->   	return 0;
->   }
->   EXPORT_SYMBOL(ttm_bo_mmap_obj);
