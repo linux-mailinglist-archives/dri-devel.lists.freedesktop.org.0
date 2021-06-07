@@ -1,65 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7817F39E2DA
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Jun 2021 18:25:50 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0EE5139E3D2
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Jun 2021 18:40:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 091FB6E923;
-	Mon,  7 Jun 2021 16:25:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3AEE96E3FC;
+	Mon,  7 Jun 2021 16:40:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com
- [IPv6:2a00:1450:4864:20::432])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 680326E923
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Jun 2021 16:25:45 +0000 (UTC)
-Received: by mail-wr1-x432.google.com with SMTP id h8so18316511wrz.8
- for <dri-devel@lists.freedesktop.org>; Mon, 07 Jun 2021 09:25:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-transfer-encoding:content-language;
- bh=YTSAB9rCscSz/zCVqN4u6grlyBe2uFlHNhTk1S/AroM=;
- b=omY0Nmk58pKP0NjsBFlOGm69gb8fO9V61rCbHgH9+s+fwmMy3D7XxXNQiRs5jUjkxq
- Pzz0LeRVmAAAHpg1m3f/Ei3rEux3Nbe1aX4sxcKtefgeyOy3eKEA56xLhfGZ1EZjzEl9
- uI1UcAL+srqoM7yXjp61xKEAJqRK15hmGUGMC3lz1so+YTqhSFubyR5uEgfQYoTVtCdy
- oGFA1Pub5tkd+TdviIgXLdUMirMt602Y0kYFoZt/wqNu0CJph8PTajnsXEwwp0dleC7e
- sEupDzwvAuIFaDWQpUwFQJbWIG4plgAsZEOu+DwFAlGfTBxpXsUmOCfcpNE6oVr6MT07
- DkUA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-transfer-encoding
- :content-language;
- bh=YTSAB9rCscSz/zCVqN4u6grlyBe2uFlHNhTk1S/AroM=;
- b=unwOVyjCEGijZhJBzSTt3o4xBIprdYF7DJDI5mn3lTGnG0Bp6sTLp+h1BR0KROld6w
- nQcw2SNkQFuV0ShRpu4C8J6MN/rWRI9M2S00+vSNQxbyPmZGxDZfuPzRPzxcRhefBIG6
- z03nPjt0yl2wA0SAs5CS3hMUaii16wWn8Y8K0mmlIyyiUmhy5Erz/RLFHck8bgC/fkNB
- brRjYGXDFoMd4GNrHtCfcS4zwPumwlYMllLIhN5sV3+PC6rMVmUkM5EFWMllsVjjYBe2
- ZDwnA9p3r0fe2+ecUx3PL9N8K4B+rRz2ErPywf+DN2OcK90sxIYnTnYEFGZ9N8dc+7WV
- 3I4Q==
-X-Gm-Message-State: AOAM532h/au9+PdSz49vOL8XvGohD/r0mBIqCUAIlKtQywcauhAY3Yf/
- DauO3iFFVVKDlc2/oUWkcF2VKEi17n0=
-X-Google-Smtp-Source: ABdhPJzrQImBmFvlKSf/9eMTe40x/egMA12t5CHKtp7LU80FCusfTKG5KwjAfsIUj3iATj7J11TBAA==
-X-Received: by 2002:adf:f182:: with SMTP id h2mr7513325wro.313.1623083144061; 
- Mon, 07 Jun 2021 09:25:44 -0700 (PDT)
-Received: from ?IPv6:2a02:908:1252:fb60:ce67:4e4d:875d:ffeb?
- ([2a02:908:1252:fb60:ce67:4e4d:875d:ffeb])
- by smtp.gmail.com with ESMTPSA id j18sm16565713wrw.30.2021.06.07.09.25.43
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 07 Jun 2021 09:25:43 -0700 (PDT)
-Subject: Re: handle exclusive fence similar to shared ones
-To: Daniel Vetter <daniel@ffwll.ch>
-References: <20210606100312.119176-1-christian.koenig@amd.com>
- <CAKMK7uGX7z2KdymWus2fk9VR57wU+Rj4jcS0j=j_sYwaH8zrLg@mail.gmail.com>
- <3fdb2dbe-748b-5297-277f-6a8394100725@gmail.com>
- <YL42scoTq8RUuEkD@phenom.ffwll.local>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-Message-ID: <78ab1102-0b59-36ba-b5ef-526356ffe630@gmail.com>
-Date: Mon, 7 Jun 2021 18:25:42 +0200
+Received: from ste-pvt-msa1.bahnhof.se (ste-pvt-msa1.bahnhof.se
+ [213.80.101.70])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2F21A6E3FC
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Jun 2021 16:40:15 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by ste-pvt-msa1.bahnhof.se (Postfix) with ESMTP id 9ACB93FB5C;
+ Mon,  7 Jun 2021 18:40:13 +0200 (CEST)
+Authentication-Results: ste-pvt-msa1.bahnhof.se; dkim=pass (1024-bit key;
+ unprotected) header.d=shipmail.org header.i=@shipmail.org header.b="W3e8cxqQ";
+ dkim-atps=neutral
+X-Virus-Scanned: Debian amavisd-new at bahnhof.se
+X-Spam-Flag: NO
+X-Spam-Score: -2.1
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.1 tagged_above=-999 required=6.31
+ tests=[BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ URIBL_BLOCKED=0.001] autolearn=ham autolearn_force=no
+Received: from ste-pvt-msa1.bahnhof.se ([127.0.0.1])
+ by localhost (ste-pvt-msa1.bahnhof.se [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id lRbCxKJtZ_p3; Mon,  7 Jun 2021 18:40:12 +0200 (CEST)
+Received: by ste-pvt-msa1.bahnhof.se (Postfix) with ESMTPA id EA7823FB37;
+ Mon,  7 Jun 2021 18:40:10 +0200 (CEST)
+Received: from [192.168.0.209] (unknown [192.55.55.41])
+ by mail1.shipmail.org (Postfix) with ESMTPSA id 12C443600BE;
+ Mon,  7 Jun 2021 18:40:08 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=shipmail.org; s=mail;
+ t=1623084010; bh=s1pA1qOitQXAR7AyVtLMgMefG/xeBCFCq2SY6VCEtIY=;
+ h=Subject:To:References:From:Date:In-Reply-To:From;
+ b=W3e8cxqQRkMkt1ZSB/PanLyqpozhw+Ren9bjsq7rf3oH0fCzPSaUMg6MtRZbjdcls
+ MSUF5dkO+L5Ha9kuhLvvyWnQEjuQiAVeDVY5En/3w0n0NnxMPyAKv6kjk2dJMBFF17
+ alSBY09qCUBTej+G9pUVBzmJuhaJLSF4+tZNETPQ=
+Subject: Re: [PATCH 01/10] drm/ttm: allocate resource object instead of
+ embedding it v2
+To: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ matthew.auld@intel.com, dri-devel@lists.freedesktop.org
+References: <20210602100914.46246-1-christian.koenig@amd.com>
+From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m_=28Intel=29?= <thomas_os@shipmail.org>
+Message-ID: <e5e6f3d0-af80-fa59-ba55-bafbb8e7670a@shipmail.org>
+Date: Mon, 7 Jun 2021 18:40:03 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-In-Reply-To: <YL42scoTq8RUuEkD@phenom.ffwll.local>
+In-Reply-To: <20210602100914.46246-1-christian.koenig@amd.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
 Content-Language: en-US
@@ -75,206 +68,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
+On 6/2/21 12:09 PM, Christian König wrote:
+...
+> @@ -728,14 +728,15 @@ static int ttm_bo_add_move_fence(struct ttm_buffer_object *bo,
+>    */
+>   static int ttm_bo_mem_force_space(struct ttm_buffer_object *bo,
+>   				  const struct ttm_place *place,
+> -				  struct ttm_resource *mem,
+> +				  struct ttm_resource **mem,
+>   				  struct ttm_operation_ctx *ctx)
+>   {
+>   	struct ttm_device *bdev = bo->bdev;
+> -	struct ttm_resource_manager *man = ttm_manager_type(bdev, mem->mem_type);
+> +	struct ttm_resource_manager *man;
+>   	struct ww_acquire_ctx *ticket;
+>   	int ret;
+>   
+> +	man = ttm_manager_type(bdev, (*mem)->mem_type);
 
-Am 07.06.21 um 17:09 schrieb Daniel Vetter:
-> On Mon, Jun 07, 2021 at 11:59:11AM +0200, Christian König wrote:
->> Am 07.06.21 um 10:58 schrieb Daniel Vetter:
->>> Hi Christian,
->>>
->>> So unfortunately I got distracted with some i915 bugs and fun last
->>> week completely, so didn't get around to it.
->>>
->>> On Sun, Jun 6, 2021 at 12:03 PM Christian König
->>> <ckoenig.leichtzumerken@gmail.com> wrote:
->>>> Hi Daniel,
->>>>
->>>> as discussed here are the patches which change the handle around exclusive fence handling.
->>>>
->>>> The main problem seems to have been the dma_resv_test_signaled() function which ignored the exclusive fence when shared fences where present. This was already rather inconsistent since dma_fence_wait_timeout() takes the exclusive one into account even if shared ones are present.
->>>>
->>>> The second patch then fixes nouveu to also always take the exclusive fence into account.
->>>>
->>>> The third then removes the workaround in amdgpu around the VM page table clearing handling. Since I'm not sure if there are no other places which relies on the existing behavior I will hold this one back for a while.
->>>>
->>>> Is that what you had in mind as well?
->>> I think from the semantics something where we treat the exclusive
->>> fence as an IPC mechanism that the kernel doesn't care much about
->>> (exceptions apply), and but more consistently count all access from
->>> any CS as a shared fence. So in a way what you've done here, and also
->>> what you've done in the earlier series with setting the read/write
->>> flags on shared fences.
->> Yeah, I think that this will work for me as well.
->>
->>> For actual approach what I've picked is a bit of what amdgpu does +
->>> what other drivers do with NO_IMPLICIT, but with the bugs fixed
->>> (there's a bunch of them): Essentially we try to always set the shared
->>> fences, and exclusive fences are set additionally on top when the
->>> implicit sync IPC calls for that. And on the depdendency side we do
->>> clever logic to only take in the exclusive fence when required.
->>> Currently for amdgpu this means introspecting the fence owner (there's
->>> some nasty tricks there I think to do to make this work and not be a
->>> security bug), for others that's done with the NO_IMPLICIT flag (but
->>> again some nasty corners there, which I think a bunch of drivers get
->>> wrong).
->> For amdgpu I have been pondering on the following idea  last week to make it
->> behave the same as the other drivers:
->>
->> 1. We allow setting the explicit fence without touching the shared fences.
->>      As far as I understand it this is also part of your idea above.
->>
->> 2. During command submission amdgpu uses a dma_fence_chain node to chain
->> together the new CS with the existing explicit sync.
->>
->> 3. During command synchronization amdgpu takes a look at the explicit fence
->> and walks the dma_fence_chain history.
->>      Submissions from the same process (the owner) are not synced to (e.g.
->> same behavior as of today), but as soon as we see something which doesn't
->> fit into the amdgpu CS model we sync to the remaining chain.
->>
->> That would give us both keeping the current amdgpu CS behavior (which we
->> then can extend) as well as setting the explicit fence according to the
->> DMA-buf rules.
-> So what I had in mind is:
->
-> 1. we reserve 3 additional shared slots (so one more than currently)
->
-> 2. when we pull in depedencies we ignore exclusive fences when they're an
-> amdgpu/amdkfd one, only when it's a OWNER_UNKNOWN do we take it
->
-> 3. above obviously breaks buffer moves, to fix that we always add the
-> ttm_bo->moving fence. If amggpu would support a "ignore implicit fencing"
-> flag like other drivers with NO_IMPLICIT, then we'd also need to overrule
-> that for a dynamically shared dma-buf (since for those we don't have a
-> ->moving fence slot). Non-dynamic dma-buf aren't a problem since they are
-> guaranteed to be pinned, so can't move.
->
-> 4. When we add fences we
-> - always add the exclusive fence (like in my patch)
-> - keep the current set of shared fences
-> - add our own fences also as a shared one (so that amdpug can ignore the
->    exclusive fence for any sync against amdgpu, whether same owner or other
->    owner). This is the critical piece to make sure the current uapi for
->    amdgpu isn't changed
-> - add the previous exclusive fence if a) there is one and b) it's not an
->    amdgpu/kfd one. This is where we need the additional fence slot
+Isn't (*mem) uninitialized here? Should be place->mem_type? Eviction is 
+immediately sent to the bushes.
 
-That won't work. The problem is that you have only one exclusive slot, 
-but multiple submissions which execute out of order and compose the 
-buffer object together.
+Got at least one additional NULL pointer deref to track down in the 
+eviction code, but could be a merge error of mine as well.
 
-That's why I suggested to use the dma_fence_chain to circumvent this.
+/Thomas
 
-But if you are ok that amdgpu sets the exclusive fence without changing 
-the shared ones than the solution I've outlined should already work as well.
-
-Regards,
-Christian.
-
->
-> At first glance this throws away foreign exclusive fences, which could
-> break implicit sync. But by moving foreign exclusive fences to the shared
-> slot, we can rely on the amdgpu implicit sync logic of only looking at the
-> owner (and not whether a fence is exclusive of shared), and we get the
-> right implicit fencing even on subsequent CS.
->
-> And for foreign drivers it also all works, because the exlusive fence is
-> always set, and because amdgpu doesn't ignore foreign fences (even if
-> they're set as shared we force a sync iirc) there's a dependency chain
-> that makes sure everything is correct and ordered. Same for dma-buf
-> poll/sync_file export, that would then work on amdgpu correctly too
-> because the exclusive slot is set.
->
-> The only downside here is that amdgpu always sets the exclusive fence
-> slot, but that can't be fixed without an uapi revision since the kernel
-> simply doesn't know that. But amdgpu isn't the only driver, panfrost does
-> the same so *shrugh*.
->
-> So I think this should work but
-> - it's a hellalot of auditing to make sure I didn't miss anything
-> - and it's like attempt no 5 or so of me trying to slice this knot without
->    breaking anything, or changing the current dma_resv rules.
->
->>> There's two reasons I'm more leaning in that direction:
->>> - The annoying thing is that the audit on the dependency side is a lot
->>> trickier since everyone rolls their own dependency handling.
->> Yes, absolutely agree. That's why I said we need to have use case based
->> functionality here.
->>
->> In other words what we need is something like an
->> dma_resv_for_each_sync_fence(for_write) macro.
->>
->> E.g. drivers then only do something like:
->>
->> dma_resv_for_each_sync_fence(resv, for_write, fence)
->>      driver_specific_syncing_to_fence(fence);
->>
->> And not every driver calling the underlying functions on it's own and then
->> doing whatever it pleases.
-> Yeah, but amdgpu can't use those, so we're back to square one. amdgpu
-> currently has zero information from userspace about which CS are writes
-> and which are not. Other drivers (aside from panfrost) generally have
-> that, so they can do smarter things here.
->
-> Also we could fairly trivially fix this by adding new uapi so that amdgpu
-> would know this, and just oversyncing on old uerspace. But you made it
-> pretty clear when I proposed that that this option isn't on the table.
->
-> So for now we need to be more clever to get amdgpu aligned. And then when
-> that's done we (well you guys, maybe using the patches from Jason + a CS
-> flag to not do implicit sync at all) can add the uapi to make this
-> smarter.
->
-> Then, and only then, do we have the pieces to look into smarter/use-case
-> dependent dma_resv helpers.
->
-> Also, some of these helpers already exist, and are used by the drivers
-> derived from v3d. But amdgpu can't use them, because the "just oversync
-> for current userspace" approach you nacked. So you'll have to live with
-> your own quirks. I don't want to make helpers for that because then other
-> drivers might come up with the idea to use them :-)
->
->>> If we don't change (for now at least) the rules around dma_resv then an
->>> oversight in the audit isn't going to be a huge problem.
->>> - Wording becomes inconsistent: An exclusive fence which is also a
->>> shared is a bit confusing. I think it's better if we stick to the
->>> current rules for dma_resv, change the semantics we want in drivers (I
->>> think that's doable, at maybe some code cost e.g. Jason's import ioctl
->>> would be simpler with your changed rules, but still doable with the
->>> current dma_resv rules). And then when we have that, we figure out
->>> what to change with the dma_resv struct/rules.
->> But then at least do the minimal change so that we can get amdgpu in line
->> with all other drivers like I outlined above.
->>
->> We can keep that as a hack in amdgpu if that makes you feel better. Chaining
->> the exclusive fence together is roughly 4 times slower than the shared
->> approach, but I think that this is negligible compared to all the other
->> stuff we do.
-> Yeah I was pondering on the chaining, and for the intentional sync it's
-> not a problem because it's just 1 winsys buffer we touch like this. So
-> totally fine in Jason's approach. But not for amdgpu, where with the
-> current uapi means you have to annotate _all_ buffers as written to.
->
-> So not great, and which is why I've thrown a few variants of this idea out
-> already as unpractical. Hence the current idea I'm toying with above.
->
-> Cheers, Daniel
->
->
->> Regards,
->> Christian.
->>
->>> Wrt the patches: Good thing is that what you change here and what I've
->>> found thus far is 100% not overlapping, so at least we didn't waste
->>> time auditing the same code :-)
->>>
->>> Cheers, Daniel
->>>> Regards,
->>>> Christian.
->>>>
->>>>
 
