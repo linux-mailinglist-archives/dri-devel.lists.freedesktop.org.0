@@ -2,122 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A76D639DD2B
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Jun 2021 14:58:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 97E3439DD3C
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Jun 2021 15:01:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BE56B6E0DB;
-	Mon,  7 Jun 2021 12:58:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E5E8B6E8B0;
+	Mon,  7 Jun 2021 13:01:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam11on2081.outbound.protection.outlook.com [40.107.236.81])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 933E96E0DB
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Jun 2021 12:58:49 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=CnuJYEbDs7neBcj2tVwzTysxpoPAJ1Yvhki0Y2w4aRC4BPhs4BZfXyUMLosuE+yZqYQjRSeX3ehSeAnxNTp3ztnvxRTg8r9YhjkMu9uNxVACwy7Euv4NLMDrPwNBCQ9XjCBpzTbs8NnQnJyV+e8r7T5wxNZcfOD0IyBISV8Rupa7eaBatRz2Vqj8YqDZSQ8xlD/YzwsWbQPaK7wI3ktBnM7592ddlIxDySGQ8LdQ1b0QsWkpJpkxjmj102eU4P6SAaRsNaGt+JCRUDRk1ibZyC//XNX/PNtBwK+r6AA2FqK7rZvFek3NkCEJ5dDGo+sTjMA5Xf4GkzCSTvIa+yUI6w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=IoO3qxkkU+bGRXexf7oMwoz0d1bvaPtU6vO8mUzgBCA=;
- b=AQ8kWtNFe4woHvX8c4DpHn5tUcpdUPE3V9Iv9IyKvWoTGQlc/o9FhUV4iggeiYf3W8DhUt1FSfwxamI/9e6cTkLvseWghJ1qNpQGYsVy0VZF6w8ubG2edHclmDKmmb4h8o8cTgfU0d+831V27fC0gzJ0jjvhx5eXyD4BHwKN7nWbIy1RFfsmUNoVmEPafD29VhbA0VX5AMrS1sls/xu2CwREqz1ChsOWDyEEgqUqRC44p+olh3A+FiEZQYsS9LxDEIgVAbQUJT7VSHuYfmYdyXy40YBpJLXjr/L+ajB2sPjgtYYLfsTkTrsgHrdZN0PX72sOLk+DiAy+G7uzksUDUg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=IoO3qxkkU+bGRXexf7oMwoz0d1bvaPtU6vO8mUzgBCA=;
- b=zdF0UPIhleuy9PuyYvG8xAFhpRQA8YFFvyJlHILZs8YRn+TGyxo0MRr0/FzUJH4nc4G5meEr46uOCaBunoLDDw17geZUR2faYqMZQwc3JCCm7ssp4pSBQRvbFzE5GP6PuRvVOyVD74fIysSnXf8CLZu1xMQjEIb+1YyDorWsGDU=
-Received: from DM6PR12MB4250.namprd12.prod.outlook.com (2603:10b6:5:21a::9) by
- DM6PR12MB4268.namprd12.prod.outlook.com (2603:10b6:5:223::15) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4195.24; Mon, 7 Jun 2021 12:58:47 +0000
-Received: from DM6PR12MB4250.namprd12.prod.outlook.com
- ([fe80::a4b1:38b7:ec94:8003]) by DM6PR12MB4250.namprd12.prod.outlook.com
- ([fe80::a4b1:38b7:ec94:8003%8]) with mapi id 15.20.4195.030; Mon, 7 Jun 2021
- 12:58:47 +0000
-From: "Yu, Lang" <Lang.Yu@amd.com>
-To: =?utf-8?B?Q2hyaXN0aWFuIEvDtm5pZw==?= <ckoenig.leichtzumerken@gmail.com>,
- =?utf-8?B?VGhvbWFzIEhlbGxzdHLDtm0gKEludGVsKQ==?= <thomas_os@shipmail.org>
+Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com
+ [IPv6:2a00:1450:4864:20::433])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0AC826E8B0
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Jun 2021 13:01:08 +0000 (UTC)
+Received: by mail-wr1-x433.google.com with SMTP id h8so17509935wrz.8
+ for <dri-devel@lists.freedesktop.org>; Mon, 07 Jun 2021 06:01:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language;
+ bh=Ip7WAmn26bJSRytvPb1CU10wgClEIXRXGPWRzCPad9c=;
+ b=jfdHT1nbM35//WdF3yBp6ufe8wmBiCIUFa07l9VQ1+DHXrS6CQURgWEg8P3b0TlRHQ
+ OruqJmh4D0urm/MOgdvwyUhNvhdChi7RRJFERkoPiQ27b6TJ8Jr+HG7RC1Dv5HOjHxy+
+ jnA4E3i1RChSNn5DXimesC/lm4FN7MUc2PMGF0ZSlBZe1Aleh+rKdwx2UEHcE7GkrdsL
+ kcY2dhBggPAO0F6HiIApMEu7vsGXGcMzWdtQTDaSfHpdRi1D/XUms80XsRTdHITsZ452
+ mAK4G+IxHt5IdOce5cc3kXdpD6DLY+QbiDTHxjmxzWSlyocB7FziZMCLOo83wFB/Clev
+ avtw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language;
+ bh=Ip7WAmn26bJSRytvPb1CU10wgClEIXRXGPWRzCPad9c=;
+ b=Ig98dZi8BXGWGXBp+Az/pZuxobFTC9pHcwR2W3+5o70J+U5p/mWwfhOmnTI7N9GA6W
+ kv9vcMRGj7KHZNeVkdnp824mM/Ff++uFMeLnwWWA/bcaE9YzfRWpSVBnF1DB2e5H50X+
+ XweR0RXTMF4LWGab1jokE81kSLIbGVArDnBwC8imYiPMO42K58hREKFR3Lq1SP9lL6b8
+ cDdRfRl83KxfQ8ku+oBnX/47r6Lb5aTNWBgV6s4KgCgkIamK6Bv5tESneLkbzabq9Jx8
+ FAZS8GX0+IsJi/0zAsENb27mGMwco0wUC453PtTfEtbwI7LmftoMl4CMgNANaYYlyXE3
+ LIlA==
+X-Gm-Message-State: AOAM532uCrS2pGLu9np4F/Jp4s7sWuB4vki8+bCRMh1rrG0qHbZ25tWD
+ h4lX3myxCKDqXPI2evGgq0H0MvtbF8U=
+X-Google-Smtp-Source: ABdhPJwk9dbXi4Wa9mAk3WvsMgrQM4gG/F+6zdl37nm056ZhmeqUYNF8MH1J9c9pyCdZwWxxzJRNtg==
+X-Received: by 2002:adf:9c93:: with SMTP id d19mr16887813wre.17.1623070866798; 
+ Mon, 07 Jun 2021 06:01:06 -0700 (PDT)
+Received: from ?IPv6:2a02:908:1252:fb60:ce67:4e4d:875d:ffeb?
+ ([2a02:908:1252:fb60:ce67:4e4d:875d:ffeb])
+ by smtp.gmail.com with ESMTPSA id i16sm14140603wmm.9.2021.06.07.06.01.06
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 07 Jun 2021 06:01:06 -0700 (PDT)
 Subject: Re: [PATCH 1/4] drm/ttm: add TTM_PL_FLAG_TEMPORARY flag v3
-Thread-Topic: [PATCH 1/4] drm/ttm: add TTM_PL_FLAG_TEMPORARY flag v3
-Thread-Index: AQHXVuE3B6bBbWmBekKNbYCp+Dv/GKsIhcIAgAAAaQCAAAEKgIAAA4No
-Date: Mon, 7 Jun 2021 12:58:47 +0000
-Message-ID: <DM6PR12MB4250A90CF8058DD28AB1B04FFB389@DM6PR12MB4250.namprd12.prod.outlook.com>
+To: Nirmoy Das <nirmoy.das@amd.com>
 References: <20210601122528.1643-1-christian.koenig@amd.com>
  <0051cab9-8d65-d28f-956e-3a60718bf000@gmail.com>
- <0fc2844d-b954-2386-17e3-e2c4232fc247@shipmail.org>,
+ <0fc2844d-b954-2386-17e3-e2c4232fc247@shipmail.org>
  <f067ec3f-ae6c-fb9d-d87b-e31311bf3cf3@gmail.com>
-In-Reply-To: <f067ec3f-ae6c-fb9d-d87b-e31311bf3cf3@gmail.com>
-Accept-Language: en-US
-Content-Language: zh-CN
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: MSIP_Label_88914ebd-7e6c-4e12-a031-a9906be2db14_Enabled=True;
- MSIP_Label_88914ebd-7e6c-4e12-a031-a9906be2db14_SiteId=3dd8961f-e488-4e60-8e11-a82d994e183d;
- MSIP_Label_88914ebd-7e6c-4e12-a031-a9906be2db14_SetDate=2021-06-07T12:54:23.0229990Z;
- MSIP_Label_88914ebd-7e6c-4e12-a031-a9906be2db14_ContentBits=0;
- MSIP_Label_88914ebd-7e6c-4e12-a031-a9906be2db14_Method=Standard
-authentication-results: gmail.com; dkim=none (message not signed)
- header.d=none;gmail.com; dmarc=none action=none header.from=amd.com;
-x-originating-ip: [61.152.197.30]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 3b349b9e-d7b5-4682-a96e-08d929b3fd4b
-x-ms-traffictypediagnostic: DM6PR12MB4268:
-x-microsoft-antispam-prvs: <DM6PR12MB42681C3F19314CD8EBABA24AFB389@DM6PR12MB4268.namprd12.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:9508;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: MnyOqNc97j27YtD8vmFFS4UplGfXvRKgREbvt8c+0t//m5R9VongUH6QjfrFtNw2Kr3P1l7q2PVYtknMxkmA+6Ihct0NOZsm2RYLJgDkqxdOcFdqHqRK5dPXAI9z1D/KoaLJ/45At+DEAw1BhWAjxrFq0y4mbPLRuAzbW2gUnfN1/p1B96PcQE+wZ1TS+WHZDuErbtHYpmZN2RBMGzIe0IddzzfPuJ/I+fYp7Hqxy8OwednCTin8xb5/kwKC0RkwfMZfJmklilMzgBO3L3YkPgLkxZ10dVfd8mx4TEaVa4SAdHOLlFD/gZYw0NuOJRFdBYG7cc34SvHQky+hOsQ2ZERccm9xc/Cwn6FABcq06QKHRpw3oxgk//Jcfx3LLAXCsA1Yo7v2omVYgnS5Q9YUVamT/r4pe7t9LdxjFQgTPt/jXZXpy1O1XKsDGf+ZE3xqT+wp6R7oFz+QzjU9uP+aNGdeQhecBskQnVwEUtTwbZc0K7ERtEXB6mmQY4uhbBGnLfg36O0azTay24zQZVSqfTozF1YG9RFyJjpHDfHubDkXQU+YeB1iFN/NEdSt3SxvzBDyarFyUx/ikvW0K+ZEBF6BDZ/wClfVpU+CAXG6d+uMRncvPwi5fwYwTTSqimBpRyQgfLCytNDQQJily4eVbNk5DFJsw5Xun/51u12vtxQCJzVxSzdcq/43kvHlC8jomZ/PJoxkIAFqMUqGgsZNqxx786SozD0zJ1ORW9zekUE=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM6PR12MB4250.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(346002)(376002)(396003)(136003)(39860400002)(366004)(122000001)(8676002)(33656002)(9686003)(186003)(26005)(86362001)(53546011)(38100700002)(478600001)(66946007)(8936002)(66446008)(66476007)(76116006)(64756008)(66556008)(91956017)(7696005)(110136005)(52536014)(45080400002)(316002)(4326008)(5660300002)(55016002)(66574015)(166002)(83380400001)(71200400001)(6506007)(2906002);
- DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata: =?utf-8?B?TmF1cDNnc21paHg0bjBXc013WFlEUUhVTkN6YWdlZU9YNzhtcVZHNURIZXcx?=
- =?utf-8?B?enluTXhxbzNXMVl4V00zUm4xbG1hOGNGbFlCdlNTQmdZdVpCN1dDV0dJUTVh?=
- =?utf-8?B?RHY2Z0ZySk96SmgzOVhnbnkweFQvc3NXZERrdlg5RXlZMUU3S0Z5T0wwQitQ?=
- =?utf-8?B?WVp1RXBxaS9vMms2alppMG16cFRDR0JCbXNmSXBvaFNzdTBPK0k2SURyMzNq?=
- =?utf-8?B?NHZJaWw4OHFDVDJieURvU1JGL3lDMXpnTXJYYVk2cEQrNDFraWl1RDA2UHpm?=
- =?utf-8?B?ZE5yQWJEUkNUZFNCS2tmNUZWdW96RlFGSHI1TDUvaGZxaWJiNC83U0F2bWRZ?=
- =?utf-8?B?QkQ3TVZDWitPc2tVUU9INHgzL2FjV1kxbnNIVWY1cnVvQURHcHAycmFhbVlR?=
- =?utf-8?B?eHZIV1IwU29DbVpFbEJmQ2xPZ2lmMG9ybU1GMS95THpscXRpMFg0cFEwdVd4?=
- =?utf-8?B?amd0cnFFNk1naTBqWWU1U0RxMHFNM1RrY1JmaWRYQUljSGlSMEpHdXVsbXhW?=
- =?utf-8?B?bE84WEJzS1B2OTlvbGxFZXd4VFVRRVAwTWtBT1gyT1RzRG9xSUpqanltM3c5?=
- =?utf-8?B?SXZjZXVBcG5ydE1JSURGbXlVYmZjSWdGWUFUWWVrUFVNa0FENTdVcnBKTVB5?=
- =?utf-8?B?TDdkc0dXK2NxRm9vTEhoM2FWNk4zeXM0OFhhOTBWQ0c2VzVNUjM5Wm9GcmVP?=
- =?utf-8?B?YldWL3hjVWlMaWg1N2laZTcvOFUrMnJ0NDNXYzIyWkpPbklyV0I3eVBkdWZj?=
- =?utf-8?B?bCtZT3RyYng4blpTc2p2eklBK1FZY0taTU5kYWJobnJ4a0NWVFcrWDhmZkIr?=
- =?utf-8?B?a0p6VE1SNEVYaWNaWC9vRVJPczFreUpyUjM0WmlpOUhrcDJHTkFGenFURkph?=
- =?utf-8?B?eDc2SXZCUjkzdkpCME5vWFR5T2ZpTnkxWitmbzU5RFJDd3dub0FYUzdqNEIz?=
- =?utf-8?B?OGIxbnJFdVFIU2VuR0NGd1p3dVA1T25Tdm02ak1CbFVNd3djcXVYS3MxQnYx?=
- =?utf-8?B?R2RCNzdIaTg0b3FnSFJLTkIwSm90eVFRS2pQVThTQTBrT05kSzBoWlNST1lR?=
- =?utf-8?B?cnFCbVFrNjRQYzZaOERXUmtsa2VvR2RUTjdYQ2tFUG1MN0hYMDN3aExWOUph?=
- =?utf-8?B?aWxKN3E3RXk0ZGlHeDFsakpHTXp3T3NZcXB5L2E5NDBBR0d5VzNEUlhMSk8r?=
- =?utf-8?B?OUJTeTE4aE01U1g4NHVsYWNRM0pKL3JTSEhmQzE0a3ZONmZMNG1xZy8zczFu?=
- =?utf-8?B?YmFkKzRzRy8zVURoQi9YS3QyUUFSanNObnA5UENFSGtRc2ZwM25wZ1YxNXoy?=
- =?utf-8?B?dUgxSG01a0JnVW9HYzlmRXV5RWhqdlZNNkFYYXlHTlZ2d0RVVHpJVmt2S251?=
- =?utf-8?B?R1lCRTdzcnFUTEJaOG5tNWtlU01CTXdKSktDTWZ5SVpOLzA3NXlqenNPdUsv?=
- =?utf-8?B?MDZ6cGdWQjVGZ0NwSldVWHBVODlmOEtZOXRMS2pzenpwSmNSUWgwRVJneW40?=
- =?utf-8?B?V29lZXVIaUpOTHZFbUNFMUsranBMdWRJMXJPQmx5SjRJcElLY2cwTzRDeTFG?=
- =?utf-8?B?M1EyYWxiVE1FOFZORWdpVWNWbEFiTkdhZFpMSFBRM1Jjb2VIZ3U4TS9jdHBT?=
- =?utf-8?B?Z3pFQis2R0tLK2xWMjNuSVpuUlV4bmFFaFBORElLYVV5cHlidDE5Rk83WFVr?=
- =?utf-8?B?RGQwOXRKY0YybEtsNEViT0FOdExhK1pua21hek5aZnFTakFiVUhrSGdlZEwx?=
- =?utf-8?B?dUQ3NW4xNWpPUXZXRHRCUkZXSUk2dStTWXRsK0xOREZaWDJaNlA0NUI0d2ZQ?=
- =?utf-8?B?MzhpQm5xNFdkdmRnamI1UT09?=
-x-ms-exchange-transport-forked: True
-Content-Type: multipart/alternative;
- boundary="_000_DM6PR12MB4250A90CF8058DD28AB1B04FFB389DM6PR12MB4250namp_"
+ <DM6PR12MB4250A90CF8058DD28AB1B04FFB389@DM6PR12MB4250.namprd12.prod.outlook.com>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+Message-ID: <1a18dab0-45ee-3406-05f6-fe3ae3b2d136@gmail.com>
+Date: Mon, 7 Jun 2021 15:01:05 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB4250.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3b349b9e-d7b5-4682-a96e-08d929b3fd4b
-X-MS-Exchange-CrossTenant-originalarrivaltime: 07 Jun 2021 12:58:47.3093 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: ZJ32TJrCkLqeWmP3U795j0da1+Me1z113d5gR2gS2TEiJrrB2O3O5zy++zNJGDLKck5xuhyrN0P26eOeGg3cnA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4268
+In-Reply-To: <DM6PR12MB4250A90CF8058DD28AB1B04FFB389@DM6PR12MB4250.namprd12.prod.outlook.com>
+Content-Type: multipart/alternative;
+ boundary="------------F01417D7F0A08938DAE2D150"
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -130,163 +75,294 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Cc: "Yu, Lang" <Lang.Yu@amd.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---_000_DM6PR12MB4250A90CF8058DD28AB1B04FFB389DM6PR12MB4250namp_
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+This is a multi-part message in MIME format.
+--------------F01417D7F0A08938DAE2D150
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-W0FNRCBPZmZpY2lhbCBVc2UgT25seV0NCg0KVGhhbmtz77yMcGxlYXNlIGxldCBOaXJtb3kgZG8g
-aXQuDQoNClJlZ2FyZHPvvIwNCkxhbmcNCg0K6I635Y+WIE91dGxvb2sgZm9yIGlPUzxodHRwczov
-L2FrYS5tcy9vMHVrZWY+DQpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXw0K5Y+R5Lu2
-5Lq6OiBDaHJpc3RpYW4gS8O2bmlnIDxja29lbmlnLmxlaWNodHp1bWVya2VuQGdtYWlsLmNvbT4N
-CuWPkemAgeaXtumXtDogTW9uZGF5LCBKdW5lIDcsIDIwMjEgODo0MTo0OSBQTQ0K5pS25Lu25Lq6
-OiBUaG9tYXMgSGVsbHN0csO2bSAoSW50ZWwpIDx0aG9tYXNfb3NAc2hpcG1haWwub3JnPjsgWXUs
-IExhbmcgPExhbmcuWXVAYW1kLmNvbT4NCuaKhOmAgTogZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNr
-dG9wLm9yZyA8ZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZz4NCuS4u+mimDogUmU6IFtQ
-QVRDSCAxLzRdIGRybS90dG06IGFkZCBUVE1fUExfRkxBR19URU1QT1JBUlkgZmxhZyB2Mw0KDQpU
-aGFua3MhDQoNCkxhbmcgY2FuIGFueWJvZHkgZnJvbSB5b3VyIHRlYW0gZ2l2ZSBhcyBhbiByZXZp
-ZXdlZC1ieS90ZXN0LWJ5IG9uIHRoZQ0KYW1kZ3B1IHBhdGNoZXM/IEkganVzdCB3YW50IGFub3Ro
-ZXIgcGFpciBvZiBleWVzIGxvb2tpbmcgb3ZlciBpdC4NCg0KSWYgbm9ib2R5IGVsc2UgaGFzIHRp
-bWUgSSB3aWxsIGFzayBOaXJtb3kgZm9yIGEgcXVpY2sgdGVzdGluZyByb3VuZC4NCg0KVGhhbmtz
-LA0KQ2hyaXN0aWFuLg0KDQpBbSAwNy4wNi4yMSB1bSAxNDozOCBzY2hyaWViIFRob21hcyBIZWxs
-c3Ryw7ZtIChJbnRlbCk6DQo+IFN1cmUuIExHVE0sDQo+DQo+IFJldmlld2VkLWJ5OiBUaG9tYXMg
-SGVsbHN0csO2bSA8dGhvbWFzLmhlbGxzdHJvbUBsaW51eC5pbnRlbC5jb20+DQo+DQo+DQo+IE9u
-IDYvNy8yMSAyOjM2IFBNLCBDaHJpc3RpYW4gS8O2bmlnIHdyb3RlOg0KPj4gVGhvbWFzIGFueSBj
-b21tZW50cyBvbiB0aGlzPw0KPj4NCj4+IElzIHRoZSBwdXJwb3NlIG9mIHRoaXMgbm93IGNsZWFy
-IGVub3VnaD8NCj4+DQo+PiBUaGFua3MsDQo+PiBDaHJpc3RpYW4uDQo+Pg0KPj4gQW0gMDEuMDYu
-MjEgdW0gMTQ6MjUgc2NocmllYiBDaHJpc3RpYW4gS8O2bmlnOg0KPj4+IEZyb206IExhbmcgWXUg
-PExhbmcuWXVAYW1kLmNvbT4NCj4+Pg0KPj4+IFNvbWV0aW1lcyBkcml2ZXJzIG5lZWQgdG8gdXNl
-IGJvdW5jZSBidWZmZXJzIHRvIGV2aWN0IEJPcy4gV2hpbGUNCj4+PiB0aG9zZSByZXNpZGUNCj4+
-PiBpbiBzb21lIGRvbWFpbiB0aGV5IGFyZSBub3QgbmVjZXNzYXJpbHkgc3VpdGFibGUgZm9yIENT
-Lg0KPj4+DQo+Pj4gQWRkIGEgZmxhZyBzbyB0aGF0IGRyaXZlcnMgY2FuIG5vdGUgdGhhdCBhIGJv
-dW5jZSBidWZmZXJzIG5lZWRzIHRvIGJlDQo+Pj4gcmVhbGxvY2F0ZWQgZHVyaW5nIHZhbGlkYXRp
-b24uDQo+Pj4NCj4+PiB2MjogYWRkIGRldGFpbGVkIGNvbW1lbnRzDQo+Pj4gdjMgKGNoayk6IG1l
-cmdlIGNvbW1pdHMgYW5kIHJld29yayBjb21taXQgbWVzc2FnZQ0KPj4+DQo+Pj4gU3VnZ2VzdGVk
-LWJ5OiBDaHJpc3RpYW4gS8O2bmlnIDxjaHJpc3RpYW4ua29lbmlnQGFtZC5jb20+DQo+Pj4gU2ln
-bmVkLW9mZi1ieTogTGFuZyBZdSA8TGFuZy5ZdUBhbWQuY29tPg0KPj4+IFNpZ25lZC1vZmYtYnk6
-IENocmlzdGlhbiBLw7ZuaWcgPGNocmlzdGlhbi5rb2VuaWdAYW1kLmNvbT4NCj4+PiAtLS0NCj4+
-PiAgIGRyaXZlcnMvZ3B1L2RybS90dG0vdHRtX2JvLmMgICAgfCAzICsrKw0KPj4+ICAgaW5jbHVk
-ZS9kcm0vdHRtL3R0bV9wbGFjZW1lbnQuaCB8IDcgKysrKystLQ0KPj4+ICAgMiBmaWxlcyBjaGFu
-Z2VkLCA4IGluc2VydGlvbnMoKyksIDIgZGVsZXRpb25zKC0pDQo+Pj4NCj4+PiBkaWZmIC0tZ2l0
-IGEvZHJpdmVycy9ncHUvZHJtL3R0bS90dG1fYm8uYw0KPj4+IGIvZHJpdmVycy9ncHUvZHJtL3R0
-bS90dG1fYm8uYw0KPj4+IGluZGV4IDUxYTk0ZmQ2M2JkNy4uNmIzOTM1MDIxOThlIDEwMDY0NA0K
-Pj4+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS90dG0vdHRtX2JvLmMNCj4+PiArKysgYi9kcml2ZXJz
-L2dwdS9kcm0vdHRtL3R0bV9iby5jDQo+Pj4gQEAgLTkyOSw2ICs5MjksOSBAQCBzdGF0aWMgYm9v
-bCB0dG1fYm9fcGxhY2VzX2NvbXBhdChjb25zdCBzdHJ1Y3QNCj4+PiB0dG1fcGxhY2UgKnBsYWNl
-cywNCj4+PiAgIHsNCj4+PiAgICAgICB1bnNpZ25lZCBpOw0KPj4+ICAgKyAgICBpZiAobWVtLT5w
-bGFjZW1lbnQgJiBUVE1fUExfRkxBR19URU1QT1JBUlkpDQo+Pj4gKyAgICAgICAgcmV0dXJuIGZh
-bHNlOw0KPj4+ICsNCj4+PiAgICAgICBmb3IgKGkgPSAwOyBpIDwgbnVtX3BsYWNlbWVudDsgaSsr
-KSB7DQo+Pj4gICAgICAgICAgIGNvbnN0IHN0cnVjdCB0dG1fcGxhY2UgKmhlYXAgPSAmcGxhY2Vz
-W2ldOw0KPj4+ICAgZGlmZiAtLWdpdCBhL2luY2x1ZGUvZHJtL3R0bS90dG1fcGxhY2VtZW50LmgN
-Cj4+PiBiL2luY2x1ZGUvZHJtL3R0bS90dG1fcGxhY2VtZW50LmgNCj4+PiBpbmRleCBhYTZiYTRk
-MGNmNzguLjg5OTVjOWU0ZWMxYiAxMDA2NDQNCj4+PiAtLS0gYS9pbmNsdWRlL2RybS90dG0vdHRt
-X3BsYWNlbWVudC5oDQo+Pj4gKysrIGIvaW5jbHVkZS9kcm0vdHRtL3R0bV9wbGFjZW1lbnQuaA0K
-Pj4+IEBAIC00Nyw4ICs0NywxMSBAQA0KPj4+ICAgICogdG9wIG9mIHRoZSBtZW1vcnkgYXJlYSwg
-aW5zdGVhZCBvZiB0aGUgYm90dG9tLg0KPj4+ICAgICovDQo+Pj4gICAtI2RlZmluZSBUVE1fUExf
-RkxBR19DT05USUdVT1VTICAoMSA8PCAxOSkNCj4+PiAtI2RlZmluZSBUVE1fUExfRkxBR19UT1BE
-T1dOICAgICAoMSA8PCAyMikNCj4+PiArI2RlZmluZSBUVE1fUExfRkxBR19DT05USUdVT1VTICAo
-MSA8PCAwKQ0KPj4+ICsjZGVmaW5lIFRUTV9QTF9GTEFHX1RPUERPV04gICAgICgxIDw8IDEpDQo+
-Pj4gKw0KPj4+ICsvKiBGb3IgbXVsdGlob3AgaGFuZGxpbmcgKi8NCj4+PiArI2RlZmluZSBUVE1f
-UExfRkxBR19URU1QT1JBUlkgICAoMSA8PCAyKQ0KPj4+ICAgICAvKioNCj4+PiAgICAqIHN0cnVj
-dCB0dG1fcGxhY2UNCg0K
+Hi Nirmoy,
 
---_000_DM6PR12MB4250A90CF8058DD28AB1B04FFB389DM6PR12MB4250namp_
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: base64
+can you give that patch set a testing round and an review?
 
-PGh0bWw+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIgY29udGVudD0i
-dGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjwvaGVhZD4NCjxib2R5Pg0KPHAgc3R5bGU9ImZv
-bnQtZmFtaWx5OkFyaWFsO2ZvbnQtc2l6ZToxMHB0O2NvbG9yOiMwMDAwRkY7bWFyZ2luOjE1cHQ7
-IiBhbGlnbj0iTGVmdCI+DQpbQU1EIE9mZmljaWFsIFVzZSBPbmx5XTxicj4NCjwvcD4NCjxicj4N
-CjxkaXY+DQo8ZGl2Pg0KPGRpdj4NCjxkaXYgZGlyPSJsdHIiIGRhdGEtb2dzYz0iIiBzdHlsZT0i
-Ij4NCjxkaXYgZGlyPSJsdHIiIGRhdGEtb2dzYz0iIiBzdHlsZT0iIj5UaGFua3PvvIxwbGVhc2Ug
-bGV0IE5pcm1veSBkbyBpdC48L2Rpdj4NCjxkaXYgZGlyPSJsdHIiIGRhdGEtb2dzYz0iIiBzdHls
-ZT0iIj48YnI+DQo8L2Rpdj4NCjxkaXYgZGlyPSJsdHIiIGRhdGEtb2dzYz0iIiBzdHlsZT0iIj5S
-ZWdhcmRz77yMPC9kaXY+DQo8ZGl2IGRpcj0ibHRyIiBkYXRhLW9nc2M9IiIgc3R5bGU9IiI+TGFu
-ZzwvZGl2Pg0KPC9kaXY+DQo8L2Rpdj4NCjxkaXY+PGJyPg0KPC9kaXY+DQo8ZGl2IGNsYXNzPSJt
-cy1vdXRsb29rLWlvcy1zaWduYXR1cmUiPuiOt+WPliA8YSBocmVmPSJodHRwczovL2FrYS5tcy9v
-MHVrZWYiPk91dGxvb2sgZm9yIGlPUzwvYT48L2Rpdj4NCjwvZGl2Pg0KPGhyIHN0eWxlPSJkaXNw
-bGF5OmlubGluZS1ibG9jazt3aWR0aDo5OCUiIHRhYmluZGV4PSItMSI+DQo8ZGl2IGlkPSJkaXZS
-cGx5RndkTXNnIiBkaXI9Imx0ciI+PGZvbnQgZmFjZT0iQ2FsaWJyaSwgc2Fucy1zZXJpZiIgc3R5
-bGU9ImZvbnQtc2l6ZToxMXB0IiBjb2xvcj0iIzAwMDAwMCI+PGI+5Y+R5Lu25Lq6OjwvYj4gQ2hy
-aXN0aWFuIEvDtm5pZyAmbHQ7Y2tvZW5pZy5sZWljaHR6dW1lcmtlbkBnbWFpbC5jb20mZ3Q7PGJy
-Pg0KPGI+5Y+R6YCB5pe26Ze0OjwvYj4gTW9uZGF5LCBKdW5lIDcsIDIwMjEgODo0MTo0OSBQTTxi
-cj4NCjxiPuaUtuS7tuS6ujo8L2I+IFRob21hcyBIZWxsc3Ryw7ZtIChJbnRlbCkgJmx0O3Rob21h
-c19vc0BzaGlwbWFpbC5vcmcmZ3Q7OyBZdSwgTGFuZyAmbHQ7TGFuZy5ZdUBhbWQuY29tJmd0Ozxi
-cj4NCjxiPuaKhOmAgTo8L2I+IGRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcgJmx0O2Ry
-aS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcmZ3Q7PGJyPg0KPGI+5Li76aKYOjwvYj4gUmU6
-IFtQQVRDSCAxLzRdIGRybS90dG06IGFkZCBUVE1fUExfRkxBR19URU1QT1JBUlkgZmxhZyB2Mzwv
-Zm9udD4NCjxkaXY+Jm5ic3A7PC9kaXY+DQo8L2Rpdj4NCjxkaXYgY2xhc3M9IkJvZHlGcmFnbWVu
-dCI+PGZvbnQgc2l6ZT0iMiI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMXB0OyI+DQo8ZGl2IGNs
-YXNzPSJQbGFpblRleHQiPlRoYW5rcyE8YnI+DQo8YnI+DQpMYW5nIGNhbiBhbnlib2R5IGZyb20g
-eW91ciB0ZWFtIGdpdmUgYXMgYW4gcmV2aWV3ZWQtYnkvdGVzdC1ieSBvbiB0aGUgPGJyPg0KYW1k
-Z3B1IHBhdGNoZXM/IEkganVzdCB3YW50IGFub3RoZXIgcGFpciBvZiBleWVzIGxvb2tpbmcgb3Zl
-ciBpdC48YnI+DQo8YnI+DQpJZiBub2JvZHkgZWxzZSBoYXMgdGltZSBJIHdpbGwgYXNrIE5pcm1v
-eSBmb3IgYSBxdWljayB0ZXN0aW5nIHJvdW5kLjxicj4NCjxicj4NClRoYW5rcyw8YnI+DQpDaHJp
-c3RpYW4uPGJyPg0KPGJyPg0KQW0gMDcuMDYuMjEgdW0gMTQ6Mzggc2NocmllYiBUaG9tYXMgSGVs
-bHN0csO2bSAoSW50ZWwpOjxicj4NCiZndDsgU3VyZS4gTEdUTSw8YnI+DQomZ3Q7PGJyPg0KJmd0
-OyBSZXZpZXdlZC1ieTogVGhvbWFzIEhlbGxzdHLDtm0gJmx0O3Rob21hcy5oZWxsc3Ryb21AbGlu
-dXguaW50ZWwuY29tJmd0Ozxicj4NCiZndDs8YnI+DQomZ3Q7PGJyPg0KJmd0OyBPbiA2LzcvMjEg
-MjozNiBQTSwgQ2hyaXN0aWFuIEvDtm5pZyB3cm90ZTo8YnI+DQomZ3Q7Jmd0OyBUaG9tYXMgYW55
-IGNvbW1lbnRzIG9uIHRoaXM/PGJyPg0KJmd0OyZndDs8YnI+DQomZ3Q7Jmd0OyBJcyB0aGUgcHVy
-cG9zZSBvZiB0aGlzIG5vdyBjbGVhciBlbm91Z2g/PGJyPg0KJmd0OyZndDs8YnI+DQomZ3Q7Jmd0
-OyBUaGFua3MsPGJyPg0KJmd0OyZndDsgQ2hyaXN0aWFuLjxicj4NCiZndDsmZ3Q7PGJyPg0KJmd0
-OyZndDsgQW0gMDEuMDYuMjEgdW0gMTQ6MjUgc2NocmllYiBDaHJpc3RpYW4gS8O2bmlnOjxicj4N
-CiZndDsmZ3Q7Jmd0OyBGcm9tOiBMYW5nIFl1ICZsdDtMYW5nLll1QGFtZC5jb20mZ3Q7PGJyPg0K
-Jmd0OyZndDsmZ3Q7PGJyPg0KJmd0OyZndDsmZ3Q7IFNvbWV0aW1lcyBkcml2ZXJzIG5lZWQgdG8g
-dXNlIGJvdW5jZSBidWZmZXJzIHRvIGV2aWN0IEJPcy4gV2hpbGUgPGJyPg0KJmd0OyZndDsmZ3Q7
-IHRob3NlIHJlc2lkZTxicj4NCiZndDsmZ3Q7Jmd0OyBpbiBzb21lIGRvbWFpbiB0aGV5IGFyZSBu
-b3QgbmVjZXNzYXJpbHkgc3VpdGFibGUgZm9yIENTLjxicj4NCiZndDsmZ3Q7Jmd0Ozxicj4NCiZn
-dDsmZ3Q7Jmd0OyBBZGQgYSBmbGFnIHNvIHRoYXQgZHJpdmVycyBjYW4gbm90ZSB0aGF0IGEgYm91
-bmNlIGJ1ZmZlcnMgbmVlZHMgdG8gYmU8YnI+DQomZ3Q7Jmd0OyZndDsgcmVhbGxvY2F0ZWQgZHVy
-aW5nIHZhbGlkYXRpb24uPGJyPg0KJmd0OyZndDsmZ3Q7PGJyPg0KJmd0OyZndDsmZ3Q7IHYyOiBh
-ZGQgZGV0YWlsZWQgY29tbWVudHM8YnI+DQomZ3Q7Jmd0OyZndDsgdjMgKGNoayk6IG1lcmdlIGNv
-bW1pdHMgYW5kIHJld29yayBjb21taXQgbWVzc2FnZTxicj4NCiZndDsmZ3Q7Jmd0Ozxicj4NCiZn
-dDsmZ3Q7Jmd0OyBTdWdnZXN0ZWQtYnk6IENocmlzdGlhbiBLw7ZuaWcgJmx0O2NocmlzdGlhbi5r
-b2VuaWdAYW1kLmNvbSZndDs8YnI+DQomZ3Q7Jmd0OyZndDsgU2lnbmVkLW9mZi1ieTogTGFuZyBZ
-dSAmbHQ7TGFuZy5ZdUBhbWQuY29tJmd0Ozxicj4NCiZndDsmZ3Q7Jmd0OyBTaWduZWQtb2ZmLWJ5
-OiBDaHJpc3RpYW4gS8O2bmlnICZsdDtjaHJpc3RpYW4ua29lbmlnQGFtZC5jb20mZ3Q7PGJyPg0K
-Jmd0OyZndDsmZ3Q7IC0tLTxicj4NCiZndDsmZ3Q7Jmd0OyAmbmJzcDsgZHJpdmVycy9ncHUvZHJt
-L3R0bS90dG1fYm8uYyZuYnNwOyZuYnNwOyZuYnNwOyB8IDMgKysrPGJyPg0KJmd0OyZndDsmZ3Q7
-ICZuYnNwOyBpbmNsdWRlL2RybS90dG0vdHRtX3BsYWNlbWVudC5oIHwgNyArKysrKy0tPGJyPg0K
-Jmd0OyZndDsmZ3Q7ICZuYnNwOyAyIGZpbGVzIGNoYW5nZWQsIDggaW5zZXJ0aW9ucygrKSwgMiBk
-ZWxldGlvbnMoLSk8YnI+DQomZ3Q7Jmd0OyZndDs8YnI+DQomZ3Q7Jmd0OyZndDsgZGlmZiAtLWdp
-dCBhL2RyaXZlcnMvZ3B1L2RybS90dG0vdHRtX2JvLmMgPGJyPg0KJmd0OyZndDsmZ3Q7IGIvZHJp
-dmVycy9ncHUvZHJtL3R0bS90dG1fYm8uYzxicj4NCiZndDsmZ3Q7Jmd0OyBpbmRleCA1MWE5NGZk
-NjNiZDcuLjZiMzkzNTAyMTk4ZSAxMDA2NDQ8YnI+DQomZ3Q7Jmd0OyZndDsgLS0tIGEvZHJpdmVy
-cy9ncHUvZHJtL3R0bS90dG1fYm8uYzxicj4NCiZndDsmZ3Q7Jmd0OyArKysgYi9kcml2ZXJzL2dw
-dS9kcm0vdHRtL3R0bV9iby5jPGJyPg0KJmd0OyZndDsmZ3Q7IEBAIC05MjksNiArOTI5LDkgQEAg
-c3RhdGljIGJvb2wgdHRtX2JvX3BsYWNlc19jb21wYXQoY29uc3Qgc3RydWN0IDxicj4NCiZndDsm
-Z3Q7Jmd0OyB0dG1fcGxhY2UgKnBsYWNlcyw8YnI+DQomZ3Q7Jmd0OyZndDsgJm5ic3A7IHs8YnI+
-DQomZ3Q7Jmd0OyZndDsgJm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7IHVuc2lnbmVkIGk7
-PGJyPg0KJmd0OyZndDsmZ3Q7ICZuYnNwOyArJm5ic3A7Jm5ic3A7Jm5ic3A7IGlmIChtZW0tJmd0
-O3BsYWNlbWVudCAmYW1wOyBUVE1fUExfRkxBR19URU1QT1JBUlkpPGJyPg0KJmd0OyZndDsmZ3Q7
-ICsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsgcmV0dXJuIGZhbHNl
-Ozxicj4NCiZndDsmZ3Q7Jmd0OyArPGJyPg0KJmd0OyZndDsmZ3Q7ICZuYnNwOyZuYnNwOyZuYnNw
-OyZuYnNwOyZuYnNwOyBmb3IgKGkgPSAwOyBpICZsdDsgbnVtX3BsYWNlbWVudDsgaSsrKSB7PGJy
-Pg0KJmd0OyZndDsmZ3Q7ICZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNw
-OyZuYnNwOyZuYnNwOyBjb25zdCBzdHJ1Y3QgdHRtX3BsYWNlICpoZWFwID0gJmFtcDtwbGFjZXNb
-aV07PGJyPg0KJmd0OyZndDsmZ3Q7ICZuYnNwOyBkaWZmIC0tZ2l0IGEvaW5jbHVkZS9kcm0vdHRt
-L3R0bV9wbGFjZW1lbnQuaCA8YnI+DQomZ3Q7Jmd0OyZndDsgYi9pbmNsdWRlL2RybS90dG0vdHRt
-X3BsYWNlbWVudC5oPGJyPg0KJmd0OyZndDsmZ3Q7IGluZGV4IGFhNmJhNGQwY2Y3OC4uODk5NWM5
-ZTRlYzFiIDEwMDY0NDxicj4NCiZndDsmZ3Q7Jmd0OyAtLS0gYS9pbmNsdWRlL2RybS90dG0vdHRt
-X3BsYWNlbWVudC5oPGJyPg0KJmd0OyZndDsmZ3Q7ICsrKyBiL2luY2x1ZGUvZHJtL3R0bS90dG1f
-cGxhY2VtZW50Lmg8YnI+DQomZ3Q7Jmd0OyZndDsgQEAgLTQ3LDggKzQ3LDExIEBAPGJyPg0KJmd0
-OyZndDsmZ3Q7ICZuYnNwOyZuYnNwOyAqIHRvcCBvZiB0aGUgbWVtb3J5IGFyZWEsIGluc3RlYWQg
-b2YgdGhlIGJvdHRvbS48YnI+DQomZ3Q7Jmd0OyZndDsgJm5ic3A7Jm5ic3A7ICovPGJyPg0KJmd0
-OyZndDsmZ3Q7ICZuYnNwOyAtI2RlZmluZSBUVE1fUExfRkxBR19DT05USUdVT1VTJm5ic3A7ICgx
-ICZsdDsmbHQ7IDE5KTxicj4NCiZndDsmZ3Q7Jmd0OyAtI2RlZmluZSBUVE1fUExfRkxBR19UT1BE
-T1dOJm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7ICgxICZsdDsmbHQ7IDIyKTxicj4NCiZndDsmZ3Q7
-Jmd0OyArI2RlZmluZSBUVE1fUExfRkxBR19DT05USUdVT1VTJm5ic3A7ICgxICZsdDsmbHQ7IDAp
-PGJyPg0KJmd0OyZndDsmZ3Q7ICsjZGVmaW5lIFRUTV9QTF9GTEFHX1RPUERPV04mbmJzcDsmbmJz
-cDsmbmJzcDsmbmJzcDsgKDEgJmx0OyZsdDsgMSk8YnI+DQomZ3Q7Jmd0OyZndDsgKzxicj4NCiZn
-dDsmZ3Q7Jmd0OyArLyogRm9yIG11bHRpaG9wIGhhbmRsaW5nICovPGJyPg0KJmd0OyZndDsmZ3Q7
-ICsjZGVmaW5lIFRUTV9QTF9GTEFHX1RFTVBPUkFSWSZuYnNwOyZuYnNwOyAoMSAmbHQ7Jmx0OyAy
-KTxicj4NCiZndDsmZ3Q7Jmd0OyAmbmJzcDsgJm5ic3A7IC8qKjxicj4NCiZndDsmZ3Q7Jmd0OyAm
-bmJzcDsmbmJzcDsgKiBzdHJ1Y3QgdHRtX3BsYWNlPGJyPg0KPGJyPg0KPC9kaXY+DQo8L3NwYW4+
-PC9mb250PjwvZGl2Pg0KPC9kaXY+DQo8L2JvZHk+DQo8L2h0bWw+DQo=
+The memory stress test with low VRAM on APUs should be sufficient and 
+you should have that setup still around.
 
---_000_DM6PR12MB4250A90CF8058DD28AB1B04FFB389DM6PR12MB4250namp_--
+Thanks in advance,
+Christian.
+
+Am 07.06.21 um 14:58 schrieb Yu, Lang:
+>
+> [AMD Official Use Only]
+>
+>
+> Thanks，please let Nirmoy do it.
+>
+> Regards，
+> Lang
+>
+> 获取 Outlook for iOS <https://aka.ms/o0ukef>
+> ------------------------------------------------------------------------
+> *发件人:* Christian König <ckoenig.leichtzumerken@gmail.com>
+> *发送时间:* Monday, June 7, 2021 8:41:49 PM
+> *收件人:* Thomas Hellström (Intel) <thomas_os@shipmail.org>; Yu, Lang 
+> <Lang.Yu@amd.com>
+> *抄送:* dri-devel@lists.freedesktop.org <dri-devel@lists.freedesktop.org>
+> *主题:* Re: [PATCH 1/4] drm/ttm: add TTM_PL_FLAG_TEMPORARY flag v3
+> Thanks!
+>
+> Lang can anybody from your team give as an reviewed-by/test-by on the
+> amdgpu patches? I just want another pair of eyes looking over it.
+>
+> If nobody else has time I will ask Nirmoy for a quick testing round.
+>
+> Thanks,
+> Christian.
+>
+> Am 07.06.21 um 14:38 schrieb Thomas Hellström (Intel):
+> > Sure. LGTM,
+> >
+> > Reviewed-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+> >
+> >
+> > On 6/7/21 2:36 PM, Christian König wrote:
+> >> Thomas any comments on this?
+> >>
+> >> Is the purpose of this now clear enough?
+> >>
+> >> Thanks,
+> >> Christian.
+> >>
+> >> Am 01.06.21 um 14:25 schrieb Christian König:
+> >>> From: Lang Yu <Lang.Yu@amd.com>
+> >>>
+> >>> Sometimes drivers need to use bounce buffers to evict BOs. While
+> >>> those reside
+> >>> in some domain they are not necessarily suitable for CS.
+> >>>
+> >>> Add a flag so that drivers can note that a bounce buffers needs to be
+> >>> reallocated during validation.
+> >>>
+> >>> v2: add detailed comments
+> >>> v3 (chk): merge commits and rework commit message
+> >>>
+> >>> Suggested-by: Christian König <christian.koenig@amd.com>
+> >>> Signed-off-by: Lang Yu <Lang.Yu@amd.com>
+> >>> Signed-off-by: Christian König <christian.koenig@amd.com>
+> >>> ---
+> >>>   drivers/gpu/drm/ttm/ttm_bo.c    | 3 +++
+> >>>   include/drm/ttm/ttm_placement.h | 7 +++++--
+> >>>   2 files changed, 8 insertions(+), 2 deletions(-)
+> >>>
+> >>> diff --git a/drivers/gpu/drm/ttm/ttm_bo.c
+> >>> b/drivers/gpu/drm/ttm/ttm_bo.c
+> >>> index 51a94fd63bd7..6b393502198e 100644
+> >>> --- a/drivers/gpu/drm/ttm/ttm_bo.c
+> >>> +++ b/drivers/gpu/drm/ttm/ttm_bo.c
+> >>> @@ -929,6 +929,9 @@ static bool ttm_bo_places_compat(const struct
+> >>> ttm_place *places,
+> >>>   {
+> >>>       unsigned i;
+> >>>   +    if (mem->placement & TTM_PL_FLAG_TEMPORARY)
+> >>> +        return false;
+> >>> +
+> >>>       for (i = 0; i < num_placement; i++) {
+> >>>           const struct ttm_place *heap = &places[i];
+> >>>   diff --git a/include/drm/ttm/ttm_placement.h
+> >>> b/include/drm/ttm/ttm_placement.h
+> >>> index aa6ba4d0cf78..8995c9e4ec1b 100644
+> >>> --- a/include/drm/ttm/ttm_placement.h
+> >>> +++ b/include/drm/ttm/ttm_placement.h
+> >>> @@ -47,8 +47,11 @@
+> >>>    * top of the memory area, instead of the bottom.
+> >>>    */
+> >>>   -#define TTM_PL_FLAG_CONTIGUOUS  (1 << 19)
+> >>> -#define TTM_PL_FLAG_TOPDOWN     (1 << 22)
+> >>> +#define TTM_PL_FLAG_CONTIGUOUS  (1 << 0)
+> >>> +#define TTM_PL_FLAG_TOPDOWN     (1 << 1)
+> >>> +
+> >>> +/* For multihop handling */
+> >>> +#define TTM_PL_FLAG_TEMPORARY   (1 << 2)
+> >>>     /**
+> >>>    * struct ttm_place
+>
+
+
+--------------F01417D7F0A08938DAE2D150
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: 8bit
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+  <body>
+    Hi Nirmoy,<br>
+    <br>
+    can you give that patch set a testing round and an review?<br>
+    <br>
+    The memory stress test with low VRAM on APUs should be sufficient
+    and you should have that setup still around.<br>
+    <br>
+    Thanks in advance,<br>
+    Christian.<br>
+    <br>
+    <div class="moz-cite-prefix">Am 07.06.21 um 14:58 schrieb Yu, Lang:<br>
+    </div>
+    <blockquote type="cite"
+cite="mid:DM6PR12MB4250A90CF8058DD28AB1B04FFB389@DM6PR12MB4250.namprd12.prod.outlook.com">
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+      <p
+        style="font-family:Arial;font-size:10pt;color:#0000FF;margin:15pt;"
+        align="Left">
+        [AMD Official Use Only]<br>
+      </p>
+      <br>
+      <div>
+        <div>
+          <div>
+            <div dir="ltr" data-ogsc="" style="">
+              <div dir="ltr" data-ogsc="" style="">Thanks，please let
+                Nirmoy do it.</div>
+              <div dir="ltr" data-ogsc="" style=""><br>
+              </div>
+              <div dir="ltr" data-ogsc="" style="">Regards，</div>
+              <div dir="ltr" data-ogsc="" style="">Lang</div>
+            </div>
+          </div>
+          <div><br>
+          </div>
+          <div class="ms-outlook-ios-signature">获取 <a
+              href="https://aka.ms/o0ukef" moz-do-not-send="true">Outlook
+              for iOS</a></div>
+        </div>
+        <hr style="display:inline-block;width:98%" tabindex="-1">
+        <div id="divRplyFwdMsg" dir="ltr"><font style="font-size:11pt"
+            face="Calibri, sans-serif" color="#000000"><b>发件人:</b>
+            Christian König <a class="moz-txt-link-rfc2396E" href="mailto:ckoenig.leichtzumerken@gmail.com">&lt;ckoenig.leichtzumerken@gmail.com&gt;</a><br>
+            <b>发送时间:</b> Monday, June 7, 2021 8:41:49 PM<br>
+            <b>收件人:</b> Thomas Hellström (Intel)
+            <a class="moz-txt-link-rfc2396E" href="mailto:thomas_os@shipmail.org">&lt;thomas_os@shipmail.org&gt;</a>; Yu, Lang
+            <a class="moz-txt-link-rfc2396E" href="mailto:Lang.Yu@amd.com">&lt;Lang.Yu@amd.com&gt;</a><br>
+            <b>抄送:</b> <a class="moz-txt-link-abbreviated" href="mailto:dri-devel@lists.freedesktop.org">dri-devel@lists.freedesktop.org</a>
+            <a class="moz-txt-link-rfc2396E" href="mailto:dri-devel@lists.freedesktop.org">&lt;dri-devel@lists.freedesktop.org&gt;</a><br>
+            <b>主题:</b> Re: [PATCH 1/4] drm/ttm: add
+            TTM_PL_FLAG_TEMPORARY flag v3</font>
+          <div> </div>
+        </div>
+        <div class="BodyFragment"><font size="2"><span
+              style="font-size:11pt;">
+              <div class="PlainText">Thanks!<br>
+                <br>
+                Lang can anybody from your team give as an
+                reviewed-by/test-by on the <br>
+                amdgpu patches? I just want another pair of eyes looking
+                over it.<br>
+                <br>
+                If nobody else has time I will ask Nirmoy for a quick
+                testing round.<br>
+                <br>
+                Thanks,<br>
+                Christian.<br>
+                <br>
+                Am 07.06.21 um 14:38 schrieb Thomas Hellström (Intel):<br>
+                &gt; Sure. LGTM,<br>
+                &gt;<br>
+                &gt; Reviewed-by: Thomas Hellström
+                <a class="moz-txt-link-rfc2396E" href="mailto:thomas.hellstrom@linux.intel.com">&lt;thomas.hellstrom@linux.intel.com&gt;</a><br>
+                &gt;<br>
+                &gt;<br>
+                &gt; On 6/7/21 2:36 PM, Christian König wrote:<br>
+                &gt;&gt; Thomas any comments on this?<br>
+                &gt;&gt;<br>
+                &gt;&gt; Is the purpose of this now clear enough?<br>
+                &gt;&gt;<br>
+                &gt;&gt; Thanks,<br>
+                &gt;&gt; Christian.<br>
+                &gt;&gt;<br>
+                &gt;&gt; Am 01.06.21 um 14:25 schrieb Christian König:<br>
+                &gt;&gt;&gt; From: Lang Yu <a class="moz-txt-link-rfc2396E" href="mailto:Lang.Yu@amd.com">&lt;Lang.Yu@amd.com&gt;</a><br>
+                &gt;&gt;&gt;<br>
+                &gt;&gt;&gt; Sometimes drivers need to use bounce
+                buffers to evict BOs. While <br>
+                &gt;&gt;&gt; those reside<br>
+                &gt;&gt;&gt; in some domain they are not necessarily
+                suitable for CS.<br>
+                &gt;&gt;&gt;<br>
+                &gt;&gt;&gt; Add a flag so that drivers can note that a
+                bounce buffers needs to be<br>
+                &gt;&gt;&gt; reallocated during validation.<br>
+                &gt;&gt;&gt;<br>
+                &gt;&gt;&gt; v2: add detailed comments<br>
+                &gt;&gt;&gt; v3 (chk): merge commits and rework commit
+                message<br>
+                &gt;&gt;&gt;<br>
+                &gt;&gt;&gt; Suggested-by: Christian König
+                <a class="moz-txt-link-rfc2396E" href="mailto:christian.koenig@amd.com">&lt;christian.koenig@amd.com&gt;</a><br>
+                &gt;&gt;&gt; Signed-off-by: Lang Yu
+                <a class="moz-txt-link-rfc2396E" href="mailto:Lang.Yu@amd.com">&lt;Lang.Yu@amd.com&gt;</a><br>
+                &gt;&gt;&gt; Signed-off-by: Christian König
+                <a class="moz-txt-link-rfc2396E" href="mailto:christian.koenig@amd.com">&lt;christian.koenig@amd.com&gt;</a><br>
+                &gt;&gt;&gt; ---<br>
+                &gt;&gt;&gt;   drivers/gpu/drm/ttm/ttm_bo.c    | 3 +++<br>
+                &gt;&gt;&gt;   include/drm/ttm/ttm_placement.h | 7
+                +++++--<br>
+                &gt;&gt;&gt;   2 files changed, 8 insertions(+), 2
+                deletions(-)<br>
+                &gt;&gt;&gt;<br>
+                &gt;&gt;&gt; diff --git a/drivers/gpu/drm/ttm/ttm_bo.c <br>
+                &gt;&gt;&gt; b/drivers/gpu/drm/ttm/ttm_bo.c<br>
+                &gt;&gt;&gt; index 51a94fd63bd7..6b393502198e 100644<br>
+                &gt;&gt;&gt; --- a/drivers/gpu/drm/ttm/ttm_bo.c<br>
+                &gt;&gt;&gt; +++ b/drivers/gpu/drm/ttm/ttm_bo.c<br>
+                &gt;&gt;&gt; @@ -929,6 +929,9 @@ static bool
+                ttm_bo_places_compat(const struct <br>
+                &gt;&gt;&gt; ttm_place *places,<br>
+                &gt;&gt;&gt;   {<br>
+                &gt;&gt;&gt;       unsigned i;<br>
+                &gt;&gt;&gt;   +    if (mem-&gt;placement &amp;
+                TTM_PL_FLAG_TEMPORARY)<br>
+                &gt;&gt;&gt; +        return false;<br>
+                &gt;&gt;&gt; +<br>
+                &gt;&gt;&gt;       for (i = 0; i &lt; num_placement;
+                i++) {<br>
+                &gt;&gt;&gt;           const struct ttm_place *heap =
+                &amp;places[i];<br>
+                &gt;&gt;&gt;   diff --git
+                a/include/drm/ttm/ttm_placement.h <br>
+                &gt;&gt;&gt; b/include/drm/ttm/ttm_placement.h<br>
+                &gt;&gt;&gt; index aa6ba4d0cf78..8995c9e4ec1b 100644<br>
+                &gt;&gt;&gt; --- a/include/drm/ttm/ttm_placement.h<br>
+                &gt;&gt;&gt; +++ b/include/drm/ttm/ttm_placement.h<br>
+                &gt;&gt;&gt; @@ -47,8 +47,11 @@<br>
+                &gt;&gt;&gt;    * top of the memory area, instead of the
+                bottom.<br>
+                &gt;&gt;&gt;    */<br>
+                &gt;&gt;&gt;   -#define TTM_PL_FLAG_CONTIGUOUS  (1
+                &lt;&lt; 19)<br>
+                &gt;&gt;&gt; -#define TTM_PL_FLAG_TOPDOWN     (1
+                &lt;&lt; 22)<br>
+                &gt;&gt;&gt; +#define TTM_PL_FLAG_CONTIGUOUS  (1
+                &lt;&lt; 0)<br>
+                &gt;&gt;&gt; +#define TTM_PL_FLAG_TOPDOWN     (1
+                &lt;&lt; 1)<br>
+                &gt;&gt;&gt; +<br>
+                &gt;&gt;&gt; +/* For multihop handling */<br>
+                &gt;&gt;&gt; +#define TTM_PL_FLAG_TEMPORARY   (1
+                &lt;&lt; 2)<br>
+                &gt;&gt;&gt;     /**<br>
+                &gt;&gt;&gt;    * struct ttm_place<br>
+                <br>
+              </div>
+            </span></font></div>
+      </div>
+    </blockquote>
+    <br>
+  </body>
+</html>
+
+--------------F01417D7F0A08938DAE2D150--
