@@ -2,39 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0EEB539E5CA
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Jun 2021 19:46:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE84B39E5BC
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Jun 2021 19:46:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2FC046E99A;
-	Mon,  7 Jun 2021 17:46:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 38C1C6E98D;
+	Mon,  7 Jun 2021 17:46:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 07D196E983;
- Mon,  7 Jun 2021 17:46:06 +0000 (UTC)
-IronPort-SDR: eX90KXQr6NuTWbdglkqX5xIK7eQaMUbi0HpbihUeMB0esY0tWpmu96+4Xb2uVo559KsFlL83ok
- 0y1gD5bCKzNw==
-X-IronPort-AV: E=McAfee;i="6200,9189,10008"; a="204695177"
-X-IronPort-AV: E=Sophos;i="5.83,255,1616482800"; d="scan'208";a="204695177"
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 208FC6E989;
+ Mon,  7 Jun 2021 17:46:07 +0000 (UTC)
+IronPort-SDR: tOO0b/htY410cN7TrI4biosAtrjyqoR5ZrmNGuUSNZM3khIdOfPX7/MAhk92a2nMPzu8l8vmRE
+ S6eTUiEf2umA==
+X-IronPort-AV: E=McAfee;i="6200,9189,10008"; a="204695178"
+X-IronPort-AV: E=Sophos;i="5.83,255,1616482800"; d="scan'208";a="204695178"
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  07 Jun 2021 10:46:05 -0700
-IronPort-SDR: xdtf1J7OBuWPhmzQy93YSAMz/L/Od8QgSr/Eb2T6b0RBf1kA8L8DZwGfyeJDKaGlzAavNwDwJK
- EPsmxp8EUUJQ==
-X-IronPort-AV: E=Sophos;i="5.83,255,1616482800"; d="scan'208";a="551970167"
+IronPort-SDR: o5YwE5a2WRhdKKEgVbD13SiBMKTKDF0QcpQ71CNyNxkGR9NMTBL+ufN5WHGqouARdeVzHwvah5
+ yUelwQulH8YA==
+X-IronPort-AV: E=Sophos;i="5.83,255,1616482800"; d="scan'208";a="551970171"
 Received: from dhiatt-server.jf.intel.com ([10.54.81.3])
  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  07 Jun 2021 10:46:05 -0700
 From: Matthew Brost <matthew.brost@intel.com>
 To: <intel-gfx@lists.freedesktop.org>,
 	<dri-devel@lists.freedesktop.org>
-Subject: [PATCH 06/13] drm/i915/guc: New definition of the CTB descriptor
-Date: Mon,  7 Jun 2021 11:03:48 -0700
-Message-Id: <20210607180356.165785-7-matthew.brost@intel.com>
+Subject: [PATCH 07/13] drm/i915/guc: New definition of the CTB registration
+ action
+Date: Mon,  7 Jun 2021 11:03:49 -0700
+Message-Id: <20210607180356.165785-8-matthew.brost@intel.com>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20210607180356.165785-1-matthew.brost@intel.com>
 References: <20210607180356.165785-1-matthew.brost@intel.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -55,274 +57,300 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Michal Wajdeczko <michal.wajdeczko@intel.com>
 
-Definition of the CTB descriptor has changed, leaving only
-minimal shared fields like HEAD/TAIL/STATUS.
-
-Both HEAD and TAIL are now in dwords.
-
+Definition of the CTB registration action has changed.
 Add some ABI documentation and implement required changes.
 
 Signed-off-by: Michal Wajdeczko <michal.wajdeczko@intel.com>
 Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+Cc: Piotr Piórkowski <piotr.piorkowski@intel.com> #4
 ---
- .../gt/uc/abi/guc_communication_ctb_abi.h     | 70 ++++++++++++++-----
- drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c     | 70 +++++++++----------
- drivers/gpu/drm/i915/gt/uc/intel_guc_ct.h     |  2 +-
- 3 files changed, 85 insertions(+), 57 deletions(-)
+ .../gpu/drm/i915/gt/uc/abi/guc_actions_abi.h  | 107 ++++++++++++++++++
+ .../gt/uc/abi/guc_communication_ctb_abi.h     |   4 -
+ drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c     |  76 ++++++++-----
+ 3 files changed, 152 insertions(+), 35 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/gt/uc/abi/guc_communication_ctb_abi.h b/drivers/gpu/drm/i915/gt/uc/abi/guc_communication_ctb_abi.h
-index d38935f47ecf..c2a069a78e01 100644
---- a/drivers/gpu/drm/i915/gt/uc/abi/guc_communication_ctb_abi.h
-+++ b/drivers/gpu/drm/i915/gt/uc/abi/guc_communication_ctb_abi.h
-@@ -7,6 +7,58 @@
- #define _ABI_GUC_COMMUNICATION_CTB_ABI_H
+diff --git a/drivers/gpu/drm/i915/gt/uc/abi/guc_actions_abi.h b/drivers/gpu/drm/i915/gt/uc/abi/guc_actions_abi.h
+index 90efef8a73e4..6426fc183692 100644
+--- a/drivers/gpu/drm/i915/gt/uc/abi/guc_actions_abi.h
++++ b/drivers/gpu/drm/i915/gt/uc/abi/guc_actions_abi.h
+@@ -6,6 +6,113 @@
+ #ifndef _ABI_GUC_ACTIONS_ABI_H
+ #define _ABI_GUC_ACTIONS_ABI_H
  
- #include <linux/types.h>
-+#include <linux/build_bug.h>
-+
-+#include "guc_messages_abi.h"
-+
 +/**
-+ * DOC: CT Buffer
++ * DOC: HOST2GUC_REGISTER_CTB
 + *
-+ * TBD
-+ */
-+
-+/**
-+ * DOC: CTB Descriptor
++ * This message is used as part of the `CTB based communication`_ setup.
++ *
++ * This message must be sent as `MMIO HXG Message`_.
 + *
 + *  +---+-------+--------------------------------------------------------------+
 + *  |   | Bits  | Description                                                  |
 + *  +===+=======+==============================================================+
-+ *  | 0 |  31:0 | **HEAD** - offset (in dwords) to the last dword that was     |
-+ *  |   |       | read from the `CT Buffer`_.                                  |
-+ *  |   |       | It can only be updated by the receiver.                      |
++ *  | 0 |    31 | ORIGIN = GUC_HXG_ORIGIN_HOST_                                |
++ *  |   +-------+--------------------------------------------------------------+
++ *  |   | 30:28 | TYPE = GUC_HXG_TYPE_REQUEST_                                 |
++ *  |   +-------+--------------------------------------------------------------+
++ *  |   | 27:16 | DATA0 = MBZ                                                  |
++ *  |   +-------+--------------------------------------------------------------+
++ *  |   |  15:0 | ACTION = _`GUC_ACTION_HOST2GUC_REGISTER_CTB` = 0x5200        |
 + *  +---+-------+--------------------------------------------------------------+
-+ *  | 1 |  31:0 | **TAIL** - offset (in dwords) to the last dword that was     |
-+ *  |   |       | written to the `CT Buffer`_.                                 |
-+ *  |   |       | It can only be updated by the sender.                        |
-+ *  +---+-------+--------------------------------------------------------------+
-+ *  | 2 |  31:0 | **STATUS** - status of the CTB                               |
++ *  | 1 | 31:12 | RESERVED = MBZ                                               |
++ *  |   +-------+--------------------------------------------------------------+
++ *  |   |  11:8 | **TYPE** - type for the `CT Buffer`_                         |
 + *  |   |       |                                                              |
-+ *  |   |       |   - _`GUC_CTB_STATUS_NO_ERROR` = 0 (normal operation)        |
-+ *  |   |       |   - _`GUC_CTB_STATUS_OVERFLOW` = 1 (head/tail too large)     |
-+ *  |   |       |   - _`GUC_CTB_STATUS_UNDERFLOW` = 2 (truncated message)      |
-+ *  |   |       |   - _`GUC_CTB_STATUS_MISMATCH` = 4 (head/tail modified)      |
-+ *  |   |       |   - _`GUC_CTB_STATUS_NO_BACKCHANNEL` = 8                     |
-+ *  |   |       |   - _`GUC_CTB_STATUS_MALFORMED_MSG` = 16                     |
++ *  |   |       |   - _`GUC_CTB_TYPE_HOST2GUC` = 0                             |
++ *  |   |       |   - _`GUC_CTB_TYPE_GUC2HOST` = 1                             |
++ *  |   +-------+--------------------------------------------------------------+
++ *  |   |   7:0 | **SIZE** - size of the `CT Buffer`_ in 4K units minus 1      |
 + *  +---+-------+--------------------------------------------------------------+
-+ *  |...|       | RESERVED = MBZ                                               |
++ *  | 2 |  31:0 | **DESC_ADDR** - GGTT address of the `CTB Descriptor`_        |
 + *  +---+-------+--------------------------------------------------------------+
-+ *  | 15|  31:0 | RESERVED = MBZ                                               |
++ *  | 3 |  31:0 | **BUFF_ADDF** - GGTT address of the `CT Buffer`_             |
++ *  +---+-------+--------------------------------------------------------------+
++*
++ *  +---+-------+--------------------------------------------------------------+
++ *  |   | Bits  | Description                                                  |
++ *  +===+=======+==============================================================+
++ *  | 0 |    31 | ORIGIN = GUC_HXG_ORIGIN_GUC_                                 |
++ *  |   +-------+--------------------------------------------------------------+
++ *  |   | 30:28 | TYPE = GUC_HXG_TYPE_RESPONSE_SUCCESS_                        |
++ *  |   +-------+--------------------------------------------------------------+
++ *  |   |  27:0 | DATA0 = MBZ                                                  |
 + *  +---+-------+--------------------------------------------------------------+
 + */
++#define GUC_ACTION_HOST2GUC_REGISTER_CTB		0x4505 // FIXME 0x5200
 +
-+struct guc_ct_buffer_desc {
-+	u32 head;
-+	u32 tail;
-+	u32 status;
-+#define GUC_CTB_STATUS_NO_ERROR				0
-+#define GUC_CTB_STATUS_OVERFLOW				(1 << 0)
-+#define GUC_CTB_STATUS_UNDERFLOW			(1 << 1)
-+#define GUC_CTB_STATUS_MISMATCH				(1 << 2)
-+#define GUC_CTB_STATUS_NO_BACKCHANNEL			(1 << 3)
-+#define GUC_CTB_STATUS_MALFORMED_MSG			(1 << 4)
-+	u32 reserved[13];
-+} __packed;
-+static_assert(sizeof(struct guc_ct_buffer_desc) == 64);
- 
- /**
-  * DOC: CTB based communication
-@@ -60,24 +112,6 @@
++#define HOST2GUC_REGISTER_CTB_REQUEST_MSG_LEN		(GUC_HXG_REQUEST_MSG_MIN_LEN + 3u)
++#define HOST2GUC_REGISTER_CTB_REQUEST_MSG_0_MBZ		GUC_HXG_REQUEST_MSG_0_DATA0
++#define HOST2GUC_REGISTER_CTB_REQUEST_MSG_1_MBZ		(0xfffff << 12)
++#define HOST2GUC_REGISTER_CTB_REQUEST_MSG_1_TYPE	(0xf << 8)
++#define   GUC_CTB_TYPE_HOST2GUC				0u
++#define   GUC_CTB_TYPE_GUC2HOST				1u
++#define HOST2GUC_REGISTER_CTB_REQUEST_MSG_1_SIZE	(0xff << 0)
++#define HOST2GUC_REGISTER_CTB_REQUEST_MSG_2_DESC_ADDR	GUC_HXG_REQUEST_MSG_n_DATAn
++#define HOST2GUC_REGISTER_CTB_REQUEST_MSG_3_BUFF_ADDR	GUC_HXG_REQUEST_MSG_n_DATAn
++
++#define HOST2GUC_REGISTER_CTB_RESPONSE_MSG_LEN		GUC_HXG_RESPONSE_MSG_MIN_LEN
++#define HOST2GUC_REGISTER_CTB_RESPONSE_MSG_0_MBZ	GUC_HXG_RESPONSE_MSG_0_DATA0
++
++/**
++ * DOC: HOST2GUC_DEREGISTER_CTB
++ *
++ * This message is used as part of the `CTB based communication`_ teardown.
++ *
++ * This message must be sent as `MMIO HXG Message`_.
++ *
++ *  +---+-------+--------------------------------------------------------------+
++ *  |   | Bits  | Description                                                  |
++ *  +===+=======+==============================================================+
++ *  | 0 |    31 | ORIGIN = GUC_HXG_ORIGIN_HOST_                                |
++ *  |   +-------+--------------------------------------------------------------+
++ *  |   | 30:28 | TYPE = GUC_HXG_TYPE_REQUEST_                                 |
++ *  |   +-------+--------------------------------------------------------------+
++ *  |   | 27:16 | DATA0 = MBZ                                                  |
++ *  |   +-------+--------------------------------------------------------------+
++ *  |   |  15:0 | ACTION = _`GUC_ACTION_HOST2GUC_DEREGISTER_CTB` = 0x5201      |
++ *  +---+-------+--------------------------------------------------------------+
++ *  | 1 | 31:12 | RESERVED = MBZ                                               |
++ *  |   +-------+--------------------------------------------------------------+
++ *  |   |  11:8 | **TYPE** - type of the `CT Buffer`_                          |
++ *  |   |       |                                                              |
++ *  |   |       | see `GUC_ACTION_HOST2GUC_REGISTER_CTB`_                      |
++ *  |   +-------+--------------------------------------------------------------+
++ *  |   |   7:0 | RESERVED = MBZ                                               |
++ *  +---+-------+--------------------------------------------------------------+
++*
++ *  +---+-------+--------------------------------------------------------------+
++ *  |   | Bits  | Description                                                  |
++ *  +===+=======+==============================================================+
++ *  | 0 |    31 | ORIGIN = GUC_HXG_ORIGIN_GUC_                                 |
++ *  |   +-------+--------------------------------------------------------------+
++ *  |   | 30:28 | TYPE = GUC_HXG_TYPE_RESPONSE_SUCCESS_                        |
++ *  |   +-------+--------------------------------------------------------------+
++ *  |   |  27:0 | DATA0 = MBZ                                                  |
++ *  +---+-------+--------------------------------------------------------------+
++ */
++#define GUC_ACTION_HOST2GUC_DEREGISTER_CTB		0x4506 // FIXME 0x5201
++
++#define HOST2GUC_DEREGISTER_CTB_REQUEST_MSG_LEN		(GUC_HXG_REQUEST_MSG_MIN_LEN + 1u)
++#define HOST2GUC_DEREGISTER_CTB_REQUEST_MSG_0_MBZ	GUC_HXG_REQUEST_MSG_0_DATA0
++#define HOST2GUC_DEREGISTER_CTB_REQUEST_MSG_1_MBZ	(0xfffff << 12)
++#define HOST2GUC_DEREGISTER_CTB_REQUEST_MSG_1_TYPE	(0xf << 8)
++#define HOST2GUC_DEREGISTER_CTB_REQUEST_MSG_1_MBZ2	(0xff << 0)
++
++#define HOST2GUC_DEREGISTER_CTB_RESPONSE_MSG_LEN	GUC_HXG_RESPONSE_MSG_MIN_LEN
++#define HOST2GUC_DEREGISTER_CTB_RESPONSE_MSG_0_MBZ	GUC_HXG_RESPONSE_MSG_0_DATA0
++
++/* legacy definitions */
++
+ enum intel_guc_action {
+ 	INTEL_GUC_ACTION_DEFAULT = 0x0,
+ 	INTEL_GUC_ACTION_REQUEST_PREEMPTION = 0x2,
+diff --git a/drivers/gpu/drm/i915/gt/uc/abi/guc_communication_ctb_abi.h b/drivers/gpu/drm/i915/gt/uc/abi/guc_communication_ctb_abi.h
+index c2a069a78e01..127b256a662c 100644
+--- a/drivers/gpu/drm/i915/gt/uc/abi/guc_communication_ctb_abi.h
++++ b/drivers/gpu/drm/i915/gt/uc/abi/guc_communication_ctb_abi.h
+@@ -112,10 +112,6 @@ static_assert(sizeof(struct guc_ct_buffer_desc) == 64);
   * - **flags**, holds various bits to control message handling
   */
  
--/*
-- * Describes single command transport buffer.
-- * Used by both guc-master and clients.
-- */
--struct guc_ct_buffer_desc {
--	u32 addr;		/* gfx address */
--	u64 host_private;	/* host private data */
--	u32 size;		/* size in bytes */
--	u32 head;		/* offset updated by GuC*/
--	u32 tail;		/* offset updated by owner */
--	u32 is_in_error;	/* error indicator */
--	u32 reserved1;
--	u32 reserved2;
--	u32 owner;		/* id of the channel owner */
--	u32 owner_sub_id;	/* owner-defined field for extra tracking */
--	u32 reserved[5];
--} __packed;
+-/* Type of command transport buffer */
+-#define INTEL_GUC_CT_BUFFER_TYPE_SEND	0x0u
+-#define INTEL_GUC_CT_BUFFER_TYPE_RECV	0x1u
 -
- /* Type of command transport buffer */
- #define INTEL_GUC_CT_BUFFER_TYPE_SEND	0x0u
- #define INTEL_GUC_CT_BUFFER_TYPE_RECV	0x1u
+ /*
+  * Definition of the command transport message header (DW0)
+  *
 diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
-index 63056ea0631e..3241a477196f 100644
+index 3241a477196f..6a29be779cc9 100644
 --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
 +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
-@@ -112,32 +112,28 @@ static inline const char *guc_ct_buffer_type_to_str(u32 type)
- 	}
- }
- 
--static void guc_ct_buffer_desc_init(struct guc_ct_buffer_desc *desc,
--				    u32 cmds_addr, u32 size)
-+static void guc_ct_buffer_desc_init(struct guc_ct_buffer_desc *desc)
+@@ -103,9 +103,9 @@ void intel_guc_ct_init_early(struct intel_guc_ct *ct)
+ static inline const char *guc_ct_buffer_type_to_str(u32 type)
  {
- 	memset(desc, 0, sizeof(*desc));
--	desc->addr = cmds_addr;
--	desc->size = size;
--	desc->owner = CTB_OWNER_HOST;
+ 	switch (type) {
+-	case INTEL_GUC_CT_BUFFER_TYPE_SEND:
++	case GUC_CTB_TYPE_HOST2GUC:
+ 		return "SEND";
+-	case INTEL_GUC_CT_BUFFER_TYPE_RECV:
++	case GUC_CTB_TYPE_GUC2HOST:
+ 		return "RECV";
+ 	default:
+ 		return "<invalid>";
+@@ -136,25 +136,33 @@ static void guc_ct_buffer_init(struct intel_guc_ct_buffer *ctb,
+ 	guc_ct_buffer_reset(ctb);
  }
  
--static void guc_ct_buffer_reset(struct intel_guc_ct_buffer *ctb, u32 cmds_addr)
-+static void guc_ct_buffer_reset(struct intel_guc_ct_buffer *ctb)
+-static int guc_action_register_ct_buffer(struct intel_guc *guc,
+-					 u32 desc_addr,
+-					 u32 type)
++static int guc_action_register_ct_buffer(struct intel_guc *guc, u32 type,
++					 u32 desc_addr, u32 buff_addr, u32 size)
  {
- 	ctb->broken = false;
--	guc_ct_buffer_desc_init(ctb->desc, cmds_addr, ctb->size);
-+	guc_ct_buffer_desc_init(ctb->desc);
+-	u32 action[] = {
+-		INTEL_GUC_ACTION_REGISTER_COMMAND_TRANSPORT_BUFFER,
+-		desc_addr,
+-		sizeof(struct guc_ct_buffer_desc),
+-		type
++	u32 request[HOST2GUC_REGISTER_CTB_REQUEST_MSG_LEN] = {
++		FIELD_PREP(GUC_HXG_MSG_0_ORIGIN, GUC_HXG_ORIGIN_HOST) |
++		FIELD_PREP(GUC_HXG_MSG_0_TYPE, GUC_HXG_TYPE_REQUEST) |
++		FIELD_PREP(GUC_HXG_REQUEST_MSG_0_ACTION, GUC_ACTION_HOST2GUC_REGISTER_CTB),
++		FIELD_PREP(HOST2GUC_REGISTER_CTB_REQUEST_MSG_1_SIZE, size / SZ_4K - 1) |
++		FIELD_PREP(HOST2GUC_REGISTER_CTB_REQUEST_MSG_1_TYPE, type),
++		FIELD_PREP(HOST2GUC_REGISTER_CTB_REQUEST_MSG_2_DESC_ADDR, desc_addr),
++		FIELD_PREP(HOST2GUC_REGISTER_CTB_REQUEST_MSG_3_BUFF_ADDR, buff_addr),
+ 	};
+ 
+-	/* Can't use generic send(), CT registration must go over MMIO */
+-	return intel_guc_send_mmio(guc, action, ARRAY_SIZE(action), NULL, 0);
++	GEM_BUG_ON(type != GUC_CTB_TYPE_HOST2GUC && type != GUC_CTB_TYPE_GUC2HOST);
++	GEM_BUG_ON(size % SZ_4K);
++
++	/* CT registration must go over MMIO */
++	return intel_guc_send_mmio(guc, request, ARRAY_SIZE(request), NULL, 0);
  }
  
- static void guc_ct_buffer_init(struct intel_guc_ct_buffer *ctb,
- 			       struct guc_ct_buffer_desc *desc,
--			       u32 *cmds, u32 size)
-+			       u32 *cmds, u32 size_in_bytes)
+-static int ct_register_buffer(struct intel_guc_ct *ct, u32 desc_addr, u32 type)
++static int ct_register_buffer(struct intel_guc_ct *ct, u32 type,
++			      u32 desc_addr, u32 buff_addr, u32 size)
  {
--	GEM_BUG_ON(size % 4);
-+	GEM_BUG_ON(size_in_bytes % 4);
+-	int err = guc_action_register_ct_buffer(ct_to_guc(ct), desc_addr, type);
++	int err;
  
- 	ctb->desc = desc;
- 	ctb->cmds = cmds;
--	ctb->size = size;
-+	ctb->size = size_in_bytes / 4;
++	err = guc_action_register_ct_buffer(ct_to_guc(ct), type,
++					    desc_addr, buff_addr, size);
+ 	if (unlikely(err))
+ 		CT_ERROR(ct, "Failed to register %s buffer (err=%d)\n",
+ 			 guc_ct_buffer_type_to_str(type), err);
+@@ -163,14 +171,17 @@ static int ct_register_buffer(struct intel_guc_ct *ct, u32 desc_addr, u32 type)
  
--	guc_ct_buffer_reset(ctb, 0);
-+	guc_ct_buffer_reset(ctb);
+ static int guc_action_deregister_ct_buffer(struct intel_guc *guc, u32 type)
+ {
+-	u32 action[] = {
+-		INTEL_GUC_ACTION_DEREGISTER_COMMAND_TRANSPORT_BUFFER,
+-		CTB_OWNER_HOST,
+-		type
++	u32 request[HOST2GUC_DEREGISTER_CTB_REQUEST_MSG_LEN] = {
++		FIELD_PREP(GUC_HXG_MSG_0_ORIGIN, GUC_HXG_ORIGIN_HOST) |
++		FIELD_PREP(GUC_HXG_MSG_0_TYPE, GUC_HXG_TYPE_REQUEST) |
++		FIELD_PREP(GUC_HXG_REQUEST_MSG_0_ACTION, GUC_ACTION_HOST2GUC_DEREGISTER_CTB),
++		FIELD_PREP(HOST2GUC_DEREGISTER_CTB_REQUEST_MSG_1_TYPE, type),
+ 	};
+ 
+-	/* Can't use generic send(), CT deregistration must go over MMIO */
+-	return intel_guc_send_mmio(guc, action, ARRAY_SIZE(action), NULL, 0);
++	GEM_BUG_ON(type != GUC_CTB_TYPE_HOST2GUC && type != GUC_CTB_TYPE_GUC2HOST);
++
++	/* CT deregistration must go over MMIO */
++	return intel_guc_send_mmio(guc, request, ARRAY_SIZE(request), NULL, 0);
  }
  
- static int guc_action_register_ct_buffer(struct intel_guc *guc,
-@@ -279,10 +275,10 @@ int intel_guc_ct_enable(struct intel_guc_ct *ct)
+ static int ct_deregister_buffer(struct intel_guc_ct *ct, u32 type)
+@@ -258,7 +269,7 @@ void intel_guc_ct_fini(struct intel_guc_ct *ct)
+ int intel_guc_ct_enable(struct intel_guc_ct *ct)
+ {
+ 	struct intel_guc *guc = ct_to_guc(ct);
+-	u32 base, cmds;
++	u32 base, desc, cmds;
+ 	void *blob;
+ 	int err;
+ 
+@@ -274,23 +285,26 @@ int intel_guc_ct_enable(struct intel_guc_ct *ct)
+ 	GEM_BUG_ON(blob != ct->ctbs.send.desc);
  
  	/* (re)initialize descriptors */
- 	cmds = base + ptrdiff(ct->ctbs.send.cmds, blob);
--	guc_ct_buffer_reset(&ct->ctbs.send, cmds);
-+	guc_ct_buffer_reset(&ct->ctbs.send);
- 
- 	cmds = base + ptrdiff(ct->ctbs.recv.cmds, blob);
--	guc_ct_buffer_reset(&ct->ctbs.recv, cmds);
-+	guc_ct_buffer_reset(&ct->ctbs.recv);
+-	cmds = base + ptrdiff(ct->ctbs.send.cmds, blob);
+ 	guc_ct_buffer_reset(&ct->ctbs.send);
+-
+-	cmds = base + ptrdiff(ct->ctbs.recv.cmds, blob);
+ 	guc_ct_buffer_reset(&ct->ctbs.recv);
  
  	/*
  	 * Register both CT buffers starting with RECV buffer.
-@@ -391,17 +387,15 @@ static int ct_write(struct intel_guc_ct *ct,
- 	if (unlikely(ctb->broken))
- 		return -EPIPE;
- 
--	if (unlikely(desc->is_in_error))
-+	if (unlikely(desc->status))
- 		goto corrupted;
- 
--	if (unlikely(!IS_ALIGNED(head | tail, 4) ||
--		     (tail | head) >= size))
-+	if (unlikely((tail | head) >= size)) {
-+		CT_ERROR(ct, "Invalid offsets head=%u tail=%u (size=%u)\n",
-+			 head, tail, size);
-+		desc->status |= GUC_CTB_STATUS_OVERFLOW;
- 		goto corrupted;
--
--	/* later calculations will be done in dwords */
--	head /= 4;
--	tail /= 4;
--	size /= 4;
-+	}
- 
- 	/*
- 	 * tail == head condition indicates empty. GuC FW does not support
-@@ -447,14 +441,14 @@ static int ct_write(struct intel_guc_ct *ct,
+ 	 * Descriptors are in first half of the blob.
  	 */
- 	write_barrier(ct);
- 
--	/* now update desc tail (back in bytes) */
--	desc->tail = tail * 4;
-+	/* now update descriptor */
-+	WRITE_ONCE(desc->tail, tail);
+-	err = ct_register_buffer(ct, base + ptrdiff(ct->ctbs.recv.desc, blob),
+-				 INTEL_GUC_CT_BUFFER_TYPE_RECV);
++	desc = base + ptrdiff(ct->ctbs.recv.desc, blob);
++	cmds = base + ptrdiff(ct->ctbs.recv.cmds, blob);
++	err = ct_register_buffer(ct, GUC_CTB_TYPE_GUC2HOST,
++				 desc, cmds, ct->ctbs.recv.size * 4);
 +
+ 	if (unlikely(err))
+ 		goto err_out;
+ 
+-	err = ct_register_buffer(ct, base + ptrdiff(ct->ctbs.send.desc, blob),
+-				 INTEL_GUC_CT_BUFFER_TYPE_SEND);
++	desc = base + ptrdiff(ct->ctbs.send.desc, blob);
++	cmds = base + ptrdiff(ct->ctbs.send.cmds, blob);
++	err = ct_register_buffer(ct, GUC_CTB_TYPE_HOST2GUC,
++				 desc, cmds, ct->ctbs.send.size * 4);
++
+ 	if (unlikely(err))
+ 		goto err_deregister;
+ 
+@@ -299,7 +313,7 @@ int intel_guc_ct_enable(struct intel_guc_ct *ct)
  	return 0;
  
- corrupted:
--	CT_ERROR(ct, "Corrupted descriptor addr=%#x head=%u tail=%u size=%u\n",
--		 desc->addr, desc->head, desc->tail, desc->size);
--	desc->is_in_error = 1;
-+	CT_ERROR(ct, "Corrupted descriptor head=%u tail=%u status=%#x\n",
-+		 desc->head, desc->tail, desc->status);
- 	ctb->broken = true;
- 	return -EPIPE;
- }
-@@ -640,17 +634,15 @@ static int ct_read(struct intel_guc_ct *ct, struct ct_incoming_msg **msg)
- 	if (unlikely(ctb->broken))
- 		return -EPIPE;
+ err_deregister:
+-	ct_deregister_buffer(ct, INTEL_GUC_CT_BUFFER_TYPE_RECV);
++	ct_deregister_buffer(ct, GUC_CTB_TYPE_GUC2HOST);
+ err_out:
+ 	CT_PROBE_ERROR(ct, "Failed to enable CTB (%pe)\n", ERR_PTR(err));
+ 	return err;
+@@ -318,8 +332,8 @@ void intel_guc_ct_disable(struct intel_guc_ct *ct)
+ 	ct->enabled = false;
  
--	if (unlikely(desc->is_in_error))
-+	if (unlikely(desc->status))
- 		goto corrupted;
- 
--	if (unlikely(!IS_ALIGNED(head | tail, 4) ||
--		     (tail | head) >= size))
-+	if (unlikely((tail | head) >= size)) {
-+		CT_ERROR(ct, "Invalid offsets head=%u tail=%u (size=%u)\n",
-+			 head, tail, size);
-+		desc->status |= GUC_CTB_STATUS_OVERFLOW;
- 		goto corrupted;
--
--	/* later calculations will be done in dwords */
--	head /= 4;
--	tail /= 4;
--	size /= 4;
-+	}
- 
- 	/* tail == head condition indicates empty */
- 	available = tail - head;
-@@ -677,6 +669,7 @@ static int ct_read(struct intel_guc_ct *ct, struct ct_incoming_msg **msg)
- 			      size - head : available - 1), &cmds[head],
- 			 4 * (head + available - 1 > size ?
- 			      available - 1 - size + head : 0), &cmds[0]);
-+		desc->status |= GUC_CTB_STATUS_UNDERFLOW;
- 		goto corrupted;
+ 	if (intel_guc_is_fw_running(guc)) {
+-		ct_deregister_buffer(ct, INTEL_GUC_CT_BUFFER_TYPE_SEND);
+-		ct_deregister_buffer(ct, INTEL_GUC_CT_BUFFER_TYPE_RECV);
++		ct_deregister_buffer(ct, GUC_CTB_TYPE_HOST2GUC);
++		ct_deregister_buffer(ct, GUC_CTB_TYPE_GUC2HOST);
  	}
- 
-@@ -699,13 +692,14 @@ static int ct_read(struct intel_guc_ct *ct, struct ct_incoming_msg **msg)
- 	}
- 	CT_DEBUG(ct, "received %*ph\n", 4 * len, (*msg)->msg);
- 
--	desc->head = head * 4;
-+	/* now update descriptor */
-+	WRITE_ONCE(desc->head, head);
-+
- 	return available - len;
- 
- corrupted:
--	CT_ERROR(ct, "Corrupted descriptor addr=%#x head=%u tail=%u size=%u\n",
--		 desc->addr, desc->head, desc->tail, desc->size);
--	desc->is_in_error = 1;
-+	CT_ERROR(ct, "Corrupted descriptor head=%u tail=%u status=%#x\n",
-+		 desc->head, desc->tail, desc->status);
- 	ctb->broken = true;
- 	return -EPIPE;
  }
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.h b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.h
-index 7d3cd375d6a7..905202caaad3 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.h
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.h
-@@ -31,7 +31,7 @@ struct intel_guc;
-  * @lock: protects access to the commands buffer and buffer descriptor
-  * @desc: pointer to the buffer descriptor
-  * @cmds: pointer to the commands buffer
-- * @size: size of the commands buffer
-+ * @size: size of the commands buffer in dwords
-  * @broken: flag to indicate if descriptor data is broken
-  */
- struct intel_guc_ct_buffer {
+ 
 -- 
 2.28.0
 
