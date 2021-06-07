@@ -1,75 +1,74 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92AB139D634
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Jun 2021 09:40:47 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5990B39D64C
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Jun 2021 09:48:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 34D2E6E4B3;
-	Mon,  7 Jun 2021 07:40:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C29C26E4FE;
+	Mon,  7 Jun 2021 07:48:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from new3-smtp.messagingengine.com (new3-smtp.messagingengine.com
- [66.111.4.229])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 123DD6E4B3;
- Mon,  7 Jun 2021 07:40:42 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailnew.nyi.internal (Postfix) with ESMTP id 6B764580834;
- Mon,  7 Jun 2021 03:40:41 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute5.internal (MEProxy); Mon, 07 Jun 2021 03:40:41 -0400
+Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com
+ [66.111.4.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0C3A46E4A1;
+ Mon,  7 Jun 2021 07:48:09 +0000 (UTC)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.42])
+ by mailout.nyi.internal (Postfix) with ESMTP id 32DD95C003F;
+ Mon,  7 Jun 2021 03:48:08 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute2.internal (MEProxy); Mon, 07 Jun 2021 03:48:08 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
  date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm3; bh=nq7E0TCtn3bqp2hAkNThKCjEhjj
- Q30HBjKbfLIDNz5Q=; b=N/ZMqksN9XtxE/zJBMhC868H5VHJCkn7LmMr7eq/too
- 7YeVQXt7Sj6RYkCXVZEQmQ+PHp8vohwiZFne4Oa43g7mxWREK+3nFfL0SnHJ5O9l
- J3ebdpU/jIzTET+t6g6gIE2Z6FgysWb2R8OaRly8s3JdUOBqupfgFjflsDTZQua4
- 5Y1KZjn81/Rudk4sP76huOdp/fprF36mB4jUwGOPF0qehioDUHyYmhPiflvJfbME
- /gr45G3tZXBgTtZjajE1EuBKzjfOMsnfneBstMDb0cWtp7KcpzC+TZkhHaRgie++
- 8su2NmckIhH9ROJ/U6kvRg+fDVGQGNTbA36QG3sLQZA==
+ :content-type:in-reply-to; s=fm3; bh=vBtkPcIZrwvMlH7F9lW4sMLdlaj
+ mNTMwQPWW2GilFcI=; b=UU4Qv23CynjrdKsoxal3BjH94da6Z1sTmpagxUrV5Op
+ wA3W+wHiIQ9X4rtcuh3AbL94P6XCe3NekiY1xO+g3KSqMVvvIASs++nVwIhld9uo
+ yfcmUBHWV8CCzs+hIDBfufvytsVImEsZsRCSL56mWyHq1CMmOIUanzU1bpFkTeFb
+ K6AqiXE+77I8DAiAb9b4wyPtH+sTi/4t1yl0H041diwKUguq6BUPr+A3YSUVstH0
+ qtKkuq8EplV7YZM6eI6zgAh1tEkov3genL8OWPGeEQ1HQYTADMjOO83kPRB6lmdr
+ 68lv2yfqrkCokUD8Nuhit/PdgrUROQbykpTogjIrslw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-type:date:from:in-reply-to
  :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=nq7E0T
- Ctn3bqp2hAkNThKCjEhjjQ30HBjKbfLIDNz5Q=; b=A5eVwM3/pJF3UwKbBWJngX
- uJbXb7+LWwiBgcpfBHvD5c6Vgs7R3N9ExoVud1JlS9oh2lMw0svAXfXqhxjtNaFz
- Km2A4cdfeZZvoVyACo9GpY3lXs7jSyCPbEs4hUv4nVB0Q0aR+cWAc4+zwYk5HeQj
- OF8tEw4WsllUT40R4KCkzWcEzXaWNvjtnp17ib8R0Va/Gdpe9Ju13L4Qj6ksFuZd
- wApHljX+ID3LXqLa6munYuj8YdJb7zypXZmykfijHI5dk+VeXxhD4HGVOSd3IbRH
- dPCoYCGMM0KjpVoX8h/4viT2nyRImpySoqiYqqGUp2RmepGOFtcVv2B8UdAXAGRw
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=vBtkPc
+ IZrwvMlH7F9lW4sMLdlajmNTMwQPWW2GilFcI=; b=RVOmv6L8C+/OsJGaVW4FrZ
+ Az4dNOcszBLKHGHTgTWXtaVMfnHy7exIIm6+YjG7uc/88eny5+U0m/dJq4NQFodw
+ PT6eTTjeESAfXnHOTMXGC8HrBcIwdnBOWhfPvA+cIMQ6pKWM5sISaWLOyJRiKaYo
+ Ovmj36pBYfVpr6lfkmat1WCz7XrYVi6M8n+m3TrIyNHEoFEQSGZaOczmAFE4xNmP
+ H/0ylZhDpgFjKNTof/F/w2t13piDgxpjMjZ1Nsfs6DXAdG51e3hEoyhfuAiv1P2E
+ H3nWjVMfyGcIjBQwma5Kz3ITuSA81STpsc6S2UdYHiN7/GXTq8Q+mO4iEC52J5BQ
  ==
-X-ME-Sender: <xms:d829YBymgtLXAL7zDrNKq18v27CKcD83QgboMqrvm3Dr8ThFEOn34g>
- <xme:d829YBT-o7Q-KInpV-NISiudGEr-49TLRFKK54U5UDFlOwWPOCd0k-4LjT78gxmFv
- FLNHdpFnu2Avk7HX9A>
-X-ME-Received: <xmr:d829YLV-6cnlIfc_qvqYkMYG48Edyqqa_kWzDnJHgAUxs5GxNu7ju-E_FAs0gppgm8uXh3EnvxCFgHOwV0LRTOF95k26MxWlN0Gb>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrfedtiedguddulecutefuodetggdotefrod
+X-ME-Sender: <xms:N8-9YKolrz2u2xwl0tAARfjC6KUhrf21Iyczc-OJUO4khgCnZCVs2w>
+ <xme:N8-9YIrhFwzxyF2NCwjqnaY2zjXnQbbfdpjNnfPlkiTEKAzRST1cmCLc2FLYB7eXw
+ Km1ROVM6BBr5OHXG3M>
+X-ME-Received: <xmr:N8-9YPNbZSlu2bbN_QxfENtfB_D8ju6ZbZWwr7SC5hknFyzndqp-OfhZmXXXR6YtHNj1LypNPfHK_PyKiIrec70lV2L3VfbFI1rw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrfedtiedguddvudcutefuodetggdotefrod
  ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
  necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
- enucfjughrpeffhffvuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihi
+ enucfjughrpeffhffvuffkfhggtggujgesghdtreertddtudenucfhrhhomhepofgrgihi
  mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
- htthgvrhhnpeevveefffduveeitdegtefhhfetueffteefffdvheevvdehteethedvleff
- gfejvdenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivg
- eptdenucfrrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggt
- hh
-X-ME-Proxy: <xmx:d829YDj9AMoTlsTXrX4mEaFT9pm33fKEufhEtZuTXhCNjXNqmfgfiQ>
- <xmx:d829YDDlzyF-N8z0-v6VS7SO3yoTeO24z_8LVE2ssi4FWrPleqqzYg>
- <xmx:d829YMJRlJZ3Y1f-hj9UbQad9alHi42v7QAPTgxvAG24Z4moTS6GmA>
- <xmx:ec29YLbAYjQfUquabT22JxVb-WZU7-TI6Pg6pVqEWsGUnmNuDSxk6Q>
+ htthgvrhhnpeevtdethedtteeuieehfedvleeuveegvddufeefleehfeehudejhfeuteff
+ keejleenucffohhmrghinhepfhhrvggvuggvshhkthhophdrohhrghdplhhkmhhlrdhorh
+ hgpdgsohhothhlihhnrdgtohhmpdhgihhthhhusgdrtghomhenucevlhhushhtvghrufhi
+ iigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrth
+ gvtghh
+X-ME-Proxy: <xmx:N8-9YJ7kq3O-TS6hs2X5gnVlCI7TAkTvCAGVXRcllqicuMeRjN_ReA>
+ <xmx:N8-9YJ4PgrHbBHwpkDJDSDbLHhabdS7VJSBKE9BoI0j02KIF6VQS7g>
+ <xmx:N8-9YJg291id-wPs3noJSLtyZdLqaW-mnFRzG__k4ZecaufYzyfYFg>
+ <xmx:OM-9YDnXZjTfPJAxOwRycBz3UgaS-OWcP6jGOAVUeuJ18TKKdhUXzw>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 7 Jun 2021 03:40:38 -0400 (EDT)
-Date: Mon, 7 Jun 2021 09:40:37 +0200
+ 7 Jun 2021 03:48:06 -0400 (EDT)
+Date: Mon, 7 Jun 2021 09:48:05 +0200
 From: Maxime Ripard <maxime@cerno.tech>
 To: Werner Sembach <wse@tuxedocomputers.com>
-Subject: Re: [PATCH 2/4] drm/uAPI: Add "active bpc" as feedback channel for
- "max bpc" drm property
-Message-ID: <20210607074037.oxm7qbhcx7gsg6yd@gilmour>
-References: <20210604171723.10276-1-wse@tuxedocomputers.com>
- <20210604171723.10276-3-wse@tuxedocomputers.com>
+Subject: Re: New uAPI for color management proposal and feedback request
+Message-ID: <20210607074805.bmonbg5nhr4etab2@gilmour>
+References: <8c0d7ad8-7ade-bf8a-0414-cc795fbb6aa2@tuxedocomputers.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="p3wy26msisgyobg2"
+ protocol="application/pgp-signature"; boundary="r6l2znqg6rwave7q"
 Content-Disposition: inline
-In-Reply-To: <20210604171723.10276-3-wse@tuxedocomputers.com>
+In-Reply-To: <8c0d7ad8-7ade-bf8a-0414-cc795fbb6aa2@tuxedocomputers.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,143 +81,183 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: tzimmermann@suse.de, intel-gfx@lists.freedesktop.org, sunpeng.li@amd.com,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- airlied@linux.ie, amd-gfx@lists.freedesktop.org, rodrigo.vivi@intel.com,
- alexander.deucher@amd.com, christian.koenig@amd.com
+Cc: "Deucher, Alexander" <alexander.deucher@amd.com>,
+ intel-gfx@lists.freedesktop.org, amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---p3wy26msisgyobg2
-Content-Type: text/plain; charset=us-ascii
+--r6l2znqg6rwave7q
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
 Hi,
 
-On Fri, Jun 04, 2021 at 07:17:21PM +0200, Werner Sembach wrote:
-> Add a new general drm property "active bpc" which can be used by graphic =
-drivers
-> to report the applied bit depth per pixel back to userspace.
-
-Just a heads up, we'll need an open source project that has accepted it
-before merging it.
-
-See https://www.kernel.org/doc/html/latest/gpu/drm-uapi.html#open-source-us=
-erspace-requirements
-
-> While "max bpc" can be used to change the color depth, there was no way t=
-o check
-> which one actually got used. While in theory the driver chooses the best/=
-highest
-> color depth within the max bpc setting a user might not be fully aware wh=
-at his
-> hardware is or isn't capable off. This is meant as a quick way to double =
-check
-> the setup.
+On Wed, May 12, 2021 at 02:06:56PM +0200, Werner Sembach wrote:
+> Hello,
 >=20
-> In the future, automatic color calibration for screens might also depend =
-on this
-> information available.
+> In addition to the existing "max bpc", and "Broadcast RGB/output_csc"
+> drm properties I propose 4 new properties: "preferred pixel encoding",
+> "active color depth", "active color range", and "active pixel
+> encoding"
 >=20
-> Signed-off-by: Werner Sembach <wse@tuxedocomputers.com>
-> ---
->  drivers/gpu/drm/drm_atomic_uapi.c |  2 ++
->  drivers/gpu/drm/drm_connector.c   | 40 +++++++++++++++++++++++++++++++
->  include/drm/drm_connector.h       | 15 ++++++++++++
->  3 files changed, 57 insertions(+)
 >=20
-> diff --git a/drivers/gpu/drm/drm_atomic_uapi.c b/drivers/gpu/drm/drm_atom=
-ic_uapi.c
-> index 268bb69c2e2f..7ae4e40936b5 100644
-> --- a/drivers/gpu/drm/drm_atomic_uapi.c
-> +++ b/drivers/gpu/drm/drm_atomic_uapi.c
-> @@ -873,6 +873,8 @@ drm_atomic_connector_get_property(struct drm_connecto=
-r *connector,
->  		*val =3D 0;
->  	} else if (property =3D=3D connector->max_bpc_property) {
->  		*val =3D state->max_requested_bpc;
-> +	} else if (property =3D=3D connector->active_bpc_property) {
-> +		*val =3D state->active_bpc;
->  	} else if (connector->funcs->atomic_get_property) {
->  		return connector->funcs->atomic_get_property(connector,
->  				state, property, val);
-> diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connec=
-tor.c
-> index 7631f76e7f34..5f42a5be5822 100644
-> --- a/drivers/gpu/drm/drm_connector.c
-> +++ b/drivers/gpu/drm/drm_connector.c
-> @@ -1195,6 +1195,13 @@ static const struct drm_prop_enum_list dp_colorspa=
-ces[] =3D {
->   *	drm_connector_attach_max_bpc_property() to create and attach the
->   *	property to the connector during initialization.
->   *
-> + * active bpc:
-> + *	This read-only range property is used by userspace check the bit depth
-> + *	actually applied by the GPU driver after evaluation all hardware
+> Motivation:
+>=20
+> Current monitors have a variety pixel encodings available: RGB, YCbCr
+> 4:4:4, YCbCr 4:2:2, YCbCr 4:2:0.
+>=20
+> In addition they might be full or limited RGB range and the monitors
+> accept different bit depths.
+>=20
+> Currently the kernel driver for AMD and Intel GPUs automatically
+> configure the color settings automatically with little to no influence
+> of the user. However there are several real world scenarios where the
+> user might disagree with the default chosen by the drivers and wants
+> to set his or her own preference.
+>=20
+> Some examples:
+>=20
+> 1. While RGB and YCbCr 4:4:4 in theory carry the same amount of color
+> information, some screens might look better on one than the other
+> because of bad internal conversion. The driver currently however has a
+> fixed default that is chosen if available (RGB for Intel and YCbCr
+> 4:4:4 for AMD). The only way to change this currently is by editing
+> and overloading the edid reported by the monitor to the kernel.
+>=20
+> 2. RGB and YCbCr 4:4:4 need a higher port clock then YCbCr 4:2:0. Some
+> hardware might report that it supports the higher port clock, but
+> because of bad shielding on the PC, the cable, or the monitor the
+> screen cuts out every few seconds when RGB or YCbCr 4:4:4 encoding is
+> used, while YCbCr 4:2:0 might just work fine without changing
+> hardware. The drivers currently however always default to the "best
+> available" option even if it might be broken.
+>=20
+> 3. Some screens natively only supporting 8-bit color, simulate 10-Bit
+> color by rapidly switching between 2 adjacent colors. They advertise
+> themselves to the kernel as 10-bit monitors but the user might not
+> like the "fake" 10-bit effect and prefer running at the native 8-bit
+> per color.
+>=20
+> 4. Some screens are falsely classified as full RGB range wile they
+> actually use limited RGB range. This results in washed out colors in
+> dark and bright scenes. A user override can be helpful to manually fix
+> this issue when it occurs.
+>=20
+> There already exist several requests, discussion, and patches
+> regarding the thematic:
+>=20
+> - https://gitlab.freedesktop.org/drm/amd/-/issues/476
+>=20
+> - https://gitlab.freedesktop.org/drm/amd/-/issues/1548
+>=20
+> - https://lkml.org/lkml/2021/5/7/695
+>=20
+> - https://lkml.org/lkml/2021/5/11/416
+>=20
+>=20
+> Current State:
+>=20
+> I only know bits about the Intel i915 and AMD amdgpu driver. I don't
+> know how other driver handle color management
+>=20
+> - "max bpc", global setting applied by both i915 (only on dp i think?)
+> and amdgpu. Default value is "8". For every resolution + frequency
+> combination the highest possible even number between 6 and max_bpc is
+> chosen. If the range doesn't contain a valid mode the resolution +
+> frequency combination is discarded (but I guess that would be a very
+> special edge case, if existent at all, when 6 doesn't work but 10
+> would work). Intel HDMI code always checks 8, 12, and 10 and does not
+> check the max_bpc setting.
+>=20
+> - "Broadcast RGB" for i915 and "output_csc" for the old radeon driver
+> (not amdgpu), overwrites the kernel chosen color range setting (full
+> or limited). If I recall correctly Intel HDMI code defaults to full
+> unless this property is set, Intel dp code tries to probe the monitor
+> to find out what to use. amdgpu has no corresponding setting (I don't
+> know how it's decided there).
+>=20
+> - RGB pixel encoding can be forced by overloading a Monitors edid with
+> one that tells the kernel that only RGB is possible. That doesn't work
+> for YCbCr 4:4:4 however because of the edid specification. Forcing
+> YCbCr 4:2:0 would theoretically also be possible this way. amdgpu has
+> a debugfs switch "force_ycbcr_420" which makes the driver default to
+> YCbCr 4:2:0 on all monitors if possible.
+>=20
+>=20
+> Proposed Solution:
+>=20
+> 1. Add a new uAPI property "preferred pixel encoding", as a per port
+>    setting.
+>=20
+> =A0=A0=A0 - An amdgpu specific implementation was already shared here:
+>       https://gitlab.freedesktop.org/drm/amd/-/issues/476
+>=20
+> =A0=A0=A0 - It also writes back the actually used encoding if the one
+>     	requested was not possible, overwriting the requested value in
+>     	the process. I think it would be better to have this feedback
+>     	channel as a different, read-only property.
+>=20
+> =A0=A0=A0 - Make this solution vendor agnostic by putting it in the
+>     	drm_connector_state struct next do max_bpc
+>     	https://elixir.bootlin.com/linux/v5.13-rc1/source/include/drm/drm_co=
+nnector.h#L654
+>     	and add patches to amdgpu and i915 to respect this setting
+>=20
+> 2. Convert "Broadcast RGB" to a vendor agnostic setting/replace with a
+>    vendor agnostic setting.
+>=20
+> =A0=A0=A0 - Imho the name is not very fitting, but it pops up in many
+>     	tutorials throughout the web (some other opinions? how could a
+>     	rename be handled?".
+>=20
+> =A0=A0=A0 - Also move it from Intel specific structs to the
+>       drm_connector_state struct (please let me know if there is a
+>       better place)
+>=20
+> 3. Strive for full implementation of "max bpc"
+>=20
+> =A0=A0=A0 - I need to double check the Intel HDMI code.
+>=20
+> 4. Add 3 feedback channels "active color depth", "active color range",
+>    and "active pixel encoding" as vendor agnostic settings in the
+>    drm_connector_state struct
+>=20
+> =A0=A0=A0 - Possible values are:
+>=20
+> =A0=A0=A0 =A0=A0=A0 - unknown, undefined, 6-bit, 8-bit, 9-bit, 10-bit, 11=
+-bit,
+>     	    12-bit, 14-bit, 16-bit (alternatively: an integer from -1
+>     	    (unknown), 0 (undefined) to 16, let me know what would be
+>     	    more suitable)
+>=20
+> =A0=A0=A0 =A0=A0=A0 - unknown, undefined, full, limited
+>=20
+> =A0=A0=A0 =A0=A0=A0 - unknown, undefined, rgb, ycbcr444, ycbcr422, ycbcr4=
+20
 
-                                ^ display
+I've started to implement this for the raspberrypi some time ago.
 
-Depending on the system, the display component might have a GPU attached
-or not, and the GPU might have a display component or not.
+https://github.com/raspberrypi/linux/pull/4201
 
-> + *	capabilities and max bpc. Drivers to use the function
-> + *	drm_connector_attach_active_bpc_property() to create and attach the
-> + *	property to the connector during initialization.
-> + *
->   * Connectors also have one standardized atomic property:
->   *
->   * CRTC_ID:
-> @@ -2150,6 +2157,39 @@ int drm_connector_attach_max_bpc_property(struct d=
-rm_connector *connector,
->  }
->  EXPORT_SYMBOL(drm_connector_attach_max_bpc_property);
-> =20
-> +/**
-> + * drm_connector_attach_active_bpc_property - attach "active bpc" proper=
-ty
-> + * @connector: connector to attach active bpc property on.
-> + * @min: The minimum bit depth supported by the connector.
-> + * @max: The maximum bit depth supported by the connector.
-> + *
-> + * This is used to check the applied bit depth on a connector.
-> + *
-> + * Returns:
-> + * Zero on success, negative errno on failure.
-> + */
-> +int drm_connector_attach_active_bpc_property(struct drm_connector *conne=
-ctor,
-> +					  int min, int max)
-> +{
-> +	struct drm_device *dev =3D connector->dev;
-> +	struct drm_property *prop;
-> +
-> +	prop =3D connector->active_bpc_property;
-> +	if (!prop) {
-> +		prop =3D drm_property_create_range(dev, 0, "active bpc", min, max);
-> +		if (!prop)
-> +			return -ENOMEM;
-> +
-> +		connector->active_bpc_property =3D prop;
-> +	}
-> +
-> +	drm_object_attach_property(&connector->base, prop, 0);
-> +	connector->state->active_bpc =3D 0;
-
-I guess we want to default to 8?
+It's basically two properties: a bitmask of the available output pixel
+encoding to report both what the display and the controller supports,
+and one to actually set what the userspace wants to get enforced (and
+that would return the active one when read).
 
 Maxime
 
---p3wy26msisgyobg2
+--r6l2znqg6rwave7q
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYL3NdQAKCRDj7w1vZxhR
-xW9iAQCqBVy+34/6/7fZGJk9fSwKmxPEOrt3Z64pKzVhYa+2XQEAxB7WeGQsnb8V
-xKwe4pgJJQ+NMocJbxmxYRV5QZGhYAQ=
-=O0Ys
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYL3PNQAKCRDj7w1vZxhR
+xanoAP4hthuIJEgo/s/RvnQlfOXJOa0+uFW/P3cwx8kLSI5DHwEAhkaA13YaxWWT
+7H7SPwY01g1oboQ1706gAT4Oujw8Rw4=
+=zzFM
 -----END PGP SIGNATURE-----
 
---p3wy26msisgyobg2--
+--r6l2znqg6rwave7q--
