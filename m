@@ -1,25 +1,25 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A7A239D67E
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Jun 2021 09:59:37 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D981E39D681
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Jun 2021 09:59:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E20036E844;
-	Mon,  7 Jun 2021 07:59:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B0F3E6E84D;
+	Mon,  7 Jun 2021 07:59:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com
- (mail-co1nam11on2067.outbound.protection.outlook.com [40.107.220.67])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D721C6E841;
- Mon,  7 Jun 2021 07:59:32 +0000 (UTC)
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam12on2053.outbound.protection.outlook.com [40.107.237.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E51A76E848;
+ Mon,  7 Jun 2021 07:59:34 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=h3PL+FxqSIhAplbnF9Jr4ysskVKh0eZGlEi4yB1/ZqNEYaRNX04AiCUB9uZ6cW2r2xf2sJqbkCVYrfv2YjcIvNCYeeYUryGkX9SqEDG/vi7L8izyH8EmGUz9GC0d2OC4bNZoGSgYmBmR3qpuLNsiak7grmn4Fz24BB5Yfjj/KmD7YFXpHUzpnQgnZGQ4h79Wm8rhIT4x7Y4dig306ypEd6j4Pp7o+oiCYxUCV47NCUMSD7T9zR9Lptp/XLuX2Ba5ynzBucGVh5LBozTIRCDEa9ey4H8bjuYjiUbkY01qM39BQ144TiA3xkJ92lAVzakvIyUS8gt8swFJMgVr3iWOUQ==
+ b=IgWPqwufmuSj/llt/NjBufFPGJxJmgE2W2oBOyQhTebsFraBkbWWh4COdbjgX9AacmCOOoHV9ZEZrYNKxoYXobIif8or/6orlbyky9An8B89yEidqRnV8/Ju38w4cxAkSN5msMEm4WQ9P3cTCP/NLpNMg42FPj/RCwgsBJYNqMMLSVoIaoT27Y/i8HyaifExHYtnn1sPSQsrU+YCVJiT7tmvovsBeapubI4iUmibkykILr3CEQWqze55vHRZin5kqZNrZyOj2xfAsqeFb4x/hqViyHUqry1mrlgLzT0IA+FpDSJn4LUUb52AKxsi8m9f+l3MibIBviEPFLcrrsmG+Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=LZ1Ns5M/+kaEP7q50Qd1RgGUv0ka0CpFUxlhrzxst08=;
- b=Lm0sbGwdB9hT42HZfUyO9rlAajCZuk5rUpDDULJDi0oV5LwjRmXaFG4iwV8JWArJSaaFIHkACKfCuNndcDccIIJIurCNKrTEMQbkdwvAIQn2mW4EZ3sRW7dV8JsMJt5B+3lxv0kg4pLfhjAXcXxrkNzrLkW2eHvNzEwb5MRLkisxsii0EyCiOFkE7/eKsabcsFH4d5UALhQMzpYXUvrnmfnIRbH1aXnc9NoQWfMpGCsSDmQhBmgpxLOPFVGJznVZ+xaXutHdn4509NTQsQ+AjagcFlvzSyooL9Tu+6Fq5cBf7YENnixNxWUxY+Al8QouTmXoVP7f6P0YbVdwTyRCag==
+ bh=6ysaoVkqLC4zTI8DeLCydyIZtY9nTnCO+2gXmOtkNPI=;
+ b=TpQBsJ0/5kGnxWd/UbP36Na0i/53x/47UVGZa2SYwuhE7rlJCYmgSu1wE9blry3lHqXfJIPMWjESdEgln/D3p6EAgsluRigGnf9iWKTqq8wmDldSfQETZLWE9QroGG3FleJRnI/gaSHqS6rDFEmIm/QksfM3HT70CqIda+19spH/D8/FvAHO+Q5FsIfO07V9tHEnEiUpbDOf0qsa2UJboaVZWItGubN0uRX7/nZUKnCtqR3rb8kwYn+ubPQY7elNNuCPVKKv79AHrFzLRIpmC6aAPPZ9pvNPdEL4Z9t9CB3jyAphI+Yfs9yUg8G/TpyT/nJxm8Cd4ubNYVMlEjahiQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  216.228.112.34) smtp.rcpttodomain=redhat.com smtp.mailfrom=nvidia.com;
  dmarc=pass (p=none sp=none pct=100) action=none header.from=nvidia.com;
@@ -27,18 +27,18 @@ ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=LZ1Ns5M/+kaEP7q50Qd1RgGUv0ka0CpFUxlhrzxst08=;
- b=cnqVkPKtYl6UpimpZHW8kQqMXX6OyQgyd53hOTepJ4RiPS++XCkvmQS1ni4zTj1SVe+d8b8Uw7TgXer0a8XFxT+2VgUInDamSrFrD0DzfdPx8JGtzFRm1QjqOM5Qr1rg3wTsjjJYeqL6VftT2pDcsgRPaV/ojYP416r6a2qVoBiqBWrZPdbfQlNKZ+q5EPwfF11xfDHjO1OLMtqOTRkqbZy3OgKRMoWfMrrVv//bguOFpg/NVS73oCZVfm/fSCYna31V+psC2Gq/CtoUE3ba7z2JPsyaRbgnONb6NHE/WOpQdlPhqrFVEs4EkbWMHaYgUC06PQZ9u1XtcXzIJm6yQQ==
-Received: from DM6PR11CA0035.namprd11.prod.outlook.com (2603:10b6:5:190::48)
- by BYAPR12MB3095.namprd12.prod.outlook.com (2603:10b6:a03:a9::17) with
+ bh=6ysaoVkqLC4zTI8DeLCydyIZtY9nTnCO+2gXmOtkNPI=;
+ b=dpa4o/l0mbP+Ylqdo1rPKCs0FX/xm11nZAatVasEpe1tlesx92r6trPN+csQ4QvAmgqQ4KyQOhpFNrE2HwiE7B07DfnBdxtMZVL1G1AkFSeXixgM6Z4GuZJrvQvBHYS7DZq9BZaKCZy8XCtTgdjinUWvHHZ3HRSc1uTYWQdMGQ/GcJvkjQbvrcTdKGZGKYgIcZXU+YihTI6kBke67rMuyA9IUMzfAVkjg5ZQ9zFLDoRu2yCzNtx2lpaoV7bxfOkkc+KSuK4z+aDxsvjqkvnhKqVrgkcVbyNZ++yRmM7x6/SsGzehLr1HWepRH6wpHwU66VbmrhNOT7sNk4kNzaTEYA==
+Received: from DS7PR03CA0144.namprd03.prod.outlook.com (2603:10b6:5:3b4::29)
+ by BYAPR12MB4983.namprd12.prod.outlook.com (2603:10b6:a03:102::18) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4195.20; Mon, 7 Jun
- 2021 07:59:29 +0000
-Received: from DM6NAM11FT032.eop-nam11.prod.protection.outlook.com
- (2603:10b6:5:190:cafe::1) by DM6PR11CA0035.outlook.office365.com
- (2603:10b6:5:190::48) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4195.22 via Frontend
- Transport; Mon, 7 Jun 2021 07:59:29 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4195.24; Mon, 7 Jun
+ 2021 07:59:32 +0000
+Received: from DM6NAM11FT059.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:5:3b4:cafe::c5) by DS7PR03CA0144.outlook.office365.com
+ (2603:10b6:5:3b4::29) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4195.21 via Frontend
+ Transport; Mon, 7 Jun 2021 07:59:32 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.112.34)
  smtp.mailfrom=nvidia.com; redhat.com; dkim=none (message not signed)
  header.d=none;redhat.com; dmarc=pass action=none header.from=nvidia.com;
@@ -46,49 +46,50 @@ Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
  216.228.112.34 as permitted sender) receiver=protection.outlook.com;
  client-ip=216.228.112.34; helo=mail.nvidia.com;
 Received: from mail.nvidia.com (216.228.112.34) by
- DM6NAM11FT032.mail.protection.outlook.com (10.13.173.93) with Microsoft SMTP
+ DM6NAM11FT059.mail.protection.outlook.com (10.13.172.92) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.20.4195.22 via Frontend Transport; Mon, 7 Jun 2021 07:59:29 +0000
-Received: from localhost (172.20.187.6) by HQMAIL107.nvidia.com
+ 15.20.4195.22 via Frontend Transport; Mon, 7 Jun 2021 07:59:32 +0000
+Received: from localhost (172.20.187.5) by HQMAIL107.nvidia.com
  (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Mon, 7 Jun
- 2021 07:59:28 +0000
+ 2021 07:59:31 +0000
 From: Alistair Popple <apopple@nvidia.com>
 To: <linux-mm@kvack.org>, <akpm@linux-foundation.org>
-Subject: [PATCH v10 05/10] mm: Rename migrate_pgmap_owner
-Date: Mon, 7 Jun 2021 17:58:50 +1000
-Message-ID: <20210607075855.5084-6-apopple@nvidia.com>
+Subject: [PATCH v10 06/10] mm/memory.c: Allow different return codes for
+ copy_nonpresent_pte()
+Date: Mon, 7 Jun 2021 17:58:51 +1000
+Message-ID: <20210607075855.5084-7-apopple@nvidia.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210607075855.5084-1-apopple@nvidia.com>
 References: <20210607075855.5084-1-apopple@nvidia.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-Originating-IP: [172.20.187.6]
+X-Originating-IP: [172.20.187.5]
 X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
  HQMAIL107.nvidia.com (172.20.187.13)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 8d8583b5-1f6b-492b-61a8-08d9298a2d92
-X-MS-TrafficTypeDiagnostic: BYAPR12MB3095:
-X-Microsoft-Antispam-PRVS: <BYAPR12MB309572A6DA8088D1C6C626D2DF389@BYAPR12MB3095.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
+X-MS-Office365-Filtering-Correlation-Id: 5098706e-7dbf-434d-45e7-08d9298a2f3f
+X-MS-TrafficTypeDiagnostic: BYAPR12MB4983:
+X-Microsoft-Antispam-PRVS: <BYAPR12MB498355F47936D9F29B951A31DF389@BYAPR12MB4983.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:7219;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: wcY1zKhOmafKCsM40lPa6pJc0/IrerRya7u0WmrwLWij5h/9ImlxfGC/0vVEUb7KQaJpoX5WzyDP5dZvLVbHUWRQ4Nu9ADcQXL+GthAeI3/kMtn3VbkMgYg3nTkYnqZ07P8j8LW5jvKlIE+mStjDRlaTGSK5dGmOqrvQrL9PXEtij5D/CuTfLRBfiz+Rwl0tPZX63tXzwzf1FMzIj0lSlYinLEhstIzI9DMqSgkFt/KqNzo8e59O/Em8sW1hEZYpwb17u1OUoHrfpbbjzui5kcnuR5yG5WGmIF6wXW1Ykn8trolEdvCn+vYHyMVOpRCqWjwL53J+KatRO+hkgXTYb27DdLcaTZMvNh31Gb9hkW8P80DT5APzRue0lwjSVZwxuPRM2kVy8y++/ngM6n/cgcfiZUzQYB3SAnQLjTQQNMCqXt1e/2l+YJ1x/wd99B9Q65LTcTTg0r+I1adc34uEINt1qMikX9ntZ4zYlcYa11m3Bi/ahSGoKPKYQD7iCYk8ta0T14Vv7zhcfocE0CvOvmN4zuqcqrhRVGmNGXrupuW6rlHblVBuLfhfxO0EdYexl95twGJmT5YQmiRiOHL3tlsxz3O2asLuKHNgbucBcL/KCDH8O3+SU9kbnpDdUajEWBYE/I3N6Q722nquG+PlbmgLXHmnYSBzDDLun/6WC1g=
+X-Microsoft-Antispam-Message-Info: tLWDtBA3hKANsfqDso3uahncg6hO/kkvj5oRutm8Uje8v2rm6n8RzqKSOqukqXIP/war70TTQR3l2pge6LfLFIceGYkMN0fRyYngZ0EDpP0bTNkMh+iyu/HFUo448eCrv4nyQcxZOLb9H7TZ8QomZUGq1Fh/WVJFdRLZucoCSVYfwjq0lMENiiXYrT7gubLBQMOI1oXmotNfv8VXcw3gfEqryqRytmZFLL1eUfzWr2yotlTjWJUWo0blpkKu/YXo/LaucZTEed0hUtAO2Rr6HoCLBXcV5JTI7aC+jC5uFZ/0GmEINnOk2TfGILxpFdwVLrVmitIUwb0NEaLvFEUsF4vz1+/CQ8swUZySFpCXlo0bDVQOx5xzmv00+3RkjCrOZ08Td0FWYIDTHtigPFojBpcaT81mlXZqJ6NFPczu4nWpXLCHL0ivWaujRlOsTOKHdNaIiwj2GfmIDLfAbMUtFHc8FR9ULy5GbQ57imdHkdGcIGNhYZwv1CpN/TTDb+qrjzx9l6punLMIqVvlX+bH3uM33+k03Q2LB71l2j1V570mon3y0NFjHCgJiFOlu6GkNL08D87qj04NkYhIJpMXSWU1zeCk/stE88dXJrr0mkRg9v6Uc+nBozm1Nqep4h/yTRA2UoxhoTMQkEzfMUVzjY+G0SLYZVIGJ1sgB1M65Uk=
 X-Forefront-Antispam-Report: CIP:216.228.112.34; CTRY:US; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:mail.nvidia.com; PTR:schybrid03.nvidia.com; CAT:NONE;
- SFS:(4636009)(346002)(136003)(376002)(39860400002)(396003)(36840700001)(46966006)(110136005)(70586007)(54906003)(82310400003)(86362001)(316002)(36906005)(186003)(336012)(5660300002)(426003)(82740400003)(36756003)(47076005)(8676002)(36860700001)(6666004)(83380400001)(8936002)(26005)(4326008)(356005)(7636003)(1076003)(107886003)(7416002)(478600001)(70206006)(2616005)(2906002)(16526019);
+ SFS:(4636009)(136003)(39860400002)(346002)(396003)(376002)(46966006)(36840700001)(4326008)(5660300002)(36906005)(54906003)(110136005)(82310400003)(6666004)(82740400003)(107886003)(316002)(2906002)(356005)(83380400001)(47076005)(7416002)(36756003)(26005)(186003)(36860700001)(1076003)(426003)(8676002)(2616005)(8936002)(478600001)(70586007)(7636003)(70206006)(336012)(86362001)(16526019);
  DIR:OUT; SFP:1101; 
 X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Jun 2021 07:59:29.4642 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8d8583b5-1f6b-492b-61a8-08d9298a2d92
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Jun 2021 07:59:32.3404 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5098706e-7dbf-434d-45e7-08d9298a2f3f
 X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a; Ip=[216.228.112.34];
  Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT032.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT059.eop-nam11.prod.protection.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR12MB3095
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR12MB4983
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -109,152 +110,93 @@ Cc: rcampbell@nvidia.com, willy@infradead.org, linux-doc@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-MMU notifier ranges have a migrate_pgmap_owner field which is used by
-drivers to store a pointer. This is subsequently used by the driver
-callback to filter MMU_NOTIFY_MIGRATE events. Other notifier event types
-can also benefit from this filtering, so rename the
-'migrate_pgmap_owner' field to 'owner' and create a new notifier
-initialisation function to initialise this field.
+Currently if copy_nonpresent_pte() returns a non-zero value it is
+assumed to be a swap entry which requires further processing outside the
+loop in copy_pte_range() after dropping locks. This prevents other
+values being returned to signal conditions such as failure which a
+subsequent change requires.
+
+Instead make copy_nonpresent_pte() return an error code if further
+processing is required and read the value for the swap entry in the main
+loop under the ptl.
 
 Signed-off-by: Alistair Popple <apopple@nvidia.com>
-Suggested-by: Peter Xu <peterx@redhat.com>
 
 ---
+
+v10:
+
+Use a unique error code and only check return codes for handling.
 
 v9:
 
-Previously part of the next patch in the series ('mm: Device exclusive
-memory access') but now split out as a separate change as suggested by
-Peter Xu.
+New for v9 to allow device exclusive handling to occur in
+copy_nonpresent_pte().
 ---
- Documentation/vm/hmm.rst              |  2 +-
- drivers/gpu/drm/nouveau/nouveau_svm.c |  2 +-
- include/linux/mmu_notifier.h          | 20 ++++++++++----------
- lib/test_hmm.c                        |  2 +-
- mm/migrate.c                          | 10 +++++-----
- 5 files changed, 18 insertions(+), 18 deletions(-)
+ mm/memory.c | 26 ++++++++++++++++----------
+ 1 file changed, 16 insertions(+), 10 deletions(-)
 
-diff --git a/Documentation/vm/hmm.rst b/Documentation/vm/hmm.rst
-index 09e28507f5b2..3df79307a797 100644
---- a/Documentation/vm/hmm.rst
-+++ b/Documentation/vm/hmm.rst
-@@ -332,7 +332,7 @@ between device driver specific code and shared common code:
-    walks to fill in the ``args->src`` array with PFNs to be migrated.
-    The ``invalidate_range_start()`` callback is passed a
-    ``struct mmu_notifier_range`` with the ``event`` field set to
--   ``MMU_NOTIFY_MIGRATE`` and the ``migrate_pgmap_owner`` field set to
-+   ``MMU_NOTIFY_MIGRATE`` and the ``owner`` field set to
-    the ``args->pgmap_owner`` field passed to migrate_vma_setup(). This is
-    allows the device driver to skip the invalidation callback and only
-    invalidate device private MMU mappings that are actually migrating.
-diff --git a/drivers/gpu/drm/nouveau/nouveau_svm.c b/drivers/gpu/drm/nouveau/nouveau_svm.c
-index f18bd53da052..94f841026c3b 100644
---- a/drivers/gpu/drm/nouveau/nouveau_svm.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_svm.c
-@@ -265,7 +265,7 @@ nouveau_svmm_invalidate_range_start(struct mmu_notifier *mn,
- 	 * the invalidation is handled as part of the migration process.
- 	 */
- 	if (update->event == MMU_NOTIFY_MIGRATE &&
--	    update->migrate_pgmap_owner == svmm->vmm->cli->drm->dev)
-+	    update->owner == svmm->vmm->cli->drm->dev)
- 		goto out;
+diff --git a/mm/memory.c b/mm/memory.c
+index 2fb455c365c2..0982cab37ecb 100644
+--- a/mm/memory.c
++++ b/mm/memory.c
+@@ -718,7 +718,7 @@ copy_nonpresent_pte(struct mm_struct *dst_mm, struct mm_struct *src_mm,
  
- 	if (limit > svmm->unmanaged.start && start < svmm->unmanaged.limit) {
-diff --git a/include/linux/mmu_notifier.h b/include/linux/mmu_notifier.h
-index 1a6a9eb6d3fa..8e428eb813b8 100644
---- a/include/linux/mmu_notifier.h
-+++ b/include/linux/mmu_notifier.h
-@@ -41,7 +41,7 @@ struct mmu_interval_notifier;
-  *
-  * @MMU_NOTIFY_MIGRATE: used during migrate_vma_collect() invalidate to signal
-  * a device driver to possibly ignore the invalidation if the
-- * migrate_pgmap_owner field matches the driver's device private pgmap owner.
-+ * owner field matches the driver's device private pgmap owner.
-  */
- enum mmu_notifier_event {
- 	MMU_NOTIFY_UNMAP = 0,
-@@ -269,7 +269,7 @@ struct mmu_notifier_range {
- 	unsigned long end;
- 	unsigned flags;
- 	enum mmu_notifier_event event;
--	void *migrate_pgmap_owner;
-+	void *owner;
- };
+ 	if (likely(!non_swap_entry(entry))) {
+ 		if (swap_duplicate(entry) < 0)
+-			return entry.val;
++			return -EIO;
  
- static inline int mm_has_notifiers(struct mm_struct *mm)
-@@ -521,14 +521,14 @@ static inline void mmu_notifier_range_init(struct mmu_notifier_range *range,
- 	range->flags = flags;
- }
+ 		/* make sure dst_mm is on swapoff's mmlist. */
+ 		if (unlikely(list_empty(&dst_mm->mmlist))) {
+@@ -974,11 +974,13 @@ copy_pte_range(struct vm_area_struct *dst_vma, struct vm_area_struct *src_vma,
+ 			continue;
+ 		}
+ 		if (unlikely(!pte_present(*src_pte))) {
+-			entry.val = copy_nonpresent_pte(dst_mm, src_mm,
+-							dst_pte, src_pte,
+-							src_vma, addr, rss);
+-			if (entry.val)
++			ret = copy_nonpresent_pte(dst_mm, src_mm,
++						dst_pte, src_pte,
++						src_vma, addr, rss);
++			if (ret == -EIO) {
++				entry = pte_to_swp_entry(*src_pte);
+ 				break;
++			}
+ 			progress += 8;
+ 			continue;
+ 		}
+@@ -1011,20 +1013,24 @@ copy_pte_range(struct vm_area_struct *dst_vma, struct vm_area_struct *src_vma,
+ 	pte_unmap_unlock(orig_dst_pte, dst_ptl);
+ 	cond_resched();
  
--static inline void mmu_notifier_range_init_migrate(
--			struct mmu_notifier_range *range, unsigned int flags,
-+static inline void mmu_notifier_range_init_owner(
-+			struct mmu_notifier_range *range,
-+			enum mmu_notifier_event event, unsigned int flags,
- 			struct vm_area_struct *vma, struct mm_struct *mm,
--			unsigned long start, unsigned long end, void *pgmap)
-+			unsigned long start, unsigned long end, void *owner)
- {
--	mmu_notifier_range_init(range, MMU_NOTIFY_MIGRATE, flags, vma, mm,
--				start, end);
--	range->migrate_pgmap_owner = pgmap;
-+	mmu_notifier_range_init(range, event, flags, vma, mm, start, end);
-+	range->owner = owner;
- }
- 
- #define ptep_clear_flush_young_notify(__vma, __address, __ptep)		\
-@@ -655,8 +655,8 @@ static inline void _mmu_notifier_range_init(struct mmu_notifier_range *range,
- 
- #define mmu_notifier_range_init(range,event,flags,vma,mm,start,end)  \
- 	_mmu_notifier_range_init(range, start, end)
--#define mmu_notifier_range_init_migrate(range, flags, vma, mm, start, end, \
--					pgmap) \
-+#define mmu_notifier_range_init_owner(range, event, flags, vma, mm, start, \
-+					end, owner) \
- 	_mmu_notifier_range_init(range, start, end)
- 
- static inline bool
-diff --git a/lib/test_hmm.c b/lib/test_hmm.c
-index 80a78877bd93..5c9f5a020c1d 100644
---- a/lib/test_hmm.c
-+++ b/lib/test_hmm.c
-@@ -218,7 +218,7 @@ static bool dmirror_interval_invalidate(struct mmu_interval_notifier *mni,
- 	 * the invalidation is handled as part of the migration process.
- 	 */
- 	if (range->event == MMU_NOTIFY_MIGRATE &&
--	    range->migrate_pgmap_owner == dmirror->mdevice)
-+	    range->owner == dmirror->mdevice)
- 		return true;
- 
- 	if (mmu_notifier_range_blockable(range))
-diff --git a/mm/migrate.c b/mm/migrate.c
-index 05740f816bc4..e5429a44e7a3 100644
---- a/mm/migrate.c
-+++ b/mm/migrate.c
-@@ -2526,8 +2526,8 @@ static void migrate_vma_collect(struct migrate_vma *migrate)
- 	 * that the registered device driver can skip invalidating device
- 	 * private page mappings that won't be migrated.
- 	 */
--	mmu_notifier_range_init_migrate(&range, 0, migrate->vma,
--		migrate->vma->vm_mm, migrate->start, migrate->end,
-+	mmu_notifier_range_init_owner(&range, MMU_NOTIFY_MIGRATE, 0,
-+		migrate->vma, migrate->vma->vm_mm, migrate->start, migrate->end,
- 		migrate->pgmap_owner);
- 	mmu_notifier_invalidate_range_start(&range);
- 
-@@ -3037,9 +3037,9 @@ void migrate_vma_pages(struct migrate_vma *migrate)
- 			if (!notified) {
- 				notified = true;
- 
--				mmu_notifier_range_init_migrate(&range, 0,
--					migrate->vma, migrate->vma->vm_mm,
--					addr, migrate->end,
-+				mmu_notifier_range_init_owner(&range,
-+					MMU_NOTIFY_MIGRATE, 0, migrate->vma,
-+					migrate->vma->vm_mm, addr, migrate->end,
- 					migrate->pgmap_owner);
- 				mmu_notifier_invalidate_range_start(&range);
- 			}
+-	if (entry.val) {
++	if (ret == -EIO) {
++		VM_WARN_ON_ONCE(!entry.val);
+ 		if (add_swap_count_continuation(entry, GFP_KERNEL) < 0) {
+ 			ret = -ENOMEM;
+ 			goto out;
+ 		}
+ 		entry.val = 0;
+-	} else if (ret) {
+-		WARN_ON_ONCE(ret != -EAGAIN);
++	} else if (ret ==  -EAGAIN) {
+ 		prealloc = page_copy_prealloc(src_mm, src_vma, addr);
+ 		if (!prealloc)
+ 			return -ENOMEM;
+-		/* We've captured and resolved the error. Reset, try again. */
+-		ret = 0;
++	} else if (ret) {
++		VM_WARN_ON_ONCE(1);
+ 	}
++
++	/* We've captured and resolved the error. Reset, try again. */
++	ret = 0;
++
+ 	if (addr != end)
+ 		goto again;
+ out:
 -- 
 2.20.1
 
