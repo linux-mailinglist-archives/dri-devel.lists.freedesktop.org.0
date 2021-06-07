@@ -1,48 +1,109 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8DD739E884
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Jun 2021 22:34:05 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 056DA39E89D
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Jun 2021 22:42:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 42F966E9FD;
-	Mon,  7 Jun 2021 20:34:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3BD096EA07;
+	Mon,  7 Jun 2021 20:42:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from srv6.fidu.org (srv6.fidu.org [159.69.62.71])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2AA4B6E9FC;
- Mon,  7 Jun 2021 20:34:01 +0000 (UTC)
-Received: from localhost (localhost.localdomain [127.0.0.1])
- by srv6.fidu.org (Postfix) with ESMTP id ABF33C800EB;
- Mon,  7 Jun 2021 22:33:59 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at srv6.fidu.org
-Received: from srv6.fidu.org ([127.0.0.1])
- by localhost (srv6.fidu.org [127.0.0.1]) (amavisd-new, port 10024)
- with LMTP id m8ADLpTJUMYx; Mon,  7 Jun 2021 22:33:59 +0200 (CEST)
-Received: from [IPv6:2003:e3:7f4f:6000:f5f4:4cdd:8015:9770]
- (p200300e37F4f6000F5F44cDd80159770.dip0.t-ipconnect.de
- [IPv6:2003:e3:7f4f:6000:f5f4:4cdd:8015:9770])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (No client certificate requested)
- (Authenticated sender: wse@tuxedocomputers.com)
- by srv6.fidu.org (Postfix) with ESMTPSA id E768CC800E8;
- Mon,  7 Jun 2021 22:33:57 +0200 (CEST)
-From: Werner Sembach <wse@tuxedocomputers.com>
-Subject: Re: [PATCH 4/4] drm/i915/display: Add handling for new "active bpc"
- property
-To: =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
-References: <20210604171723.10276-1-wse@tuxedocomputers.com>
- <20210604171723.10276-5-wse@tuxedocomputers.com> <YLpjTMegcjT22vQE@intel.com>
- <bd6a27e7-3ae5-ecb1-2fef-e5f8c1b6a2ac@tuxedocomputers.com>
-Message-ID: <96d10ed0-f8a2-1d0b-62dd-9d6173722506@tuxedocomputers.com>
-Date: Mon, 7 Jun 2021 22:33:57 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam10on2048.outbound.protection.outlook.com [40.107.94.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BB9A46E0BC;
+ Mon,  7 Jun 2021 20:42:40 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=ldy0JvZCuE/s/6414X1xfGz3vN5vv+VPajF4p0T5gDWHVTOa3cFxvng+eCBVuvlUXcIKi2KvV44LEy1x51Dm2e/f7hRNY0H3Tw/RnZ2ZBjaBUPA10GahIlUqUdIkPswKf9sU3rqE4AX6lOXwZT22M1ftxsmehFxb8k8GrchmLzlFUnCFZWRwg9auFK/3PqPr4YesPEcwotpYVUXv2CkQp/sy+2XCuHHBxaD3R3T/DhykOKfOchJKF3i5ze/DFnKHrSNxjj+8W7QTQjQGpp/UF0MFo96C0clA202fhH2QfhN5UiIPJABHutvdi4pmlc0+N31oPQy2uP6to2stXpPwRg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=en2AyBsY+Ajbf48Yhi9hKxrCO9uRhkFUYILgkBPy1bk=;
+ b=YAEFEVb7kfoBW/U+jJTeWBLnEmX4wN5kjeeXfPNXn6zlHSgJtQ5bCLbhJ0/KdqXR/vVZCOrBZzzg4Q4xFeJE0SP4I0T8byIhoC6BmYbkADQPwsv1BQN+Ez2BIbQOO6IDgm1ziL0iiMosQzqQypgNf2ZmugbsgIjvrxoeU6QCDZjzNumhQM7/GOzp7HJKoLXQ1cOv0+YF+LOfhhKzglGiNDdYm2IuY/bTn4OLLOzjGPYvsf/0vxFSmjrieNgv2LxWOTWGOtjq41Pop8KFBY0lRwDMam+el20AtiaSMSspll9T5ajskTWpiXCnuRTNNxhdJ0cPclLSKSK4KOGyWP1/Lg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=en2AyBsY+Ajbf48Yhi9hKxrCO9uRhkFUYILgkBPy1bk=;
+ b=XfdKIHjtzaGAYKnw4habKgtU7jm3qW75O2qWxJgsLbkf4tTFnpIG/0BC2jZwvimOHrH5ZhkOEVQEwJp2MT2h618vQtsPr17m9bb+1NuKDZ/caSMDnLBrEsYm2Shh2SFWTnoql1B6d7EDGxvRub70S6QIh+0pnscstPVjiF6Cbj8=
+Authentication-Results: linux-foundation.org; dkim=none (message not signed)
+ header.d=none;linux-foundation.org; dmarc=none action=none
+ header.from=amd.com;
+Received: from SA0PR12MB4430.namprd12.prod.outlook.com (2603:10b6:806:70::20)
+ by SA0PR12MB4495.namprd12.prod.outlook.com (2603:10b6:806:70::13)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4195.20; Mon, 7 Jun
+ 2021 20:42:39 +0000
+Received: from SA0PR12MB4430.namprd12.prod.outlook.com
+ ([fe80::5ce6:fed4:e00f:27e4]) by SA0PR12MB4430.namprd12.prod.outlook.com
+ ([fe80::5ce6:fed4:e00f:27e4%5]) with mapi id 15.20.4195.030; Mon, 7 Jun 2021
+ 20:42:39 +0000
+From: Alex Sierra <alex.sierra@amd.com>
+To: akpm@linux-foundation.org, Felix.Kuehling@amd.com, linux-mm@kvack.org,
+ rcampbell@nvidia.com
+Subject: [RFC PATCH v2 0/8] Support DEVICE_GENERIC memory in migrate_vma_*
+Date: Mon,  7 Jun 2021 15:42:18 -0500
+Message-Id: <20210607204226.7743-1-alex.sierra@amd.com>
+X-Mailer: git-send-email 2.17.1
+Content-Type: text/plain
+X-Originating-IP: [165.204.78.1]
+X-ClientProxiedBy: SN4PR0601CA0018.namprd06.prod.outlook.com
+ (2603:10b6:803:2f::28) To SA0PR12MB4430.namprd12.prod.outlook.com
+ (2603:10b6:806:70::20)
 MIME-Version: 1.0
-In-Reply-To: <bd6a27e7-3ae5-ecb1-2fef-e5f8c1b6a2ac@tuxedocomputers.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from alex-MS-7B09.amd.com (165.204.78.1) by
+ SN4PR0601CA0018.namprd06.prod.outlook.com (2603:10b6:803:2f::28) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4195.22 via Frontend
+ Transport; Mon, 7 Jun 2021 20:42:38 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 818c779c-f13f-449e-f42c-08d929f4ca10
+X-MS-TrafficTypeDiagnostic: SA0PR12MB4495:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <SA0PR12MB44955C28679FBBBDE1E4A4BAFD389@SA0PR12MB4495.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: OlgYuoBeni+X2b+GldIC++OotaBKKmDdcNxjbiYjxsw9coh1ZNIDNL8juKgTMNZIsep/8n+p1odP1d1VDnyzOctF+zUabLZfAR5l85YGy+EfbmhYO5MMlPPs3WS2vx5eNbBhvTBycc3U7XhkCkUzUe59foeMuPLNq0gfENmyUKTD2WVeCWfcehM6cI3zZ7kb+g3eqH6obI9lP3HaeT6OuwBvk64PSRrt2K8p/rS/KftVmRcs0w+t7XjhlOrla50exE0nhO8sHA0RgS9lYvb//py7J5pmTsJEqmhFJf4oNBOzCxGmWXB6+mGXh0dEMMiPoA8kvEZ9vyuZZST93MPpK7Rlde5PVqJpztf9PRKiEQcO7VvF01sp/U44jpM2moYvTVY2sgjEKeHixajOqRWyefw379SL8UQCRYV0T33l0wL3TMxYZASYPfxItwuo6Q1tx29i0u1wwKJsYYfwj25zXd0pss0cDpFbwCoUIxU8Sz7zverpQQncemfXH24vO5DNa7znAJ6XHxH12KWu1y2/tCZlDAVN2qslUvpTCrNfxyHQleFE3g02zG98YPRCjOu/7vczR6yX4N+118uQgZ4bMhKT/gUyTAGm2LrW+vwSO/viEgXw1wXye/P68nreh8KGLEtQEamEJlfWkyvph+5IDMBewDwwHU9Ad3mQLilx9OC9bcH0x2X9Gi1SxcUnSqGm7bud+TvFK4yy1bPa7Dttlu5GJgTLWtmUMoWWjGqwxhYsnpdQXGoBPWCrqkSdbApS3mtT1rJc5JH9GV7+mB87P/7bT95qBsXd3bbzXQ1YZw8=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SA0PR12MB4430.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(376002)(136003)(346002)(366004)(39860400002)(396003)(956004)(2616005)(6666004)(38100700002)(316002)(26005)(5660300002)(1076003)(2906002)(6486002)(66556008)(66476007)(186003)(4326008)(16526019)(66946007)(44832011)(52116002)(7696005)(478600001)(83380400001)(966005)(36756003)(8676002)(38350700002)(86362001)(8936002)(41533002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?2DCkYDlaPu0BlBY0xG1iKa7gZxzv6SuyPl/r0WCid/OYgO4GGw/ZTaSYJrrG?=
+ =?us-ascii?Q?GNA+P1fd05Xz+4lj06cb0nBzHGUK7ZrpNIpRm9a/y7Jy2E6XBLkz6npK8uqG?=
+ =?us-ascii?Q?+Z7+ddHwLCAvDz3vHYRShIJFaEsip7AE7dmM0LyttkKgnSour+psb59atB0c?=
+ =?us-ascii?Q?OnrzMXe4diqXcGruSxYtNp2el6Hdm5OIe4FvX68/5H6ie+ek7nyIuFxyOxxZ?=
+ =?us-ascii?Q?gCP7wOtf16A+W87gR7RiLdntjO0QJOn3BhchwWeCo1SBETAL/gpLNRJ0BesT?=
+ =?us-ascii?Q?Uf9+K1LLWGwHsJNU50Epb6lzTvuvQpOC+BKQh605B7eysLcaNHwNsMRHBw68?=
+ =?us-ascii?Q?zn/Qxb+XYJqhZWnE6Q8zkoaykauMSl/yeYeu34WCFy/TG9jLRYZS/9Gt5PuP?=
+ =?us-ascii?Q?+/ZbC85v2AkRd/a7hS6H9oB31j1e68AiPTtx5GdSiLIiYQUNdCvbbMgOVExT?=
+ =?us-ascii?Q?y5wGf3aL9KsNBowMRauvrNU3QaniN60qm43puwFXwdu5xnSOGLjRPpg9kMhU?=
+ =?us-ascii?Q?byfrNavpliX2uvGHB1JlxbP+jDB+W285y5tHkbGUUiWNxeNR3CkjA7nev/3/?=
+ =?us-ascii?Q?gJJOblBbU0+UWTdvtkJk7geVsm6VTuaNuyvA7qodCM4j8r8O2pI/ZYQE4XQk?=
+ =?us-ascii?Q?P18G0yBHOu/zfJK6Rif4mJvz3tGxxAMVKFj/mHa0kv48z/n/K+tl5ovnsB8N?=
+ =?us-ascii?Q?xPjHnaUAQvcAzESqsCUhxpsVTFUkwdXn6A6vt0NRZd5sKE4958kAEUFClwf5?=
+ =?us-ascii?Q?YXQRf8M/tRpMwGWo5TGWozYmQarwyjP1HxVMgQyEHG+9Bed+fQnP0TGZH9Bs?=
+ =?us-ascii?Q?2V8J6d+EKguDRnIx1KWl2WjNIyVKfci8NTt22pAqjQBTGYS+Vt4gpDp39vSa?=
+ =?us-ascii?Q?TvjjNuegjJ1NuKzn0azLHJS++4adwGljvwQ4RbdtM4KUv0J8l/Iye1lnPzDy?=
+ =?us-ascii?Q?9vW6VPGD4S6uy54IPly5wy2l0HrD0+vL8mdjdCpF2kiVxBD4m1oroQrk16u+?=
+ =?us-ascii?Q?bNZrXIXVk+u3TvZjlY9VCDB2D9wy5h2DlgKAwKi6MDsjlH37rsbyRZ/n4NF6?=
+ =?us-ascii?Q?xQ+EhO6Wcv0fuEojJPODqFg4NVraR2XzIFG9L6w/CTdMfhMcf2dY3n+yqBE/?=
+ =?us-ascii?Q?hv/T+6rEIipoRU1vuZcv7UqC4WsF0o5o9W4crB1RAzs8PI7HPsBF1We9Zyt4?=
+ =?us-ascii?Q?A7J5MmOhTZFu6NIkd90MrdMCCBxj5YF/8Bcmh2KMFVulqSpxlfGXTOmtPdmj?=
+ =?us-ascii?Q?pUmxw/SzMYW07d086SavtsOxviFdByMQE3Fsy+M1EIDpGsRfy2UIoKc2hITc?=
+ =?us-ascii?Q?KV+B6kXeqf/rPFVFF9jZSJ99?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 818c779c-f13f-449e-f42c-08d929f4ca10
+X-MS-Exchange-CrossTenant-AuthSource: SA0PR12MB4430.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Jun 2021 20:42:38.9827 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: HV0NEbS7Ha3mvxDzoaJc7p9B/dCFF1AfxCYUOfmQgxk4YdrPjeQ7s+VmlepIixWdX2s0cTQmwzar63ozOZOCFg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR12MB4495
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,133 +116,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: amd-gfx@lists.freedesktop.org, tzimmermann@suse.de, sunpeng.li@amd.com,
- intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- airlied@linux.ie, dri-devel@lists.freedesktop.org, rodrigo.vivi@intel.com,
- alexander.deucher@amd.com, christian.koenig@amd.com
+Cc: jglisse@redhat.com, jgg@nvidia.com, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, hch@lst.de
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 07.06.21 um 08:47 schrieb Werner Sembach:
->
-> Am 04.06.21 um 19:30 schrieb Ville Syrjälä:
->> On Fri, Jun 04, 2021 at 07:17:23PM +0200, Werner Sembach wrote:
->>> This commits implements the "active bpc" drm property for the Intel 
->>> GPU driver.
->>>
->>> Signed-off-by: Werner Sembach <wse@tuxedocomputers.com>
->>> ---
->>>   drivers/gpu/drm/i915/display/intel_display.c | 13 +++++++++++++
->>>   drivers/gpu/drm/i915/display/intel_dp.c      |  8 ++++++--
->>>   drivers/gpu/drm/i915/display/intel_dp_mst.c  |  4 +++-
->>>   drivers/gpu/drm/i915/display/intel_hdmi.c    |  4 +++-
->>>   4 files changed, 25 insertions(+), 4 deletions(-)
->>>
->>> diff --git a/drivers/gpu/drm/i915/display/intel_display.c 
->>> b/drivers/gpu/drm/i915/display/intel_display.c
->>> index 64e9107d70f7..f7898d9d7438 100644
->>> --- a/drivers/gpu/drm/i915/display/intel_display.c
->>> +++ b/drivers/gpu/drm/i915/display/intel_display.c
->>> @@ -10164,6 +10164,8 @@ static void intel_atomic_commit_tail(struct 
->>> intel_atomic_state *state)
->>>       struct drm_i915_private *dev_priv = to_i915(dev);
->>>       struct intel_crtc_state *new_crtc_state, *old_crtc_state;
->>>       struct intel_crtc *crtc;
->>> +    struct drm_connector *connector;
->>> +    struct drm_connector_state *new_conn_state;
->>>       u64 put_domains[I915_MAX_PIPES] = {};
->>>       intel_wakeref_t wakeref = 0;
->>>       int i;
->>> @@ -10324,6 +10326,17 @@ static void intel_atomic_commit_tail(struct 
->>> intel_atomic_state *state)
->>>       }
->>>       intel_runtime_pm_put(&dev_priv->runtime_pm, state->wakeref);
->>>   +    /* Extract information from crtc to communicate it to 
->>> userspace as connector properties */
->>> +    for_each_new_connector_in_state(&state->base, connector, 
->>> new_conn_state, i) {
->>> +        struct drm_crtc *crtc = new_conn_state->crtc;
->>> +        if (crtc) {
->>> +            new_crtc_state = 
->>> to_intel_crtc_state(drm_atomic_get_new_crtc_state(&state->base, crtc));
->> intel_atomic_get_new_crtc_state()
-> Thanks, will use that.
->>
->>> + new_conn_state->active_bpc = new_crtc_state->pipe_bpp / 3;
->>> +        }
->>> +        else
->>> +            new_conn_state->active_bpc = 0;
->>> +    }
->> This also seems too late. I think the whole thing should be
->> done somewhere around the normal swap_state() stuff.
-> Ok, will look into it.
-So I tried to put it in intel_atomic_commit() after 
-drm_atomic_helper_swap_state() and before 
-INIT_WORK(&state->base.commit_work, intel_atomic_commit_work) (which 
-creates a worker for intel_atomic_commit_tail), but somewhere in 
-between, the connector_state seems to change: The bpc written with the 
-for_each_new_connector_in_state() loop, gets discarded.
->>
->>> +
->>>       /*
->>>        * Defer the cleanup of the old state to a separate worker to not
->>>        * impede the current task (userspace for blocking modesets) that
->>> diff --git a/drivers/gpu/drm/i915/display/intel_dp.c 
->>> b/drivers/gpu/drm/i915/display/intel_dp.c
->>> index 642c60f3d9b1..67826ba976ed 100644
->>> --- a/drivers/gpu/drm/i915/display/intel_dp.c
->>> +++ b/drivers/gpu/drm/i915/display/intel_dp.c
->>> @@ -4671,10 +4671,14 @@ intel_dp_add_properties(struct intel_dp 
->>> *intel_dp, struct drm_connector *connect
->>>           intel_attach_force_audio_property(connector);
->>>         intel_attach_broadcast_rgb_property(connector);
->>> -    if (HAS_GMCH(dev_priv))
->>> +    if (HAS_GMCH(dev_priv)) {
->>>           drm_connector_attach_max_bpc_property(connector, 6, 10);
->>> -    else if (DISPLAY_VER(dev_priv) >= 5)
->>> +        drm_connector_attach_active_bpc_property(connector, 6, 10);
->>> +    }
->>> +    else if (DISPLAY_VER(dev_priv) >= 5) {
->>>           drm_connector_attach_max_bpc_property(connector, 6, 12);
->>> +        drm_connector_attach_active_bpc_property(connector, 6, 12);
->>> +    }
->>>         /* Register HDMI colorspace for case of lspcon */
->>>       if (intel_bios_is_lspcon_present(dev_priv, port)) {
->>> diff --git a/drivers/gpu/drm/i915/display/intel_dp_mst.c 
->>> b/drivers/gpu/drm/i915/display/intel_dp_mst.c
->>> index 2daa3f67791e..5a1869dc2210 100644
->>> --- a/drivers/gpu/drm/i915/display/intel_dp_mst.c
->>> +++ b/drivers/gpu/drm/i915/display/intel_dp_mst.c
->>> @@ -844,8 +844,10 @@ static struct drm_connector 
->>> *intel_dp_add_mst_connector(struct drm_dp_mst_topolo
->>>        */
->>>       connector->max_bpc_property =
->>> intel_dp->attached_connector->base.max_bpc_property;
->>> -    if (connector->max_bpc_property)
->>> +    if (connector->max_bpc_property) {
->>>           drm_connector_attach_max_bpc_property(connector, 6, 12);
->>> +        drm_connector_attach_active_bpc_property(connector, 6, 12);
->>> +    }
->>>         return connector;
->>>   diff --git a/drivers/gpu/drm/i915/display/intel_hdmi.c 
->>> b/drivers/gpu/drm/i915/display/intel_hdmi.c
->>> index d69f0a6dc26d..8af78b27b6ce 100644
->>> --- a/drivers/gpu/drm/i915/display/intel_hdmi.c
->>> +++ b/drivers/gpu/drm/i915/display/intel_hdmi.c
->>> @@ -2463,8 +2463,10 @@ intel_hdmi_add_properties(struct intel_hdmi 
->>> *intel_hdmi, struct drm_connector *c
->>>           drm_object_attach_property(&connector->base,
->>> connector->dev->mode_config.hdr_output_metadata_property, 0);
->>>   -    if (!HAS_GMCH(dev_priv))
->>> +    if (!HAS_GMCH(dev_priv)) {
->>>           drm_connector_attach_max_bpc_property(connector, 8, 12);
->>> +        drm_connector_attach_active_bpc_property(connector, 8, 12);
->>> +    }
->>>   }
->>>     /*
->>> -- 
->>> 2.25.1
-> _______________________________________________
-> amd-gfx mailing list
-> amd-gfx@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/amd-gfx
+v1:
+https://lore.kernel.org/linux-mm/20210529064022.GB15834@lst.de/T/
+
+v2:
+This patch series version has merged "[RFC PATCH v3 0/2]
+mm: remove extra ZONE_DEVICE struct page refcount" patch series made by
+Ralph Campbell. It also applies at the top of these series, our changes
+to support device generic type in migration_vma helpers.
+This has been tested in systems with device memory that has coherent
+access by CPU.
+
+Also addresses the following feedback made in v1:
+- Isolate in one patch kernel/resource.c modification, based
+on Christoph's feedback.
+- Add helpers check for generic and private type to avoid
+duplicated long lines.
+
+I like to provide an overview of what each of the patches does in a series:
+
+Patches 1-2: Rebased Ralph Campbell's ZONE_DEVICE page refcounting patches
+Patch 3: Export lookup_resource
+Patches 4-5: AMDGPU driver changes to register and use DEVICE_GENERIC memory
+Patches 6-8: Handle DEVICE_GENERIC memory in migration helpers
+
+Alex Sierra (6):
+  kernel: resource: lookup_resource as exported symbol
+  drm/amdkfd: add SPM support for SVM
+  drm/amdkfd: generic type as sys mem on migration to ram
+  include/linux/mm.h: helpers to check zone device generic type
+  mm: add generic type support to migrate_vma helpers
+  mm: call pgmap->ops->page_free for DEVICE_GENERIC pages
+
+Ralph Campbell (2):
+  ext4/xfs: add page refcount helper
+  mm: remove extra ZONE_DEVICE struct page refcount
+
+ arch/powerpc/kvm/book3s_hv_uvmem.c       |  2 +-
+ drivers/gpu/drm/amd/amdkfd/kfd_migrate.c | 15 ++++--
+ drivers/gpu/drm/nouveau/nouveau_dmem.c   |  2 +-
+ fs/dax.c                                 |  8 +--
+ fs/ext4/inode.c                          |  5 +-
+ fs/xfs/xfs_file.c                        |  4 +-
+ include/linux/dax.h                      | 10 ++++
+ include/linux/memremap.h                 |  7 +--
+ include/linux/mm.h                       | 52 +++---------------
+ kernel/resource.c                        |  2 +-
+ lib/test_hmm.c                           |  2 +-
+ mm/internal.h                            |  8 +++
+ mm/memremap.c                            | 69 +++++++-----------------
+ mm/migrate.c                             | 13 ++---
+ mm/page_alloc.c                          |  3 ++
+ mm/swap.c                                | 45 ++--------------
+ 16 files changed, 83 insertions(+), 164 deletions(-)
+
+-- 
+2.17.1
+
