@@ -2,60 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8525039E9DD
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Jun 2021 01:00:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 06EB639E9E7
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Jun 2021 01:07:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 913EC6EA3B;
-	Mon,  7 Jun 2021 23:00:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E8B756E057;
+	Mon,  7 Jun 2021 23:07:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com
- [IPv6:2a00:1450:4864:20::129])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F1B376EA3B
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Jun 2021 23:00:23 +0000 (UTC)
-Received: by mail-lf1-x129.google.com with SMTP id v22so27633725lfa.3
- for <dri-devel@lists.freedesktop.org>; Mon, 07 Jun 2021 16:00:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=cUjBLXnpV1iWFZE5eRvQPhesNYRGBZVyBF+9wetSE0k=;
- b=IoEm9Z/IpaShQzvp+SjRBJlFyRIFztTEk+3wmnBYX+/a9DQv8dOvk2nI23r+pQFfu5
- WDrflzTV18ToM7HId4Wi/1v9MZ50DI9nB5Fx2kK6tCv6YnXiR4F+bOmJz2nBG72G+ZtC
- +pDRLQcUcF5oINzPOcCb2TJ2deqfGvkWAOUrI3x8NyXdpxDs0QPe7bWXzee3WiiVUW3N
- f0NF2ntQ+ufdPOPBDOjXN6urSvRUIWob0y4KDJZEePq5xg1fbmgK9e7t0ppheRqlEC0k
- lw79DB7ioBEqzC7yjwejPcbvdGmGZjOL/9BZ9hsGzL/ocwNmbfSR85S4Tv5uisBvb565
- IZRw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=cUjBLXnpV1iWFZE5eRvQPhesNYRGBZVyBF+9wetSE0k=;
- b=cWexS9GXssYUPszcR22C9rQzqT6tbfxYjAJA4JcIDyUrGqAGY8GW9u58np6qWgZvpi
- El9VEdndH/Q/n2hVV8WGEh1k88ofXZTy8q6uQd7YjRcQHC1TWZkcyPY2wgTipiFutcAX
- 2a5Nte6NwtPa2Xuvl5yoJ1MVtlzje4gQr/LQDnBpzsJSjtV8AV8hKXx7WoaCiR3SVC1E
- 2q7LzbD9fKjo1aWU/At0qn5ky5Cu7rCFEkl+h4NUtOXoMoEYSSCu8qIomvfHs+ce3JMG
- iZSyqNVcbNjhAWLahuVQ+vMT1JRwQbByRDkl8IbZZqCsXD0XrkZhNnSfMBgTxwnWGE6O
- nPLA==
-X-Gm-Message-State: AOAM531sgLRWcC5O36Pjggd004E2sgfRrEqZpt4FqGCDgfLw9So90yrY
- Hj9eDvD/Q0t/mniPBfkcWrF++w==
-X-Google-Smtp-Source: ABdhPJxsh3oBtPj1Zeb/LurkBb4PHYYdd/HNPsI/Rj52JRWzArLPzhsmY49d2yzMPRZzjZiMbKbr2g==
-X-Received: by 2002:a05:6512:c02:: with SMTP id
- z2mr13172092lfu.303.1623106822243; 
- Mon, 07 Jun 2021 16:00:22 -0700 (PDT)
-Received: from eriador.lan ([37.153.55.125])
- by smtp.gmail.com with ESMTPSA id c20sm1648176lfv.291.2021.06.07.16.00.21
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 07 Jun 2021 16:00:21 -0700 (PDT)
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Bjorn Andersson <bjorn.andersson@linaro.org>,
- Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Abhinav Kumar <abhinavk@codeaurora.org>
-Subject: [PATCH v3] drm/msm/dsi: add continuous clock support for 7nm PHY
-Date: Tue,  8 Jun 2021 02:00:21 +0300
-Message-Id: <20210607230021.2193253-1-dmitry.baryshkov@linaro.org>
-X-Mailer: git-send-email 2.30.2
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C428A6E057;
+ Mon,  7 Jun 2021 23:07:01 +0000 (UTC)
+IronPort-SDR: HI3XS57TEoaSkP9mfwHmIGMy/fTicTznJ8YsR83bq3wXylSxmNmI51NzNwQT5xqh+sHRG8Tq7/
+ 1u2DKpzwqfZQ==
+X-IronPort-AV: E=McAfee;i="6200,9189,10008"; a="201714173"
+X-IronPort-AV: E=Sophos;i="5.83,256,1616482800"; d="scan'208";a="201714173"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Jun 2021 16:06:58 -0700
+IronPort-SDR: +sJ69eIRkwZWaeApv+UZ9TCJ78foKs12O7HEH5wDHS17aQNS26EahiJgRL67oU26p7w+9ZtRFR
+ iC8WNGbBpuvw==
+X-IronPort-AV: E=Sophos;i="5.83,256,1616482800"; d="scan'208";a="476386900"
+Received: from dceraolo-mobl.amr.corp.intel.com (HELO [10.209.129.6])
+ ([10.209.129.6])
+ by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Jun 2021 16:06:57 -0700
+Subject: Re: [PATCH 02/13] drm/i915/guc: Update MMIO based communication
+To: Matthew Brost <matthew.brost@intel.com>, intel-gfx@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org
+References: <20210607180356.165785-1-matthew.brost@intel.com>
+ <20210607180356.165785-3-matthew.brost@intel.com>
+From: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+Message-ID: <707a404a-c20b-39e6-af85-7ab93e9d3c5e@intel.com>
+Date: Mon, 7 Jun 2021 16:06:53 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
+In-Reply-To: <20210607180356.165785-3-matthew.brost@intel.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,216 +53,261 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jonathan Marek <jonathan@marek.ca>, Stephen Boyd <sboyd@kernel.org>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- David Airlie <airlied@linux.ie>, freedreno@lists.freedesktop.org
+Cc: john.c.harrison@intel.com, Michal.Wajdeczko@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Unlike previous generations, 7nm PHYs are required to collaborate with
-the host for conitnuos clock mode. Add changes neccessary to enable
-continuous clock mode in the 7nm DSI PHYs.
 
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
----
 
-Changes since v2:
- - Really drop msm_dsi_phy_needs_hs_phy_sel()
+On 6/7/2021 11:03 AM, Matthew Brost wrote:
+> From: Michal Wajdeczko <michal.wajdeczko@intel.com>
+>
+> The MMIO based Host-to-GuC communication protocol has been
+> updated to use unified HXG messages.
+>
+> Update our intel_guc_send_mmio() function by correctly handle
+> BUSY, RETRY and FAILURE replies. Also update our documentation.
+>
+> GuC: 55.0.0
+> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+> Signed-off-by: Michal Wajdeczko <michal.wajdeczko@intel.com>
+> Cc: Piotr Piórkowski <piotr.piorkowski@intel.com>
+> Cc: Michal Winiarski <michal.winiarski@intel.com> #v3
+> ---
+>   .../gt/uc/abi/guc_communication_mmio_abi.h    | 63 ++++++-------
+>   drivers/gpu/drm/i915/gt/uc/intel_guc.c        | 92 ++++++++++++++-----
+>   2 files changed, 97 insertions(+), 58 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/i915/gt/uc/abi/guc_communication_mmio_abi.h b/drivers/gpu/drm/i915/gt/uc/abi/guc_communication_mmio_abi.h
+> index be066a62e9e0..3f9039e3ef9d 100644
+> --- a/drivers/gpu/drm/i915/gt/uc/abi/guc_communication_mmio_abi.h
+> +++ b/drivers/gpu/drm/i915/gt/uc/abi/guc_communication_mmio_abi.h
+> @@ -7,46 +7,43 @@
+>   #define _ABI_GUC_COMMUNICATION_MMIO_ABI_H
+>   
+>   /**
+> - * DOC: MMIO based communication
+> + * DOC: GuC MMIO based communication
+>    *
+> - * The MMIO based communication between Host and GuC uses software scratch
+> - * registers, where first register holds data treated as message header,
+> - * and other registers are used to hold message payload.
+> + * The MMIO based communication between Host and GuC relies on special
+> + * hardware registers which format could be defined by the software
+> + * (so called scratch registers).
+>    *
+> - * For Gen9+, GuC uses software scratch registers 0xC180-0xC1B8,
+> - * but no H2G command takes more than 8 parameters and the GuC FW
+> - * itself uses an 8-element array to store the H2G message.
+> - *
+> - *      +-----------+---------+---------+---------+
+> - *      |  MMIO[0]  | MMIO[1] |   ...   | MMIO[n] |
+> - *      +-----------+---------+---------+---------+
+> - *      | header    |      optional payload       |
+> - *      +======+====+=========+=========+=========+
+> - *      | 31:28|type|         |         |         |
+> - *      +------+----+         |         |         |
+> - *      | 27:16|data|         |         |         |
+> - *      +------+----+         |         |         |
+> - *      |  15:0|code|         |         |         |
+> - *      +------+----+---------+---------+---------+
+> - *
+> - * The message header consists of:
+> - *
+> - * - **type**, indicates message type
+> - * - **code**, indicates message code, is specific for **type**
+> - * - **data**, indicates message data, optional, depends on **code**
+> + * Each MMIO based message, both Host to GuC (H2G) and GuC to Host (G2H)
+> + * messages, which maximum length depends on number of available scratch
+> + * registers, is directly written into those scratch registers.
+>    *
+> - * The following message **types** are supported:
+> + * For Gen9+, there are 16 software scratch registers 0xC180-0xC1B8,
+> + * but no H2G command takes more than 8 parameters and the GuC firmware
+> + * itself uses an 8-element array to store the H2G message.
 
-Changes since v1:
- - Remove the need for a separate msm_dsi_phy_needs_hs_phy_sel() call
- - Fix setting continuous clock for a dual DSI case.
+Is this statement still true? I believe no MMIO H2G is over 4 DWs (given 
+the limitation of the new gen11+ scratch regs), while CTB messages can 
+be longer than 8 DWs.
 
----
- drivers/gpu/drm/msm/dsi/dsi.h             |  3 ++-
- drivers/gpu/drm/msm/dsi/dsi.xml.h         |  1 +
- drivers/gpu/drm/msm/dsi/dsi_host.c        | 12 ++++++++----
- drivers/gpu/drm/msm/dsi/dsi_manager.c     |  4 ++--
- drivers/gpu/drm/msm/dsi/phy/dsi_phy.c     |  9 +++++++++
- drivers/gpu/drm/msm/dsi/phy/dsi_phy.h     |  1 +
- drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c | 17 +++++++++++++++++
- 7 files changed, 40 insertions(+), 7 deletions(-)
+>    *
+> - * - **REQUEST**, indicates Host-to-GuC request, requested GuC action code
+> - *   must be priovided in **code** field. Optional action specific parameters
+> - *   can be provided in remaining payload registers or **data** field.
+> + * For Gen11+, there are additional 4 registers 0x190240-0x19024C, which
+> + * are, regardless on lower count, preffered over legacy ones.
 
-diff --git a/drivers/gpu/drm/msm/dsi/dsi.h b/drivers/gpu/drm/msm/dsi/dsi.h
-index 7abfeab08165..5be458c701d2 100644
---- a/drivers/gpu/drm/msm/dsi/dsi.h
-+++ b/drivers/gpu/drm/msm/dsi/dsi.h
-@@ -108,7 +108,7 @@ int msm_dsi_host_enable(struct mipi_dsi_host *host);
- int msm_dsi_host_disable(struct mipi_dsi_host *host);
- int msm_dsi_host_power_on(struct mipi_dsi_host *host,
- 			struct msm_dsi_phy_shared_timings *phy_shared_timings,
--			bool is_dual_dsi);
-+			bool is_dual_dsi, struct msm_dsi_phy *phy);
- int msm_dsi_host_power_off(struct mipi_dsi_host *host);
- int msm_dsi_host_set_display_mode(struct mipi_dsi_host *host,
- 				  const struct drm_display_mode *mode);
-@@ -173,6 +173,7 @@ int msm_dsi_phy_get_clk_provider(struct msm_dsi_phy *phy,
- 	struct clk **byte_clk_provider, struct clk **pixel_clk_provider);
- void msm_dsi_phy_pll_save_state(struct msm_dsi_phy *phy);
- int msm_dsi_phy_pll_restore_state(struct msm_dsi_phy *phy);
-+bool msm_dsi_phy_set_continuous_clock(struct msm_dsi_phy *phy, bool enable);
- 
- #endif /* __DSI_CONNECTOR_H__ */
- 
-diff --git a/drivers/gpu/drm/msm/dsi/dsi.xml.h b/drivers/gpu/drm/msm/dsi/dsi.xml.h
-index 50eb4d1b8fdd..9762af6035e9 100644
---- a/drivers/gpu/drm/msm/dsi/dsi.xml.h
-+++ b/drivers/gpu/drm/msm/dsi/dsi.xml.h
-@@ -510,6 +510,7 @@ static inline uint32_t DSI_CLKOUT_TIMING_CTRL_T_CLK_POST(uint32_t val)
- #define DSI_LANE_STATUS_DLN0_DIRECTION				0x00010000
- 
- #define REG_DSI_LANE_CTRL					0x000000a8
-+#define DSI_LANE_CTRL_HS_REQ_SEL_PHY				0x01000000
- #define DSI_LANE_CTRL_CLKLN_HS_FORCE_REQUEST			0x10000000
- 
- #define REG_DSI_LANE_SWAP_CTRL					0x000000ac
-diff --git a/drivers/gpu/drm/msm/dsi/dsi_host.c b/drivers/gpu/drm/msm/dsi/dsi_host.c
-index 41e1d0f7ab6e..50be935edcad 100644
---- a/drivers/gpu/drm/msm/dsi/dsi_host.c
-+++ b/drivers/gpu/drm/msm/dsi/dsi_host.c
-@@ -835,7 +835,7 @@ static inline enum dsi_cmd_dst_format dsi_get_cmd_fmt(
- }
- 
- static void dsi_ctrl_config(struct msm_dsi_host *msm_host, bool enable,
--			struct msm_dsi_phy_shared_timings *phy_shared_timings)
-+			struct msm_dsi_phy_shared_timings *phy_shared_timings, struct msm_dsi_phy *phy)
- {
- 	u32 flags = msm_host->mode_flags;
- 	enum mipi_dsi_pixel_format mipi_fmt = msm_host->format;
-@@ -930,6 +930,10 @@ static void dsi_ctrl_config(struct msm_dsi_host *msm_host, bool enable,
- 
- 	if (!(flags & MIPI_DSI_CLOCK_NON_CONTINUOUS)) {
- 		lane_ctrl = dsi_read(msm_host, REG_DSI_LANE_CTRL);
-+
-+		if (msm_dsi_phy_set_continuous_clock(phy, enable))
-+			lane_ctrl |= DSI_LANE_CTRL_HS_REQ_SEL_PHY;
-+
- 		dsi_write(msm_host, REG_DSI_LANE_CTRL,
- 			lane_ctrl | DSI_LANE_CTRL_CLKLN_HS_FORCE_REQUEST);
- 	}
-@@ -2360,7 +2364,7 @@ static void msm_dsi_sfpb_config(struct msm_dsi_host *msm_host, bool enable)
- 
- int msm_dsi_host_power_on(struct mipi_dsi_host *host,
- 			struct msm_dsi_phy_shared_timings *phy_shared_timings,
--			bool is_dual_dsi)
-+			bool is_dual_dsi, struct msm_dsi_phy *phy)
- {
- 	struct msm_dsi_host *msm_host = to_msm_dsi_host(host);
- 	const struct msm_dsi_cfg_handler *cfg_hnd = msm_host->cfg_hnd;
-@@ -2400,7 +2404,7 @@ int msm_dsi_host_power_on(struct mipi_dsi_host *host,
- 
- 	dsi_timing_setup(msm_host, is_dual_dsi);
- 	dsi_sw_reset(msm_host);
--	dsi_ctrl_config(msm_host, true, phy_shared_timings);
-+	dsi_ctrl_config(msm_host, true, phy_shared_timings, phy);
- 
- 	if (msm_host->disp_en_gpio)
- 		gpiod_set_value(msm_host->disp_en_gpio, 1);
-@@ -2431,7 +2435,7 @@ int msm_dsi_host_power_off(struct mipi_dsi_host *host)
- 		goto unlock_ret;
- 	}
- 
--	dsi_ctrl_config(msm_host, false, NULL);
-+	dsi_ctrl_config(msm_host, false, NULL, NULL);
- 
- 	if (msm_host->disp_en_gpio)
- 		gpiod_set_value(msm_host->disp_en_gpio, 0);
-diff --git a/drivers/gpu/drm/msm/dsi/dsi_manager.c b/drivers/gpu/drm/msm/dsi/dsi_manager.c
-index e138a0c16085..cc18ea2b244c 100644
---- a/drivers/gpu/drm/msm/dsi/dsi_manager.c
-+++ b/drivers/gpu/drm/msm/dsi/dsi_manager.c
-@@ -382,7 +382,7 @@ static void dsi_mgr_bridge_pre_enable(struct drm_bridge *bridge)
- 	if (is_dual_dsi && !IS_MASTER_DSI_LINK(id))
- 		return;
- 
--	ret = msm_dsi_host_power_on(host, &phy_shared_timings[id], is_dual_dsi);
-+	ret = msm_dsi_host_power_on(host, &phy_shared_timings[id], is_dual_dsi, msm_dsi->phy);
- 	if (ret) {
- 		pr_err("%s: power on host %d failed, %d\n", __func__, id, ret);
- 		goto host_on_fail;
-@@ -390,7 +390,7 @@ static void dsi_mgr_bridge_pre_enable(struct drm_bridge *bridge)
- 
- 	if (is_dual_dsi && msm_dsi1) {
- 		ret = msm_dsi_host_power_on(msm_dsi1->host,
--				&phy_shared_timings[DSI_1], is_dual_dsi);
-+				&phy_shared_timings[DSI_1], is_dual_dsi, msm_dsi1->phy);
- 		if (ret) {
- 			pr_err("%s: power on host1 failed, %d\n",
- 							__func__, ret);
-diff --git a/drivers/gpu/drm/msm/dsi/phy/dsi_phy.c b/drivers/gpu/drm/msm/dsi/phy/dsi_phy.c
-index ccbd19f7d9cf..1b11c0337a59 100644
---- a/drivers/gpu/drm/msm/dsi/phy/dsi_phy.c
-+++ b/drivers/gpu/drm/msm/dsi/phy/dsi_phy.c
-@@ -851,6 +851,15 @@ void msm_dsi_phy_set_usecase(struct msm_dsi_phy *phy,
- 		phy->usecase = uc;
- }
- 
-+/* Returns true if we have to enable DSI_LANE_CTRL.HS_REQ_SEL_PHY */
-+bool msm_dsi_phy_set_continuous_clock(struct msm_dsi_phy *phy, bool enable)
-+{
-+	if (!phy || !phy->cfg->ops.set_continuous_clock)
-+		return false;
-+
-+	return phy->cfg->ops.set_continuous_clock(phy, enable);
-+}
-+
- int msm_dsi_phy_get_clk_provider(struct msm_dsi_phy *phy,
- 	struct clk **byte_clk_provider, struct clk **pixel_clk_provider)
- {
-diff --git a/drivers/gpu/drm/msm/dsi/phy/dsi_phy.h b/drivers/gpu/drm/msm/dsi/phy/dsi_phy.h
-index 94a77ac364d3..08e516d0dac4 100644
---- a/drivers/gpu/drm/msm/dsi/phy/dsi_phy.h
-+++ b/drivers/gpu/drm/msm/dsi/phy/dsi_phy.h
-@@ -24,6 +24,7 @@ struct msm_dsi_phy_ops {
- 	void (*disable)(struct msm_dsi_phy *phy);
- 	void (*save_pll_state)(struct msm_dsi_phy *phy);
- 	int (*restore_pll_state)(struct msm_dsi_phy *phy);
-+	bool (*set_continuous_clock)(struct msm_dsi_phy *phy, bool enable);
- };
- 
- struct msm_dsi_phy_cfg {
-diff --git a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c
-index e76ce40a12ab..310b15653fa3 100644
---- a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c
-+++ b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c
-@@ -930,6 +930,21 @@ static int dsi_7nm_phy_enable(struct msm_dsi_phy *phy,
- 	return 0;
- }
- 
-+static bool dsi_7nm_set_continuous_clock(struct msm_dsi_phy *phy, bool enable)
-+{
-+	void __iomem *base = phy->base;
-+	u32 data;
-+
-+	data = dsi_phy_read(base + REG_DSI_7nm_PHY_CMN_LANE_CTRL1);
-+	if (enable)
-+		data |= BIT(5) | BIT(6);
-+	else
-+		data &= ~(BIT(5) | BIT(6));
-+	dsi_phy_write(base + REG_DSI_7nm_PHY_CMN_LANE_CTRL1, data);
-+
-+	return enable;
-+}
-+
- static void dsi_7nm_phy_disable(struct msm_dsi_phy *phy)
- {
- 	void __iomem *base = phy->base;
-@@ -970,6 +985,7 @@ const struct msm_dsi_phy_cfg dsi_phy_7nm_cfgs = {
- 		.pll_init = dsi_pll_7nm_init,
- 		.save_pll_state = dsi_7nm_pll_save_state,
- 		.restore_pll_state = dsi_7nm_pll_restore_state,
-+		.set_continuous_clock = dsi_7nm_set_continuous_clock,
- 	},
- 	.min_pll_rate = 600000000UL,
- 	.max_pll_rate = (5000000000ULL < ULONG_MAX) ? 5000000000ULL : ULONG_MAX,
-@@ -992,6 +1008,7 @@ const struct msm_dsi_phy_cfg dsi_phy_7nm_8150_cfgs = {
- 		.pll_init = dsi_pll_7nm_init,
- 		.save_pll_state = dsi_7nm_pll_save_state,
- 		.restore_pll_state = dsi_7nm_pll_restore_state,
-+		.set_continuous_clock = dsi_7nm_set_continuous_clock,
- 	},
- 	.min_pll_rate = 1000000000UL,
- 	.max_pll_rate = 3500000000UL,
--- 
-2.30.2
+typo: preffered -> preferred
+
+>    *
+> - * - **RESPONSE**, indicates GuC-to-Host response from earlier GuC request,
+> - *   action response status will be provided in **code** field. Optional
+> - *   response data can be returned in remaining payload registers or **data**
+> - *   field.
+> + * The MMIO based communication is mainly used during driver initialization
+> + * phase to setup the `CTB based communication`_ that will be used afterwards.
+>    */
+>   
+>   #define GUC_MAX_MMIO_MSG_LEN		8
+
+See comment above. Reduce this to 4?
+
+>   
+> +/**
+> + * DOC: MMIO HXG Message
+> + *
+> + * Format of the MMIO messages follows definitions of `HXG Message`_.
+> + *
+> + *  +---+-------+--------------------------------------------------------------+
+> + *  |   | Bits  | Description                                                  |
+> + *  +===+=======+==============================================================+
+> + *  | 0 |  31:0 |  +--------------------------------------------------------+  |
+> + *  +---+-------+  |                                                        |  |
+> + *  |...|       |  |  Embedded `HXG Message`_                               |  |
+> + *  +---+-------+  |                                                        |  |
+> + *  | n |  31:0 |  +--------------------------------------------------------+  |
+> + *  +---+-------+--------------------------------------------------------------+
+> + */
+> +
+>   #endif /* _ABI_GUC_COMMUNICATION_MMIO_ABI_H */
+> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc.c b/drivers/gpu/drm/i915/gt/uc/intel_guc.c
+> index f147cb389a20..b773567cb080 100644
+> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc.c
+> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc.c
+> @@ -376,29 +376,27 @@ void intel_guc_fini(struct intel_guc *guc)
+>   /*
+>    * This function implements the MMIO based host to GuC interface.
+>    */
+> -int intel_guc_send_mmio(struct intel_guc *guc, const u32 *action, u32 len,
+> +int intel_guc_send_mmio(struct intel_guc *guc, const u32 *request, u32 len,
+>   			u32 *response_buf, u32 response_buf_size)
+>   {
+> +	struct drm_i915_private *i915 = guc_to_gt(guc)->i915;
+>   	struct intel_uncore *uncore = guc_to_gt(guc)->uncore;
+> -	u32 status;
+> +	u32 header;
+>   	int i;
+>   	int ret;
+>   
+>   	GEM_BUG_ON(!len);
+>   	GEM_BUG_ON(len > guc->send_regs.count);
+>   
+> -	/* We expect only action code */
+> -	GEM_BUG_ON(*action & ~INTEL_GUC_MSG_CODE_MASK);
+> -
+> -	/* If CT is available, we expect to use MMIO only during init/fini */
+> -	GEM_BUG_ON(*action != INTEL_GUC_ACTION_REGISTER_COMMAND_TRANSPORT_BUFFER &&
+> -		   *action != INTEL_GUC_ACTION_DEREGISTER_COMMAND_TRANSPORT_BUFFER);
+> +	GEM_BUG_ON(FIELD_GET(GUC_HXG_MSG_0_ORIGIN, request[0]) != GUC_HXG_ORIGIN_HOST);
+> +	GEM_BUG_ON(FIELD_GET(GUC_HXG_MSG_0_TYPE, request[0]) != GUC_HXG_TYPE_REQUEST);
+>   
+>   	mutex_lock(&guc->send_mutex);
+>   	intel_uncore_forcewake_get(uncore, guc->send_regs.fw_domains);
+>   
+> +retry:
+>   	for (i = 0; i < len; i++)
+> -		intel_uncore_write(uncore, guc_send_reg(guc, i), action[i]);
+> +		intel_uncore_write(uncore, guc_send_reg(guc, i), request[i]);
+>   
+>   	intel_uncore_posting_read(uncore, guc_send_reg(guc, i - 1));
+>   
+> @@ -410,30 +408,74 @@ int intel_guc_send_mmio(struct intel_guc *guc, const u32 *action, u32 len,
+>   	 */
+>   	ret = __intel_wait_for_register_fw(uncore,
+>   					   guc_send_reg(guc, 0),
+> -					   INTEL_GUC_MSG_TYPE_MASK,
+> -					   INTEL_GUC_MSG_TYPE_RESPONSE <<
+> -					   INTEL_GUC_MSG_TYPE_SHIFT,
+> -					   10, 10, &status);
+> -	/* If GuC explicitly returned an error, convert it to -EIO */
+> -	if (!ret && !INTEL_GUC_MSG_IS_RESPONSE_SUCCESS(status))
+> -		ret = -EIO;
+> +					   GUC_HXG_MSG_0_ORIGIN,
+> +					   FIELD_PREP(GUC_HXG_MSG_0_ORIGIN,
+> +						      GUC_HXG_ORIGIN_GUC),
+> +					   10, 10, &header);
+> +	if (unlikely(ret)) {
+> +timeout:
+> +		drm_err(&i915->drm, "mmio request %#x: no reply %x\n",
+> +			request[0], header);
+> +		goto out;
+> +	}
+>   
+> -	if (ret) {
+> -		DRM_ERROR("MMIO: GuC action %#x failed with error %d %#x\n",
+> -			  action[0], ret, status);
+> +	if (FIELD_GET(GUC_HXG_MSG_0_TYPE, header) == GUC_HXG_TYPE_NO_RESPONSE_BUSY) {
+> +#define done ({ header = intel_uncore_read(uncore, guc_send_reg(guc, 0)); \
+> +		FIELD_GET(GUC_HXG_MSG_0_ORIGIN, header) != GUC_HXG_ORIGIN_GUC || \
+> +		FIELD_GET(GUC_HXG_MSG_0_TYPE, header) != GUC_HXG_TYPE_NO_RESPONSE_BUSY; })
+> +
+> +		ret = wait_for(done, 1000);
+> +		if (unlikely(ret))
+> +			goto timeout;
+> +		if (unlikely(FIELD_GET(GUC_HXG_MSG_0_ORIGIN, header) !=
+> +				       GUC_HXG_ORIGIN_GUC))
+> +			goto proto;
+> +#undef done
+> +	}
+> +
+> +	if (FIELD_GET(GUC_HXG_MSG_0_TYPE, header) == GUC_HXG_TYPE_NO_RESPONSE_RETRY) {
+> +		u32 reason = FIELD_GET(GUC_HXG_RETRY_MSG_0_REASON, header);
+> +
+> +		drm_dbg(&i915->drm, "mmio request %#x: retrying, reason %u\n",
+> +			request[0], reason);
+> +		goto retry;
+> +	}
+> +
+> +	if (FIELD_GET(GUC_HXG_MSG_0_TYPE, header) == GUC_HXG_TYPE_RESPONSE_FAILURE) {
+> +		u32 hint = FIELD_GET(GUC_HXG_FAILURE_MSG_0_HINT, header);
+> +		u32 error = FIELD_GET(GUC_HXG_FAILURE_MSG_0_ERROR, header);
+> +
+> +		drm_err(&i915->drm, "mmio request %#x: failure %x/%u\n",
+> +			request[0], error, hint);
+> +		ret = -ENXIO;
+> +		goto out;
+> +	}
+> +
+> +	if (FIELD_GET(GUC_HXG_MSG_0_TYPE, header) != GUC_HXG_TYPE_RESPONSE_SUCCESS) {
+> +proto:
+> +		drm_err(&i915->drm, "mmio request %#x: unexpected reply %#x\n",
+> +			request[0], header);
+> +		ret = -EPROTO;
+>   		goto out;
+>   	}
+>   
+>   	if (response_buf) {
+> -		int count = min(response_buf_size, guc->send_regs.count - 1);
+> +		int count = min(response_buf_size, guc->send_regs.count);
+>   
+> -		for (i = 0; i < count; i++)
+> +		GEM_BUG_ON(!count);
+> +
+> +		response_buf[0] = header;
+> +
+> +		for (i = 1; i < count; i++)
+>   			response_buf[i] = intel_uncore_read(uncore,
+> -							    guc_send_reg(guc, i + 1));
+> -	}
+> +							    guc_send_reg(guc, i));
+
+This could use a note in the commit message to remark that we have no 
+users for the returned data yet and therefore nothing will break if we 
+change what we return through it.
+
+Apart from the nits, the logic looks good to me.
+Daniele
+
+>   
+> -	/* Use data from the GuC response as our return value */
+> -	ret = INTEL_GUC_MSG_TO_DATA(status);
+> +		/* Use number of copied dwords as our return value */
+> +		ret = count;
+> +	} else {
+> +		/* Use data from the GuC response as our return value */
+> +		ret = FIELD_GET(GUC_HXG_RESPONSE_MSG_0_DATA0, header);
+> +	}
+>   
+>   out:
+>   	intel_uncore_forcewake_put(uncore, guc->send_regs.fw_domains);
 
