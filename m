@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75BE139E1B5
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Jun 2021 18:14:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D64639E1B4
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Jun 2021 18:14:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 882066E919;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8818C6E918;
 	Mon,  7 Jun 2021 16:14:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ABAB06E913;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 34DF86E913;
+ Mon,  7 Jun 2021 16:14:03 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id E66536145A;
  Mon,  7 Jun 2021 16:14:01 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 13ED0613F3;
- Mon,  7 Jun 2021 16:13:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1623082441;
- bh=d2ZN03nQKfadh+LSeiMEoiYz2/mAdXM3bE/ciLZ2Ndw=;
+ s=k20201202; t=1623082443;
+ bh=2fIwcSbLPYzttkG0EbSC7eMYdbZEukgqXk7iyFFVBHQ=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=EhYyIBsNF3S+pxxldkXxJsJMQz1SM4fgYQCbMJssMC5idc5hHqaC2XuzrjTvljZiA
- 6SQ8THcrMZkxGwWgKXB+JbgQ+FwLtURG1irad+/L7H3W3ISZ6dq5RId6ovWr7JLEfQ
- 4oueMyO4CDK4VVDGotP2FjtBqCrm36CwIcVnFuejuJiw+5a/Vu4L1R1R+9OivXqFHD
- XJ02kpeRfuOnlcg7IhSW5+DJ3pq3ZNKAqHGONjHLJEjBldShW2C+HMZ4r6N2Gm6j8B
- mc4WV4EKVl8Tl9LcjJNKrFgHnhC1xT4sR9GKd5/ciailsXLJmeCoo1sHyxU0TH3k8Y
- SZc656HhkRyhA==
+ b=aY+3EBUfyrkdOCtDNOofQwlFnkqzvr+nm5dUeI5A1B5ix/I1K8bGXruYvtH3TnMiI
+ 1/5sERh2WJ5zXJNRf+RICUDhft/GY4SCoYRNJVkDMKflFeJP0C6n32gJSGzR4Fg/w0
+ ekkymM6F905B3BgEKY1d5mHD7LgiFrBIJv90q96SUYjDMIk57qsEz2q9edrxs9h6DJ
+ gOht7LDXzFzN4FZhgum1+OzSWMIhwPBjJghc/F5JNCAiURchWXwUzUfoaV1ycAtAg2
+ U3GqZLzgTsqKftEam4QS+IoPg74Lrq0ROLw7y6FLOQeaAgr6OK8fiL8Q6G3YGwiKjw
+ IAYB34j+6nD1g==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.10 33/39] drm/amd/display: Fix overlay validation by
- considering cursors
-Date: Mon,  7 Jun 2021 12:13:12 -0400
-Message-Id: <20210607161318.3583636-33-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.10 34/39] drm/amd/display: Fix potential memory leak
+ in DMUB hw_init
+Date: Mon,  7 Jun 2021 12:13:13 -0400
+Message-Id: <20210607161318.3583636-34-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210607161318.3583636-1-sashal@kernel.org>
 References: <20210607161318.3583636-1-sashal@kernel.org>
@@ -50,81 +50,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, "Tianci . Yin" <tianci.yin@amd.com>,
- Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, amd-gfx@lists.freedesktop.org,
- Daniel Wheeler <daniel.wheeler@amd.com>, Nicholas Choi <nicholas.choi@amd.com>,
- dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
- Bhawanpreet Lakha <bhawanpreet.lakha@amd.com>,
- Nicholas Kazlauskas <Nicholas.Kazlauskas@amd.com>,
- Mark Yacoub <markyacoub@google.com>
+Cc: Sasha Levin <sashal@kernel.org>, Qingqing Zhuo <qingqing.zhuo@amd.com>,
+ Roman Li <roman.li@amd.com>, amd-gfx@lists.freedesktop.org,
+ Daniel Wheeler <daniel.wheeler@amd.com>, dri-devel@lists.freedesktop.org,
+ Alex Deucher <alexander.deucher@amd.com>, Lang Yu <Lang.Yu@amd.com>,
+ Nicholas Kazlauskas <Nicholas.Kazlauskas@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
+From: Roman Li <roman.li@amd.com>
 
-[ Upstream commit 33f409e60eb0c59a4d0d06a62ab4642a988e17f7 ]
+[ Upstream commit c5699e2d863f58221044efdc3fa712dd32d55cde ]
 
-A few weeks ago, we saw a two cursor issue in a ChromeOS system. We
-fixed it in the commit:
+[Why]
+On resume we perform DMUB hw_init which allocates memory:
+dm_resume->dm_dmub_hw_init->dc_dmub_srv_create->kzalloc
+That results in memory leak in suspend/resume scenarios.
 
- drm/amd/display: Fix two cursor duplication when using overlay
- (read the commit message for more details)
+[How]
+Allocate memory for the DC wrapper to DMUB only if it was not
+allocated before.
+No need to reallocate it on suspend/resume.
 
-After this change, we noticed that some IGT subtests related to
-kms_plane and kms_plane_scaling started to fail. After investigating
-this issue, we noticed that all subtests that fail have a primary plane
-covering the overlay plane, which is currently rejected by amdgpu dm.
-Fail those IGT tests highlight that our verification was too broad and
-compromises the overlay usage in our drive. This patch fixes this issue
-by ensuring that we only reject commits where the primary plane is not
-fully covered by the overlay when the cursor hardware is enabled. With
-this fix, all IGT tests start to pass again, which means our overlay
-support works as expected.
-
-Cc: Tianci.Yin <tianci.yin@amd.com>
-Cc: Harry Wentland <harry.wentland@amd.com>
-Cc: Nicholas Choi <nicholas.choi@amd.com>
-Cc: Bhawanpreet Lakha <bhawanpreet.lakha@amd.com>
-Cc: Nicholas Kazlauskas <Nicholas.Kazlauskas@amd.com>
-Cc: Mark Yacoub <markyacoub@google.com>
-Cc: Daniel Wheeler <daniel.wheeler@amd.com>
-
+Signed-off-by: Lang Yu <Lang.Yu@amd.com>
+Signed-off-by: Roman Li <roman.li@amd.com>
+Reviewed-by: Nicholas Kazlauskas <Nicholas.Kazlauskas@amd.com>
+Acked-by: Qingqing Zhuo <qingqing.zhuo@amd.com>
 Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
-Signed-off-by: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 10 +++++++++-
- 1 file changed, 9 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-index fbbb1bde6b06..4792228ed481 100644
+index 4792228ed481..13588c46ae8e 100644
 --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
 +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-@@ -8616,7 +8616,7 @@ static int validate_overlay(struct drm_atomic_state *state)
- 	int i;
- 	struct drm_plane *plane;
- 	struct drm_plane_state *old_plane_state, *new_plane_state;
--	struct drm_plane_state *primary_state, *overlay_state = NULL;
-+	struct drm_plane_state *primary_state, *cursor_state, *overlay_state = NULL;
+@@ -870,7 +870,8 @@ static int dm_dmub_hw_init(struct amdgpu_device *adev)
+ 		abm->dmcu_is_running = dmcu->funcs->is_dmcu_initialized(dmcu);
+ 	}
  
- 	/* Check if primary plane is contained inside overlay */
- 	for_each_oldnew_plane_in_state_reverse(state, plane, old_plane_state, new_plane_state, i) {
-@@ -8646,6 +8646,14 @@ static int validate_overlay(struct drm_atomic_state *state)
- 	if (!primary_state->crtc)
- 		return 0;
+-	adev->dm.dc->ctx->dmub_srv = dc_dmub_srv_create(adev->dm.dc, dmub_srv);
++	if (!adev->dm.dc->ctx->dmub_srv)
++		adev->dm.dc->ctx->dmub_srv = dc_dmub_srv_create(adev->dm.dc, dmub_srv);
+ 	if (!adev->dm.dc->ctx->dmub_srv) {
+ 		DRM_ERROR("Couldn't allocate DC DMUB server!\n");
+ 		return -ENOMEM;
+@@ -1755,7 +1756,6 @@ static int dm_suspend(void *handle)
  
-+	/* check if cursor plane is enabled */
-+	cursor_state = drm_atomic_get_plane_state(state, overlay_state->crtc->cursor);
-+	if (IS_ERR(cursor_state))
-+		return PTR_ERR(cursor_state);
-+
-+	if (drm_atomic_plane_disabling(plane->state, cursor_state))
-+		return 0;
-+
- 	/* Perform the bounds check to ensure the overlay plane covers the primary */
- 	if (primary_state->crtc_x < overlay_state->crtc_x ||
- 	    primary_state->crtc_y < overlay_state->crtc_y ||
+ 	amdgpu_dm_irq_suspend(adev);
+ 
+-
+ 	dc_set_power_state(dm->dc, DC_ACPI_CM_POWER_STATE_D3);
+ 
+ 	return 0;
 -- 
 2.30.2
 
