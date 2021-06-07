@@ -1,48 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B84DB39D7FB
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Jun 2021 10:53:53 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E530339D80F
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Jun 2021 10:58:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3A3FB6E885;
-	Mon,  7 Jun 2021 08:53:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BE5616E881;
+	Mon,  7 Jun 2021 08:58:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from srv6.fidu.org (srv6.fidu.org [159.69.62.71])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 008F16E882;
- Mon,  7 Jun 2021 08:53:47 +0000 (UTC)
-Received: from localhost (localhost.localdomain [127.0.0.1])
- by srv6.fidu.org (Postfix) with ESMTP id A6B83C800E4;
- Mon,  7 Jun 2021 10:53:46 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at srv6.fidu.org
-Received: from srv6.fidu.org ([127.0.0.1])
- by localhost (srv6.fidu.org [127.0.0.1]) (amavisd-new, port 10024)
- with LMTP id 0ltqZMD3laKR; Mon,  7 Jun 2021 10:53:46 +0200 (CEST)
-Received: from [IPv6:2003:e3:7f4f:6000:f5f4:4cdd:8015:9770]
- (p200300E37F4f6000F5F44cDd80159770.dip0.t-ipconnect.de
- [IPv6:2003:e3:7f4f:6000:f5f4:4cdd:8015:9770])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (No client certificate requested)
- (Authenticated sender: wse@tuxedocomputers.com)
- by srv6.fidu.org (Postfix) with ESMTPSA id 9487DC800C8;
- Mon,  7 Jun 2021 10:53:45 +0200 (CEST)
-Subject: Re: [PATCH 2/4] drm/uAPI: Add "active bpc" as feedback channel for
- "max bpc" drm property
-To: Pekka Paalanen <ppaalanen@gmail.com>
-References: <20210604171723.10276-1-wse@tuxedocomputers.com>
- <20210604171723.10276-3-wse@tuxedocomputers.com>
- <20210607105234.4bb8aae6@eldfell>
-From: Werner Sembach <wse@tuxedocomputers.com>
-Message-ID: <f86b0eff-3383-7b0e-e893-3a1624b9271b@tuxedocomputers.com>
-Date: Mon, 7 Jun 2021 10:53:45 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+Received: from vps.xff.cz (vps.xff.cz [195.181.215.36])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E27F06E881
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Jun 2021 08:58:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=megous.com; s=mail;
+ t=1623056323; bh=lx4WjbYpgHV1MIIv4k7kyeAxqy0SibVzs7GI7EB73yc=;
+ h=From:To:Cc:Subject:Date:From;
+ b=SdoFiFfk/MUPGNIX3Vn+xmzA0C99HAJyVvT8CvaaWx/GeELYOWoIP8ur2+HEvE2M/
+ sRMnxkVlgQy8FIl7fnMedk41b7Q1ttam23YrajA59ruDfjK0SYUhNRGS5HSsLlx4oH
+ KTIFVdXGjwXppFoCwlS/ME+N6poxT1/wPYLEaEm4=
+From: Ondrej Jirman <megous@megous.com>
+To: Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>,
+ dri-devel@lists.freedesktop.org (open list:DRM DRIVER FOR ALLWINNER DE2 AND
+ DE3 ENGINE), 
+ linux-arm-kernel@lists.infradead.org (moderated list:ARM/Allwinner sunXi SoC
+ support), 
+ linux-sunxi@lists.linux.dev (open list:ARM/Allwinner sunXi SoC support),
+ linux-kernel@vger.kernel.org (open list)
+Subject: [PATCH v2] drm/sun4i: dw-hdmi: Make HDMI PHY into a platform device
+Date: Mon,  7 Jun 2021 10:58:36 +0200
+Message-Id: <20210607085836.2827429-1-megous@megous.com>
 MIME-Version: 1.0
-In-Reply-To: <20210607105234.4bb8aae6@eldfell>
-Content-Type: multipart/alternative;
- boundary="------------A66A79D3B8FEF5BF8F35E20A"
-Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,385 +45,208 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: sunpeng.li@amd.com, intel-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- airlied@linux.ie, amd-gfx@lists.freedesktop.org, tzimmermann@suse.de,
- rodrigo.vivi@intel.com, alexander.deucher@amd.com, christian.koenig@amd.com
+Cc: Ondrej Jirman <megous@megous.com>, Saravana Kannan <saravanak@google.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is a multi-part message in MIME format.
---------------A66A79D3B8FEF5BF8F35E20A
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 8bit
+From: Saravana Kannan <saravanak@google.com>
 
+On sunxi boards that use HDMI output, HDMI device probe keeps being
+avoided indefinitely with these repeated messages in dmesg:
 
-Am 07.06.21 um 09:52 schrieb Pekka Paalanen:
-> On Fri,  4 Jun 2021 19:17:21 +0200
-> Werner Sembach <wse@tuxedocomputers.com> wrote:
->
->> Add a new general drm property "active bpc" which can be used by graphic drivers
->> to report the applied bit depth per pixel back to userspace.
->>
->> While "max bpc" can be used to change the color depth, there was no way to check
->> which one actually got used. While in theory the driver chooses the best/highest
->> color depth within the max bpc setting a user might not be fully aware what his
->> hardware is or isn't capable off. This is meant as a quick way to double check
->> the setup.
->>
->> In the future, automatic color calibration for screens might also depend on this
->> information available.
->>
->> Signed-off-by: Werner Sembach <wse@tuxedocomputers.com>
->> ---
->>   drivers/gpu/drm/drm_atomic_uapi.c |  2 ++
->>   drivers/gpu/drm/drm_connector.c   | 40 +++++++++++++++++++++++++++++++
->>   include/drm/drm_connector.h       | 15 ++++++++++++
->>   3 files changed, 57 insertions(+)
->>
->> diff --git a/drivers/gpu/drm/drm_atomic_uapi.c b/drivers/gpu/drm/drm_atomic_uapi.c
->> index 268bb69c2e2f..7ae4e40936b5 100644
->> --- a/drivers/gpu/drm/drm_atomic_uapi.c
->> +++ b/drivers/gpu/drm/drm_atomic_uapi.c
->> @@ -873,6 +873,8 @@ drm_atomic_connector_get_property(struct drm_connector *connector,
->>   		*val = 0;
->>   	} else if (property == connector->max_bpc_property) {
->>   		*val = state->max_requested_bpc;
->> +	} else if (property == connector->active_bpc_property) {
->> +		*val = state->active_bpc;
->>   	} else if (connector->funcs->atomic_get_property) {
->>   		return connector->funcs->atomic_get_property(connector,
->>   				state, property, val);
->> diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
->> index 7631f76e7f34..5f42a5be5822 100644
->> --- a/drivers/gpu/drm/drm_connector.c
->> +++ b/drivers/gpu/drm/drm_connector.c
->> @@ -1195,6 +1195,13 @@ static const struct drm_prop_enum_list dp_colorspaces[] = {
->>    *	drm_connector_attach_max_bpc_property() to create and attach the
->>    *	property to the connector during initialization.
->>    *
->> + * active bpc:
->> + *	This read-only range property is used by userspace check the bit depth
->> + *	actually applied by the GPU driver after evaluation all hardware
->> + *	capabilities and max bpc. Drivers to use the function
->> + *	drm_connector_attach_active_bpc_property() to create and attach the
->> + *	property to the connector during initialization.
->> + *
-> Hi Werner,
->
-> the idea looks good to me, but the above doc could be a little more
-> fluent. May I suggest something like:
->
-> 	This read-only range property tells userspace the pixel color
-> 	bit depth actually used by the hardware display engine on "the
-> 	cable" on a connector. The chosen value depends on hardware
-> 	capabilities, both display engine and connected monitor, and
-> 	the "max bpc" property. Drivers shall use
-> 	drm_connector_attach_active_bpc_property() to install this
-> 	property.
->
-> There should also be something said about dithering done by the display
-> engine (not monitor), but I'm not sure how that should be worded. It
-> may also depend on if and how userspace can know about dithering. So if
-> a dithering related property is added later, maybe add a note here too
-> in that patch.
-For this, and the DSC that Ville Syrjälä mentioned, I guess "the same 
-behavior as max bpc" would be the most intuitive. But I don't know what 
-that is and it's also not mentioned in the documentation.
->
->
-> Thanks,
-> pq
->
->
->>    * Connectors also have one standardized atomic property:
->>    *
->>    * CRTC_ID:
->> @@ -2150,6 +2157,39 @@ int drm_connector_attach_max_bpc_property(struct drm_connector *connector,
->>   }
->>   EXPORT_SYMBOL(drm_connector_attach_max_bpc_property);
->>   
->> +/**
->> + * drm_connector_attach_active_bpc_property - attach "active bpc" property
->> + * @connector: connector to attach active bpc property on.
->> + * @min: The minimum bit depth supported by the connector.
->> + * @max: The maximum bit depth supported by the connector.
->> + *
->> + * This is used to check the applied bit depth on a connector.
->> + *
->> + * Returns:
->> + * Zero on success, negative errno on failure.
->> + */
->> +int drm_connector_attach_active_bpc_property(struct drm_connector *connector,
->> +					  int min, int max)
->> +{
->> +	struct drm_device *dev = connector->dev;
->> +	struct drm_property *prop;
->> +
->> +	prop = connector->active_bpc_property;
->> +	if (!prop) {
->> +		prop = drm_property_create_range(dev, 0, "active bpc", min, max);
->> +		if (!prop)
->> +			return -ENOMEM;
->> +
->> +		connector->active_bpc_property = prop;
->> +	}
->> +
->> +	drm_object_attach_property(&connector->base, prop, 0);
->> +	connector->state->active_bpc = 0;
->> +
->> +	return 0;
->> +}
->> +EXPORT_SYMBOL(drm_connector_attach_active_bpc_property);
->> +
->>   /**
->>    * drm_connector_set_vrr_capable_property - sets the variable refresh rate
->>    * capable property for a connector
->> diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
->> index 1922b278ffad..c58cba2b6afe 100644
->> --- a/include/drm/drm_connector.h
->> +++ b/include/drm/drm_connector.h
->> @@ -781,6 +781,13 @@ struct drm_connector_state {
->>   	 */
->>   	u8 max_bpc;
->>   
->> +	/**
->> +	 * @active_bpc: Read only property set by the GPU driver to the actually
->> +	 * applied bit depth of the pixels after evaluating all hardware
->> +	 * limitations.
->> +	 */
->> +	u8 active_bpc;
->> +
->>   	/**
->>   	 * @hdr_output_metadata:
->>   	 * DRM blob property for HDR output metadata
->> @@ -1380,6 +1387,12 @@ struct drm_connector {
->>   	 */
->>   	struct drm_property *max_bpc_property;
->>   
->> +	/**
->> +	 * @active_bpc_property: Default connector property for the active bpc
->> +	 * to be driven out of the connector.
->> +	 */
->> +	struct drm_property *active_bpc_property;
->> +
->>   #define DRM_CONNECTOR_POLL_HPD (1 << 0)
->>   #define DRM_CONNECTOR_POLL_CONNECT (1 << 1)
->>   #define DRM_CONNECTOR_POLL_DISCONNECT (1 << 2)
->> @@ -1698,6 +1711,8 @@ int drm_connector_set_panel_orientation_with_quirk(
->>   	int width, int height);
->>   int drm_connector_attach_max_bpc_property(struct drm_connector *connector,
->>   					  int min, int max);
->> +int drm_connector_attach_active_bpc_property(struct drm_connector *connector,
->> +					  int min, int max);
->>   
->>   /**
->>    * struct drm_tile_group - Tile group metadata
->
-> _______________________________________________
-> amd-gfx mailing list
-> amd-gfx@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/amd-gfx
+  platform 1ee0000.hdmi: probe deferral - supplier 1ef0000.hdmi-phy
+    not ready
 
---------------A66A79D3B8FEF5BF8F35E20A
-Content-Type: text/html; charset=windows-1252
-Content-Transfer-Encoding: 8bit
+There's a fwnode_link being created with fw_devlink=on between hdmi
+and hdmi-phy nodes, because both nodes have 'compatible' property set.
 
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html;
-      charset=windows-1252">
-  </head>
-  <body>
-    <p><br>
-    </p>
-    <div class="moz-cite-prefix">Am 07.06.21 um 09:52 schrieb Pekka
-      Paalanen:<br>
-    </div>
-    <blockquote type="cite" cite="mid:20210607105234.4bb8aae6@eldfell">
-      <pre class="moz-quote-pre" wrap="">On Fri,  4 Jun 2021 19:17:21 +0200
-Werner Sembach <a class="moz-txt-link-rfc2396E" href="mailto:wse@tuxedocomputers.com">&lt;wse@tuxedocomputers.com&gt;</a> wrote:
+Fw_devlink code assumes that nodes that have compatible property
+set will also have a device associated with them by some driver
+eventually. This is not the case with the current sun8i-hdmi
+driver.
 
-</pre>
-      <blockquote type="cite">
-        <pre class="moz-quote-pre" wrap="">Add a new general drm property "active bpc" which can be used by graphic drivers
-to report the applied bit depth per pixel back to userspace.
+This commit makes sun8i-hdmi-phy into a proper platform device
+and fixes the display pipeline probe on sunxi boards that use HDMI.
 
-While "max bpc" can be used to change the color depth, there was no way to check
-which one actually got used. While in theory the driver chooses the best/highest
-color depth within the max bpc setting a user might not be fully aware what his
-hardware is or isn't capable off. This is meant as a quick way to double check
-the setup.
+More context: https://lkml.org/lkml/2021/5/16/203
 
-In the future, automatic color calibration for screens might also depend on this
-information available.
-
-Signed-off-by: Werner Sembach <a class="moz-txt-link-rfc2396E" href="mailto:wse@tuxedocomputers.com">&lt;wse@tuxedocomputers.com&gt;</a>
+Signed-off-by: Saravana Kannan <saravanak@google.com>
+Signed-off-by: Ondrej Jirman <megous@megous.com>
 ---
- drivers/gpu/drm/drm_atomic_uapi.c |  2 ++
- drivers/gpu/drm/drm_connector.c   | 40 +++++++++++++++++++++++++++++++
- include/drm/drm_connector.h       | 15 ++++++++++++
- 3 files changed, 57 insertions(+)
+v2: Fix building as a module (phy and hdmi are part of the same module, so
+module init callbacks need to be shared)
 
-diff --git a/drivers/gpu/drm/drm_atomic_uapi.c b/drivers/gpu/drm/drm_atomic_uapi.c
-index 268bb69c2e2f..7ae4e40936b5 100644
---- a/drivers/gpu/drm/drm_atomic_uapi.c
-+++ b/drivers/gpu/drm/drm_atomic_uapi.c
-@@ -873,6 +873,8 @@ drm_atomic_connector_get_property(struct drm_connector *connector,
- 		*val = 0;
- 	} else if (property == connector-&gt;max_bpc_property) {
- 		*val = state-&gt;max_requested_bpc;
-+	} else if (property == connector-&gt;active_bpc_property) {
-+		*val = state-&gt;active_bpc;
- 	} else if (connector-&gt;funcs-&gt;atomic_get_property) {
- 		return connector-&gt;funcs-&gt;atomic_get_property(connector,
- 				state, property, val);
-diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
-index 7631f76e7f34..5f42a5be5822 100644
---- a/drivers/gpu/drm/drm_connector.c
-+++ b/drivers/gpu/drm/drm_connector.c
-@@ -1195,6 +1195,13 @@ static const struct drm_prop_enum_list dp_colorspaces[] = {
-  *	drm_connector_attach_max_bpc_property() to create and attach the
-  *	property to the connector during initialization.
-  *
-+ * active bpc:
-+ *	This read-only range property is used by userspace check the bit depth
-+ *	actually applied by the GPU driver after evaluation all hardware
-+ *	capabilities and max bpc. Drivers to use the function
-+ *	drm_connector_attach_active_bpc_property() to create and attach the
-+ *	property to the connector during initialization.
-+ *
-</pre>
-      </blockquote>
-      <pre class="moz-quote-pre" wrap="">
-Hi Werner,
+ drivers/gpu/drm/sun4i/sun8i_dw_hdmi.c  | 31 ++++++++++++++++---
+ drivers/gpu/drm/sun4i/sun8i_dw_hdmi.h  |  5 ++--
+ drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c | 41 ++++++++++++++++++++++----
+ 3 files changed, 66 insertions(+), 11 deletions(-)
 
-the idea looks good to me, but the above doc could be a little more
-fluent. May I suggest something like:
-
-	This read-only range property tells userspace the pixel color
-	bit depth actually used by the hardware display engine on "the
-	cable" on a connector. The chosen value depends on hardware
-	capabilities, both display engine and connected monitor, and
-	the "max bpc" property. Drivers shall use
-	drm_connector_attach_active_bpc_property() to install this
-	property.
-
-There should also be something said about dithering done by the display
-engine (not monitor), but I'm not sure how that should be worded. It
-may also depend on if and how userspace can know about dithering. So if
-a dithering related property is added later, maybe add a note here too
-in that patch.</pre>
-    </blockquote>
-    For this, and the DSC that Ville Syrjälä mentioned, I guess "the
-    same behavior as max bpc" would be the most intuitive. But I don't
-    know what that is and it's also not mentioned in the documentation.<br>
-    <blockquote type="cite" cite="mid:20210607105234.4bb8aae6@eldfell">
-      <pre class="moz-quote-pre" wrap="">
-
-
-Thanks,
-pq
-
-
-</pre>
-      <blockquote type="cite">
-        <pre class="moz-quote-pre" wrap="">  * Connectors also have one standardized atomic property:
-  *
-  * CRTC_ID:
-@@ -2150,6 +2157,39 @@ int drm_connector_attach_max_bpc_property(struct drm_connector *connector,
- }
- EXPORT_SYMBOL(drm_connector_attach_max_bpc_property);
+diff --git a/drivers/gpu/drm/sun4i/sun8i_dw_hdmi.c b/drivers/gpu/drm/sun4i/sun8i_dw_hdmi.c
+index bbdfd5e26ec88..f75fb157f2ff7 100644
+--- a/drivers/gpu/drm/sun4i/sun8i_dw_hdmi.c
++++ b/drivers/gpu/drm/sun4i/sun8i_dw_hdmi.c
+@@ -209,7 +209,7 @@ static int sun8i_dw_hdmi_bind(struct device *dev, struct device *master,
+ 		goto err_disable_clk_tmds;
+ 	}
  
-+/**
-+ * drm_connector_attach_active_bpc_property - attach "active bpc" property
-+ * @connector: connector to attach active bpc property on.
-+ * @min: The minimum bit depth supported by the connector.
-+ * @max: The maximum bit depth supported by the connector.
-+ *
-+ * This is used to check the applied bit depth on a connector.
-+ *
-+ * Returns:
-+ * Zero on success, negative errno on failure.
-+ */
-+int drm_connector_attach_active_bpc_property(struct drm_connector *connector,
-+					  int min, int max)
+-	ret = sun8i_hdmi_phy_probe(hdmi, phy_node);
++	ret = sun8i_hdmi_phy_get(hdmi, phy_node);
+ 	of_node_put(phy_node);
+ 	if (ret) {
+ 		dev_err(dev, "Couldn't get the HDMI PHY\n");
+@@ -242,7 +242,6 @@ static int sun8i_dw_hdmi_bind(struct device *dev, struct device *master,
+ 
+ cleanup_encoder:
+ 	drm_encoder_cleanup(encoder);
+-	sun8i_hdmi_phy_remove(hdmi);
+ err_disable_clk_tmds:
+ 	clk_disable_unprepare(hdmi->clk_tmds);
+ err_assert_ctrl_reset:
+@@ -263,7 +262,6 @@ static void sun8i_dw_hdmi_unbind(struct device *dev, struct device *master,
+ 	struct sun8i_dw_hdmi *hdmi = dev_get_drvdata(dev);
+ 
+ 	dw_hdmi_unbind(hdmi->hdmi);
+-	sun8i_hdmi_phy_remove(hdmi);
+ 	clk_disable_unprepare(hdmi->clk_tmds);
+ 	reset_control_assert(hdmi->rst_ctrl);
+ 	gpiod_set_value(hdmi->ddc_en, 0);
+@@ -320,7 +318,32 @@ static struct platform_driver sun8i_dw_hdmi_pltfm_driver = {
+ 		.of_match_table = sun8i_dw_hdmi_dt_ids,
+ 	},
+ };
+-module_platform_driver(sun8i_dw_hdmi_pltfm_driver);
++
++static int __init sun8i_dw_hdmi_init(void)
 +{
-+	struct drm_device *dev = connector-&gt;dev;
-+	struct drm_property *prop;
++	int ret;
 +
-+	prop = connector-&gt;active_bpc_property;
-+	if (!prop) {
-+		prop = drm_property_create_range(dev, 0, "active bpc", min, max);
-+		if (!prop)
-+			return -ENOMEM;
++	ret = platform_driver_register(&sun8i_dw_hdmi_pltfm_driver);
++	if (ret)
++		return ret;
 +
-+		connector-&gt;active_bpc_property = prop;
++	ret = platform_driver_register(&sun8i_hdmi_phy_driver);
++	if (ret) {
++		platform_driver_unregister(&sun8i_dw_hdmi_pltfm_driver);
++		return ret;
 +	}
 +
-+	drm_object_attach_property(&amp;connector-&gt;base, prop, 0);
-+	connector-&gt;state-&gt;active_bpc = 0;
++	return ret;
++}
++
++static void __exit sun8i_dw_hdmi_exit(void)
++{
++	platform_driver_unregister(&sun8i_dw_hdmi_pltfm_driver);
++	platform_driver_unregister(&sun8i_hdmi_phy_driver);
++}
++
++module_init(sun8i_dw_hdmi_init);
++module_exit(sun8i_dw_hdmi_exit);
+ 
+ MODULE_AUTHOR("Jernej Skrabec <jernej.skrabec@siol.net>");
+ MODULE_DESCRIPTION("Allwinner DW HDMI bridge");
+diff --git a/drivers/gpu/drm/sun4i/sun8i_dw_hdmi.h b/drivers/gpu/drm/sun4i/sun8i_dw_hdmi.h
+index d4b55af0592f8..74f6ed0e25709 100644
+--- a/drivers/gpu/drm/sun4i/sun8i_dw_hdmi.h
++++ b/drivers/gpu/drm/sun4i/sun8i_dw_hdmi.h
+@@ -195,14 +195,15 @@ struct sun8i_dw_hdmi {
+ 	struct gpio_desc		*ddc_en;
+ };
+ 
++extern struct platform_driver sun8i_hdmi_phy_driver;
++
+ static inline struct sun8i_dw_hdmi *
+ encoder_to_sun8i_dw_hdmi(struct drm_encoder *encoder)
+ {
+ 	return container_of(encoder, struct sun8i_dw_hdmi, encoder);
+ }
+ 
+-int sun8i_hdmi_phy_probe(struct sun8i_dw_hdmi *hdmi, struct device_node *node);
+-void sun8i_hdmi_phy_remove(struct sun8i_dw_hdmi *hdmi);
++int sun8i_hdmi_phy_get(struct sun8i_dw_hdmi *hdmi, struct device_node *node);
+ 
+ void sun8i_hdmi_phy_init(struct sun8i_hdmi_phy *phy);
+ void sun8i_hdmi_phy_set_ops(struct sun8i_hdmi_phy *phy,
+diff --git a/drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c b/drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c
+index 9994edf675096..c9239708d398c 100644
+--- a/drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c
++++ b/drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c
+@@ -5,6 +5,7 @@
+ 
+ #include <linux/delay.h>
+ #include <linux/of_address.h>
++#include <linux/of_platform.h>
+ 
+ #include "sun8i_dw_hdmi.h"
+ 
+@@ -597,10 +598,30 @@ static const struct of_device_id sun8i_hdmi_phy_of_table[] = {
+ 	{ /* sentinel */ }
+ };
+ 
+-int sun8i_hdmi_phy_probe(struct sun8i_dw_hdmi *hdmi, struct device_node *node)
++int sun8i_hdmi_phy_get(struct sun8i_dw_hdmi *hdmi, struct device_node *node)
++{
++	struct platform_device *pdev = of_find_device_by_node(node);
++	struct sun8i_hdmi_phy *phy;
++
++	if (!pdev)
++		return -EPROBE_DEFER;
++
++	phy = platform_get_drvdata(pdev);
++	if (!phy)
++		return -EPROBE_DEFER;
++
++	hdmi->phy = phy;
++
++	put_device(&pdev->dev);
 +
 +	return 0;
 +}
-+EXPORT_SYMBOL(drm_connector_attach_active_bpc_property);
 +
- /**
-  * drm_connector_set_vrr_capable_property - sets the variable refresh rate
-  * capable property for a connector
-diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
-index 1922b278ffad..c58cba2b6afe 100644
---- a/include/drm/drm_connector.h
-+++ b/include/drm/drm_connector.h
-@@ -781,6 +781,13 @@ struct drm_connector_state {
- 	 */
- 	u8 max_bpc;
++static int sun8i_hdmi_phy_probe(struct platform_device *pdev)
+ {
+ 	const struct of_device_id *match;
+-	struct device *dev = hdmi->dev;
++	struct device *dev = &pdev->dev;
++	struct device_node *node = dev->of_node;
+ 	struct sun8i_hdmi_phy *phy;
+ 	struct resource res;
+ 	void __iomem *regs;
+@@ -704,7 +725,7 @@ int sun8i_hdmi_phy_probe(struct sun8i_dw_hdmi *hdmi, struct device_node *node)
+ 		clk_prepare_enable(phy->clk_phy);
+ 	}
  
-+	/**
-+	 * @active_bpc: Read only property set by the GPU driver to the actually
-+	 * applied bit depth of the pixels after evaluating all hardware
-+	 * limitations.
-+	 */
-+	u8 active_bpc;
+-	hdmi->phy = phy;
++	platform_set_drvdata(pdev, phy);
+ 
+ 	return 0;
+ 
+@@ -728,9 +749,9 @@ int sun8i_hdmi_phy_probe(struct sun8i_dw_hdmi *hdmi, struct device_node *node)
+ 	return ret;
+ }
+ 
+-void sun8i_hdmi_phy_remove(struct sun8i_dw_hdmi *hdmi)
++static int sun8i_hdmi_phy_remove(struct platform_device *pdev)
+ {
+-	struct sun8i_hdmi_phy *phy = hdmi->phy;
++	struct sun8i_hdmi_phy *phy = platform_get_drvdata(pdev);
+ 
+ 	clk_disable_unprepare(phy->clk_mod);
+ 	clk_disable_unprepare(phy->clk_bus);
+@@ -744,4 +765,14 @@ void sun8i_hdmi_phy_remove(struct sun8i_dw_hdmi *hdmi)
+ 	clk_put(phy->clk_pll1);
+ 	clk_put(phy->clk_mod);
+ 	clk_put(phy->clk_bus);
++	return 0;
+ }
 +
- 	/**
- 	 * @hdr_output_metadata:
- 	 * DRM blob property for HDR output metadata
-@@ -1380,6 +1387,12 @@ struct drm_connector {
- 	 */
- 	struct drm_property *max_bpc_property;
- 
-+	/**
-+	 * @active_bpc_property: Default connector property for the active bpc
-+	 * to be driven out of the connector.
-+	 */
-+	struct drm_property *active_bpc_property;
-+
- #define DRM_CONNECTOR_POLL_HPD (1 &lt;&lt; 0)
- #define DRM_CONNECTOR_POLL_CONNECT (1 &lt;&lt; 1)
- #define DRM_CONNECTOR_POLL_DISCONNECT (1 &lt;&lt; 2)
-@@ -1698,6 +1711,8 @@ int drm_connector_set_panel_orientation_with_quirk(
- 	int width, int height);
- int drm_connector_attach_max_bpc_property(struct drm_connector *connector,
- 					  int min, int max);
-+int drm_connector_attach_active_bpc_property(struct drm_connector *connector,
-+					  int min, int max);
- 
- /**
-  * struct drm_tile_group - Tile group metadata
-</pre>
-      </blockquote>
-      <pre class="moz-quote-pre" wrap="">
-</pre>
-      <br>
-      <fieldset class="mimeAttachmentHeader"></fieldset>
-      <pre class="moz-quote-pre" wrap="">_______________________________________________
-amd-gfx mailing list
-<a class="moz-txt-link-abbreviated" href="mailto:amd-gfx@lists.freedesktop.org">amd-gfx@lists.freedesktop.org</a>
-<a class="moz-txt-link-freetext" href="https://lists.freedesktop.org/mailman/listinfo/amd-gfx">https://lists.freedesktop.org/mailman/listinfo/amd-gfx</a>
-</pre>
-    </blockquote>
-  </body>
-</html>
++struct platform_driver sun8i_hdmi_phy_driver = {
++	.probe  = sun8i_hdmi_phy_probe,
++	.remove = sun8i_hdmi_phy_remove,
++	.driver = {
++		.name = "sun8i-hdmi-phy",
++		.of_match_table = sun8i_hdmi_phy_of_table,
++	},
++};
+-- 
+2.31.1
 
---------------A66A79D3B8FEF5BF8F35E20A--
