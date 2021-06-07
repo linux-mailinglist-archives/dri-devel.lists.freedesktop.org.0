@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0869339E1A9
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Jun 2021 18:13:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BAA3539E1AE
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Jun 2021 18:14:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1C7416E910;
-	Mon,  7 Jun 2021 16:13:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EC1286E90D;
+	Mon,  7 Jun 2021 16:13:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F33C76E91D
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Jun 2021 16:13:34 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 108C961432;
- Mon,  7 Jun 2021 16:13:33 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 614596E90D;
+ Mon,  7 Jun 2021 16:13:58 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 611B261431;
+ Mon,  7 Jun 2021 16:13:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1623082414;
- bh=SP954mOtF6wkMfdgsDZjIet5/ajxzQPhDm8AHQkgWKA=;
+ s=k20201202; t=1623082438;
+ bh=1mLTm7tlUu/3NIRkN8US/DaZWW9nsvkCz4Gduns3kio=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=dp9s2q11B2PedS3ifVyRxaa1mp0aEramDjm8vgzP9s7pLwYqtMvoJD9fEo2fyQTpf
- eXfA+u+MVLdqbUvARRNf28VV2HoZVJ6+a10+QIejqhLjsViBKNSTbj8yL5wNYiKlXr
- 4bneilO5+6KMnoF0roijUTl7HSxFtBCvgI4kvzm5G6tTuLYDYAlGK7NdqkCmfmuBBn
- sMVAzjsZDxwh7+q2W3c5n+vvUXg8UJOXE4YvXIS0SjrNFBZ7i0VGEaqNVngWCoNWKW
- ZL0dPFA4ue/ivEICk+AeviGeg8YcqIv/ZpSIkgsP2ikgLDI/vD/old/sNLbHmPv8l6
- DzdKLCjukNL2g==
+ b=IlcVW6R5qZj36sfxHU40jPV/NrVdaVlgG5j7Orv80xi3P8VE/t3L9WAaKeOjH20JN
+ Xud5cnke7QZFQLNS8PIXyBmJkUHyHg1XD7BL2tto7R59RLMOBz6SPkgtUxOeZ2HE7y
+ havuBvg7htgL1eWyvNZMJL5+/n/uKahtYiQJcOrfR7nw4rVPEXULtitJtAZLyDS/FB
+ BjOB6M9SwhcPjIeF0tCG1Da0qF6LLU2ybs99sM6W54d3u7OhJ2lQLc05yzKAQwyU+Z
+ L5181Qw1Vk9QcKq3OmYnZDGvwBjV69PYMJi1haAPHqUmyvMpE4Q+wSzORo/FUQdvvR
+ ouLICt4qNNdzA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.10 12/39] drm/tegra: sor: Fully initialize SOR
- before registration
-Date: Mon,  7 Jun 2021 12:12:51 -0400
-Message-Id: <20210607161318.3583636-12-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.10 31/39] drm/amd/display: Allow bandwidth
+ validation for 0 streams.
+Date: Mon,  7 Jun 2021 12:13:10 -0400
+Message-Id: <20210607161318.3583636-31-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210607161318.3583636-1-sashal@kernel.org>
 References: <20210607161318.3583636-1-sashal@kernel.org>
@@ -50,94 +50,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, linux-tegra@vger.kernel.org,
- Thierry Reding <treding@nvidia.com>, dri-devel@lists.freedesktop.org,
- Jonathan Hunter <jonathanh@nvidia.com>
+Cc: Sasha Levin <sashal@kernel.org>, Roman Li <Roman.Li@amd.com>,
+ dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ Alex Deucher <alexander.deucher@amd.com>, Bindu Ramamurthy <bindu.r@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Thierry Reding <treding@nvidia.com>
+From: Bindu Ramamurthy <bindu.r@amd.com>
 
-[ Upstream commit 5dea42759bcef74b0802ea64b904409bc37f9045 ]
+[ Upstream commit ba8e59773ae59818695d1e20b8939282da80ec8c ]
 
-Before registering the SOR host1x client, make sure that it is fully
-initialized. This avoids a potential race condition between the SOR's
-probe and the host1x device initialization in cases where the SOR is
-the final sub-device to register to a host1x instance.
+[Why]
+Bandwidth calculations are triggered for non zero streams, and
+in case of 0 streams, these calculations were skipped with
+pstate status not being updated.
 
-Reported-by: Jonathan Hunter <jonathanh@nvidia.com>
-Signed-off-by: Thierry Reding <treding@nvidia.com>
-Tested-by: Jon Hunter <jonathanh@nvidia.com>
-Signed-off-by: Thierry Reding <treding@nvidia.com>
+[How]
+As the pstate status is applicable for non zero streams, check
+added for allowing 0 streams inline with dcn internal bandwidth
+validations.
+
+Signed-off-by: Bindu Ramamurthy <bindu.r@amd.com>
+Reviewed-by: Roman Li <Roman.Li@amd.com>
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/tegra/sor.c | 27 +++++++++++++--------------
- 1 file changed, 13 insertions(+), 14 deletions(-)
+ drivers/gpu/drm/amd/display/dc/dcn20/dcn20_resource.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/tegra/sor.c b/drivers/gpu/drm/tegra/sor.c
-index 67a80dae1c00..32c83f2e386c 100644
---- a/drivers/gpu/drm/tegra/sor.c
-+++ b/drivers/gpu/drm/tegra/sor.c
-@@ -3922,17 +3922,10 @@ static int tegra_sor_probe(struct platform_device *pdev)
- 	platform_set_drvdata(pdev, sor);
- 	pm_runtime_enable(&pdev->dev);
+diff --git a/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_resource.c b/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_resource.c
+index 33488b3c5c3c..1812ec7ee11b 100644
+--- a/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_resource.c
++++ b/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_resource.c
+@@ -3232,7 +3232,7 @@ static noinline bool dcn20_validate_bandwidth_fp(struct dc *dc,
+ 	voltage_supported = dcn20_validate_bandwidth_internal(dc, context, false);
+ 	dummy_pstate_supported = context->bw_ctx.bw.dcn.clk.p_state_change_support;
  
--	INIT_LIST_HEAD(&sor->client.list);
-+	host1x_client_init(&sor->client);
- 	sor->client.ops = &sor_client_ops;
- 	sor->client.dev = &pdev->dev;
- 
--	err = host1x_client_register(&sor->client);
--	if (err < 0) {
--		dev_err(&pdev->dev, "failed to register host1x client: %d\n",
--			err);
--		goto rpm_disable;
--	}
--
- 	/*
- 	 * On Tegra210 and earlier, provide our own implementation for the
- 	 * pad output clock.
-@@ -3944,13 +3937,13 @@ static int tegra_sor_probe(struct platform_device *pdev)
- 				      sor->index);
- 		if (!name) {
- 			err = -ENOMEM;
--			goto unregister;
-+			goto uninit;
- 		}
- 
- 		err = host1x_client_resume(&sor->client);
- 		if (err < 0) {
- 			dev_err(sor->dev, "failed to resume: %d\n", err);
--			goto unregister;
-+			goto uninit;
- 		}
- 
- 		sor->clk_pad = tegra_clk_sor_pad_register(sor, name);
-@@ -3961,14 +3954,20 @@ static int tegra_sor_probe(struct platform_device *pdev)
- 		err = PTR_ERR(sor->clk_pad);
- 		dev_err(sor->dev, "failed to register SOR pad clock: %d\n",
- 			err);
--		goto unregister;
-+		goto uninit;
-+	}
-+
-+	err = __host1x_client_register(&sor->client);
-+	if (err < 0) {
-+		dev_err(&pdev->dev, "failed to register host1x client: %d\n",
-+			err);
-+		goto uninit;
+-	if (voltage_supported && dummy_pstate_supported) {
++	if (voltage_supported && (dummy_pstate_supported || !(context->stream_count))) {
+ 		context->bw_ctx.bw.dcn.clk.p_state_change_support = false;
+ 		goto restore_dml_state;
  	}
- 
- 	return 0;
- 
--unregister:
--	host1x_client_unregister(&sor->client);
--rpm_disable:
-+uninit:
-+	host1x_client_exit(&sor->client);
- 	pm_runtime_disable(&pdev->dev);
- remove:
- 	tegra_output_remove(&sor->output);
 -- 
 2.30.2
 
