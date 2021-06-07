@@ -1,62 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 629C839E4D4
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Jun 2021 19:06:44 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 55DCB39E4C2
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Jun 2021 19:06:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AF6566E957;
-	Mon,  7 Jun 2021 17:06:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 32A156E948;
+	Mon,  7 Jun 2021 17:06:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x52f.google.com (mail-pg1-x52f.google.com
- [IPv6:2607:f8b0:4864:20::52f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CD16E6E94F
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Jun 2021 17:06:30 +0000 (UTC)
-Received: by mail-pg1-x52f.google.com with SMTP id e22so14281782pgv.10
- for <dri-devel@lists.freedesktop.org>; Mon, 07 Jun 2021 10:06:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=wKbk17m+yRiqrp8oW9bJSr2UykFdXfcHhiqIPzfS2qI=;
- b=d7uRiZFiVdHNBDp2qM1GV2qvC8tUScUp4gQqpHiZHXNee8gRa/eAc4xiuA9dx93pFr
- QOiJLnTOHlCOM5wbiTgfPH6ytHol9+kEJug/yedPbuegsMS8kLc4Vx0/w/FDNaGsGRST
- 1ylMolobN5or1ag0U0WYOWfgeGpYnzKuQdi3E=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=wKbk17m+yRiqrp8oW9bJSr2UykFdXfcHhiqIPzfS2qI=;
- b=PYugN56slQhlnmOmbJoepWamz4boDJcTqzAwD4jaojwDlYQ3M2QG83m4g8TW4JpW9b
- qRZknx5KNSGifgZrJPM2bjbPgLTTaXlOtH8nT1UKXpfWWGkUIDQH9tV3872L8gWz3ouJ
- vij5VBiMv0leEX0EvFVY2HTaWXJf2AL3lO8p23ws8Vl4bPfx/MVIDroUu+0prswS/uUW
- bvc3LTgEQEEOwuJtCv4vf2SjiWE6rdJFAo5g7ikHY1yfZ/VDA9/hFReQHMOKtOZAQGXS
- 2cGZssx6Vw/GH9dyN5fFliIJ5LpwrDBqApCbDtJE7W2ywln6WJmIHmWmWBwHmLuyBSc6
- rZYg==
-X-Gm-Message-State: AOAM532ACL0kT45f0on/iVHy8gWaCMMn0B8mRShNOMuSt38AmJ77GNt3
- jebBaux9rJgTHa6hRxgr5QhzNg==
-X-Google-Smtp-Source: ABdhPJxEW50WvoFT9KK67OmVwM2Mr1eVymTaJSsTsWnsiAx1vJIlqoWz/EV/BWZ999GsFg+jutEjjg==
-X-Received: by 2002:a63:5504:: with SMTP id j4mr18814384pgb.238.1623085590332; 
- Mon, 07 Jun 2021 10:06:30 -0700 (PDT)
-Received: from tictac2.mtv.corp.google.com
- ([2620:15c:202:201:f656:ffce:6348:a42a])
- by smtp.gmail.com with ESMTPSA id fs24sm12897639pjb.6.2021.06.07.10.06.29
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 07 Jun 2021 10:06:29 -0700 (PDT)
-From: Douglas Anderson <dianders@chromium.org>
-To: Andrzej Hajda <a.hajda@samsung.com>,
- Neil Armstrong <narmstrong@baylibre.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Sam Ravnborg <sam@ravnborg.org>
-Subject: [PATCH v9 11/11] arm64: dts: qcom: sc7180-trogdor: Move panel under
- the bridge chip
-Date: Mon,  7 Jun 2021 10:05:55 -0700
-Message-Id: <20210607100234.v9.11.Ibdb7735fb1844561b902252215a69526a14f9abd@changeid>
-X-Mailer: git-send-email 2.32.0.rc1.229.g3e70b5a671-goog
-In-Reply-To: <20210607170555.4006050-1-dianders@chromium.org>
-References: <20210607170555.4006050-1-dianders@chromium.org>
+Received: from pio-pvt-msa1.bahnhof.se (pio-pvt-msa1.bahnhof.se [79.136.2.40])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BDB026E932
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Jun 2021 17:06:18 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by pio-pvt-msa1.bahnhof.se (Postfix) with ESMTP id C60BD3F77A;
+ Mon,  7 Jun 2021 19:06:16 +0200 (CEST)
+Authentication-Results: pio-pvt-msa1.bahnhof.se; dkim=pass (1024-bit key;
+ unprotected) header.d=shipmail.org header.i=@shipmail.org header.b="YbUuMmd3";
+ dkim-atps=neutral
+X-Virus-Scanned: Debian amavisd-new at bahnhof.se
+X-Spam-Flag: NO
+X-Spam-Score: -2.689
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.689 tagged_above=-999 required=6.31
+ tests=[BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.59,
+ URIBL_BLOCKED=0.001] autolearn=ham autolearn_force=no
+Received: from pio-pvt-msa1.bahnhof.se ([127.0.0.1])
+ by localhost (pio-pvt-msa1.bahnhof.se [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id tpTAEio_6tkm; Mon,  7 Jun 2021 19:06:15 +0200 (CEST)
+Received: by pio-pvt-msa1.bahnhof.se (Postfix) with ESMTPA id 816763F723;
+ Mon,  7 Jun 2021 19:06:14 +0200 (CEST)
+Received: from [192.168.0.209] (unknown [192.55.55.41])
+ by mail1.shipmail.org (Postfix) with ESMTPSA id 881A73600BE;
+ Mon,  7 Jun 2021 19:06:12 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=shipmail.org; s=mail;
+ t=1623085574; bh=DZBdqxUxaWk6GVidM9JLsr69chUjuW6/Juo6jpAnrqA=;
+ h=Subject:From:To:References:Date:In-Reply-To:From;
+ b=YbUuMmd3oWemxfPaDFiHauO27Qan9km9apVbjgPzNNb8zQtuIIzcJF7q4G+H3JGNx
+ EkJrHcZwWnjT732RAKM0w2jElBPA/sbIpKq8QGnR1ExsKdRby9Lkui08Y3NwxKSuUH
+ zLR6WRud1CBKsLN2BwjNQr4G80e/Ya7h7P4CTCew=
+Subject: Re: [PATCH 01/10] drm/ttm: allocate resource object instead of
+ embedding it v2
+From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m_=28Intel=29?= <thomas_os@shipmail.org>
+To: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ matthew.auld@intel.com, dri-devel@lists.freedesktop.org
+References: <20210602100914.46246-1-christian.koenig@amd.com>
+ <e5e6f3d0-af80-fa59-ba55-bafbb8e7670a@shipmail.org>
+Message-ID: <abe421ae-e09c-101a-5bfb-9a0de40a0e03@shipmail.org>
+Date: Mon, 7 Jun 2021 19:06:07 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
+In-Reply-To: <e5e6f3d0-af80-fa59-ba55-bafbb8e7670a@shipmail.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,88 +68,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: robdclark@chromium.org, devicetree@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, Douglas Anderson <dianders@chromium.org>,
- Steev Klimaszewski <steev@kali.org>,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- Stanislav Lisovskiy <stanislav.lisovskiy@intel.com>,
- Rob Herring <robh+dt@kernel.org>, Andy Gross <agross@kernel.org>,
- dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>,
- Thierry Reding <treding@nvidia.com>, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Putting the panel under the bridge chip (under the aux-bus node)
-allows the panel driver to get access to the DP AUX bus, enabling all
-sorts of fabulous new features.
 
-While we're at this, get rid of a level of hierarchy for the panel
-node. It doesn't need "ports / port" and can just have a "port" child.
+On 6/7/21 6:40 PM, Thomas Hellström (Intel) wrote:
+>
+> On 6/2/21 12:09 PM, Christian König wrote:
+> ...
+>> @@ -728,14 +728,15 @@ static int ttm_bo_add_move_fence(struct 
+>> ttm_buffer_object *bo,
+>>    */
+>>   static int ttm_bo_mem_force_space(struct ttm_buffer_object *bo,
+>>                     const struct ttm_place *place,
+>> -                  struct ttm_resource *mem,
+>> +                  struct ttm_resource **mem,
+>>                     struct ttm_operation_ctx *ctx)
+>>   {
+>>       struct ttm_device *bdev = bo->bdev;
+>> -    struct ttm_resource_manager *man = ttm_manager_type(bdev, 
+>> mem->mem_type);
+>> +    struct ttm_resource_manager *man;
+>>       struct ww_acquire_ctx *ticket;
+>>       int ret;
+>>   +    man = ttm_manager_type(bdev, (*mem)->mem_type);
+>
+> Isn't (*mem) uninitialized here? Should be place->mem_type? Eviction 
+> is immediately sent to the bushes.
+>
+> Got at least one additional NULL pointer deref to track down in the 
+> eviction code, but could be a merge error of mine as well.
 
-For Linux, this patch has a hard requirement on the patches adding DP
-AUX bus support to the ti-sn65dsi86 bridge chip driver. See the patch
-("drm/bridge: ti-sn65dsi86: Add support for the DP AUX bus").
+Actually this last one was probably due to a bad temporary fix of the 
+above one.
 
-Signed-off-by: Douglas Anderson <dianders@chromium.org>
-Acked-by: Linus Walleij <linus.walleij@linaro.org>
----
+/Thomas
 
-(no changes since v7)
-
-Changes in v7:
-- Panel now under bridge chip instead of getting a link to ddc-i2c
-
- arch/arm64/boot/dts/qcom/sc7180-trogdor.dtsi | 30 ++++++++++----------
- 1 file changed, 15 insertions(+), 15 deletions(-)
-
-diff --git a/arch/arm64/boot/dts/qcom/sc7180-trogdor.dtsi b/arch/arm64/boot/dts/qcom/sc7180-trogdor.dtsi
-index 24d293ef56d7..c76afd857b54 100644
---- a/arch/arm64/boot/dts/qcom/sc7180-trogdor.dtsi
-+++ b/arch/arm64/boot/dts/qcom/sc7180-trogdor.dtsi
-@@ -260,21 +260,6 @@ max98357a: audio-codec-0 {
- 		#sound-dai-cells = <0>;
- 	};
- 
--	panel: panel {
--		/* Compatible will be filled in per-board */
--		power-supply = <&pp3300_dx_edp>;
--		backlight = <&backlight>;
--		hpd-gpios = <&sn65dsi86_bridge 2 GPIO_ACTIVE_HIGH>;
--
--		ports {
--			port {
--				panel_in_edp: endpoint {
--					remote-endpoint = <&sn65dsi86_out>;
--				};
--			};
--		};
--	};
--
- 	pwmleds {
- 		compatible = "pwm-leds";
- 		keyboard_backlight: keyboard-backlight {
-@@ -674,6 +659,21 @@ sn65dsi86_out: endpoint {
- 				};
- 			};
- 		};
-+
-+		aux-bus {
-+			panel: panel {
-+				/* Compatible will be filled in per-board */
-+				power-supply = <&pp3300_dx_edp>;
-+				backlight = <&backlight>;
-+				hpd-gpios = <&sn65dsi86_bridge 2 GPIO_ACTIVE_HIGH>;
-+
-+				port {
-+					panel_in_edp: endpoint {
-+						remote-endpoint = <&sn65dsi86_out>;
-+					};
-+				};
-+			};
-+		};
- 	};
- };
- 
--- 
-2.32.0.rc1.229.g3e70b5a671-goog
-
+>
+>
