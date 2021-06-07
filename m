@@ -2,43 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DA0B39D775
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Jun 2021 10:32:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C3C4339D783
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Jun 2021 10:36:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 627F56E875;
-	Mon,  7 Jun 2021 08:32:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E1EBB6E877;
+	Mon,  7 Jun 2021 08:36:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from netline-mail3.netline.ch (mail.netline.ch [148.251.143.180])
- by gabe.freedesktop.org (Postfix) with ESMTP id 21C0A6E875
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Jun 2021 08:32:36 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by netline-mail3.netline.ch (Postfix) with ESMTP id 13AAF20201B;
- Mon,  7 Jun 2021 10:32:35 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at netline-mail3.netline.ch
-Received: from netline-mail3.netline.ch ([127.0.0.1])
- by localhost (netline-mail3.netline.ch [127.0.0.1]) (amavisd-new, port 10024)
- with LMTP id zVO_89yUebqg; Mon,  7 Jun 2021 10:32:34 +0200 (CEST)
-Received: from thor (24.99.2.85.dynamic.wline.res.cust.swisscom.ch
- [85.2.99.24])
- by netline-mail3.netline.ch (Postfix) with ESMTPA id CCDC220201A;
- Mon,  7 Jun 2021 10:32:34 +0200 (CEST)
-Received: from [::1] by thor with esmtp (Exim 4.94.2)
- (envelope-from <michel@daenzer.net>)
- id 1lqAgT-000RkF-HB; Mon, 07 Jun 2021 10:32:33 +0200
-To: Sichem Zhou <sichem.zh@gmail.com>
-References: <CAJeZQfg5fq8B7iVu6Wga+aM015o_ViiSUcJxAEtDE9-GXxgSOw@mail.gmail.com>
-From: =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel@daenzer.net>
-Subject: Re: [QUESTION] drmModeAtomicCommit returns -EINVAL on return
-Message-ID: <820078f3-1adf-d561-1772-f63de6d46ed6@daenzer.net>
-Date: Mon, 7 Jun 2021 10:32:33 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.2
+Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com
+ [IPv6:2a00:1450:4864:20::32d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 02AB66E877
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Jun 2021 08:36:49 +0000 (UTC)
+Received: by mail-wm1-x32d.google.com with SMTP id
+ k5-20020a05600c1c85b02901affeec3ef8so1693691wms.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 07 Jun 2021 01:36:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=fooishbar-org.20150623.gappssmtp.com; s=20150623;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=OqAD7JyQJLtIUaTq7HisxnM/3X8ut9jR2CAddAB1Cqg=;
+ b=doyN4rgRGFyq1Kz5xW+zSGP5eyprWLTmJNWt5GNCkcTtUajEwG24mgCalhI3uWmOKW
+ E7LCI4cmGi21nURQKDnzjr6hmcWUA+rBgfNF0vs0mpK1jp45ve6KaLrJPGXSoe771ahY
+ YKf6eaFqhhkVJBN+po2m0v/39VhNx4Arqs+4GJXeCrwOnb/BEDmWL6RlCMNOZVyPCcx2
+ bFmYtkdXB5wB3CTjH+SBYgDr/uhhou6x/6QjqNkwbIk+KvX/AwWrxXr1Hfu+EZD8AZ59
+ C+/A0ECO+spDAadILs7h5QCLyZDNdFTp7/Urc2/s3rg+8a9uhPG29gc1YAzWaRhruw29
+ ym6A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=OqAD7JyQJLtIUaTq7HisxnM/3X8ut9jR2CAddAB1Cqg=;
+ b=a8lBPTvPFEJwDe4Ql41u7Bw43/JMDlPFET/qud24u6kEadMC9Km/RXTmUuW8pjfB/R
+ n37wk0ZY8Mx/YvRfriMDDglIBS5rE9XeeoapqhkZzPnZGkJCo9Btg1UCht6B/eSiKan6
+ FJv8PckxvGGMB/BauSfZnCTfpCE4Y0qMptd5EkoWdUNIU5uoY21DOF2RUvDAG7JjAgd8
+ oeeeqmPC6pZR3ckQQlS9L41RiXx3pULNkOsGAHFxcYpgaP805BOAZLUEfCzxsIUqyKXZ
+ O/1fVuHw860qWJvxOoGIWBcpJ5QrKvfeqlYhaG9p6nWZMr+NUGiLi0y/M30vMqZfw1AJ
+ BUxg==
+X-Gm-Message-State: AOAM532ImWDEGnEjFvn3T1jqlLP5afnNa2vB18SLRxR3VTHWd6i+fGJH
+ Pb5TCM6Ln9uwHkNZ9PGAba+BzjmE7jpExft0SG7Ucg==
+X-Google-Smtp-Source: ABdhPJz8hM3hqr1V4jECe7fc+5nfq3AknPzC5rkIflKDlHDhykr0xPABNXJ3M2qlpZSxchzC5A0kjKaWCdCtcDbvsBk=
+X-Received: by 2002:a1c:b782:: with SMTP id
+ h124mr15900314wmf.168.1623055007668; 
+ Mon, 07 Jun 2021 01:36:47 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CAJeZQfg5fq8B7iVu6Wga+aM015o_ViiSUcJxAEtDE9-GXxgSOw@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-CA
-Content-Transfer-Encoding: 8bit
+References: <20210605073534.3786194-1-jernej.skrabec@gmail.com>
+In-Reply-To: <20210605073534.3786194-1-jernej.skrabec@gmail.com>
+From: Daniel Stone <daniel@fooishbar.org>
+Date: Mon, 7 Jun 2021 09:36:36 +0100
+Message-ID: <CAPj87rNFXkoRJw2_Y7aW0+7mzOYGpirs6YgUfuFrDFfXcyOMeA@mail.gmail.com>
+Subject: Re: [PATCH] drm/sun4i: de3: Be explicit about supported modifiers
+To: Jernej Skrabec <jernej.skrabec@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,35 +64,31 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: Piotr Oniszczuk <piotr.oniszczuk@gmail.com>,
+ Daniel Stone <daniel.stone@collabora.com>, David Airlie <airlied@linux.ie>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Chen-Yu Tsai <wens@csie.org>, dri-devel <dri-devel@lists.freedesktop.org>,
+ linux-sunxi@lists.linux.dev,
+ linux-arm-kernel <linux-arm-kernel@lists.infradead.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2021-06-05 6:06 a.m., Sichem Zhou wrote:
-> 
-> 1. Is there any way to debug when the functions like drmModeSetCrtc,
-> drmModePageFlip and drmModeAtomicCommit returns non zero, besides
-> getting the errno?
+On Sat, 5 Jun 2021 at 08:36, Jernej Skrabec <jernej.skrabec@gmail.com> wrote:
+> Currently only linear formats are supported in sun4i-drm driver, but
+> SoCs like H6 supports AFBC variant of some of them in multiple cores
+> (GPU, VPU, DE3). Panfrost already implements AFBC compression and is
+> sometimes confused what should be default choice (linear, AFBC) if DRM
+> driver is not explicit about modifier support (MiniMyth2 distro with
+> MythTV app).
+>
+> After some discussion with Daniel Stone on #panfrost IRC, it was decided
+> to make modifiers in sun4i-drm explicit, to avoid any kind of guessing,
+> not just in panfrost, but everywhere. In fact, long term idea is to make
+> modifier parameter in drm_universal_plane_init() mandatory (non NULL).
 
-Enable appropriate debugging bits in /sys/module/drm/parameters/debug, reproduce problem, (disable debugging bits again), check dmesg.
+Thanks Piotr & Jernej!
 
+Acked-by: Daniel Stone <daniels@collabora.com>
 
-> 4. Do I need to wait for vblank for modesetting? I know it will be an
-> error if I tried to do drmModePageFlip before the last one is handled
-> but what about drmModeSetCrtc? Do I need to wait for a vblank for the
-> last pageflip?
-
-Right now, if you don't wait for any pending page flip to complete before 
-drmModeSetCrtc, the two may race, and the CRTC may end up scanning out from the FB set by the page flip.
-
-Maybe this race should be prevented in the kernel though.
-
-There's no need to wait for vblank.
-
-
-I have to defer to others for your other questions.
-
-
--- 
-Earthling Michel Dänzer               |               https://redhat.com
-Libre software enthusiast             |             Mesa and X developer
+Cheers,
+Daniel
