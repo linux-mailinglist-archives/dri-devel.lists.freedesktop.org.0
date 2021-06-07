@@ -1,56 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 070A639E518
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Jun 2021 19:17:15 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 75CFF39E520
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Jun 2021 19:18:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0DAEF6E95C;
-	Mon,  7 Jun 2021 17:17:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 745A66E95E;
+	Mon,  7 Jun 2021 17:18:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x229.google.com (mail-oi1-x229.google.com
- [IPv6:2607:f8b0:4864:20::229])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 716A46E95A;
- Mon,  7 Jun 2021 17:17:10 +0000 (UTC)
-Received: by mail-oi1-x229.google.com with SMTP id w127so18772159oig.12;
- Mon, 07 Jun 2021 10:17:10 -0700 (PDT)
+Received: from mail-oi1-x22e.google.com (mail-oi1-x22e.google.com
+ [IPv6:2607:f8b0:4864:20::22e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 007D36E95E;
+ Mon,  7 Jun 2021 17:18:39 +0000 (UTC)
+Received: by mail-oi1-x22e.google.com with SMTP id z3so18808108oib.5;
+ Mon, 07 Jun 2021 10:18:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=AtFqg3TR/taE0y/EKR7pUF5yxr+poA+jtZYTuPIvfeU=;
- b=UiwljjcSSloI3uGyBgqJOz+hqJuyMgwNynMRAK1DanPqP4KuB6AoDsslE3PDnOhhM5
- IEvI9akDR+vK7Am2aD4pk5XZbUcq/+qzUKMxcuyQPQaaOsLobrsMii9BgFMsgh/jakoo
- 5wolJvn0IHCaFGhRZUSgUDFvxKltSFbvS18aP6d/qkncCIPuxppYcfuNzqYxNYBB3m5d
- wLXNTobxjRgZni41zzpE/7OA4ygN+c3UHXuiremmdVsVXW1Z8Tk7u5+HgzIT2YjwiJji
- JQQXlSYiMeGnCRfH2ExbIgXkHjy/+piLVVi4a5MRFP1em605rsOxheuIfwJqFJnsoXNH
- tSuw==
+ :cc:content-transfer-encoding;
+ bh=Bs0iIp2b+xLwRPkKeIWpOD/7m4nhQ2yrv+tV+dY2+Dk=;
+ b=ZfJqjDRtbPhKwBfzpuNEpxC+DixbiXqh1fDLnKXYnFPI9Qlf1ttw6aMTd691KAb0Nw
+ ap3EFjQ+F1P/azkjwjFcJeplW20c8Wy6rjIAmiBeQoqKJH06tOpZ1ZxK8mXwXNZmU4Mx
+ z1Zyl6+qqWUh4SVUR92ud5048RIyYmOg+5JJNAI8yoCx9nbMxHazeBm79+GM1fF22BzC
+ LSNRJ7TCk9ni35039MOrYp56Cn62e7XcsMy2W6AAr53IWdOXTJY2MN+62tsZ0I+Aeu6R
+ He586b00SYq/ywaPZ6ehXU4jLQGpDiMhI0UNYVyK9P/mkSM36+TBm2C58avFcUFUoNH7
+ iQdg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=AtFqg3TR/taE0y/EKR7pUF5yxr+poA+jtZYTuPIvfeU=;
- b=CFuMsBXDsrH4CSgHU75IUS43LSEIctBsCFahX7kDbMRIkLkbtG23SvSwGQYRNfLMse
- 0Wdu0YeiTptKfYZxvMu7rkzRGYKxAupcWH0BLsNWYVD+j4Pkz6TYm1FRXZqPiju+QHlj
- 9h4Ihh+ml+mf+rXhBgwkl15WiWrDkryxJsivLyUht0/jYT3Pj6/0n3m0Zf+C7p7MsQx5
- Arr+Qj6mv7lRnDncM5tREP/SPgapXsYTt5Gp/ntQQV8SAKAMe5dJq2Y6OEm0QahP23/e
- c3OK+nJ3XizoWHc9Y3nqSq1Hv8bd6pRWgNrkAyasENzLPlw33GTo76fyWoxG7m+rZ7uX
- yeig==
-X-Gm-Message-State: AOAM532p5gKPO2N+leXqenCNEimUHyxkHBAEwL9P8tSC4tty5A80f//e
- 2QAYtuK2USIZcGa9kC/DVYFH8az7ydoybEp5S8TtYfml
-X-Google-Smtp-Source: ABdhPJzwkHlxtqTsMiF6NFAkb/Z3ua0k5ZWZ0fLzkk/iXTit2hlNeZTmodS5Bx8mn0idkpNDfkw9O7y6UfTHGGFB9Po=
-X-Received: by 2002:a05:6808:999:: with SMTP id
- a25mr167646oic.123.1623086228330; 
- Mon, 07 Jun 2021 10:17:08 -0700 (PDT)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=Bs0iIp2b+xLwRPkKeIWpOD/7m4nhQ2yrv+tV+dY2+Dk=;
+ b=r3hYAcUVCqcpVfUGebT2XfVehWxNqt1cGul5UqWfefrPT4BEYGgUa1wrg7f0K0Yu8G
+ LNcqbrJUu5OZwA0lANr2wQ8GIVRdFL+1dX412ZQc7hqJa3pRM3VqUIiv4NH7UHWLw0qm
+ LXigxvgzEn7iufZos/DHuzbjTrEqrWcVkOm1odVOkmClmyIGAAtoMlzqFeO3wOpF9twc
+ SptQPLh/4WCMuYhn1T1VIt12wYOtVRaPzD5SmyQb3b2/gS0MQaD5hfOrRGR62zHxAzs5
+ dZDIezlMVwrFSICNUdzxCBmARLQLe3khW9+9kZ8qHkVxviXmuqnW4ZcJXcdyoJ6LqzZy
+ z7vg==
+X-Gm-Message-State: AOAM5319nuCNjcnHRHOhtOORWldoEI0iCgsN0MnYSXYlvSW6IYE/UH5N
+ adKVpU7K2S3jQ9fPwI/Z1rAYU4y67ZSi2kU9rdg=
+X-Google-Smtp-Source: ABdhPJyirKNeUEEtw5y9m++p4gcGiiOq1LOMwU9dlkkw7YMYbr+3rPlg1bL7kJG8ZiRpSn4RBR+dXRzlWAbHbNNqDsM=
+X-Received: by 2002:a05:6808:249:: with SMTP id
+ m9mr196398oie.120.1623086319382; 
+ Mon, 07 Jun 2021 10:18:39 -0700 (PDT)
 MIME-Version: 1.0
-References: <1623061651-33021-1-git-send-email-jiapeng.chong@linux.alibaba.com>
-In-Reply-To: <1623061651-33021-1-git-send-email-jiapeng.chong@linux.alibaba.com>
+References: <ea7ecbef546a03ef71d65bfe82608bb347e6f3c2.1622883895.git.christophe.jaillet@wanadoo.fr>
+ <99a5eba3-2d2a-65a8-9b03-a3d4043c5ec5@gmail.com>
+In-Reply-To: <99a5eba3-2d2a-65a8-9b03-a3d4043c5ec5@gmail.com>
 From: Alex Deucher <alexdeucher@gmail.com>
-Date: Mon, 7 Jun 2021 13:16:57 -0400
-Message-ID: <CADnq5_PnyYyzZwAMTb-A=fNM3BN5GmkrEciAT_n2XqqcAQKWrw@mail.gmail.com>
-Subject: Re: [PATCH] drm/amd/display: Fix duplicate included
- dce110_hw_sequencer.h
-To: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
+Date: Mon, 7 Jun 2021 13:18:28 -0400
+Message-ID: <CADnq5_PSw_zLDpdpAgxbUKLH54toLyxL23Ytw0q8G+xBzcaeRQ@mail.gmail.com>
+Subject: Re: [PATCH] drm/amdgpu: Fix a a typo in a comment
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,9 +65,10 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Leo \(Sunpeng\) Li" <sunpeng.li@amd.com>, xinhui pan <Xinhui.Pan@amd.com>,
- LKML <linux-kernel@vger.kernel.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>, Dave Airlie <airlied@linux.ie>,
+Cc: Dave Airlie <airlied@linux.ie>, xinhui pan <Xinhui.Pan@amd.com>,
+ kernel-janitors@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
  Maling list - DRI developers <dri-devel@lists.freedesktop.org>, "Deucher,
  Alexander" <alexander.deucher@amd.com>,
  Christian Koenig <christian.koenig@amd.com>
@@ -76,34 +79,38 @@ Applied.  Thanks!
 
 Alex
 
-On Mon, Jun 7, 2021 at 6:27 AM Jiapeng Chong
-<jiapeng.chong@linux.alibaba.com> wrote:
+On Mon, Jun 7, 2021 at 6:46 AM Christian K=C3=B6nig
+<ckoenig.leichtzumerken@gmail.com> wrote:
 >
-> Clean up the following includecheck warning:
+> Am 05.06.21 um 11:06 schrieb Christophe JAILLET:
+> > s/than/then/
+> >
+> > Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
 >
-> ./drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c:
-> dce110_hw_sequencer.h is included more than once.
+> Acked-by: Christian K=C3=B6nig <christian.koenig@amd.com>
 >
-> No functional change.
+> > ---
+> >   drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c | 2 +-
+> >   1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c b/drivers/gpu/drm/a=
+md/amdgpu/amdgpu_cs.c
+> > index 89ebbf363e27..1476236f5c7c 100644
+> > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
+> > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
+> > @@ -662,7 +662,7 @@ static int amdgpu_cs_sync_rings(struct amdgpu_cs_pa=
+rser *p)
+> >    * @error:  error number
+> >    * @backoff:        indicator to backoff the reservation
+> >    *
+> > - * If error is set than unvalidate buffer, otherwise just free memory
+> > + * If error is set then unvalidate buffer, otherwise just free memory
+> >    * used by parsing context.
+> >    **/
+> >   static void amdgpu_cs_parser_fini(struct amdgpu_cs_parser *parser, in=
+t error,
 >
-> Reported-by: Abaci Robot <abaci@linux.alibaba.com>
-> Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
-> ---
->  drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c | 1 -
->  1 file changed, 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c b/drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c
-> index e731987..04d02ce 100644
-> --- a/drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c
-> +++ b/drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c
-> @@ -32,7 +32,6 @@
->  #include "core_status.h"
->  #include "resource.h"
->  #include "dm_helpers.h"
-> -#include "dce110_hw_sequencer.h"
->  #include "dce110_timing_generator.h"
->  #include "dce/dce_hwseq.h"
->  #include "gpio_service_interface.h"
-> --
-> 1.8.3.1
->
+> _______________________________________________
+> amd-gfx mailing list
+> amd-gfx@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/amd-gfx
