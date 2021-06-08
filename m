@@ -2,56 +2,30 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DA1D39F167
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Jun 2021 10:52:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5ED4939F17B
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Jun 2021 10:55:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B4CB86EB39;
-	Tue,  8 Jun 2021 08:52:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 573B26EB4E;
+	Tue,  8 Jun 2021 08:55:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x42b.google.com (mail-pf1-x42b.google.com
- [IPv6:2607:f8b0:4864:20::42b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EC3226EB39
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Jun 2021 08:52:06 +0000 (UTC)
-Received: by mail-pf1-x42b.google.com with SMTP id c12so15230304pfl.3
- for <dri-devel@lists.freedesktop.org>; Tue, 08 Jun 2021 01:52:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=qvdRxc9FkmQvYGE3pNAv/DuOBtPazzAmVua0xyFQPeA=;
- b=LIQ7/npLxtNsjwYNfadtn2txdgVYzHIwXWdEfFrNo0ORg8tqt+Sv2tqDyRVbbnSCas
- +TXaGH3AVGzlPRBWAT4n17mJ0FpmgoOyREZy9LcNLw2bO2QcR0T0pXLBMwcJS1J0iRKL
- bYyy1iVe3d4mfEhVMYkYCWG5RInMrexIrWKFHIiRK5UHaLgrUzoZcqGvNaOfyTKwmEKA
- 6MXxOL8Gzx8nBXQ6QkCMFT7Y3kNMaMc6LHnuHFKuN4g5e53poEtlI6DqVFt9xDmfQhVJ
- yDgBPG3vrlMUinIavYlADzyMU2VQWeSQWfxIuvSyTYbm42+TVCu0gby7pFcz2a7C5VET
- 9CFg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=qvdRxc9FkmQvYGE3pNAv/DuOBtPazzAmVua0xyFQPeA=;
- b=n8+SgG+7YBCsQgAMOzcKVFpkkYJuXx3Hd1v5xzOn7ArlDxjFpDdDfUNxjE2HfMFPra
- SfWyBdIXdSKop6Uo25mudLON9eNIhtV/k7rPMKWTz/x8hRNAXJfueE/4upqquwwQFuQw
- GRm/z4WXtmofPKfVQVg4a2V38tFGmM1SaDqrOylme3y3FfizTgl4vjpopQdP3UhpztOh
- Jh2E54CeM4P6zidlX9MXKhiO+HRog6JtLmAS1Ctzd2/zb0ffv2XVX+v5rPsginNtgsb+
- /s5TH2P2VFQEj8D1MiIv6NWvU33dpJOHj6UW5xaW0IZYXZCu4SH9VWNVYpwsW0CPEaQu
- p8gA==
-X-Gm-Message-State: AOAM5334lQt6TRFgz0kRk7eCcZKo2vcnpaMJdKlau33azc4ZiWpmaWgB
- OUMNhMcJjzYfQRcniS7hsvGRLDL2BbbtxLnleyWLDA==
-X-Google-Smtp-Source: ABdhPJyMUuuggRsr1mLBBdOQzXY5rP9B+J3rrDvPwTfUe9pqZVifUi7L22pmkwbKu+VNUcTKGAlKRBB3ERmUyZCTybE=
-X-Received: by 2002:a65:4508:: with SMTP id n8mr11885788pgq.120.1623142326479; 
- Tue, 08 Jun 2021 01:52:06 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210607174258.16300-1-marex@denx.de>
- <20210607174258.16300-2-marex@denx.de>
- <8376707f-7234-4555-a892-0581fee00908@baylibre.com>
-In-Reply-To: <8376707f-7234-4555-a892-0581fee00908@baylibre.com>
-From: Robert Foss <robert.foss@linaro.org>
-Date: Tue, 8 Jun 2021 10:51:55 +0200
-Message-ID: <CAG3jFys9F5Nt5cTEUKF7yaMAL5pyW6Kn73h4P2SDFhiBDb6pRg@mail.gmail.com>
-Subject: Re: [PATCH V6 2/2] drm/bridge: ti-sn65dsi83: Add TI SN65DSI83 and
- SN65DSI84 driver
-To: Neil Armstrong <narmstrong@baylibre.com>
-Content-Type: text/plain; charset="UTF-8"
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 5D4A86EB4E
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Jun 2021 08:55:25 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 81184113E;
+ Tue,  8 Jun 2021 01:55:24 -0700 (PDT)
+Received: from lakrids.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
+ [10.121.207.14])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id CB4863F719;
+ Tue,  8 Jun 2021 01:55:22 -0700 (PDT)
+From: Mark Rutland <mark.rutland@arm.com>
+To: linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org
+Subject: [PATCH] drm/vc4: fix vc4_atomic_commit_tail() logic
+Date: Tue,  8 Jun 2021 09:55:12 +0100
+Message-Id: <20210608085513.2069-1-mark.rutland@arm.com>
+X-Mailer: git-send-email 2.11.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,90 +38,123 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, Loic Poulain <loic.poulain@linaro.org>,
- ch@denx.de, Adam Ford <aford173@gmail.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Douglas Anderson <dianders@chromium.org>,
- Frieder Schrempf <frieder.schrempf@kontron.de>,
- Stephen Boyd <swboyd@chromium.org>,
- Philippe Schenker <philippe.schenker@toradex.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Valentin Raevsky <valentin@compulab.co.il>, Sam Ravnborg <sam@ravnborg.org>,
- Jagan Teki <jagan@amarulasolutions.com>
+Cc: Mark Rutland <mark.rutland@arm.com>, Emma Anholt <emma@anholt.net>,
+ Arnd Bergmann <arnd@arndb.de>, David Airlie <airlied@linux.ie>,
+ Catalin Marinas <catalin.marinas@arm.com>, dri-devel@lists.freedesktop.org,
+ Maxime Ripard <maxime@cerno.tech>, Will Deacon <will@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hey Neil,
+In vc4_atomic_commit_tail() we iterate of the set of old CRTCs, and
+attempt to wait on any channels which are still in use. When we iterate
+over the CRTCs, we have:
 
-On Tue, 8 Jun 2021 at 10:10, Neil Armstrong <narmstrong@baylibre.com> wrote:
->
-> Hi,
->
-> On 07/06/2021 19:42, Marek Vasut wrote:
-> > Add driver for TI SN65DSI83 Single-link DSI to Single-link LVDS bridge
-> > and TI SN65DSI84 Single-link DSI to Dual-link or 2x Single-link LVDS
-> > bridge. TI SN65DSI85 is unsupported due to lack of hardware to test on,
-> > but easy to add.
-> >
-> > The driver operates the chip via I2C bus. Currently the LVDS clock are
-> > always derived from DSI clock lane, which is the usual mode of operation.
-> > Support for clock from external oscillator is not implemented, but it is
-> > easy to add if ever needed. Only RGB888 pixel format is implemented, the
-> > LVDS666 is not supported, but could be added if needed.
-> >
-> > Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
-> > Reviewed-by: Frieder Schrempf <frieder.schrempf@kontron.de>
-> > Tested-by: Frieder Schrempf <frieder.schrempf@kontron.de>
-> > Tested-by: Adam Ford <aford173@gmail.com>
-> > Signed-off-by: Marek Vasut <marex@denx.de>
-> > Cc: Douglas Anderson <dianders@chromium.org>
-> > Cc: Jagan Teki <jagan@amarulasolutions.com>
-> > Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > Cc: Linus Walleij <linus.walleij@linaro.org>
-> > Cc: Loic Poulain <loic.poulain@linaro.org>
-> > Cc: Philippe Schenker <philippe.schenker@toradex.com>
-> > Cc: Sam Ravnborg <sam@ravnborg.org>
-> > Cc: Stephen Boyd <swboyd@chromium.org>
-> > Cc: Valentin Raevsky <valentin@compulab.co.il>
-> > To: dri-devel@lists.freedesktop.org
-> > ---
-> > V2: - Use dev_err_probe()
-> >     - Set REG_RC_RESET as volatile
-> >     - Wait for PLL stabilization by polling REG_RC_LVDS_PLL
-> >     - Use ctx->mode = *adj instead of *mode in sn65dsi83_mode_set
-> >     - Add tested DSI84 support in dual-link mode
-> >     - Correctly set VCOM
-> >     - Fill in missing DSI CHB and LVDS CHB bits from DSI84 and DSI85
-> >       datasheets, with that all the reserved bits make far more sense
-> >       as the DSI83 and DSI84 seems to be reduced version of DSI85
-> > V3: - Handle the dual-link LVDS with two port panel or bridge
-> > V4: - Add RB from Linus Walleij
-> >     - Rename REG_DSI_LANE_LVDS_LINK_CFG_DUAL to
-> >       REG_DSI_LANE_DSI_CHANNEL_MODE_SINGLE and fill in the remaining
-> >       DSI link options from DSI85 datasheet. DSI85 can do dual and 2x
-> >       single DSI mode, but DSI85 is currently unsupported by the
-> >       driver. Add a comment about DSI85, so that all the places which
-> >       need to be adjusted for DSI85 are marked accordingly.
-> >     - Add REG_DSI_LANE_LEFT_RIGHT_PIXELS bit for DSI
-> >     - Add handling for JEIDA18/JEIDA24/SPWG24 LVDS formats. Use SPWG24
-> >       as fallback on output bridges until they are all fixed.
-> >     - Patch DSI bus format to fixed RGB888_1X24 instead of passing
-> >       through the LVDS bus format.
-> > V5: - Move bus format patching to mode_fixup
-> >     - Use cpu_to_le16() to guarantee endianness in regmap_bulk_write()
-> > V6: - Cast of_device_get_match_data() output to uintptr_t first
-> > ---
-> >  drivers/gpu/drm/bridge/Kconfig        |  10 +
-> >  drivers/gpu/drm/bridge/Makefile       |   1 +
-> >  drivers/gpu/drm/bridge/ti-sn65dsi83.c | 709 ++++++++++++++++++++++++++
-> >  3 files changed, 720 insertions(+)
-> >  create mode 100644 drivers/gpu/drm/bridge/ti-sn65dsi83.c
-> >
->
-> Looks complete & well reviewed, LGTM
->
-> Rob, Laurent ? is it ok for you ?
+* `i` - the index of the CRTC
+* `channel` - the channel a CRTC is using
 
-This does look like it is ready. I was just about to merge it, but
-found some checkpatch --strict formatting warnings. Do you mind fixing
-those in a real quick v7?
+When we check the channel state, we consult:
+
+  old_hvs_state->fifo_state[channel].in_use
+
+... but when we wait for the channel, we erroneously wait on:
+
+  old_hvs_state->fifo_state[i].pending_commit
+
+... rather than:
+
+   old_hvs_state->fifo_state[channel].pending_commit
+
+... and this bogus access has been observed to result in boot-time hangs
+on some arm64 configurations, and can be detected using KASAN. FIx this
+by using the correct index.
+
+I've tested this on a Raspberry Pi 3 model B v1.2 with KASAN.
+
+Trimmed KASAN splat:
+
+| ==================================================================
+| BUG: KASAN: slab-out-of-bounds in vc4_atomic_commit_tail+0x1cc/0x910
+| Read of size 8 at addr ffff000007360440 by task kworker/u8:0/7
+| CPU: 2 PID: 7 Comm: kworker/u8:0 Not tainted 5.13.0-rc3-00009-g694c523e7267 #3
+|
+| Hardware name: Raspberry Pi 3 Model B (DT)
+| Workqueue: events_unbound deferred_probe_work_func
+| Call trace:
+|  dump_backtrace+0x0/0x2b4
+|  show_stack+0x1c/0x30
+|  dump_stack+0xfc/0x168
+|  print_address_description.constprop.0+0x2c/0x2c0
+|  kasan_report+0x1dc/0x240
+|  __asan_load8+0x98/0xd4
+|  vc4_atomic_commit_tail+0x1cc/0x910
+|  commit_tail+0x100/0x210
+| ...
+|
+| Allocated by task 7:
+|  kasan_save_stack+0x2c/0x60
+|  __kasan_kmalloc+0x90/0xb4
+|  vc4_hvs_channels_duplicate_state+0x60/0x1a0
+|  drm_atomic_get_private_obj_state+0x144/0x230
+|  vc4_atomic_check+0x40/0x73c
+|  drm_atomic_check_only+0x998/0xe60
+|  drm_atomic_commit+0x34/0x94
+|  drm_client_modeset_commit_atomic+0x2f4/0x3a0
+|  drm_client_modeset_commit_locked+0x8c/0x230
+|  drm_client_modeset_commit+0x38/0x60
+|  drm_fb_helper_set_par+0x104/0x17c
+|  fbcon_init+0x43c/0x970
+|  visual_init+0x14c/0x1e4
+| ...
+|
+| The buggy address belongs to the object at ffff000007360400
+|  which belongs to the cache kmalloc-128 of size 128
+| The buggy address is located 64 bytes inside of
+|  128-byte region [ffff000007360400, ffff000007360480)
+| The buggy address belongs to the page:
+| page:(____ptrval____) refcount:1 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x7360
+| flags: 0x3fffc0000000200(slab|node=0|zone=0|lastcpupid=0xffff)
+| raw: 03fffc0000000200 dead000000000100 dead000000000122 ffff000004c02300
+| raw: 0000000000000000 0000000000100010 00000001ffffffff 0000000000000000
+| page dumped because: kasan: bad access detected
+|
+| Memory state around the buggy address:
+|  ffff000007360300: fa fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+|  ffff000007360380: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
+| >ffff000007360400: 00 00 00 00 00 00 00 fc fc fc fc fc fc fc fc fc
+|                                            ^
+|  ffff000007360480: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
+|  ffff000007360500: fa fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+| ==================================================================
+
+Link: https://lore.kernel.org/r/4d0c8318-bad8-2be7-e292-fc8f70c198de@samsung.com
+Link: https://lore.kernel.org/linux-arm-kernel/20210607151740.moncryl5zv3ahq4s@gilmour
+Signed-off-by: Mark Rutland <mark.rutland@arm.com>
+Reported-by: Marek Szyprowski <m.szyprowski@samsung.com>
+Cc: Arnd Bergmann <arnd@arndb.de>
+Cc: Catalin Marinas <catalin.marinas@arm.com>
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: David Airlie <airlied@linux.ie>
+Cc: Emma Anholt <emma@anholt.net>
+Cc: Maxime Ripard <maxime@cerno.tech>
+Cc: Will Deacon <will@kernel.org>
+Cc: dri-devel@lists.freedesktop.org
+---
+ drivers/gpu/drm/vc4/vc4_kms.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/vc4/vc4_kms.c b/drivers/gpu/drm/vc4/vc4_kms.c
+index bb5529a7a9c2..948b3a58aad1 100644
+--- a/drivers/gpu/drm/vc4/vc4_kms.c
++++ b/drivers/gpu/drm/vc4/vc4_kms.c
+@@ -372,7 +372,7 @@ static void vc4_atomic_commit_tail(struct drm_atomic_state *state)
+ 		if (!old_hvs_state->fifo_state[channel].in_use)
+ 			continue;
+ 
+-		ret = drm_crtc_commit_wait(old_hvs_state->fifo_state[i].pending_commit);
++		ret = drm_crtc_commit_wait(old_hvs_state->fifo_state[channel].pending_commit);
+ 		if (ret)
+ 			drm_err(dev, "Timed out waiting for commit\n");
+ 	}
+-- 
+2.11.0
+
