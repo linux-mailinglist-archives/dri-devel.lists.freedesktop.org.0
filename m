@@ -2,54 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D056439F1B2
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Jun 2021 11:09:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 72A2C39F22B
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Jun 2021 11:18:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A1F966EB53;
-	Tue,  8 Jun 2021 09:09:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F0B6F6EB55;
+	Tue,  8 Jun 2021 09:18:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.17.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AF1AF6EB53
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Jun 2021 09:09:54 +0000 (UTC)
-Received: from mail-wm1-f46.google.com ([209.85.128.46]) by
- mrelayeu.kundenserver.de (mreue108 [213.165.67.113]) with ESMTPSA (Nemesis)
- id 1N5G5b-1lOwbN3k5F-011Ex5 for <dri-devel@lists.freedesktop.org>; Tue, 08
- Jun 2021 11:09:52 +0200
-Received: by mail-wm1-f46.google.com with SMTP id
- l11-20020a05600c4f0bb029017a7cd488f5so1368737wmq.0
- for <dri-devel@lists.freedesktop.org>; Tue, 08 Jun 2021 02:09:52 -0700 (PDT)
-X-Gm-Message-State: AOAM531lTFWbjJHoACjMvUi+hDOwbj3PX5Ok+070guTS36th+gspoQ2v
- AXN/l7DVvtQpY9OwDJq3bvMvMKzVgnOxEVu+h2I=
-X-Google-Smtp-Source: ABdhPJweH0NoDFNEsagQCwbebQZjm1ygLiKnMTWz5Pn2SQnkv8GB1qQnVdqz+Zsumft6G8Lt0mk26k1PBwGzVIU/TC4=
-X-Received: by 2002:a7b:c849:: with SMTP id c9mr3166270wml.84.1623143392139;
- Tue, 08 Jun 2021 02:09:52 -0700 (PDT)
+Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com
+ [IPv6:2a00:1450:4864:20::42b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2614A6EB55
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Jun 2021 09:18:51 +0000 (UTC)
+Received: by mail-wr1-x42b.google.com with SMTP id a20so20803404wrc.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 08 Jun 2021 02:18:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=3bhq6qtWcjHlZB3mOOi8uKe0/ENCYsKG/DVsUuHuQL8=;
+ b=dOLuFz1KuVyE5i4/cPfjHXgx3qbDYafH8MLQNcpJTad6hgbagJvgBfe9tO38qezBSf
+ 3bMXeHa9CAR7yzOlMTA/nVSlgS8E2rz0Dj0MTxd99Z3rPCUOfQZqzpjry/1GuT9vLKQc
+ drBG1UBEOUHSl4xd9+cJs9HmZ6231rAsP38oo=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=3bhq6qtWcjHlZB3mOOi8uKe0/ENCYsKG/DVsUuHuQL8=;
+ b=UVLMi0lsbx+0mzg3WC0nz4tkaFBYg+TdhT/7oRh7F8KJXSNhL8LhZ8jVat7MvCoxnQ
+ sDA8CGd6EGGndp+v43beXZ/ld2dQCsoBbv6CzgABPXNxTH/3JIQVASWOJWHaMgMcXGPA
+ 0iLaZuiskxdL7uUo68bTHDHD9dsJ3RDJDdnhqYS8hWNb7dQCMNtcwPKBxblJs74Ml1ou
+ 1SBEplCzx4FBB5tFg9AY1XkJCiDZKwfurZ7FMMUdblU204cOl2+lQvSaFoZgkb/SGwda
+ 7HNpljdMwpoUEeN8MFvhlnzyQG4CC8Ju+r1/tqg/Fsej91/vwfz1EGsXl4f2oQ9/S/pW
+ r11g==
+X-Gm-Message-State: AOAM532BKGrtBM8i1XIVkhQFqQGAVJVvNWy+e4WPq3SIXVySExIX/rgo
+ 5yIN2VIHe7IF2fe4HcESc6Xg0Q==
+X-Google-Smtp-Source: ABdhPJzvz0VKNXjxGR5C09X4H/KEdlcPjKtH36stkGNf7daNT0U6IukkrYBOZqZqxwFzB9ci55fbog==
+X-Received: by 2002:a5d:5902:: with SMTP id v2mr21005537wrd.272.1623143929777; 
+ Tue, 08 Jun 2021 02:18:49 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id 89sm20289147wri.94.2021.06.08.02.18.48
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 08 Jun 2021 02:18:49 -0700 (PDT)
+Date: Tue, 8 Jun 2021 11:18:47 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH] drm: Don't test for IRQ support in VBLANK ioctls
+Message-ID: <YL8198Rj9lBlfoQE@phenom.ffwll.local>
+References: <20210608090301.4752-1-tzimmermann@suse.de>
 MIME-Version: 1.0
-References: <20210608085513.2069-1-mark.rutland@arm.com>
-In-Reply-To: <20210608085513.2069-1-mark.rutland@arm.com>
-From: Arnd Bergmann <arnd@arndb.de>
-Date: Tue, 8 Jun 2021 11:08:01 +0200
-X-Gmail-Original-Message-ID: <CAK8P3a04_Xu+qv-Smtpnbw8iTkfWqiYP9+YE5pA_T+gsNGVVcw@mail.gmail.com>
-Message-ID: <CAK8P3a04_Xu+qv-Smtpnbw8iTkfWqiYP9+YE5pA_T+gsNGVVcw@mail.gmail.com>
-Subject: Re: [PATCH] drm/vc4: fix vc4_atomic_commit_tail() logic
-To: Mark Rutland <mark.rutland@arm.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Provags-ID: V03:K1:PCMSxD6GaQgMMRxvABbPhenqg6ydzWf4/mhABPPMR4TPCKHASbM
- i/c/EhvnxCBiXpGY83p04qO9ISwMX9fUe9yuS1IurLC7NLPMMC7We+ItXL6Nu5A5lqmrvyR
- i7AtSoAMfXzB6NYDoJTzZaSS/euux5E78R1gmKmszVkKEJEmNbqFuf7BNleJkyPL4hBAE57
- xHZRoVOGjI8d6LuHjcL1Q==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:L8luogMRDp0=:bI58mtWywI8qV/+P8lgacf
- B7wUFtGqbnCanoN4bBhzt0UDr7N2+1gdSfl3GcbZUddQUdTVXUHovSDpTXRbz12qp4DKi0mZA
- YRmMG2O0LKI8Y44DTRm0n5WztgMH5p1BSGoLqeBPUkZhsPB4cxXJ27HrUB/DYNEb7+/ISpGhu
- TZuTrUE5Q75Gr19RCW8jyTw+P7UKRIzVzSlCJ8OdhWQlPi4I70PmLp0/jFyasB/jTKuaxJ10B
- t4NctCRAfRyZXRvUgZB8zNslB7qc8zY7CHtRbgPcGqmgcZ2K/x8GTj2kW0D1cKjz+8Jgz0uGl
- INVezi+HZkcmyfy0fkJaQSfa9Nfgv4gW5KVbMSt00FxaB6wD+46VRwy9IYIfl3W2pdcD+UAqL
- wnD/V7UnC7acYxkAAZCgKnJIMftKJoX23coPUxKC7V5HikglzP8BZF8XZKgBUqN8It0m9qyJh
- lyV6Mhpt2sDAjD59Klds1Vk4Bm27BVf7PBPlYFtGT6DAZWO5jZSP44CrbzmNFaCbop8Kfrmce
- LDmKxPJwX2EoXKHs4Rv7b3WxeBFrPcH4gcApT7qu0OmG0gMygi57pVThgKejgxq68nDQpjTjE
- uhHdkLNJ8NibraYKJmjRApCv8d/MbAx5KbhBBHPGR/69X/xnN9dJNXVqvC0CpS/yVf7ImxbEc
- JOXo=
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210608090301.4752-1-tzimmermann@suse.de>
+X-Operating-System: Linux phenom 5.10.32scarlett+ 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,47 +65,101 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Emma Anholt <emma@anholt.net>, David Airlie <airlied@linux.ie>,
- Catalin Marinas <catalin.marinas@arm.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, Maxime Ripard <maxime@cerno.tech>,
- Will Deacon <will@kernel.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>
+Cc: airlied@linux.ie, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jun 8, 2021 at 10:56 AM Mark Rutland <mark.rutland@arm.com> wrote:
->
-> In vc4_atomic_commit_tail() we iterate of the set of old CRTCs, and
-> attempt to wait on any channels which are still in use. When we iterate
-> over the CRTCs, we have:
->
-> * `i` - the index of the CRTC
-> * `channel` - the channel a CRTC is using
->
-> When we check the channel state, we consult:
->
->   old_hvs_state->fifo_state[channel].in_use
->
-> ... but when we wait for the channel, we erroneously wait on:
->
->   old_hvs_state->fifo_state[i].pending_commit
->
-> ... rather than:
->
->    old_hvs_state->fifo_state[channel].pending_commit
->
-> ... and this bogus access has been observed to result in boot-time hangs
-> on some arm64 configurations, and can be detected using KASAN. FIx this
-> by using the correct index.
->
-> I've tested this on a Raspberry Pi 3 model B v1.2 with KASAN.
-...
->
-> Link: https://lore.kernel.org/r/4d0c8318-bad8-2be7-e292-fc8f70c198de@samsung.com
-> Link: https://lore.kernel.org/linux-arm-kernel/20210607151740.moncryl5zv3ahq4s@gilmour
-> Signed-off-by: Mark Rutland <mark.rutland@arm.com>
-> Reported-by: Marek Szyprowski <m.szyprowski@samsung.com>
-> Cc: Arnd Bergmann <arnd@arndb.de>
+On Tue, Jun 08, 2021 at 11:03:01AM +0200, Thomas Zimmermann wrote:
+> Replace the IRQ check in VBLANK ioctls with a check for vblank
+> support. IRQs might be enabled wthout vblanking being supported.
 
-Acked-by: Arnd Bergmann <arnd@arndb.de>
+Nah, or if they are, that's a broken driver. irq_enabled here really only
+means vblank_irq_enabled (maybe we should rename it). I'd like to
+understand the motivation here a bit better to make sure we'r not just
+papering over a driver bug.
+
+Also as-is this breaks legacy drivers, which do enable/disable irqs at
+runtime with the legacy IRQ_CONTROL ioctl, so we can't just throw this
+out. Hence this cleanup here is only ok for non-legacy drivers.
+
+Finally if you do this cleanup I think we should go through drivers and
+drop the irq_enabled = true settings that are littered around. For that
+cleanup I think this patch makes sense.
+-Daniel
+> 
+> This change also removes the DRM framework's only dependency on
+> IRQ state for non-legacy drivers.
+> 
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> ---
+>  drivers/gpu/drm/drm_irq.c    | 10 +++-------
+>  drivers/gpu/drm/drm_vblank.c |  6 +++---
+>  2 files changed, 6 insertions(+), 10 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_irq.c b/drivers/gpu/drm/drm_irq.c
+> index c3bd664ea733..1d7785721323 100644
+> --- a/drivers/gpu/drm/drm_irq.c
+> +++ b/drivers/gpu/drm/drm_irq.c
+> @@ -74,10 +74,8 @@
+>   * only supports devices with a single interrupt on the main device stored in
+>   * &drm_device.dev and set as the device paramter in drm_dev_alloc().
+>   *
+> - * These IRQ helpers are strictly optional. Drivers which roll their own only
+> - * need to set &drm_device.irq_enabled to signal the DRM core that vblank
+> - * interrupts are working. Since these helpers don't automatically clean up the
+> - * requested interrupt like e.g. devm_request_irq() they're not really
+> + * These IRQ helpers are strictly optional. Since these helpers don't automatically
+> + * clean up the requested interrupt like e.g. devm_request_irq() they're not really
+>   * recommended.
+>   */
+>  
+> @@ -91,9 +89,7 @@
+>   * and after the installation.
+>   *
+>   * This is the simplified helper interface provided for drivers with no special
+> - * needs. Drivers which need to install interrupt handlers for multiple
+> - * interrupts must instead set &drm_device.irq_enabled to signal the DRM core
+> - * that vblank interrupts are available.
+> + * needs.
+>   *
+>   * @irq must match the interrupt number that would be passed to request_irq(),
+>   * if called directly instead of using this helper function.
+> diff --git a/drivers/gpu/drm/drm_vblank.c b/drivers/gpu/drm/drm_vblank.c
+> index 3417e1ac7918..165286fef478 100644
+> --- a/drivers/gpu/drm/drm_vblank.c
+> +++ b/drivers/gpu/drm/drm_vblank.c
+> @@ -1748,7 +1748,7 @@ int drm_wait_vblank_ioctl(struct drm_device *dev, void *data,
+>  	unsigned int pipe_index;
+>  	unsigned int flags, pipe, high_pipe;
+>  
+> -	if (!dev->irq_enabled)
+> +	if (!drm_dev_has_vblank(dev))
+>  		return -EOPNOTSUPP;
+>  
+>  	if (vblwait->request.type & _DRM_VBLANK_SIGNAL)
+> @@ -2023,7 +2023,7 @@ int drm_crtc_get_sequence_ioctl(struct drm_device *dev, void *data,
+>  	if (!drm_core_check_feature(dev, DRIVER_MODESET))
+>  		return -EOPNOTSUPP;
+>  
+> -	if (!dev->irq_enabled)
+> +	if (!drm_dev_has_vblank(dev))
+>  		return -EOPNOTSUPP;
+>  
+>  	crtc = drm_crtc_find(dev, file_priv, get_seq->crtc_id);
+> @@ -2082,7 +2082,7 @@ int drm_crtc_queue_sequence_ioctl(struct drm_device *dev, void *data,
+>  	if (!drm_core_check_feature(dev, DRIVER_MODESET))
+>  		return -EOPNOTSUPP;
+>  
+> -	if (!dev->irq_enabled)
+> +	if (!drm_dev_has_vblank(dev))
+>  		return -EOPNOTSUPP;
+>  
+>  	crtc = drm_crtc_find(dev, file_priv, queue_seq->crtc_id);
+> -- 
+> 2.31.1
+> 
+
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
