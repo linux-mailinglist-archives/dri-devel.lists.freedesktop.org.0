@@ -1,41 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 147DC3A0544
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Jun 2021 22:47:26 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id F32503A0572
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Jun 2021 23:03:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7289D6E20F;
-	Tue,  8 Jun 2021 20:47:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BBB186E5A1;
+	Tue,  8 Jun 2021 21:02:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B83DE6E1CF
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Jun 2021 20:47:20 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
- [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7FD3C3E6;
- Tue,  8 Jun 2021 22:47:18 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1623185238;
- bh=nL94lwxiZDx7hO51vSX7RllgqbEzWiXMfFLGeKO44RU=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=LqehrYH7+bNvxnCFiQRU5fOnAU8KAbzQFhAmjEpkGwrRsydbIiNAxFHhFDXenTXD3
- n6J0D/aEgZ2SJklelIKb8IWd1J7FBRkKGzPRnTIf89afSIo+VcOQTIa3IXSSJfbWQK
- J1f7W0/ODl1SjdZjDcwJnS1XftTAUlSoAnj1gfM0=
-Date: Tue, 8 Jun 2021 23:47:02 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Jonathan Marek <jonathan@marek.ca>
-Subject: Re: [PATCH v3 2/3] dt-bindings: msm: dsi: document phy-type property
- for 7nm dsi phy
-Message-ID: <YL/XRsiShrCJOadW@pendragon.ideasonboard.com>
-References: <20210608195342.18269-1-jonathan@marek.ca>
- <20210608195342.18269-3-jonathan@marek.ca>
+Received: from mail-qk1-x72a.google.com (mail-qk1-x72a.google.com
+ [IPv6:2607:f8b0:4864:20::72a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3863B6E1CF
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Jun 2021 21:02:57 +0000 (UTC)
+Received: by mail-qk1-x72a.google.com with SMTP id f70so6467414qke.13
+ for <dri-devel@lists.freedesktop.org>; Tue, 08 Jun 2021 14:02:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=tI5apJy6qAcGNcp49inXli13iJ5zzU/EHf7L81CBh78=;
+ b=JMUKNYQ/Uorm1mPfiretBAqd1KKOje4jcX9qzjAaDdhKuzgxVOlRkeNXNuGVt9waek
+ lVUvoKhsvypiE9mSDAbMSjUU6ys+QrVwF10LQw+K/iw41mnZ5/fonFLU+LzFfeaqRfju
+ m5Xk+XBo/o2olnwXRL/YUwjnu9PT4U7LZ9xkc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=tI5apJy6qAcGNcp49inXli13iJ5zzU/EHf7L81CBh78=;
+ b=jiqAWv7UugsTkOO4JqFVGTUywUi4IcdeJOCso8JTIchVF/3MeHX5yWKv25Nxr2R/j5
+ 5Y6krKQCBOub5HHBBLK6OUoHipWAQp3txw1hl5AvqdDU6bojkIfz3c+6muV6YhGzDVoD
+ GY7Pcb+AaS8scaaGK8UKU7DZSuUuQsWF5Z0x8MVlsSlADt/t9v0c4FQ6JTKh2QJKC341
+ Tb/7Ibs6jbQe3iyHrbxkNBptb5OhcrWmmMOFdKOO5N0laIme87C1AcMapqTS9JPCd2z3
+ hoDIIBNxu7/9BTKturtQkMfSpl1J6jT7TboA7RQaz7omcavbd3PmwspQBNSzyvD1eSwo
+ d8fA==
+X-Gm-Message-State: AOAM5312QWuKdtRSM/oeUpOj1tFhWMoSkvMZX+YpNTjzor1T98lYvyiI
+ Wghhkf/Wok30wiyuvOGl3w9h0y40mOvmyw==
+X-Google-Smtp-Source: ABdhPJy9/LPVf+utKWzp0q5O8a6kRjwNGnh2L84oLQIK9b3fjzPfvCGxOu3shPzfSgLsSRcylz+B3A==
+X-Received: by 2002:a37:b147:: with SMTP id a68mr23859911qkf.4.1623186176170; 
+ Tue, 08 Jun 2021 14:02:56 -0700 (PDT)
+Received: from mail-yb1-f175.google.com (mail-yb1-f175.google.com.
+ [209.85.219.175])
+ by smtp.gmail.com with ESMTPSA id i1sm11935628qtg.81.2021.06.08.14.02.53
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 08 Jun 2021 14:02:54 -0700 (PDT)
+Received: by mail-yb1-f175.google.com with SMTP id p184so32204678yba.11
+ for <dri-devel@lists.freedesktop.org>; Tue, 08 Jun 2021 14:02:53 -0700 (PDT)
+X-Received: by 2002:a5b:54a:: with SMTP id r10mr34051315ybp.476.1623186173429; 
+ Tue, 08 Jun 2021 14:02:53 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20210608195342.18269-3-jonathan@marek.ca>
+References: <1621927831-29471-1-git-send-email-rajeevny@codeaurora.org>
+ <1621927831-29471-2-git-send-email-rajeevny@codeaurora.org>
+ <4df7dcddd5aca799361642ea91c37fa94e8a4fef.camel@redhat.com>
+In-Reply-To: <4df7dcddd5aca799361642ea91c37fa94e8a4fef.camel@redhat.com>
+From: Doug Anderson <dianders@chromium.org>
+Date: Tue, 8 Jun 2021 14:02:42 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=Wy-a_rCrx-mjDwr07CN=281ZyomVX7dcFiWrzFExcTTQ@mail.gmail.com>
+Message-ID: <CAD=FV=Wy-a_rCrx-mjDwr07CN=281ZyomVX7dcFiWrzFExcTTQ@mail.gmail.com>
+Subject: Re: [v4 1/4] drm/panel-simple: Add basic DPCD backlight support
+To: Lyude Paul <lyude@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,69 +72,34 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>,
- Anurag Kumar Vulisha <anurag.kumar.vulisha@xilinx.com>,
- David Airlie <airlied@linux.ie>, freedreno@lists.freedesktop.org,
- "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
- Vinod Koul <vkoul@kernel.org>,
- "open list:DRM DRIVER FOR MSM ADRENO GPU" <dri-devel@lists.freedesktop.org>,
- open list <linux-kernel@vger.kernel.org>, Rob Herring <robh+dt@kernel.org>,
- Swapnil Jakhade <sjakhade@cadence.com>, Sean Paul <sean@poorly.run>
+ <devicetree@vger.kernel.org>, Daniel Thompson <daniel.thompson@linaro.org>,
+ Krishna Manikandan <mkrishn@codeaurora.org>,
+ Rajeev Nandan <rajeevny@codeaurora.org>, Jani Nikula <jani.nikula@intel.com>,
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ Abhinav Kumar <abhinavk@codeaurora.org>, LKML <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, Sam Ravnborg <sam@ravnborg.org>,
+ Andrzej Hajda <a.hajda@samsung.com>, Thierry Reding <thierry.reding@gmail.com>,
+ Sean Paul <seanpaul@chromium.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Kalyan Thota <kalyan_t@codeaurora.org>,
+ "Kristian H. Kristensen" <hoegsberg@chromium.org>,
+ freedreno <freedreno@lists.freedesktop.org>, y@qualcomm.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Jonathan,
+Lyude,
 
-Thank you for the patch.
+On Tue, Jun 1, 2021 at 3:20 PM Lyude Paul <lyude@redhat.com> wrote:
+>
+> oh-looks like my patches just got reviewed, so hopefully I should get a chance
+> to get a look at this in the next day or two :)
 
-On Tue, Jun 08, 2021 at 03:53:28PM -0400, Jonathan Marek wrote:
-> Document a new phy-type property which will be used to determine whether
-> the phy should operate in D-PHY or C-PHY mode.
-> 
-> Signed-off-by: Jonathan Marek <jonathan@marek.ca>
-> ---
->  .../devicetree/bindings/display/msm/dsi-phy-7nm.yaml          | 4 ++++
->  include/dt-bindings/phy/phy.h                                 | 2 ++
->  2 files changed, 6 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/display/msm/dsi-phy-7nm.yaml b/Documentation/devicetree/bindings/display/msm/dsi-phy-7nm.yaml
-> index bf16b1c65e10..d447b517ea19 100644
-> --- a/Documentation/devicetree/bindings/display/msm/dsi-phy-7nm.yaml
-> +++ b/Documentation/devicetree/bindings/display/msm/dsi-phy-7nm.yaml
-> @@ -34,6 +34,10 @@ properties:
->      description: |
->        Connected to VDD_A_DSI_PLL_0P9 pin (or VDDA_DSI{0,1}_PLL_0P9 for sm8150)
->  
-> +  phy-type:
-> +    description: |
-> +      D-PHY (default) or C-PHY mode: PHY_TYPE_DSI_DPHY or PHY_TYPE_DSI_CPHY
-> +
->  required:
->    - compatible
->    - reg
-> diff --git a/include/dt-bindings/phy/phy.h b/include/dt-bindings/phy/phy.h
-> index 887a31b250a8..b978dac16bb8 100644
-> --- a/include/dt-bindings/phy/phy.h
-> +++ b/include/dt-bindings/phy/phy.h
-> @@ -20,5 +20,7 @@
->  #define PHY_TYPE_XPCS		7
->  #define PHY_TYPE_SGMII		8
->  #define PHY_TYPE_QSGMII		9
-> +#define PHY_TYPE_DSI_DPHY	10
-> +#define PHY_TYPE_DSI_CPHY	11
+I'm going to assume that means that you don't need extra eyes on your
+backlight patches. If you do, please shout and I'll try to find some
+cycles for it. I've always got more things to do than there are hours
+in the day, but many folks from the DRM community have helped me out
+with numerous reviews over the last year or two and I'm happy to pay
+some of that back by giving reviews if it'll help move things forward.
+:-)
 
-The MIPI D-PHY and C-PHY apply to both DSI and CSI. I'd name this
-PHY_TYPE_DPHY and PHY_TYPE_CPHY, or possibly, PHY_TYPE_MIPI_DPHY and
-PHY_TYPE_MIPI_CPHY, without a DSI prefix. With this addressed and the DT
-bindings updated accordingly,
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
-(You may be asked to split this in two patches though, not sure)
-
->  #endif /* _DT_BINDINGS_PHY */
-
--- 
-Regards,
-
-Laurent Pinchart
+-Doug
