@@ -2,51 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0A0539FD99
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Jun 2021 19:29:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CCBE639FDD1
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Jun 2021 19:36:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1F4096E2D7;
-	Tue,  8 Jun 2021 17:29:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1A3806E3F7;
+	Tue,  8 Jun 2021 17:36:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com
- [IPv6:2a00:1450:4864:20::32e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 060F46E2D7;
- Tue,  8 Jun 2021 17:29:04 +0000 (UTC)
-Received: by mail-wm1-x32e.google.com with SMTP id
- l18-20020a1ced120000b029014c1adff1edso2502170wmh.4; 
- Tue, 08 Jun 2021 10:29:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:from:date:message-id:subject:to:cc;
- bh=kh3U0W8lXjrBe5YvME2LiOdCRvieHJMJ/l2oE7LB1q4=;
- b=NRdrRyXDEwt/oe9k+Tty8IVcHBZsLVbq+DP2weSvJsQJprOLjbrKBH9FUSW/HidQ3B
- zpWUt05xhBz7+HDuKHLDIKkx1EOda4j7njFeASretr450sVoQSfu0xNkshyZYm6zMXry
- Ox0ZGApZjtDtUYHRFZ2K/q+d0+vAIYLdBFPe8TtxSMSsLS94ogtbcRP7PTVnB0J/y7uA
- 2KfetVbjgfCAHev4ir3yRSup5tOfr/8kVB22oMCcVVm+w0Xcurcx4WMSzFMSyCPwkrTq
- oqQYkY5XY1k6BDgiugP9k2sDx12b83VYjao6popDUYt564Rs/qExfaP42rCXWH02vK9f
- U/bg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
- bh=kh3U0W8lXjrBe5YvME2LiOdCRvieHJMJ/l2oE7LB1q4=;
- b=pRFx1SU8F5rulefwlOFBi6II5VbndbeLswAje+bP8XxejjGnnUbfiFFzTGMZ8/0mEX
- UmNs7Uxtpw3EjE4Zu318dJYB39EIfIetxUEIfZ9iW6aiKZTYtkeu9BgNGSurCatL1ywc
- q3CxOMP4LiebyvfuFP+fGv7R3hHivKFbao+PiRI9g76Zv7Errc9CUKzNmCQIg6xouHph
- sqvWG3ICVR6f2g9YV/kcM6YlMJoOvhz/6+Q8PTs9bMNv7b7GaUvV3BfPgQkWO2829Xxq
- u/XfPKRQoDkcOuZzvYzJChcaoiUsX78+5nRQTkLssGKa8w4dZWKZvRCe20y8Z5U01wWQ
- L7Ug==
-X-Gm-Message-State: AOAM532yafgQnr+IgXyWt78F7os3QD/CQTPAygwlR/8/QTciUTVdZMKX
- 8jLdHjFiKV5lb3PUEqOje5Veg77aoOlAlNX6Xuo=
-X-Google-Smtp-Source: ABdhPJzt6qeJVEAIrJtphShs6jULoPcjL95oJqnADSmPyn9ruBxnkpU2RrhQjbvVA/O4wV96WwrdqeYR1cAMSDyQ6e4=
-X-Received: by 2002:a1c:23d6:: with SMTP id j205mr5660343wmj.94.1623173342589; 
- Tue, 08 Jun 2021 10:29:02 -0700 (PDT)
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BA14D6E3F7
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Jun 2021 17:36:01 +0000 (UTC)
+IronPort-SDR: PlgMlviH3D+oP7V0036mDxijwwNcwZEjGnI06m3SuqEnhbO5GwfYpqOas5/iafB1bEH9gU/o2d
+ Acxp7qsqtbuA==
+X-IronPort-AV: E=McAfee;i="6200,9189,10009"; a="204861870"
+X-IronPort-AV: E=Sophos;i="5.83,258,1616482800"; d="scan'208";a="204861870"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Jun 2021 10:36:00 -0700
+IronPort-SDR: NWRtmws0IGY1Cln2m/l4XE0Y2Xe6pE1R1Oxh2QxUn1vL6xpyHQM2uJQwC/WyAthRtze2Z6RwKh
+ e318OU2lkvPQ==
+X-IronPort-AV: E=Sophos;i="5.83,258,1616482800"; d="scan'208";a="413452701"
+Received: from dongwonk-mobl.amr.corp.intel.com ([10.212.5.106])
+ by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Jun 2021 10:36:00 -0700
+Date: Tue, 8 Jun 2021 10:35:58 -0700
+From: Dongwon Kim <dongwon.kim@intel.com>
+To: Vivek Kasireddy <vivek.kasireddy@intel.com>
+Subject: Re: [PATCH] udmabuf: Add support for mapping hugepages (v3)
+Message-ID: <20210608173558.GB432@dongwonk-MOBL.amr.corp.intel.com>
+References: <20210604055903.g2bp4vuay2555omg@sirius.home.kraxel.org>
+ <20210604205939.376598-1-vivek.kasireddy@intel.com>
 MIME-Version: 1.0
-From: Rob Clark <robdclark@gmail.com>
-Date: Tue, 8 Jun 2021 10:32:56 -0700
-Message-ID: <CAF6AEGs+zjKrj2_oU0ByF=UqBgh3oEOuNkNem3eg5HcFhffmBQ@mail.gmail.com>
-Subject: [pull] drm/msm: drm-msm-fixes-2021-06-08 for v5.13-rc6
-To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210604205939.376598-1-vivek.kasireddy@intel.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,43 +49,124 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- Abhinav Kumar <abhinavk@codeaurora.org>,
- Jordan Crouse <jordan@cosmicpenguin.net>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- freedreno <freedreno@lists.freedesktop.org>
+Cc: Gerd Hoffmann <kraxel@redhat.com>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave & Daniel,
+I see the number of entries in the list often exceeds list_limit
+currently hardcoded to 1024 for full HD scanout resource (==
+1920*1080*4 bytes). Can we include a change to increase it to something
+like 4096 or higher in this patch?
 
-A few late fixes for v5.13
-
-The following changes since commit f2f46b878777e0d3f885c7ddad48f477b4dea247:
-
-  drm/msm/dp: initialize audio_comp when audio starts (2021-05-06
-16:26:57 -0700)
-
-are available in the Git repository at:
-
-  https://gitlab.freedesktop.org/drm/msm.git drm-msm-fixes-2021-06-08
-
-for you to fetch changes up to 924f4cba9e68bf2b4717e7941697db96c6f203be:
-
-  drm/msm/a6xx: avoid shadow NULL reference in failure path
-(2021-06-08 10:08:05 -0700)
-
-----------------------------------------------------------------
-Alexey Minnekhanov (1):
-      drm/msm: Init mm_list before accessing it for use_vram path
-
-Jonathan Marek (3):
-      drm/msm/a6xx: update/fix CP_PROTECT initialization
-      drm/msm/a6xx: fix incorrectly set uavflagprd_inv field for A650
-      drm/msm/a6xx: avoid shadow NULL reference in failure path
-
- drivers/gpu/drm/msm/adreno/a6xx_gpu.c | 155 +++++++++++++++++++++++++---------
- drivers/gpu/drm/msm/adreno/a6xx_gpu.h |   2 +-
- drivers/gpu/drm/msm/msm_gem.c         |   7 ++
- 3 files changed, 122 insertions(+), 42 deletions(-)
+On Fri, Jun 04, 2021 at 01:59:39PM -0700, Vivek Kasireddy wrote:
+> If the VMM's (Qemu) memory backend is backed up by memfd + Hugepages
+> (hugetlbfs and not THP), we have to first find the hugepage(s) where
+> the Guest allocations are located and then extract the regular 4k
+> sized subpages from them.
+> 
+> v2: Ensure that the subpage and hugepage offsets are calculated correctly
+> when the range of subpage allocations cuts across multiple hugepages.
+> 
+> v3: Instead of repeatedly looking up the hugepage for each subpage,
+> only do it when the subpage allocation crosses over into a different
+> hugepage. (suggested by Gerd and DW)
+> 
+> Cc: Gerd Hoffmann <kraxel@redhat.com>
+> Signed-off-by: Vivek Kasireddy <vivek.kasireddy@intel.com>
+> Signed-off-by: Dongwon Kim <dongwon.kim@intel.com>
+> ---
+>  drivers/dma-buf/udmabuf.c | 51 +++++++++++++++++++++++++++++++++------
+>  1 file changed, 44 insertions(+), 7 deletions(-)
+> 
+> diff --git a/drivers/dma-buf/udmabuf.c b/drivers/dma-buf/udmabuf.c
+> index db732f71e59a..2e02bbfe30fd 100644
+> --- a/drivers/dma-buf/udmabuf.c
+> +++ b/drivers/dma-buf/udmabuf.c
+> @@ -11,6 +11,7 @@
+>  #include <linux/shmem_fs.h>
+>  #include <linux/slab.h>
+>  #include <linux/udmabuf.h>
+> +#include <linux/hugetlb.h>
+>  
+>  static const u32    list_limit = 1024;  /* udmabuf_create_list->count limit */
+>  static const size_t size_limit_mb = 64; /* total dmabuf size, in megabytes  */
+> @@ -163,7 +164,9 @@ static long udmabuf_create(struct miscdevice *device,
+>  	struct udmabuf *ubuf;
+>  	struct dma_buf *buf;
+>  	pgoff_t pgoff, pgcnt, pgidx, pgbuf = 0, pglimit;
+> -	struct page *page;
+> +	struct page *page, *hpage = NULL;
+> +	pgoff_t subpgoff, maxsubpgs;
+> +	struct hstate *hpstate;
+>  	int seals, ret = -EINVAL;
+>  	u32 i, flags;
+>  
+> @@ -194,7 +197,8 @@ static long udmabuf_create(struct miscdevice *device,
+>  		memfd = fget(list[i].memfd);
+>  		if (!memfd)
+>  			goto err;
+> -		if (!shmem_mapping(file_inode(memfd)->i_mapping))
+> +		if (!shmem_mapping(file_inode(memfd)->i_mapping) &&
+> +		    !is_file_hugepages(memfd))
+>  			goto err;
+>  		seals = memfd_fcntl(memfd, F_GET_SEALS, 0);
+>  		if (seals == -EINVAL)
+> @@ -205,17 +209,50 @@ static long udmabuf_create(struct miscdevice *device,
+>  			goto err;
+>  		pgoff = list[i].offset >> PAGE_SHIFT;
+>  		pgcnt = list[i].size   >> PAGE_SHIFT;
+> +		if (is_file_hugepages(memfd)) {
+> +			hpstate = hstate_file(memfd);
+> +			pgoff = list[i].offset >> huge_page_shift(hpstate);
+> +			subpgoff = (list[i].offset &
+> +				    ~huge_page_mask(hpstate)) >> PAGE_SHIFT;
+> +			maxsubpgs = huge_page_size(hpstate) >> PAGE_SHIFT;
+> +		}
+>  		for (pgidx = 0; pgidx < pgcnt; pgidx++) {
+> -			page = shmem_read_mapping_page(
+> -				file_inode(memfd)->i_mapping, pgoff + pgidx);
+> -			if (IS_ERR(page)) {
+> -				ret = PTR_ERR(page);
+> -				goto err;
+> +			if (is_file_hugepages(memfd)) {
+> +				if (!hpage) {
+> +					hpage = find_get_page_flags(
+> +						file_inode(memfd)->i_mapping,
+> +						pgoff, FGP_ACCESSED);
+> +					if (IS_ERR(hpage)) {
+> +						ret = PTR_ERR(hpage);
+> +						goto err;
+> +					}
+> +				}
+> +				page = hpage + subpgoff;
+> +				get_page(page);
+> +				subpgoff++;
+> +				if (subpgoff == maxsubpgs) {
+> +					put_page(hpage);
+> +					hpage = NULL;
+> +					subpgoff = 0;
+> +					pgoff++;
+> +				}
+> +			} else {
+> +				page = shmem_read_mapping_page(
+> +					file_inode(memfd)->i_mapping,
+> +					pgoff + pgidx);
+> +				if (IS_ERR(page)) {
+> +					ret = PTR_ERR(page);
+> +					goto err;
+> +				}
+>  			}
+>  			ubuf->pages[pgbuf++] = page;
+>  		}
+>  		fput(memfd);
+>  		memfd = NULL;
+> +		if (hpage) {
+> +			put_page(hpage);
+> +			hpage = NULL;
+> +		}
+>  	}
+>  
+>  	exp_info.ops  = &udmabuf_ops;
+> -- 
+> 2.30.2
+> 
