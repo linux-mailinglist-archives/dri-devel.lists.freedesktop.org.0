@@ -2,68 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 950A839FCEB
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Jun 2021 18:55:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 95E0339FCED
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Jun 2021 18:56:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3ABF56E10B;
-	Tue,  8 Jun 2021 16:55:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8B14D6E105;
+	Tue,  8 Jun 2021 16:56:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x72e.google.com (mail-qk1-x72e.google.com
- [IPv6:2607:f8b0:4864:20::72e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BBC2E6E10B
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Jun 2021 16:55:29 +0000 (UTC)
-Received: by mail-qk1-x72e.google.com with SMTP id u30so20831397qke.7
- for <dri-devel@lists.freedesktop.org>; Tue, 08 Jun 2021 09:55:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=marek-ca.20150623.gappssmtp.com; s=20150623;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=u0jkiDRYCG9tDKJ5bWYS1XDj3QKmjRotfMyh8Z3wS/8=;
- b=A5JfgkNIXbw7zRFkCQvIO7v0/mtkxi+fmo+QnohaqF2ZVD9FOYLVvx37F/fINlIt7U
- IUhslFH3Q9p0bAyz2sjljW5BZE9qoSUtMFiG+tNzeFL6P1doG3yJDeVJJZl5w/m46n4j
- K1Blp0UxBcATeQHcNooWc5Jc8QetEa169iQrHKhPhqMUiD/Yx+LOc9gmn/kYmYThJcK5
- QHkkwGuIz4reZ0citIlB+tRh4QEymvX/R5qaLVS0LL7upgmuSgF7cdObCyguqYbSnbyn
- FUgHFL8qabZUglarZxie3yMRqr5x2KX1vGoCdyPp35YzDoK3tX7sCr4SLC+k1ERg2G6t
- GqnQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=u0jkiDRYCG9tDKJ5bWYS1XDj3QKmjRotfMyh8Z3wS/8=;
- b=ooFmyvhWTED31gzH9mvJe1hajLwt84UOcNeHXxMprCrUsnr7jlhSj8j2dNbH/ac3bn
- xuCcfecFe5dD1uFBbtL3d1+8BVXmN6ZnM2x9KEVjBuSAhnf70GzTKzPtAnJXiq10tnYM
- heOAlaJWAcNcbC6L3KEBh4k3/DzdAkDGqQs2hbV7p/Nkk3H8ODNTeA96JeqhbRWKoOCC
- iQ+mS/YuM3VtmRCsNQ8qcRwntTkkjO7wVe8iQIOZyC0GQxZWv8eTjW9zTB//wPdvqK3g
- v28J+uXdn3DN6e/N8vt6PwL0EizmC3qnl5kskrBIdSb8QOS0klvEnbXbyZYSXP2aCc1d
- Qe6g==
-X-Gm-Message-State: AOAM530BmHvDvfFlZOVygAJBQbtTlI1M5tkNja87wJHN8lSmBWedBbnK
- YAF6HAU5Td6X4abBN6rbAnMYWA==
-X-Google-Smtp-Source: ABdhPJzsgmTE+FYjCjQ89/qlYNd7CK3mU8AEGjcZnqOY3tWmhR+skZOgk9rTfy7cVDsI+1rBwYiq9g==
-X-Received: by 2002:a37:6884:: with SMTP id
- d126mr22160972qkc.497.1623171328720; 
- Tue, 08 Jun 2021 09:55:28 -0700 (PDT)
-Received: from [192.168.0.189] (modemcable068.184-131-66.mc.videotron.ca.
- [66.131.184.68])
- by smtp.gmail.com with ESMTPSA id h19sm9936019qtq.5.2021.06.08.09.55.27
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 08 Jun 2021 09:55:28 -0700 (PDT)
-Subject: Re: [PATCH v2 6/8] drm/msm/a6xx: add support for Adreno 660 GPU
-To: Akhil P Oommen <akhilpo@codeaurora.org>, freedreno@lists.freedesktop.org
-References: <20210513171431.18632-1-jonathan@marek.ca>
- <20210513171431.18632-7-jonathan@marek.ca>
- <055b924e-43fe-1b2b-7292-43a88f9798c2@codeaurora.org>
-From: Jonathan Marek <jonathan@marek.ca>
-Message-ID: <8dd37a7b-b58f-3cf6-346e-ca5add2a163c@marek.ca>
-Date: Tue, 8 Jun 2021 12:53:44 -0400
+Received: from mx07-00178001.pphosted.com (mx08-00178001.pphosted.com
+ [91.207.212.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7619B6E105
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Jun 2021 16:56:37 +0000 (UTC)
+Received: from pps.filterd (m0046661.ppops.net [127.0.0.1])
+ by mx07-00178001.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 158GpTtB008149; Tue, 8 Jun 2021 18:56:33 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com;
+ h=subject : to : cc :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=selector1;
+ bh=xmXXy0WciX654IwlpzmNZ/gVDr1D3/TyBFil1GVZFBY=;
+ b=gskQBmP72sCEyBu8AD764fnP5x4b1XUc3ETw4WCBMPta73SdkH+tsugwBgA7W6MVDPXP
+ 4HBkswgPDFllrEjDcEM41QnE3IE8lMOXMylFxxRZRRHW1XCvUWBRbG/RZDlHvb3vi2Jy
+ 1Y71LaPSC+aT6UsmWkr4uQItpFBBQnftNO0dfuV+TcMomUxS/uElDYHAdD5e57bm9TlA
+ iIIfEwcXbDZ+sQgxAaPwSOgV4A8AjjLGCCK9ff4RRMESUonJdZ3fCouCCBV/dPM88Ycv
+ MBHHudSBo9es0N2We16yD2CYcG2BIyHY2Ikk/fTktnNg1d4gs9jeTdzi4lOqTAdfP6bZ Eg== 
+Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
+ by mx07-00178001.pphosted.com with ESMTP id 3924rmjyge-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 08 Jun 2021 18:56:33 +0200
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+ by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 5FEDD100034;
+ Tue,  8 Jun 2021 18:56:31 +0200 (CEST)
+Received: from Webmail-eu.st.com (sfhdag2node3.st.com [10.75.127.6])
+ by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 1FC5322E7E5;
+ Tue,  8 Jun 2021 18:56:31 +0200 (CEST)
+Received: from lmecxl0993.lme.st.com (10.75.127.50) by SFHDAG2NODE3.st.com
+ (10.75.127.6) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Tue, 8 Jun
+ 2021 18:56:30 +0200
+Subject: Re: [PATCH] drm/stm: Remove usage of drm_display_mode_to_videomode()
+To: Marek Vasut <marex@denx.de>, <dri-devel@lists.freedesktop.org>
+References: <20210607172457.14471-1-marex@denx.de>
+From: Philippe CORNU <philippe.cornu@foss.st.com>
+Message-ID: <695b7ef5-480f-dc3e-74f5-99148add22d7@foss.st.com>
+Date: Tue, 8 Jun 2021 18:56:23 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <055b924e-43fe-1b2b-7292-43a88f9798c2@codeaurora.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <20210607172457.14471-1-marex@denx.de>
+Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.75.127.50]
+X-ClientProxiedBy: SFHDAG2NODE1.st.com (10.75.127.4) To SFHDAG2NODE3.st.com
+ (10.75.127.6)
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.761
+ definitions=2021-06-08_11:2021-06-04,
+ 2021-06-08 signatures=0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,131 +70,104 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>,
- kbuild test robot <lkp@intel.com>, David Airlie <airlied@linux.ie>,
- "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
- Sharat Masetty <smasetty@codeaurora.org>,
- Konrad Dybcio <konrad.dybcio@somainline.org>,
- Douglas Anderson <dianders@chromium.org>,
- "open list:DRM DRIVER FOR MSM ADRENO GPU" <dri-devel@lists.freedesktop.org>,
- Jordan Crouse <jordan@cosmicpenguin.net>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
- Bjorn Andersson <bjorn.andersson@linaro.org>, Sean Paul <sean@poorly.run>,
- open list <linux-kernel@vger.kernel.org>
+Cc: Antonio Borneo <antonio.borneo@foss.st.com>,
+ Benjamin Gaignard <benjamin.gaignard@foss.st.com>,
+ Yannick Fertre <yannick.fertre@foss.st.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ Vincent Abriou <vincent.abriou@foss.st.com>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
+ linux-stm32@st-md-mailman.stormreply.com, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 5/31/21 11:05 AM, Akhil P Oommen wrote:
-> On 5/13/2021 10:44 PM, Jonathan Marek wrote:
+Hi Marek,
+Applied on drm-misc-next.
+Note: I added Yannick Tested-by from the last (identical) December 
+version https://patchwork.freedesktop.org/patch/409968
+Many thanks for your patch,
+Philippe :-)
 
-...
-
->> @@ -519,7 +519,7 @@ static void a6xx_gmu_rpmh_init(struct a6xx_gmu *gmu)
->>       if (!pdcptr)
->>           goto err;
->> -    if (adreno_is_a650(adreno_gpu))
->> +    if (adreno_is_a650(adreno_gpu) || adreno_is_a660(adreno_gpu))
+On 6/7/21 7:24 PM, Marek Vasut wrote:
+> There is not much value in the extra conversion step, the calculations
+> required for the LTDC IP are different than what is used in the
+> drm_display_mode_to_videomode(), so just do the right ones in the LTDC
+> driver right away.
 > 
-> why not adreno_is_a650_family() here?
+> Signed-off-by: Marek Vasut <marex@denx.de>
+> Cc: Alexandre Torgue <alexandre.torgue@foss.st.com>
+> Cc: Antonio Borneo <antonio.borneo@foss.st.com>
+> Cc: Benjamin Gaignard <benjamin.gaignard@foss.st.com>
+> Cc: Maxime Coquelin <mcoquelin.stm32@gmail.com>
+> Cc: Philippe Cornu <philippe.cornu@foss.st.com>
+> Cc: Sam Ravnborg <sam@ravnborg.org>
+> Cc: Vincent Abriou <vincent.abriou@foss.st.com>
+> Cc: Yannick Fertre <yannick.fertre@foss.st.com>
+> Cc: linux-arm-kernel@lists.infradead.org
+> Cc: linux-stm32@st-md-mailman.stormreply.com
+> To: dri-devel@lists.freedesktop.org
+> ---
+>   drivers/gpu/drm/stm/ltdc.c | 33 +++++++++++++++++----------------
+>   1 file changed, 17 insertions(+), 16 deletions(-)
 > 
-
-Based on downstream, a620 is part of a650_family but does not have 
-pdc_in_aop flag.
-
->> @@ -751,7 +751,7 @@ static int a6xx_gmu_fw_start(struct a6xx_gmu *gmu, 
->> unsigned int state)
->>       int ret;
->>       u32 chipid;
-> We need to program this register here:
-> gmu_write(gmu, REG_A6XX_GPU_GMU_CX_GMU_CX_FALNEXT_INTF, 1);
+> diff --git a/drivers/gpu/drm/stm/ltdc.c b/drivers/gpu/drm/stm/ltdc.c
+> index e99771b947b6..08b71248044d 100644
+> --- a/drivers/gpu/drm/stm/ltdc.c
+> +++ b/drivers/gpu/drm/stm/ltdc.c
+> @@ -531,7 +531,6 @@ static void ltdc_crtc_mode_set_nofb(struct drm_crtc *crtc)
+>   	struct drm_encoder *encoder = NULL;
+>   	struct drm_bridge *bridge = NULL;
+>   	struct drm_display_mode *mode = &crtc->state->adjusted_mode;
+> -	struct videomode vm;
+>   	u32 hsync, vsync, accum_hbp, accum_vbp, accum_act_w, accum_act_h;
+>   	u32 total_width, total_height;
+>   	u32 bus_flags = 0;
+> @@ -570,31 +569,33 @@ static void ltdc_crtc_mode_set_nofb(struct drm_crtc *crtc)
+>   		}
+>   	}
+>   
+> -	drm_display_mode_to_videomode(mode, &vm);
+> -
+>   	DRM_DEBUG_DRIVER("CRTC:%d mode:%s\n", crtc->base.id, mode->name);
+> -	DRM_DEBUG_DRIVER("Video mode: %dx%d", vm.hactive, vm.vactive);
+> +	DRM_DEBUG_DRIVER("Video mode: %dx%d", mode->hdisplay, mode->vdisplay);
+>   	DRM_DEBUG_DRIVER(" hfp %d hbp %d hsl %d vfp %d vbp %d vsl %d\n",
+> -			 vm.hfront_porch, vm.hback_porch, vm.hsync_len,
+> -			 vm.vfront_porch, vm.vback_porch, vm.vsync_len);
+> +			 mode->hsync_start - mode->hdisplay,
+> +			 mode->htotal - mode->hsync_end,
+> +			 mode->hsync_end - mode->hsync_start,
+> +			 mode->vsync_start - mode->vdisplay,
+> +			 mode->vtotal - mode->vsync_end,
+> +			 mode->vsync_end - mode->vsync_start);
+>   
+>   	/* Convert video timings to ltdc timings */
+> -	hsync = vm.hsync_len - 1;
+> -	vsync = vm.vsync_len - 1;
+> -	accum_hbp = hsync + vm.hback_porch;
+> -	accum_vbp = vsync + vm.vback_porch;
+> -	accum_act_w = accum_hbp + vm.hactive;
+> -	accum_act_h = accum_vbp + vm.vactive;
+> -	total_width = accum_act_w + vm.hfront_porch;
+> -	total_height = accum_act_h + vm.vfront_porch;
+> +	hsync = mode->hsync_end - mode->hsync_start - 1;
+> +	vsync = mode->vsync_end - mode->vsync_start - 1;
+> +	accum_hbp = mode->htotal - mode->hsync_start - 1;
+> +	accum_vbp = mode->vtotal - mode->vsync_start - 1;
+> +	accum_act_w = accum_hbp + mode->hdisplay;
+> +	accum_act_h = accum_vbp + mode->vdisplay;
+> +	total_width = mode->htotal - 1;
+> +	total_height = mode->vtotal - 1;
+>   
+>   	/* Configures the HS, VS, DE and PC polarities. Default Active Low */
+>   	val = 0;
+>   
+> -	if (vm.flags & DISPLAY_FLAGS_HSYNC_HIGH)
+> +	if (mode->flags & DRM_MODE_FLAG_PHSYNC)
+>   		val |= GCR_HSPOL;
+>   
+> -	if (vm.flags & DISPLAY_FLAGS_VSYNC_HIGH)
+> +	if (mode->flags & DRM_MODE_FLAG_PVSYNC)
+>   		val |= GCR_VSPOL;
+>   
+>   	if (bus_flags & DRM_BUS_FLAG_DE_LOW)
 > 
-
-msm-4.19 does not have this write for a650, but msm-5.4 then adds it. 
-Will make it a separate change since it affects a650 and not just a660.
-
->> -    if (adreno_is_a650(adreno_gpu))
->> +    if (adreno_is_a650(adreno_gpu) || adreno_is_a660(adreno_gpu))
->>           gmu_write(gmu, REG_A6XX_GPU_GMU_CX_GMU_CX_FAL_INTF, 1);
->>       if (state == GMU_WARM_BOOT) {
->> @@ -1494,12 +1494,28 @@ int a6xx_gmu_init(struct a6xx_gpu *a6xx_gpu, 
->> struct device_node *node)
->>       if (ret)
->>           goto err_put_device;
->> +
->> +    /* A660 now requires handling "prealloc requests" in GMU firmware
->> +     * For now just hardcode allocations based on the known firmware.
->> +     * note: there is no indication that these correspond to "dummy" or
->> +     * "debug" regions, but this "guess" allows reusing these BOs which
->> +     * are otherwise unused by a660.
->> +     */
->> +    gmu->dummy.size = SZ_4K;
->> +    if (adreno_is_a660(adreno_gpu)) {
->> +        ret = a6xx_gmu_memory_alloc(gmu, &gmu->debug, SZ_4K * 7, 
->> 0x60400000);
->> +        if (ret)
->> +            goto err_memory;
-> 
-> I think we can simply ignore this allocation for a660 because it was 
-> required for an unused feature. Do you see any issue if you ignore this 
-> allocation?
-> 
-
-Yes, without it there will be an error:
-
-arm-smmu 3da0000.iommu: Unhandled context fault: fsr=0x402, 
-iova=0x60400000, fsynr=0x32, cbfrsynra=0x5, cb=2
-
->> +
->> +        gmu->dummy.size = SZ_8K;
->> +    }
->> +
->>       /* Allocate memory for the GMU dummy page */
->> -    ret = a6xx_gmu_memory_alloc(gmu, &gmu->dummy, SZ_4K, 0x60000000);
->> +    ret = a6xx_gmu_memory_alloc(gmu, &gmu->dummy, gmu->dummy.size, 
->> 0x60000000);
->>       if (ret)
->>           goto err_memory;
->> -    if (adreno_is_a650(adreno_gpu)) {
->> +    if (adreno_is_a650_family(adreno_gpu)) {
->>           ret = a6xx_gmu_memory_alloc(gmu, &gmu->icache,
->>               SZ_16M - SZ_16K, 0x04000);
->>           if (ret)
->> @@ -885,6 +937,13 @@ static int a6xx_hw_init(struct msm_gpu *gpu)
->>       /* Protect registers from the CP */
->>       a6xx_set_cp_protect(gpu);
->> +    if (adreno_is_a660(adreno_gpu)) {
->> +        gpu_write(gpu, REG_A6XX_CP_CHICKEN_DBG, 0x1);
->> +        gpu_write(gpu, REG_A6XX_RBBM_GBIF_CLIENT_QOS_CNTL, 0x0);
->> +        /* Set dualQ + disable afull for A660 GPU but not for A635 */
->> +        gpu_write(gpu, REG_A6XX_UCHE_CMDQ_CONFIG, 0x66906);
->> +    }
->> +
-> gpu_rmw(gpu, REG_A6XX_PC_DBG_ECO_CNTL, 0, (1 << 9));
-> We need this for a640, a650 and a660.
-> 
-
-Will make this a separate patch too, since it affects non-a660 GPUs too.
-
->>       /* Enable expanded apriv for targets that support it */
->>       if (gpu->hw_apriv) {
->>           gpu_write(gpu, REG_A6XX_CP_APRIV_CNTL,
->> +/* check for a650, a660, or any derivatives */
->> +static inline int adreno_is_a650_family(struct adreno_gpu *gpu)
->> +{
->> +       return gpu->revn == 650 || gpu->revn == 620 ||
->> +              gpu->revn == 660 || gpu->revn == 635;
-> We can remove 635 references throughout since that is not a valid adreno 
-> chipid anymore.
-> 
-> -Akhil
-
-I will remove it for my patch (it can discussed when adding 635 support, 
-but I think you will need to have a 6xx ID for the GPU)
-
->> +}
->> +
->>   int adreno_get_param(struct msm_gpu *gpu, uint32_t param, uint64_t 
->> *value);
->>   const struct firmware *adreno_request_fw(struct adreno_gpu *adreno_gpu,
->>           const char *fwname);
->>
