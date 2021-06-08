@@ -1,62 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C3F239F151
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Jun 2021 10:46:30 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6DA1D39F167
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Jun 2021 10:52:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 157126EB4A;
-	Tue,  8 Jun 2021 08:46:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B4CB86EB39;
+	Tue,  8 Jun 2021 08:52:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x22e.google.com (mail-oi1-x22e.google.com
- [IPv6:2607:f8b0:4864:20::22e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C172C6EB48
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Jun 2021 08:46:26 +0000 (UTC)
-Received: by mail-oi1-x22e.google.com with SMTP id v142so20424061oie.9
- for <dri-devel@lists.freedesktop.org>; Tue, 08 Jun 2021 01:46:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+Received: from mail-pf1-x42b.google.com (mail-pf1-x42b.google.com
+ [IPv6:2607:f8b0:4864:20::42b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EC3226EB39
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Jun 2021 08:52:06 +0000 (UTC)
+Received: by mail-pf1-x42b.google.com with SMTP id c12so15230304pfl.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 08 Jun 2021 01:52:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=NW8oEUeSrgy2VYJZHRBKOpY8SQw4voXk0GCMDPHBGEE=;
- b=MNmrZO1SJctC01ZHDhCaZxROPmPQVOVuH9cqgZpC3SLTccqx/QnNPiePXj4jCHi7yC
- V9hA8a1KCpWK6QhXVz0PUiXYuXiQWSXIN4Iz8tMNDF4jSYM9VagwVuYhYbIWaouE/gKL
- lnhYlt9egXgfk1eXUOkAJyqbbkA5EX9TT9nxU=
+ :cc; bh=qvdRxc9FkmQvYGE3pNAv/DuOBtPazzAmVua0xyFQPeA=;
+ b=LIQ7/npLxtNsjwYNfadtn2txdgVYzHIwXWdEfFrNo0ORg8tqt+Sv2tqDyRVbbnSCas
+ +TXaGH3AVGzlPRBWAT4n17mJ0FpmgoOyREZy9LcNLw2bO2QcR0T0pXLBMwcJS1J0iRKL
+ bYyy1iVe3d4mfEhVMYkYCWG5RInMrexIrWKFHIiRK5UHaLgrUzoZcqGvNaOfyTKwmEKA
+ 6MXxOL8Gzx8nBXQ6QkCMFT7Y3kNMaMc6LHnuHFKuN4g5e53poEtlI6DqVFt9xDmfQhVJ
+ yDgBPG3vrlMUinIavYlADzyMU2VQWeSQWfxIuvSyTYbm42+TVCu0gby7pFcz2a7C5VET
+ 9CFg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=NW8oEUeSrgy2VYJZHRBKOpY8SQw4voXk0GCMDPHBGEE=;
- b=sZ0GvtZFpw1n9FjmyEV4jJbFYhr7xrSySgDOTWwZgm2J63QswU3z59IVQMi4omq+zg
- +mUslVwi/XRGNz+Aer1blq2SsFa1icjuFJjzoe/3aV2cg9TaGKwn7Msechhpi7dcPAja
- 9FnGU7+FxdWRcl71bqBFJQsBgHYxI6w1bXQM5ErpfkPth3hyaq/ecxv1S3CQjOv+RtPt
- h8AkwguLhoyFGz09Fou50XGTQjXXnOz7brr1wdZEso0573NVSLPwishT61pRyP+HahUS
- ehAPd+MkvNEI+AqLTXyZ0daeoIZFMs2hTqBkfz/mtnR9bSQNtWO6HAGgECVwnjfCh3G8
- Xp2w==
-X-Gm-Message-State: AOAM5300AntdTajuph1Q3xEkVvUHUmU3CGB+f/6ObOO5GC4vPAsUMU1T
- WA9/nk1TFlDJbIG4aGechpPi2vpm42W0wUMKaJDn02OwBxg=
-X-Google-Smtp-Source: ABdhPJzh0fGlJ33AiwcJaUGCp5HO8XQRpDpxCz8UPRjhRZrz8pArTNy6U/mD5viwiUcQv3sHAzsi5Gg6/4/x89ljrxk=
-X-Received: by 2002:a05:6808:1142:: with SMTP id
- u2mr1948304oiu.101.1623141985998; 
- Tue, 08 Jun 2021 01:46:25 -0700 (PDT)
+ bh=qvdRxc9FkmQvYGE3pNAv/DuOBtPazzAmVua0xyFQPeA=;
+ b=n8+SgG+7YBCsQgAMOzcKVFpkkYJuXx3Hd1v5xzOn7ArlDxjFpDdDfUNxjE2HfMFPra
+ SfWyBdIXdSKop6Uo25mudLON9eNIhtV/k7rPMKWTz/x8hRNAXJfueE/4upqquwwQFuQw
+ GRm/z4WXtmofPKfVQVg4a2V38tFGmM1SaDqrOylme3y3FfizTgl4vjpopQdP3UhpztOh
+ Jh2E54CeM4P6zidlX9MXKhiO+HRog6JtLmAS1Ctzd2/zb0ffv2XVX+v5rPsginNtgsb+
+ /s5TH2P2VFQEj8D1MiIv6NWvU33dpJOHj6UW5xaW0IZYXZCu4SH9VWNVYpwsW0CPEaQu
+ p8gA==
+X-Gm-Message-State: AOAM5334lQt6TRFgz0kRk7eCcZKo2vcnpaMJdKlau33azc4ZiWpmaWgB
+ OUMNhMcJjzYfQRcniS7hsvGRLDL2BbbtxLnleyWLDA==
+X-Google-Smtp-Source: ABdhPJyMUuuggRsr1mLBBdOQzXY5rP9B+J3rrDvPwTfUe9pqZVifUi7L22pmkwbKu+VNUcTKGAlKRBB3ERmUyZCTybE=
+X-Received: by 2002:a65:4508:: with SMTP id n8mr11885788pgq.120.1623142326479; 
+ Tue, 08 Jun 2021 01:52:06 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210506191451.77768-1-matthew.brost@intel.com>
- <20210506191451.77768-37-matthew.brost@intel.com>
- <375b4de4-168f-9c4c-dbb8-f42fd6303628@linux.intel.com>
- <20210525172121.GE14724@sdutt-i7>
- <0f26f76f-e066-fb23-a7b2-784bb8ee771d@linux.intel.com>
- <20210526181053.GA3435@sdutt-i7>
- <53613c13-1cab-b9bd-3922-0389600773ee@linux.intel.com>
- <20210527143514.GA24720@sdutt-i7>
- <828fe399-5319-78a9-c6e3-c0c027e08e9c@linux.intel.com>
- <20210607173101.GA11968@sdutt-i7>
- <2706c890-5145-4edb-acd1-b9862caba8cf@linux.intel.com>
-In-Reply-To: <2706c890-5145-4edb-acd1-b9862caba8cf@linux.intel.com>
-From: Daniel Vetter <daniel@ffwll.ch>
-Date: Tue, 8 Jun 2021 10:46:15 +0200
-Message-ID: <CAKMK7uENywXraNAfrU_3iP16zse+S5M7EMOrx7D0z-+AjSqaqA@mail.gmail.com>
-Subject: Re: [Intel-gfx] [RFC PATCH 36/97] drm/i915/guc: Add non blocking CTB
- send function
-To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+References: <20210607174258.16300-1-marex@denx.de>
+ <20210607174258.16300-2-marex@denx.de>
+ <8376707f-7234-4555-a892-0581fee00908@baylibre.com>
+In-Reply-To: <8376707f-7234-4555-a892-0581fee00908@baylibre.com>
+From: Robert Foss <robert.foss@linaro.org>
+Date: Tue, 8 Jun 2021 10:51:55 +0200
+Message-ID: <CAG3jFys9F5Nt5cTEUKF7yaMAL5pyW6Kn73h4P2SDFhiBDb6pRg@mail.gmail.com>
+Subject: Re: [PATCH V6 2/2] drm/bridge: ti-sn65dsi83: Add TI SN65DSI83 and
+ SN65DSI84 driver
+To: Neil Armstrong <narmstrong@baylibre.com>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -70,208 +64,90 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Matthew Brost <matthew.brost@intel.com>,
- Jason Ekstrand <jason.ekstrand@intel.com>,
- intel-gfx <intel-gfx@lists.freedesktop.org>,
+Cc: Marek Vasut <marex@denx.de>, Loic Poulain <loic.poulain@linaro.org>,
+ ch@denx.de, Adam Ford <aford173@gmail.com>,
  dri-devel <dri-devel@lists.freedesktop.org>,
- Daniel Vetter <daniel.vetter@intel.com>
+ Douglas Anderson <dianders@chromium.org>,
+ Frieder Schrempf <frieder.schrempf@kontron.de>,
+ Stephen Boyd <swboyd@chromium.org>,
+ Philippe Schenker <philippe.schenker@toradex.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Valentin Raevsky <valentin@compulab.co.il>, Sam Ravnborg <sam@ravnborg.org>,
+ Jagan Teki <jagan@amarulasolutions.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jun 8, 2021 at 10:39 AM Tvrtko Ursulin
-<tvrtko.ursulin@linux.intel.com> wrote:
->
->
-> On 07/06/2021 18:31, Matthew Brost wrote:
-> > On Thu, May 27, 2021 at 04:11:50PM +0100, Tvrtko Ursulin wrote:
-> >>
-> >> On 27/05/2021 15:35, Matthew Brost wrote:
-> >>> On Thu, May 27, 2021 at 11:02:24AM +0100, Tvrtko Ursulin wrote:
-> >>>>
-> >>>> On 26/05/2021 19:10, Matthew Brost wrote:
-> >>>>
-> >>>> [snip]
-> >>>>
-> >>>>>>>>> +static int ct_send_nb(struct intel_guc_ct *ct,
-> >>>>>>>>> +                   const u32 *action,
-> >>>>>>>>> +                   u32 len,
-> >>>>>>>>> +                   u32 flags)
-> >>>>>>>>> +{
-> >>>>>>>>> +     struct intel_guc_ct_buffer *ctb = &ct->ctbs.send;
-> >>>>>>>>> +     unsigned long spin_flags;
-> >>>>>>>>> +     u32 fence;
-> >>>>>>>>> +     int ret;
-> >>>>>>>>> +
-> >>>>>>>>> +     spin_lock_irqsave(&ctb->lock, spin_flags);
-> >>>>>>>>> +
-> >>>>>>>>> +     ret = ctb_has_room(ctb, len + 1);
-> >>>>>>>>> +     if (unlikely(ret))
-> >>>>>>>>> +             goto out;
-> >>>>>>>>> +
-> >>>>>>>>> +     fence = ct_get_next_fence(ct);
-> >>>>>>>>> +     ret = ct_write(ct, action, len, fence, flags);
-> >>>>>>>>> +     if (unlikely(ret))
-> >>>>>>>>> +             goto out;
-> >>>>>>>>> +
-> >>>>>>>>> +     intel_guc_notify(ct_to_guc(ct));
-> >>>>>>>>> +
-> >>>>>>>>> +out:
-> >>>>>>>>> +     spin_unlock_irqrestore(&ctb->lock, spin_flags);
-> >>>>>>>>> +
-> >>>>>>>>> +     return ret;
-> >>>>>>>>> +}
-> >>>>>>>>> +
-> >>>>>>>>>       static int ct_send(struct intel_guc_ct *ct,
-> >>>>>>>>>                          const u32 *action,
-> >>>>>>>>>                          u32 len,
-> >>>>>>>>> @@ -473,6 +541,7 @@ static int ct_send(struct intel_guc_ct *ct,
-> >>>>>>>>>                          u32 response_buf_size,
-> >>>>>>>>>                          u32 *status)
-> >>>>>>>>>       {
-> >>>>>>>>> +     struct intel_guc_ct_buffer *ctb = &ct->ctbs.send;
-> >>>>>>>>>               struct ct_request request;
-> >>>>>>>>>               unsigned long flags;
-> >>>>>>>>>               u32 fence;
-> >>>>>>>>> @@ -482,8 +551,20 @@ static int ct_send(struct intel_guc_ct *ct,
-> >>>>>>>>>               GEM_BUG_ON(!len);
-> >>>>>>>>>               GEM_BUG_ON(len & ~GUC_CT_MSG_LEN_MASK);
-> >>>>>>>>>               GEM_BUG_ON(!response_buf && response_buf_size);
-> >>>>>>>>> +     might_sleep();
-> >>>>>>>>
-> >>>>>>>> Sleep is just cond_resched below or there is more?
-> >>>>>>>>
-> >>>>>>>
-> >>>>>>> Yes, the cond_resched.
-> >>>>>>>
-> >>>>>>>>> +     /*
-> >>>>>>>>> +      * We use a lazy spin wait loop here as we believe that if the CT
-> >>>>>>>>> +      * buffers are sized correctly the flow control condition should be
-> >>>>>>>>> +      * rare.
-> >>>>>>>>> +      */
-> >>>>>>>>> +retry:
-> >>>>>>>>>               spin_lock_irqsave(&ct->ctbs.send.lock, flags);
-> >>>>>>>>> +     if (unlikely(!ctb_has_room(ctb, len + 1))) {
-> >>>>>>>>> +             spin_unlock_irqrestore(&ct->ctbs.send.lock, flags);
-> >>>>>>>>> +             cond_resched();
-> >>>>>>>>> +             goto retry;
-> >>>>>>>>> +     }
-> >>>>>>>>
-> >>>>>>>> If this patch is about adding a non-blocking send function, and below we can
-> >>>>>>>> see that it creates a fork:
-> >>>>>>>>
-> >>>>>>>> intel_guc_ct_send:
-> >>>>>>>> ...
-> >>>>>>>>        if (flags & INTEL_GUC_SEND_NB)
-> >>>>>>>>                return ct_send_nb(ct, action, len, flags);
-> >>>>>>>>
-> >>>>>>>>        ret = ct_send(ct, action, len, response_buf, response_buf_size, &status);
-> >>>>>>>>
-> >>>>>>>> Then why is there a change in ct_send here, which is not the new
-> >>>>>>>> non-blocking path?
-> >>>>>>>>
-> >>>>>>>
-> >>>>>>> There is not a change to ct_send(), just to intel_guc_ct_send.
-> >>>>>>
-> >>>>>> I was doing by the diff which says:
-> >>>>>>
-> >>>>>>     static int ct_send(struct intel_guc_ct *ct,
-> >>>>>>                     const u32 *action,
-> >>>>>>                     u32 len,
-> >>>>>> @@ -473,6 +541,7 @@ static int ct_send(struct intel_guc_ct *ct,
-> >>>>>>                     u32 response_buf_size,
-> >>>>>>                     u32 *status)
-> >>>>>>     {
-> >>>>>> +        struct intel_guc_ct_buffer *ctb = &ct->ctbs.send;
-> >>>>>>          struct ct_request request;
-> >>>>>>          unsigned long flags;
-> >>>>>>          u32 fence;
-> >>>>>> @@ -482,8 +551,20 @@ static int ct_send(struct intel_guc_ct *ct,
-> >>>>>>          GEM_BUG_ON(!len);
-> >>>>>>          GEM_BUG_ON(len & ~GUC_CT_MSG_LEN_MASK);
-> >>>>>>          GEM_BUG_ON(!response_buf && response_buf_size);
-> >>>>>> +        might_sleep();
-> >>>>>> +        /*
-> >>>>>> +         * We use a lazy spin wait loop here as we believe that if the CT
-> >>>>>> +         * buffers are sized correctly the flow control condition should be
-> >>>>>> +         * rare.
-> >>>>>> +         */
-> >>>>>> +retry:
-> >>>>>>          spin_lock_irqsave(&ct->ctbs.send.lock, flags);
-> >>>>>> +        if (unlikely(!ctb_has_room(ctb, len + 1))) {
-> >>>>>> +                spin_unlock_irqrestore(&ct->ctbs.send.lock, flags);
-> >>>>>> +                cond_resched();
-> >>>>>> +                goto retry;
-> >>>>>> +        }
-> >>>>>>
-> >>>>>> So it looks like a change to ct_send to me. Is that wrong?
-> >>>>
-> >>>> What about this part - is the patch changing the blocking ct_send or not,
-> >>>> and if it is why?
-> >>>>
-> >>>
-> >>> Yes, ct_send() changes. Sorry for the confusion.
-> >>>
-> >>> This function needs to be updated to account for the H2G space and
-> >>> backoff if no space is available.
-> >>
-> >> Since this one is the sleeping path, it probably can and needs to be smarter
-> >> than having a cond_resched busy loop added. Like sleep and get woken up when
-> >> there is space. Otherwise it can degenerate to busy looping via contention
-> >> with the non-blocking path.
-> >>
-> >
-> > That screams over enginerring a simple problem to me. If the CT channel
-> > is full we are really in trouble anyways - i.e. the performance is going
-> > to terrible as we overwhelmed the GuC with traffic. That being said,
->
-> Performance of what would be terrible? Something relating to submitting
-> new jobs to the GPU I guess. Or something SRIOV related as you hint below.
->
-> But there is no real reason why CPU cycles/power should suffer if GuC is
-> busy.
->
-> Okay, if it can't happen in real world then it's possibly passable as a
-> design of a communication interface. But to me it leaves a bad taste and
-> a doubt that there is this other aspect of the real world. And that is
-> when the unexpected happens. Even the most trivial things like a bug in
-> GuC firmware causes the driver to busy spin in there. So not much
-> happening on the machine but CPU cores pinned burning cycles in this
-> code. It's just lazy and not robust design. "Bug #nnnnn - High CPU usage
-> and GUI blocked - Solution: Upgrade GuC firmware and _reboot_ the
-> machine". Oh well..
->
-> At least I think the commit message should spell out clearly that a busy
-> looping path is being added to the sleeping send as a downside of
-> implementation choices. Still, for the record, I object to the design.
->
-> > IGTs can do this but that really isn't a real world use case. For the
-> > real world, this buffer is large enough that it won't ever be full hence
-> > the comment + lazy spin loop.
-> >
-> > Next, it isn't like we get an interrupt or something when space
-> > becomes available so how would we wake this thread? Could we come up
-> > with a convoluted scheme where we insert ops that generated an interrupt
-> > at regular intervals, probably? Would it be super complicated, totally
-> > unnecessary, and gain use nothing - absolutely.
-> >
-> > Lastly, blocking CTBs really shouldn't ever be used. Certainly the
-> > submission code doesn't use these. I think SRIOV might, but those can
-> > probably be reworked too to use non-blocking. At some point we might
-> > want to scrub the driver and just delete the blocking path.
+Hey Neil,
 
-I'd do an s/cond_resched()/msleep(1)/ and comment explaining why we
-just don't care about this. That checks of the cpu wasting in this
-case (GuC is overloaded, it wont come back anytime soon anyway) and
-explains why we really don't want to make this any more clever or
-complex code (because comment can explain why we wont hit this in
-actual real world usage except when something else is on fire already
-anyway).
+On Tue, 8 Jun 2021 at 10:10, Neil Armstrong <narmstrong@baylibre.com> wrote:
+>
+> Hi,
+>
+> On 07/06/2021 19:42, Marek Vasut wrote:
+> > Add driver for TI SN65DSI83 Single-link DSI to Single-link LVDS bridge
+> > and TI SN65DSI84 Single-link DSI to Dual-link or 2x Single-link LVDS
+> > bridge. TI SN65DSI85 is unsupported due to lack of hardware to test on,
+> > but easy to add.
+> >
+> > The driver operates the chip via I2C bus. Currently the LVDS clock are
+> > always derived from DSI clock lane, which is the usual mode of operation.
+> > Support for clock from external oscillator is not implemented, but it is
+> > easy to add if ever needed. Only RGB888 pixel format is implemented, the
+> > LVDS666 is not supported, but could be added if needed.
+> >
+> > Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+> > Reviewed-by: Frieder Schrempf <frieder.schrempf@kontron.de>
+> > Tested-by: Frieder Schrempf <frieder.schrempf@kontron.de>
+> > Tested-by: Adam Ford <aford173@gmail.com>
+> > Signed-off-by: Marek Vasut <marex@denx.de>
+> > Cc: Douglas Anderson <dianders@chromium.org>
+> > Cc: Jagan Teki <jagan@amarulasolutions.com>
+> > Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > Cc: Linus Walleij <linus.walleij@linaro.org>
+> > Cc: Loic Poulain <loic.poulain@linaro.org>
+> > Cc: Philippe Schenker <philippe.schenker@toradex.com>
+> > Cc: Sam Ravnborg <sam@ravnborg.org>
+> > Cc: Stephen Boyd <swboyd@chromium.org>
+> > Cc: Valentin Raevsky <valentin@compulab.co.il>
+> > To: dri-devel@lists.freedesktop.org
+> > ---
+> > V2: - Use dev_err_probe()
+> >     - Set REG_RC_RESET as volatile
+> >     - Wait for PLL stabilization by polling REG_RC_LVDS_PLL
+> >     - Use ctx->mode = *adj instead of *mode in sn65dsi83_mode_set
+> >     - Add tested DSI84 support in dual-link mode
+> >     - Correctly set VCOM
+> >     - Fill in missing DSI CHB and LVDS CHB bits from DSI84 and DSI85
+> >       datasheets, with that all the reserved bits make far more sense
+> >       as the DSI83 and DSI84 seems to be reduced version of DSI85
+> > V3: - Handle the dual-link LVDS with two port panel or bridge
+> > V4: - Add RB from Linus Walleij
+> >     - Rename REG_DSI_LANE_LVDS_LINK_CFG_DUAL to
+> >       REG_DSI_LANE_DSI_CHANNEL_MODE_SINGLE and fill in the remaining
+> >       DSI link options from DSI85 datasheet. DSI85 can do dual and 2x
+> >       single DSI mode, but DSI85 is currently unsupported by the
+> >       driver. Add a comment about DSI85, so that all the places which
+> >       need to be adjusted for DSI85 are marked accordingly.
+> >     - Add REG_DSI_LANE_LEFT_RIGHT_PIXELS bit for DSI
+> >     - Add handling for JEIDA18/JEIDA24/SPWG24 LVDS formats. Use SPWG24
+> >       as fallback on output bridges until they are all fixed.
+> >     - Patch DSI bus format to fixed RGB888_1X24 instead of passing
+> >       through the LVDS bus format.
+> > V5: - Move bus format patching to mode_fixup
+> >     - Use cpu_to_le16() to guarantee endianness in regmap_bulk_write()
+> > V6: - Cast of_device_get_match_data() output to uintptr_t first
+> > ---
+> >  drivers/gpu/drm/bridge/Kconfig        |  10 +
+> >  drivers/gpu/drm/bridge/Makefile       |   1 +
+> >  drivers/gpu/drm/bridge/ti-sn65dsi83.c | 709 ++++++++++++++++++++++++++
+> >  3 files changed, 720 insertions(+)
+> >  create mode 100644 drivers/gpu/drm/bridge/ti-sn65dsi83.c
+> >
+>
+> Looks complete & well reviewed, LGTM
+>
+> Rob, Laurent ? is it ok for you ?
 
-If you want to go absolutely overkill and it's not too much work, make
-the msleep interruptible or check for signals, and bail out. That way
-the process can be made unstuck with ^C at least.
--Daniel
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+This does look like it is ready. I was just about to merge it, but
+found some checkpatch --strict formatting warnings. Do you mind fixing
+those in a real quick v7?
