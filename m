@@ -1,46 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D343339EBD8
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Jun 2021 04:20:09 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D6E739EC5C
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Jun 2021 04:51:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 354826EA8C;
-	Tue,  8 Jun 2021 02:20:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 04F716EA8B;
+	Tue,  8 Jun 2021 02:50:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 25C1C6EA8A;
- Tue,  8 Jun 2021 02:20:05 +0000 (UTC)
-IronPort-SDR: MKNWx0xQkD+e4UqiKFxeYTgZdgvaXfv0O440ppw3FW+imea79Ylsu357s/GgImEIjl4yq+4gbJ
- rmUmQC1PzdJw==
-X-IronPort-AV: E=McAfee;i="6200,9189,10008"; a="268612966"
-X-IronPort-AV: E=Sophos;i="5.83,256,1616482800"; d="scan'208";a="268612966"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Jun 2021 19:20:04 -0700
-IronPort-SDR: Nya8yMUL5+CiQueIvsoaOrZibRlv0Wn7tssNk7v5CR4+g6eO5Xk3rDM11UmX1gjV+UxxdVfuKR
- hZ5T4uDNsDvQ==
-X-IronPort-AV: E=Sophos;i="5.83,256,1616482800"; d="scan'208";a="476432531"
-Received: from dceraolo-mobl.amr.corp.intel.com (HELO [10.209.129.6])
- ([10.209.129.6])
- by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Jun 2021 19:20:03 -0700
-Subject: Re: [PATCH 08/13] drm/i915/guc: New CTB based communication
-To: Matthew Brost <matthew.brost@intel.com>, intel-gfx@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org
-References: <20210607180356.165785-1-matthew.brost@intel.com>
- <20210607180356.165785-9-matthew.brost@intel.com>
-From: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
-Message-ID: <a1a2c609-f68c-9aa5-ec73-f6ac8358d659@intel.com>
-Date: Mon, 7 Jun 2021 19:20:01 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+Received: from ozlabs.org (ozlabs.org [203.11.71.1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9B6EE6EA8B;
+ Tue,  8 Jun 2021 02:50:54 +0000 (UTC)
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4FzZVf0SyWz9sW6;
+ Tue,  8 Jun 2021 12:50:48 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=canb.auug.org.au;
+ s=201702; t=1623120651;
+ bh=DiTGmecdZYHMMtAdC/UcRL7S4kOx9dLsyL3eCfsThzw=;
+ h=Date:From:To:Cc:Subject:From;
+ b=EbZFANXYGN9AFjHGMwewWEcnIKn6Ghu3VXJEEsKDZEyLJPYPLsF/H2Sk1OXz9n13r
+ xTAlKxVOkd4OCn925RiW4qj2h5/i/AJ4gE3GiDMdVDUCUvAkB0CgzKzzTn+H5KxDel
+ JT61KpK/O62xU3xW1P4DpL+SW4iZZBrNZj40gzvHAe26MeuLWZtY1u2JD5GYjPBCSE
+ 7aQk/+DXEkLe5A7sR4kBrq7xthQouzjAo4BPT4eGWPKieIBZtDdUxIs3VuafVfoNmL
+ kWvxr/IFaNdcmPcRDVvBgczfuZj+xDWczeG+0SV6rg1gC7tlQJLI+c1/o0QxneQv64
+ X0X6gfwjH/6nw==
+Date: Tue, 8 Jun 2021 12:50:46 +1000
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+To: Daniel Vetter <daniel.vetter@ffwll.ch>, Intel Graphics
+ <intel-gfx@lists.freedesktop.org>, Dave Airlie <airlied@linux.ie>, DRI
+ <dri-devel@lists.freedesktop.org>
+Subject: linux-next: build failure after merge of the drm-misc tree
+Message-ID: <20210608125046.07c6deca@canb.auug.org.au>
 MIME-Version: 1.0
-In-Reply-To: <20210607180356.165785-9-matthew.brost@intel.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+Content-Type: multipart/signed; boundary="Sig_/HN8jrUNGDvei7eQWFTM0ikT";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,425 +50,108 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: john.c.harrison@intel.com, Michal.Wajdeczko@intel.com
+Cc: Alex Deucher <alexander.deucher@amd.com>,
+ Felix Kuehling <Felix.Kuehling@amd.com>,
+ Linux Next Mailing List <linux-next@vger.kernel.org>,
+ Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+--Sig_/HN8jrUNGDvei7eQWFTM0ikT
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
+Hi all,
 
-On 6/7/2021 11:03 AM, Matthew Brost wrote:
-> From: Michal Wajdeczko <michal.wajdeczko@intel.com>
->
-> Format of the CTB messages has changed:
->   - support for multiple formats
->   - message fence is now part of the header
->   - reuse of unified HXG message formats
->
-> Signed-off-by: Michal Wajdeczko <michal.wajdeczko@intel.com>
-> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
-> Cc: Piotr Piórkowski <piotr.piorkowski@intel.com>
-> ---
->   .../gt/uc/abi/guc_communication_ctb_abi.h     |  56 +++++
->   drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c     | 194 +++++++-----------
->   drivers/gpu/drm/i915/gt/uc/intel_guc_ct.h     |   2 +-
->   3 files changed, 135 insertions(+), 117 deletions(-)
->
-> diff --git a/drivers/gpu/drm/i915/gt/uc/abi/guc_communication_ctb_abi.h b/drivers/gpu/drm/i915/gt/uc/abi/guc_communication_ctb_abi.h
-> index 127b256a662c..92660726c094 100644
-> --- a/drivers/gpu/drm/i915/gt/uc/abi/guc_communication_ctb_abi.h
-> +++ b/drivers/gpu/drm/i915/gt/uc/abi/guc_communication_ctb_abi.h
-> @@ -60,6 +60,62 @@ struct guc_ct_buffer_desc {
->   } __packed;
->   static_assert(sizeof(struct guc_ct_buffer_desc) == 64);
->   
-> +/**
-> + * DOC: CTB Message
-> + *
-> + *  +---+-------+--------------------------------------------------------------+
-> + *  |   | Bits  | Description                                                  |
-> + *  +===+=======+==============================================================+
-> + *  | 0 | 31:16 | **FENCE** - message identifier                               |
-> + *  |   +-------+--------------------------------------------------------------+
-> + *  |   | 15:12 | **FORMAT** - format of the CTB message                       |
-> + *  |   |       |  - _`GUC_CTB_FORMAT_HXG` = 0 - see `CTB HXG Message`_        |
-> + *  |   +-------+--------------------------------------------------------------+
-> + *  |   |  11:8 | **RESERVED**                                                 |
-> + *  |   +-------+--------------------------------------------------------------+
-> + *  |   |   7:0 | **NUM_DWORDS** - length of the CTB message (w/o header)      |
-> + *  +---+-------+--------------------------------------------------------------+
-> + *  | 1 |  31:0 | optional (depends on FORMAT)                                 |
-> + *  +---+-------+                                                              |
-> + *  |...|       |                                                              |
-> + *  +---+-------+                                                              |
-> + *  | n |  31:0 |                                                              |
-> + *  +---+-------+--------------------------------------------------------------+
-> + */
-> +
-> +#define GUC_CTB_MSG_MIN_LEN			1u
-> +#define GUC_CTB_MSG_MAX_LEN			256u
-> +#define GUC_CTB_MSG_0_FENCE			(0xffff << 16)
-> +#define GUC_CTB_MSG_0_FORMAT			(0xf << 12)
-> +#define   GUC_CTB_FORMAT_HXG			0u
-> +#define GUC_CTB_MSG_0_RESERVED			(0xf << 8)
-> +#define GUC_CTB_MSG_0_NUM_DWORDS		(0xff << 0)
-> +
-> +/**
-> + * DOC: CTB HXG Message
-> + *
-> + *  +---+-------+--------------------------------------------------------------+
-> + *  |   | Bits  | Description                                                  |
-> + *  +===+=======+==============================================================+
-> + *  | 0 | 31:16 | FENCE                                                        |
-> + *  |   +-------+--------------------------------------------------------------+
-> + *  |   | 15:12 | FORMAT = GUC_CTB_FORMAT_HXG_                                 |
-> + *  |   +-------+--------------------------------------------------------------+
-> + *  |   |  11:8 | RESERVED = MBZ                                               |
-> + *  |   +-------+--------------------------------------------------------------+
-> + *  |   |   7:0 | NUM_DWORDS = length (in dwords) of the embedded HXG message  |
-> + *  +---+-------+--------------------------------------------------------------+
-> + *  | 1 |  31:0 |  +--------------------------------------------------------+  |
-> + *  +---+-------+  |                                                        |  |
-> + *  |...|       |  |  Embedded `HXG Message`_                               |  |
-> + *  +---+-------+  |                                                        |  |
-> + *  | n |  31:0 |  +--------------------------------------------------------+  |
-> + *  +---+-------+--------------------------------------------------------------+
-> + */
-> +
-> +#define GUC_CTB_HXG_MSG_MIN_LEN		(GUC_CTB_MSG_MIN_LEN + GUC_HXG_MSG_MIN_LEN)
-> +#define GUC_CTB_HXG_MSG_MAX_LEN		GUC_CTB_MSG_MAX_LEN
-> +
->   /**
->    * DOC: CTB based communication
->    *
-> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
-> index 6a29be779cc9..729f29bc2a57 100644
-> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
-> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
-> @@ -365,24 +365,6 @@ static void write_barrier(struct intel_guc_ct *ct)
->   	}
->   }
->   
-> -/**
-> - * DOC: CTB Host to GuC request
-> - *
-> - * Format of the CTB Host to GuC request message is as follows::
-> - *
-> - *      +------------+---------+---------+---------+---------+
-> - *      |   msg[0]   |   [1]   |   [2]   |   ...   |  [n-1]  |
-> - *      +------------+---------+---------+---------+---------+
-> - *      |   MESSAGE  |       MESSAGE PAYLOAD                 |
-> - *      +   HEADER   +---------+---------+---------+---------+
-> - *      |            |    0    |    1    |   ...   |    n    |
-> - *      +============+=========+=========+=========+=========+
-> - *      |  len >= 1  |  FENCE  |     request specific data   |
-> - *      +------+-----+---------+---------+---------+---------+
-> - *
-> - *                   ^-----------------len-------------------^
-> - */
-> -
->   static int ct_write(struct intel_guc_ct *ct,
->   		    const u32 *action,
->   		    u32 len /* in dwords */,
-> @@ -395,6 +377,7 @@ static int ct_write(struct intel_guc_ct *ct,
->   	u32 size = ctb->size;
->   	u32 used;
->   	u32 header;
-> +	u32 hxg;
->   	u32 *cmds = ctb->cmds;
->   	unsigned int i;
->   
-> @@ -425,22 +408,24 @@ static int ct_write(struct intel_guc_ct *ct,
->   		return -ENOSPC;
+After merging the drm-misc tree, today's linux-next build (x86_64
+allmodconfig) failed like this:
 
-Doesn't the free space math up here need updating, since now we have an 
-extra header dword?
+drivers/gpu/drm/amd/amdgpu/amdgpu_preempt_mgr.c: In function 'amdgpu_preemp=
+t_mgr_new':
+drivers/gpu/drm/amd/amdgpu/amdgpu_preempt_mgr.c:75:5: error: 'struct ttm_re=
+source' has no member named 'mm_node'
+   75 |  mem->mm_node =3D NULL;
+      |     ^~
+drivers/gpu/drm/amd/amdgpu/amdgpu_preempt_mgr.c: At top level:
+drivers/gpu/drm/amd/amdgpu/amdgpu_preempt_mgr.c:129:11: error: initializati=
+on of 'int (*)(struct ttm_resource_manager *, struct ttm_buffer_object *, c=
+onst struct ttm_place *, struct ttm_resource **)' from incompatible pointer=
+ type 'int (*)(struct ttm_resource_manager *, struct ttm_buffer_object *, c=
+onst struct ttm_place *, struct ttm_resource *)' [-Werror=3Dincompatible-po=
+inter-types]
+  129 |  .alloc =3D amdgpu_preempt_mgr_new,
+      |           ^~~~~~~~~~~~~~~~~~~~~~
+drivers/gpu/drm/amd/amdgpu/amdgpu_preempt_mgr.c:129:11: note: (near initial=
+ization for 'amdgpu_preempt_mgr_func.alloc')
 
->   
->   	/*
-> -	 * Write the message. The format is the following:
-> -	 * DW0: header (including action code)
-> -	 * DW1: fence
-> -	 * DW2+: action data
-> +	 * dw0: CT header (including fence)
-> +	 * dw1: HXG header
+Caused by commit
 
-maybe better as:
+  cb1c81467af3 ("drm/ttm: flip the switch for driver allocated resources v2=
+")
 
-* dw1+: HXG message
+from the drm-misc tree interacting with commit
 
->   	 */
-> -	header = (len << GUC_CT_MSG_LEN_SHIFT) |
-> -		 GUC_CT_MSG_SEND_STATUS |
-> -		 (action[0] << GUC_CT_MSG_ACTION_SHIFT);
-> +	header = FIELD_PREP(GUC_CTB_MSG_0_FORMAT, GUC_CTB_FORMAT_HXG) |
-> +		 FIELD_PREP(GUC_CTB_MSG_0_NUM_DWORDS, len) |
-> +		 FIELD_PREP(GUC_CTB_MSG_0_FENCE, fence);
-> +
-> +	hxg = FIELD_PREP(GUC_HXG_MSG_0_TYPE, GUC_HXG_TYPE_REQUEST) |
+  b453e42a6e8b ("drm/amdgpu: Add new placement for preemptible SG BOs")
 
-Do we have a case where we might want to use a different type? e.g. a 
-response to a request from GuC?
+from the drm tree.
 
-> +	      FIELD_PREP(GUC_HXG_REQUEST_MSG_0_ACTION |
-> +			 GUC_HXG_REQUEST_MSG_0_DATA0, action[0]);
+I don't know how to fix this, so I added the following hack (a better
+fix would be nice):
 
-See macro suggestion for the hxg header in previous patch review.
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+Date: Tue, 8 Jun 2021 12:41:16 +1000
+Subject: [PATCH] hack fix up for needed amdgpu_preempt_mgr_new() fix up
 
->   
-> -	CT_DEBUG(ct, "writing %*ph %*ph %*ph\n",
-> -		 4, &header, 4, &fence, 4 * (len - 1), &action[1]);
-> +	CT_DEBUG(ct, "writing (tail %u) %*ph %*ph %*ph\n",
-> +		 tail, 4, &header, 4, &hxg, 4 * (len - 1), &action[1]);
->   
->   	cmds[tail] = header;
->   	tail = (tail + 1) % size;
->   
-> -	cmds[tail] = fence;
-> +	cmds[tail] = hxg;
->   	tail = (tail + 1) % size;
->   
->   	for (i = 1; i < len; i++) {
-> @@ -598,21 +583,6 @@ int intel_guc_ct_send(struct intel_guc_ct *ct, const u32 *action, u32 len,
->   	return ret;
->   }
->   
-> -static inline unsigned int ct_header_get_len(u32 header)
-> -{
-> -	return (header >> GUC_CT_MSG_LEN_SHIFT) & GUC_CT_MSG_LEN_MASK;
-> -}
-> -
-> -static inline unsigned int ct_header_get_action(u32 header)
-> -{
-> -	return (header >> GUC_CT_MSG_ACTION_SHIFT) & GUC_CT_MSG_ACTION_MASK;
-> -}
-> -
-> -static inline bool ct_header_is_response(u32 header)
-> -{
-> -	return !!(header & GUC_CT_MSG_IS_RESPONSE);
-> -}
-> -
->   static struct ct_incoming_msg *ct_alloc_msg(u32 num_dwords)
->   {
->   	struct ct_incoming_msg *msg;
-> @@ -675,7 +645,7 @@ static int ct_read(struct intel_guc_ct *ct, struct ct_incoming_msg **msg)
->   	head = (head + 1) % size;
->   
->   	/* message len with header */
-> -	len = ct_header_get_len(header) + 1;
-> +	len = FIELD_GET(GUC_CTB_MSG_0_NUM_DWORDS, header) + GUC_CTB_MSG_MIN_LEN;
->   	if (unlikely(len > (u32)available)) {
->   		CT_ERROR(ct, "Incomplete message %*ph %*ph %*ph\n",
->   			 4, &header,
-> @@ -718,55 +688,24 @@ static int ct_read(struct intel_guc_ct *ct, struct ct_incoming_msg **msg)
->   	return -EPIPE;
->   }
->   
-> -/**
-> - * DOC: CTB GuC to Host response
-> - *
-> - * Format of the CTB GuC to Host response message is as follows::
-> - *
-> - *      +------------+---------+---------+---------+---------+---------+
-> - *      |   msg[0]   |   [1]   |   [2]   |   [3]   |   ...   |  [n-1]  |
-> - *      +------------+---------+---------+---------+---------+---------+
-> - *      |   MESSAGE  |       MESSAGE PAYLOAD                           |
-> - *      +   HEADER   +---------+---------+---------+---------+---------+
-> - *      |            |    0    |    1    |    2    |   ...   |    n    |
-> - *      +============+=========+=========+=========+=========+=========+
-> - *      |  len >= 2  |  FENCE  |  STATUS |   response specific data    |
-> - *      +------+-----+---------+---------+---------+---------+---------+
-> - *
-> - *                   ^-----------------------len-----------------------^
-> - */
-> -
->   static int ct_handle_response(struct intel_guc_ct *ct, struct ct_incoming_msg *response)
->   {
-> -	u32 header = response->msg[0];
-> -	u32 len = ct_header_get_len(header);
-> -	u32 fence;
-> -	u32 status;
-> -	u32 datalen;
-> +	u32 len = FIELD_GET(GUC_CTB_MSG_0_NUM_DWORDS, response->msg[0]);
-> +	u32 fence = FIELD_GET(GUC_CTB_MSG_0_FENCE, response->msg[0]);
-> +	const u32 *hxg = &response->msg[GUC_CTB_MSG_MIN_LEN];
+Signed-off-by: Stephen Rothwell <sfr@canb.auug.org.au>
+---
+ drivers/gpu/drm/amd/amdgpu/amdgpu_preempt_mgr.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-IMO it'd be better to just save the hxg in the msg field. We can save 
-the fence as an extra field in the ct_incoming_msg. That way we won't 
-have to convert from CTB to HXG in multiple places in the code (I count 
-4 total in this patch).
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_preempt_mgr.c b/drivers/gpu/=
+drm/amd/amdgpu/amdgpu_preempt_mgr.c
+index d607f314cc1b..e1a7b3e967b9 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_preempt_mgr.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_preempt_mgr.c
+@@ -66,14 +66,16 @@ static DEVICE_ATTR_RO(mem_info_preempt_used);
+ static int amdgpu_preempt_mgr_new(struct ttm_resource_manager *man,
+ 				  struct ttm_buffer_object *tbo,
+ 				  const struct ttm_place *place,
+-				  struct ttm_resource *mem)
++				  struct ttm_resource **res)
+ {
++#if 0
+ 	struct amdgpu_preempt_mgr *mgr =3D to_preempt_mgr(man);
+=20
+ 	atomic64_add(mem->num_pages, &mgr->used);
+=20
+ 	mem->mm_node =3D NULL;
+ 	mem->start =3D AMDGPU_BO_INVALID_OFFSET;
++#endif
+ 	return 0;
+ }
+=20
+--=20
+2.30.2
 
-Daniele
+--=20
+Cheers,
+Stephen Rothwell
 
-> +	const u32 *data = &hxg[GUC_HXG_MSG_MIN_LEN];
-> +	u32 datalen = len - GUC_HXG_MSG_MIN_LEN;
->   	struct ct_request *req;
->   	unsigned long flags;
->   	bool found = false;
->   	int err = 0;
->   
-> -	GEM_BUG_ON(!ct_header_is_response(header));
-> +	GEM_BUG_ON(len < GUC_HXG_MSG_MIN_LEN);
-> +	GEM_BUG_ON(FIELD_GET(GUC_HXG_MSG_0_ORIGIN, hxg[0]) != GUC_HXG_ORIGIN_GUC);
-> +	GEM_BUG_ON(FIELD_GET(GUC_HXG_MSG_0_TYPE, hxg[0]) != GUC_HXG_TYPE_RESPONSE_SUCCESS &&
-> +		   FIELD_GET(GUC_HXG_MSG_0_TYPE, hxg[0]) != GUC_HXG_TYPE_RESPONSE_FAILURE);
->   
-> -	/* Response payload shall at least include fence and status */
-> -	if (unlikely(len < 2)) {
-> -		CT_ERROR(ct, "Corrupted response (len %u)\n", len);
-> -		return -EPROTO;
-> -	}
-> -
-> -	fence = response->msg[1];
-> -	status = response->msg[2];
-> -	datalen = len - 2;
-> -
-> -	/* Format of the status dword follows HXG header */
-> -	if (unlikely(FIELD_GET(GUC_HXG_MSG_0_ORIGIN, status) != GUC_HXG_ORIGIN_GUC)) {
-> -		CT_ERROR(ct, "Corrupted response (status %#x)\n", status);
-> -		return -EPROTO;
-> -	}
-> -
-> -	CT_DEBUG(ct, "response fence %u status %#x\n", fence, status);
-> +	CT_DEBUG(ct, "response fence %u status %#x\n", fence, hxg[0]);
->   
->   	spin_lock_irqsave(&ct->requests.lock, flags);
->   	list_for_each_entry(req, &ct->requests.pending, link) {
-> @@ -782,9 +721,9 @@ static int ct_handle_response(struct intel_guc_ct *ct, struct ct_incoming_msg *r
->   			err = -EMSGSIZE;
->   		}
->   		if (datalen)
-> -			memcpy(req->response_buf, response->msg + 3, 4 * datalen);
-> +			memcpy(req->response_buf, data, 4 * datalen);
->   		req->response_len = datalen;
-> -		WRITE_ONCE(req->status, status);
-> +		WRITE_ONCE(req->status, hxg[0]);
->   		found = true;
->   		break;
->   	}
-> @@ -805,14 +744,16 @@ static int ct_handle_response(struct intel_guc_ct *ct, struct ct_incoming_msg *r
->   static int ct_process_request(struct intel_guc_ct *ct, struct ct_incoming_msg *request)
->   {
->   	struct intel_guc *guc = ct_to_guc(ct);
-> -	u32 header, action, len;
-> +	const u32 *hxg;
->   	const u32 *payload;
-> +	u32 hxg_len, action, len;
->   	int ret;
->   
-> -	header = request->msg[0];
-> -	payload = &request->msg[1];
-> -	action = ct_header_get_action(header);
-> -	len = ct_header_get_len(header);
-> +	hxg = &request->msg[GUC_CTB_MSG_MIN_LEN];
-> +	hxg_len = request->size - GUC_CTB_MSG_MIN_LEN;
-> +	payload = &hxg[GUC_HXG_MSG_MIN_LEN];
-> +	action = FIELD_GET(GUC_HXG_EVENT_MSG_0_ACTION, hxg[0]);
-> +	len = hxg_len - GUC_HXG_MSG_MIN_LEN;
->   
->   	CT_DEBUG(ct, "request %x %*ph\n", action, 4 * len, payload);
->   
-> @@ -874,29 +815,12 @@ static void ct_incoming_request_worker_func(struct work_struct *w)
->   		queue_work(system_unbound_wq, &ct->requests.worker);
->   }
->   
-> -/**
-> - * DOC: CTB GuC to Host request
-> - *
-> - * Format of the CTB GuC to Host request message is as follows::
-> - *
-> - *      +------------+---------+---------+---------+---------+---------+
-> - *      |   msg[0]   |   [1]   |   [2]   |   [3]   |   ...   |  [n-1]  |
-> - *      +------------+---------+---------+---------+---------+---------+
-> - *      |   MESSAGE  |       MESSAGE PAYLOAD                           |
-> - *      +   HEADER   +---------+---------+---------+---------+---------+
-> - *      |            |    0    |    1    |    2    |   ...   |    n    |
-> - *      +============+=========+=========+=========+=========+=========+
-> - *      |     len    |            request specific data                |
-> - *      +------+-----+---------+---------+---------+---------+---------+
-> - *
-> - *                   ^-----------------------len-----------------------^
-> - */
-> -
-> -static int ct_handle_request(struct intel_guc_ct *ct, struct ct_incoming_msg *request)
-> +static int ct_handle_event(struct intel_guc_ct *ct, struct ct_incoming_msg *request)
->   {
-> +	const u32 *hxg = &request->msg[GUC_CTB_MSG_MIN_LEN];
->   	unsigned long flags;
->   
-> -	GEM_BUG_ON(ct_header_is_response(request->msg[0]));
-> +	GEM_BUG_ON(FIELD_GET(GUC_HXG_MSG_0_TYPE, hxg[0]) != GUC_HXG_TYPE_EVENT);
->   
->   	spin_lock_irqsave(&ct->requests.lock, flags);
->   	list_add_tail(&request->link, &ct->requests.incoming);
-> @@ -906,15 +830,53 @@ static int ct_handle_request(struct intel_guc_ct *ct, struct ct_incoming_msg *re
->   	return 0;
->   }
->   
-> -static void ct_handle_msg(struct intel_guc_ct *ct, struct ct_incoming_msg *msg)
-> +static int ct_handle_hxg(struct intel_guc_ct *ct, struct ct_incoming_msg *msg)
->   {
-> -	u32 header = msg->msg[0];
-> +	u32 origin, type;
-> +	u32 *hxg;
->   	int err;
->   
-> -	if (ct_header_is_response(header))
-> +	if (unlikely(msg->size < GUC_CTB_HXG_MSG_MIN_LEN))
-> +		return -EBADMSG;
-> +
-> +	hxg = &msg->msg[GUC_CTB_MSG_MIN_LEN];
-> +
-> +	origin = FIELD_GET(GUC_HXG_MSG_0_ORIGIN, hxg[0]);
-> +	if (unlikely(origin != GUC_HXG_ORIGIN_GUC)) {
-> +		err = -EPROTO;
-> +		goto failed;
-> +	}
-> +
-> +	type = FIELD_GET(GUC_HXG_MSG_0_TYPE, hxg[0]);
-> +	switch (type) {
-> +	case GUC_HXG_TYPE_EVENT:
-> +		err = ct_handle_event(ct, msg);
-> +		break;
-> +	case GUC_HXG_TYPE_RESPONSE_SUCCESS:
-> +	case GUC_HXG_TYPE_RESPONSE_FAILURE:
->   		err = ct_handle_response(ct, msg);
-> +		break;
-> +	default:
-> +		err = -EOPNOTSUPP;
-> +	}
-> +
-> +	if (unlikely(err)) {
-> +failed:
-> +		CT_ERROR(ct, "Failed to handle HXG message (%pe) %*ph\n",
-> +			 ERR_PTR(err), 4 * GUC_HXG_MSG_MIN_LEN, hxg);
-> +	}
-> +	return err;
-> +}
-> +
-> +static void ct_handle_msg(struct intel_guc_ct *ct, struct ct_incoming_msg *msg)
-> +{
-> +	u32 format = FIELD_GET(GUC_CTB_MSG_0_FORMAT, msg->msg[0]);
-> +	int err;
-> +
-> +	if (format == GUC_CTB_FORMAT_HXG)
-> +		err = ct_handle_hxg(ct, msg);
->   	else
-> -		err = ct_handle_request(ct, msg);
-> +		err = -EOPNOTSUPP;
->   
->   	if (unlikely(err)) {
->   		CT_ERROR(ct, "Failed to process CT message (%pe) %*ph\n",
-> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.h b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.h
-> index 905202caaad3..1ae2dde6db93 100644
-> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.h
-> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.h
-> @@ -61,7 +61,7 @@ struct intel_guc_ct {
->   	struct tasklet_struct receive_tasklet;
->   
->   	struct {
-> -		u32 last_fence; /* last fence used to send request */
-> +		u16 last_fence; /* last fence used to send request */
->   
->   		spinlock_t lock; /* protects pending requests list */
->   		struct list_head pending; /* requests waiting for response */
+--Sig_/HN8jrUNGDvei7eQWFTM0ikT
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
 
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmC+2wYACgkQAVBC80lX
+0GwewAf/YdnB2DjDpowhM9Z2I9YaWjY1BfFNOG7wQukpUA7AmIE/X31CbfnKoCO2
+0+dh43WnBMPN8oeacSSUlM3AnmR90KJOcuD6fTSolwcduGaHr3BzBaUa7C6/aZBz
+ie25b3tZNLlOTfmtz5NBRPehKoyhVNCCjsN/31d4saOQfBQOi6IJyafj1FT1UQdr
+L1N9SZayk7WThMlJtFdYznNAvWkceENP6tgtp6Dhfd1ZIlOqa2TrdAch9SDScn5Q
+U20aIjVuJNowdpm5KaKQZam+cZcjcvx+heWkeBRU7escFIoCzqDTkdPXHyYapmua
+C79HmqkJiW4ryYyOt3wQK7Bv30h1XQ==
+=12WW
+-----END PGP SIGNATURE-----
+
+--Sig_/HN8jrUNGDvei7eQWFTM0ikT--
