@@ -2,108 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F139439FA0D
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Jun 2021 17:09:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3E6E39FA16
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Jun 2021 17:12:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 134606EC12;
-	Tue,  8 Jun 2021 15:09:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B55CF6EC14;
+	Tue,  8 Jun 2021 15:12:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam12on2040.outbound.protection.outlook.com [40.107.243.40])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9ED156EC12
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Jun 2021 15:09:30 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=JHJ8g7kWJzUu2diQ0DN2k3N8EfttuokNZB7hwX2gaY4GNNzy17nleBsSdkBB4sT5ow/66DDpZAi/UDy1yC/rC2uHQnfULRlb7BSmUNI1Nmgr6ZjbcQQVfax9dKcNoybn1nulBJP8im6ocqZx2VIBMEHJz9T3Oj2GglYosrzg4D4YtYBHxvAoEomX2j2pM8B7QunpYkQqO+UCRGD5gTeSD9GaBWbo1Sjcr5VY+DAbjupzcT236kjGdTV+Vg8D3wySwGNKR3gvfmb+hA71HAItWGLqTL1Gnqem06WPaEGeuZkxES7ypn8WAqEainPMF/Xbb2HOVeA71pFV6OJhXE8Pqw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=tkB9Cupe1AQ4C4htq+uXhQAJhuOZwwSMucwg01fuPy0=;
- b=SyiKmSbJt5MoO5gVU3ovnIaCzrY6puT8IExWgCtmzSOhj0H/W6Rr3qImAy6qnHi2K1M0rUGjTAKupPMa4/yhUCAuaFxsHSXcS87UlI1wuakw9Eb/i1YXVgsYgyuTnigSNifmX8H0dtISWqK59T5NJY5+GwIdv36D0f8f47+JNel4d6unwfUjX88SKt+7DTfigXaIEaAUClAgIYI0/DCMTDgxkYc0l2JJYwr1zA4V5mrbyfWO4lsvbc4O8Wz+jyq8oSliK8xu6MVbydpMhPSon9WbzwfIycoaudc7EeFG74k3GG0o2DPV8JID/MoMKuVxy8jRBiO5u2734nnd0uePeA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=tkB9Cupe1AQ4C4htq+uXhQAJhuOZwwSMucwg01fuPy0=;
- b=je4b3xN/1HjRiO1G/MyArA7kk/CUiGWIhjPomRuOWpdzJ4WiPbyfjrwrafFFehZa1mvmaoAq1TB9SPWhcXA4oBSRQxdJznfqtp+lYvJle+2DAfO2/dP6jCn8g6XUCbEsMoM+sp2K2FzPzHu9VjCx0f+chRuIUI1gB38w1q0WgDY=
-Authentication-Results: lists.freedesktop.org; dkim=none (message not signed)
- header.d=none; lists.freedesktop.org;
- dmarc=none action=none header.from=amd.com;
-Received: from DM4PR12MB5136.namprd12.prod.outlook.com (2603:10b6:5:393::23)
- by DM4PR12MB5085.namprd12.prod.outlook.com (2603:10b6:5:388::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4195.20; Tue, 8 Jun
- 2021 15:09:28 +0000
-Received: from DM4PR12MB5136.namprd12.prod.outlook.com
- ([fe80::4074:4943:244:a5fa]) by DM4PR12MB5136.namprd12.prod.outlook.com
- ([fe80::4074:4943:244:a5fa%6]) with mapi id 15.20.4173.037; Tue, 8 Jun 2021
- 15:09:28 +0000
-From: Nirmoy Das <nirmoy.das@amd.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 1/1] drm/vmwgfx: free bo resource before assigning new one
-Date: Tue,  8 Jun 2021 17:09:17 +0200
-Message-Id: <20210608150917.89346-1-nirmoy.das@amd.com>
-X-Mailer: git-send-email 2.31.1
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [217.86.107.133]
-X-ClientProxiedBy: PR3PR09CA0011.eurprd09.prod.outlook.com
- (2603:10a6:102:b7::16) To DM4PR12MB5136.namprd12.prod.outlook.com
- (2603:10b6:5:393::23)
+Received: from mail-ot1-x334.google.com (mail-ot1-x334.google.com
+ [IPv6:2607:f8b0:4864:20::334])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AB3946EC14
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Jun 2021 15:12:51 +0000 (UTC)
+Received: by mail-ot1-x334.google.com with SMTP id
+ q5-20020a9d66450000b02903f18d65089fso4414312otm.11
+ for <dri-devel@lists.freedesktop.org>; Tue, 08 Jun 2021 08:12:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=cosmicpenguin-net.20150623.gappssmtp.com; s=20150623;
+ h=date:from:to:cc:subject:message-id:mail-followup-to:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=jLZz8dzHlQ+AV6IoDKBfN+/3ntQe2P3ozAhZeHyJVDw=;
+ b=C15S/npOIAjr9axAaMOZI+vxBdvmqGHUPsVuEX/23duKWM6xoPSxaCBMepBmp5R3ZJ
+ GJBRtrHNSMRJBfDhR0vyyclDa9+tDwNiKik7aWNPh/plgD0z69a1lF0sekAQkU5wjF7E
+ vOualVuatrHlB8JuC7WC631oVyxXfJiR8ikfTE8rD7oNrdQbdskUBNRrt+J6Q+swyJVR
+ jQAHCn3BY92uL+VWKBgqUq0jusiojxRs5nRiXRw0Rjw5CGWR6RU5/7furSKXn09WCg4a
+ CPU2+D/aEypfya31PmJXEiBRSSoiHzifvzv6s+ePEEGJNabjXqZc5VbEThCDI61xUA4p
+ Kwbg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id
+ :mail-followup-to:references:mime-version:content-disposition
+ :in-reply-to;
+ bh=jLZz8dzHlQ+AV6IoDKBfN+/3ntQe2P3ozAhZeHyJVDw=;
+ b=sRckADup5S2TzL10YCevYfoYR5wOlsmvIB9MlKXftJ8klaO6Zwe5YVd9xJKssevzOu
+ ZhzhRZWIW33se0yFw3PKRfOv7Iik9BZx2Mipmx7bHkD2xRV6RIWIGfxVnknQfWyGBl5i
+ N+Vf3cHtkcSqQStu+VpclBPy8OB4iQ+Jgyea8aVLd2a9MIsOYA/faprpcQFZFRB7pOn8
+ 5h1RVk6PwEhS+Rt6A26jqoLaXrp5Byo8j86zOvH40ZsSsKk1d9cbvhd7bj+yac5+tXji
+ 26qh2Rh4DV4WDHHfKfNMDC7BE6X6llYuLjovJc5wSE7Zq+r0zHXtUr458zxMMI6dz1YC
+ sXFA==
+X-Gm-Message-State: AOAM533sIpKu4KUo+4BzgbAiQvToagyoR8faiX43zVcaSnv+X0IIiWyN
+ njmv8N1RDdzVOYMVvajt4tR68A==
+X-Google-Smtp-Source: ABdhPJwt7XU1qU6Pz9bihvnRwa1+UoxpK1O95QAnqnQnKpQzcsyjCIk4woOFVTDy9+6WS9wBtGtpDQ==
+X-Received: by 2002:a9d:738b:: with SMTP id j11mr18313188otk.228.1623165170954; 
+ Tue, 08 Jun 2021 08:12:50 -0700 (PDT)
+Received: from cosmicpenguin.net (c-71-237-100-236.hsd1.co.comcast.net.
+ [71.237.100.236])
+ by smtp.gmail.com with ESMTPSA id 7sm3059791oti.30.2021.06.08.08.12.49
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 08 Jun 2021 08:12:50 -0700 (PDT)
+Date: Tue, 8 Jun 2021 09:12:47 -0600
+From: Jordan Crouse <jordan@cosmicpenguin.net>
+To: Rob Clark <robdclark@gmail.com>
+Subject: Re: [PATCH v4 5/6] drm/msm: Add crashdump support for stalled SMMU
+Message-ID: <20210608151247.u3uxznfoek7trxiv@cosmicpenguin.net>
+Mail-Followup-To: Rob Clark <robdclark@gmail.com>,
+ dri-devel@lists.freedesktop.org, Rob Clark <robdclark@chromium.org>,
+ Sean Paul <sean@poorly.run>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>,
+ Iskren Chernev <iskren.chernev@gmail.com>,
+ Akhil P Oommen <akhilpo@codeaurora.org>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
+ Konrad Dybcio <konrad.dybcio@somainline.org>,
+ "Kristian H. Kristensen" <hoegsberg@google.com>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>,
+ Sharat Masetty <smasetty@codeaurora.org>,
+ Jonathan Marek <jonathan@marek.ca>,
+ Zhenzhong Duan <zhenzhong.duan@gmail.com>,
+ Lee Jones <lee.jones@linaro.org>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU" <freedreno@lists.freedesktop.org>,
+ open list <linux-kernel@vger.kernel.org>
+References: <20210601224750.513996-1-robdclark@gmail.com>
+ <20210601224750.513996-7-robdclark@gmail.com>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from brihaspati.fritz.box (217.86.107.133) by
- PR3PR09CA0011.eurprd09.prod.outlook.com (2603:10a6:102:b7::16) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4195.20 via Frontend Transport; Tue, 8 Jun 2021 15:09:27 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 73443fb5-49e7-453f-dc72-08d92a8f6905
-X-MS-TrafficTypeDiagnostic: DM4PR12MB5085:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <DM4PR12MB50851C39C5B4293F37E170B38B379@DM4PR12MB5085.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:935;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: edcwcKpTfivDhCuM6PWRC3f0dxVQH5domnSiZ8lyzkwB4/a5eTXFgX7DqGce8zBwkYzDe812KrvPfSOirdl0zjH5jYBo36rD2mm01uPX4osYiSaLt2Q2/YMZgT7DayD/1/YkT3/hEEzIzBBOlO+L1y7QnJs1wMUjiuagVLb7FF6+WR9RF/G/vtToquLxt9SU5x9p0SsmRkoAOhBy45a9h55ihhYSz8b/kPA0W/ISYSzmS0otAPvsjB3WK3YJz2z2CrL1slvxrVNfWoU+XaVv52tHPOPZd5SKDtDYvgXDVmmnAoSa5Sf03HrQN4G890qwP4iWYwkHbNRZEy3O/K77fH1kdnBnH+OZd1O6k/tu9R5S8b8Oe5iPDM3M/EZQY6g3EAvuitBIUcuvg7pGjZmNzfjIYdSymAIFDtfanBTJH47g0KD+DcrRUkeq9diKWEVuS3uZ8BMDBMjxPsyE3pr3iAm4E1XyxO3GCaWbOcOxXTWfIg7E9wuL8bw1ygRBrBfvHZSCU+sgIfY0/qAjSezxyn0bEk3notrX40RQvDg0AXp31dEwSb/vi47vsprNTxK6k1D/3+HzfejLGezSG39WriE03Dq/izlviSvI1lV/vlH9O/EwrznJ13zClzAakOAxV2Nl59gq0HJDPe913cPFBG/aWhjFG6umYXVcEpINTXM=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM4PR12MB5136.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(6506007)(16526019)(6916009)(86362001)(66946007)(4744005)(2616005)(38100700002)(498600001)(38350700002)(6512007)(52116002)(8676002)(5660300002)(66476007)(186003)(36756003)(8936002)(26005)(4326008)(6486002)(1076003)(44832011)(956004)(6666004)(2906002)(66556008);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?0hwX0ylPFpk7Os7JhDZby0dl7oAy5fMF4TBHbmEGrl8aGXigi6Y3GaKB3mhK?=
- =?us-ascii?Q?69x8Z/lv8Wy6IBWxRmleC85t69E3iUr/b5wHQhTMyutUDkaCWF5HvnrI99Lm?=
- =?us-ascii?Q?ox1i5gC2pdPjnUc85sFpGnn1PeWcZadPt5mY1b8boyeSwXiM2ymqaRb0uAEd?=
- =?us-ascii?Q?iJM6XdCdU0ktAefgPdkfoUmKY7BPxjqnPZyIPbR2dRWL7lqUinrmt41xVJCo?=
- =?us-ascii?Q?qw/Q2oUc9OKQ8EpAJ3ZL6YJvuLf8MDmZ5UzHfFlppYYu53ut0cN+3/3eKUKE?=
- =?us-ascii?Q?4ipT4PF8YCM5hdeVrPnGrbwF26V9XvdmUpLFs0XSyHeptF5QBdp8antPk3SL?=
- =?us-ascii?Q?UF/dK2djcNyiwIGyKNoZAe3V1jhdA3L0l9tYo0+Uh34bhOT4vyFWgbWGFhV0?=
- =?us-ascii?Q?/y/Ezt89KdZOxH1oWG5EpYCkB1RzsRTvzmZGI8Zn4lUhzCSqoiXHdNc96fz5?=
- =?us-ascii?Q?2gU4c4yny7qrnHZeESCYnI3twN2U45OYUyZPpSQilfqejMcqQiRmqhgqjg9e?=
- =?us-ascii?Q?xdgE+h0pYGTNPiS7R4IHufDD28Szz+aiij7+CrumHbQqKfeHzm0sREjsxNhI?=
- =?us-ascii?Q?zJt6w9/lmTARklZtDMTf1o5b/uJVTBTYZU2A3Voxn4ufZ1gx774F2XSM5xrN?=
- =?us-ascii?Q?mzN/a39QNBjTxZ+bntDh+utHMNlRjm+ETJeW5xZLOq9aAnU5zZLaa56cOlJJ?=
- =?us-ascii?Q?kj0r+VWAspwmV5ACXyciFU1pc6b+40RUPbDhKCitgYd1dkBnSMoiYp7PKBx4?=
- =?us-ascii?Q?Sjdus+JLLNg471iqtaDGpQvA0/blQcTrWIKH4rQVBnSWof6GqjNwzydccSWn?=
- =?us-ascii?Q?ixgqQcrqGtOXSHUWV4aZYol/kVXNn9fT6/mtQrY/8AN56qYLP4zkuMino8zA?=
- =?us-ascii?Q?j0MHvN7Vvhl1ltNlqaQt0U4xYR5inA+FOXK7sL5qu/FvumrcpHfQTbCdDBv5?=
- =?us-ascii?Q?7cHv3JiZiD7Dzy8zI5GsPqcONvPQdCf+/ECAkab4LMTEFoxaOOutFCwxWss9?=
- =?us-ascii?Q?FD43huJDI9qtp/7P55a7RKwRn3d9hUxOktoizFEyTeGR4nKAzww0xY2F0sIa?=
- =?us-ascii?Q?+RlqQh8nQ85rO151A9vq/zZ+rqPdRol4GnTzhN2tZVs58CH+jFv63t62HbMD?=
- =?us-ascii?Q?9bQ/E/fJGQmA0jjQi2fZ6w4qW4rERv/7+QvvyDHIUyB89KcDuIpVZtq756yZ?=
- =?us-ascii?Q?wCICX70u7z+hgJnVW/CxEj9FrtC8lU+7Km8dHbu9yGya6XqVzgjVO+1dKywH?=
- =?us-ascii?Q?/KaLmmSN7EV5RCIKMSUIzOE6J+810zFMlhVQEd9eR/n466UOzkTGyJqY+UJe?=
- =?us-ascii?Q?XvlwzlCu1cFcF43htB9VAZPu?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 73443fb5-49e7-453f-dc72-08d92a8f6905
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB5136.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Jun 2021 15:09:28.3453 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: h7UgAcOepOEhmml5P09BH+cBZSn9iz6C6VTooideQfkbHg/vbJxbwFgo7+9ROau15QJCSV+6Qfdo4mk3EgPS/A==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB5085
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210601224750.513996-7-robdclark@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -116,31 +90,254 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: thomas_os@shipmail.org, Nirmoy Das <nirmoy.das@amd.com>,
- linux-graphics-maintainer@vmware.com, Christian.Koenig@amd.com
+Cc: Rob Clark <robdclark@chromium.org>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU"
+ <freedreno@lists.freedesktop.org>,
+ Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Jonathan Marek <jonathan@marek.ca>, David Airlie <airlied@linux.ie>,
+ Lee Jones <lee.jones@linaro.org>, Sharat Masetty <smasetty@codeaurora.org>,
+ Konrad Dybcio <konrad.dybcio@somainline.org>,
+ Akhil P Oommen <akhilpo@codeaurora.org>, dri-devel@lists.freedesktop.org,
+ open list <linux-kernel@vger.kernel.org>,
+ Zhenzhong Duan <zhenzhong.duan@gmail.com>,
+ Iskren Chernev <iskren.chernev@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
+ "Kristian H. Kristensen" <hoegsberg@google.com>, Sean Paul <sean@poorly.run>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-ttm_bo_assign_mem() expects bo->resource to be free.
-Fixes: bfa3357ef9abc ("drm/ttm: allocate resource object instead of embedding it v2")
+On Tue, Jun 01, 2021 at 03:47:24PM -0700, Rob Clark wrote:
+> From: Rob Clark <robdclark@chromium.org>
+> 
+> For collecting devcoredumps with the SMMU stalled after an iova fault,
+> we need to skip the parts of the GPU state which are normally collected
+> with the hw crashdumper, since with the SMMU stalled the hw would be
+> unable to write out the requested state to memory.
 
-Signed-off-by: Nirmoy Das <nirmoy.das@amd.com>
----
- drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c | 1 +
- 1 file changed, 1 insertion(+)
+On a5xx and a6xx you can query RBBM_STATUS3 bit 24 to see if the IOMMU is
+stalled.  That could be an alternative option to adding the "stalled"
+infrastructure across all targets.
 
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c b/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c
-index bfcf31bf7e37..7281912436bb 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c
-@@ -733,6 +733,7 @@ static int vmw_move(struct ttm_buffer_object *bo,
- 
- 	if (old_man->use_tt && new_man->use_tt) {
- 		if (bo->resource->mem_type == TTM_PL_SYSTEM) {
-+			ttm_resource_free(bo, &bo->resource);
- 			ttm_bo_assign_mem(bo, new_mem);
- 			return 0;
- 		}
--- 
-2.31.1
-
+Jordan
+>
+> Signed-off-by: Rob Clark <robdclark@chromium.org>
+> ---
+>  drivers/gpu/drm/msm/adreno/a2xx_gpu.c       |  2 +-
+>  drivers/gpu/drm/msm/adreno/a3xx_gpu.c       |  2 +-
+>  drivers/gpu/drm/msm/adreno/a4xx_gpu.c       |  2 +-
+>  drivers/gpu/drm/msm/adreno/a5xx_gpu.c       |  5 ++-
+>  drivers/gpu/drm/msm/adreno/a6xx_gpu.h       |  2 +-
+>  drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c | 43 ++++++++++++++++-----
+>  drivers/gpu/drm/msm/msm_debugfs.c           |  2 +-
+>  drivers/gpu/drm/msm/msm_gpu.c               |  7 ++--
+>  drivers/gpu/drm/msm/msm_gpu.h               |  2 +-
+>  9 files changed, 47 insertions(+), 20 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/adreno/a2xx_gpu.c b/drivers/gpu/drm/msm/adreno/a2xx_gpu.c
+> index bdc989183c64..d2c31fae64fd 100644
+> --- a/drivers/gpu/drm/msm/adreno/a2xx_gpu.c
+> +++ b/drivers/gpu/drm/msm/adreno/a2xx_gpu.c
+> @@ -434,7 +434,7 @@ static void a2xx_dump(struct msm_gpu *gpu)
+>  	adreno_dump(gpu);
+>  }
+>  
+> -static struct msm_gpu_state *a2xx_gpu_state_get(struct msm_gpu *gpu)
+> +static struct msm_gpu_state *a2xx_gpu_state_get(struct msm_gpu *gpu, bool stalled)
+>  {
+>  	struct msm_gpu_state *state = kzalloc(sizeof(*state), GFP_KERNEL);
+>  
+> diff --git a/drivers/gpu/drm/msm/adreno/a3xx_gpu.c b/drivers/gpu/drm/msm/adreno/a3xx_gpu.c
+> index 4534633fe7cd..b1a6f87d74ef 100644
+> --- a/drivers/gpu/drm/msm/adreno/a3xx_gpu.c
+> +++ b/drivers/gpu/drm/msm/adreno/a3xx_gpu.c
+> @@ -464,7 +464,7 @@ static void a3xx_dump(struct msm_gpu *gpu)
+>  	adreno_dump(gpu);
+>  }
+>  
+> -static struct msm_gpu_state *a3xx_gpu_state_get(struct msm_gpu *gpu)
+> +static struct msm_gpu_state *a3xx_gpu_state_get(struct msm_gpu *gpu, bool stalled)
+>  {
+>  	struct msm_gpu_state *state = kzalloc(sizeof(*state), GFP_KERNEL);
+>  
+> diff --git a/drivers/gpu/drm/msm/adreno/a4xx_gpu.c b/drivers/gpu/drm/msm/adreno/a4xx_gpu.c
+> index 82bebb40234d..22780a594d6f 100644
+> --- a/drivers/gpu/drm/msm/adreno/a4xx_gpu.c
+> +++ b/drivers/gpu/drm/msm/adreno/a4xx_gpu.c
+> @@ -549,7 +549,7 @@ static const unsigned int a405_registers[] = {
+>  	~0 /* sentinel */
+>  };
+>  
+> -static struct msm_gpu_state *a4xx_gpu_state_get(struct msm_gpu *gpu)
+> +static struct msm_gpu_state *a4xx_gpu_state_get(struct msm_gpu *gpu, bool stalled)
+>  {
+>  	struct msm_gpu_state *state = kzalloc(sizeof(*state), GFP_KERNEL);
+>  
+> diff --git a/drivers/gpu/drm/msm/adreno/a5xx_gpu.c b/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
+> index a0eef5d9b89b..2e7714b1a17f 100644
+> --- a/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
+> +++ b/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
+> @@ -1519,7 +1519,7 @@ static void a5xx_gpu_state_get_hlsq_regs(struct msm_gpu *gpu,
+>  	msm_gem_kernel_put(dumper.bo, gpu->aspace, true);
+>  }
+>  
+> -static struct msm_gpu_state *a5xx_gpu_state_get(struct msm_gpu *gpu)
+> +static struct msm_gpu_state *a5xx_gpu_state_get(struct msm_gpu *gpu, bool stalled)
+>  {
+>  	struct a5xx_gpu_state *a5xx_state = kzalloc(sizeof(*a5xx_state),
+>  			GFP_KERNEL);
+> @@ -1536,7 +1536,8 @@ static struct msm_gpu_state *a5xx_gpu_state_get(struct msm_gpu *gpu)
+>  	a5xx_state->base.rbbm_status = gpu_read(gpu, REG_A5XX_RBBM_STATUS);
+>  
+>  	/* Get the HLSQ regs with the help of the crashdumper */
+> -	a5xx_gpu_state_get_hlsq_regs(gpu, a5xx_state);
+> +	if (!stalled)
+> +		a5xx_gpu_state_get_hlsq_regs(gpu, a5xx_state);
+>  
+>  	a5xx_set_hwcg(gpu, true);
+>  
+> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.h b/drivers/gpu/drm/msm/adreno/a6xx_gpu.h
+> index ce0610c5256f..e0f06ce4e1a9 100644
+> --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.h
+> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.h
+> @@ -86,7 +86,7 @@ unsigned long a6xx_gmu_get_freq(struct msm_gpu *gpu);
+>  void a6xx_show(struct msm_gpu *gpu, struct msm_gpu_state *state,
+>  		struct drm_printer *p);
+>  
+> -struct msm_gpu_state *a6xx_gpu_state_get(struct msm_gpu *gpu);
+> +struct msm_gpu_state *a6xx_gpu_state_get(struct msm_gpu *gpu, bool stalled);
+>  int a6xx_gpu_state_put(struct msm_gpu_state *state);
+>  
+>  #endif /* __A6XX_GPU_H__ */
+> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c
+> index c1699b4f9a89..d0af68a76c4f 100644
+> --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c
+> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c
+> @@ -833,6 +833,21 @@ static void a6xx_get_registers(struct msm_gpu *gpu,
+>  				a6xx_state, &a6xx_vbif_reglist,
+>  				&a6xx_state->registers[index++]);
+>  
+> +	if (!dumper) {
+> +		/*
+> +		 * We can't use the crashdumper when the SMMU is stalled,
+> +		 * because the GPU has no memory access until we resume
+> +		 * translation (but we don't want to do that until after
+> +		 * we have captured as much useful GPU state as possible).
+> +		 * So instead collect registers via the CPU:
+> +		 */
+> +		for (i = 0; i < ARRAY_SIZE(a6xx_reglist); i++)
+> +			a6xx_get_ahb_gpu_registers(gpu,
+> +				a6xx_state, &a6xx_reglist[i],
+> +				&a6xx_state->registers[index++]);
+> +		return;
+> +	}
+> +
+>  	for (i = 0; i < ARRAY_SIZE(a6xx_reglist); i++)
+>  		a6xx_get_crashdumper_registers(gpu,
+>  			a6xx_state, &a6xx_reglist[i],
+> @@ -903,9 +918,9 @@ static void a6xx_get_indexed_registers(struct msm_gpu *gpu,
+>  	a6xx_state->nr_indexed_regs = count;
+>  }
+>  
+> -struct msm_gpu_state *a6xx_gpu_state_get(struct msm_gpu *gpu)
+> +struct msm_gpu_state *a6xx_gpu_state_get(struct msm_gpu *gpu, bool stalled)
+>  {
+> -	struct a6xx_crashdumper dumper = { 0 };
+> +	struct a6xx_crashdumper _dumper = { 0 }, *dumper = NULL;
+>  	struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
+>  	struct a6xx_gpu *a6xx_gpu = to_a6xx_gpu(adreno_gpu);
+>  	struct a6xx_gpu_state *a6xx_state = kzalloc(sizeof(*a6xx_state),
+> @@ -928,14 +943,24 @@ struct msm_gpu_state *a6xx_gpu_state_get(struct msm_gpu *gpu)
+>  	/* Get the banks of indexed registers */
+>  	a6xx_get_indexed_registers(gpu, a6xx_state);
+>  
+> -	/* Try to initialize the crashdumper */
+> -	if (!a6xx_crashdumper_init(gpu, &dumper)) {
+> -		a6xx_get_registers(gpu, a6xx_state, &dumper);
+> -		a6xx_get_shaders(gpu, a6xx_state, &dumper);
+> -		a6xx_get_clusters(gpu, a6xx_state, &dumper);
+> -		a6xx_get_dbgahb_clusters(gpu, a6xx_state, &dumper);
+> +	/*
+> +	 * Try to initialize the crashdumper, if we are not dumping state
+> +	 * with the SMMU stalled.  The crashdumper needs memory access to
+> +	 * write out GPU state, so we need to skip this when the SMMU is
+> +	 * stalled in response to an iova fault
+> +	 */
+> +	if (!stalled && !a6xx_crashdumper_init(gpu, &_dumper)) {
+> +		dumper = &_dumper;
+> +	}
+> +
+> +	a6xx_get_registers(gpu, a6xx_state, dumper);
+> +
+> +	if (dumper) {
+> +		a6xx_get_shaders(gpu, a6xx_state, dumper);
+> +		a6xx_get_clusters(gpu, a6xx_state, dumper);
+> +		a6xx_get_dbgahb_clusters(gpu, a6xx_state, dumper);
+>  
+> -		msm_gem_kernel_put(dumper.bo, gpu->aspace, true);
+> +		msm_gem_kernel_put(dumper->bo, gpu->aspace, true);
+>  	}
+>  
+>  	if (snapshot_debugbus)
+> diff --git a/drivers/gpu/drm/msm/msm_debugfs.c b/drivers/gpu/drm/msm/msm_debugfs.c
+> index 7a2b53d35e6b..90558e826934 100644
+> --- a/drivers/gpu/drm/msm/msm_debugfs.c
+> +++ b/drivers/gpu/drm/msm/msm_debugfs.c
+> @@ -77,7 +77,7 @@ static int msm_gpu_open(struct inode *inode, struct file *file)
+>  		goto free_priv;
+>  
+>  	pm_runtime_get_sync(&gpu->pdev->dev);
+> -	show_priv->state = gpu->funcs->gpu_state_get(gpu);
+> +	show_priv->state = gpu->funcs->gpu_state_get(gpu, false);
+>  	pm_runtime_put_sync(&gpu->pdev->dev);
+>  
+>  	mutex_unlock(&dev->struct_mutex);
+> diff --git a/drivers/gpu/drm/msm/msm_gpu.c b/drivers/gpu/drm/msm/msm_gpu.c
+> index fa7691cb4614..4d280bf446e6 100644
+> --- a/drivers/gpu/drm/msm/msm_gpu.c
+> +++ b/drivers/gpu/drm/msm/msm_gpu.c
+> @@ -381,7 +381,8 @@ static void msm_gpu_crashstate_get_bo(struct msm_gpu_state *state,
+>  }
+>  
+>  static void msm_gpu_crashstate_capture(struct msm_gpu *gpu,
+> -		struct msm_gem_submit *submit, char *comm, char *cmd)
+> +		struct msm_gem_submit *submit, char *comm, char *cmd,
+> +		bool stalled)
+>  {
+>  	struct msm_gpu_state *state;
+>  
+> @@ -393,7 +394,7 @@ static void msm_gpu_crashstate_capture(struct msm_gpu *gpu,
+>  	if (gpu->crashstate)
+>  		return;
+>  
+> -	state = gpu->funcs->gpu_state_get(gpu);
+> +	state = gpu->funcs->gpu_state_get(gpu, stalled);
+>  	if (IS_ERR_OR_NULL(state))
+>  		return;
+>  
+> @@ -519,7 +520,7 @@ static void recover_worker(struct kthread_work *work)
+>  
+>  	/* Record the crash state */
+>  	pm_runtime_get_sync(&gpu->pdev->dev);
+> -	msm_gpu_crashstate_capture(gpu, submit, comm, cmd);
+> +	msm_gpu_crashstate_capture(gpu, submit, comm, cmd, false);
+>  	pm_runtime_put_sync(&gpu->pdev->dev);
+>  
+>  	kfree(cmd);
+> diff --git a/drivers/gpu/drm/msm/msm_gpu.h b/drivers/gpu/drm/msm/msm_gpu.h
+> index 7a082a12d98f..c15e5fd675d2 100644
+> --- a/drivers/gpu/drm/msm/msm_gpu.h
+> +++ b/drivers/gpu/drm/msm/msm_gpu.h
+> @@ -60,7 +60,7 @@ struct msm_gpu_funcs {
+>  	void (*debugfs_init)(struct msm_gpu *gpu, struct drm_minor *minor);
+>  #endif
+>  	unsigned long (*gpu_busy)(struct msm_gpu *gpu);
+> -	struct msm_gpu_state *(*gpu_state_get)(struct msm_gpu *gpu);
+> +	struct msm_gpu_state *(*gpu_state_get)(struct msm_gpu *gpu, bool stalled);
+>  	int (*gpu_state_put)(struct msm_gpu_state *state);
+>  	unsigned long (*gpu_get_freq)(struct msm_gpu *gpu);
+>  	void (*gpu_set_freq)(struct msm_gpu *gpu, struct dev_pm_opp *opp);
+> -- 
+> 2.31.1
+> 
