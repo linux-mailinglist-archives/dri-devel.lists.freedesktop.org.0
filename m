@@ -2,75 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8D4D39EF6C
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Jun 2021 09:21:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B0F8239EF7E
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Jun 2021 09:26:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D94256EAC9;
-	Tue,  8 Jun 2021 07:21:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D6E716EAD1;
+	Tue,  8 Jun 2021 07:26:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com
- [IPv6:2a00:1450:4864:20::436])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F0AF16EAC9
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Jun 2021 07:21:12 +0000 (UTC)
-Received: by mail-wr1-x436.google.com with SMTP id y7so15696427wrh.7
- for <dri-devel@lists.freedesktop.org>; Tue, 08 Jun 2021 00:21:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:references:from:message-id:date:user-agent:mime-version
- :in-reply-to:content-transfer-encoding:content-language;
- bh=j8/FqmwmZsIfZyWybnVj5Yc1MfEwokfXxYSVN7v+DbM=;
- b=s3e0utVZ7TGbyoFjacBjTAHT3MoKBAmPhH36Pq4r6bvZK0ZTpEt1VRPPwjMoHb5DL+
- IK3WUja+0XDh8MHzo67wD9CqCo68do0K4M7/lS0+udULfjF93WVBnctXv9p6oPQx/kW6
- 8X3T2/g+4q2LuTcYY154pdFB9XInRthkBk3bwF7GL3VOOiNhGp/zPEsyT3v0abplnkRa
- ODxbyX96cMTE4BzNtpuwZPpMxBBBNgKr6IdSD1A9++C/2TxvU0QMJ2kEFQce8PG/Ps8V
- uU7K2VTbPcTt/3nLEjJR3zhQ4ZFExQ79Hen5b8zl9fnLKyRqFwsqiiayaXW0qDePkFLP
- aYKw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-transfer-encoding
- :content-language;
- bh=j8/FqmwmZsIfZyWybnVj5Yc1MfEwokfXxYSVN7v+DbM=;
- b=IFx6veGM39IRgDl686hPN2v3mazfp7bXLtaRm+rbRD+EDXKBV+xarBnLifXWM8gNON
- oQ1JLjS0pUhL368LzcotxTbI+wJECzgLfP6GrYlYea80qCB7IVFR1We9XiupqqcrIfgu
- OkDwA+Az9adFHOpoGJbQ0xvn9t6Fk2080dgWVJ2eqa/1ljyXLE+j2ZjCH3Hqq8/9fCp6
- 5gcEh9zsgmeW+fCdIiRQpenGldacwIZPCTej8nFw/0hTn/c6pMQobPuLe3i0apyX6lPT
- oAiQw7zkiwvFRGHSnmOK/RfZWP5cKfV9Mi5/U4xpevorx+twYCboOowFksgB81Ed6LsI
- 5bwg==
-X-Gm-Message-State: AOAM532LCb7Z0mXmHpIhUK8ZWFYwIh+r3w3kCVyZbcmI6krgKVbjaSAr
- dS39hs/fJssupeSb0oUU1iFs6+LrRoU=
-X-Google-Smtp-Source: ABdhPJxOFfPqA+Ha0I3p1SqQxDdLwBWHPBHf3P92U5E2gV+VTMVQ+FZdE5cbsLH1j9rnmg7QnlwdjQ==
-X-Received: by 2002:a5d:6109:: with SMTP id v9mr21155749wrt.0.1623136871685;
- Tue, 08 Jun 2021 00:21:11 -0700 (PDT)
-Received: from ?IPv6:2a02:908:1252:fb60:197a:8536:afbe:3762?
- ([2a02:908:1252:fb60:197a:8536:afbe:3762])
- by smtp.gmail.com with ESMTPSA id l2sm18325721wrp.21.2021.06.08.00.21.11
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 08 Jun 2021 00:21:11 -0700 (PDT)
-Subject: Re: [PATCH 01/10] drm/ttm: allocate resource object instead of
- embedding it v2
-To: =?UTF-8?Q?Thomas_Hellstr=c3=b6m_=28Intel=29?= <thomas_os@shipmail.org>,
- matthew.auld@intel.com, dri-devel@lists.freedesktop.org,
- Nirmoy Das <nirmoy.das@amd.com>
-References: <20210602100914.46246-1-christian.koenig@amd.com>
- <e5e6f3d0-af80-fa59-ba55-bafbb8e7670a@shipmail.org>
- <abe421ae-e09c-101a-5bfb-9a0de40a0e03@shipmail.org>
- <78dbb6a2-99f3-2362-8d74-6489e78df21a@gmail.com>
- <94009311-6161-19ae-d846-59fb396a69b6@shipmail.org>
- <6d316dfe-0378-8284-1f8e-29caf5619e34@gmail.com>
- <a08db95b-7c75-d998-7443-73d809121e47@shipmail.org>
- <aa1d9fea-d425-608d-6696-96e437acd08c@gmail.com>
- <59e3ccb8-5c6a-e44b-41d7-9d15dc3c63f5@shipmail.org>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-Message-ID: <adb183d0-fdcb-5b78-a814-76683b6200ff@gmail.com>
-Date: Tue, 8 Jun 2021 09:21:10 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B4CE66EAD0;
+ Tue,  8 Jun 2021 07:26:13 +0000 (UTC)
+IronPort-SDR: 7Yg6wR7OKCcqTABQJBqq9I2Tk2UJUlSNdS4u48lPykdQ/5aZ19cjuuSAo8a1HB/THxUw4rGxmc
+ 4n2dvX1qryCg==
+X-IronPort-AV: E=McAfee;i="6200,9189,10008"; a="191898581"
+X-IronPort-AV: E=Sophos;i="5.83,257,1616482800"; d="scan'208";a="191898581"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Jun 2021 00:26:13 -0700
+IronPort-SDR: DpzJw+QhUy01TxzSUWWyK/xL7EEADHuFh3ABYewH5Q+4ANAyKKv5VogFEXXanDVIlk92It8XEr
+ fShPsOvUYOKQ==
+X-IronPort-AV: E=Sophos;i="5.83,257,1616482800"; d="scan'208";a="440361268"
+Received: from delmer-mobl.ger.corp.intel.com (HELO [10.249.254.231])
+ ([10.249.254.231])
+ by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Jun 2021 00:26:11 -0700
+Message-ID: <044baf68ef8e6fe11941fdb43a9ad404f46c6d3a.camel@linux.intel.com>
+Subject: Re: [PATCH 4/6] drm/i915/ttm: pass along the I915_BO_ALLOC_CONTIGUOUS
+From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
+To: Matthew Auld <matthew.auld@intel.com>, intel-gfx@lists.freedesktop.org
+Date: Tue, 08 Jun 2021 09:26:09 +0200
+In-Reply-To: <20210607182210.99036-5-matthew.auld@intel.com>
+References: <20210607182210.99036-1-matthew.auld@intel.com>
+ <20210607182210.99036-5-matthew.auld@intel.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.40.1 (3.40.1-1.fc34) 
 MIME-Version: 1.0
-In-Reply-To: <59e3ccb8-5c6a-e44b-41d7-9d15dc3c63f5@shipmail.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,24 +50,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi,
 
+On Mon, 2021-06-07 at 19:22 +0100, Matthew Auld wrote:
+> Currently we just ignore the I915_BO_ALLOC_CONTIGUOUS flag, which is
+> fine since everything is already contiguous with the ttm range
+> manager.
+> However in the next patch we want to switch over to the ttm buddy
+> manager, where allocations are by default not contiguous.
+> 
+> Signed-off-by: Matthew Auld <matthew.auld@intel.com>
+> Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+> ---
+>  drivers/gpu/drm/i915/gem/i915_gem_ttm.c | 15 ++++++++++++---
+>  1 file changed, 12 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+> b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+> index 73d52df8f2be..0b0fce445e9b 100644
+> --- a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+> +++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+> @@ -86,10 +86,18 @@ i915_ttm_select_tt_caching(const struct
+> drm_i915_gem_object *obj)
+>  
+>  static void
+>  i915_ttm_place_from_region(const struct intel_memory_region *mr,
+> -                          struct ttm_place *place)
+> +                          struct ttm_place *place,
+> +                          unsigned int flags)
+>  {
+>         memset(place, 0, sizeof(*place));
+>         place->mem_type = intel_region_to_ttm_type(mr);
+> +
+> +       switch(mr->type) {
+> +       case INTEL_MEMORY_LOCAL:
+> +               if (flags & I915_BO_ALLOC_CONTIGUOUS)
+> +                       place->flags = TTM_PL_FLAG_CONTIGUOUS;
+> +               break;
+> +       }
 
-Am 08.06.21 um 09:17 schrieb Thomas Hellström (Intel):
-> [SNIP]
->> Do you have the log to double check?
->
-> Unfortunately not, but IIRC it was directly from vmw_move().
+Do we need to restrict this to INTEL_MEMORY_LOCAL? While it doesn't
+currently make much sense for other memory regions, no point in not
+forwarding for all?
 
-Nirmoy do you still have your vmwgfx test environment?
+/Thomas
 
-Thanks,
-Christian.
-
->
-> /Thomas
->
->
 
