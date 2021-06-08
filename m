@@ -1,42 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A740039F0BA
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Jun 2021 10:22:50 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 593B939F0BB
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Jun 2021 10:23:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BEAE26EB2C;
-	Tue,  8 Jun 2021 08:22:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8D91C6EB2F;
+	Tue,  8 Jun 2021 08:23:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2AE6D6EB2C
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Jun 2021 08:22:45 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
- [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id BFEFD3E6;
- Tue,  8 Jun 2021 10:22:42 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1623140563;
- bh=Dn4741oh9pt5dOB5B+XzS7cURT9AnSlP1+ISJqSmg9o=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=tgwP7W+pI4+3B+xE+CteunOH71ZqZ8nm0fZd0inimkZbh2hJyNJvW7UVvOkvxbUfs
- NVKdu2xRuFosXYgn7iXKXmoi7AfX31Q8pcqyGQYm2M1m0llcQ2uf7I43U8xA2Cdoa3
- rvoUYe44sGsqipSzdihVso5qsPo6gRg8TcPaudqo=
-Date: Tue, 8 Jun 2021 11:22:27 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Neil Armstrong <narmstrong@baylibre.com>
-Subject: Re: [PATCH V6 2/2] drm/bridge: ti-sn65dsi83: Add TI SN65DSI83 and
- SN65DSI84 driver
-Message-ID: <YL8ow4Bck1KTxjhd@pendragon.ideasonboard.com>
-References: <20210607174258.16300-1-marex@denx.de>
- <20210607174258.16300-2-marex@denx.de>
- <8376707f-7234-4555-a892-0581fee00908@baylibre.com>
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3D48C6EB2F
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Jun 2021 08:23:13 +0000 (UTC)
+IronPort-SDR: G4AJyeIHgZI34gXlnEws3fOqSkboU3IJrRIt9lz4mlFcHKRVn6YkiKin3Nll3riOfjFOfTBLns
+ p+plnbHo83+A==
+X-IronPort-AV: E=McAfee;i="6200,9189,10008"; a="268652265"
+X-IronPort-AV: E=Sophos;i="5.83,257,1616482800"; d="scan'208";a="268652265"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Jun 2021 01:23:11 -0700
+IronPort-SDR: QPtw+S5zpASY+oyt7F/I2V2d/+8OWkJWgTBlFxoF9sv9hkeSr76dgDxTTIZSk8X/96z7VgKKO4
+ +wTQAzyWcGcg==
+X-IronPort-AV: E=Sophos;i="5.83,257,1616482800"; d="scan'208";a="634997041"
+Received: from delmer-mobl.ger.corp.intel.com (HELO [10.249.254.231])
+ ([10.249.254.231])
+ by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Jun 2021 01:23:10 -0700
+Subject: Re: [PATCH] drm/ttm: fix pipelined gutting v2
+To: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ dri-devel@lists.freedesktop.org
+References: <20210608081931.11339-1-christian.koenig@amd.com>
+From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>
+Message-ID: <87e9494d-a99f-ca93-da3b-febdd94408a5@linux.intel.com>
+Date: Tue, 8 Jun 2021 10:23:08 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <8376707f-7234-4555-a892-0581fee00908@baylibre.com>
+In-Reply-To: <20210608081931.11339-1-christian.koenig@amd.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,88 +52,20 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, Loic Poulain <loic.poulain@linaro.org>,
- ch@denx.de, Adam Ford <aford173@gmail.com>, dri-devel@lists.freedesktop.org,
- Douglas Anderson <dianders@chromium.org>, Robert Foss <robert.foss@linaro.org>,
- Stephen Boyd <swboyd@chromium.org>,
- Philippe Schenker <philippe.schenker@toradex.com>,
- Frieder Schrempf <frieder.schrempf@kontron.de>,
- Valentin Raevsky <valentin@compulab.co.il>, Sam Ravnborg <sam@ravnborg.org>,
- Jagan Teki <jagan@amarulasolutions.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Neil,
 
-On Tue, Jun 08, 2021 at 10:10:05AM +0200, Neil Armstrong wrote:
-> On 07/06/2021 19:42, Marek Vasut wrote:
-> > Add driver for TI SN65DSI83 Single-link DSI to Single-link LVDS bridge
-> > and TI SN65DSI84 Single-link DSI to Dual-link or 2x Single-link LVDS
-> > bridge. TI SN65DSI85 is unsupported due to lack of hardware to test on,
-> > but easy to add.
-> > 
-> > The driver operates the chip via I2C bus. Currently the LVDS clock are
-> > always derived from DSI clock lane, which is the usual mode of operation.
-> > Support for clock from external oscillator is not implemented, but it is
-> > easy to add if ever needed. Only RGB888 pixel format is implemented, the
-> > LVDS666 is not supported, but could be added if needed.
-> > 
-> > Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
-> > Reviewed-by: Frieder Schrempf <frieder.schrempf@kontron.de>
-> > Tested-by: Frieder Schrempf <frieder.schrempf@kontron.de>
-> > Tested-by: Adam Ford <aford173@gmail.com>
-> > Signed-off-by: Marek Vasut <marex@denx.de>
-> > Cc: Douglas Anderson <dianders@chromium.org>
-> > Cc: Jagan Teki <jagan@amarulasolutions.com>
-> > Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > Cc: Linus Walleij <linus.walleij@linaro.org>
-> > Cc: Loic Poulain <loic.poulain@linaro.org>
-> > Cc: Philippe Schenker <philippe.schenker@toradex.com>
-> > Cc: Sam Ravnborg <sam@ravnborg.org>
-> > Cc: Stephen Boyd <swboyd@chromium.org>
-> > Cc: Valentin Raevsky <valentin@compulab.co.il>
-> > To: dri-devel@lists.freedesktop.org
-> > ---
-> > V2: - Use dev_err_probe()
-> >     - Set REG_RC_RESET as volatile
-> >     - Wait for PLL stabilization by polling REG_RC_LVDS_PLL
-> >     - Use ctx->mode = *adj instead of *mode in sn65dsi83_mode_set
-> >     - Add tested DSI84 support in dual-link mode
-> >     - Correctly set VCOM
-> >     - Fill in missing DSI CHB and LVDS CHB bits from DSI84 and DSI85
-> >       datasheets, with that all the reserved bits make far more sense
-> >       as the DSI83 and DSI84 seems to be reduced version of DSI85
-> > V3: - Handle the dual-link LVDS with two port panel or bridge
-> > V4: - Add RB from Linus Walleij
-> >     - Rename REG_DSI_LANE_LVDS_LINK_CFG_DUAL to
-> >       REG_DSI_LANE_DSI_CHANNEL_MODE_SINGLE and fill in the remaining
-> >       DSI link options from DSI85 datasheet. DSI85 can do dual and 2x
-> >       single DSI mode, but DSI85 is currently unsupported by the
-> >       driver. Add a comment about DSI85, so that all the places which
-> >       need to be adjusted for DSI85 are marked accordingly.
-> >     - Add REG_DSI_LANE_LEFT_RIGHT_PIXELS bit for DSI
-> >     - Add handling for JEIDA18/JEIDA24/SPWG24 LVDS formats. Use SPWG24
-> >       as fallback on output bridges until they are all fixed.
-> >     - Patch DSI bus format to fixed RGB888_1X24 instead of passing
-> >       through the LVDS bus format.
-> > V5: - Move bus format patching to mode_fixup
-> >     - Use cpu_to_le16() to guarantee endianness in regmap_bulk_write()
-> > V6: - Cast of_device_get_match_data() output to uintptr_t first
-> > ---
-> >  drivers/gpu/drm/bridge/Kconfig        |  10 +
-> >  drivers/gpu/drm/bridge/Makefile       |   1 +
-> >  drivers/gpu/drm/bridge/ti-sn65dsi83.c | 709 ++++++++++++++++++++++++++
-> >  3 files changed, 720 insertions(+)
-> >  create mode 100644 drivers/gpu/drm/bridge/ti-sn65dsi83.c
-> > 
-> 
-> Looks complete & well reviewed, LGTM
-> 
-> Rob, Laurent ? is it ok for you ?
+On 6/8/21 10:19 AM, Christian König wrote:
+> We need to make sure to allocate the sys_mem resource before the point
+> of no return.
+>
+> v2: add missing return value checking, also handle idle case
+>
+> Signed-off-by: Christian König <christian.koenig@amd.com>
 
-No objection.
+lgtm.
 
--- 
-Regards,
+Reviewed-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
 
-Laurent Pinchart
+
