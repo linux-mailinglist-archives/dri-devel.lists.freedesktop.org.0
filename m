@@ -1,43 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02C1C39F681
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Jun 2021 14:25:33 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 372F539F62A
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Jun 2021 14:14:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 27B096E270;
-	Tue,  8 Jun 2021 12:25:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EAFB56E14C;
+	Tue,  8 Jun 2021 12:14:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 09A7B6E270;
- Tue,  8 Jun 2021 12:25:28 +0000 (UTC)
-IronPort-SDR: GZGDE5ec6G2bWo7Faa5N2hnB3AySIs3yKtB28MuybSo64Oqg+mNyziSXziUcF4dQuJ0mOBmAZj
- oyGfwECtwy/Q==
-X-IronPort-AV: E=McAfee;i="6200,9189,10008"; a="201812209"
-X-IronPort-AV: E=Sophos;i="5.83,258,1616482800"; d="scan'208";a="201812209"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Jun 2021 05:25:23 -0700
-IronPort-SDR: fL2z5j/mpwBU3+gEKQ9nBh6YSL4Ul0rPcQr1myqsJ4jkVjW3nvCICV5wggktbUGPoxHXvOlxnH
- jeumqi0vpA8Q==
-X-IronPort-AV: E=Sophos;i="5.83,258,1616482800"; d="scan'208";a="485195612"
-Received: from skallurr-mobl.ger.corp.intel.com (HELO [10.249.254.100])
- ([10.249.254.100])
- by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Jun 2021 05:25:21 -0700
-Message-ID: <d86d0a9749fe71aa91e80c8c83db65eebae6fe2b.camel@linux.intel.com>
-Subject: Re: [PATCH v3 5/7] drm/i915/ttm: remove node usage in our naming
-From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
-To: Matthew Auld <matthew.auld@intel.com>, intel-gfx@lists.freedesktop.org
-Date: Tue, 08 Jun 2021 14:25:18 +0200
-In-Reply-To: <20210608110254.169357-6-matthew.auld@intel.com>
-References: <20210608110254.169357-1-matthew.auld@intel.com>
- <20210608110254.169357-6-matthew.auld@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.1 (3.40.1-1.fc34) 
+Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3F9E76E14C
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Jun 2021 12:14:18 +0000 (UTC)
+Received: from dggemv703-chm.china.huawei.com (unknown [172.30.72.55])
+ by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4Fzpv80J0FzWsdF;
+ Tue,  8 Jun 2021 20:09:24 +0800 (CST)
+Received: from dggemi762-chm.china.huawei.com (10.1.198.148) by
+ dggemv703-chm.china.huawei.com (10.3.19.46) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
+ 15.1.2176.2; Tue, 8 Jun 2021 20:14:14 +0800
+Received: from linux-lmwb.huawei.com (10.175.103.112) by
+ dggemi762-chm.china.huawei.com (10.1.198.148) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
+ 15.1.2176.2; Tue, 8 Jun 2021 20:14:14 +0800
+From: Zou Wei <zou_wei@huawei.com>
+To: <daniel.vetter@ffwll.ch>, <penguin-kernel@i-love.sakura.ne.jp>
+Subject: [PATCH -next] fbdev: convert list_for_each to entry variant
+Date: Tue, 8 Jun 2021 20:32:49 +0800
+Message-ID: <1623155569-61744-1-git-send-email-zou_wei@huawei.com>
+X-Mailer: git-send-email 2.6.2
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.175.103.112]
+X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
+ dggemi762-chm.china.huawei.com (10.1.198.148)
+X-CFilter-Loop: Reflected
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,23 +47,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Zou Wei <zou_wei@huawei.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 2021-06-08 at 12:02 +0100, Matthew Auld wrote:
-> Now that ttm_resource_manager just returns a generic ttm_resource we
-> don't need to reference the mm_node stuff anymore which mostly only
-> makes sense for drm_mm_node. In the next few patches we want switch
-> over
-> to the ttm_buddy_man which is just another type of ttm_resource so
-> reflect that in the naming.
-> 
-> Signed-off-by: Matthew Auld <matthew.auld@intel.com>
-> Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+convert list_for_each() to list_for_each_entry() where
+applicable.
 
-Reviewed-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+Reported-by: Hulk Robot <hulkci@huawei.com>
+Signed-off-by: Zou Wei <zou_wei@huawei.com>
+---
+ drivers/video/fbdev/core/fbsysfs.c | 8 ++------
+ 1 file changed, 2 insertions(+), 6 deletions(-)
 
-
-
+diff --git a/drivers/video/fbdev/core/fbsysfs.c b/drivers/video/fbdev/core/fbsysfs.c
+index 65dae05..753ecc8 100644
+--- a/drivers/video/fbdev/core/fbsysfs.c
++++ b/drivers/video/fbdev/core/fbsysfs.c
+@@ -130,14 +130,12 @@ static ssize_t store_mode(struct device *device, struct device_attribute *attr,
+ 	struct fb_var_screeninfo var;
+ 	struct fb_modelist *modelist;
+ 	struct fb_videomode *mode;
+-	struct list_head *pos;
+ 	size_t i;
+ 	int err;
+ 
+ 	memset(&var, 0, sizeof(var));
+ 
+-	list_for_each(pos, &fb_info->modelist) {
+-		modelist = list_entry(pos, struct fb_modelist, list);
++	list_for_each_entry(modelist, &fb_info->modelist, list) {
+ 		mode = &modelist->mode;
+ 		i = mode_string(mstr, 0, mode);
+ 		if (strncmp(mstr, buf, max(count, i)) == 0) {
+@@ -198,13 +196,11 @@ static ssize_t show_modes(struct device *device, struct device_attribute *attr,
+ {
+ 	struct fb_info *fb_info = dev_get_drvdata(device);
+ 	unsigned int i;
+-	struct list_head *pos;
+ 	struct fb_modelist *modelist;
+ 	const struct fb_videomode *mode;
+ 
+ 	i = 0;
+-	list_for_each(pos, &fb_info->modelist) {
+-		modelist = list_entry(pos, struct fb_modelist, list);
++	list_for_each_entry(modelist, &fb_info->modelist, list) {
+ 		mode = &modelist->mode;
+ 		i += mode_string(buf, i, mode);
+ 	}
+-- 
+2.6.2
 
