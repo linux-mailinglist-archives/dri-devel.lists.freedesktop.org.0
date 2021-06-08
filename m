@@ -2,43 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7DB4739F8EC
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Jun 2021 16:22:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2137A39F90D
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Jun 2021 16:27:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7958B6E188;
-	Tue,  8 Jun 2021 14:22:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 177B26E1A4;
+	Tue,  8 Jun 2021 14:27:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from phobos.denx.de (phobos.denx.de
- [IPv6:2a01:238:438b:c500:173d:9f52:ddab:ee01])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5D90C6E188
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Jun 2021 14:22:27 +0000 (UTC)
-Received: from tr.lan (ip-89-176-112-137.net.upcbroadband.cz [89.176.112.137])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (No client certificate requested)
- (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id 419C682E99;
- Tue,  8 Jun 2021 16:22:25 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
- s=phobos-20191101; t=1623162145;
- bh=cse85oXH6HO69LdLGambh4/b288MKMcTDJbISqunMK8=;
- h=From:To:Cc:Subject:Date:From;
- b=sjkw7vyuBpufixzHS5G6rXV13X+MHXQrz7JVqTVXobzvcyXOVlmu0jctdqvNhObmL
- r0CTK69n99Y1bqeu8+781ZNr4RZKQH/7IxfrQfjXcqYBxdALV8lLqYG6rgqE4mm2Af
- qOQgL7IskjOEk6F+Zi4BsV3UHPbeaB6wqzii2LVTXrvMzuIxLClQFWiJOb4Bz8jdqX
- ZllOwOCbovV+nFaDiqCMP8LGKPvOzD0e1lS4pW4cm8FPXaALcxyQLw82I0sXY15Y0i
- hitEwkRR3+9JUQfI8oklZlg0DiepjuQ1AOKotkHPZzxoNGbzKHNAFOQjebK5x0D5PS
- LY5++mfyXg+NQ==
-From: Marek Vasut <marex@denx.de>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/bridge: ti-sn65dsi83: Fix sparse warnings
-Date: Tue,  8 Jun 2021 16:22:11 +0200
-Message-Id: <20210608142211.82333-1-marex@denx.de>
-X-Mailer: git-send-email 2.30.2
+Received: from casper.infradead.org (casper.infradead.org
+ [IPv6:2001:8b0:10b:1236::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8670F6E1A4;
+ Tue,  8 Jun 2021 14:27:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+ References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+ Content-Transfer-Encoding:Content-ID:Content-Description;
+ bh=UOUqanNFV7E9iFOGIGANmIM4i4Gh6l4SyO3xncINgRo=; b=SOVqCOqbuxbZuhUUVWAc01u3On
+ DNpG+2B8W0ZYJPE9iiPQAdSr1lckOpe1bln4Z+tW3eDPHJuMdqMrZm2kZhxtdM6xffSOERzfRcRKl
+ U9PkHttAu4TN2yf36y7qawawP5uHuH5MhmYhE2T7Uurc2sI8AuVTotPoVYELFy3dP3V3J5770YP1y
+ Iq+cUBRmocOOt5IZBO9YEr9/YcXtAU1kOUnBfReYev8yjS+jqCsYDnA7pAh2q9/jz4o2f9oKuEK0Q
+ waWajDen4OFWn+dr0KlTEWStILX9S7JiXEy2/1uTIxT5OfA/li+qWGWymU6x+Nn9yCqfvHaADRNrV
+ FI/1B06A==;
+Received: from willy by casper.infradead.org with local (Exim 4.94 #2 (Red Hat
+ Linux)) id 1lqcgn-00H1Gn-G0; Tue, 08 Jun 2021 14:26:52 +0000
+Date: Tue, 8 Jun 2021 15:26:45 +0100
+From: Matthew Wilcox <willy@infradead.org>
+To: Alex Sierra <alex.sierra@amd.com>
+Subject: Re: [RFC PATCH v2 0/8] Support DEVICE_GENERIC memory in migrate_vma_*
+Message-ID: <YL9+JW1MPsANqqq1@casper.infradead.org>
+References: <20210607204226.7743-1-alex.sierra@amd.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Virus-Scanned: clamav-milter 0.102.4 at phobos.denx.de
-X-Virus-Status: Clean
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210607204226.7743-1-alex.sierra@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,99 +47,103 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, Loic Poulain <loic.poulain@linaro.org>,
- ch@denx.de, Sam Ravnborg <sam@ravnborg.org>,
- Robert Foss <robert.foss@linaro.org>, Douglas Anderson <dianders@chromium.org>,
- Frieder Schrempf <frieder.schrempf@kontron.de>,
- Stephen Boyd <swboyd@chromium.org>,
- Philippe Schenker <philippe.schenker@toradex.com>,
- Jagan Teki <jagan@amarulasolutions.com>,
- Valentin Raevsky <valentin@compulab.co.il>, Adam Ford <aford173@gmail.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: rcampbell@nvidia.com, Felix.Kuehling@amd.com,
+ dri-devel@lists.freedesktop.org, linux-mm@kvack.org, jglisse@redhat.com,
+ amd-gfx@lists.freedesktop.org, jgg@nvidia.com, akpm@linux-foundation.org,
+ hch@lst.de
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fix the following sparse warnings generated by "make C=1":
+On Mon, Jun 07, 2021 at 03:42:18PM -0500, Alex Sierra wrote:
+> v1:
+> https://lore.kernel.org/linux-mm/20210529064022.GB15834@lst.de/T/
 
-drivers/gpu/drm/bridge/ti-sn65dsi83.c:429:13: warning: incorrect type in assignment (different base types)
-drivers/gpu/drm/bridge/ti-sn65dsi83.c:429:13:    expected unsigned short [assigned] [usertype] val
-drivers/gpu/drm/bridge/ti-sn65dsi83.c:429:13:    got restricted __le16 [usertype]
-drivers/gpu/drm/bridge/ti-sn65dsi83.c:432:13: warning: incorrect type in assignment (different base types)
-drivers/gpu/drm/bridge/ti-sn65dsi83.c:432:13:    expected unsigned short [addressable] [assigned] [usertype] val
-drivers/gpu/drm/bridge/ti-sn65dsi83.c:432:13:    got restricted __le16 [usertype]
-drivers/gpu/drm/bridge/ti-sn65dsi83.c:436:13: warning: incorrect type in assignment (different base types)
-drivers/gpu/drm/bridge/ti-sn65dsi83.c:436:13:    expected unsigned short [addressable] [assigned] [usertype] val
-drivers/gpu/drm/bridge/ti-sn65dsi83.c:436:13:    got restricted __le16 [usertype]
-drivers/gpu/drm/bridge/ti-sn65dsi83.c:438:13: warning: incorrect type in assignment (different base types)
-drivers/gpu/drm/bridge/ti-sn65dsi83.c:438:13:    expected unsigned short [addressable] [assigned] [usertype] val
-drivers/gpu/drm/bridge/ti-sn65dsi83.c:438:13:    got restricted __le16 [usertype]
-drivers/gpu/drm/bridge/ti-sn65dsi83.c:441:13: warning: incorrect type in assignment (different base types)
-drivers/gpu/drm/bridge/ti-sn65dsi83.c:441:13:    expected unsigned short [addressable] [assigned] [usertype] val
-drivers/gpu/drm/bridge/ti-sn65dsi83.c:441:13:    got restricted __le16 [usertype]
+Please copy and paste the rationale into followup patch series instead
+of sending a link:
 
-Signed-off-by: Marek Vasut <marex@denx.de>
-Cc: Adam Ford <aford173@gmail.com>
-Cc: Douglas Anderson <dianders@chromium.org>
-Cc: Frieder Schrempf <frieder.schrempf@kontron.de>
-Cc: Jagan Teki <jagan@amarulasolutions.com>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Linus Walleij <linus.walleij@linaro.org>
-Cc: Loic Poulain <loic.poulain@linaro.org>
-Cc: Marek Vasut <marex@denx.de>
-Cc: Philippe Schenker <philippe.schenker@toradex.com>
-Cc: Robert Foss <robert.foss@linaro.org>
-Cc: Sam Ravnborg <sam@ravnborg.org>
-Cc: Stephen Boyd <swboyd@chromium.org>
-Cc: Valentin Raevsky <valentin@compulab.co.il>
-To: dri-devel@lists.freedesktop.org
----
- drivers/gpu/drm/bridge/ti-sn65dsi83.c | 21 +++++++++++----------
- 1 file changed, 11 insertions(+), 10 deletions(-)
+AMD is building a system architecture for the Frontier supercomputer with
+a coherent interconnect between CPUs and GPUs. This hardware architecture
+allows the CPUs to coherently access GPU device memory. We have hardware
+in our labs and we are working with our partner HPE on the BIOS, firmware
+and software for delivery to the DOE.
 
-diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi83.c b/drivers/gpu/drm/bridge/ti-sn65dsi83.c
-index 750f2172ef08..8f3158f5281a 100644
---- a/drivers/gpu/drm/bridge/ti-sn65dsi83.c
-+++ b/drivers/gpu/drm/bridge/ti-sn65dsi83.c
-@@ -368,6 +368,7 @@ static void sn65dsi83_enable(struct drm_bridge *bridge)
- {
- 	struct sn65dsi83 *ctx = bridge_to_sn65dsi83(bridge);
- 	unsigned int pval;
-+	__le16 le16val;
- 	u16 val;
- 	int ret;
- 
-@@ -426,21 +427,21 @@ static void sn65dsi83_enable(struct drm_bridge *bridge)
- 		     REG_LVDS_LANE_CHB_LVDS_TERM);
- 	regmap_write(ctx->regmap, REG_LVDS_CM, 0x00);
- 
--	val = cpu_to_le16(ctx->mode.hdisplay);
-+	le16val = cpu_to_le16(ctx->mode.hdisplay);
- 	regmap_bulk_write(ctx->regmap, REG_VID_CHA_ACTIVE_LINE_LENGTH_LOW,
--			  &val, 2);
--	val = cpu_to_le16(ctx->mode.vdisplay);
-+			  &le16val, 2);
-+	le16val = cpu_to_le16(ctx->mode.vdisplay);
- 	regmap_bulk_write(ctx->regmap, REG_VID_CHA_VERTICAL_DISPLAY_SIZE_LOW,
--			  &val, 2);
-+			  &le16val, 2);
- 	/* 32 + 1 pixel clock to ensure proper operation */
--	val = cpu_to_le16(32 + 1);
--	regmap_bulk_write(ctx->regmap, REG_VID_CHA_SYNC_DELAY_LOW, &val, 2);
--	val = cpu_to_le16(ctx->mode.hsync_end - ctx->mode.hsync_start);
-+	le16val = cpu_to_le16(32 + 1);
-+	regmap_bulk_write(ctx->regmap, REG_VID_CHA_SYNC_DELAY_LOW, &le16val, 2);
-+	le16val = cpu_to_le16(ctx->mode.hsync_end - ctx->mode.hsync_start);
- 	regmap_bulk_write(ctx->regmap, REG_VID_CHA_HSYNC_PULSE_WIDTH_LOW,
--			  &val, 2);
--	val = cpu_to_le16(ctx->mode.vsync_end - ctx->mode.vsync_start);
-+			  &le16val, 2);
-+	le16val = cpu_to_le16(ctx->mode.vsync_end - ctx->mode.vsync_start);
- 	regmap_bulk_write(ctx->regmap, REG_VID_CHA_VSYNC_PULSE_WIDTH_LOW,
--			  &val, 2);
-+			  &le16val, 2);
- 	regmap_write(ctx->regmap, REG_VID_CHA_HORIZONTAL_BACK_PORCH,
- 		     ctx->mode.htotal - ctx->mode.hsync_end);
- 	regmap_write(ctx->regmap, REG_VID_CHA_VERTICAL_BACK_PORCH,
--- 
-2.30.2
+The system BIOS advertises the GPU device memory (aka VRAM) as SPM
+(special purpose memory) in the UEFI system address map. The amdgpu driver
+looks it up with lookup_resource and registers it with devmap as
+MEMORY_DEVICE_GENERIC using devm_memremap_pages.
 
+Now we're trying to migrate data to and from that memory using the
+migrate_vma_* helpers so we can support page-based migration in our
+unified memory allocations, while also supporting CPU access to those
+pages.
+
+This patch series makes a few changes to make MEMORY_DEVICE_GENERIC pages
+behave correctly in the migrate_vma_* helpers. We are looking for feedback
+about this approach. If we're close, what's needed to make our patches
+acceptable upstream? If we're not close, any suggestions how else to
+achieve what we are trying to do (i.e. page migration and coherent CPU
+access to VRAM)?
+
+This work is based on HMM and our SVM memory manager that was recently
+upstreamed to Dave Airlie's drm-next branch
+[https://cgit.freedesktop.org/drm/drm/log/?h=drm-next]. On top of that we
+did some rework of our VRAM management for migrations to remove some
+incorrect assumptions, allow partially successful migrations and GPU
+memory mappings that mix pages in VRAM and system memory.
+[https://patchwork.kernel.org/project/dri-devel/list/?series=489811]
+
+> v2:
+> This patch series version has merged "[RFC PATCH v3 0/2]
+> mm: remove extra ZONE_DEVICE struct page refcount" patch series made by
+> Ralph Campbell. It also applies at the top of these series, our changes
+> to support device generic type in migration_vma helpers.
+> This has been tested in systems with device memory that has coherent
+> access by CPU.
+> 
+> Also addresses the following feedback made in v1:
+> - Isolate in one patch kernel/resource.c modification, based
+> on Christoph's feedback.
+> - Add helpers check for generic and private type to avoid
+> duplicated long lines.
+> 
+> I like to provide an overview of what each of the patches does in a series:
+> 
+> Patches 1-2: Rebased Ralph Campbell's ZONE_DEVICE page refcounting patches
+> Patch 3: Export lookup_resource
+> Patches 4-5: AMDGPU driver changes to register and use DEVICE_GENERIC memory
+> Patches 6-8: Handle DEVICE_GENERIC memory in migration helpers
+> 
+> Alex Sierra (6):
+>   kernel: resource: lookup_resource as exported symbol
+>   drm/amdkfd: add SPM support for SVM
+>   drm/amdkfd: generic type as sys mem on migration to ram
+>   include/linux/mm.h: helpers to check zone device generic type
+>   mm: add generic type support to migrate_vma helpers
+>   mm: call pgmap->ops->page_free for DEVICE_GENERIC pages
+> 
+> Ralph Campbell (2):
+>   ext4/xfs: add page refcount helper
+>   mm: remove extra ZONE_DEVICE struct page refcount
+> 
+>  arch/powerpc/kvm/book3s_hv_uvmem.c       |  2 +-
+>  drivers/gpu/drm/amd/amdkfd/kfd_migrate.c | 15 ++++--
+>  drivers/gpu/drm/nouveau/nouveau_dmem.c   |  2 +-
+>  fs/dax.c                                 |  8 +--
+>  fs/ext4/inode.c                          |  5 +-
+>  fs/xfs/xfs_file.c                        |  4 +-
+>  include/linux/dax.h                      | 10 ++++
+>  include/linux/memremap.h                 |  7 +--
+>  include/linux/mm.h                       | 52 +++---------------
+>  kernel/resource.c                        |  2 +-
+>  lib/test_hmm.c                           |  2 +-
+>  mm/internal.h                            |  8 +++
+>  mm/memremap.c                            | 69 +++++++-----------------
+>  mm/migrate.c                             | 13 ++---
+>  mm/page_alloc.c                          |  3 ++
+>  mm/swap.c                                | 45 ++--------------
+>  16 files changed, 83 insertions(+), 164 deletions(-)
+> 
+> -- 
+> 2.17.1
+> 
+> 
