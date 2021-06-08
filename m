@@ -1,110 +1,134 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F71139F2B0
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Jun 2021 11:43:33 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id CD2C639F290
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Jun 2021 11:38:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 70E736EB82;
-	Tue,  8 Jun 2021 09:43:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 127436EB7C;
+	Tue,  8 Jun 2021 09:38:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 373 seconds by postgrey-1.36 at gabe;
- Tue, 08 Jun 2021 09:43:29 UTC
-Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com
- [210.118.77.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B42E16EB82
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Jun 2021 09:43:29 +0000 (UTC)
-Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
- by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id
- 20210608093714euoutp012397148f3239f009f7af954aa6bb4b3a~Gkc8ykFhz1434014340euoutp015
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Jun 2021 09:37:14 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com
- 20210608093714euoutp012397148f3239f009f7af954aa6bb4b3a~Gkc8ykFhz1434014340euoutp015
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1623145034;
- bh=wsEjWU0qsU04tvYh6SGUhwy6yYWs5+wf8v9dCBxlicw=;
- h=Subject:To:Cc:From:Date:In-Reply-To:References:From;
- b=KSeuEJ7Xdj4WjYrgbAV/lqXS2Jzlmh9W32TuAmqRHRaJEYunXejotffugPtfkGBI9
- vwb0QJG7ItZpxg7DAw+XZxPXvU9Y3qbm/1VVVLgwwpzejRdfP2I22Lw3bmPVJvL3UA
- MiEOkcttALvkE27+y85LEnlQHnkPF2n/5LDeGvw0=
-Received: from eusmges2new.samsung.com (unknown [203.254.199.244]) by
- eucas1p1.samsung.com (KnoxPortal) with ESMTP id
- 20210608093714eucas1p1c710163fb668a40c64e7acc4e2db4482~Gkc8YJqJF2909929099eucas1p1h;
- Tue,  8 Jun 2021 09:37:14 +0000 (GMT)
-Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
- eusmges2new.samsung.com (EUCPMTA) with SMTP id E6.79.09444.A4A3FB06; Tue,  8
- Jun 2021 10:37:14 +0100 (BST)
-Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
- eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
- 20210608093713eucas1p1f80bd23f2361de5c86440c1153d3c99b~Gkc70O_OD1048510485eucas1p1Y;
- Tue,  8 Jun 2021 09:37:13 +0000 (GMT)
-Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
- eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
- 20210608093713eusmtrp13769ec15bed28af3f19d003dbe01b827~Gkc7zPcqz2077520775eusmtrp1u;
- Tue,  8 Jun 2021 09:37:13 +0000 (GMT)
-X-AuditID: cbfec7f4-dbdff700000024e4-8f-60bf3a4a4b3e
-Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
- eusmgms1.samsung.com (EUCPMTA) with SMTP id 70.35.08705.94A3FB06; Tue,  8
- Jun 2021 10:37:13 +0100 (BST)
-Received: from [106.210.134.192] (unknown [106.210.134.192]) by
- eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
- 20210608093713eusmtip1b0cb1e253e6570be2a78da65fc468548~Gkc7JWX4t2099420994eusmtip1L;
- Tue,  8 Jun 2021 09:37:12 +0000 (GMT)
-Subject: Re: [PATCH] drm/vc4: fix vc4_atomic_commit_tail() logic
-To: Mark Rutland <mark.rutland@arm.com>, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org
-From: Marek Szyprowski <m.szyprowski@samsung.com>
-Message-ID: <7255595b-d85b-7f5c-7a77-c5e8f9cb9395@samsung.com>
-Date: Tue, 8 Jun 2021 11:37:12 +0200
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0)
- Gecko/20100101 Thunderbird/78.10.2
-MIME-Version: 1.0
-In-Reply-To: <20210608085513.2069-1-mark.rutland@arm.com>
-Content-Transfer-Encoding: 7bit
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam10on2042.outbound.protection.outlook.com [40.107.94.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BC8DA6EB7F
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Jun 2021 09:38:08 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=YKhpON6mqR30XH+oi1QhHnuPP9Mr3GVr8JyWCPRWL8z3spig8CGN8jjgUuBSO38PHq42nJzUNaSIOXFvNN3xrB9IjLgBy5VJzl+ay83C+OFWrLsZL/hxkZT3MFyil1JM8WAQdE7kzbPrL3VBi309v3j168FNsdyTfBa0aVrikdjO30fTyMesYjgCkgmY1BCe3GY1fRsXRB3FfVJin3IZhdNj5+JtgxO+CDOlvkifPgjpq8AhjOi87LTZceAGr4NMD+ACKCjUvW265Kk0C2L6Z14Yh49CK+UgEhO7tWQ56jN2UZvsar1rnhL+k3XYCfvjMzEnDX4qmtJUnVEXlL8Y9Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=+qY5h/eXZGQrotO8BuMfq6NcAiDCCqmsn2jGjnzmTLc=;
+ b=l26Hhi05JRDhKIoXxcnYfx6A8Qsfii7c5u+iE2IXmL0SqjphC5mwi8biBSmEfck1ae8dTjiO6EHG2eG/TFVxP6V8WraiUhgQffers/kr8pxhf4z7ubZPbHVpk3V3pF9tIY1BostavXXqvZMJmT5hxSDNAJSQ64/mAbMgaYKs+EBm0WhcNqG8CTMHrblyi4z4tcFzKzKoPZY2EFOCDaYhqM7uILpdOv2lM2mMiLlw7DR3Z1VVcHaXsj5ulfIOFJLN39gTC8rl2M/8FCXUsDWWTJA5CY9YhzxtKKS8BjDMLaP+vKnRzKo5Y4uC9HAXb0qp2y/v5m9U1KShayg0DrQCoQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=+qY5h/eXZGQrotO8BuMfq6NcAiDCCqmsn2jGjnzmTLc=;
+ b=jeonADnUA3jqlcME103y9CQL1qar8mwcye31xOVSaYST7yxzznoZuPBoAYkidpNF3BTSV4i7rFcmSsEFWx3w1UAKBS0Xcklq6KYLtVkU3LRt0HQFk3TOHgSXX166WYHRgGrvXcOaFnUt5PBxIHxwrqxVpMMEwDYfkfl3ai3vt7k=
+Authentication-Results: lists.freedesktop.org; dkim=none (message not signed)
+ header.d=none; lists.freedesktop.org;
+ dmarc=none action=none header.from=amd.com;
+Received: from DM4PR12MB5136.namprd12.prod.outlook.com (2603:10b6:5:393::23)
+ by DM4PR12MB5038.namprd12.prod.outlook.com (2603:10b6:5:389::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4195.23; Tue, 8 Jun
+ 2021 09:38:07 +0000
+Received: from DM4PR12MB5136.namprd12.prod.outlook.com
+ ([fe80::4074:4943:244:a5fa]) by DM4PR12MB5136.namprd12.prod.outlook.com
+ ([fe80::4074:4943:244:a5fa%6]) with mapi id 15.20.4173.037; Tue, 8 Jun 2021
+ 09:38:06 +0000
+Subject: Re: [PATCH 01/10] drm/ttm: allocate resource object instead of
+ embedding it v2
+To: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ =?UTF-8?Q?Thomas_Hellstr=c3=b6m_=28Intel=29?= <thomas_os@shipmail.org>,
+ matthew.auld@intel.com, dri-devel@lists.freedesktop.org
+References: <20210602100914.46246-1-christian.koenig@amd.com>
+ <e5e6f3d0-af80-fa59-ba55-bafbb8e7670a@shipmail.org>
+ <abe421ae-e09c-101a-5bfb-9a0de40a0e03@shipmail.org>
+ <78dbb6a2-99f3-2362-8d74-6489e78df21a@gmail.com>
+ <94009311-6161-19ae-d846-59fb396a69b6@shipmail.org>
+ <6d316dfe-0378-8284-1f8e-29caf5619e34@gmail.com>
+ <a08db95b-7c75-d998-7443-73d809121e47@shipmail.org>
+ <aa1d9fea-d425-608d-6696-96e437acd08c@gmail.com>
+ <59e3ccb8-5c6a-e44b-41d7-9d15dc3c63f5@shipmail.org>
+ <adb183d0-fdcb-5b78-a814-76683b6200ff@gmail.com>
+From: "Das, Nirmoy" <nirmoy.das@amd.com>
+Message-ID: <552ba90e-0136-1008-2f0d-5501006b007f@amd.com>
+Date: Tue, 8 Jun 2021 11:38:02 +0200
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
+In-Reply-To: <adb183d0-fdcb-5b78-a814-76683b6200ff@gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
 Content-Language: en-US
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrCKsWRmVeSWpSXmKPExsWy7djPc7peVvsTDO71C1j0njvJZPF30jF2
- i/fLehgt/m+byGxx5et7Nou5+x4wWWx6fI3V4vKuOWwWS69fZLKY8eMfo0XLHVMHbo+m98fY
- PNbMW8Po8fvXJEaPO+fOs3ns/baAxWPTqk42j+3fHrB63O8+zuSxeUm9x+dNcgFcUVw2Kak5
- mWWpRfp2CVwZJ9bNZi/Yqlpx5sccpgbGJ3JdjBwcEgImEh+3BncxcnEICaxglDj55xAThPOF
- UeLNwZusXYycQM5nRonfXVkgNkjDzv3LGSGKljNKPJ/9mRGi6COjxL/rESBThQUcJDq3V4CY
- IgK5EucfpYCUMwvMYJJ48uMX2Ew2AUOJrrddbCA2r4CdxMynT1hAbBYBFYmHi/ewgvSKCiRL
- /N6oC1EiKHFyJkQJp4ClxKWJa9lBbGYBeYntb+cwQ9jiEreezAe7X0JgPqfE9e07WCCedJE4
- 2scOcb6wxKvjW6BsGYnTk3tYIOqbGSUengMZCuL0MEpcbprBCFFlLXHn3C82kEHMApoS63fp
- Q4QdJVpfvGeFmM8nceOtIMQNfBKTtk1nhgjzSnS0CUFUq0nMOr4Obu3BC5eYJzAqzULy2Swk
- 38xC8s0shL0LGFlWMYqnlhbnpqcWG+WllusVJ+YWl+al6yXn525iBCa00/+Of9nBuPzVR71D
- jEwcjIcYJTiYlUR4ywz3JQjxpiRWVqUW5ccXleakFh9ilOZgURLnTdqyJl5IID2xJDU7NbUg
- tQgmy8TBKdXAtOIXd9SbfQqibmscS35wLL703DLfZdnfDJ5yvzlpLkuUJlYfM9G9USMgHp9S
- l3ZgoiTz31x5lpn/lj61E+M06MvZ8e4TU5H/Js0nHVsV6xg3Cb5n4V1wRjM123H2ClEl2QsH
- r0v0W3gELNeIfCB9mcFRxGzChnJ7/dtNtuJOMjsSLueyMPB462xoyzgrt752nY/SqnpNcWvW
- TWk9LlXXtNRFnpTEr53hpZVk2qawxKNKW3v9vqsWR/lqk7XUnl79ts3p+eawj+c5RDb7hHx8
- Gtd18MIC48uqk1hk42rZbgTNeXJbrbz/uoLIz3W3swrfimqorTt5UuHbm08cr5prrH7zKPoc
- nMNRJaDl8FWJpTgj0VCLuag4EQCpALkP1wMAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrFIsWRmVeSWpSXmKPExsVy+t/xu7qeVvsTDB7c0bToPXeSyeLvpGPs
- Fu+X9TBa/N82kdniytf3bBZz9z1gstj0+BqrxeVdc9gsll6/yGQx48c/RouWO6YO3B5N74+x
- eayZt4bR4/evSYwed86dZ/PY+20Bi8emVZ1sHtu/PWD1uN99nMlj85J6j8+b5AK4ovRsivJL
- S1IVMvKLS2yVog0tjPQMLS30jEws9QyNzWOtjEyV9O1sUlJzMstSi/TtEvQyTqybzV6wVbXi
- zI85TA2MT+S6GDk5JARMJHbuX87YxcjFISSwlFFi3p8eFoiEjMTJaQ2sELawxJ9rXWwQRe8Z
- JV6c/cXUxcjBISzgING5vQLEFBHIlXiyNAmkhFlgGpPE+iuHwOYICVhI9E07wgZiswkYSnS9
- 7QKzeQXsJGY+fQJWwyKgIvFw8R6wXaICyRIb2v+zQtQISpycCVHDKWApcWniWnYQm1nATGLe
- 5ofMELa8xPa3c6BscYlbT+YzTWAUmoWkfRaSlllIWmYhaVnAyLKKUSS1tDg3PbfYUK84Mbe4
- NC9dLzk/dxMjMJK3Hfu5eQfjvFcf9Q4xMnEwHmKU4GBWEuEtM9yXIMSbklhZlVqUH19UmpNa
- fIjRFOificxSosn5wFSSVxJvaGZgamhiZmlgamlmrCTOu3XumnghgfTEktTs1NSC1CKYPiYO
- TqkGph06HbLuYgIzXVe9abf99Dgueeq/3Y6SoiZlbdxvHwpaHFp9clfd3cKDnLs+nTtku730
- zxKLkvQjYi/cJe9cn3He2tq2aPU/VyG9W89ebJeMny+976zF3b0OJsl3t19Q9P4afXSe2MaZ
- fWwxZSIhTUasEat6uttmOK6VYzdxzjv35XlYwTxL1TsHFk9J8lzaM8fN0VpaM3vf+atNl5i+
- KTFwJkyd23x02WXNL/OWCwQe/qRyZP8TlwevEp3/aDF2bNn/oXpb+eGPD/eGK1+XvlDw98d5
- iczyRfH6VjINlck+M47n/AqcJ5lt0bT6x36DvZdmzXSfsT512iKD5McTmkReSSs3uG5RP/55
- l5KTOr8SS3FGoqEWc1FxIgBjjW+dbQMAAA==
-X-CMS-MailID: 20210608093713eucas1p1f80bd23f2361de5c86440c1153d3c99b
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-RootMTR: 20210608093713eucas1p1f80bd23f2361de5c86440c1153d3c99b
-X-EPHeader: CA
-CMS-TYPE: 201P
-X-CMS-RootMailID: 20210608093713eucas1p1f80bd23f2361de5c86440c1153d3c99b
-References: <20210608085513.2069-1-mark.rutland@arm.com>
- <CGME20210608093713eucas1p1f80bd23f2361de5c86440c1153d3c99b@eucas1p1.samsung.com>
+X-Originating-IP: [2003:c5:8f2b:6400:c449:165a:413d:7e84]
+X-ClientProxiedBy: PR3P189CA0088.EURP189.PROD.OUTLOOK.COM
+ (2603:10a6:102:b4::33) To DM4PR12MB5136.namprd12.prod.outlook.com
+ (2603:10b6:5:393::23)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [IPv6:2003:c5:8f2b:6400:c449:165a:413d:7e84]
+ (2003:c5:8f2b:6400:c449:165a:413d:7e84) by
+ PR3P189CA0088.EURP189.PROD.OUTLOOK.COM (2603:10a6:102:b4::33) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4219.20 via Frontend Transport; Tue, 8 Jun 2021 09:38:06 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: dde6217a-1984-4d69-666e-08d92a611eeb
+X-MS-TrafficTypeDiagnostic: DM4PR12MB5038:
+X-Microsoft-Antispam-PRVS: <DM4PR12MB5038E04DAD268FE570A4A92D8B379@DM4PR12MB5038.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:2657;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: NojjNK9gtbD+iJ4vhlKuCwbOdtua2rO9WfgWcJR2buSZGWnaZO1nk8126mqZjRBKKntUTnyxBIp9KFE35UrbVNw9SPf8qY8U603Ccii5fIfBnd71D3p+xB1pjbB/ER58nuX5YWQjZydZL6mBPhUIbuF5M0ABQs//MVO8820Psjez5aHz1N9ppP5StpI0x5Ufp7ywDceoOP6lNT/f/0YtO64iCaRMIXPFPF/vKUr0jtPEdLpqXznKD17fTwqF5AP3TFFDGNHYZFhYhtzmO0rF1aef1T60NuAJgg6yNlMBx+A/hVY+M501od3IdFplTx0znQvS5XTLmTNEgyFwO3gZXhKxxAHgbyj80o0Vck3GRd/IPa/teGWl11uI4XzEafDXGeHzmk2P5y+yHHoU8hhtAa6FWy+su65P/uWaG+qgw0Y1Q/7Z7AvpFKNLYaoPbkRoex1oEsxE7uH3f7PxqlFHu9KP+iS85CoPslNZHpQ0PiJ60zntmZeTiAf/uh70Q9c6CX3mV/2Bue6TnDCFxRQQIGVaWesB7uNVTdrhfAjlTSeSGtuRxsUfLnnENHTJWvbyeTsDZObVNIGE87YmaWjg3HcmHMvA3MZMYiN0+QGlEm8YGLeAErnpmVsaQ/2dlfprjON3LNLE3FhHOQwI7y5pD5e94XyQ83eUnwsd0VfsUtNG1TS8fTF4mPAutatjuGao
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM4PR12MB5136.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(396003)(366004)(39860400002)(346002)(136003)(376002)(2906002)(52116002)(478600001)(53546011)(110136005)(83380400001)(2616005)(38100700002)(16526019)(186003)(4744005)(66946007)(36756003)(86362001)(66476007)(66556008)(5660300002)(8936002)(6486002)(31686004)(316002)(6666004)(8676002)(31696002)(45980500001)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?WENlYllHYVZzUWtpcWVleEdjcnkwOG9yQVlvSDRaSkpTdmcrd29IenNDOTZ4?=
+ =?utf-8?B?ME5WRHhnYWJ5b0h1MFUrMmMySGVoL3pxOVB3SmI3V3JIbkthUjRtMTB1UU5n?=
+ =?utf-8?B?Q0VCOG9zUjFsdURXSmlXQll1MWpSdUlrRW1pNFdWY3Uzc3gzWnJlYitWU2Vk?=
+ =?utf-8?B?ejZqdWEyZmJxdFJBV2h3dTc2YXc0TG5obm9WbDR5V0tlT3g0SUUraFdTblhC?=
+ =?utf-8?B?R3c0aXkrK0ZpM3RXMHZQTUUxVnRkRHFOMTNESnpiclBmRmRVYlBpQ0tnMFVI?=
+ =?utf-8?B?dGhTb1ljaXJmT2FUdWtNVTkzZHBwTHJzc010dk5tQXRHN3BVaXNMYzlQWjF3?=
+ =?utf-8?B?ZWtWRUMzMmI0bGVBclExWmlrd1MvMStubjVDUFdNMGQrUnVoWkYzQ2YvaE8v?=
+ =?utf-8?B?bWNDN21FME1IVEc5VmpyS24rckQ2Qk4rbXlKdm1VTGZISzV4K1hzZDdxQWc1?=
+ =?utf-8?B?dHBLSUlqYlREQy84VFVJVStla3ZFK2VRWFhQNjJTeVEvUUpDSENiQitMR3BP?=
+ =?utf-8?B?YTN1YmpXZndhN2RpYTIva1B0WVZMR1QwS3lnbnNTeWxCbFZmRllYNEJzSTZK?=
+ =?utf-8?B?WXd5eXc2TGJzVmUvZC9mVGN3dlhUWmUvdWRMc3cwVDVhTExDU2w5a1dmVTU4?=
+ =?utf-8?B?cUY1bWRPYTBLVUJYMDhqQXAwQkJlZWMzU1drM0pXKy9PcE5rdlh5ZjVSMTQ4?=
+ =?utf-8?B?VFNIanJTNThEdml5TlJ4YUJ4WmpRaVJhSlRwaW94S1V6eldzMzc0QnhJNmxT?=
+ =?utf-8?B?YklQdlBqUm5oYUVoclN0R0RIRkorUk5KSkFOYkQwaWd6SEk4VC8zMjA3S0pD?=
+ =?utf-8?B?SWN1VlVOT0lYUE00SENPbjJxcWh5cWdnMER3L3NYeGdkTEhselloc2NTTEc0?=
+ =?utf-8?B?QnlmQlIvOUZTN1cvY0pOOXVwK2dEZ1NXYm5ROW1vVDFST0laTEJ3LzNYcEdt?=
+ =?utf-8?B?SDRwdzBGWDhKRkhEYXBXLzM0am9xeklpZk5ySGJPU1dEWWNPdEIrbDAxOHdV?=
+ =?utf-8?B?dGJxbkpXclROb0I4NVJYVGtSMTlMY3cvZ2Yvc0h0VzJNd1NxdDFZNjI4UEkr?=
+ =?utf-8?B?bUozUUVpd2hxdjZEK2x2akc4b1kvdnZ3LzhFMHJZY3pKbkM4akFudEtMOUZh?=
+ =?utf-8?B?Ti8xMkVqTEUrd1lpWlMyTUMwNXhHa2lOczlrOWJTV1oySUlTM0tZakFMZjU2?=
+ =?utf-8?B?bHFKQjBFd2NndGc0OWpDZ3NyV2pTajNUVFZUTWVWY1NJK0tNcHZrbzg4aEo2?=
+ =?utf-8?B?SUJaUDVkTktaZEpseFBER2RZQUc4R0hNZVg1UE5iZzZSZTJ4OUg3dndZRXFk?=
+ =?utf-8?B?RTdsamhTNStLd2dOOU5XeHBaNytDUEt4bFl5anc5c0dHMDJMck5BWThNK3Ix?=
+ =?utf-8?B?RXBVS0Izdm9MWWpRc2N5V016cmhHWmdRYi9nZ3hYOExmZVFJdTh1cXI1bkRv?=
+ =?utf-8?B?blB4QURYSjE4bDFlNE4xeFVBN1JsdEpDdFU5ZEY3K29wc0VNaEJSNFFKZ1Rx?=
+ =?utf-8?B?L3diN0lKUjlvQnBSWndhVGYzNTRnN1dOV3YvTGdqZkh5b3RuUitkQnpqMWpY?=
+ =?utf-8?B?dHAwQVhIWGtnaTFUdy9YQ0MwMStMTWdpcitBVjEyOEs1K29lekhTUU1yVmRC?=
+ =?utf-8?B?cUFkMS9FNWFQcWpQRVhQR3JRc1ZOTUg3Tkp2M2E4bDhmQ09Na3B6bWlBOGx0?=
+ =?utf-8?B?OEYraWN3VjcrRm82aXlxUC9NRlI2aWhqM04rQkY4L1k1VXczQnNTWmNYaEE2?=
+ =?utf-8?B?RHEvUXYvV0k5REVzWGM1ekFkT3hvbVNRcmpZdlZnQzNiUE93ZEY4cVE0SU9n?=
+ =?utf-8?B?MEhCVVA5VkMzcEhwMTVPZ3NMaEJEYk9meVc1TzloaWdySm9sQjFDeEdIRUo5?=
+ =?utf-8?Q?C/g6VW3XeP9Fh?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: dde6217a-1984-4d69-666e-08d92a611eeb
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB5136.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Jun 2021 09:38:06.9390 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: ojLJE5KkvaI7kpIhKMBFXYjnY6eGrZPIaUhb6uYWU+VNkhbgNtONgAFJTh18DdUR61KEXLLWxA6eSbh/k85BhA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB5038
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -117,129 +141,31 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Emma Anholt <emma@anholt.net>, Arnd Bergmann <arnd@arndb.de>,
- David Airlie <airlied@linux.ie>, Catalin Marinas <catalin.marinas@arm.com>,
- dri-devel@lists.freedesktop.org, Maxime Ripard <maxime@cerno.tech>,
- Will Deacon <will@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On 08.06.2021 10:55, Mark Rutland wrote:
-> In vc4_atomic_commit_tail() we iterate of the set of old CRTCs, and
-> attempt to wait on any channels which are still in use. When we iterate
-> over the CRTCs, we have:
+On 6/8/2021 9:21 AM, Christian König wrote:
 >
-> * `i` - the index of the CRTC
-> * `channel` - the channel a CRTC is using
 >
-> When we check the channel state, we consult:
+> Am 08.06.21 um 09:17 schrieb Thomas Hellström (Intel):
+>> [SNIP]
+>>> Do you have the log to double check?
+>>
+>> Unfortunately not, but IIRC it was directly from vmw_move().
 >
->    old_hvs_state->fifo_state[channel].in_use
->
-> ... but when we wait for the channel, we erroneously wait on:
->
->    old_hvs_state->fifo_state[i].pending_commit
->
-> ... rather than:
->
->     old_hvs_state->fifo_state[channel].pending_commit
->
-> ... and this bogus access has been observed to result in boot-time hangs
-> on some arm64 configurations, and can be detected using KASAN. FIx this
-> by using the correct index.
->
-> I've tested this on a Raspberry Pi 3 model B v1.2 with KASAN.
->
-> Trimmed KASAN splat:
->
-> | ==================================================================
-> | BUG: KASAN: slab-out-of-bounds in vc4_atomic_commit_tail+0x1cc/0x910
-> | Read of size 8 at addr ffff000007360440 by task kworker/u8:0/7
-> | CPU: 2 PID: 7 Comm: kworker/u8:0 Not tainted 5.13.0-rc3-00009-g694c523e7267 #3
-> |
-> | Hardware name: Raspberry Pi 3 Model B (DT)
-> | Workqueue: events_unbound deferred_probe_work_func
-> | Call trace:
-> |  dump_backtrace+0x0/0x2b4
-> |  show_stack+0x1c/0x30
-> |  dump_stack+0xfc/0x168
-> |  print_address_description.constprop.0+0x2c/0x2c0
-> |  kasan_report+0x1dc/0x240
-> |  __asan_load8+0x98/0xd4
-> |  vc4_atomic_commit_tail+0x1cc/0x910
-> |  commit_tail+0x100/0x210
-> | ...
-> |
-> | Allocated by task 7:
-> |  kasan_save_stack+0x2c/0x60
-> |  __kasan_kmalloc+0x90/0xb4
-> |  vc4_hvs_channels_duplicate_state+0x60/0x1a0
-> |  drm_atomic_get_private_obj_state+0x144/0x230
-> |  vc4_atomic_check+0x40/0x73c
-> |  drm_atomic_check_only+0x998/0xe60
-> |  drm_atomic_commit+0x34/0x94
-> |  drm_client_modeset_commit_atomic+0x2f4/0x3a0
-> |  drm_client_modeset_commit_locked+0x8c/0x230
-> |  drm_client_modeset_commit+0x38/0x60
-> |  drm_fb_helper_set_par+0x104/0x17c
-> |  fbcon_init+0x43c/0x970
-> |  visual_init+0x14c/0x1e4
-> | ...
-> |
-> | The buggy address belongs to the object at ffff000007360400
-> |  which belongs to the cache kmalloc-128 of size 128
-> | The buggy address is located 64 bytes inside of
-> |  128-byte region [ffff000007360400, ffff000007360480)
-> | The buggy address belongs to the page:
-> | page:(____ptrval____) refcount:1 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x7360
-> | flags: 0x3fffc0000000200(slab|node=0|zone=0|lastcpupid=0xffff)
-> | raw: 03fffc0000000200 dead000000000100 dead000000000122 ffff000004c02300
-> | raw: 0000000000000000 0000000000100010 00000001ffffffff 0000000000000000
-> | page dumped because: kasan: bad access detected
-> |
-> | Memory state around the buggy address:
-> |  ffff000007360300: fa fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-> |  ffff000007360380: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
-> | >ffff000007360400: 00 00 00 00 00 00 00 fc fc fc fc fc fc fc fc fc
-> |                                            ^
-> |  ffff000007360480: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
-> |  ffff000007360500: fa fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-> | ==================================================================
->
-> Link: https://lore.kernel.org/r/4d0c8318-bad8-2be7-e292-fc8f70c198de@samsung.com
-> Link: https://lore.kernel.org/linux-arm-kernel/20210607151740.moncryl5zv3ahq4s@gilmour
-> Signed-off-by: Mark Rutland <mark.rutland@arm.com>
-> Reported-by: Marek Szyprowski <m.szyprowski@samsung.com>
-> Cc: Arnd Bergmann <arnd@arndb.de>
-> Cc: Catalin Marinas <catalin.marinas@arm.com>
-> Cc: Daniel Vetter <daniel@ffwll.ch>
-> Cc: David Airlie <airlied@linux.ie>
-> Cc: Emma Anholt <emma@anholt.net>
-> Cc: Maxime Ripard <maxime@cerno.tech>
-> Cc: Will Deacon <will@kernel.org>
-> Cc: dri-devel@lists.freedesktop.org
-Tested-by: Marek Szyprowski <m.szyprowski@samsung.com>
-> ---
->   drivers/gpu/drm/vc4/vc4_kms.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/vc4/vc4_kms.c b/drivers/gpu/drm/vc4/vc4_kms.c
-> index bb5529a7a9c2..948b3a58aad1 100644
-> --- a/drivers/gpu/drm/vc4/vc4_kms.c
-> +++ b/drivers/gpu/drm/vc4/vc4_kms.c
-> @@ -372,7 +372,7 @@ static void vc4_atomic_commit_tail(struct drm_atomic_state *state)
->   		if (!old_hvs_state->fifo_state[channel].in_use)
->   			continue;
->   
-> -		ret = drm_crtc_commit_wait(old_hvs_state->fifo_state[i].pending_commit);
-> +		ret = drm_crtc_commit_wait(old_hvs_state->fifo_state[channel].pending_commit);
->   		if (ret)
->   			drm_err(dev, "Timed out waiting for commit\n");
->   	}
+> Nirmoy do you still have your vmwgfx test environment?
 
-Best regards
--- 
-Marek Szyprowski, PhD
-Samsung R&D Institute Poland
 
+Yes!
+
+
+>
+> Thanks,
+> Christian.
+>
+>>
+>> /Thomas
+>>
+>>
+>
