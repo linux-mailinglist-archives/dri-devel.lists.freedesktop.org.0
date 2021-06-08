@@ -1,29 +1,29 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93AF039FE04
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Jun 2021 19:43:49 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0953239FE09
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Jun 2021 19:43:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E9F236E902;
-	Tue,  8 Jun 2021 17:43:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9CE7D6EC28;
+	Tue,  8 Jun 2021 17:43:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from srv6.fidu.org (srv6.fidu.org [IPv6:2a01:4f8:231:de0::2])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 008846E566;
- Tue,  8 Jun 2021 17:43:28 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5E1D46E5A3;
+ Tue,  8 Jun 2021 17:43:29 +0000 (UTC)
 Received: from localhost (localhost.localdomain [127.0.0.1])
- by srv6.fidu.org (Postfix) with ESMTP id B04F9C800EB;
+ by srv6.fidu.org (Postfix) with ESMTP id E9D3FC800ED;
  Tue,  8 Jun 2021 19:43:27 +0200 (CEST)
 X-Virus-Scanned: Debian amavisd-new at srv6.fidu.org
 Received: from srv6.fidu.org ([127.0.0.1])
  by localhost (srv6.fidu.org [127.0.0.1]) (amavisd-new, port 10026)
- with LMTP id EYjkDm9Gv9AF; Tue,  8 Jun 2021 19:43:27 +0200 (CEST)
+ with LMTP id Scg0SkiuZhOe; Tue,  8 Jun 2021 19:43:27 +0200 (CEST)
 Received: from wsembach-tuxedo.fritz.box
  (p200300E37f4F60006a44b0068bFE089d.dip0.t-ipconnect.de
  [IPv6:2003:e3:7f4f:6000:6a44:b006:8bfe:89d])
  (Authenticated sender: wse@tuxedocomputers.com)
- by srv6.fidu.org (Postfix) with ESMTPA id 4D8A7C800C1;
+ by srv6.fidu.org (Postfix) with ESMTPA id 8130FC800E2;
  Tue,  8 Jun 2021 19:43:27 +0200 (CEST)
 From: Werner Sembach <wse@tuxedocomputers.com>
 To: harry.wentland@amd.com, sunpeng.li@amd.com, alexander.deucher@amd.com,
@@ -33,10 +33,10 @@ To: harry.wentland@amd.com, sunpeng.li@amd.com, alexander.deucher@amd.com,
  rodrigo.vivi@intel.com, amd-gfx@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  intel-gfx@lists.freedesktop.org
-Subject: [PATCH v2 4/7] drm/i915/display: Add handling for new "active bpc"
- property
-Date: Tue,  8 Jun 2021 19:43:17 +0200
-Message-Id: <20210608174320.37429-5-wse@tuxedocomputers.com>
+Subject: [PATCH v2 5/7] drm/uAPI: Add "active color format" drm property as
+ feedback for userspace
+Date: Tue,  8 Jun 2021 19:43:18 +0200
+Message-Id: <20210608174320.37429-6-wse@tuxedocomputers.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210608174320.37429-1-wse@tuxedocomputers.com>
 References: <20210608174320.37429-1-wse@tuxedocomputers.com>
@@ -58,101 +58,147 @@ Cc: Werner Sembach <wse@tuxedocomputers.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This commits implements the "active bpc" drm property for the Intel GPU driver.
+Add a new general drm property "active color format" which can be used by
+graphic drivers to report the used color format back to userspace.
+
+There was no way to check which color format got actually used on a given
+monitor. To surely predict this, one must know the exact capabilities of the
+monitor, the GPU, and the connection used and what the default behaviour of the
+used driver is (e.g. amdgpu prefers YCbCr 4:4:4 while i915 prefers RGB). This
+property helps eliminating the guessing on this point.
+
+In the future, automatic color calibration for screens might also depend on this
+information being available.
 
 Signed-off-by: Werner Sembach <wse@tuxedocomputers.com>
 ---
- drivers/gpu/drm/i915/display/intel_display.c | 14 ++++++++++++++
- drivers/gpu/drm/i915/display/intel_dp.c      |  8 ++++++--
- drivers/gpu/drm/i915/display/intel_dp_mst.c  |  4 +++-
- drivers/gpu/drm/i915/display/intel_hdmi.c    |  4 +++-
- 4 files changed, 26 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/drm_atomic_uapi.c |  2 ++
+ drivers/gpu/drm/drm_connector.c   | 46 +++++++++++++++++++++++++++++++
+ include/drm/drm_connector.h       | 13 +++++++++
+ 3 files changed, 61 insertions(+)
 
-diff --git a/drivers/gpu/drm/i915/display/intel_display.c b/drivers/gpu/drm/i915/display/intel_display.c
-index 64e9107d70f7..50c11b8770a7 100644
---- a/drivers/gpu/drm/i915/display/intel_display.c
-+++ b/drivers/gpu/drm/i915/display/intel_display.c
-@@ -10388,6 +10388,9 @@ static int intel_atomic_commit(struct drm_device *dev,
- {
- 	struct intel_atomic_state *state = to_intel_atomic_state(_state);
- 	struct drm_i915_private *dev_priv = to_i915(dev);
-+	struct drm_connector *connector;
-+	struct drm_connector_state *new_conn_state;
-+	int i;
- 	int ret = 0;
+diff --git a/drivers/gpu/drm/drm_atomic_uapi.c b/drivers/gpu/drm/drm_atomic_uapi.c
+index 7ae4e40936b5..bb78da2405f9 100644
+--- a/drivers/gpu/drm/drm_atomic_uapi.c
++++ b/drivers/gpu/drm/drm_atomic_uapi.c
+@@ -875,6 +875,8 @@ drm_atomic_connector_get_property(struct drm_connector *connector,
+ 		*val = state->max_requested_bpc;
+ 	} else if (property == connector->active_bpc_property) {
+ 		*val = state->active_bpc;
++	} else if (property == connector->active_color_format_property) {
++		*val = state->active_color_format;
+ 	} else if (connector->funcs->atomic_get_property) {
+ 		return connector->funcs->atomic_get_property(connector,
+ 				state, property, val);
+diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
+index c0c3c09bfed0..f4f35c4117b6 100644
+--- a/drivers/gpu/drm/drm_connector.c
++++ b/drivers/gpu/drm/drm_connector.c
+@@ -887,6 +887,14 @@ static const struct drm_prop_enum_list drm_dp_subconnector_enum_list[] = {
+ 	{ DRM_MODE_SUBCONNECTOR_Native,	     "Native"    }, /* DP */
+ };
  
- 	state->wakeref = intel_runtime_pm_get(&dev_priv->runtime_pm);
-@@ -10456,6 +10459,17 @@ static int intel_atomic_commit(struct drm_device *dev,
- 	intel_shared_dpll_swap_state(state);
- 	intel_atomic_track_fbs(state);
++static const struct drm_prop_enum_list drm_color_format_enum_list[] = {
++	{ 0, "none" },
++	{ DRM_COLOR_FORMAT_RGB444, "rgb" },
++	{ DRM_COLOR_FORMAT_YCRCB444, "ycbcr444" },
++	{ DRM_COLOR_FORMAT_YCRCB422, "ycbcr422" },
++	{ DRM_COLOR_FORMAT_YCRCB420, "ycbcr420" },
++};
++
+ DRM_ENUM_NAME_FN(drm_get_dp_subconnector_name,
+ 		 drm_dp_subconnector_enum_list)
  
-+	/* Extract information from crtc to communicate it to userspace as connector properties */
-+	for_each_new_connector_in_state(&state->base, connector, new_conn_state, i) {
-+		struct intel_crtc *crtc = to_intel_crtc(new_conn_state->crtc);
-+		if (crtc) {
-+			struct intel_crtc_state *new_crtc_state = intel_atomic_get_new_crtc_state(state, crtc);
-+			new_conn_state->active_bpc = new_crtc_state->pipe_bpp / 3;
-+		}
-+		else
-+			new_conn_state->active_bpc = 0;
+@@ -1202,6 +1210,14 @@ static const struct drm_prop_enum_list dp_colorspaces[] = {
+  *	display engine and connected monitor, and the "max bpc" property.
+  *	Drivers shall use drm_connector_attach_active_bpc_property() to install
+  *	this property.
++
++ * active color format:
++ *	This read-only property tells userspace the color format actually used
++ *	by the hardware display engine on "the cable" on a connector. The chosen
++ *	value depends on hardware capabilities, both display engine and
++ *	connected monitor. Drivers shall use
++ *	drm_connector_attach_active_color_format_property() to install this
++ *	property.
+  *
+  * Connectors also have one standardized atomic property:
+  *
+@@ -2191,6 +2207,36 @@ int drm_connector_attach_active_bpc_property(struct drm_connector *connector,
+ }
+ EXPORT_SYMBOL(drm_connector_attach_active_bpc_property);
+ 
++/**
++ * drm_connector_attach_active_color_format_property - attach "active color format" property
++ * @connector: connector to attach active color format property on.
++ *
++ * This is used to check the applied color format on a connector.
++ *
++ * Returns:
++ * Zero on success, negative errno on failure.
++ */
++int drm_connector_attach_active_color_format_property(struct drm_connector *connector)
++{
++	struct drm_device *dev = connector->dev;
++	struct drm_property *prop;
++
++	prop = connector->active_color_format_property;
++	if (!prop) {
++		prop = drm_property_create_enum(dev, 0, "active color format", drm_color_format_enum_list, ARRAY_SIZE(drm_color_format_enum_list));
++		if (!prop)
++			return -ENOMEM;
++
++		connector->active_color_format_property = prop;
 +	}
 +
- 	drm_atomic_state_get(&state->base);
- 	INIT_WORK(&state->base.commit_work, intel_atomic_commit_work);
- 
-diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
-index 642c60f3d9b1..67826ba976ed 100644
---- a/drivers/gpu/drm/i915/display/intel_dp.c
-+++ b/drivers/gpu/drm/i915/display/intel_dp.c
-@@ -4671,10 +4671,14 @@ intel_dp_add_properties(struct intel_dp *intel_dp, struct drm_connector *connect
- 		intel_attach_force_audio_property(connector);
- 
- 	intel_attach_broadcast_rgb_property(connector);
--	if (HAS_GMCH(dev_priv))
-+	if (HAS_GMCH(dev_priv)) {
- 		drm_connector_attach_max_bpc_property(connector, 6, 10);
--	else if (DISPLAY_VER(dev_priv) >= 5)
-+		drm_connector_attach_active_bpc_property(connector, 6, 10);
-+	}
-+	else if (DISPLAY_VER(dev_priv) >= 5) {
- 		drm_connector_attach_max_bpc_property(connector, 6, 12);
-+		drm_connector_attach_active_bpc_property(connector, 6, 12);
-+	}
- 
- 	/* Register HDMI colorspace for case of lspcon */
- 	if (intel_bios_is_lspcon_present(dev_priv, port)) {
-diff --git a/drivers/gpu/drm/i915/display/intel_dp_mst.c b/drivers/gpu/drm/i915/display/intel_dp_mst.c
-index 2daa3f67791e..5a1869dc2210 100644
---- a/drivers/gpu/drm/i915/display/intel_dp_mst.c
-+++ b/drivers/gpu/drm/i915/display/intel_dp_mst.c
-@@ -844,8 +844,10 @@ static struct drm_connector *intel_dp_add_mst_connector(struct drm_dp_mst_topolo
++	drm_object_attach_property(&connector->base, prop, 0);
++	connector->state->active_color_format = 0;
++
++	return 0;
++}
++EXPORT_SYMBOL(drm_connector_attach_active_color_format_property);
++
+ /**
+  * drm_connector_set_vrr_capable_property - sets the variable refresh rate
+  * capable property for a connector
+diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
+index c58cba2b6afe..167cd36129ae 100644
+--- a/include/drm/drm_connector.h
++++ b/include/drm/drm_connector.h
+@@ -788,6 +788,12 @@ struct drm_connector_state {
  	 */
- 	connector->max_bpc_property =
- 		intel_dp->attached_connector->base.max_bpc_property;
--	if (connector->max_bpc_property)
-+	if (connector->max_bpc_property) {
- 		drm_connector_attach_max_bpc_property(connector, 6, 12);
-+		drm_connector_attach_active_bpc_property(connector, 6, 12);
-+	}
+ 	u8 active_bpc;
  
- 	return connector;
++	/**
++	 * active_color_format: Read only property set by the GPU driver to the
++	 * actually used color format after evaluating all hardware limitations.
++	 */
++	u32 active_color_format;
++
+ 	/**
+ 	 * @hdr_output_metadata:
+ 	 * DRM blob property for HDR output metadata
+@@ -1393,6 +1399,12 @@ struct drm_connector {
+ 	 */
+ 	struct drm_property *active_bpc_property;
  
-diff --git a/drivers/gpu/drm/i915/display/intel_hdmi.c b/drivers/gpu/drm/i915/display/intel_hdmi.c
-index d69f0a6dc26d..8af78b27b6ce 100644
---- a/drivers/gpu/drm/i915/display/intel_hdmi.c
-+++ b/drivers/gpu/drm/i915/display/intel_hdmi.c
-@@ -2463,8 +2463,10 @@ intel_hdmi_add_properties(struct intel_hdmi *intel_hdmi, struct drm_connector *c
- 		drm_object_attach_property(&connector->base,
- 			connector->dev->mode_config.hdr_output_metadata_property, 0);
++	/**
++	 * @active_color_format_property: Default connector property for the
++	 * active color format to be driven out of the connector.
++	 */
++	struct drm_property *active_color_format_property;
++
+ #define DRM_CONNECTOR_POLL_HPD (1 << 0)
+ #define DRM_CONNECTOR_POLL_CONNECT (1 << 1)
+ #define DRM_CONNECTOR_POLL_DISCONNECT (1 << 2)
+@@ -1713,6 +1725,7 @@ int drm_connector_attach_max_bpc_property(struct drm_connector *connector,
+ 					  int min, int max);
+ int drm_connector_attach_active_bpc_property(struct drm_connector *connector,
+ 					  int min, int max);
++int drm_connector_attach_active_color_format_property(struct drm_connector *connector);
  
--	if (!HAS_GMCH(dev_priv))
-+	if (!HAS_GMCH(dev_priv)) {
- 		drm_connector_attach_max_bpc_property(connector, 8, 12);
-+		drm_connector_attach_active_bpc_property(connector, 8, 12);
-+	}
- }
- 
- /*
+ /**
+  * struct drm_tile_group - Tile group metadata
 -- 
 2.25.1
 
