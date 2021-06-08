@@ -1,116 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E5ED39EA03
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Jun 2021 01:18:46 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D32A639EA8C
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Jun 2021 02:05:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B90116EA4A;
-	Mon,  7 Jun 2021 23:18:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D80696EA54;
+	Tue,  8 Jun 2021 00:05:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM02-BN1-obe.outbound.protection.outlook.com
- (mail-bn1nam07on2066.outbound.protection.outlook.com [40.107.212.66])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C8F516E442;
- Mon,  7 Jun 2021 23:18:41 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=SxIwi4Xhcnkklb6lhyEtkOHNC+kNNzHXIoezBroFJweqL1X7rdEtS13l6MggGcPkb9tKpQsutosjc6FJoxfw4zUqs/4gfGvm9vTMjzsGB1BhFzN8b6Yw9VqlplFWyJfuSOWeB9e+Ce6NhC0yLAhDob7vu9xynLOKjRjGPRmcKwV+Kj2VEmbIX0sjZOkhww951HNn+A+8kI51nNU35344bFwk6Vpiof4f9ikc19cYBL0E1p9v1pSK8V5VNqTvOyDeuG+TlaKxNWM+DYqioevOdiIzDGjy0X7T2ppsHy1hHIZQneeDdWwqiGLIqCXCB7RQhNg/nc/mXsEMaigQCxvQyw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=WcqCMQrGavgYjOt2lGIXN2oQn3dkrM4UhcUIjURHt0M=;
- b=dYyTx2EA95CQwtvWvJGbofqZaWcLG7jQk47A5wF7Ei/0VRwN9bLBv3iPIaYAe4LP+2VjQjMngj1dCFt/4+3VqCpiboCE1XP+U2aNhnNpUTNv3tiarMTigBsLpbGMSfrq7ylKgfbY1R1mTjoz+aWZPuxx+kd6+jcPLGdY84AGYS5+rLR3SZcopGzTfzoOrWLS2F424ushifWz7ScSJPHd2wMQ0Y2dv7ipaMNdiFl4gBdVitwJ2LTEowv1fo22PCNg14RbHwMrWMOMPsyMe430sGg0u6DueubS9F4JDuII4k54HLzqWbwSvlB/rCMyj4z+dlgP/Kvqem7ar3HXmRUTeg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=WcqCMQrGavgYjOt2lGIXN2oQn3dkrM4UhcUIjURHt0M=;
- b=MkT3r8M0OYsEVLO7cCOXyS5OTiRNjN7sizRQjEARwUa01DPPfMX0K0Tp7aH6w9nddh9AwelmTtGK54XDmi+N25V6z6J6pSzfIaWWYktx8jXZw5I96HB8HSerCS8BMxYU5H2pflFpU2vFF1uNNYfghNMHYmTYuI4lEml9y3rIIKLGYjLO24ceI2ToyUAF7HMO13snbfm6deOP7ZtHhz43SNU81sCn7AXiYfoOl8qUBUTje+zHtFc3k+5mJKqCjxMQV9IuQDjFGU+QMtEPxzT/CWcNbXWcBw4yjn6zYH4syd83AOO//h5aa0FtaqA1zfhhja4VD6Pce0tdDtIXf6Puwg==
-Authentication-Results: perches.com; dkim=none (message not signed)
- header.d=none;perches.com; dmarc=none action=none header.from=nvidia.com;
-Received: from BL0PR12MB5506.namprd12.prod.outlook.com (2603:10b6:208:1cb::22)
- by BL1PR12MB5318.namprd12.prod.outlook.com (2603:10b6:208:31d::20)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4195.21; Mon, 7 Jun
- 2021 23:18:39 +0000
-Received: from BL0PR12MB5506.namprd12.prod.outlook.com
- ([fe80::3d51:a3b9:8611:684e]) by BL0PR12MB5506.namprd12.prod.outlook.com
- ([fe80::3d51:a3b9:8611:684e%6]) with mapi id 15.20.4195.030; Mon, 7 Jun 2021
- 23:18:38 +0000
-Date: Mon, 7 Jun 2021 20:18:37 -0300
-From: Jason Gunthorpe <jgg@nvidia.com>
-To: Joe Perches <joe@perches.com>
-Subject: Re: [PATCH] treewide: Add missing semicolons to __assign_str uses
-Message-ID: <20210607231837.GA831267@nvidia.com>
-References: <cover.1621024265.git.bristot@redhat.com>
- <2c59beee3b36b15592bfbb9f26dee7f8b55fd814.1621024265.git.bristot@redhat.com>
- <20210603172902.41648183@gandalf.local.home>
- <1e068d21106bb6db05b735b4916bb420e6c9842a.camel@perches.com>
- <20210604122128.0d348960@oasis.local.home>
- <144460ce4f34a51dabb76e422a718573db77cdc8.camel@perches.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <144460ce4f34a51dabb76e422a718573db77cdc8.camel@perches.com>
-X-Originating-IP: [47.55.113.94]
-X-ClientProxiedBy: BL1PR13CA0007.namprd13.prod.outlook.com
- (2603:10b6:208:256::12) To BL0PR12MB5506.namprd12.prod.outlook.com
- (2603:10b6:208:1cb::22)
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5ECBB6E57A;
+ Tue,  8 Jun 2021 00:05:08 +0000 (UTC)
+IronPort-SDR: PmZVZmOpoQ3OLF+uJHKf7InDNsvO2ncvOqLCXCWS4oq2QFY0Yr2CKg8j31JfgMCp7ukkK+If/K
+ NZSeWDgm+TtA==
+X-IronPort-AV: E=McAfee;i="6200,9189,10008"; a="204764357"
+X-IronPort-AV: E=Sophos;i="5.83,256,1616482800"; d="scan'208";a="204764357"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Jun 2021 17:05:07 -0700
+IronPort-SDR: MruJggyfvZ6EfeCTWJEC6zkG3o20EHxaJjzSAMsDutzmHpxgjouFa91GI+btWbfCcUP9PCXN8L
+ 1anZcP2A8chQ==
+X-IronPort-AV: E=Sophos;i="5.83,256,1616482800"; d="scan'208";a="476400950"
+Received: from dceraolo-mobl.amr.corp.intel.com (HELO [10.209.129.6])
+ ([10.209.129.6])
+ by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Jun 2021 17:05:06 -0700
+Subject: Re: [PATCH 03/13] drm/i915/guc: Update CTB response status definition
+To: Matthew Brost <matthew.brost@intel.com>, intel-gfx@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org
+References: <20210607180356.165785-1-matthew.brost@intel.com>
+ <20210607180356.165785-4-matthew.brost@intel.com>
+From: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+Message-ID: <6a89048d-4075-ccdc-1bc7-cbcc06c0e972@intel.com>
+Date: Mon, 7 Jun 2021 17:05:04 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from mlx.ziepe.ca (47.55.113.94) by
- BL1PR13CA0007.namprd13.prod.outlook.com (2603:10b6:208:256::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4219.10 via Frontend
- Transport; Mon, 7 Jun 2021 23:18:38 +0000
-Received: from jgg by mlx with local (Exim 4.94)	(envelope-from
- <jgg@nvidia.com>)	id 1lqOVx-003UGN-4z; Mon, 07 Jun 2021 20:18:37 -0300
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: ea855673-a817-4d6b-036a-08d92a0a94b6
-X-MS-TrafficTypeDiagnostic: BL1PR12MB5318:
-X-Microsoft-Antispam-PRVS: <BL1PR12MB531868D60C97342FEC81E141C2389@BL1PR12MB5318.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:7219;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 1IQIx1Kt2aRGjU2JT97DmzuN4KpSkwPKVfdKyU0IUzq+uIc0ZdBJDlIXVKX0czRpEvtl1/rlvruGzP8W4QwKNAWQ4SQ696qtZKeZ/JHZPVEOGO5DT6ukNWcuVo3IPkBzGUHijB/mtXnRn4Jv7OIL05WjtfOnDdaqbAjXWe8xlDWcfCE60CVCxR4UT3KzjS6dN/rmebdAvKEhE9MK7CkVMPXEQB2DUMtWnakKFUxeyKoI8obrLm8bQWMNU7L/Vwr8vwWET5dNUP7zATZ67NKsFP9VUkEA0lPHFGFc17IQSxbrbU8Mh8rQg9D/zemTYCfTd5Sdi814M3bfLQNAyRYmJA6iqwhsMKdKibcU3dCJ40VRETy4n9pI71BnNtZlEKob/BCUW99/0szsyZ2YibVsyr8wvG6AchchcbIFhWHLcA88S4NwYhBC5VtlVPT9jMpsWhMNuEqiinlWwd1XFONHMUnCTwrPbrTnqcpd5rI8PDqNNTMTSHNqI0nyNu0/mKpboma0BGwM0p1Hh42EqWhjl4yDqItkAKqJBEgIhz5L7fCQsxKoNwePab9wLw4rXdjTJCP25j00FLxTYQfIubEoVXRLK675yZrIJr/krobFjLiTGneeMNY0PbBaXk+9gfi3OoZDsPnVcTGCYV2Wedid9A==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BL0PR12MB5506.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(376002)(366004)(136003)(396003)(39860400002)(346002)(7416002)(478600001)(83380400001)(36756003)(8936002)(2906002)(66556008)(186003)(66946007)(6916009)(2616005)(66476007)(38100700002)(86362001)(4326008)(8676002)(4744005)(316002)(26005)(426003)(5660300002)(9746002)(1076003)(9786002)(33656002)(27376004);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?yfBM5qtu8tW6vwBJ0j080dK2cZ8vkOmiwZLJ63PMA+/80r8loKMql6hfUJtv?=
- =?us-ascii?Q?6/bo86HhiNe2f9aiBnzKG4hmtbrNTVQVN0yMwYTXE0+44JTFlyj5VUPCdlh3?=
- =?us-ascii?Q?zXT0us0CVFTOq6IpG+kPrQ9iyYbsfAGp+P9v/x2G/nPCHp+2J1B89B/NEXUd?=
- =?us-ascii?Q?43NyjGvlkhtynXZ9+gKXfRo319yGsWXE8Bm4qVP2x8J6GsNlZ6JpBB78zlon?=
- =?us-ascii?Q?JuFGZw1w7PzLN4uFvfW3RV7Rw4AROjhJSAufSqHjpnzDZ4cWQFICGXNXyB1Z?=
- =?us-ascii?Q?a8OS6DDubFGFVGi2ZtPdAZCAVFPQ+jzlZcfh+j7Z/F1j4l726Imb1BZzt7RL?=
- =?us-ascii?Q?YvjCyCdhaS4MxEL7XJ6Qr4zGq01QA5KQdfa0bAStdAoJZkBuHH42IxknlE8N?=
- =?us-ascii?Q?krqaxuS5f0Q3uW1V6XB2Tzs1zzlRzPe7EeQzkBGAZWALu1pKkcaE3z67CuGT?=
- =?us-ascii?Q?4aW3/iuFkKePhFQWWAD0BgN9n2ZyGkg/SQC5JwiZHOY5W3+MJovVTXcoo2i4?=
- =?us-ascii?Q?Xhi3LVT2VxW3+7Jbup3Ls3Z2A0502lvQpkoDUsiJF1Z2o7XLYKPRKowZiiC0?=
- =?us-ascii?Q?3yVhtkjYo2DTJSl8xTkjw+ArZYHYEnOSKszHzRqJdACQi5vhSQeMJwYsSPwa?=
- =?us-ascii?Q?eqhGRK9pSpM+8c7pkEJX3B+5TOMS4N2U057w5Y2LtauHW0AKePCeCRFP5tya?=
- =?us-ascii?Q?ZBmIa0dSvfgOSYjgdGPgGe2jVSDVT69E94/HM5Rh2CtjSmUBpGsS9dcwhlJK?=
- =?us-ascii?Q?qyCM1GN1HDU6ZNX/Jg9TbRM/vnZZZ1jTt8QHYhSgNKVlSXDX3fTMUwEATJA+?=
- =?us-ascii?Q?o3DfCY1T6MscrU9x9qc/aqzf+Z4efgpjIedZgDIIyZX56CJDC/2IqAN5GNDq?=
- =?us-ascii?Q?IhPFRAItHkfHEWtba6cZTZIRipHhFMmD4Bo/pDW+TCVHNHi+3FczVbX0Jj72?=
- =?us-ascii?Q?U4JL5OpQuYz/ZNg+9otDanDtkI3MWVP3xac56nWxoUA42yEA5wdZh6sad4UE?=
- =?us-ascii?Q?tXcfX6BXEv3VCwEbEFVrrNab76IGdhT9hG0EQL6PlWSKLvI7oLIBptOmo5E0?=
- =?us-ascii?Q?lS3Yb5MZ+SzW2wyXMWw0g7OkvII/rdaRuJFmRS+KG+c/XxCMjIDM6GZLt89c?=
- =?us-ascii?Q?hmi89HoDAvgn2SqtZhNMLE8lVXxDJ2/YfA8OPJpFkj/6fQR1u+f1nZm2yeSQ?=
- =?us-ascii?Q?5ms2a6uMnSEZLYTV53qY8dkjWED1YMeoDgmLuaKOnL5z+KeIZo+WBhKpXdhg?=
- =?us-ascii?Q?OTEWOgO3p+d8j5Qxms6gqTsPeJA3rKOHB8opXaX1K+0Kbkcbxv8c6gM9LSj/?=
- =?us-ascii?Q?nncr1s2JcbTuYBXrU4ZST25Q?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ea855673-a817-4d6b-036a-08d92a0a94b6
-X-MS-Exchange-CrossTenant-AuthSource: BL0PR12MB5506.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Jun 2021 23:18:38.5967 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: neQlgCFaKGpzHFVPgyILIvzKgtLEt7yz1tRHrJ5G3XSQq+P1Tt3kJpJYuZGkAwLn
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR12MB5318
+In-Reply-To: <20210607180356.165785-4-matthew.brost@intel.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -123,29 +53,134 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-nfs@vger.kernel.org, lima@lists.freedesktop.org,
- linux-rdma@vger.kernel.org, netdev@vger.kernel.org, linux-usb@vger.kernel.org,
- linux-wireless@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- Steven Rostedt <rostedt@goodmis.org>, amd-gfx@lists.freedesktop.org,
- linux-media@vger.kernel.org
+Cc: john.c.harrison@intel.com, Michal.Wajdeczko@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jun 04, 2021 at 12:38:07PM -0700, Joe Perches wrote:
-> The __assign_str macro has an unusual ending semicolon but the vast
-> majority of uses of the macro already have semicolon termination.
-> 
-> $ git grep -P '\b__assign_str\b' | wc -l
-> 551
-> $ git grep -P '\b__assign_str\b.*;' | wc -l
-> 480
-> 
-> Add semicolons to the __assign_str() uses without semicolon termination
-> and all the other uses without semicolon termination via additional defines
-> that are equivalent to __assign_str() with the eventual goal of removing
-> the semicolon from the __assign_str() macro definition.
 
-Acked-by: Jason Gunthorpe <jgg@nvidia.com>
 
-Jason
+On 6/7/2021 11:03 AM, Matthew Brost wrote:
+> From: Michal Wajdeczko <michal.wajdeczko@intel.com>
+>
+> Format of the STATUS dword in CTB response message now follows
+> definition of the HXG header. Update our code and remove any
+> obsolete legacy definitions.
+
+This is kind of hard to review on its own against the specs, because 
+there are larger changes to the CTB flows which AFAICS are part of patch 
+8. If what you wanted to do here was a simple replacement of defines to 
+keep the later patch simpler, then, considering all patches are going to 
+be squashed anyway:
+
+Reviewed-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+
+One suggestion below.
+
+>
+> GuC: 55.0.0
+> Signed-off-by: Michal Wajdeczko <michal.wajdeczko@intel.com>
+> Acked-by: Piotr Piórkowski <piotr.piorkowski@intel.com>
+> ---
+>   drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c   | 14 ++++++++------
+>   drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h | 17 -----------------
+>   2 files changed, 8 insertions(+), 23 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
+> index 8f7b148fef58..3f7f48611487 100644
+> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
+> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
+> @@ -477,7 +477,9 @@ static int wait_for_ct_request_update(struct ct_request *req, u32 *status)
+>   	 * up to that length of time, then switch to a slower sleep-wait loop.
+>   	 * No GuC command should ever take longer than 10ms.
+>   	 */
+> -#define done INTEL_GUC_MSG_IS_RESPONSE(READ_ONCE(req->status))
+> +#define done \
+> +	(FIELD_GET(GUC_HXG_MSG_0_ORIGIN, READ_ONCE(req->status)) == \
+> +	 GUC_HXG_ORIGIN_GUC)
+>   	err = wait_for_us(done, 10);
+>   	if (err)
+>   		err = wait_for(done, 10);
+> @@ -532,21 +534,21 @@ static int ct_send(struct intel_guc_ct *ct,
+>   	if (unlikely(err))
+>   		goto unlink;
+>   
+> -	if (!INTEL_GUC_MSG_IS_RESPONSE_SUCCESS(*status)) {
+> +	if (FIELD_GET(GUC_HXG_MSG_0_TYPE, *status) != GUC_HXG_TYPE_RESPONSE_SUCCESS) {
+>   		err = -EIO;
+>   		goto unlink;
+>   	}
+>   
+>   	if (response_buf) {
+>   		/* There shall be no data in the status */
+> -		WARN_ON(INTEL_GUC_MSG_TO_DATA(request.status));
+> +		WARN_ON(FIELD_GET(GUC_HXG_RESPONSE_MSG_0_DATA0, request.status));
+>   		/* Return actual response len */
+>   		err = request.response_len;
+>   	} else {
+>   		/* There shall be no response payload */
+>   		WARN_ON(request.response_len);
+>   		/* Return data decoded from the status dword */
+> -		err = INTEL_GUC_MSG_TO_DATA(*status);
+> +		err = FIELD_GET(GUC_HXG_RESPONSE_MSG_0_DATA0, *status);
+
+Given that the same FIELD_GET() are repeated multiple times, IMO we 
+could've kept some helper macros, something like:
+
+INTEL_GUC_HXG_RESPONSE_TO_DATA(hxg) \
+	FIELD_GET(GUC_HXG_RESPONSE_MSG_0_DATA0, hxg)
+
+INTEL_GUC_HXG_ORIGIN_IS_GUC(hxg) \
+	(FIELD_GET(GUC_HXG_MSG_0_ORIGIN, hxg) == GUC_HXG_ORIGIN_GUC)
+
+INTEL_GUC_HXG_TYPE(hxg) \
+	FIELD_GET(GUC_HXG_MSG_0_TYPE, hxg)
+
+Which could be useful in the mmio code as well.
+Not sure how this changes in patch 8 though, I might put some more 
+comments on that patch.
+
+Daniele
+
+>   	}
+>   
+>   unlink:
+> @@ -741,8 +743,8 @@ static int ct_handle_response(struct intel_guc_ct *ct, struct ct_incoming_msg *r
+>   	status = response->msg[2];
+>   	datalen = len - 2;
+>   
+> -	/* Format of the status follows RESPONSE message */
+> -	if (unlikely(!INTEL_GUC_MSG_IS_RESPONSE(status))) {
+> +	/* Format of the status dword follows HXG header */
+> +	if (unlikely(FIELD_GET(GUC_HXG_MSG_0_ORIGIN, status) != GUC_HXG_ORIGIN_GUC)) {
+>   		CT_ERROR(ct, "Corrupted response (status %#x)\n", status);
+>   		return -EPROTO;
+>   	}
+> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h b/drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h
+> index e9a9d85e2aa3..fb04e2211b79 100644
+> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h
+> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h
+> @@ -414,23 +414,6 @@ struct guc_shared_ctx_data {
+>   	struct guc_ctx_report preempt_ctx_report[GUC_MAX_ENGINES_NUM];
+>   } __packed;
+>   
+> -#define __INTEL_GUC_MSG_GET(T, m) \
+> -	(((m) & INTEL_GUC_MSG_ ## T ## _MASK) >> INTEL_GUC_MSG_ ## T ## _SHIFT)
+> -#define INTEL_GUC_MSG_TO_TYPE(m)	__INTEL_GUC_MSG_GET(TYPE, m)
+> -#define INTEL_GUC_MSG_TO_DATA(m)	__INTEL_GUC_MSG_GET(DATA, m)
+> -#define INTEL_GUC_MSG_TO_CODE(m)	__INTEL_GUC_MSG_GET(CODE, m)
+> -
+> -#define __INTEL_GUC_MSG_TYPE_IS(T, m) \
+> -	(INTEL_GUC_MSG_TO_TYPE(m) == INTEL_GUC_MSG_TYPE_ ## T)
+> -#define INTEL_GUC_MSG_IS_REQUEST(m)	__INTEL_GUC_MSG_TYPE_IS(REQUEST, m)
+> -#define INTEL_GUC_MSG_IS_RESPONSE(m)	__INTEL_GUC_MSG_TYPE_IS(RESPONSE, m)
+> -
+> -#define INTEL_GUC_MSG_IS_RESPONSE_SUCCESS(m) \
+> -	 (typecheck(u32, (m)) && \
+> -	  ((m) & (INTEL_GUC_MSG_TYPE_MASK | INTEL_GUC_MSG_CODE_MASK)) == \
+> -	  ((INTEL_GUC_MSG_TYPE_RESPONSE << INTEL_GUC_MSG_TYPE_SHIFT) | \
+> -	   (INTEL_GUC_RESPONSE_STATUS_SUCCESS << INTEL_GUC_MSG_CODE_SHIFT)))
+> -
+>   /* This action will be programmed in C1BC - SOFT_SCRATCH_15_REG */
+>   enum intel_guc_recv_message {
+>   	INTEL_GUC_RECV_MSG_CRASH_DUMP_POSTED = BIT(1),
+
