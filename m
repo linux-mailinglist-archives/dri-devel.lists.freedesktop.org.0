@@ -1,65 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D76939F04C
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Jun 2021 09:59:38 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FFD439F04F
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Jun 2021 10:00:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1CA336EB17;
-	Tue,  8 Jun 2021 07:59:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B29596EB16;
+	Tue,  8 Jun 2021 07:59:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com
- [IPv6:2a00:1450:4864:20::12e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D904A6EB19;
- Tue,  8 Jun 2021 07:59:33 +0000 (UTC)
-Received: by mail-lf1-x12e.google.com with SMTP id f30so30697452lfj.1;
- Tue, 08 Jun 2021 00:59:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:in-reply-to:references
- :mime-version; bh=ruTzYXs4cmLo0eXIaRmbW9FUqRDOE1BMb3UGO3NelsU=;
- b=Ec32BPiI9kTFaHeNcLUIoFazWV5ssysJbyvCua3VqOomIbvlbFP4VKqEemzu7vXf3N
- +vtnkEonLdKvINLzV/OVWGmLQT1tQIdCrFyAI1qziVPX0GIXMXFDpyQunT/0NA2asyPb
- q4DhO3sMBNhlz4OlTiDm/4nfMXJcLAd1MyXhuNh4xLi1+bjCm6WpGM9DHshCAXWPabXC
- HVLXQfwg7LBmBRjlan+p7r+aoE2/2/OCcfZ8xmDn+kNbNcXpmNLrFXX2pzHF299VTFFd
- SmxKG1K+uV1aDSCSk/pUtooHcW95dKFFG8I5yud7sGbNRZPhds95cIG981zycoyS6e1n
- 9RJg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version;
- bh=ruTzYXs4cmLo0eXIaRmbW9FUqRDOE1BMb3UGO3NelsU=;
- b=L6N3+u3VdDIiAakd7iKUWKisOHhW/zmn8DFM/6LtctvGH3VGbpXGWdoITZ4gj6LlyK
- wRwoWK6klx/psigkH5No8P8mr9GyuegybTNM+mSLcjEhvOEaRImmpC8rN7rVARoc8tMg
- l+IP9BKmovWH6v+NAQy2LMXb45rYEjfh+/vAhn/LM2HPnnbnYeVGNEa/xqZ7HPrBiyiD
- XKc1BrSH5H5P1kNDoldroSbFRkn06JPqfZUGeXIGi+U9/CwxEdQtieQlq+H8fP7leFaZ
- UNtKTfSyL8CEC0Z13YxaX/5Jv3oniiQcADe4NJZQoXVDUAyo3eVH/t3k+NPtq7+wfMfi
- vUiw==
-X-Gm-Message-State: AOAM532VkI+uOVoiNiMqSFFnF6cCGx26fWbMmk0caTkBmYSItVb/LBYR
- 26gfm5zuCCNjguJnwEHvnvQ=
-X-Google-Smtp-Source: ABdhPJxjs5+fFSryiF+Uwgfr46N4BhzgbTbssI9pXvTOTy7gDRmky8RRk1av09E5yvl6HukegV5qGA==
-X-Received: by 2002:a05:6512:3baa:: with SMTP id
- g42mr14628385lfv.195.1623139172191; 
- Tue, 08 Jun 2021 00:59:32 -0700 (PDT)
-Received: from eldfell ([194.136.85.206])
- by smtp.gmail.com with ESMTPSA id c125sm1799233lfd.199.2021.06.08.00.59.31
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 08 Jun 2021 00:59:31 -0700 (PDT)
-Date: Tue, 8 Jun 2021 10:59:19 +0300
-From: Pekka Paalanen <ppaalanen@gmail.com>
-To: "Shankar, Uma" <uma.shankar@intel.com>, Harry Wentland
- <harry.wentland@amd.com>
-Subject: Re: [PATCH 0/9] Enhance pipe color support for multi segmented luts
-Message-ID: <20210608105919.5067f3d2@eldfell>
-In-Reply-To: <f14650b0e9734d309d685e6fc3f60e1e@intel.com>
-References: <20210601104135.29020-1-uma.shankar@intel.com>
- <0909131c-1340-c93b-7b80-b661497ccf73@amd.com>
- <20210607102943.5c9bceb9@eldfell>
- <f14650b0e9734d309d685e6fc3f60e1e@intel.com>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CD1EC6EB13;
+ Tue,  8 Jun 2021 07:59:56 +0000 (UTC)
+IronPort-SDR: /nNUxhJFy2gehMY4p1aUZHiuxcp35iBN/rGzzPqlPpwMSBFCh85UHdvZipO24kSIrJPP6WppJN
+ fJKmHC2oC6vg==
+X-IronPort-AV: E=McAfee;i="6200,9189,10008"; a="290424020"
+X-IronPort-AV: E=Sophos;i="5.83,257,1616482800"; d="scan'208";a="290424020"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Jun 2021 00:59:53 -0700
+IronPort-SDR: IblIZl0WF8xn/Zk5VhMFxJpWTCvWgL2UbF59tlpNtC8nmtyBP+ciIqwPX2ZCRFNi7p8anD0CN8
+ SA+ODl6QO7gw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.83,257,1616482800"; d="scan'208";a="418815734"
+Received: from irvmail001.ir.intel.com ([10.43.11.63])
+ by orsmga002.jf.intel.com with ESMTP; 08 Jun 2021 00:59:51 -0700
+Received: from [10.249.139.189] (mwajdecz-MOBL.ger.corp.intel.com
+ [10.249.139.189])
+ by irvmail001.ir.intel.com (8.14.3/8.13.6/MailSET/Hub) with ESMTP id
+ 1587xoEX007357; Tue, 8 Jun 2021 08:59:50 +0100
+Subject: Re: [PATCH 01/13] drm/i915/guc: Introduce unified HXG messages
+To: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
+ Matthew Brost <matthew.brost@intel.com>,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+References: <20210607180356.165785-1-matthew.brost@intel.com>
+ <20210607180356.165785-2-matthew.brost@intel.com>
+ <2cf32a16-d2db-65e5-5004-d739eeae0d05@intel.com>
+From: Michal Wajdeczko <michal.wajdeczko@intel.com>
+Message-ID: <258111eb-ce42-f0c3-d74f-f79124114519@intel.com>
+Date: Tue, 8 Jun 2021 09:59:49 +0200
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.2
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- boundary="Sig_/+wNr5lLpREdvx0e9gwqpyas"; protocol="application/pgp-signature"
+In-Reply-To: <2cf32a16-d2db-65e5-5004-d739eeae0d05@intel.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,143 +58,442 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
- Sebastian Wick <sebastian@sebastianwick.net>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, "Modem,
- Bhanuprakash" <bhanuprakash.modem@intel.com>
+Cc: john.c.harrison@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/+wNr5lLpREdvx0e9gwqpyas
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
-
-On Mon, 7 Jun 2021 18:07:23 +0000
-"Shankar, Uma" <uma.shankar@intel.com> wrote:
-
-> > -----Original Message-----
-> > From: dri-devel <dri-devel-bounces@lists.freedesktop.org> On Behalf Of =
-Pekka
-> > Paalanen
-> > Sent: Monday, June 7, 2021 1:00 PM
-> > To: Harry Wentland <harry.wentland@amd.com>
-> > Cc: intel-gfx@lists.freedesktop.org; Shankar, Uma <uma.shankar@intel.co=
-m>;
-> > Sebastian Wick <sebastian@sebastianwick.net>; dri-devel@lists.freedeskt=
-op.org;
-> > Modem, Bhanuprakash <bhanuprakash.modem@intel.com>
-> > Subject: Re: [PATCH 0/9] Enhance pipe color support for multi segmented=
- luts
-> >=20
-> > On Fri, 4 Jun 2021 14:51:25 -0400
-> > Harry Wentland <harry.wentland@amd.com> wrote:
-> >  =20
-> > > On 2021-06-01 6:41 a.m., Uma Shankar wrote: =20
-> > > > Modern hardwares have multi segmented lut approach to prioritize the
-> > > > darker regions of the spectrum. This series introduces a new UAPI to
-> > > > define the lut ranges supported by the respective hardware.
-> > > >
-> > > > This also enables Pipe Color Management Support for Intel's XE_LPD =
-hw.
-> > > > Enable Support for Pipe Degamma with the increased lut samples
-> > > > supported by hardware. This also adds support for newly introduced
-> > > > Logarithmic Gamma for XE_LPD. Also added the gamma readout support.
-> > > >
-> > > > The Logarithmic gamma implementation on XE_LPD is non linear and
-> > > > adds 25 segments with non linear lut samples in each segment. The
-> > > > expectation is userspace will create the luts as per this
-> > > > distribution and pass the final samples to driver to be programmed =
-in hardware.
-> > > > =20
-> > >
-> > > Is this design targetting Intel XE_LPD HW in particular or is it
-> > > intended to be generic?
-> > >
-> > > If this is intended to be generic I think it would benefit from a lot
-> > > more documentation. At this point it's difficult for me to see how to
-> > > adapt this to AMD HW. It would take me a while to be comfortable to
-> > > make a call on whether we can use it or not. And what about other ven=
-dors?
-> > >
-> > > I think we need to be cautious in directly exposing HW functionality
-> > > through UAPI. The CM parts of AMD HW seem to be changing in some way
-> > > each generation and it looks like the same is true for Intel. The
-> > > trouble we have with adapting the old gamma/degamma properties to
-> > > modern HW is some indication to me that this approach is somewhat pro=
-blematic.
-> > >
-> > > It would be useful to understand and document the specific use-cases
-> > > we want to provide to userspace implementers with this functionality.
-> > > Do we want to support modern transfer functions such as PQ or HLG? If
-> > > so, it might be beneficial to have an API to explicitly specify that,
-> > > and then use LUT tables in drivers that are optimized for the impleme=
-nting HW. =20
-> >=20
-> > Hi Harry,
-> >=20
-> > from my very limited understanding so far, enum might be fine for PQ, b=
-ut HLG is not
-> > just one transfer function, although it may often be confused as one. P=
-Q and HLG
-> > are fundamentally different designs to HDR broadcasting I believe. It w=
-ould be
-> > unfortunate to make a mistake here, engraving it into UAPI. =20
->=20
-> Yes Pekka, putting this in UAPI may limit us.
->=20
-> > > Or is the use case tone mapping? If so, would a parametric definition
-> > > of tone mapping be easier to manage? =20
-> >=20
-> > A very good question at least I have no idea about. =20
->=20
-> Responded on earlier mail in thread. For non linear lut (gamma
-> block), usecase is primarily tone mapping but there are
-> implementations where non linear blending is seeked (AFAIR Android
-> does that), so it leaves room for those usecases as well.
-
-Yes, non-linear blending is a thing, unfortunately. Developers do not
-usually understand what could be wrong with simply blending "RGBA
-values", so most software just does that. It produces *a* result, and
-if all you use it for is shades of black (shadows) or rounded window
-corners, you never even see anything wrong with it. So the world has
-accustomed to seeing "incorrect blending" so much that they think doing
-anything else is wrong and complain if you try to move to physically
-correct blending, because it changes the strength of shadows. Hence
-any software migrating to a more correct blending formula may be met
-with bug reports.
-
-What's worse, pre-multiplied alpha is used as an optimization, as
-implemented everywhere including Wayland, in a way that is actually a
-step *away* from correct blending. If one wants to do correct blending,
-you first need to divide out the pre-multiplied alpha, then linearize,
-then blend.
-
-Luckily(?), non-linear blending of HDR content will probably look a lot
-worse than the same mistake on SDR content.
 
 
-Thanks,
-pq
+On 08.06.2021 00:46, Daniele Ceraolo Spurio wrote:
+> 
+> 
+> On 6/7/2021 11:03 AM, Matthew Brost wrote:
+>> From: Michal Wajdeczko <michal.wajdeczko@intel.com>
+>>
+>> New GuC firmware will unify format of MMIO and CTB H2G messages.
+>> Introduce their definitions now to allow gradual transition of
+>> our code to match new changes.
+>>
+>> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+>> Signed-off-by: Michal Wajdeczko <michal.wajdeczko@intel.com>
+>> Cc: Michał Winiarski <michal.winiarski@intel.com>
+>> ---
+>>   .../gpu/drm/i915/gt/uc/abi/guc_messages_abi.h | 213 ++++++++++++++++++
+>>   1 file changed, 213 insertions(+)
+>>
+>> diff --git a/drivers/gpu/drm/i915/gt/uc/abi/guc_messages_abi.h
+>> b/drivers/gpu/drm/i915/gt/uc/abi/guc_messages_abi.h
+>> index 775e21f3058c..29ac823acd4c 100644
+>> --- a/drivers/gpu/drm/i915/gt/uc/abi/guc_messages_abi.h
+>> +++ b/drivers/gpu/drm/i915/gt/uc/abi/guc_messages_abi.h
+>> @@ -6,6 +6,219 @@
+>>   #ifndef _ABI_GUC_MESSAGES_ABI_H
+>>   #define _ABI_GUC_MESSAGES_ABI_H
+>>   +/**
+>> + * DOC: HXG Message
+>> + *
+>> + * All messages exchanged with GuC are defined using 32 bit dwords.
+>> + * First dword is treated as a message header. Remaining dwords are
+>> optional.
+>> + *
+>> + * 
+>> +---+-------+--------------------------------------------------------------+
+>>
+>> + *  |   | Bits  |
+>> Description                                                  |
+>> + * 
+>> +===+=======+==============================================================+
+>>
+>> + *  |   |      
+>> |                                                              |
+>> + *  | 0 |    31 | **ORIGIN** - originator of the
+>> message                       |
+>> + *  |   |       |   - _`GUC_HXG_ORIGIN_HOST` =
+>> 0                               |
+>> + *  |   |       |   - _`GUC_HXG_ORIGIN_GUC` =
+>> 1                                |
+>> + *  |   |      
+>> |                                                              |
+>> + *  |  
+>> +-------+--------------------------------------------------------------+
+>> + *  |   | 30:28 | **TYPE** - message
+>> type                                      |
+>> + *  |   |       |   - _`GUC_HXG_TYPE_REQUEST` =
+>> 0                              |
+>> + *  |   |       |   - _`GUC_HXG_TYPE_EVENT` =
+>> 1                                |
+>> + *  |   |       |   - _`GUC_HXG_TYPE_NO_RESPONSE_BUSY` =
+>> 3                     |
+>> + *  |   |       |   - _`GUC_HXG_TYPE_NO_RESPONSE_RETRY` =
+>> 5                    |
+>> + *  |   |       |   - _`GUC_HXG_TYPE_RESPONSE_FAILURE` =
+>> 6                     |
+>> + *  |   |       |   - _`GUC_HXG_TYPE_RESPONSE_SUCCESS` =
+>> 7                     |
+>> + *  |  
+>> +-------+--------------------------------------------------------------+
+>> + *  |   |  27:0 | **AUX** - auxiliary data (depends on
+>> TYPE)                   |
+>> + * 
+>> +---+-------+--------------------------------------------------------------+
+>>
+>> + *  | 1 |  31:0
+>> |                                                              |
+>> + * 
+>> +---+-------+                                                             
+>> |
+>> + *  |...|       | **PAYLOAD** - optional payload (depends on
+>> TYPE)             |
+>> + * 
+>> +---+-------+                                                             
+>> |
+>> + *  | n |  31:0
+>> |                                                              |
+>> + * 
+>> +---+-------+--------------------------------------------------------------+
+>>
+>> + */
+>> +
+>> +#define GUC_HXG_MSG_MIN_LEN            1u
+>> +#define GUC_HXG_MSG_0_ORIGIN            (0x1 << 31)
+> 
+> Any reason not to use BIT(31) here? same below with other bits and with
+> GENMASK for masks.
 
---Sig_/+wNr5lLpREdvx0e9gwqpyas
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
+initial goal was to have all ABI definitions auto-generated from GuC
+spec files, using just pure C syntax to avoid any dependencies.
 
------BEGIN PGP SIGNATURE-----
+we can try to wrap some definitions into generic helpers like
+HXG_MASK(...) and then remap them to our REG_GENMASK but didn't feel
+this is super important
 
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmC/I1cACgkQI1/ltBGq
-qqfPSQ//THsM9jgvXhNW0JkJjOKN4w+blp82p+/obhLuHvawj+IGwAi5vZfwkI7v
-cstN/eWH6Efxu6/Y7uHY6e0qX8EpHuJJNwrpGIFf3ipevYK+e4KSjN81X2yHRNC7
-qmaO6uLHMnNLm4IuYo5va56bErB/w8YYy+kJNmOaIScSGXxFKqERoW/t/ap6BtCK
-Kysib16li8M1PsrmEv9h2938rNvrGqfmQAwrDCa91yp2HQWluGWcEXikWZqY1Cgf
-uOD0vczg33U2/XFaGEpgT0loE52U+BPGGPWFTx5Vv0uJjushUSPV3KZBPwHHwyDr
-DtrGph/fFeE3DIUBTzrNHRvtsfPFN9XKKqpZoOZuOkrhNd4Ou1oxt4UP5NtSbsNZ
-3kcccRybQN2zHB+PyxMOt84UgKbEfnntUa5j0VRl2O+o8Ijg+CVqROA/vVUYRPTf
-MKWsbfy/ETp7FIIGP3JNbR2hjrjTFBtWJjRhGh54fAQazK5iHwcDNjdKtX8sEnvi
-1IEdN9HibKSjD9KrXxhgDe7OwGa7Nb3/Jq1eR6EIomhmezO3QaZI0ihU182GfpRi
-ZWNWzbIRmPGv3gDAMHKim2Xm0SlzAC+CHpTQGu2Z3g+vcWy9kVEsLzRAgmu4MlOB
-x7DTB+J9n+NMNeg9/gmUQr8CmdOY2pDrmCK1jSDm4FQQA5l7PrU=
-=TJEm
------END PGP SIGNATURE-----
+> 
+>> +#define   GUC_HXG_ORIGIN_HOST            0u
+>> +#define   GUC_HXG_ORIGIN_GUC            1u
+>> +#define GUC_HXG_MSG_0_TYPE            (0x7 << 28)
+> 
+> I think the masks could use a _MASK postfix
 
---Sig_/+wNr5lLpREdvx0e9gwqpyas--
+all field definitions are masks, so it would be redundant IMHO
+note that previously there were both _MASK and _SHIFT definitions and
+then it was required to have extra suffix
+
+> 
+>> +#define   GUC_HXG_TYPE_REQUEST            0u
+>> +#define   GUC_HXG_TYPE_EVENT            1u
+>> +#define   GUC_HXG_TYPE_NO_RESPONSE_BUSY        3u
+>> +#define   GUC_HXG_TYPE_NO_RESPONSE_RETRY    5u
+>> +#define   GUC_HXG_TYPE_RESPONSE_FAILURE        6u
+>> +#define   GUC_HXG_TYPE_RESPONSE_SUCCESS        7u
+>> +#define GUC_HXG_MSG_0_AUX            (0xfffffff << 0)
+>> +#define GUC_HXG_MSG_n_PAYLOAD            (0xffffffff << 0)
+> 
+> Is a mask that covers the whole u32 really needed? Even for future
+> proofing, I find it very unlikely that we'll ever have a case where the
+> payload is not an entire dword.
+
+maybe not strictly required but IIRC allows to have consistent
+definitions for derived messages
+
+> 
+>> +
+>> +/**
+>> + * DOC: HXG Request
+>> + *
+>> + * The `HXG Request`_ message should be used to initiate synchronous
+>> activity
+>> + * for which confirmation or return data is expected.
+>> + *
+>> + * The recipient of this message shall use `HXG Response`_, `HXG
+>> Failure`_
+>> + * or `HXG Retry`_ message as a definite reply, and may use `HXG Busy`_
+>> + * message as a intermediate reply.
+>> + *
+>> + * Format of @DATA0 and all @DATAn fields depends on the @ACTION code.
+>> + *
+>> + * 
+>> +---+-------+--------------------------------------------------------------+
+>>
+>> + *  |   | Bits  |
+>> Description                                                  |
+>> + * 
+>> +===+=======+==============================================================+
+>>
+>> + *  | 0 |    31 |
+>> ORIGIN                                                       |
+>> + *  |  
+>> +-------+--------------------------------------------------------------+
+>> + *  |   | 30:28 | TYPE =
+>> GUC_HXG_TYPE_REQUEST_                                 |
+>> + *  |  
+>> +-------+--------------------------------------------------------------+
+>> + *  |   | 27:16 | **DATA0** - request data (depends on
+>> ACTION)                 |
+>> + *  |  
+>> +-------+--------------------------------------------------------------+
+>> + *  |   |  15:0 | **ACTION** - requested action
+>> code                           |
+>> + * 
+>> +---+-------+--------------------------------------------------------------+
+>>
+>> + *  | 1 |  31:0
+>> |                                                              |
+>> + * 
+>> +---+-------+                                                             
+>> |
+>> + *  |...|       | **DATAn** - optional data (depends on
+>> ACTION)                |
+>> + * 
+>> +---+-------+                                                             
+>> |
+>> + *  | n |  31:0
+>> |                                                              |
+>> + * 
+>> +---+-------+--------------------------------------------------------------+
+>>
+>> + */
+>> +
+>> +#define GUC_HXG_REQUEST_MSG_MIN_LEN        GUC_HXG_MSG_MIN_LEN
+>> +#define GUC_HXG_REQUEST_MSG_0_DATA0        (0xfff << 16)
+>> +#define GUC_HXG_REQUEST_MSG_0_ACTION        (0xffff << 0)
+>> +#define GUC_HXG_REQUEST_MSG_n_DATAn        GUC_HXG_MSG_n_PAYLOAD
+>> +
+>> +/**
+>> + * DOC: HXG Event
+>> + *
+>> + * The `HXG Event`_ message should be used to initiate asynchronous
+>> activity
+>> + * that does not involves immediate confirmation nor data.
+>> + *
+>> + * Format of @DATA0 and all @DATAn fields depends on the @ACTION code.
+>> + *
+>> + * 
+>> +---+-------+--------------------------------------------------------------+
+>>
+>> + *  |   | Bits  |
+>> Description                                                  |
+>> + * 
+>> +===+=======+==============================================================+
+>>
+>> + *  | 0 |    31 |
+>> ORIGIN                                                       |
+>> + *  |  
+>> +-------+--------------------------------------------------------------+
+>> + *  |   | 30:28 | TYPE =
+>> GUC_HXG_TYPE_EVENT_                                   |
+>> + *  |  
+>> +-------+--------------------------------------------------------------+
+>> + *  |   | 27:16 | **DATA0** - event data (depends on
+>> ACTION)                   |
+>> + *  |  
+>> +-------+--------------------------------------------------------------+
+>> + *  |   |  15:0 | **ACTION** - event action
+>> code                               |
+>> + * 
+>> +---+-------+--------------------------------------------------------------+
+>>
+>> + *  | 1 |  31:0
+>> |                                                              |
+>> + * 
+>> +---+-------+                                                             
+>> |
+>> + *  |...|       | **DATAn** - optional event  data (depends on
+>> ACTION)         |
+>> + * 
+>> +---+-------+                                                             
+>> |
+>> + *  | n |  31:0
+>> |                                                              |
+>> + * 
+>> +---+-------+--------------------------------------------------------------+
+>>
+>> + */
+>> +
+>> +#define GUC_HXG_EVENT_MSG_MIN_LEN        GUC_HXG_MSG_MIN_LEN
+>> +#define GUC_HXG_EVENT_MSG_0_DATA0        (0xfff << 16)
+>> +#define GUC_HXG_EVENT_MSG_0_ACTION        (0xffff << 0)
+>> +#define GUC_HXG_EVENT_MSG_n_DATAn        GUC_HXG_MSG_n_PAYLOAD
+>> +
+>> +/**
+>> + * DOC: HXG Busy
+>> + *
+>> + * The `HXG Busy`_ message may be used to acknowledge reception of
+>> the `HXG Request`_
+>> + * message if the recipient expects that it processing will be longer
+>> than default
+>> + * timeout.
+>> + *
+>> + * The @COUNTER field may be used as a progress indicator.
+>> + *
+>> + * 
+>> +---+-------+--------------------------------------------------------------+
+>>
+>> + *  |   | Bits  |
+>> Description                                                  |
+>> + * 
+>> +===+=======+==============================================================+
+>>
+>> + *  | 0 |    31 |
+>> ORIGIN                                                       |
+>> + *  |  
+>> +-------+--------------------------------------------------------------+
+>> + *  |   | 30:28 | TYPE =
+>> GUC_HXG_TYPE_NO_RESPONSE_BUSY_                        |
+>> + *  |  
+>> +-------+--------------------------------------------------------------+
+>> + *  |   |  27:0 | **COUNTER** - progress
+>> indicator                             |
+>> + * 
+>> +---+-------+--------------------------------------------------------------+
+>>
+>> + */
+>> +
+>> +#define GUC_HXG_BUSY_MSG_LEN            GUC_HXG_MSG_MIN_LEN
+>> +#define GUC_HXG_BUSY_MSG_0_COUNTER        GUC_HXG_MSG_0_AUX
+>> +
+>> +/**
+>> + * DOC: HXG Retry
+>> + *
+>> + * The `HXG Retry`_ message should be used by recipient to indicate
+>> that the
+>> + * `HXG Request`_ message was dropped and it should be resent again.
+>> + *
+>> + * The @REASON field may be used to provide additional information.
+>> + *
+>> + * 
+>> +---+-------+--------------------------------------------------------------+
+>>
+>> + *  |   | Bits  |
+>> Description                                                  |
+>> + * 
+>> +===+=======+==============================================================+
+>>
+>> + *  | 0 |    31 |
+>> ORIGIN                                                       |
+>> + *  |  
+>> +-------+--------------------------------------------------------------+
+>> + *  |   | 30:28 | TYPE =
+>> GUC_HXG_TYPE_NO_RESPONSE_RETRY_                       |
+>> + *  |  
+>> +-------+--------------------------------------------------------------+
+>> + *  |   |  27:0 | **REASON** - reason for
+>> retry                                |
+>> + *  |   |       |  - _`GUC_HXG_RETRY_REASON_UNSPECIFIED` =
+>> 0                   |
+> 
+> AFAICS in the specs for 62.0.0 this field is actually a MBZ. Where does
+> the "reason" classification come from?
+
+some spec revision had these bits defined as "MBZ or debug data" and
+this debug data was understood as "REASON", in same fashion as "HINT" in
+FAILURE_RESPONSE message.
+
+note that UNSPECIFIED(0) still matches MBZ(0)
+
+> 
+> Apart from this, all the defines match the specs.
+> 
+> Daniele
+> 
+>> + * 
+>> +---+-------+--------------------------------------------------------------+
+>>
+>> + */
+>> +
+>> +#define GUC_HXG_RETRY_MSG_LEN            GUC_HXG_MSG_MIN_LEN
+>> +#define GUC_HXG_RETRY_MSG_0_REASON        GUC_HXG_MSG_0_AUX
+>> +#define   GUC_HXG_RETRY_REASON_UNSPECIFIED    0u
+>> +
+>> +/**
+>> + * DOC: HXG Failure
+>> + *
+>> + * The `HXG Failure`_ message shall be used as a reply to the `HXG
+>> Request`_
+>> + * message that could not be processed due to an error.
+>> + *
+>> + * 
+>> +---+-------+--------------------------------------------------------------+
+>>
+>> + *  |   | Bits  |
+>> Description                                                  |
+>> + * 
+>> +===+=======+==============================================================+
+>>
+>> + *  | 0 |    31 |
+>> ORIGIN                                                       |
+>> + *  |  
+>> +-------+--------------------------------------------------------------+
+>> + *  |   | 30:28 | TYPE =
+>> GUC_HXG_TYPE_RESPONSE_FAILURE_                        |
+>> + *  |  
+>> +-------+--------------------------------------------------------------+
+>> + *  |   | 27:16 | **HINT** - additional error
+>> hint                             |
+>> + *  |  
+>> +-------+--------------------------------------------------------------+
+>> + *  |   |  15:0 | **ERROR** - error/result
+>> code                                |
+>> + * 
+>> +---+-------+--------------------------------------------------------------+
+>>
+>> + */
+>> +
+>> +#define GUC_HXG_FAILURE_MSG_LEN            GUC_HXG_MSG_MIN_LEN
+>> +#define GUC_HXG_FAILURE_MSG_0_HINT        (0xfff << 16)
+>> +#define GUC_HXG_FAILURE_MSG_0_ERROR        (0xffff << 0)
+>> +
+>> +/**
+>> + * DOC: HXG Response
+>> + *
+>> + * The `HXG Response`_ message shall be used as a reply to the `HXG
+>> Request`_
+>> + * message that was successfully processed without an error.
+>> + *
+>> + * 
+>> +---+-------+--------------------------------------------------------------+
+>>
+>> + *  |   | Bits  |
+>> Description                                                  |
+>> + * 
+>> +===+=======+==============================================================+
+>>
+>> + *  | 0 |    31 |
+>> ORIGIN                                                       |
+>> + *  |  
+>> +-------+--------------------------------------------------------------+
+>> + *  |   | 30:28 | TYPE =
+>> GUC_HXG_TYPE_RESPONSE_SUCCESS_                        |
+>> + *  |  
+>> +-------+--------------------------------------------------------------+
+>> + *  |   |  27:0 | **DATA0** - data (depends on ACTION from `HXG
+>> Request`_)     |
+>> + * 
+>> +---+-------+--------------------------------------------------------------+
+>>
+>> + *  | 1 |  31:0
+>> |                                                              |
+>> + * 
+>> +---+-------+                                                             
+>> |
+>> + *  |...|       | **DATAn** - data (depends on ACTION from `HXG
+>> Request`_)     |
+>> + * 
+>> +---+-------+                                                             
+>> |
+>> + *  | n |  31:0
+>> |                                                              |
+>> + * 
+>> +---+-------+--------------------------------------------------------------+
+>>
+>> + */
+>> +
+>> +#define GUC_HXG_RESPONSE_MSG_MIN_LEN        GUC_HXG_MSG_MIN_LEN
+>> +#define GUC_HXG_RESPONSE_MSG_0_DATA0        GUC_HXG_MSG_0_AUX
+>> +#define GUC_HXG_RESPONSE_MSG_n_DATAn        GUC_HXG_MSG_n_PAYLOAD
+>> +
+>> +/* deprecated */
+>>   #define INTEL_GUC_MSG_TYPE_SHIFT    28
+>>   #define INTEL_GUC_MSG_TYPE_MASK        (0xF <<
+>> INTEL_GUC_MSG_TYPE_SHIFT)
+>>   #define INTEL_GUC_MSG_DATA_SHIFT    16
+> 
