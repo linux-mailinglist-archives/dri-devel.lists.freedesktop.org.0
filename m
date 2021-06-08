@@ -2,50 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EAA113A0DD5
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Jun 2021 09:38:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 330093A0DD6
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Jun 2021 09:38:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 810976E044;
-	Wed,  9 Jun 2021 07:38:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 994066E091;
+	Wed,  9 Jun 2021 07:38:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x22e.google.com (mail-lj1-x22e.google.com
- [IPv6:2a00:1450:4864:20::22e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4AE406E21C
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Jun 2021 17:18:55 +0000 (UTC)
-Received: by mail-lj1-x22e.google.com with SMTP id e11so27981759ljn.13
- for <dri-devel@lists.freedesktop.org>; Tue, 08 Jun 2021 10:18:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:from:date:message-id:subject:to;
- bh=8tMohU63OK+0mIKO2fTWMmOOu0c0UzE0fJLOrBflrIo=;
- b=Yf1RE/wLXqJF2VX3Nuh7Lu5a+yBx4gqofJ8OVAGt/Mldb/q1pQGs914YrfWWVoMJbp
- uxZjShVuzVKNRYq6eEaEFbwKyuQlG2N84BX3eEgA2M7dwWONDh2mEBG6X1JXZ13kDLJ0
- +bcSgsIShb4nHeaPw5sk/iTCbdpRll+l/CIxI6kcZpxnMDvsVYBz6xu4InirWhKRXTND
- lS+s4mYSNDUy5Tf/WdBjAkGWACgdBV+UD/fw7LzGaC9Q98QE1p4xW6W1wUB74meFtIVD
- zyDnp/0eGv6sxMjjMAwSso3QqgIFx2ZAOR7LgocTCEf6+pgMUyFmd5AUkT8o1XeOOru2
- wg6g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
- bh=8tMohU63OK+0mIKO2fTWMmOOu0c0UzE0fJLOrBflrIo=;
- b=d+ull6kUhp05DTdhv5YovtG/YbRUq4OdzEZk6j0jhdXOIatshabCqTOHlPKBlPOjeF
- 1QxvCseqcINAxFpt4h1uhbtnwLObL8iWthueW3zR9etj/9ZebyAlphQR30uYLaRGIJCx
- Ut/jL6VD1EbNpFTKQzUlW6+jHRiarnIj3y5XjXWqlHgiG0NwizUhr1HUlPL/2DacUA7n
- ASekJTtxLcD/n3gvwahPMt/F41NN0ZrC3rN8YP8Vhjg2sL/ecariRr6ZSh7ERTtemXfo
- DImvqMMN4NEu8U/ni/W6pf4PyBTDPin1iKuF5t9X2eRdluIJYKxhQeG/uF5KPoi4sIZv
- Q5Vg==
-X-Gm-Message-State: AOAM532rPKhduUzotg7dOGMOnGbwy7htwrznCqDdP3B2Xp/fNG0KZhab
- J96icTFrh81u8AWO4w2LkQb1XePrt9PEdkdqPV1Jq0myB9SWtQ==
-X-Google-Smtp-Source: ABdhPJyRhc+TJYn7Iu4QbEBX/GPQxz5rV4hCb5fb/Q4mYQx6N/HsaTVAkHiIvIzFAcpQYtQ5HQjoVVQh0RYifcFBkIc=
-X-Received: by 2002:a2e:824c:: with SMTP id j12mr19393669ljh.490.1623172733520; 
- Tue, 08 Jun 2021 10:18:53 -0700 (PDT)
-MIME-Version: 1.0
-From: Eero Lehtinen <debiangamer2@gmail.com>
-Date: Tue, 8 Jun 2021 20:18:42 +0300
-Message-ID: <CAHS3B0Fuffcs+25vs7M9FM022thvdy2KNLLq9TZA=JE_5LyD7A@mail.gmail.com>
-Subject: [PATCH 1/1] drm/panfrost: remove spamming to syslog
-To: dri-devel@lists.freedesktop.org
+X-Greylist: delayed 302 seconds by postgrey-1.36 at gabe;
+ Tue, 08 Jun 2021 23:04:39 UTC
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2D5E46E110
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Jun 2021 23:04:39 +0000 (UTC)
+X-UUID: 21a70051223b4f44a767e7a447cf0fec-20210609
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
+ s=dk; 
+ h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID;
+ bh=ZgVhymEJ5L4BrwipQZUOwi4OJWbvueZ20HB1FJkKDBM=; 
+ b=mtESIbus3JwB9ymJUjjryP70c+fZs/nMHK6x2B+ZEYgiUG7KJ72RaiH9EHgltEtFaO4n8/4/z7kGtikUhA0uyGQSspl0rtz3b4wQexXx1VRwVF2BlBROZ+JRLaiuc1X/p4I8kIcwdbUjWSeNaHKF6kJ/tcuTOUXOtlCFf9uWXjk=;
+X-UUID: 21a70051223b4f44a767e7a447cf0fec-20210609
+Received: from mtkcas07.mediatek.inc [(172.21.101.84)] by mailgw02.mediatek.com
+ (envelope-from <chun-jie.chen@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+ with ESMTP id 1655942614; Wed, 09 Jun 2021 06:59:30 +0800
+Received: from mtkcas11.mediatek.inc (172.21.101.40) by
+ mtkmbs08n2.mediatek.inc (172.21.101.56) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Wed, 9 Jun 2021 06:59:23 +0800
+Received: from mtksdccf07 (172.21.84.99) by mtkcas11.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Wed, 9 Jun 2021 06:59:23 +0800
+Message-ID: <f7fd0d7038361c7efae54ba96924105baa3fb033.camel@mediatek.com>
+Subject: Re: [PATCH v5, 4/4] soc: mediatek: mmsys: Add mt8192 mmsys routing
+ table
+From: Chun-Jie Chen <chun-jie.chen@mediatek.com>
+To: Yongqiang Niu <yongqiang.niu@mediatek.com>, Chun-Kuang Hu
+ <chunkuang.hu@kernel.org>
+Date: Wed, 9 Jun 2021 06:59:23 +0800
+In-Reply-To: <1618236288-1617-5-git-send-email-yongqiang.niu@mediatek.com>
+References: <1618236288-1617-1-git-send-email-yongqiang.niu@mediatek.com>
+ <1618236288-1617-5-git-send-email-yongqiang.niu@mediatek.com>
 Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+MIME-Version: 1.0
+X-MTK: N
+Content-Transfer-Encoding: base64
 X-Mailman-Approved-At: Wed, 09 Jun 2021 07:38:03 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -59,75 +59,94 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: devicetree@vger.kernel.org,
+ Project_Global_Chrome_Upstream_Group@mediatek.com, David
+ Airlie <airlied@linux.ie>, Jassi Brar <jassisinghbrar@gmail.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, Dennis YC
+ Hsieh <dennis-yc.hsieh@mediatek.com>, Fabien Parent <fparent@baylibre.com>,
+ Rob Herring <robh+dt@kernel.org>, linux-mediatek@lists.infradead.org,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This patch removes Panfrost spamming messages to syslog that causes a
-poor performance and crashes of the Xfce desktop with a Amlogic S912
-TV box. See the old bug in:
-https://gitlab.freedesktop.org/mesa/mesa/-/issues/3143
+T24gTW9uLCAyMDIxLTA0LTEyIGF0IDIyOjA0ICswODAwLCBZb25ncWlhbmcgTml1IHdyb3RlOg0K
+PiBtdDgxOTIgaGFzIGRpZmZlcmVudCByb3V0aW5nIHJlZ2lzdGVycyB0aGFuIG10ODE4Mw0KPiAN
+Cj4gU2lnbmVkLW9mZi1ieTogWW9uZ3FpYW5nIE5pdSA8eW9uZ3FpYW5nLm5pdUBtZWRpYXRlay5j
+b20+DQo+IC0tLQ0KPiAgZHJpdmVycy9zb2MvbWVkaWF0ZWsvbXQ4MTkyLW1tc3lzLmggfCA2OA0K
+PiArKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrDQo+ICBkcml2ZXJzL3NvYy9t
+ZWRpYXRlay9tdGstbW1zeXMuYyAgICB8ICA3ICsrKysNCj4gIDIgZmlsZXMgY2hhbmdlZCwgNzUg
+aW5zZXJ0aW9ucygrKQ0KPiAgY3JlYXRlIG1vZGUgMTAwNjQ0IGRyaXZlcnMvc29jL21lZGlhdGVr
+L210ODE5Mi1tbXN5cy5oDQo+IA0KPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9zb2MvbWVkaWF0ZWsv
+bXQ4MTkyLW1tc3lzLmgNCj4gYi9kcml2ZXJzL3NvYy9tZWRpYXRlay9tdDgxOTItbW1zeXMuaA0K
+PiBuZXcgZmlsZSBtb2RlIDEwMDY0NA0KPiBpbmRleCAwMDAwMDAwLi4zMTc5MDI5DQo+IC0tLSAv
+ZGV2L251bGwNCj4gKysrIGIvZHJpdmVycy9zb2MvbWVkaWF0ZWsvbXQ4MTkyLW1tc3lzLmgNCj4g
+QEAgLTAsMCArMSw2OCBAQA0KPiArLyogU1BEWC1MaWNlbnNlLUlkZW50aWZpZXI6IEdQTC0yLjAt
+b25seSAqLw0KPiArDQo+ICsjaWZuZGVmIF9fU09DX01FRElBVEVLX01UODE5Ml9NTVNZU19IDQo+
+ICsjZGVmaW5lIF9fU09DX01FRElBVEVLX01UODE5Ml9NTVNZU19IDQo+ICsNCj4gKyNkZWZpbmUg
+TVQ4MTkyX01NU1lTX09WTF9NT1VUX0VOCQkweGYwNA0KPiArI2RlZmluZSBNVDgxOTJfRElTUF9P
+VkwxXzJMX01PVVRfRU4JCTB4ZjA4DQo+ICsjZGVmaW5lIE1UODE5Ml9ESVNQX09WTDBfMkxfTU9V
+VF9FTgkJMHhmMTgNCj4gKyNkZWZpbmUgTVQ4MTkyX0RJU1BfT1ZMMF9NT1VUX0VOCQkweGYxYw0K
+PiArI2RlZmluZSBNVDgxOTJfRElTUF9SRE1BMF9TRUxfSU4JCTB4ZjJjDQo+ICsjZGVmaW5lIE1U
+ODE5Ml9ESVNQX1JETUEwX1NPVVRfU0VMCQkweGYzMA0KPiArI2RlZmluZSBNVDgxOTJfRElTUF9D
+Q09SUjBfU09VVF9TRUwJCTB4ZjM0DQo+ICsjZGVmaW5lIE1UODE5Ml9ESVNQX0FBTDBfU0VMX0lO
+CQkJMHhmMzgNCj4gKyNkZWZpbmUgTVQ4MTkyX0RJU1BfRElUSEVSMF9NT1VUX0VOCQkweGYzYw0K
+PiArI2RlZmluZSBNVDgxOTJfRElTUF9EU0kwX1NFTF9JTgkJCTB4ZjQwDQo+ICsjZGVmaW5lIE1U
+ODE5Ml9ESVNQX09WTDJfMkxfTU9VVF9FTgkJMHhmNGMNCj4gKw0KPiArI2RlZmluZSBNVDgxOTJf
+RElTUF9PVkwwX0dPX0JMRU5ECQkJQklUKDApDQo+ICsjZGVmaW5lIE1UODE5Ml9ESVRIRVIwX01P
+VVRfSU5fRFNJMAkJCUJJVCgwKQ0KPiArI2RlZmluZSBNVDgxOTJfT1ZMMF9NT1VUX0VOX0RJU1Bf
+UkRNQTAJCQlCSVQoMCkNCj4gKyNkZWZpbmUgTVQ4MTkyX09WTDJfMkxfTU9VVF9FTl9SRE1BNAkJ
+CUJJVCgwKQ0KPiArI2RlZmluZSBNVDgxOTJfRElTUF9PVkwwX0dPX0JHCQkJCUJJVCgxKQ0KPiAr
+I2RlZmluZSBNVDgxOTJfRElTUF9PVkwwXzJMX0dPX0JMRU5ECQkJQklUKDIpDQo+ICsjZGVmaW5l
+IE1UODE5Ml9ESVNQX09WTDBfMkxfR09fQkcJCQlCSVQoMykNCj4gKyNkZWZpbmUgTVQ4MTkyX09W
+TDFfMkxfTU9VVF9FTl9SRE1BMQkJCUJJVCg0KQ0KPiArI2RlZmluZSBNVDgxOTJfT1ZMMF9NT1VU
+X0VOX09WTDBfMkwJCQlCSVQoNCkNCj4gKyNkZWZpbmUgTVQ4MTkyX1JETUEwX1NFTF9JTl9PVkww
+XzJMCQkJMHgzDQo+ICsjZGVmaW5lIE1UODE5Ml9SRE1BMF9TT1VUX0NPTE9SMAkJCTB4MQ0KPiAr
+I2RlZmluZSBNVDgxOTJfQ0NPUlIwX1NPVVRfQUFMMAkJCQkweDENCj4gKyNkZWZpbmUgTVQ4MTky
+X0FBTDBfU0VMX0lOX0NDT1JSMAkJCTB4MQ0KPiArI2RlZmluZSBNVDgxOTJfRFNJMF9TRUxfSU5f
+RElUSEVSMAkJCTB4MQ0KPiArDQo+ICtzdGF0aWMgY29uc3Qgc3RydWN0IG10a19tbXN5c19yb3V0
+ZXMgbW1zeXNfbXQ4MTkyX3JvdXRpbmdfdGFibGVbXSA9DQo+IHsNCj4gKwl7DQo+ICsJCUREUF9D
+T01QT05FTlRfT1ZMXzJMMCwgRERQX0NPTVBPTkVOVF9SRE1BMCwNCj4gKwkJTVQ4MTkyX0RJU1Bf
+T1ZMMF8yTF9NT1VUX0VOLA0KPiBNVDgxOTJfT1ZMMF9NT1VUX0VOX0RJU1BfUkRNQTAsDQo+ICsJ
+fSwgew0KPiArCQlERFBfQ09NUE9ORU5UX09WTF8yTDIsIEREUF9DT01QT05FTlRfUkRNQTQsDQo+
+ICsJCU1UODE5Ml9ESVNQX09WTDJfMkxfTU9VVF9FTiwNCj4gTVQ4MTkyX09WTDJfMkxfTU9VVF9F
+Tl9SRE1BNA0KPiArCX0sIHsNCj4gKwkJRERQX0NPTVBPTkVOVF9ESVRIRVIsIEREUF9DT01QT05F
+TlRfRFNJMCwNCj4gKwkJTVQ4MTkyX0RJU1BfRElUSEVSMF9NT1VUX0VOLA0KPiBNVDgxOTJfRElU
+SEVSMF9NT1VUX0lOX0RTSTANCj4gKwl9LCB7DQo+ICsJCUREUF9DT01QT05FTlRfT1ZMXzJMMCwg
+RERQX0NPTVBPTkVOVF9SRE1BMCwNCj4gKwkJTVQ4MTkyX0RJU1BfUkRNQTBfU0VMX0lOLCBNVDgx
+OTJfUkRNQTBfU0VMX0lOX09WTDBfMkwNCj4gKwl9LCB7DQo+ICsJCUREUF9DT01QT05FTlRfQ0NP
+UlIsIEREUF9DT01QT05FTlRfQUFMMCwNCj4gKwkJTVQ4MTkyX0RJU1BfQUFMMF9TRUxfSU4sIE1U
+ODE5Ml9BQUwwX1NFTF9JTl9DQ09SUjANCj4gKwl9LCB7DQo+ICsJCUREUF9DT01QT05FTlRfRElU
+SEVSLCBERFBfQ09NUE9ORU5UX0RTSTAsDQo+ICsJCU1UODE5Ml9ESVNQX0RTSTBfU0VMX0lOLCBN
+VDgxOTJfRFNJMF9TRUxfSU5fRElUSEVSMA0KPiArCX0sIHsNCj4gKwkJRERQX0NPTVBPTkVOVF9S
+RE1BMCwgRERQX0NPTVBPTkVOVF9DT0xPUjAsDQo+ICsJCU1UODE5Ml9ESVNQX1JETUEwX1NPVVRf
+U0VMLCBNVDgxOTJfUkRNQTBfU09VVF9DT0xPUjANCj4gKwl9LCB7DQo+ICsJCUREUF9DT01QT05F
+TlRfQ0NPUlIsIEREUF9DT01QT05FTlRfQUFMMCwNCj4gKwkJTVQ4MTkyX0RJU1BfQ0NPUlIwX1NP
+VVRfU0VMLCBNVDgxOTJfQ0NPUlIwX1NPVVRfQUFMMA0KPiArCX0sIHsNCj4gKwkJRERQX0NPTVBP
+TkVOVF9PVkwwLCBERFBfQ09NUE9ORU5UX09WTF8yTDAsDQo+ICsJCU1UODE5Ml9NTVNZU19PVkxf
+TU9VVF9FTiwgTVQ4MTkyX0RJU1BfT1ZMMF9HT19CRywNCj4gKwl9LCB7DQo+ICsJCUREUF9DT01Q
+T05FTlRfT1ZMXzJMMCwgRERQX0NPTVBPTkVOVF9SRE1BMCwNCj4gKwkJTVQ4MTkyX01NU1lTX09W
+TF9NT1VUX0VOLCBNVDgxOTJfRElTUF9PVkwwXzJMX0dPX0JMRU5ELA0KPiArCX0NCj4gK307DQo+
+ICsNCj4gKyNlbmRpZiAvKiBfX1NPQ19NRURJQVRFS19NVDgxOTJfTU1TWVNfSCAqLw0KPiArDQo+
+IGRpZmYgLS1naXQgYS9kcml2ZXJzL3NvYy9tZWRpYXRlay9tdGstbW1zeXMuYw0KPiBiL2RyaXZl
+cnMvc29jL21lZGlhdGVrL210ay1tbXN5cy5jDQo+IGluZGV4IDc5ZTU1MTUuLmM3NTU2MTcgMTAw
+NjQ0DQo+IC0tLSBhL2RyaXZlcnMvc29jL21lZGlhdGVrL210ay1tbXN5cy5jDQo+ICsrKyBiL2Ry
+aXZlcnMvc29jL21lZGlhdGVrL210ay1tbXN5cy5jDQo+IEBAIC0xMiw2ICsxMiw3IEBADQo+ICAN
+Cj4gICNpbmNsdWRlICJtdGstbW1zeXMuaCINCj4gICNpbmNsdWRlICJtdDgxODMtbW1zeXMuaCIN
+Cj4gKyNpbmNsdWRlICJtdDgxOTItbW1zeXMuaCINCj4gIA0KPiAgc3RhdGljIGNvbnN0IHN0cnVj
+dCBtdGtfbW1zeXNfZHJpdmVyX2RhdGEgbXQyNzAxX21tc3lzX2RyaXZlcl9kYXRhID0NCj4gew0K
+PiAgCS5jbGtfZHJpdmVyID0gImNsay1tdDI3MDEtbW0iLA0KPiBAQCAtNDUsNiArNDYsMTIgQEAN
+Cj4gIAkubnVtX3JvdXRlcyA9IEFSUkFZX1NJWkUobW1zeXNfbXQ4MTgzX3JvdXRpbmdfdGFibGUp
+LA0KPiAgfTsNCj4gIA0KPiArc3RhdGljIGNvbnN0IHN0cnVjdCBtdGtfbW1zeXNfZHJpdmVyX2Rh
+dGEgbXQ4MTkyX21tc3lzX2RyaXZlcl9kYXRhID0NCj4gew0KPiArCS5jbGtfZHJpdmVyID0gImNs
+ay1tdDgxOTItbW0iLA0KPiArCS5yb3V0ZXMgPSBtbXN5c19tdDgxOTJfcm91dGluZ190YWJsZSwN
+Cj4gKwkubnVtX3JvdXRlcyA9IEFSUkFZX1NJWkUobW1zeXNfbXQ4MTkyX3JvdXRpbmdfdGFibGUp
+LA0KPiArfTsNCj4gKw0KPiAgc3RydWN0IG10a19tbXN5cyB7DQo+ICAJdm9pZCBfX2lvbWVtICpy
+ZWdzOw0KPiAgCWNvbnN0IHN0cnVjdCBtdGtfbW1zeXNfZHJpdmVyX2RhdGEgKmRhdGE7DQoNCkhp
+IFlvbmdxaWFuZywNCg0KVGhlcmUgaXMgODE5MiBtbXN5cyBjb21wYXRpYmxlIGRhdGEgaW4gWzFd
+LCBidXQgc2VlbXMgdG8gbGFjayBvZiBpdCBpbg0KdGhpcyBwYXRjaCwgYmVjYXVzZSBtbSBjbG9j
+ayBkcml2ZXIgd2lsbCBiZSBib3VuZCB0byBwbGF0Zm9ybSBkZXZpY2UgDQppbiBtdGtfbW1zeXNf
+cHJvYmUuDQoNClsxXSANCmh0dHBzOi8vcGF0Y2h3b3JrLmtlcm5lbC5vcmcvcHJvamVjdC9saW51
+eC1tZWRpYXRlay9wYXRjaC8xNjA5ODE1OTkzLTIyNzQ0LTExLWdpdC1zZW5kLWVtYWlsLXlvbmdx
+aWFuZy5uaXVAbWVkaWF0ZWsuY29tLw0KDQpCZXN0IFJlZ2FyZHMsDQpDaHVuLUppZQ0K
 
-Signed-off-by: Eero Lehtinen <debiangamer2 at gmail.com>
-
---- a/drivers/gpu/drm/panfrost/panfrost_mmu.c
-+++ b/drivers/gpu/drm/panfrost/panfrost_mmu.c
-@@ -36,8 +36,8 @@
-     ret = readl_relaxed_poll_timeout_atomic(pfdev->iomem + AS_STATUS(as_nr),
-         val, !(val & AS_STATUS_AS_ACTIVE), 10, 1000);
-
--    if (ret)
--        dev_err(pfdev->dev, "AS_ACTIVE bit stuck\n");
-+    //if (ret)
-+    //    dev_err(pfdev->dev, "AS_ACTIVE bit stuck\n");
-
-     return ret;
- }
-
---- a/drivers/gpu/drm/panfrost/panfrost_mmu.c
-+++ b/drivers/gpu/drm/panfrost/panfrost_mmu.c
-@@ -292,8 +292,8 @@
-         prot |= IOMMU_NOEXEC;
-
-     sgt = drm_gem_shmem_get_pages_sgt(obj);
--    if (WARN_ON(IS_ERR(sgt)))
--        return PTR_ERR(sgt);
-+    //if (WARN_ON(IS_ERR(sgt)))
-+    //    return PTR_ERR(sgt);
-
-     mmu_map_sg(pfdev, mapping->mmu, mapping->mmnode.start << PAGE_SHIFT,
-            prot, sgt);
-
---- a/drivers/gpu/drm/panfrost/panfrost_mmu.c
-+++ b/drivers/gpu/drm/panfrost/panfrost_mmu.c
-@@ -660,7 +660,7 @@
-         ret = -1;
-         if ((status & mask) == BIT(as) && (exception_type & 0xF8) == 0xC0)
-             ret = panfrost_mmu_map_fault_addr(pfdev, as, addr);
--
-+#if 0
-         if (ret)
-             /* terminal fault, print info about the fault */
-             dev_err(pfdev->dev,
-@@ -678,7 +678,7 @@
-                 exception_type, panfrost_exception_name(pfdev, exception_type),
-                 access_type, access_type_name(pfdev, fault_status),
-                 source_id);
--
-+#endif
-         status &= ~mask;
-
-         /* If we received new MMU interrupts, process them before returning. */
-
---- a/drivers/gpu/drm/panfrost/panfrost_gem_shrinker.c
-+++ b/drivers/gpu/drm/panfrost/panfrost_gem_shrinker.c
-@@ -85,8 +85,8 @@
-
-     mutex_unlock(&pfdev->shrinker_lock);
-
--    if (freed > 0)
--        pr_info_ratelimited("Purging %lu bytes\n", freed << PAGE_SHIFT);
-+    // if (freed > 0)
-+        // pr_info_ratelimited("Purging %lu bytes\n", freed << PAGE_SHIFT);
-
-     return freed;
- }
