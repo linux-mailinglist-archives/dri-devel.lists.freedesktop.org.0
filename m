@@ -2,50 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29C3C39F3CA
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Jun 2021 12:40:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF46339F3BE
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Jun 2021 12:39:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4B1B46E0F2;
-	Tue,  8 Jun 2021 10:40:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 315AE6EB62;
+	Tue,  8 Jun 2021 10:38:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-f199.google.com (mail-il1-f199.google.com
- [209.85.166.199])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F1AA76EACE
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Jun 2021 07:25:32 +0000 (UTC)
-Received: by mail-il1-f199.google.com with SMTP id
- g12-20020a056e021a2cb02901dfc46878d8so14362119ile.4
- for <dri-devel@lists.freedesktop.org>; Tue, 08 Jun 2021 00:25:32 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
- bh=mqV7/AdCSlvYHxB0gug3rBvPpiIuLO5jnMV0UaKgv6A=;
- b=NryeyR4rQIUaO2zePwFpkSallSZDepenQ+0lNGgn7YwFvQhTHZlhpik/7AyAFUXqRZ
- Tkf9VsIXrazJSM512AwSdV5OcgwogF16iGcI8tmLNJ2PqLEPpj3oOIa350rbrksvzH7+
- z+5bwC3LVHg+y98qHcygTUkeGbNIuapTJzoo+9BbApe4wfv9o1g3E3huzavv1d5/9QXz
- BDDfjQIOpZWifKaKB6+W8TMmPvqSAM5cwdH6UFY2L8kXgdwiNxDudLkU1BkCNqimF3hf
- 0YpG2ZoVKaLpLT2RjbY2OF5QnsEtXY3zx6YVClcnJwSTOILupTBxAWuQ46F7Zei0s86C
- CwCg==
-X-Gm-Message-State: AOAM531/e8/x7XtAOFrfG4Ra6kMaR5+134H7A6zJbfbVwufJv9IhfH50
- ybEDbhOAXlkZ49QO3aPX51xzg8iftkHhJl9FdUKUbFEIG6f+
-X-Google-Smtp-Source: ABdhPJy4nOA2NB16Hg0bNaRcqiOXOJ3ube3E+aQzb+k86nN4/5m4Vi/Ovc/HvYXU5cG2FzhiZ22FgYTKbM3AMKckK3FOxnnjw2Rt
+Received: from fanzine.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1512989FC3;
+ Tue,  8 Jun 2021 10:38:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+ s=20170329; 
+ h=MIME-Version:Content-Type:References:In-Reply-To:Date:Cc:To:From:Subject:Message-ID;
+ bh=sTScXVap1smEciCCWRVPGYalA2ax7y/w+lgkVVTYKF4=; 
+ b=lW6hHNIF3DHzaUnMn8hTq2HDxjatBeIdd0x/4sYl5uEy9+mISLr+lqd8SdndtP3QLE/wS7807N+wg5Kq4o3+0XiS/pY7rmFNzlieuR48N5/W39rZYzcAcYCLjrYNfoLoVGX0rMyWRhXHZYTeFbJ6wfe2MMic20kGyweYLL7c4eDuP5+anewvTkpDkSFj+qMTOZASMA6fbRMH3+TQ9Eqt/YGWf3awlqfNPLVThy96DsMTmwkuhRBQJshlyl6GP1rX6YhGnPwYHLJNv4ymNJ3MAoAugVBCuCeDRyA+4AE7pP+qFy/gIZs50puOpUacLXAmQ7R/sWqRZiKZlb/XZb5vRw==;
+Received: from 106.red-79-157-245.dynamicip.rima-tde.net ([79.157.245.106]
+ helo=[192.168.2.252]) by fanzine.igalia.com with esmtpsa 
+ (Cipher TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim)
+ id 1lqZ88-0002m9-TN; Tue, 08 Jun 2021 12:38:44 +0200
+Message-ID: <380e8cb0f18c6f4b21c20b382668316b8962159a.camel@igalia.com>
+Subject: Re: [Mesa-dev] XDC 2021: Registration & Call for Proposals now open!
+From: Samuel Iglesias =?ISO-8859-1?Q?Gons=E1lvez?= <siglesias@igalia.com>
+To: "Szwichtenberg, Radoslaw" <radoslaw.szwichtenberg@intel.com>, 
+ "events@lists.x.org"
+ <events@lists.x.org>, "xorg-devel@lists.freedesktop.org"
+ <xorg-devel@lists.freedesktop.org>, "wayland-devel@lists.freedesktop.org"
+ <wayland-devel@lists.freedesktop.org>, "dri-devel@lists.freedesktop.org"
+ <dri-devel@lists.freedesktop.org>, "mesa-dev@lists.freedesktop.org"
+ <mesa-dev@lists.freedesktop.org>, "amd-gfx@lists.freedesktop.org"
+ <amd-gfx@lists.freedesktop.org>, "etnaviv@lists.freedesktop.org"
+ <etnaviv@lists.freedesktop.org>, "freedreno@lists.freedesktop.org"
+ <freedreno@lists.freedesktop.org>, "nouveau@lists.freedesktop.org"
+ <nouveau@lists.freedesktop.org>, "intel-gfx@lists.freedesktop.org"
+ <intel-gfx@lists.freedesktop.org>
+Date: Tue, 08 Jun 2021 12:38:34 +0200
+In-Reply-To: <790BA4EE-E3F0-40B9-BE18-3646492F1CAE@intel.com>
+References: <790BA4EE-E3F0-40B9-BE18-3646492F1CAE@intel.com>
+Content-Type: multipart/signed; micalg="pgp-sha256";
+ protocol="application/pgp-signature"; boundary="=-0Q47J+K4gENg3/THmwP5"
+User-Agent: Evolution 3.40.1 (3.40.1-1.fc34) 
 MIME-Version: 1.0
-X-Received: by 2002:a02:3ecf:: with SMTP id s198mr18630272jas.59.1623137131301; 
- Tue, 08 Jun 2021 00:25:31 -0700 (PDT)
-Date: Tue, 08 Jun 2021 00:25:31 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <000000000000224a9c05c43c10ec@google.com>
-Subject: [syzbot] BUG: unable to handle kernel NULL pointer dereference in
- fbcon_putcs
-From: syzbot <syzbot+4e611f0926f7122c8d34@syzkaller.appspotmail.com>
-To: daniel.vetter@ffwll.ch, dri-devel@lists.freedesktop.org, 
- george.kennedy@oracle.com, gregkh@linuxfoundation.org, jirislaby@kernel.org, 
- linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
- penguin-kernel@I-love.SAKURA.ne.jp, syzkaller-bugs@googlegroups.com, 
- yepeilin.cs@gmail.com
-Content-Type: text/plain; charset="UTF-8"
-X-Mailman-Approved-At: Tue, 08 Jun 2021 10:40:47 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,92 +55,118 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: "board@foundation.x.org" <board@foundation.x.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello,
 
-syzbot found the following issue on:
+--=-0Q47J+K4gENg3/THmwP5
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-HEAD commit:    f88cd3fb Merge tag 'vfio-v5.13-rc5' of git://github.com/aw..
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=126f13b0300000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=ad5040c83f09b8e4
-dashboard link: https://syzkaller.appspot.com/bug?extid=4e611f0926f7122c8d34
-compiler:       Debian clang version 11.0.1-2
+Kind reminder. Deadline is Sunday, 4 July 2021 :-)
 
-Unfortunately, I don't have any reproducer for this issue yet.
+Sam
 
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+4e611f0926f7122c8d34@syzkaller.appspotmail.com
+On Thu, 2021-05-20 at 10:01 +0000, Szwichtenberg, Radoslaw wrote:
+> Hello!
+> =C2=A0
+> Registration & Call for Proposals are now open for XDC 2021, which
+> will
+> take place on September 15-17, 2021. This year we will repeat as
+> virtual event.
+> =C2=A0
+> https://indico.freedesktop.org/event/1/
+> =C2=A0
+> As usual, the conference is free of charge and open to the general
+> public. If you plan on attending, please make sure to register as
+> early
+> as possible!
+> =C2=A0
+> In order to register as attendee, you will therefore need to register
+> via the XDC website. As XDC moved to a new Indico infrastructure, if
+> you previously registered on the XDC website, you need to create a
+> new
+> account again.
+> =C2=A0
+> https://indico.freedesktop.org/event/1/registrations/1/
+> =C2=A0
+> In addition to registration, the CfP is now open for talks, workshops
+> and demos at XDC 2021. While any serious proposal will be gratefully
+> considered, topics of interest to X.Org and freedesktop.org
+> developers
+> are encouraged. The program focus is on new development, ongoing
+> challenges and anything else that will spark discussions among
+> attendees in the hallway track.
+> =C2=A0
+> We are open to talks across all layers of the graphics stack, from
+> the
+> kernel to desktop environments / graphical applications and about how
+> to make things better for the developers who build them. Head to the
+> CfP page to learn more:=C2=A0
+> =C2=A0
+> https://indico.freedesktop.org/event/1/abstracts/
+> =C2=A0
+> The deadline for submissions is Sunday, 4 July 2021.
+> =C2=A0
+> Last year we modified our Reimbursement Policy to accept speaker
+> expenses for X.Org virtual events like XDC 2021. Check it out here:
+> =C2=A0
+> https://www.x.org/wiki/XorgFoundation/Policies/Reimbursement/
+> =C2=A0
+> If you have any questions, please send me an email to
+> radoslaw.szwichtenberg@intel.com,=C2=A0=C2=A0adding on CC the X.org board
+> (board
+> at foundation.x.org).
+> =C2=A0
+> And don't forget, you can follow us on Twitter for all the latest
+> updates and to stay connected:
+> =C2=A0
+> =C2=A0
+> https://twitter.com/XOrgDevConf
+> =C2=A0
+> Best,
+> =C2=A0
+> Radek
+> =C2=A0
+> P.S: a DNS redirection (xdc2021.x.org) is work in progress. Please
+> use
+> the mentioned links for the moment.
+> =C2=A0
+> =C2=A0
+> Rados=C5=82aw Szwichtenberg
+> -------------------------------------------------
+> Intel Technology Poland sp. z o.o.
+> ul. Slowackiego 173, 80-298 Gdansk
+> KRS 101882 - NIP 957-07-52-316
+> =C2=A0
+> _______________________________________________
+> mesa-dev mailing list
+> mesa-dev@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/mesa-dev
 
-BUG: kernel NULL pointer dereference, address: 0000000000000000
-#PF: supervisor instruction fetch in kernel mode
-#PF: error_code(0x0010) - not-present page
-PGD 2cdec067 P4D 2cdec067 PUD 2937a067 PMD 0 
-Oops: 0010 [#1] PREEMPT SMP KASAN
-CPU: 0 PID: 15551 Comm: syz-executor.1 Not tainted 5.13.0-rc4-syzkaller #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/01/2011
-RIP: 0010:0x0
-Code: Unable to access opcode bytes at RIP 0xffffffffffffffd6.
-RSP: 0018:ffffc90001bcf630 EFLAGS: 00010292
-RAX: 0000000000000000 RBX: ffff88801f456000 RCX: 000000000000004e
-RDX: ffff88801dc61224 RSI: ffff88801f456000 RDI: ffff888011879000
-RBP: 1ffff11003b8c244 R08: 000000000000001d R09: 0000000000000002
-R10: 0000000000000002 R11: ffff888037fb9c40 R12: ffff88801dc61224
-R13: dffffc0000000000 R14: 000000000000001d R15: ffff888011879000
-FS:  00007f7816197700(0000) GS:ffff8880b9a00000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: ffffffffffffffd6 CR3: 0000000022965000 CR4: 00000000001506f0
-DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
-Call Trace:
- fbcon_putcs+0x2ae/0x430 drivers/video/fbdev/core/fbcon.c:1296
- do_update_region+0x4d6/0x6a0 drivers/tty/vt/vt.c:676
- invert_screen+0xc03/0xe30 drivers/tty/vt/vt.c:800
- highlight drivers/tty/vt/selection.c:57 [inline]
- clear_selection+0x55/0x70 drivers/tty/vt/selection.c:84
- vc_do_resize+0x6d6/0x1890 drivers/tty/vt/vt.c:1240
- fbcon_set_disp+0x9f2/0xf90 drivers/video/fbdev/core/fbcon.c:1405
- con2fb_init_display drivers/video/fbdev/core/fbcon.c:808 [inline]
- set_con2fb_map+0x7f6/0xe90 drivers/video/fbdev/core/fbcon.c:879
- fbcon_set_con2fb_map_ioctl+0x1e7/0x300 drivers/video/fbdev/core/fbcon.c:3013
- do_fb_ioctl+0x39c/0x7e0 drivers/video/fbdev/core/fbmem.c:1156
- vfs_ioctl fs/ioctl.c:51 [inline]
- __do_sys_ioctl fs/ioctl.c:1069 [inline]
- __se_sys_ioctl+0xfb/0x170 fs/ioctl.c:1055
- do_syscall_64+0x3f/0xb0 arch/x86/entry/common.c:47
- entry_SYSCALL_64_after_hwframe+0x44/0xae
-RIP: 0033:0x4665d9
-Code: ff ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 40 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 bc ff ff ff f7 d8 64 89 01 48
-RSP: 002b:00007f7816197188 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
-RAX: ffffffffffffffda RBX: 000000000056bf80 RCX: 00000000004665d9
-RDX: 0000000020000000 RSI: 0000000000004610 RDI: 0000000000000003
-RBP: 00000000004bfcb9 R08: 0000000000000000 R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000246 R12: 000000000056bf80
-R13: 00007ffe47f399af R14: 00007f7816197300 R15: 0000000000022000
-Modules linked in:
-CR2: 0000000000000000
----[ end trace 1eae45a248f50072 ]---
-RIP: 0010:0x0
-Code: Unable to access opcode bytes at RIP 0xffffffffffffffd6.
-RSP: 0018:ffffc90001bcf630 EFLAGS: 00010292
-RAX: 0000000000000000 RBX: ffff88801f456000 RCX: 000000000000004e
-RDX: ffff88801dc61224 RSI: ffff88801f456000 RDI: ffff888011879000
-RBP: 1ffff11003b8c244 R08: 000000000000001d R09: 0000000000000002
-R10: 0000000000000002 R11: ffff888037fb9c40 R12: ffff88801dc61224
-R13: dffffc0000000000 R14: 000000000000001d R15: ffff888011879000
-FS:  00007f7816197700(0000) GS:ffff8880b9a00000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: ffffffffffffffd6 CR3: 0000000022965000 CR4: 00000000001506f0
-DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
 
+--=-0Q47J+K4gENg3/THmwP5
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+Content-Transfer-Encoding: 7bit
 
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
+-----BEGIN PGP SIGNATURE-----
 
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+iQIzBAABCAAdFiEEQP+ZAvaXWkfuKXiEf/S6MvF9w0MFAmC/SKoACgkQf/S6MvF9
+w0P3tRAAjmk0pVTC5YtEm9h3e3HeepckAKQV5XGEPqqtHtxmHZWzgqX/UoewWeOJ
+TgERDD6aPxl3mmzk0/ZO/+7H2VFE73UVNJm6+zo5iaE43rwbhpGi6lX6wFNDUygL
+/J9/AR/XeShuIc110rzAfubCIGFxIhY+WlybNEKGYxbf3uqodK51Zi6P2mg8dhFm
+Vi4ttVAwLV222pmUipnv8jRSuBYSG6tcML5xZwLsa4qxVbtz8x3sLCKqm+pIpwTi
+VcdCP5faZYqImM1g916D+4cOe3kmUqmJwRv5pQEqDMxZ/A0zwCls7NtpBEaAn+fT
+pH6RHvovP1pnOLPB7Z3mZIoHJPB+SgGDDmlSop3dhUbJ0eb+Vlu/Gg1VCOkOEPUt
+KyvFlcTfG8L8fzaDlS0Si0i4sQ5aY6jdlhI5TsESd9yslSDf/WNtZmld/mTZtkpq
+DHS2KfzXoL7pKb6WIQPxeNKy9tmbSnghjUQEaWClOy/n9roI54y7SpGtPiifClWe
+7/GvC09oqG2JpQBREncN7cnJ25pU4Fwx3TwbozsZVPWDIcMVqbOBADdFdmzo4Zbs
+x2VpffVEH+cDlCWmqbbW5ut/NGYwCPf+e9Maiu/5KLgjjBJDpA1qT3J/4ss50Lds
+JXamMrMdZGAT4wats6V1uC+bBPcnMoU17jqHo3Mf9HROHfFjQ0Y=
+=grJo
+-----END PGP SIGNATURE-----
+
+--=-0Q47J+K4gENg3/THmwP5--
+
