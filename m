@@ -1,47 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9198E39F078
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Jun 2021 10:11:17 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4EFBE39F07B
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Jun 2021 10:12:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 789566EB22;
-	Tue,  8 Jun 2021 08:11:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7A8EB6EB21;
+	Tue,  8 Jun 2021 08:12:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9AE1B6EB20;
- Tue,  8 Jun 2021 08:11:13 +0000 (UTC)
-IronPort-SDR: 0aMlRO8pYZSLjaGxbKWjCMFd0zDnzV54aKSe6abod6zxMPXOVYyimnoioYiSmRJHFsKiNy+4N5
- 0XIkD2V3g8Dg==
-X-IronPort-AV: E=McAfee;i="6200,9189,10008"; a="226138353"
-X-IronPort-AV: E=Sophos;i="5.83,257,1616482800"; d="scan'208";a="226138353"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Jun 2021 01:11:12 -0700
-IronPort-SDR: 9eidrRN81mYFEJP/BiHpt5eE83XvFDsClEijQHEklhaWppUYFds+oOZ7vIL0ibmeD7lodLGlYW
- Fm5RNMbkjI7Q==
-X-IronPort-AV: E=Sophos;i="5.83,257,1616482800"; d="scan'208";a="485126421"
-Received: from mrahim1x-mobl.gar.corp.intel.com (HELO [10.215.170.251])
- ([10.215.170.251])
- by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Jun 2021 01:11:10 -0700
-Subject: Re: [PATCH 1/6] drm/i915/ttm: add ttm_buddy_man
-To: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>,
- intel-gfx@lists.freedesktop.org
-References: <20210607182210.99036-1-matthew.auld@intel.com>
- <20210607182210.99036-2-matthew.auld@intel.com>
- <eaad0953f7699a906cc590023aab9d11a93df005.camel@linux.intel.com>
-From: Matthew Auld <matthew.auld@intel.com>
-Message-ID: <125c067c-b94a-c218-5ebc-a57b7d75402d@intel.com>
-Date: Tue, 8 Jun 2021 09:11:05 +0100
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8BAE36EB23
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Jun 2021 08:12:41 +0000 (UTC)
+IronPort-SDR: tfA8CgHVKNDobVuF39Y2Q/BZxS80PplribTSPtJ8pZtwfalQouACWcUMytof2WesH6yrFBxAE6
+ qPt8BLM045Sw==
+X-IronPort-AV: E=McAfee;i="6200,9189,10008"; a="290426238"
+X-IronPort-AV: E=Sophos;i="5.83,257,1616482800"; d="scan'208";a="290426238"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Jun 2021 01:12:36 -0700
+IronPort-SDR: 7jUBUthb183N5guDV/yZN3roeFk+PiDCBAaWppqN0OKTuC7pZdV2JJugKb81UIvJKMGCMhcYhO
+ LkGxXd8K8GtQ==
+X-IronPort-AV: E=Sophos;i="5.83,257,1616482800"; d="scan'208";a="634993686"
+Received: from delmer-mobl.ger.corp.intel.com (HELO [10.249.254.231])
+ ([10.249.254.231])
+ by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Jun 2021 01:12:34 -0700
+Subject: Re: [PATCH] drm/ttm: fix pipelined gutting
+To: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ dri-devel@lists.freedesktop.org
+References: <20210608075021.3058-1-christian.koenig@amd.com>
+From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>
+Message-ID: <19fb55aa-c093-5c8c-daea-bad378964af7@linux.intel.com>
+Date: Tue, 8 Jun 2021 10:12:31 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.10.1
 MIME-Version: 1.0
-In-Reply-To: <eaad0953f7699a906cc590023aab9d11a93df005.camel@linux.intel.com>
+In-Reply-To: <20210608075021.3058-1-christian.koenig@amd.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-GB
 Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,158 +52,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 08/06/2021 08:11, Thomas Hellström wrote:
-> On Mon, 2021-06-07 at 19:22 +0100, Matthew Auld wrote:
->> Add back our standalone i915_buddy allocator and integrate it into a
->> ttm_resource_manager. This will plug into our ttm backend for
->> managing
->> device local-memory in the next couple of patches.
->>
->> Signed-off-by: Matthew Auld <matthew.auld@intel.com>
->> Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
->> ---
->>
-> 
-> Since the buddy + selftests have been part of the driver before, I
-> didn't review them separately, but for the TTM interface, some minor
-> comments below. With those fixed,
-> 
-> Acked-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-> 
-> 
->> diff --git a/drivers/gpu/drm/i915/i915_ttm_buddy_manager.c
->> b/drivers/gpu/drm/i915/i915_ttm_buddy_manager.c
->> new file mode 100644
->> index 000000000000..d7bf37be1932
->> --- /dev/null
->> +++ b/drivers/gpu/drm/i915/i915_ttm_buddy_manager.c
->> @@ -0,0 +1,246 @@
->> +// SPDX-License-Identifier: MIT
->> +/*
->> + * Copyright © 2021 Intel Corporation
->> + */
->> +
->> +#include <linux/slab.h>
->> +
->> +#include <drm/ttm/ttm_bo_driver.h>
->> +#include <drm/ttm/ttm_placement.h>
->> +
->> +#include "i915_ttm_buddy_manager.h"
->> +
->> +#include "i915_buddy.h"
->> +#include "i915_gem.h"
->> +
->> +struct i915_ttm_buddy_manager {
->> +       struct ttm_resource_manager manager;
->> +       struct i915_buddy_mm mm;
->> +       struct list_head reserved;
->> +       struct mutex lock;
->> +};
->> +
->> +static inline struct i915_ttm_buddy_manager *
-> 
-> "inline" shouldn't be needed here.
-> 
->> +to_buddy_manager(struct ttm_resource_manager *man)
->> +{
->> +       return container_of(man, struct i915_ttm_buddy_manager,
->> manager);
->> +}
->> +
->> +static int i915_ttm_buddy_man_alloc(struct ttm_resource_manager
->> *man,
->> +                                   struct ttm_buffer_object *bo,
->> +                                   const struct ttm_place *place,
->> +                                   struct ttm_resource **res)
->> +{
->> +       struct i915_ttm_buddy_manager *bman = to_buddy_manager(man);
->> +       struct i915_ttm_buddy_resource *bman_res;
->> +       struct i915_buddy_mm *mm = &bman->mm;
->> +       unsigned long n_pages;
->> +       unsigned int min_order;
->> +       u64 size;
->> +       int err;
->> +
->> +       GEM_BUG_ON(place->fpfn || place->lpfn);
->> +       GEM_BUG_ON(bo->page_alignment < mm->chunk_size);
->> +
->> +       bman_res = kzalloc(sizeof(*bman_res), GFP_KERNEL);
->> +       if (!bman_res)
->> +               return -ENOMEM;
->> +
->> +       ttm_resource_init(bo, place, &bman_res->base);
->> +       INIT_LIST_HEAD(&bman_res->blocks);
->> +       bman_res->mm = mm;
->> +
->> +       GEM_BUG_ON(!bman_res->base.num_pages);
->> +       size = bman_res->base.num_pages << PAGE_SHIFT;
->> +
->> +       min_order = ilog2(bo->page_alignment) - ilog2(mm-
->>> chunk_size);
->> +       if (place->flags & TTM_PL_FLAG_CONTIGUOUS) {
->> +               size = roundup_pow_of_two(size);
->> +               min_order = ilog2(size) - ilog2(mm->chunk_size);
->> +       }
->> +
->> +       if (size > mm->size) {
->> +               err = -E2BIG;
->> +               goto err_free_res;
->> +       }
->> +
->> +       n_pages = size >> ilog2(mm->chunk_size);
->> +
->> +       do {
->> +               struct i915_buddy_block *block;
->> +               unsigned int order;
->> +
->> +               order = fls(n_pages) - 1;
->> +               GEM_BUG_ON(order > mm->max_order);
->> +               GEM_BUG_ON(order < min_order);
->> +
->> +               do {
->> +                       mutex_lock(&bman->lock);
->> +                       block = i915_buddy_alloc(mm, order);
->> +                       mutex_unlock(&bman->lock);
->> +                       if (!IS_ERR(block))
->> +                               break;
->> +
->> +                       if (order-- == min_order) {
->> +                               err = -ENXIO;
-> 
-> IIRC, TTM relies on -ENOSPC to retry with evictions.
 
-Ah, right. We convert that back to -ENXIO in the upper levels somewhere?
+On 6/8/21 9:50 AM, Christian König wrote:
+> We need to make sure to allocate the sys_mem resource before the point
+> of no return.
+>
+> Signed-off-by: Christian König <christian.koenig@amd.com>
+> ---
+>   drivers/gpu/drm/ttm/ttm_bo_util.c | 22 ++++++++++++++++------
+>   1 file changed, 16 insertions(+), 6 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/ttm/ttm_bo_util.c b/drivers/gpu/drm/ttm/ttm_bo_util.c
+> index 9be6a10a5873..eccf2ad8f335 100644
+> --- a/drivers/gpu/drm/ttm/ttm_bo_util.c
+> +++ b/drivers/gpu/drm/ttm/ttm_bo_util.c
+> @@ -582,6 +582,7 @@ int ttm_bo_pipeline_gutting(struct ttm_buffer_object *bo)
+>   {
+>   	static const struct ttm_place sys_mem = { .mem_type = TTM_PL_SYSTEM };
+>   	struct ttm_buffer_object *ghost;
+> +	struct ttm_resource *sys_res;
+>   	struct ttm_tt *ttm;
+>   	int ret;
+>   
+> @@ -602,6 +603,9 @@ int ttm_bo_pipeline_gutting(struct ttm_buffer_object *bo)
+>   		return ttm_resource_alloc(bo, &sys_mem, &bo->resource);
+>   	}
+>   
+> +
+> +	ret = ttm_resource_alloc(bo, &sys_mem, &sys_res);
 
-> 
->> +                               goto err_free_blocks;
->> +                       }
->> +               } while (1);
->> +
->> +               n_pages -= BIT(order);
->> +
->> +               list_add_tail(&block->link, &bman_res->blocks);
->> +
->> +               if (!n_pages)
->> +                       break;
->> +       } while (1);
->> +
->> +       *res = &bman_res->base;
->> +       return 0;
->> +
->> +err_free_blocks:
->> +       mutex_lock(&bman->lock);
->> +       i915_buddy_free_list(mm, &bman_res->blocks);
->> +       mutex_unlock(&bman->lock);
->> +err_free_res:
->> +       kfree(bman_res);
->> +       return err;
->> +}
->> +
-> 
-> /Thomas
-> 
-> 
+This needs to be moved higher up to also cover the idle optimization path.
+Also the return value doesn't seem to be checked?
+
+/Thomas
+
+
