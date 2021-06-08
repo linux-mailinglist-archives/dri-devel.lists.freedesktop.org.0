@@ -2,41 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF3AA39F13F
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Jun 2021 10:45:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C3F239F151
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Jun 2021 10:46:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CA0046EB3B;
-	Tue,  8 Jun 2021 08:45:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 157126EB4A;
+	Tue,  8 Jun 2021 08:46:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2C9766EB48;
- Tue,  8 Jun 2021 08:45:19 +0000 (UTC)
-IronPort-SDR: V14RiMqfVVP7ABw2fbYSY/8bS9ffaCM9NDeHXHQkxVeyOLg6UPS9P8BtmZp9Uq9FOQN/ALhehU
- Nwf8ghJDBdJA==
-X-IronPort-AV: E=McAfee;i="6200,9189,10008"; a="202943849"
-X-IronPort-AV: E=Sophos;i="5.83,257,1616482800"; d="scan'208";a="202943849"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Jun 2021 01:45:18 -0700
-IronPort-SDR: vNj5El4Mvna+gapAihrK01WM5/ADopvvf4yu7LmpXEjlWUipD6KUudxenOVKTtd0ga7bCksQsW
- ACd5+dLgFldA==
-X-IronPort-AV: E=Sophos;i="5.83,257,1616482800"; d="scan'208";a="440382112"
-Received: from mrahim1x-mobl.gar.corp.intel.com (HELO mwauld-desk1.intel.com)
- ([10.215.170.251])
- by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Jun 2021 01:45:14 -0700
-From: Matthew Auld <matthew.auld@intel.com>
-To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH v2 6/6] drm/i915/ttm: restore min_page_size behaviour
-Date: Tue,  8 Jun 2021 09:44:28 +0100
-Message-Id: <20210608084428.142676-7-matthew.auld@intel.com>
-X-Mailer: git-send-email 2.26.3
-In-Reply-To: <20210608084428.142676-1-matthew.auld@intel.com>
-References: <20210608084428.142676-1-matthew.auld@intel.com>
+Received: from mail-oi1-x22e.google.com (mail-oi1-x22e.google.com
+ [IPv6:2607:f8b0:4864:20::22e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C172C6EB48
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Jun 2021 08:46:26 +0000 (UTC)
+Received: by mail-oi1-x22e.google.com with SMTP id v142so20424061oie.9
+ for <dri-devel@lists.freedesktop.org>; Tue, 08 Jun 2021 01:46:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=NW8oEUeSrgy2VYJZHRBKOpY8SQw4voXk0GCMDPHBGEE=;
+ b=MNmrZO1SJctC01ZHDhCaZxROPmPQVOVuH9cqgZpC3SLTccqx/QnNPiePXj4jCHi7yC
+ V9hA8a1KCpWK6QhXVz0PUiXYuXiQWSXIN4Iz8tMNDF4jSYM9VagwVuYhYbIWaouE/gKL
+ lnhYlt9egXgfk1eXUOkAJyqbbkA5EX9TT9nxU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=NW8oEUeSrgy2VYJZHRBKOpY8SQw4voXk0GCMDPHBGEE=;
+ b=sZ0GvtZFpw1n9FjmyEV4jJbFYhr7xrSySgDOTWwZgm2J63QswU3z59IVQMi4omq+zg
+ +mUslVwi/XRGNz+Aer1blq2SsFa1icjuFJjzoe/3aV2cg9TaGKwn7Msechhpi7dcPAja
+ 9FnGU7+FxdWRcl71bqBFJQsBgHYxI6w1bXQM5ErpfkPth3hyaq/ecxv1S3CQjOv+RtPt
+ h8AkwguLhoyFGz09Fou50XGTQjXXnOz7brr1wdZEso0573NVSLPwishT61pRyP+HahUS
+ ehAPd+MkvNEI+AqLTXyZ0daeoIZFMs2hTqBkfz/mtnR9bSQNtWO6HAGgECVwnjfCh3G8
+ Xp2w==
+X-Gm-Message-State: AOAM5300AntdTajuph1Q3xEkVvUHUmU3CGB+f/6ObOO5GC4vPAsUMU1T
+ WA9/nk1TFlDJbIG4aGechpPi2vpm42W0wUMKaJDn02OwBxg=
+X-Google-Smtp-Source: ABdhPJzh0fGlJ33AiwcJaUGCp5HO8XQRpDpxCz8UPRjhRZrz8pArTNy6U/mD5viwiUcQv3sHAzsi5Gg6/4/x89ljrxk=
+X-Received: by 2002:a05:6808:1142:: with SMTP id
+ u2mr1948304oiu.101.1623141985998; 
+ Tue, 08 Jun 2021 01:46:25 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20210506191451.77768-1-matthew.brost@intel.com>
+ <20210506191451.77768-37-matthew.brost@intel.com>
+ <375b4de4-168f-9c4c-dbb8-f42fd6303628@linux.intel.com>
+ <20210525172121.GE14724@sdutt-i7>
+ <0f26f76f-e066-fb23-a7b2-784bb8ee771d@linux.intel.com>
+ <20210526181053.GA3435@sdutt-i7>
+ <53613c13-1cab-b9bd-3922-0389600773ee@linux.intel.com>
+ <20210527143514.GA24720@sdutt-i7>
+ <828fe399-5319-78a9-c6e3-c0c027e08e9c@linux.intel.com>
+ <20210607173101.GA11968@sdutt-i7>
+ <2706c890-5145-4edb-acd1-b9862caba8cf@linux.intel.com>
+In-Reply-To: <2706c890-5145-4edb-acd1-b9862caba8cf@linux.intel.com>
+From: Daniel Vetter <daniel@ffwll.ch>
+Date: Tue, 8 Jun 2021 10:46:15 +0200
+Message-ID: <CAKMK7uENywXraNAfrU_3iP16zse+S5M7EMOrx7D0z-+AjSqaqA@mail.gmail.com>
+Subject: Re: [Intel-gfx] [RFC PATCH 36/97] drm/i915/guc: Add non blocking CTB
+ send function
+To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,83 +70,208 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- dri-devel@lists.freedesktop.org
+Cc: Matthew Brost <matthew.brost@intel.com>,
+ Jason Ekstrand <jason.ekstrand@intel.com>,
+ intel-gfx <intel-gfx@lists.freedesktop.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Daniel Vetter <daniel.vetter@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-We now have bo->page_alignment which perfectly describes what we need if
-we have min page size restrictions for lmem. We can also drop the flag
-here, since this is the default behaviour for all objects.
+On Tue, Jun 8, 2021 at 10:39 AM Tvrtko Ursulin
+<tvrtko.ursulin@linux.intel.com> wrote:
+>
+>
+> On 07/06/2021 18:31, Matthew Brost wrote:
+> > On Thu, May 27, 2021 at 04:11:50PM +0100, Tvrtko Ursulin wrote:
+> >>
+> >> On 27/05/2021 15:35, Matthew Brost wrote:
+> >>> On Thu, May 27, 2021 at 11:02:24AM +0100, Tvrtko Ursulin wrote:
+> >>>>
+> >>>> On 26/05/2021 19:10, Matthew Brost wrote:
+> >>>>
+> >>>> [snip]
+> >>>>
+> >>>>>>>>> +static int ct_send_nb(struct intel_guc_ct *ct,
+> >>>>>>>>> +                   const u32 *action,
+> >>>>>>>>> +                   u32 len,
+> >>>>>>>>> +                   u32 flags)
+> >>>>>>>>> +{
+> >>>>>>>>> +     struct intel_guc_ct_buffer *ctb = &ct->ctbs.send;
+> >>>>>>>>> +     unsigned long spin_flags;
+> >>>>>>>>> +     u32 fence;
+> >>>>>>>>> +     int ret;
+> >>>>>>>>> +
+> >>>>>>>>> +     spin_lock_irqsave(&ctb->lock, spin_flags);
+> >>>>>>>>> +
+> >>>>>>>>> +     ret = ctb_has_room(ctb, len + 1);
+> >>>>>>>>> +     if (unlikely(ret))
+> >>>>>>>>> +             goto out;
+> >>>>>>>>> +
+> >>>>>>>>> +     fence = ct_get_next_fence(ct);
+> >>>>>>>>> +     ret = ct_write(ct, action, len, fence, flags);
+> >>>>>>>>> +     if (unlikely(ret))
+> >>>>>>>>> +             goto out;
+> >>>>>>>>> +
+> >>>>>>>>> +     intel_guc_notify(ct_to_guc(ct));
+> >>>>>>>>> +
+> >>>>>>>>> +out:
+> >>>>>>>>> +     spin_unlock_irqrestore(&ctb->lock, spin_flags);
+> >>>>>>>>> +
+> >>>>>>>>> +     return ret;
+> >>>>>>>>> +}
+> >>>>>>>>> +
+> >>>>>>>>>       static int ct_send(struct intel_guc_ct *ct,
+> >>>>>>>>>                          const u32 *action,
+> >>>>>>>>>                          u32 len,
+> >>>>>>>>> @@ -473,6 +541,7 @@ static int ct_send(struct intel_guc_ct *ct,
+> >>>>>>>>>                          u32 response_buf_size,
+> >>>>>>>>>                          u32 *status)
+> >>>>>>>>>       {
+> >>>>>>>>> +     struct intel_guc_ct_buffer *ctb = &ct->ctbs.send;
+> >>>>>>>>>               struct ct_request request;
+> >>>>>>>>>               unsigned long flags;
+> >>>>>>>>>               u32 fence;
+> >>>>>>>>> @@ -482,8 +551,20 @@ static int ct_send(struct intel_guc_ct *ct,
+> >>>>>>>>>               GEM_BUG_ON(!len);
+> >>>>>>>>>               GEM_BUG_ON(len & ~GUC_CT_MSG_LEN_MASK);
+> >>>>>>>>>               GEM_BUG_ON(!response_buf && response_buf_size);
+> >>>>>>>>> +     might_sleep();
+> >>>>>>>>
+> >>>>>>>> Sleep is just cond_resched below or there is more?
+> >>>>>>>>
+> >>>>>>>
+> >>>>>>> Yes, the cond_resched.
+> >>>>>>>
+> >>>>>>>>> +     /*
+> >>>>>>>>> +      * We use a lazy spin wait loop here as we believe that if the CT
+> >>>>>>>>> +      * buffers are sized correctly the flow control condition should be
+> >>>>>>>>> +      * rare.
+> >>>>>>>>> +      */
+> >>>>>>>>> +retry:
+> >>>>>>>>>               spin_lock_irqsave(&ct->ctbs.send.lock, flags);
+> >>>>>>>>> +     if (unlikely(!ctb_has_room(ctb, len + 1))) {
+> >>>>>>>>> +             spin_unlock_irqrestore(&ct->ctbs.send.lock, flags);
+> >>>>>>>>> +             cond_resched();
+> >>>>>>>>> +             goto retry;
+> >>>>>>>>> +     }
+> >>>>>>>>
+> >>>>>>>> If this patch is about adding a non-blocking send function, and below we can
+> >>>>>>>> see that it creates a fork:
+> >>>>>>>>
+> >>>>>>>> intel_guc_ct_send:
+> >>>>>>>> ...
+> >>>>>>>>        if (flags & INTEL_GUC_SEND_NB)
+> >>>>>>>>                return ct_send_nb(ct, action, len, flags);
+> >>>>>>>>
+> >>>>>>>>        ret = ct_send(ct, action, len, response_buf, response_buf_size, &status);
+> >>>>>>>>
+> >>>>>>>> Then why is there a change in ct_send here, which is not the new
+> >>>>>>>> non-blocking path?
+> >>>>>>>>
+> >>>>>>>
+> >>>>>>> There is not a change to ct_send(), just to intel_guc_ct_send.
+> >>>>>>
+> >>>>>> I was doing by the diff which says:
+> >>>>>>
+> >>>>>>     static int ct_send(struct intel_guc_ct *ct,
+> >>>>>>                     const u32 *action,
+> >>>>>>                     u32 len,
+> >>>>>> @@ -473,6 +541,7 @@ static int ct_send(struct intel_guc_ct *ct,
+> >>>>>>                     u32 response_buf_size,
+> >>>>>>                     u32 *status)
+> >>>>>>     {
+> >>>>>> +        struct intel_guc_ct_buffer *ctb = &ct->ctbs.send;
+> >>>>>>          struct ct_request request;
+> >>>>>>          unsigned long flags;
+> >>>>>>          u32 fence;
+> >>>>>> @@ -482,8 +551,20 @@ static int ct_send(struct intel_guc_ct *ct,
+> >>>>>>          GEM_BUG_ON(!len);
+> >>>>>>          GEM_BUG_ON(len & ~GUC_CT_MSG_LEN_MASK);
+> >>>>>>          GEM_BUG_ON(!response_buf && response_buf_size);
+> >>>>>> +        might_sleep();
+> >>>>>> +        /*
+> >>>>>> +         * We use a lazy spin wait loop here as we believe that if the CT
+> >>>>>> +         * buffers are sized correctly the flow control condition should be
+> >>>>>> +         * rare.
+> >>>>>> +         */
+> >>>>>> +retry:
+> >>>>>>          spin_lock_irqsave(&ct->ctbs.send.lock, flags);
+> >>>>>> +        if (unlikely(!ctb_has_room(ctb, len + 1))) {
+> >>>>>> +                spin_unlock_irqrestore(&ct->ctbs.send.lock, flags);
+> >>>>>> +                cond_resched();
+> >>>>>> +                goto retry;
+> >>>>>> +        }
+> >>>>>>
+> >>>>>> So it looks like a change to ct_send to me. Is that wrong?
+> >>>>
+> >>>> What about this part - is the patch changing the blocking ct_send or not,
+> >>>> and if it is why?
+> >>>>
+> >>>
+> >>> Yes, ct_send() changes. Sorry for the confusion.
+> >>>
+> >>> This function needs to be updated to account for the H2G space and
+> >>> backoff if no space is available.
+> >>
+> >> Since this one is the sleeping path, it probably can and needs to be smarter
+> >> than having a cond_resched busy loop added. Like sleep and get woken up when
+> >> there is space. Otherwise it can degenerate to busy looping via contention
+> >> with the non-blocking path.
+> >>
+> >
+> > That screams over enginerring a simple problem to me. If the CT channel
+> > is full we are really in trouble anyways - i.e. the performance is going
+> > to terrible as we overwhelmed the GuC with traffic. That being said,
+>
+> Performance of what would be terrible? Something relating to submitting
+> new jobs to the GPU I guess. Or something SRIOV related as you hint below.
+>
+> But there is no real reason why CPU cycles/power should suffer if GuC is
+> busy.
+>
+> Okay, if it can't happen in real world then it's possibly passable as a
+> design of a communication interface. But to me it leaves a bad taste and
+> a doubt that there is this other aspect of the real world. And that is
+> when the unexpected happens. Even the most trivial things like a bug in
+> GuC firmware causes the driver to busy spin in there. So not much
+> happening on the machine but CPU cores pinned burning cycles in this
+> code. It's just lazy and not robust design. "Bug #nnnnn - High CPU usage
+> and GUI blocked - Solution: Upgrade GuC firmware and _reboot_ the
+> machine". Oh well..
+>
+> At least I think the commit message should spell out clearly that a busy
+> looping path is being added to the sleeping send as a downside of
+> implementation choices. Still, for the record, I object to the design.
+>
+> > IGTs can do this but that really isn't a real world use case. For the
+> > real world, this buffer is large enough that it won't ever be full hence
+> > the comment + lazy spin loop.
+> >
+> > Next, it isn't like we get an interrupt or something when space
+> > becomes available so how would we wake this thread? Could we come up
+> > with a convoluted scheme where we insert ops that generated an interrupt
+> > at regular intervals, probably? Would it be super complicated, totally
+> > unnecessary, and gain use nothing - absolutely.
+> >
+> > Lastly, blocking CTBs really shouldn't ever be used. Certainly the
+> > submission code doesn't use these. I think SRIOV might, but those can
+> > probably be reworked too to use non-blocking. At some point we might
+> > want to scrub the driver and just delete the blocking path.
 
-v2(Thomas):
-    - bo->page_alignment is in page units
+I'd do an s/cond_resched()/msleep(1)/ and comment explaining why we
+just don't care about this. That checks of the cpu wasting in this
+case (GuC is overloaded, it wont come back anytime soon anyway) and
+explains why we really don't want to make this any more clever or
+complex code (because comment can explain why we wont hit this in
+actual real world usage except when something else is on fire already
+anyway).
 
-Signed-off-by: Matthew Auld <matthew.auld@intel.com>
-Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
----
- drivers/gpu/drm/i915/gem/i915_gem_ttm.c      | 4 ++--
- drivers/gpu/drm/i915/intel_memory_region.h   | 3 +--
- drivers/gpu/drm/i915/intel_region_ttm.c      | 2 +-
- drivers/gpu/drm/i915/selftests/mock_region.c | 2 +-
- 4 files changed, 5 insertions(+), 6 deletions(-)
-
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-index 5bf1d1945dd6..3df73c79aa19 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-@@ -680,9 +680,9 @@ int __i915_gem_ttm_object_init(struct intel_memory_region *mem,
- 	 */
- 	obj->base.vma_node.driver_private = i915_gem_to_ttm(obj);
- 	ret = ttm_bo_init(&i915->bdev, i915_gem_to_ttm(obj), size,
--			  bo_type, &i915_sys_placement, 1,
-+			  bo_type, &i915_sys_placement,
-+			  mem->min_page_size >> PAGE_SHIFT,
- 			  true, NULL, NULL, i915_ttm_bo_destroy);
--
- 	if (!ret)
- 		obj->ttm.created = true;
- 
-diff --git a/drivers/gpu/drm/i915/intel_memory_region.h b/drivers/gpu/drm/i915/intel_memory_region.h
-index b04fb22726d9..2be8433d373a 100644
---- a/drivers/gpu/drm/i915/intel_memory_region.h
-+++ b/drivers/gpu/drm/i915/intel_memory_region.h
-@@ -40,8 +40,7 @@ enum intel_region_id {
- #define REGION_STOLEN_SMEM   BIT(INTEL_REGION_STOLEN_SMEM)
- #define REGION_STOLEN_LMEM   BIT(INTEL_REGION_STOLEN_LMEM)
- 
--#define I915_ALLOC_MIN_PAGE_SIZE  BIT(0)
--#define I915_ALLOC_CONTIGUOUS     BIT(1)
-+#define I915_ALLOC_CONTIGUOUS     BIT(0)
- 
- #define for_each_memory_region(mr, i915, id) \
- 	for (id = 0; id < ARRAY_SIZE((i915)->mm.regions); id++) \
-diff --git a/drivers/gpu/drm/i915/intel_region_ttm.c b/drivers/gpu/drm/i915/intel_region_ttm.c
-index 23a1336d2335..ad43ca90a46b 100644
---- a/drivers/gpu/drm/i915/intel_region_ttm.c
-+++ b/drivers/gpu/drm/i915/intel_region_ttm.c
-@@ -153,7 +153,7 @@ intel_region_ttm_node_alloc(struct intel_memory_region *mem,
- 	int ret;
- 
- 	mock_bo.base.size = size;
--	mock_bo.page_alignment = 1;
-+	mock_bo.page_alignment = mem->min_page_size >> PAGE_SHIFT;
- 	place.flags = flags;
- 
- 	ret = man->func->alloc(man, &mock_bo, &place, &res);
-diff --git a/drivers/gpu/drm/i915/selftests/mock_region.c b/drivers/gpu/drm/i915/selftests/mock_region.c
-index d3e4e6573cb9..6ce0f9dacad7 100644
---- a/drivers/gpu/drm/i915/selftests/mock_region.c
-+++ b/drivers/gpu/drm/i915/selftests/mock_region.c
-@@ -28,7 +28,7 @@ static int mock_region_get_pages(struct drm_i915_gem_object *obj)
- 	struct sg_table *pages;
- 	int err;
- 
--	flags = I915_ALLOC_MIN_PAGE_SIZE;
-+	flags = 0;
- 	if (obj->flags & I915_BO_ALLOC_CONTIGUOUS)
- 		flags |= TTM_PL_FLAG_CONTIGUOUS;
- 
+If you want to go absolutely overkill and it's not too much work, make
+the msleep interruptible or check for signals, and bail out. That way
+the process can be made unstuck with ^C at least.
+-Daniel
 -- 
-2.26.3
-
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
