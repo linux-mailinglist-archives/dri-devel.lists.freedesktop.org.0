@@ -2,150 +2,124 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB09839EAAE
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Jun 2021 02:29:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 893D739EB15
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Jun 2021 02:56:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 01B6A6EA56;
-	Tue,  8 Jun 2021 00:29:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 28C266EA77;
+	Tue,  8 Jun 2021 00:55:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from userp2120.oracle.com (userp2120.oracle.com [156.151.31.85])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 28F856EA56;
- Tue,  8 Jun 2021 00:29:13 +0000 (UTC)
-Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
- by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 1580BxQl154554;
- Tue, 8 Jun 2021 00:29:08 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=from : to : cc :
- subject : date : message-id : references : in-reply-to : content-type :
- content-id : content-transfer-encoding : mime-version; s=corp-2020-01-29;
- bh=UVlFCOe7iOaumc67zbX6/B6hwJ+V/FV3WjFQPjzQ6P0=;
- b=n6dFSh6p5ymu2urtB8oZYIQxuSlJaMhVVOC+5lCFHzBs4jNsbCGYm8/W2yZT+e69lmoV
- hkPuuClCHbKWjrMujteuQYCOuMfpWabU9JmW1k5cUkvluHyLEmmeeuPRLDlqNyXLYkM+
- dLwS1mrEs6Cv23EuZlXpHb+oHLqssf8YpJT1FDNBA+/MedjGwMNfIiNHVxseQDUHwMXe
- +YY0fzacPqOW/BmqobCqbRFqwIoM16+clpjgf+NRI2Enr93H8PGkNFRJVEtAMcY9Nwfq
- cq1iOnoQqeGgkSB0SOE1pjTw95oBrrSoyVEXB1lDSdVYyu/AnPaIvb1YC2nW/hN+1im7 fA== 
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
- by userp2120.oracle.com with ESMTP id 3914qujw9v-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 08 Jun 2021 00:29:07 +0000
-Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
- by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 1580ARjt165302;
- Tue, 8 Jun 2021 00:29:07 GMT
-Received: from nam02-bn1-obe.outbound.protection.outlook.com
- (mail-bn1nam07lp2044.outbound.protection.outlook.com [104.47.51.44])
- by aserp3020.oracle.com with ESMTP id 391ujw9j46-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 08 Jun 2021 00:29:06 +0000
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam12on2084.outbound.protection.outlook.com [40.107.237.84])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 71D876EA77;
+ Tue,  8 Jun 2021 00:55:56 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=daBj3mwIy6Wm1yce38Q+3FLqZn5D6wam49NooYm/9SUF+DR3UV1uAKUYJpAJIaprUkhXlppnTn6KI+9vnHvRnJnTsqyLUJ5yRNYcDKmsPSJe3Km3jkPrqejJiynomgK5E3uTrcpXY+nkeemTZpens12FAM8p6tlmqnlErEFUMdIvlIbzVAF3wlfveV5KV2X44x/Fd5Gv7h/yG+NgJ736VUMSkTLl98UHXI7N1qr/BhluMVz/+xNTjF4dSstOIx4LLgNmQ20G9Iwm2yAn1lH7rSZ+Jt5X8X+L282YKMcZajHx+wB09iCVJ1CdLkiT04UjLfGtw7Tiv1MU3nDjQ/i5mw==
+ b=k0e5JNjr+yT3bp8mdP4lr1L8hM+W04NdAQ9icIuMj+mPJ5UCM8E/KaMauSJEsLWkLYaTR2BiBY+S8XsMs3T5UL7JFvLaHcgphoBJhcK5Nhge1YT8S0d1qoUiINIBgCnOBwhCmlCSXFt/8VOL+qAtXbLSPJYkNaJuU042/cOaMggTGrTu3Jaml+ukY6ChiQ1Au+vGfwNvhsfQCRG+UiamjnRx/cr48E9xiO4wkq7kKQ2588A4wljAeO5UB+pIUw2ToXpUqm/i/rlXVFO8P7kIM46rwT0F6723/GHqRxvdh2aB7RxTK9evJm/l6ioxgXp2nV+mM8JzWNVQhywH9xcJzw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=UVlFCOe7iOaumc67zbX6/B6hwJ+V/FV3WjFQPjzQ6P0=;
- b=VpEmuQBwwXfBFGznqBenHwKe8hPkxmZ5gCBPFwlLhuqI00NH2vIiAQXvwdZ1iRDdh2YpbYKCDhpL+iQCPjsoFRbY4tNnBwmfVSd5IozVbF5dLJFS0nZG+vdJSsblC2BfnW7jXm3G6JjSxyniBzH2wHbU2d9Hssaws4MvTfUXSolCiBhh+opMvTI75fjHO7v/s8RFcO60rnJxen08MpJEpN9ip7+aPOf4VAkGpr7TnG7KuIiLYZPaasLV9v+SDvUWlyHg3+G+cBtQRcAkh2usW1XYKTIkIQA8cShiIzuqdWtXmDCRQ30NB06DXneX+vq/AA16bc0wHRtyo4KYs7W74Q==
+ bh=duNN67L46F832Jd5Aj4sQJ3gtlUf4M0pjEpT7Rugl6k=;
+ b=SRkxFLrAzktirQrj0lD5MZViA283wmtRhXbIJyb5aFvkMHiRIO338K48EYfiO+vtO3zU77Uf3cDFtSakq1jNtbRN/cgSAY6etRmk/ZoySFbheVRduyH/rnqkGv9WNnm63BJuqGcFiwCAA0RubsUzhrYvInPkyzdY5msWG5Tx6q7Emv6K5pHJQgTMIBroO3vO7rAPiJDJvkbuKeSSLUUvHrzgR4TqyUuwpZRhzKWsOVwtWzFgVqa2GoHCAGufuDYV84E0hFLGGH3vXat03SzdBkhEX4tXZNb1ZXjaP/34nNuT5gqdt0YqqKv+um3gaMNXqEHbPqdzzx/4CQQ69w5L0A==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=UVlFCOe7iOaumc67zbX6/B6hwJ+V/FV3WjFQPjzQ6P0=;
- b=YVU9o6NqIN+xdNR6jHmggDkhpAJ0azo5Cr0SBfyvBSidrqCyUgWg7MyGpKDuwMHjGf6+q+0R9szXKHDzKvfKNXc5JVeUMviWe6uod8DlaLjHuL4kgYOmxv7Aqgyl31r3xsh83H2CE01dph0CbOoVyWTAEuZCSxc1iltRZw8cya0=
-Received: from DM6PR10MB4380.namprd10.prod.outlook.com (2603:10b6:5:223::19)
- by DM8PR10MB5415.namprd10.prod.outlook.com (2603:10b6:8:35::23) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4195.23; Tue, 8 Jun
- 2021 00:29:04 +0000
-Received: from DM6PR10MB4380.namprd10.prod.outlook.com
- ([fe80::b8b4:5900:668b:c9c2]) by DM6PR10MB4380.namprd10.prod.outlook.com
- ([fe80::b8b4:5900:668b:c9c2%5]) with mapi id 15.20.4195.030; Tue, 8 Jun 2021
- 00:29:04 +0000
-From: Liam Howlett <liam.howlett@oracle.com>
-To: Alex Sierra <alex.sierra@amd.com>
-Subject: Re: [RFC PATCH v2 1/8] ext4/xfs: add page refcount helper
-Thread-Topic: [RFC PATCH v2 1/8] ext4/xfs: add page refcount helper
-Thread-Index: AQHXW93EOm+ULG7yHkuFMoDbrBIUu6sJQs8A
-Date: Tue, 8 Jun 2021 00:29:04 +0000
-Message-ID: <20210608002858.gegg6sl2z2dwwstb@revolver>
-References: <20210607204226.7743-1-alex.sierra@amd.com>
- <20210607204226.7743-2-alex.sierra@amd.com>
-In-Reply-To: <20210607204226.7743-2-alex.sierra@amd.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: amd.com; dkim=none (message not signed)
- header.d=none;amd.com; dmarc=none action=none header.from=oracle.com;
-x-originating-ip: [23.233.25.87]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 8825acba-9aa3-4236-05c7-08d92a146bd8
-x-ms-traffictypediagnostic: DM8PR10MB5415:
-x-microsoft-antispam-prvs: <DM8PR10MB5415D9BDAFC758A303103C07FD379@DM8PR10MB5415.namprd10.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:7219;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: PgeSNXxEJIbVHb0+BjJdQKi7DHUBjcB6rX6FejbqLrg7NvzI4aaYQ4SZyCIT3ihNaqIUR/Qp9OW6shU+rdsDeQQ1vPGTX+JoczcMz8J6q/ZnzfA5jO2qp9zuxOM5oGuV825p8jJ/6O3WvILg9v+MSt88pLQJAxJ6dIieZywVkcBykQkylBUW3pCnqWYMs5MwX/HsT6RYz+5LLacCMzxXWYiJFDQ+hPZmPEKgMuTPZulkfaxRdw8WZaRv3Q3YNpVQqxbDt5B6Lc8i7gIkSDxyZI897cJ+xYtARy5/NcSKmtMjDPQ77uxf41imyRoeTRmWvHPpQ/QT7wWrTY9PmfdvoFx2IsDvdJtn6RY3KGVDebr7WfeOSedVpRdicW5GWNgmLMg6JT9CSmsDiIVzIhMTlcmps6kZNI/SWiOVuEs8h4CsAbnlkdebHDXwmn/HFoUucKvdK1dNS3P5GoiKJhzOP7VNLH1pCmR2jOfnOPomZAXRbgk2WHJdJUwv3RsPeCOxAAwVIF8vZIw9IBQWSioNDKmaC2imFrJtu8xqD3/TL98fUF+6RWOrRbDJRdx2EqbJbpcZ75nhPB9MU/CIWbBjIpb+nYw8Q5eyiKxoCyJwh8M=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM6PR10MB4380.namprd10.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(7916004)(366004)(136003)(346002)(376002)(396003)(39860400002)(7416002)(478600001)(71200400001)(122000001)(6486002)(2906002)(9686003)(6506007)(38100700002)(6916009)(83380400001)(54906003)(4326008)(1076003)(76116006)(91956017)(186003)(33716001)(86362001)(66946007)(66446008)(44832011)(66476007)(64756008)(66556008)(5660300002)(8676002)(8936002)(6512007)(26005)(316002);
- DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?Nc3DMo+GTejzIHcAhCMt+Sqan2RDJuhStPjI7Cf1T8vj6lAn2LGIngSFhqI7?=
- =?us-ascii?Q?uIE3e6QPi+CKhH9ccYgKUdyl7xObhozVG/OfUrD1/Duw9P1pUiGxt0rBjFf7?=
- =?us-ascii?Q?CBRtMjLN+6wPsLLeXKO+x4XtjirquqbrJL/jnRUzHr+l94dngNveXYiEiSRf?=
- =?us-ascii?Q?5NHlz7wlCgb4BbWIEwG42tjdQnRcgW+Te2E3p28GDQn1/NKMDkZV85Mz25Mc?=
- =?us-ascii?Q?CblfcAqQqkoalU4mrIrP1T/Wqk9XGiodjMvCkHU/eXQ7UqMxWnuR9xjKQT+w?=
- =?us-ascii?Q?/Qt98tdLUiX3ABzEYnCUksjwLV85WOGbWTPVJbvBmO7UQ7ByyNZuJAyastvc?=
- =?us-ascii?Q?96gnkxgDD7X8gMb6h6+xi/NoQlQZZn9yuYYF0aq1ZsKHvK5kJgsR59+TuVqn?=
- =?us-ascii?Q?+/hEba1kaHDsJBDwV1VGU//IbM3NjUaHZuf9/ZNcqirTM97ESd6Rt7Ao7owz?=
- =?us-ascii?Q?HlpYWjpZaZyb/IseDt0bye9dBZGuYTllGqGetS3Vt9MmWlj/HRKzMbw3MBdF?=
- =?us-ascii?Q?HP3AeWSfX52L5i6DJXgEV4AANTCV7yV2ag5K3cgeKc9R7rVkExBnTcQl/h7M?=
- =?us-ascii?Q?8MaVKf/qh7Pbml6xYshFIhmCMuQjpkcU+twkRBXEaqDoln/EqwSEjhJCHWiA?=
- =?us-ascii?Q?oqY5zorqEJDJmInPUqCdhUazMbbz9B63BN/lsqUIonGb11EyH8QfB0DusADZ?=
- =?us-ascii?Q?0SvXntIOigleNH3h4u1FMz5RBVnk10xHeT11mOCZgtQ1Y8VAuEcjc5F/IxJ1?=
- =?us-ascii?Q?bhgxlKweYc9UgFhT2cIuTMggD76vfB9gvnUpxs7T5xV/mLnShY3QIQypvELz?=
- =?us-ascii?Q?Sy7hwLq82/RTZEi4IFTo710se2gSC6Nk9HNmuV67oKo/vOjvZGjqOGnrTzJz?=
- =?us-ascii?Q?FfEj3Tl4WRtT2wYPGigSYNBwaWhXspdJaNAxQJX2zxg9K6OU2/0sRcI6IOaa?=
- =?us-ascii?Q?ccbSVuKx5xzxt2vPQ+YU9g8fo+z6fgvjlbMM1hUGss8BMWcBrx/MGLcbaGZd?=
- =?us-ascii?Q?dfcLdN8fr/X4+5V+CJKXAmcLmXwZF20pzm8h4BjCI+Be68Pp97sYLF5pFAt8?=
- =?us-ascii?Q?/IZTKp40WpUkyBFPStAAf/j141mx7iPlVOgKks55TG9iUGvSTaIYVodmwxyd?=
- =?us-ascii?Q?rpTBt1BikrLrPU9PHnhCOmGamZLI3CLaoqNCOZWb2Ogc1bOEiPkLCQSIVA3o?=
- =?us-ascii?Q?mVuk3+gxN1+hwyDCMewOIWBd+AqgQxjWAI9BU+IEvApcz4AsMR8L3AumJcnx?=
- =?us-ascii?Q?08SrQqNl3vU2G1IfuEfbCMsIfgW3X7nIm2MUJaFkdojE/GHMCFmwOVEYGizi?=
- =?us-ascii?Q?zA2l4v8TU7PEZmLjYNi8y/p8?=
-x-ms-exchange-transport-forked: True
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <00DF20E2546CAB448E48AEEDFD52FEB7@namprd10.prod.outlook.com>
-Content-Transfer-Encoding: quoted-printable
+ bh=duNN67L46F832Jd5Aj4sQJ3gtlUf4M0pjEpT7Rugl6k=;
+ b=UQvOlkFTVDIQ3ldN7ZE5m/zkeNupg+2yl2RjM9c5cX8Xh/TDRL+BY0OQnuQGPrydsTnu5mjTo9nIE6/oJAP3npuWCkSXaspNZ78z3+zN6lNyp9n7k2STzN5XOPVb5O0KnOxr3dPzCjEmC15svEzsoYBKon//6nkUvoqDjIycpLmDBpfNB0iiObnI0bP671dCjLF0Ei9RzAmE/ci7M9mFJKQTCp78AJTNaMw95WCn49JfsIy2F70LGvEGe4sZvMgu1KAjvBSLBek2Z/QA9JSACt1ODOOz7qqfEMzQ/V09RpVuIkD1P5fAW2AdXAjFsmZEUsCIq9GiBGJkUX2v+bHa3g==
+Authentication-Results: linux.ie; dkim=none (message not signed)
+ header.d=none;linux.ie; dmarc=none action=none header.from=nvidia.com;
+Received: from BL0PR12MB5506.namprd12.prod.outlook.com (2603:10b6:208:1cb::22)
+ by BL0PR12MB5539.namprd12.prod.outlook.com (2603:10b6:208:1c3::15)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4195.20; Tue, 8 Jun
+ 2021 00:55:54 +0000
+Received: from BL0PR12MB5506.namprd12.prod.outlook.com
+ ([fe80::3d51:a3b9:8611:684e]) by BL0PR12MB5506.namprd12.prod.outlook.com
+ ([fe80::3d51:a3b9:8611:684e%6]) with mapi id 15.20.4195.030; Tue, 8 Jun 2021
+ 00:55:54 +0000
+From: Jason Gunthorpe <jgg@nvidia.com>
+To: David Airlie <airlied@linux.ie>, Tony Krowiak <akrowiak@linux.ibm.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>,
+ Cornelia Huck <cohuck@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
+ Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org,
+ Vasily Gorbik <gor@linux.ibm.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Heiko Carstens <hca@linux.ibm.com>, intel-gfx@lists.freedesktop.org,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Jason Herne <jjherne@linux.ibm.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, kvm@vger.kernel.org,
+ Kirti Wankhede <kwankhede@nvidia.com>, linux-doc@vger.kernel.org,
+ linux-s390@vger.kernel.org, Halil Pasic <pasic@linux.ibm.com>,
+ "Rafael J. Wysocki" <rafael@kernel.org>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>
+Subject: [PATCH 00/10] Allow mdev drivers to directly create the vfio_device
+Date: Mon,  7 Jun 2021 21:55:42 -0300
+Message-Id: <0-v1-324b2038f212+1041f1-vfio3a_jgg@nvidia.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [47.55.113.94]
+X-ClientProxiedBy: MN2PR13CA0007.namprd13.prod.outlook.com
+ (2603:10b6:208:160::20) To BL0PR12MB5506.namprd12.prod.outlook.com
+ (2603:10b6:208:1cb::22)
 MIME-Version: 1.0
-X-OriginatorOrg: oracle.com
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from mlx.ziepe.ca (47.55.113.94) by
+ MN2PR13CA0007.namprd13.prod.outlook.com (2603:10b6:208:160::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4219.9 via Frontend
+ Transport; Tue, 8 Jun 2021 00:55:53 +0000
+Received: from jgg by mlx with local (Exim 4.94)	(envelope-from
+ <jgg@nvidia.com>)	id 1lqQ24-003eKH-Ct; Mon, 07 Jun 2021 21:55:52 -0300
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 68473b8a-5510-4aa0-0902-08d92a182aa3
+X-MS-TrafficTypeDiagnostic: BL0PR12MB5539:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <BL0PR12MB5539AE9A3EE0D16C2AF279CEC2379@BL0PR12MB5539.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: TfddbJFLBcNZj6JPF09TzVXu/lk/5DnyklCgNt8lL/LjTcQIzqCXaRg4sLAen5SNvuhXmzj+LF0nVwhjc9sFjtfv+cfk55puhZTYux6524iorj1h+OQNoxop9104AVqy4Nl8T6cFXZEHEyFnaguSzpxtUReGQOa+QRzVoOfwLVYLWPHqfyMbHZc6LX/Joo7yyPIv0wW1LP9lm5FkrJqxNyuNp0Vxp1y9q3IMtdaUmB0Ou/9s7LQo97ECatYZH7kGpwy900AJV/SstzxxmsqaBmIusqgviyhAg+9RTSb0epPpSHcRqOrVy+PbuXiey0MdoHecNc8SHB7kIaJE1ucJuOd8iickZyt3IdL6Qi9+6uAjIlBwqvsL8zCwaxeaiMXE+y8Hddb9NtjpxEXIbn3XmllHbR0tfbZ0wHkhb0bAZWzy/463Tof63x8UDhOKUf15XZ64sZrOAP11j0wkVUHziGRLYYXxqxJQLnFY8IpBW0KuMIsPCteu5RcCpfXl/h5nTxSc5rVBFpVJiyE5LFLgp9osomQ3M/X/uS8SNyDoDxv8nghY2Go/zEW+zWmHaJ2lunI5s/I22HzhZFIxij63VnRyBdp6LLWMVjM21c68OZR6vjQAYTAOzv94Xa4tx2MnZjGoGorn7WZOtiIJDMy2WnsgnObWtS4JJU7U/tOX1HyzHUSrAu54+PKyl31kFMVK0mWQM7I5Qs4uJhdHCdtVMA0IAVAvJ0SWkg+WQ0Zq+Ov8B7AceVUW9fC+5FFPOSpKtbo/yL+KRIo2HL/BtJuR3AcYIRPWUImllOYGE0Jxr9OJXmdW8M5lCRtvTNlGB6TloMtmSheTER075aUH8Wg9PQ==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BL0PR12MB5506.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(136003)(366004)(396003)(39860400002)(346002)(376002)(9786002)(7416002)(186003)(26005)(921005)(966005)(36756003)(316002)(110136005)(8936002)(478600001)(4326008)(9746002)(2906002)(6666004)(86362001)(83380400001)(66946007)(426003)(38100700002)(2616005)(5660300002)(8676002)(66476007)(66556008)(4216001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?FKWY5NQmErw/HmXiK2xVZteL/lmKcmNQKz+4yU3ItKF2LizRdIrO5iBIRI7D?=
+ =?us-ascii?Q?oOYCdzn8IeJu8pLAF25JUL0r68vpSlojpXSxALzOCxajxEtyTCEys65exTia?=
+ =?us-ascii?Q?0QA8jd075P9CbOHhkG4c2WfL+A71e47lxiqWKDaPjNZA/Kh0WQmWHoCkz7t/?=
+ =?us-ascii?Q?Q1lYcfSoxpsOdDkKpEsDHtg4tJjBJCJEHDRTHRXeXI2Og2Otc/Xo7oaeu48z?=
+ =?us-ascii?Q?5j3tv1xXQ1lirmIQ9eHbtCZetjfX2ILs4XpaDmzaW0cp2kvvoaoUF0UGfdkA?=
+ =?us-ascii?Q?J4L39ppr7ojccLHzx4n90gVs3w+oHcL8cz1oMuolDE7Ee+77QosS+XbzfoWr?=
+ =?us-ascii?Q?Ln+2LvnP2b1t5qEeqUkeqPnZpCx0Oqxcldefaj3idqhalUQop1zlOpV75wBi?=
+ =?us-ascii?Q?/SYqwZNZKVsLiz+/CVaNYkthB3qwDd+E/4xOr2SZO/Ryi9X5K1O+FuOfT12e?=
+ =?us-ascii?Q?VXpxyBbudGlsTJau2wLAbAJT211mHOs9lQHSer97wLbnVePBYQpyDIUabssj?=
+ =?us-ascii?Q?UlRQHolQwv3i1dM/dK6qUVSyNCrtf5EcuEQYB4kiX+QBR8o120dObcRxi79V?=
+ =?us-ascii?Q?K04jZtvHEqpjcQKTu+kupDaxAjuwRavG7AamiXlYMfsFDrLt0qsSTjJBSWmk?=
+ =?us-ascii?Q?9plwxC3TfYrv+kGKhiT6H/Y/yTZ0bQ8vCUYFyZIGjka/X7emX6Osds64zCfw?=
+ =?us-ascii?Q?xjAuWM1Ukgu2+FXMdOrAleByta1wKi2MIjCpWrj3HBqpV8VHKlzSDvbITLtc?=
+ =?us-ascii?Q?LkRJD2Imo9Xg1LvZjquYo8unAZ0PCr+WGkH96dALQL+8yTWSISCUXYq92ErP?=
+ =?us-ascii?Q?euFgv3Ucw2b9HWhem0fEFY5ufmorJx7k7rB+/ixCf8hX83iUWUHYTECQ9qDH?=
+ =?us-ascii?Q?jYZiwP/aHA9aXvx11DnvqzA9OfvlOeyXTTEUwpxsfh7Ly8Fzb0eEz2Or6otj?=
+ =?us-ascii?Q?MNrBojSmMpPF4MW/b4ZrQNPk1kDmVnRP10DpCzN0Ton+QIGC3gZvRGGEwwc5?=
+ =?us-ascii?Q?GUz8ctebdukl7wjXADBvj41J6Kxy5+4F49XBKGPuKo1MG1okbuAvQhXUPZAI?=
+ =?us-ascii?Q?AGz2L3UOASfU4x9pzjDCSNx/ZB8Th1C+nQOpcb+Ad8cnaszFzfalvYSALpmS?=
+ =?us-ascii?Q?qIQHj0YqoBRl0E8WNPfNUhZZ3t4CUQ+uKdtLtA5WB7GJjjSaXfYiWbr0up5o?=
+ =?us-ascii?Q?tmsowqtFBgDtEZf+l2tIVSsVXMg1TAU8X+ThryNZBgnJDEBArWnvDWRuc5/k?=
+ =?us-ascii?Q?Z9CmfolOUfwHUMVSNtLoG2u62WA3wSBI1usbBsrPf0RHBkvjKEiVskIjNV0t?=
+ =?us-ascii?Q?ViDGzfw/qZvmWCwbEis9PM2p?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 68473b8a-5510-4aa0-0902-08d92a182aa3
+X-MS-Exchange-CrossTenant-AuthSource: BL0PR12MB5506.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR10MB4380.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8825acba-9aa3-4236-05c7-08d92a146bd8
-X-MS-Exchange-CrossTenant-originalarrivaltime: 08 Jun 2021 00:29:04.6075 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: +Zek+B8hCj9c655HxPgYo5mEuvCAq6r8eSlScb9qT6p99iYRGv/0+SpDJhkF3j06DXQAOuMfPV2TTv72MrB02Q==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM8PR10MB5415
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=10008
- signatures=668682
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999
- spamscore=0
- phishscore=0 suspectscore=0 mlxscore=0 bulkscore=0 adultscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2104190000 definitions=main-2106070161
-X-Proofpoint-ORIG-GUID: YF7_DijuX-Oo4dW9XB0jpqgWEHZ1XJOX
-X-Proofpoint-GUID: YF7_DijuX-Oo4dW9XB0jpqgWEHZ1XJOX
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=10008
- signatures=668682
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 impostorscore=0
- phishscore=0
- spamscore=0 malwarescore=0 clxscore=1011 lowpriorityscore=0
- priorityscore=1501 adultscore=0 mlxscore=0 mlxlogscore=999 bulkscore=0
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2104190000 definitions=main-2106070161
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Jun 2021 00:55:53.5343 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: VMSPhFNfpSLXbq7HQA0KRjSvTNbR4KdJB+hTX860UwhBtdUOvLs90D7GLEZZZmIh
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL0PR12MB5539
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -158,124 +132,101 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "rcampbell@nvidia.com" <rcampbell@nvidia.com>,
- "Felix.Kuehling@amd.com" <Felix.Kuehling@amd.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-mm@kvack.org" <linux-mm@kvack.org>,
- "jglisse@redhat.com" <jglisse@redhat.com>,
- "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
- "jgg@nvidia.com" <jgg@nvidia.com>,
- "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
- "hch@lst.de" <hch@lst.de>
+Cc: Christoph Hellwig <hch@lst.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-* Alex Sierra <alex.sierra@amd.com> [210607 16:43]:
-> From: Ralph Campbell <rcampbell@nvidia.com>
->=20
-> There are several places where ZONE_DEVICE struct pages assume a referenc=
-e
-> count =3D=3D 1 means the page is idle and free. Instead of open coding th=
-is,
-> add a helper function to hide this detail.
->=20
-> Signed-off-by: Ralph Campbell <rcampbell@nvidia.com>
-> ---
->  fs/dax.c            |  4 ++--
->  fs/ext4/inode.c     |  5 +----
->  fs/xfs/xfs_file.c   |  4 +---
->  include/linux/dax.h | 10 ++++++++++
->  4 files changed, 14 insertions(+), 9 deletions(-)
->=20
-> diff --git a/fs/dax.c b/fs/dax.c
-> index 26d5dcd2d69e..321f4ddc6643 100644
-> --- a/fs/dax.c
-> +++ b/fs/dax.c
-> @@ -358,7 +358,7 @@ static void dax_disassociate_entry(void *entry, struc=
-t address_space *mapping,
->  	for_each_mapped_pfn(entry, pfn) {
->  		struct page *page =3D pfn_to_page(pfn);
-> =20
-> -		WARN_ON_ONCE(trunc && page_ref_count(page) > 1);
-> +		WARN_ON_ONCE(trunc && !dax_layout_is_idle_page(page));
->  		WARN_ON_ONCE(page->mapping && page->mapping !=3D mapping);
->  		page->mapping =3D NULL;
->  		page->index =3D 0;
-> @@ -372,7 +372,7 @@ static struct page *dax_busy_page(void *entry)
->  	for_each_mapped_pfn(entry, pfn) {
->  		struct page *page =3D pfn_to_page(pfn);
-> =20
-> -		if (page_ref_count(page) > 1)
-> +		if (!dax_layout_is_idle_page(page))
->  			return page;
->  	}
->  	return NULL;
-> diff --git a/fs/ext4/inode.c b/fs/ext4/inode.c
-> index c173c8405856..9ee00186412f 100644
-> --- a/fs/ext4/inode.c
-> +++ b/fs/ext4/inode.c
-> @@ -3972,10 +3972,7 @@ int ext4_break_layouts(struct inode *inode)
->  		if (!page)
->  			return 0;
-> =20
-> -		error =3D ___wait_var_event(&page->_refcount,
-> -				atomic_read(&page->_refcount) =3D=3D 1,
-> -				TASK_INTERRUPTIBLE, 0, 0,
-> -				ext4_wait_dax_page(ei));
-> +		error =3D dax_wait_page(ei, page, ext4_wait_dax_page);
->  	} while (error =3D=3D 0);
-> =20
->  	return error;
-> diff --git a/fs/xfs/xfs_file.c b/fs/xfs/xfs_file.c
-> index 5b0f93f73837..39565fe5f817 100644
-> --- a/fs/xfs/xfs_file.c
-> +++ b/fs/xfs/xfs_file.c
-> @@ -782,9 +782,7 @@ xfs_break_dax_layouts(
->  		return 0;
-> =20
->  	*retry =3D true;
-> -	return ___wait_var_event(&page->_refcount,
-> -			atomic_read(&page->_refcount) =3D=3D 1, TASK_INTERRUPTIBLE,
-> -			0, 0, xfs_wait_dax_page(inode));
-> +	return dax_wait_page(inode, page, xfs_wait_dax_page);
->  }
-> =20
->  int
-> diff --git a/include/linux/dax.h b/include/linux/dax.h
-> index b52f084aa643..8909a91cd381 100644
-> --- a/include/linux/dax.h
-> +++ b/include/linux/dax.h
-> @@ -243,6 +243,16 @@ static inline bool dax_mapping(struct address_space =
-*mapping)
->  	return mapping->host && IS_DAX(mapping->host);
->  }
-> =20
-> +static inline bool dax_layout_is_idle_page(struct page *page)
-> +{
-> +	return page_ref_count(page) =3D=3D 1;
-> +}
+This is a "v3" of the previous posted full conversion:
+  https://lore.kernel.org/r/0-v2-7667f42c9bad+935-vfio3_jgg@nvidia.com
 
-If this races with page_ref_count(page) =3D=3D 0, then it will return false
-that a page is idle when the page is being freed.  I don't know the code
-well enough to say if this is an issue or not so please let me know.
+Without the trailing patches that are running into complications:
+ - The CCW conversion has some complicated remarks
+ - AP is waiting for some locking stuff to get worked out
+ - No feedback on GT
+ - The license change topic for removing vfio_mdev.c
 
-For example:
-!dax_layout_is_idle_page() will return true in dax_busy_page() above
-when the count is 0 and return the page.
+Getting the baseline functionality merged will allow Intel's IDXD mdev
+driver to advance. It has already been RFC posted in the new format:
 
-Maybe you are sure to have at least one reference when calling this?  It
-might be worth adding a comment.
+https://lore.kernel.org/kvm/162164243591.261970.3439987543338120797.stgit@djiang5-desk3.ch.intel.com/
 
-> +
-> +#define dax_wait_page(_inode, _page, _wait_cb)				\
-> +	___wait_var_event(&(_page)->_refcount,				\
-> +		dax_layout_is_idle_page(_page),				\
-> +		TASK_INTERRUPTIBLE, 0, 0, _wait_cb(_inode))
-> +
->  #ifdef CONFIG_DEV_DAX_HMEM_DEVICES
->  void hmem_register_device(int target_nid, struct resource *r);
->  #else
-> --=20
-> 2.17.1
->=20
-> =
+This series includes base infrastructure and the sample conversions. The
+remaining four issues can be sorted out one by one.
+
+The major change in v3 is to enhance the driver core support for binding
+based on the request from Christoph Hellwig and Dan Williams. Based on
+some light analysis this looks broadly useful:
+
+https://lore.kernel.org/kvm/20210428233856.GY1370958@nvidia.com/
+
+====
+
+The mdev bus's core part for managing the lifecycle of devices is mostly
+as one would expect for a driver core bus subsystem.
+
+However instead of having a normal 'struct device_driver' and binding the
+actual mdev drivers through the standard driver core mechanisms it open
+codes this with the struct mdev_parent_ops and provides a single driver
+that shims between the VFIO core's struct vfio_device and the actual
+device driver.
+
+Instead, allow mdev drivers implement an actual struct mdev_driver and
+directly call vfio_register_group_dev() in the probe() function for the
+mdev. Arrange to bind the created mdev_device to the mdev_driver that is
+provided by the end driver.
+
+The actual execution flow doesn't change much, eg what was
+parent_ops->create is now device_driver->probe and it is called at almost
+the exact same time - except under the normal control of the driver core.
+
+Ultimately converting all the drivers unlocks a fair number of additional
+VFIO simplifications and cleanups.
+
+v3:
+ - Use device_driver_attach() from the driver core
+ - 5 new patches to make device_driver_attach() exported and usable for this
+ - Remove trailing patches for now
+v2: https://lore.kernel.org/r/0-v2-7667f42c9bad+935-vfio3_jgg@nvidia.com
+ - Keep && m in samples kconfig
+ - Restore accidently squashed removeal of vfio_mdev.c
+ - Remove indirections to call bus_register()/bus_unregister()
+ - Reflow long doc lines
+v1: https://lore.kernel.org/r/0-v1-d88406ed308e+418-vfio3_jgg@nvidia.com
+
+Jason Gunthorpe (10):
+  driver core: Do not continue searching for drivers if deferred probe
+    is used
+  driver core: Pull required checks into driver_probe_device()
+  driver core: Flow the return code from ->probe() through to sysfs bind
+  driver core: Don't return EPROBE_DEFER to userspace during sysfs bind
+  driver core: Export device_driver_attach()
+  vfio/mdev: Remove CONFIG_VFIO_MDEV_DEVICE
+  vfio/mdev: Allow the mdev_parent_ops to specify the device driver to
+    bind
+  vfio/mtty: Convert to use vfio_register_group_dev()
+  vfio/mdpy: Convert to use vfio_register_group_dev()
+  vfio/mbochs: Convert to use vfio_register_group_dev()
+
+ Documentation/s390/vfio-ap.rst   |   1 -
+ arch/s390/Kconfig                |   2 +-
+ drivers/base/base.h              |   1 -
+ drivers/base/bus.c               |   6 +-
+ drivers/base/dd.c                | 116 ++++++++++++-------
+ drivers/gpu/drm/i915/Kconfig     |   2 +-
+ drivers/vfio/mdev/Kconfig        |   7 --
+ drivers/vfio/mdev/Makefile       |   3 +-
+ drivers/vfio/mdev/mdev_core.c    |  46 ++++++--
+ drivers/vfio/mdev/mdev_driver.c  |  10 ++
+ drivers/vfio/mdev/mdev_private.h |   2 +
+ drivers/vfio/mdev/vfio_mdev.c    |  24 +---
+ include/linux/device.h           |   2 +
+ include/linux/mdev.h             |   2 +
+ samples/Kconfig                  |   6 +-
+ samples/vfio-mdev/mbochs.c       | 163 +++++++++++++++------------
+ samples/vfio-mdev/mdpy.c         | 159 ++++++++++++++------------
+ samples/vfio-mdev/mtty.c         | 185 ++++++++++++++-----------------
+ 18 files changed, 397 insertions(+), 340 deletions(-)
+
+-- 
+2.31.1
+
