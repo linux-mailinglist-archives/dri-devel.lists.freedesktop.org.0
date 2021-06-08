@@ -1,47 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BB4739EB4E
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Jun 2021 03:23:29 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 56E1439EB5D
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Jun 2021 03:29:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7AE9989C85;
-	Tue,  8 Jun 2021 01:23:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 10F9F6EA7F;
+	Tue,  8 Jun 2021 01:29:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BD3C96EA7D;
- Tue,  8 Jun 2021 01:23:20 +0000 (UTC)
-IronPort-SDR: dlAVO8s3aX1ffO8LcZXtIOZWbA+4n1QVB+hEdsp6I/cnN8F+yPFecEuk0r7wWQME2HTgpn2KeR
- uwuXxVRu2nog==
-X-IronPort-AV: E=McAfee;i="6200,9189,10008"; a="204773690"
-X-IronPort-AV: E=Sophos;i="5.83,256,1616482800"; d="scan'208";a="204773690"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Jun 2021 18:23:19 -0700
-IronPort-SDR: 3X/Ov18wU+kLLdcKdPQ3Jkj8EXnRlkcOryK83BUcLv2L9Qa7hVp9ctuU1oB1xRzlv4VTw2AI6w
- BcIBvnyy5p6Q==
-X-IronPort-AV: E=Sophos;i="5.83,256,1616482800"; d="scan'208";a="476419343"
-Received: from dceraolo-mobl.amr.corp.intel.com (HELO [10.209.129.6])
- ([10.209.129.6])
- by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Jun 2021 18:23:19 -0700
-Subject: Re: [PATCH 07/13] drm/i915/guc: New definition of the CTB
- registration action
-To: Matthew Brost <matthew.brost@intel.com>, intel-gfx@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org
-References: <20210607180356.165785-1-matthew.brost@intel.com>
- <20210607180356.165785-8-matthew.brost@intel.com>
-From: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
-Message-ID: <946237c6-1671-b419-5337-d5b8cc02a041@intel.com>
-Date: Mon, 7 Jun 2021 18:23:17 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+Received: from so254-9.mailgun.net (so254-9.mailgun.net [198.61.254.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 26B766EA7F
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Jun 2021 01:28:57 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1623115739; h=Message-ID: References: In-Reply-To: Subject:
+ Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
+ MIME-Version: Sender; bh=ALppXYAn0VcZBVpBHjzjYENlrHw1CZzy97XnmejR2Bw=;
+ b=rdXwjxKWowYQak8QlrZTGbuX580bGYlXJzdKaByHbckFSSI/2qrMdfRJJ8ALs9hky3y1eTq+
+ boiHKsj2MZ0Hoj1QEEvWk+1Kq+XnLl40fUphbd0vXw1FvQ4E9lFafPX0ZDHZZuLiDg5T/vXw
+ 1SN/vt4SW0u44c62XJJc0/yRJpE=
+X-Mailgun-Sending-Ip: 198.61.254.9
+X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n06.prod.us-west-2.postgun.com with SMTP id
+ 60bec7b8ed59bf69cc9e9109 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Tue, 08 Jun 2021 01:28:24
+ GMT
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id C31C8C433F1; Tue,  8 Jun 2021 01:28:24 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00,
+ URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
+Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
+ (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+ (No client certificate requested) (Authenticated sender: abhinavk)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 72B28C433D3;
+ Tue,  8 Jun 2021 01:28:22 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20210607180356.165785-8-matthew.brost@intel.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+Date: Mon, 07 Jun 2021 18:28:22 -0700
+From: abhinavk@codeaurora.org
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Subject: Re: [PATCH v3] drm/msm/dsi: add continuous clock support for 7nm PHY
+In-Reply-To: <20210607230021.2193253-1-dmitry.baryshkov@linaro.org>
+References: <20210607230021.2193253-1-dmitry.baryshkov@linaro.org>
+Message-ID: <41cdc58d1d1189dbf2ea9e46aefc840e@codeaurora.org>
+X-Sender: abhinavk@codeaurora.org
+User-Agent: Roundcube Webmail/1.3.9
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,347 +65,250 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: john.c.harrison@intel.com, Michal.Wajdeczko@intel.com
+Cc: freedreno@lists.freedesktop.org, Jonathan Marek <jonathan@marek.ca>,
+ Stephen Boyd <sboyd@kernel.org>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Bjorn Andersson <bjorn.andersson@linaro.org>,
+ David Airlie <airlied@linux.ie>, Sean Paul <sean@poorly.run>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-On 6/7/2021 11:03 AM, Matthew Brost wrote:
-> From: Michal Wajdeczko <michal.wajdeczko@intel.com>
->
-> Definition of the CTB registration action has changed.
-> Add some ABI documentation and implement required changes.
->
-> Signed-off-by: Michal Wajdeczko <michal.wajdeczko@intel.com>
-> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
-> Cc: Piotr Piórkowski <piotr.piorkowski@intel.com> #4
+On 2021-06-07 16:00, Dmitry Baryshkov wrote:
+> Unlike previous generations, 7nm PHYs are required to collaborate with
+> the host for conitnuos clock mode. Add changes neccessary to enable
+"the host for continuous clock mode"
+> continuous clock mode in the 7nm DSI PHYs.
+> 
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 > ---
->   .../gpu/drm/i915/gt/uc/abi/guc_actions_abi.h  | 107 ++++++++++++++++++
->   .../gt/uc/abi/guc_communication_ctb_abi.h     |   4 -
->   drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c     |  76 ++++++++-----
->   3 files changed, 152 insertions(+), 35 deletions(-)
->
-> diff --git a/drivers/gpu/drm/i915/gt/uc/abi/guc_actions_abi.h b/drivers/gpu/drm/i915/gt/uc/abi/guc_actions_abi.h
-> index 90efef8a73e4..6426fc183692 100644
-> --- a/drivers/gpu/drm/i915/gt/uc/abi/guc_actions_abi.h
-> +++ b/drivers/gpu/drm/i915/gt/uc/abi/guc_actions_abi.h
-> @@ -6,6 +6,113 @@
->   #ifndef _ABI_GUC_ACTIONS_ABI_H
->   #define _ABI_GUC_ACTIONS_ABI_H
->   
-> +/**
-> + * DOC: HOST2GUC_REGISTER_CTB
-> + *
-> + * This message is used as part of the `CTB based communication`_ setup.
-> + *
-> + * This message must be sent as `MMIO HXG Message`_.
-> + *
-> + *  +---+-------+--------------------------------------------------------------+
-> + *  |   | Bits  | Description                                                  |
-> + *  +===+=======+==============================================================+
-> + *  | 0 |    31 | ORIGIN = GUC_HXG_ORIGIN_HOST_                                |
-> + *  |   +-------+--------------------------------------------------------------+
-> + *  |   | 30:28 | TYPE = GUC_HXG_TYPE_REQUEST_                                 |
-> + *  |   +-------+--------------------------------------------------------------+
-> + *  |   | 27:16 | DATA0 = MBZ                                                  |
-> + *  |   +-------+--------------------------------------------------------------+
-> + *  |   |  15:0 | ACTION = _`GUC_ACTION_HOST2GUC_REGISTER_CTB` = 0x5200        |
-
-Specs says 4505
-
-> + *  +---+-------+--------------------------------------------------------------+
-> + *  | 1 | 31:12 | RESERVED = MBZ                                               |
-> + *  |   +-------+--------------------------------------------------------------+
-> + *  |   |  11:8 | **TYPE** - type for the `CT Buffer`_                         |
-> + *  |   |       |                                                              |
-> + *  |   |       |   - _`GUC_CTB_TYPE_HOST2GUC` = 0                             |
-> + *  |   |       |   - _`GUC_CTB_TYPE_GUC2HOST` = 1                             |
-> + *  |   +-------+--------------------------------------------------------------+
-> + *  |   |   7:0 | **SIZE** - size of the `CT Buffer`_ in 4K units minus 1      |
-> + *  +---+-------+--------------------------------------------------------------+
-> + *  | 2 |  31:0 | **DESC_ADDR** - GGTT address of the `CTB Descriptor`_        |
-> + *  +---+-------+--------------------------------------------------------------+
-> + *  | 3 |  31:0 | **BUFF_ADDF** - GGTT address of the `CT Buffer`_             |
-> + *  +---+-------+--------------------------------------------------------------+
-> +*
-> + *  +---+-------+--------------------------------------------------------------+
-> + *  |   | Bits  | Description                                                  |
-> + *  +===+=======+==============================================================+
-> + *  | 0 |    31 | ORIGIN = GUC_HXG_ORIGIN_GUC_                                 |
-> + *  |   +-------+--------------------------------------------------------------+
-> + *  |   | 30:28 | TYPE = GUC_HXG_TYPE_RESPONSE_SUCCESS_                        |
-> + *  |   +-------+--------------------------------------------------------------+
-> + *  |   |  27:0 | DATA0 = MBZ                                                  |
-> + *  +---+-------+--------------------------------------------------------------+
-> + */
-> +#define GUC_ACTION_HOST2GUC_REGISTER_CTB		0x4505 // FIXME 0x5200
-
-Why FIXME? AFAICS the specs still says 4505, even if we plan to update 
-at some point I don;t think this deserves a FIXME since nothing is 
-incorrect.
-
+> 
+> Changes since v2:
+>  - Really drop msm_dsi_phy_needs_hs_phy_sel()
+> 
+> Changes since v1:
+>  - Remove the need for a separate msm_dsi_phy_needs_hs_phy_sel() call
+>  - Fix setting continuous clock for a dual DSI case.
+Maybe I am missing something but I cannot find this part of the change.
+What has been fixed for dual DSI?
+> 
+> ---
+>  drivers/gpu/drm/msm/dsi/dsi.h             |  3 ++-
+>  drivers/gpu/drm/msm/dsi/dsi.xml.h         |  1 +
+>  drivers/gpu/drm/msm/dsi/dsi_host.c        | 12 ++++++++----
+>  drivers/gpu/drm/msm/dsi/dsi_manager.c     |  4 ++--
+>  drivers/gpu/drm/msm/dsi/phy/dsi_phy.c     |  9 +++++++++
+>  drivers/gpu/drm/msm/dsi/phy/dsi_phy.h     |  1 +
+>  drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c | 17 +++++++++++++++++
+>  7 files changed, 40 insertions(+), 7 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/dsi/dsi.h 
+> b/drivers/gpu/drm/msm/dsi/dsi.h
+> index 7abfeab08165..5be458c701d2 100644
+> --- a/drivers/gpu/drm/msm/dsi/dsi.h
+> +++ b/drivers/gpu/drm/msm/dsi/dsi.h
+> @@ -108,7 +108,7 @@ int msm_dsi_host_enable(struct mipi_dsi_host 
+> *host);
+>  int msm_dsi_host_disable(struct mipi_dsi_host *host);
+>  int msm_dsi_host_power_on(struct mipi_dsi_host *host,
+>  			struct msm_dsi_phy_shared_timings *phy_shared_timings,
+> -			bool is_dual_dsi);
+> +			bool is_dual_dsi, struct msm_dsi_phy *phy);
+>  int msm_dsi_host_power_off(struct mipi_dsi_host *host);
+>  int msm_dsi_host_set_display_mode(struct mipi_dsi_host *host,
+>  				  const struct drm_display_mode *mode);
+> @@ -173,6 +173,7 @@ int msm_dsi_phy_get_clk_provider(struct msm_dsi_phy 
+> *phy,
+>  	struct clk **byte_clk_provider, struct clk **pixel_clk_provider);
+>  void msm_dsi_phy_pll_save_state(struct msm_dsi_phy *phy);
+>  int msm_dsi_phy_pll_restore_state(struct msm_dsi_phy *phy);
+> +bool msm_dsi_phy_set_continuous_clock(struct msm_dsi_phy *phy, bool 
+> enable);
+> 
+>  #endif /* __DSI_CONNECTOR_H__ */
+> 
+> diff --git a/drivers/gpu/drm/msm/dsi/dsi.xml.h
+> b/drivers/gpu/drm/msm/dsi/dsi.xml.h
+> index 50eb4d1b8fdd..9762af6035e9 100644
+> --- a/drivers/gpu/drm/msm/dsi/dsi.xml.h
+> +++ b/drivers/gpu/drm/msm/dsi/dsi.xml.h
+> @@ -510,6 +510,7 @@ static inline uint32_t
+> DSI_CLKOUT_TIMING_CTRL_T_CLK_POST(uint32_t val)
+>  #define DSI_LANE_STATUS_DLN0_DIRECTION				0x00010000
+> 
+>  #define REG_DSI_LANE_CTRL					0x000000a8
+> +#define DSI_LANE_CTRL_HS_REQ_SEL_PHY				0x01000000
+>  #define DSI_LANE_CTRL_CLKLN_HS_FORCE_REQUEST			0x10000000
+> 
+>  #define REG_DSI_LANE_SWAP_CTRL					0x000000ac
+> diff --git a/drivers/gpu/drm/msm/dsi/dsi_host.c
+> b/drivers/gpu/drm/msm/dsi/dsi_host.c
+> index 41e1d0f7ab6e..50be935edcad 100644
+> --- a/drivers/gpu/drm/msm/dsi/dsi_host.c
+> +++ b/drivers/gpu/drm/msm/dsi/dsi_host.c
+> @@ -835,7 +835,7 @@ static inline enum dsi_cmd_dst_format 
+> dsi_get_cmd_fmt(
+>  }
+> 
+>  static void dsi_ctrl_config(struct msm_dsi_host *msm_host, bool 
+> enable,
+> -			struct msm_dsi_phy_shared_timings *phy_shared_timings)
+> +			struct msm_dsi_phy_shared_timings *phy_shared_timings, struct
+> msm_dsi_phy *phy)
+>  {
+>  	u32 flags = msm_host->mode_flags;
+>  	enum mipi_dsi_pixel_format mipi_fmt = msm_host->format;
+> @@ -930,6 +930,10 @@ static void dsi_ctrl_config(struct msm_dsi_host
+> *msm_host, bool enable,
+> 
+>  	if (!(flags & MIPI_DSI_CLOCK_NON_CONTINUOUS)) {
+>  		lane_ctrl = dsi_read(msm_host, REG_DSI_LANE_CTRL);
 > +
-> +#define HOST2GUC_REGISTER_CTB_REQUEST_MSG_LEN		(GUC_HXG_REQUEST_MSG_MIN_LEN + 3u)
-> +#define HOST2GUC_REGISTER_CTB_REQUEST_MSG_0_MBZ		GUC_HXG_REQUEST_MSG_0_DATA0
-> +#define HOST2GUC_REGISTER_CTB_REQUEST_MSG_1_MBZ		(0xfffff << 12)
-> +#define HOST2GUC_REGISTER_CTB_REQUEST_MSG_1_TYPE	(0xf << 8)
-> +#define   GUC_CTB_TYPE_HOST2GUC				0u
-> +#define   GUC_CTB_TYPE_GUC2HOST				1u
-> +#define HOST2GUC_REGISTER_CTB_REQUEST_MSG_1_SIZE	(0xff << 0)
-> +#define HOST2GUC_REGISTER_CTB_REQUEST_MSG_2_DESC_ADDR	GUC_HXG_REQUEST_MSG_n_DATAn
-> +#define HOST2GUC_REGISTER_CTB_REQUEST_MSG_3_BUFF_ADDR	GUC_HXG_REQUEST_MSG_n_DATAn
-
-The full mask still seems like overkill to me and I still think we 
-should use BIT()/GENMASK() and a _MASK prefix, but not going to block on it.
-
+> +		if (msm_dsi_phy_set_continuous_clock(phy, enable))
+> +			lane_ctrl |= DSI_LANE_CTRL_HS_REQ_SEL_PHY;
 > +
-> +#define HOST2GUC_REGISTER_CTB_RESPONSE_MSG_LEN		GUC_HXG_RESPONSE_MSG_MIN_LEN
-> +#define HOST2GUC_REGISTER_CTB_RESPONSE_MSG_0_MBZ	GUC_HXG_RESPONSE_MSG_0_DATA0
+Not sure how I missed this in the prev patch but for enabling continuous 
+clock mode for new PHY, you need to clear bit 24
+and not set it. If you set it, it goes back to legacy mode ( older 
+method of continuous clock mode )
+>  		dsi_write(msm_host, REG_DSI_LANE_CTRL,
+>  			lane_ctrl | DSI_LANE_CTRL_CLKLN_HS_FORCE_REQUEST);
+>  	}
+> @@ -2360,7 +2364,7 @@ static void msm_dsi_sfpb_config(struct
+> msm_dsi_host *msm_host, bool enable)
+> 
+>  int msm_dsi_host_power_on(struct mipi_dsi_host *host,
+>  			struct msm_dsi_phy_shared_timings *phy_shared_timings,
+> -			bool is_dual_dsi)
+> +			bool is_dual_dsi, struct msm_dsi_phy *phy)
+>  {
+>  	struct msm_dsi_host *msm_host = to_msm_dsi_host(host);
+>  	const struct msm_dsi_cfg_handler *cfg_hnd = msm_host->cfg_hnd;
+> @@ -2400,7 +2404,7 @@ int msm_dsi_host_power_on(struct mipi_dsi_host 
+> *host,
+> 
+>  	dsi_timing_setup(msm_host, is_dual_dsi);
+>  	dsi_sw_reset(msm_host);
+> -	dsi_ctrl_config(msm_host, true, phy_shared_timings);
+> +	dsi_ctrl_config(msm_host, true, phy_shared_timings, phy);
+> 
+>  	if (msm_host->disp_en_gpio)
+>  		gpiod_set_value(msm_host->disp_en_gpio, 1);
+> @@ -2431,7 +2435,7 @@ int msm_dsi_host_power_off(struct mipi_dsi_host 
+> *host)
+>  		goto unlock_ret;
+>  	}
+> 
+> -	dsi_ctrl_config(msm_host, false, NULL);
+> +	dsi_ctrl_config(msm_host, false, NULL, NULL);
+> 
+>  	if (msm_host->disp_en_gpio)
+>  		gpiod_set_value(msm_host->disp_en_gpio, 0);
+> diff --git a/drivers/gpu/drm/msm/dsi/dsi_manager.c
+> b/drivers/gpu/drm/msm/dsi/dsi_manager.c
+> index e138a0c16085..cc18ea2b244c 100644
+> --- a/drivers/gpu/drm/msm/dsi/dsi_manager.c
+> +++ b/drivers/gpu/drm/msm/dsi/dsi_manager.c
+> @@ -382,7 +382,7 @@ static void dsi_mgr_bridge_pre_enable(struct
+> drm_bridge *bridge)
+>  	if (is_dual_dsi && !IS_MASTER_DSI_LINK(id))
+>  		return;
+> 
+> -	ret = msm_dsi_host_power_on(host, &phy_shared_timings[id], 
+> is_dual_dsi);
+> +	ret = msm_dsi_host_power_on(host, &phy_shared_timings[id],
+> is_dual_dsi, msm_dsi->phy);
+>  	if (ret) {
+>  		pr_err("%s: power on host %d failed, %d\n", __func__, id, ret);
+>  		goto host_on_fail;
+> @@ -390,7 +390,7 @@ static void dsi_mgr_bridge_pre_enable(struct
+> drm_bridge *bridge)
+> 
+>  	if (is_dual_dsi && msm_dsi1) {
+>  		ret = msm_dsi_host_power_on(msm_dsi1->host,
+> -				&phy_shared_timings[DSI_1], is_dual_dsi);
+> +				&phy_shared_timings[DSI_1], is_dual_dsi, msm_dsi1->phy);
+>  		if (ret) {
+>  			pr_err("%s: power on host1 failed, %d\n",
+>  							__func__, ret);
+> diff --git a/drivers/gpu/drm/msm/dsi/phy/dsi_phy.c
+> b/drivers/gpu/drm/msm/dsi/phy/dsi_phy.c
+> index ccbd19f7d9cf..1b11c0337a59 100644
+> --- a/drivers/gpu/drm/msm/dsi/phy/dsi_phy.c
+> +++ b/drivers/gpu/drm/msm/dsi/phy/dsi_phy.c
+> @@ -851,6 +851,15 @@ void msm_dsi_phy_set_usecase(struct msm_dsi_phy 
+> *phy,
+>  		phy->usecase = uc;
+>  }
+> 
+> +/* Returns true if we have to enable DSI_LANE_CTRL.HS_REQ_SEL_PHY */
+> +bool msm_dsi_phy_set_continuous_clock(struct msm_dsi_phy *phy, bool 
+> enable)
+> +{
+> +	if (!phy || !phy->cfg->ops.set_continuous_clock)
+> +		return false;
 > +
-> +/**
-> + * DOC: HOST2GUC_DEREGISTER_CTB
-> + *
-> + * This message is used as part of the `CTB based communication`_ teardown.
-> + *
-> + * This message must be sent as `MMIO HXG Message`_.
-> + *
-> + *  +---+-------+--------------------------------------------------------------+
-> + *  |   | Bits  | Description                                                  |
-> + *  +===+=======+==============================================================+
-> + *  | 0 |    31 | ORIGIN = GUC_HXG_ORIGIN_HOST_                                |
-> + *  |   +-------+--------------------------------------------------------------+
-> + *  |   | 30:28 | TYPE = GUC_HXG_TYPE_REQUEST_                                 |
-> + *  |   +-------+--------------------------------------------------------------+
-> + *  |   | 27:16 | DATA0 = MBZ                                                  |
-> + *  |   +-------+--------------------------------------------------------------+
-> + *  |   |  15:0 | ACTION = _`GUC_ACTION_HOST2GUC_DEREGISTER_CTB` = 0x5201      |
-
-Specs says 4506
-
-> + *  +---+-------+--------------------------------------------------------------+
-> + *  | 1 | 31:12 | RESERVED = MBZ                                               |
-> + *  |   +-------+--------------------------------------------------------------+
-> + *  |   |  11:8 | **TYPE** - type of the `CT Buffer`_                          |
-> + *  |   |       |                                                              |
-> + *  |   |       | see `GUC_ACTION_HOST2GUC_REGISTER_CTB`_                      |
-> + *  |   +-------+--------------------------------------------------------------+
-> + *  |   |   7:0 | RESERVED = MBZ                                               |
-> + *  +---+-------+--------------------------------------------------------------+
-> +*
-> + *  +---+-------+--------------------------------------------------------------+
-> + *  |   | Bits  | Description                                                  |
-> + *  +===+=======+==============================================================+
-> + *  | 0 |    31 | ORIGIN = GUC_HXG_ORIGIN_GUC_                                 |
-> + *  |   +-------+--------------------------------------------------------------+
-> + *  |   | 30:28 | TYPE = GUC_HXG_TYPE_RESPONSE_SUCCESS_                        |
-> + *  |   +-------+--------------------------------------------------------------+
-> + *  |   |  27:0 | DATA0 = MBZ                                                  |
-> + *  +---+-------+--------------------------------------------------------------+
-> + */
-> +#define GUC_ACTION_HOST2GUC_DEREGISTER_CTB		0x4506 // FIXME 0x5201
-
-Same comment for the FIXME as above
-
+> +	return phy->cfg->ops.set_continuous_clock(phy, enable);
+> +}
 > +
-> +#define HOST2GUC_DEREGISTER_CTB_REQUEST_MSG_LEN		(GUC_HXG_REQUEST_MSG_MIN_LEN + 1u)
-> +#define HOST2GUC_DEREGISTER_CTB_REQUEST_MSG_0_MBZ	GUC_HXG_REQUEST_MSG_0_DATA0
-> +#define HOST2GUC_DEREGISTER_CTB_REQUEST_MSG_1_MBZ	(0xfffff << 12)
-> +#define HOST2GUC_DEREGISTER_CTB_REQUEST_MSG_1_TYPE	(0xf << 8)
-> +#define HOST2GUC_DEREGISTER_CTB_REQUEST_MSG_1_MBZ2	(0xff << 0)
+>  int msm_dsi_phy_get_clk_provider(struct msm_dsi_phy *phy,
+>  	struct clk **byte_clk_provider, struct clk **pixel_clk_provider)
+>  {
+> diff --git a/drivers/gpu/drm/msm/dsi/phy/dsi_phy.h
+> b/drivers/gpu/drm/msm/dsi/phy/dsi_phy.h
+> index 94a77ac364d3..08e516d0dac4 100644
+> --- a/drivers/gpu/drm/msm/dsi/phy/dsi_phy.h
+> +++ b/drivers/gpu/drm/msm/dsi/phy/dsi_phy.h
+> @@ -24,6 +24,7 @@ struct msm_dsi_phy_ops {
+>  	void (*disable)(struct msm_dsi_phy *phy);
+>  	void (*save_pll_state)(struct msm_dsi_phy *phy);
+>  	int (*restore_pll_state)(struct msm_dsi_phy *phy);
+> +	bool (*set_continuous_clock)(struct msm_dsi_phy *phy, bool enable);
+>  };
+> 
+>  struct msm_dsi_phy_cfg {
+> diff --git a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c
+> b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c
+> index e76ce40a12ab..310b15653fa3 100644
+> --- a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c
+> +++ b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c
+> @@ -930,6 +930,21 @@ static int dsi_7nm_phy_enable(struct msm_dsi_phy 
+> *phy,
+>  	return 0;
+>  }
+> 
+> +static bool dsi_7nm_set_continuous_clock(struct msm_dsi_phy *phy, bool 
+> enable)
+> +{
+> +	void __iomem *base = phy->base;
+> +	u32 data;
 > +
-> +#define HOST2GUC_DEREGISTER_CTB_RESPONSE_MSG_LEN	GUC_HXG_RESPONSE_MSG_MIN_LEN
-> +#define HOST2GUC_DEREGISTER_CTB_RESPONSE_MSG_0_MBZ	GUC_HXG_RESPONSE_MSG_0_DATA0
+> +	data = dsi_phy_read(base + REG_DSI_7nm_PHY_CMN_LANE_CTRL1);
+> +	if (enable)
+> +		data |= BIT(5) | BIT(6);
+> +	else
+> +		data &= ~(BIT(5) | BIT(6));
+> +	dsi_phy_write(base + REG_DSI_7nm_PHY_CMN_LANE_CTRL1, data);
 > +
-> +/* legacy definitions */
+> +	return enable;
+> +}
 > +
->   enum intel_guc_action {
->   	INTEL_GUC_ACTION_DEFAULT = 0x0,
->   	INTEL_GUC_ACTION_REQUEST_PREEMPTION = 0x2,
-> diff --git a/drivers/gpu/drm/i915/gt/uc/abi/guc_communication_ctb_abi.h b/drivers/gpu/drm/i915/gt/uc/abi/guc_communication_ctb_abi.h
-> index c2a069a78e01..127b256a662c 100644
-> --- a/drivers/gpu/drm/i915/gt/uc/abi/guc_communication_ctb_abi.h
-> +++ b/drivers/gpu/drm/i915/gt/uc/abi/guc_communication_ctb_abi.h
-> @@ -112,10 +112,6 @@ static_assert(sizeof(struct guc_ct_buffer_desc) == 64);
->    * - **flags**, holds various bits to control message handling
->    */
->   
-> -/* Type of command transport buffer */
-> -#define INTEL_GUC_CT_BUFFER_TYPE_SEND	0x0u
-> -#define INTEL_GUC_CT_BUFFER_TYPE_RECV	0x1u
-> -
->   /*
->    * Definition of the command transport message header (DW0)
->    *
-> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
-> index 3241a477196f..6a29be779cc9 100644
-> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
-> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
-> @@ -103,9 +103,9 @@ void intel_guc_ct_init_early(struct intel_guc_ct *ct)
->   static inline const char *guc_ct_buffer_type_to_str(u32 type)
->   {
->   	switch (type) {
-> -	case INTEL_GUC_CT_BUFFER_TYPE_SEND:
-> +	case GUC_CTB_TYPE_HOST2GUC:
->   		return "SEND";
-> -	case INTEL_GUC_CT_BUFFER_TYPE_RECV:
-> +	case GUC_CTB_TYPE_GUC2HOST:
->   		return "RECV";
->   	default:
->   		return "<invalid>";
-> @@ -136,25 +136,33 @@ static void guc_ct_buffer_init(struct intel_guc_ct_buffer *ctb,
->   	guc_ct_buffer_reset(ctb);
->   }
->   
-> -static int guc_action_register_ct_buffer(struct intel_guc *guc,
-> -					 u32 desc_addr,
-> -					 u32 type)
-> +static int guc_action_register_ct_buffer(struct intel_guc *guc, u32 type,
-> +					 u32 desc_addr, u32 buff_addr, u32 size)
->   {
-> -	u32 action[] = {
-> -		INTEL_GUC_ACTION_REGISTER_COMMAND_TRANSPORT_BUFFER,
-> -		desc_addr,
-> -		sizeof(struct guc_ct_buffer_desc),
-> -		type
-> +	u32 request[HOST2GUC_REGISTER_CTB_REQUEST_MSG_LEN] = {
-> +		FIELD_PREP(GUC_HXG_MSG_0_ORIGIN, GUC_HXG_ORIGIN_HOST) |
-> +		FIELD_PREP(GUC_HXG_MSG_0_TYPE, GUC_HXG_TYPE_REQUEST) |
-> +		FIELD_PREP(GUC_HXG_REQUEST_MSG_0_ACTION, GUC_ACTION_HOST2GUC_REGISTER_CTB),
-
-IMO we could use a macro or 2 for the HXG header, to avoid all these 
-lines, which are hard to read. something like:
-
-GUC_HXG_HEADER(origin, type, data, action) \
-     (FIELD_PREP(GUC_HXG_MSG_0_ORIGIN, origin) | \
-      FIELD_PREP(GUC_HXG_MSG_0_TYPE, type) | \
-FIELD_PREP(GUC_HXG_MSG_0_DATA0, data) | \
-      FIELD_PREP(GUC_HXG_REQUEST_MSG_0_ACTION, action))
-
-H2G_HEADER(type, data, action) \
-     GUC_HXG_HEADER(GUC_HXG_ORIGIN_HOST, type, data, action)
-
-and then call
-
-H2G_HEADER(GUC_HXG_TYPE_REQUEST, 0, GUC_ACTION_HOST2GUC_REGISTER_CTB)
-
-
-Not a blocker.
-
-Daniele
-
-> +		FIELD_PREP(HOST2GUC_REGISTER_CTB_REQUEST_MSG_1_SIZE, size / SZ_4K - 1) |
-> +		FIELD_PREP(HOST2GUC_REGISTER_CTB_REQUEST_MSG_1_TYPE, type),
-> +		FIELD_PREP(HOST2GUC_REGISTER_CTB_REQUEST_MSG_2_DESC_ADDR, desc_addr),
-> +		FIELD_PREP(HOST2GUC_REGISTER_CTB_REQUEST_MSG_3_BUFF_ADDR, buff_addr),
->   	};
->   
-> -	/* Can't use generic send(), CT registration must go over MMIO */
-> -	return intel_guc_send_mmio(guc, action, ARRAY_SIZE(action), NULL, 0);
-> +	GEM_BUG_ON(type != GUC_CTB_TYPE_HOST2GUC && type != GUC_CTB_TYPE_GUC2HOST);
-> +	GEM_BUG_ON(size % SZ_4K);
-> +
-> +	/* CT registration must go over MMIO */
-> +	return intel_guc_send_mmio(guc, request, ARRAY_SIZE(request), NULL, 0);
->   }
->   
-> -static int ct_register_buffer(struct intel_guc_ct *ct, u32 desc_addr, u32 type)
-> +static int ct_register_buffer(struct intel_guc_ct *ct, u32 type,
-> +			      u32 desc_addr, u32 buff_addr, u32 size)
->   {
-> -	int err = guc_action_register_ct_buffer(ct_to_guc(ct), desc_addr, type);
-> +	int err;
->   
-> +	err = guc_action_register_ct_buffer(ct_to_guc(ct), type,
-> +					    desc_addr, buff_addr, size);
->   	if (unlikely(err))
->   		CT_ERROR(ct, "Failed to register %s buffer (err=%d)\n",
->   			 guc_ct_buffer_type_to_str(type), err);
-> @@ -163,14 +171,17 @@ static int ct_register_buffer(struct intel_guc_ct *ct, u32 desc_addr, u32 type)
->   
->   static int guc_action_deregister_ct_buffer(struct intel_guc *guc, u32 type)
->   {
-> -	u32 action[] = {
-> -		INTEL_GUC_ACTION_DEREGISTER_COMMAND_TRANSPORT_BUFFER,
-> -		CTB_OWNER_HOST,
-> -		type
-> +	u32 request[HOST2GUC_DEREGISTER_CTB_REQUEST_MSG_LEN] = {
-> +		FIELD_PREP(GUC_HXG_MSG_0_ORIGIN, GUC_HXG_ORIGIN_HOST) |
-> +		FIELD_PREP(GUC_HXG_MSG_0_TYPE, GUC_HXG_TYPE_REQUEST) |
-> +		FIELD_PREP(GUC_HXG_REQUEST_MSG_0_ACTION, GUC_ACTION_HOST2GUC_DEREGISTER_CTB),
-> +		FIELD_PREP(HOST2GUC_DEREGISTER_CTB_REQUEST_MSG_1_TYPE, type),
->   	};
->   
-> -	/* Can't use generic send(), CT deregistration must go over MMIO */
-> -	return intel_guc_send_mmio(guc, action, ARRAY_SIZE(action), NULL, 0);
-> +	GEM_BUG_ON(type != GUC_CTB_TYPE_HOST2GUC && type != GUC_CTB_TYPE_GUC2HOST);
-> +
-> +	/* CT deregistration must go over MMIO */
-> +	return intel_guc_send_mmio(guc, request, ARRAY_SIZE(request), NULL, 0);
->   }
->   
->   static int ct_deregister_buffer(struct intel_guc_ct *ct, u32 type)
-> @@ -258,7 +269,7 @@ void intel_guc_ct_fini(struct intel_guc_ct *ct)
->   int intel_guc_ct_enable(struct intel_guc_ct *ct)
->   {
->   	struct intel_guc *guc = ct_to_guc(ct);
-> -	u32 base, cmds;
-> +	u32 base, desc, cmds;
->   	void *blob;
->   	int err;
->   
-> @@ -274,23 +285,26 @@ int intel_guc_ct_enable(struct intel_guc_ct *ct)
->   	GEM_BUG_ON(blob != ct->ctbs.send.desc);
->   
->   	/* (re)initialize descriptors */
-> -	cmds = base + ptrdiff(ct->ctbs.send.cmds, blob);
->   	guc_ct_buffer_reset(&ct->ctbs.send);
-> -
-> -	cmds = base + ptrdiff(ct->ctbs.recv.cmds, blob);
->   	guc_ct_buffer_reset(&ct->ctbs.recv);
->   
->   	/*
->   	 * Register both CT buffers starting with RECV buffer.
->   	 * Descriptors are in first half of the blob.
->   	 */
-> -	err = ct_register_buffer(ct, base + ptrdiff(ct->ctbs.recv.desc, blob),
-> -				 INTEL_GUC_CT_BUFFER_TYPE_RECV);
-> +	desc = base + ptrdiff(ct->ctbs.recv.desc, blob);
-> +	cmds = base + ptrdiff(ct->ctbs.recv.cmds, blob);
-> +	err = ct_register_buffer(ct, GUC_CTB_TYPE_GUC2HOST,
-> +				 desc, cmds, ct->ctbs.recv.size * 4);
-> +
->   	if (unlikely(err))
->   		goto err_out;
->   
-> -	err = ct_register_buffer(ct, base + ptrdiff(ct->ctbs.send.desc, blob),
-> -				 INTEL_GUC_CT_BUFFER_TYPE_SEND);
-> +	desc = base + ptrdiff(ct->ctbs.send.desc, blob);
-> +	cmds = base + ptrdiff(ct->ctbs.send.cmds, blob);
-> +	err = ct_register_buffer(ct, GUC_CTB_TYPE_HOST2GUC,
-> +				 desc, cmds, ct->ctbs.send.size * 4);
-> +
->   	if (unlikely(err))
->   		goto err_deregister;
->   
-> @@ -299,7 +313,7 @@ int intel_guc_ct_enable(struct intel_guc_ct *ct)
->   	return 0;
->   
->   err_deregister:
-> -	ct_deregister_buffer(ct, INTEL_GUC_CT_BUFFER_TYPE_RECV);
-> +	ct_deregister_buffer(ct, GUC_CTB_TYPE_GUC2HOST);
->   err_out:
->   	CT_PROBE_ERROR(ct, "Failed to enable CTB (%pe)\n", ERR_PTR(err));
->   	return err;
-> @@ -318,8 +332,8 @@ void intel_guc_ct_disable(struct intel_guc_ct *ct)
->   	ct->enabled = false;
->   
->   	if (intel_guc_is_fw_running(guc)) {
-> -		ct_deregister_buffer(ct, INTEL_GUC_CT_BUFFER_TYPE_SEND);
-> -		ct_deregister_buffer(ct, INTEL_GUC_CT_BUFFER_TYPE_RECV);
-> +		ct_deregister_buffer(ct, GUC_CTB_TYPE_HOST2GUC);
-> +		ct_deregister_buffer(ct, GUC_CTB_TYPE_GUC2HOST);
->   	}
->   }
->   
-
+>  static void dsi_7nm_phy_disable(struct msm_dsi_phy *phy)
+>  {
+>  	void __iomem *base = phy->base;
+> @@ -970,6 +985,7 @@ const struct msm_dsi_phy_cfg dsi_phy_7nm_cfgs = {
+>  		.pll_init = dsi_pll_7nm_init,
+>  		.save_pll_state = dsi_7nm_pll_save_state,
+>  		.restore_pll_state = dsi_7nm_pll_restore_state,
+> +		.set_continuous_clock = dsi_7nm_set_continuous_clock,
+>  	},
+>  	.min_pll_rate = 600000000UL,
+>  	.max_pll_rate = (5000000000ULL < ULONG_MAX) ? 5000000000ULL : 
+> ULONG_MAX,
+> @@ -992,6 +1008,7 @@ const struct msm_dsi_phy_cfg dsi_phy_7nm_8150_cfgs 
+> = {
+>  		.pll_init = dsi_pll_7nm_init,
+>  		.save_pll_state = dsi_7nm_pll_save_state,
+>  		.restore_pll_state = dsi_7nm_pll_restore_state,
+> +		.set_continuous_clock = dsi_7nm_set_continuous_clock,
+>  	},
+>  	.min_pll_rate = 1000000000UL,
+>  	.max_pll_rate = 3500000000UL,
