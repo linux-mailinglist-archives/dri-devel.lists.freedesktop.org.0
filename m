@@ -1,121 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53AEE39EF37
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Jun 2021 09:06:20 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4205339EF3D
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Jun 2021 09:10:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 096606EAB7;
-	Tue,  8 Jun 2021 07:06:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 993316E0A8;
+	Tue,  8 Jun 2021 07:10:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam11on2073.outbound.protection.outlook.com [40.107.236.73])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D39366EAB8;
- Tue,  8 Jun 2021 07:06:16 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=CTrI+F9fzlGEf/vr8UViSfNFlBan148YciFG/B6qvXnHeqLucFF7JuaZg6KXTytwt3+mCMO2j6NJQm6TQv75STl03H8U7EgcUejj+IAy06ItaWr/L8v+0EfbsKXVuoTVWrd7WA5+zcm7JZN8/JBwn8gOz2ygB79/06v3FeVJsScgyRMqxDvQWkxoJufwXTRON1euJ8Eb4icATnVGBCiwLd0brpYkwn67a6JH+SUgK8SHjmJCObjpPTL6rf3sdsfOPEjG0Z9NZyueKz+AIAqrGSHHiVUj7z+Niz82WbXrvBvrn6B6l1XX9WHlkeNfq8GZivTMSeGp1AR5ekOToiIeXw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=+8b/sno6E+BmF/xJgUezDnlX8CtPjjo9DPRSVSGe0us=;
- b=mM+M9SIcNt6qClqgGFp8Q/hBaBQvGbM3NDxF6vo0NBcDGfBL/KjCzEXp1/u6F8oLNv5lmPGs4aqDPkO2GAZvRk/SBDyuclmUyUL7u8hdBtWFd3we6O0H6Bnii0S+yKDSDc+8dldvVJrflOwFhBjqhULujc6FnbZ0WRnM/jKCtVXk3zfmHKqo7Vo3pG6Ksj+5mx4MPazE8Y2w8ceEfpRIjKf5KZFOj0cCVgWxZfKtSyV48Ww/Sc/9Oxsu/uGE/AL8M9uxM+za0dMoxb30atHppdVpZnQQ63omieTozOq3lkorozG2fCuIUgZU9F5D7XUJcbZuJBD56SwIhUurklMfFg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=+8b/sno6E+BmF/xJgUezDnlX8CtPjjo9DPRSVSGe0us=;
- b=wH/CP+49aqSJl48gKiQbU9pWkmKl34oYZoFma2k7nLRu2qijdeG+X4Yc2X57NraTMSC34GUqmCXPHKoeOC7ZwtN8AcyHtTFyz9MM2XGXkSqJVEbIXpOgoZJbTfu+RXwkSKlRnybtoVfQdb5I+bWJmg92xDQI0V0aGhm0Md9HeG4=
-Authentication-Results: vger.kernel.org; dkim=none (message not signed)
- header.d=none;vger.kernel.org; dmarc=none action=none header.from=amd.com;
-Received: from BN9PR12MB5129.namprd12.prod.outlook.com (2603:10b6:408:136::12)
- by BN9PR12MB5339.namprd12.prod.outlook.com (2603:10b6:408:104::21)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4195.23; Tue, 8 Jun
- 2021 07:06:15 +0000
-Received: from BN9PR12MB5129.namprd12.prod.outlook.com
- ([fe80::3c78:e58b:fba7:b8dd]) by BN9PR12MB5129.namprd12.prod.outlook.com
- ([fe80::3c78:e58b:fba7:b8dd%6]) with mapi id 15.20.4195.030; Tue, 8 Jun 2021
- 07:06:15 +0000
-Subject: Re: linux-next: build failure after merge of the drm-misc tree
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- Stephen Rothwell <sfr@canb.auug.org.au>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- Intel Graphics <intel-gfx@lists.freedesktop.org>,
- Dave Airlie <airlied@linux.ie>, DRI <dri-devel@lists.freedesktop.org>
-References: <20210608125046.07c6deca@canb.auug.org.au>
- <22010e38-3686-87ce-532d-4a53cae990b1@amd.com>
- <7b825bc4-9f81-3010-6445-d6708e34a9bd@amd.com>
-From: Felix Kuehling <felix.kuehling@amd.com>
-Message-ID: <6dc40376-77fc-2f43-693e-1bd2c52d9cbd@amd.com>
-Date: Tue, 8 Jun 2021 03:06:13 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
-In-Reply-To: <7b825bc4-9f81-3010-6445-d6708e34a9bd@amd.com>
-Content-Type: text/plain; charset=windows-1252
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-Originating-IP: [142.116.203.225]
-X-ClientProxiedBy: YTOPR0101CA0034.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b00:15::47) To BN9PR12MB5129.namprd12.prod.outlook.com
- (2603:10b6:408:136::12)
+Received: from mail-oo1-xc32.google.com (mail-oo1-xc32.google.com
+ [IPv6:2607:f8b0:4864:20::c32])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C937C6E0A8
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Jun 2021 07:10:38 +0000 (UTC)
+Received: by mail-oo1-xc32.google.com with SMTP id
+ k21-20020a4a2a150000b029024955603642so2619284oof.8
+ for <dri-devel@lists.freedesktop.org>; Tue, 08 Jun 2021 00:10:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=kONHKi0GPabu6CT/pGcqenb1d6sDVo68rdZqlXBKC84=;
+ b=Z7gWEu93hpHjnALyw0+bPZNfHiRjpO0tYqiH12fqqQQP7elRX7LVePVQUknZahFnrS
+ IaCo6irBiVphU7ZMrfDz+rdtZ98ojpd/6wsr6P+76DMDFlgzonzuWWxPyrF6Wq5+LrVq
+ /czlIQvHLQ+CzqV648IIJYzN3rvgZuxbT4AgzImE4nDNWFg7D048A+eCAwEE8+ceyKNj
+ zIqB+0iZwEiwxqaru6kwTl5IbIKdXDBsd9IlML1snDsLvousIptDqwrAJsNOdmKK9xxJ
+ f/5I/9wg4P8+lMJhR/xLCYlEPN9cOj86z+c895GNKalKkJui3D14FPJBm62wogBnewCG
+ 0ZEA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=kONHKi0GPabu6CT/pGcqenb1d6sDVo68rdZqlXBKC84=;
+ b=pLedcsa2IZIXmy3k60kGtYVbAOh42xDNuryx2OnI0Cvg6Hh3HlrdCKbTZiwMPP1rAa
+ goT6cJVunJWXQ60XRprEnzk7MceF50qBe0Qb+ZhQwJWhxAq/z/MnJOHgRBj1eTxpeMuz
+ PmvSv2v5PYd8hGpJfQdutIMfgNI9Og/PBW2uKdhU6qHmIwzHnAD3QaA1pUrar0gjcRJI
+ IOGkB4/Q5NqOKm8IE0FKFj6foy5ljC1U9o9s0MAzLazeJ4Cbr0rt2FeDISZ1q3CqEXQm
+ llzDURQIUH74KxImc0fKEIkK0rRwO5hEm0TPDpkLbXTXB1AKF1ofMVwSG/L3aF3lp4Gy
+ PPUQ==
+X-Gm-Message-State: AOAM533Mm57bj4Od8AbaT40ha8or0Cf8Yf7pgCB7yO9rQCCbfkyjnSIJ
+ 6qlOBe5iuuD+I9U/Y24GdjzdebYMx1MFi+KLsxTB4KM9HiE=
+X-Google-Smtp-Source: ABdhPJwOx8eVT1oB03jP8PtvxJgOhfkCiXwuQB0FadywYks8OC5l7DyYF3rxl/RTJHu5FT1ABTFHjatyWkMIuMUVA5M=
+X-Received: by 2002:a4a:315a:: with SMTP id v26mr16258531oog.75.1623136237983; 
+ Tue, 08 Jun 2021 00:10:37 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.2.100] (142.116.203.225) by
- YTOPR0101CA0034.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:b00:15::47) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4195.27 via Frontend
- Transport; Tue, 8 Jun 2021 07:06:14 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 8822cc33-b6ea-4abd-7f2b-08d92a4be7c0
-X-MS-TrafficTypeDiagnostic: BN9PR12MB5339:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <BN9PR12MB53391B847D65C4AFCD16C78692379@BN9PR12MB5339.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: LafSOeZjwTDYoPHsOQHeRlnZMjX/BPF6vlHo1s3tgrtH7Nk5YxH1cdSqWP4l1Nxit7F1l0Vu2Awrlujd3ZXCXxykHbttwTu/vEsPx+7d0KIAFdOcLm38ivAhyKd9U3EwVVSnzGwsLBo5nsLe6vYz2NpJZdZsAzLfoPVrsx3Bki6Elf1b5qAm6wnHiuDvChrlpGmJ6guZYarl90ycamUe7002jyYMGoCcXEeETKF9kcd9dxQ+OX9ajmGNcYoBr9gllgj3VlymUXCgOdPCEsiWTI3QdUUA6kjhHXPrS+BrCGialtc8Npc9IonSIc7nNOuQmyoKlKmHtqwTefPeU/FiACp5xF8djBDYXabnEQfP3hvWQ+kgYVRHHuN4O+n4J9TpCCJ1ZyV8werKbBkJLMlB+eya8oZvYNOLB9ngGOILovQU4UHBrL2o8AfduiRRIsunxjykFRgJqFrPRTjPLhWH+gu+Z//uRMPd3zhkX4X84DnZGBpkwQ0OEUvk1d14xc4G+FPMrkURnL8wKwMLgrDfqn5vfPXXElLsHE7pDrReGAzPN7n7HVn8t0OI/bdcZPcpA+jojYX28rbMSUvOCA9e/QFJvmmaBq7f8+54K6t4ffmBYxLt4sEhHOnBqh9Ya6rz8FeRLuNYK4qP8JfyAy+9HTvneOKrDeSOdlb5cwsHdfoK/b03bjx6jpeNnhP3UlHZ
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BN9PR12MB5129.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(376002)(136003)(346002)(39860400002)(366004)(396003)(16526019)(186003)(316002)(16576012)(4326008)(31686004)(8676002)(83380400001)(8936002)(66574015)(26005)(54906003)(66946007)(44832011)(66476007)(66556008)(36756003)(86362001)(5660300002)(110136005)(6486002)(478600001)(956004)(38100700002)(2616005)(2906002)(53546011)(31696002)(45980500001)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?Windows-1252?Q?odCUxphLzQ1wtOOpQFDFan8tAb1bd6fPlBkMVg/PKFzpSoIFxyQrXnHT?=
- =?Windows-1252?Q?0K7Rju2bQs82+XjT9jpgkqTzvJtKvS1W8G7NjSEhDyfSpU/5hW8BwS7B?=
- =?Windows-1252?Q?azSe8nzMnX3fvtdjbIbkrt5RzQCzyuAWsWbftkgEXHxvr+3cVBmGKBLa?=
- =?Windows-1252?Q?WkZhBfFnQcvx9xTiFGz2jq84END6WpPNkfZm5EytA/sMzxHtBV4hGLjg?=
- =?Windows-1252?Q?tt4FCGGIFUpzjGl6/Yz1RT/5ld1sUa/HXG8hmE+eII1SYSpis5fURUt/?=
- =?Windows-1252?Q?IvjRvfZ3uz9a2QUXlpMss3NJvY8SXoerYxUA+OJys4Rdlz+2Lzgj/Rzs?=
- =?Windows-1252?Q?b0nqzpOQb+vqU/AeKqZRS+AUZIirIbsUA7b66vM5HGK/Cleduc3wgEK9?=
- =?Windows-1252?Q?amyLsmIDft+57cIW5bJUWyXZu1N0pFvzT1G02iHdiSRFx3wYgIeLCbya?=
- =?Windows-1252?Q?mps5RiLgCDKSB57BGBfjRF9Z5xb8OIepwYJqrBixQ3cVuopGcmGqYsLR?=
- =?Windows-1252?Q?b71R7I0CKJleEw433FyfgxSaQbf6R4/NpRgnSRvmwp5/l3QVGTXKVBew?=
- =?Windows-1252?Q?+ieoPzo+UGY+iFlcgCVEfTRm4bmgU/GXEs1S7pBTzLynxgG+MF5vV030?=
- =?Windows-1252?Q?4lmUxW/VNb+wI8u3Gbl9Lny7vJdg7uwVrgb3bZkaXQkndos7PKUa4aLl?=
- =?Windows-1252?Q?78ALa/IRJRPLXpbUnlD3ncxwLgmLXo4ZnwROrR6lb1CWXs/v/HMqi/X3?=
- =?Windows-1252?Q?8T7WQKuNtLAnfRbcGHK2n7VViyQnDXFIOJtP7HBwps/bTKjs6dWgcg5T?=
- =?Windows-1252?Q?/TVUUnrAWlOXigJLxCevt+2Hrw81GpDsnzHTELqQ93EFWOf/2yzfh2nW?=
- =?Windows-1252?Q?NkoVHigO/Y/J/z7tGMkqKr5U1dvg5uSVCPOHq4H5FPDgUTXhoQtMo3It?=
- =?Windows-1252?Q?ILgjWHsBOUa3EFrLfS4qTg5ACmo0rRf6maHZotngkrZenBeZ9b/lMUn5?=
- =?Windows-1252?Q?02Owl5iPYqN9pXp5C7rOuYdPnUkemqgejgSVqUFjAsr0d444rnNIxeoC?=
- =?Windows-1252?Q?HNhht3HP3ZZya5k4NAMJcK3GStUS0ivjef/nIrSXW2ANL3wYflJtdpOR?=
- =?Windows-1252?Q?la75rSJLLZDStoRJoLKhvjrkis88KB2YZkSg5ReM/T1wQy0FEn73BSmj?=
- =?Windows-1252?Q?HLnpjDZNLOWJhJHNVgouyCd+aF+N6nTGmOFuQVO27HARZVq+mCQ3YIDt?=
- =?Windows-1252?Q?kU4RuargvBuXY76GLZOGXBgqdYJ/dhMTmuCjPw6UMbwb4SEMaxDP2XVS?=
- =?Windows-1252?Q?gXZeuIZej826Ifvs/RS/fy00pvOV+xliZBb2fBJFIgJus2G/mojkrCNk?=
- =?Windows-1252?Q?QR8GFdJ4lCbIYdJHFnsY44GqqAX/w2cC8i17Q3w3TmIxJK1snddtHmD8?=
- =?Windows-1252?Q?en32txheScaeuAj/bmZjAw=3D=3D?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8822cc33-b6ea-4abd-7f2b-08d92a4be7c0
-X-MS-Exchange-CrossTenant-AuthSource: BN9PR12MB5129.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Jun 2021 07:06:15.1400 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: mKUrzANj5OvWP3o3K1z/VXd6c9PMz1vcLD13W+30znoqJdDfRREBpX4GZZOSptJstQDKlUURYgigx7qS4dFj2g==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN9PR12MB5339
+References: <CAJeZQfg5fq8B7iVu6Wga+aM015o_ViiSUcJxAEtDE9-GXxgSOw@mail.gmail.com>
+ <820078f3-1adf-d561-1772-f63de6d46ed6@daenzer.net>
+In-Reply-To: <820078f3-1adf-d561-1772-f63de6d46ed6@daenzer.net>
+From: Sichem Zhou <sichem.zh@gmail.com>
+Date: Tue, 8 Jun 2021 15:10:26 +0800
+Message-ID: <CAJeZQfhbYR8YdPvdznTL+nK6Gy+=0Bp42-h+5SqXVnrWP17sVg@mail.gmail.com>
+Subject: Re: [QUESTION] drmModeAtomicCommit returns -EINVAL on return
+To: =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel@daenzer.net>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -128,112 +65,220 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alex Deucher <alexander.deucher@amd.com>,
- Linux Next Mailing List <linux-next@vger.kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 2021-06-08 um 2:55 a.m. schrieb Christian König:
-> Hi Felix,
+Hi Michel,
+
+Thanks for your answer, I just enabled the debug and captured a drm debug l=
+og
+from dmesg, but I don't seem to find anything that looks like an
+error, Is there anything specific I should be looking for?
+
+Sorry for attaching my log here, here is the last drmModeAtomicCommit
+where I had -einval.
+
+[   56.005133] [drm:drm_atomic_state_init [drm]] Allocated atomic
+state 00000000c20a40d6
+[   56.005218] [drm:drm_mode_object_get [drm]] OBJ ID: 97 (3)
+[   56.005297] [drm:drm_mode_object_get [drm]] OBJ ID: 97 (4)
+[   56.005373] [drm:drm_atomic_get_plane_state [drm]] Added
+[PLANE:31:plane 1A] 0000000040b2d9eb state to 00000000c20a40d6
+[   56.005457] [drm:drm_mode_object_get [drm]] OBJ ID: 122 (1)
+[   56.005534] [drm:drm_atomic_get_crtc_state [drm]] Added
+[CRTC:51:pipe A] 0000000073659c18 state to 00000000c20a40d6
+[   56.005611] [drm:drm_atomic_get_plane_state [drm]] Added
+[PLANE:39:plane 2A] 0000000071f640c7 state to 00000000c20a40d6
+[   56.005687] i915 0000:00:02.0: [drm:drm_atomic_set_fb_for_plane
+[drm]] Set [NOFB] for [PLANE:39:plane 2A] state 0000000071f640c7
+[   56.005765] [drm:drm_atomic_get_plane_state [drm]] Added
+[PLANE:47:cursor A] 000000000ebe824b state to 00000000c20a40d6
+[   56.005839] i915 0000:00:02.0: [drm:drm_atomic_set_fb_for_plane
+[drm]] Set [NOFB] for [PLANE:47:cursor A] state 000000000ebe824b
+[   56.005911] [drm:drm_atomic_get_plane_state [drm]] Added
+[PLANE:52:plane 1B] 00000000b6f083af state to 00000000c20a40d6
+[   56.005983] [drm:drm_atomic_get_plane_state [drm]] Added
+[PLANE:60:plane 2B] 00000000243f0105 state to 00000000c20a40d6
+[   56.006055] i915 0000:00:02.0: [drm:drm_atomic_set_fb_for_plane
+[drm]] Set [NOFB] for [PLANE:60:plane 2B] state 00000000243f0105
+[   56.006124] [drm:drm_atomic_get_plane_state [drm]] Added
+[PLANE:68:cursor B] 00000000c385344b state to 00000000c20a40d6
+[   56.006196] i915 0000:00:02.0: [drm:drm_atomic_set_fb_for_plane
+[drm]] Set [NOFB] for [PLANE:68:cursor B] state 00000000c385344b
+[   56.006264] [drm:drm_atomic_get_plane_state [drm]] Added
+[PLANE:73:plane 1C] 000000006229658a state to 00000000c20a40d6
+[   56.006336] [drm:drm_atomic_get_plane_state [drm]] Added
+[PLANE:81:plane 2C] 0000000065fc3015 state to 00000000c20a40d6
+[   56.006407] i915 0000:00:02.0: [drm:drm_atomic_set_fb_for_plane
+[drm]] Set [NOFB] for [PLANE:81:plane 2C] state 0000000065fc3015
+[   56.006475] [drm:drm_atomic_get_plane_state [drm]] Added
+[PLANE:89:cursor C] 00000000c5c2644d state to 00000000c20a40d6
+[   56.006546] i915 0000:00:02.0: [drm:drm_atomic_set_fb_for_plane
+[drm]] Set [NOFB] for [PLANE:89:cursor C] state 00000000c5c2644d
+[   56.006618] i915 0000:00:02.0: [drm:drm_atomic_set_fb_for_plane
+[drm]] Set [FB:97] for [PLANE:31:plane 1A] state 0000000040b2d9eb
+[   56.006686] [drm:drm_mode_object_get [drm]] OBJ ID: 97 (5)
+[   56.006763] [drm:drm_mode_object_put.part.0 [drm]] OBJ ID: 97 (6)
+[   56.006858] [drm:drm_atomic_add_affected_connectors [drm]] Adding
+all current connectors for [CRTC:51:pipe A] to 00000000c20a40d6
+[   56.006942] [drm:drm_mode_object_get [drm]] OBJ ID: 95 (4)
+[   56.007019] [drm:drm_mode_object_get [drm]] OBJ ID: 95 (5)
+[   56.007094] [drm:drm_atomic_get_connector_state [drm]] Added
+[CONNECTOR:95:eDP-1] 0000000066710aab state to 00000000c20a40d6
+[   56.007172] [drm:drm_mode_object_put.part.0 [drm]] OBJ ID: 95 (5)
+[   56.007250] i915 0000:00:02.0:
+[drm:drm_atomic_set_crtc_for_connector [drm]] Link
+[CONNECTOR:95:eDP-1] state 0000000066710aab to [NOCRTC]
+[   56.007321] [drm:drm_mode_object_get [drm]] OBJ ID: 95 (4)
+[   56.007397] i915 0000:00:02.0:
+[drm:drm_atomic_set_crtc_for_connector [drm]] Link
+[CONNECTOR:95:eDP-1] state 0000000066710aab to [CRTC:51:pipe A]
+[   56.007471] [drm:drm_atomic_get_crtc_state [drm]] Added
+[CRTC:72:pipe B] 0000000065ce9351 state to 00000000c20a40d6
+[   56.007548] i915 0000:00:02.0: [drm:drm_atomic_set_mode_for_crtc
+[drm]] Set [NOMODE] for [CRTC:72:pipe B] state 0000000065ce9351
+[   56.007618] i915 0000:00:02.0: [drm:drm_atomic_set_fb_for_plane
+[drm]] Set [NOFB] for [PLANE:52:plane 1B] state 00000000b6f083af
+[   56.007684] [drm:drm_atomic_add_affected_connectors [drm]] Adding
+all current connectors for [CRTC:72:pipe B] to 00000000c20a40d6
+[   56.007765] [drm:drm_atomic_get_crtc_state [drm]] Added
+[CRTC:93:pipe C] 0000000067f37a81 state to 00000000c20a40d6
+[   56.007838] i915 0000:00:02.0: [drm:drm_atomic_set_mode_for_crtc
+[drm]] Set [NOMODE] for [CRTC:93:pipe C] state 0000000067f37a81
+[   56.007907] i915 0000:00:02.0: [drm:drm_atomic_set_fb_for_plane
+[drm]] Set [NOFB] for [PLANE:73:plane 1C] state 000000006229658a
+[   56.007975] [drm:drm_atomic_add_affected_connectors [drm]] Adding
+all current connectors for [CRTC:93:pipe C] to 00000000c20a40d6
+[   56.008051] [drm:drm_atomic_check_only [drm]] checking 00000000c20a40d6
+[   56.008133] [drm:drm_atomic_helper_check_modeset [drm_kms_helper]]
+Updating routing for [CONNECTOR:95:eDP-1]
+[   56.008184] [drm:drm_atomic_helper_check_modeset [drm_kms_helper]]
+[CONNECTOR:95:eDP-1] keeps [ENCODER:94:DDI A/PHY A], now on
+[CRTC:51:pipe A]
+[   56.008232] [drm:drm_atomic_add_encoder_bridges [drm]] Adding all
+bridges for [encoder:94:DDI A/PHY A] to 00000000c20a40d6
+[   56.008311] [drm:drm_atomic_add_encoder_bridges [drm]] Adding all
+bridges for [encoder:94:DDI A/PHY A] to 00000000c20a40d6
+[   56.008390] [drm:drm_mode_object_put.part.0 [drm]] OBJ ID: 97 (5)
+[   56.008469] [drm:drm_mode_object_get [drm]] OBJ ID: 97 (4)
+[   56.008554] i915 0000:00:02.0: [drm:intel_plane_atomic_calc_changes
+[i915]] [CRTC:51:pipe A] with [PLANE:31:plane 1A] visible 1 -> 1, off
+0, on 0, ms 0
+[   56.008824] i915 0000:00:02.0:
+[drm:intel_atomic_get_global_obj_state [i915]] Added new global object
+000000008a949845 state 00000000a680ff36 to 00000000c20a40d6
+[   56.009059] i915 0000:00:02.0:
+[drm:intel_atomic_get_global_obj_state [i915]] Added new global object
+00000000db701695 state 0000000099e760e4 to 00000000c20a40d6
+[   56.009292] [drm:drm_atomic_commit [drm]] committing
+00000000c20a40d6
+[   56.009430] i915 0000:00:02.0:
+[drm:drm_crtc_vblank_helper_get_vblank_timestamp_internal [drm]] crtc
+0 : v p(0,1029)@ 55.633486 -> 55.627611 [e 0 us, 0 rep]
+[   56.009519] i915 0000:00:02.0: [drm:drm_vblank_restore [drm]]
+missed 38 vblanks in 263172022 ns, frame duration=3D6943097 ns,
+hw_diff=3D38
+[   56.009599] i915 0000:00:02.0: [drm:drm_vblank_enable [drm]]
+enabling vblank on crtc 0, ret: 0
+[   56.009675] i915 0000:00:02.0:
+[drm:drm_crtc_vblank_helper_get_vblank_timestamp_internal [drm]] crtc
+0 : v p(0,1071)@ 55.633731 -> 55.627616 [e 0 us, 0 rep]
+[   56.009755] i915 0000:00:02.0:
+[drm:drm_crtc_vblank_helper_get_vblank_timestamp_internal [drm]] crtc
+0 : v p(0,-131)@ 55.633811 -> 55.634559 [e 0 us, 0 rep]
+[   56.009831] i915 0000:00:02.0: [drm:drm_update_vblank_count [drm]]
+updating vblank count on crtc 0: current=3D7575, diff=3D1, hw=3D8436
+hw_last=3D8435
+[   56.009917] i915 0000:00:02.0:
+[drm:drm_crtc_vblank_helper_get_vblank_timestamp_internal [drm]] crtc
+0 : v p(0,-103)@ 55.633970 -> 55.634558 [e 0 us, 0 rep]
+[   56.010025] i915 0000:00:02.0: [drm:drm_update_vblank_count [drm]]
+updating vblank count on crtc 0: current=3D7576, diff=3D0, hw=3D8436
+hw_last=3D8436
+[   56.010112] i915 0000:00:02.0:
+[drm:drm_crtc_vblank_helper_get_vblank_timestamp_internal [drm]] crtc
+0 : v p(0,-68)@ 55.634168 -> 55.634556 [e 0 us, 0 rep]
+[   56.010191] i915 0000:00:02.0: [drm:drm_update_vblank_count [drm]]
+updating vblank count on crtc 0: current=3D7576, diff=3D0, hw=3D8436
+hw_last=3D8436
+[   56.016771] i915 0000:00:02.0:
+[drm:drm_crtc_vblank_helper_get_vblank_timestamp_internal [drm]] crtc
+0 : v p(0,-118)@ 55.640809 -> 55.641483 [e 0 us, 0 rep]
+[   56.016798] i915 0000:00:02.0: [drm:drm_update_vblank_count [drm]]
+updating vblank count on crtc 0: current=3D7576, diff=3D1, hw=3D8437
+hw_last=3D8436
+[   56.016814] i915 0000:00:02.0: [drm:drm_handle_vblank [drm]] vblank
+event on 7577, current 7577
+[   56.016907] [drm:drm_atomic_state_default_clear [drm]] Clearing
+atomic state 00000000c20a40d6
+[   56.016927] [drm:drm_mode_object_put.part.0 [drm]] OBJ ID: 95 (5)
+[   56.016945] [drm:drm_mode_object_put.part.0 [drm]] OBJ ID: 95 (4)
+[   56.016964] [drm:drm_mode_object_put.part.0 [drm]] OBJ ID: 122 (2)
+[   56.016981] [drm:drm_mode_object_put.part.0 [drm]] OBJ ID: 97 (5)
+[   56.016997] [drm:drm_mode_object_put.part.0 [drm]] OBJ ID: 97 (4)
+[   56.017015] [drm:__drm_atomic_state_free [drm]] Freeing atomic
+state 00000000c20a40d6
+[   56.017034] [drm:drm_release_noglobal [drm]] driver lastclose
+completed
+[   56.023639] i915 0000:00:02.0:
+[drm:drm_crtc_vblank_helper_get_vblank_timestamp_internal [drm]] crtc
+0 : v p(0,-131)@ 55.647660 -> 55.648408 [e 0 us, 0 rep]
+[   56.023668] i915 0000:00:02.0: [drm:drm_update_vblank_count [drm]]
+updating vblank count on crtc 0: current=3D7577, diff=3D1, hw=3D8438
+hw_last=3D8437
+[   56.023688] i915 0000:00:02.0: [drm:vblank_disable_fn [drm]]
+disabling vblank on crtc 0
+[   56.023706] i915 0000:00:02.0:
+[drm:drm_crtc_vblank_helper_get_vblank_timestamp_internal [drm]] crtc
+0 : v p(0,-119)@ 55.647729 -> 55.648408 [e 0 us, 0 rep]
+[   56.023725] i915 0000:00:02.0: [drm:drm_update_vblank_count [drm]]
+updating vblank count on crtc 0: current=3D7578, diff=3D0, hw=3D8438
+hw_last=3D8438
+[   57.924428] i915 0000:00:02.0: [drm:intel_pps_vdd_off_sync_unlocked
+[i915]] Turning [ENCODER:94:DDI A/PHY A] VDD off
+[   57.924748] i915 0000:00:02.0: [drm:intel_pps_vdd_off_sync_unlocked
+[i915]] PP_STATUS: 0x80000008 PP_CONTROL: 0x00000067
+[   57.924956] i915 0000:00:02.0:
+[drm:__intel_display_power_put_domain [i915]] disabling DC off
+[   57.925163] i915 0000:00:02.0: [drm:skl_enable_dc6 [i915]] Enabling DC6
+[   57.925361] i915 0000:00:02.0: [drm:gen9_set_dc_state [i915]]
+Setting DC state from 00 to 02
+
+Best regards,
+Sichem
+
+On Mon, Jun 7, 2021 at 4:32 PM Michel D=C3=A4nzer <michel@daenzer.net> wrot=
+e:
 >
-> that should already be fixed in drm-tip as part of the merge of the
-> TTM changes.
-
-No, the preempt_mgr doesn't exist in drm-misc-next. It does exist in
-drm-next, but that doesn't seem to have the TTM changes yet.
-
-Is there another DRM branch or repository that you're referring to with
-drm-tip?
-
-Regards,
-  Felix
-
-
+> On 2021-06-05 6:06 a.m., Sichem Zhou wrote:
+> >
+> > 1. Is there any way to debug when the functions like drmModeSetCrtc,
+> > drmModePageFlip and drmModeAtomicCommit returns non zero, besides
+> > getting the errno?
 >
-> Regards,
-> Christian.
+> Enable appropriate debugging bits in /sys/module/drm/parameters/debug, re=
+produce problem, (disable debugging bits again), check dmesg.
 >
-> Am 08.06.21 um 07:37 schrieb Felix Kuehling:
->> Hi Christian,
->>
->> I based amdgpu_preempt_mgr on amdgpu_gtt_mgr and now I'm looking at what
->> changed there. Looks like I'll need to create a dummy node in
->> amdgpu_preempt_mgr_new to satisfy TTM, and free it in
->> amdgpu_preempt_mgr_del.
->>
->> Thanks,
->>    Felix
->>
->>
->> Am 2021-06-07 um 10:50 p.m. schrieb Stephen Rothwell:
->>> Hi all,
->>>
->>> After merging the drm-misc tree, today's linux-next build (x86_64
->>> allmodconfig) failed like this:
->>>
->>> drivers/gpu/drm/amd/amdgpu/amdgpu_preempt_mgr.c: In function
->>> 'amdgpu_preempt_mgr_new':
->>> drivers/gpu/drm/amd/amdgpu/amdgpu_preempt_mgr.c:75:5: error: 'struct
->>> ttm_resource' has no member named 'mm_node'
->>>     75 |  mem->mm_node = NULL;
->>>        |     ^~
->>> drivers/gpu/drm/amd/amdgpu/amdgpu_preempt_mgr.c: At top level:
->>> drivers/gpu/drm/amd/amdgpu/amdgpu_preempt_mgr.c:129:11: error:
->>> initialization of 'int (*)(struct ttm_resource_manager *, struct
->>> ttm_buffer_object *, const struct ttm_place *, struct ttm_resource
->>> **)' from incompatible pointer type 'int (*)(struct
->>> ttm_resource_manager *, struct ttm_buffer_object *, const struct
->>> ttm_place *, struct ttm_resource *)'
->>> [-Werror=incompatible-pointer-types]
->>>    129 |  .alloc = amdgpu_preempt_mgr_new,
->>>        |           ^~~~~~~~~~~~~~~~~~~~~~
->>> drivers/gpu/drm/amd/amdgpu/amdgpu_preempt_mgr.c:129:11: note: (near
->>> initialization for 'amdgpu_preempt_mgr_func.alloc')
->>>
->>> Caused by commit
->>>
->>>    cb1c81467af3 ("drm/ttm: flip the switch for driver allocated
->>> resources v2")
->>>
->>> from the drm-misc tree interacting with commit
->>>
->>>    b453e42a6e8b ("drm/amdgpu: Add new placement for preemptible SG
->>> BOs")
->>>
->>> from the drm tree.
->>>
->>> I don't know how to fix this, so I added the following hack (a better
->>> fix would be nice):
->>>
->>> From: Stephen Rothwell <sfr@canb.auug.org.au>
->>> Date: Tue, 8 Jun 2021 12:41:16 +1000
->>> Subject: [PATCH] hack fix up for needed amdgpu_preempt_mgr_new() fix up
->>>
->>> Signed-off-by: Stephen Rothwell <sfr@canb.auug.org.au>
->>> ---
->>>   drivers/gpu/drm/amd/amdgpu/amdgpu_preempt_mgr.c | 4 +++-
->>>   1 file changed, 3 insertions(+), 1 deletion(-)
->>>
->>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_preempt_mgr.c
->>> b/drivers/gpu/drm/amd/amdgpu/amdgpu_preempt_mgr.c
->>> index d607f314cc1b..e1a7b3e967b9 100644
->>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_preempt_mgr.c
->>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_preempt_mgr.c
->>> @@ -66,14 +66,16 @@ static DEVICE_ATTR_RO(mem_info_preempt_used);
->>>   static int amdgpu_preempt_mgr_new(struct ttm_resource_manager *man,
->>>                     struct ttm_buffer_object *tbo,
->>>                     const struct ttm_place *place,
->>> -                  struct ttm_resource *mem)
->>> +                  struct ttm_resource **res)
->>>   {
->>> +#if 0
->>>       struct amdgpu_preempt_mgr *mgr = to_preempt_mgr(man);
->>>         atomic64_add(mem->num_pages, &mgr->used);
->>>         mem->mm_node = NULL;
->>>       mem->start = AMDGPU_BO_INVALID_OFFSET;
->>> +#endif
->>>       return 0;
->>>   }
->>>   
 >
+> > 4. Do I need to wait for vblank for modesetting? I know it will be an
+> > error if I tried to do drmModePageFlip before the last one is handled
+> > but what about drmModeSetCrtc? Do I need to wait for a vblank for the
+> > last pageflip?
+>
+> Right now, if you don't wait for any pending page flip to complete before
+> drmModeSetCrtc, the two may race, and the CRTC may end up scanning out fr=
+om the FB set by the page flip.
+>
+> Maybe this race should be prevented in the kernel though.
+>
+> There's no need to wait for vblank.
+>
+>
+> I have to defer to others for your other questions.
+>
+>
+> --
+> Earthling Michel D=C3=A4nzer               |               https://redhat=
+.com
+> Libre software enthusiast             |             Mesa and X developer
