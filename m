@@ -1,65 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8AA639F392
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Jun 2021 12:30:39 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 29C3C39F3CA
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Jun 2021 12:40:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 277D36E10E;
-	Tue,  8 Jun 2021 10:30:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4B1B46E0F2;
+	Tue,  8 Jun 2021 10:40:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com
- [IPv6:2a00:1450:4864:20::431])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F210E6EBA8
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Jun 2021 10:30:34 +0000 (UTC)
-Received: by mail-wr1-x431.google.com with SMTP id r9so4288922wrz.10
- for <dri-devel@lists.freedesktop.org>; Tue, 08 Jun 2021 03:30:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-transfer-encoding:content-language;
- bh=Y3XffWvbZ9gUt6UmWSxoD5a6n+263BhQSzzY3hg4Jok=;
- b=iuPGRKR9XdHByxvbM+SMlPnx0afK3yz+vINlWDgt0EKqboAxZczhQ5ruKKnRCDndwH
- lQFXnBo+ZSo8E2yPEwHJykoKbdppDU4kk+uFcRVmL56LvyJ1V1+wRJKWJig2LEIIayUI
- I/TsJFgAoM80e9um4OTrR251rn0spS3eWeqLt9OCAtY0bO6S2x9sPW8EOaEVO4u3H8mH
- u7oQDbtgh23/ft4riSBMPub0hAT3p4/jtzkOlNFEmJFzDIpRsPj9wlE65ike7RLDHYRM
- Fo2imq6Ny7W2J17s+krJYLfPf0NlKuamzOWyROpL+T3kMPBZAdhL4P6zz6dOfkGbz0QU
- lPGg==
+Received: from mail-il1-f199.google.com (mail-il1-f199.google.com
+ [209.85.166.199])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F1AA76EACE
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Jun 2021 07:25:32 +0000 (UTC)
+Received: by mail-il1-f199.google.com with SMTP id
+ g12-20020a056e021a2cb02901dfc46878d8so14362119ile.4
+ for <dri-devel@lists.freedesktop.org>; Tue, 08 Jun 2021 00:25:32 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-transfer-encoding
- :content-language;
- bh=Y3XffWvbZ9gUt6UmWSxoD5a6n+263BhQSzzY3hg4Jok=;
- b=REDlpPL0UsK4EGmdcp4q1N38IMuFiXhRAc7lG7K2q4rY/6CZeBDFwyijea8sjixXOp
- iSZ53y6PpQifALDJfBtxVzaqzvNgbgFK3mfUMDhjQrZvIlB3aQ3TdzXKMWPzs8TUXeJv
- 2gHTAiB9S70SDMuNb1GxCOjOJdQMK8pK1NeVLUQOh3SBVBL0KiiaX4lCrNTJ0MSkpyj5
- 90foFQ6WzzUZ2jTKEKqU2HuHaMVOsyZHM0fQT7M0SQZiKx2z+hqxj1zzn5SuNiEY1QGw
- aY+ClbyeS9V3mjq9/AUjsTU9VRoURZqYISvieKU7jfbLJYL1pfrj0KTP1nxctWeh3CfO
- bTRQ==
-X-Gm-Message-State: AOAM530ULrYcXlzr0ioQ/GFLn4ASj6ihPcIv8M16DOWS8SLGf+4Q51ZS
- Z6LSd71vwILHxsKqy7efURhXcg==
-X-Google-Smtp-Source: ABdhPJwXk5Ok9WOT//iXPsK1UriRL2bSGzs9d2DeXvVto+EXEC6Qiwk8hYX/WJYLuMDmmj0b257Rbw==
-X-Received: by 2002:adf:fd90:: with SMTP id d16mr21642661wrr.35.1623148233596; 
- Tue, 08 Jun 2021 03:30:33 -0700 (PDT)
-Received: from ?IPv6:2a02:2454:3e5:b700:cdac:cb35:5f15:3de2?
- ([2a02:2454:3e5:b700:cdac:cb35:5f15:3de2])
- by smtp.gmail.com with ESMTPSA id n7sm1902454wmq.37.2021.06.08.03.30.32
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 08 Jun 2021 03:30:33 -0700 (PDT)
-Subject: Re: [PATCH] drm/bridge: ti-sn65dsi83: Fix checkpatch --strict CHECKs
-To: Marek Vasut <marex@denx.de>, dri-devel@lists.freedesktop.org
-References: <20210608095322.23644-1-marex@denx.de>
-From: Robert Foss <robert.foss@linaro.org>
-Message-ID: <8c2118b3-89a5-dd2e-5baa-739a7de8834f@linaro.org>
-Date: Tue, 8 Jun 2021 12:30:31 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
+ bh=mqV7/AdCSlvYHxB0gug3rBvPpiIuLO5jnMV0UaKgv6A=;
+ b=NryeyR4rQIUaO2zePwFpkSallSZDepenQ+0lNGgn7YwFvQhTHZlhpik/7AyAFUXqRZ
+ Tkf9VsIXrazJSM512AwSdV5OcgwogF16iGcI8tmLNJ2PqLEPpj3oOIa350rbrksvzH7+
+ z+5bwC3LVHg+y98qHcygTUkeGbNIuapTJzoo+9BbApe4wfv9o1g3E3huzavv1d5/9QXz
+ BDDfjQIOpZWifKaKB6+W8TMmPvqSAM5cwdH6UFY2L8kXgdwiNxDudLkU1BkCNqimF3hf
+ 0YpG2ZoVKaLpLT2RjbY2OF5QnsEtXY3zx6YVClcnJwSTOILupTBxAWuQ46F7Zei0s86C
+ CwCg==
+X-Gm-Message-State: AOAM531/e8/x7XtAOFrfG4Ra6kMaR5+134H7A6zJbfbVwufJv9IhfH50
+ ybEDbhOAXlkZ49QO3aPX51xzg8iftkHhJl9FdUKUbFEIG6f+
+X-Google-Smtp-Source: ABdhPJy4nOA2NB16Hg0bNaRcqiOXOJ3ube3E+aQzb+k86nN4/5m4Vi/Ovc/HvYXU5cG2FzhiZ22FgYTKbM3AMKckK3FOxnnjw2Rt
 MIME-Version: 1.0
-In-Reply-To: <20210608095322.23644-1-marex@denx.de>
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+X-Received: by 2002:a02:3ecf:: with SMTP id s198mr18630272jas.59.1623137131301; 
+ Tue, 08 Jun 2021 00:25:31 -0700 (PDT)
+Date: Tue, 08 Jun 2021 00:25:31 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <000000000000224a9c05c43c10ec@google.com>
+Subject: [syzbot] BUG: unable to handle kernel NULL pointer dereference in
+ fbcon_putcs
+From: syzbot <syzbot+4e611f0926f7122c8d34@syzkaller.appspotmail.com>
+To: daniel.vetter@ffwll.ch, dri-devel@lists.freedesktop.org, 
+ george.kennedy@oracle.com, gregkh@linuxfoundation.org, jirislaby@kernel.org, 
+ linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ penguin-kernel@I-love.SAKURA.ne.jp, syzkaller-bugs@googlegroups.com, 
+ yepeilin.cs@gmail.com
+Content-Type: text/plain; charset="UTF-8"
+X-Mailman-Approved-At: Tue, 08 Jun 2021 10:40:47 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,122 +58,92 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Loic Poulain <loic.poulain@linaro.org>, ch@denx.de,
- Adam Ford <aford173@gmail.com>, Douglas Anderson <dianders@chromium.org>,
- Frieder Schrempf <frieder.schrempf@kontron.de>,
- Stephen Boyd <swboyd@chromium.org>,
- Philippe Schenker <philippe.schenker@toradex.com>,
- Jagan Teki <jagan@amarulasolutions.com>,
- Valentin Raevsky <valentin@compulab.co.il>, Sam Ravnborg <sam@ravnborg.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Thanks for submitting this.
-> Fix ./scripts/checkpatch.pl --strict -f drivers/gpu/drm/bridge/ti-sn65dsi83.c
-> CHECKs, no functional change. This is the same modification done to V7 of the
-> original patch.
->
-> Signed-off-by: Marek Vasut <marex@denx.de>
-> Cc: Adam Ford <aford173@gmail.com>
-> Cc: Douglas Anderson <dianders@chromium.org>
-> Cc: Frieder Schrempf <frieder.schrempf@kontron.de>
-> Cc: Jagan Teki <jagan@amarulasolutions.com>
-> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Cc: Linus Walleij <linus.walleij@linaro.org>
-> Cc: Loic Poulain <loic.poulain@linaro.org>
-> Cc: Marek Vasut <marex@denx.de>
-> Cc: Philippe Schenker <philippe.schenker@toradex.com>
-> Cc: Sam Ravnborg <sam@ravnborg.org>
-> Cc: Stephen Boyd <swboyd@chromium.org>
-> Cc: Valentin Raevsky <valentin@compulab.co.il>
-> To: dri-devel@lists.freedesktop.org
-> ---
->   drivers/gpu/drm/bridge/ti-sn65dsi83.c | 36 +++++++++++++--------------
->   1 file changed, 18 insertions(+), 18 deletions(-)
->
-> diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi83.c b/drivers/gpu/drm/bridge/ti-sn65dsi83.c
-> index eff35611fabf..750f2172ef08 100644
-> --- a/drivers/gpu/drm/bridge/ti-sn65dsi83.c
-> +++ b/drivers/gpu/drm/bridge/ti-sn65dsi83.c
-> @@ -377,19 +377,19 @@ static void sn65dsi83_enable(struct drm_bridge *bridge)
->   
->   	/* Reference clock derived from DSI link clock. */
->   	regmap_write(ctx->regmap, REG_RC_LVDS_PLL,
-> -		REG_RC_LVDS_PLL_LVDS_CLK_RANGE(sn65dsi83_get_lvds_range(ctx)) |
-> -		REG_RC_LVDS_PLL_HS_CLK_SRC_DPHY);
-> +		     REG_RC_LVDS_PLL_LVDS_CLK_RANGE(sn65dsi83_get_lvds_range(ctx)) |
-> +		     REG_RC_LVDS_PLL_HS_CLK_SRC_DPHY);
->   	regmap_write(ctx->regmap, REG_DSI_CLK,
-> -		REG_DSI_CLK_CHA_DSI_CLK_RANGE(sn65dsi83_get_dsi_range(ctx)));
-> +		     REG_DSI_CLK_CHA_DSI_CLK_RANGE(sn65dsi83_get_dsi_range(ctx)));
->   	regmap_write(ctx->regmap, REG_RC_DSI_CLK,
-> -		REG_RC_DSI_CLK_DSI_CLK_DIVIDER(sn65dsi83_get_dsi_div(ctx)));
-> +		     REG_RC_DSI_CLK_DSI_CLK_DIVIDER(sn65dsi83_get_dsi_div(ctx)));
->   
->   	/* Set number of DSI lanes and LVDS link config. */
->   	regmap_write(ctx->regmap, REG_DSI_LANE,
-> -		REG_DSI_LANE_DSI_CHANNEL_MODE_SINGLE |
-> -		REG_DSI_LANE_CHA_DSI_LANES(~(ctx->dsi_lanes - 1)) |
-> -		/* CHB is DSI85-only, set to default on DSI83/DSI84 */
-> -		REG_DSI_LANE_CHB_DSI_LANES(3));
-> +		     REG_DSI_LANE_DSI_CHANNEL_MODE_SINGLE |
-> +		     REG_DSI_LANE_CHA_DSI_LANES(~(ctx->dsi_lanes - 1)) |
-> +		     /* CHB is DSI85-only, set to default on DSI83/DSI84 */
-> +		     REG_DSI_LANE_CHB_DSI_LANES(3));
->   	/* No equalization. */
->   	regmap_write(ctx->regmap, REG_DSI_EQ, 0x00);
->   
-> @@ -420,10 +420,10 @@ static void sn65dsi83_enable(struct drm_bridge *bridge)
->   	regmap_write(ctx->regmap, REG_LVDS_FMT, val);
->   	regmap_write(ctx->regmap, REG_LVDS_VCOM, 0x05);
->   	regmap_write(ctx->regmap, REG_LVDS_LANE,
-> -		(ctx->lvds_dual_link_even_odd_swap ?
-> -		 REG_LVDS_LANE_EVEN_ODD_SWAP : 0) |
-> -		REG_LVDS_LANE_CHA_LVDS_TERM |
-> -		REG_LVDS_LANE_CHB_LVDS_TERM);
-> +		     (ctx->lvds_dual_link_even_odd_swap ?
-> +		      REG_LVDS_LANE_EVEN_ODD_SWAP : 0) |
-> +		     REG_LVDS_LANE_CHA_LVDS_TERM |
-> +		     REG_LVDS_LANE_CHB_LVDS_TERM);
->   	regmap_write(ctx->regmap, REG_LVDS_CM, 0x00);
->   
->   	val = cpu_to_le16(ctx->mode.hdisplay);
-> @@ -455,8 +455,8 @@ static void sn65dsi83_enable(struct drm_bridge *bridge)
->   	regmap_write(ctx->regmap, REG_RC_PLL_EN, REG_RC_PLL_EN_PLL_EN);
->   	usleep_range(3000, 4000);
->   	ret = regmap_read_poll_timeout(ctx->regmap, REG_RC_LVDS_PLL, pval,
-> -					pval & REG_RC_LVDS_PLL_PLL_EN_STAT,
-> -					1000, 100000);
-> +				       pval & REG_RC_LVDS_PLL_PLL_EN_STAT,
-> +				       1000, 100000);
->   	if (ret) {
->   		dev_err(ctx->dev, "failed to lock PLL, ret=%i\n", ret);
->   		/* On failure, disable PLL again and exit. */
-> @@ -513,8 +513,8 @@ static void sn65dsi83_mode_set(struct drm_bridge *bridge,
->   }
->   
->   static bool sn65dsi83_mode_fixup(struct drm_bridge *bridge,
-> -			       const struct drm_display_mode *mode,
-> -			       struct drm_display_mode *adj)
-> +				 const struct drm_display_mode *mode,
-> +				 struct drm_display_mode *adj)
->   {
->   	struct sn65dsi83 *ctx = bridge_to_sn65dsi83(bridge);
->   	u32 input_bus_format = MEDIA_BUS_FMT_RGB888_1X24;
-> @@ -546,8 +546,8 @@ static bool sn65dsi83_mode_fixup(struct drm_bridge *bridge,
->   			ctx->lvds_format_24bpp = true;
->   			ctx->lvds_format_jeida = false;
->   			dev_warn(ctx->dev,
-> -				"Unsupported LVDS bus format 0x%04x, please check output bridge driver. Falling back to SPWG24.\n",
-> -				connector->display_info.bus_formats[0]);
-> +				 "Unsupported LVDS bus format 0x%04x, please check output bridge driver. Falling back to SPWG24.\n",
-> +				 connector->display_info.bus_formats[0]);
->   			break;
->   		}
->   
-This patch had some trivial checkpatch issues. I fixed those and 
-pulled this patch into drm-misc-next.
+Hello,
 
-https://cgit.freedesktop.org/drm/drm-misc/commit/?id=96b7182d8c4ea2837df28dba6fe431b5c568ea58
+syzbot found the following issue on:
 
+HEAD commit:    f88cd3fb Merge tag 'vfio-v5.13-rc5' of git://github.com/aw..
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=126f13b0300000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=ad5040c83f09b8e4
+dashboard link: https://syzkaller.appspot.com/bug?extid=4e611f0926f7122c8d34
+compiler:       Debian clang version 11.0.1-2
+
+Unfortunately, I don't have any reproducer for this issue yet.
+
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+4e611f0926f7122c8d34@syzkaller.appspotmail.com
+
+BUG: kernel NULL pointer dereference, address: 0000000000000000
+#PF: supervisor instruction fetch in kernel mode
+#PF: error_code(0x0010) - not-present page
+PGD 2cdec067 P4D 2cdec067 PUD 2937a067 PMD 0 
+Oops: 0010 [#1] PREEMPT SMP KASAN
+CPU: 0 PID: 15551 Comm: syz-executor.1 Not tainted 5.13.0-rc4-syzkaller #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/01/2011
+RIP: 0010:0x0
+Code: Unable to access opcode bytes at RIP 0xffffffffffffffd6.
+RSP: 0018:ffffc90001bcf630 EFLAGS: 00010292
+RAX: 0000000000000000 RBX: ffff88801f456000 RCX: 000000000000004e
+RDX: ffff88801dc61224 RSI: ffff88801f456000 RDI: ffff888011879000
+RBP: 1ffff11003b8c244 R08: 000000000000001d R09: 0000000000000002
+R10: 0000000000000002 R11: ffff888037fb9c40 R12: ffff88801dc61224
+R13: dffffc0000000000 R14: 000000000000001d R15: ffff888011879000
+FS:  00007f7816197700(0000) GS:ffff8880b9a00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: ffffffffffffffd6 CR3: 0000000022965000 CR4: 00000000001506f0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+Call Trace:
+ fbcon_putcs+0x2ae/0x430 drivers/video/fbdev/core/fbcon.c:1296
+ do_update_region+0x4d6/0x6a0 drivers/tty/vt/vt.c:676
+ invert_screen+0xc03/0xe30 drivers/tty/vt/vt.c:800
+ highlight drivers/tty/vt/selection.c:57 [inline]
+ clear_selection+0x55/0x70 drivers/tty/vt/selection.c:84
+ vc_do_resize+0x6d6/0x1890 drivers/tty/vt/vt.c:1240
+ fbcon_set_disp+0x9f2/0xf90 drivers/video/fbdev/core/fbcon.c:1405
+ con2fb_init_display drivers/video/fbdev/core/fbcon.c:808 [inline]
+ set_con2fb_map+0x7f6/0xe90 drivers/video/fbdev/core/fbcon.c:879
+ fbcon_set_con2fb_map_ioctl+0x1e7/0x300 drivers/video/fbdev/core/fbcon.c:3013
+ do_fb_ioctl+0x39c/0x7e0 drivers/video/fbdev/core/fbmem.c:1156
+ vfs_ioctl fs/ioctl.c:51 [inline]
+ __do_sys_ioctl fs/ioctl.c:1069 [inline]
+ __se_sys_ioctl+0xfb/0x170 fs/ioctl.c:1055
+ do_syscall_64+0x3f/0xb0 arch/x86/entry/common.c:47
+ entry_SYSCALL_64_after_hwframe+0x44/0xae
+RIP: 0033:0x4665d9
+Code: ff ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 40 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 bc ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007f7816197188 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
+RAX: ffffffffffffffda RBX: 000000000056bf80 RCX: 00000000004665d9
+RDX: 0000000020000000 RSI: 0000000000004610 RDI: 0000000000000003
+RBP: 00000000004bfcb9 R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 000000000056bf80
+R13: 00007ffe47f399af R14: 00007f7816197300 R15: 0000000000022000
+Modules linked in:
+CR2: 0000000000000000
+---[ end trace 1eae45a248f50072 ]---
+RIP: 0010:0x0
+Code: Unable to access opcode bytes at RIP 0xffffffffffffffd6.
+RSP: 0018:ffffc90001bcf630 EFLAGS: 00010292
+RAX: 0000000000000000 RBX: ffff88801f456000 RCX: 000000000000004e
+RDX: ffff88801dc61224 RSI: ffff88801f456000 RDI: ffff888011879000
+RBP: 1ffff11003b8c244 R08: 000000000000001d R09: 0000000000000002
+R10: 0000000000000002 R11: ffff888037fb9c40 R12: ffff88801dc61224
+R13: dffffc0000000000 R14: 000000000000001d R15: ffff888011879000
+FS:  00007f7816197700(0000) GS:ffff8880b9a00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: ffffffffffffffd6 CR3: 0000000022965000 CR4: 00000000001506f0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+
+
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
