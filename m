@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2E943A1BB0
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Jun 2021 19:23:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B837D3A1BAF
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Jun 2021 19:23:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1B7676E9DD;
-	Wed,  9 Jun 2021 17:23:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A23646E9C2;
+	Wed,  9 Jun 2021 17:23:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from EX13-EDG-OU-001.vmware.com (ex13-edg-ou-001.vmware.com
- [208.91.0.189])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 954906E2E3
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Jun 2021 17:23:09 +0000 (UTC)
+Received: from EX13-EDG-OU-002.vmware.com (ex13-edg-ou-002.vmware.com
+ [208.91.0.190])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DD9E96E9B6
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Jun 2021 17:23:10 +0000 (UTC)
 Received: from sc9-mailhost3.vmware.com (10.113.161.73) by
- EX13-EDG-OU-001.vmware.com (10.113.208.155) with Microsoft SMTP Server id
- 15.0.1156.6; Wed, 9 Jun 2021 10:23:06 -0700
+ EX13-EDG-OU-002.vmware.com (10.113.208.156) with Microsoft SMTP Server id
+ 15.0.1156.6; Wed, 9 Jun 2021 10:23:07 -0700
 Received: from vertex.localdomain (unknown [10.21.244.178])
- by sc9-mailhost3.vmware.com (Postfix) with ESMTP id BCD062024E;
- Wed,  9 Jun 2021 10:23:08 -0700 (PDT)
+ by sc9-mailhost3.vmware.com (Postfix) with ESMTP id 8F6F12024E;
+ Wed,  9 Jun 2021 10:23:09 -0700 (PDT)
 From: Zack Rusin <zackr@vmware.com>
 To: <dri-devel@lists.freedesktop.org>
-Subject: [PATCH 1/9] drm/vmwgfx: Simplify devcaps code
-Date: Wed, 9 Jun 2021 13:22:59 -0400
-Message-ID: <20210609172307.131929-2-zackr@vmware.com>
+Subject: [PATCH 2/9] drm/vmwgfx: Introduce VMware mks-guest-stats
+Date: Wed, 9 Jun 2021 13:23:00 -0400
+Message-ID: <20210609172307.131929-3-zackr@vmware.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210609172307.131929-1-zackr@vmware.com>
 References: <20210609172307.131929-1-zackr@vmware.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-Received-SPF: None (EX13-EDG-OU-001.vmware.com: zackr@vmware.com does not
+Received-SPF: None (EX13-EDG-OU-002.vmware.com: zackr@vmware.com does not
  designate permitted sender hosts)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -44,536 +44,1171 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Martin Krastev <krastevm@vmware.com>,
- Roland Scheidegger <sroland@vmware.com>
+Cc: Martin Krastev <krastevm@vmware.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Make devcaps code self-contained so that it's easier to cache
-and operate on them.
-As the number of devcaps got bigger the code dealing with them
-got more and more tricky. Lets create a central place to deal
-with all the complexity. This lets us remove the lock we used
-to require to deal with register write races because we only
-read the devcaps at initialization.
+From: Martin Krastev <krastevm@vmware.com>
 
+VMware mks-guest-stats mechanism allows the collection of performance stats from
+guest userland GL contexts, as well as from vmwgfx kernelspace, via a set of sw-
+defined performance counters. The userspace performance counters are (de)registerd
+with vmware-vmx-stats hypervisor via new iocts. The vmwgfx kernelspace counters
+are controlled at build-time via a new config DRM_VMWGFX_MKSSTATS.
+
+* Add vmw_mksstat_{add|remove|reset}_ioctl controlling the tracking of
+  mks-guest-stats in guest winsys contexts
+* Add DRM_VMWGFX_MKSSTATS config to drivers/gpu/drm/vmwgfx/Kconfig controlling
+  the instrumentation of vmwgfx for kernelspace mks-guest-stats counters
+* Instrument vmwgfx vmw_execbuf_ioctl to collect mks-guest-stats according to
+  DRM_VMWGFX_MKSSTATS
+
+Signed-off-by: Martin Krastev <krastevm@vmware.com>
+Reviewed-by: Zack Rusin <zackr@vmware.com>
 Signed-off-by: Zack Rusin <zackr@vmware.com>
-Reviewed-by: Roland Scheidegger <sroland@vmware.com>
-Reviewed-by: Martin Krastev <krastevm@vmware.com>
 ---
- drivers/gpu/drm/vmwgfx/Makefile         |   2 +-
- drivers/gpu/drm/vmwgfx/vmwgfx_cmd.c     |   6 +-
- drivers/gpu/drm/vmwgfx/vmwgfx_devcaps.c | 142 ++++++++++++++++++++++++
- drivers/gpu/drm/vmwgfx/vmwgfx_devcaps.h |  50 +++++++++
- drivers/gpu/drm/vmwgfx/vmwgfx_drv.c     |  25 +++--
- drivers/gpu/drm/vmwgfx/vmwgfx_drv.h     |   3 +-
- drivers/gpu/drm/vmwgfx/vmwgfx_ioctl.c   | 109 ++----------------
- 7 files changed, 221 insertions(+), 116 deletions(-)
- create mode 100644 drivers/gpu/drm/vmwgfx/vmwgfx_devcaps.c
- create mode 100644 drivers/gpu/drm/vmwgfx/vmwgfx_devcaps.h
+ drivers/gpu/drm/vmwgfx/Kconfig                |   7 +
+ .../drm/vmwgfx/device_include/svga_types.h    |  92 ++-
+ .../vmwgfx/device_include/vm_basic_types.h    |  22 -
+ drivers/gpu/drm/vmwgfx/vmwgfx_drv.c           |  20 +
+ drivers/gpu/drm/vmwgfx/vmwgfx_drv.h           |  28 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c       |  13 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_mksstat.h       | 144 +++++
+ drivers/gpu/drm/vmwgfx/vmwgfx_msg.c           | 579 ++++++++++++++++++
+ include/uapi/drm/vmwgfx_drm.h                 |  41 ++
+ 9 files changed, 919 insertions(+), 27 deletions(-)
+ delete mode 100644 drivers/gpu/drm/vmwgfx/device_include/vm_basic_types.h
+ create mode 100644 drivers/gpu/drm/vmwgfx/vmwgfx_mksstat.h
 
-diff --git a/drivers/gpu/drm/vmwgfx/Makefile b/drivers/gpu/drm/vmwgfx/Makefile
-index 09f6dcac768b..bc323f7d4032 100644
---- a/drivers/gpu/drm/vmwgfx/Makefile
-+++ b/drivers/gpu/drm/vmwgfx/Makefile
-@@ -9,7 +9,7 @@ vmwgfx-y := vmwgfx_execbuf.o vmwgfx_gmr.o vmwgfx_kms.o vmwgfx_drv.o \
- 	    vmwgfx_cotable.o vmwgfx_so.o vmwgfx_binding.o vmwgfx_msg.o \
- 	    vmwgfx_simple_resource.o vmwgfx_va.o vmwgfx_blit.o \
- 	    vmwgfx_validation.o vmwgfx_page_dirty.o vmwgfx_streamoutput.o \
--	    ttm_object.o ttm_memory.o
-+            vmwgfx_devcaps.o ttm_object.o ttm_memory.o
+diff --git a/drivers/gpu/drm/vmwgfx/Kconfig b/drivers/gpu/drm/vmwgfx/Kconfig
+index 0060ef842b5a..a9052fae0bbc 100644
+--- a/drivers/gpu/drm/vmwgfx/Kconfig
++++ b/drivers/gpu/drm/vmwgfx/Kconfig
+@@ -22,3 +22,10 @@ config DRM_VMWGFX_FBCON
+ 	   Choose this option if you are shipping a new vmwgfx
+ 	   userspace driver that supports using the kernel driver.
  
- vmwgfx-$(CONFIG_DRM_FBDEV_EMULATION) += vmwgfx_fb.o
- vmwgfx-$(CONFIG_TRANSPARENT_HUGEPAGE) += vmwgfx_thp.o
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_cmd.c b/drivers/gpu/drm/vmwgfx/vmwgfx_cmd.c
-index 956b85e35cef..30a837b5baa6 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_cmd.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_cmd.c
-@@ -30,6 +30,7 @@
- #include <drm/ttm/ttm_placement.h>
++config DRM_VMWGFX_MKSSTATS
++	bool "Enable mksGuestStats instrumentation of vmwgfx by default"
++	depends on DRM_VMWGFX
++	default n
++	help
++	   Choose this option to instrument the kernel driver for mksGuestStats.
++
+diff --git a/drivers/gpu/drm/vmwgfx/device_include/svga_types.h b/drivers/gpu/drm/vmwgfx/device_include/svga_types.h
+index beddccee40f6..f5f79b114fac 100644
+--- a/drivers/gpu/drm/vmwgfx/device_include/svga_types.h
++++ b/drivers/gpu/drm/vmwgfx/device_include/svga_types.h
+@@ -23,9 +23,11 @@
+  * SOFTWARE.
+  *
+  **********************************************************/
+-#ifndef _VM_BASIC_TYPES_H_
+-#define _VM_BASIC_TYPES_H_
++#ifndef _SVGA_TYPES_H_
++#define _SVGA_TYPES_H_
+ #include <linux/kernel.h>
++#include <linux/mm.h>
++#include <asm/page.h>
  
- #include "vmwgfx_drv.h"
-+#include "vmwgfx_devcaps.h"
+ typedef u32 uint32;
+ typedef s32 int32;
+@@ -48,4 +50,90 @@ typedef bool Bool;
  
- bool vmw_supports_3d(struct vmw_private *dev_priv)
- {
-@@ -45,10 +46,7 @@ bool vmw_supports_3d(struct vmw_private *dev_priv)
- 		if (!dev_priv->has_mob)
- 			return false;
+ #define CONST64U(x) x##ULL
  
--		spin_lock(&dev_priv->cap_lock);
--		vmw_write(dev_priv, SVGA_REG_DEV_CAP, SVGA3D_DEVCAP_3D);
--		result = vmw_read(dev_priv, SVGA_REG_DEV_CAP);
--		spin_unlock(&dev_priv->cap_lock);
-+		result = vmw_devcap_get(dev_priv, SVGA3D_DEVCAP_3D);
- 
- 		return (result != 0);
- 	}
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_devcaps.c b/drivers/gpu/drm/vmwgfx/vmwgfx_devcaps.c
-new file mode 100644
-index 000000000000..04fc67d53563
---- /dev/null
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_devcaps.c
-@@ -0,0 +1,142 @@
-+/* SPDX-License-Identifier: GPL-2.0 OR MIT */
-+/**************************************************************************
++/*
++ * MKS Guest Stats types
++ */
++
++typedef struct MKSGuestStatCounter {
++	atomic64_t count;
++} MKSGuestStatCounter;
++
++typedef struct MKSGuestStatCounterTime {
++	MKSGuestStatCounter counter;
++	atomic64_t selfCycles;
++	atomic64_t totalCycles;
++} MKSGuestStatCounterTime;
++
++/*
++ * Flags for MKSGuestStatInfoEntry::flags below
++ */
++
++#define MKS_GUEST_STAT_FLAG_NONE    0
++#define MKS_GUEST_STAT_FLAG_TIME    (1U << 0)
++
++typedef __attribute__((aligned(32))) struct MKSGuestStatInfoEntry {
++	union {
++		const char *s;
++		uint64 u;
++	} name;
++	union {
++		const char *s;
++		uint64 u;
++	} description;
++	uint64 flags;
++	union {
++		MKSGuestStatCounter *counter;
++		MKSGuestStatCounterTime *counterTime;
++		uint64 u;
++	} stat;
++} MKSGuestStatInfoEntry;
++
++#define INVALID_PPN64       ((PPN64)0x000fffffffffffffULL)
++#define vmw_num_pages(size) (PAGE_ALIGN(size) >> PAGE_SHIFT)
++
++#define MKS_GUEST_STAT_INSTANCE_DESC_LENGTH 1024
++#define MKS_GUEST_STAT_INSTANCE_MAX_STATS   4096
++#define MKS_GUEST_STAT_INSTANCE_MAX_STAT_PPNS                \
++	(vmw_num_pages(MKS_GUEST_STAT_INSTANCE_MAX_STATS *   \
++		sizeof(MKSGuestStatCounterTime)))
++#define MKS_GUEST_STAT_INSTANCE_MAX_INFO_PPNS                \
++	(vmw_num_pages(MKS_GUEST_STAT_INSTANCE_MAX_STATS *   \
++		sizeof(MKSGuestStatInfoEntry)))
++#define MKS_GUEST_STAT_AVERAGE_NAME_LENGTH  40
++#define MKS_GUEST_STAT_INSTANCE_MAX_STRS_PPNS                \
++	(vmw_num_pages(MKS_GUEST_STAT_INSTANCE_MAX_STATS *   \
++		MKS_GUEST_STAT_AVERAGE_NAME_LENGTH))
++
++/*
++ * The MKSGuestStatInstanceDescriptor is used as main interface to
++ * communicate guest stats back to the host code.  The guest must
++ * allocate an instance of this structure at the start of a page and
++ * provide the physical address to the host.  From there the host code
++ * can walk this structure to find other (pinned) pages containing the
++ * stats data.
 + *
-+ * Copyright 2021 VMware, Inc., Palo Alto, CA., USA
++ * Since the MKSGuestStatInfoEntry structures contain userlevel
++ * pointers, the InstanceDescriptor also contains pointers to the
++ * begining of these sections allowing the host side code to correctly
++ * interpret the pointers.
 + *
-+ * Permission is hereby granted, free of charge, to any person obtaining a
-+ * copy of this software and associated documentation files (the
-+ * "Software"), to deal in the Software without restriction, including
-+ * without limitation the rights to use, copy, modify, merge, publish,
-+ * distribute, sub license, and/or sell copies of the Software, and to
-+ * permit persons to whom the Software is furnished to do so, subject to
-+ * the following conditions:
-+ *
-+ * The above copyright notice and this permission notice (including the
-+ * next paragraph) shall be included in all copies or substantial portions
-+ * of the Software.
-+ *
-+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-+ * FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL
-+ * THE COPYRIGHT HOLDERS, AUTHORS AND/OR ITS SUPPLIERS BE LIABLE FOR ANY CLAIM,
-+ * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
-+ * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
-+ * USE OR OTHER DEALINGS IN THE SOFTWARE.
-+ *
-+ **************************************************************************/
++ * Because the host side code never acknowledges anything back to the
++ * guest there is no strict requirement to maintain compatability
++ * across releases.  If the interface changes the host might not be
++ * able to log stats, but the guest will continue to run normally.
++ */
 +
-+#include "vmwgfx_devcaps.h"
++typedef struct MKSGuestStatInstanceDescriptor {
++	uint64 reservedMBZ; /* must be zero for now. */
++	uint64 statStartVA; /* VA of the start of the stats section. */
++	uint64 strsStartVA; /* VA of the start of the strings section. */
++	uint64 statLength;  /* length of the stats section in bytes. */
++	uint64 infoLength;  /* length of the info entry section in bytes. */
++	uint64 strsLength;  /* length of the strings section in bytes. */
++	PPN64  statPPNs[MKS_GUEST_STAT_INSTANCE_MAX_STAT_PPNS]; /* stat counters */
++	PPN64  infoPPNs[MKS_GUEST_STAT_INSTANCE_MAX_INFO_PPNS]; /* stat info */
++	PPN64  strsPPNs[MKS_GUEST_STAT_INSTANCE_MAX_STRS_PPNS]; /* strings */
++	char   description[MKS_GUEST_STAT_INSTANCE_DESC_LENGTH];
++} MKSGuestStatInstanceDescriptor;
 +
-+#include "vmwgfx_drv.h"
-+
-+
-+struct svga_3d_compat_cap {
-+	SVGA3dCapsRecordHeader header;
-+	SVGA3dCapPair pairs[SVGA3D_DEVCAP_MAX];
-+};
-+
-+
-+static u32 vmw_mask_legacy_multisample(unsigned int cap, u32 fmt_value)
-+{
-+	/*
-+	 * A version of user-space exists which use MULTISAMPLE_MASKABLESAMPLES
-+	 * to check the sample count supported by virtual device. Since there
-+	 * never was support for multisample count for backing MOB return 0.
-+	 *
-+	 * MULTISAMPLE_MASKABLESAMPLES devcap is marked as deprecated by virtual
-+	 * device.
-+	 */
-+	if (cap == SVGA3D_DEVCAP_DEAD5)
-+		return 0;
-+
-+	return fmt_value;
-+}
-+
-+static int vmw_fill_compat_cap(struct vmw_private *dev_priv, void *bounce,
-+			       size_t size)
-+{
-+	struct svga_3d_compat_cap *compat_cap =
-+		(struct svga_3d_compat_cap *) bounce;
-+	unsigned int i;
-+	size_t pair_offset = offsetof(struct svga_3d_compat_cap, pairs);
-+	unsigned int max_size;
-+
-+	if (size < pair_offset)
-+		return -EINVAL;
-+
-+	max_size = (size - pair_offset) / sizeof(SVGA3dCapPair);
-+
-+	if (max_size > SVGA3D_DEVCAP_MAX)
-+		max_size = SVGA3D_DEVCAP_MAX;
-+
-+	compat_cap->header.length =
-+		(pair_offset + max_size * sizeof(SVGA3dCapPair)) / sizeof(u32);
-+	compat_cap->header.type = SVGA3DCAPS_RECORD_DEVCAPS;
-+
-+	for (i = 0; i < max_size; ++i) {
-+		compat_cap->pairs[i][0] = i;
-+		compat_cap->pairs[i][1] = vmw_mask_legacy_multisample
-+			(i, dev_priv->devcaps[i]);
-+	}
-+
-+	return 0;
-+}
-+
-+int vmw_devcaps_create(struct vmw_private *vmw)
-+{
-+	bool gb_objects = !!(vmw->capabilities & SVGA_CAP_GBOBJECTS);
-+	uint32_t i;
-+
-+	if (gb_objects) {
-+		vmw->devcaps = vzalloc(sizeof(uint32_t) * SVGA3D_DEVCAP_MAX);
-+		if (!vmw->devcaps)
-+			return -ENOMEM;
-+		for (i = 0; i < SVGA3D_DEVCAP_MAX; ++i) {
-+			vmw_write(vmw, SVGA_REG_DEV_CAP, i);
-+			vmw->devcaps[i] = vmw_read(vmw, SVGA_REG_DEV_CAP);
-+		}
-+	}
-+	return 0;
-+}
-+
-+void vmw_devcaps_destroy(struct vmw_private *vmw)
-+{
-+	vfree(vmw->devcaps);
-+	vmw->devcaps = NULL;
-+}
-+
-+
-+uint32 vmw_devcaps_size(const struct vmw_private *vmw,
-+			bool gb_aware)
-+{
-+	bool gb_objects = !!(vmw->capabilities & SVGA_CAP_GBOBJECTS);
-+	if (gb_objects && gb_aware)
-+		return SVGA3D_DEVCAP_MAX * sizeof(uint32_t);
-+	else if (gb_objects)
-+		return  sizeof(struct svga_3d_compat_cap) +
-+				sizeof(uint32_t);
-+	else if (vmw->fifo_mem != NULL)
-+		return (SVGA_FIFO_3D_CAPS_LAST - SVGA_FIFO_3D_CAPS + 1) *
-+				sizeof(uint32_t);
-+	else
-+		return 0;
-+}
-+
-+int vmw_devcaps_copy(struct vmw_private *vmw, bool gb_aware,
-+		     void *dst, uint32_t dst_size)
-+{
-+	int ret;
-+	bool gb_objects = !!(vmw->capabilities & SVGA_CAP_GBOBJECTS);
-+	if (gb_objects && gb_aware) {
-+		memcpy(dst, vmw->devcaps, dst_size);
-+	} else if (gb_objects) {
-+		ret = vmw_fill_compat_cap(vmw, dst, dst_size);
-+		if (unlikely(ret != 0))
-+			return ret;
-+	} else if (vmw->fifo_mem) {
-+		u32 *fifo_mem = vmw->fifo_mem;
-+		memcpy(dst, &fifo_mem[SVGA_FIFO_3D_CAPS], dst_size);
-+	} else
-+		return -EINVAL;
-+	return 0;
-+}
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_devcaps.h b/drivers/gpu/drm/vmwgfx/vmwgfx_devcaps.h
-new file mode 100644
-index 000000000000..b7c43e5f07c3
---- /dev/null
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_devcaps.h
-@@ -0,0 +1,50 @@
-+/* SPDX-License-Identifier: GPL-2.0 OR MIT */
-+/**************************************************************************
-+ *
-+ * Copyright 2021 VMware, Inc., Palo Alto, CA., USA
-+ *
-+ * Permission is hereby granted, free of charge, to any person obtaining a
-+ * copy of this software and associated documentation files (the
-+ * "Software"), to deal in the Software without restriction, including
-+ * without limitation the rights to use, copy, modify, merge, publish,
-+ * distribute, sub license, and/or sell copies of the Software, and to
-+ * permit persons to whom the Software is furnished to do so, subject to
-+ * the following conditions:
-+ *
-+ * The above copyright notice and this permission notice (including the
-+ * next paragraph) shall be included in all copies or substantial portions
-+ * of the Software.
-+ *
-+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-+ * FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL
-+ * THE COPYRIGHT HOLDERS, AUTHORS AND/OR ITS SUPPLIERS BE LIABLE FOR ANY CLAIM,
-+ * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
-+ * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
-+ * USE OR OTHER DEALINGS IN THE SOFTWARE.
-+ *
-+ **************************************************************************/
-+
-+#ifndef _VMWGFX_DEVCAPS_H_
-+#define _VMWGFX_DEVCAPS_H_
-+
-+#include "vmwgfx_drv.h"
-+
-+#include "device_include/svga3d_caps.h"
-+
-+int vmw_devcaps_create(struct vmw_private *vmw);
-+void vmw_devcaps_destroy(struct vmw_private *vmw);
-+uint32_t vmw_devcaps_size(const struct vmw_private *vmw, bool gb_aware);
-+int vmw_devcaps_copy(struct vmw_private *vmw, bool gb_aware,
-+		     void *dst, uint32_t dst_size);
-+
-+static inline uint32_t vmw_devcap_get(struct vmw_private *vmw,
-+				      uint32_t devcap)
-+{
-+	bool gb_objects = !!(vmw->capabilities & SVGA_CAP_GBOBJECTS);
-+	if (gb_objects)
-+		return vmw->devcaps[devcap];
-+	return 0;
-+}
-+
-+#endif
+ #endif
+diff --git a/drivers/gpu/drm/vmwgfx/device_include/vm_basic_types.h b/drivers/gpu/drm/vmwgfx/device_include/vm_basic_types.h
+deleted file mode 100644
+index 3a195e8106b3..000000000000
+--- a/drivers/gpu/drm/vmwgfx/device_include/vm_basic_types.h
++++ /dev/null
+@@ -1,22 +0,0 @@
+-/* SPDX-License-Identifier: GPL-2.0 */
+-#ifndef _VM_BASIC_TYPES_H_
+-#define _VM_BASIC_TYPES_H_
+-#include <linux/kernel.h>
+-
+-typedef u32 uint32;
+-typedef s32 int32;
+-typedef u64 uint64;
+-typedef u16 uint16;
+-typedef s16 int16;
+-typedef u8  uint8;
+-typedef s8  int8;
+-
+-typedef uint64 PA;
+-typedef uint32 PPN;
+-typedef uint64 PPN64;
+-
+-typedef bool Bool;
+-
+-#define MAX_UINT32 U32_MAX
+-
+-#endif
 diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
-index 6f5ea00973e0..3e438de0f157 100644
+index 3e438de0f157..b9f18151663a 100644
 --- a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
 +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
-@@ -41,6 +41,7 @@
- 
- #include "ttm_object.h"
+@@ -43,6 +43,7 @@
  #include "vmwgfx_binding.h"
-+#include "vmwgfx_devcaps.h"
+ #include "vmwgfx_devcaps.h"
  #include "vmwgfx_drv.h"
++#include "vmwgfx_mksstat.h"
  
  #define VMWGFX_DRIVER_DESC "Linux drm driver for VMware graphics devices"
-@@ -792,7 +793,6 @@ static int vmw_driver_load(struct vmw_private *dev_priv, u32 pci_id)
- 	spin_lock_init(&dev_priv->resource_lock);
- 	spin_lock_init(&dev_priv->hw_lock);
- 	spin_lock_init(&dev_priv->waiter_lock);
--	spin_lock_init(&dev_priv->cap_lock);
- 	spin_lock_init(&dev_priv->cursor_lock);
  
- 	ret = vmw_setup_pci_resources(dev_priv, pci_id);
-@@ -982,6 +982,12 @@ static int vmw_driver_load(struct vmw_private *dev_priv, u32 pci_id)
- 		goto out_no_vram;
- 	}
+@@ -148,6 +149,14 @@
+ #define DRM_IOCTL_VMW_MSG						\
+ 	DRM_IOWR(DRM_COMMAND_BASE + DRM_VMW_MSG,			\
+ 		struct drm_vmw_msg_arg)
++#define DRM_IOCTL_VMW_MKSSTAT_RESET				\
++	DRM_IO(DRM_COMMAND_BASE + DRM_VMW_MKSSTAT_RESET)
++#define DRM_IOCTL_VMW_MKSSTAT_ADD				\
++	DRM_IOWR(DRM_COMMAND_BASE + DRM_VMW_MKSSTAT_ADD,	\
++		struct drm_vmw_mksstat_add_arg)
++#define DRM_IOCTL_VMW_MKSSTAT_REMOVE				\
++	DRM_IOW(DRM_COMMAND_BASE + DRM_VMW_MKSSTAT_REMOVE,	\
++		struct drm_vmw_mksstat_remove_arg)
  
-+	ret = vmw_devcaps_create(dev_priv);
-+	if (unlikely(ret != 0)) {
-+		DRM_ERROR("Failed initializing device caps.\n");
-+		goto out_no_vram;
-+	}
+ /*
+  * The core DRM version of this macro doesn't account for
+@@ -244,6 +253,15 @@ static const struct drm_ioctl_desc vmw_ioctls[] = {
+ 	VMW_IOCTL_DEF(VMW_MSG,
+ 		      vmw_msg_ioctl,
+ 		      DRM_RENDER_ALLOW),
++	VMW_IOCTL_DEF(VMW_MKSSTAT_RESET,
++		      vmw_mksstat_reset_ioctl,
++		      DRM_RENDER_ALLOW),
++	VMW_IOCTL_DEF(VMW_MKSSTAT_ADD,
++		      vmw_mksstat_add_ioctl,
++		      DRM_RENDER_ALLOW),
++	VMW_IOCTL_DEF(VMW_MKSSTAT_REMOVE,
++		      vmw_mksstat_remove_ioctl,
++		      DRM_RENDER_ALLOW),
+ };
+ 
+ static const struct pci_device_id vmw_pci_id_list[] = {
+@@ -1137,6 +1155,8 @@ static void vmw_driver_unload(struct drm_device *dev)
+ 	for (i = vmw_res_context; i < vmw_res_max; ++i)
+ 		idr_destroy(&dev_priv->res_idr[i]);
+ 
++	vmw_mksstat_remove_all(dev_priv);
 +
- 	/*
- 	 * "Guest Memory Regions" is an aperture like feature with
- 	 *  one slot per bo. There is an upper limit of the number of
-@@ -1008,11 +1014,8 @@ static int vmw_driver_load(struct vmw_private *dev_priv, u32 pci_id)
- 	}
+ 	pci_release_regions(pdev);
+ }
  
- 	if (dev_priv->has_mob && (dev_priv->capabilities & SVGA_CAP_DX)) {
--		spin_lock(&dev_priv->cap_lock);
--		vmw_write(dev_priv, SVGA_REG_DEV_CAP, SVGA3D_DEVCAP_DXCONTEXT);
--		if (vmw_read(dev_priv, SVGA_REG_DEV_CAP))
-+		if (vmw_devcap_get(dev_priv, SVGA3D_DEVCAP_DXCONTEXT))
- 			dev_priv->sm_type = VMW_SM_4;
--		spin_unlock(&dev_priv->cap_lock);
- 	}
- 
- 	vmw_validation_mem_init_ttm(dev_priv, VMWGFX_VALIDATION_MEM_GRAN);
-@@ -1020,15 +1023,11 @@ static int vmw_driver_load(struct vmw_private *dev_priv, u32 pci_id)
- 	/* SVGA_CAP2_DX2 (DefineGBSurface_v3) is needed for SM4_1 support */
- 	if (has_sm4_context(dev_priv) &&
- 	    (dev_priv->capabilities2 & SVGA_CAP2_DX2)) {
--		vmw_write(dev_priv, SVGA_REG_DEV_CAP, SVGA3D_DEVCAP_SM41);
--
--		if (vmw_read(dev_priv, SVGA_REG_DEV_CAP))
-+		if (vmw_devcap_get(dev_priv, SVGA3D_DEVCAP_SM41))
- 			dev_priv->sm_type = VMW_SM_4_1;
--
- 		if (has_sm4_1_context(dev_priv) &&
--		    (dev_priv->capabilities2 & SVGA_CAP2_DX3)) {
--			vmw_write(dev_priv, SVGA_REG_DEV_CAP, SVGA3D_DEVCAP_SM5);
--			if (vmw_read(dev_priv, SVGA_REG_DEV_CAP))
-+				(dev_priv->capabilities2 & SVGA_CAP2_DX3)) {
-+			if (vmw_devcap_get(dev_priv, SVGA3D_DEVCAP_SM5))
- 				dev_priv->sm_type = VMW_SM_5;
- 		}
- 	}
-@@ -1073,6 +1072,7 @@ static int vmw_driver_load(struct vmw_private *dev_priv, u32 pci_id)
- 		vmw_gmrid_man_fini(dev_priv, VMW_PL_MOB);
- 	if (dev_priv->has_gmr)
- 		vmw_gmrid_man_fini(dev_priv, VMW_PL_GMR);
-+	vmw_devcaps_destroy(dev_priv);
- 	vmw_vram_manager_fini(dev_priv);
- out_no_vram:
- 	ttm_device_fini(&dev_priv->bdev);
-@@ -1121,6 +1121,7 @@ static void vmw_driver_unload(struct drm_device *dev)
- 	vmw_release_device_early(dev_priv);
- 	if (dev_priv->has_mob)
- 		vmw_gmrid_man_fini(dev_priv, VMW_PL_MOB);
-+	vmw_devcaps_destroy(dev_priv);
- 	vmw_vram_manager_fini(dev_priv);
- 	ttm_device_fini(&dev_priv->bdev);
- 	drm_vma_offset_manager_destroy(&dev_priv->vma_manager);
 diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
-index d1cef3b69e9d..4c2afe9c0505 100644
+index 4c2afe9c0505..0d8699a43491 100644
 --- a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
 +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
-@@ -513,7 +513,6 @@ struct vmw_private {
- 	bool has_gmr;
- 	bool has_mob;
- 	spinlock_t hw_lock;
--	spinlock_t cap_lock;
- 	bool assume_16bpp;
+@@ -1,7 +1,7 @@
+ /* SPDX-License-Identifier: GPL-2.0 OR MIT */
+ /**************************************************************************
+  *
+- * Copyright 2009-2015 VMware, Inc., Palo Alto, CA., USA
++ * Copyright 2009-2021 VMware, Inc., Palo Alto, CA., USA
+  *
+  * Permission is hereby granted, free of charge, to any person obtaining a
+  * copy of this software and associated documentation files (the
+@@ -91,6 +91,9 @@
+ #define VMW_RES_FENCE ttm_driver_type3
+ #define VMW_RES_SHADER ttm_driver_type4
  
- 	enum vmw_sm_type sm_type;
-@@ -629,6 +628,8 @@ struct vmw_private {
- 
- 	/* Validation memory reservation */
- 	struct vmw_validation_mem vvm;
++#define MKSSTAT_CAPACITY_LOG2 5U
++#define MKSSTAT_CAPACITY (1U << MKSSTAT_CAPACITY_LOG2)
 +
-+	uint32 *devcaps;
+ struct vmw_fpriv {
+ 	struct ttm_object_file *tfile;
+ 	bool gb_aware; /* user-space is guest-backed aware */
+@@ -630,6 +633,18 @@ struct vmw_private {
+ 	struct vmw_validation_mem vvm;
+ 
+ 	uint32 *devcaps;
++
++	/*
++	 * mksGuestStat instance-descriptor and pid arrays
++	 */
++	struct page *mksstat_user_pages[MKSSTAT_CAPACITY];
++	atomic_t mksstat_user_pids[MKSSTAT_CAPACITY];
++
++#if IS_ENABLED(CONFIG_DRM_VMWGFX_MKSSTATS)
++	struct page *mksstat_kern_pages[MKSSTAT_CAPACITY];
++	u8 mksstat_kern_top_timer[MKSSTAT_CAPACITY];
++	atomic_t mksstat_kern_pids[MKSSTAT_CAPACITY];
++#endif
  };
  
  static inline struct vmw_surface *vmw_res_to_srf(struct vmw_resource *res)
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_ioctl.c b/drivers/gpu/drm/vmwgfx/vmwgfx_ioctl.c
-index 4fdacf9924e6..c34f61ac4ce4 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_ioctl.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_ioctl.c
-@@ -26,14 +26,9 @@
-  **************************************************************************/
+@@ -1503,6 +1518,17 @@ __printf(1, 2) int vmw_host_printf(const char *fmt, ...);
+ int vmw_msg_ioctl(struct drm_device *dev, void *data,
+ 		  struct drm_file *file_priv);
+ 
++/* Host mksGuestStats -vmwgfx_msg.c: */
++int vmw_mksstat_get_kern_slot(pid_t pid, struct vmw_private *dev_priv);
++
++int vmw_mksstat_reset_ioctl(struct drm_device *dev, void *data,
++		      struct drm_file *file_priv);
++int vmw_mksstat_add_ioctl(struct drm_device *dev, void *data,
++		      struct drm_file *file_priv);
++int vmw_mksstat_remove_ioctl(struct drm_device *dev, void *data,
++		      struct drm_file *file_priv);
++int vmw_mksstat_remove_all(struct vmw_private *dev_priv);
++
+ /* VMW logging */
+ 
+ /**
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c b/drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c
+index a2b8464b3f56..cd2621c8db38 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c
+@@ -32,6 +32,7 @@
+ #include <drm/ttm/ttm_placement.h>
+ #include "vmwgfx_so.h"
+ #include "vmwgfx_binding.h"
++#include "vmwgfx_mksstat.h"
+ 
+ #define VMW_RES_HT_ORDER 12
+ 
+@@ -4406,6 +4407,9 @@ int vmw_execbuf_ioctl(struct drm_device *dev, void *data,
+ 	int ret;
+ 	struct dma_fence *in_fence = NULL;
+ 
++	MKS_STAT_TIME_DECL(MKSSTAT_KERN_EXECBUF);
++	MKS_STAT_TIME_PUSH(MKSSTAT_KERN_EXECBUF);
++
+ 	/*
+ 	 * Extend the ioctl argument while maintaining backwards compatibility:
+ 	 * We take different code paths depending on the value of arg->version.
+@@ -4415,7 +4419,8 @@ int vmw_execbuf_ioctl(struct drm_device *dev, void *data,
+ 	if (unlikely(arg->version > DRM_VMW_EXECBUF_VERSION ||
+ 		     arg->version == 0)) {
+ 		VMW_DEBUG_USER("Incorrect execbuf version.\n");
+-		return -EINVAL;
++		ret = -EINVAL;
++		goto mksstats_out;
+ 	}
+ 
+ 	switch (arg->version) {
+@@ -4435,7 +4440,8 @@ int vmw_execbuf_ioctl(struct drm_device *dev, void *data,
+ 
+ 		if (!in_fence) {
+ 			VMW_DEBUG_USER("Cannot get imported fence\n");
+-			return -EINVAL;
++			ret = -EINVAL;
++			goto mksstats_out;
+ 		}
+ 
+ 		ret = vmw_wait_dma_fence(dev_priv->fman, in_fence);
+@@ -4458,5 +4464,8 @@ int vmw_execbuf_ioctl(struct drm_device *dev, void *data,
+ out:
+ 	if (in_fence)
+ 		dma_fence_put(in_fence);
++
++mksstats_out:
++	MKS_STAT_TIME_POP(MKSSTAT_KERN_EXECBUF);
+ 	return ret;
+ }
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_mksstat.h b/drivers/gpu/drm/vmwgfx/vmwgfx_mksstat.h
+new file mode 100644
+index 000000000000..0509f55f07b4
+--- /dev/null
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_mksstat.h
+@@ -0,0 +1,144 @@
++/* SPDX-License-Identifier: GPL-2.0 OR MIT */
++/**************************************************************************
++ *
++ * Copyright 2021 VMware, Inc., Palo Alto, CA., USA
++ *
++ * Permission is hereby granted, free of charge, to any person obtaining a
++ * copy of this software and associated documentation files (the
++ * "Software"), to deal in the Software without restriction, including
++ * without limitation the rights to use, copy, modify, merge, publish,
++ * distribute, sub license, and/or sell copies of the Software, and to
++ * permit persons to whom the Software is furnished to do so, subject to
++ * the following conditions:
++ *
++ * The above copyright notice and this permission notice (including the
++ * next paragraph) shall be included in all copies or substantial portions
++ * of the Software.
++ *
++ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
++ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
++ * FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL
++ * THE COPYRIGHT HOLDERS, AUTHORS AND/OR ITS SUPPLIERS BE LIABLE FOR ANY CLAIM,
++ * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
++ * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
++ * USE OR OTHER DEALINGS IN THE SOFTWARE.
++ *
++ **************************************************************************/
++
++#ifndef _VMWGFX_MKSSTAT_H_
++#define _VMWGFX_MKSSTAT_H_
++
++#include <asm/page.h>
++
++/* Reservation marker for mksstat pid's */
++#define MKSSTAT_PID_RESERVED -1
++
++#if IS_ENABLED(CONFIG_DRM_VMWGFX_MKSSTATS)
++/*
++ * Kernel-internal mksGuestStat counters. The order of this enum dictates the
++ * order of instantiation of these counters in the mksGuestStat pages.
++ */
++
++typedef enum {
++	MKSSTAT_KERN_EXECBUF, /* vmw_execbuf_ioctl */
++
++	MKSSTAT_KERN_COUNT /* Reserved entry; always last */
++} mksstat_kern_stats_t;
++
++/**
++ * vmw_mksstat_get_kern_pstat: Computes the address of the MKSGuestStatCounterTime
++ * array from the address of the base page.
++ *
++ * @page_addr: Pointer to the base page.
++ * Return: Pointer to the MKSGuestStatCounterTime array.
++ */
++
++static inline void *vmw_mksstat_get_kern_pstat(void *page_addr)
++{
++	return page_addr + PAGE_SIZE * 1;
++}
++
++/**
++ * vmw_mksstat_get_kern_pinfo: Computes the address of the MKSGuestStatInfoEntry
++ * array from the address of the base page.
++ *
++ * @page_addr: Pointer to the base page.
++ * Return: Pointer to the MKSGuestStatInfoEntry array.
++ */
++
++static inline void *vmw_mksstat_get_kern_pinfo(void *page_addr)
++{
++	return page_addr + PAGE_SIZE * 2;
++}
++
++/**
++ * vmw_mksstat_get_kern_pstrs: Computes the address of the mksGuestStat strings
++ * sequence from the address of the base page.
++ *
++ * @page_addr: Pointer to the base page.
++ * Return: Pointer to the mksGuestStat strings sequence.
++ */
++
++static inline void *vmw_mksstat_get_kern_pstrs(void *page_addr)
++{
++	return page_addr + PAGE_SIZE * 3;
++}
++
++/*
++ * MKS_STAT_TIME_DECL/PUSH/POP macros to be used in timer-counted routines.
++ */
++
++struct mksstat_timer_t {
++/* mutable */ mksstat_kern_stats_t old_top;
++	const u64 t0;
++	const int slot;
++};
++
++#define MKS_STAT_TIME_DECL(kern_cntr)                                     \
++	struct mksstat_timer_t _##kern_cntr = {                           \
++		.t0 = rdtsc(),                                            \
++		.slot = vmw_mksstat_get_kern_slot(current->pid, dev_priv) \
++	}
++
++#define MKS_STAT_TIME_PUSH(kern_cntr)                                                               \
++	do {                                                                                        \
++		if (_##kern_cntr.slot >= 0) {                                                       \
++			_##kern_cntr.old_top = dev_priv->mksstat_kern_top_timer[_##kern_cntr.slot]; \
++			dev_priv->mksstat_kern_top_timer[_##kern_cntr.slot] = kern_cntr;            \
++		}                                                                                   \
++	} while (0)
++
++#define MKS_STAT_TIME_POP(kern_cntr)                                                                                                           \
++	do {                                                                                                                                   \
++		if (_##kern_cntr.slot >= 0) {                                                                                                  \
++			const pid_t pid = atomic_cmpxchg(&dev_priv->mksstat_kern_pids[_##kern_cntr.slot], current->pid, MKSSTAT_PID_RESERVED); \
++			dev_priv->mksstat_kern_top_timer[_##kern_cntr.slot] = _##kern_cntr.old_top;                                            \
++			                                                                                                                       \
++			if (pid == current->pid) {                                                                                             \
++				const u64 dt = rdtsc() - _##kern_cntr.t0;                                                                      \
++				MKSGuestStatCounterTime *pstat;                                                                                \
++				                                                                                                               \
++				BUG_ON(!dev_priv->mksstat_kern_pages[_##kern_cntr.slot]);                                                      \
++				                                                                                                               \
++				pstat = vmw_mksstat_get_kern_pstat(page_address(dev_priv->mksstat_kern_pages[_##kern_cntr.slot]));             \
++				                                                                                                               \
++				atomic64_inc(&pstat[kern_cntr].counter.count);                                                                 \
++				atomic64_add(dt, &pstat[kern_cntr].selfCycles);                                                                \
++				atomic64_add(dt, &pstat[kern_cntr].totalCycles);                                                               \
++				                                                                                                               \
++				if (_##kern_cntr.old_top != MKSSTAT_KERN_COUNT)                                                                \
++					atomic64_sub(dt, &pstat[_##kern_cntr.old_top].selfCycles);                                             \
++					                                                                                                       \
++				atomic_set(&dev_priv->mksstat_kern_pids[_##kern_cntr.slot], current->pid);                                     \
++			}                                                                                                                      \
++		}                                                                                                                              \
++	} while (0)
++
++#else
++#define MKS_STAT_TIME_DECL(kern_cntr)
++#define MKS_STAT_TIME_PUSH(kern_cntr)
++#define MKS_STAT_TIME_POP(kern_cntr)
++
++#endif /* IS_ENABLED(CONFIG_DRM_VMWGFX_MKSSTATS */
++
++#endif
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_msg.c b/drivers/gpu/drm/vmwgfx/vmwgfx_msg.c
+index 3d08f5700bdb..4218fe00e3b1 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_msg.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_msg.c
+@@ -31,10 +31,12 @@
+ #include <linux/mem_encrypt.h>
+ 
+ #include <asm/hypervisor.h>
++#include <drm/drm_ioctl.h>
  
  #include "vmwgfx_drv.h"
-+#include "vmwgfx_devcaps.h"
- #include <drm/vmwgfx_drm.h>
- #include "vmwgfx_kms.h"
--#include "device_include/svga3d_caps.h"
--
--struct svga_3d_compat_cap {
--	SVGA3dCapsRecordHeader header;
--	SVGA3dCapPair pairs[SVGA3D_DEVCAP_MAX];
--};
+ #include "vmwgfx_msg_x86.h"
+ #include "vmwgfx_msg_arm64.h"
++#include "vmwgfx_mksstat.h"
  
- int vmw_getparam_ioctl(struct drm_device *dev, void *data,
- 		       struct drm_file *file_priv)
-@@ -88,16 +83,7 @@ int vmw_getparam_ioctl(struct drm_device *dev, void *data,
- 			param->value = dev_priv->memory_size;
- 		break;
- 	case DRM_VMW_PARAM_3D_CAPS_SIZE:
--		if ((dev_priv->capabilities & SVGA_CAP_GBOBJECTS) &&
--		    vmw_fp->gb_aware)
--			param->value = SVGA3D_DEVCAP_MAX * sizeof(uint32_t);
--		else if (dev_priv->capabilities & SVGA_CAP_GBOBJECTS)
--			param->value = sizeof(struct svga_3d_compat_cap) +
--				sizeof(uint32_t);
--		else
--			param->value = (SVGA_FIFO_3D_CAPS_LAST -
--					SVGA_FIFO_3D_CAPS + 1) *
--				sizeof(uint32_t);
-+		param->value = vmw_devcaps_size(dev_priv, vmw_fp->gb_aware);
- 		break;
- 	case DRM_VMW_PARAM_MAX_MOB_MEMORY:
- 		vmw_fp->gb_aware = true;
-@@ -126,55 +112,6 @@ int vmw_getparam_ioctl(struct drm_device *dev, void *data,
- 	return 0;
+ #define MESSAGE_STATUS_SUCCESS  0x0001
+ #define MESSAGE_STATUS_DORECV   0x0002
+@@ -56,6 +58,11 @@
+ #define VMW_PORT_CMD_RECVSIZE   (MSG_TYPE_RECVSIZE << 16 | VMW_PORT_CMD_MSG)
+ #define VMW_PORT_CMD_RECVSTATUS (MSG_TYPE_RECVSTATUS << 16 | VMW_PORT_CMD_MSG)
+ 
++#define VMW_PORT_CMD_MKS_GUEST_STATS   85
++#define VMW_PORT_CMD_MKSGS_RESET       (0 << 16 | VMW_PORT_CMD_MKS_GUEST_STATS)
++#define VMW_PORT_CMD_MKSGS_ADD_PPN     (1 << 16 | VMW_PORT_CMD_MKS_GUEST_STATS)
++#define VMW_PORT_CMD_MKSGS_REMOVE_PPN  (2 << 16 | VMW_PORT_CMD_MKS_GUEST_STATS)
++
+ #define HIGH_WORD(X) ((X & 0xFFFF0000) >> 16)
+ 
+ #define MAX_USER_MSG_LENGTH	PAGE_SIZE
+@@ -612,3 +619,575 @@ int vmw_msg_ioctl(struct drm_device *dev, void *data,
+ 
+ 	return -EINVAL;
  }
- 
--static u32 vmw_mask_legacy_multisample(unsigned int cap, u32 fmt_value)
--{
--	/*
--	 * A version of user-space exists which use MULTISAMPLE_MASKABLESAMPLES
--	 * to check the sample count supported by virtual device. Since there
--	 * never was support for multisample count for backing MOB return 0.
--	 *
--	 * MULTISAMPLE_MASKABLESAMPLES devcap is marked as deprecated by virtual
--	 * device.
--	 */
--	if (cap == SVGA3D_DEVCAP_DEAD5)
--		return 0;
--
--	return fmt_value;
--}
--
--static int vmw_fill_compat_cap(struct vmw_private *dev_priv, void *bounce,
--			       size_t size)
--{
--	struct svga_3d_compat_cap *compat_cap =
--		(struct svga_3d_compat_cap *) bounce;
--	unsigned int i;
--	size_t pair_offset = offsetof(struct svga_3d_compat_cap, pairs);
--	unsigned int max_size;
--
--	if (size < pair_offset)
--		return -EINVAL;
--
--	max_size = (size - pair_offset) / sizeof(SVGA3dCapPair);
--
--	if (max_size > SVGA3D_DEVCAP_MAX)
--		max_size = SVGA3D_DEVCAP_MAX;
--
--	compat_cap->header.length =
--		(pair_offset + max_size * sizeof(SVGA3dCapPair)) / sizeof(u32);
--	compat_cap->header.type = SVGA3DCAPS_RECORD_DEVCAPS;
--
--	spin_lock(&dev_priv->cap_lock);
--	for (i = 0; i < max_size; ++i) {
--		vmw_write(dev_priv, SVGA_REG_DEV_CAP, i);
--		compat_cap->pairs[i][0] = i;
--		compat_cap->pairs[i][1] = vmw_mask_legacy_multisample
--			(i, vmw_read(dev_priv, SVGA_REG_DEV_CAP));
--	}
--	spin_unlock(&dev_priv->cap_lock);
--
--	return 0;
--}
--
- 
- int vmw_get_cap_3d_ioctl(struct drm_device *dev, void *data,
- 			 struct drm_file *file_priv)
-@@ -183,11 +120,9 @@ int vmw_get_cap_3d_ioctl(struct drm_device *dev, void *data,
- 		(struct drm_vmw_get_3d_cap_arg *) data;
- 	struct vmw_private *dev_priv = vmw_priv(dev);
- 	uint32_t size;
--	u32 *fifo_mem;
- 	void __user *buffer = (void __user *)((unsigned long)(arg->buffer));
--	void *bounce;
-+	void *bounce = NULL;
- 	int ret;
--	bool gb_objects = !!(dev_priv->capabilities & SVGA_CAP_GBOBJECTS);
- 	struct vmw_fpriv *vmw_fp = vmw_fpriv(file_priv);
- 
- 	if (unlikely(arg->pad64 != 0 || arg->max_size == 0)) {
-@@ -195,13 +130,11 @@ int vmw_get_cap_3d_ioctl(struct drm_device *dev, void *data,
- 		return -EINVAL;
- 	}
- 
--	if (gb_objects && vmw_fp->gb_aware)
--		size = SVGA3D_DEVCAP_MAX * sizeof(uint32_t);
--	else if (gb_objects)
--		size = sizeof(struct svga_3d_compat_cap) + sizeof(uint32_t);
--	else
--		size = (SVGA_FIFO_3D_CAPS_LAST - SVGA_FIFO_3D_CAPS + 1) *
--			sizeof(uint32_t);
-+	size = vmw_devcaps_size(dev_priv, vmw_fp->gb_aware);
-+	if (unlikely(size == 0)) {
-+		DRM_ERROR("Failed to figure out the devcaps size (no 3D).\n");
++
++/**
++ * reset_ppn_array: Resets a PPN64 array to INVALID_PPN64 content
++ *
++ * @arr: Array to reset.
++ * @size: Array length.
++ */
++static inline void reset_ppn_array(PPN64 *arr, size_t size)
++{
++	size_t i;
++
++	BUG_ON(!arr || size == 0);
++
++	for (i = 0; i < size; ++i)
++		arr[i] = INVALID_PPN64;
++}
++
++/**
++ * hypervisor_ppn_reset_all: Removes all mksGuestStat instance descriptors from
++ * the hypervisor. All related pages should be subsequently unpinned or freed.
++ *
++ */
++static inline void hypervisor_ppn_reset_all(void)
++{
++	unsigned long eax, ebx, ecx, edx, si = 0, di = 0;
++
++	VMW_PORT(VMW_PORT_CMD_MKSGS_RESET,
++		0, si, di,
++		0,
++		VMW_HYPERVISOR_MAGIC,
++		eax, ebx, ecx, edx, si, di);
++}
++
++/**
++ * hypervisor_ppn_add: Adds a single mksGuestStat instance descriptor to the
++ * hypervisor. Any related userspace pages should be pinned in advance.
++ *
++ * @pfn: Physical page number of the instance descriptor
++ */
++static inline void hypervisor_ppn_add(PPN64 pfn)
++{
++	unsigned long eax, ebx, ecx, edx, si = 0, di = 0;
++
++	VMW_PORT(VMW_PORT_CMD_MKSGS_ADD_PPN,
++		pfn, si, di,
++		0,
++		VMW_HYPERVISOR_MAGIC,
++		eax, ebx, ecx, edx, si, di);
++}
++
++/**
++ * hypervisor_ppn_remove: Removes a single mksGuestStat instance descriptor from
++ * the hypervisor. All related pages should be subsequently unpinned or freed.
++ *
++ * @pfn: Physical page number of the instance descriptor
++ */
++static inline void hypervisor_ppn_remove(PPN64 pfn)
++{
++	unsigned long eax, ebx, ecx, edx, si = 0, di = 0;
++
++	VMW_PORT(VMW_PORT_CMD_MKSGS_REMOVE_PPN,
++		pfn, si, di,
++		0,
++		VMW_HYPERVISOR_MAGIC,
++		eax, ebx, ecx, edx, si, di);
++}
++
++#if IS_ENABLED(CONFIG_DRM_VMWGFX_MKSSTATS)
++
++/* Order of the total number of pages used for kernel-internal mksGuestStat; at least 2 */
++#define MKSSTAT_KERNEL_PAGES_ORDER 2
++/* Header to the text description of mksGuestStat instance descriptor */
++#define MKSSTAT_KERNEL_DESCRIPTION "vmwgfx"
++
++/* Kernel mksGuestStats counter names and desciptions; same order as enum mksstat_kern_stats_t */
++static const char* const mksstat_kern_name_desc[MKSSTAT_KERN_COUNT][2] =
++{
++	{ "vmw_execbuf_ioctl", "vmw_execbuf_ioctl" },
++};
++
++/**
++ * mksstat_init_record: Initializes an MKSGuestStatCounter-based record
++ * for the respective mksGuestStat index.
++ *
++ * @stat_idx: Index of the MKSGuestStatCounter-based mksGuestStat record.
++ * @pstat: Pointer to array of MKSGuestStatCounterTime.
++ * @pinfo: Pointer to array of MKSGuestStatInfoEntry.
++ * @pstrs: Pointer to current end of the name/description sequence.
++ * Return: Pointer to the new end of the names/description sequence.
++ */
++
++static inline char *mksstat_init_record(mksstat_kern_stats_t stat_idx,
++	MKSGuestStatCounterTime *pstat, MKSGuestStatInfoEntry *pinfo, char *pstrs)
++{
++	char *const pstrd = pstrs + strlen(mksstat_kern_name_desc[stat_idx][0]) + 1;
++	strcpy(pstrs, mksstat_kern_name_desc[stat_idx][0]);
++	strcpy(pstrd, mksstat_kern_name_desc[stat_idx][1]);
++
++	pinfo[stat_idx].name.s = pstrs;
++	pinfo[stat_idx].description.s = pstrd;
++	pinfo[stat_idx].flags = MKS_GUEST_STAT_FLAG_NONE;
++	pinfo[stat_idx].stat.counter = (MKSGuestStatCounter *)&pstat[stat_idx];
++
++	return pstrd + strlen(mksstat_kern_name_desc[stat_idx][1]) + 1;
++}
++
++/**
++ * mksstat_init_record_time: Initializes an MKSGuestStatCounterTime-based record
++ * for the respective mksGuestStat index.
++ *
++ * @stat_idx: Index of the MKSGuestStatCounterTime-based mksGuestStat record.
++ * @pstat: Pointer to array of MKSGuestStatCounterTime.
++ * @pinfo: Pointer to array of MKSGuestStatInfoEntry.
++ * @pstrs: Pointer to current end of the name/description sequence.
++ * Return: Pointer to the new end of the names/description sequence.
++ */
++
++static inline char *mksstat_init_record_time(mksstat_kern_stats_t stat_idx,
++	MKSGuestStatCounterTime *pstat, MKSGuestStatInfoEntry *pinfo, char *pstrs)
++{
++	char *const pstrd = pstrs + strlen(mksstat_kern_name_desc[stat_idx][0]) + 1;
++	strcpy(pstrs, mksstat_kern_name_desc[stat_idx][0]);
++	strcpy(pstrd, mksstat_kern_name_desc[stat_idx][1]);
++
++	pinfo[stat_idx].name.s = pstrs;
++	pinfo[stat_idx].description.s = pstrd;
++	pinfo[stat_idx].flags = MKS_GUEST_STAT_FLAG_TIME;
++	pinfo[stat_idx].stat.counterTime = &pstat[stat_idx];
++
++	return pstrd + strlen(mksstat_kern_name_desc[stat_idx][1]) + 1;
++}
++
++/**
++ * mksstat_init_kern_id: Creates a single mksGuestStat instance descriptor and
++ * kernel-internal counters. Adds PFN mapping to the hypervisor.
++ *
++ * Create a single mksGuestStat instance descriptor and corresponding structures
++ * for all kernel-internal counters. The corresponding PFNs are mapped with the
++ * hypervisor.
++ *
++ * @ppage: Output pointer to page containing the instance descriptor.
++ * Return: Zero on success, negative error code on error.
++ */
++
++static int mksstat_init_kern_id(struct page **ppage)
++{
++	MKSGuestStatInstanceDescriptor *pdesc;
++	MKSGuestStatCounterTime *pstat;
++	MKSGuestStatInfoEntry *pinfo;
++	char *pstrs, *pstrs_acc;
++
++	/* Allocate pages for the kernel-internal instance descriptor */
++	struct page *page = alloc_pages(GFP_KERNEL | __GFP_ZERO, MKSSTAT_KERNEL_PAGES_ORDER);
++
++	if (!page)
++		return -ENOMEM;
++
++	pdesc = page_address(page);
++	pstat = vmw_mksstat_get_kern_pstat(pdesc);
++	pinfo = vmw_mksstat_get_kern_pinfo(pdesc);
++	pstrs = vmw_mksstat_get_kern_pstrs(pdesc);
++
++	/* Set up all kernel-internal counters and corresponding structures */
++	pstrs_acc = pstrs;
++	pstrs_acc = mksstat_init_record_time(MKSSTAT_KERN_EXECBUF, pstat, pinfo, pstrs_acc);
++
++	/* Add new counters above, in their order of appearance in mksstat_kern_stats_t */
++
++	BUG_ON(pstrs_acc - pstrs > PAGE_SIZE);
++
++	/* Set up the kernel-internal instance descriptor */
++	pdesc->reservedMBZ = 0;
++	pdesc->statStartVA = (uintptr_t)pstat;
++	pdesc->strsStartVA = (uintptr_t)pstrs;
++	pdesc->statLength = sizeof(*pstat) * MKSSTAT_KERN_COUNT;
++	pdesc->infoLength = sizeof(*pinfo) * MKSSTAT_KERN_COUNT;
++	pdesc->strsLength = pstrs_acc - pstrs;
++	snprintf(pdesc->description, ARRAY_SIZE(pdesc->description) - 1, "%s pid=%d",
++		MKSSTAT_KERNEL_DESCRIPTION, current->pid);
++
++	pdesc->statPPNs[0] = page_to_pfn(virt_to_page(pstat));
++	reset_ppn_array(pdesc->statPPNs + 1, ARRAY_SIZE(pdesc->statPPNs) - 1);
++
++	pdesc->infoPPNs[0] = page_to_pfn(virt_to_page(pinfo));
++	reset_ppn_array(pdesc->infoPPNs + 1, ARRAY_SIZE(pdesc->infoPPNs) - 1);
++
++	pdesc->strsPPNs[0] = page_to_pfn(virt_to_page(pstrs));
++	reset_ppn_array(pdesc->strsPPNs + 1, ARRAY_SIZE(pdesc->strsPPNs) - 1);
++
++	*ppage = page;
++
++	hypervisor_ppn_add((PPN64)page_to_pfn(page));
++
++	return 0;
++}
++
++/**
++ * vmw_mksstat_get_kern_slot: Acquires a slot for a single kernel-internal
++ * mksGuestStat instance descriptor.
++ *
++ * Find a slot for a single kernel-internal mksGuestStat instance descriptor.
++ * In case no such was already present, allocate a new one and set up a kernel-
++ * internal mksGuestStat instance descriptor for the former.
++ *
++ * @pid: Process for which a slot is sought.
++ * @dev_priv: Identifies the drm private device.
++ * Return: Non-negative slot on success, negative error code on error.
++ */
++
++int vmw_mksstat_get_kern_slot(pid_t pid, struct vmw_private *dev_priv)
++{
++	const size_t base = (u32)hash_32(pid, MKSSTAT_CAPACITY_LOG2);
++	size_t i;
++
++	for (i = 0; i < ARRAY_SIZE(dev_priv->mksstat_kern_pids); ++i) {
++		const size_t slot = (i + base) % ARRAY_SIZE(dev_priv->mksstat_kern_pids);
++
++		/* Check if an instance descriptor for this pid is already present */
++		if (pid == (pid_t)atomic_read(&dev_priv->mksstat_kern_pids[slot]))
++			return (int)slot;
++
++		/* Set up a new instance descriptor for this pid */
++		if (!atomic_cmpxchg(&dev_priv->mksstat_kern_pids[slot], 0, MKSSTAT_PID_RESERVED)) {
++			const int ret = mksstat_init_kern_id(&dev_priv->mksstat_kern_pages[slot]);
++
++			if (!ret) {
++				/* Reset top-timer tracking for this slot */
++				dev_priv->mksstat_kern_top_timer[slot] = MKSSTAT_KERN_COUNT;
++
++				atomic_set(&dev_priv->mksstat_kern_pids[slot], pid);
++				return (int)slot;
++			}
++
++			atomic_set(&dev_priv->mksstat_kern_pids[slot], 0);
++			return ret;
++		}
++	}
++
++	return -ENOSPC;
++}
++
++#endif
++
++/**
++ * vmw_mksstat_cleanup_descriptor: Frees a single userspace-originating
++ * mksGuestStat instance-descriptor page and unpins all related user pages.
++ *
++ * Unpin all user pages realated to this instance descriptor and free
++ * the instance-descriptor page itself.
++ *
++ * @page: Page of the instance descriptor.
++ */
++
++static void vmw_mksstat_cleanup_descriptor(struct page *page)
++{
++	MKSGuestStatInstanceDescriptor *pdesc = page_address(page);
++	size_t i;
++
++	for (i = 0; i < ARRAY_SIZE(pdesc->statPPNs) && pdesc->statPPNs[i] != INVALID_PPN64; ++i)
++		unpin_user_page(pfn_to_page(pdesc->statPPNs[i]));
++
++	for (i = 0; i < ARRAY_SIZE(pdesc->infoPPNs) && pdesc->infoPPNs[i] != INVALID_PPN64; ++i)
++		unpin_user_page(pfn_to_page(pdesc->infoPPNs[i]));
++
++	for (i = 0; i < ARRAY_SIZE(pdesc->strsPPNs) && pdesc->strsPPNs[i] != INVALID_PPN64; ++i)
++		unpin_user_page(pfn_to_page(pdesc->strsPPNs[i]));
++
++	__free_page(page);
++}
++
++/**
++ * vmw_mksstat_remove_all: Resets all mksGuestStat instance descriptors
++ * from the hypervisor.
++ *
++ * Discard all hypervisor PFN mappings, containing active mksGuestState instance
++ * descriptors, unpin the related userspace pages and free the related kernel pages.
++ *
++ * @dev_priv: Identifies the drm private device.
++ * Return: Zero on success, negative error code on error.
++ */
++
++int vmw_mksstat_remove_all(struct vmw_private *dev_priv)
++{
++	int ret = 0;
++	size_t i;
++
++	/* Discard all PFN mappings with the hypervisor */
++	hypervisor_ppn_reset_all();
++
++	/* Discard all userspace-originating instance descriptors and unpin all related pages */
++	for (i = 0; i < ARRAY_SIZE(dev_priv->mksstat_user_pids); ++i) {
++		const pid_t pid0 = (pid_t)atomic_read(&dev_priv->mksstat_user_pids[i]);
++
++		if (!pid0)
++			continue;
++
++		if (pid0 != MKSSTAT_PID_RESERVED) {
++			const pid_t pid1 = atomic_cmpxchg(&dev_priv->mksstat_user_pids[i], pid0, MKSSTAT_PID_RESERVED);
++
++			if (!pid1)
++				continue;
++
++			if (pid1 == pid0) {
++				struct page *const page = dev_priv->mksstat_user_pages[i];
++
++				BUG_ON(!page);
++
++				dev_priv->mksstat_user_pages[i] = NULL;
++				atomic_set(&dev_priv->mksstat_user_pids[i], 0);
++
++				vmw_mksstat_cleanup_descriptor(page);
++				continue;
++			}
++		}
++
++		ret = -EAGAIN;
++	}
++
++#if IS_ENABLED(CONFIG_DRM_VMWGFX_MKSSTATS)
++	/* Discard all kernel-internal instance descriptors and free all related pages */
++	for (i = 0; i < ARRAY_SIZE(dev_priv->mksstat_kern_pids); ++i) {
++		const pid_t pid0 = (pid_t)atomic_read(&dev_priv->mksstat_kern_pids[i]);
++
++		if (!pid0)
++			continue;
++
++		if (pid0 != MKSSTAT_PID_RESERVED) {
++			const pid_t pid1 = atomic_cmpxchg(&dev_priv->mksstat_kern_pids[i], pid0, MKSSTAT_PID_RESERVED);
++
++			if (!pid1)
++				continue;
++
++			if (pid1 == pid0) {
++				struct page *const page = dev_priv->mksstat_kern_pages[i];
++
++				BUG_ON(!page);
++
++				dev_priv->mksstat_kern_pages[i] = NULL;
++				atomic_set(&dev_priv->mksstat_kern_pids[i], 0);
++
++				__free_pages(page, MKSSTAT_KERNEL_PAGES_ORDER);
++				continue;
++			}
++		}
++
++		ret = -EAGAIN;
++	}
++
++#endif
++	return ret;
++}
++
++/**
++ * vmw_mksstat_reset_ioctl: Resets all mksGuestStat instance descriptors
++ * from the hypervisor.
++ *
++ * Discard all hypervisor PFN mappings, containing active mksGuestStat instance
++ * descriptors, unpin the related userspace pages and free the related kernel pages.
++ *
++ * @dev: Identifies the drm device.
++ * @data: Pointer to the ioctl argument.
++ * @file_priv: Identifies the caller; unused.
++ * Return: Zero on success, negative error code on error.
++ */
++
++int vmw_mksstat_reset_ioctl(struct drm_device *dev, void *data,
++				struct drm_file *file_priv)
++{
++	struct vmw_private *const dev_priv = vmw_priv(dev);
++	return vmw_mksstat_remove_all(dev_priv);
++}
++
++/**
++ * vmw_mksstat_add_ioctl: Creates a single userspace-originating mksGuestStat
++ * instance descriptor and registers that with the hypervisor.
++ *
++ * Create a hypervisor PFN mapping, containing a single mksGuestStat instance
++ * descriptor and pin the corresponding userspace pages.
++ *
++ * @dev: Identifies the drm device.
++ * @data: Pointer to the ioctl argument.
++ * @file_priv: Identifies the caller; unused.
++ * Return: Zero on success, negative error code on error.
++ */
++
++int vmw_mksstat_add_ioctl(struct drm_device *dev, void *data,
++				struct drm_file *file_priv)
++{
++	struct drm_vmw_mksstat_add_arg *arg =
++		(struct drm_vmw_mksstat_add_arg *) data;
++
++	struct vmw_private *const dev_priv = vmw_priv(dev);
++
++	struct page *page;
++	MKSGuestStatInstanceDescriptor *pdesc;
++	const size_t num_pages_stat = vmw_num_pages(arg->stat_len);
++	const size_t num_pages_info = vmw_num_pages(arg->info_len);
++	const size_t num_pages_strs = vmw_num_pages(arg->strs_len);
++	long desc_len;
++	long nr_pinned_stat;
++	long nr_pinned_info;
++	long nr_pinned_strs;
++	struct page *pages_stat[ARRAY_SIZE(pdesc->statPPNs)];
++	struct page *pages_info[ARRAY_SIZE(pdesc->infoPPNs)];
++	struct page *pages_strs[ARRAY_SIZE(pdesc->strsPPNs)];
++	size_t i, slot;
++
++	arg->id = -1;
++
++	if (!arg->stat || !arg->info || !arg->strs)
++		return -EINVAL;
++
++	if (!arg->stat_len || !arg->info_len || !arg->strs_len)
++		return -EINVAL;
++
++	if (!arg->description)
++		return -EINVAL;
++
++	if (num_pages_stat > ARRAY_SIZE(pdesc->statPPNs) ||
++		num_pages_info > ARRAY_SIZE(pdesc->infoPPNs) ||
++		num_pages_strs > ARRAY_SIZE(pdesc->strsPPNs))
++		return -EINVAL;
++
++	/* Find an available slot in the mksGuestStats user array and reserve it */
++	for (slot = 0; slot < ARRAY_SIZE(dev_priv->mksstat_user_pids); ++slot)
++		if (!atomic_cmpxchg(&dev_priv->mksstat_user_pids[slot], 0, MKSSTAT_PID_RESERVED))
++			break;
++
++	if (slot == ARRAY_SIZE(dev_priv->mksstat_user_pids))
++		return -ENOSPC;
++
++	BUG_ON(dev_priv->mksstat_user_pages[slot]);
++
++	/* Allocate a page for the instance descriptor */
++	page = alloc_page(GFP_KERNEL | __GFP_ZERO);
++
++	if (!page) {
++		atomic_set(&dev_priv->mksstat_user_pids[slot], 0);
 +		return -ENOMEM;
 +	}
++
++	/* Set up the instance descriptor */
++	pdesc = page_address(page);
++
++	pdesc->reservedMBZ = 0;
++	pdesc->statStartVA = arg->stat;
++	pdesc->strsStartVA = arg->strs;
++	pdesc->statLength = arg->stat_len;
++	pdesc->infoLength = arg->info_len;
++	pdesc->strsLength = arg->strs_len;
++	desc_len = strncpy_from_user(pdesc->description, u64_to_user_ptr(arg->description),
++		ARRAY_SIZE(pdesc->description) - 1);
++
++	if (desc_len < 0) {
++		atomic_set(&dev_priv->mksstat_user_pids[slot], 0);
++		return -EFAULT;
++	}
++
++	reset_ppn_array(pdesc->statPPNs, ARRAY_SIZE(pdesc->statPPNs));
++	reset_ppn_array(pdesc->infoPPNs, ARRAY_SIZE(pdesc->infoPPNs));
++	reset_ppn_array(pdesc->strsPPNs, ARRAY_SIZE(pdesc->strsPPNs));
++
++	/* Pin mksGuestStat user pages and store those in the instance descriptor */
++	nr_pinned_stat = pin_user_pages(arg->stat, num_pages_stat, FOLL_LONGTERM, pages_stat, NULL);
++	if (num_pages_stat != nr_pinned_stat)
++		goto err_pin_stat;
++
++	for (i = 0; i < num_pages_stat; ++i)
++		pdesc->statPPNs[i] = page_to_pfn(pages_stat[i]);
++
++	nr_pinned_info = pin_user_pages(arg->info, num_pages_info, FOLL_LONGTERM, pages_info, NULL);
++	if (num_pages_info != nr_pinned_info)
++		goto err_pin_info;
++
++	for (i = 0; i < num_pages_info; ++i)
++		pdesc->infoPPNs[i] = page_to_pfn(pages_info[i]);
++
++	nr_pinned_strs = pin_user_pages(arg->strs, num_pages_strs, FOLL_LONGTERM, pages_strs, NULL);
++	if (num_pages_strs != nr_pinned_strs)
++		goto err_pin_strs;
++
++	for (i = 0; i < num_pages_strs; ++i)
++		pdesc->strsPPNs[i] = page_to_pfn(pages_strs[i]);
++
++	/* Send the descriptor to the host via a hypervisor call. The mksGuestStat
++	   pages will remain in use until the user requests a matching remove stats
++	   or a stats reset occurs. */
++	hypervisor_ppn_add((PPN64)page_to_pfn(page));
++
++	dev_priv->mksstat_user_pages[slot] = page;
++	atomic_set(&dev_priv->mksstat_user_pids[slot], current->pid);
++
++	arg->id = slot;
++
++	DRM_DEV_INFO(dev->dev, "pid=%d arg.description='%.*s' id=%lu\n", current->pid, (int)desc_len, pdesc->description, slot);
++
++	return 0;
++
++err_pin_strs:
++	if (nr_pinned_strs > 0)
++		unpin_user_pages(pages_strs, nr_pinned_strs);
++
++err_pin_info:
++	if (nr_pinned_info > 0)
++		unpin_user_pages(pages_info, nr_pinned_info);
++
++err_pin_stat:
++	if (nr_pinned_stat > 0)
++		unpin_user_pages(pages_stat, nr_pinned_stat);
++
++	atomic_set(&dev_priv->mksstat_user_pids[slot], 0);
++	__free_page(page);
++	return -ENOMEM;
++}
++
++/**
++ * vmw_mksstat_remove_ioctl: Removes a single userspace-originating mksGuestStat
++ * instance descriptor from the hypervisor.
++ *
++ * Discard a hypervisor PFN mapping, containing a single mksGuestStat instance
++ * descriptor and unpin the corresponding userspace pages.
++ *
++ * @dev: Identifies the drm device.
++ * @data: Pointer to the ioctl argument.
++ * @file_priv: Identifies the caller; unused.
++ * Return: Zero on success, negative error code on error.
++ */
++
++int vmw_mksstat_remove_ioctl(struct drm_device *dev, void *data,
++				struct drm_file *file_priv)
++{
++	struct drm_vmw_mksstat_remove_arg *arg =
++		(struct drm_vmw_mksstat_remove_arg *) data;
++
++	struct vmw_private *const dev_priv = vmw_priv(dev);
++
++	const size_t slot = arg->id;
++	pid_t pid0;
++
++	if (slot >= ARRAY_SIZE(dev_priv->mksstat_user_pids))
++		return -EINVAL;
++
++	DRM_DEV_INFO(dev->dev, "pid=%d arg.id=%lu\n", current->pid, slot);
++
++	pid0 = atomic_read(&dev_priv->mksstat_user_pids[slot]);
++
++	if (!pid0)
++		return 0;
++
++	if (pid0 != MKSSTAT_PID_RESERVED) {
++		const pid_t pid1 = atomic_cmpxchg(&dev_priv->mksstat_user_pids[slot], pid0, MKSSTAT_PID_RESERVED);
++
++		if (!pid1)
++			return 0;
++
++		if (pid1 == pid0) {
++			struct page *const page = dev_priv->mksstat_user_pages[slot];
++
++			BUG_ON(!page);
++
++			dev_priv->mksstat_user_pages[slot] = NULL;
++			atomic_set(&dev_priv->mksstat_user_pids[slot], 0);
++
++			hypervisor_ppn_remove((PPN64)page_to_pfn(page));
++
++			vmw_mksstat_cleanup_descriptor(page);
++			return 0;
++		}
++	}
++
++	return -EAGAIN;
++}
+diff --git a/include/uapi/drm/vmwgfx_drm.h b/include/uapi/drm/vmwgfx_drm.h
+index 02e917507479..9078775feb51 100644
+--- a/include/uapi/drm/vmwgfx_drm.h
++++ b/include/uapi/drm/vmwgfx_drm.h
+@@ -72,6 +72,9 @@ extern "C" {
+ #define DRM_VMW_GB_SURFACE_CREATE_EXT   27
+ #define DRM_VMW_GB_SURFACE_REF_EXT      28
+ #define DRM_VMW_MSG                     29
++#define DRM_VMW_MKSSTAT_RESET           30
++#define DRM_VMW_MKSSTAT_ADD             31
++#define DRM_VMW_MKSSTAT_REMOVE          32
  
- 	if (arg->max_size < size)
- 		size = arg->max_size;
-@@ -212,29 +145,9 @@ int vmw_get_cap_3d_ioctl(struct drm_device *dev, void *data,
- 		return -ENOMEM;
- 	}
+ /*************************************************************************/
+ /**
+@@ -1236,6 +1239,44 @@ struct drm_vmw_msg_arg {
+ 	__u32 receive_len;
+ };
  
--	if (gb_objects && vmw_fp->gb_aware) {
--		int i, num;
--		uint32_t *bounce32 = (uint32_t *) bounce;
--
--		num = size / sizeof(uint32_t);
--		if (num > SVGA3D_DEVCAP_MAX)
--			num = SVGA3D_DEVCAP_MAX;
--
--		spin_lock(&dev_priv->cap_lock);
--		for (i = 0; i < num; ++i) {
--			vmw_write(dev_priv, SVGA_REG_DEV_CAP, i);
--			*bounce32++ = vmw_mask_legacy_multisample
--				(i, vmw_read(dev_priv, SVGA_REG_DEV_CAP));
--		}
--		spin_unlock(&dev_priv->cap_lock);
--	} else if (gb_objects) {
--		ret = vmw_fill_compat_cap(dev_priv, bounce, size);
--		if (unlikely(ret != 0))
--			goto out_err;
--	} else {
--		fifo_mem = dev_priv->fifo_mem;
--		memcpy(bounce, &fifo_mem[SVGA_FIFO_3D_CAPS], size);
--	}
-+	ret = vmw_devcaps_copy(dev_priv, vmw_fp->gb_aware, bounce, size);
-+	if (unlikely (ret != 0))
-+		goto out_err;
- 
- 	ret = copy_to_user(buffer, bounce, size);
- 	if (ret)
++/**
++ * struct drm_vmw_mksstat_add_arg
++ *
++ * @stat: Pointer to user-space stat-counters array, page-aligned.
++ * @info: Pointer to user-space counter-infos array, page-aligned.
++ * @strs: Pointer to user-space stat strings, page-aligned.
++ * @stat_len: Length in bytes of stat-counters array.
++ * @info_len: Length in bytes of counter-infos array.
++ * @strs_len: Length in bytes of the stat strings, terminators included.
++ * @description: Pointer to instance descriptor string; will be truncated
++ *               to MKS_GUEST_STAT_INSTANCE_DESC_LENGTH chars.
++ * @id: Output identifier of the produced record; -1 if error.
++ *
++ * Argument to the DRM_VMW_MKSSTAT_ADD ioctl.
++ */
++struct drm_vmw_mksstat_add_arg {
++	__u64 stat;
++	__u64 info;
++	__u64 strs;
++	__u64 stat_len;
++	__u64 info_len;
++	__u64 strs_len;
++	__u64 description;
++	__u64 id;
++};
++
++/**
++ * struct drm_vmw_mksstat_remove_arg
++ *
++ * @id: Identifier of the record being disposed, originally obtained through
++ *      DRM_VMW_MKSSTAT_ADD ioctl.
++ *
++ * Argument to the DRM_VMW_MKSSTAT_REMOVE ioctl.
++ */
++struct drm_vmw_mksstat_remove_arg {
++	__u64 id;
++};
++
+ #if defined(__cplusplus)
+ }
+ #endif
 -- 
 2.30.2
 
