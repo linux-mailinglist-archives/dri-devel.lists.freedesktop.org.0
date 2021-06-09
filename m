@@ -2,36 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55F603A0C89
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Jun 2021 08:35:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 98D913A0C8A
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Jun 2021 08:35:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B0BE66E20A;
+	by gabe.freedesktop.org (Postfix) with ESMTP id E67076E32F;
 	Wed,  9 Jun 2021 06:35:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9D1C96E212;
- Wed,  9 Jun 2021 06:35:04 +0000 (UTC)
-IronPort-SDR: By/+WBMjH9QUomKwdhCYehbRbWcHdwh9ZGZGDiRekr5B5zeABCL+oG5KbtzPnvzhNTjCTmOFHK
- P1rjGfxd8/KA==
-X-IronPort-AV: E=McAfee;i="6200,9189,10009"; a="268868913"
-X-IronPort-AV: E=Sophos;i="5.83,260,1616482800"; d="scan'208";a="268868913"
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6C3C96E20A;
+ Wed,  9 Jun 2021 06:35:06 +0000 (UTC)
+IronPort-SDR: Ul+5cTeWwV2D7MPbLNKkJK8t/2r49hXRmlhRIBKpcX4yfQjuojEfov4asdalpQmPdl6SeRiO5/
+ ITvNGzpMMiTg==
+X-IronPort-AV: E=McAfee;i="6200,9189,10009"; a="268868941"
+X-IronPort-AV: E=Sophos;i="5.83,260,1616482800"; d="scan'208";a="268868941"
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Jun 2021 23:35:04 -0700
-IronPort-SDR: Gv6hZhJxhx+ivPyr6OfWW/UhNTOa8ArchKn/aH/brAScF7HDZbhleRcoj01tw2ehA0oQgEJhvK
- r5U2IMCy4qGQ==
-X-IronPort-AV: E=Sophos;i="5.83,260,1616482800"; d="scan'208";a="482265855"
+ 08 Jun 2021 23:35:06 -0700
+IronPort-SDR: sinJWIkdSEImn2u1YtVlHCsh4exKC/M318FtZ3cqNj/z+JWw7P5HUAgO+51OpwIw6XkbyXiHnM
+ 00cHzeOfmDgg==
+X-IronPort-AV: E=Sophos;i="5.83,260,1616482800"; d="scan'208";a="482265865"
 Received: from ekolpasx-mobl.ccr.corp.intel.com (HELO thellst-mobl1.intel.com)
  ([10.249.254.109])
  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Jun 2021 23:35:01 -0700
+ 08 Jun 2021 23:35:04 -0700
 From: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
 To: intel-gfx@lists.freedesktop.org,
 	dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 8/9] drm/i915/gt: Pipelined clear
-Date: Wed,  9 Jun 2021 08:34:35 +0200
-Message-Id: <20210609063436.284332-9-thomas.hellstrom@linux.intel.com>
+Subject: [PATCH v2 9/9] drm/i915/gt: Setup a default migration context on the
+ GT
+Date: Wed,  9 Jun 2021 08:34:36 +0200
+Message-Id: <20210609063436.284332-10-thomas.hellstrom@linux.intel.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210609063436.284332-1-thomas.hellstrom@linux.intel.com>
 References: <20210609063436.284332-1-thomas.hellstrom@linux.intel.com>
@@ -57,366 +58,223 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Chris Wilson <chris@chris-wilson.co.uk>
 
-Update the PTE and emit a clear within a single unpreemptible packet
-such that we can schedule and pipeline clears.
+Set up a default migration context on the GT and use it from the
+selftests.
+Add a perf selftest and make sure we exercise LMEM if available.
 
 Signed-off-by: Chris Wilson <chris@chris-wilson.co.uk>
 Co-developed-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
 Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
 ---
- drivers/gpu/drm/i915/gt/intel_migrate.c    | 141 ++++++++++++++++++
- drivers/gpu/drm/i915/gt/intel_migrate.h    |  20 +++
- drivers/gpu/drm/i915/gt/selftest_migrate.c | 163 +++++++++++++++++++++
- 3 files changed, 324 insertions(+)
+ drivers/gpu/drm/i915/gt/intel_gt.c            |   4 +
+ drivers/gpu/drm/i915/gt/intel_gt_types.h      |   3 +
+ drivers/gpu/drm/i915/gt/intel_migrate.c       |   4 +-
+ drivers/gpu/drm/i915/gt/selftest_migrate.c    | 227 +++++++++++++++++-
+ .../drm/i915/selftests/i915_perf_selftests.h  |   1 +
+ 5 files changed, 232 insertions(+), 7 deletions(-)
 
+diff --git a/drivers/gpu/drm/i915/gt/intel_gt.c b/drivers/gpu/drm/i915/gt/intel_gt.c
+index 2161bf01ef8b..67ef057ae918 100644
+--- a/drivers/gpu/drm/i915/gt/intel_gt.c
++++ b/drivers/gpu/drm/i915/gt/intel_gt.c
+@@ -13,6 +13,7 @@
+ #include "intel_gt_clock_utils.h"
+ #include "intel_gt_pm.h"
+ #include "intel_gt_requests.h"
++#include "intel_migrate.h"
+ #include "intel_mocs.h"
+ #include "intel_rc6.h"
+ #include "intel_renderstate.h"
+@@ -626,6 +627,8 @@ int intel_gt_init(struct intel_gt *gt)
+ 	if (err)
+ 		goto err_gt;
+ 
++	intel_migrate_init(&gt->migrate, gt);
++
+ 	goto out_fw;
+ err_gt:
+ 	__intel_gt_disable(gt);
+@@ -649,6 +652,7 @@ void intel_gt_driver_remove(struct intel_gt *gt)
+ {
+ 	__intel_gt_disable(gt);
+ 
++	intel_migrate_fini(&gt->migrate);
+ 	intel_uc_driver_remove(&gt->uc);
+ 
+ 	intel_engines_release(gt);
+diff --git a/drivers/gpu/drm/i915/gt/intel_gt_types.h b/drivers/gpu/drm/i915/gt/intel_gt_types.h
+index fecfacf551d5..7450935f2ca8 100644
+--- a/drivers/gpu/drm/i915/gt/intel_gt_types.h
++++ b/drivers/gpu/drm/i915/gt/intel_gt_types.h
+@@ -24,6 +24,7 @@
+ #include "intel_reset_types.h"
+ #include "intel_rc6_types.h"
+ #include "intel_rps_types.h"
++#include "intel_migrate_types.h"
+ #include "intel_wakeref.h"
+ 
+ struct drm_i915_private;
+@@ -145,6 +146,8 @@ struct intel_gt {
+ 
+ 	struct i915_vma *scratch;
+ 
++	struct intel_migrate migrate;
++
+ 	struct intel_gt_info {
+ 		intel_engine_mask_t engine_mask;
+ 		u8 num_engines;
 diff --git a/drivers/gpu/drm/i915/gt/intel_migrate.c b/drivers/gpu/drm/i915/gt/intel_migrate.c
-index 70776316863d..fda05ce3eb9c 100644
+index fda05ce3eb9c..935b5f14ff21 100644
 --- a/drivers/gpu/drm/i915/gt/intel_migrate.c
 +++ b/drivers/gpu/drm/i915/gt/intel_migrate.c
-@@ -490,6 +490,112 @@ intel_context_migrate_copy(struct intel_context *ce,
- 	return err;
- }
+@@ -418,10 +418,9 @@ intel_context_migrate_copy(struct intel_context *ce,
+ 	struct i915_request *rq;
+ 	int err;
  
-+static int emit_clear(struct i915_request *rq, int size, u32 value)
++	GEM_BUG_ON(ce->vm != ce->engine->gt->migrate.context->vm);
+ 	*out = NULL;
+ 
+-	/* GEM_BUG_ON(ce->vm != migrate_vm); */
+-
+ 	GEM_BUG_ON(ce->ring->size < SZ_64K);
+ 
+ 	do {
+@@ -536,6 +535,7 @@ intel_context_migrate_clear(struct intel_context *ce,
+ 	struct i915_request *rq;
+ 	int err;
+ 
++	GEM_BUG_ON(ce->vm != ce->engine->gt->migrate.context->vm);
+ 	*out = NULL;
+ 
+ 	GEM_BUG_ON(ce->ring->size < SZ_64K);
+diff --git a/drivers/gpu/drm/i915/gt/selftest_migrate.c b/drivers/gpu/drm/i915/gt/selftest_migrate.c
+index 159c8656e1b0..396c81364399 100644
+--- a/drivers/gpu/drm/i915/gt/selftest_migrate.c
++++ b/drivers/gpu/drm/i915/gt/selftest_migrate.c
+@@ -3,6 +3,8 @@
+  * Copyright © 2020 Intel Corporation
+  */
+ 
++#include <linux/sort.h>
++
+ #include "selftests/i915_random.h"
+ 
+ static const unsigned int sizes[] = {
+@@ -441,14 +443,229 @@ int intel_migrate_live_selftests(struct drm_i915_private *i915)
+ 		SUBTEST(thread_global_copy),
+ 		SUBTEST(thread_global_clear),
+ 	};
+-	struct intel_migrate m;
++	struct intel_gt *gt = &i915->gt;
++
++	if (!gt->migrate.context)
++		return 0;
++
++	return i915_subtests(tests, &gt->migrate);
++}
++
++static struct drm_i915_gem_object *
++create_init_lmem_internal(struct intel_gt *gt, size_t sz, bool try_lmem)
 +{
-+	const int gen = INTEL_GEN(rq->engine->i915);
-+	u32 *cs;
++	struct drm_i915_gem_object *obj = NULL;
+ 	int err;
+ 
+-	if (intel_migrate_init(&m, &i915->gt))
++	if (try_lmem && HAS_LMEM(gt->i915))
++		obj = i915_gem_object_create_lmem(gt->i915, sz, 0);
 +
-+	GEM_BUG_ON(size >> PAGE_SHIFT > S16_MAX);
-+
-+	cs = intel_ring_begin(rq, gen >= 8 ? 8 : 6);
-+	if (IS_ERR(cs))
-+		return PTR_ERR(cs);
-+
-+	if (gen >= 8) {
-+		*cs++ = XY_COLOR_BLT_CMD | BLT_WRITE_RGBA | (7 - 2);
-+		*cs++ = BLT_DEPTH_32 | BLT_ROP_COLOR_COPY | PAGE_SIZE;
-+		*cs++ = 0;
-+		*cs++ = size >> PAGE_SHIFT << 16 | PAGE_SIZE / 4;
-+		*cs++ = 0; /* offset */
-+		*cs++ = 0;
-+		*cs++ = value;
-+		*cs++ = MI_NOOP;
-+	} else {
-+		*cs++ = XY_COLOR_BLT_CMD | BLT_WRITE_RGBA | (6 - 2);
-+		*cs++ = BLT_DEPTH_32 | BLT_ROP_COLOR_COPY | PAGE_SIZE;
-+		*cs++ = 0;
-+		*cs++ = size >> PAGE_SHIFT << 16 | PAGE_SIZE / 4;
-+		*cs++ = 0;
-+		*cs++ = value;
++	if (IS_ERR_OR_NULL(obj)) {
++		obj = i915_gem_object_create_internal(gt->i915, sz);
++		if (IS_ERR(obj))
++			return obj;
 +	}
 +
-+	intel_ring_advance(rq, cs);
++	i915_gem_object_trylock(obj);
++	err = i915_gem_object_pin_pages(obj);
++	if (err) {
++		i915_gem_object_unlock(obj);
++		i915_gem_object_put(obj);
++		return ERR_PTR(err);
++	}
++
++	return obj;
++}
++
++static int wrap_ktime_compare(const void *A, const void *B)
++{
++	const ktime_t *a = A, *b = B;
++
++	return ktime_compare(*a, *b);
++}
++
++static int __perf_clear_blt(struct intel_context *ce,
++			    struct scatterlist *sg,
++			    enum i915_cache_level cache_level,
++			    bool is_lmem,
++			    size_t sz)
++{
++	ktime_t t[5];
++	int pass;
++	int err = 0;
++
++	for (pass = 0; pass < ARRAY_SIZE(t); pass++) {
++		struct i915_request *rq;
++		ktime_t t0, t1;
++
++		t0 = ktime_get();
++
++		err = intel_context_migrate_clear(ce, NULL, sg, cache_level,
++						  is_lmem, 0, &rq);
++		if (rq) {
++			if (i915_request_wait(rq, 0, MAX_SCHEDULE_TIMEOUT) < 0)
++				err = -EIO;
++			i915_request_put(rq);
++		}
++		if (err)
++			break;
++
++		t1 = ktime_get();
++		t[pass] = ktime_sub(t1, t0);
++	}
++	if (err)
++		return err;
++
++	sort(t, ARRAY_SIZE(t), sizeof(*t), wrap_ktime_compare, NULL);
++	pr_info("%s: %zd KiB fill: %lld MiB/s\n",
++		ce->engine->name, sz >> 10,
++		div64_u64(mul_u32_u32(4 * sz,
++				      1000 * 1000 * 1000),
++			  t[1] + 2 * t[2] + t[3]) >> 20);
 +	return 0;
 +}
 +
-+int
-+intel_context_migrate_clear(struct intel_context *ce,
-+			    struct dma_fence *await,
-+			    struct scatterlist *sg,
-+			    enum i915_cache_level cache_level,
-+			    bool is_lmem,
-+			    u32 value,
-+			    struct i915_request **out)
++static int perf_clear_blt(void *arg)
 +{
-+	struct sgt_dma it = sg_sgt(sg);
-+	struct i915_request *rq;
-+	int err;
-+
-+	*out = NULL;
-+
-+	GEM_BUG_ON(ce->ring->size < SZ_64K);
-+
-+	do {
-+		int len;
-+
-+		rq = i915_request_create(ce);
-+		if (IS_ERR(rq)) {
-+			err = PTR_ERR(rq);
-+			goto out_ce;
-+		}
-+
-+		if (await) {
-+			err = i915_request_await_dma_fence(rq, await);
-+			if (err)
-+				goto out_rq;
-+
-+			if (rq->engine->emit_init_breadcrumb) {
-+				err = rq->engine->emit_init_breadcrumb(rq);
-+				if (err)
-+					goto out_rq;
-+			}
-+
-+			await = NULL;
-+		}
-+
-+		/* The PTE updates + clear must not be interrupted. */
-+		err = emit_no_arbitration(rq);
-+		if (err)
-+			goto out_rq;
-+
-+		len = emit_pte(rq, &it, cache_level, is_lmem, 0, CHUNK_SZ);
-+		if (len <= 0) {
-+			err = len;
-+			goto out_rq;
-+		}
-+
-+		err = rq->engine->emit_flush(rq, EMIT_INVALIDATE);
-+		if (err)
-+			goto out_rq;
-+
-+		err = emit_clear(rq, len, value);
-+
-+		/* Arbitration is re-enabled between requests. */
-+out_rq:
-+		if (*out)
-+			i915_request_put(*out);
-+		*out = i915_request_get(rq);
-+		i915_request_add(rq);
-+		if (err || !it.sg || !sg_dma_len(it.sg))
-+			break;
-+
-+		cond_resched();
-+	} while (1);
-+
-+out_ce:
-+	return err;
-+}
-+
- int intel_migrate_copy(struct intel_migrate *m,
- 		       struct i915_gem_ww_ctx *ww,
- 		       struct dma_fence *await,
-@@ -528,6 +634,41 @@ int intel_migrate_copy(struct intel_migrate *m,
- 	return err;
- }
- 
-+int
-+intel_migrate_clear(struct intel_migrate *m,
-+		    struct i915_gem_ww_ctx *ww,
-+		    struct dma_fence *await,
-+		    struct scatterlist *sg,
-+		    enum i915_cache_level cache_level,
-+		    bool is_lmem,
-+		    u32 value,
-+		    struct i915_request **out)
-+{
-+	struct intel_context *ce;
-+	int err;
-+
-+	*out = NULL;
-+	if (!m->context)
-+		return -ENODEV;
-+
-+	ce = intel_migrate_create_context(m);
-+	if (IS_ERR(ce))
-+		ce = intel_context_get(m->context);
-+	GEM_BUG_ON(IS_ERR(ce));
-+
-+	err = intel_context_pin_ww(ce, ww);
-+	if (err)
-+		goto out;
-+
-+	err = intel_context_migrate_clear(ce, await, sg, cache_level,
-+					  is_lmem, value, out);
-+
-+	intel_context_unpin(ce);
-+out:
-+	intel_context_put(ce);
-+	return err;
-+}
-+
- void intel_migrate_fini(struct intel_migrate *m)
- {
- 	struct intel_context *ce;
-diff --git a/drivers/gpu/drm/i915/gt/intel_migrate.h b/drivers/gpu/drm/i915/gt/intel_migrate.h
-index 32c61190ed73..4e18e755a00b 100644
---- a/drivers/gpu/drm/i915/gt/intel_migrate.h
-+++ b/drivers/gpu/drm/i915/gt/intel_migrate.h
-@@ -6,6 +6,8 @@
- #ifndef __INTEL_MIGRATE__
- #define __INTEL_MIGRATE__
- 
-+#include <linux/types.h>
-+
- #include "intel_migrate_types.h"
- 
- struct dma_fence;
-@@ -40,6 +42,24 @@ int intel_context_migrate_copy(struct intel_context *ce,
- 			       bool dst_is_lmem,
- 			       struct i915_request **out);
- 
-+int
-+intel_migrate_clear(struct intel_migrate *m,
-+		    struct i915_gem_ww_ctx *ww,
-+		    struct dma_fence *await,
-+		    struct scatterlist *sg,
-+		    enum i915_cache_level cache_level,
-+		    bool is_lmem,
-+		    u32 value,
-+		    struct i915_request **out);
-+int
-+intel_context_migrate_clear(struct intel_context *ce,
-+			    struct dma_fence *await,
-+			    struct scatterlist *sg,
-+			    enum i915_cache_level cache_level,
-+			    bool is_lmem,
-+			    u32 value,
-+			    struct i915_request **out);
-+
- void intel_migrate_fini(struct intel_migrate *m);
- 
- #endif /* __INTEL_MIGRATE__ */
-diff --git a/drivers/gpu/drm/i915/gt/selftest_migrate.c b/drivers/gpu/drm/i915/gt/selftest_migrate.c
-index 9784d149ebf1..159c8656e1b0 100644
---- a/drivers/gpu/drm/i915/gt/selftest_migrate.c
-+++ b/drivers/gpu/drm/i915/gt/selftest_migrate.c
-@@ -129,6 +129,82 @@ static int copy(struct intel_migrate *migrate,
- 	return err;
- }
- 
-+static int clear(struct intel_migrate *migrate,
-+		 int (*fn)(struct intel_migrate *migrate,
-+			   struct i915_gem_ww_ctx *ww,
-+			   struct drm_i915_gem_object *obj,
-+			   u32 value,
-+			   struct i915_request **out),
-+		 u32 sz, struct rnd_state *prng)
-+{
-+	struct drm_i915_private *i915 = migrate->context->engine->i915;
-+	struct drm_i915_gem_object *obj;
-+	struct i915_request *rq;
-+	struct i915_gem_ww_ctx ww;
-+	u32 *vaddr;
-+	int err = 0;
-+	int i;
-+
-+	obj = create_lmem_or_internal(i915, sz);
-+	if (IS_ERR(obj))
-+		return 0;
-+
-+	for_i915_gem_ww(&ww, err, true) {
-+		err = i915_gem_object_lock(obj, &ww);
-+		if (err)
-+			continue;
-+
-+		vaddr = i915_gem_object_pin_map(obj, I915_MAP_WC);
-+		if (IS_ERR(vaddr)) {
-+			err = PTR_ERR(vaddr);
-+			continue;
-+		}
-+
-+		for (i = 0; i < sz / sizeof(u32); i++)
-+			vaddr[i] = ~i;
-+		i915_gem_object_flush_map(obj);
-+
-+		err = fn(migrate, &ww, obj, sz, &rq);
-+		if (!err)
-+			continue;
-+
-+		if (err != -EDEADLK && err != -EINTR && err != -ERESTARTSYS)
-+			pr_err("%ps failed, size: %u\n", fn, sz);
-+		if (rq) {
-+			i915_request_wait(rq, 0, HZ);
-+			i915_request_put(rq);
-+		}
-+		i915_gem_object_unpin_map(obj);
-+	}
-+	if (err)
-+		goto err_out;
-+
-+	if (rq) {
-+		if (i915_request_wait(rq, 0, HZ) < 0) {
-+			pr_err("%ps timed out, size: %u\n", fn, sz);
-+			err = -ETIME;
-+		}
-+		i915_request_put(rq);
-+	}
-+
-+	for (i = 0; !err && i < sz / PAGE_SIZE; i++) {
-+		int x = i * 1024 + i915_prandom_u32_max_state(1024, prng);
-+
-+		if (vaddr[x] != sz) {
-+			pr_err("%ps failed, size: %u, offset: %zu\n",
-+			       fn, sz, x * sizeof(u32));
-+			igt_hexdump(vaddr + i * 1024, 4096);
-+			err = -EINVAL;
-+		}
-+	}
-+
-+	i915_gem_object_unpin_map(obj);
-+err_out:
-+	i915_gem_object_put(obj);
-+
-+	return err;
-+}
-+
- static int __migrate_copy(struct intel_migrate *migrate,
- 			  struct i915_gem_ww_ctx *ww,
- 			  struct drm_i915_gem_object *src,
-@@ -169,6 +245,44 @@ global_copy(struct intel_migrate *migrate, u32 sz, struct rnd_state *prng)
- 	return copy(migrate, __global_copy, sz, prng);
- }
- 
-+static int __migrate_clear(struct intel_migrate *migrate,
-+			   struct i915_gem_ww_ctx *ww,
-+			   struct drm_i915_gem_object *obj,
-+			   u32 value,
-+			   struct i915_request **out)
-+{
-+	return intel_migrate_clear(migrate, ww, NULL,
-+				   obj->mm.pages->sgl,
-+				   obj->cache_level,
-+				   i915_gem_object_is_lmem(obj),
-+				   value, out);
-+}
-+
-+static int __global_clear(struct intel_migrate *migrate,
-+			  struct i915_gem_ww_ctx *ww,
-+			  struct drm_i915_gem_object *obj,
-+			  u32 value,
-+			  struct i915_request **out)
-+{
-+	return intel_context_migrate_clear(migrate->context, NULL,
-+					   obj->mm.pages->sgl,
-+					   obj->cache_level,
-+					   i915_gem_object_is_lmem(obj),
-+					   value, out);
-+}
-+
-+static int
-+migrate_clear(struct intel_migrate *migrate, u32 sz, struct rnd_state *prng)
-+{
-+	return clear(migrate, __migrate_clear, sz, prng);
-+}
-+
-+static int
-+global_clear(struct intel_migrate *migrate, u32 sz, struct rnd_state *prng)
-+{
-+	return clear(migrate, __global_clear, sz, prng);
-+}
-+
- static int live_migrate_copy(void *arg)
- {
- 	struct intel_migrate *migrate = arg;
-@@ -190,6 +304,28 @@ static int live_migrate_copy(void *arg)
- 	return 0;
- }
- 
-+static int live_migrate_clear(void *arg)
-+{
-+	struct intel_migrate *migrate = arg;
-+	struct drm_i915_private *i915 = migrate->context->engine->i915;
-+	I915_RND_STATE(prng);
++	struct intel_gt *gt = arg;
++	static const unsigned long sizes[] = {
++		SZ_4K,
++		SZ_64K,
++		SZ_2M,
++		SZ_64M
++	};
 +	int i;
 +
 +	for (i = 0; i < ARRAY_SIZE(sizes); i++) {
++		struct drm_i915_gem_object *dst;
 +		int err;
 +
-+		err = migrate_clear(migrate, sizes[i], &prng);
-+		if (err == 0)
-+			err = global_clear(migrate, sizes[i], &prng);
++		dst = create_init_lmem_internal(gt, sizes[i], true);
++		if (IS_ERR(dst))
++			return PTR_ERR(dst);
 +
-+		i915_gem_drain_freed_objects(i915);
++		err = __perf_clear_blt(gt->migrate.context,
++				       dst->mm.pages->sgl,
++				       I915_CACHE_NONE,
++				       i915_gem_object_is_lmem(dst),
++				       sizes[i]);
++
++		i915_gem_object_unlock(dst);
++		i915_gem_object_put(dst);
 +		if (err)
 +			return err;
 +	}
@@ -424,49 +282,130 @@ index 9784d149ebf1..159c8656e1b0 100644
 +	return 0;
 +}
 +
- struct threaded_migrate {
- 	struct intel_migrate *migrate;
- 	struct task_struct *tsk;
-@@ -271,12 +407,39 @@ static int thread_global_copy(void *arg)
- 	return threaded_migrate(arg, __thread_global_copy, 0);
- }
++static int __perf_copy_blt(struct intel_context *ce,
++			   struct scatterlist *src,
++			   enum i915_cache_level src_cache_level,
++			   bool src_is_lmem,
++			   struct scatterlist *dst,
++			   enum i915_cache_level dst_cache_level,
++			   bool dst_is_lmem,
++			   size_t sz)
++{
++	ktime_t t[5];
++	int pass;
++	int err = 0;
++
++	for (pass = 0; pass < ARRAY_SIZE(t); pass++) {
++		struct i915_request *rq;
++		ktime_t t0, t1;
++
++		t0 = ktime_get();
++
++		err = intel_context_migrate_copy(ce, NULL,
++						 src, src_cache_level,
++						 src_is_lmem,
++						 dst, dst_cache_level,
++						 dst_is_lmem,
++						 &rq);
++		if (rq) {
++			if (i915_request_wait(rq, 0, MAX_SCHEDULE_TIMEOUT) < 0)
++				err = -EIO;
++			i915_request_put(rq);
++		}
++		if (err)
++			break;
++
++		t1 = ktime_get();
++		t[pass] = ktime_sub(t1, t0);
++	}
++	if (err)
++		return err;
++
++	sort(t, ARRAY_SIZE(t), sizeof(*t), wrap_ktime_compare, NULL);
++	pr_info("%s: %zd KiB copy: %lld MiB/s\n",
++		ce->engine->name, sz >> 10,
++		div64_u64(mul_u32_u32(4 * sz,
++				      1000 * 1000 * 1000),
++			  t[1] + 2 * t[2] + t[3]) >> 20);
++	return 0;
++}
++
++static int perf_copy_blt(void *arg)
++{
++	struct intel_gt *gt = arg;
++	static const unsigned long sizes[] = {
++		SZ_4K,
++		SZ_64K,
++		SZ_2M,
++		SZ_64M
++	};
++	int i;
++
++	for (i = 0; i < ARRAY_SIZE(sizes); i++) {
++		struct drm_i915_gem_object *src, *dst;
++		int err;
++
++		src = create_init_lmem_internal(gt, sizes[i], true);
++		if (IS_ERR(src))
++			return PTR_ERR(src);
++
++		dst = create_init_lmem_internal(gt, sizes[i], false);
++		if (IS_ERR(dst)) {
++			err = PTR_ERR(dst);
++			goto err_src;
++		}
++
++		err = __perf_copy_blt(gt->migrate.context,
++				      src->mm.pages->sgl,
++				      I915_CACHE_NONE,
++				      i915_gem_object_is_lmem(src),
++				      dst->mm.pages->sgl,
++				      I915_CACHE_NONE,
++				      i915_gem_object_is_lmem(dst),
++				      sizes[i]);
++
++		i915_gem_object_unlock(dst);
++		i915_gem_object_put(dst);
++err_src:
++		i915_gem_object_unlock(src);
++		i915_gem_object_put(src);
++		if (err)
++			return err;
++	}
++
++	return 0;
++}
++
++int intel_migrate_perf_selftests(struct drm_i915_private *i915)
++{
++	static const struct i915_subtest tests[] = {
++		SUBTEST(perf_clear_blt),
++		SUBTEST(perf_copy_blt),
++	};
++	struct intel_gt *gt = &i915->gt;
++
++	if (intel_gt_is_wedged(gt))
+ 		return 0;
  
-+static int __thread_migrate_clear(void *arg)
-+{
-+	struct threaded_migrate *tm = arg;
-+
-+	return migrate_clear(tm->migrate, 2 * CHUNK_SZ, &tm->prng);
-+}
-+
-+static int __thread_global_clear(void *arg)
-+{
-+	struct threaded_migrate *tm = arg;
-+
-+	return global_clear(tm->migrate, 2 * CHUNK_SZ, &tm->prng);
-+}
-+
-+static int thread_migrate_clear(void *arg)
-+{
-+	return threaded_migrate(arg, __thread_migrate_clear, 0);
-+}
-+
-+static int thread_global_clear(void *arg)
-+{
-+	return threaded_migrate(arg, __thread_global_clear, 0);
-+}
-+
- int intel_migrate_live_selftests(struct drm_i915_private *i915)
- {
- 	static const struct i915_subtest tests[] = {
- 		SUBTEST(live_migrate_copy),
-+		SUBTEST(live_migrate_clear),
- 		SUBTEST(thread_migrate_copy),
-+		SUBTEST(thread_migrate_clear),
- 		SUBTEST(thread_global_copy),
-+		SUBTEST(thread_global_clear),
- 	};
- 	struct intel_migrate m;
- 	int err;
+-	err = i915_subtests(tests, &m);
+-	intel_migrate_fini(&m);
++	if (!gt->migrate.context)
++		return 0;
+ 
+-	return err;
++	return intel_gt_live_subtests(tests, gt);
+ }
+diff --git a/drivers/gpu/drm/i915/selftests/i915_perf_selftests.h b/drivers/gpu/drm/i915/selftests/i915_perf_selftests.h
+index c2389f8a257d..5077dc3c3b8c 100644
+--- a/drivers/gpu/drm/i915/selftests/i915_perf_selftests.h
++++ b/drivers/gpu/drm/i915/selftests/i915_perf_selftests.h
+@@ -17,5 +17,6 @@
+  */
+ selftest(engine_cs, intel_engine_cs_perf_selftests)
+ selftest(request, i915_request_perf_selftests)
++selftest(migrate, intel_migrate_perf_selftests)
+ selftest(blt, i915_gem_object_blt_perf_selftests)
+ selftest(region, intel_memory_region_perf_selftests)
 -- 
 2.31.1
 
