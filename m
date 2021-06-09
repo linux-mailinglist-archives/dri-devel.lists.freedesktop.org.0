@@ -2,36 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0BE23A1BB2
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Jun 2021 19:23:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 808E03A1BB1
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Jun 2021 19:23:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D10A46E9E3;
-	Wed,  9 Jun 2021 17:23:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CDDF06E9C7;
+	Wed,  9 Jun 2021 17:23:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from EX13-EDG-OU-002.vmware.com (ex13-edg-ou-002.vmware.com
- [208.91.0.190])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F03A26E9B6
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Jun 2021 17:23:13 +0000 (UTC)
+Received: from EX13-EDG-OU-001.vmware.com (ex13-edg-ou-001.vmware.com
+ [208.91.0.189])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AA7606E9BC
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Jun 2021 17:23:14 +0000 (UTC)
 Received: from sc9-mailhost3.vmware.com (10.113.161.73) by
- EX13-EDG-OU-002.vmware.com (10.113.208.156) with Microsoft SMTP Server id
- 15.0.1156.6; Wed, 9 Jun 2021 10:23:10 -0700
+ EX13-EDG-OU-001.vmware.com (10.113.208.155) with Microsoft SMTP Server id
+ 15.0.1156.6; Wed, 9 Jun 2021 10:23:11 -0700
 Received: from vertex.localdomain (unknown [10.21.244.178])
- by sc9-mailhost3.vmware.com (Postfix) with ESMTP id 04A0B2024E;
- Wed,  9 Jun 2021 10:23:12 -0700 (PDT)
+ by sc9-mailhost3.vmware.com (Postfix) with ESMTP id 9E4592024E;
+ Wed,  9 Jun 2021 10:23:13 -0700 (PDT)
 From: Zack Rusin <zackr@vmware.com>
 To: <dri-devel@lists.freedesktop.org>
-Subject: [PATCH 7/9] drm/vmwgfx: Refactor vmw_mksstat_remove_ioctl to expect
- pgid match with vmw_mksstat_add_ioctl to authorise removal.
-Date: Wed, 9 Jun 2021 13:23:05 -0400
-Message-ID: <20210609172307.131929-8-zackr@vmware.com>
+Subject: [PATCH 8/9] drm/vmwgfx: Remove vmw_chipset
+Date: Wed, 9 Jun 2021 13:23:06 -0400
+Message-ID: <20210609172307.131929-9-zackr@vmware.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210609172307.131929-1-zackr@vmware.com>
 References: <20210609172307.131929-1-zackr@vmware.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-Received-SPF: None (EX13-EDG-OU-002.vmware.com: zackr@vmware.com does not
+Received-SPF: None (EX13-EDG-OU-001.vmware.com: zackr@vmware.com does not
  designate permitted sender hosts)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -45,87 +44,70 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Martin Krastev <krastevm@vmware.com>
+Cc: Martin Krastev <krastevm@vmware.com>,
+ Roland Scheidegger <sroland@vmware.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Martin Krastev <krastevm@vmware.com>
+vmw_chipset was duplicating pci_id. They are exactly the same
+variable just with two different names. Becuase pci_id was
+already used to detect the SVGA version, there's no point
+in having vmw_chipset and thus we can remove it.
 
-Original vmw_mksstat_remove_ioctl expected pid to match the corresponding vmw_mksstat_add_ioctl.
-That made impossible en-masse removals by one pid, which is a valid use case, so pid match was
-discarded. Current change enforces a broader pgid match as a form of protection from arbitrary
-processes interrupting an ongoing mks-guest-stats.
+All references to vmw_chipset should use pci_id.
 
-Reviewed-by: Zack Rusin <zackr@vmware.com>
-Signed-off-by: Martin Krastev <krastevm@vmware.com>
 Signed-off-by: Zack Rusin <zackr@vmware.com>
+Reviewed-by: Roland Scheidegger <sroland@vmware.com>
+Reviewed-by: Martin Krastev <krastevm@vmware.com>
 ---
- drivers/gpu/drm/vmwgfx/vmwgfx_msg.c | 32 ++++++++++++-----------------
- 1 file changed, 13 insertions(+), 19 deletions(-)
+ drivers/gpu/drm/vmwgfx/vmwgfx_drv.c | 5 ++---
+ drivers/gpu/drm/vmwgfx/vmwgfx_drv.h | 3 +--
+ 2 files changed, 3 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_msg.c b/drivers/gpu/drm/vmwgfx/vmwgfx_msg.c
-index 12df4c634075..74a3f09ad664 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_msg.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_msg.c
-@@ -1111,7 +1111,7 @@ int vmw_mksstat_add_ioctl(struct drm_device *dev, void *data,
- 	hypervisor_ppn_add((PPN64)page_to_pfn(page));
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
+index be3db4988949..d51f215bd715 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
+@@ -706,7 +706,7 @@ static void vmw_vram_manager_fini(struct vmw_private *dev_priv)
+ }
  
- 	dev_priv->mksstat_user_pages[slot] = page;
--	atomic_set(&dev_priv->mksstat_user_pids[slot], current->pid);
-+	atomic_set(&dev_priv->mksstat_user_pids[slot], task_pgrp_vnr(current));
- 
- 	arg->id = slot;
- 
-@@ -1158,37 +1158,31 @@ int vmw_mksstat_remove_ioctl(struct drm_device *dev, void *data,
- 	struct vmw_private *const dev_priv = vmw_priv(dev);
- 
- 	const size_t slot = arg->id;
--	pid_t pid0;
-+	pid_t pgid, pid;
- 
- 	if (slot >= ARRAY_SIZE(dev_priv->mksstat_user_pids))
- 		return -EINVAL;
- 
- 	DRM_DEV_INFO(dev->dev, "pid=%d arg.id=%lu\n", current->pid, slot);
- 
--	pid0 = atomic_read(&dev_priv->mksstat_user_pids[slot]);
-+	pgid = task_pgrp_vnr(current);
-+	pid = atomic_cmpxchg(&dev_priv->mksstat_user_pids[slot], pgid, MKSSTAT_PID_RESERVED);
- 
--	if (!pid0)
-+	if (!pid)
- 		return 0;
- 
--	if (pid0 != MKSSTAT_PID_RESERVED) {
--		const pid_t pid1 = atomic_cmpxchg(&dev_priv->mksstat_user_pids[slot], pid0, MKSSTAT_PID_RESERVED);
-+	if (pid == pgid) {
-+		struct page *const page = dev_priv->mksstat_user_pages[slot];
- 
--		if (!pid1)
--			return 0;
--
--		if (pid1 == pid0) {
--			struct page *const page = dev_priv->mksstat_user_pages[slot];
-+		BUG_ON(!page);
- 
--			BUG_ON(!page);
--
--			dev_priv->mksstat_user_pages[slot] = NULL;
--			atomic_set(&dev_priv->mksstat_user_pids[slot], 0);
-+		dev_priv->mksstat_user_pages[slot] = NULL;
-+		atomic_set(&dev_priv->mksstat_user_pids[slot], 0);
- 
--			hypervisor_ppn_remove((PPN64)page_to_pfn(page));
-+		hypervisor_ppn_remove((PPN64)page_to_pfn(page));
- 
--			vmw_mksstat_cleanup_descriptor(page);
--			return 0;
--		}
-+		vmw_mksstat_cleanup_descriptor(page);
-+		return 0;
+ static int vmw_setup_pci_resources(struct vmw_private *dev,
+-				   unsigned long pci_id)
++				   u32 pci_id)
+ {
+ 	resource_size_t rmmio_start;
+ 	resource_size_t rmmio_size;
+@@ -783,7 +783,7 @@ static int vmw_detect_version(struct vmw_private *dev)
+ 	svga_id = vmw_read(dev, SVGA_REG_ID);
+ 	if (svga_id != SVGA_ID_2 && svga_id != SVGA_ID_3) {
+ 		DRM_ERROR("Unsupported SVGA ID 0x%x on chipset 0x%x\n",
+-			  svga_id, dev->vmw_chipset);
++			  svga_id, dev->pci_id);
+ 		return -ENOSYS;
  	}
+ 	BUG_ON(vmw_is_svga_v3(dev) && (svga_id != SVGA_ID_3));
+@@ -798,7 +798,6 @@ static int vmw_driver_load(struct vmw_private *dev_priv, u32 pci_id)
+ 	bool refuse_dma = false;
+ 	struct pci_dev *pdev = to_pci_dev(dev_priv->drm.dev);
  
- 	return -EAGAIN;
+-	dev_priv->vmw_chipset = pci_id;
+ 	dev_priv->drm.dev_private = dev_priv;
+ 
+ 	mutex_init(&dev_priv->cmdbuf_mutex);
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
+index 3875cfbf1791..9422967659d7 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
+@@ -487,8 +487,7 @@ struct vmw_private {
+ 	struct ttm_device bdev;
+ 
+ 	struct drm_vma_offset_manager vma_manager;
+-	unsigned long pci_id;
+-	u32 vmw_chipset;
++	u32 pci_id;
+ 	resource_size_t io_start;
+ 	resource_size_t vram_start;
+ 	resource_size_t vram_size;
 -- 
 2.30.2
 
