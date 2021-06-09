@@ -2,59 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2AE333A1AEB
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Jun 2021 18:29:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4543A3A1BA8
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Jun 2021 19:23:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 05B266E0FB;
-	Wed,  9 Jun 2021 16:29:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E106A6E12A;
+	Wed,  9 Jun 2021 17:23:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com
- [IPv6:2a00:1450:4864:20::431])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 64B506E0FB
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Jun 2021 16:29:03 +0000 (UTC)
-Received: by mail-wr1-x431.google.com with SMTP id q5so26207393wrm.1
- for <dri-devel@lists.freedesktop.org>; Wed, 09 Jun 2021 09:29:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=fooishbar-org.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=tGWiX83Hywk9BgCeVsLYFd5tdqdc0fZh1j2g86mM9NQ=;
- b=WjSZMYTEqWPM1HVhG7zxeukpq/DtDZR/ioBAuMiyzXZ3QWKoBIsBANXq0hMARslWSh
- QuKKaF0LwObIHXaXGMEXLzoftLxAKA4QJHXrsrR+gIKtE6N5Zv1OCrY3EL43DEXYt6QW
- ZGCOu+HAwCyI4OmjFlPCaNI18G+ebT9Ol5u9AV2GsiLbefnm/hJXVrbUAmFMjnmHF9CZ
- T3pqhcjBWqmteg90bVFqiLDduluW0BK2ar8uze1sDNRbQhgg9B82g40JCwKfrYyYPp/R
- nyc7OYc6MgCvVuaXm/x0ZCrHF2tt49jM8dB5aYhdYEDD7lGuYCTNk+ctUjQE3FxhjiXG
- vPgw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=tGWiX83Hywk9BgCeVsLYFd5tdqdc0fZh1j2g86mM9NQ=;
- b=IDGKgRX8Xtpnr2elUS0aTljzC1qn6S+mio3IXtFaK5OKMDgyDX1gUIs1IgegsySbDd
- K4PyVmf26/MXSgeWoFo1GUnstwZfGZWedfG+rrvSpUaTWd5Tsuvigm1GiDP52lT9j98s
- kox2kP8ZcMb95g4VIMUojSsXssKOEGTqOuOe8RgWyt++77jRCnFFfIw4bZQrjSR6RMuR
- s/W7MykMmXoWRbZujMGwaWBDJuwqgu85Xp9jB22OXPBoUaB98R5BZCIBukBLcMVozYCD
- XAIz/f9D1U/GaXBex+gRE+r121kqO90284X/ggM2eKZaysNAkfA4FInk3OchYu5T8o+C
- 3aTg==
-X-Gm-Message-State: AOAM530K/VMAwwo/sVlaV/BB7MRAnCAw17ghSQGvmjCerA37zGYtlUPK
- ttXHUrYsgGQiVRRtrKrYmNZQ/Y57ptZHz0NQNu7H5g==
-X-Google-Smtp-Source: ABdhPJyGrufajQ9tkW7Bx2QtFsfOtFOpmrFCXaUC5i0cwvpLayIR5PKpP0lpcQYz0BtBHERd7g1SI98fU+iWRiPMPZQ=
-X-Received: by 2002:a5d:66c6:: with SMTP id k6mr739340wrw.6.1623256141950;
- Wed, 09 Jun 2021 09:29:01 -0700 (PDT)
+Received: from EX13-EDG-OU-001.vmware.com (ex13-edg-ou-001.vmware.com
+ [208.91.0.189])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 796376E12A
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Jun 2021 17:23:09 +0000 (UTC)
+Received: from sc9-mailhost3.vmware.com (10.113.161.73) by
+ EX13-EDG-OU-001.vmware.com (10.113.208.155) with Microsoft SMTP Server id
+ 15.0.1156.6; Wed, 9 Jun 2021 10:23:05 -0700
+Received: from vertex.localdomain (unknown [10.21.244.178])
+ by sc9-mailhost3.vmware.com (Postfix) with ESMTP id 38E402024D;
+ Wed,  9 Jun 2021 10:23:08 -0700 (PDT)
+From: Zack Rusin <zackr@vmware.com>
+To: <dri-devel@lists.freedesktop.org>
+Subject: [PATCH 0/9] Adding support for mks-stats and some cleanups/fixes
+Date: Wed, 9 Jun 2021 13:22:58 -0400
+Message-ID: <20210609172307.131929-1-zackr@vmware.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-References: <20210326145139.467072-1-thierry.reding@gmail.com>
- <20210326145139.467072-2-thierry.reding@gmail.com>
- <P6bikxumymMi9GOcPaj_n8vMt5caPR3rWO4Kga8Ud_FNIgytl3ljvnkU6nsyxIwN4VKNmfOfsC4KryzFTObEXjtFDiywRWDtO_ed71g9aj0=@emersion.fr>
- <YF4L3kq9UN6PWh/h@orome.fritz.box>
- <CAPj87rO_RsEPpuC9-DyVEJ=K6OLeknHhOnjvbQ2EEnPPPrq+dg@mail.gmail.com>
-In-Reply-To: <CAPj87rO_RsEPpuC9-DyVEJ=K6OLeknHhOnjvbQ2EEnPPPrq+dg@mail.gmail.com>
-From: Daniel Stone <daniel@fooishbar.org>
-Date: Wed, 9 Jun 2021 17:28:50 +0100
-Message-ID: <CAPj87rOB8p+WSgVDwRbbLgW-di5qpSTY5Q6cmQYwbwD2Y3wKVA@mail.gmail.com>
-Subject: Re: [PATCH v2 01/10] drm/fourcc: Add macros to determine the modifier
- vendor
-To: Thierry Reding <thierry.reding@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+Received-SPF: None (EX13-EDG-OU-001.vmware.com: zackr@vmware.com does not
+ designate permitted sender hosts)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,34 +42,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, James Jones <jajones@nvidia.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, linux-tegra@vger.kernel.org,
- Dmitry Osipenko <digetx@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Thierry,
+Our GL driver added support for mks-stats (a count/time based profiling
+that can combine guest/host stats into a singular profile) a while
+back but it was only used on windows. This set adds support for
+mks-stats to the kernel driver. The stats are reported in the host
+side logs. With time we'll be expanding the list of kernel side stats,
+currently only execbuf is being measured. The GL driver already
+has all the relevant entrypoints measured.
 
-On Tue, 27 Apr 2021 at 19:40, Daniel Stone <daniel@fooishbar.org> wrote:
-> On Fri, 26 Mar 2021 at 16:29, Thierry Reding <thierry.reding@gmail.com> wrote:
->> On Fri, Mar 26, 2021 at 02:54:22PM +0000, Simon Ser wrote:
->> > LGTM, thanks!
->> >
->> > Reviewed-by: Simon Ser <contact@emersion.fr>
->> >
->> > Let me know if you need me to push this to drm-misc-next.
->>
->> I do have commit access for drm-misc-next, but I was thinking that I
->> could take this through the drm/tegra tree along with the subsequent
->> patches because of the dependency.
->>
->> Anyone willing to provide an Acked-by for that?
->
-> Yep, no harm if that makes your life easier, so for both the patch itself and merging through tegra:
-> Acked-by: Daniel Stone <daniels@collabora.com>
+There's also a bunch of cleanups and fixes.
 
-Is this still in your queue somewhere?
+Martin Krastev (2):
+  drm/vmwgfx: Introduce VMware mks-guest-stats
+  drm/vmwgfx: Refactor vmw_mksstat_remove_ioctl to expect pgid match
+    with vmw_mksstat_add_ioctl to authorise removal.
 
-Cheers,
-Daniel
+Zack Rusin (7):
+  drm/vmwgfx: Simplify devcaps code
+  drm/vmwgfx: Fix subresource updates with new contexts
+  drm/vmwgfx: Fix some static checker warnings
+  drm/vmwgfx: remove code that was using physical page addresses
+  drm/vmwgfx: inline access to the pages from the piter
+  drm/vmwgfx: Remove vmw_chipset
+  drm/vmwgfx: Fix implicit declaration error
+
+ drivers/gpu/drm/vmwgfx/Kconfig                |   7 +
+ drivers/gpu/drm/vmwgfx/Makefile               |   2 +-
+ .../drm/vmwgfx/device_include/svga_types.h    |  92 ++-
+ .../vmwgfx/device_include/vm_basic_types.h    |  22 -
+ drivers/gpu/drm/vmwgfx/ttm_memory.c           |   2 +
+ drivers/gpu/drm/vmwgfx/vmwgfx_binding.c       |  20 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_cmd.c           |   6 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf.c        |   2 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf_res.c    |   4 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_devcaps.c       | 142 +++++
+ drivers/gpu/drm/vmwgfx/vmwgfx_devcaps.h       |  50 ++
+ drivers/gpu/drm/vmwgfx/vmwgfx_drv.c           |  58 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_drv.h           |  38 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c       |  15 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_ioctl.c         | 109 +---
+ drivers/gpu/drm/vmwgfx/vmwgfx_mksstat.h       | 144 +++++
+ drivers/gpu/drm/vmwgfx/vmwgfx_mob.c           |   4 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_msg.c           | 579 +++++++++++++++++-
+ drivers/gpu/drm/vmwgfx/vmwgfx_resource.c      |   8 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_so.c            |   3 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_surface.c       |   5 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c    |  35 --
+ drivers/gpu/drm/vmwgfx/vmwgfx_validation.c    |   4 +-
+ include/uapi/drm/vmwgfx_drm.h                 |  41 ++
+ 24 files changed, 1175 insertions(+), 217 deletions(-)
+ delete mode 100644 drivers/gpu/drm/vmwgfx/device_include/vm_basic_types.h
+ create mode 100644 drivers/gpu/drm/vmwgfx/vmwgfx_devcaps.c
+ create mode 100644 drivers/gpu/drm/vmwgfx/vmwgfx_devcaps.h
+ create mode 100644 drivers/gpu/drm/vmwgfx/vmwgfx_mksstat.h
+
+-- 
+2.30.2
+
