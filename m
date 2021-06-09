@@ -1,44 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 469EF3A0CFF
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Jun 2021 09:01:37 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id EF0E23A0D48
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Jun 2021 09:10:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5F2036E108;
-	Wed,  9 Jun 2021 07:01:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6B2776E20E;
+	Wed,  9 Jun 2021 07:10:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7B2B16E108;
- Wed,  9 Jun 2021 07:01:33 +0000 (UTC)
-Received: from dggemv711-chm.china.huawei.com (unknown [172.30.72.55])
- by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4G0Hvq6GZLzWtLl;
- Wed,  9 Jun 2021 14:56:39 +0800 (CST)
-Received: from dggpeml500020.china.huawei.com (7.185.36.88) by
- dggemv711-chm.china.huawei.com (10.1.198.66) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Wed, 9 Jun 2021 15:01:31 +0800
-Received: from huawei.com (10.175.127.227) by dggpeml500020.china.huawei.com
- (7.185.36.88) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2176.2; Wed, 9 Jun 2021
- 15:01:31 +0800
-From: Baokun Li <libaokun1@huawei.com>
-To: <linux-kernel@vger.kernel.org>, Ben Skeggs <bskeggs@redhat.com>, "David
- Airlie" <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>, Lyude Paul
- <lyude@redhat.com>
-Subject: [PATCH -next v2] drm/nouveau/sw: use list_move instead of
- list_del/list_add in base.c
-Date: Wed, 9 Jun 2021 15:10:40 +0800
-Message-ID: <20210609071040.1331339-1-libaokun1@huawei.com>
-X-Mailer: git-send-email 2.31.1
+Received: from hosting.gsystem.sk (hosting.gsystem.sk [212.5.213.30])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 54ED46E20E;
+ Wed,  9 Jun 2021 07:10:55 +0000 (UTC)
+Received: from [192.168.1.3] (ns.gsystem.sk [62.176.172.50])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by hosting.gsystem.sk (Postfix) with ESMTPSA id 8496D7A025C;
+ Wed,  9 Jun 2021 09:10:54 +0200 (CEST)
+From: Ondrej Zary <linux@zary.sk>
+To: Christian =?utf-8?q?K=C3=B6nig?= <christian.koenig@amd.com>
+Subject: Re: nouveau broken on Riva TNT2 in 5.13.0-rc4: NULL pointer
+ dereference in nouveau_bo_sync_for_device
+Date: Wed, 9 Jun 2021 09:10:51 +0200
+User-Agent: KMail/1.9.10
+References: <202106052143.52488.linux@zary.sk>
+ <202106090857.42133.linux@zary.sk>
+ <1c4a7360-57e3-c75a-c729-1432db5b90b9@amd.com>
+In-Reply-To: <1c4a7360-57e3-c75a-c729-1432db5b90b9@amd.com>
+X-KMail-QuotePrefix: > 
 MIME-Version: 1.0
-Content-Type: text/plain; charset="ISO-8859-1"
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.175.127.227]
-X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
- dggpeml500020.china.huawei.com (7.185.36.88)
-X-CFilter-Loop: Reflected
+Content-Type: Text/Plain;
+  charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
+Message-Id: <202106090910.51188.linux@zary.sk>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,36 +46,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel-janitors@vger.kernel.org, Hulk Robot <hulkci@huawei.com>,
- nouveau@lists.freedesktop.org, yuehaibing@huawei.com,
- dri-devel@lists.freedesktop.org, yangjihong1@huawei.com, libaokun1@huawei.com,
- yukuai3@huawei.com, weiyongjun1@huawei.com
+Cc: nouveau@lists.freedesktop.org, Ben Skeggs <bskeggs@redhat.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Using list_move() instead of list_del() + list_add() in base.c.
+On Wednesday 09 June 2021, Christian K=C3=B6nig wrote:
+> Am 09.06.21 um 08:57 schrieb Ondrej Zary:
+> > [SNIP]
+> >> Thanks for the heads up. So the problem with my patch is already fixed,
+> >> isn't it?
+> > The NULL pointer dereference in nouveau_bo_wr16 introduced in
+> > 141b15e59175aa174ca1f7596188bd15a7ca17ba was fixed by
+> > aea656b0d05ec5b8ed5beb2f94c4dd42ea834e9d.
+> >
+> > That's the bug I hit when bisecting the original problem:
+> > NULL pointer dereference in nouveau_bo_sync_for_device
+> > It's caused by:
+> > # first bad commit: [e34b8feeaa4b65725b25f49c9b08a0f8707e8e86] drm/ttm:=
+ merge ttm_dma_tt back into ttm_tt
+>=20
+> Good that I've asked :)
+>=20
+> Ok that's a bit strange. e34b8feeaa4b65725b25f49c9b08a0f8707e8e86 was=20
+> created mostly automated.
+>=20
+> Do you have the original backtrace of that NULL pointer deref once more?
 
-Reported-by: Hulk Robot <hulkci@huawei.com>
-Signed-off-by: Baokun Li <libaokun1@huawei.com>
----
-V1->V2:
-	CC mailist
+The original backtrace is here: https://lkml.org/lkml/2021/6/5/350
 
- drivers/gpu/drm/nouveau/nvkm/engine/sw/base.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
-
-diff --git a/drivers/gpu/drm/nouveau/nvkm/engine/sw/base.c b/drivers/gpu/drm/nouveau/nvkm/engine/sw/base.c
-index 14871d0bd746..d8c55ea9aa6b 100644
---- a/drivers/gpu/drm/nouveau/nvkm/engine/sw/base.c
-+++ b/drivers/gpu/drm/nouveau/nvkm/engine/sw/base.c
-@@ -37,8 +37,7 @@ nvkm_sw_mthd(struct nvkm_sw *sw, int chid, int subc, u32 mthd, u32 data)
- 	list_for_each_entry(chan, &sw->chan, head) {
- 		if (chan->fifo->chid == chid) {
- 			handled = nvkm_sw_chan_mthd(chan, subc, mthd, data);
--			list_del(&chan->head);
--			list_add(&chan->head, &sw->chan);
-+			list_move(&chan->head, &sw->chan);
- 			break;
- 		}
- 	}
-
+=2D-=20
+Ondrej Zary
