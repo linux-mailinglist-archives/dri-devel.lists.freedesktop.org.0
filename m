@@ -2,74 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30B113A1649
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Jun 2021 15:58:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E0A53A164C
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Jun 2021 15:58:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 996966E3EB;
-	Wed,  9 Jun 2021 13:58:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1B60D6E3D3;
+	Wed,  9 Jun 2021 13:58:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com
- [IPv6:2a00:1450:4864:20::434])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 30D986E314;
- Wed,  9 Jun 2021 13:58:29 +0000 (UTC)
-Received: by mail-wr1-x434.google.com with SMTP id a11so23741097wrt.13;
- Wed, 09 Jun 2021 06:58:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-transfer-encoding:content-language;
- bh=EfUm8vlTyp6NaXGJjKaIc3nQYaOxrHl5v0EgWxKtuJQ=;
- b=tN90Yvjl3B/X/Wz0WgjnAv5FM8MiLzr0r4Glcug4yzxjf3rjKVNvO4m8EYWlCBHXxJ
- y7n+D2tAHc7pOq2clMAPpn9Ca881rOnSsh8L7oi6+WHWMj+vhZ74+tmlT0j5UQR86iAm
- ESb35eif8FG9EWdeb4R0xzlk/ea7fyJrpC3v1nopVoTBnuFfkWqOebE3OhLL90NL2+cQ
- /NwzAGpQTtwO6xYGzQa3omgyvtWKEXOnD7K/2KGvRhBuFuyxffrXGKGCJm08BCz5Pozt
- N3Df4NnD8EHFPSuhYEaGTPiIPZff/rMb9HaMwG7PSFSj0MGVkT+a/SI/PZtHEQ99DBga
- MuHw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-transfer-encoding
- :content-language;
- bh=EfUm8vlTyp6NaXGJjKaIc3nQYaOxrHl5v0EgWxKtuJQ=;
- b=OizZLMKJE5sFhGXTcTpKt2ZRR7SeJwF49WIXoEqzyMjskAQJMuJoldO9vRNmuCgWqD
- mNoQ+NgU+9Rti9TqdxOOvUF8WPiAVjcZVhVTkA5PXx/VUHu8phTqPiUD5fnMeO7vRAj6
- lsqpZ69ti84SvJPuTgs9/Keq9b8GWAwrdpgdLpsHRA3EKFCLCUhN5p76skbF6XLo711O
- mw0Ht2QLBw2t4arB90Epq9jXEWQSWtuRZIlVPeOQmq+3uVlClBdhTfsyj6VAhbW2Olo8
- FknzQe7WignUarSadtimWCxn85WDkqkOkXTwdnxKrPynZZX1R7ohtD3fQV2mG68D9dI0
- kt8A==
-X-Gm-Message-State: AOAM530vX6N+G+I3fdHF7VOQDaUeiqqGHtGwvAv9gwAoIVBUsUikfVXN
- F5P2RkWmCND4aECK4T9Jt+BOVBq1DZM=
-X-Google-Smtp-Source: ABdhPJxLJOfu0qmjCn2x0fgjFzN2yGPBNl+ueUep+RSI5Cg2Mt2oGOtkgfj9Lp8NwB/6/oTWfuqgpQ==
-X-Received: by 2002:a5d:44d2:: with SMTP id z18mr28353890wrr.358.1623247107897; 
- Wed, 09 Jun 2021 06:58:27 -0700 (PDT)
-Received: from ?IPv6:2a02:908:1252:fb60:3e79:91ff:ea38:2624?
- ([2a02:908:1252:fb60:3e79:91ff:ea38:2624])
- by smtp.gmail.com with ESMTPSA id y8sm6360349wmi.45.2021.06.09.06.58.26
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 09 Jun 2021 06:58:27 -0700 (PDT)
-Subject: Re: [Mesa-dev] Linux Graphics Next: Userspace submission update
-To: Daniel Vetter <daniel@ffwll.ch>
-References: <c7190219-c185-3b7e-42a6-691934f79fb3@gmail.com>
- <CAPj87rPbiFf3qDo35gmirAoTOOJ5fEE6UxQdJKtfjX_VTqc6pg@mail.gmail.com>
- <CAAxE2A4kC4A9gV_V-W3eRW20O=9S1pv8=KMBdJxdLQ-ZXGa37Q@mail.gmail.com>
- <CAAxE2A7FJSaYfrYRpoCr-3h-AqBjOOJerhMVCcQZzQu0a+J0zg@mail.gmail.com>
- <YLfSbxhyDQmHjV4r@phenom.ffwll.local>
- <a43f81f6-fe41-a6db-442e-83eb163124b9@gmail.com>
- <YLfZq5lAaR/RiFV8@phenom.ffwll.local>
- <0fbb1197-fa88-c474-09db-6daec13d3004@gmail.com>
- <YLnq6Vuf4amZld3n@phenom.ffwll.local>
- <586edeb3-73df-3da2-4925-1829712cba8b@gmail.com>
- <YMC/4IhCePCu57HU@phenom.ffwll.local>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-Message-ID: <1478737b-88aa-a24a-d2d7-cd3716df0cb0@gmail.com>
-Date: Wed, 9 Jun 2021 15:58:26 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A0E806E3B7;
+ Wed,  9 Jun 2021 13:58:41 +0000 (UTC)
+IronPort-SDR: 10z0L9Sc7/wmtTB1NABivrMyG92UN5wa6Nb3Dx91Yqwshc9yy0hShh8ZMTbqSXr7R80/7zlz5e
+ K3BGUOj//lHw==
+X-IronPort-AV: E=McAfee;i="6200,9189,10010"; a="204889130"
+X-IronPort-AV: E=Sophos;i="5.83,261,1616482800"; d="scan'208";a="204889130"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Jun 2021 06:58:41 -0700
+IronPort-SDR: zXYbYZcLHvs6Qf83PutEiCoDZ0PI4u0aKc5nBHndmVx1YGzmW423GqyIIi6MSfz3yhuqNMdfbQ
+ f0vlXuhGRxQg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.83,261,1616482800"; d="scan'208";a="449951816"
+Received: from irvmail001.ir.intel.com ([10.43.11.63])
+ by fmsmga008.fm.intel.com with ESMTP; 09 Jun 2021 06:58:39 -0700
+Received: from [10.249.139.139] (mwajdecz-MOBL.ger.corp.intel.com
+ [10.249.139.139])
+ by irvmail001.ir.intel.com (8.14.3/8.13.6/MailSET/Hub) with ESMTP id
+ 159DwcEd028647; Wed, 9 Jun 2021 14:58:38 +0100
+Subject: Re: [Intel-gfx] [RFC PATCH 36/97] drm/i915/guc: Add non blocking CTB
+ send function
+To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Matthew Brost <matthew.brost@intel.com>
+References: <20210506191451.77768-1-matthew.brost@intel.com>
+ <20210506191451.77768-37-matthew.brost@intel.com>
+ <375b4de4-168f-9c4c-dbb8-f42fd6303628@linux.intel.com>
+ <20210525172121.GE14724@sdutt-i7>
+ <0f26f76f-e066-fb23-a7b2-784bb8ee771d@linux.intel.com>
+ <20210526181053.GA3435@sdutt-i7>
+ <53613c13-1cab-b9bd-3922-0389600773ee@linux.intel.com>
+ <20210527143514.GA24720@sdutt-i7>
+ <828fe399-5319-78a9-c6e3-c0c027e08e9c@linux.intel.com>
+ <20210607173101.GA11968@sdutt-i7>
+ <2706c890-5145-4edb-acd1-b9862caba8cf@linux.intel.com>
+From: Michal Wajdeczko <michal.wajdeczko@intel.com>
+Message-ID: <c5917e2c-b2ec-93f1-8cf0-046886f5f709@intel.com>
+Date: Wed, 9 Jun 2021 15:58:38 +0200
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.2
 MIME-Version: 1.0
-In-Reply-To: <YMC/4IhCePCu57HU@phenom.ffwll.local>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <2706c890-5145-4edb-acd1-b9862caba8cf@linux.intel.com>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,58 +66,218 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?B?TWFyZWsgT2zFocOhaw==?= <maraeo@gmail.com>,
- =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel@daenzer.net>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Jason Ekstrand <jason@jlekstrand.net>,
- ML Mesa-dev <mesa-dev@lists.freedesktop.org>
+Cc: jason.ekstrand@intel.com, daniel.vetter@intel.com,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 09.06.21 um 15:19 schrieb Daniel Vetter:
-> [SNIP]
->> Yeah, we call this the lightweight and the heavyweight tlb flush.
+
+
+On 08.06.2021 10:39, Tvrtko Ursulin wrote:
+> 
+> On 07/06/2021 18:31, Matthew Brost wrote:
+>> On Thu, May 27, 2021 at 04:11:50PM +0100, Tvrtko Ursulin wrote:
+>>>
+>>> On 27/05/2021 15:35, Matthew Brost wrote:
+>>>> On Thu, May 27, 2021 at 11:02:24AM +0100, Tvrtko Ursulin wrote:
+>>>>>
+>>>>> On 26/05/2021 19:10, Matthew Brost wrote:
+>>>>>
+>>>>> [snip]
+>>>>>
+>>>>>>>>>> +static int ct_send_nb(struct intel_guc_ct *ct,
+>>>>>>>>>> +              const u32 *action,
+>>>>>>>>>> +              u32 len,
+>>>>>>>>>> +              u32 flags)
+>>>>>>>>>> +{
+>>>>>>>>>> +    struct intel_guc_ct_buffer *ctb = &ct->ctbs.send;
+>>>>>>>>>> +    unsigned long spin_flags;
+>>>>>>>>>> +    u32 fence;
+>>>>>>>>>> +    int ret;
+>>>>>>>>>> +
+>>>>>>>>>> +    spin_lock_irqsave(&ctb->lock, spin_flags);
+>>>>>>>>>> +
+>>>>>>>>>> +    ret = ctb_has_room(ctb, len + 1);
+>>>>>>>>>> +    if (unlikely(ret))
+>>>>>>>>>> +        goto out;
+>>>>>>>>>> +
+>>>>>>>>>> +    fence = ct_get_next_fence(ct);
+>>>>>>>>>> +    ret = ct_write(ct, action, len, fence, flags);
+>>>>>>>>>> +    if (unlikely(ret))
+>>>>>>>>>> +        goto out;
+>>>>>>>>>> +
+>>>>>>>>>> +    intel_guc_notify(ct_to_guc(ct));
+>>>>>>>>>> +
+>>>>>>>>>> +out:
+>>>>>>>>>> +    spin_unlock_irqrestore(&ctb->lock, spin_flags);
+>>>>>>>>>> +
+>>>>>>>>>> +    return ret;
+>>>>>>>>>> +}
+>>>>>>>>>> +
+>>>>>>>>>>       static int ct_send(struct intel_guc_ct *ct,
+>>>>>>>>>>                  const u32 *action,
+>>>>>>>>>>                  u32 len,
+>>>>>>>>>> @@ -473,6 +541,7 @@ static int ct_send(struct intel_guc_ct *ct,
+>>>>>>>>>>                  u32 response_buf_size,
+>>>>>>>>>>                  u32 *status)
+>>>>>>>>>>       {
+>>>>>>>>>> +    struct intel_guc_ct_buffer *ctb = &ct->ctbs.send;
+>>>>>>>>>>           struct ct_request request;
+>>>>>>>>>>           unsigned long flags;
+>>>>>>>>>>           u32 fence;
+>>>>>>>>>> @@ -482,8 +551,20 @@ static int ct_send(struct intel_guc_ct *ct,
+>>>>>>>>>>           GEM_BUG_ON(!len);
+>>>>>>>>>>           GEM_BUG_ON(len & ~GUC_CT_MSG_LEN_MASK);
+>>>>>>>>>>           GEM_BUG_ON(!response_buf && response_buf_size);
+>>>>>>>>>> +    might_sleep();
+>>>>>>>>>
+>>>>>>>>> Sleep is just cond_resched below or there is more?
+>>>>>>>>>
+>>>>>>>>
+>>>>>>>> Yes, the cond_resched.
+>>>>>>>>
+>>>>>>>>>> +    /*
+>>>>>>>>>> +     * We use a lazy spin wait loop here as we believe that
+>>>>>>>>>> if the CT
+>>>>>>>>>> +     * buffers are sized correctly the flow control condition
+>>>>>>>>>> should be
+>>>>>>>>>> +     * rare.
+>>>>>>>>>> +     */
+>>>>>>>>>> +retry:
+>>>>>>>>>>           spin_lock_irqsave(&ct->ctbs.send.lock, flags);
+>>>>>>>>>> +    if (unlikely(!ctb_has_room(ctb, len + 1))) {
+>>>>>>>>>> +        spin_unlock_irqrestore(&ct->ctbs.send.lock, flags);
+>>>>>>>>>> +        cond_resched();
+>>>>>>>>>> +        goto retry;
+>>>>>>>>>> +    }
+>>>>>>>>>
+>>>>>>>>> If this patch is about adding a non-blocking send function, and
+>>>>>>>>> below we can
+>>>>>>>>> see that it creates a fork:
+>>>>>>>>>
+>>>>>>>>> intel_guc_ct_send:
+>>>>>>>>> ...
+>>>>>>>>>     if (flags & INTEL_GUC_SEND_NB)
+>>>>>>>>>         return ct_send_nb(ct, action, len, flags);
+>>>>>>>>>
+>>>>>>>>>          ret = ct_send(ct, action, len, response_buf,
+>>>>>>>>> response_buf_size, &status);
+>>>>>>>>>
+>>>>>>>>> Then why is there a change in ct_send here, which is not the new
+>>>>>>>>> non-blocking path?
+>>>>>>>>>
+>>>>>>>>
+>>>>>>>> There is not a change to ct_send(), just to intel_guc_ct_send.
+>>>>>>>
+>>>>>>> I was doing by the diff which says:
+>>>>>>>
+>>>>>>>     static int ct_send(struct intel_guc_ct *ct,
+>>>>>>>                const u32 *action,
+>>>>>>>                u32 len,
+>>>>>>> @@ -473,6 +541,7 @@ static int ct_send(struct intel_guc_ct *ct,
+>>>>>>>                u32 response_buf_size,
+>>>>>>>                u32 *status)
+>>>>>>>     {
+>>>>>>> +    struct intel_guc_ct_buffer *ctb = &ct->ctbs.send;
+>>>>>>>         struct ct_request request;
+>>>>>>>         unsigned long flags;
+>>>>>>>         u32 fence;
+>>>>>>> @@ -482,8 +551,20 @@ static int ct_send(struct intel_guc_ct *ct,
+>>>>>>>         GEM_BUG_ON(!len);
+>>>>>>>         GEM_BUG_ON(len & ~GUC_CT_MSG_LEN_MASK);
+>>>>>>>         GEM_BUG_ON(!response_buf && response_buf_size);
+>>>>>>> +    might_sleep();
+>>>>>>> +    /*
+>>>>>>> +     * We use a lazy spin wait loop here as we believe that if
+>>>>>>> the CT
+>>>>>>> +     * buffers are sized correctly the flow control condition
+>>>>>>> should be
+>>>>>>> +     * rare.
+>>>>>>> +     */
+>>>>>>> +retry:
+>>>>>>>         spin_lock_irqsave(&ct->ctbs.send.lock, flags);
+>>>>>>> +    if (unlikely(!ctb_has_room(ctb, len + 1))) {
+>>>>>>> +        spin_unlock_irqrestore(&ct->ctbs.send.lock, flags);
+>>>>>>> +        cond_resched();
+>>>>>>> +        goto retry;
+>>>>>>> +    }
+>>>>>>>
+>>>>>>> So it looks like a change to ct_send to me. Is that wrong?
+>>>>>
+>>>>> What about this part - is the patch changing the blocking ct_send
+>>>>> or not,
+>>>>> and if it is why?
+>>>>>
+>>>>
+>>>> Yes, ct_send() changes. Sorry for the confusion.
+>>>>
+>>>> This function needs to be updated to account for the H2G space and
+>>>> backoff if no space is available.
+>>>
+>>> Since this one is the sleeping path, it probably can and needs to be
+>>> smarter
+>>> than having a cond_resched busy loop added. Like sleep and get woken
+>>> up when
+>>> there is space. Otherwise it can degenerate to busy looping via
+>>> contention
+>>> with the non-blocking path.
+>>>
 >>
->> The lighweight can be used when you are sure that you don't have any of the
->> PTEs currently in flight in the 3D/DMA engine and you just need to
->> invalidate the TLB.
+>> That screams over enginerring a simple problem to me. If the CT channel
+>> is full we are really in trouble anyways - i.e. the performance is going
+>> to terrible as we overwhelmed the GuC with traffic. That being said,
+> 
+> Performance of what would be terrible? Something relating to submitting
+> new jobs to the GPU I guess. Or something SRIOV related as you hint below.
+> 
+> But there is no real reason why CPU cycles/power should suffer if GuC is
+> busy.
+> 
+> Okay, if it can't happen in real world then it's possibly passable as a
+
+if that can't happen in real world, then maybe we can just return
+-ENOSPC/-EBUSY to report that 'unexpected' case, instead of hiding it
+behind silent busy loop ?
+
+> design of a communication interface. But to me it leaves a bad taste and
+> a doubt that there is this other aspect of the real world. And that is
+> when the unexpected happens. Even the most trivial things like a bug in
+> GuC firmware causes the driver to busy spin in there. So not much
+> happening on the machine but CPU cores pinned burning cycles in this
+> code. It's just lazy and not robust design. "Bug #nnnnn - High CPU usage
+> and GUI blocked - Solution: Upgrade GuC firmware and _reboot_ the
+> machine". Oh well..
+> 
+> At least I think the commit message should spell out clearly that a busy
+> looping path is being added to the sleeping send as a downside of
+> implementation choices. Still, for the record, I object to the design.
+> 
+> Regards,
+> 
+> Tvrtko
+> 
+>> IGTs can do this but that really isn't a real world use case. For the
+>> real world, this buffer is large enough that it won't ever be full hence
+>> the comment + lazy spin loop.
 >>
->> The heavyweight must be used when you need to invalidate the TLB *AND* make
->> sure that no concurrently operation moves new stuff into the TLB.
+>> Next, it isn't like we get an interrupt or something when space
+>> becomes available so how would we wake this thread? Could we come up
+>> with a convoluted scheme where we insert ops that generated an interrupt
+>> at regular intervals, probably? Would it be super complicated, totally
+>> unnecessary, and gain use nothing - absolutely.
 >>
->> The problem is for this use case we have to use the heavyweight one.
-> Just for my own curiosity: So the lightweight flush is only for in-between
-> CS when you know access is idle? Or does that also not work if userspace
-> has a CS on a dma engine going at the same time because the tlb aren't
-> isolated enough between engines?
-
-More or less correct, yes.
-
-The problem is a lightweight flush only invalidates the TLB, but doesn't 
-take care of entries which have been handed out to the different engines.
-
-In other words what can happen is the following:
-
-1. Shader asks TLB to resolve address X.
-2. TLB looks into its cache and can't find address X so it asks the 
-walker to resolve.
-3. Walker comes back with result for address X and TLB puts that into 
-its cache and gives it to Shader.
-4. Shader starts doing some operation using result for address X.
-5. You send lightweight TLB invalidate and TLB throws away cached values 
-for address X.
-6. Shader happily still uses whatever the TLB gave to it in step 3 to 
-accesses address X
-
-See it like the shader has their own 1 entry L0 TLB cache which is not 
-affected by the lightweight flush.
-
-The heavyweight flush on the other hand sends out a broadcast signal to 
-everybody and only comes back when we are sure that an address is not in 
-use any more.
-
-Christian.
-
-> -Daniel
->
-
+>> Lastly, blocking CTBs really shouldn't ever be used. Certainly the
+>> submission code doesn't use these. I think SRIOV might, but those can
+>> probably be reworked too to use non-blocking. At some point we might
+>> want to scrub the driver and just delete the blocking path.
+>>
+>> Matt
+>>
+>>> Regards,
+>>
+>>>
+>>> Tvrtko
+> _______________________________________________
+> Intel-gfx mailing list
+> Intel-gfx@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/intel-gfx
