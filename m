@@ -2,46 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC7953A17F7
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Jun 2021 16:52:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 631173A1806
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Jun 2021 16:54:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 923346E1BA;
-	Wed,  9 Jun 2021 14:52:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 667696E0D0;
+	Wed,  9 Jun 2021 14:54:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-f176.google.com (mail-il1-f176.google.com
- [209.85.166.176])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 57EC16E059;
- Wed,  9 Jun 2021 14:52:35 +0000 (UTC)
-Received: by mail-il1-f176.google.com with SMTP id b14so26279740ilq.7;
- Wed, 09 Jun 2021 07:52:35 -0700 (PDT)
+Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com
+ [IPv6:2a00:1450:4864:20::42b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DC6476E0D0
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Jun 2021 14:54:13 +0000 (UTC)
+Received: by mail-wr1-x42b.google.com with SMTP id e11so15640355wrg.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 09 Jun 2021 07:54:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=CLK+ljtm5w4gBiYKgr8EQqyQuRm+0J5cmvR4suUCFEI=;
+ b=iLj9Q7xwhDFX12eJGc6TyOzHuwRuGT+U2rZwcyt3aIz/e0jkO53ibWrdatj88s68pn
+ jHTpWS/i9jANsFWQjlzz/Yye22j2+Apj4/fHOqHc4Qm4Xs8ZoLgSOy4iCSgJ0a9S8oUc
+ ohubPAyB9oCFDs2btO5+S3RY77efIIevIFwTk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=g6kmw8K4NVOjfm80qKIii8vlGgWXSA520RlIgHO8Yb4=;
- b=iOygF/OZ+8OUprxAN/JdngI4LKQdwuqUdVRlfb9n7vHGK1GIXrnbhjPR7vOF/VmT4f
- NYt2OLrPlOL/ldX1eadQPdgdJvlwfGjO0NTLTnDAKd8gmiRlVtOBsmqho6j7HiWbMPPA
- NIR6CX9Hi+v7HBIAXAxcfpXOqDsHt81LDkSZagiAhmgg+n/JqX3kL7tldXleoczIjQNU
- X9n9kwx7CepzAbja6N958d9IVDm+iAuAEOsGafY3J4gM+7QG1ZsfcnmyQ5g+jQIhWlUM
- E9TY+P23tLVOIyMKhXRyihNUNJSwBoSCFYBDvzAVyh+NDKkN7RLYOAacDVY00j1ou3hv
- U8NQ==
-X-Gm-Message-State: AOAM5338roNX74SFeerWKC/2Kkk0+ZtpVV3hbqsKVpwBhLsUX0IoM+Q2
- 1v72EmC+vJirKJemUmBzPxhSDyQpLlAmetnnyyA=
-X-Google-Smtp-Source: ABdhPJwOEVIdBD1niBDUdAkWBw+dsLEFdp+UdqONoNjS03w5Wptmn1Ai6NpFrW05sn0t4+Zkq1uUrVf0bg33ef8fqrk=
-X-Received: by 2002:a6b:f805:: with SMTP id o5mr22516174ioh.55.1623250354514; 
- Wed, 09 Jun 2021 07:52:34 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=CLK+ljtm5w4gBiYKgr8EQqyQuRm+0J5cmvR4suUCFEI=;
+ b=XP/UETtgbhvHhwCs2KX5i/wqO9pBteXXsbJ3N61hiZQz/s6W1CL/3k/lX+HL514uf7
+ 0BVzkMNDVWq/04wa6g9B5eK0p/Ezx47YdWcf8BQGlGsgi9BaegrS65PLK8sF5oDOsBOg
+ fFxhN5rQAGCQ0X2XCvlu85kbabsk1RvFyKEqX9ZiqNuhgSjqmE1q8cLLJfNSEgZSigda
+ qBJrQILJufe8IY17EeEKit09FRTrSShyZbqHcgfb2v8jNdq+kCUEqFQhf9QvJQ85eWGd
+ GDMaWWzQoa9O5FwZqLZM6J8Qlf91Ogwq82wL/zxasMNTfRxMbvHK92xjBQIKAZW76myp
+ qWsg==
+X-Gm-Message-State: AOAM532gQ/U22qeDl5+0Kgimb1YzmCMGqFIYs5c+SP4hlMcRtA5XwP8b
+ AXZCj5nqpLgi3kXbCIzsjAF1ug==
+X-Google-Smtp-Source: ABdhPJzL/RDtqunEEcuDF0SoWdQfET+F04iGVSihasxm/ws/rH8G7pS1fTe+M0lAZYbMvkt2SQLfcg==
+X-Received: by 2002:adf:e54f:: with SMTP id z15mr202216wrm.141.1623250452461; 
+ Wed, 09 Jun 2021 07:54:12 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id n7sm5937862wmq.37.2021.06.09.07.54.11
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 09 Jun 2021 07:54:11 -0700 (PDT)
+Date: Wed, 9 Jun 2021 16:54:10 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
+Subject: Re: [Intel-gfx] [PATCH v2 0/9] Prereqs for TTM accelerated migration
+Message-ID: <YMDWEluN8WEke/vF@phenom.ffwll.local>
+References: <20210609063436.284332-1-thomas.hellstrom@linux.intel.com>
+ <YMCqm48rZIKLYk/s@phenom.ffwll.local>
+ <9f38fc28-15fb-2736-ba01-503821fdbe54@linux.intel.com>
+ <4d570a5b-0ea7-71ab-5082-e67f0cd668a7@intel.com>
+ <1cd6b04d-8928-14b3-a63d-c9ac2e81fcca@linux.intel.com>
+ <99ff0d9f-9bd4-c27d-45a5-a66d2ad9064f@linux.intel.com>
 MIME-Version: 1.0
-References: <2e4987b0-7fc9-d217-450c-943de430dbd1@kapsi.fi>
- <816b619b-ff20-009a-ea05-504497c1946b@amd.com>
-In-Reply-To: <816b619b-ff20-009a-ea05-504497c1946b@amd.com>
-From: Ilia Mirkin <imirkin@alum.mit.edu>
-Date: Wed, 9 Jun 2021 10:52:23 -0400
-Message-ID: <CAKb7UvjrxXyvr9qpLbkoDQ2eScj4YdayP6OnG8rZnmEn1hyKvw@mail.gmail.com>
-Subject: Re: [Nouveau] Trouble with TTM patches w/nouveau in linux-next
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <99ff0d9f-9bd4-c27d-45a5-a66d2ad9064f@linux.intel.com>
+X-Operating-System: Linux phenom 5.10.32scarlett+ 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,69 +72,76 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mikko Perttunen <cyndis@kapsi.fi>, nouveau <nouveau@lists.freedesktop.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, ray.huang@amd.com,
- matthew.auld@intel.com, linux-tegra <linux-tegra@vger.kernel.org>
+Cc: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ Matthew Auld <matthew.auld@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Christian - potentially relevant is that Tegra doesn't have VRAM at
-all -- all GTT (or GART or whatever it's called nowadays). No
-fake/stolen VRAM.
+On Wed, Jun 09, 2021 at 04:35:57PM +0200, Thomas Hellström wrote:
+> 
+> On 6/9/21 3:08 PM, Thomas Hellström wrote:
+> > 
+> > On 6/9/21 2:20 PM, Matthew Auld wrote:
+> > > On 09/06/2021 13:16, Thomas Hellström wrote:
+> > > > 
+> > > > On 6/9/21 1:48 PM, Daniel Vetter wrote:
+> > > > > On Wed, Jun 09, 2021 at 08:34:27AM +0200, Thomas Hellström wrote:
+> > > > > > A couple of patches from Chris which implement pipelined
+> > > > > > migration and
+> > > > > > clears by atomically writing the PTEs in place before performing the
+> > > > > > actual blit.
+> > > > > > 
+> > > > > > Some ww utilities mainly for the accompanying selftests
+> > > > > > added by Thomas,
+> > > > > > as well as modified the above patches for ww locking-
+> > > > > > and lmem support.
+> > > > > > 
+> > > > > > The actual hook up to the i915 ttm backend is being worked on and not
+> > > > > > included yet, so this is considered to be an early
+> > > > > > review opportunity.
+> > > > > > 
+> > > > > > v2:
+> > > > > > - A couple of minor style fixes pointed out by Matthew Auld
+> > > > > > - Export and use intel_engine_destroy_pinned_context() to address a
+> > > > > > ls   CI warning / failure.
+> > > > > Just to check my understanding of the plan: These are the new windowed
+> > > > > clear/blt functions which we plan to use everywhere, because
+> > > > > less nasty
+> > > > > locking implications? And the clear/blt we currently have in
+> > > > > upstream will
+> > > > > be replaced?
+> > > > 
+> > > > Yes. These are for LMEM clearing and migration. It looks to me
+> > > > like the other ones we have in upstream are actually unused
+> > > > except for selftests. We're actually using CPU clearing for now.
+> > > > 
+> > > > > 
+> > > > > If so would be nice if this patch set includes that
+> > > > > replacement work (I
+> > > > > think right now all we have is the clear for lmem),
+> > > > > including updating of
+> > > > > selftests and stuff like that. Just to avoid having two ways to do the
+> > > > > same thing in the driver.
+> > > > 
+> > > > OK, I'll have a look at stripping the existing code. If we need
+> > > > it moving forward, we can always re-add.
+> > > 
+> > > Some low hanging fruit would be all the client_blt stuff which can
+> > > for sure be deleted now.
+> > 
+> > What has the client_blt stuff been used for?
+> > 
+> > In any case, I need 25 commits for commit access to be granted.
+> > 
+> > /Thomas
+> > 
+> > 
+> Series on trybot now. It's the dg1 live memory_region selftest that changes
+> sligthly to use the new migration fill blt.
 
-Cheers,
-
-  -ilia
-
-On Wed, Jun 9, 2021 at 10:18 AM Christian K=C3=B6nig
-<christian.koenig@amd.com> wrote:
->
-> Hi Mikko,
->
-> strange sounds like Nouveau was somehow also using the GEM workaround
-> for VMWGFX as well.
->
-> But -12 means -ENOMEM which doesn't fits into the picture.
->
-> I will try with a G710, but if that doesn't yields anything I need some
-> more input from you.
->
-> Thanks for the report,
-> Christian.
->
->
-> Am 09.06.21 um 15:47 schrieb Mikko Perttunen:
-> > Hi,
-> >
-> > I'm observing nouveau not initializing recently on linux-next on my
-> > Tegra186 Jetson TX2 board. Specifically it looks like BO allocation is
-> > failing when initializing the sync subsystem:
-> >
-> > [   21.858149] nouveau 17000000.gpu: DRM: failed to initialise sync
-> > subsystem, -28
-> >
-> > I have been bisecting and I have found two patches that affect this.
-> > Firstly, things first break on
-> >
-> > d02117f8efaa drm/ttm: remove special handling for non GEM drivers
-> >
-> > starting to return error code -12. Then, at
-> >
-> > d79025c7f5e3 drm/ttm: always initialize the full ttm_resource v2
-> >
-> > the error code changes to the above -28.
-> >
-> > If I checkout one commit prior to d79025c7f5e3 and revert
-> > d02117f8efaa, things work again. There are a bunch of other TTM
-> > commits between this and HEAD, so reverting these on top of HEAD
-> > doesn't work. However, I checked that both yesterday's and today's
-> > nexts are also broken.
-> >
-> > Thank you,
-> > Mikko
-> >
->
-> _______________________________________________
-> Nouveau mailing list
-> Nouveau@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/nouveau
+Thanks a lot for taking care of this!
+-Daniel
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
