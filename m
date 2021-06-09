@@ -1,58 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E9783A1C29
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2819E3A1C2A
 	for <lists+dri-devel@lfdr.de>; Wed,  9 Jun 2021 19:45:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F14FC6EABB;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 877416EACC;
 	Wed,  9 Jun 2021 17:44:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1031.google.com (mail-pj1-x1031.google.com
- [IPv6:2607:f8b0:4864:20::1031])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3040E6EA95
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Jun 2021 17:44:48 +0000 (UTC)
-Received: by mail-pj1-x1031.google.com with SMTP id g4so1860862pjk.0
- for <dri-devel@lists.freedesktop.org>; Wed, 09 Jun 2021 10:44:48 -0700 (PDT)
+Received: from mail-pl1-x631.google.com (mail-pl1-x631.google.com
+ [IPv6:2607:f8b0:4864:20::631])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DDE796EA95
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Jun 2021 17:44:49 +0000 (UTC)
+Received: by mail-pl1-x631.google.com with SMTP id v13so12959717ple.9
+ for <dri-devel@lists.freedesktop.org>; Wed, 09 Jun 2021 10:44:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=jlekstrand-net.20150623.gappssmtp.com; s=20150623;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=QOIZ7V91fLIl8fTP/re+L3I3ujQ1EjA9kvT8GvYB6UA=;
- b=LSbWp9iSqsMqf1Xy5Pt5nIHopAGs9rby5zCMWNz8TjoWLc7iE9YjnQivpBqJIXk3g2
- IktnTHBqt7hFRSGPj5MzoqDHDYGvwuJSfBgieYbqlbFSWwo5/zkuFnL3u0T7vB8q/1qY
- PC8SeRZ+URgdw5O/edLx1Jb6Zqc+aSY5qFrFSfe7rUmVxcXxMF4BiPOEWk074zAmazry
- HzzmigSr6dy1FujvDPNqqiqvqZrD75wdyEvfqY5THGF4O6LyTq6xacSHlWNciD9FOMkp
- rdAnppgOdvAT3yxAwz/LRea99VMW4iHI8llVWgohrsKZjqdei2oKyWdTPXxcUw8mLp+5
- MTFg==
+ bh=a54CBrdUZFvu5Df2Uq5VXicIgx8GI6s8LwWaopBoFHY=;
+ b=KRRFv6sgRtNiDiEIjoNdm+vG2YHenjtLEZMYnV6xob95vVM9mDgaNighhmHzTSNYWU
+ e/nNSe8ragOPcvTYvkUWUkv4q1QM8vRVCVQKktDFPgZ4kqPN9Cmoizt6V+6TjV5EfdwD
+ K9dv+/wtxwcpBOZL4ZWirWYTZ5t5W4pQGtlKZc8uRMK4lRCulI16wUnUhtB6tsCUYsj9
+ /b45HVMNO0Gv+xf/tRNyrTfDrDcersLvcYlqUZ2dNkTJLuhQuT/NMBBG+ak2Oj/1zr6a
+ qQPJRa2lf2I0su9zNMsGBX19lq2rFc3vF4vXnhk/sHUDosU0Aa+ymAdLPewjlju4AZl3
+ wPVg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=QOIZ7V91fLIl8fTP/re+L3I3ujQ1EjA9kvT8GvYB6UA=;
- b=T8q6yLAr6SdSbHO7YMwp2ihIVrzL5LCyJqkwEWeCW0hgXr18hpgkyxP5cp2t/gMK3k
- hClWz0tLTrSU2lmc1MZoG+fiFbju5Z9pv4Ti8o6yo2RIZbsrXyqiujRi5iOD1nobVjgD
- Y+ljWHXFrFm7Qst2RbeVWzIcZytLQerYjoSsMI1Rvz+WqHYCrnEyaKaVIhSk7w7+lxf2
- 4JX8KmdeLvC6quDdQvhKgBi16jw6n5rgtTgXckjPOC8vjb83SP7E1yNDSgq0AOPpx5tp
- 78mWp+0W7rivoEa+2yHSf5OSikggOlFRxBNU1KjSRSkpBWFn6OrgaWmltpSmB/uXuLWL
- 4dAA==
-X-Gm-Message-State: AOAM530DGyIKMjhm2szDE52NOJvVax56YBVbvtxYfXm5spxgeCd3dV27
- dSEJKejcUBXm548APEvcPQiLo1DNCko2Mw==
-X-Google-Smtp-Source: ABdhPJyycwiJt8lWUqRW4Q+WojrihpEALSuQGNEBx8OiJMp35nsnU5tHmpbt4tufThF0wGWSF+dUYg==
-X-Received: by 2002:a17:90a:bb97:: with SMTP id
- v23mr694152pjr.148.1623260687453; 
- Wed, 09 Jun 2021 10:44:47 -0700 (PDT)
+ bh=a54CBrdUZFvu5Df2Uq5VXicIgx8GI6s8LwWaopBoFHY=;
+ b=QMcn53BqNfRgFbNkSkhhbO6HAah5C12mtq13Q3jCLsr6384QCsRHXcIypGQnv3a1Qh
+ SyAhsn2KQlIjUQ3mPyx2zqaqoiBx78tF48r/E0qowPpjHGAqwR0GTsy+oDwbEd7PTNr+
+ h0k7Lv3T65w13rGLYe70JS8EFsWh0vKGF3+hOyg6VgIFTjaV5bki/pnWE2of2fYGqQ0G
+ FsSXI1SRPSFtAba7EJRQ96baJedl0ElnAuDS1FSDOdSMjR6oO0DcEepI9iBBDlsJsF2i
+ 6Zgs/clrqIopdOonq9QZRaYdN4NLRma/wsaXEjsBT+qss+b7v9IBE1ykTuOVmj9MTgqV
+ QDyg==
+X-Gm-Message-State: AOAM530XzD9Wf40AvHfFbA0/qZTtWJ4U9Bpg8xacyEkJhHeQuMpPDFvl
+ mx6yjs33OkfvevWNUWlYJvs+txDicETmDw==
+X-Google-Smtp-Source: ABdhPJy+Cyjm5qU8x9hbVYdYIqCTmZwxwDz+bL+9nLkT4Y3wWa9s5e/haxanmWQA2i6fpLCzDZtkAA==
+X-Received: by 2002:a17:902:7c03:b029:f0:bbde:fc1e with SMTP id
+ x3-20020a1709027c03b02900f0bbdefc1emr683520pll.57.1623260689058; 
+ Wed, 09 Jun 2021 10:44:49 -0700 (PDT)
 Received: from omlet.lan (jfdmzpr04-ext.jf.intel.com. [134.134.137.73])
- by smtp.gmail.com with ESMTPSA id b10sm208619pfi.122.2021.06.09.10.44.46
+ by smtp.gmail.com with ESMTPSA id b10sm208619pfi.122.2021.06.09.10.44.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 09 Jun 2021 10:44:47 -0700 (PDT)
+ Wed, 09 Jun 2021 10:44:48 -0700 (PDT)
 From: Jason Ekstrand <jason@jlekstrand.net>
 To: dri-devel@lists.freedesktop.org,
 	intel-gfx@lists.freedesktop.org
-Subject: [PATCH 14/31] drm/i915/gem: Add a separate validate_priority helper
-Date: Wed,  9 Jun 2021 12:44:01 -0500
-Message-Id: <20210609174418.249585-15-jason@jlekstrand.net>
+Subject: [PATCH 15/31] drm/i915: Add gem/i915_gem_context.h to the docs
+Date: Wed,  9 Jun 2021 12:44:02 -0500
+Message-Id: <20210609174418.249585-16-jason@jlekstrand.net>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210609174418.249585-1-jason@jlekstrand.net>
 References: <20210609174418.249585-1-jason@jlekstrand.net>
@@ -75,78 +75,153 @@ Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-With the proto-context stuff added later in this series, we end up
-having to duplicate set_priority.  This lets us avoid duplicating the
-validation logic.
+In order to prevent kernel doc warnings, also fill out docs for any
+missing fields and fix those that forgot the "@".
 
 Signed-off-by: Jason Ekstrand <jason@jlekstrand.net>
 Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 ---
- drivers/gpu/drm/i915/gem/i915_gem_context.c | 42 +++++++++++++--------
- 1 file changed, 27 insertions(+), 15 deletions(-)
+ Documentation/gpu/i915.rst                    |  2 +
+ .../gpu/drm/i915/gem/i915_gem_context_types.h | 43 ++++++++++++++++---
+ 2 files changed, 38 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context.c b/drivers/gpu/drm/i915/gem/i915_gem_context.c
-index 61fe6d18d4068..f9a6eac78c0ae 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_context.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_context.c
-@@ -169,6 +169,28 @@ lookup_user_engine(struct i915_gem_context *ctx,
- 	return i915_gem_context_get_engine(ctx, idx);
- }
+diff --git a/Documentation/gpu/i915.rst b/Documentation/gpu/i915.rst
+index 42ce0196930a1..b452f84c9ef2b 100644
+--- a/Documentation/gpu/i915.rst
++++ b/Documentation/gpu/i915.rst
+@@ -422,6 +422,8 @@ Batchbuffer Parsing
+ User Batchbuffer Execution
+ --------------------------
  
-+static int validate_priority(struct drm_i915_private *i915,
-+			     const struct drm_i915_gem_context_param *args)
-+{
-+	s64 priority = args->value;
++.. kernel-doc:: drivers/gpu/drm/i915/gem/i915_gem_context_types.h
 +
-+	if (args->size)
-+		return -EINVAL;
-+
-+	if (!(i915->caps.scheduler & I915_SCHEDULER_CAP_PRIORITY))
-+		return -ENODEV;
-+
-+	if (priority > I915_CONTEXT_MAX_USER_PRIORITY ||
-+	    priority < I915_CONTEXT_MIN_USER_PRIORITY)
-+		return -EINVAL;
-+
-+	if (priority > I915_CONTEXT_DEFAULT_PRIORITY &&
-+	    !capable(CAP_SYS_NICE))
-+		return -EPERM;
-+
-+	return 0;
-+}
-+
- static struct i915_address_space *
- context_get_vm_rcu(struct i915_gem_context *ctx)
- {
-@@ -1744,23 +1766,13 @@ static void __apply_priority(struct intel_context *ce, void *arg)
- static int set_priority(struct i915_gem_context *ctx,
- 			const struct drm_i915_gem_context_param *args)
- {
--	s64 priority = args->value;
--
--	if (args->size)
--		return -EINVAL;
--
--	if (!(ctx->i915->caps.scheduler & I915_SCHEDULER_CAP_PRIORITY))
--		return -ENODEV;
--
--	if (priority > I915_CONTEXT_MAX_USER_PRIORITY ||
--	    priority < I915_CONTEXT_MIN_USER_PRIORITY)
--		return -EINVAL;
-+	int err;
+ .. kernel-doc:: drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
+    :doc: User command execution
  
--	if (priority > I915_CONTEXT_DEFAULT_PRIORITY &&
--	    !capable(CAP_SYS_NICE))
--		return -EPERM;
-+	err = validate_priority(ctx->i915, args);
-+	if (err)
-+		return err;
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context_types.h b/drivers/gpu/drm/i915/gem/i915_gem_context_types.h
+index df76767f0c41b..5f0673a2129f9 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_context_types.h
++++ b/drivers/gpu/drm/i915/gem/i915_gem_context_types.h
+@@ -30,19 +30,39 @@ struct i915_address_space;
+ struct intel_timeline;
+ struct intel_ring;
  
--	ctx->sched.priority = priority;
-+	ctx->sched.priority = args->value;
- 	context_apply_all(ctx, __apply_priority, ctx);
++/**
++ * struct i915_gem_engines - A set of engines
++ */
+ struct i915_gem_engines {
+ 	union {
++		/** @link: Link in i915_gem_context::stale::engines */
+ 		struct list_head link;
++
++		/** @rcu: RCU to use when freeing */
+ 		struct rcu_head rcu;
+ 	};
++
++	/** @fence: Fence used for delayed destruction of engines */
+ 	struct i915_sw_fence fence;
++
++	/** @ctx: i915_gem_context backpointer */
+ 	struct i915_gem_context *ctx;
++
++	/** @num_engines: Number of engines in this set */
+ 	unsigned int num_engines;
++
++	/** @engines: Array of engines */
+ 	struct intel_context *engines[];
+ };
  
- 	return 0;
++/**
++ * struct i915_gem_engines_iter - Iterator for an i915_gem_engines set
++ */
+ struct i915_gem_engines_iter {
++	/** @idx: Index into i915_gem_engines::engines */
+ 	unsigned int idx;
++
++	/** @engines: Engine set being iterated */
+ 	const struct i915_gem_engines *engines;
+ };
+ 
+@@ -53,10 +73,10 @@ struct i915_gem_engines_iter {
+  * logical hardware state for a particular client.
+  */
+ struct i915_gem_context {
+-	/** i915: i915 device backpointer */
++	/** @i915: i915 device backpointer */
+ 	struct drm_i915_private *i915;
+ 
+-	/** file_priv: owning file descriptor */
++	/** @file_priv: owning file descriptor */
+ 	struct drm_i915_file_private *file_priv;
+ 
+ 	/**
+@@ -81,7 +101,9 @@ struct i915_gem_context {
+ 	 * CONTEXT_USER_ENGINES flag is set).
+ 	 */
+ 	struct i915_gem_engines __rcu *engines;
+-	struct mutex engines_mutex; /* guards writes to engines */
++
++	/** @engines_mutex: guards writes to engines */
++	struct mutex engines_mutex;
+ 
+ 	/**
+ 	 * @syncobj: Shared timeline syncobj
+@@ -118,7 +140,7 @@ struct i915_gem_context {
+ 	 */
+ 	struct pid *pid;
+ 
+-	/** link: place with &drm_i915_private.context_list */
++	/** @link: place with &drm_i915_private.context_list */
+ 	struct list_head link;
+ 
+ 	/**
+@@ -153,11 +175,13 @@ struct i915_gem_context {
+ #define CONTEXT_CLOSED			0
+ #define CONTEXT_USER_ENGINES		1
+ 
++	/** @mutex: guards everything that isn't engines or handles_vma */
+ 	struct mutex mutex;
+ 
++	/** @sched: scheduler parameters */
+ 	struct i915_sched_attr sched;
+ 
+-	/** guilty_count: How many times this context has caused a GPU hang. */
++	/** @guilty_count: How many times this context has caused a GPU hang. */
+ 	atomic_t guilty_count;
+ 	/**
+ 	 * @active_count: How many times this context was active during a GPU
+@@ -171,15 +195,17 @@ struct i915_gem_context {
+ 	unsigned long hang_timestamp[2];
+ #define CONTEXT_FAST_HANG_JIFFIES (120 * HZ) /* 3 hangs within 120s? Banned! */
+ 
+-	/** remap_slice: Bitmask of cache lines that need remapping */
++	/** @remap_slice: Bitmask of cache lines that need remapping */
+ 	u8 remap_slice;
+ 
+ 	/**
+-	 * handles_vma: rbtree to look up our context specific obj/vma for
++	 * @handles_vma: rbtree to look up our context specific obj/vma for
+ 	 * the user handle. (user handles are per fd, but the binding is
+ 	 * per vm, which may be one per context or shared with the global GTT)
+ 	 */
+ 	struct radix_tree_root handles_vma;
++
++	/** @lut_mutex: Locks handles_vma */
+ 	struct mutex lut_mutex;
+ 
+ 	/**
+@@ -191,8 +217,11 @@ struct i915_gem_context {
+ 	 */
+ 	char name[TASK_COMM_LEN + 8];
+ 
++	/** @stale: tracks stale engines to be destroyed */
+ 	struct {
++		/** @lock: guards engines */
+ 		spinlock_t lock;
++		/** @engines: list of stale engines */
+ 		struct list_head engines;
+ 	} stale;
+ };
 -- 
 2.31.1
 
