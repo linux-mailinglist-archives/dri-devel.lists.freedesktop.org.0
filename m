@@ -1,43 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2FA0E3A0D43
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Jun 2021 09:09:00 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 38AB53A0D65
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Jun 2021 09:13:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 314A46E1F3;
-	Wed,  9 Jun 2021 07:08:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2059C89FF7;
+	Wed,  9 Jun 2021 07:13:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from szxga08-in.huawei.com (szxga08-in.huawei.com [45.249.212.255])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1E41C6E1F3
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Jun 2021 07:08:57 +0000 (UTC)
-Received: from dggemv703-chm.china.huawei.com (unknown [172.30.72.55])
- by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4G0J4M2ccYz1BJhn;
- Wed,  9 Jun 2021 15:04:03 +0800 (CST)
+Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8F60E89FF7
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Jun 2021 07:13:48 +0000 (UTC)
+Received: from dggemv704-chm.china.huawei.com (unknown [172.30.72.57])
+ by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4G0JDJ0bJnzZdsn;
+ Wed,  9 Jun 2021 15:10:56 +0800 (CST)
 Received: from dggpeml500020.china.huawei.com (7.185.36.88) by
- dggemv703-chm.china.huawei.com (10.3.19.46) with Microsoft SMTP Server
+ dggemv704-chm.china.huawei.com (10.3.19.47) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Wed, 9 Jun 2021 15:08:55 +0800
+ 15.1.2176.2; Wed, 9 Jun 2021 15:13:40 +0800
 Received: from huawei.com (10.175.127.227) by dggpeml500020.china.huawei.com
  (7.185.36.88) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2176.2; Wed, 9 Jun 2021
- 15:08:54 +0800
+ 15:13:39 +0800
 From: Baokun Li <libaokun1@huawei.com>
 To: <linux-kernel@vger.kernel.org>, VMware Graphics
  <linux-graphics-maintainer@vmware.com>, Roland Scheidegger
  <sroland@vmware.com>, Zack Rusin <zackr@vmware.com>, David Airlie
  <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
 Subject: [PATCH -next v2] drm/vmwgfx: Use list_move_tail instead of
- list_del/list_add_tail in vmwgfx_cmdbuf.c
-Date: Wed, 9 Jun 2021 15:18:03 +0800
-Message-ID: <20210609071803.1347254-1-libaokun1@huawei.com>
+ list_del/list_add_tail in vmwgfx_cmdbuf_res.c
+Date: Wed, 9 Jun 2021 15:22:48 +0800
+Message-ID: <20210609072248.1353421-1-libaokun1@huawei.com>
 X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
 Content-Type: text/plain; charset="ISO-8859-1"
 Content-Transfer-Encoding: 8bit
 X-Originating-IP: [10.175.127.227]
-X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
+X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
  dggpeml500020.china.huawei.com (7.185.36.88)
 X-CFilter-Loop: Reflected
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -58,7 +58,7 @@ Cc: Hulk Robot <hulkci@huawei.com>, kernel-janitors@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Using list_move_tail() instead of list_del() + list_add_tail() in vmwgfx_cmdbuf.c.
+Using list_move_tail() instead of list_del() + list_add_tail() in vmwgfx_cmdbuf_res.c.
 
 Reported-by: Hulk Robot <hulkci@huawei.com>
 Signed-off-by: Baokun Li <libaokun1@huawei.com>
@@ -66,21 +66,21 @@ Signed-off-by: Baokun Li <libaokun1@huawei.com>
 V1->V2:
 	CC mailist
 
- drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf.c | 3 +--
+ drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf_res.c | 3 +--
  1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf.c b/drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf.c
-index 6bb4961e64a5..58417d972b69 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf.c
-@@ -358,8 +358,7 @@ static void vmw_cmdbuf_ctx_submit(struct vmw_cmdbuf_man *man,
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf_res.c b/drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf_res.c
+index b262d61d839d..6aebe7d933cc 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf_res.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf_res.c
+@@ -167,8 +167,7 @@ void vmw_cmdbuf_res_revert(struct list_head *list)
  			break;
- 		}
- 
--		list_del(&entry->list);
--		list_add_tail(&entry->list, &ctx->hw_submitted);
-+		list_move_tail(&entry->list, &ctx->hw_submitted);
- 		ctx->num_hw_submitted++;
- 	}
- 
+ 		case VMW_CMDBUF_RES_DEL:
+ 			drm_ht_insert_item(&entry->man->resources, &entry->hash);
+-			list_del(&entry->head);
+-			list_add_tail(&entry->head, &entry->man->list);
++			list_move_tail(&entry->head, &entry->man->list);
+ 			entry->state = VMW_CMDBUF_RES_COMMITTED;
+ 			break;
+ 		default:
 
