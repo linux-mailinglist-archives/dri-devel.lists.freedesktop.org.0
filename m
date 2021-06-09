@@ -1,29 +1,30 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81CBE3A1BAE
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Jun 2021 19:23:23 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E0BE23A1BB2
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Jun 2021 19:23:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B83166E9C3;
-	Wed,  9 Jun 2021 17:23:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D10A46E9E3;
+	Wed,  9 Jun 2021 17:23:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from EX13-EDG-OU-002.vmware.com (ex13-edg-ou-002.vmware.com
  [208.91.0.190])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5E69B6E9BC
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F03A26E9B6
  for <dri-devel@lists.freedesktop.org>; Wed,  9 Jun 2021 17:23:13 +0000 (UTC)
 Received: from sc9-mailhost3.vmware.com (10.113.161.73) by
  EX13-EDG-OU-002.vmware.com (10.113.208.156) with Microsoft SMTP Server id
  15.0.1156.6; Wed, 9 Jun 2021 10:23:10 -0700
 Received: from vertex.localdomain (unknown [10.21.244.178])
- by sc9-mailhost3.vmware.com (Postfix) with ESMTP id 5F9D82024D;
+ by sc9-mailhost3.vmware.com (Postfix) with ESMTP id 04A0B2024E;
  Wed,  9 Jun 2021 10:23:12 -0700 (PDT)
 From: Zack Rusin <zackr@vmware.com>
 To: <dri-devel@lists.freedesktop.org>
-Subject: [PATCH 6/9] drm/vmwgfx: inline access to the pages from the piter
-Date: Wed, 9 Jun 2021 13:23:04 -0400
-Message-ID: <20210609172307.131929-7-zackr@vmware.com>
+Subject: [PATCH 7/9] drm/vmwgfx: Refactor vmw_mksstat_remove_ioctl to expect
+ pgid match with vmw_mksstat_add_ioctl to authorise removal.
+Date: Wed, 9 Jun 2021 13:23:05 -0400
+Message-ID: <20210609172307.131929-8-zackr@vmware.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210609172307.131929-1-zackr@vmware.com>
 References: <20210609172307.131929-1-zackr@vmware.com>
@@ -48,72 +49,83 @@ Cc: Martin Krastev <krastevm@vmware.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The indirection doesn't make sense because we always go through
-the same function pointer. Instead of the extra indirection
-lets inline the access to the current page.
+From: Martin Krastev <krastevm@vmware.com>
 
+Original vmw_mksstat_remove_ioctl expected pid to match the corresponding vmw_mksstat_add_ioctl.
+That made impossible en-masse removals by one pid, which is a valid use case, so pid match was
+discarded. Current change enforces a broader pgid match as a form of protection from arbitrary
+processes interrupting an ongoing mks-guest-stats.
+
+Reviewed-by: Zack Rusin <zackr@vmware.com>
+Signed-off-by: Martin Krastev <krastevm@vmware.com>
 Signed-off-by: Zack Rusin <zackr@vmware.com>
-Reviewed-by: Martin Krastev <krastevm@vmware.com>
 ---
- drivers/gpu/drm/vmwgfx/vmwgfx_drv.h        |  3 +--
- drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c | 16 ----------------
- 2 files changed, 1 insertion(+), 18 deletions(-)
+ drivers/gpu/drm/vmwgfx/vmwgfx_msg.c | 32 ++++++++++++-----------------
+ 1 file changed, 13 insertions(+), 19 deletions(-)
 
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
-index 31519b78cb6a..3875cfbf1791 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
-@@ -358,7 +358,6 @@ struct vmw_piter {
- 	unsigned long num_pages;
- 	bool (*next)(struct vmw_piter *);
- 	dma_addr_t (*dma_address)(struct vmw_piter *);
--	struct page *(*page)(struct vmw_piter *);
- };
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_msg.c b/drivers/gpu/drm/vmwgfx/vmwgfx_msg.c
+index 12df4c634075..74a3f09ad664 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_msg.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_msg.c
+@@ -1111,7 +1111,7 @@ int vmw_mksstat_add_ioctl(struct drm_device *dev, void *data,
+ 	hypervisor_ppn_add((PPN64)page_to_pfn(page));
  
- /*
-@@ -1088,7 +1087,7 @@ static inline dma_addr_t vmw_piter_dma_addr(struct vmw_piter *viter)
-  */
- static inline struct page *vmw_piter_page(struct vmw_piter *viter)
- {
--	return viter->page(viter);
-+	return viter->pages[viter->i];
- }
+ 	dev_priv->mksstat_user_pages[slot] = page;
+-	atomic_set(&dev_priv->mksstat_user_pids[slot], current->pid);
++	atomic_set(&dev_priv->mksstat_user_pids[slot], task_pgrp_vnr(current));
  
- /**
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c b/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c
-index a6015f2a297f..b0973c27e774 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c
-@@ -222,21 +222,6 @@ static bool __vmw_piter_sg_next(struct vmw_piter *viter)
- }
+ 	arg->id = slot;
  
+@@ -1158,37 +1158,31 @@ int vmw_mksstat_remove_ioctl(struct drm_device *dev, void *data,
+ 	struct vmw_private *const dev_priv = vmw_priv(dev);
  
--/**
-- * __vmw_piter_non_sg_page: Helper functions to return a pointer
-- * to the current page.
-- *
-- * @viter: Pointer to the iterator
-- *
-- * These functions return a pointer to the page currently
-- * pointed to by @viter. Functions are selected depending on the
-- * current mapping mode.
-- */
--static struct page *__vmw_piter_non_sg_page(struct vmw_piter *viter)
--{
--	return viter->pages[viter->i];
--}
+ 	const size_t slot = arg->id;
+-	pid_t pid0;
++	pid_t pgid, pid;
+ 
+ 	if (slot >= ARRAY_SIZE(dev_priv->mksstat_user_pids))
+ 		return -EINVAL;
+ 
+ 	DRM_DEV_INFO(dev->dev, "pid=%d arg.id=%lu\n", current->pid, slot);
+ 
+-	pid0 = atomic_read(&dev_priv->mksstat_user_pids[slot]);
++	pgid = task_pgrp_vnr(current);
++	pid = atomic_cmpxchg(&dev_priv->mksstat_user_pids[slot], pgid, MKSSTAT_PID_RESERVED);
+ 
+-	if (!pid0)
++	if (!pid)
+ 		return 0;
+ 
+-	if (pid0 != MKSSTAT_PID_RESERVED) {
+-		const pid_t pid1 = atomic_cmpxchg(&dev_priv->mksstat_user_pids[slot], pid0, MKSSTAT_PID_RESERVED);
++	if (pid == pgid) {
++		struct page *const page = dev_priv->mksstat_user_pages[slot];
+ 
+-		if (!pid1)
+-			return 0;
 -
- static dma_addr_t __vmw_piter_dma_addr(struct vmw_piter *viter)
- {
- 	return viter->addrs[viter->i];
-@@ -264,7 +249,6 @@ void vmw_piter_start(struct vmw_piter *viter, const struct vmw_sg_table *vsgt,
- {
- 	viter->i = p_offset - 1;
- 	viter->num_pages = vsgt->num_pages;
--	viter->page = &__vmw_piter_non_sg_page;
- 	viter->pages = vsgt->pages;
- 	switch (vsgt->mode) {
- 	case vmw_dma_alloc_coherent:
+-		if (pid1 == pid0) {
+-			struct page *const page = dev_priv->mksstat_user_pages[slot];
++		BUG_ON(!page);
+ 
+-			BUG_ON(!page);
+-
+-			dev_priv->mksstat_user_pages[slot] = NULL;
+-			atomic_set(&dev_priv->mksstat_user_pids[slot], 0);
++		dev_priv->mksstat_user_pages[slot] = NULL;
++		atomic_set(&dev_priv->mksstat_user_pids[slot], 0);
+ 
+-			hypervisor_ppn_remove((PPN64)page_to_pfn(page));
++		hypervisor_ppn_remove((PPN64)page_to_pfn(page));
+ 
+-			vmw_mksstat_cleanup_descriptor(page);
+-			return 0;
+-		}
++		vmw_mksstat_cleanup_descriptor(page);
++		return 0;
+ 	}
+ 
+ 	return -EAGAIN;
 -- 
 2.30.2
 
