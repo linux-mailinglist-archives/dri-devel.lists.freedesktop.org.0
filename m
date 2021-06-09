@@ -1,30 +1,29 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00F9B3A1BAC
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Jun 2021 19:23:21 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 81CBE3A1BAE
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Jun 2021 19:23:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2F62A6E9B6;
+	by gabe.freedesktop.org (Postfix) with ESMTP id B83166E9C3;
 	Wed,  9 Jun 2021 17:23:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from EX13-EDG-OU-002.vmware.com (ex13-edg-ou-002.vmware.com
  [208.91.0.190])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ACD706E9B6
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Jun 2021 17:23:12 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5E69B6E9BC
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Jun 2021 17:23:13 +0000 (UTC)
 Received: from sc9-mailhost3.vmware.com (10.113.161.73) by
  EX13-EDG-OU-002.vmware.com (10.113.208.156) with Microsoft SMTP Server id
- 15.0.1156.6; Wed, 9 Jun 2021 10:23:09 -0700
+ 15.0.1156.6; Wed, 9 Jun 2021 10:23:10 -0700
 Received: from vertex.localdomain (unknown [10.21.244.178])
- by sc9-mailhost3.vmware.com (Postfix) with ESMTP id BA8012024E;
- Wed,  9 Jun 2021 10:23:11 -0700 (PDT)
+ by sc9-mailhost3.vmware.com (Postfix) with ESMTP id 5F9D82024D;
+ Wed,  9 Jun 2021 10:23:12 -0700 (PDT)
 From: Zack Rusin <zackr@vmware.com>
 To: <dri-devel@lists.freedesktop.org>
-Subject: [PATCH 5/9] drm/vmwgfx: remove code that was using physical page
- addresses
-Date: Wed, 9 Jun 2021 13:23:03 -0400
-Message-ID: <20210609172307.131929-6-zackr@vmware.com>
+Subject: [PATCH 6/9] drm/vmwgfx: inline access to the pages from the piter
+Date: Wed, 9 Jun 2021 13:23:04 -0400
+Message-ID: <20210609172307.131929-7-zackr@vmware.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210609172307.131929-1-zackr@vmware.com>
 References: <20210609172307.131929-1-zackr@vmware.com>
@@ -49,110 +48,72 @@ Cc: Martin Krastev <krastevm@vmware.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This code has been unused for a while now. When the explicit checks
-for whether the driver is running on top of non-coherent swiotlb
-have been deprecated we lost the ability to fallback to physical
-mappings. Instead of trying to readd a module parameter to force
-usage of physical addresses it's better to just force coherent
-TTM pages via the force_coherent module parameter making this
-code pointless.
+The indirection doesn't make sense because we always go through
+the same function pointer. Instead of the extra indirection
+lets inline the access to the current page.
 
 Signed-off-by: Zack Rusin <zackr@vmware.com>
 Reviewed-by: Martin Krastev <krastevm@vmware.com>
 ---
- drivers/gpu/drm/vmwgfx/vmwgfx_drv.c        |  7 +------
- drivers/gpu/drm/vmwgfx/vmwgfx_drv.h        |  1 -
- drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c | 19 -------------------
- 3 files changed, 1 insertion(+), 26 deletions(-)
+ drivers/gpu/drm/vmwgfx/vmwgfx_drv.h        |  3 +--
+ drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c | 16 ----------------
+ 2 files changed, 1 insertion(+), 18 deletions(-)
 
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
-index b9f18151663a..be3db4988949 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
-@@ -272,7 +272,6 @@ static const struct pci_device_id vmw_pci_id_list[] = {
- MODULE_DEVICE_TABLE(pci, vmw_pci_id_list);
- 
- static int enable_fbdev = IS_ENABLED(CONFIG_DRM_VMWGFX_FBCON);
--static int vmw_force_iommu;
- static int vmw_restrict_iommu;
- static int vmw_force_coherent;
- static int vmw_restrict_dma_mask;
-@@ -284,8 +283,6 @@ static int vmwgfx_pm_notifier(struct notifier_block *nb, unsigned long val,
- 
- MODULE_PARM_DESC(enable_fbdev, "Enable vmwgfx fbdev");
- module_param_named(enable_fbdev, enable_fbdev, int, 0600);
--MODULE_PARM_DESC(force_dma_api, "Force using the DMA API for TTM pages");
--module_param_named(force_dma_api, vmw_force_iommu, int, 0600);
- MODULE_PARM_DESC(restrict_iommu, "Try to limit IOMMU usage for TTM pages");
- module_param_named(restrict_iommu, vmw_restrict_iommu, int, 0600);
- MODULE_PARM_DESC(force_coherent, "Force coherent TTM pages");
-@@ -645,7 +642,6 @@ static void vmw_get_initial_size(struct vmw_private *dev_priv)
- static int vmw_dma_select_mode(struct vmw_private *dev_priv)
- {
- 	static const char *names[vmw_dma_map_max] = {
--		[vmw_dma_phys] = "Using physical TTM page addresses.",
- 		[vmw_dma_alloc_coherent] = "Using coherent TTM pages.",
- 		[vmw_dma_map_populate] = "Caching DMA mappings.",
- 		[vmw_dma_map_bind] = "Giving up DMA mappings early."};
-@@ -679,8 +675,7 @@ static int vmw_dma_masks(struct vmw_private *dev_priv)
- 	int ret = 0;
- 
- 	ret = dma_set_mask_and_coherent(dev->dev, DMA_BIT_MASK(64));
--	if (dev_priv->map_mode != vmw_dma_phys &&
--	    (sizeof(unsigned long) == 4 || vmw_restrict_dma_mask)) {
-+	if (sizeof(unsigned long) == 4 || vmw_restrict_dma_mask) {
- 		DRM_INFO("Restricting DMA addresses to 44 bits.\n");
- 		return dma_set_mask_and_coherent(dev->dev, DMA_BIT_MASK(44));
- 	}
 diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
-index 0d8699a43491..31519b78cb6a 100644
+index 31519b78cb6a..3875cfbf1791 100644
 --- a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
 +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
-@@ -314,7 +314,6 @@ struct vmw_res_cache_entry {
-  * enum vmw_dma_map_mode - indicate how to perform TTM page dma mappings.
+@@ -358,7 +358,6 @@ struct vmw_piter {
+ 	unsigned long num_pages;
+ 	bool (*next)(struct vmw_piter *);
+ 	dma_addr_t (*dma_address)(struct vmw_piter *);
+-	struct page *(*page)(struct vmw_piter *);
+ };
+ 
+ /*
+@@ -1088,7 +1087,7 @@ static inline dma_addr_t vmw_piter_dma_addr(struct vmw_piter *viter)
   */
- enum vmw_dma_map_mode {
--	vmw_dma_phys,           /* Use physical page addresses */
- 	vmw_dma_alloc_coherent, /* Use TTM coherent pages */
- 	vmw_dma_map_populate,   /* Unmap from DMA just after unpopulate */
- 	vmw_dma_map_bind,       /* Unmap from DMA just before unbind */
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c b/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c
-index 0488042fb287..a6015f2a297f 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c
-@@ -237,21 +237,6 @@ static struct page *__vmw_piter_non_sg_page(struct vmw_piter *viter)
- 	return viter->pages[viter->i];
+ static inline struct page *vmw_piter_page(struct vmw_piter *viter)
+ {
+-	return viter->page(viter);
++	return viter->pages[viter->i];
  }
  
+ /**
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c b/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c
+index a6015f2a297f..b0973c27e774 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c
+@@ -222,21 +222,6 @@ static bool __vmw_piter_sg_next(struct vmw_piter *viter)
+ }
+ 
+ 
 -/**
-- * __vmw_piter_phys_addr: Helper functions to return the DMA
-- * address of the current page.
+- * __vmw_piter_non_sg_page: Helper functions to return a pointer
+- * to the current page.
 - *
 - * @viter: Pointer to the iterator
 - *
-- * These functions return the DMA address of the page currently
+- * These functions return a pointer to the page currently
 - * pointed to by @viter. Functions are selected depending on the
 - * current mapping mode.
 - */
--static dma_addr_t __vmw_piter_phys_addr(struct vmw_piter *viter)
+-static struct page *__vmw_piter_non_sg_page(struct vmw_piter *viter)
 -{
--	return page_to_phys(viter->pages[viter->i]);
+-	return viter->pages[viter->i];
 -}
 -
  static dma_addr_t __vmw_piter_dma_addr(struct vmw_piter *viter)
  {
  	return viter->addrs[viter->i];
-@@ -282,10 +267,6 @@ void vmw_piter_start(struct vmw_piter *viter, const struct vmw_sg_table *vsgt,
- 	viter->page = &__vmw_piter_non_sg_page;
+@@ -264,7 +249,6 @@ void vmw_piter_start(struct vmw_piter *viter, const struct vmw_sg_table *vsgt,
+ {
+ 	viter->i = p_offset - 1;
+ 	viter->num_pages = vsgt->num_pages;
+-	viter->page = &__vmw_piter_non_sg_page;
  	viter->pages = vsgt->pages;
  	switch (vsgt->mode) {
--	case vmw_dma_phys:
--		viter->next = &__vmw_piter_non_sg_next;
--		viter->dma_address = &__vmw_piter_phys_addr;
--		break;
  	case vmw_dma_alloc_coherent:
- 		viter->next = &__vmw_piter_non_sg_next;
- 		viter->dma_address = &__vmw_piter_dma_addr;
 -- 
 2.30.2
 
