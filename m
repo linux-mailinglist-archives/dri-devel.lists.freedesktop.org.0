@@ -2,54 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D40153A1207
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Jun 2021 13:06:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B03873A120E
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Jun 2021 13:07:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D78AE6E7D1;
-	Wed,  9 Jun 2021 11:06:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B52766E5BD;
+	Wed,  9 Jun 2021 11:07:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x231.google.com (mail-lj1-x231.google.com
- [IPv6:2a00:1450:4864:20::231])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C2B7D6E7D1
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Jun 2021 11:06:07 +0000 (UTC)
-Received: by mail-lj1-x231.google.com with SMTP id n17so13985661ljg.2
- for <dri-devel@lists.freedesktop.org>; Wed, 09 Jun 2021 04:06:07 -0700 (PDT)
+Received: from mail-lj1-x234.google.com (mail-lj1-x234.google.com
+ [IPv6:2a00:1450:4864:20::234])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 90DDC6E871
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Jun 2021 11:07:41 +0000 (UTC)
+Received: by mail-lj1-x234.google.com with SMTP id bn21so31132399ljb.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 09 Jun 2021 04:07:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=edtgaudOZI4aiobavQOBXkJeOQl3hnYi6MVEV9AQq84=;
- b=ayZr7B/HMgVlC0okdohGCei7GaktNCuF+JQVg9SStH5spMXSHL3MnoVsgcy0gRKsa4
- pmC0Ygl7wVqf8VNXIa61EBQp1XUesgEtUX6+OLbue18UVTP2J47q+hd2k9/FHzfOHm5z
- v4s5fWNXcE4/VZXgXHruumXCmX5k8xgRxNY7/zlcN6NTfr5/GC2s1LXU9dTDHZshBKAk
- fI5MiFrk14taaL/0EL1VY7ryUodwSdjXb05t+Qz7hHFcs3/UjKjSPPUYSd7DSJxsvaO/
- ziRY4ZuBQwp9SwRC/wZ2DbWTwttmeVHxRTQE75htG42JEINP5VSFO96y+WHJUC6jJULz
- mX/A==
+ :cc; bh=hO3vEEVdO0DPz+vO9KJvLBSJTaoPQXnru30sw8j8V+k=;
+ b=tJ+IxUQX6y8nk471bg47+iouc2pnb5EzeCVGDMgfLNBUUydydIFqq6lhq/QTCdnxoi
+ ETRyEs14qkwYFBNvb/vRgeiQw8SxbBcHxjYav9X1GrSQ3qaKSPkupNdkqkY/jwC+RDY7
+ 7A3o3Z4V/nSi5iyqhEr9hxnBtloNMkYSXpM+UjFwtN7Kz2HvnQ7P3YjmM5M0Q8/qTVHG
+ 3yVusC9NM0uIaOxkCxGe3ccLUlb59nfqak4qCXCkPmnMrkt4HxL+ZVO/zYUPfdsmP94r
+ 9cHO2x7EITXWT1XtHoIwzIklwSrrsHteBwexobdOewu31/N/V/hyIE6+7nbIgvvxrEUB
+ CfkQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=edtgaudOZI4aiobavQOBXkJeOQl3hnYi6MVEV9AQq84=;
- b=dYNarO7uecBRJVFB2nFJtzv3qtlqihRMa694zGY/xe6N05fnoPuPDF46guB7h3VrgD
- 8FmK3493dOMs8NzuviO0zP+Rp6hdEfq/S4bBp9U3WK/8jmMM7kp5bWj61ralVFVWi+4q
- 6+o9L2HwuL65KeJ04mZJff64oJVgPsm4JwSV7mWmIb0n8WxO0BOPrFExCdq8MIsw+UUe
- 9FC05RdiEv+zavM8ubWBTzT4A6MFskGKneqpJA/MFHpn1sEbsAPMuaqcYFzrpX/55J37
- NfdIqC24FcqFZbvy4SprBNe0i4aOqSLWO0/8GVTucAzdjZt+ddrMuIf/vKW87SC1yYXY
- DHwA==
-X-Gm-Message-State: AOAM5336rIOGhcc2s9QUaYEJnURBHXok39v5YXNKue+jz31tT4WVAPA0
- e81lyPVbkLH+fvCxmV8iWr5rJxcBs1eWBbkdZ9EGDA==
-X-Google-Smtp-Source: ABdhPJzV9fO/orVbfpt+Pzff+qMI9NVxWDVHQAbz6au45P7iPdxzk0Z/yoL6wNzUHNhPVrsLwIbINGn7G3wSbYXVuXg=
-X-Received: by 2002:a05:651c:1411:: with SMTP id
- u17mr11266433lje.438.1623236765968; 
- Wed, 09 Jun 2021 04:06:05 -0700 (PDT)
+ bh=hO3vEEVdO0DPz+vO9KJvLBSJTaoPQXnru30sw8j8V+k=;
+ b=Wc4DLCklKE5o2hfuHew66E+Y+mdp6+pYA9++RY9AW/ltmZ1zPcO4nRoAKikWPF2u+g
+ 5Z+0jHlX2LMYBo09o41oMeLNykZqHOYkumo8SmNKy6nU7KMCnMerbyf8ttS4kaMUFzJr
+ 73Amw0u+d8Fep34vi33szu7YYi+4HadxUXlgyJMpxCueKmgayqcXr8PT/UKPdF2R9je/
+ 9WFF5KGRAOy3XfnBmzi6TvinvSlv0bIUbtxdsDHNGt7otdPzBNgMq6kzq71cDpZAO3pJ
+ paRBWdJMC9YV1z7Nt8wQ4LAUJ5o+5bTLicNM2Q+VBC/iyzzAcKMksle+YSwCZjCb2I5G
+ iSfA==
+X-Gm-Message-State: AOAM5321N48Aj3JToJpvfFKOX0wnSe2rnOuYQvTP7b0yKbSn1Tp/hWPz
+ P+nhc9g6O+AypTCH48pv6ZPRG8tefE0KsikRCjB+Rg==
+X-Google-Smtp-Source: ABdhPJxL1/o/55M4zUInEECGJ8JlN2FQ3cBr/0HO5voXevIvLQKWpjpiW9USKNXD1KKnOZdv1T7oDDPbAU6x4fmJssI=
+X-Received: by 2002:a2e:22c3:: with SMTP id
+ i186mr22139779lji.273.1623236859907; 
+ Wed, 09 Jun 2021 04:07:39 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210607170555.4006050-1-dianders@chromium.org>
- <20210607100234.v9.3.I98bf729846c37c4c143f6ab88b1e299280e2fe26@changeid>
-In-Reply-To: <20210607100234.v9.3.I98bf729846c37c4c143f6ab88b1e299280e2fe26@changeid>
+ <20210607100234.v9.6.I18e60221f6d048d14d6c50a770b15f356fa75092@changeid>
+In-Reply-To: <20210607100234.v9.6.I18e60221f6d048d14d6c50a770b15f356fa75092@changeid>
 From: Linus Walleij <linus.walleij@linaro.org>
-Date: Wed, 9 Jun 2021 13:05:55 +0200
-Message-ID: <CACRpkdZF_WgoJHExbw8R8ejVkWh7h32VfXQw8mfux_i2+sy-QA@mail.gmail.com>
-Subject: Re: [PATCH v9 03/11] dt-bindings: drm/bridge: ti-sn65dsi86: Add
- aux-bus child
+Date: Wed, 9 Jun 2021 13:07:29 +0200
+Message-ID: <CACRpkdaa=1LsyESZenDWv91mTX4H_AhwzGnSO2b9v8zXRMAvzw@mail.gmail.com>
+Subject: Re: [PATCH v9 06/11] drm/panel: panel-simple: Stash DP AUX bus; allow
+ using it for DDC
 To: Douglas Anderson <dianders@chromium.org>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -64,31 +64,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
- Sandeep Panda <spanda@codeaurora.org>,
+Cc: Rob Clark <robdclark@chromium.org>, Jonas Karlman <jonas@kwiboo.se>,
+ David Airlie <airlied@linux.ie>, MSM <linux-arm-msm@vger.kernel.org>,
  "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>,
+ Neil Armstrong <narmstrong@baylibre.com>,
+ linux-kernel <linux-kernel@vger.kernel.org>,
+ Steev Klimaszewski <steev@kali.org>,
  Bjorn Andersson <bjorn.andersson@linaro.org>,
- Andrzej Hajda <a.hajda@samsung.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Sam Ravnborg <sam@ravnborg.org>, Rob Clark <robdclark@chromium.org>,
  Stanislav Lisovskiy <stanislav.lisovskiy@intel.com>,
- Thierry Reding <treding@nvidia.com>,
- "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
- MSM <linux-arm-msm@vger.kernel.org>, Stephen Boyd <swboyd@chromium.org>,
- Rob Herring <robh+dt@kernel.org>, Steev Klimaszewski <steev@kali.org>,
- linux-kernel <linux-kernel@vger.kernel.org>
+ Andrzej Hajda <a.hajda@samsung.com>, Thierry Reding <thierry.reding@gmail.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Stephen Boyd <swboyd@chromium.org>, Thierry Reding <treding@nvidia.com>,
+ Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On Mon, Jun 7, 2021 at 7:06 PM Douglas Anderson <dianders@chromium.org> wrote:
 
->  The patch ("dt-bindings: drm: Introduce the DP AUX bus") talks about
-> how using the DP AUX bus is better than learning how to slice
-> bread. Let's add it to the ti-sn65dsi86 bindings.
+> If panel-simple is instantiated as a DP AUX bus endpoint then we have
+> access to the DP AUX bus. Let's stash it in the panel-simple
+> structure, leaving it NULL for the cases where the panel is
+> instantiated in other ways.
+>
+> If we happen to have access to the DP AUX bus and we weren't provided
+> the ddc-i2c-bus in some other manner, let's use the DP AUX bus for it.
 >
 > Signed-off-by: Douglas Anderson <dianders@chromium.org>
-> Reviewed-by: Rob Herring <robh@kernel.org>
+> Reviewed-by: Lyude Paul <lyude@redhat.com>
 
 Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
 
