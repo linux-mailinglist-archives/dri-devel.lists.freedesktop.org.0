@@ -2,37 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50B483A0C77
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Jun 2021 08:34:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 749993A0C7F
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Jun 2021 08:35:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 080356E0DF;
-	Wed,  9 Jun 2021 06:34:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B1C226E154;
+	Wed,  9 Jun 2021 06:34:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BF5956E0D6;
- Wed,  9 Jun 2021 06:34:47 +0000 (UTC)
-IronPort-SDR: u5DcUwIvC3h7BXb6bVl3R/7eyvUIdR11LaJI/zRBJH9zqDGxcwkJqHCfOqjoZg/nvhzr9Kxycy
- cKz7ReMmfxxg==
-X-IronPort-AV: E=McAfee;i="6200,9189,10009"; a="268868875"
-X-IronPort-AV: E=Sophos;i="5.83,260,1616482800"; d="scan'208";a="268868875"
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1FFD66E0F0;
+ Wed,  9 Jun 2021 06:34:49 +0000 (UTC)
+IronPort-SDR: KRHKNDur1eqLllg6PV6dKZNslBSRuSyTORkC4QJXzwq781r0hfxrZ3a8v4wdMV0gL3crOld7Dl
+ Iac/azKB5kiA==
+X-IronPort-AV: E=McAfee;i="6200,9189,10009"; a="268868878"
+X-IronPort-AV: E=Sophos;i="5.83,260,1616482800"; d="scan'208";a="268868878"
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Jun 2021 23:34:47 -0700
-IronPort-SDR: dK3sOhMys9p6HyLNjO+s5/pR6rdE+fPtUcJDd1O+urh4+kOeU6bN4+dRsnmnrNhFDNDkiFrWfy
- ok6nSc4kh4cg==
-X-IronPort-AV: E=Sophos;i="5.83,260,1616482800"; d="scan'208";a="482265758"
+ 08 Jun 2021 23:34:49 -0700
+IronPort-SDR: 3XNMiaRNqGnqwhCFvWHSODuOYSBdd0UcYUT9aLj54Vnt2daGV7h6WFfkDv9kDqH+/vl4srAHqe
+ pWh9RRLfYmHA==
+X-IronPort-AV: E=Sophos;i="5.83,260,1616482800"; d="scan'208";a="482265769"
 Received: from ekolpasx-mobl.ccr.corp.intel.com (HELO thellst-mobl1.intel.com)
  ([10.249.254.109])
  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Jun 2021 23:34:44 -0700
+ 08 Jun 2021 23:34:47 -0700
 From: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
 To: intel-gfx@lists.freedesktop.org,
 	dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 0/9] Prereqs for TTM accelerated migration
-Date: Wed,  9 Jun 2021 08:34:27 +0200
-Message-Id: <20210609063436.284332-1-thomas.hellstrom@linux.intel.com>
+Subject: [PATCH v2 1/9] drm/i915: Reference objects on the ww object list
+Date: Wed,  9 Jun 2021 08:34:28 +0200
+Message-Id: <20210609063436.284332-2-thomas.hellstrom@linux.intel.com>
 X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20210609063436.284332-1-thomas.hellstrom@linux.intel.com>
+References: <20210609063436.284332-1-thomas.hellstrom@linux.intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -53,63 +55,77 @@ Cc: matthew.auld@intel.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-A couple of patches from Chris which implement pipelined migration and
-clears by atomically writing the PTEs in place before performing the
-actual blit.
+Since the ww transaction endpoint easily end up far out-of-scope of
+the objects on the ww object list, particularly for contending lock
+objects, make sure we reference objects on the list so they don't
+disappear under us.
 
-Some ww utilities mainly for the accompanying selftests added by Thomas,
-as well as modified the above patches for ww locking- and lmem support.
+This comes with a performance penalty so it's been debated whether this
+is really needed. But I think this is motivated by the fact that locking
+is typically difficult to get right, and whatever we can do to make it
+simpler for developers moving forward should be done, unless the
+performance impact is far too high.
 
-The actual hook up to the i915 ttm backend is being worked on and not
-included yet, so this is considered to be an early review opportunity.
+Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+Reviewed-by: Matthew Auld <matthew.auld@intel.com>
+---
+ drivers/gpu/drm/i915/gem/i915_gem_object.h | 8 ++++++--
+ drivers/gpu/drm/i915/i915_gem.c            | 4 ++++
+ 2 files changed, 10 insertions(+), 2 deletions(-)
 
-v2:
-- A couple of minor style fixes pointed out by Matthew Auld
-- Export and use intel_engine_destroy_pinned_context() to address a
-  CI warning / failure.
-
-Chris Wilson (6):
-  drm/i915/gt: Add an insert_entry for gen8_ppgtt
-  drm/i915/gt: Add a routine to iterate over the pagetables of a GTT
-  drm/i915/gt: Export the pinned context constructor and destructor
-  drm/i915/gt: Pipelined page migration
-  drm/i915/gt: Pipelined clear
-  drm/i915/gt: Setup a default migration context on the GT
-
-Thomas Hellström (3):
-  drm/i915: Reference objects on the ww object list
-  drm/i915: Break out dma_resv ww locking utilities to separate files
-  drm/i915: Introduce a ww transaction helper
-
- drivers/gpu/drm/i915/Makefile                 |   2 +
- drivers/gpu/drm/i915/gem/i915_gem_object.h    |   9 +-
- drivers/gpu/drm/i915/gt/gen8_ppgtt.c          |  68 ++
- drivers/gpu/drm/i915/gt/intel_engine.h        |  12 +
- drivers/gpu/drm/i915/gt/intel_engine_cs.c     |  27 +-
- drivers/gpu/drm/i915/gt/intel_gpu_commands.h  |   2 +
- drivers/gpu/drm/i915/gt/intel_gt.c            |   4 +
- drivers/gpu/drm/i915/gt/intel_gt_types.h      |   3 +
- drivers/gpu/drm/i915/gt/intel_gtt.h           |   7 +
- drivers/gpu/drm/i915/gt/intel_migrate.c       | 685 ++++++++++++++++++
- drivers/gpu/drm/i915/gt/intel_migrate.h       |  65 ++
- drivers/gpu/drm/i915/gt/intel_migrate_types.h |  15 +
- drivers/gpu/drm/i915/gt/intel_renderstate.h   |   1 +
- drivers/gpu/drm/i915/gt/intel_ring.h          |   1 +
- drivers/gpu/drm/i915/gt/selftest_migrate.c    | 671 +++++++++++++++++
- drivers/gpu/drm/i915/i915_gem.c               |  52 --
- drivers/gpu/drm/i915/i915_gem.h               |  12 -
- drivers/gpu/drm/i915/i915_gem_ww.c            |  63 ++
- drivers/gpu/drm/i915/i915_gem_ww.h            |  50 ++
- .../drm/i915/selftests/i915_live_selftests.h  |   1 +
- .../drm/i915/selftests/i915_perf_selftests.h  |   1 +
- 21 files changed, 1675 insertions(+), 76 deletions(-)
- create mode 100644 drivers/gpu/drm/i915/gt/intel_migrate.c
- create mode 100644 drivers/gpu/drm/i915/gt/intel_migrate.h
- create mode 100644 drivers/gpu/drm/i915/gt/intel_migrate_types.h
- create mode 100644 drivers/gpu/drm/i915/gt/selftest_migrate.c
- create mode 100644 drivers/gpu/drm/i915/i915_gem_ww.c
- create mode 100644 drivers/gpu/drm/i915/i915_gem_ww.h
-
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object.h b/drivers/gpu/drm/i915/gem/i915_gem_object.h
+index 7c0eb425cb3b..1fafcc89ecee 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_object.h
++++ b/drivers/gpu/drm/i915/gem/i915_gem_object.h
+@@ -169,13 +169,17 @@ static inline int __i915_gem_object_lock(struct drm_i915_gem_object *obj,
+ 	else
+ 		ret = dma_resv_lock(obj->base.resv, ww ? &ww->ctx : NULL);
+ 
+-	if (!ret && ww)
++	if (!ret && ww) {
++		i915_gem_object_get(obj);
+ 		list_add_tail(&obj->obj_link, &ww->obj_list);
++	}
+ 	if (ret == -EALREADY)
+ 		ret = 0;
+ 
+-	if (ret == -EDEADLK)
++	if (ret == -EDEADLK) {
++		i915_gem_object_get(obj);
+ 		ww->contended = obj;
++	}
+ 
+ 	return ret;
+ }
+diff --git a/drivers/gpu/drm/i915/i915_gem.c b/drivers/gpu/drm/i915/i915_gem.c
+index 589388dec48a..3f060ab58c5d 100644
+--- a/drivers/gpu/drm/i915/i915_gem.c
++++ b/drivers/gpu/drm/i915/i915_gem.c
+@@ -1219,6 +1219,7 @@ static void i915_gem_ww_ctx_unlock_all(struct i915_gem_ww_ctx *ww)
+ 	while ((obj = list_first_entry_or_null(&ww->obj_list, struct drm_i915_gem_object, obj_link))) {
+ 		list_del(&obj->obj_link);
+ 		i915_gem_object_unlock(obj);
++		i915_gem_object_put(obj);
+ 	}
+ }
+ 
+@@ -1226,6 +1227,7 @@ void i915_gem_ww_unlock_single(struct drm_i915_gem_object *obj)
+ {
+ 	list_del(&obj->obj_link);
+ 	i915_gem_object_unlock(obj);
++	i915_gem_object_put(obj);
+ }
+ 
+ void i915_gem_ww_ctx_fini(struct i915_gem_ww_ctx *ww)
+@@ -1250,6 +1252,8 @@ int __must_check i915_gem_ww_ctx_backoff(struct i915_gem_ww_ctx *ww)
+ 
+ 	if (!ret)
+ 		list_add_tail(&ww->contended->obj_link, &ww->obj_list);
++	else
++		i915_gem_object_put(ww->contended);
+ 
+ 	ww->contended = NULL;
+ 
 -- 
 2.31.1
 
