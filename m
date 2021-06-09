@@ -1,29 +1,30 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 424A23A1BB4
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Jun 2021 19:23:33 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 00F9B3A1BAC
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Jun 2021 19:23:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AE6876E9BC;
-	Wed,  9 Jun 2021 17:23:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2F62A6E9B6;
+	Wed,  9 Jun 2021 17:23:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from EX13-EDG-OU-002.vmware.com (ex13-edg-ou-002.vmware.com
  [208.91.0.190])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 14D116E2E3
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ACD706E9B6
  for <dri-devel@lists.freedesktop.org>; Wed,  9 Jun 2021 17:23:12 +0000 (UTC)
 Received: from sc9-mailhost3.vmware.com (10.113.161.73) by
  EX13-EDG-OU-002.vmware.com (10.113.208.156) with Microsoft SMTP Server id
- 15.0.1156.6; Wed, 9 Jun 2021 10:23:08 -0700
+ 15.0.1156.6; Wed, 9 Jun 2021 10:23:09 -0700
 Received: from vertex.localdomain (unknown [10.21.244.178])
- by sc9-mailhost3.vmware.com (Postfix) with ESMTP id 0AF0B2024E;
- Wed,  9 Jun 2021 10:23:10 -0700 (PDT)
+ by sc9-mailhost3.vmware.com (Postfix) with ESMTP id BA8012024E;
+ Wed,  9 Jun 2021 10:23:11 -0700 (PDT)
 From: Zack Rusin <zackr@vmware.com>
 To: <dri-devel@lists.freedesktop.org>
-Subject: [PATCH 4/9] drm/vmwgfx: Fix some static checker warnings
-Date: Wed, 9 Jun 2021 13:23:02 -0400
-Message-ID: <20210609172307.131929-5-zackr@vmware.com>
+Subject: [PATCH 5/9] drm/vmwgfx: remove code that was using physical page
+ addresses
+Date: Wed, 9 Jun 2021 13:23:03 -0400
+Message-ID: <20210609172307.131929-6-zackr@vmware.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210609172307.131929-1-zackr@vmware.com>
 References: <20210609172307.131929-1-zackr@vmware.com>
@@ -44,302 +45,114 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Martin Krastev <krastevm@vmware.com>,
- Roland Scheidegger <sroland@vmware.com>
+Cc: Martin Krastev <krastevm@vmware.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fix some minor issues that Coverity spotted in the code. None
-of that are serious but they're all valid concerns so fixing
-them makes sense.
+This code has been unused for a while now. When the explicit checks
+for whether the driver is running on top of non-coherent swiotlb
+have been deprecated we lost the ability to fallback to physical
+mappings. Instead of trying to readd a module parameter to force
+usage of physical addresses it's better to just force coherent
+TTM pages via the force_coherent module parameter making this
+code pointless.
 
 Signed-off-by: Zack Rusin <zackr@vmware.com>
-Reviewed-by: Roland Scheidegger <sroland@vmware.com>
 Reviewed-by: Martin Krastev <krastevm@vmware.com>
 ---
- drivers/gpu/drm/vmwgfx/ttm_memory.c        |  2 ++
- drivers/gpu/drm/vmwgfx/vmwgfx_binding.c    | 20 ++++++++------------
- drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf.c     |  2 +-
- drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf_res.c |  4 +++-
- drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c    |  2 ++
- drivers/gpu/drm/vmwgfx/vmwgfx_mob.c        |  4 +++-
- drivers/gpu/drm/vmwgfx/vmwgfx_msg.c        |  6 ++++--
- drivers/gpu/drm/vmwgfx/vmwgfx_resource.c   |  8 ++++++--
- drivers/gpu/drm/vmwgfx/vmwgfx_so.c         |  3 ++-
- drivers/gpu/drm/vmwgfx/vmwgfx_validation.c |  4 ++--
- 10 files changed, 33 insertions(+), 22 deletions(-)
+ drivers/gpu/drm/vmwgfx/vmwgfx_drv.c        |  7 +------
+ drivers/gpu/drm/vmwgfx/vmwgfx_drv.h        |  1 -
+ drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c | 19 -------------------
+ 3 files changed, 1 insertion(+), 26 deletions(-)
 
-diff --git a/drivers/gpu/drm/vmwgfx/ttm_memory.c b/drivers/gpu/drm/vmwgfx/ttm_memory.c
-index aeb0a22a2c34..edd17c30d5a5 100644
---- a/drivers/gpu/drm/vmwgfx/ttm_memory.c
-+++ b/drivers/gpu/drm/vmwgfx/ttm_memory.c
-@@ -435,8 +435,10 @@ int ttm_mem_global_init(struct ttm_mem_global *glob, struct device *dev)
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
+index b9f18151663a..be3db4988949 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
+@@ -272,7 +272,6 @@ static const struct pci_device_id vmw_pci_id_list[] = {
+ MODULE_DEVICE_TABLE(pci, vmw_pci_id_list);
  
- 	si_meminfo(&si);
+ static int enable_fbdev = IS_ENABLED(CONFIG_DRM_VMWGFX_FBCON);
+-static int vmw_force_iommu;
+ static int vmw_restrict_iommu;
+ static int vmw_force_coherent;
+ static int vmw_restrict_dma_mask;
+@@ -284,8 +283,6 @@ static int vmwgfx_pm_notifier(struct notifier_block *nb, unsigned long val,
  
-+	spin_lock(&glob->lock);
- 	/* set it as 0 by default to keep original behavior of OOM */
- 	glob->lower_mem_limit = 0;
-+	spin_unlock(&glob->lock);
+ MODULE_PARM_DESC(enable_fbdev, "Enable vmwgfx fbdev");
+ module_param_named(enable_fbdev, enable_fbdev, int, 0600);
+-MODULE_PARM_DESC(force_dma_api, "Force using the DMA API for TTM pages");
+-module_param_named(force_dma_api, vmw_force_iommu, int, 0600);
+ MODULE_PARM_DESC(restrict_iommu, "Try to limit IOMMU usage for TTM pages");
+ module_param_named(restrict_iommu, vmw_restrict_iommu, int, 0600);
+ MODULE_PARM_DESC(force_coherent, "Force coherent TTM pages");
+@@ -645,7 +642,6 @@ static void vmw_get_initial_size(struct vmw_private *dev_priv)
+ static int vmw_dma_select_mode(struct vmw_private *dev_priv)
+ {
+ 	static const char *names[vmw_dma_map_max] = {
+-		[vmw_dma_phys] = "Using physical TTM page addresses.",
+ 		[vmw_dma_alloc_coherent] = "Using coherent TTM pages.",
+ 		[vmw_dma_map_populate] = "Caching DMA mappings.",
+ 		[vmw_dma_map_bind] = "Giving up DMA mappings early."};
+@@ -679,8 +675,7 @@ static int vmw_dma_masks(struct vmw_private *dev_priv)
+ 	int ret = 0;
  
- 	ret = ttm_mem_init_kernel_zone(glob, &si);
- 	if (unlikely(ret != 0))
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_binding.c b/drivers/gpu/drm/vmwgfx/vmwgfx_binding.c
-index 05b324825900..ea6d8c86985f 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_binding.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_binding.c
-@@ -715,7 +715,7 @@ static int vmw_binding_scrub_cb(struct vmw_ctx_bindinfo *bi, bool rebind)
-  * without checking which bindings actually need to be emitted
-  *
-  * @cbs: Pointer to the context's struct vmw_ctx_binding_state
-- * @bi: Pointer to where the binding info array is stored in @cbs
-+ * @biv: Pointer to where the binding info array is stored in @cbs
-  * @max_num: Maximum number of entries in the @bi array.
-  *
-  * Scans the @bi array for bindings and builds a buffer of view id data.
-@@ -725,11 +725,9 @@ static int vmw_binding_scrub_cb(struct vmw_ctx_bindinfo *bi, bool rebind)
-  * contains the command data.
+ 	ret = dma_set_mask_and_coherent(dev->dev, DMA_BIT_MASK(64));
+-	if (dev_priv->map_mode != vmw_dma_phys &&
+-	    (sizeof(unsigned long) == 4 || vmw_restrict_dma_mask)) {
++	if (sizeof(unsigned long) == 4 || vmw_restrict_dma_mask) {
+ 		DRM_INFO("Restricting DMA addresses to 44 bits.\n");
+ 		return dma_set_mask_and_coherent(dev->dev, DMA_BIT_MASK(44));
+ 	}
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
+index 0d8699a43491..31519b78cb6a 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
+@@ -314,7 +314,6 @@ struct vmw_res_cache_entry {
+  * enum vmw_dma_map_mode - indicate how to perform TTM page dma mappings.
   */
- static void vmw_collect_view_ids(struct vmw_ctx_binding_state *cbs,
--				 const struct vmw_ctx_bindinfo *bi,
-+				 const struct vmw_ctx_bindinfo_view *biv,
- 				 u32 max_num)
+ enum vmw_dma_map_mode {
+-	vmw_dma_phys,           /* Use physical page addresses */
+ 	vmw_dma_alloc_coherent, /* Use TTM coherent pages */
+ 	vmw_dma_map_populate,   /* Unmap from DMA just after unpopulate */
+ 	vmw_dma_map_bind,       /* Unmap from DMA just before unbind */
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c b/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c
+index 0488042fb287..a6015f2a297f 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c
+@@ -237,21 +237,6 @@ static struct page *__vmw_piter_non_sg_page(struct vmw_piter *viter)
+ 	return viter->pages[viter->i];
+ }
+ 
+-/**
+- * __vmw_piter_phys_addr: Helper functions to return the DMA
+- * address of the current page.
+- *
+- * @viter: Pointer to the iterator
+- *
+- * These functions return the DMA address of the page currently
+- * pointed to by @viter. Functions are selected depending on the
+- * current mapping mode.
+- */
+-static dma_addr_t __vmw_piter_phys_addr(struct vmw_piter *viter)
+-{
+-	return page_to_phys(viter->pages[viter->i]);
+-}
+-
+ static dma_addr_t __vmw_piter_dma_addr(struct vmw_piter *viter)
  {
--	const struct vmw_ctx_bindinfo_view *biv =
--		container_of(bi, struct vmw_ctx_bindinfo_view, bi);
- 	unsigned long i;
- 
- 	cbs->bind_cmd_count = 0;
-@@ -838,7 +836,7 @@ static int vmw_emit_set_sr(struct vmw_ctx_binding_state *cbs,
-  */
- static int vmw_emit_set_rt(struct vmw_ctx_binding_state *cbs)
- {
--	const struct vmw_ctx_bindinfo *loc = &cbs->render_targets[0].bi;
-+	const struct vmw_ctx_bindinfo_view *loc = &cbs->render_targets[0];
- 	struct {
- 		SVGA3dCmdHeader header;
- 		SVGA3dCmdDXSetRenderTargets body;
-@@ -874,7 +872,7 @@ static int vmw_emit_set_rt(struct vmw_ctx_binding_state *cbs)
-  * without checking which bindings actually need to be emitted
-  *
-  * @cbs: Pointer to the context's struct vmw_ctx_binding_state
-- * @bi: Pointer to where the binding info array is stored in @cbs
-+ * @biso: Pointer to where the binding info array is stored in @cbs
-  * @max_num: Maximum number of entries in the @bi array.
-  *
-  * Scans the @bi array for bindings and builds a buffer of SVGA3dSoTarget data.
-@@ -884,11 +882,9 @@ static int vmw_emit_set_rt(struct vmw_ctx_binding_state *cbs)
-  * contains the command data.
-  */
- static void vmw_collect_so_targets(struct vmw_ctx_binding_state *cbs,
--				   const struct vmw_ctx_bindinfo *bi,
-+				   const struct vmw_ctx_bindinfo_so_target *biso,
- 				   u32 max_num)
- {
--	const struct vmw_ctx_bindinfo_so_target *biso =
--		container_of(bi, struct vmw_ctx_bindinfo_so_target, bi);
- 	unsigned long i;
- 	SVGA3dSoTarget *so_buffer = (SVGA3dSoTarget *) cbs->bind_cmd_buffer;
- 
-@@ -919,7 +915,7 @@ static void vmw_collect_so_targets(struct vmw_ctx_binding_state *cbs,
-  */
- static int vmw_emit_set_so_target(struct vmw_ctx_binding_state *cbs)
- {
--	const struct vmw_ctx_bindinfo *loc = &cbs->so_targets[0].bi;
-+	const struct vmw_ctx_bindinfo_so_target *loc = &cbs->so_targets[0];
- 	struct {
- 		SVGA3dCmdHeader header;
- 		SVGA3dCmdDXSetSOTargets body;
-@@ -1066,7 +1062,7 @@ static int vmw_emit_set_vb(struct vmw_ctx_binding_state *cbs)
- 
- static int vmw_emit_set_uav(struct vmw_ctx_binding_state *cbs)
- {
--	const struct vmw_ctx_bindinfo *loc = &cbs->ua_views[0].views[0].bi;
-+	const struct vmw_ctx_bindinfo_view *loc = &cbs->ua_views[0].views[0];
- 	struct {
- 		SVGA3dCmdHeader header;
- 		SVGA3dCmdDXSetUAViews body;
-@@ -1096,7 +1092,7 @@ static int vmw_emit_set_uav(struct vmw_ctx_binding_state *cbs)
- 
- static int vmw_emit_set_cs_uav(struct vmw_ctx_binding_state *cbs)
- {
--	const struct vmw_ctx_bindinfo *loc = &cbs->ua_views[1].views[0].bi;
-+	const struct vmw_ctx_bindinfo_view *loc = &cbs->ua_views[1].views[0];
- 	struct {
- 		SVGA3dCmdHeader header;
- 		SVGA3dCmdDXSetCSUAViews body;
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf.c b/drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf.c
-index 6bb4961e64a5..9656d4a2abff 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf.c
-@@ -516,7 +516,7 @@ static void vmw_cmdbuf_work_func(struct work_struct *work)
- 	struct vmw_cmdbuf_man *man =
- 		container_of(work, struct vmw_cmdbuf_man, work);
- 	struct vmw_cmdbuf_header *entry, *next;
--	uint32_t dummy;
-+	uint32_t dummy = 0;
- 	bool send_fence = false;
- 	struct list_head restart_head[SVGA_CB_CONTEXT_MAX];
- 	int i;
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf_res.c b/drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf_res.c
-index b262d61d839d..9487faff5229 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf_res.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf_res.c
-@@ -159,6 +159,7 @@ void vmw_cmdbuf_res_commit(struct list_head *list)
- void vmw_cmdbuf_res_revert(struct list_head *list)
- {
- 	struct vmw_cmdbuf_res *entry, *next;
-+	int ret;
- 
- 	list_for_each_entry_safe(entry, next, list, head) {
- 		switch (entry->state) {
-@@ -166,7 +167,8 @@ void vmw_cmdbuf_res_revert(struct list_head *list)
- 			vmw_cmdbuf_res_free(entry->man, entry);
- 			break;
- 		case VMW_CMDBUF_RES_DEL:
--			drm_ht_insert_item(&entry->man->resources, &entry->hash);
-+			ret = drm_ht_insert_item(&entry->man->resources, &entry->hash);
-+			BUG_ON(ret);
- 			list_del(&entry->head);
- 			list_add_tail(&entry->head, &entry->man->list);
- 			entry->state = VMW_CMDBUF_RES_COMMITTED;
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c b/drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c
-index cd2621c8db38..cc8b1d943c55 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c
-@@ -2547,6 +2547,8 @@ static int vmw_cmd_dx_so_define(struct vmw_private *dev_priv,
- 
- 	so_type = vmw_so_cmd_to_type(header->id);
- 	res = vmw_context_cotable(ctx_node->ctx, vmw_so_cotables[so_type]);
-+	if (IS_ERR(res))
-+		return PTR_ERR(res);
- 	cmd = container_of(header, typeof(*cmd), header);
- 	ret = vmw_cotable_notify(res, cmd->defined_id);
- 
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_mob.c b/drivers/gpu/drm/vmwgfx/vmwgfx_mob.c
-index 5648664f71bc..fefd7a71d764 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_mob.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_mob.c
-@@ -507,11 +507,13 @@ static void vmw_mob_pt_setup(struct vmw_mob *mob,
- {
- 	unsigned long num_pt_pages = 0;
- 	struct ttm_buffer_object *bo = mob->pt_bo;
--	struct vmw_piter save_pt_iter;
-+	struct vmw_piter save_pt_iter = {0};
- 	struct vmw_piter pt_iter;
- 	const struct vmw_sg_table *vsgt;
- 	int ret;
- 
-+	BUG_ON(num_data_pages == 0);
-+
- 	ret = ttm_bo_reserve(bo, false, true, NULL);
- 	BUG_ON(ret != 0);
- 
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_msg.c b/drivers/gpu/drm/vmwgfx/vmwgfx_msg.c
-index 4218fe00e3b1..12df4c634075 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_msg.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_msg.c
-@@ -162,6 +162,7 @@ static unsigned long vmw_port_hb_out(struct rpc_channel *channel,
- 	/* HB port can't access encrypted memory. */
- 	if (hb && !mem_encrypt_active()) {
- 		unsigned long bp = channel->cookie_high;
-+		u32 channel_id = (channel->channel_id << 16);
- 
- 		si = (uintptr_t) msg;
- 		di = channel->cookie_low;
-@@ -169,7 +170,7 @@ static unsigned long vmw_port_hb_out(struct rpc_channel *channel,
- 		VMW_PORT_HB_OUT(
- 			(MESSAGE_STATUS_SUCCESS << 16) | VMW_PORT_CMD_HB_MSG,
- 			msg_len, si, di,
--			VMWARE_HYPERVISOR_HB | (channel->channel_id << 16) |
-+			VMWARE_HYPERVISOR_HB | channel_id |
- 			VMWARE_HYPERVISOR_OUT,
- 			VMW_HYPERVISOR_MAGIC, bp,
- 			eax, ebx, ecx, edx, si, di);
-@@ -217,6 +218,7 @@ static unsigned long vmw_port_hb_in(struct rpc_channel *channel, char *reply,
- 	/* HB port can't access encrypted memory */
- 	if (hb && !mem_encrypt_active()) {
- 		unsigned long bp = channel->cookie_low;
-+		u32 channel_id = (channel->channel_id << 16);
- 
- 		si = channel->cookie_high;
- 		di = (uintptr_t) reply;
-@@ -224,7 +226,7 @@ static unsigned long vmw_port_hb_in(struct rpc_channel *channel, char *reply,
- 		VMW_PORT_HB_IN(
- 			(MESSAGE_STATUS_SUCCESS << 16) | VMW_PORT_CMD_HB_MSG,
- 			reply_len, si, di,
--			VMWARE_HYPERVISOR_HB | (channel->channel_id << 16),
-+			VMWARE_HYPERVISOR_HB | channel_id,
- 			VMW_HYPERVISOR_MAGIC, bp,
- 			eax, ebx, ecx, edx, si, di);
- 
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_resource.c b/drivers/gpu/drm/vmwgfx/vmwgfx_resource.c
-index 7b45393ad98e..3b6f6044c325 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_resource.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_resource.c
-@@ -114,6 +114,7 @@ static void vmw_resource_release(struct kref *kref)
- 	    container_of(kref, struct vmw_resource, kref);
- 	struct vmw_private *dev_priv = res->dev_priv;
- 	int id;
-+	int ret;
- 	struct idr *idr = &dev_priv->res_idr[res->func->res_type];
- 
- 	spin_lock(&dev_priv->resource_lock);
-@@ -122,7 +123,8 @@ static void vmw_resource_release(struct kref *kref)
- 	if (res->backup) {
- 		struct ttm_buffer_object *bo = &res->backup->base;
- 
--		ttm_bo_reserve(bo, false, false, NULL);
-+		ret = ttm_bo_reserve(bo, false, false, NULL);
-+		BUG_ON(ret);
- 		if (vmw_resource_mob_attached(res) &&
- 		    res->func->unbind != NULL) {
- 			struct ttm_validate_buffer val_buf;
-@@ -1001,7 +1003,9 @@ int vmw_resource_pin(struct vmw_resource *res, bool interruptible)
- 		if (res->backup) {
- 			vbo = res->backup;
- 
--			ttm_bo_reserve(&vbo->base, interruptible, false, NULL);
-+			ret = ttm_bo_reserve(&vbo->base, interruptible, false, NULL);
-+			if (ret)
-+				goto out_no_validate;
- 			if (!vbo->base.pin_count) {
- 				ret = ttm_bo_validate
- 					(&vbo->base,
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_so.c b/drivers/gpu/drm/vmwgfx/vmwgfx_so.c
-index c3a8d6e8380e..9efb4463ce99 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_so.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_so.c
-@@ -539,7 +539,8 @@ const SVGACOTableType vmw_so_cotables[] = {
- 	[vmw_so_ds] = SVGA_COTABLE_DEPTHSTENCIL,
- 	[vmw_so_rs] = SVGA_COTABLE_RASTERIZERSTATE,
- 	[vmw_so_ss] = SVGA_COTABLE_SAMPLER,
--	[vmw_so_so] = SVGA_COTABLE_STREAMOUTPUT
-+	[vmw_so_so] = SVGA_COTABLE_STREAMOUTPUT,
-+	[vmw_so_max]= SVGA_COTABLE_MAX
- };
- 
- 
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_validation.c b/drivers/gpu/drm/vmwgfx/vmwgfx_validation.c
-index 8338b1d20f2a..b09094b50c5d 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_validation.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_validation.c
-@@ -586,13 +586,13 @@ int vmw_validation_bo_validate(struct vmw_validation_context *ctx, bool intr)
- 			container_of(entry->base.bo, typeof(*vbo), base);
- 
- 		if (entry->cpu_blit) {
--			struct ttm_operation_ctx ctx = {
-+			struct ttm_operation_ctx ttm_ctx = {
- 				.interruptible = intr,
- 				.no_wait_gpu = false
- 			};
- 
- 			ret = ttm_bo_validate(entry->base.bo,
--					      &vmw_nonfixed_placement, &ctx);
-+					      &vmw_nonfixed_placement, &ttm_ctx);
- 		} else {
- 			ret = vmw_validation_bo_validate_single
- 			(entry->base.bo, intr, entry->as_mob);
+ 	return viter->addrs[viter->i];
+@@ -282,10 +267,6 @@ void vmw_piter_start(struct vmw_piter *viter, const struct vmw_sg_table *vsgt,
+ 	viter->page = &__vmw_piter_non_sg_page;
+ 	viter->pages = vsgt->pages;
+ 	switch (vsgt->mode) {
+-	case vmw_dma_phys:
+-		viter->next = &__vmw_piter_non_sg_next;
+-		viter->dma_address = &__vmw_piter_phys_addr;
+-		break;
+ 	case vmw_dma_alloc_coherent:
+ 		viter->next = &__vmw_piter_non_sg_next;
+ 		viter->dma_address = &__vmw_piter_dma_addr;
 -- 
 2.30.2
 
