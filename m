@@ -1,51 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 330093A0DD6
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Jun 2021 09:38:13 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 664533A0DD4
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Jun 2021 09:38:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 994066E091;
-	Wed,  9 Jun 2021 07:38:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B94F189F6E;
+	Wed,  9 Jun 2021 07:38:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 302 seconds by postgrey-1.36 at gabe;
- Tue, 08 Jun 2021 23:04:39 UTC
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2D5E46E110
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Jun 2021 23:04:39 +0000 (UTC)
-X-UUID: 21a70051223b4f44a767e7a447cf0fec-20210609
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID;
- bh=ZgVhymEJ5L4BrwipQZUOwi4OJWbvueZ20HB1FJkKDBM=; 
- b=mtESIbus3JwB9ymJUjjryP70c+fZs/nMHK6x2B+ZEYgiUG7KJ72RaiH9EHgltEtFaO4n8/4/z7kGtikUhA0uyGQSspl0rtz3b4wQexXx1VRwVF2BlBROZ+JRLaiuc1X/p4I8kIcwdbUjWSeNaHKF6kJ/tcuTOUXOtlCFf9uWXjk=;
-X-UUID: 21a70051223b4f44a767e7a447cf0fec-20210609
-Received: from mtkcas07.mediatek.inc [(172.21.101.84)] by mailgw02.mediatek.com
- (envelope-from <chun-jie.chen@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 1655942614; Wed, 09 Jun 2021 06:59:30 +0800
-Received: from mtkcas11.mediatek.inc (172.21.101.40) by
- mtkmbs08n2.mediatek.inc (172.21.101.56) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Wed, 9 Jun 2021 06:59:23 +0800
-Received: from mtksdccf07 (172.21.84.99) by mtkcas11.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Wed, 9 Jun 2021 06:59:23 +0800
-Message-ID: <f7fd0d7038361c7efae54ba96924105baa3fb033.camel@mediatek.com>
-Subject: Re: [PATCH v5, 4/4] soc: mediatek: mmsys: Add mt8192 mmsys routing
- table
-From: Chun-Jie Chen <chun-jie.chen@mediatek.com>
-To: Yongqiang Niu <yongqiang.niu@mediatek.com>, Chun-Kuang Hu
- <chunkuang.hu@kernel.org>
-Date: Wed, 9 Jun 2021 06:59:23 +0800
-In-Reply-To: <1618236288-1617-5-git-send-email-yongqiang.niu@mediatek.com>
-References: <1618236288-1617-1-git-send-email-yongqiang.niu@mediatek.com>
- <1618236288-1617-5-git-send-email-yongqiang.niu@mediatek.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+X-Greylist: delayed 1169 seconds by postgrey-1.36 at gabe;
+ Wed, 09 Jun 2021 03:08:28 UTC
+Received: from szxga08-in.huawei.com (szxga08-in.huawei.com [45.249.212.255])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 445C36EC77
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Jun 2021 03:08:28 +0000 (UTC)
+Received: from dggemv711-chm.china.huawei.com (unknown [172.30.72.57])
+ by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4G0BJM4Dy5z1BJmC;
+ Wed,  9 Jun 2021 10:44:03 +0800 (CST)
+Received: from dggpemm500019.china.huawei.com (7.185.36.180) by
+ dggemv711-chm.china.huawei.com (10.1.198.66) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2176.2; Wed, 9 Jun 2021 10:48:55 +0800
+Received: from ubuntu1804.huawei.com (10.67.174.98) by
+ dggpemm500019.china.huawei.com (7.185.36.180) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2176.2; Wed, 9 Jun 2021 10:48:54 +0800
+From: Pu Lehui <pulehui@huawei.com>
+To: <drawat.floss@gmail.com>, <airlied@linux.ie>, <daniel@ffwll.ch>
+Subject: [PATCH -next] drm/hyperv: Remove unused variable
+Date: Wed, 9 Jun 2021 10:49:40 +0800
+Message-ID: <20210609024940.34933-1-pulehui@huawei.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-X-MTK: N
-Content-Transfer-Encoding: base64
+Content-Type: text/plain
+X-Originating-IP: [10.67.174.98]
+X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
+ dggpemm500019.china.huawei.com (7.185.36.180)
+X-CFilter-Loop: Reflected
 X-Mailman-Approved-At: Wed, 09 Jun 2021 07:38:03 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -59,94 +50,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org,
- Project_Global_Chrome_Upstream_Group@mediatek.com, David
- Airlie <airlied@linux.ie>, Jassi Brar <jassisinghbrar@gmail.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, Dennis YC
- Hsieh <dennis-yc.hsieh@mediatek.com>, Fabien Parent <fparent@baylibre.com>,
- Rob Herring <robh+dt@kernel.org>, linux-mediatek@lists.infradead.org,
- Matthias Brugger <matthias.bgg@gmail.com>,
- linux-arm-kernel@lists.infradead.org
+Cc: zhangjinhao2@huawei.com, linux-hyperv@vger.kernel.org, pulehui@huawei.com,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gTW9uLCAyMDIxLTA0LTEyIGF0IDIyOjA0ICswODAwLCBZb25ncWlhbmcgTml1IHdyb3RlOg0K
-PiBtdDgxOTIgaGFzIGRpZmZlcmVudCByb3V0aW5nIHJlZ2lzdGVycyB0aGFuIG10ODE4Mw0KPiAN
-Cj4gU2lnbmVkLW9mZi1ieTogWW9uZ3FpYW5nIE5pdSA8eW9uZ3FpYW5nLm5pdUBtZWRpYXRlay5j
-b20+DQo+IC0tLQ0KPiAgZHJpdmVycy9zb2MvbWVkaWF0ZWsvbXQ4MTkyLW1tc3lzLmggfCA2OA0K
-PiArKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrDQo+ICBkcml2ZXJzL3NvYy9t
-ZWRpYXRlay9tdGstbW1zeXMuYyAgICB8ICA3ICsrKysNCj4gIDIgZmlsZXMgY2hhbmdlZCwgNzUg
-aW5zZXJ0aW9ucygrKQ0KPiAgY3JlYXRlIG1vZGUgMTAwNjQ0IGRyaXZlcnMvc29jL21lZGlhdGVr
-L210ODE5Mi1tbXN5cy5oDQo+IA0KPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9zb2MvbWVkaWF0ZWsv
-bXQ4MTkyLW1tc3lzLmgNCj4gYi9kcml2ZXJzL3NvYy9tZWRpYXRlay9tdDgxOTItbW1zeXMuaA0K
-PiBuZXcgZmlsZSBtb2RlIDEwMDY0NA0KPiBpbmRleCAwMDAwMDAwLi4zMTc5MDI5DQo+IC0tLSAv
-ZGV2L251bGwNCj4gKysrIGIvZHJpdmVycy9zb2MvbWVkaWF0ZWsvbXQ4MTkyLW1tc3lzLmgNCj4g
-QEAgLTAsMCArMSw2OCBAQA0KPiArLyogU1BEWC1MaWNlbnNlLUlkZW50aWZpZXI6IEdQTC0yLjAt
-b25seSAqLw0KPiArDQo+ICsjaWZuZGVmIF9fU09DX01FRElBVEVLX01UODE5Ml9NTVNZU19IDQo+
-ICsjZGVmaW5lIF9fU09DX01FRElBVEVLX01UODE5Ml9NTVNZU19IDQo+ICsNCj4gKyNkZWZpbmUg
-TVQ4MTkyX01NU1lTX09WTF9NT1VUX0VOCQkweGYwNA0KPiArI2RlZmluZSBNVDgxOTJfRElTUF9P
-VkwxXzJMX01PVVRfRU4JCTB4ZjA4DQo+ICsjZGVmaW5lIE1UODE5Ml9ESVNQX09WTDBfMkxfTU9V
-VF9FTgkJMHhmMTgNCj4gKyNkZWZpbmUgTVQ4MTkyX0RJU1BfT1ZMMF9NT1VUX0VOCQkweGYxYw0K
-PiArI2RlZmluZSBNVDgxOTJfRElTUF9SRE1BMF9TRUxfSU4JCTB4ZjJjDQo+ICsjZGVmaW5lIE1U
-ODE5Ml9ESVNQX1JETUEwX1NPVVRfU0VMCQkweGYzMA0KPiArI2RlZmluZSBNVDgxOTJfRElTUF9D
-Q09SUjBfU09VVF9TRUwJCTB4ZjM0DQo+ICsjZGVmaW5lIE1UODE5Ml9ESVNQX0FBTDBfU0VMX0lO
-CQkJMHhmMzgNCj4gKyNkZWZpbmUgTVQ4MTkyX0RJU1BfRElUSEVSMF9NT1VUX0VOCQkweGYzYw0K
-PiArI2RlZmluZSBNVDgxOTJfRElTUF9EU0kwX1NFTF9JTgkJCTB4ZjQwDQo+ICsjZGVmaW5lIE1U
-ODE5Ml9ESVNQX09WTDJfMkxfTU9VVF9FTgkJMHhmNGMNCj4gKw0KPiArI2RlZmluZSBNVDgxOTJf
-RElTUF9PVkwwX0dPX0JMRU5ECQkJQklUKDApDQo+ICsjZGVmaW5lIE1UODE5Ml9ESVRIRVIwX01P
-VVRfSU5fRFNJMAkJCUJJVCgwKQ0KPiArI2RlZmluZSBNVDgxOTJfT1ZMMF9NT1VUX0VOX0RJU1Bf
-UkRNQTAJCQlCSVQoMCkNCj4gKyNkZWZpbmUgTVQ4MTkyX09WTDJfMkxfTU9VVF9FTl9SRE1BNAkJ
-CUJJVCgwKQ0KPiArI2RlZmluZSBNVDgxOTJfRElTUF9PVkwwX0dPX0JHCQkJCUJJVCgxKQ0KPiAr
-I2RlZmluZSBNVDgxOTJfRElTUF9PVkwwXzJMX0dPX0JMRU5ECQkJQklUKDIpDQo+ICsjZGVmaW5l
-IE1UODE5Ml9ESVNQX09WTDBfMkxfR09fQkcJCQlCSVQoMykNCj4gKyNkZWZpbmUgTVQ4MTkyX09W
-TDFfMkxfTU9VVF9FTl9SRE1BMQkJCUJJVCg0KQ0KPiArI2RlZmluZSBNVDgxOTJfT1ZMMF9NT1VU
-X0VOX09WTDBfMkwJCQlCSVQoNCkNCj4gKyNkZWZpbmUgTVQ4MTkyX1JETUEwX1NFTF9JTl9PVkww
-XzJMCQkJMHgzDQo+ICsjZGVmaW5lIE1UODE5Ml9SRE1BMF9TT1VUX0NPTE9SMAkJCTB4MQ0KPiAr
-I2RlZmluZSBNVDgxOTJfQ0NPUlIwX1NPVVRfQUFMMAkJCQkweDENCj4gKyNkZWZpbmUgTVQ4MTky
-X0FBTDBfU0VMX0lOX0NDT1JSMAkJCTB4MQ0KPiArI2RlZmluZSBNVDgxOTJfRFNJMF9TRUxfSU5f
-RElUSEVSMAkJCTB4MQ0KPiArDQo+ICtzdGF0aWMgY29uc3Qgc3RydWN0IG10a19tbXN5c19yb3V0
-ZXMgbW1zeXNfbXQ4MTkyX3JvdXRpbmdfdGFibGVbXSA9DQo+IHsNCj4gKwl7DQo+ICsJCUREUF9D
-T01QT05FTlRfT1ZMXzJMMCwgRERQX0NPTVBPTkVOVF9SRE1BMCwNCj4gKwkJTVQ4MTkyX0RJU1Bf
-T1ZMMF8yTF9NT1VUX0VOLA0KPiBNVDgxOTJfT1ZMMF9NT1VUX0VOX0RJU1BfUkRNQTAsDQo+ICsJ
-fSwgew0KPiArCQlERFBfQ09NUE9ORU5UX09WTF8yTDIsIEREUF9DT01QT05FTlRfUkRNQTQsDQo+
-ICsJCU1UODE5Ml9ESVNQX09WTDJfMkxfTU9VVF9FTiwNCj4gTVQ4MTkyX09WTDJfMkxfTU9VVF9F
-Tl9SRE1BNA0KPiArCX0sIHsNCj4gKwkJRERQX0NPTVBPTkVOVF9ESVRIRVIsIEREUF9DT01QT05F
-TlRfRFNJMCwNCj4gKwkJTVQ4MTkyX0RJU1BfRElUSEVSMF9NT1VUX0VOLA0KPiBNVDgxOTJfRElU
-SEVSMF9NT1VUX0lOX0RTSTANCj4gKwl9LCB7DQo+ICsJCUREUF9DT01QT05FTlRfT1ZMXzJMMCwg
-RERQX0NPTVBPTkVOVF9SRE1BMCwNCj4gKwkJTVQ4MTkyX0RJU1BfUkRNQTBfU0VMX0lOLCBNVDgx
-OTJfUkRNQTBfU0VMX0lOX09WTDBfMkwNCj4gKwl9LCB7DQo+ICsJCUREUF9DT01QT05FTlRfQ0NP
-UlIsIEREUF9DT01QT05FTlRfQUFMMCwNCj4gKwkJTVQ4MTkyX0RJU1BfQUFMMF9TRUxfSU4sIE1U
-ODE5Ml9BQUwwX1NFTF9JTl9DQ09SUjANCj4gKwl9LCB7DQo+ICsJCUREUF9DT01QT05FTlRfRElU
-SEVSLCBERFBfQ09NUE9ORU5UX0RTSTAsDQo+ICsJCU1UODE5Ml9ESVNQX0RTSTBfU0VMX0lOLCBN
-VDgxOTJfRFNJMF9TRUxfSU5fRElUSEVSMA0KPiArCX0sIHsNCj4gKwkJRERQX0NPTVBPTkVOVF9S
-RE1BMCwgRERQX0NPTVBPTkVOVF9DT0xPUjAsDQo+ICsJCU1UODE5Ml9ESVNQX1JETUEwX1NPVVRf
-U0VMLCBNVDgxOTJfUkRNQTBfU09VVF9DT0xPUjANCj4gKwl9LCB7DQo+ICsJCUREUF9DT01QT05F
-TlRfQ0NPUlIsIEREUF9DT01QT05FTlRfQUFMMCwNCj4gKwkJTVQ4MTkyX0RJU1BfQ0NPUlIwX1NP
-VVRfU0VMLCBNVDgxOTJfQ0NPUlIwX1NPVVRfQUFMMA0KPiArCX0sIHsNCj4gKwkJRERQX0NPTVBP
-TkVOVF9PVkwwLCBERFBfQ09NUE9ORU5UX09WTF8yTDAsDQo+ICsJCU1UODE5Ml9NTVNZU19PVkxf
-TU9VVF9FTiwgTVQ4MTkyX0RJU1BfT1ZMMF9HT19CRywNCj4gKwl9LCB7DQo+ICsJCUREUF9DT01Q
-T05FTlRfT1ZMXzJMMCwgRERQX0NPTVBPTkVOVF9SRE1BMCwNCj4gKwkJTVQ4MTkyX01NU1lTX09W
-TF9NT1VUX0VOLCBNVDgxOTJfRElTUF9PVkwwXzJMX0dPX0JMRU5ELA0KPiArCX0NCj4gK307DQo+
-ICsNCj4gKyNlbmRpZiAvKiBfX1NPQ19NRURJQVRFS19NVDgxOTJfTU1TWVNfSCAqLw0KPiArDQo+
-IGRpZmYgLS1naXQgYS9kcml2ZXJzL3NvYy9tZWRpYXRlay9tdGstbW1zeXMuYw0KPiBiL2RyaXZl
-cnMvc29jL21lZGlhdGVrL210ay1tbXN5cy5jDQo+IGluZGV4IDc5ZTU1MTUuLmM3NTU2MTcgMTAw
-NjQ0DQo+IC0tLSBhL2RyaXZlcnMvc29jL21lZGlhdGVrL210ay1tbXN5cy5jDQo+ICsrKyBiL2Ry
-aXZlcnMvc29jL21lZGlhdGVrL210ay1tbXN5cy5jDQo+IEBAIC0xMiw2ICsxMiw3IEBADQo+ICAN
-Cj4gICNpbmNsdWRlICJtdGstbW1zeXMuaCINCj4gICNpbmNsdWRlICJtdDgxODMtbW1zeXMuaCIN
-Cj4gKyNpbmNsdWRlICJtdDgxOTItbW1zeXMuaCINCj4gIA0KPiAgc3RhdGljIGNvbnN0IHN0cnVj
-dCBtdGtfbW1zeXNfZHJpdmVyX2RhdGEgbXQyNzAxX21tc3lzX2RyaXZlcl9kYXRhID0NCj4gew0K
-PiAgCS5jbGtfZHJpdmVyID0gImNsay1tdDI3MDEtbW0iLA0KPiBAQCAtNDUsNiArNDYsMTIgQEAN
-Cj4gIAkubnVtX3JvdXRlcyA9IEFSUkFZX1NJWkUobW1zeXNfbXQ4MTgzX3JvdXRpbmdfdGFibGUp
-LA0KPiAgfTsNCj4gIA0KPiArc3RhdGljIGNvbnN0IHN0cnVjdCBtdGtfbW1zeXNfZHJpdmVyX2Rh
-dGEgbXQ4MTkyX21tc3lzX2RyaXZlcl9kYXRhID0NCj4gew0KPiArCS5jbGtfZHJpdmVyID0gImNs
-ay1tdDgxOTItbW0iLA0KPiArCS5yb3V0ZXMgPSBtbXN5c19tdDgxOTJfcm91dGluZ190YWJsZSwN
-Cj4gKwkubnVtX3JvdXRlcyA9IEFSUkFZX1NJWkUobW1zeXNfbXQ4MTkyX3JvdXRpbmdfdGFibGUp
-LA0KPiArfTsNCj4gKw0KPiAgc3RydWN0IG10a19tbXN5cyB7DQo+ICAJdm9pZCBfX2lvbWVtICpy
-ZWdzOw0KPiAgCWNvbnN0IHN0cnVjdCBtdGtfbW1zeXNfZHJpdmVyX2RhdGEgKmRhdGE7DQoNCkhp
-IFlvbmdxaWFuZywNCg0KVGhlcmUgaXMgODE5MiBtbXN5cyBjb21wYXRpYmxlIGRhdGEgaW4gWzFd
-LCBidXQgc2VlbXMgdG8gbGFjayBvZiBpdCBpbg0KdGhpcyBwYXRjaCwgYmVjYXVzZSBtbSBjbG9j
-ayBkcml2ZXIgd2lsbCBiZSBib3VuZCB0byBwbGF0Zm9ybSBkZXZpY2UgDQppbiBtdGtfbW1zeXNf
-cHJvYmUuDQoNClsxXSANCmh0dHBzOi8vcGF0Y2h3b3JrLmtlcm5lbC5vcmcvcHJvamVjdC9saW51
-eC1tZWRpYXRlay9wYXRjaC8xNjA5ODE1OTkzLTIyNzQ0LTExLWdpdC1zZW5kLWVtYWlsLXlvbmdx
-aWFuZy5uaXVAbWVkaWF0ZWsuY29tLw0KDQpCZXN0IFJlZ2FyZHMsDQpDaHVuLUppZQ0K
+Fixes gcc '-Wunused-const-variable' warning:
+  drivers/gpu/drm/hyperv/hyperv_drm_modeset.c:152:23: warning:
+    'hyperv_modifiers' defined but not used [-Wunused-const-variable=]
+
+Signed-off-by: Pu Lehui <pulehui@huawei.com>
+---
+ drivers/gpu/drm/hyperv/hyperv_drm_modeset.c | 5 -----
+ 1 file changed, 5 deletions(-)
+
+diff --git a/drivers/gpu/drm/hyperv/hyperv_drm_modeset.c b/drivers/gpu/drm/hyperv/hyperv_drm_modeset.c
+index 02718e3e859e..3f83493909e6 100644
+--- a/drivers/gpu/drm/hyperv/hyperv_drm_modeset.c
++++ b/drivers/gpu/drm/hyperv/hyperv_drm_modeset.c
+@@ -149,11 +149,6 @@ static const uint32_t hyperv_formats[] = {
+ 	DRM_FORMAT_XRGB8888,
+ };
+ 
+-static const uint64_t hyperv_modifiers[] = {
+-	DRM_FORMAT_MOD_LINEAR,
+-	DRM_FORMAT_MOD_INVALID
+-};
+-
+ static inline int hyperv_pipe_init(struct hyperv_drm_device *hv)
+ {
+ 	int ret;
+-- 
+2.17.1
 
