@@ -1,60 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 174B53A157D
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Jun 2021 15:24:09 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B6F73A15D4
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Jun 2021 15:42:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C44856E30F;
-	Wed,  9 Jun 2021 13:24:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D340489F0B;
+	Wed,  9 Jun 2021 13:42:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com
- [IPv6:2a00:1450:4864:20::433])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D3E396E334
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Jun 2021 13:24:04 +0000 (UTC)
-Received: by mail-wr1-x433.google.com with SMTP id m18so25499730wrv.2
- for <dri-devel@lists.freedesktop.org>; Wed, 09 Jun 2021 06:24:04 -0700 (PDT)
+Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com
+ [IPv6:2a00:1450:4864:20::42d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EF43789F0B
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Jun 2021 13:42:19 +0000 (UTC)
+Received: by mail-wr1-x42d.google.com with SMTP id a11so23678198wrt.13
+ for <dri-devel@lists.freedesktop.org>; Wed, 09 Jun 2021 06:42:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=t3Or10sfr9dZmBseRAQSnnc/yUYQ2O/mJsEgLeSYKwM=;
- b=JuYQd3nbizfY0ZCj6hVbkzT3jlZJdcVChEj0aRrgNGtgTvb/t3+Mu5Fruwt8S3c1rR
- jGyRjbnaxcANI+TamCy2UwnZnPFfdOTs6zNTXXATY1GM0zQd+y9N6ydOI2JUlCyCPTyQ
- bgIMT+LXFPg21SdVC4AO2rd9KPK7ORphu5xNk=
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=l2+PT8j2wLOPjrm2SCPngI6zUoOeL5nfZcqt6u9mVlo=;
+ b=KXAkDyxTFazYri4GOGyGXrH+zl/LeQPkc8iZJgNsebw8E+4oftdV/9GI9BMBOcwGFl
+ bfUnnIpp9KHpYO+vcXBj+VmGureH0YNsSJDnU1WW8tEgqlEY3Bl7nEZmUaJ9kOSm6lyS
+ +ms6vRHswd95C3IcG8zhDzEIoL1K78CxeucLk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=t3Or10sfr9dZmBseRAQSnnc/yUYQ2O/mJsEgLeSYKwM=;
- b=lNxn6f5es3nAHd3peNxkwSVohf4mfBx3boxrXixe9SQkg2oKCUW1+jFcAhTjPzQu07
- +Umo3uXggrknJlXrP7hvJVrc13HP+Ba3g5gd0Wvala3GWHNwN2DtzqPdTCqY6k25+sea
- Mpz53sB/QI1pc+gCsyWTZzH4CbaJrXO2USTCgtuGvR2RYPZgPU/rBfKTmJIS5Tj3M+IP
- xGfv7sacaEkt/XFbSMD5CKtxl/cew8wMW4ATVN1AkTdSdSoTz+wGWazti/l1UQcvIzDQ
- z54waAAFd2SEQ15jM/dhxSMQBvWFTG3GlIdVZDUTBRzVQ5YAu0vTDp1WkMr5/E/TUUov
- LwVw==
-X-Gm-Message-State: AOAM5324QqKPQRqKoy/1H/tcW0UcoIHfox83Nbf5BKgc08iyF/c9SLqD
- b+ZWa2ev4gIrwfprcFoLobikcQ==
-X-Google-Smtp-Source: ABdhPJz9IU3Wj2CNkH7/kTpjZ/hDJkBTL/24zXgdwsn+jgwitDx4lydzLmF/coTC+2cdcILmnOAdfw==
-X-Received: by 2002:adf:a401:: with SMTP id d1mr28026610wra.55.1623245043445; 
- Wed, 09 Jun 2021 06:24:03 -0700 (PDT)
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=l2+PT8j2wLOPjrm2SCPngI6zUoOeL5nfZcqt6u9mVlo=;
+ b=R1pU0kJW5D/+ikoQuPwhQnrOlu1/K+FWuPBwjmma0vginR7dWMaWNEmMZx4U+hzW7N
+ fh7Bq/tXy49qChqpyntmixYmYq+3ArSzcmp0PQFyIMUM2dAbjgh2b9FNPOJ1i7AeWz0a
+ F7DHILESDqjdg8tQyRRiNxsgL3zc8sUmpSzKCwEbvMLTZvBetLS2BU1BDeO2/PcjSiE9
+ xLAlpiDQyw+jUcy0ir+LSf5ahcVy7q8bfwS9VzhAv25zjRA6f9e5u4hYKzqudjQain6n
+ v9U/M8WyIFmgEFtKs2Sw9YXl+NRoY4ZJKev5UqtUN3S+N3WuTXiqRhLHbpr9Lmaf3cz8
+ T+Cg==
+X-Gm-Message-State: AOAM5324CpYHTaKXEbj5GbtUTAhR+dW0PrVzjaLlLOAJ4q2rpofbU5e1
+ WxILqUCbANzu0eLfCTxzQt9mhg==
+X-Google-Smtp-Source: ABdhPJwVFHzTRLLP//xITmdUf6/1a/t8wgLU63Ff4q0MCqF3YqFMWg6QmrfYMtp7DvsKklpoGgn0LQ==
+X-Received: by 2002:a5d:684d:: with SMTP id o13mr28419218wrw.174.1623246138125; 
+ Wed, 09 Jun 2021 06:42:18 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id x125sm19296439wmg.37.2021.06.09.06.24.02
+ by smtp.gmail.com with ESMTPSA id g10sm23657338wrq.12.2021.06.09.06.42.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 09 Jun 2021 06:24:02 -0700 (PDT)
-Date: Wed, 9 Jun 2021 15:24:00 +0200
+ Wed, 09 Jun 2021 06:42:17 -0700 (PDT)
+Date: Wed, 9 Jun 2021 15:42:15 +0200
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Matthew Brost <matthew.brost@intel.com>
-Subject: Re: [Intel-gfx] [PATCH 13/20] drm/i915/guc: Relax CTB response timeout
-Message-ID: <YMDA8IqqZ5IgvRf4@phenom.ffwll.local>
-References: <20210603051630.2635-1-matthew.brost@intel.com>
- <20210603051630.2635-14-matthew.brost@intel.com>
- <YLnlQyPJZygHTHxk@phenom.ffwll.local>
- <20210604183539.GA26392@sdutt-i7>
+To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>
+Subject: Re: handle exclusive fence similar to shared ones
+Message-ID: <YMDFNyqzCfgsJnn2@phenom.ffwll.local>
+References: <20210606100312.119176-1-christian.koenig@amd.com>
+ <CAKMK7uGX7z2KdymWus2fk9VR57wU+Rj4jcS0j=j_sYwaH8zrLg@mail.gmail.com>
+ <3fdb2dbe-748b-5297-277f-6a8394100725@gmail.com>
+ <YL42scoTq8RUuEkD@phenom.ffwll.local>
+ <78ab1102-0b59-36ba-b5ef-526356ffe630@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20210604183539.GA26392@sdutt-i7>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <78ab1102-0b59-36ba-b5ef-526356ffe630@gmail.com>
 X-Operating-System: Linux phenom 5.10.32scarlett+ 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -68,146 +71,223 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: daniel.vetter@intel.com, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
+Cc: dri-devel <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jun 04, 2021 at 11:35:39AM -0700, Matthew Brost wrote:
-> On Fri, Jun 04, 2021 at 10:33:07AM +0200, Daniel Vetter wrote:
-> > On Wed, Jun 02, 2021 at 10:16:23PM -0700, Matthew Brost wrote:
-> > > From: Michal Wajdeczko <michal.wajdeczko@intel.com>
-> > > 
-> > > In upcoming patch we will allow more CTB requests to be sent in
-> > > parallel to the GuC for processing, so we shouldn't assume any more
-> > > that GuC will always reply without 10ms.
-> > > 
-> > > Use bigger value from CONFIG_DRM_I915_GUC_CTB_TIMEOUT instead.
-> > > 
-> > > v2: Add CONFIG_DRM_I915_GUC_CTB_TIMEOUT config option
-> > > 
-> > > Signed-off-by: Michal Wajdeczko <michal.wajdeczko@intel.com>
-> > > Signed-off-by: Matthew Brost <matthew.brost@intel.com>
-> > > Reviewed-by: Matthew Brost <matthew.brost@intel.com>
-> > 
-> > So this is a rant, but for upstream we really need to do better than
-> > internal:
-> > 
-> > - The driver must work by default in the optimal configuration.
-> > 
-> > - Any config change that we haven't validated _must_ taint the kernel
-> >   (this is especially for module options, but also for config settings)
-> > 
-> > - Config need a real reason beyond "was useful for bring-up".
-> > 
-> > Our internal tree is an absolute disaster right now, with multi-line
-> > kernel configs (different on each platform) and bespoke kernel config or
-> > the driver just fails. We're the expert on our own hw, we should know how
-> > it works, not offload that to users essentially asking them "how shitty do
-> > you think Intel hw is in responding timely".
-> > 
-> > Yes I know there's a lot of these there already, they don't make a lot of
-> > sense either.
-> > 
-> > Except if there's a real reason for this (aside from us just offloading
-> > testing to our users instead of doing it ourselves properly) I think we
-> > should hardcode this, with a comment explaining why. Maybe with a switch
-> > between the PF/VF case once that's landed.
-> > 
-> > > ---
-> > >  drivers/gpu/drm/i915/Kconfig.profile      | 10 ++++++++++
-> > >  drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c |  5 ++++-
-> > >  2 files changed, 14 insertions(+), 1 deletion(-)
-> > > 
-> > > diff --git a/drivers/gpu/drm/i915/Kconfig.profile b/drivers/gpu/drm/i915/Kconfig.profile
-> > > index 39328567c200..0d5475b5f28a 100644
-> > > --- a/drivers/gpu/drm/i915/Kconfig.profile
-> > > +++ b/drivers/gpu/drm/i915/Kconfig.profile
-> > > @@ -38,6 +38,16 @@ config DRM_I915_USERFAULT_AUTOSUSPEND
-> > >  	  May be 0 to disable the extra delay and solely use the device level
-> > >  	  runtime pm autosuspend delay tunable.
-> > >  
-> > > +config DRM_I915_GUC_CTB_TIMEOUT
-> > > +	int "How long to wait for the GuC to make forward progress on CTBs (ms)"
-> > > +	default 1500 # milliseconds
-> > > +	range 10 60000
-> > 
-> > Also range is definitely off, drm/scheduler will probably nuke you
-> > beforehand :-)
-> > 
-> > That's kinda another issue I have with all these kconfig knobs: Maybe we
-> > need a knob for "relax with reset attempts, my workloads overload my gpus
-> > routinely", which then scales _all_ timeouts proportionally. But letting
-> > the user set them all, with silly combiniations like resetting the
-> > workload before heartbeat or stuff like that doesn't make much sense.
-> >
+On Mon, Jun 07, 2021 at 06:25:42PM +0200, Christian König wrote:
 > 
-> Yes, the code as is the user could do some wacky stuff that doesn't make
-> sense at all.
->  
-> > Anyway, tiny patch so hopefully I can leave this one out for now until
-> > we've closed this.
 > 
-> No issue leaving this out as blocking CTBs are never really used anyways
-> until SRIOV aside from setup / debugging. That being said, we might
-> still want a higher hardcoded value in the meantime, perhaps around a
-> second. I can follow up on that if needed.
+> Am 07.06.21 um 17:09 schrieb Daniel Vetter:
+> > On Mon, Jun 07, 2021 at 11:59:11AM +0200, Christian König wrote:
+> > > Am 07.06.21 um 10:58 schrieb Daniel Vetter:
+> > > > Hi Christian,
+> > > > 
+> > > > So unfortunately I got distracted with some i915 bugs and fun last
+> > > > week completely, so didn't get around to it.
+> > > > 
+> > > > On Sun, Jun 6, 2021 at 12:03 PM Christian König
+> > > > <ckoenig.leichtzumerken@gmail.com> wrote:
+> > > > > Hi Daniel,
+> > > > > 
+> > > > > as discussed here are the patches which change the handle around exclusive fence handling.
+> > > > > 
+> > > > > The main problem seems to have been the dma_resv_test_signaled() function which ignored the exclusive fence when shared fences where present. This was already rather inconsistent since dma_fence_wait_timeout() takes the exclusive one into account even if shared ones are present.
+> > > > > 
+> > > > > The second patch then fixes nouveu to also always take the exclusive fence into account.
+> > > > > 
+> > > > > The third then removes the workaround in amdgpu around the VM page table clearing handling. Since I'm not sure if there are no other places which relies on the existing behavior I will hold this one back for a while.
+> > > > > 
+> > > > > Is that what you had in mind as well?
+> > > > I think from the semantics something where we treat the exclusive
+> > > > fence as an IPC mechanism that the kernel doesn't care much about
+> > > > (exceptions apply), and but more consistently count all access from
+> > > > any CS as a shared fence. So in a way what you've done here, and also
+> > > > what you've done in the earlier series with setting the read/write
+> > > > flags on shared fences.
+> > > Yeah, I think that this will work for me as well.
+> > > 
+> > > > For actual approach what I've picked is a bit of what amdgpu does +
+> > > > what other drivers do with NO_IMPLICIT, but with the bugs fixed
+> > > > (there's a bunch of them): Essentially we try to always set the shared
+> > > > fences, and exclusive fences are set additionally on top when the
+> > > > implicit sync IPC calls for that. And on the depdendency side we do
+> > > > clever logic to only take in the exclusive fence when required.
+> > > > Currently for amdgpu this means introspecting the fence owner (there's
+> > > > some nasty tricks there I think to do to make this work and not be a
+> > > > security bug), for others that's done with the NO_IMPLICIT flag (but
+> > > > again some nasty corners there, which I think a bunch of drivers get
+> > > > wrong).
+> > > For amdgpu I have been pondering on the following idea  last week to make it
+> > > behave the same as the other drivers:
+> > > 
+> > > 1. We allow setting the explicit fence without touching the shared fences.
+> > >      As far as I understand it this is also part of your idea above.
+> > > 
+> > > 2. During command submission amdgpu uses a dma_fence_chain node to chain
+> > > together the new CS with the existing explicit sync.
+> > > 
+> > > 3. During command synchronization amdgpu takes a look at the explicit fence
+> > > and walks the dma_fence_chain history.
+> > >      Submissions from the same process (the owner) are not synced to (e.g.
+> > > same behavior as of today), but as soon as we see something which doesn't
+> > > fit into the amdgpu CS model we sync to the remaining chain.
+> > > 
+> > > That would give us both keeping the current amdgpu CS behavior (which we
+> > > then can extend) as well as setting the explicit fence according to the
+> > > DMA-buf rules.
+> > So what I had in mind is:
+> > 
+> > 1. we reserve 3 additional shared slots (so one more than currently)
+> > 
+> > 2. when we pull in depedencies we ignore exclusive fences when they're an
+> > amdgpu/amdkfd one, only when it's a OWNER_UNKNOWN do we take it
+> > 
+> > 3. above obviously breaks buffer moves, to fix that we always add the
+> > ttm_bo->moving fence. If amggpu would support a "ignore implicit fencing"
+> > flag like other drivers with NO_IMPLICIT, then we'd also need to overrule
+> > that for a dynamically shared dma-buf (since for those we don't have a
+> > ->moving fence slot). Non-dynamic dma-buf aren't a problem since they are
+> > guaranteed to be pinned, so can't move.
+> > 
+> > 4. When we add fences we
+> > - always add the exclusive fence (like in my patch)
+> > - keep the current set of shared fences
+> > - add our own fences also as a shared one (so that amdpug can ignore the
+> >    exclusive fence for any sync against amdgpu, whether same owner or other
+> >    owner). This is the critical piece to make sure the current uapi for
+> >    amdgpu isn't changed
+> > - add the previous exclusive fence if a) there is one and b) it's not an
+> >    amdgpu/kfd one. This is where we need the additional fence slot
+> 
+> That won't work. The problem is that you have only one exclusive slot, but
+> multiple submissions which execute out of order and compose the buffer
+> object together.
+> 
+> That's why I suggested to use the dma_fence_chain to circumvent this.
+> 
+> But if you are ok that amdgpu sets the exclusive fence without changing the
+> shared ones than the solution I've outlined should already work as well.
 
-Yeah just patch with updated hardcoded value sounds good to me.
+Uh that's indeed nasty. Can you give me the details of the exact use-case
+so I can read the userspace code and come up with an idea? I was assuming
+that even with parallel processing there's at least one step at the end
+that unifies it for the next process.
+
+If we can't detect this somehow then it means we do indeed have to create
+a fence_chain for the exclusive slot for everything, which would be nasty.
+Or a large-scale redo across all drivers, which is probaly even more
+nasty.
 -Daniel
 
+
 > 
-> Matt
+> Regards,
+> Christian.
 > 
-> > -Daniel
 > > 
-> > > +	help
-> > > +	  Configures the default timeout waiting for GuC the to make forward
-> > > +	  progress on CTBs. e.g. Waiting for a response to a requeset.
-> > > +
-> > > +	  A range of 10 ms to 60000 ms is allowed.
-> > > +
-> > >  config DRM_I915_HEARTBEAT_INTERVAL
-> > >  	int "Interval between heartbeat pulses (ms)"
-> > >  	default 2500 # milliseconds
-> > > diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
-> > > index 916c2b80c841..cf1fb09ef766 100644
-> > > --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
-> > > +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
-> > > @@ -436,6 +436,7 @@ static int ct_write(struct intel_guc_ct *ct,
-> > >   */
-> > >  static int wait_for_ct_request_update(struct ct_request *req, u32 *status)
-> > >  {
-> > > +	long timeout;
-> > >  	int err;
-> > >  
-> > >  	/*
-> > > @@ -443,10 +444,12 @@ static int wait_for_ct_request_update(struct ct_request *req, u32 *status)
-> > >  	 * up to that length of time, then switch to a slower sleep-wait loop.
-> > >  	 * No GuC command should ever take longer than 10ms.
-> > >  	 */
-> > > +	timeout = CONFIG_DRM_I915_GUC_CTB_TIMEOUT;
-> > > +
-> > >  #define done INTEL_GUC_MSG_IS_RESPONSE(READ_ONCE(req->status))
-> > >  	err = wait_for_us(done, 10);
-> > >  	if (err)
-> > > -		err = wait_for(done, 10);
-> > > +		err = wait_for(done, timeout);
-> > >  #undef done
-> > >  
-> > >  	if (unlikely(err))
-> > > -- 
-> > > 2.28.0
+> > At first glance this throws away foreign exclusive fences, which could
+> > break implicit sync. But by moving foreign exclusive fences to the shared
+> > slot, we can rely on the amdgpu implicit sync logic of only looking at the
+> > owner (and not whether a fence is exclusive of shared), and we get the
+> > right implicit fencing even on subsequent CS.
+> > 
+> > And for foreign drivers it also all works, because the exlusive fence is
+> > always set, and because amdgpu doesn't ignore foreign fences (even if
+> > they're set as shared we force a sync iirc) there's a dependency chain
+> > that makes sure everything is correct and ordered. Same for dma-buf
+> > poll/sync_file export, that would then work on amdgpu correctly too
+> > because the exclusive slot is set.
+> > 
+> > The only downside here is that amdgpu always sets the exclusive fence
+> > slot, but that can't be fixed without an uapi revision since the kernel
+> > simply doesn't know that. But amdgpu isn't the only driver, panfrost does
+> > the same so *shrugh*.
+> > 
+> > So I think this should work but
+> > - it's a hellalot of auditing to make sure I didn't miss anything
+> > - and it's like attempt no 5 or so of me trying to slice this knot without
+> >    breaking anything, or changing the current dma_resv rules.
+> > 
+> > > > There's two reasons I'm more leaning in that direction:
+> > > > - The annoying thing is that the audit on the dependency side is a lot
+> > > > trickier since everyone rolls their own dependency handling.
+> > > Yes, absolutely agree. That's why I said we need to have use case based
+> > > functionality here.
 > > > 
-> > > _______________________________________________
-> > > Intel-gfx mailing list
-> > > Intel-gfx@lists.freedesktop.org
-> > > https://lists.freedesktop.org/mailman/listinfo/intel-gfx
+> > > In other words what we need is something like an
+> > > dma_resv_for_each_sync_fence(for_write) macro.
+> > > 
+> > > E.g. drivers then only do something like:
+> > > 
+> > > dma_resv_for_each_sync_fence(resv, for_write, fence)
+> > >      driver_specific_syncing_to_fence(fence);
+> > > 
+> > > And not every driver calling the underlying functions on it's own and then
+> > > doing whatever it pleases.
+> > Yeah, but amdgpu can't use those, so we're back to square one. amdgpu
+> > currently has zero information from userspace about which CS are writes
+> > and which are not. Other drivers (aside from panfrost) generally have
+> > that, so they can do smarter things here.
 > > 
-> > -- 
-> > Daniel Vetter
-> > Software Engineer, Intel Corporation
-> > http://blog.ffwll.ch
+> > Also we could fairly trivially fix this by adding new uapi so that amdgpu
+> > would know this, and just oversyncing on old uerspace. But you made it
+> > pretty clear when I proposed that that this option isn't on the table.
+> > 
+> > So for now we need to be more clever to get amdgpu aligned. And then when
+> > that's done we (well you guys, maybe using the patches from Jason + a CS
+> > flag to not do implicit sync at all) can add the uapi to make this
+> > smarter.
+> > 
+> > Then, and only then, do we have the pieces to look into smarter/use-case
+> > dependent dma_resv helpers.
+> > 
+> > Also, some of these helpers already exist, and are used by the drivers
+> > derived from v3d. But amdgpu can't use them, because the "just oversync
+> > for current userspace" approach you nacked. So you'll have to live with
+> > your own quirks. I don't want to make helpers for that because then other
+> > drivers might come up with the idea to use them :-)
+> > 
+> > > > If we don't change (for now at least) the rules around dma_resv then an
+> > > > oversight in the audit isn't going to be a huge problem.
+> > > > - Wording becomes inconsistent: An exclusive fence which is also a
+> > > > shared is a bit confusing. I think it's better if we stick to the
+> > > > current rules for dma_resv, change the semantics we want in drivers (I
+> > > > think that's doable, at maybe some code cost e.g. Jason's import ioctl
+> > > > would be simpler with your changed rules, but still doable with the
+> > > > current dma_resv rules). And then when we have that, we figure out
+> > > > what to change with the dma_resv struct/rules.
+> > > But then at least do the minimal change so that we can get amdgpu in line
+> > > with all other drivers like I outlined above.
+> > > 
+> > > We can keep that as a hack in amdgpu if that makes you feel better. Chaining
+> > > the exclusive fence together is roughly 4 times slower than the shared
+> > > approach, but I think that this is negligible compared to all the other
+> > > stuff we do.
+> > Yeah I was pondering on the chaining, and for the intentional sync it's
+> > not a problem because it's just 1 winsys buffer we touch like this. So
+> > totally fine in Jason's approach. But not for amdgpu, where with the
+> > current uapi means you have to annotate _all_ buffers as written to.
+> > 
+> > So not great, and which is why I've thrown a few variants of this idea out
+> > already as unpractical. Hence the current idea I'm toying with above.
+> > 
+> > Cheers, Daniel
+> > 
+> > 
+> > > Regards,
+> > > Christian.
+> > > 
+> > > > Wrt the patches: Good thing is that what you change here and what I've
+> > > > found thus far is 100% not overlapping, so at least we didn't waste
+> > > > time auditing the same code :-)
+> > > > 
+> > > > Cheers, Daniel
+> > > > > Regards,
+> > > > > Christian.
+> > > > > 
+> > > > > 
+> 
 
 -- 
 Daniel Vetter
