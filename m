@@ -2,57 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F01553A16C8
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Jun 2021 16:14:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8ED323A16EB
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Jun 2021 16:17:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F07966E400;
-	Wed,  9 Jun 2021 14:14:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9AD566E3F4;
+	Wed,  9 Jun 2021 14:17:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F07306E400;
- Wed,  9 Jun 2021 14:14:08 +0000 (UTC)
-IronPort-SDR: FNj0EshpGQKthOHntbKw3Q3239EmAd1nBT1P2OLEV4jZ1V+Z8KDvWw1nuZAhSJoSDZ0ZFug3rb
- R6dJISCDK/3w==
-X-IronPort-AV: E=McAfee;i="6200,9189,10010"; a="184767843"
-X-IronPort-AV: E=Sophos;i="5.83,261,1616482800"; d="scan'208";a="184767843"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Jun 2021 07:14:08 -0700
-IronPort-SDR: LxNH69iEapDqEho/93Fiayhz8oXsxZfhqx/Ji/t9cAgRmcYBd2nny2vTRYaDiUyOH5kIAhL3QP
- lBr8Bc67Os5g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.83,261,1616482800"; d="scan'208";a="635432948"
-Received: from irvmail001.ir.intel.com ([10.43.11.63])
- by fmsmga006.fm.intel.com with ESMTP; 09 Jun 2021 07:14:06 -0700
-Received: from [10.249.139.139] (mwajdecz-MOBL.ger.corp.intel.com
- [10.249.139.139])
- by irvmail001.ir.intel.com (8.14.3/8.13.6/MailSET/Hub) with ESMTP id
- 159EE5Fi032589; Wed, 9 Jun 2021 15:14:05 +0100
-Subject: Re: [Intel-gfx] [RFC PATCH 36/97] drm/i915/guc: Add non blocking CTB
- send function
-To: Matthew Brost <matthew.brost@intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-References: <20210506191451.77768-1-matthew.brost@intel.com>
- <20210506191451.77768-37-matthew.brost@intel.com>
- <375b4de4-168f-9c4c-dbb8-f42fd6303628@linux.intel.com>
- <20210525172121.GE14724@sdutt-i7>
- <0f26f76f-e066-fb23-a7b2-784bb8ee771d@linux.intel.com>
- <20210526181053.GA3435@sdutt-i7>
- <53613c13-1cab-b9bd-3922-0389600773ee@linux.intel.com>
- <20210527143514.GA24720@sdutt-i7>
- <828fe399-5319-78a9-c6e3-c0c027e08e9c@linux.intel.com>
- <20210607173101.GA11968@sdutt-i7>
-From: Michal Wajdeczko <michal.wajdeczko@intel.com>
-Message-ID: <d8bda772-6c9d-8513-d2c0-ea126ece5a24@intel.com>
-Date: Wed, 9 Jun 2021 16:14:05 +0200
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.2
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 933A26E3F4;
+ Wed,  9 Jun 2021 14:17:43 +0000 (UTC)
+IronPort-SDR: oyHcNkOYruIjsdF4JkUfYvGR1N34TYJ/Rj7bVR/wzMl4GsLSTS8hrBTIV3IcFE2HcS3zSmGIIC
+ Ej+Mw10nGYgA==
+X-IronPort-AV: E=McAfee;i="6200,9189,10010"; a="290710134"
+X-IronPort-AV: E=Sophos;i="5.83,261,1616482800"; d="scan'208";a="290710134"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Jun 2021 07:17:26 -0700
+IronPort-SDR: tcGQOeHd54GHLL7QI0ZSmbVMyjuX2oCDBGlsHWMQYV+kNoWPWRBMRTQKy2NzrBSfYuxXPkHi1c
+ gVF9zb0TxWQg==
+X-IronPort-AV: E=Sophos;i="5.83,261,1616482800"; d="scan'208";a="482401665"
+Received: from mjkelly-mobl1.ger.corp.intel.com (HELO [10.213.215.68])
+ ([10.213.215.68])
+ by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Jun 2021 07:17:24 -0700
+Subject: Re: [PATCH v2 9/9] drm/i915/gt: Setup a default migration context on
+ the GT
+To: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+References: <20210609063436.284332-1-thomas.hellstrom@linux.intel.com>
+ <20210609063436.284332-10-thomas.hellstrom@linux.intel.com>
+From: Matthew Auld <matthew.auld@intel.com>
+Message-ID: <2cd884d8-b16c-d561-ada1-bf4af2ef9830@intel.com>
+Date: Wed, 9 Jun 2021 15:17:22 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-In-Reply-To: <20210607173101.GA11968@sdutt-i7>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <20210609063436.284332-10-thomas.hellstrom@linux.intel.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,200 +54,370 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: jason.ekstrand@intel.com, daniel.vetter@intel.com,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: Chris Wilson <chris@chris-wilson.co.uk>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-On 07.06.2021 19:31, Matthew Brost wrote:
-> On Thu, May 27, 2021 at 04:11:50PM +0100, Tvrtko Ursulin wrote:
->>
->> On 27/05/2021 15:35, Matthew Brost wrote:
->>> On Thu, May 27, 2021 at 11:02:24AM +0100, Tvrtko Ursulin wrote:
->>>>
->>>> On 26/05/2021 19:10, Matthew Brost wrote:
->>>>
->>>> [snip]
->>>>
->>>>>>>>> +static int ct_send_nb(struct intel_guc_ct *ct,
->>>>>>>>> +		      const u32 *action,
->>>>>>>>> +		      u32 len,
->>>>>>>>> +		      u32 flags)
->>>>>>>>> +{
->>>>>>>>> +	struct intel_guc_ct_buffer *ctb = &ct->ctbs.send;
->>>>>>>>> +	unsigned long spin_flags;
->>>>>>>>> +	u32 fence;
->>>>>>>>> +	int ret;
->>>>>>>>> +
->>>>>>>>> +	spin_lock_irqsave(&ctb->lock, spin_flags);
->>>>>>>>> +
->>>>>>>>> +	ret = ctb_has_room(ctb, len + 1);
->>>>>>>>> +	if (unlikely(ret))
->>>>>>>>> +		goto out;
->>>>>>>>> +
->>>>>>>>> +	fence = ct_get_next_fence(ct);
->>>>>>>>> +	ret = ct_write(ct, action, len, fence, flags);
->>>>>>>>> +	if (unlikely(ret))
->>>>>>>>> +		goto out;
->>>>>>>>> +
->>>>>>>>> +	intel_guc_notify(ct_to_guc(ct));
->>>>>>>>> +
->>>>>>>>> +out:
->>>>>>>>> +	spin_unlock_irqrestore(&ctb->lock, spin_flags);
->>>>>>>>> +
->>>>>>>>> +	return ret;
->>>>>>>>> +}
->>>>>>>>> +
->>>>>>>>>      static int ct_send(struct intel_guc_ct *ct,
->>>>>>>>>      		   const u32 *action,
->>>>>>>>>      		   u32 len,
->>>>>>>>> @@ -473,6 +541,7 @@ static int ct_send(struct intel_guc_ct *ct,
->>>>>>>>>      		   u32 response_buf_size,
->>>>>>>>>      		   u32 *status)
->>>>>>>>>      {
->>>>>>>>> +	struct intel_guc_ct_buffer *ctb = &ct->ctbs.send;
->>>>>>>>>      	struct ct_request request;
->>>>>>>>>      	unsigned long flags;
->>>>>>>>>      	u32 fence;
->>>>>>>>> @@ -482,8 +551,20 @@ static int ct_send(struct intel_guc_ct *ct,
->>>>>>>>>      	GEM_BUG_ON(!len);
->>>>>>>>>      	GEM_BUG_ON(len & ~GUC_CT_MSG_LEN_MASK);
->>>>>>>>>      	GEM_BUG_ON(!response_buf && response_buf_size);
->>>>>>>>> +	might_sleep();
->>>>>>>>
->>>>>>>> Sleep is just cond_resched below or there is more?
->>>>>>>>
->>>>>>>
->>>>>>> Yes, the cond_resched.
->>>>>>>
->>>>>>>>> +	/*
->>>>>>>>> +	 * We use a lazy spin wait loop here as we believe that if the CT
->>>>>>>>> +	 * buffers are sized correctly the flow control condition should be
->>>>>>>>> +	 * rare.
->>>>>>>>> +	 */
->>>>>>>>> +retry:
->>>>>>>>>      	spin_lock_irqsave(&ct->ctbs.send.lock, flags);
->>>>>>>>> +	if (unlikely(!ctb_has_room(ctb, len + 1))) {
->>>>>>>>> +		spin_unlock_irqrestore(&ct->ctbs.send.lock, flags);
->>>>>>>>> +		cond_resched();
->>>>>>>>> +		goto retry;
->>>>>>>>> +	}
->>>>>>>>
->>>>>>>> If this patch is about adding a non-blocking send function, and below we can
->>>>>>>> see that it creates a fork:
->>>>>>>>
->>>>>>>> intel_guc_ct_send:
->>>>>>>> ...
->>>>>>>> 	if (flags & INTEL_GUC_SEND_NB)
->>>>>>>> 		return ct_send_nb(ct, action, len, flags);
->>>>>>>>
->>>>>>>>     	ret = ct_send(ct, action, len, response_buf, response_buf_size, &status);
->>>>>>>>
->>>>>>>> Then why is there a change in ct_send here, which is not the new
->>>>>>>> non-blocking path?
->>>>>>>>
->>>>>>>
->>>>>>> There is not a change to ct_send(), just to intel_guc_ct_send.
->>>>>>
->>>>>> I was doing by the diff which says:
->>>>>>
->>>>>>    static int ct_send(struct intel_guc_ct *ct,
->>>>>>    		   const u32 *action,
->>>>>>    		   u32 len,
->>>>>> @@ -473,6 +541,7 @@ static int ct_send(struct intel_guc_ct *ct,
->>>>>>    		   u32 response_buf_size,
->>>>>>    		   u32 *status)
->>>>>>    {
->>>>>> +	struct intel_guc_ct_buffer *ctb = &ct->ctbs.send;
->>>>>>    	struct ct_request request;
->>>>>>    	unsigned long flags;
->>>>>>    	u32 fence;
->>>>>> @@ -482,8 +551,20 @@ static int ct_send(struct intel_guc_ct *ct,
->>>>>>    	GEM_BUG_ON(!len);
->>>>>>    	GEM_BUG_ON(len & ~GUC_CT_MSG_LEN_MASK);
->>>>>>    	GEM_BUG_ON(!response_buf && response_buf_size);
->>>>>> +	might_sleep();
->>>>>> +	/*
->>>>>> +	 * We use a lazy spin wait loop here as we believe that if the CT
->>>>>> +	 * buffers are sized correctly the flow control condition should be
->>>>>> +	 * rare.
->>>>>> +	 */
->>>>>> +retry:
->>>>>>    	spin_lock_irqsave(&ct->ctbs.send.lock, flags);
->>>>>> +	if (unlikely(!ctb_has_room(ctb, len + 1))) {
->>>>>> +		spin_unlock_irqrestore(&ct->ctbs.send.lock, flags);
->>>>>> +		cond_resched();
->>>>>> +		goto retry;
->>>>>> +	}
->>>>>>
->>>>>> So it looks like a change to ct_send to me. Is that wrong?
->>>>
->>>> What about this part - is the patch changing the blocking ct_send or not,
->>>> and if it is why?
->>>>
->>>
->>> Yes, ct_send() changes. Sorry for the confusion.
->>>
->>> This function needs to be updated to account for the H2G space and
->>> backoff if no space is available.
->>
->> Since this one is the sleeping path, it probably can and needs to be smarter
->> than having a cond_resched busy loop added. Like sleep and get woken up when
->> there is space. Otherwise it can degenerate to busy looping via contention
->> with the non-blocking path.
->>
+On 09/06/2021 07:34, Thomas Hellström wrote:
+> From: Chris Wilson <chris@chris-wilson.co.uk>
 > 
-> That screams over enginerring a simple problem to me. If the CT channel
-> is full we are really in trouble anyways - i.e. the performance is going
-> to terrible as we overwhelmed the GuC with traffic. That being said,
-> IGTs can do this but that really isn't a real world use case. For the
-> real world, this buffer is large enough that it won't ever be full hence
-> the comment + lazy spin loop.
+> Set up a default migration context on the GT and use it from the
+> selftests.
+> Add a perf selftest and make sure we exercise LMEM if available.
 > 
-> Next, it isn't like we get an interrupt or something when space
-> becomes available so how would we wake this thread? Could we come up
-> with a convoluted scheme where we insert ops that generated an interrupt
-> at regular intervals, probably? Would it be super complicated, totally
-> unnecessary, and gain use nothing - absolutely.
+> Signed-off-by: Chris Wilson <chris@chris-wilson.co.uk>
+> Co-developed-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+> Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+> ---
+>   drivers/gpu/drm/i915/gt/intel_gt.c            |   4 +
+>   drivers/gpu/drm/i915/gt/intel_gt_types.h      |   3 +
+>   drivers/gpu/drm/i915/gt/intel_migrate.c       |   4 +-
+>   drivers/gpu/drm/i915/gt/selftest_migrate.c    | 227 +++++++++++++++++-
+>   .../drm/i915/selftests/i915_perf_selftests.h  |   1 +
+>   5 files changed, 232 insertions(+), 7 deletions(-)
 > 
-> Lastly, blocking CTBs really shouldn't ever be used. Certainly the
-> submission code doesn't use these. I think SRIOV might, but those can
-> probably be reworked too to use non-blocking. At some point we might
-> want to scrub the driver and just delete the blocking path.
+> diff --git a/drivers/gpu/drm/i915/gt/intel_gt.c b/drivers/gpu/drm/i915/gt/intel_gt.c
+> index 2161bf01ef8b..67ef057ae918 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_gt.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_gt.c
+> @@ -13,6 +13,7 @@
+>   #include "intel_gt_clock_utils.h"
+>   #include "intel_gt_pm.h"
+>   #include "intel_gt_requests.h"
+> +#include "intel_migrate.h"
+>   #include "intel_mocs.h"
+>   #include "intel_rc6.h"
+>   #include "intel_renderstate.h"
+> @@ -626,6 +627,8 @@ int intel_gt_init(struct intel_gt *gt)
+>   	if (err)
+>   		goto err_gt;
+>   
+> +	intel_migrate_init(&gt->migrate, gt);
+> +
+>   	goto out_fw;
+>   err_gt:
+>   	__intel_gt_disable(gt);
+> @@ -649,6 +652,7 @@ void intel_gt_driver_remove(struct intel_gt *gt)
+>   {
+>   	__intel_gt_disable(gt);
+>   
+> +	intel_migrate_fini(&gt->migrate);
+>   	intel_uc_driver_remove(&gt->uc);
+>   
+>   	intel_engines_release(gt);
+> diff --git a/drivers/gpu/drm/i915/gt/intel_gt_types.h b/drivers/gpu/drm/i915/gt/intel_gt_types.h
+> index fecfacf551d5..7450935f2ca8 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_gt_types.h
+> +++ b/drivers/gpu/drm/i915/gt/intel_gt_types.h
+> @@ -24,6 +24,7 @@
+>   #include "intel_reset_types.h"
+>   #include "intel_rc6_types.h"
+>   #include "intel_rps_types.h"
+> +#include "intel_migrate_types.h"
+>   #include "intel_wakeref.h"
+>   
+>   struct drm_i915_private;
+> @@ -145,6 +146,8 @@ struct intel_gt {
+>   
+>   	struct i915_vma *scratch;
+>   
+> +	struct intel_migrate migrate;
+> +
+>   	struct intel_gt_info {
+>   		intel_engine_mask_t engine_mask;
+>   		u8 num_engines;
+> diff --git a/drivers/gpu/drm/i915/gt/intel_migrate.c b/drivers/gpu/drm/i915/gt/intel_migrate.c
+> index fda05ce3eb9c..935b5f14ff21 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_migrate.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_migrate.c
+> @@ -418,10 +418,9 @@ intel_context_migrate_copy(struct intel_context *ce,
+>   	struct i915_request *rq;
+>   	int err;
+>   
+> +	GEM_BUG_ON(ce->vm != ce->engine->gt->migrate.context->vm);
+>   	*out = NULL;
+>   
+> -	/* GEM_BUG_ON(ce->vm != migrate_vm); */
+> -
+>   	GEM_BUG_ON(ce->ring->size < SZ_64K);
+>   
+>   	do {
+> @@ -536,6 +535,7 @@ intel_context_migrate_clear(struct intel_context *ce,
+>   	struct i915_request *rq;
+>   	int err;
+>   
+> +	GEM_BUG_ON(ce->vm != ce->engine->gt->migrate.context->vm);
+>   	*out = NULL;
+>   
+>   	GEM_BUG_ON(ce->ring->size < SZ_64K);
+> diff --git a/drivers/gpu/drm/i915/gt/selftest_migrate.c b/drivers/gpu/drm/i915/gt/selftest_migrate.c
+> index 159c8656e1b0..396c81364399 100644
+> --- a/drivers/gpu/drm/i915/gt/selftest_migrate.c
+> +++ b/drivers/gpu/drm/i915/gt/selftest_migrate.c
+> @@ -3,6 +3,8 @@
+>    * Copyright © 2020 Intel Corporation
+>    */
+>   
+> +#include <linux/sort.h>
+> +
+>   #include "selftests/i915_random.h"
+>   
+>   static const unsigned int sizes[] = {
+> @@ -441,14 +443,229 @@ int intel_migrate_live_selftests(struct drm_i915_private *i915)
+>   		SUBTEST(thread_global_copy),
+>   		SUBTEST(thread_global_clear),
+>   	};
+> -	struct intel_migrate m;
+> +	struct intel_gt *gt = &i915->gt;
+> +
+> +	if (!gt->migrate.context)
+> +		return 0;
+> +
+> +	return i915_subtests(tests, &gt->migrate);
+> +}
+> +
+> +static struct drm_i915_gem_object *
+> +create_init_lmem_internal(struct intel_gt *gt, size_t sz, bool try_lmem)
+> +{
+> +	struct drm_i915_gem_object *obj = NULL;
+>   	int err;
+>   
+> -	if (intel_migrate_init(&m, &i915->gt))
+> +	if (try_lmem && HAS_LMEM(gt->i915))
 
-I guess the main problem is not with "blocking CTBs", as now only
-calling thread is "blocked" waiting for reply and other threads can
-still send their CTBs (blocked/nonblocking), but the fact that we are
-sending too many messages, stopping only when CTB is full, and even then
-trying hard to squeeze that message again.
+Could drop the HAS_LMEM()
 
-it should be caller responsibility to throttle its stream of
-non-blocking CTBs if either we are running out of CTB but if we have too
-many "non-blocking" requests in flight.
+It's elsewhere in the driver normal to just do:
+obj = create_lmem()
+if (IS_ERR(obj))
+         obj = create_internal()
 
-making CTB buffer just larger and larger does not solve the problem,
-only makes it less visible
+Reviewed-by: Matthew Auld <matthew.auld@intel.com>
 
-and as you are using busy-loop to send even 'non-blocking' CTBs, it
-might indicate that your code is not prepared to step-back in case of
-any temporary CTB congestion
 
-also note that currently all CTB messages are asynchronous, REQUEST /
-RESPONSE pair could be processed in fully non-blocking approach, but
-that would require refactoring of part driver into event-driven state
-machine, as sometimes we can't move forward without information that we
-are waiting from the GuC (and blocking was simplest solution for that)
-
-but if your submission code is already  event-driven, then it should be
-easier to trigger state machine into 'retry' mode without using this
-busy-loop
-
+> +		obj = i915_gem_object_create_lmem(gt->i915, sz, 0);
+> +
+> +	if (IS_ERR_OR_NULL(obj)) {
+> +		obj = i915_gem_object_create_internal(gt->i915, sz);
+> +		if (IS_ERR(obj))
+> +			return obj;
+> +	}
+> +
+> +	i915_gem_object_trylock(obj);
+> +	err = i915_gem_object_pin_pages(obj);
+> +	if (err) {
+> +		i915_gem_object_unlock(obj);
+> +		i915_gem_object_put(obj);
+> +		return ERR_PTR(err);
+> +	}
+> +
+> +	return obj;
+> +}
+> +
+> +static int wrap_ktime_compare(const void *A, const void *B)
+> +{
+> +	const ktime_t *a = A, *b = B;
+> +
+> +	return ktime_compare(*a, *b);
+> +}
+> +
+> +static int __perf_clear_blt(struct intel_context *ce,
+> +			    struct scatterlist *sg,
+> +			    enum i915_cache_level cache_level,
+> +			    bool is_lmem,
+> +			    size_t sz)
+> +{
+> +	ktime_t t[5];
+> +	int pass;
+> +	int err = 0;
+> +
+> +	for (pass = 0; pass < ARRAY_SIZE(t); pass++) {
+> +		struct i915_request *rq;
+> +		ktime_t t0, t1;
+> +
+> +		t0 = ktime_get();
+> +
+> +		err = intel_context_migrate_clear(ce, NULL, sg, cache_level,
+> +						  is_lmem, 0, &rq);
+> +		if (rq) {
+> +			if (i915_request_wait(rq, 0, MAX_SCHEDULE_TIMEOUT) < 0)
+> +				err = -EIO;
+> +			i915_request_put(rq);
+> +		}
+> +		if (err)
+> +			break;
+> +
+> +		t1 = ktime_get();
+> +		t[pass] = ktime_sub(t1, t0);
+> +	}
+> +	if (err)
+> +		return err;
+> +
+> +	sort(t, ARRAY_SIZE(t), sizeof(*t), wrap_ktime_compare, NULL);
+> +	pr_info("%s: %zd KiB fill: %lld MiB/s\n",
+> +		ce->engine->name, sz >> 10,
+> +		div64_u64(mul_u32_u32(4 * sz,
+> +				      1000 * 1000 * 1000),
+> +			  t[1] + 2 * t[2] + t[3]) >> 20);
+> +	return 0;
+> +}
+> +
+> +static int perf_clear_blt(void *arg)
+> +{
+> +	struct intel_gt *gt = arg;
+> +	static const unsigned long sizes[] = {
+> +		SZ_4K,
+> +		SZ_64K,
+> +		SZ_2M,
+> +		SZ_64M
+> +	};
+> +	int i;
+> +
+> +	for (i = 0; i < ARRAY_SIZE(sizes); i++) {
+> +		struct drm_i915_gem_object *dst;
+> +		int err;
+> +
+> +		dst = create_init_lmem_internal(gt, sizes[i], true);
+> +		if (IS_ERR(dst))
+> +			return PTR_ERR(dst);
+> +
+> +		err = __perf_clear_blt(gt->migrate.context,
+> +				       dst->mm.pages->sgl,
+> +				       I915_CACHE_NONE,
+> +				       i915_gem_object_is_lmem(dst),
+> +				       sizes[i]);
+> +
+> +		i915_gem_object_unlock(dst);
+> +		i915_gem_object_put(dst);
+> +		if (err)
+> +			return err;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static int __perf_copy_blt(struct intel_context *ce,
+> +			   struct scatterlist *src,
+> +			   enum i915_cache_level src_cache_level,
+> +			   bool src_is_lmem,
+> +			   struct scatterlist *dst,
+> +			   enum i915_cache_level dst_cache_level,
+> +			   bool dst_is_lmem,
+> +			   size_t sz)
+> +{
+> +	ktime_t t[5];
+> +	int pass;
+> +	int err = 0;
+> +
+> +	for (pass = 0; pass < ARRAY_SIZE(t); pass++) {
+> +		struct i915_request *rq;
+> +		ktime_t t0, t1;
+> +
+> +		t0 = ktime_get();
+> +
+> +		err = intel_context_migrate_copy(ce, NULL,
+> +						 src, src_cache_level,
+> +						 src_is_lmem,
+> +						 dst, dst_cache_level,
+> +						 dst_is_lmem,
+> +						 &rq);
+> +		if (rq) {
+> +			if (i915_request_wait(rq, 0, MAX_SCHEDULE_TIMEOUT) < 0)
+> +				err = -EIO;
+> +			i915_request_put(rq);
+> +		}
+> +		if (err)
+> +			break;
+> +
+> +		t1 = ktime_get();
+> +		t[pass] = ktime_sub(t1, t0);
+> +	}
+> +	if (err)
+> +		return err;
+> +
+> +	sort(t, ARRAY_SIZE(t), sizeof(*t), wrap_ktime_compare, NULL);
+> +	pr_info("%s: %zd KiB copy: %lld MiB/s\n",
+> +		ce->engine->name, sz >> 10,
+> +		div64_u64(mul_u32_u32(4 * sz,
+> +				      1000 * 1000 * 1000),
+> +			  t[1] + 2 * t[2] + t[3]) >> 20);
+> +	return 0;
+> +}
+> +
+> +static int perf_copy_blt(void *arg)
+> +{
+> +	struct intel_gt *gt = arg;
+> +	static const unsigned long sizes[] = {
+> +		SZ_4K,
+> +		SZ_64K,
+> +		SZ_2M,
+> +		SZ_64M
+> +	};
+> +	int i;
+> +
+> +	for (i = 0; i < ARRAY_SIZE(sizes); i++) {
+> +		struct drm_i915_gem_object *src, *dst;
+> +		int err;
+> +
+> +		src = create_init_lmem_internal(gt, sizes[i], true);
+> +		if (IS_ERR(src))
+> +			return PTR_ERR(src);
+> +
+> +		dst = create_init_lmem_internal(gt, sizes[i], false);
+> +		if (IS_ERR(dst)) {
+> +			err = PTR_ERR(dst);
+> +			goto err_src;
+> +		}
+> +
+> +		err = __perf_copy_blt(gt->migrate.context,
+> +				      src->mm.pages->sgl,
+> +				      I915_CACHE_NONE,
+> +				      i915_gem_object_is_lmem(src),
+> +				      dst->mm.pages->sgl,
+> +				      I915_CACHE_NONE,
+> +				      i915_gem_object_is_lmem(dst),
+> +				      sizes[i]);
+> +
+> +		i915_gem_object_unlock(dst);
+> +		i915_gem_object_put(dst);
+> +err_src:
+> +		i915_gem_object_unlock(src);
+> +		i915_gem_object_put(src);
+> +		if (err)
+> +			return err;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +int intel_migrate_perf_selftests(struct drm_i915_private *i915)
+> +{
+> +	static const struct i915_subtest tests[] = {
+> +		SUBTEST(perf_clear_blt),
+> +		SUBTEST(perf_copy_blt),
+> +	};
+> +	struct intel_gt *gt = &i915->gt;
+> +
+> +	if (intel_gt_is_wedged(gt))
+>   		return 0;
+>   
+> -	err = i915_subtests(tests, &m);
+> -	intel_migrate_fini(&m);
+> +	if (!gt->migrate.context)
+> +		return 0;
+>   
+> -	return err;
+> +	return intel_gt_live_subtests(tests, gt);
+>   }
+> diff --git a/drivers/gpu/drm/i915/selftests/i915_perf_selftests.h b/drivers/gpu/drm/i915/selftests/i915_perf_selftests.h
+> index c2389f8a257d..5077dc3c3b8c 100644
+> --- a/drivers/gpu/drm/i915/selftests/i915_perf_selftests.h
+> +++ b/drivers/gpu/drm/i915/selftests/i915_perf_selftests.h
+> @@ -17,5 +17,6 @@
+>    */
+>   selftest(engine_cs, intel_engine_cs_perf_selftests)
+>   selftest(request, i915_request_perf_selftests)
+> +selftest(migrate, intel_migrate_perf_selftests)
+>   selftest(blt, i915_gem_object_blt_perf_selftests)
+>   selftest(region, intel_memory_region_perf_selftests)
 > 
-> Matt
-> 
->> Regards,
-> 
->>
->> Tvrtko
