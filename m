@@ -2,46 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23AE23A1521
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Jun 2021 15:08:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7641A3A153F
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Jun 2021 15:15:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 27A466E14B;
-	Wed,  9 Jun 2021 13:08:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C87536E05A;
+	Wed,  9 Jun 2021 13:15:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 606C16E05A;
- Wed,  9 Jun 2021 13:08:52 +0000 (UTC)
-IronPort-SDR: S/MNObBbceaZ8bgjV6d67IpVTHt04U1UvqLIAik+18UbgruYq/nSS7pIfzaZ0giGFYVH/DGxW7
- YoAneCzprbQw==
-X-IronPort-AV: E=McAfee;i="6200,9189,10010"; a="192382727"
-X-IronPort-AV: E=Sophos;i="5.83,261,1616482800"; d="scan'208";a="192382727"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Jun 2021 06:08:36 -0700
-IronPort-SDR: xXglEx2f/6uwO5YpV3F+wmccuJ9SYxNegOXEBnf5xs3ERK8DOKqNAo5mK98H1YRLbMURWS7ZDn
- qKmOnr7D8xPA==
-X-IronPort-AV: E=Sophos;i="5.83,260,1616482800"; d="scan'208";a="440837614"
-Received: from hkrasnod-mobl1.ger.corp.intel.com (HELO [10.249.254.21])
- ([10.249.254.21])
- by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Jun 2021 06:08:35 -0700
-Subject: Re: [Intel-gfx] [PATCH v2 0/9] Prereqs for TTM accelerated migration
-To: Matthew Auld <matthew.auld@intel.com>, Daniel Vetter <daniel@ffwll.ch>
-References: <20210609063436.284332-1-thomas.hellstrom@linux.intel.com>
- <YMCqm48rZIKLYk/s@phenom.ffwll.local>
- <9f38fc28-15fb-2736-ba01-503821fdbe54@linux.intel.com>
- <4d570a5b-0ea7-71ab-5082-e67f0cd668a7@intel.com>
-From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>
-Message-ID: <1cd6b04d-8928-14b3-a63d-c9ac2e81fcca@linux.intel.com>
-Date: Wed, 9 Jun 2021 15:08:32 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com
+ [IPv6:2a00:1450:4864:20::336])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 735816E05A
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Jun 2021 13:15:02 +0000 (UTC)
+Received: by mail-wm1-x336.google.com with SMTP id
+ v206-20020a1cded70000b02901a586d3fa23so4178503wmg.4
+ for <dri-devel@lists.freedesktop.org>; Wed, 09 Jun 2021 06:15:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=eVTFO9K7i34xSf6Rs5YO9CVhklxb6MbUBU8n+2/L45s=;
+ b=hSwlKEB9ZyWuNKe3GYcMLWt1sPRZHfk7jJDXPvpbmXuYHwabHSFZsNGwCU9ZGkpnaY
+ VyC4PmtXEX8rEkcN/45Rg4XnNLtBe4TTYBpKL4S99QBNxTYP3db9MV465pl41eniGecE
+ rTPJBoqzoNNgNwjBo2NYnSaN4vyxTWsyRrflY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=eVTFO9K7i34xSf6Rs5YO9CVhklxb6MbUBU8n+2/L45s=;
+ b=JbqsA8/Zg1rT4e3mpetM8vNsm0dpnGL6LJYYR7jLAgBxZTU4v4uBis0Khmx6xi9H9V
+ 36S+Mi03oxToNzVAeDSibiijFNbS7D9mqGaGjfYnIx1kUuA/mQe+20WR+jbKPtGNVSsf
+ 9kj/mLztQQ4umqX7LZ5nS7zAEQccdomP0FZiPrnN353RLEM5kHwwh3ETjxXTB+LI0YGi
+ nQgZ0Iqs1RPqGiz3XzXy9h0NBc6mwtQ9fBCd5e/G2XbXPhmtU1K7eBThLW/41mtE/Hzp
+ r9Ayc3qIL1DO3Z9jhkFIXVTvxod6QII7Xe6qqfWg1nsT/P9PEmFe3D0Dp1QIC2GnEgBT
+ d/XQ==
+X-Gm-Message-State: AOAM533kFhCXPxO8rnKUyw5su+C2FJzTFnW8HZ5FoWzpjcRtP83k9zpZ
+ JJInasRojO9eGFYIcWQxNIBMXw==
+X-Google-Smtp-Source: ABdhPJyA+FER6Bz6ZfD5wEr75nGo4fcpGzVtJd+SIcJZ4F8HDtWOntdg/k02gSGKgW+/aAJHNZc8Jg==
+X-Received: by 2002:a05:600c:2109:: with SMTP id
+ u9mr9876976wml.7.1623244501091; 
+ Wed, 09 Jun 2021 06:15:01 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id s1sm6292957wmj.8.2021.06.09.06.15.00
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 09 Jun 2021 06:15:00 -0700 (PDT)
+Date: Wed, 9 Jun 2021 15:14:58 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Zbigniew =?utf-8?Q?Kempczy=C5=84ski?= <zbigniew.kempczynski@intel.com>
+Subject: Re: [PATCH] drm/i915: Add relocation exceptions for two other
+ platforms
+Message-ID: <YMC+0lc8i4Q97roq@phenom.ffwll.local>
+References: <20210601142442.100754-1-zbigniew.kempczynski@intel.com>
 MIME-Version: 1.0
-In-Reply-To: <4d570a5b-0ea7-71ab-5082-e67f0cd668a7@intel.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+In-Reply-To: <20210601142442.100754-1-zbigniew.kempczynski@intel.com>
+X-Operating-System: Linux phenom 5.10.32scarlett+ 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,59 +70,82 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: Dave Airlie <airlied@redhat.com>, intel-gfx@lists.freedesktop.org,
+ Jason Ekstrand <jason@jlekstrand.net>, dri-devel@lists.freedesktop.org,
+ Daniel Vetter <daniel.vetter@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Tue, Jun 01, 2021 at 04:24:42PM +0200, Zbigniew Kempczyński wrote:
+> We have established previously we stop using relocations starting
+> from gen12 platforms with Tigerlake as an exception. We keep this
+> statement but we want to enable relocations conditionally for
+> Rocketlake and Alderlake under require_force_probe flag set.
+> 
+> Keeping relocations under require_force_probe flag is interim solution
+> until IGTs will be rewritten to use softpin.
+> 
+> v2: - remove inline from function definition (Jani)
+>     - fix indentation
+> 
+> Signed-off-by: Zbigniew Kempczyński <zbigniew.kempczynski@intel.com>
+> Cc: Dave Airlie <airlied@redhat.com>
+> Cc: Daniel Vetter <daniel.vetter@intel.com>
+> Cc: Jason Ekstrand <jason@jlekstrand.net>
 
-On 6/9/21 2:20 PM, Matthew Auld wrote:
-> On 09/06/2021 13:16, Thomas Hellström wrote:
->>
->> On 6/9/21 1:48 PM, Daniel Vetter wrote:
->>> On Wed, Jun 09, 2021 at 08:34:27AM +0200, Thomas Hellström wrote:
->>>> A couple of patches from Chris which implement pipelined migration and
->>>> clears by atomically writing the PTEs in place before performing the
->>>> actual blit.
->>>>
->>>> Some ww utilities mainly for the accompanying selftests added by 
->>>> Thomas,
->>>> as well as modified the above patches for ww locking- and lmem 
->>>> support.
->>>>
->>>> The actual hook up to the i915 ttm backend is being worked on and not
->>>> included yet, so this is considered to be an early review opportunity.
->>>>
->>>> v2:
->>>> - A couple of minor style fixes pointed out by Matthew Auld
->>>> - Export and use intel_engine_destroy_pinned_context() to address a
->>>> ls   CI warning / failure.
->>> Just to check my understanding of the plan: These are the new windowed
->>> clear/blt functions which we plan to use everywhere, because less nasty
->>> locking implications? And the clear/blt we currently have in 
->>> upstream will
->>> be replaced?
->>
->> Yes. These are for LMEM clearing and migration. It looks to me like 
->> the other ones we have in upstream are actually unused except for 
->> selftests. We're actually using CPU clearing for now.
->>
->>>
->>> If so would be nice if this patch set includes that replacement work (I
->>> think right now all we have is the clear for lmem), including 
->>> updating of
->>> selftests and stuff like that. Just to avoid having two ways to do the
->>> same thing in the driver.
->>
->> OK, I'll have a look at stripping the existing code. If we need it 
->> moving forward, we can always re-add.
->
-> Some low hanging fruit would be all the client_blt stuff which can for 
-> sure be deleted now.
+This conflicts with Lucas' switch from INTEL_GEN to GRAPHICS_VER. Can you
+pls rebase and resend (with Dave's ack included).
+-Daniel
 
-What has the client_blt stuff been used for?
+> ---
+>  .../gpu/drm/i915/gem/i915_gem_execbuffer.c    | 24 +++++++++++++++----
+>  1 file changed, 19 insertions(+), 5 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
+> index 297143511f99..78b86a7bc39a 100644
+> --- a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
+> +++ b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
+> @@ -491,16 +491,30 @@ eb_unreserve_vma(struct eb_vma *ev)
+>  	ev->flags &= ~__EXEC_OBJECT_RESERVED;
+>  }
+>  
+> +static bool platform_has_relocs_enabled(const struct i915_execbuffer *eb)
+> +{
+> +	/*
+> +	 * Relocations are disallowed starting from gen12 with Tigerlake
+> +	 * as an exception. We allow temporarily use relocations for Rocketlake
+> +	 * and Alderlake when require_force_probe flag is set.
+> +	 */
+> +	if (INTEL_GEN(eb->i915) < 12 || IS_TIGERLAKE(eb->i915))
+> +		return true;
+> +
+> +	if (INTEL_INFO(eb->i915)->require_force_probe &&
+> +	    (IS_ROCKETLAKE(eb->i915) || IS_ALDERLAKE_S(eb->i915) ||
+> +	     IS_ALDERLAKE_P(eb->i915)))
+> +		return true;
+> +
+> +	return false;
+> +}
+> +
+>  static int
+>  eb_validate_vma(struct i915_execbuffer *eb,
+>  		struct drm_i915_gem_exec_object2 *entry,
+>  		struct i915_vma *vma)
+>  {
+> -	/* Relocations are disallowed for all platforms after TGL-LP.  This
+> -	 * also covers all platforms with local memory.
+> -	 */
+> -	if (entry->relocation_count &&
+> -	    INTEL_GEN(eb->i915) >= 12 && !IS_TIGERLAKE(eb->i915))
+> +	if (entry->relocation_count && !platform_has_relocs_enabled(eb))
+>  		return -EINVAL;
+>  
+>  	if (unlikely(entry->flags & eb->invalid_flags))
+> -- 
+> 2.26.0
+> 
 
-In any case, I need 25 commits for commit access to be granted.
-
-/Thomas
-
-
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
