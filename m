@@ -2,62 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60AE83A1ECE
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Jun 2021 23:17:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B95663A1EDF
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Jun 2021 23:23:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4AC886EA55;
-	Wed,  9 Jun 2021 21:17:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 651D56EA83;
+	Wed,  9 Jun 2021 21:23:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com
- [IPv6:2a00:1450:4864:20::12c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A465E6EB23
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Jun 2021 21:17:33 +0000 (UTC)
-Received: by mail-lf1-x12c.google.com with SMTP id n12so33267814lft.10
- for <dri-devel@lists.freedesktop.org>; Wed, 09 Jun 2021 14:17:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=7I80h9aVhqiz7KKnY4LfQ8riY+ihQMK3yCgtkJKzH/0=;
- b=fv1cLJSI3524YDZiumnkJfXc6sFqc6WWnUb1zi0ZoQ6nZx8UbjsJRkvdH4d0t52wAU
- RkQ/tclAVDbWuPCy+RcYD3+7hvMy9LWZgGEREbMEmL29hRg6J+j5DyOPjr7CUZgfGAZC
- fXiTMeGeEKjOWpvz2dhFDlOEfPDTKXNC1naJ8DBq8/NyhLOeIy2ePURzarCgMa7QpGG6
- KfWRWePz5EN1EV7OTWXV1nxNRjdfCFezqlI72OoRxfj1qNBfV4zKIEgHm9GKMkr2tkPL
- OgbGUun88yDH+/Ml9C5z2iF1J0yn73tKmMPfYZWR4LZCH6aZ9iJD83+WQ6frZ+BHomzV
- 7DOw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=7I80h9aVhqiz7KKnY4LfQ8riY+ihQMK3yCgtkJKzH/0=;
- b=DdL+NMD//8Z4bXp0wVPjnmFoFuCQ5MsDbiw20FcibECPcca9E89d/q+/ebj/zSpA4F
- tio+NLeDBigVnDJOZwkaiYxA/Pkw726Nlax/Y5VwmGEup7TZVQ0aXrnPCW+l0g5FrhfL
- CRh8dW2wo7kHGiYNL642d7QSjfHRs0+R6ERWaSCJ+OAMC6GYzGCN7POvLwq9GcvDm1XE
- VBjWpPXOTWy9ERkSCKbZX8yDU8rKQFCi23tpLHdZE5lbOo8vtv7+3fmRVIYwezpwuFWf
- Vr17ptjNxMkmfwdmSy3CBS8I4Rw2129L2iMHXw9wUbSCJvTd2CTUFyop+MrfQeKexouX
- 1CWw==
-X-Gm-Message-State: AOAM531mPXr+95MCtMfX7B1wRuUqUrgGE+AhSRimRzZ5FiM/y/vwbhXX
- 1ggtBHqgcYbEZ31vFrHx6OLxQQ==
-X-Google-Smtp-Source: ABdhPJzljl9x2hLLYMZTN0snwVTcfT0Bx/Khf4JdiNZLWRQ15EdGWpJs3mYvySS2N7/VnbAZfH4JXQ==
-X-Received: by 2002:a05:6512:20d9:: with SMTP id
- u25mr866893lfr.452.1623273450612; 
- Wed, 09 Jun 2021 14:17:30 -0700 (PDT)
-Received: from eriador.lan ([37.153.55.125])
- by smtp.gmail.com with ESMTPSA id z20sm95329ljk.50.2021.06.09.14.17.29
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 09 Jun 2021 14:17:30 -0700 (PDT)
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Bjorn Andersson <bjorn.andersson@linaro.org>,
- Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Abhinav Kumar <abhinavk@codeaurora.org>
-Subject: [RFC 6/6] drm/msm/kms: drop set_encoder_mode callback
-Date: Thu, 10 Jun 2021 00:17:23 +0300
-Message-Id: <20210609211723.2565105-7-dmitry.baryshkov@linaro.org>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210609211723.2565105-1-dmitry.baryshkov@linaro.org>
-References: <20210609211723.2565105-1-dmitry.baryshkov@linaro.org>
+Received: from mail1.protonmail.ch (mail1.protonmail.ch [185.70.40.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C19996E406;
+ Wed,  9 Jun 2021 21:23:25 +0000 (UTC)
+Date: Wed, 09 Jun 2021 21:23:19 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
+ s=protonmail3; t=1623273803;
+ bh=O59p1XnGFmzprEBJ1OBmXfghWF/+Fzjmwvd7LymMVa0=;
+ h=Date:To:From:Cc:Reply-To:Subject:From;
+ b=nQdklizb32UffrfpcVdBwM+QM0V9W/Oq6YVf2bfljWBA3cJG33B9HwI10ATflH+wM
+ lsS39ryKHSMQeVAAHi9VoV4OsYjlqdsUXMw5tEcvT8w9NPAlgWQ7IKiYXD+n+cpOs6
+ /ixJcT9tZzBLPcivL+C58UVjLFeaoAefEzYbkixOjc0AfCeXpLNUsf4kCp1ZS9qXIv
+ 9ZccMkydHhriMR7s5kFVqtvHDf/4EQPnnfJwhC4Ct7uVvPlzr56ReMxoEwGeRd2N2O
+ KdH/DtCGCYpQ8bA6mhgpwRg4aWKHXJin64RiAFgFeqSy2hwUceMP6avtKNNVHsbuGT
+ 64lkURxsdqETQ==
+To: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
+From: Simon Ser <contact@emersion.fr>
+Subject: [PATCH v2 0/7] drm: add per-connector hotplug events
+Message-ID: <s5D1m6hjidKxuxaN6qpewqhxco48P4poVuMf1zi4qA@cp3-web-012.plabs.ch>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
+ DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF shortcircuit=no
+ autolearn=disabled version=3.4.4
+X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
+ mailout.protonmail.ch
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,34 +47,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jonathan Marek <jonathan@marek.ca>, Stephen Boyd <sboyd@kernel.org>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- David Airlie <airlied@linux.ie>, freedreno@lists.freedesktop.org
+Reply-To: Simon Ser <contact@emersion.fr>
+Cc: pekka.paalanen@collabora.com, michel@daenzer.net, alexander.deucher@amd.com,
+ intel-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-set_encoder_mode callback is completely unused now. Drop it from
-msm_kms_func().
+When a uevent only updates a single connector, add a CONNECTOR property
+to the uevent. This allows user-space to ignore other connectors when
+handling the uevent. This is purely an optimization, drivers can still
+send a uevent without the CONNECTOR property.
 
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
----
- drivers/gpu/drm/msm/msm_kms.h | 3 ---
- 1 file changed, 3 deletions(-)
+The CONNECTOR property is already set when sending HDCP property update
+uevents, see drm_sysfs_connector_status_event.
 
-diff --git a/drivers/gpu/drm/msm/msm_kms.h b/drivers/gpu/drm/msm/msm_kms.h
-index 086a2d59b8c8..9484e8b62630 100644
---- a/drivers/gpu/drm/msm/msm_kms.h
-+++ b/drivers/gpu/drm/msm/msm_kms.h
-@@ -117,9 +117,6 @@ struct msm_kms_funcs {
- 			struct drm_encoder *encoder,
- 			struct drm_encoder *slave_encoder,
- 			bool is_cmd_mode);
--	void (*set_encoder_mode)(struct msm_kms *kms,
--				 struct drm_encoder *encoder,
--				 bool cmd_mode);
- 	/* cleanup: */
- 	void (*destroy)(struct msm_kms *kms);
- 
--- 
-2.30.2
+This has been tested with a wlroots patch [1].
+
+amdgpu and the probe-helper has been updated to use these new fine-grained
+uevents.
+
+[1]: https://github.com/swaywm/wlroots/pull/2959
+
+Simon Ser (7):
+  drm/sysfs: introduce drm_sysfs_connector_hotplug_event
+  drm/probe-helper: add drm_kms_helper_connector_hotplug_event
+  drm/connector: use drm_sysfs_connector_hotplug_event
+  amdgpu: use drm_kms_helper_connector_hotplug_event
+  drm/probe-helper: use drm_kms_helper_connector_hotplug_event
+  i915/display/dp: send a more fine-grained link-status uevent
+  drm/connector: add ref to drm_connector_get in iter docs
+
+ .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c |  8 ++--
+ .../amd/display/amdgpu_dm/amdgpu_dm_debugfs.c |  4 +-
+ drivers/gpu/drm/drm_connector.c               |  2 +-
+ drivers/gpu/drm/drm_probe_helper.c            | 42 +++++++++++++++++--
+ drivers/gpu/drm/drm_sysfs.c                   | 25 +++++++++++
+ drivers/gpu/drm/i915/display/intel_dp.c       |  2 +
+ include/drm/drm_connector.h                   |  5 +++
+ include/drm/drm_probe_helper.h                |  1 +
+ include/drm/drm_sysfs.h                       |  1 +
+ 9 files changed, 79 insertions(+), 11 deletions(-)
+
+--=20
+2.31.1
+
 
