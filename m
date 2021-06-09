@@ -1,51 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3FDD73A20AA
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Jun 2021 01:20:49 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FCCF3A209F
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Jun 2021 01:16:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5BA9B6EB76;
-	Wed,  9 Jun 2021 23:20:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EF8CA6EB5A;
+	Wed,  9 Jun 2021 23:15:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 979326E422;
- Wed,  9 Jun 2021 23:20:45 +0000 (UTC)
-IronPort-SDR: jkpNaN/2YTaT8iItlqzP/bku58lilJYjCcR0LfOG+v/HI6KnEaJb9ICCAxleQWjB5GeaH7Jld1
- 66YJDydJc5AQ==
-X-IronPort-AV: E=McAfee;i="6200,9189,10010"; a="192301252"
-X-IronPort-AV: E=Sophos;i="5.83,261,1616482800"; d="scan'208";a="192301252"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Jun 2021 16:20:42 -0700
-IronPort-SDR: 7+uCXaf9+Ex9UXQS/fxenRnV2cX8f37ig36ftUVm/lt9OV6Lu+vwnFxbvLFzXfsYCXYDUdruqP
- 4AeytIFC2cCg==
-X-IronPort-AV: E=Sophos;i="5.83,261,1616482800"; d="scan'208";a="448479227"
-Received: from unknown (HELO sdutt-i7) ([10.165.21.147])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Jun 2021 16:20:42 -0700
-Date: Wed, 9 Jun 2021 16:13:48 -0700
-From: Matthew Brost <matthew.brost@intel.com>
-To: Michal Wajdeczko <michal.wajdeczko@intel.com>
-Subject: Re: [Intel-gfx] [RFC PATCH 36/97] drm/i915/guc: Add non blocking CTB
- send function
-Message-ID: <20210609231348.GC5471@sdutt-i7>
-References: <20210506191451.77768-37-matthew.brost@intel.com>
- <375b4de4-168f-9c4c-dbb8-f42fd6303628@linux.intel.com>
- <20210525172121.GE14724@sdutt-i7>
- <0f26f76f-e066-fb23-a7b2-784bb8ee771d@linux.intel.com>
- <20210526181053.GA3435@sdutt-i7>
- <53613c13-1cab-b9bd-3922-0389600773ee@linux.intel.com>
- <20210527143514.GA24720@sdutt-i7>
- <828fe399-5319-78a9-c6e3-c0c027e08e9c@linux.intel.com>
- <20210607173101.GA11968@sdutt-i7>
- <d8bda772-6c9d-8513-d2c0-ea126ece5a24@intel.com>
+Received: from mail-ot1-x32e.google.com (mail-ot1-x32e.google.com
+ [IPv6:2607:f8b0:4864:20::32e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2F9C26E417
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Jun 2021 23:15:57 +0000 (UTC)
+Received: by mail-ot1-x32e.google.com with SMTP id
+ 36-20020a9d0ba70000b02902e0a0a8fe36so25665054oth.8
+ for <dri-devel@lists.freedesktop.org>; Wed, 09 Jun 2021 16:15:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=W+qXEuKMwT/Oi1kda+1x77Hj9YustkgX0B7x2oE+wko=;
+ b=CozgERK9mWAGLeGbIgbK6FIiUpzN01bkJbwK/Zks7x8ccKbLRkaESJ+H+Bv0lV1ePV
+ dbhEAWHlvCAqC2pwJYqmctisuPGwGCFbgCRbogD7A1URYsQ7XV4UqRNeR8OZd9pw7HI4
+ gZc2e7RJqgb+buc8mmmKN7uVQ7SKLU6mAqMimjUVONpqRm0dHhYt9Buly5JHj8Ey1gKN
+ jNlJ98Iyw4/az9+JOYoZ0CWndTp61RM5JRav4t4eySFXtEw1f6P4mdM3uiFK0CfM4M+e
+ aTr/6qgDHcAzvKEB9/MCEbGW9PuU/pQa0+Oms0AB95wq/z033XlgOyecmdFXtOcmmR1P
+ /cog==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=W+qXEuKMwT/Oi1kda+1x77Hj9YustkgX0B7x2oE+wko=;
+ b=TGyiaIRttLG+SAwtlOZcbJfLRf2LgslOK0D4YZxzNkqgZjY0ATPQ1L1GYTDjZkWXpr
+ xy3FTCyKHgb/A/VeVFXtRKqwq1pMEB+homInd84QVwVS/KdZ7reQAzZOY4y2YJvEpbne
+ nPqu0rZvjVZhH6oD3ApmCJh3mI84zTFxAApnybEJmYvX95KElX7JbtQ6nHKkS8rViI4l
+ vNEDoZ/DKNc6oQTYOHYiHy0lNRKEu2CgAnwYt6fqJ4kGv/8GvieVPFTRgv/Dwl4CD/mE
+ 2p5taOI8SJo8oCUUQdgo8RMMsJZv6zbR23fxSwv46c5R8fsQ0avHSJcxik6CNvkrZQJI
+ CZWg==
+X-Gm-Message-State: AOAM530XvoTZyZJJEh2GN8NBuUzNCWzFkOcptx9KLloPZYMBHezLUHTC
+ unXJiHlRRha0jgDU68WQ/Uq1pw==
+X-Google-Smtp-Source: ABdhPJzooXnp7EQxQROOT+sxrgNDDlaYzFNFLhSLck9XXChNXHZU8TVmbfVi32Cje1OtodPD0qw5ow==
+X-Received: by 2002:a9d:1b63:: with SMTP id l90mr1519714otl.219.1623280556395; 
+ Wed, 09 Jun 2021 16:15:56 -0700 (PDT)
+Received: from localhost.localdomain
+ (104-57-184-186.lightspeed.austtx.sbcglobal.net. [104.57.184.186])
+ by smtp.gmail.com with ESMTPSA id f19sm299960ots.41.2021.06.09.16.15.55
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 09 Jun 2021 16:15:55 -0700 (PDT)
+From: Bjorn Andersson <bjorn.andersson@linaro.org>
+To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Abhinav Kumar <abhinavk@codeaurora.org>
+Subject: [PATCH] drm/msm/dpu: Avoid ABBA deadlock between IRQ modules
+Date: Wed,  9 Jun 2021 16:15:07 -0700
+Message-Id: <20210609231507.3031904-1-bjorn.andersson@linaro.org>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <d8bda772-6c9d-8513-d2c0-ea126ece5a24@intel.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,210 +70,118 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: jason.ekstrand@intel.com, Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- daniel.vetter@intel.com
+Cc: linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jun 09, 2021 at 04:14:05PM +0200, Michal Wajdeczko wrote:
-> 
-> 
-> On 07.06.2021 19:31, Matthew Brost wrote:
-> > On Thu, May 27, 2021 at 04:11:50PM +0100, Tvrtko Ursulin wrote:
-> >>
-> >> On 27/05/2021 15:35, Matthew Brost wrote:
-> >>> On Thu, May 27, 2021 at 11:02:24AM +0100, Tvrtko Ursulin wrote:
-> >>>>
-> >>>> On 26/05/2021 19:10, Matthew Brost wrote:
-> >>>>
-> >>>> [snip]
-> >>>>
-> >>>>>>>>> +static int ct_send_nb(struct intel_guc_ct *ct,
-> >>>>>>>>> +		      const u32 *action,
-> >>>>>>>>> +		      u32 len,
-> >>>>>>>>> +		      u32 flags)
-> >>>>>>>>> +{
-> >>>>>>>>> +	struct intel_guc_ct_buffer *ctb = &ct->ctbs.send;
-> >>>>>>>>> +	unsigned long spin_flags;
-> >>>>>>>>> +	u32 fence;
-> >>>>>>>>> +	int ret;
-> >>>>>>>>> +
-> >>>>>>>>> +	spin_lock_irqsave(&ctb->lock, spin_flags);
-> >>>>>>>>> +
-> >>>>>>>>> +	ret = ctb_has_room(ctb, len + 1);
-> >>>>>>>>> +	if (unlikely(ret))
-> >>>>>>>>> +		goto out;
-> >>>>>>>>> +
-> >>>>>>>>> +	fence = ct_get_next_fence(ct);
-> >>>>>>>>> +	ret = ct_write(ct, action, len, fence, flags);
-> >>>>>>>>> +	if (unlikely(ret))
-> >>>>>>>>> +		goto out;
-> >>>>>>>>> +
-> >>>>>>>>> +	intel_guc_notify(ct_to_guc(ct));
-> >>>>>>>>> +
-> >>>>>>>>> +out:
-> >>>>>>>>> +	spin_unlock_irqrestore(&ctb->lock, spin_flags);
-> >>>>>>>>> +
-> >>>>>>>>> +	return ret;
-> >>>>>>>>> +}
-> >>>>>>>>> +
-> >>>>>>>>>      static int ct_send(struct intel_guc_ct *ct,
-> >>>>>>>>>      		   const u32 *action,
-> >>>>>>>>>      		   u32 len,
-> >>>>>>>>> @@ -473,6 +541,7 @@ static int ct_send(struct intel_guc_ct *ct,
-> >>>>>>>>>      		   u32 response_buf_size,
-> >>>>>>>>>      		   u32 *status)
-> >>>>>>>>>      {
-> >>>>>>>>> +	struct intel_guc_ct_buffer *ctb = &ct->ctbs.send;
-> >>>>>>>>>      	struct ct_request request;
-> >>>>>>>>>      	unsigned long flags;
-> >>>>>>>>>      	u32 fence;
-> >>>>>>>>> @@ -482,8 +551,20 @@ static int ct_send(struct intel_guc_ct *ct,
-> >>>>>>>>>      	GEM_BUG_ON(!len);
-> >>>>>>>>>      	GEM_BUG_ON(len & ~GUC_CT_MSG_LEN_MASK);
-> >>>>>>>>>      	GEM_BUG_ON(!response_buf && response_buf_size);
-> >>>>>>>>> +	might_sleep();
-> >>>>>>>>
-> >>>>>>>> Sleep is just cond_resched below or there is more?
-> >>>>>>>>
-> >>>>>>>
-> >>>>>>> Yes, the cond_resched.
-> >>>>>>>
-> >>>>>>>>> +	/*
-> >>>>>>>>> +	 * We use a lazy spin wait loop here as we believe that if the CT
-> >>>>>>>>> +	 * buffers are sized correctly the flow control condition should be
-> >>>>>>>>> +	 * rare.
-> >>>>>>>>> +	 */
-> >>>>>>>>> +retry:
-> >>>>>>>>>      	spin_lock_irqsave(&ct->ctbs.send.lock, flags);
-> >>>>>>>>> +	if (unlikely(!ctb_has_room(ctb, len + 1))) {
-> >>>>>>>>> +		spin_unlock_irqrestore(&ct->ctbs.send.lock, flags);
-> >>>>>>>>> +		cond_resched();
-> >>>>>>>>> +		goto retry;
-> >>>>>>>>> +	}
-> >>>>>>>>
-> >>>>>>>> If this patch is about adding a non-blocking send function, and below we can
-> >>>>>>>> see that it creates a fork:
-> >>>>>>>>
-> >>>>>>>> intel_guc_ct_send:
-> >>>>>>>> ...
-> >>>>>>>> 	if (flags & INTEL_GUC_SEND_NB)
-> >>>>>>>> 		return ct_send_nb(ct, action, len, flags);
-> >>>>>>>>
-> >>>>>>>>     	ret = ct_send(ct, action, len, response_buf, response_buf_size, &status);
-> >>>>>>>>
-> >>>>>>>> Then why is there a change in ct_send here, which is not the new
-> >>>>>>>> non-blocking path?
-> >>>>>>>>
-> >>>>>>>
-> >>>>>>> There is not a change to ct_send(), just to intel_guc_ct_send.
-> >>>>>>
-> >>>>>> I was doing by the diff which says:
-> >>>>>>
-> >>>>>>    static int ct_send(struct intel_guc_ct *ct,
-> >>>>>>    		   const u32 *action,
-> >>>>>>    		   u32 len,
-> >>>>>> @@ -473,6 +541,7 @@ static int ct_send(struct intel_guc_ct *ct,
-> >>>>>>    		   u32 response_buf_size,
-> >>>>>>    		   u32 *status)
-> >>>>>>    {
-> >>>>>> +	struct intel_guc_ct_buffer *ctb = &ct->ctbs.send;
-> >>>>>>    	struct ct_request request;
-> >>>>>>    	unsigned long flags;
-> >>>>>>    	u32 fence;
-> >>>>>> @@ -482,8 +551,20 @@ static int ct_send(struct intel_guc_ct *ct,
-> >>>>>>    	GEM_BUG_ON(!len);
-> >>>>>>    	GEM_BUG_ON(len & ~GUC_CT_MSG_LEN_MASK);
-> >>>>>>    	GEM_BUG_ON(!response_buf && response_buf_size);
-> >>>>>> +	might_sleep();
-> >>>>>> +	/*
-> >>>>>> +	 * We use a lazy spin wait loop here as we believe that if the CT
-> >>>>>> +	 * buffers are sized correctly the flow control condition should be
-> >>>>>> +	 * rare.
-> >>>>>> +	 */
-> >>>>>> +retry:
-> >>>>>>    	spin_lock_irqsave(&ct->ctbs.send.lock, flags);
-> >>>>>> +	if (unlikely(!ctb_has_room(ctb, len + 1))) {
-> >>>>>> +		spin_unlock_irqrestore(&ct->ctbs.send.lock, flags);
-> >>>>>> +		cond_resched();
-> >>>>>> +		goto retry;
-> >>>>>> +	}
-> >>>>>>
-> >>>>>> So it looks like a change to ct_send to me. Is that wrong?
-> >>>>
-> >>>> What about this part - is the patch changing the blocking ct_send or not,
-> >>>> and if it is why?
-> >>>>
-> >>>
-> >>> Yes, ct_send() changes. Sorry for the confusion.
-> >>>
-> >>> This function needs to be updated to account for the H2G space and
-> >>> backoff if no space is available.
-> >>
-> >> Since this one is the sleeping path, it probably can and needs to be smarter
-> >> than having a cond_resched busy loop added. Like sleep and get woken up when
-> >> there is space. Otherwise it can degenerate to busy looping via contention
-> >> with the non-blocking path.
-> >>
-> > 
-> > That screams over enginerring a simple problem to me. If the CT channel
-> > is full we are really in trouble anyways - i.e. the performance is going
-> > to terrible as we overwhelmed the GuC with traffic. That being said,
-> > IGTs can do this but that really isn't a real world use case. For the
-> > real world, this buffer is large enough that it won't ever be full hence
-> > the comment + lazy spin loop.
-> > 
-> > Next, it isn't like we get an interrupt or something when space
-> > becomes available so how would we wake this thread? Could we come up
-> > with a convoluted scheme where we insert ops that generated an interrupt
-> > at regular intervals, probably? Would it be super complicated, totally
-> > unnecessary, and gain use nothing - absolutely.
-> > 
-> > Lastly, blocking CTBs really shouldn't ever be used. Certainly the
-> > submission code doesn't use these. I think SRIOV might, but those can
-> > probably be reworked too to use non-blocking. At some point we might
-> > want to scrub the driver and just delete the blocking path.
-> 
-> I guess the main problem is not with "blocking CTBs", as now only
-> calling thread is "blocked" waiting for reply and other threads can
-> still send their CTBs (blocked/nonblocking), but the fact that we are
-> sending too many messages, stopping only when CTB is full, and even then
-> trying hard to squeeze that message again.
-> 
-> it should be caller responsibility to throttle its stream of
-> non-blocking CTBs if either we are running out of CTB but if we have too
-> many "non-blocking" requests in flight.
-> 
-> making CTB buffer just larger and larger does not solve the problem,
-> only makes it less visible
-> 
-> and as you are using busy-loop to send even 'non-blocking' CTBs, it
-> might indicate that your code is not prepared to step-back in case of
-> any temporary CTB congestion
-> 
-> also note that currently all CTB messages are asynchronous, REQUEST /
-> RESPONSE pair could be processed in fully non-blocking approach, but
-> that would require refactoring of part driver into event-driven state
-> machine, as sometimes we can't move forward without information that we
-> are waiting from the GuC (and blocking was simplest solution for that)
-> 
-> but if your submission code is already  event-driven, then it should be
-> easier to trigger state machine into 'retry' mode without using this
-> busy-loop
+Handling of the interrupt callback lists is done in dpu_core_irq.c,
+under the "cb_lock" spinlock. When these operations results in the need
+for enableing or disabling the IRQ in the hardware the code jumps to
+dpu_hw_interrupts.c, which protects its operations with "irq_lock"
+spinlock.
 
-Yes, the state-machine is used in most cases as a back off where it
-makes sense. Some cases we still just use a busy-loop. See my comments
-about over engineering solutions - sometimes it is better to use
-something simple for something that rare.
+When an interrupt fires, dpu_hw_intr_dispatch_irq() inspects the
+hardware state while holding the "irq_lock" spinlock and jumps to
+dpu_core_irq_callback_handler() to invoke the registered handlers, which
+traverses the callback list under the "cb_lock" spinlock.
 
-Matt
+As such, in the event that these happens concurrently we'll end up with
+a deadlock.
 
-> 
-> > 
-> > Matt
-> > 
-> >> Regards,
-> > 
-> >>
-> >> Tvrtko
+Prior to '1c1e7763a6d4 ("drm/msm/dpu: simplify IRQ enabling/disabling")'
+the enable/disable of the hardware interrupt was done outside the
+"cb_lock" region, optimitically by using an atomic enable-counter for
+each interrupt and an warning print if someone changed the list between
+the atomic_read and the time the operation concluded.
+
+Rather than re-introducing the large array of atomics, serialize the
+register/unregister operations under a single mutex.
+
+Fixes: 1c1e7763a6d4 ("drm/msm/dpu: simplify IRQ enabling/disabling")
+Signed-off-by: Bjorn Andersson <bjorn.andersson@linaro.org>
+---
+ drivers/gpu/drm/msm/disp/dpu1/dpu_core_irq.c | 10 +++++++---
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h      |  2 ++
+ 2 files changed, 9 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_core_irq.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_core_irq.c
+index 4f110c428b60..62bbe35eff7b 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_core_irq.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_core_irq.c
+@@ -82,11 +82,13 @@ int dpu_core_irq_register_callback(struct dpu_kms *dpu_kms, int irq_idx,
+ 
+ 	DPU_DEBUG("[%pS] irq_idx=%d\n", __builtin_return_address(0), irq_idx);
+ 
++	mutex_lock(&dpu_kms->irq_obj.hw_enable_lock);
+ 	spin_lock_irqsave(&dpu_kms->irq_obj.cb_lock, irq_flags);
+ 	trace_dpu_core_irq_register_callback(irq_idx, register_irq_cb);
+ 	list_del_init(&register_irq_cb->list);
+ 	list_add_tail(&register_irq_cb->list,
+ 			&dpu_kms->irq_obj.irq_cb_tbl[irq_idx]);
++	spin_unlock_irqrestore(&dpu_kms->irq_obj.cb_lock, irq_flags);
+ 	if (list_is_first(&register_irq_cb->list,
+ 			&dpu_kms->irq_obj.irq_cb_tbl[irq_idx])) {
+ 		int ret = dpu_kms->hw_intr->ops.enable_irq(
+@@ -96,8 +98,7 @@ int dpu_core_irq_register_callback(struct dpu_kms *dpu_kms, int irq_idx,
+ 			DPU_ERROR("Fail to enable IRQ for irq_idx:%d\n",
+ 					irq_idx);
+ 	}
+-
+-	spin_unlock_irqrestore(&dpu_kms->irq_obj.cb_lock, irq_flags);
++	mutex_unlock(&dpu_kms->irq_obj.hw_enable_lock);
+ 
+ 	return 0;
+ }
+@@ -127,9 +128,11 @@ int dpu_core_irq_unregister_callback(struct dpu_kms *dpu_kms, int irq_idx,
+ 
+ 	DPU_DEBUG("[%pS] irq_idx=%d\n", __builtin_return_address(0), irq_idx);
+ 
++	mutex_lock(&dpu_kms->irq_obj.hw_enable_lock);
+ 	spin_lock_irqsave(&dpu_kms->irq_obj.cb_lock, irq_flags);
+ 	trace_dpu_core_irq_unregister_callback(irq_idx, register_irq_cb);
+ 	list_del_init(&register_irq_cb->list);
++	spin_unlock_irqrestore(&dpu_kms->irq_obj.cb_lock, irq_flags);
+ 	/* empty callback list but interrupt is still enabled */
+ 	if (list_empty(&dpu_kms->irq_obj.irq_cb_tbl[irq_idx])) {
+ 		int ret = dpu_kms->hw_intr->ops.disable_irq(
+@@ -140,7 +143,7 @@ int dpu_core_irq_unregister_callback(struct dpu_kms *dpu_kms, int irq_idx,
+ 					irq_idx);
+ 		DPU_DEBUG("irq_idx=%d ret=%d\n", irq_idx, ret);
+ 	}
+-	spin_unlock_irqrestore(&dpu_kms->irq_obj.cb_lock, irq_flags);
++	mutex_unlock(&dpu_kms->irq_obj.hw_enable_lock);
+ 
+ 	return 0;
+ }
+@@ -207,6 +210,7 @@ void dpu_core_irq_preinstall(struct dpu_kms *dpu_kms)
+ 	dpu_disable_all_irqs(dpu_kms);
+ 	pm_runtime_put_sync(&dpu_kms->pdev->dev);
+ 
++	mutex_init(&dpu_kms->irq_obj.hw_enable_lock);
+ 	spin_lock_init(&dpu_kms->irq_obj.cb_lock);
+ 
+ 	/* Create irq callbacks for all possible irq_idx */
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h
+index f6840b1af6e4..5a162caea29d 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h
+@@ -83,6 +83,7 @@ struct dpu_irq_callback {
+  * @total_irq:    total number of irq_idx obtained from HW interrupts mapping
+  * @irq_cb_tbl:   array of IRQ callbacks setting
+  * @cb_lock:      callback lock
++ * @hw_enable_lock: lock to synchronize callback register and unregister
+  * @debugfs_file: debugfs file for irq statistics
+  */
+ struct dpu_irq {
+@@ -90,6 +91,7 @@ struct dpu_irq {
+ 	struct list_head *irq_cb_tbl;
+ 	atomic_t *irq_counts;
+ 	spinlock_t cb_lock;
++	struct mutex hw_enable_lock;
+ };
+ 
+ struct dpu_kms {
+-- 
+2.29.2
+
