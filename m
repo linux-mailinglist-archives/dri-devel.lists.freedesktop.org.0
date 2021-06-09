@@ -1,33 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4543A3A1BA8
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Jun 2021 19:23:14 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B2E943A1BB0
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Jun 2021 19:23:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E106A6E12A;
-	Wed,  9 Jun 2021 17:23:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1B7676E9DD;
+	Wed,  9 Jun 2021 17:23:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from EX13-EDG-OU-001.vmware.com (ex13-edg-ou-001.vmware.com
  [208.91.0.189])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 796376E12A
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 954906E2E3
  for <dri-devel@lists.freedesktop.org>; Wed,  9 Jun 2021 17:23:09 +0000 (UTC)
 Received: from sc9-mailhost3.vmware.com (10.113.161.73) by
  EX13-EDG-OU-001.vmware.com (10.113.208.155) with Microsoft SMTP Server id
- 15.0.1156.6; Wed, 9 Jun 2021 10:23:05 -0700
+ 15.0.1156.6; Wed, 9 Jun 2021 10:23:06 -0700
 Received: from vertex.localdomain (unknown [10.21.244.178])
- by sc9-mailhost3.vmware.com (Postfix) with ESMTP id 38E402024D;
+ by sc9-mailhost3.vmware.com (Postfix) with ESMTP id BCD062024E;
  Wed,  9 Jun 2021 10:23:08 -0700 (PDT)
 From: Zack Rusin <zackr@vmware.com>
 To: <dri-devel@lists.freedesktop.org>
-Subject: [PATCH 0/9] Adding support for mks-stats and some cleanups/fixes
-Date: Wed, 9 Jun 2021 13:22:58 -0400
-Message-ID: <20210609172307.131929-1-zackr@vmware.com>
+Subject: [PATCH 1/9] drm/vmwgfx: Simplify devcaps code
+Date: Wed, 9 Jun 2021 13:22:59 -0400
+Message-ID: <20210609172307.131929-2-zackr@vmware.com>
 X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20210609172307.131929-1-zackr@vmware.com>
+References: <20210609172307.131929-1-zackr@vmware.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 Received-SPF: None (EX13-EDG-OU-001.vmware.com: zackr@vmware.com does not
  designate permitted sender hosts)
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -42,63 +44,536 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Martin Krastev <krastevm@vmware.com>,
+ Roland Scheidegger <sroland@vmware.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Our GL driver added support for mks-stats (a count/time based profiling
-that can combine guest/host stats into a singular profile) a while
-back but it was only used on windows. This set adds support for
-mks-stats to the kernel driver. The stats are reported in the host
-side logs. With time we'll be expanding the list of kernel side stats,
-currently only execbuf is being measured. The GL driver already
-has all the relevant entrypoints measured.
+Make devcaps code self-contained so that it's easier to cache
+and operate on them.
+As the number of devcaps got bigger the code dealing with them
+got more and more tricky. Lets create a central place to deal
+with all the complexity. This lets us remove the lock we used
+to require to deal with register write races because we only
+read the devcaps at initialization.
 
-There's also a bunch of cleanups and fixes.
-
-Martin Krastev (2):
-  drm/vmwgfx: Introduce VMware mks-guest-stats
-  drm/vmwgfx: Refactor vmw_mksstat_remove_ioctl to expect pgid match
-    with vmw_mksstat_add_ioctl to authorise removal.
-
-Zack Rusin (7):
-  drm/vmwgfx: Simplify devcaps code
-  drm/vmwgfx: Fix subresource updates with new contexts
-  drm/vmwgfx: Fix some static checker warnings
-  drm/vmwgfx: remove code that was using physical page addresses
-  drm/vmwgfx: inline access to the pages from the piter
-  drm/vmwgfx: Remove vmw_chipset
-  drm/vmwgfx: Fix implicit declaration error
-
- drivers/gpu/drm/vmwgfx/Kconfig                |   7 +
- drivers/gpu/drm/vmwgfx/Makefile               |   2 +-
- .../drm/vmwgfx/device_include/svga_types.h    |  92 ++-
- .../vmwgfx/device_include/vm_basic_types.h    |  22 -
- drivers/gpu/drm/vmwgfx/ttm_memory.c           |   2 +
- drivers/gpu/drm/vmwgfx/vmwgfx_binding.c       |  20 +-
- drivers/gpu/drm/vmwgfx/vmwgfx_cmd.c           |   6 +-
- drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf.c        |   2 +-
- drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf_res.c    |   4 +-
- drivers/gpu/drm/vmwgfx/vmwgfx_devcaps.c       | 142 +++++
- drivers/gpu/drm/vmwgfx/vmwgfx_devcaps.h       |  50 ++
- drivers/gpu/drm/vmwgfx/vmwgfx_drv.c           |  58 +-
- drivers/gpu/drm/vmwgfx/vmwgfx_drv.h           |  38 +-
- drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c       |  15 +-
- drivers/gpu/drm/vmwgfx/vmwgfx_ioctl.c         | 109 +---
- drivers/gpu/drm/vmwgfx/vmwgfx_mksstat.h       | 144 +++++
- drivers/gpu/drm/vmwgfx/vmwgfx_mob.c           |   4 +-
- drivers/gpu/drm/vmwgfx/vmwgfx_msg.c           | 579 +++++++++++++++++-
- drivers/gpu/drm/vmwgfx/vmwgfx_resource.c      |   8 +-
- drivers/gpu/drm/vmwgfx/vmwgfx_so.c            |   3 +-
- drivers/gpu/drm/vmwgfx/vmwgfx_surface.c       |   5 +-
- drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c    |  35 --
- drivers/gpu/drm/vmwgfx/vmwgfx_validation.c    |   4 +-
- include/uapi/drm/vmwgfx_drm.h                 |  41 ++
- 24 files changed, 1175 insertions(+), 217 deletions(-)
- delete mode 100644 drivers/gpu/drm/vmwgfx/device_include/vm_basic_types.h
+Signed-off-by: Zack Rusin <zackr@vmware.com>
+Reviewed-by: Roland Scheidegger <sroland@vmware.com>
+Reviewed-by: Martin Krastev <krastevm@vmware.com>
+---
+ drivers/gpu/drm/vmwgfx/Makefile         |   2 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_cmd.c     |   6 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_devcaps.c | 142 ++++++++++++++++++++++++
+ drivers/gpu/drm/vmwgfx/vmwgfx_devcaps.h |  50 +++++++++
+ drivers/gpu/drm/vmwgfx/vmwgfx_drv.c     |  25 +++--
+ drivers/gpu/drm/vmwgfx/vmwgfx_drv.h     |   3 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_ioctl.c   | 109 ++----------------
+ 7 files changed, 221 insertions(+), 116 deletions(-)
  create mode 100644 drivers/gpu/drm/vmwgfx/vmwgfx_devcaps.c
  create mode 100644 drivers/gpu/drm/vmwgfx/vmwgfx_devcaps.h
- create mode 100644 drivers/gpu/drm/vmwgfx/vmwgfx_mksstat.h
 
+diff --git a/drivers/gpu/drm/vmwgfx/Makefile b/drivers/gpu/drm/vmwgfx/Makefile
+index 09f6dcac768b..bc323f7d4032 100644
+--- a/drivers/gpu/drm/vmwgfx/Makefile
++++ b/drivers/gpu/drm/vmwgfx/Makefile
+@@ -9,7 +9,7 @@ vmwgfx-y := vmwgfx_execbuf.o vmwgfx_gmr.o vmwgfx_kms.o vmwgfx_drv.o \
+ 	    vmwgfx_cotable.o vmwgfx_so.o vmwgfx_binding.o vmwgfx_msg.o \
+ 	    vmwgfx_simple_resource.o vmwgfx_va.o vmwgfx_blit.o \
+ 	    vmwgfx_validation.o vmwgfx_page_dirty.o vmwgfx_streamoutput.o \
+-	    ttm_object.o ttm_memory.o
++            vmwgfx_devcaps.o ttm_object.o ttm_memory.o
+ 
+ vmwgfx-$(CONFIG_DRM_FBDEV_EMULATION) += vmwgfx_fb.o
+ vmwgfx-$(CONFIG_TRANSPARENT_HUGEPAGE) += vmwgfx_thp.o
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_cmd.c b/drivers/gpu/drm/vmwgfx/vmwgfx_cmd.c
+index 956b85e35cef..30a837b5baa6 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_cmd.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_cmd.c
+@@ -30,6 +30,7 @@
+ #include <drm/ttm/ttm_placement.h>
+ 
+ #include "vmwgfx_drv.h"
++#include "vmwgfx_devcaps.h"
+ 
+ bool vmw_supports_3d(struct vmw_private *dev_priv)
+ {
+@@ -45,10 +46,7 @@ bool vmw_supports_3d(struct vmw_private *dev_priv)
+ 		if (!dev_priv->has_mob)
+ 			return false;
+ 
+-		spin_lock(&dev_priv->cap_lock);
+-		vmw_write(dev_priv, SVGA_REG_DEV_CAP, SVGA3D_DEVCAP_3D);
+-		result = vmw_read(dev_priv, SVGA_REG_DEV_CAP);
+-		spin_unlock(&dev_priv->cap_lock);
++		result = vmw_devcap_get(dev_priv, SVGA3D_DEVCAP_3D);
+ 
+ 		return (result != 0);
+ 	}
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_devcaps.c b/drivers/gpu/drm/vmwgfx/vmwgfx_devcaps.c
+new file mode 100644
+index 000000000000..04fc67d53563
+--- /dev/null
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_devcaps.c
+@@ -0,0 +1,142 @@
++/* SPDX-License-Identifier: GPL-2.0 OR MIT */
++/**************************************************************************
++ *
++ * Copyright 2021 VMware, Inc., Palo Alto, CA., USA
++ *
++ * Permission is hereby granted, free of charge, to any person obtaining a
++ * copy of this software and associated documentation files (the
++ * "Software"), to deal in the Software without restriction, including
++ * without limitation the rights to use, copy, modify, merge, publish,
++ * distribute, sub license, and/or sell copies of the Software, and to
++ * permit persons to whom the Software is furnished to do so, subject to
++ * the following conditions:
++ *
++ * The above copyright notice and this permission notice (including the
++ * next paragraph) shall be included in all copies or substantial portions
++ * of the Software.
++ *
++ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
++ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
++ * FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL
++ * THE COPYRIGHT HOLDERS, AUTHORS AND/OR ITS SUPPLIERS BE LIABLE FOR ANY CLAIM,
++ * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
++ * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
++ * USE OR OTHER DEALINGS IN THE SOFTWARE.
++ *
++ **************************************************************************/
++
++#include "vmwgfx_devcaps.h"
++
++#include "vmwgfx_drv.h"
++
++
++struct svga_3d_compat_cap {
++	SVGA3dCapsRecordHeader header;
++	SVGA3dCapPair pairs[SVGA3D_DEVCAP_MAX];
++};
++
++
++static u32 vmw_mask_legacy_multisample(unsigned int cap, u32 fmt_value)
++{
++	/*
++	 * A version of user-space exists which use MULTISAMPLE_MASKABLESAMPLES
++	 * to check the sample count supported by virtual device. Since there
++	 * never was support for multisample count for backing MOB return 0.
++	 *
++	 * MULTISAMPLE_MASKABLESAMPLES devcap is marked as deprecated by virtual
++	 * device.
++	 */
++	if (cap == SVGA3D_DEVCAP_DEAD5)
++		return 0;
++
++	return fmt_value;
++}
++
++static int vmw_fill_compat_cap(struct vmw_private *dev_priv, void *bounce,
++			       size_t size)
++{
++	struct svga_3d_compat_cap *compat_cap =
++		(struct svga_3d_compat_cap *) bounce;
++	unsigned int i;
++	size_t pair_offset = offsetof(struct svga_3d_compat_cap, pairs);
++	unsigned int max_size;
++
++	if (size < pair_offset)
++		return -EINVAL;
++
++	max_size = (size - pair_offset) / sizeof(SVGA3dCapPair);
++
++	if (max_size > SVGA3D_DEVCAP_MAX)
++		max_size = SVGA3D_DEVCAP_MAX;
++
++	compat_cap->header.length =
++		(pair_offset + max_size * sizeof(SVGA3dCapPair)) / sizeof(u32);
++	compat_cap->header.type = SVGA3DCAPS_RECORD_DEVCAPS;
++
++	for (i = 0; i < max_size; ++i) {
++		compat_cap->pairs[i][0] = i;
++		compat_cap->pairs[i][1] = vmw_mask_legacy_multisample
++			(i, dev_priv->devcaps[i]);
++	}
++
++	return 0;
++}
++
++int vmw_devcaps_create(struct vmw_private *vmw)
++{
++	bool gb_objects = !!(vmw->capabilities & SVGA_CAP_GBOBJECTS);
++	uint32_t i;
++
++	if (gb_objects) {
++		vmw->devcaps = vzalloc(sizeof(uint32_t) * SVGA3D_DEVCAP_MAX);
++		if (!vmw->devcaps)
++			return -ENOMEM;
++		for (i = 0; i < SVGA3D_DEVCAP_MAX; ++i) {
++			vmw_write(vmw, SVGA_REG_DEV_CAP, i);
++			vmw->devcaps[i] = vmw_read(vmw, SVGA_REG_DEV_CAP);
++		}
++	}
++	return 0;
++}
++
++void vmw_devcaps_destroy(struct vmw_private *vmw)
++{
++	vfree(vmw->devcaps);
++	vmw->devcaps = NULL;
++}
++
++
++uint32 vmw_devcaps_size(const struct vmw_private *vmw,
++			bool gb_aware)
++{
++	bool gb_objects = !!(vmw->capabilities & SVGA_CAP_GBOBJECTS);
++	if (gb_objects && gb_aware)
++		return SVGA3D_DEVCAP_MAX * sizeof(uint32_t);
++	else if (gb_objects)
++		return  sizeof(struct svga_3d_compat_cap) +
++				sizeof(uint32_t);
++	else if (vmw->fifo_mem != NULL)
++		return (SVGA_FIFO_3D_CAPS_LAST - SVGA_FIFO_3D_CAPS + 1) *
++				sizeof(uint32_t);
++	else
++		return 0;
++}
++
++int vmw_devcaps_copy(struct vmw_private *vmw, bool gb_aware,
++		     void *dst, uint32_t dst_size)
++{
++	int ret;
++	bool gb_objects = !!(vmw->capabilities & SVGA_CAP_GBOBJECTS);
++	if (gb_objects && gb_aware) {
++		memcpy(dst, vmw->devcaps, dst_size);
++	} else if (gb_objects) {
++		ret = vmw_fill_compat_cap(vmw, dst, dst_size);
++		if (unlikely(ret != 0))
++			return ret;
++	} else if (vmw->fifo_mem) {
++		u32 *fifo_mem = vmw->fifo_mem;
++		memcpy(dst, &fifo_mem[SVGA_FIFO_3D_CAPS], dst_size);
++	} else
++		return -EINVAL;
++	return 0;
++}
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_devcaps.h b/drivers/gpu/drm/vmwgfx/vmwgfx_devcaps.h
+new file mode 100644
+index 000000000000..b7c43e5f07c3
+--- /dev/null
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_devcaps.h
+@@ -0,0 +1,50 @@
++/* SPDX-License-Identifier: GPL-2.0 OR MIT */
++/**************************************************************************
++ *
++ * Copyright 2021 VMware, Inc., Palo Alto, CA., USA
++ *
++ * Permission is hereby granted, free of charge, to any person obtaining a
++ * copy of this software and associated documentation files (the
++ * "Software"), to deal in the Software without restriction, including
++ * without limitation the rights to use, copy, modify, merge, publish,
++ * distribute, sub license, and/or sell copies of the Software, and to
++ * permit persons to whom the Software is furnished to do so, subject to
++ * the following conditions:
++ *
++ * The above copyright notice and this permission notice (including the
++ * next paragraph) shall be included in all copies or substantial portions
++ * of the Software.
++ *
++ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
++ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
++ * FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL
++ * THE COPYRIGHT HOLDERS, AUTHORS AND/OR ITS SUPPLIERS BE LIABLE FOR ANY CLAIM,
++ * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
++ * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
++ * USE OR OTHER DEALINGS IN THE SOFTWARE.
++ *
++ **************************************************************************/
++
++#ifndef _VMWGFX_DEVCAPS_H_
++#define _VMWGFX_DEVCAPS_H_
++
++#include "vmwgfx_drv.h"
++
++#include "device_include/svga3d_caps.h"
++
++int vmw_devcaps_create(struct vmw_private *vmw);
++void vmw_devcaps_destroy(struct vmw_private *vmw);
++uint32_t vmw_devcaps_size(const struct vmw_private *vmw, bool gb_aware);
++int vmw_devcaps_copy(struct vmw_private *vmw, bool gb_aware,
++		     void *dst, uint32_t dst_size);
++
++static inline uint32_t vmw_devcap_get(struct vmw_private *vmw,
++				      uint32_t devcap)
++{
++	bool gb_objects = !!(vmw->capabilities & SVGA_CAP_GBOBJECTS);
++	if (gb_objects)
++		return vmw->devcaps[devcap];
++	return 0;
++}
++
++#endif
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
+index 6f5ea00973e0..3e438de0f157 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
+@@ -41,6 +41,7 @@
+ 
+ #include "ttm_object.h"
+ #include "vmwgfx_binding.h"
++#include "vmwgfx_devcaps.h"
+ #include "vmwgfx_drv.h"
+ 
+ #define VMWGFX_DRIVER_DESC "Linux drm driver for VMware graphics devices"
+@@ -792,7 +793,6 @@ static int vmw_driver_load(struct vmw_private *dev_priv, u32 pci_id)
+ 	spin_lock_init(&dev_priv->resource_lock);
+ 	spin_lock_init(&dev_priv->hw_lock);
+ 	spin_lock_init(&dev_priv->waiter_lock);
+-	spin_lock_init(&dev_priv->cap_lock);
+ 	spin_lock_init(&dev_priv->cursor_lock);
+ 
+ 	ret = vmw_setup_pci_resources(dev_priv, pci_id);
+@@ -982,6 +982,12 @@ static int vmw_driver_load(struct vmw_private *dev_priv, u32 pci_id)
+ 		goto out_no_vram;
+ 	}
+ 
++	ret = vmw_devcaps_create(dev_priv);
++	if (unlikely(ret != 0)) {
++		DRM_ERROR("Failed initializing device caps.\n");
++		goto out_no_vram;
++	}
++
+ 	/*
+ 	 * "Guest Memory Regions" is an aperture like feature with
+ 	 *  one slot per bo. There is an upper limit of the number of
+@@ -1008,11 +1014,8 @@ static int vmw_driver_load(struct vmw_private *dev_priv, u32 pci_id)
+ 	}
+ 
+ 	if (dev_priv->has_mob && (dev_priv->capabilities & SVGA_CAP_DX)) {
+-		spin_lock(&dev_priv->cap_lock);
+-		vmw_write(dev_priv, SVGA_REG_DEV_CAP, SVGA3D_DEVCAP_DXCONTEXT);
+-		if (vmw_read(dev_priv, SVGA_REG_DEV_CAP))
++		if (vmw_devcap_get(dev_priv, SVGA3D_DEVCAP_DXCONTEXT))
+ 			dev_priv->sm_type = VMW_SM_4;
+-		spin_unlock(&dev_priv->cap_lock);
+ 	}
+ 
+ 	vmw_validation_mem_init_ttm(dev_priv, VMWGFX_VALIDATION_MEM_GRAN);
+@@ -1020,15 +1023,11 @@ static int vmw_driver_load(struct vmw_private *dev_priv, u32 pci_id)
+ 	/* SVGA_CAP2_DX2 (DefineGBSurface_v3) is needed for SM4_1 support */
+ 	if (has_sm4_context(dev_priv) &&
+ 	    (dev_priv->capabilities2 & SVGA_CAP2_DX2)) {
+-		vmw_write(dev_priv, SVGA_REG_DEV_CAP, SVGA3D_DEVCAP_SM41);
+-
+-		if (vmw_read(dev_priv, SVGA_REG_DEV_CAP))
++		if (vmw_devcap_get(dev_priv, SVGA3D_DEVCAP_SM41))
+ 			dev_priv->sm_type = VMW_SM_4_1;
+-
+ 		if (has_sm4_1_context(dev_priv) &&
+-		    (dev_priv->capabilities2 & SVGA_CAP2_DX3)) {
+-			vmw_write(dev_priv, SVGA_REG_DEV_CAP, SVGA3D_DEVCAP_SM5);
+-			if (vmw_read(dev_priv, SVGA_REG_DEV_CAP))
++				(dev_priv->capabilities2 & SVGA_CAP2_DX3)) {
++			if (vmw_devcap_get(dev_priv, SVGA3D_DEVCAP_SM5))
+ 				dev_priv->sm_type = VMW_SM_5;
+ 		}
+ 	}
+@@ -1073,6 +1072,7 @@ static int vmw_driver_load(struct vmw_private *dev_priv, u32 pci_id)
+ 		vmw_gmrid_man_fini(dev_priv, VMW_PL_MOB);
+ 	if (dev_priv->has_gmr)
+ 		vmw_gmrid_man_fini(dev_priv, VMW_PL_GMR);
++	vmw_devcaps_destroy(dev_priv);
+ 	vmw_vram_manager_fini(dev_priv);
+ out_no_vram:
+ 	ttm_device_fini(&dev_priv->bdev);
+@@ -1121,6 +1121,7 @@ static void vmw_driver_unload(struct drm_device *dev)
+ 	vmw_release_device_early(dev_priv);
+ 	if (dev_priv->has_mob)
+ 		vmw_gmrid_man_fini(dev_priv, VMW_PL_MOB);
++	vmw_devcaps_destroy(dev_priv);
+ 	vmw_vram_manager_fini(dev_priv);
+ 	ttm_device_fini(&dev_priv->bdev);
+ 	drm_vma_offset_manager_destroy(&dev_priv->vma_manager);
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
+index d1cef3b69e9d..4c2afe9c0505 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
+@@ -513,7 +513,6 @@ struct vmw_private {
+ 	bool has_gmr;
+ 	bool has_mob;
+ 	spinlock_t hw_lock;
+-	spinlock_t cap_lock;
+ 	bool assume_16bpp;
+ 
+ 	enum vmw_sm_type sm_type;
+@@ -629,6 +628,8 @@ struct vmw_private {
+ 
+ 	/* Validation memory reservation */
+ 	struct vmw_validation_mem vvm;
++
++	uint32 *devcaps;
+ };
+ 
+ static inline struct vmw_surface *vmw_res_to_srf(struct vmw_resource *res)
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_ioctl.c b/drivers/gpu/drm/vmwgfx/vmwgfx_ioctl.c
+index 4fdacf9924e6..c34f61ac4ce4 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_ioctl.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_ioctl.c
+@@ -26,14 +26,9 @@
+  **************************************************************************/
+ 
+ #include "vmwgfx_drv.h"
++#include "vmwgfx_devcaps.h"
+ #include <drm/vmwgfx_drm.h>
+ #include "vmwgfx_kms.h"
+-#include "device_include/svga3d_caps.h"
+-
+-struct svga_3d_compat_cap {
+-	SVGA3dCapsRecordHeader header;
+-	SVGA3dCapPair pairs[SVGA3D_DEVCAP_MAX];
+-};
+ 
+ int vmw_getparam_ioctl(struct drm_device *dev, void *data,
+ 		       struct drm_file *file_priv)
+@@ -88,16 +83,7 @@ int vmw_getparam_ioctl(struct drm_device *dev, void *data,
+ 			param->value = dev_priv->memory_size;
+ 		break;
+ 	case DRM_VMW_PARAM_3D_CAPS_SIZE:
+-		if ((dev_priv->capabilities & SVGA_CAP_GBOBJECTS) &&
+-		    vmw_fp->gb_aware)
+-			param->value = SVGA3D_DEVCAP_MAX * sizeof(uint32_t);
+-		else if (dev_priv->capabilities & SVGA_CAP_GBOBJECTS)
+-			param->value = sizeof(struct svga_3d_compat_cap) +
+-				sizeof(uint32_t);
+-		else
+-			param->value = (SVGA_FIFO_3D_CAPS_LAST -
+-					SVGA_FIFO_3D_CAPS + 1) *
+-				sizeof(uint32_t);
++		param->value = vmw_devcaps_size(dev_priv, vmw_fp->gb_aware);
+ 		break;
+ 	case DRM_VMW_PARAM_MAX_MOB_MEMORY:
+ 		vmw_fp->gb_aware = true;
+@@ -126,55 +112,6 @@ int vmw_getparam_ioctl(struct drm_device *dev, void *data,
+ 	return 0;
+ }
+ 
+-static u32 vmw_mask_legacy_multisample(unsigned int cap, u32 fmt_value)
+-{
+-	/*
+-	 * A version of user-space exists which use MULTISAMPLE_MASKABLESAMPLES
+-	 * to check the sample count supported by virtual device. Since there
+-	 * never was support for multisample count for backing MOB return 0.
+-	 *
+-	 * MULTISAMPLE_MASKABLESAMPLES devcap is marked as deprecated by virtual
+-	 * device.
+-	 */
+-	if (cap == SVGA3D_DEVCAP_DEAD5)
+-		return 0;
+-
+-	return fmt_value;
+-}
+-
+-static int vmw_fill_compat_cap(struct vmw_private *dev_priv, void *bounce,
+-			       size_t size)
+-{
+-	struct svga_3d_compat_cap *compat_cap =
+-		(struct svga_3d_compat_cap *) bounce;
+-	unsigned int i;
+-	size_t pair_offset = offsetof(struct svga_3d_compat_cap, pairs);
+-	unsigned int max_size;
+-
+-	if (size < pair_offset)
+-		return -EINVAL;
+-
+-	max_size = (size - pair_offset) / sizeof(SVGA3dCapPair);
+-
+-	if (max_size > SVGA3D_DEVCAP_MAX)
+-		max_size = SVGA3D_DEVCAP_MAX;
+-
+-	compat_cap->header.length =
+-		(pair_offset + max_size * sizeof(SVGA3dCapPair)) / sizeof(u32);
+-	compat_cap->header.type = SVGA3DCAPS_RECORD_DEVCAPS;
+-
+-	spin_lock(&dev_priv->cap_lock);
+-	for (i = 0; i < max_size; ++i) {
+-		vmw_write(dev_priv, SVGA_REG_DEV_CAP, i);
+-		compat_cap->pairs[i][0] = i;
+-		compat_cap->pairs[i][1] = vmw_mask_legacy_multisample
+-			(i, vmw_read(dev_priv, SVGA_REG_DEV_CAP));
+-	}
+-	spin_unlock(&dev_priv->cap_lock);
+-
+-	return 0;
+-}
+-
+ 
+ int vmw_get_cap_3d_ioctl(struct drm_device *dev, void *data,
+ 			 struct drm_file *file_priv)
+@@ -183,11 +120,9 @@ int vmw_get_cap_3d_ioctl(struct drm_device *dev, void *data,
+ 		(struct drm_vmw_get_3d_cap_arg *) data;
+ 	struct vmw_private *dev_priv = vmw_priv(dev);
+ 	uint32_t size;
+-	u32 *fifo_mem;
+ 	void __user *buffer = (void __user *)((unsigned long)(arg->buffer));
+-	void *bounce;
++	void *bounce = NULL;
+ 	int ret;
+-	bool gb_objects = !!(dev_priv->capabilities & SVGA_CAP_GBOBJECTS);
+ 	struct vmw_fpriv *vmw_fp = vmw_fpriv(file_priv);
+ 
+ 	if (unlikely(arg->pad64 != 0 || arg->max_size == 0)) {
+@@ -195,13 +130,11 @@ int vmw_get_cap_3d_ioctl(struct drm_device *dev, void *data,
+ 		return -EINVAL;
+ 	}
+ 
+-	if (gb_objects && vmw_fp->gb_aware)
+-		size = SVGA3D_DEVCAP_MAX * sizeof(uint32_t);
+-	else if (gb_objects)
+-		size = sizeof(struct svga_3d_compat_cap) + sizeof(uint32_t);
+-	else
+-		size = (SVGA_FIFO_3D_CAPS_LAST - SVGA_FIFO_3D_CAPS + 1) *
+-			sizeof(uint32_t);
++	size = vmw_devcaps_size(dev_priv, vmw_fp->gb_aware);
++	if (unlikely(size == 0)) {
++		DRM_ERROR("Failed to figure out the devcaps size (no 3D).\n");
++		return -ENOMEM;
++	}
+ 
+ 	if (arg->max_size < size)
+ 		size = arg->max_size;
+@@ -212,29 +145,9 @@ int vmw_get_cap_3d_ioctl(struct drm_device *dev, void *data,
+ 		return -ENOMEM;
+ 	}
+ 
+-	if (gb_objects && vmw_fp->gb_aware) {
+-		int i, num;
+-		uint32_t *bounce32 = (uint32_t *) bounce;
+-
+-		num = size / sizeof(uint32_t);
+-		if (num > SVGA3D_DEVCAP_MAX)
+-			num = SVGA3D_DEVCAP_MAX;
+-
+-		spin_lock(&dev_priv->cap_lock);
+-		for (i = 0; i < num; ++i) {
+-			vmw_write(dev_priv, SVGA_REG_DEV_CAP, i);
+-			*bounce32++ = vmw_mask_legacy_multisample
+-				(i, vmw_read(dev_priv, SVGA_REG_DEV_CAP));
+-		}
+-		spin_unlock(&dev_priv->cap_lock);
+-	} else if (gb_objects) {
+-		ret = vmw_fill_compat_cap(dev_priv, bounce, size);
+-		if (unlikely(ret != 0))
+-			goto out_err;
+-	} else {
+-		fifo_mem = dev_priv->fifo_mem;
+-		memcpy(bounce, &fifo_mem[SVGA_FIFO_3D_CAPS], size);
+-	}
++	ret = vmw_devcaps_copy(dev_priv, vmw_fp->gb_aware, bounce, size);
++	if (unlikely (ret != 0))
++		goto out_err;
+ 
+ 	ret = copy_to_user(buffer, bounce, size);
+ 	if (ret)
 -- 
 2.30.2
 
