@@ -2,57 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6729E3A1F10
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Jun 2021 23:30:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EA8BA3A1F11
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Jun 2021 23:30:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A19766EB83;
-	Wed,  9 Jun 2021 21:30:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 381E26EB61;
+	Wed,  9 Jun 2021 21:30:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x631.google.com (mail-pl1-x631.google.com
- [IPv6:2607:f8b0:4864:20::631])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C237A6EB6F
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Jun 2021 21:30:12 +0000 (UTC)
-Received: by mail-pl1-x631.google.com with SMTP id v11so4948353ply.6
- for <dri-devel@lists.freedesktop.org>; Wed, 09 Jun 2021 14:30:12 -0700 (PDT)
+Received: from mail-pl1-x62d.google.com (mail-pl1-x62d.google.com
+ [IPv6:2607:f8b0:4864:20::62d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 308C56EB8D
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Jun 2021 21:30:15 +0000 (UTC)
+Received: by mail-pl1-x62d.google.com with SMTP id e1so13412926pld.13
+ for <dri-devel@lists.freedesktop.org>; Wed, 09 Jun 2021 14:30:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=jlekstrand-net.20150623.gappssmtp.com; s=20150623;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=JwH9BvcWQRM9Pbc0qvOae7i4EU7PPki/fj1kY1abKhQ=;
- b=vMpyc5vC6KwPg9tkOGnmFg5fdJ+apN1nFhKlt0jLKNoUzJgtYR3ETOK+7pQNTPMiQK
- BRSJuUPDHQHk9uXoPECKDNMMux5Ac4/gKzj6F8/aYwBlIvL9YyH+g4GOI2l3rM0q1/SQ
- U2/ztTlJ1iHqtceoEhB9BCq0LSoFmoQMq3PJScjso/0fOqbBUL5L6Ph8/4ahWk47w5MV
- 7y4BltVRQQ0AKXKmkWxSy3rnbnqkBbtzwH4DuB1cSawdwHxPptAM7EhbBOCp4irYZYYM
- n7ybadOCx+LDrhEiTyxaXDAY2Mcr1Ei7EtdmRcVHx4uaWQYqPesYXiby34YwJVg8N0Bn
- zQIA==
+ bh=TVM6IqkVxgF758A5cge42oRP8xpTXQAuAHmNBA0fFv0=;
+ b=vgD4miESEhiOO5Ipfy3sfslWwzjyKiWCpZSzZlqy1cwgg/0zWGow0db1bcdXr3B5ia
+ rtDv6xX9JPJYEWQ5kysiQSLrXXhR019g1tJ4DntjjzxJRSaa+Ao3f0QnSFUBAiwtw6sv
+ Rr7n13Nn+zxAzb4t19CvQnBOQZOSGJ3R0HORQNdlCHufvfgBh7jCgEQpmcLKLOM/PJcH
+ 1pr5Uq66suhIxO7xa9XqwmzQV7wrx4MjhKBRPm0bPItaH8aEWWjLUBv3Fobfwg0lqGWg
+ gNEp+5aQCRpHlaoNF5MP6jw7cIl7gYtcsl4ofbCPEdStThOpD2VI80+zSxoXdM+i8G39
+ /scQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=JwH9BvcWQRM9Pbc0qvOae7i4EU7PPki/fj1kY1abKhQ=;
- b=nPEOf5X8w4IIKAJWTprfDoQNT/RTUgSaJV4Y9GTgtrhrK11h3pjmHrf1AlK+zCRXsa
- KnwOqAWz2Hc+dCipzS+eLPLLVPoZ4k1OrlN3L00E4HMQ7J/nnuTcQSloCL2mMrgmHONF
- uLH0hh8SEe6c38lloZpnFcIqsuJLe1jJetSBfe4g+P6KN0IgW5WXW8Hc3cuxlD5eZMn+
- 1ftGu9mCCIFf0XYKFkf2wBc4MJRqLydgm2J0H1zUSui7baAovELgF4So6oQKKZFyMyGx
- g23yFGucelyDZYfbd1zBLU3VW7IpMA7w6gtak8Yq85bmgE8I0OwVsXLxg28YgjhWpFp2
- KIkw==
-X-Gm-Message-State: AOAM5313F9c30jJUIrX6tKOxYMvJpUfOJztA+Q78ixCxe3wPoIY0s/uw
- +5EHxlO13Y+NBqIf/NpioCU8NDuQgU+kSw==
-X-Google-Smtp-Source: ABdhPJwGjhYeJkB8rrm1/R1AZmcp2jX5EPi12XfY9jYSLgOHeNj6siylXNjqy5X/GIpx8dGl3XK+vg==
-X-Received: by 2002:a17:90a:e506:: with SMTP id
- t6mr1604852pjy.59.1623274211998; 
- Wed, 09 Jun 2021 14:30:11 -0700 (PDT)
+ bh=TVM6IqkVxgF758A5cge42oRP8xpTXQAuAHmNBA0fFv0=;
+ b=baxahVT8k9g2o3HinEW+v1PuNBmqFMxUSOlY/dyBYxK3O8+9rwU/3RS79q4ZgNzepq
+ D0uLyo4CfFZhkw9V14XZT2J2N2EnDhSL2TnkgiZ9Vw/3LQSB5Glj0i2H3qXIhoOWnWwL
+ iUeougxiq6rnCvTSD4iyqiRprgT/6l+KVmcPM3FkKIb5RQGB6YodRfzOSqq75HSAH7Gq
+ mxc9nYJR/jFhSNSawHifv/8NWHULFuzM2oMxJqSaT0+ahf2GO+ad1Fe8akVmtDsFQIGg
+ yXU/TQCUDNSdQGXfRl9DNwP5EgP4eRj9EoVqb4LRhJUDkpCRktBPn7nYCdq9utL8dYE0
+ rKRQ==
+X-Gm-Message-State: AOAM533eb7BM/ijC1cs/A4j46q6wpwp2ymdk9UioBC0+XWWSZoiQDgfx
+ OFjHQXgCmFa5hSwZkQgWUPMLCm9U3ZTOqQ==
+X-Google-Smtp-Source: ABdhPJxA7otZafFMLRTV6Q2ddhPEa1XgHZ6ZhrzXeSXf6tntPEcgFP6S38N9qoUqvaOPomgnSMqFzg==
+X-Received: by 2002:a17:90a:bd18:: with SMTP id
+ y24mr6503097pjr.83.1623274214438; 
+ Wed, 09 Jun 2021 14:30:14 -0700 (PDT)
 Received: from omlet.lan (jfdmzpr04-ext.jf.intel.com. [134.134.137.73])
- by smtp.gmail.com with ESMTPSA id u14sm519133pjx.14.2021.06.09.14.30.10
+ by smtp.gmail.com with ESMTPSA id u14sm519133pjx.14.2021.06.09.14.30.12
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 09 Jun 2021 14:30:11 -0700 (PDT)
+ Wed, 09 Jun 2021 14:30:14 -0700 (PDT)
 From: Jason Ekstrand <jason@jlekstrand.net>
 To: dri-devel@lists.freedesktop.org,
 	intel-gfx@lists.freedesktop.org
-Subject: [PATCH 4/5] dma-buf: Stop using SLAB_TYPESAFE_BY_RCU in selftests
-Date: Wed,  9 Jun 2021 16:29:58 -0500
-Message-Id: <20210609212959.471209-5-jason@jlekstrand.net>
+Subject: [PATCH 5/5] DONOTMERGE: dma-buf: Get rid of dma_fence_get_rcu_safe
+Date: Wed,  9 Jun 2021 16:29:59 -0500
+Message-Id: <20210609212959.471209-6-jason@jlekstrand.net>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210609212959.471209-1-jason@jlekstrand.net>
 References: <20210609212959.471209-1-jason@jlekstrand.net>
@@ -77,8 +77,13 @@ Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The only real-world user of SLAB_TYPESAFE_BY_RCU was i915 and it doesn't
-use that anymore so there's no need to be testing it in selftests.
+This helper existed to handle the weird corner-cases caused by using
+SLAB_TYPESAFE_BY_RCU for backing dma_fence.  Now that no one is using
+that anymore (i915 was the only real user), dma_fence_get_rcu is
+sufficient.  The one slightly annoying thing we have to deal with here
+is that dma_fence_get_rcu_safe did an rcu_dereference as well as a
+SLAB_TYPESAFE_BY_RCU-safe dma_fence_get_rcu.  This means each call site
+ends up being 3 lines instead of 1.
 
 Signed-off-by: Jason Ekstrand <jason@jlekstrand.net>
 Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
@@ -86,144 +91,192 @@ Cc: Christian König <christian.koenig@amd.com>
 Cc: Matthew Auld <matthew.auld@intel.com>
 Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
 ---
- drivers/dma-buf/st-dma-fence-chain.c | 24 ++++--------------------
- drivers/dma-buf/st-dma-fence.c       | 27 +++++----------------------
- 2 files changed, 9 insertions(+), 42 deletions(-)
+ drivers/dma-buf/dma-fence-chain.c         |  8 ++--
+ drivers/dma-buf/dma-resv.c                |  4 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c |  4 +-
+ drivers/gpu/drm/i915/i915_active.h        |  4 +-
+ drivers/gpu/drm/i915/i915_vma.c           |  4 +-
+ include/drm/drm_syncobj.h                 |  4 +-
+ include/linux/dma-fence.h                 | 50 -----------------------
+ include/linux/dma-resv.h                  |  4 +-
+ 8 files changed, 23 insertions(+), 59 deletions(-)
 
-diff --git a/drivers/dma-buf/st-dma-fence-chain.c b/drivers/dma-buf/st-dma-fence-chain.c
-index 9525f7f561194..73010184559fe 100644
---- a/drivers/dma-buf/st-dma-fence-chain.c
-+++ b/drivers/dma-buf/st-dma-fence-chain.c
-@@ -19,36 +19,27 @@
- 
- #define CHAIN_SZ (4 << 10)
- 
--static struct kmem_cache *slab_fences;
--
--static inline struct mock_fence {
-+struct mock_fence {
- 	struct dma_fence base;
- 	spinlock_t lock;
--} *to_mock_fence(struct dma_fence *f) {
--	return container_of(f, struct mock_fence, base);
--}
-+};
- 
- static const char *mock_name(struct dma_fence *f)
+diff --git a/drivers/dma-buf/dma-fence-chain.c b/drivers/dma-buf/dma-fence-chain.c
+index 7d129e68ac701..46dfc7d94d8ed 100644
+--- a/drivers/dma-buf/dma-fence-chain.c
++++ b/drivers/dma-buf/dma-fence-chain.c
+@@ -15,15 +15,17 @@ static bool dma_fence_chain_enable_signaling(struct dma_fence *fence);
+  * dma_fence_chain_get_prev - use RCU to get a reference to the previous fence
+  * @chain: chain node to get the previous node from
+  *
+- * Use dma_fence_get_rcu_safe to get a reference to the previous fence of the
+- * chain node.
++ * Use rcu_dereference and dma_fence_get_rcu to get a reference to the
++ * previous fence of the chain node.
+  */
+ static struct dma_fence *dma_fence_chain_get_prev(struct dma_fence_chain *chain)
  {
- 	return "mock";
+ 	struct dma_fence *prev;
+ 
+ 	rcu_read_lock();
+-	prev = dma_fence_get_rcu_safe(&chain->prev);
++	prev = rcu_dereference(chain->prev);
++	if (prev)
++		prev = dma_fence_get_rcu(prev);
+ 	rcu_read_unlock();
+ 	return prev;
  }
+diff --git a/drivers/dma-buf/dma-resv.c b/drivers/dma-buf/dma-resv.c
+index f26c71747d43a..cfe0db3cca292 100644
+--- a/drivers/dma-buf/dma-resv.c
++++ b/drivers/dma-buf/dma-resv.c
+@@ -376,7 +376,9 @@ int dma_resv_copy_fences(struct dma_resv *dst, struct dma_resv *src)
+ 		dst_list = NULL;
+ 	}
  
--static void mock_fence_release(struct dma_fence *f)
--{
--	kmem_cache_free(slab_fences, to_mock_fence(f));
--}
--
- static const struct dma_fence_ops mock_ops = {
- 	.get_driver_name = mock_name,
- 	.get_timeline_name = mock_name,
--	.release = mock_fence_release,
-+	.release = dma_fence_free,
- };
+-	new = dma_fence_get_rcu_safe(&src->fence_excl);
++	new = rcu_dereference(src->fence_excl);
++	if (new)
++		new = dma_fence_get_rcu(new);
+ 	rcu_read_unlock();
  
- static struct dma_fence *mock_fence(void)
- {
- 	struct mock_fence *f;
- 
--	f = kmem_cache_alloc(slab_fences, GFP_KERNEL);
-+	f = kmalloc(sizeof(*f), GFP_KERNEL);
- 	if (!f)
- 		return NULL;
- 
-@@ -701,14 +692,7 @@ int dma_fence_chain(void)
- 	pr_info("sizeof(dma_fence_chain)=%zu\n",
- 		sizeof(struct dma_fence_chain));
- 
--	slab_fences = KMEM_CACHE(mock_fence,
--				 SLAB_TYPESAFE_BY_RCU |
--				 SLAB_HWCACHE_ALIGN);
--	if (!slab_fences)
--		return -ENOMEM;
--
- 	ret = subtests(tests, NULL);
- 
--	kmem_cache_destroy(slab_fences);
- 	return ret;
- }
-diff --git a/drivers/dma-buf/st-dma-fence.c b/drivers/dma-buf/st-dma-fence.c
-index c8a12d7ad71ab..ca98cb0b9525b 100644
---- a/drivers/dma-buf/st-dma-fence.c
-+++ b/drivers/dma-buf/st-dma-fence.c
-@@ -14,25 +14,16 @@
- 
- #include "selftest.h"
- 
--static struct kmem_cache *slab_fences;
--
--static struct mock_fence {
-+struct mock_fence {
- 	struct dma_fence base;
- 	struct spinlock lock;
--} *to_mock_fence(struct dma_fence *f) {
--	return container_of(f, struct mock_fence, base);
--}
-+};
- 
- static const char *mock_name(struct dma_fence *f)
- {
- 	return "mock";
- }
- 
--static void mock_fence_release(struct dma_fence *f)
--{
--	kmem_cache_free(slab_fences, to_mock_fence(f));
--}
--
- struct wait_cb {
- 	struct dma_fence_cb cb;
- 	struct task_struct *task;
-@@ -77,14 +68,14 @@ static const struct dma_fence_ops mock_ops = {
- 	.get_driver_name = mock_name,
- 	.get_timeline_name = mock_name,
- 	.wait = mock_wait,
--	.release = mock_fence_release,
-+	.release = dma_fence_free,
- };
- 
- static struct dma_fence *mock_fence(void)
- {
- 	struct mock_fence *f;
- 
--	f = kmem_cache_alloc(slab_fences, GFP_KERNEL);
-+	f = kmalloc(sizeof(*f), GFP_KERNEL);
- 	if (!f)
- 		return NULL;
- 
-@@ -463,7 +454,7 @@ static int thread_signal_callback(void *arg)
+ 	src_list = dma_resv_shared_list(dst);
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c
+index 72d9b92b17547..0aeb6117f3893 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c
+@@ -161,7 +161,9 @@ int amdgpu_fence_emit(struct amdgpu_ring *ring, struct dma_fence **f,
+ 		struct dma_fence *old;
  
  		rcu_read_lock();
- 		do {
--			f2 = dma_fence_get_rcu_safe(&t->fences[!t->id]);
-+			f2 = dma_fence_get_rcu(t->fences[!t->id]);
- 		} while (!f2 && !kthread_should_stop());
+-		old = dma_fence_get_rcu_safe(ptr);
++		old = rcu_dereference(*ptr);
++		if (old)
++			old = dma_fence_get_rcu(old);
  		rcu_read_unlock();
  
-@@ -563,15 +554,7 @@ int dma_fence(void)
+ 		if (old) {
+diff --git a/drivers/gpu/drm/i915/i915_active.h b/drivers/gpu/drm/i915/i915_active.h
+index d0feda68b874f..bd89cfc806ca5 100644
+--- a/drivers/gpu/drm/i915/i915_active.h
++++ b/drivers/gpu/drm/i915/i915_active.h
+@@ -103,7 +103,9 @@ i915_active_fence_get(struct i915_active_fence *active)
+ 	struct dma_fence *fence;
  
- 	pr_info("sizeof(dma_fence)=%zu\n", sizeof(struct dma_fence));
+ 	rcu_read_lock();
+-	fence = dma_fence_get_rcu_safe(&active->fence);
++	fence = rcu_dereference(active->fence);
++	if (fence)
++		fence = dma_fence_get_rcu(fence);
+ 	rcu_read_unlock();
  
--	slab_fences = KMEM_CACHE(mock_fence,
--				 SLAB_TYPESAFE_BY_RCU |
--				 SLAB_HWCACHE_ALIGN);
--	if (!slab_fences)
--		return -ENOMEM;
--
- 	ret = subtests(tests, NULL);
+ 	return fence;
+diff --git a/drivers/gpu/drm/i915/i915_vma.c b/drivers/gpu/drm/i915/i915_vma.c
+index 0f227f28b2802..ed0388d99197e 100644
+--- a/drivers/gpu/drm/i915/i915_vma.c
++++ b/drivers/gpu/drm/i915/i915_vma.c
+@@ -351,7 +351,9 @@ int i915_vma_wait_for_bind(struct i915_vma *vma)
+ 		struct dma_fence *fence;
  
--	kmem_cache_destroy(slab_fences);
--
- 	return ret;
+ 		rcu_read_lock();
+-		fence = dma_fence_get_rcu_safe(&vma->active.excl.fence);
++		fence = rcu_dereference(vma->active.excl.fence);
++		if (fence)
++			fence = dma_fence_get_rcu(fence);
+ 		rcu_read_unlock();
+ 		if (fence) {
+ 			err = dma_fence_wait(fence, MAX_SCHEDULE_TIMEOUT);
+diff --git a/include/drm/drm_syncobj.h b/include/drm/drm_syncobj.h
+index 6cf7243a1dc5e..6c45d52988bcc 100644
+--- a/include/drm/drm_syncobj.h
++++ b/include/drm/drm_syncobj.h
+@@ -105,7 +105,9 @@ drm_syncobj_fence_get(struct drm_syncobj *syncobj)
+ 	struct dma_fence *fence;
+ 
+ 	rcu_read_lock();
+-	fence = dma_fence_get_rcu_safe(&syncobj->fence);
++	fence = rcu_dereference(syncobj->fence);
++	if (fence)
++		fence = dma_fence_get_rcu(syncobj->fence);
+ 	rcu_read_unlock();
+ 
+ 	return fence;
+diff --git a/include/linux/dma-fence.h b/include/linux/dma-fence.h
+index 6ffb4b2c63715..f4a2ab2b1ae46 100644
+--- a/include/linux/dma-fence.h
++++ b/include/linux/dma-fence.h
+@@ -307,56 +307,6 @@ static inline struct dma_fence *dma_fence_get_rcu(struct dma_fence *fence)
+ 		return NULL;
  }
+ 
+-/**
+- * dma_fence_get_rcu_safe  - acquire a reference to an RCU tracked fence
+- * @fencep: pointer to fence to increase refcount of
+- *
+- * Function returns NULL if no refcount could be obtained, or the fence.
+- * This function handles acquiring a reference to a fence that may be
+- * reallocated within the RCU grace period (such as with SLAB_TYPESAFE_BY_RCU),
+- * so long as the caller is using RCU on the pointer to the fence.
+- *
+- * An alternative mechanism is to employ a seqlock to protect a bunch of
+- * fences, such as used by struct dma_resv. When using a seqlock,
+- * the seqlock must be taken before and checked after a reference to the
+- * fence is acquired (as shown here).
+- *
+- * The caller is required to hold the RCU read lock.
+- */
+-static inline struct dma_fence *
+-dma_fence_get_rcu_safe(struct dma_fence __rcu **fencep)
+-{
+-	do {
+-		struct dma_fence *fence;
+-
+-		fence = rcu_dereference(*fencep);
+-		if (!fence)
+-			return NULL;
+-
+-		if (!dma_fence_get_rcu(fence))
+-			continue;
+-
+-		/* The atomic_inc_not_zero() inside dma_fence_get_rcu()
+-		 * provides a full memory barrier upon success (such as now).
+-		 * This is paired with the write barrier from assigning
+-		 * to the __rcu protected fence pointer so that if that
+-		 * pointer still matches the current fence, we know we
+-		 * have successfully acquire a reference to it. If it no
+-		 * longer matches, we are holding a reference to some other
+-		 * reallocated pointer. This is possible if the allocator
+-		 * is using a freelist like SLAB_TYPESAFE_BY_RCU where the
+-		 * fence remains valid for the RCU grace period, but it
+-		 * may be reallocated. When using such allocators, we are
+-		 * responsible for ensuring the reference we get is to
+-		 * the right fence, as below.
+-		 */
+-		if (fence == rcu_access_pointer(*fencep))
+-			return rcu_pointer_handoff(fence);
+-
+-		dma_fence_put(fence);
+-	} while (1);
+-}
+-
+ #ifdef CONFIG_LOCKDEP
+ bool dma_fence_begin_signalling(void);
+ void dma_fence_end_signalling(bool cookie);
+diff --git a/include/linux/dma-resv.h b/include/linux/dma-resv.h
+index 562b885cf9c3d..a38c021f379af 100644
+--- a/include/linux/dma-resv.h
++++ b/include/linux/dma-resv.h
+@@ -248,7 +248,9 @@ dma_resv_get_excl_unlocked(struct dma_resv *obj)
+ 		return NULL;
+ 
+ 	rcu_read_lock();
+-	fence = dma_fence_get_rcu_safe(&obj->fence_excl);
++	fence = rcu_dereference(obj->fence_excl);
++	if (fence)
++		fence = dma_fence_get_rcu(fence);
+ 	rcu_read_unlock();
+ 
+ 	return fence;
 -- 
 2.31.1
 
