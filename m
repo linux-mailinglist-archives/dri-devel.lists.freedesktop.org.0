@@ -2,54 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D07783A0F0F
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Jun 2021 10:55:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E91A43A0F28
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Jun 2021 10:57:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4C6F089FD1;
-	Wed,  9 Jun 2021 08:55:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F37C86E408;
+	Wed,  9 Jun 2021 08:57:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x62d.google.com (mail-pl1-x62d.google.com
- [IPv6:2607:f8b0:4864:20::62d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9D53789FD1
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Jun 2021 08:55:23 +0000 (UTC)
-Received: by mail-pl1-x62d.google.com with SMTP id v11so3708137ply.6
- for <dri-devel@lists.freedesktop.org>; Wed, 09 Jun 2021 01:55:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=ZZDe1ppQ7kLYi/ITgNLVEf2B19FHduzPKAcK1nsvc0A=;
- b=hvLFnvsBWE+yJUp5p01KqXKhgRs3RKgrlSGhCglDNWUJEerUWmGoALGJLYj3EkbB1z
- Km0BWJn7VDKV9xE7c3+wqa1GwGl9IZMOGwmC+dHW3NTWvlajzVxtkqjq2hesiPCuEuYn
- QY3FfZmHBp4sP1RHYislBjBeZ0Y4+QW0yZ5RYnU4vJQLhL8QeGqFpFeHFkG4qZB5n7vb
- f+c1rwqTj9G6m8IzhCspqZ8TUCkYiS1ngvwaW64NHeE4DwQhLnYfnkuvKOROGD6rtXIH
- 0AS+oepqh9VSeDb0e7ih54ihVDJaa43ss+gF1GGknwqIHYbRfulXy0nfSFkmHwiNtro9
- f2eQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=ZZDe1ppQ7kLYi/ITgNLVEf2B19FHduzPKAcK1nsvc0A=;
- b=qqxiML2Ts0wkXTbZcLuNV0XTVSPy6zji6xPAqKNt87Ji+IkZQMqdgQCMqS+frnlEq5
- ac5oq8Lolgb5HqKx19/f9Uwodepwt+lI0uZw5+24WzYXhaAmf8UWls3Mn1CpmQCPj0ZP
- MLiX7y7rwBhhgSlPtdudKp5lM6mRAxdCkLkpf3A9uAGOJJYo13aTojmFPNtG4zEYzq8N
- t3j/O9rrB/RON8qVz6nsAZtAOO2GknzQYQa5GD1EVTVArZUYcJ+rll+gRUOlRzvbF+Fb
- x9lDPbJvAjZLjklVd+u8VjbFxbdp4IW1JvMOGKrBYrP15aIrwUoYiz4mPx+Vg9zSU5Ib
- DrpQ==
-X-Gm-Message-State: AOAM532SqTE6fxXMzOq6Cvvx0U+NK8LzHxJgGEN3L/P1CBr0w4LppXxl
- lTKZw0ojFXUotDuZDK/adxytzrXc1g2yXVG0wYRADQ==
-X-Google-Smtp-Source: ABdhPJwI9NO5UoPs+2b0O8LTSAWodPZd6cmsPG61Ptn0mZIPxownjpD1orOqw65ZkqXyR7fz2lTzvSz1oYXXCXEMKAE=
-X-Received: by 2002:a17:902:7481:b029:114:dd50:4e14 with SMTP id
- h1-20020a1709027481b0290114dd504e14mr4496521pll.32.1623228923217; Wed, 09 Jun
- 2021 01:55:23 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210608142211.82333-1-marex@denx.de>
-In-Reply-To: <20210608142211.82333-1-marex@denx.de>
-From: Robert Foss <robert.foss@linaro.org>
-Date: Wed, 9 Jun 2021 10:55:12 +0200
-Message-ID: <CAG3jFyu+BhF41qGqfzbzhiYwZ5wGndpmg1s6gSgvH=XmasEArw@mail.gmail.com>
-Subject: Re: [PATCH] drm/bridge: ti-sn65dsi83: Fix sparse warnings
-To: Marek Vasut <marex@denx.de>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E427C6E408
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Jun 2021 08:57:48 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id 8FFAF61183
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Jun 2021 08:57:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1623229068;
+ bh=Ow0YxbOpoO+jepUwli11giQzj30yTngvCBSoCXKpuRs=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=C5Q29JSWMVmxntPlwC3odM7rD37c86Oi/2q3jL7FPuh3TEDMGaGivvUh+2UjWeCiJ
+ FsM3tji3R6/h5eWBKiMUD3+aYggBuYTaYJ+tmC6iV7xOh2q1o+CKko87NOhecuhfmU
+ LCIA3jX+IFqHKyKoJJUqMNySuSs5kY/6xB4ZvEt/gFXOU8764Vgu0/suu+FdQXwsx/
+ d2RDMV14vGrg+dG80zVIXM8YTKACuECXC6DRCZT83Nyc7KwZwvUgCynfVoI4V6ZMwD
+ MttkP1KpDEnWIA7DmjbiUnUFR8e6OtONL230UWvGWcKSV6jdrv5LuaD9nDoOpGBdSx
+ oSKkCrwgIJhyQ==
+Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
+ id 81FA561105; Wed,  9 Jun 2021 08:57:48 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 213373] [drm] [radeon] memory leak at parsing
+ radeon_atombios_parse_power_table
+Date: Wed, 09 Jun 2021 08:57:48 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: erhard_f@mailbox.org
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: attachments.isobsolete attachments.created
+Message-ID: <bug-213373-2300-mYTG5dU6qG@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-213373-2300@https.bugzilla.kernel.org/>
+References: <bug-213373-2300@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
+MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,106 +66,25 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Loic Poulain <loic.poulain@linaro.org>, ch@denx.de,
- Sam Ravnborg <sam@ravnborg.org>, dri-devel <dri-devel@lists.freedesktop.org>,
- Douglas Anderson <dianders@chromium.org>,
- Frieder Schrempf <frieder.schrempf@kontron.de>,
- Stephen Boyd <swboyd@chromium.org>,
- Philippe Schenker <philippe.schenker@toradex.com>,
- Jagan Teki <jagan@amarulasolutions.com>,
- Valentin Raevsky <valentin@compulab.co.il>, Adam Ford <aford173@gmail.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hey Marek,
+https://bugzilla.kernel.org/show_bug.cgi?id=3D213373
 
-Thanks for submitting this.
+Erhard F. (erhard_f@mailbox.org) changed:
 
-On Tue, 8 Jun 2021 at 16:22, Marek Vasut <marex@denx.de> wrote:
->
-> Fix the following sparse warnings generated by "make C=1":
->
-> drivers/gpu/drm/bridge/ti-sn65dsi83.c:429:13: warning: incorrect type in assignment (different base types)
-> drivers/gpu/drm/bridge/ti-sn65dsi83.c:429:13:    expected unsigned short [assigned] [usertype] val
-> drivers/gpu/drm/bridge/ti-sn65dsi83.c:429:13:    got restricted __le16 [usertype]
-> drivers/gpu/drm/bridge/ti-sn65dsi83.c:432:13: warning: incorrect type in assignment (different base types)
-> drivers/gpu/drm/bridge/ti-sn65dsi83.c:432:13:    expected unsigned short [addressable] [assigned] [usertype] val
-> drivers/gpu/drm/bridge/ti-sn65dsi83.c:432:13:    got restricted __le16 [usertype]
-> drivers/gpu/drm/bridge/ti-sn65dsi83.c:436:13: warning: incorrect type in assignment (different base types)
-> drivers/gpu/drm/bridge/ti-sn65dsi83.c:436:13:    expected unsigned short [addressable] [assigned] [usertype] val
-> drivers/gpu/drm/bridge/ti-sn65dsi83.c:436:13:    got restricted __le16 [usertype]
-> drivers/gpu/drm/bridge/ti-sn65dsi83.c:438:13: warning: incorrect type in assignment (different base types)
-> drivers/gpu/drm/bridge/ti-sn65dsi83.c:438:13:    expected unsigned short [addressable] [assigned] [usertype] val
-> drivers/gpu/drm/bridge/ti-sn65dsi83.c:438:13:    got restricted __le16 [usertype]
-> drivers/gpu/drm/bridge/ti-sn65dsi83.c:441:13: warning: incorrect type in assignment (different base types)
-> drivers/gpu/drm/bridge/ti-sn65dsi83.c:441:13:    expected unsigned short [addressable] [assigned] [usertype] val
-> drivers/gpu/drm/bridge/ti-sn65dsi83.c:441:13:    got restricted __le16 [usertype]
->
-> Signed-off-by: Marek Vasut <marex@denx.de>
-> Cc: Adam Ford <aford173@gmail.com>
-> Cc: Douglas Anderson <dianders@chromium.org>
-> Cc: Frieder Schrempf <frieder.schrempf@kontron.de>
-> Cc: Jagan Teki <jagan@amarulasolutions.com>
-> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Cc: Linus Walleij <linus.walleij@linaro.org>
-> Cc: Loic Poulain <loic.poulain@linaro.org>
-> Cc: Marek Vasut <marex@denx.de>
-> Cc: Philippe Schenker <philippe.schenker@toradex.com>
-> Cc: Robert Foss <robert.foss@linaro.org>
-> Cc: Sam Ravnborg <sam@ravnborg.org>
-> Cc: Stephen Boyd <swboyd@chromium.org>
-> Cc: Valentin Raevsky <valentin@compulab.co.il>
-> To: dri-devel@lists.freedesktop.org
-> ---
->  drivers/gpu/drm/bridge/ti-sn65dsi83.c | 21 +++++++++++----------
->  1 file changed, 11 insertions(+), 10 deletions(-)
->
-> diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi83.c b/drivers/gpu/drm/bridge/ti-sn65dsi83.c
-> index 750f2172ef08..8f3158f5281a 100644
-> --- a/drivers/gpu/drm/bridge/ti-sn65dsi83.c
-> +++ b/drivers/gpu/drm/bridge/ti-sn65dsi83.c
-> @@ -368,6 +368,7 @@ static void sn65dsi83_enable(struct drm_bridge *bridge)
->  {
->         struct sn65dsi83 *ctx = bridge_to_sn65dsi83(bridge);
->         unsigned int pval;
-> +       __le16 le16val;
->         u16 val;
->         int ret;
->
-> @@ -426,21 +427,21 @@ static void sn65dsi83_enable(struct drm_bridge *bridge)
->                      REG_LVDS_LANE_CHB_LVDS_TERM);
->         regmap_write(ctx->regmap, REG_LVDS_CM, 0x00);
->
-> -       val = cpu_to_le16(ctx->mode.hdisplay);
-> +       le16val = cpu_to_le16(ctx->mode.hdisplay);
->         regmap_bulk_write(ctx->regmap, REG_VID_CHA_ACTIVE_LINE_LENGTH_LOW,
-> -                         &val, 2);
-> -       val = cpu_to_le16(ctx->mode.vdisplay);
-> +                         &le16val, 2);
-> +       le16val = cpu_to_le16(ctx->mode.vdisplay);
->         regmap_bulk_write(ctx->regmap, REG_VID_CHA_VERTICAL_DISPLAY_SIZE_LOW,
-> -                         &val, 2);
-> +                         &le16val, 2);
->         /* 32 + 1 pixel clock to ensure proper operation */
-> -       val = cpu_to_le16(32 + 1);
-> -       regmap_bulk_write(ctx->regmap, REG_VID_CHA_SYNC_DELAY_LOW, &val, 2);
-> -       val = cpu_to_le16(ctx->mode.hsync_end - ctx->mode.hsync_start);
-> +       le16val = cpu_to_le16(32 + 1);
-> +       regmap_bulk_write(ctx->regmap, REG_VID_CHA_SYNC_DELAY_LOW, &le16val, 2);
-> +       le16val = cpu_to_le16(ctx->mode.hsync_end - ctx->mode.hsync_start);
->         regmap_bulk_write(ctx->regmap, REG_VID_CHA_HSYNC_PULSE_WIDTH_LOW,
-> -                         &val, 2);
-> -       val = cpu_to_le16(ctx->mode.vsync_end - ctx->mode.vsync_start);
-> +                         &le16val, 2);
-> +       le16val = cpu_to_le16(ctx->mode.vsync_end - ctx->mode.vsync_start);
->         regmap_bulk_write(ctx->regmap, REG_VID_CHA_VSYNC_PULSE_WIDTH_LOW,
-> -                         &val, 2);
-> +                         &le16val, 2);
->         regmap_write(ctx->regmap, REG_VID_CHA_HORIZONTAL_BACK_PORCH,
->                      ctx->mode.htotal - ctx->mode.hsync_end);
->         regmap_write(ctx->regmap, REG_VID_CHA_VERTICAL_BACK_PORCH,
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+ Attachment #297247|0                           |1
+        is obsolete|                            |
 
-Reviewed and pulled into drm-misc-next.
+--- Comment #3 from Erhard F. (erhard_f@mailbox.org) ---
+Created attachment 297259
+  --> https://bugzilla.kernel.org/attachment.cgi?id=3D297259&action=3Dedit
+output of /sys/kernel/debug/kmemleak
 
-https://cgit.freedesktop.org/drm/drm-misc/commit/?id=241a9e233e7cf1001d09426c9fc520768f8961bf
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
