@@ -1,72 +1,32 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8CFA3A1009
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Jun 2021 12:17:08 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 268C63A0FE8
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Jun 2021 12:05:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0507289FDD;
-	Wed,  9 Jun 2021 10:17:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 03C5789FAC;
+	Wed,  9 Jun 2021 10:05:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 361 seconds by postgrey-1.36 at gabe;
- Wed, 09 Jun 2021 10:17:04 UTC
-Received: from mo4-p01-ob.smtp.rzone.de (mo4-p01-ob.smtp.rzone.de
- [85.215.255.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2EA3A6E0C2
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Jun 2021 10:17:03 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1623233100; cv=none;
- d=strato.com; s=strato-dkim-0002;
- b=kHO6KBv82tPQXRN/96teOiv5/v9VW9hWDsRaVShOnsbeTBIzB6y4QPW6SiPbPLu9EE
- Yvxs1WdMdqxezQHsjWWcOQrVC8D77wvJs5PCehFcHYAKtL95nR8rAmhL/Q0MNvF6U+2s
- ad4OR5g80R35YHmmwybX23pbStgyd2iR+j+qVs24EU6RvYKXEGWqZ99y5OsPedo34WCW
- hAX/a6OlryPu8o4We9G6gJwzlOVlOKoSpWernNJFM2Pv7RXiNVMIjV9B0APIFVsbGaa3
- DkJSZKfMEcCpA3zp/1U3rZmc21rUQi7y7Am79dQOWfTtBYzHKz+iB5IYabJGmoBfdQNP
- PIxQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; t=1623233100;
- s=strato-dkim-0002; d=strato.com;
- h=In-Reply-To:References:Message-ID:Subject:Cc:To:From:Date:Cc:Date:
- From:Subject:Sender;
- bh=ItsPMlHbJWRbDzq8RhdjxHbYrMVELXpPagW5og9aBug=;
- b=ivU/7eSS/vplEe67FfTcNsnnYehtQrTXE7NReOHXDzUIyC/Cd1YQ99LG5fNUYdQFXV
- 5K0b1NLUqj6hEfD2Yf1BMuMB1OG3prAg0gjx0OxVk3CH98lc18A1e/LI60s8GvKNwSVe
- ZAJ8w0wb6DVhW9Yp3/LqTBGLUhxT0r5w2tfaibuolyjSaeb9UFFVdBz3kSTGb0LQAowZ
- lGRKTYerwajr9ERwULMWMQDvbkOMQrm4a1RqWnDoLWJ5t/YJczl+Yh8xcStRxpS2RTRp
- ZLXRzBml3mrLwZE8RRnFmwwa7Jfl0nwbT0xhZcPU0ptFhex6HgFlWfQ54N6JmxBaHWgE
- Tl4w==
-ARC-Authentication-Results: i=1; strato.com;
-    dkim=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1623233100;
- s=strato-dkim-0002; d=gerhold.net;
- h=In-Reply-To:References:Message-ID:Subject:Cc:To:From:Date:Cc:Date:
- From:Subject:Sender;
- bh=ItsPMlHbJWRbDzq8RhdjxHbYrMVELXpPagW5og9aBug=;
- b=G2lylwr1PPWZNvT831Kqcln6U5qMIhEvuhEgYS2YfGPEIiGca/FsKu1O8Lo27C108t
- RZYtprebD38Z1li1ZxxPeRxraogUQSXVPkyir7s/8SkCUl+I+r7hdHLNq34pOVjCSHEw
- 7i78hS8wUjE9JjZl+if1pVJO6LslYNORXYEfSFuhcvYTkFhGku+Matyfhn3QgiJPfnis
- JCcibc8cgXWBeOBl1+WYoTEi9V9JKW4Snr19e5C4Vf6FLQQoYdkfuCPcSTbfI5RkddP8
- bKgB3408WkeSsd+XcrH5lYB1s6k/Yhiuirl2MCl9371DsN13EG+4rVM/YKUvnsadSWpF
- 969g==
-Authentication-Results: strato.com;
-    dkim=none
-X-RZG-AUTH: ":P3gBZUipdd93FF5ZZvYFPugejmSTVR2nRPhVOQ/OcYgojyw4j34+u26zEodhPgRDZ8j9IcbDBg=="
-X-RZG-CLASS-ID: mo00
-Received: from gerhold.net by smtp.strato.de (RZmta 47.27.2 DYNA|AUTH)
- with ESMTPSA id y01375x59A4xkmc
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
- (Client did not present a certificate);
- Wed, 9 Jun 2021 12:04:59 +0200 (CEST)
-Date: Wed, 9 Jun 2021 12:04:52 +0200
-From: Stephan Gerhold <stephan@gerhold.net>
-To: Linus Walleij <linus.walleij@linaro.org>
-Subject: Re: [PATCH] drm/mcde: Fix off by 10^3 in calculation
-Message-ID: <YMCSRLsPBfvlwt1e@gerhold.net>
-References: <20210608213318.3897858-1-linus.walleij@linaro.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210608213318.3897858-1-linus.walleij@linaro.org>
+Received: from out30-45.freemail.mail.aliyun.com
+ (out30-45.freemail.mail.aliyun.com [115.124.30.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3169F89F73;
+ Wed,  9 Jun 2021 10:05:36 +0000 (UTC)
+X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R201e4; CH=green; DM=||false|;
+ DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=e01e04423;
+ MF=jiapeng.chong@linux.alibaba.com; NM=1; PH=DS; RN=11; SR=0;
+ TI=SMTPD_---0UbrAIWb_1623233128; 
+Received: from
+ j63c13417.sqa.eu95.tbsite.net(mailfrom:jiapeng.chong@linux.alibaba.com
+ fp:SMTPD_---0UbrAIWb_1623233128) by smtp.aliyun-inc.com(127.0.0.1);
+ Wed, 09 Jun 2021 18:05:33 +0800
+From: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
+To: harry.wentland@amd.com
+Subject: [PATCH] drm/amd/display: Fix duplicate included clk_mgr.h
+Date: Wed,  9 Jun 2021 18:05:21 +0800
+Message-Id: <1623233121-97926-1-git-send-email-jiapeng.chong@linux.alibaba.com>
+X-Mailer: git-send-email 1.8.3.1
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,68 +39,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, Sean Paul <sean@poorly.run>,
- linux-arm-kernel@lists.infradead.org
+Cc: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>, sunpeng.li@amd.com,
+ Xinhui.Pan@amd.com, linux-kernel@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, airlied@linux.ie,
+ dri-devel@lists.freedesktop.org, alexander.deucher@amd.com,
+ christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jun 08, 2021 at 11:33:18PM +0200, Linus Walleij wrote:
-> The calclulation of how many bytes we stuff into the
-> DSI pipeline for video mode panels is off by three
-> orders of magnitude because we did not account for the
-> fact that the DRM mode clock is in kilohertz rather
-> than hertz.
-> 
-> This used to be:
-> drm_mode_vrefresh(mode) * mode->htotal * mode->vtotal
-> which would become for example for s6e63m0:
-> 60 x 514 x 831 = 25628040 Hz, but mode->clock is
-> 25628 as it is in kHz.
-> 
-> This affects only the Samsung GT-I8190 "Golden" phone
-> right now since it is the only MCDE device with a video
-> mode display.
-> 
-> Curiously some specimen work with this code and wild
-> settings in the EOL and empty packets at the end of the
-> display, but I have noticed an eeire flicker until now.
-> Others were not so lucky and got black screens.
-> 
-> Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
-> Reported-by: Stephan Gerhold <stephan@gerhold.net>
-> Fixes: 920dd1b1425b ("drm/mcde: Use mode->clock instead of reverse calculating it from the vrefresh")
-> Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
+Clean up the following includecheck warning:
 
-Can confirm this makes things much better, thanks :)
-There is some garbage on the screen for a short moment, but overall it
-works really well now.
+./drivers/gpu/drm/amd/display/dc/dcn31/dcn31_hwseq.c: clk_mgr.h is
+included more than once.
 
-> ---
->  drivers/gpu/drm/mcde/mcde_dsi.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/mcde/mcde_dsi.c b/drivers/gpu/drm/mcde/mcde_dsi.c
-> index b3fd3501c412..5275b2723293 100644
-> --- a/drivers/gpu/drm/mcde/mcde_dsi.c
-> +++ b/drivers/gpu/drm/mcde/mcde_dsi.c
-> @@ -577,7 +577,7 @@ static void mcde_dsi_setup_video_mode(struct mcde_dsi *d,
->  	 * porches and sync.
->  	 */
->  	/* (ps/s) / (pixels/s) = ps/pixels */
-> -	pclk = DIV_ROUND_UP_ULL(1000000000000, mode->clock);
-> +	pclk = DIV_ROUND_UP_ULL(1000000000000, (mode->clock * 1000));
+No functional change.
 
-Removing three 0 in the dividend might be slightly more efficient, i.e.
+Reported-by: Abaci Robot <abaci@linux.alibaba.com>
+Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
+---
+ drivers/gpu/drm/amd/display/dc/dcn31/dcn31_hwseq.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-	pclk = DIV_ROUND_UP(1000000000, mode->clock);
+diff --git a/drivers/gpu/drm/amd/display/dc/dcn31/dcn31_hwseq.c b/drivers/gpu/drm/amd/display/dc/dcn31/dcn31_hwseq.c
+index c0e544d..1007051 100644
+--- a/drivers/gpu/drm/amd/display/dc/dcn31/dcn31_hwseq.c
++++ b/drivers/gpu/drm/amd/display/dc/dcn31/dcn31_hwseq.c
+@@ -33,7 +33,6 @@
+ #include "clk_mgr.h"
+ #include "reg_helper.h"
+ #include "abm.h"
+-#include "clk_mgr.h"
+ #include "hubp.h"
+ #include "dchubbub.h"
+ #include "timing_generator.h"
+-- 
+1.8.3.1
 
-since then we don't need 64-bit division (_ULL) anymore
-(1000000000 < 4294967296 = 2^32).
-
-but that's more nitpick level. I tested both, so for both options:
-
-Tested-by: Stephan Gerhold <stephan@gerhold.net>
-Reviewed-by: Stephan Gerhold <stephan@gerhold.net>
-
-Thanks!
-Stephan
