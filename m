@@ -2,32 +2,32 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFE353A1EEF
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Jun 2021 23:24:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2AAA23A1EF2
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Jun 2021 23:24:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 809CE6EB48;
-	Wed,  9 Jun 2021 21:24:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 13EC96EA9B;
+	Wed,  9 Jun 2021 21:24:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-4317.protonmail.ch (mail-4317.protonmail.ch [185.70.43.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8040C6EB41;
- Wed,  9 Jun 2021 21:24:10 +0000 (UTC)
-Date: Wed, 09 Jun 2021 21:24:03 +0000
+Received: from mail-4323.protonmail.ch (mail-4323.protonmail.ch [185.70.43.23])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AADA66EA9B
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Jun 2021 21:24:22 +0000 (UTC)
+Date: Wed, 09 Jun 2021 21:24:10 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
- s=protonmail3; t=1623273848;
- bh=CRpCmV6JJvjSWIefuOMH4SCsYiJSl92J72nXZg36ElE=;
+ s=protonmail3; t=1623273861;
+ bh=HOJnTStK1H9lEzyOT9wp33tz33iSfinHkHc1uA7cHQA=;
  h=Date:To:From:Cc:Reply-To:Subject:From;
- b=XTDKNX2oTSMf5r8Z9kCRg0LOrMUAnlSW83jpURVJFYUe2G9xmU1ff6Rlbn5CIhTDL
- wx+NewdFxon7fANrvUD8KISS5ZrZ+bLoDfAb2tCCai4lrkDgFja1bPdVeJevr+oCLi
- pjJWaE/zBfix/endv7nQNt6qXYl8anyDV/h84ZqNfAimI12uCMFu5TQNVXeyLH9P2Z
- 5OmKPb9HkvRdIoJlS1zkKomuiINMoqCZuHhmOFhriJebtRyM5gus5mTgFmKHVbbFra
- nlnSaw2toviWN2VQus1cd/1IMTreN2g0IOhcYIZuoBeW2I20EXBYZ54m9/k92sUd+M
- J31em3eI58x+Q==
+ b=eIHkNV2RswfouuTGnfK6xEBmk7KaBbLlKGHYmpg9cfPGWvDGItXEchqsKM1d6DXM1
+ 4cnjx8ymKKRfCRkuOEoXs0fWnW3YaJeQ42XyqaWLLEJlgC5ZPIhcGv3RwsOEI1uAr0
+ h687RKsGU1rDwGsCRUeXGfgzMPtlKfEoErHOV2R3xFVTQKeaBZF16mIrtvnI1Xs5Vu
+ TK5zQjAkWZ3w3Vs9DbO6XNp1flytul1c0WUm2G+IrLYGNQ8+YQVJgU5moUJnnFcvm+
+ LKxsZ0zzeWdxWwq/xlJ7bcgTEbyS1Qi4lzIUZj63HMhDmbC9ctpVY+FmGULv2Q470K
+ oDj9UlfpAz7Ww==
 To: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
 From: Simon Ser <contact@emersion.fr>
-Subject: [PATCH v2 6/7] i915/display/dp: send a more fine-grained link-status
- uevent
-Message-ID: <s2nCZi12JRcxrixhDW8UTiJsEpPvIQhnFBMtgdRXMk@cp3-web-020.plabs.ch>
+Subject: [PATCH v2 7/7] drm/connector: add ref to drm_connector_get in iter
+ docs
+Message-ID: <KRoUI7OC9lRIvk3YzdGm6tcMVAVlG1fR78Ll7kTZZT4@cp3-web-051.plabs.ch>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
@@ -54,31 +54,33 @@ Cc: pekka.paalanen@collabora.com, michel@daenzer.net, alexander.deucher@amd.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When link-status changes, send a hotplug uevent which contains the
-connector and property ID. That way, user-space can more easily
-figure out that only the link-status property of this connector has
-been updated.
+Mention that connectors need to be referenced manually if they are
+to be accessed after the iteration has progressed or ended.
 
 Signed-off-by: Simon Ser <contact@emersion.fr>
 ---
- drivers/gpu/drm/i915/display/intel_dp.c | 2 ++
- 1 file changed, 2 insertions(+)
+ include/drm/drm_connector.h | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915=
-/display/intel_dp.c
-index 5c9222283044..0ce44a97dd14 100644
---- a/drivers/gpu/drm/i915/display/intel_dp.c
-+++ b/drivers/gpu/drm/i915/display/intel_dp.c
-@@ -5276,6 +5276,8 @@ static void intel_dp_modeset_retry_work_fn(struct wor=
-k_struct *work)
- =09mutex_unlock(&connector->dev->mode_config.mutex);
- =09/* Send Hotplug uevent so userspace can reprobe */
- =09drm_kms_helper_hotplug_event(connector->dev);
-+=09drm_sysfs_connector_status_event(connector,
-+=09=09=09=09=09 connector->dev->mode_config.link_status_property);
- }
-=20
- bool
+diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
+index 714d1a01c065..c1af1e4ca560 100644
+--- a/include/drm/drm_connector.h
++++ b/include/drm/drm_connector.h
+@@ -1735,6 +1735,11 @@ void drm_mode_put_tile_group(struct drm_device *dev,
+  * drm_connector_list_iter_begin(), drm_connector_list_iter_end() and
+  * drm_connector_list_iter_next() respectively the convenience macro
+  * drm_for_each_connector_iter().
++ *
++ * Note that the return value of drm_connector_list_iter_next() is only va=
+lid
++ * up to the next drm_connector_list_iter_next() or
++ * drm_connector_list_iter_end() call. If you want to use the connector la=
+ter,
++ * then you need to grab your own reference first using drm_connector_get(=
+).
+  */
+ struct drm_connector_list_iter {
+ /* private: */
 --=20
 2.31.1
 
