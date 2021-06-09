@@ -2,42 +2,33 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 890713A102F
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Jun 2021 12:39:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A44C43A1032
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Jun 2021 12:39:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4CCDC6E0C2;
-	Wed,  9 Jun 2021 10:39:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CE4916E542;
+	Wed,  9 Jun 2021 10:39:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-41104.protonmail.ch (mail-41104.protonmail.ch
- [185.70.41.104])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5ED2A6E0C2
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Jun 2021 10:39:30 +0000 (UTC)
-Received: from mail-03.mail-europe.com (mail-0301.mail-europe.com
- [188.165.51.139])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits))
- (No client certificate requested)
- by mail-41104.protonmail.ch (Postfix) with ESMTPS id 4G0Nrw41Rqz4xHJ8;
- Wed,  9 Jun 2021 10:39:28 +0000 (UTC)
-Authentication-Results: mail-41104.protonmail.ch;
- dkim=pass (2048-bit key) header.d=emersion.fr header.i=@emersion.fr
- header.b="eaBTVDmh"
-Date: Wed, 09 Jun 2021 10:39:10 +0000
+Received: from mail-40133.protonmail.ch (mail-40133.protonmail.ch
+ [185.70.40.133])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ED2086E0C2;
+ Wed,  9 Jun 2021 10:39:30 +0000 (UTC)
+Date: Wed, 09 Jun 2021 10:39:17 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
- s=protonmail3; t=1623235164;
- bh=h0rozdH40IzsogPIhwMBG0dTerXtw+4mOOIyo/7gKbs=;
+ s=protonmail3; t=1623235168;
+ bh=hedE0JjbpZoNUwShmgNyyeuPFv8kbVONKT78BK3g7PU=;
  h=Date:To:From:Cc:Reply-To:Subject:From;
- b=eaBTVDmhlubb8Tu5vnQ1cANI3GKE0cRN1lgPDu4+zG6ZYQ8AJXCKc8dSjAQg620t4
- rvFkIqLf7a21QovVU/V418kQ8Ezi9AiH/GOjqBj+/6sfQRzRv7bl1ZQlMzThp2DEzK
- limxsx+/oHLCsrAbE7uheBluHG+P0/VY6JvfhZeG7DEvWaFlSzXsFSA9Dxd1zPEmzI
- rx9vtp2PjIKzVk9n0b9yPoUsKx1zAHpq3lNzVsy3wpr2cv1qb/0TO5suvFvniwvCWv
- LSxJnIU+nxXIAC94LPrCZuQuvp3Hq9B1gpm3O0E2H6bpJgKVhJO2q6zkIFb8cyhzHM
- dDLZJImPq+jkA==
+ b=EDzwYhDomx5qTPQJkMt//ArpOJQrxy+5RJBoRXzkBPXBNJfZRkogsz+eup7BB+HLm
+ 0N8P6jpPMFGTS8F822gNAbiYOmUJCRjRSaVvINPH/w/YPUy31DgvYrzpoSOF0rLnO7
+ 5rIPcds29gu7OPsTJYcyC8bYHi4KuPFIooZrBd4cA9Roqv8IEujFK/cfE7FbE0QLR8
+ RLxuS1kI7SSfsAnmjQ8oxk0eUxKStrx+Q8TOujbzVlIt+gNebyZLhDT0gTZKRA54vh
+ hLwZ/INUBYts5YVH5XdU12WQ0QGV1xnG/7lclHkuSvKNHfisF9jpDbQl9B397cEdzb
+ 5TKCFPgzM5kJA==
 To: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
 From: Simon Ser <contact@emersion.fr>
-Subject: [PATCH 1/4] drm/sysfs: introduce drm_sysfs_connector_hotplug_event
-Message-ID: <mpYHCnsBfIaxJEM7yrUVKKcVHXnFDEUtoK5NbmwA@cp4-web-034.plabs.ch>
+Subject: [PATCH 2/4] drm/probe-helper: add
+ drm_kms_helper_connector_hotplug_event
+Message-ID: <XCqV2rWILN8kzAmXWxJoFie29MNLKiENn7TGa0MG1w@cp3-web-016.plabs.ch>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
@@ -63,64 +54,65 @@ Cc: pekka.paalanen@collabora.com, michel@daenzer.net, alexander.deucher@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This function sends a hotplug uevent with a CONNECTOR property.
+This function is the same as drm_kms_helper_hotplug_event, but takes
+a connector instead of a device.
 
 Signed-off-by: Simon Ser <contact@emersion.fr>
 ---
- drivers/gpu/drm/drm_sysfs.c | 25 +++++++++++++++++++++++++
- include/drm/drm_sysfs.h     |  1 +
- 2 files changed, 26 insertions(+)
+ drivers/gpu/drm/drm_probe_helper.c | 20 ++++++++++++++++++++
+ include/drm/drm_probe_helper.h     |  1 +
+ 2 files changed, 21 insertions(+)
 
-diff --git a/drivers/gpu/drm/drm_sysfs.c b/drivers/gpu/drm/drm_sysfs.c
-index 968a9560b4aa..6b52a53c0c3e 100644
---- a/drivers/gpu/drm/drm_sysfs.c
-+++ b/drivers/gpu/drm/drm_sysfs.c
-@@ -343,6 +343,31 @@ void drm_sysfs_hotplug_event(struct drm_device *dev)
+diff --git a/drivers/gpu/drm/drm_probe_helper.c b/drivers/gpu/drm/drm_probe=
+_helper.c
+index e7e1ee2aa352..510807a4a492 100644
+--- a/drivers/gpu/drm/drm_probe_helper.c
++++ b/drivers/gpu/drm/drm_probe_helper.c
+@@ -616,6 +616,26 @@ void drm_kms_helper_hotplug_event(struct drm_device *d=
+ev)
  }
- EXPORT_SYMBOL(drm_sysfs_hotplug_event);
+ EXPORT_SYMBOL(drm_kms_helper_hotplug_event);
 =20
 +/**
-+ * drm_sysfs_connector_hotplug_event - generate a DRM uevent for any conne=
-ctor
-+ * change
-+ * @connector: connector which has changed
++ * drm_kms_helper_connector_hotplug_event - fire off a KMS connector hotpl=
+ug event
++ * @connector: drm_connector which has changed
 + *
-+ * Send a uevent for the DRM connector specified by @connector. This will =
-send
-+ * a uevent with the properties HOTPLUG=3D1 and CONNECTOR.
++ * This is the same as drm_kms_helper_hotplug_event(), except it fires a m=
+ore
++ * fine-grained uevent for a single connector.
 + */
-+void drm_sysfs_connector_hotplug_event(struct drm_connector *connector)
++void drm_kms_helper_connector_hotplug_event(struct drm_connector *connecto=
+r)
 +{
 +=09struct drm_device *dev =3D connector->dev;
-+=09char hotplug_str[] =3D "HOTPLUG=3D1", conn_id[21];
-+=09char *envp[] =3D { hotplug_str, conn_id, NULL };
 +
-+=09snprintf(conn_id, ARRAY_SIZE(conn_id),
-+=09=09 "CONNECTOR=3D%u", connector->base.id);
++=09/* send a uevent + call fbdev */
++=09drm_sysfs_connector_hotplug_event(connector);
++=09if (dev->mode_config.funcs->output_poll_changed)
++=09=09dev->mode_config.funcs->output_poll_changed(dev);
 +
-+=09drm_dbg(connector->dev,
-+=09=09"generating hotplug event for [CONNECTOR:%d:%s]\n",
-+=09=09connector->base.id, connector->name);
-+
-+=09kobject_uevent_env(&dev->primary->kdev->kobj, KOBJ_CHANGE, envp);
++=09drm_client_dev_hotplug(dev);
 +}
-+EXPORT_SYMBOL(drm_sysfs_connector_hotplug_event);
++EXPORT_SYMBOL(drm_kms_helper_connector_hotplug_event);
 +
- /**
-  * drm_sysfs_connector_status_event - generate a DRM uevent for connector
-  * property status change
-diff --git a/include/drm/drm_sysfs.h b/include/drm/drm_sysfs.h
-index d454ef617b2c..6273cac44e47 100644
---- a/include/drm/drm_sysfs.h
-+++ b/include/drm/drm_sysfs.h
-@@ -11,6 +11,7 @@ int drm_class_device_register(struct device *dev);
- void drm_class_device_unregister(struct device *dev);
+ static void output_poll_execute(struct work_struct *work)
+ {
+ =09struct delayed_work *delayed_work =3D to_delayed_work(work);
+diff --git a/include/drm/drm_probe_helper.h b/include/drm/drm_probe_helper.=
+h
+index 8d3ed2834d34..733147ea89be 100644
+--- a/include/drm/drm_probe_helper.h
++++ b/include/drm/drm_probe_helper.h
+@@ -19,6 +19,7 @@ void drm_kms_helper_poll_init(struct drm_device *dev);
+ void drm_kms_helper_poll_fini(struct drm_device *dev);
+ bool drm_helper_hpd_irq_event(struct drm_device *dev);
+ void drm_kms_helper_hotplug_event(struct drm_device *dev);
++void drm_kms_helper_connector_hotplug_event(struct drm_connector *connecto=
+r);
 =20
- void drm_sysfs_hotplug_event(struct drm_device *dev);
-+void drm_sysfs_connector_hotplug_event(struct drm_connector *connector);
- void drm_sysfs_connector_status_event(struct drm_connector *connector,
- =09=09=09=09      struct drm_property *property);
- #endif
+ void drm_kms_helper_poll_disable(struct drm_device *dev);
+ void drm_kms_helper_poll_enable(struct drm_device *dev);
 --=20
 2.31.1
 
