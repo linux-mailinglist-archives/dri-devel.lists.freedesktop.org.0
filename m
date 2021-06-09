@@ -1,64 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83B943A1C4B
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Jun 2021 19:45:46 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id F24743A1C4E
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Jun 2021 19:46:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EE7B56EAD2;
-	Wed,  9 Jun 2021 17:45:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 516A16EB08;
+	Wed,  9 Jun 2021 17:46:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com
- [IPv6:2607:f8b0:4864:20::102a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E44A36EB48
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Jun 2021 17:45:16 +0000 (UTC)
-Received: by mail-pj1-x102a.google.com with SMTP id
- x21-20020a17090aa395b029016e25313bfcso1879958pjp.2
- for <dri-devel@lists.freedesktop.org>; Wed, 09 Jun 2021 10:45:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=jlekstrand-net.20150623.gappssmtp.com; s=20150623;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=b7i/sI2grlFleaXu6G+WbNlIN/xmEbLbsHG793e7tpI=;
- b=DWeufDMV/+rAV6M8+K7cWs/7Vx3/jyH0UGEXSZ7waqu4LoUgRHfslzCRd5Kc1cwHys
- dy3tn4sBXPd5W7sqL+k7BRU0DN4C06eEtoi/HFzWIIlP7u4ljMnEoyCGwi+argEGGh8k
- 1bidD9a5oGielK9QXaoanySpxN1JkqZIiO5KzHKf9W463AKwoC6eKEE7PvJjLYfP35xu
- xOfIcu5Q9Y6mPJuYFfAvk5Kal0U4RlAxsBjOgon/S9lga6HVgZwb6MpP0zdB8Zkg4Y19
- XWx/hMB7ymAxZkdsylMItsNY42r7zmpGbXa7pGFZDxvNSd0aINEVBg52lk9jMQqM5tB9
- aMDg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=b7i/sI2grlFleaXu6G+WbNlIN/xmEbLbsHG793e7tpI=;
- b=h/W/SAg/3zKY3CAa4140jGH8mGGWOXetg2KPjj/dLvTIUwqkah7dhSBUFPRUqXQ3Ki
- buhtYSqGn5sXxLUF1CVKqxbA5CFWNEihg8UEur6aMYdwhIv1u+S4WrhwvzxXjM4QkoXf
- hxILT+YiJew9Au9flJEsL7434R4Vcm3ng8I7t2JiL4fsOKsaAKNKiHdAQndUU0VuQLPB
- XHmu6xRNcVq5j1YDprr0Q/QOuZIYUvKjM/cwISGzR1VRnuvI9H8WGOhshzT7knWxJ2/M
- uEwiUw8qin2PDYW2twTCGa2OKrCz0rXJpOTfT3bUVMenwXYI5+weoyLFK0hWxNONCG2j
- HtGg==
-X-Gm-Message-State: AOAM533pr2HQmNy5kp8jM7JvnkkVfPTNqE5e/PKAiekAjvUnhRNzqlhx
- AWVA9KvqW+swz4mlgXGTjnyO3toC+yK32w==
-X-Google-Smtp-Source: ABdhPJwKmgoUAsSVtiuKeiG4sJa/slfc9etldlgfbaK/dVIk2LQlL7ZdtQJefAXfEayVExKWKoV4GQ==
-X-Received: by 2002:a17:90a:2a08:: with SMTP id
- i8mr2911826pjd.122.1623260716246; 
- Wed, 09 Jun 2021 10:45:16 -0700 (PDT)
-Received: from omlet.lan (jfdmzpr04-ext.jf.intel.com. [134.134.137.73])
- by smtp.gmail.com with ESMTPSA id b10sm208619pfi.122.2021.06.09.10.45.14
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 09 Jun 2021 10:45:15 -0700 (PDT)
-From: Jason Ekstrand <jason@jlekstrand.net>
-To: dri-devel@lists.freedesktop.org,
-	intel-gfx@lists.freedesktop.org
-Subject: [PATCH 31/31] HACK: Always finalize contexts
-Date: Wed,  9 Jun 2021 12:44:18 -0500
-Message-Id: <20210609174418.249585-32-jason@jlekstrand.net>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210609174418.249585-1-jason@jlekstrand.net>
-References: <20210609174418.249585-1-jason@jlekstrand.net>
+Received: from mail.kapsi.fi (mail.kapsi.fi [IPv6:2001:67c:1be8::25])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 226496EAE2;
+ Wed,  9 Jun 2021 17:46:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
+ s=20161220; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:
+ MIME-Version:Date:Message-ID:From:References:To:Subject:Sender:Reply-To:Cc:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=ylMKWUYw2QnydSbeeqGqbQ4d4p3MWpA7bfKGPeJjZtk=; b=FfZ+LzTTkM2bwH2RdcG1hbLhjA
+ VX+zAI/EZaPAw8MkGj3a30ZJPIAj/covmVsOD3O4k4xAWoSl7mSDACW3hVJNHm3yhuLR7nGNN17Ce
+ sxVCrS0jSUYukFjZjyMXCgHC59orpp+l4oApSsAFv/Qd18qvPzKpr5VvtsT9npD7eUMwGzoQ4Q21c
+ I5d202K5Fe4tvmX8tFOdhifC6FvdtdqvYj9yHmXATdmYNicGUoM3NeANpi1OtCAoyAOqbrzIp1wzD
+ QaAVCLWk3K7weYi3dQgZ/xrKg0M9hcoqtvpMbNqEKX3wbtLOCj/pYGih4askvUSHK0qUWbICpfpVR
+ lmsyhhdQ==;
+Received: from dsl-hkibng22-54f986-236.dhcp.inet.fi ([84.249.134.236]
+ helo=[192.168.1.10])
+ by mail.kapsi.fi with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.89) (envelope-from <cyndis@kapsi.fi>)
+ id 1lr2HA-0005Qa-Qu; Wed, 09 Jun 2021 20:46:00 +0300
+Subject: Re: [PATCH] drm/nouveau: init the base GEM fields for internal BOs
+To: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ imirkin@alum.mit.edu, linux-tegra@vger.kernel.org,
+ nouveau@lists.freedesktop.org, ray.huang@amd.com, matthew.auld@intel.com,
+ dri-devel@lists.freedesktop.org
+References: <20210609172902.1937-1-christian.koenig@amd.com>
+From: Mikko Perttunen <cyndis@kapsi.fi>
+Message-ID: <899d773e-9a7d-062c-47fa-080161b22cd6@kapsi.fi>
+Date: Wed, 9 Jun 2021 20:45:59 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.0
 MIME-Version: 1.0
+In-Reply-To: <20210609172902.1937-1-christian.koenig@amd.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 84.249.134.236
+X-SA-Exim-Mail-From: cyndis@kapsi.fi
+X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,28 +60,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jason Ekstrand <jason@jlekstrand.net>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Only for verifying the previous patch with I-G-T.  DO NOT MERGE!
----
- drivers/gpu/drm/i915/gem/i915_gem_context.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On 6/9/21 8:29 PM, Christian König wrote:
+> TTMs buffer objects are based on GEM objects for quite a while
+> and rely on initializing those fields before initializing the TTM BO.
+> 
+> Noveau now doesn't init the GEM object for internally allocated BOs,
 
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context.c b/drivers/gpu/drm/i915/gem/i915_gem_context.c
-index 7d6f52d8a8012..9395d9d7f9530 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_context.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_context.c
-@@ -1996,7 +1996,7 @@ int i915_gem_context_create_ioctl(struct drm_device *dev, void *data,
- 			goto err_pc;
- 	}
- 
--	if (GRAPHICS_VER(i915) > 12) {
-+	if (1 || (GRAPHICS_VER(i915) > 12)) {
- 		struct i915_gem_context *ctx;
- 
- 		/* Get ourselves a context ID */
--- 
-2.31.1
+Nouveau
 
+> so make sure that we at least initialize some necessary fields.
+> 
+> Signed-off-by: Christian König <christian.koenig@amd.com>
+> ---
+>   drivers/gpu/drm/nouveau/nouveau_bo.c | 6 ++++++
+>   1 file changed, 6 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/nouveau/nouveau_bo.c b/drivers/gpu/drm/nouveau/nouveau_bo.c
+> index 520b1ea9d16c..085023624fb0 100644
+> --- a/drivers/gpu/drm/nouveau/nouveau_bo.c
+> +++ b/drivers/gpu/drm/nouveau/nouveau_bo.c
+> @@ -149,6 +149,8 @@ nouveau_bo_del_ttm(struct ttm_buffer_object *bo)
+>   	 */
+>   	if (bo->base.dev)
+>   		drm_gem_object_release(&bo->base);
+> +	else
+> +		dma_resv_fini(&bo->base._resv);
+>   
+>   	kfree(nvbo);
+>   }
+> @@ -330,6 +332,10 @@ nouveau_bo_new(struct nouveau_cli *cli, u64 size, int align,
+>   	if (IS_ERR(nvbo))
+>   		return PTR_ERR(nvbo);
+>   
+> +	nvbo->bo.base.size = size;
+> +	dma_resv_init(&nvbo->bo.base._resv);
+> +	drm_vma_node_reset(&nvbo->bo.base.vma_node);
+> +
+>   	ret = nouveau_bo_init(nvbo, size, align, domain, sg, robj);
+>   	if (ret)
+>   		return ret;
+> 
+
+That works, thanks for the fix!
+
+Tested-by: Mikko Perttunen <mperttunen@nvidia.com>
+
+Mikko
