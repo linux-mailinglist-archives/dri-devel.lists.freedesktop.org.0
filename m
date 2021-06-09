@@ -2,35 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE1163A13D8
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Jun 2021 14:11:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E76B3A13D9
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Jun 2021 14:11:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5E0F06E929;
-	Wed,  9 Jun 2021 12:11:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C61816E971;
+	Wed,  9 Jun 2021 12:11:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
  [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DADFA6E929
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Jun 2021 12:11:07 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 780F46E971
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Jun 2021 12:11:18 +0000 (UTC)
 Received: from dude.hi.pengutronix.de ([2001:67c:670:100:1d::7])
  by metis.ext.pengutronix.de with esmtps
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <ore@pengutronix.de>)
- id 1lqx2q-0007WL-60; Wed, 09 Jun 2021 14:10:52 +0200
+ id 1lqx2q-0007WM-61; Wed, 09 Jun 2021 14:10:52 +0200
 Received: from ore by dude.hi.pengutronix.de with local (Exim 4.92)
  (envelope-from <ore@pengutronix.de>)
- id 1lqx2o-0004sn-Rb; Wed, 09 Jun 2021 14:10:50 +0200
+ id 1lqx2o-0004sw-Sd; Wed, 09 Jun 2021 14:10:50 +0200
 From: Oleksij Rempel <o.rempel@pengutronix.de>
 To: Arnd Bergmann <arnd@arndb.de>, Daniel Vetter <daniel@ffwll.ch>,
  David Airlie <airlied@linux.ie>, Olof Johansson <olof@lixom.net>,
  Rob Herring <robh+dt@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
  Shawn Guo <shawnguo@kernel.org>, soc@kernel.org,
  Thierry Reding <thierry.reding@gmail.com>
-Subject: [PATCH v1 0/4] Mainline imx6 based SKOV boards
-Date: Wed,  9 Jun 2021 14:10:46 +0200
-Message-Id: <20210609121050.18715-1-o.rempel@pengutronix.de>
+Subject: [PATCH v1 1/4] dt-bindings: display: simple: add some Logic
+ Technologies and Multi-Inno panels
+Date: Wed,  9 Jun 2021 14:10:47 +0200
+Message-Id: <20210609121050.18715-2-o.rempel@pengutronix.de>
 X-Mailer: git-send-email 2.29.2
+In-Reply-To: <20210609121050.18715-1-o.rempel@pengutronix.de>
+References: <20210609121050.18715-1-o.rempel@pengutronix.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -59,37 +62,35 @@ Cc: devicetree@vger.kernel.org, Sam Ravnborg <sam@ravnborg.org>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Mainline imx6 based DTs for SKOV A/S boards
+Add Logictechno and Multi-Inno panels:
+- Logic Technologies LTTD800x480 L2RT 7" 800x480 TFT Resistive Touch Module
+- Logic Technologies LTTD800480070-L6WH-RT 7” 800x480 TFT Resistive Touch Module
+- Multi-Inno Technology Co.,Ltd MI1010AIT-1CP 10.1" 1280x800 LVDS IPS Cap Touch Mod.
 
-Oleksij Rempel (3):
-  dt-bindings: display: simple: add some Logic Technologies and
-    Multi-Inno panels
-  dt-bindings: vendor-prefixes: Add an entry for SKOV A/S
-  dt-bindings: arm: fsl: add SKOV imx6q and imx6dl based boards
+Signed-off-by: Oleksij Rempel <o.rempel@pengutronix.de>
+---
+ .../devicetree/bindings/display/panel/panel-simple.yaml     | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-Sam Ravnborg (1):
-  ARM: dts: add SKOV imx6q and imx6dl based boards
-
- .../devicetree/bindings/arm/fsl.yaml          |   5 +
- .../bindings/display/panel/panel-simple.yaml  |   6 +
- .../devicetree/bindings/vendor-prefixes.yaml  |   2 +
- arch/arm/boot/dts/Makefile                    |   5 +
- arch/arm/boot/dts/imx6dl-skov-revc-lt2.dts    |  13 +
- arch/arm/boot/dts/imx6dl-skov-revc-lt6.dts    | 108 ++++
- arch/arm/boot/dts/imx6q-skov-revc-lt2.dts     |  36 ++
- arch/arm/boot/dts/imx6q-skov-revc-lt6.dts     | 128 +++++
- .../dts/imx6q-skov-reve-mi1010ait-1cp1.dts    | 127 +++++
- arch/arm/boot/dts/imx6qdl-skov-cpu-revc.dtsi  |  58 +++
- arch/arm/boot/dts/imx6qdl-skov-cpu.dtsi       | 476 ++++++++++++++++++
- 11 files changed, 964 insertions(+)
- create mode 100644 arch/arm/boot/dts/imx6dl-skov-revc-lt2.dts
- create mode 100644 arch/arm/boot/dts/imx6dl-skov-revc-lt6.dts
- create mode 100644 arch/arm/boot/dts/imx6q-skov-revc-lt2.dts
- create mode 100644 arch/arm/boot/dts/imx6q-skov-revc-lt6.dts
- create mode 100644 arch/arm/boot/dts/imx6q-skov-reve-mi1010ait-1cp1.dts
- create mode 100644 arch/arm/boot/dts/imx6qdl-skov-cpu-revc.dtsi
- create mode 100644 arch/arm/boot/dts/imx6qdl-skov-cpu.dtsi
-
+diff --git a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
+index c06633264e5c..ab998effcaf8 100644
+--- a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
++++ b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
+@@ -204,8 +204,14 @@ properties:
+       - logictechno,lt161010-2nhr
+         # Logic Technologies LT170410-2WHC 10.1" 1280x800 IPS TFT Cap Touch Mod.
+       - logictechno,lt170410-2whc
++        # Logic Technologies LTTD800x480 L2RT 7" 800x480 TFT Resistive Touch Module
++      - logictechno,lttd800480070-l2rt
++        # Logic Technologies LTTD800480070-L6WH-RT 7” 800x480 TFT Resistive Touch Module
++      - logictechno,lttd800480070-l6wh-rt
+         # Mitsubishi "AA070MC01 7.0" WVGA TFT LCD panel
+       - mitsubishi,aa070mc01-ca1
++        # Multi-Inno Technology Co.,Ltd MI1010AIT-1CP 10.1" 1280x800 LVDS IPS Cap Touch Mod.
++      - multi-inno,mi1010ait-1cp
+         # NEC LCD Technologies, Ltd. 12.1" WXGA (1280x800) LVDS TFT LCD panel
+       - nec,nl12880bc20-05
+         # NEC LCD Technologies,Ltd. WQVGA TFT LCD panel
 -- 
 2.29.2
 
