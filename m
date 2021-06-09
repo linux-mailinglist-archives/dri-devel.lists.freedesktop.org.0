@@ -1,61 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02A633A1CB8
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Jun 2021 20:27:54 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E6D363A1CBA
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Jun 2021 20:28:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E2B456EA8E;
-	Wed,  9 Jun 2021 18:27:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DC21C6EAA3;
+	Wed,  9 Jun 2021 18:28:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com
- [IPv6:2a00:1450:4864:20::335])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 06DCF6EA8E
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Jun 2021 18:27:48 +0000 (UTC)
-Received: by mail-wm1-x335.google.com with SMTP id
- u5-20020a7bc0450000b02901480e40338bso3634602wmc.1
- for <dri-devel@lists.freedesktop.org>; Wed, 09 Jun 2021 11:27:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=nXtC0TTdpsHcuJUUWVG3Np34/AsLwocmzwBcXSxRj/Q=;
- b=HfJ/RZQysPk9QdXC8tT3qAef2KiC/W+sa6+C3chbhaVnx4s3fINdbcMIx+9/WYp9Ua
- rSGvTtXkki9nHMB1d7HNACqPqJeHqK2bfGV+19jQTDbP1WsfyIYbktcvzyzDvAU2yXFL
- ODRmwQ5LfHMJpdwV7NzdRP4uKcVDzxULIXu/M=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=nXtC0TTdpsHcuJUUWVG3Np34/AsLwocmzwBcXSxRj/Q=;
- b=nwkUOrIykQvkEcLWZWYKw0xupVdONtnlIgkzD/EhIPMPrNa+tGZdvyHP3GP4ZvCT9G
- DqnCZxl33RZfbq9JMLh+rcb5+mzxWBG6xsBLv1yxAgJKc3bJx/2U6ZH2Ikun9WPdD3Of
- 2/OuIVnlRUDUJ6MGXHQ+V7ZdFapc+jDXWHjw5pDf4TgH7RS4D9OtCau7glrmHxiARH0u
- 37JsW3ZNIVURS8LQJka9HYl1pTbPfNH2c3UHs++k1Bppv3xfR8atDh7znuiejX6mxLFZ
- Zaarv9KpkNEBSVbtgeQyiNT8wfV3c7uuvMGGbhKop9YgMfg/2XRSHM+YprUrV+Ae74xw
- hsVQ==
-X-Gm-Message-State: AOAM530ySyIYwCEcAgkRUjM1vyI6fcADa2jIn2j0uif9aEsJA2FqyLAU
- 56Owily6jS+CqDr07+Opk0wH6Q==
-X-Google-Smtp-Source: ABdhPJwf5wymTOTx4isyKDiYxTSKvgQu1tFsxGtgpCUiybvhgJ6aZdFSBsjZYd81Y0DX08g0jbU2eg==
-X-Received: by 2002:a7b:c206:: with SMTP id x6mr10873557wmi.26.1623263267661; 
- Wed, 09 Jun 2021 11:27:47 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id s62sm7585504wms.13.2021.06.09.11.27.46
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 09 Jun 2021 11:27:47 -0700 (PDT)
-Date: Wed, 9 Jun 2021 20:27:44 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Thierry Reding <thierry.reding@gmail.com>
-Subject: Re: [PATCH v2 02/10] drm/arm: malidp: Use fourcc_mod_is_vendor()
- helper
-Message-ID: <YMEIIDl3ftlQyWCq@phenom.ffwll.local>
-References: <20210326145139.467072-1-thierry.reding@gmail.com>
- <20210326145139.467072-3-thierry.reding@gmail.com>
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 297636E255;
+ Wed,  9 Jun 2021 18:28:45 +0000 (UTC)
+IronPort-SDR: uwOzEpr61NqO7anYoLQ/0R0PuDBoBwDQ0auFrxH4v2ivllK0tEB+c8Hej9ds+OR7SIkIELU4A3
+ LBxBrhp7yTrQ==
+X-IronPort-AV: E=McAfee;i="6200,9189,10010"; a="192452202"
+X-IronPort-AV: E=Sophos;i="5.83,261,1616482800"; d="scan'208";a="192452202"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Jun 2021 11:28:44 -0700
+IronPort-SDR: o38z2KE0/B/foXtppOkZb4nd70MmvCFb75jgsECqQmSNQORlqaYBY/LdLucHqB7IC6klS1Gxov
+ GoyZTqnXrtOQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.83,261,1616482800"; d="scan'208";a="448385237"
+Received: from irvmail001.ir.intel.com ([10.43.11.63])
+ by orsmga008.jf.intel.com with ESMTP; 09 Jun 2021 11:28:42 -0700
+Received: from [10.249.139.139] (mwajdecz-MOBL.ger.corp.intel.com
+ [10.249.139.139])
+ by irvmail001.ir.intel.com (8.14.3/8.13.6/MailSET/Hub) with ESMTP id
+ 159ISfrw007986; Wed, 9 Jun 2021 19:28:41 +0100
+Subject: Re: [PATCH 06/13] drm/i915/guc: New definition of the CTB descriptor
+To: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
+ Matthew Brost <matthew.brost@intel.com>,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+References: <20210607180356.165785-1-matthew.brost@intel.com>
+ <20210607180356.165785-7-matthew.brost@intel.com>
+ <65728a0f-5042-362b-1f92-575b0b2875ac@intel.com>
+From: Michal Wajdeczko <michal.wajdeczko@intel.com>
+Message-ID: <2e4a5977-c9ac-e703-17ea-444ae438a872@intel.com>
+Date: Wed, 9 Jun 2021 20:28:40 +0200
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210326145139.467072-3-thierry.reding@gmail.com>
-X-Operating-System: Linux phenom 5.10.32scarlett+ 
+In-Reply-To: <65728a0f-5042-362b-1f92-575b0b2875ac@intel.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,46 +58,336 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, James Jones <jajones@nvidia.com>,
- dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
- linux-tegra@vger.kernel.org, Dmitry Osipenko <digetx@gmail.com>
+Cc: john.c.harrison@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Mar 26, 2021 at 03:51:31PM +0100, Thierry Reding wrote:
-> From: Thierry Reding <treding@nvidia.com>
-> 
-> Rather than open-coding the vendor extraction operation, use the newly
-> introduced helper macro.
-> 
-> Signed-off-by: Thierry Reding <treding@nvidia.com>
 
-On the first two patches:
 
-Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-
-> ---
->  drivers/gpu/drm/arm/malidp_planes.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+On 08.06.2021 02:59, Daniele Ceraolo Spurio wrote:
 > 
-> diff --git a/drivers/gpu/drm/arm/malidp_planes.c b/drivers/gpu/drm/arm/malidp_planes.c
-> index ddbba67f0283..cd218883cff8 100644
-> --- a/drivers/gpu/drm/arm/malidp_planes.c
-> +++ b/drivers/gpu/drm/arm/malidp_planes.c
-> @@ -165,7 +165,7 @@ bool malidp_format_mod_supported(struct drm_device *drm,
->  		return !malidp_hw_format_is_afbc_only(format);
->  	}
->  
-> -	if ((modifier >> 56) != DRM_FORMAT_MOD_VENDOR_ARM) {
-> +	if (!fourcc_mod_is_vendor(modifier, ARM)) {
->  		DRM_ERROR("Unknown modifier (not Arm)\n");
->  		return false;
->  	}
-> -- 
-> 2.30.2
 > 
+> On 6/7/2021 11:03 AM, Matthew Brost wrote:
+>> From: Michal Wajdeczko <michal.wajdeczko@intel.com>
+>>
+>> Definition of the CTB descriptor has changed, leaving only
+>> minimal shared fields like HEAD/TAIL/STATUS.
+>>
+>> Both HEAD and TAIL are now in dwords.
+>>
+>> Add some ABI documentation and implement required changes.
+>>
+>> Signed-off-by: Michal Wajdeczko <michal.wajdeczko@intel.com>
+>> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+>> ---
+>>   .../gt/uc/abi/guc_communication_ctb_abi.h     | 70 ++++++++++++++-----
+>>   drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c     | 70 +++++++++----------
+>>   drivers/gpu/drm/i915/gt/uc/intel_guc_ct.h     |  2 +-
+>>   3 files changed, 85 insertions(+), 57 deletions(-)
+>>
+>> diff --git
+>> a/drivers/gpu/drm/i915/gt/uc/abi/guc_communication_ctb_abi.h
+>> b/drivers/gpu/drm/i915/gt/uc/abi/guc_communication_ctb_abi.h
+>> index d38935f47ecf..c2a069a78e01 100644
+>> --- a/drivers/gpu/drm/i915/gt/uc/abi/guc_communication_ctb_abi.h
+>> +++ b/drivers/gpu/drm/i915/gt/uc/abi/guc_communication_ctb_abi.h
+>> @@ -7,6 +7,58 @@
+>>   #define _ABI_GUC_COMMUNICATION_CTB_ABI_H
+>>     #include <linux/types.h>
+>> +#include <linux/build_bug.h>
+>> +
+>> +#include "guc_messages_abi.h"
+>> +
+>> +/**
+>> + * DOC: CT Buffer
+>> + *
+>> + * TBD
+> 
+> What's the plan with this TBD here?
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Plan was to add some updated text based on old "DOC: CTB based
+communication" section
+
+> 
+>> + */
+>> +
+>> +/**
+>> + * DOC: CTB Descriptor
+>> + *
+>> + * 
+>> +---+-------+--------------------------------------------------------------+
+>>
+>> + *  |   | Bits  |
+>> Description                                                  |
+>> + * 
+>> +===+=======+==============================================================+
+>>
+>> + *  | 0 |  31:0 | **HEAD** - offset (in dwords) to the last dword
+>> that was     |
+>> + *  |   |       | read from the `CT
+>> Buffer`_.                                  |
+>> + *  |   |       | It can only be updated by the
+>> receiver.                      |
+>> + * 
+>> +---+-------+--------------------------------------------------------------+
+>>
+>> + *  | 1 |  31:0 | **TAIL** - offset (in dwords) to the last dword
+>> that was     |
+>> + *  |   |       | written to the `CT
+>> Buffer`_.                                 |
+>> + *  |   |       | It can only be updated by the
+>> sender.                        |
+>> + * 
+>> +---+-------+--------------------------------------------------------------+
+>>
+>> + *  | 2 |  31:0 | **STATUS** - status of the
+>> CTB                               |
+>> + *  |   |      
+>> |                                                              |
+>> + *  |   |       |   - _`GUC_CTB_STATUS_NO_ERROR` = 0 (normal
+>> operation)        |
+>> + *  |   |       |   - _`GUC_CTB_STATUS_OVERFLOW` = 1 (head/tail too
+>> large)     |
+>> + *  |   |       |   - _`GUC_CTB_STATUS_UNDERFLOW` = 2 (truncated
+>> message)      |
+>> + *  |   |       |   - _`GUC_CTB_STATUS_MISMATCH` = 4 (head/tail
+>> modified)      |
+>> + *  |   |       |   - _`GUC_CTB_STATUS_NO_BACKCHANNEL` =
+>> 8                     |
+>> + *  |   |       |   - _`GUC_CTB_STATUS_MALFORMED_MSG` =
+>> 16                     |
+> 
+> I don't see the last 2 error (8 & 16) in the 62.0.0 specs. Where is the
+> reference for them?
+
+both were discussed on various meetings but likely didn't make into
+final spec 62, so for now we can drop them both
+
+> 
+>> + * 
+>> +---+-------+--------------------------------------------------------------+
+>>
+>> + *  |...|       | RESERVED =
+>> MBZ                                               |
+>> + * 
+>> +---+-------+--------------------------------------------------------------+
+>>
+>> + *  | 15|  31:0 | RESERVED =
+>> MBZ                                               |
+>> + * 
+>> +---+-------+--------------------------------------------------------------+
+>>
+>> + */
+>> +
+>> +struct guc_ct_buffer_desc {
+>> +    u32 head;
+>> +    u32 tail;
+>> +    u32 status;
+>> +#define GUC_CTB_STATUS_NO_ERROR                0
+>> +#define GUC_CTB_STATUS_OVERFLOW                (1 << 0)
+>> +#define GUC_CTB_STATUS_UNDERFLOW            (1 << 1)
+>> +#define GUC_CTB_STATUS_MISMATCH                (1 << 2)
+>> +#define GUC_CTB_STATUS_NO_BACKCHANNEL            (1 << 3)
+>> +#define GUC_CTB_STATUS_MALFORMED_MSG            (1 << 4)
+> 
+> use BIT() ?
+
+as explained before, on ABI headers we didn't want any dependency and
+just use plain C
+
+> 
+>> +    u32 reserved[13];
+>> +} __packed;
+>> +static_assert(sizeof(struct guc_ct_buffer_desc) == 64);
+>>     /**
+>>    * DOC: CTB based communication
+>> @@ -60,24 +112,6 @@
+>>    * - **flags**, holds various bits to control message handling
+>>    */
+>>   -/*
+>> - * Describes single command transport buffer.
+>> - * Used by both guc-master and clients.
+>> - */
+>> -struct guc_ct_buffer_desc {
+>> -    u32 addr;        /* gfx address */
+>> -    u64 host_private;    /* host private data */
+>> -    u32 size;        /* size in bytes */
+>> -    u32 head;        /* offset updated by GuC*/
+>> -    u32 tail;        /* offset updated by owner */
+>> -    u32 is_in_error;    /* error indicator */
+>> -    u32 reserved1;
+>> -    u32 reserved2;
+>> -    u32 owner;        /* id of the channel owner */
+>> -    u32 owner_sub_id;    /* owner-defined field for extra tracking */
+>> -    u32 reserved[5];
+>> -} __packed;
+>> -
+>>   /* Type of command transport buffer */
+>>   #define INTEL_GUC_CT_BUFFER_TYPE_SEND    0x0u
+>>   #define INTEL_GUC_CT_BUFFER_TYPE_RECV    0x1u
+>> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
+>> b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
+>> index 63056ea0631e..3241a477196f 100644
+>> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
+>> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
+>> @@ -112,32 +112,28 @@ static inline const char
+>> *guc_ct_buffer_type_to_str(u32 type)
+>>       }
+>>   }
+>>   -static void guc_ct_buffer_desc_init(struct guc_ct_buffer_desc *desc,
+>> -                    u32 cmds_addr, u32 size)
+>> +static void guc_ct_buffer_desc_init(struct guc_ct_buffer_desc *desc)
+> 
+> this function is called from only 1 place and only does a memset now, so
+> IMO we can just drop it and inline the memset.
+
+ok, but without enthusiasm ;)
+
+> 
+> The logic below matches the specs.
+> 
+> Daniele
+> 
+>>   {
+>>       memset(desc, 0, sizeof(*desc));
+>> -    desc->addr = cmds_addr;
+>> -    desc->size = size;
+>> -    desc->owner = CTB_OWNER_HOST;
+>>   }
+>>   -static void guc_ct_buffer_reset(struct intel_guc_ct_buffer *ctb,
+>> u32 cmds_addr)
+>> +static void guc_ct_buffer_reset(struct intel_guc_ct_buffer *ctb)
+>>   {
+>>       ctb->broken = false;
+>> -    guc_ct_buffer_desc_init(ctb->desc, cmds_addr, ctb->size);
+>> +    guc_ct_buffer_desc_init(ctb->desc);
+>>   }
+>>     static void guc_ct_buffer_init(struct intel_guc_ct_buffer *ctb,
+>>                      struct guc_ct_buffer_desc *desc,
+>> -                   u32 *cmds, u32 size)
+>> +                   u32 *cmds, u32 size_in_bytes)
+>>   {
+>> -    GEM_BUG_ON(size % 4);
+>> +    GEM_BUG_ON(size_in_bytes % 4);
+>>         ctb->desc = desc;
+>>       ctb->cmds = cmds;
+>> -    ctb->size = size;
+>> +    ctb->size = size_in_bytes / 4;
+>>   -    guc_ct_buffer_reset(ctb, 0);
+>> +    guc_ct_buffer_reset(ctb);
+>>   }
+>>     static int guc_action_register_ct_buffer(struct intel_guc *guc,
+>> @@ -279,10 +275,10 @@ int intel_guc_ct_enable(struct intel_guc_ct *ct)
+>>         /* (re)initialize descriptors */
+>>       cmds = base + ptrdiff(ct->ctbs.send.cmds, blob);
+>> -    guc_ct_buffer_reset(&ct->ctbs.send, cmds);
+>> +    guc_ct_buffer_reset(&ct->ctbs.send);
+>>         cmds = base + ptrdiff(ct->ctbs.recv.cmds, blob);
+>> -    guc_ct_buffer_reset(&ct->ctbs.recv, cmds);
+>> +    guc_ct_buffer_reset(&ct->ctbs.recv);
+>>         /*
+>>        * Register both CT buffers starting with RECV buffer.
+>> @@ -391,17 +387,15 @@ static int ct_write(struct intel_guc_ct *ct,
+>>       if (unlikely(ctb->broken))
+>>           return -EPIPE;
+>>   -    if (unlikely(desc->is_in_error))
+>> +    if (unlikely(desc->status))
+>>           goto corrupted;
+>>   -    if (unlikely(!IS_ALIGNED(head | tail, 4) ||
+>> -             (tail | head) >= size))
+>> +    if (unlikely((tail | head) >= size)) {
+>> +        CT_ERROR(ct, "Invalid offsets head=%u tail=%u (size=%u)\n",
+>> +             head, tail, size);
+>> +        desc->status |= GUC_CTB_STATUS_OVERFLOW;
+>>           goto corrupted;
+>> -
+>> -    /* later calculations will be done in dwords */
+>> -    head /= 4;
+>> -    tail /= 4;
+>> -    size /= 4;
+>> +    }
+>>         /*
+>>        * tail == head condition indicates empty. GuC FW does not support
+>> @@ -447,14 +441,14 @@ static int ct_write(struct intel_guc_ct *ct,
+>>        */
+>>       write_barrier(ct);
+>>   -    /* now update desc tail (back in bytes) */
+>> -    desc->tail = tail * 4;
+>> +    /* now update descriptor */
+>> +    WRITE_ONCE(desc->tail, tail);
+>> +
+>>       return 0;
+>>     corrupted:
+>> -    CT_ERROR(ct, "Corrupted descriptor addr=%#x head=%u tail=%u
+>> size=%u\n",
+>> -         desc->addr, desc->head, desc->tail, desc->size);
+>> -    desc->is_in_error = 1;
+>> +    CT_ERROR(ct, "Corrupted descriptor head=%u tail=%u status=%#x\n",
+>> +         desc->head, desc->tail, desc->status);
+>>       ctb->broken = true;
+>>       return -EPIPE;
+>>   }
+>> @@ -640,17 +634,15 @@ static int ct_read(struct intel_guc_ct *ct,
+>> struct ct_incoming_msg **msg)
+>>       if (unlikely(ctb->broken))
+>>           return -EPIPE;
+>>   -    if (unlikely(desc->is_in_error))
+>> +    if (unlikely(desc->status))
+>>           goto corrupted;
+>>   -    if (unlikely(!IS_ALIGNED(head | tail, 4) ||
+>> -             (tail | head) >= size))
+>> +    if (unlikely((tail | head) >= size)) {
+>> +        CT_ERROR(ct, "Invalid offsets head=%u tail=%u (size=%u)\n",
+>> +             head, tail, size);
+>> +        desc->status |= GUC_CTB_STATUS_OVERFLOW;
+>>           goto corrupted;
+>> -
+>> -    /* later calculations will be done in dwords */
+>> -    head /= 4;
+>> -    tail /= 4;
+>> -    size /= 4;
+>> +    }
+>>         /* tail == head condition indicates empty */
+>>       available = tail - head;
+>> @@ -677,6 +669,7 @@ static int ct_read(struct intel_guc_ct *ct, struct
+>> ct_incoming_msg **msg)
+>>                     size - head : available - 1), &cmds[head],
+>>                4 * (head + available - 1 > size ?
+>>                     available - 1 - size + head : 0), &cmds[0]);
+>> +        desc->status |= GUC_CTB_STATUS_UNDERFLOW;
+>>           goto corrupted;
+>>       }
+>>   @@ -699,13 +692,14 @@ static int ct_read(struct intel_guc_ct *ct,
+>> struct ct_incoming_msg **msg)
+>>       }
+>>       CT_DEBUG(ct, "received %*ph\n", 4 * len, (*msg)->msg);
+>>   -    desc->head = head * 4;
+>> +    /* now update descriptor */
+>> +    WRITE_ONCE(desc->head, head);
+>> +
+>>       return available - len;
+>>     corrupted:
+>> -    CT_ERROR(ct, "Corrupted descriptor addr=%#x head=%u tail=%u
+>> size=%u\n",
+>> -         desc->addr, desc->head, desc->tail, desc->size);
+>> -    desc->is_in_error = 1;
+>> +    CT_ERROR(ct, "Corrupted descriptor head=%u tail=%u status=%#x\n",
+>> +         desc->head, desc->tail, desc->status);
+>>       ctb->broken = true;
+>>       return -EPIPE;
+>>   }
+>> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.h
+>> b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.h
+>> index 7d3cd375d6a7..905202caaad3 100644
+>> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.h
+>> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.h
+>> @@ -31,7 +31,7 @@ struct intel_guc;
+>>    * @lock: protects access to the commands buffer and buffer descriptor
+>>    * @desc: pointer to the buffer descriptor
+>>    * @cmds: pointer to the commands buffer
+>> - * @size: size of the commands buffer
+>> + * @size: size of the commands buffer in dwords
+>>    * @broken: flag to indicate if descriptor data is broken
+>>    */
+>>   struct intel_guc_ct_buffer {
+> 
