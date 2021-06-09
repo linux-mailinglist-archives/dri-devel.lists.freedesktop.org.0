@@ -1,38 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E1523A0C7A
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Jun 2021 08:34:57 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C1E43A0C7D
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Jun 2021 08:35:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 04A146E0F0;
-	Wed,  9 Jun 2021 06:34:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2F5016E10A;
+	Wed,  9 Jun 2021 06:34:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1DA906E0F1;
- Wed,  9 Jun 2021 06:34:51 +0000 (UTC)
-IronPort-SDR: qLCP2QSPDUGHipZTmxq4ftzwH2vj4nzYJs9qipwc1i5R9e/Y7uQMqpjwp+d8pinY4WJZzRECKh
- KuiFF/xEt/Wg==
-X-IronPort-AV: E=McAfee;i="6200,9189,10009"; a="268868885"
-X-IronPort-AV: E=Sophos;i="5.83,260,1616482800"; d="scan'208";a="268868885"
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 533BE6E12D;
+ Wed,  9 Jun 2021 06:34:53 +0000 (UTC)
+IronPort-SDR: 8RzCKhbXRcIbxMP2v9OScw+k3X7NuoyZP556I80sEcDeDv1XIayOgtnmX6EiHO1I/Msw1D/d0T
+ vR1Vq4kb7vkQ==
+X-IronPort-AV: E=McAfee;i="6200,9189,10009"; a="268868886"
+X-IronPort-AV: E=Sophos;i="5.83,260,1616482800"; d="scan'208";a="268868886"
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Jun 2021 23:34:51 -0700
-IronPort-SDR: dQq7QX8zLlccjLafsYmxCDm9hCEvDpXY+gymRdlcg6fQ98qLA/90zvrFb+76VDhm17mu3fuJUj
- AdFRqR+79QbA==
-X-IronPort-AV: E=Sophos;i="5.83,260,1616482800"; d="scan'208";a="482265780"
+ 08 Jun 2021 23:34:53 -0700
+IronPort-SDR: GFc06J6TZPQXNiNvRBGYm2CLfo+gpWQb9g5A5fhSf2FZzNZIh/qXjpHShHbVOlnPXt0KmcLvey
+ LSdn0U80SNOw==
+X-IronPort-AV: E=Sophos;i="5.83,260,1616482800"; d="scan'208";a="482265795"
 Received: from ekolpasx-mobl.ccr.corp.intel.com (HELO thellst-mobl1.intel.com)
  ([10.249.254.109])
  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Jun 2021 23:34:49 -0700
+ 08 Jun 2021 23:34:51 -0700
 From: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
 To: intel-gfx@lists.freedesktop.org,
 	dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 2/9] drm/i915: Break out dma_resv ww locking utilities to
- separate files
-Date: Wed,  9 Jun 2021 08:34:29 +0200
-Message-Id: <20210609063436.284332-3-thomas.hellstrom@linux.intel.com>
+Subject: [PATCH v2 3/9] drm/i915: Introduce a ww transaction helper
+Date: Wed,  9 Jun 2021 08:34:30 +0200
+Message-Id: <20210609063436.284332-4-thomas.hellstrom@linux.intel.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210609063436.284332-1-thomas.hellstrom@linux.intel.com>
 References: <20210609063436.284332-1-thomas.hellstrom@linux.intel.com>
@@ -56,247 +55,61 @@ Cc: matthew.auld@intel.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-As we're about to add more ww-related functionality,
-break out the dma_resv ww locking utilities to their own files
+Introduce a for_i915_gem_ww(){} utility to help make the code
+around a ww transaction more readable.
 
 Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
 Reviewed-by: Matthew Auld <matthew.auld@intel.com>
 ---
-v2:
-- Make sure filenames are sorted in include file lists and Makefile
-  (Reported by Matthew Auld)
----
- drivers/gpu/drm/i915/Makefile               |  1 +
- drivers/gpu/drm/i915/gem/i915_gem_object.h  |  1 +
- drivers/gpu/drm/i915/gt/intel_renderstate.h |  1 +
- drivers/gpu/drm/i915/i915_gem.c             | 56 ------------------
- drivers/gpu/drm/i915/i915_gem.h             | 12 ----
- drivers/gpu/drm/i915/i915_gem_ww.c          | 63 +++++++++++++++++++++
- drivers/gpu/drm/i915/i915_gem_ww.h          | 21 +++++++
- 7 files changed, 87 insertions(+), 68 deletions(-)
- create mode 100644 drivers/gpu/drm/i915/i915_gem_ww.c
- create mode 100644 drivers/gpu/drm/i915/i915_gem_ww.h
+ drivers/gpu/drm/i915/i915_gem_ww.h | 31 +++++++++++++++++++++++++++++-
+ 1 file changed, 30 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/i915/Makefile b/drivers/gpu/drm/i915/Makefile
-index 4f22cac1c49b..16a5a006cf7c 100644
---- a/drivers/gpu/drm/i915/Makefile
-+++ b/drivers/gpu/drm/i915/Makefile
-@@ -164,6 +164,7 @@ i915-y += \
- 	  i915_cmd_parser.o \
- 	  i915_gem_evict.o \
- 	  i915_gem_gtt.o \
-+	  i915_gem_ww.o \
- 	  i915_gem.o \
- 	  i915_globals.o \
- 	  i915_query.o \
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object.h b/drivers/gpu/drm/i915/gem/i915_gem_object.h
-index 1fafcc89ecee..bdab929e448b 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_object.h
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_object.h
-@@ -14,6 +14,7 @@
- #include "display/intel_frontbuffer.h"
- #include "i915_gem_object_types.h"
- #include "i915_gem_gtt.h"
-+#include "i915_gem_ww.h"
- #include "i915_vma_types.h"
- 
- /*
-diff --git a/drivers/gpu/drm/i915/gt/intel_renderstate.h b/drivers/gpu/drm/i915/gt/intel_renderstate.h
-index 48f009203917..4da4c5234ef0 100644
---- a/drivers/gpu/drm/i915/gt/intel_renderstate.h
-+++ b/drivers/gpu/drm/i915/gt/intel_renderstate.h
-@@ -8,6 +8,7 @@
- 
- #include <linux/types.h>
- #include "i915_gem.h"
-+#include "i915_gem_ww.h"
- 
- struct i915_request;
- struct intel_context;
-diff --git a/drivers/gpu/drm/i915/i915_gem.c b/drivers/gpu/drm/i915/i915_gem.c
-index 3f060ab58c5d..ce64d3005cf2 100644
---- a/drivers/gpu/drm/i915/i915_gem.c
-+++ b/drivers/gpu/drm/i915/i915_gem.c
-@@ -1204,62 +1204,6 @@ int i915_gem_open(struct drm_i915_private *i915, struct drm_file *file)
- 	return ret;
- }
- 
--void i915_gem_ww_ctx_init(struct i915_gem_ww_ctx *ww, bool intr)
--{
--	ww_acquire_init(&ww->ctx, &reservation_ww_class);
--	INIT_LIST_HEAD(&ww->obj_list);
--	ww->intr = intr;
--	ww->contended = NULL;
--}
--
--static void i915_gem_ww_ctx_unlock_all(struct i915_gem_ww_ctx *ww)
--{
--	struct drm_i915_gem_object *obj;
--
--	while ((obj = list_first_entry_or_null(&ww->obj_list, struct drm_i915_gem_object, obj_link))) {
--		list_del(&obj->obj_link);
--		i915_gem_object_unlock(obj);
--		i915_gem_object_put(obj);
--	}
--}
--
--void i915_gem_ww_unlock_single(struct drm_i915_gem_object *obj)
--{
--	list_del(&obj->obj_link);
--	i915_gem_object_unlock(obj);
--	i915_gem_object_put(obj);
--}
--
--void i915_gem_ww_ctx_fini(struct i915_gem_ww_ctx *ww)
--{
--	i915_gem_ww_ctx_unlock_all(ww);
--	WARN_ON(ww->contended);
--	ww_acquire_fini(&ww->ctx);
--}
--
--int __must_check i915_gem_ww_ctx_backoff(struct i915_gem_ww_ctx *ww)
--{
--	int ret = 0;
--
--	if (WARN_ON(!ww->contended))
--		return -EINVAL;
--
--	i915_gem_ww_ctx_unlock_all(ww);
--	if (ww->intr)
--		ret = dma_resv_lock_slow_interruptible(ww->contended->base.resv, &ww->ctx);
--	else
--		dma_resv_lock_slow(ww->contended->base.resv, &ww->ctx);
--
--	if (!ret)
--		list_add_tail(&ww->contended->obj_link, &ww->obj_list);
--	else
--		i915_gem_object_put(ww->contended);
--
--	ww->contended = NULL;
--
--	return ret;
--}
--
- #if IS_ENABLED(CONFIG_DRM_I915_SELFTEST)
- #include "selftests/mock_gem_device.c"
- #include "selftests/i915_gem.c"
-diff --git a/drivers/gpu/drm/i915/i915_gem.h b/drivers/gpu/drm/i915/i915_gem.h
-index 440c35f1abc9..d0752e5553db 100644
---- a/drivers/gpu/drm/i915/i915_gem.h
-+++ b/drivers/gpu/drm/i915/i915_gem.h
-@@ -123,16 +123,4 @@ static inline bool __tasklet_is_scheduled(struct tasklet_struct *t)
- 	return test_bit(TASKLET_STATE_SCHED, &t->state);
- }
- 
--struct i915_gem_ww_ctx {
--	struct ww_acquire_ctx ctx;
--	struct list_head obj_list;
--	bool intr;
--	struct drm_i915_gem_object *contended;
--};
--
--void i915_gem_ww_ctx_init(struct i915_gem_ww_ctx *ctx, bool intr);
--void i915_gem_ww_ctx_fini(struct i915_gem_ww_ctx *ctx);
--int __must_check i915_gem_ww_ctx_backoff(struct i915_gem_ww_ctx *ctx);
--void i915_gem_ww_unlock_single(struct drm_i915_gem_object *obj);
--
- #endif /* __I915_GEM_H__ */
-diff --git a/drivers/gpu/drm/i915/i915_gem_ww.c b/drivers/gpu/drm/i915/i915_gem_ww.c
-new file mode 100644
-index 000000000000..3f6ff139478e
---- /dev/null
-+++ b/drivers/gpu/drm/i915/i915_gem_ww.c
-@@ -0,0 +1,63 @@
-+// SPDX-License-Identifier: MIT
-+/*
-+ * Copyright © 2020 Intel Corporation
-+ */
-+#include <linux/dma-resv.h>
-+#include "i915_gem_ww.h"
-+#include "gem/i915_gem_object.h"
-+
-+void i915_gem_ww_ctx_init(struct i915_gem_ww_ctx *ww, bool intr)
-+{
-+	ww_acquire_init(&ww->ctx, &reservation_ww_class);
-+	INIT_LIST_HEAD(&ww->obj_list);
-+	ww->intr = intr;
-+	ww->contended = NULL;
-+}
-+
-+static void i915_gem_ww_ctx_unlock_all(struct i915_gem_ww_ctx *ww)
-+{
-+	struct drm_i915_gem_object *obj;
-+
-+	while ((obj = list_first_entry_or_null(&ww->obj_list, struct drm_i915_gem_object, obj_link))) {
-+		list_del(&obj->obj_link);
-+		i915_gem_object_unlock(obj);
-+		i915_gem_object_put(obj);
-+	}
-+}
-+
-+void i915_gem_ww_unlock_single(struct drm_i915_gem_object *obj)
-+{
-+	list_del(&obj->obj_link);
-+	i915_gem_object_unlock(obj);
-+	i915_gem_object_put(obj);
-+}
-+
-+void i915_gem_ww_ctx_fini(struct i915_gem_ww_ctx *ww)
-+{
-+	i915_gem_ww_ctx_unlock_all(ww);
-+	WARN_ON(ww->contended);
-+	ww_acquire_fini(&ww->ctx);
-+}
-+
-+int __must_check i915_gem_ww_ctx_backoff(struct i915_gem_ww_ctx *ww)
-+{
-+	int ret = 0;
-+
-+	if (WARN_ON(!ww->contended))
-+		return -EINVAL;
-+
-+	i915_gem_ww_ctx_unlock_all(ww);
-+	if (ww->intr)
-+		ret = dma_resv_lock_slow_interruptible(ww->contended->base.resv, &ww->ctx);
-+	else
-+		dma_resv_lock_slow(ww->contended->base.resv, &ww->ctx);
-+
-+	if (!ret)
-+		list_add_tail(&ww->contended->obj_link, &ww->obj_list);
-+	else
-+		i915_gem_object_put(ww->contended);
-+
-+	ww->contended = NULL;
-+
-+	return ret;
-+}
 diff --git a/drivers/gpu/drm/i915/i915_gem_ww.h b/drivers/gpu/drm/i915/i915_gem_ww.h
-new file mode 100644
-index 000000000000..f2d8769e4118
---- /dev/null
+index f2d8769e4118..f6b1a796667b 100644
+--- a/drivers/gpu/drm/i915/i915_gem_ww.h
 +++ b/drivers/gpu/drm/i915/i915_gem_ww.h
-@@ -0,0 +1,21 @@
-+/* SPDX-License-Identifier: MIT */
-+/*
-+ * Copyright © 2020 Intel Corporation
-+ */
-+#ifndef __I915_GEM_WW_H__
-+#define __I915_GEM_WW_H__
+@@ -11,11 +11,40 @@ struct i915_gem_ww_ctx {
+ 	struct ww_acquire_ctx ctx;
+ 	struct list_head obj_list;
+ 	struct drm_i915_gem_object *contended;
+-	bool intr;
++	unsigned short intr;
++	unsigned short loop;
+ };
+ 
+ void i915_gem_ww_ctx_init(struct i915_gem_ww_ctx *ctx, bool intr);
+ void i915_gem_ww_ctx_fini(struct i915_gem_ww_ctx *ctx);
+ int __must_check i915_gem_ww_ctx_backoff(struct i915_gem_ww_ctx *ctx);
+ void i915_gem_ww_unlock_single(struct drm_i915_gem_object *obj);
 +
-+#include <drm/drm_drv.h>
++/* Internal functions used by the inlines! Don't use. */
++static inline int __i915_gem_ww_fini(struct i915_gem_ww_ctx *ww, int err)
++{
++	ww->loop = 0;
++	if (err == -EDEADLK) {
++		err = i915_gem_ww_ctx_backoff(ww);
++		if (!err)
++			ww->loop = 1;
++	}
 +
-+struct i915_gem_ww_ctx {
-+	struct ww_acquire_ctx ctx;
-+	struct list_head obj_list;
-+	struct drm_i915_gem_object *contended;
-+	bool intr;
-+};
++	if (!ww->loop)
++		i915_gem_ww_ctx_fini(ww);
 +
-+void i915_gem_ww_ctx_init(struct i915_gem_ww_ctx *ctx, bool intr);
-+void i915_gem_ww_ctx_fini(struct i915_gem_ww_ctx *ctx);
-+int __must_check i915_gem_ww_ctx_backoff(struct i915_gem_ww_ctx *ctx);
-+void i915_gem_ww_unlock_single(struct drm_i915_gem_object *obj);
-+#endif
++	return err;
++}
++
++static inline void
++__i915_gem_ww_init(struct i915_gem_ww_ctx *ww, bool intr)
++{
++	i915_gem_ww_ctx_init(ww, intr);
++	ww->loop = 1;
++}
++
++#define for_i915_gem_ww(_ww, _err, _intr)			\
++	for (__i915_gem_ww_init(_ww, _intr); (_ww)->loop;	\
++	     _err = __i915_gem_ww_fini(_ww, _err))
++
+ #endif
 -- 
 2.31.1
 
