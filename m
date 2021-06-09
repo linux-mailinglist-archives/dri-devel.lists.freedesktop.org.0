@@ -2,48 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6712D3A1BEC
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Jun 2021 19:36:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C0ADF3A1C0A
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Jun 2021 19:44:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 368466EA1A;
-	Wed,  9 Jun 2021 17:36:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 03BB96EA19;
+	Wed,  9 Jun 2021 17:44:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A3D766E13C;
- Wed,  9 Jun 2021 17:36:06 +0000 (UTC)
-IronPort-SDR: x4dPa0lP9V4+uIjWoigRiA8DJm25pvnA4JP5doLpLIsUukYpdEwPAwqmvq6PEStJqOKtf94eOc
- rKH5OHOm8z3Q==
-X-IronPort-AV: E=McAfee;i="6200,9189,10010"; a="202100645"
-X-IronPort-AV: E=Sophos;i="5.83,261,1616482800"; d="scan'208";a="202100645"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Jun 2021 10:36:04 -0700
-IronPort-SDR: AcITcgzNUsPcsaroLvtQjHaeP4x+5tfSATQqq34ysHOjJjKIVexVcaehFV65bPpGZFnXXQvLPc
- Jg05UpKWcvhg==
-X-IronPort-AV: E=Sophos;i="5.83,261,1616482800"; d="scan'208";a="482468203"
-Received: from johnharr-mobl1.amr.corp.intel.com (HELO [10.212.251.201])
- ([10.212.251.201])
- by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Jun 2021 10:36:04 -0700
-Subject: Re: [PATCH 07/13] drm/i915/guc: New definition of the CTB
- registration action
-To: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
- Matthew Brost <matthew.brost@intel.com>, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-References: <20210607180356.165785-1-matthew.brost@intel.com>
- <20210607180356.165785-8-matthew.brost@intel.com>
- <946237c6-1671-b419-5337-d5b8cc02a041@intel.com>
-From: John Harrison <john.c.harrison@intel.com>
-Message-ID: <04a5897a-b521-b999-433e-81c417a19f70@intel.com>
-Date: Wed, 9 Jun 2021 10:36:03 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+Received: from mail-pl1-x62b.google.com (mail-pl1-x62b.google.com
+ [IPv6:2607:f8b0:4864:20::62b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C38A76E13C
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Jun 2021 17:44:24 +0000 (UTC)
+Received: by mail-pl1-x62b.google.com with SMTP id v13so12958610ple.9
+ for <dri-devel@lists.freedesktop.org>; Wed, 09 Jun 2021 10:44:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=jlekstrand-net.20150623.gappssmtp.com; s=20150623;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=qufr4bFzS+aXBVDBizB0UYGp+1fli6pPoe0mzYgzIhg=;
+ b=kcxn8XBgJfaDuD8ges+ACmPXynKofls30zclBdqBQGtm0CPJdbAWwQm0m4G4DsbOyp
+ QFsem79TwzyxQpI/1sz5wqJuxkXGg0TZGUHu4V/ugux46nQOzRhQTm/MSTNeVSrBa74k
+ fFe5BFq6d2RsPKAqP5gkefaJkymONMO0BCt/1O3yhGfLeClsuLgv59m9RWDhzMH7okOq
+ E/R3i786tLNfMOjZYSZqMGj3dRloOQ7UK+nHIinA7DfbFswekAJAdKmfr4kINmK3sj3A
+ Gm9tD0KzTydUzdBu0kium74WHkOwvNrYiq9PrVL6jEAUC3tKa6SzochYKJy/CSlDwzI5
+ KiYA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=qufr4bFzS+aXBVDBizB0UYGp+1fli6pPoe0mzYgzIhg=;
+ b=HNEOwvHCqefI/l0NqmudmX5WtEJ3W3hyiPBRqqtZNbSay9mQFBOovFigs+hBGCRiYK
+ 4v+X7bWMcv5OpWVY1jmVoCw3F5RbnlA/xv6wC+zjR2meSQIAmFvW23zyajOiUQbiKxS9
+ maLeMSPTq2KXA73Dvh94N5C1V3WaPEs3YKhu2Wh0CBqYLbHGnIHcpTEz1H4ZaqBNM9YM
+ 7BIg8bhm3BbFhMkRRIVlBW+HJTAqmdpeWpSpgTr+CA/ChtzUSjM2olZh5h4baYThdmAW
+ Alyagc2oq1instYi7xyVU4YJl73DUmbK6aeHmfKLOa5f/STTKliKzQq11VbkB13qdnam
+ BAZQ==
+X-Gm-Message-State: AOAM531Gue9Ex+lKsQSkT1LNdKaBCi1Aidi9b5yWhEuNDApm8H/69yMo
+ j6fkCR/MfsaUqD0cY6qdvmKqXvz/Wj54lQ==
+X-Google-Smtp-Source: ABdhPJxRCz1BoCC+43ttV9KE52nKiieET5K3mTGqZ0HTFNYMXnSl8qR/MOAr+RGjE/hGbPrTYRnprw==
+X-Received: by 2002:a17:90a:1c02:: with SMTP id
+ s2mr699966pjs.172.1623260663869; 
+ Wed, 09 Jun 2021 10:44:23 -0700 (PDT)
+Received: from omlet.lan (jfdmzpr04-ext.jf.intel.com. [134.134.137.73])
+ by smtp.gmail.com with ESMTPSA id b10sm208619pfi.122.2021.06.09.10.44.22
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 09 Jun 2021 10:44:23 -0700 (PDT)
+From: Jason Ekstrand <jason@jlekstrand.net>
+To: dri-devel@lists.freedesktop.org,
+	intel-gfx@lists.freedesktop.org
+Subject: [PATCH 00/31] drm/i915/gem: ioctl clean-ups (v6)
+Date: Wed,  9 Jun 2021 12:43:47 -0500
+Message-Id: <20210609174418.249585-1-jason@jlekstrand.net>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-In-Reply-To: <946237c6-1671-b419-5337-d5b8cc02a041@intel.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Content-Language: en-GB
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,446 +68,177 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Michal.Wajdeczko@intel.com
+Cc: Jason Ekstrand <jason@jlekstrand.net>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 6/7/2021 18:23, Daniele Ceraolo Spurio wrote:
-> On 6/7/2021 11:03 AM, Matthew Brost wrote:
->> From: Michal Wajdeczko <michal.wajdeczko@intel.com>
->>
->> Definition of the CTB registration action has changed.
->> Add some ABI documentation and implement required changes.
->>
->> Signed-off-by: Michal Wajdeczko <michal.wajdeczko@intel.com>
->> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
->> Cc: Piotr Piórkowski <piotr.piorkowski@intel.com> #4
->> ---
->>   .../gpu/drm/i915/gt/uc/abi/guc_actions_abi.h  | 107 ++++++++++++++++++
->>   .../gt/uc/abi/guc_communication_ctb_abi.h     |   4 -
->>   drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c     |  76 ++++++++-----
->>   3 files changed, 152 insertions(+), 35 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/i915/gt/uc/abi/guc_actions_abi.h 
->> b/drivers/gpu/drm/i915/gt/uc/abi/guc_actions_abi.h
->> index 90efef8a73e4..6426fc183692 100644
->> --- a/drivers/gpu/drm/i915/gt/uc/abi/guc_actions_abi.h
->> +++ b/drivers/gpu/drm/i915/gt/uc/abi/guc_actions_abi.h
->> @@ -6,6 +6,113 @@
->>   #ifndef _ABI_GUC_ACTIONS_ABI_H
->>   #define _ABI_GUC_ACTIONS_ABI_H
->>   +/**
->> + * DOC: HOST2GUC_REGISTER_CTB
->> + *
->> + * This message is used as part of the `CTB based communication`_ 
->> setup.
->> + *
->> + * This message must be sent as `MMIO HXG Message`_.
->> + *
->> + * 
->> +---+-------+--------------------------------------------------------------+
->> + *  |   | Bits  | 
->> Description                                                  |
->> + * 
->> +===+=======+==============================================================+
->> + *  | 0 |    31 | ORIGIN = 
->> GUC_HXG_ORIGIN_HOST_                                |
->> + *  | 
->> +-------+--------------------------------------------------------------+
->> + *  |   | 30:28 | TYPE = 
->> GUC_HXG_TYPE_REQUEST_                                 |
->> + *  | 
->> +-------+--------------------------------------------------------------+
->> + *  |   | 27:16 | DATA0 = 
->> MBZ                                                  |
->> + *  | 
->> +-------+--------------------------------------------------------------+
->> + *  |   |  15:0 | ACTION = _`GUC_ACTION_HOST2GUC_REGISTER_CTB` = 
->> 0x5200        |
->
-> Specs says 4505
->
->> + * 
->> +---+-------+--------------------------------------------------------------+
->> + *  | 1 | 31:12 | RESERVED = 
->> MBZ                                               |
->> + *  | 
->> +-------+--------------------------------------------------------------+
->> + *  |   |  11:8 | **TYPE** - type for the `CT 
->> Buffer`_                         |
->> + *  |   | 
->> |                                                              |
->> + *  |   |       |   - _`GUC_CTB_TYPE_HOST2GUC` = 
->> 0                             |
->> + *  |   |       |   - _`GUC_CTB_TYPE_GUC2HOST` = 
->> 1                             |
->> + *  | 
->> +-------+--------------------------------------------------------------+
->> + *  |   |   7:0 | **SIZE** - size of the `CT Buffer`_ in 4K units 
->> minus 1      |
->> + * 
->> +---+-------+--------------------------------------------------------------+
->> + *  | 2 |  31:0 | **DESC_ADDR** - GGTT address of the `CTB 
->> Descriptor`_        |
->> + * 
->> +---+-------+--------------------------------------------------------------+
->> + *  | 3 |  31:0 | **BUFF_ADDF** - GGTT address of the `CT 
->> Buffer`_             |
->> + * 
->> +---+-------+--------------------------------------------------------------+
->> +*
->> + * 
->> +---+-------+--------------------------------------------------------------+
->> + *  |   | Bits  | 
->> Description                                                  |
->> + * 
->> +===+=======+==============================================================+
->> + *  | 0 |    31 | ORIGIN = 
->> GUC_HXG_ORIGIN_GUC_                                 |
->> + *  | 
->> +-------+--------------------------------------------------------------+
->> + *  |   | 30:28 | TYPE = 
->> GUC_HXG_TYPE_RESPONSE_SUCCESS_                        |
->> + *  | 
->> +-------+--------------------------------------------------------------+
->> + *  |   |  27:0 | DATA0 = 
->> MBZ                                                  |
->> + * 
->> +---+-------+--------------------------------------------------------------+
->> + */
->> +#define GUC_ACTION_HOST2GUC_REGISTER_CTB        0x4505 // FIXME 0x5200
->
-> Why FIXME? AFAICS the specs still says 4505, even if we plan to update 
-> at some point I don;t think this deserves a FIXME since nothing is 
-> incorrect.
->
->> +
->> +#define HOST2GUC_REGISTER_CTB_REQUEST_MSG_LEN 
->> (GUC_HXG_REQUEST_MSG_MIN_LEN + 3u)
->> +#define HOST2GUC_REGISTER_CTB_REQUEST_MSG_0_MBZ 
->> GUC_HXG_REQUEST_MSG_0_DATA0
->> +#define HOST2GUC_REGISTER_CTB_REQUEST_MSG_1_MBZ        (0xfffff << 12)
->> +#define HOST2GUC_REGISTER_CTB_REQUEST_MSG_1_TYPE    (0xf << 8)
->> +#define   GUC_CTB_TYPE_HOST2GUC                0u
->> +#define   GUC_CTB_TYPE_GUC2HOST                1u
->> +#define HOST2GUC_REGISTER_CTB_REQUEST_MSG_1_SIZE    (0xff << 0)
->> +#define HOST2GUC_REGISTER_CTB_REQUEST_MSG_2_DESC_ADDR 
->> GUC_HXG_REQUEST_MSG_n_DATAn
->> +#define HOST2GUC_REGISTER_CTB_REQUEST_MSG_3_BUFF_ADDR 
->> GUC_HXG_REQUEST_MSG_n_DATAn
->
-> The full mask still seems like overkill to me and I still think we 
-> should use BIT()/GENMASK() and a _MASK prefix, but not going to block 
-> on it.
->
->> +
->> +#define HOST2GUC_REGISTER_CTB_RESPONSE_MSG_LEN 
->> GUC_HXG_RESPONSE_MSG_MIN_LEN
->> +#define HOST2GUC_REGISTER_CTB_RESPONSE_MSG_0_MBZ 
->> GUC_HXG_RESPONSE_MSG_0_DATA0
->> +
->> +/**
->> + * DOC: HOST2GUC_DEREGISTER_CTB
->> + *
->> + * This message is used as part of the `CTB based communication`_ 
->> teardown.
->> + *
->> + * This message must be sent as `MMIO HXG Message`_.
->> + *
->> + * 
->> +---+-------+--------------------------------------------------------------+
->> + *  |   | Bits  | 
->> Description                                                  |
->> + * 
->> +===+=======+==============================================================+
->> + *  | 0 |    31 | ORIGIN = 
->> GUC_HXG_ORIGIN_HOST_                                |
->> + *  | 
->> +-------+--------------------------------------------------------------+
->> + *  |   | 30:28 | TYPE = 
->> GUC_HXG_TYPE_REQUEST_                                 |
->> + *  | 
->> +-------+--------------------------------------------------------------+
->> + *  |   | 27:16 | DATA0 = 
->> MBZ                                                  |
->> + *  | 
->> +-------+--------------------------------------------------------------+
->> + *  |   |  15:0 | ACTION = _`GUC_ACTION_HOST2GUC_DEREGISTER_CTB` = 
->> 0x5201      |
->
-> Specs says 4506
->
-I would say that the enum value should not be included in the structure 
-definition. I would also argue that there is no point in repeating the 
-common header structure for every single H2G action definition. That is 
-just overly verbose and makes it harder to read the spec. It implies 
-that every action has a different header structure and must be coded 
-individually.
+Overview:
+---------
 
-Personally, I don't believe we should be replicating the entire GuC API 
-spec in the driver header files anyway. This is not something that is 
-defined by the i915 driver so the i915 driver should not be defining it! 
-Instead, just include a link or pointer to where the actual spec can be 
-found. We don't copy the entire bspec page for every register that the 
-driver touches, so why should this be any different?
+This patch series attempts to clean up some of the IOCTL mess we've created
+over the last few years.  The most egregious bit being context mutability.
+In summary, this series:
 
-John.
+ 1. Drops two never-used context params: RINGSIZE and NO_ZEROMAP
+ 2. Drops the entire CONTEXT_CLONE API
+ 3. Implements SINGLE_TIMELINE with a syncobj instead of actually sharing
+    intel_timeline between engines.
+ 4. Adds a few sanity restrictions to the balancing/bonding API.
+ 5. Implements a proto-ctx mechanism so that the engine set and VM can only
+    be set early on in the lifetime of a context, before anything ever
+    executes on it.  This effectively makes the VM and engine set
+    immutable.
+
+This series has been tested with IGT as well as the Iris, ANV, and the
+Intel media driver doing an 8K decode (this uses bonding/balancing).  I've
+also done quite a bit of git archeology to ensure that nothing in here will
+break anything that's already shipped at some point in history.  It's
+possible I've missed something, but I've dug quite a bit.
 
 
->> + * 
->> +---+-------+--------------------------------------------------------------+
->> + *  | 1 | 31:12 | RESERVED = 
->> MBZ                                               |
->> + *  | 
->> +-------+--------------------------------------------------------------+
->> + *  |   |  11:8 | **TYPE** - type of the `CT 
->> Buffer`_                          |
->> + *  |   | 
->> |                                                              |
->> + *  |   |       | see 
->> `GUC_ACTION_HOST2GUC_REGISTER_CTB`_                      |
->> + *  | 
->> +-------+--------------------------------------------------------------+
->> + *  |   |   7:0 | RESERVED = 
->> MBZ                                               |
->> + * 
->> +---+-------+--------------------------------------------------------------+
->> +*
->> + * 
->> +---+-------+--------------------------------------------------------------+
->> + *  |   | Bits  | 
->> Description                                                  |
->> + * 
->> +===+=======+==============================================================+
->> + *  | 0 |    31 | ORIGIN = 
->> GUC_HXG_ORIGIN_GUC_                                 |
->> + *  | 
->> +-------+--------------------------------------------------------------+
->> + *  |   | 30:28 | TYPE = 
->> GUC_HXG_TYPE_RESPONSE_SUCCESS_                        |
->> + *  | 
->> +-------+--------------------------------------------------------------+
->> + *  |   |  27:0 | DATA0 = 
->> MBZ                                                  |
->> + * 
->> +---+-------+--------------------------------------------------------------+
->> + */
->> +#define GUC_ACTION_HOST2GUC_DEREGISTER_CTB        0x4506 // FIXME 
->> 0x5201
->
-> Same comment for the FIXME as above
->
->> +
->> +#define HOST2GUC_DEREGISTER_CTB_REQUEST_MSG_LEN 
->> (GUC_HXG_REQUEST_MSG_MIN_LEN + 1u)
->> +#define HOST2GUC_DEREGISTER_CTB_REQUEST_MSG_0_MBZ 
->> GUC_HXG_REQUEST_MSG_0_DATA0
->> +#define HOST2GUC_DEREGISTER_CTB_REQUEST_MSG_1_MBZ    (0xfffff << 12)
->> +#define HOST2GUC_DEREGISTER_CTB_REQUEST_MSG_1_TYPE    (0xf << 8)
->> +#define HOST2GUC_DEREGISTER_CTB_REQUEST_MSG_1_MBZ2    (0xff << 0)
->> +
->> +#define HOST2GUC_DEREGISTER_CTB_RESPONSE_MSG_LEN 
->> GUC_HXG_RESPONSE_MSG_MIN_LEN
->> +#define HOST2GUC_DEREGISTER_CTB_RESPONSE_MSG_0_MBZ 
->> GUC_HXG_RESPONSE_MSG_0_DATA0
->> +
->> +/* legacy definitions */
->> +
->>   enum intel_guc_action {
->>       INTEL_GUC_ACTION_DEFAULT = 0x0,
->>       INTEL_GUC_ACTION_REQUEST_PREEMPTION = 0x2,
->> diff --git 
->> a/drivers/gpu/drm/i915/gt/uc/abi/guc_communication_ctb_abi.h 
->> b/drivers/gpu/drm/i915/gt/uc/abi/guc_communication_ctb_abi.h
->> index c2a069a78e01..127b256a662c 100644
->> --- a/drivers/gpu/drm/i915/gt/uc/abi/guc_communication_ctb_abi.h
->> +++ b/drivers/gpu/drm/i915/gt/uc/abi/guc_communication_ctb_abi.h
->> @@ -112,10 +112,6 @@ static_assert(sizeof(struct guc_ct_buffer_desc) 
->> == 64);
->>    * - **flags**, holds various bits to control message handling
->>    */
->>   -/* Type of command transport buffer */
->> -#define INTEL_GUC_CT_BUFFER_TYPE_SEND    0x0u
->> -#define INTEL_GUC_CT_BUFFER_TYPE_RECV    0x1u
->> -
->>   /*
->>    * Definition of the command transport message header (DW0)
->>    *
->> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c 
->> b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
->> index 3241a477196f..6a29be779cc9 100644
->> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
->> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
->> @@ -103,9 +103,9 @@ void intel_guc_ct_init_early(struct intel_guc_ct 
->> *ct)
->>   static inline const char *guc_ct_buffer_type_to_str(u32 type)
->>   {
->>       switch (type) {
->> -    case INTEL_GUC_CT_BUFFER_TYPE_SEND:
->> +    case GUC_CTB_TYPE_HOST2GUC:
->>           return "SEND";
->> -    case INTEL_GUC_CT_BUFFER_TYPE_RECV:
->> +    case GUC_CTB_TYPE_GUC2HOST:
->>           return "RECV";
->>       default:
->>           return "<invalid>";
->> @@ -136,25 +136,33 @@ static void guc_ct_buffer_init(struct 
->> intel_guc_ct_buffer *ctb,
->>       guc_ct_buffer_reset(ctb);
->>   }
->>   -static int guc_action_register_ct_buffer(struct intel_guc *guc,
->> -                     u32 desc_addr,
->> -                     u32 type)
->> +static int guc_action_register_ct_buffer(struct intel_guc *guc, u32 
->> type,
->> +                     u32 desc_addr, u32 buff_addr, u32 size)
->>   {
->> -    u32 action[] = {
->> -        INTEL_GUC_ACTION_REGISTER_COMMAND_TRANSPORT_BUFFER,
->> -        desc_addr,
->> -        sizeof(struct guc_ct_buffer_desc),
->> -        type
->> +    u32 request[HOST2GUC_REGISTER_CTB_REQUEST_MSG_LEN] = {
->> +        FIELD_PREP(GUC_HXG_MSG_0_ORIGIN, GUC_HXG_ORIGIN_HOST) |
->> +        FIELD_PREP(GUC_HXG_MSG_0_TYPE, GUC_HXG_TYPE_REQUEST) |
->> +        FIELD_PREP(GUC_HXG_REQUEST_MSG_0_ACTION, 
->> GUC_ACTION_HOST2GUC_REGISTER_CTB),
->
-> IMO we could use a macro or 2 for the HXG header, to avoid all these 
-> lines, which are hard to read. something like:
->
-> GUC_HXG_HEADER(origin, type, data, action) \
->     (FIELD_PREP(GUC_HXG_MSG_0_ORIGIN, origin) | \
->      FIELD_PREP(GUC_HXG_MSG_0_TYPE, type) | \
-> FIELD_PREP(GUC_HXG_MSG_0_DATA0, data) | \
->      FIELD_PREP(GUC_HXG_REQUEST_MSG_0_ACTION, action))
->
-> H2G_HEADER(type, data, action) \
->     GUC_HXG_HEADER(GUC_HXG_ORIGIN_HOST, type, data, action)
->
-> and then call
->
-> H2G_HEADER(GUC_HXG_TYPE_REQUEST, 0, GUC_ACTION_HOST2GUC_REGISTER_CTB)
->
->
-> Not a blocker.
->
-> Daniele
->
->> + FIELD_PREP(HOST2GUC_REGISTER_CTB_REQUEST_MSG_1_SIZE, size / SZ_4K - 
->> 1) |
->> +        FIELD_PREP(HOST2GUC_REGISTER_CTB_REQUEST_MSG_1_TYPE, type),
->> + FIELD_PREP(HOST2GUC_REGISTER_CTB_REQUEST_MSG_2_DESC_ADDR, desc_addr),
->> + FIELD_PREP(HOST2GUC_REGISTER_CTB_REQUEST_MSG_3_BUFF_ADDR, buff_addr),
->>       };
->>   -    /* Can't use generic send(), CT registration must go over MMIO */
->> -    return intel_guc_send_mmio(guc, action, ARRAY_SIZE(action), 
->> NULL, 0);
->> +    GEM_BUG_ON(type != GUC_CTB_TYPE_HOST2GUC && type != 
->> GUC_CTB_TYPE_GUC2HOST);
->> +    GEM_BUG_ON(size % SZ_4K);
->> +
->> +    /* CT registration must go over MMIO */
->> +    return intel_guc_send_mmio(guc, request, ARRAY_SIZE(request), 
->> NULL, 0);
->>   }
->>   -static int ct_register_buffer(struct intel_guc_ct *ct, u32 
->> desc_addr, u32 type)
->> +static int ct_register_buffer(struct intel_guc_ct *ct, u32 type,
->> +                  u32 desc_addr, u32 buff_addr, u32 size)
->>   {
->> -    int err = guc_action_register_ct_buffer(ct_to_guc(ct), 
->> desc_addr, type);
->> +    int err;
->>   +    err = guc_action_register_ct_buffer(ct_to_guc(ct), type,
->> +                        desc_addr, buff_addr, size);
->>       if (unlikely(err))
->>           CT_ERROR(ct, "Failed to register %s buffer (err=%d)\n",
->>                guc_ct_buffer_type_to_str(type), err);
->> @@ -163,14 +171,17 @@ static int ct_register_buffer(struct 
->> intel_guc_ct *ct, u32 desc_addr, u32 type)
->>     static int guc_action_deregister_ct_buffer(struct intel_guc *guc, 
->> u32 type)
->>   {
->> -    u32 action[] = {
->> -        INTEL_GUC_ACTION_DEREGISTER_COMMAND_TRANSPORT_BUFFER,
->> -        CTB_OWNER_HOST,
->> -        type
->> +    u32 request[HOST2GUC_DEREGISTER_CTB_REQUEST_MSG_LEN] = {
->> +        FIELD_PREP(GUC_HXG_MSG_0_ORIGIN, GUC_HXG_ORIGIN_HOST) |
->> +        FIELD_PREP(GUC_HXG_MSG_0_TYPE, GUC_HXG_TYPE_REQUEST) |
->> +        FIELD_PREP(GUC_HXG_REQUEST_MSG_0_ACTION, 
->> GUC_ACTION_HOST2GUC_DEREGISTER_CTB),
->> +        FIELD_PREP(HOST2GUC_DEREGISTER_CTB_REQUEST_MSG_1_TYPE, type),
->>       };
->>   -    /* Can't use generic send(), CT deregistration must go over 
->> MMIO */
->> -    return intel_guc_send_mmio(guc, action, ARRAY_SIZE(action), 
->> NULL, 0);
->> +    GEM_BUG_ON(type != GUC_CTB_TYPE_HOST2GUC && type != 
->> GUC_CTB_TYPE_GUC2HOST);
->> +
->> +    /* CT deregistration must go over MMIO */
->> +    return intel_guc_send_mmio(guc, request, ARRAY_SIZE(request), 
->> NULL, 0);
->>   }
->>     static int ct_deregister_buffer(struct intel_guc_ct *ct, u32 type)
->> @@ -258,7 +269,7 @@ void intel_guc_ct_fini(struct intel_guc_ct *ct)
->>   int intel_guc_ct_enable(struct intel_guc_ct *ct)
->>   {
->>       struct intel_guc *guc = ct_to_guc(ct);
->> -    u32 base, cmds;
->> +    u32 base, desc, cmds;
->>       void *blob;
->>       int err;
->>   @@ -274,23 +285,26 @@ int intel_guc_ct_enable(struct intel_guc_ct *ct)
->>       GEM_BUG_ON(blob != ct->ctbs.send.desc);
->>         /* (re)initialize descriptors */
->> -    cmds = base + ptrdiff(ct->ctbs.send.cmds, blob);
->>       guc_ct_buffer_reset(&ct->ctbs.send);
->> -
->> -    cmds = base + ptrdiff(ct->ctbs.recv.cmds, blob);
->>       guc_ct_buffer_reset(&ct->ctbs.recv);
->>         /*
->>        * Register both CT buffers starting with RECV buffer.
->>        * Descriptors are in first half of the blob.
->>        */
->> -    err = ct_register_buffer(ct, base + ptrdiff(ct->ctbs.recv.desc, 
->> blob),
->> -                 INTEL_GUC_CT_BUFFER_TYPE_RECV);
->> +    desc = base + ptrdiff(ct->ctbs.recv.desc, blob);
->> +    cmds = base + ptrdiff(ct->ctbs.recv.cmds, blob);
->> +    err = ct_register_buffer(ct, GUC_CTB_TYPE_GUC2HOST,
->> +                 desc, cmds, ct->ctbs.recv.size * 4);
->> +
->>       if (unlikely(err))
->>           goto err_out;
->>   -    err = ct_register_buffer(ct, base + 
->> ptrdiff(ct->ctbs.send.desc, blob),
->> -                 INTEL_GUC_CT_BUFFER_TYPE_SEND);
->> +    desc = base + ptrdiff(ct->ctbs.send.desc, blob);
->> +    cmds = base + ptrdiff(ct->ctbs.send.cmds, blob);
->> +    err = ct_register_buffer(ct, GUC_CTB_TYPE_HOST2GUC,
->> +                 desc, cmds, ct->ctbs.send.size * 4);
->> +
->>       if (unlikely(err))
->>           goto err_deregister;
->>   @@ -299,7 +313,7 @@ int intel_guc_ct_enable(struct intel_guc_ct *ct)
->>       return 0;
->>     err_deregister:
->> -    ct_deregister_buffer(ct, INTEL_GUC_CT_BUFFER_TYPE_RECV);
->> +    ct_deregister_buffer(ct, GUC_CTB_TYPE_GUC2HOST);
->>   err_out:
->>       CT_PROBE_ERROR(ct, "Failed to enable CTB (%pe)\n", ERR_PTR(err));
->>       return err;
->> @@ -318,8 +332,8 @@ void intel_guc_ct_disable(struct intel_guc_ct *ct)
->>       ct->enabled = false;
->>         if (intel_guc_is_fw_running(guc)) {
->> -        ct_deregister_buffer(ct, INTEL_GUC_CT_BUFFER_TYPE_SEND);
->> -        ct_deregister_buffer(ct, INTEL_GUC_CT_BUFFER_TYPE_RECV);
->> +        ct_deregister_buffer(ct, GUC_CTB_TYPE_HOST2GUC);
->> +        ct_deregister_buffer(ct, GUC_CTB_TYPE_GUC2HOST);
->>       }
->>   }
->
+Details and motivation:
+-----------------------
+
+In very broad strokes, there's an effort going on right now within Intel to
+try and clean up and simplify i915 anywhere we can.  We obviously don't
+want to break any shipping userspace but, as can be seen by this series,
+there's a lot i915 theoretically supports which userspace doesn't actually
+need.  Some of this, like the two context params used here, were simply
+oversights where we went through the usual API review process and merged
+the i915 bits but the userspace bits never landed for some reason.
+
+Not all are so innocent, however.  For instance, there's an entire context
+cloning API which allows one to create a context with certain parameters
+"cloned" from some other context.  This entire API has never been used by
+any userspace except IGT and there were never patches to any other
+userspace to use it.  It never should have landed.  Also, when we added
+support for setting explicit engine sets and sharing VMs across contexts,
+people decided to do so via SET_CONTEXT_PARAM.  While this allowed them to
+re-use existing API, it did so at the cost of making those states mutable
+which leads to a plethora of potential race conditions.  There were even
+IGT tests merged to cover some of theses:
+
+ - gem_vm_create@async-destroy and gem_vm_create@destroy-race which test
+   swapping out the VM on a running context.
+
+ - gem_ctx_persistence@replace* which test whether a client can escape a
+   non-persistent context by submitting a hanging batch and then swapping
+   out the engine set before the hang is detected.
+
+ - api_intel_bb@bb-with-vm which tests the that intel_bb_assign_vm works
+   properly.  This API is never used by any other IGT test.
+
+There is also an entire deferred flush and set state framework in
+i915_gem_cotnext.c which exists for safely swapping out the VM while there
+is work in-flight on a context.
+
+So, clearly people knew that this API was inherently racy and difficult to
+implement but they landed it anyway.  Why?  The best explanation I've been
+given is because it makes the API more "unified" or "symmetric" for this
+stuff to go through SET_CONTEXT_PARAM.  It's not because any userspace
+actually wants to be able to swap out the VM or the set of engines on a
+running context.  That would be utterly insane.
+
+This patch series cleans up this particular mess by introducing the concept
+of a i915_gem_proto_context data structure which contains context creation
+information.  When you initially call GEM_CONTEXT_CREATE, a proto-context
+in created instead of an actual context.  Then, the first time something is
+done on the context besides SET_CONTEXT_PARAM, an actual context is
+created.  This allows us to keep the old drivers which use
+SET_CONTEXT_PARAM to set up the engine set (see also media) while ensuring
+that, once you have an i915_gem_context, the VM and the engine set are
+immutable state.
+
+Eventually, there are more clean-ups I'd like to do on top of this which
+should make working with contexts inside i915 simpler and safer:
+
+ 1. Move the GEM handle -> vma LUT from i915_gem_context into either
+    i915_ppgtt or drm_i915_file_private depending on whether or not the
+    hardware has a full PPGTT.
+
+ 2. Move the delayed context destruction code into intel_context or a
+    per-engine wrapper struct rather than i915_gem_context.
+
+ 3. Get rid of the separation between context close and context destroy
+
+ 4. Get rid of the RCU on i915_gem_context
+
+However, these should probably be done as a separate patch series as this
+one is already starting to get longish, especially if you consider the 89
+IGT patches that go along with it.
+
+Test-with: 20210609173632.248880-1-jason@jlekstrand.net
+
+Jason Ekstrand (31):
+  drm/i915: Drop I915_CONTEXT_PARAM_RINGSIZE
+  drm/i915: Stop storing the ring size in the ring pointer (v2)
+  drm/i915: Drop I915_CONTEXT_PARAM_NO_ZEROMAP
+  drm/i915/gem: Set the watchdog timeout directly in
+    intel_context_set_gem (v2)
+  drm/i915/gem: Return void from context_apply_all
+  drm/i915: Drop the CONTEXT_CLONE API (v2)
+  drm/i915: Implement SINGLE_TIMELINE with a syncobj (v4)
+  drm/i915: Drop getparam support for I915_CONTEXT_PARAM_ENGINES
+  drm/i915/gem: Disallow bonding of virtual engines (v3)
+  drm/i915/gem: Remove engine auto-magic with FENCE_SUBMIT (v2)
+  drm/i915/request: Remove the hook from await_execution
+  drm/i915/gem: Disallow creating contexts with too many engines
+  drm/i915: Stop manually RCU banging in reset_stats_ioctl (v2)
+  drm/i915/gem: Add a separate validate_priority helper
+  drm/i915: Add gem/i915_gem_context.h to the docs
+  drm/i915/gem: Add an intermediate proto_context struct (v5)
+  drm/i915/gem: Rework error handling in default_engines
+  drm/i915/gem: Optionally set SSEU in intel_context_set_gem
+  drm/i915: Add an i915_gem_vm_lookup helper
+  drm/i915/gem: Make an alignment check more sensible
+  drm/i915/gem: Use the proto-context to handle create parameters (v4)
+  drm/i915/gem: Return an error ptr from context_lookup
+  drm/i915/gt: Drop i915_address_space::file (v2)
+  drm/i915/gem: Delay context creation (v3)
+  drm/i915/gem: Don't allow changing the VM on running contexts (v4)
+  drm/i915/gem: Don't allow changing the engine set on running contexts
+    (v3)
+  drm/i915/selftests: Take a VM in kernel_context()
+  i915/gem/selftests: Assign the VM at context creation in
+    igt_shared_ctx_exec
+  drm/i915/gem: Roll all of context creation together
+  drm/i915: Finalize contexts in GEM_CONTEXT_CREATE on version 13+
+  HACK: Always finalize contexts
+
+ Documentation/gpu/i915.rst                    |    2 +
+ drivers/gpu/drm/i915/Makefile                 |    1 -
+ drivers/gpu/drm/i915/gem/i915_gem_context.c   | 2926 ++++++++---------
+ drivers/gpu/drm/i915/gem/i915_gem_context.h   |    3 +
+ .../gpu/drm/i915/gem/i915_gem_context_types.h |  196 +-
+ .../gpu/drm/i915/gem/i915_gem_execbuffer.c    |   31 +-
+ .../drm/i915/gem/selftests/i915_gem_context.c |  127 +-
+ .../gpu/drm/i915/gem/selftests/mock_context.c |   67 +-
+ .../gpu/drm/i915/gem/selftests/mock_context.h |    4 +-
+ drivers/gpu/drm/i915/gt/intel_context.c       |    3 +-
+ drivers/gpu/drm/i915/gt/intel_context.h       |    5 -
+ drivers/gpu/drm/i915/gt/intel_context_param.c |   63 -
+ drivers/gpu/drm/i915/gt/intel_context_param.h |    6 +-
+ drivers/gpu/drm/i915/gt/intel_context_types.h |    1 +
+ drivers/gpu/drm/i915/gt/intel_engine_types.h  |    7 -
+ .../drm/i915/gt/intel_execlists_submission.c  |  114 -
+ .../drm/i915/gt/intel_execlists_submission.h  |    8 +-
+ drivers/gpu/drm/i915/gt/intel_gtt.h           |   11 -
+ drivers/gpu/drm/i915/gt/intel_lrc.c           |    2 +-
+ drivers/gpu/drm/i915/gt/selftest_execlists.c  |  251 +-
+ drivers/gpu/drm/i915/gt/selftest_hangcheck.c  |    2 +-
+ drivers/gpu/drm/i915/gt/selftest_mocs.c       |    2 +-
+ drivers/gpu/drm/i915/gt/selftest_timeline.c   |    2 +-
+ drivers/gpu/drm/i915/gvt/scheduler.c          |    7 +-
+ drivers/gpu/drm/i915/i915_drv.h               |   82 +-
+ drivers/gpu/drm/i915/i915_perf.c              |    4 +-
+ drivers/gpu/drm/i915/i915_request.c           |   42 +-
+ drivers/gpu/drm/i915/i915_request.h           |    4 +-
+ .../drm/i915/selftests/i915_mock_selftests.h  |    1 -
+ drivers/gpu/drm/i915/selftests/mock_gtt.c     |    1 -
+ include/uapi/drm/i915_drm.h                   |   40 +-
+ 31 files changed, 1677 insertions(+), 2338 deletions(-)
+ delete mode 100644 drivers/gpu/drm/i915/gt/intel_context_param.c
+
+-- 
+2.31.1
 
