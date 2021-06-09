@@ -1,43 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA71C3A14B7
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Jun 2021 14:43:22 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C5D183A14D8
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Jun 2021 14:48:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BC4F36E05C;
-	Wed,  9 Jun 2021 12:43:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7FB4C6E2ED;
+	Wed,  9 Jun 2021 12:48:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A8B3F6E05C
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Jun 2021 12:43:19 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id E4B1761183;
- Wed,  9 Jun 2021 12:43:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1623242599;
- bh=3LmDIUZ1wKlG81I+AFVUAzlVq2kCXIgwekcGWmo3BKs=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=pTrySzzH01xRqI6y+qazicvHLm3iUahU9lnsc49IiCQ3YhpFE1MGZmItjImUulTSl
- MTRFsckWs8M5r1tfrx9B1xss2tIBYo7mP9xDz9QvZyyHwxfPhKHCu0uD0+Vm2N03KG
- efqwhhxFl9HaT+aduguKYCqVi7iEE9OxgKF6gM0OROhOMWh178CnByE4KEur/yTy9L
- z/yAapPpoQtCE+lxO14rkrnEpAPHzKFYWUwtlKyoLCarKsKopozI0ezGJdI92mgpV9
- fhAVh/cqpu7lxRpBJ3Y97QebzByy2Ff9nk+bjy8MuaBdEX6s5RC5QZRUtpeoBFkcRi
- DlTmnMxs4axQQ==
-Date: Wed, 9 Jun 2021 13:43:04 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Maxime Ripard <maxime@cerno.tech>
-Subject: Re: [PATCH v2 04/12] ASoC: hdmi-codec: Add iec958 controls
-Message-ID: <20210609124304.GB5052@sirena.org.uk>
-References: <20210525132354.297468-1-maxime@cerno.tech>
- <20210525132354.297468-5-maxime@cerno.tech>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8A99A6E3D3;
+ Wed,  9 Jun 2021 12:48:20 +0000 (UTC)
+IronPort-SDR: uqmB2N4ab+nOry0sG2fqEPz2Kh1FOIUqdoPWgRfGrk5kMSdbFLAcMPBNAYCbwgnaC+Nl7S3S1H
+ Cz4/uKyPjqrw==
+X-IronPort-AV: E=McAfee;i="6200,9189,10009"; a="204877281"
+X-IronPort-AV: E=Sophos;i="5.83,260,1616482800"; d="scan'208";a="204877281"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Jun 2021 05:48:19 -0700
+IronPort-SDR: FhYDG0OCOjI8NXB11zIOIPCQGSbgKkfBAiZFpAsOquGOZGPR+/XTGzAM70hUtcqxzgrrMPDJ0D
+ N9BFFnU8RiwQ==
+X-IronPort-AV: E=Sophos;i="5.83,260,1616482800"; d="scan'208";a="419268532"
+Received: from gbwalsh-mobl6.ger.corp.intel.com (HELO [10.252.10.147])
+ ([10.252.10.147])
+ by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Jun 2021 05:48:17 -0700
+Subject: Re: [PATCH v2 7/9] drm/i915/gt: Pipelined page migration
+To: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+References: <20210609063436.284332-1-thomas.hellstrom@linux.intel.com>
+ <20210609063436.284332-8-thomas.hellstrom@linux.intel.com>
+From: Matthew Auld <matthew.auld@intel.com>
+Message-ID: <f3bbc37f-5926-90ec-fa2e-6719b27189bd@intel.com>
+Date: Wed, 9 Jun 2021 13:48:15 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="oLBj+sq0vYjzfsbl"
-Content-Disposition: inline
-In-Reply-To: <20210525132354.297468-5-maxime@cerno.tech>
-X-Cookie: Alex Haley was adopted!
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20210609063436.284332-8-thomas.hellstrom@linux.intel.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,58 +53,126 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: alsa-devel@alsa-project.org, Tim Gover <tim.gover@raspberrypi.com>,
- linux-doc@vger.kernel.org, David Airlie <airlied@linux.ie>,
- dri-devel@lists.freedesktop.org, Takashi Iwai <tiwai@suse.com>,
- Daniel Vetter <daniel.vetter@intel.com>, Phil Elwell <phil@raspberrypi.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- bcm-kernel-feedback-list@broadcom.com, devicetree@vger.kernel.org,
- Nicolas Saenz Julienne <nsaenz@kernel.org>,
- Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh+dt@kernel.org>,
- linux-rpi-kernel@lists.infradead.org, Jaroslav Kysela <perex@perex.cz>,
- linux-arm-kernel@lists.infradead.org, Dom Cobley <dom@raspberrypi.com>,
- Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
+Cc: Chris Wilson <chris@chris-wilson.co.uk>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 09/06/2021 07:34, Thomas Hellström wrote:
+> From: Chris Wilson <chris@chris-wilson.co.uk>
+> 
+> If we pipeline the PTE updates and then do the copy of those pages
+> within a single unpreemptible command packet, we can submit the copies
+> and leave them to be scheduled without having to synchronously wait
+> under a global lock. In order to manage migration, we need to
+> preallocate the page tables (and keep them pinned and available for use
+> at any time), causing a bottleneck for migrations as all clients must
+> contend on the limited resources. By inlining the ppGTT updates and
+> performing the blit atomically, each client only owns the PTE while in
+> use, and so we can reschedule individual operations however we see fit.
+> And most importantly, we do not need to take a global lock on the shared
+> vm, and wait until the operation is complete before releasing the lock
+> for others to claim the PTE for themselves.
+> 
+> Signed-off-by: Chris Wilson <chris@chris-wilson.co.uk>
+> Co-developed-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+> Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+> ---
+> v2:
+> - Add a TODO for huge LMEM ptes (Pointed out by Matthew Auld)
+> - Use intel_engine_destroy_pinned_context() to properly take the pinned
+>    context timeline off the engine list. (CI warning).
+> ---
 
---oLBj+sq0vYjzfsbl
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+<snip>
 
-On Tue, May 25, 2021 at 03:23:46PM +0200, Maxime Ripard wrote:
-> The IEC958 status bits can be exposed and modified by the userspace
-> through dedicated ALSA controls.
->=20
-> This patch implements those controls for the hdmi-codec driver. It
-> relies on a default value being setup at probe time that can later be
-> overridden by the control put.
+> +
+> +int
+> +intel_context_migrate_copy(struct intel_context *ce,
+> +			   struct dma_fence *await,
+> +			   struct scatterlist *src,
+> +			   enum i915_cache_level src_cache_level,
+> +			   bool src_is_lmem,
+> +			   struct scatterlist *dst,
+> +			   enum i915_cache_level dst_cache_level,
+> +			   bool dst_is_lmem,
+> +			   struct i915_request **out)
+> +{
+> +	struct sgt_dma it_src = sg_sgt(src), it_dst = sg_sgt(dst);
+> +	struct i915_request *rq;
+> +	int err;
+> +
+> +	*out = NULL;
+> +
+> +	/* GEM_BUG_ON(ce->vm != migrate_vm); */
 
-This breaks bisection:
+Should we drop this?
 
-/mnt/kernel/sound/soc/codecs/hdmi-codec.c: In function 'hdmi_codec_hw_param=
-s':
-/mnt/kernel/sound/soc/codecs/hdmi-codec.c:504:50: error: invalid type argum=
-ent of '->' (have 'struct hdmi_codec_params')
-  memcpy(hp.iec.status, hcp->iec_status, sizeof(hp->iec_status));
-                                                  ^~
-
---oLBj+sq0vYjzfsbl
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmDAt1cACgkQJNaLcl1U
-h9AuAwf6A2ho54/TuWajEspKMKa3Y8mJqdCmq/szJ3u4iWTqPzBREw/Xyol8SXcW
-adYBtoSaS/Q6yh0OoY9A33TJwzQKwX4ZYow8t0KEmz7s/snT7Jgz8TUZPDE4ZEZb
-hHB/oXRVboMFrY62HeW+SnN/4A3D0ooOalNMNrV3/Abzjm9isJqafRKkj2dr8ymG
-7iplj1Rip+CLrhpSUi1ZF8aFTzqO7mckdD2pt/UN6k+aZ2oac65WgHhxOWt2m0q7
-Zl0ZPA2J9rTqse01tGxJ2GfVommjEFXKkcZStuzvWN2vfM4En0fdyUsU0hlghy+o
-15yz8IgChSQ1PGgdfwwc5YpcBvx2pw==
-=Ztwb
------END PGP SIGNATURE-----
-
---oLBj+sq0vYjzfsbl--
+> +
+> +	GEM_BUG_ON(ce->ring->size < SZ_64K);
+> +
+> +	do {
+> +		int len;
+> +
+> +		rq = i915_request_create(ce);
+> +		if (IS_ERR(rq)) {
+> +			err = PTR_ERR(rq);
+> +			goto out_ce;
+> +		}
+> +
+> +		if (await) {
+> +			err = i915_request_await_dma_fence(rq, await);
+> +			if (err)
+> +				goto out_rq;
+> +
+> +			if (rq->engine->emit_init_breadcrumb) {
+> +				err = rq->engine->emit_init_breadcrumb(rq);
+> +				if (err)
+> +					goto out_rq;
+> +			}
+> +
+> +			await = NULL;
+> +		}
+> +
+> +		/* The PTE updates + copy must not be interrupted. */
+> +		err = emit_no_arbitration(rq);
+> +		if (err)
+> +			goto out_rq;
+> +
+> +		len = emit_pte(rq, &it_src, src_cache_level, src_is_lmem, 0,
+> +			       CHUNK_SZ);
+> +		if (len <= 0) {
+> +			err = len;
+> +			goto out_rq;
+> +		}
+> +
+> +		err = emit_pte(rq, &it_dst, dst_cache_level, dst_is_lmem,
+> +			       CHUNK_SZ, len);
+> +		if (err < 0)
+> +			goto out_rq;
+> +		if (err < len) {
+> +			err = -EINVAL;
+> +			goto out_rq;
+> +		}
+> +
+> +		err = rq->engine->emit_flush(rq, EMIT_INVALIDATE);
+> +		if (err)
+> +			goto out_rq;
+> +
+> +		err = emit_copy(rq, len);
+> +
+> +		/* Arbitration is re-enabled between requests. */
+> +out_rq:
+> +		if (*out)
+> +			i915_request_put(*out);
+> +		*out = i915_request_get(rq);
+> +		i915_request_add(rq);
+> +		if (err || !it_src.sg || !sg_dma_len(it_src.sg))
+> +			break;
+> +
+> +		cond_resched();
+> +	} while (1);
+> +
+> +out_ce:
+> +	return err;
+> +}
+> +
