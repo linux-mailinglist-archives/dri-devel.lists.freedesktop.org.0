@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CEF83A0828
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Jun 2021 02:10:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 695883A0829
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Jun 2021 02:11:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8660D6E5D4;
-	Wed,  9 Jun 2021 00:10:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 87FB76E830;
+	Wed,  9 Jun 2021 00:11:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 448A56E5D4
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Jun 2021 00:10:25 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPS id E9DFF6108E
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Jun 2021 00:10:24 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CBD226E7EC
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Jun 2021 00:11:35 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id A2234610F8
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Jun 2021 00:11:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1623197424;
- bh=124xoMybjaitHojSHf4sO3uB1qi15lQY7TO2vwx+VIw=;
+ s=k20201202; t=1623197495;
+ bh=YyU4b04toIGPMlU4DPVZoTV7Pk3JCX489RImmaSpKLo=;
  h=From:To:Subject:Date:In-Reply-To:References:From;
- b=TVU//dzv2hBGRLUclhWj+xS3yJVOGhghV+Ka96UWcih3hs7SI1iIHBohzp/JbCRx8
- 9Oz04S1NU6kpFzk5cpR8jctYTHEUuPODxlFlJIBDiHQzW4CziuU7VcHKiRJJn3Z4Tt
- hPvyemKIB23FhGZmEDfLS0kgHWKzC2MAShPU6pQgtD/FbFve8MBlbH9A88ScVd79wP
- WzkWk1MJhSk58Kb5n5bPL6v1Y9gAeee/SKkw17lAA0Frbxf8IbpX2qyGCKyxlQcwhq
- 7IdZUt6K52KaF4S7x1eQjgr9JLtJAn5mccaUrdlDc1Ghww/U+cwPwSPVXNm/FFf1Yw
- qY/wiox4Bn/tQ==
+ b=h2iTu6YX5shQM0HCKenyBD+P1S4dAAOzy6a/pHcexa/8bnHX/XizFlEe+3/5Y2BR5
+ l0OeZd+88AqmjGenSIimU/eQ5NrEtyVderHiqNgRmhNYkYSAsJSqFzFmG4zUYYkZ1t
+ vHKlBMZdDnCdlflGPZvb+OTKDR1LIwRqpwuO42aWukkZq+6fzId+KVcicYLm5KNTkn
+ b6GvwKknEuf5RsIszNASNzct02Zt6BoyrIg/s9J6IHXGRgTnOYHeDRxmsVJH45XffM
+ JpbNGMIZGtQk85VCgX5Erao1Z0+ddAeNAVA09aUKxUwwpNBzKLfypq6aO8G8OAnAYh
+ eUnicw+gWW6hg==
 Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
- id E6EE0610D2; Wed,  9 Jun 2021 00:10:24 +0000 (UTC)
+ id 9E339610D2; Wed,  9 Jun 2021 00:11:35 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 213373] [drm] [radeon] memory leak at parsing
  radeon_atombios_parse_power_table
-Date: Wed, 09 Jun 2021 00:10:24 +0000
+Date: Wed, 09 Jun 2021 00:11:35 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -46,7 +46,7 @@ X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-213373-2300-QnLAskSxSM@https.bugzilla.kernel.org/>
+Message-ID: <bug-213373-2300-nibwYENcyk@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-213373-2300@https.bugzilla.kernel.org/>
 References: <bug-213373-2300@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
@@ -71,10 +71,10 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=3D213373
 
---- Comment #1 from Erhard F. (erhard_f@mailbox.org) ---
-Created attachment 297249
-  --> https://bugzilla.kernel.org/attachment.cgi?id=3D297249&action=3Dedit
-kernel dmesg (5.13-rc5, eMachines E620)
+--- Comment #2 from Erhard F. (erhard_f@mailbox.org) ---
+Created attachment 297251
+  --> https://bugzilla.kernel.org/attachment.cgi?id=3D297251&action=3Dedit
+kernel .config (5.13-rc5, eMachines E620)
 
 --=20
 You may reply to this email to add a comment.
