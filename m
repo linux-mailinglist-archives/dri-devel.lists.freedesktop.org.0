@@ -1,69 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 446EB3A155B
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Jun 2021 15:19:41 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 174B53A157D
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Jun 2021 15:24:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 48AD26E30D;
-	Wed,  9 Jun 2021 13:19:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C44856E30F;
+	Wed,  9 Jun 2021 13:24:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com
- [IPv6:2a00:1450:4864:20::333])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5BB476E2B6
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Jun 2021 13:19:33 +0000 (UTC)
-Received: by mail-wm1-x333.google.com with SMTP id
- 3-20020a05600c0243b029019f2f9b2b8aso4202312wmj.2
- for <dri-devel@lists.freedesktop.org>; Wed, 09 Jun 2021 06:19:33 -0700 (PDT)
+Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com
+ [IPv6:2a00:1450:4864:20::433])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D3E396E334
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Jun 2021 13:24:04 +0000 (UTC)
+Received: by mail-wr1-x433.google.com with SMTP id m18so25499730wrv.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 09 Jun 2021 06:24:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=ZumHFksmNiF0ClVX/ElPtpWcZQaf/GHlYrrU5PkilzY=;
- b=ZZbwhJ/uJMPKx5L4KZFz+cmkH9QxFcOlLzF3lRqybfpUFH/X1cRxM2BxKa9jpr4pAk
- 1YRDzlWpNiCXyG1HYECFsKYwPslzSmYKoik7A70lD1KafGYjAhBW6fxm3SQ66+bDDKuA
- +mjpYf53UazoMgofZCkxawlATEwx9A5BkHLkE=
+ :content-disposition:in-reply-to;
+ bh=t3Or10sfr9dZmBseRAQSnnc/yUYQ2O/mJsEgLeSYKwM=;
+ b=JuYQd3nbizfY0ZCj6hVbkzT3jlZJdcVChEj0aRrgNGtgTvb/t3+Mu5Fruwt8S3c1rR
+ jGyRjbnaxcANI+TamCy2UwnZnPFfdOTs6zNTXXATY1GM0zQd+y9N6ydOI2JUlCyCPTyQ
+ bgIMT+LXFPg21SdVC4AO2rd9KPK7ORphu5xNk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=ZumHFksmNiF0ClVX/ElPtpWcZQaf/GHlYrrU5PkilzY=;
- b=CySk8aoXKzlOjfg/cAumOHm1gi5t4jSYYr9QAaXYrSu65m3FgfTlZ23PW39fJ/1uP8
- kJd3dumRxph0ZNoVggdH7v+FtHH3g0NuDpo2tn04uNl0TbeO3tOejl59RPLIEEvUwhWB
- WOEXtrFY3Qv41BHeRuaNhhjqol3vyyK3zldI1ucXs42znK4jqFcfFbW1MMgNSTzA4AYL
- OZDpxu2WP2EmXoUbsXRGIRkvPjnmhAWV/adZYUeIM+tBi4toPhVA6cdZTte7qVQcy+Er
- cpq34wZu2WMIonWCoNeR6VOV3i08hox/3ASRCPzg3Vnxg/vkMMX+eMRSiXhiYbKzteB5
- /5mA==
-X-Gm-Message-State: AOAM531pZMDGA6Xghl/QxOkqvXiOQrqKrbsmqqUp3fmUimWmG+1/Lpwl
- yNIg10oGzEUMnwNCa02g3XAujw==
-X-Google-Smtp-Source: ABdhPJzru+CZOryy3n4Z9lcGOxt68P0FvPeq1AmgyLh/dX7gKy8yOQvi7djgr1wxyYUVS2zqUO/LIQ==
-X-Received: by 2002:a1c:7418:: with SMTP id p24mr7034868wmc.80.1623244771661; 
- Wed, 09 Jun 2021 06:19:31 -0700 (PDT)
+ :mime-version:content-disposition:in-reply-to;
+ bh=t3Or10sfr9dZmBseRAQSnnc/yUYQ2O/mJsEgLeSYKwM=;
+ b=lNxn6f5es3nAHd3peNxkwSVohf4mfBx3boxrXixe9SQkg2oKCUW1+jFcAhTjPzQu07
+ +Umo3uXggrknJlXrP7hvJVrc13HP+Ba3g5gd0Wvala3GWHNwN2DtzqPdTCqY6k25+sea
+ Mpz53sB/QI1pc+gCsyWTZzH4CbaJrXO2USTCgtuGvR2RYPZgPU/rBfKTmJIS5Tj3M+IP
+ xGfv7sacaEkt/XFbSMD5CKtxl/cew8wMW4ATVN1AkTdSdSoTz+wGWazti/l1UQcvIzDQ
+ z54waAAFd2SEQ15jM/dhxSMQBvWFTG3GlIdVZDUTBRzVQ5YAu0vTDp1WkMr5/E/TUUov
+ LwVw==
+X-Gm-Message-State: AOAM5324QqKPQRqKoy/1H/tcW0UcoIHfox83Nbf5BKgc08iyF/c9SLqD
+ b+ZWa2ev4gIrwfprcFoLobikcQ==
+X-Google-Smtp-Source: ABdhPJz9IU3Wj2CNkH7/kTpjZ/hDJkBTL/24zXgdwsn+jgwitDx4lydzLmF/coTC+2cdcILmnOAdfw==
+X-Received: by 2002:adf:a401:: with SMTP id d1mr28026610wra.55.1623245043445; 
+ Wed, 09 Jun 2021 06:24:03 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id c7sm23809008wrs.23.2021.06.09.06.19.30
+ by smtp.gmail.com with ESMTPSA id x125sm19296439wmg.37.2021.06.09.06.24.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 09 Jun 2021 06:19:30 -0700 (PDT)
-Date: Wed, 9 Jun 2021 15:19:28 +0200
+ Wed, 09 Jun 2021 06:24:02 -0700 (PDT)
+Date: Wed, 9 Jun 2021 15:24:00 +0200
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>
-Subject: Re: [Mesa-dev] Linux Graphics Next: Userspace submission update
-Message-ID: <YMC/4IhCePCu57HU@phenom.ffwll.local>
-References: <c7190219-c185-3b7e-42a6-691934f79fb3@gmail.com>
- <CAPj87rPbiFf3qDo35gmirAoTOOJ5fEE6UxQdJKtfjX_VTqc6pg@mail.gmail.com>
- <CAAxE2A4kC4A9gV_V-W3eRW20O=9S1pv8=KMBdJxdLQ-ZXGa37Q@mail.gmail.com>
- <CAAxE2A7FJSaYfrYRpoCr-3h-AqBjOOJerhMVCcQZzQu0a+J0zg@mail.gmail.com>
- <YLfSbxhyDQmHjV4r@phenom.ffwll.local>
- <a43f81f6-fe41-a6db-442e-83eb163124b9@gmail.com>
- <YLfZq5lAaR/RiFV8@phenom.ffwll.local>
- <0fbb1197-fa88-c474-09db-6daec13d3004@gmail.com>
- <YLnq6Vuf4amZld3n@phenom.ffwll.local>
- <586edeb3-73df-3da2-4925-1829712cba8b@gmail.com>
+To: Matthew Brost <matthew.brost@intel.com>
+Subject: Re: [Intel-gfx] [PATCH 13/20] drm/i915/guc: Relax CTB response timeout
+Message-ID: <YMDA8IqqZ5IgvRf4@phenom.ffwll.local>
+References: <20210603051630.2635-1-matthew.brost@intel.com>
+ <20210603051630.2635-14-matthew.brost@intel.com>
+ <YLnlQyPJZygHTHxk@phenom.ffwll.local>
+ <20210604183539.GA26392@sdutt-i7>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <586edeb3-73df-3da2-4925-1829712cba8b@gmail.com>
+In-Reply-To: <20210604183539.GA26392@sdutt-i7>
 X-Operating-System: Linux phenom 5.10.32scarlett+ 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -77,207 +68,146 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek =?utf-8?B?T2zFocOhaw==?= <maraeo@gmail.com>,
- Michel =?iso-8859-1?Q?D=E4nzer?= <michel@daenzer.net>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Jason Ekstrand <jason@jlekstrand.net>,
- ML Mesa-dev <mesa-dev@lists.freedesktop.org>
+Cc: daniel.vetter@intel.com, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jun 04, 2021 at 01:27:15PM +0200, Christian König wrote:
-> Am 04.06.21 um 10:57 schrieb Daniel Vetter:
-> > On Fri, Jun 04, 2021 at 09:00:31AM +0200, Christian König wrote:
-> > > Am 02.06.21 um 21:19 schrieb Daniel Vetter:
-> > > > On Wed, Jun 02, 2021 at 08:52:38PM +0200, Christian König wrote:
-> > > > > Am 02.06.21 um 20:48 schrieb Daniel Vetter:
-> > > > > > On Wed, Jun 02, 2021 at 05:38:51AM -0400, Marek Olšák wrote:
-> > > > > > > On Wed, Jun 2, 2021 at 5:34 AM Marek Olšák <maraeo@gmail.com> wrote:
-> > > > > > > 
-> > > > > > > > Yes, we can't break anything because we don't want to complicate things
-> > > > > > > > for us. It's pretty much all NAK'd already. We are trying to gather more
-> > > > > > > > knowledge and then make better decisions.
-> > > > > > > > 
-> > > > > > > > The idea we are considering is that we'll expose memory-based sync objects
-> > > > > > > > to userspace for read only, and the kernel or hw will strictly control the
-> > > > > > > > memory writes to those sync objects. The hole in that idea is that
-> > > > > > > > userspace can decide not to signal a job, so even if userspace can't
-> > > > > > > > overwrite memory-based sync object states arbitrarily, it can still decide
-> > > > > > > > not to signal them, and then a future fence is born.
-> > > > > > > > 
-> > > > > > > This would actually be treated as a GPU hang caused by that context, so it
-> > > > > > > should be fine.
-> > > > > > This is practically what I proposed already, except your not doing it with
-> > > > > > dma_fence. And on the memory fence side this also doesn't actually give
-> > > > > > what you want for that compute model.
-> > > > > > 
-> > > > > > This seems like a bit a worst of both worlds approach to me? Tons of work
-> > > > > > in the kernel to hide these not-dma_fence-but-almost, and still pain to
-> > > > > > actually drive the hardware like it should be for compute or direct
-> > > > > > display.
-> > > > > > 
-> > > > > > Also maybe I've missed it, but I didn't see any replies to my suggestion
-> > > > > > how to fake the entire dma_fence stuff on top of new hw. Would be
-> > > > > > interesting to know what doesn't work there instead of amd folks going of
-> > > > > > into internal again and then coming back with another rfc from out of
-> > > > > > nowhere :-)
-> > > > > Well to be honest I would just push back on our hardware/firmware guys that
-> > > > > we need to keep kernel queues forever before going down that route.
-> > > > I looked again, and you said the model wont work because preemption is way
-> > > > too slow, even when the context is idle.
-> > > > 
-> > > > I guess at that point I got maybe too fed up and just figured "not my
-> > > > problem", but if preempt is too slow as the unload fence, you can do it
-> > > > with pte removal and tlb shootdown too (that is hopefully not too slow,
-> > > > otherwise your hw is just garbage and wont even be fast for direct submit
-> > > > compute workloads).
-> > > Have you seen that one here:
-> > > https://www.spinics.net/lists/amd-gfx/msg63101.html :)
+On Fri, Jun 04, 2021 at 11:35:39AM -0700, Matthew Brost wrote:
+> On Fri, Jun 04, 2021 at 10:33:07AM +0200, Daniel Vetter wrote:
+> > On Wed, Jun 02, 2021 at 10:16:23PM -0700, Matthew Brost wrote:
+> > > From: Michal Wajdeczko <michal.wajdeczko@intel.com>
 > > > 
-> > > I've rejected it because I think polling for 6 seconds on a TLB flush which
-> > > can block interrupts as well is just madness.
-> > Hm but I thought you had like 2 tlb flush modes, the shitty one (with
-> > retrying page faults) and the not so shitty one?
+> > > In upcoming patch we will allow more CTB requests to be sent in
+> > > parallel to the GuC for processing, so we shouldn't assume any more
+> > > that GuC will always reply without 10ms.
+> > > 
+> > > Use bigger value from CONFIG_DRM_I915_GUC_CTB_TIMEOUT instead.
+> > > 
+> > > v2: Add CONFIG_DRM_I915_GUC_CTB_TIMEOUT config option
+> > > 
+> > > Signed-off-by: Michal Wajdeczko <michal.wajdeczko@intel.com>
+> > > Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+> > > Reviewed-by: Matthew Brost <matthew.brost@intel.com>
+> > 
+> > So this is a rant, but for upstream we really need to do better than
+> > internal:
+> > 
+> > - The driver must work by default in the optimal configuration.
+> > 
+> > - Any config change that we haven't validated _must_ taint the kernel
+> >   (this is especially for module options, but also for config settings)
+> > 
+> > - Config need a real reason beyond "was useful for bring-up".
+> > 
+> > Our internal tree is an absolute disaster right now, with multi-line
+> > kernel configs (different on each platform) and bespoke kernel config or
+> > the driver just fails. We're the expert on our own hw, we should know how
+> > it works, not offload that to users essentially asking them "how shitty do
+> > you think Intel hw is in responding timely".
+> > 
+> > Yes I know there's a lot of these there already, they don't make a lot of
+> > sense either.
+> > 
+> > Except if there's a real reason for this (aside from us just offloading
+> > testing to our users instead of doing it ourselves properly) I think we
+> > should hardcode this, with a comment explaining why. Maybe with a switch
+> > between the PF/VF case once that's landed.
+> > 
+> > > ---
+> > >  drivers/gpu/drm/i915/Kconfig.profile      | 10 ++++++++++
+> > >  drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c |  5 ++++-
+> > >  2 files changed, 14 insertions(+), 1 deletion(-)
+> > > 
+> > > diff --git a/drivers/gpu/drm/i915/Kconfig.profile b/drivers/gpu/drm/i915/Kconfig.profile
+> > > index 39328567c200..0d5475b5f28a 100644
+> > > --- a/drivers/gpu/drm/i915/Kconfig.profile
+> > > +++ b/drivers/gpu/drm/i915/Kconfig.profile
+> > > @@ -38,6 +38,16 @@ config DRM_I915_USERFAULT_AUTOSUSPEND
+> > >  	  May be 0 to disable the extra delay and solely use the device level
+> > >  	  runtime pm autosuspend delay tunable.
+> > >  
+> > > +config DRM_I915_GUC_CTB_TIMEOUT
+> > > +	int "How long to wait for the GuC to make forward progress on CTBs (ms)"
+> > > +	default 1500 # milliseconds
+> > > +	range 10 60000
+> > 
+> > Also range is definitely off, drm/scheduler will probably nuke you
+> > beforehand :-)
+> > 
+> > That's kinda another issue I have with all these kconfig knobs: Maybe we
+> > need a knob for "relax with reset attempts, my workloads overload my gpus
+> > routinely", which then scales _all_ timeouts proportionally. But letting
+> > the user set them all, with silly combiniations like resetting the
+> > workload before heartbeat or stuff like that doesn't make much sense.
+> >
 > 
-> Yeah, we call this the lightweight and the heavyweight tlb flush.
+> Yes, the code as is the user could do some wacky stuff that doesn't make
+> sense at all.
+>  
+> > Anyway, tiny patch so hopefully I can leave this one out for now until
+> > we've closed this.
 > 
-> The lighweight can be used when you are sure that you don't have any of the
-> PTEs currently in flight in the 3D/DMA engine and you just need to
-> invalidate the TLB.
-> 
-> The heavyweight must be used when you need to invalidate the TLB *AND* make
-> sure that no concurrently operation moves new stuff into the TLB.
-> 
-> The problem is for this use case we have to use the heavyweight one.
+> No issue leaving this out as blocking CTBs are never really used anyways
+> until SRIOV aside from setup / debugging. That being said, we might
+> still want a higher hardcoded value in the meantime, perhaps around a
+> second. I can follow up on that if needed.
 
-Just for my own curiosity: So the lightweight flush is only for in-between
-CS when you know access is idle? Or does that also not work if userspace
-has a CS on a dma engine going at the same time because the tlb aren't
-isolated enough between engines?
+Yeah just patch with updated hardcoded value sounds good to me.
 -Daniel
 
-> > But yeah at that point I think you just have to bite one of the bullets.
 > 
-> Yeah, completely agree. We can choose which way we want to die, but it's
-> certainly not going to be nice whatever we do.
-> 
-> > 
-> > The thing is with hmm/userspace memory fence model this will be even
-> > worse, because you will _have_ to do this tlb flush deep down in core mm
-> > functions, so this is going to be userptr, but worse.
-> > 
-> > With the dma_resv/dma_fence bo memory management model you can at least
-> > wrap that tlb flush into a dma_fence and push the waiting/pinging onto a
-> > separate thread or something like that. If the hw really is that slow.
-> > 
-> > Somewhat aside: Personally I think that sriov needs to move over to the
-> > compute model, i.e. indefinite timeouts, no tdr, because everything takes
-> > too long. At least looking around sriov timeouts tend to be 10x bare
-> > metal, across the board.
-> > 
-> > But for stuff like cloud gaming that's serious amounts of heavy lifting
-> > since it brings us right back "the entire linux/android 3d stack is built
-> > on top of dma_fence right now".
-> > 
-> > > > The only thing that you need to do when you use pte clearing + tlb
-> > > > shootdown instad of preemption as the unload fence for buffers that get
-> > > > moved is that if you get any gpu page fault, you don't serve that, but
-> > > > instead treat it as a tdr and shot the context permanently.
-> > > > 
-> > > > So summarizing the model I proposed:
-> > > > 
-> > > > - you allow userspace to directly write into the ringbuffer, and also
-> > > >     write the fences directly
-> > > > 
-> > > > - actual submit is done by the kernel, using drm/scheduler. The kernel
-> > > >     blindly trusts userspace to set up everything else, and even just wraps
-> > > >     dma_fences around the userspace memory fences.
-> > > > 
-> > > > - the only check is tdr. If a fence doesn't complete an tdr fires, a) the
-> > > >     kernel shot the entire context and b) userspace recovers by setting up a
-> > > >     new ringbuffer
-> > > > 
-> > > > - memory management is done using ttm only, you still need to supply the
-> > > >     buffer list (ofc that list includes the always present ones, so CS will
-> > > >     only get the list of special buffers like today). If you hw can't trun
-> > > >     gpu page faults and you ever get one we pull up the same old solution:
-> > > >     Kernel shots the entire context.
-> > > > 
-> > > >     The important thing is that from the gpu pov memory management works
-> > > >     exactly like compute workload with direct submit, except that you just
-> > > >     terminate the context on _any_ page fault, instead of only those that go
-> > > >     somewhere where there's really no mapping and repair the others.
-> > > > 
-> > > >     Also I guess from reading the old thread this means you'd disable page
-> > > >     fault retry because that is apparently also way too slow for anything.
-> > > > 
-> > > > - memory management uses an unload fence. That unload fences waits for all
-> > > >     userspace memory fences (represented as dma_fence) to complete, with
-> > > >     maybe some fudge to busy-spin until we've reached the actual end of the
-> > > >     ringbuffer (maybe you have a IB tail there after the memory fence write,
-> > > >     we have that on intel hw), and it waits for the memory to get
-> > > >     "unloaded". This is either preemption, or pte clearing + tlb shootdown,
-> > > >     or whatever else your hw provides which is a) used for dynamic memory
-> > > >     management b) fast enough for actual memory management.
-> > > > 
-> > > > - any time a context dies we force-complete all it's pending fences,
-> > > >     in-order ofc
-> > > > 
-> > > > So from hw pov this looks 99% like direct userspace submit, with the exact
-> > > > same mappings, command sequences and everything else. The only difference
-> > > > is that the rinbuffer head/tail updates happen from drm/scheduler, instead
-> > > > of directly from userspace.
-> > > > 
-> > > > None of this stuff needs funny tricks where the kernel controls the
-> > > > writes to memory fences, or where you need kernel ringbuffers, or anything
-> > > > like thist. Userspace is allowed to do anything stupid, the rules are
-> > > > guaranteed with:
-> > > > 
-> > > > - we rely on the hw isolation features to work, but _exactly_ like compute
-> > > >     direct submit would too
-> > > > 
-> > > > - dying on any page fault captures memory management issues
-> > > > 
-> > > > - dying (without kernel recover, this is up to userspace if it cares) on
-> > > >     any tdr makes sure fences complete still
-> > > > 
-> > > > > That syncfile and all that Android stuff isn't working out of the box with
-> > > > > the new shiny user queue submission model (which in turn is mostly because
-> > > > > of Windows) already raised some eyebrows here.
-> > > > I think if you really want to make sure the current linux stack doesn't
-> > > > break the _only_ option you have is provide a ctx mode that allows
-> > > > dma_fence and drm/scheduler to be used like today.
-> > > Yeah, but I still can just tell our hw/fw guys that we really really need to
-> > > keep kernel queues or the whole Linux/Android infrastructure needs to get a
-> > > compatibility layer like you describe above.
-> > > 
-> > > > For everything else it sounds you're a few years too late, because even
-> > > > just huge kernel changes wont happen in time. Much less rewriting
-> > > > userspace protocols.
-> > > Seconded, question is rather if we are going to start migrating at some
-> > > point or if we should keep pushing on our hw/fw guys.
-> > So from what I'm hearing other hw might gain the sw compat layer too. Plus
-> > I'm hoping that with the sw compat layer it'd be easier to smooth over
-> > userspace to the new model (because there will be a long time where we
-> > have to support both, maybe even with a runtime switch from userspace
-> > memory fences to dma_fence kernel stuff).
-> > 
-> > But in the end it's up to you what makes more sense between sw work and
-> > hw/fw work involved.
-> 
-> I'm currently entertaining my head a bit with the idea of implementing the
-> HW scheduling on the CPU.
-> 
-> The only obstacle that I can really see is that we might need to unmap a
-> page in the CPU page table when a queue becomes idle.
-> 
-> But apart from that it would give us the required functionality, just
-> without the hardware scheduler.
-> 
-> Christian.
+> Matt
 > 
 > > -Daniel
-> 
+> > 
+> > > +	help
+> > > +	  Configures the default timeout waiting for GuC the to make forward
+> > > +	  progress on CTBs. e.g. Waiting for a response to a requeset.
+> > > +
+> > > +	  A range of 10 ms to 60000 ms is allowed.
+> > > +
+> > >  config DRM_I915_HEARTBEAT_INTERVAL
+> > >  	int "Interval between heartbeat pulses (ms)"
+> > >  	default 2500 # milliseconds
+> > > diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
+> > > index 916c2b80c841..cf1fb09ef766 100644
+> > > --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
+> > > +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
+> > > @@ -436,6 +436,7 @@ static int ct_write(struct intel_guc_ct *ct,
+> > >   */
+> > >  static int wait_for_ct_request_update(struct ct_request *req, u32 *status)
+> > >  {
+> > > +	long timeout;
+> > >  	int err;
+> > >  
+> > >  	/*
+> > > @@ -443,10 +444,12 @@ static int wait_for_ct_request_update(struct ct_request *req, u32 *status)
+> > >  	 * up to that length of time, then switch to a slower sleep-wait loop.
+> > >  	 * No GuC command should ever take longer than 10ms.
+> > >  	 */
+> > > +	timeout = CONFIG_DRM_I915_GUC_CTB_TIMEOUT;
+> > > +
+> > >  #define done INTEL_GUC_MSG_IS_RESPONSE(READ_ONCE(req->status))
+> > >  	err = wait_for_us(done, 10);
+> > >  	if (err)
+> > > -		err = wait_for(done, 10);
+> > > +		err = wait_for(done, timeout);
+> > >  #undef done
+> > >  
+> > >  	if (unlikely(err))
+> > > -- 
+> > > 2.28.0
+> > > 
+> > > _______________________________________________
+> > > Intel-gfx mailing list
+> > > Intel-gfx@lists.freedesktop.org
+> > > https://lists.freedesktop.org/mailman/listinfo/intel-gfx
+> > 
+> > -- 
+> > Daniel Vetter
+> > Software Engineer, Intel Corporation
+> > http://blog.ffwll.ch
 
 -- 
 Daniel Vetter
