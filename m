@@ -2,39 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 279433A1035
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Jun 2021 12:39:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 24FE03A1201
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Jun 2021 13:05:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 49A036E4D2;
-	Wed,  9 Jun 2021 10:39:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B1AA46E4A6;
+	Wed,  9 Jun 2021 11:05:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail1.protonmail.ch (mail1.protonmail.ch [185.70.40.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D245C6E4D2
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Jun 2021 10:39:45 +0000 (UTC)
-Date: Wed, 09 Jun 2021 10:39:31 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
- s=protonmail3; t=1623235183;
- bh=+2TgIcQOpe6dmWJy4MxbUcLVMP5RuX6A82OSZZa8ORY=;
- h=Date:To:From:Cc:Reply-To:Subject:From;
- b=Pi7iGYmSfYfaYs1o5JNqp8FdwXs+yL+xd0OdSBJr4pvv6S574S9npdkIArENoX/Sg
- Fbdf45XLvDHgIzCfukGH3q7x5obj2BX6wwHjelIMdii7xfASQpZE4bHXhCvQDT+aK2
- ssHjM7A8EvHX75Ave7iocYcstYwJRzVaml95y8xsymoMgD2FTkOYtreKI5C0V5r/fc
- SZs3TWIt1bkZTJNh2fjgU1mDsKzY1y6xWfwxY6V8ES9WpJwwC7UfY/9N2hgq9bD4ng
- 0Wlo1H1V+v4Pq7mudEzBHAhm+Tpp8t+0TvfsO/DDbbPf6BarjQMTjjRE3MktbdF2iz
- 8qSbV4G06+W1A==
-To: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
-From: Simon Ser <contact@emersion.fr>
-Subject: [PATCH 4/4] amdgpu: use drm_kms_helper_connector_hotplug_event
-Message-ID: <li38b1HfAYOhHkfxh32ZBS5r8Ounqzgw4wTOk2E@cp4-web-028.plabs.ch>
+Received: from mail-lj1-x22f.google.com (mail-lj1-x22f.google.com
+ [IPv6:2a00:1450:4864:20::22f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 53A546E4A6
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Jun 2021 11:05:21 +0000 (UTC)
+Received: by mail-lj1-x22f.google.com with SMTP id e11so31087959ljn.13
+ for <dri-devel@lists.freedesktop.org>; Wed, 09 Jun 2021 04:05:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=VePCktjSiUwy7zF0X3i1kiD5uKEWitdsZcvT2ZeLJmk=;
+ b=lCebyaKzT4o+/UcvZ1XICOmUN7/NHBX1soF6VpaCp/TCvgmk56jULiWBAvNk3i6Loj
+ z5wJnqwqEEUANW+u3ygdh5BEaWLy9N8xhJu5CTPM9oqJnYdl30CwZZWEux+H+KOeGDDI
+ ZwxIVZKMULaK7VsCRoihYTZ7UtCWnM65PGo6NHphuP4WS/bf4zw9cd5uz3z8exwr9+E+
+ E0IPZfYfPD1onxv89/78rZD4LBFvbPBKfdvrtQUSz1tXKO9FIUkI8KHkdhFzDrpC0hZk
+ 00RJQFVtqyf2oOP2/m8/mM9pqWN6bbJzWLMo5fac27BiLh4WA2TgtZvcRfZEggy9XQoF
+ IdAA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=VePCktjSiUwy7zF0X3i1kiD5uKEWitdsZcvT2ZeLJmk=;
+ b=shZ39Am2xuLmM3pUbnWf/R81/OGXaCBCy6MSROukf/8z88ucMjrWjsJ8zWBHvkJg0l
+ qEYAxno8YIY44xBpmdOLfk5XjnJxx+dqGiws335eh8gt7ptSfXcooWudwA5Bu87zcMUU
+ 791PiE+KcXpVROTJzoi/3RQDwWuNm6mDo2RdDaI7JM3ITtHEl3kJA5K2fNR+vDF/Cq7i
+ d7Q1RvOuJL3ipj2S2VnKwk9z1nrVPNKqVX17+fKDbliB2mJobPmciGnLFhLUnytd8uwD
+ ohk9W5+XX5kUtpmMY754W3LMoPCR+dcYXrLTnQ9xlMK3kHkCaOhhUZe/ImnhGhHmrEsr
+ G8Qw==
+X-Gm-Message-State: AOAM531SMEAkBudNluBO54c3uvnFoxXd6WP2kwCqr9m+56cgYrG7DeSF
+ mxKks5GuzgRclJ/A5RmmCxolLQgE0KO8LcpRCv6hMQ==
+X-Google-Smtp-Source: ABdhPJybvThxOzTqKAq2tM0a2YQzhSX2mOBRONdPJcNN5UbQix2w4ogjAjPGxmyqXPR5egn25taCVXJw2O2j5xJPZ+4=
+X-Received: by 2002:a05:651c:4c6:: with SMTP id
+ e6mr21901557lji.326.1623236719658; 
+ Wed, 09 Jun 2021 04:05:19 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
- DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF shortcircuit=no
- autolearn=disabled version=3.4.4
-X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
- mailout.protonmail.ch
+References: <20210607170555.4006050-1-dianders@chromium.org>
+ <20210607100234.v9.2.Id3c048d22e72a9f90084a543b5b4e3f43bc9ab62@changeid>
+In-Reply-To: <20210607100234.v9.2.Id3c048d22e72a9f90084a543b5b4e3f43bc9ab62@changeid>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Wed, 9 Jun 2021 13:05:08 +0200
+Message-ID: <CACRpkdaitO6VJGfmKchj5hLz43WNA6BR-mn=bo4_EPEh6fyLiw@mail.gmail.com>
+Subject: Re: [PATCH v9 02/11] dt-bindings: drm: Introduce the DP AUX bus
+To: Douglas Anderson <dianders@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,88 +63,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: Simon Ser <contact@emersion.fr>
-Cc: pekka.paalanen@collabora.com, michel@daenzer.net, alexander.deucher@amd.com
+Cc: Rob Clark <robdclark@chromium.org>, Jonas Karlman <jonas@kwiboo.se>,
+ David Airlie <airlied@linux.ie>, MSM <linux-arm-msm@vger.kernel.org>,
+ "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>,
+ Neil Armstrong <narmstrong@baylibre.com>,
+ linux-kernel <linux-kernel@vger.kernel.org>,
+ Steev Klimaszewski <steev@kali.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Stanislav Lisovskiy <stanislav.lisovskiy@intel.com>,
+ Andrzej Hajda <a.hajda@samsung.com>,
+ "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, Rob Herring <robh+dt@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Stephen Boyd <swboyd@chromium.org>, Thierry Reding <treding@nvidia.com>,
+ Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When updating a single connector, use
-drm_kms_helper_connector_hotplug_event instead of
-drm_kms_helper_hotplug_event.
+On Mon, Jun 7, 2021 at 7:06 PM Douglas Anderson <dianders@chromium.org> wrote:
 
-Signed-off-by: Simon Ser <contact@emersion.fr>
----
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c         | 8 ++++----
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c | 4 ++--
- 2 files changed, 6 insertions(+), 6 deletions(-)
+> We want to be able to list an eDP panel as a child of an eDP
+> controller node to represent the fact that the panel is connected to
+> the controller's DP AUX bus. Though the panel and the controller are
+> connected in several ways, the DP AUX bus is the primary control
+> interface between the two and thus makes the most sense to model in
+> device tree hierarchy.
+>
+> Listing a panel in this way makes it possible for the panel driver to
+> easily get access to the DP AUX bus that it resides on, which can be
+> useful to help in auto-detecting the panel and for turning on various
+> bits.
+>
+> NOTE: historically eDP panels were _not_ listed under their controller
+> but were listed at the top level of the device tree. This will still
+> be supported for backward compatibility (and while DP controller
+> drivers are adapted to support the new DT syntax) but should be
+> considered deprecated since there is no downside to listing the panel
+> under the controller.
+>
+> For now, the DP AUX bus bindings will only support an eDP panel
+> underneath. It's possible it could be extended to allow having a DP
+> connector under it in the future.
+>
+> NOTE: there is no "Example" in this bindings file. Yikes! This avoids
+> duplicating the same example lots of places. See users of the aux bus
+> (like ti-sn65dsi86) for examples.
+>
+> The idea for this bus's design was hashed out over IRC [1].
+>
+> [1] https://people.freedesktop.org/~cbrill/dri-log/?channel=dri-devel&date=2021-05-11
+>
+> Signed-off-by: Douglas Anderson <dianders@chromium.org>
+> Reviewed-by: Rob Herring <robh@kernel.org>
 
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gp=
-u/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-index 3267eb2e35dd..4b91534ff324 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-@@ -2638,7 +2638,7 @@ static void handle_hpd_irq(void *param)
- =09=09drm_modeset_unlock_all(dev);
-=20
- =09=09if (aconnector->base.force =3D=3D DRM_FORCE_UNSPECIFIED)
--=09=09=09drm_kms_helper_hotplug_event(dev);
-+=09=09=09drm_kms_helper_connector_hotplug_event(connector);
-=20
- =09} else if (dc_link_detect(aconnector->dc_link, DETECT_REASON_HPD)) {
- =09=09if (new_connection_type =3D=3D dc_connection_none &&
-@@ -2652,7 +2652,7 @@ static void handle_hpd_irq(void *param)
- =09=09drm_modeset_unlock_all(dev);
-=20
- =09=09if (aconnector->base.force =3D=3D DRM_FORCE_UNSPECIFIED)
--=09=09=09drm_kms_helper_hotplug_event(dev);
-+=09=09=09drm_kms_helper_connector_hotplug_event(connector);
- =09}
- =09mutex_unlock(&aconnector->hpd_lock);
-=20
-@@ -2805,7 +2805,7 @@ static void handle_hpd_rx_irq(void *param)
- =09=09=09dm_restore_drm_connector_state(dev, connector);
- =09=09=09drm_modeset_unlock_all(dev);
-=20
--=09=09=09drm_kms_helper_hotplug_event(dev);
-+=09=09=09drm_kms_helper_connector_hotplug_event(connector);
- =09=09} else if (dc_link_detect(dc_link, DETECT_REASON_HPDRX)) {
-=20
- =09=09=09if (aconnector->fake_enable)
-@@ -2818,7 +2818,7 @@ static void handle_hpd_rx_irq(void *param)
- =09=09=09dm_restore_drm_connector_state(dev, connector);
- =09=09=09drm_modeset_unlock_all(dev);
-=20
--=09=09=09drm_kms_helper_hotplug_event(dev);
-+=09=09=09drm_kms_helper_connector_hotplug_event(connector);
- =09=09}
- =09}
- #ifdef CONFIG_DRM_AMD_DC_HDCP
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c b/dr=
-ivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c
-index 9fbbd0159119..221242b6e528 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c
-@@ -1200,7 +1200,7 @@ static ssize_t trigger_hotplug(struct file *f, const =
-char __user *buf,
- =09=09dm_restore_drm_connector_state(dev, connector);
- =09=09drm_modeset_unlock_all(dev);
-=20
--=09=09drm_kms_helper_hotplug_event(dev);
-+=09=09drm_kms_helper_connector_hotplug_event(connector);
- =09} else if (param[0] =3D=3D 0) {
- =09=09if (!aconnector->dc_link)
- =09=09=09goto unlock;
-@@ -1222,7 +1222,7 @@ static ssize_t trigger_hotplug(struct file *f, const =
-char __user *buf,
- =09=09dm_restore_drm_connector_state(dev, connector);
- =09=09drm_modeset_unlock_all(dev);
-=20
--=09=09drm_kms_helper_hotplug_event(dev);
-+=09=09drm_kms_helper_connector_hotplug_event(connector);
- =09}
-=20
- unlock:
---=20
-2.31.1
+I overall like this approach a lot:
+Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
 
-
+Yours,
+Linus Walleij
