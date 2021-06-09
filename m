@@ -2,73 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 167893A1A72
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Jun 2021 18:05:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 29BA63A1A82
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Jun 2021 18:06:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1795D6E982;
-	Wed,  9 Jun 2021 16:05:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 085996E546;
+	Wed,  9 Jun 2021 16:06:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [216.205.24.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C97BF6E987
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Jun 2021 16:05:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623254711;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=F9+g1I6U91zrPqFexpjaxQ/1X4+oKkXG1hR1XzuO5AM=;
- b=CB9rgzPgyeNpkc7pPfRNSb9eqREb+9xNVJyo05GumU6MVDcUFNKDo1+JanyChpI3CBbwrG
- RTak/RSDJS+x0MhSl4mEWrnitV/e/gRF5DFlxo5XF5927GBfNlkEpN4jIviYPP/mF5xoVM
- 5FhN56AdyQM/L5tOOoE5JYA9uMXqH6Y=
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
- [209.85.222.200]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-563-ZMO1S4BvOgWZHm66yYpcow-1; Wed, 09 Jun 2021 12:05:10 -0400
-X-MC-Unique: ZMO1S4BvOgWZHm66yYpcow-1
-Received: by mail-qk1-f200.google.com with SMTP id
- y5-20020a37af050000b02903a9c3f8b89fso17236233qke.2
- for <dri-devel@lists.freedesktop.org>; Wed, 09 Jun 2021 09:05:10 -0700 (PDT)
+Received: from mail-yb1-xb36.google.com (mail-yb1-xb36.google.com
+ [IPv6:2607:f8b0:4864:20::b36])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CAC3B6E546
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Jun 2021 16:06:37 +0000 (UTC)
+Received: by mail-yb1-xb36.google.com with SMTP id c14so7194257ybk.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 09 Jun 2021 09:06:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=jlekstrand-net.20150623.gappssmtp.com; s=20150623;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=yxrETjkIFcugPRnCojvsb7+h1ZqjiA6vzVAmkOudHHM=;
+ b=B9JB5Y7LP3I0HjHRImROVdGjj2erlo//Wo5JWcf7RmBFvA1qSWY5dsGtT4vyGBeOa4
+ VcU0LiFo0MhcudibKr1IjULx3aX0jYuahRWBXhsuDiNYWUQ1Vt6BbKhhM/mg9L5L0WnB
+ +HzZxatEzR29zSvqj5P2aSTaCE9a6c1nqBTdPjfjYxtP97dKBXz3PG/zhVB1cxeELo+C
+ hhOUJIcw24gMm/yQBMrjFLgz2WHvpSRkFh8EgVNIppf0mfGsTTEEUge/N13cXkUSRGUF
+ qdVbBAZRrk4W60wYX582qzxi7QEraLx6OMkyKrIjuCYxaYZoRoMa3zY3RtYQXAdT7tOB
+ 6+rA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=F9+g1I6U91zrPqFexpjaxQ/1X4+oKkXG1hR1XzuO5AM=;
- b=FP4R0eMn/ASdilW/U+efZLy+K2lcHS5A/25RQyvsfV6Xf+OXSm26SJNKtN8abdalk2
- xO357Bcd28rGkhq1jbDzXiAlN7k4zPD+8NNV5w5SJwVDWhvFcvG9IoLbh4nUxXkgTw8a
- Moyy+K5Y4+JEr4bZsajXf9dzagFm65vxZhTPIlaBzJ83zPQnin/7Uoz2/hOHX8cpoI/N
- mP+hiJTObfttGwg5r/WJewQR7IJIj9JHAcgBA3yOfccgs8heOwz4ldnGiiC3QSeFh5Lw
- gW6Y91xPH59fgPVpueDqg2L4N0rLgHp3W2dLq7uKtdetyKDe7RjSc+ZSkyH0dBLd6tMi
- JLAA==
-X-Gm-Message-State: AOAM532zj9rf/uvcfnMci660rD0ngr3/IqeUQ+eM6TOGwtrPHq/4Z4cN
- VLw7MFqL3p69SZ7wyAcSzZUEGLwMcVaQdXV5MmmNgpO/hTLCivVF/J8ZwlZFPBYL5oDIWmVjCew
- dAKYDZXJyT+n4yESps2QofIBAgU7B
-X-Received: by 2002:ac8:5c11:: with SMTP id i17mr686946qti.64.1623254709486;
- Wed, 09 Jun 2021 09:05:09 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxKHB25K0M5fq8PrZmQE3smgbxPoTbC7XrVv7VMXvD1wpUPX622YvjCP+XWN7ApOcy6PmFRxw==
-X-Received: by 2002:ac8:5c11:: with SMTP id i17mr686880qti.64.1623254708958;
- Wed, 09 Jun 2021 09:05:08 -0700 (PDT)
-Received: from t490s (bras-base-toroon474qw-grc-88-174-93-75-200.dsl.bell.ca.
- [174.93.75.200])
- by smtp.gmail.com with ESMTPSA id c68sm307689qkd.112.2021.06.09.09.05.07
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 09 Jun 2021 09:05:08 -0700 (PDT)
-Date: Wed, 9 Jun 2021 12:05:06 -0400
-From: Peter Xu <peterx@redhat.com>
-To: Alistair Popple <apopple@nvidia.com>
-Subject: Re: [PATCH v10 07/10] mm: Device exclusive memory access
-Message-ID: <YMDmsha6GDtUf3Vs@t490s>
-References: <20210607075855.5084-1-apopple@nvidia.com>
- <20210607075855.5084-8-apopple@nvidia.com> <YL+4ENiwbn9QAa2V@t490s>
- <270551728.uXnuCZxQlr@nvdebian>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=yxrETjkIFcugPRnCojvsb7+h1ZqjiA6vzVAmkOudHHM=;
+ b=mFAt+swjfhrEvN6a8lO0olNfQaWjVcawNAqy2f9l+AiJCp9XwWIVSJB1K1+Jhzxk7Y
+ +pCjkYwld6bQXbNh6ffwJnKmBDvGTWt2vEuVt09F17VL+/cRI5k4SQLXS5KA4hK56suy
+ S2Bh99/7+XqiBHeALzg7eDNEJoPchXikQJfRKH+vTj/L7+IOOF4nXYh0Fu4KtBKilLmz
+ dfA9nkKU0Dl0w48l3SEdxd/hQ5C+0GdDR97fV5cUNG6xWLGH8DZzEhhc2+XmBvKL5jKb
+ mdRCLa/qFqw1srUVqLFwKbFTwNOlY7hVpXTXLN2iY568XwEjeotXqIoEv+RzlKRaPqRr
+ cfKg==
+X-Gm-Message-State: AOAM531P8QwjnEQQ8n8SFI7egpoR7IazC+tJM6B6Iz+q+rUhTnmHgrzi
+ XGXds1GvLLR5NCL37i9SmU8t2fVkeAsTEIObDdC8nQ==
+X-Google-Smtp-Source: ABdhPJwo1axAxQFWwtkMlJBCigj55OrCwrr+RPduP8t0lOKFMXh3o9szcVBphtPU2mF4Q0ggeGjeCgm017IE2iSynP8=
+X-Received: by 2002:a5b:850:: with SMTP id v16mr984817ybq.139.1623254796882;
+ Wed, 09 Jun 2021 09:06:36 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <270551728.uXnuCZxQlr@nvdebian>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+References: <20210609043613.102962-1-jason@jlekstrand.net>
+ <20210609043613.102962-26-jason@jlekstrand.net>
+ <YMCnKNoKz1GpdOzO@phenom.ffwll.local>
+In-Reply-To: <YMCnKNoKz1GpdOzO@phenom.ffwll.local>
+From: Jason Ekstrand <jason@jlekstrand.net>
+Date: Wed, 9 Jun 2021 11:06:25 -0500
+Message-ID: <CAOFGe96SNfaqir2ZWWW8TUs4PpiCuqY8JaOKjeJQn7f_stxqXA@mail.gmail.com>
+Subject: Re: [Intel-gfx] [PATCH 25/31] drm/i915/gem: Don't allow changing the
+ VM on running contexts (v2)
+To: Daniel Vetter <daniel@ffwll.ch>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,293 +65,509 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: rcampbell@nvidia.com, willy@infradead.org, linux-doc@vger.kernel.org,
- nouveau@lists.freedesktop.org, hughd@google.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, hch@infradead.org, linux-mm@kvack.org,
- shakeelb@google.com, bskeggs@redhat.com, jgg@nvidia.com, jhubbard@nvidia.com,
- akpm@linux-foundation.org, Christoph Hellwig <hch@lst.de>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Intel GFX <intel-gfx@lists.freedesktop.org>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jun 09, 2021 at 07:38:04PM +1000, Alistair Popple wrote:
-> On Wednesday, 9 June 2021 4:33:52 AM AEST Peter Xu wrote:
-> > On Mon, Jun 07, 2021 at 05:58:52PM +1000, Alistair Popple wrote:
-> > 
-> > [...]
-> > 
-> > > +static bool page_make_device_exclusive_one(struct page *page,
-> > > +             struct vm_area_struct *vma, unsigned long address, void *priv)
-> > > +{
-> > > +     struct mm_struct *mm = vma->vm_mm;
-> > > +     struct page_vma_mapped_walk pvmw = {
-> > > +             .page = page,
-> > > +             .vma = vma,
-> > > +             .address = address,
-> > > +     };
-> > > +     struct make_exclusive_args *args = priv;
-> > > +     pte_t pteval;
-> > > +     struct page *subpage;
-> > > +     bool ret = true;
-> > > +     struct mmu_notifier_range range;
-> > > +     swp_entry_t entry;
-> > > +     pte_t swp_pte;
-> > > +
-> > > +     mmu_notifier_range_init_owner(&range, MMU_NOTIFY_EXCLUSIVE, 0, vma,
-> > > +                                   vma->vm_mm, address, min(vma->vm_end,
-> > > +                                   address + page_size(page)), args->owner);
-> > > +     mmu_notifier_invalidate_range_start(&range);
-> > > +
-> > > +     while (page_vma_mapped_walk(&pvmw)) {
-> > > +             /* Unexpected PMD-mapped THP? */
-> > > +             VM_BUG_ON_PAGE(!pvmw.pte, page);
-> > 
-> > [1]
-> > 
-> > > +
-> > > +             if (!pte_present(*pvmw.pte)) {
-> > > +                     ret = false;
-> > > +                     page_vma_mapped_walk_done(&pvmw);
-> > > +                     break;
-> > > +             }
-> > > +
-> > > +             subpage = page - page_to_pfn(page) + pte_pfn(*pvmw.pte);
-> > > +             address = pvmw.address;
-> > 
-> > I raised a question here previously and didn't get an answer...
-> > 
-> > https://lore.kernel.org/linux-mm/YLDr%2FRyAdUR4q0kk@t490s/
-> 
-> Sorry, I had overlooked that. Will continue the discussion here.
-
-No problem.  I also didn't really express clearly last time, I'm happy we can
-discuss this more thoroughly, even if it may be a corner case only.
-
-> 
-> > I think I get your point now and it does look possible that the split page can
-> > still be mapped somewhere else as thp, then having some subpage maintainance
-> > looks necessary.  The confusing part is above [1] you've also got that
-> > VM_BUG_ON_PAGE() assuming it must not be a mapped pmd at all..
-> 
-> Going back I thought your original question was whether subpage != page is
-> possible. My main point was it's possible if we get a thp head. In that case we
-> need to replace all pte's with exclusive entries because I haven't (yet)
-> defined a pmd version of device exclusive entries and also rmap_walk won't deal
-> with tail pages (see below).
-> 
-> > Then I remembered these code majorly come from the try_to_unmap() so I looked
-> > there.  I _think_ what's missing here is something like:
-> > 
-> >         if (flags & TTU_SPLIT_HUGE_PMD)
-> >                 split_huge_pmd_address(vma, address, false, page);
-> > 
-> > at the entry of page_make_device_exclusive_one()?
+On Wed, Jun 9, 2021 at 6:34 AM Daniel Vetter <daniel@ffwll.ch> wrote:
+>
+> On Tue, Jun 08, 2021 at 11:36:07PM -0500, Jason Ekstrand wrote:
+> > When the APIs were added to manage VMs more directly from userspace, the
+> > questionable choice was made to allow changing out the VM on a context
+> > at any time.  This is horribly racy and there's absolutely no reason why
+> > any userspace would want to do this outside of testing that exact race.
+> > By removing support for CONTEXT_PARAM_VM from ctx_setparam, we make it
+> > impossible to change out the VM after the context has been fully
+> > created.  This lets us delete a bunch of deferred task code as well as a
+> > duplicated (and slightly different) copy of the code which programs the
+> > PPGTT registers.
 > >
-> > That !pte assertion in try_to_unmap() makes sense to me as long as it has split
-> > the thp page first always.  However seems not the case for FOLL_SPLIT_PMD as
-> > you previously mentioned.
-> 
-> At present this is limited to PageAnon pages which have had CoW broken, which I
-> think means there shouldn't be other mappings so I expect the PMD will always
-> have been split into small PTEs mapping subpages by GUP which is what that
-> assertion [1] is checking. I could call split_huge_pmd_address() unconditionally
-> as suggested but see the discussion below.
+> > v2 (Jason Ekstrand):
+> >  - Expand the commit message
+> >
+> > Signed-off-by: Jason Ekstrand <jason@jlekstrand.net>
+> > Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+>
+> Need to retract this r-b here until the issue below is fixed.
+>
+> > ---
+> >  drivers/gpu/drm/i915/gem/i915_gem_context.c   | 262 ------------------
+> >  .../gpu/drm/i915/gem/i915_gem_context_types.h |   2 +-
+> >  .../drm/i915/gem/selftests/i915_gem_context.c | 119 --------
+> >  .../drm/i915/selftests/i915_mock_selftests.h  |   1 -
+> >  4 files changed, 1 insertion(+), 383 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context.c b/drivers/gpu/drm/i915/gem/i915_gem_context.c
+> > index f74c22dc506ec..2f3d92224d2fe 100644
+> > --- a/drivers/gpu/drm/i915/gem/i915_gem_context.c
+> > +++ b/drivers/gpu/drm/i915/gem/i915_gem_context.c
+> > @@ -1633,120 +1633,6 @@ int i915_gem_vm_destroy_ioctl(struct drm_device *dev, void *data,
+> >       return 0;
+> >  }
+> >
+> > -struct context_barrier_task {
+> > -     struct i915_active base;
+> > -     void (*task)(void *data);
+> > -     void *data;
+> > -};
+> > -
+> > -static void cb_retire(struct i915_active *base)
+> > -{
+> > -     struct context_barrier_task *cb = container_of(base, typeof(*cb), base);
+> > -
+> > -     if (cb->task)
+> > -             cb->task(cb->data);
+> > -
+> > -     i915_active_fini(&cb->base);
+> > -     kfree(cb);
+> > -}
+> > -
+> > -I915_SELFTEST_DECLARE(static intel_engine_mask_t context_barrier_inject_fault);
+> > -static int context_barrier_task(struct i915_gem_context *ctx,
+> > -                             intel_engine_mask_t engines,
+> > -                             bool (*skip)(struct intel_context *ce, void *data),
+> > -                             int (*pin)(struct intel_context *ce, struct i915_gem_ww_ctx *ww, void *data),
+> > -                             int (*emit)(struct i915_request *rq, void *data),
+> > -                             void (*task)(void *data),
+> > -                             void *data)
+> > -{
+> > -     struct context_barrier_task *cb;
+> > -     struct i915_gem_engines_iter it;
+> > -     struct i915_gem_engines *e;
+> > -     struct i915_gem_ww_ctx ww;
+> > -     struct intel_context *ce;
+> > -     int err = 0;
+> > -
+> > -     GEM_BUG_ON(!task);
+> > -
+> > -     cb = kmalloc(sizeof(*cb), GFP_KERNEL);
+> > -     if (!cb)
+> > -             return -ENOMEM;
+> > -
+> > -     i915_active_init(&cb->base, NULL, cb_retire, 0);
+> > -     err = i915_active_acquire(&cb->base);
+> > -     if (err) {
+> > -             kfree(cb);
+> > -             return err;
+> > -     }
+> > -
+> > -     e = __context_engines_await(ctx, NULL);
+> > -     if (!e) {
+> > -             i915_active_release(&cb->base);
+> > -             return -ENOENT;
+> > -     }
+> > -
+> > -     for_each_gem_engine(ce, e, it) {
+> > -             struct i915_request *rq;
+> > -
+> > -             if (I915_SELFTEST_ONLY(context_barrier_inject_fault &
+> > -                                    ce->engine->mask)) {
+> > -                     err = -ENXIO;
+> > -                     break;
+> > -             }
+> > -
+> > -             if (!(ce->engine->mask & engines))
+> > -                     continue;
+> > -
+> > -             if (skip && skip(ce, data))
+> > -                     continue;
+> > -
+> > -             i915_gem_ww_ctx_init(&ww, true);
+> > -retry:
+> > -             err = intel_context_pin_ww(ce, &ww);
+> > -             if (err)
+> > -                     goto err;
+> > -
+> > -             if (pin)
+> > -                     err = pin(ce, &ww, data);
+> > -             if (err)
+> > -                     goto err_unpin;
+> > -
+> > -             rq = i915_request_create(ce);
+> > -             if (IS_ERR(rq)) {
+> > -                     err = PTR_ERR(rq);
+> > -                     goto err_unpin;
+> > -             }
+> > -
+> > -             err = 0;
+> > -             if (emit)
+> > -                     err = emit(rq, data);
+> > -             if (err == 0)
+> > -                     err = i915_active_add_request(&cb->base, rq);
+> > -
+> > -             i915_request_add(rq);
+> > -err_unpin:
+> > -             intel_context_unpin(ce);
+> > -err:
+> > -             if (err == -EDEADLK) {
+> > -                     err = i915_gem_ww_ctx_backoff(&ww);
+> > -                     if (!err)
+> > -                             goto retry;
+> > -             }
+> > -             i915_gem_ww_ctx_fini(&ww);
+> > -
+> > -             if (err)
+> > -                     break;
+> > -     }
+> > -     i915_sw_fence_complete(&e->fence);
+> > -
+> > -     cb->task = err ? NULL : task; /* caller needs to unwind instead */
+> > -     cb->data = data;
+> > -
+> > -     i915_active_release(&cb->base);
+> > -
+> > -     return err;
+> > -}
+> > -
+> >  static int get_ppgtt(struct drm_i915_file_private *file_priv,
+> >                    struct i915_gem_context *ctx,
+> >                    struct drm_i915_gem_context_param *args)
+> > @@ -1779,150 +1665,6 @@ static int get_ppgtt(struct drm_i915_file_private *file_priv,
+> >       return err;
+> >  }
+> >
+> > -static void set_ppgtt_barrier(void *data)
+> > -{
+> > -     struct i915_address_space *old = data;
+> > -
+> > -     if (GRAPHICS_VER(old->i915) < 8)
+> > -             gen6_ppgtt_unpin_all(i915_vm_to_ppgtt(old));
+> > -
+> > -     i915_vm_close(old);
+> > -}
+> > -
+> > -static int pin_ppgtt_update(struct intel_context *ce, struct i915_gem_ww_ctx *ww, void *data)
+> > -{
+> > -     struct i915_address_space *vm = ce->vm;
+> > -
+> > -     if (!HAS_LOGICAL_RING_CONTEXTS(vm->i915))
+> > -             /* ppGTT is not part of the legacy context image */
+> > -             return gen6_ppgtt_pin(i915_vm_to_ppgtt(vm), ww);
+> > -
+> > -     return 0;
+> > -}
+> > -
+> > -static int emit_ppgtt_update(struct i915_request *rq, void *data)
+> > -{
+> > -     struct i915_address_space *vm = rq->context->vm;
+> > -     struct intel_engine_cs *engine = rq->engine;
+> > -     u32 base = engine->mmio_base;
+> > -     u32 *cs;
+> > -     int i;
+> > -
+> > -     if (i915_vm_is_4lvl(vm)) {
+> > -             struct i915_ppgtt *ppgtt = i915_vm_to_ppgtt(vm);
+> > -             const dma_addr_t pd_daddr = px_dma(ppgtt->pd);
+> > -
+> > -             cs = intel_ring_begin(rq, 6);
+> > -             if (IS_ERR(cs))
+> > -                     return PTR_ERR(cs);
+> > -
+> > -             *cs++ = MI_LOAD_REGISTER_IMM(2);
+> > -
+> > -             *cs++ = i915_mmio_reg_offset(GEN8_RING_PDP_UDW(base, 0));
+> > -             *cs++ = upper_32_bits(pd_daddr);
+> > -             *cs++ = i915_mmio_reg_offset(GEN8_RING_PDP_LDW(base, 0));
+> > -             *cs++ = lower_32_bits(pd_daddr);
+> > -
+> > -             *cs++ = MI_NOOP;
+> > -             intel_ring_advance(rq, cs);
+> > -     } else if (HAS_LOGICAL_RING_CONTEXTS(engine->i915)) {
+> > -             struct i915_ppgtt *ppgtt = i915_vm_to_ppgtt(vm);
+> > -             int err;
+> > -
+> > -             /* Magic required to prevent forcewake errors! */
+> > -             err = engine->emit_flush(rq, EMIT_INVALIDATE);
+> > -             if (err)
+> > -                     return err;
+> > -
+> > -             cs = intel_ring_begin(rq, 4 * GEN8_3LVL_PDPES + 2);
+> > -             if (IS_ERR(cs))
+> > -                     return PTR_ERR(cs);
+> > -
+> > -             *cs++ = MI_LOAD_REGISTER_IMM(2 * GEN8_3LVL_PDPES) | MI_LRI_FORCE_POSTED;
+> > -             for (i = GEN8_3LVL_PDPES; i--; ) {
+> > -                     const dma_addr_t pd_daddr = i915_page_dir_dma_addr(ppgtt, i);
+> > -
+> > -                     *cs++ = i915_mmio_reg_offset(GEN8_RING_PDP_UDW(base, i));
+> > -                     *cs++ = upper_32_bits(pd_daddr);
+> > -                     *cs++ = i915_mmio_reg_offset(GEN8_RING_PDP_LDW(base, i));
+> > -                     *cs++ = lower_32_bits(pd_daddr);
+> > -             }
+> > -             *cs++ = MI_NOOP;
+> > -             intel_ring_advance(rq, cs);
+> > -     }
+> > -
+> > -     return 0;
+> > -}
+> > -
+> > -static bool skip_ppgtt_update(struct intel_context *ce, void *data)
+> > -{
+> > -     if (HAS_LOGICAL_RING_CONTEXTS(ce->engine->i915))
+> > -             return !ce->state;
+> > -     else
+> > -             return !atomic_read(&ce->pin_count);
+> > -}
+> > -
+> > -static int set_ppgtt(struct drm_i915_file_private *file_priv,
+> > -                  struct i915_gem_context *ctx,
+> > -                  struct drm_i915_gem_context_param *args)
+> > -{
+> > -     struct i915_address_space *vm, *old;
+> > -     int err;
+> > -
+> > -     if (args->size)
+> > -             return -EINVAL;
+> > -
+> > -     if (!rcu_access_pointer(ctx->vm))
+> > -             return -ENODEV;
+> > -
+> > -     if (upper_32_bits(args->value))
+> > -             return -ENOENT;
+> > -
+> > -     vm = i915_gem_vm_lookup(file_priv, args->value);
+> > -     if (!vm)
+> > -             return -ENOENT;
+> > -
+> > -     err = mutex_lock_interruptible(&ctx->mutex);
+> > -     if (err)
+> > -             goto out;
+> > -
+> > -     if (i915_gem_context_is_closed(ctx)) {
+> > -             err = -ENOENT;
+> > -             goto unlock;
+> > -     }
+> > -
+> > -     if (vm == rcu_access_pointer(ctx->vm))
+> > -             goto unlock;
+> > -
+> > -     old = __set_ppgtt(ctx, vm);
+> > -
+> > -     /* Teardown the existing obj:vma cache, it will have to be rebuilt. */
+> > -     lut_close(ctx);
+> > -
+> > -     /*
+> > -      * We need to flush any requests using the current ppgtt before
+> > -      * we release it as the requests do not hold a reference themselves,
+> > -      * only indirectly through the context.
+> > -      */
+> > -     err = context_barrier_task(ctx, ALL_ENGINES,
+> > -                                skip_ppgtt_update,
+> > -                                pin_ppgtt_update,
+> > -                                emit_ppgtt_update,
+> > -                                set_ppgtt_barrier,
+> > -                                old);
+> > -     if (err) {
+> > -             i915_vm_close(__set_ppgtt(ctx, old));
+> > -             i915_vm_close(old);
+> > -             lut_close(ctx); /* force a rebuild of the old obj:vma cache */
+> > -     }
+> > -
+> > -unlock:
+> > -     mutex_unlock(&ctx->mutex);
+> > -out:
+> > -     i915_vm_put(vm);
+> > -     return err;
+> > -}
+> > -
+> >  int
+> >  i915_gem_user_to_context_sseu(struct intel_gt *gt,
+> >                             const struct drm_i915_gem_context_param_sseu *user,
+> > @@ -2458,10 +2200,6 @@ static int ctx_setparam(struct drm_i915_file_private *fpriv,
+> >               ret = set_sseu(ctx, args);
+> >               break;
+> >
+> > -     case I915_CONTEXT_PARAM_VM:
+> > -             ret = set_ppgtt(fpriv, ctx, args);
+> > -             break;
+> > -
+> >       case I915_CONTEXT_PARAM_ENGINES:
+> >               ret = set_engines(ctx, args);
+> >               break;
+> > diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context_types.h b/drivers/gpu/drm/i915/gem/i915_gem_context_types.h
+> > index 94c03a97cb77c..540ad16204a97 100644
+> > --- a/drivers/gpu/drm/i915/gem/i915_gem_context_types.h
+> > +++ b/drivers/gpu/drm/i915/gem/i915_gem_context_types.h
+> > @@ -262,7 +262,7 @@ struct i915_gem_context {
+> >        * In other modes, this is a NULL pointer with the expectation that
+> >        * the caller uses the shared global GTT.
+> >        */
+> > -     struct i915_address_space __rcu *vm;
+> > +     struct i915_address_space *vm;
+>
+> Ok, you fixed this wrong. We can't just drop the __rcu here because in
+> various places we're probably relying on rcu_read_lock to give us a
+> temporary reference. Until that is sorted, the __rcu here needs to stay.
+>
+> That also takes of the 0day issue the kernel reported.
+>
+> To fixe the __rcu mismatches in i915_gem_context you probably need to
+> sprinkle some rcu_assign_pointer around.
 
-Yes, I think calling that unconditionally should be enough.
+It looks like every access to ctx->vm goes through an RCU helper
+already.  I've restored the __rcu.  Since this patch only deletes
+code, that should be sufficient as an incremental thing.  I'll
+double-check the next few patches to make sure we're still doing RCU
+properly.
 
-> 
-> > Meanwhile, I also started to wonder whether it's even right to call rmap_walk()
-> > with tail pages...  Please see below.
-> > 
-> > > +
-> > > +             /* Nuke the page table entry. */
-> > > +             flush_cache_page(vma, address, pte_pfn(*pvmw.pte));
-> > > +             pteval = ptep_clear_flush(vma, address, pvmw.pte);
-> > > +
-> > > +             /* Move the dirty bit to the page. Now the pte is gone. */
-> > > +             if (pte_dirty(pteval))
-> > > +                     set_page_dirty(page);
-> > > +
-> > > +             /*
-> > > +              * Check that our target page is still mapped at the expected
-> > > +              * address.
-> > > +              */
-> > > +             if (args->mm == mm && args->address == address &&
-> > > +                 pte_write(pteval))
-> > > +                     args->valid = true;
-> > > +
-> > > +             /*
-> > > +              * Store the pfn of the page in a special migration
-> > > +              * pte. do_swap_page() will wait until the migration
-> > > +              * pte is removed and then restart fault handling.
-> > > +              */
-> > > +             if (pte_write(pteval))
-> > > +                     entry = make_writable_device_exclusive_entry(
-> > > +                                                     page_to_pfn(subpage));
-> > > +             else
-> > > +                     entry = make_readable_device_exclusive_entry(
-> > > +                                                     page_to_pfn(subpage));
-> > > +             swp_pte = swp_entry_to_pte(entry);
-> > > +             if (pte_soft_dirty(pteval))
-> > > +                     swp_pte = pte_swp_mksoft_dirty(swp_pte);
-> > > +             if (pte_uffd_wp(pteval))
-> > > +                     swp_pte = pte_swp_mkuffd_wp(swp_pte);
-> > > +
-> > > +             set_pte_at(mm, address, pvmw.pte, swp_pte);
-> > > +
-> > > +             /*
-> > > +              * There is a reference on the page for the swap entry which has
-> > > +              * been removed, so shouldn't take another.
-> > > +              */
-> > > +             page_remove_rmap(subpage, false);
-> > > +     }
-> > > +
-> > > +     mmu_notifier_invalidate_range_end(&range);
-> > > +
-> > > +     return ret;
-> > > +}
-> > > +
-> > > +/**
-> > > + * page_make_device_exclusive - mark the page exclusively owned by a device
-> > > + * @page: the page to replace page table entries for
-> > > + * @mm: the mm_struct where the page is expected to be mapped
-> > > + * @address: address where the page is expected to be mapped
-> > > + * @owner: passed to MMU_NOTIFY_EXCLUSIVE range notifier callbacks
-> > > + *
-> > > + * Tries to remove all the page table entries which are mapping this page and
-> > > + * replace them with special device exclusive swap entries to grant a device
-> > > + * exclusive access to the page. Caller must hold the page lock.
-> > > + *
-> > > + * Returns false if the page is still mapped, or if it could not be unmapped
-> > > + * from the expected address. Otherwise returns true (success).
-> > > + */
-> > > +static bool page_make_device_exclusive(struct page *page, struct mm_struct *mm,
-> > > +                             unsigned long address, void *owner)
-> > > +{
-> > > +     struct make_exclusive_args args = {
-> > > +             .mm = mm,
-> > > +             .address = address,
-> > > +             .owner = owner,
-> > > +             .valid = false,
-> > > +     };
-> > > +     struct rmap_walk_control rwc = {
-> > > +             .rmap_one = page_make_device_exclusive_one,
-> > > +             .done = page_not_mapped,
-> > > +             .anon_lock = page_lock_anon_vma_read,
-> > > +             .arg = &args,
-> > > +     };
-> > > +
-> > > +     /*
-> > > +      * Restrict to anonymous pages for now to avoid potential writeback
-> > > +      * issues.
-> > > +      */
-> > > +     if (!PageAnon(page))
-> > > +             return false;
-> > > +
-> > > +     rmap_walk(page, &rwc);
-> > 
-> > Here we call rmap_walk() on each page we've got.  If it was thp then IIUC it'll
-> > become the tail pages to walk as the outcome of FOLL_SPLIT_PMD gup (please
-> > refer to the last reply of mine).  However now I'm uncertain whether we can do
-> > rmap_walk on tail page at all...  As rmap_walk_anon() has thp_nr_pages() which
-> > has:
-> > 
-> >         VM_BUG_ON_PGFLAGS(PageTail(page), page);
-> 
-> In either case (FOLL_SPLIT_PMD or not) my understanding is GUP will return a
-> sub/tail page (perhaps I mixed up some terminology in the last thread but I
-> think we're in agreement here).
-
-Aha, I totally missed this when I read last time (of follow_trans_huge_pmd)..
-
-	page += (addr & ~HPAGE_PMD_MASK) >> PAGE_SHIFT;
-
-Now I agree it'll always return subpage, even if thp mapped.  And do
-FOLL_SPLIT_PMD makes sense too to do early break on cow pages as you said
-before.
-
-> For thp this means we could end up passing
-> tail pages to rmap_walk(), however it doesn't actually walk them.
-> 
-> Based on the results of previous testing I had done I assumed rmap_walk()
-> filtered out tail pages. It does, and I didn't hit the BUG_ON above, but the
-> filtering was not as deliberate as assumed.
-> 
-> I've gone back and looked at what was happening in my earlier tests and the
-> tail pages get filtered because the VMA is not getting locked in
-> page_lock_anon_vma_read() due to failing this check:
-> 
-> 	anon_mapping = (unsigned long)READ_ONCE(page->mapping);
-> 	if ((anon_mapping & PAGE_MAPPING_FLAGS) != PAGE_MAPPING_ANON)
-> 		goto out;
-> 
-> And now I'm not sure it makes sense to read page->mapping of a tail page. So
-> it might be best if we explicitly ignore any tail pages returned from GUP, at
-> least for now (a future series will improve thp support such as adding a pmd
-> version for exclusive entries).
-
-I feel like it's illegal to access page->mapping of tail pages; I looked at
-what happens if we call page_anon_vma() on a tail page:
-
-struct anon_vma *page_anon_vma(struct page *page)
-{
-	unsigned long mapping;
-
-	page = compound_head(page);
-	mapping = (unsigned long)page->mapping;
-	if ((mapping & PAGE_MAPPING_FLAGS) != PAGE_MAPPING_ANON)
-		return NULL;
-	return __page_rmapping(page);
-}
-
-It'll just take the head's mapping instead.  It makes sense since the tail page
-shouldn't have a different value against the head page, afaiu.
-
-It would be great if thp experts could chim in.  Before that happens, I agree
-with you that a safer approach is to explicitly not walk a tail page for its
-rmap (and I think the rmap of a tail page will be the same of the head
-anyways.. since they seem to share the anon_vma as quoted).
-
-> 
-> > So... for thp mappings, wondering whether we should do normal GUP (without
-> > SPLIT), pass in always normal or head pages into rmap_walk(), but then
-> > unconditionally split_huge_pmd_address() in page_make_device_exclusive_one()?
-> 
-> That could work (although I think GUP will still return tail pages - see
-> follow_trans_huge_pmd() which is called from follow_pmd_mask() in gup).
-
-Agreed.
-
-> The main problem is split_huge_pmd_address() unconditionally calls a mmu
-> notifier so I would need to plumb in passing an owner everywhere which could
-> get messy.
-
-Could I ask why?  split_huge_pmd_address() will notify with CLEAR, so I'm a bit
-confused why we need to pass over the owner.
-
-I thought plumb it right before your EXCLUSIVE notifier init would work?
-
----8<---
-diff --git a/mm/rmap.c b/mm/rmap.c
-index a94d9aed9d95..360ce86f3822 100644
---- a/mm/rmap.c
-+++ b/mm/rmap.c
-@@ -2042,6 +2042,12 @@ static bool page_make_device_exclusive_one(struct page *page,
-        swp_entry_t entry;
-        pte_t swp_pte;
- 
-+       /*
-+        * Make sure thps split as device exclusive entries only support pte
-+        * level for now.
-+        */
-+       split_huge_pmd_address(vma, address, false, page);
-+
-        mmu_notifier_range_init_owner(&range, MMU_NOTIFY_EXCLUSIVE, 0, vma,
-                                      vma->vm_mm, address, min(vma->vm_end,
-                                      address + page_size(page)), args->owner);
----8<---
-
-Thanks,
-
--- 
-Peter Xu
-
+> With that addressed again
+>
+> Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+>
+> >
+> >       /**
+> >        * @pid: process id of creator
+> > diff --git a/drivers/gpu/drm/i915/gem/selftests/i915_gem_context.c b/drivers/gpu/drm/i915/gem/selftests/i915_gem_context.c
+> > index dbcfa28a9d91b..92544a174cc9a 100644
+> > --- a/drivers/gpu/drm/i915/gem/selftests/i915_gem_context.c
+> > +++ b/drivers/gpu/drm/i915/gem/selftests/i915_gem_context.c
+> > @@ -1875,125 +1875,6 @@ static int igt_vm_isolation(void *arg)
+> >       return err;
+> >  }
+> >
+> > -static bool skip_unused_engines(struct intel_context *ce, void *data)
+> > -{
+> > -     return !ce->state;
+> > -}
+> > -
+> > -static void mock_barrier_task(void *data)
+> > -{
+> > -     unsigned int *counter = data;
+> > -
+> > -     ++*counter;
+> > -}
+> > -
+> > -static int mock_context_barrier(void *arg)
+> > -{
+> > -#undef pr_fmt
+> > -#define pr_fmt(x) "context_barrier_task():" # x
+> > -     struct drm_i915_private *i915 = arg;
+> > -     struct i915_gem_context *ctx;
+> > -     struct i915_request *rq;
+> > -     unsigned int counter;
+> > -     int err;
+> > -
+> > -     /*
+> > -      * The context barrier provides us with a callback after it emits
+> > -      * a request; useful for retiring old state after loading new.
+> > -      */
+> > -
+> > -     ctx = mock_context(i915, "mock");
+> > -     if (!ctx)
+> > -             return -ENOMEM;
+> > -
+> > -     counter = 0;
+> > -     err = context_barrier_task(ctx, 0, NULL, NULL, NULL,
+> > -                                mock_barrier_task, &counter);
+> > -     if (err) {
+> > -             pr_err("Failed at line %d, err=%d\n", __LINE__, err);
+> > -             goto out;
+> > -     }
+> > -     if (counter == 0) {
+> > -             pr_err("Did not retire immediately with 0 engines\n");
+> > -             err = -EINVAL;
+> > -             goto out;
+> > -     }
+> > -
+> > -     counter = 0;
+> > -     err = context_barrier_task(ctx, ALL_ENGINES, skip_unused_engines,
+> > -                                NULL, NULL, mock_barrier_task, &counter);
+> > -     if (err) {
+> > -             pr_err("Failed at line %d, err=%d\n", __LINE__, err);
+> > -             goto out;
+> > -     }
+> > -     if (counter == 0) {
+> > -             pr_err("Did not retire immediately for all unused engines\n");
+> > -             err = -EINVAL;
+> > -             goto out;
+> > -     }
+> > -
+> > -     rq = igt_request_alloc(ctx, i915->gt.engine[RCS0]);
+> > -     if (IS_ERR(rq)) {
+> > -             pr_err("Request allocation failed!\n");
+> > -             goto out;
+> > -     }
+> > -     i915_request_add(rq);
+> > -
+> > -     counter = 0;
+> > -     context_barrier_inject_fault = BIT(RCS0);
+> > -     err = context_barrier_task(ctx, ALL_ENGINES, NULL, NULL, NULL,
+> > -                                mock_barrier_task, &counter);
+> > -     context_barrier_inject_fault = 0;
+> > -     if (err == -ENXIO)
+> > -             err = 0;
+> > -     else
+> > -             pr_err("Did not hit fault injection!\n");
+> > -     if (counter != 0) {
+> > -             pr_err("Invoked callback on error!\n");
+> > -             err = -EIO;
+> > -     }
+> > -     if (err)
+> > -             goto out;
+> > -
+> > -     counter = 0;
+> > -     err = context_barrier_task(ctx, ALL_ENGINES, skip_unused_engines,
+> > -                                NULL, NULL, mock_barrier_task, &counter);
+> > -     if (err) {
+> > -             pr_err("Failed at line %d, err=%d\n", __LINE__, err);
+> > -             goto out;
+> > -     }
+> > -     mock_device_flush(i915);
+> > -     if (counter == 0) {
+> > -             pr_err("Did not retire on each active engines\n");
+> > -             err = -EINVAL;
+> > -             goto out;
+> > -     }
+> > -
+> > -out:
+> > -     mock_context_close(ctx);
+> > -     return err;
+> > -#undef pr_fmt
+> > -#define pr_fmt(x) x
+> > -}
+> > -
+> > -int i915_gem_context_mock_selftests(void)
+> > -{
+> > -     static const struct i915_subtest tests[] = {
+> > -             SUBTEST(mock_context_barrier),
+> > -     };
+> > -     struct drm_i915_private *i915;
+> > -     int err;
+> > -
+> > -     i915 = mock_gem_device();
+> > -     if (!i915)
+> > -             return -ENOMEM;
+> > -
+> > -     err = i915_subtests(tests, i915);
+> > -
+> > -     mock_destroy_device(i915);
+> > -     return err;
+> > -}
+> > -
+> >  int i915_gem_context_live_selftests(struct drm_i915_private *i915)
+> >  {
+> >       static const struct i915_subtest tests[] = {
+> > diff --git a/drivers/gpu/drm/i915/selftests/i915_mock_selftests.h b/drivers/gpu/drm/i915/selftests/i915_mock_selftests.h
+> > index 34e5caf380933..0c22e0fc9059c 100644
+> > --- a/drivers/gpu/drm/i915/selftests/i915_mock_selftests.h
+> > +++ b/drivers/gpu/drm/i915/selftests/i915_mock_selftests.h
+> > @@ -32,5 +32,4 @@ selftest(vma, i915_vma_mock_selftests)
+> >  selftest(evict, i915_gem_evict_mock_selftests)
+> >  selftest(gtt, i915_gem_gtt_mock_selftests)
+> >  selftest(hugepages, i915_gem_huge_page_mock_selftests)
+> > -selftest(contexts, i915_gem_context_mock_selftests)
+> >  selftest(memory_region, intel_memory_region_mock_selftests)
+> > --
+> > 2.31.1
+> >
+> > _______________________________________________
+> > Intel-gfx mailing list
+> > Intel-gfx@lists.freedesktop.org
+> > https://lists.freedesktop.org/mailman/listinfo/intel-gfx
+>
+> --
+> Daniel Vetter
+> Software Engineer, Intel Corporation
+> http://blog.ffwll.ch
