@@ -2,61 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A990F3A1EA5
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Jun 2021 23:12:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0EEF93A1EAA
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Jun 2021 23:12:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A07C16E151;
-	Wed,  9 Jun 2021 21:12:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B2A6B6E303;
+	Wed,  9 Jun 2021 21:12:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x230.google.com (mail-lj1-x230.google.com
- [IPv6:2a00:1450:4864:20::230])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BF9496E151
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Jun 2021 21:12:14 +0000 (UTC)
-Received: by mail-lj1-x230.google.com with SMTP id u18so1632479lju.12
- for <dri-devel@lists.freedesktop.org>; Wed, 09 Jun 2021 14:12:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=ts8DwiaDqPOs2OwdpZWZvH9efpSW/cfgQfXfr2VJnsY=;
- b=qB6efk8WElbeGE4xkHwIJoJRj6pWdF2CQRTPayPhe7XJlXaCsGpankVzP4BGpJ/kcH
- NJux/CPKhxHQ4qbPoVUClT6qO6qA9hid44j8x8MJu9bk6UvEqJg1c/j83GzyDeHo4TOz
- 2frDpgoEU2XMktH5vaLeLPGv5Y+vs5nAZTJGqfE8q2YraucJNTgea/79IhX0L6KoINC5
- IiagOx74PxGjqwkH4YVjJu9tmOvDlTAi2dvQDZg9HrCSO3u5jf81lF7IGot/rFV1Y2qJ
- Di26JKunUoKcbdDOlILJFLWCK0Nx3oRrDZwgTDh4sR5ornwiProFxFbS5pR66cOAQ+40
- BUtQ==
+Received: from mail-ot1-x332.google.com (mail-ot1-x332.google.com
+ [IPv6:2607:f8b0:4864:20::332])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8E5106E332;
+ Wed,  9 Jun 2021 21:12:29 +0000 (UTC)
+Received: by mail-ot1-x332.google.com with SMTP id
+ i12-20020a05683033ecb02903346fa0f74dso25336672otu.10; 
+ Wed, 09 Jun 2021 14:12:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=X+vTwOmzwLF/GmiUHSZdVNz6KHeSQoupkzPT9DlPZJE=;
+ b=UXdMRlhsFFSxm/2Mk/c3mHNqpjn4ns2S31aVCngPlEAlxhlPqMJeo2LAHOKakytmzB
+ Wm0FplBGGEnaeJ4svs6nd4fp65TxM2SKVMcrS6Ywn8NaPXs7xSLOvmhCmmcTiL5FTCM3
+ /qgxdqIBTYAVRqjOKiZfbDKgCEpUjd0KkgmeDWsDGN2XtaoiaZ/RYfkdyVhhdpkM3GIn
+ SnGoxWlPdVfOq9P81ZMRiAiy+b+OCkA82+RFmAIPMFy85yi6PGuXzSwFkZd8GYW188MT
+ 93bZSz8GyuYPMbEjwxAq8hn9ky0h5jxM/9hshAEqQEITHGp0z/1x4sXsl5MNrqNRp5IW
+ Ro3g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=ts8DwiaDqPOs2OwdpZWZvH9efpSW/cfgQfXfr2VJnsY=;
- b=JEuqkOYvX7nJtq8hTDdpNzPB3RHqwdl02lEEwb1yxFXa5knYH19OdZ0K41FlCyQxF7
- qaS5r8zRq6UIl4QQQ6yT6qpejy7qsTD2nI9eAMArizCfobh8ArXo4HuzS9MzrxgF/HTF
- VGOEP4TYDyGYb9Ot9uhpQqRtj5zRfnZpQgr95myk4ULwkJVVxfozstl+WKOGbE6BGGg3
- TJn7AmNvHhU6sCg5cxf8Q9R5hqHocAFGKmTaGA5EcKU2EW6C9EVq/WhsCyxyxXQf3MbZ
- IlIbYKUqa299eEv22Nge9X0nQsLu8Yv0cLabxKGsKw9LBwl8pidWZbjkqOYWw+gZzt7d
- RLiA==
-X-Gm-Message-State: AOAM532LgxMzx3TQ+bA/yHjmSCo3nNsu5zymBVJtXGaqUmy8PLi3MjJH
- wcr7ySyAnDkCwaBfzGGvOBabeA==
-X-Google-Smtp-Source: ABdhPJxfRYXQjSzaFokCrJrThcfusHj/YwvYPxQ0C2/I6g+9g2UmLnKTBe+UUgUB8fatAO0nyvtKQg==
-X-Received: by 2002:a05:651c:2113:: with SMTP id
- a19mr579037ljq.431.1623273133115; 
- Wed, 09 Jun 2021 14:12:13 -0700 (PDT)
-Received: from eriador.lan ([37.153.55.125])
- by smtp.gmail.com with ESMTPSA id k24sm93130lji.76.2021.06.09.14.12.12
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 09 Jun 2021 14:12:12 -0700 (PDT)
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Bjorn Andersson <bjorn.andersson@linaro.org>,
- Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Abhinav Kumar <abhinavk@codeaurora.org>
-Subject: [PATCH] drm/msm/dsi: do not enable PHYs when called for the slave DSI
- interface
-Date: Thu, 10 Jun 2021 00:12:11 +0300
-Message-Id: <20210609211211.2561090-1-dmitry.baryshkov@linaro.org>
-X-Mailer: git-send-email 2.30.2
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=X+vTwOmzwLF/GmiUHSZdVNz6KHeSQoupkzPT9DlPZJE=;
+ b=eo1/D9UH9O5bZWo9QUoYM0/DgS0bSK3JO1v3H2mHCOAz3wmCrNRsLBXgayNm5ZnGek
+ RJ7JZqGpIZGQy5VcHp0YVO6DfY0aVO3J+n31A7de6nNtyktIjpM+BtkgIjcHTpPU/kDE
+ siKllsQQXqkb34wjocQp1fzOhRGJ/aCsWxXmX8ncMxrLpnWwwcFYmj40NWT4oY8ht7R+
+ OVe4KUg95zTDX4hi3ewJuksiK6LanjpGYBjSl1FhzPnyxp2rq8Gd3ccBBQwy7YhJPSH7
+ e3kvjgLbubfC60Fg/rmStDUbUfgRIZP6HbXPqXVcS476xlwBJZ5vhp9Z5VWWXfW7Cu40
+ kGxA==
+X-Gm-Message-State: AOAM531A12L5pzNgSjGpUOZME8tjXCjkO4LBUsHniFBINEbL4JouLjsF
+ ASfeBhB4qIRMlgIjgBdfJVun6lyeDTeheMCzgzA=
+X-Google-Smtp-Source: ABdhPJy5gjHIlujtByvS9IHsso8aiM/8W+YZHouRkqXFR2/zW0it21pwmOAG+IooOSApA2+nBXEpbk7ROb81/QPfn6w=
+X-Received: by 2002:a9d:6287:: with SMTP id x7mr1212482otk.132.1623273148945; 
+ Wed, 09 Jun 2021 14:12:28 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <1623233366-100202-1-git-send-email-jiapeng.chong@linux.alibaba.com>
+In-Reply-To: <1623233366-100202-1-git-send-email-jiapeng.chong@linux.alibaba.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Wed, 9 Jun 2021 17:12:18 -0400
+Message-ID: <CADnq5_Ms6Hv=PpSWXEabE1C0oQ=B37Mz1HYfxjn+vF9e8kK9SA@mail.gmail.com>
+Subject: Re: [PATCH] drm/amd/display: use ARRAY_SIZE for base60_refresh_rates
+To: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,44 +62,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jonathan Marek <jonathan@marek.ca>, Stephen Boyd <sboyd@kernel.org>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- David Airlie <airlied@linux.ie>, freedreno@lists.freedesktop.org
+Cc: "Leo \(Sunpeng\) Li" <sunpeng.li@amd.com>, xinhui pan <Xinhui.Pan@amd.com>,
+ LKML <linux-kernel@vger.kernel.org>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>, Dave Airlie <airlied@linux.ie>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>, "Deucher,
+ Alexander" <alexander.deucher@amd.com>,
+ Christian Koenig <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Move the call to dsi_mgr_phy_enable after checking whether the DSI
-interface is slave, so that PHY enablement happens together with the
-host enablement.
+Applied.  Thanks!
 
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
----
- drivers/gpu/drm/msm/dsi/dsi_manager.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/gpu/drm/msm/dsi/dsi_manager.c b/drivers/gpu/drm/msm/dsi/dsi_manager.c
-index cd016576e8c5..9243edada9ba 100644
---- a/drivers/gpu/drm/msm/dsi/dsi_manager.c
-+++ b/drivers/gpu/drm/msm/dsi/dsi_manager.c
-@@ -373,14 +373,14 @@ static void dsi_mgr_bridge_pre_enable(struct drm_bridge *bridge)
- 	if (!msm_dsi_device_connected(msm_dsi))
- 		return;
- 
--	ret = dsi_mgr_phy_enable(id, phy_shared_timings);
--	if (ret)
--		goto phy_en_fail;
--
- 	/* Do nothing with the host if it is slave-DSI in case of dual DSI */
- 	if (is_dual_dsi && !IS_MASTER_DSI_LINK(id))
- 		return;
- 
-+	ret = dsi_mgr_phy_enable(id, phy_shared_timings);
-+	if (ret)
-+		goto phy_en_fail;
-+
- 	ret = msm_dsi_host_power_on(host, &phy_shared_timings[id], is_dual_dsi);
- 	if (ret) {
- 		pr_err("%s: power on host %d failed, %d\n", __func__, id, ret);
--- 
-2.30.2
-
+On Wed, Jun 9, 2021 at 6:09 AM Jiapeng Chong
+<jiapeng.chong@linux.alibaba.com> wrote:
+>
+> Use ARRAY_SIZE instead of dividing sizeof array with sizeof an
+> element.
+>
+> Clean up the following coccicheck warning:
+>
+> ./drivers/gpu/drm/amd/display/dc/core/dc_resource.c:448:47-48: WARNING:
+> Use ARRAY_SIZE.
+>
+> Reported-by: Abaci Robot <abaci@linux.alibaba.com>
+> Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
+> ---
+>  drivers/gpu/drm/amd/display/dc/core/dc_resource.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_resource.c b/drivers/gpu/drm/amd/display/dc/core/dc_resource.c
+> index 57afe71..3f00989 100644
+> --- a/drivers/gpu/drm/amd/display/dc/core/dc_resource.c
+> +++ b/drivers/gpu/drm/amd/display/dc/core/dc_resource.c
+> @@ -445,7 +445,7 @@ bool resource_are_vblanks_synchronizable(
+>  {
+>         uint32_t base60_refresh_rates[] = {10, 20, 5};
+>         uint8_t i;
+> -       uint8_t rr_count = sizeof(base60_refresh_rates)/sizeof(base60_refresh_rates[0]);
+> +       uint8_t rr_count = ARRAY_SIZE(base60_refresh_rates);
+>         uint64_t frame_time_diff;
+>
+>         if (stream1->ctx->dc->config.vblank_alignment_dto_params &&
+> --
+> 1.8.3.1
+>
