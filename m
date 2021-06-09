@@ -2,49 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6D363A1CBA
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Jun 2021 20:28:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12FC93A1CE6
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Jun 2021 20:42:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DC21C6EAA3;
-	Wed,  9 Jun 2021 18:28:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 920E26E255;
+	Wed,  9 Jun 2021 18:42:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 297636E255;
- Wed,  9 Jun 2021 18:28:45 +0000 (UTC)
-IronPort-SDR: uwOzEpr61NqO7anYoLQ/0R0PuDBoBwDQ0auFrxH4v2ivllK0tEB+c8Hej9ds+OR7SIkIELU4A3
- LBxBrhp7yTrQ==
-X-IronPort-AV: E=McAfee;i="6200,9189,10010"; a="192452202"
-X-IronPort-AV: E=Sophos;i="5.83,261,1616482800"; d="scan'208";a="192452202"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Jun 2021 11:28:44 -0700
-IronPort-SDR: o38z2KE0/B/foXtppOkZb4nd70MmvCFb75jgsECqQmSNQORlqaYBY/LdLucHqB7IC6klS1Gxov
- GoyZTqnXrtOQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.83,261,1616482800"; d="scan'208";a="448385237"
-Received: from irvmail001.ir.intel.com ([10.43.11.63])
- by orsmga008.jf.intel.com with ESMTP; 09 Jun 2021 11:28:42 -0700
-Received: from [10.249.139.139] (mwajdecz-MOBL.ger.corp.intel.com
- [10.249.139.139])
- by irvmail001.ir.intel.com (8.14.3/8.13.6/MailSET/Hub) with ESMTP id
- 159ISfrw007986; Wed, 9 Jun 2021 19:28:41 +0100
-Subject: Re: [PATCH 06/13] drm/i915/guc: New definition of the CTB descriptor
-To: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
- Matthew Brost <matthew.brost@intel.com>,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-References: <20210607180356.165785-1-matthew.brost@intel.com>
- <20210607180356.165785-7-matthew.brost@intel.com>
- <65728a0f-5042-362b-1f92-575b0b2875ac@intel.com>
-From: Michal Wajdeczko <michal.wajdeczko@intel.com>
-Message-ID: <2e4a5977-c9ac-e703-17ea-444ae438a872@intel.com>
-Date: Wed, 9 Jun 2021 20:28:40 +0200
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.2
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B73BC6E255
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Jun 2021 18:42:04 +0000 (UTC)
+IronPort-SDR: Dn5nnkecEw6EYBTNmA3rFTenot8cviaIaiHj8z60+Z8yfesmByoHbHvy/mflm3hFdyGMk3g83z
+ iQ9sgsboPFUw==
+X-IronPort-AV: E=McAfee;i="6200,9189,10010"; a="184829783"
+X-IronPort-AV: E=Sophos;i="5.83,261,1616482800"; d="scan'208";a="184829783"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Jun 2021 11:42:03 -0700
+IronPort-SDR: 0xhC3MmzxyUiIuAFHMJ5crmcNWfcmh1gD2oc2U1ZufKSAiaQSm2hRiNmfLasVjwVDHgrYex/Rf
+ HlPR34dlVb6Q==
+X-IronPort-AV: E=Sophos;i="5.83,261,1616482800"; d="scan'208";a="552769948"
+Received: from vkasired-desk2.fm.intel.com ([10.105.128.127])
+ by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Jun 2021 11:42:03 -0700
+From: Vivek Kasireddy <vivek.kasireddy@intel.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH] udmabuf: Add support for mapping hugepages (v4)
+Date: Wed,  9 Jun 2021 11:29:15 -0700
+Message-Id: <20210609182915.592743-1-vivek.kasireddy@intel.com>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20210609065640.an5vxoup7yesenwb@sirius.home.kraxel.org>
+References: <20210609065640.an5vxoup7yesenwb@sirius.home.kraxel.org>
 MIME-Version: 1.0
-In-Reply-To: <65728a0f-5042-362b-1f92-575b0b2875ac@intel.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -58,336 +47,124 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: john.c.harrison@intel.com
+Cc: Dongwon Kim <dongwon.kim@intel.com>,
+ Vivek Kasireddy <vivek.kasireddy@intel.com>, Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+If the VMM's (Qemu) memory backend is backed up by memfd + Hugepages
+(hugetlbfs and not THP), we have to first find the hugepage(s) where
+the Guest allocations are located and then extract the regular 4k
+sized subpages from them.
 
+v2: Ensure that the subpage and hugepage offsets are calculated correctly
+when the range of subpage allocations cuts across multiple hugepages.
 
-On 08.06.2021 02:59, Daniele Ceraolo Spurio wrote:
-> 
-> 
-> On 6/7/2021 11:03 AM, Matthew Brost wrote:
->> From: Michal Wajdeczko <michal.wajdeczko@intel.com>
->>
->> Definition of the CTB descriptor has changed, leaving only
->> minimal shared fields like HEAD/TAIL/STATUS.
->>
->> Both HEAD and TAIL are now in dwords.
->>
->> Add some ABI documentation and implement required changes.
->>
->> Signed-off-by: Michal Wajdeczko <michal.wajdeczko@intel.com>
->> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
->> ---
->>   .../gt/uc/abi/guc_communication_ctb_abi.h     | 70 ++++++++++++++-----
->>   drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c     | 70 +++++++++----------
->>   drivers/gpu/drm/i915/gt/uc/intel_guc_ct.h     |  2 +-
->>   3 files changed, 85 insertions(+), 57 deletions(-)
->>
->> diff --git
->> a/drivers/gpu/drm/i915/gt/uc/abi/guc_communication_ctb_abi.h
->> b/drivers/gpu/drm/i915/gt/uc/abi/guc_communication_ctb_abi.h
->> index d38935f47ecf..c2a069a78e01 100644
->> --- a/drivers/gpu/drm/i915/gt/uc/abi/guc_communication_ctb_abi.h
->> +++ b/drivers/gpu/drm/i915/gt/uc/abi/guc_communication_ctb_abi.h
->> @@ -7,6 +7,58 @@
->>   #define _ABI_GUC_COMMUNICATION_CTB_ABI_H
->>     #include <linux/types.h>
->> +#include <linux/build_bug.h>
->> +
->> +#include "guc_messages_abi.h"
->> +
->> +/**
->> + * DOC: CT Buffer
->> + *
->> + * TBD
-> 
-> What's the plan with this TBD here?
+v3: Instead of repeatedly looking up the hugepage for each subpage,
+only do it when the subpage allocation crosses over into a different
+hugepage. (suggested by Gerd and DW)
 
-Plan was to add some updated text based on old "DOC: CTB based
-communication" section
+v4: Fix the following warning identified by checkpatch:
+CHECK:OPEN_ENDED_LINE: Lines should not end with a '('
 
-> 
->> + */
->> +
->> +/**
->> + * DOC: CTB Descriptor
->> + *
->> + * 
->> +---+-------+--------------------------------------------------------------+
->>
->> + *  |   | Bits  |
->> Description                                                  |
->> + * 
->> +===+=======+==============================================================+
->>
->> + *  | 0 |  31:0 | **HEAD** - offset (in dwords) to the last dword
->> that was     |
->> + *  |   |       | read from the `CT
->> Buffer`_.                                  |
->> + *  |   |       | It can only be updated by the
->> receiver.                      |
->> + * 
->> +---+-------+--------------------------------------------------------------+
->>
->> + *  | 1 |  31:0 | **TAIL** - offset (in dwords) to the last dword
->> that was     |
->> + *  |   |       | written to the `CT
->> Buffer`_.                                 |
->> + *  |   |       | It can only be updated by the
->> sender.                        |
->> + * 
->> +---+-------+--------------------------------------------------------------+
->>
->> + *  | 2 |  31:0 | **STATUS** - status of the
->> CTB                               |
->> + *  |   |      
->> |                                                              |
->> + *  |   |       |   - _`GUC_CTB_STATUS_NO_ERROR` = 0 (normal
->> operation)        |
->> + *  |   |       |   - _`GUC_CTB_STATUS_OVERFLOW` = 1 (head/tail too
->> large)     |
->> + *  |   |       |   - _`GUC_CTB_STATUS_UNDERFLOW` = 2 (truncated
->> message)      |
->> + *  |   |       |   - _`GUC_CTB_STATUS_MISMATCH` = 4 (head/tail
->> modified)      |
->> + *  |   |       |   - _`GUC_CTB_STATUS_NO_BACKCHANNEL` =
->> 8                     |
->> + *  |   |       |   - _`GUC_CTB_STATUS_MALFORMED_MSG` =
->> 16                     |
-> 
-> I don't see the last 2 error (8 & 16) in the 62.0.0 specs. Where is the
-> reference for them?
+Cc: Gerd Hoffmann <kraxel@redhat.com>
+Signed-off-by: Vivek Kasireddy <vivek.kasireddy@intel.com>
+Signed-off-by: Dongwon Kim <dongwon.kim@intel.com>
+---
+ drivers/dma-buf/udmabuf.c | 50 +++++++++++++++++++++++++++++++++------
+ 1 file changed, 43 insertions(+), 7 deletions(-)
 
-both were discussed on various meetings but likely didn't make into
-final spec 62, so for now we can drop them both
+diff --git a/drivers/dma-buf/udmabuf.c b/drivers/dma-buf/udmabuf.c
+index db732f71e59a..d509f0d60794 100644
+--- a/drivers/dma-buf/udmabuf.c
++++ b/drivers/dma-buf/udmabuf.c
+@@ -11,6 +11,7 @@
+ #include <linux/shmem_fs.h>
+ #include <linux/slab.h>
+ #include <linux/udmabuf.h>
++#include <linux/hugetlb.h>
+ 
+ static const u32    list_limit = 1024;  /* udmabuf_create_list->count limit */
+ static const size_t size_limit_mb = 64; /* total dmabuf size, in megabytes  */
+@@ -160,10 +161,13 @@ static long udmabuf_create(struct miscdevice *device,
+ {
+ 	DEFINE_DMA_BUF_EXPORT_INFO(exp_info);
+ 	struct file *memfd = NULL;
++	struct address_space *mapping = NULL;
+ 	struct udmabuf *ubuf;
+ 	struct dma_buf *buf;
+ 	pgoff_t pgoff, pgcnt, pgidx, pgbuf = 0, pglimit;
+-	struct page *page;
++	struct page *page, *hpage = NULL;
++	pgoff_t subpgoff, maxsubpgs;
++	struct hstate *hpstate;
+ 	int seals, ret = -EINVAL;
+ 	u32 i, flags;
+ 
+@@ -194,7 +198,8 @@ static long udmabuf_create(struct miscdevice *device,
+ 		memfd = fget(list[i].memfd);
+ 		if (!memfd)
+ 			goto err;
+-		if (!shmem_mapping(file_inode(memfd)->i_mapping))
++		mapping = file_inode(memfd)->i_mapping;
++		if (!shmem_mapping(mapping) && !is_file_hugepages(memfd))
+ 			goto err;
+ 		seals = memfd_fcntl(memfd, F_GET_SEALS, 0);
+ 		if (seals == -EINVAL)
+@@ -205,17 +210,48 @@ static long udmabuf_create(struct miscdevice *device,
+ 			goto err;
+ 		pgoff = list[i].offset >> PAGE_SHIFT;
+ 		pgcnt = list[i].size   >> PAGE_SHIFT;
++		if (is_file_hugepages(memfd)) {
++			hpstate = hstate_file(memfd);
++			pgoff = list[i].offset >> huge_page_shift(hpstate);
++			subpgoff = (list[i].offset &
++				    ~huge_page_mask(hpstate)) >> PAGE_SHIFT;
++			maxsubpgs = huge_page_size(hpstate) >> PAGE_SHIFT;
++		}
+ 		for (pgidx = 0; pgidx < pgcnt; pgidx++) {
+-			page = shmem_read_mapping_page(
+-				file_inode(memfd)->i_mapping, pgoff + pgidx);
+-			if (IS_ERR(page)) {
+-				ret = PTR_ERR(page);
+-				goto err;
++			if (is_file_hugepages(memfd)) {
++				if (!hpage) {
++					hpage = find_get_page_flags(mapping,
++							pgoff, FGP_ACCESSED);
++					if (IS_ERR(hpage)) {
++						ret = PTR_ERR(hpage);
++						goto err;
++					}
++				}
++				page = hpage + subpgoff;
++				get_page(page);
++				subpgoff++;
++				if (subpgoff == maxsubpgs) {
++					put_page(hpage);
++					hpage = NULL;
++					subpgoff = 0;
++					pgoff++;
++				}
++			} else {
++				page = shmem_read_mapping_page(mapping,
++							       pgoff + pgidx);
++				if (IS_ERR(page)) {
++					ret = PTR_ERR(page);
++					goto err;
++				}
+ 			}
+ 			ubuf->pages[pgbuf++] = page;
+ 		}
+ 		fput(memfd);
+ 		memfd = NULL;
++		if (hpage) {
++			put_page(hpage);
++			hpage = NULL;
++		}
+ 	}
+ 
+ 	exp_info.ops  = &udmabuf_ops;
+-- 
+2.30.2
 
-> 
->> + * 
->> +---+-------+--------------------------------------------------------------+
->>
->> + *  |...|       | RESERVED =
->> MBZ                                               |
->> + * 
->> +---+-------+--------------------------------------------------------------+
->>
->> + *  | 15|  31:0 | RESERVED =
->> MBZ                                               |
->> + * 
->> +---+-------+--------------------------------------------------------------+
->>
->> + */
->> +
->> +struct guc_ct_buffer_desc {
->> +    u32 head;
->> +    u32 tail;
->> +    u32 status;
->> +#define GUC_CTB_STATUS_NO_ERROR                0
->> +#define GUC_CTB_STATUS_OVERFLOW                (1 << 0)
->> +#define GUC_CTB_STATUS_UNDERFLOW            (1 << 1)
->> +#define GUC_CTB_STATUS_MISMATCH                (1 << 2)
->> +#define GUC_CTB_STATUS_NO_BACKCHANNEL            (1 << 3)
->> +#define GUC_CTB_STATUS_MALFORMED_MSG            (1 << 4)
-> 
-> use BIT() ?
-
-as explained before, on ABI headers we didn't want any dependency and
-just use plain C
-
-> 
->> +    u32 reserved[13];
->> +} __packed;
->> +static_assert(sizeof(struct guc_ct_buffer_desc) == 64);
->>     /**
->>    * DOC: CTB based communication
->> @@ -60,24 +112,6 @@
->>    * - **flags**, holds various bits to control message handling
->>    */
->>   -/*
->> - * Describes single command transport buffer.
->> - * Used by both guc-master and clients.
->> - */
->> -struct guc_ct_buffer_desc {
->> -    u32 addr;        /* gfx address */
->> -    u64 host_private;    /* host private data */
->> -    u32 size;        /* size in bytes */
->> -    u32 head;        /* offset updated by GuC*/
->> -    u32 tail;        /* offset updated by owner */
->> -    u32 is_in_error;    /* error indicator */
->> -    u32 reserved1;
->> -    u32 reserved2;
->> -    u32 owner;        /* id of the channel owner */
->> -    u32 owner_sub_id;    /* owner-defined field for extra tracking */
->> -    u32 reserved[5];
->> -} __packed;
->> -
->>   /* Type of command transport buffer */
->>   #define INTEL_GUC_CT_BUFFER_TYPE_SEND    0x0u
->>   #define INTEL_GUC_CT_BUFFER_TYPE_RECV    0x1u
->> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
->> b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
->> index 63056ea0631e..3241a477196f 100644
->> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
->> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
->> @@ -112,32 +112,28 @@ static inline const char
->> *guc_ct_buffer_type_to_str(u32 type)
->>       }
->>   }
->>   -static void guc_ct_buffer_desc_init(struct guc_ct_buffer_desc *desc,
->> -                    u32 cmds_addr, u32 size)
->> +static void guc_ct_buffer_desc_init(struct guc_ct_buffer_desc *desc)
-> 
-> this function is called from only 1 place and only does a memset now, so
-> IMO we can just drop it and inline the memset.
-
-ok, but without enthusiasm ;)
-
-> 
-> The logic below matches the specs.
-> 
-> Daniele
-> 
->>   {
->>       memset(desc, 0, sizeof(*desc));
->> -    desc->addr = cmds_addr;
->> -    desc->size = size;
->> -    desc->owner = CTB_OWNER_HOST;
->>   }
->>   -static void guc_ct_buffer_reset(struct intel_guc_ct_buffer *ctb,
->> u32 cmds_addr)
->> +static void guc_ct_buffer_reset(struct intel_guc_ct_buffer *ctb)
->>   {
->>       ctb->broken = false;
->> -    guc_ct_buffer_desc_init(ctb->desc, cmds_addr, ctb->size);
->> +    guc_ct_buffer_desc_init(ctb->desc);
->>   }
->>     static void guc_ct_buffer_init(struct intel_guc_ct_buffer *ctb,
->>                      struct guc_ct_buffer_desc *desc,
->> -                   u32 *cmds, u32 size)
->> +                   u32 *cmds, u32 size_in_bytes)
->>   {
->> -    GEM_BUG_ON(size % 4);
->> +    GEM_BUG_ON(size_in_bytes % 4);
->>         ctb->desc = desc;
->>       ctb->cmds = cmds;
->> -    ctb->size = size;
->> +    ctb->size = size_in_bytes / 4;
->>   -    guc_ct_buffer_reset(ctb, 0);
->> +    guc_ct_buffer_reset(ctb);
->>   }
->>     static int guc_action_register_ct_buffer(struct intel_guc *guc,
->> @@ -279,10 +275,10 @@ int intel_guc_ct_enable(struct intel_guc_ct *ct)
->>         /* (re)initialize descriptors */
->>       cmds = base + ptrdiff(ct->ctbs.send.cmds, blob);
->> -    guc_ct_buffer_reset(&ct->ctbs.send, cmds);
->> +    guc_ct_buffer_reset(&ct->ctbs.send);
->>         cmds = base + ptrdiff(ct->ctbs.recv.cmds, blob);
->> -    guc_ct_buffer_reset(&ct->ctbs.recv, cmds);
->> +    guc_ct_buffer_reset(&ct->ctbs.recv);
->>         /*
->>        * Register both CT buffers starting with RECV buffer.
->> @@ -391,17 +387,15 @@ static int ct_write(struct intel_guc_ct *ct,
->>       if (unlikely(ctb->broken))
->>           return -EPIPE;
->>   -    if (unlikely(desc->is_in_error))
->> +    if (unlikely(desc->status))
->>           goto corrupted;
->>   -    if (unlikely(!IS_ALIGNED(head | tail, 4) ||
->> -             (tail | head) >= size))
->> +    if (unlikely((tail | head) >= size)) {
->> +        CT_ERROR(ct, "Invalid offsets head=%u tail=%u (size=%u)\n",
->> +             head, tail, size);
->> +        desc->status |= GUC_CTB_STATUS_OVERFLOW;
->>           goto corrupted;
->> -
->> -    /* later calculations will be done in dwords */
->> -    head /= 4;
->> -    tail /= 4;
->> -    size /= 4;
->> +    }
->>         /*
->>        * tail == head condition indicates empty. GuC FW does not support
->> @@ -447,14 +441,14 @@ static int ct_write(struct intel_guc_ct *ct,
->>        */
->>       write_barrier(ct);
->>   -    /* now update desc tail (back in bytes) */
->> -    desc->tail = tail * 4;
->> +    /* now update descriptor */
->> +    WRITE_ONCE(desc->tail, tail);
->> +
->>       return 0;
->>     corrupted:
->> -    CT_ERROR(ct, "Corrupted descriptor addr=%#x head=%u tail=%u
->> size=%u\n",
->> -         desc->addr, desc->head, desc->tail, desc->size);
->> -    desc->is_in_error = 1;
->> +    CT_ERROR(ct, "Corrupted descriptor head=%u tail=%u status=%#x\n",
->> +         desc->head, desc->tail, desc->status);
->>       ctb->broken = true;
->>       return -EPIPE;
->>   }
->> @@ -640,17 +634,15 @@ static int ct_read(struct intel_guc_ct *ct,
->> struct ct_incoming_msg **msg)
->>       if (unlikely(ctb->broken))
->>           return -EPIPE;
->>   -    if (unlikely(desc->is_in_error))
->> +    if (unlikely(desc->status))
->>           goto corrupted;
->>   -    if (unlikely(!IS_ALIGNED(head | tail, 4) ||
->> -             (tail | head) >= size))
->> +    if (unlikely((tail | head) >= size)) {
->> +        CT_ERROR(ct, "Invalid offsets head=%u tail=%u (size=%u)\n",
->> +             head, tail, size);
->> +        desc->status |= GUC_CTB_STATUS_OVERFLOW;
->>           goto corrupted;
->> -
->> -    /* later calculations will be done in dwords */
->> -    head /= 4;
->> -    tail /= 4;
->> -    size /= 4;
->> +    }
->>         /* tail == head condition indicates empty */
->>       available = tail - head;
->> @@ -677,6 +669,7 @@ static int ct_read(struct intel_guc_ct *ct, struct
->> ct_incoming_msg **msg)
->>                     size - head : available - 1), &cmds[head],
->>                4 * (head + available - 1 > size ?
->>                     available - 1 - size + head : 0), &cmds[0]);
->> +        desc->status |= GUC_CTB_STATUS_UNDERFLOW;
->>           goto corrupted;
->>       }
->>   @@ -699,13 +692,14 @@ static int ct_read(struct intel_guc_ct *ct,
->> struct ct_incoming_msg **msg)
->>       }
->>       CT_DEBUG(ct, "received %*ph\n", 4 * len, (*msg)->msg);
->>   -    desc->head = head * 4;
->> +    /* now update descriptor */
->> +    WRITE_ONCE(desc->head, head);
->> +
->>       return available - len;
->>     corrupted:
->> -    CT_ERROR(ct, "Corrupted descriptor addr=%#x head=%u tail=%u
->> size=%u\n",
->> -         desc->addr, desc->head, desc->tail, desc->size);
->> -    desc->is_in_error = 1;
->> +    CT_ERROR(ct, "Corrupted descriptor head=%u tail=%u status=%#x\n",
->> +         desc->head, desc->tail, desc->status);
->>       ctb->broken = true;
->>       return -EPIPE;
->>   }
->> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.h
->> b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.h
->> index 7d3cd375d6a7..905202caaad3 100644
->> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.h
->> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.h
->> @@ -31,7 +31,7 @@ struct intel_guc;
->>    * @lock: protects access to the commands buffer and buffer descriptor
->>    * @desc: pointer to the buffer descriptor
->>    * @cmds: pointer to the commands buffer
->> - * @size: size of the commands buffer
->> + * @size: size of the commands buffer in dwords
->>    * @broken: flag to indicate if descriptor data is broken
->>    */
->>   struct intel_guc_ct_buffer {
-> 
