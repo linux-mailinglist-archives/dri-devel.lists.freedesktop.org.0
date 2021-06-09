@@ -1,67 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B0EE3A0DF3
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Jun 2021 09:44:01 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D1153A0DF6
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Jun 2021 09:44:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CD2AD89FA6;
-	Wed,  9 Jun 2021 07:43:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 07B366E42A;
+	Wed,  9 Jun 2021 07:44:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com
- [IPv6:2a00:1450:4864:20::335])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A384E89FA6
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Jun 2021 07:43:58 +0000 (UTC)
-Received: by mail-wm1-x335.google.com with SMTP id
- h22-20020a05600c3516b02901a826f84095so3493214wmq.5
- for <dri-devel@lists.freedesktop.org>; Wed, 09 Jun 2021 00:43:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=4Ed9mm909+j2egVHjfeRzyEVoKd06Gn517VmwgTGDNY=;
- b=ihs/M3HXxfcfdqcK6ShERGmNiIwPqOR4VL78BLcUpL2KZujymyOFRY/qkAe+5slhsW
- QGGw1zRiCl3/oKgVIG0L5N/UwmRohLjxkvDZYW0ZgMgueMUgQ5p5KxICAKZgBW5MByI6
- 1wvCIUA4w09NWUzZMCsAe/bdnLIHleQDciilgfOlygDXs/99S1fxZBhSQw6YZDXtKLlB
- V41F7zfaEGWNQ5hZOl22FQ+UI2Sr/vnqfRXBRST0lTMBAO+FcANq+f6kJlFDVIetgOv4
- 5yuqeeUBORrQos9RQszQJMuytnjC2598FLs9JBlRP5FS28zZQcfdYtjdaRYVh/4Ldxoy
- rfRA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=4Ed9mm909+j2egVHjfeRzyEVoKd06Gn517VmwgTGDNY=;
- b=Z6Pi4DVIdeIlpFHWYOSpsfSw5cN8bU6LNo3DMss3wKtURdvfwbtelL0B9ZSyzT4U2d
- L7AVv1mbISXdH65DV/rLZgefsXOTYaXGQC2R93iQ/QZ+t5vj5E/CjpDOA8FOtSkAc7jz
- 4LWKmSNTae7BwagILBarpAvx+8APUffWqvL1ILOCe+UV6MLN4qk3FKYoH0XlSmjgMQy4
- GwGhJ4fDGMwew+X0CQabOcayk3MivniADCPMqU+QzTq5CFnso5ly9niIp9y4kLjKr3im
- dv7tDLdLKmbh7Vkj2SH9H+F/eWh3LZfsA4cmS58xbjZnsD2aI20faBXfTRQBJIvN36Mn
- WBsg==
-X-Gm-Message-State: AOAM532AXNM5PNT4vJ2HXfq3IgCO8WHwd+q7nrry0YMfY632FrAwkLtH
- kdYQfjnUYuMVSEuFviTTM+U=
-X-Google-Smtp-Source: ABdhPJy1TN5g9HVPQta2ngBPCU9iX96cZHpN+j/ZJV4T2M0MwzeH3BbE0S0m5qwPSCAQmLDWiA+gmw==
-X-Received: by 2002:a7b:c189:: with SMTP id y9mr26040858wmi.106.1623224637195; 
- Wed, 09 Jun 2021 00:43:57 -0700 (PDT)
-Received: from ziggy.stardust (81.172.61.185.dyn.user.ono.com. [81.172.61.185])
- by smtp.gmail.com with ESMTPSA id q3sm22548486wrr.43.2021.06.09.00.43.56
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 09 Jun 2021 00:43:56 -0700 (PDT)
-Subject: Re: [PATCH v5, 3/4] soc: mediatek: mmsys: add component RDMA4
-To: Yongqiang Niu <yongqiang.niu@mediatek.com>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>
-References: <1618236288-1617-1-git-send-email-yongqiang.niu@mediatek.com>
- <1618236288-1617-4-git-send-email-yongqiang.niu@mediatek.com>
-From: Matthias Brugger <matthias.bgg@gmail.com>
-Message-ID: <a1824cdc-7e2f-a38f-d019-e1d8f92ead2b@gmail.com>
-Date: Wed, 9 Jun 2021 09:43:55 +0200
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9918A6E3A0;
+ Wed,  9 Jun 2021 07:44:07 +0000 (UTC)
+IronPort-SDR: RO7kROxoQNUfk53WoV2Mpa0+xikdbUK7Y1+0JDNg2CVOQ2zSwG6DPGsrvDv6U9s25n/huoZ47i
+ pF0vixQ7Trjw==
+X-IronPort-AV: E=McAfee;i="6200,9189,10009"; a="266177122"
+X-IronPort-AV: E=Sophos;i="5.83,260,1616482800"; d="scan'208";a="266177122"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Jun 2021 00:44:06 -0700
+IronPort-SDR: 22Z64FUVcr6zVdgRm6BZFbJ72kZ9j/NdifXGNgT3fFWuY2Gfbbw8nOi+xIfd/tD3nf9yCRlUcE
+ tBDiEfZoDAcA==
+X-IronPort-AV: E=Sophos;i="5.83,260,1616482800"; d="scan'208";a="419195869"
+Received: from gbwalsh-mobl6.ger.corp.intel.com (HELO [10.252.10.147])
+ ([10.252.10.147])
+ by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Jun 2021 00:44:05 -0700
+Subject: Re: [PATCH v2 4/9] drm/i915/gt: Add an insert_entry for gen8_ppgtt
+To: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+References: <20210609063436.284332-1-thomas.hellstrom@linux.intel.com>
+ <20210609063436.284332-5-thomas.hellstrom@linux.intel.com>
+From: Matthew Auld <matthew.auld@intel.com>
+Message-ID: <e75712c3-af00-e0be-6ee1-3203e7242065@intel.com>
+Date: Wed, 9 Jun 2021 08:44:02 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.2
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-In-Reply-To: <1618236288-1617-4-git-send-email-yongqiang.niu@mediatek.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <20210609063436.284332-5-thomas.hellstrom@linux.intel.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,45 +53,15 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org,
- Project_Global_Chrome_Upstream_Group@mediatek.com,
- David Airlie <airlied@linux.ie>, Jassi Brar <jassisinghbrar@gmail.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Dennis YC Hsieh <dennis-yc.hsieh@mediatek.com>,
- Fabien Parent <fparent@baylibre.com>, Rob Herring <robh+dt@kernel.org>,
- linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org
+Cc: Chris Wilson <chris@chris-wilson.co.uk>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-On 12/04/2021 16:04, Yongqiang Niu wrote:
-> This patch add component RDMA4
+On 09/06/2021 07:34, Thomas Hellström wrote:
+> From: Chris Wilson <chris@chris-wilson.co.uk>
 > 
-> Signed-off-by: Yongqiang Niu <yongqiang.niu@mediatek.com>
-> Reviewed-by: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-> ---
->  include/linux/soc/mediatek/mtk-mmsys.h | 1 +
->  1 file changed, 1 insertion(+)
+> In the next patch, we will want to write a PTE for an explicit
+> dma address, outside of the usual vma.
 > 
-> diff --git a/include/linux/soc/mediatek/mtk-mmsys.h b/include/linux/soc/mediatek/mtk-mmsys.h
-> index 7718cd6..4bba275 100644
-> --- a/include/linux/soc/mediatek/mtk-mmsys.h
-> +++ b/include/linux/soc/mediatek/mtk-mmsys.h
-> @@ -38,6 +38,7 @@ enum mtk_ddp_comp_id {
->  	DDP_COMPONENT_RDMA0,
->  	DDP_COMPONENT_RDMA1,
->  	DDP_COMPONENT_RDMA2,
-> +	DDP_COMPONENT_RDMA4,
-
-Pach 1-3 looks good, but could be squashed in one patch. Please try to come up
-with a more descriptive commit message. Rule of thumb is to explain why we need
-a patch not what the patch does.
-
-Regards,
-Matthias
-
->  	DDP_COMPONENT_UFOE,
->  	DDP_COMPONENT_WDMA0,
->  	DDP_COMPONENT_WDMA1,
-> 
+> Signed-off-by: Chris Wilson <chris@chris-wilson.co.uk>
+Reviewed-by: Matthew Auld <matthew.auld@intel.com>
