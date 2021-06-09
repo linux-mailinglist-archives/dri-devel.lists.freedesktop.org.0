@@ -2,45 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB3303A13D7
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Jun 2021 14:11:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F53D3A13FE
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Jun 2021 14:15:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 56CED6E96A;
-	Wed,  9 Jun 2021 12:11:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BACEF89CCB;
+	Wed,  9 Jun 2021 12:15:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C9D266E929
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Jun 2021 12:11:06 +0000 (UTC)
-Received: from dude.hi.pengutronix.de ([2001:67c:670:100:1d::7])
- by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <ore@pengutronix.de>)
- id 1lqx2q-0007WQ-ET; Wed, 09 Jun 2021 14:10:52 +0200
-Received: from ore by dude.hi.pengutronix.de with local (Exim 4.92)
- (envelope-from <ore@pengutronix.de>)
- id 1lqx2o-0004tN-Vo; Wed, 09 Jun 2021 14:10:50 +0200
-From: Oleksij Rempel <o.rempel@pengutronix.de>
-To: Arnd Bergmann <arnd@arndb.de>, Daniel Vetter <daniel@ffwll.ch>,
- David Airlie <airlied@linux.ie>, Olof Johansson <olof@lixom.net>,
- Rob Herring <robh+dt@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
- Shawn Guo <shawnguo@kernel.org>, soc@kernel.org,
- Thierry Reding <thierry.reding@gmail.com>
-Subject: [PATCH v1 4/4] ARM: dts: add SKOV imx6q and imx6dl based boards
-Date: Wed,  9 Jun 2021 14:10:50 +0200
-Message-Id: <20210609121050.18715-5-o.rempel@pengutronix.de>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20210609121050.18715-1-o.rempel@pengutronix.de>
-References: <20210609121050.18715-1-o.rempel@pengutronix.de>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 233F389CB8;
+ Wed,  9 Jun 2021 12:15:03 +0000 (UTC)
+IronPort-SDR: mFw/mOY5A/TkivdYlDtyKXcwqbsGNzYcL6NeCM4xJ4NvDnrPs4Lrw+puVpWGzugrrroQYyOZEV
+ jbGZcZJyKkiw==
+X-IronPort-AV: E=McAfee;i="6200,9189,10009"; a="192167988"
+X-IronPort-AV: E=Sophos;i="5.83,260,1616482800"; d="scan'208";a="192167988"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Jun 2021 05:15:00 -0700
+IronPort-SDR: +tc7uyAjgI3A/3AjsGjEV93za3312+NOv4b6IbqOEThxtPS2kj+7/tLlhzDgd4UeGjdj7mMx/Z
+ fGWLFJdBoGcQ==
+X-IronPort-AV: E=Sophos;i="5.83,260,1616482800"; d="scan'208";a="419259781"
+Received: from gbwalsh-mobl6.ger.corp.intel.com (HELO [10.252.10.147])
+ ([10.252.10.147])
+ by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Jun 2021 05:14:58 -0700
+Subject: Re: [PATCH v2 7/9] drm/i915/gt: Pipelined page migration
+To: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+References: <20210609063436.284332-1-thomas.hellstrom@linux.intel.com>
+ <20210609063436.284332-8-thomas.hellstrom@linux.intel.com>
+From: Matthew Auld <matthew.auld@intel.com>
+Message-ID: <718575f5-d681-c904-f607-43351d25b01a@intel.com>
+Date: Wed, 9 Jun 2021 13:14:56 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <20210609063436.284332-8-thomas.hellstrom@linux.intel.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
 Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::7
-X-SA-Exim-Mail-From: ore@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,1058 +53,249 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?q?Ulrich=20=C3=96lmann?= <u.oelmann@pengutronix.de>,
- Michael Grzeschik <m.grzeschik@pengutronix.de>, devicetree@vger.kernel.org,
- Marco Felsch <m.felsch@pengutronix.de>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Oleksij Rempel <o.rempel@pengutronix.de>,
- Juergen Borleis <jbe@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- =?UTF-8?q?S=C3=B8ren=20Andersen?= <san@skov.dk>,
- Sam Ravnborg <sam@ravnborg.org>, linux-arm-kernel@lists.infradead.org
+Cc: Chris Wilson <chris@chris-wilson.co.uk>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Sam Ravnborg <sam@ravnborg.org>
+On 09/06/2021 07:34, Thomas Hellström wrote:
+> From: Chris Wilson <chris@chris-wilson.co.uk>
+> 
+> If we pipeline the PTE updates and then do the copy of those pages
+> within a single unpreemptible command packet, we can submit the copies
+> and leave them to be scheduled without having to synchronously wait
+> under a global lock. In order to manage migration, we need to
+> preallocate the page tables (and keep them pinned and available for use
+> at any time), causing a bottleneck for migrations as all clients must
+> contend on the limited resources. By inlining the ppGTT updates and
+> performing the blit atomically, each client only owns the PTE while in
+> use, and so we can reschedule individual operations however we see fit.
+> And most importantly, we do not need to take a global lock on the shared
+> vm, and wait until the operation is complete before releasing the lock
+> for others to claim the PTE for themselves.
+> 
+> Signed-off-by: Chris Wilson <chris@chris-wilson.co.uk>
+> Co-developed-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+> Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+> ---
+> v2:
+> - Add a TODO for huge LMEM ptes (Pointed out by Matthew Auld)
+> - Use intel_engine_destroy_pinned_context() to properly take the pinned
+>    context timeline off the engine list. (CI warning).
+> ---
+>   drivers/gpu/drm/i915/Makefile                 |   1 +
+>   drivers/gpu/drm/i915/gt/intel_engine.h        |   1 +
+>   drivers/gpu/drm/i915/gt/intel_gpu_commands.h  |   2 +
+>   drivers/gpu/drm/i915/gt/intel_migrate.c       | 544 ++++++++++++++++++
+>   drivers/gpu/drm/i915/gt/intel_migrate.h       |  45 ++
+>   drivers/gpu/drm/i915/gt/intel_migrate_types.h |  15 +
+>   drivers/gpu/drm/i915/gt/intel_ring.h          |   1 +
+>   drivers/gpu/drm/i915/gt/selftest_migrate.c    | 291 ++++++++++
+>   .../drm/i915/selftests/i915_live_selftests.h  |   1 +
+>   9 files changed, 901 insertions(+)
+>   create mode 100644 drivers/gpu/drm/i915/gt/intel_migrate.c
+>   create mode 100644 drivers/gpu/drm/i915/gt/intel_migrate.h
+>   create mode 100644 drivers/gpu/drm/i915/gt/intel_migrate_types.h
+>   create mode 100644 drivers/gpu/drm/i915/gt/selftest_migrate.c
+> 
+> diff --git a/drivers/gpu/drm/i915/Makefile b/drivers/gpu/drm/i915/Makefile
+> index 16a5a006cf7c..95bd38e84625 100644
+> --- a/drivers/gpu/drm/i915/Makefile
+> +++ b/drivers/gpu/drm/i915/Makefile
+> @@ -108,6 +108,7 @@ gt-y += \
+>   	gt/intel_gtt.o \
+>   	gt/intel_llc.o \
+>   	gt/intel_lrc.o \
+> +	gt/intel_migrate.o \
+>   	gt/intel_mocs.o \
+>   	gt/intel_ppgtt.o \
+>   	gt/intel_rc6.o \
+> diff --git a/drivers/gpu/drm/i915/gt/intel_engine.h b/drivers/gpu/drm/i915/gt/intel_engine.h
+> index 36ea9eb52bb5..62f7440bc111 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_engine.h
+> +++ b/drivers/gpu/drm/i915/gt/intel_engine.h
+> @@ -188,6 +188,7 @@ intel_write_status_page(struct intel_engine_cs *engine, int reg, u32 value)
+>   #define I915_GEM_HWS_PREEMPT_ADDR	(I915_GEM_HWS_PREEMPT * sizeof(u32))
+>   #define I915_GEM_HWS_SEQNO		0x40
+>   #define I915_GEM_HWS_SEQNO_ADDR		(I915_GEM_HWS_SEQNO * sizeof(u32))
+> +#define I915_GEM_HWS_MIGRATE		(0x42 * sizeof(u32))
+>   #define I915_GEM_HWS_SCRATCH		0x80
+>   
+>   #define I915_HWS_CSB_BUF0_INDEX		0x10
+> diff --git a/drivers/gpu/drm/i915/gt/intel_gpu_commands.h b/drivers/gpu/drm/i915/gt/intel_gpu_commands.h
+> index 2694dbb9967e..1c3af0fc0456 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_gpu_commands.h
+> +++ b/drivers/gpu/drm/i915/gt/intel_gpu_commands.h
+> @@ -123,8 +123,10 @@
+>   #define   MI_SEMAPHORE_SAD_NEQ_SDD	(5 << 12)
+>   #define   MI_SEMAPHORE_TOKEN_MASK	REG_GENMASK(9, 5)
+>   #define   MI_SEMAPHORE_TOKEN_SHIFT	5
+> +#define MI_STORE_DATA_IMM	MI_INSTR(0x20, 0)
+>   #define MI_STORE_DWORD_IMM	MI_INSTR(0x20, 1)
+>   #define MI_STORE_DWORD_IMM_GEN4	MI_INSTR(0x20, 2)
+> +#define MI_STORE_QWORD_IMM_GEN8 (MI_INSTR(0x20, 3) | REG_BIT(21))
+>   #define   MI_MEM_VIRTUAL	(1 << 22) /* 945,g33,965 */
+>   #define   MI_USE_GGTT		(1 << 22) /* g4x+ */
+>   #define MI_STORE_DWORD_INDEX	MI_INSTR(0x21, 1)
+> diff --git a/drivers/gpu/drm/i915/gt/intel_migrate.c b/drivers/gpu/drm/i915/gt/intel_migrate.c
+> new file mode 100644
+> index 000000000000..70776316863d
+> --- /dev/null
+> +++ b/drivers/gpu/drm/i915/gt/intel_migrate.c
+> @@ -0,0 +1,544 @@
+> +// SPDX-License-Identifier: MIT
+> +/*
+> + * Copyright © 2020 Intel Corporation
+> + */
+> +
+> +#include "i915_drv.h"
+> +#include "intel_context.h"
+> +#include "intel_gpu_commands.h"
+> +#include "intel_gt.h"
+> +#include "intel_gtt.h"
+> +#include "intel_migrate.h"
+> +#include "intel_ring.h"
+> +
+> +struct insert_pte_data {
+> +	u64 offset;
+> +	bool is_lmem;
+> +};
+> +
+> +#define CHUNK_SZ SZ_8M /* ~1ms at 8GiB/s preemption delay */
+> +
+> +static bool engine_supports_migration(struct intel_engine_cs *engine)
+> +{
+> +	if (!engine)
+> +		return false;
+> +
+> +	/*
+> +	 * We need the ability to prevent aribtration (MI_ARB_ON_OFF),
+> +	 * the ability to write PTE using inline data (MI_STORE_DATA)
+> +	 * and of course the ability to do the block transfer (blits).
+> +	 */
+> +	GEM_BUG_ON(engine->class != COPY_ENGINE_CLASS);
+> +
+> +	return true;
+> +}
+> +
+> +static void insert_pte(struct i915_address_space *vm,
+> +		       struct i915_page_table *pt,
+> +		       void *data)
+> +{
+> +	struct insert_pte_data *d = data;
+> +
+> +	vm->insert_page(vm, px_dma(pt), d->offset, I915_CACHE_NONE,
+> +			d->is_lmem ? PTE_LM : 0);
+> +	d->offset += PAGE_SIZE;
+> +}
+> +
+> +static struct i915_address_space *migrate_vm(struct intel_gt *gt)
+> +{
+> +	struct i915_vm_pt_stash stash = {};
+> +	struct i915_ppgtt *vm;
+> +	int err;
+> +	int i;
+> +
+> +	/*
+> +	 * We construct a very special VM for use by all migration contexts,
+> +	 * it is kept pinned so that it can be used at any time. As we need
+> +	 * to pre-allocate the page directories for the migration VM, this
+> +	 * limits us to only using a small number of prepared vma.
+> +	 *
+> +	 * To be able to pipeline and reschedule migration operations while
+> +	 * avoiding unnecessary contention on the vm itself, the PTE updates
+> +	 * are inline with the blits. All the blits use the same fixed
+> +	 * addresses, with the backing store redirection being updated on the
+> +	 * fly. Only 2 implicit vma are used for all migration operations.
+> +	 *
+> +	 * We lay the ppGTT out as:
+> +	 *
+> +	 *	[0, CHUNK_SZ) -> first object
+> +	 *	[CHUNK_SZ, 2 * CHUNK_SZ) -> second object
+> +	 *	[2 * CHUNK_SZ, 2 * CHUNK_SZ + 2 * CHUNK_SZ >> 9] -> PTE
+> +	 *
+> +	 * By exposing the dma addresses of the page directories themselves
+> +	 * within the ppGTT, we are then able to rewrite the PTE prior to use.
+> +	 * But the PTE update and subsequent migration operation must be atomic,
+> +	 * i.e. within the same non-preemptible window so that we do not switch
+> +	 * to another migration context that overwrites the PTE.
+> +	 *
+> +	 * TODO: Add support for huge LMEM PTEs
+> +	 */
+> +
+> +	vm = i915_ppgtt_create(gt);
+> +	if (IS_ERR(vm))
+> +		return ERR_CAST(vm);
+> +
+> +	if (!vm->vm.allocate_va_range || !vm->vm.foreach) {
+> +		err = -ENODEV;
+> +		goto err_vm;
+> +	}
+> +
+> +	/*
+> +	 * Each engine instance is assigned its own chunk in the VM, so
+> +	 * that we can run multiple instances concurrently
+> +	 */
+> +	for (i = 0; i < ARRAY_SIZE(gt->engine_class[COPY_ENGINE_CLASS]); i++) {
+> +		struct intel_engine_cs *engine;
+> +		u64 base = (u64)i << 32;
+> +		struct insert_pte_data d = {};
+> +		struct i915_gem_ww_ctx ww;
+> +		u64 sz;
+> +
+> +		engine = gt->engine_class[COPY_ENGINE_CLASS][i];
+> +		if (!engine_supports_migration(engine))
+> +			continue;
+> +
+> +		/*
+> +		 * We copy in 8MiB chunks. Each PDE covers 2MiB, so we need
+> +		 * 4x2 page directories for source/destination.
+> +		 */
+> +		sz = 2 * CHUNK_SZ;
+> +		d.offset = base + sz;
+> +
+> +		/*
+> +		 * We need another page directory setup so that we can write
+> +		 * the 8x512 PTE in each chunk.
+> +		 */
+> +		sz += (sz >> 12) * sizeof(u64);
 
-Add SKOV imx6q/dl LT2, LT6 and mi1010ait-1cp1 boards.
+That was quite the mind warp.
 
-Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
-Signed-off-by: Søren Andersen <san@skov.dk>
-Signed-off-by: Juergen Borleis <jbe@pengutronix.de>
-Signed-off-by: Ulrich Ölmann <u.oelmann@pengutronix.de>
-Signed-off-by: Michael Grzeschik <m.grzeschik@pengutronix.de>
-Signed-off-by: Marco Felsch <m.felsch@pengutronix.de>
-Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
-Signed-off-by: Oleksij Rempel <o.rempel@pengutronix.de>
----
- arch/arm/boot/dts/Makefile                    |   5 +
- arch/arm/boot/dts/imx6dl-skov-revc-lt2.dts    |  13 +
- arch/arm/boot/dts/imx6dl-skov-revc-lt6.dts    | 108 ++++
- arch/arm/boot/dts/imx6q-skov-revc-lt2.dts     |  36 ++
- arch/arm/boot/dts/imx6q-skov-revc-lt6.dts     | 128 +++++
- .../dts/imx6q-skov-reve-mi1010ait-1cp1.dts    | 127 +++++
- arch/arm/boot/dts/imx6qdl-skov-cpu-revc.dtsi  |  58 +++
- arch/arm/boot/dts/imx6qdl-skov-cpu.dtsi       | 476 ++++++++++++++++++
- 8 files changed, 951 insertions(+)
- create mode 100644 arch/arm/boot/dts/imx6dl-skov-revc-lt2.dts
- create mode 100644 arch/arm/boot/dts/imx6dl-skov-revc-lt6.dts
- create mode 100644 arch/arm/boot/dts/imx6q-skov-revc-lt2.dts
- create mode 100644 arch/arm/boot/dts/imx6q-skov-revc-lt6.dts
- create mode 100644 arch/arm/boot/dts/imx6q-skov-reve-mi1010ait-1cp1.dts
- create mode 100644 arch/arm/boot/dts/imx6qdl-skov-cpu-revc.dtsi
- create mode 100644 arch/arm/boot/dts/imx6qdl-skov-cpu.dtsi
+> +
+> +		err = i915_vm_alloc_pt_stash(&vm->vm, &stash, sz);
+> +		if (err)
+> +			goto err_vm;
+> +
+> +		for_i915_gem_ww(&ww, err, true) {
+> +			err = i915_vm_lock_objects(&vm->vm, &ww);
+> +			if (err)
+> +				continue;
+> +			err = i915_vm_map_pt_stash(&vm->vm, &stash);
+> +			if (err)
+> +				continue;
+> +
+> +			vm->vm.allocate_va_range(&vm->vm, &stash, base, base + sz);
 
-diff --git a/arch/arm/boot/dts/Makefile b/arch/arm/boot/dts/Makefile
-index f8f09c5066e7..60a3ef665697 100644
---- a/arch/arm/boot/dts/Makefile
-+++ b/arch/arm/boot/dts/Makefile
-@@ -473,6 +473,8 @@ dtb-$(CONFIG_SOC_IMX6Q) += \
- 	imx6dl-sabrelite.dtb \
- 	imx6dl-sabresd.dtb \
- 	imx6dl-savageboard.dtb \
-+	imx6dl-skov-revc-lt2.dtb \
-+	imx6dl-skov-revc-lt6.dtb \
- 	imx6dl-ts4900.dtb \
- 	imx6dl-ts7970.dtb \
- 	imx6dl-tx6dl-comtft.dtb \
-@@ -567,6 +569,9 @@ dtb-$(CONFIG_SOC_IMX6Q) += \
- 	imx6q-sabresd.dtb \
- 	imx6q-savageboard.dtb \
- 	imx6q-sbc6x.dtb \
-+	imx6q-skov-revc-lt2.dtb \
-+	imx6q-skov-revc-lt6.dtb \
-+	imx6q-skov-reve-mi1010ait-1cp1.dtb \
- 	imx6q-tbs2910.dtb \
- 	imx6q-ts4900.dtb \
- 	imx6q-ts7970.dtb \
-diff --git a/arch/arm/boot/dts/imx6dl-skov-revc-lt2.dts b/arch/arm/boot/dts/imx6dl-skov-revc-lt2.dts
-new file mode 100644
-index 000000000000..667b8faa1807
---- /dev/null
-+++ b/arch/arm/boot/dts/imx6dl-skov-revc-lt2.dts
-@@ -0,0 +1,13 @@
-+// SPDX-License-Identifier: (GPL-2.0 OR MIT)
-+//
-+// Copyright (C) 2020 Pengutronix, Ulrich Oelmann <kernel@pengutronix.de>
-+
-+/dts-v1/;
-+#include "imx6dl.dtsi"
-+#include "imx6qdl-skov-cpu.dtsi"
-+#include "imx6qdl-skov-cpu-revc.dtsi"
-+
-+/ {
-+	model = "SKOV IMX6 CPU SoloCore";
-+	compatible = "skov,imx6dl-skov-revc-lt2", "fsl,imx6dl";
-+};
-diff --git a/arch/arm/boot/dts/imx6dl-skov-revc-lt6.dts b/arch/arm/boot/dts/imx6dl-skov-revc-lt6.dts
-new file mode 100644
-index 000000000000..25071c7c4e29
---- /dev/null
-+++ b/arch/arm/boot/dts/imx6dl-skov-revc-lt6.dts
-@@ -0,0 +1,108 @@
-+// SPDX-License-Identifier: (GPL-2.0 OR MIT)
-+//
-+// Copyright (C) 2020 Pengutronix, Ulrich Oelmann <kernel@pengutronix.de>
-+
-+/dts-v1/;
-+#include "imx6dl.dtsi"
-+#include "imx6qdl-skov-cpu.dtsi"
-+#include "imx6qdl-skov-cpu-revc.dtsi"
-+
-+/ {
-+	model = "SKOV IMX6 CPU SoloCore";
-+	compatible = "skov,imx6dl-skov-revc-lt6", "fsl,imx6dl";
-+
-+	backlight: backlight {
-+		compatible = "pwm-backlight";
-+		pinctrl-names = "default";
-+		pinctrl-0 = <&pinctrl_backlight>;
-+		enable-gpios = <&gpio6 23 GPIO_ACTIVE_LOW>;
-+		pwms = <&pwm2 0 20000 0>;
-+		brightness-levels = <0 255>;
-+		num-interpolated-steps = <17>;
-+		default-brightness-level = <8>;
-+		power-supply = <&reg_24v0>;
-+	};
-+
-+	display {
-+		#address-cells = <1>;
-+		#size-cells = <0>;
-+
-+		compatible = "fsl,imx-parallel-display";
-+		pinctrl-names = "default";
-+		pinctrl-0 = <&pinctrl_ipu1>;
-+
-+		port@0 {
-+			reg = <0>;
-+
-+			display0_in: endpoint {
-+				remote-endpoint = <&ipu1_di0_disp0>;
-+			};
-+		};
-+
-+		port@1 {
-+			reg = <1>;
-+
-+			display0_out: endpoint {
-+				remote-endpoint = <&panel_in>;
-+			};
-+		};
-+	};
-+
-+
-+	panel {
-+		compatible = "logictechno,lttd800480070-l6wh-rt";
-+		backlight = <&backlight>;
-+		power-supply = <&reg_3v3>;
-+
-+		port {
-+			panel_in: endpoint {
-+				remote-endpoint = <&display0_out>;
-+			};
-+		};
-+	};
-+};
-+
-+&ipu1_di0_disp0 {
-+	remote-endpoint = <&display0_in>;
-+};
-+
-+&iomuxc {
-+	pinctrl_backlight: backlightgrp {
-+		fsl,pins = <
-+			MX6QDL_PAD_RGMII_TD3__GPIO6_IO23		0x58
-+		>;
-+	};
-+
-+	pinctrl_ipu1: ipu1grp {
-+		fsl,pins = <
-+			MX6QDL_PAD_DI0_DISP_CLK__IPU1_DI0_DISP_CLK	0x10
-+			MX6QDL_PAD_DI0_PIN15__IPU1_DI0_PIN15		0x10
-+			MX6QDL_PAD_DI0_PIN2__IPU1_DI0_PIN02		0x10
-+			MX6QDL_PAD_DI0_PIN3__IPU1_DI0_PIN03		0x10
-+			MX6QDL_PAD_DISP0_DAT0__IPU1_DISP0_DATA00	0x10
-+			MX6QDL_PAD_DISP0_DAT1__IPU1_DISP0_DATA01	0x10
-+			MX6QDL_PAD_DISP0_DAT2__IPU1_DISP0_DATA02	0x10
-+			MX6QDL_PAD_DISP0_DAT3__IPU1_DISP0_DATA03	0x10
-+			MX6QDL_PAD_DISP0_DAT4__IPU1_DISP0_DATA04	0x10
-+			MX6QDL_PAD_DISP0_DAT5__IPU1_DISP0_DATA05	0x10
-+			MX6QDL_PAD_DISP0_DAT6__IPU1_DISP0_DATA06	0x10
-+			MX6QDL_PAD_DISP0_DAT7__IPU1_DISP0_DATA07	0x10
-+			MX6QDL_PAD_DISP0_DAT8__IPU1_DISP0_DATA08	0x10
-+			MX6QDL_PAD_DISP0_DAT9__IPU1_DISP0_DATA09	0x10
-+			MX6QDL_PAD_DISP0_DAT10__IPU1_DISP0_DATA10	0x10
-+			MX6QDL_PAD_DISP0_DAT11__IPU1_DISP0_DATA11	0x10
-+			MX6QDL_PAD_DISP0_DAT12__IPU1_DISP0_DATA12	0x10
-+			MX6QDL_PAD_DISP0_DAT13__IPU1_DISP0_DATA13	0x10
-+			MX6QDL_PAD_DISP0_DAT14__IPU1_DISP0_DATA14	0x10
-+			MX6QDL_PAD_DISP0_DAT15__IPU1_DISP0_DATA15	0x10
-+			MX6QDL_PAD_DISP0_DAT16__IPU1_DISP0_DATA16	0x10
-+			MX6QDL_PAD_DISP0_DAT17__IPU1_DISP0_DATA17	0x10
-+			MX6QDL_PAD_DISP0_DAT18__IPU1_DISP0_DATA18	0x10
-+			MX6QDL_PAD_DISP0_DAT19__IPU1_DISP0_DATA19	0x10
-+			MX6QDL_PAD_DISP0_DAT20__IPU1_DISP0_DATA20	0x10
-+			MX6QDL_PAD_DISP0_DAT21__IPU1_DISP0_DATA21	0x10
-+			MX6QDL_PAD_DISP0_DAT22__IPU1_DISP0_DATA22	0x10
-+			MX6QDL_PAD_DISP0_DAT23__IPU1_DISP0_DATA23	0x10
-+		>;
-+	};
-+};
-diff --git a/arch/arm/boot/dts/imx6q-skov-revc-lt2.dts b/arch/arm/boot/dts/imx6q-skov-revc-lt2.dts
-new file mode 100644
-index 000000000000..25332e57ba7b
---- /dev/null
-+++ b/arch/arm/boot/dts/imx6q-skov-revc-lt2.dts
-@@ -0,0 +1,36 @@
-+// SPDX-License-Identifier: (GPL-2.0 OR MIT)
-+//
-+// Copyright (C) 2020 Pengutronix, Ulrich Oelmann <kernel@pengutronix.de>
-+
-+/dts-v1/;
-+#include "imx6q.dtsi"
-+#include "imx6qdl-skov-cpu.dtsi"
-+#include "imx6qdl-skov-cpu-revc.dtsi"
-+
-+/ {
-+	model = "SKOV IMX6 CPU QuadCore";
-+	compatible = "skov,imx6q-skov-revc-lt2", "fsl,imx6q";
-+};
-+
-+&hdmi {
-+	ddc-i2c-bus = <&i2c2>;
-+	status = "okay";
-+};
-+
-+&i2c2 {
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&pinctrl_i2c2>;
-+	clock-frequency = <100000>;
-+	status = "okay";
-+};
-+
-+&iomuxc {
-+	pinctrl_i2c2: i2c2grp {
-+		fsl,pins = <
-+			/* internal 22 k pull up required */
-+			MX6QDL_PAD_KEY_COL3__I2C2_SCL		0x4001F878
-+			/* internal 22 k pull up required */
-+			MX6QDL_PAD_KEY_ROW3__I2C2_SDA		0x4001F878
-+		>;
-+	};
-+};
-diff --git a/arch/arm/boot/dts/imx6q-skov-revc-lt6.dts b/arch/arm/boot/dts/imx6q-skov-revc-lt6.dts
-new file mode 100644
-index 000000000000..3e3b36ad362a
---- /dev/null
-+++ b/arch/arm/boot/dts/imx6q-skov-revc-lt6.dts
-@@ -0,0 +1,128 @@
-+// SPDX-License-Identifier: (GPL-2.0 OR MIT)
-+//
-+// Copyright (C) 2020 Pengutronix, Ulrich Oelmann <kernel@pengutronix.de>
-+
-+/dts-v1/;
-+#include "imx6q.dtsi"
-+#include "imx6qdl-skov-cpu.dtsi"
-+#include "imx6qdl-skov-cpu-revc.dtsi"
-+
-+/ {
-+	model = "SKOV IMX6 CPU QuadCore";
-+	compatible = "skov,imx6q-skov-revc-lt6", "fsl,imx6q";
-+
-+	backlight: backlight {
-+		compatible = "pwm-backlight";
-+		pinctrl-names = "default";
-+		pinctrl-0 = <&pinctrl_backlight>;
-+		enable-gpios = <&gpio6 23 GPIO_ACTIVE_LOW>;
-+		pwms = <&pwm2 0 20000 0>;
-+		brightness-levels = <0 255>;
-+		num-interpolated-steps = <17>;
-+		default-brightness-level = <8>;
-+		power-supply = <&reg_24v0>;
-+	};
-+
-+	display {
-+		#address-cells = <1>;
-+		#size-cells = <0>;
-+
-+		compatible = "fsl,imx-parallel-display";
-+		pinctrl-names = "default";
-+		pinctrl-0 = <&pinctrl_ipu1>;
-+
-+		port@0 {
-+			reg = <0>;
-+
-+			display0_in: endpoint {
-+				remote-endpoint = <&ipu1_di0_disp0>;
-+			};
-+		};
-+
-+		port@1 {
-+			reg = <1>;
-+
-+			display0_out: endpoint {
-+				remote-endpoint = <&panel_in>;
-+			};
-+		};
-+	};
-+
-+	panel {
-+		compatible = "logictechno,lttd800480070-l6wh-rt";
-+		backlight = <&backlight>;
-+		power-supply = <&reg_3v3>;
-+
-+		port {
-+			panel_in: endpoint {
-+				remote-endpoint = <&display0_out>;
-+			};
-+		};
-+	};
-+};
-+
-+&hdmi {
-+	ddc-i2c-bus = <&i2c2>;
-+	status = "okay";
-+};
-+
-+&i2c2 {
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&pinctrl_i2c2>;
-+	clock-frequency = <100000>;
-+	status = "okay";
-+};
-+
-+&ipu1_di0_disp0 {
-+	remote-endpoint = <&display0_in>;
-+};
-+
-+&iomuxc {
-+	pinctrl_backlight: backlightgrp {
-+		fsl,pins = <
-+			MX6QDL_PAD_RGMII_TD3__GPIO6_IO23		0x58
-+		>;
-+	};
-+
-+	pinctrl_i2c2: i2c2grp {
-+		fsl,pins = <
-+			/* internal 22 k pull up required */
-+			MX6QDL_PAD_KEY_COL3__I2C2_SCL		0x4001F878
-+			/* internal 22 k pull up required */
-+			MX6QDL_PAD_KEY_ROW3__I2C2_SDA		0x4001F878
-+		>;
-+	};
-+
-+	pinctrl_ipu1: ipu1grp {
-+		fsl,pins = <
-+			MX6QDL_PAD_DI0_DISP_CLK__IPU1_DI0_DISP_CLK	0x10
-+			MX6QDL_PAD_DI0_PIN15__IPU1_DI0_PIN15		0x10
-+			MX6QDL_PAD_DI0_PIN2__IPU1_DI0_PIN02		0x10
-+			MX6QDL_PAD_DI0_PIN3__IPU1_DI0_PIN03		0x10
-+			MX6QDL_PAD_DISP0_DAT0__IPU1_DISP0_DATA00	0x10
-+			MX6QDL_PAD_DISP0_DAT1__IPU1_DISP0_DATA01	0x10
-+			MX6QDL_PAD_DISP0_DAT2__IPU1_DISP0_DATA02	0x10
-+			MX6QDL_PAD_DISP0_DAT3__IPU1_DISP0_DATA03	0x10
-+			MX6QDL_PAD_DISP0_DAT4__IPU1_DISP0_DATA04	0x10
-+			MX6QDL_PAD_DISP0_DAT5__IPU1_DISP0_DATA05	0x10
-+			MX6QDL_PAD_DISP0_DAT6__IPU1_DISP0_DATA06	0x10
-+			MX6QDL_PAD_DISP0_DAT7__IPU1_DISP0_DATA07	0x10
-+			MX6QDL_PAD_DISP0_DAT8__IPU1_DISP0_DATA08	0x10
-+			MX6QDL_PAD_DISP0_DAT9__IPU1_DISP0_DATA09	0x10
-+			MX6QDL_PAD_DISP0_DAT10__IPU1_DISP0_DATA10	0x10
-+			MX6QDL_PAD_DISP0_DAT11__IPU1_DISP0_DATA11	0x10
-+			MX6QDL_PAD_DISP0_DAT12__IPU1_DISP0_DATA12	0x10
-+			MX6QDL_PAD_DISP0_DAT13__IPU1_DISP0_DATA13	0x10
-+			MX6QDL_PAD_DISP0_DAT14__IPU1_DISP0_DATA14	0x10
-+			MX6QDL_PAD_DISP0_DAT15__IPU1_DISP0_DATA15	0x10
-+			MX6QDL_PAD_DISP0_DAT16__IPU1_DISP0_DATA16	0x10
-+			MX6QDL_PAD_DISP0_DAT17__IPU1_DISP0_DATA17	0x10
-+			MX6QDL_PAD_DISP0_DAT18__IPU1_DISP0_DATA18	0x10
-+			MX6QDL_PAD_DISP0_DAT19__IPU1_DISP0_DATA19	0x10
-+			MX6QDL_PAD_DISP0_DAT20__IPU1_DISP0_DATA20	0x10
-+			MX6QDL_PAD_DISP0_DAT21__IPU1_DISP0_DATA21	0x10
-+			MX6QDL_PAD_DISP0_DAT22__IPU1_DISP0_DATA22	0x10
-+			MX6QDL_PAD_DISP0_DAT23__IPU1_DISP0_DATA23	0x10
-+		>;
-+	};
-+};
-diff --git a/arch/arm/boot/dts/imx6q-skov-reve-mi1010ait-1cp1.dts b/arch/arm/boot/dts/imx6q-skov-reve-mi1010ait-1cp1.dts
-new file mode 100644
-index 000000000000..7f1f19b74bfa
---- /dev/null
-+++ b/arch/arm/boot/dts/imx6q-skov-reve-mi1010ait-1cp1.dts
-@@ -0,0 +1,127 @@
-+// SPDX-License-Identifier: (GPL-2.0 OR MIT)
-+//
-+// Copyright (C) 2020 Pengutronix, Ulrich Oelmann <kernel@pengutronix.de>
-+
-+/dts-v1/;
-+#include "imx6q.dtsi"
-+#include "imx6qdl-skov-cpu.dtsi"
-+
-+/ {
-+	model = "SKOV IMX6 CPU QuadCore";
-+	compatible = "skov,imx6q-skov-reve-mi1010ait-1cp1", "fsl,imx6q";
-+
-+	backlight: backlight {
-+		compatible = "pwm-backlight";
-+		pinctrl-names = "default";
-+		pinctrl-0 = <&pinctrl_backlight>;
-+		enable-gpios = <&gpio6 23 GPIO_ACTIVE_LOW>;
-+		pwms = <&pwm2 0 20000 0>;
-+		brightness-levels = <0 255>;
-+		num-interpolated-steps = <17>;
-+		default-brightness-level = <8>;
-+		power-supply = <&reg_24v0>;
-+	};
-+
-+	panel {
-+		compatible = "multi-inno,mi1010ait-1cp";
-+		backlight = <&backlight>;
-+		power-supply = <&reg_3v3>;
-+
-+		port {
-+			panel_in: endpoint {
-+				remote-endpoint = <&lvds0_out>;
-+			};
-+		};
-+	};
-+};
-+
-+&clks {
-+	assigned-clocks = <&clks IMX6QDL_CLK_LDB_DI0_SEL>,
-+			  <&clks IMX6QDL_CLK_LDB_DI1_SEL>;
-+	assigned-clock-parents = <&clks IMX6QDL_CLK_PLL5_VIDEO_DIV>,
-+				 <&clks IMX6QDL_CLK_PLL5_VIDEO_DIV>;
-+};
-+
-+&hdmi {
-+	ddc-i2c-bus = <&i2c2>;
-+	status = "okay";
-+};
-+
-+&i2c1 {
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&pinctrl_i2c1>;
-+	clock-frequency = <100000>;
-+	status = "okay";
-+
-+	touchscreen@38 {
-+		compatible = "edt,edt-ft5406";
-+		reg = <0x38>;
-+		pinctrl-names = "default";
-+		pinctrl-0 = <&pinctrl_touchscreen>;
-+		interrupt-parent = <&gpio3>;
-+		interrupts = <19 IRQ_TYPE_EDGE_FALLING>;
-+		reset-gpios = <&gpio3 23 GPIO_ACTIVE_LOW>;
-+		touchscreen-size-x = <1280>;
-+		touchscreen-size-y = <800>;
-+		wakeup-source;
-+	};
-+};
-+
-+&i2c2 {
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&pinctrl_i2c2>;
-+	clock-frequency = <100000>;
-+	status = "okay";
-+};
-+
-+&ldb {
-+	status = "okay";
-+
-+	lvds-channel@0 {
-+		status = "okay";
-+
-+		port@4 {
-+			reg = <4>;
-+
-+			lvds0_out: endpoint {
-+				remote-endpoint = <&panel_in>;
-+			};
-+		};
-+	};
-+};
-+
-+&iomuxc {
-+	pinctrl_backlight: backlightgrp {
-+		fsl,pins = <
-+			MX6QDL_PAD_RGMII_TD3__GPIO6_IO23		0x58
-+		>;
-+	};
-+
-+	pinctrl_i2c1: i2c1grp {
-+		fsl,pins = <
-+			/* external 1 k pull up */
-+			MX6QDL_PAD_EIM_D21__I2C1_SCL		0x40010878
-+			/* external 1 k pull up */
-+			MX6QDL_PAD_EIM_D28__I2C1_SDA		0x40010878
-+		>;
-+	};
-+
-+	pinctrl_i2c2: i2c2grp {
-+		fsl,pins = <
-+			/* internal 22 k pull up required */
-+			MX6QDL_PAD_KEY_COL3__I2C2_SCL		0x4001F878
-+			/* internal 22 k pull up required */
-+			MX6QDL_PAD_KEY_ROW3__I2C2_SDA		0x4001F878
-+		>;
-+	};
-+
-+	pinctrl_touchscreen: touchscreengrp {
-+		fsl,pins = <
-+			/* external 10 k pull up */
-+			/* CTP_INT */
-+			MX6QDL_PAD_EIM_D19__GPIO3_IO19		0x1b0b0
-+			/* CTP_RST */
-+			MX6QDL_PAD_EIM_D23__GPIO3_IO23		0x1b0b0
-+		>;
-+	};
-+};
-diff --git a/arch/arm/boot/dts/imx6qdl-skov-cpu-revc.dtsi b/arch/arm/boot/dts/imx6qdl-skov-cpu-revc.dtsi
-new file mode 100644
-index 000000000000..6fb49f08c7ad
---- /dev/null
-+++ b/arch/arm/boot/dts/imx6qdl-skov-cpu-revc.dtsi
-@@ -0,0 +1,58 @@
-+// SPDX-License-Identifier: (GPL-2.0 OR MIT)
-+//
-+// Copyright (C) 2020 Pengutronix, Ulrich Oelmann <kernel@pengutronix.de>
-+
-+&ecspi4 {
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&pinctrl_ecspi4>;
-+	cs-gpios = <&gpio3 20 GPIO_ACTIVE_LOW>;
-+	status = "okay";
-+
-+	touchscreen@0 {
-+		pinctrl-names = "default";
-+		pinctrl-0 = <&pinctrl_touch>;
-+		compatible = "ti,tsc2046";
-+		reg = <0>;
-+		spi-max-frequency = <1000000>;
-+		interrupts-extended = <&gpio3 19 IRQ_TYPE_LEVEL_LOW>;
-+		vcc-supply  = <&reg_3v3>;
-+
-+		pendown-gpio = <&gpio3 19 GPIO_ACTIVE_LOW>;
-+
-+		ti,x-plate-ohms = /bits/ 16 <850>;
-+		ti,y-plate-ohms = /bits/ 16 <295>;
-+		ti,pressure-min = /bits/ 16 <2>;
-+		ti,pressure-max = /bits/ 16 <1500>;
-+		ti,vref-mv	= /bits/ 16 <3300>;
-+		ti,settle-delay-usec = /bits/ 16 <15>;
-+		ti,vref-delay-usecs = /bits/ 16 <0>;
-+		ti,penirq-recheck-delay-usecs = /bits/ 16 <100>;
-+		ti,debounce-max = /bits/ 16 <100>;
-+		ti,debounce-tol = /bits/ 16 <(~0)>;
-+		ti,debounce-rep = /bits/ 16 <4>;
-+
-+		touchscreen-swapped-x-y;
-+		touchscreen-inverted-y;
-+
-+		linux,wakeup;
-+	};
-+};
-+
-+&iomuxc {
-+	pinctrl_ecspi4: ecspi4grp {
-+		fsl,pins = <
-+			MX6QDL_PAD_EIM_D28__ECSPI4_MOSI			0x100b1
-+			MX6QDL_PAD_EIM_D22__ECSPI4_MISO			0x000b1
-+			MX6QDL_PAD_EIM_D21__ECSPI4_SCLK			0x000b1
-+			/* *no* external pull up */
-+			MX6QDL_PAD_EIM_D20__GPIO3_IO20		0x40000058
-+		>;
-+	};
-+
-+	pinctrl_touch: touchgrp {
-+		fsl,pins = <
-+			/* external pull up */
-+			MX6QDL_PAD_EIM_D19__GPIO3_IO19			0x10040
-+		>;
-+	};
-+};
-diff --git a/arch/arm/boot/dts/imx6qdl-skov-cpu.dtsi b/arch/arm/boot/dts/imx6qdl-skov-cpu.dtsi
-new file mode 100644
-index 000000000000..facaead06dea
---- /dev/null
-+++ b/arch/arm/boot/dts/imx6qdl-skov-cpu.dtsi
-@@ -0,0 +1,476 @@
-+// SPDX-License-Identifier: (GPL-2.0 OR MIT)
-+//
-+// Copyright (C) 2020 Pengutronix, Ulrich Oelmann <kernel@pengutronix.de>
-+
-+#include <dt-bindings/gpio/gpio.h>
-+#include <dt-bindings/leds/common.h>
-+
-+/ {
-+	chosen {
-+		stdout-path = &uart2;
-+	};
-+
-+	aliases {
-+		can0 = &can1;
-+		can1 = &can2;
-+		nand = &gpmi;
-+		usb0 = &usbh1;
-+		usb1 = &usbotg;
-+		rtc0 = &i2c_rtc;
-+		rtc1 = &snvs;
-+		mdio-gpio0 = &mdio;
-+	};
-+
-+	iio-hwmon {
-+		compatible = "iio-hwmon";
-+		io-channels = <&adc 0>, /* 24V */
-+		              <&adc 1>; /* temperature */
-+	};
-+
-+	leds {
-+		compatible = "gpio-leds";
-+
-+		led-0 {
-+			label = "D1";
-+			gpios = <&gpio1 2 GPIO_ACTIVE_HIGH>;
-+			function = LED_FUNCTION_STATUS;
-+			default-state = "on";
-+			linux,default-trigger = "heartbeat";
-+		};
-+
-+		led-1 {
-+			label = "D2";
-+			gpios = <&gpio1 0 GPIO_ACTIVE_HIGH>;
-+			default-state = "off";
-+		};
-+
-+		led-2 {
-+			label = "D3";
-+			gpios = <&gpio1 4 GPIO_ACTIVE_HIGH>;
-+			default-state = "on";
-+		};
-+	};
-+
-+	mdio: mdio {
-+		pinctrl-names = "default";
-+		pinctrl-0 = <&pinctrl_mdio>;
-+		compatible = "microchip,mdio-smi0";
-+		#address-cells = <1>;
-+		#size-cells = <0>;
-+		gpios = <&gpio1 31 GPIO_ACTIVE_HIGH
-+			 &gpio1 22 GPIO_ACTIVE_HIGH>;
-+
-+		switch@3 {
-+			pinctrl-names = "default";
-+			pinctrl-0 = <&pinctrl_switch>;
-+			compatible = "microchip,ksz8873";
-+			interrupt-parent = <&gpio3>;
-+			interrupt = <30 IRQ_TYPE_LEVEL_HIGH>;
-+			reset-gpios = <&gpio1 5 GPIO_ACTIVE_LOW>;
-+			reg = <0>;
-+
-+
-+			ports {
-+				#address-cells = <1>;
-+				#size-cells = <0>;
-+
-+				ports@0 {
-+					reg = <0>;
-+					phy-mode = "internal";
-+					label = "lan1";
-+				};
-+
-+				ports@1 {
-+					reg = <1>;
-+					phy-mode = "internal";
-+					label = "lan2";
-+				};
-+
-+				ports@2 {
-+					reg = <2>;
-+					label = "cpu";
-+					ethernet = <&fec>;
-+					phy-mode = "rmii";
-+
-+					fixed-link {
-+						speed = <100>;
-+						full-duplex;
-+					};
-+				};
-+			};
-+		};
-+
-+	};
-+
-+	clk50m_phy: phy-clock {
-+		compatible = "fixed-clock";
-+		#clock-cells = <0>;
-+		clock-frequency = <50000000>;
-+	};
-+
-+	reg_3v3: regulator-3v3 {
-+		compatible = "regulator-fixed";
-+		vin-supply = <&reg_5v0>;
-+		regulator-name = "3v3";
-+		regulator-min-microvolt = <3300000>;
-+		regulator-max-microvolt = <3300000>;
-+	};
-+
-+	reg_5v0: regulator-5v0 {
-+		compatible = "regulator-fixed";
-+		regulator-name = "5v0";
-+		regulator-min-microvolt = <5000000>;
-+		regulator-max-microvolt = <5000000>;
-+	};
-+
-+	reg_24v0: regulator-24v0 {
-+		compatible = "regulator-fixed";
-+		regulator-name = "24v0";
-+		regulator-min-microvolt = <24000000>;
-+		regulator-max-microvolt = <24000000>;
-+	};
-+
-+	reg_can1_stby: regulator-can1-stby {
-+		compatible = "regulator-fixed";
-+		pinctrl-names = "default";
-+		pinctrl-0 = <&pinctrl_can1_stby>;
-+		regulator-name = "can1-3v3";
-+		regulator-min-microvolt = <3300000>;
-+		regulator-max-microvolt = <3300000>;
-+		gpio = <&gpio3 31 GPIO_ACTIVE_LOW>;
-+	};
-+
-+	reg_can2_stby: regulator-can2-stby {
-+		compatible = "regulator-fixed";
-+		pinctrl-names = "default";
-+		pinctrl-0 = <&pinctrl_can2_stby>;
-+		regulator-name = "can2-3v3";
-+		regulator-min-microvolt = <3300000>;
-+		regulator-max-microvolt = <3300000>;
-+		gpio = <&gpio4 11 GPIO_ACTIVE_LOW>;
-+	};
-+
-+	reg_vcc_mmc: regulator-vcc-mmc {
-+		pinctrl-names = "default";
-+		pinctrl-0 = <&pinctrl_vcc_mmc>;
-+		compatible = "regulator-fixed";
-+		vin-supply = <&reg_3v3>;
-+		regulator-name = "mmc_vcc_supply";
-+		regulator-min-microvolt = <3300000>;
-+		regulator-max-microvolt = <3300000>;
-+		regulator-always-on;
-+		regulator-boot-on;
-+		gpio = <&gpio7 8 GPIO_ACTIVE_HIGH>;
-+		enable-active-high;
-+		startup-delay-us = <100>;
-+	};
-+
-+	reg_vcc_mmc_io: regulator-vcc-mmc-io {
-+		pinctrl-names = "default";
-+		pinctrl-0 = <&pinctrl_vcc_mmc_io>;
-+		compatible = "regulator-gpio";
-+		vin-supply = <&reg_5v0>;
-+		regulator-name = "mmc_io_supply";
-+		regulator-type = "voltage";
-+		regulator-min-microvolt = <1800000>;
-+		regulator-max-microvolt = <3300000>;
-+		gpios = <&gpio7 13 GPIO_ACTIVE_HIGH>;
-+		states = <1800000 0x1>, <3300000 0x0>;
-+		startup-delay-us = <100>;
-+	};
-+};
-+
-+&can1 {
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&pinctrl_can1>;
-+	xceiver-supply = <&reg_can1_stby>;
-+	status = "okay";
-+};
-+
-+&can2 {
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&pinctrl_can2>;
-+	xceiver-supply = <&reg_can2_stby>;
-+	status = "okay";
-+};
-+
-+&ecspi1 {
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&pinctrl_ecspi1>;
-+	cs-gpios = <&gpio3 24 GPIO_ACTIVE_LOW>;
-+	status = "okay";
-+
-+	flash@0 {
-+		compatible = "jedec,spi-nor";
-+		spi-max-frequency = <54000000>;
-+		reg = <0>;
-+	};
-+};
-+
-+&ecspi2 {
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&pinctrl_ecspi2>;
-+	cs-gpios = <&gpio2 26 GPIO_ACTIVE_LOW>;
-+	status = "okay";
-+
-+	adc: adc@0 {
-+		compatible = "microchip,mcp3002";
-+		reg = <0>;
-+		spi-max-frequency = <1000000>;
-+		#io-channel-cells = <1>;
-+	};
-+};
-+
-+&fec {
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&pinctrl_enet>;
-+	clocks = <&clks IMX6QDL_CLK_ENET>,
-+		 <&clks IMX6QDL_CLK_ENET>,
-+		 <&clk50m_phy>;
-+	clock-names = "ipg", "ahb", "ptp";
-+	phy-mode = "rmii";
-+	phy-supply = <&reg_3v3>;
-+	status = "okay";
-+
-+	fixed-link {
-+		speed = <100>;
-+		full-duplex;
-+	};
-+};
-+
-+&gpmi {
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&pinctrl_gpmi_nand>;
-+	nand-on-flash-bbt;
-+	#address-cells = <1>;
-+	#size-cells = <0>;
-+	status = "okay";
-+};
-+
-+&i2c3 {
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&pinctrl_i2c3>;
-+	clock-frequency = <400000>;
-+	status = "okay";
-+
-+	i2c_rtc: rtc@51 {
-+		compatible = "nxp,pcf85063";
-+		reg = <0x51>;
-+		quartz-load-femtofarads = <12500>;
-+	};
-+};
-+
-+&pwm2 {
-+	#pwm-cells = <2>;
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&pinctrl_pwm2>;
-+	status = "okay";
-+};
-+
-+&pwm3 {
-+	/* used for LCD contrast control */
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&pinctrl_pwm3>;
-+	status = "okay";
-+};
-+
-+&uart2 {
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&pinctrl_uart2>;
-+	status = "okay";
-+};
-+
-+&usbh1 {
-+	vbus-supply = <&reg_5v0>;
-+	disable-over-current;
-+	status = "okay";
-+};
-+
-+/* no usbh2 */
-+&usbphynop1 {
-+	status = "disabled";
-+};
-+
-+/* no usbh3 */
-+&usbphynop2 {
-+	status = "disabled";
-+};
-+
-+&usbotg {
-+	vbus-supply = <&reg_5v0>;
-+	disable-over-current;
-+	status = "okay";
-+};
-+
-+&usdhc3 {
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&pinctrl_usdhc3>;
-+	wp-gpios = <&gpio7 1 GPIO_ACTIVE_HIGH>;
-+	cd-gpios = <&gpio7 0 GPIO_ACTIVE_LOW>;
-+	cap-power-off-card;
-+	full-pwr-cycle;
-+	bus-width = <4>;
-+	max-frequency = <50000000>;
-+	cap-sd-highspeed;
-+	sd-uhs-sdr12;
-+	sd-uhs-sdr25;
-+	sd-uhs-sdr50;
-+	sd-uhs-ddr50;
-+	mmc-ddr-1_8v;
-+	vmmc-supply = <&reg_vcc_mmc>;
-+	vqmmc-supply = <&reg_vcc_mmc_io>;
-+	status = "okay";
-+};
-+
-+&iomuxc {
-+	pinctrl_can1: can1grp {
-+		fsl,pins = <
-+			MX6QDL_PAD_GPIO_7__FLEXCAN1_TX			0x3008
-+			MX6QDL_PAD_GPIO_8__FLEXCAN1_RX			0x1b000
-+		>;
-+	};
-+
-+	pinctrl_can1_stby: can1stbygrp {
-+		fsl,pins = <
-+			MX6QDL_PAD_EIM_D31__GPIO3_IO31			0x13008
-+		>;
-+	};
-+
-+	pinctrl_can2: can2grp {
-+		fsl,pins = <
-+			MX6QDL_PAD_KEY_COL4__FLEXCAN2_TX		0x3008
-+			MX6QDL_PAD_KEY_ROW4__FLEXCAN2_RX		0x1b000
-+		>;
-+	};
-+
-+	pinctrl_can2_stby: can2stbygrp {
-+		fsl,pins = <
-+			MX6QDL_PAD_KEY_ROW2__GPIO4_IO11			0x13008
-+		>;
-+	};
-+
-+	pinctrl_ecspi1: ecspi1grp {
-+		fsl,pins = <
-+			MX6QDL_PAD_EIM_D17__ECSPI1_MISO			0x100b1
-+			MX6QDL_PAD_EIM_D18__ECSPI1_MOSI			0xb1
-+			MX6QDL_PAD_EIM_D16__ECSPI1_SCLK			0xb1
-+			/* *no* external pull up */
-+			MX6QDL_PAD_EIM_D24__GPIO3_IO24			0x58
-+		>;
-+	};
-+
-+	pinctrl_ecspi2: ecspi2grp {
-+		fsl,pins = <
-+			MX6QDL_PAD_EIM_OE__ECSPI2_MISO			0x100b1
-+			MX6QDL_PAD_EIM_CS1__ECSPI2_MOSI			0xb1
-+			MX6QDL_PAD_EIM_CS0__ECSPI2_SCLK			0xb1
-+			/* external pull up */
-+			MX6QDL_PAD_EIM_RW__GPIO2_IO26			0x58
-+		>;
-+	};
-+
-+	pinctrl_enet: enetgrp {
-+		fsl,pins = <
-+			/* RMII 50 MHz */
-+			MX6QDL_PAD_ENET_CRS_DV__ENET_RX_EN		0x100f5
-+			MX6QDL_PAD_ENET_TX_EN__ENET_TX_EN		0x100f5
-+			MX6QDL_PAD_ENET_RXD0__ENET_RX_DATA0		0x100c0
-+			MX6QDL_PAD_ENET_RXD1__ENET_RX_DATA1		0x100c0
-+			MX6QDL_PAD_ENET_TXD0__ENET_TX_DATA0		0x100f5
-+			MX6QDL_PAD_ENET_TXD1__ENET_TX_DATA1		0x100f5
-+			MX6QDL_PAD_GPIO_16__ENET_REF_CLK		0x1b0b0
-+			MX6QDL_PAD_GPIO_5__GPIO1_IO05			0x58
-+			/* GPIO for "link active" */
-+			MX6QDL_PAD_ENET_RX_ER__GPIO1_IO24		0x3038
-+		>;
-+	};
-+
-+	pinctrl_gpmi_nand: gpminandgrp {
-+		fsl,pins = <
-+			MX6QDL_PAD_NANDF_CLE__NAND_CLE			0xb0b1
-+			MX6QDL_PAD_NANDF_ALE__NAND_ALE			0xb0b1
-+			MX6QDL_PAD_NANDF_RB0__NAND_READY_B		0xb000
-+			MX6QDL_PAD_NANDF_CS0__NAND_CE0_B		0xb0b1
-+			MX6QDL_PAD_NANDF_CS1__NAND_CE1_B		0xb0b1
-+			MX6QDL_PAD_SD4_CMD__NAND_RE_B			0xb0b1
-+			MX6QDL_PAD_SD4_CLK__NAND_WE_B			0xb0b1
-+			MX6QDL_PAD_NANDF_D0__NAND_DATA00		0xb0b1
-+			MX6QDL_PAD_NANDF_D1__NAND_DATA01		0xb0b1
-+			MX6QDL_PAD_NANDF_D2__NAND_DATA02		0xb0b1
-+			MX6QDL_PAD_NANDF_D3__NAND_DATA03		0xb0b1
-+			MX6QDL_PAD_NANDF_D4__NAND_DATA04		0xb0b1
-+			MX6QDL_PAD_NANDF_D5__NAND_DATA05		0xb0b1
-+			MX6QDL_PAD_NANDF_D6__NAND_DATA06		0xb0b1
-+			MX6QDL_PAD_NANDF_D7__NAND_DATA07		0xb0b1
-+		>;
-+	};
-+
-+	pinctrl_i2c3: i2c3grp {
-+		fsl,pins = <
-+			/* external 10 k pull up */
-+			MX6QDL_PAD_GPIO_3__I2C3_SCL		0x40010878
-+			/* external 10 k pull up */
-+			MX6QDL_PAD_GPIO_6__I2C3_SDA		0x40010878
-+		>;
-+	};
-+
-+	pinctrl_mdio: mdiogrp {
-+		fsl,pins = <
-+			MX6QDL_PAD_ENET_MDIO__GPIO1_IO22		0x100b1
-+			MX6QDL_PAD_ENET_MDC__GPIO1_IO31			0xb1
-+		>;
-+	};
-+
-+	pinctrl_pwm2: pwm2grp {
-+		fsl,pins = <
-+			MX6QDL_PAD_GPIO_1__PWM2_OUT			0x58
-+		>;
-+	};
-+
-+	pinctrl_pwm3: pwm3grp {
-+		fsl,pins = <
-+			MX6QDL_PAD_SD1_DAT1__PWM3_OUT			0x58
-+		>;
-+	};
-+
-+	pinctrl_switch: switchgrp {
-+		fsl,pins = <
-+			MX6QDL_PAD_EIM_D30__GPIO3_IO30			0xb0
-+		>;
-+	};
-+
-+	pinctrl_uart2: uart2grp {
-+		fsl,pins = <
-+			MX6QDL_PAD_EIM_D26__UART2_TX_DATA		0x1b0b1
-+			MX6QDL_PAD_EIM_D27__UART2_RX_DATA		0x1b0b1
-+		>;
-+	};
-+
-+	pinctrl_usdhc3: usdhc3grp {
-+		fsl,pins = <
-+			/* SoC internal pull up required */
-+			MX6QDL_PAD_SD3_CMD__SD3_CMD			0x17059
-+			MX6QDL_PAD_SD3_CLK__SD3_CLK			0x10059
-+			MX6QDL_PAD_SD3_DAT0__SD3_DATA0			0x17059
-+			MX6QDL_PAD_SD3_DAT1__SD3_DATA1			0x17059
-+			MX6QDL_PAD_SD3_DAT2__SD3_DATA2			0x17059
-+			MX6QDL_PAD_SD3_DAT3__SD3_DATA3			0x17059
-+			/* SoC internal pull up required */
-+			MX6QDL_PAD_SD3_DAT4__GPIO7_IO01			0x1b040
-+			/* SoC internal pull up required */
-+			MX6QDL_PAD_SD3_DAT5__GPIO7_IO00			0x1b040
-+		>;
-+	};
-+
-+	pinctrl_vcc_mmc: vccmmcgrp {
-+		fsl,pins = <
-+			MX6QDL_PAD_SD3_RST__GPIO7_IO08			0x58
-+		>;
-+	};
-+
-+	pinctrl_vcc_mmc_io: vccmmciogrp {
-+		fsl,pins = <
-+			MX6QDL_PAD_GPIO_18__GPIO7_IO13			0x58
-+		>;
-+	};
-+};
--- 
-2.29.2
+I think here we meant:
+allocate_va_range(.., base, sz)
 
+Otherwise this might explode for instance > 0? Since the preallocated 
+stash is too small.
+
+> +		}
+> +		i915_vm_free_pt_stash(&vm->vm, &stash);
+> +		if (err)
+> +			goto err_vm;
+> +
+> +		/* Now allow the GPU to rewrite the PTE via its own ppGTT */
+> +		d.is_lmem = i915_gem_object_is_lmem(vm->vm.scratch[0]);
+> +		vm->vm.foreach(&vm->vm, base, base + sz, insert_pte, &d);
+> +	}
+> +
+> +	return &vm->vm;
+> +
+> +err_vm:
+> +	i915_vm_put(&vm->vm);
+> +	return ERR_PTR(err);
+> +}
+> +
