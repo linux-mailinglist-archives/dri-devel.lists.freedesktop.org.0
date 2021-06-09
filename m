@@ -2,58 +2,108 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E0A53A164C
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Jun 2021 15:58:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3091E3A1672
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Jun 2021 16:03:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1B60D6E3D3;
-	Wed,  9 Jun 2021 13:58:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 53E3B6E3F2;
+	Wed,  9 Jun 2021 14:02:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A0E806E3B7;
- Wed,  9 Jun 2021 13:58:41 +0000 (UTC)
-IronPort-SDR: 10z0L9Sc7/wmtTB1NABivrMyG92UN5wa6Nb3Dx91Yqwshc9yy0hShh8ZMTbqSXr7R80/7zlz5e
- K3BGUOj//lHw==
-X-IronPort-AV: E=McAfee;i="6200,9189,10010"; a="204889130"
-X-IronPort-AV: E=Sophos;i="5.83,261,1616482800"; d="scan'208";a="204889130"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Jun 2021 06:58:41 -0700
-IronPort-SDR: zXYbYZcLHvs6Qf83PutEiCoDZ0PI4u0aKc5nBHndmVx1YGzmW423GqyIIi6MSfz3yhuqNMdfbQ
- f0vlXuhGRxQg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.83,261,1616482800"; d="scan'208";a="449951816"
-Received: from irvmail001.ir.intel.com ([10.43.11.63])
- by fmsmga008.fm.intel.com with ESMTP; 09 Jun 2021 06:58:39 -0700
-Received: from [10.249.139.139] (mwajdecz-MOBL.ger.corp.intel.com
- [10.249.139.139])
- by irvmail001.ir.intel.com (8.14.3/8.13.6/MailSET/Hub) with ESMTP id
- 159DwcEd028647; Wed, 9 Jun 2021 14:58:38 +0100
-Subject: Re: [Intel-gfx] [RFC PATCH 36/97] drm/i915/guc: Add non blocking CTB
- send function
-To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Matthew Brost <matthew.brost@intel.com>
-References: <20210506191451.77768-1-matthew.brost@intel.com>
- <20210506191451.77768-37-matthew.brost@intel.com>
- <375b4de4-168f-9c4c-dbb8-f42fd6303628@linux.intel.com>
- <20210525172121.GE14724@sdutt-i7>
- <0f26f76f-e066-fb23-a7b2-784bb8ee771d@linux.intel.com>
- <20210526181053.GA3435@sdutt-i7>
- <53613c13-1cab-b9bd-3922-0389600773ee@linux.intel.com>
- <20210527143514.GA24720@sdutt-i7>
- <828fe399-5319-78a9-c6e3-c0c027e08e9c@linux.intel.com>
- <20210607173101.GA11968@sdutt-i7>
- <2706c890-5145-4edb-acd1-b9862caba8cf@linux.intel.com>
-From: Michal Wajdeczko <michal.wajdeczko@intel.com>
-Message-ID: <c5917e2c-b2ec-93f1-8cf0-046886f5f709@intel.com>
-Date: Wed, 9 Jun 2021 15:58:38 +0200
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.2
-MIME-Version: 1.0
-In-Reply-To: <2706c890-5145-4edb-acd1-b9862caba8cf@linux.intel.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam11on2076.outbound.protection.outlook.com [40.107.236.76])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7F04D6E3F4
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Jun 2021 14:02:57 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=YOfHF//d4V/Kuy23zdlzSn1+BO3i6PHOIVfqWzSHuDhVrQHuGXcVB7cdaB0MXzzK/RPDsDB7E3fj7EeSf4XjiLjdYR6i3jUXMZhr5XYgMqLB2aSMUCJNni5UnTB9mzCoguVI3rJ25t8x8EGUWfmdVa5Bi7NTToB+62W/4KZEMkoro6DuIIHne0ImJrJdmrpns8faWy3y8Ox5SQLSNlV6XhNJIzmWF1AplPFC695FpjsdYUWuH33KfBtKkb5bQNh/43VUeXk+qlNg2SIfiof0ULPIYr8feJC4WcRsB/+RHt0jbgF1aQsViesjixRLwp5QyxBEt4uYBmX572aCan5Iwg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ZuT0/rF8MgwP/pvy4QkN3prUxcs61FTEs674CgbctHI=;
+ b=aHUm7drdXTnDQ62uaHXYlSUDAeBeRUaHdihN22yuhKYHrxAxlT5vU5qqnw+YOj7AHsOFtdLsvWxarYawkMNwF+itrahUZ1uhgcCVlhBFK142OiTIV06DSB9FVMQCiFYuu/WAsUwRQ7UI6YUrMKYL5AV6aMtcbYiltsjqnrbSdAFE3RR93e9LkIYvIIrEwDG8fk4u94845I+8oP56vSzGpHj8xVZFuGjb5O3+M4h+SoTgXLk5alcIE81X6EGV1BPNjsB9j3ZJoymSncpRCCRfJd8HCBf1RbWiBAWgTPjK5WjV9z4Agej66cGPTjWM+7na1kcjiYGUmWn2Pl2tyQOcpQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ZuT0/rF8MgwP/pvy4QkN3prUxcs61FTEs674CgbctHI=;
+ b=XXv7jlmXKr+TahaIEhz2sLVd5BKNdPqQRVWd3x67IQaPyyOVpHKtM/urSNrz4gkO4YVG9svVPADp2QqYLrpZmJOihWwleBQaHBp4fN5rcqmVEKTaK3to5+iZ/lGgwN7G59w/rnwwKmPuqluHpmrz3oxYsnZNDj8sMya8AZitk2Q=
+Authentication-Results: lists.freedesktop.org; dkim=none (message not signed)
+ header.d=none; lists.freedesktop.org;
+ dmarc=none action=none header.from=amd.com;
+Received: from DM4PR12MB5136.namprd12.prod.outlook.com (2603:10b6:5:393::23)
+ by DM4PR12MB5134.namprd12.prod.outlook.com (2603:10b6:5:391::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4219.20; Wed, 9 Jun
+ 2021 14:02:56 +0000
+Received: from DM4PR12MB5136.namprd12.prod.outlook.com
+ ([fe80::4074:4943:244:a5fa]) by DM4PR12MB5136.namprd12.prod.outlook.com
+ ([fe80::4074:4943:244:a5fa%6]) with mapi id 15.20.4173.037; Wed, 9 Jun 2021
+ 14:02:54 +0000
+From: Nirmoy Das <nirmoy.das@amd.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH 1/1] drm/radeon: fix a null-ptr-deref error
+Date: Wed,  9 Jun 2021 16:02:38 +0200
+Message-Id: <20210609140238.5393-1-nirmoy.das@amd.com>
+X-Mailer: git-send-email 2.31.1
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [217.86.101.175]
+X-ClientProxiedBy: AM0PR04CA0078.eurprd04.prod.outlook.com
+ (2603:10a6:208:be::19) To DM4PR12MB5136.namprd12.prod.outlook.com
+ (2603:10b6:5:393::23)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from brihaspati.fritz.box (217.86.101.175) by
+ AM0PR04CA0078.eurprd04.prod.outlook.com (2603:10a6:208:be::19) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4219.21 via Frontend Transport; Wed, 9 Jun 2021 14:02:53 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 611aee18-ee7d-430c-efc1-08d92b4f46d3
+X-MS-TrafficTypeDiagnostic: DM4PR12MB5134:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <DM4PR12MB51348ABAFF5C09D22994C55B8B369@DM4PR12MB5134.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:83;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 7FKvE7ZCFuVpy6vP5l34OSEZZMRX5t1dvpShhHIQdmJfNLbwflZSrHeRULXjit6zc/5TxwsEod1R4OEvdc0tkKZxyABALCMroH/FKPGYABdHWnTTfeTU9ij/WGnEvtdl4FKFyr6i6sL4zg0PMB5/+0m+r0lRFYmlDxOt3bftkkofU7OfdGiufOuv0k1/j/JT51ChvyWSBp+j4V2rIW12JcSbbwJq7LLu63WZycgqqAOVJBf4IG+WvAeJQeEVrPSQIa6q+Y5ReahxDZIb0SghNS11fUbgHnBrQKbqiNQXQwCsXhDJ56gO9P013UDnW0tJ80qZWsovoRg9KJVCU48ghLrDSevRe+u4koG57mlSNrPcZ98suiBt7AA/rQ9DwywzfBNGtpGJ0LRGCS7XDuxjzNXEj1xYVXu9HOdyAwIBBx9QMgnSK/sONf/Rv5AXkK64NacHYZPxf3EUCyifKF5a5X6aTHe9As/H3HT2PHTQmG06iLZJcPH19CPR+5xvbp+pJS7hZ4HmPbAAVaxag7xzmlIYRxin9NOhfCz5+Kx4uT4t9KNgvS4R2Sc22D8CPTGzQvSIW0l5OKKt6KRhOAb+N4QuovYcmCTL7PgsWJGqFz3M25DwIeGVV2k07KApTJWcLsDAnV+eeQcMd3SvQwdvzQ==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM4PR12MB5136.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(396003)(136003)(346002)(39860400002)(366004)(376002)(16526019)(186003)(6512007)(6486002)(316002)(2906002)(44832011)(52116002)(2616005)(83380400001)(6506007)(38350700002)(26005)(38100700002)(6916009)(4326008)(4744005)(66946007)(66556008)(66476007)(478600001)(36756003)(1076003)(6666004)(5660300002)(956004)(8936002)(86362001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?CYAmgKzmEWgQMNutIfPu39Gh6h6oaUVHvSU5sFpFMqEFuGTx3UlHgXUBxnIk?=
+ =?us-ascii?Q?O5oWKf46J9EbXzbU8td5JEhl8VlAjv17W6BB212jjajoUk3SytN0/2rcKmQ+?=
+ =?us-ascii?Q?1kAatQbz66GG7r83KAAwyttcXXV94DgMLeZAcYbU9TU3jJxXPUQ2SEKFrDBx?=
+ =?us-ascii?Q?dqQ+fKgxZmA/7s/o3Us5GEocxw7Gyai8h1ENOw2BG6diaDEnonvr3hdOp3+a?=
+ =?us-ascii?Q?AgQ8pTx6i3RHHseRS+RLawjAWv2EGwQWLPMk3PWH8p1ADdtxJf9dXO1vaT10?=
+ =?us-ascii?Q?csuCJFtLelFACiurWoZfRhygMys03WYL+Cyd4bhIzTNxJ41m4w1u/XiviPuQ?=
+ =?us-ascii?Q?FdK8+vqRRZDH/FX0PhT3zXNpBSHT3PJCdnqUqdAa+rxN4B2+mz3Z5hGY5R8H?=
+ =?us-ascii?Q?Hv4LZfDUoPKJOprKw6wfXGbEkXQOW/BoqX4iSCH/zD2FbTWSWp2BX5z+xreg?=
+ =?us-ascii?Q?NSQ2xQhrsxYeAg6IKS/tXiOxCX0Yg5WS7t4FMZkByytWtbu8Bo9+0vLkg8Cf?=
+ =?us-ascii?Q?YbsvD0rBWjvOTj7L+z+YBpnakOpnMF0osa7plJNhOcn4o9x2Q+Mxh34VSXzX?=
+ =?us-ascii?Q?ctwNSold/s2/2r8zz+liXD16uNEUvofa09yqM1sHxQoQnJpSFkjiHjJAie4/?=
+ =?us-ascii?Q?43YJ2LWde7BKEgqBSNU1nL6VCJNMcAw4OsLHntBD/cwZatWV2YWg8hEyMFP9?=
+ =?us-ascii?Q?9GBjhngFMKkSM78ITUi5Rp6fPGXHRM1TBpQy7oBdD925rABPAgTqGqKqGD88?=
+ =?us-ascii?Q?ZiTveedK8u0pyA4FXvDAXX8xIsFpU3OiqnHjwTjtN8Fk5B9k+AyWxwrP1YTn?=
+ =?us-ascii?Q?SqhTXavr13WQR/PlZc+6OEfEiE0O0z7O8JnfIFPHbb3xX4j631jOwO+Tordg?=
+ =?us-ascii?Q?3CREYzumtuKX78ZpUCbas5LaTWFs0mWFLehYn+pNYJZcZJgvcW4ZwukfZXas?=
+ =?us-ascii?Q?swk4t4wXSzjiznqfmIDa0ZVIPvZbSm4QHtL+Ha62G+TRCmrw9Ivmy6uVkbdJ?=
+ =?us-ascii?Q?mpgV37b5Vt3Ad4IrRygNcw6lBydCnImjvXXCI36kzlvRRi+BcgAlIfCRwr++?=
+ =?us-ascii?Q?mqxFfMfyAJH+nPVGCv2J3nKcnBX77EaBKEQDZjEmcOgI5C7Z/FvEqmWPtWHf?=
+ =?us-ascii?Q?TBYYlvQQO0gNtSetg4Um467hH30Woffm6KKSvz5mElGI54Voqxa/23kZCsXX?=
+ =?us-ascii?Q?jdC3P2SrNQgl8UdOqpfcJrD050U1EFttaUeJOfz35mxlw6zjjC2RCDR0Q7IX?=
+ =?us-ascii?Q?s6GCONR3cmX6rmyPvlJr5t3uvOWNYZsRPc5yjZ+z761HT3F6XgeuAz86ZxH4?=
+ =?us-ascii?Q?heiLHdaSDmSeDh/m/MBCCMKc?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 611aee18-ee7d-430c-efc1-08d92b4f46d3
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB5136.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Jun 2021 14:02:54.3547 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: X01wQopXlCqC+c67PPxRshRGN5WfSsubKF7zV6sTk6TaNMwT4pkFUdxidxv1JoSr4mD98cfEF6gfJnwfv6JV5A==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB5134
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,218 +116,32 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: jason.ekstrand@intel.com, daniel.vetter@intel.com,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: alexander.deucher@amd.com, Xinhui.Pan@amd.com,
+ Nirmoy Das <nirmoy.das@amd.com>, Christian.Koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Check for NULL value in ttm resource before passing.
 
+Signed-off-by: Nirmoy Das <nirmoy.das@amd.com>
+---
+ drivers/gpu/drm/radeon/radeon_object.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-On 08.06.2021 10:39, Tvrtko Ursulin wrote:
-> 
-> On 07/06/2021 18:31, Matthew Brost wrote:
->> On Thu, May 27, 2021 at 04:11:50PM +0100, Tvrtko Ursulin wrote:
->>>
->>> On 27/05/2021 15:35, Matthew Brost wrote:
->>>> On Thu, May 27, 2021 at 11:02:24AM +0100, Tvrtko Ursulin wrote:
->>>>>
->>>>> On 26/05/2021 19:10, Matthew Brost wrote:
->>>>>
->>>>> [snip]
->>>>>
->>>>>>>>>> +static int ct_send_nb(struct intel_guc_ct *ct,
->>>>>>>>>> +              const u32 *action,
->>>>>>>>>> +              u32 len,
->>>>>>>>>> +              u32 flags)
->>>>>>>>>> +{
->>>>>>>>>> +    struct intel_guc_ct_buffer *ctb = &ct->ctbs.send;
->>>>>>>>>> +    unsigned long spin_flags;
->>>>>>>>>> +    u32 fence;
->>>>>>>>>> +    int ret;
->>>>>>>>>> +
->>>>>>>>>> +    spin_lock_irqsave(&ctb->lock, spin_flags);
->>>>>>>>>> +
->>>>>>>>>> +    ret = ctb_has_room(ctb, len + 1);
->>>>>>>>>> +    if (unlikely(ret))
->>>>>>>>>> +        goto out;
->>>>>>>>>> +
->>>>>>>>>> +    fence = ct_get_next_fence(ct);
->>>>>>>>>> +    ret = ct_write(ct, action, len, fence, flags);
->>>>>>>>>> +    if (unlikely(ret))
->>>>>>>>>> +        goto out;
->>>>>>>>>> +
->>>>>>>>>> +    intel_guc_notify(ct_to_guc(ct));
->>>>>>>>>> +
->>>>>>>>>> +out:
->>>>>>>>>> +    spin_unlock_irqrestore(&ctb->lock, spin_flags);
->>>>>>>>>> +
->>>>>>>>>> +    return ret;
->>>>>>>>>> +}
->>>>>>>>>> +
->>>>>>>>>>       static int ct_send(struct intel_guc_ct *ct,
->>>>>>>>>>                  const u32 *action,
->>>>>>>>>>                  u32 len,
->>>>>>>>>> @@ -473,6 +541,7 @@ static int ct_send(struct intel_guc_ct *ct,
->>>>>>>>>>                  u32 response_buf_size,
->>>>>>>>>>                  u32 *status)
->>>>>>>>>>       {
->>>>>>>>>> +    struct intel_guc_ct_buffer *ctb = &ct->ctbs.send;
->>>>>>>>>>           struct ct_request request;
->>>>>>>>>>           unsigned long flags;
->>>>>>>>>>           u32 fence;
->>>>>>>>>> @@ -482,8 +551,20 @@ static int ct_send(struct intel_guc_ct *ct,
->>>>>>>>>>           GEM_BUG_ON(!len);
->>>>>>>>>>           GEM_BUG_ON(len & ~GUC_CT_MSG_LEN_MASK);
->>>>>>>>>>           GEM_BUG_ON(!response_buf && response_buf_size);
->>>>>>>>>> +    might_sleep();
->>>>>>>>>
->>>>>>>>> Sleep is just cond_resched below or there is more?
->>>>>>>>>
->>>>>>>>
->>>>>>>> Yes, the cond_resched.
->>>>>>>>
->>>>>>>>>> +    /*
->>>>>>>>>> +     * We use a lazy spin wait loop here as we believe that
->>>>>>>>>> if the CT
->>>>>>>>>> +     * buffers are sized correctly the flow control condition
->>>>>>>>>> should be
->>>>>>>>>> +     * rare.
->>>>>>>>>> +     */
->>>>>>>>>> +retry:
->>>>>>>>>>           spin_lock_irqsave(&ct->ctbs.send.lock, flags);
->>>>>>>>>> +    if (unlikely(!ctb_has_room(ctb, len + 1))) {
->>>>>>>>>> +        spin_unlock_irqrestore(&ct->ctbs.send.lock, flags);
->>>>>>>>>> +        cond_resched();
->>>>>>>>>> +        goto retry;
->>>>>>>>>> +    }
->>>>>>>>>
->>>>>>>>> If this patch is about adding a non-blocking send function, and
->>>>>>>>> below we can
->>>>>>>>> see that it creates a fork:
->>>>>>>>>
->>>>>>>>> intel_guc_ct_send:
->>>>>>>>> ...
->>>>>>>>>     if (flags & INTEL_GUC_SEND_NB)
->>>>>>>>>         return ct_send_nb(ct, action, len, flags);
->>>>>>>>>
->>>>>>>>>          ret = ct_send(ct, action, len, response_buf,
->>>>>>>>> response_buf_size, &status);
->>>>>>>>>
->>>>>>>>> Then why is there a change in ct_send here, which is not the new
->>>>>>>>> non-blocking path?
->>>>>>>>>
->>>>>>>>
->>>>>>>> There is not a change to ct_send(), just to intel_guc_ct_send.
->>>>>>>
->>>>>>> I was doing by the diff which says:
->>>>>>>
->>>>>>>     static int ct_send(struct intel_guc_ct *ct,
->>>>>>>                const u32 *action,
->>>>>>>                u32 len,
->>>>>>> @@ -473,6 +541,7 @@ static int ct_send(struct intel_guc_ct *ct,
->>>>>>>                u32 response_buf_size,
->>>>>>>                u32 *status)
->>>>>>>     {
->>>>>>> +    struct intel_guc_ct_buffer *ctb = &ct->ctbs.send;
->>>>>>>         struct ct_request request;
->>>>>>>         unsigned long flags;
->>>>>>>         u32 fence;
->>>>>>> @@ -482,8 +551,20 @@ static int ct_send(struct intel_guc_ct *ct,
->>>>>>>         GEM_BUG_ON(!len);
->>>>>>>         GEM_BUG_ON(len & ~GUC_CT_MSG_LEN_MASK);
->>>>>>>         GEM_BUG_ON(!response_buf && response_buf_size);
->>>>>>> +    might_sleep();
->>>>>>> +    /*
->>>>>>> +     * We use a lazy spin wait loop here as we believe that if
->>>>>>> the CT
->>>>>>> +     * buffers are sized correctly the flow control condition
->>>>>>> should be
->>>>>>> +     * rare.
->>>>>>> +     */
->>>>>>> +retry:
->>>>>>>         spin_lock_irqsave(&ct->ctbs.send.lock, flags);
->>>>>>> +    if (unlikely(!ctb_has_room(ctb, len + 1))) {
->>>>>>> +        spin_unlock_irqrestore(&ct->ctbs.send.lock, flags);
->>>>>>> +        cond_resched();
->>>>>>> +        goto retry;
->>>>>>> +    }
->>>>>>>
->>>>>>> So it looks like a change to ct_send to me. Is that wrong?
->>>>>
->>>>> What about this part - is the patch changing the blocking ct_send
->>>>> or not,
->>>>> and if it is why?
->>>>>
->>>>
->>>> Yes, ct_send() changes. Sorry for the confusion.
->>>>
->>>> This function needs to be updated to account for the H2G space and
->>>> backoff if no space is available.
->>>
->>> Since this one is the sleeping path, it probably can and needs to be
->>> smarter
->>> than having a cond_resched busy loop added. Like sleep and get woken
->>> up when
->>> there is space. Otherwise it can degenerate to busy looping via
->>> contention
->>> with the non-blocking path.
->>>
->>
->> That screams over enginerring a simple problem to me. If the CT channel
->> is full we are really in trouble anyways - i.e. the performance is going
->> to terrible as we overwhelmed the GuC with traffic. That being said,
-> 
-> Performance of what would be terrible? Something relating to submitting
-> new jobs to the GPU I guess. Or something SRIOV related as you hint below.
-> 
-> But there is no real reason why CPU cycles/power should suffer if GuC is
-> busy.
-> 
-> Okay, if it can't happen in real world then it's possibly passable as a
+diff --git a/drivers/gpu/drm/radeon/radeon_object.c b/drivers/gpu/drm/radeon/radeon_object.c
+index bfaaa3c969a3..6e01eef169b7 100644
+--- a/drivers/gpu/drm/radeon/radeon_object.c
++++ b/drivers/gpu/drm/radeon/radeon_object.c
+@@ -76,7 +76,8 @@ static void radeon_ttm_bo_destroy(struct ttm_buffer_object *tbo)
+ 
+ 	bo = container_of(tbo, struct radeon_bo, tbo);
+ 
+-	radeon_update_memory_usage(bo, bo->tbo.resource->mem_type, -1);
++	if (bo->tbo.resource)
++		radeon_update_memory_usage(bo, bo->tbo.resource->mem_type, -1);
+ 
+ 	mutex_lock(&bo->rdev->gem.mutex);
+ 	list_del_init(&bo->list);
+-- 
+2.31.1
 
-if that can't happen in real world, then maybe we can just return
--ENOSPC/-EBUSY to report that 'unexpected' case, instead of hiding it
-behind silent busy loop ?
-
-> design of a communication interface. But to me it leaves a bad taste and
-> a doubt that there is this other aspect of the real world. And that is
-> when the unexpected happens. Even the most trivial things like a bug in
-> GuC firmware causes the driver to busy spin in there. So not much
-> happening on the machine but CPU cores pinned burning cycles in this
-> code. It's just lazy and not robust design. "Bug #nnnnn - High CPU usage
-> and GUI blocked - Solution: Upgrade GuC firmware and _reboot_ the
-> machine". Oh well..
-> 
-> At least I think the commit message should spell out clearly that a busy
-> looping path is being added to the sleeping send as a downside of
-> implementation choices. Still, for the record, I object to the design.
-> 
-> Regards,
-> 
-> Tvrtko
-> 
->> IGTs can do this but that really isn't a real world use case. For the
->> real world, this buffer is large enough that it won't ever be full hence
->> the comment + lazy spin loop.
->>
->> Next, it isn't like we get an interrupt or something when space
->> becomes available so how would we wake this thread? Could we come up
->> with a convoluted scheme where we insert ops that generated an interrupt
->> at regular intervals, probably? Would it be super complicated, totally
->> unnecessary, and gain use nothing - absolutely.
->>
->> Lastly, blocking CTBs really shouldn't ever be used. Certainly the
->> submission code doesn't use these. I think SRIOV might, but those can
->> probably be reworked too to use non-blocking. At some point we might
->> want to scrub the driver and just delete the blocking path.
->>
->> Matt
->>
->>> Regards,
->>
->>>
->>> Tvrtko
-> _______________________________________________
-> Intel-gfx mailing list
-> Intel-gfx@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/intel-gfx
