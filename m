@@ -2,42 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60C3B3A24F4
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Jun 2021 09:02:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 356163A25EC
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Jun 2021 09:55:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 81C976EBC4;
-	Thu, 10 Jun 2021 07:02:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BF7BA6E8B5;
+	Thu, 10 Jun 2021 07:55:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 32DC96EC7C;
- Thu, 10 Jun 2021 07:02:27 +0000 (UTC)
-IronPort-SDR: WLOxC0onCNMx1zcP3echMB/jAe0IKQEQ7ut9NFXHVpC/jBdkm3ifBzcpVibzVsU98h5WZjb9xh
- 9sxKfok/E88Q==
-X-IronPort-AV: E=McAfee;i="6200,9189,10010"; a="192351635"
-X-IronPort-AV: E=Sophos;i="5.83,262,1616482800"; d="scan'208";a="192351635"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Jun 2021 00:02:27 -0700
-IronPort-SDR: Ix8cXqfeTlSMRoE2hAIuTSLoajb/dtWsDgW2cj7jToauPIZdrg+7IQA/qMdoE4YVE2yQHeNfAF
- YbYurdqIb1fQ==
-X-IronPort-AV: E=Sophos;i="5.83,262,1616482800"; d="scan'208";a="482717945"
-Received: from smirnov2-mobl.ccr.corp.intel.com (HELO thellst-mobl1.intel.com)
- ([10.249.254.160])
- by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Jun 2021 00:02:25 -0700
-From: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
-To: intel-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org
-Subject: [PATCH v11 4/4] drm/i915: Use ttm mmap handling for ttm bo's.
-Date: Thu, 10 Jun 2021 09:01:52 +0200
-Message-Id: <20210610070152.572423-5-thomas.hellstrom@linux.intel.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210610070152.572423-1-thomas.hellstrom@linux.intel.com>
-References: <20210610070152.572423-1-thomas.hellstrom@linux.intel.com>
+Received: from mail-lj1-x231.google.com (mail-lj1-x231.google.com
+ [IPv6:2a00:1450:4864:20::231])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 063666EB8E;
+ Thu, 10 Jun 2021 07:55:40 +0000 (UTC)
+Received: by mail-lj1-x231.google.com with SMTP id r16so3640034ljc.0;
+ Thu, 10 Jun 2021 00:55:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:in-reply-to:references
+ :mime-version; bh=SA5Ivb0CCE59h380OTMfIw4pEztiT4MRBNH8ti8EjRg=;
+ b=UsnB/8xogJHe8G+HURPvdy9xSpG3q17OyaxwZos6B9OkmHr3UPdrILT14c6jXIojl+
+ k5fcp7oj/ZZ4j8DZKt7NTp+68VQAGcq0bmTDzQkGiLUhW1EFMYyqQq7N3CE/WtRuE3+N
+ KySdDSuuW9EhDIiadb2Cda85fZ0GYtk7gGNqinLYGI6q5xKPVMNkf4/K27+ljIX9Kklt
+ 1UP11UZos81azcTn+0kTCJIZ5/jqxpc2h0qgfmWeoDJVWxAYQ0Q3SmLGnvN91VSLi4T3
+ 7ABgyeXmcLUdBik/48NVhn3oixQ7Qrmhr0TRdaWTyCPzEFA/eFbg1qmsReEJ+lgBg4Ca
+ Z+MQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version;
+ bh=SA5Ivb0CCE59h380OTMfIw4pEztiT4MRBNH8ti8EjRg=;
+ b=tMNS1gOaQIxWAIs1Fe6BxbIfIZJIcI2rC6V91yTkD0RE99Fxruh4p+Cwbk2LvSFVlg
+ iPZTDZGqNmyTbxOwRTnRC2A+1M79/dvBaVwCdA+kr2mpbr3o3nONGCCDgPjDBK+vJHRL
+ 76lqd4mxyL78/McqLPAr4ujWLUmjOPETSNk/44lrnkUHakjDjXPBpbTXKKr7FOGIuGqq
+ KvV5xSFE4Wf1JtdMeubVtBC755HbTtT7+HQTgl+f3y7GpMlfxk4xXH25W/oh+EGvFlAP
+ al1uXdiZ1smo4THdOAucdMArwvRR4S2wUexlcZdx9+wV+8fmmikOFlv0cRU9/+etIanh
+ akuA==
+X-Gm-Message-State: AOAM530tXMhG5f9EBE3Juo7Jqyzj/0w7x4Rnpdsxjd3+Z0jqgBPO2RVs
+ /bNDJecOp9cibxKVMW9TAos=
+X-Google-Smtp-Source: ABdhPJx3RpDRGm7QQl5Suj8t19KY4oI1aFylsWb1rF9ssiZz1Ey/gILxkTKcx5cMo6mviJKQNFnryg==
+X-Received: by 2002:a05:651c:514:: with SMTP id
+ o20mr1227077ljp.201.1623311738293; 
+ Thu, 10 Jun 2021 00:55:38 -0700 (PDT)
+Received: from eldfell ([194.136.85.206])
+ by smtp.gmail.com with ESMTPSA id r8sm240527lfc.90.2021.06.10.00.55.37
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 10 Jun 2021 00:55:37 -0700 (PDT)
+Date: Thu, 10 Jun 2021 10:55:24 +0300
+From: Pekka Paalanen <ppaalanen@gmail.com>
+To: Werner Sembach <wse@tuxedocomputers.com>
+Subject: Re: [PATCH v2 2/7] drm/uAPI: Add "active bpc" as feedback channel
+ for "max bpc" drm property
+Message-ID: <20210610105524.4dd2a40f@eldfell>
+In-Reply-To: <20210608174320.37429-3-wse@tuxedocomputers.com>
+References: <20210608174320.37429-1-wse@tuxedocomputers.com>
+ <20210608174320.37429-3-wse@tuxedocomputers.com>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ boundary="Sig_/G9gjPWkKmqwLWKB6JjVFNYP"; protocol="application/pgp-signature"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,774 +70,232 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
+Cc: amd-gfx@lists.freedesktop.org, tzimmermann@suse.de,
+ intel-gfx@lists.freedesktop.org, sunpeng.li@amd.com,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ airlied@linux.ie, rodrigo.vivi@intel.com, alexander.deucher@amd.com,
+ christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+--Sig_/G9gjPWkKmqwLWKB6JjVFNYP
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-Use the ttm handlers for servicing page faults, and vm_access.
+On Tue,  8 Jun 2021 19:43:15 +0200
+Werner Sembach <wse@tuxedocomputers.com> wrote:
 
-We do our own validation of read-only access, otherwise use the
-ttm handlers as much as possible.
+> Add a new general drm property "active bpc" which can be used by graphic =
+drivers
+> to report the applied bit depth per pixel back to userspace.
+>=20
+> While "max bpc" can be used to change the color depth, there was no way t=
+o check
+> which one actually got used. While in theory the driver chooses the best/=
+highest
+> color depth within the max bpc setting a user might not be fully aware wh=
+at his
+> hardware is or isn't capable off. This is meant as a quick way to double =
+check
+> the setup.
+>=20
+> In the future, automatic color calibration for screens might also depend =
+on this
+> information being available.
+>=20
+> Signed-off-by: Werner Sembach <wse@tuxedocomputers.com>
+> ---
+>  drivers/gpu/drm/drm_atomic_uapi.c |  2 ++
+>  drivers/gpu/drm/drm_connector.c   | 41 +++++++++++++++++++++++++++++++
+>  include/drm/drm_connector.h       | 15 +++++++++++
+>  3 files changed, 58 insertions(+)
+>=20
+> diff --git a/drivers/gpu/drm/drm_atomic_uapi.c b/drivers/gpu/drm/drm_atom=
+ic_uapi.c
+> index 268bb69c2e2f..7ae4e40936b5 100644
+> --- a/drivers/gpu/drm/drm_atomic_uapi.c
+> +++ b/drivers/gpu/drm/drm_atomic_uapi.c
+> @@ -873,6 +873,8 @@ drm_atomic_connector_get_property(struct drm_connecto=
+r *connector,
+>  		*val =3D 0;
+>  	} else if (property =3D=3D connector->max_bpc_property) {
+>  		*val =3D state->max_requested_bpc;
+> +	} else if (property =3D=3D connector->active_bpc_property) {
+> +		*val =3D state->active_bpc;
+>  	} else if (connector->funcs->atomic_get_property) {
+>  		return connector->funcs->atomic_get_property(connector,
+>  				state, property, val);
+> diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connec=
+tor.c
+> index 7631f76e7f34..c0c3c09bfed0 100644
+> --- a/drivers/gpu/drm/drm_connector.c
+> +++ b/drivers/gpu/drm/drm_connector.c
+> @@ -1195,6 +1195,14 @@ static const struct drm_prop_enum_list dp_colorspa=
+ces[] =3D {
+>   *	drm_connector_attach_max_bpc_property() to create and attach the
+>   *	property to the connector during initialization.
+>   *
+> + * active bpc:
+> + *	This read-only range property tells userspace the pixel color bit dep=
+th
+> + *	actually used by the hardware display engine on "the cable" on a
+> + *	connector. The chosen value depends on hardware capabilities, both
+> + *	display engine and connected monitor, and the "max bpc" property.
+> + *	Drivers shall use drm_connector_attach_active_bpc_property() to insta=
+ll
+> + *	this property.
+> + *
 
-Because the ttm handlers expect the vma_node at vma->base, we slightly
-need to massage the mmap handlers to look at vma_node->driver_private
-to fetch the bo, if it's NULL, we assume i915's normal mmap_offset uapi
-is used.
+This description is now clear to me, but I wonder, is it also how
+others understand it wrt. dithering?
 
-This is the easiest way to achieve compatibility without changing ttm's
-semantics.
+Dithering done on monitor is irrelevant, because we are talking about
+"on the cable" pixels. But since we are talking about "on the cable"
+pixels, also dithering done by the display engine must not factor in.
+Should the dithering done by display engine result in higher "active
+bpc" number than what is actually transmitted on the cable?
 
-Signed-off-by: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Reviewed-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
----
-- Fixed some minor style issues. (Thomas Hellström)
-- Added a mutex Destroy (Thomas Hellström)
----
- drivers/gpu/drm/i915/gem/i915_gem_mman.c      |  83 ++++++++----
- drivers/gpu/drm/i915/gem/i915_gem_object.h    |   6 +-
- .../gpu/drm/i915/gem/i915_gem_object_types.h  |   3 +
- drivers/gpu/drm/i915/gem/i915_gem_pages.c     |   3 +-
- drivers/gpu/drm/i915/gem/i915_gem_ttm.c       | 121 +++++++++++++++++-
- .../drm/i915/gem/selftests/i915_gem_mman.c    |  90 ++++++-------
- drivers/gpu/drm/i915/selftests/igt_mmap.c     |  25 +++-
- drivers/gpu/drm/i915/selftests/igt_mmap.h     |  12 +-
- 8 files changed, 251 insertions(+), 92 deletions(-)
+I cannot guess what userspace would want exactly. I think the
+strict "on the cable" interpretation is a safe bet, because it then
+gives a lower limit on observed bpc. Dithering settings should be
+exposed with other KMS properties, so userspace can factor those in.
+But to be absolutely sure, we'd have to ask some color management
+experts.
 
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_mman.c b/drivers/gpu/drm/i915/gem/i915_gem_mman.c
-index ee0bf8811388..2fd155742bd2 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_mman.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_mman.c
-@@ -19,6 +19,7 @@
- #include "i915_gem_mman.h"
- #include "i915_trace.h"
- #include "i915_user_extensions.h"
-+#include "i915_gem_ttm.h"
- #include "i915_vma.h"
- 
- static inline bool
-@@ -623,6 +624,8 @@ mmap_offset_attach(struct drm_i915_gem_object *obj,
- 	struct i915_mmap_offset *mmo;
- 	int err;
- 
-+	GEM_BUG_ON(obj->ops->mmap_offset || obj->ops->mmap_ops);
-+
- 	mmo = lookup_mmo(obj, mmap_type);
- 	if (mmo)
- 		goto out;
-@@ -665,40 +668,47 @@ mmap_offset_attach(struct drm_i915_gem_object *obj,
- }
- 
- static int
--__assign_mmap_offset(struct drm_file *file,
--		     u32 handle,
-+__assign_mmap_offset(struct drm_i915_gem_object *obj,
- 		     enum i915_mmap_type mmap_type,
--		     u64 *offset)
-+		     u64 *offset, struct drm_file *file)
- {
--	struct drm_i915_gem_object *obj;
- 	struct i915_mmap_offset *mmo;
--	int err;
- 
--	obj = i915_gem_object_lookup(file, handle);
--	if (!obj)
--		return -ENOENT;
-+	if (i915_gem_object_never_mmap(obj))
-+		return -ENODEV;
- 
--	if (i915_gem_object_never_mmap(obj)) {
--		err = -ENODEV;
--		goto out;
-+	if (obj->ops->mmap_offset)  {
-+		*offset = obj->ops->mmap_offset(obj);
-+		return 0;
- 	}
- 
- 	if (mmap_type != I915_MMAP_TYPE_GTT &&
- 	    !i915_gem_object_has_struct_page(obj) &&
--	    !i915_gem_object_type_has(obj, I915_GEM_OBJECT_HAS_IOMEM)) {
--		err = -ENODEV;
--		goto out;
--	}
-+	    !i915_gem_object_type_has(obj, I915_GEM_OBJECT_HAS_IOMEM))
-+		return -ENODEV;
- 
- 	mmo = mmap_offset_attach(obj, mmap_type, file);
--	if (IS_ERR(mmo)) {
--		err = PTR_ERR(mmo);
--		goto out;
--	}
-+	if (IS_ERR(mmo))
-+		return PTR_ERR(mmo);
- 
- 	*offset = drm_vma_node_offset_addr(&mmo->vma_node);
--	err = 0;
--out:
-+	return 0;
-+}
-+
-+static int
-+__assign_mmap_offset_handle(struct drm_file *file,
-+			    u32 handle,
-+			    enum i915_mmap_type mmap_type,
-+			    u64 *offset)
-+{
-+	struct drm_i915_gem_object *obj;
-+	int err;
-+
-+	obj = i915_gem_object_lookup(file, handle);
-+	if (!obj)
-+		return -ENOENT;
-+
-+	err = __assign_mmap_offset(obj, mmap_type, offset, file);
- 	i915_gem_object_put(obj);
- 	return err;
- }
-@@ -718,7 +728,7 @@ i915_gem_dumb_mmap_offset(struct drm_file *file,
- 	else
- 		mmap_type = I915_MMAP_TYPE_GTT;
- 
--	return __assign_mmap_offset(file, handle, mmap_type, offset);
-+	return __assign_mmap_offset_handle(file, handle, mmap_type, offset);
- }
- 
- /**
-@@ -786,7 +796,7 @@ i915_gem_mmap_offset_ioctl(struct drm_device *dev, void *data,
- 		return -EINVAL;
- 	}
- 
--	return __assign_mmap_offset(file, args->handle, type, &args->offset);
-+	return __assign_mmap_offset_handle(file, args->handle, type, &args->offset);
- }
- 
- static void vm_open(struct vm_area_struct *vma)
-@@ -890,8 +900,18 @@ int i915_gem_mmap(struct file *filp, struct vm_area_struct *vma)
- 		 * destroyed and will be invalid when the vma manager lock
- 		 * is released.
- 		 */
--		mmo = container_of(node, struct i915_mmap_offset, vma_node);
--		obj = i915_gem_object_get_rcu(mmo->obj);
-+		if (!node->driver_private) {
-+			mmo = container_of(node, struct i915_mmap_offset, vma_node);
-+			obj = i915_gem_object_get_rcu(mmo->obj);
-+
-+			GEM_BUG_ON(obj && obj->ops->mmap_ops);
-+		} else {
-+			obj = i915_gem_object_get_rcu
-+				(container_of(node, struct drm_i915_gem_object,
-+					      base.vma_node));
-+
-+			GEM_BUG_ON(obj && !obj->ops->mmap_ops);
-+		}
- 	}
- 	drm_vma_offset_unlock_lookup(dev->vma_offset_manager);
- 	rcu_read_unlock();
-@@ -913,7 +933,9 @@ int i915_gem_mmap(struct file *filp, struct vm_area_struct *vma)
- 	}
- 
- 	vma->vm_flags |= VM_PFNMAP | VM_DONTEXPAND | VM_DONTDUMP;
--	vma->vm_private_data = mmo;
-+
-+	if (i915_gem_object_has_iomem(obj))
-+		vma->vm_flags |= VM_IO;
- 
- 	/*
- 	 * We keep the ref on mmo->obj, not vm_file, but we require
-@@ -927,6 +949,15 @@ int i915_gem_mmap(struct file *filp, struct vm_area_struct *vma)
- 	/* Drop the initial creation reference, the vma is now holding one. */
- 	fput(anon);
- 
-+	if (obj->ops->mmap_ops) {
-+		vma->vm_page_prot = pgprot_decrypted(vm_get_page_prot(vma->vm_flags));
-+		vma->vm_ops = obj->ops->mmap_ops;
-+		vma->vm_private_data = node->driver_private;
-+		return 0;
-+	}
-+
-+	vma->vm_private_data = mmo;
-+
- 	switch (mmo->mmap_type) {
- 	case I915_MMAP_TYPE_WC:
- 		vma->vm_page_prot =
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object.h b/drivers/gpu/drm/i915/gem/i915_gem_object.h
-index f8ce1483d181..e9eecebf5c9d 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_object.h
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_object.h
-@@ -342,14 +342,14 @@ struct scatterlist *
- __i915_gem_object_get_sg(struct drm_i915_gem_object *obj,
- 			 struct i915_gem_object_page_iter *iter,
- 			 unsigned int n,
--			 unsigned int *offset, bool allow_alloc);
-+			 unsigned int *offset, bool allow_alloc, bool dma);
- 
- static inline struct scatterlist *
- i915_gem_object_get_sg(struct drm_i915_gem_object *obj,
- 		       unsigned int n,
- 		       unsigned int *offset, bool allow_alloc)
- {
--	return __i915_gem_object_get_sg(obj, &obj->mm.get_page, n, offset, allow_alloc);
-+	return __i915_gem_object_get_sg(obj, &obj->mm.get_page, n, offset, allow_alloc, false);
- }
- 
- static inline struct scatterlist *
-@@ -357,7 +357,7 @@ i915_gem_object_get_sg_dma(struct drm_i915_gem_object *obj,
- 			   unsigned int n,
- 			   unsigned int *offset, bool allow_alloc)
- {
--	return __i915_gem_object_get_sg(obj, &obj->mm.get_dma_page, n, offset, allow_alloc);
-+	return __i915_gem_object_get_sg(obj, &obj->mm.get_dma_page, n, offset, allow_alloc, true);
- }
- 
- struct page *
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object_types.h b/drivers/gpu/drm/i915/gem/i915_gem_object_types.h
-index 68313474e6a6..2a23b77424b3 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_object_types.h
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_object_types.h
-@@ -61,6 +61,7 @@ struct drm_i915_gem_object_ops {
- 		     const struct drm_i915_gem_pread *arg);
- 	int (*pwrite)(struct drm_i915_gem_object *obj,
- 		      const struct drm_i915_gem_pwrite *arg);
-+	u64 (*mmap_offset)(struct drm_i915_gem_object *obj);
- 
- 	int (*dmabuf_export)(struct drm_i915_gem_object *obj);
- 
-@@ -79,6 +80,7 @@ struct drm_i915_gem_object_ops {
- 	void (*delayed_free)(struct drm_i915_gem_object *obj);
- 	void (*release)(struct drm_i915_gem_object *obj);
- 
-+	const struct vm_operations_struct *mmap_ops;
- 	const char *name; /* friendly name for debug, e.g. lockdep classes */
- };
- 
-@@ -328,6 +330,7 @@ struct drm_i915_gem_object {
- 
- 	struct {
- 		struct sg_table *cached_io_st;
-+		struct i915_gem_object_page_iter get_io_page;
- 		bool created:1;
- 	} ttm;
- 
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_pages.c b/drivers/gpu/drm/i915/gem/i915_gem_pages.c
-index 6444e097016d..086005c1c7ea 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_pages.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_pages.c
-@@ -467,9 +467,8 @@ __i915_gem_object_get_sg(struct drm_i915_gem_object *obj,
- 			 struct i915_gem_object_page_iter *iter,
- 			 unsigned int n,
- 			 unsigned int *offset,
--			 bool allow_alloc)
-+			 bool allow_alloc, bool dma)
- {
--	const bool dma = iter == &obj->mm.get_dma_page;
- 	struct scatterlist *sg;
- 	unsigned int idx, count;
- 
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-index 2695b8c37e13..bf33724bed5c 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-@@ -13,6 +13,7 @@
- #include "gem/i915_gem_object.h"
- #include "gem/i915_gem_region.h"
- #include "gem/i915_gem_ttm.h"
-+#include "gem/i915_gem_mman.h"
- 
- #define I915_PL_LMEM0 TTM_PL_PRIV
- #define I915_PL_SYSTEM TTM_PL_SYSTEM
-@@ -158,11 +159,20 @@ static int i915_ttm_move_notify(struct ttm_buffer_object *bo)
- 
- static void i915_ttm_free_cached_io_st(struct drm_i915_gem_object *obj)
- {
--	if (obj->ttm.cached_io_st) {
--		sg_free_table(obj->ttm.cached_io_st);
--		kfree(obj->ttm.cached_io_st);
--		obj->ttm.cached_io_st = NULL;
--	}
-+	struct radix_tree_iter iter;
-+	void __rcu **slot;
-+
-+	if (!obj->ttm.cached_io_st)
-+		return;
-+
-+	rcu_read_lock();
-+	radix_tree_for_each_slot(slot, &obj->ttm.get_io_page.radix, &iter, 0)
-+		radix_tree_delete(&obj->ttm.get_io_page.radix, iter.index);
-+	rcu_read_unlock();
-+
-+	sg_free_table(obj->ttm.cached_io_st);
-+	kfree(obj->ttm.cached_io_st);
-+	obj->ttm.cached_io_st = NULL;
- }
- 
- static void i915_ttm_purge(struct drm_i915_gem_object *obj)
-@@ -338,12 +348,41 @@ static int i915_ttm_move(struct ttm_buffer_object *bo, bool evict,
- 	ttm_bo_move_sync_cleanup(bo, dst_mem);
- 	i915_ttm_free_cached_io_st(obj);
- 
--	if (!dst_man->use_tt)
-+	if (!dst_man->use_tt) {
- 		obj->ttm.cached_io_st = dst_st;
-+		obj->ttm.get_io_page.sg_pos = dst_st->sgl;
-+		obj->ttm.get_io_page.sg_idx = 0;
-+	}
- 
- 	return 0;
- }
- 
-+static int i915_ttm_io_mem_reserve(struct ttm_device *bdev, struct ttm_resource *mem)
-+{
-+	if (mem->mem_type < I915_PL_LMEM0)
-+		return 0;
-+
-+	mem->bus.caching = ttm_write_combined;
-+	mem->bus.is_iomem = true;
-+
-+	return 0;
-+}
-+
-+static unsigned long i915_ttm_io_mem_pfn(struct ttm_buffer_object *bo,
-+					 unsigned long page_offset)
-+{
-+	struct drm_i915_gem_object *obj = i915_ttm_to_gem(bo);
-+	unsigned long base = obj->mm.region->iomap.base - obj->mm.region->region.start;
-+	struct scatterlist *sg;
-+	unsigned int ofs;
-+
-+	GEM_WARN_ON(bo->ttm);
-+
-+	sg = __i915_gem_object_get_sg(obj, &obj->ttm.get_io_page, page_offset, &ofs, true, true);
-+
-+	return ((base + sg_dma_address(sg)) >> PAGE_SHIFT) + ofs;
-+}
-+
- static struct ttm_device_funcs i915_ttm_bo_driver = {
- 	.ttm_tt_create = i915_ttm_tt_create,
- 	.ttm_tt_unpopulate = i915_ttm_tt_unpopulate,
-@@ -353,6 +392,8 @@ static struct ttm_device_funcs i915_ttm_bo_driver = {
- 	.move = i915_ttm_move,
- 	.swap_notify = i915_ttm_swap_notify,
- 	.delete_mem_notify = i915_ttm_delete_mem_notify,
-+	.io_mem_reserve = i915_ttm_io_mem_reserve,
-+	.io_mem_pfn = i915_ttm_io_mem_pfn,
- };
- 
- /**
-@@ -460,7 +501,67 @@ static void i915_ttm_delayed_free(struct drm_i915_gem_object *obj)
- 	}
- }
- 
--static const struct drm_i915_gem_object_ops i915_gem_ttm_obj_ops = {
-+static vm_fault_t vm_fault_ttm(struct vm_fault *vmf)
-+{
-+	struct vm_area_struct *area = vmf->vma;
-+	struct drm_i915_gem_object *obj =
-+		i915_ttm_to_gem(area->vm_private_data);
-+
-+	/* Sanity check that we allow writing into this object */
-+	if (unlikely(i915_gem_object_is_readonly(obj) &&
-+		     area->vm_flags & VM_WRITE))
-+		return VM_FAULT_SIGBUS;
-+
-+	return ttm_bo_vm_fault(vmf);
-+}
-+
-+static int
-+vm_access_ttm(struct vm_area_struct *area, unsigned long addr,
-+	      void *buf, int len, int write)
-+{
-+	struct drm_i915_gem_object *obj =
-+		i915_ttm_to_gem(area->vm_private_data);
-+
-+	if (i915_gem_object_is_readonly(obj) && write)
-+		return -EACCES;
-+
-+	return ttm_bo_vm_access(area, addr, buf, len, write);
-+}
-+
-+static void ttm_vm_open(struct vm_area_struct *vma)
-+{
-+	struct drm_i915_gem_object *obj =
-+		i915_ttm_to_gem(vma->vm_private_data);
-+
-+	GEM_BUG_ON(!obj);
-+	i915_gem_object_get(obj);
-+}
-+
-+static void ttm_vm_close(struct vm_area_struct *vma)
-+{
-+	struct drm_i915_gem_object *obj =
-+		i915_ttm_to_gem(vma->vm_private_data);
-+
-+	GEM_BUG_ON(!obj);
-+	i915_gem_object_put(obj);
-+}
-+
-+static const struct vm_operations_struct vm_ops_ttm = {
-+	.fault = vm_fault_ttm,
-+	.access = vm_access_ttm,
-+	.open = ttm_vm_open,
-+	.close = ttm_vm_close,
-+};
-+
-+static u64 i915_ttm_mmap_offset(struct drm_i915_gem_object *obj)
-+{
-+	/* The ttm_bo must be allocated with I915_BO_ALLOC_USER */
-+	GEM_BUG_ON(!drm_mm_node_allocated(&obj->base.vma_node.vm_node));
-+
-+	return drm_vma_node_offset_addr(&obj->base.vma_node);
-+}
-+
-+const struct drm_i915_gem_object_ops i915_gem_ttm_obj_ops = {
- 	.name = "i915_gem_object_ttm",
- 	.flags = I915_GEM_OBJECT_HAS_IOMEM,
- 
-@@ -469,6 +570,8 @@ static const struct drm_i915_gem_object_ops i915_gem_ttm_obj_ops = {
- 	.truncate = i915_ttm_purge,
- 	.adjust_lru = i915_ttm_adjust_lru,
- 	.delayed_free = i915_ttm_delayed_free,
-+	.mmap_offset = i915_ttm_mmap_offset,
-+	.mmap_ops = &vm_ops_ttm,
- };
- 
- void i915_ttm_bo_destroy(struct ttm_buffer_object *bo)
-@@ -476,6 +579,7 @@ void i915_ttm_bo_destroy(struct ttm_buffer_object *bo)
- 	struct drm_i915_gem_object *obj = i915_ttm_to_gem(bo);
- 
- 	i915_gem_object_release_memory_region(obj);
-+	mutex_destroy(&obj->ttm.get_io_page.lock);
- 	if (obj->ttm.created)
- 		call_rcu(&obj->rcu, __i915_gem_free_object_rcu);
- }
-@@ -517,6 +621,8 @@ int __i915_gem_ttm_object_init(struct intel_memory_region *mem,
- 	i915_gem_object_make_unshrinkable(obj);
- 	obj->read_domains = I915_GEM_DOMAIN_WC | I915_GEM_DOMAIN_GTT;
- 	i915_gem_object_set_cache_coherency(obj, I915_CACHE_NONE);
-+	INIT_RADIX_TREE(&obj->ttm.get_io_page.radix, GFP_KERNEL | __GFP_NOWARN);
-+	mutex_init(&obj->ttm.get_io_page.lock);
- 
- 	bo_type = (obj->flags & I915_BO_ALLOC_USER) ? ttm_bo_type_device :
- 		ttm_bo_type_kernel;
-@@ -528,6 +634,7 @@ int __i915_gem_ttm_object_init(struct intel_memory_region *mem,
- 	 * Similarly, in delayed_destroy, we can't call ttm_bo_put()
- 	 * until successful initialization.
- 	 */
-+	obj->base.vma_node.driver_private = i915_gem_to_ttm(obj);
- 	ret = ttm_bo_init(&i915->bdev, i915_gem_to_ttm(obj), size,
- 			  bo_type, &i915_sys_placement, alignment,
- 			  true, NULL, NULL, i915_ttm_bo_destroy);
-diff --git a/drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c b/drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c
-index 3a30955285d6..44b5de06ce64 100644
---- a/drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c
-+++ b/drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c
-@@ -578,16 +578,17 @@ static bool assert_mmap_offset(struct drm_i915_private *i915,
- 			       int expected)
- {
- 	struct drm_i915_gem_object *obj;
--	struct i915_mmap_offset *mmo;
-+	u64 offset;
-+	int ret;
- 
- 	obj = i915_gem_object_create_internal(i915, size);
- 	if (IS_ERR(obj))
--		return false;
-+		return expected && expected == PTR_ERR(obj);
- 
--	mmo = mmap_offset_attach(obj, I915_MMAP_OFFSET_GTT, NULL);
-+	ret = __assign_mmap_offset(obj, I915_MMAP_TYPE_GTT, &offset, NULL);
- 	i915_gem_object_put(obj);
- 
--	return PTR_ERR_OR_ZERO(mmo) == expected;
-+	return ret == expected;
- }
- 
- static void disable_retire_worker(struct drm_i915_private *i915)
-@@ -622,8 +623,8 @@ static int igt_mmap_offset_exhaustion(void *arg)
- 	struct drm_mm *mm = &i915->drm.vma_offset_manager->vm_addr_space_mm;
- 	struct drm_i915_gem_object *obj;
- 	struct drm_mm_node *hole, *next;
--	struct i915_mmap_offset *mmo;
- 	int loop, err = 0;
-+	u64 offset;
- 
- 	/* Disable background reaper */
- 	disable_retire_worker(i915);
-@@ -684,13 +685,13 @@ static int igt_mmap_offset_exhaustion(void *arg)
- 	obj = i915_gem_object_create_internal(i915, PAGE_SIZE);
- 	if (IS_ERR(obj)) {
- 		err = PTR_ERR(obj);
-+		pr_err("Unable to create object for reclaimed hole\n");
- 		goto out;
- 	}
- 
--	mmo = mmap_offset_attach(obj, I915_MMAP_OFFSET_GTT, NULL);
--	if (IS_ERR(mmo)) {
-+	err = __assign_mmap_offset(obj, I915_MMAP_TYPE_GTT, &offset, NULL);
-+	if (err) {
- 		pr_err("Unable to insert object into reclaimed hole\n");
--		err = PTR_ERR(mmo);
- 		goto err_obj;
- 	}
- 
-@@ -865,10 +866,10 @@ static int __igt_mmap(struct drm_i915_private *i915,
- 		      struct drm_i915_gem_object *obj,
- 		      enum i915_mmap_type type)
- {
--	struct i915_mmap_offset *mmo;
- 	struct vm_area_struct *area;
- 	unsigned long addr;
- 	int err, i;
-+	u64 offset;
- 
- 	if (!can_mmap(obj, type))
- 		return 0;
-@@ -879,11 +880,11 @@ static int __igt_mmap(struct drm_i915_private *i915,
- 	if (err)
- 		return err;
- 
--	mmo = mmap_offset_attach(obj, type, NULL);
--	if (IS_ERR(mmo))
--		return PTR_ERR(mmo);
-+	err = __assign_mmap_offset(obj, type, &offset, NULL);
-+	if (err)
-+		return err;
- 
--	addr = igt_mmap_node(i915, &mmo->vma_node, 0, PROT_WRITE, MAP_SHARED);
-+	addr = igt_mmap_offset(i915, offset, obj->base.size, PROT_WRITE, MAP_SHARED);
- 	if (IS_ERR_VALUE(addr))
- 		return addr;
- 
-@@ -897,13 +898,6 @@ static int __igt_mmap(struct drm_i915_private *i915,
- 		goto out_unmap;
- 	}
- 
--	if (area->vm_private_data != mmo) {
--		pr_err("%s: vm_area_struct did not point back to our mmap_offset object!\n",
--		       obj->mm.region->name);
--		err = -EINVAL;
--		goto out_unmap;
--	}
--
- 	for (i = 0; i < obj->base.size / sizeof(u32); i++) {
- 		u32 __user *ux = u64_to_user_ptr((u64)(addr + i * sizeof(*ux)));
- 		u32 x;
-@@ -961,7 +955,7 @@ static int igt_mmap(void *arg)
- 			struct drm_i915_gem_object *obj;
- 			int err;
- 
--			obj = i915_gem_object_create_region(mr, sizes[i], 0);
-+			obj = i915_gem_object_create_region(mr, sizes[i], I915_BO_ALLOC_USER);
- 			if (obj == ERR_PTR(-ENODEV))
- 				continue;
- 
-@@ -1004,12 +998,12 @@ static int __igt_mmap_access(struct drm_i915_private *i915,
- 			     struct drm_i915_gem_object *obj,
- 			     enum i915_mmap_type type)
- {
--	struct i915_mmap_offset *mmo;
- 	unsigned long __user *ptr;
- 	unsigned long A, B;
- 	unsigned long x, y;
- 	unsigned long addr;
- 	int err;
-+	u64 offset;
- 
- 	memset(&A, 0xAA, sizeof(A));
- 	memset(&B, 0xBB, sizeof(B));
-@@ -1017,11 +1011,11 @@ static int __igt_mmap_access(struct drm_i915_private *i915,
- 	if (!can_mmap(obj, type) || !can_access(obj))
- 		return 0;
- 
--	mmo = mmap_offset_attach(obj, type, NULL);
--	if (IS_ERR(mmo))
--		return PTR_ERR(mmo);
-+	err = __assign_mmap_offset(obj, type, &offset, NULL);
-+	if (err)
-+		return err;
- 
--	addr = igt_mmap_node(i915, &mmo->vma_node, 0, PROT_WRITE, MAP_SHARED);
-+	addr = igt_mmap_offset(i915, offset, obj->base.size, PROT_WRITE, MAP_SHARED);
- 	if (IS_ERR_VALUE(addr))
- 		return addr;
- 	ptr = (unsigned long __user *)addr;
-@@ -1081,7 +1075,7 @@ static int igt_mmap_access(void *arg)
- 		struct drm_i915_gem_object *obj;
- 		int err;
- 
--		obj = i915_gem_object_create_region(mr, PAGE_SIZE, 0);
-+		obj = i915_gem_object_create_region(mr, PAGE_SIZE, I915_BO_ALLOC_USER);
- 		if (obj == ERR_PTR(-ENODEV))
- 			continue;
- 
-@@ -1111,11 +1105,11 @@ static int __igt_mmap_gpu(struct drm_i915_private *i915,
- 			  enum i915_mmap_type type)
- {
- 	struct intel_engine_cs *engine;
--	struct i915_mmap_offset *mmo;
- 	unsigned long addr;
- 	u32 __user *ux;
- 	u32 bbe;
- 	int err;
-+	u64 offset;
- 
- 	/*
- 	 * Verify that the mmap access into the backing store aligns with
-@@ -1132,11 +1126,11 @@ static int __igt_mmap_gpu(struct drm_i915_private *i915,
- 	if (err)
- 		return err;
- 
--	mmo = mmap_offset_attach(obj, type, NULL);
--	if (IS_ERR(mmo))
--		return PTR_ERR(mmo);
-+	err = __assign_mmap_offset(obj, type, &offset, NULL);
-+	if (err)
-+		return err;
- 
--	addr = igt_mmap_node(i915, &mmo->vma_node, 0, PROT_WRITE, MAP_SHARED);
-+	addr = igt_mmap_offset(i915, offset, obj->base.size, PROT_WRITE, MAP_SHARED);
- 	if (IS_ERR_VALUE(addr))
- 		return addr;
- 
-@@ -1226,7 +1220,7 @@ static int igt_mmap_gpu(void *arg)
- 		struct drm_i915_gem_object *obj;
- 		int err;
- 
--		obj = i915_gem_object_create_region(mr, PAGE_SIZE, 0);
-+		obj = i915_gem_object_create_region(mr, PAGE_SIZE, I915_BO_ALLOC_USER);
- 		if (obj == ERR_PTR(-ENODEV))
- 			continue;
- 
-@@ -1303,18 +1297,18 @@ static int __igt_mmap_revoke(struct drm_i915_private *i915,
- 			     struct drm_i915_gem_object *obj,
- 			     enum i915_mmap_type type)
- {
--	struct i915_mmap_offset *mmo;
- 	unsigned long addr;
- 	int err;
-+	u64 offset;
- 
- 	if (!can_mmap(obj, type))
- 		return 0;
- 
--	mmo = mmap_offset_attach(obj, type, NULL);
--	if (IS_ERR(mmo))
--		return PTR_ERR(mmo);
-+	err = __assign_mmap_offset(obj, type, &offset, NULL);
-+	if (err)
-+		return err;
- 
--	addr = igt_mmap_node(i915, &mmo->vma_node, 0, PROT_WRITE, MAP_SHARED);
-+	addr = igt_mmap_offset(i915, offset, obj->base.size, PROT_WRITE, MAP_SHARED);
- 	if (IS_ERR_VALUE(addr))
- 		return addr;
- 
-@@ -1350,10 +1344,20 @@ static int __igt_mmap_revoke(struct drm_i915_private *i915,
- 		}
- 	}
- 
--	err = check_absent(addr, obj->base.size);
--	if (err) {
--		pr_err("%s: was not absent\n", obj->mm.region->name);
--		goto out_unmap;
-+	if (!obj->ops->mmap_ops) {
-+		err = check_absent(addr, obj->base.size);
-+		if (err) {
-+			pr_err("%s: was not absent\n", obj->mm.region->name);
-+			goto out_unmap;
-+		}
-+	} else {
-+		/* ttm allows access to evicted regions by design */
-+
-+		err = check_present(addr, obj->base.size);
-+		if (err) {
-+			pr_err("%s: was not present\n", obj->mm.region->name);
-+			goto out_unmap;
-+		}
- 	}
- 
- out_unmap:
-@@ -1371,7 +1375,7 @@ static int igt_mmap_revoke(void *arg)
- 		struct drm_i915_gem_object *obj;
- 		int err;
- 
--		obj = i915_gem_object_create_region(mr, PAGE_SIZE, 0);
-+		obj = i915_gem_object_create_region(mr, PAGE_SIZE, I915_BO_ALLOC_USER);
- 		if (obj == ERR_PTR(-ENODEV))
- 			continue;
- 
-diff --git a/drivers/gpu/drm/i915/selftests/igt_mmap.c b/drivers/gpu/drm/i915/selftests/igt_mmap.c
-index 583a4ff8b8c9..e920a461bd36 100644
---- a/drivers/gpu/drm/i915/selftests/igt_mmap.c
-+++ b/drivers/gpu/drm/i915/selftests/igt_mmap.c
-@@ -9,15 +9,28 @@
- #include "i915_drv.h"
- #include "igt_mmap.h"
- 
--unsigned long igt_mmap_node(struct drm_i915_private *i915,
--			    struct drm_vma_offset_node *node,
--			    unsigned long addr,
--			    unsigned long prot,
--			    unsigned long flags)
-+unsigned long igt_mmap_offset(struct drm_i915_private *i915,
-+			      u64 offset,
-+			      unsigned long size,
-+			      unsigned long prot,
-+			      unsigned long flags)
- {
-+	struct drm_vma_offset_node *node;
- 	struct file *file;
-+	unsigned long addr;
- 	int err;
- 
-+	/* no need to refcount, we own this object */
-+	drm_vma_offset_lock_lookup(i915->drm.vma_offset_manager);
-+	node = drm_vma_offset_exact_lookup_locked(i915->drm.vma_offset_manager,
-+						  offset / PAGE_SIZE, size / PAGE_SIZE);
-+	drm_vma_offset_unlock_lookup(i915->drm.vma_offset_manager);
-+
-+	if (GEM_WARN_ON(!node)) {
-+		pr_info("Failed to lookup %llx\n", offset);
-+		return -ENOENT;
-+	}
-+
- 	/* Pretend to open("/dev/dri/card0") */
- 	file = mock_drm_getfile(i915->drm.primary, O_RDWR);
- 	if (IS_ERR(file))
-@@ -29,7 +42,7 @@ unsigned long igt_mmap_node(struct drm_i915_private *i915,
- 		goto out_file;
- 	}
- 
--	addr = vm_mmap(file, addr, drm_vma_node_size(node) << PAGE_SHIFT,
-+	addr = vm_mmap(file, 0, drm_vma_node_size(node) << PAGE_SHIFT,
- 		       prot, flags, drm_vma_node_offset_addr(node));
- 
- 	drm_vma_node_revoke(node, file->private_data);
-diff --git a/drivers/gpu/drm/i915/selftests/igt_mmap.h b/drivers/gpu/drm/i915/selftests/igt_mmap.h
-index 6e716cb59d7e..acbe34d81a6d 100644
---- a/drivers/gpu/drm/i915/selftests/igt_mmap.h
-+++ b/drivers/gpu/drm/i915/selftests/igt_mmap.h
-@@ -7,13 +7,15 @@
- #ifndef IGT_MMAP_H
- #define IGT_MMAP_H
- 
-+#include <linux/types.h>
-+
- struct drm_i915_private;
- struct drm_vma_offset_node;
- 
--unsigned long igt_mmap_node(struct drm_i915_private *i915,
--			    struct drm_vma_offset_node *node,
--			    unsigned long addr,
--			    unsigned long prot,
--			    unsigned long flags);
-+unsigned long igt_mmap_offset(struct drm_i915_private *i915,
-+			      u64 offset,
-+			      unsigned long size,
-+			      unsigned long prot,
-+			      unsigned long flags);
- 
- #endif /* IGT_MMAP_H */
--- 
-2.31.1
+Cc'ing Mario in case he has an opinion.
 
+Since "active bpc" is related to "max bpc", the both should follow the
+same definition. Do they do that now?
+
+Maybe a clarifying note about interaction with dithering would still be
+good to have here.
+
+
+I recall reading some comments from you about having problems with
+making this immutable. Is it properly immutable now?
+
+That is, drm_info reports the property as "(immutable)".
+https://github.com/ascent12/drm_info
+
+If we are not sure if DSC could result in lower observed bpc than
+"active bpc", then DSC state would need to be exposed as a KMS property
+too, with a note that it invalidates what "active bpc" shows. Or maybe
+"active bpc" should be "unknown" in that case?
+
+
+Thanks,
+pq
+
+>   * Connectors also have one standardized atomic property:
+>   *
+>   * CRTC_ID:
+> @@ -2150,6 +2158,39 @@ int drm_connector_attach_max_bpc_property(struct d=
+rm_connector *connector,
+>  }
+>  EXPORT_SYMBOL(drm_connector_attach_max_bpc_property);
+> =20
+> +/**
+> + * drm_connector_attach_active_bpc_property - attach "active bpc" proper=
+ty
+> + * @connector: connector to attach active bpc property on.
+> + * @min: The minimum bit depth supported by the connector.
+> + * @max: The maximum bit depth supported by the connector.
+> + *
+> + * This is used to check the applied bit depth on a connector.
+> + *
+> + * Returns:
+> + * Zero on success, negative errno on failure.
+> + */
+> +int drm_connector_attach_active_bpc_property(struct drm_connector *conne=
+ctor,
+> +					  int min, int max)
+> +{
+> +	struct drm_device *dev =3D connector->dev;
+> +	struct drm_property *prop;
+> +
+> +	prop =3D connector->active_bpc_property;
+> +	if (!prop) {
+> +		prop =3D drm_property_create_range(dev, 0, "active bpc", min, max);
+> +		if (!prop)
+> +			return -ENOMEM;
+> +
+> +		connector->active_bpc_property =3D prop;
+> +	}
+> +
+> +	drm_object_attach_property(&connector->base, prop, 0);
+> +	connector->state->active_bpc =3D 0;
+> +
+> +	return 0;
+> +}
+> +EXPORT_SYMBOL(drm_connector_attach_active_bpc_property);
+> +
+>  /**
+>   * drm_connector_set_vrr_capable_property - sets the variable refresh ra=
+te
+>   * capable property for a connector
+> diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
+> index 1922b278ffad..c58cba2b6afe 100644
+> --- a/include/drm/drm_connector.h
+> +++ b/include/drm/drm_connector.h
+> @@ -781,6 +781,13 @@ struct drm_connector_state {
+>  	 */
+>  	u8 max_bpc;
+> =20
+> +	/**
+> +	 * @active_bpc: Read only property set by the GPU driver to the actually
+> +	 * applied bit depth of the pixels after evaluating all hardware
+> +	 * limitations.
+> +	 */
+> +	u8 active_bpc;
+> +
+>  	/**
+>  	 * @hdr_output_metadata:
+>  	 * DRM blob property for HDR output metadata
+> @@ -1380,6 +1387,12 @@ struct drm_connector {
+>  	 */
+>  	struct drm_property *max_bpc_property;
+> =20
+> +	/**
+> +	 * @active_bpc_property: Default connector property for the active bpc
+> +	 * to be driven out of the connector.
+> +	 */
+> +	struct drm_property *active_bpc_property;
+> +
+>  #define DRM_CONNECTOR_POLL_HPD (1 << 0)
+>  #define DRM_CONNECTOR_POLL_CONNECT (1 << 1)
+>  #define DRM_CONNECTOR_POLL_DISCONNECT (1 << 2)
+> @@ -1698,6 +1711,8 @@ int drm_connector_set_panel_orientation_with_quirk(
+>  	int width, int height);
+>  int drm_connector_attach_max_bpc_property(struct drm_connector *connecto=
+r,
+>  					  int min, int max);
+> +int drm_connector_attach_active_bpc_property(struct drm_connector *conne=
+ctor,
+> +					  int min, int max);
+> =20
+>  /**
+>   * struct drm_tile_group - Tile group metadata
+
+
+--Sig_/G9gjPWkKmqwLWKB6JjVFNYP
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIyBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmDBxWwACgkQI1/ltBGq
+qqdx6Q/2Jx5o//7FCgMeDEoDPr3pod+Wxo2MlOMa8WmeEgg/7A4nmr0Of/btoEof
+IwDEbBZvN9gJIz0vA4GaLKNOjRFHek9l2ur6TsQ292J6CoC/MJclpee511ImuaCl
+a0GGw9vwcmUJLUInvM6fwcEzi9Vb+dj1H2VNqRq56QcpgX/+WjW5AkMc0LtsD+qi
+hs2DAnvHkTuaocgY7gCjLMlE9sBwmNUByzpvsl2Nwnn994hdUP2SylTXBJ5cm06j
+BKqEbFelKajhQzscjre7vU4d7EKalm7bKT83BubXg6Q3GAqYMMJhQU7IrH7YQPf4
+Ns+Yjw93SxM8V/Gesyu7ZTh6Nclz51oDpcWZZB5GIDXpQWr58+Fa8H+ZgXxSVP59
+A49M1SAjdmttofu0H1YCijuboKSlHOlq85zHJmIl/TRhMEqbKiej5Z4z/4FtjIHl
+HfiXcJIa2iWYcNYGeSktgFf0tu55+X06usqAippPXr8jiU0dYHeuHGrQjenKPWLg
+ooSpWddnrQgFpNhGOdtpiKHpYwWaob9P5tcgaEjt+lvGzJR2mDBi8IBAfBIWE7VZ
+qDRnSfZb0/0tWMftwxnTlbyv2Zyp9/aIaLShx3SmVmRVUzFK+oVwgXINju8Io+h/
+fiOW3tUyC43DGNqVoBYglrGDGeyrjv8z9s2HQ3JfJlWapvLRaw==
+=ap5H
+-----END PGP SIGNATURE-----
+
+--Sig_/G9gjPWkKmqwLWKB6JjVFNYP--
