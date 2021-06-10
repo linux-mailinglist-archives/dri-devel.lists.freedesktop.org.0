@@ -1,62 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1832C3A28E1
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Jun 2021 12:00:33 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 899923A28F4
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Jun 2021 12:04:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C45B36ECB0;
-	Thu, 10 Jun 2021 10:00:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 755516ECBC;
+	Thu, 10 Jun 2021 10:04:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com
- [IPv6:2a00:1450:4864:20::435])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C775A6ECB0
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Jun 2021 10:00:29 +0000 (UTC)
-Received: by mail-wr1-x435.google.com with SMTP id a11so1548802wrt.13
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Jun 2021 03:00:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=fooishbar-org.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=EsnCvdcEe3Eaqj5A/OQKBak574eTL4eh+FWunGYgn5w=;
- b=ooT0aC+2ValcdKw94R8aLE6u1X6MO8in5Pq199LNpA35Lq3j/PJ48QWR290ovj5avj
- gaP53isUxKbdXg+XckNI8zU6ZuT2y1dzqoAzFKKeBFCMXmE64bBi1hCtJc6WhUnfpiY5
- uuxsXTnlB5yLKsnGWBxU0FbNFNG9G8z/vfdSyCWwO6uOcW5JEd5pSpCxrzkcIoTfx1Jx
- 4/sGU037EM+nufvaH+TQpaSOEuuy8joDzR88lECNff6+1aLEjXiWB+BIyWHM1PbwAcls
- KuEUkFzLNNCyVq5J7Cv+pKYymkJ73gt9M5NZD4lYtXk7WSXFhIeqyjAorciTGYNhZsWS
- 5cZA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=EsnCvdcEe3Eaqj5A/OQKBak574eTL4eh+FWunGYgn5w=;
- b=ipvUZ4O/F6PBaakDGCKVpBIQwq49SlS5c9L42vJ2oJreIwVx+8aEqNE+Nxuw7NkTsH
- MjV4yDxjt+IGnOc9yjuZkXfBQCj72hxNsrYkELoxu8kwydtIE7lT9DMduMp9S7fI2QBB
- e9v+f2CuQYAR8KtJ4Rxlw9E3InOxI56ZWj1zW3krnnwFGdo1/VQbt6Ku6DcKdl0J+tLO
- QVD3onnp7MyTxAl1weHqWycEwUPFTTy1QJZf6kZeI2xFdCXor3tDKzuLrnUxO+Hw4RD3
- +DJQd4JkPcw9c2Jg1ndum3Fy84LCyuREAHpoW+M6bufc6xCVI//WZ+pB35/8EX8jrB/H
- f8uQ==
-X-Gm-Message-State: AOAM533Sh6xzvDJWfuTvqbaJgiiDMnZUlocvP+z10CTIIs8VyrizgaNZ
- vDLcMPSyh5kfnW6ltBvdZHTWBR5ewPXsMjcpcDdKtQ==
-X-Google-Smtp-Source: ABdhPJxrB9VdrDrJI55oxjFjWbRrbLoJeHq9aQ/Sp1gnWuQF1hXZENK49ouPY18lZSq5mqbnaL7zmLE3JyGrmeUOOiA=
-X-Received: by 2002:adf:c392:: with SMTP id p18mr4400433wrf.373.1623319228275; 
- Thu, 10 Jun 2021 03:00:28 -0700 (PDT)
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5D1BD6ECAC;
+ Thu, 10 Jun 2021 10:04:03 +0000 (UTC)
+IronPort-SDR: keu534A0UZcd2/7gwJvIs6D3F1+U7LCyciKRHaEj1GnTFMS8i5mdriwxoRSCvnNenx/Qa7U/R4
+ 4KFTLaHZmrUg==
+X-IronPort-AV: E=McAfee;i="6200,9189,10010"; a="185642419"
+X-IronPort-AV: E=Sophos;i="5.83,263,1616482800"; d="scan'208";a="185642419"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Jun 2021 03:03:58 -0700
+IronPort-SDR: CkIu7NghF7rMMe3AVGKdmSXDUQOaadEak4FGC+LhJ2F+D2XPnMP3f2i+e0XcsoRy6CqW45cRkB
+ 0JuYwo9VIK3A==
+X-IronPort-AV: E=Sophos;i="5.83,263,1616482800"; d="scan'208";a="448662293"
+Received: from rabolton-mobl.ger.corp.intel.com (HELO [10.213.197.140])
+ ([10.213.197.140])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Jun 2021 03:03:55 -0700
+Subject: Re: [Intel-gfx] [PATCH 1/5] drm/i915: Move
+ intel_engine_free_request_pool to i915_request.c
+To: Jason Ekstrand <jason@jlekstrand.net>, dri-devel@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org
+References: <20210609212959.471209-1-jason@jlekstrand.net>
+ <20210609212959.471209-2-jason@jlekstrand.net>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+Message-ID: <0f63cba3-ec2f-c246-1375-5b1bced593f5@linux.intel.com>
+Date: Thu, 10 Jun 2021 11:03:53 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-References: <20210326145139.467072-1-thierry.reding@gmail.com>
- <20210326145139.467072-2-thierry.reding@gmail.com>
- <P6bikxumymMi9GOcPaj_n8vMt5caPR3rWO4Kga8Ud_FNIgytl3ljvnkU6nsyxIwN4VKNmfOfsC4KryzFTObEXjtFDiywRWDtO_ed71g9aj0=@emersion.fr>
- <YF4L3kq9UN6PWh/h@orome.fritz.box>
- <CAPj87rO_RsEPpuC9-DyVEJ=K6OLeknHhOnjvbQ2EEnPPPrq+dg@mail.gmail.com>
- <CAPj87rOB8p+WSgVDwRbbLgW-di5qpSTY5Q6cmQYwbwD2Y3wKVA@mail.gmail.com>
- <YMHUHGS94zXLshU5@orome.fritz.box>
-In-Reply-To: <YMHUHGS94zXLshU5@orome.fritz.box>
-From: Daniel Stone <daniel@fooishbar.org>
-Date: Thu, 10 Jun 2021 11:00:16 +0100
-Message-ID: <CAPj87rOyUvKHpoiBSgTmTn=K_O9JZ+XifDx1MuH6sBxkb--w3Q@mail.gmail.com>
-Subject: Re: [PATCH v2 01/10] drm/fourcc: Add macros to determine the modifier
- vendor
-To: Thierry Reding <thierry.reding@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20210609212959.471209-2-jason@jlekstrand.net>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,39 +55,102 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, James Jones <jajones@nvidia.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, linux-tegra@vger.kernel.org,
- Dmitry Osipenko <digetx@gmail.com>
+Cc: Daniel Vetter <daniel.vetter@intel.com>,
+ Matthew Auld <matthew.auld@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 10 Jun 2021 at 09:56, Thierry Reding <thierry.reding@gmail.com> wrote:
-> On Wed, Jun 09, 2021 at 05:28:50PM +0100, Daniel Stone wrote:
-> > On Tue, 27 Apr 2021 at 19:40, Daniel Stone <daniel@fooishbar.org> wrote:
-> > > On Fri, 26 Mar 2021 at 16:29, Thierry Reding <thierry.reding@gmail.com> wrote:
-> > >> I do have commit access for drm-misc-next, but I was thinking that I
-> > >> could take this through the drm/tegra tree along with the subsequent
-> > >> patches because of the dependency.
-> > >>
-> > >> Anyone willing to provide an Acked-by for that?
-> > >
-> > > Yep, no harm if that makes your life easier, so for both the patch itself and merging through tegra:
-> > > Acked-by: Daniel Stone <daniels@collabora.com>
-> >
-> > Is this still in your queue somewhere?
->
-> I reverted to an open-coded version at the time because the -rc6 cut-off
-> was coming up quickly and I wasn't getting a response. But I do have a
-> set of follow-up patches in a branch somewhere that convert the existing
-> users to the new helpers.
->
-> Let me dig those out and send them out again.
 
-OK, I didn't realise this had been dropped from your queue. That
-sounds reasonable, and we'll just open-code as well in libdrm for the
-moment, since we want to have the modifier-name API in without having
-to wait another few months ...
+On 09/06/2021 22:29, Jason Ekstrand wrote:
+> This appears to break encapsulation by moving an intel_engine_cs
+> function to a i915_request file.  However, this function is
+> intrinsically tied to the lifetime rules and allocation scheme of
+> i915_request and having it in intel_engine_cs.c leaks details of
+> i915_request.  We have an abstraction leak either way.  Since
+> i915_request's allocation scheme is far more subtle than the simple
+> pointer that is intel_engine_cs.request_pool, it's probably better to
+> keep i915_request's details to itself.
+> 
+> Signed-off-by: Jason Ekstrand <jason@jlekstrand.net>
+> Cc: Jon Bloomfield <jon.bloomfield@intel.com>
+> Cc: Daniel Vetter <daniel.vetter@intel.com>
+> Cc: Matthew Auld <matthew.auld@intel.com>
+> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> ---
+>   drivers/gpu/drm/i915/gt/intel_engine_cs.c | 8 --------
+>   drivers/gpu/drm/i915/i915_request.c       | 7 +++++--
+>   drivers/gpu/drm/i915/i915_request.h       | 2 --
+>   3 files changed, 5 insertions(+), 12 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/gt/intel_engine_cs.c b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
+> index 9ceddfbb1687d..df6b80ec84199 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_engine_cs.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
+> @@ -422,14 +422,6 @@ void intel_engines_release(struct intel_gt *gt)
+>   	}
+>   }
+>   
+> -void intel_engine_free_request_pool(struct intel_engine_cs *engine)
+> -{
+> -	if (!engine->request_pool)
+> -		return;
+> -
+> -	kmem_cache_free(i915_request_slab_cache(), engine->request_pool);
 
-Cheers,
-Daniel
+Argument that the slab cache shouldn't be exported from i915_request.c 
+sounds good to me.
+
+But I think step better than simply reversing the break of encapsulation 
+(And it's even worse because it leaks much higher level object!) could 
+be to export a freeing helper from i915_request.c, engine pool would 
+then use:
+
+void __i915_request_free(...)
+{
+	kmem_cache_free(...);
+}
+
+?
+
+Regards,
+
+Tvrtko
+
+> -}
+> -
+>   void intel_engines_free(struct intel_gt *gt)
+>   {
+>   	struct intel_engine_cs *engine;
+> diff --git a/drivers/gpu/drm/i915/i915_request.c b/drivers/gpu/drm/i915/i915_request.c
+> index 1014c71cf7f52..48c5f8527854b 100644
+> --- a/drivers/gpu/drm/i915/i915_request.c
+> +++ b/drivers/gpu/drm/i915/i915_request.c
+> @@ -106,9 +106,12 @@ static signed long i915_fence_wait(struct dma_fence *fence,
+>   				 timeout);
+>   }
+>   
+> -struct kmem_cache *i915_request_slab_cache(void)
+> +void intel_engine_free_request_pool(struct intel_engine_cs *engine)
+>   {
+> -	return global.slab_requests;
+> +	if (!engine->request_pool)
+> +		return;
+> +
+> +	kmem_cache_free(global.slab_requests, engine->request_pool);
+>   }
+>   
+>   static void i915_fence_release(struct dma_fence *fence)
+> diff --git a/drivers/gpu/drm/i915/i915_request.h b/drivers/gpu/drm/i915/i915_request.h
+> index 270f6cd37650c..f84c38d29f988 100644
+> --- a/drivers/gpu/drm/i915/i915_request.h
+> +++ b/drivers/gpu/drm/i915/i915_request.h
+> @@ -300,8 +300,6 @@ static inline bool dma_fence_is_i915(const struct dma_fence *fence)
+>   	return fence->ops == &i915_fence_ops;
+>   }
+>   
+> -struct kmem_cache *i915_request_slab_cache(void);
+> -
+>   struct i915_request * __must_check
+>   __i915_request_create(struct intel_context *ce, gfp_t gfp);
+>   struct i915_request * __must_check
+> 
