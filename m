@@ -1,59 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A84DB3A2D9C
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Jun 2021 15:59:20 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9AF8A3A2D98
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Jun 2021 15:59:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 354BB6ED6B;
-	Thu, 10 Jun 2021 13:59:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 162F86ED27;
+	Thu, 10 Jun 2021 13:59:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb2b.google.com (mail-yb1-xb2b.google.com
- [IPv6:2607:f8b0:4864:20::b2b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 239346ED72
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Jun 2021 13:59:15 +0000 (UTC)
-Received: by mail-yb1-xb2b.google.com with SMTP id i4so40962718ybe.2
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Jun 2021 06:59:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=jlekstrand-net.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=vz88TG2t3wHyHeHSsfk4XrpWiwqZ6jeUeTjx+9bno9Q=;
- b=J2oDJRyUK6lsyWJdmXmHIRRIyctFK+q0ttIfn/P7XdwzBUeWVCGRRU7AXn395A/fWX
- uy+m5mGiOiabDoGhSQg7kySuwXeTqPIde4NgotHjAyENTHSzR4YvGo2v5JwnepDzVCGg
- twoA7Dx0/mOcl37gC6UJliBuDw9P9sE99ZxPi4wHpnrHhtAZtqHpBzJ2ILe+RPvC+bA3
- PMuEu8FZaSpHV6s73VreAfqWqM3/OIcyB8e37mB7n+ieZAo9q3pl2HdiPKcjAjVx71ia
- hJP31TT3a9XDw7LxL6JG3ZuUruLzhjTYFL9FDqUEWak3d7PWie9ChinEQ2r3R101uw1F
- F0PA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=vz88TG2t3wHyHeHSsfk4XrpWiwqZ6jeUeTjx+9bno9Q=;
- b=S8tYWXEbHnfbz/I2yV9X157OCLIBqtaLRqqHCd/TrNfbMBydj95Ciuwe7cuxjVbGj+
- WRxj+tvGqsm8CfTivXX11ChDIegGNj2mZWH4yczvJ2g4QnRT0zRfRpqVG5576t1eRQSP
- SzTt8Dqz18GzOGePsoPNvFpQB2o+pvkiv90QhjgKGafCaFP0LegYqarHmfaTM6DYpIbT
- Xn0L1UytjdHvGgDHaQzmGvTXrBd8F3FmA2DZJR+I10HvTSqbLGIktrakXfEDxPZn0Gta
- nOKKyvQYpUNw5knK5OaWvXBM040eNOSz0kKrJtUcnhPv4amdu4ykLyK15F4V3Ro3xGCt
- dgpg==
-X-Gm-Message-State: AOAM5318gq6268OxRIRaaKUVyOeAwuS0Em9qNml1Gtmwr9iQe5hDIkDy
- bn20Rh0unja/2ItTETJufwFog8RSwgEk80Z7IrKRYQ==
-X-Google-Smtp-Source: ABdhPJzoiTM4MToa9/DidIlMjXB/t1IsDNscu7OH2tmdnBFEzox2aTWugVcTtrXOdZGKIKcU2aMa/DqWtaf03O2D008=
-X-Received: by 2002:a25:a2c5:: with SMTP id c5mr7481369ybn.432.1623333554134; 
- Thu, 10 Jun 2021 06:59:14 -0700 (PDT)
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7DA6B6E484;
+ Thu, 10 Jun 2021 13:59:12 +0000 (UTC)
+IronPort-SDR: WxsThHDg4YHzPkVhQRS+9U5EtHDpNfwiFT95AIr2xOM9TFoNvT6uCmzJIuECgz0WNqiq+W9F6u
+ 0DKSIJsPk9xw==
+X-IronPort-AV: E=McAfee;i="6200,9189,10011"; a="266453632"
+X-IronPort-AV: E=Sophos;i="5.83,263,1616482800"; d="scan'208";a="266453632"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Jun 2021 06:59:10 -0700
+IronPort-SDR: XHbZH+HZrj2U71+lkWuQxpimHe/PQ3EjXTtquyCEop8srNKuzKq5h0bcD+r324eNVIKQ7C+9DI
+ Y2alSLaUCP4w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.83,263,1616482800"; d="scan'208";a="419721161"
+Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.171])
+ by orsmga002.jf.intel.com with SMTP; 10 Jun 2021 06:59:05 -0700
+Received: by stinkbox (sSMTP sendmail emulation);
+ Thu, 10 Jun 2021 16:59:05 +0300
+Date: Thu, 10 Jun 2021 16:59:05 +0300
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Maxime Ripard <maxime@cerno.tech>
+Subject: Re: [PATCH v2 4/7] drm/i915/display: Add handling for new "active
+ bpc" property
+Message-ID: <YMIaqZnWTAiixwXJ@intel.com>
+References: <20210608174320.37429-1-wse@tuxedocomputers.com>
+ <20210608174320.37429-5-wse@tuxedocomputers.com>
+ <20210610125036.33fpnaoz4xpiqslw@gilmour>
 MIME-Version: 1.0
-References: <20210609212959.471209-1-jason@jlekstrand.net>
- <20210609212959.471209-6-jason@jlekstrand.net>
- <ea36431d-521a-c1c0-59e5-a196f55c28dd@amd.com>
-In-Reply-To: <ea36431d-521a-c1c0-59e5-a196f55c28dd@amd.com>
-From: Jason Ekstrand <jason@jlekstrand.net>
-Date: Thu, 10 Jun 2021 08:59:03 -0500
-Message-ID: <CAOFGe97+JK9-HLsVrXdvm45Qk721utwpHyy8xpqR7uRCpZm5ig@mail.gmail.com>
-Subject: Re: [PATCH 5/5] DONOTMERGE: dma-buf: Get rid of dma_fence_get_rcu_safe
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210610125036.33fpnaoz4xpiqslw@gilmour>
+X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,261 +54,72 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- Intel GFX <intel-gfx@lists.freedesktop.org>,
- Matthew Auld <matthew.auld@intel.com>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>
+Cc: amd-gfx@lists.freedesktop.org, sunpeng.li@amd.com,
+ intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, airlied@linux.ie,
+ Werner Sembach <wse@tuxedocomputers.com>, tzimmermann@suse.de,
+ rodrigo.vivi@intel.com, alexander.deucher@amd.com, christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jun 10, 2021 at 1:51 AM Christian K=C3=B6nig
-<christian.koenig@amd.com> wrote:
->
-> Am 09.06.21 um 23:29 schrieb Jason Ekstrand:
-> > This helper existed to handle the weird corner-cases caused by using
-> > SLAB_TYPESAFE_BY_RCU for backing dma_fence.  Now that no one is using
-> > that anymore (i915 was the only real user), dma_fence_get_rcu is
-> > sufficient.  The one slightly annoying thing we have to deal with here
-> > is that dma_fence_get_rcu_safe did an rcu_dereference as well as a
-> > SLAB_TYPESAFE_BY_RCU-safe dma_fence_get_rcu.  This means each call site
-> > ends up being 3 lines instead of 1.
->
-> That's an outright NAK.
->
-> The loop in dma_fence_get_rcu_safe is necessary because the underlying
-> fence object can be replaced while taking the reference.
-
-Right.  I had missed a bit of that when I first read through it.  I
-see the need for the loop now.  But there are some other tricky bits
-in there besides just the loop.
-
-> This is completely unrelated to SLAB_TYPESAFE_BY_RCU. See the
-> dma_fence_chain usage for reference.
->
-> What you can remove is the sequence number handling in dma-buf. That
-> should make adding fences quite a bit quicker.
-
-I'll look at that and try to understand what's going on there.
-
---Jason
-
-> Regards,
-> Christian.
->
-> >
-> > Signed-off-by: Jason Ekstrand <jason@jlekstrand.net>
-> > Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-> > Cc: Christian K=C3=B6nig <christian.koenig@amd.com>
-> > Cc: Matthew Auld <matthew.auld@intel.com>
-> > Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+On Thu, Jun 10, 2021 at 02:50:36PM +0200, Maxime Ripard wrote:
+> Hi
+> 
+> On Tue, Jun 08, 2021 at 07:43:17PM +0200, Werner Sembach wrote:
+> > This commits implements the "active bpc" drm property for the Intel GPU driver.
+> > 
+> > Signed-off-by: Werner Sembach <wse@tuxedocomputers.com>
 > > ---
-> >   drivers/dma-buf/dma-fence-chain.c         |  8 ++--
-> >   drivers/dma-buf/dma-resv.c                |  4 +-
-> >   drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c |  4 +-
-> >   drivers/gpu/drm/i915/i915_active.h        |  4 +-
-> >   drivers/gpu/drm/i915/i915_vma.c           |  4 +-
-> >   include/drm/drm_syncobj.h                 |  4 +-
-> >   include/linux/dma-fence.h                 | 50 ----------------------=
--
-> >   include/linux/dma-resv.h                  |  4 +-
-> >   8 files changed, 23 insertions(+), 59 deletions(-)
-> >
-> > diff --git a/drivers/dma-buf/dma-fence-chain.c b/drivers/dma-buf/dma-fe=
-nce-chain.c
-> > index 7d129e68ac701..46dfc7d94d8ed 100644
-> > --- a/drivers/dma-buf/dma-fence-chain.c
-> > +++ b/drivers/dma-buf/dma-fence-chain.c
-> > @@ -15,15 +15,17 @@ static bool dma_fence_chain_enable_signaling(struct=
- dma_fence *fence);
-> >    * dma_fence_chain_get_prev - use RCU to get a reference to the previ=
-ous fence
-> >    * @chain: chain node to get the previous node from
-> >    *
-> > - * Use dma_fence_get_rcu_safe to get a reference to the previous fence=
- of the
-> > - * chain node.
-> > + * Use rcu_dereference and dma_fence_get_rcu to get a reference to the
-> > + * previous fence of the chain node.
-> >    */
-> >   static struct dma_fence *dma_fence_chain_get_prev(struct dma_fence_ch=
-ain *chain)
-> >   {
-> >       struct dma_fence *prev;
-> >
-> >       rcu_read_lock();
-> > -     prev =3D dma_fence_get_rcu_safe(&chain->prev);
-> > +     prev =3D rcu_dereference(chain->prev);
-> > +     if (prev)
-> > +             prev =3D dma_fence_get_rcu(prev);
-> >       rcu_read_unlock();
-> >       return prev;
-> >   }
-> > diff --git a/drivers/dma-buf/dma-resv.c b/drivers/dma-buf/dma-resv.c
-> > index f26c71747d43a..cfe0db3cca292 100644
-> > --- a/drivers/dma-buf/dma-resv.c
-> > +++ b/drivers/dma-buf/dma-resv.c
-> > @@ -376,7 +376,9 @@ int dma_resv_copy_fences(struct dma_resv *dst, stru=
-ct dma_resv *src)
-> >               dst_list =3D NULL;
-> >       }
-> >
-> > -     new =3D dma_fence_get_rcu_safe(&src->fence_excl);
-> > +     new =3D rcu_dereference(src->fence_excl);
-> > +     if (new)
-> > +             new =3D dma_fence_get_rcu(new);
-> >       rcu_read_unlock();
-> >
-> >       src_list =3D dma_resv_shared_list(dst);
-> > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c b/drivers/gpu/dr=
-m/amd/amdgpu/amdgpu_fence.c
-> > index 72d9b92b17547..0aeb6117f3893 100644
-> > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c
-> > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c
-> > @@ -161,7 +161,9 @@ int amdgpu_fence_emit(struct amdgpu_ring *ring, str=
-uct dma_fence **f,
-> >               struct dma_fence *old;
-> >
-> >               rcu_read_lock();
-> > -             old =3D dma_fence_get_rcu_safe(ptr);
-> > +             old =3D rcu_dereference(*ptr);
-> > +             if (old)
-> > +                     old =3D dma_fence_get_rcu(old);
-> >               rcu_read_unlock();
-> >
-> >               if (old) {
-> > diff --git a/drivers/gpu/drm/i915/i915_active.h b/drivers/gpu/drm/i915/=
-i915_active.h
-> > index d0feda68b874f..bd89cfc806ca5 100644
-> > --- a/drivers/gpu/drm/i915/i915_active.h
-> > +++ b/drivers/gpu/drm/i915/i915_active.h
-> > @@ -103,7 +103,9 @@ i915_active_fence_get(struct i915_active_fence *act=
-ive)
-> >       struct dma_fence *fence;
-> >
-> >       rcu_read_lock();
-> > -     fence =3D dma_fence_get_rcu_safe(&active->fence);
-> > +     fence =3D rcu_dereference(active->fence);
-> > +     if (fence)
-> > +             fence =3D dma_fence_get_rcu(fence);
-> >       rcu_read_unlock();
-> >
-> >       return fence;
-> > diff --git a/drivers/gpu/drm/i915/i915_vma.c b/drivers/gpu/drm/i915/i91=
-5_vma.c
-> > index 0f227f28b2802..ed0388d99197e 100644
-> > --- a/drivers/gpu/drm/i915/i915_vma.c
-> > +++ b/drivers/gpu/drm/i915/i915_vma.c
-> > @@ -351,7 +351,9 @@ int i915_vma_wait_for_bind(struct i915_vma *vma)
-> >               struct dma_fence *fence;
-> >
-> >               rcu_read_lock();
-> > -             fence =3D dma_fence_get_rcu_safe(&vma->active.excl.fence)=
-;
-> > +             fence =3D rcu_dereference(vma->active.excl.fence);
-> > +             if (fence)
-> > +                     fence =3D dma_fence_get_rcu(fence);
-> >               rcu_read_unlock();
-> >               if (fence) {
-> >                       err =3D dma_fence_wait(fence, MAX_SCHEDULE_TIMEOU=
-T);
-> > diff --git a/include/drm/drm_syncobj.h b/include/drm/drm_syncobj.h
-> > index 6cf7243a1dc5e..6c45d52988bcc 100644
-> > --- a/include/drm/drm_syncobj.h
-> > +++ b/include/drm/drm_syncobj.h
-> > @@ -105,7 +105,9 @@ drm_syncobj_fence_get(struct drm_syncobj *syncobj)
-> >       struct dma_fence *fence;
-> >
-> >       rcu_read_lock();
-> > -     fence =3D dma_fence_get_rcu_safe(&syncobj->fence);
-> > +     fence =3D rcu_dereference(syncobj->fence);
-> > +     if (fence)
-> > +             fence =3D dma_fence_get_rcu(syncobj->fence);
-> >       rcu_read_unlock();
-> >
-> >       return fence;
-> > diff --git a/include/linux/dma-fence.h b/include/linux/dma-fence.h
-> > index 6ffb4b2c63715..f4a2ab2b1ae46 100644
-> > --- a/include/linux/dma-fence.h
-> > +++ b/include/linux/dma-fence.h
-> > @@ -307,56 +307,6 @@ static inline struct dma_fence *dma_fence_get_rcu(=
-struct dma_fence *fence)
-> >               return NULL;
-> >   }
-> >
-> > -/**
-> > - * dma_fence_get_rcu_safe  - acquire a reference to an RCU tracked fen=
-ce
-> > - * @fencep: pointer to fence to increase refcount of
-> > - *
-> > - * Function returns NULL if no refcount could be obtained, or the fenc=
-e.
-> > - * This function handles acquiring a reference to a fence that may be
-> > - * reallocated within the RCU grace period (such as with SLAB_TYPESAFE=
-_BY_RCU),
-> > - * so long as the caller is using RCU on the pointer to the fence.
-> > - *
-> > - * An alternative mechanism is to employ a seqlock to protect a bunch =
-of
-> > - * fences, such as used by struct dma_resv. When using a seqlock,
-> > - * the seqlock must be taken before and checked after a reference to t=
-he
-> > - * fence is acquired (as shown here).
-> > - *
-> > - * The caller is required to hold the RCU read lock.
-> > - */
-> > -static inline struct dma_fence *
-> > -dma_fence_get_rcu_safe(struct dma_fence __rcu **fencep)
-> > -{
-> > -     do {
-> > -             struct dma_fence *fence;
-> > -
-> > -             fence =3D rcu_dereference(*fencep);
-> > -             if (!fence)
-> > -                     return NULL;
-> > -
-> > -             if (!dma_fence_get_rcu(fence))
-> > -                     continue;
-> > -
-> > -             /* The atomic_inc_not_zero() inside dma_fence_get_rcu()
-> > -              * provides a full memory barrier upon success (such as n=
-ow).
-> > -              * This is paired with the write barrier from assigning
-> > -              * to the __rcu protected fence pointer so that if that
-> > -              * pointer still matches the current fence, we know we
-> > -              * have successfully acquire a reference to it. If it no
-> > -              * longer matches, we are holding a reference to some oth=
-er
-> > -              * reallocated pointer. This is possible if the allocator
-> > -              * is using a freelist like SLAB_TYPESAFE_BY_RCU where th=
-e
-> > -              * fence remains valid for the RCU grace period, but it
-> > -              * may be reallocated. When using such allocators, we are
-> > -              * responsible for ensuring the reference we get is to
-> > -              * the right fence, as below.
-> > -              */
-> > -             if (fence =3D=3D rcu_access_pointer(*fencep))
-> > -                     return rcu_pointer_handoff(fence);
-> > -
-> > -             dma_fence_put(fence);
-> > -     } while (1);
-> > -}
-> > -
-> >   #ifdef CONFIG_LOCKDEP
-> >   bool dma_fence_begin_signalling(void);
-> >   void dma_fence_end_signalling(bool cookie);
-> > diff --git a/include/linux/dma-resv.h b/include/linux/dma-resv.h
-> > index 562b885cf9c3d..a38c021f379af 100644
-> > --- a/include/linux/dma-resv.h
-> > +++ b/include/linux/dma-resv.h
-> > @@ -248,7 +248,9 @@ dma_resv_get_excl_unlocked(struct dma_resv *obj)
-> >               return NULL;
-> >
-> >       rcu_read_lock();
-> > -     fence =3D dma_fence_get_rcu_safe(&obj->fence_excl);
-> > +     fence =3D rcu_dereference(obj->fence_excl);
-> > +     if (fence)
-> > +             fence =3D dma_fence_get_rcu(fence);
-> >       rcu_read_unlock();
-> >
-> >       return fence;
->
+> >  drivers/gpu/drm/i915/display/intel_display.c | 14 ++++++++++++++
+> >  drivers/gpu/drm/i915/display/intel_dp.c      |  8 ++++++--
+> >  drivers/gpu/drm/i915/display/intel_dp_mst.c  |  4 +++-
+> >  drivers/gpu/drm/i915/display/intel_hdmi.c    |  4 +++-
+> >  4 files changed, 26 insertions(+), 4 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/i915/display/intel_display.c b/drivers/gpu/drm/i915/display/intel_display.c
+> > index 64e9107d70f7..50c11b8770a7 100644
+> > --- a/drivers/gpu/drm/i915/display/intel_display.c
+> > +++ b/drivers/gpu/drm/i915/display/intel_display.c
+> > @@ -10388,6 +10388,9 @@ static int intel_atomic_commit(struct drm_device *dev,
+> >  {
+> >  	struct intel_atomic_state *state = to_intel_atomic_state(_state);
+> >  	struct drm_i915_private *dev_priv = to_i915(dev);
+> > +	struct drm_connector *connector;
+> > +	struct drm_connector_state *new_conn_state;
+> > +	int i;
+> >  	int ret = 0;
+> >  
+> >  	state->wakeref = intel_runtime_pm_get(&dev_priv->runtime_pm);
+> > @@ -10456,6 +10459,17 @@ static int intel_atomic_commit(struct drm_device *dev,
+> >  	intel_shared_dpll_swap_state(state);
+> >  	intel_atomic_track_fbs(state);
+> >  
+> > +	/* Extract information from crtc to communicate it to userspace as connector properties */
+> > +	for_each_new_connector_in_state(&state->base, connector, new_conn_state, i) {
+> > +		struct intel_crtc *crtc = to_intel_crtc(new_conn_state->crtc);
+> > +		if (crtc) {
+> > +			struct intel_crtc_state *new_crtc_state = intel_atomic_get_new_crtc_state(state, crtc);
+> > +			new_conn_state->active_bpc = new_crtc_state->pipe_bpp / 3;
+> > +		}
+> > +		else
+> > +			new_conn_state->active_bpc = 0;
+> > +	}
+> > +
+> 
+> This seems fairly intrusive, but also commit / commit_tail might not be
+> the best place to put this, we want to support it at the connector
+> level.
+> 
+> Indeed, this will cause some issue if your HDMI output is a bridge for
+> example, where the commit will be in an entirely different driver that
+> has no dependency on the HDMI controller one.
+> 
+> I think it would be best to do that assignment in atomic_check. That
+> way, if the userspace does a commit with DRM_MODE_ATOMIC_TEST_ONLY it
+> would know what the output state would have been like.
+
+DRM_MODE_ATOMIC_TEST_ONLY isn't allowed to change anything.
+
+-- 
+Ville Syrjälä
+Intel
