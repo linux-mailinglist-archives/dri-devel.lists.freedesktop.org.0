@@ -1,38 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9581D3A36BA
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Jun 2021 23:55:52 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 84E233A3629
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Jun 2021 23:44:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0BF456E4CF;
-	Thu, 10 Jun 2021 21:55:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 921406E169;
+	Thu, 10 Jun 2021 21:44:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 918D06E4CF
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Jun 2021 21:55:48 +0000 (UTC)
-IronPort-SDR: WGACC8wJG+jaESCB/DCuinp6bnpTjS0ALyvqJIMQDCupq4qrRV6ONjal9muBQeIRZOiDVxQPwV
- xqs89f7Jpw8A==
-X-IronPort-AV: E=McAfee;i="6200,9189,10011"; a="185102601"
-X-IronPort-AV: E=Sophos;i="5.83,264,1616482800"; d="scan'208";a="185102601"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Jun 2021 14:55:48 -0700
-IronPort-SDR: fijfr+7WC2pgruPf9MDKAmnIsxRAZTtdKxi20pKl2bbqc4SKmmlZLj+zywmWjnC/r9YIYjArw4
- 1hpBE8mwAY6g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.83,264,1616482800"; d="scan'208";a="638499806"
-Received: from dongwonk-z390-aorus-ultra-intel-gfx.fm.intel.com
- ([10.105.129.122])
- by fmsmga005.fm.intel.com with ESMTP; 10 Jun 2021 14:55:48 -0700
-From: Dongwon Kim <dongwon.kim@intel.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm: set DRM_RENDER_ALLOW flag on
- DRM_IOCTL_MODE_CREATE/DESTROY_DUMB ioctls
-Date: Thu, 10 Jun 2021 14:36:59 -0700
-Message-Id: <20210610213659.22728-1-dongwon.kim@intel.com>
-X-Mailer: git-send-email 2.20.1
+Received: from mail-pl1-x62f.google.com (mail-pl1-x62f.google.com
+ [IPv6:2607:f8b0:4864:20::62f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DFCBC6E169;
+ Thu, 10 Jun 2021 21:44:01 +0000 (UTC)
+Received: by mail-pl1-x62f.google.com with SMTP id e1so1746837plh.8;
+ Thu, 10 Jun 2021 14:44:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=YXpzcgNJpQHDdAAXuY/oQ+b/W0CaqN4oZOi6cgulc3w=;
+ b=E2rbXL6CzPIKl7GWbqD7FCanhZAzWtfGCuqJrFoaEQgsw5urIjzABVakFeezgw+MF9
+ dPS1G7lhP/5pp/WE5+VtaBnHKjR/0QzthCWTcHRwkPDCAvNwJ6mn6Kbh1Tho8cDO0wrb
+ R5YhgKOtFkV8qrAPER3NbSwhY/JPpabWfzpYzd1AvK9MthQJD50skgQ/v93OLH0fU2T/
+ l1Z4dfXrQoxVTMMJOrkwKLmi6+hghrguF987nlMO+Kd+QlIfzXFR3nfoAMdEFti6YXAL
+ Agwug7Eiwl+gQ36hHVAnaJXxQ//VEBvG71kovgdzds+Kn85Lyb3UhS1DqIYWyIbT7vSf
+ X4Gg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=YXpzcgNJpQHDdAAXuY/oQ+b/W0CaqN4oZOi6cgulc3w=;
+ b=Iu53aamYAVc9CFzvZnJ8mn6a3Ab2OJQu306yVx7UBZ87KMeTBaMFwR2JFi7ULwUU2Z
+ c14wgGMvbrIykreM1myq6Q+ETicG3auJKiStsvuavQCi3Mzu4SdESFJPfhsRj+MyCJdM
+ ZbivNVEt4CGTYPhrREhFQiQ7XJDEpJtQCbFLRl+/UYTfKUXmtvofzxkDf0D4MS2dO/d/
+ DJSZUhcRAl66v3QhkSdMS9fAWhU9qQ1+almBeCItOft/2z6mwAcH+CQZbK97maPUpnfe
+ xZyhBNUp4NGg6JGIFxHjI8KJ4q/HiIGf+wpsgghSEw/SiSWB3tmRkpfP0yUX2bWR8IPo
+ iseQ==
+X-Gm-Message-State: AOAM530pR0ALU9cwrsiQGPfDW5OD2v+LRRUTNw/ZjXuSKc+kq/L/3Axj
+ rvVoUPaGFhHl5AmgOU12U0i1IJbxjEzLvQ==
+X-Google-Smtp-Source: ABdhPJxJD11XqOOGjIiTUfiFNQ5RyIt0F4HMLtsf3nUmUETo7UraoM7d4RGl+EHgGk/z8yVGSa0MWA==
+X-Received: by 2002:a17:902:f54d:b029:107:b14c:423d with SMTP id
+ h13-20020a170902f54db0290107b14c423dmr746664plf.77.1623361440568; 
+ Thu, 10 Jun 2021 14:44:00 -0700 (PDT)
+Received: from localhost ([2601:1c0:5200:a6:307:a401:7b76:c6e5])
+ by smtp.gmail.com with ESMTPSA id d15sm3173040pfd.35.2021.06.10.14.43.58
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 10 Jun 2021 14:43:59 -0700 (PDT)
+From: Rob Clark <robdclark@gmail.com>
+To: dri-devel@lists.freedesktop.org,
+	iommu@lists.linux-foundation.org
+Subject: [PATCH v5 0/5] iommu/arm-smmu: adreno-smmu page fault handling
+Date: Thu, 10 Jun 2021 14:44:08 -0700
+Message-Id: <20210610214431.539029-1-robdclark@gmail.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -47,35 +67,82 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dongwon Kim <dongwon.kim@intel.com>
+Cc: Konrad Dybcio <konrad.dybcio@somainline.org>,
+ Akhil P Oommen <akhilpo@codeaurora.org>,
+ open list <linux-kernel@vger.kernel.org>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Lee Jones <lee.jones@linaro.org>, Rob Clark <robdclark@chromium.org>,
+ Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>,
+ Jonathan Marek <jonathan@marek.ca>, Will Deacon <will@kernel.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>, Joerg Roedel <jroedel@suse.de>,
+ linux-arm-msm@vger.kernel.org, Sharat Masetty <smasetty@codeaurora.org>,
+ Krishna Reddy <vdumpa@nvidia.com>, Jordan Crouse <jordan@cosmicpenguin.net>,
+ "moderated list:ARM SMMU DRIVERS" <linux-arm-kernel@lists.infradead.org>,
+ "Isaac J. Manjarres" <isaacm@codeaurora.org>,
+ Robin Murphy <robin.murphy@arm.com>, Douglas Anderson <dianders@chromium.org>,
+ Zhenzhong Duan <zhenzhong.duan@gmail.com>,
+ "Kristian H. Kristensen" <hoegsberg@google.com>,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Render clients should be able to create/destroy dumb object to import
-and use it as render buffer in case the default DRM device is different
-from the render device (i.e. kmsro).
+From: Rob Clark <robdclark@chromium.org>
 
-Signed-off-by: Dongwon Kim <dongwon.kim@intel.com>
----
- drivers/gpu/drm/drm_ioctl.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+This picks up an earlier series[1] from Jordan, and adds additional
+support needed to generate GPU devcore dumps on iova faults.  Original
+description:
 
-diff --git a/drivers/gpu/drm/drm_ioctl.c b/drivers/gpu/drm/drm_ioctl.c
-index 98ae00661656..f2f72e132741 100644
---- a/drivers/gpu/drm/drm_ioctl.c
-+++ b/drivers/gpu/drm/drm_ioctl.c
-@@ -685,9 +685,9 @@ static const struct drm_ioctl_desc drm_ioctls[] = {
- 	DRM_IOCTL_DEF(DRM_IOCTL_MODE_RMFB, drm_mode_rmfb_ioctl, 0),
- 	DRM_IOCTL_DEF(DRM_IOCTL_MODE_PAGE_FLIP, drm_mode_page_flip_ioctl, DRM_MASTER),
- 	DRM_IOCTL_DEF(DRM_IOCTL_MODE_DIRTYFB, drm_mode_dirtyfb_ioctl, DRM_MASTER),
--	DRM_IOCTL_DEF(DRM_IOCTL_MODE_CREATE_DUMB, drm_mode_create_dumb_ioctl, 0),
-+	DRM_IOCTL_DEF(DRM_IOCTL_MODE_CREATE_DUMB, drm_mode_create_dumb_ioctl, DRM_RENDER_ALLOW),
- 	DRM_IOCTL_DEF(DRM_IOCTL_MODE_MAP_DUMB, drm_mode_mmap_dumb_ioctl, 0),
--	DRM_IOCTL_DEF(DRM_IOCTL_MODE_DESTROY_DUMB, drm_mode_destroy_dumb_ioctl, 0),
-+	DRM_IOCTL_DEF(DRM_IOCTL_MODE_DESTROY_DUMB, drm_mode_destroy_dumb_ioctl, DRM_RENDER_ALLOW),
- 	DRM_IOCTL_DEF(DRM_IOCTL_MODE_OBJ_GETPROPERTIES, drm_mode_obj_get_properties_ioctl, 0),
- 	DRM_IOCTL_DEF(DRM_IOCTL_MODE_OBJ_SETPROPERTY, drm_mode_obj_set_property_ioctl, DRM_MASTER),
- 	DRM_IOCTL_DEF(DRM_IOCTL_MODE_CURSOR2, drm_mode_cursor2_ioctl, DRM_MASTER),
+This is a stack to add an Adreno GPU specific handler for pagefaults. The first
+patch starts by wiring up report_iommu_fault for arm-smmu. The next patch adds
+a adreno-smmu-priv function hook to capture a handful of important debugging
+registers such as TTBR0, CONTEXTIDR, FSYNR0 and others. This is used by the
+third patch to print more detailed information on page fault such as the TTBR0
+for the pagetable that caused the fault and the source of the fault as
+determined by a combination of the FSYNR1 register and an internal GPU
+register.
+
+This code provides a solid base that we can expand on later for even more
+extensive GPU side page fault debugging capabilities.
+
+v5: [Rob] Use RBBM_STATUS3.SMMU_STALLED_ON_FAULT to detect case where
+    GPU snapshotting needs to avoid crashdumper, and check the
+    RBBM_STATUS3.SMMU_STALLED_ON_FAULT in GPU hang irq paths
+v4: [Rob] Add support to stall SMMU on fault, and let the GPU driver
+    resume translation after it has had a chance to snapshot the GPUs
+    state
+v3: Always clear FSR even if the target driver is going to handle resume
+v2: Fix comment wording and function pointer check per Rob Clark
+
+[1] https://lore.kernel.org/dri-devel/20210225175135.91922-1-jcrouse@codeaurora.org/
+
+Jordan Crouse (3):
+  iommu/arm-smmu: Add support for driver IOMMU fault handlers
+  iommu/arm-smmu-qcom: Add an adreno-smmu-priv callback to get pagefault
+    info
+  drm/msm: Improve the a6xx page fault handler
+
+Rob Clark (2):
+  iommu/arm-smmu-qcom: Add stall support
+  drm/msm: devcoredump iommu fault support
+
+ drivers/gpu/drm/msm/adreno/a5xx_gpu.c       |  23 +++-
+ drivers/gpu/drm/msm/adreno/a6xx_gpu.c       | 110 +++++++++++++++++++-
+ drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c |  42 ++++++--
+ drivers/gpu/drm/msm/adreno/adreno_gpu.c     |  15 +++
+ drivers/gpu/drm/msm/msm_gem.h               |   1 +
+ drivers/gpu/drm/msm/msm_gem_submit.c        |   1 +
+ drivers/gpu/drm/msm/msm_gpu.c               |  48 +++++++++
+ drivers/gpu/drm/msm/msm_gpu.h               |  17 +++
+ drivers/gpu/drm/msm/msm_gpummu.c            |   5 +
+ drivers/gpu/drm/msm/msm_iommu.c             |  22 +++-
+ drivers/gpu/drm/msm/msm_mmu.h               |   5 +-
+ drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c  |  50 +++++++++
+ drivers/iommu/arm/arm-smmu/arm-smmu.c       |   9 +-
+ drivers/iommu/arm/arm-smmu/arm-smmu.h       |   2 +
+ include/linux/adreno-smmu-priv.h            |  38 ++++++-
+ 15 files changed, 367 insertions(+), 21 deletions(-)
+
 -- 
-2.20.1
+2.31.1
 
