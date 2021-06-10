@@ -1,66 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E5C03A2D6B
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Jun 2021 15:48:20 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D63A43A2D73
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Jun 2021 15:50:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 555E26ED22;
-	Thu, 10 Jun 2021 13:48:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B6BA66ED26;
+	Thu, 10 Jun 2021 13:50:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x235.google.com (mail-lj1-x235.google.com
- [IPv6:2a00:1450:4864:20::235])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1944A6ED20
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Jun 2021 13:48:15 +0000 (UTC)
-Received: by mail-lj1-x235.google.com with SMTP id e2so5005873ljk.4
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Jun 2021 06:48:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:from:to:cc:references:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=11Ch0zTg4bYtpXueHaxR43aR9wj+nY2f+mnI1visPCM=;
- b=p6sA4x678ac8IQLT9xziTdZq+TRG/++h6dI2/3JwzP08t15EgvXPi8f2AEOitzli8q
- 5eyaZK9gP4Ada5VPEUL9gbNzSvSsdZ5bK9TDa5mjNaGnlbEmOFMOvdlNj9/QiVsZDhDZ
- 6ktHQAJ+SS/anBSoh3v2SPrKebwGPKnWbx8R8CdQFkUlUWzxbyVZtdk0MWPA/+AIhjvV
- xGum1knZriI6JwQVk1ioFLoxwya2uVc4xlkPOnBe/D6imfB3Us1SWQS1ah0LZAY+J6Qs
- 7iSmF4FJFG6zkmDukULyDe5b5V3jG3bsOanWMg4b1nLIf0ig1XZ+k0gGWh9mcHD5rnTs
- Y+jw==
+Received: from mail-yb1-xb35.google.com (mail-yb1-xb35.google.com
+ [IPv6:2607:f8b0:4864:20::b35])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 045056ED20
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Jun 2021 13:50:30 +0000 (UTC)
+Received: by mail-yb1-xb35.google.com with SMTP id f84so40947583ybg.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Jun 2021 06:50:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=jlekstrand-net.20150623.gappssmtp.com; s=20150623;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=Cr16b0jZ5BytBt5VBlKPdRVYyLjU4xIOL05sQ47zwWg=;
+ b=xT9R3eABeAQDgMkCsk9DfnYdZ16CMH6hX4UjbuQFDF3ayDd9Z7BbFo3gnDlfxGRA2v
+ ShKZOtf7HDPGsB+j+JphMvjnUAUuSMaIysIXxDVaTFyAxkifeiiTTnTQNgKY6U5371KG
+ Etiwe0RkC+wyX3mOUsGlcsald7KzA3HOZibyHl0L1UMo5K2UvIJ67Y3u/CrbfBhZXXGO
+ TcbXDDANo3oRoIqCvYFMYmCXr6n2/sYLGicmwjKdsn4d9Uzj0dfIApb2kAnn5Pdgof6k
+ qspa486rh4dekS8Xw5BoyH7W+bXIegTUZWQoEmGiDwdpSfWRhgDnLB9QT5X25ADiJi1P
+ t/Bw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:from:to:cc:references:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=11Ch0zTg4bYtpXueHaxR43aR9wj+nY2f+mnI1visPCM=;
- b=O9/+gHXKGx/KkBhoyGGg5+Kl1OuXvFWsiEjqdnmSd1OGPvIx897vA1+W0K6yK5XqLh
- topl6yeHnEm4BjTzjyeZIm3EEFblKrzgj2zpwz03UAFtGR4bbMxORrzC40Rj3ccg0/G1
- WKX2BRtZBgAMVYLiI2lo5NQCLdDJi8ZvbJP0Pb7WGxvC8tRw8AeBTRvh5MgJ7h+RdnFn
- RlW89vV1lreAkddq9OIvLvizr6YM2mUqlpEpi5PgzcU+H5eQr5D8FFjXzJ5gIdnhTjbX
- sVWus6IiHK7hCiTW268HTJLNvN4JyDmPbZmDfT1sFTlZMqgW88Wpk418WX3BpghucoHW
- nrQw==
-X-Gm-Message-State: AOAM532tCQxnq0i92H6BSO1cK1hGzpneUVHfQSqDjMjbuTWDunN+O1F7
- DW0qMY4NzJ4BT2H+WdYgOxv/WQ==
-X-Google-Smtp-Source: ABdhPJwZJzIOkSGhqqb3zGVBIHgRHoDBffm+2prh3DOdKwTImss/wxSYFdKGwgKHyvtT9OscgyAjyw==
-X-Received: by 2002:a2e:9b96:: with SMTP id z22mr2330119lji.164.1623332893362; 
- Thu, 10 Jun 2021 06:48:13 -0700 (PDT)
-Received: from [192.168.1.211] ([37.153.55.125])
- by smtp.gmail.com with ESMTPSA id a14sm305055lfs.108.2021.06.10.06.48.12
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 10 Jun 2021 06:48:12 -0700 (PDT)
-Subject: Re: [PATCH 0/8] dsi: rework clock parents and timing handling
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Bjorn Andersson <bjorn.andersson@linaro.org>,
- Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Abhinav Kumar <abhinavk@codeaurora.org>
-References: <20210515131217.1540412-1-dmitry.baryshkov@linaro.org>
-Message-ID: <71839b49-554c-fcc4-d110-0c8a49905413@linaro.org>
-Date: Thu, 10 Jun 2021 16:48:12 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Cr16b0jZ5BytBt5VBlKPdRVYyLjU4xIOL05sQ47zwWg=;
+ b=rrZjyIId6THQaNGOe5ML+Ic/w+Dsfz8WXSKdUgkE2Itv+Gply1bYTN09/SGynoygri
+ SJ8dvQnejOKBIQGkQJMZeSMA3xlJccuLx+ovDyG9bGEEVm80dTShuJngUsaV5LcG3R9u
+ GzpoM89EB9XhJizWYSIbds49xu5miigUTcXGJqp/KkbuwsM2bMdRwAaLmqiOySFpwA2i
+ DNZPNrgKtQsSlvcsCVCHHFiuKlxSLaWZYpFRHihlCh+RrTP6XT0/oYY3c2gAjAbbWHme
+ 4HS+g525hA3SvZpWn/JdBZkAC7Os5aL1Gac9c7WoI3yPn56W2js0xqwztwH3TbAE5Pq1
+ jNYg==
+X-Gm-Message-State: AOAM531FQYCp9eSuQNgkABkwVX9Clhs7R0utBu5JaMQZ8982do4cwIy7
+ 1393KUaMF/KNqiZV1zC+gSj20unDEYqndTXNygo+2A==
+X-Google-Smtp-Source: ABdhPJzd/RuKitswbt/DJnx218MR2dG4qlJhwHRkYC4ACjD+MJWkemojoiZM8kJAmt9J6vFqZZPdQpKVfitmWJRHzN8=
+X-Received: by 2002:a25:208b:: with SMTP id g133mr7089164ybg.211.1623333029169; 
+ Thu, 10 Jun 2021 06:50:29 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210515131217.1540412-1-dmitry.baryshkov@linaro.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+References: <20210609212959.471209-1-jason@jlekstrand.net>
+ <20210609212959.471209-3-jason@jlekstrand.net>
+ <2902ebcf-ec60-fdd3-2e61-a113bca835fd@linux.intel.com>
+In-Reply-To: <2902ebcf-ec60-fdd3-2e61-a113bca835fd@linux.intel.com>
+From: Jason Ekstrand <jason@jlekstrand.net>
+Date: Thu, 10 Jun 2021 08:50:18 -0500
+Message-ID: <CAOFGe96veQrGw7024cEeXAw8X-3-7WTjUpmtpFadtQg6xRLTCA@mail.gmail.com>
+Subject: Re: [Intel-gfx] [PATCH 2/5] drm/i915: Use a simpler scheme for
+ caching i915_request
+To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,77 +65,159 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jonathan Marek <jonathan@marek.ca>, Stephen Boyd <sboyd@kernel.org>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- David Airlie <airlied@linux.ie>, freedreno@lists.freedesktop.org
+Cc: Daniel Vetter <daniel.vetter@intel.com>,
+ Intel GFX <intel-gfx@lists.freedesktop.org>,
+ Matthew Auld <matthew.auld@intel.com>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 15/05/2021 16:12, Dmitry Baryshkov wrote:
-> This patch series brings back several patches targeting assigning dispcc
-> clock parents, that were removed from the massive dsi rework patchset
-> earlier.
+On Thu, Jun 10, 2021 at 5:08 AM Tvrtko Ursulin
+<tvrtko.ursulin@linux.intel.com> wrote:
+>
+>
+> On 09/06/2021 22:29, Jason Ekstrand wrote:
+> > Instead of attempting to recycle a request in to the cache when it
+> > retires, stuff a new one in the cache every time we allocate a request
+> > for some other reason.
+>
+> I supposed the "why?" is "simpler scheme" - but in what way it is simpler?
 
-Gracious ping for this series. I'd ask to skip patch 8 for now (as we 
-might bring that back for moving PHY to drivers/phy), but patches 1-7 
-are still valid and pending review/acceptance.
+Maybe it's not simpler?  One way in which it's simpler is that it
+doesn't require funny logic to try and figure out whether or not it's
+on a virtual engine.  Everyone gets a request pool.  Done.
 
-> 
-> Few notes:
->   - assign-clock-parents is a mandatory proprety according to the current
->     dsi.txt description.
->   - There is little point in duplicating this functionality with the ad-hoc
->     implementation in the dsi code.
-> 
-> On top of that come few minor cleanups for the DSI PHY drivers.
-> 
-> I'd kindly ask to bring all dts changes also through the drm tree, so
-> that there won't be any breakage of the functionality.
-> 
-> 
-> The following changes since commit f2f46b878777e0d3f885c7ddad48f477b4dea247:
-> 
->    drm/msm/dp: initialize audio_comp when audio starts (2021-05-06 16:26:57 -0700)
-> 
-> are available in the Git repository at:
-> 
->    https://git.linaro.org/people/dmitry.baryshkov/kernel.git dsi-phy-update
-> 
-> for you to fetch changes up to f1fd3b113cbb98febad682fc11ea1c6e717434c2:
-> 
->    drm/msm/dsi: remove msm_dsi_dphy_timing from msm_dsi_phy (2021-05-14 22:55:11 +0300)
-> 
-> ----------------------------------------------------------------
-> Dmitry Baryshkov (8):
->        arm64: dts: qcom: sc7180: assign DSI clock source parents
->        arm64: dts: qcom: sdm845: assign DSI clock source parents
->        arm64: dts: qcom: sdm845-mtp: assign DSI clock source parents
->        arm64: dts: qcom: sm8250: assign DSI clock source parents
->        drm/msm/dsi: stop setting clock parents manually
->        drm/msm/dsi: phy: use of_device_get_match_data
->        drm/msm/dsi: drop msm_dsi_phy_get_shared_timings
->        drm/msm/dsi: remove msm_dsi_dphy_timing from msm_dsi_phy
-> 
->   arch/arm64/boot/dts/qcom/sc7180.dtsi            |  3 ++
->   arch/arm64/boot/dts/qcom/sdm845-mtp.dts         |  3 ++
->   arch/arm64/boot/dts/qcom/sdm845.dtsi            |  6 +++
->   arch/arm64/boot/dts/qcom/sm8250.dtsi            |  6 +++
->   drivers/gpu/drm/msm/dsi/dsi.h                   |  7 +---
->   drivers/gpu/drm/msm/dsi/dsi_host.c              | 51 -------------------------
->   drivers/gpu/drm/msm/dsi/dsi_manager.c           |  8 +---
->   drivers/gpu/drm/msm/dsi/phy/dsi_phy.c           | 46 ++++++++++------------
->   drivers/gpu/drm/msm/dsi/phy/dsi_phy.h           | 10 ++++-
->   drivers/gpu/drm/msm/dsi/phy/dsi_phy_10nm.c      | 11 ++----
->   drivers/gpu/drm/msm/dsi/phy/dsi_phy_14nm.c      | 11 ++----
->   drivers/gpu/drm/msm/dsi/phy/dsi_phy_20nm.c      | 10 +----
->   drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm.c      | 12 ++----
->   drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm_8960.c | 10 +----
->   drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c       | 13 ++-----
->   15 files changed, 67 insertions(+), 140 deletions(-)
-> 
-> 
+Back to the "why".  First, in my tome of a e-mail I just sent about
+dma_fence_get_rcu_safe() I mentioned that SLAB_TYPESAFE_BY_RCU isn't
+the only way you can end up with a recycled object where you don't
+want one.  Any caching mechanism that isn't sufficiently careful can
+result in such recycled objects.  In particular, this one can because
+we don't wait for an RCU grace period before stuffing the newly
+released fence into request_pool.
 
+The other reason why I like this one better is that, if any request
+has been created for this engine since the last time request_pool was
+set to NULL, then we've attempted to re-fill request_pool.  This is
+different from the current behavior where request_pool only gets
+refilled if something has retired since the last time it was set to
+NULL.  AFAIUI, the fence pool is primarily used for switching to a
+kernel context for PM/MM stuff.  That's only ever going to happen if a
+request has been submitted from userspace since the last time we did
+it and hence a fence is sitting there in the request_pool.  While it's
+not 100% guaranteed, this should mean memory allocation failures on
+that path are less likely than with the fill-on-release scheme.  No, I
+don't have numbers on this.
 
--- 
-With best wishes
-Dmitry
+> > Signed-off-by: Jason Ekstrand <jason@jlekstrand.net>
+> > Cc: Jon Bloomfield <jon.bloomfield@intel.com>
+> > Cc: Daniel Vetter <daniel.vetter@intel.com>
+> > Cc: Matthew Auld <matthew.auld@intel.com>
+> > Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> > ---
+> >   drivers/gpu/drm/i915/i915_request.c | 66 ++++++++++++++---------------
+> >   1 file changed, 31 insertions(+), 35 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/i915/i915_request.c b/drivers/gpu/drm/i915/i915_request.c
+> > index 48c5f8527854b..e531c74f0b0e2 100644
+> > --- a/drivers/gpu/drm/i915/i915_request.c
+> > +++ b/drivers/gpu/drm/i915/i915_request.c
+> > @@ -128,41 +128,6 @@ static void i915_fence_release(struct dma_fence *fence)
+> >       i915_sw_fence_fini(&rq->submit);
+> >       i915_sw_fence_fini(&rq->semaphore);
+> >
+> > -     /*
+> > -      * Keep one request on each engine for reserved use under mempressure
+> > -      *
+> > -      * We do not hold a reference to the engine here and so have to be
+> > -      * very careful in what rq->engine we poke. The virtual engine is
+> > -      * referenced via the rq->context and we released that ref during
+> > -      * i915_request_retire(), ergo we must not dereference a virtual
+> > -      * engine here. Not that we would want to, as the only consumer of
+> > -      * the reserved engine->request_pool is the power management parking,
+> > -      * which must-not-fail, and that is only run on the physical engines.
+> > -      *
+> > -      * Since the request must have been executed to be have completed,
+> > -      * we know that it will have been processed by the HW and will
+> > -      * not be unsubmitted again, so rq->engine and rq->execution_mask
+> > -      * at this point is stable. rq->execution_mask will be a single
+> > -      * bit if the last and _only_ engine it could execution on was a
+> > -      * physical engine, if it's multiple bits then it started on and
+> > -      * could still be on a virtual engine. Thus if the mask is not a
+> > -      * power-of-two we assume that rq->engine may still be a virtual
+> > -      * engine and so a dangling invalid pointer that we cannot dereference
+> > -      *
+> > -      * For example, consider the flow of a bonded request through a virtual
+> > -      * engine. The request is created with a wide engine mask (all engines
+> > -      * that we might execute on). On processing the bond, the request mask
+> > -      * is reduced to one or more engines. If the request is subsequently
+> > -      * bound to a single engine, it will then be constrained to only
+> > -      * execute on that engine and never returned to the virtual engine
+> > -      * after timeslicing away, see __unwind_incomplete_requests(). Thus we
+> > -      * know that if the rq->execution_mask is a single bit, rq->engine
+> > -      * can be a physical engine with the exact corresponding mask.
+> > -      */
+> > -     if (is_power_of_2(rq->execution_mask) &&
+> > -         !cmpxchg(&rq->engine->request_pool, NULL, rq))
+> > -             return;
+> > -
+> >       kmem_cache_free(global.slab_requests, rq);
+> >   }
+> >
+> > @@ -869,6 +834,29 @@ static void retire_requests(struct intel_timeline *tl)
+> >                       break;
+> >   }
+> >
+> > +static void
+> > +ensure_cached_request(struct i915_request **rsvd, gfp_t gfp)
+> > +{
+> > +     struct i915_request *rq;
+> > +
+> > +     /* Don't try to add to the cache if we don't allow blocking.  That
+> > +      * just increases the chance that the actual allocation will fail.
+> > +      */
+>
+> Linus has been known to rant passionately against this comment style so
+> we actively try to never use it.
+
+What comment style?  It's a comment.  You'll need to be more specific.
+
+--Jason
+
+> Rega4rds,
+>
+> Tvrtko
+>
+> > +     if (gfpflags_allow_blocking(gfp))
+> > +             return;
+> > +
+> > +     if (READ_ONCE(rsvd))
+> > +             return;
+> > +
+> > +     rq = kmem_cache_alloc(global.slab_requests,
+> > +                           gfp | __GFP_RETRY_MAYFAIL | __GFP_NOWARN);
+> > +     if (!rq)
+> > +             return; /* Oops but nothing we can do */
+> > +
+> > +     if (cmpxchg(rsvd, NULL, rq))
+> > +             kmem_cache_free(global.slab_requests, rq);
+> > +}
+> > +
+> >   static noinline struct i915_request *
+> >   request_alloc_slow(struct intel_timeline *tl,
+> >                  struct i915_request **rsvd,
+> > @@ -937,6 +925,14 @@ __i915_request_create(struct intel_context *ce, gfp_t gfp)
+> >       /* Check that the caller provided an already pinned context */
+> >       __intel_context_pin(ce);
+> >
+> > +     /* Before we do anything, try to make sure we have at least one
+> > +      * request in the engine's cache.  If we get here with GPF_NOWAIT
+> > +      * (this can happen when switching to a kernel context), we we want
+> > +      * to try very hard to not fail and we fall back to this cache.
+> > +      * Top it off with a fresh request whenever it's empty.
+> > +      */
+> > +     ensure_cached_request(&ce->engine->request_pool, gfp);
+> > +
+> >       /*
+> >        * Beware: Dragons be flying overhead.
+> >        *
+> >
