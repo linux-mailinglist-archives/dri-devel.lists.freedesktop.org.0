@@ -2,69 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD84A3A31E9
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Jun 2021 19:17:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 406F13A31EB
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Jun 2021 19:17:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D93236EDC5;
-	Thu, 10 Jun 2021 17:16:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5588E6E4B0;
+	Thu, 10 Jun 2021 17:17:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wnew4-smtp.messagingengine.com (wnew4-smtp.messagingengine.com
- [64.147.123.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BBBF66EDBF;
- Thu, 10 Jun 2021 17:16:58 +0000 (UTC)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailnew.west.internal (Postfix) with ESMTP id 472301DA1;
- Thu, 10 Jun 2021 13:16:57 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute3.internal (MEProxy); Thu, 10 Jun 2021 13:16:58 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
- date:from:to:cc:subject:message-id:mime-version:content-type; s=
- fm3; bh=P7hVAvB2TeXkgmcNSF4IKKkA9DBHyxgCl0Q8HoZxWXw=; b=Oe1HDj/h
- WZCqHpN+ssWEEkzBT/NNOYjfoLWD+vijZ6Klh32dlgR1Y+D7cXhzeM07ZpH1S4DX
- mINoINCqYP1w9ptfCP2X8LnJyPKB51JrNrMkzInxTsVwxTCdkmu9vS+ETmensim9
- kh1SovpgzVqULac3T2qeJwgY5E56B0Z8jHM2zBQH1AAyM95X5akmxDhIFBVaDIJV
- SjITyvvgfDBkldP/LQvqF1PU+V8E2jgMEZmpyzLWNy8+zlibilflL23ObFrr0KuR
- A7G5nYY50HMiL9+IHY2H7V2cb/Wvpu8p5hmM6knBxxJSmJH3YrM8mrpdhbDN9umR
- 9iNIj0A1uqzMVA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:message-id
- :mime-version:subject:to:x-me-proxy:x-me-proxy:x-me-sender
- :x-me-sender:x-sasl-enc; s=fm3; bh=P7hVAvB2TeXkgmcNSF4IKKkA9DBHy
- xgCl0Q8HoZxWXw=; b=unGeLr2iJKXGBa5AFmCJ3cAFd/6M67J/5TFHbeFlgrlMs
- giYEfxVfEf+iHYpfFsuW8+vmhm3ctefEsAY4sPAGgmMyf77ngJyxu0uRrc4RyRxf
- CZvY5SxApi4j/A0DJGqOAux1XIrXcDFvzpcP3wHhYpuo1mS4clz8IV2QFMJa/uPp
- yEpPXGRQLM1YnEmyb3ke+eZjveWObSir76wHBiZFAFX/LRexVV+bixbcC1JqRogR
- Gqh5HybqZtq52W3D4A1lruJK8r6l6wKCIeRElM9yzAUONqrGVZDk8IllYSMQFVaw
- F1a8OSMqt1vtHkvEMh8BJZ0zUojb1tOKknt+B6B1w==
-X-ME-Sender: <xms:B0nCYDM8Jjr7i86hFzZgIu8wlUy6y4JNE794-1tl0wKG3wzKpWLxMQ>
- <xme:B0nCYN-PVx0Nri7yGXEQLK0hL7IMSkVJl8bW9etL2NJDmRjwyZqIGhlQRM9DqSsK7
- LSQu30z1vi6ZXKPE5I>
-X-ME-Received: <xmr:B0nCYCT0fiRzxFMCR1ocqOX5lFxXxs9LKrQfwhCdkBcYlxCVoWBSlI4CiTTHdqWe8urWf1wOY4iZzrfFGeDgnK_Lfy8bBtfsnNJx>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrfedufedguddtlecutefuodetggdotefrod
- ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
- necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
- enucfjughrpeffhffvuffkgggtugesghdtreertddtudenucfhrhhomhepofgrgihimhgv
- ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
- gvrhhnpefhheetgfegkeetffeuieelkeefgeetteffgffgkeelheekffevvdegtdeitedv
- udenucffohhmrghinhepfhhrvggvuggvshhkthhophdrohhrghenucevlhhushhtvghruf
- hiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdr
- thgvtghh
-X-ME-Proxy: <xmx:B0nCYHu3eSd0DJ7bWtYJh-Z41uFlbxyOEobuNCN_Az6hN9x9RdKHaQ>
- <xmx:B0nCYLdlUzUB6qG7urnmmlu8IHDQDE2yxX31DU9LZrWONikAIWEQlw>
- <xmx:B0nCYD1Vf5mzModquv7rS0vTd8Ynh8L4zX5OTN3eICvR2hQovRictA>
- <xmx:CEnCYP6sJ1oqAbKzXUpa8REeOsHKFBapsrhc-l6nzqWwSLVEupyAynYTiIM>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 10 Jun 2021 13:16:55 -0400 (EDT)
-Date: Thu, 10 Jun 2021 19:16:53 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: [PULL] drm-misc-fixes
-Message-ID: <20210610171653.lqsoadxrhdk73cdy@gilmour>
+Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com
+ [IPv6:2a00:1450:4864:20::436])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 789E06E4B0
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Jun 2021 17:17:50 +0000 (UTC)
+Received: by mail-wr1-x436.google.com with SMTP id l2so3179454wrw.6
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Jun 2021 10:17:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=eYawZ5aExV6n84uhZjgGkFgKnGmPPDiujBBcssECG+Y=;
+ b=DnZEq6rt04PbNJCE1lGlqtLTjhx0QU9StTmx8ovgvbBUss+ZdfnTewNBBrKCvC/KZB
+ fKXGtylK/DLAwlTW1xW3HzkR9MEREoeu5lwXYRcHSNZqfNTB481KLS2ltaISyLmXiyC+
+ 5APeUG1KmfqdrjDaEe/t/VK3DcBIUUXIq60SU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=eYawZ5aExV6n84uhZjgGkFgKnGmPPDiujBBcssECG+Y=;
+ b=iUwgp2TERFP1t0gttEjpc4zRepRLczifKwS4IMtUUC1ClhrvIfis52qgoEsCB2Afz5
+ NpGgCSEtB7gQdxFyKHZkjft+y3U9OvyxsSVQblTF7gElZLPHPCaC3/ht55RAuq1AIoHD
+ UOAkBguu/2Vyrg9wt2FGXj+32BEW0t5E+ZheDJjG8GbNbXQotGMnbvedtfqnxU1lpFSb
+ AYWr6vCvtgYwnMKa81yHplf61yKPciZDvGRICD5NKCbZfdFbp8NeGa4WspS8RK2lozID
+ bOR4qnMBHfMmG9J0qq27Gv3T4VEmU7V2gyjl4l0LDkNM8BUCWNwY96h+HIbFxzJGQ0Bm
+ F6nA==
+X-Gm-Message-State: AOAM5339Pg/dwBMz2IkOmAjjyRB09IqZl7JU9/GLnKYwHFMP+98+eY59
+ FrSB7FTX0fa6SiJLyZg0CqgPvw==
+X-Google-Smtp-Source: ABdhPJzahNe/16BfcvolHqk3BE4ZCktEsTiUM7MNOT9LA9SHBRCkVznNJMjNiZS8PPX2uhdHN3GYhA==
+X-Received: by 2002:adf:f805:: with SMTP id s5mr6490490wrp.231.1623345469165; 
+ Thu, 10 Jun 2021 10:17:49 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id h6sm4281863wrt.20.2021.06.10.10.17.48
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 10 Jun 2021 10:17:48 -0700 (PDT)
+Date: Thu, 10 Jun 2021 19:17:46 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Pekka Paalanen <ppaalanen@gmail.com>
+Subject: Re: [PATCH v4 1/2] drm/doc: document how userspace should find out
+ CRTC index
+Message-ID: <YMJJOiLtiaxT5lMs@phenom.ffwll.local>
+References: <20210609230039.73307-1-leandro.ribeiro@collabora.com>
+ <20210609230039.73307-2-leandro.ribeiro@collabora.com>
+ <20210610112742.17d21f7c@eldfell>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="d7amxd44o7pbxu6o"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20210610112742.17d21f7c@eldfell>
+X-Operating-System: Linux phenom 5.10.32scarlett+ 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,86 +68,107 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Sean Paul <sean@poorly.run>,
- intel-gfx@lists.freedesktop.org
+Cc: airlied@linux.ie, kernel@collabora.com, dri-devel@lists.freedesktop.org,
+ Leandro Ribeiro <leandro.ribeiro@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Thu, Jun 10, 2021 at 11:27:42AM +0300, Pekka Paalanen wrote:
+> On Wed,  9 Jun 2021 20:00:38 -0300
+> Leandro Ribeiro <leandro.ribeiro@collabora.com> wrote:
+> 
+> > In this patch we add a section to document what userspace should do to
+> > find out the CRTC index. This is important as they may be many places in
+> > the documentation that need this, so it's better to just point to this
+> > section and avoid repetition.
+> > 
+> > Signed-off-by: Leandro Ribeiro <leandro.ribeiro@collabora.com>
+> > ---
+> >  Documentation/gpu/drm-uapi.rst    | 13 +++++++++++++
+> >  drivers/gpu/drm/drm_debugfs_crc.c |  8 ++++----
+> >  include/uapi/drm/drm.h            |  4 ++--
+> >  3 files changed, 19 insertions(+), 6 deletions(-)
+> > 
+> > diff --git a/Documentation/gpu/drm-uapi.rst b/Documentation/gpu/drm-uapi.rst
+> > index 04bdc7a91d53..7e51dd40bf6e 100644
+> > --- a/Documentation/gpu/drm-uapi.rst
+> > +++ b/Documentation/gpu/drm-uapi.rst
+> > @@ -457,6 +457,19 @@ Userspace API Structures
+> >  .. kernel-doc:: include/uapi/drm/drm_mode.h
+> >     :doc: overview
+> > 
+> > +.. _crtc_index:
+> > +
+> > +CRTC index
+> > +----------
+> > +
+> > +CRTC's have both an object ID and an index, and they are not the same thing.
+> > +The index is used in cases where a densely packed identifier for a CRTC is
+> > +needed, for instance a bitmask of CRTC's. The member possible_crtcs of struct
+> > +drm_mode_get_plane is an example.
+> > +
+> > +DRM_IOCTL_MODE_GETRESOURCES populates a structure with an array of CRTC ID's,
+> > +and the CRTC index is its position in this array.
+> > +
+> >  .. kernel-doc:: include/uapi/drm/drm.h
+> >     :internal:
+> > 
+> > diff --git a/drivers/gpu/drm/drm_debugfs_crc.c b/drivers/gpu/drm/drm_debugfs_crc.c
+> > index 3dd70d813f69..bbc3bc4ba844 100644
+> > --- a/drivers/gpu/drm/drm_debugfs_crc.c
+> > +++ b/drivers/gpu/drm/drm_debugfs_crc.c
+> > @@ -46,10 +46,10 @@
+> >   * it reached a given hardware component (a CRC sampling "source").
+> >   *
+> >   * Userspace can control generation of CRCs in a given CRTC by writing to the
+> > - * file dri/0/crtc-N/crc/control in debugfs, with N being the index of the CRTC.
+> > - * Accepted values are source names (which are driver-specific) and the "auto"
+> > - * keyword, which will let the driver select a default source of frame CRCs
+> > - * for this CRTC.
+> > + * file dri/0/crtc-N/crc/control in debugfs, with N being the :ref:`index of
+> > + * the CRTC<crtc_index>`. Accepted values are source names (which are
+> > + * driver-specific) and the "auto" keyword, which will let the driver select a
+> > + * default source of frame CRCs for this CRTC.
+> >   *
+> >   * Once frame CRC generation is enabled, userspace can capture them by reading
+> >   * the dri/0/crtc-N/crc/data file. Each line in that file contains the frame
+> > diff --git a/include/uapi/drm/drm.h b/include/uapi/drm/drm.h
+> > index 67b94bc3c885..bbf4e76daa55 100644
+> > --- a/include/uapi/drm/drm.h
+> > +++ b/include/uapi/drm/drm.h
+> > @@ -635,8 +635,8 @@ struct drm_gem_open {
+> >  /**
+> >   * DRM_CAP_VBLANK_HIGH_CRTC
+> >   *
+> > - * If set to 1, the kernel supports specifying a CRTC index in the high bits of
+> > - * &drm_wait_vblank_request.type.
+> > + * If set to 1, the kernel supports specifying a :ref:`CRTC index<crtc_index>`
+> > + * in the high bits of &drm_wait_vblank_request.type.
+> >   *
+> >   * Starting kernel version 2.6.39, this capability is always set to 1.
+> >   */
+> > --
+> > 2.31.1
+> > 
+> 
+> Hi,
+> 
+> with the caveat that I didn't actually build the docs and see how they
+> look:
+> 
+> Reviewed-by: Pekka Paalanen <pekka.paalanen@collabora.com>
 
---d7amxd44o7pbxu6o
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Pushed to drm-misc-next, thanks for the patch&review.
+-Daniel
 
-Hi Dave, Daniel,
+> 
+> 
+> Thanks,
+> pq
 
-Here's this week drm-misc-fixes PR
 
-Thanks!
-Maxime
 
-drm-misc-fixes-2021-06-10:
-One fix for snu4i that prevents it from probing, two locking fixes for
-ttm and drm_auth, one off-by-x1000 fix for mcde and a fix for vc4 to
-prevent an out-of-bounds access.
-The following changes since commit 0b78f8bcf4951af30b0ae83ea4fad27d641ab617:
-
-  Revert "fb_defio: Remove custom address_space_operations" (2021-06-01 17:=
-38:40 +0200)
-
-are available in the Git repository at:
-
-  git://anongit.freedesktop.org/drm/drm-misc tags/drm-misc-fixes-2021-06-10
-
-for you to fetch changes up to c336a5ee984708db4826ef9e47d184e638e29717:
-
-  drm: Lock pointer access in drm_master_release() (2021-06-10 12:22:02 +02=
-00)
-
-----------------------------------------------------------------
-One fix for snu4i that prevents it from probing, two locking fixes for
-ttm and drm_auth, one off-by-x1000 fix for mcde and a fix for vc4 to
-prevent an out-of-bounds access.
-
-----------------------------------------------------------------
-Christian K=F6nig (1):
-      drm/ttm: fix deref of bo->ttm without holding the lock v2
-
-Desmond Cheong Zhi Xi (2):
-      drm: Fix use-after-free read in drm_getunique()
-      drm: Lock pointer access in drm_master_release()
-
-Linus Walleij (1):
-      drm/mcde: Fix off by 10^3 in calculation
-
-Mark Rutland (1):
-      drm/vc4: fix vc4_atomic_commit_tail() logic
-
-Saravana Kannan (1):
-      drm/sun4i: dw-hdmi: Make HDMI PHY into a platform device
-
- drivers/gpu/drm/drm_auth.c             |  3 ++-
- drivers/gpu/drm/drm_ioctl.c            |  9 ++++----
- drivers/gpu/drm/mcde/mcde_dsi.c        |  2 +-
- drivers/gpu/drm/sun4i/sun8i_dw_hdmi.c  | 31 +++++++++++++++++++++----
- drivers/gpu/drm/sun4i/sun8i_dw_hdmi.h  |  5 +++--
- drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c | 41 +++++++++++++++++++++++++++++-=
-----
- drivers/gpu/drm/ttm/ttm_bo.c           |  5 ++++-
- drivers/gpu/drm/ttm/ttm_device.c       |  8 +------
- drivers/gpu/drm/vc4/vc4_kms.c          |  2 +-
- 9 files changed, 80 insertions(+), 26 deletions(-)
-
---d7amxd44o7pbxu6o
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYMJJBQAKCRDj7w1vZxhR
-xbmRAP4ph9oofkApv0wgbfJWq2Ca+qDZzDm13FGD1doFWRQ4BQD/dND9iKJN2y03
-lXcQKi2uJbtedpcR9HlNMbLYKadKUAE=
-=yPmP
------END PGP SIGNATURE-----
-
---d7amxd44o7pbxu6o--
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
