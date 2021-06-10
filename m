@@ -1,49 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 275A73A2816
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Jun 2021 11:18:11 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 574603A2818
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Jun 2021 11:18:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D5FA76EC90;
-	Thu, 10 Jun 2021 09:18:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C45B96EC91;
+	Thu, 10 Jun 2021 09:18:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com
- [IPv6:2a00:1450:4864:20::32b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DDD2E6EC8E;
- Thu, 10 Jun 2021 09:18:03 +0000 (UTC)
-Received: by mail-wm1-x32b.google.com with SMTP id
- k5-20020a05600c1c85b02901affeec3ef8so6115652wms.0; 
- Thu, 10 Jun 2021 02:18:03 -0700 (PDT)
+Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com
+ [IPv6:2a00:1450:4864:20::336])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7EC746EC8E;
+ Thu, 10 Jun 2021 09:18:04 +0000 (UTC)
+Received: by mail-wm1-x336.google.com with SMTP id
+ l11-20020a05600c4f0bb029017a7cd488f5so5992348wmq.0; 
+ Thu, 10 Jun 2021 02:18:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:subject:date:message-id:mime-version
+ h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=Fmb4cueVtOXZ29A3KoEkc9R3bgHt8UwFR2vwnaO9L4o=;
- b=cLz8LVCjuXmwIs0cUlJEHekrA55mhSzQQpmX2bxPLIrXyH+tB3AyaQVlj/jdabTEjj
- BngJdUDDdMw+iN2PFR7UwhOFjppSQz2X9iz7AzjRxtBSi8Pv6XYOv025y5A7PKBmdpyX
- jYLck3rzYgHh3I6x8h+LACBB8BeH0eS+fL8qaoYQnGiFSY9LH0AIIg5RTXpCJ6k8Thsw
- ctZMvX7q7n4tHWUURcGzkJIHgRHD8kXh19JI+Ql297urgxfO4uaYsjnom4tyYkm0SdNE
- koLzJWCnmTX8emeC5T6Ig+X6ZRJ74v74A0s6kCPiRcnSNmP+ous7+Lsd01Ki1u5mJpL8
- fchQ==
+ bh=JVobQsZTPFsYsVCxBp6A6usqvoqIwJaIiEhjza5mjko=;
+ b=iIbQHZsNRhyJVD4JD990ADpAon+nSuconH3dO1YEEeoXxZokSWwvIweUuESfs/Y/oM
+ oyZqMvx3APxfGrBIJXxO1SubxMif7cD5+KCb//jwfm+QF4fjltc5eXbZrLcyyA8xQpnh
+ A8fPX143nPXj2ZM1kbwIM2Cbb+RjFA5pA2yBdshELIifPIbWDTE2ke9EdTuckmwcyVk4
+ XLvHzOSLulqI9PoQtPc7lJOl5xgW1Rkj5PwAnfiyrfU5CJbyWaJ2I2WfXYU3ZGwjo3zl
+ NbHtuZmhfHtNB2F6BoHyRxUeezXswbXUbIvXdy7cpgVD4nmUxnxMhgyvKYHCYAWfllrQ
+ l9/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=Fmb4cueVtOXZ29A3KoEkc9R3bgHt8UwFR2vwnaO9L4o=;
- b=ZVlfxuPUDP5Mo8jkW36KFTudsZTKrS7giIa7s/QQ0tNJb6upvFVxk/I1Q9iJA/dBAq
- atoE58cGp5RZN1tsYfEkP/Z3DIvX44ncbqtgljq17wRV+K3qxnU4Nnwc4shhtJEFfE5z
- r97PmOVXdlQQ6IGf6aeJ9j6/9FDIG91EL3Bf8XxCRDgBAosbMYKcey5onNmzJFtUuB+C
- tMnJf7RgyTFgVD7PCI8tppIGExJ6YF6glRA271RNDd7B0Df7z5Emi65XLe5r5VMYRe52
- 6twUdy/R9XDf3L61U9RNI4fsYw8frFAvYtQv8+lbko+UlnS+gcI7Yb8CuD3tCFItuj8O
- oLgg==
-X-Gm-Message-State: AOAM533dRIpD8Nf/YCwsJYmbY6Uu/GMzj3S02H/Tt9QF2Gn438Qv4WfE
- UnXroeenyi85i5ya3x/o1AZlPW6XC3A=
-X-Google-Smtp-Source: ABdhPJzXaladOwixE+vJSP7w5UTqwMP1tNW7nfxmDEpeieNhhorC1gVgMhIdsQfiiWTcxL86s62eiQ==
-X-Received: by 2002:a05:600c:243:: with SMTP id 3mr4000102wmj.35.1623316682565; 
- Thu, 10 Jun 2021 02:18:02 -0700 (PDT)
+ h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=JVobQsZTPFsYsVCxBp6A6usqvoqIwJaIiEhjza5mjko=;
+ b=lq1GVgB6x4prvOeWUIG/1qL26IGmkWTOra1Bwq3wwMsxlJQEVTfSMwJokU1WqJKKxY
+ aGhLM8Clo+LeCzfYv5k8VOKGDgioe2s7dNSjDj3/vobpcKzBoZNpJ2hl4GT1XShjAkry
+ mKEv0UDTf8MPUIB2l7TjPFhr4+2OZyaWDN9QN/4yYX5CKWsK/iXNDk7s/vY5dFVSiom+
+ D2xHGBBQpJ04jOZpdkoJhmJjJEoWspt8Sy+FzRx5IPe39HmtT0Ue0vZdFJB9nkdyTOh1
+ BRvsj7bktAm3mnV+MoEScwAEmDDkviJfrj1odWsuWX5F4RMqQFZdMK47NtYtSSvElrKm
+ g1vA==
+X-Gm-Message-State: AOAM531kfKMnhqGf5Uih3uxNRSTzXUXJZo7nuwQPU87f641RNB2eSnYM
+ XHuBS2dOcTDE+4x7MKfCKjM=
+X-Google-Smtp-Source: ABdhPJx9jFS46PJDSTjDOqWw8hh0BtBxUPMkQyGe7MhQjhq16Cu0/T2V8QFq9A11V/U8H6ubWpYdZw==
+X-Received: by 2002:a05:600c:3b13:: with SMTP id
+ m19mr4000783wms.53.1623316683173; 
+ Thu, 10 Jun 2021 02:18:03 -0700 (PDT)
 Received: from abel.fritz.box ([2a02:908:1252:fb60:561f:e43a:edf5:8f95])
- by smtp.gmail.com with ESMTPSA id v8sm3087445wrc.29.2021.06.10.02.18.01
+ by smtp.gmail.com with ESMTPSA id v8sm3087445wrc.29.2021.06.10.02.18.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Thu, 10 Jun 2021 02:18:02 -0700 (PDT)
 From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
@@ -51,10 +52,12 @@ X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
  <christian.koenig@amd.com>
 To: daniel@ffwll.ch, dri-devel@lists.freedesktop.org,
  amd-gfx@lists.freedesktop.org
-Subject: Change how amdgpu stores fences in dma_resv objects
-Date: Thu, 10 Jun 2021 11:17:53 +0200
-Message-Id: <20210610091800.1833-1-christian.koenig@amd.com>
+Subject: [PATCH 1/7] dma-buf: some dma_fence_chain improvements
+Date: Thu, 10 Jun 2021 11:17:54 +0200
+Message-Id: <20210610091800.1833-2-christian.koenig@amd.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20210610091800.1833-1-christian.koenig@amd.com>
+References: <20210610091800.1833-1-christian.koenig@amd.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -73,17 +76,58 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Since we can't find a consensus on hot to move forward with the dma_resv object I concentrated on changing the approach for amdgpu first.
+The callback and the irq work are never used at the same
+time. Putting them into an union saves us 24 bytes and
+makes the structure only 120 bytes in size.
 
-This new approach changes how the driver stores the command submission fence in the dma_resv object in DMA-buf exported BOs.
+Signed-off-by: Christian König <christian.koenig@amd.com>
+---
+ drivers/dma-buf/dma-fence-chain.c | 2 +-
+ include/linux/dma-fence-chain.h   | 8 +++++---
+ 2 files changed, 6 insertions(+), 4 deletions(-)
 
-For exported BOs we now store the CS fence in a dma_fence_chain container and assign that one to the exclusive fences slot.
-
-During synchronization this dma_fence_chain container is unpacked again and the containing fences handled individually.
-
-This has a little bit more overhead than the old approach, but it allows for waiting for the exclusive slot for writes again.
-
-Regards,
-Christian.
-
+diff --git a/drivers/dma-buf/dma-fence-chain.c b/drivers/dma-buf/dma-fence-chain.c
+index 7d129e68ac70..1b4cb3e5cec9 100644
+--- a/drivers/dma-buf/dma-fence-chain.c
++++ b/drivers/dma-buf/dma-fence-chain.c
+@@ -137,6 +137,7 @@ static void dma_fence_chain_cb(struct dma_fence *f, struct dma_fence_cb *cb)
+ 	struct dma_fence_chain *chain;
+ 
+ 	chain = container_of(cb, typeof(*chain), cb);
++	init_irq_work(&chain->work, dma_fence_chain_irq_work);
+ 	irq_work_queue(&chain->work);
+ 	dma_fence_put(f);
+ }
+@@ -239,7 +240,6 @@ void dma_fence_chain_init(struct dma_fence_chain *chain,
+ 	rcu_assign_pointer(chain->prev, prev);
+ 	chain->fence = fence;
+ 	chain->prev_seqno = 0;
+-	init_irq_work(&chain->work, dma_fence_chain_irq_work);
+ 
+ 	/* Try to reuse the context of the previous chain node. */
+ 	if (prev_chain && __dma_fence_is_later(seqno, prev->seqno, prev->ops)) {
+diff --git a/include/linux/dma-fence-chain.h b/include/linux/dma-fence-chain.h
+index 10462a029da2..9d6a062be640 100644
+--- a/include/linux/dma-fence-chain.h
++++ b/include/linux/dma-fence-chain.h
+@@ -25,12 +25,14 @@
+  */
+ struct dma_fence_chain {
+ 	struct dma_fence base;
+-	spinlock_t lock;
+ 	struct dma_fence __rcu *prev;
+ 	u64 prev_seqno;
+ 	struct dma_fence *fence;
+-	struct dma_fence_cb cb;
+-	struct irq_work work;
++	union {
++		struct dma_fence_cb cb;
++		struct irq_work work;
++	};
++	spinlock_t lock;
+ };
+ 
+ extern const struct dma_fence_ops dma_fence_chain_ops;
+-- 
+2.25.1
 
