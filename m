@@ -2,70 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 309B93A2F31
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Jun 2021 17:21:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A4B693A2F45
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Jun 2021 17:27:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6C8256ED72;
-	Thu, 10 Jun 2021 15:21:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4F64D6E364;
+	Thu, 10 Jun 2021 15:27:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com
- [IPv6:2607:f8b0:4864:20::102b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 787E76ED64
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Jun 2021 15:21:44 +0000 (UTC)
-Received: by mail-pj1-x102b.google.com with SMTP id
- m13-20020a17090b068db02901656cc93a75so3936219pjz.3
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Jun 2021 08:21:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:references:from:message-id:date:user-agent:mime-version
- :in-reply-to:content-language:content-transfer-encoding;
- bh=FuMYH+W4A5O7+Tews5dUBZThHa9L7Mfi17lH81DY2zM=;
- b=geW08CQPQBOVBMMTrnm4QUFNszNlWY3MoOiwGTuxU4NxJ7MI2P5D3oCLIMfMw0dMy+
- x+MAOJ9JGVdJiaP1cAH7u2dY8eX8FzNnaEPEresoL8Y0KlYO/JAWlw9i0Pap8ssR4A8h
- pXah6TYAeLM6CpQIP4weQ4x92R5zT/1f8OHYjrFFyL2CAJ6jpBTnuxhLsHs2o/UQCBvr
- LscT4VJWLKBGredrdp958uDKi4IuaIIuZrliAXNigqpz7BebZtMAOc2k1Uz8XzPE5JcG
- wrlGJe8bndU79Igoq2Yb2IcvMCqi1Nag+DNg47+6VQVynXTqVvEdK5F1KDX6wljdI0Td
- AnJQ==
+Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com
+ [IPv6:2a00:1450:4864:20::42b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4FDF46ED14
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Jun 2021 15:27:54 +0000 (UTC)
+Received: by mail-wr1-x42b.google.com with SMTP id q5so2807012wrm.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Jun 2021 08:27:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=vjkKF1o7a7pOxgz6JOD56UknsGpZnXsYpkehMi+OpXQ=;
+ b=Cxj2ZsBevXwmudjEmt4adHS06b8nQL1ZUC49Vg7wApgJfDRqq2cFuvbPlROIRrHRV9
+ Nr9Cw5uxBqjZ3yexS3iJr9o87bYGLDR7o01G3H7w+EBnLySOBHF95le36N+n72kGl53i
+ vG3h1K2R3HGLOzOGfqKmJ8Y9AEI7XWoWBwKJE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=FuMYH+W4A5O7+Tews5dUBZThHa9L7Mfi17lH81DY2zM=;
- b=GC6ErpgNd2F8HvKZ1MEr6CtRX0T1z7s9tnGIWpXIXqEGB3K2OSbTjXuAE0h1wWX7ei
- 6tmfeXIViXS3llXEOc7AIT1/CENZIspWadezbu83Z51/XPhdPor2WDJ1BYPvRFB0zccv
- myQqyWdarY7gEI5LfRqTGqkngi1GIDQo4wzJ4xh3V1Kn8WbQrNIyJEFKay5PshkbSPVy
- vScmV/iYjPGOhiet8XMLMQQR+aj1KO5CCANbwHOkcl0qW3aylk6yHNwFE2vtnfvLp0Y2
- +IjXa9AWtK09gOOr538yiqpmXzILg8axsm4LZPWRpEfzofS3mvzoYGbUrLoxOvJn4XCr
- 4Zew==
-X-Gm-Message-State: AOAM533pUTSR5ZLBsmr0reNjUEh7bcT7ZMSfF1hx1JTl3Ugc2+Wm3BUv
- z8izyW8THp6zEm8MZLnNrF8=
-X-Google-Smtp-Source: ABdhPJwY3Ac4NGkGa69ARb226Snl9c/IgAMvA5T4R/MfkCVsafMp2WO5EMJAHpECCzDhwmOKZgu58w==
-X-Received: by 2002:a17:90a:1b8f:: with SMTP id
- w15mr3847687pjc.101.1623338504011; 
- Thu, 10 Jun 2021 08:21:44 -0700 (PDT)
-Received: from [192.168.1.237] ([118.200.190.93])
- by smtp.gmail.com with ESMTPSA id d92sm2920355pjk.38.2021.06.10.08.21.40
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 10 Jun 2021 08:21:43 -0700 (PDT)
-Subject: Re: [PATCH] drm: Lock pointer access in drm_master_release()
-To: maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, airlied@linux.ie, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, skhan@linuxfoundation.org,
- gregkh@linuxfoundation.org, linux-kernel-mentees@lists.linuxfoundation.org,
- Dan Carpenter <dan.carpenter@oracle.com>
-References: <20210609092119.173590-1-desmondcheongzx@gmail.com>
- <YMHlLQHRLWgWlXTs@phenom.ffwll.local>
-From: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
-Message-ID: <f16f4123-bd0b-f09c-ddf1-7197c841b588@gmail.com>
-Date: Thu, 10 Jun 2021 23:21:39 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=vjkKF1o7a7pOxgz6JOD56UknsGpZnXsYpkehMi+OpXQ=;
+ b=SxnSnCVExKQHqE/lRkhvl1o1VAFrNNkFAEciJrcyGJEi3iOrmbWElS39cnNDRt4hJP
+ 0eysqpAFHy0xBTcbiVA0E1M5/9X9ptO41hvv67TJpJ3WVx+2b6DES6qyb07m5S7/hIbK
+ FNLkNShSW5U4/qG4vcYnhJqG49f8Jex7QjHATVENZdTZnKEEVGdj1QsvGRe5Fm1sWkfJ
+ kz2ggpnnb+SsUAIxgDnB65m74DkAxkypAyTXS+JihYwZYfyKKZ1kk4/J/oNQeJ6pw/Bu
+ 2FUiDjaNw+LTa6M4VwqP8FgEFMHs2Jl3toE40RVITYpIrAW7oqmrfCotUYQpkgO+1aWf
+ PShg==
+X-Gm-Message-State: AOAM532vyjDfihGSxGl1C6aTiJbq7GTk6B3ftHMcdx775h9HytlcQqlq
+ IvQsqcy9oYazGRTYk67MJZxZDQ==
+X-Google-Smtp-Source: ABdhPJwrsbmJpqnlBQL3Z2QaWiKV6j4St1J5GpGkq85pYKJITuVxU9wKMmQ9chkidKwQb/zT4vbh3Q==
+X-Received: by 2002:a5d:4050:: with SMTP id w16mr6122224wrp.99.1623338872874; 
+ Thu, 10 Jun 2021 08:27:52 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id o3sm4794184wrc.0.2021.06.10.08.27.50
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 10 Jun 2021 08:27:51 -0700 (PDT)
+Date: Thu, 10 Jun 2021 17:27:48 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Matthew Brost <matthew.brost@intel.com>
+Subject: Re: [Intel-gfx] [RFC PATCH 36/97] drm/i915/guc: Add non blocking CTB
+ send function
+Message-ID: <YMIvdJ91DFZfybNm@phenom.ffwll.local>
+References: <20210525172121.GE14724@sdutt-i7>
+ <0f26f76f-e066-fb23-a7b2-784bb8ee771d@linux.intel.com>
+ <20210526181053.GA3435@sdutt-i7>
+ <53613c13-1cab-b9bd-3922-0389600773ee@linux.intel.com>
+ <20210527143514.GA24720@sdutt-i7>
+ <828fe399-5319-78a9-c6e3-c0c027e08e9c@linux.intel.com>
+ <20210607173101.GA11968@sdutt-i7>
+ <2706c890-5145-4edb-acd1-b9862caba8cf@linux.intel.com>
+ <CAKMK7uENywXraNAfrU_3iP16zse+S5M7EMOrx7D0z-+AjSqaqA@mail.gmail.com>
+ <20210609231023.GB5471@sdutt-i7>
 MIME-Version: 1.0
-In-Reply-To: <YMHlLQHRLWgWlXTs@phenom.ffwll.local>
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210609231023.GB5471@sdutt-i7>
+X-Operating-System: Linux phenom 5.10.32scarlett+ 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,88 +75,223 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ intel-gfx <intel-gfx@lists.freedesktop.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Jason Ekstrand <jason.ekstrand@intel.com>,
+ Daniel Vetter <daniel.vetter@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/6/21 6:10 pm, Daniel Vetter wrote:
-> On Wed, Jun 09, 2021 at 05:21:19PM +0800, Desmond Cheong Zhi Xi wrote:
->> This patch eliminates the following smatch warning:
->> drivers/gpu/drm/drm_auth.c:320 drm_master_release() warn: unlocked access 'master' (line 318) expected lock '&dev->master_mutex'
->>
->> The 'file_priv->master' field should be protected by the mutex lock to
->> '&dev->master_mutex'. This is because other processes can concurrently
->> modify this field and free the current 'file_priv->master'
->> pointer. This could result in a use-after-free error when 'master' is
->> dereferenced in subsequent function calls to
->> 'drm_legacy_lock_master_cleanup()' or to 'drm_lease_revoke()'.
->>
->> An example of a scenario that would produce this error can be seen
->> from a similar bug in 'drm_getunique()' that was reported by Syzbot:
->> https://syzkaller.appspot.com/bug?id=148d2f1dfac64af52ffd27b661981a540724f803
->>
->> In the Syzbot report, another process concurrently acquired the
->> device's master mutex in 'drm_setmaster_ioctl()', then overwrote
->> 'fpriv->master' in 'drm_new_set_master()'. The old value of
->> 'fpriv->master' was subsequently freed before the mutex was unlocked.
->>
->> Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
->> Signed-off-by: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
+On Wed, Jun 09, 2021 at 04:10:23PM -0700, Matthew Brost wrote:
+> On Tue, Jun 08, 2021 at 10:46:15AM +0200, Daniel Vetter wrote:
+> > On Tue, Jun 8, 2021 at 10:39 AM Tvrtko Ursulin
+> > <tvrtko.ursulin@linux.intel.com> wrote:
+> > >
+> > >
+> > > On 07/06/2021 18:31, Matthew Brost wrote:
+> > > > On Thu, May 27, 2021 at 04:11:50PM +0100, Tvrtko Ursulin wrote:
+> > > >>
+> > > >> On 27/05/2021 15:35, Matthew Brost wrote:
+> > > >>> On Thu, May 27, 2021 at 11:02:24AM +0100, Tvrtko Ursulin wrote:
+> > > >>>>
+> > > >>>> On 26/05/2021 19:10, Matthew Brost wrote:
+> > > >>>>
+> > > >>>> [snip]
+> > > >>>>
+> > > >>>>>>>>> +static int ct_send_nb(struct intel_guc_ct *ct,
+> > > >>>>>>>>> +                   const u32 *action,
+> > > >>>>>>>>> +                   u32 len,
+> > > >>>>>>>>> +                   u32 flags)
+> > > >>>>>>>>> +{
+> > > >>>>>>>>> +     struct intel_guc_ct_buffer *ctb = &ct->ctbs.send;
+> > > >>>>>>>>> +     unsigned long spin_flags;
+> > > >>>>>>>>> +     u32 fence;
+> > > >>>>>>>>> +     int ret;
+> > > >>>>>>>>> +
+> > > >>>>>>>>> +     spin_lock_irqsave(&ctb->lock, spin_flags);
+> > > >>>>>>>>> +
+> > > >>>>>>>>> +     ret = ctb_has_room(ctb, len + 1);
+> > > >>>>>>>>> +     if (unlikely(ret))
+> > > >>>>>>>>> +             goto out;
+> > > >>>>>>>>> +
+> > > >>>>>>>>> +     fence = ct_get_next_fence(ct);
+> > > >>>>>>>>> +     ret = ct_write(ct, action, len, fence, flags);
+> > > >>>>>>>>> +     if (unlikely(ret))
+> > > >>>>>>>>> +             goto out;
+> > > >>>>>>>>> +
+> > > >>>>>>>>> +     intel_guc_notify(ct_to_guc(ct));
+> > > >>>>>>>>> +
+> > > >>>>>>>>> +out:
+> > > >>>>>>>>> +     spin_unlock_irqrestore(&ctb->lock, spin_flags);
+> > > >>>>>>>>> +
+> > > >>>>>>>>> +     return ret;
+> > > >>>>>>>>> +}
+> > > >>>>>>>>> +
+> > > >>>>>>>>>       static int ct_send(struct intel_guc_ct *ct,
+> > > >>>>>>>>>                          const u32 *action,
+> > > >>>>>>>>>                          u32 len,
+> > > >>>>>>>>> @@ -473,6 +541,7 @@ static int ct_send(struct intel_guc_ct *ct,
+> > > >>>>>>>>>                          u32 response_buf_size,
+> > > >>>>>>>>>                          u32 *status)
+> > > >>>>>>>>>       {
+> > > >>>>>>>>> +     struct intel_guc_ct_buffer *ctb = &ct->ctbs.send;
+> > > >>>>>>>>>               struct ct_request request;
+> > > >>>>>>>>>               unsigned long flags;
+> > > >>>>>>>>>               u32 fence;
+> > > >>>>>>>>> @@ -482,8 +551,20 @@ static int ct_send(struct intel_guc_ct *ct,
+> > > >>>>>>>>>               GEM_BUG_ON(!len);
+> > > >>>>>>>>>               GEM_BUG_ON(len & ~GUC_CT_MSG_LEN_MASK);
+> > > >>>>>>>>>               GEM_BUG_ON(!response_buf && response_buf_size);
+> > > >>>>>>>>> +     might_sleep();
+> > > >>>>>>>>
+> > > >>>>>>>> Sleep is just cond_resched below or there is more?
+> > > >>>>>>>>
+> > > >>>>>>>
+> > > >>>>>>> Yes, the cond_resched.
+> > > >>>>>>>
+> > > >>>>>>>>> +     /*
+> > > >>>>>>>>> +      * We use a lazy spin wait loop here as we believe that if the CT
+> > > >>>>>>>>> +      * buffers are sized correctly the flow control condition should be
+> > > >>>>>>>>> +      * rare.
+> > > >>>>>>>>> +      */
+> > > >>>>>>>>> +retry:
+> > > >>>>>>>>>               spin_lock_irqsave(&ct->ctbs.send.lock, flags);
+> > > >>>>>>>>> +     if (unlikely(!ctb_has_room(ctb, len + 1))) {
+> > > >>>>>>>>> +             spin_unlock_irqrestore(&ct->ctbs.send.lock, flags);
+> > > >>>>>>>>> +             cond_resched();
+> > > >>>>>>>>> +             goto retry;
+> > > >>>>>>>>> +     }
+> > > >>>>>>>>
+> > > >>>>>>>> If this patch is about adding a non-blocking send function, and below we can
+> > > >>>>>>>> see that it creates a fork:
+> > > >>>>>>>>
+> > > >>>>>>>> intel_guc_ct_send:
+> > > >>>>>>>> ...
+> > > >>>>>>>>        if (flags & INTEL_GUC_SEND_NB)
+> > > >>>>>>>>                return ct_send_nb(ct, action, len, flags);
+> > > >>>>>>>>
+> > > >>>>>>>>        ret = ct_send(ct, action, len, response_buf, response_buf_size, &status);
+> > > >>>>>>>>
+> > > >>>>>>>> Then why is there a change in ct_send here, which is not the new
+> > > >>>>>>>> non-blocking path?
+> > > >>>>>>>>
+> > > >>>>>>>
+> > > >>>>>>> There is not a change to ct_send(), just to intel_guc_ct_send.
+> > > >>>>>>
+> > > >>>>>> I was doing by the diff which says:
+> > > >>>>>>
+> > > >>>>>>     static int ct_send(struct intel_guc_ct *ct,
+> > > >>>>>>                     const u32 *action,
+> > > >>>>>>                     u32 len,
+> > > >>>>>> @@ -473,6 +541,7 @@ static int ct_send(struct intel_guc_ct *ct,
+> > > >>>>>>                     u32 response_buf_size,
+> > > >>>>>>                     u32 *status)
+> > > >>>>>>     {
+> > > >>>>>> +        struct intel_guc_ct_buffer *ctb = &ct->ctbs.send;
+> > > >>>>>>          struct ct_request request;
+> > > >>>>>>          unsigned long flags;
+> > > >>>>>>          u32 fence;
+> > > >>>>>> @@ -482,8 +551,20 @@ static int ct_send(struct intel_guc_ct *ct,
+> > > >>>>>>          GEM_BUG_ON(!len);
+> > > >>>>>>          GEM_BUG_ON(len & ~GUC_CT_MSG_LEN_MASK);
+> > > >>>>>>          GEM_BUG_ON(!response_buf && response_buf_size);
+> > > >>>>>> +        might_sleep();
+> > > >>>>>> +        /*
+> > > >>>>>> +         * We use a lazy spin wait loop here as we believe that if the CT
+> > > >>>>>> +         * buffers are sized correctly the flow control condition should be
+> > > >>>>>> +         * rare.
+> > > >>>>>> +         */
+> > > >>>>>> +retry:
+> > > >>>>>>          spin_lock_irqsave(&ct->ctbs.send.lock, flags);
+> > > >>>>>> +        if (unlikely(!ctb_has_room(ctb, len + 1))) {
+> > > >>>>>> +                spin_unlock_irqrestore(&ct->ctbs.send.lock, flags);
+> > > >>>>>> +                cond_resched();
+> > > >>>>>> +                goto retry;
+> > > >>>>>> +        }
+> > > >>>>>>
+> > > >>>>>> So it looks like a change to ct_send to me. Is that wrong?
+> > > >>>>
+> > > >>>> What about this part - is the patch changing the blocking ct_send or not,
+> > > >>>> and if it is why?
+> > > >>>>
+> > > >>>
+> > > >>> Yes, ct_send() changes. Sorry for the confusion.
+> > > >>>
+> > > >>> This function needs to be updated to account for the H2G space and
+> > > >>> backoff if no space is available.
+> > > >>
+> > > >> Since this one is the sleeping path, it probably can and needs to be smarter
+> > > >> than having a cond_resched busy loop added. Like sleep and get woken up when
+> > > >> there is space. Otherwise it can degenerate to busy looping via contention
+> > > >> with the non-blocking path.
+> > > >>
+> > > >
+> > > > That screams over enginerring a simple problem to me. If the CT channel
+> > > > is full we are really in trouble anyways - i.e. the performance is going
+> > > > to terrible as we overwhelmed the GuC with traffic. That being said,
+> > >
+> > > Performance of what would be terrible? Something relating to submitting
+> > > new jobs to the GPU I guess. Or something SRIOV related as you hint below.
+> > >
+> > > But there is no real reason why CPU cycles/power should suffer if GuC is
+> > > busy.
+> > >
+> > > Okay, if it can't happen in real world then it's possibly passable as a
+> > > design of a communication interface. But to me it leaves a bad taste and
+> > > a doubt that there is this other aspect of the real world. And that is
+> > > when the unexpected happens. Even the most trivial things like a bug in
+> > > GuC firmware causes the driver to busy spin in there. So not much
+> > > happening on the machine but CPU cores pinned burning cycles in this
+> > > code. It's just lazy and not robust design. "Bug #nnnnn - High CPU usage
+> > > and GUI blocked - Solution: Upgrade GuC firmware and _reboot_ the
+> > > machine". Oh well..
+> > >
+> > > At least I think the commit message should spell out clearly that a busy
+> > > looping path is being added to the sleeping send as a downside of
+> > > implementation choices. Still, for the record, I object to the design.
+> > >
+> > > > IGTs can do this but that really isn't a real world use case. For the
+> > > > real world, this buffer is large enough that it won't ever be full hence
+> > > > the comment + lazy spin loop.
+> > > >
+> > > > Next, it isn't like we get an interrupt or something when space
+> > > > becomes available so how would we wake this thread? Could we come up
+> > > > with a convoluted scheme where we insert ops that generated an interrupt
+> > > > at regular intervals, probably? Would it be super complicated, totally
+> > > > unnecessary, and gain use nothing - absolutely.
+> > > >
+> > > > Lastly, blocking CTBs really shouldn't ever be used. Certainly the
+> > > > submission code doesn't use these. I think SRIOV might, but those can
+> > > > probably be reworked too to use non-blocking. At some point we might
+> > > > want to scrub the driver and just delete the blocking path.
+> > 
+> > I'd do an s/cond_resched()/msleep(1)/ and comment explaining why we
+> > just don't care about this. That checks of the cpu wasting in this
+> > case (GuC is overloaded, it wont come back anytime soon anyway) and
+> > explains why we really don't want to make this any more clever or
+> > complex code (because comment can explain why we wont hit this in
+> > actual real world usage except when something else is on fire already
+> > anyway).
+> > 
 > 
-> Thanks a lot. I've done an audit of this code, and I found another
-> potential problem in drm_is_current_master. The callers from drm_auth.c
-> hold the dev->master_mutex, but all the external ones dont. I think we
-> need to split this into a _locked function for use within drm_auth.c, and
-> the exported one needs to grab the dev->master_mutex while it's checking
-> master status. Ofc there will still be races, those are ok, but right now
-> we run the risk of use-after free problems in drm_lease_owner.
+> Sounds good.
 > 
-> Are you up to do that fix too?
+> > If you want to go absolutely overkill and it's not too much work, make
+> > the msleep interruptible or check for signals, and bail out. That way
+> > the process can be made unstuck with ^C at least.
 > 
+> This loop is already bound by a timer and if no forward progress is made
+> we pop out of this loop. It is assumed if this happens the GuC / GPU is
+> dead a and full GPU reset will have to be issued. A following patch
+> adds the timer, a bit later in submission section of the series a patch
+> is added to trigger the reset.
 
-Hi Daniel,
-
-Thanks for the pointer, I'm definitely up for it!
-
-> I think the drm_lease.c code also needs an audit, there we'd need to make
-> sure that we hold hold either the lock or a full master reference to avoid
-> the use-after-free issues here.
->
-
-I'd be happy to look into drm_lease.c as well.
-
-> Patch merged to drm-misc-fixes with cc: stable.
-> -Daniel
-> 
->> ---
->>   drivers/gpu/drm/drm_auth.c | 3 ++-
->>   1 file changed, 2 insertions(+), 1 deletion(-)
->>
->> diff --git a/drivers/gpu/drm/drm_auth.c b/drivers/gpu/drm/drm_auth.c
->> index f00e5abdbbf4..b59b26a71ad5 100644
->> --- a/drivers/gpu/drm/drm_auth.c
->> +++ b/drivers/gpu/drm/drm_auth.c
->> @@ -315,9 +315,10 @@ int drm_master_open(struct drm_file *file_priv)
->>   void drm_master_release(struct drm_file *file_priv)
->>   {
->>   	struct drm_device *dev = file_priv->minor->dev;
->> -	struct drm_master *master = file_priv->master;
->> +	struct drm_master *master;
->>
->>   	mutex_lock(&dev->master_mutex);
->> +	master = file_priv->master;
->>   	if (file_priv->magic)
->>   		idr_remove(&file_priv->master->magic_map, file_priv->magic);
->>   
->> -- 
->> 2.25.1
->>
-> 
-
- From what I can see, there are other places in the kernel that could 
-use the _locked version of drm_is_current_master as well, such as 
-drm_mode_getfb in drm_framebuffer.c. I'll take a closer look, and if the 
-changes make sense I'll prepare a patch series for them.
-
-Best wishes,
-Desmond
-
+Yeah timeout bail-out works too, and if you then switch it from timeout to
+also interruptible it shouldn't be much more code. It's just nice to not
+have any uninterruptible sleep.
+-Daniel
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
