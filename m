@@ -2,59 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F271D3A2BFA
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Jun 2021 14:51:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F7FE3A2C05
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Jun 2021 14:53:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2F7816E063;
-	Thu, 10 Jun 2021 12:51:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8E64F6ED0D;
+	Thu, 10 Jun 2021 12:53:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E49596E063
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Jun 2021 12:51:52 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPS id BE346613F5
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Jun 2021 12:51:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1623329512;
- bh=VZAYMHAIfKHSERo7kR7kMoQoyNh20YtYrsMgxkE9M7I=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=FI6dn/URHjzR5/U0urMqrEXZ/eDPAJGIJVYHvxmyXCVPUm4rbbDLK1vXDpwfg+bzq
- aX5VxzhseHGpEzE59v5j/cxow7wChw+KiGTIwPxI8m/OV7+DoEsSReJCIDuIhWKTm0
- CTXf0iss4HByVLX8LgqITwawcsuq16rbDvY7b2JrnzY+KW5k/WbgsnCfls88FoMHJJ
- 6iOjdKYHqtC4LqGWnNEJ7FVA2S1TWfFXASmF74lcO5N+CYSXrNFC6E7bGauVjkv/qy
- egj6Ic466oEjTKR+RCC4dMO4yNeDlh9/6DOyWBn4Q0+kcInjuucQxnOyYNQUBAjb/G
- dSriz+GIDZlgg==
-Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
- id B0EA46115A; Thu, 10 Jun 2021 12:51:52 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 213391] AMDGPU retries page fault with some specific processes
- amdgpu and sometimes followed [gfxhub0] retry page fault until *ERROR* ring
- gfx timeout, but soft recovered
-Date: Thu, 10 Jun 2021 12:51:52 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: low
-X-Bugzilla-Who: samy@lahfa.xyz
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-213391-2300-vM8ufvvVbS@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-213391-2300@https.bugzilla.kernel.org/>
-References: <bug-213391-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A1D266ED0D
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Jun 2021 12:53:07 +0000 (UTC)
+IronPort-SDR: e1GuF3MAhtRVcitvwl/RXZ8R0q9Shaxci3v6oqChJcUcFtBupikriemEwwuZabhrfJXJjN1dVL
+ aMp5V2hsUK0w==
+X-IronPort-AV: E=McAfee;i="6200,9189,10010"; a="203443658"
+X-IronPort-AV: E=Sophos;i="5.83,263,1616482800"; d="scan'208";a="203443658"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Jun 2021 05:53:07 -0700
+IronPort-SDR: U7F7sDom4M6IBRFU89nDx5JtjY/bIIv32bjkzusj0AV9NPFRFJdM6FWQNsN+Nt/anBJYS+EzxR
+ lYFfwsA8cZBA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.83,263,1616482800"; d="scan'208";a="441208367"
+Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.171])
+ by orsmga007.jf.intel.com with SMTP; 10 Jun 2021 05:53:04 -0700
+Received: by stinkbox (sSMTP sendmail emulation);
+ Thu, 10 Jun 2021 15:53:03 +0300
+Date: Thu, 10 Jun 2021 15:53:03 +0300
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Leandro Ribeiro <leandro.ribeiro@collabora.com>
+Subject: Re: [PATCH v4 2/2] drm/doc: document drm_mode_get_plane
+Message-ID: <YMILL6H4ARAxQwSi@intel.com>
+References: <20210609230039.73307-1-leandro.ribeiro@collabora.com>
+ <20210609230039.73307-3-leandro.ribeiro@collabora.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210609230039.73307-3-leandro.ribeiro@collabora.com>
+X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,46 +52,86 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: airlied@linux.ie, pekka.paalanen@collabora.co.uk, kernel@collabora.com,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D213391
+On Wed, Jun 09, 2021 at 08:00:39PM -0300, Leandro Ribeiro wrote:
+> Add a small description and document struct fields of
+> drm_mode_get_plane.
+> 
+> Signed-off-by: Leandro Ribeiro <leandro.ribeiro@collabora.com>
+> ---
+>  include/uapi/drm/drm_mode.h | 36 ++++++++++++++++++++++++++++++++++++
+>  1 file changed, 36 insertions(+)
+> 
+> diff --git a/include/uapi/drm/drm_mode.h b/include/uapi/drm/drm_mode.h
+> index a5e76aa06ad5..67bcd8e1931c 100644
+> --- a/include/uapi/drm/drm_mode.h
+> +++ b/include/uapi/drm/drm_mode.h
+> @@ -312,16 +312,52 @@ struct drm_mode_set_plane {
+>  	__u32 src_w;
+>  };
+> 
+> +/**
+> + * struct drm_mode_get_plane - Get plane metadata.
+> + *
+> + * Userspace can perform a GETPLANE ioctl to retrieve information about a
+> + * plane.
+> + *
+> + * To retrieve the number of formats supported, set @count_format_types to zero
+> + * and call the ioctl. @count_format_types will be updated with the value.
+> + *
+> + * To retrieve these formats, allocate an array with the memory needed to store
+> + * @count_format_types formats. Point @format_type_ptr to this array and call
+> + * the ioctl again (with @count_format_types still set to the value returned in
+> + * the first ioctl call).
+> + *
+> + * Between one ioctl and the other, the number of formats may change.
 
---- Comment #4 from Lahfa Samy (samy@lahfa.xyz) ---
-I have about 1GB of VRAM currently set according to glxinfo:
+Can't happen.
 
-Extended renderer info (GLX_MESA_query_renderer):
-    Vendor: AMD (0x1002)
-    Device: AMD Radeon(TM) Vega 10 Graphics (RAVEN, DRM 3.40.0, 5.12.9-arch=
-1-1,
-LLVM 12.0.0) (0x15d8)
-    Version: 21.2.0
-    Accelerated: yes
-    Video memory: 1024MB
-    Unified memory: no
-Memory info (GL_ATI_meminfo):
-    VBO free memory - total: 42 MB, largest block: 42 MB
-    VBO free aux. memory - total: 2442 MB, largest block: 2442 MB
-    Texture free memory - total: 42 MB, largest block: 42 MB
-    Texture free aux. memory - total: 2442 MB, largest block: 2442 MB
-    Renderbuffer free memory - total: 42 MB, largest block: 42 MB
-    Renderbuffer free aux. memory - total: 2442 MB, largest block: 2442 MB
-Memory info (GL_NVX_gpu_memory_info):
-    Dedicated video memory: 1024 MB
-    Total available memory: 4096 MB
-    Currently available dedicated video memory: 42 MB
-OpenGL vendor string: AMD
-OpenGL renderer string: AMD Radeon(TM) Vega 10 Graphics (RAVEN, DRM 3.40.0,
-5.12.9-arch1-1, LLVM 12.0.0)
+> + * Userspace should retry the last ioctl until this number stabilizes. The
+> + * kernel won't fill any array which doesn't have the expected length.
+> + */
+>  struct drm_mode_get_plane {
+> +	/**
+> +	 * @plane_id: Object ID of the plane whose information should be
+> +	 * retrieved. Set by caller.
+> +	 */
+>  	__u32 plane_id;
+> 
+> +	/** @crtc_id: Object ID of the current CRTC. */
+>  	__u32 crtc_id;
+> +	/** @fb_id: Object ID of the current fb. */
+>  	__u32 fb_id;
+> 
+> +	/**
+> +	 * @possible_crtcs: Bitmask of CRTC's compatible with the plane. CRTC's
+> +	 * are created and they receive an index, which corresponds to their
+> +	 * position in the bitmask. Bit N corresponds to
+> +	 * :ref:`CRTC index<crtc_index>` N.
+> +	 */
+>  	__u32 possible_crtcs;
+> +	/** @gamma_size: Number of entries of the legacy gamma lookup table. */
+>  	__u32 gamma_size;
 
-How would I go about testing a patch ? (I probably need to rebuild the Linux
-kernel with the patch, right and boot with it), I found this link, but it s=
-ays
-that the information in there is probably deprecated :
-https://www.kernel.org/doc/html/v5.12/process/applying-patches.html
+Should be marked deprecated. There is no plane gamma in the current uapi.
 
---=20
-You may reply to this email to add a comment.
+> 
+> +	/** @count_format_types: Number of formats. */
+>  	__u32 count_format_types;
+> +	/**
+> +	 * @format_type_ptr: Pointer to ``__u32`` array of formats that are
+> +	 * supported by the plane. These formats do not require modifiers.
+> +	 */
+>  	__u64 format_type_ptr;
+>  };
+> 
+> --
+> 2.31.1
 
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+-- 
+Ville Syrjälä
+Intel
