@@ -2,71 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E59C3A31D4
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Jun 2021 19:12:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD84A3A31E9
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Jun 2021 19:17:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AAFDE6EDC1;
-	Thu, 10 Jun 2021 17:12:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D93236EDC5;
+	Thu, 10 Jun 2021 17:16:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com
- [66.111.4.25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C29416EDC1;
- Thu, 10 Jun 2021 17:12:37 +0000 (UTC)
+Received: from wnew4-smtp.messagingengine.com (wnew4-smtp.messagingengine.com
+ [64.147.123.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BBBF66EDBF;
+ Thu, 10 Jun 2021 17:16:58 +0000 (UTC)
 Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailout.nyi.internal (Postfix) with ESMTP id 3A9A55C00F3;
- Thu, 10 Jun 2021 13:12:35 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute3.internal (MEProxy); Thu, 10 Jun 2021 13:12:35 -0400
+ by mailnew.west.internal (Postfix) with ESMTP id 472301DA1;
+ Thu, 10 Jun 2021 13:16:57 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute3.internal (MEProxy); Thu, 10 Jun 2021 13:16:58 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
- date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm3; bh=k4Xbq0MZeyr/siSHgjGs2zB3Mgm
- ZUFZ9ifle0Pu+Vug=; b=Lg/yHrNSHGkbmMF0w/0DOobwYzU5oRggsJnVdUKbZTh
- ElxLIMEkfq92WPmTfRzkJzu6wwDnWFtP+neuSEXBq7cGBkr49kjsWWqI2e3QFuWj
- IyxmRpHgLftdZpcf67fhhzsg/FnIVIkFs3MJeGhGjujNIXjPBWzDd+L1UAKiRkSI
- 8s+f4t6MOld5We1ubHyJTevtZ4Z5YaqzmQGs6fzmugVUE+98/vhDVteeJgWlOkdG
- ok+M6dBIfuckODMnQVLLCMVUjoRhKrws+X5CLzMquWCXEuacm5UuTc/0L+lD77v7
- trJzYTwgyfomXqBlbqqgrGTpfzgV53JQNR9jrrjGFNw==
+ date:from:to:cc:subject:message-id:mime-version:content-type; s=
+ fm3; bh=P7hVAvB2TeXkgmcNSF4IKKkA9DBHyxgCl0Q8HoZxWXw=; b=Oe1HDj/h
+ WZCqHpN+ssWEEkzBT/NNOYjfoLWD+vijZ6Klh32dlgR1Y+D7cXhzeM07ZpH1S4DX
+ mINoINCqYP1w9ptfCP2X8LnJyPKB51JrNrMkzInxTsVwxTCdkmu9vS+ETmensim9
+ kh1SovpgzVqULac3T2qeJwgY5E56B0Z8jHM2zBQH1AAyM95X5akmxDhIFBVaDIJV
+ SjITyvvgfDBkldP/LQvqF1PU+V8E2jgMEZmpyzLWNy8+zlibilflL23ObFrr0KuR
+ A7G5nYY50HMiL9+IHY2H7V2cb/Wvpu8p5hmM6knBxxJSmJH3YrM8mrpdhbDN9umR
+ 9iNIj0A1uqzMVA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=k4Xbq0
- MZeyr/siSHgjGs2zB3MgmZUFZ9ifle0Pu+Vug=; b=DYOpe91EgMWtpXhgkwLvHl
- ND7k1PQngGt3IuNxeCehkj/Ygs1qaHV2toRCp/bAh7b5ncLtnUXvJIcI6n4dHWLI
- 9WcRlVzu41ym0Nk8oSlviVe9FBKLo1tu2RE6eW2QF83NbZN/30HXixxCOqgTrZhp
- dLsp5XLJhglsg6h/T4sYbrtUUrYfSi+j6Iugw7EBQfnrI62zvYWBxK1QwS+sTBBb
- 0jsoI7dpbvPM14kC/mgQuT/QFGTtjcEs8emJe5tS2lYMKzC8rAAXZJbDf7pYi+vr
- nr05ZC3LM+34r2fM3K7k9OxOcb7SoRUQPfNJeYkcNm4EJ8qEcQB8jRprLOWcGBWA
- ==
-X-ME-Sender: <xms:AkjCYJoTH8V2cPpCZR1Q-k5tnHtP-sAzvEijCtEu65NmUZI-yrvzqg>
- <xme:AkjCYLrQxb92_TRQJJRQTziT4YnviWDfos4iVC-VMMFC68ioYV50mX71b8G3Uv-GY
- VjWZoNl8RjgHI3YKJA>
-X-ME-Received: <xmr:AkjCYGNTmQ94AKF0e2fQFwLYLehqLP0mciNVH22rKNo1kCT0XNYCmL6v6Z5k9-cabeQxwLpttJ4TBJqgjeOQIgRoEuIb1AbCltvV>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrfedufedguddtkecutefuodetggdotefrod
+ messagingengine.com; h=cc:content-type:date:from:message-id
+ :mime-version:subject:to:x-me-proxy:x-me-proxy:x-me-sender
+ :x-me-sender:x-sasl-enc; s=fm3; bh=P7hVAvB2TeXkgmcNSF4IKKkA9DBHy
+ xgCl0Q8HoZxWXw=; b=unGeLr2iJKXGBa5AFmCJ3cAFd/6M67J/5TFHbeFlgrlMs
+ giYEfxVfEf+iHYpfFsuW8+vmhm3ctefEsAY4sPAGgmMyf77ngJyxu0uRrc4RyRxf
+ CZvY5SxApi4j/A0DJGqOAux1XIrXcDFvzpcP3wHhYpuo1mS4clz8IV2QFMJa/uPp
+ yEpPXGRQLM1YnEmyb3ke+eZjveWObSir76wHBiZFAFX/LRexVV+bixbcC1JqRogR
+ Gqh5HybqZtq52W3D4A1lruJK8r6l6wKCIeRElM9yzAUONqrGVZDk8IllYSMQFVaw
+ F1a8OSMqt1vtHkvEMh8BJZ0zUojb1tOKknt+B6B1w==
+X-ME-Sender: <xms:B0nCYDM8Jjr7i86hFzZgIu8wlUy6y4JNE794-1tl0wKG3wzKpWLxMQ>
+ <xme:B0nCYN-PVx0Nri7yGXEQLK0hL7IMSkVJl8bW9etL2NJDmRjwyZqIGhlQRM9DqSsK7
+ LSQu30z1vi6ZXKPE5I>
+X-ME-Received: <xmr:B0nCYCT0fiRzxFMCR1ocqOX5lFxXxs9LKrQfwhCdkBcYlxCVoWBSlI4CiTTHdqWe8urWf1wOY4iZzrfFGeDgnK_Lfy8bBtfsnNJx>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrfedufedguddtlecutefuodetggdotefrod
  ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
- necuuegrihhlohhuthemuceftddtnecunecujfgurhepfffhvffukfhfgggtuggjsehgtd
- erredttddvnecuhfhrohhmpeforgigihhmvgcutfhiphgrrhguuceomhgrgihimhgvsegt
- vghrnhhordhtvggthheqnecuggftrfgrthhtvghrnhepleekgeehhfdutdeljefgleejff
- ehfffgieejhffgueefhfdtveetgeehieehgedunecuvehluhhsthgvrhfuihiivgeptden
- ucfrrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:AkjCYE7fWmO3JB-WE0lIqyX8L__N-x1eg17_w6c3Cn-tCJLAFpSyew>
- <xmx:AkjCYI7sfK7y0fbZP8wusUmLpeXLxjpsV7OB9UGKNg_k1V-ITPaBBA>
- <xmx:AkjCYMjohj8UvwUrG91bgs0n0cIKyk3tpKDf_c6bz6AgdkjTZEhyKA>
- <xmx:A0jCYCSPe7z1NU9S_aIbMI79DFc4UaQToPAjg2RJho4JxiwPaieaPQ>
+ necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+ enucfjughrpeffhffvuffkgggtugesghdtreertddtudenucfhrhhomhepofgrgihimhgv
+ ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
+ gvrhhnpefhheetgfegkeetffeuieelkeefgeetteffgffgkeelheekffevvdegtdeitedv
+ udenucffohhmrghinhepfhhrvggvuggvshhkthhophdrohhrghenucevlhhushhtvghruf
+ hiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdr
+ thgvtghh
+X-ME-Proxy: <xmx:B0nCYHu3eSd0DJ7bWtYJh-Z41uFlbxyOEobuNCN_Az6hN9x9RdKHaQ>
+ <xmx:B0nCYLdlUzUB6qG7urnmmlu8IHDQDE2yxX31DU9LZrWONikAIWEQlw>
+ <xmx:B0nCYD1Vf5mzModquv7rS0vTd8Ynh8L4zX5OTN3eICvR2hQovRictA>
+ <xmx:CEnCYP6sJ1oqAbKzXUpa8REeOsHKFBapsrhc-l6nzqWwSLVEupyAynYTiIM>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 10 Jun 2021 13:12:33 -0400 (EDT)
-Date: Thu, 10 Jun 2021 19:12:31 +0200
+ 10 Jun 2021 13:16:55 -0400 (EDT)
+Date: Thu, 10 Jun 2021 19:16:53 +0200
 From: Maxime Ripard <maxime@cerno.tech>
-To: Simon Ser <contact@emersion.fr>
-Subject: Re: [PATCH v2 1/7] drm/sysfs: introduce
- drm_sysfs_connector_hotplug_event
-Message-ID: <20210610171231.ub2peqqotupamqwt@gilmour>
-References: <I7ivMNimkOH0GJ5SVonqiNBfYEunXBeQpK7ehs64Bk@cp4-web-028.plabs.ch>
+To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: [PULL] drm-misc-fixes
+Message-ID: <20210610171653.lqsoadxrhdk73cdy@gilmour>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="ufyejact7gc2j5jl"
+ protocol="application/pgp-signature"; boundary="d7amxd44o7pbxu6o"
 Content-Disposition: inline
-In-Reply-To: <I7ivMNimkOH0GJ5SVonqiNBfYEunXBeQpK7ehs64Bk@cp4-web-028.plabs.ch>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,80 +77,86 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: pekka.paalanen@collabora.com, michel@daenzer.net,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- alexander.deucher@amd.com, intel-gfx@lists.freedesktop.org
+Cc: dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Sean Paul <sean@poorly.run>,
+ intel-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---ufyejact7gc2j5jl
-Content-Type: text/plain; charset=us-ascii
+--d7amxd44o7pbxu6o
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-Hi,
+Hi Dave, Daniel,
 
-On Wed, Jun 09, 2021 at 09:23:27PM +0000, Simon Ser wrote:
-> This function sends a hotplug uevent with a CONNECTOR property.
->=20
-> Signed-off-by: Simon Ser <contact@emersion.fr>
-> ---
->  drivers/gpu/drm/drm_sysfs.c | 25 +++++++++++++++++++++++++
->  include/drm/drm_sysfs.h     |  1 +
->  2 files changed, 26 insertions(+)
->=20
-> diff --git a/drivers/gpu/drm/drm_sysfs.c b/drivers/gpu/drm/drm_sysfs.c
-> index 968a9560b4aa..8423e44c3035 100644
-> --- a/drivers/gpu/drm/drm_sysfs.c
-> +++ b/drivers/gpu/drm/drm_sysfs.c
-> @@ -343,6 +343,31 @@ void drm_sysfs_hotplug_event(struct drm_device *dev)
->  }
->  EXPORT_SYMBOL(drm_sysfs_hotplug_event);
-> =20
-> +/**
-> + * drm_sysfs_connector_hotplug_event - generate a DRM uevent for any con=
-nector
-> + * change
-> + * @connector: connector which has changed
-> + *
-> + * Send a uevent for the DRM connector specified by @connector. This wil=
-l send
-> + * a uevent with the properties HOTPLUG=3D1 and CONNECTOR.
-> + */
-> +void drm_sysfs_connector_hotplug_event(struct drm_connector *connector)
-> +{
-> +	struct drm_device *dev =3D connector->dev;
-> +	char hotplug_str[] =3D "HOTPLUG=3D1", conn_id[21];
-> +	char *envp[] =3D { hotplug_str, conn_id, NULL };
-> +
-> +	snprintf(conn_id, sizeof(conn_id),
-> +		 "CONNECTOR=3D%u", connector->base.id);
-> +
-> +	drm_dbg_kms(connector->dev,
-> +		    "[CONNECTOR:%d:%s] generating connector hotplug event\n",
-> +		    connector->base.id, connector->name);
-> +
-> +	kobject_uevent_env(&dev->primary->kdev->kobj, KOBJ_CHANGE, envp);
-> +}
-> +EXPORT_SYMBOL(drm_sysfs_connector_hotplug_event);
+Here's this week drm-misc-fixes PR
 
-Would it make sense to call sysfs_notify on the status file?
-
-It would allow to call poll() on the status file in sysfs and skipping
-udev in simple cases?
-
+Thanks!
 Maxime
 
---ufyejact7gc2j5jl
+drm-misc-fixes-2021-06-10:
+One fix for snu4i that prevents it from probing, two locking fixes for
+ttm and drm_auth, one off-by-x1000 fix for mcde and a fix for vc4 to
+prevent an out-of-bounds access.
+The following changes since commit 0b78f8bcf4951af30b0ae83ea4fad27d641ab617:
+
+  Revert "fb_defio: Remove custom address_space_operations" (2021-06-01 17:=
+38:40 +0200)
+
+are available in the Git repository at:
+
+  git://anongit.freedesktop.org/drm/drm-misc tags/drm-misc-fixes-2021-06-10
+
+for you to fetch changes up to c336a5ee984708db4826ef9e47d184e638e29717:
+
+  drm: Lock pointer access in drm_master_release() (2021-06-10 12:22:02 +02=
+00)
+
+----------------------------------------------------------------
+One fix for snu4i that prevents it from probing, two locking fixes for
+ttm and drm_auth, one off-by-x1000 fix for mcde and a fix for vc4 to
+prevent an out-of-bounds access.
+
+----------------------------------------------------------------
+Christian K=F6nig (1):
+      drm/ttm: fix deref of bo->ttm without holding the lock v2
+
+Desmond Cheong Zhi Xi (2):
+      drm: Fix use-after-free read in drm_getunique()
+      drm: Lock pointer access in drm_master_release()
+
+Linus Walleij (1):
+      drm/mcde: Fix off by 10^3 in calculation
+
+Mark Rutland (1):
+      drm/vc4: fix vc4_atomic_commit_tail() logic
+
+Saravana Kannan (1):
+      drm/sun4i: dw-hdmi: Make HDMI PHY into a platform device
+
+ drivers/gpu/drm/drm_auth.c             |  3 ++-
+ drivers/gpu/drm/drm_ioctl.c            |  9 ++++----
+ drivers/gpu/drm/mcde/mcde_dsi.c        |  2 +-
+ drivers/gpu/drm/sun4i/sun8i_dw_hdmi.c  | 31 +++++++++++++++++++++----
+ drivers/gpu/drm/sun4i/sun8i_dw_hdmi.h  |  5 +++--
+ drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c | 41 +++++++++++++++++++++++++++++-=
+----
+ drivers/gpu/drm/ttm/ttm_bo.c           |  5 ++++-
+ drivers/gpu/drm/ttm/ttm_device.c       |  8 +------
+ drivers/gpu/drm/vc4/vc4_kms.c          |  2 +-
+ 9 files changed, 80 insertions(+), 26 deletions(-)
+
+--d7amxd44o7pbxu6o
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYMJH/gAKCRDj7w1vZxhR
-xUtrAQDFUIur00mMdrxIVN6MOu4KsThQEweTCubJAJtwubTVLQEA4fPruqoGYmCk
-yXhHF9nNWYOcSspUTdZl4LnNgqK9EQM=
-=Gl6o
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYMJJBQAKCRDj7w1vZxhR
+xbmRAP4ph9oofkApv0wgbfJWq2Ca+qDZzDm13FGD1doFWRQ4BQD/dND9iKJN2y03
+lXcQKi2uJbtedpcR9HlNMbLYKadKUAE=
+=yPmP
 -----END PGP SIGNATURE-----
 
---ufyejact7gc2j5jl--
+--d7amxd44o7pbxu6o--
