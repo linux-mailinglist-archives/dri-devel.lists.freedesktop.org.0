@@ -1,37 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB8123A2A40
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Jun 2021 13:33:37 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F6783A2A88
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Jun 2021 13:43:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4F8D16E4F4;
-	Thu, 10 Jun 2021 11:33:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A765C6E508;
+	Thu, 10 Jun 2021 11:43:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3B7CD6E4F4
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Jun 2021 11:33:34 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPS id 12CCE613F1
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Jun 2021 11:33:34 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C29E16E508
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Jun 2021 11:43:11 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id 99708613F5
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Jun 2021 11:43:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1623324814;
- bh=lGTSiJVfabLlh9GgX0+smmIvGqhY+pQuPRpb6Plvt6I=;
+ s=k20201202; t=1623325391;
+ bh=oCInqBeya/gj8e+/4ZEk8cV4Xl4TPi4X5782Gn1YHTk=;
  h=From:To:Subject:Date:In-Reply-To:References:From;
- b=HClqetjkzC5X4rtiSOYWlb5lTJN1z68cgLkIHB8iCMcR17uxgc0JfMx9AvDsom/d3
- hWVS6FVANFXhoFKHbIGv4XZFnmIbt97kJzbr1vwgfk/kblX8qO556N8dVhT3qjCtUB
- XMwsafV0pF93Y9Z/nPuRrKxi4Wb5W1U9ym4cI5Pyp4sqK8MD0q7581CRCDNPTMx+2G
- wSNxhembhfooxCNXLOVfxhmUdYEydYSyBXfm0lqm55J6MX3Tnzop1OKTnhdLvjm89i
- fOGPg89nNNNMFu/7Q8IxNjBsjHtKlsCrCiZ5koEka+n6kj/lWEHKNkkRhSHY2/ZFDb
- +Tn7h7zWhZ7PQ==
+ b=buhOfcWAeCmTwAHGxNXAkqAz2KV7JYnqGxqdKryyvNSxhqYoJqCRIuwAgYBp2hnHo
+ Yn2XLyD9Z1W3L6d39wQaWHq1lYxMN3gL0KnNLsw51wo2qDay7TtlRZFYVq47qQ9WgF
+ a2Vdxf7yw1gq6x5f+SSOFvVNe2YVUiwVmQVybjECRmr8frFE5JHVrGBpZA652gVBU8
+ hjAxrJy/7CH7gep68LP6IvRWFMOXjvJhCrKZMCGzgonktadqgbgxA15KjxzXlHXvMI
+ ogE5qhPn39u1Q/rArrHi0Ry2e1YqLVudyDIM4xWHZv0cICi9I678FqtrEdr/kzhldB
+ E9A+oxSxOoQGg==
 Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
- id 04E1261158; Thu, 10 Jun 2021 11:33:34 +0000 (UTC)
+ id 8AA26610A0; Thu, 10 Jun 2021 11:43:11 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 213391] AMDGPU retries page fault with some specific processes
  amdgpu: [gfxhub0] retry page fault until *ERROR* ring gfx timeout, but soft
  recovered
-Date: Thu, 10 Jun 2021 11:33:33 +0000
+Date: Thu, 10 Jun 2021 11:43:11 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -46,8 +46,8 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-213391-2300-fvB64WDmwM@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: cc attachments.created
+Message-ID: <bug-213391-2300-zFBXazia26@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-213391-2300@https.bugzilla.kernel.org/>
 References: <bug-213391-2300@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
@@ -72,15 +72,27 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=3D213391
 
---- Comment #1 from Lahfa Samy (samy@lahfa.xyz) ---
-Created attachment 297287
-  --> https://bugzilla.kernel.org/attachment.cgi?id=3D297287&action=3Dedit
-dmesg-chromium-amdgpu-retry-page-fault
+Lahfa Samy (samy@lahfa.xyz) changed:
 
-In the dmesg, there is the end of an entry to a sleep state and then out of=
- the
-sleep state (a USB-C dock was connected to the laptop, and it has screens
-however errors happened with it plugged and when it was unplugged).
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+                 CC|                            |samy@lahfa.xyz
+
+--- Comment #2 from Lahfa Samy (samy@lahfa.xyz) ---
+Created attachment 297291
+  --> https://bugzilla.kernel.org/attachment.cgi?id=3D297291&action=3Dedit
+journalctl-amdgpu-qutebrowser-page-retry
+
+This time there was no gfx timeout and thus the X11 server did not freeze, =
+and
+I didn't notice the retry page faults until I ran dmesg.
+
+There is a call trace at the beginning (irq 7: nobody cared (try booting wi=
+th
+the "irqpoll" option) and then a call trace, this is a known and reported b=
+ug
+that doesn't affect my computer functionality in any way since I acquired i=
+t.
 
 --=20
 You may reply to this email to add a comment.
