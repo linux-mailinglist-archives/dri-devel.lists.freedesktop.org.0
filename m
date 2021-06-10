@@ -2,61 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85DFA3A3495
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Jun 2021 22:10:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC2A73A349D
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Jun 2021 22:11:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9E3156E0AB;
-	Thu, 10 Jun 2021 20:10:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 86EA46ED13;
+	Thu, 10 Jun 2021 20:11:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb35.google.com (mail-yb1-xb35.google.com
- [IPv6:2607:f8b0:4864:20::b35])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4B0506E0AB
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Jun 2021 20:09:59 +0000 (UTC)
-Received: by mail-yb1-xb35.google.com with SMTP id i6so1095192ybm.1
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Jun 2021 13:09:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=jlekstrand-net.20150623.gappssmtp.com; s=20150623;
+Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com
+ [IPv6:2a00:1450:4864:20::62d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 584516ED13;
+ Thu, 10 Jun 2021 20:11:08 +0000 (UTC)
+Received: by mail-ej1-x62d.google.com with SMTP id he7so998057ejc.13;
+ Thu, 10 Jun 2021 13:11:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=mGXTVxUaVXWKPTiYzxUjEsvPKDu3sfvYPmlTlLThP8A=;
- b=wbOu7cr9NUhpa9CieoDwCJSo425nvLJaXZPFDguxP3u6wp0c5foU48lWOBmWfE0l83
- x6O6nHFl+VX7GMIU1bre96TQTe+Pzzf6X7rB/pFSeHmEbtuj9sWLNnlBWsvwf8WMiZwU
- 6aCWpoCYE77oxYx6ZWs/zcfz7/FhQdOcVqTrErUNE31NNMC0pN4RanbtNjcOPHxk9Iud
- 6DjS2rvPmhI5DS07462zPrFQqKAiQJ5mHRKJ9kTOjYMOF7iXSc/M9R14M1POF+oagqEB
- ykAuLbmrrYH9AH2DRyxv5MKXHprRF3eXXY6/Jf1v6/hY3flWTW32R2WZTzszFYEY3SBO
- YELg==
+ :cc; bh=gYA8DsEgfLzh7lOuB/mK7pQb2kPC8aGN946Y6drkZ+M=;
+ b=LObwsnJC/YnZ5KLAxzBOsDSkjrOW0UFTfmwRHMmU58huqsZpjTjqviYicUmGN1KQvn
+ 7MRzuBzfH0SWU2uh0JDdRsLHH725sSu0RYHeyH5nOCzSeJKLbLdm/1FOubNf+GaEp9a0
+ BJzQZqRuGZFPdaCu0k6EWT8zqkimyVdCVnH/7eNZ6Fan6Z57fT227KzNk7GyBvE43riO
+ lGM/RmsVE/f4/Own80Na0gCNkBEozPHoB7Ep2eOxJpwKvndgpoWCsM+zARlLCfy4MB0S
+ 2g53GkFvq3Sl71Tyj0zsp/DrPP+eFyKHBdi6BrbINgFCV6Z93Aw1I/o5YcR9dNee8imU
+ sZoA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=mGXTVxUaVXWKPTiYzxUjEsvPKDu3sfvYPmlTlLThP8A=;
- b=PTVkjaY/u6L287l/dAeAWQnlTObaKh+JSqtuAKSYZQx+mJdzHjebJP8Q9x13DNFChe
- QlSo+lwbEskJsH+p3XtJBO20nEytSf/vuhyyO2caW+zdHGnx4+vAPww8U4Gw2z7kKVJa
- kwgrFWP5+aVbFDEQvzwElOTYk+WJKI1b74s6bmArURqBDIU9rFQAwwfhF/W8UcFdlv2L
- C/i6wWSvM8qMbenR/rFfzxqev/ycJnDKHUmlrw+hJa1SHZN2hN9Y/YCPiXlc7mjeI8GX
- QXfh7tk8V7vvfdpl0juJyIAqG+JKOYdL/BjDXmMX1AuT/6gfxqM30PhZ9miy9BFdtHaA
- rVhg==
-X-Gm-Message-State: AOAM533ytUQP/WlNXFd6N6RlPcfCqSEtv5GkRJomHIVnOV/sMkvAohc/
- 9Yf/Jr4h93/9sIjd8P9k2WfSotokM42ruJV0pbDL5w==
-X-Google-Smtp-Source: ABdhPJye+q2A+te5fLc0UhIDoCDqlpp6wKdABFJG/RvnUM0kV4wCk+hIACNK0Cg4/NYtma1h4pnD0CMwYgVZIwV5NTI=
-X-Received: by 2002:a25:8804:: with SMTP id c4mr693269ybl.469.1623355798361;
- Thu, 10 Jun 2021 13:09:58 -0700 (PDT)
+ :message-id:subject:to:cc;
+ bh=gYA8DsEgfLzh7lOuB/mK7pQb2kPC8aGN946Y6drkZ+M=;
+ b=XHyDp6+xIygPDMdcACZcUFCvNo01gsZh4SKkJeeHxXn5vuOKPFIO7/moFPKtvlsA4O
+ /5ypaJR7NjjiSa1ad8bGPr/xnRfHCw1ysLCD2SxAKn4bM2KcRovz128cn9Lu9e+ok/n4
+ SVwdhhUk3jzFhZE5YZ8BHexss7n6qiYCTzCmwjyVqaqgh98Yzxdpc7r07VEAzOJ/l32a
+ vm6efZT9y2ZQxeUHlEYPBaH09K9C4NXD5w2OkShX+0his2sApqM49f+kLrpr0r38opQ5
+ en+v63+qv8GduTPqJtjCnOM3ORy/fBXvcIyE3FWYLN7awcBeFZHXyjJesJ8nYFjYO3gM
+ Uzog==
+X-Gm-Message-State: AOAM530SxHtGQ6bLV7Vx76Klz9bQTzFxOhB9OK2EynNZoiskh1/lJPGi
+ QZ1NxVWqOuv6PSS40LrimHg2GTjroxy69Llz7Qw=
+X-Google-Smtp-Source: ABdhPJxWDBaQPjU6z4Cl+nkxDC9Ae3jK6/kYcDKhaVBkBMVhPd32ELCKrXGLQJ2x4Z52ocblc5JF4zT+HnPHOujg7KQ=
+X-Received: by 2002:a17:906:3a09:: with SMTP id
+ z9mr304692eje.450.1623355866909; 
+ Thu, 10 Jun 2021 13:11:06 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210609212959.471209-1-jason@jlekstrand.net>
- <ae289388-911f-2928-d695-050863ee1007@linux.intel.com>
- <f9be43e3-4107-3742-a11b-8021b2c19e32@amd.com>
- <CAKMK7uFMEdFjUSphcyxuKMW8HfLOWQAE2iw-Fei+SRTDwUbRdQ@mail.gmail.com>
- <CAOFGe95BhZ7jXLxarL=2_zNYDydEoPJWnDWAG3aaeEJsDzR5dA@mail.gmail.com>
-In-Reply-To: <CAOFGe95BhZ7jXLxarL=2_zNYDydEoPJWnDWAG3aaeEJsDzR5dA@mail.gmail.com>
-From: Jason Ekstrand <jason@jlekstrand.net>
-Date: Thu, 10 Jun 2021 15:09:47 -0500
-Message-ID: <CAOFGe96KrBfvBKxcUNwths5Sigk7fk7ycLeYbgxutL3msEgfyA@mail.gmail.com>
-Subject: Re: [Intel-gfx] [PATCH 0/5] dma-fence, i915: Stop allowing
- SLAB_TYPESAFE_BY_RCU for dma_fence
-To: Daniel Vetter <daniel.vetter@ffwll.ch>
+References: <20210525211753.1086069-1-jason@jlekstrand.net>
+In-Reply-To: <20210525211753.1086069-1-jason@jlekstrand.net>
+From: Chia-I Wu <olvaffe@gmail.com>
+Date: Thu, 10 Jun 2021 13:10:56 -0700
+Message-ID: <CAPaKu7Ssizz2_A8cy12G544_uCGxWuMw8v54vSusF77SwD_yiw@mail.gmail.com>
+Subject: Re: [PATCH 0/7] dma-buf: Add an API for exporting sync files (v11)
+To: Jason Ekstrand <jason@jlekstrand.net>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,103 +62,29 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- intel-gfx <intel-gfx@lists.freedesktop.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Matthew Auld <matthew.auld@intel.com>, Dave Airlie <airlied@redhat.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: Daniel Stone <daniels@collabora.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel@daenzer.net>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>,
+ wayland <wayland-devel@lists.freedesktop.org>,
+ Dave Airlie <airlied@redhat.com>, mesa-dev <mesa-dev@lists.freedesktop.org>,
+ intel-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jun 10, 2021 at 8:35 AM Jason Ekstrand <jason@jlekstrand.net> wrote=
-:
-> On Thu, Jun 10, 2021 at 6:30 AM Daniel Vetter <daniel.vetter@ffwll.ch> wr=
-ote:
-> > On Thu, Jun 10, 2021 at 11:39 AM Christian K=C3=B6nig
-> > <christian.koenig@amd.com> wrote:
-> > > Am 10.06.21 um 11:29 schrieb Tvrtko Ursulin:
-> > > > On 09/06/2021 22:29, Jason Ekstrand wrote:
-> > > >>
-> > > >> We've tried to keep it somewhat contained by doing most of the har=
-d work
-> > > >> to prevent access of recycled objects via dma_fence_get_rcu_safe()=
-.
-> > > >> However, a quick grep of kernel sources says that, of the 30 insta=
-nces
-> > > >> of dma_fence_get_rcu*, only 11 of them use dma_fence_get_rcu_safe(=
-).
-> > > >> It's likely there bear traps in DRM and related subsystems just wa=
-iting
-> > > >> for someone to accidentally step in them.
-> > > >
-> > > > ...because dma_fence_get_rcu_safe apears to be about whether the
-> > > > *pointer* to the fence itself is rcu protected, not about the fence
-> > > > object itself.
-> > >
-> > > Yes, exactly that.
->
-> The fact that both of you think this either means that I've completely
-> missed what's going on with RCUs here (possible but, in this case, I
-> think unlikely) or RCUs on dma fences should scare us all.
+On Tue, May 25, 2021 at 2:18 PM Jason Ekstrand <jason@jlekstrand.net> wrote:
+> Modern userspace APIs like Vulkan are built on an explicit
+> synchronization model.  This doesn't always play nicely with the
+> implicit synchronization used in the kernel and assumed by X11 and
+> Wayland.  The client -> compositor half of the synchronization isn't too
+> bad, at least on intel, because we can control whether or not i915
+> synchronizes on the buffer and whether or not it's considered written.
+We might have an important use case for this half, for virtio-gpu and Chrome OS.
 
-Taking a step back for a second and ignoring SLAB_TYPESAFE_BY_RCU as
-such,  I'd like to ask a slightly different question:  What are the
-rules about what is allowed to be done under the RCU read lock and
-what guarantees does a driver need to provide?
-
-I think so far that we've all agreed on the following:
-
- 1. Freeing an unsignaled fence is ok as long as it doesn't have any
-pending callbacks.  (Callbacks should hold a reference anyway).
-
- 2. The pointer race solved by dma_fence_get_rcu_safe is real and
-requires the loop to sort out.
-
-But let's say I have a dma_fence pointer that I got from, say, calling
-dma_resv_excl_fence() under rcu_read_lock().  What am I allowed to do
-with it under the RCU lock?  What assumptions can I make?  Is this
-code, for instance, ok?
-
-rcu_read_lock();
-fence =3D dma_resv_excl_fence(obj);
-idle =3D !fence || test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->flags);
-rcu_read_unlock();
-
-This code very much looks correct under the following assumptions:
-
- 1. A valid fence pointer stays alive under the RCU read lock
- 2. SIGNALED_BIT is set-once (it's never unset after being set).
-
-However, if it were, we wouldn't have dma_resv_test_singnaled(), now
-would we? :-)
-
-The moment you introduce ANY dma_fence recycling that recycles a
-dma_fence within a single RCU grace period, all your assumptions break
-down.  SLAB_TYPESAFE_BY_RCU is just one way that i915 does this.  We
-also have a little i915_request recycler to try and help with memory
-pressure scenarios in certain critical sections that also doesn't
-respect RCU grace periods.  And, as mentioned multiple times, our
-recycling leaks into every other driver because, thanks to i915's
-choice, the above 4-line code snippet isn't valid ANYWHERE in the
-kernel.
-
-So the question I'm raising isn't so much about the rules today.
-Today, we live in the wild wild west where everything is YOLO.  But
-where do we want to go?  Do we like this wild west world?  So we want
-more consistency under the RCU read lock?  If so, what do we want the
-rules to be?
-
-One option would be to accept the wild-west world we live in and say
-"The RCU read lock gains you nothing.  If you want to touch the guts
-of a dma_fence, take a reference".  But, at that point, we're eating
-two atomics for every time someone wants to look at a dma_fence.  Do
-we want that?
-
-Alternatively, and this what I think Daniel and I were trying to
-propose here, is that we place some constraints on dma_fence
-recycling.  Specifically that, under the RCU read lock, the fence
-doesn't suddenly become a new fence.  All of the immutability and
-once-mutability guarantees of various bits of dma_fence hold as long
-as you have the RCU read lock.
-
---Jason
+When the guest compositor acts as a proxy to connect guest apps to the
+host compositor, implicit fencing requires the guest compositor to do
+a wait before forwarding the buffer to the host compositor.  With this
+patch, the guest compositor can extract the dma-fence from the buffer,
+and if the fence is a virtio-gpu fence, forward both the fence and the
+buffer to the host compositor.  It will allow us to convert a
+guest-side wait into a host-side wait.
