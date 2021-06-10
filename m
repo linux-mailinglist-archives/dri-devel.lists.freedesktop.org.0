@@ -2,56 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C4D63A357B
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Jun 2021 23:09:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC5943A3580
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Jun 2021 23:09:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AB4DD6EDEF;
-	Thu, 10 Jun 2021 21:09:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DCFC36EDF0;
+	Thu, 10 Jun 2021 21:09:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x62c.google.com (mail-pl1-x62c.google.com
- [IPv6:2607:f8b0:4864:20::62c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EC30C6EDEF
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Jun 2021 21:09:46 +0000 (UTC)
-Received: by mail-pl1-x62c.google.com with SMTP id v11so1711993ply.6
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Jun 2021 14:09:46 -0700 (PDT)
+Received: from mail-pj1-x1036.google.com (mail-pj1-x1036.google.com
+ [IPv6:2607:f8b0:4864:20::1036])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D93CE6EDF0
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Jun 2021 21:09:48 +0000 (UTC)
+Received: by mail-pj1-x1036.google.com with SMTP id k5so4432515pjj.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Jun 2021 14:09:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=jlekstrand-net.20150623.gappssmtp.com; s=20150623;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=p4fPE5Sx2h6McvFTYLoODKxJxEcCsANcHt+fbkGFhYQ=;
- b=VHhvSEQgWC/D2FHUDo95Gf2GWe3nJ/NxwtnUDUqPTfElplTPa/FVVP7jdROZmWmfr3
- +KjoedsA5skC73sbSB6eDpybf+hAtXrvzDUP6k92KoU4BSVxa/rB4ZcJdsnsiPa8SS0B
- HQL1to6P5wgq5RnETHegd5hig7px6OTdHGhzVpvT/CSPBk/3J8zfjnSfHkQh3Iv/J77Z
- dpSa6kLXLdyqdP9nVq7/+w6ro5VWBSLLO7yteVKxhX4SZFsxiFj1O+bRyZubl0246FbG
- gX/xI5Ng8nYsKem8t5n98X6yCmewH9d7vyCKqLAlmTi4ACp2nk4ewmPulOyC1x3j2TBv
- na9w==
+ bh=07rjFAS53OMENHNy2p9Y4md9eEuMc5d3z32QsAn1VH0=;
+ b=hKegitAhnQFI7BkhN4rPvK+RsJ7qTH1v8UfAT4+BFkqj6EmNy+0H5YegJVAZiYZBEE
+ sn3oQAxk5tpvmLWcYQ2tQw46YKEKA3eGH7Sc8i7DY/1IK31CCUQ2N5X66zTQXTUP+Uoc
+ SogXZAv6cl7dvfYRangfKSQhGfa+jRFynqc4LyfxzNLNkq+b0NIp4K9DWmA2l0IL/wu7
+ r8IvZ/gmXvukk6kxBuED2ivHRWO36dcJik3I1yz0HnOsqubfNvcn+TAG19PCf8ImbgBV
+ nZ3bx6UF7bnsTY200eomUvoeoQ03aRHidnWAckVv8xUR2F4BGXbrQEaCf30NmJHN2AJP
+ jxcA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=p4fPE5Sx2h6McvFTYLoODKxJxEcCsANcHt+fbkGFhYQ=;
- b=EVKfdeO/GhhC1HmcPqLh+tv6ZiCCyXuAxGO3fflZ8YujwnDVWVabyu4d0N8HWBAUhu
- ViFtFb1rvT6c2aS1T+BNveqrgm/22Q7KpTGvLLXC9U4P9Yh2luGJJL7ldyOmjRX6jfYt
- w5uwSY4vrnEyZ/rNUemlPZ8hEA7RQR3Z4opz/howE44ybIyjw5RUxrubJ4sMlOg3dhKJ
- wohwGtNuGnDNHe/ze1uPYD0feqeWTmDEUXS8bER69KLc4Xgz8GZGscBjIuEpW3x7y6K8
- H27RqqcAU/CRtV0AxtVsSFX3GobYKEoJhJ1hdi/7mtd+jBPachHkYFu4mikLl7/y7mCL
- nV4g==
-X-Gm-Message-State: AOAM533pEXSd3WIHVGdeJnJ62fnPC8u5CxtFD0olhumGODooELJyXzDk
- s3zvU4y31da6gX2Gn/Bxf45PYFDlY44lsg==
-X-Google-Smtp-Source: ABdhPJwJueevL19aJJQenqO8j9D0AMYvcELFy/Nisb3vkhhEvdutekX651HkBKDtEQxL3WaX+ljoKg==
-X-Received: by 2002:a17:90b:3749:: with SMTP id
- ne9mr5166863pjb.77.1623359386091; 
- Thu, 10 Jun 2021 14:09:46 -0700 (PDT)
+ bh=07rjFAS53OMENHNy2p9Y4md9eEuMc5d3z32QsAn1VH0=;
+ b=YTCHilFcJonm8XDaZw9sJwpBPAI9BPvWrkFtjYm4Noi6NKxh3nUD6S5RIiBzb30gVp
+ Ehst+aaYAXA7lbYLICtDjR8PzAoKFsKqeg8H4oCH1NdIqAiiqYEE3HghsYX9AH5Fgmj3
+ YJ+nAxQJSiIlc5wOQZ0NtursZmJAX0Rhwf+swI7jxzeipdPOVfRv5byRCZktU1inGhfC
+ 0rdEh5eB2/uIrTbXjA18DOYFFOmW/IUslEdApY1GNGBxLXZqvdrkAZR47yJF7x17gc1Y
+ h+Kj5gq8kH7HFjPWzyYZzEEmJw6wcsSfgB2NmtoHh/M8CkxJ2x02U7/ZKetwuOZ4q7ii
+ RAcA==
+X-Gm-Message-State: AOAM530DySGNwmp1GjxI4KOnpbhTjS4HKFluwH3ArvtF4ZOzznyDI5+I
+ 4Yvg50qtNiE7QWME6QQvmkNV7Pjv5ULL3w==
+X-Google-Smtp-Source: ABdhPJxfnqTfKyzkOHS1LJAtEcWyVp+4PgnYwvworSgybNREuYlZlS9sGT4ETV9nYNBSW7Whe5vnZg==
+X-Received: by 2002:a17:90a:6404:: with SMTP id
+ g4mr5292379pjj.155.1623359388052; 
+ Thu, 10 Jun 2021 14:09:48 -0700 (PDT)
 Received: from omlet.lan (jfdmzpr03-ext.jf.intel.com. [134.134.139.72])
- by smtp.gmail.com with ESMTPSA id o16sm3145288pfu.75.2021.06.10.14.09.44
+ by smtp.gmail.com with ESMTPSA id o16sm3145288pfu.75.2021.06.10.14.09.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 10 Jun 2021 14:09:45 -0700 (PDT)
+ Thu, 10 Jun 2021 14:09:47 -0700 (PDT)
 From: Jason Ekstrand <jason@jlekstrand.net>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 2/6] dma-buf: Add dma_resv_get_singleton (v6)
-Date: Thu, 10 Jun 2021 16:09:21 -0500
-Message-Id: <20210610210925.642582-3-jason@jlekstrand.net>
+Subject: [PATCH 3/6] dma-buf: Document DMA_BUF_IOCTL_SYNC (v2)
+Date: Thu, 10 Jun 2021 16:09:22 -0500
+Message-Id: <20210610210925.642582-4-jason@jlekstrand.net>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210610210925.642582-1-jason@jlekstrand.net>
 References: <20210610210925.642582-1-jason@jlekstrand.net>
@@ -76,178 +76,107 @@ Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add a helper function to get a single fence representing
-all fences in a dma_resv object.
+This adds a new "DMA Buffer ioctls" section to the dma-buf docs and adds
+documentation for DMA_BUF_IOCTL_SYNC.
 
-This fence is either the only one in the object or all not
-signaled fences of the object in a flatted out dma_fence_array.
-
-v2 (Jason Ekstrand):
- - Take reference of fences both for creating the dma_fence_array and in
-   the case where we return one fence.
- - Handle the case where dma_resv_get_list() returns NULL
-
-v3 (Jason Ekstrand):
- - Add an _rcu suffix because it is read-only
- - Rewrite to use dma_resv_get_fences_rcu so it's RCU-safe
- - Add an EXPORT_SYMBOL_GPL declaration
- - Re-author the patch to Jason since very little is left of Christian
-   König's original patch
- - Remove the extra fence argument
-
-v4 (Jason Ekstrand):
- - Restore the extra fence argument
-
-v5 (Daniel Vetter):
- - Rename from _rcu to _unlocked since it doesn't leak RCU details to
-   the caller
- - Fix docs
- - Use ERR_PTR for error handling rather than an output dma_fence**
-
-v5 (Jason Ekstrand):
- - Drop the extra fence param and leave that to a separate patch
-
-v6 (Jason Ekstrand):
- - Rename to dma_resv_get_singleton to match the new naming convention
-   for dma_resv helpers which work without taking a lock.
+v2 (Daniel Vetter):
+ - Fix a couple typos
+ - Add commentary about synchronization with other devices
+ - Use item list format for describing flags
 
 Signed-off-by: Jason Ekstrand <jason@jlekstrand.net>
-Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
 Cc: Christian König <christian.koenig@amd.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Cc: Sumit Semwal <sumit.semwal@linaro.org>
 ---
- drivers/dma-buf/dma-resv.c | 91 ++++++++++++++++++++++++++++++++++++++
- include/linux/dma-resv.h   |  1 +
- 2 files changed, 92 insertions(+)
+ Documentation/driver-api/dma-buf.rst |  8 +++++
+ include/uapi/linux/dma-buf.h         | 46 +++++++++++++++++++++++++++-
+ 2 files changed, 53 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/dma-buf/dma-resv.c b/drivers/dma-buf/dma-resv.c
-index f26c71747d43a..1b26aa7e5d81c 100644
---- a/drivers/dma-buf/dma-resv.c
-+++ b/drivers/dma-buf/dma-resv.c
-@@ -34,6 +34,8 @@
-  */
+diff --git a/Documentation/driver-api/dma-buf.rst b/Documentation/driver-api/dma-buf.rst
+index 7f21425d9435a..0d4c13ec1a800 100644
+--- a/Documentation/driver-api/dma-buf.rst
++++ b/Documentation/driver-api/dma-buf.rst
+@@ -88,6 +88,9 @@ consider though:
+ - The DMA buffer FD is also pollable, see `Implicit Fence Poll Support`_ below for
+   details.
  
- #include <linux/dma-resv.h>
-+#include <linux/dma-fence-chain.h>
-+#include <linux/dma-fence-array.h>
- #include <linux/export.h>
- #include <linux/mm.h>
- #include <linux/sched/mm.h>
-@@ -50,6 +52,10 @@
-  * write-side updates.
-  */
- 
-+#define dma_fence_deep_dive_for_each(fence, chain, index, head)	\
-+	dma_fence_chain_for_each(chain, head)			\
-+		dma_fence_array_for_each(fence, index, chain)
++- The DMA buffer FD also supports a few dma-buf-specific ioctls, see
++  `DMA Buffer ioctls`_ below for details.
 +
- DEFINE_WD_CLASS(reservation_ww_class);
- EXPORT_SYMBOL(reservation_ww_class);
+ Basic Operation and Device DMA Access
+ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
  
-@@ -495,6 +501,91 @@ int dma_resv_get_fences(struct dma_resv *obj, struct dma_fence **pfence_excl,
- }
- EXPORT_SYMBOL_GPL(dma_resv_get_fences);
+@@ -106,6 +109,11 @@ Implicit Fence Poll Support
+ .. kernel-doc:: drivers/dma-buf/dma-buf.c
+    :doc: implicit fence polling
  
++DMA Buffer ioctls
++~~~~~~~~~~~~~~~~~
++
++.. kernel-doc:: include/uapi/linux/dma-buf.h
++
+ Kernel Functions and Structures Reference
+ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ 
+diff --git a/include/uapi/linux/dma-buf.h b/include/uapi/linux/dma-buf.h
+index 7f30393b92c3b..1c131002fe1ee 100644
+--- a/include/uapi/linux/dma-buf.h
++++ b/include/uapi/linux/dma-buf.h
+@@ -22,8 +22,52 @@
+ 
+ #include <linux/types.h>
+ 
+-/* begin/end dma-buf functions used for userspace mmap. */
 +/**
-+ * dma_resv_get_singleton - get a single fence for the dma_resv object
-+ * @obj: the reservation object
++ * struct dma_buf_sync - Synchronize with CPU access.
 + *
-+ * Get a single fence representing all unsignaled fences in the dma_resv object
-+ * plus the given extra fence. If we got only one fence return a new
-+ * reference to that, otherwise return a dma_fence_array object.
++ * When a DMA buffer is accessed from the CPU via mmap, it is not always
++ * possible to guarantee coherency between the CPU-visible map and underlying
++ * memory.  To manage coherency, DMA_BUF_IOCTL_SYNC must be used to bracket
++ * any CPU access to give the kernel the chance to shuffle memory around if
++ * needed.
 + *
-+ * RETURNS
-+ * The singleton dma_fence on success or an ERR_PTR on failure
++ * Prior to accessing the map, the client must call DMA_BUF_IOCTL_SYNC
++ * with DMA_BUF_SYNC_START and the appropriate read/write flags.  Once the
++ * access is complete, the client should call DMA_BUF_IOCTL_SYNC with
++ * DMA_BUF_SYNC_END and the same read/write flags.
++ *
++ * The synchronization provided via DMA_BUF_IOCTL_SYNC only provides cache
++ * coherency.  It does not prevent other processes or devices from
++ * accessing the memory at the same time.  If synchronization with a GPU or
++ * other device driver is required, it is the client's responsibility to
++ * wait for buffer to be ready for reading or writing.  If the driver or
++ * API with which the client is interacting uses implicit synchronization,
++ * this can be done via poll() on the DMA buffer file descriptor.  If the
++ * driver or API requires explicit synchronization, the client may have to
++ * wait on a sync_file or other synchronization primitive outside the scope
++ * of the DMA buffer API.
 + */
-+struct dma_fence *dma_resv_get_singleton(struct dma_resv *obj)
-+{
-+	struct dma_fence *result, **resv_fences, *fence, *chain, **fences;
-+	struct dma_fence_array *array;
-+	unsigned int num_resv_fences, num_fences;
-+	unsigned int err, i, j;
-+
-+	err = dma_resv_get_fences(obj, NULL, &num_resv_fences, &resv_fences);
-+	if (err)
-+		return ERR_PTR(err);
-+
-+	if (num_resv_fences == 0)
-+		return NULL;
-+
-+	num_fences = 0;
-+	result = NULL;
-+
-+	for (i = 0; i < num_resv_fences; ++i) {
-+		dma_fence_deep_dive_for_each(fence, chain, j, resv_fences[i]) {
-+			if (dma_fence_is_signaled(fence))
-+				continue;
-+
-+			result = fence;
-+			++num_fences;
-+		}
-+	}
-+
-+	if (num_fences <= 1) {
-+		result = dma_fence_get(result);
-+		goto put_resv_fences;
-+	}
-+
-+	fences = kmalloc_array(num_fences, sizeof(struct dma_fence *),
-+			       GFP_KERNEL);
-+	if (!fences) {
-+		result = ERR_PTR(-ENOMEM);
-+		goto put_resv_fences;
-+	}
-+
-+	num_fences = 0;
-+	for (i = 0; i < num_resv_fences; ++i) {
-+		dma_fence_deep_dive_for_each(fence, chain, j, resv_fences[i]) {
-+			if (!dma_fence_is_signaled(fence))
-+				fences[num_fences++] = dma_fence_get(fence);
-+		}
-+	}
-+
-+	if (num_fences <= 1) {
-+		result = num_fences ? fences[0] : NULL;
-+		kfree(fences);
-+		goto put_resv_fences;
-+	}
-+
-+	array = dma_fence_array_create(num_fences, fences,
-+				       dma_fence_context_alloc(1),
-+				       1, false);
-+	if (array) {
-+		result = &array->base;
-+	} else {
-+		result = ERR_PTR(-ENOMEM);
-+		while (num_fences--)
-+			dma_fence_put(fences[num_fences]);
-+		kfree(fences);
-+	}
-+
-+put_resv_fences:
-+	while (num_resv_fences--)
-+		dma_fence_put(resv_fences[num_resv_fences]);
-+	kfree(resv_fences);
-+
-+	return result;
-+}
-+EXPORT_SYMBOL_GPL(dma_resv_get_singleton);
-+
- /**
-  * dma_resv_wait_timeout - Wait on reservation's objects
-  * shared and/or exclusive fences.
-diff --git a/include/linux/dma-resv.h b/include/linux/dma-resv.h
-index 562b885cf9c3d..d60982975a786 100644
---- a/include/linux/dma-resv.h
-+++ b/include/linux/dma-resv.h
-@@ -275,6 +275,7 @@ void dma_resv_add_excl_fence(struct dma_resv *obj, struct dma_fence *fence);
- int dma_resv_get_fences(struct dma_resv *obj, struct dma_fence **pfence_excl,
- 			unsigned *pshared_count, struct dma_fence ***pshared);
- int dma_resv_copy_fences(struct dma_resv *dst, struct dma_resv *src);
-+struct dma_fence *dma_resv_get_singleton(struct dma_resv *obj);
- long dma_resv_wait_timeout(struct dma_resv *obj, bool wait_all, bool intr,
- 			   unsigned long timeout);
- bool dma_resv_test_signaled(struct dma_resv *obj, bool test_all);
+ struct dma_buf_sync {
++	/**
++	 * @flags: Set of access flags
++	 *
++	 * DMA_BUF_SYNC_START:
++	 *     Indicates the start of a map access session.
++	 *
++	 * DMA_BUF_SYNC_END:
++	 *     Indicates the end of a map access session.
++	 *
++	 * DMA_BUF_SYNC_READ:
++	 *     Indicates that the mapped DMA buffer will be read by the
++	 *     client via the CPU map.
++	 *
++	 * DMA_BUF_SYNC_WRITE:
++	 *     Indicates that the mapped DMA buffer will be written by the
++	 *     client via the CPU map.
++	 *
++	 * DMA_BUF_SYNC_RW:
++	 *     An alias for DMA_BUF_SYNC_READ | DMA_BUF_SYNC_WRITE.
++	 */
+ 	__u64 flags;
+ };
+ 
 -- 
 2.31.1
 
