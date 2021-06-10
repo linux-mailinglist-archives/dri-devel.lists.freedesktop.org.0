@@ -1,60 +1,76 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2DA93A30B8
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Jun 2021 18:32:32 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C1823A30BA
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Jun 2021 18:33:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 05FAC6EDA4;
-	Thu, 10 Jun 2021 16:32:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 327276E167;
+	Thu, 10 Jun 2021 16:33:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb36.google.com (mail-yb1-xb36.google.com
- [IPv6:2607:f8b0:4864:20::b36])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 56E036EDA7
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Jun 2021 16:32:29 +0000 (UTC)
-Received: by mail-yb1-xb36.google.com with SMTP id f84so252015ybg.0
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Jun 2021 09:32:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=jlekstrand-net.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=eFMFB/fW63KwYo06221UXDneuh4KrJBz952h7gh85Nc=;
- b=oc1T1Ob75cS17GJVLj+5U0O327o6I5umFZMlOJD3Jsq/DLpXVshXtMng8fGvjL0N6/
- fDig9BZKXvSTY/XVITBnKd7VXlXseLmUq+1FqUHELmO+QKOcREznzqKWJY5BWP/kRMHv
- I2nJaw6I9wMoR131TgNgaK271+ECrTeHeIsdfoH+7I+YPbLJzhRYv/IeunYciGmQfZ9p
- EhjfDAR3NyFCInl3lGVBotOvePzhSQtAOZGsyX4bH90ogomJ1AE1Lfo8bkJuIELWh9cT
- uz5Z5iVhUTQWfWXYBRqPc/ZfPxGHvYm9+/7uFw/B7UiaB9SPrvICCu9qt0gkBtWivp0d
- GBcA==
+Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com
+ [IPv6:2a00:1450:4864:20::331])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4216688007;
+ Thu, 10 Jun 2021 16:33:22 +0000 (UTC)
+Received: by mail-wm1-x331.google.com with SMTP id m3so1310012wms.4;
+ Thu, 10 Jun 2021 09:33:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language;
+ bh=pkzfPTfQHHN+SUxFVAv7BbBoNtVBMETtewFTRNl0qFQ=;
+ b=efUoQf5krRdWgvelN4w0/LIsG+8DDfTB+YNzTwXrlJixrcSIQIAx1VxzgvjcEiyick
+ faF/FiravGh6czpuOiMiNnpcBb37FF/cWkv9oSJgIcKcypPGAze7uCQc11BVWGCpScqQ
+ pxmuqo3c4ciMkSyzAsdePRIZwSntVzuXjCxPIGFFlFHHr8kQyVBLXZPV+qaZKzcWxtDU
+ gva/57BtU6b/DgxhztFu2fDIYPrlkAk2IDkH3otFHgmO2FllqT/mzCV/sMDMeeuQBtIE
+ +ztOI9sYwlVci0PX4ZCXmYUCPPNkCkdwzfHIjw6awSmX5ipYhPPodCx03YhXUbvct3Yz
+ zkoA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=eFMFB/fW63KwYo06221UXDneuh4KrJBz952h7gh85Nc=;
- b=Dl/vuXAxoRiXVg+2qf0hbKGkkRV7n+y5+ihNBwckXVv5uUU0LJs7XB4wff1PhXl0nG
- yKZhCoEwjLfemo5zuII+mMLtJjq5KNL0amFH41L93n0/Jeu8TSc77yJYP/Swmd/HGJ9e
- co9N2ZEgd4Qt9VXrEt9GXxoFfk5bcQEz04WG3Xqd5qL2zo+mT0lsKclzmD8w+bRTlXDx
- S3EGUCPrRZuFZQooQuCLf/WqWf6IkeGSBoxjPiXL1suRiSQYBNL3tvpb+9LJ76n5vIKt
- LIVNfikSJpXeWl3LxbHnVpuV13eVFukKvB+pJAqO3KHhFL/RokhN5fvYgw1wtkbEyjcm
- eMAw==
-X-Gm-Message-State: AOAM531bO+u3MQiM7OKmVrM7ODSOthRI39VR5gUrlTEicpCTED37XNtR
- EUfYBEYdG2OfJAC8z6t3cXO6LfD0ykGBn7YCaQUyGQ==
-X-Google-Smtp-Source: ABdhPJxet+sZtoK5Q/gLxd3WMmqQE+Jshqm9f9UhLvHgNcgZP9QKv62l4OfGaK0DEKOYTC9JQXhy5wvGPYDw9eNKyI8=
-X-Received: by 2002:a25:208b:: with SMTP id g133mr8075360ybg.211.1623342748455; 
- Thu, 10 Jun 2021 09:32:28 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language;
+ bh=pkzfPTfQHHN+SUxFVAv7BbBoNtVBMETtewFTRNl0qFQ=;
+ b=sbB4XocjDxEj3G7XFuBzpx1uQxWDHQX6nJSFZZZLhAltAeVUQOJguJW1ucNKnBjcM6
+ G4EZsucW11R29X8DoJmvxFhVtC1sqrgz7e6pRQerJOzBIBRFdPXAxlEZflKzgODczYoa
+ wIG6a84+oDRBVj3uMv8/zd4Ymjf2sIO9Yt9+2/70szcckypRUablOvAcXPX0IUTPIb+e
+ FozZGWPInybipv8HUOSVVosBvB8cQ9qZbrxfq6flqFt2Ha853W1U8JMI1ILjgwF4ofKB
+ S15j7U2XKRZV9uTILJ6fcPJt9L4UhbM5KePFMPRgFk7VGHk1UOrpX9BkuCaLX5j5vBUr
+ DBUA==
+X-Gm-Message-State: AOAM533mLeLGZsKmVecfka3Ng6y6EuBANLjd9+C6rcQS/904iYBSCEGL
+ A5NZhp5jN0bjA9UZMJvZYbaSZqbh0LQ=
+X-Google-Smtp-Source: ABdhPJx8Q9XxMinQC2Ko+DMJ8YdFtydFwCje5DOnBPbP+Xeh7QjOPCw4dQmyYWm8/BYCfOGTKTnbBw==
+X-Received: by 2002:a1c:9ac5:: with SMTP id c188mr15470102wme.17.1623342800880; 
+ Thu, 10 Jun 2021 09:33:20 -0700 (PDT)
+Received: from ?IPv6:2a02:908:1252:fb60:c285:5f9a:99f5:633e?
+ ([2a02:908:1252:fb60:c285:5f9a:99f5:633e])
+ by smtp.gmail.com with ESMTPSA id v17sm4894550wrp.36.2021.06.10.09.33.20
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 10 Jun 2021 09:33:20 -0700 (PDT)
+Subject: Re: [Mesa-dev] Linux Graphics Next: Userspace submission update
+To: =?UTF-8?B?TWFyZWsgT2zFocOhaw==?= <maraeo@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>
+References: <CAAxE2A4kC4A9gV_V-W3eRW20O=9S1pv8=KMBdJxdLQ-ZXGa37Q@mail.gmail.com>
+ <CAAxE2A7FJSaYfrYRpoCr-3h-AqBjOOJerhMVCcQZzQu0a+J0zg@mail.gmail.com>
+ <YLfSbxhyDQmHjV4r@phenom.ffwll.local>
+ <a43f81f6-fe41-a6db-442e-83eb163124b9@gmail.com>
+ <YLfZq5lAaR/RiFV8@phenom.ffwll.local>
+ <0fbb1197-fa88-c474-09db-6daec13d3004@gmail.com>
+ <YLnq6Vuf4amZld3n@phenom.ffwll.local>
+ <586edeb3-73df-3da2-4925-1829712cba8b@gmail.com>
+ <YMC/4IhCePCu57HU@phenom.ffwll.local>
+ <1478737b-88aa-a24a-d2d7-cd3716df0cb0@gmail.com>
+ <YMEI8pcXpt22gi3D@phenom.ffwll.local>
+ <CAAxE2A6zwCHPaP5NnRETVe_BOsoVQK1T=h8gqRnUtP4sRFBkrw@mail.gmail.com>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+Message-ID: <eadcb7ee-f6fa-c8c9-a8c4-ac42571871cf@gmail.com>
+Date: Thu, 10 Jun 2021 18:33:19 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-References: <20210609212959.471209-1-jason@jlekstrand.net>
- <20210609212959.471209-2-jason@jlekstrand.net>
- <0f63cba3-ec2f-c246-1375-5b1bced593f5@linux.intel.com>
- <CAOFGe957jdnhkYjROWSrVf0L+4FLrvBhnujXQaX18ZVjBt5CBw@mail.gmail.com>
- <eea9f930-3434-82ad-e5d9-d55bd8a8c6c0@linux.intel.com>
-In-Reply-To: <eea9f930-3434-82ad-e5d9-d55bd8a8c6c0@linux.intel.com>
-From: Jason Ekstrand <jason@jlekstrand.net>
-Date: Thu, 10 Jun 2021 11:32:17 -0500
-Message-ID: <CAOFGe95E8NXUoNuK0M=3xDY1w7DNLOJ-7yVoRqn4cP3t8R6ThA@mail.gmail.com>
-Subject: Re: [Intel-gfx] [PATCH 1/5] drm/i915: Move
- intel_engine_free_request_pool to i915_request.c
-To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <CAAxE2A6zwCHPaP5NnRETVe_BOsoVQK1T=h8gqRnUtP4sRFBkrw@mail.gmail.com>
+Content-Type: multipart/alternative;
+ boundary="------------1B1C6A13BBC79B84EAA893AD"
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,190 +83,326 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@intel.com>,
- Intel GFX <intel-gfx@lists.freedesktop.org>,
- Matthew Auld <matthew.auld@intel.com>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>
+Cc: Jason Ekstrand <jason@jlekstrand.net>,
+ ML Mesa-dev <mesa-dev@lists.freedesktop.org>,
+ =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel@daenzer.net>,
+ dri-devel <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jun 10, 2021 at 10:07 AM Tvrtko Ursulin
-<tvrtko.ursulin@linux.intel.com> wrote:
+This is a multi-part message in MIME format.
+--------------1B1C6A13BBC79B84EAA893AD
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+
+Hi guys,
+
+maybe soften that a bit. Reading from the shared memory of the user 
+fence is ok for everybody. What we need to take more care of is the 
+writing side.
+
+So my current thinking is that we allow read only access, but writing a 
+new sequence value needs to go through the scheduler/kernel.
+
+So when the CPU wants to signal a timeline fence it needs to call an 
+IOCTL. When the GPU wants to signal the timeline fence it needs to hand 
+that of to the hardware scheduler.
+
+If we lockup the kernel can check with the hardware who did the last 
+write and what value was written.
+
+That together with an IOCTL to give out sequence number for implicit 
+sync to applications should be sufficient for the kernel to track who is 
+responsible if something bad happens.
+
+In other words when the hardware says that the shader wrote stuff like 
+0xdeadbeef 0x0 or 0xffffffff into memory we kill the process who did that.
+
+If the hardware says that seq - 1 was written fine, but seq is missing 
+then the kernel blames whoever was supposed to write seq.
+
+Just pieping the write through a privileged instance should be fine to 
+make sure that we don't run into issues.
+
+Christian.
+
+Am 10.06.21 um 17:59 schrieb Marek Olšák:
+> Hi Daniel,
 >
-> On 10/06/2021 14:57, Jason Ekstrand wrote:
-> > On Thu, Jun 10, 2021 at 5:04 AM Tvrtko Ursulin
-> > <tvrtko.ursulin@linux.intel.com> wrote:
-> >>
-> >> On 09/06/2021 22:29, Jason Ekstrand wrote:
-> >>> This appears to break encapsulation by moving an intel_engine_cs
-> >>> function to a i915_request file.  However, this function is
-> >>> intrinsically tied to the lifetime rules and allocation scheme of
-> >>> i915_request and having it in intel_engine_cs.c leaks details of
-> >>> i915_request.  We have an abstraction leak either way.  Since
-> >>> i915_request's allocation scheme is far more subtle than the simple
-> >>> pointer that is intel_engine_cs.request_pool, it's probably better to
-> >>> keep i915_request's details to itself.
-> >>>
-> >>> Signed-off-by: Jason Ekstrand <jason@jlekstrand.net>
-> >>> Cc: Jon Bloomfield <jon.bloomfield@intel.com>
-> >>> Cc: Daniel Vetter <daniel.vetter@intel.com>
-> >>> Cc: Matthew Auld <matthew.auld@intel.com>
-> >>> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> >>> ---
-> >>>    drivers/gpu/drm/i915/gt/intel_engine_cs.c | 8 --------
-> >>>    drivers/gpu/drm/i915/i915_request.c       | 7 +++++--
-> >>>    drivers/gpu/drm/i915/i915_request.h       | 2 --
-> >>>    3 files changed, 5 insertions(+), 12 deletions(-)
-> >>>
-> >>> diff --git a/drivers/gpu/drm/i915/gt/intel_engine_cs.c b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
-> >>> index 9ceddfbb1687d..df6b80ec84199 100644
-> >>> --- a/drivers/gpu/drm/i915/gt/intel_engine_cs.c
-> >>> +++ b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
-> >>> @@ -422,14 +422,6 @@ void intel_engines_release(struct intel_gt *gt)
-> >>>        }
-> >>>    }
-> >>>
-> >>> -void intel_engine_free_request_pool(struct intel_engine_cs *engine)
-> >>> -{
-> >>> -     if (!engine->request_pool)
-> >>> -             return;
-> >>> -
-> >>> -     kmem_cache_free(i915_request_slab_cache(), engine->request_pool);
-> >>
-> >> Argument that the slab cache shouldn't be exported from i915_request.c
-> >> sounds good to me.
-> >>
-> >> But I think step better than simply reversing the break of encapsulation
-> >> (And it's even worse because it leaks much higher level object!) could
-> >> be to export a freeing helper from i915_request.c, engine pool would
-> >> then use:
-> >>
-> >> void __i915_request_free(...)
-> >> {
-> >>          kmem_cache_free(...);
-> >> }
-> >
-> > That was what I did at first.  However, the semantics of how the
-> > pointer is touched/modified are really also part of i915_request.  In
-> > particular, the use of xchg and cmpxchg.  So I pulled the one other
-> > access (besides NULL initializing) into i915_request.c which meant
-> > pulling in intel_engine_free_request_pool.
+> We just talked about this whole topic internally and we came up to the 
+> conclusion that the hardware needs to understand sync object handles 
+> and have high-level wait and signal operations in the command stream. 
+> Sync objects will be backed by memory, but they won't be readable or 
+> writable by processes directly. The hardware will log all accesses to 
+> sync objects and will send the log to the kernel periodically. The 
+> kernel will identify malicious behavior.
 >
-> Hmmm in my view the only break of encapsulation at the moment is that
-> intel_engine_cs.c knows requests have been allocated from a dedicated slab.
+> Example of a hardware command stream:
+> ...
+> ImplicitSyncWait(syncObjHandle, sequenceNumber); // the sequence 
+> number is assigned by the kernel
+> Draw();
+> ImplicitSyncSignalWhenDone(syncObjHandle);
+> ...
 >
-> Semantics of how the request pool pointer is managed, so xchg and
-> cmpxchg, already are in i915_request.c so I don't exactly follow what is
-> the problem with wrapping the knowledge on how requests should be freed
-> inside i915_request.c as well?
+> I'm afraid we have no other choice because of the TLB invalidation 
+> overhead.
 >
-> Unless you view the fact intel_engine_cs contains a pointer to
-> i915_request a break as well? But even then... <continued below>
+> Marek
 >
-> > Really, if we wanted proper encapsulation here, we'd have
-> >
-> > struct i915_request_cache {
-> >      struct i915_request *rq;
-> > };
-> >
-> > void i915_request_cache_init(struct i915_request_cache *cache);
-> > void i915_request_cache_finish(struct i915_request_cache *cache);
-> >
-> > all in i915_request.h and have all the gory details inside
-> > i915_request.c.  Then all intel_engine_cs knows is that it has a > request cache.
 >
-> ... with this scheme you'd have intel_engine_cs contain a pointer to
-> i915_request_cache,
-
-No, it would contain an i915_request_cache, not a pointer to one.  It
-wouldn't fundamentally change any data structures; just add wrapping.
-
-> which does not seem particularly exciting
-> improvement for me since wrapping would be extremely thin with no
-> fundamental changes.
-
-Yeah, it's not particularly exciting.
-
-> So for me exporting new __i915_request_free() from i915_request.c makes
-> things a bit better and I don't think we need to go further than that.
-
-I'm not sure it's necessary either.  The thing that bothers me is that
-we have this pointer that's clearly managed by i915_request.c but is
-initialized and finished by intel_context_cs.c.  Certainly adding an
-i915_request_free() is better than what we have today.  I'm not sure
-it's enough better to really make me happy but, TBH, the whole request
-cache thing is a bit of a mess....
-
-> I mean there is the issue of i915_request.c knowing about engines having
-> request pools, but I am not sure if with i915_request_cache you proposed
-> to remove that knowledge and how?
-
-It doesn't, really.  As long as we're stashing a request in the
-engine, there's still an encapsulation problem no matter what we do.
-
->  From the design point of view, given request pool is used only for
-> engine pm, clean design could be to manage this from engine pm. Like if
-> parking cannot use GFP_KERNEL then check if unparking can and explicitly
-> allocate a request from there to be consumed at parking time. It may
-> require some splitting of the request creation path though. To allocate
-> but not put it on the kernel timeline until park time.
-
-And now we're getting to the heart of things. :-)  Daniel mentioned
-this too.  Maybe if the real problem here is that engine parking can't
-allocate memory, we need to just fix engine parking to either not
-require an i915_request somehow or to do its own caching somehow.  I'm
-going to look into this.
-
---Jason
-
-> Regards,
+> On Wed, Jun 9, 2021 at 2:31 PM Daniel Vetter <daniel@ffwll.ch 
+> <mailto:daniel@ffwll.ch>> wrote:
 >
-> Tvrtko
+>     On Wed, Jun 09, 2021 at 03:58:26PM +0200, Christian König wrote:
+>     > Am 09.06.21 um 15:19 schrieb Daniel Vetter:
+>     > > [SNIP]
+>     > > > Yeah, we call this the lightweight and the heavyweight tlb
+>     flush.
+>     > > >
+>     > > > The lighweight can be used when you are sure that you don't
+>     have any of the
+>     > > > PTEs currently in flight in the 3D/DMA engine and you just
+>     need to
+>     > > > invalidate the TLB.
+>     > > >
+>     > > > The heavyweight must be used when you need to invalidate the
+>     TLB *AND* make
+>     > > > sure that no concurrently operation moves new stuff into the
+>     TLB.
+>     > > >
+>     > > > The problem is for this use case we have to use the
+>     heavyweight one.
+>     > > Just for my own curiosity: So the lightweight flush is only
+>     for in-between
+>     > > CS when you know access is idle? Or does that also not work if
+>     userspace
+>     > > has a CS on a dma engine going at the same time because the
+>     tlb aren't
+>     > > isolated enough between engines?
+>     >
+>     > More or less correct, yes.
+>     >
+>     > The problem is a lightweight flush only invalidates the TLB, but
+>     doesn't
+>     > take care of entries which have been handed out to the different
+>     engines.
+>     >
+>     > In other words what can happen is the following:
+>     >
+>     > 1. Shader asks TLB to resolve address X.
+>     > 2. TLB looks into its cache and can't find address X so it asks
+>     the walker
+>     > to resolve.
+>     > 3. Walker comes back with result for address X and TLB puts that
+>     into its
+>     > cache and gives it to Shader.
+>     > 4. Shader starts doing some operation using result for address X.
+>     > 5. You send lightweight TLB invalidate and TLB throws away
+>     cached values for
+>     > address X.
+>     > 6. Shader happily still uses whatever the TLB gave to it in step
+>     3 to
+>     > accesses address X
+>     >
+>     > See it like the shader has their own 1 entry L0 TLB cache which
+>     is not
+>     > affected by the lightweight flush.
+>     >
+>     > The heavyweight flush on the other hand sends out a broadcast
+>     signal to
+>     > everybody and only comes back when we are sure that an address
+>     is not in use
+>     > any more.
 >
-> >
-> > If we really want to go that far, we can, I suppose.
-> >
-> > --Jason
-> >
-> >> Regards,
-> >>
-> >> Tvrtko
-> >>
-> >>> -}
-> >>> -
-> >>>    void intel_engines_free(struct intel_gt *gt)
-> >>>    {
-> >>>        struct intel_engine_cs *engine;
-> >>> diff --git a/drivers/gpu/drm/i915/i915_request.c b/drivers/gpu/drm/i915/i915_request.c
-> >>> index 1014c71cf7f52..48c5f8527854b 100644
-> >>> --- a/drivers/gpu/drm/i915/i915_request.c
-> >>> +++ b/drivers/gpu/drm/i915/i915_request.c
-> >>> @@ -106,9 +106,12 @@ static signed long i915_fence_wait(struct dma_fence *fence,
-> >>>                                 timeout);
-> >>>    }
-> >>>
-> >>> -struct kmem_cache *i915_request_slab_cache(void)
-> >>> +void intel_engine_free_request_pool(struct intel_engine_cs *engine)
-> >>>    {
-> >>> -     return global.slab_requests;
-> >>> +     if (!engine->request_pool)
-> >>> +             return;
-> >>> +
-> >>> +     kmem_cache_free(global.slab_requests, engine->request_pool);
-> >>>    }
-> >>>
-> >>>    static void i915_fence_release(struct dma_fence *fence)
-> >>> diff --git a/drivers/gpu/drm/i915/i915_request.h b/drivers/gpu/drm/i915/i915_request.h
-> >>> index 270f6cd37650c..f84c38d29f988 100644
-> >>> --- a/drivers/gpu/drm/i915/i915_request.h
-> >>> +++ b/drivers/gpu/drm/i915/i915_request.h
-> >>> @@ -300,8 +300,6 @@ static inline bool dma_fence_is_i915(const struct dma_fence *fence)
-> >>>        return fence->ops == &i915_fence_ops;
-> >>>    }
-> >>>
-> >>> -struct kmem_cache *i915_request_slab_cache(void);
-> >>> -
-> >>>    struct i915_request * __must_check
-> >>>    __i915_request_create(struct intel_context *ce, gfp_t gfp);
-> >>>    struct i915_request * __must_check
-> >>>
+>     Ah makes sense. On intel the shaders only operate in VA,
+>     everything goes
+>     around as explicit async messages to IO blocks. So we don't have
+>     this, the
+>     only difference in tlb flushes is between tlb flush in the IB and
+>     an mmio
+>     one which is independent for anything currently being executed on an
+>     egine.
+>     -Daniel
+>     -- 
+>     Daniel Vetter
+>     Software Engineer, Intel Corporation
+>     http://blog.ffwll.ch <http://blog.ffwll.ch>
+>
+
+
+--------------1B1C6A13BBC79B84EAA893AD
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: 8bit
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+  <body>
+    Hi guys,<br>
+    <br>
+    maybe soften that a bit. Reading from the shared memory of the user
+    fence is ok for everybody. What we need to take more care of is the
+    writing side.<br>
+    <br>
+    So my current thinking is that we allow read only access, but
+    writing a new sequence value needs to go through the
+    scheduler/kernel.<br>
+    <br>
+    So when the CPU wants to signal a timeline fence it needs to call an
+    IOCTL. When the GPU wants to signal the timeline fence it needs to
+    hand that of to the hardware scheduler.<br>
+    <br>
+    If we lockup the kernel can check with the hardware who did the last
+    write and what value was written.<br>
+    <br>
+    That together with an IOCTL to give out sequence number for implicit
+    sync to applications should be sufficient for the kernel to track
+    who is responsible if something bad happens.<br>
+    <br>
+    In other words when the hardware says that the shader wrote stuff
+    like 0xdeadbeef 0x0 or 0xffffffff into memory we kill the process
+    who did that.<br>
+    <br>
+    If the hardware says that seq - 1 was written fine, but seq is
+    missing then the kernel blames whoever was supposed to write seq.<br>
+    <br>
+    Just pieping the write through a privileged instance should be fine
+    to make sure that we don't run into issues. <br>
+    <br>
+    Christian.<br>
+    <br>
+    <div class="moz-cite-prefix">Am 10.06.21 um 17:59 schrieb Marek
+      Olšák:<br>
+    </div>
+    <blockquote type="cite"
+cite="mid:CAAxE2A6zwCHPaP5NnRETVe_BOsoVQK1T=h8gqRnUtP4sRFBkrw@mail.gmail.com">
+      <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+      <div dir="ltr">
+        <div>Hi Daniel,</div>
+        <div><br>
+        </div>
+        <div>We just talked about this whole topic internally and we
+          came up to the conclusion that the hardware needs to
+          understand sync object handles and have high-level wait and
+          signal operations in the command stream. Sync objects will be
+          backed by memory, but they won't be readable or writable by
+          processes directly. The hardware will log all accesses to sync
+          objects and will send the log to the kernel periodically. The
+          kernel will identify malicious behavior.<br>
+        </div>
+        <div><br>
+        </div>
+        <div>Example of a hardware command stream:</div>
+        <div>...</div>
+        <div>ImplicitSyncWait(syncObjHandle, sequenceNumber); // the
+          sequence number is assigned by the kernel<br>
+        </div>
+        <div>Draw();</div>
+        <div>ImplicitSyncSignalWhenDone(syncObjHandle);</div>
+        <div>...</div>
+        <div><br>
+        </div>
+        <div>I'm afraid we have no other choice because of the TLB
+          invalidation overhead.</div>
+        <div><br>
+        </div>
+        <div>Marek<br>
+        </div>
+        <div><br>
+        </div>
+      </div>
+      <br>
+      <div class="gmail_quote">
+        <div dir="ltr" class="gmail_attr">On Wed, Jun 9, 2021 at 2:31 PM
+          Daniel Vetter &lt;<a href="mailto:daniel@ffwll.ch"
+            moz-do-not-send="true">daniel@ffwll.ch</a>&gt; wrote:<br>
+        </div>
+        <blockquote class="gmail_quote" style="margin:0px 0px 0px
+          0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">On
+          Wed, Jun 09, 2021 at 03:58:26PM +0200, Christian König wrote:<br>
+          &gt; Am 09.06.21 um 15:19 schrieb Daniel Vetter:<br>
+          &gt; &gt; [SNIP]<br>
+          &gt; &gt; &gt; Yeah, we call this the lightweight and the
+          heavyweight tlb flush.<br>
+          &gt; &gt; &gt; <br>
+          &gt; &gt; &gt; The lighweight can be used when you are sure
+          that you don't have any of the<br>
+          &gt; &gt; &gt; PTEs currently in flight in the 3D/DMA engine
+          and you just need to<br>
+          &gt; &gt; &gt; invalidate the TLB.<br>
+          &gt; &gt; &gt; <br>
+          &gt; &gt; &gt; The heavyweight must be used when you need to
+          invalidate the TLB *AND* make<br>
+          &gt; &gt; &gt; sure that no concurrently operation moves new
+          stuff into the TLB.<br>
+          &gt; &gt; &gt; <br>
+          &gt; &gt; &gt; The problem is for this use case we have to use
+          the heavyweight one.<br>
+          &gt; &gt; Just for my own curiosity: So the lightweight flush
+          is only for in-between<br>
+          &gt; &gt; CS when you know access is idle? Or does that also
+          not work if userspace<br>
+          &gt; &gt; has a CS on a dma engine going at the same time
+          because the tlb aren't<br>
+          &gt; &gt; isolated enough between engines?<br>
+          &gt; <br>
+          &gt; More or less correct, yes.<br>
+          &gt; <br>
+          &gt; The problem is a lightweight flush only invalidates the
+          TLB, but doesn't<br>
+          &gt; take care of entries which have been handed out to the
+          different engines.<br>
+          &gt; <br>
+          &gt; In other words what can happen is the following:<br>
+          &gt; <br>
+          &gt; 1. Shader asks TLB to resolve address X.<br>
+          &gt; 2. TLB looks into its cache and can't find address X so
+          it asks the walker<br>
+          &gt; to resolve.<br>
+          &gt; 3. Walker comes back with result for address X and TLB
+          puts that into its<br>
+          &gt; cache and gives it to Shader.<br>
+          &gt; 4. Shader starts doing some operation using result for
+          address X.<br>
+          &gt; 5. You send lightweight TLB invalidate and TLB throws
+          away cached values for<br>
+          &gt; address X.<br>
+          &gt; 6. Shader happily still uses whatever the TLB gave to it
+          in step 3 to<br>
+          &gt; accesses address X<br>
+          &gt; <br>
+          &gt; See it like the shader has their own 1 entry L0 TLB cache
+          which is not<br>
+          &gt; affected by the lightweight flush.<br>
+          &gt; <br>
+          &gt; The heavyweight flush on the other hand sends out a
+          broadcast signal to<br>
+          &gt; everybody and only comes back when we are sure that an
+          address is not in use<br>
+          &gt; any more.<br>
+          <br>
+          Ah makes sense. On intel the shaders only operate in VA,
+          everything goes<br>
+          around as explicit async messages to IO blocks. So we don't
+          have this, the<br>
+          only difference in tlb flushes is between tlb flush in the IB
+          and an mmio<br>
+          one which is independent for anything currently being executed
+          on an<br>
+          egine.<br>
+          -Daniel<br>
+          -- <br>
+          Daniel Vetter<br>
+          Software Engineer, Intel Corporation<br>
+          <a href="http://blog.ffwll.ch" rel="noreferrer"
+            target="_blank" moz-do-not-send="true">http://blog.ffwll.ch</a><br>
+        </blockquote>
+      </div>
+    </blockquote>
+    <br>
+  </body>
+</html>
+
+--------------1B1C6A13BBC79B84EAA893AD--
