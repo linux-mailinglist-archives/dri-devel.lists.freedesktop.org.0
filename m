@@ -2,39 +2,95 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B93413A288C
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Jun 2021 11:40:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A4C83A289E
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Jun 2021 11:43:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 752E86ECB8;
-	Thu, 10 Jun 2021 09:40:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 92EE989EB7;
+	Thu, 10 Jun 2021 09:43:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 79F216ECAC;
- Thu, 10 Jun 2021 09:40:40 +0000 (UTC)
-IronPort-SDR: 6ANeh589toJZQo0eNhIank8TqWa1279LH1XGdbjZUrZEdII0hWKvccTc0yWzwbJpXFNQJ16DY/
- IqvV53J2BFTw==
-X-IronPort-AV: E=McAfee;i="6200,9189,10010"; a="226657243"
-X-IronPort-AV: E=Sophos;i="5.83,263,1616482800"; d="scan'208";a="226657243"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Jun 2021 02:40:37 -0700
-IronPort-SDR: Tv/0bP9LlmJXs5VjWpYudqn5+E+3U226INkJ7vsdbOVC5mxJJov/auoUT4OZEzuMR6qci6wUMn
- /eowueHA4Zjg==
-X-IronPort-AV: E=Sophos;i="5.83,263,1616482800"; d="scan'208";a="552995574"
-Received: from jwalsh5-mobl1.ger.corp.intel.com (HELO localhost)
- ([10.252.28.33])
- by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Jun 2021 02:40:33 -0700
-Date: Thu, 10 Jun 2021 12:40:31 +0300
-From: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: [PULL] drm-intel-gt-next
-Message-ID: <YMHeDxg9VLiFtyn3@jlahtine-mobl.ger.corp.intel.com>
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam12on2070.outbound.protection.outlook.com [40.107.244.70])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B8A0A89EB4;
+ Thu, 10 Jun 2021 09:43:31 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=XckL/xqsnCELTuELcxGjTV/0tDPt1NwsREKTDyrhP2u+cZ6AmTxyx+FDNFp+Z9bzWU4Ojn5t67FE/gOqYYTxopOO67dVwKTu70P4kmS+gyn4/kZ7m9eESK18rVtCNG9dQrL6XMvB0YVviA6YTdJLMecyOWhSzXz8X37IQ0X5LNlVywgNckgA909eNC4AdYZWSuPiu2GvMEtlVvSRR82+wQTv3vbMaCAqbHM8pQ9BvoQtOY+i8W12D57Sfff38dQC/YQCmMnDRG7OxzW6ZUbUylIWSwwHppb+1i17ujhlNQaApytmaQh6/rYcVPAeWFKWqcXpPqh+RJd2nTS/KMZkKQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=vGK9rUIFxUs8bHXhSCqIoa+yufeNg8P83cp5NrbknVM=;
+ b=eviWql1fURTWoh/NPCHdscS3GzHx1bUQRnB3HW/Ijwg6y+iR7atal90PlSnJr2WR2Mz5HxvobEOw96Gt8+gnej7LwB7iTFGusLfWUhIP7bWbYOiEX91joY6NwT69h847wVoHEHc8GFgWL53TWna6JTO7r1W0Iq9bixO7dy/59v0jPDVInfXmsNghDLm+5hTzFgkcR4Q0e/FWSWhGhuY3jcN6U/sMoANRFNrWNn2tVHUklyJ1vzzgifeyB/l2ty9P4il/XOdpS4YX4Ul6iyaDENgS1TGWxGyJ9/VZhv3mvepvzGlIuIhTJ7zlANZQJ/rNlzLh0MbiiVkecBF4zDB/kw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=kapsi.fi smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=none pct=100) action=none header.from=amd.com; dkim=none
+ (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=vGK9rUIFxUs8bHXhSCqIoa+yufeNg8P83cp5NrbknVM=;
+ b=NM2wzRQtGmbXRoKoQ32s7BoNhZpuVJvoJEOwrJk624q7JgaK19yj14vn0TBmzASOe3GPUei0b+bDxVzGpopHbm8jPeRgADJlZS/YhXbiSNhqreEKmkoinlQY4rYkK1hWR0HbseYFhyeA+gr+S4rmeTxG/f1EXnLHSsYiZaE6TVs=
+Received: from DM5PR16CA0026.namprd16.prod.outlook.com (2603:10b6:4:15::12) by
+ DM6PR12MB4811.namprd12.prod.outlook.com (2603:10b6:5:1fb::13) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4219.22; Thu, 10 Jun 2021 09:43:27 +0000
+Received: from DM6NAM11FT046.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:4:15:cafe::11) by DM5PR16CA0026.outlook.office365.com
+ (2603:10b6:4:15::12) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4219.20 via Frontend
+ Transport; Thu, 10 Jun 2021 09:43:27 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; kapsi.fi; dkim=none (message not signed)
+ header.d=none;kapsi.fi; dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com;
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ DM6NAM11FT046.mail.protection.outlook.com (10.13.172.121) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.4219.21 via Frontend Transport; Thu, 10 Jun 2021 09:43:25 +0000
+Received: from hr-amd (10.180.168.240) by SATLEXMB04.amd.com (10.181.40.145)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2242.4; Thu, 10 Jun
+ 2021 04:43:23 -0500
+Date: Thu, 10 Jun 2021 17:43:32 +0800
+From: Huang Rui <ray.huang@amd.com>
+To: "Koenig, Christian" <Christian.Koenig@amd.com>
+Subject: Re: [PATCH] drm/nouveau: init the base GEM fields for internal BOs
+Message-ID: <20210610094332.GA4134750@hr-amd>
+References: <20210609172902.1937-1-christian.koenig@amd.com>
+ <899d773e-9a7d-062c-47fa-080161b22cd6@kapsi.fi>
+ <b0a257a6-af87-c443-0eed-0f3081169482@amd.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset="iso-8859-1"
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <b0a257a6-af87-c443-0eed-0f3081169482@amd.com>
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: c004b1d8-14e1-4b24-bda9-08d92bf431a2
+X-MS-TrafficTypeDiagnostic: DM6PR12MB4811:
+X-Microsoft-Antispam-PRVS: <DM6PR12MB48119A0921F576696CA319D8EC359@DM6PR12MB4811.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:7219;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: Ut4gVu5IjD5/51Wn8wJ5RSqtcb0Jj/l5TfCpEaioyULpiFW7qtHJ5YPBq+EAfRidjAKXXujsrtQATccuGV4S1YxUdU4QMTicWYGndRpHbF4ydd2G/ogI/S+knZL+e3OOxAn1pmuVSw/V3vyNbdv+Ad8DGmAbGjd99ZfWM26bZdIack421RWf0AWn7nSiHAFFw9TZL/oQ+HCuQb/8KXRAIkEbIHQxXWIi5HK5yc+J+hmUle1DxGVPBS7G4KDWGeF0EslW/s7UzAfx0dGOZwFQZ2QrO9FtR6/Z6sboOYGD+9GL1IUus9WW5+jr6tyToN2rBu3K50jDyra/iH/pf9lNJChSZxNAzRSBt7TW4GLK8wtVj/jOfk05sXhfPYTpJry8tw5dI6DbnCkAbfV/RX0E8IHGo3MLAhdqZrZT6AMXT8dg1lV6fLGayFShisaieCb+fzl0nQ5HMfSBEXwTGK020WJNyzs8id3N8KHuHgWgtK643WG9l3TGRr1EgOA4Ufm5X55xYoBcIeHyLI1LltYuuziEoWM8EqATF+LjrZaK4izDJQeh0TwvGWe2i+vTDq0dPlcKHDBjduAcG1JXZkYt4vey5M0Vmf/Y1APeedK+1NgUkWlutax3yRrLfC9paUhEhyfLVAb36k1SGCn04hLiASKBgaG00JRqmUJxekdy7RPCx2C7JZDi3zv5ojvVrcfX
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(4636009)(136003)(396003)(39860400002)(376002)(346002)(36840700001)(46966006)(9686003)(55016002)(478600001)(82740400003)(4326008)(6862004)(356005)(336012)(6636002)(8936002)(1076003)(316002)(54906003)(8676002)(36860700001)(426003)(82310400003)(81166007)(70206006)(70586007)(33716001)(2906002)(33656002)(6666004)(5660300002)(53546011)(86362001)(47076005)(26005)(16526019)(186003)(36900700001);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Jun 2021 09:43:25.3449 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: c004b1d8-14e1-4b24-bda9-08d92bf431a2
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT046.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4811
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,274 +103,72 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Sean Paul <sean@poorly.run>,
- intel-gfx@lists.freedesktop.org
+Cc: Mikko Perttunen <cyndis@kapsi.fi>,
+ "nouveau@lists.freedesktop.org" <nouveau@lists.freedesktop.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "matthew.auld@intel.com" <matthew.auld@intel.com>,
+ "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave & Daniel,
+On Thu, Jun 10, 2021 at 04:08:40PM +0800, Koenig, Christian wrote:
+> 
+> 
+> Am 09.06.21 um 19:45 schrieb Mikko Perttunen:
+> > On 6/9/21 8:29 PM, Christian König wrote:
+> >> TTMs buffer objects are based on GEM objects for quite a while
+> >> and rely on initializing those fields before initializing the TTM BO.
+> >>
+> >> Noveau now doesn't init the GEM object for internally allocated BOs,
+> >
+> > Nouveau
+> >
+> >> so make sure that we at least initialize some necessary fields.
+> >>
+> >> Signed-off-by: Christian König <christian.koenig@amd.com>
+> >> ---
+> >>   drivers/gpu/drm/nouveau/nouveau_bo.c | 6 ++++++
+> >>   1 file changed, 6 insertions(+)
+> >>
+> >> diff --git a/drivers/gpu/drm/nouveau/nouveau_bo.c 
+> >> b/drivers/gpu/drm/nouveau/nouveau_bo.c
+> >> index 520b1ea9d16c..085023624fb0 100644
+> >> --- a/drivers/gpu/drm/nouveau/nouveau_bo.c
+> >> +++ b/drivers/gpu/drm/nouveau/nouveau_bo.c
+> >> @@ -149,6 +149,8 @@ nouveau_bo_del_ttm(struct ttm_buffer_object *bo)
+> >>        */
+> >>       if (bo->base.dev)
+> >>           drm_gem_object_release(&bo->base);
+> >> +    else
+> >> +        dma_resv_fini(&bo->base._resv);
+> >>         kfree(nvbo);
+> >>   }
+> >> @@ -330,6 +332,10 @@ nouveau_bo_new(struct nouveau_cli *cli, u64 
+> >> size, int align,
+> >>       if (IS_ERR(nvbo))
+> >>           return PTR_ERR(nvbo);
+> >>   +    nvbo->bo.base.size = size;
+> >> +    dma_resv_init(&nvbo->bo.base._resv);
+> >> +    drm_vma_node_reset(&nvbo->bo.base.vma_node);
+> >> +
+> >>       ret = nouveau_bo_init(nvbo, size, align, domain, sg, robj);
+> >>       if (ret)
+> >>           return ret;
+> >>
+> >
+> > That works, thanks for the fix!
+> >
+> > Tested-by: Mikko Perttunen <mperttunen@nvidia.com>
 
-Here's the final -gt-next PR for 5.14.
+Reviewed-by: Huang Rui <ray.huang@amd.com>
 
-Two major uAPI changes for new Gen12+ platforms: Stop supporting
-old MMAP IOCTL (excl. TGL) and require use of MMAP_OFFSET instead.
-Start enabling HuC loading by default (excl. TGL and RKL).
-
-Revert for io_mapping_map_user which was already in -fixes.
-
-Enabling of the TTM device and memory managers for handling LMEM
-on dGFX (currently replaces the buddy allocator). Note that this
-only impacts the platforms behind force probe protection.
-
-A lot of improvments to the GuC submission backend to prepare for
-enabling on newer platforms.
-
-Only a couple other reworks and fixes.
-
-Regards, Joonas
-
-***
-
-drm-intel-gt-next-2021-06-10:
-
-UAPI Changes:
-
-- Disable mmap ioctl for gen12+ (excl. TGL-LP)
-- Start enabling HuC loading by default for upcoming Gen12+
-  platforms (excludes TGL and RKL)
-
-Core Changes:
-
-- Backmerge of drm-next
-
-Driver Changes:
-
-- Revert "i915: use io_mapping_map_user" (Eero, Matt A)
-- Initialize the TTM device and memory managers (Thomas)
-- Major rework to the GuC submission backend to prepare
-  for enabling on new platforms (Michal Wa., Daniele,
-  Matt B, Rodrigo)
-- Fix i915_sg_page_sizes to record dma segments rather
-  than physical pages (Thomas)
-
-- Locking rework to prep for TTM conversion (Thomas)
-- Replace IS_GEN and friends with GRAPHICS_VER (Lucas)
-- Use DEVICE_ATTR_RO macro (Yue)
-- Static code checker fixes (Zhihao)
-
-The following changes since commit ccd1950c2f7e38ae45aeefb99a08b39407cd6c63:
-
-  Merge tag 'drm-intel-gt-next-2021-05-28' of git://anongit.freedesktop.org/drm/drm-intel into drm-next (2021-06-02 14:15:54 +1000)
-
-are available in the Git repository at:
-
-  git://anongit.freedesktop.org/drm/drm-intel tags/drm-intel-gt-next-2021-06-10
-
-for you to fetch changes up to 47c65b3853f88d105017ef512a521794db51bfeb:
-
-  drm/i915/uc: Use platform specific defaults for GuC/HuC enabling (2021-06-09 10:52:03 -0700)
-
-----------------------------------------------------------------
-UAPI Changes:
-
-- Disable mmap ioctl for gen12+ (excl. TGL-LP)
-- Start enabling HuC loading by default for upcoming Gen12+
-  platforms (excludes TGL and RKL)
-
-Core Changes:
-
-- Backmerge of drm-next
-
-Driver Changes:
-
-- Revert "i915: use io_mapping_map_user" (Eero, Matt A)
-- Initialize the TTM device and memory managers (Thomas)
-- Major rework to the GuC submission backend to prepare
-  for enabling on new platforms (Michal Wa., Daniele,
-  Matt B, Rodrigo)
-- Fix i915_sg_page_sizes to record dma segments rather
-  than physical pages (Thomas)
-
-- Locking rework to prep for TTM conversion (Thomas)
-- Replace IS_GEN and friends with GRAPHICS_VER (Lucas)
-- Use DEVICE_ATTR_RO macro (Yue)
-- Static code checker fixes (Zhihao)
-
-----------------------------------------------------------------
-Daniele Ceraolo Spurio (4):
-      drm/i915/guc: skip disabling CTBs before sanitizing the GuC
-      drm/i915/guc: use probe_error log for CT enablement failure
-      drm/i915/guc: enable only the user interrupt when using GuC submission
-      drm/i915/guc: Use guc_class instead of engine_class in fw interface
-
-John Harrison (1):
-      drm/i915/uc: Use platform specific defaults for GuC/HuC enabling
-
-Joonas Lahtinen (1):
-      Merge drm/drm-next into drm-intel-gt-next
-
-Lucas De Marchi (3):
-      drm/i915/gt: replace IS_GEN and friends with GRAPHICS_VER
-      drm/i915/gt: Add remaining conversions to GRAPHICS_VER
-      drm/i915/gem: replace IS_GEN and friends with GRAPHICS_VER
-
-Maarten Lankhorst (1):
-      drm/i915: Disable mmap ioctl for gen12+
-
-Matthew Auld (1):
-      Revert "i915: use io_mapping_map_user"
-
-Matthew Brost (2):
-      drm/i915/guc: Drop guc->interrupts.enabled
-      drm/i915/guc: Ensure H2G buffer updates visible before tail update
-
-Michal Wajdeczko (12):
-      drm/i915/guc: Keep strict GuC ABI definitions
-      drm/i915/guc: Stop using fence/status from CTB descriptor
-      drm/i915: Promote ptrdiff() to i915_utils.h
-      drm/i915/guc: Only rely on own CTB size
-      drm/i915/guc: Don't repeat CTB layout calculations
-      drm/i915/guc: Replace CTB array with explicit members
-      drm/i915/guc: Update sizes of CTB buffers
-      drm/i915/guc: Start protecting access to CTB descriptors
-      drm/i915/guc: Stop using mutex while sending CTB messages
-      drm/i915/guc: Don't receive all G2H messages in irq handler
-      drm/i915/guc: Always copy CT message to new allocation
-      drm/i915/guc: Early initialization of GuC send registers
-
-Rodrigo Vivi (1):
-      drm/i915/guc: Remove sample_forcewake h2g action
-
-Thomas Hellström (5):
-      drm/i915: Untangle the vma pages_mutex
-      drm/i915: Don't free shared locks while shared
-      drm/i915: Fix i915_sg_page_sizes to record dma segments rather than physical pages
-      drm/i915/ttm Initialize the ttm device and memory managers
-      drm/i915/ttm: Embed a ttm buffer object in the i915 gem object
-
-YueHaibing (1):
-      drm/i915: use DEVICE_ATTR_RO macro
-
-Zhihao Cheng (1):
-      drm/i915/selftests: Fix return value check in live_breadcrumbs_smoketest()
-
- drivers/gpu/drm/i915/Kconfig                       |   2 +-
- drivers/gpu/drm/i915/Makefile                      |   2 +-
- drivers/gpu/drm/i915/gem/i915_gem_context.c        |   6 +-
- drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c         |   2 +-
- drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c     |  10 +-
- drivers/gpu/drm/i915/gem/i915_gem_lmem.c           |  59 +-
- drivers/gpu/drm/i915/gem/i915_gem_mman.c           |  16 +-
- drivers/gpu/drm/i915/gem/i915_gem_object.c         |  10 +
- drivers/gpu/drm/i915/gem/i915_gem_object_blt.c     |   8 +-
- drivers/gpu/drm/i915/gem/i915_gem_object_types.h   |  22 +-
- drivers/gpu/drm/i915/gem/i915_gem_pages.c          |   3 +-
- drivers/gpu/drm/i915/gem/i915_gem_phys.c           |   2 +-
- drivers/gpu/drm/i915/gem/i915_gem_region.c         | 120 ----
- drivers/gpu/drm/i915/gem/i915_gem_region.h         |   4 -
- drivers/gpu/drm/i915/gem/i915_gem_shmem.c          |   4 +-
- drivers/gpu/drm/i915/gem/i915_gem_stolen.c         |  26 +-
- drivers/gpu/drm/i915/gem/i915_gem_stolen.h         |   9 +-
- drivers/gpu/drm/i915/gem/i915_gem_tiling.c         |  12 +-
- drivers/gpu/drm/i915/gem/i915_gem_userptr.c        |   2 +-
- .../drm/i915/gem/selftests/i915_gem_client_blt.c   |  10 +-
- .../drm/i915/gem/selftests/i915_gem_coherency.c    |   4 +-
- .../gpu/drm/i915/gem/selftests/i915_gem_context.c  |  16 +-
- drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c |  14 +-
- drivers/gpu/drm/i915/gem/selftests/igt_gem_utils.c |  10 +-
- drivers/gpu/drm/i915/gt/debugfs_gt_pm.c            |  40 +-
- drivers/gpu/drm/i915/gt/gen2_engine_cs.c           |   2 +-
- drivers/gpu/drm/i915/gt/gen8_engine_cs.c           |   2 +-
- drivers/gpu/drm/i915/gt/gen8_ppgtt.c               |   2 +-
- drivers/gpu/drm/i915/gt/intel_context_sseu.c       |   2 +-
- drivers/gpu/drm/i915/gt/intel_engine_cs.c          |  60 +-
- drivers/gpu/drm/i915/gt/intel_engine_types.h       |   4 +-
- .../gpu/drm/i915/gt/intel_execlists_submission.c   |  18 +-
- drivers/gpu/drm/i915/gt/intel_ggtt.c               |  37 +-
- drivers/gpu/drm/i915/gt/intel_ggtt_fencing.c       |  34 +-
- drivers/gpu/drm/i915/gt/intel_gt.c                 |  29 +-
- drivers/gpu/drm/i915/gt/intel_gt_clock_utils.c     |  12 +-
- drivers/gpu/drm/i915/gt/intel_gt_irq.c             |  24 +-
- drivers/gpu/drm/i915/gt/intel_gt_pm_irq.c          |  10 +-
- drivers/gpu/drm/i915/gt/intel_gtt.c                |  59 +-
- drivers/gpu/drm/i915/gt/intel_gtt.h                |  28 +-
- drivers/gpu/drm/i915/gt/intel_llc.c                |   6 +-
- drivers/gpu/drm/i915/gt/intel_lrc.c                |  46 +-
- drivers/gpu/drm/i915/gt/intel_mocs.c               |   8 +-
- drivers/gpu/drm/i915/gt/intel_ppgtt.c              |   8 +-
- drivers/gpu/drm/i915/gt/intel_rc6.c                |  16 +-
- drivers/gpu/drm/i915/gt/intel_region_lmem.c        |  27 +-
- drivers/gpu/drm/i915/gt/intel_renderstate.c        |   2 +-
- drivers/gpu/drm/i915/gt/intel_reset.c              |  14 +-
- drivers/gpu/drm/i915/gt/intel_ring_submission.c    |  64 +-
- drivers/gpu/drm/i915/gt/intel_rps.c                |  60 +-
- drivers/gpu/drm/i915/gt/intel_sseu.c               |  14 +-
- drivers/gpu/drm/i915/gt/intel_sseu_debugfs.c       |   6 +-
- drivers/gpu/drm/i915/gt/intel_workarounds.c        |  66 +-
- drivers/gpu/drm/i915/gt/selftest_engine_cs.c       |   6 +-
- drivers/gpu/drm/i915/gt/selftest_engine_pm.c       |   2 +-
- drivers/gpu/drm/i915/gt/selftest_execlists.c       |   4 +-
- drivers/gpu/drm/i915/gt/selftest_gt_pm.c           |   8 +-
- drivers/gpu/drm/i915/gt/selftest_hangcheck.c       |   8 +-
- drivers/gpu/drm/i915/gt/selftest_llc.c             |   4 +-
- drivers/gpu/drm/i915/gt/selftest_lrc.c             |   8 +-
- drivers/gpu/drm/i915/gt/selftest_mocs.c            |   2 +-
- drivers/gpu/drm/i915/gt/selftest_rc6.c             |   4 +-
- drivers/gpu/drm/i915/gt/selftest_ring_submission.c |   6 +-
- drivers/gpu/drm/i915/gt/selftest_rps.c             |  16 +-
- drivers/gpu/drm/i915/gt/selftest_timeline.c        |   6 +-
- drivers/gpu/drm/i915/gt/selftest_workarounds.c     |   8 +-
- drivers/gpu/drm/i915/gt/uc/abi/guc_actions_abi.h   |  51 ++
- .../drm/i915/gt/uc/abi/guc_communication_ctb_abi.h | 106 +++
- .../i915/gt/uc/abi/guc_communication_mmio_abi.h    |  52 ++
- drivers/gpu/drm/i915/gt/uc/abi/guc_errors_abi.h    |  14 +
- drivers/gpu/drm/i915/gt/uc/abi/guc_messages_abi.h  |  21 +
- drivers/gpu/drm/i915/gt/uc/intel_guc.c             |  63 +-
- drivers/gpu/drm/i915/gt/uc/intel_guc.h             |   2 -
- drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c         |  22 +-
- drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c          | 532 ++++++++------
- drivers/gpu/drm/i915/gt/uc/intel_guc_ct.h          |  14 +-
- drivers/gpu/drm/i915/gt/uc/intel_guc_fw.c          |   2 +-
- drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h        | 233 +-----
- drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c  |  37 +-
- drivers/gpu/drm/i915/gt/uc/intel_huc.c             |   2 +-
- drivers/gpu/drm/i915/gt/uc/intel_uc.c              |  14 +-
- drivers/gpu/drm/i915/i915_buddy.c                  | 435 ------------
- drivers/gpu/drm/i915/i915_buddy.h                  | 131 ----
- drivers/gpu/drm/i915/i915_drv.c                    |  13 +
- drivers/gpu/drm/i915/i915_drv.h                    |  11 +-
- drivers/gpu/drm/i915/i915_gem.c                    |   1 +
- drivers/gpu/drm/i915/i915_globals.c                |   1 -
- drivers/gpu/drm/i915/i915_globals.h                |   1 -
- drivers/gpu/drm/i915/i915_mm.c                     |  44 ++
- drivers/gpu/drm/i915/i915_params.c                 |   2 +-
- drivers/gpu/drm/i915/i915_params.h                 |   2 +-
- drivers/gpu/drm/i915/i915_pmu.c                    |   8 +-
- drivers/gpu/drm/i915/i915_scatterlist.c            |  70 ++
- drivers/gpu/drm/i915/i915_scatterlist.h            |  20 +-
- drivers/gpu/drm/i915/i915_sysfs.c                  |  30 +-
- drivers/gpu/drm/i915/i915_utils.h                  |   5 +
- drivers/gpu/drm/i915/i915_vma.c                    |  29 +-
- drivers/gpu/drm/i915/i915_vma.h                    |   5 -
- drivers/gpu/drm/i915/intel_memory_region.c         | 180 ++---
- drivers/gpu/drm/i915/intel_memory_region.h         |  44 +-
- drivers/gpu/drm/i915/intel_region_ttm.c            | 220 ++++++
- drivers/gpu/drm/i915/intel_region_ttm.h            |  32 +
- drivers/gpu/drm/i915/selftests/i915_buddy.c        | 789 ---------------------
- .../gpu/drm/i915/selftests/i915_mock_selftests.h   |   1 -
- drivers/gpu/drm/i915/selftests/i915_request.c      |   4 +-
- .../gpu/drm/i915/selftests/intel_memory_region.c   | 133 ++--
- drivers/gpu/drm/i915/selftests/mock_gem_device.c   |  10 +
- drivers/gpu/drm/i915/selftests/mock_region.c       |  70 +-
- 108 files changed, 1888 insertions(+), 2723 deletions(-)
- create mode 100644 drivers/gpu/drm/i915/gt/uc/abi/guc_actions_abi.h
- create mode 100644 drivers/gpu/drm/i915/gt/uc/abi/guc_communication_ctb_abi.h
- create mode 100644 drivers/gpu/drm/i915/gt/uc/abi/guc_communication_mmio_abi.h
- create mode 100644 drivers/gpu/drm/i915/gt/uc/abi/guc_errors_abi.h
- create mode 100644 drivers/gpu/drm/i915/gt/uc/abi/guc_messages_abi.h
- delete mode 100644 drivers/gpu/drm/i915/i915_buddy.c
- delete mode 100644 drivers/gpu/drm/i915/i915_buddy.h
- create mode 100644 drivers/gpu/drm/i915/intel_region_ttm.c
- create mode 100644 drivers/gpu/drm/i915/intel_region_ttm.h
- delete mode 100644 drivers/gpu/drm/i915/selftests/i915_buddy.c
+> 
+> Thanks. Can anybody give me an rb that I can push this to drm-misc-next 
+> before the weekend?
+> 
+> Regards,
+> Christian.
+> 
+> >
+> > Mikko
+> 
