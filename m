@@ -2,54 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB15D3A223B
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Jun 2021 04:20:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1553A3A2297
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Jun 2021 05:10:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8423A6E42D;
-	Thu, 10 Jun 2021 02:20:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A9CA56E438;
+	Thu, 10 Jun 2021 03:10:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x731.google.com (mail-qk1-x731.google.com
- [IPv6:2607:f8b0:4864:20::731])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E13CE6E42D
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Jun 2021 02:19:58 +0000 (UTC)
-Received: by mail-qk1-x731.google.com with SMTP id c18so10774454qkc.11
- for <dri-devel@lists.freedesktop.org>; Wed, 09 Jun 2021 19:19:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=8uDPH+DyrrwT4lbSphWmCoG1hpViWuQ2w27mykBkFVc=;
- b=Njm7S8vwHEU8y8WEPunSiOxdB85MAQChH0JJOqrIkLcXEISqthVv8toHTTIoj3mQck
- IJi0bhlcQlSbtjo9RCsyYEFqB+HrRD+5LGngi9NSS6HQKRUkpRpZjG84dohQK4yqgtyD
- e7rbI5g9mHtNqwoVWZ5n7XwNz/8043AM2adPw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=8uDPH+DyrrwT4lbSphWmCoG1hpViWuQ2w27mykBkFVc=;
- b=TjIMC6h0tEyvLJRgpT9N7XssHxVZiOwalXh47XGiXV/nFov16RiXabI/WgoVnNUnMe
- qnSX7lzEwwJeLRHclRAVMfiq+uyjSUiAuHfDFUVn3UzYLzoaj6eIjdp5IrhGtCfSzRZf
- OQGGG7oPN3H41EzF49xONpJtHiq6U+Zi12V3ozHavf2Ht2m6XQT4TVRagJCKhOhbSNJ7
- uLCjktuasZe/EcBI2IahhVJ9Ql5RkjQs/dsqsAiIz2dCDcf38y7PVSLG06mPGt18zika
- R/s+gS5JKJwHL4zfXNAT4nav+GO6UVAB9cGGHD3akCtp/vN7dNGStOq6PsJkxtqm3GwC
- a+ZQ==
-X-Gm-Message-State: AOAM533ypQutTMBeCy/JFu2J5ZngzwAtQFFAB1rq0b/Lc3LV92czCn+m
- vWRpGHMQRqHSWFoMVfckXE+8ELFS2EFGNhiCKqE=
-X-Google-Smtp-Source: ABdhPJw3IL4mazrZgUhwP9U38MSzT4sS5dTjdzlKcKDRF2J3YiqUCreyiGkPK4H66++NDELboZAPF03DLAnk3a6VVQs=
-X-Received: by 2002:a05:620a:1485:: with SMTP id
- w5mr2678230qkj.66.1623291597799; 
- Wed, 09 Jun 2021 19:19:57 -0700 (PDT)
+X-Greylist: delayed 308 seconds by postgrey-1.36 at gabe;
+ Thu, 10 Jun 2021 03:10:05 UTC
+Received: from us-smtp-delivery-44.mimecast.com
+ (us-smtp-delivery-44.mimecast.com [205.139.111.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 67D1C6E438
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Jun 2021 03:10:05 +0000 (UTC)
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-191-tDKqY80oNDq6R7TVDWSJew-1; Wed, 09 Jun 2021 23:03:48 -0400
+X-MC-Unique: tDKqY80oNDq6R7TVDWSJew-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EA627100C610;
+ Thu, 10 Jun 2021 03:03:46 +0000 (UTC)
+Received: from dreadlord-bne-redhat-com.bne.redhat.com
+ (fdacunha.bne.redhat.com [10.64.0.157])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D94715D9C6;
+ Thu, 10 Jun 2021 03:03:45 +0000 (UTC)
+From: Dave Airlie <airlied@gmail.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/amdgpu: use correct rounding macro for 64-bit
+Date: Thu, 10 Jun 2021 13:03:44 +1000
+Message-Id: <20210610030344.117897-1-airlied@gmail.com>
 MIME-Version: 1.0
-References: <20210608103833.598348-1-joel@jms.id.au>
- <CAK8P3a00xuEAKTHrCDw52M-YPJUphSU8bYayW9P_xyNDsTsNzg@mail.gmail.com>
- <3877ae18-dbda-242a-60b2-f73734f8ba03@xs4all.nl>
- <CAK8P3a18EdBKQdGDOZc9cPKsf=hY8==v2cO0DBE_tyd82Uq-Ng@mail.gmail.com>
-In-Reply-To: <CAK8P3a18EdBKQdGDOZc9cPKsf=hY8==v2cO0DBE_tyd82Uq-Ng@mail.gmail.com>
-From: Joel Stanley <joel@jms.id.au>
-Date: Thu, 10 Jun 2021 02:19:45 +0000
-Message-ID: <CACPK8XcXABRKMRq95+w+TNW8NNccd0otoK5uRBSPca535yq7rA@mail.gmail.com>
-Subject: Re: [PATCH] ARM: config: Refresh mutli v7
-To: Arnd Bergmann <arnd@arndb.de>
-Content-Type: text/plain; charset="UTF-8"
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: gmail.com
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="US-ASCII"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,40 +52,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Hans Verkuil <hverkuil@xs4all.nl>,
- Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>
+Cc: alexander.deucher@amd.com, christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 9 Jun 2021 at 09:30, Arnd Bergmann <arnd@arndb.de> wrote:
->
-> On Tue, Jun 8, 2021 at 6:49 PM Hans Verkuil <hverkuil@xs4all.nl> wrote:
-> > On 08/06/2021 18:14, Arnd Bergmann wrote:
-> >
-> > Right now it is inherent to the driver. It is probably possible to drop support
-> > for video overlay devices if CONFIG_FB=n, but it is not something I have time
-> > for. It's just a test driver (albeit a very useful test driver), so it is no
-> > big deal if it is disabled when CONFIG_FB=n.
->
-> Ok, thanks for the reply, makes sense.
->
-> I checked what other consequences there are if we disable CONFIG_FB
-> and CONFIG_DRM_KMS_FB_HELPER=y in all the defconfigs now,
-> as the patch from Kees did.
->
-> It appears that the only other arm32 framebuffers that remain are
-> FB_EFI=y, FB_WM8505=y, FB_MX3=m and FB_SIMPLE=y.
+From: Dave Airlie <airlied@redhat.com>
 
-FB_SH_MOBILE_LCDC on arm32 too.
+This fixes 32-bit arm build due to lack of 64-bit divides.
 
-> As long as simplefb, efifb and xenfb are needed though, we probably
-> want CONFIG_FB=y anyway and leaving VIVID=m with the dependency
-> does not cause problems until those are all turned into drm drivers.
+Fixes: cb1c81467af3 ("drm/ttm: flip the switch for driver allocated resourc=
+es v2")
+Signed-off-by: Dave Airlie <airlied@redhat.com>
+---
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-I will go ahead with this for the v7 defconfig.
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c b/drivers/gpu/drm=
+/amd/amdgpu/amdgpu_vram_mgr.c
+index 9a6df02477ce..436ec246a7da 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c
+@@ -407,7 +407,7 @@ static int amdgpu_vram_mgr_new(struct ttm_resource_mana=
+ger *man,
+ #endif
+ =09=09pages_per_node =3D max_t(uint32_t, pages_per_node,
+ =09=09=09=09       tbo->page_alignment);
+-=09=09num_nodes =3D DIV_ROUND_UP(PFN_UP(mem_bytes), pages_per_node);
++=09=09num_nodes =3D DIV_ROUND_UP_ULL(PFN_UP(mem_bytes), pages_per_node);
+ =09}
+=20
+ =09node =3D kvmalloc(struct_size(node, mm_nodes, num_nodes),
+--=20
+2.25.4
 
-Cheers,
-
-Joel
