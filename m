@@ -1,35 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1565C3A32CC
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Jun 2021 20:14:30 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 55C113A33B6
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Jun 2021 21:10:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D6E446EDC6;
-	Thu, 10 Jun 2021 18:14:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 88BBE6E15F;
+	Thu, 10 Jun 2021 19:10:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 28F3D6EDC6
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Jun 2021 18:14:26 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A51B6139F;
- Thu, 10 Jun 2021 11:14:25 -0700 (PDT)
-Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
- [10.121.207.14])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 644023F85F;
- Thu, 10 Jun 2021 11:14:25 -0700 (PDT)
-Received: by e110455-lin.cambridge.arm.com (Postfix, from userid 1000)
- id 1B822684FDD; Thu, 10 Jun 2021 19:14:24 +0100 (BST)
-Date: Thu, 10 Jun 2021 19:14:24 +0100
-From: Liviu Dudau <liviu.dudau@arm.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6AA556E15F
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Jun 2021 19:10:05 +0000 (UTC)
+IronPort-SDR: AU9v5wR+OGtl6BG+6Vi2KfnUlZCQw/m1oyDx7TPdgcTXnhqVeGbR0OpPQwTHGp+DY855Y9mQqR
+ +j8yuDciWIeA==
+X-IronPort-AV: E=McAfee;i="6200,9189,10011"; a="202349655"
+X-IronPort-AV: E=Sophos;i="5.83,264,1616482800"; d="scan'208";a="202349655"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Jun 2021 12:10:04 -0700
+IronPort-SDR: dGD0i6UEOqK75GJ3pIGNZ2ZdUpkJ/ZaaA8tAtzePLMvGR6TFmM3bmZNTXSFSVfzAw9DBIOUVNK
+ VBuDrOLqZ3bQ==
+X-IronPort-AV: E=Sophos;i="5.83,264,1616482800"; d="scan'208";a="552461753"
+Received: from anunitax-mobl1.gar.corp.intel.com (HELO intel.com)
+ ([10.254.36.102])
+ by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Jun 2021 12:09:53 -0700
+Date: Thu, 10 Jun 2021 15:09:51 -0400
+From: Rodrigo Vivi <rodrigo.vivi@intel.com>
 To: Maxime Ripard <maxime@cerno.tech>
 Subject: Re: [PATCH v3] Documentation: gpu: Mention the requirements for new
  properties
-Message-ID: <20210610181424.mvummxmjx3p4onk3@e110455-lin.cambridge.arm.com>
+Message-ID: <YMJjfzfsv8VTCJ6f@intel.com>
 References: <20210610174731.1209188-1-maxime@cerno.tech>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
 In-Reply-To: <20210610174731.1209188-1-maxime@cerno.tech>
@@ -54,7 +59,7 @@ Cc: Xinliang Liu <xinliang.liu@linaro.org>, dri-devel@lists.freedesktop.org,
  Roland Scheidegger <sroland@vmware.com>, Sean Paul <sean@poorly.run>,
  Hyun Kwon <hyun.kwon@xilinx.com>, Andrew Jeffery <andrew@aj.id.au>,
  Seung-Woo Kim <sw0312.kim@samsung.com>,
- Noralf =?utf-8?Q?Tr=C3=B8nnes?= <noralf@tronnes.org>,
+ Noralf =?iso-8859-1?Q?Tr=F8nnes?= <noralf@tronnes.org>,
  Pengutronix Kernel Team <kernel@pengutronix.de>,
  Alex Deucher <alexander.deucher@amd.com>,
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
@@ -80,12 +85,12 @@ Cc: Xinliang Liu <xinliang.liu@linaro.org>, dri-devel@lists.freedesktop.org,
  Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
  Joel Stanley <joel@jms.id.au>, Chun-Kuang Hu <chunkuang.hu@kernel.org>,
  Jonas Karlman <jonas@kwiboo.se>, Chen Feng <puck.chen@hisilicon.com>,
- Alison Wang <alison.wang@nxp.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tomeu Vizoso <tomeu.vizoso@collabora.com>, Tomi Valkeinen <tomba@kernel.org>,
+ Alison Wang <alison.wang@nxp.com>, Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+ Tomi Valkeinen <tomba@kernel.org>,
  Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
  Tian Tao <tiantao6@hisilicon.com>, Shawn Guo <shawnguo@kernel.org>,
- Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, Liviu Dudau <liviu.dudau@arm.com>,
  Alexandre Torgue <alexandre.torgue@foss.st.com>,
  Paul Cercueil <paul@crapouillou.net>, Andrzej Hajda <a.hajda@samsung.com>,
  Huang Rui <ray.huang@amd.com>, Marek Vasut <marex@denx.de>,
@@ -102,8 +107,6 @@ Cc: Xinliang Liu <xinliang.liu@linaro.org>, dri-devel@lists.freedesktop.org,
  Jyri Sarha <jyri.sarha@iki.fi>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-
-Hi Maxime,
 
 On Thu, Jun 10, 2021 at 07:47:31PM +0200, Maxime Ripard wrote:
 > New KMS properties come with a bunch of requirements to avoid each
@@ -128,7 +131,7 @@ On Thu, Jun 10, 2021 at 07:47:31PM +0200, Maxime Ripard wrote:
 > Cc: Chen Feng <puck.chen@hisilicon.com>
 > Cc: Chen-Yu Tsai <wens@csie.org>
 > Cc: Christian Gmeiner <christian.gmeiner@gmail.com>
-> Cc: "Christian König" <christian.koenig@amd.com>
+> Cc: "Christian K�nig" <christian.koenig@amd.com>
 > Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>
 > Cc: Edmund Dea <edmund.j.dea@intel.com>
 > Cc: Eric Anholt <eric@anholt.net>
@@ -136,7 +139,7 @@ On Thu, Jun 10, 2021 at 07:47:31PM +0200, Maxime Ripard wrote:
 > Cc: Gerd Hoffmann <kraxel@redhat.com>
 > Cc: Haneen Mohammed <hamohammed.sa@gmail.com>
 > Cc: Hans de Goede <hdegoede@redhat.com>
-> Cc: "Heiko Stübner" <heiko@sntech.de>
+> Cc: "Heiko St�bner" <heiko@sntech.de>
 > Cc: Huang Rui <ray.huang@amd.com>
 > Cc: Hyun Kwon <hyun.kwon@xilinx.com>
 > Cc: Inki Dae <inki.dae@samsung.com>
@@ -167,7 +170,7 @@ On Thu, Jun 10, 2021 at 07:47:31PM +0200, Maxime Ripard wrote:
 > Cc: Melissa Wen <melissa.srw@gmail.com>
 > Cc: Neil Armstrong <narmstrong@baylibre.com>
 > Cc: Nicolas Ferre <nicolas.ferre@microchip.com>
-> Cc: "Noralf Trønnes" <noralf@tronnes.org>
+> Cc: "Noralf Tr�nnes" <noralf@tronnes.org>
 > Cc: NXP Linux Team <linux-imx@nxp.com>
 > Cc: Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>
 > Cc: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
@@ -255,24 +258,9 @@ On Thu, Jun 10, 2021 at 07:47:31PM +0200, Maxime Ripard wrote:
 >  Property Types and Blob Property Support
 >  ----------------------------------------
 
-Looks nice, thanks for the work!
-
-Reviewed-by: Liviu Dudau <liviu.dudau@arm.com>
-
-Best regards,
-Liviu
+Acked-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
 
 >  
 > -- 
 > 2.31.1
 > 
-
--- 
-====================
-| I would like to |
-| fix the world,  |
-| but they're not |
-| giving me the   |
- \ source code!  /
-  ---------------
-    ¯\_(ツ)_/¯
