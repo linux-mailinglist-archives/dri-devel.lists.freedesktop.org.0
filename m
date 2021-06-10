@@ -1,126 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 999C73A267A
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Jun 2021 10:20:58 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 377B53A26D4
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Jun 2021 10:23:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E90AD6EC7C;
-	Thu, 10 Jun 2021 08:20:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4ECFB6EC6D;
+	Thu, 10 Jun 2021 08:23:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM02-DM3-obe.outbound.protection.outlook.com
- (mail-dm3nam07on2070.outbound.protection.outlook.com [40.107.95.70])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A937D6E866;
- Thu, 10 Jun 2021 08:20:54 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Ty1bzPNhmfQe57733ifGKe7HCKVpc0chEAobE4e1BOke14Eh4adEGH4A8gQlRCZyA1AeczyWM5L6NVTUU02yhepTscSOeIWr2h94Yfhq1piRnjPBRPKghvVKLG87s0qVpwqnRU/ZkZTrDpQwUF5YDNyCPP1f/l033oRM5fj6Nkp+dDpIYZ4nC7PRzp4CO3t9/t02cgfDi7s0B2l1lB1hzN8vL35WpLR/xlBaXRbx7JULrwPOKEQjM/M94b6ClXWcOiYnI8lA+7MDnWrSIf9Ci6VVYfnqCtd9DrFZXNq1CGZtAFBgCZEeopMnZWvEWf4pYNam5hN7H8tfBYROTber/g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=j0A4d5ctWY1bZbzaTTd6QmrAMXn9FBSbGqiOP5U+Kbw=;
- b=ibS1YR0nh0Pk48Hq0kRTfUMOdASqYoofZTzQNvH5cTJkXedDvVBtznjxnxDIvUOUV3ASiWhjTjvRLC7+8Z6knoxtZYnBxExXIeFVh3PRkZIXJC+rKtJ5KqdXgCDIrCZfi3EYGXhPnhbB/yrtsvlV2h4snwodUrAqj3B79prEkO7brpyyOMtU9gfMyPxK89GbnEFJCeDU9AfPC0enief2t8TZuE4L8uI8rluIR3KLi3I7re+lQiiwYZY7ddhy33ILHMAg/lps68lm2RRIQTyArfPfwHniQ6RpzN44vYK26kgZKoEVsrOSsTxXDn97BtQT+Gv4DSbQzy0QPAdLqAVZbQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=j0A4d5ctWY1bZbzaTTd6QmrAMXn9FBSbGqiOP5U+Kbw=;
- b=prfck7yr+lCd6stvR1Vd1uV3v8Fa2PHB/cH8WDmleTtl1orFELgpTpOzxTrLUb2rsdaACk12RghI6hWhgLFQ2YX7fQ/nAIVS2VrRQi6I2g0K133XpZI6uV8owpBqfxZ0v1jb9mNkxrBxBJe7C67Qyhcw4QKt5TPlUobrxGcqHNM=
-Authentication-Results: vger.kernel.org; dkim=none (message not signed)
- header.d=none;vger.kernel.org; dmarc=none action=none header.from=amd.com;
-Received: from MN2PR12MB3775.namprd12.prod.outlook.com (2603:10b6:208:159::19)
- by BL0PR12MB4913.namprd12.prod.outlook.com (2603:10b6:208:1c7::20)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4219.21; Thu, 10 Jun
- 2021 08:20:52 +0000
-Received: from MN2PR12MB3775.namprd12.prod.outlook.com
- ([fe80::6c9e:1e08:7617:f756]) by MN2PR12MB3775.namprd12.prod.outlook.com
- ([fe80::6c9e:1e08:7617:f756%5]) with mapi id 15.20.4219.022; Thu, 10 Jun 2021
- 08:20:52 +0000
-Subject: Re: [PATCH -next] drm/amdgpu: Use DIV_ROUND_UP_ULL instead of
- DIV_ROUND_UP
-To: He Ying <heying24@huawei.com>, alexander.deucher@amd.com,
- Xinhui.Pan@amd.com, airlied@linux.ie, daniel@ffwll.ch, airlied@redhat.com,
- bskeggs@redhat.com, matthew.auld@intel.com, Ramesh.Errabolu@amd.com,
- mchehab+huawei@kernel.org, Dennis.Li@amd.com, funfunctor@folklore1984.net
-References: <20210610082005.86876-1-heying24@huawei.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-Message-ID: <5ffe00de-a7b6-3ac4-f61a-5f28b653e7b1@amd.com>
-Date: Thu, 10 Jun 2021 10:20:44 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
-In-Reply-To: <20210610082005.86876-1-heying24@huawei.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-Originating-IP: [2a02:908:1252:fb60:c285:5f9a:99f5:633e]
-X-ClientProxiedBy: PR0P264CA0229.FRAP264.PROD.OUTLOOK.COM
- (2603:10a6:100:1e::25) To MN2PR12MB3775.namprd12.prod.outlook.com
- (2603:10b6:208:159::19)
+Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com
+ [IPv6:2a00:1450:4864:20::12f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6D6496EC6D;
+ Thu, 10 Jun 2021 08:23:20 +0000 (UTC)
+Received: by mail-lf1-x12f.google.com with SMTP id r5so1869463lfr.5;
+ Thu, 10 Jun 2021 01:23:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:in-reply-to:references
+ :mime-version; bh=tvqfHyNBngUi+gzgwhD+HPPQiG20JFWoWT08MBcVNqE=;
+ b=IaZ2g8xpczLrvPriAU7Rv/lVIUDmjxDlCQNVG43JyPn0o5gtNoerdMVNsGD9aoeBJJ
+ Hfb22SFnu5N84Rn48GRq6+Dz0rnPIQgHfrHGSjgkG0aJqDyL6Y+8ZON2Vx7fapzq1Jlm
+ ScaDq3crWn6GXbJ3MGADkjKzOdQIietHCzDOJg30JsktTcbtBiDfrrQ6/LIZLmk/Olbr
+ fzgraDccieLAnboJ2joPn5U4H3+V+/pabM0W+rsvIqzemR2ybzmfbi0/bD2IJ3jm1wxF
+ MMIXfKOMAjqZLA6O1fFUkSFHxSff1oiPBFi4NFOeOAM/2i7crVoVGkPYcu6iptvFCEf1
+ /ZCQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version;
+ bh=tvqfHyNBngUi+gzgwhD+HPPQiG20JFWoWT08MBcVNqE=;
+ b=W9CT6om+8t7C7F/qrnkfACABIMXREWYN71R+Q4ftgajkRoYEkNTDZQSNImHyMhi/GA
+ 5bWzdjgyp2+mESx7zimTuxfsUQmtevWUKCHRb+tOpQMkEZfpPh/T1MI5gic8e0kNSeC+
+ Gipeg1dqRQxqdrN/gEmmo+n+kBawa6aluZwT5NVDAKSAnxLtkP9cjVN3M9YVrsRAZQps
+ cPSXV/BDt2JAGWoCKnP9LCvv57Q/Kg9NCHdVNqg2zKf1wIshtQuOUPoqNqUFxyvvNpEx
+ ZQtNbwn7DCdxC/Tp0RIReTXikMXxwyYOhDHAj82EKhges+XTnFWfBjKcRWRbfzGNAHmo
+ q7+Q==
+X-Gm-Message-State: AOAM531Bu/IQAXBbcAdKXHM0GebFYoeg61bVFEO969wo0Rvf+g/s6cWa
+ ykhdJ04UZ07fMef+7cBhd/M=
+X-Google-Smtp-Source: ABdhPJxcH2TMgG3WCcZ+Oxs38G1glk+4HDDDXtGsrbFmPPkwzsh/aUX0rTrr927lSA+BorFMcHh7Sw==
+X-Received: by 2002:a05:6512:3d1d:: with SMTP id
+ d29mr1171053lfv.623.1623313398701; 
+ Thu, 10 Jun 2021 01:23:18 -0700 (PDT)
+Received: from eldfell ([194.136.85.206])
+ by smtp.gmail.com with ESMTPSA id v3sm228947lfa.77.2021.06.10.01.23.18
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 10 Jun 2021 01:23:18 -0700 (PDT)
+Date: Thu, 10 Jun 2021 11:23:15 +0300
+From: Pekka Paalanen <ppaalanen@gmail.com>
+To: Simon Ser <contact@emersion.fr>
+Subject: Re: [PATCH v2 1/7] drm/sysfs: introduce
+ drm_sysfs_connector_hotplug_event
+Message-ID: <20210610112315.3370f1a4@eldfell>
+In-Reply-To: <I7ivMNimkOH0GJ5SVonqiNBfYEunXBeQpK7ehs64Bk@cp4-web-028.plabs.ch>
+References: <I7ivMNimkOH0GJ5SVonqiNBfYEunXBeQpK7ehs64Bk@cp4-web-028.plabs.ch>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [IPv6:2a02:908:1252:fb60:c285:5f9a:99f5:633e]
- (2a02:908:1252:fb60:c285:5f9a:99f5:633e) by
- PR0P264CA0229.FRAP264.PROD.OUTLOOK.COM (2603:10a6:100:1e::25) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4219.20 via Frontend Transport; Thu, 10 Jun 2021 08:20:49 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: c31637e3-1331-49ab-f06a-08d92be8a900
-X-MS-TrafficTypeDiagnostic: BL0PR12MB4913:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <BL0PR12MB491322D83EE52363D3026AAE83359@BL0PR12MB4913.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:214;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: dvEPTcE6KlWk1bTaIXi7StsgjFY0Fbc7rpg/zyvtDZd6weOeO8olEiAK+LXxH2+dbvvfkcB8BLAmNyTTI3+78pDI2A7C8dyEznt9UlPLtA80QxuwRYrIAO3ErGyZwDbI4balP5Khjo2EtGXL6jfwmb/GP/Nj53aeA6LQrrd+eUYxdO2/CNC8ivkXYMElIJvfZytjKeHGQ38uIdRTbztmSrocv24zdhe0ntS9aBBsprhdsQeH2snlP0wv6t749sod7pkssZMvzodLUM02FpiliVeZCGjdWj5E9dW8SlMQYFknxHGAmUHXLZrxhb+Kp8toqWqsJw+hXJRuMdqgaQFe3P9ulM889QFJWEOoM+pgy+zVy/gEeDsSEZkMKEVTv+YNt1o1pUTi7eb7ID9WfCNmwH9/a4L8dkc8zMpwd9OtReC8eVmK94Bq3UEtF0xN2yzsdNvIKy5NmdjrAGjH07eCbNm8MnuGfwODZxlYejz5Otvt6YXbyvR0irBmgr/nGDEQk4AQD39+e6hnAj2BdOv/24UvQMqCQDA0nNTT2PXWoRS0OSOlFml7e5LxT1OkUlzNCq/LE1r5L3TUrsKgHosuWQKnvtp2sKgqs+cJJvVtLWgvIGtIin6ZPpEizF6JVWhdIy78VeDFEaYjAGn4gMpYYffyKqP9sEVi+hyrAG4MbdmV4Z5EK/J2HdJONbHeDuV7ftvAriUj9CAxrQ2wLGkLTw==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN2PR12MB3775.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(39860400002)(376002)(346002)(396003)(136003)(366004)(8936002)(66476007)(66946007)(66556008)(8676002)(86362001)(921005)(186003)(2906002)(31696002)(38100700002)(16526019)(6486002)(316002)(6666004)(31686004)(2616005)(83380400001)(4326008)(36756003)(7416002)(5660300002)(478600001)(45980500001)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?aUhnNzYzNnNsdHZtZ3hUbFJabnBmN3NjdEdDMHJIUGxsLzNkS3NZdXFRQ3Yv?=
- =?utf-8?B?MEpVNSs5WHdJZEtuU2JkbGlUVHp5TnNERTRJU05wN2NGWWw5alIrbkNrTjlx?=
- =?utf-8?B?MjQ3TGJudHM1N0h0VnhFOGd3cy9tVDFQc2pJUDNVZ3F2bjJEWVpONjRhMmJ3?=
- =?utf-8?B?QkJtQStVK010U282eHp2SlZvcU1WRHgxZXE1eGdOUDBJOVdGN21mVnNKZHBq?=
- =?utf-8?B?MU9zNHl6aXBoVlhHWm9pOVVENXhzb1c1cElZa0xWWUhDaDIwY2puZ0lmM2NE?=
- =?utf-8?B?RU5xTE1sWHZMTUNvTUV0cmdUeHBpN2JodStQU1JIZ0FtRlJNeXRnclBEcTda?=
- =?utf-8?B?bzNTYnhwSjdiTkJaNmlFVmE4b2Yvc2VBRjBod3VnQnRTbHNsVDFGYXN0YWsx?=
- =?utf-8?B?YjkwQ0sxTmYvMTBCOHdidmJPMSsrdVk3VFFEOHVxTFNuUGJ6NVR1NGQwYmlL?=
- =?utf-8?B?N2hNbFJQWnZZdTRta1FPUjZWTVF3RzFxaTFnM1Q1ZHpNMzhhbXc1NnB1RFdo?=
- =?utf-8?B?ZnhPME5td0dlZ0dkQzBzWCtBMlRGM2tLOGJSdzRvcVJIRXFVTmQxb1gxSnVG?=
- =?utf-8?B?d1FwSGZQUDdpWmQrTG5WSksxbzk2eDdWL244dFVVOVp3cE50a0M4emo4TEJx?=
- =?utf-8?B?ODZ1ejFQeDhDYkhUTHhyM2QwM3FzbndjQTJ6cS9BTnNCWktPYnUzbFN5V01W?=
- =?utf-8?B?Snl3dHREVnRkRGtPeTVES3NlSTVldEpjVkJvdkNqYllXM1J5VEhpM2tzeVZw?=
- =?utf-8?B?RnoxVXB4UDdXWWdOR0txcUsvU0x6blRRR3NWUExCNlYrZGk4WFZUWWZla0Fz?=
- =?utf-8?B?cmNiSlphQjFObVd1T1ZJVzdzNVlTeGFnQWNuZEJyaUlUbFR3aFc4MkJKS3lB?=
- =?utf-8?B?REVaOXJVelROWFB2NG1xSTMyc0NERzVtQzd6YmRBODhVREc0aFIvYmRpSzYx?=
- =?utf-8?B?MHAyZXZjMXBrcXoyNU5yQWJMTmsvZlRYK0xRejArU2hpVlN4b3VQSEFhMjNC?=
- =?utf-8?B?N2Q2MFUvSWh1TW8rRGF3bjVsQk5tT2NncGViTHFQYnZpcFk3RlQwQXord1My?=
- =?utf-8?B?b0NSU1JDbTNrejBZSTJaQU1lYStzYWdMWFBGSTJTaUEvdjRJOU1reTh3aDln?=
- =?utf-8?B?RlM4dzN0RHY0NkhpMUVRWm00bFFjUUZ6ZERjY09kUFladFozQm5PL3ZRTSto?=
- =?utf-8?B?YXI4TGZxL2wrbnZyUjNaVkdJVVpwNkJyemNwWUdTb2dDRHZFZmdPNVZ3R1hp?=
- =?utf-8?B?R3B3b2owNExRc08yK3J1Zzh1Y2p4MU5NTUlza2s4bTJJWFBMckI3SEpFMHVN?=
- =?utf-8?B?NUpNODBVcWtGMWphVGxOTXRWbzRVa2dibFgzV3NXRExxMDRuamNjRU5KTUI4?=
- =?utf-8?B?Qmt5VTRpQ3FmTW51dUg0eXI2YlBYcDRiUExHT3JUazIyQ3pKclVMSENVVVVx?=
- =?utf-8?B?dm11QmxqWnNtdjlmZXo2bTRObkpnQmo1WmVoeHIvNktad3JlK0x1QUwxRGxp?=
- =?utf-8?B?VmtyWDlsdmxxZEhNbWFaLytWTDFXZ2xnamdackJHaW1RZzZvRU0zS3UxV1Fm?=
- =?utf-8?B?K1kxRHRsaGg2NG56TzdYYkNWbnEzVEo5TzA3bi9Ddlh2alB0RWwrcUJxTFMy?=
- =?utf-8?B?c3E1MWJVdmpRR054bVBVcTFYaTdaUTU1T3N3UThGSmR4Sm1ZZE5jYmc1TW1Z?=
- =?utf-8?B?NkhQR1ZyNWFFUlBBN1NxK1lYLy9SL1EyM1U4Y3hvZzRZREk5WFZjZWJ4LzE0?=
- =?utf-8?B?alRKV0RzVHI0b2ZJc0VrclNhdC9KeVdWakVCS3lpSW1HMi9uc1RqY0pBQmhl?=
- =?utf-8?B?Z1lxUXE5K2JIdzNnSUxuY1VsN05IRk80aDQ5TDZBZ1prUm50bzJxMitZV29O?=
- =?utf-8?Q?It5MpIzbzfgTD?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c31637e3-1331-49ab-f06a-08d92be8a900
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3775.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Jun 2021 08:20:51.9652 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: SHVJcJXiT+L+mT0xVxSsrYpHElnMgyI56N/jTXZ1WswPRE8zEsQT8W5I1OzgXknu
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL0PR12MB4913
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ boundary="Sig_/zHgt6RgBo2EGXgKXtQy1VAZ"; protocol="application/pgp-signature"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -133,56 +69,115 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
+Cc: alexander.deucher@amd.com, michel@daenzer.net,
+ intel-gfx@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+--Sig_/zHgt6RgBo2EGXgKXtQy1VAZ
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
+On Wed, 09 Jun 2021 21:23:27 +0000
+Simon Ser <contact@emersion.fr> wrote:
 
-Am 10.06.21 um 10:20 schrieb He Ying:
-> When compiling the kernel for MIPS with CONFIG_DRM_AMDGPU = y, errors are
-> encountered as follows:
->
-> drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.o: In function `amdgpu_vram_mgr_new':
-> amdgpu_vram_mgr.c:(.text+0x740): undefined reference to `__udivdi3'
->
-> Making a 64 bit division by a/b (a is uint64_t) is not supported by default
-> in linux kernel space. Instead, using do_div is OK for this situation. For
-> this problem, using DIV_ROUND_UP_ULL instead of DIV_ROUND_UP is better.
-
-Already fixed by this patch in drm-next:
-
-commit 691cf8cd7a531dbfcc29d09a23c509a86fd9b24f
-Author: Dave Airlie <airlied@redhat.com>
-Date:   Thu Jun 10 12:59:00 2021 +1000
-
-     drm/amdgpu: use correct rounding macro for 64-bit
-
-     This fixes 32-bit arm build due to lack of 64-bit divides.
-
-Regards,
-Christian.
-
->
-> Fixes: 6a7f76e70fac ("drm/amdgpu: add VRAM manager v2")
-> Reported-by: Hulk Robot <hulkci@huawei.com>
-> Signed-off-by: He Ying <heying24@huawei.com>
+> This function sends a hotplug uevent with a CONNECTOR property.
+>=20
+> Signed-off-by: Simon Ser <contact@emersion.fr>
 > ---
->   drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c
-> index 9a6df02477ce..436ec246a7da 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c
-> @@ -407,7 +407,7 @@ static int amdgpu_vram_mgr_new(struct ttm_resource_manager *man,
->   #endif
->   		pages_per_node = max_t(uint32_t, pages_per_node,
->   				       tbo->page_alignment);
-> -		num_nodes = DIV_ROUND_UP(PFN_UP(mem_bytes), pages_per_node);
-> +		num_nodes = DIV_ROUND_UP_ULL(PFN_UP(mem_bytes), pages_per_node);
->   	}
->   
->   	node = kvmalloc(struct_size(node, mm_nodes, num_nodes),
+>  drivers/gpu/drm/drm_sysfs.c | 25 +++++++++++++++++++++++++
+>  include/drm/drm_sysfs.h     |  1 +
+>  2 files changed, 26 insertions(+)
+>=20
+> diff --git a/drivers/gpu/drm/drm_sysfs.c b/drivers/gpu/drm/drm_sysfs.c
+> index 968a9560b4aa..8423e44c3035 100644
+> --- a/drivers/gpu/drm/drm_sysfs.c
+> +++ b/drivers/gpu/drm/drm_sysfs.c
+> @@ -343,6 +343,31 @@ void drm_sysfs_hotplug_event(struct drm_device *dev)
+>  }
+>  EXPORT_SYMBOL(drm_sysfs_hotplug_event);
+> =20
+> +/**
+> + * drm_sysfs_connector_hotplug_event - generate a DRM uevent for any con=
+nector
+> + * change
+> + * @connector: connector which has changed
+> + *
+> + * Send a uevent for the DRM connector specified by @connector. This wil=
+l send
+> + * a uevent with the properties HOTPLUG=3D1 and CONNECTOR.
+> + */
+> +void drm_sysfs_connector_hotplug_event(struct drm_connector *connector)
+> +{
+> +	struct drm_device *dev =3D connector->dev;
+> +	char hotplug_str[] =3D "HOTPLUG=3D1", conn_id[21];
+> +	char *envp[] =3D { hotplug_str, conn_id, NULL };
+> +
+> +	snprintf(conn_id, sizeof(conn_id),
+> +		 "CONNECTOR=3D%u", connector->base.id);
+> +
+> +	drm_dbg_kms(connector->dev,
+> +		    "[CONNECTOR:%d:%s] generating connector hotplug event\n",
+> +		    connector->base.id, connector->name);
+> +
+> +	kobject_uevent_env(&dev->primary->kdev->kobj, KOBJ_CHANGE, envp);
+> +}
+> +EXPORT_SYMBOL(drm_sysfs_connector_hotplug_event);
 
+Hi,
+
+I believe this change would be safe for Weston while Weston would not
+take advantage of the optimisation without patching it. The idea seems
+fine to me, and patching Weston to take advantage of this would be fine
+too.
+
+I can't say anything about the kernel internal details on how to
+implement this, and I don't recall if the per-connector epoch counter
+was supposed to the exposed to userspace, offering a different way to
+do the same.
+
+
+Thanks,
+pq
+
+> +
+>  /**
+>   * drm_sysfs_connector_status_event - generate a DRM uevent for connector
+>   * property status change
+> diff --git a/include/drm/drm_sysfs.h b/include/drm/drm_sysfs.h
+> index d454ef617b2c..6273cac44e47 100644
+> --- a/include/drm/drm_sysfs.h
+> +++ b/include/drm/drm_sysfs.h
+> @@ -11,6 +11,7 @@ int drm_class_device_register(struct device *dev);
+>  void drm_class_device_unregister(struct device *dev);
+> =20
+>  void drm_sysfs_hotplug_event(struct drm_device *dev);
+> +void drm_sysfs_connector_hotplug_event(struct drm_connector *connector);
+>  void drm_sysfs_connector_status_event(struct drm_connector *connector,
+>  				      struct drm_property *property);
+>  #endif
+
+
+--Sig_/zHgt6RgBo2EGXgKXtQy1VAZ
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmDBy/MACgkQI1/ltBGq
+qqcnVg//b8urqcs7lXMMe2ZfhWKSTm8/at96q0h9H+5MBE6ilWXfDLY101tG8YsN
+mm0HvJJZBTAJmNnq5y2+7YPUXdF30mvSQTGIR0Zyi/DvRTBLRyMWZZ4+VMBQ8X1h
+HF2Jb0Vhur8lXClv2OpREnZZ2Aa/64u70/2UfWbPqqNaJQ5W9Ovy4IuGkMJwRrod
+1gSdHmC4ifwgXCbmNDUZ+ptu24Qg3B8ts38DiXz13c1pSpUiu8oyDbSwikySa1q4
+FaJJd/dRftIQV59uI37jnYv8hpTahvbp5lx+6+fV9K7d8YvoR6ADvHg8a5BnIk/L
+X+Becgicalj97JV+hbDyvzoGudJnhRn+qpanaMdfoa2JAQlpFcUSDJuAkD0vGDPq
+pJKsVJipdIOu5qHGYqhNomYQY3/1KCyfc8/0acsjKDybIyvaDC2YYw3ia+e2wmVe
+MjO7ZEd2107P3a4NBVjlK/43s5FvphpPROIBy0/Dbtb1lv7eMa8ojleunrp2ILCS
+EcYbMkyTlrex2ORhr0+MK/3NU3FYZZXRSXcGwG3HsXR9cKAeHZRPvBYkY73pLuCI
+08LOoyjJ7dUCeDrwqS/zN8FGOmNHwac0AYGXitnInzKIEaoNNDNR5bKlP9HPWCBs
+jiVsYd4HfH1fGETXigFUAV/nxfDpPv7KCWJpiI2D4Fx8wW9OJhw=
+=aB2J
+-----END PGP SIGNATURE-----
+
+--Sig_/zHgt6RgBo2EGXgKXtQy1VAZ--
