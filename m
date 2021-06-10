@@ -2,69 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D3E73A2783
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Jun 2021 10:56:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 275A73A2816
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Jun 2021 11:18:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 61E646EC8D;
-	Thu, 10 Jun 2021 08:56:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D5FA76EC90;
+	Thu, 10 Jun 2021 09:18:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com
- [IPv6:2a00:1450:4864:20::32f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0E2396EC8D
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Jun 2021 08:56:24 +0000 (UTC)
-Received: by mail-wm1-x32f.google.com with SMTP id
- h22-20020a05600c3516b02901a826f84095so5899198wmq.5
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Jun 2021 01:56:23 -0700 (PDT)
+Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com
+ [IPv6:2a00:1450:4864:20::32b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DDD2E6EC8E;
+ Thu, 10 Jun 2021 09:18:03 +0000 (UTC)
+Received: by mail-wm1-x32b.google.com with SMTP id
+ k5-20020a05600c1c85b02901affeec3ef8so6115652wms.0; 
+ Thu, 10 Jun 2021 02:18:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=W1G4CqCNStWEWhk/Vyz5SeOif1UfAMFjFQWFAuyKoyM=;
- b=J5H8i+u2GPu/Nn5n0u3gjxJ3Sb/GPN+KKh+tQbROYZlP2lcCSZT5ICezaRxnneRnbl
- 8KlL4sPti4uH6aYSSAFiR/rWjw/TE7zYKZVTWtPm9AVljBmGgAbS3WrafnZbYljtw+9z
- QKv+GEHgONidqj8tdy9UOybEEb4ifEdCmMLHrlNbPWWptmUrIEH9QvJ/CWTzzZnp0WLZ
- kAtJPRyDjrJ7B6+CpUkbUY8UHsl5JYB78zy9oSkGKDnSkyS3NXbZdhAdkffVlbyhreIO
- 1DJgT+wkvxjGxa8XYx/38RBOwWfqLaHywDvv188KvrAeuMsvduAbO813J3i3myU/JVOy
- 6KLA==
+ h=from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Fmb4cueVtOXZ29A3KoEkc9R3bgHt8UwFR2vwnaO9L4o=;
+ b=cLz8LVCjuXmwIs0cUlJEHekrA55mhSzQQpmX2bxPLIrXyH+tB3AyaQVlj/jdabTEjj
+ BngJdUDDdMw+iN2PFR7UwhOFjppSQz2X9iz7AzjRxtBSi8Pv6XYOv025y5A7PKBmdpyX
+ jYLck3rzYgHh3I6x8h+LACBB8BeH0eS+fL8qaoYQnGiFSY9LH0AIIg5RTXpCJ6k8Thsw
+ ctZMvX7q7n4tHWUURcGzkJIHgRHD8kXh19JI+Ql297urgxfO4uaYsjnom4tyYkm0SdNE
+ koLzJWCnmTX8emeC5T6Ig+X6ZRJ74v74A0s6kCPiRcnSNmP+ous7+Lsd01Ki1u5mJpL8
+ fchQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=W1G4CqCNStWEWhk/Vyz5SeOif1UfAMFjFQWFAuyKoyM=;
- b=ihYgDy9e5U8fyLfahvhYTPFoRQnzx0umEo1fN95RrUy3lqEiMP0O95U5e3Rux6f7lv
- SEH4CHw8ppfVY6ppBy5cA0zQf9DeRhpoiwYOGeoRI7aAcF+n0To0V8raE1L/uQDIh9Kd
- 2OoIFUWMhSyqooSnc4iKkLajw0ZfkCGlc5WjOWClvmEPKGX62CxptWmwNiHSlzaWtSUC
- RTIcksGx0Qlu/IvNtbEdnUrOpMxuy4A1yKTPcchghXnD+0lSiPayR3MTdezZNMYutcEu
- UpoT3NHlrctkp4hlRodbZ6Yc7TBO0O5jHnPJCs89GPlZe3RZP2+XraZ6ahE7MNw7ym2C
- QtCQ==
-X-Gm-Message-State: AOAM532Om7EF5OK1NGQ2qSKf+KYYj4KIN3Rsh0e8Ps7oW+E912n8Co2G
- uDEMtTbmyNFRX9kW6E8v+Mo=
-X-Google-Smtp-Source: ABdhPJxt/2uIC/FjJ5n2uovK1nqmF14UWRIj4LzsJXTSck2vnsZp/zvrPbQZ2hE8NdoaQKadHUz9wQ==
-X-Received: by 2002:a05:600c:3514:: with SMTP id
- h20mr1601651wmq.70.1623315382650; 
- Thu, 10 Jun 2021 01:56:22 -0700 (PDT)
-Received: from localhost ([62.96.65.119])
- by smtp.gmail.com with ESMTPSA id n42sm8470670wms.29.2021.06.10.01.56.20
+ h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Fmb4cueVtOXZ29A3KoEkc9R3bgHt8UwFR2vwnaO9L4o=;
+ b=ZVlfxuPUDP5Mo8jkW36KFTudsZTKrS7giIa7s/QQ0tNJb6upvFVxk/I1Q9iJA/dBAq
+ atoE58cGp5RZN1tsYfEkP/Z3DIvX44ncbqtgljq17wRV+K3qxnU4Nnwc4shhtJEFfE5z
+ r97PmOVXdlQQ6IGf6aeJ9j6/9FDIG91EL3Bf8XxCRDgBAosbMYKcey5onNmzJFtUuB+C
+ tMnJf7RgyTFgVD7PCI8tppIGExJ6YF6glRA271RNDd7B0Df7z5Emi65XLe5r5VMYRe52
+ 6twUdy/R9XDf3L61U9RNI4fsYw8frFAvYtQv8+lbko+UlnS+gcI7Yb8CuD3tCFItuj8O
+ oLgg==
+X-Gm-Message-State: AOAM533dRIpD8Nf/YCwsJYmbY6Uu/GMzj3S02H/Tt9QF2Gn438Qv4WfE
+ UnXroeenyi85i5ya3x/o1AZlPW6XC3A=
+X-Google-Smtp-Source: ABdhPJzXaladOwixE+vJSP7w5UTqwMP1tNW7nfxmDEpeieNhhorC1gVgMhIdsQfiiWTcxL86s62eiQ==
+X-Received: by 2002:a05:600c:243:: with SMTP id 3mr4000102wmj.35.1623316682565; 
+ Thu, 10 Jun 2021 02:18:02 -0700 (PDT)
+Received: from abel.fritz.box ([2a02:908:1252:fb60:561f:e43a:edf5:8f95])
+ by smtp.gmail.com with ESMTPSA id v8sm3087445wrc.29.2021.06.10.02.18.01
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 10 Jun 2021 01:56:21 -0700 (PDT)
-Date: Thu, 10 Jun 2021 10:58:04 +0200
-From: Thierry Reding <thierry.reding@gmail.com>
-To: Daniel Stone <daniel@fooishbar.org>
-Subject: Re: [PATCH v2 01/10] drm/fourcc: Add macros to determine the
- modifier vendor
-Message-ID: <YMHUHGS94zXLshU5@orome.fritz.box>
-References: <20210326145139.467072-1-thierry.reding@gmail.com>
- <20210326145139.467072-2-thierry.reding@gmail.com>
- <P6bikxumymMi9GOcPaj_n8vMt5caPR3rWO4Kga8Ud_FNIgytl3ljvnkU6nsyxIwN4VKNmfOfsC4KryzFTObEXjtFDiywRWDtO_ed71g9aj0=@emersion.fr>
- <YF4L3kq9UN6PWh/h@orome.fritz.box>
- <CAPj87rO_RsEPpuC9-DyVEJ=K6OLeknHhOnjvbQ2EEnPPPrq+dg@mail.gmail.com>
- <CAPj87rOB8p+WSgVDwRbbLgW-di5qpSTY5Q6cmQYwbwD2Y3wKVA@mail.gmail.com>
+ Thu, 10 Jun 2021 02:18:02 -0700 (PDT)
+From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
+X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
+ <christian.koenig@amd.com>
+To: daniel@ffwll.ch, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org
+Subject: Change how amdgpu stores fences in dma_resv objects
+Date: Thu, 10 Jun 2021 11:17:53 +0200
+Message-Id: <20210610091800.1833-1-christian.koenig@amd.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="w3UoTUzJreA15LR5"
-Content-Disposition: inline
-In-Reply-To: <CAPj87rOB8p+WSgVDwRbbLgW-di5qpSTY5Q6cmQYwbwD2Y3wKVA@mail.gmail.com>
-User-Agent: Mutt/2.0.6 (98f8cb83) (2021-03-06)
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,71 +70,20 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, James Jones <jajones@nvidia.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, linux-tegra@vger.kernel.org,
- Dmitry Osipenko <digetx@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Since we can't find a consensus on hot to move forward with the dma_resv object I concentrated on changing the approach for amdgpu first.
 
---w3UoTUzJreA15LR5
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+This new approach changes how the driver stores the command submission fence in the dma_resv object in DMA-buf exported BOs.
 
-On Wed, Jun 09, 2021 at 05:28:50PM +0100, Daniel Stone wrote:
-> Hi Thierry,
->=20
-> On Tue, 27 Apr 2021 at 19:40, Daniel Stone <daniel@fooishbar.org> wrote:
-> > On Fri, 26 Mar 2021 at 16:29, Thierry Reding <thierry.reding@gmail.com>=
- wrote:
-> >> On Fri, Mar 26, 2021 at 02:54:22PM +0000, Simon Ser wrote:
-> >> > LGTM, thanks!
-> >> >
-> >> > Reviewed-by: Simon Ser <contact@emersion.fr>
-> >> >
-> >> > Let me know if you need me to push this to drm-misc-next.
-> >>
-> >> I do have commit access for drm-misc-next, but I was thinking that I
-> >> could take this through the drm/tegra tree along with the subsequent
-> >> patches because of the dependency.
-> >>
-> >> Anyone willing to provide an Acked-by for that?
-> >
-> > Yep, no harm if that makes your life easier, so for both the patch itse=
-lf and merging through tegra:
-> > Acked-by: Daniel Stone <daniels@collabora.com>
->=20
-> Is this still in your queue somewhere?
+For exported BOs we now store the CS fence in a dma_fence_chain container and assign that one to the exclusive fences slot.
 
-I reverted to an open-coded version at the time because the -rc6 cut-off
-was coming up quickly and I wasn't getting a response. But I do have a
-set of follow-up patches in a branch somewhere that convert the existing
-users to the new helpers.
+During synchronization this dma_fence_chain container is unpacked again and the containing fences handled individually.
 
-Let me dig those out and send them out again.
+This has a little bit more overhead than the old approach, but it allows for waiting for the exclusive slot for writes again.
 
-Thierry
+Regards,
+Christian.
 
---w3UoTUzJreA15LR5
-Content-Type: application/pgp-signature; name="signature.asc"
 
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmDB1BkACgkQ3SOs138+
-s6Gzzw//TFERJ2BwbZ1fNz8AG003O2xhche0U3nVDc0+ojkvZfsKHBhRvyuexPL+
-UwkvBeXVBa/NK7LPKy2Q/HaXhTH4iAZ8pBB0zpfiYBvHvUE/7NQKrNIKgl3zwcjN
-1SzRNPj1fTGW5JlOeCJubpRSIfesmYjbTpxzYpomB1XzcBtaeyNelNAvnGPQm2vK
-9w76ht908w7B+UrpNaFqdsHwY1s2xG0uOTNrdbJp0YpvFGyQKOeghJ617M95xqVi
-uLGi/t/c9rlaqxL6bStlQEBVi0Xi34IjkCD5PEri/VQKL3ALPqXZajx/m/LphLbD
-ISGfT9gofVJcaV5UVQ68uFI7BnSYSa2Gwj/cdo25tIELCwiyGcjdf1LGoj2HrCE7
-mD1wYjW03DtXZl+9XlpRXdJo5eXXFZx7DnLMEUi+2TxfSylxOW6lTW+hbsE47hHZ
-5qeINgsRFP/Rb/DzeoSn4sh4JmpbSDH4XwrRWuEcvovhKUuFSCpVMvNx93ma51hd
-a2WOpF5hw0aRadVc8+j0ahR4QmqPGGvUgGJp1MR44h6uiRgxQKA1sjwUBZXV3XST
-J25+VEvBGBzgE/4Cp1G6mYy3VrfT2hLRCzqU8lpFreeuNkK8zhjmYyxaGz7U3V4e
-varppfO3SGcgm0Os0DZdyzmSPFqnuxfhIZZw4qFt6qshZ51F15o=
-=I4ct
------END PGP SIGNATURE-----
-
---w3UoTUzJreA15LR5--
