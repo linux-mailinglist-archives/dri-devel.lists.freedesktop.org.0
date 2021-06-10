@@ -1,46 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 729793A2533
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Jun 2021 09:19:05 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 26A883A24F2
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Jun 2021 09:02:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8E4206E5A2;
-	Thu, 10 Jun 2021 07:19:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3FB866E915;
+	Thu, 10 Jun 2021 07:02:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 991 seconds by postgrey-1.36 at gabe;
- Thu, 10 Jun 2021 06:57:34 UTC
-Received: from m12-16.163.com (m12-16.163.com [220.181.12.16])
- by gabe.freedesktop.org (Postfix) with ESMTP id BEE546E5A2
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Jun 2021 06:57:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
- s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=y+e2b
- PmexqtbrmKw2MH4HI+pB5lEaw8BySK7BAtauXA=; b=E/drF/s30r49VUTPCp8i4
- 4dpIEzzv6Rege3jBXcY0yKs1giE/kICHaEUoUvap/7QO1KQZS4TAn3JsTGrJ0fhL
- Qz9hhgzsew5UpjSYD2S0UI7vWjtBnAtQplZWjxYosURp/ijkr2XpNIMOkKgfydlK
- NImjFjMI+fqIfItFYGw0hQ=
-Received: from localhost.localdomain (unknown [218.17.89.92])
- by smtp12 (Coremail) with SMTP id EMCowACXs0_Hs8FgENRawQ--.34426S2;
- Thu, 10 Jun 2021 14:40:08 +0800 (CST)
-From: =?UTF-8?q?=C2=A0Zhongjun=20Tan?= <hbut_tan@163.com>
-To: thierry.reding@gmail.com, airlied@linux.ie, daniel@ffwll.ch,
- jonathanh@nvidia.com
-Subject: [PATCH] drm/tegra:Remove superfluous error messages around
- platform_get_irq()
-Date: Thu, 10 Jun 2021 14:39:55 +0800
-Message-Id: <20210610063955.1064-1-hbut_tan@163.com>
-X-Mailer: git-send-email 2.30.0.windows.2
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CBEDA6E5A2;
+ Thu, 10 Jun 2021 07:02:25 +0000 (UTC)
+IronPort-SDR: 7pcwbkyqyPDitMYxguOCVmJjEQ8GhJq8PZVan6IwY34m3VB+IMjJX6lJI6/iz80DcHfIlTSTqe
+ CuvMpIyvM9dQ==
+X-IronPort-AV: E=McAfee;i="6200,9189,10010"; a="192351618"
+X-IronPort-AV: E=Sophos;i="5.83,262,1616482800"; d="scan'208";a="192351618"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Jun 2021 00:02:20 -0700
+IronPort-SDR: 3qKiKzNxg88m0klcp+jTIuphXr694PbOml29B44zdkrp2NICOR0nbSgvh6XJLD6m29H6GR72TV
+ 0j4IV1+U3onw==
+X-IronPort-AV: E=Sophos;i="5.83,262,1616482800"; d="scan'208";a="482717885"
+Received: from smirnov2-mobl.ccr.corp.intel.com (HELO thellst-mobl1.intel.com)
+ ([10.249.254.160])
+ by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Jun 2021 00:02:16 -0700
+From: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
+To: intel-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org
+Subject: [PATCH v11 0/4] Move LMEM (VRAM) management over to TTM
+Date: Thu, 10 Jun 2021 09:01:48 +0200
+Message-Id: <20210610070152.572423-1-thomas.hellstrom@linux.intel.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: EMCowACXs0_Hs8FgENRawQ--.34426S2
-X-Coremail-Antispam: 1Uf129KBjvdXoWrtrykKFy7tryDZw1furWDtwb_yoWfuFX_Ca
- 4UZrn7Wr4S9r1qvFyDZry3Za42yFn09r48Z3ZrKa4Sy343J3WUG3yUWF18ur4UXw1UGas7
- X3W8Wr4avrsxCjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
- 9fnUUvcSsGvfC2KfnxnUUI43ZEXa7IUeC1vDUUUUU==
-X-Originating-IP: [218.17.89.92]
-X-CM-SenderInfo: xkex3sxwdqqiywtou0bp/xtbBqBetxl75dLHjvgAAsr
-X-Mailman-Approved-At: Thu, 10 Jun 2021 07:19:00 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,39 +48,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Tan Zhongjun <tanzhongjun@yulong.com>
+Cc: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Tan Zhongjun <tanzhongjun@yulong.com>
+Remaining patches rebased on latest TTM changes posted for reference and CI.
 
-The platform_get_irq() prints error message telling that interrupt is
-missing,hence there is no need to duplicated that message in the
-drivers.
+Maarten Lankhorst (2):
+  drm/vma: Add a driver_private member to vma_node.
+  drm/i915: Use ttm mmap handling for ttm bo's.
 
-Signed-off-by: Tan Zhongjun <tanzhongjun@yulong.com>
----
- drivers/gpu/drm/tegra/dpaux.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+Thomas Hellström (2):
+  drm/i915/ttm: Introduce a TTM i915 gem object backend
+  drm/i915/lmem: Verify checks for lmem residency
 
-diff --git a/drivers/gpu/drm/tegra/dpaux.c b/drivers/gpu/drm/tegra/dpaux.c
-index 7d7cc90b6fc9..1f96e416fa08 100644
---- a/drivers/gpu/drm/tegra/dpaux.c
-+++ b/drivers/gpu/drm/tegra/dpaux.c
-@@ -467,10 +467,8 @@ static int tegra_dpaux_probe(struct platform_device *pdev)
- 		return PTR_ERR(dpaux->regs);
- 
- 	dpaux->irq = platform_get_irq(pdev, 0);
--	if (dpaux->irq < 0) {
--		dev_err(&pdev->dev, "failed to get IRQ\n");
-+	if (dpaux->irq < 0)
- 		return -ENXIO;
--	}
- 
- 	if (!pdev->dev.pm_domain) {
- 		dpaux->rst = devm_reset_control_get(&pdev->dev, "dpaux");
+ drivers/gpu/drm/drm_gem.c                     |   9 -
+ drivers/gpu/drm/i915/Makefile                 |   1 +
+ drivers/gpu/drm/i915/display/intel_display.c  |   2 +-
+ drivers/gpu/drm/i915/gem/i915_gem_create.c    |   9 +-
+ drivers/gpu/drm/i915/gem/i915_gem_lmem.c      | 126 ++--
+ drivers/gpu/drm/i915/gem/i915_gem_lmem.h      |   5 -
+ drivers/gpu/drm/i915/gem/i915_gem_mman.c      |  83 ++-
+ drivers/gpu/drm/i915/gem/i915_gem_object.c    | 143 ++--
+ drivers/gpu/drm/i915/gem/i915_gem_object.h    |  19 +-
+ .../gpu/drm/i915/gem/i915_gem_object_types.h  |  30 +-
+ drivers/gpu/drm/i915/gem/i915_gem_pages.c     |   3 +-
+ drivers/gpu/drm/i915/gem/i915_gem_region.c    |   6 +-
+ drivers/gpu/drm/i915/gem/i915_gem_ttm.c       | 647 ++++++++++++++++++
+ drivers/gpu/drm/i915/gem/i915_gem_ttm.h       |  48 ++
+ .../drm/i915/gem/selftests/i915_gem_mman.c    |  90 +--
+ drivers/gpu/drm/i915/gt/intel_region_lmem.c   |   3 +-
+ drivers/gpu/drm/i915/i915_gem.c               |   5 +-
+ drivers/gpu/drm/i915/intel_memory_region.c    |   1 -
+ drivers/gpu/drm/i915/intel_memory_region.h    |   1 -
+ drivers/gpu/drm/i915/intel_region_ttm.c       |   8 +-
+ drivers/gpu/drm/i915/intel_region_ttm.h       |  11 +-
+ drivers/gpu/drm/i915/selftests/igt_mmap.c     |  25 +-
+ drivers/gpu/drm/i915/selftests/igt_mmap.h     |  12 +-
+ include/drm/drm_vma_manager.h                 |   2 +-
+ 24 files changed, 1039 insertions(+), 250 deletions(-)
+ create mode 100644 drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+ create mode 100644 drivers/gpu/drm/i915/gem/i915_gem_ttm.h
+
 -- 
-2.17.1
-
+2.31.1
 
