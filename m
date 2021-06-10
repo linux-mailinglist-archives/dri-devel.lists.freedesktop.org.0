@@ -1,42 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2942D3A36CB
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Jun 2021 00:02:07 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A51DE3A36D0
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Jun 2021 00:04:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0E5286EE04;
-	Thu, 10 Jun 2021 22:02:02 +0000 (UTC)
-X-Original-To: DRI-Devel@lists.freedesktop.org
-Delivered-To: DRI-Devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2AC0E6EDFF;
- Thu, 10 Jun 2021 22:02:00 +0000 (UTC)
-IronPort-SDR: u8LORqRhZaPVXLqdBEly5IE75+OQLkFiWJyMKZZvqkqxQDscRu7GWSeGCDiD+0fyfnWF4ef0s3
- RjotkvTuiBjQ==
-X-IronPort-AV: E=McAfee;i="6200,9189,10011"; a="185786359"
-X-IronPort-AV: E=Sophos;i="5.83,264,1616482800"; d="scan'208";a="185786359"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Jun 2021 15:01:59 -0700
-IronPort-SDR: f0asxrxG4c0nPAbNko8HnlkNd4NfZGOeq7H3k2gvzqqk6e7uHffVTILYUUwz8ksK4iAwEl3YVl
- 97dPNKOUrcuA==
-X-IronPort-AV: E=Sophos;i="5.83,264,1616482800"; d="scan'208";a="419872673"
-Received: from unknown (HELO sdutt-i7) ([10.165.21.147])
- by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Jun 2021 15:01:59 -0700
-Date: Thu, 10 Jun 2021 14:55:05 -0700
-From: Matthew Brost <matthew.brost@intel.com>
-To: John.C.Harrison@Intel.com
-Subject: Re: [PATCH 2/3] drm/i915/uapi: Add query for hwconfig table
-Message-ID: <20210610215504.GA7616@sdutt-i7>
-References: <20210610204626.2995262-1-John.C.Harrison@Intel.com>
- <20210610204626.2995262-3-John.C.Harrison@Intel.com>
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3B7B46EDFF;
+	Thu, 10 Jun 2021 22:04:37 +0000 (UTC)
+X-Original-To: dri-devel@lists.freedesktop.org
+Delivered-To: dri-devel@lists.freedesktop.org
+Received: from mail-lj1-x233.google.com (mail-lj1-x233.google.com
+ [IPv6:2a00:1450:4864:20::233])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A1AD46EDFF
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Jun 2021 22:04:35 +0000 (UTC)
+Received: by mail-lj1-x233.google.com with SMTP id r16so7052095ljc.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Jun 2021 15:04:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=Bp+9CvXO7nhLgF1Mfng8HxDSK6Fsz+bIIY1TpNGF91Y=;
+ b=jmL+JYEGZuJJ/fJbuJlfiSjK2CS9cHPmdfV17WMCN0kgsek5zUpRdsQL5q7Iu+9yDQ
+ QYw5R0NQda1qWkkQG+QWI8GFPmwT7tREDnvqZ2DLhOS4zIF1h/YT8eZsabXQyKZLQFgI
+ qlhGmyRay5NqiQaD14LcoW7XZNpzuNuG4OJEgOzP7RxY3CBNT+NmaZgtoNJtKDYJkoCW
+ fJfr76crw1uinDuRv5eGUBeoEyts7wEGTpCju6E2OBQ/Rn0aeQ6unggAvj+36tSz+Ez3
+ ASQzCI7v48otsBMX8p4FrVVqeMw/cd2+yCSpjBKESy33a8Tj7yj9UMx7B7neH0fIk0VI
+ UMmw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=Bp+9CvXO7nhLgF1Mfng8HxDSK6Fsz+bIIY1TpNGF91Y=;
+ b=BTJA7CRoM/xdtYEVMqU8m0tBXxT19bROVYyfehC940cDurJXdYFG2Niy0NrRb5VCMc
+ YUnJF/PEioQj8gXZ/S2rNbS5XGrhShQo/SR7Q2xyqZT2dEDsHakTTR3yTlBoMsew0tgn
+ 8Og1elonGPC77etfKSbv2U/LLaoZdY/tKSuUB8RFZnlOgZr3749J1B3DjjoZgHSzJFrA
+ 4rjZb16HXtZwXE56ZBZCQr+La2V7EBlgXsdPEPVBWIPBnrdF6VAGGp7ps0VXPJgmr5kc
+ lfSKKNYTUybPShP7bX3d0owECORKFCoHg8jpwx51GgTSu6r0BzlcWGp9xo1+dSw/sxaO
+ j4ZA==
+X-Gm-Message-State: AOAM530mhydS0XMh5CdKatnswTovCln4mke6Mfe3iMMdrejYtIQgOR0d
+ eOeJxvJo6MNKZXnk7ql4rYKF8hhjtIfG01cX8bMQ2g==
+X-Google-Smtp-Source: ABdhPJy9o4mR2r82ymQEr0xXNyESot0s5l+pGbHsObBJ9anV5WeIIsLAUMga5LI3oyQn4cWlpJ97glkqYu44DaVz+70=
+X-Received: by 2002:a05:651c:4c6:: with SMTP id
+ e6mr530122lji.326.1623362673846; 
+ Thu, 10 Jun 2021 15:04:33 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210610204626.2995262-3-John.C.Harrison@Intel.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+References: <20210610132501.315086-1-linus.walleij@linaro.org>
+ <61750bfe-74f4-b425-f312-4bf791ad18c6@tronnes.org>
+In-Reply-To: <61750bfe-74f4-b425-f312-4bf791ad18c6@tronnes.org>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Fri, 11 Jun 2021 00:04:22 +0200
+Message-ID: <CACRpkdZ0x+3a5bxXTSnTU=H81tG5dzRONwa+TE+_cetbi8srpA@mail.gmail.com>
+Subject: Re: [PATCH v4] drm/panel: db7430: Add driver for Samsung DB7430
+To: =?UTF-8?Q?Noralf_Tr=C3=B8nnes?= <noralf@tronnes.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,133 +65,32 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Kenneth Graunke <kenneth.w.graunke@intel.com>, Intel-GFX@Lists.FreeDesktop.Org,
- DRI-Devel@Lists.FreeDesktop.Org,
- Slawomir Milczarek <slawomir.milczarek@intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Michal Wajdeczko <michal.wajdeczko@intel.com>
+Cc: Paul Cercueil <paul@crapouillou.net>,
+ Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Doug Anderson <dianders@chromium.org>,
+ "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jun 10, 2021 at 01:46:25PM -0700, John.C.Harrison@Intel.com wrote:
-> From: Rodrigo Vivi <rodrigo.vivi@intel.com>
-> 
-> GuC contains a consolidated table with a bunch of information about the
-> current device.
-> 
-> Previously, this information was spread and hardcoded to all the components
-> including GuC, i915 and various UMDs. The goal here is to consolidate
-> the data into GuC in a way that all interested components can grab the
-> very latest and synchronized information using a simple query.
-> 
-> As per most of the other queries, this one can be called twice.
-> Once with item.length=0 to determine the exact buffer size, then
-> allocate the user memory and call it again for to retrieve the
-> table data. For example:
->   struct drm_i915_query_item item = {
->     .query_id = DRM_I915_QUERY_HWCONCFIG_TABLE;
->   };
->   query.items_ptr = (int64_t) &item;
->   query.num_items = 1;
-> 
->   ioctl(fd, DRM_IOCTL_I915_QUERY, query, sizeof(query));
-> 
->   if (item.length <= 0)
->     return -ENOENT;
-> 
->   data = malloc(item.length);
->   item.data_ptr = (int64_t) &data;
->   ioctl(fd, DRM_IOCTL_I915_QUERY, query, sizeof(query));
-> 
->   // Parse the data as appropriate...
-> 
-> The returned array is a simple and flexible KLV (Key/Length/Value)
-> formatted table. For example, it could be just:
->   enum device_attr {
->      ATTR_SOME_VALUE = 0,
->      ATTR_SOME_MASK  = 1,
->   };
-> 
->   static const u32 hwconfig[] = {
->       ATTR_SOME_VALUE,
->       1,             // Value Length in DWords
->       8,             // Value
-> 
->       ATTR_SOME_MASK,
->       3,
->       0x00FFFFFFFF, 0xFFFFFFFF, 0xFF000000,
->   };
-> 
-> The attribute ids are defined in a hardware spec. The current list as
-> known to the i915 driver can be found in i915/gt/intel_guc_hwconfig_types.h
-> 
-> Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-> Cc: Kenneth Graunke <kenneth.w.graunke@intel.com>
-> Cc: Michal Wajdeczko <michal.wajdeczko@intel.com>
-> Cc: Slawomir Milczarek <slawomir.milczarek@intel.com>
-> Signed-off-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
-> Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
+Hi Noralf,
 
-Reviewed-by: Matthew Brost <matthew.brost@intel.com>
+thanks for the review. Doug poked me with something sharp
+until I finally complied and started to use the DBI library.
+Now I have to convert the other 9bpw DBI type displays
+I have.
 
-> ---
->  drivers/gpu/drm/i915/i915_query.c | 23 +++++++++++++++++++++++
->  include/uapi/drm/i915_drm.h       |  1 +
->  2 files changed, 24 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/i915/i915_query.c b/drivers/gpu/drm/i915/i915_query.c
-> index e49da36c62fb..96bd8fb3e895 100644
-> --- a/drivers/gpu/drm/i915/i915_query.c
-> +++ b/drivers/gpu/drm/i915/i915_query.c
-> @@ -480,12 +480,35 @@ static int query_memregion_info(struct drm_i915_private *i915,
->  	return total_length;
->  }
->  
-> +static int query_hwconfig_table(struct drm_i915_private *i915,
-> +				struct drm_i915_query_item *query_item)
-> +{
-> +	struct intel_gt *gt = &i915->gt;
-> +	struct intel_guc_hwconfig *hwconfig = &gt->uc.guc.hwconfig;
-> +
-> +	if (!hwconfig->size || !hwconfig->ptr)
-> +		return -ENODEV;
-> +
-> +	if (query_item->length == 0)
-> +		return hwconfig->size;
-> +
-> +	if (query_item->length < hwconfig->size)
-> +		return -EINVAL;
-> +
-> +	if (copy_to_user(u64_to_user_ptr(query_item->data_ptr),
-> +			 hwconfig->ptr, hwconfig->size))
-> +		return -EFAULT;
-> +
-> +	return hwconfig->size;
-> +}
-> +
->  static int (* const i915_query_funcs[])(struct drm_i915_private *dev_priv,
->  					struct drm_i915_query_item *query_item) = {
->  	query_topology_info,
->  	query_engine_info,
->  	query_perf_config,
->  	query_memregion_info,
-> +	query_hwconfig_table,
->  };
->  
->  int i915_query_ioctl(struct drm_device *dev, void *data, struct drm_file *file)
-> diff --git a/include/uapi/drm/i915_drm.h b/include/uapi/drm/i915_drm.h
-> index c2c7759b7d2e..87d369cae22a 100644
-> --- a/include/uapi/drm/i915_drm.h
-> +++ b/include/uapi/drm/i915_drm.h
-> @@ -2233,6 +2233,7 @@ struct drm_i915_query_item {
->  #define DRM_I915_QUERY_ENGINE_INFO	2
->  #define DRM_I915_QUERY_PERF_CONFIG      3
->  #define DRM_I915_QUERY_MEMORY_REGIONS   4
-> +#define DRM_I915_QUERY_HWCONFIG_TABLE   5
->  /* Must be kept compact -- no holes and well documented */
->  
->  	/**
-> -- 
-> 2.25.1
-> 
+On Thu, Jun 10, 2021 at 6:15 PM Noralf Tr=C3=B8nnes <noralf@tronnes.org> wr=
+ote:
+
+> > +     /** @reset: reset GPIO line */
+> > +     struct gpio_desc *reset;
+>
+> You can use dbi->reset.
+
+I fixed all except this: it just feels weird to use the struct mipi_dbi for
+storing the reset without the DBI core making any operations on it,
+I think this and the regulator should possibly be moved over to
+struct mipi_dbi_dev where the regulator is.
+
+Yours,
+Linus Walleij
