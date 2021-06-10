@@ -1,64 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4EDA43A35B9
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Jun 2021 23:14:53 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9581D3A36BA
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Jun 2021 23:55:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6983E6E430;
-	Thu, 10 Jun 2021 21:14:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0BF456E4CF;
+	Thu, 10 Jun 2021 21:55:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com
- [IPv6:2607:f8b0:4864:20::102a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 336AF6E2C8
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Jun 2021 21:14:49 +0000 (UTC)
-Received: by mail-pj1-x102a.google.com with SMTP id
- k22-20020a17090aef16b0290163512accedso6127288pjz.0
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Jun 2021 14:14:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=jlekstrand-net.20150623.gappssmtp.com; s=20150623;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=ukdPCSLlGJU5H3ShIIq5nVFw+knkHO+w3v7QyIoHtI4=;
- b=oayqlb6zdl7NcMSa9qfFrVTnl6PYiPzIA2VCAUHpKicKhK0U7qepfCm2CRArLvFQno
- N/zoB0cA4BNii+5Og8S5obfYMlCqj5B9KYBr7qI4aUGj+1QG+dyIVrDwhjbMfvWLUB1q
- 5Be+CWWbzmRDFUo9uGZVLWnLg27yXaGsrsVYNsYkUF3PVDbMBiA7uK2uXQTLHvpYVS8c
- j83qLcZUU5bO0pWdW03qj5vUtsKfClLKSKqro04zJCVbH9oHzf0GFEkFNPNT8pd8ucZ3
- cciCabZE2e1+i/3vPbcmksGBk8S/Md8gkab4QU3VFKDc8qxWCVMG0lJaP9UUC2voXDQT
- c8MA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=ukdPCSLlGJU5H3ShIIq5nVFw+knkHO+w3v7QyIoHtI4=;
- b=efwACn5Cgz+FjCnkGlfOZnH1abDYBxoPKve5QqrVsgwst4xfn5IrjWxwwIGvNT20v6
- FlqBqnXSn/OEb8i8xtW7INHFRJBQywEe/LYWNPYF9Jy5yAWIOLdcY5Dg8QwIR89BbFrh
- a2XUH3CfEdfNLqQZFda6p3fgFnch7sHaDwx/f8+117QibP31HEwRwA0ZRCHex95Jwn8w
- AMmr1ze6m9JaziV23gBUavyNeoM7Cps6GlwwhMgHYE7MBol8cxksRnYFU4daL8XFGuYj
- yZstwA188UCXbAReMMKiDhA+Qvg1DQ42vV9THlgJxQ+Yq7n3vyUyStILzDguCv3nVMD1
- cryQ==
-X-Gm-Message-State: AOAM530Sl7/+a9G2lmYxqNB+T/9C30QPCg8ZVA/8H1/bb4mDEIzTM8S5
- 1yKJYKquqWSU6XtGgySEWq2Tpe9XZeAjFQ==
-X-Google-Smtp-Source: ABdhPJzL0uA7PwyxLhWd7vwIvtS0Af81qTQYLV+mdcEpvAQdQaQYNSrxPcEBR43uWO/yp+Pk7FkMnQ==
-X-Received: by 2002:a17:90b:38c4:: with SMTP id
- nn4mr794507pjb.166.1623359688415; 
- Thu, 10 Jun 2021 14:14:48 -0700 (PDT)
-Received: from omlet.lan (jfdmzpr03-ext.jf.intel.com. [134.134.139.72])
- by smtp.gmail.com with ESMTPSA id cl4sm2934062pjb.32.2021.06.10.14.14.46
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 10 Jun 2021 14:14:48 -0700 (PDT)
-From: Jason Ekstrand <jason@jlekstrand.net>
-To: dri-devel@lists.freedesktop.org,
-	intel-gfx@lists.freedesktop.org
-Subject: [PATCH 3/6] dma-buf: Document DMA_BUF_IOCTL_SYNC (v2)
-Date: Thu, 10 Jun 2021 16:14:42 -0500
-Message-Id: <20210610211442.643307-1-jason@jlekstrand.net>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210610210925.642582-4-jason@jlekstrand.net>
-References: <20210610210925.642582-4-jason@jlekstrand.net>
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 918D06E4CF
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Jun 2021 21:55:48 +0000 (UTC)
+IronPort-SDR: WGACC8wJG+jaESCB/DCuinp6bnpTjS0ALyvqJIMQDCupq4qrRV6ONjal9muBQeIRZOiDVxQPwV
+ xqs89f7Jpw8A==
+X-IronPort-AV: E=McAfee;i="6200,9189,10011"; a="185102601"
+X-IronPort-AV: E=Sophos;i="5.83,264,1616482800"; d="scan'208";a="185102601"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Jun 2021 14:55:48 -0700
+IronPort-SDR: fijfr+7WC2pgruPf9MDKAmnIsxRAZTtdKxi20pKl2bbqc4SKmmlZLj+zywmWjnC/r9YIYjArw4
+ 1hpBE8mwAY6g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.83,264,1616482800"; d="scan'208";a="638499806"
+Received: from dongwonk-z390-aorus-ultra-intel-gfx.fm.intel.com
+ ([10.105.129.122])
+ by fmsmga005.fm.intel.com with ESMTP; 10 Jun 2021 14:55:48 -0700
+From: Dongwon Kim <dongwon.kim@intel.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm: set DRM_RENDER_ALLOW flag on
+ DRM_IOCTL_MODE_CREATE/DESTROY_DUMB ioctls
+Date: Thu, 10 Jun 2021 14:36:59 -0700
+Message-Id: <20210610213659.22728-1-dongwon.kim@intel.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -72,113 +47,35 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Jason Ekstrand <jason@jlekstrand.net>
+Cc: Dongwon Kim <dongwon.kim@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This adds a new "DMA Buffer ioctls" section to the dma-buf docs and adds
-documentation for DMA_BUF_IOCTL_SYNC.
+Render clients should be able to create/destroy dumb object to import
+and use it as render buffer in case the default DRM device is different
+from the render device (i.e. kmsro).
 
-v2 (Daniel Vetter):
- - Fix a couple typos
- - Add commentary about synchronization with other devices
- - Use item list format for describing flags
-
-Signed-off-by: Jason Ekstrand <jason@jlekstrand.net>
-Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc: Christian König <christian.koenig@amd.com>
-Cc: Sumit Semwal <sumit.semwal@linaro.org>
+Signed-off-by: Dongwon Kim <dongwon.kim@intel.com>
 ---
- Documentation/driver-api/dma-buf.rst |  8 +++++
- include/uapi/linux/dma-buf.h         | 46 +++++++++++++++++++++++++++-
- 2 files changed, 53 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/drm_ioctl.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/Documentation/driver-api/dma-buf.rst b/Documentation/driver-api/dma-buf.rst
-index 7f21425d9435a..0d4c13ec1a800 100644
---- a/Documentation/driver-api/dma-buf.rst
-+++ b/Documentation/driver-api/dma-buf.rst
-@@ -88,6 +88,9 @@ consider though:
- - The DMA buffer FD is also pollable, see `Implicit Fence Poll Support`_ below for
-   details.
- 
-+- The DMA buffer FD also supports a few dma-buf-specific ioctls, see
-+  `DMA Buffer ioctls`_ below for details.
-+
- Basic Operation and Device DMA Access
- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
- 
-@@ -106,6 +109,11 @@ Implicit Fence Poll Support
- .. kernel-doc:: drivers/dma-buf/dma-buf.c
-    :doc: implicit fence polling
- 
-+DMA Buffer ioctls
-+~~~~~~~~~~~~~~~~~
-+
-+.. kernel-doc:: include/uapi/linux/dma-buf.h
-+
- Kernel Functions and Structures Reference
- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
- 
-diff --git a/include/uapi/linux/dma-buf.h b/include/uapi/linux/dma-buf.h
-index 7f30393b92c3b..1c131002fe1ee 100644
---- a/include/uapi/linux/dma-buf.h
-+++ b/include/uapi/linux/dma-buf.h
-@@ -22,8 +22,52 @@
- 
- #include <linux/types.h>
- 
--/* begin/end dma-buf functions used for userspace mmap. */
-+/**
-+ * struct dma_buf_sync - Synchronize with CPU access.
-+ *
-+ * When a DMA buffer is accessed from the CPU via mmap, it is not always
-+ * possible to guarantee coherency between the CPU-visible map and underlying
-+ * memory.  To manage coherency, DMA_BUF_IOCTL_SYNC must be used to bracket
-+ * any CPU access to give the kernel the chance to shuffle memory around if
-+ * needed.
-+ *
-+ * Prior to accessing the map, the client must call DMA_BUF_IOCTL_SYNC
-+ * with DMA_BUF_SYNC_START and the appropriate read/write flags.  Once the
-+ * access is complete, the client should call DMA_BUF_IOCTL_SYNC with
-+ * DMA_BUF_SYNC_END and the same read/write flags.
-+ *
-+ * The synchronization provided via DMA_BUF_IOCTL_SYNC only provides cache
-+ * coherency.  It does not prevent other processes or devices from
-+ * accessing the memory at the same time.  If synchronization with a GPU or
-+ * other device driver is required, it is the client's responsibility to
-+ * wait for buffer to be ready for reading or writing.  If the driver or
-+ * API with which the client is interacting uses implicit synchronization,
-+ * this can be done via poll() on the DMA buffer file descriptor.  If the
-+ * driver or API requires explicit synchronization, the client may have to
-+ * wait on a sync_file or other synchronization primitive outside the scope
-+ * of the DMA buffer API.
-+ */
- struct dma_buf_sync {
-+	/**
-+	 * @flags: Set of access flags
-+	 *
-+	 * DMA_BUF_SYNC_START:
-+	 *     Indicates the start of a map access session.
-+	 *
-+	 * DMA_BUF_SYNC_END:
-+	 *     Indicates the end of a map access session.
-+	 *
-+	 * DMA_BUF_SYNC_READ:
-+	 *     Indicates that the mapped DMA buffer will be read by the
-+	 *     client via the CPU map.
-+	 *
-+	 * DMA_BUF_SYNC_WRITE:
-+	 *     Indicates that the mapped DMA buffer will be written by the
-+	 *     client via the CPU map.
-+	 *
-+	 * DMA_BUF_SYNC_RW:
-+	 *     An alias for DMA_BUF_SYNC_READ | DMA_BUF_SYNC_WRITE.
-+	 */
- 	__u64 flags;
- };
- 
+diff --git a/drivers/gpu/drm/drm_ioctl.c b/drivers/gpu/drm/drm_ioctl.c
+index 98ae00661656..f2f72e132741 100644
+--- a/drivers/gpu/drm/drm_ioctl.c
++++ b/drivers/gpu/drm/drm_ioctl.c
+@@ -685,9 +685,9 @@ static const struct drm_ioctl_desc drm_ioctls[] = {
+ 	DRM_IOCTL_DEF(DRM_IOCTL_MODE_RMFB, drm_mode_rmfb_ioctl, 0),
+ 	DRM_IOCTL_DEF(DRM_IOCTL_MODE_PAGE_FLIP, drm_mode_page_flip_ioctl, DRM_MASTER),
+ 	DRM_IOCTL_DEF(DRM_IOCTL_MODE_DIRTYFB, drm_mode_dirtyfb_ioctl, DRM_MASTER),
+-	DRM_IOCTL_DEF(DRM_IOCTL_MODE_CREATE_DUMB, drm_mode_create_dumb_ioctl, 0),
++	DRM_IOCTL_DEF(DRM_IOCTL_MODE_CREATE_DUMB, drm_mode_create_dumb_ioctl, DRM_RENDER_ALLOW),
+ 	DRM_IOCTL_DEF(DRM_IOCTL_MODE_MAP_DUMB, drm_mode_mmap_dumb_ioctl, 0),
+-	DRM_IOCTL_DEF(DRM_IOCTL_MODE_DESTROY_DUMB, drm_mode_destroy_dumb_ioctl, 0),
++	DRM_IOCTL_DEF(DRM_IOCTL_MODE_DESTROY_DUMB, drm_mode_destroy_dumb_ioctl, DRM_RENDER_ALLOW),
+ 	DRM_IOCTL_DEF(DRM_IOCTL_MODE_OBJ_GETPROPERTIES, drm_mode_obj_get_properties_ioctl, 0),
+ 	DRM_IOCTL_DEF(DRM_IOCTL_MODE_OBJ_SETPROPERTY, drm_mode_obj_set_property_ioctl, DRM_MASTER),
+ 	DRM_IOCTL_DEF(DRM_IOCTL_MODE_CURSOR2, drm_mode_cursor2_ioctl, DRM_MASTER),
 -- 
-2.31.1
+2.20.1
 
