@@ -2,58 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59BC03A29EB
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Jun 2021 13:11:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF4533A29FD
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Jun 2021 13:16:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 57B626ECFC;
-	Thu, 10 Jun 2021 11:11:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3FCAD6ECFE;
+	Thu, 10 Jun 2021 11:15:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com
- [IPv6:2a00:1450:4864:20::42f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5245A6ECFD
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Jun 2021 11:11:04 +0000 (UTC)
-Received: by mail-wr1-x42f.google.com with SMTP id m18so1836411wrv.2
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Jun 2021 04:11:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=12906iPsWJQOVdQadbOK6b29G12HcaqUh9zhbldpC20=;
- b=rITqrsiKVVZtPuJaF7u8Oy0uTnx1Vs1Dm0Ye4QHx52LF3prZy3GNTOPJWGnyUt36Pr
- QUtS3Ln0+YajAXBOqSCptntS0vWm0A+fuSbXwQWyDjiorsjes9wWU6i4/epp4KJxlt6n
- dvO5FyQ2YJYi9tcYYFtuheP1NrV/ZI+s8IOMMZbHLUKodnf1cqvQFCmBcTfuiIr9nHQG
- B42ZamCECoq8qImqsxOGlPdMqL61L0V9ulZnqgYQ0pEijhgEptpzJURWjoj0zPoAWb8V
- /ea8nIa7gGsKUFf6Qh7UUJ2aeB96SWcdZvUeyLN5t2Wi8Ux9aAb1ad3x8tOG8HqRrvF/
- 0Pdg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=12906iPsWJQOVdQadbOK6b29G12HcaqUh9zhbldpC20=;
- b=uaOGE9JZKkuyWj8XRtt6MFTBhrpp0iggzPXVs0i2nGR4J/Gx8tcvujzgHho11CkAqm
- b0QnVr0/9wPlICYFrPkrauv/fWPbzoGg/XIYHDS6fJ7BKplbTJvkHp8TTSOhNeR0eMIG
- Ou9T1UaIfypisNuB9DE65HJmuD/rt/GKgLAKnhetQEab3vQ6y9lys9Z+Ptx+LigywTzZ
- wP7jhfvsJ6IQ5SNPAiTZjiDrhoCZojvyTS0uqe3YPdK2QVZr7ILzXWhz9DIJXu9/X+I1
- PJrvLLilfUSumR4zpKuaaVZpBWU1Wz6DqkQzXnpG7fC9zt+YyR4Y8k0DSbAi43Gdfurg
- J3/Q==
-X-Gm-Message-State: AOAM533Ppo51QKwv9gjZhtDTK3tp3Uy+A4di8RixJj9vw4rViY+iGb2R
- qFIrjsXXys9Kl9jjG9DWlW1O504HAx0=
-X-Google-Smtp-Source: ABdhPJw4UVZXmrMmhWf0uMQEf4MET3d2Za+7WFlMLjnvK3gLs5c3x1tYoxFbmXVj6y+pHJJzf36iyg==
-X-Received: by 2002:adf:db4d:: with SMTP id f13mr4878613wrj.243.1623323462386; 
- Thu, 10 Jun 2021 04:11:02 -0700 (PDT)
-Received: from localhost ([62.96.65.119])
- by smtp.gmail.com with ESMTPSA id d13sm1370182wrs.41.2021.06.10.04.11.01
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 10 Jun 2021 04:11:01 -0700 (PDT)
-From: Thierry Reding <thierry.reding@gmail.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 3/3] drm/tegra: Use fourcc_mod_is_vendor() helper
-Date: Thu, 10 Jun 2021 13:12:36 +0200
-Message-Id: <20210610111236.3814211-3-thierry.reding@gmail.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210610111236.3814211-1-thierry.reding@gmail.com>
-References: <20210610111236.3814211-1-thierry.reding@gmail.com>
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EDF026ECFE;
+ Thu, 10 Jun 2021 11:15:56 +0000 (UTC)
+Received: from imap.suse.de (imap-alt.suse-dmz.suse.de [192.168.254.47])
+ (using TLSv1.2 with cipher ECDHE-ECDSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id AADEA21A24;
+ Thu, 10 Jun 2021 11:15:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1623323754; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=KPkeWPOWywAL8VyLGcjXNCoMMiLWZc8fOKIBbx0sc1E=;
+ b=JOu7qo49NyzpFx85vYSLKzPmbBJUc1WWuefeFxRDtBb3q15rNxiVRoZ3QyC7nCkFQBSmVi
+ Y34/MAGRpM3J+qrsZIO/QQ08OGh91ilSaWPzaZw5dyEdbqC2QgjVHe84XmBbxF6n9lpZGS
+ dBXwh9mDaBQUYdPuJLzO3i3VuJPId08=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1623323754;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=KPkeWPOWywAL8VyLGcjXNCoMMiLWZc8fOKIBbx0sc1E=;
+ b=jUmGEmqYGURY7lD8KpoACqGV0zzGJ+zjaDalGSi2CA9LWm7feSPUTEXrLIixppuYwQSBUc
+ 1LGjwiGPLk8j5jBQ==
+Received: from imap3-int (imap-alt.suse-dmz.suse.de [192.168.254.47])
+ by imap.suse.de (Postfix) with ESMTP id 7098F118DD;
+ Thu, 10 Jun 2021 11:15:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1623323754; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=KPkeWPOWywAL8VyLGcjXNCoMMiLWZc8fOKIBbx0sc1E=;
+ b=JOu7qo49NyzpFx85vYSLKzPmbBJUc1WWuefeFxRDtBb3q15rNxiVRoZ3QyC7nCkFQBSmVi
+ Y34/MAGRpM3J+qrsZIO/QQ08OGh91ilSaWPzaZw5dyEdbqC2QgjVHe84XmBbxF6n9lpZGS
+ dBXwh9mDaBQUYdPuJLzO3i3VuJPId08=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1623323754;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=KPkeWPOWywAL8VyLGcjXNCoMMiLWZc8fOKIBbx0sc1E=;
+ b=jUmGEmqYGURY7lD8KpoACqGV0zzGJ+zjaDalGSi2CA9LWm7feSPUTEXrLIixppuYwQSBUc
+ 1LGjwiGPLk8j5jBQ==
+Received: from director2.suse.de ([192.168.254.72]) by imap3-int with ESMTPSA
+ id vF2aGWr0wWCYdgAALh3uQQ
+ (envelope-from <tzimmermann@suse.de>); Thu, 10 Jun 2021 11:15:54 +0000
+Date: Thu, 10 Jun 2021 13:15:53 +0200
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: [PULL] drm-misc-next
+Message-ID: <YMH0ad8qoREx9YZK@linux-uq9g>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -67,47 +76,119 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Thomas Zimmermann <tzimmermann@suse.de>
+Cc: dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Sean Paul <sean@poorly.run>,
+ intel-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Thierry Reding <treding@nvidia.com>
+Hi Dave and Daniel,
 
-Rather than open-coding the vendor extraction operation, use the newly
-introduced helper macro.
+here's the second PR for drm-misc-next for this week, and the final one
+for 5.14. I backmerged drm-next for the TTM changes. As for highlights
+nouveau now has eDP backlight support and udmabuf supports huge pages.
 
-Signed-off-by: Thierry Reding <treding@nvidia.com>
----
- drivers/gpu/drm/tegra/fb.c    | 2 +-
- drivers/gpu/drm/tegra/plane.c | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+Best regards
+Thomas
 
-diff --git a/drivers/gpu/drm/tegra/fb.c b/drivers/gpu/drm/tegra/fb.c
-index cae8b8cbe9dd..c04dda8353fd 100644
---- a/drivers/gpu/drm/tegra/fb.c
-+++ b/drivers/gpu/drm/tegra/fb.c
-@@ -44,7 +44,7 @@ int tegra_fb_get_tiling(struct drm_framebuffer *framebuffer,
- {
- 	uint64_t modifier = framebuffer->modifier;
- 
--	if ((modifier >> 56) == DRM_FORMAT_MOD_VENDOR_NVIDIA) {
-+	if (fourcc_mod_is_vendor(modifier, NVIDIA)) {
- 		if ((modifier & DRM_FORMAT_MOD_NVIDIA_SECTOR_LAYOUT) == 0)
- 			tiling->sector_layout = TEGRA_BO_SECTOR_LAYOUT_TEGRA;
- 		else
-diff --git a/drivers/gpu/drm/tegra/plane.c b/drivers/gpu/drm/tegra/plane.c
-index 2e65b4075ce6..f7496425fa83 100644
---- a/drivers/gpu/drm/tegra/plane.c
-+++ b/drivers/gpu/drm/tegra/plane.c
-@@ -109,7 +109,7 @@ static bool tegra_plane_format_mod_supported(struct drm_plane *plane,
- 		return true;
- 
- 	/* check for the sector layout bit */
--	if ((modifier >> 56) == DRM_FORMAT_MOD_VENDOR_NVIDIA) {
-+	if (fourcc_mod_is_vendor(modifier, NVIDIA)) {
- 		if (modifier & DRM_FORMAT_MOD_NVIDIA_SECTOR_LAYOUT) {
- 			if (!tegra_plane_supports_sector_layout(plane))
- 				return false;
--- 
-2.31.1
+drm-misc-next-2021-06-10:
+drm-misc-next for 5.14:
 
+UAPI Changes:
+
+Cross-subsystem Changes:
+
+ * dma-buf: Support huge pages in udmabuf
+
+Core Changes:
+
+ * Backmerge of drm/drm-next
+
+ * drm/dp: Import eDP backlight code from i915
+
+Driver Changes:
+
+ * drm/bridge: TI SN65DSI83: Fix sparse warnings
+
+ * drm/i915: Cleanup eDP backlight code before moving it into helper
+
+ * drm/nouveau: Support DPCD backlights; Fix GEM init for internal BOs
+The following changes since commit c707b73f0cfb1acc94a20389aecde65e6385349b:
+
+  Merge tag 'amd-drm-next-5.14-2021-06-09' of https://gitlab.freedesktop.org/agd5f/linux into drm-next (2021-06-10 13:47:13 +1000)
+
+are available in the Git repository at:
+
+  git://anongit.freedesktop.org/drm/drm-misc tags/drm-misc-next-2021-06-10
+
+for you to fetch changes up to 86441fa29e57940eeb00f35fefb1853c1fbe67bb:
+
+  Merge drm/drm-next into drm-misc-next (2021-06-10 12:18:54 +0200)
+
+----------------------------------------------------------------
+drm-misc-next for 5.14:
+
+UAPI Changes:
+
+Cross-subsystem Changes:
+
+ * dma-buf: Support huge pages in udmabuf
+
+Core Changes:
+
+ * Backmerge of drm/drm-next
+
+ * drm/dp: Import eDP backlight code from i915
+
+Driver Changes:
+
+ * drm/bridge: TI SN65DSI83: Fix sparse warnings
+
+ * drm/i915: Cleanup eDP backlight code before moving it into helper
+
+ * drm/nouveau: Support DPCD backlights; Fix GEM init for internal BOs
+
+----------------------------------------------------------------
+Christian König (1):
+      drm/nouveau: init the base GEM fields for internal BOs
+
+Lyude Paul (9):
+      drm/i915/dpcd_bl: Remove redundant AUX backlight frequency calculations
+      drm/i915/dpcd_bl: Handle drm_dpcd_read/write() return values correctly
+      drm/i915/dpcd_bl: Cleanup intel_dp_aux_vesa_enable_backlight() a bit
+      drm/i915/dpcd_bl: Cache some backlight capabilities in intel_panel.backlight
+      drm/i915/dpcd_bl: Move VESA backlight enabling code closer together
+      drm/i915/dpcd_bl: Return early in vesa_calc_max_backlight if we can't read PWMGEN_BIT_COUNT
+      drm/i915/dpcd_bl: Print return codes for VESA backlight failures
+      drm/dp: Extract i915's eDP backlight code into DRM helpers
+      drm/nouveau/kms/nv50-: Add basic DPCD backlight support for nouveau
+
+Marek Vasut (1):
+      drm/bridge: ti-sn65dsi83: Fix sparse warnings
+
+Thomas Zimmermann (1):
+      Merge drm/drm-next into drm-misc-next
+
+Vivek Kasireddy (1):
+      udmabuf: Add support for mapping hugepages (v4)
+
+ drivers/dma-buf/udmabuf.c                          |  50 ++-
+ drivers/gpu/drm/bridge/ti-sn65dsi83.c              |  21 +-
+ drivers/gpu/drm/drm_dp_helper.c                    | 347 +++++++++++++++++++++
+ drivers/gpu/drm/i915/display/intel_display_types.h |   2 +-
+ .../gpu/drm/i915/display/intel_dp_aux_backlight.c  | 329 +++----------------
+ drivers/gpu/drm/nouveau/dispnv50/disp.c            |  28 ++
+ drivers/gpu/drm/nouveau/nouveau_backlight.c        | 166 +++++++++-
+ drivers/gpu/drm/nouveau/nouveau_bo.c               |   6 +
+ drivers/gpu/drm/nouveau/nouveau_connector.h        |   9 +-
+ drivers/gpu/drm/nouveau/nouveau_encoder.h          |   1 +
+ include/drm/drm_dp_helper.h                        |  48 +++
+ 11 files changed, 682 insertions(+), 325 deletions(-)
+
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Maxfeldstr. 5, 90409 Nürnberg, Germany
+(HRB 36809, AG Nürnberg)
+Geschäftsführer: Felix Imendörffer
