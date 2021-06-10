@@ -2,44 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 899923A28F4
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Jun 2021 12:04:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D6DD3A2907
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Jun 2021 12:09:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 755516ECBC;
-	Thu, 10 Jun 2021 10:04:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 33BF36ECAC;
+	Thu, 10 Jun 2021 10:08:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5D1BD6ECAC;
- Thu, 10 Jun 2021 10:04:03 +0000 (UTC)
-IronPort-SDR: keu534A0UZcd2/7gwJvIs6D3F1+U7LCyciKRHaEj1GnTFMS8i5mdriwxoRSCvnNenx/Qa7U/R4
- 4KFTLaHZmrUg==
-X-IronPort-AV: E=McAfee;i="6200,9189,10010"; a="185642419"
-X-IronPort-AV: E=Sophos;i="5.83,263,1616482800"; d="scan'208";a="185642419"
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 88B386ECAC;
+ Thu, 10 Jun 2021 10:08:55 +0000 (UTC)
+IronPort-SDR: wujmNWXrEQ+WBKQY2NAR4qgtwdVCQIgmkzafb//2PaleN5X0PpjL0E8fhT0M7NktnnYscji363
+ vKcZPh2iHYbQ==
+X-IronPort-AV: E=McAfee;i="6200,9189,10010"; a="192585116"
+X-IronPort-AV: E=Sophos;i="5.83,263,1616482800"; d="scan'208";a="192585116"
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Jun 2021 03:03:58 -0700
-IronPort-SDR: CkIu7NghF7rMMe3AVGKdmSXDUQOaadEak4FGC+LhJ2F+D2XPnMP3f2i+e0XcsoRy6CqW45cRkB
- 0JuYwo9VIK3A==
-X-IronPort-AV: E=Sophos;i="5.83,263,1616482800"; d="scan'208";a="448662293"
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Jun 2021 03:08:44 -0700
+IronPort-SDR: rqQO0fGK/6oc8EOd92ybJlMrsD7sRTUCnKtO5XLwZeqAZocKMvLU1jcsw7OJW9VfRtahpt31bh
+ Qe4fM1zdayxA==
+X-IronPort-AV: E=Sophos;i="5.83,263,1616482800"; d="scan'208";a="448663345"
 Received: from rabolton-mobl.ger.corp.intel.com (HELO [10.213.197.140])
  ([10.213.197.140])
  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Jun 2021 03:03:55 -0700
-Subject: Re: [Intel-gfx] [PATCH 1/5] drm/i915: Move
- intel_engine_free_request_pool to i915_request.c
+ 10 Jun 2021 03:08:42 -0700
+Subject: Re: [Intel-gfx] [PATCH 2/5] drm/i915: Use a simpler scheme for
+ caching i915_request
 To: Jason Ekstrand <jason@jlekstrand.net>, dri-devel@lists.freedesktop.org,
  intel-gfx@lists.freedesktop.org
 References: <20210609212959.471209-1-jason@jlekstrand.net>
- <20210609212959.471209-2-jason@jlekstrand.net>
+ <20210609212959.471209-3-jason@jlekstrand.net>
 From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
 Organization: Intel Corporation UK Plc
-Message-ID: <0f63cba3-ec2f-c246-1375-5b1bced593f5@linux.intel.com>
-Date: Thu, 10 Jun 2021 11:03:53 +0100
+Message-ID: <2902ebcf-ec60-fdd3-2e61-a113bca835fd@linux.intel.com>
+Date: Thu, 10 Jun 2021 11:08:40 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <20210609212959.471209-2-jason@jlekstrand.net>
+In-Reply-To: <20210609212959.471209-3-jason@jlekstrand.net>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -62,95 +62,118 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 On 09/06/2021 22:29, Jason Ekstrand wrote:
-> This appears to break encapsulation by moving an intel_engine_cs
-> function to a i915_request file.  However, this function is
-> intrinsically tied to the lifetime rules and allocation scheme of
-> i915_request and having it in intel_engine_cs.c leaks details of
-> i915_request.  We have an abstraction leak either way.  Since
-> i915_request's allocation scheme is far more subtle than the simple
-> pointer that is intel_engine_cs.request_pool, it's probably better to
-> keep i915_request's details to itself.
-> 
+> Instead of attempting to recycle a request in to the cache when it
+> retires, stuff a new one in the cache every time we allocate a request
+> for some other reason.
+
+I supposed the "why?" is "simpler scheme" - but in what way it is simpler?
+
 > Signed-off-by: Jason Ekstrand <jason@jlekstrand.net>
 > Cc: Jon Bloomfield <jon.bloomfield@intel.com>
 > Cc: Daniel Vetter <daniel.vetter@intel.com>
 > Cc: Matthew Auld <matthew.auld@intel.com>
 > Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
 > ---
->   drivers/gpu/drm/i915/gt/intel_engine_cs.c | 8 --------
->   drivers/gpu/drm/i915/i915_request.c       | 7 +++++--
->   drivers/gpu/drm/i915/i915_request.h       | 2 --
->   3 files changed, 5 insertions(+), 12 deletions(-)
+>   drivers/gpu/drm/i915/i915_request.c | 66 ++++++++++++++---------------
+>   1 file changed, 31 insertions(+), 35 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/i915/gt/intel_engine_cs.c b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
-> index 9ceddfbb1687d..df6b80ec84199 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_engine_cs.c
-> +++ b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
-> @@ -422,14 +422,6 @@ void intel_engines_release(struct intel_gt *gt)
->   	}
->   }
+> diff --git a/drivers/gpu/drm/i915/i915_request.c b/drivers/gpu/drm/i915/i915_request.c
+> index 48c5f8527854b..e531c74f0b0e2 100644
+> --- a/drivers/gpu/drm/i915/i915_request.c
+> +++ b/drivers/gpu/drm/i915/i915_request.c
+> @@ -128,41 +128,6 @@ static void i915_fence_release(struct dma_fence *fence)
+>   	i915_sw_fence_fini(&rq->submit);
+>   	i915_sw_fence_fini(&rq->semaphore);
 >   
-> -void intel_engine_free_request_pool(struct intel_engine_cs *engine)
-> -{
-> -	if (!engine->request_pool)
+> -	/*
+> -	 * Keep one request on each engine for reserved use under mempressure
+> -	 *
+> -	 * We do not hold a reference to the engine here and so have to be
+> -	 * very careful in what rq->engine we poke. The virtual engine is
+> -	 * referenced via the rq->context and we released that ref during
+> -	 * i915_request_retire(), ergo we must not dereference a virtual
+> -	 * engine here. Not that we would want to, as the only consumer of
+> -	 * the reserved engine->request_pool is the power management parking,
+> -	 * which must-not-fail, and that is only run on the physical engines.
+> -	 *
+> -	 * Since the request must have been executed to be have completed,
+> -	 * we know that it will have been processed by the HW and will
+> -	 * not be unsubmitted again, so rq->engine and rq->execution_mask
+> -	 * at this point is stable. rq->execution_mask will be a single
+> -	 * bit if the last and _only_ engine it could execution on was a
+> -	 * physical engine, if it's multiple bits then it started on and
+> -	 * could still be on a virtual engine. Thus if the mask is not a
+> -	 * power-of-two we assume that rq->engine may still be a virtual
+> -	 * engine and so a dangling invalid pointer that we cannot dereference
+> -	 *
+> -	 * For example, consider the flow of a bonded request through a virtual
+> -	 * engine. The request is created with a wide engine mask (all engines
+> -	 * that we might execute on). On processing the bond, the request mask
+> -	 * is reduced to one or more engines. If the request is subsequently
+> -	 * bound to a single engine, it will then be constrained to only
+> -	 * execute on that engine and never returned to the virtual engine
+> -	 * after timeslicing away, see __unwind_incomplete_requests(). Thus we
+> -	 * know that if the rq->execution_mask is a single bit, rq->engine
+> -	 * can be a physical engine with the exact corresponding mask.
+> -	 */
+> -	if (is_power_of_2(rq->execution_mask) &&
+> -	    !cmpxchg(&rq->engine->request_pool, NULL, rq))
 > -		return;
 > -
-> -	kmem_cache_free(i915_request_slab_cache(), engine->request_pool);
+>   	kmem_cache_free(global.slab_requests, rq);
+>   }
+>   
+> @@ -869,6 +834,29 @@ static void retire_requests(struct intel_timeline *tl)
+>   			break;
+>   }
+>   
+> +static void
+> +ensure_cached_request(struct i915_request **rsvd, gfp_t gfp)
+> +{
+> +	struct i915_request *rq;
+> +
+> +	/* Don't try to add to the cache if we don't allow blocking.  That
+> +	 * just increases the chance that the actual allocation will fail.
+> +	 */
 
-Argument that the slab cache shouldn't be exported from i915_request.c 
-sounds good to me.
+Linus has been known to rant passionately against this comment style so 
+we actively try to never use it.
 
-But I think step better than simply reversing the break of encapsulation 
-(And it's even worse because it leaks much higher level object!) could 
-be to export a freeing helper from i915_request.c, engine pool would 
-then use:
-
-void __i915_request_free(...)
-{
-	kmem_cache_free(...);
-}
-
-?
-
-Regards,
+Rega4rds,
 
 Tvrtko
 
-> -}
-> -
->   void intel_engines_free(struct intel_gt *gt)
->   {
->   	struct intel_engine_cs *engine;
-> diff --git a/drivers/gpu/drm/i915/i915_request.c b/drivers/gpu/drm/i915/i915_request.c
-> index 1014c71cf7f52..48c5f8527854b 100644
-> --- a/drivers/gpu/drm/i915/i915_request.c
-> +++ b/drivers/gpu/drm/i915/i915_request.c
-> @@ -106,9 +106,12 @@ static signed long i915_fence_wait(struct dma_fence *fence,
->   				 timeout);
->   }
->   
-> -struct kmem_cache *i915_request_slab_cache(void)
-> +void intel_engine_free_request_pool(struct intel_engine_cs *engine)
->   {
-> -	return global.slab_requests;
-> +	if (!engine->request_pool)
+> +	if (gfpflags_allow_blocking(gfp))
 > +		return;
 > +
-> +	kmem_cache_free(global.slab_requests, engine->request_pool);
->   }
+> +	if (READ_ONCE(rsvd))
+> +		return;
+> +
+> +	rq = kmem_cache_alloc(global.slab_requests,
+> +			      gfp | __GFP_RETRY_MAYFAIL | __GFP_NOWARN);
+> +	if (!rq)
+> +		return; /* Oops but nothing we can do */
+> +
+> +	if (cmpxchg(rsvd, NULL, rq))
+> +		kmem_cache_free(global.slab_requests, rq);
+> +}
+> +
+>   static noinline struct i915_request *
+>   request_alloc_slow(struct intel_timeline *tl,
+>   		   struct i915_request **rsvd,
+> @@ -937,6 +925,14 @@ __i915_request_create(struct intel_context *ce, gfp_t gfp)
+>   	/* Check that the caller provided an already pinned context */
+>   	__intel_context_pin(ce);
 >   
->   static void i915_fence_release(struct dma_fence *fence)
-> diff --git a/drivers/gpu/drm/i915/i915_request.h b/drivers/gpu/drm/i915/i915_request.h
-> index 270f6cd37650c..f84c38d29f988 100644
-> --- a/drivers/gpu/drm/i915/i915_request.h
-> +++ b/drivers/gpu/drm/i915/i915_request.h
-> @@ -300,8 +300,6 @@ static inline bool dma_fence_is_i915(const struct dma_fence *fence)
->   	return fence->ops == &i915_fence_ops;
->   }
->   
-> -struct kmem_cache *i915_request_slab_cache(void);
-> -
->   struct i915_request * __must_check
->   __i915_request_create(struct intel_context *ce, gfp_t gfp);
->   struct i915_request * __must_check
+> +	/* Before we do anything, try to make sure we have at least one
+> +	 * request in the engine's cache.  If we get here with GPF_NOWAIT
+> +	 * (this can happen when switching to a kernel context), we we want
+> +	 * to try very hard to not fail and we fall back to this cache.
+> +	 * Top it off with a fresh request whenever it's empty.
+> +	 */
+> +	ensure_cached_request(&ce->engine->request_pool, gfp);
+> +
+>   	/*
+>   	 * Beware: Dragons be flying overhead.
+>   	 *
 > 
