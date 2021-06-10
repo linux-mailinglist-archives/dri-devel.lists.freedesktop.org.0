@@ -1,16 +1,16 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 206AC3A29D7
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Jun 2021 13:05:48 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 736BA3A29CB
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Jun 2021 13:05:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BAD696ECF8;
-	Thu, 10 Jun 2021 11:05:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 25AF26ECDB;
+	Thu, 10 Jun 2021 11:05:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kapsi.fi (mail.kapsi.fi [IPv6:2001:67c:1be8::25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B847B6ECE3
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AEBA56ECDD
  for <dri-devel@lists.freedesktop.org>; Thu, 10 Jun 2021 11:05:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
  s=20161220; h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
@@ -18,23 +18,23 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
  Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
  :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=cJB33AJFsHvOFWnqa+79GJxl7hMYj9QR5SlxB22rF3g=; b=aXJfJcgr4hGRwlys3ue7q71vTc
- VxT3aQgNZP8d3eBCOIyFMwusMDT8inSJsHCoyG+Sr4BJHHGrI+gQXpWvtAx+MVy2cG96eMN1aZgyP
- Rnw2jVytMJM++rdN5QVzGXzQylyb5X5Vgr9KdlnI9UdWIeTn5SQXiZELrbsrifae/UEpPYh0enLue
- C8QSDz9P/rj36qC3bKl4hTImJ8VhL2SeD7o6rVxGFBlckAjS+byhMJ5vOUJbCcK1R+lYjKCvc1zAX
- LWWwcIuFLZuB0XnvZlXfDEQZYdCeRyO/WhV4xDEDtlznaSEso1MfKa+a5hjnV8hewypRtDOsZBTsb
- r3M+Tndw==;
+ bh=zOe3f2e0Fo/Q2lftx16qXkaQVuksUMaRUUlOY3j44GA=; b=S+OtFU8YsmbbqcfVtXzBxyEnZr
+ znHlSZGG7En8McNKUtPCwKn6pHIUfwf5jBPxC4mAfYsdmxMALAK+D+YncHeyGujvbUJht7hbCPPFG
+ aj+E2ORC1RR/6Wq+prNPgkqKM+rBQEGgmOba1WtU/xYzCC+CnNYc9m9NyNJ+1YAeYIZwCqsyvbJgP
+ wogPUIRiZoZ5hYqOWUHcwOeOZ85Ii9f/txHms1z5KWIpb7r2h5+eR8Awblm3UwUEWTQfH4D1h6p2A
+ 0a73tXNeABty3B4eTU6r23ui5r+uRDkDnDCc4RsocwoiBOD0Jga5rAsYjRd3KdsuFbjCP9Jmw/F8B
+ tywg3PtQ==;
 Received: from dsl-hkibng22-54f986-236.dhcp.inet.fi ([84.249.134.236]
  helo=toshino.localdomain)
  by mail.kapsi.fi with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.89) (envelope-from <mperttunen@nvidia.com>)
- id 1lrIUt-0001s7-6U; Thu, 10 Jun 2021 14:05:15 +0300
+ id 1lrIUt-0001s7-9U; Thu, 10 Jun 2021 14:05:15 +0300
 From: Mikko Perttunen <mperttunen@nvidia.com>
 To: thierry.reding@gmail.com, jonathanh@nvidia.com, digetx@gmail.com,
  airlied@linux.ie, daniel@ffwll.ch
-Subject: [PATCH v7 07/15] drm/tegra: Add new UAPI to header
-Date: Thu, 10 Jun 2021 14:04:48 +0300
-Message-Id: <20210610110456.3692391-8-mperttunen@nvidia.com>
+Subject: [PATCH v7 08/15] drm/tegra: Boot VIC during runtime PM resume
+Date: Thu, 10 Jun 2021 14:04:49 +0300
+Message-Id: <20210610110456.3692391-9-mperttunen@nvidia.com>
 X-Mailer: git-send-email 2.30.1
 In-Reply-To: <20210610110456.3692391-1-mperttunen@nvidia.com>
 References: <20210610110456.3692391-1-mperttunen@nvidia.com>
@@ -60,476 +60,199 @@ Cc: linux-tegra@vger.kernel.org, dri-devel@lists.freedesktop.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Update the tegra_drm.h UAPI header, adding the new proposed UAPI.
-The old staging UAPI is left in for now, with minor modification
-to avoid name collisions.
+With the new UAPI implementation, engines are powered on and off
+when there are active jobs, and the core code handles channel
+allocation. To accommodate that, boot the engine as part of
+runtime PM instead of using the open_channel callback, which is
+not used by the new submit path.
 
 Signed-off-by: Mikko Perttunen <mperttunen@nvidia.com>
 ---
 v6:
-* Fix comment
-* Add syncpoint allocation/freeing IOCTLs, use syncpoint ID
-  instead of syncpoint FD
-* Add syncobj fields to submit IOCTL
-* Add relative syncpoint wait
-* Add hardware flags field
-* Add syncpoint wait ioctl
-* Remove new GEM_CREATE/GEM_MMAP as unneeded
-v4:
-* Remove features that are not strictly necessary
-* Remove padding/reserved fields in IOCTL structs where
-  DRM's zero extension feature allows future expansion
+* Use pm_runtime_resume_and_get
 v3:
-* Remove timeout field
-* Inline the syncpt_incrs array to the submit structure
-* Remove WRITE_RELOC (it is now implicit)
+* runtime_get/put is now done directly from submit path, so no
+  callbacks are added
+* Reworded.
 ---
- include/uapi/drm/tegra_drm.h | 414 +++++++++++++++++++++++++++++++++--
- 1 file changed, 391 insertions(+), 23 deletions(-)
+ drivers/gpu/drm/tegra/vic.c | 112 ++++++++++++++++--------------------
+ 1 file changed, 51 insertions(+), 61 deletions(-)
 
-diff --git a/include/uapi/drm/tegra_drm.h b/include/uapi/drm/tegra_drm.h
-index c4df3c3668b3..4820ae9e65c5 100644
---- a/include/uapi/drm/tegra_drm.h
-+++ b/include/uapi/drm/tegra_drm.h
-@@ -1,24 +1,5 @@
--/*
-- * Copyright (c) 2012-2013, NVIDIA CORPORATION.  All rights reserved.
-- *
-- * Permission is hereby granted, free of charge, to any person obtaining a
-- * copy of this software and associated documentation files (the "Software"),
-- * to deal in the Software without restriction, including without limitation
-- * the rights to use, copy, modify, merge, publish, distribute, sublicense,
-- * and/or sell copies of the Software, and to permit persons to whom the
-- * Software is furnished to do so, subject to the following conditions:
-- *
-- * The above copyright notice and this permission notice shall be included in
-- * all copies or substantial portions of the Software.
-- *
-- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
-- * THE COPYRIGHT HOLDER(S) OR AUTHOR(S) BE LIABLE FOR ANY CLAIM, DAMAGES OR
-- * OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
-- * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
-- * OTHER DEALINGS IN THE SOFTWARE.
-- */
-+/* SPDX-License-Identifier: MIT */
-+/* Copyright (c) 2012-2020 NVIDIA Corporation */
+diff --git a/drivers/gpu/drm/tegra/vic.c b/drivers/gpu/drm/tegra/vic.c
+index c9d55a9a3180..c02010ff2b7f 100644
+--- a/drivers/gpu/drm/tegra/vic.c
++++ b/drivers/gpu/drm/tegra/vic.c
+@@ -29,7 +29,6 @@ struct vic_config {
  
- #ifndef _UAPI_TEGRA_DRM_H_
- #define _UAPI_TEGRA_DRM_H_
-@@ -29,6 +10,8 @@
- extern "C" {
- #endif
+ struct vic {
+ 	struct falcon falcon;
+-	bool booted;
  
-+/* TegraDRM legacy UAPI. Only enabled with STAGING */
-+
- #define DRM_TEGRA_GEM_CREATE_TILED     (1 << 0)
- #define DRM_TEGRA_GEM_CREATE_BOTTOM_UP (1 << 1)
- 
-@@ -649,8 +632,8 @@ struct drm_tegra_gem_get_flags {
- #define DRM_TEGRA_SYNCPT_READ		0x02
- #define DRM_TEGRA_SYNCPT_INCR		0x03
- #define DRM_TEGRA_SYNCPT_WAIT		0x04
--#define DRM_TEGRA_OPEN_CHANNEL		0x05
--#define DRM_TEGRA_CLOSE_CHANNEL		0x06
-+#define DRM_TEGRA_OPEN_CHANNEL	        0x05
-+#define DRM_TEGRA_CLOSE_CHANNEL	        0x06
- #define DRM_TEGRA_GET_SYNCPT		0x07
- #define DRM_TEGRA_SUBMIT		0x08
- #define DRM_TEGRA_GET_SYNCPT_BASE	0x09
-@@ -674,6 +657,391 @@ struct drm_tegra_gem_get_flags {
- #define DRM_IOCTL_TEGRA_GEM_SET_FLAGS DRM_IOWR(DRM_COMMAND_BASE + DRM_TEGRA_GEM_SET_FLAGS, struct drm_tegra_gem_set_flags)
- #define DRM_IOCTL_TEGRA_GEM_GET_FLAGS DRM_IOWR(DRM_COMMAND_BASE + DRM_TEGRA_GEM_GET_FLAGS, struct drm_tegra_gem_get_flags)
- 
-+/* New TegraDRM UAPI */
-+
-+/**
-+ * Reported by the driver in the `hardware_flags` field.
-+ *
-+ * If set, the engine is cache coherent with regard to the system
-+ * memory.
-+ */
-+#define DRM_TEGRA_CHANNEL_OPEN_HW_CACHE_COHERENT	(1<<0)
-+
-+struct drm_tegra_channel_open {
-+	/**
-+	 * @host1x_class: [in]
-+	 *
-+	 * Host1x class of the engine that will be programmed using this
-+	 * channel.
-+	 */
-+	__u32 host1x_class;
-+
-+	/**
-+	 * @flags: [in]
-+	 *
-+	 * Flags.
-+	 */
-+	__u32 flags;
-+
-+	/**
-+	 * @channel_ctx: [out]
-+	 *
-+	 * Opaque identifier corresponding to the opened channel.
-+	 */
-+	__u32 channel_ctx;
-+
-+	/**
-+	 * @hardware_version: [out]
-+	 *
-+	 * Version of the engine hardware. This can be used by userspace
-+	 * to determine how the engine needs to be programmed.
-+	 */
-+	__u32 hardware_version;
-+
-+	/**
-+	 * @hardware_flags: [out]
-+	 *
-+	 * Flags describing the hardware capabilities.
-+	 */
-+	__u32 hardware_flags;
-+};
-+
-+struct drm_tegra_channel_close {
-+	/**
-+	 * @channel_ctx: [in]
-+	 *
-+	 * Identifier of the channel to close.
-+	 */
-+	__u32 channel_ctx;
-+};
-+
-+#define DRM_TEGRA_CHANNEL_MAP_READWRITE			(1<<0)
-+
-+struct drm_tegra_channel_map {
-+	/**
-+	 * @channel_ctx: [in]
-+	 *
-+	 * Identifier of the channel to which make memory available for.
-+	 */
-+	__u32 channel_ctx;
-+
-+	/**
-+	 * @handle: [in]
-+	 *
-+	 * GEM handle of the memory to map.
-+	 */
-+	__u32 handle;
-+
-+	/**
-+	 * @flags: [in]
-+	 *
-+	 * Flags.
-+	 */
-+	__u32 flags;
-+
-+	/**
-+	 * @mapping_id: [out]
-+	 *
-+	 * Identifier corresponding to the mapping, to be used for
-+	 * relocations or unmapping later.
-+	 */
-+	__u32 mapping_id;
-+};
-+
-+struct drm_tegra_channel_unmap {
-+	/**
-+	 * @channel_ctx: [in]
-+	 *
-+	 * Channel identifier of the channel to unmap memory from.
-+	 */
-+	__u32 channel_ctx;
-+
-+	/**
-+	 * @mapping_id: [in]
-+	 *
-+	 * Mapping identifier of the memory mapping to unmap.
-+	 */
-+	__u32 mapping_id;
-+};
-+
-+/* Submission */
-+
-+/**
-+ * Specify that bit 39 of the patched-in address should be set to
-+ * trigger layout swizzling between Tegra and non-Tegra Blocklinear
-+ * layout on systems that store surfaces in system memory in non-Tegra
-+ * Blocklinear layout.
-+ */
-+#define DRM_TEGRA_SUBMIT_BUF_RELOC_BLOCKLINEAR		(1<<0)
-+
-+struct drm_tegra_submit_buf {
-+	/**
-+	 * @mapping_id: [in]
-+	 *
-+	 * Identifier of the mapping to use in the submission.
-+	 */
-+	__u32 mapping_id;
-+
-+	/**
-+	 * @flags: [in]
-+	 *
-+	 * Flags.
-+	 */
-+	__u32 flags;
-+
-+	/**
-+	 * Information for relocation patching.
-+	 */
-+	struct {
-+		/**
-+		 * @target_offset: [in]
-+		 *
-+		 * Offset from the start of the mapping of the data whose
-+		 * address is to be patched into the gather.
-+		 */
-+		__u64 target_offset;
-+
-+		/**
-+		 * @gather_offset_words: [in]
-+		 *
-+		 * Offset in words from the start of the gather data to
-+		 * where the address should be patched into.
-+		 */
-+		__u32 gather_offset_words;
-+
-+		/**
-+		 * @shift: [in]
-+		 *
-+		 * Number of bits the address should be shifted right before
-+		 * patching in.
-+		 */
-+		__u32 shift;
-+	} reloc;
-+};
-+
-+struct drm_tegra_submit_syncpt_incr {
-+	/**
-+	 * @id: [in]
-+	 *
-+	 * ID of the syncpoint that the job will increment.
-+	 */
-+	__u32 id;
-+
-+	/**
-+	 * @flags: [in]
-+	 *
-+	 * Flags.
-+	 */
-+	__u32 flags;
-+
-+	/**
-+	 * @num_incrs: [in]
-+	 *
-+	 * Number of times the job will increment this syncpoint.
-+	 */
-+	__u32 num_incrs;
-+
-+	/**
-+	 * @fence_value: [out]
-+	 *
-+	 * Value the syncpoint will have once the job has completed all
-+	 * its specified syncpoint increments.
-+	 *
-+	 * Note that the kernel may increment the syncpoint before or after
-+	 * the job. These increments are not reflected in this field.
-+	 *
-+	 * If the job hangs or times out, not all of the increments may
-+	 * get executed.
-+	 */
-+	__u32 fence_value;
-+};
-+
-+/**
-+ * Execute `words` words of Host1x opcodes specified in the `gather_data_ptr`
-+ * buffer. Each GATHER_UPTR command uses successive words from the buffer.
-+ */
-+#define DRM_TEGRA_SUBMIT_CMD_GATHER_UPTR		0
-+/**
-+ * Wait for a syncpoint to reach a value before continuing with further
-+ * commands.
-+ */
-+#define DRM_TEGRA_SUBMIT_CMD_WAIT_SYNCPT		1
-+/**
-+ * Wait for a syncpoint to reach a value before continuing with further
-+ * commands. The threshold is calculated in relation to the start of the
-+ * job.
-+ */
-+#define DRM_TEGRA_SUBMIT_CMD_WAIT_SYNCPT_RELATIVE	2
-+
-+struct drm_tegra_submit_cmd_gather_uptr {
-+	__u32 words;
-+	__u32 reserved[3];
-+};
-+
-+struct drm_tegra_submit_cmd_wait_syncpt {
-+	__u32 id;
-+	__u32 threshold;
-+	__u32 reserved[2];
-+};
-+
-+struct drm_tegra_submit_cmd {
-+	/**
-+	 * @type: [in]
-+	 *
-+	 * Command type to execute. One of the DRM_TEGRA_SUBMIT_CMD*
-+	 * defines.
-+	 */
-+	__u32 type;
-+
-+	/**
-+	 * @flags: [in]
-+	 *
-+	 * Flags.
-+	 */
-+	__u32 flags;
-+
-+	union {
-+		struct drm_tegra_submit_cmd_gather_uptr gather_uptr;
-+		struct drm_tegra_submit_cmd_wait_syncpt wait_syncpt;
-+		__u32 reserved[4];
-+	};
-+};
-+
-+struct drm_tegra_channel_submit {
-+	/**
-+	 * @channel_ctx: [in]
-+	 *
-+	 * Identifier of the channel to submit this job to.
-+	 */
-+	__u32 channel_ctx;
-+
-+	/**
-+	 * @num_bufs: [in]
-+	 *
-+	 * Number of elements in the `bufs_ptr` array.
-+	 */
-+	__u32 num_bufs;
-+
-+	/**
-+	 * @num_cmds: [in]
-+	 *
-+	 * Number of elements in the `cmds_ptr` array.
-+	 */
-+	__u32 num_cmds;
-+
-+	/**
-+	 * @gather_data_words: [in]
-+	 *
-+	 * Number of 32-bit words in the `gather_data_ptr` array.
-+	 */
-+	__u32 gather_data_words;
-+
-+	/**
-+	 * @bufs_ptr: [in]
-+	 *
-+	 * Pointer to an array of drm_tegra_submit_buf structures.
-+	 */
-+	__u64 bufs_ptr;
-+
-+	/**
-+	 * @cmds_ptr: [in]
-+	 *
-+	 * Pointer to an array of drm_tegra_submit_cmd structures.
-+	 */
-+	__u64 cmds_ptr;
-+
-+	/**
-+	 * @gather_data_ptr: [in]
-+	 *
-+	 * Pointer to an array of Host1x opcodes to be used by GATHER_UPTR
-+	 * commands.
-+	 */
-+	__u64 gather_data_ptr;
-+
-+	/**
-+	 * @syncobj_in: [in]
-+	 *
-+	 * Handle for DRM syncobj that will be waited before submission.
-+	 * Ignored if zero.
-+	 */
-+	__u32 syncobj_in;
-+
-+	/**
-+	 * @syncobj_out: [in]
-+	 *
-+	 * Handle for DRM syncobj that will have its fence replaced with
-+	 * the job's completion fence. Ignored if zero.
-+	 */
-+	__u32 syncobj_out;
-+
-+	/**
-+	 * @syncpt_incr: [in,out]
-+	 *
-+	 * Information about the syncpoint the job will increment.
-+	 */
-+	struct drm_tegra_submit_syncpt_incr syncpt_incr;
-+};
-+
-+struct drm_tegra_syncpoint_allocate {
-+	/**
-+	 * @id: [out]
-+	 *
-+	 * ID of allocated syncpoint.
-+	 */
-+	__u32 id;
-+};
-+
-+struct drm_tegra_syncpoint_free {
-+	/**
-+	 * @id: [in]
-+	 *
-+	 * ID of syncpoint to free.
-+	 */
-+	__u32 id;
-+};
-+
-+struct drm_tegra_syncpoint_wait {
-+	/**
-+	 * @timeout: [in]
-+	 *
-+	 * Absolute timestamp at which the wait will time out.
-+	 */
-+	__s64 timeout_ns;
-+
-+	/**
-+	 * @id: [in]
-+	 *
-+	 * ID of syncpoint to wait on.
-+	 */
-+	__u32 id;
-+
-+	/**
-+	 * @threshold: [in]
-+	 *
-+	 * Threshold to wait for.
-+	 */
-+	__u32 threshold;
-+
-+	/**
-+	 * @value: [out]
-+	 *
-+	 * Value of the syncpoint upon wait completion.
-+	 */
-+	__u32 value;
-+
-+	__u32 padding[1];
-+};
-+
-+#define DRM_IOCTL_TEGRA_CHANNEL_OPEN     DRM_IOWR(DRM_COMMAND_BASE + 0x10, struct drm_tegra_channel_open)
-+#define DRM_IOCTL_TEGRA_CHANNEL_CLOSE    DRM_IOWR(DRM_COMMAND_BASE + 0x11, struct drm_tegra_channel_close)
-+#define DRM_IOCTL_TEGRA_CHANNEL_MAP      DRM_IOWR(DRM_COMMAND_BASE + 0x12, struct drm_tegra_channel_map)
-+#define DRM_IOCTL_TEGRA_CHANNEL_UNMAP    DRM_IOWR(DRM_COMMAND_BASE + 0x13, struct drm_tegra_channel_unmap)
-+#define DRM_IOCTL_TEGRA_CHANNEL_SUBMIT   DRM_IOWR(DRM_COMMAND_BASE + 0x14, struct drm_tegra_channel_submit)
-+
-+#define DRM_IOCTL_TEGRA_SYNCPOINT_ALLOCATE	DRM_IOWR(DRM_COMMAND_BASE + 0x20, struct drm_tegra_syncpoint_allocate)
-+#define DRM_IOCTL_TEGRA_SYNCPOINT_FREE		DRM_IOWR(DRM_COMMAND_BASE + 0x21, struct drm_tegra_syncpoint_free)
-+#define DRM_IOCTL_TEGRA_SYNCPOINT_WAIT		DRM_IOWR(DRM_COMMAND_BASE + 0x22, struct drm_tegra_syncpoint_wait)
-+
- #if defined(__cplusplus)
+ 	void __iomem *regs;
+ 	struct tegra_drm_client client;
+@@ -52,48 +51,6 @@ static void vic_writel(struct vic *vic, u32 value, unsigned int offset)
+ 	writel(value, vic->regs + offset);
  }
- #endif
+ 
+-static int vic_runtime_resume(struct device *dev)
+-{
+-	struct vic *vic = dev_get_drvdata(dev);
+-	int err;
+-
+-	err = clk_prepare_enable(vic->clk);
+-	if (err < 0)
+-		return err;
+-
+-	usleep_range(10, 20);
+-
+-	err = reset_control_deassert(vic->rst);
+-	if (err < 0)
+-		goto disable;
+-
+-	usleep_range(10, 20);
+-
+-	return 0;
+-
+-disable:
+-	clk_disable_unprepare(vic->clk);
+-	return err;
+-}
+-
+-static int vic_runtime_suspend(struct device *dev)
+-{
+-	struct vic *vic = dev_get_drvdata(dev);
+-	int err;
+-
+-	err = reset_control_assert(vic->rst);
+-	if (err < 0)
+-		return err;
+-
+-	usleep_range(2000, 4000);
+-
+-	clk_disable_unprepare(vic->clk);
+-
+-	vic->booted = false;
+-
+-	return 0;
+-}
+-
+ static int vic_boot(struct vic *vic)
+ {
+ #ifdef CONFIG_IOMMU_API
+@@ -103,9 +60,6 @@ static int vic_boot(struct vic *vic)
+ 	void *hdr;
+ 	int err = 0;
+ 
+-	if (vic->booted)
+-		return 0;
+-
+ #ifdef CONFIG_IOMMU_API
+ 	if (vic->config->supports_sid && spec) {
+ 		u32 value;
+@@ -168,8 +122,6 @@ static int vic_boot(struct vic *vic)
+ 		return err;
+ 	}
+ 
+-	vic->booted = true;
+-
+ 	return 0;
+ }
+ 
+@@ -323,35 +275,74 @@ static int vic_load_firmware(struct vic *vic)
+ 	return err;
+ }
+ 
+-static int vic_open_channel(struct tegra_drm_client *client,
+-			    struct tegra_drm_context *context)
++
++static int vic_runtime_resume(struct device *dev)
+ {
+-	struct vic *vic = to_vic(client);
++	struct vic *vic = dev_get_drvdata(dev);
+ 	int err;
+ 
+-	err = pm_runtime_resume_and_get(vic->dev);
++	err = clk_prepare_enable(vic->clk);
+ 	if (err < 0)
+ 		return err;
+ 
++	usleep_range(10, 20);
++
++	err = reset_control_deassert(vic->rst);
++	if (err < 0)
++		goto disable;
++
++	usleep_range(10, 20);
++
+ 	err = vic_load_firmware(vic);
+ 	if (err < 0)
+-		goto rpm_put;
++		goto assert;
+ 
+ 	err = vic_boot(vic);
+ 	if (err < 0)
+-		goto rpm_put;
++		goto assert;
++
++	return 0;
++
++assert:
++	reset_control_assert(vic->rst);
++disable:
++	clk_disable_unprepare(vic->clk);
++	return err;
++}
++
++static int vic_runtime_suspend(struct device *dev)
++{
++	struct vic *vic = dev_get_drvdata(dev);
++	int err;
++
++	err = reset_control_assert(vic->rst);
++	if (err < 0)
++		return err;
++
++	usleep_range(2000, 4000);
++
++	clk_disable_unprepare(vic->clk);
++
++	return 0;
++}
++
++static int vic_open_channel(struct tegra_drm_client *client,
++			    struct tegra_drm_context *context)
++{
++	struct vic *vic = to_vic(client);
++	int err;
++
++	err = pm_runtime_resume_and_get(vic->dev);
++	if (err < 0)
++		return err;
+ 
+ 	context->channel = host1x_channel_get(vic->channel);
+ 	if (!context->channel) {
+-		err = -ENOMEM;
+-		goto rpm_put;
++		pm_runtime_put(vic->dev);
++		return -ENOMEM;
+ 	}
+ 
+ 	return 0;
+-
+-rpm_put:
+-	pm_runtime_put(vic->dev);
+-	return err;
+ }
+ 
+ static void vic_close_channel(struct tegra_drm_context *context)
+@@ -359,7 +350,6 @@ static void vic_close_channel(struct tegra_drm_context *context)
+ 	struct vic *vic = to_vic(context->client);
+ 
+ 	host1x_channel_put(context->channel);
+-
+ 	pm_runtime_put(vic->dev);
+ }
+ 
 -- 
 2.30.1
 
