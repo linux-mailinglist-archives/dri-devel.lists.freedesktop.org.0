@@ -1,96 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A4C83A289E
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Jun 2021 11:43:36 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1832C3A28E1
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Jun 2021 12:00:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 92EE989EB7;
-	Thu, 10 Jun 2021 09:43:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C45B36ECB0;
+	Thu, 10 Jun 2021 10:00:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam12on2070.outbound.protection.outlook.com [40.107.244.70])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B8A0A89EB4;
- Thu, 10 Jun 2021 09:43:31 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=XckL/xqsnCELTuELcxGjTV/0tDPt1NwsREKTDyrhP2u+cZ6AmTxyx+FDNFp+Z9bzWU4Ojn5t67FE/gOqYYTxopOO67dVwKTu70P4kmS+gyn4/kZ7m9eESK18rVtCNG9dQrL6XMvB0YVviA6YTdJLMecyOWhSzXz8X37IQ0X5LNlVywgNckgA909eNC4AdYZWSuPiu2GvMEtlVvSRR82+wQTv3vbMaCAqbHM8pQ9BvoQtOY+i8W12D57Sfff38dQC/YQCmMnDRG7OxzW6ZUbUylIWSwwHppb+1i17ujhlNQaApytmaQh6/rYcVPAeWFKWqcXpPqh+RJd2nTS/KMZkKQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=vGK9rUIFxUs8bHXhSCqIoa+yufeNg8P83cp5NrbknVM=;
- b=eviWql1fURTWoh/NPCHdscS3GzHx1bUQRnB3HW/Ijwg6y+iR7atal90PlSnJr2WR2Mz5HxvobEOw96Gt8+gnej7LwB7iTFGusLfWUhIP7bWbYOiEX91joY6NwT69h847wVoHEHc8GFgWL53TWna6JTO7r1W0Iq9bixO7dy/59v0jPDVInfXmsNghDLm+5hTzFgkcR4Q0e/FWSWhGhuY3jcN6U/sMoANRFNrWNn2tVHUklyJ1vzzgifeyB/l2ty9P4il/XOdpS4YX4Ul6iyaDENgS1TGWxGyJ9/VZhv3mvepvzGlIuIhTJ7zlANZQJ/rNlzLh0MbiiVkecBF4zDB/kw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=kapsi.fi smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=none pct=100) action=none header.from=amd.com; dkim=none
- (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=vGK9rUIFxUs8bHXhSCqIoa+yufeNg8P83cp5NrbknVM=;
- b=NM2wzRQtGmbXRoKoQ32s7BoNhZpuVJvoJEOwrJk624q7JgaK19yj14vn0TBmzASOe3GPUei0b+bDxVzGpopHbm8jPeRgADJlZS/YhXbiSNhqreEKmkoinlQY4rYkK1hWR0HbseYFhyeA+gr+S4rmeTxG/f1EXnLHSsYiZaE6TVs=
-Received: from DM5PR16CA0026.namprd16.prod.outlook.com (2603:10b6:4:15::12) by
- DM6PR12MB4811.namprd12.prod.outlook.com (2603:10b6:5:1fb::13) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4219.22; Thu, 10 Jun 2021 09:43:27 +0000
-Received: from DM6NAM11FT046.eop-nam11.prod.protection.outlook.com
- (2603:10b6:4:15:cafe::11) by DM5PR16CA0026.outlook.office365.com
- (2603:10b6:4:15::12) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4219.20 via Frontend
- Transport; Thu, 10 Jun 2021 09:43:27 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; kapsi.fi; dkim=none (message not signed)
- header.d=none;kapsi.fi; dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com;
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- DM6NAM11FT046.mail.protection.outlook.com (10.13.172.121) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.4219.21 via Frontend Transport; Thu, 10 Jun 2021 09:43:25 +0000
-Received: from hr-amd (10.180.168.240) by SATLEXMB04.amd.com (10.181.40.145)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2242.4; Thu, 10 Jun
- 2021 04:43:23 -0500
-Date: Thu, 10 Jun 2021 17:43:32 +0800
-From: Huang Rui <ray.huang@amd.com>
-To: "Koenig, Christian" <Christian.Koenig@amd.com>
-Subject: Re: [PATCH] drm/nouveau: init the base GEM fields for internal BOs
-Message-ID: <20210610094332.GA4134750@hr-amd>
-References: <20210609172902.1937-1-christian.koenig@amd.com>
- <899d773e-9a7d-062c-47fa-080161b22cd6@kapsi.fi>
- <b0a257a6-af87-c443-0eed-0f3081169482@amd.com>
+Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com
+ [IPv6:2a00:1450:4864:20::435])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C775A6ECB0
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Jun 2021 10:00:29 +0000 (UTC)
+Received: by mail-wr1-x435.google.com with SMTP id a11so1548802wrt.13
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Jun 2021 03:00:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=fooishbar-org.20150623.gappssmtp.com; s=20150623;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=EsnCvdcEe3Eaqj5A/OQKBak574eTL4eh+FWunGYgn5w=;
+ b=ooT0aC+2ValcdKw94R8aLE6u1X6MO8in5Pq199LNpA35Lq3j/PJ48QWR290ovj5avj
+ gaP53isUxKbdXg+XckNI8zU6ZuT2y1dzqoAzFKKeBFCMXmE64bBi1hCtJc6WhUnfpiY5
+ uuxsXTnlB5yLKsnGWBxU0FbNFNG9G8z/vfdSyCWwO6uOcW5JEd5pSpCxrzkcIoTfx1Jx
+ 4/sGU037EM+nufvaH+TQpaSOEuuy8joDzR88lECNff6+1aLEjXiWB+BIyWHM1PbwAcls
+ KuEUkFzLNNCyVq5J7Cv+pKYymkJ73gt9M5NZD4lYtXk7WSXFhIeqyjAorciTGYNhZsWS
+ 5cZA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=EsnCvdcEe3Eaqj5A/OQKBak574eTL4eh+FWunGYgn5w=;
+ b=ipvUZ4O/F6PBaakDGCKVpBIQwq49SlS5c9L42vJ2oJreIwVx+8aEqNE+Nxuw7NkTsH
+ MjV4yDxjt+IGnOc9yjuZkXfBQCj72hxNsrYkELoxu8kwydtIE7lT9DMduMp9S7fI2QBB
+ e9v+f2CuQYAR8KtJ4Rxlw9E3InOxI56ZWj1zW3krnnwFGdo1/VQbt6Ku6DcKdl0J+tLO
+ QVD3onnp7MyTxAl1weHqWycEwUPFTTy1QJZf6kZeI2xFdCXor3tDKzuLrnUxO+Hw4RD3
+ +DJQd4JkPcw9c2Jg1ndum3Fy84LCyuREAHpoW+M6bufc6xCVI//WZ+pB35/8EX8jrB/H
+ f8uQ==
+X-Gm-Message-State: AOAM533Sh6xzvDJWfuTvqbaJgiiDMnZUlocvP+z10CTIIs8VyrizgaNZ
+ vDLcMPSyh5kfnW6ltBvdZHTWBR5ewPXsMjcpcDdKtQ==
+X-Google-Smtp-Source: ABdhPJxrB9VdrDrJI55oxjFjWbRrbLoJeHq9aQ/Sp1gnWuQF1hXZENK49ouPY18lZSq5mqbnaL7zmLE3JyGrmeUOOiA=
+X-Received: by 2002:adf:c392:: with SMTP id p18mr4400433wrf.373.1623319228275; 
+ Thu, 10 Jun 2021 03:00:28 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <b0a257a6-af87-c443-0eed-0f3081169482@amd.com>
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: c004b1d8-14e1-4b24-bda9-08d92bf431a2
-X-MS-TrafficTypeDiagnostic: DM6PR12MB4811:
-X-Microsoft-Antispam-PRVS: <DM6PR12MB48119A0921F576696CA319D8EC359@DM6PR12MB4811.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:7219;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Ut4gVu5IjD5/51Wn8wJ5RSqtcb0Jj/l5TfCpEaioyULpiFW7qtHJ5YPBq+EAfRidjAKXXujsrtQATccuGV4S1YxUdU4QMTicWYGndRpHbF4ydd2G/ogI/S+knZL+e3OOxAn1pmuVSw/V3vyNbdv+Ad8DGmAbGjd99ZfWM26bZdIack421RWf0AWn7nSiHAFFw9TZL/oQ+HCuQb/8KXRAIkEbIHQxXWIi5HK5yc+J+hmUle1DxGVPBS7G4KDWGeF0EslW/s7UzAfx0dGOZwFQZ2QrO9FtR6/Z6sboOYGD+9GL1IUus9WW5+jr6tyToN2rBu3K50jDyra/iH/pf9lNJChSZxNAzRSBt7TW4GLK8wtVj/jOfk05sXhfPYTpJry8tw5dI6DbnCkAbfV/RX0E8IHGo3MLAhdqZrZT6AMXT8dg1lV6fLGayFShisaieCb+fzl0nQ5HMfSBEXwTGK020WJNyzs8id3N8KHuHgWgtK643WG9l3TGRr1EgOA4Ufm5X55xYoBcIeHyLI1LltYuuziEoWM8EqATF+LjrZaK4izDJQeh0TwvGWe2i+vTDq0dPlcKHDBjduAcG1JXZkYt4vey5M0Vmf/Y1APeedK+1NgUkWlutax3yRrLfC9paUhEhyfLVAb36k1SGCn04hLiASKBgaG00JRqmUJxekdy7RPCx2C7JZDi3zv5ojvVrcfX
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(4636009)(136003)(396003)(39860400002)(376002)(346002)(36840700001)(46966006)(9686003)(55016002)(478600001)(82740400003)(4326008)(6862004)(356005)(336012)(6636002)(8936002)(1076003)(316002)(54906003)(8676002)(36860700001)(426003)(82310400003)(81166007)(70206006)(70586007)(33716001)(2906002)(33656002)(6666004)(5660300002)(53546011)(86362001)(47076005)(26005)(16526019)(186003)(36900700001);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Jun 2021 09:43:25.3449 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: c004b1d8-14e1-4b24-bda9-08d92bf431a2
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT046.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4811
+References: <20210326145139.467072-1-thierry.reding@gmail.com>
+ <20210326145139.467072-2-thierry.reding@gmail.com>
+ <P6bikxumymMi9GOcPaj_n8vMt5caPR3rWO4Kga8Ud_FNIgytl3ljvnkU6nsyxIwN4VKNmfOfsC4KryzFTObEXjtFDiywRWDtO_ed71g9aj0=@emersion.fr>
+ <YF4L3kq9UN6PWh/h@orome.fritz.box>
+ <CAPj87rO_RsEPpuC9-DyVEJ=K6OLeknHhOnjvbQ2EEnPPPrq+dg@mail.gmail.com>
+ <CAPj87rOB8p+WSgVDwRbbLgW-di5qpSTY5Q6cmQYwbwD2Y3wKVA@mail.gmail.com>
+ <YMHUHGS94zXLshU5@orome.fritz.box>
+In-Reply-To: <YMHUHGS94zXLshU5@orome.fritz.box>
+From: Daniel Stone <daniel@fooishbar.org>
+Date: Thu, 10 Jun 2021 11:00:16 +0100
+Message-ID: <CAPj87rOyUvKHpoiBSgTmTn=K_O9JZ+XifDx1MuH6sBxkb--w3Q@mail.gmail.com>
+Subject: Re: [PATCH v2 01/10] drm/fourcc: Add macros to determine the modifier
+ vendor
+To: Thierry Reding <thierry.reding@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -103,72 +69,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mikko Perttunen <cyndis@kapsi.fi>,
- "nouveau@lists.freedesktop.org" <nouveau@lists.freedesktop.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "matthew.auld@intel.com" <matthew.auld@intel.com>,
- "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>
+Cc: David Airlie <airlied@linux.ie>, James Jones <jajones@nvidia.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, linux-tegra@vger.kernel.org,
+ Dmitry Osipenko <digetx@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jun 10, 2021 at 04:08:40PM +0800, Koenig, Christian wrote:
-> 
-> 
-> Am 09.06.21 um 19:45 schrieb Mikko Perttunen:
-> > On 6/9/21 8:29 PM, Christian König wrote:
-> >> TTMs buffer objects are based on GEM objects for quite a while
-> >> and rely on initializing those fields before initializing the TTM BO.
-> >>
-> >> Noveau now doesn't init the GEM object for internally allocated BOs,
+On Thu, 10 Jun 2021 at 09:56, Thierry Reding <thierry.reding@gmail.com> wrote:
+> On Wed, Jun 09, 2021 at 05:28:50PM +0100, Daniel Stone wrote:
+> > On Tue, 27 Apr 2021 at 19:40, Daniel Stone <daniel@fooishbar.org> wrote:
+> > > On Fri, 26 Mar 2021 at 16:29, Thierry Reding <thierry.reding@gmail.com> wrote:
+> > >> I do have commit access for drm-misc-next, but I was thinking that I
+> > >> could take this through the drm/tegra tree along with the subsequent
+> > >> patches because of the dependency.
+> > >>
+> > >> Anyone willing to provide an Acked-by for that?
+> > >
+> > > Yep, no harm if that makes your life easier, so for both the patch itself and merging through tegra:
+> > > Acked-by: Daniel Stone <daniels@collabora.com>
 > >
-> > Nouveau
-> >
-> >> so make sure that we at least initialize some necessary fields.
-> >>
-> >> Signed-off-by: Christian König <christian.koenig@amd.com>
-> >> ---
-> >>   drivers/gpu/drm/nouveau/nouveau_bo.c | 6 ++++++
-> >>   1 file changed, 6 insertions(+)
-> >>
-> >> diff --git a/drivers/gpu/drm/nouveau/nouveau_bo.c 
-> >> b/drivers/gpu/drm/nouveau/nouveau_bo.c
-> >> index 520b1ea9d16c..085023624fb0 100644
-> >> --- a/drivers/gpu/drm/nouveau/nouveau_bo.c
-> >> +++ b/drivers/gpu/drm/nouveau/nouveau_bo.c
-> >> @@ -149,6 +149,8 @@ nouveau_bo_del_ttm(struct ttm_buffer_object *bo)
-> >>        */
-> >>       if (bo->base.dev)
-> >>           drm_gem_object_release(&bo->base);
-> >> +    else
-> >> +        dma_resv_fini(&bo->base._resv);
-> >>         kfree(nvbo);
-> >>   }
-> >> @@ -330,6 +332,10 @@ nouveau_bo_new(struct nouveau_cli *cli, u64 
-> >> size, int align,
-> >>       if (IS_ERR(nvbo))
-> >>           return PTR_ERR(nvbo);
-> >>   +    nvbo->bo.base.size = size;
-> >> +    dma_resv_init(&nvbo->bo.base._resv);
-> >> +    drm_vma_node_reset(&nvbo->bo.base.vma_node);
-> >> +
-> >>       ret = nouveau_bo_init(nvbo, size, align, domain, sg, robj);
-> >>       if (ret)
-> >>           return ret;
-> >>
-> >
-> > That works, thanks for the fix!
-> >
-> > Tested-by: Mikko Perttunen <mperttunen@nvidia.com>
+> > Is this still in your queue somewhere?
+>
+> I reverted to an open-coded version at the time because the -rc6 cut-off
+> was coming up quickly and I wasn't getting a response. But I do have a
+> set of follow-up patches in a branch somewhere that convert the existing
+> users to the new helpers.
+>
+> Let me dig those out and send them out again.
 
-Reviewed-by: Huang Rui <ray.huang@amd.com>
+OK, I didn't realise this had been dropped from your queue. That
+sounds reasonable, and we'll just open-code as well in libdrm for the
+moment, since we want to have the modifier-name API in without having
+to wait another few months ...
 
-> 
-> Thanks. Can anybody give me an rb that I can push this to drm-misc-next 
-> before the weekend?
-> 
-> Regards,
-> Christian.
-> 
-> >
-> > Mikko
-> 
+Cheers,
+Daniel
