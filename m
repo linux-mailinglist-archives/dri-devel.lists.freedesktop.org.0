@@ -2,68 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF4533A29FD
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Jun 2021 13:16:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 980083A2A07
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Jun 2021 13:16:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3FCAD6ECFE;
-	Thu, 10 Jun 2021 11:15:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A77F36ECFD;
+	Thu, 10 Jun 2021 11:16:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EDF026ECFE;
- Thu, 10 Jun 2021 11:15:56 +0000 (UTC)
-Received: from imap.suse.de (imap-alt.suse-dmz.suse.de [192.168.254.47])
- (using TLSv1.2 with cipher ECDHE-ECDSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id AADEA21A24;
- Thu, 10 Jun 2021 11:15:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1623323754; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=KPkeWPOWywAL8VyLGcjXNCoMMiLWZc8fOKIBbx0sc1E=;
- b=JOu7qo49NyzpFx85vYSLKzPmbBJUc1WWuefeFxRDtBb3q15rNxiVRoZ3QyC7nCkFQBSmVi
- Y34/MAGRpM3J+qrsZIO/QQ08OGh91ilSaWPzaZw5dyEdbqC2QgjVHe84XmBbxF6n9lpZGS
- dBXwh9mDaBQUYdPuJLzO3i3VuJPId08=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1623323754;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=KPkeWPOWywAL8VyLGcjXNCoMMiLWZc8fOKIBbx0sc1E=;
- b=jUmGEmqYGURY7lD8KpoACqGV0zzGJ+zjaDalGSi2CA9LWm7feSPUTEXrLIixppuYwQSBUc
- 1LGjwiGPLk8j5jBQ==
-Received: from imap3-int (imap-alt.suse-dmz.suse.de [192.168.254.47])
- by imap.suse.de (Postfix) with ESMTP id 7098F118DD;
- Thu, 10 Jun 2021 11:15:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1623323754; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=KPkeWPOWywAL8VyLGcjXNCoMMiLWZc8fOKIBbx0sc1E=;
- b=JOu7qo49NyzpFx85vYSLKzPmbBJUc1WWuefeFxRDtBb3q15rNxiVRoZ3QyC7nCkFQBSmVi
- Y34/MAGRpM3J+qrsZIO/QQ08OGh91ilSaWPzaZw5dyEdbqC2QgjVHe84XmBbxF6n9lpZGS
- dBXwh9mDaBQUYdPuJLzO3i3VuJPId08=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1623323754;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=KPkeWPOWywAL8VyLGcjXNCoMMiLWZc8fOKIBbx0sc1E=;
- b=jUmGEmqYGURY7lD8KpoACqGV0zzGJ+zjaDalGSi2CA9LWm7feSPUTEXrLIixppuYwQSBUc
- 1LGjwiGPLk8j5jBQ==
-Received: from director2.suse.de ([192.168.254.72]) by imap3-int with ESMTPSA
- id vF2aGWr0wWCYdgAALh3uQQ
- (envelope-from <tzimmermann@suse.de>); Thu, 10 Jun 2021 11:15:54 +0000
-Date: Thu, 10 Jun 2021 13:15:53 +0200
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: [PULL] drm-misc-next
-Message-ID: <YMH0ad8qoREx9YZK@linux-uq9g>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B8A886ECFD
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Jun 2021 11:16:11 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id 64CBF613F5
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Jun 2021 11:16:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1623323771;
+ bh=eTDN/bZIgwo1mAHu3C7dO9Q3Gs2k2NzX94hn4szqx84=;
+ h=From:To:Subject:Date:From;
+ b=pZ7b7+2I8hCmBLaUzm4gQoOR257rYa4mDgLrswpM1LjTuLy176TBUwGle8iTAHE//
+ 6t81ZLIzKQcjA5gg5vYnWuF6tCqq9gqHoE81ti3a7KuAzPabizpMSbgsozMIKPmce1
+ 7UFFfbXqnA3BMAMqVfE1GU0aN2TzIUibT07xxVJFIZLWm558lbpn8CVsGO0voFGKFy
+ 5VKn/X0E4r+lKX03wDRO4ELyq14svJD1W6ZFfgbSwcIDXP1PXk1sbxnb1Hpq6HwYF1
+ wqS8KWGkWS8Ralk4IIEtsZ05S9tdvksIumlNlmpR4Cy9wy+lpISo2TfIpyFThFohg3
+ 9isleRmHiGc9A==
+Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
+ id 5A71561158; Thu, 10 Jun 2021 11:16:11 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 213391] New: AMDGPU retries page fault with some specific
+ processes amdgpu: [gfxhub0] retry page fault until *ERROR* ring gfx timeout,
+ but soft recovered
+Date: Thu, 10 Jun 2021 11:16:11 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: low
+X-Bugzilla-Who: samy@lahfa.xyz
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_id short_desc product version
+ cf_kernel_version rep_platform op_sys cf_tree bug_status bug_severity
+ priority component assigned_to reporter cf_regression
+Message-ID: <bug-213391-2300@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,119 +67,72 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Sean Paul <sean@poorly.run>,
- intel-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave and Daniel,
+https://bugzilla.kernel.org/show_bug.cgi?id=3D213391
 
-here's the second PR for drm-misc-next for this week, and the final one
-for 5.14. I backmerged drm-next for the TTM changes. As for highlights
-nouveau now has eDP backlight support and udmabuf supports huge pages.
+            Bug ID: 213391
+           Summary: AMDGPU retries page fault with some specific processes
+                    amdgpu: [gfxhub0] retry page fault until *ERROR* ring
+                    gfx timeout, but soft recovered
+           Product: Drivers
+           Version: 2.5
+    Kernel Version: Linux 5.12.9-arch-1-1
+          Hardware: x86-64
+                OS: Linux
+              Tree: Mainline
+            Status: NEW
+          Severity: low
+          Priority: P1
+         Component: Video(DRI - non Intel)
+          Assignee: drivers_video-dri@kernel-bugs.osdl.org
+          Reporter: samy@lahfa.xyz
+        Regression: No
 
-Best regards
-Thomas
+Hi,
 
-drm-misc-next-2021-06-10:
-drm-misc-next for 5.14:
+I just updated recently from mainstream Kernel 5.11.16 to 5.12.9 and I've r=
+an
+into this issue, I've also updated the Mesa driver from mesa-git
+(21.1.0_devel.137307.f8e5f945b8f-1) to mesa-git
+(21.2.0_devel.140633.c04f20e7e01-1).
 
-UAPI Changes:
+Current kernel parameters : /vmlinuz-linux zfs=3Dzroot/ROOT/default rw logl=
+evel=3D3
+quiet radeon.si_support=3D0 amdgpu.si_support=3D1 radeon.cik_support=3D0
+amdgpu.cik_support=3D1
 
-Cross-subsystem Changes:
+My computer is a Thinkpad T495 laptop (AMD Ryzen 7 3700 Pro with an iGPU RX
+VEGA 10, 16GB DDR4 3200Mhz) the very important bit of information is that t=
+he
+BIOS reserves up to 2GB of DDR4 RAM for the iGPU VRAM, I currently have set=
+up
+1GB (1024MB) of RAM in my BIOS for the iGPU, I'm thinking the page fault
+retries could be linked to this in someways.
 
- * dma-buf: Support huge pages in udmabuf
+I think this has a higher chance of happening when my RAM memory is under h=
+eavy
+load and the system is swapping quite a lot too. (I have 12.3GB of Swap on a
+NVMe PCIe 3.0)
 
-Core Changes:
+At present, I cannot reproduce this issue consistently yet, however it has =
+been
+happening with web browsers Qutebrowser (more with Qutebrowser) and also
+happened only once with Chromium (made the X11 server crash and the computer
+completely froze, kernel was still responsive to SysReq keys hence I could =
+get
+out of that tricky situation safely).
 
- * Backmerge of drm/drm-next
+I'll be uploading both logs of the crashes I have encountered along with an
+lspci and other logs files that could be useful.
 
- * drm/dp: Import eDP backlight code from i915
+Kind regards,
 
-Driver Changes:
+Lahfa Samy
 
- * drm/bridge: TI SN65DSI83: Fix sparse warnings
+--=20
+You may reply to this email to add a comment.
 
- * drm/i915: Cleanup eDP backlight code before moving it into helper
-
- * drm/nouveau: Support DPCD backlights; Fix GEM init for internal BOs
-The following changes since commit c707b73f0cfb1acc94a20389aecde65e6385349b:
-
-  Merge tag 'amd-drm-next-5.14-2021-06-09' of https://gitlab.freedesktop.org/agd5f/linux into drm-next (2021-06-10 13:47:13 +1000)
-
-are available in the Git repository at:
-
-  git://anongit.freedesktop.org/drm/drm-misc tags/drm-misc-next-2021-06-10
-
-for you to fetch changes up to 86441fa29e57940eeb00f35fefb1853c1fbe67bb:
-
-  Merge drm/drm-next into drm-misc-next (2021-06-10 12:18:54 +0200)
-
-----------------------------------------------------------------
-drm-misc-next for 5.14:
-
-UAPI Changes:
-
-Cross-subsystem Changes:
-
- * dma-buf: Support huge pages in udmabuf
-
-Core Changes:
-
- * Backmerge of drm/drm-next
-
- * drm/dp: Import eDP backlight code from i915
-
-Driver Changes:
-
- * drm/bridge: TI SN65DSI83: Fix sparse warnings
-
- * drm/i915: Cleanup eDP backlight code before moving it into helper
-
- * drm/nouveau: Support DPCD backlights; Fix GEM init for internal BOs
-
-----------------------------------------------------------------
-Christian König (1):
-      drm/nouveau: init the base GEM fields for internal BOs
-
-Lyude Paul (9):
-      drm/i915/dpcd_bl: Remove redundant AUX backlight frequency calculations
-      drm/i915/dpcd_bl: Handle drm_dpcd_read/write() return values correctly
-      drm/i915/dpcd_bl: Cleanup intel_dp_aux_vesa_enable_backlight() a bit
-      drm/i915/dpcd_bl: Cache some backlight capabilities in intel_panel.backlight
-      drm/i915/dpcd_bl: Move VESA backlight enabling code closer together
-      drm/i915/dpcd_bl: Return early in vesa_calc_max_backlight if we can't read PWMGEN_BIT_COUNT
-      drm/i915/dpcd_bl: Print return codes for VESA backlight failures
-      drm/dp: Extract i915's eDP backlight code into DRM helpers
-      drm/nouveau/kms/nv50-: Add basic DPCD backlight support for nouveau
-
-Marek Vasut (1):
-      drm/bridge: ti-sn65dsi83: Fix sparse warnings
-
-Thomas Zimmermann (1):
-      Merge drm/drm-next into drm-misc-next
-
-Vivek Kasireddy (1):
-      udmabuf: Add support for mapping hugepages (v4)
-
- drivers/dma-buf/udmabuf.c                          |  50 ++-
- drivers/gpu/drm/bridge/ti-sn65dsi83.c              |  21 +-
- drivers/gpu/drm/drm_dp_helper.c                    | 347 +++++++++++++++++++++
- drivers/gpu/drm/i915/display/intel_display_types.h |   2 +-
- .../gpu/drm/i915/display/intel_dp_aux_backlight.c  | 329 +++----------------
- drivers/gpu/drm/nouveau/dispnv50/disp.c            |  28 ++
- drivers/gpu/drm/nouveau/nouveau_backlight.c        | 166 +++++++++-
- drivers/gpu/drm/nouveau/nouveau_bo.c               |   6 +
- drivers/gpu/drm/nouveau/nouveau_connector.h        |   9 +-
- drivers/gpu/drm/nouveau/nouveau_encoder.h          |   1 +
- include/drm/drm_dp_helper.h                        |  48 +++
- 11 files changed, 682 insertions(+), 325 deletions(-)
-
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 Nürnberg, Germany
-(HRB 36809, AG Nürnberg)
-Geschäftsführer: Felix Imendörffer
+You are receiving this mail because:
+You are watching the assignee of the bug.=
