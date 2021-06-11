@@ -1,66 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0103D3A4140
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Jun 2021 13:30:47 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E1793A416D
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Jun 2021 13:48:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3193D6EE6F;
-	Fri, 11 Jun 2021 11:30:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 26D046E145;
+	Fri, 11 Jun 2021 11:48:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com
- [IPv6:2a00:1450:4864:20::332])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 38E806EE6F
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Jun 2021 11:30:42 +0000 (UTC)
-Received: by mail-wm1-x332.google.com with SMTP id
- l7-20020a05600c1d07b02901b0e2ebd6deso8307837wms.1
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Jun 2021 04:30:42 -0700 (PDT)
+Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com
+ [IPv6:2a00:1450:4864:20::430])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 57D726E145;
+ Fri, 11 Jun 2021 11:48:21 +0000 (UTC)
+Received: by mail-wr1-x430.google.com with SMTP id a11so5739074wrt.13;
+ Fri, 11 Jun 2021 04:48:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:references:from:message-id:date:user-agent:mime-version
- :in-reply-to:content-transfer-encoding:content-language;
- bh=RoC9doV+7XnrhBdmrOggcmPU+MqSliIk6SEGm0l7wIk=;
- b=rxas9qgXzKPrwLyyGxAEFpFempNCO/9eXOsGa7j3MHLvPdaBc+BFD+tP7qNvHv0OC9
- 6NZKL9KI5sHuVziainfOhGhBOl+xXVME0P/NdrDpNbMrerwVWW1tailbHo+vshDTWUH4
- kv9iDubukhvGUT0B5/LXtyHZ0WCOTbUsF+eE+6Lh/XlWKUwuOEc0nbHM4s0LCcF4LfHE
- 26yXv3IsVVOPFKHKFMjxRf1NGHyumSPoxszsnujb/utrjauYJuB87FE95YanF08R1jMn
- rXoYTaayJ9ijaW3Puo6OsdKd5GFota8EodqPIao9lWtCmhwYKy0gDDAasmrKVB1sK2Wd
- SgZg==
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-transfer-encoding:content-language;
+ bh=RMsKJSTNIZ28Zt0Am5SohF0EBTu38mJyQQdNKwItc40=;
+ b=cKmSE//6zDTg2STH+eubMUyEWD+QP9oJVVom8DJMeiJ5x/DieYH2CF+bHHBOaiA8Ub
+ 8VwJ4onBFmcAr0Pc4teGduS+HfEF1NGY9qNaRnCjjiMzbWUOGXCaybKRbt0pa3OkZChr
+ Qg6MpVYD4Aay9ck7KhOJQj5gk9994e/xc/OQ+wAwEb57BL2mISMZqJ0qdzdENgm41fJB
+ 9nLHQPh7cXr9YooPpWNwbUEt2wcprFzP/PTsYAFGW64z2I485Wm6NV/XY0uvMAY4icn9
+ 0TPzc+Am309Dg67wXPl3F8WKsskbIVmonM+QLXshvB+As5DfSoiZ6xR3sR4cmZD9+nk+
+ i+sg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:message-id:date
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-transfer-encoding
  :content-language;
- bh=RoC9doV+7XnrhBdmrOggcmPU+MqSliIk6SEGm0l7wIk=;
- b=AVRtvp6IZUyE0bBheO5EOxS/WbGKNYWrBWWetMBWu1HJVNW5EfezBBjBsH/zrN11Gr
- r5jIKpXgwGobIUPqk3e9Xx/EmTwIGk+ng7BGxOz1iJc1oGLmFEMBRTHgaEQNvFVfxfKc
- fdKVw2eGpnoxDqdLW/Y/26joxJsVculz5XJf8f2hCcDSzbqhUoQzbVmhAXboI+ocDxAC
- 58SwHaxBoAu4lQrXBi15Q1eycG+0rXr5DpNYRlzl55HL4Ud3BnBuFVEb1WJ4qm4gz0D+
- ObULPqjdRZScgo7mYOjD/jcKoGp2QamrAK7QldsvqFr8Vj9VscZ+dVzC1ASJU57bnv1B
- i3AQ==
-X-Gm-Message-State: AOAM531XeJWqQO7ylFb122o2lnW4A2Cgtwg9zC+X0W9WFOUbVu02g+et
- MvTgp1nLSEuCYFcjCs0iSKk0UlB9A1Q=
-X-Google-Smtp-Source: ABdhPJx3M14SWxA8OON+6K2pMVFd+U8X8d8ZTpBKmxMnSXnD3t4JFG1J1Ztvf4y+44EcnGInT2LJgg==
-X-Received: by 2002:a05:600c:243:: with SMTP id 3mr3491793wmj.35.1623411040789; 
- Fri, 11 Jun 2021 04:30:40 -0700 (PDT)
+ bh=RMsKJSTNIZ28Zt0Am5SohF0EBTu38mJyQQdNKwItc40=;
+ b=RWlFUDShIQoVKky//xoeRKPZ70vBstypv5uooG/Z1CEbGfUFA2vlMIKONUlSZ8i8/B
+ WevaeKwpLa2ITaYAuSRyOdOPfg+y++4fBb/YoV/8uTyVnLcrffFCmbTJnw30PMhyE/Bn
+ mgnWdIAnQgLpK8XJqU3DOBScqI7etncpBxayCeQkTmYzQ22i7rvDHFvy1pXflhC0v5dj
+ i60WyQWPu5viz2muUeA4cqRWEOWrKZpMro9Bp/ch7y1AoSCTK2ZuOr0kBxkLU/DcETzU
+ HDKVAO3fr4MVOI2OMaZMBdQ7rg/HZJFWusv53HAUIgIhjKvnPADVHxVpQwj4LiCNFXCJ
+ p/1g==
+X-Gm-Message-State: AOAM533rpbtWntZ/7lJiXqYvMpUEbJqdiYLx1Ruikd4+aZmjkbjannIN
+ yDVYVyRGItUMjFhejHAywRj3/rFeaOE=
+X-Google-Smtp-Source: ABdhPJy7zLcWEZDOwM8wj75/briLXGr/D1i+/4BQhUB22hGQGgjllA/IO5f/j60IupsYYOSUd4xE7Q==
+X-Received: by 2002:a5d:414e:: with SMTP id c14mr3487911wrq.81.1623412100024; 
+ Fri, 11 Jun 2021 04:48:20 -0700 (PDT)
 Received: from ?IPv6:2a02:908:1252:fb60:bd94:4b9a:99c4:4bc1?
  ([2a02:908:1252:fb60:bd94:4b9a:99c4:4bc1])
- by smtp.gmail.com with ESMTPSA id c2sm12858749wmf.24.2021.06.11.04.30.39
+ by smtp.gmail.com with ESMTPSA id s62sm12944841wms.13.2021.06.11.04.48.19
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 11 Jun 2021 04:30:40 -0700 (PDT)
-Subject: Re: [PATCH 1/4] drm/ttm: add a pointer to the allocating BO into
- ttm_resource
-To: =?UTF-8?Q?Thomas_Hellstr=c3=b6m_=28Intel=29?= <thomas_os@shipmail.org>,
- matthew.auld@intel.com, dri-devel@lists.freedesktop.org
-References: <20210610110559.1758-1-christian.koenig@amd.com>
- <eaa54fe7-37c3-831b-390a-7e7cc8b414af@shipmail.org>
+ Fri, 11 Jun 2021 04:48:19 -0700 (PDT)
+Subject: Re: [PATCH 2/7] dma-buf: add dma_fence_chain_alloc/free
+To: Daniel Vetter <daniel@ffwll.ch>
+References: <20210610091800.1833-1-christian.koenig@amd.com>
+ <20210610091800.1833-3-christian.koenig@amd.com>
+ <YMMW0ROMlgJQyTdU@phenom.ffwll.local>
 From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-Message-ID: <e8341190-0426-4532-7ecc-aa04ef92c5fb@gmail.com>
-Date: Fri, 11 Jun 2021 13:30:38 +0200
+Message-ID: <43177627-bc11-74b0-f88c-6475dd2904ff@gmail.com>
+Date: Fri, 11 Jun 2021 13:48:18 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <eaa54fe7-37c3-831b-390a-7e7cc8b414af@shipmail.org>
+In-Reply-To: <YMMW0ROMlgJQyTdU@phenom.ffwll.local>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
 Content-Language: en-US
@@ -76,225 +74,217 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-Am 11.06.21 um 07:34 schrieb Thomas Hellström (Intel):
-> Hi, Christian,
->
-> I know you have a lot on your plate, and that the drm community is a 
-> bit lax about following the kernel patch submitting guidelines, but 
-> now that we're also spinning up a number of Intel developers on TTM 
-> could we please make a better effort with cover letters and commit 
-> messages so that they understand what the purpose and end goal of the 
-> series is. A reviewer shouldn't have to look at the last patch to try 
-> to get an understanding what the series is doing and why.
-
-Sorry, that was send out this early unintentionally. See it more like an 
-RFC.
-
->
-> On 6/10/21 1:05 PM, Christian König wrote:
->> We are going to need this for the next patch
->
->
->> and it allows us to clean
->> up amdgpu as well.
->
-> The amdgpu changes are not reflected in the commit title.
->
->
+Am 11.06.21 um 09:54 schrieb Daniel Vetter:
+> On Thu, Jun 10, 2021 at 11:17:55AM +0200, Christian König wrote:
+>> Add a common allocation helper. Cleaning up the mix of kzalloc/kmalloc
+>> and some unused code in the selftest.
 >>
 >> Signed-off-by: Christian König <christian.koenig@amd.com>
 >> ---
->>   drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c | 47 ++++++++-------------
->>   drivers/gpu/drm/ttm/ttm_resource.c          |  1 +
->>   include/drm/ttm/ttm_resource.h              |  1 +
->>   3 files changed, 19 insertions(+), 30 deletions(-)
+>>   drivers/dma-buf/st-dma-fence-chain.c          | 16 ++++----------
+>>   drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c        |  4 ++--
+>>   drivers/gpu/drm/drm_syncobj.c                 |  6 ++---
+>>   .../gpu/drm/i915/gem/i915_gem_execbuffer.c    |  6 ++---
+>>   drivers/gpu/drm/msm/msm_gem_submit.c          |  6 ++---
+>>   include/linux/dma-fence-chain.h               | 22 +++++++++++++++++++
+>>   6 files changed, 35 insertions(+), 25 deletions(-)
 >>
->> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c 
->> b/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c
->> index 194f9eecf89c..8e3f5da44e4f 100644
->> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c
->> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c
->> @@ -26,23 +26,12 @@
->>     #include "amdgpu.h"
->>   -struct amdgpu_gtt_node {
->> -    struct ttm_buffer_object *tbo;
->> -    struct ttm_range_mgr_node base;
->> -};
->> -
->>   static inline struct amdgpu_gtt_mgr *
->>   to_gtt_mgr(struct ttm_resource_manager *man)
->>   {
->>       return container_of(man, struct amdgpu_gtt_mgr, manager);
->>   }
->>   -static inline struct amdgpu_gtt_node *
->> -to_amdgpu_gtt_node(struct ttm_resource *res)
->> -{
->> -    return container_of(res, struct amdgpu_gtt_node, base.base);
+>> diff --git a/drivers/dma-buf/st-dma-fence-chain.c b/drivers/dma-buf/st-dma-fence-chain.c
+>> index 9525f7f56119..8ce1ea59d31b 100644
+>> --- a/drivers/dma-buf/st-dma-fence-chain.c
+>> +++ b/drivers/dma-buf/st-dma-fence-chain.c
+>> @@ -58,28 +58,20 @@ static struct dma_fence *mock_fence(void)
+>>   	return &f->base;
+>>   }
+>>   
+>> -static inline struct mock_chain {
+>> -	struct dma_fence_chain base;
+>> -} *to_mock_chain(struct dma_fence *f) {
+>> -	return container_of(f, struct mock_chain, base.base);
 >> -}
 >> -
->>   /**
->>    * DOC: mem_info_gtt_total
->>    *
->> @@ -107,9 +96,9 @@ const struct attribute_group 
->> amdgpu_gtt_mgr_attr_group = {
->>    */
->>   bool amdgpu_gtt_mgr_has_gart_addr(struct ttm_resource *res)
->>   {
->> -    struct amdgpu_gtt_node *node = to_amdgpu_gtt_node(res);
->> +    struct ttm_range_mgr_node *node = to_ttm_range_mgr_node(res);
->>   -    return drm_mm_node_allocated(&node->base.mm_nodes[0]);
->> +    return drm_mm_node_allocated(&node->mm_nodes[0]);
->>   }
->>     /**
->> @@ -129,7 +118,7 @@ static int amdgpu_gtt_mgr_new(struct 
->> ttm_resource_manager *man,
->>   {
->>       struct amdgpu_gtt_mgr *mgr = to_gtt_mgr(man);
->>       uint32_t num_pages = PFN_UP(tbo->base.size);
->> -    struct amdgpu_gtt_node *node;
->> +    struct ttm_range_mgr_node *node;
->>       int r;
->>         spin_lock(&mgr->lock);
->> @@ -141,19 +130,17 @@ static int amdgpu_gtt_mgr_new(struct 
->> ttm_resource_manager *man,
->>       atomic64_sub(num_pages, &mgr->available);
->>       spin_unlock(&mgr->lock);
->>   -    node = kzalloc(struct_size(node, base.mm_nodes, 1), GFP_KERNEL);
->> +    node = kzalloc(struct_size(node, mm_nodes, 1), GFP_KERNEL);
->>       if (!node) {
->>           r = -ENOMEM;
->>           goto err_out;
->>       }
->>   -    node->tbo = tbo;
->> -    ttm_resource_init(tbo, place, &node->base.base);
->> -
->> +    ttm_resource_init(tbo, place, &node->base);
->>       if (place->lpfn) {
->>           spin_lock(&mgr->lock);
->>           r = drm_mm_insert_node_in_range(&mgr->mm,
->> -                        &node->base.mm_nodes[0],
->> +                        &node->mm_nodes[0],
->>                           num_pages, tbo->page_alignment,
->>                           0, place->fpfn, place->lpfn,
->>                           DRM_MM_INSERT_BEST);
->> @@ -161,14 +148,14 @@ static int amdgpu_gtt_mgr_new(struct 
->> ttm_resource_manager *man,
->>           if (unlikely(r))
->>               goto err_free;
->>   -        node->base.base.start = node->base.mm_nodes[0].start;
->> +        node->base.start = node->mm_nodes[0].start;
->>       } else {
->> -        node->base.mm_nodes[0].start = 0;
->> -        node->base.mm_nodes[0].size = node->base.base.num_pages;
->> -        node->base.base.start = AMDGPU_BO_INVALID_OFFSET;
->> +        node->mm_nodes[0].start = 0;
->> +        node->mm_nodes[0].size = node->base.num_pages;
->> +        node->base.start = AMDGPU_BO_INVALID_OFFSET;
->>       }
->>   -    *res = &node->base.base;
->> +    *res = &node->base;
->>       return 0;
->>     err_free:
->> @@ -191,12 +178,12 @@ static int amdgpu_gtt_mgr_new(struct 
->> ttm_resource_manager *man,
->>   static void amdgpu_gtt_mgr_del(struct ttm_resource_manager *man,
->>                      struct ttm_resource *res)
->>   {
->> -    struct amdgpu_gtt_node *node = to_amdgpu_gtt_node(res);
->> +    struct ttm_range_mgr_node *node = to_ttm_range_mgr_node(res);
->>       struct amdgpu_gtt_mgr *mgr = to_gtt_mgr(man);
->>         spin_lock(&mgr->lock);
->> -    if (drm_mm_node_allocated(&node->base.mm_nodes[0]))
->> -        drm_mm_remove_node(&node->base.mm_nodes[0]);
->> +    if (drm_mm_node_allocated(&node->mm_nodes[0]))
->> +        drm_mm_remove_node(&node->mm_nodes[0]);
->>       spin_unlock(&mgr->lock);
->>       atomic64_add(res->num_pages, &mgr->available);
->>   @@ -228,14 +215,14 @@ uint64_t amdgpu_gtt_mgr_usage(struct 
->> ttm_resource_manager *man)
->>   int amdgpu_gtt_mgr_recover(struct ttm_resource_manager *man)
->>   {
->>       struct amdgpu_gtt_mgr *mgr = to_gtt_mgr(man);
->> -    struct amdgpu_gtt_node *node;
->> +    struct ttm_range_mgr_node *node;
->>       struct drm_mm_node *mm_node;
->>       int r = 0;
->>         spin_lock(&mgr->lock);
->>       drm_mm_for_each_node(mm_node, &mgr->mm) {
->> -        node = container_of(mm_node, typeof(*node), base.mm_nodes[0]);
->> -        r = amdgpu_ttm_recover_gart(node->tbo);
->> +        node = container_of(mm_node, typeof(*node), mm_nodes[0]);
->> +        r = amdgpu_ttm_recover_gart(node->base.bo);
->>           if (r)
->>               break;
->>       }
->> diff --git a/drivers/gpu/drm/ttm/ttm_resource.c 
->> b/drivers/gpu/drm/ttm/ttm_resource.c
->> index 2431717376e7..7ff6194154fe 100644
->> --- a/drivers/gpu/drm/ttm/ttm_resource.c
->> +++ b/drivers/gpu/drm/ttm/ttm_resource.c
->> @@ -41,6 +41,7 @@ void ttm_resource_init(struct ttm_buffer_object *bo,
->>       res->bus.offset = 0;
->>       res->bus.is_iomem = false;
->>       res->bus.caching = ttm_cached;
->> +    res->bo = bo;
->>   }
->>   EXPORT_SYMBOL(ttm_resource_init);
->>   diff --git a/include/drm/ttm/ttm_resource.h 
->> b/include/drm/ttm/ttm_resource.h
->> index 140b6b9a8bbe..6d0b7a6d2169 100644
->> --- a/include/drm/ttm/ttm_resource.h
->> +++ b/include/drm/ttm/ttm_resource.h
->> @@ -171,6 +171,7 @@ struct ttm_resource {
->>       uint32_t mem_type;
->>       uint32_t placement;
->>       struct ttm_bus_placement bus;
->> +    struct ttm_buffer_object *bo;
+>>   static struct dma_fence *mock_chain(struct dma_fence *prev,
+>>   				    struct dma_fence *fence,
+>>   				    u64 seqno)
+>>   {
+>> -	struct mock_chain *f;
+>> +	struct dma_fence_chain *f;
+>>   
+>> -	f = kmalloc(sizeof(*f), GFP_KERNEL);
+>> +	f = dma_fence_chain_alloc();
+>>   	if (!f)
+>>   		return NULL;
+>>   
+>> -	dma_fence_chain_init(&f->base,
+>> -			     dma_fence_get(prev),
+>> -			     dma_fence_get(fence),
+>> +	dma_fence_chain_init(f, dma_fence_get(prev), dma_fence_get(fence),
+>>   			     seqno);
+>>   
+>> -	return &f->base.base;
+>> +	return &f->base;
+>>   }
+>>   
+>>   static int sanitycheck(void *arg)
+>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
+>> index 90136f9dedd6..325e82621467 100644
+>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
+>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
+>> @@ -1124,7 +1124,7 @@ static int amdgpu_cs_process_syncobj_timeline_out_dep(struct amdgpu_cs_parser *p
+>>   
+>>   		dep->chain = NULL;
+>>   		if (syncobj_deps[i].point) {
+>> -			dep->chain = kmalloc(sizeof(*dep->chain), GFP_KERNEL);
+>> +			dep->chain = dma_fence_chain_alloc();
+>>   			if (!dep->chain)
+>>   				return -ENOMEM;
+>>   		}
+>> @@ -1132,7 +1132,7 @@ static int amdgpu_cs_process_syncobj_timeline_out_dep(struct amdgpu_cs_parser *p
+>>   		dep->syncobj = drm_syncobj_find(p->filp,
+>>   						syncobj_deps[i].handle);
+>>   		if (!dep->syncobj) {
+>> -			kfree(dep->chain);
+>> +			dma_fence_chain_free(dep->chain);
+>>   			return -EINVAL;
+>>   		}
+>>   		dep->point = syncobj_deps[i].point;
+>> diff --git a/drivers/gpu/drm/drm_syncobj.c b/drivers/gpu/drm/drm_syncobj.c
+>> index fdd2ec87cdd1..1c5b9ef6da37 100644
+>> --- a/drivers/gpu/drm/drm_syncobj.c
+>> +++ b/drivers/gpu/drm/drm_syncobj.c
+>> @@ -861,7 +861,7 @@ static int drm_syncobj_transfer_to_timeline(struct drm_file *file_private,
+>>   				     &fence);
+>>   	if (ret)
+>>   		goto err;
+>> -	chain = kzalloc(sizeof(struct dma_fence_chain), GFP_KERNEL);
+>> +	chain = dma_fence_chain_alloc();
+>>   	if (!chain) {
+>>   		ret = -ENOMEM;
+>>   		goto err1;
+>> @@ -1402,10 +1402,10 @@ drm_syncobj_timeline_signal_ioctl(struct drm_device *dev, void *data,
+>>   		goto err_points;
+>>   	}
+>>   	for (i = 0; i < args->count_handles; i++) {
+>> -		chains[i] = kzalloc(sizeof(struct dma_fence_chain), GFP_KERNEL);
+>> +		chains[i] = dma_fence_chain_alloc();
+>>   		if (!chains[i]) {
+>>   			for (j = 0; j < i; j++)
+>> -				kfree(chains[j]);
+>> +				dma_fence_chain_free(chains[j]);
+>>   			ret = -ENOMEM;
+>>   			goto err_chains;
+>>   		}
+>> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
+>> index 66789111a24b..a22cb86730b3 100644
+>> --- a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
+>> +++ b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
+>> @@ -2983,7 +2983,7 @@ __free_fence_array(struct eb_fence *fences, unsigned int n)
+>>   	while (n--) {
+>>   		drm_syncobj_put(ptr_mask_bits(fences[n].syncobj, 2));
+>>   		dma_fence_put(fences[n].dma_fence);
+>> -		kfree(fences[n].chain_fence);
+>> +		dma_fence_chain_free(fences[n].chain_fence);
+>>   	}
+>>   	kvfree(fences);
+>>   }
+>> @@ -3097,9 +3097,7 @@ add_timeline_fence_array(struct i915_execbuffer *eb,
+>>   				return -EINVAL;
+>>   			}
+>>   
+>> -			f->chain_fence =
+>> -				kmalloc(sizeof(*f->chain_fence),
+>> -					GFP_KERNEL);
+>> +			f->chain_fence = dma_fence_chain_alloc();
+>>   			if (!f->chain_fence) {
+>>   				drm_syncobj_put(syncobj);
+>>   				dma_fence_put(fence);
+>> diff --git a/drivers/gpu/drm/msm/msm_gem_submit.c b/drivers/gpu/drm/msm/msm_gem_submit.c
+>> index 5480852bdeda..6ff6df6c4791 100644
+>> --- a/drivers/gpu/drm/msm/msm_gem_submit.c
+>> +++ b/drivers/gpu/drm/msm/msm_gem_submit.c
+>> @@ -586,9 +586,7 @@ static struct msm_submit_post_dep *msm_parse_post_deps(struct drm_device *dev,
+>>   				break;
+>>   			}
+>>   
+>> -			post_deps[i].chain =
+>> -				kmalloc(sizeof(*post_deps[i].chain),
+>> -				        GFP_KERNEL);
+>> +			post_deps[i].chain = dma_fence_chain_alloc();
+>>   			if (!post_deps[i].chain) {
+>>   				ret = -ENOMEM;
+>>   				break;
+>> @@ -605,7 +603,7 @@ static struct msm_submit_post_dep *msm_parse_post_deps(struct drm_device *dev,
+>>   
+>>   	if (ret) {
+>>   		for (j = 0; j <= i; ++j) {
+>> -			kfree(post_deps[j].chain);
+>> +			dma_fence_chain_free(post_deps[j].chain);
+>>   			if (post_deps[j].syncobj)
+>>   				drm_syncobj_put(post_deps[j].syncobj);
+>>   		}
+>> diff --git a/include/linux/dma-fence-chain.h b/include/linux/dma-fence-chain.h
+>> index 9d6a062be640..5f45689a6d2e 100644
+>> --- a/include/linux/dma-fence-chain.h
+>> +++ b/include/linux/dma-fence-chain.h
+>> @@ -12,6 +12,7 @@
+>>   
+>>   #include <linux/dma-fence.h>
+>>   #include <linux/irq_work.h>
+>> +#include <linux/slab.h>
+>>   
+>>   /**
+>>    * struct dma_fence_chain - fence to represent an node of a fence chain
+>> @@ -53,6 +54,27 @@ to_dma_fence_chain(struct dma_fence *fence)
+>>   	return container_of(fence, struct dma_fence_chain, base);
+>>   }
+>>   
+>> +/**
+>> + * dma_fence_chain_alloc
+>> + *
+>> + * Returns a new dma_fence_chain object
+> ... or NULL on failure.
 >
-> Not that I'm against this change by itself, but this bo pointer is not 
-> refcounted, and therefore needs a description when it's needed and 
-> why. What happens, for example when the resource is moved to a ghost 
-> object, or the bo is killed while the resource is remaining on a lru 
-> list (which I understand was one of the main purposes with 
-> free-standing resources). Weak references need a guarantee that the 
-> object they pointed to is alive. What is that guarantee?
+>> + */
+>> +static inline struct dma_fence_chain *dma_fence_chain_alloc(void)
+>> +{
+>> +	return kmalloc(sizeof(struct dma_fence_chain), GFP_KERNEL);
+>> +};
+>> +
+>> +/**
+>> + * dma_fence_chain_free
+>> + * @chain: chain node to free
+>> + *
+>> + * Frees up an allocated but not used dma_fence_chain node.
+>> + */
+>> +static inline void dma_fence_chain_free(struct dma_fence_chain *chain)
+>> +{
+>> +	kfree(chain);
+> kfree_rcu, and I guess this means this patch here should be cc: stable.
 
-The basic idea is that we want to get rid of ghost objects and all the 
-related workarounds in the mid term. But yes for the interim we probably 
-need more logic here to make sure the BO is not destroyed.
+Nope, kfree() is correct here.
 
->
-> Also could we introduce new TTM structure members where they are first 
-> used /referenced by TTM and not where they are used by amdgpu? Without 
-> finding out in patch 3 that this member is needed to look up the bo 
-> from a lru list the correct response to this patch would have been: 
-> That bo is amdgpu-specific and needs to be in a driver private struct...
-
-That was indeed not supposed like this.
-
-The question I rather wanted to raise if it's ok to make the resource 
-object fully depend on the BO for allocation/destruction?
-
-I've seen some code in the DG1 branch where a mock BO is used to 
-allocate some resource, but that approach won't work with this here.
-
-On the other hand this fixes a long outstanding and very annoying 
-problem we had.
+This is to free up fences which never been initialized, so an RCU grace 
+period isn't necessary because nobody could potentially have a reference.
 
 Christian.
 
+> This is kinda why I'm questioning whether this "dma_fence are protected by
+> rcu" cross driver api is really a good idea. We largely get it wrong in
+> the details in a _ton_ of places.
 >
+> With the details fixed:
 >
-> Thanks,
+> Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 >
-> /Thomas
->
->
->>   };
->>     /**
+>> +
+>>   /**
+>>    * dma_fence_chain_for_each - iterate over all fences in chain
+>>    * @iter: current fence
+>> -- 
+>> 2.25.1
+>>
 
