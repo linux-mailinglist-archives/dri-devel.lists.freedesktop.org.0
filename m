@@ -2,60 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50D9E3A447C
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Jun 2021 16:55:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E0E553A447E
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Jun 2021 16:56:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3E2326EEA6;
-	Fri, 11 Jun 2021 14:55:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D80BE6EEA7;
+	Fri, 11 Jun 2021 14:56:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com
- [IPv6:2a00:1450:4864:20::32d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DC88D6EEA6
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Jun 2021 14:55:53 +0000 (UTC)
-Received: by mail-wm1-x32d.google.com with SMTP id m3so3041584wms.4
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Jun 2021 07:55:53 -0700 (PDT)
+Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com
+ [IPv6:2a00:1450:4864:20::42b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B1F926EEA7
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Jun 2021 14:56:39 +0000 (UTC)
+Received: by mail-wr1-x42b.google.com with SMTP id m18so6409264wrv.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Jun 2021 07:56:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:content-transfer-encoding:in-reply-to;
- bh=VogJSzUKEexMGABDNfazwk46tI2gvNniSZkFlcB+wfc=;
- b=fjrwH/yB8odcqf6t9urm0xnWaWCOcXsE7p282DE9BQ5u5a5yDdkqMSg6Xt82y+kv+t
- +8KEYXzu+WdBFS1d9FVFAiMyR6yo+ilaBqFSSyRMxYi7EWJRXtYoyACmhdunyfWgo7JR
- 9CBpYXZitaqRbEgiZFT/hVxw55twH1Xd0xoC4=
+ bh=8DRpAbZduS79BSsvw/21IEqRxTOXXVsO5GTYrDtXz8A=;
+ b=QpdW63PZD+qUoNhTIJedLSwsTTNDS7c2V8LoFcZvWjmlH7zp1Naz9sP44Yb7xBjAar
+ 9z/bVd9rGuqlhdklQjAbBR3j4Ths2Vw4vXbY4wz0GGmvGryl40seSQdQ2WMgJRjCJkyb
+ x1Yy3v66N34En8KtOas/ZkBQ8klTYyEDMD/7c=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:content-transfer-encoding
  :in-reply-to;
- bh=VogJSzUKEexMGABDNfazwk46tI2gvNniSZkFlcB+wfc=;
- b=gxJaOtXzfWAFvFqUAafeeh8C/jGmu16REqxlOxiN2iKUQGOu/DqkgeisHCIp+cVmEw
- Qgwjtlv8EGpcdbLK18w8bJ42xLoCMKuOnP37SbYTx+mDTUjBJimhKXyRTo3kzdlAE9zT
- VMwoVEdq+DnxSqLToreQX1IyKgXfYHjmrS3kVtcwYIV2XVXNJHdxsK9VqV+6lA4VxtvK
- UxWPxBqJJrJXrinpIBQceNvntcEWC2Paa3fD8YoGNHPzlN3AtQxyCW03NB+U670jsnuu
- 6Evnrc1gOBnKOydQQadZsqEXYc4WInVr6vcDbjsusY7zHbyMexuR1vCLHTsR7TWIzuFx
- GppA==
-X-Gm-Message-State: AOAM5334HtfmVIOPXBHLQTG5GVMEBmk7X/DkugRgT8RJVeHa7ogGtHD2
- wXn4C/Jg2NIMIFQbo9oCGW+pNQ==
-X-Google-Smtp-Source: ABdhPJwZMeLyfVZ3r7Sgg3vZQ5olxvPiHwMHzxvGqJxnrOt9crVrYfYvz++st8pgd2SBDUKsvkb2Qw==
-X-Received: by 2002:a1c:ddc3:: with SMTP id u186mr20625206wmg.44.1623423352482; 
- Fri, 11 Jun 2021 07:55:52 -0700 (PDT)
+ bh=8DRpAbZduS79BSsvw/21IEqRxTOXXVsO5GTYrDtXz8A=;
+ b=DWbGeks9qP/vS47TPMH61fpez3Jv1Nvx/Iw2DzOhMzzP1PUbR9ErANzw5oxDuYhI0D
+ v8LHjjVicJ0TD/4q/TXEcEqCgn81GYD1i6YldL6uCYinOxbtUpJP4jtxOtCsoGqV2kFX
+ XIbzWYRD1b9ONNo0JPqLHiTvuI8PNIeQS3XZXJ7lGrdfbi2Ak5VcE2ecvpU9F2I8dJMw
+ Sv9vtSfpw7k98vPU8BimAuGBzhc5NEHiDosADqfol2+VIYUArzCow6w9PYQmMMWfUEd0
+ IcqD1c5TXm2qUOI6L+XulVM3VuOVIqktOg529jl89lCgWFaAz+deI8by8GLAfG7TuLbm
+ z2lg==
+X-Gm-Message-State: AOAM530biK9eI5emlrPF0RHzTGvXwGnCnkF/Knm8c1SYDZcLZsMKNtEi
+ 6hRa/yINAJYN8V5KpHu6IhQUYg==
+X-Google-Smtp-Source: ABdhPJzQ6QGantOia3ULU/v66l5mxvnr4z3V244nOCvHqEtLUuODB8OSt/Smtx3S34WtegALCtGSKg==
+X-Received: by 2002:a5d:6546:: with SMTP id z6mr4628989wrv.100.1623423398383; 
+ Fri, 11 Jun 2021 07:56:38 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id t9sm7171092wmq.14.2021.06.11.07.55.51
+ by smtp.gmail.com with ESMTPSA id a3sm7656498wra.4.2021.06.11.07.56.37
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 11 Jun 2021 07:55:52 -0700 (PDT)
-Date: Fri, 11 Jun 2021 16:55:50 +0200
+ Fri, 11 Jun 2021 07:56:37 -0700 (PDT)
+Date: Fri, 11 Jun 2021 16:56:36 +0200
 From: Daniel Vetter <daniel@ffwll.ch>
 To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>
-Subject: Re: [PATCH 1/5] dma-buf: fix dma_resv_test_signaled test_all handling
-Message-ID: <YMN5do2/KUt85h5W@phenom.ffwll.local>
+Subject: Re: [PATCH 5/5] drm/amdgpu: rework dma_resv handling v2
+Message-ID: <YMN5pJ3mm3wjQemi@phenom.ffwll.local>
 References: <20210611120301.10595-1-christian.koenig@amd.com>
- <YMN3nr1mTj09p8lT@phenom.ffwll.local>
- <2c91e4b4-e8c8-a9f5-420f-9cf0c1f9a67d@gmail.com>
+ <20210611120301.10595-5-christian.koenig@amd.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <2c91e4b4-e8c8-a9f5-420f-9cf0c1f9a67d@gmail.com>
+In-Reply-To: <20210611120301.10595-5-christian.koenig@amd.com>
 X-Operating-System: Linux phenom 5.10.32scarlett+ 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -73,129 +72,278 @@ Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jun 11, 2021 at 04:53:11PM +0200, Christian König wrote:
+On Fri, Jun 11, 2021 at 02:03:01PM +0200, Christian König wrote:
+> Drop the workaround and instead implement a better solution.
 > 
+> Basically we are now chaining all submissions using a dma_fence_chain
+> container and adding them as exclusive fence to the dma_resv object.
 > 
-> Am 11.06.21 um 16:47 schrieb Daniel Vetter:
-> > On Fri, Jun 11, 2021 at 02:02:57PM +0200, Christian König wrote:
-> > > As the name implies if testing all fences is requested we
-> > > should indeed test all fences and not skip the exclusive
-> > > one because we see shared ones.
-> > > 
-> > > Signed-off-by: Christian König <christian.koenig@amd.com>
-> > Hm I thought we've had the rule that when both fences exist, then
-> > collectively the shared ones must signale no earlier than the exclusive
-> > one.
-> > 
-> > That's at least the contract we've implemented in dma_resv.h. But I've
-> > also found a bunch of drivers who are a lot more yolo on this.
-> > 
-> > I think there's a solid case here to just always take all the fences if we
-> > ask for all the shared ones, but if we go that way then I'd say
-> > - clear kerneldoc patch to really hammer this in (currently we're not good
-> >    at all in this regard)
-> > - going through drivers a bit to check for this (I have some of that done
-> >    already in my earlier series, need to respin it and send it out)
-> > 
-> > But I'm kinda not seeing why this needs to be in this patch series here.
+> This way other drivers can still sync to the single exclusive fence
+> while amdgpu only sync to fences from different processes.
 > 
-> You mentioned that this is a problem in the last patch and if you ask me
-> that's just a bug or at least very inconsistent.
-> 
-> See dma_resv_wait_timeout() always waits for all fences, including the
-> exclusive one even if shared ones are present. But dma_resv_test_signaled()
-> ignores the exclusive one if shared ones are present.
+> v2: polish kerneldoc a bit
 
-Hm the only one I thought I've mentioned is that dma_buf_poll doesn't use
-dma_fence_get_rcu_safe where I think it should. Different problem. I think
-this is one you spotted.
-
-> The only other driver I could find trying to make use of this is nouveau and
-> I already provided a fix for this as well.
-
-i915 also does this, and I think I've found a few more.
-
-> I just think that this is the more defensive approach to fix this and have
-> at least the core functions consistent on the handling.
-
-Oh fully agree, it's just current dma_resv docs aren't the greatest, and
-hacking on semantics without updating the docs isn't great. Especially
-when it's ad-hoc.
+There is no kerneldoc here, and otherwise this patch looks unchanged from
+the previous round. Hit send a bit too quickly?
 -Daniel
 
 > 
-> Christian.
+> Signed-off-by: Christian König <christian.koenig@amd.com>
+> ---
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_bo_list.h |  1 +
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c      | 54 +++++++++++++----
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c | 65 ---------------------
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c     |  3 +-
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_object.c  |  2 +-
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_object.h  |  1 -
+>  6 files changed, 47 insertions(+), 79 deletions(-)
 > 
-> > -Daniel
-> > 
-> > > ---
-> > >   drivers/dma-buf/dma-resv.c | 33 ++++++++++++---------------------
-> > >   1 file changed, 12 insertions(+), 21 deletions(-)
-> > > 
-> > > diff --git a/drivers/dma-buf/dma-resv.c b/drivers/dma-buf/dma-resv.c
-> > > index f26c71747d43..c66bfdde9454 100644
-> > > --- a/drivers/dma-buf/dma-resv.c
-> > > +++ b/drivers/dma-buf/dma-resv.c
-> > > @@ -615,25 +615,21 @@ static inline int dma_resv_test_signaled_single(struct dma_fence *passed_fence)
-> > >    */
-> > >   bool dma_resv_test_signaled(struct dma_resv *obj, bool test_all)
-> > >   {
-> > > -	unsigned int seq, shared_count;
-> > > +	struct dma_fence *fence;
-> > > +	unsigned int seq;
-> > >   	int ret;
-> > >   	rcu_read_lock();
-> > >   retry:
-> > >   	ret = true;
-> > > -	shared_count = 0;
-> > >   	seq = read_seqcount_begin(&obj->seq);
-> > >   	if (test_all) {
-> > >   		struct dma_resv_list *fobj = dma_resv_shared_list(obj);
-> > > -		unsigned int i;
-> > > -
-> > > -		if (fobj)
-> > > -			shared_count = fobj->shared_count;
-> > > +		unsigned int i, shared_count;
-> > > +		shared_count = fobj ? fobj->shared_count : 0;
-> > >   		for (i = 0; i < shared_count; ++i) {
-> > > -			struct dma_fence *fence;
-> > > -
-> > >   			fence = rcu_dereference(fobj->shared[i]);
-> > >   			ret = dma_resv_test_signaled_single(fence);
-> > >   			if (ret < 0)
-> > > @@ -641,24 +637,19 @@ bool dma_resv_test_signaled(struct dma_resv *obj, bool test_all)
-> > >   			else if (!ret)
-> > >   				break;
-> > >   		}
-> > > -
-> > > -		if (read_seqcount_retry(&obj->seq, seq))
-> > > -			goto retry;
-> > >   	}
-> > > -	if (!shared_count) {
-> > > -		struct dma_fence *fence_excl = dma_resv_excl_fence(obj);
-> > > -
-> > > -		if (fence_excl) {
-> > > -			ret = dma_resv_test_signaled_single(fence_excl);
-> > > -			if (ret < 0)
-> > > -				goto retry;
-> > > +	fence = dma_resv_excl_fence(obj);
-> > > +	if (fence) {
-> > > +		ret = dma_resv_test_signaled_single(fence);
-> > > +		if (ret < 0)
-> > > +			goto retry;
-> > > -			if (read_seqcount_retry(&obj->seq, seq))
-> > > -				goto retry;
-> > > -		}
-> > >   	}
-> > > +	if (read_seqcount_retry(&obj->seq, seq))
-> > > +		goto retry;
-> > > +
-> > >   	rcu_read_unlock();
-> > >   	return ret;
-> > >   }
-> > > -- 
-> > > 2.25.1
-> > > 
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_bo_list.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_bo_list.h
+> index a130e766cbdb..c905a4cfc173 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_bo_list.h
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_bo_list.h
+> @@ -34,6 +34,7 @@ struct amdgpu_fpriv;
+>  struct amdgpu_bo_list_entry {
+>  	struct ttm_validate_buffer	tv;
+>  	struct amdgpu_bo_va		*bo_va;
+> +	struct dma_fence_chain		*chain;
+>  	uint32_t			priority;
+>  	struct page			**user_pages;
+>  	bool				user_invalidated;
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
+> index 325e82621467..f6f3029f958d 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
+> @@ -587,6 +587,20 @@ static int amdgpu_cs_parser_bos(struct amdgpu_cs_parser *p,
+>  		goto out;
+>  	}
+>  
+> +	amdgpu_bo_list_for_each_entry(e, p->bo_list) {
+> +		struct amdgpu_bo *bo = ttm_to_amdgpu_bo(e->tv.bo);
+> +
+> +		e->bo_va = amdgpu_vm_bo_find(vm, bo);
+> +
+> +		if (bo->tbo.base.dma_buf && !amdgpu_bo_explicit_sync(bo)) {
+> +			e->chain = dma_fence_chain_alloc();
+> +			if (!e->chain) {
+> +				r = -ENOMEM;
+> +				goto error_validate;
+> +			}
+> +		}
+> +	}
+> +
+>  	amdgpu_cs_get_threshold_for_moves(p->adev, &p->bytes_moved_threshold,
+>  					  &p->bytes_moved_vis_threshold);
+>  	p->bytes_moved = 0;
+> @@ -614,15 +628,6 @@ static int amdgpu_cs_parser_bos(struct amdgpu_cs_parser *p,
+>  	gws = p->bo_list->gws_obj;
+>  	oa = p->bo_list->oa_obj;
+>  
+> -	amdgpu_bo_list_for_each_entry(e, p->bo_list) {
+> -		struct amdgpu_bo *bo = ttm_to_amdgpu_bo(e->tv.bo);
+> -
+> -		/* Make sure we use the exclusive slot for shared BOs */
+> -		if (bo->prime_shared_count)
+> -			e->tv.num_shared = 0;
+> -		e->bo_va = amdgpu_vm_bo_find(vm, bo);
+> -	}
+> -
+>  	if (gds) {
+>  		p->job->gds_base = amdgpu_bo_gpu_offset(gds) >> PAGE_SHIFT;
+>  		p->job->gds_size = amdgpu_bo_size(gds) >> PAGE_SHIFT;
+> @@ -644,8 +649,13 @@ static int amdgpu_cs_parser_bos(struct amdgpu_cs_parser *p,
+>  	}
+>  
+>  error_validate:
+> -	if (r)
+> +	if (r) {
+> +		amdgpu_bo_list_for_each_entry(e, p->bo_list) {
+> +			dma_fence_chain_free(e->chain);
+> +			e->chain = NULL;
+> +		}
+>  		ttm_eu_backoff_reservation(&p->ticket, &p->validated);
+> +	}
+>  out:
+>  	return r;
+>  }
+> @@ -685,9 +695,17 @@ static void amdgpu_cs_parser_fini(struct amdgpu_cs_parser *parser, int error,
+>  {
+>  	unsigned i;
+>  
+> -	if (error && backoff)
+> +	if (error && backoff) {
+> +		struct amdgpu_bo_list_entry *e;
+> +
+> +		amdgpu_bo_list_for_each_entry(e, parser->bo_list) {
+> +			dma_fence_chain_free(e->chain);
+> +			e->chain = NULL;
+> +		}
+> +
+>  		ttm_eu_backoff_reservation(&parser->ticket,
+>  					   &parser->validated);
+> +	}
+>  
+>  	for (i = 0; i < parser->num_post_deps; i++) {
+>  		drm_syncobj_put(parser->post_deps[i].syncobj);
+> @@ -1260,6 +1278,20 @@ static int amdgpu_cs_submit(struct amdgpu_cs_parser *p,
+>  
+>  	amdgpu_vm_move_to_lru_tail(p->adev, &fpriv->vm);
+>  
+> +	amdgpu_bo_list_for_each_entry(e, p->bo_list) {
+> +		struct dma_resv *resv = e->tv.bo->base.resv;
+> +		struct dma_fence_chain *chain = e->chain;
+> +
+> +		if (!chain)
+> +			continue;
+> +
+> +		dma_fence_chain_init(chain, dma_resv_excl_fence(resv),
+> +				     dma_fence_get(p->fence), 1);
+> +
+> +		rcu_assign_pointer(resv->fence_excl, &chain->base);
+> +		e->chain = NULL;
+> +	}
+> +
+>  	ttm_eu_fence_buffer_objects(&p->ticket, &p->validated, p->fence);
+>  	mutex_unlock(&p->adev->notifier_lock);
+>  
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c
+> index c3053b83b80c..23219fc3b28c 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c
+> @@ -42,48 +42,6 @@
+>  #include <linux/pci-p2pdma.h>
+>  #include <linux/pm_runtime.h>
+>  
+> -static int
+> -__dma_resv_make_exclusive(struct dma_resv *obj)
+> -{
+> -	struct dma_fence **fences;
+> -	unsigned int count;
+> -	int r;
+> -
+> -	if (!dma_resv_shared_list(obj)) /* no shared fences to convert */
+> -		return 0;
+> -
+> -	r = dma_resv_get_fences(obj, NULL, &count, &fences);
+> -	if (r)
+> -		return r;
+> -
+> -	if (count == 0) {
+> -		/* Now that was unexpected. */
+> -	} else if (count == 1) {
+> -		dma_resv_add_excl_fence(obj, fences[0]);
+> -		dma_fence_put(fences[0]);
+> -		kfree(fences);
+> -	} else {
+> -		struct dma_fence_array *array;
+> -
+> -		array = dma_fence_array_create(count, fences,
+> -					       dma_fence_context_alloc(1), 0,
+> -					       false);
+> -		if (!array)
+> -			goto err_fences_put;
+> -
+> -		dma_resv_add_excl_fence(obj, &array->base);
+> -		dma_fence_put(&array->base);
+> -	}
+> -
+> -	return 0;
+> -
+> -err_fences_put:
+> -	while (count--)
+> -		dma_fence_put(fences[count]);
+> -	kfree(fences);
+> -	return -ENOMEM;
+> -}
+> -
+>  /**
+>   * amdgpu_dma_buf_attach - &dma_buf_ops.attach implementation
+>   *
+> @@ -110,24 +68,6 @@ static int amdgpu_dma_buf_attach(struct dma_buf *dmabuf,
+>  	if (r < 0)
+>  		goto out;
+>  
+> -	r = amdgpu_bo_reserve(bo, false);
+> -	if (unlikely(r != 0))
+> -		goto out;
+> -
+> -	/*
+> -	 * We only create shared fences for internal use, but importers
+> -	 * of the dmabuf rely on exclusive fences for implicitly
+> -	 * tracking write hazards. As any of the current fences may
+> -	 * correspond to a write, we need to convert all existing
+> -	 * fences on the reservation object into a single exclusive
+> -	 * fence.
+> -	 */
+> -	r = __dma_resv_make_exclusive(bo->tbo.base.resv);
+> -	if (r)
+> -		goto out;
+> -
+> -	bo->prime_shared_count++;
+> -	amdgpu_bo_unreserve(bo);
+>  	return 0;
+>  
+>  out:
+> @@ -150,9 +90,6 @@ static void amdgpu_dma_buf_detach(struct dma_buf *dmabuf,
+>  	struct amdgpu_bo *bo = gem_to_amdgpu_bo(obj);
+>  	struct amdgpu_device *adev = amdgpu_ttm_adev(bo->tbo.bdev);
+>  
+> -	if (attach->dev->driver != adev->dev->driver && bo->prime_shared_count)
+> -		bo->prime_shared_count--;
+> -
+>  	pm_runtime_mark_last_busy(adev_to_drm(adev)->dev);
+>  	pm_runtime_put_autosuspend(adev_to_drm(adev)->dev);
+>  }
+> @@ -406,8 +343,6 @@ amdgpu_dma_buf_create_obj(struct drm_device *dev, struct dma_buf *dma_buf)
+>  	bo = gem_to_amdgpu_bo(gobj);
+>  	bo->allowed_domains = AMDGPU_GEM_DOMAIN_GTT;
+>  	bo->preferred_domains = AMDGPU_GEM_DOMAIN_GTT;
+> -	if (dma_buf->ops != &amdgpu_dmabuf_ops)
+> -		bo->prime_shared_count = 1;
+>  
+>  	dma_resv_unlock(resv);
+>  	return gobj;
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c
+> index 1c3e3b608332..5d82120fc160 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c
+> @@ -829,7 +829,8 @@ int amdgpu_gem_op_ioctl(struct drm_device *dev, void *data,
+>  		break;
+>  	}
+>  	case AMDGPU_GEM_OP_SET_PLACEMENT:
+> -		if (robj->prime_shared_count && (args->value & AMDGPU_GEM_DOMAIN_VRAM)) {
+> +		if (robj->tbo.base.import_attach &&
+> +		    args->value & AMDGPU_GEM_DOMAIN_VRAM) {
+>  			r = -EINVAL;
+>  			amdgpu_bo_unreserve(robj);
+>  			break;
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
+> index 96447e1d4c9c..30951b593809 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
+> @@ -871,7 +871,7 @@ int amdgpu_bo_pin_restricted(struct amdgpu_bo *bo, u32 domain,
+>  		return -EINVAL;
+>  
+>  	/* A shared bo cannot be migrated to VRAM */
+> -	if (bo->prime_shared_count || bo->tbo.base.import_attach) {
+> +	if (bo->tbo.base.import_attach) {
+>  		if (domain & AMDGPU_GEM_DOMAIN_GTT)
+>  			domain = AMDGPU_GEM_DOMAIN_GTT;
+>  		else
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.h
+> index b35962702278..55d7e90eaa72 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.h
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.h
+> @@ -98,7 +98,6 @@ struct amdgpu_bo {
+>  	struct ttm_buffer_object	tbo;
+>  	struct ttm_bo_kmap_obj		kmap;
+>  	u64				flags;
+> -	unsigned			prime_shared_count;
+>  	/* per VM structure for page tables and with virtual addresses */
+>  	struct amdgpu_vm_bo_base	*vm_bo;
+>  	/* Constant after initialization */
+> -- 
+> 2.25.1
 > 
 
 -- 
