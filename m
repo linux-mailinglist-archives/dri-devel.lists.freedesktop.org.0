@@ -1,45 +1,69 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89A323A40FE
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Jun 2021 13:13:16 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0103D3A4140
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Jun 2021 13:30:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BEA3E6E02D;
-	Fri, 11 Jun 2021 11:13:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3193D6EE6F;
+	Fri, 11 Jun 2021 11:30:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 349966E02D;
- Fri, 11 Jun 2021 11:13:10 +0000 (UTC)
-IronPort-SDR: 4Q97dvMxe4D9JGLlrcEF9wk4PJvbG9YiJz1JR44yxuUQyBaSrmQHZK/QdCdqXJBC+zwV9gYFPa
- WmJDHlSO8ZmQ==
-X-IronPort-AV: E=McAfee;i="6200,9189,10011"; a="202479652"
-X-IronPort-AV: E=Sophos;i="5.83,265,1616482800"; d="scan'208";a="202479652"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Jun 2021 04:13:09 -0700
-IronPort-SDR: 903p1BPHrU/axw+WZ1VNhCHoQChyje1D51V5OGbvDcUGeZJ1ToZDiVgHZDbnTzvmSlVV2jSHUw
- IvRx0Qz9j6BA==
-X-IronPort-AV: E=Sophos;i="5.83,265,1616482800"; d="scan'208";a="449079686"
-Received: from moconno1-mobl1.ger.corp.intel.com (HELO localhost)
- ([10.252.12.31])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Jun 2021 04:13:05 -0700
-Content-Type: text/plain; charset="utf-8"
+Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com
+ [IPv6:2a00:1450:4864:20::332])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 38E806EE6F
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Jun 2021 11:30:42 +0000 (UTC)
+Received: by mail-wm1-x332.google.com with SMTP id
+ l7-20020a05600c1d07b02901b0e2ebd6deso8307837wms.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Jun 2021 04:30:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=subject:to:references:from:message-id:date:user-agent:mime-version
+ :in-reply-to:content-transfer-encoding:content-language;
+ bh=RoC9doV+7XnrhBdmrOggcmPU+MqSliIk6SEGm0l7wIk=;
+ b=rxas9qgXzKPrwLyyGxAEFpFempNCO/9eXOsGa7j3MHLvPdaBc+BFD+tP7qNvHv0OC9
+ 6NZKL9KI5sHuVziainfOhGhBOl+xXVME0P/NdrDpNbMrerwVWW1tailbHo+vshDTWUH4
+ kv9iDubukhvGUT0B5/LXtyHZ0WCOTbUsF+eE+6Lh/XlWKUwuOEc0nbHM4s0LCcF4LfHE
+ 26yXv3IsVVOPFKHKFMjxRf1NGHyumSPoxszsnujb/utrjauYJuB87FE95YanF08R1jMn
+ rXoYTaayJ9ijaW3Puo6OsdKd5GFota8EodqPIao9lWtCmhwYKy0gDDAasmrKVB1sK2Wd
+ SgZg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-transfer-encoding
+ :content-language;
+ bh=RoC9doV+7XnrhBdmrOggcmPU+MqSliIk6SEGm0l7wIk=;
+ b=AVRtvp6IZUyE0bBheO5EOxS/WbGKNYWrBWWetMBWu1HJVNW5EfezBBjBsH/zrN11Gr
+ r5jIKpXgwGobIUPqk3e9Xx/EmTwIGk+ng7BGxOz1iJc1oGLmFEMBRTHgaEQNvFVfxfKc
+ fdKVw2eGpnoxDqdLW/Y/26joxJsVculz5XJf8f2hCcDSzbqhUoQzbVmhAXboI+ocDxAC
+ 58SwHaxBoAu4lQrXBi15Q1eycG+0rXr5DpNYRlzl55HL4Ud3BnBuFVEb1WJ4qm4gz0D+
+ ObULPqjdRZScgo7mYOjD/jcKoGp2QamrAK7QldsvqFr8Vj9VscZ+dVzC1ASJU57bnv1B
+ i3AQ==
+X-Gm-Message-State: AOAM531XeJWqQO7ylFb122o2lnW4A2Cgtwg9zC+X0W9WFOUbVu02g+et
+ MvTgp1nLSEuCYFcjCs0iSKk0UlB9A1Q=
+X-Google-Smtp-Source: ABdhPJx3M14SWxA8OON+6K2pMVFd+U8X8d8ZTpBKmxMnSXnD3t4JFG1J1Ztvf4y+44EcnGInT2LJgg==
+X-Received: by 2002:a05:600c:243:: with SMTP id 3mr3491793wmj.35.1623411040789; 
+ Fri, 11 Jun 2021 04:30:40 -0700 (PDT)
+Received: from ?IPv6:2a02:908:1252:fb60:bd94:4b9a:99c4:4bc1?
+ ([2a02:908:1252:fb60:bd94:4b9a:99c4:4bc1])
+ by smtp.gmail.com with ESMTPSA id c2sm12858749wmf.24.2021.06.11.04.30.39
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 11 Jun 2021 04:30:40 -0700 (PDT)
+Subject: Re: [PATCH 1/4] drm/ttm: add a pointer to the allocating BO into
+ ttm_resource
+To: =?UTF-8?Q?Thomas_Hellstr=c3=b6m_=28Intel=29?= <thomas_os@shipmail.org>,
+ matthew.auld@intel.com, dri-devel@lists.freedesktop.org
+References: <20210610110559.1758-1-christian.koenig@amd.com>
+ <eaa54fe7-37c3-831b-390a-7e7cc8b414af@shipmail.org>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+Message-ID: <e8341190-0426-4532-7ecc-aa04ef92c5fb@gmail.com>
+Date: Fri, 11 Jun 2021 13:30:38 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <162340805657.68262.6607541005525077753@jlahtine-mobl.ger.corp.intel.com>
-References: <eb71ee2d-3413-6ca8-0b7c-a58695f00b77@linux.intel.com>
- <162340805657.68262.6607541005525077753@jlahtine-mobl.ger.corp.intel.com>
-To: Daniel Vetter <daniel.vetter@ffwll.ch>, Dave Airlie <airlied@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-From: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-Subject: Re: [PULL] topic/i915-ttm
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-Message-ID: <162340998262.68262.6045527397253780242@jlahtine-mobl.ger.corp.intel.com>
-User-Agent: alot/0.8.1
-Date: Fri, 11 Jun 2021 14:13:02 +0300
+In-Reply-To: <eaa54fe7-37c3-831b-390a-7e7cc8b414af@shipmail.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,113 +76,225 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Hellstrom <thellstrom@vmware.com>, dim-tools@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Sean Paul <sean@poorly.run>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Joonas Lahtinen (2021-06-11 13:40:56)
-> Quoting Maarten Lankhorst (2021-06-11 12:27:15)
-> > Pull request for drm-misc-next and drm-intel-gt-next.
-> >=20
-> > topic/i915-ttm-2021-06-11:
-> > drm-misc and drm-intel pull request for topic/i915-ttm:
-> > - Convert i915 lmem handling to ttm.
-> > - Add a patch to temporarily add a driver_private member to vma_node.
-> > - Use this to allow mixed object mmap handling for i915.
-> > The following changes since commit 1bd8a7dc28c1c410f1ceefae1f2a97c06d1a=
-67c2:
-> >=20
-> >   Merge tag 'exynos-drm-next-for-v5.14' of git://git.kernel.org/pub/scm=
-/linux/kernel/git/daeinki/drm-exynos into drm-next (2021-06-11 14:19:12 +10=
-00)
->=20
-> This base is not in drm-misc-next or drm-intel-gt-next, so effectively
-> we would end up pulling 478 extra commits from drm-next as a result. And
-> also causing all the warnings for those commits. I don't think we should
-> do that?
->=20
-> The common ancestor would be ccd1950c2f7e38ae45aeefb99a08b39407cd6c63
-> "Merge tag 'drm-intel-gt-next-2021-05-28' of git://anongit.freedesktop.or=
-g/drm/drm-intel into drm-next"
-> Should we re-do the topic branch based on that?
 
-This problem seems to come from the fact that only the PR from yesterday
-that got merged to drm-next had the dependency patches. The previous
-backmerge of drm-next was requested too early.
 
-I've solved this with least hassle by backmerging drm-next again and
-then applying the PR to drm-intel-gt-next.
+Am 11.06.21 um 07:34 schrieb Thomas Hellström (Intel):
+> Hi, Christian,
+>
+> I know you have a lot on your plate, and that the drm community is a 
+> bit lax about following the kernel patch submitting guidelines, but 
+> now that we're also spinning up a number of Intel developers on TTM 
+> could we please make a better effort with cover letters and commit 
+> messages so that they understand what the purpose and end goal of the 
+> series is. A reviewer shouldn't have to look at the last patch to try 
+> to get an understanding what the series is doing and why.
 
-I think drm-misc-next should do the same (exact commit was
-1bd8a7dc28c1c410f1ceefae1f2a97c06d1a67c2).
+Sorry, that was send out this early unintentionally. See it more like an 
+RFC.
 
-Regards, Joonas
+>
+> On 6/10/21 1:05 PM, Christian König wrote:
+>> We are going to need this for the next patch
+>
+>
+>> and it allows us to clean
+>> up amdgpu as well.
+>
+> The amdgpu changes are not reflected in the commit title.
+>
+>
+>>
+>> Signed-off-by: Christian König <christian.koenig@amd.com>
+>> ---
+>>   drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c | 47 ++++++++-------------
+>>   drivers/gpu/drm/ttm/ttm_resource.c          |  1 +
+>>   include/drm/ttm/ttm_resource.h              |  1 +
+>>   3 files changed, 19 insertions(+), 30 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c 
+>> b/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c
+>> index 194f9eecf89c..8e3f5da44e4f 100644
+>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c
+>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c
+>> @@ -26,23 +26,12 @@
+>>     #include "amdgpu.h"
+>>   -struct amdgpu_gtt_node {
+>> -    struct ttm_buffer_object *tbo;
+>> -    struct ttm_range_mgr_node base;
+>> -};
+>> -
+>>   static inline struct amdgpu_gtt_mgr *
+>>   to_gtt_mgr(struct ttm_resource_manager *man)
+>>   {
+>>       return container_of(man, struct amdgpu_gtt_mgr, manager);
+>>   }
+>>   -static inline struct amdgpu_gtt_node *
+>> -to_amdgpu_gtt_node(struct ttm_resource *res)
+>> -{
+>> -    return container_of(res, struct amdgpu_gtt_node, base.base);
+>> -}
+>> -
+>>   /**
+>>    * DOC: mem_info_gtt_total
+>>    *
+>> @@ -107,9 +96,9 @@ const struct attribute_group 
+>> amdgpu_gtt_mgr_attr_group = {
+>>    */
+>>   bool amdgpu_gtt_mgr_has_gart_addr(struct ttm_resource *res)
+>>   {
+>> -    struct amdgpu_gtt_node *node = to_amdgpu_gtt_node(res);
+>> +    struct ttm_range_mgr_node *node = to_ttm_range_mgr_node(res);
+>>   -    return drm_mm_node_allocated(&node->base.mm_nodes[0]);
+>> +    return drm_mm_node_allocated(&node->mm_nodes[0]);
+>>   }
+>>     /**
+>> @@ -129,7 +118,7 @@ static int amdgpu_gtt_mgr_new(struct 
+>> ttm_resource_manager *man,
+>>   {
+>>       struct amdgpu_gtt_mgr *mgr = to_gtt_mgr(man);
+>>       uint32_t num_pages = PFN_UP(tbo->base.size);
+>> -    struct amdgpu_gtt_node *node;
+>> +    struct ttm_range_mgr_node *node;
+>>       int r;
+>>         spin_lock(&mgr->lock);
+>> @@ -141,19 +130,17 @@ static int amdgpu_gtt_mgr_new(struct 
+>> ttm_resource_manager *man,
+>>       atomic64_sub(num_pages, &mgr->available);
+>>       spin_unlock(&mgr->lock);
+>>   -    node = kzalloc(struct_size(node, base.mm_nodes, 1), GFP_KERNEL);
+>> +    node = kzalloc(struct_size(node, mm_nodes, 1), GFP_KERNEL);
+>>       if (!node) {
+>>           r = -ENOMEM;
+>>           goto err_out;
+>>       }
+>>   -    node->tbo = tbo;
+>> -    ttm_resource_init(tbo, place, &node->base.base);
+>> -
+>> +    ttm_resource_init(tbo, place, &node->base);
+>>       if (place->lpfn) {
+>>           spin_lock(&mgr->lock);
+>>           r = drm_mm_insert_node_in_range(&mgr->mm,
+>> -                        &node->base.mm_nodes[0],
+>> +                        &node->mm_nodes[0],
+>>                           num_pages, tbo->page_alignment,
+>>                           0, place->fpfn, place->lpfn,
+>>                           DRM_MM_INSERT_BEST);
+>> @@ -161,14 +148,14 @@ static int amdgpu_gtt_mgr_new(struct 
+>> ttm_resource_manager *man,
+>>           if (unlikely(r))
+>>               goto err_free;
+>>   -        node->base.base.start = node->base.mm_nodes[0].start;
+>> +        node->base.start = node->mm_nodes[0].start;
+>>       } else {
+>> -        node->base.mm_nodes[0].start = 0;
+>> -        node->base.mm_nodes[0].size = node->base.base.num_pages;
+>> -        node->base.base.start = AMDGPU_BO_INVALID_OFFSET;
+>> +        node->mm_nodes[0].start = 0;
+>> +        node->mm_nodes[0].size = node->base.num_pages;
+>> +        node->base.start = AMDGPU_BO_INVALID_OFFSET;
+>>       }
+>>   -    *res = &node->base.base;
+>> +    *res = &node->base;
+>>       return 0;
+>>     err_free:
+>> @@ -191,12 +178,12 @@ static int amdgpu_gtt_mgr_new(struct 
+>> ttm_resource_manager *man,
+>>   static void amdgpu_gtt_mgr_del(struct ttm_resource_manager *man,
+>>                      struct ttm_resource *res)
+>>   {
+>> -    struct amdgpu_gtt_node *node = to_amdgpu_gtt_node(res);
+>> +    struct ttm_range_mgr_node *node = to_ttm_range_mgr_node(res);
+>>       struct amdgpu_gtt_mgr *mgr = to_gtt_mgr(man);
+>>         spin_lock(&mgr->lock);
+>> -    if (drm_mm_node_allocated(&node->base.mm_nodes[0]))
+>> -        drm_mm_remove_node(&node->base.mm_nodes[0]);
+>> +    if (drm_mm_node_allocated(&node->mm_nodes[0]))
+>> +        drm_mm_remove_node(&node->mm_nodes[0]);
+>>       spin_unlock(&mgr->lock);
+>>       atomic64_add(res->num_pages, &mgr->available);
+>>   @@ -228,14 +215,14 @@ uint64_t amdgpu_gtt_mgr_usage(struct 
+>> ttm_resource_manager *man)
+>>   int amdgpu_gtt_mgr_recover(struct ttm_resource_manager *man)
+>>   {
+>>       struct amdgpu_gtt_mgr *mgr = to_gtt_mgr(man);
+>> -    struct amdgpu_gtt_node *node;
+>> +    struct ttm_range_mgr_node *node;
+>>       struct drm_mm_node *mm_node;
+>>       int r = 0;
+>>         spin_lock(&mgr->lock);
+>>       drm_mm_for_each_node(mm_node, &mgr->mm) {
+>> -        node = container_of(mm_node, typeof(*node), base.mm_nodes[0]);
+>> -        r = amdgpu_ttm_recover_gart(node->tbo);
+>> +        node = container_of(mm_node, typeof(*node), mm_nodes[0]);
+>> +        r = amdgpu_ttm_recover_gart(node->base.bo);
+>>           if (r)
+>>               break;
+>>       }
+>> diff --git a/drivers/gpu/drm/ttm/ttm_resource.c 
+>> b/drivers/gpu/drm/ttm/ttm_resource.c
+>> index 2431717376e7..7ff6194154fe 100644
+>> --- a/drivers/gpu/drm/ttm/ttm_resource.c
+>> +++ b/drivers/gpu/drm/ttm/ttm_resource.c
+>> @@ -41,6 +41,7 @@ void ttm_resource_init(struct ttm_buffer_object *bo,
+>>       res->bus.offset = 0;
+>>       res->bus.is_iomem = false;
+>>       res->bus.caching = ttm_cached;
+>> +    res->bo = bo;
+>>   }
+>>   EXPORT_SYMBOL(ttm_resource_init);
+>>   diff --git a/include/drm/ttm/ttm_resource.h 
+>> b/include/drm/ttm/ttm_resource.h
+>> index 140b6b9a8bbe..6d0b7a6d2169 100644
+>> --- a/include/drm/ttm/ttm_resource.h
+>> +++ b/include/drm/ttm/ttm_resource.h
+>> @@ -171,6 +171,7 @@ struct ttm_resource {
+>>       uint32_t mem_type;
+>>       uint32_t placement;
+>>       struct ttm_bus_placement bus;
+>> +    struct ttm_buffer_object *bo;
+>
+> Not that I'm against this change by itself, but this bo pointer is not 
+> refcounted, and therefore needs a description when it's needed and 
+> why. What happens, for example when the resource is moved to a ghost 
+> object, or the bo is killed while the resource is remaining on a lru 
+> list (which I understand was one of the main purposes with 
+> free-standing resources). Weak references need a guarantee that the 
+> object they pointed to is alive. What is that guarantee?
 
-> However the DIM docs[1] indeed do say: "For topic branches shared within
-> the gpu/drm subsystem, base it on the latest drm-next branch." I think
-> the docs don't take into account the current period where drm-next is
-> being actively updated as we speak.
->=20
-> Should we update the docs to use 'git merge-base' or something else?
->=20
-> Regards, Joonas
->=20
-> [1]: https://drm.pages.freedesktop.org/maintainer-tools/dim.html#cross-su=
-bsystem-topic-branches
->=20
-> >=20
-> > are available in the Git repository at:
-> >=20
-> >   git://anongit.freedesktop.org/drm/drm-misc tags/topic/i915-ttm-2021-0=
-6-11
-> >=20
-> > for you to fetch changes up to cf3e3e86d77970211e0983130e896ae242601003:
-> >=20
-> >   drm/i915: Use ttm mmap handling for ttm bo's. (2021-06-11 10:53:25 +0=
-200)
-> >=20
-> > ----------------------------------------------------------------
-> > drm-misc and drm-intel pull request for topic/i915-ttm:
-> > - Convert i915 lmem handling to ttm.
-> > - Add a patch to temporarily add a driver_private member to vma_node.
-> > - Use this to allow mixed object mmap handling for i915.
-> >=20
-> > ----------------------------------------------------------------
-> > Maarten Lankhorst (2):
-> >       drm/vma: Add a driver_private member to vma_node.
-> >       drm/i915: Use ttm mmap handling for ttm bo's.
-> >=20
-> > Thomas Hellstr=C3=B6m (2):
-> >       drm/i915/ttm: Introduce a TTM i915 gem object backend
-> >       drm/i915/lmem: Verify checks for lmem residency
-> >=20
-> >  drivers/gpu/drm/drm_gem.c                          |   9 -
-> >  drivers/gpu/drm/i915/Makefile                      |   1 +
-> >  drivers/gpu/drm/i915/display/intel_display.c       |   2 +-
-> >  drivers/gpu/drm/i915/gem/i915_gem_create.c         |   9 +-
-> >  drivers/gpu/drm/i915/gem/i915_gem_lmem.c           | 126 ++--
-> >  drivers/gpu/drm/i915/gem/i915_gem_lmem.h           |   5 -
-> >  drivers/gpu/drm/i915/gem/i915_gem_mman.c           |  83 ++-
-> >  drivers/gpu/drm/i915/gem/i915_gem_object.c         | 143 +++--
-> >  drivers/gpu/drm/i915/gem/i915_gem_object.h         |  19 +-
-> >  drivers/gpu/drm/i915/gem/i915_gem_object_types.h   |  30 +-
-> >  drivers/gpu/drm/i915/gem/i915_gem_pages.c          |   3 +-
-> >  drivers/gpu/drm/i915/gem/i915_gem_region.c         |   6 +-
-> >  drivers/gpu/drm/i915/gem/i915_gem_ttm.c            | 647 +++++++++++++=
-++++++++
-> >  drivers/gpu/drm/i915/gem/i915_gem_ttm.h            |  48 ++
-> >  drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c |  90 +--
-> >  drivers/gpu/drm/i915/gt/intel_region_lmem.c        |   3 +-
-> >  drivers/gpu/drm/i915/i915_gem.c                    |   5 +-
-> >  drivers/gpu/drm/i915/intel_memory_region.c         |   1 -
-> >  drivers/gpu/drm/i915/intel_memory_region.h         |   1 -
-> >  drivers/gpu/drm/i915/intel_region_ttm.c            |   8 +-
-> >  drivers/gpu/drm/i915/intel_region_ttm.h            |  11 +-
-> >  drivers/gpu/drm/i915/selftests/igt_mmap.c          |  25 +-
-> >  drivers/gpu/drm/i915/selftests/igt_mmap.h          |  12 +-
-> >  include/drm/drm_vma_manager.h                      |   2 +-
-> >  24 files changed, 1039 insertions(+), 250 deletions(-)
-> >  create mode 100644 drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-> >  create mode 100644 drivers/gpu/drm/i915/gem/i915_gem_ttm.h
+The basic idea is that we want to get rid of ghost objects and all the 
+related workarounds in the mid term. But yes for the interim we probably 
+need more logic here to make sure the BO is not destroyed.
+
+>
+> Also could we introduce new TTM structure members where they are first 
+> used /referenced by TTM and not where they are used by amdgpu? Without 
+> finding out in patch 3 that this member is needed to look up the bo 
+> from a lru list the correct response to this patch would have been: 
+> That bo is amdgpu-specific and needs to be in a driver private struct...
+
+That was indeed not supposed like this.
+
+The question I rather wanted to raise if it's ok to make the resource 
+object fully depend on the BO for allocation/destruction?
+
+I've seen some code in the DG1 branch where a mock BO is used to 
+allocate some resource, but that approach won't work with this here.
+
+On the other hand this fixes a long outstanding and very annoying 
+problem we had.
+
+Christian.
+
+>
+>
+> Thanks,
+>
+> /Thomas
+>
+>
+>>   };
+>>     /**
+
