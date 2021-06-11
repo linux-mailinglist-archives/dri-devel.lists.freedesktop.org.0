@@ -1,62 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB28E3A44D5
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Jun 2021 17:21:29 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A7573A44ED
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Jun 2021 17:26:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 50C256EEB5;
-	Fri, 11 Jun 2021 15:21:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6FC866E50E;
+	Fri, 11 Jun 2021 15:26:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com
- [IPv6:2a00:1450:4864:20::42f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D1A906EEAC
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Jun 2021 15:21:24 +0000 (UTC)
-Received: by mail-wr1-x42f.google.com with SMTP id r9so6476487wrz.10
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Jun 2021 08:21:23 -0700 (PDT)
+Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com
+ [IPv6:2a00:1450:4864:20::434])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 80D946E50E
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Jun 2021 15:26:20 +0000 (UTC)
+Received: by mail-wr1-x434.google.com with SMTP id a11so6501459wrt.13
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Jun 2021 08:26:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:content-transfer-encoding:in-reply-to;
- bh=eHRT7kmMBf46JDowzG7HpuiDk8gjtISrNb+TeMrzI8M=;
- b=W6X8POMciQnbzFZEk4WJOh6eS/ShU1oQWRxshI0SC9JI3uEGmhXC0u3qlOa0ME6HFY
- 9s26dhIS28SdIlPxLDdWyrC0wUr3q66N0fLLzsuwc1IgZ7S/kn6jXP+S1BDbIlH1aEHB
- GhKuKiSP0NGOc7KuTnMWoOfXqDhh4uD7SXszI=
+ bh=0fXaAQCav4JMHqqDLTmJAA9vL2ofAn8LFVDAYy3FosU=;
+ b=RxaoGZB9PdBO2obWWr9Son1CIQ7DAYfphJ4uKNVobOiYpJ+mmavn7NB0YtCHIT1l1D
+ oQsizyYQ4FJRefvQAFJO/0AJOav1E/ofoqH4paJ297oy93lpQ3e896974RQ7zKVhhvb1
+ oqY38pf1DVDLn5a35cw/r70vfWSV/1SHhcR0w=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:content-transfer-encoding
  :in-reply-to;
- bh=eHRT7kmMBf46JDowzG7HpuiDk8gjtISrNb+TeMrzI8M=;
- b=rHm62ZpCF/yxn+vqILbeGY/h3+iHDZYCuzH3ul8BvKl/Tjz61iwVL2xtNjyjKEosRp
- BCjYt9qot/RN6dGF2O5VKbKH3iohUZGCAdilqe331I1frxLqIWxkw+ZZ3mEeHAj3H+zA
- wz3+D0scLU1qgb/0oNkPo+Lbsg0eufXLMMNoVzZDZFzTP5/mxGxML043U2MoCsM+JIEN
- MmJpvR6J1rq0T8dxdjEBN3YF/R3z+xP4GfiAw7S2XxljtJIBj8f6TEjTVUeGvY1zNbAf
- 96/DYAEM4opyKGOxT+LLydZk/fZh/qNdFXBcARUVqNe+gSt7mbnitbuoJEA4wVCpkxXh
- lWow==
-X-Gm-Message-State: AOAM531UU8lihSm1NeDIiTb08Vk+9GVRbsmZ8N+JUs3kcAV42ynnnisl
- 3sCdoTr2Zxr8WADw/g8BhOXMFg==
-X-Google-Smtp-Source: ABdhPJxOrtt85qHoSOFUm849A6VX6q/8UlnZxXRu++g+voRiqSfrnro4qdXd2oqsI9NZOiMrGPPfzg==
-X-Received: by 2002:a5d:504d:: with SMTP id h13mr4675179wrt.133.1623424882637; 
- Fri, 11 Jun 2021 08:21:22 -0700 (PDT)
+ bh=0fXaAQCav4JMHqqDLTmJAA9vL2ofAn8LFVDAYy3FosU=;
+ b=ZmJSLe81D/oN11tVWLgiWOFZUIxzvye4P/6Is/3ZkUfCeDwvEwejBiwIlSIqeIqLP2
+ F4BkfqnPABgD0wKnZdBP5HvwdzGNqapAckCo6sNt9/Lp9CNJgDnNsZfdYFmvlB8GPZNM
+ 8BdNEIh7py0GkNwP32wpFkpsLwUC33Axt603zS19pUciTt9m/vDM630BCNEDkDNpnfqB
+ rXH2VIc5Ix6aDj0TRriSnFh4mm/01QCJgoE9/l42bxNtE2g1tjyIVgl0ChypBCe3biOq
+ AmVlZM4yTxAiQoI2FnKkXiyzi12lukxRWzqL6aAhePYG6xM3w8tlpnjkfJZTDjnzIYn1
+ Qa0Q==
+X-Gm-Message-State: AOAM531SKBp4ngyPv4/qeZWSrc/yH60ZwutJdJOxtTx4VZ7K90OsosPh
+ 5dk2ORdmLZaG+uMnjziU12Cw4g==
+X-Google-Smtp-Source: ABdhPJw2KFr1zO8QQtfKE4YD9azGDVISyK9XC85GcDukXzrthZ23Yp2apTf9M28mUBh5xZI3M9Pdgw==
+X-Received: by 2002:a5d:438a:: with SMTP id i10mr4768390wrq.82.1623425179113; 
+ Fri, 11 Jun 2021 08:26:19 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id l10sm7114144wrs.11.2021.06.11.08.21.21
+ by smtp.gmail.com with ESMTPSA id h11sm6267937wmq.34.2021.06.11.08.26.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 11 Jun 2021 08:21:21 -0700 (PDT)
-Date: Fri, 11 Jun 2021 17:21:20 +0200
+ Fri, 11 Jun 2021 08:26:18 -0700 (PDT)
+Date: Fri, 11 Jun 2021 17:26:14 +0200
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>
-Subject: Re: [PATCH 7/7] drm/amdgpu: rework dma_resv handling
-Message-ID: <YMN/cPvzpRRB3z5B@phenom.ffwll.local>
-References: <20210610091800.1833-1-christian.koenig@amd.com>
- <20210610091800.1833-8-christian.koenig@amd.com>
- <YMMqI2jRReeK067f@phenom.ffwll.local>
- <3a1eef23-7a9a-9a08-cb41-ce042d0bd36c@gmail.com>
+To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Subject: Re: [PATCH v3] Documentation: gpu: Mention the requirements for new
+ properties
+Message-ID: <YMOAlqwTE6exJtQA@phenom.ffwll.local>
+References: <20210610174731.1209188-1-maxime@cerno.tech>
+ <CAKMK7uG_Wkko0L6sv0U1bXWdYk4fg3OTcp5=+qfRV0CP9V44=A@mail.gmail.com>
+ <20210611055407.aoeams62wbalodrj@gilmour>
+ <1cac781e-122f-568b-5f5a-7e0ceb94bd0b@ideasonboard.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <3a1eef23-7a9a-9a08-cb41-ce042d0bd36c@gmail.com>
+In-Reply-To: <1cac781e-122f-568b-5f5a-7e0ceb94bd0b@ideasonboard.com>
 X-Operating-System: Linux phenom 5.10.32scarlett+ 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -70,321 +71,225 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: Xinliang Liu <xinliang.liu@linaro.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Anitha Chrisanthus <anitha.chrisanthus@intel.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>, Jerome Brunet <jbrunet@baylibre.com>,
+ Kevin Hilman <khilman@baylibre.com>,
+ Ludovic Desroches <ludovic.desroches@microchip.com>,
+ NXP Linux Team <linux-imx@nxp.com>, Sascha Hauer <s.hauer@pengutronix.de>,
+ Roland Scheidegger <sroland@vmware.com>, Sean Paul <sean@poorly.run>,
+ Hyun Kwon <hyun.kwon@xilinx.com>, Andrew Jeffery <andrew@aj.id.au>,
+ Seung-Woo Kim <sw0312.kim@samsung.com>,
+ Noralf =?iso-8859-1?Q?Tr=F8nnes?= <noralf@tronnes.org>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+ David Airlie <airlied@linux.ie>, Edmund Dea <edmund.j.dea@intel.com>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Daniel Vetter <daniel.vetter@intel.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+ Steven Price <steven.price@arm.com>,
+ VMware Graphics <linux-graphics-maintainer@vmware.com>,
+ Ben Skeggs <bskeggs@redhat.com>,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+ Boris Brezillon <bbrezillon@kernel.org>, Sandy Huang <hjc@rock-chips.com>,
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Haneen Mohammed <hamohammed.sa@gmail.com>,
+ Neil Armstrong <narmstrong@baylibre.com>, Melissa Wen <melissa.srw@gmail.com>,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ Benjamin Gaignard <benjamin.gaignard@linaro.org>,
+ Sam Ravnborg <sam@ravnborg.org>, Jonathan Corbet <corbet@lwn.net>,
+ Xinwei Kong <kong.kongxinwei@hisilicon.com>, Chen-Yu Tsai <wens@csie.org>,
+ Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+ Joel Stanley <joel@jms.id.au>, Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Jonas Karlman <jonas@kwiboo.se>, Chen Feng <puck.chen@hisilicon.com>,
+ Alison Wang <alison.wang@nxp.com>, Maxime Ripard <maxime@cerno.tech>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Tian Tao <tiantao6@hisilicon.com>, Shawn Guo <shawnguo@kernel.org>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, Liviu Dudau <liviu.dudau@arm.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ Paul Cercueil <paul@crapouillou.net>, Andrzej Hajda <a.hajda@samsung.com>,
+ Huang Rui <ray.huang@amd.com>, Marek Vasut <marex@denx.de>,
+ Joonyoung Shim <jy0922.shim@samsung.com>,
+ Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>,
+ Russell King <linux@armlinux.org.uk>,
+ Philippe Cornu <philippe.cornu@foss.st.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Hans de Goede <hdegoede@redhat.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ Jernej Skrabec <jernej.skrabec@siol.net>,
+ Yannick Fertre <yannick.fertre@foss.st.com>,
+ Nicolas Ferre <nicolas.ferre@microchip.com>,
+ Robert Foss <robert.foss@linaro.org>, Qiang Yu <yuq825@gmail.com>,
+ Jyri Sarha <jyri.sarha@iki.fi>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jun 11, 2021 at 12:12:45PM +0200, Christian König wrote:
-> Am 11.06.21 um 11:17 schrieb Daniel Vetter:
-> > On Thu, Jun 10, 2021 at 11:18:00AM +0200, Christian König wrote:
-> > > Drop the workaround and instead implement a better solution.
-> > > 
-> > > Basically we are now chaining all submissions using a dma_fence_chain
-> > > container and adding them as exclusive fence to the dma_resv object.
-> > > 
-> > > This way other drivers can still sync to the single exclusive fence
-> > > while amdgpu only sync to fences from different processes.
-> > > 
-> > > Signed-off-by: Christian König <christian.koenig@amd.com>
-> > > ---
-> > >   drivers/gpu/drm/amd/amdgpu/amdgpu_bo_list.h |  1 +
-> > >   drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c      | 54 +++++++++++++----
-> > >   drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c | 65 ---------------------
-> > >   drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c     |  3 +-
-> > >   drivers/gpu/drm/amd/amdgpu/amdgpu_object.c  |  2 +-
-> > >   drivers/gpu/drm/amd/amdgpu/amdgpu_object.h  |  1 -
-> > >   6 files changed, 47 insertions(+), 79 deletions(-)
-> > > 
-> > > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_bo_list.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_bo_list.h
-> > > index a130e766cbdb..c905a4cfc173 100644
-> > > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_bo_list.h
-> > > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_bo_list.h
-> > > @@ -34,6 +34,7 @@ struct amdgpu_fpriv;
-> > >   struct amdgpu_bo_list_entry {
-> > >   	struct ttm_validate_buffer	tv;
-> > >   	struct amdgpu_bo_va		*bo_va;
-> > > +	struct dma_fence_chain		*chain;
-> > >   	uint32_t			priority;
-> > >   	struct page			**user_pages;
-> > >   	bool				user_invalidated;
-> > > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
-> > > index 325e82621467..f6f3029f958d 100644
-> > > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
-> > > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
-> > > @@ -587,6 +587,20 @@ static int amdgpu_cs_parser_bos(struct amdgpu_cs_parser *p,
-> > >   		goto out;
-> > >   	}
-> > > +	amdgpu_bo_list_for_each_entry(e, p->bo_list) {
-> > > +		struct amdgpu_bo *bo = ttm_to_amdgpu_bo(e->tv.bo);
-> > > +
-> > > +		e->bo_va = amdgpu_vm_bo_find(vm, bo);
-> > > +
-> > > +		if (bo->tbo.base.dma_buf && !amdgpu_bo_explicit_sync(bo)) {
-> > > +			e->chain = dma_fence_chain_alloc();
-> > > +			if (!e->chain) {
-> > > +				r = -ENOMEM;
-> > > +				goto error_validate;
-> > > +			}
-> > > +		}
-> > > +	}
-> > > +
-> > >   	amdgpu_cs_get_threshold_for_moves(p->adev, &p->bytes_moved_threshold,
-> > >   					  &p->bytes_moved_vis_threshold);
-> > >   	p->bytes_moved = 0;
-> > > @@ -614,15 +628,6 @@ static int amdgpu_cs_parser_bos(struct amdgpu_cs_parser *p,
-> > >   	gws = p->bo_list->gws_obj;
-> > >   	oa = p->bo_list->oa_obj;
-> > > -	amdgpu_bo_list_for_each_entry(e, p->bo_list) {
-> > > -		struct amdgpu_bo *bo = ttm_to_amdgpu_bo(e->tv.bo);
-> > > -
-> > > -		/* Make sure we use the exclusive slot for shared BOs */
-> > > -		if (bo->prime_shared_count)
-> > > -			e->tv.num_shared = 0;
-> > > -		e->bo_va = amdgpu_vm_bo_find(vm, bo);
-> > > -	}
-> > > -
-> > >   	if (gds) {
-> > >   		p->job->gds_base = amdgpu_bo_gpu_offset(gds) >> PAGE_SHIFT;
-> > >   		p->job->gds_size = amdgpu_bo_size(gds) >> PAGE_SHIFT;
-> > > @@ -644,8 +649,13 @@ static int amdgpu_cs_parser_bos(struct amdgpu_cs_parser *p,
-> > >   	}
-> > >   error_validate:
-> > > -	if (r)
-> > > +	if (r) {
-> > > +		amdgpu_bo_list_for_each_entry(e, p->bo_list) {
-> > > +			dma_fence_chain_free(e->chain);
-> > > +			e->chain = NULL;
-> > > +		}
-> > >   		ttm_eu_backoff_reservation(&p->ticket, &p->validated);
-> > > +	}
-> > >   out:
-> > >   	return r;
-> > >   }
-> > > @@ -685,9 +695,17 @@ static void amdgpu_cs_parser_fini(struct amdgpu_cs_parser *parser, int error,
-> > >   {
-> > >   	unsigned i;
-> > > -	if (error && backoff)
-> > > +	if (error && backoff) {
-> > > +		struct amdgpu_bo_list_entry *e;
-> > > +
-> > > +		amdgpu_bo_list_for_each_entry(e, parser->bo_list) {
-> > > +			dma_fence_chain_free(e->chain);
-> > > +			e->chain = NULL;
-> > > +		}
-> > > +
-> > >   		ttm_eu_backoff_reservation(&parser->ticket,
-> > >   					   &parser->validated);
-> > > +	}
-> > >   	for (i = 0; i < parser->num_post_deps; i++) {
-> > >   		drm_syncobj_put(parser->post_deps[i].syncobj);
-> > > @@ -1260,6 +1278,20 @@ static int amdgpu_cs_submit(struct amdgpu_cs_parser *p,
-> > >   	amdgpu_vm_move_to_lru_tail(p->adev, &fpriv->vm);
-> > > +	amdgpu_bo_list_for_each_entry(e, p->bo_list) {
-> > > +		struct dma_resv *resv = e->tv.bo->base.resv;
-> > > +		struct dma_fence_chain *chain = e->chain;
-> > > +
-> > > +		if (!chain)
-> > > +			continue;
-> > > +
-> > > +		dma_fence_chain_init(chain, dma_resv_excl_fence(resv),
-> > > +				     dma_fence_get(p->fence), 1);
-> > > +
-> > > +		rcu_assign_pointer(resv->fence_excl, &chain->base);
-> > So for safety since this is now driver interface I was thinking off a
-> > helper which does this entire dance and _also_ adds the new fence to the
-> > shared slots. This way we don't let drivers open-code this rather tricky
-> > operation.
-> 
-> Well I only see this as a workaround for amdgpu and don't want to leak it
-> into other drivers.
-> 
-> If somebody else wants to adopt it we should probably consider fixing the
-> dma_resv object instead.
-
-Well semantically this is exactly what what the sync_file import from
-Jason does. And it's kinda also what a lot of the drivers with opt-out
-implicit sync should be doing.
-
-So I really think we do need this as a dma_resv primitive in form of a
-function drivers can use. Once we have that rolled out and tested some,
-then we can fix up the internals of dma_resv to make this case more
-efficient.
-
-> > You probably also want to then combine this with
-> > ttm_eu_fence_buffer_objects below I think so you're not walking this list
-> > 2x.
+On Fri, Jun 11, 2021 at 09:53:19AM +0300, Tomi Valkeinen wrote:
+> On 11/06/2021 08:54, Maxime Ripard wrote:
+> > Hi,
 > > 
-> > Iow I'd put the fence_chain parameter into struct ttm_validate_buffer and
-> > then let ttm_eu_fence_buffer_objects() do this, by calling a new
-> > dma_resv_add_shared_excl_fence. Ideally the same helper that also Jason's
-> > sync_file import will use. We want to hide the inner workings of dma_resv
-> > as much as possible ofc.
+> > On Thu, Jun 10, 2021 at 11:00:05PM +0200, Daniel Vetter wrote:
+> > > On Thu, Jun 10, 2021 at 7:47 PM Maxime Ripard <maxime@cerno.tech> wrote:
+> > > > 
+> > > > New KMS properties come with a bunch of requirements to avoid each
+> > > > driver from running their own, inconsistent, set of properties,
+> > > > eventually leading to issues like property conflicts, inconsistencies
+> > > > between drivers and semantics, etc.
+> > > > 
+> > > > Let's document what we expect.
+> > > > 
+> > > > Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>
+> > > > Cc: Alexandre Torgue <alexandre.torgue@foss.st.com>
+> > > > Cc: Alex Deucher <alexander.deucher@amd.com>
+> > > > Cc: Alison Wang <alison.wang@nxp.com>
+> > > > Cc: Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
+> > > > Cc: Andrew Jeffery <andrew@aj.id.au>
+> > > > Cc: Andrzej Hajda <a.hajda@samsung.com>
+> > > > Cc: Anitha Chrisanthus <anitha.chrisanthus@intel.com>
+> > > > Cc: Benjamin Gaignard <benjamin.gaignard@linaro.org>
+> > > > Cc: Ben Skeggs <bskeggs@redhat.com>
+> > > > Cc: Boris Brezillon <bbrezillon@kernel.org>
+> > > > Cc: Brian Starkey <brian.starkey@arm.com>
+> > > > Cc: Chen Feng <puck.chen@hisilicon.com>
+> > > > Cc: Chen-Yu Tsai <wens@csie.org>
+> > > > Cc: Christian Gmeiner <christian.gmeiner@gmail.com>
+> > > > Cc: "Christian König" <christian.koenig@amd.com>
+> > > > Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+> > > > Cc: Edmund Dea <edmund.j.dea@intel.com>
+> > > > Cc: Eric Anholt <eric@anholt.net>
+> > > > Cc: Fabio Estevam <festevam@gmail.com>
+> > > > Cc: Gerd Hoffmann <kraxel@redhat.com>
+> > > > Cc: Haneen Mohammed <hamohammed.sa@gmail.com>
+> > > > Cc: Hans de Goede <hdegoede@redhat.com>
+> > > > Cc: "Heiko Stübner" <heiko@sntech.de>
+> > > > Cc: Huang Rui <ray.huang@amd.com>
+> > > > Cc: Hyun Kwon <hyun.kwon@xilinx.com>
+> > > > Cc: Inki Dae <inki.dae@samsung.com>
+> > > > Cc: Jani Nikula <jani.nikula@linux.intel.com>
+> > > > Cc: Jernej Skrabec <jernej.skrabec@siol.net>
+> > > > Cc: Jerome Brunet <jbrunet@baylibre.com>
+> > > > Cc: Joel Stanley <joel@jms.id.au>
+> > > > Cc: John Stultz <john.stultz@linaro.org>
+> > > > Cc: Jonas Karlman <jonas@kwiboo.se>
+> > > > Cc: Jonathan Hunter <jonathanh@nvidia.com>
+> > > > Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+> > > > Cc: Joonyoung Shim <jy0922.shim@samsung.com>
+> > > > Cc: Jyri Sarha <jyri.sarha@iki.fi>
+> > > > Cc: Kevin Hilman <khilman@baylibre.com>
+> > > > Cc: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+> > > > Cc: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
+> > > > Cc: Kyungmin Park <kyungmin.park@samsung.com>
+> > > > Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+> > > > Cc: Linus Walleij <linus.walleij@linaro.org>
+> > > > Cc: Liviu Dudau <liviu.dudau@arm.com>
+> > > > Cc: Lucas Stach <l.stach@pengutronix.de>
+> > > > Cc: Ludovic Desroches <ludovic.desroches@microchip.com>
+> > > > Cc: Marek Vasut <marex@denx.de>
+> > > > Cc: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
+> > > > Cc: Matthias Brugger <matthias.bgg@gmail.com>
+> > > > Cc: Maxime Coquelin <mcoquelin.stm32@gmail.com>
+> > > > Cc: Maxime Ripard <mripard@kernel.org>
+> > > > Cc: Melissa Wen <melissa.srw@gmail.com>
+> > > > Cc: Neil Armstrong <narmstrong@baylibre.com>
+> > > > Cc: Nicolas Ferre <nicolas.ferre@microchip.com>
+> > > > Cc: "Noralf Trønnes" <noralf@tronnes.org>
+> > > > Cc: NXP Linux Team <linux-imx@nxp.com>
+> > > > Cc: Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>
+> > > > Cc: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
+> > > > Cc: Paul Cercueil <paul@crapouillou.net>
+> > > > Cc: Pengutronix Kernel Team <kernel@pengutronix.de>
+> > > > Cc: Philippe Cornu <philippe.cornu@foss.st.com>
+> > > > Cc: Philipp Zabel <p.zabel@pengutronix.de>
+> > > > Cc: Qiang Yu <yuq825@gmail.com>
+> > > > Cc: Rob Clark <robdclark@gmail.com>
+> > > > Cc: Robert Foss <robert.foss@linaro.org>
+> > > > Cc: Rob Herring <robh@kernel.org>
+> > > > Cc: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>
+> > > > Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
+> > > > Cc: Roland Scheidegger <sroland@vmware.com>
+> > > > Cc: Russell King <linux@armlinux.org.uk>
+> > > > Cc: Sam Ravnborg <sam@ravnborg.org>
+> > > > Cc: Sandy Huang <hjc@rock-chips.com>
+> > > > Cc: Sascha Hauer <s.hauer@pengutronix.de>
+> > > > Cc: Sean Paul <sean@poorly.run>
+> > > > Cc: Seung-Woo Kim <sw0312.kim@samsung.com>
+> > > > Cc: Shawn Guo <shawnguo@kernel.org>
+> > > > Cc: Stefan Agner <stefan@agner.ch>
+> > > > Cc: Steven Price <steven.price@arm.com>
+> > > > Cc: Sumit Semwal <sumit.semwal@linaro.org>
+> > > > Cc: Thierry Reding <thierry.reding@gmail.com>
+> > > > Cc: Tian Tao <tiantao6@hisilicon.com>
+> > > > Cc: Tomeu Vizoso <tomeu.vizoso@collabora.com>
+> > > > Cc: Tomi Valkeinen <tomba@kernel.org>
+> > > > Cc: VMware Graphics <linux-graphics-maintainer@vmware.com>
+> > > > Cc: Xinliang Liu <xinliang.liu@linaro.org>
+> > > > Cc: Xinwei Kong <kong.kongxinwei@hisilicon.com>
+> > > > Cc: Yannick Fertre <yannick.fertre@foss.st.com>
+> > > > Cc: Zack Rusin <zackr@vmware.com>
+> > > > Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+> > > > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+> > > > 
+> > > > ---
+> > > > 
+> > > > Changes from v2:
+> > > >    - Take into account the feedback from Laurent and Lidiu to no longer
+> > > >      force generic properties, but prefix vendor-specific properties with
+> > > >      the vendor name
+> > > 
+> > > I'm pretty sure my r-b was without this ...
 > > 
-> > The other thing I'm wondering is whether this needs to be wrapped in a
-> > single seqlock or whether we don't have ordering issues if we split up the
-> > update here? Setting the exclusive fence before we also added it to the
-> > shared slot can at least violate the "shared fences signal after exclusive
-> > if both are present"
+> > Yeah, sorry. I wanted to tell you on IRC that you wanted to have a
+> > second look, but I shouldn't have kept it and caught you by surprise
+> > indeed.
+> > 
+> > > Why exactly do we need this? KMS is meant to be fairly generic (bugs
+> > > throw a wrench around here sometimes, and semantics can be tricky). If
+> > > we open up the door to yolo vendor properties in upstream, then that
+> > > goal is pretty much written off. And we've been there with vendor
+> > > properties, it's a giantic mess.
+> > > 
+> > > Minimally drop my r-b, I'm definitely not in support of this idea.
+> > 
+> > So the argument Lidiu and Laurent made was that in some cases, getting a
+> > generic property right with only a couple of users is hard. So they
+> > advocated for the right to keep non-generic properties. I can get the
+> > argument, and no-one else said that was wrong, so it felt like the
+> > consensus was there.
 > 
-> Uff, good point.
+> I also think that (maybe mainly on embedded side) we may have 1) esoteric HW
+> features which perhaps can't even be made generic, and 2) features which may
+> or may not be generic, but for which support cannot be added to any common
+> opensource userspace projects like X or Weston, as the only use cases for
+> the features are specialized low level apps (often customer's closed-source
+> apps).
+> 
+> While I agree with Daniel's "gigantic mess" problem, it would also be quite
+> nice to have a way to support all the HW features upstream instead of
+> carrying them in vendor trees.
 
-Plus it's actually fairly tricky thing :-)
+So this means to be able to accomodate this "vendor properties are totally
+fine, go wild" exception we also need to throw "open source userspace
+user, fully reviewed and tested" into the drink?
+
+At least my experience from what I've seen with funky vendor properties
+isn't so much that we can't figure out a reasonable way to expose them.
+The problem is that the userspace tends to be a (often closed source)
+vendor fork of a random compositor somewhere. So if that requirement is
+somehow a problem, we need to talk about _that_.
+
+Not promising we'll totally merge some vendor properties without spelling
+out what exactly this means. All that ensures is that people submit
+patches and then get annoyed because they still can't be merged because
+the userspace situation is all the same.
 -Daniel
-
-> 
-> > Finally I guess need to sprinkle the manual garbage collector somehwere
-> > here too.
-> 
-> That is done automatically when somebody iterates the chain node.
-> 
-> Christian.
-> 
-> > 
-> > But aside from the interface polish and correctness against races I think
-> > this looks solid in the big picture.
-> > 
-> > Cheers, Daniel
-> > 
-> > > +		e->chain = NULL;
-> > > +	}
-> > > +
-> > >   	ttm_eu_fence_buffer_objects(&p->ticket, &p->validated, p->fence);
-> > >   	mutex_unlock(&p->adev->notifier_lock);
-> > > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c
-> > > index c3053b83b80c..23219fc3b28c 100644
-> > > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c
-> > > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c
-> > > @@ -42,48 +42,6 @@
-> > >   #include <linux/pci-p2pdma.h>
-> > >   #include <linux/pm_runtime.h>
-> > > -static int
-> > > -__dma_resv_make_exclusive(struct dma_resv *obj)
-> > > -{
-> > > -	struct dma_fence **fences;
-> > > -	unsigned int count;
-> > > -	int r;
-> > > -
-> > > -	if (!dma_resv_shared_list(obj)) /* no shared fences to convert */
-> > > -		return 0;
-> > > -
-> > > -	r = dma_resv_get_fences(obj, NULL, &count, &fences);
-> > > -	if (r)
-> > > -		return r;
-> > > -
-> > > -	if (count == 0) {
-> > > -		/* Now that was unexpected. */
-> > > -	} else if (count == 1) {
-> > > -		dma_resv_add_excl_fence(obj, fences[0]);
-> > > -		dma_fence_put(fences[0]);
-> > > -		kfree(fences);
-> > > -	} else {
-> > > -		struct dma_fence_array *array;
-> > > -
-> > > -		array = dma_fence_array_create(count, fences,
-> > > -					       dma_fence_context_alloc(1), 0,
-> > > -					       false);
-> > > -		if (!array)
-> > > -			goto err_fences_put;
-> > > -
-> > > -		dma_resv_add_excl_fence(obj, &array->base);
-> > > -		dma_fence_put(&array->base);
-> > > -	}
-> > > -
-> > > -	return 0;
-> > > -
-> > > -err_fences_put:
-> > > -	while (count--)
-> > > -		dma_fence_put(fences[count]);
-> > > -	kfree(fences);
-> > > -	return -ENOMEM;
-> > > -}
-> > > -
-> > >   /**
-> > >    * amdgpu_dma_buf_attach - &dma_buf_ops.attach implementation
-> > >    *
-> > > @@ -110,24 +68,6 @@ static int amdgpu_dma_buf_attach(struct dma_buf *dmabuf,
-> > >   	if (r < 0)
-> > >   		goto out;
-> > > -	r = amdgpu_bo_reserve(bo, false);
-> > > -	if (unlikely(r != 0))
-> > > -		goto out;
-> > > -
-> > > -	/*
-> > > -	 * We only create shared fences for internal use, but importers
-> > > -	 * of the dmabuf rely on exclusive fences for implicitly
-> > > -	 * tracking write hazards. As any of the current fences may
-> > > -	 * correspond to a write, we need to convert all existing
-> > > -	 * fences on the reservation object into a single exclusive
-> > > -	 * fence.
-> > > -	 */
-> > > -	r = __dma_resv_make_exclusive(bo->tbo.base.resv);
-> > > -	if (r)
-> > > -		goto out;
-> > > -
-> > > -	bo->prime_shared_count++;
-> > > -	amdgpu_bo_unreserve(bo);
-> > >   	return 0;
-> > >   out:
-> > > @@ -150,9 +90,6 @@ static void amdgpu_dma_buf_detach(struct dma_buf *dmabuf,
-> > >   	struct amdgpu_bo *bo = gem_to_amdgpu_bo(obj);
-> > >   	struct amdgpu_device *adev = amdgpu_ttm_adev(bo->tbo.bdev);
-> > > -	if (attach->dev->driver != adev->dev->driver && bo->prime_shared_count)
-> > > -		bo->prime_shared_count--;
-> > > -
-> > >   	pm_runtime_mark_last_busy(adev_to_drm(adev)->dev);
-> > >   	pm_runtime_put_autosuspend(adev_to_drm(adev)->dev);
-> > >   }
-> > > @@ -406,8 +343,6 @@ amdgpu_dma_buf_create_obj(struct drm_device *dev, struct dma_buf *dma_buf)
-> > >   	bo = gem_to_amdgpu_bo(gobj);
-> > >   	bo->allowed_domains = AMDGPU_GEM_DOMAIN_GTT;
-> > >   	bo->preferred_domains = AMDGPU_GEM_DOMAIN_GTT;
-> > > -	if (dma_buf->ops != &amdgpu_dmabuf_ops)
-> > > -		bo->prime_shared_count = 1;
-> > >   	dma_resv_unlock(resv);
-> > >   	return gobj;
-> > > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c
-> > > index 1c3e3b608332..5d82120fc160 100644
-> > > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c
-> > > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c
-> > > @@ -829,7 +829,8 @@ int amdgpu_gem_op_ioctl(struct drm_device *dev, void *data,
-> > >   		break;
-> > >   	}
-> > >   	case AMDGPU_GEM_OP_SET_PLACEMENT:
-> > > -		if (robj->prime_shared_count && (args->value & AMDGPU_GEM_DOMAIN_VRAM)) {
-> > > +		if (robj->tbo.base.import_attach &&
-> > > +		    args->value & AMDGPU_GEM_DOMAIN_VRAM) {
-> > >   			r = -EINVAL;
-> > >   			amdgpu_bo_unreserve(robj);
-> > >   			break;
-> > > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
-> > > index 96447e1d4c9c..30951b593809 100644
-> > > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
-> > > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
-> > > @@ -871,7 +871,7 @@ int amdgpu_bo_pin_restricted(struct amdgpu_bo *bo, u32 domain,
-> > >   		return -EINVAL;
-> > >   	/* A shared bo cannot be migrated to VRAM */
-> > > -	if (bo->prime_shared_count || bo->tbo.base.import_attach) {
-> > > +	if (bo->tbo.base.import_attach) {
-> > >   		if (domain & AMDGPU_GEM_DOMAIN_GTT)
-> > >   			domain = AMDGPU_GEM_DOMAIN_GTT;
-> > >   		else
-> > > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.h
-> > > index b35962702278..55d7e90eaa72 100644
-> > > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.h
-> > > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.h
-> > > @@ -98,7 +98,6 @@ struct amdgpu_bo {
-> > >   	struct ttm_buffer_object	tbo;
-> > >   	struct ttm_bo_kmap_obj		kmap;
-> > >   	u64				flags;
-> > > -	unsigned			prime_shared_count;
-> > >   	/* per VM structure for page tables and with virtual addresses */
-> > >   	struct amdgpu_vm_bo_base	*vm_bo;
-> > >   	/* Constant after initialization */
-> > > -- 
-> > > 2.25.1
-> > > 
-> 
-
 -- 
 Daniel Vetter
 Software Engineer, Intel Corporation
