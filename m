@@ -1,44 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FC213A3DDF
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Jun 2021 10:15:11 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id EC3A03A3E27
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Jun 2021 10:39:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DDF4F6EE48;
-	Fri, 11 Jun 2021 08:15:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 451156E027;
+	Fri, 11 Jun 2021 08:38:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-4323.protonmail.ch (mail-4323.protonmail.ch [185.70.43.23])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1A0406EE48
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Jun 2021 08:15:06 +0000 (UTC)
-Date: Fri, 11 Jun 2021 08:14:59 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
- s=protonmail3; t=1623399303;
- bh=LXrQUMsq4zcmYpPR/J5q0e+ciaGERkxMWGdrR9hM6tk=;
- h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
- b=kVMSxOyOs8TOhI8W65hcCQhveG8YX+BcfbWqtHQTA73WRuOo230rSfTwC184RAX9p
- ndnBnNK/H4eAkIMrlzQPnkP/EgFrbrt7kFTjGo9Buod5H8wcOa4hkuBe2Jwk+2x84z
- yX7gNwq2695WOS2KKv1ddsmiHvX9wgaySUjwTGvPh1/s8gVaYFPpNXGNShPcoAYSc+
- XRagAqfd946FnrUjFpVmYXPC8sn2/Jw5otjsajpEp636FKgGJa5UG6KJdeYghJxN6y
- hMe4/eH8auB3L4I/pA+6+oAdTmXcIt8MQFlTZX+KFSdo9Wt1PeHyNph6RSBeLWYs0O
- UWGinWICE8EtA==
-To: Daniel Vetter <daniel.vetter@ffwll.ch>
-From: Simon Ser <contact@emersion.fr>
-Subject: Re: [PATCH v3] Documentation: gpu: Mention the requirements for new
- properties
-Message-ID: <KNFHfqvJUVq9oy9BSdznj1S6xhDoZUAx1_DwfSNvUv8u1d-TroKBTq2hxtv7u1aJnxnpI5CxUXSMTn73YsVhZjnRW78gv-QLsK6AkJ5m3Fw=@emersion.fr>
-In-Reply-To: <CAKMK7uG_Wkko0L6sv0U1bXWdYk4fg3OTcp5=+qfRV0CP9V44=A@mail.gmail.com>
-References: <20210610174731.1209188-1-maxime@cerno.tech>
- <CAKMK7uG_Wkko0L6sv0U1bXWdYk4fg3OTcp5=+qfRV0CP9V44=A@mail.gmail.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2D2786E027;
+ Fri, 11 Jun 2021 08:38:56 +0000 (UTC)
+IronPort-SDR: ipkJQXTq77VH3q6i0EwsGL+2Hy/naacoriGnpvg+Vi+ShPykz4t8wSX6uqYqcN+DpNQHCecYXE
+ TOKoxkPBHPbg==
+X-IronPort-AV: E=McAfee;i="6200,9189,10011"; a="205447006"
+X-IronPort-AV: E=Sophos;i="5.83,265,1616482800"; d="scan'208";a="205447006"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Jun 2021 01:38:55 -0700
+IronPort-SDR: 88epaSIU4n1F1JCf8YGfYQREfiGnrorjrhAnpp3aTkszVDY62+KfTCZIPOtuSE59gMnX1lRzfP
+ uXkmaf3B1iJQ==
+X-IronPort-AV: E=Sophos;i="5.83,265,1616482800"; d="scan'208";a="483184633"
+Received: from anunitax-mobl1.gar.corp.intel.com (HELO intel.com)
+ ([10.254.36.102])
+ by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Jun 2021 01:38:54 -0700
+Date: Fri, 11 Jun 2021 04:38:51 -0400
+From: Rodrigo Vivi <rodrigo.vivi@intel.com>
+To: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+Subject: Re: [Intel-gfx] [PATCH v4 12/17] drm/i915/pxp: start the arb session
+ on demand
+Message-ID: <YMMhGzS/KvCy7PKQ@intel.com>
+References: <20210525054803.7387-1-daniele.ceraolospurio@intel.com>
+ <20210525054803.7387-13-daniele.ceraolospurio@intel.com>
+ <YLfKaAkZaOP2I1ch@intel.com>
+ <9d1da611-f6d6-ee69-9ddf-64b87ac8a1af@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
- DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF shortcircuit=no
- autolearn=disabled version=3.4.4
-X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
- mailout.protonmail.ch
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <9d1da611-f6d6-ee69-9ddf-64b87ac8a1af@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,85 +52,254 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: Simon Ser <contact@emersion.fr>
-Cc: Haneen Mohammed <hamohammed.sa@gmail.com>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Linux Doc Mailing List <linux-doc@vger.kernel.org>,
- David Airlie <airlied@linux.ie>, Edmund Dea <edmund.j.dea@intel.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Russell King <linux@armlinux.org.uk>, Melissa Wen <melissa.srw@gmail.com>,
- Tomi Valkeinen <tomba@kernel.org>, Thierry Reding <thierry.reding@gmail.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Benjamin Gaignard <benjamin.gaignard@linaro.org>,
- Anitha Chrisanthus <anitha.chrisanthus@intel.com>,
- Daniel Vetter <daniel.vetter@intel.com>, Steven Price <steven.price@arm.com>,
- Sam Ravnborg <sam@ravnborg.org>, Jyri Sarha <jyri.sarha@iki.fi>,
- Jerome Brunet <jbrunet@baylibre.com>, Marek Vasut <marex@denx.de>,
- Joonyoung Shim <jy0922.shim@samsung.com>, Qiang Yu <yuq825@gmail.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
- Kevin Hilman <khilman@baylibre.com>, Neil Armstrong <narmstrong@baylibre.com>,
- Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
- Xinwei Kong <kong.kongxinwei@hisilicon.com>,
- Jonathan Hunter <jonathanh@nvidia.com>, Xinliang Liu <xinliang.liu@linaro.org>,
- Ludovic Desroches <ludovic.desroches@microchip.com>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- VMware Graphics <linux-graphics-maintainer@vmware.com>,
- NXP Linux Team <linux-imx@nxp.com>, Liviu Dudau <liviu.dudau@arm.com>,
- Ben Skeggs <bskeggs@redhat.com>, Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>, Jonas Karlman <jonas@kwiboo.se>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- Chen Feng <puck.chen@hisilicon.com>, Sascha Hauer <s.hauer@pengutronix.de>,
- Alison Wang <alison.wang@nxp.com>, Roland Scheidegger <sroland@vmware.com>,
- Andrzej Hajda <a.hajda@samsung.com>, Hans de Goede <hdegoede@redhat.com>,
- Maxime Ripard <maxime@cerno.tech>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- Nicolas Ferre <nicolas.ferre@microchip.com>, Chen-Yu Tsai <wens@csie.org>,
- Sean Paul <sean@poorly.run>, Thomas Zimmermann <tzimmermann@suse.de>,
- Paul Cercueil <paul@crapouillou.net>, Jernej Skrabec <jernej.skrabec@siol.net>,
- Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
- Hyun Kwon <hyun.kwon@xilinx.com>, Boris Brezillon <bbrezillon@kernel.org>,
- Andrew Jeffery <andrew@aj.id.au>, Huang Rui <ray.huang@amd.com>,
- Yannick Fertre <yannick.fertre@foss.st.com>, Jonathan Corbet <corbet@lwn.net>,
- Seung-Woo Kim <sw0312.kim@samsung.com>, Sandy Huang <hjc@rock-chips.com>,
- Robert Foss <robert.foss@linaro.org>, Joel Stanley <joel@jms.id.au>,
- Tomeu Vizoso <tomeu.vizoso@collabora.com>,
- Kyungmin Park <kyungmin.park@samsung.com>,
- =?utf-8?Q?Noralf_Tr=C3=B8nnes?= <noralf@tronnes.org>,
- Philippe Cornu <philippe.cornu@foss.st.com>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Alex Deucher <alexander.deucher@amd.com>, Tian Tao <tiantao6@hisilicon.com>,
- Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>,
- Shawn Guo <shawnguo@kernel.org>,
- =?utf-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Gerd Hoffmann <kraxel@redhat.com>
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thursday, June 10th, 2021 at 23:00, Daniel Vetter <daniel.vetter@ffwll.c=
-h> wrote:
+On Thu, Jun 10, 2021 at 03:44:37PM -0700, Daniele Ceraolo Spurio wrote:
+> 
+> 
+> On 6/2/2021 11:14 AM, Rodrigo Vivi wrote:
+> > On Mon, May 24, 2021 at 10:47:58PM -0700, Daniele Ceraolo Spurio wrote:
+> > > Now that we can handle destruction and re-creation of the arb session,
+> > > we can postpone the start of the session to the first submission that
+> > > requires it, to avoid keeping it running with no user.
+> > > 
+> > > Signed-off-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+> > > ---
+> > >   .../gpu/drm/i915/gem/i915_gem_execbuffer.c    |  8 ++--
+> > >   drivers/gpu/drm/i915/pxp/intel_pxp.c          | 37 ++++++++++++-------
+> > >   drivers/gpu/drm/i915/pxp/intel_pxp.h          |  4 +-
+> > >   drivers/gpu/drm/i915/pxp/intel_pxp_irq.c      |  2 +-
+> > >   drivers/gpu/drm/i915/pxp/intel_pxp_session.c  |  6 +--
+> > >   drivers/gpu/drm/i915/pxp/intel_pxp_tee.c      | 10 +----
+> > >   drivers/gpu/drm/i915/pxp/intel_pxp_types.h    |  3 ++
+> > >   7 files changed, 39 insertions(+), 31 deletions(-)
+> > > 
+> > > diff --git a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
+> > > index a11e9d5767bf..c08e28847064 100644
+> > > --- a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
+> > > +++ b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
+> > > @@ -2948,9 +2948,11 @@ eb_select_engine(struct i915_execbuffer *eb)
+> > >   	intel_gt_pm_get(ce->engine->gt);
+> > >   	if (i915_gem_context_uses_protected_content(eb->gem_context)) {
+> > > -		err = intel_pxp_wait_for_arb_start(&ce->engine->gt->pxp);
+> > > -		if (err)
+> > > -			goto err;
+> > > +		if (!intel_pxp_is_active(&ce->engine->gt->pxp)) {
+> > > +			err = intel_pxp_start(&ce->engine->gt->pxp);
+> > > +			if (err)
+> > > +				goto err;
+> > > +		}
+> > >   		if (i915_gem_context_invalidated(eb->gem_context)) {
+> > >   			err = -EACCES;
+> > > diff --git a/drivers/gpu/drm/i915/pxp/intel_pxp.c b/drivers/gpu/drm/i915/pxp/intel_pxp.c
+> > > index f713d3423cea..2291c68fd3a0 100644
+> > > --- a/drivers/gpu/drm/i915/pxp/intel_pxp.c
+> > > +++ b/drivers/gpu/drm/i915/pxp/intel_pxp.c
+> > > @@ -77,6 +77,7 @@ void intel_pxp_init(struct intel_pxp *pxp)
+> > >   	init_completion(&pxp->termination);
+> > >   	complete_all(&pxp->termination);
+> > > +	mutex_init(&pxp->arb_mutex);
+> > >   	INIT_WORK(&pxp->session_work, intel_pxp_session_work);
+> > >   	ret = create_vcs_context(pxp);
+> > > @@ -113,7 +114,7 @@ void intel_pxp_mark_termination_in_progress(struct intel_pxp *pxp)
+> > >   	reinit_completion(&pxp->termination);
+> > >   }
+> > > -static void intel_pxp_queue_termination(struct intel_pxp *pxp)
+> > > +static void pxp_queue_termination(struct intel_pxp *pxp)
+> > >   {
+> > >   	struct intel_gt *gt = pxp_to_gt(pxp);
+> > > @@ -132,31 +133,41 @@ static void intel_pxp_queue_termination(struct intel_pxp *pxp)
+> > >    * the arb session is restarted from the irq work when we receive the
+> > >    * termination completion interrupt
+> > >    */
+> > > -int intel_pxp_wait_for_arb_start(struct intel_pxp *pxp)
+> > > +int intel_pxp_start(struct intel_pxp *pxp)
+> > >   {
+> > > +	int ret = 0;
+> > > +
+> > >   	if (!intel_pxp_is_enabled(pxp))
+> > > -		return 0;
+> > > +		return -ENODEV;
+> > > +
+> > > +	mutex_lock(&pxp->arb_mutex);
+> > > +
+> > > +	if (pxp->arb_is_valid)
+> > > +		goto unlock;
+> > > +
+> > > +	pxp_queue_termination(pxp);
+> > >   	if (!wait_for_completion_timeout(&pxp->termination,
+> > > -					 msecs_to_jiffies(100)))
+> > > -		return -ETIMEDOUT;
+> > > +					msecs_to_jiffies(100))) {
+> > > +		ret = -ETIMEDOUT;
+> > > +		goto unlock;
+> > > +	}
+> > > +
+> > > +	/* make sure the compiler doesn't optimize the double access */
+> > > +	barrier();
+> > >   	if (!pxp->arb_is_valid)
+> > > -		return -EIO;
+> > > +		ret = -EIO;
+> > > -	return 0;
+> > > +unlock:
+> > > +	mutex_unlock(&pxp->arb_mutex);
+> > > +	return ret;
+> > >   }
+> > >   void intel_pxp_init_hw(struct intel_pxp *pxp)
+> > >   {
+> > >   	kcr_pxp_enable(pxp_to_gt(pxp));
+> > >   	intel_pxp_irq_enable(pxp);
+> > > -
+> > > -	/*
+> > > -	 * the session could've been attacked while we weren't loaded, so
+> > > -	 * handle it as if it was and re-create it.
+> > > -	 */
+> > > -	intel_pxp_queue_termination(pxp);
+> > >   }
+> > >   void intel_pxp_fini_hw(struct intel_pxp *pxp)
+> > > diff --git a/drivers/gpu/drm/i915/pxp/intel_pxp.h b/drivers/gpu/drm/i915/pxp/intel_pxp.h
+> > > index 91c1a2056309..1f9871e64096 100644
+> > > --- a/drivers/gpu/drm/i915/pxp/intel_pxp.h
+> > > +++ b/drivers/gpu/drm/i915/pxp/intel_pxp.h
+> > > @@ -32,7 +32,7 @@ void intel_pxp_init_hw(struct intel_pxp *pxp);
+> > >   void intel_pxp_fini_hw(struct intel_pxp *pxp);
+> > >   void intel_pxp_mark_termination_in_progress(struct intel_pxp *pxp);
+> > > -int intel_pxp_wait_for_arb_start(struct intel_pxp *pxp);
+> > > +int intel_pxp_start(struct intel_pxp *pxp);
+> > >   void intel_pxp_invalidate(struct intel_pxp *pxp);
+> > >   #else
+> > >   static inline void intel_pxp_init(struct intel_pxp *pxp)
+> > > @@ -43,7 +43,7 @@ static inline void intel_pxp_fini(struct intel_pxp *pxp)
+> > >   {
+> > >   }
+> > > -static inline int intel_pxp_wait_for_arb_start(struct intel_pxp *pxp)
+> > > +static inline int intel_pxp_start(struct intel_pxp *pxp)
+> > >   {
+> > >   	return 0;
+> > >   }
+> > > diff --git a/drivers/gpu/drm/i915/pxp/intel_pxp_irq.c b/drivers/gpu/drm/i915/pxp/intel_pxp_irq.c
+> > > index 196449243515..a230d0034e50 100644
+> > > --- a/drivers/gpu/drm/i915/pxp/intel_pxp_irq.c
+> > > +++ b/drivers/gpu/drm/i915/pxp/intel_pxp_irq.c
+> > > @@ -31,7 +31,7 @@ void intel_pxp_irq_handler(struct intel_pxp *pxp, u16 iir)
+> > >   		   GEN12_DISPLAY_APP_TERMINATED_PER_FW_REQ_INTERRUPT)) {
+> > >   		/* immediately mark PXP as inactive on termination */
+> > >   		intel_pxp_mark_termination_in_progress(pxp);
+> > > -		pxp->session_events |= PXP_TERMINATION_REQUEST;
+> > > +		pxp->session_events |= PXP_TERMINATION_REQUEST | PXP_INVAL_REQUIRED;
+> > >   	}
+> > >   	if (iir & GEN12_DISPLAY_STATE_RESET_COMPLETE_INTERRUPT)
+> > > diff --git a/drivers/gpu/drm/i915/pxp/intel_pxp_session.c b/drivers/gpu/drm/i915/pxp/intel_pxp_session.c
+> > > index e9fe757e368a..c21620916710 100644
+> > > --- a/drivers/gpu/drm/i915/pxp/intel_pxp_session.c
+> > > +++ b/drivers/gpu/drm/i915/pxp/intel_pxp_session.c
+> > > @@ -85,9 +85,6 @@ static int pxp_terminate_arb_session_and_global(struct intel_pxp *pxp)
+> > >   	/* must mark termination in progress calling this function */
+> > >   	GEM_WARN_ON(pxp->arb_is_valid);
+> > > -	/* invalidate protected objects */
+> > > -	intel_pxp_invalidate(pxp);
+> > > -
+> > >   	/* terminate the hw sessions */
+> > >   	ret = intel_pxp_terminate_session(pxp, ARB_SESSION);
+> > >   	if (ret) {
+> > > @@ -144,6 +141,9 @@ void intel_pxp_session_work(struct work_struct *work)
+> > >   	if (!events)
+> > >   		return;
+> > > +	if (events & PXP_INVAL_REQUIRED)
+> > > +		intel_pxp_invalidate(pxp);
+> > > +
+> > doesn't this invalidation change deserves a separated patch?
+> > I'm not sure if I understood why we need this change...
+> 
+> Before this patch, we always did a full invalidation and an arb restart
 
-> If there's a strong consensus that we really need this then I'm not
-> going to nack this, but this really needs a pile of acks from
-> compositor folks that they're willing to live with the resulting
-> fallout this will likely bring. Your cc list seems to have an absence
-> of compositor folks, but instead every driver maintainer. That's
-> backwards. We make uapi for userspace, not for kernel driver
-> maintainers!
+oh, indeed, I had missed that part, sorry
 
-In wlroots we have a policy of only allowing standard KMS properties to
-be used. Any vendor-specific property is going to be less well-defined,
-less widely useful, potentially have more design issues, potentially
-overlap in functionality with other vendor-specific properties, likely
-have some hardware-specific assumptions, etc.
+> back-to-back and therefore the invalidation was implicit in the
+> PXP_TERMINATION_REQUEST flag. This patch changes this into different cases:
+> 
+> termination irq: invalidate objects, submit termination and restart the arb
+> session
+> suspend: invalidate objects
+> first pxp submission: submit termination and start the arb session
+> 
+> Therefore we need to be able to select the invalidation as an independent
+> case from the termination.
 
-What matters here is discussing with other driver & user-space folks to
-make sure the new property's design is sound. Designing uAPI is hard.
+Thanks for the explanation, it makes sense
 
-If kernel folks are struggling with a user-space implementation, they
-should discuss with user-space folks to see which project would be
-interested. There's a chance a compositor will be interested in the new
-property and will just do the user-space part for you, if not we can
-suggest candidate projects.
 
-tl;dr strong agree with Daniel here.
+Reviewed-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
+
+
+> 
+> Daniele
+> 
+> 
+> > 
+> > >   	if (events & PXP_TERMINATION_REQUEST) {
+> > >   		events &= ~PXP_TERMINATION_COMPLETE;
+> > >   		pxp_terminate(pxp);
+> > > diff --git a/drivers/gpu/drm/i915/pxp/intel_pxp_tee.c b/drivers/gpu/drm/i915/pxp/intel_pxp_tee.c
+> > > index e3d178c44e51..35b3fed4ca2f 100644
+> > > --- a/drivers/gpu/drm/i915/pxp/intel_pxp_tee.c
+> > > +++ b/drivers/gpu/drm/i915/pxp/intel_pxp_tee.c
+> > > @@ -63,23 +63,15 @@ static int intel_pxp_tee_io_message(struct intel_pxp *pxp,
+> > >   static int i915_pxp_tee_component_bind(struct device *i915_kdev,
+> > >   				       struct device *tee_kdev, void *data)
+> > >   {
+> > > -	struct drm_i915_private *i915 = kdev_to_i915(i915_kdev);
+> > >   	struct intel_pxp *pxp = i915_dev_to_pxp(i915_kdev);
+> > > -	int ret;
+> > >   	pxp->pxp_component = data;
+> > >   	pxp->pxp_component->tee_dev = tee_kdev;
+> > >   	/* the component is required to fully start the PXP HW */
+> > >   	intel_pxp_init_hw(pxp);
+> > > -	ret = intel_pxp_wait_for_arb_start(pxp);
+> > > -	if (ret) {
+> > > -		drm_err(&i915->drm, "Failed to create arb session during bind\n");
+> > > -		intel_pxp_fini_hw(pxp);
+> > > -		pxp->pxp_component = NULL;
+> > > -	}
+> > > -	return ret;
+> > > +	return 0;
+> > >   }
+> > >   static void i915_pxp_tee_component_unbind(struct device *i915_kdev,
+> > > diff --git a/drivers/gpu/drm/i915/pxp/intel_pxp_types.h b/drivers/gpu/drm/i915/pxp/intel_pxp_types.h
+> > > index c059a17cbcfe..b3ae49dd73a8 100644
+> > > --- a/drivers/gpu/drm/i915/pxp/intel_pxp_types.h
+> > > +++ b/drivers/gpu/drm/i915/pxp/intel_pxp_types.h
+> > > @@ -7,6 +7,7 @@
+> > >   #define __INTEL_PXP_TYPES_H__
+> > >   #include <linux/completion.h>
+> > > +#include <linux/mutex.h>
+> > >   #include <linux/types.h>
+> > >   #include <linux/workqueue.h>
+> > > @@ -23,6 +24,7 @@ struct intel_pxp {
+> > >   	 * even if the keys are gone, so we can't rely on the HW state of the
+> > >   	 * session to know if it's valid and need to track the status in SW.
+> > >   	 */
+> > > +	struct mutex arb_mutex; /* protects arb session start */
+> > >   	bool arb_is_valid;
+> > >   	/*
+> > > @@ -40,6 +42,7 @@ struct intel_pxp {
+> > >   	u32 session_events; /* protected with gt->irq_lock */
+> > >   #define PXP_TERMINATION_REQUEST  BIT(0)
+> > >   #define PXP_TERMINATION_COMPLETE BIT(1)
+> > > +#define PXP_INVAL_REQUIRED       BIT(2)
+> > >   };
+> > >   #endif /* __INTEL_PXP_TYPES_H__ */
+> > > -- 
+> > > 2.29.2
+> > > 
+> > > _______________________________________________
+> > > Intel-gfx mailing list
+> > > Intel-gfx@lists.freedesktop.org
+> > > https://lists.freedesktop.org/mailman/listinfo/intel-gfx
+> 
+> _______________________________________________
+> Intel-gfx mailing list
+> Intel-gfx@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/intel-gfx
