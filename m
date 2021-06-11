@@ -1,63 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA8E93A4222
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Jun 2021 14:40:56 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 669733A4284
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Jun 2021 14:56:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D401D6EE81;
-	Fri, 11 Jun 2021 12:40:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 972026E7FE;
+	Fri, 11 Jun 2021 12:56:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [216.205.24.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 15DD16EE81
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Jun 2021 12:40:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623415252;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=lE67WyKbl741YpDCTe3QkT0OdknMJfyRErLnc4JjkJk=;
- b=Kr0SvbG0dzDW5J0aJ2DLPMzkn4L7gYzlJdmgTjCFGi4zcclauicdSt3PS+/E50QRN60zLg
- 4wmTQJCVMzKJqNt/NWS6Pnm7vuVHrWyg0Qjs/VRLioLkjaw0MPMnv/ijC5v8N4YrG1DInC
- yq36DJOHFsl8ysf1PLuGtDLhrp9W5hs=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-483-tDRVUUZtNSy-5sW1P9P8dw-1; Fri, 11 Jun 2021 08:40:50 -0400
-X-MC-Unique: tDRVUUZtNSy-5sW1P9P8dw-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5F5111923762;
- Fri, 11 Jun 2021 12:40:47 +0000 (UTC)
-Received: from localhost (ovpn-113-95.ams2.redhat.com [10.36.113.95])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D32A260C05;
- Fri, 11 Jun 2021 12:40:42 +0000 (UTC)
-From: Cornelia Huck <cohuck@redhat.com>
-To: Jason Gunthorpe <jgg@nvidia.com>, David Airlie <airlied@linux.ie>, Tony
- Krowiak <akrowiak@linux.ibm.com>, Alex Williamson
- <alex.williamson@redhat.com>, Christian Borntraeger
- <borntraeger@de.ibm.com>, Jonathan Corbet <corbet@lwn.net>, Daniel Vetter
- <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org, Vasily Gorbik
- <gor@linux.ibm.com>, Heiko Carstens <hca@linux.ibm.com>,
- intel-gfx@lists.freedesktop.org, Jani Nikula
- <jani.nikula@linux.intel.com>, Jason Herne <jjherne@linux.ibm.com>, Joonas
- Lahtinen <joonas.lahtinen@linux.intel.com>, kvm@vger.kernel.org, Kirti
- Wankhede <kwankhede@nvidia.com>, linux-doc@vger.kernel.org,
- linux-s390@vger.kernel.org, Halil Pasic <pasic@linux.ibm.com>, Rodrigo
- Vivi <rodrigo.vivi@intel.com>
-Subject: Re: [PATCH 06/10] vfio/mdev: Remove CONFIG_VFIO_MDEV_DEVICE
-In-Reply-To: <6-v1-324b2038f212+1041f1-vfio3a_jgg@nvidia.com>
-Organization: Red Hat GmbH
-References: <6-v1-324b2038f212+1041f1-vfio3a_jgg@nvidia.com>
-User-Agent: Notmuch/0.32.1 (https://notmuchmail.org)
-Date: Fri, 11 Jun 2021 14:40:41 +0200
-Message-ID: <87czsszi9i.fsf@redhat.com>
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EDE3D6E7FE
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Jun 2021 12:56:22 +0000 (UTC)
+Received: from maud (unknown [IPv6:2600:8800:8c04:8c00::6334])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested) (Authenticated sender: alyssa)
+ by bhuna.collabora.co.uk (Postfix) with ESMTPSA id EAA2F1F4468F;
+ Fri, 11 Jun 2021 13:56:09 +0100 (BST)
+Date: Fri, 11 Jun 2021 08:56:04 -0400
+From: Alyssa Rosenzweig <alyssa@collabora.com>
+To: Liviu Dudau <liviu.dudau@arm.com>
+Subject: Re: [PATCH v3] Documentation: gpu: Mention the requirements for new
+ properties
+Message-ID: <YMNdZCkyaVoH+WAd@maud>
+References: <20210610174731.1209188-1-maxime@cerno.tech>
+ <CAKMK7uG_Wkko0L6sv0U1bXWdYk4fg3OTcp5=+qfRV0CP9V44=A@mail.gmail.com>
+ <KNFHfqvJUVq9oy9BSdznj1S6xhDoZUAx1_DwfSNvUv8u1d-TroKBTq2hxtv7u1aJnxnpI5CxUXSMTn73YsVhZjnRW78gv-QLsK6AkJ5m3Fw=@emersion.fr>
+ <20210611120309.2b5eb4htupv5ss32@e110455-lin.cambridge.arm.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210611120309.2b5eb4htupv5ss32@e110455-lin.cambridge.arm.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,31 +44,80 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Haneen Mohammed <hamohammed.sa@gmail.com>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+ Xinliang Liu <xinliang.liu@linaro.org>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Edmund Dea <edmund.j.dea@intel.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Russell King <linux@armlinux.org.uk>, Melissa Wen <melissa.srw@gmail.com>,
+ Tomi Valkeinen <tomba@kernel.org>, Thierry Reding <thierry.reding@gmail.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Benjamin Gaignard <benjamin.gaignard@linaro.org>,
+ Anitha Chrisanthus <anitha.chrisanthus@intel.com>,
+ Daniel Vetter <daniel.vetter@intel.com>, Steven Price <steven.price@arm.com>,
+ Sam Ravnborg <sam@ravnborg.org>, Jyri Sarha <jyri.sarha@iki.fi>,
+ Jerome Brunet <jbrunet@baylibre.com>, Marek Vasut <marex@denx.de>,
+ Joonyoung Shim <jy0922.shim@samsung.com>, Qiang Yu <yuq825@gmail.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+ Kevin Hilman <khilman@baylibre.com>, Neil Armstrong <narmstrong@baylibre.com>,
+ Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+ Xinwei Kong <kong.kongxinwei@hisilicon.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>, David Airlie <airlied@linux.ie>,
+ Ludovic Desroches <ludovic.desroches@microchip.com>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ VMware Graphics <linux-graphics-maintainer@vmware.com>,
+ NXP Linux Team <linux-imx@nxp.com>, Ben Skeggs <bskeggs@redhat.com>,
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>, Jonas Karlman <jonas@kwiboo.se>,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ Chen Feng <puck.chen@hisilicon.com>, Sascha Hauer <s.hauer@pengutronix.de>,
+ Alison Wang <alison.wang@nxp.com>, Roland Scheidegger <sroland@vmware.com>,
+ Andrzej Hajda <a.hajda@samsung.com>, Hans de Goede <hdegoede@redhat.com>,
+ Maxime Ripard <maxime@cerno.tech>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ Nicolas Ferre <nicolas.ferre@microchip.com>, Chen-Yu Tsai <wens@csie.org>,
+ Sean Paul <sean@poorly.run>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Paul Cercueil <paul@crapouillou.net>, Jernej Skrabec <jernej.skrabec@siol.net>,
+ Huang Rui <ray.huang@amd.com>,
+ Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+ Hyun Kwon <hyun.kwon@xilinx.com>, Boris Brezillon <bbrezillon@kernel.org>,
+ Andrew Jeffery <andrew@aj.id.au>, Yannick Fertr e <yannick.fertre@foss.st.com>,
+ Jonathan Corbet <corbet@lwn.net>, Seung-Woo Kim <sw0312.kim@samsung.com>,
+ Sandy Huang <hjc@rock-chips.com>, Robert Foss <robert.foss@linaro.org>,
+ Joel Stanley <joel@jms.id.au>, Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ Noralf Tr??nnes <noralf@tronnes.org>,
+ Philippe Cornu <philippe.cornu@foss.st.com>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Alex Deucher <alexander.deucher@amd.com>, Tian Tao <tiantao6@hisilicon.com>,
+ Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>,
+ Shawn Guo <shawnguo@kernel.org>, Christian K??nig <christian.koenig@amd.com>,
+ Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jun 07 2021, Jason Gunthorpe <jgg@nvidia.com> wrote:
+> What I'm expected to see in the future is new functionality that gets implemented by
+> one hardware vendor and the kernel developers trying to enable that for userspace. It
+> could be that the new property is generic, but there is no way of testing that on
+> more than one implementation yet, so I'd say we are generous calling it "standard
+> property". When the second or third hardware vendor comes along and starts supporting
+> that property with their own set of extra requirements, then we can call it
+> "standard". Then comes the effort cost: would it be easier to start with a vendor
+> property that only the vendor needs to support (and can submit patches into the
+> compositors to do so) and when the standard property gets added moves to that, or
+> should we start with a generic property that gets implemented by the compositors
+> (maybe, but then only one vendor supports it) and then later when we actually
+> standardise the property we will have to carry backwards compatibility code in the
+> kernel to handle the old behaviour for old userspace? My proposal to Maxime was for
+> the former option to be reflected in the documentation, but I would like to hear your
+> thoughts.
 
-> For some reason the vfio_mdev shim mdev_driver has its own module and
-> kconfig. As the next patch requires access to it from mdev.ko merge the
-> two modules together and remove VFIO_MDEV_DEVICE.
->
-> A later patch deletes this driver entirely.
->
-> Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
-> ---
->  Documentation/s390/vfio-ap.rst   |  1 -
->  arch/s390/Kconfig                |  2 +-
->  drivers/gpu/drm/i915/Kconfig     |  2 +-
->  drivers/vfio/mdev/Kconfig        |  7 -------
->  drivers/vfio/mdev/Makefile       |  3 +--
->  drivers/vfio/mdev/mdev_core.c    | 16 ++++++++++++++--
->  drivers/vfio/mdev/mdev_private.h |  2 ++
->  drivers/vfio/mdev/vfio_mdev.c    | 24 +-----------------------
->  samples/Kconfig                  |  6 +++---
->  9 files changed, 23 insertions(+), 40 deletions(-)
+Just my 2c - if the mainline kernel isn't willing to commit to a feature
+for upstream userspace to use, why does that feature belong in the
+kernel at all? I don't see much value in exposing hardware for the sake
+of exposing it when, practically, Linux userspace /can't/ use it as-is.
 
-I think you missed my earlier
-
-Reviewed-by: Cornelia Huck <cohuck@redhat.com>
-
+Might these vendor properties be used on downstream Android userspaces?
+That's not generally an upstream goal to support.
