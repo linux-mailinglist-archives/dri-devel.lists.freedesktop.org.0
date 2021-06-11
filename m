@@ -2,59 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A9473A3D9D
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Jun 2021 09:55:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E7F93A3DA3
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Jun 2021 09:58:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AAE976EE43;
-	Fri, 11 Jun 2021 07:55:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 088246EE46;
+	Fri, 11 Jun 2021 07:58:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com
- [IPv6:2a00:1450:4864:20::42b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 73EBA6EE44
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Jun 2021 07:55:01 +0000 (UTC)
-Received: by mail-wr1-x42b.google.com with SMTP id c5so4980623wrq.9
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Jun 2021 00:55:01 -0700 (PDT)
+Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com
+ [IPv6:2a00:1450:4864:20::330])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 762216EE45
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Jun 2021 07:58:16 +0000 (UTC)
+Received: by mail-wm1-x330.google.com with SMTP id
+ m41-20020a05600c3b29b02901b9e5d74f02so4821953wms.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Jun 2021 00:58:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:content-transfer-encoding:in-reply-to;
- bh=DDtceujLgXtlsEUKK5ZRi+EzzoWlzeAeda0TaARUvw8=;
- b=WWhgP98vh2b9jHm6Qo7GwoMpKJK92yvUK5Xc0XbHnWDk7DcgZuAdCydKY64Nxv0C2F
- UJcTGwbOdQ22spxPKcIPHvF+1Oa727o0UtMrgr6gvmxhyuXWQUQ4YYVZmG7FQrTUXI6V
- lYIadztaGmtEc/hZvHnJSqHK2DbttUNzIyf9Y=
+ bh=Cb2J6sSCslD5uvLaCGMCBxynXsGOY9oqpQH7yy0HDiM=;
+ b=YLj4dPA5HeJ1vFEo+Kagh6Cll3C1STlr33QgWQyGmziFH+Z9OFECn3bt5cNXkIlh+k
+ tJSkreQzKvXrsm+dricbgqCIwJ3SxKkQSyymdgaT5gJv60m+uyh5SZzrAfRygmbsNafQ
+ Wta+hIIL8apOxGuiDkhEld58aUN09SM3GAlrE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:content-transfer-encoding
  :in-reply-to;
- bh=DDtceujLgXtlsEUKK5ZRi+EzzoWlzeAeda0TaARUvw8=;
- b=p0fRvKVrlmsBAFwNvi1vHR+pEtOqFvyqL+H5RMdI2IUmtQkQ4S/Yi0OCxKRPyYRdb0
- OnH3obU9UXeyVPI1PkmaXlAzfq+h+wA5eo6vomq1oAklG5ahuT6xQiDGleg9WSOppxrJ
- ZEpRoG05S3zkEUrIS8qEePVJVVJLWKvrkSJ+4OjGbjLPP7a2MNrXUiQ8uDWvTWeKbNvc
- Q2gS7Z3FZFIx0LXCud9k75F2nKT5aE3ok8IU2vfLHWXwdP8DfmKTRFwfC1bwB+zDR3Pi
- lc1FsLP1mcmTLJO1/atc4jB9/cPtGlDa2ka23vcZBa5eRH/qUQo/Bd0eRm+iBWmpzJxY
- ONyA==
-X-Gm-Message-State: AOAM531feHcxi7aNkcgwzda62eCFoQICetbHmS0E5uX/O0W5CUbRXCxr
- g0I4gI4gakdkIdJxse3NlN+rqA0ZlYZrwg==
-X-Google-Smtp-Source: ABdhPJwGHUmMC/cZ+OZ17i8YtgBJi8wxDu4rN0PjADaFoB/zb1wZ6lxC3P78VXc7L02svJDl0jaMrA==
-X-Received: by 2002:a05:6000:6:: with SMTP id h6mr2571417wrx.24.1623398099990; 
- Fri, 11 Jun 2021 00:54:59 -0700 (PDT)
+ bh=Cb2J6sSCslD5uvLaCGMCBxynXsGOY9oqpQH7yy0HDiM=;
+ b=Nz1E9oMq4bEj1QpOwwqH1yFkM/YX12FXrKScC76vB/wd/4WaiImizo4P/x/tdrpWZs
+ GH8bKVXj9hpXwh+IUne8bduHDiGhfgrbPpUGU6axohDr8UA7ydI/Lqx+b66LPon631t8
+ JIC3wpXzeUR5wzKPi3eBO49Wbv224xuVuUX2dxykago+Thy92de+VbjjgtUfLA7ulQMp
+ p9+tba4kw8YGU5bHw5MLFvn8NYB9SgDGiWgzgpoQ52CNoIu/mI5XKht92jhGpwTTHrXR
+ ruO7kcM+H2Cjl0BCzfoDOM7sJal5ztjfRYUJ+fJuHYbVd6Ky3q8/V6CnRXBInJLXMCNz
+ pklw==
+X-Gm-Message-State: AOAM533OnvzafeZWteGxgBr741Mi+hAfohmD8I3E9KFPPn4tEQkkCnfM
+ Yy+JEOzvPL8umu6ftsunkV54KA==
+X-Google-Smtp-Source: ABdhPJylLBcD7nMz11LRrYZN4d8CQjyvSjS8RevAozcmcYQPEQA3gPZ0GZoBpegES+gmKgKBrnS1QQ==
+X-Received: by 2002:a7b:c099:: with SMTP id r25mr10397638wmh.144.1623398295202; 
+ Fri, 11 Jun 2021 00:58:15 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id y26sm5184216wma.33.2021.06.11.00.54.59
+ by smtp.gmail.com with ESMTPSA id g17sm6191082wrp.61.2021.06.11.00.58.14
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 11 Jun 2021 00:54:59 -0700 (PDT)
-Date: Fri, 11 Jun 2021 09:54:57 +0200
+ Fri, 11 Jun 2021 00:58:14 -0700 (PDT)
+Date: Fri, 11 Jun 2021 09:58:12 +0200
 From: Daniel Vetter <daniel@ffwll.ch>
 To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>
-Subject: Re: [PATCH 2/7] dma-buf: add dma_fence_chain_alloc/free
-Message-ID: <YMMW0ROMlgJQyTdU@phenom.ffwll.local>
+Subject: Re: [PATCH 3/7] dma-buf: add dma_fence_chain_alloc/free self tests
+Message-ID: <YMMXlF5A7uB0sORs@phenom.ffwll.local>
 References: <20210610091800.1833-1-christian.koenig@amd.com>
- <20210610091800.1833-3-christian.koenig@amd.com>
+ <20210610091800.1833-4-christian.koenig@amd.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210610091800.1833-3-christian.koenig@amd.com>
+In-Reply-To: <20210610091800.1833-4-christian.koenig@amd.com>
 X-Operating-System: Linux phenom 5.10.32scarlett+ 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -72,206 +73,90 @@ Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jun 10, 2021 at 11:17:55AM +0200, Christian König wrote:
-> Add a common allocation helper. Cleaning up the mix of kzalloc/kmalloc
-> and some unused code in the selftest.
+On Thu, Jun 10, 2021 at 11:17:56AM +0200, Christian König wrote:
+> Exercise the newly added functions.
 > 
 > Signed-off-by: Christian König <christian.koenig@amd.com>
+
+I have honestly no idea what this checks. Spawning a few threads to
+validate kmalloc/kfree feels a bit silly. Now testing whether we correctly
+rcu-delay the freeing here would make some sense, but even that feels a
+bit silly.
+
+I guess if you want this explain with comments what it does and why?
+-Daniel
+
+
 > ---
->  drivers/dma-buf/st-dma-fence-chain.c          | 16 ++++----------
->  drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c        |  4 ++--
->  drivers/gpu/drm/drm_syncobj.c                 |  6 ++---
->  .../gpu/drm/i915/gem/i915_gem_execbuffer.c    |  6 ++---
->  drivers/gpu/drm/msm/msm_gem_submit.c          |  6 ++---
->  include/linux/dma-fence-chain.h               | 22 +++++++++++++++++++
->  6 files changed, 35 insertions(+), 25 deletions(-)
+>  drivers/dma-buf/st-dma-fence-chain.c | 48 ++++++++++++++++++++++++++++
+>  1 file changed, 48 insertions(+)
 > 
 > diff --git a/drivers/dma-buf/st-dma-fence-chain.c b/drivers/dma-buf/st-dma-fence-chain.c
-> index 9525f7f56119..8ce1ea59d31b 100644
+> index 8ce1ea59d31b..855c129c6093 100644
 > --- a/drivers/dma-buf/st-dma-fence-chain.c
 > +++ b/drivers/dma-buf/st-dma-fence-chain.c
-> @@ -58,28 +58,20 @@ static struct dma_fence *mock_fence(void)
->  	return &f->base;
+> @@ -95,6 +95,53 @@ static int sanitycheck(void *arg)
+>  	return err;
 >  }
 >  
-> -static inline struct mock_chain {
-> -	struct dma_fence_chain base;
-> -} *to_mock_chain(struct dma_fence *f) {
-> -	return container_of(f, struct mock_chain, base.base);
-> -}
-> -
->  static struct dma_fence *mock_chain(struct dma_fence *prev,
->  				    struct dma_fence *fence,
->  				    u64 seqno)
+> +static int __alloc_free(void *arg)
+> +{
+> +	atomic_t *counter = arg;
+> +	int i, j;
+> +
+> +	for (i = 0; i < 1024; ++i) {
+> +		struct dma_fence_chain *chains[64];
+> +
+> +		for (j = 0; j < ARRAY_SIZE(chains); ++j)
+> +			chains[j] = dma_fence_chain_alloc();
+> +
+> +		for (j = 0; j < ARRAY_SIZE(chains); ++j)
+> +			dma_fence_chain_free(chains[j]);
+> +
+> +		atomic_add(ARRAY_SIZE(chains), counter);
+> +	}
+> +	return 0;
+> +}
+> +
+> +static int alloc_free(void *arg)
+> +{
+> +	struct task_struct *threads[8];
+> +	atomic_t counter = ATOMIC_INIT(0);
+> +	int i, err = 0;
+> +
+> +	for (i = 0; i < ARRAY_SIZE(threads); i++) {
+> +		threads[i] = kthread_run(__alloc_free, &counter, "dmabuf/%d",
+> +					 i);
+> +		if (IS_ERR(threads[i])) {
+> +			err = PTR_ERR(threads[i]);
+> +			break;
+> +		}
+> +	}
+> +
+> +	while (i--) {
+> +		int ret;
+> +
+> +		ret = kthread_stop(threads[i]);
+> +		if (ret && !err)
+> +			err = ret;
+> +	}
+> +
+> +	pr_info("Completed %u cycles\n", atomic_read(&counter));
+> +
+> +	return err;
+> +}
+> +
+>  struct fence_chains {
+>  	unsigned int chain_length;
+>  	struct dma_fence **fences;
+> @@ -677,6 +724,7 @@ int dma_fence_chain(void)
 >  {
-> -	struct mock_chain *f;
-> +	struct dma_fence_chain *f;
->  
-> -	f = kmalloc(sizeof(*f), GFP_KERNEL);
-> +	f = dma_fence_chain_alloc();
->  	if (!f)
->  		return NULL;
->  
-> -	dma_fence_chain_init(&f->base,
-> -			     dma_fence_get(prev),
-> -			     dma_fence_get(fence),
-> +	dma_fence_chain_init(f, dma_fence_get(prev), dma_fence_get(fence),
->  			     seqno);
->  
-> -	return &f->base.base;
-> +	return &f->base;
->  }
->  
->  static int sanitycheck(void *arg)
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
-> index 90136f9dedd6..325e82621467 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
-> @@ -1124,7 +1124,7 @@ static int amdgpu_cs_process_syncobj_timeline_out_dep(struct amdgpu_cs_parser *p
->  
->  		dep->chain = NULL;
->  		if (syncobj_deps[i].point) {
-> -			dep->chain = kmalloc(sizeof(*dep->chain), GFP_KERNEL);
-> +			dep->chain = dma_fence_chain_alloc();
->  			if (!dep->chain)
->  				return -ENOMEM;
->  		}
-> @@ -1132,7 +1132,7 @@ static int amdgpu_cs_process_syncobj_timeline_out_dep(struct amdgpu_cs_parser *p
->  		dep->syncobj = drm_syncobj_find(p->filp,
->  						syncobj_deps[i].handle);
->  		if (!dep->syncobj) {
-> -			kfree(dep->chain);
-> +			dma_fence_chain_free(dep->chain);
->  			return -EINVAL;
->  		}
->  		dep->point = syncobj_deps[i].point;
-> diff --git a/drivers/gpu/drm/drm_syncobj.c b/drivers/gpu/drm/drm_syncobj.c
-> index fdd2ec87cdd1..1c5b9ef6da37 100644
-> --- a/drivers/gpu/drm/drm_syncobj.c
-> +++ b/drivers/gpu/drm/drm_syncobj.c
-> @@ -861,7 +861,7 @@ static int drm_syncobj_transfer_to_timeline(struct drm_file *file_private,
->  				     &fence);
->  	if (ret)
->  		goto err;
-> -	chain = kzalloc(sizeof(struct dma_fence_chain), GFP_KERNEL);
-> +	chain = dma_fence_chain_alloc();
->  	if (!chain) {
->  		ret = -ENOMEM;
->  		goto err1;
-> @@ -1402,10 +1402,10 @@ drm_syncobj_timeline_signal_ioctl(struct drm_device *dev, void *data,
->  		goto err_points;
->  	}
->  	for (i = 0; i < args->count_handles; i++) {
-> -		chains[i] = kzalloc(sizeof(struct dma_fence_chain), GFP_KERNEL);
-> +		chains[i] = dma_fence_chain_alloc();
->  		if (!chains[i]) {
->  			for (j = 0; j < i; j++)
-> -				kfree(chains[j]);
-> +				dma_fence_chain_free(chains[j]);
->  			ret = -ENOMEM;
->  			goto err_chains;
->  		}
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
-> index 66789111a24b..a22cb86730b3 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
-> @@ -2983,7 +2983,7 @@ __free_fence_array(struct eb_fence *fences, unsigned int n)
->  	while (n--) {
->  		drm_syncobj_put(ptr_mask_bits(fences[n].syncobj, 2));
->  		dma_fence_put(fences[n].dma_fence);
-> -		kfree(fences[n].chain_fence);
-> +		dma_fence_chain_free(fences[n].chain_fence);
->  	}
->  	kvfree(fences);
->  }
-> @@ -3097,9 +3097,7 @@ add_timeline_fence_array(struct i915_execbuffer *eb,
->  				return -EINVAL;
->  			}
->  
-> -			f->chain_fence =
-> -				kmalloc(sizeof(*f->chain_fence),
-> -					GFP_KERNEL);
-> +			f->chain_fence = dma_fence_chain_alloc();
->  			if (!f->chain_fence) {
->  				drm_syncobj_put(syncobj);
->  				dma_fence_put(fence);
-> diff --git a/drivers/gpu/drm/msm/msm_gem_submit.c b/drivers/gpu/drm/msm/msm_gem_submit.c
-> index 5480852bdeda..6ff6df6c4791 100644
-> --- a/drivers/gpu/drm/msm/msm_gem_submit.c
-> +++ b/drivers/gpu/drm/msm/msm_gem_submit.c
-> @@ -586,9 +586,7 @@ static struct msm_submit_post_dep *msm_parse_post_deps(struct drm_device *dev,
->  				break;
->  			}
->  
-> -			post_deps[i].chain =
-> -				kmalloc(sizeof(*post_deps[i].chain),
-> -				        GFP_KERNEL);
-> +			post_deps[i].chain = dma_fence_chain_alloc();
->  			if (!post_deps[i].chain) {
->  				ret = -ENOMEM;
->  				break;
-> @@ -605,7 +603,7 @@ static struct msm_submit_post_dep *msm_parse_post_deps(struct drm_device *dev,
->  
->  	if (ret) {
->  		for (j = 0; j <= i; ++j) {
-> -			kfree(post_deps[j].chain);
-> +			dma_fence_chain_free(post_deps[j].chain);
->  			if (post_deps[j].syncobj)
->  				drm_syncobj_put(post_deps[j].syncobj);
->  		}
-> diff --git a/include/linux/dma-fence-chain.h b/include/linux/dma-fence-chain.h
-> index 9d6a062be640..5f45689a6d2e 100644
-> --- a/include/linux/dma-fence-chain.h
-> +++ b/include/linux/dma-fence-chain.h
-> @@ -12,6 +12,7 @@
->  
->  #include <linux/dma-fence.h>
->  #include <linux/irq_work.h>
-> +#include <linux/slab.h>
->  
->  /**
->   * struct dma_fence_chain - fence to represent an node of a fence chain
-> @@ -53,6 +54,27 @@ to_dma_fence_chain(struct dma_fence *fence)
->  	return container_of(fence, struct dma_fence_chain, base);
->  }
->  
-> +/**
-> + * dma_fence_chain_alloc
-> + *
-> + * Returns a new dma_fence_chain object
-
-... or NULL on failure.
-
-> + */
-> +static inline struct dma_fence_chain *dma_fence_chain_alloc(void)
-> +{
-> +	return kmalloc(sizeof(struct dma_fence_chain), GFP_KERNEL);
-> +};
-> +
-> +/**
-> + * dma_fence_chain_free
-> + * @chain: chain node to free
-> + *
-> + * Frees up an allocated but not used dma_fence_chain node.
-> + */
-> +static inline void dma_fence_chain_free(struct dma_fence_chain *chain)
-> +{
-> +	kfree(chain);
-
-kfree_rcu, and I guess this means this patch here should be cc: stable.
-
-This is kinda why I'm questioning whether this "dma_fence are protected by
-rcu" cross driver api is really a good idea. We largely get it wrong in
-the details in a _ton_ of places.
-
-With the details fixed:
-
-Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-
-> +
->  /**
->   * dma_fence_chain_for_each - iterate over all fences in chain
->   * @iter: current fence
+>  	static const struct subtest tests[] = {
+>  		SUBTEST(sanitycheck),
+> +		SUBTEST(alloc_free),
+>  		SUBTEST(find_seqno),
+>  		SUBTEST(find_signaled),
+>  		SUBTEST(find_out_of_order),
 > -- 
 > 2.25.1
 > 
