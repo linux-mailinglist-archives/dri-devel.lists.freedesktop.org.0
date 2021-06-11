@@ -1,42 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D733F3A48E3
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Jun 2021 20:53:26 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 077093A495A
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Jun 2021 21:15:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5C60088FE5;
-	Fri, 11 Jun 2021 18:53:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 84C236E45C;
+	Fri, 11 Jun 2021 19:15:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0ECE06F3C2;
- Fri, 11 Jun 2021 18:53:21 +0000 (UTC)
-IronPort-SDR: v26zDjJ9i2nnE++Ux4+IGF5V6sB/0LRFpU4rs35l8UWNPAxXiBpW+AOJ3cv5MD9g6mhpSL+dMu
- VP9O6MvUlTxQ==
-X-IronPort-AV: E=McAfee;i="6200,9189,10012"; a="227015926"
-X-IronPort-AV: E=Sophos;i="5.83,267,1616482800"; d="scan'208";a="227015926"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Jun 2021 11:53:20 -0700
-IronPort-SDR: 0ergZJs+cx4v9w39ZHbNEGR/LdWdU9OlOX1KdpkIB7dCsBmPY9gtTn0XHPVe22oGNxfYMkDHKs
- GXXw9xlgqgkQ==
-X-IronPort-AV: E=Sophos;i="5.83,267,1616482800"; d="scan'208";a="414543350"
-Received: from unknown (HELO sdutt-i7) ([10.165.21.147])
- by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Jun 2021 11:53:20 -0700
-Date: Fri, 11 Jun 2021 11:46:27 -0700
-From: Matthew Brost <matthew.brost@intel.com>
-To: Michal Wajdeczko <michal.wajdeczko@intel.com>
-Subject: Re: [PATCH 00/13] Update firmware to v62.0.0
-Message-ID: <20210611184627.GA29357@sdutt-i7>
-References: <20210610043649.144416-1-matthew.brost@intel.com>
- <dce71640-7648-d321-c3e1-24e98a6276e9@intel.com>
+Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com
+ [IPv6:2a00:1450:4864:20::12b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 16A496E45C
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Jun 2021 19:15:30 +0000 (UTC)
+Received: by mail-lf1-x12b.google.com with SMTP id k40so10064629lfv.7
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Jun 2021 12:15:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=XX1W3URWQ8r7C42PWjWKsvggaK12j8Zhh8tbxVvnO2w=;
+ b=nTb2yspBH9u7uwoFjX8jsvdCFER3T7Bg+mpnOMpkt4egaQm7qPi7JOIsnAKqah/LXZ
+ drWRb1WZk+czg48dmZFpssa0KuRfbWn7mW3UVNp3P5AKH2B3xN15/uWNvDDYh/R/iDqf
+ KZJKULNgY5qxFSwUY/CtclPh7LQYPy11OEBjje2bPI2ycK1Iay5R070vmzOX8iTf5Va8
+ RnYlsgYc+bIvRwDdB/cjijQcprkz0x1qGD7wE7fcyK9tfWT/kbuIe5LsiRTllfH2Dcmf
+ fg85Tw49uriMJ6UDesjh15oUodZahOpAsnAi1yJJVFjlkBkEoMpSZADCnUiJG+alXrFh
+ n31w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=XX1W3URWQ8r7C42PWjWKsvggaK12j8Zhh8tbxVvnO2w=;
+ b=NdzKT6JboloITXdLK2QuZ+1t6R+6XfIf0+2Do4SBHyEncZefIBMkpSb3F6dBL97RPm
+ 35xdxqS3iSd+3piiDXuSptyya6evs4Gm1OHTqRuPBHXhb7t0SddoRKRNGTm821D7dKE2
+ BVVeUrk3Mj3yWOvh5Ze5V+EaSMqPjhS1aSV2AlOUYbxM34n/mlAwi977yLnIJcVNLdfL
+ ssmPtciGu/tfSfiV5Wwe3/iUHOTAMGs4r4Y3H1w2sTOedMvgl20IYnVm1/iwknZ95XlJ
+ KoDc7O1H2VNycQupUrfJWRvbXLkLhbuJDRocgVcA8aBMMuaRJ/g0W7UODKsJBQQacuNG
+ xkxw==
+X-Gm-Message-State: AOAM530he74hmX1mmkLQP5fVqDQkQf2kornBqscL6gaRKOFKi3OOKlmR
+ m1D7QyDH+MBwdaHblU/mnsYZIPm48qUdvn5JN/T9Rg==
+X-Google-Smtp-Source: ABdhPJzojiGmPxWqA+iJlZvJDBVswkAfdjKbLrU0iZLy3nWfGlyWzCEH7Q2CBe44XskeGNFG3yWJgOHAbCBUTjJOHNU=
+X-Received: by 2002:a19:c181:: with SMTP id r123mr3490274lff.7.1623438928342; 
+ Fri, 11 Jun 2021 12:15:28 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <dce71640-7648-d321-c3e1-24e98a6276e9@intel.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+References: <20210331105735.3690009-1-dmitry.baryshkov@linaro.org>
+ <20210331105735.3690009-23-dmitry.baryshkov@linaro.org>
+ <CALAqxLVwpLOsvjBVi+xb5S2VQNuGKgeOzrSqwZe5FN6RSeEEWA@mail.gmail.com>
+ <CAA8EJprMKydEKQhHr=wk76H_a1-udjspVXSY1j2tqHNErAG-uQ@mail.gmail.com>
+In-Reply-To: <CAA8EJprMKydEKQhHr=wk76H_a1-udjspVXSY1j2tqHNErAG-uQ@mail.gmail.com>
+From: John Stultz <john.stultz@linaro.org>
+Date: Fri, 11 Jun 2021 12:15:16 -0700
+Message-ID: <CALAqxLVeCH-8eiDZVy6vN4nD594od69A388bTwfJsJfmgb3Ddw@mail.gmail.com>
+Subject: Re: [PATCH v4 22/24] drm/msm/dsi: remove temp data from global pll
+ structure
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,88 +65,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, daniele.ceraolospurio@intel.com,
- john.c.harrison@intel.com, dri-devel@lists.freedesktop.org
+Cc: Amit Pundir <amit.pundir@linaro.org>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU"
+ <freedreno@lists.freedesktop.org>, Vinod Koul <vinod.koul@linaro.org>,
+ Jonathan Marek <jonathan@marek.ca>, Stephen Boyd <sboyd@kernel.org>,
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ Michael Turquette <mturquette@baylibre.com>,
+ Abhinav Kumar <abhinavk@codeaurora.org>, Stephen Boyd <swboyd@chromium.org>,
+ David Airlie <airlied@linux.ie>, dri-devel <dri-devel@lists.freedesktop.org>,
+ Peter Collingbourne <pcc@google.com>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>, Sean Paul <sean@poorly.run>,
+ "open list:COMMON CLK FRAMEWORK" <linux-clk@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jun 10, 2021 at 03:35:57PM +0200, Michal Wajdeczko wrote:
-> 
-> 
-> On 10.06.2021 06:36, Matthew Brost wrote:
-> > As part of enabling GuC submission [1] we need to update to the latest
-> > and greatest firmware. This series does that. This is a destructive
-> > change. e.g. Without all the patches in this series it will break the
-> 
-> not really 'all'
-> 
-
-Yea, typo. I updated the comment below to say 'most' but missed this one.
-
-> > i915 driver. As such, after we review most of these patches they will
-> > squashed into a single patch for merging.
-> 
-> I assume final series will looks as follows:
-> 
-> 1                      = hxg
-> 2+3+5+6+7+8+4+10+11+13 = ctb/ads/fw
-> 12                     = log
-> 9                      = rst
+On Fri, Jun 11, 2021 at 2:01 AM Dmitry Baryshkov
+<dmitry.baryshkov@linaro.org> wrote:
 >
-
-Seems right to me.
- 
-> > 
-> > v2: Address comments, looking for remaning RBs so patches can be
-> 
-> typo
+> Hi,
 >
-
-Not seeing the typo.
- 
-> and likely series should be generated with -v 2 option too
+> On Fri, 11 Jun 2021 at 10:07, John Stultz <john.stultz@linaro.org> wrote:
+> >
+> > On Wed, Mar 31, 2021 at 3:58 AM Dmitry Baryshkov
+> > <dmitry.baryshkov@linaro.org> wrote:
+> > >
+> > > The 7nm, 10nm and 14nm drivers would store interim data used during
+> > > VCO/PLL rate setting in the global dsi_pll_Nnm structure. Move this data
+> > > structures to the onstack storage. While we are at it, drop
+> > > unused/static 'config' data, unused config fields, etc.
+> > >
+> > > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> > > Reviewed-by: Abhinav Kumar <abhinavk@codeaurora.org>
+> > > Tested-by: Stephen Boyd <swboyd@chromium.org> # on sc7180 lazor
+> >
+> > Hey Dmitry,
+> >   Just wanted to give you a heads up.  Peter Collingbourne reported
+> > today that his db845c wasn't booting to display for him on his 4k
+> > monitor. It works fine on a 1080p screen, and while 4k isn't supported
+> > (yet?),  normally the board should fall back to 1080p when connected
+> > to a 4k monitor.  I was able to reproduce this myself and I see the
+> > errors below[1].
 >
+> It looks like I made a mistake testing these patches with the splash
+> screen disabled.
+> Stephen Boyd has proposed a fix few days ago (will be included into
+> the 5.13). Could you check that it fixes the problem for you?
+>
+> https://lore.kernel.org/linux-arm-msm/20210608195519.125561-1-swboyd@chromium.org/
 
-Didn't know about -v2 option. Will use going forward.
+Ah! This does seem to fix it! Thank you so much for pointing it out!
 
-Matt
- 
-> 
-> > squashed and sent for CI
-> > 
-> > Signed-off-by: Matthew Brost <matthew.brost@intel.com>
-> > 
-> > [1] https://patchwork.freedesktop.org/series/89844/i
-> > 
-> > John Harrison (3):
-> >   drm/i915/guc: Support per context scheduling policies
-> >   drm/i915/guc: Unified GuC log
-> >   drm/i915/guc: Update firmware to v62.0.0
-> > 
-> > Michal Wajdeczko (10):
-> >   drm/i915/guc: Introduce unified HXG messages
-> >   drm/i915/guc: Update MMIO based communication
-> >   drm/i915/guc: Update CTB response status definition
-> >   drm/i915/guc: Add flag for mark broken CTB
-> >   drm/i915/guc: New definition of the CTB descriptor
-> >   drm/i915/guc: New definition of the CTB registration action
-> >   drm/i915/guc: New CTB based communication
-> >   drm/i915/doc: Include GuC ABI documentation
-> >   drm/i915/guc: Kill guc_clients.ct_pool
-> >   drm/i915/guc: Kill ads.client_info
-> > 
-> >  Documentation/gpu/i915.rst                    |   8 +
-> >  .../gpu/drm/i915/gt/uc/abi/guc_actions_abi.h  | 107 ++++++
-> >  .../gt/uc/abi/guc_communication_ctb_abi.h     | 128 +++++--
-> >  .../gt/uc/abi/guc_communication_mmio_abi.h    |  65 ++--
-> >  .../gpu/drm/i915/gt/uc/abi/guc_messages_abi.h | 213 +++++++++++
-> >  drivers/gpu/drm/i915/gt/uc/intel_guc.c        | 107 ++++--
-> >  drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c    |  45 +--
-> >  drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c     | 356 +++++++++---------
-> >  drivers/gpu/drm/i915/gt/uc/intel_guc_ct.h     |   6 +-
-> >  drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h   |  75 +---
-> >  drivers/gpu/drm/i915/gt/uc/intel_guc_log.c    |  29 +-
-> >  drivers/gpu/drm/i915/gt/uc/intel_guc_log.h    |   6 +-
-> >  drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c      |  26 +-
-> >  13 files changed, 750 insertions(+), 421 deletions(-)
-> > 
+thanks
+-john
