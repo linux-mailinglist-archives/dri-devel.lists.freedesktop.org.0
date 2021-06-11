@@ -2,37 +2,31 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B7D43A4AB0
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Jun 2021 23:39:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D129E3A4AA7
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Jun 2021 23:35:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E54826E047;
-	Fri, 11 Jun 2021 21:39:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 118886E0E1;
+	Fri, 11 Jun 2021 21:35:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C46256E047
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Jun 2021 21:39:53 +0000 (UTC)
-IronPort-SDR: BQUU/axrJVauiB7NNIrpcTqqG8wUDs/EyzccXmaog49f+EaRv3I6pqRxqSOJgLfgWxWlC5WYUg
- ezpUlG2JCkYw==
-X-IronPort-AV: E=McAfee;i="6200,9189,10012"; a="291248201"
-X-IronPort-AV: E=Sophos;i="5.83,267,1616482800"; d="scan'208";a="291248201"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Jun 2021 14:39:52 -0700
-IronPort-SDR: XE9YScuftSYanMQs/pTI7A8UFoqTFKE9cfhy9BrvUPkifzdsdz98WfyMCOYaRdHygNTQAZ0Ndd
- z0iBeGhcm2Ew==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.83,267,1616482800"; d="scan'208";a="483406620"
-Received: from dongwonk-z390-aorus-ultra-intel-gfx.fm.intel.com
- ([10.105.129.122])
- by orsmga001.jf.intel.com with ESMTP; 11 Jun 2021 14:39:51 -0700
-From: Dongwon Kim <dongwon.kim@intel.com>
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 623E56E0E1
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Jun 2021 21:35:36 +0000 (UTC)
+Received: from localhost.localdomain (unknown
+ [IPv6:2804:431:e7dc:1201:ddd3:c6b:bb28:7501])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested) (Authenticated sender: leandrohrb)
+ by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 06D941F447B9;
+ Fri, 11 Jun 2021 22:35:32 +0100 (BST)
+From: Leandro Ribeiro <leandro.ribeiro@collabora.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH] udmabuf: configurable list_limit and size_limit_mb
-Date: Fri, 11 Jun 2021 14:21:07 -0700
-Message-Id: <20210611212107.9876-1-dongwon.kim@intel.com>
-X-Mailer: git-send-email 2.20.1
+Subject: [PATCH v6 0/1] Document drm_mode_get_plane
+Date: Fri, 11 Jun 2021 18:35:15 -0300
+Message-Id: <20210611213516.77904-1-leandro.ribeiro@collabora.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -46,43 +40,35 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dongwon Kim <dongwon.kim@intel.com>, Gerd Hoffmann <kraxel@redhat.com>
+Cc: airlied@linux.ie, pekka.paalanen@collabora.co.uk, kernel@collabora.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Default list_limit and size_limit_mb are not big enough to cover all
-possible use cases. For example, list_limit could be well over its default,
-1024 if only one or several pages are chained in all individual list entries
-when creating dmabuf backed by >4MB buffer. list_limit and size_limit_mb are
-now defined as module parameters so that those can be optionally configured
-by root with proper values to remove these constraints.
+v2: possible_crtcs field is a bitmask, not a pointer. Suggested by
+Ville Syrjälä <ville.syrjala@linux.intel.com>
 
-Cc: Gerd Hoffmann <kraxel@redhat.com>
-Signed-off-by: Dongwon Kim <dongwon.kim@intel.com>
----
- drivers/dma-buf/udmabuf.c | 9 +++++++--
- 1 file changed, 7 insertions(+), 2 deletions(-)
+v3: document how userspace should find out CRTC index. Also,
+document that field 'gamma_size' represents the number of
+entries in the lookup table. Suggested by Pekka Paalanen
+<ppaalanen@gmail.com> and Daniel Vetter <daniel@ffwll.ch>
 
-diff --git a/drivers/dma-buf/udmabuf.c b/drivers/dma-buf/udmabuf.c
-index 1a79ce899b0f..8df761a10251 100644
---- a/drivers/dma-buf/udmabuf.c
-+++ b/drivers/dma-buf/udmabuf.c
-@@ -13,8 +13,13 @@
- #include <linux/udmabuf.h>
- #include <linux/hugetlb.h>
- 
--static const u32    list_limit = 1024;  /* udmabuf_create_list->count limit */
--static const size_t size_limit_mb = 64; /* total dmabuf size, in megabytes  */
-+static int list_limit = 1024;
-+module_param(list_limit, int, 0644);
-+MODULE_PARM_DESC(list_limit, "udmabuf_create_list->count limit. Default is 1024.");
-+
-+static int size_limit_mb = 64;
-+module_param(size_limit_mb, int, 0644);
-+MODULE_PARM_DESC(size_limit_mb, "Max size of a dmabuf, in megabytes. Default is 64.");
- 
- struct udmabuf {
- 	pgoff_t pagecount;
--- 
-2.20.1
+v4: document IN and OUT fields and make the description more
+concise. Suggested by Pekka Paalanen <ppaalanen@gmail.com>
+
+v5: CRTC index patch already merged, only patch to document drm_mode_get_plane
+now. Added that gamma LUT size is deprecated and dropped incorrect text
+documenting that plane number of formats may change from one ioctl to the
+other. Suggested by Ville Syrjälä <ville.syrjala@linux.intel.com>
+
+v6: document that gamma_size field was never used. Suggested by Pekka Paalanen
+<ppaalanen@gmail.com> and Daniel Vetter <daniel@ffwll.ch>
+
+Leandro Ribeiro (1):
+  drm/doc: document drm_mode_get_plane
+
+ include/uapi/drm/drm_mode.h | 32 ++++++++++++++++++++++++++++++++
+ 1 file changed, 32 insertions(+)
+
+--
+2.31.1
 
