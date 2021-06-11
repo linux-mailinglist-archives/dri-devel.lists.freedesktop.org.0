@@ -2,38 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B9693A4A94
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Jun 2021 23:20:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E473F3A4A9C
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Jun 2021 23:29:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A3E566F3DA;
-	Fri, 11 Jun 2021 21:20:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 509BE6F3DC;
+	Fri, 11 Jun 2021 21:29:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5985C6F3DA
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Jun 2021 21:20:29 +0000 (UTC)
-Received: from [IPv6:2804:431:e7dc:1201:ddd3:c6b:bb28:7501] (unknown
- [IPv6:2804:431:e7dc:1201:ddd3:c6b:bb28:7501])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested) (Authenticated sender: leandrohrb)
- by bhuna.collabora.co.uk (Postfix) with ESMTPSA id D80D31F4478E;
- Fri, 11 Jun 2021 22:20:26 +0100 (BST)
-Subject: Re: [PATCH v5 1/1] drm/doc: document drm_mode_get_plane
-To: Daniel Vetter <daniel@ffwll.ch>, Pekka Paalanen <ppaalanen@gmail.com>
-References: <20210610203824.50965-1-leandro.ribeiro@collabora.com>
- <20210610203824.50965-2-leandro.ribeiro@collabora.com>
- <20210611101945.2e7ef9e4@eldfell>
- <CAKMK7uHgmawQJ+dS1mLKhFuMZehs-dQZLzXyp6n0dxPNmT19Rw@mail.gmail.com>
-From: Leandro Ribeiro <leandro.ribeiro@collabora.com>
-Message-ID: <00f23d2f-33d1-8f0d-00b4-23e961a74305@collabora.com>
-Date: Fri, 11 Jun 2021 18:20:22 -0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Firefox/78.0 Thunderbird/78.11.0
+Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com
+ [IPv6:2a00:1450:4864:20::135])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 938F86F3DC
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Jun 2021 21:29:44 +0000 (UTC)
+Received: by mail-lf1-x135.google.com with SMTP id k40so10550836lfv.7
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Jun 2021 14:29:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=z3S4SWBbQXkGDm7deVeJ07J9kq7j2iDnIVoqrVsMwkw=;
+ b=fu8W+3jzQ/Y1ldG2d21gEG+cgLClWBJUxeKTuAsi/CovzCthZE9ePgZ6cvZKhgIymm
+ 9S6p0D+1JcICsM0QWyAVO7ee/cJVajRbZJuuRWvP2IzJaDImHvPanQ5x3s5iiQgLMNJs
+ kzBadSUqqBXjZVX4Rz17FTwFLKcqLM1vnXoaNXvQ0Itr8mTKuaUwX4B71YSjaTZNUTnw
+ GhFzQODcweMyd9LHKSsJCab5Q85CO+bN46iHev2ztVdW4pTSxMoasm3FSZBCMutq8wgc
+ 9pdLPsCaoUN0x5gpHQURhmxPzrpWpgyHPvXXOE3eVvWFYnV17l0c0LWSn9GkOGRBQn13
+ tqMQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=z3S4SWBbQXkGDm7deVeJ07J9kq7j2iDnIVoqrVsMwkw=;
+ b=XDnfw5oUaDmV5RKedYhRiu0MLIfrNujOtWr+xOdR4L6FY1rF6+p0AZrHwAzR+ktEw+
+ +t6xQ63bccGIQWwj7YO4EC9hpLAh8GxQBPzed2JayeQHbtzFcZ//aErxBDA/QTksWkBk
+ 5hMYdrODrA6UMtJVZeCSEI69fASuBIddTA9kPhocnlammCkuAWN8y/la66MCV8ZIKr/8
+ +d9+nOrUsCCf1/sh8YbqjPX9Ah1dueXuP6v/3Kx0X8afok7toYffZxWMR4u1/4lQQKsT
+ Qx7BLVswSAF/pnGw/sJ2J4trgwESpRU53MWJt0sXXTI9YIjB6xvvZ2hS+Icvo5nDdaPZ
+ de9A==
+X-Gm-Message-State: AOAM532YUQASzC/rcONRuBdvhEKRK+NyJJUlduWFRjV6wOexA/MaFpYc
+ VjYrpxok8ajftUF4w7Tm4/4mIA==
+X-Google-Smtp-Source: ABdhPJwScakcgIhl2Y6vSG/x5pOyxrM9nAdwNZJHPNxShFmPqsb8VPhSdmWv+bRgpKedeeDMSMJS1Q==
+X-Received: by 2002:a05:6512:2192:: with SMTP id
+ b18mr3932910lft.422.1623446982985; 
+ Fri, 11 Jun 2021 14:29:42 -0700 (PDT)
+Received: from localhost.localdomain
+ (c-fdcc225c.014-348-6c756e10.bbcust.telenor.se. [92.34.204.253])
+ by smtp.gmail.com with ESMTPSA id c20sm695419lfv.291.2021.06.11.14.29.42
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 11 Jun 2021 14:29:42 -0700 (PDT)
+From: Linus Walleij <linus.walleij@linaro.org>
+To: Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
+ dri-devel@lists.freedesktop.org
+Subject: [PATCH 1/2] drm/dbi: Support DBI typec1 read operations
+Date: Fri, 11 Jun 2021 23:27:35 +0200
+Message-Id: <20210611212736.668563-1-linus.walleij@linaro.org>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-In-Reply-To: <CAKMK7uHgmawQJ+dS1mLKhFuMZehs-dQZLzXyp6n0dxPNmT19Rw@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,121 +69,100 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dave Airlie <airlied@linux.ie>, Collabora Kernel ML <kernel@collabora.com>,
- dri-devel <dri-devel@lists.freedesktop.org>
+Cc: =?UTF-8?q?Noralf=20Tr=C3=B8nnes?= <noralf@tronnes.org>,
+ Douglas Anderson <dianders@chromium.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Implement SPI reads for typec1, for SPI controllers that
+can support 9bpw in addition to 8bpw (such as GPIO bit-banged
+SPI).
 
+9bpw emulation is not supported but we have to start with
+something.
 
-On 6/11/21 4:33 AM, Daniel Vetter wrote:
-> On Fri, Jun 11, 2021 at 9:20 AM Pekka Paalanen <ppaalanen@gmail.com> wrote:
->>
->> On Thu, 10 Jun 2021 17:38:24 -0300
->> Leandro Ribeiro <leandro.ribeiro@collabora.com> wrote:
->>
->>> Add a small description and document struct fields of
->>> drm_mode_get_plane.
->>>
->>> Signed-off-by: Leandro Ribeiro <leandro.ribeiro@collabora.com>
->>> ---
->>>  include/uapi/drm/drm_mode.h | 35 +++++++++++++++++++++++++++++++++++
->>>  1 file changed, 35 insertions(+)
->>>
->>> diff --git a/include/uapi/drm/drm_mode.h b/include/uapi/drm/drm_mode.h
->>> index 9b6722d45f36..698559d9336b 100644
->>> --- a/include/uapi/drm/drm_mode.h
->>> +++ b/include/uapi/drm/drm_mode.h
->>> @@ -312,16 +312,51 @@ struct drm_mode_set_plane {
->>>       __u32 src_w;
->>>  };
->>>
->>> +/**
->>> + * struct drm_mode_get_plane - Get plane metadata.
->>> + *
->>> + * Userspace can perform a GETPLANE ioctl to retrieve information about a
->>> + * plane.
->>> + *
->>> + * To retrieve the number of formats supported, set @count_format_types to zero
->>> + * and call the ioctl. @count_format_types will be updated with the value.
->>> + *
->>> + * To retrieve these formats, allocate an array with the memory needed to store
->>> + * @count_format_types formats. Point @format_type_ptr to this array and call
->>> + * the ioctl again (with @count_format_types still set to the value returned in
->>> + * the first ioctl call).
->>> + */
->>>  struct drm_mode_get_plane {
->>> +     /**
->>> +      * @plane_id: Object ID of the plane whose information should be
->>> +      * retrieved. Set by caller.
->>> +      */
->>>       __u32 plane_id;
->>>
->>> +     /** @crtc_id: Object ID of the current CRTC. */
->>>       __u32 crtc_id;
->>> +     /** @fb_id: Object ID of the current fb. */
->>>       __u32 fb_id;
->>>
->>> +     /**
->>> +      * @possible_crtcs: Bitmask of CRTC's compatible with the plane. CRTC's
->>> +      * are created and they receive an index, which corresponds to their
->>> +      * position in the bitmask. Bit N corresponds to
->>> +      * :ref:`CRTC index<crtc_index>` N.
->>> +      */
->>>       __u32 possible_crtcs;
->>> +     /**
->>> +      * @gamma_size: Number of entries of the legacy gamma lookup table.
->>> +      * Deprecated.
->>> +      */
->>>       __u32 gamma_size;
->>
->> Hi,
->>
->> I wonder, has this field ever been used?
->>
->> "The legacy gamma" refers to CRTC gamma LUT AFAIK, but this here is
->> about planes. I forgot that at first, so didn't see anything funny.
-> 
-> Yeah "Deprecated" isn't really conveying that this was never used or
-> implemented anywehere ever. I think we should put that into the docs
-> to make this clear, otherwise someone is going to wonder whether maybe
-> they still need to parse it since it's only deprecated and there's no
-> other plane gamma (yet). I wouldn't even put any further  docs than
-> that in it, because stating that it's the number of entries for
-> something we never implemented is going to be confusing at best :-)
-> -Daniel
-> 
+This is used by s6e63m0 to read display MTP information
+which is used by the driver for backlight control.
 
-Nice, thanks for elaborating.
+Cc: Douglas Anderson <dianders@chromium.org>
+Cc: Noralf Trønnes <noralf@tronnes.org>
+Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
+---
+ drivers/gpu/drm/drm_mipi_dbi.c | 54 +++++++++++++++++++++++++++++++++-
+ 1 file changed, 53 insertions(+), 1 deletion(-)
 
-I'll update to "@gamma_size: Never used".
+diff --git a/drivers/gpu/drm/drm_mipi_dbi.c b/drivers/gpu/drm/drm_mipi_dbi.c
+index 43a9b739bba7..3854fb9798e9 100644
+--- a/drivers/gpu/drm/drm_mipi_dbi.c
++++ b/drivers/gpu/drm/drm_mipi_dbi.c
+@@ -928,6 +928,58 @@ static int mipi_dbi_spi1_transfer(struct mipi_dbi *dbi, int dc,
+ 	return 0;
+ }
+ 
++static int mipi_dbi_typec1_command_read(struct mipi_dbi *dbi, u8 *cmd,
++					u8 *data, size_t len)
++{
++	struct spi_device *spi = dbi->spi;
++	u32 speed_hz = min_t(u32, MIPI_DBI_MAX_SPI_READ_SPEED,
++			     spi->max_speed_hz / 2);
++	struct spi_transfer tr[2] = {
++		{
++			.speed_hz = speed_hz,
++			.bits_per_word = 9,
++			.tx_buf = dbi->tx_buf9,
++			.len = 2,
++		}, {
++			.speed_hz = speed_hz,
++			.bits_per_word = 8,
++			.len = len,
++			.rx_buf = data,
++		},
++	};
++	struct spi_message m;
++	u16 *dst16;
++	int ret;
++
++	if (!len)
++		return -EINVAL;
++
++	if (!spi_is_bpw_supported(spi, 9)) {
++		/*
++		 * FIXME: implement something like mipi_dbi_spi1e_transfer() but
++		 * for reads using emulation.
++		 */
++		dev_err(&spi->dev,
++			"reading on host not supporting 9 bpw not yet implemented\n");
++		return -EOPNOTSUPP;
++	}
++
++	/*
++	 * Turn the 8bit command into a 16bit version of the command in the
++	 * buffer. Only 9 bits of this will be used when executing the actual
++	 * transfer.
++	 */
++	dst16 = dbi->tx_buf9;
++	dst16[0] = *cmd;
++
++	spi_message_init_with_transfers(&m, tr, ARRAY_SIZE(tr));
++	ret = spi_sync(spi, &m);
++
++	MIPI_DBI_DEBUG_COMMAND(*cmd, data, len);
++
++	return ret;
++}
++
+ static int mipi_dbi_typec1_command(struct mipi_dbi *dbi, u8 *cmd,
+ 				   u8 *parameters, size_t num)
+ {
+@@ -935,7 +987,7 @@ static int mipi_dbi_typec1_command(struct mipi_dbi *dbi, u8 *cmd,
+ 	int ret;
+ 
+ 	if (mipi_dbi_command_is_read(dbi, *cmd))
+-		return -EOPNOTSUPP;
++		return mipi_dbi_typec1_command_read(dbi, cmd, parameters, num);
+ 
+ 	MIPI_DBI_DEBUG_COMMAND(*cmd, parameters, num);
+ 
+-- 
+2.31.1
 
->>
->> Anyway, whether the doc for this field is as is, or is changed to
->> "never used" or "unused" or "reserved" or whatever, you have my:
->>
->> Reviewed-by: Pekka Paalanen <pekka.paalanen@collabora.com>
->>
->> With the caveat that I didn't actually build the docs to see how they
->> look.
->>
->>
->> Thanks,
->> pq
->>
->>>
->>> +     /** @count_format_types: Number of formats. */
->>>       __u32 count_format_types;
->>> +     /**
->>> +      * @format_type_ptr: Pointer to ``__u32`` array of formats that are
->>> +      * supported by the plane. These formats do not require modifiers.
->>> +      */
->>>       __u64 format_type_ptr;
->>>  };
->>>
->>> --
->>> 2.31.1
->>>
->>
-> 
-> 
