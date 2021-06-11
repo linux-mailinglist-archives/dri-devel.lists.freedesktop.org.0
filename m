@@ -2,121 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16E2F3A3D09
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Jun 2021 09:25:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FB953A3D14
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Jun 2021 09:27:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D0FA66E7D5;
-	Fri, 11 Jun 2021 07:25:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0E9AF6EE3A;
+	Fri, 11 Jun 2021 07:27:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM02-SN1-obe.outbound.protection.outlook.com
- (mail-sn1anam02on2048.outbound.protection.outlook.com [40.107.96.48])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CAF8F6E7D5
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Jun 2021 07:25:07 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Thm3vkUoyp38bC7IkR/EIEfRxAluTtVP8XtUzWWbk5t4Bj0PzPYv5h+3RNbT/VmmWffGvPEaCVGIr6uPjHsM5/9dj87SvGMcWJZwS4QQJkf+O9ifpBZT3XgAB/XyLdK3KBZ3sUWdx6UuCGSRi3ql9CV4yptm6vInzCcZBfJd2Jsk0oB9JyJCTcLuS0C+gXNT6AIW9AwU/qAfEcn89r6ZZSCmYQz7QYSw63rWFZetQNdIskYAw2bTHwCUYlTUk+yVGCbBsU5IukPQZZt1aljhwl+Zo+hpTZKiNcmGyeStgY2eoBRB4lzyppIiFDvwaojXELyc1tGJNP2gtJY1DilT6w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=FdOuhZ7Ia3LM+4jTtZVMcTO3f7LBDyRQ/2bRRcUHW0k=;
- b=GKddbTCCiKOROWYD697hhU8w+o1NnGzs6rFKDu730L2S7gkX9VCtG3Amk37GCFr59+W1O2UWPBIhJ2/ePZ36u+T8U1mVFiREPgoOca5q26LO7QAYYEidQXpWiXln4HwTz7ib/53TNzdo0zMGlgeWBdsyZk0LIh/AOb08btSWLZQ58pwLBMaMgSQT8u5qm0g3FM+4S7neYHyt1dY1VBScHupI22MA36a7+YdJgiQtkIpqBB9/5ox1TEyYMS8th84UJSQ42aOskxMPg5erVLYIltxDo4zficsXc0zJvLkhKnzRPh3JoaRWR9+Bhpi4ZDgef9Aau9GKWuscQYg8x16Hyw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=FdOuhZ7Ia3LM+4jTtZVMcTO3f7LBDyRQ/2bRRcUHW0k=;
- b=Sw6o/2AfFxKinOT49HG9TgmalYpQSlm+eOQBccnDc98T5yBUqYsRlR929C3Q4pXCR+pjd2ncXIZjKDRswuaKhvZwE+hl+KSVzquedAaTJYu3BRDgt/fnZBVuOHi9zplNKHa8EIC7z6ukykqz+6/RnY1jFAvB9eWjUobCHjhIPJY=
-Authentication-Results: linaro.org; dkim=none (message not signed)
- header.d=none;linaro.org; dmarc=none action=none header.from=amd.com;
-Received: from MN2PR12MB3775.namprd12.prod.outlook.com (2603:10b6:208:159::19)
- by MN2PR12MB4518.namprd12.prod.outlook.com (2603:10b6:208:266::19)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4219.23; Fri, 11 Jun
- 2021 07:25:05 +0000
-Received: from MN2PR12MB3775.namprd12.prod.outlook.com
- ([fe80::6c9e:1e08:7617:f756]) by MN2PR12MB3775.namprd12.prod.outlook.com
- ([fe80::6c9e:1e08:7617:f756%5]) with mapi id 15.20.4219.022; Fri, 11 Jun 2021
- 07:25:05 +0000
-Subject: Re: [PATCH 3/6] dma-buf: Document DMA_BUF_IOCTL_SYNC (v2)
-To: Jason Ekstrand <jason@jlekstrand.net>, dri-devel@lists.freedesktop.org
-References: <20210610210925.642582-1-jason@jlekstrand.net>
- <20210610210925.642582-4-jason@jlekstrand.net>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-Message-ID: <f0af62c9-5f06-fc3b-bcbb-ad33b78212cf@amd.com>
-Date: Fri, 11 Jun 2021 09:24:59 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
-In-Reply-To: <20210610210925.642582-4-jason@jlekstrand.net>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-Originating-IP: [2a02:908:1252:fb60:1e99:1d6a:3624:888b]
-X-ClientProxiedBy: PR0P264CA0055.FRAP264.PROD.OUTLOOK.COM
- (2603:10a6:100:1d::19) To MN2PR12MB3775.namprd12.prod.outlook.com
- (2603:10b6:208:159::19)
+Received: from mail-ot1-x32e.google.com (mail-ot1-x32e.google.com
+ [IPv6:2607:f8b0:4864:20::32e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A8C876EE3A
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Jun 2021 07:27:04 +0000 (UTC)
+Received: by mail-ot1-x32e.google.com with SMTP id
+ l15-20020a05683016cfb02903fca0eacd15so2281798otr.7
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Jun 2021 00:27:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=ef52vRx74fc5UCfQHCig8+5esV/3pCK5+NiUbiLHnvQ=;
+ b=Y8ThRrG17JeXYR82682Is0eVQuuGT56zmi/UILuLbklbnOVQnRJ1XIFjtxrdreVOaF
+ GKaqSSnp7EA3r+zs6//WcDeAM/4EyuYJhcPtU5c8VEUluGgfIZNKeJJQBqWrcKIRyRXr
+ OM0MezCo/yFyiRRiG1Zkhf1jxbtS+PdNwVLn8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=ef52vRx74fc5UCfQHCig8+5esV/3pCK5+NiUbiLHnvQ=;
+ b=eHQDVwrPKc21QIdj0p4uyHtzDIii2293LtEumhlPi2g5oKEqGfd1bD981EXmpjxeqt
+ SDneWlz6uQCITzLSH6z95HPW//Bacp6kIw9JKep65DnXTEgdzU65aJS0GIu8Ye7CW7Q4
+ RJaAbUTTYg8umfa4h1JVLglr6kOPR4d9lzKDg1g+VuKnHHAmpe/lx90/1S17+LajgFlP
+ CfrkTWrWes9L0FTHCkLMhNNs1CjG8SvyiSkPqvG7sfwvzRG2ju+uyzkE9QhEyIwD8ypp
+ 57xRGtvgyuNSqCeL9bzZPsojnyNAsrwZS7kxX5lSQ+K2tzLaLLpWw447bILHaFfkiBPV
+ kfpQ==
+X-Gm-Message-State: AOAM530N5Kf3+J/k8pvXwUh6fRuvt8S4Wi4q1C1gkK4MY06DE2rEz5RL
+ EP8oTVLlufusuPzWdqWmqAt7SQDAIURpjGv9TjTt2Q==
+X-Google-Smtp-Source: ABdhPJz3IOQqQF+lRvx53nYLgYJH0he5j+6eXuQM7b70P1oLbyxSfT5qUOpvpqgUteIugcKijfjghWgWanPrcPLy+6E=
+X-Received: by 2002:a9d:27a4:: with SMTP id c33mr1933399otb.281.1623396423931; 
+ Fri, 11 Jun 2021 00:27:03 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [IPv6:2a02:908:1252:fb60:1e99:1d6a:3624:888b]
- (2a02:908:1252:fb60:1e99:1d6a:3624:888b) by
- PR0P264CA0055.FRAP264.PROD.OUTLOOK.COM (2603:10a6:100:1d::19) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4219.21 via Frontend Transport; Fri, 11 Jun 2021 07:25:04 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 5b9f0095-a1f7-4eda-704e-08d92caa08b2
-X-MS-TrafficTypeDiagnostic: MN2PR12MB4518:
-X-Microsoft-Antispam-PRVS: <MN2PR12MB4518133D045474AA77F745E283349@MN2PR12MB4518.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 831YhF0ckS1UXWHU3hT3hOVS/sgOfkxE+kjwti5AvNViKP7ngsGUk4U0WxO+4eVYZnpExzgMVIunCZttKcFgWKvzAB/wFK0xylayGQFgH3W4uUkxs2DcgxswihKfIoYg6PYvWHpIrGmNQGRMjUEpXPsxWuArAVUdhTz65+wrMaldNiNNdgvnu4wcp3m6MSSzt63PEFnGSDV0Z6fWlyJjGfxH2g4XsuxF0bfStj9qgjoGUTqhM5ZoSIf2MCLrZJ06I7hA8nUflASaOIJ6gtZHrQsvMj0jOwdv6mOO6YH86AhJ1ff6v4y2u2x43dBb+5y+rbYZrPOFWyrO++TA49gugEutZ2YBM9l/N5IwxxRPbkmzNye6RB4e1NTwVT+KUDND7WoeiI0GBXMdZMQ4UwiCcBcIKCt/8H0nZAXEs2P69mpKbbnPNaer9MNeHUWTvt6hHduriCJSJrk1hUvfcpeiPnMkTDwwf8JXSYe4UWSw+/7ufarNbJMOLiejPt1VM93fvwWUUHR4QVDQlLW+n0TU+RXnwAr+9l3JukMiOyZ2LYYqJ1IgCPcKRkBF3f3zRWPu8eclSyFGdRbXmdeM8MUQUttowB+RG7wHgbEK4LEzUK7AxeWFbsMAx1PqIeiYkr5uDmKQbHUeS1sGp1L1k8EOBdW6jzBINLT+j7TJHceyFBvpdANrQtc+JkkJfsrPcGvV
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN2PR12MB3775.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(39860400002)(396003)(346002)(366004)(136003)(376002)(8936002)(8676002)(316002)(66556008)(66476007)(186003)(66946007)(478600001)(16526019)(38100700002)(4326008)(31696002)(83380400001)(5660300002)(31686004)(66574015)(54906003)(6486002)(36756003)(6666004)(2616005)(86362001)(2906002)(45980500001)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?K3MwZ3lrODQzYW9zd0xYTElhdXdnUll2b2g1NmdxWFRoelo0d3BEVWxPUGx5?=
- =?utf-8?B?MGJMS09NTTdIMG1ReEMrM3FpeUkyS2FOT085VXhsaUEvWDBHdXhVS25acWhV?=
- =?utf-8?B?NVUrZ3dtZHZNL0hlNHBTYW9tMUFnVWttdGthMXRyMFZuTGllVnFrYVhLcFM0?=
- =?utf-8?B?NlRtN2lzQlZ3QlFVTzM5U0cxck00RTEyZG5QRUw1OG5MTnlHZU5UQmJvTE1a?=
- =?utf-8?B?Mm9yQVd6eVQ0Mmt0cEwwRHRsMUdoYldIb1JFeGYyRUowSHA1U3NQbFpQWGRm?=
- =?utf-8?B?YVU4U0l3ZTlLaW9PQk9zNnJOekxUN0MrYTB4V0k4MzZZNjQ4em4yQVFxeTgz?=
- =?utf-8?B?UzM1cGRnak1ydktaYi9rRGp3UCsxV0tQRWk2ZGtYN0VFWUJzTGw4cEEzR2RV?=
- =?utf-8?B?TmRvbEtIcGZ5eklMZTkvY0JPOGFCSjVGckttcXh0dHBJME1PSEhNQUVTdFhu?=
- =?utf-8?B?c2RGNDhLc2lINmgxM1NFMkUzNlNwZ1JkTjBWUzR5VWhtYTVoWTJJT1U0a2U1?=
- =?utf-8?B?UDk5T1dqc0phWW0veWpIUVM3YS9UYjRRL21sVDducFJKSmdxcW1qSDNyTGw2?=
- =?utf-8?B?YUQ4YmI4bUZTL2RHcFNKOE5lVUw3U0tmSm95QVR5dHh6dytSb1lYOXpqSUNB?=
- =?utf-8?B?SXkvbnVIRllJbmhaenBBV25pVlE1ZGVzTlQ4TlpMVHFXbkRBamkwamwxeFI2?=
- =?utf-8?B?eTlkN05OczZJQVk5Uzlyc0tzc210NWJlV0J5TkxEOEFyY1dzenVCT3ZpdE93?=
- =?utf-8?B?LzN3NXdTYmJTL0NobG53TG5xeUxSdVBid3hWZCt0djhLemYyNWs2ZWhpUnMr?=
- =?utf-8?B?aUVsMHkxeTRnL1N0M1ZoRFQ4aW8zaWk4OHFYRjRURVFrV1d3WlgxaVcvS3Vk?=
- =?utf-8?B?T2JaZ1N0WWZpVEovK0lUY0p0MHRPbWdHNFlXYVVLZ29BS2tnVE95QVRNaC9L?=
- =?utf-8?B?b05mUTJSTEQzdXZ2MHlpQmNEUHNnL3RWc09mcW11ZkNNaTJRNzV6TlBGYUx2?=
- =?utf-8?B?NTRaYmdCTjY4S1NTOFF4RkdSelp4L1pjemFkZTBack1MMS90MVRVcE1NMlBS?=
- =?utf-8?B?NVovVW9WSktzOHZUZjNhbkt2eGZZN1MxamZ2bEkwVHpWUG8vTktyUWZQY1Nv?=
- =?utf-8?B?d3JzN0FMVlB4TTRKWWNmTlVvejNteDVwanU4bkFQREtUSFE3STNvRlFINmZW?=
- =?utf-8?B?Zk5TMVB6c0NyTEwvN0lzcUJ0WVc5QUM4TlA1N1FTRUpubjBZaHRDU25DazVP?=
- =?utf-8?B?OVlJWGx5UVowOXQ1Ri9XQU9PMmp1SjkwNmFxTDVBMU05cGVhOEF0dnJmWlNl?=
- =?utf-8?B?aTRZckJ0ZlpxQVNaZkc4QzRGODliN1FMMkJVcXdWdjYrbDZwSzRyRTkxL3k4?=
- =?utf-8?B?VlJnZEhLTGgvdFV0Yk1RMDFvcTJMc0hoQkRPUmdWZkpESU1vWDdNeGlVZktY?=
- =?utf-8?B?UEE1eTh2UFFVWXI1Z2dRN2dNczFwOFliQjZXN2JxM2IyVTBZb0tsVFpJL1Ix?=
- =?utf-8?B?NEdNWm83TDRGTGtVNFFGVkVDandtNzF6OTdTNTNGRnZYSmE2V29xZ2krQzJs?=
- =?utf-8?B?NGExRGd4dFVuNk1EeFpRSDZDU0JNUVYzalQ1TjVSc0RpNmgza3h2MUxqbmdQ?=
- =?utf-8?B?Z2pQRnVUSFhHcDU3OXoxbGdMam14RktSS2t0dkRhQ2J6RGttNW5mYXlUVnNJ?=
- =?utf-8?B?RXRxcnhCNGlwU1NoMjI2a2xPYW1DVTd2Sno2RjIxeXVzVjZ3NExuZzJ0a3Zj?=
- =?utf-8?B?SGwzUFdXUE1kMmRRYU0vWmlTbHl6dFZ2MlNaV1A5U3BudmFhYy9TcjArQzRx?=
- =?utf-8?B?WXVXSzMwYVRaWk1TZndlL1dkMVVIcWgxdzg3WFFNMW4raHdBbzNIdEM4N2di?=
- =?utf-8?Q?3haqddbv05L1g?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5b9f0095-a1f7-4eda-704e-08d92caa08b2
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3775.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Jun 2021 07:25:05.2469 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 7BVNxVB6xklHZ1UXlv5vnuRG/ISBU7k4SpP46sOopTl+KtTutXnk9wZbZl652jcw
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4518
+References: <20210609092119.173590-1-desmondcheongzx@gmail.com>
+ <YMHlLQHRLWgWlXTs@phenom.ffwll.local>
+ <f16f4123-bd0b-f09c-ddf1-7197c841b588@gmail.com>
+ <YMJCdG7k5sNaiHen@phenom.ffwll.local>
+ <d8150fdb-3a59-e491-f148-1c528fe3c824@gmail.com>
+In-Reply-To: <d8150fdb-3a59-e491-f148-1c528fe3c824@gmail.com>
+From: Daniel Vetter <daniel@ffwll.ch>
+Date: Fri, 11 Jun 2021 09:26:52 +0200
+Message-ID: <CAKMK7uEAs0ZJiN_x0Od03yiLuh38=x8vNqv=b3Zr7BMy+Fbr1w@mail.gmail.com>
+Subject: Re: [PATCH] drm: Lock pointer access in drm_master_release()
+To: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -129,113 +63,113 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: Dave Airlie <airlied@linux.ie>, Greg KH <gregkh@linuxfoundation.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Shuah Khan <skhan@linuxfoundation.org>,
+ linux-kernel-mentees@lists.linuxfoundation.org,
+ Dan Carpenter <dan.carpenter@oracle.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 10.06.21 um 23:09 schrieb Jason Ekstrand:
-> This adds a new "DMA Buffer ioctls" section to the dma-buf docs and adds
-> documentation for DMA_BUF_IOCTL_SYNC.
+On Fri, Jun 11, 2021 at 4:18 AM Desmond Cheong Zhi Xi
+<desmondcheongzx@gmail.com> wrote:
+ On 11/6/21 12:48 am, Daniel Vetter wrote:
+> > On Thu, Jun 10, 2021 at 11:21:39PM +0800, Desmond Cheong Zhi Xi wrote:
+> >> On 10/6/21 6:10 pm, Daniel Vetter wrote:
+> >>> On Wed, Jun 09, 2021 at 05:21:19PM +0800, Desmond Cheong Zhi Xi wrote:
+> >>>> This patch eliminates the following smatch warning:
+> >>>> drivers/gpu/drm/drm_auth.c:320 drm_master_release() warn: unlocked access 'master' (line 318) expected lock '&dev->master_mutex'
+> >>>>
+> >>>> The 'file_priv->master' field should be protected by the mutex lock to
+> >>>> '&dev->master_mutex'. This is because other processes can concurrently
+> >>>> modify this field and free the current 'file_priv->master'
+> >>>> pointer. This could result in a use-after-free error when 'master' is
+> >>>> dereferenced in subsequent function calls to
+> >>>> 'drm_legacy_lock_master_cleanup()' or to 'drm_lease_revoke()'.
+> >>>>
+> >>>> An example of a scenario that would produce this error can be seen
+> >>>> from a similar bug in 'drm_getunique()' that was reported by Syzbot:
+> >>>> https://syzkaller.appspot.com/bug?id=148d2f1dfac64af52ffd27b661981a540724f803
+> >>>>
+> >>>> In the Syzbot report, another process concurrently acquired the
+> >>>> device's master mutex in 'drm_setmaster_ioctl()', then overwrote
+> >>>> 'fpriv->master' in 'drm_new_set_master()'. The old value of
+> >>>> 'fpriv->master' was subsequently freed before the mutex was unlocked.
+> >>>>
+> >>>> Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
+> >>>> Signed-off-by: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
+> >>>
+> >>> Thanks a lot. I've done an audit of this code, and I found another
+> >>> potential problem in drm_is_current_master. The callers from drm_auth.c
+> >>> hold the dev->master_mutex, but all the external ones dont. I think we
+> >>> need to split this into a _locked function for use within drm_auth.c, and
+> >>> the exported one needs to grab the dev->master_mutex while it's checking
+> >>> master status. Ofc there will still be races, those are ok, but right now
+> >>> we run the risk of use-after free problems in drm_lease_owner.
+> >>>
+> >>> Are you up to do that fix too?
+> >>>
+> >>
+> >> Hi Daniel,
+> >>
+> >> Thanks for the pointer, I'm definitely up for it!
+> >>
+> >>> I think the drm_lease.c code also needs an audit, there we'd need to make
+> >>> sure that we hold hold either the lock or a full master reference to avoid
+> >>> the use-after-free issues here.
+> >>>
+> >>
+> >> I'd be happy to look into drm_lease.c as well.
+> >>
+> >>> Patch merged to drm-misc-fixes with cc: stable.
+> >>> -Daniel
+> >>>
+> >>>> ---
+> >>>>    drivers/gpu/drm/drm_auth.c | 3 ++-
+> >>>>    1 file changed, 2 insertions(+), 1 deletion(-)
+> >>>>
+> >>>> diff --git a/drivers/gpu/drm/drm_auth.c b/drivers/gpu/drm/drm_auth.c
+> >>>> index f00e5abdbbf4..b59b26a71ad5 100644
+> >>>> --- a/drivers/gpu/drm/drm_auth.c
+> >>>> +++ b/drivers/gpu/drm/drm_auth.c
+> >>>> @@ -315,9 +315,10 @@ int drm_master_open(struct drm_file *file_priv)
+> >>>>    void drm_master_release(struct drm_file *file_priv)
+> >>>>    {
+> >>>>            struct drm_device *dev = file_priv->minor->dev;
+> >>>> -  struct drm_master *master = file_priv->master;
+> >>>> +  struct drm_master *master;
+> >>>>
+> >>>>            mutex_lock(&dev->master_mutex);
+> >>>> +  master = file_priv->master;
+> >>>>            if (file_priv->magic)
+> >>>>                    idr_remove(&file_priv->master->magic_map, file_priv->magic);
+> >>>> --
+> >>>> 2.25.1
+> >>>>
+> >>>
+> >>
+> >>  From what I can see, there are other places in the kernel that could use the
+> >> _locked version of drm_is_current_master as well, such as drm_mode_getfb in
+> >> drm_framebuffer.c. I'll take a closer look, and if the changes make sense
+> >> I'll prepare a patch series for them.
+> >
+> > Oh maybe we have a naming confusion: the _locked is the one where the
+> > caller must grab the lock already, whereas drm_is_current_master would
+> > grab the master_mutex internally to do the check. The one in
+> > drm_framebuffer.c looks like it'd need the internal one since there's no
+> > other need to grab the master_mutex.
+> > -Daniel
+> >
 >
-> v2 (Daniel Vetter):
->   - Fix a couple typos
->   - Add commentary about synchronization with other devices
->   - Use item list format for describing flags
+> Ah ok got it, I think I confused myself earlier.
 >
-> Signed-off-by: Jason Ekstrand <jason@jlekstrand.net>
-> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-> Cc: Christian König <christian.koenig@amd.com>
-> Cc: Sumit Semwal <sumit.semwal@linaro.org>
+> Just to check, may I include you in a Reported-by: tag?
 
-Acked-by: Christian König <christian.koenig@amd.com>
-
-> ---
->   Documentation/driver-api/dma-buf.rst |  8 +++++
->   include/uapi/linux/dma-buf.h         | 46 +++++++++++++++++++++++++++-
->   2 files changed, 53 insertions(+), 1 deletion(-)
->
-> diff --git a/Documentation/driver-api/dma-buf.rst b/Documentation/driver-api/dma-buf.rst
-> index 7f21425d9435a..0d4c13ec1a800 100644
-> --- a/Documentation/driver-api/dma-buf.rst
-> +++ b/Documentation/driver-api/dma-buf.rst
-> @@ -88,6 +88,9 @@ consider though:
->   - The DMA buffer FD is also pollable, see `Implicit Fence Poll Support`_ below for
->     details.
->   
-> +- The DMA buffer FD also supports a few dma-buf-specific ioctls, see
-> +  `DMA Buffer ioctls`_ below for details.
-> +
->   Basic Operation and Device DMA Access
->   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->   
-> @@ -106,6 +109,11 @@ Implicit Fence Poll Support
->   .. kernel-doc:: drivers/dma-buf/dma-buf.c
->      :doc: implicit fence polling
->   
-> +DMA Buffer ioctls
-> +~~~~~~~~~~~~~~~~~
-> +
-> +.. kernel-doc:: include/uapi/linux/dma-buf.h
-> +
->   Kernel Functions and Structures Reference
->   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->   
-> diff --git a/include/uapi/linux/dma-buf.h b/include/uapi/linux/dma-buf.h
-> index 7f30393b92c3b..1c131002fe1ee 100644
-> --- a/include/uapi/linux/dma-buf.h
-> +++ b/include/uapi/linux/dma-buf.h
-> @@ -22,8 +22,52 @@
->   
->   #include <linux/types.h>
->   
-> -/* begin/end dma-buf functions used for userspace mmap. */
-> +/**
-> + * struct dma_buf_sync - Synchronize with CPU access.
-> + *
-> + * When a DMA buffer is accessed from the CPU via mmap, it is not always
-> + * possible to guarantee coherency between the CPU-visible map and underlying
-> + * memory.  To manage coherency, DMA_BUF_IOCTL_SYNC must be used to bracket
-> + * any CPU access to give the kernel the chance to shuffle memory around if
-> + * needed.
-> + *
-> + * Prior to accessing the map, the client must call DMA_BUF_IOCTL_SYNC
-> + * with DMA_BUF_SYNC_START and the appropriate read/write flags.  Once the
-> + * access is complete, the client should call DMA_BUF_IOCTL_SYNC with
-> + * DMA_BUF_SYNC_END and the same read/write flags.
-> + *
-> + * The synchronization provided via DMA_BUF_IOCTL_SYNC only provides cache
-> + * coherency.  It does not prevent other processes or devices from
-> + * accessing the memory at the same time.  If synchronization with a GPU or
-> + * other device driver is required, it is the client's responsibility to
-> + * wait for buffer to be ready for reading or writing.  If the driver or
-> + * API with which the client is interacting uses implicit synchronization,
-> + * this can be done via poll() on the DMA buffer file descriptor.  If the
-> + * driver or API requires explicit synchronization, the client may have to
-> + * wait on a sync_file or other synchronization primitive outside the scope
-> + * of the DMA buffer API.
-> + */
->   struct dma_buf_sync {
-> +	/**
-> +	 * @flags: Set of access flags
-> +	 *
-> +	 * DMA_BUF_SYNC_START:
-> +	 *     Indicates the start of a map access session.
-> +	 *
-> +	 * DMA_BUF_SYNC_END:
-> +	 *     Indicates the end of a map access session.
-> +	 *
-> +	 * DMA_BUF_SYNC_READ:
-> +	 *     Indicates that the mapped DMA buffer will be read by the
-> +	 *     client via the CPU map.
-> +	 *
-> +	 * DMA_BUF_SYNC_WRITE:
-> +	 *     Indicates that the mapped DMA buffer will be written by the
-> +	 *     client via the CPU map.
-> +	 *
-> +	 * DMA_BUF_SYNC_RW:
-> +	 *     An alias for DMA_BUF_SYNC_READ | DMA_BUF_SYNC_WRITE.
-> +	 */
->   	__u64 flags;
->   };
->   
-
+Sure.
+-Daniel
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
