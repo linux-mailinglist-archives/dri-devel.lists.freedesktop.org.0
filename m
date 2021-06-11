@@ -1,38 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 017A83A4477
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Jun 2021 16:55:26 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 719C63A4476
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Jun 2021 16:55:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A3B5F6EEA0;
+	by gabe.freedesktop.org (Postfix) with ESMTP id EC5626EEA4;
 	Fri, 11 Jun 2021 14:55:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C8B146EE9E;
- Fri, 11 Jun 2021 14:55:18 +0000 (UTC)
-IronPort-SDR: DGCoJfru9O0uSyxnxYwhYxpcEEtOcbd/4tzC7lvySm+fxD/Pfi0qip2qyQnslLg0vSnKFkoSRg
- dZKohbyd3QvQ==
-X-IronPort-AV: E=McAfee;i="6200,9189,10012"; a="205355258"
-X-IronPort-AV: E=Sophos;i="5.83,265,1616482800"; d="scan'208";a="205355258"
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1C93A6EEA0;
+ Fri, 11 Jun 2021 14:55:20 +0000 (UTC)
+IronPort-SDR: Mjdp0BbOwBM9fYg3pt1vFEzIJg2DVGD4Po2WbgJ4bebKt7HsG2m+E3Y4rFVNpaZLHcuC4AH861
+ NhowcrYEbVAw==
+X-IronPort-AV: E=McAfee;i="6200,9189,10012"; a="205355262"
+X-IronPort-AV: E=Sophos;i="5.83,265,1616482800"; d="scan'208";a="205355262"
 Received: from fmsmga008.fm.intel.com ([10.253.24.58])
  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Jun 2021 07:55:18 -0700
-IronPort-SDR: QSEBlbmSp4T3a5V/ljLLWHYPxBlY7AZIMiHvN2tCjuy++urUsiBOeqhkrMVhYfotMeUVghQiOq
- 6uCaZI0R6TxQ==
-X-IronPort-AV: E=Sophos;i="5.83,265,1616482800"; d="scan'208";a="450783217"
+ 11 Jun 2021 07:55:19 -0700
+IronPort-SDR: fUXp6agiSv429s46q1TeYrNPMF/LVaOLHYWkwO3hKlOpIg+GJVJ0dat7MY/Dqq0QX+1SLDGakv
+ AqMrpSRz0obw==
+X-IronPort-AV: E=Sophos;i="5.83,265,1616482800"; d="scan'208";a="450783221"
 Received: from delmer-mobl.ger.corp.intel.com (HELO thellst-mobl1.intel.com)
  ([10.249.254.23])
  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Jun 2021 07:55:17 -0700
+ 11 Jun 2021 07:55:18 -0700
 From: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
 To: intel-gfx@lists.freedesktop.org,
 	dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 2/4] drm/i915/ttm: Adjust gem flags and caching settings
- after a move
-Date: Fri, 11 Jun 2021 16:54:57 +0200
-Message-Id: <20210611145459.8576-3-thomas.hellstrom@linux.intel.com>
+Subject: [PATCH v2 3/4] drm/i915/ttm: Calculate the object placement at
+ get_pages time
+Date: Fri, 11 Jun 2021 16:54:58 +0200
+Message-Id: <20210611145459.8576-4-thomas.hellstrom@linux.intel.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210611145459.8576-1-thomas.hellstrom@linux.intel.com>
 References: <20210611145459.8576-1-thomas.hellstrom@linux.intel.com>
@@ -55,256 +55,209 @@ Cc: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-After a TTM move we need to update the i915 gem flags and caching
-settings to reflect the new placement.
-Also introduce gpu_binds_iomem() and cpu_maps_iomem() to clean up the
-various ways we previously used to detect this.
-Finally, initialize the TTM object reserved to be able to update
-flags and caching before anyone else gets hold of the object.
+Instead of relying on a static placement, calculate at get_pages() time.
+This should work for LMEM regions and system for now. For stolen we need
+to take preallocated range into account. That well be added later.
 
 Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
 ---
 v2:
-- Style fixes (Reported by Matthew Auld)
+- Fixed a style issue (Reported by Matthew Auld)
 ---
- drivers/gpu/drm/i915/gem/i915_gem_ttm.c | 112 +++++++++++++++++++-----
- 1 file changed, 90 insertions(+), 22 deletions(-)
+ drivers/gpu/drm/i915/gem/i915_gem_ttm.c | 92 ++++++++++++++++++-------
+ drivers/gpu/drm/i915/intel_region_ttm.c |  8 ++-
+ drivers/gpu/drm/i915/intel_region_ttm.h |  2 +
+ 3 files changed, 75 insertions(+), 27 deletions(-)
 
 diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-index 33ab47f1e05b..45ef1d101937 100644
+index 45ef1d101937..fd3d11728229 100644
 --- a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
 +++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-@@ -70,6 +70,17 @@ static struct ttm_placement i915_sys_placement = {
- 	.busy_placement = &lmem0_sys_placement_flags[1],
+@@ -24,6 +24,11 @@
+ #define I915_TTM_PRIO_NO_PAGES  1
+ #define I915_TTM_PRIO_HAS_PAGES 2
+ 
++/*
++ * Size of struct ttm_place vector in on-stack struct ttm_placement allocs
++ */
++#define I915_TTM_MAX_PLACEMENTS 10
++
+ /**
+  * struct i915_ttm_tt - TTM page vector with additional private information
+  * @ttm: The base TTM page vector.
+@@ -42,32 +47,18 @@ struct i915_ttm_tt {
+ 	struct sg_table *cached_st;
  };
  
-+static bool gpu_binds_iomem(struct ttm_resource *mem)
-+{
-+	return mem->mem_type != TTM_PL_SYSTEM;
-+}
-+
-+static bool cpu_maps_iomem(struct ttm_resource *mem)
-+{
-+	/* Once / if we support GGTT, this is also false for cached ttm_tts */
-+	return mem->mem_type != TTM_PL_SYSTEM;
-+}
-+
+-static const struct ttm_place lmem0_sys_placement_flags[] = {
+-	{
+-		.fpfn = 0,
+-		.lpfn = 0,
+-		.mem_type = I915_PL_LMEM0,
+-		.flags = 0,
+-	}, {
+-		.fpfn = 0,
+-		.lpfn = 0,
+-		.mem_type = I915_PL_SYSTEM,
+-		.flags = 0,
+-	}
+-};
+-
+-static struct ttm_placement i915_lmem0_placement = {
+-	.num_placement = 1,
+-	.placement = &lmem0_sys_placement_flags[0],
+-	.num_busy_placement = 1,
+-	.busy_placement = &lmem0_sys_placement_flags[0],
++static const struct ttm_place sys_placement_flags = {
++	.fpfn = 0,
++	.lpfn = 0,
++	.mem_type = I915_PL_SYSTEM,
++	.flags = 0,
+ };
+ 
+ static struct ttm_placement i915_sys_placement = {
+ 	.num_placement = 1,
+-	.placement = &lmem0_sys_placement_flags[1],
++	.placement = &sys_placement_flags,
+ 	.num_busy_placement = 1,
+-	.busy_placement = &lmem0_sys_placement_flags[1],
++	.busy_placement = &sys_placement_flags,
+ };
+ 
+ static bool gpu_binds_iomem(struct ttm_resource *mem)
+@@ -83,6 +74,55 @@ static bool cpu_maps_iomem(struct ttm_resource *mem)
+ 
  static void i915_ttm_adjust_lru(struct drm_i915_gem_object *obj);
  
- static struct ttm_tt *i915_ttm_tt_create(struct ttm_buffer_object *bo,
-@@ -175,6 +186,41 @@ static void i915_ttm_free_cached_io_st(struct drm_i915_gem_object *obj)
- 	obj->ttm.cached_io_st = NULL;
- }
- 
-+static void
-+i915_ttm_adjust_domains_after_cpu_move(struct drm_i915_gem_object *obj)
++static enum ttm_caching
++i915_ttm_select_tt_caching(const struct drm_i915_gem_object *obj)
 +{
-+	struct ttm_buffer_object *bo = i915_gem_to_ttm(obj);
-+
-+	if (cpu_maps_iomem(bo->resource) || bo->ttm->caching != ttm_cached) {
-+		obj->write_domain = I915_GEM_DOMAIN_WC;
-+		obj->read_domains = I915_GEM_DOMAIN_WC;
-+	} else {
-+		obj->write_domain = I915_GEM_DOMAIN_CPU;
-+		obj->read_domains = I915_GEM_DOMAIN_CPU;
-+	}
-+}
-+
-+static void i915_ttm_adjust_gem_after_move(struct drm_i915_gem_object *obj)
-+{
-+	struct drm_i915_private *i915 = to_i915(obj->base.dev);
-+	struct ttm_buffer_object *bo = i915_gem_to_ttm(obj);
-+	unsigned int cache_level;
-+
-+	obj->mem_flags &= ~(I915_BO_FLAG_STRUCT_PAGE | I915_BO_FLAG_IOMEM);
-+
-+	obj->mem_flags |= cpu_maps_iomem(bo->resource) ? I915_BO_FLAG_IOMEM :
-+		I915_BO_FLAG_STRUCT_PAGE;
-+
-+	if ((HAS_LLC(i915) || HAS_SNOOP(i915)) && !gpu_binds_iomem(bo->resource) &&
-+	    bo->ttm->caching == ttm_cached) {
-+		cache_level = I915_CACHE_LLC;
-+	} else {
-+		cache_level = I915_CACHE_NONE;
-+	}
-+
-+	i915_gem_object_set_cache_coherency(obj, cache_level);
-+}
-+
- static void i915_ttm_purge(struct drm_i915_gem_object *obj)
- {
- 	struct ttm_buffer_object *bo = i915_gem_to_ttm(obj);
-@@ -190,8 +236,10 @@ static void i915_ttm_purge(struct drm_i915_gem_object *obj)
- 
- 	/* TTM's purge interface. Note that we might be reentering. */
- 	ret = ttm_bo_validate(bo, &place, &ctx);
--
- 	if (!ret) {
-+		obj->write_domain = 0;
-+		obj->read_domains = 0;
-+		i915_ttm_adjust_gem_after_move(obj);
- 		i915_ttm_free_cached_io_st(obj);
- 		obj->mm.madv = __I915_MADV_PURGED;
- 	}
-@@ -273,12 +321,15 @@ i915_ttm_resource_get_st(struct drm_i915_gem_object *obj,
- 			 struct ttm_resource *res)
- {
- 	struct ttm_buffer_object *bo = i915_gem_to_ttm(obj);
--	struct ttm_resource_manager *man =
--		ttm_manager_type(bo->bdev, res->mem_type);
- 
--	if (man->use_tt)
-+	if (!gpu_binds_iomem(res))
- 		return i915_ttm_tt_get_st(bo->ttm);
- 
 +	/*
-+	 * If CPU mapping differs, we need to add the ttm_tt pages to
-+	 * the resulting st. Might make sense for GGTT.
++	 * Objects only allowed in system get cached cpu-mappings.
++	 * Other objects get WC mapping for now. Even if in system.
 +	 */
-+	GEM_WARN_ON(!cpu_maps_iomem(res));
- 	return intel_region_ttm_node_to_st(obj->mm.region, res);
- }
- 
-@@ -290,8 +341,6 @@ static int i915_ttm_move(struct ttm_buffer_object *bo, bool evict,
- 	struct drm_i915_gem_object *obj = i915_ttm_to_gem(bo);
- 	struct ttm_resource_manager *dst_man =
- 		ttm_manager_type(bo->bdev, dst_mem->mem_type);
--	struct ttm_resource_manager *src_man =
--		ttm_manager_type(bo->bdev, bo->resource->mem_type);
- 	struct intel_memory_region *dst_reg, *src_reg;
- 	union {
- 		struct ttm_kmap_iter_tt tt;
-@@ -332,34 +381,36 @@ static int i915_ttm_move(struct ttm_buffer_object *bo, bool evict,
- 	if (IS_ERR(dst_st))
- 		return PTR_ERR(dst_st);
- 
--	/* If we start mapping GGTT, we can no longer use man::use_tt here. */
--	dst_iter = dst_man->use_tt ?
-+	dst_iter = !cpu_maps_iomem(dst_mem) ?
- 		ttm_kmap_iter_tt_init(&_dst_iter.tt, bo->ttm) :
- 		ttm_kmap_iter_iomap_init(&_dst_iter.io, &dst_reg->iomap,
- 					 dst_st, dst_reg->region.start);
- 
--	src_iter = src_man->use_tt ?
-+	src_iter = !cpu_maps_iomem(bo->resource) ?
- 		ttm_kmap_iter_tt_init(&_src_iter.tt, bo->ttm) :
- 		ttm_kmap_iter_iomap_init(&_src_iter.io, &src_reg->iomap,
- 					 obj->ttm.cached_io_st,
- 					 src_reg->region.start);
- 
- 	ttm_move_memcpy(bo, dst_mem->num_pages, dst_iter, src_iter);
-+	/* Below dst_mem becomes bo->resource. */
- 	ttm_bo_move_sync_cleanup(bo, dst_mem);
-+	i915_ttm_adjust_domains_after_cpu_move(obj);
- 	i915_ttm_free_cached_io_st(obj);
- 
--	if (!dst_man->use_tt) {
-+	if (gpu_binds_iomem(dst_mem) || cpu_maps_iomem(dst_mem)) {
- 		obj->ttm.cached_io_st = dst_st;
- 		obj->ttm.get_io_page.sg_pos = dst_st->sgl;
- 		obj->ttm.get_io_page.sg_idx = 0;
- 	}
- 
-+	i915_ttm_adjust_gem_after_move(obj);
- 	return 0;
- }
- 
- static int i915_ttm_io_mem_reserve(struct ttm_device *bdev, struct ttm_resource *mem)
++	if (obj->mm.region->type == INTEL_MEMORY_SYSTEM &&
++	    obj->mm.n_placements <= 1)
++		return ttm_cached;
++
++	return ttm_write_combined;
++}
++
++static void
++i915_ttm_place_from_region(const struct intel_memory_region *mr,
++			   struct ttm_place *place)
++{
++	memset(place, 0, sizeof(*place));
++	place->mem_type = intel_region_to_ttm_type(mr);
++}
++
++static void
++i915_ttm_placement_from_obj(const struct drm_i915_gem_object *obj,
++			    struct ttm_place *requested,
++			    struct ttm_place *busy,
++			    struct ttm_placement *placement)
++{
++	unsigned int num_allowed = obj->mm.n_placements;
++	unsigned int i;
++
++	placement->num_placement = 1;
++	i915_ttm_place_from_region(num_allowed ? obj->mm.placements[0] :
++				   obj->mm.region, requested);
++
++	/* Cache this on object? */
++	placement->num_busy_placement = num_allowed;
++	for (i = 0; i < placement->num_busy_placement; ++i)
++		i915_ttm_place_from_region(obj->mm.placements[i], busy + i);
++
++	if (num_allowed == 0) {
++		*busy = *requested;
++		placement->num_busy_placement = 1;
++	}
++
++	placement->placement = requested;
++	placement->busy_placement = busy;
++}
++
+ static struct ttm_tt *i915_ttm_tt_create(struct ttm_buffer_object *bo,
+ 					 uint32_t page_flags)
  {
--	if (mem->mem_type < I915_PL_LMEM0)
-+	if (!cpu_maps_iomem(mem))
- 		return 0;
+@@ -100,7 +140,8 @@ static struct ttm_tt *i915_ttm_tt_create(struct ttm_buffer_object *bo,
+ 	    man->use_tt)
+ 		page_flags |= TTM_PAGE_FLAG_ZERO_ALLOC;
  
- 	mem->bus.caching = ttm_write_combined;
-@@ -421,6 +472,16 @@ static int i915_ttm_get_pages(struct drm_i915_gem_object *obj)
+-	ret = ttm_tt_init(&i915_tt->ttm, bo, page_flags, ttm_write_combined);
++	ret = ttm_tt_init(&i915_tt->ttm, bo, page_flags,
++			  i915_ttm_select_tt_caching(obj));
+ 	if (ret) {
+ 		kfree(i915_tt);
+ 		return NULL;
+@@ -465,10 +506,13 @@ static int i915_ttm_get_pages(struct drm_i915_gem_object *obj)
+ 		.no_wait_gpu = false,
+ 	};
+ 	struct sg_table *st;
++	struct ttm_place requested, busy[I915_TTM_MAX_PLACEMENTS];
++	struct ttm_placement placement;
+ 	int ret;
+ 
+ 	/* Move to the requested placement. */
+-	ret = ttm_bo_validate(bo, &i915_lmem0_placement, &ctx);
++	i915_ttm_placement_from_obj(obj, &requested, busy, &placement);
++	ret = ttm_bo_validate(bo, &placement, &ctx);
  	if (ret)
  		return ret == -ENOSPC ? -ENXIO : ret;
  
-+	i915_ttm_adjust_lru(obj);
-+	if (bo->ttm && !ttm_tt_is_populated(bo->ttm)) {
-+		ret = ttm_tt_populate(bo->bdev, bo->ttm, &ctx);
-+		if (ret)
-+			return ret;
-+
-+		i915_ttm_adjust_domains_after_cpu_move(obj);
-+		i915_ttm_adjust_gem_after_move(obj);
-+	}
-+
- 	/* Object either has a page vector or is an iomem object */
- 	st = bo->ttm ? i915_ttm_tt_get_st(bo->ttm) : obj->ttm.cached_io_st;
- 	if (IS_ERR(st))
-@@ -428,8 +489,6 @@ static int i915_ttm_get_pages(struct drm_i915_gem_object *obj)
- 
- 	__i915_gem_object_set_pages(obj, st, i915_sg_dma_sizes(st->sgl));
- 
--	i915_ttm_adjust_lru(obj);
--
- 	return ret;
- }
- 
-@@ -563,6 +622,7 @@ static u64 i915_ttm_mmap_offset(struct drm_i915_gem_object *obj)
- 
- const struct drm_i915_gem_object_ops i915_gem_ttm_obj_ops = {
- 	.name = "i915_gem_object_ttm",
-+	.flags = I915_GEM_OBJECT_IS_SHRINKABLE,
- 
- 	.get_pages = i915_ttm_get_pages,
- 	.put_pages = i915_ttm_put_pages,
-@@ -599,6 +659,10 @@ int __i915_gem_ttm_object_init(struct intel_memory_region *mem,
- {
- 	static struct lock_class_key lock_class;
- 	struct drm_i915_private *i915 = mem->i915;
-+	struct ttm_operation_ctx ctx = {
-+		.interruptible = true,
-+		.no_wait_gpu = false,
-+	};
- 	enum ttm_bo_type bo_type;
- 	size_t alignment = 0;
- 	int ret;
-@@ -618,15 +682,14 @@ int __i915_gem_ttm_object_init(struct intel_memory_region *mem,
- 	i915_gem_object_init(obj, &i915_gem_ttm_obj_ops, &lock_class, flags);
- 	i915_gem_object_init_memory_region(obj, mem);
+@@ -684,7 +728,6 @@ int __i915_gem_ttm_object_init(struct intel_memory_region *mem,
  	i915_gem_object_make_unshrinkable(obj);
--	obj->read_domains = I915_GEM_DOMAIN_WC | I915_GEM_DOMAIN_GTT;
--	obj->mem_flags |= I915_BO_FLAG_IOMEM;
--	i915_gem_object_set_cache_coherency(obj, I915_CACHE_NONE);
  	INIT_RADIX_TREE(&obj->ttm.get_io_page.radix, GFP_KERNEL | __GFP_NOWARN);
  	mutex_init(&obj->ttm.get_io_page.lock);
- 
+-
  	bo_type = (obj->flags & I915_BO_ALLOC_USER) ? ttm_bo_type_device :
  		ttm_bo_type_kernel;
  
-+	obj->base.vma_node.driver_private = i915_gem_to_ttm(obj);
-+
- 	/*
- 	 * If this function fails, it will call the destructor, but
- 	 * our caller still owns the object. So no freeing in the
-@@ -634,14 +697,19 @@ int __i915_gem_ttm_object_init(struct intel_memory_region *mem,
- 	 * Similarly, in delayed_destroy, we can't call ttm_bo_put()
- 	 * until successful initialization.
- 	 */
--	obj->base.vma_node.driver_private = i915_gem_to_ttm(obj);
--	ret = ttm_bo_init(&i915->bdev, i915_gem_to_ttm(obj), size,
--			  bo_type, &i915_sys_placement, alignment,
--			  true, NULL, NULL, i915_ttm_bo_destroy);
-+	ret = ttm_bo_init_reserved(&i915->bdev, i915_gem_to_ttm(obj), size,
-+				   bo_type, &i915_sys_placement, alignment,
-+				   &ctx, NULL, NULL, i915_ttm_bo_destroy);
-+
-+	if (ret)
-+		goto out;
- 
--	if (!ret)
--		obj->ttm.created = true;
-+	obj->ttm.created = true;
-+	i915_ttm_adjust_domains_after_cpu_move(obj);
-+	i915_ttm_adjust_gem_after_move(obj);
-+	i915_gem_object_unlock(obj);
- 
-+out:
+@@ -708,7 +751,6 @@ int __i915_gem_ttm_object_init(struct intel_memory_region *mem,
+ 	i915_ttm_adjust_domains_after_cpu_move(obj);
+ 	i915_ttm_adjust_gem_after_move(obj);
+ 	i915_gem_object_unlock(obj);
+-
+ out:
  	/* i915 wants -ENXIO when out of memory region space. */
  	return (ret == -ENOSPC) ? -ENXIO : ret;
- }
+diff --git a/drivers/gpu/drm/i915/intel_region_ttm.c b/drivers/gpu/drm/i915/intel_region_ttm.c
+index 27fe0668d094..5a664f6cc93f 100644
+--- a/drivers/gpu/drm/i915/intel_region_ttm.c
++++ b/drivers/gpu/drm/i915/intel_region_ttm.c
+@@ -50,12 +50,16 @@ void intel_region_ttm_device_fini(struct drm_i915_private *dev_priv)
+  * driver-private types for now, reserving TTM_PL_VRAM for stolen
+  * memory and TTM_PL_TT for GGTT use if decided to implement this.
+  */
+-static int intel_region_to_ttm_type(struct intel_memory_region *mem)
++int intel_region_to_ttm_type(const struct intel_memory_region *mem)
+ {
+ 	int type;
+ 
+ 	GEM_BUG_ON(mem->type != INTEL_MEMORY_LOCAL &&
+-		   mem->type != INTEL_MEMORY_MOCK);
++		   mem->type != INTEL_MEMORY_MOCK &&
++		   mem->type != INTEL_MEMORY_SYSTEM);
++
++	if (mem->type == INTEL_MEMORY_SYSTEM)
++		return TTM_PL_SYSTEM;
+ 
+ 	type = mem->instance + TTM_PL_PRIV;
+ 	GEM_BUG_ON(type >= TTM_NUM_MEM_TYPES);
+diff --git a/drivers/gpu/drm/i915/intel_region_ttm.h b/drivers/gpu/drm/i915/intel_region_ttm.h
+index e8cf830fda6f..649491844e79 100644
+--- a/drivers/gpu/drm/i915/intel_region_ttm.h
++++ b/drivers/gpu/drm/i915/intel_region_ttm.h
+@@ -28,6 +28,8 @@ struct sg_table *intel_region_ttm_node_to_st(struct intel_memory_region *mem,
+ void intel_region_ttm_node_free(struct intel_memory_region *mem,
+ 				struct ttm_resource *node);
+ 
++int intel_region_to_ttm_type(const struct intel_memory_region *mem);
++
+ struct ttm_device_funcs *i915_ttm_driver(void);
+ 
+ #ifdef CONFIG_DRM_I915_SELFTEST
 -- 
 2.31.1
 
