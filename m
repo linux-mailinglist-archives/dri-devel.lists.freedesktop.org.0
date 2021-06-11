@@ -1,60 +1,74 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E02643A3B68
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Jun 2021 07:34:15 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 049A43A3B83
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Jun 2021 07:54:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6F4FD6E1B5;
-	Fri, 11 Jun 2021 05:34:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E5FC86E509;
+	Fri, 11 Jun 2021 05:54:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from pio-pvt-msa1.bahnhof.se (pio-pvt-msa1.bahnhof.se [79.136.2.40])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 447DE6E1B5
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Jun 2021 05:34:11 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by pio-pvt-msa1.bahnhof.se (Postfix) with ESMTP id D96683F87B;
- Fri, 11 Jun 2021 07:34:08 +0200 (CEST)
-Authentication-Results: pio-pvt-msa1.bahnhof.se; dkim=pass (1024-bit key;
- unprotected) header.d=shipmail.org header.i=@shipmail.org header.b="cRnqcCsF";
- dkim-atps=neutral
-X-Virus-Scanned: Debian amavisd-new at bahnhof.se
-X-Spam-Flag: NO
-X-Spam-Score: -2.689
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.689 tagged_above=-999 required=6.31
- tests=[BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.59,
- URIBL_BLOCKED=0.001] autolearn=ham autolearn_force=no
-Received: from pio-pvt-msa1.bahnhof.se ([127.0.0.1])
- by localhost (pio-pvt-msa1.bahnhof.se [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id Fgv1tPU7SVai; Fri, 11 Jun 2021 07:34:07 +0200 (CEST)
-Received: by pio-pvt-msa1.bahnhof.se (Postfix) with ESMTPA id 905ED3F870;
- Fri, 11 Jun 2021 07:34:07 +0200 (CEST)
-Received: from [192.168.0.209] (unknown [192.198.151.43])
- by mail1.shipmail.org (Postfix) with ESMTPSA id C5EC4360190;
- Fri, 11 Jun 2021 07:34:06 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=shipmail.org; s=mail;
- t=1623389647; bh=VPNa11hYzmPQVRd90dNSPO1ASJb3r2ycCuSwlU/BXjg=;
- h=Subject:To:References:From:Date:In-Reply-To:From;
- b=cRnqcCsFyOIED52jdRlILyPAyoak3mXc117arHx0u4G7IjCk+lycBRXcGojhj00qg
- dPXIj8lLLV/e2K/9tFFR0uYTBU1/Ujrf65RW9BsHoTZeSUEUl6fbCkMSGU/jOZjkTV
- WaZdX/8k23ViElxQmnRhn84x/1wlnC/UcUZYFcWM=
-Subject: Re: [PATCH 1/4] drm/ttm: add a pointer to the allocating BO into
- ttm_resource
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
- matthew.auld@intel.com, dri-devel@lists.freedesktop.org
-References: <20210610110559.1758-1-christian.koenig@amd.com>
-From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m_=28Intel=29?= <thomas_os@shipmail.org>
-Message-ID: <eaa54fe7-37c3-831b-390a-7e7cc8b414af@shipmail.org>
-Date: Fri, 11 Jun 2021 07:34:04 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+Received: from new2-smtp.messagingengine.com (new2-smtp.messagingengine.com
+ [66.111.4.224])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7E9FC6E509
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Jun 2021 05:54:21 +0000 (UTC)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.42])
+ by mailnew.nyi.internal (Postfix) with ESMTP id B2601580972;
+ Fri, 11 Jun 2021 01:54:18 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute2.internal (MEProxy); Fri, 11 Jun 2021 01:54:18 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+ date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm3; bh=/Pyj13OF+Qaljusxk4DglvTTwIF
+ GdmYwXFiKzdPBMAA=; b=BjQI2uxL4uWJkXhofPmtHx9UWV9MojOKjRJFeizY+sm
+ 9bweN282i577gej2oRxE/uHrpIMThWCZsJIuv+6xa3nbpua4a+kJHxxSHkqDQMOO
+ kL+lkt6Ib3MSTN8SPAlABsrK46/Ec0G+DZSqCTcxFUAz7rucVhlrprUfQYXUyM/S
+ B9JmYzaMFK68ExSwU6cZyA2bIgei0g1RG9goudolftQt9FFGQu9E0bV/MRDQsLWp
+ 2fLnF4IELjSkR5S0uIt8cQI88gC3Bvfysdh/XPC0eSXQwblUvWSfrb+Mq+Vh7IA+
+ gPy8qQLDTkJGRTyNEtL+H/CZx/lErpOmanygwTPOXoQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=/Pyj13
+ OF+Qaljusxk4DglvTTwIFGdmYwXFiKzdPBMAA=; b=Xp8SJ2SkR2PtIJnb1W2CHo
+ h/RsSztdkUiblozlkHMVPh/WvjcNLpDAnSn1G6MTolkiR1haZ1BrA7I2iP3iivCh
+ tJiVYUyy4FiDbZY/tL43CCQhqJ942GSsG6pg1JxWDCBJAADayuZqWC+kt7VFJH1h
+ nP9dZ+enhOBYlj86z40dcATQVmEO2THhMSboV9sV1i+xm3Z/DQ7BuyCEzDL7dqF3
+ WnNjNh5zD2XzAFoSgxMilqfx7k2Qg9OCg4CP4+f/nRyadDUGOYi5t7ELGaANpi77
+ dR7FbZU3W59YigDDZtgU/lRXoBnApU4U0aGB6gO8wMhFlsHEn8l9FB1dyqCAJ8KA
+ ==
+X-ME-Sender: <xms:g_rCYISLJ-_Kn4nFp6JbKrQ3I_OIKIZRycHj7A14zBtyHZlkGaLrww>
+ <xme:g_rCYFwb1bjti2srqtjY-XZXQGwAT5MImay6yweWMdrbsf5ybhlSfgCVzxZ6_Aomo
+ 0XN8KYFXq1MiNQf5Vs>
+X-ME-Received: <xmr:g_rCYF2mgSGhIqjwIDbQj4s---gCuGKc4hxmRd29mPJUaN419VOB7OVwVHewW4LRx_ROCdHPk_X9pNS5Kn5RvkXzMm_6poTmVAei>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrfeduiedgleelucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddunecuhfhrohhmpeforgigihhm
+ vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
+ htvghrnhepuddvudfhkeekhefgffetffelgffftdehffduffegveetffehueeivddvjedv
+ gfevnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmh
+ grgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:g_rCYMDPSggh8GuUHKAgeNd5EzP8t3RXSCTx55mPvFSAYiSn_sU5DQ>
+ <xmx:g_rCYBi5xP-xQqoOLyzy5gXGPgVVvJtAOqXEuftj4Xtt_O3VZYvmzQ>
+ <xmx:g_rCYIr7FJiLeyWCZ8xPQbZC-Oh_ASjwF8BPNxZaGa5pq3OG-oa8KA>
+ <xmx:ivrCYMZ3sVoueNBkDfK5DtTyHWsoXLpYN-yZ1iZbPuO3SU1IoxMSfA>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 11 Jun 2021 01:54:10 -0400 (EDT)
+Date: Fri, 11 Jun 2021 07:54:07 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: Re: [PATCH v3] Documentation: gpu: Mention the requirements for new
+ properties
+Message-ID: <20210611055407.aoeams62wbalodrj@gilmour>
+References: <20210610174731.1209188-1-maxime@cerno.tech>
+ <CAKMK7uG_Wkko0L6sv0U1bXWdYk4fg3OTcp5=+qfRV0CP9V44=A@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20210610110559.1758-1-christian.koenig@amd.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="nd2s7he5im2epank"
+Content-Disposition: inline
+In-Reply-To: <CAKMK7uG_Wkko0L6sv0U1bXWdYk4fg3OTcp5=+qfRV0CP9V44=A@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,205 +81,230 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Xinliang Liu <xinliang.liu@linaro.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Anitha Chrisanthus <anitha.chrisanthus@intel.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>, Jerome Brunet <jbrunet@baylibre.com>,
+ Kevin Hilman <khilman@baylibre.com>,
+ Ludovic Desroches <ludovic.desroches@microchip.com>,
+ NXP Linux Team <linux-imx@nxp.com>, Sascha Hauer <s.hauer@pengutronix.de>,
+ Roland Scheidegger <sroland@vmware.com>, Sean Paul <sean@poorly.run>,
+ Hyun Kwon <hyun.kwon@xilinx.com>, Andrew Jeffery <andrew@aj.id.au>,
+ Seung-Woo Kim <sw0312.kim@samsung.com>,
+ Noralf =?utf-8?Q?Tr=C3=B8nnes?= <noralf@tronnes.org>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+ David Airlie <airlied@linux.ie>, Edmund Dea <edmund.j.dea@intel.com>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Daniel Vetter <daniel.vetter@intel.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+ Steven Price <steven.price@arm.com>,
+ VMware Graphics <linux-graphics-maintainer@vmware.com>,
+ Ben Skeggs <bskeggs@redhat.com>,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+ Boris Brezillon <bbrezillon@kernel.org>, Sandy Huang <hjc@rock-chips.com>,
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Haneen Mohammed <hamohammed.sa@gmail.com>,
+ Neil Armstrong <narmstrong@baylibre.com>, Melissa Wen <melissa.srw@gmail.com>,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ Benjamin Gaignard <benjamin.gaignard@linaro.org>,
+ Sam Ravnborg <sam@ravnborg.org>, Jonathan Corbet <corbet@lwn.net>,
+ Xinwei Kong <kong.kongxinwei@hisilicon.com>, Chen-Yu Tsai <wens@csie.org>,
+ Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+ Joel Stanley <joel@jms.id.au>, Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Jonas Karlman <jonas@kwiboo.se>, Chen Feng <puck.chen@hisilicon.com>,
+ Alison Wang <alison.wang@nxp.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tomeu Vizoso <tomeu.vizoso@collabora.com>, Tomi Valkeinen <tomba@kernel.org>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Tian Tao <tiantao6@hisilicon.com>, Shawn Guo <shawnguo@kernel.org>,
+ Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ Liviu Dudau <liviu.dudau@arm.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ Paul Cercueil <paul@crapouillou.net>, Andrzej Hajda <a.hajda@samsung.com>,
+ Huang Rui <ray.huang@amd.com>, Marek Vasut <marex@denx.de>,
+ Joonyoung Shim <jy0922.shim@samsung.com>,
+ Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>,
+ Russell King <linux@armlinux.org.uk>,
+ Philippe Cornu <philippe.cornu@foss.st.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Hans de Goede <hdegoede@redhat.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ Jernej Skrabec <jernej.skrabec@siol.net>,
+ Yannick Fertre <yannick.fertre@foss.st.com>,
+ Nicolas Ferre <nicolas.ferre@microchip.com>,
+ Robert Foss <robert.foss@linaro.org>, Qiang Yu <yuq825@gmail.com>,
+ Jyri Sarha <jyri.sarha@iki.fi>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi, Christian,
 
-I know you have a lot on your plate, and that the drm community is a bit 
-lax about following the kernel patch submitting guidelines, but now that 
-we're also spinning up a number of Intel developers on TTM could we 
-please make a better effort with cover letters and commit messages so 
-that they understand what the purpose and end goal of the series is. A 
-reviewer shouldn't have to look at the last patch to try to get an 
-understanding what the series is doing and why.
+--nd2s7he5im2epank
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On 6/10/21 1:05 PM, Christian König wrote:
-> We are going to need this for the next patch
+Hi,
 
+On Thu, Jun 10, 2021 at 11:00:05PM +0200, Daniel Vetter wrote:
+> On Thu, Jun 10, 2021 at 7:47 PM Maxime Ripard <maxime@cerno.tech> wrote:
+> >
+> > New KMS properties come with a bunch of requirements to avoid each
+> > driver from running their own, inconsistent, set of properties,
+> > eventually leading to issues like property conflicts, inconsistencies
+> > between drivers and semantics, etc.
+> >
+> > Let's document what we expect.
+> >
+> > Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>
+> > Cc: Alexandre Torgue <alexandre.torgue@foss.st.com>
+> > Cc: Alex Deucher <alexander.deucher@amd.com>
+> > Cc: Alison Wang <alison.wang@nxp.com>
+> > Cc: Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
+> > Cc: Andrew Jeffery <andrew@aj.id.au>
+> > Cc: Andrzej Hajda <a.hajda@samsung.com>
+> > Cc: Anitha Chrisanthus <anitha.chrisanthus@intel.com>
+> > Cc: Benjamin Gaignard <benjamin.gaignard@linaro.org>
+> > Cc: Ben Skeggs <bskeggs@redhat.com>
+> > Cc: Boris Brezillon <bbrezillon@kernel.org>
+> > Cc: Brian Starkey <brian.starkey@arm.com>
+> > Cc: Chen Feng <puck.chen@hisilicon.com>
+> > Cc: Chen-Yu Tsai <wens@csie.org>
+> > Cc: Christian Gmeiner <christian.gmeiner@gmail.com>
+> > Cc: "Christian K=F6nig" <christian.koenig@amd.com>
+> > Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+> > Cc: Edmund Dea <edmund.j.dea@intel.com>
+> > Cc: Eric Anholt <eric@anholt.net>
+> > Cc: Fabio Estevam <festevam@gmail.com>
+> > Cc: Gerd Hoffmann <kraxel@redhat.com>
+> > Cc: Haneen Mohammed <hamohammed.sa@gmail.com>
+> > Cc: Hans de Goede <hdegoede@redhat.com>
+> > Cc: "Heiko St=FCbner" <heiko@sntech.de>
+> > Cc: Huang Rui <ray.huang@amd.com>
+> > Cc: Hyun Kwon <hyun.kwon@xilinx.com>
+> > Cc: Inki Dae <inki.dae@samsung.com>
+> > Cc: Jani Nikula <jani.nikula@linux.intel.com>
+> > Cc: Jernej Skrabec <jernej.skrabec@siol.net>
+> > Cc: Jerome Brunet <jbrunet@baylibre.com>
+> > Cc: Joel Stanley <joel@jms.id.au>
+> > Cc: John Stultz <john.stultz@linaro.org>
+> > Cc: Jonas Karlman <jonas@kwiboo.se>
+> > Cc: Jonathan Hunter <jonathanh@nvidia.com>
+> > Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+> > Cc: Joonyoung Shim <jy0922.shim@samsung.com>
+> > Cc: Jyri Sarha <jyri.sarha@iki.fi>
+> > Cc: Kevin Hilman <khilman@baylibre.com>
+> > Cc: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+> > Cc: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
+> > Cc: Kyungmin Park <kyungmin.park@samsung.com>
+> > Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+> > Cc: Linus Walleij <linus.walleij@linaro.org>
+> > Cc: Liviu Dudau <liviu.dudau@arm.com>
+> > Cc: Lucas Stach <l.stach@pengutronix.de>
+> > Cc: Ludovic Desroches <ludovic.desroches@microchip.com>
+> > Cc: Marek Vasut <marex@denx.de>
+> > Cc: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
+> > Cc: Matthias Brugger <matthias.bgg@gmail.com>
+> > Cc: Maxime Coquelin <mcoquelin.stm32@gmail.com>
+> > Cc: Maxime Ripard <mripard@kernel.org>
+> > Cc: Melissa Wen <melissa.srw@gmail.com>
+> > Cc: Neil Armstrong <narmstrong@baylibre.com>
+> > Cc: Nicolas Ferre <nicolas.ferre@microchip.com>
+> > Cc: "Noralf Tr=F8nnes" <noralf@tronnes.org>
+> > Cc: NXP Linux Team <linux-imx@nxp.com>
+> > Cc: Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>
+> > Cc: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
+> > Cc: Paul Cercueil <paul@crapouillou.net>
+> > Cc: Pengutronix Kernel Team <kernel@pengutronix.de>
+> > Cc: Philippe Cornu <philippe.cornu@foss.st.com>
+> > Cc: Philipp Zabel <p.zabel@pengutronix.de>
+> > Cc: Qiang Yu <yuq825@gmail.com>
+> > Cc: Rob Clark <robdclark@gmail.com>
+> > Cc: Robert Foss <robert.foss@linaro.org>
+> > Cc: Rob Herring <robh@kernel.org>
+> > Cc: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>
+> > Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
+> > Cc: Roland Scheidegger <sroland@vmware.com>
+> > Cc: Russell King <linux@armlinux.org.uk>
+> > Cc: Sam Ravnborg <sam@ravnborg.org>
+> > Cc: Sandy Huang <hjc@rock-chips.com>
+> > Cc: Sascha Hauer <s.hauer@pengutronix.de>
+> > Cc: Sean Paul <sean@poorly.run>
+> > Cc: Seung-Woo Kim <sw0312.kim@samsung.com>
+> > Cc: Shawn Guo <shawnguo@kernel.org>
+> > Cc: Stefan Agner <stefan@agner.ch>
+> > Cc: Steven Price <steven.price@arm.com>
+> > Cc: Sumit Semwal <sumit.semwal@linaro.org>
+> > Cc: Thierry Reding <thierry.reding@gmail.com>
+> > Cc: Tian Tao <tiantao6@hisilicon.com>
+> > Cc: Tomeu Vizoso <tomeu.vizoso@collabora.com>
+> > Cc: Tomi Valkeinen <tomba@kernel.org>
+> > Cc: VMware Graphics <linux-graphics-maintainer@vmware.com>
+> > Cc: Xinliang Liu <xinliang.liu@linaro.org>
+> > Cc: Xinwei Kong <kong.kongxinwei@hisilicon.com>
+> > Cc: Yannick Fertre <yannick.fertre@foss.st.com>
+> > Cc: Zack Rusin <zackr@vmware.com>
+> > Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+> > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+> >
+> > ---
+> >
+> > Changes from v2:
+> >   - Take into account the feedback from Laurent and Lidiu to no longer
+> >     force generic properties, but prefix vendor-specific properties with
+> >     the vendor name
+>=20
+> I'm pretty sure my r-b was without this ...
 
-> and it allows us to clean
-> up amdgpu as well.
+Yeah, sorry. I wanted to tell you on IRC that you wanted to have a
+second look, but I shouldn't have kept it and caught you by surprise
+indeed.
 
-The amdgpu changes are not reflected in the commit title.
+> Why exactly do we need this? KMS is meant to be fairly generic (bugs
+> throw a wrench around here sometimes, and semantics can be tricky). If
+> we open up the door to yolo vendor properties in upstream, then that
+> goal is pretty much written off. And we've been there with vendor
+> properties, it's a giantic mess.
+>=20
+> Minimally drop my r-b, I'm definitely not in support of this idea.
 
+So the argument Lidiu and Laurent made was that in some cases, getting a
+generic property right with only a couple of users is hard. So they
+advocated for the right to keep non-generic properties. I can get the
+argument, and no-one else said that was wrong, so it felt like the
+consensus was there.
 
->
-> Signed-off-by: Christian König <christian.koenig@amd.com>
-> ---
->   drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c | 47 ++++++++-------------
->   drivers/gpu/drm/ttm/ttm_resource.c          |  1 +
->   include/drm/ttm/ttm_resource.h              |  1 +
->   3 files changed, 19 insertions(+), 30 deletions(-)
->
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c
-> index 194f9eecf89c..8e3f5da44e4f 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c
-> @@ -26,23 +26,12 @@
->   
->   #include "amdgpu.h"
->   
-> -struct amdgpu_gtt_node {
-> -	struct ttm_buffer_object *tbo;
-> -	struct ttm_range_mgr_node base;
-> -};
-> -
->   static inline struct amdgpu_gtt_mgr *
->   to_gtt_mgr(struct ttm_resource_manager *man)
->   {
->   	return container_of(man, struct amdgpu_gtt_mgr, manager);
->   }
->   
-> -static inline struct amdgpu_gtt_node *
-> -to_amdgpu_gtt_node(struct ttm_resource *res)
-> -{
-> -	return container_of(res, struct amdgpu_gtt_node, base.base);
-> -}
-> -
->   /**
->    * DOC: mem_info_gtt_total
->    *
-> @@ -107,9 +96,9 @@ const struct attribute_group amdgpu_gtt_mgr_attr_group = {
->    */
->   bool amdgpu_gtt_mgr_has_gart_addr(struct ttm_resource *res)
->   {
-> -	struct amdgpu_gtt_node *node = to_amdgpu_gtt_node(res);
-> +	struct ttm_range_mgr_node *node = to_ttm_range_mgr_node(res);
->   
-> -	return drm_mm_node_allocated(&node->base.mm_nodes[0]);
-> +	return drm_mm_node_allocated(&node->mm_nodes[0]);
->   }
->   
->   /**
-> @@ -129,7 +118,7 @@ static int amdgpu_gtt_mgr_new(struct ttm_resource_manager *man,
->   {
->   	struct amdgpu_gtt_mgr *mgr = to_gtt_mgr(man);
->   	uint32_t num_pages = PFN_UP(tbo->base.size);
-> -	struct amdgpu_gtt_node *node;
-> +	struct ttm_range_mgr_node *node;
->   	int r;
->   
->   	spin_lock(&mgr->lock);
-> @@ -141,19 +130,17 @@ static int amdgpu_gtt_mgr_new(struct ttm_resource_manager *man,
->   	atomic64_sub(num_pages, &mgr->available);
->   	spin_unlock(&mgr->lock);
->   
-> -	node = kzalloc(struct_size(node, base.mm_nodes, 1), GFP_KERNEL);
-> +	node = kzalloc(struct_size(node, mm_nodes, 1), GFP_KERNEL);
->   	if (!node) {
->   		r = -ENOMEM;
->   		goto err_out;
->   	}
->   
-> -	node->tbo = tbo;
-> -	ttm_resource_init(tbo, place, &node->base.base);
-> -
-> +	ttm_resource_init(tbo, place, &node->base);
->   	if (place->lpfn) {
->   		spin_lock(&mgr->lock);
->   		r = drm_mm_insert_node_in_range(&mgr->mm,
-> -						&node->base.mm_nodes[0],
-> +						&node->mm_nodes[0],
->   						num_pages, tbo->page_alignment,
->   						0, place->fpfn, place->lpfn,
->   						DRM_MM_INSERT_BEST);
-> @@ -161,14 +148,14 @@ static int amdgpu_gtt_mgr_new(struct ttm_resource_manager *man,
->   		if (unlikely(r))
->   			goto err_free;
->   
-> -		node->base.base.start = node->base.mm_nodes[0].start;
-> +		node->base.start = node->mm_nodes[0].start;
->   	} else {
-> -		node->base.mm_nodes[0].start = 0;
-> -		node->base.mm_nodes[0].size = node->base.base.num_pages;
-> -		node->base.base.start = AMDGPU_BO_INVALID_OFFSET;
-> +		node->mm_nodes[0].start = 0;
-> +		node->mm_nodes[0].size = node->base.num_pages;
-> +		node->base.start = AMDGPU_BO_INVALID_OFFSET;
->   	}
->   
-> -	*res = &node->base.base;
-> +	*res = &node->base;
->   	return 0;
->   
->   err_free:
-> @@ -191,12 +178,12 @@ static int amdgpu_gtt_mgr_new(struct ttm_resource_manager *man,
->   static void amdgpu_gtt_mgr_del(struct ttm_resource_manager *man,
->   			       struct ttm_resource *res)
->   {
-> -	struct amdgpu_gtt_node *node = to_amdgpu_gtt_node(res);
-> +	struct ttm_range_mgr_node *node = to_ttm_range_mgr_node(res);
->   	struct amdgpu_gtt_mgr *mgr = to_gtt_mgr(man);
->   
->   	spin_lock(&mgr->lock);
-> -	if (drm_mm_node_allocated(&node->base.mm_nodes[0]))
-> -		drm_mm_remove_node(&node->base.mm_nodes[0]);
-> +	if (drm_mm_node_allocated(&node->mm_nodes[0]))
-> +		drm_mm_remove_node(&node->mm_nodes[0]);
->   	spin_unlock(&mgr->lock);
->   	atomic64_add(res->num_pages, &mgr->available);
->   
-> @@ -228,14 +215,14 @@ uint64_t amdgpu_gtt_mgr_usage(struct ttm_resource_manager *man)
->   int amdgpu_gtt_mgr_recover(struct ttm_resource_manager *man)
->   {
->   	struct amdgpu_gtt_mgr *mgr = to_gtt_mgr(man);
-> -	struct amdgpu_gtt_node *node;
-> +	struct ttm_range_mgr_node *node;
->   	struct drm_mm_node *mm_node;
->   	int r = 0;
->   
->   	spin_lock(&mgr->lock);
->   	drm_mm_for_each_node(mm_node, &mgr->mm) {
-> -		node = container_of(mm_node, typeof(*node), base.mm_nodes[0]);
-> -		r = amdgpu_ttm_recover_gart(node->tbo);
-> +		node = container_of(mm_node, typeof(*node), mm_nodes[0]);
-> +		r = amdgpu_ttm_recover_gart(node->base.bo);
->   		if (r)
->   			break;
->   	}
-> diff --git a/drivers/gpu/drm/ttm/ttm_resource.c b/drivers/gpu/drm/ttm/ttm_resource.c
-> index 2431717376e7..7ff6194154fe 100644
-> --- a/drivers/gpu/drm/ttm/ttm_resource.c
-> +++ b/drivers/gpu/drm/ttm/ttm_resource.c
-> @@ -41,6 +41,7 @@ void ttm_resource_init(struct ttm_buffer_object *bo,
->   	res->bus.offset = 0;
->   	res->bus.is_iomem = false;
->   	res->bus.caching = ttm_cached;
-> +	res->bo = bo;
->   }
->   EXPORT_SYMBOL(ttm_resource_init);
->   
-> diff --git a/include/drm/ttm/ttm_resource.h b/include/drm/ttm/ttm_resource.h
-> index 140b6b9a8bbe..6d0b7a6d2169 100644
-> --- a/include/drm/ttm/ttm_resource.h
-> +++ b/include/drm/ttm/ttm_resource.h
-> @@ -171,6 +171,7 @@ struct ttm_resource {
->   	uint32_t mem_type;
->   	uint32_t placement;
->   	struct ttm_bus_placement bus;
-> +	struct ttm_buffer_object *bo;
+> If there's a strong consensus that we really need this then I'm not
+> going to nack this, but this really needs a pile of acks from
+> compositor folks that they're willing to live with the resulting
+> fallout this will likely bring. Your cc list seems to have an absence
+> of compositor folks, but instead every driver maintainer. That's
+> backwards. We make uapi for userspace, not for kernel driver
+> maintainers!
 
-Not that I'm against this change by itself, but this bo pointer is not 
-refcounted, and therefore needs a description when it's needed and why. 
-What happens, for example when the resource is moved to a ghost object, 
-or the bo is killed while the resource is remaining on a lru list (which 
-I understand was one of the main purposes with free-standing resources). 
-Weak references need a guarantee that the object they pointed to is 
-alive. What is that guarantee?
+Right, but it's mostly about in-kernel rules though? And you're the one
+who mentionned CC'ing the driver maintainers in the first iteration?
 
-Also could we introduce new TTM structure members where they are first 
-used /referenced by TTM and not where they are used by amdgpu? Without 
-finding out in patch 3 that this member is needed to look up the bo from 
-a lru list the correct response to this patch would have been: That bo 
-is amdgpu-specific and needs to be in a driver private struct...
+> ltdr; I'd go back to v2. And then cc compositor folks on this to get
+> their ack.
 
+So, Pekka, Simon, is there anyone else I should Cc?
 
-Thanks,
+Thanks!
+Maxime
 
-/Thomas
+--nd2s7he5im2epank
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
 
->   };
->   
->   /**
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYML6fwAKCRDj7w1vZxhR
+xSkxAQDROz22RNLpAfVMNaKZojDzxWqNEcCy9BAXL0pJY3wZkAD9GzMg2AOQhwFO
+tvz4LRXIsYEIrjPzpAD08FepWZrtlgE=
+=vegP
+-----END PGP SIGNATURE-----
+
+--nd2s7he5im2epank--
