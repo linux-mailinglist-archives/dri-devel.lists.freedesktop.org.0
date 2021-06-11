@@ -1,64 +1,67 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 304803A3FCB
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Jun 2021 12:07:09 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B20133A3FD5
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Jun 2021 12:09:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B04A16EE6C;
-	Fri, 11 Jun 2021 10:07:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 929F46EE68;
+	Fri, 11 Jun 2021 10:09:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com
- [IPv6:2a00:1450:4864:20::429])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D9E686EE72;
- Fri, 11 Jun 2021 10:07:03 +0000 (UTC)
-Received: by mail-wr1-x429.google.com with SMTP id i94so5437991wri.4;
- Fri, 11 Jun 2021 03:07:03 -0700 (PDT)
+Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com
+ [IPv6:2a00:1450:4864:20::333])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BA74D6EE67;
+ Fri, 11 Jun 2021 10:09:22 +0000 (UTC)
+Received: by mail-wm1-x333.google.com with SMTP id
+ f16-20020a05600c1550b02901b00c1be4abso8326084wmg.2; 
+ Fri, 11 Jun 2021 03:09:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-transfer-encoding:content-language;
- bh=n8g7ZnkckiCgaYJXyB5B/9AcD1eNFrx+Hqhw/CS/rHk=;
- b=k3oydvUypepGjTT1OkKfLLbKukr+w4yNuphIJoAx7dfF2Ee6qZpjUkmBzaKjLDLYWS
- HqgI/wWvQ9dfC5aU+zsNTmyP3bDVmvBMP+CpFPQFkdj1yc/ca82lJVVwKXg8CbyuU+tg
- 1aAIo20WkFvFt47q3udIl4n8P7Za2mi+fHLthh+sVyVya6jhwOI13wOtJygkcTH6n3NN
- K+SRmeUYwB5xJXJSkO3oRBOEtA5JR4rmpRxhWfCZNyjqqqnHOcxvW7QzgiEcELVUHAyL
- MhnE4U/0rNAQC7xJH1F2i4Rs6oETbhrYZJX2ItDdp3wxl2hn95h80Yc6xUVrFdbW3DNC
- cx4g==
+ bh=35QIqVu+POFSBYZ0PL0HI3dssJ5+/2M1k9rMSVlNk3E=;
+ b=Qr4GHfHGFcdzfXTdimt1+MCw/WxDwHDkY33Iy45RZ1B0l/yPVnZrxfZDfrLnsMC0JE
+ 2ubdqWQyHD9RHYBLcBHIsyglj2o3VaTe986z7rRotZxCIhz8CayNzQeKcLS0zJY0AGkJ
+ dbrpTJ+8lZ5FvbBV3ZSm3oOIsb9YW/gVRZZpH7bVuQX+NbRJkIlsF7UhKw2wiP0B3XHX
+ +YZDCb0wa0iDzxUstypizoEzYigWoTVqSWU2GM8fF6VX6SPsEaLw8hcd6zPgLCe9B0TG
+ 9SQ7gMDMy+rJlxiSdYyDpREK3D+vimnR2nUyzUEByxqs73BZna1uJwMBUuapaeurDV6m
+ lWsA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-transfer-encoding
  :content-language;
- bh=n8g7ZnkckiCgaYJXyB5B/9AcD1eNFrx+Hqhw/CS/rHk=;
- b=Ya7xCXgt/g4dIX42+heMI4cSPzGIe6c8B0JrKjysndJtvo9dr7os3DybvEmnxQOdBF
- eqa6/pwxN8h6UyCk3hKQjQK4PFsQxgS4Mam2i0N9DxtcQrNf45C0y6bb6rfBnS2+0wlq
- q/ilIjLSoTPC1hJTCwqgy3p1Owargo4MmazTAuTQXVzMG5gJBo+TkrqR8xFPFyOFJp6b
- M4HaWdDcgdGOYikxm7HdNccMpYrU01Ge/h+hAOkWB2/3TREk2VuytxfoCn8GIQksOfiu
- eYhbeYtcE9992+95Q+qhwikTwjhMbsy3e2KG5V33YIFGuGN8jdlvL3AAWrRb1+wzod3z
- jk7g==
-X-Gm-Message-State: AOAM532oTyN0wPZHLjYqs+VwvsJr77MVvOjFhV1FIQAwAFo4CDJ6sG68
- +AXB6iJd8XbZ8QlVUd0lV8DPtxwuync=
-X-Google-Smtp-Source: ABdhPJxbl+NFqmXYbsIiIfZ1gjrs0Pw25LH1Q0zuNWZpUHW0ZsQ9iMb5vdPpX0hWR6LNkK7lSc6whg==
-X-Received: by 2002:adf:eac3:: with SMTP id o3mr3117739wrn.157.1623406022501; 
- Fri, 11 Jun 2021 03:07:02 -0700 (PDT)
+ bh=35QIqVu+POFSBYZ0PL0HI3dssJ5+/2M1k9rMSVlNk3E=;
+ b=STVYrfJpqp8/uJPTjR11mw7UvXSzhqay49sY4rQ8ZkH4jlqJpp/2DBcVhts4TtRdhJ
+ YhU0/6GNObra2Q0MQqr3MxRma+/W8FgufbKAKOWOTahUsceCFym2FsSDsCYUiW7GlPvE
+ ZKriDTGKl1NrOkF7heDkFuB8MRJRizvAXjHNn7qgnBr4JBITAZQAq0IEOyBcUFkxTFB8
+ /odFkdhnY5d2ik0nzrhOxnSTs4Q78hrx7RauP3TpvxYBjfSyRW4lnDp/U6UIKtx9PC3s
+ nJV7LqJNBDj6HYOqRRCjHzQIrZXVuLlIRERUDkY2KWppwgA24e9iV+TUiMGcLZkJeVUC
+ R+BQ==
+X-Gm-Message-State: AOAM532soZX5N9j0iDscyMjCgJON3ViaohdY3k0osmmWY3jjvT9bFGAn
+ SdX+reMEO6LJCxKPJ7X7v/ZnJGqauH0=
+X-Google-Smtp-Source: ABdhPJwnDvvI8lmr1v89UrZztwRINkEcMj7v8p5EP2mxkVNC2Q//RAEgw/G1npuHE74zohLwg8b6Ew==
+X-Received: by 2002:a05:600c:354f:: with SMTP id
+ i15mr3110395wmq.38.1623406161423; 
+ Fri, 11 Jun 2021 03:09:21 -0700 (PDT)
 Received: from ?IPv6:2a02:908:1252:fb60:108e:ba37:cb49:9c3?
  ([2a02:908:1252:fb60:108e:ba37:cb49:9c3])
- by smtp.gmail.com with ESMTPSA id 89sm6732939wri.94.2021.06.11.03.07.01
+ by smtp.gmail.com with ESMTPSA id g205sm12623322wme.6.2021.06.11.03.09.20
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 11 Jun 2021 03:07:02 -0700 (PDT)
-Subject: Re: [PATCH 4/7] dma-buf: add dma_fence_chain_garbage_collect
+ Fri, 11 Jun 2021 03:09:20 -0700 (PDT)
+Subject: Re: [PATCH 6/7] drm/amdgpu: unwrap fence chains in the explicit sync
+ fence
 To: Daniel Vetter <daniel@ffwll.ch>
 References: <20210610091800.1833-1-christian.koenig@amd.com>
- <20210610091800.1833-5-christian.koenig@amd.com>
- <YMMlmt0frb1Pfdo0@phenom.ffwll.local>
+ <20210610091800.1833-7-christian.koenig@amd.com>
+ <YMMnzbky0W72PH1d@phenom.ffwll.local>
 From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-Message-ID: <e844dace-832c-3a0a-8ca2-d3aeb5cfde19@gmail.com>
-Date: Fri, 11 Jun 2021 12:07:00 +0200
+Message-ID: <51256567-84d3-76a9-31aa-aee96d01364a@gmail.com>
+Date: Fri, 11 Jun 2021 12:09:19 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <YMMlmt0frb1Pfdo0@phenom.ffwll.local>
+In-Reply-To: <YMMnzbky0W72PH1d@phenom.ffwll.local>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
 Content-Language: en-US
@@ -78,293 +81,193 @@ Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 11.06.21 um 10:58 schrieb Daniel Vetter:
-> On Thu, Jun 10, 2021 at 11:17:57AM +0200, Christian König wrote:
->> Add some rather sophisticated lockless garbage collection
->> for dma_fence_chain objects.
->>
->> For this keep all initialized dma_fence_chain nodes an a
->> queue and trigger garbage collection before a new one is
->> allocated.
+Am 11.06.21 um 11:07 schrieb Daniel Vetter:
+> On Thu, Jun 10, 2021 at 11:17:59AM +0200, Christian König wrote:
+>> Unwrap a the explicit fence if it is a dma_fence_chain and
+>> sync to the first fence not matching the owner rules.
 >>
 >> Signed-off-by: Christian König <christian.koenig@amd.com>
-> Uh hand-rolled lockless list, I'm not a fan.
->
-> But the real question here is why? This is a global list, so it's going to
-> look great on your desktop, but gpus are for servers now and those are
-> NUMA. So just from that pov doing garbage-collection individually still
-> feels like a much better idea.
-
-Yeah, I was pondering on that quite a bit as well. That why I added the 
-multi threaded alloc/free test.
-
-> So what's the problem your trying to solve here?
-
-I was not sure if the chain is garbage collected enough when used for 
-the dma_resv exclusive object.
-
-But I think we could just drop this for now and just see how it goes.
-
-Christian.
-
-> -Daniel
->
 >> ---
->>   drivers/dma-buf/dma-fence-chain.c | 160 +++++++++++++++++++++++++-----
->>   include/linux/dma-fence-chain.h   |   5 +
->>   2 files changed, 142 insertions(+), 23 deletions(-)
+>>   drivers/gpu/drm/amd/amdgpu/amdgpu_sync.c | 118 +++++++++++++----------
+>>   1 file changed, 68 insertions(+), 50 deletions(-)
 >>
->> diff --git a/drivers/dma-buf/dma-fence-chain.c b/drivers/dma-buf/dma-fence-chain.c
->> index 1b4cb3e5cec9..c2f0b69eabb7 100644
->> --- a/drivers/dma-buf/dma-fence-chain.c
->> +++ b/drivers/dma-buf/dma-fence-chain.c
->> @@ -9,8 +9,53 @@
+>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_sync.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_sync.c
+>> index 1b2ceccaf5b0..862eb3c1c4c5 100644
+>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_sync.c
+>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_sync.c
+>> @@ -28,6 +28,8 @@
+>>    *    Christian König <christian.koenig@amd.com>
+>>    */
 >>   
->>   #include <linux/dma-fence-chain.h>
->>   
->> +static struct dma_fence_chain __rcu *fifo_front;
->> +static struct dma_fence_chain __rcu **fifo_back = &fifo_front;
+>> +#include <linux/dma-fence-chain.h>
 >> +
->>   static bool dma_fence_chain_enable_signaling(struct dma_fence *fence);
->>   
->> +/**
->> + * dma_fence_chain_enqueue - enqeue a chain node for garbage collection
->> + * @chain: the chain node to enqueue
->> + *
->> + * Add the chain node to the end of the gc fifo.
->> + */
->> +static void dma_fence_chain_enqueue(struct dma_fence_chain *chain)
->> +{
->> +	struct dma_fence_chain __rcu **tmp;
->> +
->> +	RCU_INIT_POINTER(chain->next, NULL);
->> +	tmp = xchg((struct dma_fence_chain __force ***)&fifo_back,
->> +		   &chain->next);
->> +
->> +	/* This is intentionally unordered since we only need the fifo for gc */
->> +	rcu_assign_pointer(*tmp, chain);
->> +}
->> +
->> +/**
->> + * dma_fence_chain_dequeue - deqeueue a chain node for garbage collection
->> + *
->> + * Remove the first chain node from the gc fifo while making sure that always
->> + * keep at least one node on the fifo for lockless fifo implementation.
->> + * Returns the dequeued chain node or NULL.
->> + */
->> +static struct dma_fence_chain *dma_fence_chain_dequeue(void)
->> +{
->> +	struct dma_fence_chain *chain, *tmp;
->> +
->> +	rcu_read_lock();
->> +	chain = rcu_dereference(fifo_front);
->> +	/* Never dequeue the last chain node for lockless fifo */
->> +	if (unlikely(!chain || !rcu_access_pointer(chain->next))) {
->> +		rcu_read_unlock();
->> +		return NULL;
->> +	}
->> +	tmp = cmpxchg((struct dma_fence_chain __force **)&fifo_front,
->> +		      chain, rcu_access_pointer(chain->next));
->> +	rcu_read_unlock();
->> +	return tmp == chain ? chain : NULL;
->> +}
->> +
->>   /**
->>    * dma_fence_chain_get_prev - use RCU to get a reference to the previous fence
->>    * @chain: chain node to get the previous node from
->> @@ -28,6 +73,43 @@ static struct dma_fence *dma_fence_chain_get_prev(struct dma_fence_chain *chain)
->>   	return prev;
+>>   #include "amdgpu.h"
+>>   #include "amdgpu_trace.h"
+>>   #include "amdgpu_amdkfd.h"
+>> @@ -186,6 +188,55 @@ int amdgpu_sync_vm_fence(struct amdgpu_sync *sync, struct dma_fence *fence)
+>>   	return amdgpu_sync_fence(sync, fence);
 >>   }
 >>   
->> +/**
->> + * dma_fence_chain_try_replace - try to replace the prev node
->> + * @chain: Chain node we try to replace prev.
->> + * @prev: the old prev node
->> + *
->> + * Try to replace the previous chain node when it or its containing fence is
->> + * signaled. Returns true if we tried, false if we need to wait.
->> + */
->> +static bool dma_fence_chain_try_replace(struct dma_fence_chain *chain,
->> +					struct dma_fence *prev)
+>> +/* Determine based on the owner and mode if we should sync to a fence or not */
+>> +static bool amdgpu_sync_test_fence(struct amdgpu_device *adev,
+>> +				   enum amdgpu_sync_mode mode,
+>> +				   void *owner, struct dma_fence *f)
 >> +{
->> +	struct dma_fence *replacement, *tmp;
->> +	struct dma_fence_chain *prev_chain;
+>> +	void *fence_owner = amdgpu_sync_get_owner(f);
 >> +
->> +	prev_chain = to_dma_fence_chain(prev);
->> +	if (prev_chain) {
->> +		if (!dma_fence_is_signaled(prev_chain->fence))
+>> +	/* Always sync to moves, no matter what */
+>> +	if (fence_owner == AMDGPU_FENCE_OWNER_UNDEFINED)
+>> +		return true;
+>> +
+>> +	/* We only want to trigger KFD eviction fences on
+>> +	 * evict or move jobs. Skip KFD fences otherwise.
+>> +	 */
+>> +	if (fence_owner == AMDGPU_FENCE_OWNER_KFD &&
+>> +	    owner != AMDGPU_FENCE_OWNER_UNDEFINED)
+>> +		return false;
+>> +
+>> +	/* Never sync to VM updates either. */
+>> +	if (fence_owner == AMDGPU_FENCE_OWNER_VM &&
+>> +	    owner != AMDGPU_FENCE_OWNER_UNDEFINED)
+>> +		return false;
+>> +
+>> +	/* Ignore fences depending on the sync mode */
+>> +	switch (mode) {
+>> +	case AMDGPU_SYNC_ALWAYS:
+>> +		return true;
+>> +
+>> +	case AMDGPU_SYNC_NE_OWNER:
+>> +		if (amdgpu_sync_same_dev(adev, f) &&
+>> +		    fence_owner == owner)
 >> +			return false;
+>> +		break;
 >> +
->> +		replacement = dma_fence_chain_get_prev(prev_chain);
->> +	} else {
->> +		if (!dma_fence_is_signaled(prev))
+>> +	case AMDGPU_SYNC_EQ_OWNER:
+>> +		if (amdgpu_sync_same_dev(adev, f) &&
+>> +		    fence_owner != owner)
 >> +			return false;
+>> +		break;
 >> +
->> +		replacement = NULL;
+>> +	case AMDGPU_SYNC_EXPLICIT:
+>> +		return false;
 >> +	}
 >> +
->> +	tmp = cmpxchg((struct dma_fence __force **)&chain->prev, prev,
->> +		      replacement);
->> +	if (tmp == prev)
->> +		dma_fence_put(tmp);
->> +	else
->> +		dma_fence_put(replacement);
->> +
+>> +	WARN(debug_evictions && fence_owner == AMDGPU_FENCE_OWNER_KFD,
+>> +	     "Adding eviction fence to sync obj");
 >> +	return true;
 >> +}
 >> +
 >>   /**
->>    * dma_fence_chain_walk - chain walking function
->>    * @fence: current chain node
->> @@ -38,8 +120,8 @@ static struct dma_fence *dma_fence_chain_get_prev(struct dma_fence_chain *chain)
->>    */
->>   struct dma_fence *dma_fence_chain_walk(struct dma_fence *fence)
->>   {
->> -	struct dma_fence_chain *chain, *prev_chain;
->> -	struct dma_fence *prev, *replacement, *tmp;
->> +	struct dma_fence_chain *chain;
->> +	struct dma_fence *prev;
+>>    * amdgpu_sync_resv - sync to a reservation object
+>>    *
+>> @@ -211,67 +262,34 @@ int amdgpu_sync_resv(struct amdgpu_device *adev, struct amdgpu_sync *sync,
 >>   
->>   	chain = to_dma_fence_chain(fence);
->>   	if (!chain) {
->> @@ -48,26 +130,8 @@ struct dma_fence *dma_fence_chain_walk(struct dma_fence *fence)
->>   	}
+>>   	/* always sync to the exclusive fence */
+>>   	f = dma_resv_excl_fence(resv);
+>> -	r = amdgpu_sync_fence(sync, f);
+>> +	dma_fence_chain_for_each(f, f) {
+> Jason has some helper for deep-walking fence chains/arrays here I think.
+> Might want to look into that, so that we have some consistency in how we
+> pile up multiple exclusive fences.
+
+Well those helpers are not from Jason, but from me :)
+
+But no, for now the deep inspection is not really helpful here since 
+grabbing a reference to a certain chain node is what that makes the 
+handling easier and faster here.
+
+Thinking more about it that should also make it possible for the garbage 
+collection to kick in properly.
+
+>
+> Anyway pretty much one of the versions I had in mind too, except I didn't
+> type it up.
+>
+> Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+
+Thanks,
+Christian.
+
+>
+>> +		struct dma_fence_chain *chain = to_dma_fence_chain(f);
+>> +
+>> +		if (amdgpu_sync_test_fence(adev, mode, owner, chain ?
+>> +					   chain->fence : f)) {
+>> +			r = amdgpu_sync_fence(sync, f);
+>> +			dma_fence_put(f);
+>> +			if (r)
+>> +				return r;
+>> +			break;
+>> +		}
+>> +	}
 >>   
->>   	while ((prev = dma_fence_chain_get_prev(chain))) {
+>>   	flist = dma_resv_shared_list(resv);
+>> -	if (!flist || r)
+>> -		return r;
+>> +	if (!flist)
+>> +		return 0;
+>>   
+>>   	for (i = 0; i < flist->shared_count; ++i) {
+>> -		void *fence_owner;
 >> -
->> -		prev_chain = to_dma_fence_chain(prev);
->> -		if (prev_chain) {
->> -			if (!dma_fence_is_signaled(prev_chain->fence))
+>>   		f = rcu_dereference_protected(flist->shared[i],
+>>   					      dma_resv_held(resv));
+>>   
+>> -		fence_owner = amdgpu_sync_get_owner(f);
+>> -
+>> -		/* Always sync to moves, no matter what */
+>> -		if (fence_owner == AMDGPU_FENCE_OWNER_UNDEFINED) {
+>> +		if (amdgpu_sync_test_fence(adev, mode, owner, f)) {
+>>   			r = amdgpu_sync_fence(sync, f);
+>>   			if (r)
 >> -				break;
->> -
->> -			replacement = dma_fence_chain_get_prev(prev_chain);
->> -		} else {
->> -			if (!dma_fence_is_signaled(prev))
->> -				break;
->> -
->> -			replacement = NULL;
 >> -		}
 >> -
->> -		tmp = cmpxchg((struct dma_fence __force **)&chain->prev,
->> -			      prev, replacement);
->> -		if (tmp == prev)
->> -			dma_fence_put(tmp);
->> -		else
->> -			dma_fence_put(replacement);
->> +		if (!dma_fence_chain_try_replace(chain, prev))
->> +			break;
->>   		dma_fence_put(prev);
+>> -		/* We only want to trigger KFD eviction fences on
+>> -		 * evict or move jobs. Skip KFD fences otherwise.
+>> -		 */
+>> -		if (fence_owner == AMDGPU_FENCE_OWNER_KFD &&
+>> -		    owner != AMDGPU_FENCE_OWNER_UNDEFINED)
+>> -			continue;
+>> -
+>> -		/* Never sync to VM updates either. */
+>> -		if (fence_owner == AMDGPU_FENCE_OWNER_VM &&
+>> -		    owner != AMDGPU_FENCE_OWNER_UNDEFINED)
+>> -			continue;
+>> -
+>> -		/* Ignore fences depending on the sync mode */
+>> -		switch (mode) {
+>> -		case AMDGPU_SYNC_ALWAYS:
+>> -			break;
+>> -
+>> -		case AMDGPU_SYNC_NE_OWNER:
+>> -			if (amdgpu_sync_same_dev(adev, f) &&
+>> -			    fence_owner == owner)
+>> -				continue;
+>> -			break;
+>> -
+>> -		case AMDGPU_SYNC_EQ_OWNER:
+>> -			if (amdgpu_sync_same_dev(adev, f) &&
+>> -			    fence_owner != owner)
+>> -				continue;
+>> -			break;
+>> -
+>> -		case AMDGPU_SYNC_EXPLICIT:
+>> -			continue;
+>> +				return r;
+>>   		}
+>> -
+>> -		WARN(debug_evictions && fence_owner == AMDGPU_FENCE_OWNER_KFD,
+>> -		     "Adding eviction fence to sync obj");
+>> -		r = amdgpu_sync_fence(sync, f);
+>> -		if (r)
+>> -			break;
 >>   	}
->>   
->> @@ -205,7 +269,21 @@ static void dma_fence_chain_release(struct dma_fence *fence)
->>   	dma_fence_put(prev);
->>   
->>   	dma_fence_put(chain->fence);
->> -	dma_fence_free(fence);
->> +	WRITE_ONCE(chain->fence, NULL);
->> +
->> +	/*
->> +	 * Don't garbage collect here to avoid recursion and potential stack
->> +	 * overflow.
->> +	 */
->> +	chain = dma_fence_chain_dequeue();
->> +	if (!chain)
->> +		return;
->> +
->> +	if (kref_read(&chain->base.refcount) ||
->> +	    READ_ONCE(chain->fence))
->> +		dma_fence_chain_enqueue(chain);
->> +	else
->> +		dma_fence_free(&chain->base);
+>> -	return r;
+>> +	return 0;
 >>   }
 >>   
->>   const struct dma_fence_ops dma_fence_chain_ops = {
->> @@ -218,6 +296,40 @@ const struct dma_fence_ops dma_fence_chain_ops = {
->>   };
->>   EXPORT_SYMBOL(dma_fence_chain_ops);
->>   
->> +/**
->> + * dma_fence_chain_garbage_collect - cleanup chain nodes
->> + *
->> + * Do some garbage collection and try to release chain nodes.
->> + */
->> +void dma_fence_chain_garbage_collect(void)
->> +{
->> +	struct dma_fence_chain *chain = dma_fence_chain_dequeue();
->> +
->> +	if (!chain)
->> +		return;
->> +
->> +	if (!dma_fence_get_rcu(&chain->base)) {
->> +		/* Unused, check if it's also clean */
->> +		if (likely(!READ_ONCE(chain->fence))) {
->> +			dma_fence_free(&chain->base);
->> +			return;
->> +		}
->> +
->> +	} else {
->> +		struct dma_fence *prev;
->> +
->> +		/* Used, do some chain walk */
->> +		prev = dma_fence_chain_get_prev(chain);
->> +		if (prev) {
->> +			dma_fence_chain_try_replace(chain, prev);
->> +			dma_fence_put(prev);
->> +		}
->> +		dma_fence_put(&chain->base);
->> +	}
->> +	dma_fence_chain_enqueue(chain);
->> +}
->> +EXPORT_SYMBOL(dma_fence_chain_garbage_collect);
->> +
 >>   /**
->>    * dma_fence_chain_init - initialize a fence chain
->>    * @chain: the chain node to initialize
->> @@ -254,5 +366,7 @@ void dma_fence_chain_init(struct dma_fence_chain *chain,
->>   
->>   	dma_fence_init(&chain->base, &dma_fence_chain_ops,
->>   		       &chain->lock, context, seqno);
->> +	dma_fence_chain_enqueue(chain);
->>   }
->> +
->>   EXPORT_SYMBOL(dma_fence_chain_init);
->> diff --git a/include/linux/dma-fence-chain.h b/include/linux/dma-fence-chain.h
->> index 5f45689a6d2e..b412b5396434 100644
->> --- a/include/linux/dma-fence-chain.h
->> +++ b/include/linux/dma-fence-chain.h
->> @@ -19,6 +19,7 @@
->>    * @base: fence base class
->>    * @lock: spinlock for fence handling
->>    * @prev: previous fence of the chain
->> + * @next: next chain node for garbage collection
->>    * @prev_seqno: original previous seqno before garbage collection
->>    * @fence: encapsulated fence
->>    * @cb: callback structure for signaling
->> @@ -27,6 +28,7 @@
->>   struct dma_fence_chain {
->>   	struct dma_fence base;
->>   	struct dma_fence __rcu *prev;
->> +	struct dma_fence_chain __rcu *next;
->>   	u64 prev_seqno;
->>   	struct dma_fence *fence;
->>   	union {
->> @@ -38,6 +40,8 @@ struct dma_fence_chain {
->>   
->>   extern const struct dma_fence_ops dma_fence_chain_ops;
->>   
->> +void dma_fence_chain_garbage_collect(void);
->> +
->>   /**
->>    * to_dma_fence_chain - cast a fence to a dma_fence_chain
->>    * @fence: fence to cast to a dma_fence_array
->> @@ -61,6 +65,7 @@ to_dma_fence_chain(struct dma_fence *fence)
->>    */
->>   static inline struct dma_fence_chain *dma_fence_chain_alloc(void)
->>   {
->> +	dma_fence_chain_garbage_collect();
->>   	return kmalloc(sizeof(struct dma_fence_chain), GFP_KERNEL);
->>   };
->>   
 >> -- 
 >> 2.25.1
 >>
