@@ -1,45 +1,74 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F56E3A3C4F
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Jun 2021 08:53:38 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E6D823A3C4E
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Jun 2021 08:53:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6150D6E516;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 025B56E4F3;
 	Fri, 11 Jun 2021 06:53:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8DA026E4F3
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Jun 2021 06:53:27 +0000 (UTC)
-Received: from [192.168.1.111] (91-158-153-130.elisa-laajakaista.fi
- [91.158.153.130])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 71EC8B75;
- Fri, 11 Jun 2021 08:53:20 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1623394404;
- bh=yjMZjw2BxmIhbRCgCTKRqt1JAVcVzWgaq+bS03eJXQs=;
- h=To:Cc:References:From:Subject:Date:In-Reply-To:From;
- b=SiSeJ5AVROGOL59HeOU9S33bskWFPqbemXzLeiMvmhoQUi7MPeIkJ/SBWAMWwI9/U
- pwG3GG0UlQZ1fvii17X1YX4wg+Vetw6tL9L93ciJrUKMhWSZtxDk/LH7cQ/IGaMm/H
- 8xg+Uz/0koyTfrzlV0AHIFQu8tEEQO4vJfRfXX78=
-To: Maxime Ripard <maxime@cerno.tech>, Daniel Vetter <daniel.vetter@ffwll.ch>
-References: <20210610174731.1209188-1-maxime@cerno.tech>
- <CAKMK7uG_Wkko0L6sv0U1bXWdYk4fg3OTcp5=+qfRV0CP9V44=A@mail.gmail.com>
- <20210611055407.aoeams62wbalodrj@gilmour>
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Subject: Re: [PATCH v3] Documentation: gpu: Mention the requirements for new
- properties
-Message-ID: <1cac781e-122f-568b-5f5a-7e0ceb94bd0b@ideasonboard.com>
-Date: Fri, 11 Jun 2021 09:53:19 +0300
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6BCE789F63;
+ Fri, 11 Jun 2021 06:53:27 +0000 (UTC)
+Received: from imap.suse.de (imap-alt.suse-dmz.suse.de [192.168.254.47])
+ (using TLSv1.2 with cipher ECDHE-ECDSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id CEC082199B;
+ Fri, 11 Jun 2021 06:53:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1623394405; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=DqNvodPNBORJ6igEE1+hcEdi6I+wirmgwKdhkjS5HmA=;
+ b=DlythV2KMcl12l72TixwNio78VbiexuGBJLaVbZqac4QbHhwf6zWzPj+SQhfjRRgfN5nSC
+ 6SAzduiRaXkcle8TjYnAFH1UD7Z50by+qCIj3hiH7VApihr0d1rfJ4VFx5ML4QjvlCmWzO
+ xvuaGv/vS/6KuKGdyH9to6LOsmdVB2Y=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1623394405;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=DqNvodPNBORJ6igEE1+hcEdi6I+wirmgwKdhkjS5HmA=;
+ b=3mPFfk4NpE4CE1jEP5MioWcs5zJJ5nrNDGDTf8auZzMU5y+yFfbUC6moYKilK3yJ/MP/Gj
+ Op1mfpph+2DcptBg==
+Received: from imap3-int (imap-alt.suse-dmz.suse.de [192.168.254.47])
+ by imap.suse.de (Postfix) with ESMTP id A9A5B118DD;
+ Fri, 11 Jun 2021 06:53:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1623394405; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=DqNvodPNBORJ6igEE1+hcEdi6I+wirmgwKdhkjS5HmA=;
+ b=DlythV2KMcl12l72TixwNio78VbiexuGBJLaVbZqac4QbHhwf6zWzPj+SQhfjRRgfN5nSC
+ 6SAzduiRaXkcle8TjYnAFH1UD7Z50by+qCIj3hiH7VApihr0d1rfJ4VFx5ML4QjvlCmWzO
+ xvuaGv/vS/6KuKGdyH9to6LOsmdVB2Y=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1623394405;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=DqNvodPNBORJ6igEE1+hcEdi6I+wirmgwKdhkjS5HmA=;
+ b=3mPFfk4NpE4CE1jEP5MioWcs5zJJ5nrNDGDTf8auZzMU5y+yFfbUC6moYKilK3yJ/MP/Gj
+ Op1mfpph+2DcptBg==
+Received: from director2.suse.de ([192.168.254.72]) by imap3-int with ESMTPSA
+ id K/lbKGUIw2B9fwAALh3uQQ
+ (envelope-from <tzimmermann@suse.de>); Fri, 11 Jun 2021 06:53:25 +0000
+Subject: Re: [PULL] drm-misc-next
+To: Daniel Vetter <daniel.vetter@ffwll.ch>
+References: <YMH0ad8qoREx9YZK@linux-uq9g>
+ <CAKMK7uEtDw_OTgyTDHH6LhyccqsKWdrbwxQSztJdp=YefGWpeg@mail.gmail.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Message-ID: <daee547c-718d-e9f0-71e7-cfe14ca6041f@suse.de>
+Date: Fri, 11 Jun 2021 08:53:25 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ Thunderbird/78.10.2
 MIME-Version: 1.0
-In-Reply-To: <20210611055407.aoeams62wbalodrj@gilmour>
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAKMK7uEtDw_OTgyTDHH6LhyccqsKWdrbwxQSztJdp=YefGWpeg@mail.gmail.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="srDKZOr21ymNErwIMOh9zfbluS8dyj5x5"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,206 +81,220 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Xinliang Liu <xinliang.liu@linaro.org>,
+Cc: Sean Paul <sean@poorly.run>, intel-gfx <intel-gfx@lists.freedesktop.org>,
+ "DRM maintainer tools announcements, discussion,
+ and development" <dim-tools@lists.freedesktop.org>,
  dri-devel <dri-devel@lists.freedesktop.org>,
- Anitha Chrisanthus <anitha.chrisanthus@intel.com>,
- Jonathan Hunter <jonathanh@nvidia.com>, Jerome Brunet <jbrunet@baylibre.com>,
- Kevin Hilman <khilman@baylibre.com>,
- Ludovic Desroches <ludovic.desroches@microchip.com>,
- NXP Linux Team <linux-imx@nxp.com>, Sascha Hauer <s.hauer@pengutronix.de>,
- Roland Scheidegger <sroland@vmware.com>, Sean Paul <sean@poorly.run>,
- Hyun Kwon <hyun.kwon@xilinx.com>, Andrew Jeffery <andrew@aj.id.au>,
- Seung-Woo Kim <sw0312.kim@samsung.com>,
- =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Alex Deucher <alexander.deucher@amd.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Linux Doc Mailing List <linux-doc@vger.kernel.org>,
- David Airlie <airlied@linux.ie>, Edmund Dea <edmund.j.dea@intel.com>,
- Thierry Reding <thierry.reding@gmail.com>,
- Daniel Vetter <daniel.vetter@intel.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
- Steven Price <steven.price@arm.com>,
- VMware Graphics <linux-graphics-maintainer@vmware.com>,
- Ben Skeggs <bskeggs@redhat.com>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
- Boris Brezillon <bbrezillon@kernel.org>, Sandy Huang <hjc@rock-chips.com>,
- Kyungmin Park <kyungmin.park@samsung.com>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Haneen Mohammed <hamohammed.sa@gmail.com>,
- Neil Armstrong <narmstrong@baylibre.com>, Melissa Wen <melissa.srw@gmail.com>,
- Gerd Hoffmann <kraxel@redhat.com>,
- Benjamin Gaignard <benjamin.gaignard@linaro.org>,
- Sam Ravnborg <sam@ravnborg.org>, Jonathan Corbet <corbet@lwn.net>,
- Xinwei Kong <kong.kongxinwei@hisilicon.com>, Chen-Yu Tsai <wens@csie.org>,
- Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
- Joel Stanley <joel@jms.id.au>, Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Jonas Karlman <jonas@kwiboo.se>, Chen Feng <puck.chen@hisilicon.com>,
- Alison Wang <alison.wang@nxp.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tomeu Vizoso <tomeu.vizoso@collabora.com>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Tian Tao <tiantao6@hisilicon.com>, Shawn Guo <shawnguo@kernel.org>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- Liviu Dudau <liviu.dudau@arm.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Paul Cercueil <paul@crapouillou.net>, Andrzej Hajda <a.hajda@samsung.com>,
- Huang Rui <ray.huang@amd.com>, Marek Vasut <marex@denx.de>,
- Joonyoung Shim <jy0922.shim@samsung.com>,
- Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>,
- Russell King <linux@armlinux.org.uk>,
- Philippe Cornu <philippe.cornu@foss.st.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, Hans de Goede <hdegoede@redhat.com>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- Jernej Skrabec <jernej.skrabec@siol.net>,
- Yannick Fertre <yannick.fertre@foss.st.com>,
- Nicolas Ferre <nicolas.ferre@microchip.com>,
- Robert Foss <robert.foss@linaro.org>, Qiang Yu <yuq825@gmail.com>,
- Jyri Sarha <jyri.sarha@iki.fi>
+ Rodrigo Vivi <rodrigo.vivi@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11/06/2021 08:54, Maxime Ripard wrote:
-> Hi,
-> 
-> On Thu, Jun 10, 2021 at 11:00:05PM +0200, Daniel Vetter wrote:
->> On Thu, Jun 10, 2021 at 7:47 PM Maxime Ripard <maxime@cerno.tech> wrote:
->>>
->>> New KMS properties come with a bunch of requirements to avoid each
->>> driver from running their own, inconsistent, set of properties,
->>> eventually leading to issues like property conflicts, inconsistencies
->>> between drivers and semantics, etc.
->>>
->>> Let's document what we expect.
->>>
->>> Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>
->>> Cc: Alexandre Torgue <alexandre.torgue@foss.st.com>
->>> Cc: Alex Deucher <alexander.deucher@amd.com>
->>> Cc: Alison Wang <alison.wang@nxp.com>
->>> Cc: Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
->>> Cc: Andrew Jeffery <andrew@aj.id.au>
->>> Cc: Andrzej Hajda <a.hajda@samsung.com>
->>> Cc: Anitha Chrisanthus <anitha.chrisanthus@intel.com>
->>> Cc: Benjamin Gaignard <benjamin.gaignard@linaro.org>
->>> Cc: Ben Skeggs <bskeggs@redhat.com>
->>> Cc: Boris Brezillon <bbrezillon@kernel.org>
->>> Cc: Brian Starkey <brian.starkey@arm.com>
->>> Cc: Chen Feng <puck.chen@hisilicon.com>
->>> Cc: Chen-Yu Tsai <wens@csie.org>
->>> Cc: Christian Gmeiner <christian.gmeiner@gmail.com>
->>> Cc: "Christian König" <christian.koenig@amd.com>
->>> Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>
->>> Cc: Edmund Dea <edmund.j.dea@intel.com>
->>> Cc: Eric Anholt <eric@anholt.net>
->>> Cc: Fabio Estevam <festevam@gmail.com>
->>> Cc: Gerd Hoffmann <kraxel@redhat.com>
->>> Cc: Haneen Mohammed <hamohammed.sa@gmail.com>
->>> Cc: Hans de Goede <hdegoede@redhat.com>
->>> Cc: "Heiko Stübner" <heiko@sntech.de>
->>> Cc: Huang Rui <ray.huang@amd.com>
->>> Cc: Hyun Kwon <hyun.kwon@xilinx.com>
->>> Cc: Inki Dae <inki.dae@samsung.com>
->>> Cc: Jani Nikula <jani.nikula@linux.intel.com>
->>> Cc: Jernej Skrabec <jernej.skrabec@siol.net>
->>> Cc: Jerome Brunet <jbrunet@baylibre.com>
->>> Cc: Joel Stanley <joel@jms.id.au>
->>> Cc: John Stultz <john.stultz@linaro.org>
->>> Cc: Jonas Karlman <jonas@kwiboo.se>
->>> Cc: Jonathan Hunter <jonathanh@nvidia.com>
->>> Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
->>> Cc: Joonyoung Shim <jy0922.shim@samsung.com>
->>> Cc: Jyri Sarha <jyri.sarha@iki.fi>
->>> Cc: Kevin Hilman <khilman@baylibre.com>
->>> Cc: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
->>> Cc: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
->>> Cc: Kyungmin Park <kyungmin.park@samsung.com>
->>> Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
->>> Cc: Linus Walleij <linus.walleij@linaro.org>
->>> Cc: Liviu Dudau <liviu.dudau@arm.com>
->>> Cc: Lucas Stach <l.stach@pengutronix.de>
->>> Cc: Ludovic Desroches <ludovic.desroches@microchip.com>
->>> Cc: Marek Vasut <marex@denx.de>
->>> Cc: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
->>> Cc: Matthias Brugger <matthias.bgg@gmail.com>
->>> Cc: Maxime Coquelin <mcoquelin.stm32@gmail.com>
->>> Cc: Maxime Ripard <mripard@kernel.org>
->>> Cc: Melissa Wen <melissa.srw@gmail.com>
->>> Cc: Neil Armstrong <narmstrong@baylibre.com>
->>> Cc: Nicolas Ferre <nicolas.ferre@microchip.com>
->>> Cc: "Noralf Trønnes" <noralf@tronnes.org>
->>> Cc: NXP Linux Team <linux-imx@nxp.com>
->>> Cc: Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>
->>> Cc: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
->>> Cc: Paul Cercueil <paul@crapouillou.net>
->>> Cc: Pengutronix Kernel Team <kernel@pengutronix.de>
->>> Cc: Philippe Cornu <philippe.cornu@foss.st.com>
->>> Cc: Philipp Zabel <p.zabel@pengutronix.de>
->>> Cc: Qiang Yu <yuq825@gmail.com>
->>> Cc: Rob Clark <robdclark@gmail.com>
->>> Cc: Robert Foss <robert.foss@linaro.org>
->>> Cc: Rob Herring <robh@kernel.org>
->>> Cc: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>
->>> Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
->>> Cc: Roland Scheidegger <sroland@vmware.com>
->>> Cc: Russell King <linux@armlinux.org.uk>
->>> Cc: Sam Ravnborg <sam@ravnborg.org>
->>> Cc: Sandy Huang <hjc@rock-chips.com>
->>> Cc: Sascha Hauer <s.hauer@pengutronix.de>
->>> Cc: Sean Paul <sean@poorly.run>
->>> Cc: Seung-Woo Kim <sw0312.kim@samsung.com>
->>> Cc: Shawn Guo <shawnguo@kernel.org>
->>> Cc: Stefan Agner <stefan@agner.ch>
->>> Cc: Steven Price <steven.price@arm.com>
->>> Cc: Sumit Semwal <sumit.semwal@linaro.org>
->>> Cc: Thierry Reding <thierry.reding@gmail.com>
->>> Cc: Tian Tao <tiantao6@hisilicon.com>
->>> Cc: Tomeu Vizoso <tomeu.vizoso@collabora.com>
->>> Cc: Tomi Valkeinen <tomba@kernel.org>
->>> Cc: VMware Graphics <linux-graphics-maintainer@vmware.com>
->>> Cc: Xinliang Liu <xinliang.liu@linaro.org>
->>> Cc: Xinwei Kong <kong.kongxinwei@hisilicon.com>
->>> Cc: Yannick Fertre <yannick.fertre@foss.st.com>
->>> Cc: Zack Rusin <zackr@vmware.com>
->>> Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
->>> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
->>>
->>> ---
->>>
->>> Changes from v2:
->>>    - Take into account the feedback from Laurent and Lidiu to no longer
->>>      force generic properties, but prefix vendor-specific properties with
->>>      the vendor name
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--srDKZOr21ymNErwIMOh9zfbluS8dyj5x5
+Content-Type: multipart/mixed; boundary="Mi2hnhDlEidZCgKSR4PYiftGnBwwP2dqY";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: "DRM maintainer tools announcements, discussion, and development"
+ <dim-tools@lists.freedesktop.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Sean Paul <sean@poorly.run>,
+ intel-gfx <intel-gfx@lists.freedesktop.org>
+Message-ID: <daee547c-718d-e9f0-71e7-cfe14ca6041f@suse.de>
+Subject: Re: [PULL] drm-misc-next
+References: <YMH0ad8qoREx9YZK@linux-uq9g>
+ <CAKMK7uEtDw_OTgyTDHH6LhyccqsKWdrbwxQSztJdp=YefGWpeg@mail.gmail.com>
+In-Reply-To: <CAKMK7uEtDw_OTgyTDHH6LhyccqsKWdrbwxQSztJdp=YefGWpeg@mail.gmail.com>
+
+--Mi2hnhDlEidZCgKSR4PYiftGnBwwP2dqY
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+
+Hi
+
+Am 10.06.21 um 15:32 schrieb Daniel Vetter:
+> On Thu, Jun 10, 2021 at 1:15 PM Thomas Zimmermann <tzimmermann@suse.de>=
+ wrote:
 >>
->> I'm pretty sure my r-b was without this ...
-> 
-> Yeah, sorry. I wanted to tell you on IRC that you wanted to have a
-> second look, but I shouldn't have kept it and caught you by surprise
-> indeed.
-> 
->> Why exactly do we need this? KMS is meant to be fairly generic (bugs
->> throw a wrench around here sometimes, and semantics can be tricky). If
->> we open up the door to yolo vendor properties in upstream, then that
->> goal is pretty much written off. And we've been there with vendor
->> properties, it's a giantic mess.
+>> Hi Dave and Daniel,
 >>
->> Minimally drop my r-b, I'm definitely not in support of this idea.
-> 
-> So the argument Lidiu and Laurent made was that in some cases, getting a
-> generic property right with only a couple of users is hard. So they
-> advocated for the right to keep non-generic properties. I can get the
-> argument, and no-one else said that was wrong, so it felt like the
-> consensus was there.
+>> here's the second PR for drm-misc-next for this week, and the final on=
+e
+>> for 5.14. I backmerged drm-next for the TTM changes. As for highlights=
 
-I also think that (maybe mainly on embedded side) we may have 1) 
-esoteric HW features which perhaps can't even be made generic, and 2) 
-features which may or may not be generic, but for which support cannot 
-be added to any common opensource userspace projects like X or Weston, 
-as the only use cases for the features are specialized low level apps 
-(often customer's closed-source apps).
+>> nouveau now has eDP backlight support and udmabuf supports huge pages.=
 
-While I agree with Daniel's "gigantic mess" problem, it would also be 
-quite nice to have a way to support all the HW features upstream instead 
-of carrying them in vendor trees.
+>=20
+> Why did you do this backmerge? It's done now so nothing to fix, but
+> I'm not really seeing the reason - the backmerge is the last patch
+> right before you've done the pull request.
 
-  Tomi
+ From what I understood, there was a TTM change (coming from intel-gt)=20
+that created significant conflicts between trees. I backmerged to get=20
+these changes into drm-misc-next. If the drm-next side was outdated,=20
+people shouldn't have to make patches against it.
+
+Best regards
+Thomas
+
+> -Daniel
+>=20
+>>
+>> Best regards
+>> Thomas
+>>
+>> drm-misc-next-2021-06-10:
+>> drm-misc-next for 5.14:
+>>
+>> UAPI Changes:
+>>
+>> Cross-subsystem Changes:
+>>
+>>   * dma-buf: Support huge pages in udmabuf
+>>
+>> Core Changes:
+>>
+>>   * Backmerge of drm/drm-next
+>>
+>>   * drm/dp: Import eDP backlight code from i915
+>>
+>> Driver Changes:
+>>
+>>   * drm/bridge: TI SN65DSI83: Fix sparse warnings
+>>
+>>   * drm/i915: Cleanup eDP backlight code before moving it into helper
+>>
+>>   * drm/nouveau: Support DPCD backlights; Fix GEM init for internal BO=
+s
+>> The following changes since commit c707b73f0cfb1acc94a20389aecde65e638=
+5349b:
+>>
+>>    Merge tag 'amd-drm-next-5.14-2021-06-09' of https://gitlab.freedesk=
+top.org/agd5f/linux into drm-next (2021-06-10 13:47:13 +1000)
+>>
+>> are available in the Git repository at:
+>>
+>>    git://anongit.freedesktop.org/drm/drm-misc tags/drm-misc-next-2021-=
+06-10
+>>
+>> for you to fetch changes up to 86441fa29e57940eeb00f35fefb1853c1fbe67b=
+b:
+>>
+>>    Merge drm/drm-next into drm-misc-next (2021-06-10 12:18:54 +0200)
+>>
+>> ----------------------------------------------------------------
+>> drm-misc-next for 5.14:
+>>
+>> UAPI Changes:
+>>
+>> Cross-subsystem Changes:
+>>
+>>   * dma-buf: Support huge pages in udmabuf
+>>
+>> Core Changes:
+>>
+>>   * Backmerge of drm/drm-next
+>>
+>>   * drm/dp: Import eDP backlight code from i915
+>>
+>> Driver Changes:
+>>
+>>   * drm/bridge: TI SN65DSI83: Fix sparse warnings
+>>
+>>   * drm/i915: Cleanup eDP backlight code before moving it into helper
+>>
+>>   * drm/nouveau: Support DPCD backlights; Fix GEM init for internal BO=
+s
+>>
+>> ----------------------------------------------------------------
+>> Christian K=C3=B6nig (1):
+>>        drm/nouveau: init the base GEM fields for internal BOs
+>>
+>> Lyude Paul (9):
+>>        drm/i915/dpcd_bl: Remove redundant AUX backlight frequency calc=
+ulations
+>>        drm/i915/dpcd_bl: Handle drm_dpcd_read/write() return values co=
+rrectly
+>>        drm/i915/dpcd_bl: Cleanup intel_dp_aux_vesa_enable_backlight() =
+a bit
+>>        drm/i915/dpcd_bl: Cache some backlight capabilities in intel_pa=
+nel.backlight
+>>        drm/i915/dpcd_bl: Move VESA backlight enabling code closer toge=
+ther
+>>        drm/i915/dpcd_bl: Return early in vesa_calc_max_backlight if we=
+ can't read PWMGEN_BIT_COUNT
+>>        drm/i915/dpcd_bl: Print return codes for VESA backlight failure=
+s
+>>        drm/dp: Extract i915's eDP backlight code into DRM helpers
+>>        drm/nouveau/kms/nv50-: Add basic DPCD backlight support for nou=
+veau
+>>
+>> Marek Vasut (1):
+>>        drm/bridge: ti-sn65dsi83: Fix sparse warnings
+>>
+>> Thomas Zimmermann (1):
+>>        Merge drm/drm-next into drm-misc-next
+>>
+>> Vivek Kasireddy (1):
+>>        udmabuf: Add support for mapping hugepages (v4)
+>>
+>>   drivers/dma-buf/udmabuf.c                          |  50 ++-
+>>   drivers/gpu/drm/bridge/ti-sn65dsi83.c              |  21 +-
+>>   drivers/gpu/drm/drm_dp_helper.c                    | 347 +++++++++++=
+++++++++++
+>>   drivers/gpu/drm/i915/display/intel_display_types.h |   2 +-
+>>   .../gpu/drm/i915/display/intel_dp_aux_backlight.c  | 329 +++--------=
+--------
+>>   drivers/gpu/drm/nouveau/dispnv50/disp.c            |  28 ++
+>>   drivers/gpu/drm/nouveau/nouveau_backlight.c        | 166 +++++++++-
+>>   drivers/gpu/drm/nouveau/nouveau_bo.c               |   6 +
+>>   drivers/gpu/drm/nouveau/nouveau_connector.h        |   9 +-
+>>   drivers/gpu/drm/nouveau/nouveau_encoder.h          |   1 +
+>>   include/drm/drm_dp_helper.h                        |  48 +++
+>>   11 files changed, 682 insertions(+), 325 deletions(-)
+>>
+>> --
+>> Thomas Zimmermann
+>> Graphics Driver Developer
+>> SUSE Software Solutions Germany GmbH
+>> Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+>> (HRB 36809, AG N=C3=BCrnberg)
+>> Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+>=20
+>=20
+>=20
+
+--=20
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+(HRB 36809, AG N=C3=BCrnberg)
+Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+
+
+--Mi2hnhDlEidZCgKSR4PYiftGnBwwP2dqY--
+
+--srDKZOr21ymNErwIMOh9zfbluS8dyj5x5
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmDDCGUFAwAAAAAACgkQlh/E3EQov+A2
+2xAAseXY1rgIP4ApDSLHkS0zx6k4BP+x/2/mNdeJJmsTaDkZUsupieWAgueEgUCGqfJyyyZGRBgq
+fq/dL/D28cH1zkLL8NVh++pn+T8JzIsq6gkumwwxu5y7wimBLjO/9gW0bkhPyzyxmt9y+bCbjx6n
+eUuGHrGTZ/GQVngMntzCvEWCh+TkNOGbrn3uf7tfikjlOoLrk2B/kZboz3gdWwbM5no7e6vx9F/y
+rtkcpMJFguS7Gr9p59uhlUNsoC02S26LCxQPf7hQFHTQ6caLIpVrdE5UYvxw+kdFuJ9QXFk2DWuD
++7Mldxtnit/NuD5K/VgYw3V7B5LCi29DCEeuoMO+nciq28JWEnFdxcluUIyTZBVyJq8xAv6WMHm2
+zJDOtkApALW+x8GJ7Vkjbj3/4Vmdp4dE4nf+QLu2DWsS6wk/20wSHKddfZzZHwWUKVKWdFHlRTpL
+qayHpT6RUryL59Q6Nb8sTGVLiyKN7hlx/zt2k4K+L7Tmm+ymBiLospTxtIAnjvFDISyUKZTP0sJh
+ZX0eJRkhAk5naLFVo9e9WTzASjOCJSep2KlEDjo8E6J2AaywZFaGfQAdgOVM7fnh4xfpohtFum8W
+wHgDEggsUwL0imcIkcG4p4rzL2ktjAOo1I/ap1pUqqhRZ7uCZL9kZAaqHwUnvpZ7VGsISYkpk4/u
+znk=
+=lyF1
+-----END PGP SIGNATURE-----
+
+--srDKZOr21ymNErwIMOh9zfbluS8dyj5x5--
