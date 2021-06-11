@@ -1,44 +1,76 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A70223A4AC2
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Jun 2021 23:48:53 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id AC09B3A4AFB
+	for <lists+dri-devel@lfdr.de>; Sat, 12 Jun 2021 00:43:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9E3F56F3E3;
-	Fri, 11 Jun 2021 21:48:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3C8CA6F3D8;
+	Fri, 11 Jun 2021 22:43:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EC59F6F3E3
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Jun 2021 21:48:48 +0000 (UTC)
-IronPort-SDR: bmTP5QzgjBV2ekRKNPCqAHVzSO//unB39qj2gYOVkBeDBRdgPJ+Zi89DZ91pZX1Od2vrjZ5rc3
- XajTBKXBYUAw==
-X-IronPort-AV: E=McAfee;i="6200,9189,10012"; a="185311682"
-X-IronPort-AV: E=Sophos;i="5.83,267,1616482800"; d="scan'208";a="185311682"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Jun 2021 14:48:31 -0700
-IronPort-SDR: o6xwjx4H3vfEOIwKxOfL7Ad2VqI/FoZEFUivsGpQ2OHdBotoUzDzKBykzx5TW3zC8vQAOoDo6p
- P5JGMPo+1zDg==
-X-IronPort-AV: E=Sophos;i="5.83,267,1616482800"; d="scan'208";a="486731137"
-Received: from dongwonk-mobl.amr.corp.intel.com ([10.254.186.136])
- by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Jun 2021 14:48:31 -0700
-Date: Fri, 11 Jun 2021 14:48:30 -0700
-From: Dongwon Kim <dongwon.kim@intel.com>
-To: Emil Velikov <emil.l.velikov@gmail.com>
-Subject: Re: [PATCH] drm: set DRM_RENDER_ALLOW flag on
- DRM_IOCTL_MODE_CREATE/DESTROY_DUMB ioctls
-Message-ID: <20210611214830.GA1067@dongwonk-MOBL.amr.corp.intel.com>
-References: <20210610213659.22728-1-dongwon.kim@intel.com>
- <YMMxFHvRCp+u5GvX@phenom.ffwll.local>
- <CACvgo503NE61XOZQ3V8PVVTeMM2TVJonAL+ob80EgOhOVOu4HA@mail.gmail.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 747C76F3D8
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Jun 2021 22:43:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1623451394;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=kExiGBvv5A+EuIhUUUKhMtGa8QCR+dulX5Xs6Adf1xQ=;
+ b=FcjUjIr/w2qFrOt+Fy+w4LdteQFLO0hSKFGCDANwRsI5dlUnXNEd60nHA4Hv3aVdtr1+fi
+ 9UlhlGSAQob0k5ex6P/KfnjXItwaTxcWuSGYZ8gIXpbeLiYw9p3J5Tf9n1E+C9OJKksSfL
+ ap/Oyzsy9kPiFIOwabfY3sttiqfcfZs=
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
+ [209.85.222.200]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-314-RHtNR40FPiuurlWDHEM-DA-1; Fri, 11 Jun 2021 18:43:13 -0400
+X-MC-Unique: RHtNR40FPiuurlWDHEM-DA-1
+Received: by mail-qk1-f200.google.com with SMTP id
+ a193-20020a3766ca0000b02903a9be00d619so22328320qkc.12
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Jun 2021 15:43:13 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+ :references:organization:user-agent:mime-version
+ :content-transfer-encoding;
+ bh=kExiGBvv5A+EuIhUUUKhMtGa8QCR+dulX5Xs6Adf1xQ=;
+ b=dhqC/EbhoPrThZQRkdn3iiSW7gQ9OGhvS46LVp+7UVgD9VXhpclfC8XXWVkDqtj4u9
+ 3GfqtVOX1ZmE3wTyFHuydanuhMC9CRVhVgZEGEdshyC389RF6pe/DNV3ydk9YmBBDvND
+ Kdznyuzk6A9aiMTAJmPNtJoxwioXhUZKE+xjNi2fLNhXPBsevCuL9S3AhfXsuowhKUu4
+ S3Ax2KI/uuNsIe2/N154l2MeJeuxq7vkpOeLlstASr/xb/B9oGUgtxQsDklO97cOQF02
+ Lvv1hKLUYmHrlwQQfWCrnDKA2oRO9hK9F1MNFFK46FJLYklQEvcyIZutiQlaOwe1TmuD
+ utuQ==
+X-Gm-Message-State: AOAM533nJNBn1JvTDhOn9A8vkV4SRwbACSlcor9rVAntBguRopAhyNxe
+ eHapntvXkecWLt2RxlAM4TKVMMGGLq5BZFRf/6T/YHJ3pae+yrwvq4+WrpsH2aFi3j0SFfji2ih
+ GrHm9Kkir5HbPI5KXDLy0WYulm04v
+X-Received: by 2002:ac8:7f8a:: with SMTP id z10mr1069260qtj.199.1623451392744; 
+ Fri, 11 Jun 2021 15:43:12 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwNu9flBD/PqvuEJgUS/2gULKsxmQIdiVfihiCEB1tktW0j7DFPU7oU5ieoBJMaR7VsCBSVZA==
+X-Received: by 2002:ac8:7f8a:: with SMTP id z10mr1069246qtj.199.1623451392552; 
+ Fri, 11 Jun 2021 15:43:12 -0700 (PDT)
+Received: from Ruby.lyude.net (pool-108-49-102-102.bstnma.fios.verizon.net.
+ [108.49.102.102])
+ by smtp.gmail.com with ESMTPSA id e24sm4871493qtp.97.2021.06.11.15.43.11
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 11 Jun 2021 15:43:12 -0700 (PDT)
+Message-ID: <3889e7b888241e9acf1893235f49585ae34175ba.camel@redhat.com>
+Subject: Re: [PATCH 0/2] Fix observed mst problems with StarTech hub
+From: Lyude Paul <lyude@redhat.com>
+To: Wayne Lin <Wayne.Lin@amd.com>, dri-devel@lists.freedesktop.org
+Date: Fri, 11 Jun 2021 18:43:11 -0400
+In-Reply-To: <20210528135557.23248-1-Wayne.Lin@amd.com>
+References: <20210528135557.23248-1-Wayne.Lin@amd.com>
+Organization: Red Hat
+User-Agent: Evolution 3.38.4 (3.38.4-1.fc33)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CACvgo503NE61XOZQ3V8PVVTeMM2TVJonAL+ob80EgOhOVOu4HA@mail.gmail.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lyude@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,38 +83,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: ML dri-devel <dri-devel@lists.freedesktop.org>
+Cc: jerry.zuo@amd.com, aurabindo.pillai@amd.com, Nicholas.Kazlauskas@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Understood. I saw weston client apps were failing to create render buffers
-from kmsro driver and found it was because they were not allowed to
-create and destroy dumb objects then I came up with this patch. I just thought
-it's the simplest solution. I didn't know it violates the rule. I think I should
-look into kmsro to make the client app to get the render buffer from
-ro-device instead. Thanks
+haha. turns out it actually was a good thing I was busy with work today,
+because I ended up testing some backports and running into the exact same MST
+bug these patches appear to fix. How convienent :)
 
-On Fri, Jun 11, 2021 at 11:39:46AM +0100, Emil Velikov wrote:
-> On Fri, 11 Jun 2021 at 10:47, Daniel Vetter <daniel@ffwll.ch> wrote:
-> >
-> > On Thu, Jun 10, 2021 at 02:36:59PM -0700, Dongwon Kim wrote:
-> > > Render clients should be able to create/destroy dumb object to import
-> > > and use it as render buffer in case the default DRM device is different
-> > > from the render device (i.e. kmsro).
-> > >
-> > > Signed-off-by: Dongwon Kim <dongwon.kim@intel.com>
-> >
-> > Uh no.
-> >
-> > Well I know everyone just hacks around this, but the idea behind dumb
-> > buffer objects is that they're for kms scanout only. Furthermore on many
-> > drivers they allocate a limited resource like CMA memory. Handing that out
-> > like candy isn't a great idea.
-> >
-> > And it's exactly those drivers that kmsro currently is used for where the
-> > display driver needs special memory.
+anyway-I looked over this and this looks good to me (and IMO, I like these
+fixes more then the workarounds they replace!). The one thing we do need to
+fix here though is this appears to definitely fix a regression, so we need to
+make sure we actually bisect the issue that this patch is fixing so we can add
+the appropriate Fixes: and Cc: tags so that these fixes get backported to
+earlier stable kernel versions.
+
+I definitely need this fix in asap though for my own work, so I am going to
+see if I can start bisecting this. If I manage to figure out what's breaking
+it before my workday ends today I'll just add my R-b and push this upstream,
+otherwise I'll probably just push this first thing on monday. If you see this
+message beforethen and know what kernel version introduced this issue, feel
+free to respond ;)
+
+On Fri, 2021-05-28 at 21:55 +0800, Wayne Lin wrote:
+> Use Startech 1to3 DP hub to do some mst hotplug tests and find some
+> light up issues.
 > 
-> Couldn't agree more. Perhaps we should add an inline comment and/or
-> reference to a thread why?
+> 1. ACT polling timeout:
+>    Which is due to we didn't update DPCD payload table but still try
+>    to send ACT and polling for "ACT Handled" bit
+> 2. Not all monitors light up:
+>    Due to we wrongly set unavailable VCP ID for new streams
 > 
-> -Emil
+> Wayne Lin (2):
+>   drm/dp_mst: Do not set proposed vcpi directly
+>   drm/dp_mst: Avoid to mess up payload table by ports in stale topology
+> 
+>  drivers/gpu/drm/drm_dp_mst_topology.c | 65 ++++++++++++++++-----------
+>  1 file changed, 39 insertions(+), 26 deletions(-)
+> 
+
+-- 
+Cheers,
+ Lyude Paul (she/her)
+ Software Engineer at Red Hat
+
