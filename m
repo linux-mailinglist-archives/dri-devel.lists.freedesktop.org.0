@@ -2,51 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 092B73A4696
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Jun 2021 18:35:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F4353A46F6
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Jun 2021 18:48:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AF4116F395;
-	Fri, 11 Jun 2021 16:35:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 21D1D6E073;
+	Fri, 11 Jun 2021 16:48:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-xc30.google.com (mail-oo1-xc30.google.com
- [IPv6:2607:f8b0:4864:20::c30])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 53F3D6F38A
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Jun 2021 16:35:12 +0000 (UTC)
-Received: by mail-oo1-xc30.google.com with SMTP id
- x22-20020a4a62160000b0290245cf6b7feeso840127ooc.13
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Jun 2021 09:35:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=c8+VfhakVMOMCfkN1aeqZv3IRwZIYZy7cCGoNsrx02k=;
- b=PCApNfQMon7QGAQcF4cIvq1bo6PKe7w9j0frmZtuMDBrWmFr/0a8mMgQrPHB74JJAt
- n+Gj/LD4bCWRmUveM6iOXbLdbOHb5NDeqytrn4+B6fqzZ9IJ5IHlVk5/+w3QBFYOTz49
- dpSS/jMfNRGGOR5TJ7hYG2EN601szxdB/wpbk=
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3FBEF6E073
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Jun 2021 16:48:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1623430101;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=O9zapKI3rBYR8fBrMwtZ2rITcC3GeHzyGjbRGxp6OKU=;
+ b=O6J9j08dMzPjjuxCQYdrEAE2g0d8g74fxdZyc4gU7oAtDt3WL4Hs1BLWydb/x5PPWuavhH
+ O9UwExhmM3QozZpVX7uJycrU0pPUdA6z94Ago2QAzULpSl3Q7UeyyTqsHeru8oLe8bVfaA
+ rxJ/XI+aYVE8gUXgYZH5Zp5CGm9FadU=
+Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
+ [209.85.219.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-558-I3HYqZhrPbSchKsgcy4Oiw-1; Fri, 11 Jun 2021 12:48:17 -0400
+X-MC-Unique: I3HYqZhrPbSchKsgcy4Oiw-1
+Received: by mail-qv1-f69.google.com with SMTP id
+ ca13-20020ad4560d0000b029023ebd662003so4921016qvb.17
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Jun 2021 09:48:17 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=c8+VfhakVMOMCfkN1aeqZv3IRwZIYZy7cCGoNsrx02k=;
- b=LtXz1qa8FM9SU/ffn/xgcMTSPjr1Pe7amCI8tIuQar57aqoR9504o+uvPkweFiIUXd
- AfD8mdEghJLZSNzSPfD/JreoX48Q/R98jfQyBJCxqBV4PoK5pnUIYfDq5KscTtZMbOU7
- 7xZFcp9YUlHqDbTRjYS8Gmb/86jk7S3Sq9PkFQ/DB8/SiXDXbqTzef9ai1YTWvP+RovC
- TDEwlhibRoF042YZvHvm3Ijk0DCYNHlqvgcRPHUh0G+14NrEf5r2epDwvCaLTQQDCgjr
- kO6z8e1MR75x3j7yHHwzRBmG4vg+/QsdYteQjIGolMAttq0U6B5dBSotwDNRDq38/qwt
- LQDQ==
-X-Gm-Message-State: AOAM531cfby69r45IFGe/ie2joIhsPxMQ/MNePQSVTJvpRwlfchYv/tw
- GBnnsHyqTqyXYTsDEwnkxUlRHG9I/jVtk5A7nbX58A==
-X-Google-Smtp-Source: ABdhPJyJjd+GuCZmlMNkgZCeZ9+naXLINbrG1wRxL+su0PnFd24LFXHPXdCBCn65ZaYzL/PnuGAtNBGEpDWYECyklmQ=
-X-Received: by 2002:a4a:d4c7:: with SMTP id r7mr3769531oos.85.1623429311372;
- Fri, 11 Jun 2021 09:35:11 -0700 (PDT)
+ h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+ :references:organization:user-agent:mime-version
+ :content-transfer-encoding;
+ bh=O9zapKI3rBYR8fBrMwtZ2rITcC3GeHzyGjbRGxp6OKU=;
+ b=o74X56MK8wLJd2XtHmzoRTbOIAKE48vE6bHZh2oGsOvHlMKCgYQK0E5w1spxB6lmKv
+ zWpsoIW7AB7TwT0EO9WWlWED8HSX+iI2vokR3JEyx7z/4Pwb2kpr6eyq1HlAZbEQs8lS
+ gcVG1k07fL9hfiJS/cQSKmFYbOamYYykQxXMJpepV6wk7z553GQL/GQDrPGN1Kr1gxVg
+ X/hncSg6o0FMY3Boqml+gyCelRFPDrYootTnhP4bKRP0l8Q5kYk9fZLMh2SIeUAd23hk
+ Wgp7osuByNR3yL0/JRkrRLPrkUtvQdagKSsLzdsV1y16iQXJJYOO835mH3q8FMExydHz
+ 6IZg==
+X-Gm-Message-State: AOAM530ybM28/iuSrJsP+lr8xi72LA5m/KmkjLWwvlFKKfP28gklaZwJ
+ KODVr09gKO5Mee1zlTWGOcSkxXI3o+MHBE4qCSilOFuSj76041vo8HWUV07o6CWCIuRNUhoQEB2
+ OeO3eeZNvr0u0VxiqKJIYSDQJtTne
+X-Received: by 2002:a05:620a:4101:: with SMTP id
+ j1mr4756425qko.473.1623430097454; 
+ Fri, 11 Jun 2021 09:48:17 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwskZ1YoR/kHzHOD8dkP3Px7rv1rUjfWY3sTdIQBoGpXWpMjTcw+UDVO7lYIht39btQURwMKQ==
+X-Received: by 2002:a05:620a:4101:: with SMTP id
+ j1mr4756405qko.473.1623430097183; 
+ Fri, 11 Jun 2021 09:48:17 -0700 (PDT)
+Received: from Ruby.lyude.net (pool-108-49-102-102.bstnma.fios.verizon.net.
+ [108.49.102.102])
+ by smtp.gmail.com with ESMTPSA id c26sm4565760qtj.41.2021.06.11.09.48.15
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 11 Jun 2021 09:48:16 -0700 (PDT)
+Message-ID: <3f29f7302fe009f20b1dff964fbc4f94ab814048.camel@redhat.com>
+Subject: Re: [PATCH v9 04/11] drm: Introduce the DP AUX bus
+From: Lyude Paul <lyude@redhat.com>
+To: Douglas Anderson <dianders@chromium.org>, Andrzej Hajda
+ <a.hajda@samsung.com>, Neil Armstrong <narmstrong@baylibre.com>, Laurent
+ Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman
+ <jonas@kwiboo.se>, Sam Ravnborg <sam@ravnborg.org>
+Date: Fri, 11 Jun 2021 12:48:14 -0400
+In-Reply-To: <20210607100234.v9.4.I787c9ba09ed5ce12500326ded73a4f7c9265b1b3@changeid>
+References: <20210607170555.4006050-1-dianders@chromium.org>
+ <20210607100234.v9.4.I787c9ba09ed5ce12500326ded73a4f7c9265b1b3@changeid>
+Organization: Red Hat
+User-Agent: Evolution 3.38.4 (3.38.4-1.fc33)
 MIME-Version: 1.0
-References: <20210611163109.1085592-1-tvrtko.ursulin@linux.intel.com>
-In-Reply-To: <20210611163109.1085592-1-tvrtko.ursulin@linux.intel.com>
-From: Daniel Vetter <daniel@ffwll.ch>
-Date: Fri, 11 Jun 2021 18:35:00 +0200
-Message-ID: <CAKMK7uEfOt5zET0LL-noxHybWGefBK580Dn_zOyL4oKyhwGDnA@mail.gmail.com>
-Subject: Re: [PATCH] drm/i915: Document the Virtual Engine uAPI
-To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lyude@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,242 +89,520 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx <Intel-gfx@lists.freedesktop.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+Cc: robdclark@chromium.org, Rajeev Nandan <rajeevny@codeaurora.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
+ linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Steev Klimaszewski <steev@kali.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Stanislav Lisovskiy <stanislav.lisovskiy@intel.com>,
+ dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>,
+ Thierry Reding <treding@nvidia.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jun 11, 2021 at 6:31 PM Tvrtko Ursulin
-<tvrtko.ursulin@linux.intel.com> wrote:
->
-> From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
->
-> A little bit of documentation covering the topics of engine discovery,
-> context engine maps and virtual engines. It is not very detailed but
-> supposed to be a starting point of giving a brief high level overview of
-> general principles and intended use cases.
->
-> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+Some comments down below:
 
-This is great stuff, but I think it'd be better within the uapi
-headers and then pulled in. It's not very customary, but you can write
-very extensive kerneldoc for an uapi struct, and I think for uapi
-that's a pretty good approach. So including all the examples and
-everything.
-
-I'm bringing this up and the very next section is the Locking guide.
-And clearly that thing did not work out as documentation, I feel like
-just dumping lots of docs into i915.rst is a good place for where they
-disappear and get forgotten :-(
-
-Thanks, Daniel
-
+On Mon, 2021-06-07 at 10:05 -0700, Douglas Anderson wrote:
+> Historically "simple" eDP panels have been handled by panel-simple
+> which is a basic platform_device. In the device tree, the panel node
+> was at the top level and not connected to anything else.
+> 
+> Let's change it so that, instead, panels can be represented as being
+> children of the "DP AUX bus". Essentially we're saying that the
+> hierarchy that we're going to represent is the "control" connections
+> between devices. The DP AUX bus is a control bus provided by an eDP
+> controller (the parent) and consumed by a device like a panel (the
+> child).
+> 
+> The primary incentive here is to cleanly provide the panel driver the
+> ability to communicate over the AUX bus while handling lifetime issues
+> properly. The panel driver may want the AUX bus for controlling the
+> backlight or querying the panel's EDID.
+> 
+> The idea for this bus's design was hashed out over IRC [1].
+> 
+> [1]
+> https://people.freedesktop.org/~cbrill/dri-log/?channel=dri-devel&date=2021-05-11
+> 
+> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Cc: Lyude Paul <lyude@redhat.com>
+> Cc: Rajeev Nandan <rajeevny@codeaurora.org>
+> Suggested-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Signed-off-by: Douglas Anderson <dianders@chromium.org>
+> Acked-by: Linus Walleij <linus.walleij@linaro.org>
 > ---
->  Documentation/gpu/i915.rst | 184 +++++++++++++++++++++++++++++++++++++
->  1 file changed, 184 insertions(+)
->
-> diff --git a/Documentation/gpu/i915.rst b/Documentation/gpu/i915.rst
-> index 42ce0196930a..8e5ab299c31f 100644
-> --- a/Documentation/gpu/i915.rst
-> +++ b/Documentation/gpu/i915.rst
-> @@ -335,6 +335,190 @@ for execution also include a list of all locations within buffers that
->  refer to GPU-addresses so that the kernel can edit the buffer correctly.
->  This process is dubbed relocation.
->
-> +Engine Discovery uAPI
-> +---------------------
+> There's a whole lot of boilerplate code here. I've tried my best to
+> grok what all of it should be, drawing inspiration from other similar
+> bus drivers (auxiliary, i2c, serdev, platform) and I've tried to test
+> several of the corner cases, but I can't actually believe that I've
+> touched every code path. Please yell if you see something dumb.
+> 
+> (no changes since v8)
+> 
+> Changes in v8:
+> - Allow dp-aux-bus to be a module to fix allmodconfig builds
+> 
+> Changes in v7:
+> - Patch introducing the DP AUX bus is new for v7.
+> 
+>  drivers/gpu/drm/Kconfig          |   5 +
+>  drivers/gpu/drm/Makefile         |   2 +
+>  drivers/gpu/drm/drm_dp_aux_bus.c | 326 +++++++++++++++++++++++++++++++
+>  include/drm/drm_dp_aux_bus.h     |  57 ++++++
+>  4 files changed, 390 insertions(+)
+>  create mode 100644 drivers/gpu/drm/drm_dp_aux_bus.c
+>  create mode 100644 include/drm/drm_dp_aux_bus.h
+> 
+> diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
+> index 7ff89690a976..1366d8d4610a 100644
+> --- a/drivers/gpu/drm/Kconfig
+> +++ b/drivers/gpu/drm/Kconfig
+> @@ -35,6 +35,11 @@ config DRM_MIPI_DSI
+>         bool
+>         depends on DRM
+>  
+> +config DRM_DP_AUX_BUS
+> +       tristate
+> +       depends on DRM
+> +       depends on OF
 > +
-> +Engine discovery uAPI is a way of enumerating physical engines present in a GPU
-> +associated with an open i915 DRM file descriptor. This supersedes the old way of
-> +using `DRM_IOCTL_I915_GETPARAM` and engine identifiers like
-> +`I915_PARAM_HAS_BLT`.
+>  config DRM_DP_AUX_CHARDEV
+>         bool "DRM DP AUX Interface"
+>         depends on DRM
+> diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
+> index a118692a6df7..12e6f4e485ed 100644
+> --- a/drivers/gpu/drm/Makefile
+> +++ b/drivers/gpu/drm/Makefile
+> @@ -33,6 +33,8 @@ drm-$(CONFIG_PCI) += drm_pci.o
+>  drm-$(CONFIG_DEBUG_FS) += drm_debugfs.o drm_debugfs_crc.o
+>  drm-$(CONFIG_DRM_LOAD_EDID_FIRMWARE) += drm_edid_load.o
+>  
+> +obj-$(CONFIG_DRM_DP_AUX_BUS) += drm_dp_aux_bus.o
 > +
-> +The need for this interface came starting with Icelake and newer GPUs, which
-> +started to establish a pattern of having multiple engines of a same class, where
-> +not all instances were always completely functionally equivalent.
+>  drm_vram_helper-y := drm_gem_vram_helper.o
+>  obj-$(CONFIG_DRM_VRAM_HELPER) += drm_vram_helper.o
+>  
+> diff --git a/drivers/gpu/drm/drm_dp_aux_bus.c
+> b/drivers/gpu/drm/drm_dp_aux_bus.c
+> new file mode 100644
+> index 000000000000..d0e44de287d4
+> --- /dev/null
+> +++ b/drivers/gpu/drm/drm_dp_aux_bus.c
+> @@ -0,0 +1,326 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * Copyright 2021 Google Inc.
+> + *
+> + * The DP AUX bus is used for devices that are connected over a DisplayPort
+> + * AUX bus. The devices on the far side of the bus are referred to as
+> + * endpoints in this code.
+> + *
+> + * Commonly there is only one device connected to the DP AUX bus: a panel.
+> + * Though historically panels (even DP panels) have been modeled as simple
+> + * platform devices, putting them under the DP AUX bus allows the panel
+> driver
+> + * to perform transactions on that bus.
+> + */
 > +
-> +Entry point for this uapi is `DRM_IOCTL_I915_QUERY` with the
-> +`DRM_I915_QUERY_ENGINE_INFO` as the queried item id.
+> +#include <linux/init.h>
+> +#include <linux/kernel.h>
+> +#include <linux/module.h>
+> +#include <linux/of_device.h>
+> +#include <linux/pm_domain.h>
+> +#include <linux/pm_runtime.h>
 > +
-> +Example for getting the list of engines:
+> +#include <drm/drm_dp_aux_bus.h>
+> +#include <drm/drm_dp_helper.h>
 > +
-> +.. code-block:: C
 > +
-> +       struct drm_i915_query_engine_info *info;
-> +       struct drm_i915_query_item item = {
-> +               .query_id = DRM_I915_QUERY_ENGINE_INFO;
-> +       };
-> +       struct drm_i915_query query = {
-> +               .num_items = 1,
-> +               .items_ptr = (uintptr_t)&item,
-> +       };
-> +       int err, i;
+> +/**
+> + * dp_aux_ep_match() - The match function for the dp_aux_bus.
+> + * @dev: The device to match.
+> + * @drv: The driver to try to match against.
+> + *
+> + * At the moment, we just match on device tree.
+> + *
+> + * Return: True if this driver matches this device; false otherwise.
+> + */
+> +static int dp_aux_ep_match(struct device *dev, struct device_driver *drv)
+> +{
+> +       return !!of_match_device(drv->of_match_table, dev);
+> +}
 > +
-> +       // First query the size of the blob we need, this needs to be large
-> +       // enough to hold our array of engines. The kernel will fill out the
-> +       // item.length for us, which is the number of bytes we need.
-> +       //
-> +       // Alternatively a large buffer can be allocated straight away enabling
-> +       // querying in one pass, in which case item.length should contain the
-> +       // length of the provided buffer.
-> +       err = ioctl(fd, DRM_IOCTL_I915_QUERY, &query);
-> +       if (err) ...
+> +/**
+> + * dp_aux_ep_probe() - The probe function for the dp_aux_bus.
+> + * @dev: The device to probe.
+> + *
+> + * Calls through to the endpoint driver probe.
+> + *
+> + * Return: 0 if no error or negative error code.
+> + */
+> +static int dp_aux_ep_probe(struct device *dev)
+> +{
+> +       struct dp_aux_ep_driver *aux_ep_drv = to_dp_aux_ep_drv(dev->driver);
+> +       struct dp_aux_ep_device *aux_ep = to_dp_aux_ep_dev(dev);
+> +       int ret;
 > +
-> +       info = calloc(1, item.length);
-> +       // Now that we allocated the required number of bytes, we call the ioctl
-> +       // again, this time with the data_ptr pointing to our newly allocated
-> +       // blob, which the kernel can then populate with info on all engines.
-> +       item.data_ptr = (uintptr_t)&info,
+> +       ret = dev_pm_domain_attach(dev, true);
+> +       if (ret)
+> +               return dev_err_probe(dev, ret, "Failed to attach to PM
+> Domain\n");
 > +
-> +       err = ioctl(fd, DRM_IOCTL_I915_QUERY, &query);
-> +       if (err) ...
+> +       ret = aux_ep_drv->probe(aux_ep);
+> +       if (ret)
+> +               dev_pm_domain_detach(dev, true);
 > +
-> +       // We can now access each engine in the array
-> +       for (i = 0; i < info->num_engines; i++) {
-> +               struct drm_i915_engine_info einfo = info->engines[i];
-> +               u16 class = einfo.engine.class;
-> +               u16 instance = einfo.engine.instance;
-> +               ....
-> +       }
+> +       return ret;
+> +}
 > +
-> +       free(info);
+> +/**
+> + * dp_aux_ep_remove() - The remove function for the dp_aux_bus.
+> + * @dev: The device to remove.
+> + *
+> + * Calls through to the endpoint driver remove.
+> + *
+> + * Return: 0 if no error or negative error code.
+> + */
+> +static int dp_aux_ep_remove(struct device *dev)
+> +{
+> +       struct dp_aux_ep_driver *aux_ep_drv = to_dp_aux_ep_drv(dev->driver);
+> +       struct dp_aux_ep_device *aux_ep = to_dp_aux_ep_dev(dev);
 > +
-> +Each of the enumerated engines, apart from being defined by its class and
-> +instance (see `struct i915_engine_class_instance`), also can have flags and
-> +capabilities defined as documented in i915_drm.h.
+> +       if (aux_ep_drv->remove)
+> +               aux_ep_drv->remove(aux_ep);
+> +       dev_pm_domain_detach(dev, true);
 > +
-> +For instance video engines which support HEVC encoding will have the
-> +`I915_VIDEO_CLASS_CAPABILITY_HEVC` capability bit set.
+> +       return 0;
+> +}
 > +
-> +Engine discovery only fully comes to its own when combined with the new way of
-> +addressing engines when submitting batch buffers using contexts with engine
-> +maps configured.
+> +/**
+> + * dp_aux_ep_shutdown() - The shutdown function for the dp_aux_bus.
+> + * @dev: The device to shutdown.
+> + *
+> + * Calls through to the endpoint driver shutdown.
+> + */
+> +static void dp_aux_ep_shutdown(struct device *dev)
+> +{
+> +       struct dp_aux_ep_driver *aux_ep_drv;
 > +
-> +Context Engine Map uAPI
-> +-----------------------
+> +       if (!dev->driver)
+> +               return;
 > +
-> +Context engine map is a new way of addressing engines when submitting batch-
-> +buffers, replacing the existing way of using identifiers like `I915_EXEC_BLT`
-> +inside the flags field of `struct drm_i915_gem_execbuffer2`.
+> +       aux_ep_drv = to_dp_aux_ep_drv(dev->driver);
+> +       if (aux_ep_drv->shutdown)
+> +               aux_ep_drv->shutdown(to_dp_aux_ep_dev(dev));
+> +}
 > +
-> +To use it created GEM contexts need to be configured with a list of engines
-> +the user is intending to submit to. This is accomplished using the
-> +`I915_CONTEXT_PARAM_ENGINES` parameter and `struct i915_context_param_engines`.
+> +static struct bus_type dp_aux_bus_type = {
+> +       .name           = "dp-aux",
+> +       .match          = dp_aux_ep_match,
+> +       .probe          = dp_aux_ep_probe,
+> +       .remove         = dp_aux_ep_remove,
+> +       .shutdown       = dp_aux_ep_shutdown,
+> +};
 > +
-> +For such contexts the `I915_EXEC_RING_MASK` field becomes an index into the
-> +configured map.
+> +static ssize_t modalias_show(struct device *dev,
+> +                            struct device_attribute *attr, char *buf)
+> +{
+> +       return of_device_modalias(dev, buf, PAGE_SIZE);
+> +}
+> +static DEVICE_ATTR_RO(modalias);
 > +
-> +Example of creating such context and submitting against it:
+> +static struct attribute *dp_aux_ep_dev_attrs[] = {
+> +       &dev_attr_modalias.attr,
+> +       NULL,
+> +};
+> +ATTRIBUTE_GROUPS(dp_aux_ep_dev);
 > +
-> +.. code-block:: C
+> +/**
+> + * dp_aux_ep_dev_release() - Free memory for the dp_aux_ep device
+> + * @dev: The device to free.
+> + *
+> + * Return: 0 if no error or negative error code.
+> + */
+> +static void dp_aux_ep_dev_release(struct device *dev)
+> +{
+> +       kfree(to_dp_aux_ep_dev(dev));
+> +}
 > +
-> +       I915_DEFINE_CONTEXT_PARAM_ENGINES(engines, 2) = {
-> +               .engines = { { I915_ENGINE_CLASS_RENDER, 0 },
-> +                            { I915_ENGINE_CLASS_COPY, 0 } }
-> +       };
-> +       struct drm_i915_gem_context_create_ext_setparam p_engines = {
-> +               .base = {
-> +                       .name = I915_CONTEXT_CREATE_EXT_SETPARAM,
-> +               },
-> +               .param = {
-> +                       .param = I915_CONTEXT_PARAM_ENGINES,
-> +                       .value = to_user_pointer(&engines),
-> +                       .size = sizeof(engines),
-> +               },
-> +       };
-> +       struct drm_i915_gem_context_create_ext create = {
-> +               .flags = I915_CONTEXT_CREATE_FLAGS_USE_EXTENSIONS,
-> +               .extensions = to_user_pointer(&p_engines);
-> +       };
+> +static struct device_type dp_aux_device_type_type = {
+> +       .groups         = dp_aux_ep_dev_groups,
+> +       .uevent         = of_device_uevent_modalias,
+> +       .release        = dp_aux_ep_dev_release,
+> +};
 > +
-> +       ctx_id = gem_context_create_ext(drm_fd, &create);
+> +/**
+> + * of_dp_aux_ep_destroy() - Destroy an DP AUX endpoint device
+> + * @dev: The device to destroy.
+> + * @data: Not used
+> + *
+> + * This is just used as a callback by of_dp_aux_depopulate_ep_devices() and
+> + * is called for _all_ of the child devices of the device providing the AUX
+> bus.
+> + * We'll only act on those that are of type "dp_aux_bus_type".
+> + *
+> + * This function is effectively an inverse of what's in the loop
+> + * in of_dp_aux_populate_ep_devices().
+> + *
+> + * Return: 0 if no error or negative error code.
+> + */
+> +static int of_dp_aux_ep_destroy(struct device *dev, void *data)
+> +{
+> +       struct device_node *np = dev->of_node;
 > +
-> +       // We have now created a GEM context with two engines in the map:
-> +       // Index 0 points to rcs0 while index 1 points to bcs0. Other engines
-> +       // will not be accessible from this context.
+> +       if (dev->bus != &dp_aux_bus_type)
+> +               return 0;
 > +
-> +       ...
-> +       execbuf.rsvd1 = ctx_id;
-> +       execbuf.flags = 0; // Submits to index0, which is rcs0 for this context
-> +       gem_execbuf(drm_fd, &execbuf);
+> +       if (!of_node_check_flag(np, OF_POPULATED))
+> +               return 0;
 > +
-> +       ...
-> +       execbuf.rsvd1 = ctx_id;
-> +       execbuf.flags = 1; // Submits to index0, which is bcs0 for this context
-> +       gem_execbuf(drm_fd, &execbuf);
+> +       of_node_clear_flag(np, OF_POPULATED);
+> +       of_node_put(np);
 > +
-> +Virtual Engine uAPI
-> +-------------------
+> +       device_unregister(dev);
 > +
-> +Virtual engine is a concept where userspace is able to configure a set of
-> +physical engines, submit a batch buffer, and let the driver execute it on any
-> +engine from the set as it sees fit.
+> +       return 0;
+> +}
 > +
-> +This is primarily useful on parts which have multiple instances of a same class
-> +engine, like for example GT3+ Skylake parts with their two VCS engines.
+> +/**
+> + * of_dp_aux_depopulate_ep_devices() - Undo of_dp_aux_populate_ep_devices
+> + * @aux: The AUX channel whose devices we want to depopulate
+> + *
+> + * This will destroy all devices that were created
+> + * by of_dp_aux_populate_ep_devices().
+> + */
+> +void of_dp_aux_depopulate_ep_devices(struct drm_dp_aux *aux)
+> +{
+> +       device_for_each_child_reverse(aux->dev, NULL, of_dp_aux_ep_destroy);
+> +}
+> +EXPORT_SYMBOL_GPL(of_dp_aux_depopulate_ep_devices);
 > +
-> +For instance userspace can enumerate all engines of a certain class using the
-> +previously described `Engine Discovery uAPI`_. After
-> +that userspace can create a GEM context with a placeholder slot for the virtual
-> +engine (using `I915_ENGINE_CLASS_INVALID` and `I915_ENGINE_CLASS_INVALID_NONE`
-> +for class and instance respectively) and finally using the
-> +`I915_CONTEXT_ENGINES_EXT_LOAD_BALANCE` extension place a virtual engine in the
-> +same reserved slot.
+> +/**
+> + * of_dp_aux_populate_ep_devices() - Populate the endpoint devices on the
+> DP AUX
+> + * @aux: The AUX channel whose devices we want to populate. It is required
+> that
+> + *       drm_dp_aux_init() has already been called for this AUX channel.
+> + *
+> + * This will populate all the devices under the "aux-bus" node of the
+> device
+> + * providing the AUX channel (AKA aux->dev).
+> + *
+> + * When this function finishes, it is _possible_ (but not guaranteed) that
+> + * our sub-devices will have finished probing. It should be noted that if
+> our
+> + * sub-devices return -EPROBE_DEFER that we will not return any error codes
+> + * ourselves but our sub-devices will _not_ have actually probed
+> successfully
+> + * yet. There may be other cases (maybe added in the future?) where sub-
+> devices
+> + * won't have been probed yet when this function returns, so it's best not
+> to
+> + * rely on that.
+> + *
+> + * If this function succeeds you should later make sure you call
+> + * of_dp_aux_depopulate_ep_devices() to undo it, or just use the devm
+> version
+> + * of this function.
+> + *
+> + * Return: 0 if no error or negative error code.
+> + */
+> +int of_dp_aux_populate_ep_devices(struct drm_dp_aux *aux)
+> +{
+> +       struct device_node *bus, *np;
+> +       struct dp_aux_ep_device *aux_ep;
+> +       int ret;
 > +
-> +Example of creating a virtual engine and submitting a batch buffer to it:
+> +       /* drm_dp_aux_init() should have been called already; warn if not */
+> +       WARN_ON_ONCE(!aux->ddc.algo);
 > +
-> +.. code-block:: C
+> +       if (!aux->dev->of_node)
+> +               return 0;
 > +
-> +       I915_DEFINE_CONTEXT_ENGINES_LOAD_BALANCE(virtual, 2) = {
-> +               .base.name = I915_CONTEXT_ENGINES_EXT_LOAD_BALANCE,
-> +               .engine_index = 0, // Place this virtual engine into engine map slot 0
-> +               .num_siblings = 2,
-> +               .engines = { { I915_ENGINE_CLASS_VIDEO, 0 },
-> +                            { I915_ENGINE_CLASS_VIDEO, 1 }, },
-> +       };
-> +       I915_DEFINE_CONTEXT_PARAM_ENGINES(engines, 1) = {
-> +               .engines = { { I915_ENGINE_CLASS_INVALID,
-> +                              I915_ENGINE_CLASS_INVALID_NONE } },
-> +               .extensions = to_user_pointer(&virtual), // Chains with the load_balance extension
-> +       };
-> +       struct drm_i915_gem_context_create_ext_setparam p_engines = {
-> +               .base = {
-> +                       .name = I915_CONTEXT_CREATE_EXT_SETPARAM,
-> +               },
-> +               .param = {
-> +                       .param = I915_CONTEXT_PARAM_ENGINES,
-> +                       .value = to_user_pointer(&engines),
-> +                       .size = sizeof(engines),
-> +               },
-> +       };
-> +       struct drm_i915_gem_context_create_ext create = {
-> +               .flags = I915_CONTEXT_CREATE_FLAGS_USE_EXTENSIONS,
-> +               .extensions = to_user_pointer(&p_engines);
-> +       };
+> +       bus = of_get_child_by_name(aux->dev->of_node, "aux-bus");
+> +       if (!bus)
+> +               return 0;
 > +
-> +       ctx_id = gem_context_create_ext(drm_fd, &create);
+> +       for_each_available_child_of_node(bus, np) {
+> +               if (of_node_test_and_set_flag(np, OF_POPULATED))
+> +                       continue;
 > +
-> +       // Now we have created a GEM context with its engine map containing a
-> +       // single virtual engine. Submissions to this slot can go either to
-> +       // vcs0 or vcs1, depending on the load balancing algorithm used inside
-> +       // the driver. The load balancing is dynamic from one batch buffer to
-> +       // another and transparent to userspace.
-> +
-> +       ...
-> +       execbuf.rsvd1 = ctx_id;
-> +       execbuf.flags = 0; // Submits to index0 which is the virtual engine
-> +       gem_execbuf(drm_fd, &execbuf);
-> +
->  Locking Guidelines
->  ------------------
->
-> --
-> 2.30.2
->
+> +               aux_ep = kzalloc(sizeof(*aux_ep), GFP_KERNEL);
 
+Don't forget to add some error handling for if we fail to alloc aux_ep.
+Everything else lgtm though
+
+> +               aux_ep->aux = aux;
+> +
+> +               aux_ep->dev.parent = aux->dev;
+> +               aux_ep->dev.bus = &dp_aux_bus_type;
+> +               aux_ep->dev.type = &dp_aux_device_type_type;
+> +               aux_ep->dev.of_node = of_node_get(np);
+> +               dev_set_name(&aux_ep->dev, "aux-%s", dev_name(aux->dev));
+> +
+> +               ret = device_register(&aux_ep->dev);
+> +               if (ret) {
+> +                       dev_err(aux->dev, "Failed to create AUX EP for %pOF:
+> %d\n", np, ret);
+> +                       of_node_clear_flag(np, OF_POPULATED);
+> +                       of_node_put(np);
+> +
+> +                       /*
+> +                        * As per docs of device_register(), call this
+> instead
+> +                        * of kfree() directly for error cases.
+> +                        */
+> +                       put_device(&aux_ep->dev);
+> +
+> +                       /*
+> +                        * Following in the footsteps of
+> of_i2c_register_devices(),
+> +                        * we won't fail the whole function here--we'll just
+> +                        * continue registering any other devices we find.
+> +                        */
+> +               }
+> +       }
+> +
+> +       of_node_put(bus);
+> +
+> +       return 0;
+> +}
+> +
+> +static void of_dp_aux_depopulate_ep_devices_void(void *data)
+> +{
+> +       of_dp_aux_depopulate_ep_devices(data);
+> +}
+> +
+> +/**
+> + * devm_of_dp_aux_populate_ep_devices() - devm wrapper for
+> of_dp_aux_populate_ep_devices()
+> + * @aux: The AUX channel whose devices we want to populate
+> + *
+> + * Handles freeing w/ devm on the device "aux->dev".
+> + *
+> + * Return: 0 if no error or negative error code.
+> + */
+> +int devm_of_dp_aux_populate_ep_devices(struct drm_dp_aux *aux)
+> +{
+> +       int ret;
+> +
+> +       ret = of_dp_aux_populate_ep_devices(aux);
+> +       if (ret)
+> +               return ret;
+> +
+> +       return devm_add_action_or_reset(aux->dev,
+> +                                       of_dp_aux_depopulate_ep_devices_void
+> ,
+> +                                       aux);
+> +}
+> +EXPORT_SYMBOL_GPL(devm_of_dp_aux_populate_ep_devices);
+> +
+> +int __dp_aux_dp_driver_register(struct dp_aux_ep_driver *drv, struct module
+> *owner)
+> +{
+> +       drv->driver.owner = owner;
+> +       drv->driver.bus = &dp_aux_bus_type;
+> +
+> +       return driver_register(&drv->driver);
+> +
+> +}
+> +EXPORT_SYMBOL_GPL(__dp_aux_dp_driver_register);
+> +
+> +void dp_aux_dp_driver_unregister(struct dp_aux_ep_driver *drv)
+> +{
+> +       driver_unregister(&drv->driver);
+> +}
+> +EXPORT_SYMBOL_GPL(dp_aux_dp_driver_unregister);
+> +
+> +static int __init dp_aux_bus_init(void)
+> +{
+> +       int ret;
+> +
+> +       ret = bus_register(&dp_aux_bus_type);
+> +       if (ret)
+> +               return ret;
+> +
+> +       return 0;
+> +}
+> +
+> +static void __exit dp_aux_bus_exit(void)
+> +{
+> +       bus_unregister(&dp_aux_bus_type);
+> +}
+> +
+> +subsys_initcall(dp_aux_bus_init);
+> +module_exit(dp_aux_bus_exit);
+> +
+> +MODULE_AUTHOR("Douglas Anderson <dianders@chromium.org>");
+> +MODULE_DESCRIPTION("DRM DisplayPort AUX bus");
+> +MODULE_LICENSE("GPL v2");
+> diff --git a/include/drm/drm_dp_aux_bus.h b/include/drm/drm_dp_aux_bus.h
+> new file mode 100644
+> index 000000000000..4f19b20b1dd6
+> --- /dev/null
+> +++ b/include/drm/drm_dp_aux_bus.h
+> @@ -0,0 +1,57 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +/*
+> + * Copyright 2021 Google Inc.
+> + *
+> + * The DP AUX bus is used for devices that are connected over a DisplayPort
+> + * AUX bus. The devices on the far side of the bus are referred to as
+> + * endpoints in this code.
+> + */
+> +
+> +#ifndef _DP_AUX_BUS_H_
+> +#define _DP_AUX_BUS_H_
+> +
+> +#include <linux/device.h>
+> +#include <linux/mod_devicetable.h>
+> +
+> +/**
+> + * struct dp_aux_ep_device - Main dev structure for DP AUX endpoints
+> + *
+> + * This is used to instantiate devices that are connected via a DP AUX
+> + * bus. Usually the device is a panel, but conceivable other devices could
+> + * be hooked up there.
+> + */
+> +struct dp_aux_ep_device {
+> +       /** @dev: The normal dev pointer */
+> +       struct device dev;
+> +       /** @aux: Pointer to the aux bus */
+> +       struct drm_dp_aux *aux;
+> +};
+> +
+> +struct dp_aux_ep_driver {
+> +       int (*probe)(struct dp_aux_ep_device *aux_ep);
+> +       void (*remove)(struct dp_aux_ep_device *aux_ep);
+> +       void (*shutdown)(struct dp_aux_ep_device *aux_ep);
+> +       struct device_driver driver;
+> +};
+> +
+> +static inline struct dp_aux_ep_device *to_dp_aux_ep_dev(struct device *dev)
+> +{
+> +       return container_of(dev, struct dp_aux_ep_device, dev);
+> +}
+> +
+> +static inline struct dp_aux_ep_driver *to_dp_aux_ep_drv(struct
+> device_driver *drv)
+> +{
+> +       return container_of(drv, struct dp_aux_ep_driver, driver);
+> +}
+> +
+> +int of_dp_aux_populate_ep_devices(struct drm_dp_aux *aux);
+> +void of_dp_aux_depopulate_ep_devices(struct drm_dp_aux *aux);
+> +int devm_of_dp_aux_populate_ep_devices(struct drm_dp_aux *aux);
+> +
+> +#define dp_aux_dp_driver_register(aux_ep_drv) \
+> +       __dp_aux_dp_driver_register(aux_ep_drv, THIS_MODULE)
+> +int __dp_aux_dp_driver_register(struct dp_aux_ep_driver *aux_ep_drv,
+> +                               struct module *owner);
+> +void dp_aux_dp_driver_unregister(struct dp_aux_ep_driver *aux_ep_drv);
+> +
+> +#endif /* _DP_AUX_BUS_H_ */
 
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Cheers,
+ Lyude Paul (she/her)
+ Software Engineer at Red Hat
+
