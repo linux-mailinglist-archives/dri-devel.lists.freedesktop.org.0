@@ -2,41 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2265B3A4316
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Jun 2021 15:34:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD5273A4348
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Jun 2021 15:49:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3AC996E821;
-	Fri, 11 Jun 2021 13:34:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CC8196EE93;
+	Fri, 11 Jun 2021 13:49:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id B09CA6E821
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Jun 2021 13:34:20 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D3B06D6E;
- Fri, 11 Jun 2021 06:34:19 -0700 (PDT)
-Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
- [10.121.207.14])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 8E50B3F93E;
- Fri, 11 Jun 2021 06:34:19 -0700 (PDT)
-Received: by e110455-lin.cambridge.arm.com (Postfix, from userid 1000)
- id 1DEA4684F49; Fri, 11 Jun 2021 14:34:18 +0100 (BST)
-Date: Fri, 11 Jun 2021 14:34:18 +0100
-From: Liviu Dudau <liviu.dudau@arm.com>
-To: Alyssa Rosenzweig <alyssa@collabora.com>
-Subject: Re: [PATCH v3] Documentation: gpu: Mention the requirements for new
- properties
-Message-ID: <20210611133418.mwjabkd4zzcgekti@e110455-lin.cambridge.arm.com>
-References: <20210610174731.1209188-1-maxime@cerno.tech>
- <CAKMK7uG_Wkko0L6sv0U1bXWdYk4fg3OTcp5=+qfRV0CP9V44=A@mail.gmail.com>
- <KNFHfqvJUVq9oy9BSdznj1S6xhDoZUAx1_DwfSNvUv8u1d-TroKBTq2hxtv7u1aJnxnpI5CxUXSMTn73YsVhZjnRW78gv-QLsK6AkJ5m3Fw=@emersion.fr>
- <20210611120309.2b5eb4htupv5ss32@e110455-lin.cambridge.arm.com>
- <YMNdZCkyaVoH+WAd@maud>
+Received: from mail-io1-xd31.google.com (mail-io1-xd31.google.com
+ [IPv6:2607:f8b0:4864:20::d31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 741406E197
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Jun 2021 13:49:24 +0000 (UTC)
+Received: by mail-io1-xd31.google.com with SMTP id p66so29299902iod.8
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Jun 2021 06:49:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=cosmicpenguin-net.20150623.gappssmtp.com; s=20150623;
+ h=date:from:to:cc:subject:message-id:mail-followup-to:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=InTc7zVp8z/NGQD/JqXKMqqaeMO/59YVbb1foQ3kwds=;
+ b=dugv4qACGBhXNZln5rZ+h/+f6h00hQGm0VbU9JbSOIS+lhwsUMm9Egq1DIlIUbTO/8
+ 8wZ5Cg0lsBD0UnewFkPoPTj3pHuWmuZ1cQM62CQjTI1j8ySlaEVcOiaE4rd/mhV+mOtl
+ XQnn3NNElkyCvbZ6w4BTB4fYyheyPFwrrBG95WKcQj8+l5hfHRWGCtEzo5bpzxmh3qXq
+ obdo+EB88Bp6AWY3973oJukVGuaL4gAs8url/dYQC1jS0nvTrzwsRzNWvpwCrpwCUpMd
+ aPO3X3suMXUsPU3uoxju9n8b5rhb/+nQLmSCHu535ezyr3znPtF6PaGR7za/vaIoIszK
+ by2g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id
+ :mail-followup-to:references:mime-version:content-disposition
+ :in-reply-to;
+ bh=InTc7zVp8z/NGQD/JqXKMqqaeMO/59YVbb1foQ3kwds=;
+ b=JW5DOkvt+4zUTsp94RafDuqVzCSi7/HWc2VwaTj+HqFhYL7tMo7XB2m7UJVumAbr8M
+ GKdTwYOKWYSUCmzO4rxir5Rb4dOhATyrSyT81l/Y/byRftyCsKXdwRAJpxlZMFO4Duaf
+ Uvy9AUoOsCvrYojbZXnH7gXDgf5lsdIpeBA7DHZKJtQ8s26JyZs6H6Z047sfeOYpwKQg
+ 6xNXxTL5zyeXiNYy8eFu7EV4prlNYxbpTK9YCadZDFIDLkVxkvlCJdw85o0Yg3FEydLI
+ wIz+ov7hMvnvV91R2AbFSIH++1VDkicR38FVwL3Jzl8XwMXj8Qh9KExkLY2gKCNvAv8E
+ Jh2w==
+X-Gm-Message-State: AOAM530fModANWj5nlMcrYbMlOmMg6mA2A5C1ZgcvtPa+ahrUWJl5LHD
+ tO4rRl90JYdldRgnQcce/L5lyg==
+X-Google-Smtp-Source: ABdhPJz0hWqaVZyohn0Y19vurHp+kRglYW6LrsF8Q0tdyoom2aSA+rKV/RHevdUoULudZyroZafoJw==
+X-Received: by 2002:a5d:8e06:: with SMTP id e6mr3389252iod.202.1623419363886; 
+ Fri, 11 Jun 2021 06:49:23 -0700 (PDT)
+Received: from cosmicpenguin.net (c-71-237-100-236.hsd1.co.comcast.net.
+ [71.237.100.236])
+ by smtp.gmail.com with ESMTPSA id w25sm3341738iox.18.2021.06.11.06.49.22
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 11 Jun 2021 06:49:23 -0700 (PDT)
+Date: Fri, 11 Jun 2021 07:49:21 -0600
+From: Jordan Crouse <jordan@cosmicpenguin.net>
+To: Rob Clark <robdclark@gmail.com>
+Subject: Re: [PATCH v5 4/5] iommu/arm-smmu-qcom: Add stall support
+Message-ID: <20210611134921.xjzcn4eso6fjzzte@cosmicpenguin.net>
+Mail-Followup-To: Rob Clark <robdclark@gmail.com>,
+ dri-devel@lists.freedesktop.org, iommu@lists.linux-foundation.org,
+ freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ Rob Clark <robdclark@chromium.org>, Will Deacon <will@kernel.org>,
+ Robin Murphy <robin.murphy@arm.com>, Joerg Roedel <joro@8bytes.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ "Isaac J. Manjarres" <isaacm@codeaurora.org>,
+ "moderated list:ARM SMMU DRIVERS" <linux-arm-kernel@lists.infradead.org>,
+ open list <linux-kernel@vger.kernel.org>
+References: <20210610214431.539029-1-robdclark@gmail.com>
+ <20210610214431.539029-5-robdclark@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <YMNdZCkyaVoH+WAd@maud>
+In-Reply-To: <20210610214431.539029-5-robdclark@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,103 +80,132 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Ludovic Desroches <ludovic.desroches@microchip.com>,
- Haneen Mohammed <hamohammed.sa@gmail.com>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Linux Doc Mailing List <linux-doc@vger.kernel.org>,
- Xinliang Liu <xinliang.liu@linaro.org>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- Edmund Dea <edmund.j.dea@intel.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- dri-devel <dri-devel@lists.freedesktop.org>, Sandy Huang <hjc@rock-chips.com>,
- Melissa Wen <melissa.srw@gmail.com>, Andrzej Hajda <a.hajda@samsung.com>,
- Thierry Reding <thierry.reding@gmail.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Benjamin Gaignard <benjamin.gaignard@linaro.org>,
- Anitha Chrisanthus <anitha.chrisanthus@intel.com>,
- Daniel Vetter <daniel.vetter@intel.com>,
- Jonathan Hunter <jonathanh@nvidia.com>, Sam Ravnborg <sam@ravnborg.org>,
- Jerome Brunet <jbrunet@baylibre.com>, Marek Vasut <marex@denx.de>,
- Jonathan Corbet <corbet@lwn.net>, Joonyoung Shim <jy0922.shim@samsung.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
- Kevin Hilman <khilman@baylibre.com>, Neil Armstrong <narmstrong@baylibre.com>,
- Russell King <linux@armlinux.org.uk>, Steven Price <steven.price@arm.com>,
- David Airlie <airlied@linux.ie>, Xinwei Kong <kong.kongxinwei@hisilicon.com>,
- Noralf Tr??nnes <noralf@tronnes.org>,
- VMware Graphics <linux-graphics-maintainer@vmware.com>,
- Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
- Hyun Kwon <hyun.kwon@xilinx.com>, NXP Linux Team <linux-imx@nxp.com>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Jonas Karlman <jonas@kwiboo.se>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- Chen Feng <puck.chen@hisilicon.com>, Sascha Hauer <s.hauer@pengutronix.de>,
- Alison Wang <alison.wang@nxp.com>, Roland Scheidegger <sroland@vmware.com>,
- Shawn Guo <shawnguo@kernel.org>, Ben Skeggs <bskeggs@redhat.com>,
- Maxime Ripard <maxime@cerno.tech>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Matthias Brugger <matthias.bgg@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
- Sean Paul <sean@poorly.run>, Pengutronix Kernel Team <kernel@pengutronix.de>,
- Paul Cercueil <paul@crapouillou.net>, Jernej Skrabec <jernej.skrabec@siol.net>,
- Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
- Tomi Valkeinen <tomba@kernel.org>, Hans de Goede <hdegoede@redhat.com>,
- Andrew Jeffery <andrew@aj.id.au>, Huang Rui <ray.huang@amd.com>,
- Yannick Fertr e <yannick.fertre@foss.st.com>,
- Boris Brezillon <bbrezillon@kernel.org>,
- Seung-Woo Kim <sw0312.kim@samsung.com>,
- Nicolas Ferre <nicolas.ferre@microchip.com>,
- Robert Foss <robert.foss@linaro.org>, Joel Stanley <joel@jms.id.au>,
- Tomeu Vizoso <tomeu.vizoso@collabora.com>,
- Kyungmin Park <kyungmin.park@samsung.com>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Qiang Yu <yuq825@gmail.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alex Deucher <alexander.deucher@amd.com>, Tian Tao <tiantao6@hisilicon.com>,
- Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>,
- Philippe Cornu <philippe.cornu@foss.st.com>, Jyri Sarha <jyri.sarha@iki.fi>,
- Christian K??nig <christian.koenig@amd.com>, Gerd Hoffmann <kraxel@redhat.com>
+Cc: Rob Clark <robdclark@chromium.org>,
+ "Isaac J. Manjarres" <isaacm@codeaurora.org>,
+ open list <linux-kernel@vger.kernel.org>, Will Deacon <will@kernel.org>,
+ linux-arm-msm@vger.kernel.org, Joerg Roedel <joro@8bytes.org>,
+ Robin Murphy <robin.murphy@arm.com>, dri-devel@lists.freedesktop.org,
+ Bjorn Andersson <bjorn.andersson@linaro.org>, iommu@lists.linux-foundation.org,
+ freedreno@lists.freedesktop.org,
+ "moderated list:ARM SMMU DRIVERS" <linux-arm-kernel@lists.infradead.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jun 11, 2021 at 08:56:04AM -0400, Alyssa Rosenzweig wrote:
-> > What I'm expected to see in the future is new functionality that gets implemented by
-> > one hardware vendor and the kernel developers trying to enable that for userspace. It
-> > could be that the new property is generic, but there is no way of testing that on
-> > more than one implementation yet, so I'd say we are generous calling it "standard
-> > property". When the second or third hardware vendor comes along and starts supporting
-> > that property with their own set of extra requirements, then we can call it
-> > "standard". Then comes the effort cost: would it be easier to start with a vendor
-> > property that only the vendor needs to support (and can submit patches into the
-> > compositors to do so) and when the standard property gets added moves to that, or
-> > should we start with a generic property that gets implemented by the compositors
-> > (maybe, but then only one vendor supports it) and then later when we actually
-> > standardise the property we will have to carry backwards compatibility code in the
-> > kernel to handle the old behaviour for old userspace? My proposal to Maxime was for
-> > the former option to be reflected in the documentation, but I would like to hear your
-> > thoughts.
+On Thu, Jun 10, 2021 at 02:44:12PM -0700, Rob Clark wrote:
+> From: Rob Clark <robdclark@chromium.org>
 > 
-> Just my 2c - if the mainline kernel isn't willing to commit to a feature
-> for upstream userspace to use, why does that feature belong in the
-> kernel at all? I don't see much value in exposing hardware for the sake
-> of exposing it when, practically, Linux userspace /can't/ use it as-is.
+> Add, via the adreno-smmu-priv interface, a way for the GPU to request
+> the SMMU to stall translation on faults, and then later resume the
+> translation, either retrying or terminating the current translation.
 > 
-> Might these vendor properties be used on downstream Android userspaces?
-> That's not generally an upstream goal to support.
+> This will be used on the GPU side to "freeze" the GPU while we snapshot
+> useful state for devcoredump.
+> 
 
-I think the assumption is that we are willing to commit to supporting a feature for
-userspace, just that (I personally) lack the confidence that I will be getting the
-feature right on the first attempt and using only one vendor hardware. And that
-supporting potential mistakes I might've made in the first version is harder if the
-feature was deemed "standard".
+Acked-by: Jordan Crouse <jordan@cosmicpenguin.net>
 
-I'm talking from my experience with the writeback connector. We almost committed the
-feature twice before more people chipped in and asked us for changes, but that was lucky.
-
-Best regards,
-Liviu
-
--- 
-====================
-| I would like to |
-| fix the world,  |
-| but they're not |
-| giving me the   |
- \ source code!  /
-  ---------------
-    ¯\_(ツ)_/¯
+> Signed-off-by: Rob Clark <robdclark@chromium.org>
+> ---
+>  drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c | 33 ++++++++++++++++++++++
+>  include/linux/adreno-smmu-priv.h           |  7 +++++
+>  2 files changed, 40 insertions(+)
+> 
+> diff --git a/drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c b/drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c
+> index b2e31ea84128..61fc645c1325 100644
+> --- a/drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c
+> +++ b/drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c
+> @@ -13,6 +13,7 @@ struct qcom_smmu {
+>  	struct arm_smmu_device smmu;
+>  	bool bypass_quirk;
+>  	u8 bypass_cbndx;
+> +	u32 stall_enabled;
+>  };
+>  
+>  static struct qcom_smmu *to_qcom_smmu(struct arm_smmu_device *smmu)
+> @@ -23,12 +24,17 @@ static struct qcom_smmu *to_qcom_smmu(struct arm_smmu_device *smmu)
+>  static void qcom_adreno_smmu_write_sctlr(struct arm_smmu_device *smmu, int idx,
+>  		u32 reg)
+>  {
+> +	struct qcom_smmu *qsmmu = to_qcom_smmu(smmu);
+> +
+>  	/*
+>  	 * On the GPU device we want to process subsequent transactions after a
+>  	 * fault to keep the GPU from hanging
+>  	 */
+>  	reg |= ARM_SMMU_SCTLR_HUPCF;
+>  
+> +	if (qsmmu->stall_enabled & BIT(idx))
+> +		reg |= ARM_SMMU_SCTLR_CFCFG;
+> +
+>  	arm_smmu_cb_write(smmu, idx, ARM_SMMU_CB_SCTLR, reg);
+>  }
+>  
+> @@ -48,6 +54,31 @@ static void qcom_adreno_smmu_get_fault_info(const void *cookie,
+>  	info->contextidr = arm_smmu_cb_read(smmu, cfg->cbndx, ARM_SMMU_CB_CONTEXTIDR);
+>  }
+>  
+> +static void qcom_adreno_smmu_set_stall(const void *cookie, bool enabled)
+> +{
+> +	struct arm_smmu_domain *smmu_domain = (void *)cookie;
+> +	struct arm_smmu_cfg *cfg = &smmu_domain->cfg;
+> +	struct qcom_smmu *qsmmu = to_qcom_smmu(smmu_domain->smmu);
+> +
+> +	if (enabled)
+> +		qsmmu->stall_enabled |= BIT(cfg->cbndx);
+> +	else
+> +		qsmmu->stall_enabled &= ~BIT(cfg->cbndx);
+> +}
+> +
+> +static void qcom_adreno_smmu_resume_translation(const void *cookie, bool terminate)
+> +{
+> +	struct arm_smmu_domain *smmu_domain = (void *)cookie;
+> +	struct arm_smmu_cfg *cfg = &smmu_domain->cfg;
+> +	struct arm_smmu_device *smmu = smmu_domain->smmu;
+> +	u32 reg = 0;
+> +
+> +	if (terminate)
+> +		reg |= ARM_SMMU_RESUME_TERMINATE;
+> +
+> +	arm_smmu_cb_write(smmu, cfg->cbndx, ARM_SMMU_CB_RESUME, reg);
+> +}
+> +
+>  #define QCOM_ADRENO_SMMU_GPU_SID 0
+>  
+>  static bool qcom_adreno_smmu_is_gpu_device(struct device *dev)
+> @@ -173,6 +204,8 @@ static int qcom_adreno_smmu_init_context(struct arm_smmu_domain *smmu_domain,
+>  	priv->get_ttbr1_cfg = qcom_adreno_smmu_get_ttbr1_cfg;
+>  	priv->set_ttbr0_cfg = qcom_adreno_smmu_set_ttbr0_cfg;
+>  	priv->get_fault_info = qcom_adreno_smmu_get_fault_info;
+> +	priv->set_stall = qcom_adreno_smmu_set_stall;
+> +	priv->resume_translation = qcom_adreno_smmu_resume_translation;
+>  
+>  	return 0;
+>  }
+> diff --git a/include/linux/adreno-smmu-priv.h b/include/linux/adreno-smmu-priv.h
+> index 53fe32fb9214..c637e0997f6d 100644
+> --- a/include/linux/adreno-smmu-priv.h
+> +++ b/include/linux/adreno-smmu-priv.h
+> @@ -45,6 +45,11 @@ struct adreno_smmu_fault_info {
+>   *                 TTBR0 translation is enabled with the specified cfg
+>   * @get_fault_info: Called by the GPU fault handler to get information about
+>   *                  the fault
+> + * @set_stall:     Configure whether stall on fault (CFCFG) is enabled.  Call
+> + *                 before set_ttbr0_cfg().  If stalling on fault is enabled,
+> + *                 the GPU driver must call resume_translation()
+> + * @resume_translation: Resume translation after a fault
+> + *
+>   *
+>   * The GPU driver (drm/msm) and adreno-smmu work together for controlling
+>   * the GPU's SMMU instance.  This is by necessity, as the GPU is directly
+> @@ -60,6 +65,8 @@ struct adreno_smmu_priv {
+>      const struct io_pgtable_cfg *(*get_ttbr1_cfg)(const void *cookie);
+>      int (*set_ttbr0_cfg)(const void *cookie, const struct io_pgtable_cfg *cfg);
+>      void (*get_fault_info)(const void *cookie, struct adreno_smmu_fault_info *info);
+> +    void (*set_stall)(const void *cookie, bool enabled);
+> +    void (*resume_translation)(const void *cookie, bool terminate);
+>  };
+>  
+>  #endif /* __ADRENO_SMMU_PRIV_H */
+> -- 
+> 2.31.1
+> 
