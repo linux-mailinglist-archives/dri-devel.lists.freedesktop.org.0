@@ -2,63 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A7573A44ED
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Jun 2021 17:26:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CA8D3A44F7
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Jun 2021 17:27:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6FC866E50E;
-	Fri, 11 Jun 2021 15:26:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4F4716EEB3;
+	Fri, 11 Jun 2021 15:27:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com
- [IPv6:2a00:1450:4864:20::434])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 80D946E50E
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Jun 2021 15:26:20 +0000 (UTC)
-Received: by mail-wr1-x434.google.com with SMTP id a11so6501459wrt.13
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Jun 2021 08:26:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=0fXaAQCav4JMHqqDLTmJAA9vL2ofAn8LFVDAYy3FosU=;
- b=RxaoGZB9PdBO2obWWr9Son1CIQ7DAYfphJ4uKNVobOiYpJ+mmavn7NB0YtCHIT1l1D
- oQsizyYQ4FJRefvQAFJO/0AJOav1E/ofoqH4paJ297oy93lpQ3e896974RQ7zKVhhvb1
- oqY38pf1DVDLn5a35cw/r70vfWSV/1SHhcR0w=
+Received: from mail-pg1-x52c.google.com (mail-pg1-x52c.google.com
+ [IPv6:2607:f8b0:4864:20::52c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AFE0B6EEB3
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Jun 2021 15:27:12 +0000 (UTC)
+Received: by mail-pg1-x52c.google.com with SMTP id o9so2769833pgd.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Jun 2021 08:27:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=HzdTumh9BrSYWktV5WZf7y51LbAaw3C3h39TEtEC61A=;
+ b=glnoPPl5BjuEU+aHwo6DAiEerdZdwKnsli+A2zYzDPxEZiqMUG0n7GdfkjKsK9QW0e
+ 93P4fACu9M1YhL7kJ17IJaADBozzkAYJ7IX93Y7kPx7ZOfCFV+3jbYHpDWgy2cTfANYo
+ 0mhxwlPjX1zbtnhLTHogjuk/5yAGZZVOgaVh4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=0fXaAQCav4JMHqqDLTmJAA9vL2ofAn8LFVDAYy3FosU=;
- b=ZmJSLe81D/oN11tVWLgiWOFZUIxzvye4P/6Is/3ZkUfCeDwvEwejBiwIlSIqeIqLP2
- F4BkfqnPABgD0wKnZdBP5HvwdzGNqapAckCo6sNt9/Lp9CNJgDnNsZfdYFmvlB8GPZNM
- 8BdNEIh7py0GkNwP32wpFkpsLwUC33Axt603zS19pUciTt9m/vDM630BCNEDkDNpnfqB
- rXH2VIc5Ix6aDj0TRriSnFh4mm/01QCJgoE9/l42bxNtE2g1tjyIVgl0ChypBCe3biOq
- AmVlZM4yTxAiQoI2FnKkXiyzi12lukxRWzqL6aAhePYG6xM3w8tlpnjkfJZTDjnzIYn1
- Qa0Q==
-X-Gm-Message-State: AOAM531SKBp4ngyPv4/qeZWSrc/yH60ZwutJdJOxtTx4VZ7K90OsosPh
- 5dk2ORdmLZaG+uMnjziU12Cw4g==
-X-Google-Smtp-Source: ABdhPJw2KFr1zO8QQtfKE4YD9azGDVISyK9XC85GcDukXzrthZ23Yp2apTf9M28mUBh5xZI3M9Pdgw==
-X-Received: by 2002:a5d:438a:: with SMTP id i10mr4768390wrq.82.1623425179113; 
- Fri, 11 Jun 2021 08:26:19 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id h11sm6267937wmq.34.2021.06.11.08.26.16
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 11 Jun 2021 08:26:18 -0700 (PDT)
-Date: Fri, 11 Jun 2021 17:26:14 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Subject: Re: [PATCH v3] Documentation: gpu: Mention the requirements for new
- properties
-Message-ID: <YMOAlqwTE6exJtQA@phenom.ffwll.local>
-References: <20210610174731.1209188-1-maxime@cerno.tech>
- <CAKMK7uG_Wkko0L6sv0U1bXWdYk4fg3OTcp5=+qfRV0CP9V44=A@mail.gmail.com>
- <20210611055407.aoeams62wbalodrj@gilmour>
- <1cac781e-122f-568b-5f5a-7e0ceb94bd0b@ideasonboard.com>
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=HzdTumh9BrSYWktV5WZf7y51LbAaw3C3h39TEtEC61A=;
+ b=afT+1ZYYWNcIQCZReDbiywVd75Wnq5ZufGIfhfJmQiaI1IiuEIGpsAbwWFb3QM1ECZ
+ S7oOevCl5gCcFjOnXWcKCwf5r8bIVBbvCSB1XcACDAnlOwPKjK05xsS4H1OWA1cXtSOq
+ n9Eh4KD3AzBYWNWWZsN6NIss/kddhh2lf98lWn8o5NjzZNCGqCLg6iMU9BKBddo0eJfh
+ HhC1fC5aj9Pn4xEuTMLSrKmdNkqxq0yFzLPrNfe499BauzeXZoY4Y4iGJ4jBKeeQ0VUA
+ KK9KU+G3uzvBnARR4Z2Pn5jRNOpkf1779zqQMdNBGN5MnwbeCAzRyXmHgJWoGYhb/nLU
+ mo+Q==
+X-Gm-Message-State: AOAM5329zPjbv9ErLEYPp+zFHNAuIUSbdG1avtXkmasR/QBkvHc8V9e7
+ 6eJTU3Fi2m8NSkX7X6C6jDUy8A==
+X-Google-Smtp-Source: ABdhPJz1S7kolJJDhDCqvr+nlVhh2CsYK+ut0dTmzSatQWDsZRkoRFJesVPfEDUsaDthsVEt0zyWaw==
+X-Received: by 2002:aa7:828f:0:b029:200:6e27:8c8f with SMTP id
+ s15-20020aa7828f0000b02902006e278c8fmr8819226pfm.44.1623425232214; 
+ Fri, 11 Jun 2021 08:27:12 -0700 (PDT)
+Received: from localhost ([2401:fa00:95:205:33c8:8e01:1161:6797])
+ by smtp.gmail.com with UTF8SMTPSA id m18sm5552391pff.88.2021.06.11.08.27.04
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 11 Jun 2021 08:27:11 -0700 (PDT)
+From: Claire Chang <tientzu@chromium.org>
+To: Rob Herring <robh+dt@kernel.org>, mpe@ellerman.id.au,
+ Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
+ Frank Rowand <frowand.list@gmail.com>,
+ Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>, boris.ostrovsky@oracle.com,
+ jgross@suse.com, Christoph Hellwig <hch@lst.de>,
+ Marek Szyprowski <m.szyprowski@samsung.com>
+Subject: [PATCH v9 00/14] Restricted DMA 
+Date: Fri, 11 Jun 2021 23:26:45 +0800
+Message-Id: <20210611152659.2142983-1-tientzu@chromium.org>
+X-Mailer: git-send-email 2.32.0.272.g935e593368-goog
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <1cac781e-122f-568b-5f5a-7e0ceb94bd0b@ideasonboard.com>
-X-Operating-System: Linux phenom 5.10.32scarlett+ 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,226 +68,143 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Xinliang Liu <xinliang.liu@linaro.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Anitha Chrisanthus <anitha.chrisanthus@intel.com>,
- Jonathan Hunter <jonathanh@nvidia.com>, Jerome Brunet <jbrunet@baylibre.com>,
- Kevin Hilman <khilman@baylibre.com>,
- Ludovic Desroches <ludovic.desroches@microchip.com>,
- NXP Linux Team <linux-imx@nxp.com>, Sascha Hauer <s.hauer@pengutronix.de>,
- Roland Scheidegger <sroland@vmware.com>, Sean Paul <sean@poorly.run>,
- Hyun Kwon <hyun.kwon@xilinx.com>, Andrew Jeffery <andrew@aj.id.au>,
- Seung-Woo Kim <sw0312.kim@samsung.com>,
- Noralf =?iso-8859-1?Q?Tr=F8nnes?= <noralf@tronnes.org>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Alex Deucher <alexander.deucher@amd.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Linux Doc Mailing List <linux-doc@vger.kernel.org>,
- David Airlie <airlied@linux.ie>, Edmund Dea <edmund.j.dea@intel.com>,
- Thierry Reding <thierry.reding@gmail.com>,
- Daniel Vetter <daniel.vetter@intel.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
- Steven Price <steven.price@arm.com>,
- VMware Graphics <linux-graphics-maintainer@vmware.com>,
- Ben Skeggs <bskeggs@redhat.com>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
- Boris Brezillon <bbrezillon@kernel.org>, Sandy Huang <hjc@rock-chips.com>,
- Kyungmin Park <kyungmin.park@samsung.com>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Haneen Mohammed <hamohammed.sa@gmail.com>,
- Neil Armstrong <narmstrong@baylibre.com>, Melissa Wen <melissa.srw@gmail.com>,
- Gerd Hoffmann <kraxel@redhat.com>,
- Benjamin Gaignard <benjamin.gaignard@linaro.org>,
- Sam Ravnborg <sam@ravnborg.org>, Jonathan Corbet <corbet@lwn.net>,
- Xinwei Kong <kong.kongxinwei@hisilicon.com>, Chen-Yu Tsai <wens@csie.org>,
- Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
- Joel Stanley <joel@jms.id.au>, Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Jonas Karlman <jonas@kwiboo.se>, Chen Feng <puck.chen@hisilicon.com>,
- Alison Wang <alison.wang@nxp.com>, Maxime Ripard <maxime@cerno.tech>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tomeu Vizoso <tomeu.vizoso@collabora.com>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Tian Tao <tiantao6@hisilicon.com>, Shawn Guo <shawnguo@kernel.org>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, Liviu Dudau <liviu.dudau@arm.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Paul Cercueil <paul@crapouillou.net>, Andrzej Hajda <a.hajda@samsung.com>,
- Huang Rui <ray.huang@amd.com>, Marek Vasut <marex@denx.de>,
- Joonyoung Shim <jy0922.shim@samsung.com>,
- Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>,
- Russell King <linux@armlinux.org.uk>,
- Philippe Cornu <philippe.cornu@foss.st.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, Hans de Goede <hdegoede@redhat.com>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- Jernej Skrabec <jernej.skrabec@siol.net>,
- Yannick Fertre <yannick.fertre@foss.st.com>,
- Nicolas Ferre <nicolas.ferre@microchip.com>,
- Robert Foss <robert.foss@linaro.org>, Qiang Yu <yuq825@gmail.com>,
- Jyri Sarha <jyri.sarha@iki.fi>
+Cc: heikki.krogerus@linux.intel.com, thomas.hellstrom@linux.intel.com,
+ peterz@infradead.org, dri-devel@lists.freedesktop.org,
+ chris@chris-wilson.co.uk, grant.likely@arm.com, paulus@samba.org,
+ mingo@kernel.org, jxgao@google.com, sstabellini@kernel.org,
+ Saravana Kannan <saravanak@google.com>, xypron.glpk@gmx.de,
+ "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>,
+ Bartosz Golaszewski <bgolaszewski@baylibre.com>, bskeggs@redhat.com,
+ linux-pci@vger.kernel.org, xen-devel@lists.xenproject.org,
+ Thierry Reding <treding@nvidia.com>, intel-gfx@lists.freedesktop.org,
+ matthew.auld@intel.com, linux-devicetree <devicetree@vger.kernel.org>,
+ airlied@linux.ie, Robin Murphy <robin.murphy@arm.com>,
+ Nicolas Boichat <drinkcat@chromium.org>, rodrigo.vivi@intel.com,
+ bhelgaas@google.com, tientzu@chromium.org,
+ Dan Williams <dan.j.williams@intel.com>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Greg KH <gregkh@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>,
+ lkml <linux-kernel@vger.kernel.org>, tfiga@chromium.org,
+ "list@263.net:IOMMU DRIVERS" <iommu@lists.linux-foundation.org>,
+ Jim Quinlan <james.quinlan@broadcom.com>, linuxppc-dev@lists.ozlabs.org,
+ bauerman@linux.ibm.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jun 11, 2021 at 09:53:19AM +0300, Tomi Valkeinen wrote:
-> On 11/06/2021 08:54, Maxime Ripard wrote:
-> > Hi,
-> > 
-> > On Thu, Jun 10, 2021 at 11:00:05PM +0200, Daniel Vetter wrote:
-> > > On Thu, Jun 10, 2021 at 7:47 PM Maxime Ripard <maxime@cerno.tech> wrote:
-> > > > 
-> > > > New KMS properties come with a bunch of requirements to avoid each
-> > > > driver from running their own, inconsistent, set of properties,
-> > > > eventually leading to issues like property conflicts, inconsistencies
-> > > > between drivers and semantics, etc.
-> > > > 
-> > > > Let's document what we expect.
-> > > > 
-> > > > Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>
-> > > > Cc: Alexandre Torgue <alexandre.torgue@foss.st.com>
-> > > > Cc: Alex Deucher <alexander.deucher@amd.com>
-> > > > Cc: Alison Wang <alison.wang@nxp.com>
-> > > > Cc: Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
-> > > > Cc: Andrew Jeffery <andrew@aj.id.au>
-> > > > Cc: Andrzej Hajda <a.hajda@samsung.com>
-> > > > Cc: Anitha Chrisanthus <anitha.chrisanthus@intel.com>
-> > > > Cc: Benjamin Gaignard <benjamin.gaignard@linaro.org>
-> > > > Cc: Ben Skeggs <bskeggs@redhat.com>
-> > > > Cc: Boris Brezillon <bbrezillon@kernel.org>
-> > > > Cc: Brian Starkey <brian.starkey@arm.com>
-> > > > Cc: Chen Feng <puck.chen@hisilicon.com>
-> > > > Cc: Chen-Yu Tsai <wens@csie.org>
-> > > > Cc: Christian Gmeiner <christian.gmeiner@gmail.com>
-> > > > Cc: "Christian König" <christian.koenig@amd.com>
-> > > > Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-> > > > Cc: Edmund Dea <edmund.j.dea@intel.com>
-> > > > Cc: Eric Anholt <eric@anholt.net>
-> > > > Cc: Fabio Estevam <festevam@gmail.com>
-> > > > Cc: Gerd Hoffmann <kraxel@redhat.com>
-> > > > Cc: Haneen Mohammed <hamohammed.sa@gmail.com>
-> > > > Cc: Hans de Goede <hdegoede@redhat.com>
-> > > > Cc: "Heiko Stübner" <heiko@sntech.de>
-> > > > Cc: Huang Rui <ray.huang@amd.com>
-> > > > Cc: Hyun Kwon <hyun.kwon@xilinx.com>
-> > > > Cc: Inki Dae <inki.dae@samsung.com>
-> > > > Cc: Jani Nikula <jani.nikula@linux.intel.com>
-> > > > Cc: Jernej Skrabec <jernej.skrabec@siol.net>
-> > > > Cc: Jerome Brunet <jbrunet@baylibre.com>
-> > > > Cc: Joel Stanley <joel@jms.id.au>
-> > > > Cc: John Stultz <john.stultz@linaro.org>
-> > > > Cc: Jonas Karlman <jonas@kwiboo.se>
-> > > > Cc: Jonathan Hunter <jonathanh@nvidia.com>
-> > > > Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-> > > > Cc: Joonyoung Shim <jy0922.shim@samsung.com>
-> > > > Cc: Jyri Sarha <jyri.sarha@iki.fi>
-> > > > Cc: Kevin Hilman <khilman@baylibre.com>
-> > > > Cc: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-> > > > Cc: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
-> > > > Cc: Kyungmin Park <kyungmin.park@samsung.com>
-> > > > Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
-> > > > Cc: Linus Walleij <linus.walleij@linaro.org>
-> > > > Cc: Liviu Dudau <liviu.dudau@arm.com>
-> > > > Cc: Lucas Stach <l.stach@pengutronix.de>
-> > > > Cc: Ludovic Desroches <ludovic.desroches@microchip.com>
-> > > > Cc: Marek Vasut <marex@denx.de>
-> > > > Cc: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
-> > > > Cc: Matthias Brugger <matthias.bgg@gmail.com>
-> > > > Cc: Maxime Coquelin <mcoquelin.stm32@gmail.com>
-> > > > Cc: Maxime Ripard <mripard@kernel.org>
-> > > > Cc: Melissa Wen <melissa.srw@gmail.com>
-> > > > Cc: Neil Armstrong <narmstrong@baylibre.com>
-> > > > Cc: Nicolas Ferre <nicolas.ferre@microchip.com>
-> > > > Cc: "Noralf Trønnes" <noralf@tronnes.org>
-> > > > Cc: NXP Linux Team <linux-imx@nxp.com>
-> > > > Cc: Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>
-> > > > Cc: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
-> > > > Cc: Paul Cercueil <paul@crapouillou.net>
-> > > > Cc: Pengutronix Kernel Team <kernel@pengutronix.de>
-> > > > Cc: Philippe Cornu <philippe.cornu@foss.st.com>
-> > > > Cc: Philipp Zabel <p.zabel@pengutronix.de>
-> > > > Cc: Qiang Yu <yuq825@gmail.com>
-> > > > Cc: Rob Clark <robdclark@gmail.com>
-> > > > Cc: Robert Foss <robert.foss@linaro.org>
-> > > > Cc: Rob Herring <robh@kernel.org>
-> > > > Cc: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>
-> > > > Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
-> > > > Cc: Roland Scheidegger <sroland@vmware.com>
-> > > > Cc: Russell King <linux@armlinux.org.uk>
-> > > > Cc: Sam Ravnborg <sam@ravnborg.org>
-> > > > Cc: Sandy Huang <hjc@rock-chips.com>
-> > > > Cc: Sascha Hauer <s.hauer@pengutronix.de>
-> > > > Cc: Sean Paul <sean@poorly.run>
-> > > > Cc: Seung-Woo Kim <sw0312.kim@samsung.com>
-> > > > Cc: Shawn Guo <shawnguo@kernel.org>
-> > > > Cc: Stefan Agner <stefan@agner.ch>
-> > > > Cc: Steven Price <steven.price@arm.com>
-> > > > Cc: Sumit Semwal <sumit.semwal@linaro.org>
-> > > > Cc: Thierry Reding <thierry.reding@gmail.com>
-> > > > Cc: Tian Tao <tiantao6@hisilicon.com>
-> > > > Cc: Tomeu Vizoso <tomeu.vizoso@collabora.com>
-> > > > Cc: Tomi Valkeinen <tomba@kernel.org>
-> > > > Cc: VMware Graphics <linux-graphics-maintainer@vmware.com>
-> > > > Cc: Xinliang Liu <xinliang.liu@linaro.org>
-> > > > Cc: Xinwei Kong <kong.kongxinwei@hisilicon.com>
-> > > > Cc: Yannick Fertre <yannick.fertre@foss.st.com>
-> > > > Cc: Zack Rusin <zackr@vmware.com>
-> > > > Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-> > > > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
-> > > > 
-> > > > ---
-> > > > 
-> > > > Changes from v2:
-> > > >    - Take into account the feedback from Laurent and Lidiu to no longer
-> > > >      force generic properties, but prefix vendor-specific properties with
-> > > >      the vendor name
-> > > 
-> > > I'm pretty sure my r-b was without this ...
-> > 
-> > Yeah, sorry. I wanted to tell you on IRC that you wanted to have a
-> > second look, but I shouldn't have kept it and caught you by surprise
-> > indeed.
-> > 
-> > > Why exactly do we need this? KMS is meant to be fairly generic (bugs
-> > > throw a wrench around here sometimes, and semantics can be tricky). If
-> > > we open up the door to yolo vendor properties in upstream, then that
-> > > goal is pretty much written off. And we've been there with vendor
-> > > properties, it's a giantic mess.
-> > > 
-> > > Minimally drop my r-b, I'm definitely not in support of this idea.
-> > 
-> > So the argument Lidiu and Laurent made was that in some cases, getting a
-> > generic property right with only a couple of users is hard. So they
-> > advocated for the right to keep non-generic properties. I can get the
-> > argument, and no-one else said that was wrong, so it felt like the
-> > consensus was there.
-> 
-> I also think that (maybe mainly on embedded side) we may have 1) esoteric HW
-> features which perhaps can't even be made generic, and 2) features which may
-> or may not be generic, but for which support cannot be added to any common
-> opensource userspace projects like X or Weston, as the only use cases for
-> the features are specialized low level apps (often customer's closed-source
-> apps).
-> 
-> While I agree with Daniel's "gigantic mess" problem, it would also be quite
-> nice to have a way to support all the HW features upstream instead of
-> carrying them in vendor trees.
+This series implements mitigations for lack of DMA access control on
+systems without an IOMMU, which could result in the DMA accessing the
+system memory at unexpected times and/or unexpected addresses, possibly
+leading to data leakage or corruption.
 
-So this means to be able to accomodate this "vendor properties are totally
-fine, go wild" exception we also need to throw "open source userspace
-user, fully reviewed and tested" into the drink?
+For example, we plan to use the PCI-e bus for Wi-Fi and that PCI-e bus is
+not behind an IOMMU. As PCI-e, by design, gives the device full access to
+system memory, a vulnerability in the Wi-Fi firmware could easily escalate
+to a full system exploit (remote wifi exploits: [1a], [1b] that shows a
+full chain of exploits; [2], [3]).
 
-At least my experience from what I've seen with funky vendor properties
-isn't so much that we can't figure out a reasonable way to expose them.
-The problem is that the userspace tends to be a (often closed source)
-vendor fork of a random compositor somewhere. So if that requirement is
-somehow a problem, we need to talk about _that_.
+To mitigate the security concerns, we introduce restricted DMA. Restricted
+DMA utilizes the existing swiotlb to bounce streaming DMA in and out of a
+specially allocated region and does memory allocation from the same region.
+The feature on its own provides a basic level of protection against the DMA
+overwriting buffer contents at unexpected times. However, to protect
+against general data leakage and system memory corruption, the system needs
+to provide a way to restrict the DMA to a predefined memory region (this is
+usually done at firmware level, e.g. MPU in ATF on some ARM platforms [4]).
 
-Not promising we'll totally merge some vendor properties without spelling
-out what exactly this means. All that ensures is that people submit
-patches and then get annoyed because they still can't be merged because
-the userspace situation is all the same.
--Daniel
+[1a] https://googleprojectzero.blogspot.com/2017/04/over-air-exploiting-broadcoms-wi-fi_4.html
+[1b] https://googleprojectzero.blogspot.com/2017/04/over-air-exploiting-broadcoms-wi-fi_11.html
+[2] https://blade.tencent.com/en/advisories/qualpwn/
+[3] https://www.bleepingcomputer.com/news/security/vulnerabilities-found-in-highly-popular-firmware-for-wifi-chips/
+[4] https://github.com/ARM-software/arm-trusted-firmware/blob/master/plat/mediatek/mt8183/drivers/emi_mpu/emi_mpu.c#L132
+
+v9:
+Address the comments in v7 to
+  - set swiotlb active pool to dev->dma_io_tlb_mem
+  - get rid of get_io_tlb_mem
+  - dig out the device struct for is_swiotlb_active
+  - move debugfs_create_dir out of swiotlb_create_debugfs
+  - do set_memory_decrypted conditionally in swiotlb_init_io_tlb_mem
+  - use IS_ENABLED in kernel/dma/direct.c
+  - fix redefinition of 'of_dma_set_restricted_buffer'
+
+v8:
+- Fix reserved-memory.txt and add the reg property in example.
+- Fix sizeof for of_property_count_elems_of_size in
+  drivers/of/address.c#of_dma_set_restricted_buffer.
+- Apply Will's suggestion to try the OF node having DMA configuration in
+  drivers/of/address.c#of_dma_set_restricted_buffer.
+- Fix typo in the comment of drivers/of/address.c#of_dma_set_restricted_buffer.
+- Add error message for PageHighMem in
+  kernel/dma/swiotlb.c#rmem_swiotlb_device_init and move it to
+  rmem_swiotlb_setup.
+- Fix the message string in rmem_swiotlb_setup.
+https://lore.kernel.org/patchwork/cover/1437112/
+
+v7:
+Fix debugfs, PageHighMem and comment style in rmem_swiotlb_device_init
+https://lore.kernel.org/patchwork/cover/1431031/
+
+v6:
+Address the comments in v5
+https://lore.kernel.org/patchwork/cover/1423201/
+
+v5:
+Rebase on latest linux-next
+https://lore.kernel.org/patchwork/cover/1416899/
+
+v4:
+- Fix spinlock bad magic
+- Use rmem->name for debugfs entry
+- Address the comments in v3
+https://lore.kernel.org/patchwork/cover/1378113/
+
+v3:
+Using only one reserved memory region for both streaming DMA and memory
+allocation.
+https://lore.kernel.org/patchwork/cover/1360992/
+
+v2:
+Building on top of swiotlb.
+https://lore.kernel.org/patchwork/cover/1280705/
+
+v1:
+Using dma_map_ops.
+https://lore.kernel.org/patchwork/cover/1271660/
+
+
+Claire Chang (14):
+  swiotlb: Refactor swiotlb init functions
+  swiotlb: Refactor swiotlb_create_debugfs
+  swiotlb: Set dev->dma_io_tlb_mem to the swiotlb pool used
+  swiotlb: Add restricted DMA pool initialization
+  swiotlb: Update is_swiotlb_buffer to add a struct device argument
+  swiotlb: Update is_swiotlb_active to add a struct device argument
+  swiotlb: Bounce data from/to restricted DMA pool if available
+  swiotlb: Move alloc_size to find_slots
+  swiotlb: Refactor swiotlb_tbl_unmap_single
+  dma-direct: Add a new wrapper __dma_direct_free_pages()
+  swiotlb: Add restricted DMA alloc/free support.
+  dma-direct: Allocate memory from restricted DMA pool if available
+  dt-bindings: of: Add restricted DMA pool
+  of: Add plumbing for restricted DMA pool
+
+ .../reserved-memory/reserved-memory.txt       |  36 ++-
+ drivers/gpu/drm/i915/gem/i915_gem_internal.c  |   2 +-
+ drivers/gpu/drm/nouveau/nouveau_ttm.c         |   2 +-
+ drivers/iommu/dma-iommu.c                     |  12 +-
+ drivers/of/address.c                          |  33 +++
+ drivers/of/device.c                           |   6 +
+ drivers/of/of_private.h                       |   6 +
+ drivers/pci/xen-pcifront.c                    |   2 +-
+ drivers/xen/swiotlb-xen.c                     |   2 +-
+ include/linux/device.h                        |   4 +
+ include/linux/swiotlb.h                       |  45 +++-
+ kernel/dma/Kconfig                            |  14 +
+ kernel/dma/direct.c                           |  62 +++--
+ kernel/dma/direct.h                           |   9 +-
+ kernel/dma/swiotlb.c                          | 242 +++++++++++++-----
+ 15 files changed, 376 insertions(+), 101 deletions(-)
+
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+2.32.0.272.g935e593368-goog
+
