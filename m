@@ -2,42 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE7253A447A
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Jun 2021 16:55:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 50D9E3A447C
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Jun 2021 16:55:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 068A86EEAA;
-	Fri, 11 Jun 2021 14:55:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3E2326EEA6;
+	Fri, 11 Jun 2021 14:55:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6D4766EE9E;
- Fri, 11 Jun 2021 14:55:21 +0000 (UTC)
-IronPort-SDR: bgb79ib3SZKHjmqSzlHd6x/JM7FnYubXCkt9N1FtGxcxTx3zyKIjCoran4445NEHtSn72YmstO
- ihDoE5x8WLiQ==
-X-IronPort-AV: E=McAfee;i="6200,9189,10012"; a="205355265"
-X-IronPort-AV: E=Sophos;i="5.83,265,1616482800"; d="scan'208";a="205355265"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Jun 2021 07:55:21 -0700
-IronPort-SDR: ewAhAC2IRmjkIrSKW4fpW1/a+99G0vpp3SIpOx8c06gvRvmU5/ceg9Uv5NzSJxHFcP9rkHMgVG
- k6hNL5ai0v5Q==
-X-IronPort-AV: E=Sophos;i="5.83,265,1616482800"; d="scan'208";a="450783222"
-Received: from delmer-mobl.ger.corp.intel.com (HELO thellst-mobl1.intel.com)
- ([10.249.254.23])
- by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Jun 2021 07:55:20 -0700
-From: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
-To: intel-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 4/4] drm/i915/ttm: Use TTM for system memory
-Date: Fri, 11 Jun 2021 16:54:59 +0200
-Message-Id: <20210611145459.8576-5-thomas.hellstrom@linux.intel.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210611145459.8576-1-thomas.hellstrom@linux.intel.com>
-References: <20210611145459.8576-1-thomas.hellstrom@linux.intel.com>
+Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com
+ [IPv6:2a00:1450:4864:20::32d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DC88D6EEA6
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Jun 2021 14:55:53 +0000 (UTC)
+Received: by mail-wm1-x32d.google.com with SMTP id m3so3041584wms.4
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Jun 2021 07:55:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=VogJSzUKEexMGABDNfazwk46tI2gvNniSZkFlcB+wfc=;
+ b=fjrwH/yB8odcqf6t9urm0xnWaWCOcXsE7p282DE9BQ5u5a5yDdkqMSg6Xt82y+kv+t
+ +8KEYXzu+WdBFS1d9FVFAiMyR6yo+ilaBqFSSyRMxYi7EWJRXtYoyACmhdunyfWgo7JR
+ 9CBpYXZitaqRbEgiZFT/hVxw55twH1Xd0xoC4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=VogJSzUKEexMGABDNfazwk46tI2gvNniSZkFlcB+wfc=;
+ b=gxJaOtXzfWAFvFqUAafeeh8C/jGmu16REqxlOxiN2iKUQGOu/DqkgeisHCIp+cVmEw
+ Qgwjtlv8EGpcdbLK18w8bJ42xLoCMKuOnP37SbYTx+mDTUjBJimhKXyRTo3kzdlAE9zT
+ VMwoVEdq+DnxSqLToreQX1IyKgXfYHjmrS3kVtcwYIV2XVXNJHdxsK9VqV+6lA4VxtvK
+ UxWPxBqJJrJXrinpIBQceNvntcEWC2Paa3fD8YoGNHPzlN3AtQxyCW03NB+U670jsnuu
+ 6Evnrc1gOBnKOydQQadZsqEXYc4WInVr6vcDbjsusY7zHbyMexuR1vCLHTsR7TWIzuFx
+ GppA==
+X-Gm-Message-State: AOAM5334HtfmVIOPXBHLQTG5GVMEBmk7X/DkugRgT8RJVeHa7ogGtHD2
+ wXn4C/Jg2NIMIFQbo9oCGW+pNQ==
+X-Google-Smtp-Source: ABdhPJwZMeLyfVZ3r7Sgg3vZQ5olxvPiHwMHzxvGqJxnrOt9crVrYfYvz++st8pgd2SBDUKsvkb2Qw==
+X-Received: by 2002:a1c:ddc3:: with SMTP id u186mr20625206wmg.44.1623423352482; 
+ Fri, 11 Jun 2021 07:55:52 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id t9sm7171092wmq.14.2021.06.11.07.55.51
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 11 Jun 2021 07:55:52 -0700 (PDT)
+Date: Fri, 11 Jun 2021 16:55:50 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>
+Subject: Re: [PATCH 1/5] dma-buf: fix dma_resv_test_signaled test_all handling
+Message-ID: <YMN5do2/KUt85h5W@phenom.ffwll.local>
+References: <20210611120301.10595-1-christian.koenig@amd.com>
+ <YMN3nr1mTj09p8lT@phenom.ffwll.local>
+ <2c91e4b4-e8c8-a9f5-420f-9cf0c1f9a67d@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <2c91e4b4-e8c8-a9f5-420f-9cf0c1f9a67d@gmail.com>
+X-Operating-System: Linux phenom 5.10.32scarlett+ 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,106 +69,136 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
+Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-For discrete, use TTM for both cached and WC system memory. That means
-we currently rely on the TTM memory accounting / shrinker. For cached
-system memory we should consider remaining shmem-backed, which can be
-implemented from our ttm_tt_populate calback. We can then also reuse our
-own very elaborate shrinker for that memory.
+On Fri, Jun 11, 2021 at 04:53:11PM +0200, Christian König wrote:
+> 
+> 
+> Am 11.06.21 um 16:47 schrieb Daniel Vetter:
+> > On Fri, Jun 11, 2021 at 02:02:57PM +0200, Christian König wrote:
+> > > As the name implies if testing all fences is requested we
+> > > should indeed test all fences and not skip the exclusive
+> > > one because we see shared ones.
+> > > 
+> > > Signed-off-by: Christian König <christian.koenig@amd.com>
+> > Hm I thought we've had the rule that when both fences exist, then
+> > collectively the shared ones must signale no earlier than the exclusive
+> > one.
+> > 
+> > That's at least the contract we've implemented in dma_resv.h. But I've
+> > also found a bunch of drivers who are a lot more yolo on this.
+> > 
+> > I think there's a solid case here to just always take all the fences if we
+> > ask for all the shared ones, but if we go that way then I'd say
+> > - clear kerneldoc patch to really hammer this in (currently we're not good
+> >    at all in this regard)
+> > - going through drivers a bit to check for this (I have some of that done
+> >    already in my earlier series, need to respin it and send it out)
+> > 
+> > But I'm kinda not seeing why this needs to be in this patch series here.
+> 
+> You mentioned that this is a problem in the last patch and if you ask me
+> that's just a bug or at least very inconsistent.
+> 
+> See dma_resv_wait_timeout() always waits for all fences, including the
+> exclusive one even if shared ones are present. But dma_resv_test_signaled()
+> ignores the exclusive one if shared ones are present.
 
-Signed-off-by: Thomas HellstrÃ¶m <thomas.hellstrom@linux.intel.com>
----
-v2:
-- Fix IS_ERR_OR_NULL() check to IS_ERR() (Reported by Matthew Auld)
----
- drivers/gpu/drm/i915/gem/i915_gem_ttm.c    | 22 ++++++++++++++++++++++
- drivers/gpu/drm/i915/i915_drv.h            |  3 ---
- drivers/gpu/drm/i915/intel_memory_region.c |  7 ++++++-
- drivers/gpu/drm/i915/intel_memory_region.h |  8 ++++++++
- 4 files changed, 36 insertions(+), 4 deletions(-)
+Hm the only one I thought I've mentioned is that dma_buf_poll doesn't use
+dma_fence_get_rcu_safe where I think it should. Different problem. I think
+this is one you spotted.
 
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-index fd3d11728229..0940c1d7c5e6 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-@@ -755,3 +755,25 @@ int __i915_gem_ttm_object_init(struct intel_memory_region *mem,
- 	/* i915 wants -ENXIO when out of memory region space. */
- 	return (ret == -ENOSPC) ? -ENXIO : ret;
- }
-+
-+static const struct intel_memory_region_ops ttm_system_region_ops = {
-+	.init_object = __i915_gem_ttm_object_init,
-+};
-+
-+struct intel_memory_region *
-+i915_gem_ttm_system_setup(struct drm_i915_private *i915,
-+			  u16 type, u16 instance)
-+{
-+	struct intel_memory_region *mr;
-+
-+	mr = intel_memory_region_create(i915, 0,
-+					totalram_pages() << PAGE_SHIFT,
-+					PAGE_SIZE, 0,
-+					type, instance,
-+					&ttm_system_region_ops);
-+	if (IS_ERR(mr))
-+		return mr;
-+
-+	intel_memory_region_set_name(mr, "system-ttm");
-+	return mr;
-+}
-diff --git a/drivers/gpu/drm/i915/i915_drv.h b/drivers/gpu/drm/i915/i915_drv.h
-index 38ff2fb89744..9643bebb951d 100644
---- a/drivers/gpu/drm/i915/i915_drv.h
-+++ b/drivers/gpu/drm/i915/i915_drv.h
-@@ -1751,9 +1751,6 @@ void i915_gem_cleanup_userptr(struct drm_i915_private *dev_priv);
- void i915_gem_init_early(struct drm_i915_private *dev_priv);
- void i915_gem_cleanup_early(struct drm_i915_private *dev_priv);
- 
--struct intel_memory_region *i915_gem_shmem_setup(struct drm_i915_private *i915,
--						 u16 type, u16 instance);
--
- static inline void i915_gem_drain_freed_objects(struct drm_i915_private *i915)
- {
- 	/*
-diff --git a/drivers/gpu/drm/i915/intel_memory_region.c b/drivers/gpu/drm/i915/intel_memory_region.c
-index 12fb5423fd5e..0b016bdb8b84 100644
---- a/drivers/gpu/drm/i915/intel_memory_region.c
-+++ b/drivers/gpu/drm/i915/intel_memory_region.c
-@@ -220,7 +220,12 @@ int intel_memory_regions_hw_probe(struct drm_i915_private *i915)
- 		instance = intel_region_map[i].instance;
- 		switch (type) {
- 		case INTEL_MEMORY_SYSTEM:
--			mem = i915_gem_shmem_setup(i915, type, instance);
-+			if (IS_DGFX(i915))
-+				mem = i915_gem_ttm_system_setup(i915, type,
-+								instance);
-+			else
-+				mem = i915_gem_shmem_setup(i915, type,
-+							   instance);
- 			break;
- 		case INTEL_MEMORY_STOLEN_LOCAL:
- 			mem = i915_gem_stolen_lmem_setup(i915, type, instance);
-diff --git a/drivers/gpu/drm/i915/intel_memory_region.h b/drivers/gpu/drm/i915/intel_memory_region.h
-index c7e635d62e1a..1a2bb9fc9de5 100644
---- a/drivers/gpu/drm/i915/intel_memory_region.h
-+++ b/drivers/gpu/drm/i915/intel_memory_region.h
-@@ -143,4 +143,12 @@ void intel_memory_region_unreserve(struct intel_memory_region *mem);
- int intel_memory_region_reserve(struct intel_memory_region *mem,
- 				resource_size_t offset,
- 				resource_size_t size);
-+
-+struct intel_memory_region *
-+i915_gem_ttm_system_setup(struct drm_i915_private *i915,
-+			  u16 type, u16 instance);
-+struct intel_memory_region *
-+i915_gem_shmem_setup(struct drm_i915_private *i915,
-+		     u16 type, u16 instance);
-+
- #endif
+> The only other driver I could find trying to make use of this is nouveau and
+> I already provided a fix for this as well.
+
+i915 also does this, and I think I've found a few more.
+
+> I just think that this is the more defensive approach to fix this and have
+> at least the core functions consistent on the handling.
+
+Oh fully agree, it's just current dma_resv docs aren't the greatest, and
+hacking on semantics without updating the docs isn't great. Especially
+when it's ad-hoc.
+-Daniel
+
+> 
+> Christian.
+> 
+> > -Daniel
+> > 
+> > > ---
+> > >   drivers/dma-buf/dma-resv.c | 33 ++++++++++++---------------------
+> > >   1 file changed, 12 insertions(+), 21 deletions(-)
+> > > 
+> > > diff --git a/drivers/dma-buf/dma-resv.c b/drivers/dma-buf/dma-resv.c
+> > > index f26c71747d43..c66bfdde9454 100644
+> > > --- a/drivers/dma-buf/dma-resv.c
+> > > +++ b/drivers/dma-buf/dma-resv.c
+> > > @@ -615,25 +615,21 @@ static inline int dma_resv_test_signaled_single(struct dma_fence *passed_fence)
+> > >    */
+> > >   bool dma_resv_test_signaled(struct dma_resv *obj, bool test_all)
+> > >   {
+> > > -	unsigned int seq, shared_count;
+> > > +	struct dma_fence *fence;
+> > > +	unsigned int seq;
+> > >   	int ret;
+> > >   	rcu_read_lock();
+> > >   retry:
+> > >   	ret = true;
+> > > -	shared_count = 0;
+> > >   	seq = read_seqcount_begin(&obj->seq);
+> > >   	if (test_all) {
+> > >   		struct dma_resv_list *fobj = dma_resv_shared_list(obj);
+> > > -		unsigned int i;
+> > > -
+> > > -		if (fobj)
+> > > -			shared_count = fobj->shared_count;
+> > > +		unsigned int i, shared_count;
+> > > +		shared_count = fobj ? fobj->shared_count : 0;
+> > >   		for (i = 0; i < shared_count; ++i) {
+> > > -			struct dma_fence *fence;
+> > > -
+> > >   			fence = rcu_dereference(fobj->shared[i]);
+> > >   			ret = dma_resv_test_signaled_single(fence);
+> > >   			if (ret < 0)
+> > > @@ -641,24 +637,19 @@ bool dma_resv_test_signaled(struct dma_resv *obj, bool test_all)
+> > >   			else if (!ret)
+> > >   				break;
+> > >   		}
+> > > -
+> > > -		if (read_seqcount_retry(&obj->seq, seq))
+> > > -			goto retry;
+> > >   	}
+> > > -	if (!shared_count) {
+> > > -		struct dma_fence *fence_excl = dma_resv_excl_fence(obj);
+> > > -
+> > > -		if (fence_excl) {
+> > > -			ret = dma_resv_test_signaled_single(fence_excl);
+> > > -			if (ret < 0)
+> > > -				goto retry;
+> > > +	fence = dma_resv_excl_fence(obj);
+> > > +	if (fence) {
+> > > +		ret = dma_resv_test_signaled_single(fence);
+> > > +		if (ret < 0)
+> > > +			goto retry;
+> > > -			if (read_seqcount_retry(&obj->seq, seq))
+> > > -				goto retry;
+> > > -		}
+> > >   	}
+> > > +	if (read_seqcount_retry(&obj->seq, seq))
+> > > +		goto retry;
+> > > +
+> > >   	rcu_read_unlock();
+> > >   	return ret;
+> > >   }
+> > > -- 
+> > > 2.25.1
+> > > 
+> 
+
 -- 
-2.31.1
-
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
