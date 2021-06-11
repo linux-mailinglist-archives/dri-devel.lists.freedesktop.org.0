@@ -1,72 +1,103 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4594A3A399B
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Jun 2021 04:18:34 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 73D6B3A39E7
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Jun 2021 04:50:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D446F6E0CF;
-	Fri, 11 Jun 2021 02:18:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7E2426E525;
+	Fri, 11 Jun 2021 02:50:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x530.google.com (mail-pg1-x530.google.com
- [IPv6:2607:f8b0:4864:20::530])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 222FA6E0CF
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Jun 2021 02:18:28 +0000 (UTC)
-Received: by mail-pg1-x530.google.com with SMTP id y11so1222545pgp.11
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Jun 2021 19:18:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:references:from:message-id:date:user-agent:mime-version
- :in-reply-to:content-language:content-transfer-encoding;
- bh=CxgTlwmogoHhOULSFq3GJiDbsRi88PXUgGnGmm64QIk=;
- b=aPH2Rj6GwUHE43OWEfQPUaa1wYw6SyzIomh4HiyRwux/MIJA/vVXxze7aXwz3HUt+H
- 9pB7OWEbdwAoXrga89jq2Y4jSIdaGgx1FyMjJ7F85COtVOd553YmR2DHyaTmAyLRAvIb
- A+XLas/CxN6Yw/j7uCYPmHxOJ148N18bS1sgfV8gN8zOCxH6ZX2uFFj1iCpZGFbiqiR1
- IKkh3chxuGJg5fN4jNohvhjFajK02UxfrBPG28fSwEoJKbWdi2kzyi8Lyqx/bxWKqsIQ
- rJJqszvCD6WZMLR/RRnuAdTFiGF47FwWxeWjLru9Kg+hhIbwqtioVe9yFxKavSOgnvyu
- RyPw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=CxgTlwmogoHhOULSFq3GJiDbsRi88PXUgGnGmm64QIk=;
- b=GLpfDaHuefjW50rvI1iqJJ8nW8iE3MQv9/zKCANl9r8MVHAYyb3C+3VrylmsF798QM
- PmgNT2PV0+X+E1co5IFkIrIqgZUFk8UTFPd4uK03vyrzEyF9sdEe3SF5sNj1VzoEU/wV
- Us8hyGN0+podaC+5/JO9e1S0PdDx6qqoq/nCzNrORUW75ev0czenB5RyyXhCcUKUMclv
- ZPDTpovjPWnQJz9u5gr32NQ3zTS+poH1VcWL68WEE5DmfBJtQgR/CuugarFq4emRGhF3
- tqGz+gfvJwOg7nL1ag/bHbsVs3yNBbau6HXrQ6TVgktzvO6EUhfgW8DtGMAM/h5PtX5f
- tjkw==
-X-Gm-Message-State: AOAM532mnMn+SBWkm8QdyA+rJ/XxNk5RdwHE0W7mzBvf4Rj+8fArmiWe
- vzN4g/ZrCVdRwXTyquW7GFg=
-X-Google-Smtp-Source: ABdhPJzD6Rfn7Da741MQ5mLIAeix7PdUK5MlNUqEkxRnucYkYh6IJqCQQ5CHd+OUpP90WUCkWnW8YA==
-X-Received: by 2002:a62:bd14:0:b029:2de:8bf7:2df8 with SMTP id
- a20-20020a62bd140000b02902de8bf72df8mr5856590pff.60.1623377907516; 
- Thu, 10 Jun 2021 19:18:27 -0700 (PDT)
-Received: from [192.168.1.237] ([118.200.190.93])
- by smtp.gmail.com with ESMTPSA id o16sm3439636pfu.75.2021.06.10.19.18.24
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 10 Jun 2021 19:18:27 -0700 (PDT)
-Subject: Re: [PATCH] drm: Lock pointer access in drm_master_release()
-To: maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, airlied@linux.ie, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, skhan@linuxfoundation.org,
- gregkh@linuxfoundation.org, linux-kernel-mentees@lists.linuxfoundation.org,
- Dan Carpenter <dan.carpenter@oracle.com>
-References: <20210609092119.173590-1-desmondcheongzx@gmail.com>
- <YMHlLQHRLWgWlXTs@phenom.ffwll.local>
- <f16f4123-bd0b-f09c-ddf1-7197c841b588@gmail.com>
- <YMJCdG7k5sNaiHen@phenom.ffwll.local>
-From: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
-Message-ID: <d8150fdb-3a59-e491-f148-1c528fe3c824@gmail.com>
-Date: Fri, 11 Jun 2021 10:18:22 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+Received: from mailout1.samsung.com (mailout1.samsung.com [203.254.224.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4FD7E6E525
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Jun 2021 02:50:15 +0000 (UTC)
+Received: from epcas1p1.samsung.com (unknown [182.195.41.45])
+ by mailout1.samsung.com (KnoxPortal) with ESMTP id
+ 20210611025013epoutp01fbb7df9613d05e88c05206fcbf3d9312~HZ1bDqVnU2925329253epoutp01-
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Jun 2021 02:50:13 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.samsung.com
+ 20210611025013epoutp01fbb7df9613d05e88c05206fcbf3d9312~HZ1bDqVnU2925329253epoutp01-
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1623379813;
+ bh=76g/yp5nTxd62hNm4R1Rvvp7hkkQXghX9lgOEJeNmng=;
+ h=From:To:Cc:Subject:Date:References:From;
+ b=r30MhHmcniDV94ecXmggPZpc5E5xuvULQwAYVpKkweHfpjrJGhWtz06UrierObNvb
+ QgifGB0qXDLnHUKHlS2SH7X81pFYohVnObShNNDox62yiL/IMza1tINzoLYyfOfKqb
+ wDj26tESS4/bUlFpDLsZzzrEadVo+lcpDeWNZmsw=
+Received: from epsnrtp2.localdomain (unknown [182.195.42.163]) by
+ epcas1p3.samsung.com (KnoxPortal) with ESMTP id
+ 20210611025012epcas1p3ee7617f510ae6c5060faccddfe5d6b45~HZ1a3Ak7y2092120921epcas1p3Q;
+ Fri, 11 Jun 2021 02:50:12 +0000 (GMT)
+Received: from epsmges1p2.samsung.com (unknown [182.195.40.156]) by
+ epsnrtp2.localdomain (Postfix) with ESMTP id 4G1QLT0nM1z4x9Q4; Fri, 11 Jun
+ 2021 02:50:09 +0000 (GMT)
+Received: from epcas1p4.samsung.com ( [182.195.41.48]) by
+ epsmges1p2.samsung.com (Symantec Messaging Gateway) with SMTP id
+ 5D.AB.09701.55FC2C06; Fri, 11 Jun 2021 11:49:57 +0900 (KST)
+Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
+ epcas1p1.samsung.com (KnoxPortal) with ESMTPA id
+ 20210611024956epcas1p1c15767f446a585a62be9aec1482082c1~HZ1L8hyks2574525745epcas1p1c;
+ Fri, 11 Jun 2021 02:49:56 +0000 (GMT)
+Received: from epsmgms1p2.samsung.com (unknown [182.195.42.42]) by
+ epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
+ 20210611024956epsmtrp121a31882d7fd4524889a26617e1e0839~HZ1L72Jlx3125131251epsmtrp1S;
+ Fri, 11 Jun 2021 02:49:56 +0000 (GMT)
+X-AuditID: b6c32a36-647ff700000025e5-d2-60c2cf5549ca
+Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
+ epsmgms1p2.samsung.com (Symantec Messaging Gateway) with SMTP id
+ 41.8B.08163.45FC2C06; Fri, 11 Jun 2021 11:49:56 +0900 (KST)
+Received: from localhost.localdomain (unknown [10.113.221.211]) by
+ epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
+ 20210611024956epsmtip1bba7829aba57f707622d822070c8824f~HZ1LwLMSn2571825718epsmtip1I;
+ Fri, 11 Jun 2021 02:49:56 +0000 (GMT)
+From: Inki Dae <inki.dae@samsung.com>
+To: airlied@linux.ie
+Subject: [GIT PULL] exynos-drm-next
+Date: Fri, 11 Jun 2021 11:59:39 +0900
+Message-Id: <20210611025939.393282-1-inki.dae@samsung.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <YMJCdG7k5sNaiHen@phenom.ffwll.local>
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrMKsWRmVeSWpSXmKPExsWy7bCmgW7o+UMJBksWC1r0njvJZHHl63s2
+ ixnn9zE5MHts//aA1eN+93Emj8+b5AKYo7JtMlITU1KLFFLzkvNTMvPSbZW8g+Od403NDAx1
+ DS0tzJUU8hJzU22VXHwCdN0yc4AWKSmUJeaUAoUCEouLlfTtbIryS0tSFTLyi0tslVILUnIK
+ LAv0ihNzi0vz0vWS83OtDA0MjEyBChOyMz6cm8NSME+wYlXTAvYGxtV8XYycHBICJhKbDs1l
+ 6WLk4hAS2MEocebBQVYI5xOjxM4jB6Aynxklvu75wgzT0tDdzA6R2MUocXX/YyYI5wujxJTZ
+ S1lBqtgEVCUmrrjPBmKLCIhIHF/2F8xmFnCT+LP0LAuILSygLLH7+j6wehag+iVtTxlBbF4B
+ K4mzLfvZIbbJS8y89J0dIi4ocXLmExaIOfISzVtnM4MslhCYxy4xa9oDqPNcJD7PeA9lC0u8
+ Or4FapCUxMv+NnaIhmZGiYkzTjNBOB2MEncfX2eBqDKW2L90MlCCA2iFpsT6XfoQYUWJnb/n
+ MkJs5pN497WHFaREQoBXoqNNCKJESeLYxRuMELaExIUlE9kgSjwk2j+BA1tIIFaiefUGxgmM
+ 8rOQvDMLyTuzEPYuYGRexSiWWlCcm55abFhghBytmxjBqU3LbAfjpLcf9A4xMnEwHmKU4GBW
+ EuHdufJQghBvSmJlVWpRfnxRaU5q8SFGU2AAT2SWEk3OBybXvJJ4Q1MjY2NjCxNDM1NDQyVx
+ 3p1sQE0C6YklqdmpqQWpRTB9TBycUg1MMbyPpna08k49I34vc3OT5q9yh9TnksKf2Kb9fdEn
+ 33D475llh9rWfBHfwZKo+eN2skrZL6d9D1l106JWhsR9FGUznfK06B6TcfckExUpoRPuDOu5
+ bzLl2WVEc0o9Vjn008fsE6/R8Zj3Ol4pM0KSFt7/++uj2WzdN1WVUc4nt51b911gcYySTRPj
+ ivR7kScutdoLXdv2M6YzfF7Ck6cyNcwuKXJ3BEVrzhZ93WD5fNuRy4v79q7j1diz3cfjysuQ
+ pYsL5h92ULyw7BCbVtpc1lP72rlOXV7OLWlbyvT6sOsS1p+LDF3konWXbth6/iD/rjsXZHwk
+ Lq030d/x69CsX76Hu/0/ut4+JbHmmdJjMSWW4oxEQy3mouJEAPWX6pD2AwAA
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFuplluLIzCtJLcpLzFFi42LZdlhJTjfk/KEEgwmPtCx6z51ksrjy9T2b
+ xYzz+5gcmD22f3vA6nG/+ziTx+dNcgHMUVw2Kak5mWWpRfp2CVwZH87NYSmYJ1ixqmkBewPj
+ ar4uRk4OCQETiYbuZnYQW0hgB6PEluV5XYwcQHEJiS1bOSBMYYnDh4shKj4xShydaQViswmo
+ SkxccZ8NxBYREJE4vuwvmM0s4CHxfs9qsInCAsoSu6/vYwWxWYDql7Q9ZQSxeQWsJM627GeH
+ uEBeYual7+wQcUGJkzOfsEDMkZdo3jqbeQIj3ywkqVlIUgsYmVYxSqYWFOem5xYbFhjlpZbr
+ FSfmFpfmpesl5+duYgSHmJbWDsY9qz7oHWJk4mA8xCjBwawkwrtz5aEEId6UxMqq1KL8+KLS
+ nNTiQ4zSHCxK4rwXuk7GCwmkJ5akZqemFqQWwWSZODilGphiuq9+Z9u5vXzyFMHKFZek389d
+ svOB79XC5e/dzq1d+yovmKt87ub3wZt+3qsK4NyzeZLWx4MqCQ97dDYy5XH/+HnkNf+UnD3Z
+ 28x+bN53t+Rhe2LOMcvomstbIubvcOvznx0sFvQ04Fzbr8V3J+7z5ey9rqgwZ1OuNJeerKJr
+ cf4WrZmZ987b1Dgs7Mvaa7fs5LyD0959PWJ3+Pbe826bthpf7HY9f7elPT1K6Ql39sziSLU8
+ ++21DVGfDnHz7c450nDIYueSX66/rrC92lz8MS7ja7dtQu2TzSI7uCfZXnS+vDqZ8VaCs9Fp
+ 82eTDjr4cogy/b7rfvdV9gSDpjWVTBJtOlKdzjvOJ1Q/0lN7oMRSnJFoqMVcVJwIAHxlz6ig
+ AgAA
+X-CMS-MailID: 20210611024956epcas1p1c15767f446a585a62be9aec1482082c1
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-Sendblock-Type: SVC_REQ_APPROVE
+CMS-TYPE: 101P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20210611024956epcas1p1c15767f446a585a62be9aec1482082c1
+References: <CGME20210611024956epcas1p1c15767f446a585a62be9aec1482082c1@epcas1p1.samsung.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,97 +110,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: linux-samsung-soc@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11/6/21 12:48 am, Daniel Vetter wrote:
-> On Thu, Jun 10, 2021 at 11:21:39PM +0800, Desmond Cheong Zhi Xi wrote:
->> On 10/6/21 6:10 pm, Daniel Vetter wrote:
->>> On Wed, Jun 09, 2021 at 05:21:19PM +0800, Desmond Cheong Zhi Xi wrote:
->>>> This patch eliminates the following smatch warning:
->>>> drivers/gpu/drm/drm_auth.c:320 drm_master_release() warn: unlocked access 'master' (line 318) expected lock '&dev->master_mutex'
->>>>
->>>> The 'file_priv->master' field should be protected by the mutex lock to
->>>> '&dev->master_mutex'. This is because other processes can concurrently
->>>> modify this field and free the current 'file_priv->master'
->>>> pointer. This could result in a use-after-free error when 'master' is
->>>> dereferenced in subsequent function calls to
->>>> 'drm_legacy_lock_master_cleanup()' or to 'drm_lease_revoke()'.
->>>>
->>>> An example of a scenario that would produce this error can be seen
->>>> from a similar bug in 'drm_getunique()' that was reported by Syzbot:
->>>> https://syzkaller.appspot.com/bug?id=148d2f1dfac64af52ffd27b661981a540724f803
->>>>
->>>> In the Syzbot report, another process concurrently acquired the
->>>> device's master mutex in 'drm_setmaster_ioctl()', then overwrote
->>>> 'fpriv->master' in 'drm_new_set_master()'. The old value of
->>>> 'fpriv->master' was subsequently freed before the mutex was unlocked.
->>>>
->>>> Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
->>>> Signed-off-by: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
->>>
->>> Thanks a lot. I've done an audit of this code, and I found another
->>> potential problem in drm_is_current_master. The callers from drm_auth.c
->>> hold the dev->master_mutex, but all the external ones dont. I think we
->>> need to split this into a _locked function for use within drm_auth.c, and
->>> the exported one needs to grab the dev->master_mutex while it's checking
->>> master status. Ofc there will still be races, those are ok, but right now
->>> we run the risk of use-after free problems in drm_lease_owner.
->>>
->>> Are you up to do that fix too?
->>>
->>
->> Hi Daniel,
->>
->> Thanks for the pointer, I'm definitely up for it!
->>
->>> I think the drm_lease.c code also needs an audit, there we'd need to make
->>> sure that we hold hold either the lock or a full master reference to avoid
->>> the use-after-free issues here.
->>>
->>
->> I'd be happy to look into drm_lease.c as well.
->>
->>> Patch merged to drm-misc-fixes with cc: stable.
->>> -Daniel
->>>
->>>> ---
->>>>    drivers/gpu/drm/drm_auth.c | 3 ++-
->>>>    1 file changed, 2 insertions(+), 1 deletion(-)
->>>>
->>>> diff --git a/drivers/gpu/drm/drm_auth.c b/drivers/gpu/drm/drm_auth.c
->>>> index f00e5abdbbf4..b59b26a71ad5 100644
->>>> --- a/drivers/gpu/drm/drm_auth.c
->>>> +++ b/drivers/gpu/drm/drm_auth.c
->>>> @@ -315,9 +315,10 @@ int drm_master_open(struct drm_file *file_priv)
->>>>    void drm_master_release(struct drm_file *file_priv)
->>>>    {
->>>>    	struct drm_device *dev = file_priv->minor->dev;
->>>> -	struct drm_master *master = file_priv->master;
->>>> +	struct drm_master *master;
->>>>
->>>>    	mutex_lock(&dev->master_mutex);
->>>> +	master = file_priv->master;
->>>>    	if (file_priv->magic)
->>>>    		idr_remove(&file_priv->master->magic_map, file_priv->magic);
->>>> -- 
->>>> 2.25.1
->>>>
->>>
->>
->>  From what I can see, there are other places in the kernel that could use the
->> _locked version of drm_is_current_master as well, such as drm_mode_getfb in
->> drm_framebuffer.c. I'll take a closer look, and if the changes make sense
->> I'll prepare a patch series for them.
-> 
-> Oh maybe we have a naming confusion: the _locked is the one where the
-> caller must grab the lock already, whereas drm_is_current_master would
-> grab the master_mutex internally to do the check. The one in
-> drm_framebuffer.c looks like it'd need the internal one since there's no
-> other need to grab the master_mutex.
-> -Daniel
-> 
+Hi Dave,
 
-Ah ok got it, I think I confused myself earlier.
+   Just two cleanups to replace pm_runtime_get_sync() with
+   pm_runtime_resume_and_get().
 
-Just to check, may I include you in a Reported-by: tag?
+   Please kinkdly let me know if there is any problem.
+
+Thanks,
+Inki Dae
+
+The following changes since commit c707b73f0cfb1acc94a20389aecde65e6385349b:
+
+  Merge tag 'amd-drm-next-5.14-2021-06-09' of https://gitlab.freedesktop.org/agd5f/linux into drm-next (2021-06-10 13:47:13 +1000)
+
+are available in the Git repository at:
+
+  git://git.kernel.org/pub/scm/linux/kernel/git/daeinki/drm-exynos tags/exynos-drm-next-for-v5.14
+
+for you to fetch changes up to 445d3bed75de4082c7c7794030ac9a5b8bfde886:
+
+  drm/exynos: use pm_runtime_resume_and_get() (2021-06-11 10:56:38 +0900)
+
+----------------------------------------------------------------
+Two cleanups
+- These patches make Exynos DRM driver to use pm_runtime_resume_and_get()
+  function instead of m_runtime_get_sync() to deal with usage counter.
+  pm_runtime_get_sync() increases the usage counter even when it failed,
+  which could make callers to forget to decrease the usage counter.
+  pm_runtime_resume_and_get() decreases the usage counter regardless of
+  whether it failed or not.
+
+----------------------------------------------------------------
+Inki Dae (1):
+      drm/exynos: use pm_runtime_resume_and_get()
+
+Tian Tao (1):
+      drm/exynos: Use pm_runtime_resume_and_get() to replace open coding
+
+ drivers/gpu/drm/exynos/exynos5433_drm_decon.c |  7 ++++++-
+ drivers/gpu/drm/exynos/exynos7_drm_decon.c    |  7 ++++++-
+ drivers/gpu/drm/exynos/exynos_drm_dsi.c       |  7 ++++++-
+ drivers/gpu/drm/exynos/exynos_drm_fimc.c      |  8 +++++++-
+ drivers/gpu/drm/exynos/exynos_drm_fimd.c      | 25 ++++++++++++++++++++-----
+ drivers/gpu/drm/exynos/exynos_drm_g2d.c       |  9 ++++++++-
+ drivers/gpu/drm/exynos/exynos_drm_gsc.c       |  7 ++++++-
+ drivers/gpu/drm/exynos/exynos_drm_mic.c       |  6 ++----
+ drivers/gpu/drm/exynos/exynos_drm_rotator.c   |  7 ++++++-
+ drivers/gpu/drm/exynos/exynos_drm_scaler.c    | 10 ++++++----
+ drivers/gpu/drm/exynos/exynos_hdmi.c          |  8 +++++++-
+ drivers/gpu/drm/exynos/exynos_mixer.c         |  7 ++++++-
+ 12 files changed, 86 insertions(+), 22 deletions(-)
