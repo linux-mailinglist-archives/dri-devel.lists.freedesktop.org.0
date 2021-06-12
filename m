@@ -1,60 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5028A3A5136
-	for <lists+dri-devel@lfdr.de>; Sun, 13 Jun 2021 01:02:09 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BBBE03A5141
+	for <lists+dri-devel@lfdr.de>; Sun, 13 Jun 2021 01:11:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3B2D46E0BC;
-	Sat, 12 Jun 2021 23:02:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B3DED6E3BB;
+	Sat, 12 Jun 2021 23:11:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E73026E0BC
- for <dri-devel@lists.freedesktop.org>; Sat, 12 Jun 2021 23:02:02 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPS id 9FEF661186
- for <dri-devel@lists.freedesktop.org>; Sat, 12 Jun 2021 23:02:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1623538922;
- bh=9tIiGsqcX/B7R2vKBo5R34lYs8FE1uROeP0Rzwu8V0A=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=qpM7igmqZu0u3YXeBy8eRc6l1Yk/98Wg6kVla376abh15UnyT+HyJb05dh5nGImUV
- X+TT3G1Dnt5i1wJnsUaN9C+7BGvcr/oKdeCMMuAoxH5goSJl9BXvu5SPDBcLatW8Vp
- 7I9pUC68EfYqoo21GoiKoF/JjOUaP7PdzIGuHiOKvRCWTLt6/yzmcj8JD7GxUZuFNa
- BMXqExIppKI+hXolRAfX6rBVZtTOsopZliopPBhq3xlZqx/yr0rHf/O2ahWvn+SLIz
- q+EaOas3lrTS93icb+OoSmOF/dNu3fPI/tlPF8GfXVP6Gy2u0MmnnRxcQnx7qvzBCv
- Ponp0c5FRE7UA==
-Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
- id 92D3B6120B; Sat, 12 Jun 2021 23:02:02 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 213391] AMDGPU retries page fault with some specific processes
- amdgpu and sometimes followed [gfxhub0] retry page fault until *ERROR* ring
- gfx timeout, but soft recovered
-Date: Sat, 12 Jun 2021 23:02:02 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: low
-X-Bugzilla-Who: samy@lahfa.xyz
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-213391-2300-XF7Yrgw04Q@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-213391-2300@https.bugzilla.kernel.org/>
-References: <bug-213391-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9DF7E6E3BB;
+ Sat, 12 Jun 2021 23:11:09 +0000 (UTC)
+Received: from rorschach.local.home (cpe-66-24-58-225.stny.res.rr.com
+ [66.24.58.225])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 57A66610C8;
+ Sat, 12 Jun 2021 23:11:08 +0000 (UTC)
+Date: Sat, 12 Jun 2021 19:11:07 -0400
+From: Steven Rostedt <rostedt@goodmis.org>
+To: Joe Perches <joe@perches.com>
+Subject: Re: [PATCH V2] treewide: Add missing semicolons to __assign_str uses
+Message-ID: <20210612191107.24c1bfbb@rorschach.local.home>
+In-Reply-To: <48a056adabd8f70444475352f617914cef504a45.camel@perches.com>
+References: <cover.1621024265.git.bristot@redhat.com>
+ <2c59beee3b36b15592bfbb9f26dee7f8b55fd814.1621024265.git.bristot@redhat.com>
+ <20210603172902.41648183@gandalf.local.home>
+ <1e068d21106bb6db05b735b4916bb420e6c9842a.camel@perches.com>
+ <20210604122128.0d348960@oasis.local.home>
+ <48a056adabd8f70444475352f617914cef504a45.camel@perches.com>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,21 +46,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: linux-nfs@vger.kernel.org, lima@lists.freedesktop.org,
+ linux-rdma@vger.kernel.org, netdev@vger.kernel.org, linux-usb@vger.kernel.org,
+ linux-wireless@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ amd-gfx@lists.freedesktop.org, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D213391
+On Sat, 12 Jun 2021 08:42:27 -0700
+Joe Perches <joe@perches.com> wrote:
 
---- Comment #11 from Lahfa Samy (samy@lahfa.xyz) ---
-Hi Dimitris, what is your current kernel version under Fedora, or the outpu=
-t of
-this command "uname --kernel-release" in a terminal, I cannot try the patch
-given however I haven't run into the issue again, I haven't had the time to=
- put
-my RAM under heavy load.
+> The __assign_str macro has an unusual ending semicolon but the vast
+> majority of uses of the macro already have semicolon termination.
+> 
+> $ git grep -P '\b__assign_str\b' | wc -l
+> 551
+> $ git grep -P '\b__assign_str\b.*;' | wc -l
+> 480
+> 
+> Add semicolons to the __assign_str() uses without semicolon termination
+> and all the other uses without semicolon termination via additional defines
+> that are equivalent to __assign_str() with the eventual goal of removing
+> the semicolon from the __assign_str() macro definition.
+> 
+> Link: https://lore.kernel.org/lkml/1e068d21106bb6db05b735b4916bb420e6c9842a.camel@perches.com/
 
---=20
-You may reply to this email to add a comment.
+FYI, please send new patches as new threads. Otherwise it is likely to
+be missed.
 
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+-- Steve
