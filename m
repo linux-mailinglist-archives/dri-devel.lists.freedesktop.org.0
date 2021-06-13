@@ -2,47 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 312783A5D38
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Jun 2021 08:47:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 007473A5DB3
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Jun 2021 09:29:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2336489D53;
-	Mon, 14 Jun 2021 06:47:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4795A89AC0;
+	Mon, 14 Jun 2021 07:29:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4F86689DB4;
- Mon, 14 Jun 2021 06:47:36 +0000 (UTC)
-IronPort-SDR: 2gqv1rMp2qr2CXOZ8RECocnNb42xuwm08mb/Kq1Uc4uMH6xRi2XIaTE0Mr+Cdlv5/Sd5X9oFBZ
- yg57EFP4QXEQ==
-X-IronPort-AV: E=McAfee;i="6200,9189,10014"; a="205585054"
-X-IronPort-AV: E=Sophos;i="5.83,272,1616482800"; d="scan'208";a="205585054"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Jun 2021 23:47:35 -0700
-IronPort-SDR: VANaoVw9vsRHWnOOHI6P30cNoqRgsIVvFyiKI8GyKjIDxcBNOJ5c9UC64EK0ZJ7H2Wk9BWYVZ4
- 3gl7cUixClCw==
-X-IronPort-AV: E=Sophos;i="5.83,272,1616482800"; d="scan'208";a="420689176"
-Received: from iaoflynx-mobl3.amr.corp.intel.com (HELO localhost)
- ([10.252.30.21])
- by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Jun 2021 23:46:32 -0700
-Content-Type: text/plain; charset="utf-8"
+Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com
+ [IPv6:2a00:1450:4864:20::335])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3352A89CE1
+ for <dri-devel@lists.freedesktop.org>; Sun, 13 Jun 2021 23:31:21 +0000 (UTC)
+Received: by mail-wm1-x335.google.com with SMTP id g204so11022870wmf.5
+ for <dri-devel@lists.freedesktop.org>; Sun, 13 Jun 2021 16:31:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=iK+fdotc8MDTLXOWsCA+bd9ELHLX8yC6MN1FxLYw3Rc=;
+ b=ZBhL+xgB8mqWh3eLJJg3Z/iYwp+jlCYPiX8tmO8GhAowJpOg07QRw/MEPdckTj/kp+
+ ICniI5hVwGsS2PIQIlWz7735puYXK6TjX8gWwBgKxk0KY9JxzNDK4HNgatOrSXbe0Lc2
+ RF0bXch20IlR9KFs1iQsEc71ZlALOhvwrD83oO0VUwuxRnCiT+evKwNP8clkkhJYsdLG
+ 2v3+5cf4d/Y1NCYCiml07nL8BeVVxec9FZ3KQ80Bn22GIvZNAaaBk93WERvanqg9kWA0
+ ZPH0exFbl36gqe7DWFdUYcjT3IueXbJU+jsky+TmkOdUHxBzQ1/+qlZBtvQrxT8vDCzz
+ AoUA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=iK+fdotc8MDTLXOWsCA+bd9ELHLX8yC6MN1FxLYw3Rc=;
+ b=NVFZsqPBxpobQgcFW0LO3e3zxhCEgMfJ1VeZOSysvBiNrbk34gUcikhp5PCTnizphF
+ EexpyDoTdUraMyaPu4OJB0eMdM1v6a0/Y0SA03vtgIEhTVm25sGI0ab/0YiOjtVOlRtI
+ 8OVcc0meQIrNZ2lvai8AG9A5sy/SpZZtQ7fTw0SHZdxxrjtm75jKOo6OCZ7ekSy/bkou
+ hG/4Ecpyq4D+LNDsOd+RsCuXfrGi36ZCkvnJstRXUnNDokF+FVkd8T7vPW3hFeO0mTky
+ 7VaCQ9j6uQ7+0TQCQZv2kv7F/VbMxA7fIdFZO75BLqxc3hE7oc4/NbPjqQwBNVMK4jHy
+ 5M2w==
+X-Gm-Message-State: AOAM531lWfkNO6Obp1bOBlWNkuEli+9VWErW3n7ItdXLqh/gCi8o/hcY
+ +UgP1XzwDA5HiExJfI2DOIw=
+X-Google-Smtp-Source: ABdhPJxxWZyZQBZ1JBZMI/iWKh4B0GGXrb7nldKK0n8tdDlT0f6lu/3UG+BAm2A+FtPRs1yAgbiy6w==
+X-Received: by 2002:a7b:c304:: with SMTP id k4mr29800169wmj.68.1623627079836; 
+ Sun, 13 Jun 2021 16:31:19 -0700 (PDT)
+Received: from localhost.localdomain ([195.245.23.224])
+ by smtp.gmail.com with ESMTPSA id i9sm17882511wrn.54.2021.06.13.16.31.18
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 13 Jun 2021 16:31:18 -0700 (PDT)
+From: Alexander Sverdlin <alexander.sverdlin@gmail.com>
+To: Geert Uytterhoeven <geert@linux-m68k.org>,
+ Nikita Shubin <nikita.shubin@maquefel.me>
+Subject: [PATCH 0/7] Prepare EP93xx drivers for Common Clock Framework
+Date: Mon, 14 Jun 2021 01:30:34 +0200
+Message-Id: <20210613233041.128961-1-alexander.sverdlin@gmail.com>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <dbdd436a-523d-f7d2-db2e-15ea45f435ca@suse.de>
-References: <eb71ee2d-3413-6ca8-0b7c-a58695f00b77@linux.intel.com>
- <162340805657.68262.6607541005525077753@jlahtine-mobl.ger.corp.intel.com>
- <162340998262.68262.6045527397253780242@jlahtine-mobl.ger.corp.intel.com>
- <dbdd436a-523d-f7d2-db2e-15ea45f435ca@suse.de>
-To: Daniel Vetter <daniel.vetter@ffwll.ch>, Dave Airlie <airlied@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>
-From: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-Subject: Re: [PULL] topic/i915-ttm
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-Message-ID: <162365318254.3468.3267791653088176005@jlahtine-mobl.ger.corp.intel.com>
-User-Agent: alot/0.8.1
-Date: Mon, 14 Jun 2021 09:46:22 +0300
+Content-Transfer-Encoding: 8bit
+X-Mailman-Approved-At: Mon, 14 Jun 2021 07:29:40 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,145 +67,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Hellstrom <thellstrom@vmware.com>, dim-tools@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Sean Paul <sean@poorly.run>
+Cc: linux-input@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, alsa-devel@alsa-project.org,
+ linux-pwm@vger.kernel.org, linux-iio@vger.kernel.org,
+ Lee Jones <lee.jones@linaro.org>, Mark Brown <broonie@kernel.org>,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+ Liam Girdwood <lgirdwood@gmail.com>, dri-devel@lists.freedesktop.org,
+ Jaroslav Kysela <perex@perex.cz>, Vinod Koul <vkoul@kernel.org>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+ dmaengine@vger.kernel.org, Takashi Iwai <tiwai@suse.com>,
+ linux-spi@vger.kernel.org, Alexander Sverdlin <alexander.sverdlin@gmail.com>,
+ Jonathan Cameron <jic23@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Thomas Zimmermann (2021-06-13 21:54:03)
-> Hi Joonas
->=20
-> Am 11.06.21 um 13:13 schrieb Joonas Lahtinen:
-> > Quoting Joonas Lahtinen (2021-06-11 13:40:56)
-> >> Quoting Maarten Lankhorst (2021-06-11 12:27:15)
-> >>> Pull request for drm-misc-next and drm-intel-gt-next.
-> >>>
-> >>> topic/i915-ttm-2021-06-11:
-> >>> drm-misc and drm-intel pull request for topic/i915-ttm:
-> >>> - Convert i915 lmem handling to ttm.
-> >>> - Add a patch to temporarily add a driver_private member to vma_node.
-> >>> - Use this to allow mixed object mmap handling for i915.
-> >>> The following changes since commit 1bd8a7dc28c1c410f1ceefae1f2a97c06d=
-1a67c2:
-> >>>
-> >>>    Merge tag 'exynos-drm-next-for-v5.14' of git://git.kernel.org/pub/=
-scm/linux/kernel/git/daeinki/drm-exynos into drm-next (2021-06-11 14:19:12 =
-+1000)
-> >>
-> >> This base is not in drm-misc-next or drm-intel-gt-next, so effectively
-> >> we would end up pulling 478 extra commits from drm-next as a result. A=
-nd
-> >> also causing all the warnings for those commits. I don't think we shou=
-ld
-> >> do that?
-> >>
-> >> The common ancestor would be ccd1950c2f7e38ae45aeefb99a08b39407cd6c63
-> >> "Merge tag 'drm-intel-gt-next-2021-05-28' of git://anongit.freedesktop=
-.org/drm/drm-intel into drm-next"
-> >> Should we re-do the topic branch based on that?
-> >=20
-> > This problem seems to come from the fact that only the PR from yesterday
-> > that got merged to drm-next had the dependency patches. The previous
-> > backmerge of drm-next was requested too early.
-> >=20
-> > I've solved this with least hassle by backmerging drm-next again and
-> > then applying the PR to drm-intel-gt-next.
-> >=20
-> > I think drm-misc-next should do the same (exact commit was
-> > 1bd8a7dc28c1c410f1ceefae1f2a97c06d1a67c2).
->=20
-> I did a backmerge from drm-next recently and drm-misc-next can merge the =
+Nikita posted a patch converting EP93xx to use Common Clock Framework. It
+turns out some cleanup is necessary in the EP93xx drivers to avoid
+"Enabling unprepared" clock warnings.
 
-> patches in tags/topic/i915-ttm-2021-06-11 without additions.
->=20
-> I assume you to updated drm-intel-gt-next without redoing the PR?
+Patches with stack traces in the commit messages are tested on EP9302.
 
-Correct.
+Link: https://lore.kernel.org/patchwork/patch/1435884/
 
-Regards, Joonas
+Alexander Sverdlin (7):
+  iio: ep93xx: Prepare clock before using it
+  spi: spi-ep93xx: Prepare clock before using it
+  Input: ep93xx_keypad: Prepare clock before using it
+  video: ep93xx: Prepare clock before using it
+  dmaengine: ep93xx: Prepare clock before using it
+  ASoC: cirrus: i2s: Prepare clock before using it
+  pwm: ep93xx: Prepare clock before using it
 
->=20
-> Best regards
-> Thomas
->=20
-> >=20
-> > Regards, Joonas
-> >=20
-> >> However the DIM docs[1] indeed do say: "For topic branches shared with=
-in
-> >> the gpu/drm subsystem, base it on the latest drm-next branch." I think
-> >> the docs don't take into account the current period where drm-next is
-> >> being actively updated as we speak.
-> >>
-> >> Should we update the docs to use 'git merge-base' or something else?
-> >>
-> >> Regards, Joonas
-> >>
-> >> [1]: https://drm.pages.freedesktop.org/maintainer-tools/dim.html#cross=
--subsystem-topic-branches
-> >>
-> >>>
-> >>> are available in the Git repository at:
-> >>>
-> >>>    git://anongit.freedesktop.org/drm/drm-misc tags/topic/i915-ttm-202=
-1-06-11
-> >>>
-> >>> for you to fetch changes up to cf3e3e86d77970211e0983130e896ae2426010=
-03:
-> >>>
-> >>>    drm/i915: Use ttm mmap handling for ttm bo's. (2021-06-11 10:53:25=
- +0200)
-> >>>
-> >>> ----------------------------------------------------------------
-> >>> drm-misc and drm-intel pull request for topic/i915-ttm:
-> >>> - Convert i915 lmem handling to ttm.
-> >>> - Add a patch to temporarily add a driver_private member to vma_node.
-> >>> - Use this to allow mixed object mmap handling for i915.
-> >>>
-> >>> ----------------------------------------------------------------
-> >>> Maarten Lankhorst (2):
-> >>>        drm/vma: Add a driver_private member to vma_node.
-> >>>        drm/i915: Use ttm mmap handling for ttm bo's.
-> >>>
-> >>> Thomas Hellstr=C3=B6m (2):
-> >>>        drm/i915/ttm: Introduce a TTM i915 gem object backend
-> >>>        drm/i915/lmem: Verify checks for lmem residency
-> >>>
-> >>>   drivers/gpu/drm/drm_gem.c                          |   9 -
-> >>>   drivers/gpu/drm/i915/Makefile                      |   1 +
-> >>>   drivers/gpu/drm/i915/display/intel_display.c       |   2 +-
-> >>>   drivers/gpu/drm/i915/gem/i915_gem_create.c         |   9 +-
-> >>>   drivers/gpu/drm/i915/gem/i915_gem_lmem.c           | 126 ++--
-> >>>   drivers/gpu/drm/i915/gem/i915_gem_lmem.h           |   5 -
-> >>>   drivers/gpu/drm/i915/gem/i915_gem_mman.c           |  83 ++-
-> >>>   drivers/gpu/drm/i915/gem/i915_gem_object.c         | 143 +++--
-> >>>   drivers/gpu/drm/i915/gem/i915_gem_object.h         |  19 +-
-> >>>   drivers/gpu/drm/i915/gem/i915_gem_object_types.h   |  30 +-
-> >>>   drivers/gpu/drm/i915/gem/i915_gem_pages.c          |   3 +-
-> >>>   drivers/gpu/drm/i915/gem/i915_gem_region.c         |   6 +-
-> >>>   drivers/gpu/drm/i915/gem/i915_gem_ttm.c            | 647 ++++++++++=
-+++++++++++
-> >>>   drivers/gpu/drm/i915/gem/i915_gem_ttm.h            |  48 ++
-> >>>   drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c |  90 +--
-> >>>   drivers/gpu/drm/i915/gt/intel_region_lmem.c        |   3 +-
-> >>>   drivers/gpu/drm/i915/i915_gem.c                    |   5 +-
-> >>>   drivers/gpu/drm/i915/intel_memory_region.c         |   1 -
-> >>>   drivers/gpu/drm/i915/intel_memory_region.h         |   1 -
-> >>>   drivers/gpu/drm/i915/intel_region_ttm.c            |   8 +-
-> >>>   drivers/gpu/drm/i915/intel_region_ttm.h            |  11 +-
-> >>>   drivers/gpu/drm/i915/selftests/igt_mmap.c          |  25 +-
-> >>>   drivers/gpu/drm/i915/selftests/igt_mmap.h          |  12 +-
-> >>>   include/drm/drm_vma_manager.h                      |   2 +-
-> >>>   24 files changed, 1039 insertions(+), 250 deletions(-)
-> >>>   create mode 100644 drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-> >>>   create mode 100644 drivers/gpu/drm/i915/gem/i915_gem_ttm.h
->=20
-> --=20
-> Thomas Zimmermann
-> Graphics Driver Developer
-> SUSE Software Solutions Germany GmbH
-> Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-> (HRB 36809, AG N=C3=BCrnberg)
-> Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
->=20
+ drivers/dma/ep93xx_dma.c               |  6 +++---
+ drivers/iio/adc/ep93xx_adc.c           |  6 +++---
+ drivers/input/keyboard/ep93xx_keypad.c |  4 ++--
+ drivers/pwm/pwm-ep93xx.c               | 12 ++++++------
+ drivers/spi/spi-ep93xx.c               |  4 ++--
+ drivers/video/fbdev/ep93xx-fb.c        |  4 ++--
+ sound/soc/cirrus/ep93xx-i2s.c          | 12 ++++++------
+ 7 files changed, 24 insertions(+), 24 deletions(-)
+
+-- 
+2.32.0
+
