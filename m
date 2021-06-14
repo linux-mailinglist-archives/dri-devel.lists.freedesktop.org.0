@@ -2,36 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C51493A766E
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Jun 2021 07:22:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D5733A76C8
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Jun 2021 07:52:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 382BD89C61;
-	Tue, 15 Jun 2021 05:22:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 36C9389F3C;
+	Tue, 15 Jun 2021 05:52:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EAF4D89C54;
- Tue, 15 Jun 2021 05:22:01 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 153BA613F5;
- Tue, 15 Jun 2021 05:22:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1623734521;
- bh=I39eG9DNQO5bFfL3wXseI58XyVG3Y8z2W0Y1TkWzgO4=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=ztK+clL6V3mIt2G9rcTU4SQmhwcUWWdJgQXJNfpGN/uX2Xm3l2XpnaJX/9VD1p64Y
- AdsF/nKGkKgDZbetOFE2tPfxUlK2OD8F3z075wFMJt2TC96YffNyeGoHzWWHS7oKg1
- gyrRenAWkr8N+pEUOqcGjE/GPZsQwhq+Cyi8QdFA=
-Date: Tue, 15 Jun 2021 07:21:57 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Christoph Hellwig <hch@lst.de>
-Subject: Re: Allow mdev drivers to directly create the vfio_device (v2 /
- alternative)
-Message-ID: <YMg49UF8of2yHWum@kroah.com>
-References: <20210614150846.4111871-1-hch@lst.de>
+Received: from mail-pf1-x433.google.com (mail-pf1-x433.google.com
+ [IPv6:2607:f8b0:4864:20::433])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D3A4689D30
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Jun 2021 12:45:43 +0000 (UTC)
+Received: by mail-pf1-x433.google.com with SMTP id q25so10475068pfh.7
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Jun 2021 05:45:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
+ bh=0WPH3hjxXBLsSpR7DWHsVJlt9dhkg5b/9bT0LLsWmo0=;
+ b=ZG0sX2lQCF9+s9b3JXRpSAFu3a+dyqh8u264TEvZUod7aE9f7jmj/EcQtCQPMSy0XU
+ q6V7ZIImpi3E4fyA4Sgl32befqpBoWLXMb1r31el8SdtftiIZLABolBoM/f0gtTrTe8O
+ Pp+DGQd18YckizMSqdAorKKGWdRxkJtnvgcCw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+ :content-disposition;
+ bh=0WPH3hjxXBLsSpR7DWHsVJlt9dhkg5b/9bT0LLsWmo0=;
+ b=WN/eEr+QkVtp7lMx4CdUwTVZ/OwqXVni8InrLOYhIePD7SxftyrJjUlnuEutfCJKxx
+ 4ok6l0lSqYwVKDhqWLpRL8rhyZB03/LAVgc9MKXLlc0CdUMYBVyZMTbPkL4xFSAcq+Bi
+ DR5VstSkJbw94ej0Qia9y7Aso8eqsluzcYV5ztoXqdnndL9P1ihBwhkEAXUXY683eTQt
+ Lxl6yXl5g1Kk7nedRrQXV0+9eQuho74ximFvyO1pIxD0oVZMKxV81R/vc82ACC1KM3wh
+ qIMPiPyWBZIrxr7wg2VsLraf4xOYSiasSUXOYTQlg/VUcKsqToGAG4sSlnowpTLT0xBP
+ u36A==
+X-Gm-Message-State: AOAM531FhGsxgS4MEOOcu+e8stS5pqjc/E/7FIYaCwH3k05l5kGK0k9c
+ RibZ8OzU5gJNop/zh/waxwR1Nvfkrcmucg==
+X-Google-Smtp-Source: ABdhPJyVl60sQemzfpMYfU7sBdra5ITiOkMCODvou3wJumVZHT15gIThHUNcK01ELLsBz9W2sLkV1Q==
+X-Received: by 2002:a63:3ec3:: with SMTP id
+ l186mr16665906pga.371.1623674743459; 
+ Mon, 14 Jun 2021 05:45:43 -0700 (PDT)
+Received: from google.com ([2409:10:2e40:5100:f64:2ecb:b3c0:fd80])
+ by smtp.gmail.com with ESMTPSA id mi10sm16609030pjb.10.2021.06.14.05.45.40
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 14 Jun 2021 05:45:42 -0700 (PDT)
+Date: Mon, 14 Jun 2021 21:45:37 +0900
+From: Sergey Senozhatsky <senozhatsky@chromium.org>
+To: Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@linux.ie>,
+ Chris Wilson <chris@chris-wilson.co.uk>
+Subject: drm/i915: __GFP_RETRY_MAYFAIL allocations in stable kernels
+Message-ID: <YMdPcWZi4x7vnCxI@google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210614150846.4111871-1-hch@lst.de>
+X-Mailman-Approved-At: Tue, 15 Jun 2021 05:52:29 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -44,60 +66,135 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kvm@vger.kernel.org, linux-doc@vger.kernel.org,
- David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
- Kirti Wankhede <kwankhede@nvidia.com>, linux-s390@vger.kernel.org,
- Jonathan Corbet <corbet@lwn.net>, "Rafael J. Wysocki" <rafael@kernel.org>,
- Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>,
- Jason Gunthorpe <jgg@nvidia.com>, intel-gfx@lists.freedesktop.org,
- Jason Herne <jjherne@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>,
- Heiko Carstens <hca@linux.ibm.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Tony Krowiak <akrowiak@linux.ibm.com>,
- Cornelia Huck <cohuck@redhat.com>
+Cc: intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jun 14, 2021 at 05:08:36PM +0200, Christoph Hellwig wrote:
-> This is my alternative take on this series from Jason:
-> 
-> https://lore.kernel.org/dri-devel/87czsszi9i.fsf@redhat.com/T/
-> 
-> The mdev/vfio parts are exactly the same, but this solves the driver core
-> changes for the direct probing without the in/out flag that Greg hated,
-> which cause a little more work, but probably make the result better.
-> 
-> Original decription from Jason below:
-> 
-> The mdev bus's core part for managing the lifecycle of devices is mostly
-> as one would expect for a driver core bus subsystem.
-> 
-> However instead of having a normal 'struct device_driver' and binding the
-> actual mdev drivers through the standard driver core mechanisms it open
-> codes this with the struct mdev_parent_ops and provides a single driver
-> that shims between the VFIO core's struct vfio_device and the actual
-> device driver.
-> 
-> Instead, allow mdev drivers implement an actual struct mdev_driver and
-> directly call vfio_register_group_dev() in the probe() function for the
-> mdev. Arrange to bind the created mdev_device to the mdev_driver that is
-> provided by the end driver.
-> 
-> The actual execution flow doesn't change much, eg what was
-> parent_ops->create is now device_driver->probe and it is called at almost
-> the exact same time - except under the normal control of the driver core.
-> 
-> Ultimately converting all the drivers unlocks a fair number of additional
-> VFIO simplifications and cleanups.
+Hi,
 
-This looks much better as far as the driver core changes go, thank you
-for doing this.
+We are observing some user-space crashes (sigabort, segfaults etc.)
+under moderate memory pressure (pretty far from severe pressure) which
+have one thing in common - restrictive GFP mask in setup_scratch_page().
 
-I'm guessing there will be at least one more revision of this.  Do you
-want this to go through my driver core tree or is there a mdev tree it
-should go through?  Either is fine for me.
+For instance, (stable 4.19) drivers/gpu/drm/i915/i915_gem_gtt.c
 
-thanks,
+(trimmed down version)
 
-greg k-h
+static int gen8_init_scratch(struct i915_address_space *vm)
+{
+        setup_scratch_page(vm, __GFP_HIGHMEM);
+
+        vm->scratch_pt = alloc_pt(vm);
+        vm->scratch_pd = alloc_pd(vm);
+        if (use_4lvl(vm)) {
+                vm->scratch_pdp = alloc_pdp(vm);
+        }
+}
+
+gen8_init_scratch() function puts a rather inconsistent restrictions on mm.
+
+Looking at it line by line:
+
+setup_scratch_page() uses very restrictive gfp mask:
+	__GFP_HIGHMEM | __GFP_ZERO | __GFP_RETRY_MAYFAIL
+
+it doesn't try to reclaim anything and fails almost immediately.
+
+alloc_pt() - uses more permissive gfp mask:
+	GFP_KERNEL | __GFP_RETRY_MAYFAIL | __GFP_NOWARN
+
+alloc_pd() - likewise:
+	GFP_KERNEL | __GFP_RETRY_MAYFAIL | __GFP_NOWARN
+
+alloc_pdp() - very permissive gfp mask:
+	GFP_KERNEL
+
+
+So can all allocations in gen8_init_scratch() use
+	GFP_KERNEL | __GFP_RETRY_MAYFAIL | __GFP_NOWARN
+?
+
+E.g.
+
+---
+diff --git a/drivers/gpu/drm/i915/i915_gem_gtt.c b/drivers/gpu/drm/i915/i915_gem_gtt.c
+index a12430187108..e862680b9c93 100644
+--- a/drivers/gpu/drm/i915/i915_gem_gtt.c
++++ b/drivers/gpu/drm/i915/i915_gem_gtt.c
+@@ -792,7 +792,7 @@ alloc_pdp(struct i915_address_space *vm)
+ 
+        GEM_BUG_ON(!use_4lvl(vm));
+ 
+-       pdp = kzalloc(sizeof(*pdp), GFP_KERNEL);
++       pdp = kzalloc(sizeof(*pdp), I915_GFP_ALLOW_FAIL);
+        if (!pdp)
+                return ERR_PTR(-ENOMEM);
+ 
+@@ -1262,7 +1262,7 @@ static int gen8_init_scratch(struct i915_address_space *vm)
+ {
+        int ret;
+ 
+-       ret = setup_scratch_page(vm, __GFP_HIGHMEM);
++       ret = setup_scratch_page(vm, GFP_KERNEL | __GFP_HIGHMEM);
+        if (ret)
+                return ret;
+ 
+@@ -1972,7 +1972,7 @@ static int gen6_ppgtt_init_scratch(struct gen6_hw_ppgtt *ppgtt)
+        u32 pde;
+        int ret;
+ 
+-       ret = setup_scratch_page(vm, __GFP_HIGHMEM);
++       ret = setup_scratch_page(vm, GFP_KERNEL | __GFP_HIGHMEM);
+        if (ret)
+                return ret;
+ 
+@@ -3078,7 +3078,7 @@ static int ggtt_probe_common(struct i915_ggtt *ggtt, u64 size)
+                return -ENOMEM;
+        }
+ 
+-       ret = setup_scratch_page(&ggtt->vm, GFP_DMA32);
++       ret = setup_scratch_page(&ggtt->vm, GFP_KERNEL | GFP_DMA32);
+        if (ret) {
+                DRM_ERROR("Scratch setup failed\n");
+                /* iounmap will also get called at remove, but meh */
+---
+
+
+
+It's quite similar on stable 5.4 - setup_scratch_page() uses restrictive
+gfp mask again.
+
+---
+diff --git a/drivers/gpu/drm/i915/i915_gem_gtt.c b/drivers/gpu/drm/i915/i915_gem_gtt.c
+index f614646ed3f9..99d78b1052df 100644
+--- a/drivers/gpu/drm/i915/i915_gem_gtt.c
++++ b/drivers/gpu/drm/i915/i915_gem_gtt.c
+@@ -1378,7 +1378,7 @@ static int gen8_init_scratch(struct i915_address_space *vm)
+                return 0;
+        }
+ 
+-       ret = setup_scratch_page(vm, __GFP_HIGHMEM);
++       ret = setup_scratch_page(vm, GFP_KERNEL | __GFP_HIGHMEM);
+        if (ret)
+                return ret;
+ 
+@@ -1753,7 +1753,7 @@ static int gen6_ppgtt_init_scratch(struct gen6_ppgtt *ppgtt)
+        struct i915_page_directory * const pd = ppgtt->base.pd;
+        int ret;
+ 
+-       ret = setup_scratch_page(vm, __GFP_HIGHMEM);
++       ret = setup_scratch_page(vm, GFP_KERNEL | __GFP_HIGHMEM);
+        if (ret)
+                return ret;
+ 
+@@ -2860,7 +2860,7 @@ static int ggtt_probe_common(struct i915_ggtt *ggtt, u64 size)
+                return -ENOMEM;
+        }
+ 
+-       ret = setup_scratch_page(&ggtt->vm, GFP_DMA32);
++       ret = setup_scratch_page(&ggtt->vm, GFP_KERNEL | GFP_DMA32);
+        if (ret) {
+                DRM_ERROR("Scratch setup failed\n");
+                /* iounmap will also get called at remove, but meh */
+---
