@@ -1,59 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B64E03A697E
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Jun 2021 17:02:33 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D1F0B3A6A01
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Jun 2021 17:24:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C910289DD5;
-	Mon, 14 Jun 2021 15:02:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3A9B989C6E;
+	Mon, 14 Jun 2021 15:24:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x52e.google.com (mail-pg1-x52e.google.com
- [IPv6:2607:f8b0:4864:20::52e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5C42989D8E;
- Mon, 14 Jun 2021 15:02:28 +0000 (UTC)
-Received: by mail-pg1-x52e.google.com with SMTP id q15so8841091pgg.12;
- Mon, 14 Jun 2021 08:02:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=RzDEDEpKBts6WNgQTxPyJR77ugNq0XTyo2edIkuGISA=;
- b=c7p5ZyWkblyeOc02Ule8fxjbb5vcHADAStMUSZXgY/Z9P0NcjVnr3Qrty9TUMiXaa6
- Uyp7DlGp34QsrZTSpQu2jHFZBDjYRCx3PkGgP7HYKZ7nchXcFnQPK6ZP49JLN3pID7Nq
- UahXGtROhEgvDnoRAUdWZgBtfqketLiOCiB76pxsnGai0Xx9g8yIIGwYd9UXgDhbxAvj
- /403+lRSoExBjQRLzPgMKqNs2QRDNqVb9y8EXLHhZWkqfn/wWKi42EfHCPt+d/APLxvy
- bRwHPUPehJrXFdN9lxmAxdHWQPsncnIeFkRiIKfxpgO9fM/4Oh7kjwDbzMr/4h6NYv18
- qeDA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=RzDEDEpKBts6WNgQTxPyJR77ugNq0XTyo2edIkuGISA=;
- b=AhSLDN9er8W2x+NyR5sEBt3YcpsBDjkmRo0PQMolGoWrKHGguSWuJ+H+fJD1dBqipo
- hMnVImwar27vFc1cCG+LcO49ci14y2sG/la5kjWDUqRqzdzZYyr7/rY8OSWD+gcpWkVn
- hzmdPPc+vrjZF8nWzonkoSrIFq8kg/I6ZHqO3urGLiJUNlmJaBwjEXa9ZMfN7cW/nmat
- V1W7a49dwFTEsbw5ENp6qWyPWETAzvXIBilJ39C9zU3c8kLLHidjsIit8wHkAXNwDqjQ
- g+BuXaVRGkQ39raxJXpiJlDRN//aJSyZnsq18c+Dk+7sjybMiN6irDRkzl7fyiXw3hLb
- HLXQ==
-X-Gm-Message-State: AOAM532jnTgcpOapmvNQFgHMzCr71CVqNkbrPKLGEjZ+YFPu/oGnyViY
- 1Fvr8QzWLgX969T8zWxPHJ2GBttmDCM=
-X-Google-Smtp-Source: ABdhPJzwb3/RHK7wDcLYlRy6N9DIv5cLskk99lnqJQ5GlUoNBwWTK3dABhbu2k9f1vFfvCIUp9LG/Q==
-X-Received: by 2002:a63:5f46:: with SMTP id t67mr17835519pgb.37.1623682947164; 
- Mon, 14 Jun 2021 08:02:27 -0700 (PDT)
-Received: from localhost (c-73-25-156-94.hsd1.or.comcast.net. [73.25.156.94])
- by smtp.gmail.com with ESMTPSA id
- n23sm13217072pff.93.2021.06.14.08.02.25
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 14 Jun 2021 08:02:25 -0700 (PDT)
-From: Rob Clark <robdclark@gmail.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/msm: Add debugfs to trigger shrinker
-Date: Mon, 14 Jun 2021 08:06:18 -0700
-Message-Id: <20210614150618.729610-1-robdclark@gmail.com>
-X-Mailer: git-send-email 2.31.1
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id BBBBC89C6E
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Jun 2021 15:24:16 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 8044C11D4;
+ Mon, 14 Jun 2021 08:24:15 -0700 (PDT)
+Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
+ [10.121.207.14])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 4005A3F793;
+ Mon, 14 Jun 2021 08:24:15 -0700 (PDT)
+Received: by e110455-lin.cambridge.arm.com (Postfix, from userid 1000)
+ id E51D5682B70; Mon, 14 Jun 2021 16:24:13 +0100 (BST)
+Date: Mon, 14 Jun 2021 16:24:13 +0100
+From: Liviu Dudau <liviu.dudau@arm.com>
+To: Pekka Paalanen <ppaalanen@gmail.com>
+Subject: Re: [PATCH v3] Documentation: gpu: Mention the requirements for new
+ properties
+Message-ID: <20210614152413.nguqia3s4tlowio4@e110455-lin.cambridge.arm.com>
+References: <20210610174731.1209188-1-maxime@cerno.tech>
+ <CAKMK7uG_Wkko0L6sv0U1bXWdYk4fg3OTcp5=+qfRV0CP9V44=A@mail.gmail.com>
+ <KNFHfqvJUVq9oy9BSdznj1S6xhDoZUAx1_DwfSNvUv8u1d-TroKBTq2hxtv7u1aJnxnpI5CxUXSMTn73YsVhZjnRW78gv-QLsK6AkJ5m3Fw=@emersion.fr>
+ <20210611120309.2b5eb4htupv5ss32@e110455-lin.cambridge.arm.com>
+ <20210614174912.15a49336@eldfell>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210614174912.15a49336@eldfell>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,116 +49,204 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>,
- "open list:DRM DRIVER FOR MSM ADRENO GPU"
- <freedreno@lists.freedesktop.org>, David Airlie <airlied@linux.ie>,
- "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
- open list <linux-kernel@vger.kernel.org>, Sean Paul <sean@poorly.run>
+Cc: Ludovic Desroches <ludovic.desroches@microchip.com>,
+ Haneen Mohammed <hamohammed.sa@gmail.com>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+ Xinliang Liu <xinliang.liu@linaro.org>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Edmund Dea <edmund.j.dea@intel.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>, Sandy Huang <hjc@rock-chips.com>,
+ Melissa Wen <melissa.srw@gmail.com>, Andrzej Hajda <a.hajda@samsung.com>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Benjamin Gaignard <benjamin.gaignard@linaro.org>,
+ Anitha Chrisanthus <anitha.chrisanthus@intel.com>,
+ Daniel Vetter <daniel.vetter@intel.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Jerome Brunet <jbrunet@baylibre.com>, Marek Vasut <marex@denx.de>,
+ Jonathan Corbet <corbet@lwn.net>, Joonyoung Shim <jy0922.shim@samsung.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+ Kevin Hilman <khilman@baylibre.com>, Neil Armstrong <narmstrong@baylibre.com>,
+ Russell King <linux@armlinux.org.uk>, Steven Price <steven.price@arm.com>,
+ David Airlie <airlied@linux.ie>, Xinwei Kong <kong.kongxinwei@hisilicon.com>,
+ Noralf =?utf-8?Q?Tr=C3=B8nnes?= <noralf@tronnes.org>,
+ VMware Graphics <linux-graphics-maintainer@vmware.com>,
+ Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+ Hyun Kwon <hyun.kwon@xilinx.com>, NXP Linux Team <linux-imx@nxp.com>,
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>, Tian Tao <tiantao6@hisilicon.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Jonas Karlman <jonas@kwiboo.se>,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ Chen Feng <puck.chen@hisilicon.com>, Sascha Hauer <s.hauer@pengutronix.de>,
+ Alison Wang <alison.wang@nxp.com>, Roland Scheidegger <sroland@vmware.com>,
+ Shawn Guo <shawnguo@kernel.org>, Ben Skeggs <bskeggs@redhat.com>,
+ Maxime Ripard <maxime@cerno.tech>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
+ Sean Paul <sean@poorly.run>, Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Paul Cercueil <paul@crapouillou.net>, Jernej Skrabec <jernej.skrabec@siol.net>,
+ Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+ Tomi Valkeinen <tomba@kernel.org>, Hans de Goede <hdegoede@redhat.com>,
+ Andrew Jeffery <andrew@aj.id.au>, Yannick Fertr e <yannick.fertre@foss.st.com>,
+ Boris Brezillon <bbrezillon@kernel.org>,
+ Seung-Woo Kim <sw0312.kim@samsung.com>,
+ Nicolas Ferre <nicolas.ferre@microchip.com>,
+ Robert Foss <robert.foss@linaro.org>, Joel Stanley <joel@jms.id.au>,
+ Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Qiang Yu <yuq825@gmail.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Alex Deucher <alexander.deucher@amd.com>, Huang Rui <ray.huang@amd.com>,
+ Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>,
+ Philippe Cornu <philippe.cornu@foss.st.com>, Jyri Sarha <jyri.sarha@iki.fi>,
+ Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Rob Clark <robdclark@chromium.org>
+On Mon, Jun 14, 2021 at 05:49:12PM +0300, Pekka Paalanen wrote:
+> On Fri, 11 Jun 2021 13:03:09 +0100
+> Liviu Dudau <liviu.dudau@arm.com> wrote:
+> 
+> > On Fri, Jun 11, 2021 at 08:14:59AM +0000, Simon Ser wrote:
+> > > On Thursday, June 10th, 2021 at 23:00, Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
+> > >   
+> > > > If there's a strong consensus that we really need this then I'm not
+> > > > going to nack this, but this really needs a pile of acks from
+> > > > compositor folks that they're willing to live with the resulting
+> > > > fallout this will likely bring. Your cc list seems to have an absence
+> > > > of compositor folks, but instead every driver maintainer. That's
+> > > > backwards. We make uapi for userspace, not for kernel driver
+> > > > maintainers!  
+> > > 
+> > > In wlroots we have a policy of only allowing standard KMS properties to
+> > > be used. Any vendor-specific property is going to be less well-defined,
+> > > less widely useful, potentially have more design issues, potentially
+> > > overlap in functionality with other vendor-specific properties, likely
+> > > have some hardware-specific assumptions, etc.
+> > > 
+> > > What matters here is discussing with other driver & user-space folks to
+> > > make sure the new property's design is sound. Designing uAPI is hard.
+> > > 
+> > > If kernel folks are struggling with a user-space implementation, they
+> > > should discuss with user-space folks to see which project would be
+> > > interested. There's a chance a compositor will be interested in the new
+> > > property and will just do the user-space part for you, if not we can
+> > > suggest candidate projects.
+> > > 
+> > > tl;dr strong agree with Daniel here.  
+> > 
+> > I think the assumption you and Daniel are making is that the first implementation of
+> > a new KMS property can be made standard from day one and that it will work for any
+> > late comer driver as is, without having to make changes to its behaviour in a
+> > significant way. In my experience that is not the case.
+> > 
+> > I think we have moved from the times when we were trying to implement in the Linux
+> > world features that were available in the hardware but needed a kernel and userspace
+> > API. The set of properties that exist in KMS cover a lot of needed functionality and
+> > I don't expect to see new properties for stuff that is already supported by hardware.
+> > 
+> > What I'm expected to see in the future is new functionality that gets implemented by
+> > one hardware vendor and the kernel developers trying to enable that for userspace. It
+> > could be that the new property is generic, but there is no way of testing that on
+> > more than one implementation yet, so I'd say we are generous calling it "standard
+> > property". When the second or third hardware vendor comes along and starts supporting
+> > that property with their own set of extra requirements, then we can call it
+> > "standard".
+> 
+> I agree that is a problem with trying to make generic anything. But it
+> does not mean you should not even try. Maybe trying really hard saves a
+> couple revisions.
 
-Just for the purposes of testing.  Write to it the # of objects to scan,
-read back the # freed.
+Agree.
 
-Signed-off-by: Rob Clark <robdclark@chromium.org>
----
- drivers/gpu/drm/msm/msm_debugfs.c      | 28 ++++++++++++++++++++++++++
- drivers/gpu/drm/msm/msm_drv.h          |  4 ++++
- drivers/gpu/drm/msm/msm_gem_shrinker.c | 18 +++++++++++++++++
- 3 files changed, 50 insertions(+)
+> 
+> What I think should be planned for is revisions. How to add new
+> properties that do the same thing but better, while documenting that a
+> userspace KMS client can use only one revision at a time. You never
+> remove old revisions, unless maybe with a DRM client cap they
+> could disappear from that file description if that is necessary for
+> seeing the new revision.
+> 
+> While designing this, one also needs to take into account that KMS
+> clients need to be able to save and restore properties *they do not
+> understand*. So exposing two revisions of the same feature
+> simultaneously would break save/restore is that's an error.
 
-diff --git a/drivers/gpu/drm/msm/msm_debugfs.c b/drivers/gpu/drm/msm/msm_debugfs.c
-index d611cc8e54a4..7a2b53d35e6b 100644
---- a/drivers/gpu/drm/msm/msm_debugfs.c
-+++ b/drivers/gpu/drm/msm/msm_debugfs.c
-@@ -108,6 +108,31 @@ static const struct file_operations msm_gpu_fops = {
- 	.release = msm_gpu_release,
- };
- 
-+static unsigned long last_shrink_freed;
-+
-+static int
-+shrink_get(void *data, u64 *val)
-+{
-+	*val = last_shrink_freed;
-+
-+	return 0;
-+}
-+
-+static int
-+shrink_set(void *data, u64 val)
-+{
-+	struct drm_device *dev = data;
-+
-+	last_shrink_freed = msm_gem_shrinker_shrink(dev, val);
-+
-+	return 0;
-+}
-+
-+DEFINE_SIMPLE_ATTRIBUTE(shrink_fops,
-+			shrink_get, shrink_set,
-+			"0x%08llx\n");
-+
-+
- static int msm_gem_show(struct drm_device *dev, struct seq_file *m)
- {
- 	struct msm_drm_private *priv = dev->dev_private;
-@@ -226,6 +251,9 @@ void msm_debugfs_init(struct drm_minor *minor)
- 	debugfs_create_file("gpu", S_IRUSR, minor->debugfs_root,
- 		dev, &msm_gpu_fops);
- 
-+	debugfs_create_file("shrink", S_IRWXU, minor->debugfs_root,
-+		dev, &shrink_fops);
-+
- 	if (priv->kms && priv->kms->funcs->debugfs_init)
- 		priv->kms->funcs->debugfs_init(priv->kms, minor);
- }
-diff --git a/drivers/gpu/drm/msm/msm_drv.h b/drivers/gpu/drm/msm/msm_drv.h
-index 3352125ce428..b58c9d1cc5f1 100644
---- a/drivers/gpu/drm/msm/msm_drv.h
-+++ b/drivers/gpu/drm/msm/msm_drv.h
-@@ -296,6 +296,10 @@ bool msm_use_mmu(struct drm_device *dev);
- int msm_ioctl_gem_submit(struct drm_device *dev, void *data,
- 		struct drm_file *file);
- 
-+#ifdef CONFIG_DEBUG_FS
-+unsigned long msm_gem_shrinker_shrink(struct drm_device *dev, unsigned long nr_to_scan);
-+#endif
-+
- void msm_gem_shrinker_init(struct drm_device *dev);
- void msm_gem_shrinker_cleanup(struct drm_device *dev);
- 
-diff --git a/drivers/gpu/drm/msm/msm_gem_shrinker.c b/drivers/gpu/drm/msm/msm_gem_shrinker.c
-index 1187ecf9d647..0f1b29ee04a9 100644
---- a/drivers/gpu/drm/msm/msm_gem_shrinker.c
-+++ b/drivers/gpu/drm/msm/msm_gem_shrinker.c
-@@ -145,6 +145,24 @@ msm_gem_shrinker_scan(struct shrinker *shrinker, struct shrink_control *sc)
- 	return (freed > 0) ? freed : SHRINK_STOP;
- }
- 
-+#ifdef CONFIG_DEBUG_FS
-+unsigned long
-+msm_gem_shrinker_shrink(struct drm_device *dev, unsigned long nr_to_scan)
-+{
-+	struct msm_drm_private *priv = dev->dev_private;
-+	struct shrink_control sc = {
-+		.nr_to_scan = nr_to_scan,
-+	};
-+	int ret;
-+
-+	fs_reclaim_acquire(GFP_KERNEL);
-+	ret = msm_gem_shrinker_scan(&priv->shrinker, &sc);
-+	fs_reclaim_release(GFP_KERNEL);
-+
-+	return ret;
-+}
-+#endif
-+
- /* since we don't know any better, lets bail after a few
-  * and if necessary the shrinker will be invoked again.
-  * Seems better than unmapping *everything*
+I quite like the idea of having versions for properties.
+
+> 
+> > Then comes the effort cost: would it be easier to start with a vendor
+> > property that only the vendor needs to support (and can submit patches into the
+> > compositors to do so) and when the standard property gets added moves to that, or
+> 
+> But you can't move, you can only add? You can't delete the old property
+> in kernel if it was ever released with a kernel and anyone used it. In
+> the same sentence you also imply that there is a user of it, so
+> removing it will break that user. Then you'll have to track the
+> userspace lifetime to figure out which decade you can try removing it.
+
+Not that I am supporting the workflow, but I was trying to address the comments that
+vendors are going to push their own userspace implementation for their vendor
+properties. If that is the case, when they switch to the standard ones they can drop
+the support in userspace for their changes. With the implied assumption that you will
+have fewer vendor implementations hence easier to make changes, KMS properties can be
+deleted if you know there is no user of them (e.g. the vendor has upgraded all their
+software to the standard property).
+
+> 
+> > should we start with a generic property that gets implemented by the compositors
+> > (maybe, but then only one vendor supports it) and then later when we actually
+> > standardise the property we will have to carry backwards compatibility code in the
+> > kernel to handle the old behaviour for old userspace? My proposal to Maxime was for
+> > the former option to be reflected in the documentation, but I would like to hear your
+> > thoughts.
+> 
+> You have to carry the backward compatibility in all cases, right?
+> 
+> Userspace OTOH can drop support for older less supported KMS properties
+> while taking advantage of a new revision. Userspace is not required to
+> support old kernels forever.
+> 
+> 
+> Here's a wild counter-proposal off a tangent:
+> 
+> How about we make "implemented in and testable with VKMS" the rule,
+> instead of "is generic" for new properties?
+> 
+> VKMS is what compositors (will) use in CI. I would feel hugely less bad
+> about using a property that only one hardware driver ever implements,
+> if also VKMS implements it in a way that compositor CI can observe it
+> working.
+> 
+> I don't expect this proposal to be accepted, but it's food for thought.
+> The major problem for compositor projects is testing as you usually
+> don't have the hardware, IMO. CI tends to not have any hardware.
+
+While I don't dislike the proposal (I think it is quite sensible), I am worried that
+for some behaviours VKMS will implement them in a quirky way. To pick (again) the
+example of writeback, real hardware will have a way to tell if the buffer has been
+sent successfully to memory and it might take more than one refresh period, while
+VKMS (if I remember correctly) fakes it and signals the fence at the next vblank. If
+you code your compositor based on VKMS you might get unexpected artifacts on real
+hardware.
+
+Best regards,
+Liviu
+
+
+> 
+> 
+> Thanks,
+> pq
+
+
+
 -- 
-2.31.1
-
+====================
+| I would like to |
+| fix the world,  |
+| but they're not |
+| giving me the   |
+ \ source code!  /
+  ---------------
+    ¯\_(ツ)_/¯
