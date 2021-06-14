@@ -1,55 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 688A03A6E95
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Jun 2021 21:09:39 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C81A83A6EEC
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Jun 2021 21:25:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9567B6E03B;
-	Mon, 14 Jun 2021 19:09:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DE4A76E0BE;
+	Mon, 14 Jun 2021 19:25:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vk1-xa31.google.com (mail-vk1-xa31.google.com
- [IPv6:2607:f8b0:4864:20::a31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A13366E03B
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Jun 2021 19:09:34 +0000 (UTC)
-Received: by mail-vk1-xa31.google.com with SMTP id k189so4393241vkb.6
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Jun 2021 12:09:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=uMc4URnnV+tfXvNhamKWfB2liJJVFr5aYUr1EsM52gA=;
- b=tiKwMdAaMX3CQD5jTxTChA0MD3dY/jEv8DUJFllkv59ExYYvlbiw3kXxGb7/PN0gkH
- kt0rlzo0k+xB/ol8V+Gwx/CIW1KIEr40B5NxaGGDPQh4QmB8O2zvUCs9sMAOervWV5QU
- jmXeCa7C8zFqEzkESA32yxjXRePmNFbStsAe7yulacEN85HJWKd5/GGfgtdejSHiWgXN
- 5Ji4Ia+M2zaVyvO3w7WP9ofssgfOfQ9rDTg+fWZO1BrOLdWwZ1XCScm5dpjTyEIZseI5
- b9yoiIoo7P93rKELTQPxXqQOdeFyVFuCuObfAhnpWHer2MKf5+/gTpJY33q+gpgkkusw
- 3nxg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=uMc4URnnV+tfXvNhamKWfB2liJJVFr5aYUr1EsM52gA=;
- b=AYUYrGH/mqa0++8jNXedDZzpp0YXVUXX81aso8F+rWL7IUquRjiXcMCr7JOlJPUNM0
- kx7vS8iTk+pKB1nzXu1/EIp5JpoOzUgu6kHm6CNc1EooULdtB8FtEIQIi6zRfKP18CQv
- hEjD8wn7pNv/oe6/Nfp7Ipms+16+Q/tnIR1wE4CeUTCsxvN0AvyI5UhPV+oZIDBnFazc
- vyxm6tyd1PI+b2A32K2Z6NvKRMsQofrGWZ/wUms1HASpd6sVYdWyWncoA6QfHc8gNLIy
- 26TVjuZ3go86aIrNpCtkmOFoEJtOfB+MIxLkVx5HyiO+9q/Tt/QDxGuZ0dNw1Oi0DKGG
- QS0A==
-X-Gm-Message-State: AOAM531tDlbTm2wHrMmKYPEMBbOw7HiPq1DiHMBaY5pqXJrcd8XCu1AQ
- 1TOJamMspFrHTMz+18SogGeeWjtjUgY3ubh1yO0=
-X-Google-Smtp-Source: ABdhPJxNPk2Ta8ZZVvy0EEGmzM9l4SHEbYT66VTYgFz6piDBUXdGTwFY1Ytf6VseBiX971f4q0QCfFpWPyVZyaci6ek=
-X-Received: by 2002:a1f:4594:: with SMTP id s142mr542586vka.16.1623697773669; 
- Mon, 14 Jun 2021 12:09:33 -0700 (PDT)
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A15966E07F;
+ Mon, 14 Jun 2021 19:25:06 +0000 (UTC)
+IronPort-SDR: 4Gx4f6T3CRDE9NuuwSOF7SgJzT42FwYRsrNUDm2cBysrDica5zoQWTiLct2sdNkh2iw04QZMKt
+ KL/5f2I89zbQ==
+X-IronPort-AV: E=McAfee;i="6200,9189,10015"; a="186239226"
+X-IronPort-AV: E=Sophos;i="5.83,273,1616482800"; d="scan'208";a="186239226"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Jun 2021 12:25:06 -0700
+IronPort-SDR: 0SnSfpxThQkYenaTGKoBf7SBvfo/cOgb0JA087FkQ3xD5S1PKjH0/pXd2H07PqkPsCAE1MhDjS
+ E+Y0apI2QsUg==
+X-IronPort-AV: E=Sophos;i="5.83,273,1616482800"; d="scan'208";a="639448206"
+Received: from dhiatt-server.jf.intel.com ([10.54.81.3])
+ by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Jun 2021 12:25:06 -0700
+From: Matthew Brost <matthew.brost@intel.com>
+To: <intel-gfx@lists.freedesktop.org>,
+	<dri-devel@lists.freedesktop.org>
+Subject: [PATCH 0/3] Update firmware to v62.0.0
+Date: Mon, 14 Jun 2021 12:42:50 -0700
+Message-Id: <20210614194253.16192-1-matthew.brost@intel.com>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-References: <20210612125426.6451-1-desmondcheongzx@gmail.com>
- <20210612125426.6451-2-desmondcheongzx@gmail.com>
-In-Reply-To: <20210612125426.6451-2-desmondcheongzx@gmail.com>
-From: Emil Velikov <emil.l.velikov@gmail.com>
-Date: Mon, 14 Jun 2021 20:09:22 +0100
-Message-ID: <CACvgo50kL=0dz6Jpt5BDLXYq+XTMhMy9=Pu7qeqDmsy_bgKsdw@mail.gmail.com>
-Subject: Re: [PATCH 1/2] drm: Add a locked version of drm_is_current_master
-To: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,34 +47,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, Dave Airlie <airlied@linux.ie>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, skhan@linuxfoundation.org,
- "Linux-Kernel@Vger. Kernel. Org" <linux-kernel@vger.kernel.org>,
- ML dri-devel <dri-devel@lists.freedesktop.org>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- linux-kernel-mentees@lists.linuxfoundation.org
+Cc: daniele.ceraolospurio@intel.com, john.c.harrison@intel.com,
+ Michal.Wajdeczko@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, 12 Jun 2021 at 13:55, Desmond Cheong Zhi Xi
-<desmondcheongzx@gmail.com> wrote:
->
-> While checking the master status of the DRM file in
-> drm_is_current_master(), the device's master mutex should be
-> held. Without the mutex, the pointer fpriv->master may be freed
-> concurrently by another process calling drm_setmaster_ioctl(). This
-> could lead to use-after-free errors when the pointer is subsequently
-> dereferenced in drm_lease_owner().
->
-> The callers of drm_is_current_master() from drm_auth.c hold the
-> device's master mutex, but external callers do not. Hence, we implement
-> drm_is_current_master_locked() to be used within drm_auth.c, and
-> modify drm_is_current_master() to grab the device's master mutex
-> before checking the master status.
->
-> Reported-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-> Signed-off-by: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
+As part of enabling GuC submission [1] we need to update to the latest
+and greatest firmware. This series does that. All backwards
+compatibility breaking changes squashed into a single patch #2. Same
+series sent to trybot [2] forcing GuC to be enabled to ensure we haven't
+broke something.
 
-Reviewed-by: Emil Velikov <emil.l.velikov@gmail.com>
+v2: Address comments, looking for remaning RBs so patches can be
+squashed and sent for CI
+v3: Delete a few unused defines, squash patches
 
--Emil
+Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+
+[1] https://patchwork.freedesktop.org/series/89844
+[2] https://patchwork.freedesktop.org/series/91341 
+
+Michal Wajdeczko (3):
+  drm/i915/guc: Introduce unified HXG messages
+  drm/i915/guc: Update firmware to v62.0.0
+  drm/i915/doc: Include GuC ABI documentation
+
+ Documentation/gpu/i915.rst                    |   8 +
+ .../gpu/drm/i915/gt/uc/abi/guc_actions_abi.h  | 107 ++++++
+ .../gt/uc/abi/guc_communication_ctb_abi.h     | 120 ++++--
+ .../gt/uc/abi/guc_communication_mmio_abi.h    |  65 ++--
+ .../gpu/drm/i915/gt/uc/abi/guc_messages_abi.h | 213 +++++++++++
+ drivers/gpu/drm/i915/gt/uc/intel_guc.c        | 107 ++++--
+ drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c    |  45 +--
+ drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c     | 356 +++++++++---------
+ drivers/gpu/drm/i915/gt/uc/intel_guc_ct.h     |   6 +-
+ drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h   |  75 +---
+ drivers/gpu/drm/i915/gt/uc/intel_guc_log.c    |  29 +-
+ drivers/gpu/drm/i915/gt/uc/intel_guc_log.h    |   6 +-
+ drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c      |  26 +-
+ 13 files changed, 742 insertions(+), 421 deletions(-)
+
+-- 
+2.28.0
+
