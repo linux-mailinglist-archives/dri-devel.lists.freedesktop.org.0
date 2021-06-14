@@ -2,48 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C295C3A63A7
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Jun 2021 13:14:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 46BDA3A65F5
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Jun 2021 13:47:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B4AD889E26;
-	Mon, 14 Jun 2021 11:14:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1BEF489B9E;
+	Mon, 14 Jun 2021 11:47:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1647389956;
- Mon, 14 Jun 2021 11:14:23 +0000 (UTC)
-IronPort-SDR: d26OhdXZvCfOgnKBlg1Sgh3XYwEj5wvS30Op5FzeYBg+4ihgK7lUAuCA9OTRDgWhjQ/hMJMwlu
- 7CR5HAqmNhQQ==
-X-IronPort-AV: E=McAfee;i="6200,9189,10014"; a="205612370"
-X-IronPort-AV: E=Sophos;i="5.83,273,1616482800"; d="scan'208";a="205612370"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Jun 2021 04:14:22 -0700
-IronPort-SDR: 7hEpXFtwcD3mZlz3AHEPGn5fFSljHwMwioAIviIEFHrSUBU+lI0f3TWZK9kOLl6QbJcYwZLutm
- kPFNAbENzDZQ==
-X-IronPort-AV: E=Sophos;i="5.83,273,1616482800"; d="scan'208";a="403857534"
-Received: from janlundk-mobl1.ger.corp.intel.com (HELO [10.249.254.32])
- ([10.249.254.32])
- by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Jun 2021 04:14:20 -0700
-Subject: Re: [Intel-gfx] [PATCH v3 2/4] drm/i915/ttm: Adjust gem flags and
- caching settings after a move
-To: Matthew Auld <matthew.william.auld@gmail.com>
-References: <20210614095230.126284-1-thomas.hellstrom@linux.intel.com>
- <20210614095230.126284-3-thomas.hellstrom@linux.intel.com>
- <CAM0jSHPN3EKwy+FiBRs2PaFrx6DfxC7p62rjApVVAzQXXB23qQ@mail.gmail.com>
- <3bfa6eda-ea69-d331-76c7-f8eb5de1ac20@linux.intel.com>
- <CAM0jSHPP90Gu1Trq3jHiTh+4AiDWotAizthkTJZa=PBadWLz+A@mail.gmail.com>
-From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>
-Message-ID: <afc3d90f-443a-6609-ffdc-fc6c6933727d@linux.intel.com>
-Date: Mon, 14 Jun 2021 13:14:17 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+Received: from fanzine.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0C8EC89B9E
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Jun 2021 11:47:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+ s=20170329; 
+ h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:Cc:To:From:Subject:Message-ID;
+ bh=KcFtfTYDKfchizoaHzhcPpag/3lWCXtZGfTEBkAln28=; 
+ b=IAR2PpNRU9gbvSA4wEMuALD2UeLwdkP+/2ttu3MW187snvbWxTJnKu1XORW9Jgk/MiBLSmTdpzTKCUEykEZd+skjgU2KNQGdXromXRgdo7aVMyoF4+oNsKAmX+8LjzITEQMxWM1cSd6QLAn17QflQbDqkijBFqQ04wmJNb6XFSc4n+B/1PI/9E6Hz5ukQ3pSzEkhVPnhoQgpZAxJzVYjnrft5agHIHsEBMbmZl52+2kjVPEP+FbVGfmMGvnqLIbLUebluF/fc1WiDFYNw84yQhzmO5KYJknes9pzCt24/fZEKyKp47WnlvPGAB++JbajDhHPJy5jMX8GgjJDTpRLJA==;
+Received: from [192.168.10.187] by fanzine.igalia.com with esmtpsa 
+ (Cipher TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim)
+ id 1lsl3T-0002cy-9J; Mon, 14 Jun 2021 13:46:59 +0200
+Message-ID: <0d9f83cf132a76b7d4d664d623e88ecef056bf35.camel@igalia.com>
+Subject: Re: [PATCH] drm/v3d: Expose performance counters to userspace
+From: "Juan A." =?ISO-8859-1?Q?Su=E1rez?= <jasuarez@igalia.com>
+To: dri-devel@lists.freedesktop.org
+Date: Mon, 14 Jun 2021 13:46:58 +0200
+In-Reply-To: <20210608111541.461991-1-jasuarez@igalia.com>
+References: <20210608111541.461991-1-jasuarez@igalia.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.40.1 (3.40.1-1.fc34) 
 MIME-Version: 1.0
-In-Reply-To: <CAM0jSHPP90Gu1Trq3jHiTh+4AiDWotAizthkTJZa=PBadWLz+A@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,265 +43,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- Matthew Auld <matthew.auld@intel.com>,
- ML dri-devel <dri-devel@lists.freedesktop.org>
+Cc: David Airlie <airlied@linux.ie>, Emma Anholt <emma@anholt.net>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Tue, 2021-06-08 at 13:15 +0200, Juan A. Suarez Romero wrote:
+> The V3D engine has several hardware performance counters that can of
+> interest for userspace performance analysis tools.
+> 
+> This exposes new ioctls to create and destroy performance monitor
+> objects, as well as to query the counter values.
+> 
+> Each created performance monitor object has an ID that can be attached
+> to CL/CSD submissions, so the driver enables the requested counters
+> when
+> the job is submitted, and updates the performance monitor values when
+> the job is done.
+> 
+> It is up to the user to ensure all the jobs have been finished before
+> getting the performance monitor values. It is also up to the user to
+> properly synchronize BCL jobs when submitting jobs with different
+> performance monitors attached.
+> 
+> Cc: Daniel Vetter <daniel@ffwll.ch>
+> Cc: David Airlie <airlied@linux.ie>
+> Cc: Emma Anholt <emma@anholt.net>
+> To: dri-devel@lists.freedesktop.org
+> Signed-off-by: Juan A. Suarez Romero <jasuarez@igalia.com>
 
-On 6/14/21 12:49 PM, Matthew Auld wrote:
-> On Mon, 14 Jun 2021 at 11:32, Thomas Hellström
-> <thomas.hellstrom@linux.intel.com> wrote:
->>
->> On 6/14/21 12:20 PM, Matthew Auld wrote:
->>> On Mon, 14 Jun 2021 at 10:53, Thomas Hellström
->>> <thomas.hellstrom@linux.intel.com> wrote:
->>>> After a TTM move or object init we need to update the i915 gem flags and
->>>> caching settings to reflect the new placement. Currently caching settings
->>>> are not changed during the lifetime of an object, although that might
->>>> change moving forward if we run into performance issues or issues with
->>>> WC system page allocations.
->>>> Also introduce gpu_binds_iomem() and cpu_maps_iomem() to clean up the
->>>> various ways we previously used to detect this.
->>>> Finally, initialize the TTM object reserved to be able to update
->>>> flags and caching before anyone else gets hold of the object.
->>>>
->>>> Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
->>>> ---
->>>> v2:
->>>> - Style fixes (Reported by Matthew Auld)
->>>> v3:
->>>> - More style fixes. Clarify why we're updating caching settings after move.
->>>>     (Suggested by Matthew Auld)
->>>> ---
->>>>    drivers/gpu/drm/i915/gem/i915_gem_ttm.c | 111 +++++++++++++++++++-----
->>>>    1 file changed, 89 insertions(+), 22 deletions(-)
->>>>
->>>> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
->>>> index 33ab47f1e05b..5176682a7d19 100644
->>>> --- a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
->>>> +++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
->>>> @@ -70,6 +70,17 @@ static struct ttm_placement i915_sys_placement = {
->>>>           .busy_placement = &lmem0_sys_placement_flags[1],
->>>>    };
->>>>
->>>> +static bool gpu_binds_iomem(struct ttm_resource *mem)
->>>> +{
->>>> +       return mem->mem_type != TTM_PL_SYSTEM;
->>>> +}
->>>> +
->>>> +static bool cpu_maps_iomem(struct ttm_resource *mem)
->>>> +{
->>>> +       /* Once / if we support GGTT, this is also false for cached ttm_tts */
->>>> +       return mem->mem_type != TTM_PL_SYSTEM;
->>>> +}
->>>> +
->>>>    static void i915_ttm_adjust_lru(struct drm_i915_gem_object *obj);
->>>>
->>>>    static struct ttm_tt *i915_ttm_tt_create(struct ttm_buffer_object *bo,
->>>> @@ -175,6 +186,40 @@ static void i915_ttm_free_cached_io_st(struct drm_i915_gem_object *obj)
->>>>           obj->ttm.cached_io_st = NULL;
->>>>    }
->>>>
->>>> +static void
->>>> +i915_ttm_adjust_domains_after_cpu_move(struct drm_i915_gem_object *obj)
->>>> +{
->>>> +       struct ttm_buffer_object *bo = i915_gem_to_ttm(obj);
->>>> +
->>>> +       if (cpu_maps_iomem(bo->resource) || bo->ttm->caching != ttm_cached) {
->>>> +               obj->write_domain = I915_GEM_DOMAIN_WC;
->>>> +               obj->read_domains = I915_GEM_DOMAIN_WC;
->>>> +       } else {
->>>> +               obj->write_domain = I915_GEM_DOMAIN_CPU;
->>>> +               obj->read_domains = I915_GEM_DOMAIN_CPU;
->>>> +       }
->>>> +}
->>>> +
->>>> +static void i915_ttm_adjust_gem_after_move(struct drm_i915_gem_object *obj)
->>>> +{
->>>> +       struct drm_i915_private *i915 = to_i915(obj->base.dev);
->>>> +       struct ttm_buffer_object *bo = i915_gem_to_ttm(obj);
->>>> +       unsigned int cache_level;
->>>> +
->>>> +       obj->mem_flags &= ~(I915_BO_FLAG_STRUCT_PAGE | I915_BO_FLAG_IOMEM);
->>>> +
->>>> +       obj->mem_flags |= cpu_maps_iomem(bo->resource) ? I915_BO_FLAG_IOMEM :
->>>> +               I915_BO_FLAG_STRUCT_PAGE;
->>>> +
->>>> +       if ((HAS_LLC(i915) || HAS_SNOOP(i915)) && !gpu_binds_iomem(bo->resource) &&
->>>> +           bo->ttm->caching == ttm_cached)
->>>> +               cache_level = I915_CACHE_LLC;
->>>> +       else
->>>> +               cache_level = I915_CACHE_NONE;
->>>> +
->>>> +       i915_gem_object_set_cache_coherency(obj, cache_level);
->>>> +}
->>>> +
->>>>    static void i915_ttm_purge(struct drm_i915_gem_object *obj)
->>>>    {
->>>>           struct ttm_buffer_object *bo = i915_gem_to_ttm(obj);
->>>> @@ -190,8 +235,10 @@ static void i915_ttm_purge(struct drm_i915_gem_object *obj)
->>>>
->>>>           /* TTM's purge interface. Note that we might be reentering. */
->>>>           ret = ttm_bo_validate(bo, &place, &ctx);
->>>> -
->>>>           if (!ret) {
->>>> +               obj->write_domain = 0;
->>>> +               obj->read_domains = 0;
->>>> +               i915_ttm_adjust_gem_after_move(obj);
->>>>                   i915_ttm_free_cached_io_st(obj);
->>>>                   obj->mm.madv = __I915_MADV_PURGED;
->>>>           }
->>>> @@ -273,12 +320,15 @@ i915_ttm_resource_get_st(struct drm_i915_gem_object *obj,
->>>>                            struct ttm_resource *res)
->>>>    {
->>>>           struct ttm_buffer_object *bo = i915_gem_to_ttm(obj);
->>>> -       struct ttm_resource_manager *man =
->>>> -               ttm_manager_type(bo->bdev, res->mem_type);
->>>>
->>>> -       if (man->use_tt)
->>>> +       if (!gpu_binds_iomem(res))
->>>>                   return i915_ttm_tt_get_st(bo->ttm);
->>>>
->>>> +       /*
->>>> +        * If CPU mapping differs, we need to add the ttm_tt pages to
->>>> +        * the resulting st. Might make sense for GGTT.
->>>> +        */
->>>> +       GEM_WARN_ON(!cpu_maps_iomem(res));
->>>>           return intel_region_ttm_node_to_st(obj->mm.region, res);
->>>>    }
->>>>
->>>> @@ -290,8 +340,6 @@ static int i915_ttm_move(struct ttm_buffer_object *bo, bool evict,
->>>>           struct drm_i915_gem_object *obj = i915_ttm_to_gem(bo);
->>>>           struct ttm_resource_manager *dst_man =
->>>>                   ttm_manager_type(bo->bdev, dst_mem->mem_type);
->>>> -       struct ttm_resource_manager *src_man =
->>>> -               ttm_manager_type(bo->bdev, bo->resource->mem_type);
->>>>           struct intel_memory_region *dst_reg, *src_reg;
->>>>           union {
->>>>                   struct ttm_kmap_iter_tt tt;
->>>> @@ -332,34 +380,36 @@ static int i915_ttm_move(struct ttm_buffer_object *bo, bool evict,
->>>>           if (IS_ERR(dst_st))
->>>>                   return PTR_ERR(dst_st);
->>>>
->>>> -       /* If we start mapping GGTT, we can no longer use man::use_tt here. */
->>>> -       dst_iter = dst_man->use_tt ?
->>>> +       dst_iter = !cpu_maps_iomem(dst_mem) ?
->>>>                   ttm_kmap_iter_tt_init(&_dst_iter.tt, bo->ttm) :
->>>>                   ttm_kmap_iter_iomap_init(&_dst_iter.io, &dst_reg->iomap,
->>>>                                            dst_st, dst_reg->region.start);
->>>>
->>>> -       src_iter = src_man->use_tt ?
->>>> +       src_iter = !cpu_maps_iomem(bo->resource) ?
->>>>                   ttm_kmap_iter_tt_init(&_src_iter.tt, bo->ttm) :
->>>>                   ttm_kmap_iter_iomap_init(&_src_iter.io, &src_reg->iomap,
->>>>                                            obj->ttm.cached_io_st,
->>>>                                            src_reg->region.start);
->>>>
->>>>           ttm_move_memcpy(bo, dst_mem->num_pages, dst_iter, src_iter);
->>>> +       /* Below dst_mem becomes bo->resource. */
->>>>           ttm_bo_move_sync_cleanup(bo, dst_mem);
->>>> +       i915_ttm_adjust_domains_after_cpu_move(obj);
->>>>           i915_ttm_free_cached_io_st(obj);
->>>>
->>>> -       if (!dst_man->use_tt) {
->>>> +       if (gpu_binds_iomem(dst_mem) || cpu_maps_iomem(dst_mem)) {
->>>>                   obj->ttm.cached_io_st = dst_st;
->>>>                   obj->ttm.get_io_page.sg_pos = dst_st->sgl;
->>>>                   obj->ttm.get_io_page.sg_idx = 0;
->>>>           }
->>>>
->>>> +       i915_ttm_adjust_gem_after_move(obj);
->>>>           return 0;
->>>>    }
->>>>
->>>>    static int i915_ttm_io_mem_reserve(struct ttm_device *bdev, struct ttm_resource *mem)
->>>>    {
->>>> -       if (mem->mem_type < I915_PL_LMEM0)
->>>> +       if (!cpu_maps_iomem(mem))
->>>>                   return 0;
->>>>
->>>>           mem->bus.caching = ttm_write_combined;
->>>> @@ -421,6 +471,16 @@ static int i915_ttm_get_pages(struct drm_i915_gem_object *obj)
->>>>           if (ret)
->>>>                   return ret == -ENOSPC ? -ENXIO : ret;
->>>>
->>>> +       i915_ttm_adjust_lru(obj);
->>>> +       if (bo->ttm && !ttm_tt_is_populated(bo->ttm)) {
->>>> +               ret = ttm_tt_populate(bo->bdev, bo->ttm, &ctx);
->>>> +               if (ret)
->>>> +                       return ret;
->>>> +
->>>> +               i915_ttm_adjust_domains_after_cpu_move(obj);
->>>> +               i915_ttm_adjust_gem_after_move(obj);
->>>> +       }
->>>> +
->>>>           /* Object either has a page vector or is an iomem object */
->>>>           st = bo->ttm ? i915_ttm_tt_get_st(bo->ttm) : obj->ttm.cached_io_st;
->>>>           if (IS_ERR(st))
->>>> @@ -428,8 +488,6 @@ static int i915_ttm_get_pages(struct drm_i915_gem_object *obj)
->>>>
->>>>           __i915_gem_object_set_pages(obj, st, i915_sg_dma_sizes(st->sgl));
->>>>
->>>> -       i915_ttm_adjust_lru(obj);
->>>> -
->>>>           return ret;
->>>>    }
->>>>
->>>> @@ -563,6 +621,7 @@ static u64 i915_ttm_mmap_offset(struct drm_i915_gem_object *obj)
->>>>
->>>>    const struct drm_i915_gem_object_ops i915_gem_ttm_obj_ops = {
->>>>           .name = "i915_gem_object_ttm",
->>>> +       .flags = I915_GEM_OBJECT_IS_SHRINKABLE,
->>> We set is_shrinkable for both lmem and smem? Does the current shrinker
->>> work with !shmem? I assume the put_pages() will just discard the page
->>> contents, which is not what we want? Maybe keep this disabled for now?
->>> Or am I missing something?
->> This is to indicate to the gem shrinker that we want to be able to
->> determine dynamically whether the object is shrinkable (by the gem
->> shrinker) or not. (See below). It's intended for the situation where we
->> might want to use shmem to back cached-only ttm objects, and use our own
->> shrinker.
->>
->> But if you think it's better, we could flip that ops flag once we
->> actually have anything shrinkable in place. Let me know what you think.
->> The TTM shmem pool idea becomes a bit doubtful by the fact that
->> allocating some 8GB of system objects, populating and clearing them
->> appears to be some 6X faster with a straightforward alloc approach (like
->> TTM or the "internal" backend) than with shmem...
-> I would vote for keeping it turned off for now.
->
->>>>           .get_pages = i915_ttm_get_pages,
->>>>           .put_pages = i915_ttm_put_pages,
->>>> @@ -599,6 +658,10 @@ int __i915_gem_ttm_object_init(struct intel_memory_region *mem,
->>>>    {
->>>>           static struct lock_class_key lock_class;
->>>>           struct drm_i915_private *i915 = mem->i915;
->>>> +       struct ttm_operation_ctx ctx = {
->>>> +               .interruptible = true,
->>>> +               .no_wait_gpu = false,
->>>> +       };
->>>>           enum ttm_bo_type bo_type;
->>>>           size_t alignment = 0;
->>>>           int ret;
->>>> @@ -618,15 +681,14 @@ int __i915_gem_ttm_object_init(struct intel_memory_region *mem,
->>>>           i915_gem_object_init(obj, &i915_gem_ttm_obj_ops, &lock_class, flags);
->>>>           i915_gem_object_init_memory_region(obj, mem);
->>>>           i915_gem_object_make_unshrinkable(obj);
->> Here we set the object to unshrinkable.
-> Oh, I totally missed that. But I don't think we are meant to call that
-> here, especially with IS_SHRINKABLE, since object_set_pages will later
-> make it shrinkable anyway, which looks like fun and games.
 
-Indeed. OK, I'll respin to keep these objects !IS_SHRINKABLE for now.
-
-Need to take a deeper look into that interface...
-
-/Thomas
+Here is a link to Mesa MR that implements the support in the driver:
+https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/10666
 
 
 
->> /Thomas
->>
->>
+	J.A.
+
