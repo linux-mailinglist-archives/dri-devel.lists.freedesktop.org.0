@@ -1,40 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B2F13A6D60
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Jun 2021 19:43:39 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id BA20E3A6D6F
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Jun 2021 19:45:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 297406E0D0;
-	Mon, 14 Jun 2021 17:43:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E8B006E0D5;
+	Mon, 14 Jun 2021 17:45:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 761B389F06;
- Mon, 14 Jun 2021 17:43:25 +0000 (UTC)
-IronPort-SDR: Nygq83XKF+fkDInfRPo+ri72x328yetjk+WF1ABIO4kxwYCDJjQv7BL2bk3w6LAcASRlGBJGsU
- q2vx6jgDHTsA==
-X-IronPort-AV: E=McAfee;i="6200,9189,10015"; a="204020417"
-X-IronPort-AV: E=Sophos;i="5.83,273,1616482800"; d="scan'208";a="204020417"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Jun 2021 10:43:25 -0700
-IronPort-SDR: z0J9qpOe1WA7B/DCmDDrF8Bx5YcoiwGo0QAx16tg2yarH/1Ppomhp+0EfvGdbwmsX13GKMuyUI
- w0B696d3NI3Q==
-X-IronPort-AV: E=Sophos;i="5.83,273,1616482800"; d="scan'208";a="451666905"
-Received: from fnygreen-mobl1.ger.corp.intel.com (HELO
- thellst-mobl1.intel.com) ([10.249.254.50])
- by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Jun 2021 10:43:07 -0700
-From: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
-To: intel-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org
-Subject: [PATCH v5 4/4] drm/i915/ttm: Use TTM for system memory
-Date: Mon, 14 Jun 2021 19:42:46 +0200
-Message-Id: <20210614174246.403854-5-thomas.hellstrom@linux.intel.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210614174246.403854-1-thomas.hellstrom@linux.intel.com>
-References: <20210614174246.403854-1-thomas.hellstrom@linux.intel.com>
+Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com
+ [IPv6:2a00:1450:4864:20::62c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3BF706E0D4;
+ Mon, 14 Jun 2021 17:45:39 +0000 (UTC)
+Received: by mail-ej1-x62c.google.com with SMTP id l1so17936077ejb.6;
+ Mon, 14 Jun 2021 10:45:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=PUBnSqjifeABnYmtmaOv5fGKIFLMtAzhnEogHRJYJ2s=;
+ b=ppPZADw+QT7N33huZ+DamqtRdGuphRtdQTBYLg2s43S1UernvauzDTwKKOUD+Jfz1+
+ wo4SQA+Klem3QZd8xirUuurk8YxroKP/Enkg7mMbeAS1YVVgoP8wrPqOnDEZ83g3+xWc
+ /lHiqYjeAS4qSnTZDV8CrVBOKP+1leW7/I0E9VmzGauGMnSC2KZ+aSXdc5+dor6fagKG
+ ftxaoqd3Mu/ssVFFO48nHWo5QC5Fwt4M0uyfg/FmMk5J8HSUVvpU62MlKE9YSpOu4oay
+ oOffNJjvAb6CYcvQsuOTFKtgsPOl3++e19KhbNUWMUgARER2mHTNRBfWXYqyo0Js5y1g
+ fzZw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=PUBnSqjifeABnYmtmaOv5fGKIFLMtAzhnEogHRJYJ2s=;
+ b=RmQo84P0s1BN17W5h+OOPQqAWZLEK/o3H5Bk4utQ8rUFSaod/GYrK0lACbIbitqjgV
+ CvUWnFkNeSGGfKIUrLxyzMKfnQe/nPdRksGgzCa/HMvIDBetPLzOh/gVkAMZwnQyiBIs
+ 2G2hhU8XY3OWSFLzPG5GKpet1W8cJl0DDio3rj+u+C9g5VE6yeGsG4Jr/aoIa3bdNDfb
+ yNQdfjqpEaL5PUJUk6KKLLbnMNr5QmqxVNgDo4Nb06oribZcXY6gKjO2L4ivCqM1CphI
+ u/E2H/xofvb+56PjjPJC5do8c0DkmOoncm9oYoC7OLWLKoVtaXwPQpsWFNcUeT3oococ
+ x0pw==
+X-Gm-Message-State: AOAM5300cgVnUBLau6pC9W0nvGfFnZN5TSVMTeMRojdCgbyGh00QeV9L
+ SoE/qPRWhd9xuRgqYdDo8WU=
+X-Google-Smtp-Source: ABdhPJyMqKpeVbOoiq5EPXQZv8wXG409C6WvYONsDz7q1O3JojCYYv5OYtR+or5GVviUlpwgkzb6/w==
+X-Received: by 2002:a17:907:1b29:: with SMTP id
+ mp41mr15278003ejc.459.1623692737888; 
+ Mon, 14 Jun 2021 10:45:37 -0700 (PDT)
+Received: from abel.fritz.box ([2a02:908:1252:fb60:3d13:a2c3:d033:759a])
+ by smtp.gmail.com with ESMTPSA id a3sm77485edu.61.2021.06.14.10.45.37
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 14 Jun 2021 10:45:37 -0700 (PDT)
+From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
+X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
+ <christian.koenig@amd.com>
+To: daniel@ffwll.ch, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org
+Subject: [PATCH 1/2] drm/amdgpu: unwrap fence chains in the explicit sync fence
+Date: Mon, 14 Jun 2021 19:45:35 +0200
+Message-Id: <20210614174536.5188-1-christian.koenig@amd.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -50,110 +70,172 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- matthew.auld@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-For discrete, use TTM for both cached and WC system memory. That means
-we currently rely on the TTM memory accounting / shrinker. For cached
-system memory we should consider remaining shmem-backed, which can be
-implemented from our ttm_tt_populate callback. We can then also reuse our
-own very elaborate shrinker for that memory.
+Unwrap the explicit fence if it is a dma_fence_chain and
+sync to the first fence not matching the owner rules.
 
-Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-Reviewed-by: Matthew Auld <matthew.auld@intel.com>
+Signed-off-by: Christian König <christian.koenig@amd.com>
+Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 ---
-v2:
-- Fix IS_ERR_OR_NULL() check to IS_ERR() (Reported by Matthew Auld)
-v3:
-- Commit message typo fix
----
- drivers/gpu/drm/i915/gem/i915_gem_ttm.c    | 22 ++++++++++++++++++++++
- drivers/gpu/drm/i915/i915_drv.h            |  3 ---
- drivers/gpu/drm/i915/intel_memory_region.c |  7 ++++++-
- drivers/gpu/drm/i915/intel_memory_region.h |  8 ++++++++
- 4 files changed, 36 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_sync.c | 118 +++++++++++++----------
+ 1 file changed, 68 insertions(+), 50 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-index 1c45f9c87946..d48ca17e70dd 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-@@ -755,3 +755,25 @@ int __i915_gem_ttm_object_init(struct intel_memory_region *mem,
- 	/* i915 wants -ENXIO when out of memory region space. */
- 	return (ret == -ENOSPC) ? -ENXIO : ret;
- }
-+
-+static const struct intel_memory_region_ops ttm_system_region_ops = {
-+	.init_object = __i915_gem_ttm_object_init,
-+};
-+
-+struct intel_memory_region *
-+i915_gem_ttm_system_setup(struct drm_i915_private *i915,
-+			  u16 type, u16 instance)
-+{
-+	struct intel_memory_region *mr;
-+
-+	mr = intel_memory_region_create(i915, 0,
-+					totalram_pages() << PAGE_SHIFT,
-+					PAGE_SIZE, 0,
-+					type, instance,
-+					&ttm_system_region_ops);
-+	if (IS_ERR(mr))
-+		return mr;
-+
-+	intel_memory_region_set_name(mr, "system-ttm");
-+	return mr;
-+}
-diff --git a/drivers/gpu/drm/i915/i915_drv.h b/drivers/gpu/drm/i915/i915_drv.h
-index 01e11fe38642..bfbfbae57573 100644
---- a/drivers/gpu/drm/i915/i915_drv.h
-+++ b/drivers/gpu/drm/i915/i915_drv.h
-@@ -1751,9 +1751,6 @@ void i915_gem_cleanup_userptr(struct drm_i915_private *dev_priv);
- void i915_gem_init_early(struct drm_i915_private *dev_priv);
- void i915_gem_cleanup_early(struct drm_i915_private *dev_priv);
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_sync.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_sync.c
+index 1b2ceccaf5b0..862eb3c1c4c5 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_sync.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_sync.c
+@@ -28,6 +28,8 @@
+  *    Christian König <christian.koenig@amd.com>
+  */
  
--struct intel_memory_region *i915_gem_shmem_setup(struct drm_i915_private *i915,
--						 u16 type, u16 instance);
++#include <linux/dma-fence-chain.h>
++
+ #include "amdgpu.h"
+ #include "amdgpu_trace.h"
+ #include "amdgpu_amdkfd.h"
+@@ -186,6 +188,55 @@ int amdgpu_sync_vm_fence(struct amdgpu_sync *sync, struct dma_fence *fence)
+ 	return amdgpu_sync_fence(sync, fence);
+ }
+ 
++/* Determine based on the owner and mode if we should sync to a fence or not */
++static bool amdgpu_sync_test_fence(struct amdgpu_device *adev,
++				   enum amdgpu_sync_mode mode,
++				   void *owner, struct dma_fence *f)
++{
++	void *fence_owner = amdgpu_sync_get_owner(f);
++
++	/* Always sync to moves, no matter what */
++	if (fence_owner == AMDGPU_FENCE_OWNER_UNDEFINED)
++		return true;
++
++	/* We only want to trigger KFD eviction fences on
++	 * evict or move jobs. Skip KFD fences otherwise.
++	 */
++	if (fence_owner == AMDGPU_FENCE_OWNER_KFD &&
++	    owner != AMDGPU_FENCE_OWNER_UNDEFINED)
++		return false;
++
++	/* Never sync to VM updates either. */
++	if (fence_owner == AMDGPU_FENCE_OWNER_VM &&
++	    owner != AMDGPU_FENCE_OWNER_UNDEFINED)
++		return false;
++
++	/* Ignore fences depending on the sync mode */
++	switch (mode) {
++	case AMDGPU_SYNC_ALWAYS:
++		return true;
++
++	case AMDGPU_SYNC_NE_OWNER:
++		if (amdgpu_sync_same_dev(adev, f) &&
++		    fence_owner == owner)
++			return false;
++		break;
++
++	case AMDGPU_SYNC_EQ_OWNER:
++		if (amdgpu_sync_same_dev(adev, f) &&
++		    fence_owner != owner)
++			return false;
++		break;
++
++	case AMDGPU_SYNC_EXPLICIT:
++		return false;
++	}
++
++	WARN(debug_evictions && fence_owner == AMDGPU_FENCE_OWNER_KFD,
++	     "Adding eviction fence to sync obj");
++	return true;
++}
++
+ /**
+  * amdgpu_sync_resv - sync to a reservation object
+  *
+@@ -211,67 +262,34 @@ int amdgpu_sync_resv(struct amdgpu_device *adev, struct amdgpu_sync *sync,
+ 
+ 	/* always sync to the exclusive fence */
+ 	f = dma_resv_excl_fence(resv);
+-	r = amdgpu_sync_fence(sync, f);
++	dma_fence_chain_for_each(f, f) {
++		struct dma_fence_chain *chain = to_dma_fence_chain(f);
++
++		if (amdgpu_sync_test_fence(adev, mode, owner, chain ?
++					   chain->fence : f)) {
++			r = amdgpu_sync_fence(sync, f);
++			dma_fence_put(f);
++			if (r)
++				return r;
++			break;
++		}
++	}
+ 
+ 	flist = dma_resv_shared_list(resv);
+-	if (!flist || r)
+-		return r;
++	if (!flist)
++		return 0;
+ 
+ 	for (i = 0; i < flist->shared_count; ++i) {
+-		void *fence_owner;
 -
- static inline void i915_gem_drain_freed_objects(struct drm_i915_private *i915)
- {
- 	/*
-diff --git a/drivers/gpu/drm/i915/intel_memory_region.c b/drivers/gpu/drm/i915/intel_memory_region.c
-index 12fb5423fd5e..0b016bdb8b84 100644
---- a/drivers/gpu/drm/i915/intel_memory_region.c
-+++ b/drivers/gpu/drm/i915/intel_memory_region.c
-@@ -220,7 +220,12 @@ int intel_memory_regions_hw_probe(struct drm_i915_private *i915)
- 		instance = intel_region_map[i].instance;
- 		switch (type) {
- 		case INTEL_MEMORY_SYSTEM:
--			mem = i915_gem_shmem_setup(i915, type, instance);
-+			if (IS_DGFX(i915))
-+				mem = i915_gem_ttm_system_setup(i915, type,
-+								instance);
-+			else
-+				mem = i915_gem_shmem_setup(i915, type,
-+							   instance);
- 			break;
- 		case INTEL_MEMORY_STOLEN_LOCAL:
- 			mem = i915_gem_stolen_lmem_setup(i915, type, instance);
-diff --git a/drivers/gpu/drm/i915/intel_memory_region.h b/drivers/gpu/drm/i915/intel_memory_region.h
-index c7e635d62e1a..1a2bb9fc9de5 100644
---- a/drivers/gpu/drm/i915/intel_memory_region.h
-+++ b/drivers/gpu/drm/i915/intel_memory_region.h
-@@ -143,4 +143,12 @@ void intel_memory_region_unreserve(struct intel_memory_region *mem);
- int intel_memory_region_reserve(struct intel_memory_region *mem,
- 				resource_size_t offset,
- 				resource_size_t size);
-+
-+struct intel_memory_region *
-+i915_gem_ttm_system_setup(struct drm_i915_private *i915,
-+			  u16 type, u16 instance);
-+struct intel_memory_region *
-+i915_gem_shmem_setup(struct drm_i915_private *i915,
-+		     u16 type, u16 instance);
-+
- #endif
+ 		f = rcu_dereference_protected(flist->shared[i],
+ 					      dma_resv_held(resv));
+ 
+-		fence_owner = amdgpu_sync_get_owner(f);
+-
+-		/* Always sync to moves, no matter what */
+-		if (fence_owner == AMDGPU_FENCE_OWNER_UNDEFINED) {
++		if (amdgpu_sync_test_fence(adev, mode, owner, f)) {
+ 			r = amdgpu_sync_fence(sync, f);
+ 			if (r)
+-				break;
+-		}
+-
+-		/* We only want to trigger KFD eviction fences on
+-		 * evict or move jobs. Skip KFD fences otherwise.
+-		 */
+-		if (fence_owner == AMDGPU_FENCE_OWNER_KFD &&
+-		    owner != AMDGPU_FENCE_OWNER_UNDEFINED)
+-			continue;
+-
+-		/* Never sync to VM updates either. */
+-		if (fence_owner == AMDGPU_FENCE_OWNER_VM &&
+-		    owner != AMDGPU_FENCE_OWNER_UNDEFINED)
+-			continue;
+-
+-		/* Ignore fences depending on the sync mode */
+-		switch (mode) {
+-		case AMDGPU_SYNC_ALWAYS:
+-			break;
+-
+-		case AMDGPU_SYNC_NE_OWNER:
+-			if (amdgpu_sync_same_dev(adev, f) &&
+-			    fence_owner == owner)
+-				continue;
+-			break;
+-
+-		case AMDGPU_SYNC_EQ_OWNER:
+-			if (amdgpu_sync_same_dev(adev, f) &&
+-			    fence_owner != owner)
+-				continue;
+-			break;
+-
+-		case AMDGPU_SYNC_EXPLICIT:
+-			continue;
++				return r;
+ 		}
+-
+-		WARN(debug_evictions && fence_owner == AMDGPU_FENCE_OWNER_KFD,
+-		     "Adding eviction fence to sync obj");
+-		r = amdgpu_sync_fence(sync, f);
+-		if (r)
+-			break;
+ 	}
+-	return r;
++	return 0;
+ }
+ 
+ /**
 -- 
-2.31.1
+2.25.1
 
