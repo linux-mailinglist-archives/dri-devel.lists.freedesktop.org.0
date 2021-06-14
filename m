@@ -2,37 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 879E23A6BA9
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Jun 2021 18:26:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 846423A6BAA
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Jun 2021 18:26:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3ECC489E98;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1024D89E41;
 	Mon, 14 Jun 2021 16:26:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E4F4389E98;
- Mon, 14 Jun 2021 16:26:41 +0000 (UTC)
-IronPort-SDR: H+V/1SIMK7vlVG5o7vHvnteGh66tbbbKvr9A1fmwh1ZcbhmfDPK5CnPsbswa3UDO1pnugoJxg7
- QJUu9OdlmYWw==
-X-IronPort-AV: E=McAfee;i="6200,9189,10015"; a="204008315"
-X-IronPort-AV: E=Sophos;i="5.83,273,1616482800"; d="scan'208";a="204008315"
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8F78489EA6;
+ Mon, 14 Jun 2021 16:26:43 +0000 (UTC)
+IronPort-SDR: sbHKsozDjCdHcAG4ozOOmZcWvrtTkx+1T6HqsYop8OCgonvQAbbB+chMLs1qxIuWKXqsSmC5+m
+ k1YqASpQ7kyg==
+X-IronPort-AV: E=McAfee;i="6200,9189,10015"; a="204008323"
+X-IronPort-AV: E=Sophos;i="5.83,273,1616482800"; d="scan'208";a="204008323"
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Jun 2021 09:26:33 -0700
-IronPort-SDR: 6XGiX48ESDV3CFbUk/P7DP87wSNa8QnT/fYTQob3qfaA8dMdrPPiHe8NcqjZICu7ZpoquYhwqD
- h1kJAUILH5eg==
-X-IronPort-AV: E=Sophos;i="5.83,273,1616482800"; d="scan'208";a="449946694"
+ 14 Jun 2021 09:26:35 -0700
+IronPort-SDR: DpDxJdoEJ2HCEApWcKAnik1sppFKf1YpQJmWhBdJogZFnx3GimNoCOZWvaL1dgunB3ACKjmhTc
+ 8bC4mCTwZKUA==
+X-IronPort-AV: E=Sophos;i="5.83,273,1616482800"; d="scan'208";a="449946705"
 Received: from fnygreen-mobl1.ger.corp.intel.com (HELO
  thellst-mobl1.intel.com) ([10.249.254.50])
  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Jun 2021 09:26:32 -0700
+ 14 Jun 2021 09:26:33 -0700
 From: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
 To: intel-gfx@lists.freedesktop.org,
 	dri-devel@lists.freedesktop.org
-Subject: [PATCH v3 05/12] drm/i915/gt: Add a routine to iterate over the
- pagetables of a GTT
-Date: Mon, 14 Jun 2021 18:26:05 +0200
-Message-Id: <20210614162612.294869-6-thomas.hellstrom@linux.intel.com>
+Subject: [PATCH v3 06/12] drm/i915/gt: Export the pinned context constructor
+ and destructor
+Date: Mon, 14 Jun 2021 18:26:06 +0200
+Message-Id: <20210614162612.294869-7-thomas.hellstrom@linux.intel.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210614162612.294869-1-thomas.hellstrom@linux.intel.com>
 References: <20210614162612.294869-1-thomas.hellstrom@linux.intel.com>
@@ -56,101 +56,121 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Chris Wilson <chris@chris-wilson.co.uk>
 
-In the next patch, we will want to look at the dma addresses of
-individual page tables, so add a routine to iterate over them.
+Allow internal clients to create and destroy a pinned context.
 
 Signed-off-by: Chris Wilson <chris@chris-wilson.co.uk>
 Reviewed-by: Matthew Auld <matthew.auld@intel.com>
 ---
- drivers/gpu/drm/i915/gt/gen8_ppgtt.c | 49 ++++++++++++++++++++++++++++
- drivers/gpu/drm/i915/gt/intel_gtt.h  |  7 ++++
- 2 files changed, 56 insertions(+)
+v2:
+- (Thomas) Export also the pinned context destructor
+---
+ drivers/gpu/drm/i915/gt/intel_engine.h    | 11 +++++++++
+ drivers/gpu/drm/i915/gt/intel_engine_cs.c | 27 ++++++++++++++---------
+ 2 files changed, 28 insertions(+), 10 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/gt/gen8_ppgtt.c b/drivers/gpu/drm/i915/gt/gen8_ppgtt.c
-index 1b676d7700bf..3d02c726c746 100644
---- a/drivers/gpu/drm/i915/gt/gen8_ppgtt.c
-+++ b/drivers/gpu/drm/i915/gt/gen8_ppgtt.c
-@@ -361,6 +361,54 @@ static void gen8_ppgtt_alloc(struct i915_address_space *vm,
- 			   &start, start + length, vm->top);
+diff --git a/drivers/gpu/drm/i915/gt/intel_engine.h b/drivers/gpu/drm/i915/gt/intel_engine.h
+index 8d9184920c51..36ea9eb52bb5 100644
+--- a/drivers/gpu/drm/i915/gt/intel_engine.h
++++ b/drivers/gpu/drm/i915/gt/intel_engine.h
+@@ -19,7 +19,9 @@
+ #include "intel_workarounds.h"
+ 
+ struct drm_printer;
++struct intel_context;
+ struct intel_gt;
++struct lock_class_key;
+ 
+ /* Early gen2 devices have a cacheline of just 32 bytes, using 64 is overkill,
+  * but keeps the logic simple. Indeed, the whole purpose of this macro is just
+@@ -256,6 +258,15 @@ struct i915_request *
+ intel_engine_find_active_request(struct intel_engine_cs *engine);
+ 
+ u32 intel_engine_context_size(struct intel_gt *gt, u8 class);
++struct intel_context *
++intel_engine_create_pinned_context(struct intel_engine_cs *engine,
++				   struct i915_address_space *vm,
++				   unsigned int ring_size,
++				   unsigned int hwsp,
++				   struct lock_class_key *key,
++				   const char *name);
++
++void intel_engine_destroy_pinned_context(struct intel_context *ce);
+ 
+ void intel_engine_init_active(struct intel_engine_cs *engine,
+ 			      unsigned int subclass);
+diff --git a/drivers/gpu/drm/i915/gt/intel_engine_cs.c b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
+index 9ceddfbb1687..fcbaad18ac91 100644
+--- a/drivers/gpu/drm/i915/gt/intel_engine_cs.c
++++ b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
+@@ -810,11 +810,13 @@ intel_engine_init_active(struct intel_engine_cs *engine, unsigned int subclass)
+ #endif
  }
  
-+static void __gen8_ppgtt_foreach(struct i915_address_space *vm,
-+				 struct i915_page_directory *pd,
-+				 u64 *start, u64 end, int lvl,
-+				 void (*fn)(struct i915_address_space *vm,
-+					    struct i915_page_table *pt,
-+					    void *data),
-+				 void *data)
-+{
-+	unsigned int idx, len;
-+
-+	len = gen8_pd_range(*start, end, lvl--, &idx);
-+
-+	spin_lock(&pd->lock);
-+	do {
-+		struct i915_page_table *pt = pd->entry[idx];
-+
-+		atomic_inc(&pt->used);
-+		spin_unlock(&pd->lock);
-+
-+		if (lvl) {
-+			__gen8_ppgtt_foreach(vm, as_pd(pt), start, end, lvl,
-+					     fn, data);
-+		} else {
-+			fn(vm, pt, data);
-+			*start += gen8_pt_count(*start, end);
-+		}
-+
-+		spin_lock(&pd->lock);
-+		atomic_dec(&pt->used);
-+	} while (idx++, --len);
-+	spin_unlock(&pd->lock);
-+}
-+
-+static void gen8_ppgtt_foreach(struct i915_address_space *vm,
-+			       u64 start, u64 length,
-+			       void (*fn)(struct i915_address_space *vm,
-+					  struct i915_page_table *pt,
-+					  void *data),
-+			       void *data)
-+{
-+	start >>= GEN8_PTE_SHIFT;
-+	length >>= GEN8_PTE_SHIFT;
-+
-+	__gen8_ppgtt_foreach(vm, i915_vm_to_ppgtt(vm)->pd,
-+			     &start, start + length, vm->top,
-+			     fn, data);
-+}
-+
- static __always_inline u64
- gen8_ppgtt_insert_pte(struct i915_ppgtt *ppgtt,
- 		      struct i915_page_directory *pdp,
-@@ -755,6 +803,7 @@ struct i915_ppgtt *gen8_ppgtt_create(struct intel_gt *gt)
- 	ppgtt->vm.insert_page = gen8_ppgtt_insert_entry;
- 	ppgtt->vm.allocate_va_range = gen8_ppgtt_alloc;
- 	ppgtt->vm.clear_range = gen8_ppgtt_clear;
-+	ppgtt->vm.foreach = gen8_ppgtt_foreach;
+-static struct intel_context *
+-create_pinned_context(struct intel_engine_cs *engine,
+-		      unsigned int hwsp,
+-		      struct lock_class_key *key,
+-		      const char *name)
++struct intel_context *
++intel_engine_create_pinned_context(struct intel_engine_cs *engine,
++				   struct i915_address_space *vm,
++				   unsigned int ring_size,
++				   unsigned int hwsp,
++				   struct lock_class_key *key,
++				   const char *name)
+ {
+ 	struct intel_context *ce;
+ 	int err;
+@@ -825,6 +827,10 @@ create_pinned_context(struct intel_engine_cs *engine,
  
- 	ppgtt->vm.pte_encode = gen8_pte_encode;
- 
-diff --git a/drivers/gpu/drm/i915/gt/intel_gtt.h b/drivers/gpu/drm/i915/gt/intel_gtt.h
-index edea95b97c36..9bd89f2a01ff 100644
---- a/drivers/gpu/drm/i915/gt/intel_gtt.h
-+++ b/drivers/gpu/drm/i915/gt/intel_gtt.h
-@@ -296,6 +296,13 @@ struct i915_address_space {
- 			       u32 flags);
- 	void (*cleanup)(struct i915_address_space *vm);
- 
-+	void (*foreach)(struct i915_address_space *vm,
-+			u64 start, u64 length,
-+			void (*fn)(struct i915_address_space *vm,
-+				   struct i915_page_table *pt,
-+				   void *data),
-+			void *data);
+ 	__set_bit(CONTEXT_BARRIER_BIT, &ce->flags);
+ 	ce->timeline = page_pack_bits(NULL, hwsp);
++	ce->ring = __intel_context_ring_size(ring_size);
 +
- 	struct i915_vma_ops vma_ops;
++	i915_vm_put(ce->vm);
++	ce->vm = i915_vm_get(vm);
  
- 	I915_SELFTEST_DECLARE(struct fault_attr fault_attr);
+ 	err = intel_context_pin(ce); /* perma-pin so it is always available */
+ 	if (err) {
+@@ -843,7 +849,7 @@ create_pinned_context(struct intel_engine_cs *engine,
+ 	return ce;
+ }
+ 
+-static void destroy_pinned_context(struct intel_context *ce)
++void intel_engine_destroy_pinned_context(struct intel_context *ce)
+ {
+ 	struct intel_engine_cs *engine = ce->engine;
+ 	struct i915_vma *hwsp = engine->status_page.vma;
+@@ -863,8 +869,9 @@ create_kernel_context(struct intel_engine_cs *engine)
+ {
+ 	static struct lock_class_key kernel;
+ 
+-	return create_pinned_context(engine, I915_GEM_HWS_SEQNO_ADDR,
+-				     &kernel, "kernel_context");
++	return intel_engine_create_pinned_context(engine, engine->gt->vm, SZ_4K,
++						  I915_GEM_HWS_SEQNO_ADDR,
++						  &kernel, "kernel_context");
+ }
+ 
+ /**
+@@ -907,7 +914,7 @@ static int engine_init_common(struct intel_engine_cs *engine)
+ 	return 0;
+ 
+ err_context:
+-	destroy_pinned_context(ce);
++	intel_engine_destroy_pinned_context(ce);
+ 	return ret;
+ }
+ 
+@@ -969,7 +976,7 @@ void intel_engine_cleanup_common(struct intel_engine_cs *engine)
+ 		fput(engine->default_state);
+ 
+ 	if (engine->kernel_context)
+-		destroy_pinned_context(engine->kernel_context);
++		intel_engine_destroy_pinned_context(engine->kernel_context);
+ 
+ 	GEM_BUG_ON(!llist_empty(&engine->barrier_tasks));
+ 	cleanup_status_page(engine);
 -- 
 2.31.1
 
