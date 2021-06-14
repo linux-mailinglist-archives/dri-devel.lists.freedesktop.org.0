@@ -1,43 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5CDF3A6DE7
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Jun 2021 20:02:39 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BDED93A6DFE
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Jun 2021 20:10:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0E3806E091;
-	Mon, 14 Jun 2021 18:02:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A073E89C2C;
+	Mon, 14 Jun 2021 18:10:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F34066E091
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Jun 2021 18:02:33 +0000 (UTC)
+ [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8FC1689C2C
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Jun 2021 18:10:14 +0000 (UTC)
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
  [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 23F1B8C4;
- Mon, 14 Jun 2021 20:02:32 +0200 (CEST)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id DD6788C4;
+ Mon, 14 Jun 2021 20:10:12 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1623693752;
- bh=5ca8iqJFgZlq6ZnMr9Z20pvoriSoIcoglGz+6mW0vs8=;
+ s=mail; t=1623694213;
+ bh=a5Sg792DzwCWzwbmuBe0Bh/onFDMfI42mllwatIAXe4=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=k2E1p/KCteMVa+KOYX/u4JTZlqwB/FtR7euYTS/MrReC1Rl9eyolpxseE2YwQBopt
- zTtMpQjBeBxt7koeEK+nonKWXf39X+zAOEHfOGEaJAuATMF047LjatazaN83Qb9cnb
- PkGUMn9dwX4Agfn0HLMH+KeOGhovVH1yI+olJwg0=
-Date: Mon, 14 Jun 2021 21:02:12 +0300
+ b=GtpFCEMj6zitGCZzoyng/W1/Cw0tI6YIFgChPLYdt/Oe56XLTXVFpeJGcRm+eImpg
+ D0NKismfuYIeXcUSNGR39H4pOEss0BgScztaLELexxTDv8YR74qlRe0uG7xwTNv7Si
+ qb5jJqjQK44vRIZGilAd/+lLVKDqR/FhIdIktt4g=
+Date: Mon, 14 Jun 2021 21:09:53 +0300
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: Marek Vasut <marex@denx.de>
-Subject: Re: [PATCH 2/2] drm/bridge: lvds-codec: Add support for LVDS data
- mapping select
-Message-ID: <YMeZpHfFhjz2d5Om@pendragon.ideasonboard.com>
-References: <20210515204656.367442-1-marex@denx.de>
- <20210515204656.367442-2-marex@denx.de>
- <YKL2SAfonHJcoTw/@pendragon.ideasonboard.com>
- <cd0e358b-9d8e-9005-0889-346e2b7b722c@denx.de>
+Subject: Re: [PATCH V2 1/2] dt-bindings: display: bridge: lvds-codec:
+ Document LVDS data mapping select
+Message-ID: <YMebcWRcs38IKKTO@pendragon.ideasonboard.com>
+References: <20210602203731.419310-1-marex@denx.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <cd0e358b-9d8e-9005-0889-346e2b7b722c@denx.de>
+In-Reply-To: <20210602203731.419310-1-marex@denx.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,53 +47,138 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sam Ravnborg <sam@ravnborg.org>, ch@denx.de,
- dri-devel@lists.freedesktop.org
+Cc: devicetree@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+ Sam Ravnborg <sam@ravnborg.org>, ch@denx.de, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi Marek,
 
-On Tue, May 25, 2021 at 12:38:47PM +0200, Marek Vasut wrote:
-> On 5/18/21 1:03 AM, Laurent Pinchart wrote:
-> 
-> Hi,
-> 
-> [...]
-> 
-> >> @@ -69,10 +70,33 @@ static void lvds_codec_disable(struct drm_bridge *bridge)
-> >>   			"Failed to disable regulator \"vcc\": %d\n", ret);
-> >>   }
-> >>   
-> >> +static bool lvds_codec_mode_fixup(struct drm_bridge *bridge,
-> >> +				const struct drm_display_mode *mode,
-> >> +				struct drm_display_mode *adj)
-> >> +{
-> >> +	struct lvds_codec *lvds_codec = to_lvds_codec(bridge);
-> >> +	struct drm_encoder *encoder = bridge->encoder;
-> >> +	struct drm_device *ddev = encoder->dev;
-> >> +	struct drm_connector *connector;
-> >> +
-> >> +	/* If 'data-mapping' was not specified, do nothing. */
-> >> +	if (!lvds_codec->bus_format)
-> >> +		return true;
-> >> +
-> >> +	/* Patch in the LVDS format */
-> >> +	list_for_each_entry(connector, &ddev->mode_config.connector_list, head) {
-> >> +		drm_display_info_set_bus_formats(&connector->display_info,
-> >> +						 &lvds_codec->bus_format, 1);
-> >> +	}
-> > 
-> > This part bothers me, as the format at the input of the LVDS decoder
-> > doesn't match the format on the connector. Shouldn't you implement
-> > .atomic_get_output_bus_fmts() instead ?
-> 
-> No, I tried that option before this solution and that didn't work. The 
-> atomic stuff seems to be separate from what I need to pass here, i.e. 
-> without this, e.g. the mxsfb scanout engine still receives the wrong format.
+Thank you for the patch.
 
-I fear this needs to be investigated then, as the connected format isn't
-the same as the LVDS decoder input format, so the above isn't right.
+On Wed, Jun 02, 2021 at 10:37:30PM +0200, Marek Vasut wrote:
+> Decoder input LVDS format is a property of the decoder chip or even
+> its strapping. Add DT property data-mapping the same way lvds-panel
+> does, to define the LVDS data mapping.
+> 
+> Signed-off-by: Marek Vasut <marex@denx.de>
+> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Cc: Rob Herring <robh+dt@kernel.org>
+> Cc: Sam Ravnborg <sam@ravnborg.org>
+> Cc: devicetree@vger.kernel.org
+> To: dri-devel@lists.freedesktop.org
+> ---
+> V2: - Use allOf
+>     - Move the data-mapping to endpoint
+> ---
+>  .../bindings/display/bridge/lvds-codec.yaml   | 53 ++++++++++++++-----
+>  1 file changed, 41 insertions(+), 12 deletions(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/display/bridge/lvds-codec.yaml b/Documentation/devicetree/bindings/display/bridge/lvds-codec.yaml
+> index cacafa61e3f52..c493d007785ca 100644
+> --- a/Documentation/devicetree/bindings/display/bridge/lvds-codec.yaml
+> +++ b/Documentation/devicetree/bindings/display/bridge/lvds-codec.yaml
+> @@ -68,6 +68,18 @@ properties:
+>            For LVDS encoders, port 1 is the LVDS output
+>            For LVDS decoders, port 1 is the parallel output
+>  
+> +        properties:
+> +          endpoint:
+> +            properties:
+> +              data-mapping:
+> +                enum:
+> +                  - jeida-18
+> +                  - jeida-24
+> +                  - vesa-24
+> +                description: |
+> +                  The color signals mapping order. See details in
+> +                  Documentation/devicetree/bindings/display/panel/lvds.yaml
+> +
+>      required:
+>        - port@0
+>        - port@1
+> @@ -79,21 +91,38 @@ properties:
+>  
+>    power-supply: true
+>  
+> -if:
+> -  not:
+> -    properties:
+> -      compatible:
+> -        contains:
+> -          const: lvds-encoder
+> -then:
+> -  properties:
+> -    ports:
+> +allOf:
+> +  - if:
+> +      not:
+> +        properties:
+> +          compatible:
+> +            contains:
+> +              const: lvds-encoder
+> +    then:
+> +      properties:
+> +        ports:
+> +          properties:
+> +            port@0:
+> +              properties:
+> +                endpoint:
+> +                  properties:
+> +                    pclk-sample: false
+> +
+> +  - if:
+> +      not:
+> +        properties:
+> +          compatible:
+> +            contains:
+> +              const: lvds-decoder
+
+Is this correct ? The condition says that if it's an encoder (not a
+decoder), then the data-mapping property on port 1 (the output port,
+thus and LVDS port) is not allowed. I think this should be for decoders,
+not encoders. You can thus combine the two conditions:
+
+allOf:
+  - if:
+      not:
+        properties:
+          compatible:
+            contains:
+              const: lvds-encoder
+    then:
+      properties:
+        ports:
+          properties:
+            port@0:
+              properties:
+                endpoint:
+                  properties:
+                    pclk-sample: false
+            port@1:
+              properties:
+                endpoint:
+                  properties:
+                    data-mapping: false
+
+You could also drop the allOf, or keep it to avoid whitespace churn when
+a new condition will need to be added.
+
+> +    then:
+>        properties:
+> -        port@0:
+> +        ports:
+>            properties:
+> -            endpoint:
+> +            port@1:
+>                properties:
+> -                pclk-sample: false
+> +                endpoint:
+> +                  properties:
+> +                    data-mapping: false
+>  
+>  required:
+>    - compatible
 
 -- 
 Regards,
