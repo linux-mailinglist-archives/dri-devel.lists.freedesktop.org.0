@@ -1,115 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C59A53A66B4
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Jun 2021 14:35:28 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 97D1E3A685C
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Jun 2021 15:49:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5D258891D2;
-	Mon, 14 Jun 2021 12:35:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 06EC2899BB;
+	Mon, 14 Jun 2021 13:49:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam11on2076.outbound.protection.outlook.com [40.107.236.76])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 289CB891D2;
- Mon, 14 Jun 2021 12:35:24 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=PiRZiCpMSRvJlqTLr1cRWjDWGw47vtF6MjCaFw9MfpPqFxdYZM4p2dnH96pbDX5ZVssJXZh1Z02z7eRhhQKYhxaMQlPDxm/6rcSff4hzG8PC5PRdV9SjhRfqpL5Fwc52JNFYlneeCXQMRIKED2JDn9v1nA2PfZR9a4lCtg9PZ3gbxQOWWDemSkw4A21ayQ1ulr8eBHWj1SjyiYadDHmm/U2S9tH/LhMCb11YsuwdlfesgE4ur2uHWqRE3UHKlUlyFYI1bBQIW0QVAtxn5Ts+ct8pnhxy6x0qqLb4Ifp1Kc2IxqKBh7uAbvcpEoBpAAJsI3WNYuv3josfmyxPvCi7QQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=vovSBIAn7YDUdNibZX/0zlm501S26NvUyJxE/ZzwU+I=;
- b=flsSXnvgI/E9xqPOeV01yidpo8y4ySBjAx4A89wfGgwl+syjChIhC9pUiz8mMBZlcAOGP0gwQKDwcCOk2n55SvTaApklY07wwo4oU2NbXuVVwqU4BQGWBNncYqOcz0rUqqYYfGBLg9OoLwVUIC4l+sDk2j+QObaeyeLKCmwuewSi2f2fI1J/a5OaCPg5KZa/FkUF6Mn2rGTVYz5EBT6y6CyRRHQwN4i5EuVOAM58QtWV6NQSnSNT1CT+TUf5T182Db81+QTa6/5KJe9lS4LDvL8TLsW4QriHqo8X7AGM1WuUNFHobXeL/mJ3a9gSN67ROUZgvyHY94RFqHuSaG4/Jw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=vovSBIAn7YDUdNibZX/0zlm501S26NvUyJxE/ZzwU+I=;
- b=OspOGafCWmjnLI4mOgppf+pUGqVWTcGb4joVLsEH27IoktTw5grXcsc8h670pcXlxhJe8dff5NnZqwAAe3/FlF4A1iWBY3CiM1LyoCCff/6kgkrCC/L+IPJE4tcWFoLtXRC+h3/Tqr9FtdxWnEEtcmplHvjdq8TbCzsJQzK8nRyh1mArVL2dq8wrjQnIg80NjdWh+Kb7pzo+HRZF9udBI6VDDN7cHtwThJv61TUlGp7CSHPe29pfe9m/RVY07sgDbHXHWm/ApiC3ONWcwSV68SDIfI66OMkVCr1re52t/6tXOIyjLZazO2Mry5eejVKXbCdz7tUlQj2OGPgNwcTTDA==
-Authentication-Results: redhat.com; dkim=none (message not signed)
- header.d=none;redhat.com; dmarc=none action=none header.from=nvidia.com;
-Received: from BL0PR12MB5506.namprd12.prod.outlook.com (2603:10b6:208:1cb::22)
- by BL1PR12MB5062.namprd12.prod.outlook.com (2603:10b6:208:313::6)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4219.22; Mon, 14 Jun
- 2021 12:35:20 +0000
-Received: from BL0PR12MB5506.namprd12.prod.outlook.com
- ([fe80::3d51:a3b9:8611:684e]) by BL0PR12MB5506.namprd12.prod.outlook.com
- ([fe80::3d51:a3b9:8611:684e%7]) with mapi id 15.20.4219.025; Mon, 14 Jun 2021
- 12:35:20 +0000
-Date: Mon, 14 Jun 2021 09:35:19 -0300
-From: Jason Gunthorpe <jgg@nvidia.com>
-To: Cornelia Huck <cohuck@redhat.com>,
-	Christoph Hellwig <hch@infradead.org>
-Subject: Re: [PATCH 06/10] vfio/mdev: Remove CONFIG_VFIO_MDEV_DEVICE
-Message-ID: <20210614123519.GF1002214@nvidia.com>
-References: <6-v1-324b2038f212+1041f1-vfio3a_jgg@nvidia.com>
- <87czsszi9i.fsf@redhat.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <87czsszi9i.fsf@redhat.com>
-X-Originating-IP: [47.55.113.94]
-X-ClientProxiedBy: MN2PR11CA0018.namprd11.prod.outlook.com
- (2603:10b6:208:23b::23) To BL0PR12MB5506.namprd12.prod.outlook.com
- (2603:10b6:208:1cb::22)
+Received: from mail-qk1-x72f.google.com (mail-qk1-x72f.google.com
+ [IPv6:2607:f8b0:4864:20::72f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2609D898AA;
+ Mon, 14 Jun 2021 13:49:18 +0000 (UTC)
+Received: by mail-qk1-x72f.google.com with SMTP id u30so38351143qke.7;
+ Mon, 14 Jun 2021 06:49:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=E3lUSYj7r2sv/WSKKK4XztXSEs5RFk4YbVbtCJmPXtU=;
+ b=WewH3N6sQCwHkxuuzLmcj8mB7XuhvFkeiREIZr1UATdqEPnt3zHXfEsEcd3Iyc4Q1P
+ pCNofQUlQp+c078xKXvna7xtYue6Z8covAgWLAD9fJk+wUsCD0qD/7VhvoTuER9UgCPn
+ hnFNHdkfwzYt+yl79ws7wcyE088LjHCE24CBgqVBf4xzA7D4LTCz08hfdjaKl9y5b3hy
+ b/wrKWhCOZUVEnDsCANQ7x4A7YkW0Su5yBpmkIODCjtFeDPs/R+CS+knD8btnkzv1Tgp
+ l+tGIweH3LCNg+CS39lDf/1kkPLKNa43olxFAiTOZrOzL2P+ybh6EM3ktM5yLOyJAo9H
+ tzAg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=E3lUSYj7r2sv/WSKKK4XztXSEs5RFk4YbVbtCJmPXtU=;
+ b=t/+usGPUeDdufnAERgJFwtg2hJVA7JkZUWRT1s0MInIz7mSQWPoOljK3m146VtX2hG
+ eQ6XeSQ8Q8JtXgY6SNYcB7h+lhK1yef21H8yCB309j1hiv+xeHa4qrRvvh3KgkCccQuF
+ KMy0qnwDLs74YZDMgkJ5wKk2rCEQiyzX7c7QFHYZ/sz3ZZcLblNdTNraqfXcF4vrZoGy
+ iAiUCoc9Uaqh/zdZjbQZ9Kl2HQbhHOa6SzBIpinFydWwaaGzSy/SwV4Iant5mhScRaR4
+ ul07hfbVVG7izP0sjSkVewJr5pOZuVhZZBQLCZfZkrQmgD/gHPvl79C8rBTsh2zRkjPy
+ Pxcw==
+X-Gm-Message-State: AOAM531edgoF+qquOrjyZux/cSZw/rS380umLfmG5wZsoDhnc4u9QSaj
+ rZLf+7/Sbee16LOlQvfOSaNnTGPP+mMyrHcD/Vg=
+X-Google-Smtp-Source: ABdhPJwKnTBaigvU48UAU6pTmqGryM73wzNFSuUfp4RiFnZt1graYlBaNw5j319w4LTMfJ3ywg/lROW2fZqyagxPTOQ=
+X-Received: by 2002:a05:620a:228b:: with SMTP id
+ o11mr16083272qkh.426.1623678557080; 
+ Mon, 14 Jun 2021 06:49:17 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from mlx.ziepe.ca (47.55.113.94) by
- MN2PR11CA0018.namprd11.prod.outlook.com (2603:10b6:208:23b::23) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4219.21 via Frontend
- Transport; Mon, 14 Jun 2021 12:35:20 +0000
-Received: from jgg by mlx with local (Exim 4.94)	(envelope-from
- <jgg@nvidia.com>)	id 1lsloF-006bV0-AN; Mon, 14 Jun 2021 09:35:19 -0300
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 440c66ce-493f-4a3b-b36d-08d92f30df63
-X-MS-TrafficTypeDiagnostic: BL1PR12MB5062:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <BL1PR12MB5062C7178F276E2D49DFEA52C2319@BL1PR12MB5062.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: pOBNgkY3H7TCi2Wf1Hc9OByZnup2/jHPIMUrYBedkFZuzSILp6qt7HOrrcBQM0B8sbURXCU+IGLiPtL8HDff6CZOlNWopdKEWpnAJ4wWhlCtgwSG+pMXyK1WKWOpP9mcZqkV0labkFaJ5u+iub4wt0JbYwjeZan8Hk9DgiPCJN4pOpnx+QJkOG2VpB7P2FrASt3PyiZv8TXIA+9vEbNtOYmpUAk0M0GBuIDjHrsUiYzZ/+FPDvj3ePC1nibv0uHj4uXCOkuQKQmpWkUwRXE17KOI/nwuA3rFVWmS9+b1T/9Pn0zPglNlyIR4WDQu062e6Rn/gxbm0/DzBC058c57xw/i5r6liSsz1lEBA3wpsX6iCiF6AoFO9U0qMsoda5lK0c3qrTi2WwoBTQsYnBqzpGL04/HyyaijnbYmX5zTCSW2WAB1v0ysmtd+AaedhE0+tz42JfH95FqQvCBGN01o5ah1UF9tgxNQ6nMc16B25GG/DlsriMB2wR35qJLngIlci80kQsy8OsCcl3jktmHsT21XlYQvHCoi4WYSikSJc7LvMv4oZ6KzlAtLCJedsagyZIcO4cL8b5EOpjmSpITeRC4fsk/+3/v8iBdWyKkZnkg=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BL0PR12MB5506.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(376002)(39860400002)(136003)(346002)(396003)(366004)(26005)(54906003)(38100700002)(7416002)(478600001)(1076003)(5660300002)(2906002)(186003)(110136005)(316002)(9746002)(9786002)(66946007)(86362001)(66556008)(66476007)(4326008)(2616005)(8936002)(8676002)(426003)(33656002)(36756003)(83380400001);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?/EPXrdp5hIgF+IpWyc3+63FGVz7onYnAAcehTGg6TcpRRWdgzy6xbhbG1v9L?=
- =?us-ascii?Q?CizF/yxOOLIdTeXB+LXqGNarLJRGPBJTrUt/vs4ycmB0xr9R2lEM2oX4Y0yu?=
- =?us-ascii?Q?8o7FXkduvxKpqJUC7Cs4WQdsR26aoNeC9qdm9ebLUueLDz/BWBc4xpkcGYVh?=
- =?us-ascii?Q?C7xmjC4zQz+V/qd82wHRGuLLuNXV1HmJWin6U2s1Oh+FLsOnOiwENc3IYJq0?=
- =?us-ascii?Q?nZnGY2TGEp93bif+aor6GnCrEu8HV24xVsfdG8uvIB4w7z6DtpRieuEk3O1V?=
- =?us-ascii?Q?6nFx3tyrxLoE2TD55uvdNntIM3o5hMMv76FYOno0M6j9xuTdTqAAN2VI4h3+?=
- =?us-ascii?Q?2VuT0pzqu1Smf+mgaX1AU3pVBuSZxQ0oPq1Ol4N8pVWlLYRCdGWKSvYjcJBr?=
- =?us-ascii?Q?q1e1L04xGYT7vPe1So0VZZk5RfdDzacTNWR7BnKTM+8GY8cy3e1tgaPTs7Mz?=
- =?us-ascii?Q?JZ0jt2NixLAlhmpltDLI540UbJfyAhjc8PsBcI+rtkLO/tVJdJ03dlS45cyG?=
- =?us-ascii?Q?DmDeqiYgbNQWulH7fjMrH8VcQxqCweUWe59WyTzIg+8hzFGZa+UjjHXgltEe?=
- =?us-ascii?Q?MyYwVo2MBa72+ojBGahJj4vP46Gwtm3I+VrCRUsbKQyXKIOzDiyiOHaibQrh?=
- =?us-ascii?Q?1V4A+fheRxlbFzSTQtky9hojLz/mIqr6M4Q0SeO/VTSggzzqs6cO62jXHNFJ?=
- =?us-ascii?Q?ilkj3+tpSXT/9A+7bv14crzx+bx/UwOO+34VdTdMkaqh+Laov/njSrZQJ/6s?=
- =?us-ascii?Q?R6KUHdG12LkLilsC5nQsZ85F3ams7fRWKx9/qdGkHYMXsQm7fQi0jH45USDZ?=
- =?us-ascii?Q?xf6YtS/jfjs4AgHeWuwh+qulI3gGkmBoqO6txeaJV+VRJSjX5bwx+NPdDiPz?=
- =?us-ascii?Q?jLYhNAbyigoOWcAyu2pVWHCepWmp4FRJrPQUxPFd7KxICLbCHwRvV0xQ6uaL?=
- =?us-ascii?Q?S3FDZPMlG/HUZcOuT9ZPLMi2gCr8LxL7/C1vEqXM2T0xSv+fwxZPlk+hDfLE?=
- =?us-ascii?Q?1XfRAGR56nfiZt72J9U6haAvPrxZMqA/A8vaCqgcfbZws+6E8p9vr3mW+gtz?=
- =?us-ascii?Q?y9QPQ5fAVBcuzBciU4Aa3hiTUR4rm536hLHkSX/qBv8Rz+BceHi6KG2Y69qu?=
- =?us-ascii?Q?dqMtvxFJI3OBEOk05nVb5Kn0zL75vmxP1jhF095dbFYbLcpbXeAXTZuCz1tJ?=
- =?us-ascii?Q?WtS7rvqTMD/jJqDqiGbKA0CzQZwCA9TXRk7MRq6DFZav04f/Ttp0KzvxW4hE?=
- =?us-ascii?Q?brCFxyCTTg/OwWEUNLsF5UtaIzeirSXguO/5oGA8QjWmM9Rpe1qT4XYhv20j?=
- =?us-ascii?Q?xWSn4V3oNML2oLyIGfCbcoXo?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 440c66ce-493f-4a3b-b36d-08d92f30df63
-X-MS-Exchange-CrossTenant-AuthSource: BL0PR12MB5506.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Jun 2021 12:35:20.4943 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: MkQEsu3mdmWXm+E1boqrHRoMOGTz8Om3AHM+y1zYKAY1VO78lLmeLHAjyAdkQP9+
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR12MB5062
+References: <20210614115406.153107-1-thomas.hellstrom@linux.intel.com>
+ <20210614115406.153107-3-thomas.hellstrom@linux.intel.com>
+In-Reply-To: <20210614115406.153107-3-thomas.hellstrom@linux.intel.com>
+From: Matthew Auld <matthew.william.auld@gmail.com>
+Date: Mon, 14 Jun 2021 14:48:50 +0100
+Message-ID: <CAM0jSHNt4i+-bovY2DPA4jcP4WNN=nzLtYHFDnS7L6Ni8pzbHQ@mail.gmail.com>
+Subject: Re: [Intel-gfx] [PATCH v4 2/4] drm/i915/ttm: Adjust gem flags and
+ caching settings after a move
+To: =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -122,44 +66,307 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tony Krowiak <akrowiak@linux.ibm.com>, Jason Herne <jjherne@linux.ibm.com>,
- kvm@vger.kernel.org, Vasily Gorbik <gor@linux.ibm.com>,
- Jonathan Corbet <corbet@lwn.net>, David Airlie <airlied@linux.ie>,
- linux-s390@vger.kernel.org, Heiko Carstens <hca@linux.ibm.com>,
- linux-doc@vger.kernel.org, Kirti Wankhede <kwankhede@nvidia.com>,
- dri-devel@lists.freedesktop.org, Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, intel-gfx@lists.freedesktop.org
+Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ Matthew Auld <matthew.auld@intel.com>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jun 11, 2021 at 02:40:41PM +0200, Cornelia Huck wrote:
-> On Mon, Jun 07 2021, Jason Gunthorpe <jgg@nvidia.com> wrote:
-> 
-> > For some reason the vfio_mdev shim mdev_driver has its own module and
-> > kconfig. As the next patch requires access to it from mdev.ko merge the
-> > two modules together and remove VFIO_MDEV_DEVICE.
-> >
-> > A later patch deletes this driver entirely.
-> >
-> > Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
-> >  Documentation/s390/vfio-ap.rst   |  1 -
-> >  arch/s390/Kconfig                |  2 +-
-> >  drivers/gpu/drm/i915/Kconfig     |  2 +-
-> >  drivers/vfio/mdev/Kconfig        |  7 -------
-> >  drivers/vfio/mdev/Makefile       |  3 +--
-> >  drivers/vfio/mdev/mdev_core.c    | 16 ++++++++++++++--
-> >  drivers/vfio/mdev/mdev_private.h |  2 ++
-> >  drivers/vfio/mdev/vfio_mdev.c    | 24 +-----------------------
-> >  samples/Kconfig                  |  6 +++---
-> >  9 files changed, 23 insertions(+), 40 deletions(-)
-> 
-> I think you missed my earlier
-> 
-> Reviewed-by: Cornelia Huck <cohuck@redhat.com>
+On Mon, 14 Jun 2021 at 12:54, Thomas Hellstr=C3=B6m
+<thomas.hellstrom@linux.intel.com> wrote:
+>
+> After a TTM move or object init we need to update the i915 gem flags and
+> caching settings to reflect the new placement. Currently caching settings
+> are not changed during the lifetime of an object, although that might
+> change moving forward if we run into performance issues or issues with
+> WC system page allocations.
+> Also introduce gpu_binds_iomem() and cpu_maps_iomem() to clean up the
+> various ways we previously used to detect this.
+> Finally, initialize the TTM object reserved to be able to update
+> flags and caching before anyone else gets hold of the object.
+>
+> Signed-off-by: Thomas Hellstr=C3=B6m <thomas.hellstrom@linux.intel.com>
+> ---
+> v2:
+> - Style fixes (Reported by Matthew Auld)
+> v3:
+> - More style fixes. Clarify why we're updating caching settings after mov=
+e.
+>   (Suggested by Matthew Auld)
+> ---
+>  drivers/gpu/drm/i915/gem/i915_gem_ttm.c | 111 +++++++++++++++++++-----
+>  1 file changed, 89 insertions(+), 22 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c b/drivers/gpu/drm/i9=
+15/gem/i915_gem_ttm.c
+> index 33ab47f1e05b..5176682a7d19 100644
+> --- a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+> +++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+> @@ -70,6 +70,17 @@ static struct ttm_placement i915_sys_placement =3D {
+>         .busy_placement =3D &lmem0_sys_placement_flags[1],
+>  };
+>
+> +static bool gpu_binds_iomem(struct ttm_resource *mem)
+> +{
+> +       return mem->mem_type !=3D TTM_PL_SYSTEM;
+> +}
+> +
+> +static bool cpu_maps_iomem(struct ttm_resource *mem)
+> +{
+> +       /* Once / if we support GGTT, this is also false for cached ttm_t=
+ts */
+> +       return mem->mem_type !=3D TTM_PL_SYSTEM;
+> +}
+> +
+>  static void i915_ttm_adjust_lru(struct drm_i915_gem_object *obj);
+>
+>  static struct ttm_tt *i915_ttm_tt_create(struct ttm_buffer_object *bo,
+> @@ -175,6 +186,40 @@ static void i915_ttm_free_cached_io_st(struct drm_i9=
+15_gem_object *obj)
+>         obj->ttm.cached_io_st =3D NULL;
+>  }
+>
+> +static void
+> +i915_ttm_adjust_domains_after_cpu_move(struct drm_i915_gem_object *obj)
+> +{
+> +       struct ttm_buffer_object *bo =3D i915_gem_to_ttm(obj);
+> +
+> +       if (cpu_maps_iomem(bo->resource) || bo->ttm->caching !=3D ttm_cac=
+hed) {
+> +               obj->write_domain =3D I915_GEM_DOMAIN_WC;
+> +               obj->read_domains =3D I915_GEM_DOMAIN_WC;
+> +       } else {
+> +               obj->write_domain =3D I915_GEM_DOMAIN_CPU;
+> +               obj->read_domains =3D I915_GEM_DOMAIN_CPU;
+> +       }
+> +}
+> +
+> +static void i915_ttm_adjust_gem_after_move(struct drm_i915_gem_object *o=
+bj)
+> +{
+> +       struct drm_i915_private *i915 =3D to_i915(obj->base.dev);
+> +       struct ttm_buffer_object *bo =3D i915_gem_to_ttm(obj);
+> +       unsigned int cache_level;
+> +
+> +       obj->mem_flags &=3D ~(I915_BO_FLAG_STRUCT_PAGE | I915_BO_FLAG_IOM=
+EM);
+> +
+> +       obj->mem_flags |=3D cpu_maps_iomem(bo->resource) ? I915_BO_FLAG_I=
+OMEM :
+> +               I915_BO_FLAG_STRUCT_PAGE;
+> +
+> +       if ((HAS_LLC(i915) || HAS_SNOOP(i915)) && !gpu_binds_iomem(bo->re=
+source) &&
+> +           bo->ttm->caching =3D=3D ttm_cached)
+> +               cache_level =3D I915_CACHE_LLC;
+> +       else
+> +               cache_level =3D I915_CACHE_NONE;
+> +
+> +       i915_gem_object_set_cache_coherency(obj, cache_level);
+> +}
+> +
+>  static void i915_ttm_purge(struct drm_i915_gem_object *obj)
+>  {
+>         struct ttm_buffer_object *bo =3D i915_gem_to_ttm(obj);
+> @@ -190,8 +235,10 @@ static void i915_ttm_purge(struct drm_i915_gem_objec=
+t *obj)
+>
+>         /* TTM's purge interface. Note that we might be reentering. */
+>         ret =3D ttm_bo_validate(bo, &place, &ctx);
+> -
+>         if (!ret) {
+> +               obj->write_domain =3D 0;
+> +               obj->read_domains =3D 0;
+> +               i915_ttm_adjust_gem_after_move(obj);
+>                 i915_ttm_free_cached_io_st(obj);
+>                 obj->mm.madv =3D __I915_MADV_PURGED;
+>         }
+> @@ -273,12 +320,15 @@ i915_ttm_resource_get_st(struct drm_i915_gem_object=
+ *obj,
+>                          struct ttm_resource *res)
+>  {
+>         struct ttm_buffer_object *bo =3D i915_gem_to_ttm(obj);
+> -       struct ttm_resource_manager *man =3D
+> -               ttm_manager_type(bo->bdev, res->mem_type);
+>
+> -       if (man->use_tt)
+> +       if (!gpu_binds_iomem(res))
+>                 return i915_ttm_tt_get_st(bo->ttm);
+>
+> +       /*
+> +        * If CPU mapping differs, we need to add the ttm_tt pages to
+> +        * the resulting st. Might make sense for GGTT.
+> +        */
+> +       GEM_WARN_ON(!cpu_maps_iomem(res));
+>         return intel_region_ttm_node_to_st(obj->mm.region, res);
+>  }
+>
+> @@ -290,8 +340,6 @@ static int i915_ttm_move(struct ttm_buffer_object *bo=
+, bool evict,
+>         struct drm_i915_gem_object *obj =3D i915_ttm_to_gem(bo);
+>         struct ttm_resource_manager *dst_man =3D
+>                 ttm_manager_type(bo->bdev, dst_mem->mem_type);
+> -       struct ttm_resource_manager *src_man =3D
+> -               ttm_manager_type(bo->bdev, bo->resource->mem_type);
+>         struct intel_memory_region *dst_reg, *src_reg;
+>         union {
+>                 struct ttm_kmap_iter_tt tt;
+> @@ -332,34 +380,36 @@ static int i915_ttm_move(struct ttm_buffer_object *=
+bo, bool evict,
+>         if (IS_ERR(dst_st))
+>                 return PTR_ERR(dst_st);
+>
+> -       /* If we start mapping GGTT, we can no longer use man::use_tt her=
+e. */
+> -       dst_iter =3D dst_man->use_tt ?
+> +       dst_iter =3D !cpu_maps_iomem(dst_mem) ?
+>                 ttm_kmap_iter_tt_init(&_dst_iter.tt, bo->ttm) :
+>                 ttm_kmap_iter_iomap_init(&_dst_iter.io, &dst_reg->iomap,
+>                                          dst_st, dst_reg->region.start);
+>
+> -       src_iter =3D src_man->use_tt ?
+> +       src_iter =3D !cpu_maps_iomem(bo->resource) ?
+>                 ttm_kmap_iter_tt_init(&_src_iter.tt, bo->ttm) :
+>                 ttm_kmap_iter_iomap_init(&_src_iter.io, &src_reg->iomap,
+>                                          obj->ttm.cached_io_st,
+>                                          src_reg->region.start);
+>
+>         ttm_move_memcpy(bo, dst_mem->num_pages, dst_iter, src_iter);
+> +       /* Below dst_mem becomes bo->resource. */
+>         ttm_bo_move_sync_cleanup(bo, dst_mem);
+> +       i915_ttm_adjust_domains_after_cpu_move(obj);
+>         i915_ttm_free_cached_io_st(obj);
+>
+> -       if (!dst_man->use_tt) {
+> +       if (gpu_binds_iomem(dst_mem) || cpu_maps_iomem(dst_mem)) {
+>                 obj->ttm.cached_io_st =3D dst_st;
+>                 obj->ttm.get_io_page.sg_pos =3D dst_st->sgl;
+>                 obj->ttm.get_io_page.sg_idx =3D 0;
+>         }
+>
+> +       i915_ttm_adjust_gem_after_move(obj);
+>         return 0;
+>  }
+>
+>  static int i915_ttm_io_mem_reserve(struct ttm_device *bdev, struct ttm_r=
+esource *mem)
+>  {
+> -       if (mem->mem_type < I915_PL_LMEM0)
+> +       if (!cpu_maps_iomem(mem))
+>                 return 0;
+>
+>         mem->bus.caching =3D ttm_write_combined;
+> @@ -421,6 +471,16 @@ static int i915_ttm_get_pages(struct drm_i915_gem_ob=
+ject *obj)
+>         if (ret)
+>                 return ret =3D=3D -ENOSPC ? -ENXIO : ret;
+>
+> +       i915_ttm_adjust_lru(obj);
+> +       if (bo->ttm && !ttm_tt_is_populated(bo->ttm)) {
+> +               ret =3D ttm_tt_populate(bo->bdev, bo->ttm, &ctx);
+> +               if (ret)
+> +                       return ret;
+> +
+> +               i915_ttm_adjust_domains_after_cpu_move(obj);
+> +               i915_ttm_adjust_gem_after_move(obj);
+> +       }
+> +
+>         /* Object either has a page vector or is an iomem object */
+>         st =3D bo->ttm ? i915_ttm_tt_get_st(bo->ttm) : obj->ttm.cached_io=
+_st;
+>         if (IS_ERR(st))
+> @@ -428,8 +488,6 @@ static int i915_ttm_get_pages(struct drm_i915_gem_obj=
+ect *obj)
+>
+>         __i915_gem_object_set_pages(obj, st, i915_sg_dma_sizes(st->sgl));
+>
+> -       i915_ttm_adjust_lru(obj);
+> -
+>         return ret;
+>  }
+>
+> @@ -563,6 +621,7 @@ static u64 i915_ttm_mmap_offset(struct drm_i915_gem_o=
+bject *obj)
+>
+>  const struct drm_i915_gem_object_ops i915_gem_ttm_obj_ops =3D {
+>         .name =3D "i915_gem_object_ttm",
+> +       .flags =3D I915_GEM_OBJECT_IS_SHRINKABLE,
+>
+>         .get_pages =3D i915_ttm_get_pages,
+>         .put_pages =3D i915_ttm_put_pages,
+> @@ -599,6 +658,10 @@ int __i915_gem_ttm_object_init(struct intel_memory_r=
+egion *mem,
+>  {
+>         static struct lock_class_key lock_class;
+>         struct drm_i915_private *i915 =3D mem->i915;
+> +       struct ttm_operation_ctx ctx =3D {
+> +               .interruptible =3D true,
+> +               .no_wait_gpu =3D false,
+> +       };
+>         enum ttm_bo_type bo_type;
+>         size_t alignment =3D 0;
+>         int ret;
+> @@ -618,15 +681,14 @@ int __i915_gem_ttm_object_init(struct intel_memory_=
+region *mem,
+>         i915_gem_object_init(obj, &i915_gem_ttm_obj_ops, &lock_class, fla=
+gs);
+>         i915_gem_object_init_memory_region(obj, mem);
+>         i915_gem_object_make_unshrinkable(obj);
+> -       obj->read_domains =3D I915_GEM_DOMAIN_WC | I915_GEM_DOMAIN_GTT;
+> -       obj->mem_flags |=3D I915_BO_FLAG_IOMEM;
+> -       i915_gem_object_set_cache_coherency(obj, I915_CACHE_NONE);
+>         INIT_RADIX_TREE(&obj->ttm.get_io_page.radix, GFP_KERNEL | __GFP_N=
+OWARN);
+>         mutex_init(&obj->ttm.get_io_page.lock);
+>
+>         bo_type =3D (obj->flags & I915_BO_ALLOC_USER) ? ttm_bo_type_devic=
+e :
+>                 ttm_bo_type_kernel;
+>
+> +       obj->base.vma_node.driver_private =3D i915_gem_to_ttm(obj);
+> +
+>         /*
+>          * If this function fails, it will call the destructor, but
+>          * our caller still owns the object. So no freeing in the
+> @@ -634,14 +696,19 @@ int __i915_gem_ttm_object_init(struct intel_memory_=
+region *mem,
+>          * Similarly, in delayed_destroy, we can't call ttm_bo_put()
+>          * until successful initialization.
+>          */
+> -       obj->base.vma_node.driver_private =3D i915_gem_to_ttm(obj);
+> -       ret =3D ttm_bo_init(&i915->bdev, i915_gem_to_ttm(obj), size,
+> -                         bo_type, &i915_sys_placement, alignment,
+> -                         true, NULL, NULL, i915_ttm_bo_destroy);
+> +       ret =3D ttm_bo_init_reserved(&i915->bdev, i915_gem_to_ttm(obj), s=
+ize,
+> +                                  bo_type, &i915_sys_placement, alignmen=
+t,
+> +                                  &ctx, NULL, NULL, i915_ttm_bo_destroy)=
+;
+> +
+> +       if (ret)
+> +               goto out;
+>
+> -       if (!ret)
+> -               obj->ttm.created =3D true;
+> +       obj->ttm.created =3D true;
+> +       i915_ttm_adjust_domains_after_cpu_move(obj);
+> +       i915_ttm_adjust_gem_after_move(obj);
+> +       i915_gem_object_unlock(obj);
 
-Yes, my mistake, I didn't think there were any tags in the v1 posting
+Looks like the is_shrinkable change was squashed in the next patch.
+Doesn't really matter,
+Reviewed-by: Matthew Auld <matthew.auld@intel.com>
 
-Thanks,
-Jason
+>
+> +out:
+>         /* i915 wants -ENXIO when out of memory region space. */
+>         return (ret =3D=3D -ENOSPC) ? -ENXIO : ret;
+>  }
+> --
+> 2.31.1
+>
+> _______________________________________________
+> Intel-gfx mailing list
+> Intel-gfx@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/intel-gfx
