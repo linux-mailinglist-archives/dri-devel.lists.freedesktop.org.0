@@ -1,43 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D8373A6BB9
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Jun 2021 18:27:09 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1012E3A6BC5
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Jun 2021 18:28:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A1FD589F33;
-	Mon, 14 Jun 2021 16:26:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 80D7789BA9;
+	Mon, 14 Jun 2021 16:28:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0458B89F06;
- Mon, 14 Jun 2021 16:26:50 +0000 (UTC)
-IronPort-SDR: 55b/4waIvnXP/m0PhHYmC0Cad6I4knJXTqn7s2xTcG3Hm5OclMQk8VvyMJbB/GbGVfqxn2C2LK
- TS2V4K6RPjzg==
-X-IronPort-AV: E=McAfee;i="6200,9189,10015"; a="269689042"
-X-IronPort-AV: E=Sophos;i="5.83,273,1616482800"; d="scan'208";a="269689042"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Jun 2021 09:26:45 -0700
-IronPort-SDR: aXnF4RR0ztoOdpZLMGcmfCDoMA3DSP7WWtFqTvY373kfWlw3U13Gdx7lWqKnmwPDtrkN9E+Pnb
- 9mx/OS/iKpdA==
-X-IronPort-AV: E=Sophos;i="5.83,273,1616482800"; d="scan'208";a="449946744"
-Received: from fnygreen-mobl1.ger.corp.intel.com (HELO
- thellst-mobl1.intel.com) ([10.249.254.50])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Jun 2021 09:26:44 -0700
-From: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
-To: intel-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org
-Subject: [PATCH v3 12/12] drm/i915/gem: Zap the i915_gem_object_blt code
-Date: Mon, 14 Jun 2021 18:26:12 +0200
-Message-Id: <20210614162612.294869-13-thomas.hellstrom@linux.intel.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210614162612.294869-1-thomas.hellstrom@linux.intel.com>
-References: <20210614162612.294869-1-thomas.hellstrom@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7383389B5F;
+ Mon, 14 Jun 2021 16:28:42 +0000 (UTC)
+IronPort-SDR: l0CIW9g+PqRDOfDNa5VPW1iMxJxJdbUHAW6/1SXpc1UR7tu2C8mg51oioU81DsiHxdx5M52ejN
+ /eGKVtB5s1mg==
+X-IronPort-AV: E=McAfee;i="6200,9189,10015"; a="192953881"
+X-IronPort-AV: E=Sophos;i="5.83,273,1616482800"; d="scan'208";a="192953881"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Jun 2021 09:28:40 -0700
+IronPort-SDR: 872yyFXLjdqnJvub87v8nh0onq5VdqcNLj67K0nK31C7qIPVYzRNtyPQONGwjML5FU//VkLPGu
+ lbc7NOzmytcg==
+X-IronPort-AV: E=Sophos;i="5.83,273,1616482800"; d="scan'208";a="484138714"
+Received: from hwang1-mobl.ccr.corp.intel.com (HELO intel.com) ([10.254.36.39])
+ by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Jun 2021 09:28:38 -0700
+Date: Mon, 14 Jun 2021 12:28:35 -0400
+From: Rodrigo Vivi <rodrigo.vivi@intel.com>
+To: Zbigniew =?utf-8?Q?Kempczy=C5=84ski?= <zbigniew.kempczynski@intel.com>
+Subject: Re: [Intel-gfx] [PATCH] drm/i915: Add relocation exceptions for two
+ other platforms
+Message-ID: <YMeDs+jFXkxFIoRG@intel.com>
+References: <20210610103955.67802-1-zbigniew.kempczynski@intel.com>
+ <YMIjXG1x7dwAsJxj@intel.com> <20210611060900.GA3298@zkempczy-mobl2>
+ <YMMkyKf/B/9P8nFe@intel.com> <20210614083530.GB3302@zkempczy-mobl2>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210614083530.GB3302@zkempczy-mobl2>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,1231 +51,206 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- matthew.auld@intel.com
+Cc: Daniel Vetter <daniel.vetter@intel.com>, intel-gfx@lists.freedesktop.org,
+ Lucas De Marchi <lucas.demarchi@intel.com>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-It's unused with the exception of selftest. Replace a call in the
-memory_region live selftest with a call into a corresponding
-function in the new migrate code.
+On Mon, Jun 14, 2021 at 10:35:30AM +0200, Zbigniew Kempczyński wrote:
+> On Fri, Jun 11, 2021 at 04:54:32AM -0400, Rodrigo Vivi wrote:
+> > On Fri, Jun 11, 2021 at 08:09:00AM +0200, Zbigniew Kempczyński wrote:
+> > > On Thu, Jun 10, 2021 at 10:36:12AM -0400, Rodrigo Vivi wrote:
+> > > > On Thu, Jun 10, 2021 at 12:39:55PM +0200, Zbigniew Kempczyński wrote:
+> > > > > We have established previously we stop using relocations starting
+> > > > > from gen12 platforms with Tigerlake as an exception. We keep this
+> > > > > statement but we want to enable relocations conditionally for
+> > > > > Rocketlake and Alderlake under require_force_probe flag set.
+> > > > > 
+> > > > > Keeping relocations under require_force_probe flag is interim solution
+> > > > > until IGTs will be rewritten to use softpin.
+> > > > 
+> > > > hmm... to be really honest I'm not so happy that we are introducing
+> > > > a new criteria to the force_probe.
+> > > > 
+> > > > The criteria was to have a functional driver and not to track uapi.
+> > > > 
+> > > > But on the other hand I do recognize that the current definition
+> > > > of the flag allows that, because we have established that with
+> > > > this behavior, the "driver for new Intel graphics devices that
+> > > > are recognized but not properly supported by this kernel version"
+> > > > (as stated in the Kconfig for the DRM_I915_FORCE_PROBE).
+> > > > 
+> > > > However...
+> > > > 
+> > > > > 
+> > > > > v2: - remove inline from function definition (Jani)
+> > > > >     - fix indentation
+> > > > > 
+> > > > > v3: change to GRAPHICS_VER() (Zbigniew)
+> > > > > 
+> > > > > Signed-off-by: Zbigniew Kempczyński <zbigniew.kempczynski@intel.com>
+> > > > > Cc: Dave Airlie <airlied@redhat.com>
+> > > > > Cc: Daniel Vetter <daniel.vetter@intel.com>
+> > > > > Cc: Jason Ekstrand <jason@jlekstrand.net>
+> > > > > Acked-by: Dave Airlie <airlied@redhat.com>
+> > > > > ---
+> > > > >  .../gpu/drm/i915/gem/i915_gem_execbuffer.c    | 24 +++++++++++++++----
+> > > > >  1 file changed, 19 insertions(+), 5 deletions(-)
+> > > > > 
+> > > > > diff --git a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
+> > > > > index a8abc9af5ff4..30c4f0549ea0 100644
+> > > > > --- a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
+> > > > > +++ b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
+> > > > > @@ -491,16 +491,30 @@ eb_unreserve_vma(struct eb_vma *ev)
+> > > > >  	ev->flags &= ~__EXEC_OBJECT_RESERVED;
+> > > > >  }
+> > > > >  
+> > > > > +static bool platform_has_relocs_enabled(const struct i915_execbuffer *eb)
+> > > > > +{
+> > > > > +	/*
+> > > > > +	 * Relocations are disallowed starting from gen12 with Tigerlake
+> > > > > +	 * as an exception. We allow temporarily use relocations for Rocketlake
+> > > > > +	 * and Alderlake when require_force_probe flag is set.
+> > > > > +	 */
+> > > > > +	if (GRAPHICS_VER(eb->i915) < 12 || IS_TIGERLAKE(eb->i915))
+> > > > > +		return true;
+> > > > > +
+> > > > > +	if (INTEL_INFO(eb->i915)->require_force_probe &&
+> > > > > +	    (IS_ROCKETLAKE(eb->i915)
+> > > > 
+> > > > This ship has sailed... RKL is not protected by this flag any longer.
+> > > > Should this be on the TGL side now?
+> > > 
+> > > +Lucas
+> > > 
+> > > I think no, RKL has relocations disabled so we cannot put it to TGL side.
+> > > So if RKL is already released then putting it under require_force_probe 
+> > > flag is wrong and only I can do is to remove it from that condition. 
+> > > There's no option to unblock RKL on IGT CI until we rewrite all the tests.
+> > > We have to rely then on ADL* with require_force_probe flag to check how
+> > > ADL will work with relocations. 
+> > 
+> > So... I'm confused now. I'm missing the point of this patch then.
+> > I thought the reason was to protect from any user space to attempt to
+> > use the relocation, unless using the force_probe temporarily only for
+> > these platforms.
+> > But if I'm understanding correctly now it is only to silence CI?!
+> > Is that the case?
+> > Is the CI noise so bad?
+> 
+> The point of the patch is to verify driver on ADL. IGT still uses 
+> relocations (we're rewriting them now but it takes time) so execbuf
+> on ADL just exits with failure. We're blind right now about driver
+> behavior and we want to address this - temporary enable relocations
+> on ADL (under flag) to see if driver works properly on that platform.
 
-Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
----
- drivers/gpu/drm/i915/Makefile                 |   1 -
- .../gpu/drm/i915/gem/i915_gem_object_blt.c    | 461 --------------
- .../gpu/drm/i915/gem/i915_gem_object_blt.h    |  39 --
- .../i915/gem/selftests/i915_gem_object_blt.c  | 597 ------------------
- .../drm/i915/selftests/i915_live_selftests.h  |   1 -
- .../drm/i915/selftests/i915_perf_selftests.h  |   1 -
- .../drm/i915/selftests/intel_memory_region.c  |  21 +-
- 7 files changed, 14 insertions(+), 1107 deletions(-)
- delete mode 100644 drivers/gpu/drm/i915/gem/i915_gem_object_blt.c
- delete mode 100644 drivers/gpu/drm/i915/gem/i915_gem_object_blt.h
- delete mode 100644 drivers/gpu/drm/i915/gem/selftests/i915_gem_object_blt.c
+Okay, so I believe we need a bigger code refactor here. Whenever
+we attempt to use the relocation but we are on ADL we need to have
+a big bold message saying this should not be used. That this code
+path is deprecated and getting removed...
 
-diff --git a/drivers/gpu/drm/i915/Makefile b/drivers/gpu/drm/i915/Makefile
-index ca07474ec2df..13085ac78c63 100644
---- a/drivers/gpu/drm/i915/Makefile
-+++ b/drivers/gpu/drm/i915/Makefile
-@@ -143,7 +143,6 @@ gem-y += \
- 	gem/i915_gem_execbuffer.o \
- 	gem/i915_gem_internal.o \
- 	gem/i915_gem_object.o \
--	gem/i915_gem_object_blt.o \
- 	gem/i915_gem_lmem.o \
- 	gem/i915_gem_mman.o \
- 	gem/i915_gem_pages.o \
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object_blt.c b/drivers/gpu/drm/i915/gem/i915_gem_object_blt.c
-deleted file mode 100644
-index 3e28c68fda3e..000000000000
---- a/drivers/gpu/drm/i915/gem/i915_gem_object_blt.c
-+++ /dev/null
-@@ -1,461 +0,0 @@
--// SPDX-License-Identifier: MIT
--/*
-- * Copyright © 2019 Intel Corporation
-- */
--
--#include "i915_drv.h"
--#include "gt/intel_context.h"
--#include "gt/intel_engine_pm.h"
--#include "gt/intel_gpu_commands.h"
--#include "gt/intel_gt.h"
--#include "gt/intel_gt_buffer_pool.h"
--#include "gt/intel_ring.h"
--#include "i915_gem_clflush.h"
--#include "i915_gem_object_blt.h"
--
--struct i915_vma *intel_emit_vma_fill_blt(struct intel_context *ce,
--					 struct i915_vma *vma,
--					 struct i915_gem_ww_ctx *ww,
--					 u32 value)
--{
--	struct drm_i915_private *i915 = ce->vm->i915;
--	const u32 block_size = SZ_8M; /* ~1ms at 8GiB/s preemption delay */
--	struct intel_gt_buffer_pool_node *pool;
--	struct i915_vma *batch;
--	u64 offset;
--	u64 count;
--	u64 rem;
--	u32 size;
--	u32 *cmd;
--	int err;
--
--	GEM_BUG_ON(intel_engine_is_virtual(ce->engine));
--	intel_engine_pm_get(ce->engine);
--
--	count = div_u64(round_up(vma->size, block_size), block_size);
--	size = (1 + 8 * count) * sizeof(u32);
--	size = round_up(size, PAGE_SIZE);
--	pool = intel_gt_get_buffer_pool(ce->engine->gt, size, I915_MAP_WC);
--	if (IS_ERR(pool)) {
--		err = PTR_ERR(pool);
--		goto out_pm;
--	}
--
--	err = i915_gem_object_lock(pool->obj, ww);
--	if (err)
--		goto out_put;
--
--	batch = i915_vma_instance(pool->obj, ce->vm, NULL);
--	if (IS_ERR(batch)) {
--		err = PTR_ERR(batch);
--		goto out_put;
--	}
--
--	err = i915_vma_pin_ww(batch, ww, 0, 0, PIN_USER);
--	if (unlikely(err))
--		goto out_put;
--
--	/* we pinned the pool, mark it as such */
--	intel_gt_buffer_pool_mark_used(pool);
--
--	cmd = i915_gem_object_pin_map(pool->obj, pool->type);
--	if (IS_ERR(cmd)) {
--		err = PTR_ERR(cmd);
--		goto out_unpin;
--	}
--
--	rem = vma->size;
--	offset = vma->node.start;
--
--	do {
--		u32 size = min_t(u64, rem, block_size);
--
--		GEM_BUG_ON(size >> PAGE_SHIFT > S16_MAX);
--
--		if (GRAPHICS_VER(i915) >= 8) {
--			*cmd++ = XY_COLOR_BLT_CMD | BLT_WRITE_RGBA | (7 - 2);
--			*cmd++ = BLT_DEPTH_32 | BLT_ROP_COLOR_COPY | PAGE_SIZE;
--			*cmd++ = 0;
--			*cmd++ = size >> PAGE_SHIFT << 16 | PAGE_SIZE / 4;
--			*cmd++ = lower_32_bits(offset);
--			*cmd++ = upper_32_bits(offset);
--			*cmd++ = value;
--		} else {
--			*cmd++ = XY_COLOR_BLT_CMD | BLT_WRITE_RGBA | (6 - 2);
--			*cmd++ = BLT_DEPTH_32 | BLT_ROP_COLOR_COPY | PAGE_SIZE;
--			*cmd++ = 0;
--			*cmd++ = size >> PAGE_SHIFT << 16 | PAGE_SIZE / 4;
--			*cmd++ = offset;
--			*cmd++ = value;
--		}
--
--		/* Allow ourselves to be preempted in between blocks. */
--		*cmd++ = MI_ARB_CHECK;
--
--		offset += size;
--		rem -= size;
--	} while (rem);
--
--	*cmd = MI_BATCH_BUFFER_END;
--
--	i915_gem_object_flush_map(pool->obj);
--	i915_gem_object_unpin_map(pool->obj);
--
--	intel_gt_chipset_flush(ce->vm->gt);
--
--	batch->private = pool;
--	return batch;
--
--out_unpin:
--	i915_vma_unpin(batch);
--out_put:
--	intel_gt_buffer_pool_put(pool);
--out_pm:
--	intel_engine_pm_put(ce->engine);
--	return ERR_PTR(err);
--}
--
--int intel_emit_vma_mark_active(struct i915_vma *vma, struct i915_request *rq)
--{
--	int err;
--
--	err = i915_request_await_object(rq, vma->obj, false);
--	if (err == 0)
--		err = i915_vma_move_to_active(vma, rq, 0);
--	if (unlikely(err))
--		return err;
--
--	return intel_gt_buffer_pool_mark_active(vma->private, rq);
--}
--
--void intel_emit_vma_release(struct intel_context *ce, struct i915_vma *vma)
--{
--	i915_vma_unpin(vma);
--	intel_gt_buffer_pool_put(vma->private);
--	intel_engine_pm_put(ce->engine);
--}
--
--static int
--move_obj_to_gpu(struct drm_i915_gem_object *obj,
--		struct i915_request *rq,
--		bool write)
--{
--	if (obj->cache_dirty & ~obj->cache_coherent)
--		i915_gem_clflush_object(obj, 0);
--
--	return i915_request_await_object(rq, obj, write);
--}
--
--int i915_gem_object_fill_blt(struct drm_i915_gem_object *obj,
--			     struct intel_context *ce,
--			     u32 value)
--{
--	struct i915_gem_ww_ctx ww;
--	struct i915_request *rq;
--	struct i915_vma *batch;
--	struct i915_vma *vma;
--	int err;
--
--	vma = i915_vma_instance(obj, ce->vm, NULL);
--	if (IS_ERR(vma))
--		return PTR_ERR(vma);
--
--	i915_gem_ww_ctx_init(&ww, true);
--	intel_engine_pm_get(ce->engine);
--retry:
--	err = i915_gem_object_lock(obj, &ww);
--	if (err)
--		goto out;
--
--	err = intel_context_pin_ww(ce, &ww);
--	if (err)
--		goto out;
--
--	err = i915_vma_pin_ww(vma, &ww, 0, 0, PIN_USER);
--	if (err)
--		goto out_ctx;
--
--	batch = intel_emit_vma_fill_blt(ce, vma, &ww, value);
--	if (IS_ERR(batch)) {
--		err = PTR_ERR(batch);
--		goto out_vma;
--	}
--
--	rq = i915_request_create(ce);
--	if (IS_ERR(rq)) {
--		err = PTR_ERR(rq);
--		goto out_batch;
--	}
--
--	err = intel_emit_vma_mark_active(batch, rq);
--	if (unlikely(err))
--		goto out_request;
--
--	err = move_obj_to_gpu(vma->obj, rq, true);
--	if (err == 0)
--		err = i915_vma_move_to_active(vma, rq, EXEC_OBJECT_WRITE);
--	if (unlikely(err))
--		goto out_request;
--
--	if (ce->engine->emit_init_breadcrumb)
--		err = ce->engine->emit_init_breadcrumb(rq);
--
--	if (likely(!err))
--		err = ce->engine->emit_bb_start(rq,
--						batch->node.start,
--						batch->node.size,
--						0);
--out_request:
--	if (unlikely(err))
--		i915_request_set_error_once(rq, err);
--
--	i915_request_add(rq);
--out_batch:
--	intel_emit_vma_release(ce, batch);
--out_vma:
--	i915_vma_unpin(vma);
--out_ctx:
--	intel_context_unpin(ce);
--out:
--	if (err == -EDEADLK) {
--		err = i915_gem_ww_ctx_backoff(&ww);
--		if (!err)
--			goto retry;
--	}
--	i915_gem_ww_ctx_fini(&ww);
--	intel_engine_pm_put(ce->engine);
--	return err;
--}
--
--/* Wa_1209644611:icl,ehl */
--static bool wa_1209644611_applies(struct drm_i915_private *i915, u32 size)
--{
--	u32 height = size >> PAGE_SHIFT;
--
--	if (GRAPHICS_VER(i915) != 11)
--		return false;
--
--	return height % 4 == 3 && height <= 8;
--}
--
--struct i915_vma *intel_emit_vma_copy_blt(struct intel_context *ce,
--					 struct i915_gem_ww_ctx *ww,
--					 struct i915_vma *src,
--					 struct i915_vma *dst)
--{
--	struct drm_i915_private *i915 = ce->vm->i915;
--	const u32 block_size = SZ_8M; /* ~1ms at 8GiB/s preemption delay */
--	struct intel_gt_buffer_pool_node *pool;
--	struct i915_vma *batch;
--	u64 src_offset, dst_offset;
--	u64 count, rem;
--	u32 size, *cmd;
--	int err;
--
--	GEM_BUG_ON(src->size != dst->size);
--
--	GEM_BUG_ON(intel_engine_is_virtual(ce->engine));
--	intel_engine_pm_get(ce->engine);
--
--	count = div_u64(round_up(dst->size, block_size), block_size);
--	size = (1 + 11 * count) * sizeof(u32);
--	size = round_up(size, PAGE_SIZE);
--	pool = intel_gt_get_buffer_pool(ce->engine->gt, size, I915_MAP_WC);
--	if (IS_ERR(pool)) {
--		err = PTR_ERR(pool);
--		goto out_pm;
--	}
--
--	err = i915_gem_object_lock(pool->obj, ww);
--	if (err)
--		goto out_put;
--
--	batch = i915_vma_instance(pool->obj, ce->vm, NULL);
--	if (IS_ERR(batch)) {
--		err = PTR_ERR(batch);
--		goto out_put;
--	}
--
--	err = i915_vma_pin_ww(batch, ww, 0, 0, PIN_USER);
--	if (unlikely(err))
--		goto out_put;
--
--	/* we pinned the pool, mark it as such */
--	intel_gt_buffer_pool_mark_used(pool);
--
--	cmd = i915_gem_object_pin_map(pool->obj, pool->type);
--	if (IS_ERR(cmd)) {
--		err = PTR_ERR(cmd);
--		goto out_unpin;
--	}
--
--	rem = src->size;
--	src_offset = src->node.start;
--	dst_offset = dst->node.start;
--
--	do {
--		size = min_t(u64, rem, block_size);
--		GEM_BUG_ON(size >> PAGE_SHIFT > S16_MAX);
--
--		if (GRAPHICS_VER(i915) >= 9 &&
--		    !wa_1209644611_applies(i915, size)) {
--			*cmd++ = GEN9_XY_FAST_COPY_BLT_CMD | (10 - 2);
--			*cmd++ = BLT_DEPTH_32 | PAGE_SIZE;
--			*cmd++ = 0;
--			*cmd++ = size >> PAGE_SHIFT << 16 | PAGE_SIZE / 4;
--			*cmd++ = lower_32_bits(dst_offset);
--			*cmd++ = upper_32_bits(dst_offset);
--			*cmd++ = 0;
--			*cmd++ = PAGE_SIZE;
--			*cmd++ = lower_32_bits(src_offset);
--			*cmd++ = upper_32_bits(src_offset);
--		} else if (GRAPHICS_VER(i915) >= 8) {
--			*cmd++ = XY_SRC_COPY_BLT_CMD | BLT_WRITE_RGBA | (10 - 2);
--			*cmd++ = BLT_DEPTH_32 | BLT_ROP_SRC_COPY | PAGE_SIZE;
--			*cmd++ = 0;
--			*cmd++ = size >> PAGE_SHIFT << 16 | PAGE_SIZE / 4;
--			*cmd++ = lower_32_bits(dst_offset);
--			*cmd++ = upper_32_bits(dst_offset);
--			*cmd++ = 0;
--			*cmd++ = PAGE_SIZE;
--			*cmd++ = lower_32_bits(src_offset);
--			*cmd++ = upper_32_bits(src_offset);
--		} else {
--			*cmd++ = SRC_COPY_BLT_CMD | BLT_WRITE_RGBA | (6 - 2);
--			*cmd++ = BLT_DEPTH_32 | BLT_ROP_SRC_COPY | PAGE_SIZE;
--			*cmd++ = size >> PAGE_SHIFT << 16 | PAGE_SIZE;
--			*cmd++ = dst_offset;
--			*cmd++ = PAGE_SIZE;
--			*cmd++ = src_offset;
--		}
--
--		/* Allow ourselves to be preempted in between blocks. */
--		*cmd++ = MI_ARB_CHECK;
--
--		src_offset += size;
--		dst_offset += size;
--		rem -= size;
--	} while (rem);
--
--	*cmd = MI_BATCH_BUFFER_END;
--
--	i915_gem_object_flush_map(pool->obj);
--	i915_gem_object_unpin_map(pool->obj);
--
--	intel_gt_chipset_flush(ce->vm->gt);
--	batch->private = pool;
--	return batch;
--
--out_unpin:
--	i915_vma_unpin(batch);
--out_put:
--	intel_gt_buffer_pool_put(pool);
--out_pm:
--	intel_engine_pm_put(ce->engine);
--	return ERR_PTR(err);
--}
--
--int i915_gem_object_copy_blt(struct drm_i915_gem_object *src,
--			     struct drm_i915_gem_object *dst,
--			     struct intel_context *ce)
--{
--	struct i915_address_space *vm = ce->vm;
--	struct i915_vma *vma[2], *batch;
--	struct i915_gem_ww_ctx ww;
--	struct i915_request *rq;
--	int err, i;
--
--	vma[0] = i915_vma_instance(src, vm, NULL);
--	if (IS_ERR(vma[0]))
--		return PTR_ERR(vma[0]);
--
--	vma[1] = i915_vma_instance(dst, vm, NULL);
--	if (IS_ERR(vma[1]))
--		return PTR_ERR(vma[1]);
--
--	i915_gem_ww_ctx_init(&ww, true);
--	intel_engine_pm_get(ce->engine);
--retry:
--	err = i915_gem_object_lock(src, &ww);
--	if (!err)
--		err = i915_gem_object_lock(dst, &ww);
--	if (!err)
--		err = intel_context_pin_ww(ce, &ww);
--	if (err)
--		goto out;
--
--	err = i915_vma_pin_ww(vma[0], &ww, 0, 0, PIN_USER);
--	if (err)
--		goto out_ctx;
--
--	err = i915_vma_pin_ww(vma[1], &ww, 0, 0, PIN_USER);
--	if (unlikely(err))
--		goto out_unpin_src;
--
--	batch = intel_emit_vma_copy_blt(ce, &ww, vma[0], vma[1]);
--	if (IS_ERR(batch)) {
--		err = PTR_ERR(batch);
--		goto out_unpin_dst;
--	}
--
--	rq = i915_request_create(ce);
--	if (IS_ERR(rq)) {
--		err = PTR_ERR(rq);
--		goto out_batch;
--	}
--
--	err = intel_emit_vma_mark_active(batch, rq);
--	if (unlikely(err))
--		goto out_request;
--
--	for (i = 0; i < ARRAY_SIZE(vma); i++) {
--		err = move_obj_to_gpu(vma[i]->obj, rq, i);
--		if (unlikely(err))
--			goto out_request;
--	}
--
--	for (i = 0; i < ARRAY_SIZE(vma); i++) {
--		unsigned int flags = i ? EXEC_OBJECT_WRITE : 0;
--
--		err = i915_vma_move_to_active(vma[i], rq, flags);
--		if (unlikely(err))
--			goto out_request;
--	}
--
--	if (rq->engine->emit_init_breadcrumb) {
--		err = rq->engine->emit_init_breadcrumb(rq);
--		if (unlikely(err))
--			goto out_request;
--	}
--
--	err = rq->engine->emit_bb_start(rq,
--					batch->node.start, batch->node.size,
--					0);
--
--out_request:
--	if (unlikely(err))
--		i915_request_set_error_once(rq, err);
--
--	i915_request_add(rq);
--out_batch:
--	intel_emit_vma_release(ce, batch);
--out_unpin_dst:
--	i915_vma_unpin(vma[1]);
--out_unpin_src:
--	i915_vma_unpin(vma[0]);
--out_ctx:
--	intel_context_unpin(ce);
--out:
--	if (err == -EDEADLK) {
--		err = i915_gem_ww_ctx_backoff(&ww);
--		if (!err)
--			goto retry;
--	}
--	i915_gem_ww_ctx_fini(&ww);
--	intel_engine_pm_put(ce->engine);
--	return err;
--}
--
--#if IS_ENABLED(CONFIG_DRM_I915_SELFTEST)
--#include "selftests/i915_gem_object_blt.c"
--#endif
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object_blt.h b/drivers/gpu/drm/i915/gem/i915_gem_object_blt.h
-deleted file mode 100644
-index 2409fdcccf0e..000000000000
---- a/drivers/gpu/drm/i915/gem/i915_gem_object_blt.h
-+++ /dev/null
-@@ -1,39 +0,0 @@
--/* SPDX-License-Identifier: MIT */
--/*
-- * Copyright © 2019 Intel Corporation
-- */
--
--#ifndef __I915_GEM_OBJECT_BLT_H__
--#define __I915_GEM_OBJECT_BLT_H__
--
--#include <linux/types.h>
--
--#include "gt/intel_context.h"
--#include "gt/intel_engine_pm.h"
--#include "i915_vma.h"
--
--struct drm_i915_gem_object;
--struct i915_gem_ww_ctx;
--
--struct i915_vma *intel_emit_vma_fill_blt(struct intel_context *ce,
--					 struct i915_vma *vma,
--					 struct i915_gem_ww_ctx *ww,
--					 u32 value);
--
--struct i915_vma *intel_emit_vma_copy_blt(struct intel_context *ce,
--					 struct i915_gem_ww_ctx *ww,
--					 struct i915_vma *src,
--					 struct i915_vma *dst);
--
--int intel_emit_vma_mark_active(struct i915_vma *vma, struct i915_request *rq);
--void intel_emit_vma_release(struct intel_context *ce, struct i915_vma *vma);
--
--int i915_gem_object_fill_blt(struct drm_i915_gem_object *obj,
--			     struct intel_context *ce,
--			     u32 value);
--
--int i915_gem_object_copy_blt(struct drm_i915_gem_object *src,
--			     struct drm_i915_gem_object *dst,
--			     struct intel_context *ce);
--
--#endif
-diff --git a/drivers/gpu/drm/i915/gem/selftests/i915_gem_object_blt.c b/drivers/gpu/drm/i915/gem/selftests/i915_gem_object_blt.c
-deleted file mode 100644
-index 8c335d1a8406..000000000000
---- a/drivers/gpu/drm/i915/gem/selftests/i915_gem_object_blt.c
-+++ /dev/null
-@@ -1,597 +0,0 @@
--// SPDX-License-Identifier: MIT
--/*
-- * Copyright © 2019 Intel Corporation
-- */
--
--#include <linux/sort.h>
--
--#include "gt/intel_gt.h"
--#include "gt/intel_engine_user.h"
--
--#include "i915_selftest.h"
--
--#include "gem/i915_gem_context.h"
--#include "selftests/igt_flush_test.h"
--#include "selftests/i915_random.h"
--#include "selftests/mock_drm.h"
--#include "huge_gem_object.h"
--#include "mock_context.h"
--
--static int wrap_ktime_compare(const void *A, const void *B)
--{
--	const ktime_t *a = A, *b = B;
--
--	return ktime_compare(*a, *b);
--}
--
--static int __perf_fill_blt(struct drm_i915_gem_object *obj)
--{
--	struct drm_i915_private *i915 = to_i915(obj->base.dev);
--	int inst = 0;
--
--	do {
--		struct intel_engine_cs *engine;
--		ktime_t t[5];
--		int pass;
--		int err;
--
--		engine = intel_engine_lookup_user(i915,
--						  I915_ENGINE_CLASS_COPY,
--						  inst++);
--		if (!engine)
--			return 0;
--
--		intel_engine_pm_get(engine);
--		for (pass = 0; pass < ARRAY_SIZE(t); pass++) {
--			struct intel_context *ce = engine->kernel_context;
--			ktime_t t0, t1;
--
--			t0 = ktime_get();
--
--			err = i915_gem_object_fill_blt(obj, ce, 0);
--			if (err)
--				break;
--
--			err = i915_gem_object_wait(obj,
--						   I915_WAIT_ALL,
--						   MAX_SCHEDULE_TIMEOUT);
--			if (err)
--				break;
--
--			t1 = ktime_get();
--			t[pass] = ktime_sub(t1, t0);
--		}
--		intel_engine_pm_put(engine);
--		if (err)
--			return err;
--
--		sort(t, ARRAY_SIZE(t), sizeof(*t), wrap_ktime_compare, NULL);
--		pr_info("%s: blt %zd KiB fill: %lld MiB/s\n",
--			engine->name,
--			obj->base.size >> 10,
--			div64_u64(mul_u32_u32(4 * obj->base.size,
--					      1000 * 1000 * 1000),
--				  t[1] + 2 * t[2] + t[3]) >> 20);
--	} while (1);
--}
--
--static int perf_fill_blt(void *arg)
--{
--	struct drm_i915_private *i915 = arg;
--	static const unsigned long sizes[] = {
--		SZ_4K,
--		SZ_64K,
--		SZ_2M,
--		SZ_64M
--	};
--	int i;
--
--	for (i = 0; i < ARRAY_SIZE(sizes); i++) {
--		struct drm_i915_gem_object *obj;
--		int err;
--
--		obj = i915_gem_object_create_internal(i915, sizes[i]);
--		if (IS_ERR(obj))
--			return PTR_ERR(obj);
--
--		err = __perf_fill_blt(obj);
--		i915_gem_object_put(obj);
--		if (err)
--			return err;
--	}
--
--	return 0;
--}
--
--static int __perf_copy_blt(struct drm_i915_gem_object *src,
--			   struct drm_i915_gem_object *dst)
--{
--	struct drm_i915_private *i915 = to_i915(src->base.dev);
--	int inst = 0;
--
--	do {
--		struct intel_engine_cs *engine;
--		ktime_t t[5];
--		int pass;
--		int err = 0;
--
--		engine = intel_engine_lookup_user(i915,
--						  I915_ENGINE_CLASS_COPY,
--						  inst++);
--		if (!engine)
--			return 0;
--
--		intel_engine_pm_get(engine);
--		for (pass = 0; pass < ARRAY_SIZE(t); pass++) {
--			struct intel_context *ce = engine->kernel_context;
--			ktime_t t0, t1;
--
--			t0 = ktime_get();
--
--			err = i915_gem_object_copy_blt(src, dst, ce);
--			if (err)
--				break;
--
--			err = i915_gem_object_wait(dst,
--						   I915_WAIT_ALL,
--						   MAX_SCHEDULE_TIMEOUT);
--			if (err)
--				break;
--
--			t1 = ktime_get();
--			t[pass] = ktime_sub(t1, t0);
--		}
--		intel_engine_pm_put(engine);
--		if (err)
--			return err;
--
--		sort(t, ARRAY_SIZE(t), sizeof(*t), wrap_ktime_compare, NULL);
--		pr_info("%s: blt %zd KiB copy: %lld MiB/s\n",
--			engine->name,
--			src->base.size >> 10,
--			div64_u64(mul_u32_u32(4 * src->base.size,
--					      1000 * 1000 * 1000),
--				  t[1] + 2 * t[2] + t[3]) >> 20);
--	} while (1);
--}
--
--static int perf_copy_blt(void *arg)
--{
--	struct drm_i915_private *i915 = arg;
--	static const unsigned long sizes[] = {
--		SZ_4K,
--		SZ_64K,
--		SZ_2M,
--		SZ_64M
--	};
--	int i;
--
--	for (i = 0; i < ARRAY_SIZE(sizes); i++) {
--		struct drm_i915_gem_object *src, *dst;
--		int err;
--
--		src = i915_gem_object_create_internal(i915, sizes[i]);
--		if (IS_ERR(src))
--			return PTR_ERR(src);
--
--		dst = i915_gem_object_create_internal(i915, sizes[i]);
--		if (IS_ERR(dst)) {
--			err = PTR_ERR(dst);
--			goto err_src;
--		}
--
--		err = __perf_copy_blt(src, dst);
--
--		i915_gem_object_put(dst);
--err_src:
--		i915_gem_object_put(src);
--		if (err)
--			return err;
--	}
--
--	return 0;
--}
--
--struct igt_thread_arg {
--	struct intel_engine_cs *engine;
--	struct i915_gem_context *ctx;
--	struct file *file;
--	struct rnd_state prng;
--	unsigned int n_cpus;
--};
--
--static int igt_fill_blt_thread(void *arg)
--{
--	struct igt_thread_arg *thread = arg;
--	struct intel_engine_cs *engine = thread->engine;
--	struct rnd_state *prng = &thread->prng;
--	struct drm_i915_gem_object *obj;
--	struct i915_gem_context *ctx;
--	struct intel_context *ce;
--	unsigned int prio;
--	IGT_TIMEOUT(end);
--	u64 total, max;
--	int err;
--
--	ctx = thread->ctx;
--	if (!ctx) {
--		ctx = live_context_for_engine(engine, thread->file);
--		if (IS_ERR(ctx))
--			return PTR_ERR(ctx);
--
--		prio = i915_prandom_u32_max_state(I915_PRIORITY_MAX, prng);
--		ctx->sched.priority = prio;
--	}
--
--	ce = i915_gem_context_get_engine(ctx, 0);
--	GEM_BUG_ON(IS_ERR(ce));
--
--	/*
--	 * If we have a tiny shared address space, like for the GGTT
--	 * then we can't be too greedy.
--	 */
--	max = ce->vm->total;
--	if (i915_is_ggtt(ce->vm) || thread->ctx)
--		max = div_u64(max, thread->n_cpus);
--	max >>= 4;
--
--	total = PAGE_SIZE;
--	do {
--		/* Aim to keep the runtime under reasonable bounds! */
--		const u32 max_phys_size = SZ_64K;
--		u32 val = prandom_u32_state(prng);
--		u32 phys_sz;
--		u32 sz;
--		u32 *vaddr;
--		u32 i;
--
--		total = min(total, max);
--		sz = i915_prandom_u32_max_state(total, prng) + 1;
--		phys_sz = sz % max_phys_size + 1;
--
--		sz = round_up(sz, PAGE_SIZE);
--		phys_sz = round_up(phys_sz, PAGE_SIZE);
--		phys_sz = min(phys_sz, sz);
--
--		pr_debug("%s with phys_sz= %x, sz=%x, val=%x\n", __func__,
--			 phys_sz, sz, val);
--
--		obj = huge_gem_object(engine->i915, phys_sz, sz);
--		if (IS_ERR(obj)) {
--			err = PTR_ERR(obj);
--			goto err_flush;
--		}
--
--		vaddr = i915_gem_object_pin_map_unlocked(obj, I915_MAP_WB);
--		if (IS_ERR(vaddr)) {
--			err = PTR_ERR(vaddr);
--			goto err_put;
--		}
--
--		/*
--		 * Make sure the potentially async clflush does its job, if
--		 * required.
--		 */
--		memset32(vaddr, val ^ 0xdeadbeaf,
--			 huge_gem_object_phys_size(obj) / sizeof(u32));
--
--		if (!(obj->cache_coherent & I915_BO_CACHE_COHERENT_FOR_WRITE))
--			obj->cache_dirty = true;
--
--		err = i915_gem_object_fill_blt(obj, ce, val);
--		if (err)
--			goto err_unpin;
--
--		err = i915_gem_object_wait(obj, 0, MAX_SCHEDULE_TIMEOUT);
--		if (err)
--			goto err_unpin;
--
--		for (i = 0; i < huge_gem_object_phys_size(obj) / sizeof(u32); i += 17) {
--			if (!(obj->cache_coherent & I915_BO_CACHE_COHERENT_FOR_READ))
--				drm_clflush_virt_range(&vaddr[i], sizeof(vaddr[i]));
--
--			if (vaddr[i] != val) {
--				pr_err("vaddr[%u]=%x, expected=%x\n", i,
--				       vaddr[i], val);
--				err = -EINVAL;
--				goto err_unpin;
--			}
--		}
--
--		i915_gem_object_unpin_map(obj);
--		i915_gem_object_put(obj);
--
--		total <<= 1;
--	} while (!time_after(jiffies, end));
--
--	goto err_flush;
--
--err_unpin:
--	i915_gem_object_unpin_map(obj);
--err_put:
--	i915_gem_object_put(obj);
--err_flush:
--	if (err == -ENOMEM)
--		err = 0;
--
--	intel_context_put(ce);
--	return err;
--}
--
--static int igt_copy_blt_thread(void *arg)
--{
--	struct igt_thread_arg *thread = arg;
--	struct intel_engine_cs *engine = thread->engine;
--	struct rnd_state *prng = &thread->prng;
--	struct drm_i915_gem_object *src, *dst;
--	struct i915_gem_context *ctx;
--	struct intel_context *ce;
--	unsigned int prio;
--	IGT_TIMEOUT(end);
--	u64 total, max;
--	int err;
--
--	ctx = thread->ctx;
--	if (!ctx) {
--		ctx = live_context_for_engine(engine, thread->file);
--		if (IS_ERR(ctx))
--			return PTR_ERR(ctx);
--
--		prio = i915_prandom_u32_max_state(I915_PRIORITY_MAX, prng);
--		ctx->sched.priority = prio;
--	}
--
--	ce = i915_gem_context_get_engine(ctx, 0);
--	GEM_BUG_ON(IS_ERR(ce));
--
--	/*
--	 * If we have a tiny shared address space, like for the GGTT
--	 * then we can't be too greedy.
--	 */
--	max = ce->vm->total;
--	if (i915_is_ggtt(ce->vm) || thread->ctx)
--		max = div_u64(max, thread->n_cpus);
--	max >>= 4;
--
--	total = PAGE_SIZE;
--	do {
--		/* Aim to keep the runtime under reasonable bounds! */
--		const u32 max_phys_size = SZ_64K;
--		u32 val = prandom_u32_state(prng);
--		u32 phys_sz;
--		u32 sz;
--		u32 *vaddr;
--		u32 i;
--
--		total = min(total, max);
--		sz = i915_prandom_u32_max_state(total, prng) + 1;
--		phys_sz = sz % max_phys_size + 1;
--
--		sz = round_up(sz, PAGE_SIZE);
--		phys_sz = round_up(phys_sz, PAGE_SIZE);
--		phys_sz = min(phys_sz, sz);
--
--		pr_debug("%s with phys_sz= %x, sz=%x, val=%x\n", __func__,
--			 phys_sz, sz, val);
--
--		src = huge_gem_object(engine->i915, phys_sz, sz);
--		if (IS_ERR(src)) {
--			err = PTR_ERR(src);
--			goto err_flush;
--		}
--
--		vaddr = i915_gem_object_pin_map_unlocked(src, I915_MAP_WB);
--		if (IS_ERR(vaddr)) {
--			err = PTR_ERR(vaddr);
--			goto err_put_src;
--		}
--
--		memset32(vaddr, val,
--			 huge_gem_object_phys_size(src) / sizeof(u32));
--
--		i915_gem_object_unpin_map(src);
--
--		if (!(src->cache_coherent & I915_BO_CACHE_COHERENT_FOR_READ))
--			src->cache_dirty = true;
--
--		dst = huge_gem_object(engine->i915, phys_sz, sz);
--		if (IS_ERR(dst)) {
--			err = PTR_ERR(dst);
--			goto err_put_src;
--		}
--
--		vaddr = i915_gem_object_pin_map_unlocked(dst, I915_MAP_WB);
--		if (IS_ERR(vaddr)) {
--			err = PTR_ERR(vaddr);
--			goto err_put_dst;
--		}
--
--		memset32(vaddr, val ^ 0xdeadbeaf,
--			 huge_gem_object_phys_size(dst) / sizeof(u32));
--
--		if (!(dst->cache_coherent & I915_BO_CACHE_COHERENT_FOR_WRITE))
--			dst->cache_dirty = true;
--
--		err = i915_gem_object_copy_blt(src, dst, ce);
--		if (err)
--			goto err_unpin;
--
--		err = i915_gem_object_wait(dst, 0, MAX_SCHEDULE_TIMEOUT);
--		if (err)
--			goto err_unpin;
--
--		for (i = 0; i < huge_gem_object_phys_size(dst) / sizeof(u32); i += 17) {
--			if (!(dst->cache_coherent & I915_BO_CACHE_COHERENT_FOR_READ))
--				drm_clflush_virt_range(&vaddr[i], sizeof(vaddr[i]));
--
--			if (vaddr[i] != val) {
--				pr_err("vaddr[%u]=%x, expected=%x\n", i,
--				       vaddr[i], val);
--				err = -EINVAL;
--				goto err_unpin;
--			}
--		}
--
--		i915_gem_object_unpin_map(dst);
--
--		i915_gem_object_put(src);
--		i915_gem_object_put(dst);
--
--		total <<= 1;
--	} while (!time_after(jiffies, end));
--
--	goto err_flush;
--
--err_unpin:
--	i915_gem_object_unpin_map(dst);
--err_put_dst:
--	i915_gem_object_put(dst);
--err_put_src:
--	i915_gem_object_put(src);
--err_flush:
--	if (err == -ENOMEM)
--		err = 0;
--
--	intel_context_put(ce);
--	return err;
--}
--
--static int igt_threaded_blt(struct intel_engine_cs *engine,
--			    int (*blt_fn)(void *arg),
--			    unsigned int flags)
--#define SINGLE_CTX BIT(0)
--{
--	struct igt_thread_arg *thread;
--	struct task_struct **tsk;
--	unsigned int n_cpus, i;
--	I915_RND_STATE(prng);
--	int err = 0;
--
--	n_cpus = num_online_cpus() + 1;
--
--	tsk = kcalloc(n_cpus, sizeof(struct task_struct *), GFP_KERNEL);
--	if (!tsk)
--		return 0;
--
--	thread = kcalloc(n_cpus, sizeof(struct igt_thread_arg), GFP_KERNEL);
--	if (!thread)
--		goto out_tsk;
--
--	thread[0].file = mock_file(engine->i915);
--	if (IS_ERR(thread[0].file)) {
--		err = PTR_ERR(thread[0].file);
--		goto out_thread;
--	}
--
--	if (flags & SINGLE_CTX) {
--		thread[0].ctx = live_context_for_engine(engine, thread[0].file);
--		if (IS_ERR(thread[0].ctx)) {
--			err = PTR_ERR(thread[0].ctx);
--			goto out_file;
--		}
--	}
--
--	for (i = 0; i < n_cpus; ++i) {
--		thread[i].engine = engine;
--		thread[i].file = thread[0].file;
--		thread[i].ctx = thread[0].ctx;
--		thread[i].n_cpus = n_cpus;
--		thread[i].prng =
--			I915_RND_STATE_INITIALIZER(prandom_u32_state(&prng));
--
--		tsk[i] = kthread_run(blt_fn, &thread[i], "igt/blt-%d", i);
--		if (IS_ERR(tsk[i])) {
--			err = PTR_ERR(tsk[i]);
--			break;
--		}
--
--		get_task_struct(tsk[i]);
--	}
--
--	yield(); /* start all threads before we kthread_stop() */
--
--	for (i = 0; i < n_cpus; ++i) {
--		int status;
--
--		if (IS_ERR_OR_NULL(tsk[i]))
--			continue;
--
--		status = kthread_stop(tsk[i]);
--		if (status && !err)
--			err = status;
--
--		put_task_struct(tsk[i]);
--	}
--
--out_file:
--	fput(thread[0].file);
--out_thread:
--	kfree(thread);
--out_tsk:
--	kfree(tsk);
--	return err;
--}
--
--static int test_copy_engines(struct drm_i915_private *i915,
--			     int (*fn)(void *arg),
--			     unsigned int flags)
--{
--	struct intel_engine_cs *engine;
--	int ret;
--
--	for_each_uabi_class_engine(engine, I915_ENGINE_CLASS_COPY, i915) {
--		ret = igt_threaded_blt(engine, fn, flags);
--		if (ret)
--			return ret;
--	}
--
--	return 0;
--}
--
--static int igt_fill_blt(void *arg)
--{
--	return test_copy_engines(arg, igt_fill_blt_thread, 0);
--}
--
--static int igt_fill_blt_ctx0(void *arg)
--{
--	return test_copy_engines(arg, igt_fill_blt_thread, SINGLE_CTX);
--}
--
--static int igt_copy_blt(void *arg)
--{
--	return test_copy_engines(arg, igt_copy_blt_thread, 0);
--}
--
--static int igt_copy_blt_ctx0(void *arg)
--{
--	return test_copy_engines(arg, igt_copy_blt_thread, SINGLE_CTX);
--}
--
--int i915_gem_object_blt_live_selftests(struct drm_i915_private *i915)
--{
--	static const struct i915_subtest tests[] = {
--		SUBTEST(igt_fill_blt),
--		SUBTEST(igt_fill_blt_ctx0),
--		SUBTEST(igt_copy_blt),
--		SUBTEST(igt_copy_blt_ctx0),
--	};
--
--	if (intel_gt_is_wedged(&i915->gt))
--		return 0;
--
--	return i915_live_subtests(tests, i915);
--}
--
--int i915_gem_object_blt_perf_selftests(struct drm_i915_private *i915)
--{
--	static const struct i915_subtest tests[] = {
--		SUBTEST(perf_fill_blt),
--		SUBTEST(perf_copy_blt),
--	};
--
--	if (intel_gt_is_wedged(&i915->gt))
--		return 0;
--
--	return i915_live_subtests(tests, i915);
--}
-diff --git a/drivers/gpu/drm/i915/selftests/i915_live_selftests.h b/drivers/gpu/drm/i915/selftests/i915_live_selftests.h
-index 6f5893ecd549..1ae3f8039d68 100644
---- a/drivers/gpu/drm/i915/selftests/i915_live_selftests.h
-+++ b/drivers/gpu/drm/i915/selftests/i915_live_selftests.h
-@@ -39,7 +39,6 @@ selftest(evict, i915_gem_evict_live_selftests)
- selftest(hugepages, i915_gem_huge_page_live_selftests)
- selftest(gem_contexts, i915_gem_context_live_selftests)
- selftest(gem_execbuf, i915_gem_execbuffer_live_selftests)
--selftest(blt, i915_gem_object_blt_live_selftests)
- selftest(reset, intel_reset_live_selftests)
- selftest(memory_region, intel_memory_region_live_selftests)
- selftest(hangcheck, intel_hangcheck_live_selftests)
-diff --git a/drivers/gpu/drm/i915/selftests/i915_perf_selftests.h b/drivers/gpu/drm/i915/selftests/i915_perf_selftests.h
-index 5077dc3c3b8c..058450d351f7 100644
---- a/drivers/gpu/drm/i915/selftests/i915_perf_selftests.h
-+++ b/drivers/gpu/drm/i915/selftests/i915_perf_selftests.h
-@@ -18,5 +18,4 @@
- selftest(engine_cs, intel_engine_cs_perf_selftests)
- selftest(request, i915_request_perf_selftests)
- selftest(migrate, intel_migrate_perf_selftests)
--selftest(blt, i915_gem_object_blt_perf_selftests)
- selftest(region, intel_memory_region_perf_selftests)
-diff --git a/drivers/gpu/drm/i915/selftests/intel_memory_region.c b/drivers/gpu/drm/i915/selftests/intel_memory_region.c
-index c85d516b85cd..2e18f3a3d538 100644
---- a/drivers/gpu/drm/i915/selftests/intel_memory_region.c
-+++ b/drivers/gpu/drm/i915/selftests/intel_memory_region.c
-@@ -15,11 +15,12 @@
- #include "gem/i915_gem_context.h"
- #include "gem/i915_gem_lmem.h"
- #include "gem/i915_gem_region.h"
--#include "gem/i915_gem_object_blt.h"
- #include "gem/selftests/igt_gem_utils.h"
- #include "gem/selftests/mock_context.h"
-+#include "gt/intel_engine_pm.h"
- #include "gt/intel_engine_user.h"
- #include "gt/intel_gt.h"
-+#include "gt/intel_migrate.h"
- #include "i915_memcpy.h"
- #include "selftests/igt_flush_test.h"
- #include "selftests/i915_random.h"
-@@ -741,6 +742,7 @@ static int igt_lmem_write_cpu(void *arg)
- 		PAGE_SIZE - 64,
- 	};
- 	struct intel_engine_cs *engine;
-+	struct i915_request *rq;
- 	u32 *vaddr;
- 	u32 sz;
- 	u32 i;
-@@ -767,15 +769,20 @@ static int igt_lmem_write_cpu(void *arg)
- 		goto out_put;
- 	}
- 
-+	i915_gem_object_lock(obj, NULL);
- 	/* Put the pages into a known state -- from the gpu for added fun */
- 	intel_engine_pm_get(engine);
--	err = i915_gem_object_fill_blt(obj, engine->kernel_context, 0xdeadbeaf);
--	intel_engine_pm_put(engine);
--	if (err)
--		goto out_unpin;
-+	err = intel_context_migrate_clear(engine->gt->migrate.context, NULL,
-+					  obj->mm.pages->sgl, I915_CACHE_NONE,
-+					  true, 0xdeadbeaf, &rq);
-+	if (rq) {
-+		dma_resv_add_excl_fence(obj->base.resv, &rq->fence);
-+		i915_request_put(rq);
-+	}
- 
--	i915_gem_object_lock(obj, NULL);
--	err = i915_gem_object_set_to_wc_domain(obj, true);
-+	intel_engine_pm_put(engine);
-+	if (!err)
-+		err = i915_gem_object_set_to_wc_domain(obj, true);
- 	i915_gem_object_unlock(obj);
- 	if (err)
- 		goto out_unpin;
--- 
-2.31.1
+My fear is that after adding this some UMD, other than IGT,
+would start using relocation back again and then the removal
+of require_force_probe of ADL would mean regression and we would
+need to support that forever again.
 
+Ideally a bold drm_warn, but I understand this might impact CI
+so at least a drm_info with capital letters...
+
+> 
+> > 
+> > > 
+> > > > 
+> > > > >  || IS_ALDERLAKE_S(eb->i915) ||
+> > > > > +	     IS_ALDERLAKE_P(eb->i915)))
+> > > > 
+> > > > How to ensure that we will easily catch this when removing the
+> > > > flag?
+> > > > 
+> > > > I mean, should we have a GEM_BUG or drm_err message when these
+> > > > platforms in this list has not the required_force_probe?
+> > > 
+> > > I don't think we need GEM_BUG()/drm_err() - when IGT tests will support
+> > > both - reloc + no-reloc - then condition will be limited to:
+> > > 
+> > >         if (GRAPHICS_VER(eb->i915) < 12 || IS_TIGERLAKE(eb->i915))
+> > >                 return true;
+> > >  
+> > >         return false;
+> > > 
+> > > so require_force_probe condition will be deleted and we won't need it
+> > > anymore (IGTs will be ready).
+> > 
+> > yes...
+> > but then, when we remove the flag we will forget to come here and remove
+> > this check.
+> 
+> I think we won't forget - this is cherry on top of rewriting IGT -
+> to switch to no-reloc on ADL, so that condition disappear.
+
+believe me, we will forget to remove this function if we don't
+start warning that ADL is not protected by the flag anymore...
+like we were about to add RKL and live that useless there forever...
+
+> 
+> > 
+> > Oh, and I just thought that we might need drm_error when the protection
+> > doesn't exist for the platform, but also a drm_info to the user to tell
+> > this is a temporary accepted behavior, but that will be removed later
+> > 
+> > The concern is if any other userspace was using the flag and suddently move to a
+> > version without the flag, it would be considered a regression...
+> 
+> That means I don't understand the meaning of that flag. I thought it is
+> to enforce probe of driver on platform which behavior is not already 
+> well defined and we want to "try" driver on it.
+
+The goal of the flag is to protect end users to get a unstable driver
+support. In special, linux installer .iso images where driver cannot be
+updated... if user gets a old .iso with driver from the enabling times
+and a brand new platform, the installation migh hang or get blank screens.
+It was a nightmare in the past.
+
+But the flag was never intended to be used with UAPI decisions, so
+this case here is changing this...
+
+> 
+> --
+> Zbigniew
+> 
+> > 
+> > > 
+> > > --
+> > > Zbigniew
+> > > 
+> > > > 
+> > > > > +		return true;
+> > > > > +
+> > > > > +	return false;
+> > > > > +}
+> > > > > +
+> > > > >  static int
+> > > > >  eb_validate_vma(struct i915_execbuffer *eb,
+> > > > >  		struct drm_i915_gem_exec_object2 *entry,
+> > > > >  		struct i915_vma *vma)
+> > > > >  {
+> > > > > -	/* Relocations are disallowed for all platforms after TGL-LP.  This
+> > > > > -	 * also covers all platforms with local memory.
+> > > > > -	 */
+> > > > > -	if (entry->relocation_count &&
+> > > > > -	    GRAPHICS_VER(eb->i915) >= 12 && !IS_TIGERLAKE(eb->i915))
+> > > > > +	if (entry->relocation_count && !platform_has_relocs_enabled(eb))
+> > > > >  		return -EINVAL;
+> > > > >  
+> > > > >  	if (unlikely(entry->flags & eb->invalid_flags))
+> > > > > -- 
+> > > > > 2.26.0
+> > > > > 
+> > > > > _______________________________________________
+> > > > > Intel-gfx mailing list
+> > > > > Intel-gfx@lists.freedesktop.org
+> > > > > https://lists.freedesktop.org/mailman/listinfo/intel-gfx
+> _______________________________________________
+> Intel-gfx mailing list
+> Intel-gfx@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/intel-gfx
