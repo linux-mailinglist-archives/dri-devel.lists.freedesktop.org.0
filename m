@@ -2,68 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FE6F3A6CE2
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Jun 2021 19:15:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E32B3A6D18
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Jun 2021 19:26:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4A72389CB3;
-	Mon, 14 Jun 2021 17:15:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9D1906E071;
+	Mon, 14 Jun 2021 17:26:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com
- [IPv6:2a00:1450:4864:20::52f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 498B489CB3;
- Mon, 14 Jun 2021 17:15:47 +0000 (UTC)
-Received: by mail-ed1-x52f.google.com with SMTP id t7so2300216edd.5;
- Mon, 14 Jun 2021 10:15:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-transfer-encoding:content-language;
- bh=f2ggNfCwsjFsKNCjSPM2g4hB/8aV6ufRdZTvgF1Gm8Q=;
- b=XrqB20qh+4udCmmjv41EdVMqHj++78gktMO+wsBgMmUU5yN9J5y/+xpJsJLY+AnPkx
- APL47+3Zs5Ci6fgfVHWNU7yGHdJueIg58EAEKjMcLl9BheqaggGZMmNtVOGXW6eEvIV0
- 27BFuOi/wbhHs2g4BSOIkhnfYRpBI7/LYtn6ofFb54hf0ysVgjcCOe/KBvvHXg6ADFnC
- RBw2SjIhQxSIcHThxxbDwwRST2kH1lDi3VoWLK6YxfmIKIU2BNaiXKfu1q8LN+iq9lw2
- cM5qdsEI2H1RdPl4H69WjQG9TBgWKPeNyZOaSNIzb5/Fli+VrnNGahyrqdlNvYs2RVPR
- FSYg==
+Received: from mail-oi1-x22b.google.com (mail-oi1-x22b.google.com
+ [IPv6:2607:f8b0:4864:20::22b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 12BDB6E071
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Jun 2021 17:26:10 +0000 (UTC)
+Received: by mail-oi1-x22b.google.com with SMTP id t140so15142519oih.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Jun 2021 10:26:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=dvIEBou67kHJiRTzW5qY/4yBKZTXktpS1R7fvVFvoyU=;
+ b=ZKbH0tuAUFkipYD9h+mCBHbR28XpfU/ys/hYkHtXCIOGm44nDdNinPLLEcCU5GJX//
+ EijxZeXU/x0BV2qv8lhMmePPbzYj0/P4A84t1g8tpIIQHsunxKyus8bLH2IdtKjLHGLS
+ 2Hc8yG2lUDTRv3FZEPujYdQcmOvxzQumCwaCXo0gm7BHYgTZ1BkKsFPqpxNqjBeXzJB1
+ x2EgXA2+iyGwatUE/KIdasDMtrEHv4MxpkxW+CXSLEqljZiG8mXCzIiM3Cv+ZZ+vMAho
+ st2geZgrruff3veHFmiiAEMWJO7F7y6BSPoVlOUIA2lkGkzlOwVKh2LJHzWpkzL8DBEw
+ NeSQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-transfer-encoding
- :content-language;
- bh=f2ggNfCwsjFsKNCjSPM2g4hB/8aV6ufRdZTvgF1Gm8Q=;
- b=pqV1eMJqxZtzoOENWNMGyEjB48XAekg9GKaTOCly5dYEeF1UrfsfuRagtMkOGFsSBw
- lB95++2Y0eZZvEzq3WSYCWsDue7zF16QGYkl98JVh9iDUupxykOSGH/m8DB/25vuwOnz
- 3SKZ+XN+apmwDSTGLxJjb88CDidX/Qo3haHYnFGfBKZTHe5LrR801AwYiTjRYpB7kQRF
- ITI3dWq0Xc5iV2a4O+gkm3OmES3/Z8RldfEQF4w7q0/gzXMMJYsaQCATR+75Be4X5H9a
- zRo3wwNERl3V9hLjmRlUnNRF0DSeDokkGqB6vE1HfoYR6Ga8mJQhVveA66sanxLaUnBF
- QuDA==
-X-Gm-Message-State: AOAM532liiUIE+TYZeOInOoR+bE+yrsYIGA/8btz2pZ0TJ+t6qKEUcuO
- X/L949Pe9+/3AL6ATLQEDNCTzYPMP8k=
-X-Google-Smtp-Source: ABdhPJz3oaR/StdXDQdvFeoAS5rwFXqW347uNs+hR50ElpsZvPgcnujdqrzY3c2XS912L0qigKXiXg==
-X-Received: by 2002:a05:6402:524b:: with SMTP id
- t11mr18682066edd.327.1623690945934; 
- Mon, 14 Jun 2021 10:15:45 -0700 (PDT)
-Received: from ?IPv6:2a02:908:1252:fb60:e8cf:b51d:4c59:9c81?
- ([2a02:908:1252:fb60:e8cf:b51d:4c59:9c81])
- by smtp.gmail.com with ESMTPSA id m12sm7733794ejc.65.2021.06.14.10.15.45
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 14 Jun 2021 10:15:45 -0700 (PDT)
-Subject: Re: [PATCH 1/5] dma-buf: fix dma_resv_test_signaled test_all handling
-To: Daniel Vetter <daniel@ffwll.ch>
-References: <20210611120301.10595-1-christian.koenig@amd.com>
- <YMN3nr1mTj09p8lT@phenom.ffwll.local>
- <2c91e4b4-e8c8-a9f5-420f-9cf0c1f9a67d@gmail.com>
- <YMN5do2/KUt85h5W@phenom.ffwll.local>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-Message-ID: <a88eacc0-c572-b296-e30b-ec606d716f8f@gmail.com>
-Date: Mon, 14 Jun 2021 19:15:44 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=dvIEBou67kHJiRTzW5qY/4yBKZTXktpS1R7fvVFvoyU=;
+ b=OCQ4ShzYOiWM9xeEfpJQLJW3m79/fkSEvNVQ3ihsXmIKmepgjIx0tgPojq7UC93gBI
+ 05YUcfbL9cdUvIAz96e2alHM2iKd/v/Ru+NpyEx+cZU9plr74EXdr9oHNHgxpiqMYB8K
+ InnLclwZt60La4BfkqDR7VIdBHpgsFC5kOe1ZIWdpcSktPRnH0kHlkbwiHYY1qrXz9Le
+ j3laIZ7MxGluFOyHlMewyjmY0y4fDQLnCApBnCa1eLJGG7WOO6SCF01JCjeEuwUKAk6s
+ g4fybokDdOtvaVBvjz72snrivM2z2QwC9nF4+4y0ql66GBCePYLFR++6HMzZELwshKcU
+ 1EMA==
+X-Gm-Message-State: AOAM533a9EBafMngRqacTXsR5PhOHeGYHJP+zrGZIEZsjhBCuFse6GC/
+ QrS/6P8wS1JfY0boGZH/l4ajIA==
+X-Google-Smtp-Source: ABdhPJxYXdUiG7CFB0f563Qo+oUPK0plSEwpIpm/WaXTv3i5kjc+viL5mTEG0vDaC/hAxLm4HBNMjg==
+X-Received: by 2002:aca:2410:: with SMTP id n16mr136639oic.56.1623691569228;
+ Mon, 14 Jun 2021 10:26:09 -0700 (PDT)
+Received: from yoga (104-57-184-186.lightspeed.austtx.sbcglobal.net.
+ [104.57.184.186])
+ by smtp.gmail.com with ESMTPSA id p25sm3200355ood.4.2021.06.14.10.26.08
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 14 Jun 2021 10:26:08 -0700 (PDT)
+Date: Mon, 14 Jun 2021 12:26:06 -0500
+From: Bjorn Andersson <bjorn.andersson@linaro.org>
+To: Rob Clark <robdclark@gmail.com>
+Subject: Re: [PATCH v5 1/5] iommu/arm-smmu: Add support for driver IOMMU
+ fault handlers
+Message-ID: <YMeRLuMkiG4Uv0ZP@yoga>
+References: <20210610214431.539029-1-robdclark@gmail.com>
+ <20210610214431.539029-2-robdclark@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <YMN5do2/KUt85h5W@phenom.ffwll.local>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210610214431.539029-2-robdclark@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,134 +70,66 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: Rob Clark <robdclark@chromium.org>, freedreno@lists.freedesktop.org,
+ Jordan Crouse <jcrouse@codeaurora.org>, linux-arm-msm@vger.kernel.org,
+ open list <linux-kernel@vger.kernel.org>, dri-devel@lists.freedesktop.org,
+ iommu@lists.linux-foundation.org, Will Deacon <will@kernel.org>,
+ "moderated list:ARM SMMU DRIVERS" <linux-arm-kernel@lists.infradead.org>,
+ Robin Murphy <robin.murphy@arm.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 11.06.21 um 16:55 schrieb Daniel Vetter:
-> On Fri, Jun 11, 2021 at 04:53:11PM +0200, Christian König wrote:
->>
->> Am 11.06.21 um 16:47 schrieb Daniel Vetter:
->>> On Fri, Jun 11, 2021 at 02:02:57PM +0200, Christian König wrote:
->>>> As the name implies if testing all fences is requested we
->>>> should indeed test all fences and not skip the exclusive
->>>> one because we see shared ones.
->>>>
->>>> Signed-off-by: Christian König <christian.koenig@amd.com>
->>> Hm I thought we've had the rule that when both fences exist, then
->>> collectively the shared ones must signale no earlier than the exclusive
->>> one.
->>>
->>> That's at least the contract we've implemented in dma_resv.h. But I've
->>> also found a bunch of drivers who are a lot more yolo on this.
->>>
->>> I think there's a solid case here to just always take all the fences if we
->>> ask for all the shared ones, but if we go that way then I'd say
->>> - clear kerneldoc patch to really hammer this in (currently we're not good
->>>     at all in this regard)
->>> - going through drivers a bit to check for this (I have some of that done
->>>     already in my earlier series, need to respin it and send it out)
->>>
->>> But I'm kinda not seeing why this needs to be in this patch series here.
->> You mentioned that this is a problem in the last patch and if you ask me
->> that's just a bug or at least very inconsistent.
->>
->> See dma_resv_wait_timeout() always waits for all fences, including the
->> exclusive one even if shared ones are present. But dma_resv_test_signaled()
->> ignores the exclusive one if shared ones are present.
-> Hm the only one I thought I've mentioned is that dma_buf_poll doesn't use
-> dma_fence_get_rcu_safe where I think it should. Different problem. I think
-> this is one you spotted.
->
->> The only other driver I could find trying to make use of this is nouveau and
->> I already provided a fix for this as well.
-> i915 also does this, and I think I've found a few more.
->
->> I just think that this is the more defensive approach to fix this and have
->> at least the core functions consistent on the handling.
-> Oh fully agree, it's just current dma_resv docs aren't the greatest, and
-> hacking on semantics without updating the docs isn't great. Especially
-> when it's ad-hoc.
+On Thu 10 Jun 16:44 CDT 2021, Rob Clark wrote:
 
-Well when the requirement that shared fences should always signal after 
-the exclusive fence is not documented anywhere then I would say that it 
-is naturally allowed to just add any fence to the list of shared fence 
-and any code assuming something else is just broken and need fixing.
+> From: Jordan Crouse <jcrouse@codeaurora.org>
+> 
+> Call report_iommu_fault() to allow upper-level drivers to register their
+> own fault handlers.
+> 
+> Signed-off-by: Jordan Crouse <jcrouse@codeaurora.org>
+> Signed-off-by: Rob Clark <robdclark@chromium.org>
+> Acked-by: Will Deacon <will@kernel.org>
 
-Christian.
+Reviewed-by: Bjorn Andersson <bjorn.andersson@linaro.org>
 
-> -Daniel
->
->> Christian.
->>
->>> -Daniel
->>>
->>>> ---
->>>>    drivers/dma-buf/dma-resv.c | 33 ++++++++++++---------------------
->>>>    1 file changed, 12 insertions(+), 21 deletions(-)
->>>>
->>>> diff --git a/drivers/dma-buf/dma-resv.c b/drivers/dma-buf/dma-resv.c
->>>> index f26c71747d43..c66bfdde9454 100644
->>>> --- a/drivers/dma-buf/dma-resv.c
->>>> +++ b/drivers/dma-buf/dma-resv.c
->>>> @@ -615,25 +615,21 @@ static inline int dma_resv_test_signaled_single(struct dma_fence *passed_fence)
->>>>     */
->>>>    bool dma_resv_test_signaled(struct dma_resv *obj, bool test_all)
->>>>    {
->>>> -	unsigned int seq, shared_count;
->>>> +	struct dma_fence *fence;
->>>> +	unsigned int seq;
->>>>    	int ret;
->>>>    	rcu_read_lock();
->>>>    retry:
->>>>    	ret = true;
->>>> -	shared_count = 0;
->>>>    	seq = read_seqcount_begin(&obj->seq);
->>>>    	if (test_all) {
->>>>    		struct dma_resv_list *fobj = dma_resv_shared_list(obj);
->>>> -		unsigned int i;
->>>> -
->>>> -		if (fobj)
->>>> -			shared_count = fobj->shared_count;
->>>> +		unsigned int i, shared_count;
->>>> +		shared_count = fobj ? fobj->shared_count : 0;
->>>>    		for (i = 0; i < shared_count; ++i) {
->>>> -			struct dma_fence *fence;
->>>> -
->>>>    			fence = rcu_dereference(fobj->shared[i]);
->>>>    			ret = dma_resv_test_signaled_single(fence);
->>>>    			if (ret < 0)
->>>> @@ -641,24 +637,19 @@ bool dma_resv_test_signaled(struct dma_resv *obj, bool test_all)
->>>>    			else if (!ret)
->>>>    				break;
->>>>    		}
->>>> -
->>>> -		if (read_seqcount_retry(&obj->seq, seq))
->>>> -			goto retry;
->>>>    	}
->>>> -	if (!shared_count) {
->>>> -		struct dma_fence *fence_excl = dma_resv_excl_fence(obj);
->>>> -
->>>> -		if (fence_excl) {
->>>> -			ret = dma_resv_test_signaled_single(fence_excl);
->>>> -			if (ret < 0)
->>>> -				goto retry;
->>>> +	fence = dma_resv_excl_fence(obj);
->>>> +	if (fence) {
->>>> +		ret = dma_resv_test_signaled_single(fence);
->>>> +		if (ret < 0)
->>>> +			goto retry;
->>>> -			if (read_seqcount_retry(&obj->seq, seq))
->>>> -				goto retry;
->>>> -		}
->>>>    	}
->>>> +	if (read_seqcount_retry(&obj->seq, seq))
->>>> +		goto retry;
->>>> +
->>>>    	rcu_read_unlock();
->>>>    	return ret;
->>>>    }
->>>> -- 
->>>> 2.25.1
->>>>
+Regards,
+Bjorn
 
+> ---
+>  drivers/iommu/arm/arm-smmu/arm-smmu.c | 9 +++++++--
+>  1 file changed, 7 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/iommu/arm/arm-smmu/arm-smmu.c b/drivers/iommu/arm/arm-smmu/arm-smmu.c
+> index 6f72c4d208ca..b4b32d31fc06 100644
+> --- a/drivers/iommu/arm/arm-smmu/arm-smmu.c
+> +++ b/drivers/iommu/arm/arm-smmu/arm-smmu.c
+> @@ -408,6 +408,7 @@ static irqreturn_t arm_smmu_context_fault(int irq, void *dev)
+>  	struct arm_smmu_domain *smmu_domain = to_smmu_domain(domain);
+>  	struct arm_smmu_device *smmu = smmu_domain->smmu;
+>  	int idx = smmu_domain->cfg.cbndx;
+> +	int ret;
+>  
+>  	fsr = arm_smmu_cb_read(smmu, idx, ARM_SMMU_CB_FSR);
+>  	if (!(fsr & ARM_SMMU_FSR_FAULT))
+> @@ -417,8 +418,12 @@ static irqreturn_t arm_smmu_context_fault(int irq, void *dev)
+>  	iova = arm_smmu_cb_readq(smmu, idx, ARM_SMMU_CB_FAR);
+>  	cbfrsynra = arm_smmu_gr1_read(smmu, ARM_SMMU_GR1_CBFRSYNRA(idx));
+>  
+> -	dev_err_ratelimited(smmu->dev,
+> -	"Unhandled context fault: fsr=0x%x, iova=0x%08lx, fsynr=0x%x, cbfrsynra=0x%x, cb=%d\n",
+> +	ret = report_iommu_fault(domain, NULL, iova,
+> +		fsynr & ARM_SMMU_FSYNR0_WNR ? IOMMU_FAULT_WRITE : IOMMU_FAULT_READ);
+> +
+> +	if (ret == -ENOSYS)
+> +		dev_err_ratelimited(smmu->dev,
+> +		"Unhandled context fault: fsr=0x%x, iova=0x%08lx, fsynr=0x%x, cbfrsynra=0x%x, cb=%d\n",
+>  			    fsr, iova, fsynr, cbfrsynra, idx);
+>  
+>  	arm_smmu_cb_write(smmu, idx, ARM_SMMU_CB_FSR, fsr);
+> -- 
+> 2.31.1
+> 
+> _______________________________________________
+> iommu mailing list
+> iommu@lists.linux-foundation.org
+> https://lists.linuxfoundation.org/mailman/listinfo/iommu
