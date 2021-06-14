@@ -1,46 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43A7E3A6E03
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Jun 2021 20:11:20 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E76213A6E0C
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Jun 2021 20:13:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5398F89D8E;
-	Mon, 14 Jun 2021 18:11:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9872B89BF4;
+	Mon, 14 Jun 2021 18:13:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6656A89D8E;
- Mon, 14 Jun 2021 18:11:17 +0000 (UTC)
-IronPort-SDR: wiD3j3zcwkLlFCNsMWzB8TB2XaFmu7knektV3KKwIn6hEMClnoJm2LLjJYkomYd7yxTJrWOVrZ
- AcdtpXyHoOwQ==
-X-IronPort-AV: E=McAfee;i="6200,9189,10015"; a="193166765"
-X-IronPort-AV: E=Sophos;i="5.83,273,1616482800"; d="scan'208";a="193166765"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Jun 2021 11:11:14 -0700
-IronPort-SDR: PpqjV1Lx0nBcYLZ9XTXRaWtmPwyMXMCa7dQPwkhTv3Ly6+u7NUiQI+IrcxzU4i+niDdipuc9Av
- cCUBQKTUoN6A==
-X-IronPort-AV: E=Sophos;i="5.83,273,1616482800"; d="scan'208";a="451673506"
-Received: from dceraolo-mobl.amr.corp.intel.com (HELO [10.254.188.63])
- ([10.254.188.63])
- by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Jun 2021 11:11:13 -0700
-Subject: Re: [PATCH 02/13] drm/i915/guc: Update MMIO based communication
-To: Matthew Brost <matthew.brost@intel.com>, intel-gfx@lists.freedesktop.org, 
+Received: from mail-lj1-x22f.google.com (mail-lj1-x22f.google.com
+ [IPv6:2a00:1450:4864:20::22f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D389989BF4
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Jun 2021 18:13:44 +0000 (UTC)
+Received: by mail-lj1-x22f.google.com with SMTP id e25so258056ljj.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Jun 2021 11:13:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=vd20yFoPnATDft0FmoiW9GhRQape+3mX4NGsnoZFr0U=;
+ b=zg0Sm31DbSV5fpX/GI0H5Rn/uoCkQ4KE48SO3Y6xngPLb5eTBJzImukW93FlwbDTw4
+ 0XmBpcx031+vi3Ka6LdtYc3dlI3mckdf6/9vYF5Q3yOHp2jdkLQA2E/eeHt0ZSzuwEGK
+ EPdoeVMXCe3LQqfXEcpH245bcvod27dC89yvPJ/oY/FiV39s/Sf9/6aLKnoSHLynC5Ke
+ ROK9l7YptEhzY0iNJoFjptOwLv3W2eC11FMLzrzBIAoMIG6jjvnJYxmYfUInwV05AdAZ
+ CS0d/HDJlXwr7xkDan8MVt85kEN+BZOMzClf//5DQ5dGjbAKv6KfwV8R6ZNb9HgF1K+8
+ 7vww==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=vd20yFoPnATDft0FmoiW9GhRQape+3mX4NGsnoZFr0U=;
+ b=b3dci76pADwiGjqJI/oIjERBdEw6fxM/JQ84Cyj03vnyE301vi+CsV5exIamUatruo
+ oKk2MjHdxodyqfAVdVOBfeR420N/LjxfZHLxY8tBqnYljlmrnCcXaToK/aCiiDH3u9Ui
+ LHuM/LCl4Hz5fgcWanidBTOILSh+NWXRKCUup42yw5s6j+4+rDp8mMvjiWeBqYckA5Yq
+ FndEw346J7lFH/+rSFb3B11p4eYlOit1iu4uTgNWbYX0uOeZJV1lxRCjwQUZfQ8hvOWx
+ 64a+jRqQu0DymUOfivxgAK+ayWx9OAiDpyQHiJAD7W6GHpBx5F10vrJGpLuiSZW+TDCl
+ NcJg==
+X-Gm-Message-State: AOAM533n6kwUq/Gt7BTFaTgIcROLfCia64Bk9oeT0ZpNl2c97PJzUX2j
+ gmRoJlR1AF/lVfd9Tn6Zj1tsag==
+X-Google-Smtp-Source: ABdhPJwj+hGooNXMBN7vs0oEVeODSg9n35AmeEl7gT29UjPVZofkixos26ILCaP76quLNFNmHMTPsw==
+X-Received: by 2002:a2e:a4c6:: with SMTP id p6mr14559130ljm.485.1623694423210; 
+ Mon, 14 Jun 2021 11:13:43 -0700 (PDT)
+Received: from localhost.localdomain
+ (c-fdcc225c.014-348-6c756e10.bbcust.telenor.se. [92.34.204.253])
+ by smtp.gmail.com with ESMTPSA id v26sm1678013lfp.0.2021.06.14.11.13.41
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 14 Jun 2021 11:13:42 -0700 (PDT)
+From: Linus Walleij <linus.walleij@linaro.org>
+To: Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
  dri-devel@lists.freedesktop.org
-References: <20210610043649.144416-1-matthew.brost@intel.com>
- <20210610043649.144416-3-matthew.brost@intel.com>
-From: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
-Message-ID: <92fec549-b8da-b67a-f581-9c2890082ae7@intel.com>
-Date: Mon, 14 Jun 2021 11:11:09 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.2
+Subject: [PATCH 1/2 v2] drm/dbi: Support DBI typec1 read operations
+Date: Mon, 14 Jun 2021 20:11:34 +0200
+Message-Id: <20210614181135.1124445-1-linus.walleij@linaro.org>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-In-Reply-To: <20210610043649.144416-3-matthew.brost@intel.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,262 +68,106 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: john.c.harrison@intel.com, Michal.Wajdeczko@intel.com
+Cc: =?UTF-8?q?Noralf=20Tr=C3=B8nnes?= <noralf@tronnes.org>,
+ Douglas Anderson <dianders@chromium.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Implement SPI reads for typec1, for SPI controllers that
+can support 9bpw in addition to 8bpw (such as GPIO bit-banged
+SPI).
 
+9bpw emulation is not supported but we have to start with
+something.
 
-On 6/9/2021 9:36 PM, Matthew Brost wrote:
-> From: Michal Wajdeczko <michal.wajdeczko@intel.com>
->
-> The MMIO based Host-to-GuC communication protocol has been
-> updated to use unified HXG messages.
->
-> Update our intel_guc_send_mmio() function by correctly handle
-> BUSY, RETRY and FAILURE replies. Also update our documentation.
->
-> Since some of the new MMIO actions may use DATA0 from MMIO HXG
-> response, we must update intel_guc_send_mmio() to copy full response,
-> including HXG header. There will be no impact to existing users as all
-> of them are only relying just on return code.
->
-> v2:
->   (Daniele)
->    - preffered -> preferred
->    - Max MMIO DW set to 4
->    - Update commit message
->
-> GuC: 55.0.0
-> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
-> Signed-off-by: Michal Wajdeczko <michal.wajdeczko@intel.com>
-> Cc: Piotr Piórkowski <piotr.piorkowski@intel.com>
-> Cc: Michal Winiarski <michal.winiarski@intel.com> #v3
-> ---
->   .../gt/uc/abi/guc_communication_mmio_abi.h    | 65 +++++++------
->   drivers/gpu/drm/i915/gt/uc/intel_guc.c        | 92 ++++++++++++++-----
->   2 files changed, 98 insertions(+), 59 deletions(-)
->
-> diff --git a/drivers/gpu/drm/i915/gt/uc/abi/guc_communication_mmio_abi.h b/drivers/gpu/drm/i915/gt/uc/abi/guc_communication_mmio_abi.h
-> index be066a62e9e0..bbf1ddb77434 100644
-> --- a/drivers/gpu/drm/i915/gt/uc/abi/guc_communication_mmio_abi.h
-> +++ b/drivers/gpu/drm/i915/gt/uc/abi/guc_communication_mmio_abi.h
-> @@ -7,46 +7,43 @@
->   #define _ABI_GUC_COMMUNICATION_MMIO_ABI_H
->   
->   /**
-> - * DOC: MMIO based communication
-> + * DOC: GuC MMIO based communication
->    *
-> - * The MMIO based communication between Host and GuC uses software scratch
-> - * registers, where first register holds data treated as message header,
-> - * and other registers are used to hold message payload.
-> + * The MMIO based communication between Host and GuC relies on special
-> + * hardware registers which format could be defined by the software
-> + * (so called scratch registers).
->    *
-> - * For Gen9+, GuC uses software scratch registers 0xC180-0xC1B8,
-> - * but no H2G command takes more than 8 parameters and the GuC FW
-> - * itself uses an 8-element array to store the H2G message.
-> + * Each MMIO based message, both Host to GuC (H2G) and GuC to Host (G2H)
-> + * messages, which maximum length depends on number of available scratch
-> + * registers, is directly written into those scratch registers.
->    *
-> - *      +-----------+---------+---------+---------+
-> - *      |  MMIO[0]  | MMIO[1] |   ...   | MMIO[n] |
-> - *      +-----------+---------+---------+---------+
-> - *      | header    |      optional payload       |
-> - *      +======+====+=========+=========+=========+
-> - *      | 31:28|type|         |         |         |
-> - *      +------+----+         |         |         |
-> - *      | 27:16|data|         |         |         |
-> - *      +------+----+         |         |         |
-> - *      |  15:0|code|         |         |         |
-> - *      +------+----+---------+---------+---------+
-> + * For Gen9+, there are 16 software scratch registers 0xC180-0xC1B8,
-> + * but no H2G command takes more than 4 parameters and the GuC firmware
-> + * itself uses an 4-element array to store the H2G message.
+This is used by s6e63m0 to read display MTP information
+which is used by the driver for backlight control.
 
-I don;t think this part on how the GuC stores the data us true anymore, 
-so I'd just remove it. With that:
+Reviewed-by: Noralf Trønnes <noralf@tronnes.org>
+Reviewed-by: Douglas Anderson <dianders@chromium.org>
+Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
+---
+ChangeLog v1->v2:
+- Only print MIPI_DBI_DEBUG_COMMAND if ret == 0
+- Collect Noralf's Reviewed-by
+- Collect Doug's Reviewed-by
+---
+ drivers/gpu/drm/drm_mipi_dbi.c | 55 +++++++++++++++++++++++++++++++++-
+ 1 file changed, 54 insertions(+), 1 deletion(-)
 
-Reviewed-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
-
-Daniele
-
->    *
-> - * The message header consists of:
-> + * For Gen11+, there are additional 4 registers 0x190240-0x19024C, which
-> + * are, regardless on lower count, preferred over legacy ones.
->    *
-> - * - **type**, indicates message type
-> - * - **code**, indicates message code, is specific for **type**
-> - * - **data**, indicates message data, optional, depends on **code**
-> - *
-> - * The following message **types** are supported:
-> - *
-> - * - **REQUEST**, indicates Host-to-GuC request, requested GuC action code
-> - *   must be priovided in **code** field. Optional action specific parameters
-> - *   can be provided in remaining payload registers or **data** field.
-> - *
-> - * - **RESPONSE**, indicates GuC-to-Host response from earlier GuC request,
-> - *   action response status will be provided in **code** field. Optional
-> - *   response data can be returned in remaining payload registers or **data**
-> - *   field.
-> + * The MMIO based communication is mainly used during driver initialization
-> + * phase to setup the `CTB based communication`_ that will be used afterwards.
->    */
->   
-> -#define GUC_MAX_MMIO_MSG_LEN		8
-> +#define GUC_MAX_MMIO_MSG_LEN		4
-> +
-> +/**
-> + * DOC: MMIO HXG Message
-> + *
-> + * Format of the MMIO messages follows definitions of `HXG Message`_.
-> + *
-> + *  +---+-------+--------------------------------------------------------------+
-> + *  |   | Bits  | Description                                                  |
-> + *  +===+=======+==============================================================+
-> + *  | 0 |  31:0 |  +--------------------------------------------------------+  |
-> + *  +---+-------+  |                                                        |  |
-> + *  |...|       |  |  Embedded `HXG Message`_                               |  |
-> + *  +---+-------+  |                                                        |  |
-> + *  | n |  31:0 |  +--------------------------------------------------------+  |
-> + *  +---+-------+--------------------------------------------------------------+
-> + */
->   
->   #endif /* _ABI_GUC_COMMUNICATION_MMIO_ABI_H */
-> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc.c b/drivers/gpu/drm/i915/gt/uc/intel_guc.c
-> index f147cb389a20..b773567cb080 100644
-> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc.c
-> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc.c
-> @@ -376,29 +376,27 @@ void intel_guc_fini(struct intel_guc *guc)
->   /*
->    * This function implements the MMIO based host to GuC interface.
->    */
-> -int intel_guc_send_mmio(struct intel_guc *guc, const u32 *action, u32 len,
-> +int intel_guc_send_mmio(struct intel_guc *guc, const u32 *request, u32 len,
->   			u32 *response_buf, u32 response_buf_size)
->   {
-> +	struct drm_i915_private *i915 = guc_to_gt(guc)->i915;
->   	struct intel_uncore *uncore = guc_to_gt(guc)->uncore;
-> -	u32 status;
-> +	u32 header;
->   	int i;
->   	int ret;
->   
->   	GEM_BUG_ON(!len);
->   	GEM_BUG_ON(len > guc->send_regs.count);
->   
-> -	/* We expect only action code */
-> -	GEM_BUG_ON(*action & ~INTEL_GUC_MSG_CODE_MASK);
-> -
-> -	/* If CT is available, we expect to use MMIO only during init/fini */
-> -	GEM_BUG_ON(*action != INTEL_GUC_ACTION_REGISTER_COMMAND_TRANSPORT_BUFFER &&
-> -		   *action != INTEL_GUC_ACTION_DEREGISTER_COMMAND_TRANSPORT_BUFFER);
-> +	GEM_BUG_ON(FIELD_GET(GUC_HXG_MSG_0_ORIGIN, request[0]) != GUC_HXG_ORIGIN_HOST);
-> +	GEM_BUG_ON(FIELD_GET(GUC_HXG_MSG_0_TYPE, request[0]) != GUC_HXG_TYPE_REQUEST);
->   
->   	mutex_lock(&guc->send_mutex);
->   	intel_uncore_forcewake_get(uncore, guc->send_regs.fw_domains);
->   
-> +retry:
->   	for (i = 0; i < len; i++)
-> -		intel_uncore_write(uncore, guc_send_reg(guc, i), action[i]);
-> +		intel_uncore_write(uncore, guc_send_reg(guc, i), request[i]);
->   
->   	intel_uncore_posting_read(uncore, guc_send_reg(guc, i - 1));
->   
-> @@ -410,30 +408,74 @@ int intel_guc_send_mmio(struct intel_guc *guc, const u32 *action, u32 len,
->   	 */
->   	ret = __intel_wait_for_register_fw(uncore,
->   					   guc_send_reg(guc, 0),
-> -					   INTEL_GUC_MSG_TYPE_MASK,
-> -					   INTEL_GUC_MSG_TYPE_RESPONSE <<
-> -					   INTEL_GUC_MSG_TYPE_SHIFT,
-> -					   10, 10, &status);
-> -	/* If GuC explicitly returned an error, convert it to -EIO */
-> -	if (!ret && !INTEL_GUC_MSG_IS_RESPONSE_SUCCESS(status))
-> -		ret = -EIO;
-> +					   GUC_HXG_MSG_0_ORIGIN,
-> +					   FIELD_PREP(GUC_HXG_MSG_0_ORIGIN,
-> +						      GUC_HXG_ORIGIN_GUC),
-> +					   10, 10, &header);
-> +	if (unlikely(ret)) {
-> +timeout:
-> +		drm_err(&i915->drm, "mmio request %#x: no reply %x\n",
-> +			request[0], header);
-> +		goto out;
-> +	}
->   
-> -	if (ret) {
-> -		DRM_ERROR("MMIO: GuC action %#x failed with error %d %#x\n",
-> -			  action[0], ret, status);
-> +	if (FIELD_GET(GUC_HXG_MSG_0_TYPE, header) == GUC_HXG_TYPE_NO_RESPONSE_BUSY) {
-> +#define done ({ header = intel_uncore_read(uncore, guc_send_reg(guc, 0)); \
-> +		FIELD_GET(GUC_HXG_MSG_0_ORIGIN, header) != GUC_HXG_ORIGIN_GUC || \
-> +		FIELD_GET(GUC_HXG_MSG_0_TYPE, header) != GUC_HXG_TYPE_NO_RESPONSE_BUSY; })
-> +
-> +		ret = wait_for(done, 1000);
-> +		if (unlikely(ret))
-> +			goto timeout;
-> +		if (unlikely(FIELD_GET(GUC_HXG_MSG_0_ORIGIN, header) !=
-> +				       GUC_HXG_ORIGIN_GUC))
-> +			goto proto;
-> +#undef done
-> +	}
-> +
-> +	if (FIELD_GET(GUC_HXG_MSG_0_TYPE, header) == GUC_HXG_TYPE_NO_RESPONSE_RETRY) {
-> +		u32 reason = FIELD_GET(GUC_HXG_RETRY_MSG_0_REASON, header);
-> +
-> +		drm_dbg(&i915->drm, "mmio request %#x: retrying, reason %u\n",
-> +			request[0], reason);
-> +		goto retry;
-> +	}
-> +
-> +	if (FIELD_GET(GUC_HXG_MSG_0_TYPE, header) == GUC_HXG_TYPE_RESPONSE_FAILURE) {
-> +		u32 hint = FIELD_GET(GUC_HXG_FAILURE_MSG_0_HINT, header);
-> +		u32 error = FIELD_GET(GUC_HXG_FAILURE_MSG_0_ERROR, header);
-> +
-> +		drm_err(&i915->drm, "mmio request %#x: failure %x/%u\n",
-> +			request[0], error, hint);
-> +		ret = -ENXIO;
-> +		goto out;
-> +	}
-> +
-> +	if (FIELD_GET(GUC_HXG_MSG_0_TYPE, header) != GUC_HXG_TYPE_RESPONSE_SUCCESS) {
-> +proto:
-> +		drm_err(&i915->drm, "mmio request %#x: unexpected reply %#x\n",
-> +			request[0], header);
-> +		ret = -EPROTO;
->   		goto out;
->   	}
->   
->   	if (response_buf) {
-> -		int count = min(response_buf_size, guc->send_regs.count - 1);
-> +		int count = min(response_buf_size, guc->send_regs.count);
->   
-> -		for (i = 0; i < count; i++)
-> +		GEM_BUG_ON(!count);
-> +
-> +		response_buf[0] = header;
-> +
-> +		for (i = 1; i < count; i++)
->   			response_buf[i] = intel_uncore_read(uncore,
-> -							    guc_send_reg(guc, i + 1));
-> -	}
-> +							    guc_send_reg(guc, i));
->   
-> -	/* Use data from the GuC response as our return value */
-> -	ret = INTEL_GUC_MSG_TO_DATA(status);
-> +		/* Use number of copied dwords as our return value */
-> +		ret = count;
-> +	} else {
-> +		/* Use data from the GuC response as our return value */
-> +		ret = FIELD_GET(GUC_HXG_RESPONSE_MSG_0_DATA0, header);
-> +	}
->   
->   out:
->   	intel_uncore_forcewake_put(uncore, guc->send_regs.fw_domains);
+diff --git a/drivers/gpu/drm/drm_mipi_dbi.c b/drivers/gpu/drm/drm_mipi_dbi.c
+index 43a9b739bba7..10b4e59384ae 100644
+--- a/drivers/gpu/drm/drm_mipi_dbi.c
++++ b/drivers/gpu/drm/drm_mipi_dbi.c
+@@ -928,6 +928,59 @@ static int mipi_dbi_spi1_transfer(struct mipi_dbi *dbi, int dc,
+ 	return 0;
+ }
+ 
++static int mipi_dbi_typec1_command_read(struct mipi_dbi *dbi, u8 *cmd,
++					u8 *data, size_t len)
++{
++	struct spi_device *spi = dbi->spi;
++	u32 speed_hz = min_t(u32, MIPI_DBI_MAX_SPI_READ_SPEED,
++			     spi->max_speed_hz / 2);
++	struct spi_transfer tr[2] = {
++		{
++			.speed_hz = speed_hz,
++			.bits_per_word = 9,
++			.tx_buf = dbi->tx_buf9,
++			.len = 2,
++		}, {
++			.speed_hz = speed_hz,
++			.bits_per_word = 8,
++			.len = len,
++			.rx_buf = data,
++		},
++	};
++	struct spi_message m;
++	u16 *dst16;
++	int ret;
++
++	if (!len)
++		return -EINVAL;
++
++	if (!spi_is_bpw_supported(spi, 9)) {
++		/*
++		 * FIXME: implement something like mipi_dbi_spi1e_transfer() but
++		 * for reads using emulation.
++		 */
++		dev_err(&spi->dev,
++			"reading on host not supporting 9 bpw not yet implemented\n");
++		return -EOPNOTSUPP;
++	}
++
++	/*
++	 * Turn the 8bit command into a 16bit version of the command in the
++	 * buffer. Only 9 bits of this will be used when executing the actual
++	 * transfer.
++	 */
++	dst16 = dbi->tx_buf9;
++	dst16[0] = *cmd;
++
++	spi_message_init_with_transfers(&m, tr, ARRAY_SIZE(tr));
++	ret = spi_sync(spi, &m);
++
++	if (!ret)
++		MIPI_DBI_DEBUG_COMMAND(*cmd, data, len);
++
++	return ret;
++}
++
+ static int mipi_dbi_typec1_command(struct mipi_dbi *dbi, u8 *cmd,
+ 				   u8 *parameters, size_t num)
+ {
+@@ -935,7 +988,7 @@ static int mipi_dbi_typec1_command(struct mipi_dbi *dbi, u8 *cmd,
+ 	int ret;
+ 
+ 	if (mipi_dbi_command_is_read(dbi, *cmd))
+-		return -EOPNOTSUPP;
++		return mipi_dbi_typec1_command_read(dbi, cmd, parameters, num);
+ 
+ 	MIPI_DBI_DEBUG_COMMAND(*cmd, parameters, num);
+ 
+-- 
+2.31.1
 
