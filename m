@@ -1,48 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05B783A6221
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Jun 2021 12:54:08 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C733A3A62F7
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Jun 2021 13:05:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8657E89DB9;
-	Mon, 14 Jun 2021 10:54:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6210089B30;
+	Mon, 14 Jun 2021 11:05:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp.domeneshop.no (smtp.domeneshop.no
- [IPv6:2a01:5b40:0:3005::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6DFC889DB9
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Jun 2021 10:54:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
- ; s=ds202012;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:
- MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=VoOXBYQoNpXYT3w1BPyLiV7o+d98v5UBO4hXeER4kZQ=; b=JAUNC+vyg1343ls6J2N3Kj/toU
- pHZFHz+LgFYUcNfdiPz8qAz3BuwrRUxDB4NePkRtyC8xP+T3MsKy360fm+Wk5zvSGHUM+2siv+fzF
- FWSRfQYLJeiZ/2ptKsES86xzQ6GnGe57IR0jmQuVDfFe/v+tlMV66n9wrrfc3vgopijYZOduorsKg
- iHJIMPniftB79hGL3l//nXXfCujfLx2eIaBXN1l8O5E/9q7/Gys49e7UUeO4lRN7upUXMw/3ZxQTX
- 3aBMZBgj35ENltXxvCwvCBs2r4ijD7sZt7/UJBObsV7NX3v/9EXRFW8HuFfOGucPbYHcNZY9vrZWA
- SWVEIvcA==;
-Received: from [2a01:799:95f:4600:cca0:57ac:c55d:a485] (port=60065)
- by smtp.domeneshop.no with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.92) (envelope-from <noralf@tronnes.org>)
- id 1lskEC-0005Kw-QC; Mon, 14 Jun 2021 12:54:00 +0200
-Subject: Re: [PATCH 1/2] drm/dbi: Support DBI typec1 read operations
-To: Linus Walleij <linus.walleij@linaro.org>,
- Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
- dri-devel@lists.freedesktop.org
-References: <20210611212736.668563-1-linus.walleij@linaro.org>
-From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
-Message-ID: <0ca2b143-6508-e8ee-3012-3c4963d3168b@tronnes.org>
-Date: Mon, 14 Jun 2021 12:53:58 +0200
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com
+ [IPv6:2a00:1450:4864:20::529])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 37BEA89B30;
+ Mon, 14 Jun 2021 11:05:20 +0000 (UTC)
+Received: by mail-ed1-x529.google.com with SMTP id r7so31506736edv.12;
+ Mon, 14 Jun 2021 04:05:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=poJHyYi+U6hi4XqNqX9Ddd4HYWOh74niH3vqVM4huzI=;
+ b=leVGIxAzOPZLakkvuPONeueYQpPw6n80dnPy9wBm6R/syQZmuhzJM+N3kvTLJlXorI
+ CaxhbkhOhRU09Akhlo1XpKUUcq9NEBg4/vYubH9z3p9cfwMF+3Y3pSrBU00jSubh8Kdl
+ Ag0IDyx0KeYJw8V7Qc3m1A3WnO76W1W7eEIJwG4hS5HW0tyRqbXHjNChzkAMQAXuW2bC
+ YM8CtlzJQFgvuYaK1RkjaI+Snd9IOsRR16KFzihGH9QO8yIq4XMNDjkfWDUsOYsnZiew
+ hSTdiK0aVZdv4GoQF1tU/JgnEaNpsN+dTF/U/3XNc4rnytcGeImIrVJPzlBHwKJHXYdq
+ ounA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=poJHyYi+U6hi4XqNqX9Ddd4HYWOh74niH3vqVM4huzI=;
+ b=nq5kGlyGgPuHr7oKrDz5SuA/OXr78A6xc/4JWW6Cx2KNbg573jrBHYMQquaf5fel0m
+ d0uiLEe1EAVG4mqwD5lpz87tNr7d96P2VQHyuGEjpNucgtsfcl4YXCFjP+tEa+JwyLPF
+ Qli+SGIUVVAQf3kMjZwd7AmQr6kOHlaVahHEOlpdN8BQZdfaeS+/gxf6bkyYCSFuegSR
+ Di1d9ZWc7aCtN10jBKCsNOIoIyap/tAcEcfUhBUG3ZF8D47oVH4//V2EGd03P4h0z5Fr
+ PatMISqaDcx1LulTqFoLS9k7gBTbEdQ07vgHQn4CX8Sm7K6PiYihD9djm6D+fRz6ZlFS
+ Xhaw==
+X-Gm-Message-State: AOAM532QVGl1kZB2mMGscKEYVx6RBFm2MwObu7oVa46IUCQlgR782xVn
+ T1mH4fTMm5wk9TxAIszMwX6Qhurf40Y=
+X-Google-Smtp-Source: ABdhPJxfeDXHZr6wp9ldQF4GsMa6NNw6mikAo2ke3BKc19aLK9cwAxjYNAkiUqA/8ZN7KYepyHiVMQ==
+X-Received: by 2002:a05:6402:11d3:: with SMTP id
+ j19mr16444655edw.247.1623668718852; 
+ Mon, 14 Jun 2021 04:05:18 -0700 (PDT)
+Received: from abel.fritz.box ([2a02:908:1252:fb60:f8f:f28f:880f:43d2])
+ by smtp.gmail.com with ESMTPSA id b22sm8442242eds.71.2021.06.14.04.05.17
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 14 Jun 2021 04:05:18 -0700 (PDT)
+From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
+X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
+ <christian.koenig@amd.com>
+To: linux@zary.sk, bskeggs@redhat.com, dri-devel@lists.freedesktop.org,
+ nouveau@lists.freedesktop.org
+Subject: [PATCH] drm/nouveau: fix dma_address check for CPU/GPU sync
+Date: Mon, 14 Jun 2021 13:05:17 +0200
+Message-Id: <20210614110517.1624-1-christian.koenig@amd.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <20210611212736.668563-1-linus.walleij@linaro.org>
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -56,26 +70,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Douglas Anderson <dianders@chromium.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+AGP for example doesn't have a dma_address array.
 
+Signed-off-by: Christian König <christian.koenig@amd.com>
+---
+ drivers/gpu/drm/nouveau/nouveau_bo.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Den 11.06.2021 23.27, skrev Linus Walleij:
-> Implement SPI reads for typec1, for SPI controllers that
-> can support 9bpw in addition to 8bpw (such as GPIO bit-banged
-> SPI).
-> 
-> 9bpw emulation is not supported but we have to start with
-> something.
-> 
-> This is used by s6e63m0 to read display MTP information
-> which is used by the driver for backlight control.
-> 
-> Cc: Douglas Anderson <dianders@chromium.org>
-> Cc: Noralf Trønnes <noralf@tronnes.org>
-> Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
-> ---
+diff --git a/drivers/gpu/drm/nouveau/nouveau_bo.c b/drivers/gpu/drm/nouveau/nouveau_bo.c
+index 3e09df0472ce..170aba99a110 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_bo.c
++++ b/drivers/gpu/drm/nouveau/nouveau_bo.c
+@@ -546,7 +546,7 @@ nouveau_bo_sync_for_device(struct nouveau_bo *nvbo)
+ 	struct ttm_tt *ttm_dma = (struct ttm_tt *)nvbo->bo.ttm;
+ 	int i, j;
+ 
+-	if (!ttm_dma)
++	if (!ttm_dma || !ttm_dma->dma_address)
+ 		return;
+ 	if (!ttm_dma->pages) {
+ 		NV_DEBUG(drm, "ttm_dma 0x%p: pages NULL\n", ttm_dma);
+@@ -582,7 +582,7 @@ nouveau_bo_sync_for_cpu(struct nouveau_bo *nvbo)
+ 	struct ttm_tt *ttm_dma = (struct ttm_tt *)nvbo->bo.ttm;
+ 	int i, j;
+ 
+-	if (!ttm_dma)
++	if (!ttm_dma || !ttm_dma->dma_address)
+ 		return;
+ 	if (!ttm_dma->pages) {
+ 		NV_DEBUG(drm, "ttm_dma 0x%p: pages NULL\n", ttm_dma);
+-- 
+2.25.1
 
-Reviewed-by: Noralf Trønnes <noralf@tronnes.org>
