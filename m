@@ -1,63 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 081273A6E0F
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Jun 2021 20:14:12 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 77CB33A6E1C
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Jun 2021 20:17:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0A1AC6E16F;
-	Mon, 14 Jun 2021 18:14:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 136CE6E170;
+	Mon, 14 Jun 2021 18:17:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x22a.google.com (mail-lj1-x22a.google.com
- [IPv6:2a00:1450:4864:20::22a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BABE66E16F
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Jun 2021 18:14:08 +0000 (UTC)
-Received: by mail-lj1-x22a.google.com with SMTP id 131so21455297ljj.3
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Jun 2021 11:14:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=b+I5AQnIRUr57Yb8Y6iWU0aMstwZFGsln50eOY3JGWM=;
- b=KbJza0+3KRM8d33VC11cG5UhXXNreyiM64EdJaB12IZqTBDCbhcQslLzkA6J41pJbc
- ePb+wEnfVrVIXXdYd4lKUMBhd8pTGpVlNvN/RpPhm0xjn7OAdtBae0iFOQmuDz/1dXbd
- UM3kFPdXvU6DwBGOB3QK1OAO5KY0NbkCtkfbp7eOwyoIf3S758maj5GzE8QBmlgxGIyB
- 7lK8b9ErHE3OZwPjRiXqDSjUxj/ijSf7cEVxWDxytVjqOf4bFzf8bRvhB0vzrWDrphtq
- QvNN0wIIS9lKJX6pZT/dIK+fJnyR4KErlSaj20S58B6RsRQlxIv8FyzHa74pI7ESlNRU
- nhXg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=b+I5AQnIRUr57Yb8Y6iWU0aMstwZFGsln50eOY3JGWM=;
- b=OsFxH2Sx+rLpOqKbJb9i/6lcCjcFzV76h3Aw0Wb+9VBf5CF7YU2Xl3/fKUy3TVnYlx
- j3WeoRFrnHscFyaQ3y4dTOV1fcybevAHnZ9xwa544w6h/YXEgeQSZH/3IAMLcS3Wy79h
- wnPRs47nOq++lzoYf9aFbZ0YB+IrKgrWzsdG4/rO9IaFE78o4tqv6p05yJ+GhM7OU9tt
- nh40/3PJSm8BXjg+n8LXCr09a7M9QUtM1wY66dI2KSNpExCArrFvuMEdo6SBHs0uhhUc
- vZn30R49bOaeOComv2q+bdyzlRxe5ChcGaunuPBIwG4Fzs3m0JuK7NuGD/bLvG+xmBRF
- 753Q==
-X-Gm-Message-State: AOAM532pnc/BSKWosx78qSvLxD57SX7jQKm+oZffhQYqeUZ3jDC6JsCl
- hc+JOSBn1Z/UHs4esyea5hWLTg==
-X-Google-Smtp-Source: ABdhPJwOwCDdyrjeG46Z+azjeoMQZwRzdWlxKpWqN1YFfU++d5v0DeeJmOVKcv09DoT6utrTXaIHSw==
-X-Received: by 2002:a2e:6c09:: with SMTP id h9mr14303771ljc.434.1623694447118; 
- Mon, 14 Jun 2021 11:14:07 -0700 (PDT)
-Received: from localhost.localdomain
- (c-fdcc225c.014-348-6c756e10.bbcust.telenor.se. [92.34.204.253])
- by smtp.gmail.com with ESMTPSA id v26sm1678013lfp.0.2021.06.14.11.14.04
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 14 Jun 2021 11:14:06 -0700 (PDT)
-From: Linus Walleij <linus.walleij@linaro.org>
-To: Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0728F6E170;
+ Mon, 14 Jun 2021 18:17:33 +0000 (UTC)
+IronPort-SDR: jglDB98ltWhNz6bb1Z+TqX8a//0/KXsxPzOAaMKAiJe7+ue7rLTv6HJoOkQA07eaZWQrDU5iaW
+ xjAJHGiUh71A==
+X-IronPort-AV: E=McAfee;i="6200,9189,10015"; a="186229245"
+X-IronPort-AV: E=Sophos;i="5.83,273,1616482800"; d="scan'208";a="186229245"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Jun 2021 11:17:33 -0700
+IronPort-SDR: Nz7H1KGdtKhEtChAFMwN05YXs/pTsYcsmwelBe1q4tNosdp7krug5hhNmJJIgDWBuAk5JHnh+Y
+ OfgQ6c0Zpybw==
+X-IronPort-AV: E=Sophos;i="5.83,273,1616482800"; d="scan'208";a="451674924"
+Received: from dceraolo-mobl.amr.corp.intel.com (HELO [10.254.188.63])
+ ([10.254.188.63])
+ by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Jun 2021 11:17:32 -0700
+Subject: Re: [PATCH 06/13] drm/i915/guc: New definition of the CTB descriptor
+To: Matthew Brost <matthew.brost@intel.com>, intel-gfx@lists.freedesktop.org, 
  dri-devel@lists.freedesktop.org
-Subject: [PATCH 2/2 v2] drm/panel: s6e63m0: Switch to DBI abstraction for SPI
-Date: Mon, 14 Jun 2021 20:11:35 +0200
-Message-Id: <20210614181135.1124445-2-linus.walleij@linaro.org>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210614181135.1124445-1-linus.walleij@linaro.org>
-References: <20210614181135.1124445-1-linus.walleij@linaro.org>
+References: <20210610043649.144416-1-matthew.brost@intel.com>
+ <20210610043649.144416-7-matthew.brost@intel.com>
+From: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+Message-ID: <3308a8a7-9c6d-fd74-b534-6c1506bee5a3@intel.com>
+Date: Mon, 14 Jun 2021 11:17:30 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210610043649.144416-7-matthew.brost@intel.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,327 +53,291 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?q?Noralf=20Tr=C3=B8nnes?= <noralf@tronnes.org>,
- Douglas Anderson <dianders@chromium.org>
+Cc: john.c.harrison@intel.com, Michal.Wajdeczko@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The SPI access to s6e63m0 is using the DBI protocol, so switch
-to using the elaborate DBI protocol implementation in the DRM
-DBI helper library.
 
-Acked-by: Noralf Trønnes <noralf@tronnes.org>
-Reviewed-by: Douglas Anderson <dianders@chromium.org>
-Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
----
-ChangeLog v1->v2:
-- Drop two debug prints
-- Drop development artifact spi_set_drvdata()
-- Collect Noralf's ACK
-- Collect Doug's Reviewed-by
----
- drivers/gpu/drm/panel/Kconfig                 |  1 +
- .../gpu/drm/panel/panel-samsung-s6e63m0-dsi.c | 10 ++-
- .../gpu/drm/panel/panel-samsung-s6e63m0-spi.c | 83 +++++++------------
- drivers/gpu/drm/panel/panel-samsung-s6e63m0.c | 41 ++-------
- drivers/gpu/drm/panel/panel-samsung-s6e63m0.h | 33 +++++++-
- 5 files changed, 77 insertions(+), 91 deletions(-)
 
-diff --git a/drivers/gpu/drm/panel/Kconfig b/drivers/gpu/drm/panel/Kconfig
-index 4894913936e9..324b932ac213 100644
---- a/drivers/gpu/drm/panel/Kconfig
-+++ b/drivers/gpu/drm/panel/Kconfig
-@@ -376,6 +376,7 @@ config DRM_PANEL_SAMSUNG_S6E63M0_SPI
- 	depends on SPI
- 	depends on DRM_PANEL_SAMSUNG_S6E63M0
- 	default DRM_PANEL_SAMSUNG_S6E63M0
-+	select DRM_MIPI_DBI
- 	help
- 	  Say Y here if you want to be able to access the Samsung
- 	  S6E63M0 panel using SPI.
-diff --git a/drivers/gpu/drm/panel/panel-samsung-s6e63m0-dsi.c b/drivers/gpu/drm/panel/panel-samsung-s6e63m0-dsi.c
-index 07a48f621289..e0b1a7e354f3 100644
---- a/drivers/gpu/drm/panel/panel-samsung-s6e63m0-dsi.c
-+++ b/drivers/gpu/drm/panel/panel-samsung-s6e63m0-dsi.c
-@@ -16,7 +16,8 @@
- #define MCS_GLOBAL_PARAM	0xb0
- #define S6E63M0_DSI_MAX_CHUNK	15 /* CMD + 15 bytes max */
- 
--static int s6e63m0_dsi_dcs_read(struct device *dev, const u8 cmd, u8 *data)
-+static int s6e63m0_dsi_dcs_read(struct device *dev, void *trsp,
-+				const u8 cmd, u8 *data)
- {
- 	struct mipi_dsi_device *dsi = to_mipi_dsi_device(dev);
- 	int ret;
-@@ -32,7 +33,8 @@ static int s6e63m0_dsi_dcs_read(struct device *dev, const u8 cmd, u8 *data)
- 	return 0;
- }
- 
--static int s6e63m0_dsi_dcs_write(struct device *dev, const u8 *data, size_t len)
-+static int s6e63m0_dsi_dcs_write(struct device *dev, void *trsp,
-+				 const u8 *data, size_t len)
- {
- 	struct mipi_dsi_device *dsi = to_mipi_dsi_device(dev);
- 	const u8 *seqp = data;
-@@ -99,8 +101,8 @@ static int s6e63m0_dsi_probe(struct mipi_dsi_device *dsi)
- 	dsi->mode_flags = MIPI_DSI_MODE_VIDEO |
- 		MIPI_DSI_MODE_VIDEO_BURST;
- 
--	ret = s6e63m0_probe(dev, s6e63m0_dsi_dcs_read, s6e63m0_dsi_dcs_write,
--			    true);
-+	ret = s6e63m0_probe(dev, NULL, s6e63m0_dsi_dcs_read,
-+			    s6e63m0_dsi_dcs_write, true);
- 	if (ret)
- 		return ret;
- 
-diff --git a/drivers/gpu/drm/panel/panel-samsung-s6e63m0-spi.c b/drivers/gpu/drm/panel/panel-samsung-s6e63m0-spi.c
-index 326deb3177b6..3669cc3719ce 100644
---- a/drivers/gpu/drm/panel/panel-samsung-s6e63m0-spi.c
-+++ b/drivers/gpu/drm/panel/panel-samsung-s6e63m0-spi.c
-@@ -5,62 +5,38 @@
- #include <linux/spi/spi.h>
- #include <linux/delay.h>
- 
-+#include <drm/drm_mipi_dbi.h>
- #include <drm/drm_print.h>
- 
- #include "panel-samsung-s6e63m0.h"
- 
--#define DATA_MASK	0x100
-+static const u8 s6e63m0_dbi_read_commands[] = {
-+	MCS_READ_ID1,
-+	MCS_READ_ID2,
-+	MCS_READ_ID3,
-+	0, /* sentinel */
-+};
- 
--static int s6e63m0_spi_dcs_read(struct device *dev, const u8 cmd, u8 *data)
-+static int s6e63m0_spi_dcs_read(struct device *dev, void *trsp,
-+				const u8 cmd, u8 *data)
- {
--	struct spi_device *spi = to_spi_device(dev);
--	u16 buf[1];
--	u16 rbuf[1];
-+	struct mipi_dbi *dbi = trsp;
- 	int ret;
- 
--	/* SPI buffers are always in CPU order */
--	buf[0] = (u16)cmd;
--	ret = spi_write_then_read(spi, buf, 2, rbuf, 2);
--	dev_dbg(dev, "READ CMD: %04x RET: %04x\n", buf[0], rbuf[0]);
--	if (!ret)
--		/* These high 8 bits of the 9 contains the readout */
--		*data = (rbuf[0] & 0x1ff) >> 1;
-+	ret = mipi_dbi_command_read(dbi, cmd, data);
-+	if (ret)
-+		dev_err(dev, "error on DBI read command %02x\n", cmd);
- 
- 	return ret;
- }
- 
--static int s6e63m0_spi_write_word(struct device *dev, u16 data)
--{
--	struct spi_device *spi = to_spi_device(dev);
--
--	/* SPI buffers are always in CPU order */
--	return spi_write(spi, &data, 2);
--}
--
--static int s6e63m0_spi_dcs_write(struct device *dev, const u8 *data, size_t len)
-+static int s6e63m0_spi_dcs_write(struct device *dev, void *trsp,
-+				 const u8 *data, size_t len)
- {
--	int ret = 0;
--
--	dev_dbg(dev, "SPI writing dcs seq: %*ph\n", (int)len, data);
--
--	/*
--	 * This sends 9 bits with the first bit (bit 8) set to 0
--	 * This indicates that this is a command. Anything after the
--	 * command is data.
--	 */
--	ret = s6e63m0_spi_write_word(dev, *data);
--
--	while (!ret && --len) {
--		++data;
--		/* This sends 9 bits with the first bit (bit 8) set to 1 */
--		ret = s6e63m0_spi_write_word(dev, *data | DATA_MASK);
--	}
--
--	if (ret) {
--		dev_err(dev, "SPI error %d writing dcs seq: %*ph\n", ret,
--			(int)len, data);
--	}
-+	struct mipi_dbi *dbi = trsp;
-+	int ret;
- 
-+	ret = mipi_dbi_command_stackbuf(dbi, data[0], (data + 1), (len - 1));
- 	usleep_range(300, 310);
- 
- 	return ret;
-@@ -69,18 +45,21 @@ static int s6e63m0_spi_dcs_write(struct device *dev, const u8 *data, size_t len)
- static int s6e63m0_spi_probe(struct spi_device *spi)
- {
- 	struct device *dev = &spi->dev;
-+	struct mipi_dbi *dbi;
- 	int ret;
- 
--	spi->bits_per_word = 9;
--	/* Preserve e.g. SPI_3WIRE setting */
--	spi->mode |= SPI_MODE_3;
--	ret = spi_setup(spi);
--	if (ret < 0) {
--		dev_err(dev, "spi setup failed.\n");
--		return ret;
--	}
--	return s6e63m0_probe(dev, s6e63m0_spi_dcs_read, s6e63m0_spi_dcs_write,
--			     false);
-+	dbi = devm_kzalloc(dev, sizeof(*dbi), GFP_KERNEL);
-+	if (!dbi)
-+		return -ENOMEM;
-+
-+	ret = mipi_dbi_spi_init(spi, dbi, NULL);
-+	if (ret)
-+		return dev_err_probe(dev, ret, "MIPI DBI init failed\n");
-+	/* Register our custom MCS read commands */
-+	dbi->read_commands = s6e63m0_dbi_read_commands;
-+
-+	return s6e63m0_probe(dev, dbi, s6e63m0_spi_dcs_read,
-+			     s6e63m0_spi_dcs_write, false);
- }
- 
- static int s6e63m0_spi_remove(struct spi_device *spi)
-diff --git a/drivers/gpu/drm/panel/panel-samsung-s6e63m0.c b/drivers/gpu/drm/panel/panel-samsung-s6e63m0.c
-index 5e4d2e8aa7a7..3a8a772245c0 100644
---- a/drivers/gpu/drm/panel/panel-samsung-s6e63m0.c
-+++ b/drivers/gpu/drm/panel/panel-samsung-s6e63m0.c
-@@ -24,31 +24,6 @@
- 
- #include "panel-samsung-s6e63m0.h"
- 
--/* Manufacturer Command Set */
--#define MCS_ELVSS_ON		0xb1
--#define MCS_TEMP_SWIRE		0xb2
--#define MCS_PENTILE_1		0xb3
--#define MCS_PENTILE_2		0xb4
--#define MCS_GAMMA_DELTA_Y_RED	0xb5
--#define MCS_GAMMA_DELTA_X_RED	0xb6
--#define MCS_GAMMA_DELTA_Y_GREEN	0xb7
--#define MCS_GAMMA_DELTA_X_GREEN	0xb8
--#define MCS_GAMMA_DELTA_Y_BLUE	0xb9
--#define MCS_GAMMA_DELTA_X_BLUE	0xba
--#define MCS_MIECTL1		0xc0
--#define MCS_BCMODE		0xc1
--#define MCS_ERROR_CHECK		0xd5
--#define MCS_READ_ID1		0xda
--#define MCS_READ_ID2		0xdb
--#define MCS_READ_ID3		0xdc
--#define MCS_LEVEL_2_KEY		0xf0
--#define MCS_MTP_KEY		0xf1
--#define MCS_DISCTL		0xf2
--#define MCS_SRCCTL		0xf6
--#define MCS_IFCTL		0xf7
--#define MCS_PANELCTL		0xf8
--#define MCS_PGAMMACTL		0xfa
--
- #define S6E63M0_LCD_ID_VALUE_M2		0xA4
- #define S6E63M0_LCD_ID_VALUE_SM2	0xB4
- #define S6E63M0_LCD_ID_VALUE_SM2_1	0xB6
-@@ -285,8 +260,9 @@ static u8 const s6e63m0_elvss_per_gamma[NUM_GAMMA_LEVELS] = {
- 
- struct s6e63m0 {
- 	struct device *dev;
--	int (*dcs_read)(struct device *dev, const u8 cmd, u8 *val);
--	int (*dcs_write)(struct device *dev, const u8 *data, size_t len);
-+	void *transport_data;
-+	int (*dcs_read)(struct device *dev, void *trsp, const u8 cmd, u8 *val);
-+	int (*dcs_write)(struct device *dev, void *trsp, const u8 *data, size_t len);
- 	struct drm_panel panel;
- 	struct backlight_device *bl_dev;
- 	u8 lcd_type;
-@@ -342,7 +318,7 @@ static void s6e63m0_dcs_read(struct s6e63m0 *ctx, const u8 cmd, u8 *data)
- 	if (ctx->error < 0)
- 		return;
- 
--	ctx->error = ctx->dcs_read(ctx->dev, cmd, data);
-+	ctx->error = ctx->dcs_read(ctx->dev, ctx->transport_data, cmd, data);
- }
- 
- static void s6e63m0_dcs_write(struct s6e63m0 *ctx, const u8 *data, size_t len)
-@@ -350,7 +326,7 @@ static void s6e63m0_dcs_write(struct s6e63m0 *ctx, const u8 *data, size_t len)
- 	if (ctx->error < 0 || len == 0)
- 		return;
- 
--	ctx->error = ctx->dcs_write(ctx->dev, data, len);
-+	ctx->error = ctx->dcs_write(ctx->dev, ctx->transport_data, data, len);
- }
- 
- #define s6e63m0_dcs_write_seq_static(ctx, seq ...) \
-@@ -727,9 +703,9 @@ static irqreturn_t s6e63m0_esd_irq(int irq, void *data)
- 	return IRQ_HANDLED;
- }
- 
--int s6e63m0_probe(struct device *dev,
--		  int (*dcs_read)(struct device *dev, const u8 cmd, u8 *val),
--		  int (*dcs_write)(struct device *dev, const u8 *data, size_t len),
-+int s6e63m0_probe(struct device *dev, void *trsp,
-+		  int (*dcs_read)(struct device *dev, void *trsp, const u8 cmd, u8 *val),
-+		  int (*dcs_write)(struct device *dev, void *trsp, const u8 *data, size_t len),
- 		  bool dsi_mode)
- {
- 	struct s6e63m0 *ctx;
-@@ -741,6 +717,7 @@ int s6e63m0_probe(struct device *dev,
- 	if (!ctx)
- 		return -ENOMEM;
- 
-+	ctx->transport_data = trsp;
- 	ctx->dsi_mode = dsi_mode;
- 	ctx->dcs_read = dcs_read;
- 	ctx->dcs_write = dcs_write;
-diff --git a/drivers/gpu/drm/panel/panel-samsung-s6e63m0.h b/drivers/gpu/drm/panel/panel-samsung-s6e63m0.h
-index c669fec91763..306605ed1117 100644
---- a/drivers/gpu/drm/panel/panel-samsung-s6e63m0.h
-+++ b/drivers/gpu/drm/panel/panel-samsung-s6e63m0.h
-@@ -3,9 +3,36 @@
- #ifndef _PANEL_SAMSUNG_S6E63M0_H
- #define _PANEL_SAMSUNG_S6E63M0_H
- 
--int s6e63m0_probe(struct device *dev,
--		  int (*dcs_read)(struct device *dev, const u8 cmd, u8 *val),
--		  int (*dcs_write)(struct device *dev, const u8 *data,
-+/* Manufacturer Command Set */
-+#define MCS_ELVSS_ON		0xb1
-+#define MCS_TEMP_SWIRE		0xb2
-+#define MCS_PENTILE_1		0xb3
-+#define MCS_PENTILE_2		0xb4
-+#define MCS_GAMMA_DELTA_Y_RED	0xb5
-+#define MCS_GAMMA_DELTA_X_RED	0xb6
-+#define MCS_GAMMA_DELTA_Y_GREEN	0xb7
-+#define MCS_GAMMA_DELTA_X_GREEN	0xb8
-+#define MCS_GAMMA_DELTA_Y_BLUE	0xb9
-+#define MCS_GAMMA_DELTA_X_BLUE	0xba
-+#define MCS_MIECTL1		0xc0
-+#define MCS_BCMODE		0xc1
-+#define MCS_ERROR_CHECK		0xd5
-+#define MCS_READ_ID1		0xda
-+#define MCS_READ_ID2		0xdb
-+#define MCS_READ_ID3		0xdc
-+#define MCS_LEVEL_2_KEY		0xf0
-+#define MCS_MTP_KEY		0xf1
-+#define MCS_DISCTL		0xf2
-+#define MCS_SRCCTL		0xf6
-+#define MCS_IFCTL		0xf7
-+#define MCS_PANELCTL		0xf8
-+#define MCS_PGAMMACTL		0xfa
-+
-+int s6e63m0_probe(struct device *dev, void *trsp,
-+		  int (*dcs_read)(struct device *dev, void *trsp,
-+				  const u8 cmd, u8 *val),
-+		  int (*dcs_write)(struct device *dev, void *trsp,
-+				   const u8 *data,
- 				   size_t len),
- 		  bool dsi_mode);
- int s6e63m0_remove(struct device *dev);
--- 
-2.31.1
+On 6/9/2021 9:36 PM, Matthew Brost wrote:
+> From: Michal Wajdeczko <michal.wajdeczko@intel.com>
+>
+> Definition of the CTB descriptor has changed, leaving only
+> minimal shared fields like HEAD/TAIL/STATUS.
+>
+> Both HEAD and TAIL are now in dwords.
+>
+> Add some ABI documentation and implement required changes.
+>
+> v2:
+>   (Daniele)
+>    - Drop GUC_CTB_STATUS_NO_BACKCHANNEL, GUC_CTB_STATUS_NO_BACKCHANNEL
+>
+> Signed-off-by: Michal Wajdeczko <michal.wajdeczko@intel.com>
+> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+> ---
+>   .../gt/uc/abi/guc_communication_ctb_abi.h     | 68 +++++++++++++-----
+>   drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c     | 70 +++++++++----------
+>   drivers/gpu/drm/i915/gt/uc/intel_guc_ct.h     |  2 +-
+>   3 files changed, 83 insertions(+), 57 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/i915/gt/uc/abi/guc_communication_ctb_abi.h b/drivers/gpu/drm/i915/gt/uc/abi/guc_communication_ctb_abi.h
+> index d38935f47ecf..88f1fc2a19e0 100644
+> --- a/drivers/gpu/drm/i915/gt/uc/abi/guc_communication_ctb_abi.h
+> +++ b/drivers/gpu/drm/i915/gt/uc/abi/guc_communication_ctb_abi.h
+> @@ -7,6 +7,56 @@
+>   #define _ABI_GUC_COMMUNICATION_CTB_ABI_H
+>   
+>   #include <linux/types.h>
+> +#include <linux/build_bug.h>
+> +
+> +#include "guc_messages_abi.h"
+> +
+> +/**
+> + * DOC: CT Buffer
+> + *
+> + * TBD
+
+This still needs to either be filled in or removed.
+
+> + */
+> +
+> +/**
+> + * DOC: CTB Descriptor
+> + *
+> + *  +---+-------+--------------------------------------------------------------+
+> + *  |   | Bits  | Description                                                  |
+> + *  +===+=======+==============================================================+
+> + *  | 0 |  31:0 | **HEAD** - offset (in dwords) to the last dword that was     |
+> + *  |   |       | read from the `CT Buffer`_.                                  |
+> + *  |   |       | It can only be updated by the receiver.                      |
+> + *  +---+-------+--------------------------------------------------------------+
+> + *  | 1 |  31:0 | **TAIL** - offset (in dwords) to the last dword that was     |
+> + *  |   |       | written to the `CT Buffer`_.                                 |
+> + *  |   |       | It can only be updated by the sender.                        |
+> + *  +---+-------+--------------------------------------------------------------+
+> + *  | 2 |  31:0 | **STATUS** - status of the CTB                               |
+> + *  |   |       |                                                              |
+> + *  |   |       |   - _`GUC_CTB_STATUS_NO_ERROR` = 0 (normal operation)        |
+> + *  |   |       |   - _`GUC_CTB_STATUS_OVERFLOW` = 1 (head/tail too large)     |
+> + *  |   |       |   - _`GUC_CTB_STATUS_UNDERFLOW` = 2 (truncated message)      |
+> + *  |   |       |   - _`GUC_CTB_STATUS_MISMATCH` = 4 (head/tail modified)      |
+> + *  +---+-------+--------------------------------------------------------------+
+> + *  |...|       | RESERVED = MBZ                                               |
+> + *  +---+-------+--------------------------------------------------------------+
+> + *  | 15|  31:0 | RESERVED = MBZ                                               |
+> + *  +---+-------+--------------------------------------------------------------+
+> + */
+> +
+> +struct guc_ct_buffer_desc {
+> +	u32 head;
+> +	u32 tail;
+> +	u32 status;
+> +#define GUC_CTB_STATUS_NO_ERROR				0
+> +#define GUC_CTB_STATUS_OVERFLOW				(1 << 0)
+> +#define GUC_CTB_STATUS_UNDERFLOW			(1 << 1)
+> +#define GUC_CTB_STATUS_MISMATCH				(1 << 2)
+> +#define GUC_CTB_STATUS_NO_BACKCHANNEL			(1 << 3)
+> +#define GUC_CTB_STATUS_MALFORMED_MSG			(1 << 4)
+
+You forgot to drop the defines here.
+
+Daniele
+
+> +	u32 reserved[13];
+> +} __packed;
+> +static_assert(sizeof(struct guc_ct_buffer_desc) == 64);
+>   
+>   /**
+>    * DOC: CTB based communication
+> @@ -60,24 +110,6 @@
+>    * - **flags**, holds various bits to control message handling
+>    */
+>   
+> -/*
+> - * Describes single command transport buffer.
+> - * Used by both guc-master and clients.
+> - */
+> -struct guc_ct_buffer_desc {
+> -	u32 addr;		/* gfx address */
+> -	u64 host_private;	/* host private data */
+> -	u32 size;		/* size in bytes */
+> -	u32 head;		/* offset updated by GuC*/
+> -	u32 tail;		/* offset updated by owner */
+> -	u32 is_in_error;	/* error indicator */
+> -	u32 reserved1;
+> -	u32 reserved2;
+> -	u32 owner;		/* id of the channel owner */
+> -	u32 owner_sub_id;	/* owner-defined field for extra tracking */
+> -	u32 reserved[5];
+> -} __packed;
+> -
+>   /* Type of command transport buffer */
+>   #define INTEL_GUC_CT_BUFFER_TYPE_SEND	0x0u
+>   #define INTEL_GUC_CT_BUFFER_TYPE_RECV	0x1u
+> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
+> index 63056ea0631e..3241a477196f 100644
+> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
+> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
+> @@ -112,32 +112,28 @@ static inline const char *guc_ct_buffer_type_to_str(u32 type)
+>   	}
+>   }
+>   
+> -static void guc_ct_buffer_desc_init(struct guc_ct_buffer_desc *desc,
+> -				    u32 cmds_addr, u32 size)
+> +static void guc_ct_buffer_desc_init(struct guc_ct_buffer_desc *desc)
+>   {
+>   	memset(desc, 0, sizeof(*desc));
+> -	desc->addr = cmds_addr;
+> -	desc->size = size;
+> -	desc->owner = CTB_OWNER_HOST;
+>   }
+>   
+> -static void guc_ct_buffer_reset(struct intel_guc_ct_buffer *ctb, u32 cmds_addr)
+> +static void guc_ct_buffer_reset(struct intel_guc_ct_buffer *ctb)
+>   {
+>   	ctb->broken = false;
+> -	guc_ct_buffer_desc_init(ctb->desc, cmds_addr, ctb->size);
+> +	guc_ct_buffer_desc_init(ctb->desc);
+>   }
+>   
+>   static void guc_ct_buffer_init(struct intel_guc_ct_buffer *ctb,
+>   			       struct guc_ct_buffer_desc *desc,
+> -			       u32 *cmds, u32 size)
+> +			       u32 *cmds, u32 size_in_bytes)
+>   {
+> -	GEM_BUG_ON(size % 4);
+> +	GEM_BUG_ON(size_in_bytes % 4);
+>   
+>   	ctb->desc = desc;
+>   	ctb->cmds = cmds;
+> -	ctb->size = size;
+> +	ctb->size = size_in_bytes / 4;
+>   
+> -	guc_ct_buffer_reset(ctb, 0);
+> +	guc_ct_buffer_reset(ctb);
+>   }
+>   
+>   static int guc_action_register_ct_buffer(struct intel_guc *guc,
+> @@ -279,10 +275,10 @@ int intel_guc_ct_enable(struct intel_guc_ct *ct)
+>   
+>   	/* (re)initialize descriptors */
+>   	cmds = base + ptrdiff(ct->ctbs.send.cmds, blob);
+> -	guc_ct_buffer_reset(&ct->ctbs.send, cmds);
+> +	guc_ct_buffer_reset(&ct->ctbs.send);
+>   
+>   	cmds = base + ptrdiff(ct->ctbs.recv.cmds, blob);
+> -	guc_ct_buffer_reset(&ct->ctbs.recv, cmds);
+> +	guc_ct_buffer_reset(&ct->ctbs.recv);
+>   
+>   	/*
+>   	 * Register both CT buffers starting with RECV buffer.
+> @@ -391,17 +387,15 @@ static int ct_write(struct intel_guc_ct *ct,
+>   	if (unlikely(ctb->broken))
+>   		return -EPIPE;
+>   
+> -	if (unlikely(desc->is_in_error))
+> +	if (unlikely(desc->status))
+>   		goto corrupted;
+>   
+> -	if (unlikely(!IS_ALIGNED(head | tail, 4) ||
+> -		     (tail | head) >= size))
+> +	if (unlikely((tail | head) >= size)) {
+> +		CT_ERROR(ct, "Invalid offsets head=%u tail=%u (size=%u)\n",
+> +			 head, tail, size);
+> +		desc->status |= GUC_CTB_STATUS_OVERFLOW;
+>   		goto corrupted;
+> -
+> -	/* later calculations will be done in dwords */
+> -	head /= 4;
+> -	tail /= 4;
+> -	size /= 4;
+> +	}
+>   
+>   	/*
+>   	 * tail == head condition indicates empty. GuC FW does not support
+> @@ -447,14 +441,14 @@ static int ct_write(struct intel_guc_ct *ct,
+>   	 */
+>   	write_barrier(ct);
+>   
+> -	/* now update desc tail (back in bytes) */
+> -	desc->tail = tail * 4;
+> +	/* now update descriptor */
+> +	WRITE_ONCE(desc->tail, tail);
+> +
+>   	return 0;
+>   
+>   corrupted:
+> -	CT_ERROR(ct, "Corrupted descriptor addr=%#x head=%u tail=%u size=%u\n",
+> -		 desc->addr, desc->head, desc->tail, desc->size);
+> -	desc->is_in_error = 1;
+> +	CT_ERROR(ct, "Corrupted descriptor head=%u tail=%u status=%#x\n",
+> +		 desc->head, desc->tail, desc->status);
+>   	ctb->broken = true;
+>   	return -EPIPE;
+>   }
+> @@ -640,17 +634,15 @@ static int ct_read(struct intel_guc_ct *ct, struct ct_incoming_msg **msg)
+>   	if (unlikely(ctb->broken))
+>   		return -EPIPE;
+>   
+> -	if (unlikely(desc->is_in_error))
+> +	if (unlikely(desc->status))
+>   		goto corrupted;
+>   
+> -	if (unlikely(!IS_ALIGNED(head | tail, 4) ||
+> -		     (tail | head) >= size))
+> +	if (unlikely((tail | head) >= size)) {
+> +		CT_ERROR(ct, "Invalid offsets head=%u tail=%u (size=%u)\n",
+> +			 head, tail, size);
+> +		desc->status |= GUC_CTB_STATUS_OVERFLOW;
+>   		goto corrupted;
+> -
+> -	/* later calculations will be done in dwords */
+> -	head /= 4;
+> -	tail /= 4;
+> -	size /= 4;
+> +	}
+>   
+>   	/* tail == head condition indicates empty */
+>   	available = tail - head;
+> @@ -677,6 +669,7 @@ static int ct_read(struct intel_guc_ct *ct, struct ct_incoming_msg **msg)
+>   			      size - head : available - 1), &cmds[head],
+>   			 4 * (head + available - 1 > size ?
+>   			      available - 1 - size + head : 0), &cmds[0]);
+> +		desc->status |= GUC_CTB_STATUS_UNDERFLOW;
+>   		goto corrupted;
+>   	}
+>   
+> @@ -699,13 +692,14 @@ static int ct_read(struct intel_guc_ct *ct, struct ct_incoming_msg **msg)
+>   	}
+>   	CT_DEBUG(ct, "received %*ph\n", 4 * len, (*msg)->msg);
+>   
+> -	desc->head = head * 4;
+> +	/* now update descriptor */
+> +	WRITE_ONCE(desc->head, head);
+> +
+>   	return available - len;
+>   
+>   corrupted:
+> -	CT_ERROR(ct, "Corrupted descriptor addr=%#x head=%u tail=%u size=%u\n",
+> -		 desc->addr, desc->head, desc->tail, desc->size);
+> -	desc->is_in_error = 1;
+> +	CT_ERROR(ct, "Corrupted descriptor head=%u tail=%u status=%#x\n",
+> +		 desc->head, desc->tail, desc->status);
+>   	ctb->broken = true;
+>   	return -EPIPE;
+>   }
+> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.h b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.h
+> index 7d3cd375d6a7..905202caaad3 100644
+> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.h
+> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.h
+> @@ -31,7 +31,7 @@ struct intel_guc;
+>    * @lock: protects access to the commands buffer and buffer descriptor
+>    * @desc: pointer to the buffer descriptor
+>    * @cmds: pointer to the commands buffer
+> - * @size: size of the commands buffer
+> + * @size: size of the commands buffer in dwords
+>    * @broken: flag to indicate if descriptor data is broken
+>    */
+>   struct intel_guc_ct_buffer {
 
