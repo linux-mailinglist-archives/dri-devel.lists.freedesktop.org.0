@@ -2,46 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53C143A6951
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Jun 2021 16:50:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B64E03A697E
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Jun 2021 17:02:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7004789D77;
-	Mon, 14 Jun 2021 14:50:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C910289DD5;
+	Mon, 14 Jun 2021 15:02:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B507389CE3;
- Mon, 14 Jun 2021 14:50:06 +0000 (UTC)
-IronPort-SDR: Dvc3tQteuo5em7I25wEAptIHL9ZcYzyuYLR7r6x5Q3hCwO6789PUhjMnOLMEJLS/F/sNzwf1Jc
- 4YiAXqskWFpw==
-X-IronPort-AV: E=McAfee;i="6200,9189,10015"; a="205853272"
-X-IronPort-AV: E=Sophos;i="5.83,273,1616482800"; d="scan'208";a="205853272"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Jun 2021 07:50:05 -0700
-IronPort-SDR: qDf9fI3A1vPDNFUFk2t3ijy5C+iTzjWBQP6dee8Cq8Revk58gSw5RXa6r9zzgqBK3C9+KCdVNv
- rEByb0fJOS0Q==
-X-IronPort-AV: E=Sophos;i="5.83,273,1616482800"; d="scan'208";a="553386328"
-Received: from fnygreen-mobl1.ger.corp.intel.com (HELO [10.249.254.50])
- ([10.249.254.50])
- by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Jun 2021 07:50:03 -0700
-Subject: Re: [Intel-gfx] [PATCH v4 2/4] drm/i915/ttm: Adjust gem flags and
- caching settings after a move
-To: Matthew Auld <matthew.william.auld@gmail.com>
-References: <20210614115406.153107-1-thomas.hellstrom@linux.intel.com>
- <20210614115406.153107-3-thomas.hellstrom@linux.intel.com>
- <CAM0jSHNt4i+-bovY2DPA4jcP4WNN=nzLtYHFDnS7L6Ni8pzbHQ@mail.gmail.com>
-From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>
-Message-ID: <c164fc63-1bf2-dbdb-ca9a-6719bd682872@linux.intel.com>
-Date: Mon, 14 Jun 2021 16:50:01 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+Received: from mail-pg1-x52e.google.com (mail-pg1-x52e.google.com
+ [IPv6:2607:f8b0:4864:20::52e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5C42989D8E;
+ Mon, 14 Jun 2021 15:02:28 +0000 (UTC)
+Received: by mail-pg1-x52e.google.com with SMTP id q15so8841091pgg.12;
+ Mon, 14 Jun 2021 08:02:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=RzDEDEpKBts6WNgQTxPyJR77ugNq0XTyo2edIkuGISA=;
+ b=c7p5ZyWkblyeOc02Ule8fxjbb5vcHADAStMUSZXgY/Z9P0NcjVnr3Qrty9TUMiXaa6
+ Uyp7DlGp34QsrZTSpQu2jHFZBDjYRCx3PkGgP7HYKZ7nchXcFnQPK6ZP49JLN3pID7Nq
+ UahXGtROhEgvDnoRAUdWZgBtfqketLiOCiB76pxsnGai0Xx9g8yIIGwYd9UXgDhbxAvj
+ /403+lRSoExBjQRLzPgMKqNs2QRDNqVb9y8EXLHhZWkqfn/wWKi42EfHCPt+d/APLxvy
+ bRwHPUPehJrXFdN9lxmAxdHWQPsncnIeFkRiIKfxpgO9fM/4Oh7kjwDbzMr/4h6NYv18
+ qeDA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=RzDEDEpKBts6WNgQTxPyJR77ugNq0XTyo2edIkuGISA=;
+ b=AhSLDN9er8W2x+NyR5sEBt3YcpsBDjkmRo0PQMolGoWrKHGguSWuJ+H+fJD1dBqipo
+ hMnVImwar27vFc1cCG+LcO49ci14y2sG/la5kjWDUqRqzdzZYyr7/rY8OSWD+gcpWkVn
+ hzmdPPc+vrjZF8nWzonkoSrIFq8kg/I6ZHqO3urGLiJUNlmJaBwjEXa9ZMfN7cW/nmat
+ V1W7a49dwFTEsbw5ENp6qWyPWETAzvXIBilJ39C9zU3c8kLLHidjsIit8wHkAXNwDqjQ
+ g+BuXaVRGkQ39raxJXpiJlDRN//aJSyZnsq18c+Dk+7sjybMiN6irDRkzl7fyiXw3hLb
+ HLXQ==
+X-Gm-Message-State: AOAM532jnTgcpOapmvNQFgHMzCr71CVqNkbrPKLGEjZ+YFPu/oGnyViY
+ 1Fvr8QzWLgX969T8zWxPHJ2GBttmDCM=
+X-Google-Smtp-Source: ABdhPJzwb3/RHK7wDcLYlRy6N9DIv5cLskk99lnqJQ5GlUoNBwWTK3dABhbu2k9f1vFfvCIUp9LG/Q==
+X-Received: by 2002:a63:5f46:: with SMTP id t67mr17835519pgb.37.1623682947164; 
+ Mon, 14 Jun 2021 08:02:27 -0700 (PDT)
+Received: from localhost (c-73-25-156-94.hsd1.or.comcast.net. [73.25.156.94])
+ by smtp.gmail.com with ESMTPSA id
+ n23sm13217072pff.93.2021.06.14.08.02.25
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 14 Jun 2021 08:02:25 -0700 (PDT)
+From: Rob Clark <robdclark@gmail.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/msm: Add debugfs to trigger shrinker
+Date: Mon, 14 Jun 2021 08:06:18 -0700
+Message-Id: <20210614150618.729610-1-robdclark@gmail.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-In-Reply-To: <CAM0jSHNt4i+-bovY2DPA4jcP4WNN=nzLtYHFDnS7L6Ni8pzbHQ@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,287 +66,116 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- Matthew Auld <matthew.auld@intel.com>,
- ML dri-devel <dri-devel@lists.freedesktop.org>
+Cc: Rob Clark <robdclark@chromium.org>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU"
+ <freedreno@lists.freedesktop.org>, David Airlie <airlied@linux.ie>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
+ open list <linux-kernel@vger.kernel.org>, Sean Paul <sean@poorly.run>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+From: Rob Clark <robdclark@chromium.org>
 
-On 6/14/21 3:48 PM, Matthew Auld wrote:
-> On Mon, 14 Jun 2021 at 12:54, Thomas Hellström
-> <thomas.hellstrom@linux.intel.com> wrote:
->> After a TTM move or object init we need to update the i915 gem flags and
->> caching settings to reflect the new placement. Currently caching settings
->> are not changed during the lifetime of an object, although that might
->> change moving forward if we run into performance issues or issues with
->> WC system page allocations.
->> Also introduce gpu_binds_iomem() and cpu_maps_iomem() to clean up the
->> various ways we previously used to detect this.
->> Finally, initialize the TTM object reserved to be able to update
->> flags and caching before anyone else gets hold of the object.
->>
->> Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
->> ---
->> v2:
->> - Style fixes (Reported by Matthew Auld)
->> v3:
->> - More style fixes. Clarify why we're updating caching settings after move.
->>    (Suggested by Matthew Auld)
->> ---
->>   drivers/gpu/drm/i915/gem/i915_gem_ttm.c | 111 +++++++++++++++++++-----
->>   1 file changed, 89 insertions(+), 22 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
->> index 33ab47f1e05b..5176682a7d19 100644
->> --- a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
->> +++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
->> @@ -70,6 +70,17 @@ static struct ttm_placement i915_sys_placement = {
->>          .busy_placement = &lmem0_sys_placement_flags[1],
->>   };
->>
->> +static bool gpu_binds_iomem(struct ttm_resource *mem)
->> +{
->> +       return mem->mem_type != TTM_PL_SYSTEM;
->> +}
->> +
->> +static bool cpu_maps_iomem(struct ttm_resource *mem)
->> +{
->> +       /* Once / if we support GGTT, this is also false for cached ttm_tts */
->> +       return mem->mem_type != TTM_PL_SYSTEM;
->> +}
->> +
->>   static void i915_ttm_adjust_lru(struct drm_i915_gem_object *obj);
->>
->>   static struct ttm_tt *i915_ttm_tt_create(struct ttm_buffer_object *bo,
->> @@ -175,6 +186,40 @@ static void i915_ttm_free_cached_io_st(struct drm_i915_gem_object *obj)
->>          obj->ttm.cached_io_st = NULL;
->>   }
->>
->> +static void
->> +i915_ttm_adjust_domains_after_cpu_move(struct drm_i915_gem_object *obj)
->> +{
->> +       struct ttm_buffer_object *bo = i915_gem_to_ttm(obj);
->> +
->> +       if (cpu_maps_iomem(bo->resource) || bo->ttm->caching != ttm_cached) {
->> +               obj->write_domain = I915_GEM_DOMAIN_WC;
->> +               obj->read_domains = I915_GEM_DOMAIN_WC;
->> +       } else {
->> +               obj->write_domain = I915_GEM_DOMAIN_CPU;
->> +               obj->read_domains = I915_GEM_DOMAIN_CPU;
->> +       }
->> +}
->> +
->> +static void i915_ttm_adjust_gem_after_move(struct drm_i915_gem_object *obj)
->> +{
->> +       struct drm_i915_private *i915 = to_i915(obj->base.dev);
->> +       struct ttm_buffer_object *bo = i915_gem_to_ttm(obj);
->> +       unsigned int cache_level;
->> +
->> +       obj->mem_flags &= ~(I915_BO_FLAG_STRUCT_PAGE | I915_BO_FLAG_IOMEM);
->> +
->> +       obj->mem_flags |= cpu_maps_iomem(bo->resource) ? I915_BO_FLAG_IOMEM :
->> +               I915_BO_FLAG_STRUCT_PAGE;
->> +
->> +       if ((HAS_LLC(i915) || HAS_SNOOP(i915)) && !gpu_binds_iomem(bo->resource) &&
->> +           bo->ttm->caching == ttm_cached)
->> +               cache_level = I915_CACHE_LLC;
->> +       else
->> +               cache_level = I915_CACHE_NONE;
->> +
->> +       i915_gem_object_set_cache_coherency(obj, cache_level);
->> +}
->> +
->>   static void i915_ttm_purge(struct drm_i915_gem_object *obj)
->>   {
->>          struct ttm_buffer_object *bo = i915_gem_to_ttm(obj);
->> @@ -190,8 +235,10 @@ static void i915_ttm_purge(struct drm_i915_gem_object *obj)
->>
->>          /* TTM's purge interface. Note that we might be reentering. */
->>          ret = ttm_bo_validate(bo, &place, &ctx);
->> -
->>          if (!ret) {
->> +               obj->write_domain = 0;
->> +               obj->read_domains = 0;
->> +               i915_ttm_adjust_gem_after_move(obj);
->>                  i915_ttm_free_cached_io_st(obj);
->>                  obj->mm.madv = __I915_MADV_PURGED;
->>          }
->> @@ -273,12 +320,15 @@ i915_ttm_resource_get_st(struct drm_i915_gem_object *obj,
->>                           struct ttm_resource *res)
->>   {
->>          struct ttm_buffer_object *bo = i915_gem_to_ttm(obj);
->> -       struct ttm_resource_manager *man =
->> -               ttm_manager_type(bo->bdev, res->mem_type);
->>
->> -       if (man->use_tt)
->> +       if (!gpu_binds_iomem(res))
->>                  return i915_ttm_tt_get_st(bo->ttm);
->>
->> +       /*
->> +        * If CPU mapping differs, we need to add the ttm_tt pages to
->> +        * the resulting st. Might make sense for GGTT.
->> +        */
->> +       GEM_WARN_ON(!cpu_maps_iomem(res));
->>          return intel_region_ttm_node_to_st(obj->mm.region, res);
->>   }
->>
->> @@ -290,8 +340,6 @@ static int i915_ttm_move(struct ttm_buffer_object *bo, bool evict,
->>          struct drm_i915_gem_object *obj = i915_ttm_to_gem(bo);
->>          struct ttm_resource_manager *dst_man =
->>                  ttm_manager_type(bo->bdev, dst_mem->mem_type);
->> -       struct ttm_resource_manager *src_man =
->> -               ttm_manager_type(bo->bdev, bo->resource->mem_type);
->>          struct intel_memory_region *dst_reg, *src_reg;
->>          union {
->>                  struct ttm_kmap_iter_tt tt;
->> @@ -332,34 +380,36 @@ static int i915_ttm_move(struct ttm_buffer_object *bo, bool evict,
->>          if (IS_ERR(dst_st))
->>                  return PTR_ERR(dst_st);
->>
->> -       /* If we start mapping GGTT, we can no longer use man::use_tt here. */
->> -       dst_iter = dst_man->use_tt ?
->> +       dst_iter = !cpu_maps_iomem(dst_mem) ?
->>                  ttm_kmap_iter_tt_init(&_dst_iter.tt, bo->ttm) :
->>                  ttm_kmap_iter_iomap_init(&_dst_iter.io, &dst_reg->iomap,
->>                                           dst_st, dst_reg->region.start);
->>
->> -       src_iter = src_man->use_tt ?
->> +       src_iter = !cpu_maps_iomem(bo->resource) ?
->>                  ttm_kmap_iter_tt_init(&_src_iter.tt, bo->ttm) :
->>                  ttm_kmap_iter_iomap_init(&_src_iter.io, &src_reg->iomap,
->>                                           obj->ttm.cached_io_st,
->>                                           src_reg->region.start);
->>
->>          ttm_move_memcpy(bo, dst_mem->num_pages, dst_iter, src_iter);
->> +       /* Below dst_mem becomes bo->resource. */
->>          ttm_bo_move_sync_cleanup(bo, dst_mem);
->> +       i915_ttm_adjust_domains_after_cpu_move(obj);
->>          i915_ttm_free_cached_io_st(obj);
->>
->> -       if (!dst_man->use_tt) {
->> +       if (gpu_binds_iomem(dst_mem) || cpu_maps_iomem(dst_mem)) {
->>                  obj->ttm.cached_io_st = dst_st;
->>                  obj->ttm.get_io_page.sg_pos = dst_st->sgl;
->>                  obj->ttm.get_io_page.sg_idx = 0;
->>          }
->>
->> +       i915_ttm_adjust_gem_after_move(obj);
->>          return 0;
->>   }
->>
->>   static int i915_ttm_io_mem_reserve(struct ttm_device *bdev, struct ttm_resource *mem)
->>   {
->> -       if (mem->mem_type < I915_PL_LMEM0)
->> +       if (!cpu_maps_iomem(mem))
->>                  return 0;
->>
->>          mem->bus.caching = ttm_write_combined;
->> @@ -421,6 +471,16 @@ static int i915_ttm_get_pages(struct drm_i915_gem_object *obj)
->>          if (ret)
->>                  return ret == -ENOSPC ? -ENXIO : ret;
->>
->> +       i915_ttm_adjust_lru(obj);
->> +       if (bo->ttm && !ttm_tt_is_populated(bo->ttm)) {
->> +               ret = ttm_tt_populate(bo->bdev, bo->ttm, &ctx);
->> +               if (ret)
->> +                       return ret;
->> +
->> +               i915_ttm_adjust_domains_after_cpu_move(obj);
->> +               i915_ttm_adjust_gem_after_move(obj);
->> +       }
->> +
->>          /* Object either has a page vector or is an iomem object */
->>          st = bo->ttm ? i915_ttm_tt_get_st(bo->ttm) : obj->ttm.cached_io_st;
->>          if (IS_ERR(st))
->> @@ -428,8 +488,6 @@ static int i915_ttm_get_pages(struct drm_i915_gem_object *obj)
->>
->>          __i915_gem_object_set_pages(obj, st, i915_sg_dma_sizes(st->sgl));
->>
->> -       i915_ttm_adjust_lru(obj);
->> -
->>          return ret;
->>   }
->>
->> @@ -563,6 +621,7 @@ static u64 i915_ttm_mmap_offset(struct drm_i915_gem_object *obj)
->>
->>   const struct drm_i915_gem_object_ops i915_gem_ttm_obj_ops = {
->>          .name = "i915_gem_object_ttm",
->> +       .flags = I915_GEM_OBJECT_IS_SHRINKABLE,
->>
->>          .get_pages = i915_ttm_get_pages,
->>          .put_pages = i915_ttm_put_pages,
->> @@ -599,6 +658,10 @@ int __i915_gem_ttm_object_init(struct intel_memory_region *mem,
->>   {
->>          static struct lock_class_key lock_class;
->>          struct drm_i915_private *i915 = mem->i915;
->> +       struct ttm_operation_ctx ctx = {
->> +               .interruptible = true,
->> +               .no_wait_gpu = false,
->> +       };
->>          enum ttm_bo_type bo_type;
->>          size_t alignment = 0;
->>          int ret;
->> @@ -618,15 +681,14 @@ int __i915_gem_ttm_object_init(struct intel_memory_region *mem,
->>          i915_gem_object_init(obj, &i915_gem_ttm_obj_ops, &lock_class, flags);
->>          i915_gem_object_init_memory_region(obj, mem);
->>          i915_gem_object_make_unshrinkable(obj);
->> -       obj->read_domains = I915_GEM_DOMAIN_WC | I915_GEM_DOMAIN_GTT;
->> -       obj->mem_flags |= I915_BO_FLAG_IOMEM;
->> -       i915_gem_object_set_cache_coherency(obj, I915_CACHE_NONE);
->>          INIT_RADIX_TREE(&obj->ttm.get_io_page.radix, GFP_KERNEL | __GFP_NOWARN);
->>          mutex_init(&obj->ttm.get_io_page.lock);
->>
->>          bo_type = (obj->flags & I915_BO_ALLOC_USER) ? ttm_bo_type_device :
->>                  ttm_bo_type_kernel;
->>
->> +       obj->base.vma_node.driver_private = i915_gem_to_ttm(obj);
->> +
->>          /*
->>           * If this function fails, it will call the destructor, but
->>           * our caller still owns the object. So no freeing in the
->> @@ -634,14 +696,19 @@ int __i915_gem_ttm_object_init(struct intel_memory_region *mem,
->>           * Similarly, in delayed_destroy, we can't call ttm_bo_put()
->>           * until successful initialization.
->>           */
->> -       obj->base.vma_node.driver_private = i915_gem_to_ttm(obj);
->> -       ret = ttm_bo_init(&i915->bdev, i915_gem_to_ttm(obj), size,
->> -                         bo_type, &i915_sys_placement, alignment,
->> -                         true, NULL, NULL, i915_ttm_bo_destroy);
->> +       ret = ttm_bo_init_reserved(&i915->bdev, i915_gem_to_ttm(obj), size,
->> +                                  bo_type, &i915_sys_placement, alignment,
->> +                                  &ctx, NULL, NULL, i915_ttm_bo_destroy);
->> +
->> +       if (ret)
->> +               goto out;
->>
->> -       if (!ret)
->> -               obj->ttm.created = true;
->> +       obj->ttm.created = true;
->> +       i915_ttm_adjust_domains_after_cpu_move(obj);
->> +       i915_ttm_adjust_gem_after_move(obj);
->> +       i915_gem_object_unlock(obj);
-> Looks like the is_shrinkable change was squashed in the next patch.
-> Doesn't really matter,
-> Reviewed-by: Matthew Auld <matthew.auld@intel.com>
+Just for the purposes of testing.  Write to it the # of objects to scan,
+read back the # freed.
 
+Signed-off-by: Rob Clark <robdclark@chromium.org>
+---
+ drivers/gpu/drm/msm/msm_debugfs.c      | 28 ++++++++++++++++++++++++++
+ drivers/gpu/drm/msm/msm_drv.h          |  4 ++++
+ drivers/gpu/drm/msm/msm_gem_shrinker.c | 18 +++++++++++++++++
+ 3 files changed, 50 insertions(+)
 
-Ugh. I'll fix that up for a final version and attach your R-B.
+diff --git a/drivers/gpu/drm/msm/msm_debugfs.c b/drivers/gpu/drm/msm/msm_debugfs.c
+index d611cc8e54a4..7a2b53d35e6b 100644
+--- a/drivers/gpu/drm/msm/msm_debugfs.c
++++ b/drivers/gpu/drm/msm/msm_debugfs.c
+@@ -108,6 +108,31 @@ static const struct file_operations msm_gpu_fops = {
+ 	.release = msm_gpu_release,
+ };
+ 
++static unsigned long last_shrink_freed;
++
++static int
++shrink_get(void *data, u64 *val)
++{
++	*val = last_shrink_freed;
++
++	return 0;
++}
++
++static int
++shrink_set(void *data, u64 val)
++{
++	struct drm_device *dev = data;
++
++	last_shrink_freed = msm_gem_shrinker_shrink(dev, val);
++
++	return 0;
++}
++
++DEFINE_SIMPLE_ATTRIBUTE(shrink_fops,
++			shrink_get, shrink_set,
++			"0x%08llx\n");
++
++
+ static int msm_gem_show(struct drm_device *dev, struct seq_file *m)
+ {
+ 	struct msm_drm_private *priv = dev->dev_private;
+@@ -226,6 +251,9 @@ void msm_debugfs_init(struct drm_minor *minor)
+ 	debugfs_create_file("gpu", S_IRUSR, minor->debugfs_root,
+ 		dev, &msm_gpu_fops);
+ 
++	debugfs_create_file("shrink", S_IRWXU, minor->debugfs_root,
++		dev, &shrink_fops);
++
+ 	if (priv->kms && priv->kms->funcs->debugfs_init)
+ 		priv->kms->funcs->debugfs_init(priv->kms, minor);
+ }
+diff --git a/drivers/gpu/drm/msm/msm_drv.h b/drivers/gpu/drm/msm/msm_drv.h
+index 3352125ce428..b58c9d1cc5f1 100644
+--- a/drivers/gpu/drm/msm/msm_drv.h
++++ b/drivers/gpu/drm/msm/msm_drv.h
+@@ -296,6 +296,10 @@ bool msm_use_mmu(struct drm_device *dev);
+ int msm_ioctl_gem_submit(struct drm_device *dev, void *data,
+ 		struct drm_file *file);
+ 
++#ifdef CONFIG_DEBUG_FS
++unsigned long msm_gem_shrinker_shrink(struct drm_device *dev, unsigned long nr_to_scan);
++#endif
++
+ void msm_gem_shrinker_init(struct drm_device *dev);
+ void msm_gem_shrinker_cleanup(struct drm_device *dev);
+ 
+diff --git a/drivers/gpu/drm/msm/msm_gem_shrinker.c b/drivers/gpu/drm/msm/msm_gem_shrinker.c
+index 1187ecf9d647..0f1b29ee04a9 100644
+--- a/drivers/gpu/drm/msm/msm_gem_shrinker.c
++++ b/drivers/gpu/drm/msm/msm_gem_shrinker.c
+@@ -145,6 +145,24 @@ msm_gem_shrinker_scan(struct shrinker *shrinker, struct shrink_control *sc)
+ 	return (freed > 0) ? freed : SHRINK_STOP;
+ }
+ 
++#ifdef CONFIG_DEBUG_FS
++unsigned long
++msm_gem_shrinker_shrink(struct drm_device *dev, unsigned long nr_to_scan)
++{
++	struct msm_drm_private *priv = dev->dev_private;
++	struct shrink_control sc = {
++		.nr_to_scan = nr_to_scan,
++	};
++	int ret;
++
++	fs_reclaim_acquire(GFP_KERNEL);
++	ret = msm_gem_shrinker_scan(&priv->shrinker, &sc);
++	fs_reclaim_release(GFP_KERNEL);
++
++	return ret;
++}
++#endif
++
+ /* since we don't know any better, lets bail after a few
+  * and if necessary the shrinker will be invoked again.
+  * Seems better than unmapping *everything*
+-- 
+2.31.1
 
-Thanks,
-
-Thomas
-
-
->
->> +out:
->>          /* i915 wants -ENXIO when out of memory region space. */
->>          return (ret == -ENOSPC) ? -ENXIO : ret;
->>   }
->> --
->> 2.31.1
->>
->> _______________________________________________
->> Intel-gfx mailing list
->> Intel-gfx@lists.freedesktop.org
->> https://lists.freedesktop.org/mailman/listinfo/intel-gfx
