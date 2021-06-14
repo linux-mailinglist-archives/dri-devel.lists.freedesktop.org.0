@@ -1,64 +1,114 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28C013A68F8
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Jun 2021 16:28:04 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 570A73A691E
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Jun 2021 16:36:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 37308899A5;
-	Mon, 14 Jun 2021 14:28:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B7FC689D4A;
+	Mon, 14 Jun 2021 14:36:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com
- [IPv6:2a00:1450:4864:20::242])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D9689899A5
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Jun 2021 14:27:58 +0000 (UTC)
-Received: by mail-lj1-x242.google.com with SMTP id s22so20459524ljg.5
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Jun 2021 07:27:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:subject:message-id:in-reply-to:references:mime-version;
- bh=6LWjkysgc1QM05yIbrkalZe7Ds1U0pDX1SddK/eg25Y=;
- b=ZRgUJ4jxne/FIOVOPe36hvhwc1sswBg5gb7lcggmVBraNJy9tR67+lKk8VR/0Wletb
- d/b9FV1s64KMbp+jcyBJxPr+oZIv/IK/6z/j0qJb/SrUeMb5jeAduK3V8VAASVNGH82t
- XfGTK9IKVTyAHOAlPBeR6vtpfLd04XPYOA+aCxXx7LKtMsWmDo5gJGE9WpnzAXOxnvcF
- wljAYdqL34OyFg7DiRZFwPlRHYi8sUjMnmTaGXADOvDBdRZS9oQewU8CJf1osf/aODPd
- UKPwf9khEObkUla44D4wBAlD81YfgDoIiP01TXhHnuNby3iTAN6R25N2k2hrnN0QzNDO
- GzSw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:subject:message-id:in-reply-to
- :references:mime-version;
- bh=6LWjkysgc1QM05yIbrkalZe7Ds1U0pDX1SddK/eg25Y=;
- b=jcRu1ftWIC8nrih1hP3+44EgxAWIbpn7dGnvyAg3oZp9nEXqMaTBjO/PoXeI+XNzRu
- y+SOg+q0mFNSNJj940hXvHqkEVy7gqcTsheD/3xr0ZzapUXN4dXb/1O6byTptdi7AjJ4
- Amka8pIbSmnmS0yH3HXE6JNq+bxxuST0nRdNNy41cYAY7V2LBXpLac1zFwQj9jdsm57A
- 13JUt9f923rePqeEqZK+98M3sodklDBsyid/OTcxhF3cgsLshqhGaozCc3fqHF4QGFRK
- CBdNomdctQs7Rkz7qo7Q7LnRk5heZObjD7vUyofMDIpXoMCbetfDVaOg2N2GLRPEDZHY
- 4xIw==
-X-Gm-Message-State: AOAM5312hDNQFQeI+ObNlxOOXQUTxJLbnck44PwFy7hqXAhpH7Az/KqL
- blboSD1eLe8BeL1bAkNmp148umBn7Yo=
-X-Google-Smtp-Source: ABdhPJwpzrGqIB6hj+fSPTefb9eq0yaU1N/epnVxJPjnEeWWb/A+PeEcAVxuXdZf3n1BZxBzhvUdTA==
-X-Received: by 2002:a2e:3508:: with SMTP id z8mr13763492ljz.385.1623680876941; 
- Mon, 14 Jun 2021 07:27:56 -0700 (PDT)
-Received: from eldfell ([194.136.85.206])
- by smtp.gmail.com with ESMTPSA id i5sm1495994lfe.113.2021.06.14.07.27.56
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 14 Jun 2021 07:27:56 -0700 (PDT)
-Date: Mon, 14 Jun 2021 17:27:45 +0300
-From: Pekka Paalanen <ppaalanen@gmail.com>
-To: dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v3] Documentation: gpu: Mention the requirements for new
- properties
-Message-ID: <20210614172745.60910798@eldfell>
-In-Reply-To: <20210611055407.aoeams62wbalodrj@gilmour>
-References: <20210610174731.1209188-1-maxime@cerno.tech>
- <CAKMK7uG_Wkko0L6sv0U1bXWdYk4fg3OTcp5=+qfRV0CP9V44=A@mail.gmail.com>
- <20210611055407.aoeams62wbalodrj@gilmour>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+Received: from NAM04-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam08on2059.outbound.protection.outlook.com [40.107.101.59])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 51DBE89D4A;
+ Mon, 14 Jun 2021 14:36:17 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=UbIUG9yMZp2WjnkL/hJ1oFRxJYFZFLxhYKr4hxbjxmiOBVNqm/aRsSMfcne3STVRz+ThiLzjkvfwnhG++QAQH7WdYa5TJXsJYSupbSSHgjTpG9QxCnNnkxq899YjdwjmY0jn+blyYVT55MmRDLG13mAAucaAHtIipr9/xhFjdWDIxhDFA+L/S9Fx55/yBXTLcSfgNJYjIFXuL32whKtPi/rFd74tLUJtd54lWJ+Xm9mBFXPq6QL7OjgSfz6OpO8EjzoEeTZPwoKT8qKUtuUmVgDe6CEpTAjhJDVIc+6tb7dHE74UagTbRcGOGuanHa8FGNIzJ6jdE1aB+71A/TuA+A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Pmh/ynZcS28kerLpItdVblA/RnCZ93xnhhAw6DZbs4o=;
+ b=hV8Y4S9V1QxzhlnOKz371YEuZafC+stOzhvlz+1+4l4E9DC7QlWxcgkCjjdoK7+4AmYGAO3qPIEr4fXy+oo0lZEsZzW9x+HRJImhDc5sivozRr70FepyhpOqc5ta+54S5fh6Jhj1YjrajhkjnAROJII81GEn6FQG6I75IrU9ZZO7rcrZCFSiRb2cCW0gcmCsV/8lPYhpsf1g/xDhaDoW67/RZCmkp5OCi7pQdT6NEhKqMVwiFeCpesXJSGLygPRtmMq3hty6tMtwN52R2c5oCTjChadNXP0gCoB15ifcEJ+ldzue5mBI60pRjXNc8rp+P2g/Kpqd3hcmoGlf8HyaqQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Pmh/ynZcS28kerLpItdVblA/RnCZ93xnhhAw6DZbs4o=;
+ b=bfSKVu5wNHZINQhcWuGEq/Ve9DBxrD5KYdvvpeZSTrRx9V1PEu8nCvBO5r5wcXKw+weDckFmKvQuyLU0kJZbyW5TG1kdlY9SRJK1d58VA/brTr/oU7uben9DaWj7mYKPw1wIyg78Jj5DQg50BxvzYWxVj8ZH6xSnlVC5Q5Ic6mt1qUlIls1vsR54dlL7arJfcM2ScST9ec2LMY05Bd/dOdXqGp/Qd2ZUWonTdK9EQCTm37ON/dawtm2s/p6mwHJgM/ZB764Q+j7LlOOxJMqnptRvK/1D54tey0PH9P90Zqwzo6Fbnx61DNVzhPCjP0GYYflNO/7PUhIMFgMIki9v+w==
+Authentication-Results: nvidia.com; dkim=none (message not signed)
+ header.d=none;nvidia.com; dmarc=none action=none header.from=nvidia.com;
+Received: from BL0PR12MB5506.namprd12.prod.outlook.com (2603:10b6:208:1cb::22)
+ by BL1PR12MB5352.namprd12.prod.outlook.com (2603:10b6:208:314::10)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4219.21; Mon, 14 Jun
+ 2021 14:36:15 +0000
+Received: from BL0PR12MB5506.namprd12.prod.outlook.com
+ ([fe80::3d51:a3b9:8611:684e]) by BL0PR12MB5506.namprd12.prod.outlook.com
+ ([fe80::3d51:a3b9:8611:684e%7]) with mapi id 15.20.4219.025; Mon, 14 Jun 2021
+ 14:36:15 +0000
+Date: Mon, 14 Jun 2021 11:36:13 -0300
+From: Jason Gunthorpe <jgg@nvidia.com>
+To: Kirti Wankhede <kwankhede@nvidia.com>
+Subject: Re: [PATCH 00/10] Allow mdev drivers to directly create the
+ vfio_device
+Message-ID: <20210614143613.GJ1002214@nvidia.com>
+References: <0-v1-324b2038f212+1041f1-vfio3a_jgg@nvidia.com>
+ <e6cecaed-3257-e636-52c2-abf7af2cdffa@nvidia.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <e6cecaed-3257-e636-52c2-abf7af2cdffa@nvidia.com>
+X-Originating-IP: [47.55.113.94]
+X-ClientProxiedBy: MN2PR04CA0025.namprd04.prod.outlook.com
+ (2603:10b6:208:d4::38) To BL0PR12MB5506.namprd12.prod.outlook.com
+ (2603:10b6:208:1cb::22)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- boundary="Sig_/OoTgEFkqJu0u1fwSBr0X8sK"; protocol="application/pgp-signature"
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from mlx.ziepe.ca (47.55.113.94) by
+ MN2PR04CA0025.namprd04.prod.outlook.com (2603:10b6:208:d4::38) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4219.21 via Frontend Transport; Mon, 14 Jun 2021 14:36:15 +0000
+Received: from jgg by mlx with local (Exim 4.94)	(envelope-from
+ <jgg@nvidia.com>)	id 1lsnhF-006ivO-WF; Mon, 14 Jun 2021 11:36:14 -0300
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 7be63fd1-ae80-4309-810d-08d92f41c3ad
+X-MS-TrafficTypeDiagnostic: BL1PR12MB5352:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <BL1PR12MB5352E73F20ABA8B4BE060EF4C2319@BL1PR12MB5352.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:7691;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: tXh+1xKz0Di3t+6AsrtfBMpz7+NQT+okG9g2pTc9vuAqIy0orsW6z85dOTQEKruDUyaDdJNLQaJJyheDZZlTtq1aqOOGes1f9xmffEEoaM+tpVsWakw1npWRUXIYUAyNW2MkFZdedWcJCz7g7DdTkEDqQ97QKpVZAEifietm1Oaf4rnmyhgd08g7GrSou7Ds98AJ/YrcHtR/U3Yla+p9avqbL7cq+GG12d28URuWGZs+alDy+/wPLAc4SsgaqjK+zGNxRohEGgkBscZZrPKEyTwm5iDkyhY/rWH8HUAn5KVjI0cD8xDxoFTYOI31XG11cYFedXot5M6L7sO3J1kTarbyfe8jxr5JPqQgyaOhKnD82jtKy5X4KG/T6U3dKCyda/Ymuu2oYsf9sqgVnK6Gf4ExHqfBel+kAjfbZ6oVG0CKutWDGgBBRvfw6BhTJseHyn8B57NZDJWdzjzP3xsedSa5q9MmRcZyR7BLFEq7iB/0G7SW8AGDSsnspM200S9ULucLtH+zg5e7qHBFv0Zp8VAWKufq4hmkenppctbaC71tybACcqY7sw7JkpPoSzrKn1fJxUL8cjnIBx6sX/qBcpk43lFW6kwClNAQPu8PfMo=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BL0PR12MB5506.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(346002)(396003)(376002)(39860400002)(366004)(136003)(8936002)(66946007)(4326008)(1076003)(426003)(26005)(7416002)(66556008)(66476007)(6862004)(6636002)(33656002)(9746002)(9786002)(186003)(2616005)(316002)(2906002)(86362001)(5660300002)(54906003)(478600001)(8676002)(36756003)(38100700002)(4744005)(37006003);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?9qOlQrf9C6XyV/OwQ93c+4QHvTa8vOsbxTadM628pw1FsgD+C/Vpzu8tDCFZ?=
+ =?us-ascii?Q?sSX4JkJoaW5oXzrSoYwOFcy+HWYkJoJGbiECkp9bXwPDxM0vtOfMazTVlDok?=
+ =?us-ascii?Q?O2CA7aUpD9f/FKeIZgN2efZUr7FDNhza+vtkrJqDyFHPUUcpVCUkI26P2/15?=
+ =?us-ascii?Q?2z2XCqB/ktbgoEbvKZELbS3U9bwQWOUCMaWVd2idr5OvZVpA9XhlawR7J/0w?=
+ =?us-ascii?Q?kdlE4SCUtMC3QOu64eHwUjuDmc/1+G++UR56okwfZ2PnPFkvDabho7qwci3y?=
+ =?us-ascii?Q?KBVPxIRqa8bRd9e05WjxV6uJcW1K/1oJFyQYanIUFuwIv4KYKTYeeAVIbaYm?=
+ =?us-ascii?Q?eYdLUuDRKULPteukbBvy0UwlE6jIPvNoUMIaUUBwbSu18xd5QpQUjxu1CuSD?=
+ =?us-ascii?Q?4pUN4uki0oe/GFgcuoQHlgORMHuMmpiDvxA0SAkxdErco+kgihwwbQuwQngX?=
+ =?us-ascii?Q?FLyQ/Gu6vxBTlfqaVtqzPGEb8XPcGDr4RuqVDV9jn0Lt8AqEtJ6uTQp+OHTh?=
+ =?us-ascii?Q?Fwsx5HmSFMg0A4LsDUSnJkfsRse+8keOsau0iQ5exC2A87jQsPhi/4c4wOBf?=
+ =?us-ascii?Q?SXY8TOm54MIFlQScPB6pre01lcTV7pgndMJQCrM+exbauyJg4LKplFxWf9jD?=
+ =?us-ascii?Q?dinUVEnd5mokC60bDy0lGvpbpCmxfkv0A2iwtxrh4phyW5h8JH7TJnBO4OVP?=
+ =?us-ascii?Q?kDccNN1yd0otL1NFM09LFiQkcnACGkybWpCvlXHe9rcwffiZyycZHhK5f8yH?=
+ =?us-ascii?Q?uImQia+wvXrJB93jaQYAegJcW/28dX7klcxGCfaQWBXNtB7WR5iZBsSs6jfq?=
+ =?us-ascii?Q?/1C9nS2SY932Xm7emZVr+1JyMncznw6BkxtjHAJpuJR8MhAIjzew6CFPSEMN?=
+ =?us-ascii?Q?vOWFXy/OJQMSOo15IY45+9JwdcvXh4/w24b/PFRy/nmfM3c1vjdPEQSyCymK?=
+ =?us-ascii?Q?3D8QV66z82Rn8kxanej2i6WZp8GC4Re6b7uuquKhe3XzC5+YKW+NR48xqG8L?=
+ =?us-ascii?Q?bTk4ouVQJ+BuxR/EyYMMA0oaDRK1WISM2hk9Z7GFzfGiIXIo/oePCMGDMGnC?=
+ =?us-ascii?Q?YpEDkgLw8mnk+mBtjauCGAz8OFSXjfszlaT/rUGun0qgB4AnQ4zbdUqNohYZ?=
+ =?us-ascii?Q?3iZMoc5H9GFNUyscvD7kCi4l5ODzR/qSfzXuFWnqkKK/zY5FwjbJFw89TdHp?=
+ =?us-ascii?Q?qmsKRoca+VF7kcmp5CTvlNxHU1VUIXCEyWAKk7GyFL29BEmH0iGZXuWaaEav?=
+ =?us-ascii?Q?pQr6fq3/mHKVL9/q0jJ4QXEsn8yRiI/RtWjXExsP1u6qfpFYaHfmfEO4ROBJ?=
+ =?us-ascii?Q?vB/cO2CcvB5ngG9/r4+T/PkA?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7be63fd1-ae80-4309-810d-08d92f41c3ad
+X-MS-Exchange-CrossTenant-AuthSource: BL0PR12MB5506.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Jun 2021 14:36:15.3596 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: HwOiGo38SGRWCwcPGleZ8v1T7p7wxHHW3OjXub/PssmAf/mzpi4zBR7fKvT+Y7ad
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR12MB5352
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,68 +121,32 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: kvm@vger.kernel.org, linux-doc@vger.kernel.org,
+ David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
+ Christoph Hellwig <hch@lst.de>, linux-s390@vger.kernel.org,
+ Jonathan Corbet <corbet@lwn.net>, "Rafael J. Wysocki" <rafael@kernel.org>,
+ Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>,
+ intel-gfx@lists.freedesktop.org, Jason Herne <jjherne@linux.ibm.com>,
+ Vasily Gorbik <gor@linux.ibm.com>, Heiko Carstens <hca@linux.ibm.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Tony Krowiak <akrowiak@linux.ibm.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Cornelia Huck <cohuck@redhat.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/OoTgEFkqJu0u1fwSBr0X8sK
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+On Mon, Jun 14, 2021 at 08:04:03PM +0530, Kirti Wankhede wrote:
+> Jason,
+> 
+> I couldn't find patch 1,2,4 and 5 of these series. Can you please keep
+> kvm@vger.kernel.org cc for all patches?
 
-On Fri, 11 Jun 2021 07:54:07 +0200
-Maxime Ripard <maxime@cerno.tech> wrote:
+It is an error, sorry
 
-> Hi,
->=20
-> On Thu, Jun 10, 2021 at 11:00:05PM +0200, Daniel Vetter wrote:
-> > On Thu, Jun 10, 2021 at 7:47 PM Maxime Ripard <maxime@cerno.tech> wrote=
-: =20
-> > >
-> > > New KMS properties come with a bunch of requirements to avoid each
-> > > driver from running their own, inconsistent, set of properties,
-> > > eventually leading to issues like property conflicts, inconsistencies
-> > > between drivers and semantics, etc.
-> > >
-> > > Let's document what we expect.
+> Also it will be helpful if you can add version prefix, eg. 'v3' for this
+> series, in subject line.
 
-Sorry for intentionally losing the whole CC list, but I'm not
-comfortable CC'ing such a huge list (of lists) with just this.
+This is not v3, it is a different but related series
 
-
-> > ltdr; I'd go back to v2. And then cc compositor folks on this to get
-> > their ack. =20
->=20
-> So, Pekka, Simon, is there anyone else I should Cc?
-
-You can find some Wayland compositor contacts in the following. These
-are not all compositor projects listed there though. They also signed
-up for wayland-protocols rather than DRM UAPI discussions, but maybe
-taking a few won't mind:
-https://gitlab.freedesktop.org/wayland/wayland-protocols/-/blob/main/MEMBER=
-S.md
-
-
-Thanks,
-pq
-
---Sig_/OoTgEFkqJu0u1fwSBr0X8sK
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmDHZ2EACgkQI1/ltBGq
-qqeUTRAAriov9MRRtTHNZ2xJh5Qc1YoSE5/brYd6qSr22bqRvyB8SIBL675sCAPR
-VS5xZaS9SqsNIXFJIXp/RZyQZkhw981wmvHciZTxlpKCazhpwrSq9PPh03r6p/kk
-dcQPviZn5r80bLnTIsX5i0mVM8mO+C8fsZB8bkWZA9e7YIlGJTlEOjGKRXwaaOKu
-rNyHcWSZ9W6WilqACFArIgiR1DhjZR2X7omvv3JOdJetthY/LchHmZFFTp98zYWw
-H9yjVxMABVYUua/Vse6KodsiNWv//rHnEX2hRbHoyZWP3pZhPrejaywHp6+RcgFO
-jfuliT3RRUao4uohPVQe/JEVCAPKLggAPc7xrd7Y0xB/u2BijPIF6CUMxh0F45e2
-9r6vVVytXkzc33uylrPG3GxaAB1iDzLnZdaXSzMoYwQkgSGtiIyJILqwciM+der/
-VXQuJsM05i/vb7aXIoGtN67Pijx6Mr/7ry4X8E1JZzN29yvFNZ8SSDx9Jals0PpR
-AiId9RuprChEiSpzsX5ueYBA2O95O3psQ5cwv7sQhqn45tVvrwHiKRzxmLhqwSnm
-11Az5huoR8bzjr/z+oRVgKfBTFUkXTis13kwW8sQzlqeB4lJJ+2WZYdgkCdxay3x
-N90lVeoRh0MmyZ2i8661LKgycdnbhOKi9D86RoldUr1XvTfqG7I=
-=cMIa
------END PGP SIGNATURE-----
-
---Sig_/OoTgEFkqJu0u1fwSBr0X8sK--
+Jason
