@@ -1,42 +1,121 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1F0B3A6A01
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Jun 2021 17:24:20 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D0A593A6A0E
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Jun 2021 17:26:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3A9B989C6E;
-	Mon, 14 Jun 2021 15:24:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7004989EA3;
+	Mon, 14 Jun 2021 15:26:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id BBBBC89C6E
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Jun 2021 15:24:16 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 8044C11D4;
- Mon, 14 Jun 2021 08:24:15 -0700 (PDT)
-Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
- [10.121.207.14])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 4005A3F793;
- Mon, 14 Jun 2021 08:24:15 -0700 (PDT)
-Received: by e110455-lin.cambridge.arm.com (Postfix, from userid 1000)
- id E51D5682B70; Mon, 14 Jun 2021 16:24:13 +0100 (BST)
-Date: Mon, 14 Jun 2021 16:24:13 +0100
-From: Liviu Dudau <liviu.dudau@arm.com>
-To: Pekka Paalanen <ppaalanen@gmail.com>
-Subject: Re: [PATCH v3] Documentation: gpu: Mention the requirements for new
- properties
-Message-ID: <20210614152413.nguqia3s4tlowio4@e110455-lin.cambridge.arm.com>
-References: <20210610174731.1209188-1-maxime@cerno.tech>
- <CAKMK7uG_Wkko0L6sv0U1bXWdYk4fg3OTcp5=+qfRV0CP9V44=A@mail.gmail.com>
- <KNFHfqvJUVq9oy9BSdznj1S6xhDoZUAx1_DwfSNvUv8u1d-TroKBTq2hxtv7u1aJnxnpI5CxUXSMTn73YsVhZjnRW78gv-QLsK6AkJ5m3Fw=@emersion.fr>
- <20210611120309.2b5eb4htupv5ss32@e110455-lin.cambridge.arm.com>
- <20210614174912.15a49336@eldfell>
-MIME-Version: 1.0
+Received: from NAM04-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam08on2087.outbound.protection.outlook.com [40.107.102.87])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 59E3989E7C;
+ Mon, 14 Jun 2021 15:26:05 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=iJRgT41iVrM6mCgV7tKYGcyv7pQN06GWr0qF0Dwhe2s9TV7KfXRGoQVHUJBw2DBtstJGM9YfKMAod70c3MtZqYpp51p2zS8/uCeqbZLInoVDRoXJBDYC2wn84qpa2/wXPDUu7sW48nLglIFUqNp7Yeo+7Z7AOSrAPYcyLbZD+AJtwPbgIQdppGgUObEhLxlTYXQFDBzaGzL3TBbiofIqCMBt+B2uOfVFjjOuvtbrReRgoOC5Mtwe4tgBvR8sQzrWlAxWIW6fdx5j2ZSVQti2tJg6If4PN7HTZyfmi2gA80J2cG2XNC/OL9VHfFMbs5Vg9DQi2TGmKjkyWUANJquSPg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=WcDP1t8+lmMr7VhDBPLqgoYgGfcJGKhItKFVxSmGtqI=;
+ b=Vj3FY+jMZy1HsMyuITiATRot/Lqtuse1jOIHDOhATObwgo7jV8pBM+LEErQ4yUwp9H50XkoQ5fjvw89cDjfLINTtOPfMg4c0BIZA79B/f2FEoYAbP872exc25pLPOmNl7gcHaAsspgB/e0wA/iXu04HvspwxuD/JIZ2Mv0bSRZRwtEw+XgtwwoEGrsOGLaryffHtD57c1YjjHULgR+iSXumyZs0MZr7MB5LUXbyGTUx/mKWmP3j9fUhf+viIYu+AxoX0RD+Bi//Kiol8gNZ28f56qtcO/cOcIMHCr1wtkimwVG7D3SOQOBwnV7/NG4RKH5ruun8znbCTWQQPLdDo4A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=WcDP1t8+lmMr7VhDBPLqgoYgGfcJGKhItKFVxSmGtqI=;
+ b=v5E8JyuFkBMGiYnLj4HxPfZ7scHZBLtTnH1//mYTee7/CZqnB+seCChq5M0sM8S1mgye5nbwkcpXFzthXolx0AjR8jDlZdJJCozCr2aq8JxRQYRXxxc9jzUNHATXM8kDvjkyPqiDbeqPROpyJd5bMfV6btBglmllccPt7Nom/Kc=
+Authentication-Results: redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=none action=none header.from=amd.com;
+Received: from BN9PR12MB5129.namprd12.prod.outlook.com (2603:10b6:408:136::12)
+ by BN9PR12MB5368.namprd12.prod.outlook.com (2603:10b6:408:105::24)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4219.22; Mon, 14 Jun
+ 2021 15:26:03 +0000
+Received: from BN9PR12MB5129.namprd12.prod.outlook.com
+ ([fe80::3c78:e58b:fba7:b8dd]) by BN9PR12MB5129.namprd12.prod.outlook.com
+ ([fe80::3c78:e58b:fba7:b8dd%6]) with mapi id 15.20.4219.025; Mon, 14 Jun 2021
+ 15:26:03 +0000
+Subject: Re: [RFC PATCH v2 1/8] ext4/xfs: add page refcount helper
+To: Matthew Wilcox <willy@infradead.org>, Alex Sierra <alex.sierra@amd.com>
+References: <20210607204226.7743-1-alex.sierra@amd.com>
+ <20210607204226.7743-2-alex.sierra@amd.com>
+ <YMEVN8XZbCnyPu9/@casper.infradead.org>
+From: Felix Kuehling <felix.kuehling@amd.com>
+Message-ID: <652c22b4-8ca6-acf9-653c-c93166c83770@amd.com>
+Date: Mon, 14 Jun 2021 11:26:01 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
+In-Reply-To: <YMEVN8XZbCnyPu9/@casper.infradead.org>
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210614174912.15a49336@eldfell>
+Content-Language: en-US
+X-Originating-IP: [142.116.203.225]
+X-ClientProxiedBy: YT2PR01CA0019.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b01:38::24) To BN9PR12MB5129.namprd12.prod.outlook.com
+ (2603:10b6:408:136::12)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.2.100] (142.116.203.225) by
+ YT2PR01CA0019.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:b01:38::24) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4219.20 via Frontend Transport; Mon, 14 Jun 2021 15:26:02 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 4916b2d9-e894-4756-67f2-08d92f48b8ab
+X-MS-TrafficTypeDiagnostic: BN9PR12MB5368:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <BN9PR12MB536864241D148B855EB004E492319@BN9PR12MB5368.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: L9/37U4gyD0pdCQV1d9oAlPSzQBOYXEV2CR0e0Pk7i51kVstGNe1bktqjUT9ZdHMVBlfKOYQtI4ui1zTrzXgz6UYq5P1fm2q8z13VAZSiilnbhDHadF5PBfQQBWgYcgzuTNYtSEtUXqtUNF490EJuy+r09fDcbSmQnBU6AKVW2kc0bDbr7US6hFSot0dd2fl9aRNwdQltlSJJ8kedl7IekElElfmqB5VXDbIiiEzgMnvpeLwJ4GuRkTpBLHgyG7x1Orw11zhVP81gBIFmVLO+FpAkYCDwHo+339NdyVQNc4Hy2cou0FMTzkopOmlFnaJ/pLmXmA0OLR1pOJ+OJOXZjyMsIGRujl3B+Z0nkPZmwqYSj4OJAGjl1J6RkU36dlLj3OWYdTdesyOILGw2zV6yEV72YudMyW3rBpJaKMlnXEATUcB0Hcn0lTQN6ncwp4XBpbgpSH0+PQK58fq1X+cAa7/HElDMuoT7cGCv0BhjjUP3GYb/TfMJXnk0Z6Si3RlGCPlALiK2lOaPZ8Vaa0FgTSqAv1Vg2eMxy6gnKnv9c8iVHZP71BZ4kbE/kw2SrpygGcNCbh0Ws1kLYJeNFYtV+4o8OE+WptJZfyASV96kw30LE7UvLH+6mCy1787Y6JP9inqAQMnaqjKs8ujXq42zHqtOu4FG6s1U5oy0b7mL2Mb89Pa/XlGvht6BAE+xaHr
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BN9PR12MB5129.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(376002)(136003)(396003)(366004)(346002)(39860400002)(66476007)(66946007)(83380400001)(66556008)(31686004)(16526019)(6486002)(186003)(16576012)(26005)(110136005)(86362001)(5660300002)(478600001)(8936002)(6636002)(38100700002)(2616005)(4326008)(956004)(2906002)(36756003)(316002)(44832011)(31696002)(8676002)(4744005)(45980500001)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?N0xUWldwUFlwQ0dBbW5zWXNCVzVqZGNmZGJlVTZVU2YzSDhEalJUMENseHNO?=
+ =?utf-8?B?L29Pa2xzZzVSQXY3MDU0ZFgzR3R5MkMrMmJGSmRtb0twL0s2Ulpkem5oRHBr?=
+ =?utf-8?B?SlpEWmpMZHFNbXlmcnZKVDlWbDh0bnBEaHlPWnk0WlZDeURFNE5nOSsvczdM?=
+ =?utf-8?B?c1NMS2hWT2QwZ0VwcEw1cHhuNjI0eElzUXZzdEwxZ0JMaXhzdm1iVVRtVEZB?=
+ =?utf-8?B?cE5XVllwQ0h1SHdncHhiVVorcnh0WEpTZnVBaXNBODNvZnZudGhOUzlMQ3FM?=
+ =?utf-8?B?YjhyQXczdXBHa0o0bC9sNXdYWU5NK01yOWpEVXpMa3lMRC9ONTB4UGh6amVv?=
+ =?utf-8?B?NWxxOG11QzN6ek9jOHJwL2RDYmNnSXlFbTRjcHE4SFNkUkp5ajZxbngvNUVO?=
+ =?utf-8?B?aitWYTI5L2NGdDZXYUdSWjZuZTRZWmpvR1JNVHJtSDEzR05JU202UGh4Z0tF?=
+ =?utf-8?B?aDlta3hDQmkvSkhlTTFmZzFkYzRhQ1R0NHZ0b2R1QktQUnZObnJwQlU3aFlJ?=
+ =?utf-8?B?Sy8wMWlnc1VJSGtCdWphT25Gak9SVkx6dFAwc1hKa0ttREpYS3B2eE5DV1hn?=
+ =?utf-8?B?ekMvR3lnY0kwK3hvQk1uV2ZCOUI0VUloY3VKcDhnMjBuS3NGTGpJQTF6NTF3?=
+ =?utf-8?B?cGdIVjQ0dUVvd0QxS0haZTNZeHJaK1lVNGlJRWFSVS8rMCtCdEt1Q21FRllR?=
+ =?utf-8?B?N0wyRFNFdnUxQ0lFVHRpcXYvZGJpdVFSMTcrNUdXaWQxVXlMNDMwSXZxTDRr?=
+ =?utf-8?B?ZkZsUU5vZXRqV1lENEhXK0UzbGU3ZEo4TkNhcVNQZGVCS2JIeCtmUEdqRHFw?=
+ =?utf-8?B?eUdpRExUYzlPVWFoVCtseUgxYW0xUmdEaWVJTy81TVh2ZXQ1c0VEbzFpWXF4?=
+ =?utf-8?B?WUg3VzNBdTYrTXJJSXQveUhTSlRvb204K0E2a3JpQ1owVGxsRDJVQnhUb21E?=
+ =?utf-8?B?YVZ6Q3p1c2llR0kvRGRFUE1NczFlOFJZenVScHF5LzhxeVVIRlpmTEs0N0tw?=
+ =?utf-8?B?aCtDeklCQURRbVpLeXZFSmxPbnliMmJxV0xWT2l5clVlOHNGbWYvd2VqRG9C?=
+ =?utf-8?B?NFRrbnVoMHROTHVtdXRYNVE5ekxYUmJycnRHVUU5UGdIajFxMG9CQVhNTU5z?=
+ =?utf-8?B?dDJtUDdCYUh3VkJkZFNkSUFPU2M0KzdGaVYzVlBaL0lqTFBmci81MmJRbG9S?=
+ =?utf-8?B?MW1keVJWeFhQSG1aaUZhakQyR3ZEYzRiMWl1QVdFWWkxR1pNeG80ZWhHNWN1?=
+ =?utf-8?B?djBTazFNdjA2Qk1ZcE1EWldob0RMSEt6di9hOFNIMEpCTjdSeC9XL0h3WWhY?=
+ =?utf-8?B?TVNQbVlYTnNkbmpjUG1JZlZPZURFU0dvTTRLQ3E1WG1iVFNFZlFUbFF0RVpy?=
+ =?utf-8?B?RWZVYnJmU0poTGMvOXBIVjVMQnJtOUZ2eXhBanhLWUcyNS92TGZvdFZoemRi?=
+ =?utf-8?B?UGV6N2lBblRnbm94V2VydTJNOXFyWU5vMzhHQ2huRi9YRjQvWjFkaHFVSEE2?=
+ =?utf-8?B?Ly9uOUhWNUlhVFhXWFRSbkVrenFzM2crOWdwQ2w4UGtjR1dVdlBER1RaTGNN?=
+ =?utf-8?B?UmJmbk5NL2RNNEFIY1g0Q1ZJejhHWjI0bm1kdXh5T0RWRFNxYkdTSk5IYlRi?=
+ =?utf-8?B?cFdMNUloSm5kTmRuSU5Veng0VGRwQ3QxSzVZQjNBS1FHQlJsckx0aXRRbXAy?=
+ =?utf-8?B?bGk4RVY3ZEJmZHB1clh4UVFjRm1vNXlOWkdRMy9leTg4cE54SnBUZDdLays3?=
+ =?utf-8?Q?nGmbjQPaG22JBUyhaTA4/C6/2/W5sYEA9Di2r9q?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4916b2d9-e894-4756-67f2-08d92f48b8ab
+X-MS-Exchange-CrossTenant-AuthSource: BN9PR12MB5129.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Jun 2021 15:26:03.5432 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: HTcRzIzyeo8v1R2EP2dzlHgBo3bNi1rLRUggAZ2nNW47rVvWrE8N8uE6Ez0szzLNf+K7pZ88DNJlETBwmVSGSw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN9PR12MB5368
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,204 +128,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Ludovic Desroches <ludovic.desroches@microchip.com>,
- Haneen Mohammed <hamohammed.sa@gmail.com>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Linux Doc Mailing List <linux-doc@vger.kernel.org>,
- Xinliang Liu <xinliang.liu@linaro.org>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- Edmund Dea <edmund.j.dea@intel.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- dri-devel <dri-devel@lists.freedesktop.org>, Sandy Huang <hjc@rock-chips.com>,
- Melissa Wen <melissa.srw@gmail.com>, Andrzej Hajda <a.hajda@samsung.com>,
- Thierry Reding <thierry.reding@gmail.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Benjamin Gaignard <benjamin.gaignard@linaro.org>,
- Anitha Chrisanthus <anitha.chrisanthus@intel.com>,
- Daniel Vetter <daniel.vetter@intel.com>,
- Jonathan Hunter <jonathanh@nvidia.com>, Sam Ravnborg <sam@ravnborg.org>,
- Jerome Brunet <jbrunet@baylibre.com>, Marek Vasut <marex@denx.de>,
- Jonathan Corbet <corbet@lwn.net>, Joonyoung Shim <jy0922.shim@samsung.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
- Kevin Hilman <khilman@baylibre.com>, Neil Armstrong <narmstrong@baylibre.com>,
- Russell King <linux@armlinux.org.uk>, Steven Price <steven.price@arm.com>,
- David Airlie <airlied@linux.ie>, Xinwei Kong <kong.kongxinwei@hisilicon.com>,
- Noralf =?utf-8?Q?Tr=C3=B8nnes?= <noralf@tronnes.org>,
- VMware Graphics <linux-graphics-maintainer@vmware.com>,
- Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
- Hyun Kwon <hyun.kwon@xilinx.com>, NXP Linux Team <linux-imx@nxp.com>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>, Tian Tao <tiantao6@hisilicon.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, Jonas Karlman <jonas@kwiboo.se>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- Chen Feng <puck.chen@hisilicon.com>, Sascha Hauer <s.hauer@pengutronix.de>,
- Alison Wang <alison.wang@nxp.com>, Roland Scheidegger <sroland@vmware.com>,
- Shawn Guo <shawnguo@kernel.org>, Ben Skeggs <bskeggs@redhat.com>,
- Maxime Ripard <maxime@cerno.tech>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Matthias Brugger <matthias.bgg@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
- Sean Paul <sean@poorly.run>, Pengutronix Kernel Team <kernel@pengutronix.de>,
- Paul Cercueil <paul@crapouillou.net>, Jernej Skrabec <jernej.skrabec@siol.net>,
- Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
- Tomi Valkeinen <tomba@kernel.org>, Hans de Goede <hdegoede@redhat.com>,
- Andrew Jeffery <andrew@aj.id.au>, Yannick Fertr e <yannick.fertre@foss.st.com>,
- Boris Brezillon <bbrezillon@kernel.org>,
- Seung-Woo Kim <sw0312.kim@samsung.com>,
- Nicolas Ferre <nicolas.ferre@microchip.com>,
- Robert Foss <robert.foss@linaro.org>, Joel Stanley <joel@jms.id.au>,
- Tomeu Vizoso <tomeu.vizoso@collabora.com>,
- Kyungmin Park <kyungmin.park@samsung.com>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Qiang Yu <yuq825@gmail.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alex Deucher <alexander.deucher@amd.com>, Huang Rui <ray.huang@amd.com>,
- Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>,
- Philippe Cornu <philippe.cornu@foss.st.com>, Jyri Sarha <jyri.sarha@iki.fi>,
- Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
- Gerd Hoffmann <kraxel@redhat.com>
+Cc: rcampbell@nvidia.com, dri-devel@lists.freedesktop.org, linux-mm@kvack.org,
+ jglisse@redhat.com, amd-gfx@lists.freedesktop.org, jgg@nvidia.com,
+ akpm@linux-foundation.org, hch@lst.de
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jun 14, 2021 at 05:49:12PM +0300, Pekka Paalanen wrote:
-> On Fri, 11 Jun 2021 13:03:09 +0100
-> Liviu Dudau <liviu.dudau@arm.com> wrote:
-> 
-> > On Fri, Jun 11, 2021 at 08:14:59AM +0000, Simon Ser wrote:
-> > > On Thursday, June 10th, 2021 at 23:00, Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
-> > >   
-> > > > If there's a strong consensus that we really need this then I'm not
-> > > > going to nack this, but this really needs a pile of acks from
-> > > > compositor folks that they're willing to live with the resulting
-> > > > fallout this will likely bring. Your cc list seems to have an absence
-> > > > of compositor folks, but instead every driver maintainer. That's
-> > > > backwards. We make uapi for userspace, not for kernel driver
-> > > > maintainers!  
-> > > 
-> > > In wlroots we have a policy of only allowing standard KMS properties to
-> > > be used. Any vendor-specific property is going to be less well-defined,
-> > > less widely useful, potentially have more design issues, potentially
-> > > overlap in functionality with other vendor-specific properties, likely
-> > > have some hardware-specific assumptions, etc.
-> > > 
-> > > What matters here is discussing with other driver & user-space folks to
-> > > make sure the new property's design is sound. Designing uAPI is hard.
-> > > 
-> > > If kernel folks are struggling with a user-space implementation, they
-> > > should discuss with user-space folks to see which project would be
-> > > interested. There's a chance a compositor will be interested in the new
-> > > property and will just do the user-space part for you, if not we can
-> > > suggest candidate projects.
-> > > 
-> > > tl;dr strong agree with Daniel here.  
-> > 
-> > I think the assumption you and Daniel are making is that the first implementation of
-> > a new KMS property can be made standard from day one and that it will work for any
-> > late comer driver as is, without having to make changes to its behaviour in a
-> > significant way. In my experience that is not the case.
-> > 
-> > I think we have moved from the times when we were trying to implement in the Linux
-> > world features that were available in the hardware but needed a kernel and userspace
-> > API. The set of properties that exist in KMS cover a lot of needed functionality and
-> > I don't expect to see new properties for stuff that is already supported by hardware.
-> > 
-> > What I'm expected to see in the future is new functionality that gets implemented by
-> > one hardware vendor and the kernel developers trying to enable that for userspace. It
-> > could be that the new property is generic, but there is no way of testing that on
-> > more than one implementation yet, so I'd say we are generous calling it "standard
-> > property". When the second or third hardware vendor comes along and starts supporting
-> > that property with their own set of extra requirements, then we can call it
-> > "standard".
-> 
-> I agree that is a problem with trying to make generic anything. But it
-> does not mean you should not even try. Maybe trying really hard saves a
-> couple revisions.
+Am 2021-06-09 um 3:23 p.m. schrieb Matthew Wilcox:
+> On Mon, Jun 07, 2021 at 03:42:19PM -0500, Alex Sierra wrote:
+>> +++ b/include/linux/dax.h
+>> @@ -243,6 +243,16 @@ static inline bool dax_mapping(struct address_space *mapping)
+>>  	return mapping->host && IS_DAX(mapping->host);
+>>  }
+>>  
+>> +static inline bool dax_layout_is_idle_page(struct page *page)
+>> +{
+>> +	return page_ref_count(page) == 1;
+>> +}
+> We already have something called an idle page, and that's quite a
+> different thing from this.  How about dax_page_unused() (it's a use
+> count, so once it's got down to its minimum value, it's unused)?
+>
+Hi Matthew,
 
-Agree.
+Thank you very much for your feedback. This patch looks straight-forward
+enough, but do we need the filesystem maintainers to review this as
+well? I guess we should CC the linux-ext4 and linux-xfs mailing lists in
+the next revision.
 
-> 
-> What I think should be planned for is revisions. How to add new
-> properties that do the same thing but better, while documenting that a
-> userspace KMS client can use only one revision at a time. You never
-> remove old revisions, unless maybe with a DRM client cap they
-> could disappear from that file description if that is necessary for
-> seeing the new revision.
-> 
-> While designing this, one also needs to take into account that KMS
-> clients need to be able to save and restore properties *they do not
-> understand*. So exposing two revisions of the same feature
-> simultaneously would break save/restore is that's an error.
+Hi Ralph,
 
-I quite like the idea of having versions for properties.
+Are you OK if we update your patch with this suggestion?
 
-> 
-> > Then comes the effort cost: would it be easier to start with a vendor
-> > property that only the vendor needs to support (and can submit patches into the
-> > compositors to do so) and when the standard property gets added moves to that, or
-> 
-> But you can't move, you can only add? You can't delete the old property
-> in kernel if it was ever released with a kernel and anyone used it. In
-> the same sentence you also imply that there is a user of it, so
-> removing it will break that user. Then you'll have to track the
-> userspace lifetime to figure out which decade you can try removing it.
-
-Not that I am supporting the workflow, but I was trying to address the comments that
-vendors are going to push their own userspace implementation for their vendor
-properties. If that is the case, when they switch to the standard ones they can drop
-the support in userspace for their changes. With the implied assumption that you will
-have fewer vendor implementations hence easier to make changes, KMS properties can be
-deleted if you know there is no user of them (e.g. the vendor has upgraded all their
-software to the standard property).
-
-> 
-> > should we start with a generic property that gets implemented by the compositors
-> > (maybe, but then only one vendor supports it) and then later when we actually
-> > standardise the property we will have to carry backwards compatibility code in the
-> > kernel to handle the old behaviour for old userspace? My proposal to Maxime was for
-> > the former option to be reflected in the documentation, but I would like to hear your
-> > thoughts.
-> 
-> You have to carry the backward compatibility in all cases, right?
-> 
-> Userspace OTOH can drop support for older less supported KMS properties
-> while taking advantage of a new revision. Userspace is not required to
-> support old kernels forever.
-> 
-> 
-> Here's a wild counter-proposal off a tangent:
-> 
-> How about we make "implemented in and testable with VKMS" the rule,
-> instead of "is generic" for new properties?
-> 
-> VKMS is what compositors (will) use in CI. I would feel hugely less bad
-> about using a property that only one hardware driver ever implements,
-> if also VKMS implements it in a way that compositor CI can observe it
-> working.
-> 
-> I don't expect this proposal to be accepted, but it's food for thought.
-> The major problem for compositor projects is testing as you usually
-> don't have the hardware, IMO. CI tends to not have any hardware.
-
-While I don't dislike the proposal (I think it is quite sensible), I am worried that
-for some behaviours VKMS will implement them in a quirky way. To pick (again) the
-example of writeback, real hardware will have a way to tell if the buffer has been
-sent successfully to memory and it might take more than one refresh period, while
-VKMS (if I remember correctly) fakes it and signals the fence at the next vblank. If
-you code your compositor based on VKMS you might get unexpected artifacts on real
-hardware.
-
-Best regards,
-Liviu
+Thanks,
+  Felix
 
 
-> 
-> 
-> Thanks,
-> pq
-
-
-
--- 
-====================
-| I would like to |
-| fix the world,  |
-| but they're not |
-| giving me the   |
- \ source code!  /
-  ---------------
-    ¯\_(ツ)_/¯
