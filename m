@@ -2,61 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CAD9F3A6950
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Jun 2021 16:50:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 53C143A6951
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Jun 2021 16:50:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5196189D4B;
-	Mon, 14 Jun 2021 14:50:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7004789D77;
+	Mon, 14 Jun 2021 14:50:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x329.google.com (mail-ot1-x329.google.com
- [IPv6:2607:f8b0:4864:20::329])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2671C89CE3;
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B507389CE3;
  Mon, 14 Jun 2021 14:50:06 +0000 (UTC)
-Received: by mail-ot1-x329.google.com with SMTP id
- j11-20020a9d738b0000b02903ea3c02ded8so11064100otk.5; 
- Mon, 14 Jun 2021 07:50:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=f/G9+cLtm6tv4XZoac5mNuWg/9w98HTviVul21Fq2uY=;
- b=ooEAH1xGJqgoV70CT2FkbCQeL2pxBGI3XUgWFcenQxxcy/nrSiT4C4KmbCtYPBAnq7
- S48t8777aNJ6ieWdlT9bpNNhuRHpsveBLjG9kenDVu5ZpHxyuKZwX4B2bh02KZ3VZFXT
- z+q3UC4qa7i7UWG5L4Qfdw9bzBmN/vtDwzG/ABNG39WbR+DSE5NU94fO7wNFRhMu5iFJ
- YbEBH+bni7SbcCuyXtUYmJ1cLaNhY61jCx2M9Alw27ziR8igh1Ihie4x5BYDJPpzrsna
- lBqi2jf0mPIM+Ih5oOOQW/2Sx8rgrMKOUEL4TwY+/s59h/E8Km75qIfpCWQeNwHxIOmP
- fNZw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=f/G9+cLtm6tv4XZoac5mNuWg/9w98HTviVul21Fq2uY=;
- b=eI1YXmIa+8SVu9lF9Gl3Rmr/pjaMKrbEQcs60Ag2aH5kUEX8+FV1F9kogNoY6Y3Y98
- x/klVVRzwKLAvXw/Jow4SetDbvfN+K/AWd+6afI2gfmBUsxQMPfPhP73lthFcw4yl3iE
- /rCevfHqa7w4Lmiy0xz9preggOa1ktfAMnpmUqgK99oQ0GpCmqgWqrGRltG1mquq7aG/
- PHHP2bbW6IjdPh37AC3GvoHFkS01W9UONvGkl8J+HmHI0ZOH9jvPb2GR3wp3OfPQpusF
- ZuZvgh2wT3BlhbSyj9uGPP8mvbWc8cFE2esRFGzjuXJ4YqXIHkLsbShUfsIA/XIWWRkH
- EQbw==
-X-Gm-Message-State: AOAM531hduOH9jfToBLVoxdeEZ/G/rTE8fE2Z1QrbEfgS4saKiUfDAGM
- m+ccdBfRbN+AejLcLKMsHaGj0PYIhG6wSeoeEyE=
-X-Google-Smtp-Source: ABdhPJxVSAcozUKqmNrxTuWB4UqtjyU3ZrryfwqPvJRxaWLO8rP8VHPLrQjvYUGd1VtBw7667Y8KZxQE0qIt87tiwk4=
-X-Received: by 2002:a9d:6287:: with SMTP id x7mr14123707otk.132.1623682205282; 
- Mon, 14 Jun 2021 07:50:05 -0700 (PDT)
+IronPort-SDR: Dvc3tQteuo5em7I25wEAptIHL9ZcYzyuYLR7r6x5Q3hCwO6789PUhjMnOLMEJLS/F/sNzwf1Jc
+ 4YiAXqskWFpw==
+X-IronPort-AV: E=McAfee;i="6200,9189,10015"; a="205853272"
+X-IronPort-AV: E=Sophos;i="5.83,273,1616482800"; d="scan'208";a="205853272"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Jun 2021 07:50:05 -0700
+IronPort-SDR: qDf9fI3A1vPDNFUFk2t3ijy5C+iTzjWBQP6dee8Cq8Revk58gSw5RXa6r9zzgqBK3C9+KCdVNv
+ rEByb0fJOS0Q==
+X-IronPort-AV: E=Sophos;i="5.83,273,1616482800"; d="scan'208";a="553386328"
+Received: from fnygreen-mobl1.ger.corp.intel.com (HELO [10.249.254.50])
+ ([10.249.254.50])
+ by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Jun 2021 07:50:03 -0700
+Subject: Re: [Intel-gfx] [PATCH v4 2/4] drm/i915/ttm: Adjust gem flags and
+ caching settings after a move
+To: Matthew Auld <matthew.william.auld@gmail.com>
+References: <20210614115406.153107-1-thomas.hellstrom@linux.intel.com>
+ <20210614115406.153107-3-thomas.hellstrom@linux.intel.com>
+ <CAM0jSHNt4i+-bovY2DPA4jcP4WNN=nzLtYHFDnS7L6Ni8pzbHQ@mail.gmail.com>
+From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>
+Message-ID: <c164fc63-1bf2-dbdb-ca9a-6719bd682872@linux.intel.com>
+Date: Mon, 14 Jun 2021 16:50:01 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-References: <20210604170107.2023162-1-markyacoub@chromium.org>
- <906d0ab3-ddca-8cb9-68f5-1b495cc4be5c@amd.com>
- <CAJUqKUr-s+r1Q-CEO6avH-X5T_Lwt3ZaG5tukygo0joHi8kCpA@mail.gmail.com>
- <2e289387-0101-6141-a1c4-ae0438e0c2b8@amd.com>
- <CADnq5_Nu=rzRw-jY7zf7Q6mjJQ=s4+vRTudb3383YG_h=twO9g@mail.gmail.com>
- <CADnq5_Mh7m+rOcrkuwdpPeBdOA32Z3wgD2aimeMn6_ZcXAesRA@mail.gmail.com>
- <CAJUqKUpz9L-fC0M7+3dz75WFQ9zNi_rpd_syvLACiY-NJoPD=g@mail.gmail.com>
-In-Reply-To: <CAJUqKUpz9L-fC0M7+3dz75WFQ9zNi_rpd_syvLACiY-NJoPD=g@mail.gmail.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Mon, 14 Jun 2021 10:49:54 -0400
-Message-ID: <CADnq5_OwXVXNNgx5C_cpG2sZhWDNddLJ0m6gne5cxXRx4QQ7RQ@mail.gmail.com>
-Subject: Re: [PATCH] drm/amd/display: Verify Gamma & Degamma LUT sizes in
- amdgpu_dm_atomic_check
-To: Mark Yacoub <markyacoub@chromium.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <CAM0jSHNt4i+-bovY2DPA4jcP4WNN=nzLtYHFDnS7L6Ni8pzbHQ@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,184 +54,287 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Siqueira, Rodrigo" <rodrigo.siqueira@amd.com>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- Sean Paul <seanpaul@chromium.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>, "Deucher,
- Alexander" <alexander.deucher@amd.com>, Mark Yacoub <markyacoub@google.com>
+Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ Matthew Auld <matthew.auld@intel.com>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jun 14, 2021 at 10:49 AM Mark Yacoub <markyacoub@chromium.org> wrote:
+
+On 6/14/21 3:48 PM, Matthew Auld wrote:
+> On Mon, 14 Jun 2021 at 12:54, Thomas Hellström
+> <thomas.hellstrom@linux.intel.com> wrote:
+>> After a TTM move or object init we need to update the i915 gem flags and
+>> caching settings to reflect the new placement. Currently caching settings
+>> are not changed during the lifetime of an object, although that might
+>> change moving forward if we run into performance issues or issues with
+>> WC system page allocations.
+>> Also introduce gpu_binds_iomem() and cpu_maps_iomem() to clean up the
+>> various ways we previously used to detect this.
+>> Finally, initialize the TTM object reserved to be able to update
+>> flags and caching before anyone else gets hold of the object.
+>>
+>> Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+>> ---
+>> v2:
+>> - Style fixes (Reported by Matthew Auld)
+>> v3:
+>> - More style fixes. Clarify why we're updating caching settings after move.
+>>    (Suggested by Matthew Auld)
+>> ---
+>>   drivers/gpu/drm/i915/gem/i915_gem_ttm.c | 111 +++++++++++++++++++-----
+>>   1 file changed, 89 insertions(+), 22 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+>> index 33ab47f1e05b..5176682a7d19 100644
+>> --- a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+>> +++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+>> @@ -70,6 +70,17 @@ static struct ttm_placement i915_sys_placement = {
+>>          .busy_placement = &lmem0_sys_placement_flags[1],
+>>   };
+>>
+>> +static bool gpu_binds_iomem(struct ttm_resource *mem)
+>> +{
+>> +       return mem->mem_type != TTM_PL_SYSTEM;
+>> +}
+>> +
+>> +static bool cpu_maps_iomem(struct ttm_resource *mem)
+>> +{
+>> +       /* Once / if we support GGTT, this is also false for cached ttm_tts */
+>> +       return mem->mem_type != TTM_PL_SYSTEM;
+>> +}
+>> +
+>>   static void i915_ttm_adjust_lru(struct drm_i915_gem_object *obj);
+>>
+>>   static struct ttm_tt *i915_ttm_tt_create(struct ttm_buffer_object *bo,
+>> @@ -175,6 +186,40 @@ static void i915_ttm_free_cached_io_st(struct drm_i915_gem_object *obj)
+>>          obj->ttm.cached_io_st = NULL;
+>>   }
+>>
+>> +static void
+>> +i915_ttm_adjust_domains_after_cpu_move(struct drm_i915_gem_object *obj)
+>> +{
+>> +       struct ttm_buffer_object *bo = i915_gem_to_ttm(obj);
+>> +
+>> +       if (cpu_maps_iomem(bo->resource) || bo->ttm->caching != ttm_cached) {
+>> +               obj->write_domain = I915_GEM_DOMAIN_WC;
+>> +               obj->read_domains = I915_GEM_DOMAIN_WC;
+>> +       } else {
+>> +               obj->write_domain = I915_GEM_DOMAIN_CPU;
+>> +               obj->read_domains = I915_GEM_DOMAIN_CPU;
+>> +       }
+>> +}
+>> +
+>> +static void i915_ttm_adjust_gem_after_move(struct drm_i915_gem_object *obj)
+>> +{
+>> +       struct drm_i915_private *i915 = to_i915(obj->base.dev);
+>> +       struct ttm_buffer_object *bo = i915_gem_to_ttm(obj);
+>> +       unsigned int cache_level;
+>> +
+>> +       obj->mem_flags &= ~(I915_BO_FLAG_STRUCT_PAGE | I915_BO_FLAG_IOMEM);
+>> +
+>> +       obj->mem_flags |= cpu_maps_iomem(bo->resource) ? I915_BO_FLAG_IOMEM :
+>> +               I915_BO_FLAG_STRUCT_PAGE;
+>> +
+>> +       if ((HAS_LLC(i915) || HAS_SNOOP(i915)) && !gpu_binds_iomem(bo->resource) &&
+>> +           bo->ttm->caching == ttm_cached)
+>> +               cache_level = I915_CACHE_LLC;
+>> +       else
+>> +               cache_level = I915_CACHE_NONE;
+>> +
+>> +       i915_gem_object_set_cache_coherency(obj, cache_level);
+>> +}
+>> +
+>>   static void i915_ttm_purge(struct drm_i915_gem_object *obj)
+>>   {
+>>          struct ttm_buffer_object *bo = i915_gem_to_ttm(obj);
+>> @@ -190,8 +235,10 @@ static void i915_ttm_purge(struct drm_i915_gem_object *obj)
+>>
+>>          /* TTM's purge interface. Note that we might be reentering. */
+>>          ret = ttm_bo_validate(bo, &place, &ctx);
+>> -
+>>          if (!ret) {
+>> +               obj->write_domain = 0;
+>> +               obj->read_domains = 0;
+>> +               i915_ttm_adjust_gem_after_move(obj);
+>>                  i915_ttm_free_cached_io_st(obj);
+>>                  obj->mm.madv = __I915_MADV_PURGED;
+>>          }
+>> @@ -273,12 +320,15 @@ i915_ttm_resource_get_st(struct drm_i915_gem_object *obj,
+>>                           struct ttm_resource *res)
+>>   {
+>>          struct ttm_buffer_object *bo = i915_gem_to_ttm(obj);
+>> -       struct ttm_resource_manager *man =
+>> -               ttm_manager_type(bo->bdev, res->mem_type);
+>>
+>> -       if (man->use_tt)
+>> +       if (!gpu_binds_iomem(res))
+>>                  return i915_ttm_tt_get_st(bo->ttm);
+>>
+>> +       /*
+>> +        * If CPU mapping differs, we need to add the ttm_tt pages to
+>> +        * the resulting st. Might make sense for GGTT.
+>> +        */
+>> +       GEM_WARN_ON(!cpu_maps_iomem(res));
+>>          return intel_region_ttm_node_to_st(obj->mm.region, res);
+>>   }
+>>
+>> @@ -290,8 +340,6 @@ static int i915_ttm_move(struct ttm_buffer_object *bo, bool evict,
+>>          struct drm_i915_gem_object *obj = i915_ttm_to_gem(bo);
+>>          struct ttm_resource_manager *dst_man =
+>>                  ttm_manager_type(bo->bdev, dst_mem->mem_type);
+>> -       struct ttm_resource_manager *src_man =
+>> -               ttm_manager_type(bo->bdev, bo->resource->mem_type);
+>>          struct intel_memory_region *dst_reg, *src_reg;
+>>          union {
+>>                  struct ttm_kmap_iter_tt tt;
+>> @@ -332,34 +380,36 @@ static int i915_ttm_move(struct ttm_buffer_object *bo, bool evict,
+>>          if (IS_ERR(dst_st))
+>>                  return PTR_ERR(dst_st);
+>>
+>> -       /* If we start mapping GGTT, we can no longer use man::use_tt here. */
+>> -       dst_iter = dst_man->use_tt ?
+>> +       dst_iter = !cpu_maps_iomem(dst_mem) ?
+>>                  ttm_kmap_iter_tt_init(&_dst_iter.tt, bo->ttm) :
+>>                  ttm_kmap_iter_iomap_init(&_dst_iter.io, &dst_reg->iomap,
+>>                                           dst_st, dst_reg->region.start);
+>>
+>> -       src_iter = src_man->use_tt ?
+>> +       src_iter = !cpu_maps_iomem(bo->resource) ?
+>>                  ttm_kmap_iter_tt_init(&_src_iter.tt, bo->ttm) :
+>>                  ttm_kmap_iter_iomap_init(&_src_iter.io, &src_reg->iomap,
+>>                                           obj->ttm.cached_io_st,
+>>                                           src_reg->region.start);
+>>
+>>          ttm_move_memcpy(bo, dst_mem->num_pages, dst_iter, src_iter);
+>> +       /* Below dst_mem becomes bo->resource. */
+>>          ttm_bo_move_sync_cleanup(bo, dst_mem);
+>> +       i915_ttm_adjust_domains_after_cpu_move(obj);
+>>          i915_ttm_free_cached_io_st(obj);
+>>
+>> -       if (!dst_man->use_tt) {
+>> +       if (gpu_binds_iomem(dst_mem) || cpu_maps_iomem(dst_mem)) {
+>>                  obj->ttm.cached_io_st = dst_st;
+>>                  obj->ttm.get_io_page.sg_pos = dst_st->sgl;
+>>                  obj->ttm.get_io_page.sg_idx = 0;
+>>          }
+>>
+>> +       i915_ttm_adjust_gem_after_move(obj);
+>>          return 0;
+>>   }
+>>
+>>   static int i915_ttm_io_mem_reserve(struct ttm_device *bdev, struct ttm_resource *mem)
+>>   {
+>> -       if (mem->mem_type < I915_PL_LMEM0)
+>> +       if (!cpu_maps_iomem(mem))
+>>                  return 0;
+>>
+>>          mem->bus.caching = ttm_write_combined;
+>> @@ -421,6 +471,16 @@ static int i915_ttm_get_pages(struct drm_i915_gem_object *obj)
+>>          if (ret)
+>>                  return ret == -ENOSPC ? -ENXIO : ret;
+>>
+>> +       i915_ttm_adjust_lru(obj);
+>> +       if (bo->ttm && !ttm_tt_is_populated(bo->ttm)) {
+>> +               ret = ttm_tt_populate(bo->bdev, bo->ttm, &ctx);
+>> +               if (ret)
+>> +                       return ret;
+>> +
+>> +               i915_ttm_adjust_domains_after_cpu_move(obj);
+>> +               i915_ttm_adjust_gem_after_move(obj);
+>> +       }
+>> +
+>>          /* Object either has a page vector or is an iomem object */
+>>          st = bo->ttm ? i915_ttm_tt_get_st(bo->ttm) : obj->ttm.cached_io_st;
+>>          if (IS_ERR(st))
+>> @@ -428,8 +488,6 @@ static int i915_ttm_get_pages(struct drm_i915_gem_object *obj)
+>>
+>>          __i915_gem_object_set_pages(obj, st, i915_sg_dma_sizes(st->sgl));
+>>
+>> -       i915_ttm_adjust_lru(obj);
+>> -
+>>          return ret;
+>>   }
+>>
+>> @@ -563,6 +621,7 @@ static u64 i915_ttm_mmap_offset(struct drm_i915_gem_object *obj)
+>>
+>>   const struct drm_i915_gem_object_ops i915_gem_ttm_obj_ops = {
+>>          .name = "i915_gem_object_ttm",
+>> +       .flags = I915_GEM_OBJECT_IS_SHRINKABLE,
+>>
+>>          .get_pages = i915_ttm_get_pages,
+>>          .put_pages = i915_ttm_put_pages,
+>> @@ -599,6 +658,10 @@ int __i915_gem_ttm_object_init(struct intel_memory_region *mem,
+>>   {
+>>          static struct lock_class_key lock_class;
+>>          struct drm_i915_private *i915 = mem->i915;
+>> +       struct ttm_operation_ctx ctx = {
+>> +               .interruptible = true,
+>> +               .no_wait_gpu = false,
+>> +       };
+>>          enum ttm_bo_type bo_type;
+>>          size_t alignment = 0;
+>>          int ret;
+>> @@ -618,15 +681,14 @@ int __i915_gem_ttm_object_init(struct intel_memory_region *mem,
+>>          i915_gem_object_init(obj, &i915_gem_ttm_obj_ops, &lock_class, flags);
+>>          i915_gem_object_init_memory_region(obj, mem);
+>>          i915_gem_object_make_unshrinkable(obj);
+>> -       obj->read_domains = I915_GEM_DOMAIN_WC | I915_GEM_DOMAIN_GTT;
+>> -       obj->mem_flags |= I915_BO_FLAG_IOMEM;
+>> -       i915_gem_object_set_cache_coherency(obj, I915_CACHE_NONE);
+>>          INIT_RADIX_TREE(&obj->ttm.get_io_page.radix, GFP_KERNEL | __GFP_NOWARN);
+>>          mutex_init(&obj->ttm.get_io_page.lock);
+>>
+>>          bo_type = (obj->flags & I915_BO_ALLOC_USER) ? ttm_bo_type_device :
+>>                  ttm_bo_type_kernel;
+>>
+>> +       obj->base.vma_node.driver_private = i915_gem_to_ttm(obj);
+>> +
+>>          /*
+>>           * If this function fails, it will call the destructor, but
+>>           * our caller still owns the object. So no freeing in the
+>> @@ -634,14 +696,19 @@ int __i915_gem_ttm_object_init(struct intel_memory_region *mem,
+>>           * Similarly, in delayed_destroy, we can't call ttm_bo_put()
+>>           * until successful initialization.
+>>           */
+>> -       obj->base.vma_node.driver_private = i915_gem_to_ttm(obj);
+>> -       ret = ttm_bo_init(&i915->bdev, i915_gem_to_ttm(obj), size,
+>> -                         bo_type, &i915_sys_placement, alignment,
+>> -                         true, NULL, NULL, i915_ttm_bo_destroy);
+>> +       ret = ttm_bo_init_reserved(&i915->bdev, i915_gem_to_ttm(obj), size,
+>> +                                  bo_type, &i915_sys_placement, alignment,
+>> +                                  &ctx, NULL, NULL, i915_ttm_bo_destroy);
+>> +
+>> +       if (ret)
+>> +               goto out;
+>>
+>> -       if (!ret)
+>> -               obj->ttm.created = true;
+>> +       obj->ttm.created = true;
+>> +       i915_ttm_adjust_domains_after_cpu_move(obj);
+>> +       i915_ttm_adjust_gem_after_move(obj);
+>> +       i915_gem_object_unlock(obj);
+> Looks like the is_shrinkable change was squashed in the next patch.
+> Doesn't really matter,
+> Reviewed-by: Matthew Auld <matthew.auld@intel.com>
+
+
+Ugh. I'll fix that up for a final version and attach your R-B.
+
+Thanks,
+
+Thomas
+
+
 >
-> hmm I see, thanks for the heads up, I'll double check why it uses
-> google email for sending.
-> wrt the assignment in the if clauses, are those typically frowned upon?
-
-Yes, checkpatch complains about them.
-
-Alex
-
-
-> Thanks!
->
-> On Fri, Jun 11, 2021 at 4:17 PM Alex Deucher <alexdeucher@gmail.com> wrote:
-> >
-> > Just a heads up, your sender email and your signed-off-by don't match
-> > and you had some assignments in if clauses.  I've fixed those up.
-> >
-> > Alex
-> >
-> >
-> > On Fri, Jun 11, 2021 at 1:35 PM Alex Deucher <alexdeucher@gmail.com> wrote:
-> > >
-> > > Applied.  Thanks!
-> > >
-> > > On Thu, Jun 10, 2021 at 5:14 PM Harry Wentland <harry.wentland@amd.com> wrote:
-> > > >
-> > > >
-> > > >
-> > > > On 2021-06-07 10:53 a.m., Mark Yacoub wrote:
-> > > > > On Fri, Jun 4, 2021 at 4:17 PM Harry Wentland <harry.wentland@amd.com> wrote:
-> > > > >>
-> > > > >>
-> > > > >>
-> > > > >> On 2021-06-04 1:01 p.m., Mark Yacoub wrote:
-> > > > >>> From: Mark Yacoub <markyacoub@google.com>
-> > > > >>>
-> > > > >>> For each CRTC state, check the size of Gamma and Degamma LUTs  so
-> > > > >>> unexpected and larger sizes wouldn't slip through.
-> > > > >>>
-> > > > >>> TEST: IGT:kms_color::pipe-invalid-gamma-lut-sizes
-> > > > >>>
-> > > > >>> Signed-off-by: Mark Yacoub <markyacoub@chromium.org>
-> > > > >>> Change-Id: I9d513a38e8ac2af1b4bf802e1feb1a4d726fba4c
-> > > > >>> ---
-> > > > >>>  .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c |  3 ++
-> > > > >>>  .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h |  1 +
-> > > > >>>  .../amd/display/amdgpu_dm/amdgpu_dm_color.c   | 40 ++++++++++++++++---
-> > > > >>>  3 files changed, 38 insertions(+), 6 deletions(-)
-> > > > >>>
-> > > > >>> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> > > > >>> index 38d497d30dba8..f6cd522b42a80 100644
-> > > > >>> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> > > > >>> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> > > > >>> @@ -9402,6 +9402,9 @@ static int amdgpu_dm_atomic_check(struct drm_device *dev,
-> > > > >>>                       dm_old_crtc_state->dsc_force_changed == false)
-> > > > >>>                       continue;
-> > > > >>>
-> > > > >>> +             if ((ret = amdgpu_dm_verify_lut_sizes(new_crtc_state)))
-> > > > >>> +                     goto fail;
-> > > > >>> +
-> > > > >>>               if (!new_crtc_state->enable)
-> > > > >>>                       continue;
-> > > > >>>
-> > > > >>> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
-> > > > >>> index 8bfe901cf2374..1b77cd2612691 100644
-> > > > >>> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
-> > > > >>> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
-> > > > >>> @@ -541,6 +541,7 @@ void amdgpu_dm_trigger_timing_sync(struct drm_device *dev);
-> > > > >>>  #define MAX_COLOR_LEGACY_LUT_ENTRIES 256
-> > > > >>>
-> > > > >>>  void amdgpu_dm_init_color_mod(void);
-> > > > >>> +int amdgpu_dm_verify_lut_sizes(const struct drm_crtc_state *crtc_state);
-> > > > >>>  int amdgpu_dm_update_crtc_color_mgmt(struct dm_crtc_state *crtc);
-> > > > >>>  int amdgpu_dm_update_plane_color_mgmt(struct dm_crtc_state *crtc,
-> > > > >>>                                     struct dc_plane_state *dc_plane_state);
-> > > > >>> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c
-> > > > >>> index 157fe4efbb599..da6f9fcc0b415 100644
-> > > > >>> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c
-> > > > >>> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c
-> > > > >>> @@ -284,6 +284,37 @@ static int __set_input_tf(struct dc_transfer_func *func,
-> > > > >>>       return res ? 0 : -ENOMEM;
-> > > > >>>  }
-> > > > >>>
-> > > > >>> +/**
-> > > > >>> + * Verifies that the Degamma and Gamma LUTs attached to the |crtc_state| are of
-> > > > >>> + * the expected size.
-> > > > >>> + * Returns 0 on success.
-> > > > >>> + */
-> > > > >>> +int amdgpu_dm_verify_lut_sizes(const struct drm_crtc_state *crtc_state)
-> > > > >>> +{
-> > > > >>> +     const struct drm_color_lut *lut = NULL;
-> > > > >>> +     uint32_t size = 0;
-> > > > >>> +
-> > > > >>> +     lut = __extract_blob_lut(crtc_state->degamma_lut, &size);
-> > > > >>> +     if (lut && size != MAX_COLOR_LUT_ENTRIES) {
-> > > > >>
-> > > > >> Isn't the point of the LUT size that it can be variable? Did you observe any
-> > > > >> problems with LUTs that are not of size 4096?
-> > > > > Is it supposed to be variable?
-> > > > > I'm basing my knowledge of LUTs on this IGT Test:
-> > > > > https://gitlab.freedesktop.org/drm/igt-gpu-tools/-/blob/master/tests/kms_color_helper.c#L281>> It does check for invalid sizes and for the exact size, giving me the
-> > > > > impression that it's not too flexible.
-> > > > > Is variability of size an AMD specific behavior or should it be a DRM behavior?
-> > > > >>
-> > > > >> Legacy X-based userspace will give us 256 size LUTs. We can't break support for
-> > > > >> that. See MAX_COLOR_LEGACY_LUT_ENTRIES.
-> > > > > In the new function `amdgpu_dm_verify_lut_sizes`, I maintained parity
-> > > > > with the old behavior. In `amdgpu_dm_update_crtc_color_mgmt`, the
-> > > > > degamma size is only checked against `MAX_COLOR_LUT_ENTRIES` while
-> > > > > regamma_size size is checked against both MAX_COLOR_LUT_ENTRIES and
-> > > > > MAX_COLOR_LEGACY_LUT_ENTRIES:
-> > > > > https://gitlab.freedesktop.org/agd5f/linux/-/blob/amd-staging-drm-next/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c#L321>> Also, in the definition of MAX_COLOR_LEGACY_LUT_ENTRIES, it mentions
-> > > > > "Legacy gamm[sic] LUT" not degamma:
-> > > > > https://gitlab.freedesktop.org/agd5f/linux/-/blame/amd-staging-drm-next/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h#L616>> As well as the commit when it was introduced, it seems to be handling
-> > > > > gammas rather than degamma LUTs:
-> > > > > https://gitlab.freedesktop.org/agd5f/linux/-/commit/086247a4b2fba49800b27807f22bb894cd8363fb>> Let me know if this would be a bug in the old behavior and I can fix
-> > > > > it, or if i'm missing something.
-> > > >
-> > > > Ah, yes, you're right, of course. Thanks for walking me through it. :)
-> > > >
-> > > > Reviewed-by: Harry Wentland <harry.wentland@amd.com>
-> > > >
-> > > > Harry
-> > > >
-> > > > >>
-> > > > >> Harry
-> > > > >>
-> > > > >>> +             DRM_DEBUG_DRIVER(
-> > > > >>> +                     "Invalid Degamma LUT size. Should be %u but got %u.\n",
-> > > > >>> +                     MAX_COLOR_LUT_ENTRIES, size);
-> > > > >>> +             return -EINVAL;
-> > > > >>> +     }
-> > > > >>> +
-> > > > >>> +     lut = __extract_blob_lut(crtc_state->gamma_lut, &size);
-> > > > >>> +     if (lut && size != MAX_COLOR_LUT_ENTRIES &&
-> > > > >>> +         size != MAX_COLOR_LEGACY_LUT_ENTRIES) {
-> > > > >>> +             DRM_DEBUG_DRIVER(
-> > > > >>> +                     "Invalid Gamma LUT size. Should be %u (or %u for legacy) but got %u.\n",
-> > > > >>> +                     MAX_COLOR_LUT_ENTRIES, MAX_COLOR_LEGACY_LUT_ENTRIES,
-> > > > >>> +                     size);
-> > > > >>> +             return -EINVAL;
-> > > > >>> +     }
-> > > > >>> +
-> > > > >>> +     return 0;
-> > > > >>> +}
-> > > > >>> +
-> > > > >>>  /**
-> > > > >>>   * amdgpu_dm_update_crtc_color_mgmt: Maps DRM color management to DC stream.
-> > > > >>>   * @crtc: amdgpu_dm crtc state
-> > > > >>> @@ -317,14 +348,11 @@ int amdgpu_dm_update_crtc_color_mgmt(struct dm_crtc_state *crtc)
-> > > > >>>       bool is_legacy;
-> > > > >>>       int r;
-> > > > >>>
-> > > > >>> -     degamma_lut = __extract_blob_lut(crtc->base.degamma_lut, &degamma_size);
-> > > > >>> -     if (degamma_lut && degamma_size != MAX_COLOR_LUT_ENTRIES)
-> > > > >>> -             return -EINVAL;
-> > > > >>> +     if ((r = amdgpu_dm_verify_lut_sizes(&crtc->base)))
-> > > > >>> +             return r;
-> > > > >>>
-> > > > >>> +     degamma_lut = __extract_blob_lut(crtc->base.degamma_lut, &degamma_size);
-> > > > >>>       regamma_lut = __extract_blob_lut(crtc->base.gamma_lut, &regamma_size);
-> > > > >>> -     if (regamma_lut && regamma_size != MAX_COLOR_LUT_ENTRIES &&
-> > > > >>> -         regamma_size != MAX_COLOR_LEGACY_LUT_ENTRIES)
-> > > > >>> -             return -EINVAL;
-> > > > >>>
-> > > > >>>       has_degamma =
-> > > > >>>               degamma_lut && !__is_lut_linear(degamma_lut, degamma_size);
-> > > > >>>
-> > > > >>
-> > > > > -Mark
-> > > > >
-> > > >
+>> +out:
+>>          /* i915 wants -ENXIO when out of memory region space. */
+>>          return (ret == -ENOSPC) ? -ENXIO : ret;
+>>   }
+>> --
+>> 2.31.1
+>>
+>> _______________________________________________
+>> Intel-gfx mailing list
+>> Intel-gfx@lists.freedesktop.org
+>> https://lists.freedesktop.org/mailman/listinfo/intel-gfx
