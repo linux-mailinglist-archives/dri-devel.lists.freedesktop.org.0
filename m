@@ -2,63 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 313983A6DBD
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Jun 2021 19:55:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 80EA03A6DC0
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Jun 2021 19:55:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9EB6F6E084;
-	Mon, 14 Jun 2021 17:55:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B1B056E15D;
+	Mon, 14 Jun 2021 17:55:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-xc30.google.com (mail-oo1-xc30.google.com
- [IPv6:2607:f8b0:4864:20::c30])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1DE4A6E084
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Jun 2021 17:55:00 +0000 (UTC)
-Received: by mail-oo1-xc30.google.com with SMTP id
- 67-20020a4a01460000b0290245b81f6261so2856615oor.6
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Jun 2021 10:55:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=RZlshWzShRr/1bxvI5qOhZ1dQlVIKovO57VSbDQdZFU=;
- b=Mg3/SfBqtNf7mgH1NsaYekPfohhc46bBdfe4bze5h9yw87oo0g6Tubo8ceS0mU4lbS
- YrOJFVzXaEREnDk6QfLMegA5sA6jXbkra30Y973xYjAvkOLGCa3A3XLBTjbArGSWzcRu
- ZLZHp7MrBMIAw/rtyRje/sdFpR7oFAH9f4PXGR+eNGrUt1rwBipxF+U8qVJy01+Z2ctI
- 35RAPRCWroEBmT6zTirlKX3h/6nh5vLfRKkt3FYFZ4W7bnVbJ8wK2sfwV4nH4s9AZN4J
- MUSi42oyIsBS+fWSQTZ13sb55pNj3zjUfChF3o6gwZDXfPr4at+lupCH2JUBCkpb5G3/
- r+XA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=RZlshWzShRr/1bxvI5qOhZ1dQlVIKovO57VSbDQdZFU=;
- b=HASLLaq5vFDKppPZ6KhTFq7dcxkwCZnNvvVnJCqQYBQlWJb08Z0y7+D2bNDB06/MrV
- aly8HCXSCNk35T1VTJQhPn3FG/s6TaYDy/Fxa1x7yJJr3AaHKUi6KV13hUKVn8EXn/sZ
- ri2joDl+mz1EyKK45UNXdpXBftQ95heW6jHaXsF4MiB+P8IcVyUfF+w0k5fmV08aBGuD
- mmDZT2/hHEqkgmeAzbJAqukQQcPOpoZBUpdyumZ/CSJH6fO2w8ZD8AfL8AxBy1WQ0rwV
- 5nK/nUHP8MszQXys1JNRX3P0semAp/OnvyllgZK5niN7/8eGAO/z0JgNw+BUQxQkkeah
- o5zw==
-X-Gm-Message-State: AOAM532kbe5vCTjV7YFRkTF2ENb5LmWcl+6hmeoUGsE6Ra4bWQ6dHleJ
- Jjci0qaTaLuL0BSohD66ZCwMLg==
-X-Google-Smtp-Source: ABdhPJz1bHjlWmc11NEr6kmjCyfD8umeBOwZX3ymRU4S8kgueYx+/o5al/nmOVkubv+jft5vHI4vzQ==
-X-Received: by 2002:a05:6820:29b:: with SMTP id
- q27mr14003988ood.32.1623693299312; 
- Mon, 14 Jun 2021 10:54:59 -0700 (PDT)
-Received: from yoga (104-57-184-186.lightspeed.austtx.sbcglobal.net.
- [104.57.184.186])
- by smtp.gmail.com with ESMTPSA id 2sm3400587ota.58.2021.06.14.10.54.57
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 14 Jun 2021 10:54:58 -0700 (PDT)
-Date: Mon, 14 Jun 2021 12:54:56 -0500
-From: Bjorn Andersson <bjorn.andersson@linaro.org>
-To: Rob Clark <robdclark@gmail.com>
-Subject: Re: [PATCH v5 4/5] iommu/arm-smmu-qcom: Add stall support
-Message-ID: <YMeX8NnVw80b9Qpe@yoga>
-References: <20210610214431.539029-1-robdclark@gmail.com>
- <20210610214431.539029-5-robdclark@gmail.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 58A616E091;
+ Mon, 14 Jun 2021 17:55:08 +0000 (UTC)
+IronPort-SDR: Z3QnAwU5WIgApGiVIHYf+X1r/Vp19wOtt55gdQnARvUzMTb5tE/XL83dJBhjXAL6vv/IiaOWck
+ Xs1oQAlZyv/g==
+X-IronPort-AV: E=McAfee;i="6200,9189,10015"; a="205884325"
+X-IronPort-AV: E=Sophos;i="5.83,273,1616482800"; d="scan'208";a="205884325"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Jun 2021 10:55:07 -0700
+IronPort-SDR: OdkTgfodYosXjprdpGEfivCkP3/p5RVOX8VRcmyl2D7V6qdXc9K9f7L2QJBl2R4ie/2zj+mEmr
+ vBcftT8ajgEg==
+X-IronPort-AV: E=Sophos;i="5.83,273,1616482800"; d="scan'208";a="553434325"
+Received: from fnygreen-mobl1.ger.corp.intel.com (HELO [10.249.254.50])
+ ([10.249.254.50])
+ by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Jun 2021 10:55:06 -0700
+Subject: Re: [PATCH v3 10/12] drm/i915/ttm: accelerated move implementation
+From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>
+To: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ ramalingam.c@intel.com
+References: <20210614162612.294869-1-thomas.hellstrom@linux.intel.com>
+ <20210614162612.294869-11-thomas.hellstrom@linux.intel.com>
+Message-ID: <0e309744-4d13-69de-2ad8-ee0df5cd46c1@linux.intel.com>
+Date: Mon, 14 Jun 2021 19:55:03 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210610214431.539029-5-robdclark@gmail.com>
+In-Reply-To: <20210614162612.294869-11-thomas.hellstrom@linux.intel.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,136 +53,104 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>,
- "Isaac J. Manjarres" <isaacm@codeaurora.org>,
- open list <linux-kernel@vger.kernel.org>, Will Deacon <will@kernel.org>,
- linux-arm-msm@vger.kernel.org, Joerg Roedel <joro@8bytes.org>,
- Robin Murphy <robin.murphy@arm.com>, dri-devel@lists.freedesktop.org,
- Jordan Crouse <jordan@cosmicpenguin.net>, iommu@lists.linux-foundation.org,
- freedreno@lists.freedesktop.org,
- "moderated list:ARM SMMU DRIVERS" <linux-arm-kernel@lists.infradead.org>
+Cc: matthew.auld@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu 10 Jun 16:44 CDT 2021, Rob Clark wrote:
 
-> From: Rob Clark <robdclark@chromium.org>
-> 
-> Add, via the adreno-smmu-priv interface, a way for the GPU to request
-> the SMMU to stall translation on faults, and then later resume the
-> translation, either retrying or terminating the current translation.
-> 
-> This will be used on the GPU side to "freeze" the GPU while we snapshot
-> useful state for devcoredump.
-> 
-> Signed-off-by: Rob Clark <robdclark@chromium.org>
-
-Reviewed-by: Bjorn Andersson <bjorn.andersson@linaro.org>
-
-Regards,
-Bjorn
-
+On 6/14/21 6:26 PM, Thomas Hellström wrote:
+> From: Ramalingam C <ramalingam.c@intel.com>
+>
+> Invokes the pipelined page migration through blt, for
+> i915_ttm_move requests of eviction and also obj clear.
+>
+> Signed-off-by: Ramalingam C <ramalingam.c@intel.com>
 > ---
->  drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c | 33 ++++++++++++++++++++++
->  include/linux/adreno-smmu-priv.h           |  7 +++++
->  2 files changed, 40 insertions(+)
-> 
-> diff --git a/drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c b/drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c
-> index b2e31ea84128..61fc645c1325 100644
-> --- a/drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c
-> +++ b/drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c
-> @@ -13,6 +13,7 @@ struct qcom_smmu {
->  	struct arm_smmu_device smmu;
->  	bool bypass_quirk;
->  	u8 bypass_cbndx;
-> +	u32 stall_enabled;
->  };
->  
->  static struct qcom_smmu *to_qcom_smmu(struct arm_smmu_device *smmu)
-> @@ -23,12 +24,17 @@ static struct qcom_smmu *to_qcom_smmu(struct arm_smmu_device *smmu)
->  static void qcom_adreno_smmu_write_sctlr(struct arm_smmu_device *smmu, int idx,
->  		u32 reg)
->  {
-> +	struct qcom_smmu *qsmmu = to_qcom_smmu(smmu);
+> v2:
+>   - subfunction for accel_move (Thomas)
+>   - engine_pm_get/put around context_move/clear (Thomas)
+>   - Invalidation at accel_clear (Thomas)
+> v3:
+>   - conflict resolution s/&bo->mem/bo->resource/g
+> ---
+>   drivers/gpu/drm/i915/gem/i915_gem_ttm.c | 87 +++++++++++++++++++++----
+>   1 file changed, 74 insertions(+), 13 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+> index bf33724bed5c..08b72c280cb5 100644
+> --- a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+> +++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+> @@ -15,6 +15,9 @@
+>   #include "gem/i915_gem_ttm.h"
+>   #include "gem/i915_gem_mman.h"
+>   
+> +#include "gt/intel_migrate.h"
+> +#include "gt/intel_engine_pm.h"
 > +
->  	/*
->  	 * On the GPU device we want to process subsequent transactions after a
->  	 * fault to keep the GPU from hanging
->  	 */
->  	reg |= ARM_SMMU_SCTLR_HUPCF;
->  
-> +	if (qsmmu->stall_enabled & BIT(idx))
-> +		reg |= ARM_SMMU_SCTLR_CFCFG;
-> +
->  	arm_smmu_cb_write(smmu, idx, ARM_SMMU_CB_SCTLR, reg);
->  }
->  
-> @@ -48,6 +54,31 @@ static void qcom_adreno_smmu_get_fault_info(const void *cookie,
->  	info->contextidr = arm_smmu_cb_read(smmu, cfg->cbndx, ARM_SMMU_CB_CONTEXTIDR);
->  }
->  
-> +static void qcom_adreno_smmu_set_stall(const void *cookie, bool enabled)
+>   #define I915_PL_LMEM0 TTM_PL_PRIV
+>   #define I915_PL_SYSTEM TTM_PL_SYSTEM
+>   #define I915_PL_STOLEN TTM_PL_VRAM
+> @@ -282,6 +285,61 @@ i915_ttm_resource_get_st(struct drm_i915_gem_object *obj,
+>   	return intel_region_ttm_node_to_st(obj->mm.region, res);
+>   }
+>   
+> +static int i915_ttm_accel_move(struct ttm_buffer_object *bo,
+> +			       struct ttm_resource *dst_mem,
+> +			       struct sg_table *dst_st)
 > +{
-> +	struct arm_smmu_domain *smmu_domain = (void *)cookie;
-> +	struct arm_smmu_cfg *cfg = &smmu_domain->cfg;
-> +	struct qcom_smmu *qsmmu = to_qcom_smmu(smmu_domain->smmu);
+> +	struct drm_i915_private *i915 = container_of(bo->bdev, typeof(*i915),
+> +						     bdev);
+> +	struct ttm_resource_manager *src_man =
+> +		ttm_manager_type(bo->bdev, bo->resource->mem_type);
+> +	struct drm_i915_gem_object *obj = i915_ttm_to_gem(bo);
+> +	struct sg_table *src_st;
+> +	struct i915_request *rq;
+> +	int ret;
 > +
-> +	if (enabled)
-> +		qsmmu->stall_enabled |= BIT(cfg->cbndx);
-> +	else
-> +		qsmmu->stall_enabled &= ~BIT(cfg->cbndx);
-> +}
+> +	if (!i915->gt.migrate.context)
+> +		return -EINVAL;
 > +
-> +static void qcom_adreno_smmu_resume_translation(const void *cookie, bool terminate)
-> +{
-> +	struct arm_smmu_domain *smmu_domain = (void *)cookie;
-> +	struct arm_smmu_cfg *cfg = &smmu_domain->cfg;
-> +	struct arm_smmu_device *smmu = smmu_domain->smmu;
-> +	u32 reg = 0;
+> +	if (!bo->ttm || !ttm_tt_is_populated(bo->ttm)) {
+> +		if (bo->type == ttm_bo_type_kernel)
+> +			return -EINVAL;
 > +
-> +	if (terminate)
-> +		reg |= ARM_SMMU_RESUME_TERMINATE;
+> +		if (bo->ttm &&
+> +		    !(bo->ttm->page_flags & TTM_PAGE_FLAG_ZERO_ALLOC))
+> +			return 0;
 > +
-> +	arm_smmu_cb_write(smmu, cfg->cbndx, ARM_SMMU_CB_RESUME, reg);
-> +}
+> +		intel_engine_pm_get(i915->gt.migrate.context->engine);
+> +		ret = intel_context_migrate_clear(i915->gt.migrate.context, NULL,
+> +						  dst_st->sgl, I915_CACHE_NONE,
+> +						  dst_mem->mem_type >= TTM_PL_PRIV,
+Here we should probably use I915_PL_LMEM0 instead of TTM_PL_PRIV, but 
+since this test  will replaced by gpu_binds_iomem() in an upcoming 
+patch, doesn't matter really.
+> +						  0, &rq);
 > +
->  #define QCOM_ADRENO_SMMU_GPU_SID 0
->  
->  static bool qcom_adreno_smmu_is_gpu_device(struct device *dev)
-> @@ -173,6 +204,8 @@ static int qcom_adreno_smmu_init_context(struct arm_smmu_domain *smmu_domain,
->  	priv->get_ttbr1_cfg = qcom_adreno_smmu_get_ttbr1_cfg;
->  	priv->set_ttbr0_cfg = qcom_adreno_smmu_set_ttbr0_cfg;
->  	priv->get_fault_info = qcom_adreno_smmu_get_fault_info;
-> +	priv->set_stall = qcom_adreno_smmu_set_stall;
-> +	priv->resume_translation = qcom_adreno_smmu_resume_translation;
->  
->  	return 0;
->  }
-> diff --git a/include/linux/adreno-smmu-priv.h b/include/linux/adreno-smmu-priv.h
-> index 53fe32fb9214..c637e0997f6d 100644
-> --- a/include/linux/adreno-smmu-priv.h
-> +++ b/include/linux/adreno-smmu-priv.h
-> @@ -45,6 +45,11 @@ struct adreno_smmu_fault_info {
->   *                 TTBR0 translation is enabled with the specified cfg
->   * @get_fault_info: Called by the GPU fault handler to get information about
->   *                  the fault
-> + * @set_stall:     Configure whether stall on fault (CFCFG) is enabled.  Call
-> + *                 before set_ttbr0_cfg().  If stalling on fault is enabled,
-> + *                 the GPU driver must call resume_translation()
-> + * @resume_translation: Resume translation after a fault
-> + *
->   *
->   * The GPU driver (drm/msm) and adreno-smmu work together for controlling
->   * the GPU's SMMU instance.  This is by necessity, as the GPU is directly
-> @@ -60,6 +65,8 @@ struct adreno_smmu_priv {
->      const struct io_pgtable_cfg *(*get_ttbr1_cfg)(const void *cookie);
->      int (*set_ttbr0_cfg)(const void *cookie, const struct io_pgtable_cfg *cfg);
->      void (*get_fault_info)(const void *cookie, struct adreno_smmu_fault_info *info);
-> +    void (*set_stall)(const void *cookie, bool enabled);
-> +    void (*resume_translation)(const void *cookie, bool terminate);
->  };
->  
->  #endif /* __ADRENO_SMMU_PRIV_H */
-> -- 
-> 2.31.1
-> 
+> +		if (!ret && rq) {
+> +			i915_request_wait(rq, 0, HZ);
+Could be a MAX_SCHEDULE_TIMEOUT here to avoid surprises in case the 
+queue to the blitter is getting long?
+> +			i915_request_put(rq);
+> +		}
+> +		intel_engine_pm_put(i915->gt.migrate.context->engine);
+> +	} else {
+> +		src_st = src_man->use_tt ? i915_ttm_tt_get_st(bo->ttm) :
+> +						obj->ttm.cached_io_st;
+> +
+> +		intel_engine_pm_get(i915->gt.migrate.context->engine);
+> +		ret = intel_context_migrate_copy(i915->gt.migrate.context,
+> +						 NULL, src_st->sgl, I915_CACHE_NONE,
+> +						 bo->resource->mem_type >= TTM_PL_PRIV,
+> +						 dst_st->sgl, I915_CACHE_NONE,
+> +						 dst_mem->mem_type >= TTM_PL_PRIV, &rq);
+> +		if (!ret && rq) {
+> +			i915_request_wait(rq, 0, HZ);
+Same thing here.
+
+
+With that fixed,
+
+Reviewed-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+
+
