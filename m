@@ -1,57 +1,71 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8FFD3A5DA8
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Jun 2021 09:25:36 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1518C3A5DAC
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Jun 2021 09:25:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A695189A9F;
-	Mon, 14 Jun 2021 07:25:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6B74C89D5E;
+	Mon, 14 Jun 2021 07:25:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x42c.google.com (mail-pf1-x42c.google.com
- [IPv6:2607:f8b0:4864:20::42c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5DD5C89A9F
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Jun 2021 07:25:31 +0000 (UTC)
-Received: by mail-pf1-x42c.google.com with SMTP id s14so9869205pfd.9
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Jun 2021 00:25:31 -0700 (PDT)
+Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com
+ [IPv6:2a00:1450:4864:20::634])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6A56B89D5C;
+ Mon, 14 Jun 2021 07:25:47 +0000 (UTC)
+Received: by mail-ej1-x634.google.com with SMTP id ce15so14906717ejb.4;
+ Mon, 14 Jun 2021 00:25:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:in-reply-to:references:from:date:message-id:subject:to
- :cc; bh=AMykhyDqQBbaHMiywFSB9ML+JDGa+EpZX1LNPgYY4Zc=;
- b=qj5JAnB588HOc2jwLQqrovr1XGhoYQv5RFkElZzigkYtxrUduAbxlPgoi9gVfdY02A
- ZR7+R1dCkIihxS4IuKuYveYt0vvMUCpCMrjXI+DOd2ywzwnBVwqGi3IroErjZuBmAzX+
- z0uQU/IRWcoPclJ6zpOsYyfSqYpD2SrlsUOQFm/ollqrUfsFjbDKfBVy1Hmitw+ns8Q/
- K/KxjPe90heu7U1QVO95XZVKtZTfBF7eMeWPypyYaNmlgNJU9emVDy+brsT6xFEuvnjx
- 3jAy60Cey85rPhkokk2qTb5MZdIZfTQKJfcSySnWo3SNL2jpKWffiQfRJ4jqDZSQCNvn
- f14g==
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-transfer-encoding:content-language;
+ bh=3S+6hdJy8zT5PHSGGEV92GAMPcCN8sAp6uvhaz0ZJbw=;
+ b=DHNz9DF2Lc5rbJmGSKKv6zQcGKUrdUQ1ZAAHNs71gFIa86bAhrrWXsTYm3GEx27PVv
+ omhouq8DkKXMBKzHqZWpgg9+T/iLFNr+eiN4u11sLzmq5uYi1pg/beZSNl4fLvdM7MK7
+ oAuaeuhXli26Q2sO1x6NdwoXh5JN8VXMPyVZI6y89n6kOxxNv1OpDTWpQtKCwj8YE0jc
+ RM1lMAYNFihi3EoOP98tDFslenzPRvXjXrTNASuDd2J6aDe93Uf0GYspoe1wo+SBb0sx
+ AoRlNLeS/H2TqTcBVWmhTJ8q3S3xGDv6h0QMa5OWrJSZcuWnfZNUHrZwGJLPTq2K5Uw/
+ caaQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:in-reply-to:references:from:date
- :message-id:subject:to:cc;
- bh=AMykhyDqQBbaHMiywFSB9ML+JDGa+EpZX1LNPgYY4Zc=;
- b=MNlfYqLRsLoVPiqXCIQDpC+NJTAkluC9gN6kXVaMVj3FP+BP1tfeiTRZynPY7NuS3+
- SYNo+aVMDPGRRTt6HcBoA0mOBPFnQto8BlPsUBDH95ho7yhYvoKBbLWlAufujCrukZQJ
- UloEfO08vpLQckT1628mopIW/Jd6LAaUuJazGZu53Spmg569abcugY+sjxNgrqNnq1mo
- 9wQOV9fJ+LfMXrKeYxEO5ceB/BJjfk5Cz/Z7t2nnzEqN/vYvuER0fy9phQN4WMc+hXSy
- RaG4AE6Ajt2LbL2tSVopqX6diPH+88O2mpAEzaoquhx4PVxXLz1FebLOP03nNZwbboad
- 2MaQ==
-X-Gm-Message-State: AOAM531jZtqftSUv5aZoYfnff9XywuhpqNeiUA8dN9tdbG8YmlRdLHEk
- WUFwkC57/B8bcit+pukjTh/HBqcyfUYjLGM9Vp0=
-X-Google-Smtp-Source: ABdhPJyp7zIxr65YJCOiZ6K/FwBFmlTWCutupU196eRa7Pb7taMb3Xn0YWA2wmKNWo+aR9YpwQk25tYu27sHw3v+2KU=
-X-Received: by 2002:a63:79c3:: with SMTP id
- u186mr15720923pgc.203.1623655530978; 
- Mon, 14 Jun 2021 00:25:30 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-transfer-encoding
+ :content-language;
+ bh=3S+6hdJy8zT5PHSGGEV92GAMPcCN8sAp6uvhaz0ZJbw=;
+ b=Te6JgyYuZUZQS31QSMXLB0//aot2GIrDbOhFNzS4202qERUwyrILFBlP5eJtGWT0p8
+ Ofpwr/T+jcfIS7KSHL2+dKIYeK2/hDy2jP+7jCdc2Ua7uRPfTs+yPVGPCET1DK3j0pbT
+ lsJOqPzeviTJ9NO1DzRByJrGqbCZxoiV/yfKEiRv1gIOh7dWRth5WdutcwhCIjUY3BMS
+ JZhOX/MeUt40PUEKB8Sc0GgaLw8n0DGivUj98Ackcf5jTnbVctCme6ttlFl8AcbX6Yyk
+ ca7DFog3QolW7ivCmDN1+owbdNJlXTc0Nbq/6MgcDI41VpEVCNsWCTC7+63szl6ToGdv
+ wxEA==
+X-Gm-Message-State: AOAM530CP02pS50TLjg1WCZXr32IpNuHzHn69EZw0mbA2CVx6qSiOSKR
+ uMxf1h24eQPtTYBmRs8Y6pYxUsbXUSE=
+X-Google-Smtp-Source: ABdhPJzEBzFWqZ5/EYN1uIEqO2n2lnL/whIG/xnmXtmDd1cPtizEqPSu9Zl+hGhvV52wQMTL8C0cDQ==
+X-Received: by 2002:a17:906:b6c5:: with SMTP id
+ ec5mr13913525ejb.290.1623655546017; 
+ Mon, 14 Jun 2021 00:25:46 -0700 (PDT)
+Received: from ?IPv6:2a02:908:1252:fb60:798b:5008:13f6:30a9?
+ ([2a02:908:1252:fb60:798b:5008:13f6:30a9])
+ by smtp.gmail.com with ESMTPSA id w8sm148647edc.39.2021.06.14.00.25.45
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 14 Jun 2021 00:25:45 -0700 (PDT)
+Subject: Re: [PATCH 6/7] drm/amdgpu: unwrap fence chains in the explicit sync
+ fence
+To: Daniel Vetter <daniel@ffwll.ch>
+References: <20210610091800.1833-1-christian.koenig@amd.com>
+ <20210610091800.1833-7-christian.koenig@amd.com>
+ <YMMnzbky0W72PH1d@phenom.ffwll.local>
+ <51256567-84d3-76a9-31aa-aee96d01364a@gmail.com>
+ <YMN+211wnBJJIj1I@phenom.ffwll.local>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+Message-ID: <1ee8f984-783a-7522-fe4f-1a9593004828@gmail.com>
+Date: Mon, 14 Jun 2021 09:25:44 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-Received: by 2002:a17:90a:c002:0:0:0:0 with HTTP; Mon, 14 Jun 2021 00:25:30
- -0700 (PDT)
-In-Reply-To: <20210613233041.128961-1-alexander.sverdlin@gmail.com>
-References: <20210613233041.128961-1-alexander.sverdlin@gmail.com>
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Mon, 14 Jun 2021 10:25:30 +0300
-Message-ID: <CAHp75VdMxns2GJf6WGVY=tsv=dwf_f++q2-Chw0CJLp_R8n09A@mail.gmail.com>
-Subject: Re: [PATCH 0/7] Prepare EP93xx drivers for Common Clock Framework
-To: Alexander Sverdlin <alexander.sverdlin@gmail.com>
-Content-Type: multipart/alternative; boundary="00000000000029634e05c4b4c34e"
+In-Reply-To: <YMN+211wnBJJIj1I@phenom.ffwll.local>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,123 +78,225 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "alsa-devel@alsa-project.org" <alsa-devel@alsa-project.org>,
- "linux-iio@vger.kernel.org" <linux-iio@vger.kernel.org>,
- "linux-fbdev@vger.kernel.org" <linux-fbdev@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Liam Girdwood <lgirdwood@gmail.com>, Thierry Reding <thierry.reding@gmail.com>,
- Lee Jones <lee.jones@linaro.org>, Nikita Shubin <nikita.shubin@maquefel.me>,
- Takashi Iwai <tiwai@suse.com>, Geert Uytterhoeven <geert@linux-m68k.org>,
- "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
- "linux-pwm@vger.kernel.org" <linux-pwm@vger.kernel.org>,
- =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
- Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-spi@vger.kernel.org" <linux-spi@vger.kernel.org>,
- Vinod Koul <vkoul@kernel.org>,
- "dmaengine@vger.kernel.org" <dmaengine@vger.kernel.org>,
- Jonathan Cameron <jic23@kernel.org>
+Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---00000000000029634e05c4b4c34e
-Content-Type: text/plain; charset="UTF-8"
-
-On Monday, June 14, 2021, Alexander Sverdlin <alexander.sverdlin@gmail.com>
-wrote:
-
-> Nikita posted a patch converting EP93xx to use Common Clock Framework. It
-> turns out some cleanup is necessary in the EP93xx drivers to avoid
-> "Enabling unprepared" clock warnings.
+Am 11.06.21 um 17:18 schrieb Daniel Vetter:
+> On Fri, Jun 11, 2021 at 12:09:19PM +0200, Christian König wrote:
+>> Am 11.06.21 um 11:07 schrieb Daniel Vetter:
+>>> On Thu, Jun 10, 2021 at 11:17:59AM +0200, Christian König wrote:
+>>>> Unwrap a the explicit fence if it is a dma_fence_chain and
+>>>> sync to the first fence not matching the owner rules.
+>>>>
+>>>> Signed-off-by: Christian König <christian.koenig@amd.com>
+>>>> ---
+>>>>    drivers/gpu/drm/amd/amdgpu/amdgpu_sync.c | 118 +++++++++++++----------
+>>>>    1 file changed, 68 insertions(+), 50 deletions(-)
+>>>>
+>>>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_sync.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_sync.c
+>>>> index 1b2ceccaf5b0..862eb3c1c4c5 100644
+>>>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_sync.c
+>>>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_sync.c
+>>>> @@ -28,6 +28,8 @@
+>>>>     *    Christian König <christian.koenig@amd.com>
+>>>>     */
+>>>> +#include <linux/dma-fence-chain.h>
+>>>> +
+>>>>    #include "amdgpu.h"
+>>>>    #include "amdgpu_trace.h"
+>>>>    #include "amdgpu_amdkfd.h"
+>>>> @@ -186,6 +188,55 @@ int amdgpu_sync_vm_fence(struct amdgpu_sync *sync, struct dma_fence *fence)
+>>>>    	return amdgpu_sync_fence(sync, fence);
+>>>>    }
+>>>> +/* Determine based on the owner and mode if we should sync to a fence or not */
+>>>> +static bool amdgpu_sync_test_fence(struct amdgpu_device *adev,
+>>>> +				   enum amdgpu_sync_mode mode,
+>>>> +				   void *owner, struct dma_fence *f)
+>>>> +{
+>>>> +	void *fence_owner = amdgpu_sync_get_owner(f);
+>>>> +
+>>>> +	/* Always sync to moves, no matter what */
+>>>> +	if (fence_owner == AMDGPU_FENCE_OWNER_UNDEFINED)
+>>>> +		return true;
+>>>> +
+>>>> +	/* We only want to trigger KFD eviction fences on
+>>>> +	 * evict or move jobs. Skip KFD fences otherwise.
+>>>> +	 */
+>>>> +	if (fence_owner == AMDGPU_FENCE_OWNER_KFD &&
+>>>> +	    owner != AMDGPU_FENCE_OWNER_UNDEFINED)
+>>>> +		return false;
+>>>> +
+>>>> +	/* Never sync to VM updates either. */
+>>>> +	if (fence_owner == AMDGPU_FENCE_OWNER_VM &&
+>>>> +	    owner != AMDGPU_FENCE_OWNER_UNDEFINED)
+>>>> +		return false;
+>>>> +
+>>>> +	/* Ignore fences depending on the sync mode */
+>>>> +	switch (mode) {
+>>>> +	case AMDGPU_SYNC_ALWAYS:
+>>>> +		return true;
+>>>> +
+>>>> +	case AMDGPU_SYNC_NE_OWNER:
+>>>> +		if (amdgpu_sync_same_dev(adev, f) &&
+>>>> +		    fence_owner == owner)
+>>>> +			return false;
+>>>> +		break;
+>>>> +
+>>>> +	case AMDGPU_SYNC_EQ_OWNER:
+>>>> +		if (amdgpu_sync_same_dev(adev, f) &&
+>>>> +		    fence_owner != owner)
+>>>> +			return false;
+>>>> +		break;
+>>>> +
+>>>> +	case AMDGPU_SYNC_EXPLICIT:
+>>>> +		return false;
+>>>> +	}
+>>>> +
+>>>> +	WARN(debug_evictions && fence_owner == AMDGPU_FENCE_OWNER_KFD,
+>>>> +	     "Adding eviction fence to sync obj");
+>>>> +	return true;
+>>>> +}
+>>>> +
+>>>>    /**
+>>>>     * amdgpu_sync_resv - sync to a reservation object
+>>>>     *
+>>>> @@ -211,67 +262,34 @@ int amdgpu_sync_resv(struct amdgpu_device *adev, struct amdgpu_sync *sync,
+>>>>    	/* always sync to the exclusive fence */
+>>>>    	f = dma_resv_excl_fence(resv);
+>>>> -	r = amdgpu_sync_fence(sync, f);
+>>>> +	dma_fence_chain_for_each(f, f) {
+>>> Jason has some helper for deep-walking fence chains/arrays here I think.
+>>> Might want to look into that, so that we have some consistency in how we
+>>> pile up multiple exclusive fences.
+>> Well those helpers are not from Jason, but from me :)
+>>
+>> But no, for now the deep inspection is not really helpful here since
+>> grabbing a reference to a certain chain node is what that makes the handling
+>> easier and faster here.
+>>
+>> Thinking more about it that should also make it possible for the garbage
+>> collection to kick in properly.
+> Hm this is tricky to reason about, but yeah with this here it's a true
+> chain, and you just need to connect them. But then if a buffer is on
+> multiple engines, collapsing things down occasionally might be useful.
 >
-> Patches with stack traces in the commit messages are tested on EP9302.
+> But maybe we need to do that in the bigger rework where exclusive fences
+> are also just in the dma_fence_list with a "this is an exclusive one btw"
+> tag.
 >
-> Link: https://lore.kernel.org/patchwork/patch/1435884/
+> I think for the vk import case doing the deep scan makes more sense, it's
+> a once-per-frame thing, and there's a much bigger chance that you have a
+> pile of fences from different engines on it already.
+
+The problem with Jasons IOCTL is that you *must* do a deep dive and 
+flatten out the fences.
+
+Otherwise somebody could use it to create a deep fence structure with 
+dma_fence_arrays containing dma_fence_arrays, containing 
+dma_fence_arrays etc...
+
+When you then release that structure you overwrite kernel stack because 
+the dma_fence_array does a dma_fence_put() on it's entries :)
+
+The dma_fence_chain container is intentionally made in a way to prevent 
+that.
+
+> I think a comment explaining why we think deep scan isn't a good idea here
+> would be good, just so we can appreciate our foolishness when it all goes
+> wrong :-)
+
+Ok, good point.
+
+Thanks,
+Christian.
+
+> -Daniel
 >
 >
-For all commit messages: please, reduce the noise in them as much as
-possible, i.e. leave only up to ~3-4 most significant lines out of
-trackbacks.
+>>> Anyway pretty much one of the versions I had in mind too, except I didn't
+>>> type it up.
+>>>
+>>> Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+>> Thanks,
+>> Christian.
+>>
+>>>> +		struct dma_fence_chain *chain = to_dma_fence_chain(f);
+>>>> +
+>>>> +		if (amdgpu_sync_test_fence(adev, mode, owner, chain ?
+>>>> +					   chain->fence : f)) {
+>>>> +			r = amdgpu_sync_fence(sync, f);
+>>>> +			dma_fence_put(f);
+>>>> +			if (r)
+>>>> +				return r;
+>>>> +			break;
+>>>> +		}
+>>>> +	}
+>>>>    	flist = dma_resv_shared_list(resv);
+>>>> -	if (!flist || r)
+>>>> -		return r;
+>>>> +	if (!flist)
+>>>> +		return 0;
+>>>>    	for (i = 0; i < flist->shared_count; ++i) {
+>>>> -		void *fence_owner;
+>>>> -
+>>>>    		f = rcu_dereference_protected(flist->shared[i],
+>>>>    					      dma_resv_held(resv));
+>>>> -		fence_owner = amdgpu_sync_get_owner(f);
+>>>> -
+>>>> -		/* Always sync to moves, no matter what */
+>>>> -		if (fence_owner == AMDGPU_FENCE_OWNER_UNDEFINED) {
+>>>> +		if (amdgpu_sync_test_fence(adev, mode, owner, f)) {
+>>>>    			r = amdgpu_sync_fence(sync, f);
+>>>>    			if (r)
+>>>> -				break;
+>>>> -		}
+>>>> -
+>>>> -		/* We only want to trigger KFD eviction fences on
+>>>> -		 * evict or move jobs. Skip KFD fences otherwise.
+>>>> -		 */
+>>>> -		if (fence_owner == AMDGPU_FENCE_OWNER_KFD &&
+>>>> -		    owner != AMDGPU_FENCE_OWNER_UNDEFINED)
+>>>> -			continue;
+>>>> -
+>>>> -		/* Never sync to VM updates either. */
+>>>> -		if (fence_owner == AMDGPU_FENCE_OWNER_VM &&
+>>>> -		    owner != AMDGPU_FENCE_OWNER_UNDEFINED)
+>>>> -			continue;
+>>>> -
+>>>> -		/* Ignore fences depending on the sync mode */
+>>>> -		switch (mode) {
+>>>> -		case AMDGPU_SYNC_ALWAYS:
+>>>> -			break;
+>>>> -
+>>>> -		case AMDGPU_SYNC_NE_OWNER:
+>>>> -			if (amdgpu_sync_same_dev(adev, f) &&
+>>>> -			    fence_owner == owner)
+>>>> -				continue;
+>>>> -			break;
+>>>> -
+>>>> -		case AMDGPU_SYNC_EQ_OWNER:
+>>>> -			if (amdgpu_sync_same_dev(adev, f) &&
+>>>> -			    fence_owner != owner)
+>>>> -				continue;
+>>>> -			break;
+>>>> -
+>>>> -		case AMDGPU_SYNC_EXPLICIT:
+>>>> -			continue;
+>>>> +				return r;
+>>>>    		}
+>>>> -
+>>>> -		WARN(debug_evictions && fence_owner == AMDGPU_FENCE_OWNER_KFD,
+>>>> -		     "Adding eviction fence to sync obj");
+>>>> -		r = amdgpu_sync_fence(sync, f);
+>>>> -		if (r)
+>>>> -			break;
+>>>>    	}
+>>>> -	return r;
+>>>> +	return 0;
+>>>>    }
+>>>>    /**
+>>>> -- 
+>>>> 2.25.1
+>>>>
 
-
-
-> Alexander Sverdlin (7):
->   iio: ep93xx: Prepare clock before using it
->   spi: spi-ep93xx: Prepare clock before using it
->   Input: ep93xx_keypad: Prepare clock before using it
->   video: ep93xx: Prepare clock before using it
->   dmaengine: ep93xx: Prepare clock before using it
->   ASoC: cirrus: i2s: Prepare clock before using it
->   pwm: ep93xx: Prepare clock before using it
->
->  drivers/dma/ep93xx_dma.c               |  6 +++---
->  drivers/iio/adc/ep93xx_adc.c           |  6 +++---
->  drivers/input/keyboard/ep93xx_keypad.c |  4 ++--
->  drivers/pwm/pwm-ep93xx.c               | 12 ++++++------
->  drivers/spi/spi-ep93xx.c               |  4 ++--
->  drivers/video/fbdev/ep93xx-fb.c        |  4 ++--
->  sound/soc/cirrus/ep93xx-i2s.c          | 12 ++++++------
->  7 files changed, 24 insertions(+), 24 deletions(-)
->
-> --
-> 2.32.0
->
->
-
--- 
-With Best Regards,
-Andy Shevchenko
-
---00000000000029634e05c4b4c34e
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<br><br>On Monday, June 14, 2021, Alexander Sverdlin &lt;<a href=3D"mailto:=
-alexander.sverdlin@gmail.com">alexander.sverdlin@gmail.com</a>&gt; wrote:<b=
-r><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:=
-1px #ccc solid;padding-left:1ex">Nikita posted a patch converting EP93xx to=
- use Common Clock Framework. It<br>
-turns out some cleanup is necessary in the EP93xx drivers to avoid<br>
-&quot;Enabling unprepared&quot; clock warnings.<br>
-<br>
-Patches with stack traces in the commit messages are tested on EP9302.<br>
-<br>
-Link: <a href=3D"https://lore.kernel.org/patchwork/patch/1435884/" target=
-=3D"_blank">https://lore.kernel.org/<wbr>patchwork/patch/1435884/</a><br>
-<br></blockquote><div><br></div><div>For all commit messages: please, reduc=
-e the noise in them as much as possible, i.e. leave only up to ~3-4 most si=
-gnificant lines out of trackbacks.</div><div><br></div><div>=C2=A0</div><bl=
-ockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #=
-ccc solid;padding-left:1ex">
-Alexander Sverdlin (7):<br>
-=C2=A0 iio: ep93xx: Prepare clock before using it<br>
-=C2=A0 spi: spi-ep93xx: Prepare clock before using it<br>
-=C2=A0 Input: ep93xx_keypad: Prepare clock before using it<br>
-=C2=A0 video: ep93xx: Prepare clock before using it<br>
-=C2=A0 dmaengine: ep93xx: Prepare clock before using it<br>
-=C2=A0 ASoC: cirrus: i2s: Prepare clock before using it<br>
-=C2=A0 pwm: ep93xx: Prepare clock before using it<br>
-<br>
-=C2=A0drivers/dma/ep93xx_dma.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0|=C2=A0 6 +++---<br>
-=C2=A0drivers/iio/adc/ep93xx_adc.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
-|=C2=A0 6 +++---<br>
-=C2=A0drivers/input/keyboard/ep93xx_<wbr>keypad.c |=C2=A0 4 ++--<br>
-=C2=A0drivers/pwm/pwm-ep93xx.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0| 12 ++++++------<br>
-=C2=A0drivers/spi/spi-ep93xx.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0|=C2=A0 4 ++--<br>
-=C2=A0drivers/video/fbdev/ep93xx-fb.<wbr>c=C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=
-=A0 4 ++--<br>
-=C2=A0sound/soc/cirrus/ep93xx-i2s.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | 12 =
-++++++------<br>
-=C2=A07 files changed, 24 insertions(+), 24 deletions(-)<br>
-<br>
--- <br>
-2.32.0<br>
-<br>
-</blockquote><br><br>-- <br>With Best Regards,<br>Andy Shevchenko<br><br><b=
-r>
-
---00000000000029634e05c4b4c34e--
