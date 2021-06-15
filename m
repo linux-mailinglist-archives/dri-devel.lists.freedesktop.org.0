@@ -2,36 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6F353A7667
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Jun 2021 07:20:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C51493A766E
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Jun 2021 07:22:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E275989BF6;
-	Tue, 15 Jun 2021 05:20:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 382BD89C61;
+	Tue, 15 Jun 2021 05:22:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2497989BF6;
- Tue, 15 Jun 2021 05:20:22 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 8BFAD613F5;
- Tue, 15 Jun 2021 05:20:20 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EAF4D89C54;
+ Tue, 15 Jun 2021 05:22:01 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 153BA613F5;
+ Tue, 15 Jun 2021 05:22:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1623734421;
- bh=s6xYPmSy+OD/HC3bvosyPFKtWJM7qQtPwUKU0uQGXWw=;
+ s=korg; t=1623734521;
+ bh=I39eG9DNQO5bFfL3wXseI58XyVG3Y8z2W0Y1TkWzgO4=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=k/KzRFX98rFyAH32IPZQiP3hWvx62edvCWGk4Fvk3561qwAL6DGXroBsfc+6DOWb9
- UkeIASamFm6Ptq87jRBsD6/xlyJdMNZDTku67SBvaFNfSXviqyyK0FbFV5PnXrIwwZ
- TSk35PubERUvp9O6SHTqLEB9SaND/X/4r0b3bYVc=
-Date: Tue, 15 Jun 2021 07:20:17 +0200
+ b=ztK+clL6V3mIt2G9rcTU4SQmhwcUWWdJgQXJNfpGN/uX2Xm3l2XpnaJX/9VD1p64Y
+ AdsF/nKGkKgDZbetOFE2tPfxUlK2OD8F3z075wFMJt2TC96YffNyeGoHzWWHS7oKg1
+ gyrRenAWkr8N+pEUOqcGjE/GPZsQwhq+Cyi8QdFA=
+Date: Tue, 15 Jun 2021 07:21:57 +0200
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: Christoph Hellwig <hch@lst.de>
-Subject: Re: [PATCH 05/10] driver core: Export device_driver_attach()
-Message-ID: <YMg4kWmfahnzjWsP@kroah.com>
+Subject: Re: Allow mdev drivers to directly create the vfio_device (v2 /
+ alternative)
+Message-ID: <YMg49UF8of2yHWum@kroah.com>
 References: <20210614150846.4111871-1-hch@lst.de>
- <20210614150846.4111871-6-hch@lst.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210614150846.4111871-6-hch@lst.de>
+In-Reply-To: <20210614150846.4111871-1-hch@lst.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,31 +59,45 @@ Cc: kvm@vger.kernel.org, linux-doc@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jun 14, 2021 at 05:08:41PM +0200, Christoph Hellwig wrote:
-> From: Jason Gunthorpe <jgg@nvidia.com>
+On Mon, Jun 14, 2021 at 05:08:36PM +0200, Christoph Hellwig wrote:
+> This is my alternative take on this series from Jason:
 > 
-> This is intended as a replacement API for device_bind_driver(). It has at
-> least the following benefits:
+> https://lore.kernel.org/dri-devel/87czsszi9i.fsf@redhat.com/T/
 > 
-> - Internal locking. Few of the users of device_bind_driver() follow the
->   locking rules
+> The mdev/vfio parts are exactly the same, but this solves the driver core
+> changes for the direct probing without the in/out flag that Greg hated,
+> which cause a little more work, but probably make the result better.
 > 
-> - Calls device driver probe() internally. Notably this means that devm
->   support for probe works correctly as probe() error will call
->   devres_release_all()
+> Original decription from Jason below:
 > 
-> - struct device_driver -> dev_groups is supported
+> The mdev bus's core part for managing the lifecycle of devices is mostly
+> as one would expect for a driver core bus subsystem.
 > 
-> - Simplified calling convention, no need to manually call probe().
+> However instead of having a normal 'struct device_driver' and binding the
+> actual mdev drivers through the standard driver core mechanisms it open
+> codes this with the struct mdev_parent_ops and provides a single driver
+> that shims between the VFIO core's struct vfio_device and the actual
+> device driver.
 > 
-> The general usage is for situations that already know what driver to bind
-> and need to ensure the bind is synchronized with other logic. Call
-> device_driver_attach() after device_add().
+> Instead, allow mdev drivers implement an actual struct mdev_driver and
+> directly call vfio_register_group_dev() in the probe() function for the
+> mdev. Arrange to bind the created mdev_device to the mdev_driver that is
+> provided by the end driver.
 > 
-> If probe() returns a failure then this will be preserved up through to the
-> error return of device_driver_attach().
+> The actual execution flow doesn't change much, eg what was
+> parent_ops->create is now device_driver->probe and it is called at almost
+> the exact same time - except under the normal control of the driver core.
 > 
-> Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
-> Signed-off-by: Christoph Hellwig <hch@lst.de>
+> Ultimately converting all the drivers unlocks a fair number of additional
+> VFIO simplifications and cleanups.
 
-Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+This looks much better as far as the driver core changes go, thank you
+for doing this.
+
+I'm guessing there will be at least one more revision of this.  Do you
+want this to go through my driver core tree or is there a mdev tree it
+should go through?  Either is fine for me.
+
+thanks,
+
+greg k-h
