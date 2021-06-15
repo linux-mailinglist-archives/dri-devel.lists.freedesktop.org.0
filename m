@@ -1,70 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF63B3A8C5A
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Jun 2021 01:18:38 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 724AF3A8D16
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Jun 2021 01:57:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0A85689B3B;
-	Tue, 15 Jun 2021 23:18:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 550D7892BD;
+	Tue, 15 Jun 2021 23:57:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x32e.google.com (mail-ot1-x32e.google.com
- [IPv6:2607:f8b0:4864:20::32e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5852D89B3B
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Jun 2021 23:18:31 +0000 (UTC)
-Received: by mail-ot1-x32e.google.com with SMTP id
- j11-20020a9d738b0000b02903ea3c02ded8so618138otk.5
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Jun 2021 16:18:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=dJcESTizS5WE6hkWoTIkrnq1MRoMDsamwiS/mvHEFDc=;
- b=yB7zH6zbUyvw04WWdZVt5sGwVaNJKRZNLQEQ62JnhsRLLhTtl2hkB06DGsvxuJsCVh
- Bwxa1SNr+Zyys/lx/wBGmVc5F3R5Tdeeh3PTsFAwDOefguK5v8FKk+BDQWMqNPIYwZJd
- pOa61Z1rvBziCFLkG0cBbFUd+aDX8oobVleQk0BR4OmXlW2FvT8mgXLifnyTqchVeXHl
- VCxfeEJxJbfSx0pkcflhUkPeZCfFHLBmy83j0lnT7mi1zdpM3DF4+Ue1S1VVSchr9jVh
- SCKQuMO/LzrYxBQA6NB/7QbSLVNnphAicIOHwv6blURPveqPnYwEqur1MkNqRav5XgDJ
- IRoQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=dJcESTizS5WE6hkWoTIkrnq1MRoMDsamwiS/mvHEFDc=;
- b=sZJqgRASGsSYezgGpU8VdWeZZbYsuyvkKqeHo00jb8I9A0AQCLbD+GdvK+3YI/IKKL
- npFCs1VNJ7tyygqlUIh7iEkla1fgqSmL2D7tNg2UGxfyz6NdqKH8zT5QzeRYK1u2baU6
- SYE76RceDu467W3updUA/i4UwIbG6An2ol4aezzNHUCjfYofzI6+kmgSpttrIIh1xg5A
- YPVlYlZimAN/QrFQBRq51MAPNsxPaW4kAX/y/aieMQuyai/820hv4hVDhTRhG09OPpXB
- Vz+jQ/5CFR3NreWX3U7q5keDmU3msPQ45OFKdGtHbz0sD6E3prnQsyGHU6dFw5jiKvgZ
- rPhA==
-X-Gm-Message-State: AOAM533DoQhiPE+uC9tMh9GAN+jLLHVVRohisTFwU2PjM2i1tDcLl17X
- 9kMkBrOF9nBBL8xcSYqK8vQsjw==
-X-Google-Smtp-Source: ABdhPJyXxnCVVvQGjSYbxTppNUgd3uAVnCNwlhuWQyy31ZwV4O4UAPjG4IQjk3BjryB5kRrTp/8abg==
-X-Received: by 2002:a9d:4c91:: with SMTP id m17mr1251433otf.347.1623799110526; 
- Tue, 15 Jun 2021 16:18:30 -0700 (PDT)
-Received: from builder.lan (104-57-184-186.lightspeed.austtx.sbcglobal.net.
- [104.57.184.186])
- by smtp.gmail.com with ESMTPSA id m18sm96101otr.61.2021.06.15.16.18.29
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 15 Jun 2021 16:18:30 -0700 (PDT)
-From: Bjorn Andersson <bjorn.andersson@linaro.org>
-To: Andrzej Hajda <a.hajda@samsung.com>,
- Neil Armstrong <narmstrong@baylibre.com>,
- Robert Foss <robert.foss@linaro.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Thierry Reding <thierry.reding@gmail.com>,
- =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
- Lee Jones <lee.jones@linaro.org>, Doug Anderson <dianders@chromium.org>
-Subject: [PATCH v2 2/2] drm/bridge: ti-sn65dsi86: Implement the pwm_chip
-Date: Tue, 15 Jun 2021 18:18:28 -0500
-Message-Id: <20210615231828.835164-2-bjorn.andersson@linaro.org>
-X-Mailer: git-send-email 2.31.0
-In-Reply-To: <20210615231828.835164-1-bjorn.andersson@linaro.org>
-References: <20210615231828.835164-1-bjorn.andersson@linaro.org>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 20509892BD;
+ Tue, 15 Jun 2021 23:57:17 +0000 (UTC)
+IronPort-SDR: 6IhkX7U+kQK7lz0Zip0m78dTnJd+fw8jcDWuRFC1UdaNpDLAyh5MRLnX6eqYiWRbpyl2fOfq+m
+ OdILEz810+Dw==
+X-IronPort-AV: E=McAfee;i="6200,9189,10016"; a="204258356"
+X-IronPort-AV: E=Sophos;i="5.83,276,1616482800"; d="scan'208";a="204258356"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Jun 2021 16:57:16 -0700
+IronPort-SDR: 3bZvUZwGLZDbHGB2x3GlCEx/S5o9203o+ekIEF67wJdBsHG/zCVHPyN22yia7u37oCCMnTNISz
+ XxLrlffYu1yA==
+X-IronPort-AV: E=Sophos;i="5.83,276,1616482800"; d="scan'208";a="452139465"
+Received: from dceraolo-mobl.amr.corp.intel.com (HELO [10.213.173.155])
+ ([10.213.173.155])
+ by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Jun 2021 16:57:16 -0700
+Subject: Re: [PATCH 8/8] drm/i915: Move submission tasklet to i915_sched_engine
+To: Matthew Brost <matthew.brost@intel.com>, intel-gfx@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org
+References: <20210615205900.26578-1-matthew.brost@intel.com>
+ <20210615205900.26578-9-matthew.brost@intel.com>
+From: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+Message-ID: <efb80133-0f28-2249-a91e-95c3eba6e78d@intel.com>
+Date: Tue, 15 Jun 2021 16:57:14 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.2
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210615205900.26578-9-matthew.brost@intel.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,452 +53,721 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-pwm@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: john.c.harrison@intel.com, Michal.Wajdeczko@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The SN65DSI86 provides the ability to supply a PWM signal on GPIO 4,
-with the primary purpose of controlling the backlight of the attached
-panel. Add an implementation that exposes this using the standard PWM
-framework, to allow e.g. pwm-backlight to expose this to the user.
 
-Signed-off-by: Bjorn Andersson <bjorn.andersson@linaro.org>
----
 
-Changes since v1:
-- Rebased ontop of Doug's auxiliary_bus patches
-- Reworked the math, per Uwe's request
-- Added pwm_chip->get_state and made sure it's happy (only tested with a few
-  limited periods, such as 1kHz)
+On 6/15/2021 1:59 PM, Matthew Brost wrote:
+> The submission tasklet operates on i915_sched_engine, thus it is the
+> correct place for it.
+>
+> v3:
+>   (Jason Ekstrand)
+>    Change sched_engine->engine to a void* private data pointer
+>    Add kernel doc
+> v4:
+>   (Daniele)
+>    Update private_data comment
+>    Set queue_priority_hint in kick_execlists
+>
+> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+> ---
+>   drivers/gpu/drm/i915/gt/intel_engine.h        | 14 ----
+>   drivers/gpu/drm/i915/gt/intel_engine_cs.c     | 12 +--
+>   drivers/gpu/drm/i915/gt/intel_engine_types.h  |  5 --
+>   .../drm/i915/gt/intel_execlists_submission.c  | 84 ++++++++++---------
+>   drivers/gpu/drm/i915/gt/mock_engine.c         |  1 +
+>   drivers/gpu/drm/i915/gt/selftest_execlists.c  | 16 ++--
+>   drivers/gpu/drm/i915/gt/selftest_hangcheck.c  |  2 +-
+>   drivers/gpu/drm/i915/gt/selftest_lrc.c        |  6 +-
+>   drivers/gpu/drm/i915/gt/selftest_reset.c      |  2 +-
+>   .../gpu/drm/i915/gt/uc/intel_guc_submission.c | 25 +++---
+>   drivers/gpu/drm/i915/i915_scheduler.c         |  1 +
+>   drivers/gpu/drm/i915/i915_scheduler.h         | 14 ++++
+>   drivers/gpu/drm/i915/i915_scheduler_types.h   | 10 +++
+>   13 files changed, 101 insertions(+), 91 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/i915/gt/intel_engine.h b/drivers/gpu/drm/i915/gt/intel_engine.h
+> index a8b2174b4395..988d9688ae4d 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_engine.h
+> +++ b/drivers/gpu/drm/i915/gt/intel_engine.h
+> @@ -123,20 +123,6 @@ execlists_active(const struct intel_engine_execlists *execlists)
+>   	return active;
+>   }
+>   
+> -static inline void
+> -execlists_active_lock_bh(struct intel_engine_execlists *execlists)
+> -{
+> -	local_bh_disable(); /* prevent local softirq and lock recursion */
+> -	tasklet_lock(&execlists->tasklet);
+> -}
+> -
+> -static inline void
+> -execlists_active_unlock_bh(struct intel_engine_execlists *execlists)
+> -{
+> -	tasklet_unlock(&execlists->tasklet);
+> -	local_bh_enable(); /* restore softirq, and kick ksoftirqd! */
+> -}
+> -
+>   struct i915_request *
+>   execlists_unwind_incomplete_requests(struct intel_engine_execlists *execlists);
+>   
+> diff --git a/drivers/gpu/drm/i915/gt/intel_engine_cs.c b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
+> index 7ff2640aa74a..67939ee0d68f 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_engine_cs.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
+> @@ -713,6 +713,7 @@ static int engine_setup_common(struct intel_engine_cs *engine)
+>   		err = -ENOMEM;
+>   		goto err_sched_engine;
+>   	}
+> +	engine->sched_engine->private_data = engine;
 
- drivers/gpu/drm/bridge/ti-sn65dsi86.c | 298 +++++++++++++++++++++++++-
- 1 file changed, 297 insertions(+), 1 deletion(-)
+I see you didn't move this to the backend in this rev. Not a blocker now 
+since it doesn't matter functionally, but please move it as a follow up.
 
-diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-index 5d712c8c3c3b..8f11c9b2da48 100644
---- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-+++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-@@ -4,6 +4,7 @@
-  * datasheet: https://www.ti.com/lit/ds/symlink/sn65dsi86.pdf
-  */
- 
-+#include <linux/atomic.h>
- #include <linux/auxiliary_bus.h>
- #include <linux/bits.h>
- #include <linux/clk.h>
-@@ -15,6 +16,7 @@
- #include <linux/module.h>
- #include <linux/of_graph.h>
- #include <linux/pm_runtime.h>
-+#include <linux/pwm.h>
- #include <linux/regmap.h>
- #include <linux/regulator/consumer.h>
- 
-@@ -91,6 +93,13 @@
- #define SN_ML_TX_MODE_REG			0x96
- #define  ML_TX_MAIN_LINK_OFF			0
- #define  ML_TX_NORMAL_MODE			BIT(0)
-+#define SN_PWM_PRE_DIV_REG			0xA0
-+#define SN_BACKLIGHT_SCALE_REG			0xA1
-+#define  BACKLIGHT_SCALE_MAX			0xFFFF
-+#define SN_BACKLIGHT_REG			0xA3
-+#define SN_PWM_EN_INV_REG			0xA5
-+#define  SN_PWM_INV_MASK			BIT(0)
-+#define  SN_PWM_EN_MASK				BIT(1)
- #define SN_AUX_CMD_STATUS_REG			0xF4
- #define  AUX_IRQ_STATUS_AUX_RPLY_TOUT		BIT(3)
- #define  AUX_IRQ_STATUS_AUX_SHORT		BIT(5)
-@@ -113,11 +122,14 @@
- 
- #define SN_LINK_TRAINING_TRIES		10
- 
-+#define SN_PWM_GPIO_IDX			3 /* 4th GPIO */
-+
- /**
-  * struct ti_sn65dsi86 - Platform data for ti-sn65dsi86 driver.
-  * @bridge_aux:   AUX-bus sub device for MIPI-to-eDP bridge functionality.
-  * @gpio_aux:     AUX-bus sub device for GPIO controller functionality.
-  * @aux_aux:      AUX-bus sub device for eDP AUX channel functionality.
-+ * @pwm_aux:      AUX-bus sub device for PWM controller functionality.
-  *
-  * @dev:          Pointer to the top level (i2c) device.
-  * @regmap:       Regmap for accessing i2c.
-@@ -145,11 +157,17 @@
-  *                bitmap so we can do atomic ops on it without an extra
-  *                lock so concurrent users of our 4 GPIOs don't stomp on
-  *                each other's read-modify-write.
-+ *
-+ * @pchip:        pwm_chip if the PWM is exposed.
-+ * @pwm_enabled:  Used to track if the PWM signal is currently enabled.
-+ * @pwm_refclk_freq: Cache for the reference clock input to the PWM.
-+ * @pwm_pin_busy: Track if GPIO4 is currently requested for GPIO or PWM.
-  */
- struct ti_sn65dsi86 {
- 	struct auxiliary_device		bridge_aux;
- 	struct auxiliary_device		gpio_aux;
- 	struct auxiliary_device		aux_aux;
-+	struct auxiliary_device		pwm_aux;
- 
- 	struct device			*dev;
- 	struct regmap			*regmap;
-@@ -172,6 +190,12 @@ struct ti_sn65dsi86 {
- 	struct gpio_chip		gchip;
- 	DECLARE_BITMAP(gchip_output, SN_NUM_GPIOS);
- #endif
-+#if defined(CONFIG_PWM)
-+	struct pwm_chip			pchip;
-+	bool				pwm_enabled;
-+	unsigned int			pwm_refclk_freq;
-+	atomic_t			pwm_pin_busy;
-+#endif
- };
- 
- static const struct regmap_range ti_sn65dsi86_volatile_ranges[] = {
-@@ -190,6 +214,25 @@ static const struct regmap_config ti_sn65dsi86_regmap_config = {
- 	.cache_type = REGCACHE_NONE,
- };
- 
-+static int ti_sn65dsi86_read_u16(struct ti_sn65dsi86 *pdata,
-+				 unsigned int reg, u16 *val)
-+{
-+	unsigned int tmp;
-+	int ret;
-+
-+	ret = regmap_read(pdata->regmap, reg, &tmp);
-+	if (ret)
-+		return ret;
-+	*val = tmp;
-+
-+	ret = regmap_read(pdata->regmap, reg + 1, &tmp);
-+	if (ret)
-+		return ret;
-+	*val |= tmp << 8;
-+
-+	return 0;
-+}
-+
- static void ti_sn65dsi86_write_u16(struct ti_sn65dsi86 *pdata,
- 				   unsigned int reg, u16 val)
- {
-@@ -253,6 +296,14 @@ static void ti_sn_bridge_set_refclk_freq(struct ti_sn65dsi86 *pdata)
- 
- 	regmap_update_bits(pdata->regmap, SN_DPPLL_SRC_REG, REFCLK_FREQ_MASK,
- 			   REFCLK_FREQ(i));
-+
-+#if defined(CONFIG_PWM)
-+	/*
-+	 * The PWM refclk is based on the value written to SN_DPPLL_SRC_REG,
-+	 * regardless of its actual sourcing.
-+	 */
-+	pdata->pwm_refclk_freq = ti_sn_bridge_refclk_lut[i];
-+#endif
- }
- 
- static void ti_sn65dsi86_enable_comms(struct ti_sn65dsi86 *pdata)
-@@ -1044,6 +1095,221 @@ static int ti_sn_bridge_parse_dsi_host(struct ti_sn65dsi86 *pdata)
- 	return 0;
- }
- 
-+#if defined(CONFIG_PWM)
-+static int ti_sn_pwm_pin_request(struct ti_sn65dsi86 *pdata)
-+{
-+	return atomic_xchg(&pdata->pwm_pin_busy, 1) ? -EBUSY : 0;
-+}
-+
-+static void ti_sn_pwm_pin_release(struct ti_sn65dsi86 *pdata)
-+{
-+	atomic_set(&pdata->pwm_pin_busy, 0);
-+}
-+
-+static struct ti_sn65dsi86 *pwm_chip_to_ti_sn_bridge(struct pwm_chip *chip)
-+{
-+	return container_of(chip, struct ti_sn65dsi86, pchip);
-+}
-+
-+static int ti_sn_pwm_request(struct pwm_chip *chip, struct pwm_device *pwm)
-+{
-+	struct ti_sn65dsi86 *pdata = pwm_chip_to_ti_sn_bridge(chip);
-+
-+	return ti_sn_pwm_pin_request(pdata);
-+}
-+
-+static void ti_sn_pwm_free(struct pwm_chip *chip, struct pwm_device *pwm)
-+{
-+	struct ti_sn65dsi86 *pdata = pwm_chip_to_ti_sn_bridge(chip);
-+
-+	ti_sn_pwm_pin_release(pdata);
-+}
-+
-+static int ti_sn_pwm_apply(struct pwm_chip *chip, struct pwm_device *pwm,
-+			   const struct pwm_state *state)
-+{
-+	struct ti_sn65dsi86 *pdata = pwm_chip_to_ti_sn_bridge(chip);
-+	unsigned int pwm_en_inv;
-+	unsigned int backlight;
-+	unsigned int pre_div;
-+	unsigned int scale;
-+	int ret;
-+
-+	if (!pdata->pwm_enabled) {
-+		ret = pm_runtime_get_sync(pdata->dev);
-+		if (ret < 0)
-+			return ret;
-+
-+		ret = regmap_update_bits(pdata->regmap, SN_GPIO_CTRL_REG,
-+				SN_GPIO_MUX_MASK << (2 * SN_PWM_GPIO_IDX),
-+				SN_GPIO_MUX_SPECIAL << (2 * SN_PWM_GPIO_IDX));
-+		if (ret) {
-+			dev_err(pdata->dev, "failed to mux in PWM function\n");
-+			goto out;
-+		}
-+	}
-+
-+	if (state->enabled) {
-+		/*
-+		 * Per the datasheet the PWM frequency is given by:
-+		 *
-+		 *   PWM_FREQ = REFCLK_FREQ / (PWM_PRE_DIV * BACKLIGHT_SCALE + 1)
-+		 *
-+		 * which can be rewritten:
-+		 *
-+		 *   T_pwm * REFCLK_FREQ - 1 = PWM_PRE_DIV * BACKLIGHT_SCALE
-+		 *
-+		 * In order to keep BACKLIGHT_SCALE within its 16 bits, PWM_PRE_DIV
-+		 * must be:
-+		 *
-+		 *   PWM_PRE_DIV >= (T_pwm * REFCLK_FREQ - 1) / BACKLIGHT_SCALE_MAX;
-+		 *
-+		 * To simplify the search and optimize the resolution of the PWM, the
-+		 * lowest possible PWM_PRE_DIV is used. Finally the scale is calculated
-+		 * as:
-+		 *
-+		 *   BACKLIGHT_SCALE = (T_pwm * REFCLK_FREQ - 1) / PWM_PRE_DIV
-+		 *
-+		 * Here T_pwm is represented in seconds, so appropriate scaling to
-+		 * nanoseconds is necessary.
-+		 */
-+		pre_div = DIV_ROUND_UP((state->period * pdata->pwm_refclk_freq - 1),
-+				       (NSEC_PER_SEC * BACKLIGHT_SCALE_MAX));
-+		scale = (state->period * pdata->pwm_refclk_freq - 1) / (NSEC_PER_SEC * pre_div);
-+
-+		/*
-+		 * The duty ratio is given as:
-+		 *
-+		 *   duty = BACKLIGHT / (BACKLIGHT_SCALE + 1)
-+		 */
-+		backlight = state->duty_cycle * (scale + 1) / state->period;
-+
-+		ret = regmap_write(pdata->regmap, SN_PWM_PRE_DIV_REG, pre_div);
-+		if (ret) {
-+			dev_err(pdata->dev, "failed to update PWM_PRE_DIV\n");
-+			goto out;
-+		}
-+
-+		ti_sn65dsi86_write_u16(pdata, SN_BACKLIGHT_SCALE_REG, scale);
-+		ti_sn65dsi86_write_u16(pdata, SN_BACKLIGHT_REG, backlight);
-+	}
-+
-+	pwm_en_inv = FIELD_PREP(SN_PWM_EN_MASK, !!state->enabled) |
-+		     FIELD_PREP(SN_PWM_INV_MASK, state->polarity == PWM_POLARITY_INVERSED);
-+	ret = regmap_write(pdata->regmap, SN_PWM_EN_INV_REG, pwm_en_inv);
-+	if (ret) {
-+		dev_err(pdata->dev, "failed to update PWM_EN/PWM_INV\n");
-+		goto out;
-+	}
-+
-+	pdata->pwm_enabled = !!state->enabled;
-+out:
-+
-+	if (!pdata->pwm_enabled)
-+		pm_runtime_put_sync(pdata->dev);
-+
-+	return ret;
-+}
-+
-+static void ti_sn_pwm_get_state(struct pwm_chip *chip, struct pwm_device *pwm,
-+				struct pwm_state *state)
-+{
-+	struct ti_sn65dsi86 *pdata = pwm_chip_to_ti_sn_bridge(chip);
-+	unsigned int pwm_en_inv;
-+	unsigned int pre_div;
-+	u16 backlight;
-+	u16 scale;
-+	int ret;
-+
-+	ret = regmap_read(pdata->regmap, SN_PWM_EN_INV_REG, &pwm_en_inv);
-+	if (ret)
-+		return;
-+
-+	ret = ti_sn65dsi86_read_u16(pdata, SN_BACKLIGHT_SCALE_REG, &scale);
-+	if (ret)
-+		return;
-+
-+	ret = ti_sn65dsi86_read_u16(pdata, SN_BACKLIGHT_REG, &backlight);
-+	if (ret)
-+		return;
-+
-+	ret = regmap_read(pdata->regmap, SN_PWM_PRE_DIV_REG, &pre_div);
-+	if (ret)
-+		return;
-+
-+	state->enabled = FIELD_GET(SN_PWM_EN_MASK, pwm_en_inv);
-+	if (FIELD_GET(SN_PWM_INV_MASK, pwm_en_inv))
-+		state->polarity = PWM_POLARITY_INVERSED;
-+	else
-+		state->polarity = PWM_POLARITY_NORMAL;
-+
-+	state->period = NSEC_PER_SEC * (pre_div * scale + 1) / pdata->pwm_refclk_freq;
-+	state->duty_cycle = DIV_ROUND_UP(state->period * backlight, scale + 1);
-+}
-+
-+static const struct pwm_ops ti_sn_pwm_ops = {
-+	.request = ti_sn_pwm_request,
-+	.free = ti_sn_pwm_free,
-+	.apply = ti_sn_pwm_apply,
-+	.get_state = ti_sn_pwm_get_state,
-+	.owner = THIS_MODULE,
-+};
-+
-+static int ti_sn_pwm_probe(struct auxiliary_device *adev,
-+		const struct auxiliary_device_id *id)
-+{
-+	struct ti_sn65dsi86 *pdata = dev_get_drvdata(adev->dev.parent);
-+
-+	pdata->pchip.dev = pdata->dev;
-+	pdata->pchip.ops = &ti_sn_pwm_ops;
-+	pdata->pchip.base = -1;
-+	pdata->pchip.npwm = 1;
-+	pdata->pchip.of_xlate = of_pwm_single_xlate;
-+	pdata->pchip.of_pwm_n_cells = 1;
-+
-+	return pwmchip_add(&pdata->pchip);
-+}
-+
-+static void ti_sn_pwm_remove(struct auxiliary_device *adev)
-+{
-+	struct ti_sn65dsi86 *pdata = dev_get_drvdata(adev->dev.parent);
-+
-+	pwmchip_remove(&pdata->pchip);
-+
-+	if (pdata->pwm_enabled)
-+		pm_runtime_put_sync(pdata->dev);
-+}
-+
-+static const struct auxiliary_device_id ti_sn_pwm_id_table[] = {
-+	{ .name = "ti_sn65dsi86.pwm", },
-+	{},
-+};
-+
-+static struct auxiliary_driver ti_sn_pwm_driver = {
-+	.name = "pwm",
-+	.probe = ti_sn_pwm_probe,
-+	.remove = ti_sn_pwm_remove,
-+	.id_table = ti_sn_pwm_id_table,
-+};
-+
-+static int __init ti_sn_pwm_register(void)
-+{
-+	return auxiliary_driver_register(&ti_sn_pwm_driver);
-+}
-+
-+static void ti_sn_pwm_unregister(void)
-+{
-+	auxiliary_driver_unregister(&ti_sn_pwm_driver);
-+}
-+
-+#else
-+static inline int ti_sn_pwm_pin_request(struct ti_sn65dsi86 *pdata) { return 0; }
-+static inline void ti_sn_pwm_pin_release(struct ti_sn65dsi86 *pdata) {}
-+
-+static inline int ti_sn_pwm_register(void) { return 0; }
-+static inline void ti_sn_pwm_unregister(void) {}
-+#endif
-+
- #if defined(CONFIG_OF_GPIO)
- 
- static int tn_sn_bridge_of_xlate(struct gpio_chip *chip,
-@@ -1176,10 +1442,26 @@ static int ti_sn_bridge_gpio_direction_output(struct gpio_chip *chip,
- 	return ret;
- }
- 
-+static int ti_sn_bridge_gpio_request(struct gpio_chip *chip, unsigned int offset)
-+{
-+	struct ti_sn65dsi86 *pdata = gpiochip_get_data(chip);
-+
-+	if (offset == SN_PWM_GPIO_IDX)
-+		return ti_sn_pwm_pin_request(pdata);
-+
-+	return 0;
-+}
-+
-+
- static void ti_sn_bridge_gpio_free(struct gpio_chip *chip, unsigned int offset)
- {
-+	struct ti_sn65dsi86 *pdata = gpiochip_get_data(chip);
-+
- 	/* We won't keep pm_runtime if we're input, so switch there on free */
- 	ti_sn_bridge_gpio_direction_input(chip, offset);
-+
-+	if (offset == SN_PWM_GPIO_IDX)
-+		ti_sn_pwm_pin_release(pdata);
- }
- 
- static const char * const ti_sn_bridge_gpio_names[SN_NUM_GPIOS] = {
-@@ -1201,6 +1483,7 @@ static int ti_sn_gpio_probe(struct auxiliary_device *adev,
- 	pdata->gchip.owner = THIS_MODULE;
- 	pdata->gchip.of_xlate = tn_sn_bridge_of_xlate;
- 	pdata->gchip.of_gpio_n_cells = 2;
-+	pdata->gchip.request = ti_sn_bridge_gpio_request;
- 	pdata->gchip.free = ti_sn_bridge_gpio_free;
- 	pdata->gchip.get_direction = ti_sn_bridge_gpio_get_direction;
- 	pdata->gchip.direction_input = ti_sn_bridge_gpio_direction_input;
-@@ -1500,6 +1783,12 @@ static int ti_sn65dsi86_probe(struct i2c_client *client,
- 			return ret;
- 	}
- 
-+	if (IS_ENABLED(CONFIG_PWM)) {
-+		ret = ti_sn65dsi86_add_aux_device(pdata, &pdata->pwm_aux, "pwm");
-+		if (ret)
-+			return ret;
-+	}
-+
- 	/*
- 	 * NOTE: At the end of the AUX channel probe we'll add the aux device
- 	 * for the bridge. This is because the bridge can't be used until the
-@@ -1543,10 +1832,14 @@ static int __init ti_sn65dsi86_init(void)
- 	if (ret)
- 		goto err_main_was_registered;
- 
--	ret = auxiliary_driver_register(&ti_sn_aux_driver);
-+	ret = ti_sn_pwm_register();
- 	if (ret)
- 		goto err_gpio_was_registered;
- 
-+	ret = auxiliary_driver_register(&ti_sn_aux_driver);
-+	if (ret)
-+		goto err_pwm_was_registered;
-+
- 	ret = auxiliary_driver_register(&ti_sn_bridge_driver);
- 	if (ret)
- 		goto err_aux_was_registered;
-@@ -1555,6 +1848,8 @@ static int __init ti_sn65dsi86_init(void)
- 
- err_aux_was_registered:
- 	auxiliary_driver_unregister(&ti_sn_aux_driver);
-+err_pwm_was_registered:
-+	ti_sn_pwm_unregister();
- err_gpio_was_registered:
- 	ti_sn_gpio_unregister();
- err_main_was_registered:
-@@ -1568,6 +1863,7 @@ static void __exit ti_sn65dsi86_exit(void)
- {
- 	auxiliary_driver_unregister(&ti_sn_bridge_driver);
- 	auxiliary_driver_unregister(&ti_sn_aux_driver);
-+	ti_sn_pwm_unregister();
- 	ti_sn_gpio_unregister();
- 	i2c_del_driver(&ti_sn65dsi86_driver);
- }
--- 
-2.31.0
+Reviewed-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+
+Daniele
+||
+>   
+>   	err = intel_engine_init_cmd_parser(engine);
+>   	if (err)
+> @@ -937,7 +938,6 @@ int intel_engines_init(struct intel_gt *gt)
+>   void intel_engine_cleanup_common(struct intel_engine_cs *engine)
+>   {
+>   	GEM_BUG_ON(!list_empty(&engine->sched_engine->requests));
+> -	tasklet_kill(&engine->execlists.tasklet); /* flush the callback */
+>   
+>   	i915_sched_engine_put(engine->sched_engine);
+>   	intel_breadcrumbs_free(engine->breadcrumbs);
+> @@ -1223,7 +1223,7 @@ static bool ring_is_idle(struct intel_engine_cs *engine)
+>   
+>   void __intel_engine_flush_submission(struct intel_engine_cs *engine, bool sync)
+>   {
+> -	struct tasklet_struct *t = &engine->execlists.tasklet;
+> +	struct tasklet_struct *t = &engine->sched_engine->tasklet;
+>   
+>   	if (!t->callback)
+>   		return;
+> @@ -1484,8 +1484,8 @@ static void intel_engine_print_registers(struct intel_engine_cs *engine,
+>   
+>   		drm_printf(m, "\tExeclist tasklet queued? %s (%s), preempt? %s, timeslice? %s\n",
+>   			   yesno(test_bit(TASKLET_STATE_SCHED,
+> -					  &engine->execlists.tasklet.state)),
+> -			   enableddisabled(!atomic_read(&engine->execlists.tasklet.count)),
+> +					  &engine->sched_engine->tasklet.state)),
+> +			   enableddisabled(!atomic_read(&engine->sched_engine->tasklet.count)),
+>   			   repr_timer(&engine->execlists.preempt),
+>   			   repr_timer(&engine->execlists.timer));
+>   
+> @@ -1509,7 +1509,7 @@ static void intel_engine_print_registers(struct intel_engine_cs *engine,
+>   				   idx, hws[idx * 2], hws[idx * 2 + 1]);
+>   		}
+>   
+> -		execlists_active_lock_bh(execlists);
+> +		i915_sched_engine_active_lock_bh(engine->sched_engine);
+>   		rcu_read_lock();
+>   		for (port = execlists->active; (rq = *port); port++) {
+>   			char hdr[160];
+> @@ -1540,7 +1540,7 @@ static void intel_engine_print_registers(struct intel_engine_cs *engine,
+>   			i915_request_show(m, rq, hdr, 0);
+>   		}
+>   		rcu_read_unlock();
+> -		execlists_active_unlock_bh(execlists);
+> +		i915_sched_engine_active_unlock_bh(engine->sched_engine);
+>   	} else if (GRAPHICS_VER(dev_priv) > 6) {
+>   		drm_printf(m, "\tPP_DIR_BASE: 0x%08x\n",
+>   			   ENGINE_READ(engine, RING_PP_DIR_BASE));
+> diff --git a/drivers/gpu/drm/i915/gt/intel_engine_types.h b/drivers/gpu/drm/i915/gt/intel_engine_types.h
+> index 0bb65c57d274..5b91068ab277 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_engine_types.h
+> +++ b/drivers/gpu/drm/i915/gt/intel_engine_types.h
+> @@ -138,11 +138,6 @@ struct st_preempt_hang {
+>    * driver and the hardware state for execlist mode of submission.
+>    */
+>   struct intel_engine_execlists {
+> -	/**
+> -	 * @tasklet: softirq tasklet for bottom handler
+> -	 */
+> -	struct tasklet_struct tasklet;
+> -
+>   	/**
+>   	 * @timer: kick the current context if its timeslice expires
+>   	 */
+> diff --git a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
+> index ffad4d98cec0..cdb2126a159a 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
+> @@ -570,7 +570,7 @@ static void kick_siblings(struct i915_request *rq, struct intel_context *ce)
+>   		resubmit_virtual_request(rq, ve);
+>   
+>   	if (READ_ONCE(ve->request))
+> -		tasklet_hi_schedule(&ve->base.execlists.tasklet);
+> +		tasklet_hi_schedule(&ve->base.sched_engine->tasklet);
+>   }
+>   
+>   static void __execlists_schedule_out(struct i915_request * const rq,
+> @@ -739,9 +739,9 @@ trace_ports(const struct intel_engine_execlists *execlists,
+>   }
+>   
+>   static bool
+> -reset_in_progress(const struct intel_engine_execlists *execlists)
+> +reset_in_progress(const struct intel_engine_cs *engine)
+>   {
+> -	return unlikely(!__tasklet_is_enabled(&execlists->tasklet));
+> +	return unlikely(!__tasklet_is_enabled(&engine->sched_engine->tasklet));
+>   }
+>   
+>   static __maybe_unused noinline bool
+> @@ -757,7 +757,7 @@ assert_pending_valid(const struct intel_engine_execlists *execlists,
+>   	trace_ports(execlists, msg, execlists->pending);
+>   
+>   	/* We may be messing around with the lists during reset, lalala */
+> -	if (reset_in_progress(execlists))
+> +	if (reset_in_progress(engine))
+>   		return true;
+>   
+>   	if (!execlists->pending[0]) {
+> @@ -1190,7 +1190,7 @@ static void start_timeslice(struct intel_engine_cs *engine)
+>   			 * its timeslice, so recheck.
+>   			 */
+>   			if (!timer_pending(&el->timer))
+> -				tasklet_hi_schedule(&el->tasklet);
+> +				tasklet_hi_schedule(&engine->sched_engine->tasklet);
+>   			return;
+>   		}
+>   
+> @@ -1772,8 +1772,8 @@ process_csb(struct intel_engine_cs *engine, struct i915_request **inactive)
+>   	 * access. Either we are inside the tasklet, or the tasklet is disabled
+>   	 * and we assume that is only inside the reset paths and so serialised.
+>   	 */
+> -	GEM_BUG_ON(!tasklet_is_locked(&execlists->tasklet) &&
+> -		   !reset_in_progress(execlists));
+> +	GEM_BUG_ON(!tasklet_is_locked(&engine->sched_engine->tasklet) &&
+> +		   !reset_in_progress(engine));
+>   
+>   	/*
+>   	 * Note that csb_write, csb_status may be either in HWSP or mmio.
+> @@ -2131,7 +2131,7 @@ static void execlists_unhold(struct intel_engine_cs *engine,
+>   
+>   	if (rq_prio(rq) > engine->sched_engine->queue_priority_hint) {
+>   		engine->sched_engine->queue_priority_hint = rq_prio(rq);
+> -		tasklet_hi_schedule(&engine->execlists.tasklet);
+> +		tasklet_hi_schedule(&engine->sched_engine->tasklet);
+>   	}
+>   
+>   	spin_unlock_irq(&engine->sched_engine->lock);
+> @@ -2322,13 +2322,13 @@ static void execlists_reset(struct intel_engine_cs *engine, const char *msg)
+>   	ENGINE_TRACE(engine, "reset for %s\n", msg);
+>   
+>   	/* Mark this tasklet as disabled to avoid waiting for it to complete */
+> -	tasklet_disable_nosync(&engine->execlists.tasklet);
+> +	tasklet_disable_nosync(&engine->sched_engine->tasklet);
+>   
+>   	ring_set_paused(engine, 1); /* Freeze the current request in place */
+>   	execlists_capture(engine);
+>   	intel_engine_reset(engine, msg);
+>   
+> -	tasklet_enable(&engine->execlists.tasklet);
+> +	tasklet_enable(&engine->sched_engine->tasklet);
+>   	clear_and_wake_up_bit(bit, lock);
+>   }
+>   
+> @@ -2351,8 +2351,9 @@ static bool preempt_timeout(const struct intel_engine_cs *const engine)
+>    */
+>   static void execlists_submission_tasklet(struct tasklet_struct *t)
+>   {
+> -	struct intel_engine_cs * const engine =
+> -		from_tasklet(engine, t, execlists.tasklet);
+> +	struct i915_sched_engine *sched_engine =
+> +		from_tasklet(sched_engine, t, tasklet);
+> +	struct intel_engine_cs * const engine = sched_engine->private_data;
+>   	struct i915_request *post[2 * EXECLIST_MAX_PORTS];
+>   	struct i915_request **inactive;
+>   
+> @@ -2427,13 +2428,16 @@ static void execlists_irq_handler(struct intel_engine_cs *engine, u16 iir)
+>   		intel_engine_signal_breadcrumbs(engine);
+>   
+>   	if (tasklet)
+> -		tasklet_hi_schedule(&engine->execlists.tasklet);
+> +		tasklet_hi_schedule(&engine->sched_engine->tasklet);
+>   }
+>   
+>   static void __execlists_kick(struct intel_engine_execlists *execlists)
+>   {
+> +	struct intel_engine_cs *engine =
+> +		container_of(execlists, typeof(*engine), execlists);
+> +
+>   	/* Kick the tasklet for some interrupt coalescing and reset handling */
+> -	tasklet_hi_schedule(&execlists->tasklet);
+> +	tasklet_hi_schedule(&engine->sched_engine->tasklet);
+>   }
+>   
+>   #define execlists_kick(t, member) \
+> @@ -2808,10 +2812,8 @@ static int execlists_resume(struct intel_engine_cs *engine)
+>   
+>   static void execlists_reset_prepare(struct intel_engine_cs *engine)
+>   {
+> -	struct intel_engine_execlists * const execlists = &engine->execlists;
+> -
+>   	ENGINE_TRACE(engine, "depth<-%d\n",
+> -		     atomic_read(&execlists->tasklet.count));
+> +		     atomic_read(&engine->sched_engine->tasklet.count));
+>   
+>   	/*
+>   	 * Prevent request submission to the hardware until we have
+> @@ -2822,8 +2824,8 @@ static void execlists_reset_prepare(struct intel_engine_cs *engine)
+>   	 * Turning off the execlists->tasklet until the reset is over
+>   	 * prevents the race.
+>   	 */
+> -	__tasklet_disable_sync_once(&execlists->tasklet);
+> -	GEM_BUG_ON(!reset_in_progress(execlists));
+> +	__tasklet_disable_sync_once(&engine->sched_engine->tasklet);
+> +	GEM_BUG_ON(!reset_in_progress(engine));
+>   
+>   	/*
+>   	 * We stop engines, otherwise we might get failed reset and a
+> @@ -2973,8 +2975,9 @@ static void execlists_reset_rewind(struct intel_engine_cs *engine, bool stalled)
+>   
+>   static void nop_submission_tasklet(struct tasklet_struct *t)
+>   {
+> -	struct intel_engine_cs * const engine =
+> -		from_tasklet(engine, t, execlists.tasklet);
+> +	struct i915_sched_engine *sched_engine =
+> +		from_tasklet(sched_engine, t, tasklet);
+> +	struct intel_engine_cs * const engine = sched_engine->private_data;
+>   
+>   	/* The driver is wedged; don't process any more events. */
+>   	WRITE_ONCE(engine->sched_engine->queue_priority_hint, INT_MIN);
+> @@ -3061,8 +3064,8 @@ static void execlists_reset_cancel(struct intel_engine_cs *engine)
+>   	sched_engine->queue_priority_hint = INT_MIN;
+>   	sched_engine->queue = RB_ROOT_CACHED;
+>   
+> -	GEM_BUG_ON(__tasklet_is_enabled(&execlists->tasklet));
+> -	execlists->tasklet.callback = nop_submission_tasklet;
+> +	GEM_BUG_ON(__tasklet_is_enabled(&engine->sched_engine->tasklet));
+> +	engine->sched_engine->tasklet.callback = nop_submission_tasklet;
+>   
+>   	spin_unlock_irqrestore(&engine->sched_engine->lock, flags);
+>   	rcu_read_unlock();
+> @@ -3082,14 +3085,14 @@ static void execlists_reset_finish(struct intel_engine_cs *engine)
+>   	 * reset as the next level of recovery, and as a final resort we
+>   	 * will declare the device wedged.
+>   	 */
+> -	GEM_BUG_ON(!reset_in_progress(execlists));
+> +	GEM_BUG_ON(!reset_in_progress(engine));
+>   
+>   	/* And kick in case we missed a new request submission. */
+> -	if (__tasklet_enable(&execlists->tasklet))
+> +	if (__tasklet_enable(&engine->sched_engine->tasklet))
+>   		__execlists_kick(execlists);
+>   
+>   	ENGINE_TRACE(engine, "depth->%d\n",
+> -		     atomic_read(&execlists->tasklet.count));
+> +		     atomic_read(&engine->sched_engine->tasklet.count));
+>   }
+>   
+>   static void gen8_logical_ring_enable_irq(struct intel_engine_cs *engine)
+> @@ -3163,7 +3166,7 @@ static void kick_execlists(const struct i915_request *rq, int prio)
+>   	 * so kiss.
+>   	 */
+>   	if (prio >= max(I915_PRIORITY_NORMAL, rq_prio(inflight)))
+> -		tasklet_hi_schedule(&engine->execlists.tasklet);
+> +		tasklet_hi_schedule(&sched_engine->tasklet);
+>   
+>   unlock:
+>   	rcu_read_unlock();
+> @@ -3174,7 +3177,7 @@ static void execlists_set_default_submission(struct intel_engine_cs *engine)
+>   	engine->submit_request = execlists_submit_request;
+>   	engine->sched_engine->schedule = i915_schedule;
+>   	engine->sched_engine->kick_backend = kick_execlists;
+> -	engine->execlists.tasklet.callback = execlists_submission_tasklet;
+> +	engine->sched_engine->tasklet.callback = execlists_submission_tasklet;
+>   }
+>   
+>   static void execlists_shutdown(struct intel_engine_cs *engine)
+> @@ -3182,7 +3185,7 @@ static void execlists_shutdown(struct intel_engine_cs *engine)
+>   	/* Synchronise with residual timers and any softirq they raise */
+>   	del_timer_sync(&engine->execlists.timer);
+>   	del_timer_sync(&engine->execlists.preempt);
+> -	tasklet_kill(&engine->execlists.tasklet);
+> +	tasklet_kill(&engine->sched_engine->tasklet);
+>   }
+>   
+>   static void execlists_release(struct intel_engine_cs *engine)
+> @@ -3298,7 +3301,7 @@ int intel_execlists_submission_setup(struct intel_engine_cs *engine)
+>   	struct intel_uncore *uncore = engine->uncore;
+>   	u32 base = engine->mmio_base;
+>   
+> -	tasklet_setup(&engine->execlists.tasklet, execlists_submission_tasklet);
+> +	tasklet_setup(&engine->sched_engine->tasklet, execlists_submission_tasklet);
+>   	timer_setup(&engine->execlists.timer, execlists_timeslice, 0);
+>   	timer_setup(&engine->execlists.preempt, execlists_preempt, 0);
+>   
+> @@ -3380,7 +3383,7 @@ static void rcu_virtual_context_destroy(struct work_struct *wrk)
+>   	 * rbtrees as in the case it is running in parallel, it may reinsert
+>   	 * the rb_node into a sibling.
+>   	 */
+> -	tasklet_kill(&ve->base.execlists.tasklet);
+> +	tasklet_kill(&ve->base.sched_engine->tasklet);
+>   
+>   	/* Decouple ourselves from the siblings, no more access allowed. */
+>   	for (n = 0; n < ve->num_siblings; n++) {
+> @@ -3392,13 +3395,13 @@ static void rcu_virtual_context_destroy(struct work_struct *wrk)
+>   
+>   		spin_lock_irq(&sibling->sched_engine->lock);
+>   
+> -		/* Detachment is lazily performed in the execlists tasklet */
+> +		/* Detachment is lazily performed in the sched_engine->tasklet */
+>   		if (!RB_EMPTY_NODE(node))
+>   			rb_erase_cached(node, &sibling->execlists.virtual);
+>   
+>   		spin_unlock_irq(&sibling->sched_engine->lock);
+>   	}
+> -	GEM_BUG_ON(__tasklet_is_scheduled(&ve->base.execlists.tasklet));
+> +	GEM_BUG_ON(__tasklet_is_scheduled(&ve->base.sched_engine->tasklet));
+>   	GEM_BUG_ON(!list_empty(virtual_queue(ve)));
+>   
+>   	lrc_fini(&ve->context);
+> @@ -3545,9 +3548,11 @@ static intel_engine_mask_t virtual_submission_mask(struct virtual_engine *ve)
+>   
+>   static void virtual_submission_tasklet(struct tasklet_struct *t)
+>   {
+> +	struct i915_sched_engine *sched_engine =
+> +		from_tasklet(sched_engine, t, tasklet);
+>   	struct virtual_engine * const ve =
+> -		from_tasklet(ve, t, base.execlists.tasklet);
+> -	const int prio = READ_ONCE(ve->base.sched_engine->queue_priority_hint);
+> +		(struct virtual_engine *)sched_engine->private_data;
+> +	const int prio = READ_ONCE(sched_engine->queue_priority_hint);
+>   	intel_engine_mask_t mask;
+>   	unsigned int n;
+>   
+> @@ -3616,7 +3621,7 @@ static void virtual_submission_tasklet(struct tasklet_struct *t)
+>   		GEM_BUG_ON(RB_EMPTY_NODE(&node->rb));
+>   		node->prio = prio;
+>   		if (first && prio > sibling->sched_engine->queue_priority_hint)
+> -			tasklet_hi_schedule(&sibling->execlists.tasklet);
+> +			tasklet_hi_schedule(&sibling->sched_engine->tasklet);
+>   
+>   unlock_engine:
+>   		spin_unlock_irq(&sibling->sched_engine->lock);
+> @@ -3657,7 +3662,7 @@ static void virtual_submit_request(struct i915_request *rq)
+>   	GEM_BUG_ON(!list_empty(virtual_queue(ve)));
+>   	list_move_tail(&rq->sched.link, virtual_queue(ve));
+>   
+> -	tasklet_hi_schedule(&ve->base.execlists.tasklet);
+> +	tasklet_hi_schedule(&ve->base.sched_engine->tasklet);
+>   
+>   unlock:
+>   	spin_unlock_irqrestore(&ve->base.sched_engine->lock, flags);
+> @@ -3751,6 +3756,7 @@ intel_execlists_create_virtual(struct intel_engine_cs **siblings,
+>   		err = -ENOMEM;
+>   		goto err_put;
+>   	}
+> +	ve->base.sched_engine->private_data = &ve->base;
+>   
+>   	ve->base.cops = &virtual_context_ops;
+>   	ve->base.request_alloc = execlists_request_alloc;
+> @@ -3761,7 +3767,7 @@ intel_execlists_create_virtual(struct intel_engine_cs **siblings,
+>   	ve->base.bond_execute = virtual_bond_execute;
+>   
+>   	INIT_LIST_HEAD(virtual_queue(ve));
+> -	tasklet_setup(&ve->base.execlists.tasklet, virtual_submission_tasklet);
+> +	tasklet_setup(&ve->base.sched_engine->tasklet, virtual_submission_tasklet);
+>   
+>   	intel_context_init(&ve->context, &ve->base);
+>   
+> @@ -3789,7 +3795,7 @@ intel_execlists_create_virtual(struct intel_engine_cs **siblings,
+>   		 * layering if we handle cloning of the requests and
+>   		 * submitting a copy into each backend.
+>   		 */
+> -		if (sibling->execlists.tasklet.callback !=
+> +		if (sibling->sched_engine->tasklet.callback !=
+>   		    execlists_submission_tasklet) {
+>   			err = -ENODEV;
+>   			goto err_put;
+> diff --git a/drivers/gpu/drm/i915/gt/mock_engine.c b/drivers/gpu/drm/i915/gt/mock_engine.c
+> index a49fd3039f13..68970398e4ef 100644
+> --- a/drivers/gpu/drm/i915/gt/mock_engine.c
+> +++ b/drivers/gpu/drm/i915/gt/mock_engine.c
+> @@ -349,6 +349,7 @@ int mock_engine_init(struct intel_engine_cs *engine)
+>   	engine->sched_engine = i915_sched_engine_create(ENGINE_MOCK);
+>   	if (!engine->sched_engine)
+>   		return -ENOMEM;
+> +	engine->sched_engine->private_data = engine;
+>   
+>   	intel_engine_init_execlists(engine);
+>   	intel_engine_init__pm(engine);
+> diff --git a/drivers/gpu/drm/i915/gt/selftest_execlists.c b/drivers/gpu/drm/i915/gt/selftest_execlists.c
+> index 6c0583e7a4c8..74ada241e4f0 100644
+> --- a/drivers/gpu/drm/i915/gt/selftest_execlists.c
+> +++ b/drivers/gpu/drm/i915/gt/selftest_execlists.c
+> @@ -43,7 +43,7 @@ static int wait_for_submit(struct intel_engine_cs *engine,
+>   			   unsigned long timeout)
+>   {
+>   	/* Ignore our own attempts to suppress excess tasklets */
+> -	tasklet_hi_schedule(&engine->execlists.tasklet);
+> +	tasklet_hi_schedule(&engine->sched_engine->tasklet);
+>   
+>   	timeout += jiffies;
+>   	do {
+> @@ -606,9 +606,9 @@ static int live_hold_reset(void *arg)
+>   			err = -EBUSY;
+>   			goto out;
+>   		}
+> -		tasklet_disable(&engine->execlists.tasklet);
+> +		tasklet_disable(&engine->sched_engine->tasklet);
+>   
+> -		engine->execlists.tasklet.callback(&engine->execlists.tasklet);
+> +		engine->sched_engine->tasklet.callback(&engine->sched_engine->tasklet);
+>   		GEM_BUG_ON(execlists_active(&engine->execlists) != rq);
+>   
+>   		i915_request_get(rq);
+> @@ -618,7 +618,7 @@ static int live_hold_reset(void *arg)
+>   		__intel_engine_reset_bh(engine, NULL);
+>   		GEM_BUG_ON(rq->fence.error != -EIO);
+>   
+> -		tasklet_enable(&engine->execlists.tasklet);
+> +		tasklet_enable(&engine->sched_engine->tasklet);
+>   		clear_and_wake_up_bit(I915_RESET_ENGINE + id,
+>   				      &gt->reset.flags);
+>   		local_bh_enable();
+> @@ -1183,7 +1183,7 @@ static int live_timeslice_rewind(void *arg)
+>   		while (i915_request_is_active(rq[A2])) { /* semaphore yield! */
+>   			/* Wait for the timeslice to kick in */
+>   			del_timer(&engine->execlists.timer);
+> -			tasklet_hi_schedule(&engine->execlists.tasklet);
+> +			tasklet_hi_schedule(&engine->sched_engine->tasklet);
+>   			intel_engine_flush_submission(engine);
+>   		}
+>   		/* -> ELSP[] = { { A:rq1 }, { B:rq1 } } */
+> @@ -4593,9 +4593,9 @@ static int reset_virtual_engine(struct intel_gt *gt,
+>   		err = -EBUSY;
+>   		goto out_heartbeat;
+>   	}
+> -	tasklet_disable(&engine->execlists.tasklet);
+> +	tasklet_disable(&engine->sched_engine->tasklet);
+>   
+> -	engine->execlists.tasklet.callback(&engine->execlists.tasklet);
+> +	engine->sched_engine->tasklet.callback(&engine->sched_engine->tasklet);
+>   	GEM_BUG_ON(execlists_active(&engine->execlists) != rq);
+>   
+>   	/* Fake a preemption event; failed of course */
+> @@ -4612,7 +4612,7 @@ static int reset_virtual_engine(struct intel_gt *gt,
+>   	GEM_BUG_ON(rq->fence.error != -EIO);
+>   
+>   	/* Release our grasp on the engine, letting CS flow again */
+> -	tasklet_enable(&engine->execlists.tasklet);
+> +	tasklet_enable(&engine->sched_engine->tasklet);
+>   	clear_and_wake_up_bit(I915_RESET_ENGINE + engine->id, &gt->reset.flags);
+>   	local_bh_enable();
+>   
+> diff --git a/drivers/gpu/drm/i915/gt/selftest_hangcheck.c b/drivers/gpu/drm/i915/gt/selftest_hangcheck.c
+> index cec4b9977c9b..6a0b04bdac58 100644
+> --- a/drivers/gpu/drm/i915/gt/selftest_hangcheck.c
+> +++ b/drivers/gpu/drm/i915/gt/selftest_hangcheck.c
+> @@ -1702,7 +1702,7 @@ static int __igt_atomic_reset_engine(struct intel_engine_cs *engine,
+>   				     const struct igt_atomic_section *p,
+>   				     const char *mode)
+>   {
+> -	struct tasklet_struct * const t = &engine->execlists.tasklet;
+> +	struct tasklet_struct * const t = &engine->sched_engine->tasklet;
+>   	int err;
+>   
+>   	GEM_TRACE("i915_reset_engine(%s:%s) under %s\n",
+> diff --git a/drivers/gpu/drm/i915/gt/selftest_lrc.c b/drivers/gpu/drm/i915/gt/selftest_lrc.c
+> index 3119016d9910..b0977a3b699b 100644
+> --- a/drivers/gpu/drm/i915/gt/selftest_lrc.c
+> +++ b/drivers/gpu/drm/i915/gt/selftest_lrc.c
+> @@ -49,7 +49,7 @@ static int wait_for_submit(struct intel_engine_cs *engine,
+>   			   unsigned long timeout)
+>   {
+>   	/* Ignore our own attempts to suppress excess tasklets */
+> -	tasklet_hi_schedule(&engine->execlists.tasklet);
+> +	tasklet_hi_schedule(&engine->sched_engine->tasklet);
+>   
+>   	timeout += jiffies;
+>   	do {
+> @@ -1613,12 +1613,12 @@ static void garbage_reset(struct intel_engine_cs *engine,
+>   
+>   	local_bh_disable();
+>   	if (!test_and_set_bit(bit, lock)) {
+> -		tasklet_disable(&engine->execlists.tasklet);
+> +		tasklet_disable(&engine->sched_engine->tasklet);
+>   
+>   		if (!rq->fence.error)
+>   			__intel_engine_reset_bh(engine, NULL);
+>   
+> -		tasklet_enable(&engine->execlists.tasklet);
+> +		tasklet_enable(&engine->sched_engine->tasklet);
+>   		clear_and_wake_up_bit(bit, lock);
+>   	}
+>   	local_bh_enable();
+> diff --git a/drivers/gpu/drm/i915/gt/selftest_reset.c b/drivers/gpu/drm/i915/gt/selftest_reset.c
+> index 8784257ec808..7a50c9f4071b 100644
+> --- a/drivers/gpu/drm/i915/gt/selftest_reset.c
+> +++ b/drivers/gpu/drm/i915/gt/selftest_reset.c
+> @@ -321,7 +321,7 @@ static int igt_atomic_engine_reset(void *arg)
+>   		goto out_unlock;
+>   
+>   	for_each_engine(engine, gt, id) {
+> -		struct tasklet_struct *t = &engine->execlists.tasklet;
+> +		struct tasklet_struct *t = &engine->sched_engine->tasklet;
+>   
+>   		if (t->func)
+>   			tasklet_disable(t);
+> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> index cb13cc586c67..e9c237b18692 100644
+> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> @@ -241,8 +241,9 @@ static void __guc_dequeue(struct intel_engine_cs *engine)
+>   
+>   static void guc_submission_tasklet(struct tasklet_struct *t)
+>   {
+> -	struct intel_engine_cs * const engine =
+> -		from_tasklet(engine, t, execlists.tasklet);
+> +	struct i915_sched_engine *sched_engine =
+> +		from_tasklet(sched_engine, t, tasklet);
+> +	struct intel_engine_cs * const engine = sched_engine->private_data;
+>   	struct intel_engine_execlists * const execlists = &engine->execlists;
+>   	struct i915_request **port, *rq;
+>   	unsigned long flags;
+> @@ -272,14 +273,12 @@ static void cs_irq_handler(struct intel_engine_cs *engine, u16 iir)
+>   {
+>   	if (iir & GT_RENDER_USER_INTERRUPT) {
+>   		intel_engine_signal_breadcrumbs(engine);
+> -		tasklet_hi_schedule(&engine->execlists.tasklet);
+> +		tasklet_hi_schedule(&engine->sched_engine->tasklet);
+>   	}
+>   }
+>   
+>   static void guc_reset_prepare(struct intel_engine_cs *engine)
+>   {
+> -	struct intel_engine_execlists * const execlists = &engine->execlists;
+> -
+>   	ENGINE_TRACE(engine, "\n");
+>   
+>   	/*
+> @@ -291,7 +290,7 @@ static void guc_reset_prepare(struct intel_engine_cs *engine)
+>   	 * Turning off the execlists->tasklet until the reset is over
+>   	 * prevents the race.
+>   	 */
+> -	__tasklet_disable_sync_once(&execlists->tasklet);
+> +	__tasklet_disable_sync_once(&engine->sched_engine->tasklet);
+>   }
+>   
+>   static void guc_reset_state(struct intel_context *ce,
+> @@ -395,14 +394,12 @@ static void guc_reset_cancel(struct intel_engine_cs *engine)
+>   
+>   static void guc_reset_finish(struct intel_engine_cs *engine)
+>   {
+> -	struct intel_engine_execlists * const execlists = &engine->execlists;
+> -
+> -	if (__tasklet_enable(&execlists->tasklet))
+> +	if (__tasklet_enable(&engine->sched_engine->tasklet))
+>   		/* And kick in case we missed a new request submission. */
+> -		tasklet_hi_schedule(&execlists->tasklet);
+> +		tasklet_hi_schedule(&engine->sched_engine->tasklet);
+>   
+>   	ENGINE_TRACE(engine, "depth->%d\n",
+> -		     atomic_read(&execlists->tasklet.count));
+> +		     atomic_read(&engine->sched_engine->tasklet.count));
+>   }
+>   
+>   /*
+> @@ -520,7 +517,7 @@ static void guc_submit_request(struct i915_request *rq)
+>   	GEM_BUG_ON(i915_sched_engine_is_empty(engine->sched_engine));
+>   	GEM_BUG_ON(list_empty(&rq->sched.link));
+>   
+> -	tasklet_hi_schedule(&engine->execlists.tasklet);
+> +	tasklet_hi_schedule(&engine->sched_engine->tasklet);
+>   
+>   	spin_unlock_irqrestore(&engine->sched_engine->lock, flags);
+>   }
+> @@ -600,7 +597,7 @@ static void guc_release(struct intel_engine_cs *engine)
+>   {
+>   	engine->sanitize = NULL; /* no longer in control, nothing to sanitize */
+>   
+> -	tasklet_kill(&engine->execlists.tasklet);
+> +	tasklet_kill(&engine->sched_engine->tasklet);
+>   
+>   	intel_engine_cleanup_common(engine);
+>   	lrc_fini_wa_ctx(engine);
+> @@ -679,7 +676,7 @@ int intel_guc_submission_setup(struct intel_engine_cs *engine)
+>   	 */
+>   	GEM_BUG_ON(GRAPHICS_VER(i915) < 11);
+>   
+> -	tasklet_setup(&engine->execlists.tasklet, guc_submission_tasklet);
+> +	tasklet_setup(&engine->sched_engine->tasklet, guc_submission_tasklet);
+>   
+>   	guc_default_vfuncs(engine);
+>   	guc_default_irqs(engine);
+> diff --git a/drivers/gpu/drm/i915/i915_scheduler.c b/drivers/gpu/drm/i915/i915_scheduler.c
+> index fa8863df9513..3a58a9130309 100644
+> --- a/drivers/gpu/drm/i915/i915_scheduler.c
+> +++ b/drivers/gpu/drm/i915/i915_scheduler.c
+> @@ -436,6 +436,7 @@ void i915_sched_engine_free(struct kref *kref)
+>   	struct i915_sched_engine *sched_engine =
+>   		container_of(kref, typeof(*sched_engine), ref);
+>   
+> +	tasklet_kill(&sched_engine->tasklet); /* flush the callback */
+>   	kfree(sched_engine);
+>   }
+>   
+> diff --git a/drivers/gpu/drm/i915/i915_scheduler.h b/drivers/gpu/drm/i915/i915_scheduler.h
+> index 0014745bda30..650ab8e0db9f 100644
+> --- a/drivers/gpu/drm/i915/i915_scheduler.h
+> +++ b/drivers/gpu/drm/i915/i915_scheduler.h
+> @@ -79,6 +79,20 @@ i915_sched_engine_reset_on_empty(struct i915_sched_engine *sched_engine)
+>   		sched_engine->no_priolist = false;
+>   }
+>   
+> +static inline void
+> +i915_sched_engine_active_lock_bh(struct i915_sched_engine *sched_engine)
+> +{
+> +	local_bh_disable(); /* prevent local softirq and lock recursion */
+> +	tasklet_lock(&sched_engine->tasklet);
+> +}
+> +
+> +static inline void
+> +i915_sched_engine_active_unlock_bh(struct i915_sched_engine *sched_engine)
+> +{
+> +	tasklet_unlock(&sched_engine->tasklet);
+> +	local_bh_enable(); /* restore softirq, and kick ksoftirqd! */
+> +}
+> +
+>   void i915_request_show_with_schedule(struct drm_printer *m,
+>   				     const struct i915_request *rq,
+>   				     const char *prefix,
+> diff --git a/drivers/gpu/drm/i915/i915_scheduler_types.h b/drivers/gpu/drm/i915/i915_scheduler_types.h
+> index 8bd07d0c27e1..5935c3152bdc 100644
+> --- a/drivers/gpu/drm/i915/i915_scheduler_types.h
+> +++ b/drivers/gpu/drm/i915/i915_scheduler_types.h
+> @@ -124,6 +124,11 @@ struct i915_sched_engine {
+>   	 */
+>   	struct list_head hold;
+>   
+> +	/**
+> +	 * @tasklet: softirq tasklet for submission
+> +	 */
+> +	struct tasklet_struct tasklet;
+> +
+>   	/**
+>   	 * @default_priolist: priority list for I915_PRIORITY_NORMAL
+>   	 */
+> @@ -153,6 +158,11 @@ struct i915_sched_engine {
+>   	 */
+>   	bool no_priolist;
+>   
+> +	/**
+> +	 * @private_data: private data of the submission backend
+> +	 */
+> +	void *private_data;
+> +
+>   	/**
+>   	 * @kick_backend: kick backend after a request's priority has changed
+>   	 */
 
