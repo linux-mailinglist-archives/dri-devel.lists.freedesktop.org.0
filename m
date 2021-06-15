@@ -1,41 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 108FB3A7D58
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Jun 2021 13:36:18 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C68B3A7D72
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Jun 2021 13:45:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1D53489AE6;
-	Tue, 15 Jun 2021 11:36:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 66AA989BF8;
+	Tue, 15 Jun 2021 11:45:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C679489AE6;
- Tue, 15 Jun 2021 11:36:14 +0000 (UTC)
-IronPort-SDR: FSryRWtpJB9cisFle0nBNMnbN+WTzvRq1344Y5qmES1Biu/TRYPY7VcsO8CqEiTuLt6GU2IjRO
- nW6jUoqXiBdw==
-X-IronPort-AV: E=McAfee;i="6200,9189,10015"; a="205789708"
-X-IronPort-AV: E=Sophos;i="5.83,275,1616482800"; d="scan'208";a="205789708"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Jun 2021 04:36:14 -0700
-IronPort-SDR: yLEj6n/IPDGnS9TnCV29xh9JXiodretEJJsRCifTlhX+FoqZloy+Fwp8Pc0Ky+3RIper0+mmJ8
- F41UTUy9+sJg==
-X-IronPort-AV: E=Sophos;i="5.83,275,1616482800"; d="scan'208";a="421095275"
-Received: from vgribano-mobl.ccr.corp.intel.com (HELO thellst-mobl1.intel.com)
- ([10.249.254.53])
- by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Jun 2021 04:36:12 -0700
-From: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
-To: intel-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/i915: Perform execbuffer object locking as a separate step
-Date: Tue, 15 Jun 2021 13:36:00 +0200
-Message-Id: <20210615113600.30660-1-thomas.hellstrom@linux.intel.com>
-X-Mailer: git-send-email 2.31.1
+Received: from mail-m121144.qiye.163.com (mail-m121144.qiye.163.com
+ [115.236.121.144])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5B93B89BF8;
+ Tue, 15 Jun 2021 11:45:19 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256;
+ b=ZAO2bcFNMtQU/YuKzEFCBUJLBEZWCWvWxwPeox2Dqn+RMJOOMXQKhZQO97rfOShPgN6EdQ9NWvNDlGPfYIWuMgzGVSxedB8vhK7knKoq5KkAS8mdO3omoBDF3trFE3n7kghZoSIMPl84Dti+AamdPsN0Py1hwb28MrDasAHmtB0=;
+ c=relaxed/relaxed; s=default; d=vivo.com; v=1;
+ bh=j3jt4fUPgIREfp+PJY4vqwyrcfj6j4PCiNXLHMJ+77c=;
+ h=date:mime-version:subject:message-id:from;
+Received: from Wanjb.localdomain (unknown [36.152.145.182])
+ by mail-m121144.qiye.163.com (Hmail) with ESMTPA id 50D5BAC03F3;
+ Tue, 15 Jun 2021 19:45:05 +0800 (CST)
+From: Wan Jiabing <wanjiabing@vivo.com>
+To: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ "Pan, Xinhui" <Xinhui.Pan@amd.com>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>,
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, Zhan Liu <zhan.liu@amd.com>,
+ Nikola Cornij <nikola.cornij@amd.com>,
+ Dmytro Laktyushkin <Dmytro.Laktyushkin@amd.com>,
+ Yongqiang Sun <yongqiang.sun@amd.com>, Roman Li <roman.li@amd.com>,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH] drm: display: Fix duplicate field initialization in dcn31
+Date: Tue, 15 Jun 2021 19:44:01 +0800
+Message-Id: <20210615114410.7708-1-wanjiabing@vivo.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-HM-Spam-Status: e1kfGhgUHx5ZQUtXWQgYFAkeWUFZS1VLWVdZKFlBSE83V1ktWUFJV1kPCR
+ oVCBIfWUFZQhkaT1ZJSEkdSk8fS00dQk1VEwETFhoSFyQUDg9ZV1kWGg8SFR0UWUFZT0tIVUpKS0
+ 9ISFVLWQY+
+X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6NS46Ejo*FT8NI0gJC086NUoZ
+ MlZPCS9VSlVKTUlITE5MTktNTktIVTMWGhIXVQwaFRESGhkSFRw7DRINFFUYFBZFWVdZEgtZQVlI
+ TVVKTklVSk9OVUpDSVlXWQgBWUFJTUNDNwY+
+X-HM-Tid: 0a7a0f7d464cb039kuuu50d5bac03f3
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,66 +58,31 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- matthew.auld@intel.com
+Cc: Wan Jiabing <wanjiabing@vivo.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-To help avoid evicting already resident buffers from the batch we're
-processing, perform locking as a separate step.
+Fix the following coccicheck warning:
+drivers/gpu/drm/amd/display/dc/dcn31/dcn31_resource.c:917:56-57:
+pstate_enabled: first occurrence line 935, second occurrence line 937
 
-Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+Signed-off-by: Wan Jiabing <wanjiabing@vivo.com>
 ---
- .../gpu/drm/i915/gem/i915_gem_execbuffer.c    | 25 ++++++++++++++++---
- 1 file changed, 21 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/amd/display/dc/dcn31/dcn31_resource.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
-index 201fed19d120..394eb40c95b5 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
-@@ -922,21 +922,38 @@ static int eb_lookup_vmas(struct i915_execbuffer *eb)
- 	return err;
- }
- 
--static int eb_validate_vmas(struct i915_execbuffer *eb)
-+static int eb_lock_vmas(struct i915_execbuffer *eb)
- {
- 	unsigned int i;
- 	int err;
- 
--	INIT_LIST_HEAD(&eb->unbound);
--
- 	for (i = 0; i < eb->buffer_count; i++) {
--		struct drm_i915_gem_exec_object2 *entry = &eb->exec[i];
- 		struct eb_vma *ev = &eb->vma[i];
- 		struct i915_vma *vma = ev->vma;
- 
- 		err = i915_gem_object_lock(vma->obj, &eb->ww);
- 		if (err)
- 			return err;
-+	}
-+
-+	return 0;
-+}
-+
-+static int eb_validate_vmas(struct i915_execbuffer *eb)
-+{
-+	unsigned int i;
-+	int err;
-+
-+	INIT_LIST_HEAD(&eb->unbound);
-+
-+	err = eb_lock_vmas(eb);
-+	if (err)
-+		return err;
-+
-+	for (i = 0; i < eb->buffer_count; i++) {
-+		struct drm_i915_gem_exec_object2 *entry = &eb->exec[i];
-+		struct eb_vma *ev = &eb->vma[i];
-+		struct i915_vma *vma = ev->vma;
- 
- 		err = eb_pin_vma(eb, entry, ev);
- 		if (err == -EDEADLK)
+diff --git a/drivers/gpu/drm/amd/display/dc/dcn31/dcn31_resource.c b/drivers/gpu/drm/amd/display/dc/dcn31/dcn31_resource.c
+index 0d6cb6caad81..c67bc9544f5d 100644
+--- a/drivers/gpu/drm/amd/display/dc/dcn31/dcn31_resource.c
++++ b/drivers/gpu/drm/amd/display/dc/dcn31/dcn31_resource.c
+@@ -934,7 +934,6 @@ static const struct dc_debug_options debug_defaults_drv = {
+ 	.dmub_command_table = true,
+ 	.pstate_enabled = true,
+ 	.use_max_lb = true,
+-	.pstate_enabled = true,
+ 	.enable_mem_low_power = {
+ 		.bits = {
+ 			.vga = false,
 -- 
-2.31.1
+2.20.1
 
