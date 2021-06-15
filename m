@@ -2,43 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5C9F3A76CF
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Jun 2021 07:52:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 425E03A76CD
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Jun 2021 07:52:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3EB2B6E17A;
-	Tue, 15 Jun 2021 05:52:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5EECE6E098;
+	Tue, 15 Jun 2021 05:52:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4DA2F6E1F6;
- Tue, 15 Jun 2021 03:16:12 +0000 (UTC)
-Received: from dggemv704-chm.china.huawei.com (unknown [172.30.72.55])
- by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4G3tg04CqHz6yQb;
- Tue, 15 Jun 2021 11:13:00 +0800 (CST)
-Received: from dggpemm500016.china.huawei.com (7.185.36.25) by
- dggemv704-chm.china.huawei.com (10.3.19.47) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Tue, 15 Jun 2021 11:16:09 +0800
-Received: from huawei.com (10.67.174.205) by dggpemm500016.china.huawei.com
- (7.185.36.25) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2176.2; Tue, 15 Jun
- 2021 11:16:08 +0800
-From: Chen Jiahao <chenjiahao16@huawei.com>
-To: <bskeggs@redhat.com>, <airlied@linux.ie>, <daniel@ffwll.ch>,
- <lyude@redhat.com>, <airlied@redhat.com>, <nikola.cornij@amd.com>,
- <ville.syrjala@linux.intel.com>, <dri-devel@lists.freedesktop.org>,
- <nouveau@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH] drm: nouveau: fix nouveau_backlight compiling error
-Date: Tue, 15 Jun 2021 11:16:58 +0800
-Message-ID: <20210615031658.176218-1-chenjiahao16@huawei.com>
-X-Mailer: git-send-email 2.31.1
+Received: from mail-pl1-x630.google.com (mail-pl1-x630.google.com
+ [IPv6:2607:f8b0:4864:20::630])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9163D89F85
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Jun 2021 03:29:45 +0000 (UTC)
+Received: by mail-pl1-x630.google.com with SMTP id e7so7723877plj.7
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Jun 2021 20:29:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Ko1IwBGBst5Jf2WhqbyLBt78jSlpiQeS/6AIDQFiD8w=;
+ b=ZuGe39zMIh0zTAo7XlKLZPzD8gyv2KE+kIUzjS2rlpekG/fPV7gz1czM1SUsTsL+fS
+ npwq05fl62dITgBoZksqFKJxpTL9C+H+nMc+5OA470NtLeF/nSH6Nt+QlBaTrrmNROcr
+ PZ8z6Zhzn2mCde9ILXCzny9Q+VW+vTxgkg/ow=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Ko1IwBGBst5Jf2WhqbyLBt78jSlpiQeS/6AIDQFiD8w=;
+ b=TGJFmZLOBE79hWhINU0KEJE6wMzy037R/Wvs9EfxjFwtVdFUwBNg2hcAyLfZM6c48d
+ UhHNGKKKp7vt7S0/v4IR+so+L4xWXMb1SUph2NhnqQ016UR2BOkvpq8wOSlQk/doCuv9
+ KfFZneTliJg/cZjXoRJkezVHCdNekdWaWyKslPxkxPWG/rqCUVVMUk9XteC1Kfu7bGJh
+ CqvT7mBk2Ky1H0Y//RmYcthlc4PnAJJ1VB0a7AFrP1ZICI32XBhsxkJd+VjVBYUKgFSJ
+ MG0YTlBKCTiTvynKeERiC5YHCNDCa9OskGpGMaPvPVfE5udcXLmJbwDr6rf12rVDxgm1
+ jPmw==
+X-Gm-Message-State: AOAM532t/CjojXRryE66Bua81qCSsqXhiUYWIQ3U57G3WtKeR+pXvsYJ
+ OOklKas15ZcgoQIM2WNP6k0Qrw==
+X-Google-Smtp-Source: ABdhPJxk9ulOgf+BkOotf4gBXMadqzHQr5KaW1jAZnlUzhyqv6EQetNNiVdjMmPmoQdgyjUSsr3s0A==
+X-Received: by 2002:a17:902:a98c:b029:119:926d:f99a with SMTP id
+ bh12-20020a170902a98cb0290119926df99amr2388315plb.5.1623727785121; 
+ Mon, 14 Jun 2021 20:29:45 -0700 (PDT)
+Received: from kafuu-chino.c.googlers.com.com
+ (105.219.229.35.bc.googleusercontent.com. [35.229.219.105])
+ by smtp.googlemail.com with ESMTPSA id o16sm13441990pjw.10.2021.06.14.20.29.42
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 14 Jun 2021 20:29:44 -0700 (PDT)
+From: Pi-Hsun Shih <pihsun@chromium.org>
+To: 
+Subject: [PATCH] drm/bridge: anx7625: Make hpd workqueue freezable
+Date: Tue, 15 Jun 2021 11:29:24 +0800
+Message-Id: <20210615032937.2328468-1-pihsun@chromium.org>
+X-Mailer: git-send-email 2.32.0.272.g935e593368-goog
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.67.174.205]
-X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
- dggpemm500016.china.huawei.com (7.185.36.25)
-X-CFilter-Loop: Reflected
 X-Mailman-Approved-At: Tue, 15 Jun 2021 05:52:29 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -52,57 +65,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: chenjiahao16@huawei.com, heying24@huawei.com
+Cc: Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
+ "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
+ Jonas Karlman <jonas@kwiboo.se>, open list <linux-kernel@vger.kernel.org>,
+ Robert Foss <robert.foss@linaro.org>, Andrzej Hajda <a.hajda@samsung.com>,
+ Tzung-Bi Shih <tzungbi@google.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Pi-Hsun Shih <pihsun@chromium.org>, Hsin-Yi Wang <hsinyi@chromium.org>,
+ Xin Ji <xji@analogixsemi.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-There is a compiling error in disp.c while not selecting
-CONFIG_DRM_NOUVEAU_BACKLIGHT:
+There were still a race condition between hpd work and suspend, since
+the workqueue work can still be run after anx7625 had powered off in
+suspend.
 
-drivers/gpu/drm/nouveau/dispnv50/disp.c: In function ‘nv50_sor_atomic_disable’:
-drivers/gpu/drm/nouveau/dispnv50/disp.c:1665:52: error:
-‘struct nouveau_connector’ has no member named ‘backlight’
- 1665 |  struct nouveau_backlight *backlight = nv_connector->backlight;
-      |                                                    ^~
-drivers/gpu/drm/nouveau/dispnv50/disp.c:1670:28: error: dereferencing pointer
-to incomplete type ‘struct nouveau_backlight’
- 1670 |  if (backlight && backlight->uses_dpcd) {
-      |                            ^~
+Since we never want hpd work to run while suspending, and there's no
+harm to delay them to be run after resume, mark the workqueue as
+WQ_FREEZABLE so all works won't run while suspending.
 
-The problem is solved by adding the CONFIG_DRM_NOUVEAU_BACKLIGHT dependency
-where struct nouveau_backlight is used.
+Fixes: 409776fa3c42 ("drm/bridge: anx7625: add suspend / resume hooks")
 
-Signed-off-by: Chen Jiahao <chenjiahao16@huawei.com>
+Signed-off-by: Pi-Hsun Shih <pihsun@chromium.org>
 ---
- drivers/gpu/drm/nouveau/dispnv50/disp.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ drivers/gpu/drm/bridge/analogix/anx7625.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/nouveau/dispnv50/disp.c b/drivers/gpu/drm/nouveau/dispnv50/disp.c
-index 093e1f7163b3..d266b7721e29 100644
---- a/drivers/gpu/drm/nouveau/dispnv50/disp.c
-+++ b/drivers/gpu/drm/nouveau/dispnv50/disp.c
-@@ -1662,17 +1662,21 @@ nv50_sor_atomic_disable(struct drm_encoder *encoder, struct drm_atomic_state *st
- 	struct nouveau_drm *drm = nouveau_drm(nv_encoder->base.base.dev);
- 	struct nouveau_crtc *nv_crtc = nouveau_crtc(nv_encoder->crtc);
- 	struct nouveau_connector *nv_connector = nv50_outp_get_old_connector(state, nv_encoder);
-+#ifdef CONFIG_DRM_NOUVEAU_BACKLIGHT
- 	struct nouveau_backlight *backlight = nv_connector->backlight;
-+#endif
- 	struct drm_dp_aux *aux = &nv_connector->aux;
- 	int ret;
- 	u8 pwr;
- 
-+#ifdef CONFIG_DRM_NOUVEAU_BACKLIGHT
- 	if (backlight && backlight->uses_dpcd) {
- 		ret = drm_edp_backlight_disable(aux, &backlight->edp_info);
- 		if (ret < 0)
- 			NV_ERROR(drm, "Failed to disable backlight on [CONNECTOR:%d:%s]: %d\n",
- 				 nv_connector->base.base.id, nv_connector->base.name, ret);
+diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.c b/drivers/gpu/drm/bridge/analogix/anx7625.c
+index 7519b7a0f29d..e165be5a2067 100644
+--- a/drivers/gpu/drm/bridge/analogix/anx7625.c
++++ b/drivers/gpu/drm/bridge/analogix/anx7625.c
+@@ -1730,7 +1730,6 @@ static int __maybe_unused anx7625_suspend(struct device *dev)
+ 	if (!pm_runtime_enabled(dev) || !pm_runtime_suspended(dev)) {
+ 		anx7625_runtime_pm_suspend(dev);
+ 		disable_irq(ctx->pdata.intp_irq);
+-		flush_workqueue(ctx->workqueue);
  	}
-+#endif
  
- 	if (nv_encoder->dcb->type == DCB_OUTPUT_DP) {
- 		int ret = drm_dp_dpcd_readb(aux, DP_SET_POWER, &pwr);
+ 	return 0;
+@@ -1790,7 +1789,8 @@ static int anx7625_i2c_probe(struct i2c_client *client,
+ 	platform->pdata.intp_irq = client->irq;
+ 	if (platform->pdata.intp_irq) {
+ 		INIT_WORK(&platform->work, anx7625_work_func);
+-		platform->workqueue = create_workqueue("anx7625_work");
++		platform->workqueue = alloc_workqueue(
++			"anx7625_work", WQ_FREEZABLE | WQ_MEM_RECLAIM, 1);
+ 		if (!platform->workqueue) {
+ 			DRM_DEV_ERROR(dev, "fail to create work queue\n");
+ 			ret = -ENOMEM;
+
+base-commit: 25fe90f43fa312213b653dc1f12fd2d80f855883
 -- 
-2.31.1
+2.32.0.272.g935e593368-goog
 
