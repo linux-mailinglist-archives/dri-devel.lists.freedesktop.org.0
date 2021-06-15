@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0392A3A8324
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Jun 2021 16:45:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E8EC43A8330
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Jun 2021 16:48:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5FCE86E328;
-	Tue, 15 Jun 2021 14:45:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5782A6E30D;
+	Tue, 15 Jun 2021 14:48:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1D7A589FBC;
- Tue, 15 Jun 2021 14:45:15 +0000 (UTC)
-IronPort-SDR: PX4xQA0S/SI/SKryiWODDEszpaKeHnEH2bhkNRwjF4Kn/zaJvCh2b+utvkwHRwIkR+IXV8a6Io
- AC34b8x0HXXA==
-X-IronPort-AV: E=McAfee;i="6200,9189,10015"; a="291634863"
-X-IronPort-AV: E=Sophos;i="5.83,275,1616482800"; d="scan'208";a="291634863"
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2701289FBC;
+ Tue, 15 Jun 2021 14:48:13 +0000 (UTC)
+IronPort-SDR: E6+qWxeHb/bxAKy8pTbjEgX2/Ha5UhKlIDK4YJ5dpJlGlSh91UFHRbSOeL23KVimv2j+VqhdkR
+ IQWyCVL2iXDg==
+X-IronPort-AV: E=McAfee;i="6200,9189,10015"; a="204173720"
+X-IronPort-AV: E=Sophos;i="5.83,275,1616482800"; d="scan'208";a="204173720"
 Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Jun 2021 07:45:13 -0700
-IronPort-SDR: KhJG8PAt/x2XOA4OLoeTuDEWjZ6cC+zrxgSc0e1YUhdcSiOinRmdILQm0a/wK8rVr3ruqH1UNg
- pla+Vp8u11nQ==
-X-IronPort-AV: E=Sophos;i="5.83,275,1616482800"; d="scan'208";a="451989432"
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Jun 2021 07:47:56 -0700
+IronPort-SDR: e8+kqsKwLKIxsLFc7WTEhE3mFMjlO00GcNJW50i+JGbTnXy8mB8BrcQ0vG2suNZq8VcDZnU/Bl
+ 26TRNu+Cv8FA==
+X-IronPort-AV: E=Sophos;i="5.83,275,1616482800"; d="scan'208";a="451990177"
 Received: from vlernihx-mobl3.ger.corp.intel.com (HELO [10.252.12.108])
  ([10.252.12.108])
  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Jun 2021 07:45:12 -0700
-Subject: Re: [PATCH v3 07/12] drm/i915/gt: Pipelined page migration
+ 15 Jun 2021 07:47:55 -0700
+Subject: Re: [PATCH v3 08/12] drm/i915/gt: Pipelined clear
 To: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>,
  intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 References: <20210614162612.294869-1-thomas.hellstrom@linux.intel.com>
- <20210614162612.294869-8-thomas.hellstrom@linux.intel.com>
+ <20210614162612.294869-9-thomas.hellstrom@linux.intel.com>
 From: Matthew Auld <matthew.auld@intel.com>
-Message-ID: <cc1f996f-e8fe-7e74-5bc9-c7d61ebe8322@intel.com>
-Date: Tue, 15 Jun 2021 15:45:10 +0100
+Message-ID: <ff95d026-e1ee-179f-f444-368b382f899a@intel.com>
+Date: Tue, 15 Jun 2021 15:47:53 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.10.1
 MIME-Version: 1.0
-In-Reply-To: <20210614162612.294869-8-thomas.hellstrom@linux.intel.com>
+In-Reply-To: <20210614162612.294869-9-thomas.hellstrom@linux.intel.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-GB
 Content-Transfer-Encoding: 8bit
@@ -60,18 +60,8 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 On 14/06/2021 17:26, Thomas Hellström wrote:
 > From: Chris Wilson <chris@chris-wilson.co.uk>
 > 
-> If we pipeline the PTE updates and then do the copy of those pages
-> within a single unpreemptible command packet, we can submit the copies
-> and leave them to be scheduled without having to synchronously wait
-> under a global lock. In order to manage migration, we need to
-> preallocate the page tables (and keep them pinned and available for use
-> at any time), causing a bottleneck for migrations as all clients must
-> contend on the limited resources. By inlining the ppGTT updates and
-> performing the blit atomically, each client only owns the PTE while in
-> use, and so we can reschedule individual operations however we see fit.
-> And most importantly, we do not need to take a global lock on the shared
-> vm, and wait until the operation is complete before releasing the lock
-> for others to claim the PTE for themselves.
+> Update the PTE and emit a clear within a single unpreemptible packet
+> such that we can schedule and pipeline clears.
 > 
 > Signed-off-by: Chris Wilson <chris@chris-wilson.co.uk>
 > Co-developed-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
