@@ -1,78 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D3073A89A2
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Jun 2021 21:36:15 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CD033A89A8
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Jun 2021 21:37:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 633336E1EC;
-	Tue, 15 Jun 2021 19:36:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C1F356E15F;
+	Tue, 15 Jun 2021 19:36:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 681BD6E1EC
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Jun 2021 19:36:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623785771;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=llnAE3X+Il5R8O881N30+k0POgEFanp8l+fSoeV24QM=;
- b=WkXP7izZfBCKEUWa/5avWj0TBZXdPWYXjhFHs0GoDAMPYncw7X29kUmVFY7DCG9fd6mixH
- SNakYpQubiOHjxUmSFgPYa241Cj8UX6WwuueZJxAPMlRQ7uo+nk2/rI+je7kadIjh7Af/e
- 5HhXYNB3QPHWiiX+3e+j3Uqv093eiW0=
-Received: from mail-oo1-f70.google.com (mail-oo1-f70.google.com
- [209.85.161.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-596-rarn76vCPvCWUNpGCu4Rkg-1; Tue, 15 Jun 2021 15:36:05 -0400
-X-MC-Unique: rarn76vCPvCWUNpGCu4Rkg-1
-Received: by mail-oo1-f70.google.com with SMTP id
- f5-20020a4ab0050000b029023e3bd79e80so101770oon.10
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Jun 2021 12:36:05 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:organization:mime-version:content-transfer-encoding;
- bh=llnAE3X+Il5R8O881N30+k0POgEFanp8l+fSoeV24QM=;
- b=YP2LDi+0DyDOJulGdTUrg0s5LB/1IzYjDcbG2MPWVeFeNncc73/FPtW71aC0+v0uak
- omWbhH+jXFx2tfkKnFGuwOoMQUsz8c8xsNeFyQUYLFKiodgv73xLyb3ue+psTSdGd5kr
- i4pE2hQFk8WNu2dAOBkS4/hPGtjZyBGG2GT7HFPg3YG/cRyWtNU6SAeaSfv2j3PCUG1I
- gVDRgJljPmusjYgBbV1UghsRSRvNdzV9qOW8QdiuA/Dh/v3kitJQyz2ygpJlbc9qyhyD
- 1LPjqq6UxqQZJqkk7t/ZY4NR8yx/je023sVq0g+DR/gx6LxLwlt7SxexQhFCGEIUuZXv
- B59w==
-X-Gm-Message-State: AOAM531za6ldYX/ul4X8GZJqcYHkw5ajdVeg39qF/sTWHtWo14qpQOBN
- 8/Y/1b6ubrGfqjzToSK2WEY6t/d10p2fuOtCUG+CWZwUJZdYD+sXUWiZ8AAxDoy8dkVd3VEs6vn
- 9iD1Xf6Es2LhhUGcPuTzMy7GaXMhu
-X-Received: by 2002:a05:6808:210:: with SMTP id
- l16mr500273oie.154.1623785764705; 
- Tue, 15 Jun 2021 12:36:04 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJz8QXhsFTV+W1cxlEpGDuWEWDQP8JmMvkjeZyUYAqX7GqD4McjXkjMc2mNDLmE9O/Xu0RrqmA==
-X-Received: by 2002:a05:6808:210:: with SMTP id
- l16mr500251oie.154.1623785764560; 
- Tue, 15 Jun 2021 12:36:04 -0700 (PDT)
-Received: from redhat.com ([198.99.80.109])
- by smtp.gmail.com with ESMTPSA id u1sm3965076ooo.18.2021.06.15.12.36.03
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 15 Jun 2021 12:36:04 -0700 (PDT)
-Date: Tue, 15 Jun 2021 13:36:02 -0600
-From: Alex Williamson <alex.williamson@redhat.com>
-To: Christoph Hellwig <hch@lst.de>
-Subject: Re: [PATCH 04/10] driver core: Don't return EPROBE_DEFER to
- userspace during sysfs bind
-Message-ID: <20210615133602.0699492d.alex.williamson@redhat.com>
-In-Reply-To: <20210615133519.754763-5-hch@lst.de>
-References: <20210615133519.754763-1-hch@lst.de>
- <20210615133519.754763-5-hch@lst.de>
-Organization: Red Hat
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C4DB66E15F
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Jun 2021 19:36:58 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id 8FF4C613B3
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Jun 2021 19:36:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1623785818;
+ bh=KzpQfsKd4qQRUPK1plpBlt0AF9u6QgqRiYFZLbxgflg=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=SubaNV8Prek4WvpBk9nd3mfvAMcHo4Rth5TdLlBzmZeQ0JK/BWgrOCJBdDjnTDpVE
+ 30kkglv8A6Sd3eZ1udHW81yBfrzmY19O8bn5yLfcxJT3GFECMxssuJYCD70933+wBc
+ dGD/QY2s9DVQejeeg9bZaeb5xlCZFtS41Gjj7ZeCPLKaUuogxrxbGPg7e/JeWedCeE
+ 0YgIu6kbUiqTTVhReDbJv1c/R3xDKa1PvYQdg1Wc0jEWf54KHzbqeio2m6VLhNI8T5
+ p5y88iHxnxO6mWRHJsuwh8dqVnWof6okPptGedNVkg6PZa4ZxEsthvnGFztc0g9dRG
+ TJp1MetOoQt8Q==
+Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
+ id 8CE4761279; Tue, 15 Jun 2021 19:36:58 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 213201] [KAVERI] memory leak - unreferenced object
+ 0xffff8881700cf988 (size 56)
+Date: Tue, 15 Jun 2021 19:36:58 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: erhard_f@mailbox.org
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: attachments.created
+Message-ID: <bug-213201-2300-CUOFCPFha4@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-213201-2300@https.bugzilla.kernel.org/>
+References: <bug-213201-2300@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=alex.williamson@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,66 +66,18 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kvm@vger.kernel.org, linux-doc@vger.kernel.org,
- David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
- Kirti Wankhede <kwankhede@nvidia.com>, linux-s390@vger.kernel.org,
- Jonathan Corbet <corbet@lwn.net>, "Rafael J. Wysocki" <rafael@kernel.org>,
- Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>,
- Jason Gunthorpe <jgg@nvidia.com>, intel-gfx@lists.freedesktop.org,
- Jason Herne <jjherne@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>,
- Heiko Carstens <hca@linux.ibm.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tony Krowiak <akrowiak@linux.ibm.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Cornelia Huck <cohuck@redhat.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 15 Jun 2021 15:35:13 +0200
-Christoph Hellwig <hch@lst.de> wrote:
+https://bugzilla.kernel.org/show_bug.cgi?id=3D213201
 
-> @@ -547,10 +538,9 @@ static int call_driver_probe(struct device *dev, struct device_driver *drv)
->  
->  static int really_probe(struct device *dev, struct device_driver *drv)
->  {
-> -	int local_trigger_count = atomic_read(&deferred_trigger_count);
->  	bool test_remove = IS_ENABLED(CONFIG_DEBUG_TEST_DRIVER_REMOVE) &&
->  			   !drv->suppress_bind_attrs;
-> -	int ret = -EPROBE_DEFER, probe_ret = 0;
-> +	int ret, probe_ret = 0;
+--- Comment #7 from Erhard F. (erhard_f@mailbox.org) ---
+Created attachment 297379
+  --> https://bugzilla.kernel.org/attachment.cgi?id=3D297379&action=3Dedit
+output of /sys/kernel/debug/kmemleak (kernel 4.4.271)
 
-nit, probe_ret initialization could be removed with this patch too.
+--=20
+You may reply to this email to add a comment.
 
->  
->  	if (defer_all_probes) {
->  		/*
-> @@ -559,17 +549,13 @@ static int really_probe(struct device *dev, struct device_driver *drv)
->  		 * wait_for_device_probe() right after that to avoid any races.
->  		 */
->  		dev_dbg(dev, "Driver %s force probe deferral\n", drv->name);
-> -		driver_deferred_probe_add(dev);
-> -		return ret;
-> +		return -EPROBE_DEFER;
->  	}
->  
->  	ret = device_links_check_suppliers(dev);
-> -	if (ret == -EPROBE_DEFER)
-> -		driver_deferred_probe_add_trigger(dev, local_trigger_count);
->  	if (ret)
->  		return ret;
->  
-> -	atomic_inc(&probe_count);
->  	pr_debug("bus: '%s': %s: probing driver %s with device %s\n",
->  		 drv->bus->name, __func__, drv->name, dev_name(dev));
->  	if (!list_empty(&dev->devres_head)) {
-> @@ -681,11 +667,7 @@ static int really_probe(struct device *dev, struct device_driver *drv)
->  		dev->pm_domain->dismiss(dev);
->  	pm_runtime_reinit(dev);
->  	dev_pm_set_driver_flags(dev, 0);
-> -	if (probe_ret == -EPROBE_DEFER)
-> -		driver_deferred_probe_add_trigger(dev, local_trigger_count);
-
-This was the only possible uninitialized use case afaict.  Thanks,
-
-Alex
-
+You are receiving this mail because:
+You are watching the assignee of the bug.=
