@@ -1,67 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B7B23A7DC1
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Jun 2021 14:02:06 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 675E03A7DE8
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Jun 2021 14:09:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9E29489FD3;
-	Tue, 15 Jun 2021 12:02:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0AE2389FAD;
+	Tue, 15 Jun 2021 12:09:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x531.google.com (mail-ed1-x531.google.com
- [IPv6:2a00:1450:4864:20::531])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CF14489FD3;
- Tue, 15 Jun 2021 12:02:01 +0000 (UTC)
-Received: by mail-ed1-x531.google.com with SMTP id t7so5534671edd.5;
- Tue, 15 Jun 2021 05:02:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-transfer-encoding:content-language;
- bh=74xg67OkPNrW2Sf6CPxy6eTp/ulR0UM1WRVVLNUMsnU=;
- b=I4LcX4TbN0Nk/BRMN3YfqoZGm2V9ZG3YBAdPBZXox0PBCHSKH5PRzigLushvL6+mEC
- 6p9QX7Oxj9aTUkKXNk8ioCbZfKASXXiPmoRo7lnz2nxjV5wDoQDaUD0ypae+UAHS6NE5
- xHJ0RRBCAEq8Csqn5QMOJWAQ+EBOom7XURjk0L8P+pfk51Re3HhsoOjJ+8z7MUIZajvb
- spzy+wXHur3icJnFDnSp5iBpnvL/UW0tp0ofbfhfc6UO68b6zRcwkiM8LrrJuGEDGHEy
- r+pYGJCaVtGl48L92kOJZsrauVb+vA36A3jNlbuBzPgNdtKFH0IBSPe7m3RqUTlDXnoJ
- gjQw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-transfer-encoding
- :content-language;
- bh=74xg67OkPNrW2Sf6CPxy6eTp/ulR0UM1WRVVLNUMsnU=;
- b=AWfGJtwfhaBkMnIbdd03eNotXEpx+h4RP8NOZrPetaykBA5zah06WyEpRTmXWYYtWb
- FFAt+H4CMBsHsEhGshOIvgkJ7xK5pgpPLwA2jw2EOWqi9/Pw0UOE1zUjsGSV9vbMjnR5
- ZwxAqazbtYxPD0CRyP0u8GpEWtTb75k2+9zI7AkGR9v+9azpq6yZz+/M+zGyrwMd/YqC
- kP/8e54vC60cReKWoOKqmv7vtApAJBU5Fo/m/wz1+PIYx2PbvJUVgjxh5QxfWWzvLwyv
- oxBo9mu6yKXABGTf2DGdtXakFHQ8Ho76wJfvt/aOxoBa93hFHCl17vUrK+tcYMmLX3yg
- mGIA==
-X-Gm-Message-State: AOAM531tim8NKw/5JP+N59k8ACTe8huGJiuHpSjDZbZL0c8vuA2J7Zbh
- MHpvZREoNJ2x2YcupWKqBTb/HBAeACM=
-X-Google-Smtp-Source: ABdhPJzySIFiU8i9IsyVB71fD9wU9397xyKaPuwCtIWzRAQO79qZZ73IGTMZVdDEaXyLKHNwI51WPw==
-X-Received: by 2002:a05:6402:8d3:: with SMTP id
- d19mr22523821edz.321.1623758520506; 
- Tue, 15 Jun 2021 05:02:00 -0700 (PDT)
-Received: from ?IPv6:2a02:908:1252:fb60:f438:4e93:3853:400c?
- ([2a02:908:1252:fb60:f438:4e93:3853:400c])
- by smtp.gmail.com with ESMTPSA id c19sm11704904edw.10.2021.06.15.05.01.59
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 15 Jun 2021 05:02:00 -0700 (PDT)
-Subject: Re: [RFC PATCH] drm/ttm: Do page counting after populate callback
- succeed
-To: xinhui pan <xinhui.pan@amd.com>, amd-gfx@lists.freedesktop.org
-References: <20210615115746.27424-1-xinhui.pan@amd.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-Message-ID: <f70e88b3-f0db-fca8-f05e-f685f1a913ad@gmail.com>
-Date: Tue, 15 Jun 2021 14:01:59 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+Received: from mail-4322.protonmail.ch (mail-4322.protonmail.ch [185.70.43.22])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2BB6E89FAD
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Jun 2021 12:09:08 +0000 (UTC)
+Date: Tue, 15 Jun 2021 12:08:56 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
+ s=protonmail3; t=1623758945;
+ bh=YJUJp4Q3PTfAsAozfjNBg2Qiq1NH8gfHy3zUV3I6ykw=;
+ h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
+ b=dYFcPeWpaUBdkw1JKTaAHFdT5Kx7xZ12j+tq3ZZe1E9YtIXyrLNaYqE6AoZ6o83pc
+ w9ClPdf06c02nbhLuuDWKxgMAmVXZatdSzVFsCuOVyIFxgKPCktbAkArSZNncfuBzA
+ jAAHwL1d90a9f+9ftr1JXv7y/KdLneIrpTv6RRCcusjBL/o5MVUJBpSBBykQTAlLNT
+ gwR9LIzJn60JkmTiuN3nv1/25ChBrU2Q6li/ISMwfs21e8Uq53fehyFjqolNoMCY7n
+ FpIWwmM19v0ac9Qez/6NMzuPNdj1KKch0HOUMJW5FaEfzxB8jPaczEiub3w44vzjJ4
+ yeRKAvVrreUlw==
+To: Pekka Paalanen <ppaalanen@gmail.com>
+From: Simon Ser <contact@emersion.fr>
+Subject: Re: [PATCH v3] Documentation: gpu: Mention the requirements for new
+ properties
+Message-ID: <ESSpFFHaoQjjviok-WoxyLRRwcFnRT0XXVAS8mB0jvCxmHNLfJKD9QELUXNs3SEn5Z6IU0j0mQDs3qjvkoOo8QiZP6q3MCQgr2vX8C4x_9Q=@emersion.fr>
+In-Reply-To: <20210615131656.2ecefdc4@eldfell>
+References: <20210610174731.1209188-1-maxime@cerno.tech>
+ <20210611120309.2b5eb4htupv5ss32@e110455-lin.cambridge.arm.com>
+ <20210614174912.15a49336@eldfell>
+ <20210614152413.nguqia3s4tlowio4@e110455-lin.cambridge.arm.com>
+ <YMeE63G+9DSLPB3N@pendragon.ideasonboard.com>
+ <20210615100335.0b8f96d5@eldfell>
+ <ouNaZaqkV1d_wPRESVBQHxvMhmJ53xIrgtPfDs8mB88AN3FEWt7cq031k8ZqCva1Ob0TCNTnsWqNDS0l5NXfejXIL7YUky3XGdjmh1_hefk=@emersion.fr>
+ <YMh21WBrADbZDcbp@pendragon.ideasonboard.com>
+ <20210615131656.2ecefdc4@eldfell>
 MIME-Version: 1.0
-In-Reply-To: <20210615115746.27424-1-xinhui.pan@amd.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
+ DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF shortcircuit=no
+ autolearn=disabled version=3.4.4
+X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
+ mailout.protonmail.ch
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,99 +58,71 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: christian.koenig@amd.com, dri-devel@lists.freedesktop.org
+Reply-To: Simon Ser <contact@emersion.fr>
+Cc: Ludovic Desroches <ludovic.desroches@microchip.com>,
+ Haneen Mohammed <hamohammed.sa@gmail.com>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+ Xinliang Liu <xinliang.liu@linaro.org>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Liviu Dudau <liviu.dudau@arm.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>, Sandy Huang <hjc@rock-chips.com>,
+ Melissa Wen <melissa.srw@gmail.com>, Andrzej Hajda <a.hajda@samsung.com>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Benjamin Gaignard <benjamin.gaignard@linaro.org>,
+ Anitha Chrisanthus <anitha.chrisanthus@intel.com>,
+ Daniel Vetter <daniel.vetter@intel.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Jerome Brunet <jbrunet@baylibre.com>, Marek Vasut <marex@denx.de>,
+ Jonathan Corbet <corbet@lwn.net>, Joonyoung Shim <jy0922.shim@samsung.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+ Kevin Hilman <khilman@baylibre.com>, Neil Armstrong <narmstrong@baylibre.com>,
+ Russell King <linux@armlinux.org.uk>, Steven Price <steven.price@arm.com>,
+ David Airlie <airlied@linux.ie>, Xinwei Kong <kong.kongxinwei@hisilicon.com>,
+ =?utf-8?Q?Noralf_Tr=C3=B8nnes?= <noralf@tronnes.org>,
+ VMware Graphics <linux-graphics-maintainer@vmware.com>,
+ Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+ Chen Feng <puck.chen@hisilicon.com>, Hyun Kwon <hyun.kwon@xilinx.com>,
+ NXP Linux Team <linux-imx@nxp.com>, Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Jonas Karlman <jonas@kwiboo.se>,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ Edmund Dea <edmund.j.dea@intel.com>, Sascha Hauer <s.hauer@pengutronix.de>,
+ Alison Wang <alison.wang@nxp.com>, Roland Scheidegger <sroland@vmware.com>,
+ Shawn Guo <shawnguo@kernel.org>, Ben Skeggs <bskeggs@redhat.com>,
+ Maxime Ripard <maxime@cerno.tech>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
+ Sean Paul <sean@poorly.run>, Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Paul Cercueil <paul@crapouillou.net>, Jernej Skrabec <jernej.skrabec@siol.net>,
+ Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+ Tomi Valkeinen <tomba@kernel.org>, Hans de Goede <hdegoede@redhat.com>,
+ Andrew Jeffery <andrew@aj.id.au>, Huang Rui <ray.huang@amd.com>,
+ Yannick Fertr e <yannick.fertre@foss.st.com>,
+ Boris Brezillon <bbrezillon@kernel.org>,
+ Seung-Woo Kim <sw0312.kim@samsung.com>,
+ Nicolas Ferre <nicolas.ferre@microchip.com>,
+ Robert Foss <robert.foss@linaro.org>, Joel Stanley <joel@jms.id.au>,
+ Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Qiang Yu <yuq825@gmail.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Alex Deucher <alexander.deucher@amd.com>, Tian Tao <tiantao6@hisilicon.com>,
+ Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>,
+ Philippe Cornu <philippe.cornu@foss.st.com>, Jyri Sarha <jyri.sarha@iki.fi>,
+ =?utf-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 15.06.21 um 13:57 schrieb xinhui pan:
-> Amdgpu set SG flag in populate callback. So TTM still count pages in SG
-> BO.
+On Tuesday, June 15th, 2021 at 12:16, Pekka Paalanen <ppaalanen@gmail.com> =
+wrote:
 
-It's probably better to fix this instead. E.g. why does amdgpu modify 
-the SG flag during populate and not during initial creation? That 
-doesn't seem to make sense.
+> Good reminder about CRCs. CRCs have zero tolerance, so they are not
+> useful for testing properties that have any leeway, are they?
 
-Christian.
+IIRC, IGT's alpha blending test currently computes the CRC for all
+possible roundings, then checks that the hw returns one of the
+acceptable CRCs.
 
-> One easy way to fix this is lets count pages after populate callback.
->
-> We hit one issue that amdgpu alloc many SG BOs, but TTM try to do swap
-> again and again even if swapout does not swap SG BOs at all.
->
-> Signed-off-by: xinhui pan <xinhui.pan@amd.com>
-> ---
->   drivers/gpu/drm/ttm/ttm_tt.c | 32 +++++++++++++-------------------
->   1 file changed, 13 insertions(+), 19 deletions(-)
->
-> diff --git a/drivers/gpu/drm/ttm/ttm_tt.c b/drivers/gpu/drm/ttm/ttm_tt.c
-> index a1a25410ec74..4fa0a8cd71c0 100644
-> --- a/drivers/gpu/drm/ttm/ttm_tt.c
-> +++ b/drivers/gpu/drm/ttm/ttm_tt.c
-> @@ -317,13 +317,6 @@ int ttm_tt_populate(struct ttm_device *bdev,
->   	if (ttm_tt_is_populated(ttm))
->   		return 0;
->   
-> -	if (!(ttm->page_flags & TTM_PAGE_FLAG_SG)) {
-> -		atomic_long_add(ttm->num_pages, &ttm_pages_allocated);
-> -		if (bdev->pool.use_dma32)
-> -			atomic_long_add(ttm->num_pages,
-> -					&ttm_dma32_pages_allocated);
-> -	}
-> -
->   	while (atomic_long_read(&ttm_pages_allocated) > ttm_pages_limit ||
->   	       atomic_long_read(&ttm_dma32_pages_allocated) >
->   	       ttm_dma32_pages_limit) {
-> @@ -342,6 +335,13 @@ int ttm_tt_populate(struct ttm_device *bdev,
->   	if (ret)
->   		goto error;
->   
-> +	if (!(ttm->page_flags & TTM_PAGE_FLAG_SG)) {
-> +		atomic_long_add(ttm->num_pages, &ttm_pages_allocated);
-> +		if (bdev->pool.use_dma32)
-> +			atomic_long_add(ttm->num_pages,
-> +					&ttm_dma32_pages_allocated);
-> +	}
-> +
->   	ttm_tt_add_mapping(bdev, ttm);
->   	ttm->page_flags |= TTM_PAGE_FLAG_PRIV_POPULATED;
->   	if (unlikely(ttm->page_flags & TTM_PAGE_FLAG_SWAPPED)) {
-> @@ -355,12 +355,6 @@ int ttm_tt_populate(struct ttm_device *bdev,
->   	return 0;
->   
->   error:
-> -	if (!(ttm->page_flags & TTM_PAGE_FLAG_SG)) {
-> -		atomic_long_sub(ttm->num_pages, &ttm_pages_allocated);
-> -		if (bdev->pool.use_dma32)
-> -			atomic_long_sub(ttm->num_pages,
-> -					&ttm_dma32_pages_allocated);
-> -	}
->   	return ret;
->   }
->   EXPORT_SYMBOL(ttm_tt_populate);
-> @@ -384,12 +378,6 @@ void ttm_tt_unpopulate(struct ttm_device *bdev, struct ttm_tt *ttm)
->   	if (!ttm_tt_is_populated(ttm))
->   		return;
->   
-> -	ttm_tt_clear_mapping(ttm);
-> -	if (bdev->funcs->ttm_tt_unpopulate)
-> -		bdev->funcs->ttm_tt_unpopulate(bdev, ttm);
-> -	else
-> -		ttm_pool_free(&bdev->pool, ttm);
-> -
->   	if (!(ttm->page_flags & TTM_PAGE_FLAG_SG)) {
->   		atomic_long_sub(ttm->num_pages, &ttm_pages_allocated);
->   		if (bdev->pool.use_dma32)
-> @@ -397,6 +385,12 @@ void ttm_tt_unpopulate(struct ttm_device *bdev, struct ttm_tt *ttm)
->   					&ttm_dma32_pages_allocated);
->   	}
->   
-> +	ttm_tt_clear_mapping(ttm);
-> +	if (bdev->funcs->ttm_tt_unpopulate)
-> +		bdev->funcs->ttm_tt_unpopulate(bdev, ttm);
-> +	else
-> +		ttm_pool_free(&bdev->pool, ttm);
-> +
->   	ttm->page_flags &= ~TTM_PAGE_FLAG_PRIV_POPULATED;
->   }
->   
-
+With more complex color management properties, this approach might not
+be possible and write-back support in hw drivers would really help.
