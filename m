@@ -1,69 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7A5C3A804F
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Jun 2021 15:36:20 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B7DDC3A817A
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Jun 2021 15:54:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 213CB6E062;
-	Tue, 15 Jun 2021 13:36:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A64C289951;
+	Tue, 15 Jun 2021 13:54:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-xd35.google.com (mail-io1-xd35.google.com
- [IPv6:2607:f8b0:4864:20::d35])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B08B96E062
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Jun 2021 13:36:15 +0000 (UTC)
-Received: by mail-io1-xd35.google.com with SMTP id h5so6744970iok.5
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Jun 2021 06:36:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=UDZeAXhtUGNxVigPWnCAmqvhZ5xmOZkpwoxu/kotpBc=;
- b=BkGuougKdpvJFSjPDCYcuDM+EfC9+Z6Iw8t63OKFUyvGcy9WEOaTZOyzUjDtlqxxWx
- b+f6+GiSSKCn4V8zlclen8CemZkaZyLB8FJKB0g3go6na2Mkb6J76IEsPQg2PB5YFP++
- oJX8/uFYscqhRRWgaBEXbZGZq7TD88YFqCsf4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=UDZeAXhtUGNxVigPWnCAmqvhZ5xmOZkpwoxu/kotpBc=;
- b=O9Sp/aHbJcw3xjVylz5ccaAZOgqz/3pjHukJGLi/SxLuDxXnXlU7NcqFCOYxPLyuf2
- 1t6CBrTrSzFUrVwfRBiTfFxU10LH4txiT/oi/SDWSE7VumDDnJ03QQvySkGMR49JLZXy
- 1bFJy5alZqwsJoUKxJDKAp7ewboodkyDCyPz8zTBAbTmymxgdRvpIUhFqfhkahw2wgL/
- MIAe8mldh32B6fz583whlR/6V6+8BM0YNR3KYccOZ1FRxO3NyhUa/nw9B4QorL2LE05j
- ChTkmI2r1wotIILEF4aaufA/o9UDviMmMK0M6gNIJT7uspjehfhxt0SFZXC+rB7UdreB
- d3Rg==
-X-Gm-Message-State: AOAM532OnqmVxvAYukNGGARMEt38AtoCkNrEUr6slc4r/rXDZ+qKPrg3
- HICV/uRIar9Gnr+vcC/uLFev1CrblqV1Gg==
-X-Google-Smtp-Source: ABdhPJyF0MggXjSFzWgcpIckOSagZEFZ6YStSgc1ZevGR9Yy8eu3TQyMgRdYnmZ/3kEWp7GMw9JXYA==
-X-Received: by 2002:a05:6602:146:: with SMTP id
- v6mr17926259iot.117.1623764174480; 
- Tue, 15 Jun 2021 06:36:14 -0700 (PDT)
-Received: from mail-il1-f170.google.com (mail-il1-f170.google.com.
- [209.85.166.170])
- by smtp.gmail.com with ESMTPSA id y8sm9264285ilg.27.2021.06.15.06.36.13
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 15 Jun 2021 06:36:14 -0700 (PDT)
-Received: by mail-il1-f170.google.com with SMTP id d1so15263855ils.5
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Jun 2021 06:36:13 -0700 (PDT)
-X-Received: by 2002:a05:6e02:219d:: with SMTP id
- j29mr17936278ila.64.1623763835517; 
- Tue, 15 Jun 2021 06:30:35 -0700 (PDT)
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0B41189951
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Jun 2021 13:54:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1623765247;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=LTPum8fRwPooExg8+HCTnewiRqyT0ffgzpim9aaEyrQ=;
+ b=fSo+LlotClQHpZ9ELEc42+jhwfs3bWY2e+7q2Yo4V9Q7wBr4I2+YNKL8r43eWfRUg4Tl6w
+ daKWfQv0IYzmclC0GqwbYH3CPiSETLQqGPl4MVHnbC38vU9ikJqBfc+3d2kOipla+SVcHi
+ HNAc6CdoPDZQU2a6uD5859uHKxzBxAM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-150-C13r6FEsM8GkbdBbTqx5OQ-1; Tue, 15 Jun 2021 09:54:05 -0400
+X-MC-Unique: C13r6FEsM8GkbdBbTqx5OQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 36B141084F40;
+ Tue, 15 Jun 2021 13:54:03 +0000 (UTC)
+Received: from localhost (ovpn-113-156.ams2.redhat.com [10.36.113.156])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D17571037F22;
+ Tue, 15 Jun 2021 13:53:47 +0000 (UTC)
+From: Cornelia Huck <cohuck@redhat.com>
+To: Christoph Hellwig <hch@lst.de>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, Jason Gunthorpe <jgg@nvidia.com>, Alex
+ Williamson <alex.williamson@redhat.com>, Kirti Wankhede
+ <kwankhede@nvidia.com>
+Subject: Re: [PATCH 02/10] driver core: Better distinguish probe errors in
+ really_probe
+In-Reply-To: <20210615133519.754763-3-hch@lst.de>
+Organization: Red Hat GmbH
+References: <20210615133519.754763-1-hch@lst.de>
+ <20210615133519.754763-3-hch@lst.de>
+User-Agent: Notmuch/0.32.1 (https://notmuchmail.org)
+Date: Tue, 15 Jun 2021 15:53:46 +0200
+Message-ID: <8735tjxmhh.fsf@redhat.com>
 MIME-Version: 1.0
-References: <20210611152659.2142983-1-tientzu@chromium.org>
-In-Reply-To: <20210611152659.2142983-1-tientzu@chromium.org>
-From: Claire Chang <tientzu@chromium.org>
-Date: Tue, 15 Jun 2021 21:30:24 +0800
-X-Gmail-Original-Message-ID: <CALiNf28fb4rZ0Afun8wAWRYJY4gqc+-vRvDBZT3x2JgSPL_iVQ@mail.gmail.com>
-Message-ID: <CALiNf28fb4rZ0Afun8wAWRYJY4gqc+-vRvDBZT3x2JgSPL_iVQ@mail.gmail.com>
-Subject: Re: [PATCH v9 00/14] Restricted DMA
-To: Rob Herring <robh+dt@kernel.org>, mpe@ellerman.id.au,
- Joerg Roedel <joro@8bytes.org>, 
- Will Deacon <will@kernel.org>, Frank Rowand <frowand.list@gmail.com>, 
- Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>, boris.ostrovsky@oracle.com,
- jgross@suse.com, 
- Christoph Hellwig <hch@lst.de>, Marek Szyprowski <m.szyprowski@samsung.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,26 +64,75 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: heikki.krogerus@linux.intel.com, thomas.hellstrom@linux.intel.com,
- peterz@infradead.org, dri-devel@lists.freedesktop.org,
- chris@chris-wilson.co.uk, grant.likely@arm.com, paulus@samba.org,
- mingo@kernel.org, Jianxiong Gao <jxgao@google.com>, sstabellini@kernel.org,
- Saravana Kannan <saravanak@google.com>, xypron.glpk@gmx.de,
- "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>,
- Bartosz Golaszewski <bgolaszewski@baylibre.com>, bskeggs@redhat.com,
- linux-pci@vger.kernel.org, xen-devel@lists.xenproject.org,
- Thierry Reding <treding@nvidia.com>, intel-gfx@lists.freedesktop.org,
- matthew.auld@intel.com, linux-devicetree <devicetree@vger.kernel.org>,
- airlied@linux.ie, Robin Murphy <robin.murphy@arm.com>,
- Nicolas Boichat <drinkcat@chromium.org>, rodrigo.vivi@intel.com,
- Bjorn Helgaas <bhelgaas@google.com>, Dan Williams <dan.j.williams@intel.com>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Greg KH <gregkh@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>,
- lkml <linux-kernel@vger.kernel.org>, Tomasz Figa <tfiga@chromium.org>,
- "list@263.net:IOMMU DRIVERS" <iommu@lists.linux-foundation.org>,
- Jim Quinlan <james.quinlan@broadcom.com>, linuxppc-dev@lists.ozlabs.org,
- bauerman@linux.ibm.com
+Cc: Tony Krowiak <akrowiak@linux.ibm.com>, Jason Herne <jjherne@linux.ibm.com>,
+ kvm@vger.kernel.org, Vasily Gorbik <gor@linux.ibm.com>,
+ Jonathan Corbet <corbet@lwn.net>, David Airlie <airlied@linux.ie>,
+ linux-s390@vger.kernel.org, Heiko Carstens <hca@linux.ibm.com>,
+ linux-doc@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, "Rafael J. Wysocki" <rafael@kernel.org>,
+ intel-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-v10 here: https://lore.kernel.org/patchwork/cover/1446882/
+On Tue, Jun 15 2021, Christoph Hellwig <hch@lst.de> wrote:
+
+> really_probe tries to special case errors from ->probe, but due to all
+> other initialization added to the function over time now a lot of
+> internal errors hit that code path as well.  Untangle that by adding
+> a new probe_err local variable and apply the special casing only to
+> that.
+>
+> Signed-off-by: Christoph Hellwig <hch@lst.de>
+> ---
+>  drivers/base/dd.c | 72 +++++++++++++++++++++++++++--------------------
+>  1 file changed, 42 insertions(+), 30 deletions(-)
+>
+> diff --git a/drivers/base/dd.c b/drivers/base/dd.c
+> index 7477d3322b3a..fd83817240e6 100644
+> --- a/drivers/base/dd.c
+> +++ b/drivers/base/dd.c
+> @@ -513,12 +513,44 @@ static ssize_t state_synced_show(struct device *dev,
+>  }
+>  static DEVICE_ATTR_RO(state_synced);
+>  
+> +
+> +static int call_driver_probe(struct device *dev, struct device_driver *drv)
+> +{
+> +	int ret = 0;
+> +
+> +	if (dev->bus->probe)
+> +		ret = dev->bus->probe(dev);
+> +	else if (drv->probe)
+> +		ret = drv->probe(dev);
+> +
+> +	switch (ret) {
+> +	case 0:
+> +		break;
+> +	case -EPROBE_DEFER:
+> +		/* Driver requested deferred probing */
+> +		dev_dbg(dev, "Driver %s requests probe deferral\n", drv->name);
+> +		break;
+> +	case -ENODEV:
+> +	case -ENXIO:
+> +		pr_debug("%s: probe of %s rejects match %d\n",
+> +			 drv->name, dev_name(dev), ret);
+> +		break;
+> +	default:
+> +		/* driver matched but the probe failed */
+> +		pr_warn("%s: probe of %s failed with error %d\n",
+> +			drv->name, dev_name(dev), ret);
+
+Convert these two pr_* to dev_* when touching the code anyway?
+
+> +		break;
+> +	}
+> +
+> +	return ret;
+> +}
+
+(...)
+
+Reviewed-by: Cornelia Huck <cohuck@redhat.com>
+
