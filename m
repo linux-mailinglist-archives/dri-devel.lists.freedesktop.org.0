@@ -1,29 +1,29 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7127A3A824A
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Jun 2021 16:15:09 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B9AF3A823F
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Jun 2021 16:15:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3BFAA6E406;
-	Tue, 15 Jun 2021 14:14:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A290A6E1B4;
+	Tue, 15 Jun 2021 14:14:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from srv6.fidu.org (srv6.fidu.org [159.69.62.71])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 513EC6E1B4;
+Received: from srv6.fidu.org (srv6.fidu.org [IPv6:2a01:4f8:231:de0::2])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D6D5C6E32F;
  Tue, 15 Jun 2021 14:14:38 +0000 (UTC)
 Received: from localhost (localhost.localdomain [127.0.0.1])
- by srv6.fidu.org (Postfix) with ESMTP id EF3A3C800AF;
- Tue, 15 Jun 2021 16:14:36 +0200 (CEST)
+ by srv6.fidu.org (Postfix) with ESMTP id 3726EC800B1;
+ Tue, 15 Jun 2021 16:14:37 +0200 (CEST)
 X-Virus-Scanned: Debian amavisd-new at srv6.fidu.org
 Received: from srv6.fidu.org ([127.0.0.1])
  by localhost (srv6.fidu.org [127.0.0.1]) (amavisd-new, port 10026)
- with LMTP id DkCBs6n-haNd; Tue, 15 Jun 2021 16:14:36 +0200 (CEST)
+ with LMTP id X4xK1ReBfyd7; Tue, 15 Jun 2021 16:14:37 +0200 (CEST)
 Received: from wsembach-tuxedo.fritz.box
  (p200300e37F3949009F7CF2Abd5Da2787.dip0.t-ipconnect.de
  [IPv6:2003:e3:7f39:4900:9f7c:f2ab:d5da:2787])
  (Authenticated sender: wse@tuxedocomputers.com)
- by srv6.fidu.org (Postfix) with ESMTPA id 90F91C80095;
+ by srv6.fidu.org (Postfix) with ESMTPA id C8355C800A1;
  Tue, 15 Jun 2021 16:14:36 +0200 (CEST)
 From: Werner Sembach <wse@tuxedocomputers.com>
 To: harry.wentland@amd.com, sunpeng.li@amd.com, alexander.deucher@amd.com,
@@ -33,10 +33,10 @@ To: harry.wentland@amd.com, sunpeng.li@amd.com, alexander.deucher@amd.com,
  rodrigo.vivi@intel.com, amd-gfx@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  intel-gfx@lists.freedesktop.org
-Subject: [PATCH v3 04/14] drm/amd/display: Add handling for new "active bpc"
+Subject: [PATCH v3 05/14] drm/i915/display: Add handling for new "active bpc"
  property
-Date: Tue, 15 Jun 2021 16:14:15 +0200
-Message-Id: <20210615141426.6001-5-wse@tuxedocomputers.com>
+Date: Tue, 15 Jun 2021 16:14:16 +0200
+Message-Id: <20210615141426.6001-6-wse@tuxedocomputers.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210615141426.6001-1-wse@tuxedocomputers.com>
 References: <20210615141426.6001-1-wse@tuxedocomputers.com>
@@ -58,67 +58,101 @@ Cc: Werner Sembach <wse@tuxedocomputers.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This commit implements the "active bpc" drm property for the AMD GPU driver.
+This commit implements the "active bpc" drm property for the Intel GPU driver.
 
 Signed-off-by: Werner Sembach <wse@tuxedocomputers.com>
 ---
- .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 19 ++++++++++++++++++-
- .../display/amdgpu_dm/amdgpu_dm_mst_types.c   |  4 ++++
- 2 files changed, 22 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/i915/display/intel_display.c | 14 ++++++++++++++
+ drivers/gpu/drm/i915/display/intel_dp.c      |  8 ++++++--
+ drivers/gpu/drm/i915/display/intel_dp_mst.c  |  5 +++++
+ drivers/gpu/drm/i915/display/intel_hdmi.c    |  4 +++-
+ 4 files changed, 28 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-index cd1df5cf4815..f31bbcb11f03 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-@@ -7713,8 +7713,10 @@ void amdgpu_dm_connector_init_helper(struct amdgpu_display_manager *dm,
- 				adev->mode_info.underscan_vborder_property,
- 				0);
+diff --git a/drivers/gpu/drm/i915/display/intel_display.c b/drivers/gpu/drm/i915/display/intel_display.c
+index 6be1b31af07b..ee3669bd4662 100644
+--- a/drivers/gpu/drm/i915/display/intel_display.c
++++ b/drivers/gpu/drm/i915/display/intel_display.c
+@@ -10839,6 +10839,9 @@ static int intel_atomic_commit(struct drm_device *dev,
+ {
+ 	struct intel_atomic_state *state = to_intel_atomic_state(_state);
+ 	struct drm_i915_private *dev_priv = to_i915(dev);
++	struct drm_connector *connector;
++	struct drm_connector_state *new_conn_state;
++	int i;
+ 	int ret = 0;
  
--	if (!aconnector->mst_port)
-+	if (!aconnector->mst_port) {
- 		drm_connector_attach_max_bpc_property(&aconnector->base, 8, 16);
-+		drm_connector_attach_active_bpc_property(&aconnector->base, 8, 16);
-+	}
- 
- 	/* This defaults to the max in the range, but we want 8bpc for non-edp. */
- 	aconnector->base.state->max_bpc = (connector_type == DRM_MODE_CONNECTOR_eDP) ? 16 : 8;
-@@ -9083,6 +9085,21 @@ static void amdgpu_dm_atomic_commit_tail(struct drm_atomic_state *state)
- 		mutex_unlock(&dm->dc_lock);
- 	}
+ 	state->wakeref = intel_runtime_pm_get(&dev_priv->runtime_pm);
+@@ -10907,6 +10910,17 @@ static int intel_atomic_commit(struct drm_device *dev,
+ 	intel_shared_dpll_swap_state(state);
+ 	intel_atomic_track_fbs(state);
  
 +	/* Extract information from crtc to communicate it to userspace as connector properties */
-+	for_each_new_connector_in_state(state, connector, new_con_state, i) {
-+		struct drm_crtc *crtc = new_con_state->crtc;
++	for_each_new_connector_in_state(&state->base, connector, new_conn_state, i) {
++		struct intel_crtc *crtc = to_intel_crtc(new_conn_state->crtc);
 +		if (crtc) {
-+			new_crtc_state = drm_atomic_get_new_crtc_state(state, crtc);
-+			dm_new_crtc_state = to_dm_crtc_state(new_crtc_state);
-+			if (dm_new_crtc_state->stream)
-+				drm_connector_set_active_bpc_property(connector,
-+					convert_dc_color_depth_into_bpc(
-+					dm_new_crtc_state->stream->timing.display_color_depth));
++			struct intel_crtc_state *new_crtc_state = intel_atomic_get_new_crtc_state(state, crtc);
++			drm_connector_set_active_bpc_property(connector, new_crtc_state->pipe_bpp / 3);
 +		}
 +		else
 +			drm_connector_set_active_bpc_property(connector, 0);
 +	}
 +
- 	/* Count number of newly disabled CRTCs for dropping PM refs later. */
- 	for_each_oldnew_crtc_in_state(state, crtc, old_crtc_state,
- 				      new_crtc_state, i) {
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
-index 5568d4e518e6..0cf38743ec47 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
-@@ -409,6 +409,10 @@ dm_dp_add_mst_connector(struct drm_dp_mst_topology_mgr *mgr,
- 	if (connector->max_bpc_property)
- 		drm_connector_attach_max_bpc_property(connector, 8, 16);
+ 	drm_atomic_state_get(&state->base);
+ 	INIT_WORK(&state->base.commit_work, intel_atomic_commit_work);
  
-+	connector->active_bpc_property = master->base.active_bpc_property;
+diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
+index 5c9222283044..404a27e56ceb 100644
+--- a/drivers/gpu/drm/i915/display/intel_dp.c
++++ b/drivers/gpu/drm/i915/display/intel_dp.c
+@@ -4688,10 +4688,14 @@ intel_dp_add_properties(struct intel_dp *intel_dp, struct drm_connector *connect
+ 		intel_attach_force_audio_property(connector);
+ 
+ 	intel_attach_broadcast_rgb_property(connector);
+-	if (HAS_GMCH(dev_priv))
++	if (HAS_GMCH(dev_priv)) {
+ 		drm_connector_attach_max_bpc_property(connector, 6, 10);
+-	else if (DISPLAY_VER(dev_priv) >= 5)
++		drm_connector_attach_active_bpc_property(connector, 6, 10);
++	}
++	else if (DISPLAY_VER(dev_priv) >= 5) {
+ 		drm_connector_attach_max_bpc_property(connector, 6, 12);
++		drm_connector_attach_active_bpc_property(connector, 6, 12);
++	}
+ 
+ 	/* Register HDMI colorspace for case of lspcon */
+ 	if (intel_bios_is_lspcon_present(dev_priv, port)) {
+diff --git a/drivers/gpu/drm/i915/display/intel_dp_mst.c b/drivers/gpu/drm/i915/display/intel_dp_mst.c
+index b170e272bdee..16bfc59570a5 100644
+--- a/drivers/gpu/drm/i915/display/intel_dp_mst.c
++++ b/drivers/gpu/drm/i915/display/intel_dp_mst.c
+@@ -851,6 +851,11 @@ static struct drm_connector *intel_dp_add_mst_connector(struct drm_dp_mst_topolo
+ 	if (connector->max_bpc_property)
+ 		drm_connector_attach_max_bpc_property(connector, 6, 12);
+ 
++	connector->active_bpc_property =
++		intel_dp->attached_connector->base.active_bpc_property;
 +	if (connector->active_bpc_property)
-+		drm_connector_attach_active_bpc_property(&aconnector->base, 8, 16);
++		drm_connector_attach_active_bpc_property(connector, 6, 12);
 +
- 	connector->vrr_capable_property = master->base.vrr_capable_property;
- 	if (connector->vrr_capable_property)
- 		drm_connector_attach_vrr_capable_property(connector);
+ 	return connector;
+ 
+ err:
+diff --git a/drivers/gpu/drm/i915/display/intel_hdmi.c b/drivers/gpu/drm/i915/display/intel_hdmi.c
+index 7e51c98c475e..9160e21ac9d6 100644
+--- a/drivers/gpu/drm/i915/display/intel_hdmi.c
++++ b/drivers/gpu/drm/i915/display/intel_hdmi.c
+@@ -2513,8 +2513,10 @@ intel_hdmi_add_properties(struct intel_hdmi *intel_hdmi, struct drm_connector *c
+ 	if (DISPLAY_VER(dev_priv) >= 10)
+ 		drm_connector_attach_hdr_output_metadata_property(connector);
+ 
+-	if (!HAS_GMCH(dev_priv))
++	if (!HAS_GMCH(dev_priv)) {
+ 		drm_connector_attach_max_bpc_property(connector, 8, 12);
++		drm_connector_attach_active_bpc_property(connector, 8, 12);
++	}
+ }
+ 
+ /*
 -- 
 2.25.1
 
