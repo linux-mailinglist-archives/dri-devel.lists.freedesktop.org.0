@@ -2,48 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A6623A7D53
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Jun 2021 13:35:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 108FB3A7D58
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Jun 2021 13:36:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A120789A8B;
-	Tue, 15 Jun 2021 11:35:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1D53489AE6;
+	Tue, 15 Jun 2021 11:36:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-m121144.qiye.163.com (mail-m121144.qiye.163.com
- [115.236.121.144])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EA40389A8B;
- Tue, 15 Jun 2021 11:35:33 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256;
- b=LCMgXEXCnH8bunLOeWTLK80R8+e2+H+pe0HMAbAqTSsiRAnsmVv0ZpCgIt2mNVruTOzsOp35ctWxDLOhffgc0v9W0vUhivb2SYrO2Llmr57uBpgsm3rnGrOMUbVoDEODciyHGzFNt4SOzyU8AxdqrPnx/p5r/hJWiTeSOIeYcCw=;
- s=default; c=relaxed/relaxed; d=vivo.com; v=1;
- bh=F8L2Jk4gNuieXDSNGB0VS1LdlVC21RK9z8gbYlLG0oA=;
- h=date:mime-version:subject:message-id:from;
-Received: from Wanjb.localdomain (unknown [36.152.145.182])
- by mail-m121144.qiye.163.com (Hmail) with ESMTPA id 69B5DAC03EA;
- Tue, 15 Jun 2021 19:35:29 +0800 (CST)
-From: Wan Jiabing <wanjiabing@vivo.com>
-To: Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, Chris Wilson <chris@chris-wilson.co.uk>,
- Matthew Auld <matthew.auld@intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, CQ Tang <cq.tang@intel.com>,
- =?UTF-8?q?Zbigniew=20Kempczy=C5=84ski?= <zbigniew.kempczynski@intel.com>,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH] drm/i915: Remove duplicate include of intel_region_lmem.h
-Date: Tue, 15 Jun 2021 19:35:20 +0800
-Message-Id: <20210615113522.6867-1-wanjiabing@vivo.com>
-X-Mailer: git-send-email 2.20.1
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C679489AE6;
+ Tue, 15 Jun 2021 11:36:14 +0000 (UTC)
+IronPort-SDR: FSryRWtpJB9cisFle0nBNMnbN+WTzvRq1344Y5qmES1Biu/TRYPY7VcsO8CqEiTuLt6GU2IjRO
+ nW6jUoqXiBdw==
+X-IronPort-AV: E=McAfee;i="6200,9189,10015"; a="205789708"
+X-IronPort-AV: E=Sophos;i="5.83,275,1616482800"; d="scan'208";a="205789708"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Jun 2021 04:36:14 -0700
+IronPort-SDR: yLEj6n/IPDGnS9TnCV29xh9JXiodretEJJsRCifTlhX+FoqZloy+Fwp8Pc0Ky+3RIper0+mmJ8
+ F41UTUy9+sJg==
+X-IronPort-AV: E=Sophos;i="5.83,275,1616482800"; d="scan'208";a="421095275"
+Received: from vgribano-mobl.ccr.corp.intel.com (HELO thellst-mobl1.intel.com)
+ ([10.249.254.53])
+ by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Jun 2021 04:36:12 -0700
+From: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
+To: intel-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/i915: Perform execbuffer object locking as a separate step
+Date: Tue, 15 Jun 2021 13:36:00 +0200
+Message-Id: <20210615113600.30660-1-thomas.hellstrom@linux.intel.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-HM-Spam-Status: e1kfGhgUHx5ZQUtXWQgYFAkeWUFZS1VLWVdZKFlBSE83V1ktWUFJV1kPCR
- oVCBIfWUFZGR1OTVYfTUtDSkJDT01NThlVEwETFhoSFyQUDg9ZV1kWGg8SFR0UWUFZT0tIVUpKS0
- hKTFVLWQY+
-X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6Mxw6Kzo6Qj8LHUhWI00wVjYR
- HChPCUhVSlVKTUlITE5NQkhLSk5LVTMWGhIXVQwaFRESGhkSFRw7DRINFFUYFBZFWVdZEgtZQVlI
- TVVKTklVSk9OVUpDSVlXWQgBWUFJT0lNNwY+
-X-HM-Tid: 0a7a0f747b26b039kuuu69b5dac03ea
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,32 +48,66 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Wan Jiabing <wanjiabing@vivo.com>
+Cc: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ matthew.auld@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fix the following checkinclude.pl warning:
-drivers/gpu/drm/i915/gt/intel_region_lmem.c
-8	#include "intel_region_lmem.h"
-     12	#include "intel_region_lmem.h"
+To help avoid evicting already resident buffers from the batch we're
+processing, perform locking as a separate step.
 
-Signed-off-by: Wan Jiabing <wanjiabing@vivo.com>
+Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
 ---
- drivers/gpu/drm/i915/gt/intel_region_lmem.c | 1 -
- 1 file changed, 1 deletion(-)
+ .../gpu/drm/i915/gem/i915_gem_execbuffer.c    | 25 ++++++++++++++++---
+ 1 file changed, 21 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/gt/intel_region_lmem.c b/drivers/gpu/drm/i915/gt/intel_region_lmem.c
-index f7366b054f8e..119eeec98837 100644
---- a/drivers/gpu/drm/i915/gt/intel_region_lmem.c
-+++ b/drivers/gpu/drm/i915/gt/intel_region_lmem.c
-@@ -9,7 +9,6 @@
- #include "intel_region_ttm.h"
- #include "gem/i915_gem_lmem.h"
- #include "gem/i915_gem_region.h"
--#include "intel_region_lmem.h"
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
+index 201fed19d120..394eb40c95b5 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
+@@ -922,21 +922,38 @@ static int eb_lookup_vmas(struct i915_execbuffer *eb)
+ 	return err;
+ }
  
- static int init_fake_lmem_bar(struct intel_memory_region *mem)
+-static int eb_validate_vmas(struct i915_execbuffer *eb)
++static int eb_lock_vmas(struct i915_execbuffer *eb)
  {
+ 	unsigned int i;
+ 	int err;
+ 
+-	INIT_LIST_HEAD(&eb->unbound);
+-
+ 	for (i = 0; i < eb->buffer_count; i++) {
+-		struct drm_i915_gem_exec_object2 *entry = &eb->exec[i];
+ 		struct eb_vma *ev = &eb->vma[i];
+ 		struct i915_vma *vma = ev->vma;
+ 
+ 		err = i915_gem_object_lock(vma->obj, &eb->ww);
+ 		if (err)
+ 			return err;
++	}
++
++	return 0;
++}
++
++static int eb_validate_vmas(struct i915_execbuffer *eb)
++{
++	unsigned int i;
++	int err;
++
++	INIT_LIST_HEAD(&eb->unbound);
++
++	err = eb_lock_vmas(eb);
++	if (err)
++		return err;
++
++	for (i = 0; i < eb->buffer_count; i++) {
++		struct drm_i915_gem_exec_object2 *entry = &eb->exec[i];
++		struct eb_vma *ev = &eb->vma[i];
++		struct i915_vma *vma = ev->vma;
+ 
+ 		err = eb_pin_vma(eb, entry, ev);
+ 		if (err == -EDEADLK)
 -- 
-2.20.1
+2.31.1
 
