@@ -1,127 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C2C63A7E05
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Jun 2021 14:18:47 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 28EA03A7E15
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Jun 2021 14:19:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 682FA89A56;
-	Tue, 15 Jun 2021 12:18:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 56B7C89A59;
+	Tue, 15 Jun 2021 12:19:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam12on2041.outbound.protection.outlook.com [40.107.237.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8B1AD89A56;
- Tue, 15 Jun 2021 12:18:41 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Fcthde5PayEnibSvlYzfzbbw7maEjoVq4Wru9dfCohLcEmXg0NjtqkgpkvHyJAKKgLUpjpiEH+invLuelWxobIxUlrnuXx8vZkSR53By4SbfpHLRn/BdKLqk0iCAc5L8IXJTYC09v+6tSM+QYyoxhslRi/DTJrptGUwc/45haHdPkH9BiNE5qfmHJN4KTFmtLSNML/Z4vso8VuLR15pZyyLylP5BrUjGFcSYBocJdGXDEXpqiKIcsyxQoLmrGuU7LqXvhg3XVszO6ndwEZjLnexvLGdRHtOB6K6i5FBQiY2nzvKaG0qiU+Tx4riw/+JI7UMJkGvWJa6ypSOSwVRX5A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=/JS0/33fMUfRWzm0eTKIut6RMUL91tK0C6Bj7kcBVUY=;
- b=QeuIHGyP9/IVhjWXG9QZzsmRS9QemDgQKTSKtwVAngjxg/tTWalWRD5R2odmHxdH02sqJuSr+Q/e+Qw79Oh03F8AETfyuyxSMt7jDtGdTqL8cHBCeH5hW2AtkI77zQhPyUnfT3wcnOsIvKeKJaMjpdQVQr9Iu9bI+plPSXWoXc4u64K3vj4CPCKKuEMKuFtG5gTyEfUF+mjT6y3eBYTzJX9zVehEli5pdfkRQI0wTI8AGdpcyWXughcTG7lI5DwkCja7Eqk0cKu99kr4+x0lPdCEiqGOnsiKtuAjcEMcht2p1Mvf/NHuh/6b4tl4+rDwKCWsYLMJABYkYo2oQuBtGQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=/JS0/33fMUfRWzm0eTKIut6RMUL91tK0C6Bj7kcBVUY=;
- b=sSNdKOTi6BdVPynlJpSu+OPcSYwrVbEF1lR6DtmADlKn4yVAR72O5zPsXzkDV15RInWXlEaqk3bzjP3PVw0jQXpBOriA7p/pUbTJzDYbi+r1bjq84kWtf2oHQEN74hHZRqzEHbwVqTakps7MbrgWCDXb7ZRNJxUFL23qV3+v3dY=
-Authentication-Results: ffwll.ch; dkim=none (message not signed)
- header.d=none;ffwll.ch; dmarc=none action=none header.from=amd.com;
-Received: from MN2PR12MB3775.namprd12.prod.outlook.com (2603:10b6:208:159::19)
- by MN2PR12MB4224.namprd12.prod.outlook.com (2603:10b6:208:1dd::8)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4219.24; Tue, 15 Jun
- 2021 12:18:37 +0000
-Received: from MN2PR12MB3775.namprd12.prod.outlook.com
- ([fe80::6c9e:1e08:7617:f756]) by MN2PR12MB3775.namprd12.prod.outlook.com
- ([fe80::6c9e:1e08:7617:f756%5]) with mapi id 15.20.4219.025; Tue, 15 Jun 2021
- 12:18:37 +0000
-Subject: Re: [RFC PATCH] drm/ttm: Do page counting after populate callback
- succeed
-To: "Pan, Xinhui" <Xinhui.Pan@amd.com>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-References: <20210615115746.27424-1-xinhui.pan@amd.com>
- <f70e88b3-f0db-fca8-f05e-f685f1a913ad@gmail.com>
- <4719A30A-0B23-4053-B8EB-AC9BD21DBE40@amd.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-Message-ID: <88115e0c-5cee-5b16-f60f-480136f0bcad@amd.com>
-Date: Tue, 15 Jun 2021 14:18:32 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
-In-Reply-To: <4719A30A-0B23-4053-B8EB-AC9BD21DBE40@amd.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-Originating-IP: [2a02:908:1252:fb60:f438:4e93:3853:400c]
-X-ClientProxiedBy: AM4PR0902CA0010.eurprd09.prod.outlook.com
- (2603:10a6:200:9b::20) To MN2PR12MB3775.namprd12.prod.outlook.com
- (2603:10b6:208:159::19)
+Received: from smtp.domeneshop.no (smtp.domeneshop.no
+ [IPv6:2a01:5b40:0:3005::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AE05189A59
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Jun 2021 12:19:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
+ ; s=ds202012;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:
+ MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=QNziebe8Y94Sh+1HnjQCQQoFGIa0YEDQRAW1FBqop1s=; b=XoE4xZMokB7evRqfEtOGhtMbCz
+ oaCfa33CWbHuvAX3GIfVm58vN55c14PtJlEzIFijByAqP+5Njxuef+Vyrx4dyPG65IN+yDbRIIVVh
+ OFdxYXigVcYPxB1vsHG4sbuh9rP7BSRgC0nrs30exvPSPuik3cBLyuZoeTkJFVtgwtKeSkTWc23z2
+ PnI42sxkPEvZR0ayPc2IOhockpccgI0SAHnyCM8f9b6zktrn1rZZgb2bDatiHx2GjytvCnPeXVin+
+ ZIbwZ531OmtAfiBulwjxN6UlAkjINYTMwqTWK6xgyrN1GWWoky4D561CsuKLOW4yHQzStu3M+Sey3
+ JLSXniUQ==;
+Received: from [2a01:799:95f:4600:cca0:57ac:c55d:a485] (port=56466)
+ by smtp.domeneshop.no with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.92) (envelope-from <noralf@tronnes.org>)
+ id 1lt82f-0006xj-9g; Tue, 15 Jun 2021 14:19:41 +0200
+Subject: Re: [PATCH 2/2] drm/gud: Use scatter-gather USB bulk transfer
+To: Peter Stuge <peter@stuge.se>
+References: <20210329180120.27380-1-noralf@tronnes.org>
+ <20210329180120.27380-2-noralf@tronnes.org>
+ <CACRpkda6K59aVCDwKmy1AJ2z+nq2-pjvCWFFn8Yd1aUFAGfsgg@mail.gmail.com>
+ <0c688720-08d5-452a-31d1-db5020075d23@tronnes.org>
+ <20210615091751.27367.qmail@stuge.se>
+From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
+Message-ID: <6d19359d-f0c0-57db-20b8-eec967c92b3f@tronnes.org>
+Date: Tue, 15 Jun 2021 14:19:38 +0200
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [IPv6:2a02:908:1252:fb60:f438:4e93:3853:400c]
- (2a02:908:1252:fb60:f438:4e93:3853:400c) by
- AM4PR0902CA0010.eurprd09.prod.outlook.com (2603:10a6:200:9b::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4242.16 via Frontend
- Transport; Tue, 15 Jun 2021 12:18:36 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 158f92f2-fd50-455d-7cef-08d92ff7b3ea
-X-MS-TrafficTypeDiagnostic: MN2PR12MB4224:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <MN2PR12MB422431D16F0A8FD355AD1CCE83309@MN2PR12MB4224.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: eAmOnLlDN55Icdj/vxtB+1/wb+ki7zA+tpFG1g1BTbZCL0tzvXVTXLydo1KEl15ACzi/tAQIbmyMRDyNarkmYd2To3RHUvdygaZuh8BERbx87azYrJF4Y0Ib8LZJ4zpqgz9YsxrqD8yrsk2WjKmgQplTRZUZiNHExJRip5NW1ld0BefVnvp31s72o8rCQlMkbuzUyGPskt0bNOS4KYHse6ujKh+EN7gaZZR7+VOyJlpEgERw3j6rZxW9aj1fwd/RGMYJs1VQsGSQjYE17f3kZSt1x1zorhvs5+5tVXSP3CzLwIZs70o0Sm8ekzdkubZITPd9L6g4nY7Jc4cQxlqMWtmTobwWxeyPWoV2IsHyPBdP5hQORfolgGSriJXekF52VUMpbqLrsNkknm2jIfjllN5ah6n4N9ufmMb4CHiPvlZCJbEK/KICkP5LTgiBKEv8FO4HhLMS/aG2JR/oIYbMtuSd3PWHAPNze3vuVbjA7PFXA/OJaZe1IFCng6tEzTsrUbjC6u4kmvYSBjlMfib2kUPiB/56M0xIazzHUKqMyQXJ2mxfS3hRa/HJsjUPdxieDBLM9paoAOUviQ7pU+bfgcUXW4LnESpyPC//ttiNte/1nIWnGhx/pgzr+cy33IlP7PIHIeL/XC5VwQer+UclI3Y3xJ4MV9Gfw9CBJjVEPxS6ayFGYOAIQorps8V/GHiF
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN2PR12MB3775.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(346002)(136003)(366004)(396003)(376002)(39840400004)(6486002)(2906002)(316002)(66476007)(478600001)(54906003)(31686004)(110136005)(4326008)(186003)(2616005)(66946007)(16526019)(86362001)(6666004)(83380400001)(8676002)(66574015)(36756003)(5660300002)(8936002)(66556008)(31696002)(38100700002)(45980500001)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Q2VpNk1GNkROTm52RkRocDcwYnl6c2RmSHJ1SnR0MFQwdVJ0ZU40NXFheXFS?=
- =?utf-8?B?RSs0bFFhOHE5M1Fob1JQRlI1a3pESnRIWEVITnhxeUV5R2w4WkVHV25saG40?=
- =?utf-8?B?TXdwWVNWbDZOTFprY3VVam5BblZOVE9TZFpKNTZSc0RZekhSendsRDc3ZkRy?=
- =?utf-8?B?azl2NnFJUmFPZ1dtaHVQSnVUbStYMWRGWWMxbUZKeWZqNkIwVEJLRnRlVFFs?=
- =?utf-8?B?MEZENGhjTElTcVhKOGQ3b2R5eFhBOVhJaTNwZHRPMjhtbWluNFVQWnRMREhi?=
- =?utf-8?B?cFN0ZEM3eEY3UGIzUTFBcnBFN0ErTjlSZHpaSkpTMjM3UFdLemRZUmR4UXZ6?=
- =?utf-8?B?OGNOQzNxeW1FVUUwVUpDVjRwLzl4M1BRREdadEFNSDhoZlR2K0RsUlRPSHdW?=
- =?utf-8?B?cDNJa2k3VFl1Qkl5czhGM3NTNlRuSkpJRWRscVRXMHVBS3lzNzNUZ3AzVXRM?=
- =?utf-8?B?N2F2Q3lmWkRjeU5NOFB4RnNyaE90YnlhUCtCZlVwQmZKL1lwbk9pNENUK2pK?=
- =?utf-8?B?K2xEUVIzUnRja013cHlxZE9KUXNVMW9Od0JKTkdBN21OZ0dUOXZUemdXREhT?=
- =?utf-8?B?MmlMUW1MeDl5WTl3b2k4Y3FEREwxUVNuTndtYjBnRTlNTWQvQkhLYmZ6dG5B?=
- =?utf-8?B?NEcrVHY0RTRqNzBBQmJDb3FzcWdKNjl1WlZOMTdSYXRoS01oVE1mSCtHSVpq?=
- =?utf-8?B?UnZUdTlZZ0NJczB4bDFPRWU1YlV3VG10aXUzSDUrcVpZMm5oTWdvT0lkQ2tu?=
- =?utf-8?B?R2N3UnJmYlRweFkyY3FML1pNQnVLWWtMMWh5emkwZ3BxaWNhcmNVa0svMmFt?=
- =?utf-8?B?QUttTDFXQWF0WWZQYVh0WDBnbUtFYnRmbTlIck1icXlUVE1lcy9lZ1BYR2hQ?=
- =?utf-8?B?OUNud0JqdC9ROXVLMFJBZU5nY1Z6bnE5dDNIOHZUb0dZbU5LMmMxQnV2QUJE?=
- =?utf-8?B?Vmc2cm45WUI4ZDFyQzROMkZyS0JTc1JnK0UxTEtzRkdTZG4vSWRSQVhnTEZN?=
- =?utf-8?B?WkF3elRwWVNubk5vM3lQZTdqRFovM2dReG1FdVE1YS9iZnFLSSszVlVqdzEx?=
- =?utf-8?B?RDJsclpVa1JiWFNQOHBsdGJFOU1RMHRUOFlEaThON3VhVFN2MzVSak5DMXhD?=
- =?utf-8?B?WDFCdXNxOTR4ZGxTdEVBY2x5NWNXZU5KeDg5cXNUSDZpWFIwVDhXbUZKcHVm?=
- =?utf-8?B?aWl5L25OYndqdUhkK3IrcFZvUUZuRmtUSnVxcUF5eTJsSkF1cEdxMDJmSDRu?=
- =?utf-8?B?NEdFR3Z6ZFRNcTdFU2g4RWhYRUVtOXhkYXFPdVZvVlFXYWJmOHRQd1ljUVA4?=
- =?utf-8?B?d2tEVC8yU2NmaS9jMStCQUIyRkZqTWVqSlZ1R3J2cFFEb2duVm9odGlQemR1?=
- =?utf-8?B?QnYzM2JQNHNaaGxvbDJmYU5ORk5vaVNaK2FmUXdlZEVMVVF6WFNDWHJFVm84?=
- =?utf-8?B?dlBiVm9EVCtjemJwVE1mSSs0ZXVHblA4ZWJpMXQ3SmpvT0VDdlU1YkpheXpC?=
- =?utf-8?B?YWFuVXZTb09lbmRJekdhNk0rVmRBZ0xxMG9CTlNYdGw2Tnh4VERaY2RLUnhS?=
- =?utf-8?B?UG4wL0hBakgrTHQwcEM3MGo2UUZUamU0dy91eGpKaE1rZ3B2VmVCQURlRFdM?=
- =?utf-8?B?MUYvalFXR3A3MWcvQkhqcE52ZW00L2ZxUG9jWnFleVZoUW1qOVBQVWpuOEht?=
- =?utf-8?B?b1lwMVY4MHJzamc4WnFiNktNc2VXQThUVGlScXQ0SnpEeVlGYTZTNldmV1pr?=
- =?utf-8?B?eC9xYmN5YnhaSDhIcUtmMGQ1RUlRUWU1QWpFSWtydG52TEFkRzYrWEt3bHlI?=
- =?utf-8?B?Mkx6Q3RkdUhZa0FmVWcwL1NzcjB3UlV0K3g3YlZ3ZUtJNEFRRnlPK1UvdHpF?=
- =?utf-8?Q?Vy6sT6jQhXLnP?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 158f92f2-fd50-455d-7cef-08d92ff7b3ea
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3775.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Jun 2021 12:18:37.4021 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 0tk8/Y72JflyL4wtWqFUhE347FoK0ny43vyJRYFuSznwn3QZ5b5XND2HSPf18HoO
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4224
+In-Reply-To: <20210615091751.27367.qmail@stuge.se>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -134,103 +58,95 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>
+Cc: "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 15.06.21 um 14:11 schrieb Pan, Xinhui:
->> 2021年6月15日 20:01，Christian König <ckoenig.leichtzumerken@gmail.com> 写道：
->>
->> Am 15.06.21 um 13:57 schrieb xinhui pan:
->>> Amdgpu set SG flag in populate callback. So TTM still count pages in SG
->>> BO.
->> It's probably better to fix this instead. E.g. why does amdgpu modify the SG flag during populate and not during initial creation? That doesn't seem to make sense.
-> fair enough. Let me have a try.
-> No idea why we set SG flag in populate years ago.
 
-That's pretty recent IIRC. Felix moved the code around a bit to fix 
-another problem.
 
-Christian.
+Den 15.06.2021 11.17, skrev Peter Stuge:
+> Hi Noralf,
+> 
+> Noralf Trønnes wrote:
+>>>> +static int gud_usb_bulk(struct gud_device *gdrm, size_t len)
+> ..
+>>>> +       timer_setup_on_stack(&ctx.timer, gud_usb_bulk_timeout, 0);
+>>>> +       mod_timer(&ctx.timer, jiffies + msecs_to_jiffies(3000));
+>>>> +
+>>>> +       usb_sg_wait(&ctx.sgr);
+>>>> +
+>>>> +       if (!del_timer_sync(&ctx.timer))
+>>>> +               ret = -ETIMEDOUT;
+> ..
+>>> Mention in the commit message that sending USB bulk transfers with
+>>> an sglist could be unstable
+> 
+> Can you explain a bit about /how/ it is unstable?
+> 
+> As you write, usb_bulk_msg() (as used before) has a timeout which is
+> passed to the host controller hardware and implemented there.
+> 
+> I haven't used SG with kernel USB but I would expect such a timeout
+> to still be available with SG?
+> 
 
->
->> Christian.
->>
->>> One easy way to fix this is lets count pages after populate callback.
->>>
->>> We hit one issue that amdgpu alloc many SG BOs, but TTM try to do swap
->>> again and again even if swapout does not swap SG BOs at all.
->>>
->>> Signed-off-by: xinhui pan <xinhui.pan@amd.com>
->>> ---
->>>   drivers/gpu/drm/ttm/ttm_tt.c | 32 +++++++++++++-------------------
->>>   1 file changed, 13 insertions(+), 19 deletions(-)
->>>
->>> diff --git a/drivers/gpu/drm/ttm/ttm_tt.c b/drivers/gpu/drm/ttm/ttm_tt.c
->>> index a1a25410ec74..4fa0a8cd71c0 100644
->>> --- a/drivers/gpu/drm/ttm/ttm_tt.c
->>> +++ b/drivers/gpu/drm/ttm/ttm_tt.c
->>> @@ -317,13 +317,6 @@ int ttm_tt_populate(struct ttm_device *bdev,
->>>   	if (ttm_tt_is_populated(ttm))
->>>   		return 0;
->>>   -	if (!(ttm->page_flags & TTM_PAGE_FLAG_SG)) {
->>> -		atomic_long_add(ttm->num_pages, &ttm_pages_allocated);
->>> -		if (bdev->pool.use_dma32)
->>> -			atomic_long_add(ttm->num_pages,
->>> -					&ttm_dma32_pages_allocated);
->>> -	}
->>> -
->>>   	while (atomic_long_read(&ttm_pages_allocated) > ttm_pages_limit ||
->>>   	       atomic_long_read(&ttm_dma32_pages_allocated) >
->>>   	       ttm_dma32_pages_limit) {
->>> @@ -342,6 +335,13 @@ int ttm_tt_populate(struct ttm_device *bdev,
->>>   	if (ret)
->>>   		goto error;
->>>   +	if (!(ttm->page_flags & TTM_PAGE_FLAG_SG)) {
->>> +		atomic_long_add(ttm->num_pages, &ttm_pages_allocated);
->>> +		if (bdev->pool.use_dma32)
->>> +			atomic_long_add(ttm->num_pages,
->>> +					&ttm_dma32_pages_allocated);
->>> +	}
->>> +
->>>   	ttm_tt_add_mapping(bdev, ttm);
->>>   	ttm->page_flags |= TTM_PAGE_FLAG_PRIV_POPULATED;
->>>   	if (unlikely(ttm->page_flags & TTM_PAGE_FLAG_SWAPPED)) {
->>> @@ -355,12 +355,6 @@ int ttm_tt_populate(struct ttm_device *bdev,
->>>   	return 0;
->>>     error:
->>> -	if (!(ttm->page_flags & TTM_PAGE_FLAG_SG)) {
->>> -		atomic_long_sub(ttm->num_pages, &ttm_pages_allocated);
->>> -		if (bdev->pool.use_dma32)
->>> -			atomic_long_sub(ttm->num_pages,
->>> -					&ttm_dma32_pages_allocated);
->>> -	}
->>>   	return ret;
->>>   }
->>>   EXPORT_SYMBOL(ttm_tt_populate);
->>> @@ -384,12 +378,6 @@ void ttm_tt_unpopulate(struct ttm_device *bdev, struct ttm_tt *ttm)
->>>   	if (!ttm_tt_is_populated(ttm))
->>>   		return;
->>>   -	ttm_tt_clear_mapping(ttm);
->>> -	if (bdev->funcs->ttm_tt_unpopulate)
->>> -		bdev->funcs->ttm_tt_unpopulate(bdev, ttm);
->>> -	else
->>> -		ttm_pool_free(&bdev->pool, ttm);
->>> -
->>>   	if (!(ttm->page_flags & TTM_PAGE_FLAG_SG)) {
->>>   		atomic_long_sub(ttm->num_pages, &ttm_pages_allocated);
->>>   		if (bdev->pool.use_dma32)
->>> @@ -397,6 +385,12 @@ void ttm_tt_unpopulate(struct ttm_device *bdev, struct ttm_tt *ttm)
->>>   					&ttm_dma32_pages_allocated);
->>>   	}
->>>   +	ttm_tt_clear_mapping(ttm);
->>> +	if (bdev->funcs->ttm_tt_unpopulate)
->>> +		bdev->funcs->ttm_tt_unpopulate(bdev, ttm);
->>> +	else
->>> +		ttm_pool_free(&bdev->pool, ttm);
->>> +
->>>   	ttm->page_flags &= ~TTM_PAGE_FLAG_PRIV_POPULATED;
->>>   }
->>>   
+I have taken a closer look and usb_bulk_msg() calls usb_start_wait_urb()
+which uses wait_for_completion_timeout() so the timeout isn't handled by
+the hardware.
 
+usb_sg_wait() on the other hand uses plain wait_for_completion() without
+the timeout. So ideally usb_sg_wait() should have had a timeout
+parameter and used wait_for_completion_timeout().
+
+> 
+>> usb_bulk_msg() has builtin timeout handling and during development of
+>> a microcontroller gadget implementation I've triggered this timeout
+>> several times when the uC usb interrupts stopped firing.
+> 
+> The device not responding to bulk packets scheduled and sent by the host
+> is a real error /in the device/ and thus not neccessarily something the
+> kernel must handle gracefully.. I think it's quite nice to do so, but
+> one can argue that it's not strictly required.
+> 
+> But more importantly: Remember that bulk transfer has no delivery time
+> guarantee. It can take indefinitely long until a bulk transfer is
+> scheduled by the host on a busy bus which is starved with more
+> important things (control, interrupt, iso transfers) - that's not
+> an error at all, and may be indistinguishable from the device not
+> responding to packets actually sent by the host.
+> 
+> Having a timeout is important, I just expect the USB SG interface to
+> support it since it is the hardware that times out in the non-SG case.
+> 
+> 
+> And since this is essentially real time data maybe a shorter timeout
+> is better? 3 seconds seems really long.
+> 
+
+I have looked at what the others are using:
+- rtsx_usb uses 10 seconds in one place
+- vub300 uses 2 seconds plus a length based addition
+- usbtest uses 10 seconds.
+
+The other USB DRM driver gm12u320 uses a 1 second timeout per block, so
+a worst case timeout of 20 seconds per frame.
+
+3 seconds is a "long time", but compared to the default control request
+timeout USB_CTRL_GET_TIMEOUT which is 5 seconds, and which gud uses,
+it's not that long. I don't want to put too much limitation on the
+device, but ofc can't allow it to hang the driver.
+
+And a timeout is an exception so hitting that probably means something
+is seriously wrong. I though of adding some kind of usb bus reset
+handling to the driver that kicks in after the device has been
+unresponsive for some time, but dropped that since I have so limited
+understanding of things USB.
+
+Noralf.
+
+> The timeout must include all latency for a frame, so e.g. 16ms (60 Hz)
+> is too short for sure. But maybe something like 500ms?
+> 
+> 
+> //Peter
+> 
