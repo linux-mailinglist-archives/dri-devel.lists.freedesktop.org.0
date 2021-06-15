@@ -2,39 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BAA633A733C
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Jun 2021 03:09:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0656B3A7383
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Jun 2021 03:58:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 044D66E0E4;
-	Tue, 15 Jun 2021 01:09:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EBFB56E1B6;
+	Tue, 15 Jun 2021 01:58:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 04D196E0E4
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Jun 2021 01:09:46 +0000 (UTC)
-IronPort-SDR: yCH4qgPorUh4Td9u8EuRLTMpxceH8QgHy8UsuZ8cmJMhs2BDCt/8cfZchMPeJZ+EkH4pdZMvDi
- 1QbAEgnHBtWQ==
-X-IronPort-AV: E=McAfee;i="6200,9189,10015"; a="202879263"
-X-IronPort-AV: E=Sophos;i="5.83,273,1616482800"; d="scan'208";a="202879263"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Jun 2021 18:09:46 -0700
-IronPort-SDR: sTaes4+9gmVh30N7ddQM1lqNPlIPL/XeS8T4HAr+XsPX3XZ11fkjoMnv9vlNVb03XGnsfaSGqI
- 0fckwWoXHe/g==
-X-IronPort-AV: E=Sophos;i="5.83,273,1616482800"; d="scan'208";a="451793118"
-Received: from shao2-debian.sh.intel.com (HELO localhost) ([10.239.13.11])
- by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Jun 2021 18:09:43 -0700
-Date: Tue, 15 Jun 2021 09:09:42 +0800
-From: kernel test robot <rong.a.chen@intel.com>
-To: Ingo Molnar <mingo@kernel.org>
-Subject: [RFC PATCH tip] sched/headers, fb: fix duplicated inclusion
-Message-ID: <20210615010941.GN237458@shao2-debian>
+Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9B2AD6E1B6;
+ Tue, 15 Jun 2021 01:58:12 +0000 (UTC)
+Received: from dggemv711-chm.china.huawei.com (unknown [172.30.72.56])
+ by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4G3rts0gXPzXg0C;
+ Tue, 15 Jun 2021 09:53:09 +0800 (CST)
+Received: from dggpeml500020.china.huawei.com (7.185.36.88) by
+ dggemv711-chm.china.huawei.com (10.1.198.66) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2176.2; Tue, 15 Jun 2021 09:58:07 +0800
+Received: from [10.174.177.174] (10.174.177.174) by
+ dggpeml500020.china.huawei.com (7.185.36.88) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2176.2; Tue, 15 Jun 2021 09:58:07 +0800
+Subject: Re: [PATCH -next] drm/nouveau: Remove set but not used variable
+ 'width'
+To: <bskeggs@redhat.com>, <airlied@linux.ie>, <daniel@ffwll.ch>,
+ <dri-devel@lists.freedesktop.org>, <nouveau@lists.freedesktop.org>,
+ <linux-kernel@vger.kernel.org>
+References: <20210525081733.571257-1-libaokun1@huawei.com>
+From: "libaokun (A)" <libaokun1@huawei.com>
+Message-ID: <1142566d-2e15-e73d-1fa1-b3713cebff4a@huawei.com>
+Date: Tue, 15 Jun 2021 09:58:06 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.9.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20210615010853.GM237458@shao2-debian>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20210525081733.571257-1-libaokun1@huawei.com>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.174.177.174]
+X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
+ dggpeml500020.china.huawei.com (7.185.36.88)
+X-CFilter-Loop: Reflected
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,89 +54,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Thompson <daniel.thompson@linaro.org>, kbuild-all@lists.01.org,
- Support Opensource <support.opensource@diasemi.com>,
- Jingoo Han <jingoohan1@gmail.com>, x86@kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-fbdev@vger.kernel.org, Lee Jones <lee.jones@linaro.org>
+Cc: yuehaibing@huawei.com, weiyongjun1@huawei.com, yukuai3@huawei.com,
+ yangjihong1@huawei.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-drivers/video/backlight/rave-sp-backlight.c: linux/backlight.h is included more than once.
-drivers/video/backlight/lm3639_bl.c: linux/backlight.h is included more than once.
-drivers/video/backlight/kb3886_bl.c: linux/backlight.h is included more than once.
-drivers/video/backlight/da9052_bl.c: linux/backlight.h is included more than once.
-drivers/video/backlight/cr_bllcd.c: linux/backlight.h is included more than once.
+ping
 
-Generated by: scripts/checkincludes.pl
-
-Reported-by: kernel test robot <lkp@intel.com>
-Signed-off-by: kernel test robot <lkp@intel.com>
----
- cr_bllcd.c          |    1 -
- da9052_bl.c         |    1 -
- kb3886_bl.c         |    1 -
- lm3639_bl.c         |    1 -
- rave-sp-backlight.c |    1 -
- 5 files changed, 5 deletions(-)
-
-diff --git a/drivers/video/backlight/cr_bllcd.c b/drivers/video/backlight/cr_bllcd.c
-index aa94e1dfbc2c4..570105c7c5f22 100644
---- a/drivers/video/backlight/cr_bllcd.c
-+++ b/drivers/video/backlight/cr_bllcd.c
-@@ -21,7 +21,6 @@
- #include <linux/platform_device.h>
- #include <linux/mutex.h>
- #include <linux/fb.h>
--#include <linux/backlight.h>
- #include <linux/lcd.h>
- #include <linux/pci.h>
- #include <linux/slab.h>
-diff --git a/drivers/video/backlight/da9052_bl.c b/drivers/video/backlight/da9052_bl.c
-index d805c57e8f9ac..3bdec323e98e7 100644
---- a/drivers/video/backlight/da9052_bl.c
-+++ b/drivers/video/backlight/da9052_bl.c
-@@ -7,7 +7,6 @@
-  * Author: David Dajun Chen <dchen@diasemi.com>
-  */
- 
--#include <linux/backlight.h>
- #include <linux/delay.h>
- #include <linux/fb.h>
- #include <linux/module.h>
-diff --git a/drivers/video/backlight/kb3886_bl.c b/drivers/video/backlight/kb3886_bl.c
-index 55800c904338c..3088455c03603 100644
---- a/drivers/video/backlight/kb3886_bl.c
-+++ b/drivers/video/backlight/kb3886_bl.c
-@@ -13,7 +13,6 @@
- #include <linux/platform_device.h>
- #include <linux/mutex.h>
- #include <linux/fb.h>
--#include <linux/backlight.h>
- #include <linux/delay.h>
- #include <linux/dmi.h>
- #include <linux/backlight.h>
-diff --git a/drivers/video/backlight/lm3639_bl.c b/drivers/video/backlight/lm3639_bl.c
-index df26b7768eb9c..30731a8bb063e 100644
---- a/drivers/video/backlight/lm3639_bl.c
-+++ b/drivers/video/backlight/lm3639_bl.c
-@@ -7,7 +7,6 @@
- #include <linux/slab.h>
- #include <linux/i2c.h>
- #include <linux/leds.h>
--#include <linux/backlight.h>
- #include <linux/err.h>
- #include <linux/delay.h>
- #include <linux/uaccess.h>
-diff --git a/drivers/video/backlight/rave-sp-backlight.c b/drivers/video/backlight/rave-sp-backlight.c
-index 71419c384293c..2dd46c32f6150 100644
---- a/drivers/video/backlight/rave-sp-backlight.c
-+++ b/drivers/video/backlight/rave-sp-backlight.c
-@@ -7,7 +7,6 @@
-  *
-  */
- 
--#include <linux/backlight.h>
- #include <linux/kernel.h>
- #include <linux/module.h>
- #include <linux/mfd/rave-sp.h>
+在 2021/5/25 16:17, Baokun Li 写道:
+> Fixes gcc '-Wunused-but-set-variable' warning:
+>
+> drivers/gpu/drm/nouveau/nouveau_display.c: In function 'nouveau_framebuffer_new':
+> drivers/gpu/drm/nouveau/nouveau_display.c:309:15: warning:
+>   variable ‘width’ set but not used [-Wunused-but-set-variable]
+>
+> It never used since introduction.
+>
+> Signed-off-by: Baokun Li <libaokun1@huawei.com>
+> ---
+>   drivers/gpu/drm/nouveau/nouveau_display.c | 5 +----
+>   1 file changed, 1 insertion(+), 4 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/nouveau/nouveau_display.c b/drivers/gpu/drm/nouveau/nouveau_display.c
+> index 929de41c281f..2b460835a438 100644
+> --- a/drivers/gpu/drm/nouveau/nouveau_display.c
+> +++ b/drivers/gpu/drm/nouveau/nouveau_display.c
+> @@ -306,7 +306,7 @@ nouveau_framebuffer_new(struct drm_device *dev,
+>   	struct nouveau_bo *nvbo = nouveau_gem_object(gem);
+>   	struct drm_framebuffer *fb;
+>   	const struct drm_format_info *info;
+> -	unsigned int width, height, i;
+> +	unsigned int height, i;
+>   	uint32_t tile_mode;
+>   	uint8_t kind;
+>   	int ret;
+> @@ -343,9 +343,6 @@ nouveau_framebuffer_new(struct drm_device *dev,
+>   	info = drm_get_format_info(dev, mode_cmd);
+>   
+>   	for (i = 0; i < info->num_planes; i++) {
+> -		width = drm_format_info_plane_width(info,
+> -						    mode_cmd->width,
+> -						    i);
+>   		height = drm_format_info_plane_height(info,
+>   						      mode_cmd->height,
+>   						      i);
