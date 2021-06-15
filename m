@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A88523A887C
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Jun 2021 20:23:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9839F3A887A
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Jun 2021 20:23:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0A8656E431;
-	Tue, 15 Jun 2021 18:23:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7C63E6E3D0;
+	Tue, 15 Jun 2021 18:23:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from EX13-EDG-OU-001.vmware.com (ex13-edg-ou-001.vmware.com
- [208.91.0.189])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 669566E438
+Received: from EX13-EDG-OU-002.vmware.com (ex13-edg-ou-002.vmware.com
+ [208.91.0.190])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 10D036E439
  for <dri-devel@lists.freedesktop.org>; Tue, 15 Jun 2021 18:23:41 +0000 (UTC)
 Received: from sc9-mailhost1.vmware.com (10.113.161.71) by
- EX13-EDG-OU-001.vmware.com (10.113.208.155) with Microsoft SMTP Server id
- 15.0.1156.6; Tue, 15 Jun 2021 11:23:37 -0700
+ EX13-EDG-OU-002.vmware.com (10.113.208.156) with Microsoft SMTP Server id
+ 15.0.1156.6; Tue, 15 Jun 2021 11:23:38 -0700
 Received: from vertex.localdomain (unknown [10.21.244.102])
- by sc9-mailhost1.vmware.com (Postfix) with ESMTP id 5E381202C2;
+ by sc9-mailhost1.vmware.com (Postfix) with ESMTP id 0E95B20271;
  Tue, 15 Jun 2021 11:23:39 -0700 (PDT)
 From: Zack Rusin <zackr@vmware.com>
 To: <dri-devel@lists.freedesktop.org>
-Subject: [PATCH 3/5] drm/vmwgfx: Fix a 64bit regression on svga3
-Date: Tue, 15 Jun 2021 14:23:34 -0400
-Message-ID: <20210615182336.995192-3-zackr@vmware.com>
+Subject: [PATCH 4/5] drm/vmwgfx: Fix a bad merge in otable batch takedown
+Date: Tue, 15 Jun 2021 14:23:35 -0400
+Message-ID: <20210615182336.995192-4-zackr@vmware.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210615182336.995192-1-zackr@vmware.com>
 References: <20210615182336.995192-1-zackr@vmware.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-Received-SPF: None (EX13-EDG-OU-001.vmware.com: zackr@vmware.com does not
+Received-SPF: None (EX13-EDG-OU-002.vmware.com: zackr@vmware.com does not
  designate permitted sender hosts)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -48,30 +48,33 @@ Cc: krastevm@vmware.com, sroland@vmware.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Register accesses are always 4bytes, accidently this was changed to
-a void pointer whwqich badly breaks 64bit archs when running on top
-of svga3.
+Change
+2ef4fb92363c ("drm/vmwgfx: Make sure bo's are unpinned before putting them back")
+caused a conflict in one of the drm trees and the merge commit
+68a32ba14177 ("Merge tag 'drm-next-2021-04-28' of git://anongit.freedesktop.org/drm/drm")
+accidently re-added code that the original change was removing.
+Fixed by removing the incorrect buffer unpin - it has already been unpinned
+two lines above.
 
-Fixes: 2cd80dbd3551 ("drm/vmwgfx: Add basic support for SVGA3")
+Fixes: 68a32ba14177 ("Merge tag 'drm-next-2021-04-28' of git://anongit.freedesktop.org/drm/drm")
 Signed-off-by: Zack Rusin <zackr@vmware.com>
 Reviewed-by: Martin Krastev <krastevm@vmware.com>
 ---
- drivers/gpu/drm/vmwgfx/vmwgfx_drv.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/vmwgfx/vmwgfx_mob.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
-index 0dd5a3e06f5f..356f82c26f59 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
-@@ -492,7 +492,7 @@ struct vmw_private {
- 	resource_size_t vram_start;
- 	resource_size_t vram_size;
- 	resource_size_t max_primary_mem;
--	void __iomem *rmmio;
-+	u32 __iomem *rmmio;
- 	u32 *fifo_mem;
- 	resource_size_t fifo_mem_size;
- 	uint32_t fb_max_width;
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_mob.c b/drivers/gpu/drm/vmwgfx/vmwgfx_mob.c
+index 895088924ce3..c8e578f63c9c 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_mob.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_mob.c
+@@ -354,7 +354,6 @@ static void vmw_otable_batch_takedown(struct vmw_private *dev_priv,
+ 	ttm_bo_unpin(bo);
+ 	ttm_bo_unreserve(bo);
+ 
+-	ttm_bo_unpin(batch->otable_bo);
+ 	ttm_bo_put(batch->otable_bo);
+ 	batch->otable_bo = NULL;
+ }
 -- 
 2.30.2
 
