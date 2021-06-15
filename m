@@ -1,76 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A0443A7A79
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Jun 2021 11:25:33 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 311BA3A7B07
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Jun 2021 11:46:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2B83F6E226;
-	Tue, 15 Jun 2021 09:25:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1FBD46E249;
+	Tue, 15 Jun 2021 09:46:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A516A6E226
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Jun 2021 09:25:29 +0000 (UTC)
-Received: from imap.suse.de (imap-alt.suse-dmz.suse.de [192.168.254.47])
- (using TLSv1.2 with cipher ECDHE-ECDSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id DA9E5219D9;
- Tue, 15 Jun 2021 09:25:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1623749127; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=Wkrt2I7n4dqe/apiwY6bErCGbPoxzB9wmIHRvqFeTUk=;
- b=KPw+PR0I7Ui6aI5VMEpGCUYtCc1YQUamG6vEkNWwcTx/HEJqoIvBhR7p6l2aFjr6XpcO92
- ltwhlIHRvrSjlukY7sxCiDzDZTEbdo2v3qH8d/IDIG76AH9LPhlqCH6AhbeftehFpVOqRY
- CrLl7nqo4bP2x2A6cEDRl4Kj3Xh4qoo=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1623749127;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=Wkrt2I7n4dqe/apiwY6bErCGbPoxzB9wmIHRvqFeTUk=;
- b=Cp/UPq4BCBgiwlrvmcPb0HPvrbfK9sLEEPW7dF8RycIh/l8c7iVSZWwaFMPX4uFnNt0Ewg
- 2XZZSS+zDOrZpbAQ==
-Received: from imap3-int (imap-alt.suse-dmz.suse.de [192.168.254.47])
- by imap.suse.de (Postfix) with ESMTP id B28A2118DD;
- Tue, 15 Jun 2021 09:25:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1623749127; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=Wkrt2I7n4dqe/apiwY6bErCGbPoxzB9wmIHRvqFeTUk=;
- b=KPw+PR0I7Ui6aI5VMEpGCUYtCc1YQUamG6vEkNWwcTx/HEJqoIvBhR7p6l2aFjr6XpcO92
- ltwhlIHRvrSjlukY7sxCiDzDZTEbdo2v3qH8d/IDIG76AH9LPhlqCH6AhbeftehFpVOqRY
- CrLl7nqo4bP2x2A6cEDRl4Kj3Xh4qoo=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1623749127;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=Wkrt2I7n4dqe/apiwY6bErCGbPoxzB9wmIHRvqFeTUk=;
- b=Cp/UPq4BCBgiwlrvmcPb0HPvrbfK9sLEEPW7dF8RycIh/l8c7iVSZWwaFMPX4uFnNt0Ewg
- 2XZZSS+zDOrZpbAQ==
-Received: from director2.suse.de ([192.168.254.72]) by imap3-int with ESMTPSA
- id sPysKgdyyGCzeQAALh3uQQ
- (envelope-from <tzimmermann@suse.de>); Tue, 15 Jun 2021 09:25:27 +0000
-Subject: Re: [PATCH v2 -next] drm/hyperv: Fix unused const variable
- 'hyperv_modifiers'
-To: Pu Lehui <pulehui@huawei.com>, drawat.floss@gmail.com, airlied@linux.ie,
- daniel@ffwll.ch
-References: <20210609024940.34933-1-pulehui@huawei.com>
- <20210615031401.231751-1-pulehui@huawei.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Message-ID: <c1b10848-d2f1-ddd2-8a69-a356f70da089@suse.de>
-Date: Tue, 15 Jun 2021 11:25:27 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.2
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 418A46E24E
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Jun 2021 09:46:19 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
+ [62.78.145.57])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id D9DFA436;
+ Tue, 15 Jun 2021 11:46:16 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1623750377;
+ bh=owyRg9BfLHSyUAfAxBSUYA0KZUQrktezYcb7gHSkics=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=e8W03Key7HN+OcFEZ7uQCvRvZcaevfZtNuhmfBiRGix5juc2h9DF1pIaA+thOwZOV
+ HawGX/s+C9z9U97esgDFbnpiPq2yXz2nmFgqrLgUqTPC8GxXKltK2x9MoTTSSP7LqT
+ huY3Wnd5+Xd7C9cOjwDe+mAPV2NfxR9N+qSbHSY4=
+Date: Tue, 15 Jun 2021 12:45:57 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Simon Ser <contact@emersion.fr>
+Subject: Re: [PATCH v3] Documentation: gpu: Mention the requirements for new
+ properties
+Message-ID: <YMh21WBrADbZDcbp@pendragon.ideasonboard.com>
+References: <20210610174731.1209188-1-maxime@cerno.tech>
+ <CAKMK7uG_Wkko0L6sv0U1bXWdYk4fg3OTcp5=+qfRV0CP9V44=A@mail.gmail.com>
+ <KNFHfqvJUVq9oy9BSdznj1S6xhDoZUAx1_DwfSNvUv8u1d-TroKBTq2hxtv7u1aJnxnpI5CxUXSMTn73YsVhZjnRW78gv-QLsK6AkJ5m3Fw=@emersion.fr>
+ <20210611120309.2b5eb4htupv5ss32@e110455-lin.cambridge.arm.com>
+ <20210614174912.15a49336@eldfell>
+ <20210614152413.nguqia3s4tlowio4@e110455-lin.cambridge.arm.com>
+ <YMeE63G+9DSLPB3N@pendragon.ideasonboard.com>
+ <20210615100335.0b8f96d5@eldfell>
+ <ouNaZaqkV1d_wPRESVBQHxvMhmJ53xIrgtPfDs8mB88AN3FEWt7cq031k8ZqCva1Ob0TCNTnsWqNDS0l5NXfejXIL7YUky3XGdjmh1_hefk=@emersion.fr>
 MIME-Version: 1.0
-In-Reply-To: <20210615031401.231751-1-pulehui@huawei.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="ndFCefi0rNgLGvXQF3Uw0UuWJRtVF2RX4"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <ouNaZaqkV1d_wPRESVBQHxvMhmJ53xIrgtPfDs8mB88AN3FEWt7cq031k8ZqCva1Ob0TCNTnsWqNDS0l5NXfejXIL7YUky3XGdjmh1_hefk=@emersion.fr>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,103 +55,99 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: zhangjinhao2@huawei.com, linux-hyperv@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: Ludovic Desroches <ludovic.desroches@microchip.com>,
+ Haneen Mohammed <hamohammed.sa@gmail.com>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+ Xinliang Liu <xinliang.liu@linaro.org>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Liviu Dudau <liviu.dudau@arm.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>, Sandy Huang <hjc@rock-chips.com>,
+ Melissa Wen <melissa.srw@gmail.com>, Andrzej Hajda <a.hajda@samsung.com>,
+ Thierry Reding <thierry.reding@gmail.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Benjamin Gaignard <benjamin.gaignard@linaro.org>,
+ Anitha Chrisanthus <anitha.chrisanthus@intel.com>,
+ Daniel Vetter <daniel.vetter@intel.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Jerome Brunet <jbrunet@baylibre.com>, Marek Vasut <marex@denx.de>,
+ Jonathan Corbet <corbet@lwn.net>, Joonyoung Shim <jy0922.shim@samsung.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+ Kevin Hilman <khilman@baylibre.com>, Neil Armstrong <narmstrong@baylibre.com>,
+ Russell King <linux@armlinux.org.uk>, Steven Price <steven.price@arm.com>,
+ David Airlie <airlied@linux.ie>, Xinwei Kong <kong.kongxinwei@hisilicon.com>,
+ Noralf =?utf-8?Q?Tr=C3=B8nnes?= <noralf@tronnes.org>,
+ VMware Graphics <linux-graphics-maintainer@vmware.com>,
+ Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+ Chen Feng <puck.chen@hisilicon.com>, Hyun Kwon <hyun.kwon@xilinx.com>,
+ NXP Linux Team <linux-imx@nxp.com>, Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Jonas Karlman <jonas@kwiboo.se>,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ Edmund Dea <edmund.j.dea@intel.com>, Sascha Hauer <s.hauer@pengutronix.de>,
+ Alison Wang <alison.wang@nxp.com>, Roland Scheidegger <sroland@vmware.com>,
+ Shawn Guo <shawnguo@kernel.org>, Ben Skeggs <bskeggs@redhat.com>,
+ Maxime Ripard <maxime@cerno.tech>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
+ Sean Paul <sean@poorly.run>, Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Paul Cercueil <paul@crapouillou.net>, Jernej Skrabec <jernej.skrabec@siol.net>,
+ Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+ Tomi Valkeinen <tomba@kernel.org>, Hans de Goede <hdegoede@redhat.com>,
+ Andrew Jeffery <andrew@aj.id.au>, Huang Rui <ray.huang@amd.com>,
+ Yannick Fertr e <yannick.fertre@foss.st.com>,
+ Boris Brezillon <bbrezillon@kernel.org>,
+ Seung-Woo Kim <sw0312.kim@samsung.com>,
+ Nicolas Ferre <nicolas.ferre@microchip.com>,
+ Robert Foss <robert.foss@linaro.org>, Joel Stanley <joel@jms.id.au>,
+ Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Qiang Yu <yuq825@gmail.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Alex Deucher <alexander.deucher@amd.com>, Tian Tao <tiantao6@hisilicon.com>,
+ Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>,
+ Philippe Cornu <philippe.cornu@foss.st.com>, Jyri Sarha <jyri.sarha@iki.fi>,
+ Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---ndFCefi0rNgLGvXQF3Uw0UuWJRtVF2RX4
-Content-Type: multipart/mixed; boundary="zEJlwBFnUtuFl5yIxH4kjjKDlu3GQO33D";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Pu Lehui <pulehui@huawei.com>, drawat.floss@gmail.com, airlied@linux.ie,
- daniel@ffwll.ch
-Cc: zhangjinhao2@huawei.com, linux-hyperv@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
-Message-ID: <c1b10848-d2f1-ddd2-8a69-a356f70da089@suse.de>
-Subject: Re: [PATCH v2 -next] drm/hyperv: Fix unused const variable
- 'hyperv_modifiers'
-References: <20210609024940.34933-1-pulehui@huawei.com>
- <20210615031401.231751-1-pulehui@huawei.com>
-In-Reply-To: <20210615031401.231751-1-pulehui@huawei.com>
+On Tue, Jun 15, 2021 at 07:15:18AM +0000, Simon Ser wrote:
+> On Tuesday, June 15th, 2021 at 09:03, Pekka Paalanen <ppaalanen@gmail.com> wrote:
+> 
+> > indeed it will, but what else could one do to test userspace KMS
+> > clients in generic CI where all you can have is virtual hardware? Maybe
+> > in the long run VKMS needs to loop back to a userspace daemon that
+> > implements all the complex processing and returns the writeback result
+> > via VKMS again? That daemon would then need a single upstream, like the
+> > kernel, where it is maintained and correctness verified.
+> 
+> The complex processing must be implemented even without write-back, because
+> user-space can ask for CRCs of the CRTC.
+> 
+> > Or an LD_PRELOAD that hijacks all KMS ioctls and implements virtual
+> > stuff in userspace? Didn't someone already have something like that?
+> > It would need to be lifted to be a required part of kernel UAPI
+> > submissions, I suppose like IGT is nowadays.
+> 
+> FWIW, I have a mock libdrm [1] for libliftoff. This is nowhere near a full
+> software implementation with write-back connectors, but allows to expose
+> virtual planes and check atomic commits in CI.
+> 
+> [1]: https://github.com/emersion/libliftoff/blob/master/test/libdrm_mock.c
+> 
+> > For compositor developers like me knowing the exact formulas would be a huge
+> > benefit as it would allow me to use KMS to off-load precision-sensitive
+> > operations (e.g.  professional color management). Otherwise, compositors
+> > probably need a switch: "high quality color management? Then do not use KMS
+> > features."
+> 
+> I think for alpha blending there are already rounding issues depending on the
+> hardware. I wouldn't keep my hopes up for any guarantee that all hw uses the
+> exact same formulae for color management stuff.
 
---zEJlwBFnUtuFl5yIxH4kjjKDlu3GQO33D
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+Good, because otherwise you would be very quickly disappointed :-)
 
-Hi
+For scaling we would also need to replicate the exact same filter taps,
+which are often not documented.
 
-Am 15.06.21 um 05:14 schrieb Pu Lehui:
-> There is a gcc '-Wunused-const-variable' warning:
->    drivers/gpu/drm/hyperv/hyperv_drm_modeset.c:152:23: warning:
->      'hyperv_modifiers' defined but not used [-Wunused-const-variable=3D=
-]
->=20
-> while the variable should be used in drm_simple_display_pipe_init()
-> as suggested by Thomas, let's fix it.
+-- 
+Regards,
 
-Thanks a lot! I added your patch to drm-misc-next-fixes.
-
-Best regards
-Thomas
-
->=20
-> Fixes: 76c56a5affeb ("drm/hyperv: Add DRM driver for hyperv synthetic v=
-ideo device")
-> Signed-off-by: Pu Lehui <pulehui@huawei.com>
-> ---
->   drivers/gpu/drm/hyperv/hyperv_drm_modeset.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/drivers/gpu/drm/hyperv/hyperv_drm_modeset.c b/drivers/gpu/=
-drm/hyperv/hyperv_drm_modeset.c
-> index 02718e3e859e..3aaee4730ec6 100644
-> --- a/drivers/gpu/drm/hyperv/hyperv_drm_modeset.c
-> +++ b/drivers/gpu/drm/hyperv/hyperv_drm_modeset.c
-> @@ -163,7 +163,7 @@ static inline int hyperv_pipe_init(struct hyperv_dr=
-m_device *hv)
->   					   &hyperv_pipe_funcs,
->   					   hyperv_formats,
->   					   ARRAY_SIZE(hyperv_formats),
-> -					   NULL,
-> +					   hyperv_modifiers,
->   					   &hv->connector);
->   	if (ret)
->   		return ret;
->=20
-
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-(HRB 36809, AG N=C3=BCrnberg)
-Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
-
-
---zEJlwBFnUtuFl5yIxH4kjjKDlu3GQO33D--
-
---ndFCefi0rNgLGvXQF3Uw0UuWJRtVF2RX4
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmDIcgcFAwAAAAAACgkQlh/E3EQov+BD
-Bw//Xqc6PQ7vXQPGpR0cdFSqVsZ/bQtd3M97nBU4bLbHf7pVoq8r6uTaxsO9L2oB8bEuoUdI0uct
-MaccFeHxIKNuOQEKrztR3OhwjRA18HNyEa/BrKyCn3Vl4rySgBdpyxk3Wz4dYrQDGuirAlts3+Sy
-zE/T0FS4OKCeUPZB3CEnmMTPazlUz4mPNTX7BNb0Lu4EN3mFMUlC0olHLzySwuvumNX7dJ1fssww
-2bFQT+a1awY5actNRIJHkROEdt8Ahls41E3ArlZ8lEe74TbIEsYyOvB70IuuLeUQlTRmk/dnbb4G
-N/xln9Jpb+UAOM6oc3D7MbPBqtYWcfSqrhmpL29bybjwumz70awDy1LknbxYrQP1TkMrmgajRrus
-lOJoRri4+iDlPlVA4J4zxJ4Za/Y1n89uivOgHbnZVUJXPbG/Zega7i8nuIoVn76Ts1+y3mpqhhgg
-yWYZ7AhpgNvD47GgAFmYrcPcqrArpo8en5sk6FngOth8DZ/ln1ugd9vIwHpYjs0HwlS8VQzG7SRo
-cCeQxCdvES+5QAhzgNpCab3RbCGstW3BOkFgpeClD1Gjwki6zbfWrfFJEpXaPGnhVJX80APKGi9L
-Hpt+x0cD8uRJnUFdlHT7IHm+YC2FxLWg2shKbQPBDqcl/RWfa+n6towlmJvIThcsg0jJVFzjK4P2
-dfI=
-=zEWF
------END PGP SIGNATURE-----
-
---ndFCefi0rNgLGvXQF3Uw0UuWJRtVF2RX4--
+Laurent Pinchart
