@@ -1,42 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 281CD3A775E
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Jun 2021 08:49:24 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 27F9A3A7776
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Jun 2021 09:00:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7133189C93;
-	Tue, 15 Jun 2021 06:49:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 42EB76E187;
+	Tue, 15 Jun 2021 07:00:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m12-12.163.com (m12-12.163.com [220.181.12.12])
- by gabe.freedesktop.org (Postfix) with ESMTP id CE72389C93
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Jun 2021 06:49:19 +0000 (UTC)
+Received: from m12-13.163.com (m12-13.163.com [220.181.12.13])
+ by gabe.freedesktop.org (Postfix) with ESMTP id B586A6E187
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Jun 2021 07:00:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
  s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=0d+6Q
- DjQqm2k4gejTiAFSIHmhOWpq1SXRcL3sEt28mY=; b=VOs0qb0aXizVzGygAMFq0
- 1hTjss1KXScgJovAWv9fKbEg/7CtliFjvWnFck3Av/9DVeJev9CbM0mXmnx4FG58
- wCTF0DJ2H8yV+kM7DmXZCg5N/WlPW1sdtXtuy5qblV3AQrravzIe2K5yDEs4LfM8
- 2V56XXkO7TGXVsOMtpcz4w=
+ DjQqm2k4gejTiAFSIHmhOWpq1SXRcL3sEt28mY=; b=SpIBUvU/4WSAc5AD0CZg+
+ a/n83z3nMPeZYqrW2YTqLZdpPmU0CGldrfLxB+2wzJIrc5R2QDXNbKE8wcwM1PAy
+ 4icsvKKjHCzbexKWWNYlodCMzYcaePw3686eHZ69zwdDGQo8doroWRpr6OUnY3QL
+ W/147Ap8qJAmJbUEPMeWOw=
 Received: from localhost.localdomain (unknown [218.17.89.111])
- by smtp8 (Coremail) with SMTP id DMCowAC3uwfuTMhgxYM7KA--.10828S2;
- Tue, 15 Jun 2021 14:47:22 +0800 (CST)
+ by smtp9 (Coremail) with SMTP id DcCowAAXK6ziT8hgk2j+GQ--.4532S2;
+ Tue, 15 Jun 2021 14:59:52 +0800 (CST)
 From: ChunyouTang <tangchunyou@163.com>
 To: robh@kernel.org, tomeu.vizoso@collabora.com, steven.price@arm.com,
  alyssa.rosenzweig@collabora.com, airlied@linux.ie, daniel@ffwll.ch
 Subject: [PATCH 2/2] drm/panfrost:report the full raw fault information instead
-Date: Tue, 15 Jun 2021 14:46:59 +0800
-Message-Id: <20210615064659.775-1-tangchunyou@163.com>
+Date: Tue, 15 Jun 2021 14:59:36 +0800
+Message-Id: <20210615065936.897-1-tangchunyou@163.com>
 X-Mailer: git-send-email 2.30.0.windows.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: DMCowAC3uwfuTMhgxYM7KA--.10828S2
+X-CM-TRANSID: DcCowAAXK6ziT8hgk2j+GQ--.4532S2
 X-Coremail-Antispam: 1Uf129KBjvdXoW7Xw15XrWrZFy3Kry3Cw17Wrg_yoWfZwc_u3
  W7ZrnxXrsIyFn0kwsayan7urySvryUZw40yw1xGr9Fk3W5A3sFg3s2vrs8Zr18Ww45ZF1D
- tanFqF1Fyry7KjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
- 9fnUUvcSsGvfC2KfnxnUUI43ZEXa7IU5emh7UUUUU==
+ tanFqF1Fyry7KjkaLaAFLSUrUUUUbb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+ 9fnUUvcSsGvfC2KfnxnUUI43ZEXa7IU5QzV5UUUUU==
 X-Originating-IP: [218.17.89.111]
-X-CM-SenderInfo: 5wdqwu5kxq50rx6rljoofrz/1tbiZRmyUV8ZPKaC3wABsf
+X-CM-SenderInfo: 5wdqwu5kxq50rx6rljoofrz/1tbiHgiyUVSIvNiP8gAAsw
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
