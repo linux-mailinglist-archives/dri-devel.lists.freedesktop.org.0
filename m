@@ -2,41 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B23103A7B64
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Jun 2021 12:05:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 453053A7BDB
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Jun 2021 12:29:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D23B26E23B;
-	Tue, 15 Jun 2021 10:04:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ED21089DA6;
+	Tue, 15 Jun 2021 10:29:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6823F6E22B;
- Tue, 15 Jun 2021 10:04:58 +0000 (UTC)
-IronPort-SDR: Bp1Xg9ALpj+aIl4qF06rWzW38OWvYuxBLQoEEHry8hgtham6tXXEmBpH7/0WC/yGMU6c3VwXAy
- DeQq/w522Zcg==
-X-IronPort-AV: E=McAfee;i="6200,9189,10015"; a="202936426"
-X-IronPort-AV: E=Sophos;i="5.83,275,1616482800"; d="scan'208";a="202936426"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Jun 2021 03:04:55 -0700
-IronPort-SDR: +UjwLZMwunbmfgGDXoNm+iFrmQijOgNiP1LX8apgWcvQfmvrXHabfvL45l0MT0PkvY3Jihzzrf
- gFIjaeObAVEw==
-X-IronPort-AV: E=Sophos;i="5.83,275,1616482800"; d="scan'208";a="421076013"
-Received: from ramaling-i9x.iind.intel.com ([10.99.66.205])
- by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Jun 2021 03:04:53 -0700
-From: Ramalingam C <ramalingam.c@intel.com>
-To: intel-gfx <intel-gfx@lists.freedesktop.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
-Subject: [PATCH v3] drm/i915/ttm: accelerated move implementation
-Date: Tue, 15 Jun 2021 15:36:21 +0530
-Message-Id: <20210615100621.5805-1-ramalingam.c@intel.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <0e309744-4d13-69de-2ad8-ee0df5cd46c1@linux.intel.com>
-References: <0e309744-4d13-69de-2ad8-ee0df5cd46c1@linux.intel.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B487089DA6
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Jun 2021 10:29:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1623752954;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=VhDOgMjiOwt7H+lgbYmC14lLfCiQZ3CWo0eN0+/p/wA=;
+ b=HznMNSSTgNZCZrzNU1mENahFUFrfmjhwARrDSgdjoCbojzaJxk/dI26xIftLaObRQT8Otd
+ 6Q1pa/i0s8ZFQwDy6To/KzNjT66c3BDZAVZHONj3anxKjaigw+65Uq9XmnB1cKW8+eWy4D
+ kXmQ2912ArAKl8juhgNd6VY+i/3ZdTE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-118-28sqSogFMDmkecx9WwbJyQ-1; Tue, 15 Jun 2021 06:27:59 -0400
+X-MC-Unique: 28sqSogFMDmkecx9WwbJyQ-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 95D6D802575;
+ Tue, 15 Jun 2021 10:27:56 +0000 (UTC)
+Received: from localhost (ovpn-113-156.ams2.redhat.com [10.36.113.156])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 7FA5A5C1D5;
+ Tue, 15 Jun 2021 10:27:55 +0000 (UTC)
+From: Cornelia Huck <cohuck@redhat.com>
+To: Christoph Hellwig <hch@lst.de>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, Jason Gunthorpe <jgg@nvidia.com>, Alex
+ Williamson <alex.williamson@redhat.com>, Kirti Wankhede
+ <kwankhede@nvidia.com>
+Subject: Re: [PATCH 01/10] driver core: Pull required checks into
+ driver_probe_device()
+In-Reply-To: <20210614150846.4111871-2-hch@lst.de>
+Organization: Red Hat GmbH
+References: <20210614150846.4111871-1-hch@lst.de>
+ <20210614150846.4111871-2-hch@lst.de>
+User-Agent: Notmuch/0.32.1 (https://notmuchmail.org)
+Date: Tue, 15 Jun 2021 12:27:53 +0200
+Message-ID: <87h7hzxw0m.fsf@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,142 +64,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Matthew Auld <matthew.auld@intel.com>,
- =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
+Cc: Tony Krowiak <akrowiak@linux.ibm.com>, Jason Herne <jjherne@linux.ibm.com>,
+ kvm@vger.kernel.org, Vasily Gorbik <gor@linux.ibm.com>,
+ Jonathan Corbet <corbet@lwn.net>, David Airlie <airlied@linux.ie>,
+ linux-s390@vger.kernel.org, Heiko Carstens <hca@linux.ibm.com>,
+ linux-doc@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, "Rafael J. Wysocki" <rafael@kernel.org>,
+ intel-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Invokes the pipelined page migration through blt, for
-i915_ttm_move requests of eviction and also obj clear.
+On Mon, Jun 14 2021, Christoph Hellwig <hch@lst.de> wrote:
 
-v2:
- - subfunction for accel_move (Thomas)
- - engine_pm_get/put around context_move/clear (Thomas)
- - Invalidation at accel_clear (Thomas)
+> From: Jason Gunthorpe <jgg@nvidia.com>
+>
+> Checking if the dev is dead or if the dev is already bound is a required
+> precondition to invoking driver_probe_device(). All the call chains
+> leading here duplicate these checks.
+>
+> Add it directly to driver_probe_device() so the precondition is clear and
+> remove the checks from device_driver_attach() and
+> __driver_attach_async_helper().
+>
+> The other call chain going through __device_attach_driver() does have
+> these same checks but they are inlined into logic higher up the call stack
+> and can't be removed.
+>
+> The sysfs uAPI call chain starting at bind_store() is a bit confused
+> because it reads dev->driver unlocked and returns -ENODEV if it is !NULL,
+> otherwise it reads it again under lock and returns 0 if it is !NULL. Fix
+> this to always return -EBUSY and always read dev->driver under its lock.
+>
+> Done in preparation for the next patches which will add additional
+> callers to driver_probe_device() and will need these checks as well.
+>
+> Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
+> [hch: drop the extra checks in device_driver_attach and bind_store]
+> Signed-off-by: Christoph Hellwig <hch@lst.de>
+> ---
+>  drivers/base/bus.c |  2 +-
+>  drivers/base/dd.c  | 32 ++++++++++----------------------
+>  2 files changed, 11 insertions(+), 23 deletions(-)
 
-v3:
- - Timeout is set for MAX_SCHEDULE_TIMEOUT (Thomas)
- - s/TTM_PL_PRIV/I915_PL_LMEM0 (Thomas)
-
-Signed-off-by: Ramalingam C <ramalingam.c@intel.com>
-Reviewed-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
----
- drivers/gpu/drm/i915/gem/i915_gem_ttm.c | 88 +++++++++++++++++++++----
- 1 file changed, 75 insertions(+), 13 deletions(-)
-
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-index 3748098b42d5..94571757fb42 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-@@ -15,6 +15,9 @@
- #include "gem/i915_gem_ttm.h"
- #include "gem/i915_gem_mman.h"
- 
-+#include "gt/intel_migrate.h"
-+#include "gt/intel_engine_pm.h"
-+
- #define I915_PL_LMEM0 TTM_PL_PRIV
- #define I915_PL_SYSTEM TTM_PL_SYSTEM
- #define I915_PL_STOLEN TTM_PL_VRAM
-@@ -282,6 +285,62 @@ i915_ttm_resource_get_st(struct drm_i915_gem_object *obj,
- 	return intel_region_ttm_node_to_st(obj->mm.region, res->mm_node);
- }
- 
-+static int i915_ttm_accel_move(struct ttm_buffer_object *bo,
-+			       struct ttm_resource *dst_mem,
-+			       struct sg_table *dst_st)
-+{
-+	struct drm_i915_private *i915 = container_of(bo->bdev, typeof(*i915),
-+						     bdev);
-+	struct ttm_resource_manager *src_man =
-+		ttm_manager_type(bo->bdev, bo->mem.mem_type);
-+	struct drm_i915_gem_object *obj = i915_ttm_to_gem(bo);
-+	struct sg_table *src_st;
-+	struct i915_request *rq;
-+	int ret;
-+
-+	if (!i915->gt.migrate.context)
-+		return -EINVAL;
-+
-+	if (!bo->ttm || !ttm_tt_is_populated(bo->ttm)) {
-+		if (bo->type == ttm_bo_type_kernel)
-+			return -EINVAL;
-+
-+		if (bo->ttm &&
-+		    !(bo->ttm->page_flags & TTM_PAGE_FLAG_ZERO_ALLOC))
-+			return 0;
-+
-+		intel_engine_pm_get(i915->gt.migrate.context->engine);
-+		ret = intel_context_migrate_clear(i915->gt.migrate.context, NULL,
-+						  dst_st->sgl, I915_CACHE_NONE,
-+						  dst_mem->mem_type >= I915_PL_LMEM0,
-+						  0, &rq);
-+
-+		if (!ret && rq) {
-+			i915_request_wait(rq, 0, MAX_SCHEDULE_TIMEOUT);
-+			i915_request_put(rq);
-+		}
-+		intel_engine_pm_put(i915->gt.migrate.context->engine);
-+	} else {
-+		src_st = src_man->use_tt ? i915_ttm_tt_get_st(bo->ttm) :
-+						obj->ttm.cached_io_st;
-+
-+		intel_engine_pm_get(i915->gt.migrate.context->engine);
-+		ret = intel_context_migrate_copy(i915->gt.migrate.context,
-+						 NULL, src_st->sgl, I915_CACHE_NONE,
-+						 bo->mem.mem_type >= I915_PL_LMEM0,
-+						 dst_st->sgl, I915_CACHE_NONE,
-+						 dst_mem->mem_type >= I915_PL_LMEM0,
-+						 &rq);
-+		if (!ret && rq) {
-+			i915_request_wait(rq, 0, MAX_SCHEDULE_TIMEOUT);
-+			i915_request_put(rq);
-+		}
-+		intel_engine_pm_put(i915->gt.migrate.context->engine);
-+	}
-+
-+	return ret;
-+}
-+
- static int i915_ttm_move(struct ttm_buffer_object *bo, bool evict,
- 			 struct ttm_operation_ctx *ctx,
- 			 struct ttm_resource *dst_mem,
-@@ -332,19 +391,22 @@ static int i915_ttm_move(struct ttm_buffer_object *bo, bool evict,
- 	if (IS_ERR(dst_st))
- 		return PTR_ERR(dst_st);
- 
--	/* If we start mapping GGTT, we can no longer use man::use_tt here. */
--	dst_iter = dst_man->use_tt ?
--		ttm_kmap_iter_tt_init(&_dst_iter.tt, bo->ttm) :
--		ttm_kmap_iter_iomap_init(&_dst_iter.io, &dst_reg->iomap,
--					 dst_st, dst_reg->region.start);
--
--	src_iter = src_man->use_tt ?
--		ttm_kmap_iter_tt_init(&_src_iter.tt, bo->ttm) :
--		ttm_kmap_iter_iomap_init(&_src_iter.io, &src_reg->iomap,
--					 obj->ttm.cached_io_st,
--					 src_reg->region.start);
--
--	ttm_move_memcpy(bo, dst_mem->num_pages, dst_iter, src_iter);
-+	ret = i915_ttm_accel_move(bo, dst_mem, dst_st);
-+	if (ret) {
-+		/* If we start mapping GGTT, we can no longer use man::use_tt here. */
-+		dst_iter = dst_man->use_tt ?
-+			ttm_kmap_iter_tt_init(&_dst_iter.tt, bo->ttm) :
-+			ttm_kmap_iter_iomap_init(&_dst_iter.io, &dst_reg->iomap,
-+						 dst_st, dst_reg->region.start);
-+
-+		src_iter = src_man->use_tt ?
-+			ttm_kmap_iter_tt_init(&_src_iter.tt, bo->ttm) :
-+			ttm_kmap_iter_iomap_init(&_src_iter.io, &src_reg->iomap,
-+						 obj->ttm.cached_io_st,
-+						 src_reg->region.start);
-+
-+		ttm_move_memcpy(bo, dst_mem->num_pages, dst_iter, src_iter);
-+	}
- 	ttm_bo_move_sync_cleanup(bo, dst_mem);
- 	i915_ttm_free_cached_io_st(obj);
- 
--- 
-2.20.1
+Reviewed-by: Cornelia Huck <cohuck@redhat.com>
 
