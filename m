@@ -1,40 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A10D33A84B7
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Jun 2021 17:50:01 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8AD573A84CC
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Jun 2021 17:50:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BD09B6E3EF;
-	Tue, 15 Jun 2021 15:49:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 70AF16E408;
+	Tue, 15 Jun 2021 15:50:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2FC0C6E3EF
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Jun 2021 15:49:58 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id E53316162F;
- Tue, 15 Jun 2021 15:49:56 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B0EAE6E3F0;
+ Tue, 15 Jun 2021 15:50:05 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 9A6C661879;
+ Tue, 15 Jun 2021 15:50:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1623772198;
- bh=h927+2IxhQUvmDsFhXiGWx7fuJ9Tik4yJCKJT0/qBEs=;
+ s=k20201202; t=1623772205;
+ bh=Q+ztBa1LgiyBgJaK36fsAnH+BMlypUGENetaOljJfCw=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=k65u/IICe3ZzyaYSImIW9+7vqtuqdCshlfezFmlRsdGGyAwEOMBl2tndD8JSa93nM
- aWtw0E3htQrZZ/es73yocDQMbm0OnCmp1OcDVQG/fp8S4aRtBa2S2vJYV+2fkFf3RH
- L8BvkvdHGzyjRTixfAXgSmtYw9kNIf9jslyeWzHfHshj5uVtqFwutOio0kw20j9g+e
- uDxkUEFPiR08CMK6ubgtGpy1H91kzc26CwRidmxqT/zD7+jKOWkxgqnBQkf/bjAjCb
- eAqKZp2QRWjdy4uBwhTkmAqzfvE0IRQDfkwqcphAK5JFpTJtw9xxDofO5Fz64kAoHb
- SQoRlXe27jGaA==
+ b=ITrEjH8hPdPvsG1TnkW5Bo/WmMdiYyya+6K0lhvJXvmjnmfIG+HSPxmWstAOF0ds0
+ rNPmzpd+YMElVYFs6wQwm3YDLwnmHbzYQApTXdNBJr1Xg9N7IA+7w8DtuP/tUkRbR9
+ /26GpJYBS5MAj9Yqw5adUnJgwpzV6rdnEV7JtZvTFinmZDIjl9UXbYSlczJv65+khk
+ rWxr/WFFctiAgZ0HZhhpVltwC9+ubncL5493yjOzWIBM6NecRDl6YLumixMbjdn1wQ
+ Ux7Smpyyv1fwyKrAmXwvBkzICcUallS/r42JNMbNecbxCtBEITznOWRaqXvmFlphqD
+ YgKZIT9aZjvAQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 07/15] drm/sun4i: dw-hdmi: Make HDMI PHY into a
- platform device
-Date: Tue, 15 Jun 2021 11:49:39 -0400
-Message-Id: <20210615154948.62711-7-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 12/15] radeon: use memcpy_to/fromio for UVD fw
+ upload
+Date: Tue, 15 Jun 2021 11:49:44 -0400
+Message-Id: <20210615154948.62711-12-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210615154948.62711-1-sashal@kernel.org>
 References: <20210615154948.62711-1-sashal@kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
@@ -50,215 +51,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Ondrej Jirman <megous@megous.com>, Sasha Levin <sashal@kernel.org>,
- Saravana Kannan <saravanak@google.com>,
- Andre Przywara <andre.przywara@arm.com>, dri-devel@lists.freedesktop.org,
- Maxime Ripard <maxime@cerno.tech>, linux-sunxi@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org
+Cc: Sasha Levin <sashal@kernel.org>, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, Chen Li <chenli@uniontech.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Saravana Kannan <saravanak@google.com>
+From: Chen Li <chenli@uniontech.com>
 
-[ Upstream commit 9bf3797796f570b34438235a6a537df85832bdad ]
+[ Upstream commit ab8363d3875a83f4901eb1cc00ce8afd24de6c85 ]
 
-On sunxi boards that use HDMI output, HDMI device probe keeps being
-avoided indefinitely with these repeated messages in dmesg:
+I met a gpu addr bug recently and the kernel log
+tells me the pc is memcpy/memset and link register is
+radeon_uvd_resume.
 
-  platform 1ee0000.hdmi: probe deferral - supplier 1ef0000.hdmi-phy
-    not ready
+As we know, in some architectures, optimized memcpy/memset
+may not work well on device memory. Trival memcpy_toio/memset_io
+can fix this problem.
 
-There's a fwnode_link being created with fw_devlink=on between hdmi
-and hdmi-phy nodes, because both nodes have 'compatible' property set.
+BTW, amdgpu has already done it in:
+commit ba0b2275a678 ("drm/amdgpu: use memcpy_to/fromio for UVD fw upload"),
+that's why it has no this issue on the same gpu and platform.
 
-Fw_devlink code assumes that nodes that have compatible property
-set will also have a device associated with them by some driver
-eventually. This is not the case with the current sun8i-hdmi
-driver.
-
-This commit makes sun8i-hdmi-phy into a proper platform device
-and fixes the display pipeline probe on sunxi boards that use HDMI.
-
-More context: https://lkml.org/lkml/2021/5/16/203
-
-Signed-off-by: Saravana Kannan <saravanak@google.com>
-Signed-off-by: Ondrej Jirman <megous@megous.com>
-Tested-by: Andre Przywara <andre.przywara@arm.com>
-Signed-off-by: Maxime Ripard <maxime@cerno.tech>
-Link: https://patchwork.freedesktop.org/patch/msgid/20210607085836.2827429-1-megous@megous.com
+Signed-off-by: Chen Li <chenli@uniontech.com>
+Reviewed-by: Christian König <christian.koenig@amd.com>
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/sun4i/sun8i_dw_hdmi.c  | 31 ++++++++++++++++---
- drivers/gpu/drm/sun4i/sun8i_dw_hdmi.h  |  5 ++--
- drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c | 41 ++++++++++++++++++++++----
- 3 files changed, 66 insertions(+), 11 deletions(-)
+ drivers/gpu/drm/radeon/radeon_uvd.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/sun4i/sun8i_dw_hdmi.c b/drivers/gpu/drm/sun4i/sun8i_dw_hdmi.c
-index 8f721be26477..cfb63cae4b12 100644
---- a/drivers/gpu/drm/sun4i/sun8i_dw_hdmi.c
-+++ b/drivers/gpu/drm/sun4i/sun8i_dw_hdmi.c
-@@ -211,7 +211,7 @@ static int sun8i_dw_hdmi_bind(struct device *dev, struct device *master,
- 		goto err_disable_clk_tmds;
- 	}
+diff --git a/drivers/gpu/drm/radeon/radeon_uvd.c b/drivers/gpu/drm/radeon/radeon_uvd.c
+index 1ad5c3b86b64..a18bf70a251e 100644
+--- a/drivers/gpu/drm/radeon/radeon_uvd.c
++++ b/drivers/gpu/drm/radeon/radeon_uvd.c
+@@ -286,7 +286,7 @@ int radeon_uvd_resume(struct radeon_device *rdev)
+ 	if (rdev->uvd.vcpu_bo == NULL)
+ 		return -EINVAL;
  
--	ret = sun8i_hdmi_phy_probe(hdmi, phy_node);
-+	ret = sun8i_hdmi_phy_get(hdmi, phy_node);
- 	of_node_put(phy_node);
- 	if (ret) {
- 		dev_err(dev, "Couldn't get the HDMI PHY\n");
-@@ -244,7 +244,6 @@ static int sun8i_dw_hdmi_bind(struct device *dev, struct device *master,
+-	memcpy(rdev->uvd.cpu_addr, rdev->uvd_fw->data, rdev->uvd_fw->size);
++	memcpy_toio((void __iomem *)rdev->uvd.cpu_addr, rdev->uvd_fw->data, rdev->uvd_fw->size);
  
- cleanup_encoder:
- 	drm_encoder_cleanup(encoder);
--	sun8i_hdmi_phy_remove(hdmi);
- err_disable_clk_tmds:
- 	clk_disable_unprepare(hdmi->clk_tmds);
- err_assert_ctrl_reset:
-@@ -265,7 +264,6 @@ static void sun8i_dw_hdmi_unbind(struct device *dev, struct device *master,
- 	struct sun8i_dw_hdmi *hdmi = dev_get_drvdata(dev);
+ 	size = radeon_bo_size(rdev->uvd.vcpu_bo);
+ 	size -= rdev->uvd_fw->size;
+@@ -294,7 +294,7 @@ int radeon_uvd_resume(struct radeon_device *rdev)
+ 	ptr = rdev->uvd.cpu_addr;
+ 	ptr += rdev->uvd_fw->size;
  
- 	dw_hdmi_unbind(hdmi->hdmi);
--	sun8i_hdmi_phy_remove(hdmi);
- 	clk_disable_unprepare(hdmi->clk_tmds);
- 	reset_control_assert(hdmi->rst_ctrl);
- 	gpiod_set_value(hdmi->ddc_en, 0);
-@@ -322,7 +320,32 @@ static struct platform_driver sun8i_dw_hdmi_pltfm_driver = {
- 		.of_match_table = sun8i_dw_hdmi_dt_ids,
- 	},
- };
--module_platform_driver(sun8i_dw_hdmi_pltfm_driver);
-+
-+static int __init sun8i_dw_hdmi_init(void)
-+{
-+	int ret;
-+
-+	ret = platform_driver_register(&sun8i_dw_hdmi_pltfm_driver);
-+	if (ret)
-+		return ret;
-+
-+	ret = platform_driver_register(&sun8i_hdmi_phy_driver);
-+	if (ret) {
-+		platform_driver_unregister(&sun8i_dw_hdmi_pltfm_driver);
-+		return ret;
-+	}
-+
-+	return ret;
-+}
-+
-+static void __exit sun8i_dw_hdmi_exit(void)
-+{
-+	platform_driver_unregister(&sun8i_dw_hdmi_pltfm_driver);
-+	platform_driver_unregister(&sun8i_hdmi_phy_driver);
-+}
-+
-+module_init(sun8i_dw_hdmi_init);
-+module_exit(sun8i_dw_hdmi_exit);
- 
- MODULE_AUTHOR("Jernej Skrabec <jernej.skrabec@siol.net>");
- MODULE_DESCRIPTION("Allwinner DW HDMI bridge");
-diff --git a/drivers/gpu/drm/sun4i/sun8i_dw_hdmi.h b/drivers/gpu/drm/sun4i/sun8i_dw_hdmi.h
-index d707c9171824..5a299a6f5aa5 100644
---- a/drivers/gpu/drm/sun4i/sun8i_dw_hdmi.h
-+++ b/drivers/gpu/drm/sun4i/sun8i_dw_hdmi.h
-@@ -194,14 +194,15 @@ struct sun8i_dw_hdmi {
- 	struct gpio_desc		*ddc_en;
- };
- 
-+extern struct platform_driver sun8i_hdmi_phy_driver;
-+
- static inline struct sun8i_dw_hdmi *
- encoder_to_sun8i_dw_hdmi(struct drm_encoder *encoder)
- {
- 	return container_of(encoder, struct sun8i_dw_hdmi, encoder);
- }
- 
--int sun8i_hdmi_phy_probe(struct sun8i_dw_hdmi *hdmi, struct device_node *node);
--void sun8i_hdmi_phy_remove(struct sun8i_dw_hdmi *hdmi);
-+int sun8i_hdmi_phy_get(struct sun8i_dw_hdmi *hdmi, struct device_node *node);
- 
- void sun8i_hdmi_phy_init(struct sun8i_hdmi_phy *phy);
- void sun8i_hdmi_phy_set_ops(struct sun8i_hdmi_phy *phy,
-diff --git a/drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c b/drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c
-index a4012ec13d4b..c6289328c874 100644
---- a/drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c
-+++ b/drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c
-@@ -5,6 +5,7 @@
- 
- #include <linux/delay.h>
- #include <linux/of_address.h>
-+#include <linux/of_platform.h>
- 
- #include "sun8i_dw_hdmi.h"
- 
-@@ -596,10 +597,30 @@ static const struct of_device_id sun8i_hdmi_phy_of_table[] = {
- 	{ /* sentinel */ }
- };
- 
--int sun8i_hdmi_phy_probe(struct sun8i_dw_hdmi *hdmi, struct device_node *node)
-+int sun8i_hdmi_phy_get(struct sun8i_dw_hdmi *hdmi, struct device_node *node)
-+{
-+	struct platform_device *pdev = of_find_device_by_node(node);
-+	struct sun8i_hdmi_phy *phy;
-+
-+	if (!pdev)
-+		return -EPROBE_DEFER;
-+
-+	phy = platform_get_drvdata(pdev);
-+	if (!phy)
-+		return -EPROBE_DEFER;
-+
-+	hdmi->phy = phy;
-+
-+	put_device(&pdev->dev);
-+
-+	return 0;
-+}
-+
-+static int sun8i_hdmi_phy_probe(struct platform_device *pdev)
- {
- 	const struct of_device_id *match;
--	struct device *dev = hdmi->dev;
-+	struct device *dev = &pdev->dev;
-+	struct device_node *node = dev->of_node;
- 	struct sun8i_hdmi_phy *phy;
- 	struct resource res;
- 	void __iomem *regs;
-@@ -703,7 +724,7 @@ int sun8i_hdmi_phy_probe(struct sun8i_dw_hdmi *hdmi, struct device_node *node)
- 		clk_prepare_enable(phy->clk_phy);
- 	}
- 
--	hdmi->phy = phy;
-+	platform_set_drvdata(pdev, phy);
+-	memset(ptr, 0, size);
++	memset_io((void __iomem *)ptr, 0, size);
  
  	return 0;
- 
-@@ -727,9 +748,9 @@ int sun8i_hdmi_phy_probe(struct sun8i_dw_hdmi *hdmi, struct device_node *node)
- 	return ret;
  }
- 
--void sun8i_hdmi_phy_remove(struct sun8i_dw_hdmi *hdmi)
-+static int sun8i_hdmi_phy_remove(struct platform_device *pdev)
- {
--	struct sun8i_hdmi_phy *phy = hdmi->phy;
-+	struct sun8i_hdmi_phy *phy = platform_get_drvdata(pdev);
- 
- 	clk_disable_unprepare(phy->clk_mod);
- 	clk_disable_unprepare(phy->clk_bus);
-@@ -743,4 +764,14 @@ void sun8i_hdmi_phy_remove(struct sun8i_dw_hdmi *hdmi)
- 	clk_put(phy->clk_pll1);
- 	clk_put(phy->clk_mod);
- 	clk_put(phy->clk_bus);
-+	return 0;
- }
-+
-+struct platform_driver sun8i_hdmi_phy_driver = {
-+	.probe  = sun8i_hdmi_phy_probe,
-+	.remove = sun8i_hdmi_phy_remove,
-+	.driver = {
-+		.name = "sun8i-hdmi-phy",
-+		.of_match_table = sun8i_hdmi_phy_of_table,
-+	},
-+};
 -- 
 2.30.2
 
