@@ -2,38 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25A203A84D5
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Jun 2021 17:50:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E71C3A84D8
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Jun 2021 17:50:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1B3D26E417;
-	Tue, 15 Jun 2021 15:50:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1641A6E41B;
+	Tue, 15 Jun 2021 15:50:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1F1106E417;
- Tue, 15 Jun 2021 15:50:23 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 1948E6190A;
- Tue, 15 Jun 2021 15:50:22 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 61BC36E41B;
+ Tue, 15 Jun 2021 15:50:35 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 4519361874;
+ Tue, 15 Jun 2021 15:50:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1623772223;
+ s=k20201202; t=1623772235;
  bh=XIYvHSSButC67HzU6fduVakbD0ni65gR3K7el6VrxOs=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=WU9G5/LnUoaD5mhzT106Z9kBUbLZZgXZ5qnXyaj2Xp3ChZILWJK0gJ9hFFUqRzN9d
- WuC6m6Q0wfoNB0u3fV1NNZBp5dmlsb/4FYjBlhiyZSu4zkGAeVpRxZ1qh5P8s64Gak
- 4OnDLd3LPEsOvpJmpUoRWRu4i+uFvi+amDSFBynB1iQ3zBkin2hJ+LY7YfshcSZ60b
- U2kTSHVLCl3CUN9bHRSKwL/1i0FvAajb7U9ZxQqsTBaEkx/9T2UozgGb3k/y4wXPGM
- rLAmDeBifra91HO9LA8/w7f0epOqEWJ5nzI6O0xcAY3ypTYV5ftzGt8NEoZLEho2sD
- 58nP4HygE8gyg==
+ b=sDOU8b41Y6YUrOQjDjQQEFbWkBVTuHfZ1zyEFNroc6MSdWe7Ak8MqxylVqa9G6qy6
+ KnI5PkdDD8QA5E6NM1ditguWA8DHl7bMyPVmQhz3CPo2MkF2lVJ/M29CxE/S27Xz/9
+ FCR6Jj03kX+6kCc23zzjmstshnGkSwr0TIxwrPFlUvok3sUD94YR+UJzdtQpw8sD4I
+ ++jCE+rMVJBNmcR7DDxLbAQy6CGGBfsHCSE/7oSWAPnLq1yyvcQzrGFCaofvCU301z
+ d0EzvhwetBrOvXJtDAMggc9Xq5rhuULaVH3vDjK7m1Z6sejxJfCLaS3HTmZTAiP87Y
+ DWlWl7//5JLAg==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 09/12] radeon: use memcpy_to/fromio for UVD fw
+Subject: [PATCH AUTOSEL 4.14 5/8] radeon: use memcpy_to/fromio for UVD fw
  upload
-Date: Tue, 15 Jun 2021 11:50:06 -0400
-Message-Id: <20210615155009.62894-9-sashal@kernel.org>
+Date: Tue, 15 Jun 2021 11:50:24 -0400
+Message-Id: <20210615155027.63048-5-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210615155009.62894-1-sashal@kernel.org>
-References: <20210615155009.62894-1-sashal@kernel.org>
+In-Reply-To: <20210615155027.63048-1-sashal@kernel.org>
+References: <20210615155027.63048-1-sashal@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 X-stable: review
