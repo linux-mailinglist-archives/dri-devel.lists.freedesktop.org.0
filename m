@@ -1,34 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A1583A8879
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Jun 2021 20:23:43 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A88523A887C
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Jun 2021 20:23:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5D07A6E437;
-	Tue, 15 Jun 2021 18:23:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0A8656E431;
+	Tue, 15 Jun 2021 18:23:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from EX13-EDG-OU-002.vmware.com (ex13-edg-ou-002.vmware.com
- [208.91.0.190])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E34DB6E431
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Jun 2021 18:23:38 +0000 (UTC)
+Received: from EX13-EDG-OU-001.vmware.com (ex13-edg-ou-001.vmware.com
+ [208.91.0.189])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 669566E438
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Jun 2021 18:23:41 +0000 (UTC)
 Received: from sc9-mailhost1.vmware.com (10.113.161.71) by
- EX13-EDG-OU-002.vmware.com (10.113.208.156) with Microsoft SMTP Server id
- 15.0.1156.6; Tue, 15 Jun 2021 11:23:35 -0700
+ EX13-EDG-OU-001.vmware.com (10.113.208.155) with Microsoft SMTP Server id
+ 15.0.1156.6; Tue, 15 Jun 2021 11:23:37 -0700
 Received: from vertex.localdomain (unknown [10.21.244.102])
- by sc9-mailhost1.vmware.com (Postfix) with ESMTP id 2ED57202A6;
- Tue, 15 Jun 2021 11:23:37 -0700 (PDT)
+ by sc9-mailhost1.vmware.com (Postfix) with ESMTP id 5E381202C2;
+ Tue, 15 Jun 2021 11:23:39 -0700 (PDT)
 From: Zack Rusin <zackr@vmware.com>
 To: <dri-devel@lists.freedesktop.org>
-Subject: [PATCH 1/5] MAINTAINERS: update vmwgfx info
-Date: Tue, 15 Jun 2021 14:23:32 -0400
-Message-ID: <20210615182336.995192-1-zackr@vmware.com>
+Subject: [PATCH 3/5] drm/vmwgfx: Fix a 64bit regression on svga3
+Date: Tue, 15 Jun 2021 14:23:34 -0400
+Message-ID: <20210615182336.995192-3-zackr@vmware.com>
 X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20210615182336.995192-1-zackr@vmware.com>
+References: <20210615182336.995192-1-zackr@vmware.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-Received-SPF: None (EX13-EDG-OU-002.vmware.com: zackr@vmware.com does not
+Received-SPF: None (EX13-EDG-OU-001.vmware.com: zackr@vmware.com does not
  designate permitted sender hosts)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -46,33 +48,30 @@ Cc: krastevm@vmware.com, sroland@vmware.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Roland will be focusing on lavapipe over the next few months and
-won't have time for vmwgfx.
-vmwgfx is now maintained within drm-misc.
+Register accesses are always 4bytes, accidently this was changed to
+a void pointer whwqich badly breaks 64bit archs when running on top
+of svga3.
 
+Fixes: 2cd80dbd3551 ("drm/vmwgfx: Add basic support for SVGA3")
 Signed-off-by: Zack Rusin <zackr@vmware.com>
-Reviewed-by: Roland Scheidegger <sroland@vmware.com>
+Reviewed-by: Martin Krastev <krastevm@vmware.com>
 ---
- MAINTAINERS | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ drivers/gpu/drm/vmwgfx/vmwgfx_drv.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index a4ba46fb803a..cae0c6148590 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -5962,11 +5962,10 @@ F:	drivers/gpu/drm/vboxvideo/
- 
- DRM DRIVER FOR VMWARE VIRTUAL GPU
- M:	"VMware Graphics" <linux-graphics-maintainer@vmware.com>
--M:	Roland Scheidegger <sroland@vmware.com>
- M:	Zack Rusin <zackr@vmware.com>
- L:	dri-devel@lists.freedesktop.org
- S:	Supported
--T:	git git://people.freedesktop.org/~sroland/linux
-+T:	git git://anongit.freedesktop.org/drm/drm-misc
- F:	drivers/gpu/drm/vmwgfx/
- F:	include/uapi/drm/vmwgfx_drm.h
- 
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
+index 0dd5a3e06f5f..356f82c26f59 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
+@@ -492,7 +492,7 @@ struct vmw_private {
+ 	resource_size_t vram_start;
+ 	resource_size_t vram_size;
+ 	resource_size_t max_primary_mem;
+-	void __iomem *rmmio;
++	u32 __iomem *rmmio;
+ 	u32 *fifo_mem;
+ 	resource_size_t fifo_mem_size;
+ 	uint32_t fb_max_width;
 -- 
 2.30.2
 
