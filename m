@@ -2,43 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B438D3A7386
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Jun 2021 03:58:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 29CD63A7389
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Jun 2021 04:00:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DF95B89C7F;
-	Tue, 15 Jun 2021 01:58:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6153489C89;
+	Tue, 15 Jun 2021 02:00:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2F69889C7F
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Jun 2021 01:58:38 +0000 (UTC)
-Received: from dggemv703-chm.china.huawei.com (unknown [172.30.72.53])
- by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4G3rxp00n6zZhKV;
- Tue, 15 Jun 2021 09:55:41 +0800 (CST)
+Received: from szxga03-in.huawei.com (szxga03-in.huawei.com [45.249.212.189])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7E87289C89;
+ Tue, 15 Jun 2021 02:00:16 +0000 (UTC)
+Received: from dggemv704-chm.china.huawei.com (unknown [172.30.72.57])
+ by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4G3ryR64tQz62vQ;
+ Tue, 15 Jun 2021 09:56:15 +0800 (CST)
 Received: from dggpeml500020.china.huawei.com (7.185.36.88) by
- dggemv703-chm.china.huawei.com (10.3.19.46) with Microsoft SMTP Server
+ dggemv704-chm.china.huawei.com (10.3.19.47) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Tue, 15 Jun 2021 09:58:36 +0800
+ 15.1.2176.2; Tue, 15 Jun 2021 10:00:13 +0800
 Received: from [10.174.177.174] (10.174.177.174) by
  dggpeml500020.china.huawei.com (7.185.36.88) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Tue, 15 Jun 2021 09:58:35 +0800
-Subject: Re: [PATCH -next] video: fbdev: intelfb: Remove set but not used
- variable 'val'
-To: <mbroemme@libmpq.org>, <linux-fbdev@vger.kernel.org>,
- <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
-References: <20210527085904.3861173-1-libaokun1@huawei.com>
+ 15.1.2176.2; Tue, 15 Jun 2021 10:00:12 +0800
+Subject: Re: [PATCH -next] drm/nouveau/svm: Remove set but not used variable
+ 'ret'
+To: <bskeggs@redhat.com>, <airlied@linux.ie>, <daniel@ffwll.ch>,
+ <dri-devel@lists.freedesktop.org>, <nouveau@lists.freedesktop.org>,
+ <linux-kernel@vger.kernel.org>
+References: <20210531023811.477542-1-libaokun1@huawei.com>
 From: "libaokun (A)" <libaokun1@huawei.com>
-Message-ID: <253d3e4d-c843-df88-5299-7b7b3dfd3c5b@huawei.com>
-Date: Tue, 15 Jun 2021 09:58:35 +0800
+Message-ID: <aff157a6-d301-fe4f-d25c-f4ea0705f5a1@huawei.com>
+Date: Tue, 15 Jun 2021 10:00:12 +0800
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
  Thunderbird/78.9.0
 MIME-Version: 1.0
-In-Reply-To: <20210527085904.3861173-1-libaokun1@huawei.com>
+In-Reply-To: <20210531023811.477542-1-libaokun1@huawei.com>
 Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Transfer-Encoding: 8bit
 X-Originating-IP: [10.174.177.174]
-X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
+X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
  dggpeml500020.china.huawei.com (7.185.36.88)
 X-CFilter-Loop: Reflected
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -60,49 +61,38 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 ping
 
-在 2021/5/27 16:59, Baokun Li 写道:
+在 2021/5/31 10:38, Baokun Li 写道:
 > Fixes gcc '-Wunused-but-set-variable' warning:
 >
-> drivers/video/fbdev/intelfb/intelfb_i2c.c: In function 'intelfb_gpio_setscl':
-> drivers/video/fbdev/intelfb/intelfb_i2c.c:58:6: warning:
->   variable ‘val’ set but not used [-Wunused-but-set-variable]
-> drivers/video/fbdev/intelfb/intelfb_i2c.c: In function 'intelfb_gpio_setsda':
-> drivers/video/fbdev/intelfb/intelfb_i2c.c:69:6: warning:
->   variable ‘val’ set but not used [-Wunused-but-set-variable]
+> drivers/gpu/drm/nouveau/nouveau_svm.c: In function 'nouveau_pfns_map':
+> drivers/gpu/drm/nouveau/nouveau_svm.c:814:6: warning:
+>   variable ‘ret’ set but not used [-Wunused-but-set-variable]
 >
 > It never used since introduction.
 >
 > Signed-off-by: Baokun Li <libaokun1@huawei.com>
 > ---
->   drivers/video/fbdev/intelfb/intelfb_i2c.c | 6 ++----
->   1 file changed, 2 insertions(+), 4 deletions(-)
+>   drivers/gpu/drm/nouveau/nouveau_svm.c | 3 +--
+>   1 file changed, 1 insertion(+), 2 deletions(-)
 >
-> diff --git a/drivers/video/fbdev/intelfb/intelfb_i2c.c b/drivers/video/fbdev/intelfb/intelfb_i2c.c
-> index 3300bd31d9d7..4df2f1f8a18e 100644
-> --- a/drivers/video/fbdev/intelfb/intelfb_i2c.c
-> +++ b/drivers/video/fbdev/intelfb/intelfb_i2c.c
-> @@ -55,22 +55,20 @@ static void intelfb_gpio_setscl(void *data, int state)
+> diff --git a/drivers/gpu/drm/nouveau/nouveau_svm.c b/drivers/gpu/drm/nouveau/nouveau_svm.c
+> index 84726a89e665..16fbf90f9f31 100644
+> --- a/drivers/gpu/drm/nouveau/nouveau_svm.c
+> +++ b/drivers/gpu/drm/nouveau/nouveau_svm.c
+> @@ -921,7 +921,6 @@ nouveau_pfns_map(struct nouveau_svmm *svmm, struct mm_struct *mm,
+>   		 unsigned long addr, u64 *pfns, unsigned long npages)
 >   {
->   	struct intelfb_i2c_chan *chan = data;
->   	struct intelfb_info *dinfo = chan->dinfo;
-> -	u32 val;
+>   	struct nouveau_pfnmap_args *args = nouveau_pfns_to_args(pfns);
+> -	int ret;
 >   
->   	OUTREG(chan->reg, (state ? SCL_VAL_OUT : 0) |
->   	       SCL_DIR | SCL_DIR_MASK | SCL_VAL_MASK);
-> -	val = INREG(chan->reg);
-> +	INREG(chan->reg);
->   }
+>   	args->p.addr = addr;
+>   	args->p.size = npages << PAGE_SHIFT;
+> @@ -929,7 +928,7 @@ nouveau_pfns_map(struct nouveau_svmm *svmm, struct mm_struct *mm,
+>   	mutex_lock(&svmm->mutex);
 >   
->   static void intelfb_gpio_setsda(void *data, int state)
->   {
->   	struct intelfb_i2c_chan *chan = data;
->   	struct intelfb_info *dinfo = chan->dinfo;
-> -	u32 val;
+>   	svmm->vmm->vmm.object.client->super = true;
+> -	ret = nvif_object_ioctl(&svmm->vmm->vmm.object, args, sizeof(*args) +
+> +	nvif_object_ioctl(&svmm->vmm->vmm.object, args, sizeof(*args) +
+>   				npages * sizeof(args->p.phys[0]), NULL);
+>   	svmm->vmm->vmm.object.client->super = false;
 >   
->   	OUTREG(chan->reg, (state ? SDA_VAL_OUT : 0) |
->   	       SDA_DIR | SDA_DIR_MASK | SDA_VAL_MASK);
-> -	val = INREG(chan->reg);
-> +	INREG(chan->reg);
->   }
->   
->   static int intelfb_gpio_getscl(void *data)
