@@ -1,39 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E71C3A84D8
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Jun 2021 17:50:38 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id BADB23A84DC
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Jun 2021 17:50:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1641A6E41B;
-	Tue, 15 Jun 2021 15:50:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9C6F26E423;
+	Tue, 15 Jun 2021 15:50:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 61BC36E41B;
- Tue, 15 Jun 2021 15:50:35 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 4519361874;
- Tue, 15 Jun 2021 15:50:34 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 75BC06E41D;
+ Tue, 15 Jun 2021 15:50:47 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 678736162A;
+ Tue, 15 Jun 2021 15:50:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1623772235;
- bh=XIYvHSSButC67HzU6fduVakbD0ni65gR3K7el6VrxOs=;
+ s=k20201202; t=1623772247;
+ bh=6i1YjUFRA8gMsuP5+Mq6nTgsQgS+2zzqxMkUp3Q3QnE=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=sDOU8b41Y6YUrOQjDjQQEFbWkBVTuHfZ1zyEFNroc6MSdWe7Ak8MqxylVqa9G6qy6
- KnI5PkdDD8QA5E6NM1ditguWA8DHl7bMyPVmQhz3CPo2MkF2lVJ/M29CxE/S27Xz/9
- FCR6Jj03kX+6kCc23zzjmstshnGkSwr0TIxwrPFlUvok3sUD94YR+UJzdtQpw8sD4I
- ++jCE+rMVJBNmcR7DDxLbAQy6CGGBfsHCSE/7oSWAPnLq1yyvcQzrGFCaofvCU301z
- d0EzvhwetBrOvXJtDAMggc9Xq5rhuULaVH3vDjK7m1Z6sejxJfCLaS3HTmZTAiP87Y
- DWlWl7//5JLAg==
+ b=uce+PbJDCo3hHRtQgT3i1tm209dTwLYPgaY8EruAi9saj61VPDMLYxnYGKye0go5W
+ TIR71hfZ+0IpBc+UF/gD4Kgf/i6lGqh9KMMnUKLNEEW8fQjPQIEOovaMQCh0wh9P4c
+ /rrvZlHbSa1eeqD5V1FQ1gE5Z+7cUougnl8Q7I5KtZtOmhOUpHTig3Qs3OhiNi2atP
+ ruH87MT0HVAhAYSNbD+a7O5n+F070gz5N8GMywQ4ZVTVGIymCU4eugCvEuVWzGq6Nz
+ vHWRe6K8KusItraX7P1legONRZJFiEsOmgTpReBrg8GyylixP0Jdbjr7sEeA/9E9jw
+ oHhPs2b4l/MYw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.14 5/8] radeon: use memcpy_to/fromio for UVD fw
- upload
-Date: Tue, 15 Jun 2021 11:50:24 -0400
-Message-Id: <20210615155027.63048-5-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.9 5/5] radeon: use memcpy_to/fromio for UVD fw upload
+Date: Tue, 15 Jun 2021 11:50:39 -0400
+Message-Id: <20210615155039.63348-5-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210615155027.63048-1-sashal@kernel.org>
-References: <20210615155027.63048-1-sashal@kernel.org>
+In-Reply-To: <20210615155039.63348-1-sashal@kernel.org>
+References: <20210615155039.63348-1-sashal@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 X-stable: review
@@ -83,7 +82,7 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/gpu/drm/radeon/radeon_uvd.c b/drivers/gpu/drm/radeon/radeon_uvd.c
-index 95f4db70dd22..fde9c69ecc86 100644
+index 16239b07ce45..2610919eb709 100644
 --- a/drivers/gpu/drm/radeon/radeon_uvd.c
 +++ b/drivers/gpu/drm/radeon/radeon_uvd.c
 @@ -286,7 +286,7 @@ int radeon_uvd_resume(struct radeon_device *rdev)
