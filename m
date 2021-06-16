@@ -1,61 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3910F3A904C
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Jun 2021 06:03:04 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BE623A9051
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Jun 2021 06:04:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 68C4C6E4BB;
-	Wed, 16 Jun 2021 04:03:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 31C966E4CB;
+	Wed, 16 Jun 2021 04:04:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x730.google.com (mail-qk1-x730.google.com
- [IPv6:2607:f8b0:4864:20::730])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2D0376E4BB
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Jun 2021 04:03:01 +0000 (UTC)
-Received: by mail-qk1-x730.google.com with SMTP id j62so1238082qke.10
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Jun 2021 21:03:01 -0700 (PDT)
+Received: from mail-pg1-x52e.google.com (mail-pg1-x52e.google.com
+ [IPv6:2607:f8b0:4864:20::52e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3E43E6E4C9
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Jun 2021 04:04:40 +0000 (UTC)
+Received: by mail-pg1-x52e.google.com with SMTP id l184so870346pgd.8
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Jun 2021 21:04:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=WOmuV0PXC9+eL+TwRgVOkvAj15bXYGA8vCpEhrD+JbE=;
- b=g059DIGHeCANFnvnns2yBVMKxVdn/0FkxtkHgCR2ddz4Y/AFKg+NKqmMaDLYlB4qj1
- BsArZxpOBsco7NEiA/zyZqql53JEfmdG9ukr1Ds/Ds48YXG4RGyj9judJY+lLSITQifa
- sC5ELG83uDJxvbEIx4gQavxy9fc+cCcP1s2B4=
+ :cc; bh=480iw3RHEmaThOE/pnDPB0pRHOKUr78KviuFxgV2m28=;
+ b=ZGcLRBiht0jP6J+AXrtU54w8Uc+zr833JxnoG08K94QWWjvLCllFqXgKhb1YXYtuSI
+ H2kUoXb56/euW7L5KGDSV7c5wQp5UCbd+ujOwhBYXXWkAOagA4ahf3bI5zABwigXHQRs
+ 2V+ulAhHs0i9h1/h3ywLUL41gakNk5ma80vrs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=WOmuV0PXC9+eL+TwRgVOkvAj15bXYGA8vCpEhrD+JbE=;
- b=Tgmbcy1ADnxPXxabBWrmnCPafmAmK31fkGj4e8KR4MCQy37ypIBVk7qWOIWkGti5s4
- nZxy6P22moz5BO93egJyI1HbsSv5eShsrozDSalNsMeQUaNd+JBtyogrst3fmn4QDLhf
- /nLxJC6txtHTWe2E6rXMRN9DQGKwJdSoCWp4W7OeRSCpn9CSnFeyj3qfzX6mHxTE510s
- 92vI+RLpPzlH+2iwXwClV9QMcGWNUJjx4RbR4k5Kw9SOKxrxZuZPAkwEbBV7T15mPd0e
- bVRBzyd7nYfJ1H1V9U2+Zfqp0CfCap6ojPY1UFGNTeJX9a3AuRoq/YaG1/VqN5VRhDWc
- 9qnw==
-X-Gm-Message-State: AOAM531H7yerLsUzlq8aDz6PZyhTg6Y0+nJp6uxk4zcOXCK4dQPQehSO
- x8pCjttFSPMEUBzjLNMxOXmVIu5Auva9Tg==
-X-Google-Smtp-Source: ABdhPJzLqvMITZrrt2B7a/dziTRyVAvAYWFaYxSWg0Wjm7FwFJWpkUYI+AQtHXRZxQaIDm+fZXPHHQ==
-X-Received: by 2002:a37:ad10:: with SMTP id f16mr3141280qkm.21.1623816180078; 
- Tue, 15 Jun 2021 21:03:00 -0700 (PDT)
-Received: from mail-qk1-f172.google.com (mail-qk1-f172.google.com.
- [209.85.222.172])
- by smtp.gmail.com with ESMTPSA id v19sm226886qkf.42.2021.06.15.21.02.59
+ bh=480iw3RHEmaThOE/pnDPB0pRHOKUr78KviuFxgV2m28=;
+ b=R3cCgrHrdHHiy55O49rKVvhz1GREDK8Wdvpek0YGgEOfB+esjhbr8DT6zoA0321eTY
+ P2AJJu10duRmLZtW1zOzZT14wCjYKsNdWsQAO+DLls1oILp+WFoguuBNMGgQc0EmBKuv
+ 7xODObCU8EVxF4X+/GYyiH5x+E0PPr9R5J/jaWAHki6Fo8W9vhl5G2fWXJKu1KcSOYj9
+ u0ZfFQglHO5ykNrh2WuFsAX883EWZKbDn7oWgPK+zxu4hgkdZHYVuOkI+2QmVFfcXu+h
+ VHmAmc3k7yQ6T+X47GbOOYSClFvGuIzC2IhbXN0e4JYEQhXKm0jvhi5bVMEydV66rM5A
+ mCIA==
+X-Gm-Message-State: AOAM532rKQdIJAQZvkrULfCtbKFei7XbdrWwbZcLReuhwfnj2D0m670D
+ OBmVZOcXD5ZbW6qpNRxGsvIYHa6NvYxPVg==
+X-Google-Smtp-Source: ABdhPJzDZwmHymncmTwcP1gpcY7Lo5TkT73kmOBfdQjxJhDoIxaT9NIh+OY6SGzRBT7O8UHEUK/dHg==
+X-Received: by 2002:aa7:9885:0:b029:2ea:25ce:3ad2 with SMTP id
+ r5-20020aa798850000b02902ea25ce3ad2mr7501885pfl.76.1623816279639; 
+ Tue, 15 Jun 2021 21:04:39 -0700 (PDT)
+Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com.
+ [209.85.210.173])
+ by smtp.gmail.com with ESMTPSA id r11sm621837pgl.34.2021.06.15.21.04.38
  for <dri-devel@lists.freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 15 Jun 2021 21:02:59 -0700 (PDT)
-Received: by mail-qk1-f172.google.com with SMTP id 5so1253276qkc.8
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Jun 2021 21:02:59 -0700 (PDT)
-X-Received: by 2002:a05:6638:151:: with SMTP id
- y17mr2223209jao.128.1623815758013; 
- Tue, 15 Jun 2021 20:55:58 -0700 (PDT)
+ Tue, 15 Jun 2021 21:04:39 -0700 (PDT)
+Received: by mail-pf1-f173.google.com with SMTP id y15so1128319pfl.4
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Jun 2021 21:04:38 -0700 (PDT)
+X-Received: by 2002:a5e:8513:: with SMTP id i19mr1992773ioj.50.1623816266935; 
+ Tue, 15 Jun 2021 21:04:26 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210615132711.553451-1-tientzu@chromium.org>
-In-Reply-To: <20210615132711.553451-1-tientzu@chromium.org>
+References: <20210616035240.840463-1-tientzu@chromium.org>
+ <20210616035240.840463-10-tientzu@chromium.org>
+In-Reply-To: <20210616035240.840463-10-tientzu@chromium.org>
 From: Claire Chang <tientzu@chromium.org>
-Date: Wed, 16 Jun 2021 11:55:47 +0800
-X-Gmail-Original-Message-ID: <CALiNf29_cCNmfx7NBQQRtTGOk78VNS+fb_Ljf-fC1q1w3FRizA@mail.gmail.com>
-Message-ID: <CALiNf29_cCNmfx7NBQQRtTGOk78VNS+fb_Ljf-fC1q1w3FRizA@mail.gmail.com>
-Subject: Re: [PATCH v10 00/12] Restricted DMA
+Date: Wed, 16 Jun 2021 12:04:16 +0800
+X-Gmail-Original-Message-ID: <CALiNf28=3vqAs+8HsjyBGOiPNR2F3yT6OGnLpZH_AkWqgTqgOA@mail.gmail.com>
+Message-ID: <CALiNf28=3vqAs+8HsjyBGOiPNR2F3yT6OGnLpZH_AkWqgTqgOA@mail.gmail.com>
+Subject: Re: [PATCH v11 09/12] swiotlb: Add restricted DMA alloc/free support
 To: Rob Herring <robh+dt@kernel.org>, mpe@ellerman.id.au,
  Joerg Roedel <joro@8bytes.org>, 
  Will Deacon <will@kernel.org>, Frank Rowand <frowand.list@gmail.com>, 
@@ -97,134 +98,257 @@ Cc: heikki.krogerus@linux.intel.com, thomas.hellstrom@linux.intel.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-v11 https://lore.kernel.org/patchwork/cover/1447216/
+On Wed, Jun 16, 2021 at 11:54 AM Claire Chang <tientzu@chromium.org> wrote:
+>
+> Add the functions, swiotlb_{alloc,free} to support the memory allocation
+> from restricted DMA pool.
+>
+> The restricted DMA pool is preferred if available.
+>
+> Note that since coherent allocation needs remapping, one must set up
+> another device coherent pool by shared-dma-pool and use
+> dma_alloc_from_dev_coherent instead for atomic coherent allocation.
+>
+> Signed-off-by: Claire Chang <tientzu@chromium.org>
+> Reviewed-by: Christoph Hellwig <hch@lst.de>
+> ---
+>  include/linux/swiotlb.h | 15 +++++++++++++
+>  kernel/dma/direct.c     | 50 ++++++++++++++++++++++++++++++-----------
+>  kernel/dma/swiotlb.c    | 45 +++++++++++++++++++++++++++++++++++--
+>  3 files changed, 95 insertions(+), 15 deletions(-)
+>
+> diff --git a/include/linux/swiotlb.h b/include/linux/swiotlb.h
+> index efcd56e3a16c..2d5ec670e064 100644
+> --- a/include/linux/swiotlb.h
+> +++ b/include/linux/swiotlb.h
+> @@ -156,4 +156,19 @@ static inline void swiotlb_adjust_size(unsigned long size)
+>  extern void swiotlb_print_info(void);
+>  extern void swiotlb_set_max_segment(unsigned int);
+>
+> +#ifdef CONFIG_DMA_RESTRICTED_POOL
+> +struct page *swiotlb_alloc(struct device *dev, size_t size);
+> +bool swiotlb_free(struct device *dev, struct page *page, size_t size);
+> +#else
+> +static inline struct page *swiotlb_alloc(struct device *dev, size_t size)
+> +{
+> +       return NULL;
+> +}
+> +static inline bool swiotlb_free(struct device *dev, struct page *page,
+> +                               size_t size)
+> +{
+> +       return false;
+> +}
+> +#endif /* CONFIG_DMA_RESTRICTED_POOL */
+> +
+>  #endif /* __LINUX_SWIOTLB_H */
+> diff --git a/kernel/dma/direct.c b/kernel/dma/direct.c
+> index 3713461d6fe0..da0e09621230 100644
+> --- a/kernel/dma/direct.c
+> +++ b/kernel/dma/direct.c
+> @@ -75,6 +75,15 @@ static bool dma_coherent_ok(struct device *dev, phys_addr_t phys, size_t size)
+>                 min_not_zero(dev->coherent_dma_mask, dev->bus_dma_limit);
+>  }
+>
+> +static void __dma_direct_free_pages(struct device *dev, struct page *page,
+> +                                   size_t size)
+> +{
+> +       if (IS_ENABLED(CONFIG_DMA_RESTRICTED_POOL) &&
+> +           swiotlb_free(dev, page, size))
+> +               return;
+> +       dma_free_contiguous(dev, page, size);
+> +}
+> +
+>  static struct page *__dma_direct_alloc_pages(struct device *dev, size_t size,
+>                 gfp_t gfp)
+>  {
+> @@ -86,7 +95,16 @@ static struct page *__dma_direct_alloc_pages(struct device *dev, size_t size,
+>
+>         gfp |= dma_direct_optimal_gfp_mask(dev, dev->coherent_dma_mask,
+>                                            &phys_limit);
+> -       page = dma_alloc_contiguous(dev, size, gfp);
+> +       if (IS_ENABLED(CONFIG_DMA_RESTRICTED_POOL)) {
+> +               page = swiotlb_alloc(dev, size);
+> +               if (page && !dma_coherent_ok(dev, page_to_phys(page), size)) {
+> +                       __dma_direct_free_pages(dev, page, size);
+> +                       return NULL;
+> +               }
+> +       }
+> +
+> +       if (!page)
+> +               page = dma_alloc_contiguous(dev, size, gfp);
+>         if (page && !dma_coherent_ok(dev, page_to_phys(page), size)) {
+>                 dma_free_contiguous(dev, page, size);
+>                 page = NULL;
+> @@ -142,7 +160,7 @@ void *dma_direct_alloc(struct device *dev, size_t size,
+>                 gfp |= __GFP_NOWARN;
+>
+>         if ((attrs & DMA_ATTR_NO_KERNEL_MAPPING) &&
+> -           !force_dma_unencrypted(dev)) {
+> +           !force_dma_unencrypted(dev) && !is_dev_swiotlb_force(dev)) {
+>                 page = __dma_direct_alloc_pages(dev, size, gfp & ~__GFP_ZERO);
+>                 if (!page)
+>                         return NULL;
+> @@ -155,18 +173,23 @@ void *dma_direct_alloc(struct device *dev, size_t size,
+>         }
+>
+>         if (!IS_ENABLED(CONFIG_ARCH_HAS_DMA_SET_UNCACHED) &&
+> -           !IS_ENABLED(CONFIG_DMA_DIRECT_REMAP) &&
+> -           !dev_is_dma_coherent(dev))
+> +           !IS_ENABLED(CONFIG_DMA_DIRECT_REMAP) && !dev_is_dma_coherent(dev) &&
+> +           !is_dev_swiotlb_force(dev))
+>                 return arch_dma_alloc(dev, size, dma_handle, gfp, attrs);
 
-On Tue, Jun 15, 2021 at 9:27 PM Claire Chang <tientzu@chromium.org> wrote:
+Just noticed that after propagating swiotlb_force setting into
+io_tlb_default_mem->force, the memory allocation behavior for
+swiotlb_force will change (i.e. always skipping arch_dma_alloc and
+dma_direct_alloc_from_pool).
+
 >
-> This series implements mitigations for lack of DMA access control on
-> systems without an IOMMU, which could result in the DMA accessing the
-> system memory at unexpected times and/or unexpected addresses, possibly
-> leading to data leakage or corruption.
+>         /*
+>          * Remapping or decrypting memory may block. If either is required and
+>          * we can't block, allocate the memory from the atomic pools.
+> +        * If restricted DMA (i.e., is_dev_swiotlb_force) is required, one must
+> +        * set up another device coherent pool by shared-dma-pool and use
+> +        * dma_alloc_from_dev_coherent instead.
+>          */
+>         if (IS_ENABLED(CONFIG_DMA_COHERENT_POOL) &&
+>             !gfpflags_allow_blocking(gfp) &&
+>             (force_dma_unencrypted(dev) ||
+> -            (IS_ENABLED(CONFIG_DMA_DIRECT_REMAP) && !dev_is_dma_coherent(dev))))
+> +            (IS_ENABLED(CONFIG_DMA_DIRECT_REMAP) &&
+> +             !dev_is_dma_coherent(dev))) &&
+> +           !is_dev_swiotlb_force(dev))
+>                 return dma_direct_alloc_from_pool(dev, size, dma_handle, gfp);
+
+And here.
+
 >
-> For example, we plan to use the PCI-e bus for Wi-Fi and that PCI-e bus is
-> not behind an IOMMU. As PCI-e, by design, gives the device full access to
-> system memory, a vulnerability in the Wi-Fi firmware could easily escalate
-> to a full system exploit (remote wifi exploits: [1a], [1b] that shows a
-> full chain of exploits; [2], [3]).
+>         /* we always manually zero the memory once we are done */
+> @@ -237,7 +260,7 @@ void *dma_direct_alloc(struct device *dev, size_t size,
+>                         return NULL;
+>         }
+>  out_free_pages:
+> -       dma_free_contiguous(dev, page, size);
+> +       __dma_direct_free_pages(dev, page, size);
+>         return NULL;
+>  }
 >
-> To mitigate the security concerns, we introduce restricted DMA. Restricted
-> DMA utilizes the existing swiotlb to bounce streaming DMA in and out of a
-> specially allocated region and does memory allocation from the same region.
-> The feature on its own provides a basic level of protection against the DMA
-> overwriting buffer contents at unexpected times. However, to protect
-> against general data leakage and system memory corruption, the system needs
-> to provide a way to restrict the DMA to a predefined memory region (this is
-> usually done at firmware level, e.g. MPU in ATF on some ARM platforms [4]).
+> @@ -247,15 +270,15 @@ void dma_direct_free(struct device *dev, size_t size,
+>         unsigned int page_order = get_order(size);
 >
-> [1a] https://googleprojectzero.blogspot.com/2017/04/over-air-exploiting-broadcoms-wi-fi_4.html
-> [1b] https://googleprojectzero.blogspot.com/2017/04/over-air-exploiting-broadcoms-wi-fi_11.html
-> [2] https://blade.tencent.com/en/advisories/qualpwn/
-> [3] https://www.bleepingcomputer.com/news/security/vulnerabilities-found-in-highly-popular-firmware-for-wifi-chips/
-> [4] https://github.com/ARM-software/arm-trusted-firmware/blob/master/plat/mediatek/mt8183/drivers/emi_mpu/emi_mpu.c#L132
+>         if ((attrs & DMA_ATTR_NO_KERNEL_MAPPING) &&
+> -           !force_dma_unencrypted(dev)) {
+> +           !force_dma_unencrypted(dev) && !is_dev_swiotlb_force(dev)) {
+>                 /* cpu_addr is a struct page cookie, not a kernel address */
+>                 dma_free_contiguous(dev, cpu_addr, size);
+>                 return;
+>         }
 >
-> v10:
-> Address the comments in v9 to
->   - fix the dev->dma_io_tlb_mem assignment
->   - propagate swiotlb_force setting into io_tlb_default_mem->force
->   - move set_memory_decrypted out of swiotlb_init_io_tlb_mem
->   - move debugfs_dir declaration into the main CONFIG_DEBUG_FS block
->   - add swiotlb_ prefix to find_slots and release_slots
->   - merge the 3 alloc/free related patches
->   - move the CONFIG_DMA_RESTRICTED_POOL later
+>         if (!IS_ENABLED(CONFIG_ARCH_HAS_DMA_SET_UNCACHED) &&
+> -           !IS_ENABLED(CONFIG_DMA_DIRECT_REMAP) &&
+> -           !dev_is_dma_coherent(dev)) {
+> +           !IS_ENABLED(CONFIG_DMA_DIRECT_REMAP) && !dev_is_dma_coherent(dev) &&
+> +           !is_dev_swiotlb_force(dev)) {
+>                 arch_dma_free(dev, size, cpu_addr, dma_addr, attrs);
+>                 return;
+>         }
+> @@ -273,7 +296,7 @@ void dma_direct_free(struct device *dev, size_t size,
+>         else if (IS_ENABLED(CONFIG_ARCH_HAS_DMA_CLEAR_UNCACHED))
+>                 arch_dma_clear_uncached(cpu_addr, size);
 >
-> v9:
-> Address the comments in v7 to
->   - set swiotlb active pool to dev->dma_io_tlb_mem
->   - get rid of get_io_tlb_mem
->   - dig out the device struct for is_swiotlb_active
->   - move debugfs_create_dir out of swiotlb_create_debugfs
->   - do set_memory_decrypted conditionally in swiotlb_init_io_tlb_mem
->   - use IS_ENABLED in kernel/dma/direct.c
->   - fix redefinition of 'of_dma_set_restricted_buffer'
-> https://lore.kernel.org/patchwork/cover/1445081/
+> -       dma_free_contiguous(dev, dma_direct_to_page(dev, dma_addr), size);
+> +       __dma_direct_free_pages(dev, dma_direct_to_page(dev, dma_addr), size);
+>  }
 >
-> v8:
-> - Fix reserved-memory.txt and add the reg property in example.
-> - Fix sizeof for of_property_count_elems_of_size in
->   drivers/of/address.c#of_dma_set_restricted_buffer.
-> - Apply Will's suggestion to try the OF node having DMA configuration in
->   drivers/of/address.c#of_dma_set_restricted_buffer.
-> - Fix typo in the comment of drivers/of/address.c#of_dma_set_restricted_buffer.
-> - Add error message for PageHighMem in
->   kernel/dma/swiotlb.c#rmem_swiotlb_device_init and move it to
->   rmem_swiotlb_setup.
-> - Fix the message string in rmem_swiotlb_setup.
-> https://lore.kernel.org/patchwork/cover/1437112/
+>  struct page *dma_direct_alloc_pages(struct device *dev, size_t size,
+> @@ -283,7 +306,8 @@ struct page *dma_direct_alloc_pages(struct device *dev, size_t size,
+>         void *ret;
 >
-> v7:
-> Fix debugfs, PageHighMem and comment style in rmem_swiotlb_device_init
-> https://lore.kernel.org/patchwork/cover/1431031/
+>         if (IS_ENABLED(CONFIG_DMA_COHERENT_POOL) &&
+> -           force_dma_unencrypted(dev) && !gfpflags_allow_blocking(gfp))
+> +           force_dma_unencrypted(dev) && !gfpflags_allow_blocking(gfp) &&
+> +           !is_dev_swiotlb_force(dev))
+>                 return dma_direct_alloc_from_pool(dev, size, dma_handle, gfp);
 >
-> v6:
-> Address the comments in v5
-> https://lore.kernel.org/patchwork/cover/1423201/
+>         page = __dma_direct_alloc_pages(dev, size, gfp);
+> @@ -310,7 +334,7 @@ struct page *dma_direct_alloc_pages(struct device *dev, size_t size,
+>         *dma_handle = phys_to_dma_direct(dev, page_to_phys(page));
+>         return page;
+>  out_free_pages:
+> -       dma_free_contiguous(dev, page, size);
+> +       __dma_direct_free_pages(dev, page, size);
+>         return NULL;
+>  }
 >
-> v5:
-> Rebase on latest linux-next
-> https://lore.kernel.org/patchwork/cover/1416899/
+> @@ -329,7 +353,7 @@ void dma_direct_free_pages(struct device *dev, size_t size,
+>         if (force_dma_unencrypted(dev))
+>                 set_memory_encrypted((unsigned long)vaddr, 1 << page_order);
 >
-> v4:
-> - Fix spinlock bad magic
-> - Use rmem->name for debugfs entry
-> - Address the comments in v3
-> https://lore.kernel.org/patchwork/cover/1378113/
+> -       dma_free_contiguous(dev, page, size);
+> +       __dma_direct_free_pages(dev, page, size);
+>  }
 >
-> v3:
-> Using only one reserved memory region for both streaming DMA and memory
-> allocation.
-> https://lore.kernel.org/patchwork/cover/1360992/
+>  #if defined(CONFIG_ARCH_HAS_SYNC_DMA_FOR_DEVICE) || \
+> diff --git a/kernel/dma/swiotlb.c b/kernel/dma/swiotlb.c
+> index fec4934b9926..6ad85b48f101 100644
+> --- a/kernel/dma/swiotlb.c
+> +++ b/kernel/dma/swiotlb.c
+> @@ -462,8 +462,9 @@ static int swiotlb_find_slots(struct device *dev, phys_addr_t orig_addr,
 >
-> v2:
-> Building on top of swiotlb.
-> https://lore.kernel.org/patchwork/cover/1280705/
+>         index = wrap = wrap_index(mem, ALIGN(mem->index, stride));
+>         do {
+> -               if ((slot_addr(tbl_dma_addr, index) & iotlb_align_mask) !=
+> -                   (orig_addr & iotlb_align_mask)) {
+> +               if (orig_addr &&
+> +                   (slot_addr(tbl_dma_addr, index) & iotlb_align_mask) !=
+> +                           (orig_addr & iotlb_align_mask)) {
+>                         index = wrap_index(mem, index + 1);
+>                         continue;
+>                 }
+> @@ -702,3 +703,43 @@ static int __init swiotlb_create_default_debugfs(void)
+>  late_initcall(swiotlb_create_default_debugfs);
 >
-> v1:
-> Using dma_map_ops.
-> https://lore.kernel.org/patchwork/cover/1271660/
->
->
-> Claire Chang (12):
->   swiotlb: Refactor swiotlb init functions
->   swiotlb: Refactor swiotlb_create_debugfs
->   swiotlb: Set dev->dma_io_tlb_mem to the swiotlb pool used
->   swiotlb: Update is_swiotlb_buffer to add a struct device argument
->   swiotlb: Update is_swiotlb_active to add a struct device argument
->   swiotlb: Use is_dev_swiotlb_force for swiotlb data bouncing
->   swiotlb: Move alloc_size to swiotlb_find_slots
->   swiotlb: Refactor swiotlb_tbl_unmap_single
->   swiotlb: Add restricted DMA pool initialization
->   swiotlb: Add restricted DMA alloc/free support
->   dt-bindings: of: Add restricted DMA pool
->   of: Add plumbing for restricted DMA pool
->
->  .../reserved-memory/reserved-memory.txt       |  36 ++-
->  drivers/base/core.c                           |   4 +
->  drivers/gpu/drm/i915/gem/i915_gem_internal.c  |   2 +-
->  drivers/gpu/drm/nouveau/nouveau_ttm.c         |   2 +-
->  drivers/iommu/dma-iommu.c                     |  12 +-
->  drivers/of/address.c                          |  33 +++
->  drivers/of/device.c                           |   3 +
->  drivers/of/of_private.h                       |   6 +
->  drivers/pci/xen-pcifront.c                    |   2 +-
->  drivers/xen/swiotlb-xen.c                     |   2 +-
->  include/linux/device.h                        |   4 +
->  include/linux/swiotlb.h                       |  40 ++-
->  kernel/dma/Kconfig                            |  14 +
->  kernel/dma/direct.c                           |  60 +++--
->  kernel/dma/direct.h                           |   8 +-
->  kernel/dma/swiotlb.c                          | 255 +++++++++++++-----
->  16 files changed, 380 insertions(+), 103 deletions(-)
->
+>  #endif
+> +
+> +#ifdef CONFIG_DMA_RESTRICTED_POOL
+> +struct page *swiotlb_alloc(struct device *dev, size_t size)
+> +{
+> +       struct io_tlb_mem *mem = dev->dma_io_tlb_mem;
+> +       phys_addr_t tlb_addr;
+> +       int index;
+> +
+> +       /*
+> +        * Skip io_tlb_default_mem since swiotlb_alloc doesn't support atomic
+> +        * coherent allocation. Otherwise might break existing devices.
+> +        * One must set up another device coherent pool by shared-dma-pool and
+> +        * use dma_alloc_from_dev_coherent instead for atomic coherent
+> +        * allocation to avoid memory remapping.
+> +        */
+> +       if (!mem || mem == io_tlb_default_mem)
+> +               return NULL;
+> +
+> +       index = swiotlb_find_slots(dev, 0, size);
+> +       if (index == -1)
+> +               return NULL;
+> +
+> +       tlb_addr = slot_addr(mem->start, index);
+> +
+> +       return pfn_to_page(PFN_DOWN(tlb_addr));
+> +}
+> +
+> +bool swiotlb_free(struct device *dev, struct page *page, size_t size)
+> +{
+> +       phys_addr_t tlb_addr = page_to_phys(page);
+> +
+> +       if (!is_swiotlb_buffer(dev, tlb_addr))
+> +               return false;
+> +
+> +       swiotlb_release_slots(dev, tlb_addr);
+> +
+> +       return true;
+> +}
+> +
+> +#endif /* CONFIG_DMA_RESTRICTED_POOL */
 > --
 > 2.32.0.272.g935e593368-goog
 >
