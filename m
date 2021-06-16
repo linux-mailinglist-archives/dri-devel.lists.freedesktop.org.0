@@ -1,74 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5BBF3A9D51
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Jun 2021 16:15:47 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9969B3A9D9B
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Jun 2021 16:29:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 615026E58A;
-	Wed, 16 Jun 2021 14:15:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6D1CF6E1D7;
+	Wed, 16 Jun 2021 14:29:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com
- [66.111.4.27])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3FB296E55C
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Jun 2021 14:15:42 +0000 (UTC)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.nyi.internal (Postfix) with ESMTP id AC6565C00AD;
- Wed, 16 Jun 2021 10:15:41 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute4.internal (MEProxy); Wed, 16 Jun 2021 10:15:41 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
- from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm3; bh=3dtHcBV3tS8vF
- 0DKoVI8uru7i7UpqZ4KJaobGxNtttI=; b=3k59SEegZuGLSA9PebY0gVdB7w+m3
- z7jCuQK42EMVyKWDf+3hFVJ6K4HfjT+KvqIAipi3WmdyTA6x5aia9m0qNq2DJDT6
- BHxcBD5itGcKUCHjvLlVvaTRlWmMLgxTpsVz/c2LnReylXNeQx/ZMSm5VlSaMenu
- T7c5Ywuk96Nu2+grBVVzQ8AIT6/1Vb7xKZ7lDNm1PhwqiMMifIkidWQKe3FfP7Cy
- boIj1QELVU+iWw/lGoH/cj6FW/lJHCrUPWygtyVgXxuyxxR2090pZAGa2ldLOjOO
- 7tA57UNj1lrKD635dfKCNmH+bL7BHuXr1gGjBDWDJRcK0fklL0r1hqzpg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:date:from
- :in-reply-to:message-id:mime-version:references:subject:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm3; bh=3dtHcBV3tS8vF0DKoVI8uru7i7UpqZ4KJaobGxNtttI=; b=ZrIjQ10v
- znZueIhgxG+Qp5+gUrsKahPwfTjerxvDMpUSCWFZhe01513HQLV9j3s3yhhggddi
- GAnp+nj64gM1etGSqoHSYORBM38qcfkEmMuHJ4RshYn6uSCEqVb8nqKZDVSbe4ap
- sLE/Q7vhDqIXA68Yb2Iy1siITiLWrxv1xE2SYkM5VV4zd38i+nkmKTRD/+49hbF9
- FLSRTLlCA6QKNhRx3Zy2MJcnFt2jiDgbe3lifQhafHuqhBjrHxdvZnmqs4RRC13k
- raqI5YXyWagJnfG1fabRmCjm2S4W/x2vwN65+BOqiomRsxe3kp/4BoD//Odz6Pmz
- 9iTr2Xrg3bLdPA==
-X-ME-Sender: <xms:jQfKYBnldQEF_wT3IKcQJrAmEZ6ZAT_YGE0j3CsEOGHqWoSSxPAx5A>
- <xme:jQfKYM0dCbTqZnKs4TwjhksmKba0C4qm4KYmtw8jID2l0gn99FtpyGNrXt3OVMVDL
- pnvvr8gmv-gD9EB3tc>
-X-ME-Received: <xmr:jQfKYHo2BA8LyFupr1et76KVPrSkL4H1x4_DOv8mbmEWmDbKZMNytHqgnbhmvZ3Esp3QrUprtgMHPxkFjWOuN12FqxyJ8CXpt5L_>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrfedvledgjeeiucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhephffvufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpeforgigihhm
- vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
- htvghrnhepvdekleevfeffkeejhfffueelteelfeduieefheduudfggffhhfffheevveeh
- hedvnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmh
- grgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:jQfKYBk6GHeLTRXUF1MKWYxMY-Ewn15I80ovGcGwP3xwPv_gdgBqbw>
- <xmx:jQfKYP320vIMNvDJMBnnN-b6T6Cu-S1YOOJXPNXySSWEW9qAQAyxww>
- <xmx:jQfKYAsU3YUGsfxdFDYb_dodBSosl1W2JjP0Y__Z4SB8-a0_UkErEA>
- <xmx:jQfKYKT8w75u5Sina_o28LFlU4LC-Dn2wh5LBYQFktMd4fNzWwsmjQ>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 16 Jun 2021 10:15:41 -0400 (EDT)
-From: Maxime Ripard <maxime@cerno.tech>
-To: Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <maxime@cerno.tech>
-Subject: [PATCH v2 3/3] drm: Mention the power state requirement on
- side-channel operations
-Date: Wed, 16 Jun 2021 16:15:29 +0200
-Message-Id: <20210616141529.630719-3-maxime@cerno.tech>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210616141529.630719-1-maxime@cerno.tech>
-References: <20210616141529.630719-1-maxime@cerno.tech>
+Received: from mail-qk1-x72f.google.com (mail-qk1-x72f.google.com
+ [IPv6:2607:f8b0:4864:20::72f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E60BD6E1D7;
+ Wed, 16 Jun 2021 14:29:53 +0000 (UTC)
+Received: by mail-qk1-x72f.google.com with SMTP id u30so2782417qke.7;
+ Wed, 16 Jun 2021 07:29:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=s2dm6lcMnXuyN8GaQsvpUNJ+EJn6v08TzDTNDWuGErg=;
+ b=u3THyfh4TH56LlT0weSc076G011Wy3ry8CxGT2sNorwxBlSX3rGCJb4wV4CDNsuYVp
+ nEF00F6qUEoAtZD9x3K6b0Q7vq5LRjofJV0XilSvHmnd4sQ5UiGfOG4lnHXP3yR4vfVG
+ /3zPiz6C4P5xx5nyd9g9y4v8cZmZ1adkxAuqQyD4UJyuZPaMc31cNCeIF3K6La//8qXo
+ KvrrDxpNOELSZwKR9TJquhuwKyHw54UloxmVwoAhbtzQQOz1vlzPvk+NdhrqoDueecPe
+ tdm0oj6ezj8s+XaCkqjm+c4G8rhjpEX+mbfv3G1s6eUKask+LZ3qhs+EvoGOyKxHoNIP
+ 05WQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=s2dm6lcMnXuyN8GaQsvpUNJ+EJn6v08TzDTNDWuGErg=;
+ b=sOdUl/mssvyarGmo2sYfnbRGsmQCtTBPsD927yEH7yYOIWlt64hysPV0n1RzqNPStH
+ XBZZaehtoB9xR6br/jJ18wQJTbN5QpBDUaQG/53Xuer4fuvI9UvIRXW35jhMy7DHLV+e
+ /OU81J83qnxtXBM1lKqkl6tfEnOG9QJbkq1PGZpvXlOZzXSjiYWTZq9BjT9XqEczsDBH
+ xEqwsQIAc8KmgGqi6kt74QEXvQIWof8byBVobtGi/DInuWmf1y4tACtoyRKqDzF3k8T1
+ Y51jatNO/dNjtwFZ7Vcm/2D+SneU5YopyXKhRrhmxOPTXzuLWe+YnVpG3nMP006Aq8iI
+ AG/A==
+X-Gm-Message-State: AOAM531xDThZsIbGZeNNPOAxOUaEs4Gx/c4y4WIZ9pV93XGfIWcUHxhW
+ 6Y4rJwLbcv9pto5wfKmKfbZ0tnATjkVLECB0i/sOTKeqTlw=
+X-Google-Smtp-Source: ABdhPJwJbZnu00wNRVIfPlxcX1IRr/fA34VSBPBN1aLgsMy8cnRE0R5aUwFCfvw/Qo2ND84v9tfnr+EHKbyt9xabhds=
+X-Received: by 2002:a37:b1c3:: with SMTP id a186mr316282qkf.17.1623853792996; 
+ Wed, 16 Jun 2021 07:29:52 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20210614092227.97421-1-matthew.auld@intel.com>
+In-Reply-To: <20210614092227.97421-1-matthew.auld@intel.com>
+From: Matthew Auld <matthew.william.auld@gmail.com>
+Date: Wed, 16 Jun 2021 15:29:26 +0100
+Message-ID: <CAM0jSHPacC6S6u1eCgaDUd6UNNJV5UgqQSBzRbtNXSzw3mdLyg@mail.gmail.com>
+Subject: Re: [PATCH] drm/i915: allow DG1 autoprobe for CONFIG_BROKEN
+To: Matthew Auld <matthew.auld@intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,82 +63,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The drm_connector detect, drm_dp_aux transfer and mipi_dsi_host
-operations typically require to access their underlying device to
-perform what is expected of them.
+On Mon, 14 Jun 2021 at 10:22, Matthew Auld <matthew.auld@intel.com> wrote:
+>
+> Purely for CI so we can get some pre-merge results for DG1. This is
+> especially useful for cross driver TTM changes where CI can hopefully
+> catch regressions. This is similar to how we already handle the DG1
+> specific uAPI, which are also hidden behind CONFIG_BROKEN.
+>
+> Signed-off-by: Matthew Auld <matthew.auld@intel.com>
+> Cc: Thomas Hellstr=C3=B6m <thomas.hellstrom@linux.intel.com>
+> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+> Cc: Dave Airlie <airlied@gmail.com>
 
-However, there's no guarantee on the fact that the device has been
-enabled through atomic_enable or similar that will usually power the
-device. The access to an unpowered device is then an undefined behaviour
-ranging from the access being ignored to a hard CPU hang.
+Daniel, any objections to landing this?
 
-Let's document that expectation to avoid as much as possible those
-consequences.
-
-Signed-off-by: Maxime Ripard <maxime@cerno.tech>
-
----
-
-Changes from v1:
-  - moved to the field documentation instead of the structure's
----
- include/drm/drm_connector.h | 5 +++++
- include/drm/drm_dp_helper.h | 5 +++++
- include/drm/drm_mipi_dsi.h  | 5 +++++
- 3 files changed, 15 insertions(+)
-
-diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
-index 1922b278ffad..fae03a43d04f 100644
---- a/include/drm/drm_connector.h
-+++ b/include/drm/drm_connector.h
-@@ -848,6 +848,11 @@ struct drm_connector_funcs {
- 	 * locks to avoid races with concurrent modeset changes need to use
- 	 * &drm_connector_helper_funcs.detect_ctx instead.
- 	 *
-+	 * Also note that this callback can be called no matter the
-+	 * state the connector is in. Drivers that need the underlying
-+	 * device to be powered to perform the detection will first need
-+	 * to make sure it's been properly enabled.
-+	 *
- 	 * RETURNS:
- 	 *
- 	 * drm_connector_status indicating the connector's status.
-diff --git a/include/drm/drm_dp_helper.h b/include/drm/drm_dp_helper.h
-index 0cc6062ff3ad..cb673bc5b871 100644
---- a/include/drm/drm_dp_helper.h
-+++ b/include/drm/drm_dp_helper.h
-@@ -1915,6 +1915,11 @@ struct drm_dp_aux {
- 	 * The @transfer() function must only modify the reply field of
- 	 * the &drm_dp_aux_msg structure. The retry logic and i2c
- 	 * helpers assume this is the case.
-+	 *
-+	 * Also note that this callback can be called no matter the
-+	 * state @dev is in. Drivers that need that device to be powered
-+	 * to perform this operation will first need to make sure it's
-+	 * been properly enabled.
- 	 */
- 	ssize_t (*transfer)(struct drm_dp_aux *aux,
- 			    struct drm_dp_aux_msg *msg);
-diff --git a/include/drm/drm_mipi_dsi.h b/include/drm/drm_mipi_dsi.h
-index 360e6377e84b..849d3029e303 100644
---- a/include/drm/drm_mipi_dsi.h
-+++ b/include/drm/drm_mipi_dsi.h
-@@ -80,6 +80,11 @@ int mipi_dsi_create_packet(struct mipi_dsi_packet *packet,
-  * Note that typically DSI packet transmission is atomic, so the .transfer()
-  * function will seldomly return anything other than the number of bytes
-  * contained in the transmit buffer on success.
-+ *
-+ * Also note that those callbacks can be called no matter the state the
-+ * host is in. Drivers that need the underlying device to be powered to
-+ * perform these operations will first need to make sure it's been
-+ * properly enabled.
-  */
- struct mipi_dsi_host_ops {
- 	int (*attach)(struct mipi_dsi_host *host,
--- 
-2.31.1
-
+> ---
+>  drivers/gpu/drm/i915/i915_pci.c | 3 +++
+>  1 file changed, 3 insertions(+)
+>
+> diff --git a/drivers/gpu/drm/i915/i915_pci.c b/drivers/gpu/drm/i915/i915_=
+pci.c
+> index 83b500bb170c..78742157aaa3 100644
+> --- a/drivers/gpu/drm/i915/i915_pci.c
+> +++ b/drivers/gpu/drm/i915/i915_pci.c
+> @@ -1040,6 +1040,9 @@ static const struct pci_device_id pciidlist[] =3D {
+>         INTEL_RKL_IDS(&rkl_info),
+>         INTEL_ADLS_IDS(&adl_s_info),
+>         INTEL_ADLP_IDS(&adl_p_info),
+> +#if IS_ENABLED(CONFIG_DRM_I915_UNSTABLE_FAKE_LMEM)
+> +       INTEL_DG1_IDS(&dg1_info),
+> +#endif
+>         {0, 0, 0}
+>  };
+>  MODULE_DEVICE_TABLE(pci, pciidlist);
+> --
+> 2.26.3
+>
