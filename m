@@ -1,39 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2051B3A977E
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Jun 2021 12:34:57 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B088C3A9804
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Jun 2021 12:46:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5AF9D6E550;
-	Wed, 16 Jun 2021 10:34:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9BD856E2B4;
+	Wed, 16 Jun 2021 10:45:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 371B56E09A
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Jun 2021 10:34:52 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 998E661107;
- Wed, 16 Jun 2021 10:34:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1623839691;
- bh=uJEv3OvJMqswalWvG2rx1DCmioR+VtUOrO7CZGR2Ajw=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=A6wsFevRhS9CeafwlT529v2rV3Gm9GGwn4GGkmYDghQBgvSltNdLhA2d1VwUgm9YV
- V+BZ/Z7dkVuRC9jA+aF8uUIN4oppwPSoc0YE3UC/NPxsGiCugwhXT7XZEbbeh2pmB/
- M4rdDOJ4s0X9LmiRn4axjJlxF+T4B+Wd1HYLAz0MgEG64RvZ+ZZaXxAxnqcCDwPJej
- pW3zx7fe6lsVprl/vQScwg/OlH7/cEN61iAlussljsV2mRmi/pOkb0n3FbRiUdCHAK
- H6X3SZGPBKP1nePHfXCLHq/6yaW3vQZyt5NRvZBipljaN3xhgyRVkvGP83STRQZ1Xh
- jhhQBOeaewbeQ==
-Date: Wed, 16 Jun 2021 16:04:47 +0530
-From: Vinod Koul <vkoul@kernel.org>
-To: Rob Herring <robh@kernel.org>
-Subject: Re: [PATCH] dt-bindings: Drop redundant minItems/maxItems
-Message-ID: <YMnTx4GqTWu75o2n@vkoul-mobl>
-References: <20210615191543.1043414-1-robh@kernel.org>
+Received: from mail-qv1-xf31.google.com (mail-qv1-xf31.google.com
+ [IPv6:2607:f8b0:4864:20::f31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 68FB06E2B4;
+ Wed, 16 Jun 2021 10:45:56 +0000 (UTC)
+Received: by mail-qv1-xf31.google.com with SMTP id e18so1261145qvm.10;
+ Wed, 16 Jun 2021 03:45:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=pi9Pblcxp2S3wGNqZkE9BNrbkmJEMm2DtOg5yXb50w8=;
+ b=j3slzsJ+M/s7Ch/GohxyTdmTrVo692Y/OQq7H6jjnoXxvtAedbC2SwTM8xvESEXOos
+ qU1eb3bENMKrSDiGGBMVrxWA79oRkSi7PA+2BEB+MwRObUK09o4TI5RGZeYx2n2qobyC
+ YkS+crHR7f26DCxIw19RPxpX483JUAPDq7jKM7uJFOgjVXkEw+Q2aXEPZ+YD+3FbZRbU
+ 74hfGFwxBHtXj0ng2/znCa5HXJOw7y0E8Bb3CtejBRZShMEYTEQiia7v/z8K6XIjqEFg
+ XbEuhLHeMgu+8wLEpiZ2hx1myqtJ1DkhcFvC40ROlpiKKyYm4R1GSNyh+CiuZfCIx+eK
+ v7ug==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=pi9Pblcxp2S3wGNqZkE9BNrbkmJEMm2DtOg5yXb50w8=;
+ b=ZqBTGVSjNzsK4zBzUzCBHlGjcGgvNmO5dr/jEe2KpR5yzdMqUsrRMWxTkyAlNcsZ8+
+ FEqOrliFNfpR+Yy89P72ZGF/P2aowrXzCFzSJvkEwmDIzub0eTEcTEaHcKkOGGLE8Psz
+ cGlqueV1dBQya3AmoOtBP7mtqzoBGQ8kaXcplqPVmGfxZ69FltzS658DD3ysw+MZJxzc
+ zQWwDC9jrOF1IgA0GY2zZP7MpZdiqAHQ8v7K0MttPH2NP7nbxp8LOzc5JjJG7V+O4S3W
+ L6Bv1LOEkPhJ3ezfHBMGvQk6o4BN7/wPCz3YAIvFTHYjmvedpPROt/uBQNcK3KOjuMhJ
+ XWNA==
+X-Gm-Message-State: AOAM531YT9WdYtNRtPCuyLAXYciIk8YQI6nbpSBrMwA5YKaIFcZL4KJq
+ 61CMKWcklvdmJ+PHjHniuqelSzdDbFt5mokD7Yg=
+X-Google-Smtp-Source: ABdhPJziIIVIbbz7snqmY6ReBnvrSR1XI1Gu3bt92yGIYUfORUtpRwkAUZFZ3VvUEmjUcNfpiMNfEtyLPI+eWo0IUTI=
+X-Received: by 2002:a05:6214:764:: with SMTP id
+ f4mr10319109qvz.60.1623840355364; 
+ Wed, 16 Jun 2021 03:45:55 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210615191543.1043414-1-robh@kernel.org>
+References: <20210616090350.828696-1-daniel.vetter@ffwll.ch>
+In-Reply-To: <20210616090350.828696-1-daniel.vetter@ffwll.ch>
+From: Matthew Auld <matthew.william.auld@gmail.com>
+Date: Wed, 16 Jun 2021 11:45:28 +0100
+Message-ID: <CAM0jSHMTc6o5M=xbYJDoR0NWpEthOcHMSB=Pb4dHnV9gdDj9eA@mail.gmail.com>
+Subject: Re: [Intel-gfx] [PATCH] drm/i915/gem: Remove duplicated call to
+ ops->pread
+To: Daniel Vetter <daniel.vetter@ffwll.ch>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,70 +65,67 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Andrew Lunn <andrew@lunn.ch>, alsa-devel@alsa-project.org,
- Daniel Lezcano <daniel.lezcano@linaro.org>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>, linux-pwm@vger.kernel.org,
- linux-iio@vger.kernel.org, linux-pci@vger.kernel.org,
- linux-remoteproc@vger.kernel.org, Ulf Hansson <ulf.hansson@linaro.org>,
- dri-devel@lists.freedesktop.org, linux-ide@vger.kernel.org,
- linux-i2c@vger.kernel.org, linux-phy@lists.infradead.org,
- linux-riscv@lists.infradead.org, Lee Jones <lee.jones@linaro.org>,
- linux-clk@vger.kernel.org, linux-rtc@vger.kernel.org,
- Herbert Xu <herbert@gondor.apana.org.au>,
- Bartosz Golaszewski <bgolaszewski@baylibre.com>, Marc Zyngier <maz@kernel.org>,
- Joerg Roedel <joro@8bytes.org>, Jassi Brar <jassisinghbrar@gmail.com>,
- Kishon Vijay Abraham I <kishon@ti.com>, David Airlie <airlied@linux.ie>,
- linux-serial@vger.kernel.org,
- Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
- Jakub Kicinski <kuba@kernel.org>, Zhang Rui <rui.zhang@intel.com>,
- Vivien Didelot <vivien.didelot@gmail.com>,
- Wolfgang Grandegger <wg@grandegger.com>, linux-media@vger.kernel.org,
- Ohad Ben-Cohen <ohad@wizery.com>, devicetree@vger.kernel.org,
- Albert Ou <aou@eecs.berkeley.edu>, linux-watchdog@vger.kernel.org,
- linux-pm@vger.kernel.org, linux-can@vger.kernel.org,
- linux-gpio@vger.kernel.org, Mark Brown <broonie@kernel.org>,
- Marc Kleine-Budde <mkl@pengutronix.de>, Kamal Dasu <kdasu.kdev@gmail.com>,
- Paul Walmsley <paul.walmsley@sifive.com>, Bjorn Helgaas <bhelgaas@google.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
- Thomas Gleixner <tglx@linutronix.de>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- linux-arm-kernel@lists.infradead.org, Jens Axboe <axboe@kernel.dk>,
- Alessandro Zummo <a.zummo@towertech.it>,
- Wim Van Sebroeck <wim@linux-watchdog.org>, Guenter Roeck <linux@roeck-us.net>,
- Mathieu Poirier <mathieu.poirier@linaro.org>, Stephen Boyd <sboyd@kernel.org>,
- netdev@vger.kernel.org, linux-usb@vger.kernel.org, linux-mmc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-spi@vger.kernel.org,
- iommu@lists.linux-foundation.org, Palmer Dabbelt <palmer@dabbelt.com>,
- linux-crypto@vger.kernel.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- dmaengine@vger.kernel.org, Vladimir Oltean <olteanv@gmail.com>,
- "David S. Miller" <davem@davemloft.net>, Jonathan Cameron <jic23@kernel.org>
+Cc: Daniel Vetter <daniel.vetter@intel.com>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 15-06-21, 13:15, Rob Herring wrote:
-> If a property has an 'items' list, then a 'minItems' or 'maxItems' with the
-> same size as the list is redundant and can be dropped. Note that is DT
-> schema specific behavior and not standard json-schema behavior. The tooling
-> will fixup the final schema adding any unspecified minItems/maxItems.
-> 
-> This condition is partially checked with the meta-schema already, but
-> only if both 'minItems' and 'maxItems' are equal to the 'items' length.
-> An improved meta-schema is pending.
+On Wed, 16 Jun 2021 at 10:04, Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
+>
+> Between
+>
+> commit ae30af84edb5b7cc95485922e43afd909a892e1b
+> Author: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> Date:   Tue Mar 23 16:50:00 2021 +0100
+>
+>     drm/i915: Disable userptr pread/pwrite support.
+>
+> and
+>
+> commit 0049b688459b846f819b6e51c24cd0781fcfde41
+> Author: Matthew Auld <matthew.auld@intel.com>
+> Date:   Thu Nov 5 15:49:33 2020 +0000
+>
+>     drm/i915/gem: Allow backends to override pread implementation
+>
+> this accidentally landed twice.
+>
+> Cc: Matthew Auld <matthew.auld@intel.com
+> Cc: Thomas Hellstr=C3=B6m <thomas.hellstrom@linux.intel.com>
+> Cc: Jason Ekstrand <jason@jlekstrand.net>
+> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+Reviewed-by: Matthew Auld <matthew.auld@intel.com
 
->  .../devicetree/bindings/dma/renesas,rcar-dmac.yaml          | 1 -
-
->  Documentation/devicetree/bindings/phy/brcm,sata-phy.yaml    | 1 -
->  Documentation/devicetree/bindings/phy/mediatek,tphy.yaml    | 2 --
->  .../devicetree/bindings/phy/phy-cadence-sierra.yaml         | 2 --
->  .../devicetree/bindings/phy/phy-cadence-torrent.yaml        | 4 ----
->  .../devicetree/bindings/phy/qcom,ipq806x-usb-phy-hs.yaml    | 1 -
->  .../devicetree/bindings/phy/qcom,ipq806x-usb-phy-ss.yaml    | 1 -
->  Documentation/devicetree/bindings/phy/qcom,qmp-phy.yaml     | 1 -
->  Documentation/devicetree/bindings/phy/qcom,qusb2-phy.yaml   | 2 --
->  Documentation/devicetree/bindings/phy/renesas,usb2-phy.yaml | 2 --
->  Documentation/devicetree/bindings/phy/renesas,usb3-phy.yaml | 1 -
-
-Acked-By: Vinod Koul <vkoul@kernel.org>
-
--- 
-~Vinod
+> ---
+>  drivers/gpu/drm/i915/i915_gem.c | 6 ------
+>  1 file changed, 6 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/i915/i915_gem.c b/drivers/gpu/drm/i915/i915_=
+gem.c
+> index 6a0a3f0e36e1..07aa80773a02 100644
+> --- a/drivers/gpu/drm/i915/i915_gem.c
+> +++ b/drivers/gpu/drm/i915/i915_gem.c
+> @@ -469,12 +469,6 @@ i915_gem_pread_ioctl(struct drm_device *dev, void *d=
+ata,
+>         if (ret !=3D -ENODEV)
+>                 goto out;
+>
+> -       ret =3D -ENODEV;
+> -       if (obj->ops->pread)
+> -               ret =3D obj->ops->pread(obj, args);
+> -       if (ret !=3D -ENODEV)
+> -               goto out;
+> -
+>         ret =3D i915_gem_object_wait(obj,
+>                                    I915_WAIT_INTERRUPTIBLE,
+>                                    MAX_SCHEDULE_TIMEOUT);
+> --
+> 2.32.0.rc2
+>
+> _______________________________________________
+> Intel-gfx mailing list
+> Intel-gfx@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/intel-gfx
