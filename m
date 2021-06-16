@@ -2,58 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 279403A94F9
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Jun 2021 10:27:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 29CB53A94F5
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Jun 2021 10:27:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0128C6E52A;
-	Wed, 16 Jun 2021 08:27:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B39AF6E524;
+	Wed, 16 Jun 2021 08:27:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com
- [IPv6:2a00:1450:4864:20::530])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2307C6E524
+Received: from mail-ed1-x531.google.com (mail-ed1-x531.google.com
+ [IPv6:2a00:1450:4864:20::531])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DAE886E523
  for <dri-devel@lists.freedesktop.org>; Wed, 16 Jun 2021 08:27:02 +0000 (UTC)
-Received: by mail-ed1-x530.google.com with SMTP id t7so1550134edd.5
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Jun 2021 01:27:01 -0700 (PDT)
+Received: by mail-ed1-x531.google.com with SMTP id n20so1536039edv.8
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Jun 2021 01:27:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=gH3OUhd3wXODbH6KpjmAlhZdfVecYYvZR4fcrZvAXRQ=;
- b=tYxvk49yyGvTd8vEGSVaCnxFvwFkVCpsUMnteHFBbcJSiCa9f7yiKk3IAxuwoEzIHM
- DsNEKfPn5ZZG/Gzt5/goj6jN9vFtjg8UWoG76YxDEwmKQWwa/9LEJ50GshNb9nVVt0J1
- Rpoc/Z58kE7LRRJqvUXjs2xhJgBdHSN27aqqWXj3vrs4er6qr675VMwtk1BrOkuQQLki
- kzonZ95ZHRvR7ydrkVjOxJksBpymEf7jfB83+npzBMPJXekPDel2c6/9hF8fDbFXRl8g
- 3DjQeAQdObC7q++IFfYHliGT95LofP/flAapNDxXtLCEBAnQt6F6Ed1tSZAhcQt+Hpch
- Pw8A==
+ bh=yylOD234iuv0OMUdGg2HNgmrF+LL5FUxi7mZp3iTQtM=;
+ b=IPfZjfHVbG0OCn+KKeCOXK5UK6WlYoq3WBGAITBYT177wcs8YEOrG/D5j6Pp+dx+XV
+ vSuDXkWFGTMI7iX1g1KUfz8RItABTnIqmtbDDAY1AWZpafqbDjoaJXVzvEeAeEIwfgaX
+ BFPj5kDSgkf4OrxL5PxuTu8KmnfFPOrk1HGMANOPQDIg8H2qYtp5h0nW16B430t54YiA
+ MnOxWddiKvBCw6XlkdZViIlvwxe7tfrdg/PKmkm/tQ/RDvOhtvjSZVMHsF6KaTq3m9nA
+ dUz3Bob1iSVI11XSMvyWBeYQTflU+vBQWBbgL04E4SnPh1maV/mIVlGaMJQQ8Wty3SNu
+ JaEw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=gH3OUhd3wXODbH6KpjmAlhZdfVecYYvZR4fcrZvAXRQ=;
- b=NbGNo58bqGGH+aQMFiC5cDe6ru2kEzLG44XDSwVpCKFattCA8zNXccPVVt3HPqmfWs
- VGR/PLmELEwew/cuK9ksxb0z1Bsw+sFW3q9foi8jDzct3sSmLbaBHVzbcmNDRl7IfWrA
- zpwuCizzDNQxkgABzvbkQD/Hm66UC4lzedZQW0oMX9H2Uu6gEUz6+EsFRzXyOJ4A8clI
- poTDo986dF2vde2tnYyDdd0GQV6QtansVmukw6LsykCPc0TOJEFB+QpMnez9scnRFpsL
- yJfussocoylTKyeeaGg1QrHFMw6ra7RpGIDTuK6NOYnYH42p2d+RUIPbCUwevVjJCRdv
- MRLw==
-X-Gm-Message-State: AOAM531vP0+Of62PujOD4PytlFe7fsA/1/gtrtt9BCRVb08NmY41S0NX
- XfREXgRTS784aOFtFsC/m5Q=
-X-Google-Smtp-Source: ABdhPJyoEYuhmKxBRIP4z0Q2CNfPcVS2L6+e9AYh23KI9VbQsFNPnAWmb3Pc18CsbpC5neEG9/X/0Q==
-X-Received: by 2002:aa7:dd0b:: with SMTP id i11mr2693934edv.51.1623832020758; 
- Wed, 16 Jun 2021 01:27:00 -0700 (PDT)
+ bh=yylOD234iuv0OMUdGg2HNgmrF+LL5FUxi7mZp3iTQtM=;
+ b=SJc1cOwf5s4G64KUUNmu+UKVBHSIIKIzgdA93FSs9jC4Xj++PNvRNZAyYUYi233B0j
+ 0AFv6I9JWTPtTccWWdlPq0EgW8WlhOiotwFEV12ri2T7z8CqX8Wwm1bGz9NCbVxXYupk
+ 7qBuwpo2JRajcMP+gfyOYuZNOxxp3seBj4D37DmTpHUOZiWY2zG7TpO0hFQ9OD8+Zq8Y
+ nGG9NITtcn0A0EihVj7vMETDGSUejTqFzDj2Ba/uYfcpZrA2O2WnTdtPaTiJtzZ0iImE
+ Jx0+VxNuLyLYvSFNx/mQd1MPBMWEfIpl9UMu/QWNoceZIKmCiBOt8hwe5tN/RcWzjFnE
+ /Asg==
+X-Gm-Message-State: AOAM5306Djei5nAVQkKt0h52j4WC8m3MF0wCPQHzormTlL1nI8p4g00s
+ HyyOa2zzeVUlp+nLHLOvlYk=
+X-Google-Smtp-Source: ABdhPJxMIYtsfV1dgkVNP3Vy0nsp5M8aYGD7HNMOvq14lrRQdJQKg7mZZynBVSsqgsANM28ZJBEXJg==
+X-Received: by 2002:aa7:d288:: with SMTP id w8mr2730674edq.276.1623832021459; 
+ Wed, 16 Jun 2021 01:27:01 -0700 (PDT)
 Received: from abel.fritz.box ([2a02:908:1252:fb60:8b88:17a4:582b:121f])
- by smtp.gmail.com with ESMTPSA id v7sm1152639edx.38.2021.06.16.01.26.59
+ by smtp.gmail.com with ESMTPSA id v7sm1152639edx.38.2021.06.16.01.27.00
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 16 Jun 2021 01:27:00 -0700 (PDT)
+ Wed, 16 Jun 2021 01:27:01 -0700 (PDT)
 From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
 X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
  <christian.koenig@amd.com>
 To: daniel@ffwll.ch, dri-devel@lists.freedesktop.org,
  linaro-mm-sig@lists.linaro.org, linux-media@vger.kernel.org,
  sumit.semwal@linaro.org
-Subject: [PATCH 2/7] dma-buf: fix and rework dma_buf_poll v2
-Date: Wed, 16 Jun 2021 10:26:50 +0200
-Message-Id: <20210616082655.111001-3-christian.koenig@amd.com>
+Subject: [PATCH 3/7] dma-buf: fix dma_resv_test_signaled test_all handling v2
+Date: Wed, 16 Jun 2021 10:26:51 +0200
+Message-Id: <20210616082655.111001-4-christian.koenig@amd.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210616082655.111001-1-christian.koenig@amd.com>
 References: <20210616082655.111001-1-christian.koenig@amd.com>
@@ -75,238 +75,84 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Daniel pointed me towards this function and there are multiple obvious problems
-in the implementation.
+As the name implies if testing all fences is requested we
+should indeed test all fences and not skip the exclusive
+one because we see shared ones.
 
-First of all the retry loop is not working as intended. In general the retry
-makes only sense if you grab the reference first and then check the sequence
-values.
-
-It's also good practice to keep the reference around when installing callbacks
-to fences you don't own.
-
-Then we skipped checking the exclusive fence when shared fences were present.
-
-And last the whole implementation was unnecessary complex and rather hard to
-understand which could lead to probably unexpected behavior of the IOCTL.
-
-Fix all this by reworking the implementation from scratch.
-
-Only mildly tested and needs a thoughtful review of the code.
-
-v2: fix the reference counting as well
+v2: fix logic once more
 
 Signed-off-by: Christian König <christian.koenig@amd.com>
 ---
- drivers/dma-buf/dma-buf.c | 133 ++++++++++++++++----------------------
- include/linux/dma-buf.h   |   2 +-
- 2 files changed, 55 insertions(+), 80 deletions(-)
+ drivers/dma-buf/dma-resv.c | 33 ++++++++++++---------------------
+ 1 file changed, 12 insertions(+), 21 deletions(-)
 
-diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-index 511fe0d217a0..b67fbf4e3705 100644
---- a/drivers/dma-buf/dma-buf.c
-+++ b/drivers/dma-buf/dma-buf.c
-@@ -72,7 +72,7 @@ static void dma_buf_release(struct dentry *dentry)
- 	 * If you hit this BUG() it means someone dropped their ref to the
- 	 * dma-buf while still having pending operation to the buffer.
- 	 */
--	BUG_ON(dmabuf->cb_shared.active || dmabuf->cb_excl.active);
-+	BUG_ON(dmabuf->cb_in.active || dmabuf->cb_out.active);
- 
- 	dmabuf->ops->release(dmabuf);
- 
-@@ -202,16 +202,20 @@ static void dma_buf_poll_cb(struct dma_fence *fence, struct dma_fence_cb *cb)
- 	wake_up_locked_poll(dcb->poll, dcb->active);
- 	dcb->active = 0;
- 	spin_unlock_irqrestore(&dcb->poll->lock, flags);
-+	dma_fence_put(fence);
- }
- 
- static __poll_t dma_buf_poll(struct file *file, poll_table *poll)
+diff --git a/drivers/dma-buf/dma-resv.c b/drivers/dma-buf/dma-resv.c
+index 4ab02b6c387a..18dd5a6ca06c 100644
+--- a/drivers/dma-buf/dma-resv.c
++++ b/drivers/dma-buf/dma-resv.c
+@@ -618,25 +618,21 @@ static inline int dma_resv_test_signaled_single(struct dma_fence *passed_fence)
+  */
+ bool dma_resv_test_signaled(struct dma_resv *obj, bool test_all)
  {
-+	struct dma_buf_poll_cb_t *dcb;
- 	struct dma_buf *dmabuf;
- 	struct dma_resv *resv;
- 	struct dma_resv_list *fobj;
- 	struct dma_fence *fence_excl;
--	__poll_t events;
- 	unsigned shared_count, seq;
+-	unsigned int seq, shared_count;
 +	struct dma_fence *fence;
-+	__poll_t events;
-+	int r, i;
++	unsigned int seq;
+ 	int ret;
  
- 	dmabuf = file->private_data;
- 	if (!dmabuf || !dmabuf->resv)
-@@ -225,99 +229,70 @@ static __poll_t dma_buf_poll(struct file *file, poll_table *poll)
- 	if (!events)
- 		return 0;
- 
-+	dcb = events & EPOLLOUT ? &dmabuf->cb_out : &dmabuf->cb_in;
-+
-+	/* Only queue a new one if we are not still waiting for the old one */
-+	spin_lock_irq(&dmabuf->poll.lock);
-+	if (dcb->active)
-+		events = 0;
-+	else
-+		dcb->active = events;
-+	spin_unlock_irq(&dmabuf->poll.lock);
-+	if (!events)
-+		return 0;
-+
- retry:
- 	seq = read_seqcount_begin(&resv->seq);
  	rcu_read_lock();
+ retry:
+ 	ret = true;
+-	shared_count = 0;
+ 	seq = read_seqcount_begin(&obj->seq);
  
- 	fobj = rcu_dereference(resv->fence);
--	if (fobj)
-+	if (fobj && events & EPOLLOUT)
- 		shared_count = fobj->shared_count;
- 	else
- 		shared_count = 0;
--	fence_excl = dma_resv_excl_fence(resv);
--	if (read_seqcount_retry(&resv->seq, seq)) {
--		rcu_read_unlock();
--		goto retry;
--	}
+ 	if (test_all) {
+ 		struct dma_resv_list *fobj = dma_resv_shared_list(obj);
+-		unsigned int i;
+-
+-		if (fobj)
+-			shared_count = fobj->shared_count;
++		unsigned int i, shared_count;
  
--	if (fence_excl && (!(events & EPOLLOUT) || shared_count == 0)) {
--		struct dma_buf_poll_cb_t *dcb = &dmabuf->cb_excl;
--		__poll_t pevents = EPOLLIN;
++		shared_count = fobj ? fobj->shared_count : 0;
+ 		for (i = 0; i < shared_count; ++i) {
+-			struct dma_fence *fence;
 -
--		if (shared_count == 0)
--			pevents |= EPOLLOUT;
--
--		spin_lock_irq(&dmabuf->poll.lock);
--		if (dcb->active) {
--			dcb->active |= pevents;
--			events &= ~pevents;
--		} else
--			dcb->active = pevents;
--		spin_unlock_irq(&dmabuf->poll.lock);
--
--		if (events & pevents) {
--			if (!dma_fence_get_rcu(fence_excl)) {
--				/* force a recheck */
--				events &= ~pevents;
--				dma_buf_poll_cb(NULL, &dcb->cb);
--			} else if (!dma_fence_add_callback(fence_excl, &dcb->cb,
--							   dma_buf_poll_cb)) {
--				events &= ~pevents;
--				dma_fence_put(fence_excl);
--			} else {
--				/*
--				 * No callback queued, wake up any additional
--				 * waiters.
--				 */
--				dma_fence_put(fence_excl);
--				dma_buf_poll_cb(NULL, &dcb->cb);
--			}
-+	for (i = 0; i < shared_count; ++i) {
-+		fence = rcu_dereference(fobj->shared[i]);
-+		fence = dma_fence_get_rcu(fence);
-+		if (!fence || read_seqcount_retry(&resv->seq, seq)) {
-+			/* Concurrent modify detected, force re-check */
-+			dma_fence_put(fence);
-+			rcu_read_unlock();
-+			goto retry;
+ 			fence = rcu_dereference(fobj->shared[i]);
+ 			ret = dma_resv_test_signaled_single(fence);
+ 			if (ret < 0)
+@@ -644,24 +640,19 @@ bool dma_resv_test_signaled(struct dma_resv *obj, bool test_all)
+ 			else if (!ret)
+ 				break;
  		}
--	}
- 
--	if ((events & EPOLLOUT) && shared_count > 0) {
--		struct dma_buf_poll_cb_t *dcb = &dmabuf->cb_shared;
--		int i;
 -
--		/* Only queue a new callback if no event has fired yet */
--		spin_lock_irq(&dmabuf->poll.lock);
--		if (dcb->active)
--			events &= ~EPOLLOUT;
--		else
--			dcb->active = EPOLLOUT;
--		spin_unlock_irq(&dmabuf->poll.lock);
--
--		if (!(events & EPOLLOUT))
-+		r = dma_fence_add_callback(fence, &dcb->cb, dma_buf_poll_cb);
-+		if (!r) {
-+			/* Callback queued */
-+			events = 0;
- 			goto out;
-+		}
-+		dma_fence_put(fence);
-+	}
- 
--		for (i = 0; i < shared_count; ++i) {
--			struct dma_fence *fence = rcu_dereference(fobj->shared[i]);
--
--			if (!dma_fence_get_rcu(fence)) {
--				/*
--				 * fence refcount dropped to zero, this means
--				 * that fobj has been freed
--				 *
--				 * call dma_buf_poll_cb and force a recheck!
--				 */
--				events &= ~EPOLLOUT;
--				dma_buf_poll_cb(NULL, &dcb->cb);
--				break;
--			}
--			if (!dma_fence_add_callback(fence, &dcb->cb,
--						    dma_buf_poll_cb)) {
--				dma_fence_put(fence);
--				events &= ~EPOLLOUT;
--				break;
--			}
-+	fence = dma_resv_excl_fence(resv);
-+	if (fence) {
-+		fence = dma_fence_get_rcu(fence);
-+		if (!fence || read_seqcount_retry(&resv->seq, seq)) {
-+			/* Concurrent modify detected, force re-check */
- 			dma_fence_put(fence);
-+			rcu_read_unlock();
-+			goto retry;
-+
- 		}
- 
--		/* No callback queued, wake up any additional waiters. */
--		if (i == shared_count)
--			dma_buf_poll_cb(NULL, &dcb->cb);
-+		r = dma_fence_add_callback(fence, &dcb->cb, dma_buf_poll_cb);
-+		if (!r) {
-+			/* Callback queued */
-+			events = 0;
-+			goto out;
-+		}
-+		dma_fence_put(fence_excl);
+-		if (read_seqcount_retry(&obj->seq, seq))
+-			goto retry;
  	}
  
-+	/* No callback queued, wake up any additional waiters. */
-+	dma_buf_poll_cb(NULL, &dcb->cb);
+-	if (!shared_count) {
+-		struct dma_fence *fence_excl = dma_resv_excl_fence(obj);
+-
+-		if (fence_excl) {
+-			ret = dma_resv_test_signaled_single(fence_excl);
+-			if (ret < 0)
+-				goto retry;
++	fence = dma_resv_excl_fence(obj);
++	if (ret && fence) {
++		ret = dma_resv_test_signaled_single(fence);
++		if (ret < 0)
++			goto retry;
+ 
+-			if (read_seqcount_retry(&obj->seq, seq))
+-				goto retry;
+-		}
+ 	}
+ 
++	if (read_seqcount_retry(&obj->seq, seq))
++		goto retry;
 +
- out:
  	rcu_read_unlock();
- 	return events;
-@@ -562,8 +537,8 @@ struct dma_buf *dma_buf_export(const struct dma_buf_export_info *exp_info)
- 	dmabuf->owner = exp_info->owner;
- 	spin_lock_init(&dmabuf->name_lock);
- 	init_waitqueue_head(&dmabuf->poll);
--	dmabuf->cb_excl.poll = dmabuf->cb_shared.poll = &dmabuf->poll;
--	dmabuf->cb_excl.active = dmabuf->cb_shared.active = 0;
-+	dmabuf->cb_in.poll = dmabuf->cb_out.poll = &dmabuf->poll;
-+	dmabuf->cb_in.active = dmabuf->cb_out.active = 0;
- 
- 	if (!resv) {
- 		resv = (struct dma_resv *)&dmabuf[1];
-diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
-index efdc56b9d95f..7e747ad54c81 100644
---- a/include/linux/dma-buf.h
-+++ b/include/linux/dma-buf.h
-@@ -329,7 +329,7 @@ struct dma_buf {
- 		wait_queue_head_t *poll;
- 
- 		__poll_t active;
--	} cb_excl, cb_shared;
-+	} cb_in, cb_out;
- };
- 
- /**
+ 	return ret;
+ }
 -- 
 2.25.1
 
