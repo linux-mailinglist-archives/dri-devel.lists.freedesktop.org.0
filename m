@@ -2,35 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FC983A9F00
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Jun 2021 17:25:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E9E603A9F01
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Jun 2021 17:25:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F3CA16E5D1;
-	Wed, 16 Jun 2021 15:25:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B144A6E1BB;
+	Wed, 16 Jun 2021 15:25:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CA7AA6E483;
- Wed, 16 Jun 2021 15:25:35 +0000 (UTC)
-IronPort-SDR: 8fSEFKGHIFYou8GKz6Wg9Zwf75kkGKlEavennTaJZZc6g9SojXpmIaKiWXydwuWr2JkEXauFy6
- NE5eopm83QNQ==
-X-IronPort-AV: E=McAfee;i="6200,9189,10016"; a="206234402"
-X-IronPort-AV: E=Sophos;i="5.83,278,1616482800"; d="scan'208";a="206234402"
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2B7836E04B;
+ Wed, 16 Jun 2021 15:25:36 +0000 (UTC)
+IronPort-SDR: VAhKHxoE/KyqXzMpNa6q1UcYG8xkWCqgNzlazLetnWShZnlB40+kniIsBiiTfOHcQ07BFaCCV3
+ oKqGHN5sj3fA==
+X-IronPort-AV: E=McAfee;i="6200,9189,10016"; a="206234417"
+X-IronPort-AV: E=Sophos;i="5.83,278,1616482800"; d="scan'208";a="206234417"
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Jun 2021 08:25:28 -0700
-IronPort-SDR: bCJSkex3VrlPKMSxrxXi6Wg6OxzlhTGnjX5TXjUGZXFpniZcbjsiqce5Xw8cXMpUzYAR4TdlCb
- i0ZmVjPQysHA==
-X-IronPort-AV: E=Sophos;i="5.83,278,1616482800"; d="scan'208";a="479129886"
+ 16 Jun 2021 08:25:29 -0700
+IronPort-SDR: tav/Bjp7vcsS3deFhyrfNdmdHPJ20/gK93DRFgwdXyk65yAznrniLqZ2c1SDJ/O12t0lrecUQv
+ HuRJISzwXLsg==
+X-IronPort-AV: E=Sophos;i="5.83,278,1616482800"; d="scan'208";a="479129890"
 Received: from mrapopor-mobl.ger.corp.intel.com (HELO mwauld-desk1.intel.com)
  ([10.213.236.122])
  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Jun 2021 08:25:26 -0700
+ 16 Jun 2021 08:25:28 -0700
 From: Matthew Auld <matthew.auld@intel.com>
 To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH v5 2/7] drm/i915/ttm: add i915_sg_from_buddy_resource
-Date: Wed, 16 Jun 2021 16:24:56 +0100
-Message-Id: <20210616152501.394518-2-matthew.auld@intel.com>
+Subject: [PATCH v5 3/7] drm/i915/ttm: Calculate the object placement at
+ get_pages time
+Date: Wed, 16 Jun 2021 16:24:57 +0100
+Message-Id: <20210616152501.394518-3-matthew.auld@intel.com>
 X-Mailer: git-send-email 2.26.3
 In-Reply-To: <20210616152501.394518-1-matthew.auld@intel.com>
 References: <20210616152501.394518-1-matthew.auld@intel.com>
@@ -54,137 +55,201 @@ Cc: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-We need to be able to build an sg table from our list of buddy blocks,
-so that we can later plug this into our ttm backend, and replace our use
-of the range manager.
+From: Thomas Hellström <thomas.hellstrom@linux.intel.com>
 
-Signed-off-by: Matthew Auld <matthew.auld@intel.com>
-Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-Reviewed-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+Instead of relying on a static placement, calculate at get_pages() time.
+This should work for LMEM regions and system for now. For stolen we need
+to take preallocated range into account. That will if needed be added
+later.
+
+Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+Reviewed-by: Matthew Auld <matthew.auld@intel.com>
 ---
- drivers/gpu/drm/i915/i915_scatterlist.c | 80 +++++++++++++++++++++++++
- drivers/gpu/drm/i915/i915_scatterlist.h |  5 ++
- 2 files changed, 85 insertions(+)
+ drivers/gpu/drm/i915/gem/i915_gem_ttm.c | 93 ++++++++++++++++++-------
+ drivers/gpu/drm/i915/intel_region_ttm.c |  8 ++-
+ drivers/gpu/drm/i915/intel_region_ttm.h |  2 +
+ 3 files changed, 77 insertions(+), 26 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/i915_scatterlist.c b/drivers/gpu/drm/i915/i915_scatterlist.c
-index 69e9e6c3135e..4a6712dca838 100644
---- a/drivers/gpu/drm/i915/i915_scatterlist.c
-+++ b/drivers/gpu/drm/i915/i915_scatterlist.c
-@@ -6,6 +6,9 @@
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+index cdf36d3cf02a..d7595688e182 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+@@ -24,6 +24,11 @@
+ #define I915_TTM_PRIO_NO_PAGES  1
+ #define I915_TTM_PRIO_HAS_PAGES 2
  
- #include "i915_scatterlist.h"
- 
-+#include "i915_buddy.h"
-+#include "i915_ttm_buddy_manager.h"
-+
- #include <drm/drm_mm.h>
- 
- #include <linux/slab.h>
-@@ -104,6 +107,83 @@ struct sg_table *i915_sg_from_mm_node(const struct drm_mm_node *node,
- 	return st;
- }
- 
-+/**
-+ * i915_sg_from_buddy_resource - Create an sg_table from a struct
-+ * i915_buddy_block list
-+ * @res: The struct i915_ttm_buddy_resource.
-+ * @region_start: An offset to add to the dma addresses of the sg list.
-+ *
-+ * Create a struct sg_table, initializing it from struct i915_buddy_block list,
-+ * taking a maximum segment length into account, splitting into segments
-+ * if necessary.
-+ *
-+ * Return: A pointer to a kmalloced struct sg_table on success, negative
-+ * error code cast to an error pointer on failure.
++/*
++ * Size of struct ttm_place vector in on-stack struct ttm_placement allocs
 + */
-+struct sg_table *i915_sg_from_buddy_resource(struct ttm_resource *res,
-+					     u64 region_start)
++#define I915_TTM_MAX_PLACEMENTS INTEL_REGION_UNKNOWN
++
+ /**
+  * struct i915_ttm_tt - TTM page vector with additional private information
+  * @ttm: The base TTM page vector.
+@@ -42,36 +47,71 @@ struct i915_ttm_tt {
+ 	struct sg_table *cached_st;
+ };
+ 
+-static const struct ttm_place lmem0_sys_placement_flags[] = {
+-	{
+-		.fpfn = 0,
+-		.lpfn = 0,
+-		.mem_type = I915_PL_LMEM0,
+-		.flags = 0,
+-	}, {
+-		.fpfn = 0,
+-		.lpfn = 0,
+-		.mem_type = I915_PL_SYSTEM,
+-		.flags = 0,
+-	}
+-};
+-
+-static struct ttm_placement i915_lmem0_placement = {
+-	.num_placement = 1,
+-	.placement = &lmem0_sys_placement_flags[0],
+-	.num_busy_placement = 1,
+-	.busy_placement = &lmem0_sys_placement_flags[0],
++static const struct ttm_place sys_placement_flags = {
++	.fpfn = 0,
++	.lpfn = 0,
++	.mem_type = I915_PL_SYSTEM,
++	.flags = 0,
+ };
+ 
+ static struct ttm_placement i915_sys_placement = {
+ 	.num_placement = 1,
+-	.placement = &lmem0_sys_placement_flags[1],
++	.placement = &sys_placement_flags,
+ 	.num_busy_placement = 1,
+-	.busy_placement = &lmem0_sys_placement_flags[1],
++	.busy_placement = &sys_placement_flags,
+ };
+ 
+ static void i915_ttm_adjust_lru(struct drm_i915_gem_object *obj);
+ 
++static enum ttm_caching
++i915_ttm_select_tt_caching(const struct drm_i915_gem_object *obj)
 +{
-+	struct i915_ttm_buddy_resource *bman_res = to_ttm_buddy_resource(res);
-+	const u64 size = res->num_pages << PAGE_SHIFT;
-+	const u64 max_segment = rounddown(UINT_MAX, PAGE_SIZE);
-+	struct i915_buddy_mm *mm = bman_res->mm;
-+	struct list_head *blocks = &bman_res->blocks;
-+	struct i915_buddy_block *block;
-+	struct scatterlist *sg;
-+	struct sg_table *st;
-+	resource_size_t prev_end;
++	/*
++	 * Objects only allowed in system get cached cpu-mappings.
++	 * Other objects get WC mapping for now. Even if in system.
++	 */
++	if (obj->mm.region->type == INTEL_MEMORY_SYSTEM &&
++	    obj->mm.n_placements <= 1)
++		return ttm_cached;
 +
-+	GEM_BUG_ON(list_empty(blocks));
-+
-+	st = kmalloc(sizeof(*st), GFP_KERNEL);
-+	if (!st)
-+		return ERR_PTR(-ENOMEM);
-+
-+	if (sg_alloc_table(st, res->num_pages, GFP_KERNEL)) {
-+		kfree(st);
-+		return ERR_PTR(-ENOMEM);
-+	}
-+
-+	sg = st->sgl;
-+	st->nents = 0;
-+	prev_end = (resource_size_t)-1;
-+
-+	list_for_each_entry(block, blocks, link) {
-+		u64 block_size, offset;
-+
-+		block_size = min_t(u64, size, i915_buddy_block_size(mm, block));
-+		offset = i915_buddy_block_offset(block);
-+
-+		while (block_size) {
-+			u64 len;
-+
-+			if (offset != prev_end || sg->length >= max_segment) {
-+				if (st->nents)
-+					sg = __sg_next(sg);
-+
-+				sg_dma_address(sg) = region_start + offset;
-+				sg_dma_len(sg) = 0;
-+				sg->length = 0;
-+				st->nents++;
-+			}
-+
-+			len = min(block_size, max_segment - sg->length);
-+			sg->length += len;
-+			sg_dma_len(sg) += len;
-+
-+			offset += len;
-+			block_size -= len;
-+
-+			prev_end = offset;
-+		}
-+	}
-+
-+	sg_mark_end(sg);
-+	i915_sg_trim(st);
-+
-+	return st;
++	return ttm_write_combined;
 +}
 +
- #if IS_ENABLED(CONFIG_DRM_I915_SELFTEST)
- #include "selftests/scatterlist.c"
- #endif
-diff --git a/drivers/gpu/drm/i915/i915_scatterlist.h b/drivers/gpu/drm/i915/i915_scatterlist.h
-index 5acca45ea981..b8bd5925b03f 100644
---- a/drivers/gpu/drm/i915/i915_scatterlist.h
-+++ b/drivers/gpu/drm/i915/i915_scatterlist.h
-@@ -14,6 +14,7 @@
- #include "i915_gem.h"
- 
- struct drm_mm_node;
-+struct ttm_resource;
- 
- /*
-  * Optimised SGL iterator for GEM objects
-@@ -145,4 +146,8 @@ bool i915_sg_trim(struct sg_table *orig_st);
- 
- struct sg_table *i915_sg_from_mm_node(const struct drm_mm_node *node,
- 				      u64 region_start);
++static void
++i915_ttm_place_from_region(const struct intel_memory_region *mr,
++			   struct ttm_place *place)
++{
++	memset(place, 0, sizeof(*place));
++	place->mem_type = intel_region_to_ttm_type(mr);
++}
 +
-+struct sg_table *i915_sg_from_buddy_resource(struct ttm_resource *res,
-+					     u64 region_start);
++static void
++i915_ttm_placement_from_obj(const struct drm_i915_gem_object *obj,
++			    struct ttm_place *requested,
++			    struct ttm_place *busy,
++			    struct ttm_placement *placement)
++{
++	unsigned int num_allowed = obj->mm.n_placements;
++	unsigned int i;
 +
- #endif
++	placement->num_placement = 1;
++	i915_ttm_place_from_region(num_allowed ? obj->mm.placements[0] :
++				   obj->mm.region, requested);
++
++	/* Cache this on object? */
++	placement->num_busy_placement = num_allowed;
++	for (i = 0; i < placement->num_busy_placement; ++i)
++		i915_ttm_place_from_region(obj->mm.placements[i], busy + i);
++
++	if (num_allowed == 0) {
++		*busy = *requested;
++		placement->num_busy_placement = 1;
++	}
++
++	placement->placement = requested;
++	placement->busy_placement = busy;
++}
++
+ static struct ttm_tt *i915_ttm_tt_create(struct ttm_buffer_object *bo,
+ 					 uint32_t page_flags)
+ {
+@@ -89,7 +129,8 @@ static struct ttm_tt *i915_ttm_tt_create(struct ttm_buffer_object *bo,
+ 	    man->use_tt)
+ 		page_flags |= TTM_PAGE_FLAG_ZERO_ALLOC;
+ 
+-	ret = ttm_tt_init(&i915_tt->ttm, bo, page_flags, ttm_write_combined);
++	ret = ttm_tt_init(&i915_tt->ttm, bo, page_flags,
++			  i915_ttm_select_tt_caching(obj));
+ 	if (ret) {
+ 		kfree(i915_tt);
+ 		return NULL;
+@@ -416,10 +457,15 @@ static int i915_ttm_get_pages(struct drm_i915_gem_object *obj)
+ 		.no_wait_gpu = false,
+ 	};
+ 	struct sg_table *st;
++	struct ttm_place requested, busy[I915_TTM_MAX_PLACEMENTS];
++	struct ttm_placement placement;
+ 	int ret;
+ 
++	GEM_BUG_ON(obj->mm.n_placements > I915_TTM_MAX_PLACEMENTS);
++
+ 	/* Move to the requested placement. */
+-	ret = ttm_bo_validate(bo, &i915_lmem0_placement, &ctx);
++	i915_ttm_placement_from_obj(obj, &requested, busy, &placement);
++	ret = ttm_bo_validate(bo, &placement, &ctx);
+ 	if (ret)
+ 		return ret == -ENOSPC ? -ENXIO : ret;
+ 
+@@ -625,7 +671,6 @@ int __i915_gem_ttm_object_init(struct intel_memory_region *mem,
+ 	i915_gem_object_set_cache_coherency(obj, I915_CACHE_NONE);
+ 	INIT_RADIX_TREE(&obj->ttm.get_io_page.radix, GFP_KERNEL | __GFP_NOWARN);
+ 	mutex_init(&obj->ttm.get_io_page.lock);
+-
+ 	bo_type = (obj->flags & I915_BO_ALLOC_USER) ? ttm_bo_type_device :
+ 		ttm_bo_type_kernel;
+ 
+diff --git a/drivers/gpu/drm/i915/intel_region_ttm.c b/drivers/gpu/drm/i915/intel_region_ttm.c
+index 27fe0668d094..5a664f6cc93f 100644
+--- a/drivers/gpu/drm/i915/intel_region_ttm.c
++++ b/drivers/gpu/drm/i915/intel_region_ttm.c
+@@ -50,12 +50,16 @@ void intel_region_ttm_device_fini(struct drm_i915_private *dev_priv)
+  * driver-private types for now, reserving TTM_PL_VRAM for stolen
+  * memory and TTM_PL_TT for GGTT use if decided to implement this.
+  */
+-static int intel_region_to_ttm_type(struct intel_memory_region *mem)
++int intel_region_to_ttm_type(const struct intel_memory_region *mem)
+ {
+ 	int type;
+ 
+ 	GEM_BUG_ON(mem->type != INTEL_MEMORY_LOCAL &&
+-		   mem->type != INTEL_MEMORY_MOCK);
++		   mem->type != INTEL_MEMORY_MOCK &&
++		   mem->type != INTEL_MEMORY_SYSTEM);
++
++	if (mem->type == INTEL_MEMORY_SYSTEM)
++		return TTM_PL_SYSTEM;
+ 
+ 	type = mem->instance + TTM_PL_PRIV;
+ 	GEM_BUG_ON(type >= TTM_NUM_MEM_TYPES);
+diff --git a/drivers/gpu/drm/i915/intel_region_ttm.h b/drivers/gpu/drm/i915/intel_region_ttm.h
+index e8cf830fda6f..649491844e79 100644
+--- a/drivers/gpu/drm/i915/intel_region_ttm.h
++++ b/drivers/gpu/drm/i915/intel_region_ttm.h
+@@ -28,6 +28,8 @@ struct sg_table *intel_region_ttm_node_to_st(struct intel_memory_region *mem,
+ void intel_region_ttm_node_free(struct intel_memory_region *mem,
+ 				struct ttm_resource *node);
+ 
++int intel_region_to_ttm_type(const struct intel_memory_region *mem);
++
+ struct ttm_device_funcs *i915_ttm_driver(void);
+ 
+ #ifdef CONFIG_DRM_I915_SELFTEST
 -- 
 2.26.3
 
