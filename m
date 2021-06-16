@@ -1,58 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7758E3A94C4
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Jun 2021 10:09:08 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 42BF33A94ED
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Jun 2021 10:27:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2CC356E51D;
-	Wed, 16 Jun 2021 08:09:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A47826E520;
+	Wed, 16 Jun 2021 08:27:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2D8F56E528
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Jun 2021 08:09:03 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPS id F3B27613B4
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Jun 2021 08:09:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1623830943;
- bh=rdtnSAHCbtIUiv+2HCEYH+hRdsXt8KINzOyDJr61oMI=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=vIJl3Cm5uVnlDqaQ64yrDJ7mdADKOiJjMnCQJ7ZhCvkbF1pXoq9OKjKcsXuJsSnzl
- xydYauyWIaDhri7WLqmxCeYHYmr/mMXPAKUbpqySeypvvJWSksYkv5o/byvUkcpPRD
- 2NYHKEQEv+3yV6KkVTOs2kl9Ai4d0YUMPdbUN5IjIbENPHReMICAaP9yYl5+BSQ/ck
- XPwbYCtEabRyPjpskVgwE1xS9amDxU5oi3gq7LfA/Fi1aRm0xAqofpZxqidJbkP/WU
- Pq70B/m0/lwP6XS6I0VYQzWCa4zb0RPbDKkiBwJ/8lUVmPLgu9o8arGbv6d2s6f0/I
- C89v+XGJrlBVg==
-Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
- id E3D616109D; Wed, 16 Jun 2021 08:09:02 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 205517] nouveau MMIO read of 00000000 FAULT at 619444
-Date: Wed, 16 Jun 2021 08:09:02 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: lee.jones@linaro.org
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: cc
-Message-ID: <bug-205517-2300-NUmlBBeo33@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-205517-2300@https.bugzilla.kernel.org/>
-References: <bug-205517-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from mail-ed1-x52b.google.com (mail-ed1-x52b.google.com
+ [IPv6:2a00:1450:4864:20::52b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 81A0E6E520
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Jun 2021 08:27:00 +0000 (UTC)
+Received: by mail-ed1-x52b.google.com with SMTP id s6so1520665edu.10
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Jun 2021 01:27:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=ZD1oIEshyi5mEs2vX/ty3wdwPQu3S284MwRCDJHvwJg=;
+ b=qCU6SCauZj7AZ5D7QDK8O0HF9eqJLgNurO4UAiW1PoDRoXD7jn7wlhiFaUpoQIZzOm
+ uuwRJDaLTLXPixUmeTl7Vrl7mLOs+OyOkmKjYSNghyyMQV7jIXEdC9EB/kCfAVb4Hkuu
+ KUXe4bDOVoWOImx0YOrkKiAYkZzVysiX0PPODpyMMdTW3XtHSgnke64nfVBjKv6yB+xJ
+ aVARzLzjtKNHV5ooPwV8qwC3XbNAA3DALVyBi7bLoHDxQpQ/qcNbel23LtgfewdWRGhl
+ 7v3iVEDRQbS1TluR7J3xnouy5T34zwHUPhBzzYVTKJeG828Ix8KCxlEMEfBKinv2u22Y
+ dNIQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=ZD1oIEshyi5mEs2vX/ty3wdwPQu3S284MwRCDJHvwJg=;
+ b=BMlwRdgltJ3bKypFmluzhJ4upUtkPIbTsES1kYuHTQgx2Zfgv6STPtpjZ0q8PiJM3F
+ Z1YC8YnnpwXHUSOUmHvJ3Ge/Mw9ejv+g49IGxSiuLZwgfk6AtOV7B8Yo1iakzoSeCs1Y
+ W2303yEyQ3yW+dMGoVv5SqRClHk0bJPD/oW96+387KjJVljYMzioH3aKTHrtvsy3ja92
+ xh4MRDWqZs/4tZX6hvWWG7rGPkq39dJpGvhtiMIpfNxGkG8YpPEP7NEW1oBcNYhZ+Bt2
+ iYmlh6W6SZxksbwrVj9Ay1+Xw5qt1knqmUdYuZJ5YH56tqCGvCNZb76x/O32fIvvaquY
+ gbXw==
+X-Gm-Message-State: AOAM532A6SVrHcXAulG1ldvEhRDYOABBMGbzQ3e5Mum+URg5Qcaiuc8m
+ ox9MNv0hrrcpUnFLJyeM/2udAiwKfx8=
+X-Google-Smtp-Source: ABdhPJwLXRFQuy3NSBX9qUhhQQAJmrUQyjuv4s9gBktfSh/X/BaDuqPOco4TJbd8H1T+RoWKdlZGwA==
+X-Received: by 2002:a05:6402:2317:: with SMTP id
+ l23mr2737214eda.265.1623832019200; 
+ Wed, 16 Jun 2021 01:26:59 -0700 (PDT)
+Received: from abel.fritz.box ([2a02:908:1252:fb60:8b88:17a4:582b:121f])
+ by smtp.gmail.com with ESMTPSA id v7sm1152639edx.38.2021.06.16.01.26.58
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 16 Jun 2021 01:26:58 -0700 (PDT)
+From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
+X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
+ <christian.koenig@amd.com>
+To: daniel@ffwll.ch, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, linux-media@vger.kernel.org,
+ sumit.semwal@linaro.org
+Subject: Fixing problems around shared fences and RCU in DMA-buf
+Date: Wed, 16 Jun 2021 10:26:48 +0200
+Message-Id: <20210616082655.111001-1-christian.koenig@amd.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,21 +74,19 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D205517
+Hi everyone and especially Daniel,
 
-Lee Jones (lee.jones@linaro.org) changed:
+this is the revised patch set to fix and rework dma_buf_poll(). The new code should avoid problems with RCU and also now correctly waits for all fences in the resv object.
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-                 CC|                            |lee.jones@linaro.org
+The rest of the series is then the well known change to dma_resv_test_signaled(), nouveau and now new also msm.
 
---- Comment #2 from Lee Jones (lee.jones@linaro.org) ---
-Did you find a solution Todd?
+Then last are two patches which drop the workarounds from amdgpu, but those can wait till the next cycle.
 
-I'm also struggling with a 619444 fault followed by GUI freeze.
+I think it would be rather good if the have at least to change to dma_buf_poll() pushed in this merge window and maybe even CC stable since this looks really broken to me.
 
---=20
-You may reply to this email to add a comment.
+Please review, test and/or comment.
 
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+Thanks,
+Christian.
+
+
