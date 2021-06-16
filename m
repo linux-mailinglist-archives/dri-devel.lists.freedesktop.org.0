@@ -1,56 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 696913A96F3
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Jun 2021 12:09:49 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B5FA13A96F5
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Jun 2021 12:09:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EFE8E89B51;
-	Wed, 16 Jun 2021 10:09:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 630746E0D9;
+	Wed, 16 Jun 2021 10:09:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com
- [IPv6:2a00:1450:4864:20::32f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9E1F689B51
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Jun 2021 10:09:46 +0000 (UTC)
-Received: by mail-wm1-x32f.google.com with SMTP id
- 3-20020a05600c0243b029019f2f9b2b8aso1373087wmj.2
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Jun 2021 03:09:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=raspberrypi.com; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=pnPqh9N14clerujBTsaFymDQrrCAmrrrodGlT/qhT1A=;
- b=a6YsDy3EfJHT4noQ6OCK4HVcjoNdt2+UP3CahKSdO5dpXPL+vt/vN1fsaCjvLR9P91
- ekSB9nDNntyTOwfQ3HGXPpq9DNagIfuMpw/K3MkmSuC12x5F35V1HRW4JBllabvfCm96
- t9eIj0orBMh62HB7s+esbOTrUq16QTXN1rNVzQU/XHvWPSEEdD7ERSDq9tlO49L9G9gF
- LUoxtAhlNQUpxyVh3Sk9vpJkMyqQT5hQsomUHEto2Ob+fdrRj+1pbr+NlS2qzsdVg5De
- 2Wk7Q69jUqy/q/9fffbw0dAlSf1Nzx7M7JRZfckwgn97iRNxyj45ADvBzxR3NuFKxU5X
- ftBw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=pnPqh9N14clerujBTsaFymDQrrCAmrrrodGlT/qhT1A=;
- b=Tkvm2BRpbM5dfvuBpom+JlzmCDciuaApohQ4jY8xdwVpl1aBwsreOpEKeCBqq0epyh
- zZEhRlJNN23S54g15HTBvbAkxlr3L9ocORMTuRYVhi6Ws2DDZtt/fpM61Jx8J+IsEI47
- WPdxRzO5fqKkLlKJ2SMdHApJOCLu4IMCWI5OKuJMW8emn81DWaaGHh29TbkZ2OjC8Se5
- yg+4XKMCO4sosdh+JrNm9xDjNXorpYBGYuAfiF2Hdca4vXdVh2v/WprNNEr8L/RR6zYH
- 2ptrb+bB1B7oHjCGmABk7vy6/jWJ1Pdl1xgoVMU0GLzYLWlikJZmN0nHy5gOHDLMQfJH
- XZWg==
-X-Gm-Message-State: AOAM532d0dLnhSZmZ5H6YHsacN7W9APl1go7nx+ug1cO8KVcd/kNbYgW
- uPcyKKPemcdAiZuAMVkpsqy5E62f6JLtsj9Y2EJafw==
-X-Google-Smtp-Source: ABdhPJzwSTHY0WLaZOasvU71NaaNjSXnp2erfTSfaBvuAB7Qv3uUl4+8ERP3WHenb8IgpJPpoGZdxkMA6BVJjNDXjIk=
-X-Received: by 2002:a7b:c013:: with SMTP id c19mr10270068wmb.158.1623838185332; 
- Wed, 16 Jun 2021 03:09:45 -0700 (PDT)
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0E5C389B51;
+ Wed, 16 Jun 2021 10:09:46 +0000 (UTC)
+IronPort-SDR: WMsGJ6QOioCjgU3oSd1VkFE0pz/2vSQ1He3NdNQD7SO1fD20jye+y+1spPa2EPzGMG1l+WIits
+ AM1Vill3p1gw==
+X-IronPort-AV: E=McAfee;i="6200,9189,10016"; a="291781220"
+X-IronPort-AV: E=Sophos;i="5.83,277,1616482800"; d="scan'208";a="291781220"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Jun 2021 03:09:45 -0700
+IronPort-SDR: VuVkiUTyi5oSOnwGqbbw/wPRTcWLMMkYDvvzksysKVO32YoQ/sbD7zNW4z2G0tswSpN5BkEsLt
+ yJo4MfPH5IhA==
+X-IronPort-AV: E=Sophos;i="5.83,277,1616482800"; d="scan'208";a="639958229"
+Received: from nbsheils-mobl1.ger.corp.intel.com (HELO tursulin-mobl2.home)
+ ([10.213.246.124])
+ by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Jun 2021 03:09:44 -0700
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+To: Intel-gfx@lists.freedesktop.org
+Subject: [PATCH v5] drm/i915: Be more gentle with exiting non-persistent
+ context
+Date: Wed, 16 Jun 2021 11:09:39 +0100
+Message-Id: <20210616100939.2096552-1-tvrtko.ursulin@linux.intel.com>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20210614120906.1616120-1-tvrtko.ursulin@linux.intel.com>
+References: <20210614120906.1616120-1-tvrtko.ursulin@linux.intel.com>
 MIME-Version: 1.0
-References: <20210524132018.264396-1-maxime@cerno.tech>
-In-Reply-To: <20210524132018.264396-1-maxime@cerno.tech>
-From: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date: Wed, 16 Jun 2021 11:09:29 +0100
-Message-ID: <CAPY8ntAqh2wEhN2wO_RQ2jJ7X3ovwB_5UwbrbPypDOhd1KVN6A@mail.gmail.com>
-Subject: Re: [PATCH] drm/vc4: hdmi: Rely on interrupts to handle hotplug
-To: Maxime Ripard <maxime@cerno.tech>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,93 +49,308 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dom Cobley <dom@raspberrypi.com>, Tim Gover <tim.gover@raspberrypi.com>,
- David Airlie <airlied@linux.ie>, LKML <linux-kernel@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Eric Anholt <eric@anholt.net>, Thomas Zimmermann <tzimmermann@suse.de>,
- Daniel Vetter <daniel.vetter@intel.com>, Phil Elwell <phil@raspberrypi.com>
+Cc: Zhen Han <zhen.han@intel.com>, Chris Wilson <chris@chris-wilson.co.uk>,
+ dri-devel@lists.freedesktop.org, Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 24 May 2021 at 14:20, Maxime Ripard <maxime@cerno.tech> wrote:
->
-> DRM currently polls for the HDMI connector status every 10s, which can
-> be an issue when we connect/disconnect a display quickly or the device
-> on the other end only issues a hotplug pulse (for example on EDID
-> change).
->
-> Switch the driver to rely on the internal controller logic for the
-> BCM2711/RPi4.
+From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 
-Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+When a non-persistent context exits we currently mark it as banned in
+order to trigger fast termination of any outstanding GPU jobs it may have
+left running.
 
-> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
-> ---
->  drivers/gpu/drm/vc4/vc4_hdmi.c | 44 ++++++++++++++++++++++++++++++++++
->  1 file changed, 44 insertions(+)
->
-> diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
-> index c27b287d2053..3988969f7410 100644
-> --- a/drivers/gpu/drm/vc4/vc4_hdmi.c
-> +++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
-> @@ -1510,6 +1510,46 @@ static int vc4_hdmi_audio_init(struct vc4_hdmi *vc4_hdmi)
->
->  }
->
-> +static irqreturn_t vc4_hdmi_hpd_irq_thread(int irq, void *priv)
-> +{
-> +       struct vc4_hdmi *vc4_hdmi = priv;
-> +       struct drm_device *dev = vc4_hdmi->connector.dev;
-> +
-> +       if (dev)
-> +               drm_kms_helper_hotplug_event(dev);
-> +
-> +       return IRQ_HANDLED;
-> +}
-> +
-> +static int vc4_hdmi_hotplug_init(struct vc4_hdmi *vc4_hdmi)
-> +{
-> +       struct platform_device *pdev = vc4_hdmi->pdev;
-> +       struct device *dev = &pdev->dev;
-> +       int ret;
-> +
-> +       if (vc4_hdmi->variant->external_irq_controller) {
-> +               ret = devm_request_threaded_irq(dev,
-> +                                               platform_get_irq_byname(pdev, "hpd-connected"),
-> +                                               NULL,
-> +                                               vc4_hdmi_hpd_irq_thread, IRQF_ONESHOT,
-> +                                               "vc4 hdmi hpd connected", vc4_hdmi);
-> +               if (ret)
-> +                       return ret;
-> +
-> +               ret = devm_request_threaded_irq(dev,
-> +                                               platform_get_irq_byname(pdev, "hpd-removed"),
-> +                                               NULL,
-> +                                               vc4_hdmi_hpd_irq_thread, IRQF_ONESHOT,
-> +                                               "vc4 hdmi hpd disconnected", vc4_hdmi);
-> +               if (ret)
-> +                       return ret;
-> +
-> +               connector->polled = DRM_CONNECTOR_POLL_HPD;
-> +       }
-> +
-> +       return 0;
-> +}
-> +
->  #ifdef CONFIG_DRM_VC4_HDMI_CEC
->  static irqreturn_t vc4_cec_irq_handler_rx_thread(int irq, void *priv)
->  {
-> @@ -2060,6 +2100,10 @@ static int vc4_hdmi_bind(struct device *dev, struct device *master, void *data)
->         if (ret)
->                 goto err_destroy_encoder;
->
-> +       ret = vc4_hdmi_hotplug_init(vc4_hdmi);
-> +       if (ret)
-> +               goto err_destroy_conn;
-> +
->         ret = vc4_hdmi_cec_init(vc4_hdmi);
->         if (ret)
->                 goto err_destroy_conn;
-> --
-> 2.31.1
->
+In doing so we apply a very strict 1ms limit in which the left over job
+has to preempt before we issues an engine resets.
+
+Some workloads are not able to cleanly preempt in that time window and it
+can be argued that it would instead be better to give them a bit more
+grace since avoiding engine resets is generally preferrable.
+
+To achieve this the patch splits handling of banned contexts from simply
+exited non-persistent ones and then applies different timeouts for both
+and also extends the criteria which determines if a request should be
+scheduled back in after preemption or not.
+
+15ms preempt timeout grace is given to exited non-persistent contexts
+which have been empirically tested to satisfy customers requirements
+and still provides reasonably quick cleanup post exit.
+
+v2:
+ * Streamline fast path checks.
+
+v3:
+ * Simplify by using only schedulable status.
+ * Increase timeout to 20ms.
+
+v4:
+ * Fix live_execlists selftest.
+
+v5:
+ * Fix logic in kill_engines.
+
+Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+Cc: Chris Wilson <chris@chris-wilson.co.uk>
+Cc: Zhen Han <zhen.han@intel.com>
+---
+ drivers/gpu/drm/i915/gem/i915_gem_context.c   | 22 +++++++++++++------
+ drivers/gpu/drm/i915/gt/intel_context.c       |  2 ++
+ drivers/gpu/drm/i915/gt/intel_context.h       | 17 +++++++++++++-
+ drivers/gpu/drm/i915/gt/intel_context_types.h |  1 +
+ .../drm/i915/gt/intel_execlists_submission.c  | 11 ++++++++--
+ drivers/gpu/drm/i915/gt/selftest_execlists.c  | 20 +++++++++++------
+ drivers/gpu/drm/i915/i915_request.c           |  2 +-
+ 7 files changed, 57 insertions(+), 18 deletions(-)
+
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context.c b/drivers/gpu/drm/i915/gem/i915_gem_context.c
+index 7720b8c22c81..6289d82d55d1 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_context.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_context.c
+@@ -426,7 +426,8 @@ static struct intel_engine_cs *active_engine(struct intel_context *ce)
+ 	return engine;
+ }
+ 
+-static void kill_engines(struct i915_gem_engines *engines, bool ban)
++static void
++kill_engines(struct i915_gem_engines *engines, bool ban, bool persistent)
+ {
+ 	struct i915_gem_engines_iter it;
+ 	struct intel_context *ce;
+@@ -440,8 +441,15 @@ static void kill_engines(struct i915_gem_engines *engines, bool ban)
+ 	 */
+ 	for_each_gem_engine(ce, engines, it) {
+ 		struct intel_engine_cs *engine;
++		bool skip = false;
+ 
+-		if (ban && intel_context_set_banned(ce))
++		if (ban)
++			skip = intel_context_set_banned(ce);
++		else if (!persistent)
++			skip = !intel_context_clear_schedulable(ce);
++
++		/* Already previously banned or made non-schedulable? */
++		if (skip)
+ 			continue;
+ 
+ 		/*
+@@ -454,7 +462,7 @@ static void kill_engines(struct i915_gem_engines *engines, bool ban)
+ 		engine = active_engine(ce);
+ 
+ 		/* First attempt to gracefully cancel the context */
+-		if (engine && !__cancel_engine(engine) && ban)
++		if (engine && !__cancel_engine(engine) && (ban || !persistent))
+ 			/*
+ 			 * If we are unable to send a preemptive pulse to bump
+ 			 * the context from the GPU, we have to resort to a full
+@@ -466,8 +474,6 @@ static void kill_engines(struct i915_gem_engines *engines, bool ban)
+ 
+ static void kill_context(struct i915_gem_context *ctx)
+ {
+-	bool ban = (!i915_gem_context_is_persistent(ctx) ||
+-		    !ctx->i915->params.enable_hangcheck);
+ 	struct i915_gem_engines *pos, *next;
+ 
+ 	spin_lock_irq(&ctx->stale.lock);
+@@ -480,7 +486,8 @@ static void kill_context(struct i915_gem_context *ctx)
+ 
+ 		spin_unlock_irq(&ctx->stale.lock);
+ 
+-		kill_engines(pos, ban);
++		kill_engines(pos, !ctx->i915->params.enable_hangcheck,
++			     i915_gem_context_is_persistent(ctx));
+ 
+ 		spin_lock_irq(&ctx->stale.lock);
+ 		GEM_BUG_ON(i915_sw_fence_signaled(&pos->fence));
+@@ -526,7 +533,8 @@ static void engines_idle_release(struct i915_gem_context *ctx,
+ 
+ kill:
+ 	if (list_empty(&engines->link)) /* raced, already closed */
+-		kill_engines(engines, true);
++		kill_engines(engines, true,
++			     i915_gem_context_is_persistent(ctx));
+ 
+ 	i915_sw_fence_commit(&engines->fence);
+ }
+diff --git a/drivers/gpu/drm/i915/gt/intel_context.c b/drivers/gpu/drm/i915/gt/intel_context.c
+index 4033184f13b9..9d539f48d7c6 100644
+--- a/drivers/gpu/drm/i915/gt/intel_context.c
++++ b/drivers/gpu/drm/i915/gt/intel_context.c
+@@ -373,6 +373,8 @@ intel_context_init(struct intel_context *ce, struct intel_engine_cs *engine)
+ 	ce->sseu = engine->sseu;
+ 	ce->ring = __intel_context_ring_size(SZ_4K);
+ 
++	__set_bit(CONTEXT_SCHEDULABLE, &ce->flags);
++
+ 	ewma_runtime_init(&ce->runtime.avg);
+ 
+ 	ce->vm = i915_vm_get(engine->gt->vm);
+diff --git a/drivers/gpu/drm/i915/gt/intel_context.h b/drivers/gpu/drm/i915/gt/intel_context.h
+index f83a73a2b39f..28d955668e49 100644
+--- a/drivers/gpu/drm/i915/gt/intel_context.h
++++ b/drivers/gpu/drm/i915/gt/intel_context.h
+@@ -217,7 +217,22 @@ static inline bool intel_context_is_banned(const struct intel_context *ce)
+ 
+ static inline bool intel_context_set_banned(struct intel_context *ce)
+ {
+-	return test_and_set_bit(CONTEXT_BANNED, &ce->flags);
++	bool banned = test_and_set_bit(CONTEXT_BANNED, &ce->flags);
++
++	if (!banned)
++		clear_bit(CONTEXT_SCHEDULABLE, &ce->flags);
++
++	return banned;
++}
++
++static inline bool intel_context_clear_schedulable(struct intel_context *ce)
++{
++	return test_and_clear_bit(CONTEXT_SCHEDULABLE, &ce->flags);
++}
++
++static inline bool intel_context_is_schedulable(const struct intel_context *ce)
++{
++	return test_bit(CONTEXT_SCHEDULABLE, &ce->flags);
+ }
+ 
+ static inline bool
+diff --git a/drivers/gpu/drm/i915/gt/intel_context_types.h b/drivers/gpu/drm/i915/gt/intel_context_types.h
+index ed8c447a7346..79d0bff7927a 100644
+--- a/drivers/gpu/drm/i915/gt/intel_context_types.h
++++ b/drivers/gpu/drm/i915/gt/intel_context_types.h
+@@ -95,6 +95,7 @@ struct intel_context {
+ #define CONTEXT_BANNED			6
+ #define CONTEXT_FORCE_SINGLE_SUBMISSION	7
+ #define CONTEXT_NOPREEMPT		8
++#define CONTEXT_SCHEDULABLE		9  /* Unless banned or non-persistent closed. */
+ 
+ 	struct {
+ 		u64 timeout_us;
+diff --git a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
+index fc77592d88a9..ed9c4f6969f5 100644
+--- a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
++++ b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
+@@ -479,7 +479,7 @@ __execlists_schedule_in(struct i915_request *rq)
+ 		     !intel_engine_has_heartbeat(engine)))
+ 		intel_context_set_banned(ce);
+ 
+-	if (unlikely(intel_context_is_banned(ce) || bad_request(rq)))
++	if (unlikely(!intel_context_is_schedulable(ce) || bad_request(rq)))
+ 		reset_active(rq, engine);
+ 
+ 	if (IS_ENABLED(CONFIG_DRM_I915_DEBUG_GEM))
+@@ -1205,12 +1205,19 @@ static void record_preemption(struct intel_engine_execlists *execlists)
+ static unsigned long active_preempt_timeout(struct intel_engine_cs *engine,
+ 					    const struct i915_request *rq)
+ {
++	struct intel_context *ce;
++
+ 	if (!rq)
+ 		return 0;
+ 
++	ce = rq->context;
++
+ 	/* Force a fast reset for terminated contexts (ignoring sysfs!) */
+-	if (unlikely(intel_context_is_banned(rq->context) || bad_request(rq)))
++	if (unlikely(intel_context_is_banned(ce) || bad_request(rq)))
+ 		return 1;
++	/* Longer grace for closed non-persistent contexts to avoid resets. */
++	else if (unlikely(!intel_context_is_schedulable(ce)))
++		return 20;
+ 
+ 	return READ_ONCE(engine->props.preempt_timeout_ms);
+ }
+diff --git a/drivers/gpu/drm/i915/gt/selftest_execlists.c b/drivers/gpu/drm/i915/gt/selftest_execlists.c
+index 1c8108d30b85..0fdc706058e0 100644
+--- a/drivers/gpu/drm/i915/gt/selftest_execlists.c
++++ b/drivers/gpu/drm/i915/gt/selftest_execlists.c
+@@ -2050,6 +2050,12 @@ struct live_preempt_cancel {
+ 	struct preempt_client a, b;
+ };
+ 
++static void context_clear_banned(struct intel_context *ce)
++{
++	clear_bit(CONTEXT_BANNED, &ce->flags);
++	set_bit(CONTEXT_SCHEDULABLE, &ce->flags);
++}
++
+ static int __cancel_active0(struct live_preempt_cancel *arg)
+ {
+ 	struct i915_request *rq;
+@@ -2068,7 +2074,7 @@ static int __cancel_active0(struct live_preempt_cancel *arg)
+ 	if (IS_ERR(rq))
+ 		return PTR_ERR(rq);
+ 
+-	clear_bit(CONTEXT_BANNED, &rq->context->flags);
++	context_clear_banned(rq->context);
+ 	i915_request_get(rq);
+ 	i915_request_add(rq);
+ 	if (!igt_wait_for_spinner(&arg->a.spin, rq)) {
+@@ -2112,7 +2118,7 @@ static int __cancel_active1(struct live_preempt_cancel *arg)
+ 	if (IS_ERR(rq[0]))
+ 		return PTR_ERR(rq[0]);
+ 
+-	clear_bit(CONTEXT_BANNED, &rq[0]->context->flags);
++	context_clear_banned(rq[0]->context);
+ 	i915_request_get(rq[0]);
+ 	i915_request_add(rq[0]);
+ 	if (!igt_wait_for_spinner(&arg->a.spin, rq[0])) {
+@@ -2128,7 +2134,7 @@ static int __cancel_active1(struct live_preempt_cancel *arg)
+ 		goto out;
+ 	}
+ 
+-	clear_bit(CONTEXT_BANNED, &rq[1]->context->flags);
++	context_clear_banned(rq[1]->context);
+ 	i915_request_get(rq[1]);
+ 	err = i915_request_await_dma_fence(rq[1], &rq[0]->fence);
+ 	i915_request_add(rq[1]);
+@@ -2183,7 +2189,7 @@ static int __cancel_queued(struct live_preempt_cancel *arg)
+ 	if (IS_ERR(rq[0]))
+ 		return PTR_ERR(rq[0]);
+ 
+-	clear_bit(CONTEXT_BANNED, &rq[0]->context->flags);
++	context_clear_banned(rq[0]->context);
+ 	i915_request_get(rq[0]);
+ 	i915_request_add(rq[0]);
+ 	if (!igt_wait_for_spinner(&arg->a.spin, rq[0])) {
+@@ -2197,7 +2203,7 @@ static int __cancel_queued(struct live_preempt_cancel *arg)
+ 		goto out;
+ 	}
+ 
+-	clear_bit(CONTEXT_BANNED, &rq[1]->context->flags);
++	context_clear_banned(rq[1]->context);
+ 	i915_request_get(rq[1]);
+ 	err = i915_request_await_dma_fence(rq[1], &rq[0]->fence);
+ 	i915_request_add(rq[1]);
+@@ -2273,7 +2279,7 @@ static int __cancel_hostile(struct live_preempt_cancel *arg)
+ 	if (IS_ERR(rq))
+ 		return PTR_ERR(rq);
+ 
+-	clear_bit(CONTEXT_BANNED, &rq->context->flags);
++	context_clear_banned(rq->context);
+ 	i915_request_get(rq);
+ 	i915_request_add(rq);
+ 	if (!igt_wait_for_spinner(&arg->a.spin, rq)) {
+@@ -2329,7 +2335,7 @@ static int __cancel_fail(struct live_preempt_cancel *arg)
+ 	if (IS_ERR(rq))
+ 		return PTR_ERR(rq);
+ 
+-	clear_bit(CONTEXT_BANNED, &rq->context->flags);
++	context_clear_banned(rq->context);
+ 	i915_request_get(rq);
+ 	i915_request_add(rq);
+ 	if (!igt_wait_for_spinner(&arg->a.spin, rq)) {
+diff --git a/drivers/gpu/drm/i915/i915_request.c b/drivers/gpu/drm/i915/i915_request.c
+index 1014c71cf7f5..5beaa18d6c7a 100644
+--- a/drivers/gpu/drm/i915/i915_request.c
++++ b/drivers/gpu/drm/i915/i915_request.c
+@@ -660,7 +660,7 @@ bool __i915_request_submit(struct i915_request *request)
+ 		goto active;
+ 	}
+ 
+-	if (unlikely(intel_context_is_banned(request->context)))
++	if (unlikely(!intel_context_is_schedulable(request->context)))
+ 		i915_request_set_error_once(request, -EIO);
+ 
+ 	if (unlikely(fatal_error(request->fence.error)))
+-- 
+2.30.2
+
