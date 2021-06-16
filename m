@@ -2,76 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E67FA3A96E2
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Jun 2021 12:06:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EDD693A96F0
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Jun 2021 12:08:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6A285894FE;
-	Wed, 16 Jun 2021 10:06:01 +0000 (UTC)
-X-Original-To: dri-devel@lists.freedesktop.org
-Delivered-To: dri-devel@lists.freedesktop.org
-Received: from new1-smtp.messagingengine.com (new1-smtp.messagingengine.com
- [66.111.4.221])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7D5FE894FE
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Jun 2021 10:06:00 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailnew.nyi.internal (Postfix) with ESMTP id 91161580604;
- Wed, 16 Jun 2021 06:05:59 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute5.internal (MEProxy); Wed, 16 Jun 2021 06:05:59 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
- date:from:to:cc:subject:message-id:references:mime-version
- :content-type:content-transfer-encoding:in-reply-to; s=fm3; bh=z
- 2UmXQhDugDkY3JPY2VRubJRfdN52LF2DGHHRLorphg=; b=R6H3erMeBMR3fIoM2
- 77xoA6yS7bg5QXVivp3ylMv9MZd/zfzltpfqDXvtmAeuaLOaRpZyFF0jHi2LCr+w
- ZhhjvGZjWKjtUyq3x0CMLK70v4uBkHUt/zkeJuKTReRA59oq6MduD2TLLTCOjsmU
- gK9FquEyI/dC1/9SbtyumTwMKjZMAMqf9GZJsHeVHZ2bcqo4BLFfz5czSdm0M37V
- L1t3icC3hRFM1VVEYrVYkRpkxGhFL7vQWhWyU17OE/pN+yr9mWTckOnV/zvdTFVe
- ZonT7zxN3dwI9yNLRin5YBB7IRdBjeuulB0gYBasTYLnkiNt9aoxwrjam2R6DAqm
- f/wMg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:content-type
- :date:from:in-reply-to:message-id:mime-version:references
- :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm3; bh=z2UmXQhDugDkY3JPY2VRubJRfdN52LF2DGHHRLorp
- hg=; b=jsDSEhVcFO8gvA0na/olEN5ylxjEW9Ja+YhUGN6Yw8xkYweA2iTPpeIQg
- 0NJF2jBg8lIFhlzY6k8WHdRzkWCtmDlKTf7CykoEHBlLwmgK/sia8VE4k7CmiguV
- rG78yU1QiNWt+PESpW/4XMrPiREZOLgJkl/Ge82o8C+mwx8S1s2WxhJpOHII74ds
- +kPhB4vQP6uxAlW2xEtHGyQp2VHAHHuXsy3RiVaKPXsTwMH02C3aG9OLEwQvZNmx
- vQAIa1St0P9cXZQsJohrAcRw4kz47moIC7xLzmrC6MxLFZU0N9cPP5+jVyWsm8Gm
- mi7oHrB1m1j1fOvoyG9AiubWLlMbA==
-X-ME-Sender: <xms:Bs3JYMMt9TyZmcXpU3IAd1qtExhNfWav3V3At8NMNdUKHm4u2nJIig>
- <xme:Bs3JYC_KO831DpFMm114ng8_UlATdMdzgKShLPCzlb3Stk9B_TDu7DIQ3epzY44uY
- bgmV1rpSDa8To3nIFo>
-X-ME-Received: <xmr:Bs3JYDSozzZz1TLYLZCNCMZ2ULx8MPLCoj9-dSg_IheXxXGL8CUKx6SibqdbKoOTsm8tcFHm_8O0VwPUmtJcJlzXylUAbvWDTG8y>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrfedvledgvdefucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvffukfhfgggtugfgjgesthhqredttddtvdenucfhrhhomhepofgrgihi
- mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
- htthgvrhhnpeekieelteevjeffgeeuteejiefggfefgfekueeuteffhfehgeevfefhkeeh
- veekudenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivg
- eptdenucfrrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggt
- hh
-X-ME-Proxy: <xmx:Bs3JYEvCXFS374RDtVAWktaaD12hkElXzI9QElcb5K_F_rVZFCv3vw>
- <xmx:Bs3JYEfgdaWe38JK5keIn3ue5zEQKZf4i4WUCvNgBaNMqzg0gAssqA>
- <xmx:Bs3JYI3kCi8c3VLug69BuOpbyktCZ5HGlJnzHRew5tUMCOCGaiLusg>
- <xmx:B83JYP1l7lydSwSPKvYzRg5LPGHhvVzr2pklNt160u6gyz3LfPq79g>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 16 Jun 2021 06:05:57 -0400 (EDT)
-Date: Wed, 16 Jun 2021 12:05:56 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: Stephen Boyd <sboyd@kernel.org>
-Subject: Re: [PATCH 0/2] clk: Implement a clock request API
-Message-ID: <20210616100556.marhidqeljaxswyf@gilmour>
-References: <20210413101320.321584-1-maxime@cerno.tech>
- <161981637939.1363782.4943687720432536625@swboyd.mtv.corp.google.com>
- <20210503083221.qsdurp2f3bkwfa6d@gilmour>
- <20210524124811.74g75n672wrpzqqi@gilmour>
+	by gabe.freedesktop.org (Postfix) with ESMTP id B8CC26E037;
+	Wed, 16 Jun 2021 10:08:49 +0000 (UTC)
+X-Original-To: DRI-Devel@lists.freedesktop.org
+Delivered-To: DRI-Devel@lists.freedesktop.org
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 863756E57E;
+ Wed, 16 Jun 2021 10:08:48 +0000 (UTC)
+IronPort-SDR: U+/+G5WVFVVvNjzdNnLsh+3X8uiocfevqOjnf3/aMJ8/MxMyxjLdsRs30NtOSWIoP+LNX856yI
+ aoOHi6uNnkcA==
+X-IronPort-AV: E=McAfee;i="6200,9189,10016"; a="269999269"
+X-IronPort-AV: E=Sophos;i="5.83,277,1616482800"; d="scan'208";a="269999269"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Jun 2021 03:08:47 -0700
+IronPort-SDR: NBsdTn2Jss6yGUE6ERgVSwx8X/Wx5TBRfOB5vxjU84WJzn19ugF4xlcX1/61rD+5c3DFCPmK7r
+ 2bIvsx+Jp0hw==
+X-IronPort-AV: E=Sophos;i="5.83,277,1616482800"; d="scan'208";a="442835889"
+Received: from tomfin1x-mobl1.ger.corp.intel.com (HELO [10.213.246.124])
+ ([10.213.246.124])
+ by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Jun 2021 03:08:46 -0700
+Subject: Re: [Intel-gfx] [PATCH 3/3] drm/i915/uapi: Add query for L3 bank count
+To: John.C.Harrison@Intel.com, Intel-GFX@Lists.FreeDesktop.Org
+References: <20210610204626.2995262-1-John.C.Harrison@Intel.com>
+ <20210610204626.2995262-4-John.C.Harrison@Intel.com>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+Message-ID: <4a8623d4-4450-ea64-b0dc-70e6458d77df@linux.intel.com>
+Date: Wed, 16 Jun 2021 11:08:44 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20210524124811.74g75n672wrpzqqi@gilmour>
+In-Reply-To: <20210610204626.2995262-4-John.C.Harrison@Intel.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,78 +53,142 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-clk@vger.kernel.org, Tim Gover <tim.gover@raspberrypi.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- David Airlie <airlied@linux.ie>, Mike Turquette <mturquette@baylibre.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Russell King <linux@armlinux.org.uk>, Eric Anholt <eric@anholt.net>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Daniel Vetter <daniel.vetter@intel.com>, Phil Elwell <phil@raspberrypi.com>,
- Dom Cobley <dom@raspberrypi.com>
+Cc: DRI-Devel@Lists.FreeDesktop.Org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Stephen, Mike,
 
-On Mon, May 24, 2021 at 02:48:11PM +0200, Maxime Ripard wrote:
-> Hi Stephen, Mike,
->=20
-> On Mon, May 03, 2021 at 10:32:21AM +0200, Maxime Ripard wrote:
-> > Hi Stephen,
-> >=20
-> > On Fri, Apr 30, 2021 at 01:59:39PM -0700, Stephen Boyd wrote:
-> > > Quoting Maxime Ripard (2021-04-13 03:13:18)
-> > > > Hi,
-> > > >=20
-> > > > This is a follow-up of the discussion here:
-> > > > https://lore.kernel.org/linux-clk/20210319150355.xzw7ikwdaga2dwhv@g=
-ilmour/
-> > > >=20
-> > > > This implements a mechanism to raise and lower clock rates based on=
- consumer
-> > > > workloads, with an example of such an implementation for the Raspbe=
-rryPi4 HDMI
-> > > > controller.
-> > > >=20
-> > > > There's a couple of things worth discussing:
-> > > >=20
-> > > >   - The name is in conflict with clk_request_rate, and even though =
-it feels
-> > > >     like the right name to me, we should probably avoid any confusi=
-on
-> > > >=20
-> > > >   - The code so far implements a policy of always going for the low=
-est rate
-> > > >     possible. While we don't have an use-case for something else, t=
-his should
-> > > >     maybe be made more flexible?
-> > >=20
-> > > I'm definitely confused how it is different from the
-> > > clk_set_rate_exclusive() API and associated
-> > > clk_rate_exclusive_get()/clk_rate_exclusive_put(). Can you explain
-> > > further the differences in the cover letter here?
-> >=20
-> > The exclusive API is meant to prevent the clock rate from changing,
-> > allowing a single user to make sure that no other user will be able to
-> > change it.
-> >=20
-> > What we want here is instead to allow multiple users to be able to
-> > express a set of minimum rates and then let the CCF figure out a rate
-> > for that clock that matches those constraints (so basically what
-> > clk_set_min_rate does), but then does allow for the clock to go back to
-> > its initial rate once that constraint is not needed anymore.
-> >=20
-> > So I guess it's more akin to clk_set_min_rate with rollback than the
-> > exclusive API?
->=20
-> Is that rationale good enough, or did you expect something else?
+On 10/06/2021 21:46, John.C.Harrison@Intel.com wrote:
+> From: John Harrison <John.C.Harrison@Intel.com>
+> 
+> Various UMDs need to know the L3 bank count. So add a query API for it.
+> 
+> Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
+> ---
+>   drivers/gpu/drm/i915/gt/intel_gt.c | 15 +++++++++++++++
+>   drivers/gpu/drm/i915/gt/intel_gt.h |  1 +
+>   drivers/gpu/drm/i915/i915_query.c  | 22 ++++++++++++++++++++++
+>   drivers/gpu/drm/i915/i915_reg.h    |  1 +
+>   include/uapi/drm/i915_drm.h        |  1 +
+>   5 files changed, 40 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/i915/gt/intel_gt.c b/drivers/gpu/drm/i915/gt/intel_gt.c
+> index 2161bf01ef8b..708bb3581d83 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_gt.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_gt.c
+> @@ -704,3 +704,18 @@ void intel_gt_info_print(const struct intel_gt_info *info,
+>   
+>   	intel_sseu_dump(&info->sseu, p);
+>   }
+> +
+> +int intel_gt_get_l3bank_count(struct intel_gt *gt)
+> +{
+> +	struct drm_i915_private *i915 = gt->i915;
+> +	intel_wakeref_t wakeref;
+> +	u32 fuse3;
+> +
+> +	if (GRAPHICS_VER(i915) < 12)
+> +		return -ENODEV;
+> +
+> +	with_intel_runtime_pm(gt->uncore->rpm, wakeref)
+> +		fuse3 = intel_uncore_read(gt->uncore, GEN10_MIRROR_FUSE3);
+> +
+> +	return hweight32(REG_FIELD_GET(GEN12_GT_L3_MODE_MASK, ~fuse3));
+> +}
+> diff --git a/drivers/gpu/drm/i915/gt/intel_gt.h b/drivers/gpu/drm/i915/gt/intel_gt.h
+> index 7ec395cace69..46aa1cf4cf30 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_gt.h
+> +++ b/drivers/gpu/drm/i915/gt/intel_gt.h
+> @@ -77,6 +77,7 @@ static inline bool intel_gt_is_wedged(const struct intel_gt *gt)
+>   
+>   void intel_gt_info_print(const struct intel_gt_info *info,
+>   			 struct drm_printer *p);
+> +int intel_gt_get_l3bank_count(struct intel_gt *gt);
+>   
+>   void intel_gt_watchdog_work(struct work_struct *work);
+>   
+> diff --git a/drivers/gpu/drm/i915/i915_query.c b/drivers/gpu/drm/i915/i915_query.c
+> index 96bd8fb3e895..0e92bb2d21b2 100644
+> --- a/drivers/gpu/drm/i915/i915_query.c
+> +++ b/drivers/gpu/drm/i915/i915_query.c
+> @@ -10,6 +10,7 @@
+>   #include "i915_perf.h"
+>   #include "i915_query.h"
+>   #include <uapi/drm/i915_drm.h>
+> +#include "gt/intel_gt.h"
+>   
+>   static int copy_query_item(void *query_hdr, size_t query_sz,
+>   			   u32 total_length,
+> @@ -502,6 +503,26 @@ static int query_hwconfig_table(struct drm_i915_private *i915,
+>   	return hwconfig->size;
+>   }
+>   
+> +static int query_l3banks(struct drm_i915_private *i915,
+> +			 struct drm_i915_query_item *query_item)
+> +{
+> +	u32 banks;
+> +
+> +	if (query_item->length == 0)
+> +		return sizeof(banks);
+> +
+> +	if (query_item->length < sizeof(banks))
+> +		return -EINVAL;
+> +
+> +	banks = intel_gt_get_l3bank_count(&i915->gt);
 
-I'm not really sure what to do at this point. It's been over 2 months
-since I sent this series, and we really need that mechanism in some form
-or another.
+Having spotted i915->gt I am thinking whether this should be future 
+proofed to take, say, struct i915_engine_class_instance as input. If one 
+need different GTs will have different L3 config. Alternative is adding 
+a new query at that point. No strong opinion either way.
 
-I'm really fine with changing that series in any way, but I got no
-comment that I could address to turn this into something that would be
-acceptable to you. How can we move this forward?
+Otherwise yes, I agree with adding flags mbz check and documenting the 
+uapi as other people have suggested.
 
-Maxime
+Regards,
+
+Tvrtko
+
+> +
+> +	if (copy_to_user(u64_to_user_ptr(query_item->data_ptr),
+> +			 &banks, sizeof(banks)))
+> +		return -EFAULT;
+> +
+> +	return sizeof(banks);
+> +}
+> +
+>   static int (* const i915_query_funcs[])(struct drm_i915_private *dev_priv,
+>   					struct drm_i915_query_item *query_item) = {
+>   	query_topology_info,
+> @@ -509,6 +530,7 @@ static int (* const i915_query_funcs[])(struct drm_i915_private *dev_priv,
+>   	query_perf_config,
+>   	query_memregion_info,
+>   	query_hwconfig_table,
+> +	query_l3banks,
+>   };
+>   
+>   int i915_query_ioctl(struct drm_device *dev, void *data, struct drm_file *file)
+> diff --git a/drivers/gpu/drm/i915/i915_reg.h b/drivers/gpu/drm/i915/i915_reg.h
+> index eb13c601d680..e9ba88fe3db7 100644
+> --- a/drivers/gpu/drm/i915/i915_reg.h
+> +++ b/drivers/gpu/drm/i915/i915_reg.h
+> @@ -3099,6 +3099,7 @@ static inline bool i915_mmio_reg_valid(i915_reg_t reg)
+>   #define	GEN10_MIRROR_FUSE3		_MMIO(0x9118)
+>   #define GEN10_L3BANK_PAIR_COUNT     4
+>   #define GEN10_L3BANK_MASK   0x0F
+> +#define GEN12_GT_L3_MODE_MASK 0xFF
+>   
+>   #define GEN8_EU_DISABLE0		_MMIO(0x9134)
+>   #define   GEN8_EU_DIS0_S0_MASK		0xffffff
+> diff --git a/include/uapi/drm/i915_drm.h b/include/uapi/drm/i915_drm.h
+> index 87d369cae22a..20d18cca5066 100644
+> --- a/include/uapi/drm/i915_drm.h
+> +++ b/include/uapi/drm/i915_drm.h
+> @@ -2234,6 +2234,7 @@ struct drm_i915_query_item {
+>   #define DRM_I915_QUERY_PERF_CONFIG      3
+>   #define DRM_I915_QUERY_MEMORY_REGIONS   4
+>   #define DRM_I915_QUERY_HWCONFIG_TABLE   5
+> +#define DRM_I915_QUERY_L3_BANK_COUNT    6
+>   /* Must be kept compact -- no holes and well documented */
+>   
+>   	/**
+> 
