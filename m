@@ -2,57 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D274C3AA5CA
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Jun 2021 22:58:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0809E3AA5E7
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Jun 2021 23:05:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BE1FF6E828;
-	Wed, 16 Jun 2021 20:58:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 758786E829;
+	Wed, 16 Jun 2021 21:05:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6DFF46E828
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Jun 2021 20:58:14 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPS id 41B86613D5
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Jun 2021 20:58:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1623877094;
- bh=2S5bnMxkyECJm4CUldcRa4yYcNyTICe/RDFIMEvFCcU=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=C6/YCt7a12ZxAiLeXwjev3EVS3VPjJ6MBN5D/5RM6r8Gdil1K9efqUd7OncsDGCGn
- kEZYTfMjiS5wKPsmL20Tdys3K+/nawVpsuoJpIXns5B465KO/7W0/fF6XK3bijCyZW
- iRGt7U2egTqfuxgA0AGs755lZOS4s5UzCO45G2ctCqZq0sQ8tDfG+tredU2LfY4nFy
- aKKXs9+7cUNoq/SnC95bFx50BqJZfMzkJCRANdjoiQXTtiQiHaS3GvMrcVwLMD6oeI
- TwRS0gB9nNpTbDHUW9ieaBAbLu+vmoydAxX4bFjLbEuBUG+0ZtvjrLAtzvxsOhB/cE
- dpERW4KBJenAw==
-Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
- id 3EA9A6109D; Wed, 16 Jun 2021 20:58:14 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 209457] AMDGPU resume fail with RX 580 GPU
-Date: Wed, 16 Jun 2021 20:58:13 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: lsrzj@yahoo.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-209457-2300-F5Moxf2Brc@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-209457-2300@https.bugzilla.kernel.org/>
-References: <bug-209457-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 348AB6E829
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Jun 2021 21:05:48 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
+ [62.78.145.57])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 21F5AFC9;
+ Wed, 16 Jun 2021 23:05:45 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1623877545;
+ bh=2IBPWP7hn6ucwodbxtkHel4D6eOZPP8Ec1jAvIB9tpo=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=RokUqXx2zOiLscgJQ8kMnrPUp7wLhensj/HpKU912X7Gd3s4AAYn6/hcKsSMShbHr
+ 66f4J3p2xuUrDWgNtoT+gqvNcExviSmT5r0kvSt3bq4YAtM/tkSLTC+ZvSuPUxaAiK
+ 0ZBy8fbZaz6qZF4IuVpJkL7alvqnhmyCzuc1dQCE=
+Date: Thu, 17 Jun 2021 00:05:24 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Pekka Paalanen <ppaalanen@gmail.com>
+Subject: Re: [PATCH v3] Documentation: gpu: Mention the requirements for new
+ properties
+Message-ID: <YMpnlDmzn0Re4Urn@pendragon.ideasonboard.com>
+References: <CAKMK7uG_Wkko0L6sv0U1bXWdYk4fg3OTcp5=+qfRV0CP9V44=A@mail.gmail.com>
+ <KNFHfqvJUVq9oy9BSdznj1S6xhDoZUAx1_DwfSNvUv8u1d-TroKBTq2hxtv7u1aJnxnpI5CxUXSMTn73YsVhZjnRW78gv-QLsK6AkJ5m3Fw=@emersion.fr>
+ <20210611120309.2b5eb4htupv5ss32@e110455-lin.cambridge.arm.com>
+ <20210614174912.15a49336@eldfell>
+ <20210614152413.nguqia3s4tlowio4@e110455-lin.cambridge.arm.com>
+ <YMeE63G+9DSLPB3N@pendragon.ideasonboard.com>
+ <20210615100335.0b8f96d5@eldfell>
+ <ouNaZaqkV1d_wPRESVBQHxvMhmJ53xIrgtPfDs8mB88AN3FEWt7cq031k8ZqCva1Ob0TCNTnsWqNDS0l5NXfejXIL7YUky3XGdjmh1_hefk=@emersion.fr>
+ <YMh21WBrADbZDcbp@pendragon.ideasonboard.com>
+ <20210615131656.2ecefdc4@eldfell>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20210615131656.2ecefdc4@eldfell>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,20 +56,114 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Ludovic Desroches <ludovic.desroches@microchip.com>,
+ Haneen Mohammed <hamohammed.sa@gmail.com>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+ Xinliang Liu <xinliang.liu@linaro.org>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Liviu Dudau <liviu.dudau@arm.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>, Sandy Huang <hjc@rock-chips.com>,
+ Melissa Wen <melissa.srw@gmail.com>, Andrzej Hajda <a.hajda@samsung.com>,
+ Thierry Reding <thierry.reding@gmail.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Benjamin Gaignard <benjamin.gaignard@linaro.org>,
+ Anitha Chrisanthus <anitha.chrisanthus@intel.com>,
+ Daniel Vetter <daniel.vetter@intel.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Jerome Brunet <jbrunet@baylibre.com>, Marek Vasut <marex@denx.de>,
+ Jonathan Corbet <corbet@lwn.net>, Joonyoung Shim <jy0922.shim@samsung.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+ Kevin Hilman <khilman@baylibre.com>, Neil Armstrong <narmstrong@baylibre.com>,
+ Russell King <linux@armlinux.org.uk>, Steven Price <steven.price@arm.com>,
+ David Airlie <airlied@linux.ie>, Xinwei Kong <kong.kongxinwei@hisilicon.com>,
+ Noralf =?utf-8?Q?Tr=C3=B8nnes?= <noralf@tronnes.org>,
+ VMware Graphics <linux-graphics-maintainer@vmware.com>,
+ Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+ Chen Feng <puck.chen@hisilicon.com>, Hyun Kwon <hyun.kwon@xilinx.com>,
+ NXP Linux Team <linux-imx@nxp.com>, Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Tian Tao <tiantao6@hisilicon.com>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Jonas Karlman <jonas@kwiboo.se>,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ Edmund Dea <edmund.j.dea@intel.com>, Sascha Hauer <s.hauer@pengutronix.de>,
+ Alison Wang <alison.wang@nxp.com>, Roland Scheidegger <sroland@vmware.com>,
+ Shawn Guo <shawnguo@kernel.org>, Ben Skeggs <bskeggs@redhat.com>,
+ Maxime Ripard <maxime@cerno.tech>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
+ Sean Paul <sean@poorly.run>, Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Paul Cercueil <paul@crapouillou.net>, Jernej Skrabec <jernej.skrabec@siol.net>,
+ Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+ Tomi Valkeinen <tomba@kernel.org>, Hans de Goede <hdegoede@redhat.com>,
+ Andrew Jeffery <andrew@aj.id.au>, Yannick Fertr e <yannick.fertre@foss.st.com>,
+ Boris Brezillon <bbrezillon@kernel.org>,
+ Seung-Woo Kim <sw0312.kim@samsung.com>,
+ Nicolas Ferre <nicolas.ferre@microchip.com>,
+ Robert Foss <robert.foss@linaro.org>, Joel Stanley <joel@jms.id.au>,
+ Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Qiang Yu <yuq825@gmail.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Alex Deucher <alexander.deucher@amd.com>, Huang Rui <ray.huang@amd.com>,
+ Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>,
+ Philippe Cornu <philippe.cornu@foss.st.com>, Jyri Sarha <jyri.sarha@iki.fi>,
+ Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D209457
+On Tue, Jun 15, 2021 at 01:16:56PM +0300, Pekka Paalanen wrote:
+> On Tue, 15 Jun 2021 12:45:57 +0300 Laurent Pinchart wrote:
+> > On Tue, Jun 15, 2021 at 07:15:18AM +0000, Simon Ser wrote:
+> > > On Tuesday, June 15th, 2021 at 09:03, Pekka Paalanen wrote:
+> > >   
+> > > > indeed it will, but what else could one do to test userspace KMS
+> > > > clients in generic CI where all you can have is virtual hardware? Maybe
+> > > > in the long run VKMS needs to loop back to a userspace daemon that
+> > > > implements all the complex processing and returns the writeback result
+> > > > via VKMS again? That daemon would then need a single upstream, like the
+> > > > kernel, where it is maintained and correctness verified.  
+> > > 
+> > > The complex processing must be implemented even without write-back, because
+> > > user-space can ask for CRCs of the CRTC.
+> > >   
+> > > > Or an LD_PRELOAD that hijacks all KMS ioctls and implements virtual
+> > > > stuff in userspace? Didn't someone already have something like that?
+> > > > It would need to be lifted to be a required part of kernel UAPI
+> > > > submissions, I suppose like IGT is nowadays.  
+> > > 
+> > > FWIW, I have a mock libdrm [1] for libliftoff. This is nowhere near a full
+> > > software implementation with write-back connectors, but allows to expose
+> > > virtual planes and check atomic commits in CI.
+> > > 
+> > > [1]: https://github.com/emersion/libliftoff/blob/master/test/libdrm_mock.c
+> > >   
+> > > > For compositor developers like me knowing the exact formulas would be a huge
+> > > > benefit as it would allow me to use KMS to off-load precision-sensitive
+> > > > operations (e.g.  professional color management). Otherwise, compositors
+> > > > probably need a switch: "high quality color management? Then do not use KMS
+> > > > features."  
+> > > 
+> > > I think for alpha blending there are already rounding issues depending on the
+> > > hardware. I wouldn't keep my hopes up for any guarantee that all hw uses the
+> > > exact same formulae for color management stuff.  
+> > 
+> > Good, because otherwise you would be very quickly disappointed :-)
+> > 
+> > For scaling we would also need to replicate the exact same filter taps,
+> > which are often not documented.
+> 
+> That is where the documented tolerances come into play.
 
---- Comment #27 from Leandro Jacques (lsrzj@yahoo.com) ---
-Comment on attachment 297415
-  --> https://bugzilla.kernel.org/attachment.cgi?id=3D297415
-Kernel crash log for kernel 5.10.x
+This is something I've experimented with a while ago, when developing
+automated tests for the rcar-du driver. When playing with different
+input images we had to constantly increases tolerances, up to a point
+where the tests started to miss real problems :-(
 
-I had to downgrade to kernel 5.4 LTS to get rid of any problems
+> Userspace projects need screenshot-based testing, and we need to know
+> how much tolerance we should allow or expect.
+> 
+> Good reminder about CRCs. CRCs have zero tolerance, so they are not
+> useful for testing properties that have any leeway, are they?
 
---=20
-You may reply to this email to add a comment.
+-- 
+Regards,
 
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+Laurent Pinchart
