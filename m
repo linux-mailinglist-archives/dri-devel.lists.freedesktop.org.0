@@ -1,35 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86AEE3AA5C5
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Jun 2021 22:57:39 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D274C3AA5CA
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Jun 2021 22:58:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7C9F36E825;
-	Wed, 16 Jun 2021 20:57:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BE1FF6E828;
+	Wed, 16 Jun 2021 20:58:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C72486E825
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Jun 2021 20:57:33 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPS id 9CDD4613D0
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Jun 2021 20:57:33 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6DFF46E828
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Jun 2021 20:58:14 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id 41B86613D5
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Jun 2021 20:58:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1623877053;
- bh=1++iqZBOUt9v2Kc2dyHYt5lBJ6XiLSom/joXGeM5rzE=;
+ s=k20201202; t=1623877094;
+ bh=2S5bnMxkyECJm4CUldcRa4yYcNyTICe/RDFIMEvFCcU=;
  h=From:To:Subject:Date:In-Reply-To:References:From;
- b=Ckw1Abs1H3kPPTwDvYrv20ynrCNHTIE2PbasgCDAAE+5j0GA+dJdMiIdNCpleULnB
- mR+DaqBrH7r4utZeAw1bHnQHwJVsiw+mloijzoEFyXwznNfv17A8TRMReHPJQxZbzY
- L7Ou8jPdfXuUSabUo6ujg6mvJrDc6npkb3SpUhfPpLRwH8yJToqZ4uLh8B7iV0wrKQ
- WptB9MTSJ7yWHA+zPGq7spV3eiAFPxB4wXqPsPzD7ZX8SOZ7pwj6nN0ThFbobB1esl
- Zbib23otfxretfva4L/gcoMZjn2pswHITTCZgE+pHpGzxuoZVNh8beseJvxhJQrUIc
- 2cHoeTMUgnL3g==
+ b=C6/YCt7a12ZxAiLeXwjev3EVS3VPjJ6MBN5D/5RM6r8Gdil1K9efqUd7OncsDGCGn
+ kEZYTfMjiS5wKPsmL20Tdys3K+/nawVpsuoJpIXns5B465KO/7W0/fF6XK3bijCyZW
+ iRGt7U2egTqfuxgA0AGs755lZOS4s5UzCO45G2ctCqZq0sQ8tDfG+tredU2LfY4nFy
+ aKKXs9+7cUNoq/SnC95bFx50BqJZfMzkJCRANdjoiQXTtiQiHaS3GvMrcVwLMD6oeI
+ TwRS0gB9nNpTbDHUW9ieaBAbLu+vmoydAxX4bFjLbEuBUG+0ZtvjrLAtzvxsOhB/cE
+ dpERW4KBJenAw==
 Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
- id 9A36360F53; Wed, 16 Jun 2021 20:57:33 +0000 (UTC)
+ id 3EA9A6109D; Wed, 16 Jun 2021 20:58:14 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 209457] AMDGPU resume fail with RX 580 GPU
-Date: Wed, 16 Jun 2021 20:57:32 +0000
+Date: Wed, 16 Jun 2021 20:58:13 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -44,8 +44,8 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-209457-2300-YVONIMgv6i@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-209457-2300-F5Moxf2Brc@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-209457-2300@https.bugzilla.kernel.org/>
 References: <bug-209457-2300@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
@@ -70,10 +70,12 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=3D209457
 
---- Comment #26 from Leandro Jacques (lsrzj@yahoo.com) ---
-Created attachment 297415
-  --> https://bugzilla.kernel.org/attachment.cgi?id=3D297415&action=3Dedit
+--- Comment #27 from Leandro Jacques (lsrzj@yahoo.com) ---
+Comment on attachment 297415
+  --> https://bugzilla.kernel.org/attachment.cgi?id=3D297415
 Kernel crash log for kernel 5.10.x
+
+I had to downgrade to kernel 5.4 LTS to get rid of any problems
 
 --=20
 You may reply to this email to add a comment.
