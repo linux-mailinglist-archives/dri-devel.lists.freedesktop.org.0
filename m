@@ -2,70 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F04C3A9649
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Jun 2021 11:36:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E67FA3A96E2
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Jun 2021 12:06:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1FE7C89829;
-	Wed, 16 Jun 2021 09:36:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6A285894FE;
+	Wed, 16 Jun 2021 10:06:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com
- [205.220.177.32])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E10D889829
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Jun 2021 09:36:20 +0000 (UTC)
-Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 15G9VQ1B023330; Wed, 16 Jun 2021 09:36:17 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=date : from : to : cc
- : subject : message-id : references : mime-version : content-type :
- content-transfer-encoding : in-reply-to; s=corp-2020-01-29;
- bh=qrIt9OkcksJG8Hzoo+m8TG/TF4FvSpIhsfa1qr7ALvU=;
- b=BdcZRemOAcpmfrdGB+10KSkYZWYTIsy+RexHPGUX4eMS4hVlrQvbWiWZzkaJty67Kbry
- 2Kuri9L51hvUjM1BplLndmAB8Ova6CKYPeac8FyO/xLE8y3doC+88ZMHxHIp7i3mXKfP
- vHukx2B2XH6jY4wyjNcDHFyQTJiDQjhCSWS8APxLj5PaszoHOb9LotHhTOfzJ4iGjMYy
- 2v9TtwcahUhi1x7IOZBpJ6ZFmY2AWPWVXAO/S8SnpAKj96Tb/9zH0vu7/0A4EvCHQ3Xw
- 5sl7Kvi9MlNM+2/+DYLebPxiUazBCkMoMvylrEE4ycbtmZwEr30Zh6IyywRAfDl5+XvF qA== 
-Received: from oracle.com (aserp3030.oracle.com [141.146.126.71])
- by mx0b-00069f02.pphosted.com with ESMTP id 396tjdsv25-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 16 Jun 2021 09:36:16 +0000
-Received: from aserp3030.oracle.com (aserp3030.oracle.com [127.0.0.1])
- by pps.podrdrct (8.16.0.36/8.16.0.36) with SMTP id 15G9aGw8030461;
- Wed, 16 Jun 2021 09:36:16 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
- by aserp3030.oracle.com with ESMTP id 396wau78ff-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 16 Jun 2021 09:36:16 +0000
-Received: from aserp3030.oracle.com (aserp3030.oracle.com [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 15G9aFRF030440;
- Wed, 16 Jun 2021 09:36:15 GMT
-Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
- by aserp3030.oracle.com with ESMTP id 396wau78f1-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 16 Jun 2021 09:36:15 +0000
-Received: from abhmp0003.oracle.com (abhmp0003.oracle.com [141.146.116.9])
- by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 15G9aCm1001681;
- Wed, 16 Jun 2021 09:36:12 GMT
-Received: from kadam (/41.212.42.34) by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Wed, 16 Jun 2021 09:36:12 +0000
-Date: Wed, 16 Jun 2021 12:36:04 +0300
-From: Dan Carpenter <dan.carpenter@oracle.com>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>
-Subject: Re: [PATCH] drm/ttm: fix error handling in ttm_bo_handle_move_mem()
-Message-ID: <20210616093604.GD1901@kadam>
-References: <YMmadPwv8C+Ut1+o@mwanda>
- <03d0b798-d1ab-5b6f-2c27-8140d923d445@gmail.com>
- <20210616083758.GC1901@kadam>
- <520a9d1f-8841-8d5e-595d-23783de8333d@gmail.com>
+Received: from new1-smtp.messagingengine.com (new1-smtp.messagingengine.com
+ [66.111.4.221])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7D5FE894FE
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Jun 2021 10:06:00 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailnew.nyi.internal (Postfix) with ESMTP id 91161580604;
+ Wed, 16 Jun 2021 06:05:59 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute5.internal (MEProxy); Wed, 16 Jun 2021 06:05:59 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+ date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:content-transfer-encoding:in-reply-to; s=fm3; bh=z
+ 2UmXQhDugDkY3JPY2VRubJRfdN52LF2DGHHRLorphg=; b=R6H3erMeBMR3fIoM2
+ 77xoA6yS7bg5QXVivp3ylMv9MZd/zfzltpfqDXvtmAeuaLOaRpZyFF0jHi2LCr+w
+ ZhhjvGZjWKjtUyq3x0CMLK70v4uBkHUt/zkeJuKTReRA59oq6MduD2TLLTCOjsmU
+ gK9FquEyI/dC1/9SbtyumTwMKjZMAMqf9GZJsHeVHZ2bcqo4BLFfz5czSdm0M37V
+ L1t3icC3hRFM1VVEYrVYkRpkxGhFL7vQWhWyU17OE/pN+yr9mWTckOnV/zvdTFVe
+ ZonT7zxN3dwI9yNLRin5YBB7IRdBjeuulB0gYBasTYLnkiNt9aoxwrjam2R6DAqm
+ f/wMg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-transfer-encoding:content-type
+ :date:from:in-reply-to:message-id:mime-version:references
+ :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+ :x-sasl-enc; s=fm3; bh=z2UmXQhDugDkY3JPY2VRubJRfdN52LF2DGHHRLorp
+ hg=; b=jsDSEhVcFO8gvA0na/olEN5ylxjEW9Ja+YhUGN6Yw8xkYweA2iTPpeIQg
+ 0NJF2jBg8lIFhlzY6k8WHdRzkWCtmDlKTf7CykoEHBlLwmgK/sia8VE4k7CmiguV
+ rG78yU1QiNWt+PESpW/4XMrPiREZOLgJkl/Ge82o8C+mwx8S1s2WxhJpOHII74ds
+ +kPhB4vQP6uxAlW2xEtHGyQp2VHAHHuXsy3RiVaKPXsTwMH02C3aG9OLEwQvZNmx
+ vQAIa1St0P9cXZQsJohrAcRw4kz47moIC7xLzmrC6MxLFZU0N9cPP5+jVyWsm8Gm
+ mi7oHrB1m1j1fOvoyG9AiubWLlMbA==
+X-ME-Sender: <xms:Bs3JYMMt9TyZmcXpU3IAd1qtExhNfWav3V3At8NMNdUKHm4u2nJIig>
+ <xme:Bs3JYC_KO831DpFMm114ng8_UlATdMdzgKShLPCzlb3Stk9B_TDu7DIQ3epzY44uY
+ bgmV1rpSDa8To3nIFo>
+X-ME-Received: <xmr:Bs3JYDSozzZz1TLYLZCNCMZ2ULx8MPLCoj9-dSg_IheXxXGL8CUKx6SibqdbKoOTsm8tcFHm_8O0VwPUmtJcJlzXylUAbvWDTG8y>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrfedvledgvdefucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvffukfhfgggtugfgjgesthhqredttddtvdenucfhrhhomhepofgrgihi
+ mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
+ htthgvrhhnpeekieelteevjeffgeeuteejiefggfefgfekueeuteffhfehgeevfefhkeeh
+ veekudenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivg
+ eptdenucfrrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggt
+ hh
+X-ME-Proxy: <xmx:Bs3JYEvCXFS374RDtVAWktaaD12hkElXzI9QElcb5K_F_rVZFCv3vw>
+ <xmx:Bs3JYEfgdaWe38JK5keIn3ue5zEQKZf4i4WUCvNgBaNMqzg0gAssqA>
+ <xmx:Bs3JYI3kCi8c3VLug69BuOpbyktCZ5HGlJnzHRew5tUMCOCGaiLusg>
+ <xmx:B83JYP1l7lydSwSPKvYzRg5LPGHhvVzr2pklNt160u6gyz3LfPq79g>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 16 Jun 2021 06:05:57 -0400 (EDT)
+Date: Wed, 16 Jun 2021 12:05:56 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: Stephen Boyd <sboyd@kernel.org>
+Subject: Re: [PATCH 0/2] clk: Implement a clock request API
+Message-ID: <20210616100556.marhidqeljaxswyf@gilmour>
+References: <20210413101320.321584-1-maxime@cerno.tech>
+ <161981637939.1363782.4943687720432536625@swboyd.mtv.corp.google.com>
+ <20210503083221.qsdurp2f3bkwfa6d@gilmour>
+ <20210524124811.74g75n672wrpzqqi@gilmour>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <520a9d1f-8841-8d5e-595d-23783de8333d@gmail.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Proofpoint-ORIG-GUID: 2qZ2mbBvaaX2gIX11Cai09kvJ2R54kVW
-X-Proofpoint-GUID: 2qZ2mbBvaaX2gIX11Cai09kvJ2R54kVW
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20210524124811.74g75n672wrpzqqi@gilmour>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,74 +84,78 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: B6@mwanda, m <thomas.hellstrom@linux.intel.com>,
- David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Huang Rui <ray.huang@amd.com>,
- Thomas Hellstr <C3@mwanda>
+Cc: linux-clk@vger.kernel.org, Tim Gover <tim.gover@raspberrypi.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ David Airlie <airlied@linux.ie>, Mike Turquette <mturquette@baylibre.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Russell King <linux@armlinux.org.uk>, Eric Anholt <eric@anholt.net>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Daniel Vetter <daniel.vetter@intel.com>, Phil Elwell <phil@raspberrypi.com>,
+ Dom Cobley <dom@raspberrypi.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jun 16, 2021 at 10:47:14AM +0200, Christian König wrote:
-> 
-> 
-> Am 16.06.21 um 10:37 schrieb Dan Carpenter:
-> > On Wed, Jun 16, 2021 at 08:46:33AM +0200, Christian König wrote:
-> > > Sending the first message didn't worked, so let's try again.
-> > > 
-> > > Am 16.06.21 um 08:30 schrieb Dan Carpenter:
-> > > > There are three bugs here:
-> > > > 1) We need to call unpopulate() if ttm_tt_populate() succeeds.
-> > > > 2) The "new_man = ttm_manager_type(bdev, bo->mem.mem_type);" assignment
-> > > >      was wrong and it was really assigning "new_mem = old_mem;".  There
-> > > >      is no need for this assignment anyway as we already have the value
-> > > >      for "new_mem".
-> > > > 3) The (!new_man->use_tt) condition is reversed.
-> > > > 
-> > > > Fixes: ba4e7d973dd0 ("drm: Add the TTM GPU memory manager subsystem.")
-> > > > Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
-> > > > ---
-> > > > This is from reading the code and I can't swear that I have understood
-> > > > it correctly.  My nouveau driver is currently unusable and this patch
-> > > > has not helped.  But hopefully if I fix enough bugs eventually it will
-> > > > start to work.
-> > > Well NAK, the code previously looked quite well and you are breaking it now.
-> > > 
-> > > What's the problem with nouveau?
-> > > 
-> > The new Firefox seems to excersize nouveau more than the old one so
-> > when I start 10 firefox windows it just hangs the graphics.
-> > 
-> > I've added debug code and it seems like the problem is that
-> > nv50_mem_new() is failing.
-> 
-> Sounds like it is running out of memory to me.
-> 
-> Do you have a dmesg?
-> 
+Hi Stephen, Mike,
 
-At first there was a very straight forward use after free bug which I
-fixed.
-https://lore.kernel.org/nouveau/YMinJwpIei9n1Pn1@mwanda/T/#u
+On Mon, May 24, 2021 at 02:48:11PM +0200, Maxime Ripard wrote:
+> Hi Stephen, Mike,
+>=20
+> On Mon, May 03, 2021 at 10:32:21AM +0200, Maxime Ripard wrote:
+> > Hi Stephen,
+> >=20
+> > On Fri, Apr 30, 2021 at 01:59:39PM -0700, Stephen Boyd wrote:
+> > > Quoting Maxime Ripard (2021-04-13 03:13:18)
+> > > > Hi,
+> > > >=20
+> > > > This is a follow-up of the discussion here:
+> > > > https://lore.kernel.org/linux-clk/20210319150355.xzw7ikwdaga2dwhv@g=
+ilmour/
+> > > >=20
+> > > > This implements a mechanism to raise and lower clock rates based on=
+ consumer
+> > > > workloads, with an example of such an implementation for the Raspbe=
+rryPi4 HDMI
+> > > > controller.
+> > > >=20
+> > > > There's a couple of things worth discussing:
+> > > >=20
+> > > >   - The name is in conflict with clk_request_rate, and even though =
+it feels
+> > > >     like the right name to me, we should probably avoid any confusi=
+on
+> > > >=20
+> > > >   - The code so far implements a policy of always going for the low=
+est rate
+> > > >     possible. While we don't have an use-case for something else, t=
+his should
+> > > >     maybe be made more flexible?
+> > >=20
+> > > I'm definitely confused how it is different from the
+> > > clk_set_rate_exclusive() API and associated
+> > > clk_rate_exclusive_get()/clk_rate_exclusive_put(). Can you explain
+> > > further the differences in the cover letter here?
+> >=20
+> > The exclusive API is meant to prevent the clock rate from changing,
+> > allowing a single user to make sure that no other user will be able to
+> > change it.
+> >=20
+> > What we want here is instead to allow multiple users to be able to
+> > express a set of minimum rates and then let the CCF figure out a rate
+> > for that clock that matches those constraints (so basically what
+> > clk_set_min_rate does), but then does allow for the clock to go back to
+> > its initial rate once that constraint is not needed anymore.
+> >=20
+> > So I guess it's more akin to clk_set_min_rate with rollback than the
+> > exclusive API?
+>=20
+> Is that rationale good enough, or did you expect something else?
 
-But now the use after free is gone the only thing in dmesg is:
-"[TTM] Buffer eviction failed".  And I have some firmware missing.
+I'm not really sure what to do at this point. It's been over 2 months
+since I sent this series, and we really need that mechanism in some form
+or another.
 
-[  205.489763] rfkill: input handler disabled
-[  205.678292] nouveau 0000:01:00.0: Direct firmware load for nouveau/nva8_fuc084 failed with error -2
-[  205.678300] nouveau 0000:01:00.0: Direct firmware load for nouveau/nva8_fuc084d failed with error -2
-[  205.678302] nouveau 0000:01:00.0: msvld: unable to load firmware data
-[  205.678304] nouveau 0000:01:00.0: msvld: init failed, -19
-[  296.150632] [TTM] Buffer eviction failed
-[  417.084265] [TTM] Buffer eviction failed
-[  447.295961] [TTM] Buffer eviction failed
-[  510.800231] [TTM] Buffer eviction failed
-[  556.101384] [TTM] Buffer eviction failed
-[  616.495790] [TTM] Buffer eviction failed
-[  692.014007] [TTM] Buffer eviction failed
+I'm really fine with changing that series in any way, but I got no
+comment that I could address to turn this into something that would be
+acceptable to you. How can we move this forward?
 
-The eviction failed message only shows up a minute after the hang so it
-seems more like a symptom than a root cause.
-
-regards,
-dan carpenter
-
+Maxime
