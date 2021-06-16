@@ -2,47 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E7AE3AAD64
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Jun 2021 09:22:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE5E63AADD1
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Jun 2021 09:39:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BD35A6E884;
-	Thu, 17 Jun 2021 07:22:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C35146E885;
+	Thu, 17 Jun 2021 07:39:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ua1-f45.google.com (mail-ua1-f45.google.com
- [209.85.222.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 657BB6E884
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Jun 2021 07:22:53 +0000 (UTC)
-Received: by mail-ua1-f45.google.com with SMTP id c17so1743591uao.1
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Jun 2021 00:22:53 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=cEv8QQ6il/6NkwppAWjKCYYqz8xPWh7pjmkGPTD+a34=;
- b=hl/w2FQ7wF6vR3FkOOO9dbFhiWfHr98VyCZH/c9zHXAEPRRs0Ib2IFo4X7n8/6nTQR
- gUlVm4QuFv3jUE7vWccNy6CNaHwwezFIZ61F5oeCh/k1WS33ngYYaukxSzcEKNBBizzW
- XXS7iaKezCf0IXEho6iGNPuWP8h59Jpvli4AdTfziNlATL9+4t6BQaszy0LrOgq8JVdy
- VdrNpTk7dQ72vGnY+0E1J9zu8kC3629U3UUDV5dqzMOgtz5CNc9HJJWnF0W3hkC/BAcR
- BhL4R4nFYYYz8jShkdIWMlEH2OkSO9AKLYPuxh2Seubu1KphM5LXlbhJwDmdDYuwQ0Xx
- b+uw==
-X-Gm-Message-State: AOAM532yAQMn6WJRTF8pQv48YxZ0ES264R8+xvOYU73Kd6IZn4o9Yr47
- DoRtgrqxdvwYTuu9a/PV6S0P/EXVwQO78YlKkMc=
-X-Google-Smtp-Source: ABdhPJwMcA0YpYRPCJAZ9bnGz/2Pg25idgRHpclYxTS0kaMVMyFb5dPU4W1UkU43d9V5qdplDXdplYoI8kdY08U/tJ4=
-X-Received: by 2002:ab0:70b3:: with SMTP id q19mr3877741ual.2.1623914572130;
- Thu, 17 Jun 2021 00:22:52 -0700 (PDT)
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 875F46E55C
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Jun 2021 10:42:13 +0000 (UTC)
+Received: from gallifrey.ext.pengutronix.de
+ ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=bjornoya.blackshift.org)
+ by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <mkl@pengutronix.de>)
+ id 1ltSzV-0004RW-VS; Wed, 16 Jun 2021 12:41:50 +0200
+Received: from pengutronix.de (unknown
+ [IPv6:2a03:f580:87bc:d400:27:4a54:dbae:b593])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (Client did not present a certificate)
+ (Authenticated sender: mkl-all@blackshift.org)
+ by smtp.blackshift.org (Postfix) with ESMTPSA id 9048463D23F;
+ Wed, 16 Jun 2021 10:41:36 +0000 (UTC)
+Date: Wed, 16 Jun 2021 12:41:35 +0200
+From: Marc Kleine-Budde <mkl@pengutronix.de>
+To: Rob Herring <robh@kernel.org>
+Subject: Re: [PATCH] dt-bindings: Drop redundant minItems/maxItems
+Message-ID: <20210616104135.z5bjalhan4ui2ibz@pengutronix.de>
+References: <20210615191543.1043414-1-robh@kernel.org>
 MIME-Version: 1.0
-References: <2da75fd2e971dfab8dd05a2a28bb1d6d9cbe5adb.1619700420.git.geert+renesas@glider.be>
- <YIrU+tdcfQ/6ODRz@pendragon.ideasonboard.com>
- <YMqsAkFfAU02t4oD@pendragon.ideasonboard.com>
-In-Reply-To: <YMqsAkFfAU02t4oD@pendragon.ideasonboard.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Thu, 17 Jun 2021 09:22:40 +0200
-Message-ID: <CAMuHMdWe-84ga-f4GC7h+jZnAPu5ayvV=xnB7mNgQs3XqRVW=w@mail.gmail.com>
-Subject: Re: [PATCH] dt-bindings: display: renesas, du: Make resets optional on
- R-Car H1
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="agvztsrh6izyn335"
+Content-Disposition: inline
+In-Reply-To: <20210615191543.1043414-1-robh@kernel.org>
+X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
+X-SA-Exim-Mail-From: mkl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+X-Mailman-Approved-At: Thu, 17 Jun 2021 07:39:18 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,99 +56,90 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, Geert Uytterhoeven <geert+renesas@glider.be>,
- David Airlie <airlied@linux.ie>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
- Rob Herring <robh+dt@kernel.org>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Cc: Andrew Lunn <andrew@lunn.ch>, alsa-devel@alsa-project.org,
+ Daniel Lezcano <daniel.lezcano@linaro.org>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>, linux-pwm@vger.kernel.org,
+ linux-iio@vger.kernel.org, linux-pci@vger.kernel.org,
+ linux-remoteproc@vger.kernel.org, Ulf Hansson <ulf.hansson@linaro.org>,
+ dri-devel@lists.freedesktop.org, linux-ide@vger.kernel.org,
+ linux-i2c@vger.kernel.org, linux-phy@lists.infradead.org,
+ linux-riscv@lists.infradead.org, Lee Jones <lee.jones@linaro.org>,
+ linux-clk@vger.kernel.org, linux-rtc@vger.kernel.org,
+ Herbert Xu <herbert@gondor.apana.org.au>,
+ Bartosz Golaszewski <bgolaszewski@baylibre.com>, Marc Zyngier <maz@kernel.org>,
+ Joerg Roedel <joro@8bytes.org>, Jassi Brar <jassisinghbrar@gmail.com>,
+ Vinod Koul <vkoul@kernel.org>, Kishon Vijay Abraham I <kishon@ti.com>,
+ David Airlie <airlied@linux.ie>, linux-serial@vger.kernel.org,
+ Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+ Jakub Kicinski <kuba@kernel.org>, Zhang Rui <rui.zhang@intel.com>,
+ Vivien Didelot <vivien.didelot@gmail.com>,
+ Wolfgang Grandegger <wg@grandegger.com>, linux-media@vger.kernel.org,
+ Ohad Ben-Cohen <ohad@wizery.com>, devicetree@vger.kernel.org,
+ Albert Ou <aou@eecs.berkeley.edu>, linux-watchdog@vger.kernel.org,
+ linux-pm@vger.kernel.org, linux-can@vger.kernel.org,
+ linux-gpio@vger.kernel.org, Mark Brown <broonie@kernel.org>,
+ Kamal Dasu <kdasu.kdev@gmail.com>, Paul Walmsley <paul.walmsley@sifive.com>,
+ Bjorn Helgaas <bhelgaas@google.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ linux-arm-kernel@lists.infradead.org, Jens Axboe <axboe@kernel.dk>,
+ Alessandro Zummo <a.zummo@towertech.it>,
+ Wim Van Sebroeck <wim@linux-watchdog.org>, Guenter Roeck <linux@roeck-us.net>,
+ Mathieu Poirier <mathieu.poirier@linaro.org>, Stephen Boyd <sboyd@kernel.org>,
+ netdev@vger.kernel.org, linux-usb@vger.kernel.org, linux-mmc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-spi@vger.kernel.org,
+ iommu@lists.linux-foundation.org, Palmer Dabbelt <palmer@dabbelt.com>,
+ linux-crypto@vger.kernel.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ dmaengine@vger.kernel.org, Vladimir Oltean <olteanv@gmail.com>,
+ "David S. Miller" <davem@davemloft.net>, Jonathan Cameron <jic23@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Laurent,
 
-On Thu, Jun 17, 2021 at 3:57 AM Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
-> On Thu, Apr 29, 2021 at 06:47:06PM +0300, Laurent Pinchart wrote:
-> > On Thu, Apr 29, 2021 at 02:47:31PM +0200, Geert Uytterhoeven wrote:
-> > > The "resets" property is not present on R-Car Gen1 SoCs.
-> > > Supporting it would require migrating from renesas,cpg-clocks to
-> > > renesas,cpg-mssr.
-> > >
-> > > Reflect this in the DT bindings by removing the global "required:
-> > > resets".  All SoCs that do have "resets" properties already have
-> > > SoC-specific rules making it required.
-> >
-> > Should we drop the
-> >
-> >         resets:
-> >         maxItems: 1
-> >
-> > from renesas,du-r8a7779 then ? And maybe the
-> >
-> >   resets: true
-> >
-> > in the general case ?
->
-> Any opinion on this ?
+--agvztsrh6izyn335
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Oops, I did reply to this on April 29, but accidentally dropped
-all CCs, which made it disappear from your radar, too?
+On 15.06.2021 13:15:43, Rob Herring wrote:
+> If a property has an 'items' list, then a 'minItems' or 'maxItems' with t=
+he
+> same size as the list is redundant and can be dropped. Note that is DT
+> schema specific behavior and not standard json-schema behavior. The tooli=
+ng
+> will fixup the final schema adding any unspecified minItems/maxItems.
+>=20
+> This condition is partially checked with the meta-schema already, but
+> only if both 'minItems' and 'maxItems' are equal to the 'items' length.
+> An improved meta-schema is pending.
+[...]
+>  Documentation/devicetree/bindings/net/can/bosch,m_can.yaml  | 2 --
 
-| R-Car H1 does have a reset controller, we just don't have support for
-| it in the DT bindings and Linux driver yet.  So from that point of view
-| it makes sense to keep it.
-|
-| Of course we can remove it, and re-add it later if we ever add support,
-| as at that time we probably will want to change the bindings anyway
-| to make it required again.
+Acked-by: Marc Kleine-Budde <mkl@pengutronix.de>
 
-And you replied on April 30, also in private:
+regards,
+Marc
 
-|> R-Car H1 does have a reset controller, we just don't have support for
-| > it in the DT bindings and Linux driver yet.  So from that point of view
-| > it makes sense to keep it.
-|
-| Not sure what we would "keep", given that there's no reset controller
-| available :-)
-|
-| > Of course we can remove it, and re-add it later if we ever add support,
-| > as at that time we probably will want to change the bindings anyway
-| > to make it required again.
-|
-| Let's not bother. I doubt H1 will get support for a reset controller as
-| that's an old platform, and the DT bindings thus don't matter too much.
-| I'll take this patch as-is.
-|
-| Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+--=20
+Pengutronix e.K.                 | Marc Kleine-Budde           |
+Embedded Linux                   | https://www.pengutronix.de  |
+Vertretung West/Dortmund         | Phone: +49-231-2826-924     |
+Amtsgericht Hildesheim, HRA 2686 | Fax:   +49-5121-206917-5555 |
 
-> > > Fixes: 99d66127fad25ebb ("dt-bindings: display: renesas,du: Convert binding to YAML")
-> > > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> > > ---
-> > >  Documentation/devicetree/bindings/display/renesas,du.yaml | 1 -
-> > >  1 file changed, 1 deletion(-)
-> > >
-> > > diff --git a/Documentation/devicetree/bindings/display/renesas,du.yaml b/Documentation/devicetree/bindings/display/renesas,du.yaml
-> > > index 552a99ce4f1280d7..e955034da53b86e2 100644
-> > > --- a/Documentation/devicetree/bindings/display/renesas,du.yaml
-> > > +++ b/Documentation/devicetree/bindings/display/renesas,du.yaml
-> > > @@ -89,7 +89,6 @@ required:
-> > >    - reg
-> > >    - clocks
-> > >    - interrupts
-> > > -  - resets
-> > >    - ports
-> > >
-> > >  allOf:
+--agvztsrh6izyn335
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Gr{oetje,eeting}s,
+-----BEGIN PGP SIGNATURE-----
 
-                        Geert
+iQEzBAABCgAdFiEEK3kIWJt9yTYMP3ehqclaivrt76kFAmDJ1V0ACgkQqclaivrt
+76nTUAf+NueTtFpURzEcaqcVzU9on1r9+EA8Cl4Mxhgg3Nw3TGp6enDeBSGPVR5B
+MaJtsub8PAEbECezUQxWPaNPa5uvS7dCW5eygZ2z3lDMGZGhYjtv67LVAJgCDq3q
+BWNuKMkKu25Ccsxl33ItHRrAmrlcwBcZMfzN+E9OgZ60GySlRv+AxcLR2XiwST9t
+kWlEW417Mj0P+cvwFo/3Ms4zRddEiw92YruesAK73pkxrB2u2xqaSy9BqNHZCG/J
+F9Q0VsjhTwLAI/7VQohXgcrL2yHsMRJt0M1+XMaxNncf1amrPNo8eWjyNDNbbIIi
+s6uvO8FoLgDLRqbX7Q14cLQ+uQmadw==
+=ZOig
+-----END PGP SIGNATURE-----
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+--agvztsrh6izyn335--
