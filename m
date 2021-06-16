@@ -2,41 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A27813A9E40
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Jun 2021 16:53:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BAE523A9E75
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Jun 2021 17:02:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 370AF6E5D2;
-	Wed, 16 Jun 2021 14:53:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A60FD89FA6;
+	Wed, 16 Jun 2021 15:02:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1B38D6E5CD;
- Wed, 16 Jun 2021 14:53:49 +0000 (UTC)
-IronPort-SDR: G9GFWLK2tf2YXIXAYbHW7XiaW8+16Jp3GJK5YuXC0e3pEl0CWQMph53pu3KUVaLi+8DOK0oCuu
- aaXx6wCegvgQ==
-X-IronPort-AV: E=McAfee;i="6200,9189,10016"; a="270039116"
-X-IronPort-AV: E=Sophos;i="5.83,278,1616482800"; d="scan'208";a="270039116"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Jun 2021 07:53:40 -0700
-IronPort-SDR: De8gkNLayMkCskqxIloeS6LjsWoUvzcPRm0976+GSpUpW+24Ndi52zg4k2CpV5AeT2Ci9YAvuH
- zKNxmPQb/4Sw==
-X-IronPort-AV: E=Sophos;i="5.83,278,1616482800"; d="scan'208";a="442903104"
-Received: from mrapopor-mobl.ger.corp.intel.com (HELO mwauld-desk1.intel.com)
- ([10.213.236.122])
- by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Jun 2021 07:53:39 -0700
-From: Matthew Auld <matthew.auld@intel.com>
-To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH v4 7/7] drm/i915/ttm: restore min_page_size behaviour
-Date: Wed, 16 Jun 2021 15:52:59 +0100
-Message-Id: <20210616145259.357146-7-matthew.auld@intel.com>
-X-Mailer: git-send-email 2.26.3
-In-Reply-To: <20210616145259.357146-1-matthew.auld@intel.com>
-References: <20210616145259.357146-1-matthew.auld@intel.com>
+Received: from mail-qv1-xf33.google.com (mail-qv1-xf33.google.com
+ [IPv6:2607:f8b0:4864:20::f33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1EBA389E86
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Jun 2021 15:02:24 +0000 (UTC)
+Received: by mail-qv1-xf33.google.com with SMTP id f5so1688633qvu.8
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Jun 2021 08:02:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=j51VtbWEsPmNthXDSqqlA/0JAvr0xhkR2POpSAUOx9c=;
+ b=ZUIi2qzqYGHwJx+79Fc4944r16x9UMQqqYLtcBz8HCOT0nsZkxfGcmRp23lvyNfAP+
+ 2knAodSGIE5+PM0wcoqn9rQAvNIbG2+5Sas5+iUH6G+5iioPe8sGy4aqBr4h9MHBFQLA
+ j4DhsbCGODeTQCqVCt1gM8KYJ3xJ2R6oiax+o=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=j51VtbWEsPmNthXDSqqlA/0JAvr0xhkR2POpSAUOx9c=;
+ b=t1CWr29AoV0Cz1+48RdMVkBcbfMZlQr+CehqIL8dqTVWYiCDBzd9erQGhqWqF1j4XR
+ NAlexKmE9892HmpYKFOFBz507XBnWzLj0zfC4QzzkSW/3tzieRF1BYPiNm2Mhpz9jhKJ
+ MZOkrZww3sppwd39aQ/ZhYhWCpJeWyUnFjGN2gZrwfZsvAQeTTI/PX2tqH1VzKlp4GS3
+ 0E7bTioVLORO7tFqwNVWOiB+dYeYmrXVTTZkTEqtWuOkDAV5ZMXEfciuJ6UMVTaVnW+6
+ KnS2jBrxJnpjFnna+/12tCBrbqONS4E2hkwG/usxNwRi4+QdhrSB7Eu9sDqAXyGgHkrr
+ nOvA==
+X-Gm-Message-State: AOAM531/NnXhedm6H0I0kDNuV9lLuC/dPXcjKHGYzdya9VpM1ikzCFFX
+ 9KnvXRM9KtPgLFOULiAUVeGRiurQvUeLdA==
+X-Google-Smtp-Source: ABdhPJxiVLxCtZDovdmpy4OnlxGWui2LBimwWQxNHC992HIjkBY0pYRuvOh9N1c00fkWhsHW6U3yoA==
+X-Received: by 2002:ad4:4631:: with SMTP id x17mr474635qvv.28.1623855742470;
+ Wed, 16 Jun 2021 08:02:22 -0700 (PDT)
+Received: from mail-yb1-f170.google.com (mail-yb1-f170.google.com.
+ [209.85.219.170])
+ by smtp.gmail.com with ESMTPSA id t11sm1372287qta.8.2021.06.16.08.02.19
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 16 Jun 2021 08:02:21 -0700 (PDT)
+Received: by mail-yb1-f170.google.com with SMTP id m9so3477086ybo.5
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Jun 2021 08:02:19 -0700 (PDT)
+X-Received: by 2002:a5b:54a:: with SMTP id r10mr207252ybp.476.1623855739461;
+ Wed, 16 Jun 2021 08:02:19 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <1623499682-2140-1-git-send-email-rajeevny@codeaurora.org>
+ <1623499682-2140-6-git-send-email-rajeevny@codeaurora.org>
+In-Reply-To: <1623499682-2140-6-git-send-email-rajeevny@codeaurora.org>
+From: Doug Anderson <dianders@chromium.org>
+Date: Wed, 16 Jun 2021 08:02:07 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=V2_LJkXX-9v2ArSspKHy6PABn1E-hkCOeT=Dk5R0CQ+Q@mail.gmail.com>
+Message-ID: <CAD=FV=V2_LJkXX-9v2ArSspKHy6PABn1E-hkCOeT=Dk5R0CQ+Q@mail.gmail.com>
+Subject: Re: [v6 5/5] drm/panel-simple: Add Samsung ATNA33XC20
+To: Rajeev Nandan <rajeevny@codeaurora.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,84 +70,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- dri-devel@lists.freedesktop.org
+Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, Daniel Thompson <daniel.thompson@linaro.org>,
+ Krishna Manikandan <mkrishn@codeaurora.org>, Sam Ravnborg <sam@ravnborg.org>,
+ Jani Nikula <jani.nikula@intel.com>,
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ Abhinav Kumar <abhinavk@codeaurora.org>, LKML <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Andrzej Hajda <a.hajda@samsung.com>, Rob Clark <robdclark@gmail.com>,
+ Thierry Reding <thierry.reding@gmail.com>, Sean Paul <seanpaul@chromium.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Kalyan Thota <kalyan_t@codeaurora.org>,
+ "Kristian H. Kristensen" <hoegsberg@chromium.org>,
+ freedreno <freedreno@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-We now have bo->page_alignment which perfectly describes what we need if
-we have min page size restrictions for lmem. We can also drop the flag
-here, since this is the default behaviour for all objects.
+Hi,
 
-v2(Thomas):
-    - bo->page_alignment is in page units
+On Sat, Jun 12, 2021 at 5:09 AM Rajeev Nandan <rajeevny@codeaurora.org> wrote:
+>
+> +static const struct panel_desc samsung_atna33xc20 = {
+> +       .modes = &samsung_atna33xc20_mode,
+> +       .num_modes = 1,
+> +       .bpc = 10,
+> +       .size = {
+> +               .width = 294,
+> +               .height = 165,
+> +       },
+> +       .delay = {
+> +               .disable_to_power_off = 150,
+> +               .power_to_enable = 150,
 
-Signed-off-by: Matthew Auld <matthew.auld@intel.com>
-Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-Reviewed-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
----
- drivers/gpu/drm/i915/gem/i915_gem_ttm.c      | 4 ++--
- drivers/gpu/drm/i915/intel_memory_region.h   | 3 +--
- drivers/gpu/drm/i915/intel_region_ttm.c      | 2 +-
- drivers/gpu/drm/i915/selftests/mock_region.c | 2 +-
- 4 files changed, 5 insertions(+), 6 deletions(-)
+As per <https://crrev.com/c/2966167> it's apparently been discovered
+that these should be:
 
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-index d98ef80ae21f..cad29aa7a397 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-@@ -670,9 +670,9 @@ int __i915_gem_ttm_object_init(struct intel_memory_region *mem,
- 	 */
- 	obj->base.vma_node.driver_private = i915_gem_to_ttm(obj);
- 	ret = ttm_bo_init(&i915->bdev, i915_gem_to_ttm(obj), size,
--			  bo_type, &i915_sys_placement, 1,
-+			  bo_type, &i915_sys_placement,
-+			  mem->min_page_size >> PAGE_SHIFT,
- 			  true, NULL, NULL, i915_ttm_bo_destroy);
--
- 	if (!ret)
- 		obj->ttm.created = true;
- 
-diff --git a/drivers/gpu/drm/i915/intel_memory_region.h b/drivers/gpu/drm/i915/intel_memory_region.h
-index b04fb22726d9..2be8433d373a 100644
---- a/drivers/gpu/drm/i915/intel_memory_region.h
-+++ b/drivers/gpu/drm/i915/intel_memory_region.h
-@@ -40,8 +40,7 @@ enum intel_region_id {
- #define REGION_STOLEN_SMEM   BIT(INTEL_REGION_STOLEN_SMEM)
- #define REGION_STOLEN_LMEM   BIT(INTEL_REGION_STOLEN_LMEM)
- 
--#define I915_ALLOC_MIN_PAGE_SIZE  BIT(0)
--#define I915_ALLOC_CONTIGUOUS     BIT(1)
-+#define I915_ALLOC_CONTIGUOUS     BIT(0)
- 
- #define for_each_memory_region(mr, i915, id) \
- 	for (id = 0; id < ARRAY_SIZE((i915)->mm.regions); id++) \
-diff --git a/drivers/gpu/drm/i915/intel_region_ttm.c b/drivers/gpu/drm/i915/intel_region_ttm.c
-index 052253c81e98..d53d78dec2be 100644
---- a/drivers/gpu/drm/i915/intel_region_ttm.c
-+++ b/drivers/gpu/drm/i915/intel_region_ttm.c
-@@ -167,7 +167,7 @@ intel_region_ttm_resource_alloc(struct intel_memory_region *mem,
- 	int ret;
- 
- 	mock_bo.base.size = size;
--	mock_bo.page_alignment = 1;
-+	mock_bo.page_alignment = mem->min_page_size >> PAGE_SHIFT;
- 	place.flags = flags;
- 
- 	ret = man->func->alloc(man, &mock_bo, &place, &res);
-diff --git a/drivers/gpu/drm/i915/selftests/mock_region.c b/drivers/gpu/drm/i915/selftests/mock_region.c
-index 3b3264311c91..fa786dede608 100644
---- a/drivers/gpu/drm/i915/selftests/mock_region.c
-+++ b/drivers/gpu/drm/i915/selftests/mock_region.c
-@@ -28,7 +28,7 @@ static int mock_region_get_pages(struct drm_i915_gem_object *obj)
- 	struct sg_table *pages;
- 	int err;
- 
--	flags = I915_ALLOC_MIN_PAGE_SIZE;
-+	flags = 0;
- 	if (obj->flags & I915_BO_ALLOC_CONTIGUOUS)
- 		flags |= TTM_PL_FLAG_CONTIGUOUS;
- 
--- 
-2.26.3
-
+.disable_to_power_off = 200,
+.power_to_enable = 400,
