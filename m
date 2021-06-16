@@ -2,52 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8761C3A9736
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Jun 2021 12:25:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2051B3A977E
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Jun 2021 12:34:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 13DB1899D4;
-	Wed, 16 Jun 2021 10:25:18 +0000 (UTC)
-X-Original-To: DRI-Devel@lists.freedesktop.org
-Delivered-To: DRI-Devel@lists.freedesktop.org
-Received: from mail-ot1-x330.google.com (mail-ot1-x330.google.com
- [IPv6:2607:f8b0:4864:20::330])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 804C16E09A
- for <DRI-Devel@lists.freedesktop.org>; Wed, 16 Jun 2021 10:25:16 +0000 (UTC)
-Received: by mail-ot1-x330.google.com with SMTP id
- 5-20020a9d01050000b02903c700c45721so1980905otu.6
- for <DRI-Devel@lists.freedesktop.org>; Wed, 16 Jun 2021 03:25:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=0jUF6vczkVAJdRgKZwAxHhYyT8EqRuSqu1cpD+OKfJ8=;
- b=QB8f4vOT1o9pB/Ka5GlgK2RSyUWpM3xOcoGSH0urELmwOcvE9gxq9Bs6SkgBApCksF
- plpUbYGVVKC9yoSVS0VdrymPpRlK/Yoiuz4n8NAkp4NsiG0j22IRe2ZP/tLapLzfHkak
- kMaRHQfO1E5R17JRRhNB3IRZAfZVNi10gQ+P8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=0jUF6vczkVAJdRgKZwAxHhYyT8EqRuSqu1cpD+OKfJ8=;
- b=I/lx0rqXdcvUpLdzjdMkVbwtbPFL9qgzQGhit8xeK9SOy8gHLrSWPzxjLHTeAtKnnv
- 4HOOD25jnhkwwgeq3mMtHrxob1ombxq903IaImNaVJpfcGVhPbQSBovLZoi8nu6boRGp
- Tu86pSvca5qkE4Mw2J6GgFVwB4ZT+vVPImLxFgGWq9Vc6X6nbTjKCdbn0+X07OHMn5rA
- gBykRe+tg4ewUYdLlhfAlPOimQoyCJ2rcXrOJLZ+6Hw3lo129HzuZuzvinxPvQSFFNIx
- X3qB+WLXrFbOLSff+Qyto2kIJv7XNeRSA4hz83GFube9mvwz0GJsSE2X0PgLKVyUK85q
- n8Nw==
-X-Gm-Message-State: AOAM532ikU1aGYu958s6gCjObCFNTNzJYAtwAdm4LO390EpGCsX5XkUQ
- I9rRvmvl+CPeATUyHHPkb4edh1LV0lt/sDuiKEyUPQ==
-X-Google-Smtp-Source: ABdhPJx1f5VEC37QhV1o7Mh/1Tg3T6ecwGKhYxMEyQsOCriyGSHipcKpl2tAZm9jXrW+ADneYUExlq4exxx2BwxiXtg=
-X-Received: by 2002:a9d:12eb:: with SMTP id g98mr3314343otg.303.1623839115588; 
- Wed, 16 Jun 2021 03:25:15 -0700 (PDT)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5AF9D6E550;
+	Wed, 16 Jun 2021 10:34:53 +0000 (UTC)
+X-Original-To: dri-devel@lists.freedesktop.org
+Delivered-To: dri-devel@lists.freedesktop.org
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 371B56E09A
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Jun 2021 10:34:52 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 998E661107;
+ Wed, 16 Jun 2021 10:34:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1623839691;
+ bh=uJEv3OvJMqswalWvG2rx1DCmioR+VtUOrO7CZGR2Ajw=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=A6wsFevRhS9CeafwlT529v2rV3Gm9GGwn4GGkmYDghQBgvSltNdLhA2d1VwUgm9YV
+ V+BZ/Z7dkVuRC9jA+aF8uUIN4oppwPSoc0YE3UC/NPxsGiCugwhXT7XZEbbeh2pmB/
+ M4rdDOJ4s0X9LmiRn4axjJlxF+T4B+Wd1HYLAz0MgEG64RvZ+ZZaXxAxnqcCDwPJej
+ pW3zx7fe6lsVprl/vQScwg/OlH7/cEN61iAlussljsV2mRmi/pOkb0n3FbRiUdCHAK
+ H6X3SZGPBKP1nePHfXCLHq/6yaW3vQZyt5NRvZBipljaN3xhgyRVkvGP83STRQZ1Xh
+ jhhQBOeaewbeQ==
+Date: Wed, 16 Jun 2021 16:04:47 +0530
+From: Vinod Koul <vkoul@kernel.org>
+To: Rob Herring <robh@kernel.org>
+Subject: Re: [PATCH] dt-bindings: Drop redundant minItems/maxItems
+Message-ID: <YMnTx4GqTWu75o2n@vkoul-mobl>
+References: <20210615191543.1043414-1-robh@kernel.org>
 MIME-Version: 1.0
-References: <20210610204626.2995262-1-John.C.Harrison@Intel.com>
- <20210610204626.2995262-4-John.C.Harrison@Intel.com>
-In-Reply-To: <20210610204626.2995262-4-John.C.Harrison@Intel.com>
-From: Daniel Vetter <daniel@ffwll.ch>
-Date: Wed, 16 Jun 2021 12:25:04 +0200
-Message-ID: <CAKMK7uGO8U9a8yq73MV=xSbTA+tCQi5nqiZSD9Hwbi==fZ=R5A@mail.gmail.com>
-Subject: Re: [Intel-gfx] [PATCH 3/3] drm/i915/uapi: Add query for L3 bank count
-To: John Harrison <John.C.Harrison@intel.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210615191543.1043414-1-robh@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,153 +46,70 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx <Intel-GFX@lists.freedesktop.org>,
- dri-devel <DRI-Devel@lists.freedesktop.org>
+Cc: Andrew Lunn <andrew@lunn.ch>, alsa-devel@alsa-project.org,
+ Daniel Lezcano <daniel.lezcano@linaro.org>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>, linux-pwm@vger.kernel.org,
+ linux-iio@vger.kernel.org, linux-pci@vger.kernel.org,
+ linux-remoteproc@vger.kernel.org, Ulf Hansson <ulf.hansson@linaro.org>,
+ dri-devel@lists.freedesktop.org, linux-ide@vger.kernel.org,
+ linux-i2c@vger.kernel.org, linux-phy@lists.infradead.org,
+ linux-riscv@lists.infradead.org, Lee Jones <lee.jones@linaro.org>,
+ linux-clk@vger.kernel.org, linux-rtc@vger.kernel.org,
+ Herbert Xu <herbert@gondor.apana.org.au>,
+ Bartosz Golaszewski <bgolaszewski@baylibre.com>, Marc Zyngier <maz@kernel.org>,
+ Joerg Roedel <joro@8bytes.org>, Jassi Brar <jassisinghbrar@gmail.com>,
+ Kishon Vijay Abraham I <kishon@ti.com>, David Airlie <airlied@linux.ie>,
+ linux-serial@vger.kernel.org,
+ Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
+ Jakub Kicinski <kuba@kernel.org>, Zhang Rui <rui.zhang@intel.com>,
+ Vivien Didelot <vivien.didelot@gmail.com>,
+ Wolfgang Grandegger <wg@grandegger.com>, linux-media@vger.kernel.org,
+ Ohad Ben-Cohen <ohad@wizery.com>, devicetree@vger.kernel.org,
+ Albert Ou <aou@eecs.berkeley.edu>, linux-watchdog@vger.kernel.org,
+ linux-pm@vger.kernel.org, linux-can@vger.kernel.org,
+ linux-gpio@vger.kernel.org, Mark Brown <broonie@kernel.org>,
+ Marc Kleine-Budde <mkl@pengutronix.de>, Kamal Dasu <kdasu.kdev@gmail.com>,
+ Paul Walmsley <paul.walmsley@sifive.com>, Bjorn Helgaas <bhelgaas@google.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ linux-arm-kernel@lists.infradead.org, Jens Axboe <axboe@kernel.dk>,
+ Alessandro Zummo <a.zummo@towertech.it>,
+ Wim Van Sebroeck <wim@linux-watchdog.org>, Guenter Roeck <linux@roeck-us.net>,
+ Mathieu Poirier <mathieu.poirier@linaro.org>, Stephen Boyd <sboyd@kernel.org>,
+ netdev@vger.kernel.org, linux-usb@vger.kernel.org, linux-mmc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-spi@vger.kernel.org,
+ iommu@lists.linux-foundation.org, Palmer Dabbelt <palmer@dabbelt.com>,
+ linux-crypto@vger.kernel.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ dmaengine@vger.kernel.org, Vladimir Oltean <olteanv@gmail.com>,
+ "David S. Miller" <davem@davemloft.net>, Jonathan Cameron <jic23@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jun 10, 2021 at 10:46 PM <John.C.Harrison@intel.com> wrote:
->
-> From: John Harrison <John.C.Harrison@Intel.com>
->
-> Various UMDs need to know the L3 bank count. So add a query API for it.
+On 15-06-21, 13:15, Rob Herring wrote:
+> If a property has an 'items' list, then a 'minItems' or 'maxItems' with the
+> same size as the list is redundant and can be dropped. Note that is DT
+> schema specific behavior and not standard json-schema behavior. The tooling
+> will fixup the final schema adding any unspecified minItems/maxItems.
+> 
+> This condition is partially checked with the meta-schema already, but
+> only if both 'minItems' and 'maxItems' are equal to the 'items' length.
+> An improved meta-schema is pending.
 
-Please link to both the igt test submission for this (there's not even
-a Test-with: on the cover letter) and the merge requests for the
-various UMD which uses new uapi. Also as other mentioned, full uapi
-kerneldoc is needed too. Please fill in any gaps in the existing docs
-that relate to your addition directly (like we've e.g. done for the
-extension chaining when adding lmem support).
+>  .../devicetree/bindings/dma/renesas,rcar-dmac.yaml          | 1 -
 
-Thanks, Daniel
+>  Documentation/devicetree/bindings/phy/brcm,sata-phy.yaml    | 1 -
+>  Documentation/devicetree/bindings/phy/mediatek,tphy.yaml    | 2 --
+>  .../devicetree/bindings/phy/phy-cadence-sierra.yaml         | 2 --
+>  .../devicetree/bindings/phy/phy-cadence-torrent.yaml        | 4 ----
+>  .../devicetree/bindings/phy/qcom,ipq806x-usb-phy-hs.yaml    | 1 -
+>  .../devicetree/bindings/phy/qcom,ipq806x-usb-phy-ss.yaml    | 1 -
+>  Documentation/devicetree/bindings/phy/qcom,qmp-phy.yaml     | 1 -
+>  Documentation/devicetree/bindings/phy/qcom,qusb2-phy.yaml   | 2 --
+>  Documentation/devicetree/bindings/phy/renesas,usb2-phy.yaml | 2 --
+>  Documentation/devicetree/bindings/phy/renesas,usb3-phy.yaml | 1 -
 
->
-> Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
-> ---
->  drivers/gpu/drm/i915/gt/intel_gt.c | 15 +++++++++++++++
->  drivers/gpu/drm/i915/gt/intel_gt.h |  1 +
->  drivers/gpu/drm/i915/i915_query.c  | 22 ++++++++++++++++++++++
->  drivers/gpu/drm/i915/i915_reg.h    |  1 +
->  include/uapi/drm/i915_drm.h        |  1 +
->  5 files changed, 40 insertions(+)
->
-> diff --git a/drivers/gpu/drm/i915/gt/intel_gt.c b/drivers/gpu/drm/i915/gt/intel_gt.c
-> index 2161bf01ef8b..708bb3581d83 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_gt.c
-> +++ b/drivers/gpu/drm/i915/gt/intel_gt.c
-> @@ -704,3 +704,18 @@ void intel_gt_info_print(const struct intel_gt_info *info,
->
->         intel_sseu_dump(&info->sseu, p);
->  }
-> +
-> +int intel_gt_get_l3bank_count(struct intel_gt *gt)
-> +{
-> +       struct drm_i915_private *i915 = gt->i915;
-> +       intel_wakeref_t wakeref;
-> +       u32 fuse3;
-> +
-> +       if (GRAPHICS_VER(i915) < 12)
-> +               return -ENODEV;
-> +
-> +       with_intel_runtime_pm(gt->uncore->rpm, wakeref)
-> +               fuse3 = intel_uncore_read(gt->uncore, GEN10_MIRROR_FUSE3);
-> +
-> +       return hweight32(REG_FIELD_GET(GEN12_GT_L3_MODE_MASK, ~fuse3));
-> +}
-> diff --git a/drivers/gpu/drm/i915/gt/intel_gt.h b/drivers/gpu/drm/i915/gt/intel_gt.h
-> index 7ec395cace69..46aa1cf4cf30 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_gt.h
-> +++ b/drivers/gpu/drm/i915/gt/intel_gt.h
-> @@ -77,6 +77,7 @@ static inline bool intel_gt_is_wedged(const struct intel_gt *gt)
->
->  void intel_gt_info_print(const struct intel_gt_info *info,
->                          struct drm_printer *p);
-> +int intel_gt_get_l3bank_count(struct intel_gt *gt);
->
->  void intel_gt_watchdog_work(struct work_struct *work);
->
-> diff --git a/drivers/gpu/drm/i915/i915_query.c b/drivers/gpu/drm/i915/i915_query.c
-> index 96bd8fb3e895..0e92bb2d21b2 100644
-> --- a/drivers/gpu/drm/i915/i915_query.c
-> +++ b/drivers/gpu/drm/i915/i915_query.c
-> @@ -10,6 +10,7 @@
->  #include "i915_perf.h"
->  #include "i915_query.h"
->  #include <uapi/drm/i915_drm.h>
-> +#include "gt/intel_gt.h"
->
->  static int copy_query_item(void *query_hdr, size_t query_sz,
->                            u32 total_length,
-> @@ -502,6 +503,26 @@ static int query_hwconfig_table(struct drm_i915_private *i915,
->         return hwconfig->size;
->  }
->
-> +static int query_l3banks(struct drm_i915_private *i915,
-> +                        struct drm_i915_query_item *query_item)
-> +{
-> +       u32 banks;
-> +
-> +       if (query_item->length == 0)
-> +               return sizeof(banks);
-> +
-> +       if (query_item->length < sizeof(banks))
-> +               return -EINVAL;
-> +
-> +       banks = intel_gt_get_l3bank_count(&i915->gt);
-> +
-> +       if (copy_to_user(u64_to_user_ptr(query_item->data_ptr),
-> +                        &banks, sizeof(banks)))
-> +               return -EFAULT;
-> +
-> +       return sizeof(banks);
-> +}
-> +
->  static int (* const i915_query_funcs[])(struct drm_i915_private *dev_priv,
->                                         struct drm_i915_query_item *query_item) = {
->         query_topology_info,
-> @@ -509,6 +530,7 @@ static int (* const i915_query_funcs[])(struct drm_i915_private *dev_priv,
->         query_perf_config,
->         query_memregion_info,
->         query_hwconfig_table,
-> +       query_l3banks,
->  };
->
->  int i915_query_ioctl(struct drm_device *dev, void *data, struct drm_file *file)
-> diff --git a/drivers/gpu/drm/i915/i915_reg.h b/drivers/gpu/drm/i915/i915_reg.h
-> index eb13c601d680..e9ba88fe3db7 100644
-> --- a/drivers/gpu/drm/i915/i915_reg.h
-> +++ b/drivers/gpu/drm/i915/i915_reg.h
-> @@ -3099,6 +3099,7 @@ static inline bool i915_mmio_reg_valid(i915_reg_t reg)
->  #define        GEN10_MIRROR_FUSE3              _MMIO(0x9118)
->  #define GEN10_L3BANK_PAIR_COUNT     4
->  #define GEN10_L3BANK_MASK   0x0F
-> +#define GEN12_GT_L3_MODE_MASK 0xFF
->
->  #define GEN8_EU_DISABLE0               _MMIO(0x9134)
->  #define   GEN8_EU_DIS0_S0_MASK         0xffffff
-> diff --git a/include/uapi/drm/i915_drm.h b/include/uapi/drm/i915_drm.h
-> index 87d369cae22a..20d18cca5066 100644
-> --- a/include/uapi/drm/i915_drm.h
-> +++ b/include/uapi/drm/i915_drm.h
-> @@ -2234,6 +2234,7 @@ struct drm_i915_query_item {
->  #define DRM_I915_QUERY_PERF_CONFIG      3
->  #define DRM_I915_QUERY_MEMORY_REGIONS   4
->  #define DRM_I915_QUERY_HWCONFIG_TABLE   5
-> +#define DRM_I915_QUERY_L3_BANK_COUNT    6
->  /* Must be kept compact -- no holes and well documented */
->
->         /**
-> --
-> 2.25.1
->
-> _______________________________________________
-> Intel-gfx mailing list
-> Intel-gfx@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/intel-gfx
-
-
+Acked-By: Vinod Koul <vkoul@kernel.org>
 
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+~Vinod
