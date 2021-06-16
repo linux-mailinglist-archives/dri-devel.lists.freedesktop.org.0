@@ -1,99 +1,71 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8168D3A9631
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Jun 2021 11:31:41 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F04C3A9649
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Jun 2021 11:36:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9402A6E546;
-	Wed, 16 Jun 2021 09:31:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1FE7C89829;
+	Wed, 16 Jun 2021 09:36:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam12on2072.outbound.protection.outlook.com [40.107.237.72])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7645D6E546
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Jun 2021 09:31:38 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=mgn71rbRDjeaf+GpBhsgl2j+uopP4ntKxkgOIz1/9NdU8W1WOMXhE0qa6ue+wFHHynL4NSyxFFM3iTqA4RBjbued8Gb+Cp8pPiQlfXCM5dYSH1vQUs9KgTlePbzlXzhwI3qOxMqMDOy0mTS+lsImAdCQYyIzLQPu0fef7P00SGALKrK7N1kJsiFrASD68WZEJUSS6ShNeDvQTBty3RBGl5uB/UMFw3+RIfsp9Qw1yWZT3eNczDxbKnjf7bt5hhxM7VWKoNlh6yOuzhMbOEbSqsdSbFWrqhS09lQt3Uj6m3q6oi/b5RLqTAmSvr8D58zgQfseZO92DRR3P83m0PfiWg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=yBjJBJypb3P96mURgCe/Fs2u+W8ERFdAgR+DUmsMWsQ=;
- b=LQL3LC0u9fFElnFa/O3ug5eixB7vKdQqIq+zXPQ9KGjR/wm49V/5Vvt9sjrBdTq5M5Ee+fLiT+2gNu5qQHjFS1Wixpt5WUp2I0x38k+GGM0Xz+VIRIxoXbLaL55frIatJbV2K7Fw89E0ysZPMMYlINFcyp2wlzdps80fMSKEE0IjFUMV5/yxZTB7t8M4t2CKTLMSWMC8P4U6nyWc5ccPR/i4sMG5ErUt3SMP76yqRnszceKEIVkchkUmGBzQUQRXwA5DFvsFnUw6XL8mOo1aKpgKVzNzaR/H1N1WbZn2RtjQ5DsJZPEYBgPqUTyQKvm0FcdmnFcLc4YiSPSqA7qKZw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.112.34) smtp.rcpttodomain=linux.ie smtp.mailfrom=nvidia.com;
- dmarc=pass (p=none sp=none pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=yBjJBJypb3P96mURgCe/Fs2u+W8ERFdAgR+DUmsMWsQ=;
- b=ZNdv5ywjovs6LfmvXqzJHEgGR3wP2Rf283qV83T7YXgI1F4AClsxsFRm7Yif+uEmZjEDN8WLck2otIf85+7DwRDVuim2S6xRZ+RX7ZMG+dkpxmLRUjCI416jBtc4e69QPAAJCel+ekwPirre0qV+/DDx37PDy+NEBmwH+JjgIu+0xULcsKpEX7Q6jwTiglw5HH9zQUHFbmqIyu0z9MCbSgAoY5EQgOFrk6+kTSst4JwfJr9/rkxi3PMPTlmZqesxwSVbc4C7rvL78TjfbnCTj1nM5qbucldjnWjpTf/GmnnmJwNT5A16YFWZor91FGjSxQWN+iXZYW9LSClac4ubSQ==
-Received: from BN9PR03CA0623.namprd03.prod.outlook.com (2603:10b6:408:106::28)
- by DM6PR12MB2858.namprd12.prod.outlook.com (2603:10b6:5:182::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4219.22; Wed, 16 Jun
- 2021 09:31:36 +0000
-Received: from BN8NAM11FT053.eop-nam11.prod.protection.outlook.com
- (2603:10b6:408:106:cafe::15) by BN9PR03CA0623.outlook.office365.com
- (2603:10b6:408:106::28) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4242.19 via Frontend
- Transport; Wed, 16 Jun 2021 09:31:36 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.112.34)
- smtp.mailfrom=nvidia.com; linux.ie; dkim=none (message not signed)
- header.d=none;linux.ie; dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.112.34 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.112.34; helo=mail.nvidia.com;
-Received: from mail.nvidia.com (216.228.112.34) by
- BN8NAM11FT053.mail.protection.outlook.com (10.13.177.209) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.20.4242.16 via Frontend Transport; Wed, 16 Jun 2021 09:31:36 +0000
-Received: from [10.26.49.10] (172.20.187.6) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Wed, 16 Jun
- 2021 09:31:34 +0000
-Subject: Re: [PATCH v7 13/15] drm/tegra: Implement job submission part of new
- UAPI
-To: Mikko Perttunen <mperttunen@nvidia.com>, <thierry.reding@gmail.com>,
- <digetx@gmail.com>, <airlied@linux.ie>, <daniel@ffwll.ch>
-References: <20210610110456.3692391-1-mperttunen@nvidia.com>
- <20210610110456.3692391-14-mperttunen@nvidia.com>
-From: Jon Hunter <jonathanh@nvidia.com>
-Message-ID: <72a1a9b5-475c-fd70-d46f-0762df71fa58@nvidia.com>
-Date: Wed, 16 Jun 2021 10:31:31 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com
+ [205.220.177.32])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E10D889829
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Jun 2021 09:36:20 +0000 (UTC)
+Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 15G9VQ1B023330; Wed, 16 Jun 2021 09:36:17 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=date : from : to : cc
+ : subject : message-id : references : mime-version : content-type :
+ content-transfer-encoding : in-reply-to; s=corp-2020-01-29;
+ bh=qrIt9OkcksJG8Hzoo+m8TG/TF4FvSpIhsfa1qr7ALvU=;
+ b=BdcZRemOAcpmfrdGB+10KSkYZWYTIsy+RexHPGUX4eMS4hVlrQvbWiWZzkaJty67Kbry
+ 2Kuri9L51hvUjM1BplLndmAB8Ova6CKYPeac8FyO/xLE8y3doC+88ZMHxHIp7i3mXKfP
+ vHukx2B2XH6jY4wyjNcDHFyQTJiDQjhCSWS8APxLj5PaszoHOb9LotHhTOfzJ4iGjMYy
+ 2v9TtwcahUhi1x7IOZBpJ6ZFmY2AWPWVXAO/S8SnpAKj96Tb/9zH0vu7/0A4EvCHQ3Xw
+ 5sl7Kvi9MlNM+2/+DYLebPxiUazBCkMoMvylrEE4ycbtmZwEr30Zh6IyywRAfDl5+XvF qA== 
+Received: from oracle.com (aserp3030.oracle.com [141.146.126.71])
+ by mx0b-00069f02.pphosted.com with ESMTP id 396tjdsv25-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 16 Jun 2021 09:36:16 +0000
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [127.0.0.1])
+ by pps.podrdrct (8.16.0.36/8.16.0.36) with SMTP id 15G9aGw8030461;
+ Wed, 16 Jun 2021 09:36:16 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+ by aserp3030.oracle.com with ESMTP id 396wau78ff-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 16 Jun 2021 09:36:16 +0000
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 15G9aFRF030440;
+ Wed, 16 Jun 2021 09:36:15 GMT
+Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
+ by aserp3030.oracle.com with ESMTP id 396wau78f1-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 16 Jun 2021 09:36:15 +0000
+Received: from abhmp0003.oracle.com (abhmp0003.oracle.com [141.146.116.9])
+ by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 15G9aCm1001681;
+ Wed, 16 Jun 2021 09:36:12 GMT
+Received: from kadam (/41.212.42.34) by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Wed, 16 Jun 2021 09:36:12 +0000
+Date: Wed, 16 Jun 2021 12:36:04 +0300
+From: Dan Carpenter <dan.carpenter@oracle.com>
+To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>
+Subject: Re: [PATCH] drm/ttm: fix error handling in ttm_bo_handle_move_mem()
+Message-ID: <20210616093604.GD1901@kadam>
+References: <YMmadPwv8C+Ut1+o@mwanda>
+ <03d0b798-d1ab-5b6f-2c27-8140d923d445@gmail.com>
+ <20210616083758.GC1901@kadam>
+ <520a9d1f-8841-8d5e-595d-23783de8333d@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20210610110456.3692391-14-mperttunen@nvidia.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [172.20.187.6]
-X-ClientProxiedBy: HQMAIL107.nvidia.com (172.20.187.13) To
- HQMAIL107.nvidia.com (172.20.187.13)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: a37b88a5-05c0-4f40-9fcb-08d930a98964
-X-MS-TrafficTypeDiagnostic: DM6PR12MB2858:
-X-Microsoft-Antispam-PRVS: <DM6PR12MB285812D80895ABB2A84A9148D90F9@DM6PR12MB2858.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: p5Xbv8rJozKf5YiYXmDxx+P4fMPh5wgQia6xmjmpPyLLWYxrG3kWZEJk6z6I9LtIv2OHIsX0zCLvYq21A377G7INiKXfAaXYe1rwXOodgTPwUKjEeMp+8pOgMxnU/exa1eV/7tUNBR1sTvOknSWi5xsxRe8SSIaSp2FgFn8HL7lti7b92D+vS6B+U5Gdftd6TJH/eznhO/Ae2/zk71YNBta9T/fj9TKwvOHIgwXVuMm9Dm5POxHifXv/HkvQbDQcVhOdldt473g7snfhMQU65APzo6ZCjFsY7zTqRSVOPkBFEysXpxUINUcb8ujFVIoETHVzVgWI1Iqf8kAKLOAwge8EVkxCxwaNyQmCp+z6jx9le4hyN1oIrc5fRk3T2QfGhO5OFq9LnJEwDKDTfBoa2wpA3xxfiymqdN6Fcvqo7UACdVQKgDweCDjEpPglL7IYPBVNWtBpCx+ulXhEeR/tmOgWeg+z1tfKCvlxoKSTkwlJBzCrzZhIIonvMLcspL5dW9CWDDMS3DFkMUjQeTgIvtDJTENqx+UYaTJOK8TnFhb5zsJ43BUuqWj00Ox9tqvaiecw36gXmJt19BU3v30ooOdtQAR+CEwLqgaWYm9PA3LShNsRYUxqPenIPAnsmV1MRYHhX+qcJ+0MZCdvFj+78Rd+Sbsw0bBWnaJaGetFNgYgeQYf73W814f0BC255HXA
-X-Forefront-Antispam-Report: CIP:216.228.112.34; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:mail.nvidia.com; PTR:schybrid03.nvidia.com; CAT:NONE;
- SFS:(4636009)(39860400002)(136003)(376002)(346002)(396003)(36840700001)(46966006)(16526019)(478600001)(53546011)(31686004)(82740400003)(26005)(356005)(86362001)(16576012)(110136005)(82310400003)(6666004)(54906003)(8676002)(2906002)(31696002)(7636003)(83380400001)(2616005)(5660300002)(186003)(8936002)(316002)(47076005)(36906005)(36860700001)(36756003)(4326008)(336012)(426003)(70586007)(70206006)(43740500002);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Jun 2021 09:31:36.0556 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: a37b88a5-05c0-4f40-9fcb-08d930a98964
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a; Ip=[216.228.112.34];
- Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT053.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB2858
+In-Reply-To: <520a9d1f-8841-8d5e-595d-23783de8333d@gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Proofpoint-ORIG-GUID: 2qZ2mbBvaaX2gIX11Cai09kvJ2R54kVW
+X-Proofpoint-GUID: 2qZ2mbBvaaX2gIX11Cai09kvJ2R54kVW
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -106,121 +78,74 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-tegra@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: B6@mwanda, m <thomas.hellstrom@linux.intel.com>,
+ David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Huang Rui <ray.huang@amd.com>,
+ Thomas Hellstr <C3@mwanda>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Mikko,
-
-On 10/06/2021 12:04, Mikko Perttunen wrote:
-> Implement the job submission IOCTL with a minimum feature set.
+On Wed, Jun 16, 2021 at 10:47:14AM +0200, Christian K�nig wrote:
 > 
-> Signed-off-by: Mikko Perttunen <mperttunen@nvidia.com>
-> ---
-> v7:
-> * Allocate gather BO with DMA API to get page-aligned
->   memory
-> * Add error prints to a few places where they were missing
-> v6:
-> * Remove sgt bypass path in gather_bo - this would cause
->   cache maintenance to be skipped and is unnecessary in
->   general.
-> * Changes related to moving to using syncpoint IDs
-> * Add syncobj related code
-> * Print warning on submit failure describing the issue
-> * Use ARCH_DMA_ADDR_T_64BIT to check if that is indeed
->   the case
-> * Add support for relative syncpoint wait
-> * Use pm_runtime_resume_and_get
-> * Only try to resume engines that support runtime PM
-> * Removed uapi subdirectory
-> * Don't use "copy_err" variables for copy_from_user
->   return value
-> * Fix setting of blocklinear flag
-> v5:
-> * Add 16K size limit to copies from userspace.
-> * Guard RELOC_BLOCKLINEAR flag handling to only exist in ARM64
->   to prevent oversized shift on 32-bit platforms.
-> v4:
-> * Remove all features that are not strictly necessary.
-> * Split into two patches.
-> v3:
-> * Remove WRITE_RELOC. Relocations are now patched implicitly
->   when patching is needed.
-> * Directly call PM runtime APIs on devices instead of using
->   power_on/power_off callbacks.
-> * Remove incorrect mutex unlock in tegra_drm_ioctl_channel_open
-> * Use XA_FLAGS_ALLOC1 instead of XA_FLAGS_ALLOC
-> * Accommodate for removal of timeout field and inlining of
->   syncpt_incrs array.
-> * Copy entire user arrays at a time instead of going through
->   elements one-by-one.
-> * Implement waiting of DMA reservations.
-> * Split out gather_bo implementation into a separate file.
-> * Fix length parameter passed to sg_init_one in gather_bo
-> * Cosmetic cleanup.
-> ---
->  drivers/gpu/drm/tegra/Makefile    |   2 +
->  drivers/gpu/drm/tegra/drm.c       |   4 +-
->  drivers/gpu/drm/tegra/gather_bo.c |  82 +++++
->  drivers/gpu/drm/tegra/gather_bo.h |  24 ++
->  drivers/gpu/drm/tegra/submit.c    | 549 ++++++++++++++++++++++++++++++
->  drivers/gpu/drm/tegra/submit.h    |  17 +
->  6 files changed, 677 insertions(+), 1 deletion(-)
->  create mode 100644 drivers/gpu/drm/tegra/gather_bo.c
->  create mode 100644 drivers/gpu/drm/tegra/gather_bo.h
->  create mode 100644 drivers/gpu/drm/tegra/submit.c
->  create mode 100644 drivers/gpu/drm/tegra/submit.h
+> 
+> Am 16.06.21 um 10:37 schrieb Dan Carpenter:
+> > On Wed, Jun 16, 2021 at 08:46:33AM +0200, Christian K�nig wrote:
+> > > Sending the first message didn't worked, so let's try again.
+> > > 
+> > > Am 16.06.21 um 08:30 schrieb Dan Carpenter:
+> > > > There are three bugs here:
+> > > > 1) We need to call unpopulate() if ttm_tt_populate() succeeds.
+> > > > 2) The "new_man = ttm_manager_type(bdev, bo->mem.mem_type);" assignment
+> > > >      was wrong and it was really assigning "new_mem = old_mem;".  There
+> > > >      is no need for this assignment anyway as we already have the value
+> > > >      for "new_mem".
+> > > > 3) The (!new_man->use_tt) condition is reversed.
+> > > > 
+> > > > Fixes: ba4e7d973dd0 ("drm: Add the TTM GPU memory manager subsystem.")
+> > > > Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
+> > > > ---
+> > > > This is from reading the code and I can't swear that I have understood
+> > > > it correctly.  My nouveau driver is currently unusable and this patch
+> > > > has not helped.  But hopefully if I fix enough bugs eventually it will
+> > > > start to work.
+> > > Well NAK, the code previously looked quite well and you are breaking it now.
+> > > 
+> > > What's the problem with nouveau?
+> > > 
+> > The new Firefox seems to excersize nouveau more than the old one so
+> > when I start 10 firefox windows it just hangs the graphics.
+> > 
+> > I've added debug code and it seems like the problem is that
+> > nv50_mem_new() is failing.
+> 
+> Sounds like it is running out of memory to me.
+> 
+> Do you have a dmesg?
+> 
 
-...
+At first there was a very straight forward use after free bug which I
+fixed.
+https://lore.kernel.org/nouveau/YMinJwpIei9n1Pn1@mwanda/T/#u
 
-> diff --git a/drivers/gpu/drm/tegra/submit.c b/drivers/gpu/drm/tegra/submit.c
-> new file mode 100644
-> index 000000000000..e3200c10ca9e
-> --- /dev/null
-> +++ b/drivers/gpu/drm/tegra/submit.c
-> @@ -0,0 +1,549 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +/* Copyright (c) 2020 NVIDIA Corporation */
-> +
-> +#include <linux/dma-fence-array.h>
-> +#include <linux/file.h>
-> +#include <linux/host1x.h>
-> +#include <linux/iommu.h>
-> +#include <linux/kref.h>
-> +#include <linux/list.h>
-> +#include <linux/nospec.h>
-> +#include <linux/pm_runtime.h>
-> +#include <linux/sync_file.h>
-> +
-> +#include <drm/drm_drv.h>
-> +#include <drm/drm_file.h>
-> +#include <drm/drm_syncobj.h>
-> +
-> +#include "drm.h"
-> +#include "gather_bo.h"
-> +#include "gem.h"
-> +#include "submit.h"
-> +#include "uapi.h"
-> +
-> +#define SUBMIT_ERR(ctx, fmt, ...) \
-> +	dev_err_ratelimited(ctx->client->base.dev, \
-> +		"%s: job submission failed: " fmt "\n", \
-> +		current->comm __VA_OPT__(,) __VA_ARGS__)
+But now the use after free is gone the only thing in dmesg is:
+"[TTM] Buffer eviction failed".  And I have some firmware missing.
 
+[  205.489763] rfkill: input handler disabled
+[  205.678292] nouveau 0000:01:00.0: Direct firmware load for nouveau/nva8_fuc084 failed with error -2
+[  205.678300] nouveau 0000:01:00.0: Direct firmware load for nouveau/nva8_fuc084d failed with error -2
+[  205.678302] nouveau 0000:01:00.0: msvld: unable to load firmware data
+[  205.678304] nouveau 0000:01:00.0: msvld: init failed, -19
+[  296.150632] [TTM] Buffer eviction failed
+[  417.084265] [TTM] Buffer eviction failed
+[  447.295961] [TTM] Buffer eviction failed
+[  510.800231] [TTM] Buffer eviction failed
+[  556.101384] [TTM] Buffer eviction failed
+[  616.495790] [TTM] Buffer eviction failed
+[  692.014007] [TTM] Buffer eviction failed
 
-For older compilers that don't support __VA_OPT__ this generates a
-compilation error ...
+The eviction failed message only shows up a minute after the hang so it
+seems more like a symptom than a root cause.
 
-drivers/gpu/drm/tegra/submit.c: In function ‘submit_copy_gather_data’:
-drivers/gpu/drm/tegra/submit.c:27:17: error: expected ‘)’ before
-‘__VA_OPT__’
-   current->comm __VA_OPT__(,) __VA_ARGS__)
-                 ^
-I think that we may just have to use ##__VA_ARGS__ here.
+regards,
+dan carpenter
 
-Cheers
-Jon
-
--- 
-nvpublic
