@@ -1,75 +1,76 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E80B3A93B4
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Jun 2021 09:23:45 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id EDE583A93D9
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Jun 2021 09:27:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6675789133;
-	Wed, 16 Jun 2021 07:23:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 694FC6E51A;
+	Wed, 16 Jun 2021 07:27:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from new2-smtp.messagingengine.com (new2-smtp.messagingengine.com
- [66.111.4.224])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7A1FD89133
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Jun 2021 07:23:38 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailnew.nyi.internal (Postfix) with ESMTP id 30A7C58045F;
- Wed, 16 Jun 2021 03:23:36 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute5.internal (MEProxy); Wed, 16 Jun 2021 03:23:36 -0400
+Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com
+ [66.111.4.26])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 04FE16E511;
+ Wed, 16 Jun 2021 07:27:42 +0000 (UTC)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.42])
+ by mailout.nyi.internal (Postfix) with ESMTP id 28EA35C00BA;
+ Wed, 16 Jun 2021 03:27:41 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute2.internal (MEProxy); Wed, 16 Jun 2021 03:27:41 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
  date:from:to:cc:subject:message-id:references:mime-version
- :content-type:content-transfer-encoding:in-reply-to; s=fm3; bh=0
- Bpx4KO8jDptlgGldj5m9Ic3pEd6Z1ap4w1RDEKuOU4=; b=PLbjy+pIkr6Bdmdrt
- CFsSt3vAEL3C6Tg0vdQP1ATgChB7/CKYpdnBO/Fb+EfPzFTEk9DNst9rK9ydr/nO
- eHp2+mfn8qkQ7H1uZUjF+yAwiz2MHH12uqU7EQsqIOFVR4iep9J63kM8rTr5yTTK
- 8DdjobZuqWQ9S6Dxw/pPbyOFYhKmoqsfwrkgEKI21UQ6WS+4j7ZEiyAfeRuxgGVm
- vrQjW+DUK0MqtIizZoutS+psxU2HzYXEy7N8wVMyCMNlNdtJT0/bgnsbAhYVmHFa
- IzVFivQs0bY8BWjLfJybMJoTsy5/YPARkXYNBn68GmnOagGB84AXTZepGh93WSzm
- UK4yA==
+ :content-type:content-transfer-encoding:in-reply-to; s=fm3; bh=5
+ wLoBtRcBTM6aP/nxio3/pcSv35PgR9WHUl2gY8mlis=; b=FkkagzGVWDwH/YuBJ
+ VH6htg/W7wFGFVnY+IIb1yqN/t41tdHG8tcCBNQCWA58Eqj4EuaHkElFhbFCB4sj
+ VV7c+ZTCGrr3DPzQeJuqm3H7JMh8LD+sYJHgR+xDHjdq/jjkxe4zkWEahfQu+uuM
+ C36A9/xwLlMAfmkiS8oWhpaLWHBhnCO07te/FpEMyVALBDhWAHA60nfI0+Zdbhli
+ u21DC1KVZeRzbzqb8ltvWkgU5/Eq8sNrCDhYCXzgbDDWQNSVfIvRGSyP1dkwRkaz
+ uFjr5/XcIIHwjPJHcvbI/yow4mgZWAyyg18cIlde4cBCfpLf3RW5Gkyb6QEDeRP2
+ cHgVw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:content-type
  :date:from:in-reply-to:message-id:mime-version:references
  :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm3; bh=0Bpx4KO8jDptlgGldj5m9Ic3pEd6Z1ap4w1RDEKuO
- U4=; b=E5M8/x41Rw/OyVn/JZ+BAR45JbhmclF3yQfZgmqHZXJEQiPu86yfo4YD+
- IlzGI49EzABWf/0zpueWQY3U/qxm1CQOj9tO008cDgN6dNhtgAtVQ2s535qk9jlS
- g7IhwfRHIfSWjbmEQCew1JVvrLur8HcDzubJBL7wU8NPZBtwhp8pjVS6WjSt7nNz
- pM8qPjpEOHL/Xcy8kelR8PG2/z4hC4jadg1Mm/AjkFFW1GUZQyAdGDkMA4Q1Ec7d
- 0N9peJAs2M/VgpG/PPVypc/GOhbWSJMcZT59F/rb6iASE/VyfTf0niFzwO+YGq1t
- vJXiyOu2/BYrtInmUGZBm9RIhwtjA==
-X-ME-Sender: <xms:9qbJYMp_RlBXasf8s3VrI837sJik8goo6HbLrM18jzk7G6mwGPMMbA>
- <xme:9qbJYCoBAsfOrOtXKnzzlfL0xEeUaAPhrnj_U_qaI3KfPmhDdB2JW6FtmE4Vixcy-
- DBUrPWMHKys5Z16Qh8>
-X-ME-Received: <xmr:9qbJYBOT_v4rL0PN8R2LmaTUymwDT2erI-hfguQzKvYzQsyXpnK0oRkBOouTJCuEFw6We0CCSCDtkxPI08hOP62_FEIQ0jg5qk39>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrfedvkedguddujecutefuodetggdotefrod
+ :x-sasl-enc; s=fm3; bh=5wLoBtRcBTM6aP/nxio3/pcSv35PgR9WHUl2gY8ml
+ is=; b=e+XrDst9FtyyksuxwhPLDjfwoUd2eeyjoMUe+iwUbBNFhDlKwonw+np9H
+ VKAHnEKLhiGHIIJ7sD/8xBx7sAXhxIJi+GZgWUbkDnQaQV04+r+qmZSJUuhoPz7+
+ j4jidsXbTN2Rqy77z/c1RhKiBdN4Fv8rsodzDUo9vGd+81rQE2c7uP7STArA4Pfw
+ tDmjSeGXnRQsxcWEpXPuxtWR8fRMedOvhXxFB2uyXW/1MbRHFPBjI6zw22JgHEFj
+ S+/fa4FIZZP9PDtr1NPQeAJsZ94yM4ipMROhhCQcZyt8HV6gzJMn1i7GDqggTy/i
+ uoDSiuO5y6oektcqiEJLS+bT/6y2g==
+X-ME-Sender: <xms:66fJYJr7GyT6_GxEHDj0H_H-qvpAvbIaSCRMn-olLJPpX94MW76Zhg>
+ <xme:66fJYLqY5Enf_YVtTuiC9BGpIZH1-VrvCtosiu-8vpbF-u1kPnLO7N6r23hQ-3rkp
+ n6GcQZkmVQwKjwMh8w>
+X-ME-Received: <xmr:66fJYGN7ZOaL0G6hm_ZxJtEwMazZKrj7MrNmsFMaKBQcruVNEEzLNfBxuB9d6tqnNVx2xZX_SD12ymVYMF5Jlx_aWtwkNPFs54J7>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrfedvkedguddukecutefuodetggdotefrod
  ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
  necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
  enucfjughrpeffhffvuffkfhggtggugfgjsehtqhertddttddvnecuhfhrohhmpeforgig
  ihhmvgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrf
- grthhtvghrnhepkeeileetveejffegueetjeeigffgfefgkeeuueetfffhheegveefhfek
- heevkedunecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvghrufhiii
+ grthhtvghrnhepkeeludfhledtieegfeelveetveegueeghfeitedttddvjefhgfevgfdt
+ leegheehnecuffhomhgrihhnpehgihhthhhusgdrtghomhenucevlhhushhtvghrufhiii
  gvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgv
  tghh
-X-ME-Proxy: <xmx:9qbJYD4d755efuScEGvo5aEHGclrJkxPP3l5twqayvhb05GHa57TkQ>
- <xmx:9qbJYL7rgHUG5opgvclOVf5pSVw71ZlgwL2DpTx-j8CA9C_dYtMuYQ>
- <xmx:9qbJYDiwv3ObAf5VYlmQ3H1UBsPO-Ga4FfBtFk_L4NKd281rWPPRBw>
- <xmx:-KbJYIEJHtaXsWfZZ-ZTJNKaiByAfZOQF3wBAMtIBilPDN3XubK_4g>
+X-ME-Proxy: <xmx:66fJYE7nyj00WQDCWl2sqUBJb4HyUDejc5-j6zvvEbm4BdtaQSbhnw>
+ <xmx:66fJYI5UYLecaWAM7sBkQ5841Cv28L0_UJr2wq7MExoyacyyBVJkNg>
+ <xmx:66fJYMgwyjeqGCRCtHX5AEpwEiGlc3l8PzrCxiDzzHg7H50bGgDVEg>
+ <xmx:7afJYD19Jjv4olRqDwxpIjXoqdXZPqorzw63KrTOsa0kGoA8VMZjpA>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 16 Jun 2021 03:23:34 -0400 (EDT)
-Date: Wed, 16 Jun 2021 09:23:31 +0200
+ 16 Jun 2021 03:27:39 -0400 (EDT)
+Date: Wed, 16 Jun 2021 09:27:36 +0200
 From: Maxime Ripard <maxime@cerno.tech>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [GIT PULL] HDMI codec improvements, v2
-Message-ID: <20210616072331.l6z6sywlfyrg3x2z@gilmour>
-References: <20210610122550.jnriewchqspdcrwk@gilmour>
+To: Pekka Paalanen <ppaalanen@gmail.com>
+Subject: Re: New uAPI for color management proposal and feedback request
+Message-ID: <20210616072736.7lc7kiahfz7o2kod@gilmour>
+References: <8c0d7ad8-7ade-bf8a-0414-cc795fbb6aa2@tuxedocomputers.com>
+ <20210607074805.bmonbg5nhr4etab2@gilmour>
+ <20210607110632.6ec38e38@eldfell>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20210610122550.jnriewchqspdcrwk@gilmour>
+In-Reply-To: <20210607110632.6ec38e38@eldfell>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,51 +83,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: alsa-devel@alsa-project.org, Liam Girdwood <lgirdwood@gmail.com>,
- David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- Takashi Iwai <tiwai@suse.com>, dri-devel@lists.freedesktop.org,
- Jaroslav Kysela <perex@perex.cz>, Mark Brown <broonie@kernel.org>,
- Daniel Vetter <daniel.vetter@intel.com>
+Cc: "Deucher, Alexander" <alexander.deucher@amd.com>,
+ intel-gfx@lists.freedesktop.org,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ Werner Sembach <wse@tuxedocomputers.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Thomas,
+Hi Pekka,
 
-On Thu, Jun 10, 2021 at 02:25:50PM +0200, Maxime Ripard wrote:
-> Hi,
+On Mon, Jun 07, 2021 at 11:06:32AM +0300, Pekka Paalanen wrote:
+> On Mon, 7 Jun 2021 09:48:05 +0200
+> Maxime Ripard <maxime@cerno.tech> wrote:
 >=20
-> Here's a PR for the changes to hdmi-codec that need to be shared between
-> drm-misc-next and ASoC.
+> > I've started to implement this for the raspberrypi some time ago.
+> >=20
+> > https://github.com/raspberrypi/linux/pull/4201
+> >=20
+> > It's basically two properties: a bitmask of the available output pixel
+> > encoding to report both what the display and the controller supports,
+> > and one to actually set what the userspace wants to get enforced (and
+> > that would return the active one when read).
 >=20
-> This is the second iteration, fixing a bisection issue with compilation
+> Hi Maxime,
 >=20
-> Thanks!
-> Maxime
+> I would like to point out that I think it is a bad design to create a
+> read/write property that returns not what was written to it. It can
+> cause headaches to userspace that wants to save and restore property
+> values it does not understand. Userspace would want to do that to
+> mitigate damage from switching to another KMS client and then back. The
+> other KMS client could change properties the first KMS client does not
+> understand, causing the first KMS client to show incorrectly after
+> switching back.
 >=20
->=20
-> The following changes since commit 6efb943b8616ec53a5e444193dccf1af9ad627=
-b5:
->=20
->   Linux 5.13-rc1 (2021-05-09 14:17:44 -0700)
->=20
-> are available in the Git repository at:
->=20
->   git://git.kernel.org/pub/scm/linux/kernel/git/mripard/linux.git tags/as=
-oc-hdmi-codec-improvements-v2
->=20
-> for you to fetch changes up to 2fef64eec23a0840c97977b16dd8919afaffa876:
->=20
->   ASoC: hdmi-codec: Add a prepare hook (2021-06-10 11:48:56 +0200)
->=20
-> ----------------------------------------------------------------
-> Improvements to the hdmi-codec driver and ALSA infrastructure around it
-> to support the HDMI Channel Mapping and IEC958 controls
+> Please, consider whether this use-case will work before designing a
+> property where read-back may not necessarily return the written value.
 
-This has been merged into the ASoC tree [1], can you merge it in drm-misc-n=
-ext?
+Thanks for bringing that up. I guess the work being done currently by
+Werner and his active color format property addresses that concern :)
 
-Thanks!
 Maxime
-
-1: https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git/commit=
-/?id=3D116b1e12b72f308b28af5b17081fdb9e1942a8ea
