@@ -1,61 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 508A43AAC2D
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Jun 2021 08:28:35 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DA43D3AAC43
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Jun 2021 08:30:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2D55D6E878;
-	Thu, 17 Jun 2021 06:28:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D6B896E87E;
+	Thu, 17 Jun 2021 06:30:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x533.google.com (mail-pg1-x533.google.com
- [IPv6:2607:f8b0:4864:20::533])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4AB256E86E
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Jun 2021 06:28:31 +0000 (UTC)
-Received: by mail-pg1-x533.google.com with SMTP id n12so4073742pgs.13
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Jun 2021 23:28:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=xfRvKXXPDGozL9xpkc2RXgCWY6OxEYfQN41+lxoFnvY=;
- b=P0DcuqP8d/CAJT5H3BXTszPLFR8/POeZwYtbY1hzB0BZSzBVE99MQjVTdgEtJMNxza
- 8C5V55pgNOpxdtHe4MvP5ZXgHC+nHMSC0PqmBhg9/ppxPOVo1PsZ+EwMp7aMo1+zOeWe
- KqOQ2EnOhWaUxUqrPUYZrFAZhB0ZZNObJmz4g=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=xfRvKXXPDGozL9xpkc2RXgCWY6OxEYfQN41+lxoFnvY=;
- b=nZ0F9BwgCUuE7i3nnECF2MzOytXhXvvaITvltxPmf6zzqU1PG0VI5Z8Fy1qsafKUjv
- R6LrooJWzFUp7zw68i5sGEyOobRvx0xTMxxUNLBklihtgX/mRl8h+cn7w911l1n8JL7n
- 8wwK4/K7PzScMRbhLXwVhLTXYZ3vvI/fNWXl3naBgbLQSl3srd4pq9eh8S9itbXpJDNc
- a9LBtCpHFnWKDsKvFwXXr5Rl8SduW8+nZRhmmlCXmkjJsRJjIBZqtppIk5OUr03cEGKf
- tCIvaj9ZH+PrC6cWxeeq9ryPdKD8u2KCiwePWgTR+v/0XI2LesBBp2coSJKalnuXk4US
- E/bw==
-X-Gm-Message-State: AOAM531MldBqWAt2utTLOVJ9gjs8N3MidVKJfXMWBJ6WrB9tO9n8Mscx
- xbSPK0+G9SN4rm1EsLYuHJgZxA==
-X-Google-Smtp-Source: ABdhPJxBUnvdEKrFvX9gwkhRYpe6iM3TMIr0SMX+wx5+SenBzwe41Fi6FDk/v+JnW0WePmCPk48T7g==
-X-Received: by 2002:a63:f009:: with SMTP id k9mr3590765pgh.356.1623911310959; 
- Wed, 16 Jun 2021 23:28:30 -0700 (PDT)
-Received: from localhost ([2401:fa00:95:205:e349:a6ae:d3d0:1621])
- by smtp.gmail.com with UTF8SMTPSA id o186sm3871495pfb.59.2021.06.16.23.28.23
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 16 Jun 2021 23:28:30 -0700 (PDT)
-From: Claire Chang <tientzu@chromium.org>
-To: Rob Herring <robh+dt@kernel.org>, mpe@ellerman.id.au,
- Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
- Frank Rowand <frowand.list@gmail.com>,
- Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>, boris.ostrovsky@oracle.com,
- jgross@suse.com, Christoph Hellwig <hch@lst.de>,
- Marek Szyprowski <m.szyprowski@samsung.com>
-Subject: [PATCH v13 12/12] of: Add plumbing for restricted DMA pool
-Date: Thu, 17 Jun 2021 14:26:35 +0800
-Message-Id: <20210617062635.1660944-13-tientzu@chromium.org>
-X-Mailer: git-send-email 2.32.0.288.g62a8d224e6-goog
-In-Reply-To: <20210617062635.1660944-1-tientzu@chromium.org>
-References: <20210617062635.1660944-1-tientzu@chromium.org>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DD1CC6E08E;
+ Thu, 17 Jun 2021 06:30:32 +0000 (UTC)
+IronPort-SDR: xWmVcCXmTkXYZXaNYe+OQcMG1D66H8254JydAVOobxaap+ePBweqB7kQL7pCJeOQZv2rvhvhOy
+ eVcGTWzIlJ+w==
+X-IronPort-AV: E=McAfee;i="6200,9189,10017"; a="203287810"
+X-IronPort-AV: E=Sophos;i="5.83,278,1616482800"; d="scan'208";a="203287810"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Jun 2021 23:30:32 -0700
+IronPort-SDR: fzLpPSpQzsg92gDULo8Uc8Gh/HBvS1F16uGn52GQbHXvyhhwxDbHDKGjzFsCWp1Z7kGpFJkHGU
+ sSpqIxDx1SOg==
+X-IronPort-AV: E=Sophos;i="5.83,278,1616482800"; d="scan'208";a="554302632"
+Received: from vanderss-mobl.ger.corp.intel.com (HELO thellst-mobl1.intel.com)
+ ([10.249.254.193])
+ by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Jun 2021 23:30:28 -0700
+From: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
+To: intel-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org
+Subject: [PATCH v5 00/12] i915 TTM sync accelerated migration and clear
+Date: Thu, 17 Jun 2021 08:30:06 +0200
+Message-Id: <20210617063018.92802-1-thomas.hellstrom@linux.intel.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -69,129 +48,104 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: heikki.krogerus@linux.intel.com, thomas.hellstrom@linux.intel.com,
- peterz@infradead.org, dri-devel@lists.freedesktop.org,
- chris@chris-wilson.co.uk, grant.likely@arm.com, paulus@samba.org,
- mingo@kernel.org, jxgao@google.com, sstabellini@kernel.org,
- Saravana Kannan <saravanak@google.com>, xypron.glpk@gmx.de,
- "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>,
- Bartosz Golaszewski <bgolaszewski@baylibre.com>, bskeggs@redhat.com,
- linux-pci@vger.kernel.org, xen-devel@lists.xenproject.org,
- Thierry Reding <treding@nvidia.com>, intel-gfx@lists.freedesktop.org,
- matthew.auld@intel.com, linux-devicetree <devicetree@vger.kernel.org>,
- airlied@linux.ie, Robin Murphy <robin.murphy@arm.com>,
- Nicolas Boichat <drinkcat@chromium.org>, rodrigo.vivi@intel.com,
- bhelgaas@google.com, tientzu@chromium.org,
- Dan Williams <dan.j.williams@intel.com>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Greg KH <gregkh@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>,
- lkml <linux-kernel@vger.kernel.org>, tfiga@chromium.org,
- "list@263.net:IOMMU DRIVERS" <iommu@lists.linux-foundation.org>,
- Jim Quinlan <james.quinlan@broadcom.com>, linuxppc-dev@lists.ozlabs.org,
- bauerman@linux.ibm.com
+Cc: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ matthew.auld@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-If a device is not behind an IOMMU, we look up the device node and set
-up the restricted DMA when the restricted-dma-pool is presented.
+This patchset implements synchronous accelerated migration and clearing
+for i915 on TTM. We plan to follow up with these operations made
+asynchronous to the extent of TTM support for that:
 
-Signed-off-by: Claire Chang <tientzu@chromium.org>
-Tested-by: Stefano Stabellini <sstabellini@kernel.org>
-Tested-by: Will Deacon <will@kernel.org>
----
- drivers/of/address.c    | 33 +++++++++++++++++++++++++++++++++
- drivers/of/device.c     |  3 +++
- drivers/of/of_private.h |  6 ++++++
- 3 files changed, 42 insertions(+)
+A couple of patches from Chris which implement pipelined migration and
+clears by atomically writing the PTEs in place before performing the
+actual blit.
 
-diff --git a/drivers/of/address.c b/drivers/of/address.c
-index 73ddf2540f3f..cdf700fba5c4 100644
---- a/drivers/of/address.c
-+++ b/drivers/of/address.c
-@@ -8,6 +8,7 @@
- #include <linux/logic_pio.h>
- #include <linux/module.h>
- #include <linux/of_address.h>
-+#include <linux/of_reserved_mem.h>
- #include <linux/pci.h>
- #include <linux/pci_regs.h>
- #include <linux/sizes.h>
-@@ -1022,6 +1023,38 @@ int of_dma_get_range(struct device_node *np, const struct bus_dma_region **map)
- 	of_node_put(node);
- 	return ret;
- }
-+
-+int of_dma_set_restricted_buffer(struct device *dev, struct device_node *np)
-+{
-+	struct device_node *node, *of_node = dev->of_node;
-+	int count, i;
-+
-+	count = of_property_count_elems_of_size(of_node, "memory-region",
-+						sizeof(u32));
-+	/*
-+	 * If dev->of_node doesn't exist or doesn't contain memory-region, try
-+	 * the OF node having DMA configuration.
-+	 */
-+	if (count <= 0) {
-+		of_node = np;
-+		count = of_property_count_elems_of_size(
-+			of_node, "memory-region", sizeof(u32));
-+	}
-+
-+	for (i = 0; i < count; i++) {
-+		node = of_parse_phandle(of_node, "memory-region", i);
-+		/*
-+		 * There might be multiple memory regions, but only one
-+		 * restricted-dma-pool region is allowed.
-+		 */
-+		if (of_device_is_compatible(node, "restricted-dma-pool") &&
-+		    of_device_is_available(node))
-+			return of_reserved_mem_device_init_by_idx(dev, of_node,
-+								  i);
-+	}
-+
-+	return 0;
-+}
- #endif /* CONFIG_HAS_DMA */
- 
- /**
-diff --git a/drivers/of/device.c b/drivers/of/device.c
-index 6cb86de404f1..e68316836a7a 100644
---- a/drivers/of/device.c
-+++ b/drivers/of/device.c
-@@ -165,6 +165,9 @@ int of_dma_configure_id(struct device *dev, struct device_node *np,
- 
- 	arch_setup_dma_ops(dev, dma_start, size, iommu, coherent);
- 
-+	if (!iommu)
-+		return of_dma_set_restricted_buffer(dev, np);
-+
- 	return 0;
- }
- EXPORT_SYMBOL_GPL(of_dma_configure_id);
-diff --git a/drivers/of/of_private.h b/drivers/of/of_private.h
-index d9e6a324de0a..25cebbed5f02 100644
---- a/drivers/of/of_private.h
-+++ b/drivers/of/of_private.h
-@@ -161,12 +161,18 @@ struct bus_dma_region;
- #if defined(CONFIG_OF_ADDRESS) && defined(CONFIG_HAS_DMA)
- int of_dma_get_range(struct device_node *np,
- 		const struct bus_dma_region **map);
-+int of_dma_set_restricted_buffer(struct device *dev, struct device_node *np);
- #else
- static inline int of_dma_get_range(struct device_node *np,
- 		const struct bus_dma_region **map)
- {
- 	return -ENODEV;
- }
-+static inline int of_dma_set_restricted_buffer(struct device *dev,
-+					       struct device_node *np)
-+{
-+	return -ENODEV;
-+}
- #endif
- 
- #endif /* _LINUX_OF_PRIVATE_H */
+Some ww utilities mainly for the accompanying selftests added by Thomas,
+as well as modified the above patches for ww locking- and lmem support.
+
+Hooked up to our TTM backend by Ramalingam
+
+Finally, on request from Daniel, we ditch old blit code which is now obsolete.
+
+v2:
+- A couple of minor style fixes pointed out by Matthew Auld
+- Export and use intel_engine_destroy_pinned_context() to address a
+  CI warning / failure.
+v3:
+- Acceleration hooked up to TTM
+- Minor fixes to review comments (Pointed out by Matthew Auld)
+- Fix pipelined blit handling of engine instances (Pointed out by Matthew Auld)
+- Ditch old blit code, (Pointed out by Daniel)
+v4:
+- Rescue a selftest that was removed with the old blit code
+  (Pointed out by Matthew Auld)
+- Extended gpu waits in the TTM accel move function
+  (Pointed out by Thomas Hellström)
+v5:
+- Minor rebase on buddy series.
+- Added R-Bs for the last patches.
+
+Chris Wilson (6):
+  drm/i915/gt: Add an insert_entry for gen8_ppgtt
+  drm/i915/gt: Add a routine to iterate over the pagetables of a GTT
+  drm/i915/gt: Export the pinned context constructor and destructor
+  drm/i915/gt: Pipelined page migration
+  drm/i915/gt: Pipelined clear
+  drm/i915/gt: Setup a default migration context on the GT
+
+Ramalingam C (1):
+  drm/i915/ttm: accelerated move implementation
+
+Thomas Hellström (5):
+  drm/i915: Reference objects on the ww object list
+  drm/i915: Break out dma_resv ww locking utilities to separate files
+  drm/i915: Introduce a ww transaction helper
+  drm/i915/gem: Zap the client blt code
+  drm/i915/gem: Zap the i915_gem_object_blt code
+
+ drivers/gpu/drm/i915/Makefile                 |   5 +-
+ .../gpu/drm/i915/gem/i915_gem_client_blt.c    | 355 ---------
+ .../gpu/drm/i915/gem/i915_gem_client_blt.h    |  21 -
+ drivers/gpu/drm/i915/gem/i915_gem_object.h    |   9 +-
+ .../gpu/drm/i915/gem/i915_gem_object_blt.c    | 461 ------------
+ .../gpu/drm/i915/gem/i915_gem_object_blt.h    |  39 -
+ drivers/gpu/drm/i915/gem/i915_gem_ttm.c       |  88 ++-
+ .../i915/gem/selftests/i915_gem_client_blt.c  | 114 +--
+ .../i915/gem/selftests/i915_gem_object_blt.c  | 597 ---------------
+ drivers/gpu/drm/i915/gt/gen8_ppgtt.c          |  68 ++
+ drivers/gpu/drm/i915/gt/intel_engine.h        |  12 +
+ drivers/gpu/drm/i915/gt/intel_engine_cs.c     |  27 +-
+ drivers/gpu/drm/i915/gt/intel_gpu_commands.h  |   2 +
+ drivers/gpu/drm/i915/gt/intel_gt.c            |   4 +
+ drivers/gpu/drm/i915/gt/intel_gt_types.h      |   3 +
+ drivers/gpu/drm/i915/gt/intel_gtt.h           |   7 +
+ drivers/gpu/drm/i915/gt/intel_migrate.c       | 687 ++++++++++++++++++
+ drivers/gpu/drm/i915/gt/intel_migrate.h       |  65 ++
+ drivers/gpu/drm/i915/gt/intel_migrate_types.h |  15 +
+ drivers/gpu/drm/i915/gt/intel_renderstate.h   |   1 +
+ drivers/gpu/drm/i915/gt/intel_ring.h          |   1 +
+ drivers/gpu/drm/i915/gt/selftest_migrate.c    | 669 +++++++++++++++++
+ drivers/gpu/drm/i915/i915_gem.c               |  52 --
+ drivers/gpu/drm/i915/i915_gem.h               |  12 -
+ drivers/gpu/drm/i915/i915_gem_ww.c            |  63 ++
+ drivers/gpu/drm/i915/i915_gem_ww.h            |  50 ++
+ .../drm/i915/selftests/i915_live_selftests.h  |   2 +-
+ .../drm/i915/selftests/i915_perf_selftests.h  |   2 +-
+ .../drm/i915/selftests/intel_memory_region.c  |  21 +-
+ 29 files changed, 1766 insertions(+), 1686 deletions(-)
+ delete mode 100644 drivers/gpu/drm/i915/gem/i915_gem_client_blt.c
+ delete mode 100644 drivers/gpu/drm/i915/gem/i915_gem_client_blt.h
+ delete mode 100644 drivers/gpu/drm/i915/gem/i915_gem_object_blt.c
+ delete mode 100644 drivers/gpu/drm/i915/gem/i915_gem_object_blt.h
+ delete mode 100644 drivers/gpu/drm/i915/gem/selftests/i915_gem_object_blt.c
+ create mode 100644 drivers/gpu/drm/i915/gt/intel_migrate.c
+ create mode 100644 drivers/gpu/drm/i915/gt/intel_migrate.h
+ create mode 100644 drivers/gpu/drm/i915/gt/intel_migrate_types.h
+ create mode 100644 drivers/gpu/drm/i915/gt/selftest_migrate.c
+ create mode 100644 drivers/gpu/drm/i915/i915_gem_ww.c
+ create mode 100644 drivers/gpu/drm/i915/i915_gem_ww.h
+
 -- 
-2.32.0.288.g62a8d224e6-goog
+2.31.1
 
