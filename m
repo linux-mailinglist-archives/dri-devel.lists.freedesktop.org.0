@@ -1,67 +1,120 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67CA73AB7AD
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Jun 2021 17:39:22 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4905D3AB800
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Jun 2021 17:56:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 562546E107;
-	Thu, 17 Jun 2021 15:39:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AF6646E2D5;
+	Thu, 17 Jun 2021 15:56:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com
- [185.132.182.106])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 876BC6E107
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Jun 2021 15:39:18 +0000 (UTC)
-Received: from pps.filterd (m0241204.ppops.net [127.0.0.1])
- by mx07-00178001.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 15HFaU6J026838; Thu, 17 Jun 2021 17:39:07 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com;
- h=subject : to : cc :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=selector1;
- bh=3nkParf2pArP/VAU0fCoHkbEHN6sVjhrzpvoOQnAD4Q=;
- b=LAJTiyLtIc6JUhT5Dt4xibK2ntBvzjUmAczE0cnPyX1nm3ljuH/xlmF+I1tcRI0chI8t
- T5iYjfsXfjJ0A1IbE4CVyaemhbUY89/8y1E5ORbXkkxD60S2pefLV53b14OJbqs4SR12
- SHqQ99ISGtgU2CSxjumyd8MDQfldSJu++njsgFUomkOc603idd52rekJnovfoXpDQs9p
- ScLmLAFY3DVGgN/BKULAQ5W1Zdo2AmTzqtfcfC0tfDCl8HLmDxBKH04Vlu+elOOB1xgx
- 4O/cexcEmzONe8Dw1J5JzO1nejrEppZNEyLt/DNIGQz3zgF3I+zQ3EHo8PVFJfKcbFzq tg== 
-Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
- by mx07-00178001.pphosted.com with ESMTP id 397mmveamn-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 17 Jun 2021 17:39:07 +0200
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
- by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id DC17E100038;
- Thu, 17 Jun 2021 17:39:01 +0200 (CEST)
-Received: from Webmail-eu.st.com (sfhdag2node3.st.com [10.75.127.6])
- by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 5345C231DF4;
- Thu, 17 Jun 2021 17:39:01 +0200 (CEST)
-Received: from lmecxl0993.lme.st.com (10.75.127.50) by SFHDAG2NODE3.st.com
- (10.75.127.6) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Thu, 17 Jun
- 2021 17:38:57 +0200
-Subject: Re: [PATCH v4] Documentation: gpu: Mention the requirements for new
- properties
-To: Maxime Ripard <maxime@cerno.tech>, <dri-devel@lists.freedesktop.org>,
- Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
- <tzimmermann@suse.de>
-References: <20210616143842.632829-1-maxime@cerno.tech>
-From: Philippe CORNU <philippe.cornu@foss.st.com>
-Message-ID: <9a994b75-7578-d7b1-db3f-5625f121c740@foss.st.com>
-Date: Thu, 17 Jun 2021 17:38:36 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-MIME-Version: 1.0
-In-Reply-To: <20210616143842.632829-1-maxime@cerno.tech>
-Content-Type: text/plain; charset="utf-8"; format=flowed
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam10on2080.outbound.protection.outlook.com [40.107.93.80])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4EF3F6E2D5;
+ Thu, 17 Jun 2021 15:56:08 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=a41bWvB7ykb76vSZbesuckFxfDOurgd8SjiAPZMQZMWaykCGriycta7iAH5UEGYeZ72I7tK0pScBe2BdB0A9xI/JRVnQpRZDTJdOw3lChTfMbnB0lCshac6vpVT1TXmKffy7ti0Orm7uqWqX4ynwjEPgV/R2TevVsKMzFDl9tpkDGHx6g5Fvwo3gRTqSfaJGuOJfPRBAyfHnDKaFJYIJNOzoejCOEC2ln2fTRa8Z4Yj0R2uerpYep8F523IMWVzugOsDWGCgwOrtelXIDyWvWBzHQ08DQC8Ja/o22Qi11HxiWsRvnFR4CxcK88CJ7LvzSEcJ+eo+KHpCx1T/QzHLnA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=cOkTr4Kl6SlhwHgAG8nAuma6ebCpCn/ek+GIvZ0HRYY=;
+ b=bE01sbJ4gniNxpzRVcyWaEuhhqG3NpbvQhaoBLOfG9HaghKNM3Dlk8q7x84OHr51hfC5oatV5HYur3x4GUcFc4C++ZONp6LOI6h6ZcwYQarxxmSrlYE1FMKndwPEXtK4QyOZ+niQy51fpoBgiHIT2XyHUPiy6JPxDCWdKQFmNsci5DOQ5WzKgC7drQDQqm+FJJ+f2Kjlg17JCcUEVzx4P/fDU8MpzYfkIbqqWVmGq/MEow1DC3fxbmqcZ9gsqyKi+AGH58DA6uFc4b1KrH5+vZfqXFsZ+e9XFlA821hr+1sJD6Sau2MbDoGp0DK0trf9mh6HA3J3zStY2pufjygQyg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=cOkTr4Kl6SlhwHgAG8nAuma6ebCpCn/ek+GIvZ0HRYY=;
+ b=fyP5pku8kk1z+tdVW4G73mqdc1YWrexBUCCOTUknh1QqVPF+6KLoWpMzlXpcXOj1I2LtmdyWIus/8ZSWy/NlKnAfK7QPuI2EccXiY/Ar7vspbHtjJ4bqEC4jzypU3kIzCfPCOoK2CLpoPqEEUuxYBoFd+S+1HzOZ5TyqU2GV048=
+Authentication-Results: redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=none action=none header.from=amd.com;
+Received: from DM6PR12MB4419.namprd12.prod.outlook.com (2603:10b6:5:2aa::20)
+ by DM6PR12MB2634.namprd12.prod.outlook.com (2603:10b6:5:49::27) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4242.18; Thu, 17 Jun
+ 2021 15:56:06 +0000
+Received: from DM6PR12MB4419.namprd12.prod.outlook.com
+ ([fe80::b972:f4d6:9db3:5761]) by DM6PR12MB4419.namprd12.prod.outlook.com
+ ([fe80::b972:f4d6:9db3:5761%2]) with mapi id 15.20.4242.021; Thu, 17 Jun 2021
+ 15:56:06 +0000
+Subject: Re: [PATCH v3 0/8] Support DEVICE_GENERIC memory in migrate_vma_*
+To: akpm@linux-foundation.org, Felix.Kuehling@amd.com, linux-mm@kvack.org,
+ rcampbell@nvidia.com, linux-ext4@vger.kernel.org, linux-xfs@vger.kernel.org
+References: <20210617151705.15367-1-alex.sierra@amd.com>
+From: "Sierra Guiza, Alejandro (Alex)" <alex.sierra@amd.com>
+Message-ID: <6c49988d-e158-8297-d7e4-97db279458cd@amd.com>
+Date: Thu, 17 Jun 2021 10:56:03 -0500
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.2
+In-Reply-To: <20210617151705.15367-1-alex.sierra@amd.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.75.127.50]
-X-ClientProxiedBy: SFHDAG2NODE3.st.com (10.75.127.6) To SFHDAG2NODE3.st.com
- (10.75.127.6)
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.790
- definitions=2021-06-17_14:2021-06-15,
- 2021-06-17 signatures=0
+X-Originating-IP: [165.204.77.11]
+X-ClientProxiedBy: SA9PR13CA0137.namprd13.prod.outlook.com
+ (2603:10b6:806:27::22) To DM6PR12MB4419.namprd12.prod.outlook.com
+ (2603:10b6:5:2aa::20)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [172.31.9.47] (165.204.77.11) by
+ SA9PR13CA0137.namprd13.prod.outlook.com (2603:10b6:806:27::22) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4264.7 via Frontend Transport; Thu, 17 Jun 2021 15:56:04 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: c76a64f6-9a2f-4744-2bf1-08d931a86a65
+X-MS-TrafficTypeDiagnostic: DM6PR12MB2634:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <DM6PR12MB26343EF635AA4FC342CB2629FD0E9@DM6PR12MB2634.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 1YtlQwm5GIPu5iOKxQ2Ka8N4YrDr21f9BrPkAPLmIQeGPa6pwQq3ochPeOJFuMfvXuRUBIvz7a9mzrw9v6mqr/E71ph3InOWNneaN09pqxhqE7pBKXRg2fVH0ESKS7jdo3/M3lqtmu9djb1OujFmiUYnBhvSfx16WtQs0h5HK5eBW0SVbjXrsqxVnUldfzZpfAoIIJXF2hPdwQXJYwUC01ggJAWlgsOlFkB72iEI8dSU9CmmWmuEhluGuvPwp2C1TgC1gRLadu7WbG/zXrqkE04z0sWk5qyng9cjsFz9h3OGtUMLNxwCoij5FDCsWDt78g+SgDId5HjtNnFymraoBmGVJr6GAg7AlwVrIP1ZeqD7/j9+5CVYeUu3hB35fVCzd4eRurBMarEyf9tnKdUYjRVcnFb/r0txAN0BBEqYPnt4mp6E6ln6pd5jJkNehP2Ri10aTlOQ/H3yEhbTrZEDIjZxA1MUgF50aN7VX7EcI8Utxk5/9XaYsRAblNmVoAa055lNmOU3HLxX6tvIF6RNClbszkMJ7231KKeLor8rXxLB/QT9MfKZygGj3GBPOlSLPZ9df+IWnvOwt/kFfTuIJZckBPL3ypJQeRgT4ZTF+/4ADaAnnoRA056sx7vLypn/vNBqwdl7uHRDJnBfPksgru3lkT8yZtqCf+97GlTjN1GtPXi4WJ9LNULS8uKxkPYsEOzxnqANYHw9lZNeb6vUclDvn09Ox5oH6JR19Jk9+rbxtJOQ1sAdqFzm7zCqUqp8ZajqwV8fHwUX/9KTMZSAAltfQkYu3zF07XV4RkHveoVHEs63+KKT3caN0S9US527pF7jW7wsI3pI0b5YEF1a4UJo/zRNLKvAteq4txw2kC2uVY0HHPOphC5FJZVv4gGx/8/uY/T2gH0rXfCwyDRziA==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM6PR12MB4419.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(39860400002)(136003)(346002)(376002)(366004)(396003)(316002)(16576012)(53546011)(26005)(478600001)(16526019)(8936002)(6486002)(186003)(38100700002)(2616005)(956004)(36756003)(31696002)(8676002)(31686004)(52116002)(4326008)(7416002)(966005)(66476007)(86362001)(66556008)(2906002)(66946007)(5660300002)(83380400001)(38350700002)(41533002)(43740500002)(45980500001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?d0htRUFJaFAydTFxQzZQYnFBYjNFSHl4b1dYTmwxaFUrejdYL0lnRjRJdmwx?=
+ =?utf-8?B?aFk1cjlkRXFYVDdlQkVxeEYwWldnU1VhdW1yZ2E0VVMrWEJ6ZXBaUXJ6eFd3?=
+ =?utf-8?B?OFBkaFRJQ2JZS21xTlNFb2k1K3poaXA0Z244ZkpqSXhjS00wMFhMZ3J5SFhW?=
+ =?utf-8?B?bEZnbUVtNXlFa1BqeHUzYUdUb2dIbXpLTGZFTnlMNUM1UG5nZ0NXbThBdGtK?=
+ =?utf-8?B?SWZtT1lZUUhiOWUyRjlodkZHczZ3VStyd2kxcTlza0R4VDhsNHVtVUFlODY2?=
+ =?utf-8?B?ZUo5M0lrQUxnZlVDY09RMFJleG1MR3hVWlhpdVprWnFHVG5mRnJyR2w1eVB2?=
+ =?utf-8?B?M2NXZ2NJZHhOR25PYndiSkJCWm01bytlTUc4eDZjTzFvQk9HOVBmZktJWklL?=
+ =?utf-8?B?VW1TQ285Nk84ejdiT0ZXL0pMMXVMejhCblo4Qzl5a3lsRFludmRxd2VPcjlX?=
+ =?utf-8?B?VDRnUmdNcEUzaW5GTFJFZHo1b2htUzFBakIvZ1dtcVFMcXovREZCa1JyRXYw?=
+ =?utf-8?B?dDFCMXJ2S2xoNkVEY29aWkhxcno1T1lzMmlYSXd3dDEyTkQwVFlReWsxTi9F?=
+ =?utf-8?B?YkoyR2hhNjVteHhPcHRudVRZZ2NVbU5jam1mbFFrTHFTVkhyaVFuTGI3VVAv?=
+ =?utf-8?B?YmdKQU1RMVNNSWNwRlpQOUR1RnRpUlo2RTYrVURIaXBseHg1b3B2a1NadEda?=
+ =?utf-8?B?cGFtMFMwSm54a05xdFk0dU1QT2Fka1gyQUhtdXRTZUM5VVpWa3FYRDRnNkM3?=
+ =?utf-8?B?ZDBNMThvRkhxaE1xay9jdjNGZHNrbklNOUxEY1AvZGZWWU1YOWxrNjNSMjlo?=
+ =?utf-8?B?MitZdnk0ZzR0bk1zWHZQVml5bXpQNTNqMWl1TDE0MlFKeUR3a3JQWUdUdmlL?=
+ =?utf-8?B?cXJSeFBOZkJXWGtSdTBzM0h5TDJyajFTUnlZd0JyUm1xbTlwZnVBZVQ2YTRL?=
+ =?utf-8?B?T09jalZBTU9HWFpLY2JpUy9WT1EzNm5PeFYyUm4xSEcyR1BrYWltWTFXTXlJ?=
+ =?utf-8?B?TmRVc3luem41Z1ozNm54ODREUWZpRUU5OHEybzRkKzZzc2FlT1NqRFIreGI3?=
+ =?utf-8?B?T1c4eGQwN0pieitEMi9hcU1kcWV1SVRsR051NkhUbEYxbFFtSndMaWMrb211?=
+ =?utf-8?B?bVEyOGJ2amFwMENMZE5SNTBiMzlRZ09zNUlxU0l3UDR0STlGaVh4UFUwd3hu?=
+ =?utf-8?B?SlZsUlBTVzhISkowMTJqQ2hUSGZBb2VObllFbXFXVTN2YUs0U0hIVVgrblZ4?=
+ =?utf-8?B?SmEySXp1dVNQN2FCaGtMaHBFMGpRMFZuakJBTkZRWUZvbHJhbVZ2b2RCU0w4?=
+ =?utf-8?B?OGNEV0cyaW1FWTl4QVh2ZjJUSWE5d3NLUXJBWVlxaDQ0TllYbmRJb1VQU0NM?=
+ =?utf-8?B?MnE4emYvbUlxUkVTVEFETzF1eG9nT3YwVkhMYURCR2kwelNwSkZlSGFJUysy?=
+ =?utf-8?B?U05NeFNVaU51eGNKcngwOGtHTXpVR01LdW5oVFdPeXd1NEtpS2ZZRUR0cE9N?=
+ =?utf-8?B?WGdDOW9TdldRTjNvV0NEL0MxQ3c3VlhabW1IcUplTjVBenR3M0F4YTVYUncr?=
+ =?utf-8?B?Rkw2eWdMVmNKQTdzdk1kRU5STW9ORzRQSXBHajcxOVpuZlk4dTFyV2R0Z2tK?=
+ =?utf-8?B?ckZMS0puK1R4cEY0cm9qaDRiejFvaTFtNk9jZXUvMjd2T1JKWll1SHVveGtq?=
+ =?utf-8?B?aWVSVVBBTytzUGRsNWtGQ2tJYU5pZFhhc0tRUlZFZjF6bVU4aXdjRmFEMzlp?=
+ =?utf-8?Q?6OjPKUwPwbFoKQwA26nyRhorc7ZxbNyXtwTZ7V7?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c76a64f6-9a2f-4744-2bf1-08d931a86a65
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB4419.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Jun 2021 15:56:06.0590 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: zoZB1F6PdJV0UzeW62w+AlpJvgrcIh10jskmZuZFu1INvAn8SdHLcpvNCMXJvxl1NlHIG99th9CE3vmYVH6a8w==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB2634
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,246 +127,110 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Xinliang Liu <xinliang.liu@linaro.org>,
- Anitha Chrisanthus <anitha.chrisanthus@intel.com>,
- Jonathan Hunter <jonathanh@nvidia.com>, Jerome Brunet <jbrunet@baylibre.com>,
- Kevin Hilman <khilman@baylibre.com>,
- Ludovic Desroches <ludovic.desroches@microchip.com>,
- NXP Linux Team <linux-imx@nxp.com>,
- Raphael GALLAIS-POU <raphael.gallais-pou@foss.st.com>,
- Sascha Hauer <s.hauer@pengutronix.de>, Roland Scheidegger <sroland@vmware.com>,
- Sean Paul <sean@poorly.run>, Hyun Kwon <hyun.kwon@xilinx.com>,
- Andrew Jeffery <andrew@aj.id.au>, Seung-Woo Kim <sw0312.kim@samsung.com>,
- =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Alex Deucher <alexander.deucher@amd.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>, linux-doc@vger.kernel.org,
- Edmund Dea <edmund.j.dea@intel.com>, Eric Anholt <eric@anholt.net>,
- Thierry Reding <thierry.reding@gmail.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
- Steven Price <steven.price@arm.com>,
- VMware Graphics <linux-graphics-maintainer@vmware.com>,
- Ben Skeggs <bskeggs@redhat.com>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
- Boris Brezillon <bbrezillon@kernel.org>, Sandy Huang <hjc@rock-chips.com>,
- Kyungmin Park <kyungmin.park@samsung.com>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Haneen Mohammed <hamohammed.sa@gmail.com>,
- Neil Armstrong <narmstrong@baylibre.com>, Melissa Wen <melissa.srw@gmail.com>,
- Gerd Hoffmann <kraxel@redhat.com>,
- Benjamin Gaignard <benjamin.gaignard@linaro.org>,
- Sam Ravnborg <sam@ravnborg.org>, Jonathan Corbet <corbet@lwn.net>,
- Xinwei Kong <kong.kongxinwei@hisilicon.com>, Chen-Yu Tsai <wens@csie.org>,
- Joel Stanley <joel@jms.id.au>,
- Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
- Chen Feng <puck.chen@hisilicon.com>, Alison Wang <alison.wang@nxp.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tomeu Vizoso <tomeu.vizoso@collabora.com>, Tomi Valkeinen <tomba@kernel.org>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Tian Tao <tiantao6@hisilicon.com>, Shawn Guo <shawnguo@kernel.org>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, Liviu Dudau <liviu.dudau@arm.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Paul Cercueil <paul@crapouillou.net>, Andrzej Hajda <a.hajda@samsung.com>,
- Huang Rui <ray.huang@amd.com>, Marek Vasut <marex@denx.de>,
- Joonyoung Shim <jy0922.shim@samsung.com>,
- Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>,
- Russell King <linux@armlinux.org.uk>, Hans de Goede <hdegoede@redhat.com>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- Jernej Skrabec <jernej.skrabec@siol.net>,
- Pekka Paalanen <pekka.paalanen@collabora.com>,
- Yannick Fertre <yannick.fertre@foss.st.com>,
- Nicolas Ferre <nicolas.ferre@microchip.com>,
- Robert Foss <robert.foss@linaro.org>, Rob Clark <robdclark@gmail.com>,
- Qiang Yu <yuq825@gmail.com>, Jyri Sarha <jyri.sarha@iki.fi>
+Cc: jglisse@redhat.com, jgg@nvidia.com, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, hch@lst.de
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
+On 6/17/2021 10:16 AM, Alex Sierra wrote:
+> v1:
+> AMD is building a system architecture for the Frontier supercomputer with a
+> coherent interconnect between CPUs and GPUs. This hardware architecture allows
+> the CPUs to coherently access GPU device memory. We have hardware in our labs
+> and we are working with our partner HPE on the BIOS, firmware and software
+> for delivery to the DOE.
+>
+> The system BIOS advertises the GPU device memory (aka VRAM) as SPM
+> (special purpose memory) in the UEFI system address map. The amdgpu driver looks
+> it up with lookup_resource and registers it with devmap as MEMORY_DEVICE_GENERIC
+> using devm_memremap_pages.
+>
+> Now we're trying to migrate data to and from that memory using the migrate_vma_*
+> helpers so we can support page-based migration in our unified memory allocations,
+> while also supporting CPU access to those pages.
+>
+> This patch series makes a few changes to make MEMORY_DEVICE_GENERIC pages behave
+> correctly in the migrate_vma_* helpers. We are looking for feedback about this
+> approach. If we're close, what's needed to make our patches acceptable upstream?
+> If we're not close, any suggestions how else to achieve what we are trying to do
+> (i.e. page migration and coherent CPU access to VRAM)?
+>
+> This work is based on HMM and our SVM memory manager that was recently upstreamed
+> to Dave Airlie's drm-next branch
+> https://lore.kernel.org/dri-devel/20210527205606.2660-6-Felix.Kuehling@amd.com/T/#r996356015e295780eb50453e7dbd5d0d68b47cbc
+Corrected link:
 
-On 6/16/21 4:38 PM, Maxime Ripard wrote:
-> New KMS properties come with a bunch of requirements to avoid each
-> driver from running their own, inconsistent, set of properties,
-> eventually leading to issues like property conflicts, inconsistencies
-> between drivers and semantics, etc.
-> 
-> Let's document what we expect.
-> 
-> Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>
-> Cc: Alexandre Torgue <alexandre.torgue@foss.st.com>
-> Cc: Alex Deucher <alexander.deucher@amd.com>
-> Cc: Alison Wang <alison.wang@nxp.com>
-> Cc: Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
-> Cc: Andrew Jeffery <andrew@aj.id.au>
-> Cc: Andrzej Hajda <a.hajda@samsung.com>
-> Cc: Anitha Chrisanthus <anitha.chrisanthus@intel.com>
-> Cc: Benjamin Gaignard <benjamin.gaignard@linaro.org>
-> Cc: Ben Skeggs <bskeggs@redhat.com>
-> Cc: Boris Brezillon <bbrezillon@kernel.org>
-> Cc: Brian Starkey <brian.starkey@arm.com>
-> Cc: Chen Feng <puck.chen@hisilicon.com>
-> Cc: Chen-Yu Tsai <wens@csie.org>
-> Cc: Christian Gmeiner <christian.gmeiner@gmail.com>
-> Cc: "Christian König" <christian.koenig@amd.com>
-> Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-> Cc: Edmund Dea <edmund.j.dea@intel.com>
-> Cc: Eric Anholt <eric@anholt.net>
-> Cc: Fabio Estevam <festevam@gmail.com>
-> Cc: Gerd Hoffmann <kraxel@redhat.com>
-> Cc: Haneen Mohammed <hamohammed.sa@gmail.com>
-> Cc: Hans de Goede <hdegoede@redhat.com>
-> Cc: "Heiko Stübner" <heiko@sntech.de>
-> Cc: Huang Rui <ray.huang@amd.com>
-> Cc: Hyun Kwon <hyun.kwon@xilinx.com>
-> Cc: Inki Dae <inki.dae@samsung.com>
-> Cc: Jani Nikula <jani.nikula@linux.intel.com>
-> Cc: Jernej Skrabec <jernej.skrabec@siol.net>
-> Cc: Jerome Brunet <jbrunet@baylibre.com>
-> Cc: Joel Stanley <joel@jms.id.au>
-> Cc: John Stultz <john.stultz@linaro.org>
-> Cc: Jonas Karlman <jonas@kwiboo.se>
-> Cc: Jonathan Hunter <jonathanh@nvidia.com>
-> Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-> Cc: Joonyoung Shim <jy0922.shim@samsung.com>
-> Cc: Jyri Sarha <jyri.sarha@iki.fi>
-> Cc: Kevin Hilman <khilman@baylibre.com>
-> Cc: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-> Cc: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
-> Cc: Kyungmin Park <kyungmin.park@samsung.com>
-> Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
-> Cc: Linus Walleij <linus.walleij@linaro.org>
-> Cc: Liviu Dudau <liviu.dudau@arm.com>
-> Cc: Lucas Stach <l.stach@pengutronix.de>
-> Cc: Ludovic Desroches <ludovic.desroches@microchip.com>
-> Cc: Marek Vasut <marex@denx.de>
-> Cc: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
-> Cc: Matthias Brugger <matthias.bgg@gmail.com>
-> Cc: Maxime Coquelin <mcoquelin.stm32@gmail.com>
-> Cc: Maxime Ripard <mripard@kernel.org>
-> Cc: Melissa Wen <melissa.srw@gmail.com>
-> Cc: Neil Armstrong <narmstrong@baylibre.com>
-> Cc: Nicolas Ferre <nicolas.ferre@microchip.com>
-> Cc: "Noralf Trønnes" <noralf@tronnes.org>
-> Cc: NXP Linux Team <linux-imx@nxp.com>
-> Cc: Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>
-> Cc: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
-> Cc: Paul Cercueil <paul@crapouillou.net>
-> Cc: Pekka Paalanen <pekka.paalanen@collabora.com>
-> Cc: Pengutronix Kernel Team <kernel@pengutronix.de>
-> Cc: Philippe Cornu <philippe.cornu@foss.st.com>
-> Cc: Philipp Zabel <p.zabel@pengutronix.de>
-> Cc: Qiang Yu <yuq825@gmail.com>
-> Cc: Rob Clark <robdclark@gmail.com>
-> Cc: Robert Foss <robert.foss@linaro.org>
-> Cc: Rob Herring <robh@kernel.org>
-> Cc: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>
-> Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
-> Cc: Roland Scheidegger <sroland@vmware.com>
-> Cc: Russell King <linux@armlinux.org.uk>
-> Cc: Sam Ravnborg <sam@ravnborg.org>
-> Cc: Sandy Huang <hjc@rock-chips.com>
-> Cc: Sascha Hauer <s.hauer@pengutronix.de>
-> Cc: Sean Paul <sean@poorly.run>
-> Cc: Seung-Woo Kim <sw0312.kim@samsung.com>
-> Cc: Shawn Guo <shawnguo@kernel.org>
-> Cc: Simon Ser <contact@emersion.fr>
-> Cc: Stefan Agner <stefan@agner.ch>
-> Cc: Steven Price <steven.price@arm.com>
-> Cc: Sumit Semwal <sumit.semwal@linaro.org>
-> Cc: Thierry Reding <thierry.reding@gmail.com>
-> Cc: Tian Tao <tiantao6@hisilicon.com>
-> Cc: Tomeu Vizoso <tomeu.vizoso@collabora.com>
-> Cc: Tomi Valkeinen <tomba@kernel.org>
-> Cc: VMware Graphics <linux-graphics-maintainer@vmware.com>
-> Cc: Xinliang Liu <xinliang.liu@linaro.org>
-> Cc: Xinwei Kong <kong.kongxinwei@hisilicon.com>
-> Cc: Yannick Fertre <yannick.fertre@foss.st.com>
-> Cc: Zack Rusin <zackr@vmware.com>
-> Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
-> 
-> ---
-> 
-> Changes from v3:
->    - Roll back to the v2
->    - Add Simon and Pekka in Cc
-> 
-> Changes from v2:
->    - Take into account the feedback from Laurent and Lidiu to no longer
->      force generic properties, but prefix vendor-specific properties with
->      the vendor name
-> 
-> Changes from v1:
->    - Typos and wording reported by Daniel and Alex
-> ---
->   Documentation/gpu/drm-kms.rst | 19 +++++++++++++++++++
->   1 file changed, 19 insertions(+)
-> 
-> diff --git a/Documentation/gpu/drm-kms.rst b/Documentation/gpu/drm-kms.rst
-> index 87e5023e3f55..c28b464dd397 100644
-> --- a/Documentation/gpu/drm-kms.rst
-> +++ b/Documentation/gpu/drm-kms.rst
-> @@ -463,6 +463,25 @@ KMS Properties
->   This section of the documentation is primarily aimed at user-space developers.
->   For the driver APIs, see the other sections.
->   
-> +Requirements
-> +------------
-> +
-> +KMS drivers might need to add extra properties to support new features.
-> +Each new property introduced in a driver need to meet a few
-> +requirements, in addition to the one mentioned above.:
-> +
-> +- It must be standardized, with some documentation to describe how the
-> +  property can be used.
-> +
-> +- It must provide a generic helper in the core code to register that
-> +  property on the object it attaches to.
-> +
-> +- Its content must be decoded by the core and provided in the object's
-> +  associated state structure. That includes anything drivers might want to
-> +  precompute, like :c:type:`struct drm_clip_rect <drm_clip_rect>` for planes.
-> +
-> +- An IGT test must be submitted where reasonable.
-> +
->   Property Types and Blob Property Support
->   ----------------------------------------
->   
-> 
+https://cgit.freedesktop.org/drm/drm/log/?h=drm-next
 
-Hi,
+Regards,
+Alex Sierra
 
-Regarding properties, we have a “case study example” related in a 
-certain way to this documentation update :-)
+> On top of that we did some rework of our VRAM management for migrations to remove
+> some incorrect assumptions, allow partially successful migrations and GPU memory
+> mappings that mix pages in VRAM and system memory.
+> https://patchwork.kernel.org/project/dri-devel/list/?series=489811
 
-The use case: on a front desk at an exhibition, there is a welcome 
-screen you can touch for searching various information. When this 
-welcome screen is in idle, a small logo is displayed at its center 
-(around 20% of the fullscreen). The logo has a white background color. 
-We want to reduce the ddr usage for lowering the power (the board is 
-battery powered) so the idea is to use a white background color around 
-this logo, produced by the drm CRTC so the image in ddr is only the size 
-of the logo.
+Corrected link:
 
-Reading the thread 
-https://lists.freedesktop.org/archives/dri-devel/2019-October/239733.html 
-dissuade us from coding a generic solution, so we started to implement a 
-"STM_" private background color property, it works... but we are not at 
-all convince this is the right way and we clearly prefer 
-mainline/generic sw for both kernel & userland.
+https://lore.kernel.org/dri-devel/20210527205606.2660-6-Felix.Kuehling@amd.com/T/#r996356015e295780eb50453e7dbd5d0d68b47cbc
 
-So now, what are our options... well, this v4 documentation update is I 
-think clear enough: we have to document + provide a generic helper in 
-the core code (similar to the original patch) + update IGT test, right?
+Regards,
+Alex Sierra
 
-Thanks
-Philippe :-)
-
-Note: It is really a pleasure to read such interesting thread, exposing 
-the “complexity” of our job, dealing with various hw and sw... thank you 
-to all of you.
-
-
+>
+> v2:
+> This patch series version has merged "[RFC PATCH v3 0/2]
+> mm: remove extra ZONE_DEVICE struct page refcount" patch series made by
+> Ralph Campbell. It also applies at the top of these series, our changes
+> to support device generic type in migration_vma helpers.
+> This has been tested in systems with device memory that has coherent
+> access by CPU.
+>
+> Also addresses the following feedback made in v1:
+> - Isolate in one patch kernel/resource.c modification, based
+> on Christoph's feedback.
+> - Add helpers check for generic and private type to avoid
+> duplicated long lines.
+>
+> v3:
+> - Include cover letter from v1
+> - Rename dax_layout_is_idle_page func to dax_page_unused in patch
+> ext4/xfs: add page refcount helper
+>
+> Patches 1-2 Rebased Ralph Campbell's ZONE_DEVICE page refcounting patches
+> Patches 4-5 are for context to show how we are looking up the SPM
+> memory and registering it with devmap.
+> Patches 3,6-8 are the changes we are trying to upstream or rework to
+> make them acceptable upstream.
+>
+> Alex Sierra (6):
+>    kernel: resource: lookup_resource as exported symbol
+>    drm/amdkfd: add SPM support for SVM
+>    drm/amdkfd: generic type as sys mem on migration to ram
+>    include/linux/mm.h: helpers to check zone device generic type
+>    mm: add generic type support to migrate_vma helpers
+>    mm: call pgmap->ops->page_free for DEVICE_GENERIC pages
+>
+> Ralph Campbell (2):
+>    ext4/xfs: add page refcount helper
+>    mm: remove extra ZONE_DEVICE struct page refcount
+>
+>   arch/powerpc/kvm/book3s_hv_uvmem.c       |  2 +-
+>   drivers/gpu/drm/amd/amdkfd/kfd_migrate.c | 15 ++++--
+>   drivers/gpu/drm/nouveau/nouveau_dmem.c   |  2 +-
+>   fs/dax.c                                 |  8 +--
+>   fs/ext4/inode.c                          |  5 +-
+>   fs/xfs/xfs_file.c                        |  4 +-
+>   include/linux/dax.h                      | 10 ++++
+>   include/linux/memremap.h                 |  7 +--
+>   include/linux/mm.h                       | 52 +++---------------
+>   kernel/resource.c                        |  2 +-
+>   lib/test_hmm.c                           |  2 +-
+>   mm/internal.h                            |  8 +++
+>   mm/memremap.c                            | 69 +++++++-----------------
+>   mm/migrate.c                             | 13 ++---
+>   mm/page_alloc.c                          |  3 ++
+>   mm/swap.c                                | 45 ++--------------
+>   16 files changed, 83 insertions(+), 164 deletions(-)
+>
