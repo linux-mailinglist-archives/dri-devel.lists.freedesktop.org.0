@@ -1,49 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 888353AB164
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Jun 2021 12:32:30 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A8B533AB227
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Jun 2021 13:16:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 097646E8E2;
-	Thu, 17 Jun 2021 10:32:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 99AC46E104;
+	Thu, 17 Jun 2021 11:16:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [1.203.163.78])
- by gabe.freedesktop.org (Postfix) with ESMTP id 53A616E8E2
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Jun 2021 10:32:25 +0000 (UTC)
-X-UUID: 02451195d5c24f96b8b31394ae37a108-20210617
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:Date:Subject:CC:To:From;
- bh=qBwqJW6+KXN1WXu/dJswBwv1ZwB6zof1JysV9dlVxzI=; 
- b=Y1vLfTmBUaTFzfQ2nmgXofsxWwcy+ajQlBqvyRRvzrPFod7KXt+ADGrJL32VEFeO+qEqPUgJKBXI7Mjne6yDdhmjJdKhU1G7nt4BQ+w4U3p4x6nliyFAu/ZxsiSHTRcwYe1uFHef87mAev9oHRG8SQUg3CPNuQIdXeVJrFDiaeI=;
-X-UUID: 02451195d5c24f96b8b31394ae37a108-20210617
-Received: from mtkcas32.mediatek.inc [(172.27.4.253)] by mailgw01.mediatek.com
- (envelope-from <jitao.shi@mediatek.com>)
- (mailgw01.mediatek.com ESMTP with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 629330851; Thu, 17 Jun 2021 18:32:22 +0800
-Received: from MTKCAS36.mediatek.inc (172.27.4.186) by MTKMBS33N1.mediatek.inc
- (172.27.4.75) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
- Thu, 17 Jun 2021 18:32:16 +0800
-Received: from mszsdclx1018.gcn.mediatek.inc (10.16.6.18) by
- MTKCAS36.mediatek.inc (172.27.4.170) with Microsoft SMTP Server id
- 15.0.1497.2 via Frontend Transport; Thu, 17 Jun 2021 18:32:16 +0800
-From: Jitao Shi <jitao.shi@mediatek.com>
-To: Chun-Kuang Hu <chunkuang.hu@kernel.org>, Philipp Zabel
- <p.zabel@pengutronix.de>, Matthias Brugger <matthias.bgg@gmail.com>, Daniel
- Vetter <daniel@ffwll.ch>, David Airlie <airlied@linux.ie>,
- <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH v2] drm/mediatek: force hsa hbp hfp packets multiple of
- lanenum to avoid screen shift
-Date: Thu, 17 Jun 2021 18:32:14 +0800
-Message-ID: <20210617103214.44217-1-jitao.shi@mediatek.com>
+Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com
+ [IPv6:2a00:1450:4864:20::535])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ABCAD6E104
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Jun 2021 11:16:02 +0000 (UTC)
+Received: by mail-ed1-x535.google.com with SMTP id z12so3500798edc.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Jun 2021 04:16:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=eRoeVaaXjTUDEXCwT0O7O9+YvstCRV3pUx1vTDqRgQg=;
+ b=G4wBwRp0IjZh+y0I9yhNcfOxHF+Za8sU6/ookQRfC8i1TVCIFcg3TQ9kveDi300x6q
+ gdQqx77sfv0OtlGiYtOgajzGlUHIS1Ia/W/aJWKCQ9a22UKHP2FyRfZprVG/OBAzkY3r
+ /oQEo33n5soAsdloWhelH3zPTiKwFVEXJdTg7+kNxpexB7bvOfGWCkqhoNsXos2Qua4q
+ 0uDo+1LSIVQk9PS4881xGdI2pDiJQBpPaVudCP+DShbmVho+BW4rNeeyZ6H5XSrhRXpS
+ IzjNMQuKPBEF2K4zX91ZSpyEQnniQmfmIildKcuwkCYmDArJk1HvAxgf0IvMGBI/XwKW
+ dUOg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=eRoeVaaXjTUDEXCwT0O7O9+YvstCRV3pUx1vTDqRgQg=;
+ b=bIpNMBrzy/hpOhSa1nwpaQcoey8HabTggA1onag9tywYCG8DF0b+VwOj9vkIODZOiz
+ yyNVoe67YKU4XOvXsXQ/lbssMKFGKmB44BKjwVBGlFgf9jW4YaRGOq8gYKRNZlo5IDkD
+ OdUKpDg9qBZJYsAGIzpxUvvFRu/4LBCCLXqLR1nHa+OYGrqmpa2yb1qzbEoYO04JVbNw
+ Z6dNJja33PJ4gMly7h/CMrNzOB+2COmCgSjIi9hWJuYJj/pCadsCghNtJU9wnRCRB+4X
+ OBdVRfPUXIjK2yuRfJbZsdDDLk6IlLbK5GWXjaG5g4fMXsvr9AkaB5eCJnulpdTrHRcQ
+ iLtw==
+X-Gm-Message-State: AOAM531Zcigk62zXpKKK+ORWz9qoBBO33RgF+WucI5qCEv16EzdXPiXh
+ QDNtj373aBEiEyCfy39u4hE=
+X-Google-Smtp-Source: ABdhPJytH6yVvyCmyeiBB7rLMSWtt83HkP7MUpXyrNkBfXBgFQ2Z867Cw4vlh/L4I8F8GBSaCTnRyg==
+X-Received: by 2002:a05:6402:543:: with SMTP id
+ i3mr5777204edx.173.1623928561443; 
+ Thu, 17 Jun 2021 04:16:01 -0700 (PDT)
+Received: from abel.fritz.box ([2a02:908:1252:fb60:8534:5e76:1ee5:f3ad])
+ by smtp.gmail.com with ESMTPSA id y10sm3531353ejm.76.2021.06.17.04.16.00
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 17 Jun 2021 04:16:00 -0700 (PDT)
+From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
+X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
+ <christian.koenig@amd.com>
+To: daniel@ffwll.ch, sumit.semwal@linaro.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, linux-media@vger.kernel.org
+Subject: Introduce fence iterators to abstract dma_resv RCU handling
+Date: Thu, 17 Jun 2021 13:15:42 +0200
+Message-Id: <20210617111558.28486-1-christian.koenig@amd.com>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain
-X-TM-SNTS-SMTP: FC510DC44A542FB00BE6C56F37F322843E845B614EB23D762E60C3DDE504DF812000:8
-X-MTK: N
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,44 +70,22 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jitao Shi <jitao.shi@mediatek.com>, shuijing.li@mediatek.com,
- huijuan.xie@mediatek.com, stonea168@163.com, rex-bc.chen@mediatek.com,
- linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-VGhlIGJyaWRnZSBjaGlwICJBTlg3NjI1IiByZXF1aXJlcyB0aGUgcGFja2V0cyBvbiBsYW5lcyB0
-byBhbGlnbmUgYXQgdGhlIGVuZCwNCm9yIEFOWDc2MjUgd2lsbCBzaGlmdCB0aGUgc2NyZWVuLg0K
-DQpTaWduZWQtb2ZmLWJ5OiBKaXRhbyBTaGkgPGppdGFvLnNoaUBtZWRpYXRlay5jb20+DQotLS0N
-CiBkcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2RzaS5jIHwgMTMgKysrKysrKysrKysrKw0K
-IDEgZmlsZSBjaGFuZ2VkLCAxMyBpbnNlcnRpb25zKCspDQoNCmRpZmYgLS1naXQgYS9kcml2ZXJz
-L2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2RzaS5jIGIvZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210
-a19kc2kuYw0KaW5kZXggYWU0MDNjNjdjYmQ5Li40NzM1ZTAwOTJmZmUgMTAwNjQ0DQotLS0gYS9k
-cml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2RzaS5jDQorKysgYi9kcml2ZXJzL2dwdS9kcm0v
-bWVkaWF0ZWsvbXRrX2RzaS5jDQpAQCAtMTk0LDYgKzE5NCw4IEBAIHN0cnVjdCBtdGtfZHNpIHsN
-CiAJc3RydWN0IGNsayAqaHNfY2xrOw0KIA0KIAl1MzIgZGF0YV9yYXRlOw0KKwkvKiBmb3JjZSBk
-c2kgbGluZSBlbmQgd2l0aG91dCBkc2lfbnVsbCBkYXRhICovDQorCWJvb2wgZm9yY2VfZHNpX2Vu
-ZF93aXRob3V0X251bGw7DQogDQogCXVuc2lnbmVkIGxvbmcgbW9kZV9mbGFnczsNCiAJZW51bSBt
-aXBpX2RzaV9waXhlbF9mb3JtYXQgZm9ybWF0Ow0KQEAgLTQ5OSw2ICs1MDEsMTMgQEAgc3RhdGlj
-IHZvaWQgbXRrX2RzaV9jb25maWdfdmRvX3RpbWluZyhzdHJ1Y3QgbXRrX2RzaSAqZHNpKQ0KIAkJ
-RFJNX1dBUk4oIkhGUCArIEhCUCBsZXNzIHRoYW4gZC1waHksIEZQUyB3aWxsIHVuZGVyIDYwSHpc
-biIpOw0KIAl9DQogDQorCWlmIChkc2ktPmZvcmNlX2RzaV9lbmRfd2l0aG91dF9udWxsKSB7DQor
-CQlob3Jpem9udGFsX3N5bmNfYWN0aXZlX2J5dGUgPSByb3VuZHVwKGhvcml6b250YWxfc3luY19h
-Y3RpdmVfYnl0ZSwgZHNpLT5sYW5lcykgLSAyOw0KKwkJaG9yaXpvbnRhbF9mcm9udHBvcmNoX2J5
-dGUgPSByb3VuZHVwKGhvcml6b250YWxfZnJvbnRwb3JjaF9ieXRlLCBkc2ktPmxhbmVzKSAtIDI7
-DQorCQlob3Jpem9udGFsX2JhY2twb3JjaF9ieXRlID0gcm91bmR1cChob3Jpem9udGFsX2JhY2tw
-b3JjaF9ieXRlLCBkc2ktPmxhbmVzKSAtIDI7DQorCQlob3Jpem9udGFsX2JhY2twb3JjaF9ieXRl
-IC09ICh2bS0+aGFjdGl2ZSAqIGRzaV90bXBfYnVmX2JwcCArIDIpICUgZHNpLT5sYW5lczsNCisJ
-fQ0KKw0KIAl3cml0ZWwoaG9yaXpvbnRhbF9zeW5jX2FjdGl2ZV9ieXRlLCBkc2ktPnJlZ3MgKyBE
-U0lfSFNBX1dDKTsNCiAJd3JpdGVsKGhvcml6b250YWxfYmFja3BvcmNoX2J5dGUsIGRzaS0+cmVn
-cyArIERTSV9IQlBfV0MpOw0KIAl3cml0ZWwoaG9yaXpvbnRhbF9mcm9udHBvcmNoX2J5dGUsIGRz
-aS0+cmVncyArIERTSV9IRlBfV0MpOw0KQEAgLTEwOTUsNiArMTEwNCwxMCBAQCBzdGF0aWMgaW50
-IG10a19kc2lfcHJvYmUoc3RydWN0IHBsYXRmb3JtX2RldmljZSAqcGRldikNCiAJZHNpLT5icmlk
-Z2Uub2Zfbm9kZSA9IGRldi0+b2Zfbm9kZTsNCiAJZHNpLT5icmlkZ2UudHlwZSA9IERSTV9NT0RF
-X0NPTk5FQ1RPUl9EU0k7DQogDQorCWlmIChkc2ktPm5leHRfYnJpZGdlKQ0KKwkJZHNpLT5mb3Jj
-ZV9kc2lfZW5kX3dpdGhvdXRfbnVsbCA9IG9mX3Byb3BlcnR5X3JlYWRfYm9vbChkc2ktPm5leHRf
-YnJpZGdlLT5vZl9ub2RlLA0KKwkJCQkJCQkJCSJmb3JjZV9kc2lfZW5kX3dpdGhvdXRfbnVsbCIp
-Ow0KKw0KIAlkcm1fYnJpZGdlX2FkZCgmZHNpLT5icmlkZ2UpOw0KIA0KIAlyZXQgPSBjb21wb25l
-bnRfYWRkKCZwZGV2LT5kZXYsICZtdGtfZHNpX2NvbXBvbmVudF9vcHMpOw0KLS0gDQoyLjI1LjEN
-Cg==
+Hi guys,
+
+during the recent discussion about SLAB_TYPESAFE_BY_RCU, dma_fence_get_rcu and dma_fence_get_rcu_safe we found that the RCU handling for dma_resv objects was implemented multiple times.
+
+Unfortunately a lot of those implementations get the rather complicated dance with RCU and the sequence number handling wrong.
+
+So this patch set aims to audit and unify this by providing an iterator which automatically restarts when a modification to the dma_resv object is detected.
+
+The result is pretty impressive I think since this not only mean that we got rid of all those incorrect dma_fence_get_rcu() cases, but also reduce the overall loc count quite a bit.
+
+Please review and/or comment.
+
+Cheers,
+Christian.
+
 
