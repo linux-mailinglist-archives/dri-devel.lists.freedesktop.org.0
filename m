@@ -1,46 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F0793ABD4C
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Jun 2021 22:13:02 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A56C33ABDCB
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Jun 2021 23:09:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B62E86E02A;
-	Thu, 17 Jun 2021 20:12:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1CC266E0B9;
+	Thu, 17 Jun 2021 21:09:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 961096E02A;
- Thu, 17 Jun 2021 20:12:56 +0000 (UTC)
-IronPort-SDR: QcLwU6NVjusGJBwexyJSCjh++NrZqg94Z72EM4MQB6VoZ75mcsGY4KfikUX7sCSAio6Z9DruFW
- LHkPK9r1hefg==
-X-IronPort-AV: E=McAfee;i="6200,9189,10018"; a="227964212"
-X-IronPort-AV: E=Sophos;i="5.83,281,1616482800"; d="scan'208";a="227964212"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Jun 2021 13:12:56 -0700
-IronPort-SDR: NcvT08L8pNOMzcCeyoJteFj4rfwjqhl/FTwDI2Fc0vQtvO5DaXvsBoR6HAwJlS8EqDLA0B+heb
- c9CDDCAQT/TA==
-X-IronPort-AV: E=Sophos;i="5.83,281,1616482800"; d="scan'208";a="622150914"
-Received: from bmoran1x-mobl3.ger.corp.intel.com (HELO [10.213.219.91])
- ([10.213.219.91])
- by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Jun 2021 13:12:54 -0700
-Subject: Re: [PATCH v2] drm/i915: Document the Virtual Engine uAPI
-To: Daniel Vetter <daniel@ffwll.ch>
-References: <20210614090959.1527987-1-tvrtko.ursulin@linux.intel.com>
- <YMuDlNtXajUYcbqo@phenom.ffwll.local>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-Message-ID: <a34db25a-ce09-7052-7012-09f70b7b9a89@linux.intel.com>
-Date: Thu, 17 Jun 2021 21:12:53 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+Received: from mail-ot1-x32a.google.com (mail-ot1-x32a.google.com
+ [IPv6:2607:f8b0:4864:20::32a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 530B16E0B9;
+ Thu, 17 Jun 2021 21:09:14 +0000 (UTC)
+Received: by mail-ot1-x32a.google.com with SMTP id
+ f3-20020a0568301c23b029044ce5da4794so941990ote.11; 
+ Thu, 17 Jun 2021 14:09:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=T1t5ixBhfU+YgoATEdeETMrWXi3D+eheoYh3m8rilvs=;
+ b=GTugJAszOvZK3WBgCPvu9lklVWmg9fUOhzLn/Adiqfqm2e4sUFtElsRcmnnmo0mbGE
+ CYVivq1NOCOBBdHhTbqg29f1kNhm47yV+yP7Jc0YNALnyCCxoM/FQbvke7RrdRVnCi80
+ gi+YK25ceqXEiZCcfIdCyEx2Y50CuHvbV4W6vaoDyfhTd/3TIoOKiRe9tkYe8i//PyWp
+ U7dOIJn2Z5jjzCs02XtryTsHUqi3qawq9VZnZPYdqJa6lAXS1kR5LrIcmzzmenSDJG3x
+ YsxsykhCd3/Rj078ljSq+qkPBTq9qFk4PL/vzIfJbBXq5h2c6heZgSdofpEYKPEWyEe0
+ l+0A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=T1t5ixBhfU+YgoATEdeETMrWXi3D+eheoYh3m8rilvs=;
+ b=W68LXI3TTozI42IeLENVSXg5qU3Pe6TIwJLO3NrYtGCpgeo6IP1zFydmBql3iMNHx/
+ zuBJB+OeXgQclWCHaV6h9SHwWxJ31K0ccwifJ34WZoG81YbP/dJHfhr6Z9eYUJUVQRag
+ Kv2Havyfm6J4c1opCxav9dXm0BI8lBpAOD4VaVhfHPcJsfuSFwGcrGSTnFgcw5I7pWfn
+ CwctO1yoGQ4aDyQ6tfqXaZ6He85CiKzIW29XShd/JW87N9I+ahD9XTS2bX26QQkGvsiU
+ uywx/5GjT+4wiXaH4to9kjAVhHM94+HPgdiiBlwv8e/H33QkkVojghsCE/KeNQt0clbm
+ xraA==
+X-Gm-Message-State: AOAM531z5G2mdAVlaLHg+6+jxHQdHPfnezte4zJE7E6pJcVMG8Ea4ots
+ M7iYBVfNSImnzJ0Ns/o4rhwx97D5EwljgF1Dij4=
+X-Google-Smtp-Source: ABdhPJwi78AD8pVRr5taz6+b4kZzNSERcghLlPEpZIPhnSXAqohmaVxh1IfAuuQTJMhu9oj78BoXNeXJxB0MuObu+no=
+X-Received: by 2002:a05:6830:1e64:: with SMTP id
+ m4mr6339671otr.23.1623964153469; 
+ Thu, 17 Jun 2021 14:09:13 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <YMuDlNtXajUYcbqo@phenom.ffwll.local>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <20210614174536.5188-1-christian.koenig@amd.com>
+ <20210614174536.5188-2-christian.koenig@amd.com>
+In-Reply-To: <20210614174536.5188-2-christian.koenig@amd.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Thu, 17 Jun 2021 17:09:02 -0400
+Message-ID: <CADnq5_OMZZomJvpNzpA=kXgvDWAM538kYVUFnrnXhYO4Gne17Q@mail.gmail.com>
+Subject: Re: [PATCH 2/2] drm/amdgpu: rework dma_resv handling v3
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,296 +66,319 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+Cc: amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Mon, Jun 14, 2021 at 1:45 PM Christian K=C3=B6nig
+<ckoenig.leichtzumerken@gmail.com> wrote:
+>
+> Drop the workaround and instead implement a better solution.
+>
+> Basically we are now chaining all submissions using a dma_fence_chain
+> container and adding them as exclusive fence to the dma_resv object.
+>
+> This way other drivers can still sync to the single exclusive fence
+> while amdgpu only sync to fences from different processes.
+>
+> v3: add the shared fence first before the exclusive one
+>
+> Signed-off-by: Christian K=C3=B6nig <christian.koenig@amd.com>
 
-On 17/06/2021 18:17, Daniel Vetter wrote:
-> On Mon, Jun 14, 2021 at 10:09:59AM +0100, Tvrtko Ursulin wrote:
->> From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
->>
->> A little bit of documentation covering the topics of engine discovery,
->> context engine maps and virtual engines. It is not very detailed but
->> supposed to be a starting point of giving a brief high level overview of
->> general principles and intended use cases.
->>
->> v2:
->>   * Have the text in uapi header and link from there.
->>
->> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
->> Cc: Daniel Vetter <daniel@ffwll.ch>
-> 
-> What I meant was the kerneldoc directly as kerneldoc for the uapi structs,
-> like Matt has done for e.g. drm_i915_gem_create_ext_memory_regions.
+Series is:
+Reviewed-by: Alex Deucher <alexander.deucher@amd.com>
 
-Hm I wanted to add some commentary to give a high level picture of this 
-area and not necessarily focus on uapi structs details. Some of them (at 
-least one I think) already have their own documentation and the rest 
-could be added in detail. But I do think a short "story" in the order of 
-chapters I added to i915.rst makes sense as reading material.
-
-> But then I also realized that Matt hasn't set up the include for this, so
-> it's not automatic at all yet :-/
-
-No idea what where how you mean. The fact i915_drm.h docs are not pulled 
-in anywhere?
-
-Regards,
-
-Tvrtko
-
-> -Daniel
-> 
->> ---
->>   Documentation/gpu/i915.rst  |  18 ++++
->>   include/uapi/drm/i915_drm.h | 188 ++++++++++++++++++++++++++++++++++++
->>   2 files changed, 206 insertions(+)
->>
->> diff --git a/Documentation/gpu/i915.rst b/Documentation/gpu/i915.rst
->> index 42ce0196930a..00aa55bbe0fd 100644
->> --- a/Documentation/gpu/i915.rst
->> +++ b/Documentation/gpu/i915.rst
->> @@ -335,6 +335,24 @@ for execution also include a list of all locations within buffers that
->>   refer to GPU-addresses so that the kernel can edit the buffer correctly.
->>   This process is dubbed relocation.
->>   
->> +Engine Discovery uAPI
->> +---------------------
->> +
->> +.. kernel-doc:: include/uapi/drm/i915_drm.h
->> +   :doc: Engine Discovery uAPI
->> +
->> +Context Engine Map uAPI
->> +-----------------------
->> +
->> +.. kernel-doc:: include/uapi/drm/i915_drm.h
->> +   :doc: Context Engine Map uAPI
->> +
->> +Virtual Engine uAPI
->> +-------------------
->> +
->> +.. kernel-doc:: include/uapi/drm/i915_drm.h
->> +   :doc: Virtual Engine uAPI
->> +
->>   Locking Guidelines
->>   ------------------
->>   
->> diff --git a/include/uapi/drm/i915_drm.h b/include/uapi/drm/i915_drm.h
->> index a1cb4aa035a9..2f70c48567c0 100644
->> --- a/include/uapi/drm/i915_drm.h
->> +++ b/include/uapi/drm/i915_drm.h
->> @@ -1806,6 +1806,69 @@ struct drm_i915_gem_context_param_sseu {
->>   	__u32 rsvd;
->>   };
->>   
->> +/**
->> + * DOC: Virtual Engine uAPI
->> + *
->> + * Virtual engine is a concept where userspace is able to configure a set of
->> + * physical engines, submit a batch buffer, and let the driver execute it on any
->> + * engine from the set as it sees fit.
->> + *
->> + * This is primarily useful on parts which have multiple instances of a same
->> + * class engine, like for example GT3+ Skylake parts with their two VCS engines.
->> + *
->> + * For instance userspace can enumerate all engines of a certain class using the
->> + * previously described `Engine Discovery uAPI`_. After that userspace can
->> + * create a GEM context with a placeholder slot for the virtual engine (using
->> + * `I915_ENGINE_CLASS_INVALID` and `I915_ENGINE_CLASS_INVALID_NONE` for class
->> + * and instance respectively) and finally using the
->> + * `I915_CONTEXT_ENGINES_EXT_LOAD_BALANCE` extension place a virtual engine in
->> + * the same reserved slot.
->> + *
->> + * Example of creating a virtual engine and submitting a batch buffer to it:
->> + *
->> + * .. code-block:: C
->> + *
->> + * 	I915_DEFINE_CONTEXT_ENGINES_LOAD_BALANCE(virtual, 2) = {
->> + * 		.base.name = I915_CONTEXT_ENGINES_EXT_LOAD_BALANCE,
->> + * 		.engine_index = 0, // Place this virtual engine into engine map slot 0
->> + * 		.num_siblings = 2,
->> + * 		.engines = { { I915_ENGINE_CLASS_VIDEO, 0 },
->> + * 			     { I915_ENGINE_CLASS_VIDEO, 1 }, },
->> + * 	};
->> + * 	I915_DEFINE_CONTEXT_PARAM_ENGINES(engines, 1) = {
->> + * 		.engines = { { I915_ENGINE_CLASS_INVALID,
->> + * 			       I915_ENGINE_CLASS_INVALID_NONE } },
->> + * 		.extensions = to_user_pointer(&virtual), // Chains after load_balance extension
->> + * 	};
->> + * 	struct drm_i915_gem_context_create_ext_setparam p_engines = {
->> + * 		.base = {
->> + * 			.name = I915_CONTEXT_CREATE_EXT_SETPARAM,
->> + * 		},
->> + * 		.param = {
->> + * 			.param = I915_CONTEXT_PARAM_ENGINES,
->> + * 			.value = to_user_pointer(&engines),
->> + * 			.size = sizeof(engines),
->> + * 		},
->> + * 	};
->> + * 	struct drm_i915_gem_context_create_ext create = {
->> + * 		.flags = I915_CONTEXT_CREATE_FLAGS_USE_EXTENSIONS,
->> + * 		.extensions = to_user_pointer(&p_engines);
->> + * 	};
->> + *
->> + * 	ctx_id = gem_context_create_ext(drm_fd, &create);
->> + *
->> + * 	// Now we have created a GEM context with its engine map containing a
->> + * 	// single virtual engine. Submissions to this slot can go either to
->> + * 	// vcs0 or vcs1, depending on the load balancing algorithm used inside
->> + * 	// the driver. The load balancing is dynamic from one batch buffer to
->> + * 	// another and transparent to userspace.
->> + *
->> + * 	...
->> + * 	execbuf.rsvd1 = ctx_id;
->> + * 	execbuf.flags = 0; // Submits to index 0 which is the virtual engine
->> + * 	gem_execbuf(drm_fd, &execbuf);
->> + */
->> +
->>   /*
->>    * i915_context_engines_load_balance:
->>    *
->> @@ -1882,6 +1945,61 @@ struct i915_context_engines_bond {
->>   	struct i915_engine_class_instance engines[N__]; \
->>   } __attribute__((packed)) name__
->>   
->> +/**
->> + * DOC: Context Engine Map uAPI
->> + *
->> + * Context engine map is a new way of addressing engines when submitting batch-
->> + * buffers, replacing the existing way of using identifiers like `I915_EXEC_BLT`
->> + * inside the flags field of `struct drm_i915_gem_execbuffer2`.
->> + *
->> + * To use it created GEM contexts need to be configured with a list of engines
->> + * the user is intending to submit to. This is accomplished using the
->> + * `I915_CONTEXT_PARAM_ENGINES` parameter and `struct
->> + * i915_context_param_engines`.
->> + *
->> + * For such contexts the `I915_EXEC_RING_MASK` field becomes an index into the
->> + * configured map.
->> + *
->> + * Example of creating such context and submitting against it:
->> + *
->> + * .. code-block:: C
->> + *
->> + * 	I915_DEFINE_CONTEXT_PARAM_ENGINES(engines, 2) = {
->> + * 		.engines = { { I915_ENGINE_CLASS_RENDER, 0 },
->> + * 			     { I915_ENGINE_CLASS_COPY, 0 } }
->> + * 	};
->> + * 	struct drm_i915_gem_context_create_ext_setparam p_engines = {
->> + * 		.base = {
->> + * 			.name = I915_CONTEXT_CREATE_EXT_SETPARAM,
->> + * 		},
->> + * 		.param = {
->> + * 			.param = I915_CONTEXT_PARAM_ENGINES,
->> + * 			.value = to_user_pointer(&engines),
->> + * 			.size = sizeof(engines),
->> + * 		},
->> + * 	};
->> + * 	struct drm_i915_gem_context_create_ext create = {
->> + * 		.flags = I915_CONTEXT_CREATE_FLAGS_USE_EXTENSIONS,
->> + * 		.extensions = to_user_pointer(&p_engines);
->> + * 	};
->> + *
->> + * 	ctx_id = gem_context_create_ext(drm_fd, &create);
->> + *
->> + * 	// We have now created a GEM context with two engines in the map:
->> + * 	// Index 0 points to rcs0 while index 1 points to bcs0. Other engines
->> + * 	// will not be accessible from this context.
->> + *
->> + * 	...
->> + * 	execbuf.rsvd1 = ctx_id;
->> + * 	execbuf.flags = 0; // Submits to index 0, which is rcs0 for this context
->> + * 	gem_execbuf(drm_fd, &execbuf);
->> + *
->> + * 	...
->> + * 	execbuf.rsvd1 = ctx_id;
->> + * 	execbuf.flags = 1; // Submits to index 0, which is bcs0 for this context
->> + * 	gem_execbuf(drm_fd, &execbuf);
->> + */
->> +
->>   struct i915_context_param_engines {
->>   	__u64 extensions; /* linked chain of extension blocks, 0 terminates */
->>   #define I915_CONTEXT_ENGINES_EXT_LOAD_BALANCE 0 /* see i915_context_engines_load_balance */
->> @@ -2375,6 +2493,76 @@ struct drm_i915_query_topology_info {
->>   	__u8 data[];
->>   };
->>   
->> +/**
->> + * DOC: Engine Discovery uAPI
->> + *
->> + * Engine discovery uAPI is a way of enumerating physical engines present in a
->> + * GPU associated with an open i915 DRM file descriptor. This supersedes the old
->> + * way of using `DRM_IOCTL_I915_GETPARAM` and engine identifiers like
->> + * `I915_PARAM_HAS_BLT`.
->> + *
->> + * The need for this interface came starting with Icelake and newer GPUs, which
->> + * started to establish a pattern of having multiple engines of a same class,
->> + * where not all instances were always completely functionally equivalent.
->> + *
->> + * Entry point for this uapi is `DRM_IOCTL_I915_QUERY` with the
->> + * `DRM_I915_QUERY_ENGINE_INFO` as the queried item id.
->> + *
->> + * Example for getting the list of engines:
->> + *
->> + * .. code-block:: C
->> + *
->> + * 	struct drm_i915_query_engine_info *info;
->> + * 	struct drm_i915_query_item item = {
->> + * 		.query_id = DRM_I915_QUERY_ENGINE_INFO;
->> + * 	};
->> + * 	struct drm_i915_query query = {
->> + * 		.num_items = 1,
->> + * 		.items_ptr = (uintptr_t)&item,
->> + * 	};
->> + * 	int err, i;
->> + *
->> + * 	// First query the size of the blob we need, this needs to be large
->> + * 	// enough to hold our array of engines. The kernel will fill out the
->> + * 	// item.length for us, which is the number of bytes we need.
->> + * 	//
->> + * 	// Alternatively a large buffer can be allocated straight away enabling
->> + * 	// querying in one pass, in which case item.length should contain the
->> + * 	// length of the provided buffer.
->> + * 	err = ioctl(fd, DRM_IOCTL_I915_QUERY, &query);
->> + * 	if (err) ...
->> + *
->> + * 	info = calloc(1, item.length);
->> + * 	// Now that we allocated the required number of bytes, we call the ioctl
->> + * 	// again, this time with the data_ptr pointing to our newly allocated
->> + * 	// blob, which the kernel can then populate with info on all engines.
->> + * 	item.data_ptr = (uintptr_t)&info,
->> + *
->> + * 	err = ioctl(fd, DRM_IOCTL_I915_QUERY, &query);
->> + * 	if (err) ...
->> + *
->> + * 	// We can now access each engine in the array
->> + * 	for (i = 0; i < info->num_engines; i++) {
->> + * 		struct drm_i915_engine_info einfo = info->engines[i];
->> + * 		u16 class = einfo.engine.class;
->> + * 		u16 instance = einfo.engine.instance;
->> + * 		....
->> + * 	}
->> + *
->> + * 	free(info);
->> + *
->> + * Each of the enumerated engines, apart from being defined by its class and
->> + * instance (see `struct i915_engine_class_instance`), also can have flags and
->> + * capabilities defined as documented in i915_drm.h.
->> + *
->> + * For instance video engines which support HEVC encoding will have the
->> + * `I915_VIDEO_CLASS_CAPABILITY_HEVC` capability bit set.
->> + *
->> + * Engine discovery only fully comes to its own when combined with the new way
->> + * of addressing engines when submitting batch buffers using contexts with
->> + * engine maps configured.
->> + */
->> +
->>   /**
->>    * struct drm_i915_engine_info
->>    *
->> -- 
->> 2.30.2
->>
-> 
+> ---
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_bo_list.h |  1 +
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c      | 62 ++++++++++++++++----
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c | 65 ---------------------
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c     |  3 +-
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_object.c  |  2 +-
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_object.h  |  1 -
+>  6 files changed, 55 insertions(+), 79 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_bo_list.h b/drivers/gpu/dr=
+m/amd/amdgpu/amdgpu_bo_list.h
+> index a130e766cbdb..c905a4cfc173 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_bo_list.h
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_bo_list.h
+> @@ -34,6 +34,7 @@ struct amdgpu_fpriv;
+>  struct amdgpu_bo_list_entry {
+>         struct ttm_validate_buffer      tv;
+>         struct amdgpu_bo_va             *bo_va;
+> +       struct dma_fence_chain          *chain;
+>         uint32_t                        priority;
+>         struct page                     **user_pages;
+>         bool                            user_invalidated;
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c b/drivers/gpu/drm/amd=
+/amdgpu/amdgpu_cs.c
+> index 9ce649a1a8d3..25655414e9c0 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
+> @@ -572,6 +572,20 @@ static int amdgpu_cs_parser_bos(struct amdgpu_cs_par=
+ser *p,
+>                 goto out;
+>         }
+>
+> +       amdgpu_bo_list_for_each_entry(e, p->bo_list) {
+> +               struct amdgpu_bo *bo =3D ttm_to_amdgpu_bo(e->tv.bo);
+> +
+> +               e->bo_va =3D amdgpu_vm_bo_find(vm, bo);
+> +
+> +               if (bo->tbo.base.dma_buf && !amdgpu_bo_explicit_sync(bo))=
+ {
+> +                       e->chain =3D dma_fence_chain_alloc();
+> +                       if (!e->chain) {
+> +                               r =3D -ENOMEM;
+> +                               goto error_validate;
+> +                       }
+> +               }
+> +       }
+> +
+>         amdgpu_cs_get_threshold_for_moves(p->adev, &p->bytes_moved_thresh=
+old,
+>                                           &p->bytes_moved_vis_threshold);
+>         p->bytes_moved =3D 0;
+> @@ -599,15 +613,6 @@ static int amdgpu_cs_parser_bos(struct amdgpu_cs_par=
+ser *p,
+>         gws =3D p->bo_list->gws_obj;
+>         oa =3D p->bo_list->oa_obj;
+>
+> -       amdgpu_bo_list_for_each_entry(e, p->bo_list) {
+> -               struct amdgpu_bo *bo =3D ttm_to_amdgpu_bo(e->tv.bo);
+> -
+> -               /* Make sure we use the exclusive slot for shared BOs */
+> -               if (bo->prime_shared_count)
+> -                       e->tv.num_shared =3D 0;
+> -               e->bo_va =3D amdgpu_vm_bo_find(vm, bo);
+> -       }
+> -
+>         if (gds) {
+>                 p->job->gds_base =3D amdgpu_bo_gpu_offset(gds) >> PAGE_SH=
+IFT;
+>                 p->job->gds_size =3D amdgpu_bo_size(gds) >> PAGE_SHIFT;
+> @@ -629,8 +634,13 @@ static int amdgpu_cs_parser_bos(struct amdgpu_cs_par=
+ser *p,
+>         }
+>
+>  error_validate:
+> -       if (r)
+> +       if (r) {
+> +               amdgpu_bo_list_for_each_entry(e, p->bo_list) {
+> +                       dma_fence_chain_free(e->chain);
+> +                       e->chain =3D NULL;
+> +               }
+>                 ttm_eu_backoff_reservation(&p->ticket, &p->validated);
+> +       }
+>  out:
+>         return r;
+>  }
+> @@ -670,9 +680,17 @@ static void amdgpu_cs_parser_fini(struct amdgpu_cs_p=
+arser *parser, int error,
+>  {
+>         unsigned i;
+>
+> -       if (error && backoff)
+> +       if (error && backoff) {
+> +               struct amdgpu_bo_list_entry *e;
+> +
+> +               amdgpu_bo_list_for_each_entry(e, parser->bo_list) {
+> +                       dma_fence_chain_free(e->chain);
+> +                       e->chain =3D NULL;
+> +               }
+> +
+>                 ttm_eu_backoff_reservation(&parser->ticket,
+>                                            &parser->validated);
+> +       }
+>
+>         for (i =3D 0; i < parser->num_post_deps; i++) {
+>                 drm_syncobj_put(parser->post_deps[i].syncobj);
+> @@ -1245,6 +1263,28 @@ static int amdgpu_cs_submit(struct amdgpu_cs_parse=
+r *p,
+>
+>         amdgpu_vm_move_to_lru_tail(p->adev, &fpriv->vm);
+>
+> +       amdgpu_bo_list_for_each_entry(e, p->bo_list) {
+> +               struct dma_resv *resv =3D e->tv.bo->base.resv;
+> +               struct dma_fence_chain *chain =3D e->chain;
+> +
+> +               if (!chain)
+> +                       continue;
+> +
+> +               /*
+> +                * Work around dma_resv shortcommings by wrapping up the
+> +                * submission in a dma_fence_chain and add it as exclusiv=
+e
+> +                * fence, but first add the submission as shared fence to=
+ make
+> +                * sure that shared fences never signal before the exclus=
+ive
+> +                * one.
+> +                */
+> +               dma_fence_chain_init(chain, dma_resv_excl_fence(resv),
+> +                                    dma_fence_get(p->fence), 1);
+> +
+> +               dma_resv_add_shared_fence(resv, p->fence);
+> +               rcu_assign_pointer(resv->fence_excl, &chain->base);
+> +               e->chain =3D NULL;
+> +       }
+> +
+>         ttm_eu_fence_buffer_objects(&p->ticket, &p->validated, p->fence);
+>         mutex_unlock(&p->adev->notifier_lock);
+>
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c b/drivers/gpu/dr=
+m/amd/amdgpu/amdgpu_dma_buf.c
+> index c3053b83b80c..23219fc3b28c 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c
+> @@ -42,48 +42,6 @@
+>  #include <linux/pci-p2pdma.h>
+>  #include <linux/pm_runtime.h>
+>
+> -static int
+> -__dma_resv_make_exclusive(struct dma_resv *obj)
+> -{
+> -       struct dma_fence **fences;
+> -       unsigned int count;
+> -       int r;
+> -
+> -       if (!dma_resv_shared_list(obj)) /* no shared fences to convert */
+> -               return 0;
+> -
+> -       r =3D dma_resv_get_fences(obj, NULL, &count, &fences);
+> -       if (r)
+> -               return r;
+> -
+> -       if (count =3D=3D 0) {
+> -               /* Now that was unexpected. */
+> -       } else if (count =3D=3D 1) {
+> -               dma_resv_add_excl_fence(obj, fences[0]);
+> -               dma_fence_put(fences[0]);
+> -               kfree(fences);
+> -       } else {
+> -               struct dma_fence_array *array;
+> -
+> -               array =3D dma_fence_array_create(count, fences,
+> -                                              dma_fence_context_alloc(1)=
+, 0,
+> -                                              false);
+> -               if (!array)
+> -                       goto err_fences_put;
+> -
+> -               dma_resv_add_excl_fence(obj, &array->base);
+> -               dma_fence_put(&array->base);
+> -       }
+> -
+> -       return 0;
+> -
+> -err_fences_put:
+> -       while (count--)
+> -               dma_fence_put(fences[count]);
+> -       kfree(fences);
+> -       return -ENOMEM;
+> -}
+> -
+>  /**
+>   * amdgpu_dma_buf_attach - &dma_buf_ops.attach implementation
+>   *
+> @@ -110,24 +68,6 @@ static int amdgpu_dma_buf_attach(struct dma_buf *dmab=
+uf,
+>         if (r < 0)
+>                 goto out;
+>
+> -       r =3D amdgpu_bo_reserve(bo, false);
+> -       if (unlikely(r !=3D 0))
+> -               goto out;
+> -
+> -       /*
+> -        * We only create shared fences for internal use, but importers
+> -        * of the dmabuf rely on exclusive fences for implicitly
+> -        * tracking write hazards. As any of the current fences may
+> -        * correspond to a write, we need to convert all existing
+> -        * fences on the reservation object into a single exclusive
+> -        * fence.
+> -        */
+> -       r =3D __dma_resv_make_exclusive(bo->tbo.base.resv);
+> -       if (r)
+> -               goto out;
+> -
+> -       bo->prime_shared_count++;
+> -       amdgpu_bo_unreserve(bo);
+>         return 0;
+>
+>  out:
+> @@ -150,9 +90,6 @@ static void amdgpu_dma_buf_detach(struct dma_buf *dmab=
+uf,
+>         struct amdgpu_bo *bo =3D gem_to_amdgpu_bo(obj);
+>         struct amdgpu_device *adev =3D amdgpu_ttm_adev(bo->tbo.bdev);
+>
+> -       if (attach->dev->driver !=3D adev->dev->driver && bo->prime_share=
+d_count)
+> -               bo->prime_shared_count--;
+> -
+>         pm_runtime_mark_last_busy(adev_to_drm(adev)->dev);
+>         pm_runtime_put_autosuspend(adev_to_drm(adev)->dev);
+>  }
+> @@ -406,8 +343,6 @@ amdgpu_dma_buf_create_obj(struct drm_device *dev, str=
+uct dma_buf *dma_buf)
+>         bo =3D gem_to_amdgpu_bo(gobj);
+>         bo->allowed_domains =3D AMDGPU_GEM_DOMAIN_GTT;
+>         bo->preferred_domains =3D AMDGPU_GEM_DOMAIN_GTT;
+> -       if (dma_buf->ops !=3D &amdgpu_dmabuf_ops)
+> -               bo->prime_shared_count =3D 1;
+>
+>         dma_resv_unlock(resv);
+>         return gobj;
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c b/drivers/gpu/drm/am=
+d/amdgpu/amdgpu_gem.c
+> index 9cf4beaf646c..0780e8d18992 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c
+> @@ -829,7 +829,8 @@ int amdgpu_gem_op_ioctl(struct drm_device *dev, void =
+*data,
+>                 break;
+>         }
+>         case AMDGPU_GEM_OP_SET_PLACEMENT:
+> -               if (robj->prime_shared_count && (args->value & AMDGPU_GEM=
+_DOMAIN_VRAM)) {
+> +               if (robj->tbo.base.import_attach &&
+> +                   args->value & AMDGPU_GEM_DOMAIN_VRAM) {
+>                         r =3D -EINVAL;
+>                         amdgpu_bo_unreserve(robj);
+>                         break;
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c b/drivers/gpu/drm=
+/amd/amdgpu/amdgpu_object.c
+> index b7a2070d90af..d13490975ac3 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
+> @@ -892,7 +892,7 @@ int amdgpu_bo_pin_restricted(struct amdgpu_bo *bo, u3=
+2 domain,
+>                 return -EINVAL;
+>
+>         /* A shared bo cannot be migrated to VRAM */
+> -       if (bo->prime_shared_count || bo->tbo.base.import_attach) {
+> +       if (bo->tbo.base.import_attach) {
+>                 if (domain & AMDGPU_GEM_DOMAIN_GTT)
+>                         domain =3D AMDGPU_GEM_DOMAIN_GTT;
+>                 else
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.h b/drivers/gpu/drm=
+/amd/amdgpu/amdgpu_object.h
+> index 126df03a7066..c03dfd298f45 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.h
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.h
+> @@ -99,7 +99,6 @@ struct amdgpu_bo {
+>         struct ttm_buffer_object        tbo;
+>         struct ttm_bo_kmap_obj          kmap;
+>         u64                             flags;
+> -       unsigned                        prime_shared_count;
+>         /* per VM structure for page tables and with virtual addresses */
+>         struct amdgpu_vm_bo_base        *vm_bo;
+>         /* Constant after initialization */
+> --
+> 2.25.1
+>
+> _______________________________________________
+> amd-gfx mailing list
+> amd-gfx@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/amd-gfx
