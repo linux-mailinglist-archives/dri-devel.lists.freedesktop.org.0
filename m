@@ -2,63 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB0DD3AB245
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Jun 2021 13:16:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5FBE33AB262
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Jun 2021 13:21:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D44FF6E8F4;
-	Thu, 17 Jun 2021 11:16:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 215976E8FA;
+	Thu, 17 Jun 2021 11:21:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com
- [IPv6:2a00:1450:4864:20::629])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 973E36E8EC
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Jun 2021 11:16:13 +0000 (UTC)
-Received: by mail-ej1-x629.google.com with SMTP id gb32so1046785ejc.2
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Jun 2021 04:16:13 -0700 (PDT)
+Received: from mail-pl1-x636.google.com (mail-pl1-x636.google.com
+ [IPv6:2607:f8b0:4864:20::636])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 316A56E8FA
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Jun 2021 11:21:25 +0000 (UTC)
+Received: by mail-pl1-x636.google.com with SMTP id v12so2747715plo.10
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Jun 2021 04:21:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:subject:date:message-id:in-reply-to:references:mime-version
+ h=from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=R6hl7Kj0yqQ18nUKlg1tjNnt1DaG6v6UQcKSpcEHFSE=;
- b=JGK01UuNZMIEIDibVS0nyIINaWe1LD8WZSd2MzqqM2c1KEb2oA3W9tigP/K49EqQW8
- HZxCrrioSf1JPwkEFtuGmZZRBoArktZT6ohdSForRUjBj23LLhDX3yQPRXYyLMozPX7e
- l/t6i/bxYWFoVNcLTK5HgX2RtfTcooCVtxNCp2D/9SEn52xJiDUO84QtRapdt+IJlEok
- CJ/lmWyy/U6dbXa2Wniz6V7zBH0SdBaNv+4HPtws7b0i6j4yuu/SCwo2rT0oVh2DOaju
- TJzNFPmCQnAbO6g6e6nPuoZt4kam7XNW4A0fqhl+bNthPPPtHRZpXfuD5m1sNVTOBZlL
- O/PQ==
+ bh=K6R0FEjF7oq2KNX8VeWTVUIbsW8u4UsYJd42ph9pC1A=;
+ b=PcR1UbEaott76KwONcj2/b42uiSTpdpLzTRqYZ7Zis8SWGf7xyLwEn0GtL2ne1L+18
+ wCfph9vmWzbdYnI6FcinYpwauKitP4wABDd1thfzdQ8MFeDrug5xwuCK70rswtCJV4kl
+ DyuefhJG2uPvwl1t4tvgJJGOKBtsJ+NrjRPZ4oJn9/cEn8FHu2qmwqFwz9zjvKa8lX/i
+ fcWd+mi4caT1DaltYD+vwJ7KtPfhHlDN3yGdgeXN9SwaHQAfYoJIdBj48lxEyzsWaN4Q
+ W2A4uQo129ywnOx83HHPm7MFgLVrEPH3aSxiqUTThVhU3bwUVa7jhWMKMDxKgPdko1Iq
+ NREQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=R6hl7Kj0yqQ18nUKlg1tjNnt1DaG6v6UQcKSpcEHFSE=;
- b=tfZnXzvO6wH95/DDO4mLfhHI/4zrQ+M2kLjag0xvlfeTkl15A5nDAhk7G9t1W+5xQA
- fZmoMggyZqqXOfPFbf2cSQG+HweaRIuS3AGXrYNKANFyzdTz+x+o8j2umwHNh18ehJNg
- 8cbHca+rCoKhbaboXUD0CtUIsGfczopq2nac1xMmmFcMSQo/CW3bE88sd+vxbo6YOiks
- 1xrVMbZdFlaGxcPkusivamV8Fb9+XUjEnNnpk7bcJWYgA8sMRk8hv5xtPvOHj3uHCY4R
- Yt2gR9WvF4vXRaV/tQmYzymRlhlVvCAIjGIat3AuJGpNZ8oMxTvJ21AYh2L64Rc34xSS
- EMlg==
-X-Gm-Message-State: AOAM5325IVsBX0mnhvDahSeYIRnew9+31/vsWyrIqVlPhaOrD6+ARjqt
- 9kcIBFP0AdECXhL62S+Q+3k=
-X-Google-Smtp-Source: ABdhPJzM+36tYqZqJ/QN7yQ4BXU4PIysQ1XlwHkj9hQ3HC1RgavOExt7bDD1K7FT+NqCLwr8YaMZWQ==
-X-Received: by 2002:a17:907:20ee:: with SMTP id
- rh14mr4645376ejb.461.1623928572354; 
- Thu, 17 Jun 2021 04:16:12 -0700 (PDT)
-Received: from abel.fritz.box ([2a02:908:1252:fb60:8534:5e76:1ee5:f3ad])
- by smtp.gmail.com with ESMTPSA id y10sm3531353ejm.76.2021.06.17.04.16.11
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=K6R0FEjF7oq2KNX8VeWTVUIbsW8u4UsYJd42ph9pC1A=;
+ b=VbfcDjf1UbYUExmxCrflBB2MRUN2CiWYJdJ60uMUHZENh44nmFJ2Um3IXOruoJMT+Z
+ WCWaYHf8k9aO7kGX8oEpnZONRr8x1v63KGNOIgTDAQTRmXTcTDa8L6FipgMAVaM3c+Fu
+ su3cy499HHIGD9+KkSNJm7qi1ShZgXZXL18ndXJq28oj9YRe+5HZNM5+QyorMCqKg12+
+ 6KJpAXfi6pjQ7v/DXTXWM/sfuHEj5gwIJ8L+hHB2wzXO3hEH2VrwkWZwa1PKZLe+H4SF
+ j2W1/PKl+jShJzCDB+OfWLU1B/qKpcuWSqgcG58qkQ3wwcPPnXSRNnmoxm8oidyx3A6a
+ vzIw==
+X-Gm-Message-State: AOAM533REbTldR9uw0XbRc4HhNJdzMySdpGdQvM4/jfqKbumHaAMRYg5
+ eVIO5raRVW/sMlwAIGCLUbs=
+X-Google-Smtp-Source: ABdhPJysJyKGyvAca3XdWxeEe9FRr9MA/N49yAGeiH7inBCWjDFaoXYUfLRacqfnq1+IFe3kS5rdsg==
+X-Received: by 2002:a17:902:c407:b029:106:302e:534 with SMTP id
+ k7-20020a170902c407b0290106302e0534mr4068908plk.17.1623928884766; 
+ Thu, 17 Jun 2021 04:21:24 -0700 (PDT)
+Received: from 167-179-157-192.a7b39d.syd.nbn.aussiebb.net
+ (167-179-157-192.a7b39d.syd.nbn.aussiebb.net. [167.179.157.192])
+ by smtp.gmail.com with ESMTPSA id v67sm5035585pfb.193.2021.06.17.04.21.24
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 17 Jun 2021 04:16:12 -0700 (PDT)
-From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
-X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
- <christian.koenig@amd.com>
-To: daniel@ffwll.ch, sumit.semwal@linaro.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, linux-media@vger.kernel.org
-Subject: [PATCH 16/16] drm/radeon: use new iterator in radeon_sync_resv
-Date: Thu, 17 Jun 2021 13:15:58 +0200
-Message-Id: <20210617111558.28486-17-christian.koenig@amd.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210617111558.28486-1-christian.koenig@amd.com>
-References: <20210617111558.28486-1-christian.koenig@amd.com>
+ Thu, 17 Jun 2021 04:21:24 -0700 (PDT)
+From: Jonathan Liu <net147@gmail.com>
+To: dri-devel@lists.freedesktop.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] drm/bridge: ti-sn65dsi83: Fix null pointer dereference in
+ remove callback
+Date: Thu, 17 Jun 2021 21:19:25 +1000
+Message-Id: <20210617111925.162120-1-net147@gmail.com>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -72,57 +69,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Marek Vasut <marex@denx.de>, Jonathan Liu <net147@gmail.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>,
+ David Airlie <airlied@linux.ie>, Neil Armstrong <narmstrong@baylibre.com>,
+ Robert Foss <robert.foss@linaro.org>,
+ Frieder Schrempf <frieder.schrempf@kontron.de>,
+ Andrzej Hajda <a.hajda@samsung.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Simplifying the code a bit.
+If attach has not been called, unloading the driver can result in a null
+pointer dereference in mipi_dsi_detach as ctx->dsi has not been assigned
+yet.
 
-Signed-off-by: Christian König <christian.koenig@amd.com>
+Fixes: ceb515ba29ba6b ("drm/bridge: ti-sn65dsi83: Add TI SN65DSI83 and SN65DSI84 driver")
+Signed-off-by: Jonathan Liu <net147@gmail.com>
 ---
- drivers/gpu/drm/radeon/radeon_sync.c | 22 +++-------------------
- 1 file changed, 3 insertions(+), 19 deletions(-)
+ drivers/gpu/drm/bridge/ti-sn65dsi83.c | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/radeon/radeon_sync.c b/drivers/gpu/drm/radeon/radeon_sync.c
-index 9257b60144c4..14a4d8135bad 100644
---- a/drivers/gpu/drm/radeon/radeon_sync.c
-+++ b/drivers/gpu/drm/radeon/radeon_sync.c
-@@ -91,33 +91,17 @@ int radeon_sync_resv(struct radeon_device *rdev,
- 		     struct dma_resv *resv,
- 		     bool shared)
+diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi83.c b/drivers/gpu/drm/bridge/ti-sn65dsi83.c
+index 750f2172ef08..8e9f45c5c7c1 100644
+--- a/drivers/gpu/drm/bridge/ti-sn65dsi83.c
++++ b/drivers/gpu/drm/bridge/ti-sn65dsi83.c
+@@ -671,8 +671,11 @@ static int sn65dsi83_remove(struct i2c_client *client)
  {
--	struct dma_resv_list *flist;
--	struct dma_fence *f;
-+	struct dma_resv_cursor cursor;
- 	struct radeon_fence *fence;
--	unsigned i;
-+	struct dma_fence *f;
- 	int r = 0;
+ 	struct sn65dsi83 *ctx = i2c_get_clientdata(client);
  
--	/* always sync to the exclusive fence */
--	f = dma_resv_excl_fence(resv);
--	fence = f ? to_radeon_fence(f) : NULL;
--	if (fence && fence->rdev == rdev)
--		radeon_sync_fence(sync, fence);
--	else if (f)
--		r = dma_fence_wait(f, true);
--
--	flist = dma_resv_shared_list(resv);
--	if (shared || !flist || r)
--		return r;
--
--	for (i = 0; i < flist->shared_count; ++i) {
--		f = rcu_dereference_protected(flist->shared[i],
--					      dma_resv_held(resv));
-+	dma_resv_for_each_fence(resv, &cursor, shared, f) {
- 		fence = to_radeon_fence(f);
- 		if (fence && fence->rdev == rdev)
- 			radeon_sync_fence(sync, fence);
- 		else
- 			r = dma_fence_wait(f, true);
--
- 		if (r)
- 			break;
- 	}
+-	mipi_dsi_detach(ctx->dsi);
+-	mipi_dsi_device_unregister(ctx->dsi);
++	if (ctx->dsi) {
++		mipi_dsi_detach(ctx->dsi);
++		mipi_dsi_device_unregister(ctx->dsi);
++	}
++
+ 	drm_bridge_remove(&ctx->bridge);
+ 	of_node_put(ctx->host_node);
+ 
 -- 
-2.25.1
+2.32.0
 
