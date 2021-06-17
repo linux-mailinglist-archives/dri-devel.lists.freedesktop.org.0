@@ -2,51 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76E273AA797
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Jun 2021 01:40:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B6A73AA7E4
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Jun 2021 02:09:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 592BF6E845;
-	Wed, 16 Jun 2021 23:40:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5C51E6E846;
+	Thu, 17 Jun 2021 00:09:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-f172.google.com (mail-il1-f172.google.com
- [209.85.166.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3E1B96E845
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Jun 2021 23:40:15 +0000 (UTC)
-Received: by mail-il1-f172.google.com with SMTP id b14so3815815ilq.7
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Jun 2021 16:40:15 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=kDYnmGlkYP2XTjPyujeKcLs7zkGku54gbQ2xEMwMzGQ=;
- b=U3ZU7RE2/SuhRAfvlf+rTSPUP5MgVUEw2mz4O8UMmjBWgPyfyWCZIrfgbHEPDL3FVZ
- 94fKI25J8p32uxdbXfTSv0Dr3ORGNucy00EFzpFOM1WHkzEMb/cTKz+r4HFE/+KeOsPc
- kio5t9jLP74IOTHhlbORMN3S2B7r8iK7HNg5pCBiPTCrLTFvw3PPn9XA71F5Zpxxht/W
- rCO9rjWdkJw0ePW3WZZxFk0fFuyI70WraIyd97WoGlihOorQUnPD28OJRLoq5LUxujTU
- Qj1d9biVXXacPI7YLUrEa3EDS8rZks1z1mdGfWsrWsMv7m4YvCa+LAzTtqyj2E2eQ+z1
- zuLQ==
-X-Gm-Message-State: AOAM530xWYylzxji4pgJ7/THaFc9DsZ/4voNdATlTLlmI0/ucOxp+uJw
- 5/Yw8iqRjo11w+uF9NGH5Q==
-X-Google-Smtp-Source: ABdhPJxOVFOvxO+PfGwlEWm+SVTL4u/1b9+xCOaQxsYMANRsvdRArIUQpQn2YsRYLvV0yG3lnEellA==
-X-Received: by 2002:a92:bf10:: with SMTP id z16mr1547434ilh.304.1623886814437; 
- Wed, 16 Jun 2021 16:40:14 -0700 (PDT)
-Received: from robh.at.kernel.org ([64.188.179.248])
- by smtp.gmail.com with ESMTPSA id h7sm1866831ilr.44.2021.06.16.16.40.12
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 16 Jun 2021 16:40:13 -0700 (PDT)
-Received: (nullmailer pid 300348 invoked by uid 1000);
- Wed, 16 Jun 2021 23:40:11 -0000
-Date: Wed, 16 Jun 2021 17:40:11 -0600
-From: Rob Herring <robh@kernel.org>
-To: Konrad Dybcio <konrad.dybcio@somainline.org>
-Subject: Re: [PATCH v2 1/2] dt-bindings: Add SONY Synaptics JDI panel
-Message-ID: <20210616234011.GA295646@robh.at.kernel.org>
-References: <20210605104942.39487-1-konrad.dybcio@somainline.org>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BCF0A6E846;
+ Thu, 17 Jun 2021 00:09:32 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 70EFE61351;
+ Thu, 17 Jun 2021 00:09:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1623888572;
+ bh=mN2okVVdTICmc/8v91DABSXp7kK2mc41VelpLLMzraM=;
+ h=Date:From:To:cc:Subject:In-Reply-To:References:From;
+ b=ZYuvhN96769HVBf9HwXfEMrx5h2joXFESxJj/lRenrF7yXWLZjtrg1PWIka+vT/Q0
+ oFtXyOpOZ9yR7QPt6WZ9qiVwYGYEJ72zE5pEW7HiR62r0bK1cPffUlPeluSwwsGV++
+ 8riMe4sA8jh8H05UnuJF58KJLPG9dNHhkmEpW63Symhvau9C6X5CTpmeRZXg03FBNA
+ YdmM71is91QiA8p/farR5qTSk/+kZjwaUjrHEt7/cAUyCA79A0OF17vUa8D0c+gd+H
+ nwIEeujLTdx4sfeAu0ptJEutsq4BmObXoP4A9/HlakW6ogsicBITdzMemlH7LIUWJw
+ GZfH7kl1LZ6XQ==
+Date: Wed, 16 Jun 2021 17:09:29 -0700 (PDT)
+From: Stefano Stabellini <sstabellini@kernel.org>
+X-X-Sender: sstabellini@sstabellini-ThinkPad-T480s
+To: Claire Chang <tientzu@chromium.org>
+Subject: Re: [PATCH v12 11/12] dt-bindings: of: Add restricted DMA pool
+In-Reply-To: <20210616062157.953777-12-tientzu@chromium.org>
+Message-ID: <alpine.DEB.2.21.2106161651290.24906@sstabellini-ThinkPad-T480s>
+References: <20210616062157.953777-1-tientzu@chromium.org>
+ <20210616062157.953777-12-tientzu@chromium.org>
+User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210605104942.39487-1-konrad.dybcio@somainline.org>
+Content-Type: text/plain; charset=US-ASCII
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,154 +48,108 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- jamipkettunen@somainline.org, Thierry Reding <thierry.reding@gmail.com>,
- martin.botka@somainline.org, ~postmarketos/upstreaming@lists.sr.ht,
- angelogioacchino.delregno@somainline.org, marijn.suijten@somainline.org,
- Sam Ravnborg <sam@ravnborg.org>
+Cc: heikki.krogerus@linux.intel.com, thomas.hellstrom@linux.intel.com,
+ peterz@infradead.org, dri-devel@lists.freedesktop.org,
+ chris@chris-wilson.co.uk, grant.likely@arm.com, paulus@samba.org,
+ Frank Rowand <frowand.list@gmail.com>, mingo@kernel.org,
+ Marek Szyprowski <m.szyprowski@samsung.com>, sstabellini@kernel.org,
+ Saravana Kannan <saravanak@google.com>, mpe@ellerman.id.au,
+ Joerg Roedel <joro@8bytes.org>,
+ "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>,
+ Christoph Hellwig <hch@lst.de>,
+ Bartosz Golaszewski <bgolaszewski@baylibre.com>, bskeggs@redhat.com,
+ linux-pci@vger.kernel.org, xen-devel@lists.xenproject.org,
+ Thierry Reding <treding@nvidia.com>, intel-gfx@lists.freedesktop.org,
+ matthew.auld@intel.com, linux-devicetree <devicetree@vger.kernel.org>,
+ jxgao@google.com, Will Deacon <will@kernel.org>,
+ Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>, airlied@linux.ie,
+ Dan Williams <dan.j.williams@intel.com>, linuxppc-dev@lists.ozlabs.org,
+ Rob Herring <robh+dt@kernel.org>, rodrigo.vivi@intel.com, bhelgaas@google.com,
+ boris.ostrovsky@oracle.com,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>, jgross@suse.com,
+ Nicolas Boichat <drinkcat@chromium.org>, Greg KH <gregkh@linuxfoundation.org>,
+ Randy Dunlap <rdunlap@infradead.org>, lkml <linux-kernel@vger.kernel.org>,
+ tfiga@chromium.org,
+ "list@263.net:IOMMU DRIVERS" <iommu@lists.linux-foundation.org>,
+ Jim Quinlan <james.quinlan@broadcom.com>, xypron.glpk@gmx.de,
+ Robin Murphy <robin.murphy@arm.com>, bauerman@linux.ibm.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Jun 05, 2021 at 12:49:40PM +0200, Konrad Dybcio wrote:
-> Add bindings for the SONY Synaptics JDI panel used in
-> Xperia X, X Performance, X Compact, XZ and XZs smartphones.
+On Wed, 16 Jun 2021, Claire Chang wrote:
+> Introduce the new compatible string, restricted-dma-pool, for restricted
+> DMA. One can specify the address and length of the restricted DMA memory
+> region by restricted-dma-pool in the reserved-memory node.
 > 
-> Due to the nature of phone manufacturing and lack of any docs
-> whatsoever, replacement names have been used to indicate the
-> devices that this panel is used on.
-> 
-> Signed-off-by: Konrad Dybcio <konrad.dybcio@somainline.org>
+> Signed-off-by: Claire Chang <tientzu@chromium.org>
 > ---
-> Changes since v1:
-> - gpio -> gpios
-> - description: |+ -> description: |
-> - remove redundant reset-gpio
-> - fix up indentation in the example
+>  .../reserved-memory/reserved-memory.txt       | 36 +++++++++++++++++--
+>  1 file changed, 33 insertions(+), 3 deletions(-)
 > 
->  .../display/panel/sony,synaptics-jdi.yaml     | 100 ++++++++++++++++++
->  1 file changed, 100 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/display/panel/sony,synaptics-jdi.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/display/panel/sony,synaptics-jdi.yaml b/Documentation/devicetree/bindings/display/panel/sony,synaptics-jdi.yaml
-> new file mode 100644
-> index 000000000000..81d841c049e8
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/display/panel/sony,synaptics-jdi.yaml
-> @@ -0,0 +1,100 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/display/panel/sony,synaptics-jdi.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> diff --git a/Documentation/devicetree/bindings/reserved-memory/reserved-memory.txt b/Documentation/devicetree/bindings/reserved-memory/reserved-memory.txt
+> index e8d3096d922c..46804f24df05 100644
+> --- a/Documentation/devicetree/bindings/reserved-memory/reserved-memory.txt
+> +++ b/Documentation/devicetree/bindings/reserved-memory/reserved-memory.txt
+> @@ -51,6 +51,23 @@ compatible (optional) - standard definition
+>            used as a shared pool of DMA buffers for a set of devices. It can
+>            be used by an operating system to instantiate the necessary pool
+>            management subsystem if necessary.
+> +        - restricted-dma-pool: This indicates a region of memory meant to be
+> +          used as a pool of restricted DMA buffers for a set of devices. The
+> +          memory region would be the only region accessible to those devices.
+> +          When using this, the no-map and reusable properties must not be set,
+> +          so the operating system can create a virtual mapping that will be used
+> +          for synchronization. The main purpose for restricted DMA is to
+> +          mitigate the lack of DMA access control on systems without an IOMMU,
+> +          which could result in the DMA accessing the system memory at
+> +          unexpected times and/or unexpected addresses, possibly leading to data
+> +          leakage or corruption. The feature on its own provides a basic level
+> +          of protection against the DMA overwriting buffer contents at
+> +          unexpected times. However, to protect against general data leakage and
+> +          system memory corruption, the system needs to provide way to lock down
+> +          the memory access, e.g., MPU. Note that since coherent allocation
+> +          needs remapping, one must set up another device coherent pool by
+> +          shared-dma-pool and use dma_alloc_from_dev_coherent instead for atomic
+> +          coherent allocation.
+>          - vendor specific string in the form <vendor>,[<device>-]<usage>
+>  no-map (optional) - empty property
+>      - Indicates the operating system must not create a virtual mapping
+> @@ -85,10 +102,11 @@ memory-region-names (optional) - a list of names, one for each corresponding
+>  
+>  Example
+>  -------
+> -This example defines 3 contiguous regions are defined for Linux kernel:
+> +This example defines 4 contiguous regions for Linux kernel:
+>  one default of all device drivers (named linux,cma@72000000 and 64MiB in size),
+> -one dedicated to the framebuffer device (named framebuffer@78000000, 8MiB), and
+> -one for multimedia processing (named multimedia-memory@77000000, 64MiB).
+> +one dedicated to the framebuffer device (named framebuffer@78000000, 8MiB),
+> +one for multimedia processing (named multimedia-memory@77000000, 64MiB), and
+> +one for restricted dma pool (named restricted_dma_reserved@0x50000000, 64MiB).
+>  
+>  / {
+>  	#address-cells = <1>;
+> @@ -120,6 +138,11 @@ one for multimedia processing (named multimedia-memory@77000000, 64MiB).
+>  			compatible = "acme,multimedia-memory";
+>  			reg = <0x77000000 0x4000000>;
+>  		};
 > +
-> +title: SONY Synaptics JDI panel
+> +		restricted_dma_reserved: restricted_dma_reserved {
+> +			compatible = "restricted-dma-pool";
+> +			reg = <0x50000000 0x4000000>;
+> +		};
+>  	};
+>  
+>  	/* ... */
+> @@ -138,4 +161,11 @@ one for multimedia processing (named multimedia-memory@77000000, 64MiB).
+>  		memory-region = <&multimedia_reserved>;
+>  		/* ... */
+>  	};
 > +
-> +maintainers:
-> +  - Konrad Dybcio <konrad.dybcio@somainline.org>
-> +
-> +description: |+
-> +  This panel seems to only be found in SONY Xperia
-> +  X, X Performance, X Compact, XZ and XZs
-> +  smartphones and we have no straightforward way of
-> +  actually getting the correct model number,
-> +  as no schematics are released publicly.
-> +
-> +allOf:
-> +  - $ref: panel-common.yaml#
-> +
-> +properties:
-> +  compatible:
-> +    items:
-> +      - enum:
-> +          - sony,synaptics-jdi-dora
-> +          - sony,synaptics-jdi-kagura
-> +          - sony,synaptics-jdi-keyaki
-> +          - sony,synaptics-jdi-kugo
-> +          - sony,synaptics-jdi-suzu
-> +
-> +  reg: true
-> +
-> +  reset-gpios: true
-> +
-> +  avdd-supply:
-> +    description: avdd supply
-> +
-> +  vddio-supply:
-> +    description: vddio supply
-> +
-> +  vsn-supply:
-> +    description: voltage negative supply
-> +
-> +  vsp-supply:
-> +    description: voltage positive supply
-> +
-> +  tvdd-supply:
-> +    description: tvdd supply
-> +
-> +  preset-gpio:
+> +	pcie_device: pcie_device@0,0 {
+> +		reg = <0x83010000 0x0 0x00000000 0x0 0x00100000
+> +		       0x83010000 0x0 0x00100000 0x0 0x00100000>;
+> +		memory-region = <&restricted_dma_mem_reserved>;
 
-'-gpios' is the preferred form.
+Shouldn't it be &restricted_dma_reserved ?
 
-And needs 'maxItems: 1'
-
-> +    description: panel reset pin
-> +
-> +  pvddio-gpio:
-> +    description: panel vddio pin
-> +
-> +  treset-gpio:
-> +    description: touch reset pin
-
-Same for these.
-
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - preset-gpio
-> +  - pvddio-gpio
-> +  - treset-gpio
-> +  - avdd-supply
-> +  - vddio-supply
-> +  - vsn-supply
-> +  - vsp-supply
-> +  - tvdd-supply
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/gpio/gpio.h>
-> +
-> +    dsi {
-> +            #address-cells = <1>;
-> +            #size-cells = <0>;
-> +            panel: panel@0 {
-> +                    reg = <0>;
-> +
-
-Missing a compatible which means the above schema is never applied...
-
-> +                    pvddio-gpio = <&tlmm 51 GPIO_ACTIVE_HIGH>;
-> +                    preset-gpio = <&tlmm 8 GPIO_ACTIVE_HIGH>;
-> +                    treset-gpio = <&tlmm 89 GPIO_ACTIVE_HIGH>;
-> +
-> +                    vddio-supply = <&pm8994_s4>;
-> +                    avdd-supply = <&pm8994_l2>;
-> +                    tvdd-supply = <&panel_tvdd>;
-> +
-> +                    backlight = <&pmi8994_wled>;
-> +
-> +                    port {
-
-and that would point out this is not documented. 
-
-> +                      panel_in: endpoint {
-> +                        remote-endpoint = <&dsi0_out>;
-> +                      };
-> +                    };
-> +            };
-> +    };
-> -- 
-> 2.31.1
