@@ -1,56 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AEC0B3ABD00
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Jun 2021 21:41:47 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A98393ABD05
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Jun 2021 21:43:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4DFDD6E9AC;
-	Thu, 17 Jun 2021 19:41:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CCEA56E9AA;
+	Thu, 17 Jun 2021 19:43:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x436.google.com (mail-pf1-x436.google.com
- [IPv6:2607:f8b0:4864:20::436])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 85F0C6E9AA
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Jun 2021 19:41:42 +0000 (UTC)
-Received: by mail-pf1-x436.google.com with SMTP id a127so5827932pfa.10
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Jun 2021 12:41:42 -0700 (PDT)
+Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com
+ [IPv6:2607:f8b0:4864:20::1033])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 41A976E9AA
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Jun 2021 19:43:04 +0000 (UTC)
+Received: by mail-pj1-x1033.google.com with SMTP id h16so4401579pjv.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Jun 2021 12:43:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=jlekstrand-net.20150623.gappssmtp.com; s=20150623;
  h=from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=xst3aBvTyCEeJE8WC6vO6O283r/IjvF+3FXUAeOwga0=;
- b=XPZflNDSVyiQ4vJwa+pWWy7javsRGoAY6qzBIHp1YeNNHQJRxNy8/dnSi4i455fDDI
- EC6Xyl0a0qvIFxb8jReRzBsbIFBZdQS38hYPQTcYjQYRwuDM0R/K4OReW/f0I/aR/X7S
- sRaVxdCBjGA6pkLBwmfZXFeljnPF1339AJWCyetObanTTIOU1gP9RxRFOMgGB74AMnaa
- 0bQOly0LZqUQbdoWBzPXwjDjDYpKM9pxKAAsJZXYowWS/gJCZ+Hd5QbcEbaqErwvIrh6
- suada2L28HWeiRgQt6u6vd77bZaLwFTCdj1mkpclQQ9w6AGTWqbMQa5jOHihh/+Esx5A
- O1Mw==
+ bh=9EmNWEiFZswyh9np0n10pkURO9xsudg2vD0SlqJOygw=;
+ b=D4/yp2FVj3zwopNKCn9NGRcz89YLdykjk9uMu1b91JmmWaX8acJYD86yug53UUNUYn
+ G3IRi0pNwoHW2hBS2VgKrsM/GoePnj/ZQ1rWmGuZVXrg4ETYbK8wQr4+T3h8bJ8jxGR3
+ bJNOtrXFF3uG+RvYnp+2dwbdmnW3N8Gv2pUMF7CEJ5t6Enb3LflLntpDcBc8nHoq6znC
+ nPYGwC4+FLUIRp4l6HKj9MZjzrDuxfFlndG+pQtwo47gjgiNZpfMaIxvId0sF/oz8IZa
+ il2BTASMsyPb74qXl0vWI62cY55j+uWe/elSz4okj/rqaiqKmEawW4KZkPMteW52azkQ
+ FUyQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=xst3aBvTyCEeJE8WC6vO6O283r/IjvF+3FXUAeOwga0=;
- b=ra9wwB5k5MF4zWK8Xta+edc6821g0VCs1xRUWBrDfCYlHKN4BvjSAH5+4Kq0vSE31Y
- ScaVW0l7RfWx1SBqh18wusyrp0UOj3hqIbwEFH9NJsCOJ9BTM0EL/0kLE51tXqeeVqwr
- F+pfO628wDbuKquwmmXfshn/BJcnJPHLorg+J5Q1Oczh8flijdfHp6ZSJcrz7mdP5NV3
- xNSx713zHu200ZHpx49Br8SHUj6yJ0ZdO1jlZq+KVTE9Ov4WuxGnkzSk7yqR5OwHyu6D
- gIKqI5CdmjWT7NPf833WUjRYCnKPXbK4TXuBDxllq4T3tCrJ5lw+mKiIY7nhqsx/g58d
- n0gg==
-X-Gm-Message-State: AOAM531tr0hXf/H99+no343UsGN3yNT8MUK9miJIP59L7EvEd5loPR+H
- L7jfrshKrMCDhy/p6/3fnfyx6/4ZxWHvgw==
-X-Google-Smtp-Source: ABdhPJyrloHupfWO5iT3O6sqFFYgCIu9anL/7zkPPWDVT8H7K59mESFzSEWGpk7SgHSumgYb4HYHRg==
-X-Received: by 2002:a63:5511:: with SMTP id j17mr6481417pgb.191.1623958901715; 
- Thu, 17 Jun 2021 12:41:41 -0700 (PDT)
+ bh=9EmNWEiFZswyh9np0n10pkURO9xsudg2vD0SlqJOygw=;
+ b=bDgv1AP7V6Ag3Iug+ls62ndQ2zaMyMATGz7Ycj4wteyBfg/ufE33r4O0DBXWuFhu+L
+ xQvuHbs7zSqR5P0JgMeDzG9hwBbMP5LH+kACxPfwFE/LGUrSy3IRNXarlcXr3VeN9oO7
+ ogZXKqt6amP7KvMDwf/99Vq8om3Fuasc/d2yxqOXa+fkoEye7pg2F59NVOyA5R17SA3d
+ ZKPWivtBpo3qk8irR/2SmUi5NbBqUZzVbi0jcg0HT0YF3/qgoE4+4y5BafVV3gkMQXYw
+ 58jtyknlbxvU0Fo1okDFE6c+8kfFcNWDyYTUY5Q2MCdjpaEM/ehs+LbcgZsqDqasFauT
+ LX1w==
+X-Gm-Message-State: AOAM532QK2TSZ46l+73cTxlNa189nfec3n/24gbKcGqUeHTAUWpQ6tPA
+ ah+iRYw8tUl/xTmUYuSHFrwPAKSDZxs7SA==
+X-Google-Smtp-Source: ABdhPJxfcUh5h7UPiTm75MqhhJzH9COhYNPAOsT2vI2gSkCU7iaer4DZ2s2Eu4KGmTt2nizYReypAw==
+X-Received: by 2002:a17:90b:19cd:: with SMTP id
+ nm13mr18517949pjb.226.1623958983410; 
+ Thu, 17 Jun 2021 12:43:03 -0700 (PDT)
 Received: from omlet.lan (jfdmzpr05-ext.jf.intel.com. [134.134.139.74])
- by smtp.gmail.com with ESMTPSA id v6sm6807004pgk.33.2021.06.17.12.41.40
+ by smtp.gmail.com with ESMTPSA id n23sm6142921pgv.76.2021.06.17.12.43.01
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 17 Jun 2021 12:41:41 -0700 (PDT)
+ Thu, 17 Jun 2021 12:43:03 -0700 (PDT)
 From: Jason Ekstrand <jason@jlekstrand.net>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH] dma-buf: Document DMA_BUF_IOCTL_SYNC (v2)
-Date: Thu, 17 Jun 2021 14:41:35 -0500
-Message-Id: <20210617194135.578833-1-jason@jlekstrand.net>
+Subject: [PATCH] dma-buf: Document DMA_BUF_IOCTL_SYNC (v3)
+Date: Thu, 17 Jun 2021 14:42:58 -0500
+Message-Id: <20210617194258.579011-1-jason@jlekstrand.net>
 X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -82,7 +83,7 @@ v2 (Daniel Vetter):
  - Add commentary about synchronization with other devices
  - Use item list format for describing flags
 
-v2 (Pekka Paalanen):
+v3 (Pekka Paalanen):
  - Clarify stalling requirements.
  - Be more clear that that DMA_BUF_IOCTL_SYNC with SINC_END has to be
    called before more GPU work happens.
