@@ -2,67 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E8C63AADDC
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Jun 2021 09:41:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 65F633AADE9
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Jun 2021 09:44:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 408BC6E895;
-	Thu, 17 Jun 2021 07:41:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EF65F6E0C8;
+	Thu, 17 Jun 2021 07:44:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com
- [IPv6:2a00:1450:4864:20::132])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 018346E895
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Jun 2021 07:41:39 +0000 (UTC)
-Received: by mail-lf1-x132.google.com with SMTP id j2so8850555lfg.9
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Jun 2021 00:41:39 -0700 (PDT)
+Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com
+ [IPv6:2a00:1450:4864:20::62c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6AE136E0C8;
+ Thu, 17 Jun 2021 07:44:28 +0000 (UTC)
+Received: by mail-ej1-x62c.google.com with SMTP id l1so8233118ejb.6;
+ Thu, 17 Jun 2021 00:44:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-transfer-encoding:content-language;
- bh=fYf5ZF1BivmbA+H/mMHYb8IQHZ4wIMIy4XgmzfPb8ic=;
- b=eIxAMxyQ6yZW1b1aFbm9UnEpDTdoarNG7JiOO46jQV+iSxU3HwfbyTezCYA0ZFe9Vf
- uZv2xxzLsaCrIzzkrWE3108LT4c/w4Mq4PUVmN1ljUwq5tihiCObE4fRTMr+1K+DBcGv
- E4a22sZw1G3Me5qX6JXWgDMS3X6kEcT/fa9q9j0yAS8boYkFpYqSUTidE9qK/pRwZSg7
- VuFwx0LeEKt8lc9HdDQWwh78JTOCK7Zr2D8TDFLsji1dJU1D8oItcpF8/PqTtG4kt4mq
- 4QUU61ruddUuigCFL5r8KNuVB0aFfCJ558tM9xvnkdLb96ziSJijYRzudFrPZy0P15SP
- S7mA==
+ h=subject:from:to:references:message-id:date:user-agent:mime-version
+ :in-reply-to:content-transfer-encoding:content-language;
+ bh=mH6Np5gnCwiK1lKwW3Co42HomL1U87KMUL3SztR36D0=;
+ b=O6HVJIih3Zbk/YXiCHGIsJpGQQ3J7RiozNFGNN5X2NaIXDWc2Pl2ksKE2VD60YldA8
+ 3+xTwHRC+7P7yZt/BBY2L3UMce4lYIfQxifhVya3/xvuN8eRFTh2I4FLf/wgGEDaBqmX
+ WTcPY2lt7qhPEYAe8u20Lad4Jg7FYQSRQTBL3QAh5M8eh1aftkClZz4yIwKfm1F2WuJc
+ cxCJa0BxA/sQqd7P5iwfbDtUGbG2r2FHm2o/PUUJjTclymFdgQesZ9DE6VVMBpcoWrCQ
+ NQATqUYj+LuqP3H5k2IhLa4pLl3LUtl32QZ0O/OazF/8mNc+tUOem5ZDg2c0Ymz8NNjm
+ 3JhQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ h=x-gm-message-state:subject:from:to:references:message-id:date
  :user-agent:mime-version:in-reply-to:content-transfer-encoding
  :content-language;
- bh=fYf5ZF1BivmbA+H/mMHYb8IQHZ4wIMIy4XgmzfPb8ic=;
- b=Q8vsbVfJDgn9ZdyCQyJgCDRyc1hH0rymNEkAtBA+yL/afdFfBC/Wvp19EtQfTPI3WB
- v42zkE2BkbabcubgdHIaaBzo48aMTF0SLaYk6SAAtVYzDVth2v/CWRkq6RFwdZusf7Z8
- 77b/p+CWgWxEn6GRTV2sg0FV0L5egvrxcfxtcBOys7MIsMoIUJXhmfNxSn6OjkwumyjF
- T8oPs/6XeOl7EIBWAnJ/Vigl6HQPFjzNRq1Poj4xg1pBW6vl9QMGeSXg4m4C32lCyMfq
- xtOoyKO0gom99Hs4IR6YYH/gm+XeFvj1W3UcOupDsHoxLieoU4IP7cwy9qa0sG1tMVqY
- bQRQ==
-X-Gm-Message-State: AOAM531XPOW6OJu1fDzAHQqJQ1/KPpaaDvODCll1x+52mUdyjnjd7hxM
- xvnGM2j23GCIrC+b3EIr6xo=
-X-Google-Smtp-Source: ABdhPJyS4TgD4XEGPEG46Dz5kmfOZw1IivEzK9Ew/HaHUNFW9Ti31eSxLkpRyXq8jZ3BWTDWLnTI+g==
-X-Received: by 2002:a19:381d:: with SMTP id f29mr3055471lfa.550.1623915698315; 
- Thu, 17 Jun 2021 00:41:38 -0700 (PDT)
+ bh=mH6Np5gnCwiK1lKwW3Co42HomL1U87KMUL3SztR36D0=;
+ b=j0fTP9Ra9dd3pgyZmuo7fRCUIJoFJXt1aV1vX9NzawAaMeFLE8gcgFSUdT9aMISfgp
+ MMOgo4xHOnaYUcnGIWR74Km9kNWIE/DlSYzQn8G2B+x18WBK8e6Q6bBd3o8U/OjgSFfD
+ cyNFtoJz7qd0PSZjatl8f0+SzdpaHCHs0jJGbQ3/YlHXe0PKyEKQM8iSxEzwERhdU7v5
+ 1ZO490RTnL03ZEi4+wSvM0kIKPwjM9Vjivi1rEGr5o1DPxt6uHFx+Vf9RLV7ANibvI6L
+ 9f7X1rletqoEIOK7mIegFwGA88FiJNRKY5ZV9OtBgRkfRZUYlPPD8it0e7M/NFUSFqgJ
+ xtXg==
+X-Gm-Message-State: AOAM531vNgsxESY7WrCGuzxDNoXIM8DIMhnrCZFneApTLzvtTyDHw63j
+ ZXIGD0QzawnDI3IdkLqbd5qrtmUG2Bc=
+X-Google-Smtp-Source: ABdhPJz5GBYaJiiB5E/KPlx4CW2B0B2tIwjeqp+mel1rygGB/Rak9sbQgBV8xLzQzaXUXdVBsrG90w==
+X-Received: by 2002:a17:907:2074:: with SMTP id
+ qp20mr3826949ejb.35.1623915866870; 
+ Thu, 17 Jun 2021 00:44:26 -0700 (PDT)
 Received: from ?IPv6:2a02:908:1252:fb60:9a20:5ac9:ee4d:c186?
  ([2a02:908:1252:fb60:9a20:5ac9:ee4d:c186])
- by smtp.gmail.com with ESMTPSA id k2sm488761lfb.214.2021.06.17.00.41.36
+ by smtp.gmail.com with ESMTPSA id x9sm3316211ejc.37.2021.06.17.00.44.25
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 17 Jun 2021 00:41:37 -0700 (PDT)
-Subject: Re: [PATCH] drm/ttm: fix error handling in ttm_bo_handle_move_mem()
-To: Dan Carpenter <dan.carpenter@oracle.com>
-References: <YMmadPwv8C+Ut1+o@mwanda>
- <03d0b798-d1ab-5b6f-2c27-8140d923d445@gmail.com>
- <20210616083758.GC1901@kadam>
- <520a9d1f-8841-8d5e-595d-23783de8333d@gmail.com>
- <20210616093604.GD1901@kadam>
- <7354cd94-06bf-ec36-4539-c3570c1775ae@gmail.com>
- <20210616191951.GE1901@kadam>
+ Thu, 17 Jun 2021 00:44:26 -0700 (PDT)
+Subject: Re: [PATCH 1/2] drm/amdgpu: unwrap fence chains in the explicit sync
+ fence
 From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-Message-ID: <6d848546-a94b-9285-7956-7e7282ee524f@gmail.com>
-Date: Thu, 17 Jun 2021 09:41:35 +0200
+To: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ Alex Deucher <Alexander.Deucher@amd.com>
+References: <20210614174536.5188-1-christian.koenig@amd.com>
+Message-ID: <c474a0e1-e725-be64-0730-57231b5a8d15@gmail.com>
+Date: Thu, 17 Jun 2021 09:44:25 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <20210616191951.GE1901@kadam>
+In-Reply-To: <20210614174536.5188-1-christian.koenig@amd.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
 Content-Language: en-US
@@ -78,125 +75,176 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: thomas.hellstrom@linux.intel.com, David Airlie <airlied@linux.ie>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Huang Rui <ray.huang@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Alex do want to review those so that we can close the ticket?
 
-
-Am 16.06.21 um 21:19 schrieb Dan Carpenter:
-> On Wed, Jun 16, 2021 at 01:00:38PM +0200, Christian König wrote:
->>
->> Am 16.06.21 um 11:36 schrieb Dan Carpenter:
->>> On Wed, Jun 16, 2021 at 10:47:14AM +0200, Christian König wrote:
->>>> Am 16.06.21 um 10:37 schrieb Dan Carpenter:
->>>>> On Wed, Jun 16, 2021 at 08:46:33AM +0200, Christian König wrote:
->>>>>> Sending the first message didn't worked, so let's try again.
->>>>>>
->>>>>> Am 16.06.21 um 08:30 schrieb Dan Carpenter:
->>>>>>> There are three bugs here:
->>>>>>> 1) We need to call unpopulate() if ttm_tt_populate() succeeds.
->>>>>>> 2) The "new_man = ttm_manager_type(bdev, bo->mem.mem_type);" assignment
->>>>>>>        was wrong and it was really assigning "new_mem = old_mem;".  There
->>>>>>>        is no need for this assignment anyway as we already have the value
->>>>>>>        for "new_mem".
->>>>>>> 3) The (!new_man->use_tt) condition is reversed.
->>>>>>>
->>>>>>> Fixes: ba4e7d973dd0 ("drm: Add the TTM GPU memory manager subsystem.")
->>>>>>> Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
->>>>>>> ---
->>>>>>> This is from reading the code and I can't swear that I have understood
->>>>>>> it correctly.  My nouveau driver is currently unusable and this patch
->>>>>>> has not helped.  But hopefully if I fix enough bugs eventually it will
->>>>>>> start to work.
->>>>>> Well NAK, the code previously looked quite well and you are breaking it now.
->>>>>>
->>>>>> What's the problem with nouveau?
->>>>>>
->>>>> The new Firefox seems to excersize nouveau more than the old one so
->>>>> when I start 10 firefox windows it just hangs the graphics.
->>>>>
->>>>> I've added debug code and it seems like the problem is that
->>>>> nv50_mem_new() is failing.
->>>> Sounds like it is running out of memory to me.
->>>>
->>>> Do you have a dmesg?
->>>>
->>> At first there was a very straight forward use after free bug which I
->>> fixed.
->>> https://lore.kernel.org/nouveau/YMinJwpIei9n1Pn1@mwanda/T/#u
->>>
->>> But now the use after free is gone the only thing in dmesg is:
->>> "[TTM] Buffer eviction failed".  And I have some firmware missing.
->>>
->>> [  205.489763] rfkill: input handler disabled
->>> [  205.678292] nouveau 0000:01:00.0: Direct firmware load for nouveau/nva8_fuc084 failed with error -2
->>> [  205.678300] nouveau 0000:01:00.0: Direct firmware load for nouveau/nva8_fuc084d failed with error -2
->>> [  205.678302] nouveau 0000:01:00.0: msvld: unable to load firmware data
->>> [  205.678304] nouveau 0000:01:00.0: msvld: init failed, -19
->>> [  296.150632] [TTM] Buffer eviction failed
->>> [  417.084265] [TTM] Buffer eviction failed
->>> [  447.295961] [TTM] Buffer eviction failed
->>> [  510.800231] [TTM] Buffer eviction failed
->>> [  556.101384] [TTM] Buffer eviction failed
->>> [  616.495790] [TTM] Buffer eviction failed
->>> [  692.014007] [TTM] Buffer eviction failed
->>>
->>> The eviction failed message only shows up a minute after the hang so it
->>> seems more like a symptom than a root cause.
->> Yeah, look at the timing. What happens is that the buffer eviction timed out
->> because the hardware is locked up.
->>
->> No idea what that could be. It might not even be kernel related at all.
-> I don't think it's hardware related...  Using an old version of firefox
-> "fixes" the problem.  I downloaded the firmware so that's not the issue.
-> Here's the dmesg load info with the new firmware.
-
-Oh, I was not suggesting a hardware problem.
-
-The most likely cause is a software issue in userspace, e.g. wrong order 
-of doing thing, doing things to fast without waiting etc...
-
-There are tons of things how userspace can crash GPU hardware you can't 
-prevent in the kernel. Especially sending an endless loop is well known 
-as Turing's halting problems and not even theoretically solvable.
-
-I suggest to start digging in userspace instead.
-
+Thanks,
 Christian.
 
+Am 14.06.21 um 19:45 schrieb Christian König:
+> Unwrap the explicit fence if it is a dma_fence_chain and
+> sync to the first fence not matching the owner rules.
 >
-> [    1.412458] AMD-Vi: AMD IOMMUv2 driver by Joerg Roedel <jroedel@suse.de>
-> [    1.412527] AMD-Vi: AMD IOMMUv2 functionality not available on this system
-> [    1.412710] nouveau 0000:01:00.0: vgaarb: deactivate vga console
-> [    1.417213] Console: switching to colour dummy device 80x25
-> [    1.417272] nouveau 0000:01:00.0: NVIDIA GT218 (0a8280b1)
-> [    1.531565] nouveau 0000:01:00.0: bios: nvkm_bios_new: version 70.18.6f.00.05
-> [    1.531916] nouveau 0000:01:00.0: fb: nvkm_ram_ctor: 1024 MiB DDR3
-> [    2.248212] tsc: Refined TSC clocksource calibration: 3392.144 MHz
-> [    2.248218] clocksource: tsc: mask: 0xffffffffffffffff max_cycles: 0x30e5517d4e4, max_idle_ns: 440795261668 ns
-> [    2.252203] clocksource: Switched to clocksource tsc
-> [    2.848138] nouveau 0000:01:00.0: DRM: VRAM: 1024 MiB
-> [    2.848142] nouveau 0000:01:00.0: DRM: GART: 1048576 MiB
-> [    2.848145] nouveau 0000:01:00.0: DRM: TMDS table version 2.0
-> [    2.848147] nouveau 0000:01:00.0: DRM: DCB version 4.0
-> [    2.848149] nouveau 0000:01:00.0: DRM: DCB outp 00: 01000302 00020030
-> [    2.848151] nouveau 0000:01:00.0: DRM: DCB outp 01: 02000300 00000000
-> [    2.848154] nouveau 0000:01:00.0: DRM: DCB outp 02: 02011362 00020010
-> [    2.848155] nouveau 0000:01:00.0: DRM: DCB outp 03: 01022310 00000000
-> [    2.848157] nouveau 0000:01:00.0: DRM: DCB conn 00: 00001030
-> [    2.848159] nouveau 0000:01:00.0: DRM: DCB conn 01: 00002161
-> [    2.848161] nouveau 0000:01:00.0: DRM: DCB conn 02: 00000200
-> [    2.850214] nouveau 0000:01:00.0: DRM: MM: using COPY for buffer copies
-> [    2.908409] nouveau 0000:01:00.0: DRM: allocated 1600x900 fb: 0x70000, bo 00000000091fb080
-> [    2.908518] fbcon: nouveaudrmfb (fb0) is primary device
-> [    2.955528] Console: switching to colour frame buffer device 200x56
-> [    2.957780] nouveau 0000:01:00.0: [drm] fb0: nouveaudrmfb frame buffer device
-> [    2.957926] [drm] Initialized nouveau 1.3.1 20120801 for 0000:01:00.0 on minor 0
-> [    2.959816] loop: module loaded
+> Signed-off-by: Christian König <christian.koenig@amd.com>
+> Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+> ---
+>   drivers/gpu/drm/amd/amdgpu/amdgpu_sync.c | 118 +++++++++++++----------
+>   1 file changed, 68 insertions(+), 50 deletions(-)
 >
-> regards,
-> dan carpenter
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_sync.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_sync.c
+> index 1b2ceccaf5b0..862eb3c1c4c5 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_sync.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_sync.c
+> @@ -28,6 +28,8 @@
+>    *    Christian König <christian.koenig@amd.com>
+>    */
+>   
+> +#include <linux/dma-fence-chain.h>
+> +
+>   #include "amdgpu.h"
+>   #include "amdgpu_trace.h"
+>   #include "amdgpu_amdkfd.h"
+> @@ -186,6 +188,55 @@ int amdgpu_sync_vm_fence(struct amdgpu_sync *sync, struct dma_fence *fence)
+>   	return amdgpu_sync_fence(sync, fence);
+>   }
+>   
+> +/* Determine based on the owner and mode if we should sync to a fence or not */
+> +static bool amdgpu_sync_test_fence(struct amdgpu_device *adev,
+> +				   enum amdgpu_sync_mode mode,
+> +				   void *owner, struct dma_fence *f)
+> +{
+> +	void *fence_owner = amdgpu_sync_get_owner(f);
+> +
+> +	/* Always sync to moves, no matter what */
+> +	if (fence_owner == AMDGPU_FENCE_OWNER_UNDEFINED)
+> +		return true;
+> +
+> +	/* We only want to trigger KFD eviction fences on
+> +	 * evict or move jobs. Skip KFD fences otherwise.
+> +	 */
+> +	if (fence_owner == AMDGPU_FENCE_OWNER_KFD &&
+> +	    owner != AMDGPU_FENCE_OWNER_UNDEFINED)
+> +		return false;
+> +
+> +	/* Never sync to VM updates either. */
+> +	if (fence_owner == AMDGPU_FENCE_OWNER_VM &&
+> +	    owner != AMDGPU_FENCE_OWNER_UNDEFINED)
+> +		return false;
+> +
+> +	/* Ignore fences depending on the sync mode */
+> +	switch (mode) {
+> +	case AMDGPU_SYNC_ALWAYS:
+> +		return true;
+> +
+> +	case AMDGPU_SYNC_NE_OWNER:
+> +		if (amdgpu_sync_same_dev(adev, f) &&
+> +		    fence_owner == owner)
+> +			return false;
+> +		break;
+> +
+> +	case AMDGPU_SYNC_EQ_OWNER:
+> +		if (amdgpu_sync_same_dev(adev, f) &&
+> +		    fence_owner != owner)
+> +			return false;
+> +		break;
+> +
+> +	case AMDGPU_SYNC_EXPLICIT:
+> +		return false;
+> +	}
+> +
+> +	WARN(debug_evictions && fence_owner == AMDGPU_FENCE_OWNER_KFD,
+> +	     "Adding eviction fence to sync obj");
+> +	return true;
+> +}
+> +
+>   /**
+>    * amdgpu_sync_resv - sync to a reservation object
+>    *
+> @@ -211,67 +262,34 @@ int amdgpu_sync_resv(struct amdgpu_device *adev, struct amdgpu_sync *sync,
+>   
+>   	/* always sync to the exclusive fence */
+>   	f = dma_resv_excl_fence(resv);
+> -	r = amdgpu_sync_fence(sync, f);
+> +	dma_fence_chain_for_each(f, f) {
+> +		struct dma_fence_chain *chain = to_dma_fence_chain(f);
+> +
+> +		if (amdgpu_sync_test_fence(adev, mode, owner, chain ?
+> +					   chain->fence : f)) {
+> +			r = amdgpu_sync_fence(sync, f);
+> +			dma_fence_put(f);
+> +			if (r)
+> +				return r;
+> +			break;
+> +		}
+> +	}
+>   
+>   	flist = dma_resv_shared_list(resv);
+> -	if (!flist || r)
+> -		return r;
+> +	if (!flist)
+> +		return 0;
+>   
+>   	for (i = 0; i < flist->shared_count; ++i) {
+> -		void *fence_owner;
+> -
+>   		f = rcu_dereference_protected(flist->shared[i],
+>   					      dma_resv_held(resv));
+>   
+> -		fence_owner = amdgpu_sync_get_owner(f);
+> -
+> -		/* Always sync to moves, no matter what */
+> -		if (fence_owner == AMDGPU_FENCE_OWNER_UNDEFINED) {
+> +		if (amdgpu_sync_test_fence(adev, mode, owner, f)) {
+>   			r = amdgpu_sync_fence(sync, f);
+>   			if (r)
+> -				break;
+> -		}
+> -
+> -		/* We only want to trigger KFD eviction fences on
+> -		 * evict or move jobs. Skip KFD fences otherwise.
+> -		 */
+> -		if (fence_owner == AMDGPU_FENCE_OWNER_KFD &&
+> -		    owner != AMDGPU_FENCE_OWNER_UNDEFINED)
+> -			continue;
+> -
+> -		/* Never sync to VM updates either. */
+> -		if (fence_owner == AMDGPU_FENCE_OWNER_VM &&
+> -		    owner != AMDGPU_FENCE_OWNER_UNDEFINED)
+> -			continue;
+> -
+> -		/* Ignore fences depending on the sync mode */
+> -		switch (mode) {
+> -		case AMDGPU_SYNC_ALWAYS:
+> -			break;
+> -
+> -		case AMDGPU_SYNC_NE_OWNER:
+> -			if (amdgpu_sync_same_dev(adev, f) &&
+> -			    fence_owner == owner)
+> -				continue;
+> -			break;
+> -
+> -		case AMDGPU_SYNC_EQ_OWNER:
+> -			if (amdgpu_sync_same_dev(adev, f) &&
+> -			    fence_owner != owner)
+> -				continue;
+> -			break;
+> -
+> -		case AMDGPU_SYNC_EXPLICIT:
+> -			continue;
+> +				return r;
+>   		}
+> -
+> -		WARN(debug_evictions && fence_owner == AMDGPU_FENCE_OWNER_KFD,
+> -		     "Adding eviction fence to sync obj");
+> -		r = amdgpu_sync_fence(sync, f);
+> -		if (r)
+> -			break;
+>   	}
+> -	return r;
+> +	return 0;
+>   }
+>   
+>   /**
 
