@@ -1,62 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 686843ABC55
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Jun 2021 21:08:09 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D6A73ABC70
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Jun 2021 21:13:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9D4966E233;
-	Thu, 17 Jun 2021 19:08:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1E5856E985;
+	Thu, 17 Jun 2021 19:13:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com
- [IPv6:2a00:1450:4864:20::42a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 808926E233
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Jun 2021 19:08:04 +0000 (UTC)
-Received: by mail-wr1-x42a.google.com with SMTP id v9so7956155wrx.6
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Jun 2021 12:08:04 -0700 (PDT)
+Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com
+ [IPv6:2a00:1450:4864:20::42d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4489F6E983
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Jun 2021 19:13:46 +0000 (UTC)
+Received: by mail-wr1-x42d.google.com with SMTP id n7so7982003wri.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Jun 2021 12:13:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:content-transfer-encoding:in-reply-to;
- bh=IR6nqqUmGXk7IYRuhjjxlGaJI9czVlUrwb18e4SwsPA=;
- b=ePy97Wnyuf3Buo2r5hDPx4yZ07dOXcP51cxRlHQLUztYssgAubhYwtVW/83jWKr5Oq
- YAM95BJTr/4p+aDYgmO/ynMW7k+tJd2E6YRyuIeQuCud7iKbG8mFYQjVPg+OzLWdgyBW
- UL3chClOGb1/PJfjz57zFbIuvAXUpzJ/8eU+E=
+ bh=YJbKmlvWf4NhCvnJSCLMTpvoMWnm+Ap9HocEZxA+clo=;
+ b=Hly9ul7kmsczgAeS6+B8D8eRJ9SRMAz/ciNqRqzLXBWHbQCbfi+M1QXms4osL6vC2S
+ mZ5Pt+f9lZ7ztthAlC1SYwNKb3mTX3xgwNz0u3pXKZGMEQU0uXIig/v6aq7r3EvXod56
+ aTtOmmiZWGSiJ1CaonNLvlU8YgGtQpetDW3Jc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:content-transfer-encoding
  :in-reply-to;
- bh=IR6nqqUmGXk7IYRuhjjxlGaJI9czVlUrwb18e4SwsPA=;
- b=Xzm8A/o7dVP15X1zYjk6PJfafMuxk6MuxfK/asY4wd8u5C7w5sK083LldZQ2w+sFSn
- /0MG7zytx4DcQKUSmfAyg+g92GZECxkWf9FACQPqRnZbzopTqT078CyQFTmnBEO+BMks
- khcK5Py0NEfzMM8D6B2tnS8OqDZ23tjWdhxjfVfCP9JVXAK90ckmh/6VSZsmK5u+mNxb
- TmGXiDW19+f2fSW5IsTqMzrfOghJKG8uG49lMbmIgjXo18ugVYX4gdYbiv6J2sL71LIo
- BYaP+NuqyIF9+j97ZOupW3Du+NzS3DS8fNiO2LjIJml6RuKF/IjD3dAxKsbraXZ3aoCq
- yHIw==
-X-Gm-Message-State: AOAM5313a74WeK/guVmhEemR9TDKRJ/ebSgPt9kcwK+PEwBofafckeNE
- 7+7x4v9/Abdj+PlEynKLs7bV7w==
-X-Google-Smtp-Source: ABdhPJytFXJtFAejmTkA7Of1m7BvEw9I3gYWSEalInUTunTXyu+jv1k5OhtkfQUsT7Dntrx4boToYQ==
-X-Received: by 2002:a05:6000:1888:: with SMTP id
- a8mr7472604wri.11.1623956883179; 
- Thu, 17 Jun 2021 12:08:03 -0700 (PDT)
+ bh=YJbKmlvWf4NhCvnJSCLMTpvoMWnm+Ap9HocEZxA+clo=;
+ b=OvDMpj1TxS8DaJpHGb3XO2d1nBq9I8D4/LwNkOGo8PjEgsYIVKE7bncftwkNm4L1ES
+ kon7j4aCKUREoOAKb7mAnDQ3sHbVb9j4/1+kDrF9KDBdZNwh0ooK8110e+lWbv5vn/AO
+ y1IImCM5F34paYsydnCbj/TpUobB2Jedw13Ppsg/EZ3HJFuaDaLGO85gbSCrszrt3RLe
+ p6Fsvys7MVjK4STFazicMUKJJP9CQcJLWPLsDJ1f44d1p+l0Ex3qOOFA3zA7StFGaJR7
+ wS4TaYYCfGUPvBpBd6y7hpRU3o5AoGv1rfYX7Ocxjn6dKkNJ4RniLymJSZy5Wqq1O0CH
+ axlQ==
+X-Gm-Message-State: AOAM533cJSYW5Kh31xoIKL0cQCnWTj7Ip2Z6kWHjQmWLeQ5kxi6RjXt8
+ qU/QLdJAxxQBHy3IpSCXy0KImZJlGZlX8w==
+X-Google-Smtp-Source: ABdhPJxvnLGl4zoTiXc075/FIedgzII8j7wsAd/q+P0XgapcrH50XEgDF/2IDKIPl3zGPe8IQkmvgQ==
+X-Received: by 2002:adf:cd10:: with SMTP id w16mr7919871wrm.200.1623957224923; 
+ Thu, 17 Jun 2021 12:13:44 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id b15sm7537016wrr.27.2021.06.17.12.08.00
+ by smtp.gmail.com with ESMTPSA id p187sm5344676wmp.28.2021.06.17.12.13.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 17 Jun 2021 12:08:02 -0700 (PDT)
-Date: Thu, 17 Jun 2021 21:07:59 +0200
+ Thu, 17 Jun 2021 12:13:44 -0700 (PDT)
+Date: Thu, 17 Jun 2021 21:13:42 +0200
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Philippe CORNU <philippe.cornu@foss.st.com>
-Subject: Re: [PATCH v4] Documentation: gpu: Mention the requirements for new
- properties
-Message-ID: <YMudjzouG6PuXPk4@phenom.ffwll.local>
-References: <20210616143842.632829-1-maxime@cerno.tech>
- <9a994b75-7578-d7b1-db3f-5625f121c740@foss.st.com>
+To: Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
+Subject: Re: [Intel-gfx] [PATCH v5 01/12] drm/i915: Reference objects on the
+ ww object list
+Message-ID: <YMue5i1Gqoo4ERru@phenom.ffwll.local>
+References: <20210617063018.92802-1-thomas.hellstrom@linux.intel.com>
+ <20210617063018.92802-2-thomas.hellstrom@linux.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <9a994b75-7578-d7b1-db3f-5625f121c740@foss.st.com>
+In-Reply-To: <20210617063018.92802-2-thomas.hellstrom@linux.intel.com>
 X-Operating-System: Linux phenom 5.10.0-7-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -70,253 +69,113 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Haneen Mohammed <hamohammed.sa@gmail.com>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>, linux-doc@vger.kernel.org,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- Edmund Dea <edmund.j.dea@intel.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- dri-devel@lists.freedesktop.org, Russell King <linux@armlinux.org.uk>,
- Melissa Wen <melissa.srw@gmail.com>, Eric Anholt <eric@anholt.net>,
- Thierry Reding <thierry.reding@gmail.com>, Rob Clark <robdclark@gmail.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Benjamin Gaignard <benjamin.gaignard@linaro.org>,
- Anitha Chrisanthus <anitha.chrisanthus@intel.com>,
- Daniel Vetter <daniel.vetter@intel.com>, Steven Price <steven.price@arm.com>,
- Sam Ravnborg <sam@ravnborg.org>, Jyri Sarha <jyri.sarha@iki.fi>,
- Jerome Brunet <jbrunet@baylibre.com>, Paul Cercueil <paul@crapouillou.net>,
- Marek Vasut <marex@denx.de>, Joonyoung Shim <jy0922.shim@samsung.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
- Kevin Hilman <khilman@baylibre.com>, Tomi Valkeinen <tomba@kernel.org>,
- Neil Armstrong <narmstrong@baylibre.com>,
- Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
- Xinwei Kong <kong.kongxinwei@hisilicon.com>,
- Jonathan Hunter <jonathanh@nvidia.com>, Xinliang Liu <xinliang.liu@linaro.org>,
- Ludovic Desroches <ludovic.desroches@microchip.com>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- VMware Graphics <linux-graphics-maintainer@vmware.com>,
- NXP Linux Team <linux-imx@nxp.com>, Chen Feng <puck.chen@hisilicon.com>,
- Liviu Dudau <liviu.dudau@arm.com>, Ben Skeggs <bskeggs@redhat.com>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Raphael GALLAIS-POU <raphael.gallais-pou@foss.st.com>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- Roland Scheidegger <sroland@vmware.com>, Sascha Hauer <s.hauer@pengutronix.de>,
- Alison Wang <alison.wang@nxp.com>, Andrzej Hajda <a.hajda@samsung.com>,
- Hans de Goede <hdegoede@redhat.com>, Maxime Ripard <maxime@cerno.tech>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- Nicolas Ferre <nicolas.ferre@microchip.com>, Chen-Yu Tsai <wens@csie.org>,
- Sean Paul <sean@poorly.run>, Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Jernej Skrabec <jernej.skrabec@siol.net>,
- Pekka Paalanen <pekka.paalanen@collabora.com>,
- Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
- Hyun Kwon <hyun.kwon@xilinx.com>, Boris Brezillon <bbrezillon@kernel.org>,
- Andrew Jeffery <andrew@aj.id.au>, Huang Rui <ray.huang@amd.com>,
- Yannick Fertre <yannick.fertre@foss.st.com>, Jonathan Corbet <corbet@lwn.net>,
- Seung-Woo Kim <sw0312.kim@samsung.com>, Sandy Huang <hjc@rock-chips.com>,
- Robert Foss <robert.foss@linaro.org>, Joel Stanley <joel@jms.id.au>,
- Tomeu Vizoso <tomeu.vizoso@collabora.com>,
- Kyungmin Park <kyungmin.park@samsung.com>,
- Noralf =?iso-8859-1?Q?Tr=F8nnes?= <noralf@tronnes.org>,
- Qiang Yu <yuq825@gmail.com>, Thomas Zimmermann <tzimmermann@suse.de>,
- Alex Deucher <alexander.deucher@amd.com>, Tian Tao <tiantao6@hisilicon.com>,
- Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>,
- Shawn Guo <shawnguo@kernel.org>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- Jonas Karlman <jonas@kwiboo.se>, Gerd Hoffmann <kraxel@redhat.com>
+Cc: intel-gfx@lists.freedesktop.org, matthew.auld@intel.com,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jun 17, 2021 at 05:38:36PM +0200, Philippe CORNU wrote:
+On Thu, Jun 17, 2021 at 08:30:07AM +0200, Thomas Hellstr�m wrote:
+> Since the ww transaction endpoint easily end up far out-of-scope of
+> the objects on the ww object list, particularly for contending lock
+> objects, make sure we reference objects on the list so they don't
+> disappear under us.
 > 
+> This comes with a performance penalty so it's been debated whether this
+> is really needed. But I think this is motivated by the fact that locking
+> is typically difficult to get right, and whatever we can do to make it
+> simpler for developers moving forward should be done, unless the
+> performance impact is far too high.
 > 
-> On 6/16/21 4:38 PM, Maxime Ripard wrote:
-> > New KMS properties come with a bunch of requirements to avoid each
-> > driver from running their own, inconsistent, set of properties,
-> > eventually leading to issues like property conflicts, inconsistencies
-> > between drivers and semantics, etc.
-> > 
-> > Let's document what we expect.
-> > 
-> > Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>
-> > Cc: Alexandre Torgue <alexandre.torgue@foss.st.com>
-> > Cc: Alex Deucher <alexander.deucher@amd.com>
-> > Cc: Alison Wang <alison.wang@nxp.com>
-> > Cc: Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
-> > Cc: Andrew Jeffery <andrew@aj.id.au>
-> > Cc: Andrzej Hajda <a.hajda@samsung.com>
-> > Cc: Anitha Chrisanthus <anitha.chrisanthus@intel.com>
-> > Cc: Benjamin Gaignard <benjamin.gaignard@linaro.org>
-> > Cc: Ben Skeggs <bskeggs@redhat.com>
-> > Cc: Boris Brezillon <bbrezillon@kernel.org>
-> > Cc: Brian Starkey <brian.starkey@arm.com>
-> > Cc: Chen Feng <puck.chen@hisilicon.com>
-> > Cc: Chen-Yu Tsai <wens@csie.org>
-> > Cc: Christian Gmeiner <christian.gmeiner@gmail.com>
-> > Cc: "Christian König" <christian.koenig@amd.com>
-> > Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-> > Cc: Edmund Dea <edmund.j.dea@intel.com>
-> > Cc: Eric Anholt <eric@anholt.net>
-> > Cc: Fabio Estevam <festevam@gmail.com>
-> > Cc: Gerd Hoffmann <kraxel@redhat.com>
-> > Cc: Haneen Mohammed <hamohammed.sa@gmail.com>
-> > Cc: Hans de Goede <hdegoede@redhat.com>
-> > Cc: "Heiko Stübner" <heiko@sntech.de>
-> > Cc: Huang Rui <ray.huang@amd.com>
-> > Cc: Hyun Kwon <hyun.kwon@xilinx.com>
-> > Cc: Inki Dae <inki.dae@samsung.com>
-> > Cc: Jani Nikula <jani.nikula@linux.intel.com>
-> > Cc: Jernej Skrabec <jernej.skrabec@siol.net>
-> > Cc: Jerome Brunet <jbrunet@baylibre.com>
-> > Cc: Joel Stanley <joel@jms.id.au>
-> > Cc: John Stultz <john.stultz@linaro.org>
-> > Cc: Jonas Karlman <jonas@kwiboo.se>
-> > Cc: Jonathan Hunter <jonathanh@nvidia.com>
-> > Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-> > Cc: Joonyoung Shim <jy0922.shim@samsung.com>
-> > Cc: Jyri Sarha <jyri.sarha@iki.fi>
-> > Cc: Kevin Hilman <khilman@baylibre.com>
-> > Cc: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-> > Cc: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
-> > Cc: Kyungmin Park <kyungmin.park@samsung.com>
-> > Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
-> > Cc: Linus Walleij <linus.walleij@linaro.org>
-> > Cc: Liviu Dudau <liviu.dudau@arm.com>
-> > Cc: Lucas Stach <l.stach@pengutronix.de>
-> > Cc: Ludovic Desroches <ludovic.desroches@microchip.com>
-> > Cc: Marek Vasut <marex@denx.de>
-> > Cc: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
-> > Cc: Matthias Brugger <matthias.bgg@gmail.com>
-> > Cc: Maxime Coquelin <mcoquelin.stm32@gmail.com>
-> > Cc: Maxime Ripard <mripard@kernel.org>
-> > Cc: Melissa Wen <melissa.srw@gmail.com>
-> > Cc: Neil Armstrong <narmstrong@baylibre.com>
-> > Cc: Nicolas Ferre <nicolas.ferre@microchip.com>
-> > Cc: "Noralf Trønnes" <noralf@tronnes.org>
-> > Cc: NXP Linux Team <linux-imx@nxp.com>
-> > Cc: Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>
-> > Cc: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
-> > Cc: Paul Cercueil <paul@crapouillou.net>
-> > Cc: Pekka Paalanen <pekka.paalanen@collabora.com>
-> > Cc: Pengutronix Kernel Team <kernel@pengutronix.de>
-> > Cc: Philippe Cornu <philippe.cornu@foss.st.com>
-> > Cc: Philipp Zabel <p.zabel@pengutronix.de>
-> > Cc: Qiang Yu <yuq825@gmail.com>
-> > Cc: Rob Clark <robdclark@gmail.com>
-> > Cc: Robert Foss <robert.foss@linaro.org>
-> > Cc: Rob Herring <robh@kernel.org>
-> > Cc: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>
-> > Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
-> > Cc: Roland Scheidegger <sroland@vmware.com>
-> > Cc: Russell King <linux@armlinux.org.uk>
-> > Cc: Sam Ravnborg <sam@ravnborg.org>
-> > Cc: Sandy Huang <hjc@rock-chips.com>
-> > Cc: Sascha Hauer <s.hauer@pengutronix.de>
-> > Cc: Sean Paul <sean@poorly.run>
-> > Cc: Seung-Woo Kim <sw0312.kim@samsung.com>
-> > Cc: Shawn Guo <shawnguo@kernel.org>
-> > Cc: Simon Ser <contact@emersion.fr>
-> > Cc: Stefan Agner <stefan@agner.ch>
-> > Cc: Steven Price <steven.price@arm.com>
-> > Cc: Sumit Semwal <sumit.semwal@linaro.org>
-> > Cc: Thierry Reding <thierry.reding@gmail.com>
-> > Cc: Tian Tao <tiantao6@hisilicon.com>
-> > Cc: Tomeu Vizoso <tomeu.vizoso@collabora.com>
-> > Cc: Tomi Valkeinen <tomba@kernel.org>
-> > Cc: VMware Graphics <linux-graphics-maintainer@vmware.com>
-> > Cc: Xinliang Liu <xinliang.liu@linaro.org>
-> > Cc: Xinwei Kong <kong.kongxinwei@hisilicon.com>
-> > Cc: Yannick Fertre <yannick.fertre@foss.st.com>
-> > Cc: Zack Rusin <zackr@vmware.com>
-> > Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-> > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
-> > 
-> > ---
-> > 
-> > Changes from v3:
-> >    - Roll back to the v2
-> >    - Add Simon and Pekka in Cc
-> > 
-> > Changes from v2:
-> >    - Take into account the feedback from Laurent and Lidiu to no longer
-> >      force generic properties, but prefix vendor-specific properties with
-> >      the vendor name
-> > 
-> > Changes from v1:
-> >    - Typos and wording reported by Daniel and Alex
-> > ---
-> >   Documentation/gpu/drm-kms.rst | 19 +++++++++++++++++++
-> >   1 file changed, 19 insertions(+)
-> > 
-> > diff --git a/Documentation/gpu/drm-kms.rst b/Documentation/gpu/drm-kms.rst
-> > index 87e5023e3f55..c28b464dd397 100644
-> > --- a/Documentation/gpu/drm-kms.rst
-> > +++ b/Documentation/gpu/drm-kms.rst
-> > @@ -463,6 +463,25 @@ KMS Properties
-> >   This section of the documentation is primarily aimed at user-space developers.
-> >   For the driver APIs, see the other sections.
-> > +Requirements
-> > +------------
-> > +
-> > +KMS drivers might need to add extra properties to support new features.
-> > +Each new property introduced in a driver need to meet a few
-> > +requirements, in addition to the one mentioned above.:
-> > +
-> > +- It must be standardized, with some documentation to describe how the
-> > +  property can be used.
-> > +
-> > +- It must provide a generic helper in the core code to register that
-> > +  property on the object it attaches to.
-> > +
-> > +- Its content must be decoded by the core and provided in the object's
-> > +  associated state structure. That includes anything drivers might want to
-> > +  precompute, like :c:type:`struct drm_clip_rect <drm_clip_rect>` for planes.
-> > +
-> > +- An IGT test must be submitted where reasonable.
-> > +
-> >   Property Types and Blob Property Support
-> >   ----------------------------------------
-> > 
-> 
-> Hi,
-> 
-> Regarding properties, we have a “case study example” related in a certain
-> way to this documentation update :-)
-> 
-> The use case: on a front desk at an exhibition, there is a welcome screen
-> you can touch for searching various information. When this welcome screen is
-> in idle, a small logo is displayed at its center (around 20% of the
-> fullscreen). The logo has a white background color. We want to reduce the
-> ddr usage for lowering the power (the board is battery powered) so the idea
-> is to use a white background color around this logo, produced by the drm
-> CRTC so the image in ddr is only the size of the logo.
-> 
-> Reading the thread
-> https://lists.freedesktop.org/archives/dri-devel/2019-October/239733.html
-> dissuade us from coding a generic solution, so we started to implement a
-> "STM_" private background color property, it works... but we are not at all
-> convince this is the right way and we clearly prefer mainline/generic sw for
-> both kernel & userland.
-> 
-> So now, what are our options... well, this v4 documentation update is I
-> think clear enough: we have to document + provide a generic helper in the
-> core code (similar to the original patch) + update IGT test, right?
+> Signed-off-by: Thomas Hellstr�m <thomas.hellstrom@linux.intel.com>
+> Reviewed-by: Matthew Auld <matthew.auld@intel.com>
 
-Yeah, also background color has been talked about for a while (lots of hw
-can do it), it's just that no one ever found a use-case to make the
-background somethign else than "black". There's a pile of drivers who
-could expose this, so definitely makes sense to have this generic.
+Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+
+I've looked the past 2-3 weeks in-depth at our execbuf code. That has
+definitely gone way too far into "very clevery" territory, and safe is so
+much better than clever.
+
+If there's a fundamental performance issue, we need to fix this in a
+fundamental way. E.g. for this one here a possible solution could be
+VM_BIND, at least in the fastpath, where we don't need to look-up any
+objects, nor refcount them, nor anything else (at least that's the goal).
+Only some per vm/request book-keeping and done.
+
+Also I think we can easily claw this back once we get to the cleanup part
+of this work: i915_vma_pin has a bunch of atomics (and lots of locks in
+slow-paths) of its own, which are largely redundant now that object state
+is protected by dma_resv_lock. Once that's cleaned up we can pay our
+atomic inc/dec here with the removed atomic ops from the vma side I think.
+
+Anyway just figured I drop some thoughts and my ack on the direction
+you're pushing here.
 -Daniel
 
+> ---
+>  drivers/gpu/drm/i915/gem/i915_gem_object.h | 8 ++++++--
+>  drivers/gpu/drm/i915/i915_gem.c            | 4 ++++
+>  2 files changed, 10 insertions(+), 2 deletions(-)
 > 
-> Thanks
-> Philippe :-)
+> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object.h b/drivers/gpu/drm/i915/gem/i915_gem_object.h
+> index d66aa00d023a..241666931945 100644
+> --- a/drivers/gpu/drm/i915/gem/i915_gem_object.h
+> +++ b/drivers/gpu/drm/i915/gem/i915_gem_object.h
+> @@ -169,13 +169,17 @@ static inline int __i915_gem_object_lock(struct drm_i915_gem_object *obj,
+>  	else
+>  		ret = dma_resv_lock(obj->base.resv, ww ? &ww->ctx : NULL);
+>  
+> -	if (!ret && ww)
+> +	if (!ret && ww) {
+> +		i915_gem_object_get(obj);
+>  		list_add_tail(&obj->obj_link, &ww->obj_list);
+> +	}
+>  	if (ret == -EALREADY)
+>  		ret = 0;
+>  
+> -	if (ret == -EDEADLK)
+> +	if (ret == -EDEADLK) {
+> +		i915_gem_object_get(obj);
+>  		ww->contended = obj;
+> +	}
+>  
+>  	return ret;
+>  }
+> diff --git a/drivers/gpu/drm/i915/i915_gem.c b/drivers/gpu/drm/i915/i915_gem.c
+> index 6a0a3f0e36e1..c62dcd0e341a 100644
+> --- a/drivers/gpu/drm/i915/i915_gem.c
+> +++ b/drivers/gpu/drm/i915/i915_gem.c
+> @@ -1222,6 +1222,7 @@ static void i915_gem_ww_ctx_unlock_all(struct i915_gem_ww_ctx *ww)
+>  	while ((obj = list_first_entry_or_null(&ww->obj_list, struct drm_i915_gem_object, obj_link))) {
+>  		list_del(&obj->obj_link);
+>  		i915_gem_object_unlock(obj);
+> +		i915_gem_object_put(obj);
+>  	}
+>  }
+>  
+> @@ -1229,6 +1230,7 @@ void i915_gem_ww_unlock_single(struct drm_i915_gem_object *obj)
+>  {
+>  	list_del(&obj->obj_link);
+>  	i915_gem_object_unlock(obj);
+> +	i915_gem_object_put(obj);
+>  }
+>  
+>  void i915_gem_ww_ctx_fini(struct i915_gem_ww_ctx *ww)
+> @@ -1253,6 +1255,8 @@ int __must_check i915_gem_ww_ctx_backoff(struct i915_gem_ww_ctx *ww)
+>  
+>  	if (!ret)
+>  		list_add_tail(&ww->contended->obj_link, &ww->obj_list);
+> +	else
+> +		i915_gem_object_put(ww->contended);
+>  
+>  	ww->contended = NULL;
+>  
+> -- 
+> 2.31.1
 > 
-> Note: It is really a pleasure to read such interesting thread, exposing the
-> “complexity” of our job, dealing with various hw and sw... thank you to all
-> of you.
-> 
-> 
+> _______________________________________________
+> Intel-gfx mailing list
+> Intel-gfx@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/intel-gfx
 
 -- 
 Daniel Vetter
