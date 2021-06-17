@@ -2,61 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FBE33AB262
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Jun 2021 13:21:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32CFD3AB2A2
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Jun 2021 13:33:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 215976E8FA;
-	Thu, 17 Jun 2021 11:21:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 306066E901;
+	Thu, 17 Jun 2021 11:33:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x636.google.com (mail-pl1-x636.google.com
- [IPv6:2607:f8b0:4864:20::636])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 316A56E8FA
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Jun 2021 11:21:25 +0000 (UTC)
-Received: by mail-pl1-x636.google.com with SMTP id v12so2747715plo.10
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Jun 2021 04:21:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=K6R0FEjF7oq2KNX8VeWTVUIbsW8u4UsYJd42ph9pC1A=;
- b=PcR1UbEaott76KwONcj2/b42uiSTpdpLzTRqYZ7Zis8SWGf7xyLwEn0GtL2ne1L+18
- wCfph9vmWzbdYnI6FcinYpwauKitP4wABDd1thfzdQ8MFeDrug5xwuCK70rswtCJV4kl
- DyuefhJG2uPvwl1t4tvgJJGOKBtsJ+NrjRPZ4oJn9/cEn8FHu2qmwqFwz9zjvKa8lX/i
- fcWd+mi4caT1DaltYD+vwJ7KtPfhHlDN3yGdgeXN9SwaHQAfYoJIdBj48lxEyzsWaN4Q
- W2A4uQo129ywnOx83HHPm7MFgLVrEPH3aSxiqUTThVhU3bwUVa7jhWMKMDxKgPdko1Iq
- NREQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=K6R0FEjF7oq2KNX8VeWTVUIbsW8u4UsYJd42ph9pC1A=;
- b=VbfcDjf1UbYUExmxCrflBB2MRUN2CiWYJdJ60uMUHZENh44nmFJ2Um3IXOruoJMT+Z
- WCWaYHf8k9aO7kGX8oEpnZONRr8x1v63KGNOIgTDAQTRmXTcTDa8L6FipgMAVaM3c+Fu
- su3cy499HHIGD9+KkSNJm7qi1ShZgXZXL18ndXJq28oj9YRe+5HZNM5+QyorMCqKg12+
- 6KJpAXfi6pjQ7v/DXTXWM/sfuHEj5gwIJ8L+hHB2wzXO3hEH2VrwkWZwa1PKZLe+H4SF
- j2W1/PKl+jShJzCDB+OfWLU1B/qKpcuWSqgcG58qkQ3wwcPPnXSRNnmoxm8oidyx3A6a
- vzIw==
-X-Gm-Message-State: AOAM533REbTldR9uw0XbRc4HhNJdzMySdpGdQvM4/jfqKbumHaAMRYg5
- eVIO5raRVW/sMlwAIGCLUbs=
-X-Google-Smtp-Source: ABdhPJysJyKGyvAca3XdWxeEe9FRr9MA/N49yAGeiH7inBCWjDFaoXYUfLRacqfnq1+IFe3kS5rdsg==
-X-Received: by 2002:a17:902:c407:b029:106:302e:534 with SMTP id
- k7-20020a170902c407b0290106302e0534mr4068908plk.17.1623928884766; 
- Thu, 17 Jun 2021 04:21:24 -0700 (PDT)
-Received: from 167-179-157-192.a7b39d.syd.nbn.aussiebb.net
- (167-179-157-192.a7b39d.syd.nbn.aussiebb.net. [167.179.157.192])
- by smtp.gmail.com with ESMTPSA id v67sm5035585pfb.193.2021.06.17.04.21.24
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 17 Jun 2021 04:21:24 -0700 (PDT)
-From: Jonathan Liu <net147@gmail.com>
-To: dri-devel@lists.freedesktop.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] drm/bridge: ti-sn65dsi83: Fix null pointer dereference in
- remove callback
-Date: Thu, 17 Jun 2021 21:19:25 +1000
-Message-Id: <20210617111925.162120-1-net147@gmail.com>
-X-Mailer: git-send-email 2.32.0
+Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com
+ [205.220.165.32])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9A4896E903
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Jun 2021 11:33:00 +0000 (UTC)
+Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 15HBWWU0001814; Thu, 17 Jun 2021 11:32:58 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=date : from : to : cc
+ : subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=corp-2020-01-29;
+ bh=jok5vo8F5i8ypd4bZ2ZIzdLfnWdBWpjToc00qo4GD6o=;
+ b=lPFm9R0HACdTLiu+uQZF4WN70xMq8BSEdVTIaCdts1kbhUs7ozhoL5MjQCbsOC8Cdahn
+ 0ownsx3Bb56+VNF8CnNyA1Oqwto6H7yFt+CTVAfle8+Zl52BnPK2pceiF2m/606knCQc
+ KlXlVjFKaqMoWLD6r1N649jt6UufXGv7pYxaSPd7iF0G4gKc1rAY3TYhgpMHgQ7ii1x5
+ /KNoC2XNO3ERvmiEfMClloEL0vyWyOujw1zPaXFv72n84k4yOzN/a7bJHdntScSzQCTN
+ UvCz3lS0tpStU1cjDNKDVQe5gpnPLcrRZVXhdxUYjQpE8fIuWLFozgo/zAWPRzez3y7h dA== 
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
+ by mx0b-00069f02.pphosted.com with ESMTP id 397h4bj4j1-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 17 Jun 2021 11:32:58 +0000
+Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
+ by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 15HBVMSK025974;
+ Thu, 17 Jun 2021 11:32:57 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+ by aserp3030.oracle.com with ESMTP id 396wavgya1-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 17 Jun 2021 11:32:57 +0000
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 15HBWvRq028262;
+ Thu, 17 Jun 2021 11:32:57 GMT
+Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
+ by aserp3030.oracle.com with ESMTP id 396wavgy9a-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 17 Jun 2021 11:32:56 +0000
+Received: from abhmp0015.oracle.com (abhmp0015.oracle.com [141.146.116.21])
+ by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 15HBWorC006135;
+ Thu, 17 Jun 2021 11:32:50 GMT
+Received: from kadam (/102.222.70.252) by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Thu, 17 Jun 2021 11:32:50 +0000
+Date: Thu, 17 Jun 2021 14:32:43 +0300
+From: Dan Carpenter <dan.carpenter@oracle.com>
+To: Ben Skeggs <bskeggs@redhat.com>
+Subject: Re: [PATCH] drm/nouveau/core/object: fix double free on error in
+ nvkm_ioctl_new()
+Message-ID: <20210617113243.GH1901@kadam>
+References: <YMcyzyVyI4N6anBo@mwanda>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YMcyzyVyI4N6anBo@mwanda>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Proofpoint-ORIG-GUID: mIWuBrr_lNGlcK8N24JIecIo2SORFgx_
+X-Proofpoint-GUID: mIWuBrr_lNGlcK8N24JIecIo2SORFgx_
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,44 +75,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, Jonathan Liu <net147@gmail.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>,
- David Airlie <airlied@linux.ie>, Neil Armstrong <narmstrong@baylibre.com>,
- Robert Foss <robert.foss@linaro.org>,
- Frieder Schrempf <frieder.schrempf@kontron.de>,
- Andrzej Hajda <a.hajda@samsung.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+Cc: David Airlie <airlied@linux.ie>, nouveau@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-If attach has not been called, unloading the driver can result in a null
-pointer dereference in mipi_dsi_detach as ctx->dsi has not been assigned
-yet.
+On Mon, Jun 14, 2021 at 01:43:27PM +0300, Dan Carpenter wrote:
+> If nvkm_object_init() fails then we should not call nvkm_object_fini()
+> because it results in calling object->func->fini(object, suspend) twice.
+> Once inside the nvkm_object_init() function and once inside the
+> nvkm_object_fini() function.
+> 
+> Fixes: fbd58ebda9c8 ("drm/nouveau/object: merge with handle")
+> Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
+> ---
+> This is something that I spotted while looking for reference counting
+> bugs.  I have tried running it, but it does not fix my crashes.  My
+> system is basically unusable.  It's something to do with the new version
+> of Firefox which triggers the refcount_t underflow, but switching to
+> Epiphany doesn't solve the issue either.
+> 
+>  drivers/gpu/drm/nouveau/nvkm/core/ioctl.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/nouveau/nvkm/core/ioctl.c b/drivers/gpu/drm/nouveau/nvkm/core/ioctl.c
+> index d777df5a64e6..87c761fb475a 100644
+> --- a/drivers/gpu/drm/nouveau/nvkm/core/ioctl.c
+> +++ b/drivers/gpu/drm/nouveau/nvkm/core/ioctl.c
+> @@ -134,8 +134,8 @@ nvkm_ioctl_new(struct nvkm_client *client,
+>  				return 0;
+>  			}
+>  			ret = -EEXIST;
+> +			nvkm_object_fini(object, false);
+>  		}
+> -		nvkm_object_fini(object, false);
 
-Fixes: ceb515ba29ba6b ("drm/bridge: ti-sn65dsi83: Add TI SN65DSI83 and SN65DSI84 driver")
-Signed-off-by: Jonathan Liu <net147@gmail.com>
----
- drivers/gpu/drm/bridge/ti-sn65dsi83.c | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+Actually calling nvkm_object_fini() is probably fine.  It just screws
+around with the registers and it's probably fine if we do that twice.
 
-diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi83.c b/drivers/gpu/drm/bridge/ti-sn65dsi83.c
-index 750f2172ef08..8e9f45c5c7c1 100644
---- a/drivers/gpu/drm/bridge/ti-sn65dsi83.c
-+++ b/drivers/gpu/drm/bridge/ti-sn65dsi83.c
-@@ -671,8 +671,11 @@ static int sn65dsi83_remove(struct i2c_client *client)
- {
- 	struct sn65dsi83 *ctx = i2c_get_clientdata(client);
- 
--	mipi_dsi_detach(ctx->dsi);
--	mipi_dsi_device_unregister(ctx->dsi);
-+	if (ctx->dsi) {
-+		mipi_dsi_detach(ctx->dsi);
-+		mipi_dsi_device_unregister(ctx->dsi);
-+	}
-+
- 	drm_bridge_remove(&ctx->bridge);
- 	of_node_put(ctx->host_node);
- 
--- 
-2.32.0
+Calling .dtor() when .ctor() fails is actually required because .ctor
+doesn't clean up after itself.
+
+So this patch is not required.  The other patch is required.
+https://lore.kernel.org/nouveau/YMinJwpIei9n1Pn1@mwanda/T/
+
+In the end, I had to give up on fixing the hang and downgrade to
+debian's long term support version of firefox.
+
+regards,
+dan carpenter
 
