@@ -1,110 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC7DA3AA975
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Jun 2021 05:17:48 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 444083AA97D
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Jun 2021 05:22:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3E1486E866;
-	Thu, 17 Jun 2021 03:17:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 13A166E868;
+	Thu, 17 Jun 2021 03:22:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM04-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam08on2079.outbound.protection.outlook.com [40.107.101.79])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EB7BA6E865;
- Thu, 17 Jun 2021 03:17:40 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=eE10nirfmQPAoxo8vBpyVcpoD42YhZScXnTuHc2H4W5Zl4nM/g2M8dEsKNSmrcAUe/6Bgu6hN1PlD33ULO1xVL7jZ2CLxTEpzkE+Brle4CljVDSbRfXGOwyI0FmUZ32C5zyJ63AmUASAX4lbKrmYFiHJMk333f8mx7c0BpmSfr7AlOVkGT1xYWivmpKPx/W1UGwGLk2rZvMfvGMvLDKBT5GAPjuqkwO9NJhKSVkE7l17200Bts94cullA/1akYpB2rWkKugR4NteasuHkcbAAavXMoZc6DapKVoTOIgkkACCyvOvnDMl0oT/rcC1Azr8wvkaIU74e+cZeZdaaWHdeA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=0p63eKrfJqQeQv0Ziob+0KocC5pRKiHTR/2sOvTErKk=;
- b=IQJgZaV18Uwl002XmeHnLfji1IJtYtJcyCW3bOXuK0bTMYx34u5XyW3uu/OgfK17+gsYp3Z5TZt0zrds0IR7WxvXRtpR3b01XQU7LKalJh/+IBHZ2XEW1Ljjy5F3eSoA1t+jwWdPbuC9DmQ3eVJhTJH7vyvYjZbTF0RSjqf3S2fISJ7iE1y6q+/UtBny4SXub05QUZ4nP4LOnhiG9BP+mH9eth75yWN2Dl9q5MIuSSg4TsTFoGTTmjsqWS7ByRKQ3+zJbav10ct71VMJmHEQxTaz9zUOFvfhMLo3FUqlyFwy5ZCYSGtfAHWetyQvwLSI2PlZq7BWZS/2PYgH9Ear7Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=0p63eKrfJqQeQv0Ziob+0KocC5pRKiHTR/2sOvTErKk=;
- b=nQM4+26u9KGe/gFoRYCEnTkOq0pH3uPD9puEFYdYibhYKUWtPdulFFoZqoKhKv6B/J31jP6+I33pGkSqw+xp4nxjNJGfDUxMC3eKRkMbbGSTI6IWnPeG6hN6MscB9dkQUisHl2g741CEH0sO27bLJHCrVAYhWQ9GuUTofEIxibs=
-Authentication-Results: lists.freedesktop.org; dkim=none (message not signed)
- header.d=none; lists.freedesktop.org;
- dmarc=none action=none header.from=amd.com;
-Received: from BL1PR12MB5144.namprd12.prod.outlook.com (2603:10b6:208:316::6)
- by BL1PR12MB5174.namprd12.prod.outlook.com (2603:10b6:208:31c::19)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4242.19; Thu, 17 Jun
- 2021 03:17:37 +0000
-Received: from BL1PR12MB5144.namprd12.prod.outlook.com
- ([fe80::3c38:805a:5664:9047]) by BL1PR12MB5144.namprd12.prod.outlook.com
- ([fe80::3c38:805a:5664:9047%3]) with mapi id 15.20.4242.019; Thu, 17 Jun 2021
- 03:17:37 +0000
-From: Alex Deucher <alexander.deucher@amd.com>
-To: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- airlied@gmail.com, daniel.vetter@ffwll.ch
-Subject: [pull] amdgpu, amdkfd drm-next-5.14
-Date: Wed, 16 Jun 2021 23:17:19 -0400
-Message-Id: <20210617031719.4013-1-alexander.deucher@amd.com>
-X-Mailer: git-send-email 2.31.1
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [192.161.79.207]
-X-ClientProxiedBy: MN2PR12CA0016.namprd12.prod.outlook.com
- (2603:10b6:208:a8::29) To BL1PR12MB5144.namprd12.prod.outlook.com
- (2603:10b6:208:316::6)
+Received: from mail-ot1-x32b.google.com (mail-ot1-x32b.google.com
+ [IPv6:2607:f8b0:4864:20::32b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1DDE26E868
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Jun 2021 03:22:21 +0000 (UTC)
+Received: by mail-ot1-x32b.google.com with SMTP id
+ w22-20020a0568304116b02904060c6415c7so4753998ott.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Jun 2021 20:22:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=3WG8mkC6rO/iKoZqhIViiVewo5aRqVNidfZnDLQJ3CQ=;
+ b=lvkY+ySUA+dUePYi1CGg9zzGDeWq4hjyvEDHvsHzNYZJCkGIRlCyeXEdMiK4u7pvCe
+ Vtuo0ihp+6+XqX2Z0LEqRRp2pUabSre9NPc9O6Vuf87PixYMYQaQOHXQPoyfTC1mrZOo
+ 3c7qIBaNzIO0QvhLCmM9Uvm9pmIgMRLaLRyDfsqLmOWaz55hljsc24l3BrKhOeNDXG2+
+ ZaaDytNurocZsQpSpvpJODoUjagKhfnkwVgobMpRpt7MWdKTid/1hmV0vDMJj/8xLMtR
+ W1RNm+XAz0Rz0kRlf8onErS2hx9fUc2Oe1qq44epgWgHZxFPwcWdvHusYqsna1nNM0Yg
+ 1pag==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=3WG8mkC6rO/iKoZqhIViiVewo5aRqVNidfZnDLQJ3CQ=;
+ b=lRqPSiSWXklxByBkvztoD3rt+JGHmt6WF/5iNA1Ze2TLU/wlKlWWGl4Y4XSEUb1aV8
+ 9AxZUpAwVmGggIbgrhZF3w1gQLZcz5Mc2hTigxcUQf1fmA9D/3+QoKmU48dCOXBeebzL
+ KKSkwnIt4LTx/KGg0OrOArt614iOUp4JZscRvmfahUnIGjqDYhozXSov7pmKFUq4kJ0A
+ Vq+/3r22J4ls6qw6RbzeohUtgEuAalTCINhoLIBNWtW0RRp3fvdepqzq2KVg4EUDos1P
+ 9cORQGIb0aJbUoIlL2EuO5hM+3BBi0944N7zu8do3HrcFfeThWvzObz39lZ4yffq4ZWh
+ d1AA==
+X-Gm-Message-State: AOAM531u1wsj8jTbapjmVjUgv5c4NSKWFSem/UXWLRGHbqNJDhl07I8v
+ reHMr7ROgTKHQcNqGZC57VUGFA==
+X-Google-Smtp-Source: ABdhPJy6OpAUFp4RHIfdUmUNZF9QFTaPzZVNX6Yw2DknwVBE/0RerBrX5ii4IvA4xU3MPGLUDIYrdg==
+X-Received: by 2002:a9d:4911:: with SMTP id e17mr2767046otf.38.1623900140146; 
+ Wed, 16 Jun 2021 20:22:20 -0700 (PDT)
+Received: from yoga (104-57-184-186.lightspeed.austtx.sbcglobal.net.
+ [104.57.184.186])
+ by smtp.gmail.com with ESMTPSA id w186sm850939oib.58.2021.06.16.20.22.18
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 16 Jun 2021 20:22:19 -0700 (PDT)
+Date: Wed, 16 Jun 2021 22:22:17 -0500
+From: Bjorn Andersson <bjorn.andersson@linaro.org>
+To: Uwe Kleine-K?nig <u.kleine-koenig@pengutronix.de>
+Subject: Re: [PATCH v2 2/2] drm/bridge: ti-sn65dsi86: Implement the pwm_chip
+Message-ID: <YMq/6VhXrYJoTVnj@yoga>
+References: <20210615231828.835164-1-bjorn.andersson@linaro.org>
+ <20210615231828.835164-2-bjorn.andersson@linaro.org>
+ <20210616075637.jtoa25uyhnqkctlu@pengutronix.de>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from localhost.localdomain (192.161.79.207) by
- MN2PR12CA0016.namprd12.prod.outlook.com (2603:10b6:208:a8::29) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4242.15 via Frontend Transport; Thu, 17 Jun 2021 03:17:36 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 79e03d9e-ecc1-4670-e730-08d9313e74d0
-X-MS-TrafficTypeDiagnostic: BL1PR12MB5174:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <BL1PR12MB51744845F4AC8EEFE09C66A9F70E9@BL1PR12MB5174.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:88;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: E7crpQ0kbaU4vkXZM7QjLKfUzLExGB6Lt+gHDIj6VQUygiztfAoHDOYtlAkYmS2/fz/axIRT7ygL0ntW0txHGmDmJKRSampPDfEQ/I7piAnsMo8Ah8LUvcR+7lPVqWW9d6rZbNQg9rwUuH7Om1bGDDh4S2dgW9rcKH9FgAXp38T87UkpQXOwy0qb1JWRol/1V2cQ+y5ktuk8FYoO3Z7tACyz+w0u7SgtBOuVBAZ8a5Cyy38KTRip70nAnSVWWkYP4X9zDJOys+XqsZxx6JoocXxZhjtzvMEtoPwRp+GpYRmxeCyibHlvVCbphxQyQoKhuJgZUj5pI1EOUwWDs8CvHNf/6Qd25Uzp1hlRXHLJY6G/9iqTmnW+vnWlNBMnf1j+9aP8sM11ShPeEF5892Wvylm2t6lGV1WeqcOIJPjvDi00eqxqtjwj3BGAuXQyrhk0bYhdMgTncAr5Qj44kFCLiMIjfG6lH6UbeaYeZwYZjnTW5eKC8rTTx2PJDezGF1Ym1JQ3uu63woGVun4U87ShACJj2r7LBe3z6CMSOqAdM23xDLES4oDqdSNhhvTWJNAyf5aQ2PXAV3gZ6HQB47YtIymd3si1bD6Sy10TvOcW8uQHmRnACSVBTA9UyBUK3ER1aZfWdnRNBCoVEYwC7Xat/tcLEluctuoaqPameIQYR9yVBZE8taqRH4oPapc2BR8BzUF3H7LWP+qaHQL8fQfrcLeof7P0pXzKkFTeAX5RbVfNemhm0fvB6AapzbIvKAid
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BL1PR12MB5144.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(396003)(366004)(376002)(39860400002)(346002)(136003)(316002)(478600001)(8936002)(36756003)(38100700002)(8676002)(38350700002)(966005)(66946007)(66476007)(6512007)(66556008)(186003)(30864003)(6506007)(6666004)(4326008)(16526019)(2906002)(956004)(2616005)(1076003)(86362001)(6486002)(52116002)(83380400001)(5660300002)(26005)(69590400013)(357404004);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?CQTWabMzhY5TQ949TQ2PFP8Z+a6vIkdkB97NVFEQIPANeAs+aK6X9B0wiQkj?=
- =?us-ascii?Q?g2uDB8N+9xq3DVRifvqODMeI8cojHw6gAUvyb9OvbqIFog7xZyAgZpizNgWD?=
- =?us-ascii?Q?2stTo4Yy6CiXlKHxlR6LNevWgnSpHPusZKarbrVM+4l3ocPAN1M8F0/Eq6qL?=
- =?us-ascii?Q?O37dPf+UPjGtHHgBeLRX0ysWjkuLVqVVycUVKIm5EIkMPZSRR5E7IjNQsz2l?=
- =?us-ascii?Q?FIBBOHazdbe3v9kh7OI7UPQNGqRwk8VC+p5bJSBOcJIzoiGiqeCAmatKVXbM?=
- =?us-ascii?Q?ziFRiZLrfzDa6578I8kyO45ZZpydP7debCpTqNx2xkUPnUw64OrETD0wBAY8?=
- =?us-ascii?Q?B+iTZACS5a8R0UJtCt1uxxDDbyZhNPTX8C9nE1HerYkBCk4cLR94EPQ9v/jF?=
- =?us-ascii?Q?DzuIYgP+R7/q+1Z9iwyQybb5ujSL+wGdeFgRxogmnX+FXIUNITy3XCV1veht?=
- =?us-ascii?Q?OlZk51wH7b1+/0UQS+0PdQcSjy0RGK4i6rYBj+PaqxIq9HBcrbwZAaO9PZwC?=
- =?us-ascii?Q?yq3n3mfsrJIOmmCO+9It9Dk/yVPFYtoAAPucBuS1bBkAkIGgKjXXziyJy8rd?=
- =?us-ascii?Q?HTkmAg6WSyYbt0yl7/ldIueqGP03kkun77zINknCSR5/sJqRfdAf3DvSnvDV?=
- =?us-ascii?Q?L1bgksqRmj4E/+D2R//joK/RRD2JApw7UfRtDVFgFw2EAiZoR5ZXInqxhQJL?=
- =?us-ascii?Q?9gizWOYcmB3rkYS7kXXHxnQ3wWDm3tQslSG7RjxsB44JrqGog/99qH6mLZk0?=
- =?us-ascii?Q?1MHOyxam9U0goPZBctSg492aVQK1ujFaR4viUqgCbfiatGeF48DA3XpOdVQ+?=
- =?us-ascii?Q?tKRgf8HsQYdX6Mou6+tLZcNWozK7sSyU/jqbYHoASU31gw4jkjkdAUQHjVHo?=
- =?us-ascii?Q?LiSYzHPscFpP9WrWsOe+cdCG6F6YJIYbwlausNTbadAowbgRF5ZNFSZwto6v?=
- =?us-ascii?Q?tlcFt9+UxVnsXamIKX1+dsgkEk4Ni1+jlncunZ2RZP+ILH+3rx/AvB7s4X8u?=
- =?us-ascii?Q?GZ+Etw2RoFaBLCpG5/0+CZX8Q42vSVhoQHNqulRq0wj7puqmD3j2hxbV1LUk?=
- =?us-ascii?Q?MDj3ms7gG2+i1TbPieSExib56vt9aWu5+2HWygpCi3++ztRTPmA/wnVLyjDC?=
- =?us-ascii?Q?lmTay49fVJhF1mnnvr49VqU595MiuHbXpIBLIz8L9ZNDCabtmUG66rw+SqKJ?=
- =?us-ascii?Q?uNBChYu3afCmq4L++sXzL1KyffiDgU0OCLeFw4MF58MW5ZSI5hQfK7rzRbqW?=
- =?us-ascii?Q?9skAOaMP0OwYbxYrwTvE3t3ZsDIZG3PCDBFBNKRqH0h+3gZfBK/gro6UmHJa?=
- =?us-ascii?Q?XAg2WrsB1/cMMnQz0MXBW6Th?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 79e03d9e-ecc1-4670-e730-08d9313e74d0
-X-MS-Exchange-CrossTenant-AuthSource: BL1PR12MB5144.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Jun 2021 03:17:36.8790 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: rcdgqztcmIS/PGZrD1tqzL45kRrkbBymv9P3UGbDaGaRc3MJ7xEhKk/smjX9eSFz5JDxzvm7vx8oLHmTeOR3hg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR12MB5174
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210616075637.jtoa25uyhnqkctlu@pengutronix.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -117,289 +73,505 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alex Deucher <alexander.deucher@amd.com>
+Cc: linux-pwm@vger.kernel.org, Jonas Karlman <jonas@kwiboo.se>,
+ David Airlie <airlied@linux.ie>, Robert Foss <robert.foss@linaro.org>,
+ dri-devel@lists.freedesktop.org, Neil Armstrong <narmstrong@baylibre.com>,
+ Doug Anderson <dianders@chromium.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, linux-kernel@vger.kernel.org,
+ Andrzej Hajda <a.hajda@samsung.com>, Thierry Reding <thierry.reding@gmail.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Lee Jones <lee.jones@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave, Daniel,
+On Wed 16 Jun 02:56 CDT 2021, Uwe Kleine-K?nig wrote:
 
-Fixes for 5.14.
+> Hello Bjorn,
+> 
+> On Tue, Jun 15, 2021 at 06:18:28PM -0500, Bjorn Andersson wrote:
+> > The SN65DSI86 provides the ability to supply a PWM signal on GPIO 4,
+> > with the primary purpose of controlling the backlight of the attached
+> > panel. Add an implementation that exposes this using the standard PWM
+> > framework, to allow e.g. pwm-backlight to expose this to the user.
+> > 
+> > Signed-off-by: Bjorn Andersson <bjorn.andersson@linaro.org>
+> > ---
+> > 
+> > Changes since v1:
+> > - Rebased ontop of Doug's auxiliary_bus patches
+> > - Reworked the math, per Uwe's request
+> > - Added pwm_chip->get_state and made sure it's happy (only tested with a few
+> >   limited periods, such as 1kHz)
+> > 
+> >  drivers/gpu/drm/bridge/ti-sn65dsi86.c | 298 +++++++++++++++++++++++++-
+> >  1 file changed, 297 insertions(+), 1 deletion(-)
+> > 
+> > diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+> > index 5d712c8c3c3b..8f11c9b2da48 100644
+> > --- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+> > +++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+> > @@ -4,6 +4,7 @@
+> >   * datasheet: https://www.ti.com/lit/ds/symlink/sn65dsi86.pdf
+> >   */
+> >  
+> > +#include <linux/atomic.h>
+> >  #include <linux/auxiliary_bus.h>
+> >  #include <linux/bits.h>
+> >  #include <linux/clk.h>
+> > @@ -15,6 +16,7 @@
+> >  #include <linux/module.h>
+> >  #include <linux/of_graph.h>
+> >  #include <linux/pm_runtime.h>
+> > +#include <linux/pwm.h>
+> >  #include <linux/regmap.h>
+> >  #include <linux/regulator/consumer.h>
+> >  
+> > @@ -91,6 +93,13 @@
+> >  #define SN_ML_TX_MODE_REG			0x96
+> >  #define  ML_TX_MAIN_LINK_OFF			0
+> >  #define  ML_TX_NORMAL_MODE			BIT(0)
+> > +#define SN_PWM_PRE_DIV_REG			0xA0
+> > +#define SN_BACKLIGHT_SCALE_REG			0xA1
+> > +#define  BACKLIGHT_SCALE_MAX			0xFFFF
+> > +#define SN_BACKLIGHT_REG			0xA3
+> > +#define SN_PWM_EN_INV_REG			0xA5
+> > +#define  SN_PWM_INV_MASK			BIT(0)
+> > +#define  SN_PWM_EN_MASK				BIT(1)
+> >  #define SN_AUX_CMD_STATUS_REG			0xF4
+> >  #define  AUX_IRQ_STATUS_AUX_RPLY_TOUT		BIT(3)
+> >  #define  AUX_IRQ_STATUS_AUX_SHORT		BIT(5)
+> > @@ -113,11 +122,14 @@
+> >  
+> >  #define SN_LINK_TRAINING_TRIES		10
+> >  
+> > +#define SN_PWM_GPIO_IDX			3 /* 4th GPIO */
+> > +
+> >  /**
+> >   * struct ti_sn65dsi86 - Platform data for ti-sn65dsi86 driver.
+> >   * @bridge_aux:   AUX-bus sub device for MIPI-to-eDP bridge functionality.
+> >   * @gpio_aux:     AUX-bus sub device for GPIO controller functionality.
+> >   * @aux_aux:      AUX-bus sub device for eDP AUX channel functionality.
+> > + * @pwm_aux:      AUX-bus sub device for PWM controller functionality.
+> >   *
+> >   * @dev:          Pointer to the top level (i2c) device.
+> >   * @regmap:       Regmap for accessing i2c.
+> > @@ -145,11 +157,17 @@
+> >   *                bitmap so we can do atomic ops on it without an extra
+> >   *                lock so concurrent users of our 4 GPIOs don't stomp on
+> >   *                each other's read-modify-write.
+> > + *
+> > + * @pchip:        pwm_chip if the PWM is exposed.
+> > + * @pwm_enabled:  Used to track if the PWM signal is currently enabled.
+> > + * @pwm_refclk_freq: Cache for the reference clock input to the PWM.
+> > + * @pwm_pin_busy: Track if GPIO4 is currently requested for GPIO or PWM.
+> >   */
+> >  struct ti_sn65dsi86 {
+> >  	struct auxiliary_device		bridge_aux;
+> >  	struct auxiliary_device		gpio_aux;
+> >  	struct auxiliary_device		aux_aux;
+> > +	struct auxiliary_device		pwm_aux;
+> >  
+> >  	struct device			*dev;
+> >  	struct regmap			*regmap;
+> > @@ -172,6 +190,12 @@ struct ti_sn65dsi86 {
+> >  	struct gpio_chip		gchip;
+> >  	DECLARE_BITMAP(gchip_output, SN_NUM_GPIOS);
+> >  #endif
+> > +#if defined(CONFIG_PWM)
+> > +	struct pwm_chip			pchip;
+> > +	bool				pwm_enabled;
+> > +	unsigned int			pwm_refclk_freq;
+> > +	atomic_t			pwm_pin_busy;
+> > +#endif
+> >  };
+> >  
+> >  static const struct regmap_range ti_sn65dsi86_volatile_ranges[] = {
+> > @@ -190,6 +214,25 @@ static const struct regmap_config ti_sn65dsi86_regmap_config = {
+> >  	.cache_type = REGCACHE_NONE,
+> >  };
+> >  
+> > +static int ti_sn65dsi86_read_u16(struct ti_sn65dsi86 *pdata,
+> > +				 unsigned int reg, u16 *val)
+> > +{
+> > +	unsigned int tmp;
+> > +	int ret;
+> > +
+> > +	ret = regmap_read(pdata->regmap, reg, &tmp);
+> > +	if (ret)
+> > +		return ret;
+> > +	*val = tmp;
+> > +
+> > +	ret = regmap_read(pdata->regmap, reg + 1, &tmp);
+> > +	if (ret)
+> > +		return ret;
+> > +	*val |= tmp << 8;
+> > +
+> > +	return 0;
+> > +}
+> > +
+> >  static void ti_sn65dsi86_write_u16(struct ti_sn65dsi86 *pdata,
+> >  				   unsigned int reg, u16 val)
+> >  {
+> > @@ -253,6 +296,14 @@ static void ti_sn_bridge_set_refclk_freq(struct ti_sn65dsi86 *pdata)
+> >  
+> >  	regmap_update_bits(pdata->regmap, SN_DPPLL_SRC_REG, REFCLK_FREQ_MASK,
+> >  			   REFCLK_FREQ(i));
+> > +
+> > +#if defined(CONFIG_PWM)
+> > +	/*
+> > +	 * The PWM refclk is based on the value written to SN_DPPLL_SRC_REG,
+> > +	 * regardless of its actual sourcing.
+> > +	 */
+> > +	pdata->pwm_refclk_freq = ti_sn_bridge_refclk_lut[i];
+> > +#endif
+> >  }
+> >  
+> >  static void ti_sn65dsi86_enable_comms(struct ti_sn65dsi86 *pdata)
+> > @@ -1044,6 +1095,221 @@ static int ti_sn_bridge_parse_dsi_host(struct ti_sn65dsi86 *pdata)
+> >  	return 0;
+> >  }
+> >  
+> > +#if defined(CONFIG_PWM)
+> > +static int ti_sn_pwm_pin_request(struct ti_sn65dsi86 *pdata)
+> > +{
+> > +	return atomic_xchg(&pdata->pwm_pin_busy, 1) ? -EBUSY : 0;
+> > +}
+> > +
+> > +static void ti_sn_pwm_pin_release(struct ti_sn65dsi86 *pdata)
+> > +{
+> > +	atomic_set(&pdata->pwm_pin_busy, 0);
+> > +}
+> > +
+> > +static struct ti_sn65dsi86 *pwm_chip_to_ti_sn_bridge(struct pwm_chip *chip)
+> > +{
+> > +	return container_of(chip, struct ti_sn65dsi86, pchip);
+> > +}
+> > +
+> > +static int ti_sn_pwm_request(struct pwm_chip *chip, struct pwm_device *pwm)
+> > +{
+> > +	struct ti_sn65dsi86 *pdata = pwm_chip_to_ti_sn_bridge(chip);
+> > +
+> > +	return ti_sn_pwm_pin_request(pdata);
+> > +}
+> > +
+> > +static void ti_sn_pwm_free(struct pwm_chip *chip, struct pwm_device *pwm)
+> > +{
+> > +	struct ti_sn65dsi86 *pdata = pwm_chip_to_ti_sn_bridge(chip);
+> > +
+> > +	ti_sn_pwm_pin_release(pdata);
+> > +}
+> > +
+> > +static int ti_sn_pwm_apply(struct pwm_chip *chip, struct pwm_device *pwm,
+> > +			   const struct pwm_state *state)
+> > +{
+> > +	struct ti_sn65dsi86 *pdata = pwm_chip_to_ti_sn_bridge(chip);
+> > +	unsigned int pwm_en_inv;
+> > +	unsigned int backlight;
+> > +	unsigned int pre_div;
+> > +	unsigned int scale;
+> > +	int ret;
+> > +
+> > +	if (!pdata->pwm_enabled) {
+> > +		ret = pm_runtime_get_sync(pdata->dev);
+> > +		if (ret < 0)
+> > +			return ret;
+> > +
+> > +		ret = regmap_update_bits(pdata->regmap, SN_GPIO_CTRL_REG,
+> > +				SN_GPIO_MUX_MASK << (2 * SN_PWM_GPIO_IDX),
+> > +				SN_GPIO_MUX_SPECIAL << (2 * SN_PWM_GPIO_IDX));
+> > +		if (ret) {
+> > +			dev_err(pdata->dev, "failed to mux in PWM function\n");
+> > +			goto out;
+> > +		}
+> 
+> Do you need to do this even if state->enabled is false?
 
-The following changes since commit c707b73f0cfb1acc94a20389aecde65e6385349b:
+I presume I should be able to explicitly mux in the GPIO function and
+configure that to output low. But I am not able to find anything in the
+data sheet that would indicate this to be preferred.
 
-  Merge tag 'amd-drm-next-5.14-2021-06-09' of https://gitlab.freedesktop.org/agd5f/linux into drm-next (2021-06-10 13:47:13 +1000)
+> Does this already modify the output pin?
+> 
 
-are available in the Git repository at:
+Yes, coming out of reset this pin is configured as input, so switching
+the mux here will effectively start driving the pin.
 
-  https://gitlab.freedesktop.org/agd5f/linux.git tags/amd-drm-next-5.14-2021-06-16
+> > +	}
+> > +
+> > +	if (state->enabled) {
+> > +		/*
+> > +		 * Per the datasheet the PWM frequency is given by:
+> > +		 *
+> > +		 *   PWM_FREQ = REFCLK_FREQ / (PWM_PRE_DIV * BACKLIGHT_SCALE + 1)
+> > +		 *
+> > +		 * which can be rewritten:
+> > +		 *
+> > +		 *   T_pwm * REFCLK_FREQ - 1 = PWM_PRE_DIV * BACKLIGHT_SCALE
+> > +		 *
+> > +		 * In order to keep BACKLIGHT_SCALE within its 16 bits, PWM_PRE_DIV
+> > +		 * must be:
+> > +		 *
+> > +		 *   PWM_PRE_DIV >= (T_pwm * REFCLK_FREQ - 1) / BACKLIGHT_SCALE_MAX;
+> > +		 *
+> > +		 * To simplify the search and optimize the resolution of the PWM, the
+> > +		 * lowest possible PWM_PRE_DIV is used. Finally the scale is calculated
+> > +		 * as:
+> > +		 *
+> > +		 *   BACKLIGHT_SCALE = (T_pwm * REFCLK_FREQ - 1) / PWM_PRE_DIV
+> > +		 *
+> > +		 * Here T_pwm is represented in seconds, so appropriate scaling to
+> > +		 * nanoseconds is necessary.
+> > +		 */
+> 
+> Very nice.
+> 
+> > +		pre_div = DIV_ROUND_UP((state->period * pdata->pwm_refclk_freq - 1),
+> > +				       (NSEC_PER_SEC * BACKLIGHT_SCALE_MAX));
+> 
+> 		if (pre_div > 0xffff)
+> 			pre_div = 0xffff;
+> 
+> is needed here. (Assuming 0xffff is the bigest valid value for PRE_DIV.)
+> 
 
-for you to fetch changes up to a4b0b97aace09716a635e1a64c7e54e51f4a0f51:
+Yes, that makes sense.
 
-  drm: display: Fix duplicate field initialization in dcn31 (2021-06-15 17:25:42 -0400)
+> > +		scale = (state->period * pdata->pwm_refclk_freq - 1) / (NSEC_PER_SEC * pre_div);
+> 
+> There is something wrong here. Consider:
+> 
+> 	pdata->pwm_refclk_freq = 3333334
+> 	state->period = 100000
+> 	state->duty_cycle = 600
+> 
+> then you calculate:
+> 
+> 	pre_div = 1
+> 	scale = 333
+> 
+> which yields an actual period of 100199.98 ns. However you should get a
+> period less or equal than the requested period.
+> 
+> It took me some time to spot the problem: Only state->period *
+> pdata->pwm_refclk_freq must be divided by NSEC_PER_SEC, but not the -1.
+> 
+> So the right formula is:
+> 
+> 	scale = (state->period * pdata->pwm_refclk_freq - NSEC_PER_SEC) / (NSEC_PER_SEC * pre_div);
+> 
 
-----------------------------------------------------------------
-amd-drm-next-5.14-2021-06-16:
+Ahh, you're right! Thanks!
 
-amdgpu:
-- Aldebaran fixes
-- Expose asic independent throttler status
-- BACO fixes for navi1x
-- Smartshift fixes
-- Misc code cleanups
-- RAS fixes for Sienna Cichlid
-- Gamma verificaton fixes
-- DC LTTPR fixes
-- DP AUX timeout handling fixes
-- GFX9, 10 powergating fixes
+> (but you have to pay attention, the dividend might be negative in this
+> formula).
+> 
 
-amdkfd:
-- TLB flush fixes when using SDMA
-- Locking fixes
-- SVM fixes
+Right and that defines the lower limit for the period, something I don't
+handle as this is currently written.
 
-----------------------------------------------------------------
-Alex Sierra (1):
-      drm/amdkfd: move CoherentHostAccess prop to HSA_CAPABILITY
+> > +		/*
+> > +		 * The duty ratio is given as:
+> > +		 *
+> > +		 *   duty = BACKLIGHT / (BACKLIGHT_SCALE + 1)
+> > +		 */
+> > +		backlight = state->duty_cycle * (scale + 1) / state->period;
+> 
+> Lets continue the above example with the fixed calculation. So we have:
+> 
+> 	pdata->pwm_refclk_freq = 3333334
+> 	state->period = 100000 [ns]
+> 	state->duty_cycle = 600
+> 	scale = 332
+> 
+> so the actually emitted period = 99899.98002000399 ns
+> 
+> Now you calculate:
+> 
+> 	backlight = 1
+> 
+> which yields an actual duty_cycle of 299.99994 ns, with backlight = 2
+> you would get an actual duty_cycle of 599.99988 ns, which is better. The
+> culprit here is that you divide by state->period but instead should
+> divide by the actual period.
+> 
 
-Amber Lin (1):
-      drm/amdkfd: Fix circular lock in nocpsch path
+What do I do about the case where the actual period is lower than the
+requested one and thereby the duty cycle becomes larger than the period?
 
-Anthony Koo (1):
-      drm/amd/display: [FW Promotion] Release 0.0.70
+E.g. passing duty_cycle = period = 1,000,000 with a frequency of 3333334
+results in a scale of 3332 and duty cycle (over the actual period) of
+3333.
 
-Aric Cyr (1):
-      drm/amd/display: 3.2.140
+> > +
+> > +		ret = regmap_write(pdata->regmap, SN_PWM_PRE_DIV_REG, pre_div);
+> > +		if (ret) {
+> > +			dev_err(pdata->dev, "failed to update PWM_PRE_DIV\n");
+> > +			goto out;
+> > +		}
+> > +
+> > +		ti_sn65dsi86_write_u16(pdata, SN_BACKLIGHT_SCALE_REG, scale);
+> > +		ti_sn65dsi86_write_u16(pdata, SN_BACKLIGHT_REG, backlight);
+> 
+> How does the output behave between these register writes? Can it happen
+> that it emits a wave for corresponding to (e.g.) the new pre_div value
+> but the old scale and backlight?
+> 
 
-Ashley Thomas (1):
-      drm/amd/display: add DMUB registers to crash dump diagnostic data.
+I don't see anything indicating in the documentation indicating that
+these writes would be buffered or similar. Unfortunately, as I said
+earlier I don't have any way to access the signal to see for myself.
 
-Aurabindo Pillai (1):
-      drm/amd/display: add dummy PG callback for beige goby
+> 
+> > +	}
+> > +
+> > +	pwm_en_inv = FIELD_PREP(SN_PWM_EN_MASK, !!state->enabled) |
+> > +		     FIELD_PREP(SN_PWM_INV_MASK, state->polarity == PWM_POLARITY_INVERSED);
+> > +	ret = regmap_write(pdata->regmap, SN_PWM_EN_INV_REG, pwm_en_inv);
+> > +	if (ret) {
+> > +		dev_err(pdata->dev, "failed to update PWM_EN/PWM_INV\n");
+> > +		goto out;
+> > +	}
+> > +
+> > +	pdata->pwm_enabled = !!state->enabled;
+> > +out:
+> > +
+> > +	if (!pdata->pwm_enabled)
+> > +		pm_runtime_put_sync(pdata->dev);
+> > +
+> > +	return ret;
+> > +}
+> > +
+> > +static void ti_sn_pwm_get_state(struct pwm_chip *chip, struct pwm_device *pwm,
+> > +				struct pwm_state *state)
+> > +{
+> > +	struct ti_sn65dsi86 *pdata = pwm_chip_to_ti_sn_bridge(chip);
+> > +	unsigned int pwm_en_inv;
+> > +	unsigned int pre_div;
+> > +	u16 backlight;
+> > +	u16 scale;
+> > +	int ret;
+> > +
+> > +	ret = regmap_read(pdata->regmap, SN_PWM_EN_INV_REG, &pwm_en_inv);
+> > +	if (ret)
+> > +		return;
+> > +
+> > +	ret = ti_sn65dsi86_read_u16(pdata, SN_BACKLIGHT_SCALE_REG, &scale);
+> > +	if (ret)
+> > +		return;
+> > +
+> > +	ret = ti_sn65dsi86_read_u16(pdata, SN_BACKLIGHT_REG, &backlight);
+> > +	if (ret)
+> > +		return;
+> > +
+> > +	ret = regmap_read(pdata->regmap, SN_PWM_PRE_DIV_REG, &pre_div);
+> > +	if (ret)
+> > +		return;
+> > +
+> > +	state->enabled = FIELD_GET(SN_PWM_EN_MASK, pwm_en_inv);
+> > +	if (FIELD_GET(SN_PWM_INV_MASK, pwm_en_inv))
+> > +		state->polarity = PWM_POLARITY_INVERSED;
+> > +	else
+> > +		state->polarity = PWM_POLARITY_NORMAL;
+> > +
+> > +	state->period = NSEC_PER_SEC * (pre_div * scale + 1) / pdata->pwm_refclk_freq;
+> 
+> round up here please. Then applying the result of .get_state() is
+> a noop (as it should be).
+> 
 
-David Galiffi (1):
-      drm/amd/display: Updated variable name.
+Together with the adjustment of the -1 above I can confirm that we get
+something that PWM_DEBUG is happy with (over a larger range of tests
+input than I previously tested...)
 
-Dmytro Laktyushkin (1):
-      drm/amd/display: Remove unnecessary blank lines
+> > +	state->duty_cycle = DIV_ROUND_UP(state->period * backlight, scale + 1);
+> 
+> I find it surprising that the actual duty_cycle is:
+> 
+> 	  state->period * backlight
+> 	  -------------------------
+> 	          scale + 1
+> 
+>           pre_div * scale + 1
+> 	= -------------------
+> 	    refclk * scale
+> 
+> where scale occurs twice. Can you confirm this to be right?
+> 
 
-Eric Huang (1):
-      drm/amdkfd: Add memory sync before TLB flush on unmap
+I came to the same conclusion - i.e. that this looks wrong.
 
-Evan Quan (6):
-      drm/amd/pm: drop the incomplete fix for Navi14 runpm issue
-      drm/amd/pm: correct the runpm handling for BACO supported ASIC
-      drm/amdgpu: make audio dev's D-state transition PMFW-aware
-      drm/amd/pm: update the cached dpm feature status
-      drm/amd/pm: correct the dpm features disablement for Navi1x
-      drm/amd/pm: correct the power limits reporting on OOB supported
+As states above, the period of the PWM is:
 
-Felix Kuehling (2):
-      drm/amdkfd: Disable SVM per GPU, not per process
-      drm/amdgpu: Use spinlock_irqsave for pasid_lock
+	pre_div * scale + 1
+	-------------------
+	       refclk
 
-Graham Sider (9):
-      drm/amd/pm: Add u64 throttler status field to gpu_metrics
-      drm/amd/pm: Add ASIC independent throttle bits
-      drm/amd/pm: Add common throttler translation func
-      drm/amd/pm: Add arcturus throttler translation
-      drm/amd/pm: Add navi1x throttler translation
-      drm/amd/pm: Add sienna cichlid throttler translation
-      drm/amd/pm: Add vangogh throttler translation
-      drm/amd/pm: Add renoir throttler translation
-      drm/amd/pm: Add aldebaran throttler translation
+or:
 
-Guchun Chen (1):
-      drm/amdgpu: use adev_to_drm macro for consistency (v2)
+	T_refclk * (pre_div * scale + 1)
 
-Hawking Zhang (9):
-      drm/amdgpu: update psp gfx i/f to support dynamic GECC
-      drm/amdgpu: allow different boot configs
-      drm/amdgpu: add helper function to query gecc status in boot config
-      drm/amdgpu: enable dynamic GECC support (v2)
-      drm/amdgpu: add psp runtime db structures
-      drm/amdgpu: add helper function to query psp runtime db entry (v2)
-      drm/amdgpu: cache psp runtime boot_cfg_bitmask in sw_int
-      drm/amdgpu: disable DRAM memory training when GECC is enabled
-      drm/amdgpu: correct psp ucode arrary start address
+Which I interpret as us having two nested counters ticking based on
+refclk. Once we hit pre_div * scale the counter resets, which takes 1
+refclk pulse.
 
-Jiapeng Chong (2):
-      drm/amd/display: Fix duplicate included clk_mgr.h
-      drm/amd/display: use ARRAY_SIZE for base60_refresh_rates
+But then the duty cycle is described as:
 
-John Clements (2):
-      drm/amdgpu: Updated fw header structure source
-      drm/amdgpu: Added support for loading auxiliary PSP FW
+	BACKLIGHT / (BACKLIGHT_SCALE + 1)
 
-Jonathan Kim (1):
-      drm/amdkfd: fix circular locking on get_wave_state
+which I would say looks like the signal is high pre_div * BACKLIGHT
+steps and then it resets at pre_div * (BACKLIGHT_SCALE + 1).
 
-Josip Pavic (1):
-      drm/amd/display: tune backlight ramping profiles
+So I don't know what's going on here.
 
-Lijo Lazar (1):
-      drm/amd/pm: Only primary die supports power data
 
-Mark Yacoub (1):
-      drm/amd/display: Verify Gamma & Degamma LUT sizes in amdgpu_dm_atomic_check
+I will take another look tomorrow on why, but the including the + 1 in
+the denominator seems to be necessary to keep the duty cycle
+idempotent...
 
-Nirmoy Das (4):
-      drm/amdkfd: use allowed domain for vmbo validation
-      drm/amdgpu: remove amdgpu_vm_pt
-      drm/amdgpu: parameterize ttm BO destroy callback
-      drm/amdgpu: move shadow_list to amdgpu_bo_vm
+> > +}
+> > +
+> > +static const struct pwm_ops ti_sn_pwm_ops = {
+> > +	.request = ti_sn_pwm_request,
+> > +	.free = ti_sn_pwm_free,
+> > +	.apply = ti_sn_pwm_apply,
+> > +	.get_state = ti_sn_pwm_get_state,
+> > +	.owner = THIS_MODULE,
+> > +};
+> > +
+> > +static int ti_sn_pwm_probe(struct auxiliary_device *adev,
+> > +		const struct auxiliary_device_id *id)
+> > +{
+> > +	struct ti_sn65dsi86 *pdata = dev_get_drvdata(adev->dev.parent);
+> > +
+> > +	pdata->pchip.dev = pdata->dev;
+> > +	pdata->pchip.ops = &ti_sn_pwm_ops;
+> > +	pdata->pchip.base = -1;
+> 
+> base shouldn't be set since
+> 
+> 	f9a8ee8c8bcd (pwm: Always allocate PWM chip base ID dynamically)
 
-Peng Ju Zhou (1):
-      drm/amd/amdgpu: add instance_number check in amdgpu_discovery_get_ip_version
+Thanks, that's nice!
 
-Po-Ting Chen (1):
-      drm/amd/display: Change swizzle visual confirm reference pipe
 
-Roman Li (1):
-      drm/amd/display: move psr dm interface to separate files
+Many thanks for your feedback!
 
-Sathishkumar S (2):
-      drm/amd/pm: support ss metrics read on renoir
-      drm/amd/pm: support ss metrics read on yellow_carp
+Regards,
+Bjorn
 
-Wan Jiabing (3):
-      drm: display: Remove duplicate include in dce110
-      drm: display: Remove duplicated argument in dcn31
-      drm: display: Fix duplicate field initialization in dcn31
+> 
+> > +	pdata->pchip.npwm = 1;
+> > +	pdata->pchip.of_xlate = of_pwm_single_xlate;
+> > +	pdata->pchip.of_pwm_n_cells = 1;
+> > +
+> > +	return pwmchip_add(&pdata->pchip);
+> > +}
+> 
+> Best regards
+> Uwe
+> 
+> -- 
+> Pengutronix e.K.                           | Uwe Kleine-König            |
+> Industrial Linux Solutions                 | https://www.pengutronix.de/ |
 
-Wenjing Liu (1):
-      drm/amd/display: dp mst detection code refactor
 
-Wesley Chalmers (14):
-      drm/amd/display: Read LTTPR caps first on hotplug
-      drm/amd/display: Move LTTPR cap read into its own function
-      drm/amd/display: Read LTTPR caps first on bootup
-      drm/amd/display: Set LTTPR Transparent Mode after read link cap
-      drm/amd/display: Always write repeater mode regardless of LTTPR
-      drm/amd/display: Improve logic for is_lttpr_present
-      drm/amd/display: Enforce DPCD Address ranges
-      drm/amd/display: Rename constant
-      drm/amd/display: 7 retries + 50 ms timeout on AUX DEFER
-      drm/amd/display: Do not count I2C DEFERs with AUX DEFERs
-      drm/amd/display: Partition DPCD address space and break up transactions
-      drm/amd/display: Add interface to get Calibrated Avg Level from FIFO
-      drm/amd/display: Cover edge-case when changing DISPCLK WDIVIDER
-      drm/amd/display: Extend AUX timeout for DP initial reads
-
-Yi-Ling Chen (1):
-      drm/amd/display: add config option for eDP hotplug detection
-
-Yifan Zhang (2):
-      drm/amdgpu/gfx9: fix the doorbell missing when in CGPG issue.
-      drm/amdgpu/gfx10: enlarge CP_MEC_DOORBELL_RANGE_UPPER to cover full doorbell.
-
-YuBiao Wang (1):
-      drm/amdgpu: reset psp ring wptr during ring_create
-
- drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c   |  49 ++--
- drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c             |   2 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c        |   4 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_device.c         |   5 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_discovery.c      |   4 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_discovery.h      |   2 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c        |   2 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_fdinfo.c         |   4 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c            |  12 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c            |  44 ++-
- drivers/gpu/drm/amd/amdgpu/amdgpu_object.c         |  55 ++--
- drivers/gpu/drm/amd/amdgpu/amdgpu_object.h         |  11 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c            | 310 +++++++++++++++++----
- drivers/gpu/drm/amd/amdgpu/amdgpu_psp.h            |  57 ++++
- drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c            |   2 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_ucode.c          |  42 +--
- drivers/gpu/drm/amd/amdgpu/amdgpu_ucode.h          |  34 +--
- drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c             | 175 ++++++------
- drivers/gpu/drm/amd/amdgpu/amdgpu_vm.h             |   9 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_vm_sdma.c        |   2 +-
- drivers/gpu/drm/amd/amdgpu/gfx_v10_0.c             |   6 +-
- drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c              |   6 +-
- drivers/gpu/drm/amd/amdgpu/psp_gfx_if.h            |  13 +-
- drivers/gpu/drm/amd/amdgpu/psp_v11_0.c             |   1 +
- drivers/gpu/drm/amd/amdgpu/psp_v3_1.c              |   1 +
- drivers/gpu/drm/amd/amdkfd/kfd_chardev.c           |  26 +-
- .../gpu/drm/amd/amdkfd/kfd_device_queue_manager.c  |  46 +--
- drivers/gpu/drm/amd/amdkfd/kfd_flat_memory.c       |   4 -
- drivers/gpu/drm/amd/amdkfd/kfd_priv.h              |   2 +-
- drivers/gpu/drm/amd/amdkfd/kfd_process.c           |   1 -
- drivers/gpu/drm/amd/amdkfd/kfd_svm.c               |  62 +++--
- drivers/gpu/drm/amd/amdkfd/kfd_svm.h               |   7 +
- drivers/gpu/drm/amd/amdkfd/kfd_topology.c          |   6 +-
- drivers/gpu/drm/amd/amdkfd/kfd_topology.h          |   7 +-
- drivers/gpu/drm/amd/display/amdgpu_dm/Makefile     |   2 +-
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c  | 141 +---------
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h  |   1 +
- .../drm/amd/display/amdgpu_dm/amdgpu_dm_color.c    |  41 ++-
- .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_psr.c  | 166 +++++++++++
- .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_psr.h  |  37 +++
- drivers/gpu/drm/amd/display/dc/Makefile            |   2 +-
- .../amd/display/dc/clk_mgr/dcn20/dcn20_clk_mgr.c   |  68 ++++-
- .../amd/display/dc/clk_mgr/dcn20/dcn20_clk_mgr.h   |   3 +-
- .../amd/display/dc/clk_mgr/dcn30/dcn30_clk_mgr.c   |   4 +-
- .../gpu/drm/amd/display/dc/core/dc_hw_sequencer.c  |  10 +-
- drivers/gpu/drm/amd/display/dc/core/dc_link.c      | 167 +++++------
- drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c   | 170 +++++------
- drivers/gpu/drm/amd/display/dc/core/dc_link_dpcd.c | 218 +++++++++++++++
- drivers/gpu/drm/amd/display/dc/core/dc_link_hwss.c |  31 +--
- drivers/gpu/drm/amd/display/dc/core/dc_resource.c  |   2 +-
- drivers/gpu/drm/amd/display/dc/dc.h                |   3 +-
- drivers/gpu/drm/amd/display/dc/dc_dmub_srv.c       | 100 ++++++-
- drivers/gpu/drm/amd/display/dc/dc_dmub_srv.h       |   4 +
- drivers/gpu/drm/amd/display/dc/dce/dce_aux.c       |  23 +-
- .../amd/display/dc/dce110/dce110_hw_sequencer.c    |   1 -
- .../drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c  |   5 +
- .../amd/display/dc/dcn10/dcn10_stream_encoder.h    |  24 ++
- .../amd/display/dc/dcn20/dcn20_stream_encoder.c    |  12 +
- .../amd/display/dc/dcn20/dcn20_stream_encoder.h    |   3 +
- .../display/dc/dcn30/dcn30_dio_stream_encoder.c    |   2 +
- .../display/dc/dcn30/dcn30_dio_stream_encoder.h    |  12 +
- drivers/gpu/drm/amd/display/dc/dcn30/dcn30_hwseq.c |   4 +
- .../gpu/drm/amd/display/dc/dcn303/dcn303_hwseq.c   |   5 +
- .../gpu/drm/amd/display/dc/dcn303/dcn303_hwseq.h   |   1 +
- .../gpu/drm/amd/display/dc/dcn303/dcn303_init.c    |   1 +
- drivers/gpu/drm/amd/display/dc/dcn31/dcn31_hwseq.c |   2 +-
- .../gpu/drm/amd/display/dc/dcn31/dcn31_resource.c  |   1 -
- .../amd/display/dc/dml/dcn31/display_mode_vba_31.c |   4 +-
- .../gpu/drm/amd/display/dc/dml/display_mode_vba.c  |   2 -
- drivers/gpu/drm/amd/display/dc/hdcp/hdcp_msg.c     |   1 +
- drivers/gpu/drm/amd/display/dc/inc/dc_link_dp.h    |  11 +-
- .../gpu/drm/amd/display/dc/inc/hw/stream_encoder.h |   3 +
- drivers/gpu/drm/amd/display/dc/inc/link_dpcd.h     |  18 ++
- drivers/gpu/drm/amd/display/dc/inc/link_hwss.h     |  14 -
- drivers/gpu/drm/amd/display/dmub/dmub_srv.h        |  29 ++
- drivers/gpu/drm/amd/display/dmub/inc/dmub_cmd.h    |   4 +-
- drivers/gpu/drm/amd/display/dmub/src/dmub_dcn20.c  |  65 ++++-
- drivers/gpu/drm/amd/display/dmub/src/dmub_dcn20.h  |  14 +-
- drivers/gpu/drm/amd/display/dmub/src/dmub_dcn21.c  |   5 +-
- drivers/gpu/drm/amd/display/dmub/src/dmub_dcn30.c  |   5 +-
- drivers/gpu/drm/amd/display/dmub/src/dmub_dcn301.c |   5 +-
- drivers/gpu/drm/amd/display/dmub/src/dmub_dcn302.c |   5 +-
- drivers/gpu/drm/amd/display/dmub/src/dmub_dcn303.c |   5 +-
- drivers/gpu/drm/amd/display/dmub/src/dmub_srv.c    |  10 +
- .../drm/amd/display/modules/power/power_helpers.c  |  20 +-
- .../amd/include/asic_reg/dcn/dcn_3_0_1_sh_mask.h   |   2 +
- .../amd/include/asic_reg/dcn/dcn_3_1_2_sh_mask.h   |   2 +
- drivers/gpu/drm/amd/include/kgd_pp_interface.h     |  58 +++-
- drivers/gpu/drm/amd/pm/inc/amdgpu_smu.h            |  51 +++-
- drivers/gpu/drm/amd/pm/inc/smu_v11_0.h             |   3 +
- drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c          |  26 +-
- drivers/gpu/drm/amd/pm/swsmu/smu11/arcturus_ppt.c  |  59 +++-
- drivers/gpu/drm/amd/pm/swsmu/smu11/navi10_ppt.c    | 115 +++++---
- .../drm/amd/pm/swsmu/smu11/sienna_cichlid_ppt.c    |  86 +++++-
- drivers/gpu/drm/amd/pm/swsmu/smu11/smu_v11_0.c     |  11 +-
- drivers/gpu/drm/amd/pm/swsmu/smu11/vangogh_ppt.c   |  51 +++-
- drivers/gpu/drm/amd/pm/swsmu/smu12/renoir_ppt.c    |  63 ++++-
- drivers/gpu/drm/amd/pm/swsmu/smu13/aldebaran_ppt.c | 101 +++++--
- .../gpu/drm/amd/pm/swsmu/smu13/yellow_carp_ppt.c   |  34 +++
- drivers/gpu/drm/amd/pm/swsmu/smu_cmn.c             |  63 ++++-
- drivers/gpu/drm/amd/pm/swsmu/smu_cmn.h             |   5 +
- drivers/gpu/drm/amd/pm/swsmu/smu_internal.h        |   4 +-
- include/drm/drm_dp_helper.h                        |  17 ++
- 103 files changed, 2362 insertions(+), 888 deletions(-)
- create mode 100644 drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_psr.c
- create mode 100644 drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_psr.h
- create mode 100644 drivers/gpu/drm/amd/display/dc/core/dc_link_dpcd.c
- create mode 100644 drivers/gpu/drm/amd/display/dc/inc/link_dpcd.h
