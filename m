@@ -2,62 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBA4F3ABED6
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Jun 2021 00:20:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DCC83ABEF7
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Jun 2021 00:33:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3D4666E837;
-	Thu, 17 Jun 2021 22:20:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AE64F6E2DC;
+	Thu, 17 Jun 2021 22:33:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x232.google.com (mail-lj1-x232.google.com
- [IPv6:2a00:1450:4864:20::232])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C5A506E82B
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Jun 2021 22:20:39 +0000 (UTC)
-Received: by mail-lj1-x232.google.com with SMTP id a21so6228375ljj.1
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Jun 2021 15:20:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=SP95ENNSJ0T1qPKBiND0oDOVFlkreVKoLn/bWr5pi2Q=;
- b=OpLMks7z6GTOob/tlT54mHsaw6w3MRt9mFVgbmmdUdKqqiDlUBugxLjgzxsZPza6TS
- Iy7gueNwPwm2hz0oDYQMHkr4n7CDU7Khbze21VAuGYpvvMzvJbumVTB8rEzKn2FGZP8l
- V7R9h7dH8ve3A1FwJb9/OwuznowlVtWXVQqMBjmq6LpB0kCcFF++b1L116T5LCcWOCtB
- ShwyXpRaPWCmTzw92/ERmgtNazYZYbpopnGzfC+yqfs28AE51h0okCmBrJLaqSEDS/xE
- MWcYEaKszTX32UCbMzbSd21ve3Alky63Jl38fau9jP+eM0z1+Sp7/UxS/dSwjhLbFA2a
- mE9Q==
+Received: from mail-ot1-x32c.google.com (mail-ot1-x32c.google.com
+ [IPv6:2607:f8b0:4864:20::32c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BBDE36E21A
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Jun 2021 22:33:24 +0000 (UTC)
+Received: by mail-ot1-x32c.google.com with SMTP id
+ 6-20020a9d07860000b02903e83bf8f8fcso7736768oto.12
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Jun 2021 15:33:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:in-reply-to:references:from:user-agent:date:message-id
+ :subject:to:cc;
+ bh=GMhb9fWpzxabGVQz35B2+gW2HN7BVSYOO8Vg9/TErY0=;
+ b=P3Cvcac2SOvTc9FixO1g//gxpgdTe30AoahiYOfTiCpM8wtnmEqcIf0QXkOudGVpy7
+ ddv+V99xICSi000zMNR9RwgNMYvBjzQH4L8NOxGvkhnlryOiaJ1tx1LsZJHm7ut9zDhY
+ cP1gle3S7Wy+kp51naNc6r1rUXD5ed/V9M41w=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=SP95ENNSJ0T1qPKBiND0oDOVFlkreVKoLn/bWr5pi2Q=;
- b=R1ivlc1eWN97TTXUgJZNCKq2e98AOjUJifDXuyrkrUwgWV0Uvd+Hm1etqoDbfb8MGK
- a9kVz9Qik24HmGT4MJsEYEBdR1q9fquZbnyERRDyj9J1NxsHbp+2u2tAnlqVKHvM+/BB
- qaoBRkPFOICGDZu1t8CqGluk4aR02BY0u1a5vOp4rLMU3q766RfE6JRlKhfhoe67pCCf
- lXDV87SnWG9oI96X96qXGNvYsuFu+d387xim2mqyT0LEo+uCnhiY1cRUMtxB690Kimta
- AbXHufXuYBNccHjar42W78+jQdfCTYzWHV8CNwAevOhJTIJuOBGQ/q4N0XRT+qgOn/WH
- hchw==
-X-Gm-Message-State: AOAM533ehOz4XdHXiTWufIxfvDNxMMaFu0u5xsomcrecUrx70OLJ4zB5
- puw/v/KakXMROExOstZpVtFXGQ==
-X-Google-Smtp-Source: ABdhPJzv0tX4qBIBW/RjNFXwHImOExIDLrE4UlZXzU+RuGKXkWzIhcWamzJgt5xmd1qRckxvTw5wrg==
-X-Received: by 2002:a2e:81d0:: with SMTP id s16mr6579129ljg.319.1623968438191; 
- Thu, 17 Jun 2021 15:20:38 -0700 (PDT)
-Received: from eriador.lan ([37.153.55.125])
- by smtp.gmail.com with ESMTPSA id a5sm895594ljq.0.2021.06.17.15.20.37
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 17 Jun 2021 15:20:37 -0700 (PDT)
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Bjorn Andersson <bjorn.andersson@linaro.org>,
- Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Abhinav Kumar <abhinavk@codeaurora.org>
-Subject: [PATCH v2 7/7] drm/msm/dpu: remove struct dpu_encoder_irq and enum
- dpu_intr_idx
-Date: Fri, 18 Jun 2021 01:20:29 +0300
-Message-Id: <20210617222029.463045-8-dmitry.baryshkov@linaro.org>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210617222029.463045-1-dmitry.baryshkov@linaro.org>
-References: <20210617222029.463045-1-dmitry.baryshkov@linaro.org>
+ h=x-gm-message-state:mime-version:in-reply-to:references:from
+ :user-agent:date:message-id:subject:to:cc;
+ bh=GMhb9fWpzxabGVQz35B2+gW2HN7BVSYOO8Vg9/TErY0=;
+ b=McYxVvLkr7gnInZX/KfMAhb4rr52RJKiU50c1/9STm0CUI5hhDdfeo1B2TNVqBInuM
+ LvwmV+J2aAEL7x4hKgmAEA53AaJJjSAoMLsI11XFPoolXg1N2t42smkexeOVFUZUQSK8
+ xSaNFVN9L7MFgv6juYF06SMwd4wAtD/t0gt5tG4LTLfvMAra8qgCGRZCwPDg8p+UZQ8w
+ nPVkjlizhoJSrfVgA1isFr3Blr/jGqqw3UYfASx8CMt3c9DJSM3izuj/62TfGKDsERJB
+ xXpWe4ljJEIi4TZ+sutOgjtEfI2gubQI5mgEJgsoSQOkeSAuVD7C7o1v7UtIKQmvx/s2
+ zw8w==
+X-Gm-Message-State: AOAM532nKaUDIimmyda1jE88WQANqSLToE5H4nS2IPWPUxKZjShTDHVi
+ YDDMOgcENMSADTDDHqz3v8mUWGatbIXIzxuWe1z/7pSKqcA=
+X-Google-Smtp-Source: ABdhPJwBrV9LlAJbD6gueWPR5nukhgN531aaYjZzyIU8Jj1Tkc6fYyfO/mz8YtA0nbnpBlBV5j33Wc3HQAFOfZ12i5w=
+X-Received: by 2002:a05:6830:1f51:: with SMTP id
+ u17mr6567924oth.25.1623969202997; 
+ Thu, 17 Jun 2021 15:33:22 -0700 (PDT)
+Received: from 753933720722 named unknown by gmailapi.google.com with
+ HTTPREST; Thu, 17 Jun 2021 15:33:22 -0700
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <1623892134-20447-1-git-send-email-maitreye@codeaurora.org>
+References: <1623892134-20447-1-git-send-email-maitreye@codeaurora.org>
+From: Stephen Boyd <swboyd@chromium.org>
+User-Agent: alot/0.9.1
+Date: Thu, 17 Jun 2021 15:33:22 -0700
+Message-ID: <CAE-0n51UCvxCbB0MTznyAiZ+qoi3_fe6FJoW3+NZ0QL-P+6u4w@mail.gmail.com>
+Subject: Re: [PATCH] drm/msm/dp: add logs across DP driver for ease of
+ debugging
+To: dri-devel@lists.freedesktop.org, maitreye <maitreye@codeaurora.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,561 +65,388 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jonathan Marek <jonathan@marek.ca>, Stephen Boyd <sboyd@kernel.org>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- David Airlie <airlied@linux.ie>, freedreno@lists.freedesktop.org
+Cc: linux-arm-msm@vger.kernel.org, abhinavk@codeaurora.org,
+ khsieh@codeaurora.org, robdclark@gmail.com, seanpaul@chromium.org,
+ aravindh@codeaurora.org, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Drop the wrapping structures and the enum used to index those structures
-in dpu_kms. Instead of them use IRQ indices and callback functions
-directly.
+Quoting maitreye (2021-06-16 18:08:54)
+> From: Maitreyee Rao <maitreye@codeaurora.org>
+>
+> Add trace points across the MSM DP driver to help debug
+> interop issues.
+>
+> Signed-off-by: Maitreyee Rao <maitreye@codeaurora.org>
+> ---
+>  drivers/gpu/drm/msm/dp/dp_aux.c     |  5 +++--
+>  drivers/gpu/drm/msm/dp/dp_catalog.c |  4 ++++
+>  drivers/gpu/drm/msm/dp/dp_ctrl.c    |  7 +++++++
+>  drivers/gpu/drm/msm/dp/dp_display.c | 16 ++++++++++++++++
+>  drivers/gpu/drm/msm/dp/dp_link.c    | 20 +++++++++++++-------
+>  drivers/gpu/drm/msm/dp/dp_panel.c   |  2 ++
+>  drivers/gpu/drm/msm/dp/dp_power.c   |  3 +++
+>  7 files changed, 48 insertions(+), 9 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/msm/dp/dp_aux.c b/drivers/gpu/drm/msm/dp/dp_aux.c
+> index 4a3293b..5fdff18d 100644
+> --- a/drivers/gpu/drm/msm/dp/dp_aux.c
+> +++ b/drivers/gpu/drm/msm/dp/dp_aux.c
+> @@ -121,9 +121,10 @@ static ssize_t dp_aux_cmd_fifo_tx(struct dp_aux_private *aux,
+>
+>         time_left = wait_for_completion_timeout(&aux->comp,
+>                                                 msecs_to_jiffies(250));
+> -       if (!time_left)
+> +       if (!time_left) {
+> +               DRM_DEBUG_DP("%s aux timeout error timeout:%lu\n", __func__, time_left);
 
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
----
- drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c   | 47 +++++-----
- .../gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h  | 48 +++-------
- .../drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c  | 94 +++++++------------
- .../drm/msm/disp/dpu1/dpu_encoder_phys_vid.c  | 53 ++++-------
- drivers/gpu/drm/msm/disp/dpu1/dpu_trace.h     | 12 +--
- 5 files changed, 92 insertions(+), 162 deletions(-)
+This will always print 0 for "no time left". Is that useful to know? I'd
+rather we just drop that. Also, __func__ shouldn't be needed given that
+__drm_dbg() uses builtin_return_address(). And then, I believe the DP
+aux core code already adds logs on the transfer to indicate how it
+failed, so probably this whole line can be dropped.
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-index 3d8864df8605..55ae3ede5846 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-@@ -241,11 +241,11 @@ static void _dpu_encoder_setup_dither(struct dpu_hw_pingpong *hw_pp, unsigned bp
- }
- 
- void dpu_encoder_helper_report_irq_timeout(struct dpu_encoder_phys *phys_enc,
--		enum dpu_intr_idx intr_idx)
-+		int irq_idx)
- {
- 	DRM_ERROR("irq timeout id=%u, intf=%d, pp=%d, intr=%d\n",
- 		  DRMID(phys_enc->parent), phys_enc->intf_idx - INTF_0,
--		  phys_enc->hw_pp->idx - PINGPONG_0, intr_idx);
-+		  phys_enc->hw_pp->idx - PINGPONG_0, irq_idx);
- 
- 	if (phys_enc->parent_ops->handle_frame_done)
- 		phys_enc->parent_ops->handle_frame_done(
-@@ -257,75 +257,70 @@ static int dpu_encoder_helper_wait_event_timeout(int32_t drm_id,
- 		u32 irq_idx, struct dpu_encoder_wait_info *info);
- 
- int dpu_encoder_helper_wait_for_irq(struct dpu_encoder_phys *phys_enc,
--		enum dpu_intr_idx intr_idx,
-+		int irq_idx, void (*irq_cb)(void *, int),
- 		struct dpu_encoder_wait_info *wait_info)
- {
--	struct dpu_encoder_irq *irq;
- 	u32 irq_status;
- 	int ret;
- 
--	if (!wait_info || intr_idx >= INTR_IDX_MAX) {
-+	if (!wait_info || irq_idx < 0) {
- 		DPU_ERROR("invalid params\n");
- 		return -EINVAL;
- 	}
--	irq = &phys_enc->irq[intr_idx];
- 
- 	/* note: do master / slave checking outside */
- 
- 	/* return EWOULDBLOCK since we know the wait isn't necessary */
- 	if (phys_enc->enable_state == DPU_ENC_DISABLED) {
--		DRM_ERROR("encoder is disabled id=%u, intr=%d, irq=%d",
--			  DRMID(phys_enc->parent), intr_idx,
--			  irq->irq_idx);
-+		DRM_ERROR("encoder is disabled id=%u, irq=%d",
-+			  DRMID(phys_enc->parent), irq_idx);
- 		return -EWOULDBLOCK;
- 	}
- 
--	if (irq->irq_idx < 0) {
--		DRM_DEBUG_KMS("skip irq wait id=%u, intr=%d, irq=%s",
--			      DRMID(phys_enc->parent), intr_idx,
--			      irq->name);
-+	if (irq_idx < 0) {
-+		DRM_DEBUG_KMS("skip irq wait id=%u", DRMID(phys_enc->parent));
- 		return 0;
- 	}
- 
--	DRM_DEBUG_KMS("id=%u, intr=%d, irq=%d, pp=%d, pending_cnt=%d",
--		      DRMID(phys_enc->parent), intr_idx,
--		      irq->irq_idx, phys_enc->hw_pp->idx - PINGPONG_0,
-+	DRM_DEBUG_KMS("id=%u, irq=%d, pp=%d, pending_cnt=%d",
-+		      DRMID(phys_enc->parent),
-+		      irq_idx, phys_enc->hw_pp->idx - PINGPONG_0,
- 		      atomic_read(wait_info->atomic_cnt));
- 
- 	ret = dpu_encoder_helper_wait_event_timeout(
- 			DRMID(phys_enc->parent),
--			irq->irq_idx,
-+			irq_idx,
- 			wait_info);
- 
- 	if (ret <= 0) {
- 		irq_status = dpu_core_irq_read(phys_enc->dpu_kms,
--				irq->irq_idx, true);
-+				irq_idx, true);
- 		if (irq_status) {
- 			unsigned long flags;
- 
--			DRM_DEBUG_KMS("irq not triggered id=%u, intr=%d, "
-+			DRM_DEBUG_KMS("irq not triggered id=%u, "
- 				      "irq=%d, pp=%d, atomic_cnt=%d",
--				      DRMID(phys_enc->parent), intr_idx,
--				      irq->irq_idx,
-+				      DRMID(phys_enc->parent),
-+				      irq_idx,
- 				      phys_enc->hw_pp->idx - PINGPONG_0,
- 				      atomic_read(wait_info->atomic_cnt));
- 			local_irq_save(flags);
--			irq->func(phys_enc, irq->irq_idx);
-+			irq_cb(phys_enc, irq_idx);
- 			local_irq_restore(flags);
- 			ret = 0;
- 		} else {
- 			ret = -ETIMEDOUT;
--			DRM_DEBUG_KMS("irq timeout id=%u, intr=%d, "
-+			DRM_DEBUG_KMS("irq timeout id=%u, "
- 				      "irq=%d, pp=%d, atomic_cnt=%d",
--				      DRMID(phys_enc->parent), intr_idx,
--				      irq->irq_idx,
-+				      DRMID(phys_enc->parent),
-+				      irq_idx,
- 				      phys_enc->hw_pp->idx - PINGPONG_0,
- 				      atomic_read(wait_info->atomic_cnt));
- 		}
- 	} else {
- 		ret = 0;
- 		trace_dpu_enc_irq_wait_success(DRMID(phys_enc->parent),
--			intr_idx, irq->irq_idx,
-+			irq_idx,
- 			phys_enc->hw_pp->idx - PINGPONG_0,
- 			atomic_read(wait_info->atomic_cnt));
- 	}
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
-index ff2218155b44..983a92d152cd 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
-@@ -146,37 +146,6 @@ struct dpu_encoder_phys_ops {
- 	int (*get_frame_count)(struct dpu_encoder_phys *phys);
- };
- 
--/**
-- * enum dpu_intr_idx - dpu encoder interrupt index
-- * @INTR_IDX_VSYNC:    Vsync interrupt for video mode panel
-- * @INTR_IDX_PINGPONG: Pingpong done unterrupt for cmd mode panel
-- * @INTR_IDX_UNDERRUN: Underrun unterrupt for video and cmd mode panel
-- * @INTR_IDX_RDPTR:    Readpointer done unterrupt for cmd mode panel
-- */
--enum dpu_intr_idx {
--	INTR_IDX_VSYNC,
--	INTR_IDX_PINGPONG,
--	INTR_IDX_UNDERRUN,
--	INTR_IDX_CTL_START,
--	INTR_IDX_RDPTR,
--	INTR_IDX_MAX,
--};
--
--/**
-- * dpu_encoder_irq - tracking structure for interrupts
-- * @name:		string name of interrupt
-- * @intr_idx:		Encoder interrupt enumeration
-- * @irq_idx:		IRQ interface lookup index from DPU IRQ framework
-- *			will be -EINVAL if IRQ is not registered
-- * @irq_cb:		interrupt callback
-- */
--struct dpu_encoder_irq {
--	const char *name;
--	enum dpu_intr_idx intr_idx;
--	int irq_idx;
--	void (*func)(void *arg, int irq_idx);
--};
--
- /**
-  * struct dpu_encoder_phys - physical encoder that drives a single INTF block
-  *	tied to a specific panel / sub-panel. Abstract type, sub-classed by
-@@ -231,7 +200,13 @@ struct dpu_encoder_phys {
- 	atomic_t pending_ctlstart_cnt;
- 	atomic_t pending_kickoff_cnt;
- 	wait_queue_head_t pending_kickoff_wq;
--	struct dpu_encoder_irq irq[INTR_IDX_MAX];
-+
-+	int intf_underrun_irq;
-+	int vblank_irq;
-+
-+	/* for CMD only */
-+	int ctl_start_irq;
-+	int pp_done_irq;
- };
- 
- static inline int dpu_encoder_phys_inc_pending(struct dpu_encoder_phys *phys)
-@@ -347,21 +322,22 @@ void dpu_encoder_helper_split_config(
-  * dpu_encoder_helper_report_irq_timeout - utility to report error that irq has
-  *	timed out, including reporting frame error event to crtc and debug dump
-  * @phys_enc: Pointer to physical encoder structure
-- * @intr_idx: Failing interrupt index
-+ * @irq_idx: Failing interrupt index
-  */
- void dpu_encoder_helper_report_irq_timeout(struct dpu_encoder_phys *phys_enc,
--		enum dpu_intr_idx intr_idx);
-+		int irq_idx);
- 
- /**
-  * dpu_encoder_helper_wait_for_irq - utility to wait on an irq.
-  *	note: will call dpu_encoder_helper_wait_for_irq on timeout
-  * @phys_enc: Pointer to physical encoder structure
-- * @intr_idx: encoder interrupt index
-+ * @irq_idx: encoder interrupt index
-+ * @irq_cb: encoder interrupt callback
-  * @wait_info: wait info struct
-  * @Return: 0 or -ERROR
-  */
- int dpu_encoder_helper_wait_for_irq(struct dpu_encoder_phys *phys_enc,
--		enum dpu_intr_idx intr_idx,
-+		int irq_idx, void (*irq_cb)(void *, int),
- 		struct dpu_encoder_wait_info *wait_info);
- 
- #endif /* __dpu_encoder_phys_H__ */
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
-index 4bfeac821f51..122364a4ef54 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
-@@ -151,7 +151,6 @@ static void dpu_encoder_phys_cmd_mode_set(
- {
- 	struct dpu_encoder_phys_cmd *cmd_enc =
- 		to_dpu_encoder_phys_cmd(phys_enc);
--	struct dpu_encoder_irq *irq;
- 
- 	if (!mode || !adj_mode) {
- 		DPU_ERROR("invalid args\n");
-@@ -161,17 +160,10 @@ static void dpu_encoder_phys_cmd_mode_set(
- 	DPU_DEBUG_CMDENC(cmd_enc, "caching mode:\n");
- 	drm_mode_debug_printmodeline(adj_mode);
- 
--	irq = &phys_enc->irq[INTR_IDX_CTL_START];
--	irq->irq_idx = phys_enc->hw_ctl->caps->intr_start;
--
--	irq = &phys_enc->irq[INTR_IDX_PINGPONG];
--	irq->irq_idx = phys_enc->hw_pp->caps->intr_done;
--
--	irq = &phys_enc->irq[INTR_IDX_RDPTR];
--	irq->irq_idx = phys_enc->hw_pp->caps->intr_rdptr;
--
--	irq = &phys_enc->irq[INTR_IDX_UNDERRUN];
--	irq->irq_idx = phys_enc->hw_intf->cap->intr_underrun;
-+	phys_enc->ctl_start_irq = phys_enc->hw_ctl->caps->intr_start;
-+	phys_enc->pp_done_irq = phys_enc->hw_pp->caps->intr_done;
-+	phys_enc->vblank_irq = phys_enc->hw_pp->caps->intr_rdptr;
-+	phys_enc->intf_underrun_irq = phys_enc->hw_intf->cap->intr_underrun;
- }
- 
- static int _dpu_encoder_phys_cmd_handle_ppdone_timeout(
-@@ -212,8 +204,8 @@ static int _dpu_encoder_phys_cmd_handle_ppdone_timeout(
- 			  atomic_read(&phys_enc->pending_kickoff_cnt));
- 		msm_disp_snapshot_state(drm_enc->dev);
- 		dpu_core_irq_unregister_callback(phys_enc->dpu_kms,
--				phys_enc->irq[INTR_IDX_RDPTR].irq_idx,
--				phys_enc->irq[INTR_IDX_RDPTR].func, phys_enc);
-+				phys_enc->vblank_irq,
-+				dpu_encoder_phys_cmd_pp_rd_ptr_irq, phys_enc);
- 	}
- 
- 	atomic_add_unless(&phys_enc->pending_kickoff_cnt, -1, 0);
-@@ -240,7 +232,9 @@ static int _dpu_encoder_phys_cmd_wait_for_idle(
- 	wait_info.atomic_cnt = &phys_enc->pending_kickoff_cnt;
- 	wait_info.timeout_ms = KICKOFF_TIMEOUT_MS;
- 
--	ret = dpu_encoder_helper_wait_for_irq(phys_enc, INTR_IDX_PINGPONG,
-+	ret = dpu_encoder_helper_wait_for_irq(phys_enc,
-+			phys_enc->pp_done_irq,
-+			dpu_encoder_phys_cmd_pp_tx_done_irq,
- 			&wait_info);
- 	if (ret == -ETIMEDOUT)
- 		_dpu_encoder_phys_cmd_handle_ppdone_timeout(phys_enc);
-@@ -280,12 +274,12 @@ static int dpu_encoder_phys_cmd_control_vblank_irq(
- 
- 	if (enable && atomic_inc_return(&phys_enc->vblank_refcount) == 1)
- 		ret = dpu_core_irq_register_callback(phys_enc->dpu_kms,
--				phys_enc->irq[INTR_IDX_RDPTR].irq_idx,
--				phys_enc->irq[INTR_IDX_RDPTR].func, phys_enc);
-+				phys_enc->vblank_irq,
-+				dpu_encoder_phys_cmd_pp_rd_ptr_irq, phys_enc);
- 	else if (!enable && atomic_dec_return(&phys_enc->vblank_refcount) == 0)
- 		ret = dpu_core_irq_unregister_callback(phys_enc->dpu_kms,
--				phys_enc->irq[INTR_IDX_RDPTR].irq_idx,
--				phys_enc->irq[INTR_IDX_RDPTR].func, phys_enc);
-+				phys_enc->vblank_irq,
-+				dpu_encoder_phys_cmd_pp_rd_ptr_irq, phys_enc);
- 
- end:
- 	if (ret) {
-@@ -307,30 +301,30 @@ static void dpu_encoder_phys_cmd_irq_control(struct dpu_encoder_phys *phys_enc,
- 
- 	if (enable) {
- 		dpu_core_irq_register_callback(phys_enc->dpu_kms,
--				phys_enc->irq[INTR_IDX_PINGPONG].irq_idx,
--				phys_enc->irq[INTR_IDX_PINGPONG].func, phys_enc);
-+				phys_enc->pp_done_irq,
-+				dpu_encoder_phys_cmd_pp_tx_done_irq, phys_enc);
- 		dpu_core_irq_register_callback(phys_enc->dpu_kms,
--				phys_enc->irq[INTR_IDX_UNDERRUN].irq_idx,
--				phys_enc->irq[INTR_IDX_UNDERRUN].func, phys_enc);
-+				phys_enc->intf_underrun_irq,
-+				dpu_encoder_phys_cmd_underrun_irq, phys_enc);
- 		dpu_encoder_phys_cmd_control_vblank_irq(phys_enc, true);
- 
- 		if (dpu_encoder_phys_cmd_is_master(phys_enc))
- 			dpu_core_irq_register_callback(phys_enc->dpu_kms,
--					phys_enc->irq[INTR_IDX_CTL_START].irq_idx,
--					phys_enc->irq[INTR_IDX_CTL_START].func, phys_enc);
-+					phys_enc->ctl_start_irq,
-+					dpu_encoder_phys_cmd_ctl_start_irq, phys_enc);
- 	} else {
- 		if (dpu_encoder_phys_cmd_is_master(phys_enc))
- 			dpu_core_irq_unregister_callback(phys_enc->dpu_kms,
--					phys_enc->irq[INTR_IDX_CTL_START].irq_idx,
--					phys_enc->irq[INTR_IDX_CTL_START].func, phys_enc);
-+					phys_enc->ctl_start_irq,
-+					dpu_encoder_phys_cmd_ctl_start_irq, phys_enc);
- 
- 		dpu_core_irq_unregister_callback(phys_enc->dpu_kms,
--				phys_enc->irq[INTR_IDX_UNDERRUN].irq_idx,
--				phys_enc->irq[INTR_IDX_UNDERRUN].func, phys_enc);
-+				phys_enc->intf_underrun_irq,
-+				dpu_encoder_phys_cmd_underrun_irq, phys_enc);
- 		dpu_encoder_phys_cmd_control_vblank_irq(phys_enc, false);
- 		dpu_core_irq_unregister_callback(phys_enc->dpu_kms,
--				phys_enc->irq[INTR_IDX_PINGPONG].irq_idx,
--				phys_enc->irq[INTR_IDX_PINGPONG].func, phys_enc);
-+				phys_enc->pp_done_irq,
-+				dpu_encoder_phys_cmd_pp_tx_done_irq, phys_enc);
- 	}
- }
- 
-@@ -664,7 +658,9 @@ static int _dpu_encoder_phys_cmd_wait_for_ctl_start(
- 	wait_info.atomic_cnt = &phys_enc->pending_ctlstart_cnt;
- 	wait_info.timeout_ms = KICKOFF_TIMEOUT_MS;
- 
--	ret = dpu_encoder_helper_wait_for_irq(phys_enc, INTR_IDX_CTL_START,
-+	ret = dpu_encoder_helper_wait_for_irq(phys_enc,
-+			phys_enc->ctl_start_irq,
-+			dpu_encoder_phys_cmd_ctl_start_irq,
- 			&wait_info);
- 	if (ret == -ETIMEDOUT) {
- 		DPU_ERROR_CMDENC(cmd_enc, "ctl start interrupt wait failed\n");
-@@ -719,7 +715,9 @@ static int dpu_encoder_phys_cmd_wait_for_vblank(
- 
- 	atomic_inc(&cmd_enc->pending_vblank_cnt);
- 
--	rc = dpu_encoder_helper_wait_for_irq(phys_enc, INTR_IDX_RDPTR,
-+	rc = dpu_encoder_helper_wait_for_irq(phys_enc,
-+			phys_enc->vblank_irq,
-+			dpu_encoder_phys_cmd_pp_rd_ptr_irq,
- 			&wait_info);
- 
- 	return rc;
-@@ -771,8 +769,7 @@ struct dpu_encoder_phys *dpu_encoder_phys_cmd_init(
- {
- 	struct dpu_encoder_phys *phys_enc = NULL;
- 	struct dpu_encoder_phys_cmd *cmd_enc = NULL;
--	struct dpu_encoder_irq *irq;
--	int i, ret = 0;
-+	int ret = 0;
- 
- 	DPU_DEBUG("intf %d\n", p->intf_idx - INTF_0);
- 
-@@ -795,30 +792,11 @@ struct dpu_encoder_phys *dpu_encoder_phys_cmd_init(
- 	phys_enc->enc_spinlock = p->enc_spinlock;
- 	cmd_enc->stream_sel = 0;
- 	phys_enc->enable_state = DPU_ENC_DISABLED;
--	for (i = 0; i < INTR_IDX_MAX; i++) {
--		irq = &phys_enc->irq[i];
--		irq->irq_idx = -EINVAL;
--	}
- 
--	irq = &phys_enc->irq[INTR_IDX_CTL_START];
--	irq->name = "ctl_start";
--	irq->intr_idx = INTR_IDX_CTL_START;
--	irq->func = dpu_encoder_phys_cmd_ctl_start_irq;
--
--	irq = &phys_enc->irq[INTR_IDX_PINGPONG];
--	irq->name = "pp_done";
--	irq->intr_idx = INTR_IDX_PINGPONG;
--	irq->func = dpu_encoder_phys_cmd_pp_tx_done_irq;
--
--	irq = &phys_enc->irq[INTR_IDX_RDPTR];
--	irq->name = "pp_rd_ptr";
--	irq->intr_idx = INTR_IDX_RDPTR;
--	irq->func = dpu_encoder_phys_cmd_pp_rd_ptr_irq;
--
--	irq = &phys_enc->irq[INTR_IDX_UNDERRUN];
--	irq->name = "underrun";
--	irq->intr_idx = INTR_IDX_UNDERRUN;
--	irq->func = dpu_encoder_phys_cmd_underrun_irq;
-+	phys_enc->ctl_start_irq = -EINVAL;
-+	phys_enc->pp_done_irq = -EINVAL;
-+	phys_enc->vblank_irq = -EINVAL;
-+	phys_enc->intf_underrun_irq = -EINVAL;
- 
- 	atomic_set(&phys_enc->vblank_refcount, 0);
- 	atomic_set(&phys_enc->pending_kickoff_cnt, 0);
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
-index 7f605287a377..19f728e63d7d 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
-@@ -366,19 +366,14 @@ static void dpu_encoder_phys_vid_mode_set(
- 		struct drm_display_mode *mode,
- 		struct drm_display_mode *adj_mode)
- {
--	struct dpu_encoder_irq *irq;
--
- 	if (adj_mode) {
- 		phys_enc->cached_mode = *adj_mode;
- 		drm_mode_debug_printmodeline(adj_mode);
- 		DPU_DEBUG_VIDENC(phys_enc, "caching mode:\n");
- 	}
- 
--	irq = &phys_enc->irq[INTR_IDX_VSYNC];
--	irq->irq_idx = phys_enc->hw_intf->cap->intr_vsync;
--
--	irq = &phys_enc->irq[INTR_IDX_UNDERRUN];
--	irq->irq_idx = phys_enc->hw_intf->cap->intr_underrun;
-+	phys_enc->vblank_irq = phys_enc->hw_intf->cap->intr_vsync;
-+	phys_enc->intf_underrun_irq = phys_enc->hw_intf->cap->intr_underrun;
- }
- 
- static int dpu_encoder_phys_vid_control_vblank_irq(
-@@ -405,12 +400,12 @@ static int dpu_encoder_phys_vid_control_vblank_irq(
- 
- 	if (enable && atomic_inc_return(&phys_enc->vblank_refcount) == 1)
- 		ret = dpu_core_irq_register_callback(phys_enc->dpu_kms,
--				phys_enc->irq[INTR_IDX_VSYNC].irq_idx,
--				phys_enc->irq[INTR_IDX_VSYNC].func, phys_enc);
-+				phys_enc->vblank_irq,
-+				dpu_encoder_phys_vid_vblank_irq, phys_enc);
- 	else if (!enable && atomic_dec_return(&phys_enc->vblank_refcount) == 0)
- 		ret = dpu_core_irq_unregister_callback(phys_enc->dpu_kms,
--				phys_enc->irq[INTR_IDX_VSYNC].irq_idx,
--				phys_enc->irq[INTR_IDX_VSYNC].func, phys_enc);
-+				phys_enc->vblank_irq,
-+				dpu_encoder_phys_vid_vblank_irq, phys_enc);
- 
- end:
- 	if (ret) {
-@@ -490,11 +485,13 @@ static int dpu_encoder_phys_vid_wait_for_vblank(
- 	}
- 
- 	/* Wait for kickoff to complete */
--	ret = dpu_encoder_helper_wait_for_irq(phys_enc, INTR_IDX_VSYNC,
-+	ret = dpu_encoder_helper_wait_for_irq(phys_enc,
-+			phys_enc->vblank_irq,
-+			dpu_encoder_phys_vid_vblank_irq,
- 			&wait_info);
- 
- 	if (ret == -ETIMEDOUT) {
--		dpu_encoder_helper_report_irq_timeout(phys_enc, INTR_IDX_VSYNC);
-+		dpu_encoder_helper_report_irq_timeout(phys_enc, phys_enc->vblank_irq);
- 	}
- 
- 	return ret;
-@@ -543,8 +540,8 @@ static void dpu_encoder_phys_vid_prepare_for_kickoff(
- 				ctl->idx, rc);
- 		msm_disp_snapshot_state(drm_enc->dev);
- 		dpu_core_irq_unregister_callback(phys_enc->dpu_kms,
--				phys_enc->irq[INTR_IDX_VSYNC].irq_idx,
--				phys_enc->irq[INTR_IDX_VSYNC].func, phys_enc);
-+				phys_enc->vblank_irq,
-+				dpu_encoder_phys_vid_vblank_irq, phys_enc);
- 	}
- }
- 
-@@ -634,13 +631,13 @@ static void dpu_encoder_phys_vid_irq_control(struct dpu_encoder_phys *phys_enc,
- 			return;
- 
- 		dpu_core_irq_register_callback(phys_enc->dpu_kms,
--				phys_enc->irq[INTR_IDX_UNDERRUN].irq_idx,
--				phys_enc->irq[INTR_IDX_UNDERRUN].func, phys_enc);
-+				phys_enc->intf_underrun_irq,
-+				dpu_encoder_phys_vid_underrun_irq, phys_enc);
- 	} else {
- 		dpu_encoder_phys_vid_control_vblank_irq(phys_enc, false);
- 		dpu_core_irq_unregister_callback(phys_enc->dpu_kms,
--				phys_enc->irq[INTR_IDX_UNDERRUN].irq_idx,
--				phys_enc->irq[INTR_IDX_UNDERRUN].func, phys_enc);
-+				phys_enc->intf_underrun_irq,
-+				dpu_encoder_phys_vid_underrun_irq, phys_enc);
- 	}
- }
- 
-@@ -706,8 +703,7 @@ struct dpu_encoder_phys *dpu_encoder_phys_vid_init(
- 		struct dpu_enc_phys_init_params *p)
- {
- 	struct dpu_encoder_phys *phys_enc = NULL;
--	struct dpu_encoder_irq *irq;
--	int i, ret = 0;
-+	int ret = 0;
- 
- 	if (!p) {
- 		ret = -EINVAL;
-@@ -732,20 +728,9 @@ struct dpu_encoder_phys *dpu_encoder_phys_vid_init(
- 	phys_enc->split_role = p->split_role;
- 	phys_enc->intf_mode = INTF_MODE_VIDEO;
- 	phys_enc->enc_spinlock = p->enc_spinlock;
--	for (i = 0; i < INTR_IDX_MAX; i++) {
--		irq = &phys_enc->irq[i];
--		irq->irq_idx = -EINVAL;
--	}
--
--	irq = &phys_enc->irq[INTR_IDX_VSYNC];
--	irq->name = "vsync_irq";
--	irq->intr_idx = INTR_IDX_VSYNC;
--	irq->func = dpu_encoder_phys_vid_vblank_irq;
- 
--	irq = &phys_enc->irq[INTR_IDX_UNDERRUN];
--	irq->name = "underrun";
--	irq->intr_idx = INTR_IDX_UNDERRUN;
--	irq->func = dpu_encoder_phys_vid_underrun_irq;
-+	phys_enc->vblank_irq = -EINVAL;
-+	phys_enc->intf_underrun_irq = -EINVAL;
- 
- 	atomic_set(&phys_enc->vblank_refcount, 0);
- 	atomic_set(&phys_enc->pending_kickoff_cnt, 0);
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_trace.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_trace.h
-index 58b7b8654543..648124e8ea2f 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_trace.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_trace.h
-@@ -188,26 +188,22 @@ DEFINE_EVENT(dpu_irq_template, dpu_irq_unregister_success,
- );
- 
- TRACE_EVENT(dpu_enc_irq_wait_success,
--	TP_PROTO(uint32_t drm_id, enum dpu_intr_idx intr_idx,
--		 int irq_idx, enum dpu_pingpong pp_idx, int atomic_cnt),
--	TP_ARGS(drm_id, intr_idx, irq_idx, pp_idx, atomic_cnt),
-+	TP_PROTO(uint32_t drm_id, int irq_idx, enum dpu_pingpong pp_idx, int atomic_cnt),
-+	TP_ARGS(drm_id, irq_idx, pp_idx, atomic_cnt),
- 	TP_STRUCT__entry(
- 		__field(	uint32_t,		drm_id		)
--		__field(	enum dpu_intr_idx,	intr_idx	)
- 		__field(	int,			irq_idx		)
- 		__field(	enum dpu_pingpong,	pp_idx		)
- 		__field(	int,			atomic_cnt	)
- 	),
- 	TP_fast_assign(
- 		__entry->drm_id = drm_id;
--		__entry->intr_idx = intr_idx;
- 		__entry->irq_idx = irq_idx;
- 		__entry->pp_idx = pp_idx;
- 		__entry->atomic_cnt = atomic_cnt;
- 	),
--	TP_printk("id=%u, intr=%d, irq=%d, pp=%d, atomic_cnt=%d",
--		  __entry->drm_id, __entry->intr_idx,
--		  __entry->irq_idx, __entry->pp_idx, __entry->atomic_cnt)
-+	TP_printk("id=%u, irq=%d, pp=%d, atomic_cnt=%d",
-+		  __entry->drm_id, __entry->irq_idx, __entry->pp_idx, __entry->atomic_cnt)
- );
- 
- DECLARE_EVENT_CLASS(dpu_drm_obj_template,
--- 
-2.30.2
+>                 return -ETIMEDOUT;
+> -
+> +       }
+>         return ret;
+>  }
+>
+> diff --git a/drivers/gpu/drm/msm/dp/dp_catalog.c b/drivers/gpu/drm/msm/dp/dp_catalog.c
+> index 32f3575..5de5dcd 100644
+> --- a/drivers/gpu/drm/msm/dp/dp_catalog.c
+> +++ b/drivers/gpu/drm/msm/dp/dp_catalog.c
+> @@ -372,6 +372,7 @@ void dp_catalog_ctrl_mainlink_ctrl(struct dp_catalog *dp_catalog,
+>         struct dp_catalog_private *catalog = container_of(dp_catalog,
+>                                 struct dp_catalog_private, dp_catalog);
+>
+> +       DRM_DEBUG_DP("%s enable=0x%x\n", __func__, enable);
 
+Again, drop __func__. 'enable' is a bool, why is printed in hex format?
+
+>         if (enable) {
+>                 /*
+>                  * To make sure link reg writes happens before other operation,
+> @@ -580,6 +581,7 @@ void dp_catalog_hpd_config_intr(struct dp_catalog *dp_catalog,
+>
+>         config = (en ? config | intr_mask : config & ~intr_mask);
+>
+> +       DRM_DEBUG_DP("%s intr_mask=0x%x config=0x%x\n", __func__, intr_mask, config);
+>         dp_write_aux(catalog, REG_DP_DP_HPD_INT_MASK,
+>                                 config & DP_DP_HPD_INT_MASK);
+>  }
+> @@ -610,6 +612,7 @@ u32 dp_catalog_link_is_connected(struct dp_catalog *dp_catalog)
+>         u32 status;
+>
+>         status = dp_read_aux(catalog, REG_DP_DP_HPD_INT_STATUS);
+> +       DRM_DEBUG_DP("%s aux status:0x%x\n", __func__, status);
+>         status >>= DP_DP_HPD_STATE_STATUS_BITS_SHIFT;
+>         status &= DP_DP_HPD_STATE_STATUS_BITS_MASK;
+>
+> @@ -685,6 +688,7 @@ void dp_catalog_ctrl_send_phy_pattern(struct dp_catalog *dp_catalog,
+>         /* Make sure to clear the current pattern before starting a new one */
+>         dp_write_link(catalog, REG_DP_STATE_CTRL, 0x0);
+>
+> +       DRM_DEBUG_DP("%s pattern:0x%x\n", __func__, pattern);
+>         switch (pattern) {
+>         case DP_PHY_TEST_PATTERN_D10_2:
+>                 dp_write_link(catalog, REG_DP_STATE_CTRL,
+> diff --git a/drivers/gpu/drm/msm/dp/dp_ctrl.c b/drivers/gpu/drm/msm/dp/dp_ctrl.c
+> index 2a8955c..7fd1e3f 100644
+> --- a/drivers/gpu/drm/msm/dp/dp_ctrl.c
+> +++ b/drivers/gpu/drm/msm/dp/dp_ctrl.c
+> @@ -99,6 +99,7 @@ static int dp_aux_link_configure(struct drm_dp_aux *aux,
+>         values[0] = drm_dp_link_rate_to_bw_code(link->rate);
+>         values[1] = link->num_lanes;
+>
+> +       DRM_DEBUG_DP("%s value0:0x%x value1:0x%x\n", __func__, values[0], values[1]);
+
+The drm_dp_dpcd_write() soon after should tell us what this is, so is
+this necessary?
+
+>         if (link->capabilities & DP_LINK_CAP_ENHANCED_FRAMING)
+>                 values[1] |= DP_LANE_COUNT_ENHANCED_FRAME_EN;
+>
+> @@ -122,6 +123,7 @@ void dp_ctrl_push_idle(struct dp_ctrl *dp_ctrl)
+>                         IDLE_PATTERN_COMPLETION_TIMEOUT_JIFFIES))
+>                 pr_warn("PUSH_IDLE pattern timedout\n");
+>
+> +       DRM_DEBUG_DP("PUSH IDLE\n");
+>         pr_debug("mainlink off done\n");
+
+Can these two printks be combined into one DRM_DEBUG_DP()?
+
+>  }
+>
+> @@ -1013,6 +1015,8 @@ static int dp_ctrl_update_vx_px(struct dp_ctrl_private *ctrl)
+>         u32 voltage_swing_level = link->phy_params.v_level;
+>         u32 pre_emphasis_level = link->phy_params.p_level;
+>
+> +       DRM_DEBUG_DP("%s: voltage level:%d emphasis level:%d\n", __func__,
+
+Can we unstick the colon : from the printk format?
+
+	voltage level: %d emphasis level: %d
+
+> +                       voltage_swing_level, pre_emphasis_level);
+>         ret = dp_catalog_ctrl_update_vx_px(ctrl->catalog,
+>                 voltage_swing_level, pre_emphasis_level);
+>
+> @@ -1112,6 +1116,8 @@ static int dp_ctrl_link_train_1(struct dp_ctrl_private *ctrl,
+>                 cr->lane_0_1 = link_status[0];
+>                 cr->lane_2_3 = link_status[1];
+>
+> +               DRM_DEBUG_DP("link status:0x%x 0x%x 0x%x 0x%x 0x%x\n", link_status[0],
+> +                               link_status[1], link_status[2], link_status[3], link_status[4]);
+
+Again, the drm_dp_dpcd_read_link_status() code will print this for us so
+this is redundant.
+
+>                 if (drm_dp_clock_recovery_ok(link_status,
+>                         ctrl->link->link_params.num_lanes)) {
+>                         return 0;
+> @@ -1384,6 +1390,7 @@ int dp_ctrl_host_init(struct dp_ctrl *dp_ctrl, bool flip, bool reset)
+>         if (reset)
+>                 dp_catalog_ctrl_reset(ctrl->catalog);
+>
+> +       DRM_DEBUG_DP("%s Flip:%d\n", __func__, flip);
+
+Maybe
+
+	"%s", flip ? "flipped" : "not flipped"
+
+or
+
+	"flip=%d", flip
+
+>         dp_catalog_ctrl_phy_reset(ctrl->catalog);
+>         phy_init(phy);
+>         dp_catalog_ctrl_enable_irq(ctrl->catalog, true);
+> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
+> index cf9c645..b471fe4 100644
+> --- a/drivers/gpu/drm/msm/dp/dp_display.c
+> +++ b/drivers/gpu/drm/msm/dp/dp_display.c
+> @@ -275,6 +275,8 @@ static bool dp_display_is_ds_bridge(struct dp_panel *panel)
+>
+>  static bool dp_display_is_sink_count_zero(struct dp_display_private *dp)
+>  {
+> +       DRM_DEBUG_DP("%s present=0x%x sink_count=%d\n", __func__,
+
+We can use %#x for the 0x prefix.
+
+> +                       dp->panel->dpcd[DP_DOWNSTREAMPORT_PRESENT], dp->link->sink_count);
+>         return dp_display_is_ds_bridge(dp->panel) &&
+>                 (dp->link->sink_count == 0);
+>  }
+> @@ -320,6 +322,7 @@ static int dp_display_send_hpd_notification(struct dp_display_private *dp,
+>
+>         dp->dp_display.is_connected = hpd;
+>
+> +       DRM_DEBUG_DP("%s hpd=%d\n", __func__, hpd);
+>         dp_display_send_hpd_event(&dp->dp_display);
+>
+>         return 0;
+> @@ -369,6 +372,8 @@ static void dp_display_host_init(struct dp_display_private *dp, int reset)
+>  {
+>         bool flip = false;
+>
+> +       DRM_DEBUG_DP("%s core_initialized=%d", __func__, dp->core_initialized);
+
+Missing newline.
+
+> +
+>         if (dp->core_initialized) {
+>                 DRM_DEBUG_DP("DP core already initialized\n");
+>                 return;
+> @@ -483,8 +488,10 @@ static int dp_display_handle_irq_hpd(struct dp_display_private *dp)
+>  {
+>         u32 sink_request = dp->link->sink_request;
+>
+> +       DRM_DEBUG_DP("%s %d\n", __func__, sink_request);
+>         if (dp->hpd_state == ST_DISCONNECTED) {
+>                 if (sink_request & DP_LINK_STATUS_UPDATED) {
+> +                       DRM_DEBUG_DP("%s:Disconnected sink_count:%d\n", __func__, sink_request);
+>                         DRM_ERROR("Disconnected, no DP_LINK_STATUS_UPDATED\n");
+>                         return -EINVAL;
+>                 }
+> @@ -509,6 +516,7 @@ static int dp_display_usbpd_attention_cb(struct device *dev)
+>                 DRM_ERROR("invalid dev\n");
+>                 return -EINVAL;
+>         }
+> +       DRM_DEBUG_DP("%s sink_request:%d\n", __func__, sink_request);
+>
+>         dp = container_of(g_dp_display,
+>                         struct dp_display_private, dp_display);
+> @@ -523,6 +531,8 @@ static int dp_display_usbpd_attention_cb(struct device *dev)
+>         rc = dp_link_process_request(dp->link);
+>         if (!rc) {
+>                 sink_request = dp->link->sink_request;
+> +               DRM_DEBUG_DP("%s hpd_state=%d sink_count=%d\n", __func__,
+> +                               dp->hpd_state, sink_request);
+>                 if (sink_request & DS_PORT_STATUS_CHANGED)
+>                         rc = dp_display_handle_port_ststus_changed(dp);
+>                 else
+> @@ -545,6 +555,7 @@ static int dp_hpd_plug_handle(struct dp_display_private *dp, u32 data)
+>         mutex_lock(&dp->event_mutex);
+>
+>         state =  dp->hpd_state;
+> +       DRM_DEBUG_DP("%s hpd_state=%d\n", __func__, state);
+>         if (state == ST_DISPLAY_OFF || state == ST_SUSPENDED) {
+>                 mutex_unlock(&dp->event_mutex);
+>                 return 0;
+> @@ -680,6 +691,7 @@ static int dp_hpd_unplug_handle(struct dp_display_private *dp, u32 data)
+>         /* start sentinel checking in case of missing uevent */
+>         dp_add_event(dp, EV_DISCONNECT_PENDING_TIMEOUT, 0, DP_TIMEOUT_5_SECOND);
+>
+> +       DRM_DEBUG_DP("%s hpd_state=%d\n", __func__, state);
+>         /* signal the disconnect event early to ensure proper teardown */
+>         dp_display_handle_plugged_change(g_dp_display, false);
+>
+> @@ -738,6 +750,7 @@ static int dp_irq_hpd_handle(struct dp_display_private *dp, u32 data)
+>         if (ret == -ECONNRESET) { /* cable unplugged */
+>                 dp->core_initialized = false;
+>         }
+> +       DRM_DEBUG_DP("%s hpd_state=%d\n", __func__, state);
+>
+>         mutex_unlock(&dp->event_mutex);
+>
+> @@ -882,6 +895,7 @@ static int dp_display_enable(struct dp_display_private *dp, u32 data)
+>
+>         dp_display = g_dp_display;
+>
+> +       DRM_DEBUG_DP("%s sink_count=%d\n", __func__, dp->link->sink_count);
+>         if (dp_display->power_on) {
+>                 DRM_DEBUG_DP("Link already setup, return\n");
+>                 return 0;
+> @@ -943,6 +957,7 @@ static int dp_display_disable(struct dp_display_private *dp, u32 data)
+>
+>         dp_display->power_on = false;
+>
+> +       DRM_DEBUG_DP("%s:  sink count:%d\n", __func__, dp->link->sink_count);
+>         return 0;
+>  }
+>
+> @@ -1190,6 +1205,7 @@ static irqreturn_t dp_display_irq_handler(int irq, void *dev_id)
+>
+>         hpd_isr_status = dp_catalog_hpd_get_intr_status(dp->catalog);
+>
+> +       DRM_DEBUG_DP("%s: hpd isr status:%x\n", __func__, hpd_isr_status);
+
+This one could have %#x
+
+>         if (hpd_isr_status & 0x0F) {
+>                 /* hpd related interrupts */
+>                 if (hpd_isr_status & DP_DP_HPD_PLUG_INT_MASK ||
+> diff --git a/drivers/gpu/drm/msm/dp/dp_link.c b/drivers/gpu/drm/msm/dp/dp_link.c
+> index be986da..f858a8c 100644
+> --- a/drivers/gpu/drm/msm/dp/dp_link.c
+> +++ b/drivers/gpu/drm/msm/dp/dp_link.c
+> @@ -973,6 +973,9 @@ static int dp_link_process_link_status_update(struct dp_link_private *link)
+>   */
+>  static int dp_link_process_ds_port_status_change(struct dp_link_private *link)
+>  {
+> +       DRM_DEBUG_DP("link status 0:0x%x 1:0x%x 2:0x%x 3:0x%x 4:0x%x", link->link_status[0],
+> +                       link->link_status[1], link->link_status[2],
+> +                       link->link_status[3], link->link_status[4]);
+
+Is it useful to have the link status before it is gotten in the line
+below? Also, get_link_status() seems to subtract a value and return it
+vs. care about 5 elements.
+
+
+>         if (get_link_status(link->link_status, DP_LANE_ALIGN_STATUS_UPDATED) &
+>                                         DP_DOWNSTREAM_PORT_STATUS_CHANGED)
+>                 goto reset;
+> @@ -1036,43 +1039,46 @@ int dp_link_process_request(struct dp_link *dp_link)
+>
+>         if (link->request.test_requested == DP_TEST_LINK_EDID_READ) {
+>                 dp_link->sink_request |= DP_TEST_LINK_EDID_READ;
+> -               return ret;
+> +               goto error;
+>         }
+>
+>         ret = dp_link_process_ds_port_status_change(link);
+>         if (!ret) {
+>                 dp_link->sink_request |= DS_PORT_STATUS_CHANGED;
+> -               return ret;
+> +               goto error;
+>         }
+>
+>         ret = dp_link_process_link_training_request(link);
+>         if (!ret) {
+>                 dp_link->sink_request |= DP_TEST_LINK_TRAINING;
+> -               return ret;
+> +               goto error;
+>         }
+>
+>         ret = dp_link_process_phy_test_pattern_request(link);
+>         if (!ret) {
+>                 dp_link->sink_request |= DP_TEST_LINK_PHY_TEST_PATTERN;
+> -               return ret;
+> +               goto error;
+>         }
+>
+>         ret = dp_link_process_link_status_update(link);
+>         if (!ret) {
+>                 dp_link->sink_request |= DP_LINK_STATUS_UPDATED;
+> -               return ret;
+> +               goto error;
+>         }
+>
+>         if (dp_link_is_video_pattern_requested(link)) {
+> -               ret = 0;
+
+ret is not zero here, right? But now we dropped it?
+
+>                 dp_link->sink_request |= DP_TEST_LINK_VIDEO_PATTERN;
+> +               goto error;
+>         }
+>
+>         if (dp_link_is_audio_pattern_requested(link)) {
+>                 dp_link->sink_request |= DP_TEST_LINK_AUDIO_PATTERN;
+> -               return -EINVAL;
+> +               ret = -EINVAL;
+> +               goto error;
+>         }
+>
+> +error:
+
+Is it an error? More like "out".
+
+> +       DRM_DEBUG_DP("%s sink request:%x", __func__, dp_link->sink_request);
+>         return ret;
+>  }
+>
+> diff --git a/drivers/gpu/drm/msm/dp/dp_panel.c b/drivers/gpu/drm/msm/dp/dp_panel.c
+> index 88196f7..71db071 100644
+> --- a/drivers/gpu/drm/msm/dp/dp_panel.c
+> +++ b/drivers/gpu/drm/msm/dp/dp_panel.c
+> @@ -66,6 +66,8 @@ static int dp_panel_read_dpcd(struct dp_panel *dp_panel)
+>                 goto end;
+>         }
+>
+> +       DRM_DEBUG_DP("%s 0x%x 0x%x 0x%x 0x%x 0x%x\n", __func__, dpcd[0],
+> +                       dpcd[1], dpcd[2], dpcd[3], dpcd[4]);
+
+Please drop as drm_dp_dpcd_read() should already print it.
+
+>         link_info->revision = dpcd[DP_DPCD_REV];
+>         major = (link_info->revision >> 4) & 0x0f;
+>         minor = link_info->revision & 0x0f;
+> diff --git a/drivers/gpu/drm/msm/dp/dp_power.c b/drivers/gpu/drm/msm/dp/dp_power.c
+> index 3961ba4..2271941 100644
+> --- a/drivers/gpu/drm/msm/dp/dp_power.c
+> +++ b/drivers/gpu/drm/msm/dp/dp_power.c
+> @@ -208,6 +208,9 @@ static int dp_power_clk_set_rate(struct dp_power_private *power,
+>
+>  int dp_power_clk_status(struct dp_power *dp_power, enum dp_pm_type pm_type)
+>  {
+> +       DRM_DEBUG_DP("%s core_clk_on=%d link_clk_on%d stream_clk_on=%d\n", __func__,
+
+Missing = on link_clk_on?
+
+> +                       dp_power->core_clks_on, dp_power->link_clks_on, dp_power->stream_clks_on);
+> +
+>         if (pm_type == DP_CORE_PM)
+>                 return dp_power->core_clks_on;
+>
