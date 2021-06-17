@@ -1,38 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B6A73AA7E4
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Jun 2021 02:09:38 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D59A3AA842
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Jun 2021 02:47:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5C51E6E846;
-	Thu, 17 Jun 2021 00:09:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5D0DA6E5D5;
+	Thu, 17 Jun 2021 00:47:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BCF0A6E846;
- Thu, 17 Jun 2021 00:09:32 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 70EFE61351;
- Thu, 17 Jun 2021 00:09:30 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 226B96E5D5;
+ Thu, 17 Jun 2021 00:47:10 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id C7A2B613B9;
+ Thu, 17 Jun 2021 00:47:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1623888572;
- bh=mN2okVVdTICmc/8v91DABSXp7kK2mc41VelpLLMzraM=;
+ s=k20201202; t=1623890829;
+ bh=WCzGPQl/aym123sINb8QnvJYTwJNBRaVx2zLf3Bv1N8=;
  h=Date:From:To:cc:Subject:In-Reply-To:References:From;
- b=ZYuvhN96769HVBf9HwXfEMrx5h2joXFESxJj/lRenrF7yXWLZjtrg1PWIka+vT/Q0
- oFtXyOpOZ9yR7QPt6WZ9qiVwYGYEJ72zE5pEW7HiR62r0bK1cPffUlPeluSwwsGV++
- 8riMe4sA8jh8H05UnuJF58KJLPG9dNHhkmEpW63Symhvau9C6X5CTpmeRZXg03FBNA
- YdmM71is91QiA8p/farR5qTSk/+kZjwaUjrHEt7/cAUyCA79A0OF17vUa8D0c+gd+H
- nwIEeujLTdx4sfeAu0ptJEutsq4BmObXoP4A9/HlakW6ogsicBITdzMemlH7LIUWJw
- GZfH7kl1LZ6XQ==
-Date: Wed, 16 Jun 2021 17:09:29 -0700 (PDT)
+ b=rMohPe+tbKQa0AYXnI+IW3OaFUpO6B0eUu0gZForopqzfrCjPyFI1Ewjobgur6/dk
+ bLRtb8PIYvryWZweFMXTwAbMWtg0nctMUoV8kxk6uELmUKnBiVw5LeKCqL5SBhOByE
+ jiTek0nnewDrHmhCidXDSQ3WaahCsU5g4GDabRezUbSedVXgMEydAYEHuXFwzTS91g
+ cJMCyter7dx77I2E16IUKEfK8pcdYqTSbuwilDTS8T+uuTkXRJvXElaDgqvBEXf5YU
+ 0wAWL6nOk87f0a1jJqezXJtxglL4nvT9peSjxOtxRa83ff4UqBDa3CGXSoXj4TqnFN
+ tHVw/jZbmu50w==
+Date: Wed, 16 Jun 2021 17:47:07 -0700 (PDT)
 From: Stefano Stabellini <sstabellini@kernel.org>
 X-X-Sender: sstabellini@sstabellini-ThinkPad-T480s
 To: Claire Chang <tientzu@chromium.org>
-Subject: Re: [PATCH v12 11/12] dt-bindings: of: Add restricted DMA pool
-In-Reply-To: <20210616062157.953777-12-tientzu@chromium.org>
-Message-ID: <alpine.DEB.2.21.2106161651290.24906@sstabellini-ThinkPad-T480s>
+Subject: Re: [PATCH v12 06/12] swiotlb: Use is_swiotlb_force_bounce for
+ swiotlb data bouncing
+In-Reply-To: <20210616062157.953777-7-tientzu@chromium.org>
+Message-ID: <alpine.DEB.2.21.2106161711030.24906@sstabellini-ThinkPad-T480s>
 References: <20210616062157.953777-1-tientzu@chromium.org>
- <20210616062157.953777-12-tientzu@chromium.org>
+ <20210616062157.953777-7-tientzu@chromium.org>
 User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -77,79 +78,98 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On Wed, 16 Jun 2021, Claire Chang wrote:
-> Introduce the new compatible string, restricted-dma-pool, for restricted
-> DMA. One can specify the address and length of the restricted DMA memory
-> region by restricted-dma-pool in the reserved-memory node.
+> Propagate the swiotlb_force into io_tlb_default_mem->force_bounce and
+> use it to determine whether to bounce the data or not. This will be
+> useful later to allow for different pools.
 > 
 > Signed-off-by: Claire Chang <tientzu@chromium.org>
 > ---
->  .../reserved-memory/reserved-memory.txt       | 36 +++++++++++++++++--
->  1 file changed, 33 insertions(+), 3 deletions(-)
+>  include/linux/swiotlb.h | 11 +++++++++++
+>  kernel/dma/direct.c     |  2 +-
+>  kernel/dma/direct.h     |  2 +-
+>  kernel/dma/swiotlb.c    |  4 ++++
+>  4 files changed, 17 insertions(+), 2 deletions(-)
 > 
-> diff --git a/Documentation/devicetree/bindings/reserved-memory/reserved-memory.txt b/Documentation/devicetree/bindings/reserved-memory/reserved-memory.txt
-> index e8d3096d922c..46804f24df05 100644
-> --- a/Documentation/devicetree/bindings/reserved-memory/reserved-memory.txt
-> +++ b/Documentation/devicetree/bindings/reserved-memory/reserved-memory.txt
-> @@ -51,6 +51,23 @@ compatible (optional) - standard definition
->            used as a shared pool of DMA buffers for a set of devices. It can
->            be used by an operating system to instantiate the necessary pool
->            management subsystem if necessary.
-> +        - restricted-dma-pool: This indicates a region of memory meant to be
-> +          used as a pool of restricted DMA buffers for a set of devices. The
-> +          memory region would be the only region accessible to those devices.
-> +          When using this, the no-map and reusable properties must not be set,
-> +          so the operating system can create a virtual mapping that will be used
-> +          for synchronization. The main purpose for restricted DMA is to
-> +          mitigate the lack of DMA access control on systems without an IOMMU,
-> +          which could result in the DMA accessing the system memory at
-> +          unexpected times and/or unexpected addresses, possibly leading to data
-> +          leakage or corruption. The feature on its own provides a basic level
-> +          of protection against the DMA overwriting buffer contents at
-> +          unexpected times. However, to protect against general data leakage and
-> +          system memory corruption, the system needs to provide way to lock down
-> +          the memory access, e.g., MPU. Note that since coherent allocation
-> +          needs remapping, one must set up another device coherent pool by
-> +          shared-dma-pool and use dma_alloc_from_dev_coherent instead for atomic
-> +          coherent allocation.
->          - vendor specific string in the form <vendor>,[<device>-]<usage>
->  no-map (optional) - empty property
->      - Indicates the operating system must not create a virtual mapping
-> @@ -85,10 +102,11 @@ memory-region-names (optional) - a list of names, one for each corresponding
+> diff --git a/include/linux/swiotlb.h b/include/linux/swiotlb.h
+> index dd1c30a83058..8d8855c77d9a 100644
+> --- a/include/linux/swiotlb.h
+> +++ b/include/linux/swiotlb.h
+> @@ -84,6 +84,7 @@ extern enum swiotlb_force swiotlb_force;
+>   *		unmap calls.
+>   * @debugfs:	The dentry to debugfs.
+>   * @late_alloc:	%true if allocated using the page allocator
+> + * @force_bounce: %true if swiotlb bouncing is forced
+>   */
+>  struct io_tlb_mem {
+>  	phys_addr_t start;
+> @@ -94,6 +95,7 @@ struct io_tlb_mem {
+>  	spinlock_t lock;
+>  	struct dentry *debugfs;
+>  	bool late_alloc;
+> +	bool force_bounce;
+>  	struct io_tlb_slot {
+>  		phys_addr_t orig_addr;
+>  		size_t alloc_size;
+> @@ -109,6 +111,11 @@ static inline bool is_swiotlb_buffer(struct device *dev, phys_addr_t paddr)
+>  	return mem && paddr >= mem->start && paddr < mem->end;
+>  }
 >  
->  Example
->  -------
-> -This example defines 3 contiguous regions are defined for Linux kernel:
-> +This example defines 4 contiguous regions for Linux kernel:
->  one default of all device drivers (named linux,cma@72000000 and 64MiB in size),
-> -one dedicated to the framebuffer device (named framebuffer@78000000, 8MiB), and
-> -one for multimedia processing (named multimedia-memory@77000000, 64MiB).
-> +one dedicated to the framebuffer device (named framebuffer@78000000, 8MiB),
-> +one for multimedia processing (named multimedia-memory@77000000, 64MiB), and
-> +one for restricted dma pool (named restricted_dma_reserved@0x50000000, 64MiB).
+> +static inline bool is_swiotlb_force_bounce(struct device *dev)
+> +{
+> +	return dev->dma_io_tlb_mem->force_bounce;
+> +}
+>  void __init swiotlb_exit(void);
+>  unsigned int swiotlb_max_segment(void);
+>  size_t swiotlb_max_mapping_size(struct device *dev);
+> @@ -120,6 +127,10 @@ static inline bool is_swiotlb_buffer(struct device *dev, phys_addr_t paddr)
+>  {
+>  	return false;
+>  }
+> +static inline bool is_swiotlb_force_bounce(struct device *dev)
+> +{
+> +	return false;
+> +}
+>  static inline void swiotlb_exit(void)
+>  {
+>  }
+> diff --git a/kernel/dma/direct.c b/kernel/dma/direct.c
+> index 7a88c34d0867..a92465b4eb12 100644
+> --- a/kernel/dma/direct.c
+> +++ b/kernel/dma/direct.c
+> @@ -496,7 +496,7 @@ size_t dma_direct_max_mapping_size(struct device *dev)
+>  {
+>  	/* If SWIOTLB is active, use its maximum mapping size */
+>  	if (is_swiotlb_active(dev) &&
+> -	    (dma_addressing_limited(dev) || swiotlb_force == SWIOTLB_FORCE))
+> +	    (dma_addressing_limited(dev) || is_swiotlb_force_bounce(dev)))
+>  		return swiotlb_max_mapping_size(dev);
+>  	return SIZE_MAX;
+>  }
+> diff --git a/kernel/dma/direct.h b/kernel/dma/direct.h
+> index 13e9e7158d94..4632b0f4f72e 100644
+> --- a/kernel/dma/direct.h
+> +++ b/kernel/dma/direct.h
+> @@ -87,7 +87,7 @@ static inline dma_addr_t dma_direct_map_page(struct device *dev,
+>  	phys_addr_t phys = page_to_phys(page) + offset;
+>  	dma_addr_t dma_addr = phys_to_dma(dev, phys);
 >  
->  / {
->  	#address-cells = <1>;
-> @@ -120,6 +138,11 @@ one for multimedia processing (named multimedia-memory@77000000, 64MiB).
->  			compatible = "acme,multimedia-memory";
->  			reg = <0x77000000 0x4000000>;
->  		};
-> +
-> +		restricted_dma_reserved: restricted_dma_reserved {
-> +			compatible = "restricted-dma-pool";
-> +			reg = <0x50000000 0x4000000>;
-> +		};
->  	};
->  
->  	/* ... */
-> @@ -138,4 +161,11 @@ one for multimedia processing (named multimedia-memory@77000000, 64MiB).
->  		memory-region = <&multimedia_reserved>;
->  		/* ... */
->  	};
-> +
-> +	pcie_device: pcie_device@0,0 {
-> +		reg = <0x83010000 0x0 0x00000000 0x0 0x00100000
-> +		       0x83010000 0x0 0x00100000 0x0 0x00100000>;
-> +		memory-region = <&restricted_dma_mem_reserved>;
+> -	if (unlikely(swiotlb_force == SWIOTLB_FORCE))
+> +	if (is_swiotlb_force_bounce(dev))
+>  		return swiotlb_map(dev, phys, size, dir, attrs);
+>
+>  	if (unlikely(!dma_capable(dev, dma_addr, size, true))) {
 
-Shouldn't it be &restricted_dma_reserved ?
+Should we also make the same change in
+drivers/xen/swiotlb-xen.c:xen_swiotlb_map_page ?
 
+If I make that change, I can see that everything is working as
+expected for a restricted-dma device with Linux running as dom0 on Xen.
+However, is_swiotlb_force_bounce returns non-zero even for normal
+non-restricted-dma devices. That shouldn't happen, right?
+
+It looks like struct io_tlb_slot is not zeroed on allocation.
+Adding memset(mem, 0x0, struct_size) in swiotlb_late_init_with_tbl
+solves the issue.
+
+With those two changes, the series passes my tests and you can add my
+tested-by.
