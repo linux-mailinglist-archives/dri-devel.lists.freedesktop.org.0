@@ -2,67 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCDE63ABA9D
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Jun 2021 19:28:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CC663ABAA5
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Jun 2021 19:30:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C266C6E94E;
-	Thu, 17 Jun 2021 17:27:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1C54E6E955;
+	Thu, 17 Jun 2021 17:30:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com
- [IPv6:2a00:1450:4864:20::330])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8084A6E94F
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Jun 2021 17:27:58 +0000 (UTC)
-Received: by mail-wm1-x330.google.com with SMTP id n23so3949059wms.2
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Jun 2021 10:27:58 -0700 (PDT)
+Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com
+ [IPv6:2a00:1450:4864:20::42f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 65D5D6E956
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Jun 2021 17:30:28 +0000 (UTC)
+Received: by mail-wr1-x42f.google.com with SMTP id e22so4075843wrc.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Jun 2021 10:30:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:mail-followup-to:references
- :mime-version:content-disposition:in-reply-to;
- bh=0rYmV0YXtK4/nqaonlfBI2ZVrcL6ia1eSA0EQ16ruOQ=;
- b=It1GxSN3S5y9Trm6vYbJWhkBW5/YWLQUavNk7vMkhYNUT6SsH+RiOdGnBv0HZGMXhA
- FG25pKlLChS9R351yezpDLOhXooDNj3dMxYGSjH2DdulTvFjM7ZiQNfmm4PsuRlRQu1z
- yWRb0z9CT8imI7dfaDygeflKO2ToYyM9rDKaI=
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=VKjsPb3fMCD82yCubTQnXQ11fo4UZaoUuAoRoa8fU+s=;
+ b=LYE64+gU6GsbdZ3ljaR6NDVdeEdfR+hMQQMkPf8dNum9Pj2oGudcfZ/RS/JzmQMVLT
+ Mm63h+ZyUo16OQRJNuRNG9ADWmJNgcmPdWfiXzP3oPSdbCbJ8ZtntEfAu9RkKoK6Lf3m
+ CVVxpkCtbzXivnTmMEXhXEGHBp6NjvZ1TuKZY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id
- :mail-followup-to:references:mime-version:content-disposition
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
  :in-reply-to;
- bh=0rYmV0YXtK4/nqaonlfBI2ZVrcL6ia1eSA0EQ16ruOQ=;
- b=JCvUFU8H20slsytqGlCwpORmDSd7k8LXaFgT+dUh2uChI6K0stJ0gz54Ueyo8dCuQw
- JShvKu8OAkiq5GW6ewrFnTF13Mmw2CqrCXI3OuRsz3LZOiBV64leUUr48PA1mNCYHL0Z
- LEewpITINekK0lksG/kJRycDQsBeFw7AUuxnTl2kcVSN00MTv2cziSjsSJhNTtWWK8J2
- 1gupABQ7g3wOzJ6LGj/8W9Izk1lEfaCPe3qe0BUC3/dWrbfqpcnXVloyAdIjJLdxxNph
- xr38h7HWMdK9Y5GzK6Hp1IbWF/y4X28H3qUgmg7GTkmNwI8gtWZLiXtizeD616pSLziv
- JmZQ==
-X-Gm-Message-State: AOAM533oyvVIPri4PZ5VCvmPEqyV1pzgOnewrNXnHahDzI1Q8hY9gXES
- 50cjcz8inyyiihKFZS2SuAkDyg==
-X-Google-Smtp-Source: ABdhPJxsLrEArRcm6UbP0rGPkUBgJPQeD7XUjXHyScHm1ESkZ8AEEaliLgRWCmS0480Kuhv67+nQxg==
-X-Received: by 2002:a05:600c:214c:: with SMTP id
- v12mr6358655wml.33.1623950877233; 
- Thu, 17 Jun 2021 10:27:57 -0700 (PDT)
+ bh=VKjsPb3fMCD82yCubTQnXQ11fo4UZaoUuAoRoa8fU+s=;
+ b=eXr9a5tgp+CIp9CRC67pQVtnnioIFngiPulqyNfErUn9EQg7bJEeeSRNFWj38/Pyt+
+ vPd1QAhV/Fm7kiKwidCJ1gEKIKl8YCntDK8k7LoR2TxuAvDI1qg01tf2kTMrIGiLihSm
+ 1E51Bf3E74oMxT8oAKS0edcgwJzXqL6bzrGIOhtSZQJXojePapzE+8KMazxjBz8oqnp6
+ Za7kgFgqO3PIAYQzBfVH9eFRZp0TrKtCJ+2OmzmVZfEUWIJa04Jeb/RCVCw3QMgRVwMk
+ o88uF95AdD1fjXuo7xoiQNctp4EiUL0HV/IHVKlYGmMvFVZCu6UeSznbjrssFN3gwZXa
+ 9W9g==
+X-Gm-Message-State: AOAM532VLcSloRaPbBtsPQDKIZ2MVhk+XwSO4YHWkI8xoV3KH5vW1wis
+ KrqNo6teTcSKDzaf6IMXehNepQ==
+X-Google-Smtp-Source: ABdhPJxKfIxjyPPs3id05Sig8SzR4i9jB56N51cHg3b/UeqChuSBHD1Fh+6wA4472aFmIly7PvwuZQ==
+X-Received: by 2002:a05:6000:188:: with SMTP id
+ p8mr7257378wrx.296.1623951026952; 
+ Thu, 17 Jun 2021 10:30:26 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id w23sm9180464wmi.0.2021.06.17.10.27.56
+ by smtp.gmail.com with ESMTPSA id n6sm8004282wme.21.2021.06.17.10.30.26
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 17 Jun 2021 10:27:56 -0700 (PDT)
-Date: Thu, 17 Jun 2021 19:27:54 +0200
+ Thu, 17 Jun 2021 10:30:26 -0700 (PDT)
+Date: Thu, 17 Jun 2021 19:30:24 +0200
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Sergey Senozhatsky <senozhatsky@chromium.org>,
- Matthew Auld <matthew.william.auld@gmail.com>
-Subject: Re: drm/i915: __GFP_RETRY_MAYFAIL allocations in stable kernels
-Message-ID: <YMuGGqs4cDotxuKO@phenom.ffwll.local>
-Mail-Followup-To: Sergey Senozhatsky <senozhatsky@chromium.org>,
- Matthew Auld <matthew.william.auld@gmail.com>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- David Airlie <airlied@linux.ie>,
- Chris Wilson <chris@chris-wilson.co.uk>,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-References: <YMdPcWZi4x7vnCxI@google.com>
+To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>
+Subject: Re: [PATCH 1/2] drm/amdgpu: unwrap fence chains in the explicit sync
+ fence
+Message-ID: <YMuGsGN/mxY+WU+q@phenom.ffwll.local>
+References: <20210614174536.5188-1-christian.koenig@amd.com>
+ <c474a0e1-e725-be64-0730-57231b5a8d15@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <YMdPcWZi4x7vnCxI@google.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <c474a0e1-e725-be64-0730-57231b5a8d15@gmail.com>
 X-Operating-System: Linux phenom 5.10.0-7-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -76,161 +70,180 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, intel-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Chris Wilson <chris@chris-wilson.co.uk>,
+Cc: Alex Deucher <Alexander.Deucher@amd.com>, amd-gfx@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jun 14, 2021 at 09:45:37PM +0900, Sergey Senozhatsky wrote:
-> Hi,
-> 
-> We are observing some user-space crashes (sigabort, segfaults etc.)
-> under moderate memory pressure (pretty far from severe pressure) which
-> have one thing in common - restrictive GFP mask in setup_scratch_page().
-> 
-> For instance, (stable 4.19) drivers/gpu/drm/i915/i915_gem_gtt.c
-> 
-> (trimmed down version)
-> 
-> static int gen8_init_scratch(struct i915_address_space *vm)
-> {
->         setup_scratch_page(vm, __GFP_HIGHMEM);
-> 
->         vm->scratch_pt = alloc_pt(vm);
->         vm->scratch_pd = alloc_pd(vm);
->         if (use_4lvl(vm)) {
->                 vm->scratch_pdp = alloc_pdp(vm);
->         }
-> }
-> 
-> gen8_init_scratch() function puts a rather inconsistent restrictions on mm.
-> 
-> Looking at it line by line:
-> 
-> setup_scratch_page() uses very restrictive gfp mask:
-> 	__GFP_HIGHMEM | __GFP_ZERO | __GFP_RETRY_MAYFAIL
-> 
-> it doesn't try to reclaim anything and fails almost immediately.
-> 
-> alloc_pt() - uses more permissive gfp mask:
-> 	GFP_KERNEL | __GFP_RETRY_MAYFAIL | __GFP_NOWARN
-> 
-> alloc_pd() - likewise:
-> 	GFP_KERNEL | __GFP_RETRY_MAYFAIL | __GFP_NOWARN
-> 
-> alloc_pdp() - very permissive gfp mask:
-> 	GFP_KERNEL
-> 
-> 
-> So can all allocations in gen8_init_scratch() use
-> 	GFP_KERNEL | __GFP_RETRY_MAYFAIL | __GFP_NOWARN
+On Thu, Jun 17, 2021 at 09:44:25AM +0200, Christian König wrote:
+> Alex do want to review those so that we can close the ticket?
 
-Yeah that looks all fairly broken tbh. The only thing I didn't know was
-that GFP_DMA32 wasn't a full gfp mask with reclaim bits set as needed. I
-guess it would be clearer if we use GFP_KERNEL | __GFP_DMA32 for these.
+Maybe I'm behind on mails, but 2nd patch still has the issues I think I'm
+seeing ...
+-Daniel
 
-The commit that introduced a lot of this, including I915_GFP_ALLOW_FAIL
-seems to be
-
-commit 1abb70f5955d1a9021f96359a2c6502ca569b68d
-Author: Chris Wilson <chris@chris-wilson.co.uk>
-Date:   Tue May 22 09:36:43 2018 +0100
-
-    drm/i915/gtt: Allow pagedirectory allocations to fail
-
-which used a selftest as justification, not real world workloads, so looks
-rather dubious.
-
-Adding Matt Auld to this thread, maybe he has ideas.
-
-Thanks, Daniel
-
-> ?
 > 
-> E.g.
+> Thanks,
+> Christian.
 > 
-> ---
-> diff --git a/drivers/gpu/drm/i915/i915_gem_gtt.c b/drivers/gpu/drm/i915/i915_gem_gtt.c
-> index a12430187108..e862680b9c93 100644
-> --- a/drivers/gpu/drm/i915/i915_gem_gtt.c
-> +++ b/drivers/gpu/drm/i915/i915_gem_gtt.c
-> @@ -792,7 +792,7 @@ alloc_pdp(struct i915_address_space *vm)
->  
->         GEM_BUG_ON(!use_4lvl(vm));
->  
-> -       pdp = kzalloc(sizeof(*pdp), GFP_KERNEL);
-> +       pdp = kzalloc(sizeof(*pdp), I915_GFP_ALLOW_FAIL);
->         if (!pdp)
->                 return ERR_PTR(-ENOMEM);
->  
-> @@ -1262,7 +1262,7 @@ static int gen8_init_scratch(struct i915_address_space *vm)
->  {
->         int ret;
->  
-> -       ret = setup_scratch_page(vm, __GFP_HIGHMEM);
-> +       ret = setup_scratch_page(vm, GFP_KERNEL | __GFP_HIGHMEM);
->         if (ret)
->                 return ret;
->  
-> @@ -1972,7 +1972,7 @@ static int gen6_ppgtt_init_scratch(struct gen6_hw_ppgtt *ppgtt)
->         u32 pde;
->         int ret;
->  
-> -       ret = setup_scratch_page(vm, __GFP_HIGHMEM);
-> +       ret = setup_scratch_page(vm, GFP_KERNEL | __GFP_HIGHMEM);
->         if (ret)
->                 return ret;
->  
-> @@ -3078,7 +3078,7 @@ static int ggtt_probe_common(struct i915_ggtt *ggtt, u64 size)
->                 return -ENOMEM;
->         }
->  
-> -       ret = setup_scratch_page(&ggtt->vm, GFP_DMA32);
-> +       ret = setup_scratch_page(&ggtt->vm, GFP_KERNEL | GFP_DMA32);
->         if (ret) {
->                 DRM_ERROR("Scratch setup failed\n");
->                 /* iounmap will also get called at remove, but meh */
-> ---
+> Am 14.06.21 um 19:45 schrieb Christian König:
+> > Unwrap the explicit fence if it is a dma_fence_chain and
+> > sync to the first fence not matching the owner rules.
+> > 
+> > Signed-off-by: Christian König <christian.koenig@amd.com>
+> > Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+> > ---
+> >   drivers/gpu/drm/amd/amdgpu/amdgpu_sync.c | 118 +++++++++++++----------
+> >   1 file changed, 68 insertions(+), 50 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_sync.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_sync.c
+> > index 1b2ceccaf5b0..862eb3c1c4c5 100644
+> > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_sync.c
+> > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_sync.c
+> > @@ -28,6 +28,8 @@
+> >    *    Christian König <christian.koenig@amd.com>
+> >    */
+> > +#include <linux/dma-fence-chain.h>
+> > +
+> >   #include "amdgpu.h"
+> >   #include "amdgpu_trace.h"
+> >   #include "amdgpu_amdkfd.h"
+> > @@ -186,6 +188,55 @@ int amdgpu_sync_vm_fence(struct amdgpu_sync *sync, struct dma_fence *fence)
+> >   	return amdgpu_sync_fence(sync, fence);
+> >   }
+> > +/* Determine based on the owner and mode if we should sync to a fence or not */
+> > +static bool amdgpu_sync_test_fence(struct amdgpu_device *adev,
+> > +				   enum amdgpu_sync_mode mode,
+> > +				   void *owner, struct dma_fence *f)
+> > +{
+> > +	void *fence_owner = amdgpu_sync_get_owner(f);
+> > +
+> > +	/* Always sync to moves, no matter what */
+> > +	if (fence_owner == AMDGPU_FENCE_OWNER_UNDEFINED)
+> > +		return true;
+> > +
+> > +	/* We only want to trigger KFD eviction fences on
+> > +	 * evict or move jobs. Skip KFD fences otherwise.
+> > +	 */
+> > +	if (fence_owner == AMDGPU_FENCE_OWNER_KFD &&
+> > +	    owner != AMDGPU_FENCE_OWNER_UNDEFINED)
+> > +		return false;
+> > +
+> > +	/* Never sync to VM updates either. */
+> > +	if (fence_owner == AMDGPU_FENCE_OWNER_VM &&
+> > +	    owner != AMDGPU_FENCE_OWNER_UNDEFINED)
+> > +		return false;
+> > +
+> > +	/* Ignore fences depending on the sync mode */
+> > +	switch (mode) {
+> > +	case AMDGPU_SYNC_ALWAYS:
+> > +		return true;
+> > +
+> > +	case AMDGPU_SYNC_NE_OWNER:
+> > +		if (amdgpu_sync_same_dev(adev, f) &&
+> > +		    fence_owner == owner)
+> > +			return false;
+> > +		break;
+> > +
+> > +	case AMDGPU_SYNC_EQ_OWNER:
+> > +		if (amdgpu_sync_same_dev(adev, f) &&
+> > +		    fence_owner != owner)
+> > +			return false;
+> > +		break;
+> > +
+> > +	case AMDGPU_SYNC_EXPLICIT:
+> > +		return false;
+> > +	}
+> > +
+> > +	WARN(debug_evictions && fence_owner == AMDGPU_FENCE_OWNER_KFD,
+> > +	     "Adding eviction fence to sync obj");
+> > +	return true;
+> > +}
+> > +
+> >   /**
+> >    * amdgpu_sync_resv - sync to a reservation object
+> >    *
+> > @@ -211,67 +262,34 @@ int amdgpu_sync_resv(struct amdgpu_device *adev, struct amdgpu_sync *sync,
+> >   	/* always sync to the exclusive fence */
+> >   	f = dma_resv_excl_fence(resv);
+> > -	r = amdgpu_sync_fence(sync, f);
+> > +	dma_fence_chain_for_each(f, f) {
+> > +		struct dma_fence_chain *chain = to_dma_fence_chain(f);
+> > +
+> > +		if (amdgpu_sync_test_fence(adev, mode, owner, chain ?
+> > +					   chain->fence : f)) {
+> > +			r = amdgpu_sync_fence(sync, f);
+> > +			dma_fence_put(f);
+> > +			if (r)
+> > +				return r;
+> > +			break;
+> > +		}
+> > +	}
+> >   	flist = dma_resv_shared_list(resv);
+> > -	if (!flist || r)
+> > -		return r;
+> > +	if (!flist)
+> > +		return 0;
+> >   	for (i = 0; i < flist->shared_count; ++i) {
+> > -		void *fence_owner;
+> > -
+> >   		f = rcu_dereference_protected(flist->shared[i],
+> >   					      dma_resv_held(resv));
+> > -		fence_owner = amdgpu_sync_get_owner(f);
+> > -
+> > -		/* Always sync to moves, no matter what */
+> > -		if (fence_owner == AMDGPU_FENCE_OWNER_UNDEFINED) {
+> > +		if (amdgpu_sync_test_fence(adev, mode, owner, f)) {
+> >   			r = amdgpu_sync_fence(sync, f);
+> >   			if (r)
+> > -				break;
+> > -		}
+> > -
+> > -		/* We only want to trigger KFD eviction fences on
+> > -		 * evict or move jobs. Skip KFD fences otherwise.
+> > -		 */
+> > -		if (fence_owner == AMDGPU_FENCE_OWNER_KFD &&
+> > -		    owner != AMDGPU_FENCE_OWNER_UNDEFINED)
+> > -			continue;
+> > -
+> > -		/* Never sync to VM updates either. */
+> > -		if (fence_owner == AMDGPU_FENCE_OWNER_VM &&
+> > -		    owner != AMDGPU_FENCE_OWNER_UNDEFINED)
+> > -			continue;
+> > -
+> > -		/* Ignore fences depending on the sync mode */
+> > -		switch (mode) {
+> > -		case AMDGPU_SYNC_ALWAYS:
+> > -			break;
+> > -
+> > -		case AMDGPU_SYNC_NE_OWNER:
+> > -			if (amdgpu_sync_same_dev(adev, f) &&
+> > -			    fence_owner == owner)
+> > -				continue;
+> > -			break;
+> > -
+> > -		case AMDGPU_SYNC_EQ_OWNER:
+> > -			if (amdgpu_sync_same_dev(adev, f) &&
+> > -			    fence_owner != owner)
+> > -				continue;
+> > -			break;
+> > -
+> > -		case AMDGPU_SYNC_EXPLICIT:
+> > -			continue;
+> > +				return r;
+> >   		}
+> > -
+> > -		WARN(debug_evictions && fence_owner == AMDGPU_FENCE_OWNER_KFD,
+> > -		     "Adding eviction fence to sync obj");
+> > -		r = amdgpu_sync_fence(sync, f);
+> > -		if (r)
+> > -			break;
+> >   	}
+> > -	return r;
+> > +	return 0;
+> >   }
+> >   /**
 > 
-> 
-> 
-> It's quite similar on stable 5.4 - setup_scratch_page() uses restrictive
-> gfp mask again.
-> 
-> ---
-> diff --git a/drivers/gpu/drm/i915/i915_gem_gtt.c b/drivers/gpu/drm/i915/i915_gem_gtt.c
-> index f614646ed3f9..99d78b1052df 100644
-> --- a/drivers/gpu/drm/i915/i915_gem_gtt.c
-> +++ b/drivers/gpu/drm/i915/i915_gem_gtt.c
-> @@ -1378,7 +1378,7 @@ static int gen8_init_scratch(struct i915_address_space *vm)
->                 return 0;
->         }
->  
-> -       ret = setup_scratch_page(vm, __GFP_HIGHMEM);
-> +       ret = setup_scratch_page(vm, GFP_KERNEL | __GFP_HIGHMEM);
->         if (ret)
->                 return ret;
->  
-> @@ -1753,7 +1753,7 @@ static int gen6_ppgtt_init_scratch(struct gen6_ppgtt *ppgtt)
->         struct i915_page_directory * const pd = ppgtt->base.pd;
->         int ret;
->  
-> -       ret = setup_scratch_page(vm, __GFP_HIGHMEM);
-> +       ret = setup_scratch_page(vm, GFP_KERNEL | __GFP_HIGHMEM);
->         if (ret)
->                 return ret;
->  
-> @@ -2860,7 +2860,7 @@ static int ggtt_probe_common(struct i915_ggtt *ggtt, u64 size)
->                 return -ENOMEM;
->         }
->  
-> -       ret = setup_scratch_page(&ggtt->vm, GFP_DMA32);
-> +       ret = setup_scratch_page(&ggtt->vm, GFP_KERNEL | GFP_DMA32);
->         if (ret) {
->                 DRM_ERROR("Scratch setup failed\n");
->                 /* iounmap will also get called at remove, but meh */
-> ---
 
 -- 
 Daniel Vetter
