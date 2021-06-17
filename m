@@ -2,51 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 507C83AC2E2
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Jun 2021 07:40:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 348793AC3ED
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Jun 2021 08:32:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 091AC6E857;
-	Fri, 18 Jun 2021 05:40:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BCC1A6E858;
+	Fri, 18 Jun 2021 06:32:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5EC626E857
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Jun 2021 05:40:49 +0000 (UTC)
-Received: from [IPv6:::1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
- (No client certificate requested)
- (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id 43E6780563;
- Fri, 18 Jun 2021 07:40:42 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
- s=phobos-20191101; t=1623994846;
- bh=uNXPIXPD8fqjMp54pQS8vQeSgs5ZSHX/0gwovObOC0E=;
- h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
- b=soYQdyUYvzgSM4U5r9XFh4FEnd1GrO9vEHbdox17WFLfCvG82LXhiN5WEd579t8fw
- 6U7DAWBWP4GITzRSBvB0gdoTYr55vQQGRu4HK5JVBUxQdFk+jEvsvbzjbCb0ewTnza
- Ks+m7VgZwyJ0Kc+gmf5D/znMnrrN+5255RJ83pHASG3ziL8hy40mss7ZDbt1h+4fDl
- QHZMI21mwoEvOc74PN5LLxj4OhboQrEpiBccE4XRtwQIlscdmR2MQH2FFYaY9gNqa0
- zZ9YLScdE0W98E+ts0qxZiINVmf4U1IWCBDVuDhl0PNlntPFFpNRfWoSfsRDf15Gy5
- KEyNmO+45tUsQ==
-Subject: Re: [PATCH] drm/bridge: ti-sn65dsi83: Fix null pointer dereference in
- remove callback
-To: Jonathan Liu <net147@gmail.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-References: <20210617111925.162120-1-net147@gmail.com>
- <YMtYoaSIIRhb85fh@pendragon.ideasonboard.com>
- <CANwerB0J9xKj3kjYPjzfeDvKV8JXPcDtoZaLMzkudCBz8=ZnVw@mail.gmail.com>
-From: Marek Vasut <marex@denx.de>
-Message-ID: <d708823a-3b28-2541-da06-86eb41484aaa@denx.de>
-Date: Fri, 18 Jun 2021 07:40:41 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+X-Greylist: delayed 1298 seconds by postgrey-1.36 at gabe;
+ Fri, 18 Jun 2021 00:14:09 UTC
+Received: from mail110.syd.optusnet.com.au (mail110.syd.optusnet.com.au
+ [211.29.132.97])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 5618E6E0BC;
+ Fri, 18 Jun 2021 00:14:09 +0000 (UTC)
+Received: from dread.disaster.area (pa49-179-138-183.pa.nsw.optusnet.com.au
+ [49.179.138.183])
+ by mail110.syd.optusnet.com.au (Postfix) with ESMTPS id 2980A105DBE;
+ Fri, 18 Jun 2021 09:52:27 +1000 (AEST)
+Received: from dave by dread.disaster.area with local (Exim 4.92.3)
+ (envelope-from <david@fromorbit.com>)
+ id 1lu1oA-00DzCu-Kc; Fri, 18 Jun 2021 09:52:26 +1000
+Date: Fri, 18 Jun 2021 09:52:26 +1000
+From: Dave Chinner <david@fromorbit.com>
+To: Alex Sierra <alex.sierra@amd.com>
+Subject: Re: [PATCH v3 1/8] ext4/xfs: add page refcount helper
+Message-ID: <20210617235226.GI664593@dread.disaster.area>
+References: <20210617151705.15367-1-alex.sierra@amd.com>
+ <20210617151705.15367-2-alex.sierra@amd.com>
 MIME-Version: 1.0
-In-Reply-To: <CANwerB0J9xKj3kjYPjzfeDvKV8JXPcDtoZaLMzkudCBz8=ZnVw@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Virus-Scanned: clamav-milter 0.103.2 at phobos.denx.de
-X-Virus-Status: Clean
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210617151705.15367-2-alex.sierra@amd.com>
+X-Optus-CM-Score: 0
+X-Optus-CM-Analysis: v=2.3 cv=YKPhNiOx c=1 sm=1 tr=0
+ a=MnllW2CieawZLw/OcHE/Ng==:117 a=MnllW2CieawZLw/OcHE/Ng==:17
+ a=kj9zAlcOel0A:10 a=r6YtysWOX24A:10 a=Ikd4Dj_1AAAA:8 a=zd2uoN0lAAAA:8
+ a=7-415B0cAAAA:8 a=_NB1ZJQsyc3AttudJlgA:9 a=CjuIK1q_8ugA:10
+ a=biEYGPWJfzWAr4FL6Ov7:22
+X-Mailman-Approved-At: Fri, 18 Jun 2021 06:32:09 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,36 +52,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jernej Skrabec <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>,
- David Airlie <airlied@linux.ie>, Neil Armstrong <narmstrong@baylibre.com>,
- linux-kernel <linux-kernel@vger.kernel.org>,
- Robert Foss <robert.foss@linaro.org>,
- Frieder Schrempf <frieder.schrempf@kontron.de>,
- Andrzej Hajda <a.hajda@samsung.com>,
- dri-devel <dri-devel@lists.freedesktop.org>
+Cc: rcampbell@nvidia.com, Felix.Kuehling@amd.com, amd-gfx@lists.freedesktop.org,
+ linux-xfs@vger.kernel.org, linux-mm@kvack.org, jglisse@redhat.com,
+ dri-devel@lists.freedesktop.org, jgg@nvidia.com, akpm@linux-foundation.org,
+ linux-ext4@vger.kernel.org, hch@lst.de
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 6/18/21 5:06 AM, Jonathan Liu wrote:
-> Hi Marek,
-
-Hi,
-
->> Hi Jonathan,
->>
->> Thank you for the patch.
->>
->> On Thu, Jun 17, 2021 at 09:19:25PM +1000, Jonathan Liu wrote:
->>> If attach has not been called, unloading the driver can result in a null
->>> pointer dereference in mipi_dsi_detach as ctx->dsi has not been assigned
->>> yet.
->>
->> Shouldn't this be done in a brige .detach() operation instead ?
->>
+On Thu, Jun 17, 2021 at 10:16:58AM -0500, Alex Sierra wrote:
+> From: Ralph Campbell <rcampbell@nvidia.com>
 > 
-> Could you please take a look?
-> I don't have a working setup to test moving the code to detach.
+> There are several places where ZONE_DEVICE struct pages assume a reference
+> count == 1 means the page is idle and free. Instead of open coding this,
+> add a helper function to hide this detail.
+> 
+> v2:
+> [AS]: rename dax_layout_is_idle_page func to dax_page_unused
 
-I just replied to your other email regarding bringing the chip up, so 
-please bring your setup up first, then test this patch again, and then 
-let's revisit this topic.
+Did you even compile test this?
+
+> Signed-off-by: Ralph Campbell <rcampbell@nvidia.com>
+> Signed-off-by: Alex Sierra <alex.sierra@amd.com>
+> ---
+>  fs/dax.c            |  4 ++--
+>  fs/ext4/inode.c     |  5 +----
+>  fs/xfs/xfs_file.c   |  4 +---
+>  include/linux/dax.h | 10 ++++++++++
+>  4 files changed, 14 insertions(+), 9 deletions(-)
+> 
+> diff --git a/fs/dax.c b/fs/dax.c
+> index 26d5dcd2d69e..321f4ddc6643 100644
+> --- a/fs/dax.c
+> +++ b/fs/dax.c
+> @@ -358,7 +358,7 @@ static void dax_disassociate_entry(void *entry, struct address_space *mapping,
+>  	for_each_mapped_pfn(entry, pfn) {
+>  		struct page *page = pfn_to_page(pfn);
+>  
+> -		WARN_ON_ONCE(trunc && page_ref_count(page) > 1);
+> +		WARN_ON_ONCE(trunc && !dax_layout_is_idle_page(page));
+
+Because you still use dax_layout_is_idle_page() here, not
+dax_page_unused()...
+
+>  		WARN_ON_ONCE(page->mapping && page->mapping != mapping);
+>  		page->mapping = NULL;
+>  		page->index = 0;
+> @@ -372,7 +372,7 @@ static struct page *dax_busy_page(void *entry)
+>  	for_each_mapped_pfn(entry, pfn) {
+>  		struct page *page = pfn_to_page(pfn);
+>  
+> -		if (page_ref_count(page) > 1)
+> +		if (!dax_layout_is_idle_page(page))
+
+Here too.
+
+Cheers,
+
+Dave.
+-- 
+Dave Chinner
+david@fromorbit.com
