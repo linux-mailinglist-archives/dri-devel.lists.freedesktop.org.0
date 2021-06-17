@@ -2,57 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A26B83ABA7B
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Jun 2021 19:17:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F31C3ABA91
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Jun 2021 19:20:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C54D16E94A;
-	Thu, 17 Jun 2021 17:17:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E336B6E94D;
+	Thu, 17 Jun 2021 17:20:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com
- [IPv6:2a00:1450:4864:20::32d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1BCDD6E94A
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Jun 2021 17:17:12 +0000 (UTC)
-Received: by mail-wm1-x32d.google.com with SMTP id
- y13-20020a1c4b0d0000b02901c20173e165so4160879wma.0
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Jun 2021 10:17:12 -0700 (PDT)
+Received: from mail-wm1-x334.google.com (mail-wm1-x334.google.com
+ [IPv6:2a00:1450:4864:20::334])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B2D0F6E94D
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Jun 2021 17:20:37 +0000 (UTC)
+Received: by mail-wm1-x334.google.com with SMTP id
+ h21-20020a1ccc150000b02901d4d33c5ca0so2091059wmb.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Jun 2021 10:20:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=fpkuoa/8ERN6XuW+rircW3wqdXM7/8bze/yACWh3D+o=;
- b=O/MFPuOidmVGB4GlB+MjK6OkD6udb9dsrnpgM/a4id2oKgrIGhHQsYiCeO3g8daL/r
- QPuHSZ/ieEUERm+0TqkVKPu9eleZNUtwDHZTqaNg0Yq/LAK5A/bG2wT66PyOanqqKaT/
- VeQI995rc4Oz7VEPKOJC65V8sd9PsY1lUnGjc=
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=J7yV/HNR6uZD5gzEK+dIMTGHHDQ2KF+YCo0SplrkfIo=;
+ b=Rc/lVXaMcLcIndLwZaNYYbPgQqGaym5fMYjBCea6t7INn6FFMPqn3ucDC6hikuVxeu
+ 5v36ctkoH9a+usu7+3pr6KDNcNMCWjqLO8akUt4Q9c1pFcP34uQy56qcSzPARvseKY3k
+ qLImMaqKmuTG+l2TDg4GguyqZzKD5+ab09a/Q=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=fpkuoa/8ERN6XuW+rircW3wqdXM7/8bze/yACWh3D+o=;
- b=ORX5FKHiQBqKNeMaMtU/nUMloEhYSowlb9RxpoZB0oEtlY8zw8eQqv8Y33WifMUL9D
- elgLnwbUxAibB2ieoAhjfyyFLL1ciwxcln2cs2jCKAGPR1DUEEVRIxFDP114DrnHz70r
- 813QhkVaCCRthqERERl0z0zMgWr9eKRcdKMKKvXAeCVXZia3zroTIqX41nk4A1uT8Egl
- IKil8t4s4El7eYB2sEjLnGh4Io5yXoAJ7YiGhGU8GgVPeQF10w5/pYkpK+T8CbC4GIAG
- NL62qTYlROIvN5V3HOi5es37hzacSfYb1KxOUPcuuHHPKYfyPUhJcEvZ3/GiXE5g+Rgw
- qgPQ==
-X-Gm-Message-State: AOAM531IGoLn39Bd9xW58JOIDJZMDetbbFAj6kxy6484lrXExmPwTS1B
- rotv+ahT1UqioZlyeAyo8N88Pw==
-X-Google-Smtp-Source: ABdhPJw2OPNVt0Gz7Xd3cxOUf6Lc+/1f0zxcr1OIBZ4pbBAdRXGu+qB5H/WnqTYI9L5etAIJ/FOyHA==
-X-Received: by 2002:a1c:21c5:: with SMTP id h188mr6436656wmh.165.1623950230639; 
- Thu, 17 Jun 2021 10:17:10 -0700 (PDT)
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=J7yV/HNR6uZD5gzEK+dIMTGHHDQ2KF+YCo0SplrkfIo=;
+ b=XAb8zPrnPFkB8Iv2lTcI4tkFYjg8gndhLiq3nmHAQUS8h31MUapPrysMGlzwA/vkXj
+ dKn69CBf0hZyCkBrzuq419VW6Q0EoMzUBWZSMezfmz95Zp13xTd0A5jKQqTJeVAljmcv
+ CDFdeOJmjTINGM0DzBAwrOvaLAl+e2lUYQ/atm+p2ozRa6HDuqEccHvBG3WNyVrrHT4b
+ HVt1auQDIbkRCYCpk39yD7PSMroxSBAeFeMJF9EcWcwQDb/T9T/ICJIlB7yOBMEGjXZL
+ nB9i6BX7jDIem68Ebw77Z1dFaDrhFJCIDHMvkZd1yeJXDym1sZZ4hPeA/VPh/aAX/TOx
+ pAYQ==
+X-Gm-Message-State: AOAM531KKGTzSwQGy0N2PHJT2ZOd2A1YMZn9CzfuSnv+o+1qdENhIiJL
+ aYlVfYdZoBG0ZqiETBI2Cut5fQ==
+X-Google-Smtp-Source: ABdhPJwktsd9B9fWM2zs+SLi5wu+oCEyAMp25mpmAcJqskS+T3ME4YsjxTjj8W24FnEvsUqn9RZv3Q==
+X-Received: by 2002:a7b:c94a:: with SMTP id i10mr6408999wml.29.1623950436390; 
+ Thu, 17 Jun 2021 10:20:36 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id n7sm8086497wmq.37.2021.06.17.10.17.09
+ by smtp.gmail.com with ESMTPSA id h9sm8415350wmm.33.2021.06.17.10.20.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 17 Jun 2021 10:17:10 -0700 (PDT)
-Date: Thu, 17 Jun 2021 19:17:08 +0200
+ Thu, 17 Jun 2021 10:20:35 -0700 (PDT)
+Date: Thu, 17 Jun 2021 19:20:34 +0200
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Subject: Re: [PATCH v2] drm/i915: Document the Virtual Engine uAPI
-Message-ID: <YMuDlNtXajUYcbqo@phenom.ffwll.local>
-References: <20210614090959.1527987-1-tvrtko.ursulin@linux.intel.com>
+To: Matthew Auld <matthew.william.auld@gmail.com>
+Subject: Re: [PATCH] drm/i915: allow DG1 autoprobe for CONFIG_BROKEN
+Message-ID: <YMuEYsMqbOUW7A2T@phenom.ffwll.local>
+References: <20210614092227.97421-1-matthew.auld@intel.com>
+ <CAM0jSHPacC6S6u1eCgaDUd6UNNJV5UgqQSBzRbtNXSzw3mdLyg@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20210614090959.1527987-1-tvrtko.ursulin@linux.intel.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAM0jSHPacC6S6u1eCgaDUd6UNNJV5UgqQSBzRbtNXSzw3mdLyg@mail.gmail.com>
 X-Operating-System: Linux phenom 5.10.0-7-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -66,282 +69,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+Cc: Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ Matthew Auld <matthew.auld@intel.com>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jun 14, 2021 at 10:09:59AM +0100, Tvrtko Ursulin wrote:
-> From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+On Wed, Jun 16, 2021 at 03:29:26PM +0100, Matthew Auld wrote:
+> On Mon, 14 Jun 2021 at 10:22, Matthew Auld <matthew.auld@intel.com> wrote:
+> >
+> > Purely for CI so we can get some pre-merge results for DG1. This is
+> > especially useful for cross driver TTM changes where CI can hopefully
+> > catch regressions. This is similar to how we already handle the DG1
+> > specific uAPI, which are also hidden behind CONFIG_BROKEN.
+> >
+> > Signed-off-by: Matthew Auld <matthew.auld@intel.com>
+> > Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+> > Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+> > Cc: Dave Airlie <airlied@gmail.com>
 > 
-> A little bit of documentation covering the topics of engine discovery,
-> context engine maps and virtual engines. It is not very detailed but
-> supposed to be a starting point of giving a brief high level overview of
-> general principles and intended use cases.
-> 
-> v2:
->  * Have the text in uapi header and link from there.
-> 
-> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-> Cc: Daniel Vetter <daniel@ffwll.ch>
+> Daniel, any objections to landing this?
 
-What I meant was the kerneldoc directly as kerneldoc for the uapi structs,
-like Matt has done for e.g. drm_i915_gem_create_ext_memory_regions.
+I think stuffing this into topic/core-for-CI is fine, lets wait a bit more
+until mesa and everything is ready with adding the pciids to an official
+tree.
 
-But then I also realized that Matt hasn't set up the include for this, so
-it's not automatic at all yet :-/
+(Catching up on mails, apologies and all that).
 -Daniel
 
-> ---
->  Documentation/gpu/i915.rst  |  18 ++++
->  include/uapi/drm/i915_drm.h | 188 ++++++++++++++++++++++++++++++++++++
->  2 files changed, 206 insertions(+)
 > 
-> diff --git a/Documentation/gpu/i915.rst b/Documentation/gpu/i915.rst
-> index 42ce0196930a..00aa55bbe0fd 100644
-> --- a/Documentation/gpu/i915.rst
-> +++ b/Documentation/gpu/i915.rst
-> @@ -335,6 +335,24 @@ for execution also include a list of all locations within buffers that
->  refer to GPU-addresses so that the kernel can edit the buffer correctly.
->  This process is dubbed relocation.
->  
-> +Engine Discovery uAPI
-> +---------------------
-> +
-> +.. kernel-doc:: include/uapi/drm/i915_drm.h
-> +   :doc: Engine Discovery uAPI
-> +
-> +Context Engine Map uAPI
-> +-----------------------
-> +
-> +.. kernel-doc:: include/uapi/drm/i915_drm.h
-> +   :doc: Context Engine Map uAPI
-> +
-> +Virtual Engine uAPI
-> +-------------------
-> +
-> +.. kernel-doc:: include/uapi/drm/i915_drm.h
-> +   :doc: Virtual Engine uAPI
-> +
->  Locking Guidelines
->  ------------------
->  
-> diff --git a/include/uapi/drm/i915_drm.h b/include/uapi/drm/i915_drm.h
-> index a1cb4aa035a9..2f70c48567c0 100644
-> --- a/include/uapi/drm/i915_drm.h
-> +++ b/include/uapi/drm/i915_drm.h
-> @@ -1806,6 +1806,69 @@ struct drm_i915_gem_context_param_sseu {
->  	__u32 rsvd;
->  };
->  
-> +/**
-> + * DOC: Virtual Engine uAPI
-> + *
-> + * Virtual engine is a concept where userspace is able to configure a set of
-> + * physical engines, submit a batch buffer, and let the driver execute it on any
-> + * engine from the set as it sees fit.
-> + *
-> + * This is primarily useful on parts which have multiple instances of a same
-> + * class engine, like for example GT3+ Skylake parts with their two VCS engines.
-> + *
-> + * For instance userspace can enumerate all engines of a certain class using the
-> + * previously described `Engine Discovery uAPI`_. After that userspace can
-> + * create a GEM context with a placeholder slot for the virtual engine (using
-> + * `I915_ENGINE_CLASS_INVALID` and `I915_ENGINE_CLASS_INVALID_NONE` for class
-> + * and instance respectively) and finally using the
-> + * `I915_CONTEXT_ENGINES_EXT_LOAD_BALANCE` extension place a virtual engine in
-> + * the same reserved slot.
-> + *
-> + * Example of creating a virtual engine and submitting a batch buffer to it:
-> + *
-> + * .. code-block:: C
-> + *
-> + * 	I915_DEFINE_CONTEXT_ENGINES_LOAD_BALANCE(virtual, 2) = {
-> + * 		.base.name = I915_CONTEXT_ENGINES_EXT_LOAD_BALANCE,
-> + * 		.engine_index = 0, // Place this virtual engine into engine map slot 0
-> + * 		.num_siblings = 2,
-> + * 		.engines = { { I915_ENGINE_CLASS_VIDEO, 0 },
-> + * 			     { I915_ENGINE_CLASS_VIDEO, 1 }, },
-> + * 	};
-> + * 	I915_DEFINE_CONTEXT_PARAM_ENGINES(engines, 1) = {
-> + * 		.engines = { { I915_ENGINE_CLASS_INVALID,
-> + * 			       I915_ENGINE_CLASS_INVALID_NONE } },
-> + * 		.extensions = to_user_pointer(&virtual), // Chains after load_balance extension
-> + * 	};
-> + * 	struct drm_i915_gem_context_create_ext_setparam p_engines = {
-> + * 		.base = {
-> + * 			.name = I915_CONTEXT_CREATE_EXT_SETPARAM,
-> + * 		},
-> + * 		.param = {
-> + * 			.param = I915_CONTEXT_PARAM_ENGINES,
-> + * 			.value = to_user_pointer(&engines),
-> + * 			.size = sizeof(engines),
-> + * 		},
-> + * 	};
-> + * 	struct drm_i915_gem_context_create_ext create = {
-> + * 		.flags = I915_CONTEXT_CREATE_FLAGS_USE_EXTENSIONS,
-> + * 		.extensions = to_user_pointer(&p_engines);
-> + * 	};
-> + *
-> + * 	ctx_id = gem_context_create_ext(drm_fd, &create);
-> + *
-> + * 	// Now we have created a GEM context with its engine map containing a
-> + * 	// single virtual engine. Submissions to this slot can go either to
-> + * 	// vcs0 or vcs1, depending on the load balancing algorithm used inside
-> + * 	// the driver. The load balancing is dynamic from one batch buffer to
-> + * 	// another and transparent to userspace.
-> + *
-> + * 	...
-> + * 	execbuf.rsvd1 = ctx_id;
-> + * 	execbuf.flags = 0; // Submits to index 0 which is the virtual engine
-> + * 	gem_execbuf(drm_fd, &execbuf);
-> + */
-> +
->  /*
->   * i915_context_engines_load_balance:
->   *
-> @@ -1882,6 +1945,61 @@ struct i915_context_engines_bond {
->  	struct i915_engine_class_instance engines[N__]; \
->  } __attribute__((packed)) name__
->  
-> +/**
-> + * DOC: Context Engine Map uAPI
-> + *
-> + * Context engine map is a new way of addressing engines when submitting batch-
-> + * buffers, replacing the existing way of using identifiers like `I915_EXEC_BLT`
-> + * inside the flags field of `struct drm_i915_gem_execbuffer2`.
-> + *
-> + * To use it created GEM contexts need to be configured with a list of engines
-> + * the user is intending to submit to. This is accomplished using the
-> + * `I915_CONTEXT_PARAM_ENGINES` parameter and `struct
-> + * i915_context_param_engines`.
-> + *
-> + * For such contexts the `I915_EXEC_RING_MASK` field becomes an index into the
-> + * configured map.
-> + *
-> + * Example of creating such context and submitting against it:
-> + *
-> + * .. code-block:: C
-> + *
-> + * 	I915_DEFINE_CONTEXT_PARAM_ENGINES(engines, 2) = {
-> + * 		.engines = { { I915_ENGINE_CLASS_RENDER, 0 },
-> + * 			     { I915_ENGINE_CLASS_COPY, 0 } }
-> + * 	};
-> + * 	struct drm_i915_gem_context_create_ext_setparam p_engines = {
-> + * 		.base = {
-> + * 			.name = I915_CONTEXT_CREATE_EXT_SETPARAM,
-> + * 		},
-> + * 		.param = {
-> + * 			.param = I915_CONTEXT_PARAM_ENGINES,
-> + * 			.value = to_user_pointer(&engines),
-> + * 			.size = sizeof(engines),
-> + * 		},
-> + * 	};
-> + * 	struct drm_i915_gem_context_create_ext create = {
-> + * 		.flags = I915_CONTEXT_CREATE_FLAGS_USE_EXTENSIONS,
-> + * 		.extensions = to_user_pointer(&p_engines);
-> + * 	};
-> + *
-> + * 	ctx_id = gem_context_create_ext(drm_fd, &create);
-> + *
-> + * 	// We have now created a GEM context with two engines in the map:
-> + * 	// Index 0 points to rcs0 while index 1 points to bcs0. Other engines
-> + * 	// will not be accessible from this context.
-> + *
-> + * 	...
-> + * 	execbuf.rsvd1 = ctx_id;
-> + * 	execbuf.flags = 0; // Submits to index 0, which is rcs0 for this context
-> + * 	gem_execbuf(drm_fd, &execbuf);
-> + *
-> + * 	...
-> + * 	execbuf.rsvd1 = ctx_id;
-> + * 	execbuf.flags = 1; // Submits to index 0, which is bcs0 for this context
-> + * 	gem_execbuf(drm_fd, &execbuf);
-> + */
-> +
->  struct i915_context_param_engines {
->  	__u64 extensions; /* linked chain of extension blocks, 0 terminates */
->  #define I915_CONTEXT_ENGINES_EXT_LOAD_BALANCE 0 /* see i915_context_engines_load_balance */
-> @@ -2375,6 +2493,76 @@ struct drm_i915_query_topology_info {
->  	__u8 data[];
->  };
->  
-> +/**
-> + * DOC: Engine Discovery uAPI
-> + *
-> + * Engine discovery uAPI is a way of enumerating physical engines present in a
-> + * GPU associated with an open i915 DRM file descriptor. This supersedes the old
-> + * way of using `DRM_IOCTL_I915_GETPARAM` and engine identifiers like
-> + * `I915_PARAM_HAS_BLT`.
-> + *
-> + * The need for this interface came starting with Icelake and newer GPUs, which
-> + * started to establish a pattern of having multiple engines of a same class,
-> + * where not all instances were always completely functionally equivalent.
-> + *
-> + * Entry point for this uapi is `DRM_IOCTL_I915_QUERY` with the
-> + * `DRM_I915_QUERY_ENGINE_INFO` as the queried item id.
-> + *
-> + * Example for getting the list of engines:
-> + *
-> + * .. code-block:: C
-> + *
-> + * 	struct drm_i915_query_engine_info *info;
-> + * 	struct drm_i915_query_item item = {
-> + * 		.query_id = DRM_I915_QUERY_ENGINE_INFO;
-> + * 	};
-> + * 	struct drm_i915_query query = {
-> + * 		.num_items = 1,
-> + * 		.items_ptr = (uintptr_t)&item,
-> + * 	};
-> + * 	int err, i;
-> + *
-> + * 	// First query the size of the blob we need, this needs to be large
-> + * 	// enough to hold our array of engines. The kernel will fill out the
-> + * 	// item.length for us, which is the number of bytes we need.
-> + * 	//
-> + * 	// Alternatively a large buffer can be allocated straight away enabling
-> + * 	// querying in one pass, in which case item.length should contain the
-> + * 	// length of the provided buffer.
-> + * 	err = ioctl(fd, DRM_IOCTL_I915_QUERY, &query);
-> + * 	if (err) ...
-> + *
-> + * 	info = calloc(1, item.length);
-> + * 	// Now that we allocated the required number of bytes, we call the ioctl
-> + * 	// again, this time with the data_ptr pointing to our newly allocated
-> + * 	// blob, which the kernel can then populate with info on all engines.
-> + * 	item.data_ptr = (uintptr_t)&info,
-> + *
-> + * 	err = ioctl(fd, DRM_IOCTL_I915_QUERY, &query);
-> + * 	if (err) ...
-> + *
-> + * 	// We can now access each engine in the array
-> + * 	for (i = 0; i < info->num_engines; i++) {
-> + * 		struct drm_i915_engine_info einfo = info->engines[i];
-> + * 		u16 class = einfo.engine.class;
-> + * 		u16 instance = einfo.engine.instance;
-> + * 		....
-> + * 	}
-> + *
-> + * 	free(info);
-> + *
-> + * Each of the enumerated engines, apart from being defined by its class and
-> + * instance (see `struct i915_engine_class_instance`), also can have flags and
-> + * capabilities defined as documented in i915_drm.h.
-> + *
-> + * For instance video engines which support HEVC encoding will have the
-> + * `I915_VIDEO_CLASS_CAPABILITY_HEVC` capability bit set.
-> + *
-> + * Engine discovery only fully comes to its own when combined with the new way
-> + * of addressing engines when submitting batch buffers using contexts with
-> + * engine maps configured.
-> + */
-> +
->  /**
->   * struct drm_i915_engine_info
->   *
-> -- 
-> 2.30.2
-> 
+> > ---
+> >  drivers/gpu/drm/i915/i915_pci.c | 3 +++
+> >  1 file changed, 3 insertions(+)
+> >
+> > diff --git a/drivers/gpu/drm/i915/i915_pci.c b/drivers/gpu/drm/i915/i915_pci.c
+> > index 83b500bb170c..78742157aaa3 100644
+> > --- a/drivers/gpu/drm/i915/i915_pci.c
+> > +++ b/drivers/gpu/drm/i915/i915_pci.c
+> > @@ -1040,6 +1040,9 @@ static const struct pci_device_id pciidlist[] = {
+> >         INTEL_RKL_IDS(&rkl_info),
+> >         INTEL_ADLS_IDS(&adl_s_info),
+> >         INTEL_ADLP_IDS(&adl_p_info),
+> > +#if IS_ENABLED(CONFIG_DRM_I915_UNSTABLE_FAKE_LMEM)
+> > +       INTEL_DG1_IDS(&dg1_info),
+> > +#endif
+> >         {0, 0, 0}
+> >  };
+> >  MODULE_DEVICE_TABLE(pci, pciidlist);
+> > --
+> > 2.26.3
+> >
 
 -- 
 Daniel Vetter
