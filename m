@@ -1,117 +1,71 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D2E93AAF0F
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Jun 2021 10:47:44 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 12B213AAF52
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Jun 2021 11:09:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9D0EB6E0F7;
-	Thu, 17 Jun 2021 08:47:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 327466E8C3;
+	Thu, 17 Jun 2021 09:09:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam10on2047.outbound.protection.outlook.com [40.107.94.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B80316E0F7
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Jun 2021 08:47:37 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=nIdBtNFijnsw4l9K5Hud69IjhqII/xtDHYO5CG38kS4WIMBmqqUsdOFf9wjl1HZzeSA8RzRi8hUiel6g11sa2F+TALmJ2R/ynzrvDhivHFFRtho4eG8Uxh9Znfl7PrRmHVIYzt7NQkBv1HtaD5yqGPzSQSvXx2Ocj/JWL7flPyi66rCFG5Tl6E2bV1dBebu/2COBkHfacBcgYbIlODak3r5ho0LGcYOy3z3D+beJHv3shlHEzZhoofQZwbEvIkp1O2qpVpeVhjcYnBYcBdC79my32moqN/JvD0FASToRcRcYo9sTvoZbs60JzBGhi3uib1OnZzMcpfqym3I5Ut26eg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=BHK4BQcBtaFK7soOqVnLA3XHtwvo8c2GfVzchZs8ACU=;
- b=j9dKKNFywB2htce+5Y5ly7cW4WKYdCvpi1Gx3w8mSTTEhY/VTXWqfXdn1AerdSYzq/lXAzD8sbGNrKtvwoaUacMPzgbE/NNo55Lkg/Dz0TuD2Dh7NXea65zg17yhAud1GhHJPxT5byzXliAfG4WAMMUcOERjh5qaCHj3739j4ScWOCqzLhxXTcz6XUDghf5htQ1D38seasgziPs/VkAoZaSiYxZ+yH1hXNeyKlYKH7uZKS4qUkoNV5Rhvaaqwfjw76bBJ9zCwo+p3HlgVtDxvL7S5e/R2BfglELh3TF1wuWUr8wPZNPLY07s97PMAh/2RT98VlZgvpTeasVNTD7fRQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=BHK4BQcBtaFK7soOqVnLA3XHtwvo8c2GfVzchZs8ACU=;
- b=4WMrpl3wjzWtaohrC1njnMQNkk7LINQGNIzSpPIJCzqdYhXIWTeDHcxBRveV9Nni8yTAwhlOj9k1kzIekMKujM1RWgpRJkGWYPrXRPGsT9MU6w3ykgFOsA9TCKxMKtqs+fZqH9PTesrYI67wd8IhmKWc+5g//Q/QpP33wSMcexY=
-Received: from CO6PR12MB5489.namprd12.prod.outlook.com (2603:10b6:303:139::18)
- by CO6PR12MB5460.namprd12.prod.outlook.com (2603:10b6:5:357::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4242.19; Thu, 17 Jun
- 2021 08:47:36 +0000
-Received: from CO6PR12MB5489.namprd12.prod.outlook.com
- ([fe80::704a:9f7a:1c8d:db6]) by CO6PR12MB5489.namprd12.prod.outlook.com
- ([fe80::704a:9f7a:1c8d:db6%4]) with mapi id 15.20.4242.021; Thu, 17 Jun 2021
- 08:47:36 +0000
-From: "Lin, Wayne" <Wayne.Lin@amd.com>
-To: "Wentland, Harry" <Harry.Wentland@amd.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
-Subject: Re: [PATCH v2 1/2] drm/dp_mst: Do not set proposed vcpi directly
-Thread-Topic: [PATCH v2 1/2] drm/dp_mst: Do not set proposed vcpi directly
-Thread-Index: AQHXYmOAF5JP5WagLk2QJkfz39Il46sXDeaAgADVGno=
-Date: Thu, 17 Jun 2021 08:47:35 +0000
-Message-ID: <CO6PR12MB548969C7674DD593B0497A31FC0E9@CO6PR12MB5489.namprd12.prod.outlook.com>
-References: <20210616035501.3776-1-Wayne.Lin@amd.com>
- <20210616035501.3776-2-Wayne.Lin@amd.com>,
- <b9eeec7d-c080-3c7f-706b-ce11c8533d16@amd.com>
-In-Reply-To: <b9eeec7d-c080-3c7f-706b-ce11c8533d16@amd.com>
-Accept-Language: en-US, zh-TW
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: MSIP_Label_88914ebd-7e6c-4e12-a031-a9906be2db14_Enabled=True;
- MSIP_Label_88914ebd-7e6c-4e12-a031-a9906be2db14_SiteId=3dd8961f-e488-4e60-8e11-a82d994e183d;
- MSIP_Label_88914ebd-7e6c-4e12-a031-a9906be2db14_SetDate=2021-06-17T08:47:06.393Z;
- MSIP_Label_88914ebd-7e6c-4e12-a031-a9906be2db14_Name=AMD-Official
- Use
- Only; MSIP_Label_88914ebd-7e6c-4e12-a031-a9906be2db14_ContentBits=0;
- MSIP_Label_88914ebd-7e6c-4e12-a031-a9906be2db14_Method=Standard; 
-authentication-results: amd.com; dkim=none (message not signed)
- header.d=none;amd.com; dmarc=none action=none header.from=amd.com;
-x-originating-ip: [165.204.84.11]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: b6da72fe-dbea-4a29-6c60-08d9316c8e2d
-x-ms-traffictypediagnostic: CO6PR12MB5460:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <CO6PR12MB5460C930E10E2AA00FE1E920FC0E9@CO6PR12MB5460.namprd12.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:46;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: m5313y4ymU01WsIv7ngW7ODuFahMTpUdXpEZLCNP8z3j/SkfFY5KjGbOBXnJgtcafKzOlrTago+psnaVifXDCS4+gv1My9P+pYI/J/xE1SEDrMnFDxeo3SxGN9bjKo+McF4MS7rpfmJaFcGInpxGOq0b9O057yz9jrp9JXB0yGpvKuW5k9PThBI3tpgkwd9RdClrtpftLN+w13rMGFyFwAMdoETFkjx6cyhdAmdR98CCvuJTGCskaVwnFizvU9X0ReOODmj5GpZxTzpjxcM2L4C3ZN96f6Y3lCXC+hgHukmidw3PdN/QzoUKFTPquyb9LHAVxjUOTEu1SF83t4WB5HY1T+HtKY2NYNFC13qPClRAPjM+hW60P8kH2vCrJVD2NfvMWdrYOcnFswGoMARODF9pF89zmcV7s+r7P6ZscpYIc8EKMKHK+3pyXwqHvko3i0KDym0xLpEV4v9RZIZkBYvbR8CUxFfs74u/XtQYKlKqu+LilRf3xZFocxoHcoqoIA++8LtZEfuIpYl5Y96AdFv7rj/3KXfjLBaIDwQoNzzV1+3RJehOtWcHMwMafjN+/wxp4ZPzIoU0zMI3IzmHoqLHh53u27jMFCl0arHhBv0=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CO6PR12MB5489.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(396003)(39860400002)(136003)(366004)(376002)(346002)(8936002)(54906003)(5660300002)(52536014)(8676002)(316002)(9686003)(110136005)(83380400001)(55016002)(2906002)(91956017)(76116006)(66946007)(7696005)(66476007)(66446008)(4326008)(6506007)(478600001)(26005)(66556008)(64756008)(53546011)(86362001)(38100700002)(122000001)(33656002)(71200400001)(186003);
- DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?EzrVZO7iEVG2oQhzjfVqWuykR5IYpKBwUGvkNjGkNUZzgdopvK/ZxOpxNy?=
- =?iso-8859-1?Q?GiFusY2P0+Q+qAxRI1517/5Z3tziHm+kZOgNtED+shnoXg42i4cVxOr4XZ?=
- =?iso-8859-1?Q?L+aPLowWDobsk/XkH3CU6/P+09CuYNvbuwar6pNlc/O4R0VQzVOoi0wJUz?=
- =?iso-8859-1?Q?zdR+fR5mOEbofMeWR3XHhSSm0RiFdQoqaBKOv9xoz/14vduC1legKOhic6?=
- =?iso-8859-1?Q?6cKlfGwY2fehhoD2ozQXsda2xOs+upgSDv+6ZSVfq1AlTyUOD0htgCHijs?=
- =?iso-8859-1?Q?6B/zmHxne4Kxp4XAgS1F6FOuk1muxaH0ai+3ZzLKvQ4/7xf8XuAxZs+hC/?=
- =?iso-8859-1?Q?ioAAMinQ/NpVxSFzYhL/wdr5SjICTlcXM3IcLv3ZXr3JmQLANRQIR6d/0b?=
- =?iso-8859-1?Q?7gROvxzdTk2qNafkIjuZP3krovSoPABvZKWf/See2bNynljnxCo3iDUcNp?=
- =?iso-8859-1?Q?XH/BFIKeI53UxNsdal4by2j4Dyk+diHTfE4E/r9iaMDbVHymDrNqrSHO7m?=
- =?iso-8859-1?Q?SO9HOdUj/H0y9LV7wVoGHhe3Ds7L3maqegibRmq88K1/I3tLt7FQ4syXp+?=
- =?iso-8859-1?Q?GBaNX+Euisj4ie/4Hp0YSPD28fZpnzNy96g+/KeFaSbRB4ByH945j1b6Tv?=
- =?iso-8859-1?Q?Ni7IZOeX3CJNKeJULaxfDT3d9HkzH8H7n2IhM4amcDDa7qesmEHPSLGKSE?=
- =?iso-8859-1?Q?2QFforUtrzi/nrL+oBiOFOPvirxJJCiVF1QqiO43LPSNpB604D8GcTZ72N?=
- =?iso-8859-1?Q?tM3EmrtI4PhQ/QmhMnNN+dNNvBrlqM21/t0RrdWwGZTvRos8P1E7sxi5Oy?=
- =?iso-8859-1?Q?5QwnVslGwxgh1yFc4OyghTVrqAA9jU68nuhT/gDvBQr3WhacpU/HgAfDwG?=
- =?iso-8859-1?Q?y2YvTu4bRD/e3FzDMJNmhe1N/yowJ0Mudq5bdXTFZA6jRKGFIfMzf95CFG?=
- =?iso-8859-1?Q?Ya495wIsCUjS7SmpLrAiEWQ2pG4ThnMLi4JP6eFD6ZiIfuPogg15xYD7DY?=
- =?iso-8859-1?Q?kx4lG3A3yfICbAyI1FaEpuBCmKvU6LL93uiiBQpebTxGS5kZOy+iHOqM6q?=
- =?iso-8859-1?Q?VUX09LVEuMXGO1i0Pa/pnAZRei2gVorG+yv1CPatK40QRAccu+Kehy8OXD?=
- =?iso-8859-1?Q?iJYpOcPB/YpGxPVnWMba15uA8qIWjW2b8o170/b8i97xqz9UfRg5dsx4Gc?=
- =?iso-8859-1?Q?8RLXjd8fwnZod+qcPZbZs2WQ1OpwVazik6NjThnPiqe6zmkIAvlJ+G3Xk0?=
- =?iso-8859-1?Q?lSQXAH5hookrn8AEl/unL6FJ2gLnfaKzFeSnY8qDk+i/GYgBx/3LfjaEOj?=
- =?iso-8859-1?Q?HcS+n+etV7oEt6BDb/XhDhrPDCf2daxj87jKlcntzNRpbM8=3D?=
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com
+ [IPv6:2a00:1450:4864:20::244])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A97276E0DD
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Jun 2021 09:09:11 +0000 (UTC)
+Received: by mail-lj1-x244.google.com with SMTP id s22so7936550ljg.5
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Jun 2021 02:09:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:in-reply-to:references
+ :mime-version; bh=2HjwvT+SV5+/NgCoeu9k5QwUA4VIDEdumWwRrwq0kqk=;
+ b=IjG2/5BOiWh4J/EZL9lyBLtOQ+l9zGj2pUo5V1uoSqPKU3/qS1ogqr4zGXA1b5MfiW
+ Bm911EzAiCBQ/NtAPLLVk1GRQjSHxuZKl+tEoC41CiuUWUJPucyfvooFrXjLW7cYSf1P
+ qMKwR746tIAP49KzjmemjSmUPkj8rxKR0aYaK95R0m5KYow/gCJpNevDMsraxp7jv/lq
+ alwx/jqb0U/RTgo6/WBJ/gZtTxJXCKNYayb34AKQnFwO6ydxFuyv9QLtv/lp7ZMao/4y
+ LTga6unHMop7t5uLyyO3JDfjOs/5h7byspS+IGF3NAIfpZ8+/DjvFaeZeYaFwforhOXI
+ SFYQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version;
+ bh=2HjwvT+SV5+/NgCoeu9k5QwUA4VIDEdumWwRrwq0kqk=;
+ b=YyhMo7i7mGNu3JU+0ALP8eAqWYmxPZVKdav1L6IXvprwzF/28xUl8/4MkCaRtFJApd
+ zg4CUkMqU9h9psRxIZYylyx6fdPfIiZLCisqp4MlLajOb6rm8A9YK4os0lJQYr3D/eSP
+ 1X1jRWnZHFkY3ggT2CBEnThCX6Wida9iQiqklfSGdv90Fvk642cbwOn0gjXPRbzSeDWh
+ 0ExdLZSuxns5eRKKbhfxauV0opNsrfrgdP9i6TiJhpVRK6NeyKHud6WH2rs1fKyTL64h
+ ReAIfLDmo3h22g9kx+LXRZ6Zf6UNB2iat2+nW5eyg4PTmmYYZGMitBVEx1hufRArxbpg
+ q+AA==
+X-Gm-Message-State: AOAM5307ptaLmEIUm0H+LUNbj4lYBFcqTjYKN0LF6E26cT3IkeMCTp0+
+ UoOAjpsCTdSCYSccBVcTxsc=
+X-Google-Smtp-Source: ABdhPJzU1Ppf+JWgqlR+K1m3CQOUVFDedVECYutiw3EohMlCte3llAtBfNmj9OVMU1JFefVOsM9PZA==
+X-Received: by 2002:a19:6a0e:: with SMTP id u14mr3010213lfu.184.1623914835517; 
+ Thu, 17 Jun 2021 00:27:15 -0700 (PDT)
+Received: from eldfell ([194.136.85.206])
+ by smtp.gmail.com with ESMTPSA id c9sm546233ljr.104.2021.06.17.00.27.13
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 17 Jun 2021 00:27:15 -0700 (PDT)
+Date: Thu, 17 Jun 2021 10:27:01 +0300
+From: Pekka Paalanen <ppaalanen@gmail.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Subject: Re: [PATCH v3] Documentation: gpu: Mention the requirements for new
+ properties
+Message-ID: <20210617102701.28f820b2@eldfell>
+In-Reply-To: <YMpnlDmzn0Re4Urn@pendragon.ideasonboard.com>
+References: <CAKMK7uG_Wkko0L6sv0U1bXWdYk4fg3OTcp5=+qfRV0CP9V44=A@mail.gmail.com>
+ <KNFHfqvJUVq9oy9BSdznj1S6xhDoZUAx1_DwfSNvUv8u1d-TroKBTq2hxtv7u1aJnxnpI5CxUXSMTn73YsVhZjnRW78gv-QLsK6AkJ5m3Fw=@emersion.fr>
+ <20210611120309.2b5eb4htupv5ss32@e110455-lin.cambridge.arm.com>
+ <20210614174912.15a49336@eldfell>
+ <20210614152413.nguqia3s4tlowio4@e110455-lin.cambridge.arm.com>
+ <YMeE63G+9DSLPB3N@pendragon.ideasonboard.com>
+ <20210615100335.0b8f96d5@eldfell>
+ <ouNaZaqkV1d_wPRESVBQHxvMhmJ53xIrgtPfDs8mB88AN3FEWt7cq031k8ZqCva1Ob0TCNTnsWqNDS0l5NXfejXIL7YUky3XGdjmh1_hefk=@emersion.fr>
+ <YMh21WBrADbZDcbp@pendragon.ideasonboard.com>
+ <20210615131656.2ecefdc4@eldfell>
+ <YMpnlDmzn0Re4Urn@pendragon.ideasonboard.com>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: CO6PR12MB5489.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b6da72fe-dbea-4a29-6c60-08d9316c8e2d
-X-MS-Exchange-CrossTenant-originalarrivaltime: 17 Jun 2021 08:47:35.8259 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 26RhnUpeEoUwFD/uqMpMIl67t0pP8sfbbbym3Ug80P2iiNGx5qB/4J2LNf6/VDeoChpdY3nFVbeJ3bdNSw0p0g==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO6PR12MB5460
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ boundary="Sig_/d.Guy7TlX58IGrQiolhw1zS"; protocol="application/pgp-signature"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -124,170 +78,187 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Zuo, Jerry" <Jerry.Zuo@amd.com>, "Pillai,
- Aurabindo" <Aurabindo.Pillai@amd.com>,
- "stable@vger.kernel.org" <stable@vger.kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, "Kazlauskas,
- Nicholas" <Nicholas.Kazlauskas@amd.com>
+Cc: Ludovic Desroches <ludovic.desroches@microchip.com>,
+ Haneen Mohammed <hamohammed.sa@gmail.com>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+ Xinliang Liu <xinliang.liu@linaro.org>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Liviu Dudau <liviu.dudau@arm.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>, Sandy Huang <hjc@rock-chips.com>,
+ Melissa Wen <melissa.srw@gmail.com>, Andrzej Hajda <a.hajda@samsung.com>,
+ Thierry Reding <thierry.reding@gmail.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Benjamin Gaignard <benjamin.gaignard@linaro.org>,
+ Anitha Chrisanthus <anitha.chrisanthus@intel.com>,
+ Daniel Vetter <daniel.vetter@intel.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Jerome Brunet <jbrunet@baylibre.com>, Marek Vasut <marex@denx.de>,
+ Jonathan Corbet <corbet@lwn.net>, Joonyoung Shim <jy0922.shim@samsung.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+ Kevin Hilman <khilman@baylibre.com>, Neil Armstrong <narmstrong@baylibre.com>,
+ Russell King <linux@armlinux.org.uk>, Steven Price <steven.price@arm.com>,
+ David Airlie <airlied@linux.ie>, Xinwei Kong <kong.kongxinwei@hisilicon.com>,
+ Noralf =?UTF-8?B?VHLDuG5uZXM=?= <noralf@tronnes.org>,
+ VMware Graphics <linux-graphics-maintainer@vmware.com>,
+ Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+ Chen Feng <puck.chen@hisilicon.com>, Hyun Kwon <hyun.kwon@xilinx.com>,
+ NXP Linux Team <linux-imx@nxp.com>, Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Tian Tao <tiantao6@hisilicon.com>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Jonas Karlman <jonas@kwiboo.se>,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ Edmund Dea <edmund.j.dea@intel.com>, Sascha Hauer <s.hauer@pengutronix.de>,
+ Alison Wang <alison.wang@nxp.com>, Roland Scheidegger <sroland@vmware.com>,
+ Shawn Guo <shawnguo@kernel.org>, Ben Skeggs <bskeggs@redhat.com>,
+ Maxime Ripard <maxime@cerno.tech>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
+ Sean Paul <sean@poorly.run>, Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Paul Cercueil <paul@crapouillou.net>, Jernej Skrabec <jernej.skrabec@siol.net>,
+ Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+ Tomi Valkeinen <tomba@kernel.org>, Hans de Goede <hdegoede@redhat.com>,
+ Andrew Jeffery <andrew@aj.id.au>, Yannick Fertr e <yannick.fertre@foss.st.com>,
+ Boris Brezillon <bbrezillon@kernel.org>,
+ Seung-Woo Kim <sw0312.kim@samsung.com>,
+ Nicolas Ferre <nicolas.ferre@microchip.com>,
+ Robert Foss <robert.foss@linaro.org>, Joel Stanley <joel@jms.id.au>,
+ Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Qiang Yu <yuq825@gmail.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Alex Deucher <alexander.deucher@amd.com>, Huang Rui <ray.huang@amd.com>,
+ Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>,
+ Philippe Cornu <philippe.cornu@foss.st.com>, Jyri Sarha <jyri.sarha@iki.fi>,
+ Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-[AMD Official Use Only]
+--Sig_/d.Guy7TlX58IGrQiolhw1zS
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-________________________________________
-> From: Wentland, Harry <Harry.Wentland@amd.com>
-> Sent: Thursday, June 17, 2021 03:53
-> To: Lin, Wayne; dri-devel@lists.freedesktop.org
-> Cc: lyude@redhat.com; Kazlauskas, Nicholas; Zuo, Jerry; Pillai, Aurabindo=
-; Maarten Lankhorst; Maxime Ripard; Thomas Zimmermann; stable@vger.kernel.o=
-rg
-> Subject: Re: [PATCH v2 1/2] drm/dp_mst: Do not set proposed vcpi directly
->
->
->
-> On 2021-06-15 11:55 p.m., Wayne Lin wrote:
-> > [Why]
-> > When we receive CSN message to notify one port is disconnected, we will
-> > implicitly set its corresponding num_slots to 0. Later on, we will
-> > eventually call drm_dp_update_payload_part1() to arrange down streams.
-> >
-> > In drm_dp_update_payload_part1(), we iterate over all proposed_vcpis[]
-> > to do the update. Not specific to a target sink only. For example, if w=
-e
-> > light up 2 monitors, Monitor_A and Monitor_B, and then we unplug
-> > Monitor_B. Later on, when we call drm_dp_update_payload_part1() to try
-> > to update payload for Monitor_A, we'll also implicitly clean payload fo=
-r
-> > Monitor_B at the same time. And finally, when we try to call
-> > drm_dp_update_payload_part1() to clean payload for Monitor_B, we will d=
-o
-> > nothing at this time since payload for Monitor_B has been cleaned up
-> > previously.
-> >
-> > For StarTech 1to3 DP hub, it seems like if we didn't update DPCD payloa=
-d
-> > ID table then polling for "ACT Handled"(BIT_1 of DPCD 002C0h) will fail
-> > and this polling will last for 3 seconds.
-> >
-> > Therefore, guess the best way is we don't set the proposed_vcpi[]
-> > diretly. Let user of these herlper functions to set the proposed_vcpi
-> > directly.
-> >
-> > [How]
-> > 1. Revert commit 7617e9621bf2 ("drm/dp_mst: clear time slots for ports
-> > invalid")
-> > 2. Tackle the issue in previous commit by skipping those trasient
-> > proposed VCPIs. These stale VCPIs shoulde be explicitly cleared by
-> > user later on.
-> >
-> > Changes since v1:
-> > * Change debug macro to use drm_dbg_kms() instead
-> > * Amend the commit message to add Fixed & Cc tags
-> >
-> > Signed-off-by: Wayne Lin <Wayne.Lin@amd.com>
-> > Fixes: 7617e9621bf2 ("drm/dp_mst: clear time slots for ports invalid")
-> > Cc: Lyude Paul <lyude@redhat.com>
-> > Cc: Wayne Lin <Wayne.Lin@amd.com>
-> > Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> > Cc: Maxime Ripard <mripard@kernel.org>
-> > Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> > Cc: dri-devel@lists.freedesktop.org
-> > Cc: <stable@vger.kernel.org> # v5.5+
-> > ---
-> >  drivers/gpu/drm/drm_dp_mst_topology.c | 36 ++++++++-------------------
-> >  1 file changed, 10 insertions(+), 26 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/drm_dp_mst_topology.c b/drivers/gpu/drm/dr=
-m_dp_mst_topology.c
-> > index 32b7f8983b94..b41b837db66d 100644
-> > --- a/drivers/gpu/drm/drm_dp_mst_topology.c
-> > +++ b/drivers/gpu/drm/drm_dp_mst_topology.c
-> > @@ -2501,7 +2501,7 @@ drm_dp_mst_handle_conn_stat(struct drm_dp_mst_bra=
-nch *mstb,
-> >  {
-> >       struct drm_dp_mst_topology_mgr *mgr =3D mstb->mgr;
-> >       struct drm_dp_mst_port *port;
-> > -     int old_ddps, old_input, ret, i;
-> > +     int old_ddps, ret;
-> >       u8 new_pdt;
-> >       bool new_mcs;
-> >       bool dowork =3D false, create_connector =3D false;
-> > @@ -2533,7 +2533,6 @@ drm_dp_mst_handle_conn_stat(struct drm_dp_mst_bra=
-nch *mstb,
-> >       }
-> >
-> >       old_ddps =3D port->ddps;
-> > -     old_input =3D port->input;
-> >       port->input =3D conn_stat->input_port;
-> >       port->ldps =3D conn_stat->legacy_device_plug_status;
-> >       port->ddps =3D conn_stat->displayport_device_plug_status;
-> > @@ -2555,28 +2554,6 @@ drm_dp_mst_handle_conn_stat(struct drm_dp_mst_br=
-anch *mstb,
-> >               dowork =3D false;
-> >       }
-> >
-> > -     if (!old_input && old_ddps !=3D port->ddps && !port->ddps) {
-> > -             for (i =3D 0; i < mgr->max_payloads; i++) {
-> > -                     struct drm_dp_vcpi *vcpi =3D mgr->proposed_vcpis[=
-i];
-> > -                     struct drm_dp_mst_port *port_validated;
-> > -
-> > -                     if (!vcpi)
-> > -                             continue;
-> > -
-> > -                     port_validated =3D
-> > -                             container_of(vcpi, struct drm_dp_mst_port=
-, vcpi);
-> > -                     port_validated =3D
-> > -                             drm_dp_mst_topology_get_port_validated(mg=
-r, port_validated);
-> > -                     if (!port_validated) {
-> > -                             mutex_lock(&mgr->payload_lock);
-> > -                             vcpi->num_slots =3D 0;
-> > -                             mutex_unlock(&mgr->payload_lock);
-> > -                     } else {
-> > -                             drm_dp_mst_topology_put_port(port_validat=
-ed);
-> > -                     }
-> > -             }
-> > -     }
-> > -
-> >       if (port->connector)
-> >               drm_modeset_unlock(&mgr->base.lock);
-> >       else if (create_connector)
-> > @@ -3410,8 +3387,15 @@ int drm_dp_update_payload_part1(struct drm_dp_ms=
-t_topology_mgr *mgr)
-> >                               port =3D drm_dp_mst_topology_get_port_val=
-idated(
-> >                                   mgr, port);
-> >                               if (!port) {
-> > -                                     mutex_unlock(&mgr->payload_lock);
-> > -                                     return -EINVAL;
-> > +                                     if (vcpi->num_slots =3D=3D payloa=
-d->num_slots) {
-> > +                                             cur_slots +=3D vcpi->num_=
-slots;
-> > +                                             payload->start_slot =3D r=
-eq_payload.start_slot;
-> > +                                             continue;
-> > +                                     } else {
-> > +                                             drm_dbg_kms("Fail:set pay=
-load to invalid sink");
->
-> drm_dbg_kms takes a drm_device as first parameter.
->
-> Harry
+On Thu, 17 Jun 2021 00:05:24 +0300
+Laurent Pinchart <laurent.pinchart@ideasonboard.com> wrote:
 
-Thanks Harry. Should be addressed by another patch provided by Jos=E9.
->
-> > +                                             mutex_unlock(&mgr->payloa=
-d_lock);
-> > +                                             return -EINVAL;
-> > +                                     }
-> >                               }
-> >                               put_port =3D true;
-> >                       }
-> >
---
-Regards,
-Wayne
+> On Tue, Jun 15, 2021 at 01:16:56PM +0300, Pekka Paalanen wrote:
+> > On Tue, 15 Jun 2021 12:45:57 +0300 Laurent Pinchart wrote: =20
+> > > On Tue, Jun 15, 2021 at 07:15:18AM +0000, Simon Ser wrote: =20
+> > > > On Tuesday, June 15th, 2021 at 09:03, Pekka Paalanen wrote:
+> > > >    =20
+> > > > > indeed it will, but what else could one do to test userspace KMS
+> > > > > clients in generic CI where all you can have is virtual hardware?=
+ Maybe
+> > > > > in the long run VKMS needs to loop back to a userspace daemon that
+> > > > > implements all the complex processing and returns the writeback r=
+esult
+> > > > > via VKMS again? That daemon would then need a single upstream, li=
+ke the
+> > > > > kernel, where it is maintained and correctness verified.   =20
+> > > >=20
+> > > > The complex processing must be implemented even without write-back,=
+ because
+> > > > user-space can ask for CRCs of the CRTC.
+> > > >    =20
+> > > > > Or an LD_PRELOAD that hijacks all KMS ioctls and implements virtu=
+al
+> > > > > stuff in userspace? Didn't someone already have something like th=
+at?
+> > > > > It would need to be lifted to be a required part of kernel UAPI
+> > > > > submissions, I suppose like IGT is nowadays.   =20
+> > > >=20
+> > > > FWIW, I have a mock libdrm [1] for libliftoff. This is nowhere near=
+ a full
+> > > > software implementation with write-back connectors, but allows to e=
+xpose
+> > > > virtual planes and check atomic commits in CI.
+> > > >=20
+> > > > [1]: https://github.com/emersion/libliftoff/blob/master/test/libdrm=
+_mock.c
+> > > >    =20
+> > > > > For compositor developers like me knowing the exact formulas woul=
+d be a huge
+> > > > > benefit as it would allow me to use KMS to off-load precision-sen=
+sitive
+> > > > > operations (e.g.  professional color management). Otherwise, comp=
+ositors
+> > > > > probably need a switch: "high quality color management? Then do n=
+ot use KMS
+> > > > > features."   =20
+> > > >=20
+> > > > I think for alpha blending there are already rounding issues depend=
+ing on the
+> > > > hardware. I wouldn't keep my hopes up for any guarantee that all hw=
+ uses the
+> > > > exact same formulae for color management stuff.   =20
+> > >=20
+> > > Good, because otherwise you would be very quickly disappointed :-)
+> > >=20
+> > > For scaling we would also need to replicate the exact same filter tap=
+s,
+> > > which are often not documented. =20
+> >=20
+> > That is where the documented tolerances come into play. =20
+>=20
+> This is something I've experimented with a while ago, when developing
+> automated tests for the rcar-du driver. When playing with different
+> input images we had to constantly increases tolerances, up to a point
+> where the tests started to miss real problems :-(
+
+What should we infer from that? That the hardware is broken and
+exposing those KMS properties is a false promise?
+
+If a driver on certain hardware cannot correctly implement a KMS
+property over the full domain of the input space, should that driver
+then simply not expose the KMS property at all?
+
+But I would assume that the vendor still wants to expose the features
+in upstream kernels, yet they cannot use the standard KMS properties
+for that. Should the driver then expose vendor-specific properties with
+the disclaimer that the result is not always what one would expect, so
+that userspace written and tested explicitly for that hardware can
+still work?
+
+That is, a sufficient justification for a vendor-specific KMS property
+would be that a standard property already exists, but the hardware is
+too buggy to make it work. IOW, give up trying to make sense.
+
+I would like to move towards a direction where *hardware* design and
+testing is eventually guided by Linux KMS property definitions and
+their tests. If we could have a rule that if a driver cannot correctly
+implement a property then it must not expose the property, maybe in the
+long term that might start having an effect?
+
+My underlying assumption is that generic userspace will not use
+vendor-specific properties.
+
+Or, since we have atomic commits with TEST_ONLY, should it be driver's
+responsibility to carefully inspect the full state and reject the
+commit if the hardware is incapable of implementing it correctly?
+Vendor-specific userspace would know to avoid failing configurations to
+begin with. I suppose that might put an endless whack-a-mole game on
+drivers though.
+
+
+Thanks,
+pq
+
+--Sig_/d.Guy7TlX58IGrQiolhw1zS
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmDK+UUACgkQI1/ltBGq
+qqd4jg/9Gz/McKt8xwdcttPaWFXB9ivvFWRu0kt8hZTrY263TnycqkKFoG66ZY3X
+Apy1WGcub+AJdi/ajH+AexOSwViT5cO6CUHVBc9MldtPjQFjtxbZxh3GVYW+Pg5Y
+OM1HqI8pDA2z0qEMgWvzb+v3nimdgdlRAw47tXWIoj1xlbtjEhJTSTyb6YrlmJq5
+KfiFQ6iC26gUY9UFyDrg5zkzvjYzVFt6+B4fLJovNzsZN3funJkrh1kWiHckpcHk
+YfeT7Z03FAcWp/L2PrLOskCe6aJ8ds4DzLAmxPCJVoSR6MdQX49ZmRKiNHryiXg7
+K//IDmhM59dDfuFIllv0XqM1/xeEiycZ9E5rS0wwZp9MnHUppmV58r6hg9NkrU2Q
+sRIkh0gcFDTz55o5Pc3gULoQh6klV3LIKUjbqm0ulynSDpe7yfRAISwYDhJTUmSu
+HPWfSJN2duDXV8OKZNDQHTBqqhgQENkjfJNAswZxGAstWo+KaXCjNdg0cUV91Ick
+wsUZd7CVoLtsalDN0BmD/IdvwppwqxBjEJg4g+PhvxSLojUlxxf+rkf+jM9SYknW
+2FYhEZ4pI88Z9XpJy8MlPicW0EqL6UppWyECGwTFjPPd7IEsT+IRvxWV+GjegOtN
+YjAmqWraLFf0RiTwF1Qq3riHAmcGqG5rMQNnAnRVrD4SLP6nCsQ=
+=XQ+7
+-----END PGP SIGNATURE-----
+
+--Sig_/d.Guy7TlX58IGrQiolhw1zS--
