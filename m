@@ -2,62 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB6C13AB9E3
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Jun 2021 18:47:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FE3F3AB9E6
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Jun 2021 18:48:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3FA176E93E;
-	Thu, 17 Jun 2021 16:46:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4C1496E8B6;
+	Thu, 17 Jun 2021 16:48:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com
- [IPv6:2a00:1450:4864:20::336])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 115D16E0F4
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Jun 2021 16:46:53 +0000 (UTC)
-Received: by mail-wm1-x336.google.com with SMTP id k42so1981378wms.0
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Jun 2021 09:46:53 -0700 (PDT)
+Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com
+ [IPv6:2a00:1450:4864:20::333])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CDC2B6E8B6
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Jun 2021 16:48:32 +0000 (UTC)
+Received: by mail-wm1-x333.google.com with SMTP id
+ t11-20020a1cc30b0000b02901cec841b6a0so4553756wmf.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Jun 2021 09:48:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:content-transfer-encoding:in-reply-to;
- bh=i0pKnFJo7pj8mPbGYx1AyiMRcemtKNLbi0gD6SO3z7Y=;
- b=WS/0uBaD/7bmIekXaWzT7I0adA82ZTjqCcrYmkLcP0EHmuR8hhcc3E0r+jzY7Nd03b
- z1MGKImFRpVJEQk4bEePkL9g1NFi9VeBX3fMIca4+yr7D3tTZy5/I5rX9AOeqyAeruAo
- MeBJXF/jnDnlGaL5ztaPocu74tlhx0nxcFDGo=
+ bh=VVqdAfPYirwtfzhwa13A5gP2ivGPtkTk4CYFYMa0D9Y=;
+ b=iGXhUelAaPSkeEI3UInIr+QsOzRCX4ZKUGtUulz/4w+V1N7yunyF52N/7Xeqq5S6+2
+ 2IWZSKxDK9vZJdwPueEOBBx8K5nE4H6nY2Sxl3tDUzfT4KzAVGLleIqDVBytYxnwi1YF
+ XrYtOi2EOKtRl+a+xFeFBbjVj2gP7lohAcuGo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:content-transfer-encoding
  :in-reply-to;
- bh=i0pKnFJo7pj8mPbGYx1AyiMRcemtKNLbi0gD6SO3z7Y=;
- b=KWDdAgEvK8kOjNFLo7BBjteoUCwfrmaKS6v5xbSr7/ZG/KWapJVJITkqHId4aMqYee
- YCmjHGZtnAkF+lqGqr0KKtEIfrmtG9sZqUAJiwxyv7wL51Gs/vKlBUI4GUqNNYBKsgVB
- QDaR0OJT67J12acGqC3ZAuB0OD3iNDJ4zSSKShXdM/iGe6XwYgiCqvZHOgHYa7NFvQMU
- kaoWPAvls2FGiQNQE/q6w8EiGF7U9t283mdhTY2RSdDU7cIFHQA+CLZDjrWtbt5AAtYX
- B8VBsrMt8FnD0OZHFptNR2BnJIShiVQFsGpp/aHdBQE33fcqFTsQHHOC4wBa8aUobeG7
- TO/Q==
-X-Gm-Message-State: AOAM533YOeAKkF/coUqd/wcEqzBL/OpNqKFdSOUoq602IWH7jUSaT0v7
- rL2N62NWsgThwxwbYFsNYdxBXA==
-X-Google-Smtp-Source: ABdhPJxLH/IoGYfyyR0m/buczMjMQdD7n4LMJHr7TKoQ7vpUI9NpZ+aiE9tuJ44IPIaDMfE30A76zQ==
-X-Received: by 2002:a7b:c7da:: with SMTP id z26mr6307500wmk.29.1623948411674; 
- Thu, 17 Jun 2021 09:46:51 -0700 (PDT)
+ bh=VVqdAfPYirwtfzhwa13A5gP2ivGPtkTk4CYFYMa0D9Y=;
+ b=mP5hkTnb1DLxNGrRUMi4U1lxLNSie70exd08uDnO8bLlo4dLkyKQITSS8XQWRUNZLu
+ 4O1uvfa/Y030MNkEgOlaFWHkkA+BRY6VyfHL26ZDqzd775xYF9E97clGfoyBXlNDeiqF
+ a3LycuIc5gzWPwSa9TlAy98HT9Qv1OpMZlvAJTeyp4t3dql/5ABbGCpW003Blc9VGs8+
+ Xrzsg/UDDHltaBtYi2OjUbkT8gS4vk5PD0FYqUqXY77rV0wC3k9sXhNsqz8ENAGPlNeM
+ x0KWLjlwgcQFMdUBoU/AAh3rOz2RkD6aZDgNw+mT24afVEP7+UoxuVdhw4ivS25jwIUj
+ IezA==
+X-Gm-Message-State: AOAM533OiratpuTACuXu/OdTozFWWiAWLKhzn2YqWlKVmJpCvBdI6OsY
+ /WSXyCoFiodnG6jmMYhzQ72Fdw==
+X-Google-Smtp-Source: ABdhPJygKBiblmBrPmkrcj256A8MAihEfXhPRFsajbGM5mHXGt5XTHvumQotOwFACQeMZKBKCuMQjQ==
+X-Received: by 2002:a7b:c189:: with SMTP id y9mr6193034wmi.106.1623948511094; 
+ Thu, 17 Jun 2021 09:48:31 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id z12sm5993592wrw.97.2021.06.17.09.46.49
+ by smtp.gmail.com with ESMTPSA id r3sm5141152wmq.8.2021.06.17.09.48.30
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 17 Jun 2021 09:46:50 -0700 (PDT)
-Date: Thu, 17 Jun 2021 18:46:48 +0200
+ Thu, 17 Jun 2021 09:48:30 -0700 (PDT)
+Date: Thu, 17 Jun 2021 18:48:28 +0200
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Matthew Brost <matthew.brost@intel.com>
-Subject: Re: [Intel-gfx] [RFC PATCH 2/2] drm/doc/rfc: i915 new parallel
- submission uAPI plan
-Message-ID: <YMt8eChZPwxn5hQ1@phenom.ffwll.local>
-References: <20210526233357.9165-1-matthew.brost@intel.com>
- <20210526233357.9165-3-matthew.brost@intel.com>
- <YLpp6e8XlWvIZ0Y9@phenom.ffwll.local>
- <20210611195029.GA4388@sdutt-i7>
+To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>
+Subject: Re: [Mesa-dev] Linux Graphics Next: Userspace submission update
+Message-ID: <YMt83HMgDqvep9cN@phenom.ffwll.local>
+References: <0fbb1197-fa88-c474-09db-6daec13d3004@gmail.com>
+ <YLnq6Vuf4amZld3n@phenom.ffwll.local>
+ <586edeb3-73df-3da2-4925-1829712cba8b@gmail.com>
+ <YMC/4IhCePCu57HU@phenom.ffwll.local>
+ <1478737b-88aa-a24a-d2d7-cd3716df0cb0@gmail.com>
+ <YMEI8pcXpt22gi3D@phenom.ffwll.local>
+ <CAAxE2A6zwCHPaP5NnRETVe_BOsoVQK1T=h8gqRnUtP4sRFBkrw@mail.gmail.com>
+ <eadcb7ee-f6fa-c8c9-a8c4-ac42571871cf@gmail.com>
+ <CAAxE2A7vhWB6QbejJLLkfk5J8361DPtA9Dtxd9FWDzND8F_diA@mail.gmail.com>
+ <ebeabd65-9d8e-d364-a084-62bcdd7aa439@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210611195029.GA4388@sdutt-i7>
+In-Reply-To: <ebeabd65-9d8e-d364-a084-62bcdd7aa439@gmail.com>
 X-Operating-System: Linux phenom 5.10.0-7-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -71,374 +77,185 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- carl.zhang@intel.com, jason.ekstrand@intel.com, daniel.vetter@intel.com,
- mesa-dev@lists.freedesktop.org, christian.koenig@amd.com
+Cc: Marek =?utf-8?B?T2zFocOhaw==?= <maraeo@gmail.com>,
+ Michel =?iso-8859-1?Q?D=E4nzer?= <michel@daenzer.net>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Jason Ekstrand <jason@jlekstrand.net>,
+ ML Mesa-dev <mesa-dev@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Sorry I'm behind on mails  ...
+On Mon, Jun 14, 2021 at 07:13:00PM +0200, Christian König wrote:
+> As long as we can figure out who touched to a certain sync object last that
+> would indeed work, yes.
 
-On Fri, Jun 11, 2021 at 12:50:29PM -0700, Matthew Brost wrote:
-> On Fri, Jun 04, 2021 at 07:59:05PM +0200, Daniel Vetter wrote:
-> > On Wed, May 26, 2021 at 04:33:57PM -0700, Matthew Brost wrote:
-> > > Add entry for i915 new parallel submission uAPI plan.
+Don't you need to know who will touch it next, i.e. who is holding up your
+fence? Or maybe I'm just again totally confused.
+-Daniel
+
+> 
+> Christian.
+> 
+> Am 14.06.21 um 19:10 schrieb Marek Olšák:
+> > The call to the hw scheduler has a limitation on the size of all
+> > parameters combined. I think we can only pass a 32-bit sequence number
+> > and a ~16-bit global (per-GPU) syncobj handle in one call and not much
+> > else.
+> > 
+> > The syncobj handle can be an element index in a global (per-GPU) syncobj
+> > table and it's read only for all processes with the exception of the
+> > signal command. Syncobjs can either have per VMID write access flags for
+> > the signal command (slow), or any process can write to any syncobjs and
+> > only rely on the kernel checking the write log (fast).
+> > 
+> > In any case, we can execute the memory write in the queue engine and
+> > only use the hw scheduler for logging, which would be perfect.
+> > 
+> > Marek
+> > 
+> > On Thu, Jun 10, 2021 at 12:33 PM Christian König
+> > <ckoenig.leichtzumerken@gmail.com
+> > <mailto:ckoenig.leichtzumerken@gmail.com>> wrote:
+> > 
+> >     Hi guys,
+> > 
+> >     maybe soften that a bit. Reading from the shared memory of the
+> >     user fence is ok for everybody. What we need to take more care of
+> >     is the writing side.
+> > 
+> >     So my current thinking is that we allow read only access, but
+> >     writing a new sequence value needs to go through the scheduler/kernel.
+> > 
+> >     So when the CPU wants to signal a timeline fence it needs to call
+> >     an IOCTL. When the GPU wants to signal the timeline fence it needs
+> >     to hand that of to the hardware scheduler.
+> > 
+> >     If we lockup the kernel can check with the hardware who did the
+> >     last write and what value was written.
+> > 
+> >     That together with an IOCTL to give out sequence number for
+> >     implicit sync to applications should be sufficient for the kernel
+> >     to track who is responsible if something bad happens.
+> > 
+> >     In other words when the hardware says that the shader wrote stuff
+> >     like 0xdeadbeef 0x0 or 0xffffffff into memory we kill the process
+> >     who did that.
+> > 
+> >     If the hardware says that seq - 1 was written fine, but seq is
+> >     missing then the kernel blames whoever was supposed to write seq.
+> > 
+> >     Just pieping the write through a privileged instance should be
+> >     fine to make sure that we don't run into issues.
+> > 
+> >     Christian.
+> > 
+> >     Am 10.06.21 um 17:59 schrieb Marek Olšák:
+> > >     Hi Daniel,
 > > > 
-> > > v2:
-> > >  (Daniel Vetter):
-> > >   - Expand logical order explaination
-> > >   - Add dummy header
-> > >   - Only allow N BBs in execbuf IOCTL
-> > >   - Configure parallel submission per slot not per gem context
-> > > v3:
-> > >  (Marcin Ślusarz):
-> > >   - Lot's of typos / bad english fixed
-> > >  (Tvrtko Ursulin):
-> > >   - Consistent pseudo code, clean up wording in descriptions
+> > >     We just talked about this whole topic internally and we came up
+> > >     to the conclusion that the hardware needs to understand sync
+> > >     object handles and have high-level wait and signal operations in
+> > >     the command stream. Sync objects will be backed by memory, but
+> > >     they won't be readable or writable by processes directly. The
+> > >     hardware will log all accesses to sync objects and will send the
+> > >     log to the kernel periodically. The kernel will identify
+> > >     malicious behavior.
 > > > 
-> > > Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-> > > Cc: Tony Ye <tony.ye@intel.com>
-> > > CC: Carl Zhang <carl.zhang@intel.com>
-> > > Cc: Daniel Vetter <daniel.vetter@intel.com>
-> > > Cc: Jason Ekstrand <jason@jlekstrand.net>
-> > > Signed-off-by: Matthew Brost <matthew.brost@intel.com>
-> > > ---
-> > >  Documentation/gpu/rfc/i915_parallel_execbuf.h | 145 ++++++++++++++++++
-> > >  Documentation/gpu/rfc/i915_scheduler.rst      |  55 ++++++-
-> > >  2 files changed, 198 insertions(+), 2 deletions(-)
-> > >  create mode 100644 Documentation/gpu/rfc/i915_parallel_execbuf.h
+> > >     Example of a hardware command stream:
+> > >     ...
+> > >     ImplicitSyncWait(syncObjHandle, sequenceNumber); // the sequence
+> > >     number is assigned by the kernel
+> > >     Draw();
+> > >     ImplicitSyncSignalWhenDone(syncObjHandle);
+> > >     ...
 > > > 
-> > > diff --git a/Documentation/gpu/rfc/i915_parallel_execbuf.h b/Documentation/gpu/rfc/i915_parallel_execbuf.h
-> > > new file mode 100644
-> > > index 000000000000..20de206e3ab4
-> > > --- /dev/null
-> > > +++ b/Documentation/gpu/rfc/i915_parallel_execbuf.h
-> > > @@ -0,0 +1,145 @@
-> > > +#define I915_CONTEXT_ENGINES_EXT_PARALLEL_SUBMIT 2 /* see i915_context_engines_parallel_submit */
-> > > +
-> > > +/*
-> > > + * i915_context_engines_parallel_submit:
-> > 
-> > So the idea is to make these kerneldoc and pull them into the rfc section.
-> > Then when we merge, move them to the real uapi section, like what Matt has
-> > done for lmem.
-> > 
-> 
-> Yep, will fix in next rev.
-> 
-> > > + *
-> > > + * Setup a slot in the context engine map to allow multiple BBs to be submitted
-> > > + * in a single execbuf IOCTL. Those BBs will then be scheduled to run on the GPU
-> > > + * in parallel. Multiple hardware contexts are created internally in the i915
-> > > + * run these BBs. Once a slot is configured for N BBs only N BBs can be
-> > > + * submitted in each execbuf IOCTL and this is implicit behavior e.g. The user
-> > > + * doesn't tell the execbuf IOCTL there are N BBs, the execbuf IOCTL know how
-> > > + * many BBs there are based on the slots configuration. The N BBs are the last N
-> > > + * buffer objects for first N if I915_EXEC_BATCH_FIRST is set.
-> > 
-> > s/for/or/
-> > 
-> > > + *
-> > > + * There are two currently defined ways to control the placement of the
-> > > + * hardware contexts on physical engines: default behavior (no flags) and
-> > > + * I915_PARALLEL_IMPLICIT_BONDS (a flag). More flags may be added the in the
-> > > + * future as new hardware / use cases arise. Details of how to use this
-> > > + * interface above the flags field in this structure.
-> > > + *
-> > > + * Returns -EINVAL if hardware context placement configuration is invalid or if
-> > > + * the placement configuration isn't supported on the platform / submission
-> > > + * interface.
-> > > + * Returns -ENODEV if extension isn't supported on the platform / submission
-> > > + * inteface.
-> > > + */
-> > > +struct i915_context_engines_parallel_submit {
-> > > +	struct i915_user_extension base;
-> > > +
-> > > +	__u16 engine_index;	/* slot for parallel engine */
-> > 
-> > Kernel doc here for the inline comments too.
-> >
-> 
-> Yep.
->  
-> > > +	__u16 width;		/* number of contexts per parallel engine */
-> > > +	__u16 num_siblings;	/* number of siblings per context */
-> > > +	__u16 mbz16;
-> > > +/*
-> > > + * Default placement behavior (currently unsupported):
-> > > + *
-> > > + * Allow BBs to be placed on any available engine instance. In this case each
-> > > + * context's engine mask indicates where that context can be placed. It is
-> > > + * implied in this mode that all contexts have mutual exclusive placement.
-> > > + * e.g. If one context is running CSX[0] no other contexts can run on CSX[0]).
-> > > + *
-> > > + * Example 1 pseudo code:
-> > > + * CSX,Y[N] = generic engine class X or Y, logical instance N
-> > > + * INVALID = I915_ENGINE_CLASS_INVALID, I915_ENGINE_CLASS_INVALID_NONE
-> > > + * set_engines(INVALID)
-> > > + * set_parallel(engine_index=0, width=2, num_siblings=2,
-> > > + *		engines=CSX[0],CSX[1],CSY[0],CSY[1])
-> > > + *
-> > > + * Results in the following valid placements:
-> > > + * CSX[0], CSY[0]
-> > > + * CSX[0], CSY[1]
-> > > + * CSX[1], CSY[0]
-> > > + * CSX[1], CSY[1]
-> > > + *
-> > > + * This can also be thought of as 2 virtual engines described by 2-D array in
-> > > + * the engines the field:
-> > > + * VE[0] = CSX[0], CSX[1]
-> > > + * VE[1] = CSY[0], CSY[1]
-> > > + *
-> > > + * Example 2 pseudo code:
-> > > + * CSX[Y] = generic engine of same class X, logical instance N
-> > > + * INVALID = I915_ENGINE_CLASS_INVALID, I915_ENGINE_CLASS_INVALID_NONE
-> > > + * set_engines(INVALID)
-> > > + * set_parallel(engine_index=0, width=2, num_siblings=3,
-> > > + *		engines=CSX[0],CSX[1],CSX[2],CSX[0],CSX[1],CSX[2])
-> > > + *
-> > > + * Results in the following valid placements:
-> > > + * CSX[0], CSX[1]
-> > > + * CSX[0], CSX[2]
-> > > + * CSX[1], CSX[0]
-> > > + * CSX[1], CSX[2]
-> > > + * CSX[2], CSX[0]
-> > > + * CSX[2], CSX[1]
-> > > + *
-> > > + * This can also be thought of as 2 virtual engines described by 2-D array in
-> > > + * the engines the field:
-> > > + * VE[0] = CSX[0], CSX[1], CSX[2]
-> > > + * VE[1] = CSX[0], CSX[1], CSX[2]
-> > > +
-> > > + * This enables a use case where all engines are created equally, we don't care
-> > > + * where they are scheduled, we just want a certain number of resources, for
-> > > + * those resources to be scheduled in parallel, and possibly across multiple
-> > > + * engine classes.
-> > > + */
-> > > +
-> > > +/*
-> > 
-> > Would be good to also move this into the kerneldoc (maybe add labelled
-> > list for flags or so) so it shows up in the render output.
-> >
-> 
-> Sure. I need figure out view the kernel doc locally before my next and make sure
-> everything looks right.
-
-$ make htmldocs
-
-Output is in Documentation/output/gpu/index.html (to get there more
-directly).
-
->  
-> > > + * I915_PARALLEL_IMPLICIT_BONDS - Create implicit bonds between each context.
-> > > + * Each context must have the same number of sibling and bonds are implicitly
-> > > + * created between each set of siblings.
-> > > + *
-> > > + * Example 1 pseudo code:
-> > > + * CSX[N] = generic engine of same class X, logical instance N
-> > > + * INVALID = I915_ENGINE_CLASS_INVALID, I915_ENGINE_CLASS_INVALID_NONE
-> > > + * set_engines(INVALID)
-> > > + * set_parallel(engine_index=0, width=2, num_siblings=1,
-> > > + *		engines=CSX[0],CSX[1], flags=I915_PARALLEL_IMPLICIT_BONDS)
-> > > + *
-> > > + * Results in the following valid placements:
-> > > + * CSX[0], CSX[1]
-> > > + *
-> > > + * Example 2 pseudo code:
-> > > + * CSX[N] = generic engine of same class X, logical instance N
-> > > + * INVALID = I915_ENGINE_CLASS_INVALID, I915_ENGINE_CLASS_INVALID_NONE
-> > > + * set_engines(INVALID)
-> > > + * set_parallel(engine_index=0, width=2, num_siblings=2,
-> > > + *		engines=CSX[0],CSX[2],CSX[1],CSX[3],
-> > > + *		flags=I915_PARALLEL_IMPLICIT_BONDS)
-> > > + *
-> > > + * Results in the following valid placements:
-> > > + * CSX[0], CSX[1]
-> > > + * CSX[2], CSX[3]
-> > > + *
-> > > + * This can also be thought of as 2 virtual engines described by 2-D array in
-> > > + * the engines the field with bonds placed between each index of the virtual
-> > > + * engines. e.g. CSX[0] is bonded to CSX[1], CSX[2] is bonded to CSX[3].
-> > > + * VE[0] = CSX[0], CSX[2]
-> > > + * VE[1] = CSX[1], CSX[3]
-> > > + *
-> > > + * This enables a use case where all engines are not equal and certain placement
-> > > + * rules are required (i.e. split-frame requires all contexts to be placed in a
-> > > + * logically contiguous order on the VCS engines on gen11+ platforms). This use
-> > > + * case (logically contiguous placement, within a single engine class) is
-> > > + * supported when using GuC submission. Execlist mode could support all possible
-> > > + * bonding configurations but currently doesn't support this extension.
-> > > + */
-> > > +#define I915_PARALLEL_IMPLICIT_BONDS			(1 << 0)
-> > > +/*
-> > > + * Do not allow BBs to be preempted mid BB rather insert coordinated preemption
-> > > + * points on all hardware contexts between each set of BBs. An example use case
-> > > + * of this feature is split-frame on gen11+ hardware.
-> > > + */
-> > > +#define I915_PARALLEL_NO_PREEMPT_MID_BATCH		(1 << 1)
-> > 
-> > So I get the history now behind this, but I think specifying flags for the
-> > only behaviour you can get and the only behaviour that userspace asks for
-> > is silly.
-> > 
-> > I think we should just move the actual behaviour spec into the kerneldoc,
-> > as in "this is the bonding you get" and "due to hw/fw limitations these
-> > workloads will be non-preemptable" and call it a day. Trying to guess
-> > future needs and specifying them, without knowing those future needs
-> > precisely, much less having an implementation, just never works out
-> > really.
-> >
-> 
-> So no flags? Or just the default behavior is I915_PARALLEL_IMPLICIT_BONDS |
-> I915_PARALLEL_NO_PREEMPT_MID_BATCH for now, the flags are unused, but could be
-> used in the future if needed?
-
-The implicit_bonds I think should be just the default, we can add flags
-for the other stuff when it exist.
-
-The NO_PREEMPT I think makes some sense to keep to make this part
-explicit. Either way on that is fine with me.
-
-> > I discussed this a bit with Jason, and he's suggested this makes sense as
-> > a engine flag, but definitely not on the parallel extension. But since we
-> 
-> Not sure what you mean by an engine flags. This is a per context concept.
-
-Oh, I guess this is more fallout from the conversion from having the
-entire gem context as the parallel submit vehicle to a virtual engine.
-
-If we do have them as flags, they need to be on that virtual engine, not
-on the overall gem context container thing. At that point they don't
-exactly match up the existing preempt flag we have (on the context), so
-maybe we should just make this implied (but ofc documented) behaviour.
-
-Cheers, Daniel
-
-> 
-> > don't have a need for picking a non-default value just extra work.
-> > 
-> > > +#define __I915_PARALLEL_UNKNOWN_FLAGS	(-(I915_PARALLEL_NO_PREEMPT_MID_BATCH << 1))
-> > > +	__u64 flags;		/* all undefined flags must be zero */
-> > > +	__u64 mbz64[3];		/* reserved for future use; must be zero */
-> > > +
-> > > +	/*
-> > > +	 * 2-D array of engines
-> > > +	 *
-> > > +	 * width (i) * num_siblings (j) in length
-> > > +	 * index = j + i * num_siblings
-> > > +	 */
-> > > +	struct i915_engine_class_instance engines[0];
-> > > +} __attribute__ ((packed));
-> > > +
-> > > diff --git a/Documentation/gpu/rfc/i915_scheduler.rst b/Documentation/gpu/rfc/i915_scheduler.rst
-> > > index 7faa46cde088..0254c04d34be 100644
-> > > --- a/Documentation/gpu/rfc/i915_scheduler.rst
-> > > +++ b/Documentation/gpu/rfc/i915_scheduler.rst
-> > > @@ -23,7 +23,7 @@ i915 with the DRM scheduler is:
-> > >  	  severe design issues in general, which is why we want to retire it no
-> > >  	  matter what
-> > >  	* New uAPI adds I915_CONTEXT_ENGINES_EXT_PARALLEL context setup step
-> > > -	  which configures a slot with N contexts 
-> > > +	  which configures a slot with N contexts
-> > >  	* After I915_CONTEXT_ENGINES_EXT_PARALLEL a user can submit N batches to
-> > >  	  a slot in a single execbuf IOCTL and the batches run on the GPU in
-> > >  	  paralllel
-> > > @@ -82,4 +82,55 @@ https://spec.oneapi.com/level-zero/latest/core/api.html#ze-command-queue-priorit
-> > >  
-> > >  New parallel submission uAPI
-> > >  ============================
-> > > -Details to come in a following patch.
-> > > +The existing bonding uAPI is completely broken with GuC submission because
-> > > +whether a submission is a single context submit or parallel submit isn't known
-> > > +until execbuf time activated via the I915_SUBMIT_FENCE. To submit multiple
-> > > +contexts in parallel with the GuC the context must be explicitly registered with
-> > > +N contexts and all N contexts must be submitted in a single command to the GuC.
-> > > +The GuC interfaces do not support dynamically changing between N contexts as the
-> > > +bonding uAPI does. Hence the need for a new parallel submission interface. Also
-> > > +the legacy bonding uAPI is quite confusing and not intuitive at all.
-> > 
-> > We should add here that "Furthermore I915_SUBMIT_FENCE is by design a
-> > future fence, so not really something we should continue to support."
-> > 
-> > > +
-> > > +The new parallel submission uAPI consists of 3 parts:
-> > > +
-> > > +* Export engines logical mapping
-> > > +* A 'set_parallel' extension to configure contexts for parallel
-> > > +  submission
-> > > +* Extend execbuf2 IOCTL to support submitting N BBs in a single IOCTL
-> > > +
-> > > +Export engines logical mapping
-> > > +------------------------------
-> > > +Certain use cases require BBs to be placed on engine instances in logical order
-> > > +(e.g. split-frame on gen11+). The logical mapping of engine instances can change
-> > > +based on fusing. Rather than making UMDs be aware of fusing, simply expose the
-> > > +logical mapping with the existing query engine info IOCTL. Also the GuC
-> > > +submission interface currently only supports submitting multiple contexts to
-> > > +engines in logical order which is a new requirement compared to execlists.
-> > > +Lastly, all current platforms have at most 2 engine instances and the logical
-> > > +order is the same as uAPI order. This will change on platforms with more than 2
-> > > +engine instances.
-> > > +
-> > > +A single bit will be added to drm_i915_engine_info.flags indicating that the
-> > > +logical instance has been returned and a new field,
-> > > +drm_i915_engine_info.logical_instance, returns the logical instance.
-> > > +
-> > > +A 'set_parallel' extension to configure contexts for parallel submission
-> > > +------------------------------------------------------------------------
-> > > +The 'set_parallel' extension configures a slot for parallel submission of N BBs.
-> > > +It is setup step that should be called before using any of the contexts. See
-> > 
-> > 		s/should/must/
-> > 
-> > We've made it a CTX_CREATE_EXT extension, so really you don't have a
-> > choice anymore :-)
-> 
-> Right, this can only be called at context creation.
-> 
-> > 
-> > > +I915_CONTEXT_ENGINES_EXT_LOAD_BALANCE or I915_CONTEXT_ENGINES_EXT_BOND for
-> > > +similar existing examples. Once a slot is configured for parallel submission the
-> > > +execbuf2 IOCTL can be called submitting N BBs in a single IOCTL. Initially only
-> > > +support GuC submission. Execlist support can be added later if needed.
-> > > +
-> > > +Add I915_CONTEXT_ENGINES_EXT_PARALLEL_SUBMIT and
-> > > +i915_context_engines_parallel_submit to the uAPI to implement this extension.
-> > > +
-> > > +Extend execbuf2 IOCTL to support submitting N BBs in a single IOCTL
-> > > +-------------------------------------------------------------------
-> > > +Contexts that have been configured with the 'set_parallel' extension are allowed
-> > > +to submit N BBs in a single execbuf2 IOCTL. The BBs are either the last N
-> > > +objects in the drm_i915_gem_exec_object2 list or the first N if
-> > > +I915_EXEC_BATCH_FIRST is set. The number of BBs is implict based on the slot
-> > > +submitted and how it has been configured by 'set_parallel' or other extensions.
-> > > +No uAPI changes are required to execbuf2 IOCTL.
-> > 
-> > Addd here the kerneldoc include for your header.
-> >
-> 
-> Sure.
-> 
-> Matt
->  
-> > Aside from the comments by and large this looks good. The main interface
-> > at least is clear and warts-free.
-> > 
-> > Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-> > 
-> > > -- 
-> > > 2.28.0
+> > >     I'm afraid we have no other choice because of the TLB
+> > >     invalidation overhead.
 > > > 
-> > > _______________________________________________
-> > > Intel-gfx mailing list
-> > > Intel-gfx@lists.freedesktop.org
-> > > https://lists.freedesktop.org/mailman/listinfo/intel-gfx
+> > >     Marek
+> > > 
+> > > 
+> > >     On Wed, Jun 9, 2021 at 2:31 PM Daniel Vetter <daniel@ffwll.ch
+> > >     <mailto:daniel@ffwll.ch>> wrote:
+> > > 
+> > >         On Wed, Jun 09, 2021 at 03:58:26PM +0200, Christian König wrote:
+> > >         > Am 09.06.21 um 15:19 schrieb Daniel Vetter:
+> > >         > > [SNIP]
+> > >         > > > Yeah, we call this the lightweight and the heavyweight
+> > >         tlb flush.
+> > >         > > >
+> > >         > > > The lighweight can be used when you are sure that you
+> > >         don't have any of the
+> > >         > > > PTEs currently in flight in the 3D/DMA engine and you
+> > >         just need to
+> > >         > > > invalidate the TLB.
+> > >         > > >
+> > >         > > > The heavyweight must be used when you need to
+> > >         invalidate the TLB *AND* make
+> > >         > > > sure that no concurrently operation moves new stuff
+> > >         into the TLB.
+> > >         > > >
+> > >         > > > The problem is for this use case we have to use the
+> > >         heavyweight one.
+> > >         > > Just for my own curiosity: So the lightweight flush is
+> > >         only for in-between
+> > >         > > CS when you know access is idle? Or does that also not
+> > >         work if userspace
+> > >         > > has a CS on a dma engine going at the same time because
+> > >         the tlb aren't
+> > >         > > isolated enough between engines?
+> > >         >
+> > >         > More or less correct, yes.
+> > >         >
+> > >         > The problem is a lightweight flush only invalidates the
+> > >         TLB, but doesn't
+> > >         > take care of entries which have been handed out to the
+> > >         different engines.
+> > >         >
+> > >         > In other words what can happen is the following:
+> > >         >
+> > >         > 1. Shader asks TLB to resolve address X.
+> > >         > 2. TLB looks into its cache and can't find address X so it
+> > >         asks the walker
+> > >         > to resolve.
+> > >         > 3. Walker comes back with result for address X and TLB puts
+> > >         that into its
+> > >         > cache and gives it to Shader.
+> > >         > 4. Shader starts doing some operation using result for
+> > >         address X.
+> > >         > 5. You send lightweight TLB invalidate and TLB throws away
+> > >         cached values for
+> > >         > address X.
+> > >         > 6. Shader happily still uses whatever the TLB gave to it in
+> > >         step 3 to
+> > >         > accesses address X
+> > >         >
+> > >         > See it like the shader has their own 1 entry L0 TLB cache
+> > >         which is not
+> > >         > affected by the lightweight flush.
+> > >         >
+> > >         > The heavyweight flush on the other hand sends out a
+> > >         broadcast signal to
+> > >         > everybody and only comes back when we are sure that an
+> > >         address is not in use
+> > >         > any more.
+> > > 
+> > >         Ah makes sense. On intel the shaders only operate in VA,
+> > >         everything goes
+> > >         around as explicit async messages to IO blocks. So we don't
+> > >         have this, the
+> > >         only difference in tlb flushes is between tlb flush in the IB
+> > >         and an mmio
+> > >         one which is independent for anything currently being
+> > >         executed on an
+> > >         egine.
+> > >         -Daniel
+> > >         --         Daniel Vetter
+> > >         Software Engineer, Intel Corporation
+> > >         http://blog.ffwll.ch <http://blog.ffwll.ch>
+> > > 
 > > 
-> > -- 
-> > Daniel Vetter
-> > Software Engineer, Intel Corporation
-> > http://blog.ffwll.ch
+> 
 
 -- 
 Daniel Vetter
