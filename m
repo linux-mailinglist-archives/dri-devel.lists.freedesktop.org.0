@@ -2,93 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B95F3AA8A6
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Jun 2021 03:32:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C77333AA8AF
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Jun 2021 03:36:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1615489483;
-	Thu, 17 Jun 2021 01:32:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E39136E53E;
+	Thu, 17 Jun 2021 01:36:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam12on2056.outbound.protection.outlook.com [40.107.237.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AA61989483;
- Thu, 17 Jun 2021 01:32:54 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=dbVaTCpA+N02I05JJ5JF5/Fx25sQFJlNWu2YSpTrGS6C9qg2BA7l5dSREV6KvPeP740Rzs0jTj/GbOGpw+pZSjA3GHMXfLb9szKzQi6PdNMTJsOZnYB53HQLqCB5V/E4YqPEXczO50OQqAbVGJJOmA1+iV7iwAJg/3tKiUty7v6Smn/fQGF4Mk0kTcVZD1DWIwFGS6jZx4QlHDthHESbWDIJDSxOeyJQnLDLV1PbfYGSPEQaJO0YO9WgqwOUTXhf3P4J3dYRIxhwzhjXWWiXhrQKEb9r/l40f99tw4A9fXt7pxyH/2TIXLu47gBAmNzpF1PZCLUydkUFDO4qJc6nNQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=YlKxOOj/AlWvHMoZ8DOO/LDTIY/Jx4h3ym5obh4MHLc=;
- b=TydQBzJQAGX8QBtecXbtiJb49nVRx7N3gN4MxNJyhcL1gKbS70hqslDagn4dfuHp26IS2JuXP1H+aKy2mY67hJzBKMwpTrhnBX1Dfz1icsHdrXrDajrQ/AtpeZt9TF00rPNJ5YendRMIKcKn8vEk2if2n7SqoFL+Axc4gxQS6OkO/RubJJlFgWDSg9wOiIyhFnjq6prk0oKlFe4/P2xhOVCG4+1Gii4GDOXfMsF7PeD7RQzWCHklw4oTHhKXyRYOV+hvjd5klAkXU0qblU+pmN1g0r+YQck+LrCfcIgzABNrv1uc0ENqw/z4dYjXham0LKi0/7RGDA6oHCVmcjrNwA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.112.34) smtp.rcpttodomain=infradead.org smtp.mailfrom=nvidia.com;
- dmarc=pass (p=none sp=none pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=YlKxOOj/AlWvHMoZ8DOO/LDTIY/Jx4h3ym5obh4MHLc=;
- b=JOgN0vY5ibhL6QVJO1g5UsFCe/CHS6lJM1oMfc2H23e5paDDVPEt0ie4khKXbjBRv7DdMx8zB2LryRyHxbzJZQefmMkwN8WsTNtruHiDBa5ZvHvDGXy+Gu8fyFDS6HfR7baNA4CSctB2BGMnoITC86YPJEG2eJGu7oxeFGvH6bxk/xnJh8T1I67CX5CQ9zllkeR6Szgm5PcsQ/e8/B4KGpBvneUVAWAX0NbYTmCGADkTXy0dV+6FAzb8ZBrfIPiD0R3nO/qbNUg7ksNG1oeojSYDk6pzhZ2r8k6NjbAwclfqGpFL1GJBEdsISD+tfk+jW3NbjA5rQvbgyymCZXuEmg==
-Received: from MWHPR12CA0069.namprd12.prod.outlook.com (2603:10b6:300:103::31)
- by DM6PR12MB3355.namprd12.prod.outlook.com (2603:10b6:5:115::26) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4242.16; Thu, 17 Jun
- 2021 01:32:52 +0000
-Received: from CO1NAM11FT009.eop-nam11.prod.protection.outlook.com
- (2603:10b6:300:103:cafe::4) by MWHPR12CA0069.outlook.office365.com
- (2603:10b6:300:103::31) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4242.16 via Frontend
- Transport; Thu, 17 Jun 2021 01:32:52 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.112.34)
- smtp.mailfrom=nvidia.com; infradead.org; dkim=none (message not signed)
- header.d=none;infradead.org; dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.112.34 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.112.34; helo=mail.nvidia.com;
-Received: from mail.nvidia.com (216.228.112.34) by
- CO1NAM11FT009.mail.protection.outlook.com (10.13.175.61) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.20.4242.16 via Frontend Transport; Thu, 17 Jun 2021 01:32:52 +0000
-Received: from nvdebian.localnet (172.20.187.5) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Thu, 17 Jun
- 2021 01:32:49 +0000
-From: Alistair Popple <apopple@nvidia.com>
-To: Andrew Morton <akpm@linux-foundation.org>
-Subject: Re: [PATCH v11 00/10] Add support for SVM atomics in Nouveau
-Date: Thu, 17 Jun 2021 11:32:46 +1000
-Message-ID: <2551705.0ki4MfuhJX@nvdebian>
-In-Reply-To: <20210616163529.7de2f6e24d395c4ef7a367b6@linux-foundation.org>
-References: <20210616105937.23201-1-apopple@nvidia.com>
- <20210616163529.7de2f6e24d395c4ef7a367b6@linux-foundation.org>
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 223976E0EF;
+ Thu, 17 Jun 2021 01:36:02 +0000 (UTC)
+IronPort-SDR: QvU/qTJs9+Ihh2SdR489+coiGlIHIzbe9S182bPIdmC34HOIlhT/MCRrBha59qRSRF+IiwQr1r
+ cWyZEHQPt7Eg==
+X-IronPort-AV: E=McAfee;i="6200,9189,10017"; a="186663081"
+X-IronPort-AV: E=Sophos;i="5.83,278,1616482800"; d="scan'208";a="186663081"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Jun 2021 18:35:53 -0700
+IronPort-SDR: 4PSimuL6bo1tQEAF0TbZ2tg7jb+2yXq71vTyvTzMnj/sYDIQ3AZJlCbBvRdqTbmCCBZXL1vOjL
+ 7USh8VbNaTPQ==
+X-IronPort-AV: E=Sophos;i="5.83,278,1616482800"; d="scan'208";a="621885033"
+Received: from dceraolo-mobl.amr.corp.intel.com (HELO [10.209.156.148])
+ ([10.209.156.148])
+ by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Jun 2021 18:35:53 -0700
+Subject: Re: [PATCH 8/8] drm/i915: Move submission tasklet to i915_sched_engine
+To: Matthew Brost <matthew.brost@intel.com>, intel-gfx@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org
+References: <20210615224358.83627-1-matthew.brost@intel.com>
+ <20210615224358.83627-9-matthew.brost@intel.com>
+From: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+Message-ID: <b0c6bb7f-e5e1-c49c-465b-c4dcbc39b51f@intel.com>
+Date: Wed, 16 Jun 2021 18:35:45 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-X-Originating-IP: [172.20.187.5]
-X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
- HQMAIL107.nvidia.com (172.20.187.13)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 77e5d6e3-4aa9-4502-0660-08d9312fd320
-X-MS-TrafficTypeDiagnostic: DM6PR12MB3355:
-X-Microsoft-Antispam-PRVS: <DM6PR12MB33557DFC4C046DE70127C91EDF0E9@DM6PR12MB3355.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: xsS9q+2gn1MR585nd5i7vlqx8Ayu4mqD9z29YOlA7DDk7mliiY/obV5ZBE7W6BCKw5Z6WNJWfqc42IKUa2h9lgINgxWU8MkFdWVss9y3Vz1RREJVF3Olxo7S29BrT9VzzY6e8DhaI8kREx9N6h7r92qPdmmUzu1pDWgba0spwRe+bObOwdb+VAFwxO7cOe9IfdJSlCN9i1Bu2kz8QXy1dVMGn7RcX3QIVmW6A8YuLb6Mwrs8N4EhKf/wuX3L1jPRinXWjd0Em4X8T3hBsfB5DZbkJvc7CpD9GBxym+C/EikG/Jun34r19gvJdaisVUidWv+LUD+sdlPmdHytysNLNn1SvQ0FJkQR/WEKWiA/OiWRa0szDmGQ2lPmW11SZG3wmbHUx7yVNB6BY8CxsKghucSVCu2wM3iPIM4CA0EfZAPQLYkW+OQpLuYYz4nYNlkw1qCT/DxaWANtJ58QK/PrKXFzQ5ZfUEia54ctrb3LFXMlkxYq2jYi+1ix950tGn765CnR9ZMYdFig0mbWWzym5tlKWTpMN4bvqLNegJgoYHN+vQoqJQWkLmlahQ09oXYVAj/vzk1W1xpUguONkJ07auysDC4TePQiWf45VlmXwdcR1T+PlFxlLqONeXNpj1NCTC6pKXIA/einAwqYCfqhrCD0B8VQ8Bp7u9w3omjH7PH+hYa2ujUMpLZzFQ3APRiU
-X-Forefront-Antispam-Report: CIP:216.228.112.34; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:mail.nvidia.com; PTR:schybrid03.nvidia.com; CAT:NONE;
- SFS:(4636009)(376002)(396003)(136003)(39860400002)(346002)(46966006)(36840700001)(82310400003)(86362001)(356005)(70586007)(36906005)(9576002)(2906002)(4326008)(70206006)(107886003)(9686003)(8936002)(83380400001)(7416002)(7636003)(6666004)(26005)(8676002)(82740400003)(4744005)(478600001)(316002)(6916009)(33716001)(54906003)(16526019)(47076005)(5660300002)(426003)(186003)(336012)(36860700001)(39026012);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Jun 2021 01:32:52.3821 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 77e5d6e3-4aa9-4502-0660-08d9312fd320
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a; Ip=[216.228.112.34];
- Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT009.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB3355
+In-Reply-To: <20210615224358.83627-9-matthew.brost@intel.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -101,28 +53,722 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: rcampbell@nvidia.com, linux-doc@vger.kernel.org,
- nouveau@lists.freedesktop.org, hughd@google.com, linux-kernel@vger.kernel.org,
- willy@infradead.org, hch@infradead.org, linux-mm@kvack.org, peterx@redhat.com,
- shakeelb@google.com, dri-devel@lists.freedesktop.org, jgg@nvidia.com,
- jhubbard@nvidia.com, bskeggs@redhat.com
+Cc: john.c.harrison@intel.com, Michal.Wajdeczko@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thursday, 17 June 2021 9:35:29 AM AEST Andrew Morton wrote:
-> On Wed, 16 Jun 2021 20:59:27 +1000 Alistair Popple <apopple@nvidia.com> 
-wrote:
-> 
-> > This is my series to add support for SVM atomics in Nouveau
-> 
-> Can we please have a nice [0/n] overview for this patchset?
-> 
-
-Sorry, I forgot to include that this time. Please see the update I just 
-posted. Let me know if you need me to resend the whole series with the updated 
-cover letter. Thanks.
-
- - Alistair
 
 
+On 6/15/2021 3:43 PM, Matthew Brost wrote:
+> The submission tasklet operates on i915_sched_engine, thus it is the
+> correct place for it.
+>
+> v3:
+>   (Jason Ekstrand)
+>    Change sched_engine->engine to a void* private data pointer
+>    Add kernel doc
+> v4:
+>   (Daniele)
+>    Update private_data comment
+>    Set queue_priority_hint in kick_execlists
+> v5:
+>   (CI)
+>    Rebase and fix build error
+>
+> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+
+Reviewed-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+
+Daniele
+
+> ---
+>   drivers/gpu/drm/i915/gt/intel_engine.h        | 14 ----
+>   drivers/gpu/drm/i915/gt/intel_engine_cs.c     | 12 +--
+>   drivers/gpu/drm/i915/gt/intel_engine_types.h  |  5 --
+>   .../drm/i915/gt/intel_execlists_submission.c  | 84 ++++++++++---------
+>   drivers/gpu/drm/i915/gt/mock_engine.c         |  1 +
+>   drivers/gpu/drm/i915/gt/selftest_execlists.c  | 14 ++--
+>   drivers/gpu/drm/i915/gt/selftest_hangcheck.c  |  2 +-
+>   drivers/gpu/drm/i915/gt/selftest_lrc.c        |  6 +-
+>   drivers/gpu/drm/i915/gt/selftest_reset.c      |  2 +-
+>   .../gpu/drm/i915/gt/uc/intel_guc_submission.c | 25 +++---
+>   drivers/gpu/drm/i915/i915_scheduler.c         |  1 +
+>   drivers/gpu/drm/i915/i915_scheduler.h         | 14 ++++
+>   drivers/gpu/drm/i915/i915_scheduler_types.h   | 10 +++
+>   13 files changed, 100 insertions(+), 90 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/i915/gt/intel_engine.h b/drivers/gpu/drm/i915/gt/intel_engine.h
+> index a8b2174b4395..988d9688ae4d 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_engine.h
+> +++ b/drivers/gpu/drm/i915/gt/intel_engine.h
+> @@ -123,20 +123,6 @@ execlists_active(const struct intel_engine_execlists *execlists)
+>   	return active;
+>   }
+>   
+> -static inline void
+> -execlists_active_lock_bh(struct intel_engine_execlists *execlists)
+> -{
+> -	local_bh_disable(); /* prevent local softirq and lock recursion */
+> -	tasklet_lock(&execlists->tasklet);
+> -}
+> -
+> -static inline void
+> -execlists_active_unlock_bh(struct intel_engine_execlists *execlists)
+> -{
+> -	tasklet_unlock(&execlists->tasklet);
+> -	local_bh_enable(); /* restore softirq, and kick ksoftirqd! */
+> -}
+> -
+>   struct i915_request *
+>   execlists_unwind_incomplete_requests(struct intel_engine_execlists *execlists);
+>   
+> diff --git a/drivers/gpu/drm/i915/gt/intel_engine_cs.c b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
+> index 7ff2640aa74a..67939ee0d68f 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_engine_cs.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
+> @@ -713,6 +713,7 @@ static int engine_setup_common(struct intel_engine_cs *engine)
+>   		err = -ENOMEM;
+>   		goto err_sched_engine;
+>   	}
+> +	engine->sched_engine->private_data = engine;
+>   
+>   	err = intel_engine_init_cmd_parser(engine);
+>   	if (err)
+> @@ -937,7 +938,6 @@ int intel_engines_init(struct intel_gt *gt)
+>   void intel_engine_cleanup_common(struct intel_engine_cs *engine)
+>   {
+>   	GEM_BUG_ON(!list_empty(&engine->sched_engine->requests));
+> -	tasklet_kill(&engine->execlists.tasklet); /* flush the callback */
+>   
+>   	i915_sched_engine_put(engine->sched_engine);
+>   	intel_breadcrumbs_free(engine->breadcrumbs);
+> @@ -1223,7 +1223,7 @@ static bool ring_is_idle(struct intel_engine_cs *engine)
+>   
+>   void __intel_engine_flush_submission(struct intel_engine_cs *engine, bool sync)
+>   {
+> -	struct tasklet_struct *t = &engine->execlists.tasklet;
+> +	struct tasklet_struct *t = &engine->sched_engine->tasklet;
+>   
+>   	if (!t->callback)
+>   		return;
+> @@ -1484,8 +1484,8 @@ static void intel_engine_print_registers(struct intel_engine_cs *engine,
+>   
+>   		drm_printf(m, "\tExeclist tasklet queued? %s (%s), preempt? %s, timeslice? %s\n",
+>   			   yesno(test_bit(TASKLET_STATE_SCHED,
+> -					  &engine->execlists.tasklet.state)),
+> -			   enableddisabled(!atomic_read(&engine->execlists.tasklet.count)),
+> +					  &engine->sched_engine->tasklet.state)),
+> +			   enableddisabled(!atomic_read(&engine->sched_engine->tasklet.count)),
+>   			   repr_timer(&engine->execlists.preempt),
+>   			   repr_timer(&engine->execlists.timer));
+>   
+> @@ -1509,7 +1509,7 @@ static void intel_engine_print_registers(struct intel_engine_cs *engine,
+>   				   idx, hws[idx * 2], hws[idx * 2 + 1]);
+>   		}
+>   
+> -		execlists_active_lock_bh(execlists);
+> +		i915_sched_engine_active_lock_bh(engine->sched_engine);
+>   		rcu_read_lock();
+>   		for (port = execlists->active; (rq = *port); port++) {
+>   			char hdr[160];
+> @@ -1540,7 +1540,7 @@ static void intel_engine_print_registers(struct intel_engine_cs *engine,
+>   			i915_request_show(m, rq, hdr, 0);
+>   		}
+>   		rcu_read_unlock();
+> -		execlists_active_unlock_bh(execlists);
+> +		i915_sched_engine_active_unlock_bh(engine->sched_engine);
+>   	} else if (GRAPHICS_VER(dev_priv) > 6) {
+>   		drm_printf(m, "\tPP_DIR_BASE: 0x%08x\n",
+>   			   ENGINE_READ(engine, RING_PP_DIR_BASE));
+> diff --git a/drivers/gpu/drm/i915/gt/intel_engine_types.h b/drivers/gpu/drm/i915/gt/intel_engine_types.h
+> index 0bb65c57d274..5b91068ab277 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_engine_types.h
+> +++ b/drivers/gpu/drm/i915/gt/intel_engine_types.h
+> @@ -138,11 +138,6 @@ struct st_preempt_hang {
+>    * driver and the hardware state for execlist mode of submission.
+>    */
+>   struct intel_engine_execlists {
+> -	/**
+> -	 * @tasklet: softirq tasklet for bottom handler
+> -	 */
+> -	struct tasklet_struct tasklet;
+> -
+>   	/**
+>   	 * @timer: kick the current context if its timeslice expires
+>   	 */
+> diff --git a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
+> index ffad4d98cec0..cdb2126a159a 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
+> @@ -570,7 +570,7 @@ static void kick_siblings(struct i915_request *rq, struct intel_context *ce)
+>   		resubmit_virtual_request(rq, ve);
+>   
+>   	if (READ_ONCE(ve->request))
+> -		tasklet_hi_schedule(&ve->base.execlists.tasklet);
+> +		tasklet_hi_schedule(&ve->base.sched_engine->tasklet);
+>   }
+>   
+>   static void __execlists_schedule_out(struct i915_request * const rq,
+> @@ -739,9 +739,9 @@ trace_ports(const struct intel_engine_execlists *execlists,
+>   }
+>   
+>   static bool
+> -reset_in_progress(const struct intel_engine_execlists *execlists)
+> +reset_in_progress(const struct intel_engine_cs *engine)
+>   {
+> -	return unlikely(!__tasklet_is_enabled(&execlists->tasklet));
+> +	return unlikely(!__tasklet_is_enabled(&engine->sched_engine->tasklet));
+>   }
+>   
+>   static __maybe_unused noinline bool
+> @@ -757,7 +757,7 @@ assert_pending_valid(const struct intel_engine_execlists *execlists,
+>   	trace_ports(execlists, msg, execlists->pending);
+>   
+>   	/* We may be messing around with the lists during reset, lalala */
+> -	if (reset_in_progress(execlists))
+> +	if (reset_in_progress(engine))
+>   		return true;
+>   
+>   	if (!execlists->pending[0]) {
+> @@ -1190,7 +1190,7 @@ static void start_timeslice(struct intel_engine_cs *engine)
+>   			 * its timeslice, so recheck.
+>   			 */
+>   			if (!timer_pending(&el->timer))
+> -				tasklet_hi_schedule(&el->tasklet);
+> +				tasklet_hi_schedule(&engine->sched_engine->tasklet);
+>   			return;
+>   		}
+>   
+> @@ -1772,8 +1772,8 @@ process_csb(struct intel_engine_cs *engine, struct i915_request **inactive)
+>   	 * access. Either we are inside the tasklet, or the tasklet is disabled
+>   	 * and we assume that is only inside the reset paths and so serialised.
+>   	 */
+> -	GEM_BUG_ON(!tasklet_is_locked(&execlists->tasklet) &&
+> -		   !reset_in_progress(execlists));
+> +	GEM_BUG_ON(!tasklet_is_locked(&engine->sched_engine->tasklet) &&
+> +		   !reset_in_progress(engine));
+>   
+>   	/*
+>   	 * Note that csb_write, csb_status may be either in HWSP or mmio.
+> @@ -2131,7 +2131,7 @@ static void execlists_unhold(struct intel_engine_cs *engine,
+>   
+>   	if (rq_prio(rq) > engine->sched_engine->queue_priority_hint) {
+>   		engine->sched_engine->queue_priority_hint = rq_prio(rq);
+> -		tasklet_hi_schedule(&engine->execlists.tasklet);
+> +		tasklet_hi_schedule(&engine->sched_engine->tasklet);
+>   	}
+>   
+>   	spin_unlock_irq(&engine->sched_engine->lock);
+> @@ -2322,13 +2322,13 @@ static void execlists_reset(struct intel_engine_cs *engine, const char *msg)
+>   	ENGINE_TRACE(engine, "reset for %s\n", msg);
+>   
+>   	/* Mark this tasklet as disabled to avoid waiting for it to complete */
+> -	tasklet_disable_nosync(&engine->execlists.tasklet);
+> +	tasklet_disable_nosync(&engine->sched_engine->tasklet);
+>   
+>   	ring_set_paused(engine, 1); /* Freeze the current request in place */
+>   	execlists_capture(engine);
+>   	intel_engine_reset(engine, msg);
+>   
+> -	tasklet_enable(&engine->execlists.tasklet);
+> +	tasklet_enable(&engine->sched_engine->tasklet);
+>   	clear_and_wake_up_bit(bit, lock);
+>   }
+>   
+> @@ -2351,8 +2351,9 @@ static bool preempt_timeout(const struct intel_engine_cs *const engine)
+>    */
+>   static void execlists_submission_tasklet(struct tasklet_struct *t)
+>   {
+> -	struct intel_engine_cs * const engine =
+> -		from_tasklet(engine, t, execlists.tasklet);
+> +	struct i915_sched_engine *sched_engine =
+> +		from_tasklet(sched_engine, t, tasklet);
+> +	struct intel_engine_cs * const engine = sched_engine->private_data;
+>   	struct i915_request *post[2 * EXECLIST_MAX_PORTS];
+>   	struct i915_request **inactive;
+>   
+> @@ -2427,13 +2428,16 @@ static void execlists_irq_handler(struct intel_engine_cs *engine, u16 iir)
+>   		intel_engine_signal_breadcrumbs(engine);
+>   
+>   	if (tasklet)
+> -		tasklet_hi_schedule(&engine->execlists.tasklet);
+> +		tasklet_hi_schedule(&engine->sched_engine->tasklet);
+>   }
+>   
+>   static void __execlists_kick(struct intel_engine_execlists *execlists)
+>   {
+> +	struct intel_engine_cs *engine =
+> +		container_of(execlists, typeof(*engine), execlists);
+> +
+>   	/* Kick the tasklet for some interrupt coalescing and reset handling */
+> -	tasklet_hi_schedule(&execlists->tasklet);
+> +	tasklet_hi_schedule(&engine->sched_engine->tasklet);
+>   }
+>   
+>   #define execlists_kick(t, member) \
+> @@ -2808,10 +2812,8 @@ static int execlists_resume(struct intel_engine_cs *engine)
+>   
+>   static void execlists_reset_prepare(struct intel_engine_cs *engine)
+>   {
+> -	struct intel_engine_execlists * const execlists = &engine->execlists;
+> -
+>   	ENGINE_TRACE(engine, "depth<-%d\n",
+> -		     atomic_read(&execlists->tasklet.count));
+> +		     atomic_read(&engine->sched_engine->tasklet.count));
+>   
+>   	/*
+>   	 * Prevent request submission to the hardware until we have
+> @@ -2822,8 +2824,8 @@ static void execlists_reset_prepare(struct intel_engine_cs *engine)
+>   	 * Turning off the execlists->tasklet until the reset is over
+>   	 * prevents the race.
+>   	 */
+> -	__tasklet_disable_sync_once(&execlists->tasklet);
+> -	GEM_BUG_ON(!reset_in_progress(execlists));
+> +	__tasklet_disable_sync_once(&engine->sched_engine->tasklet);
+> +	GEM_BUG_ON(!reset_in_progress(engine));
+>   
+>   	/*
+>   	 * We stop engines, otherwise we might get failed reset and a
+> @@ -2973,8 +2975,9 @@ static void execlists_reset_rewind(struct intel_engine_cs *engine, bool stalled)
+>   
+>   static void nop_submission_tasklet(struct tasklet_struct *t)
+>   {
+> -	struct intel_engine_cs * const engine =
+> -		from_tasklet(engine, t, execlists.tasklet);
+> +	struct i915_sched_engine *sched_engine =
+> +		from_tasklet(sched_engine, t, tasklet);
+> +	struct intel_engine_cs * const engine = sched_engine->private_data;
+>   
+>   	/* The driver is wedged; don't process any more events. */
+>   	WRITE_ONCE(engine->sched_engine->queue_priority_hint, INT_MIN);
+> @@ -3061,8 +3064,8 @@ static void execlists_reset_cancel(struct intel_engine_cs *engine)
+>   	sched_engine->queue_priority_hint = INT_MIN;
+>   	sched_engine->queue = RB_ROOT_CACHED;
+>   
+> -	GEM_BUG_ON(__tasklet_is_enabled(&execlists->tasklet));
+> -	execlists->tasklet.callback = nop_submission_tasklet;
+> +	GEM_BUG_ON(__tasklet_is_enabled(&engine->sched_engine->tasklet));
+> +	engine->sched_engine->tasklet.callback = nop_submission_tasklet;
+>   
+>   	spin_unlock_irqrestore(&engine->sched_engine->lock, flags);
+>   	rcu_read_unlock();
+> @@ -3082,14 +3085,14 @@ static void execlists_reset_finish(struct intel_engine_cs *engine)
+>   	 * reset as the next level of recovery, and as a final resort we
+>   	 * will declare the device wedged.
+>   	 */
+> -	GEM_BUG_ON(!reset_in_progress(execlists));
+> +	GEM_BUG_ON(!reset_in_progress(engine));
+>   
+>   	/* And kick in case we missed a new request submission. */
+> -	if (__tasklet_enable(&execlists->tasklet))
+> +	if (__tasklet_enable(&engine->sched_engine->tasklet))
+>   		__execlists_kick(execlists);
+>   
+>   	ENGINE_TRACE(engine, "depth->%d\n",
+> -		     atomic_read(&execlists->tasklet.count));
+> +		     atomic_read(&engine->sched_engine->tasklet.count));
+>   }
+>   
+>   static void gen8_logical_ring_enable_irq(struct intel_engine_cs *engine)
+> @@ -3163,7 +3166,7 @@ static void kick_execlists(const struct i915_request *rq, int prio)
+>   	 * so kiss.
+>   	 */
+>   	if (prio >= max(I915_PRIORITY_NORMAL, rq_prio(inflight)))
+> -		tasklet_hi_schedule(&engine->execlists.tasklet);
+> +		tasklet_hi_schedule(&sched_engine->tasklet);
+>   
+>   unlock:
+>   	rcu_read_unlock();
+> @@ -3174,7 +3177,7 @@ static void execlists_set_default_submission(struct intel_engine_cs *engine)
+>   	engine->submit_request = execlists_submit_request;
+>   	engine->sched_engine->schedule = i915_schedule;
+>   	engine->sched_engine->kick_backend = kick_execlists;
+> -	engine->execlists.tasklet.callback = execlists_submission_tasklet;
+> +	engine->sched_engine->tasklet.callback = execlists_submission_tasklet;
+>   }
+>   
+>   static void execlists_shutdown(struct intel_engine_cs *engine)
+> @@ -3182,7 +3185,7 @@ static void execlists_shutdown(struct intel_engine_cs *engine)
+>   	/* Synchronise with residual timers and any softirq they raise */
+>   	del_timer_sync(&engine->execlists.timer);
+>   	del_timer_sync(&engine->execlists.preempt);
+> -	tasklet_kill(&engine->execlists.tasklet);
+> +	tasklet_kill(&engine->sched_engine->tasklet);
+>   }
+>   
+>   static void execlists_release(struct intel_engine_cs *engine)
+> @@ -3298,7 +3301,7 @@ int intel_execlists_submission_setup(struct intel_engine_cs *engine)
+>   	struct intel_uncore *uncore = engine->uncore;
+>   	u32 base = engine->mmio_base;
+>   
+> -	tasklet_setup(&engine->execlists.tasklet, execlists_submission_tasklet);
+> +	tasklet_setup(&engine->sched_engine->tasklet, execlists_submission_tasklet);
+>   	timer_setup(&engine->execlists.timer, execlists_timeslice, 0);
+>   	timer_setup(&engine->execlists.preempt, execlists_preempt, 0);
+>   
+> @@ -3380,7 +3383,7 @@ static void rcu_virtual_context_destroy(struct work_struct *wrk)
+>   	 * rbtrees as in the case it is running in parallel, it may reinsert
+>   	 * the rb_node into a sibling.
+>   	 */
+> -	tasklet_kill(&ve->base.execlists.tasklet);
+> +	tasklet_kill(&ve->base.sched_engine->tasklet);
+>   
+>   	/* Decouple ourselves from the siblings, no more access allowed. */
+>   	for (n = 0; n < ve->num_siblings; n++) {
+> @@ -3392,13 +3395,13 @@ static void rcu_virtual_context_destroy(struct work_struct *wrk)
+>   
+>   		spin_lock_irq(&sibling->sched_engine->lock);
+>   
+> -		/* Detachment is lazily performed in the execlists tasklet */
+> +		/* Detachment is lazily performed in the sched_engine->tasklet */
+>   		if (!RB_EMPTY_NODE(node))
+>   			rb_erase_cached(node, &sibling->execlists.virtual);
+>   
+>   		spin_unlock_irq(&sibling->sched_engine->lock);
+>   	}
+> -	GEM_BUG_ON(__tasklet_is_scheduled(&ve->base.execlists.tasklet));
+> +	GEM_BUG_ON(__tasklet_is_scheduled(&ve->base.sched_engine->tasklet));
+>   	GEM_BUG_ON(!list_empty(virtual_queue(ve)));
+>   
+>   	lrc_fini(&ve->context);
+> @@ -3545,9 +3548,11 @@ static intel_engine_mask_t virtual_submission_mask(struct virtual_engine *ve)
+>   
+>   static void virtual_submission_tasklet(struct tasklet_struct *t)
+>   {
+> +	struct i915_sched_engine *sched_engine =
+> +		from_tasklet(sched_engine, t, tasklet);
+>   	struct virtual_engine * const ve =
+> -		from_tasklet(ve, t, base.execlists.tasklet);
+> -	const int prio = READ_ONCE(ve->base.sched_engine->queue_priority_hint);
+> +		(struct virtual_engine *)sched_engine->private_data;
+> +	const int prio = READ_ONCE(sched_engine->queue_priority_hint);
+>   	intel_engine_mask_t mask;
+>   	unsigned int n;
+>   
+> @@ -3616,7 +3621,7 @@ static void virtual_submission_tasklet(struct tasklet_struct *t)
+>   		GEM_BUG_ON(RB_EMPTY_NODE(&node->rb));
+>   		node->prio = prio;
+>   		if (first && prio > sibling->sched_engine->queue_priority_hint)
+> -			tasklet_hi_schedule(&sibling->execlists.tasklet);
+> +			tasklet_hi_schedule(&sibling->sched_engine->tasklet);
+>   
+>   unlock_engine:
+>   		spin_unlock_irq(&sibling->sched_engine->lock);
+> @@ -3657,7 +3662,7 @@ static void virtual_submit_request(struct i915_request *rq)
+>   	GEM_BUG_ON(!list_empty(virtual_queue(ve)));
+>   	list_move_tail(&rq->sched.link, virtual_queue(ve));
+>   
+> -	tasklet_hi_schedule(&ve->base.execlists.tasklet);
+> +	tasklet_hi_schedule(&ve->base.sched_engine->tasklet);
+>   
+>   unlock:
+>   	spin_unlock_irqrestore(&ve->base.sched_engine->lock, flags);
+> @@ -3751,6 +3756,7 @@ intel_execlists_create_virtual(struct intel_engine_cs **siblings,
+>   		err = -ENOMEM;
+>   		goto err_put;
+>   	}
+> +	ve->base.sched_engine->private_data = &ve->base;
+>   
+>   	ve->base.cops = &virtual_context_ops;
+>   	ve->base.request_alloc = execlists_request_alloc;
+> @@ -3761,7 +3767,7 @@ intel_execlists_create_virtual(struct intel_engine_cs **siblings,
+>   	ve->base.bond_execute = virtual_bond_execute;
+>   
+>   	INIT_LIST_HEAD(virtual_queue(ve));
+> -	tasklet_setup(&ve->base.execlists.tasklet, virtual_submission_tasklet);
+> +	tasklet_setup(&ve->base.sched_engine->tasklet, virtual_submission_tasklet);
+>   
+>   	intel_context_init(&ve->context, &ve->base);
+>   
+> @@ -3789,7 +3795,7 @@ intel_execlists_create_virtual(struct intel_engine_cs **siblings,
+>   		 * layering if we handle cloning of the requests and
+>   		 * submitting a copy into each backend.
+>   		 */
+> -		if (sibling->execlists.tasklet.callback !=
+> +		if (sibling->sched_engine->tasklet.callback !=
+>   		    execlists_submission_tasklet) {
+>   			err = -ENODEV;
+>   			goto err_put;
+> diff --git a/drivers/gpu/drm/i915/gt/mock_engine.c b/drivers/gpu/drm/i915/gt/mock_engine.c
+> index a49fd3039f13..68970398e4ef 100644
+> --- a/drivers/gpu/drm/i915/gt/mock_engine.c
+> +++ b/drivers/gpu/drm/i915/gt/mock_engine.c
+> @@ -349,6 +349,7 @@ int mock_engine_init(struct intel_engine_cs *engine)
+>   	engine->sched_engine = i915_sched_engine_create(ENGINE_MOCK);
+>   	if (!engine->sched_engine)
+>   		return -ENOMEM;
+> +	engine->sched_engine->private_data = engine;
+>   
+>   	intel_engine_init_execlists(engine);
+>   	intel_engine_init__pm(engine);
+> diff --git a/drivers/gpu/drm/i915/gt/selftest_execlists.c b/drivers/gpu/drm/i915/gt/selftest_execlists.c
+> index 72f8cc914f4f..08896ae027d5 100644
+> --- a/drivers/gpu/drm/i915/gt/selftest_execlists.c
+> +++ b/drivers/gpu/drm/i915/gt/selftest_execlists.c
+> @@ -43,7 +43,7 @@ static int wait_for_submit(struct intel_engine_cs *engine,
+>   			   unsigned long timeout)
+>   {
+>   	/* Ignore our own attempts to suppress excess tasklets */
+> -	tasklet_hi_schedule(&engine->execlists.tasklet);
+> +	tasklet_hi_schedule(&engine->sched_engine->tasklet);
+>   
+>   	timeout += jiffies;
+>   	do {
+> @@ -553,13 +553,13 @@ static int live_pin_rewind(void *arg)
+>   
+>   static int engine_lock_reset_tasklet(struct intel_engine_cs *engine)
+>   {
+> -	tasklet_disable(&engine->execlists.tasklet);
+> +	tasklet_disable(&engine->sched_engine->tasklet);
+>   	local_bh_disable();
+>   
+>   	if (test_and_set_bit(I915_RESET_ENGINE + engine->id,
+>   			     &engine->gt->reset.flags)) {
+>   		local_bh_enable();
+> -		tasklet_enable(&engine->execlists.tasklet);
+> +		tasklet_enable(&engine->sched_engine->tasklet);
+>   
+>   		intel_gt_set_wedged(engine->gt);
+>   		return -EBUSY;
+> @@ -574,7 +574,7 @@ static void engine_unlock_reset_tasklet(struct intel_engine_cs *engine)
+>   			      &engine->gt->reset.flags);
+>   
+>   	local_bh_enable();
+> -	tasklet_enable(&engine->execlists.tasklet);
+> +	tasklet_enable(&engine->sched_engine->tasklet);
+>   }
+>   
+>   static int live_hold_reset(void *arg)
+> @@ -628,7 +628,7 @@ static int live_hold_reset(void *arg)
+>   		if (err)
+>   			goto out;
+>   
+> -		engine->execlists.tasklet.callback(&engine->execlists.tasklet);
+> +		engine->sched_engine->tasklet.callback(&engine->sched_engine->tasklet);
+>   		GEM_BUG_ON(execlists_active(&engine->execlists) != rq);
+>   
+>   		i915_request_get(rq);
+> @@ -1200,7 +1200,7 @@ static int live_timeslice_rewind(void *arg)
+>   		while (i915_request_is_active(rq[A2])) { /* semaphore yield! */
+>   			/* Wait for the timeslice to kick in */
+>   			del_timer(&engine->execlists.timer);
+> -			tasklet_hi_schedule(&engine->execlists.tasklet);
+> +			tasklet_hi_schedule(&engine->sched_engine->tasklet);
+>   			intel_engine_flush_submission(engine);
+>   		}
+>   		/* -> ELSP[] = { { A:rq1 }, { B:rq1 } } */
+> @@ -4606,7 +4606,7 @@ static int reset_virtual_engine(struct intel_gt *gt,
+>   	if (err)
+>   		goto out_heartbeat;
+>   
+> -	engine->execlists.tasklet.callback(&engine->execlists.tasklet);
+> +	engine->sched_engine->tasklet.callback(&engine->sched_engine->tasklet);
+>   	GEM_BUG_ON(execlists_active(&engine->execlists) != rq);
+>   
+>   	/* Fake a preemption event; failed of course */
+> diff --git a/drivers/gpu/drm/i915/gt/selftest_hangcheck.c b/drivers/gpu/drm/i915/gt/selftest_hangcheck.c
+> index cec4b9977c9b..6a0b04bdac58 100644
+> --- a/drivers/gpu/drm/i915/gt/selftest_hangcheck.c
+> +++ b/drivers/gpu/drm/i915/gt/selftest_hangcheck.c
+> @@ -1702,7 +1702,7 @@ static int __igt_atomic_reset_engine(struct intel_engine_cs *engine,
+>   				     const struct igt_atomic_section *p,
+>   				     const char *mode)
+>   {
+> -	struct tasklet_struct * const t = &engine->execlists.tasklet;
+> +	struct tasklet_struct * const t = &engine->sched_engine->tasklet;
+>   	int err;
+>   
+>   	GEM_TRACE("i915_reset_engine(%s:%s) under %s\n",
+> diff --git a/drivers/gpu/drm/i915/gt/selftest_lrc.c b/drivers/gpu/drm/i915/gt/selftest_lrc.c
+> index 3119016d9910..b0977a3b699b 100644
+> --- a/drivers/gpu/drm/i915/gt/selftest_lrc.c
+> +++ b/drivers/gpu/drm/i915/gt/selftest_lrc.c
+> @@ -49,7 +49,7 @@ static int wait_for_submit(struct intel_engine_cs *engine,
+>   			   unsigned long timeout)
+>   {
+>   	/* Ignore our own attempts to suppress excess tasklets */
+> -	tasklet_hi_schedule(&engine->execlists.tasklet);
+> +	tasklet_hi_schedule(&engine->sched_engine->tasklet);
+>   
+>   	timeout += jiffies;
+>   	do {
+> @@ -1613,12 +1613,12 @@ static void garbage_reset(struct intel_engine_cs *engine,
+>   
+>   	local_bh_disable();
+>   	if (!test_and_set_bit(bit, lock)) {
+> -		tasklet_disable(&engine->execlists.tasklet);
+> +		tasklet_disable(&engine->sched_engine->tasklet);
+>   
+>   		if (!rq->fence.error)
+>   			__intel_engine_reset_bh(engine, NULL);
+>   
+> -		tasklet_enable(&engine->execlists.tasklet);
+> +		tasklet_enable(&engine->sched_engine->tasklet);
+>   		clear_and_wake_up_bit(bit, lock);
+>   	}
+>   	local_bh_enable();
+> diff --git a/drivers/gpu/drm/i915/gt/selftest_reset.c b/drivers/gpu/drm/i915/gt/selftest_reset.c
+> index 8784257ec808..7a50c9f4071b 100644
+> --- a/drivers/gpu/drm/i915/gt/selftest_reset.c
+> +++ b/drivers/gpu/drm/i915/gt/selftest_reset.c
+> @@ -321,7 +321,7 @@ static int igt_atomic_engine_reset(void *arg)
+>   		goto out_unlock;
+>   
+>   	for_each_engine(engine, gt, id) {
+> -		struct tasklet_struct *t = &engine->execlists.tasklet;
+> +		struct tasklet_struct *t = &engine->sched_engine->tasklet;
+>   
+>   		if (t->func)
+>   			tasklet_disable(t);
+> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> index cb13cc586c67..e9c237b18692 100644
+> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> @@ -241,8 +241,9 @@ static void __guc_dequeue(struct intel_engine_cs *engine)
+>   
+>   static void guc_submission_tasklet(struct tasklet_struct *t)
+>   {
+> -	struct intel_engine_cs * const engine =
+> -		from_tasklet(engine, t, execlists.tasklet);
+> +	struct i915_sched_engine *sched_engine =
+> +		from_tasklet(sched_engine, t, tasklet);
+> +	struct intel_engine_cs * const engine = sched_engine->private_data;
+>   	struct intel_engine_execlists * const execlists = &engine->execlists;
+>   	struct i915_request **port, *rq;
+>   	unsigned long flags;
+> @@ -272,14 +273,12 @@ static void cs_irq_handler(struct intel_engine_cs *engine, u16 iir)
+>   {
+>   	if (iir & GT_RENDER_USER_INTERRUPT) {
+>   		intel_engine_signal_breadcrumbs(engine);
+> -		tasklet_hi_schedule(&engine->execlists.tasklet);
+> +		tasklet_hi_schedule(&engine->sched_engine->tasklet);
+>   	}
+>   }
+>   
+>   static void guc_reset_prepare(struct intel_engine_cs *engine)
+>   {
+> -	struct intel_engine_execlists * const execlists = &engine->execlists;
+> -
+>   	ENGINE_TRACE(engine, "\n");
+>   
+>   	/*
+> @@ -291,7 +290,7 @@ static void guc_reset_prepare(struct intel_engine_cs *engine)
+>   	 * Turning off the execlists->tasklet until the reset is over
+>   	 * prevents the race.
+>   	 */
+> -	__tasklet_disable_sync_once(&execlists->tasklet);
+> +	__tasklet_disable_sync_once(&engine->sched_engine->tasklet);
+>   }
+>   
+>   static void guc_reset_state(struct intel_context *ce,
+> @@ -395,14 +394,12 @@ static void guc_reset_cancel(struct intel_engine_cs *engine)
+>   
+>   static void guc_reset_finish(struct intel_engine_cs *engine)
+>   {
+> -	struct intel_engine_execlists * const execlists = &engine->execlists;
+> -
+> -	if (__tasklet_enable(&execlists->tasklet))
+> +	if (__tasklet_enable(&engine->sched_engine->tasklet))
+>   		/* And kick in case we missed a new request submission. */
+> -		tasklet_hi_schedule(&execlists->tasklet);
+> +		tasklet_hi_schedule(&engine->sched_engine->tasklet);
+>   
+>   	ENGINE_TRACE(engine, "depth->%d\n",
+> -		     atomic_read(&execlists->tasklet.count));
+> +		     atomic_read(&engine->sched_engine->tasklet.count));
+>   }
+>   
+>   /*
+> @@ -520,7 +517,7 @@ static void guc_submit_request(struct i915_request *rq)
+>   	GEM_BUG_ON(i915_sched_engine_is_empty(engine->sched_engine));
+>   	GEM_BUG_ON(list_empty(&rq->sched.link));
+>   
+> -	tasklet_hi_schedule(&engine->execlists.tasklet);
+> +	tasklet_hi_schedule(&engine->sched_engine->tasklet);
+>   
+>   	spin_unlock_irqrestore(&engine->sched_engine->lock, flags);
+>   }
+> @@ -600,7 +597,7 @@ static void guc_release(struct intel_engine_cs *engine)
+>   {
+>   	engine->sanitize = NULL; /* no longer in control, nothing to sanitize */
+>   
+> -	tasklet_kill(&engine->execlists.tasklet);
+> +	tasklet_kill(&engine->sched_engine->tasklet);
+>   
+>   	intel_engine_cleanup_common(engine);
+>   	lrc_fini_wa_ctx(engine);
+> @@ -679,7 +676,7 @@ int intel_guc_submission_setup(struct intel_engine_cs *engine)
+>   	 */
+>   	GEM_BUG_ON(GRAPHICS_VER(i915) < 11);
+>   
+> -	tasklet_setup(&engine->execlists.tasklet, guc_submission_tasklet);
+> +	tasklet_setup(&engine->sched_engine->tasklet, guc_submission_tasklet);
+>   
+>   	guc_default_vfuncs(engine);
+>   	guc_default_irqs(engine);
+> diff --git a/drivers/gpu/drm/i915/i915_scheduler.c b/drivers/gpu/drm/i915/i915_scheduler.c
+> index fa8863df9513..3a58a9130309 100644
+> --- a/drivers/gpu/drm/i915/i915_scheduler.c
+> +++ b/drivers/gpu/drm/i915/i915_scheduler.c
+> @@ -436,6 +436,7 @@ void i915_sched_engine_free(struct kref *kref)
+>   	struct i915_sched_engine *sched_engine =
+>   		container_of(kref, typeof(*sched_engine), ref);
+>   
+> +	tasklet_kill(&sched_engine->tasklet); /* flush the callback */
+>   	kfree(sched_engine);
+>   }
+>   
+> diff --git a/drivers/gpu/drm/i915/i915_scheduler.h b/drivers/gpu/drm/i915/i915_scheduler.h
+> index 0014745bda30..650ab8e0db9f 100644
+> --- a/drivers/gpu/drm/i915/i915_scheduler.h
+> +++ b/drivers/gpu/drm/i915/i915_scheduler.h
+> @@ -79,6 +79,20 @@ i915_sched_engine_reset_on_empty(struct i915_sched_engine *sched_engine)
+>   		sched_engine->no_priolist = false;
+>   }
+>   
+> +static inline void
+> +i915_sched_engine_active_lock_bh(struct i915_sched_engine *sched_engine)
+> +{
+> +	local_bh_disable(); /* prevent local softirq and lock recursion */
+> +	tasklet_lock(&sched_engine->tasklet);
+> +}
+> +
+> +static inline void
+> +i915_sched_engine_active_unlock_bh(struct i915_sched_engine *sched_engine)
+> +{
+> +	tasklet_unlock(&sched_engine->tasklet);
+> +	local_bh_enable(); /* restore softirq, and kick ksoftirqd! */
+> +}
+> +
+>   void i915_request_show_with_schedule(struct drm_printer *m,
+>   				     const struct i915_request *rq,
+>   				     const char *prefix,
+> diff --git a/drivers/gpu/drm/i915/i915_scheduler_types.h b/drivers/gpu/drm/i915/i915_scheduler_types.h
+> index 8bd07d0c27e1..5935c3152bdc 100644
+> --- a/drivers/gpu/drm/i915/i915_scheduler_types.h
+> +++ b/drivers/gpu/drm/i915/i915_scheduler_types.h
+> @@ -124,6 +124,11 @@ struct i915_sched_engine {
+>   	 */
+>   	struct list_head hold;
+>   
+> +	/**
+> +	 * @tasklet: softirq tasklet for submission
+> +	 */
+> +	struct tasklet_struct tasklet;
+> +
+>   	/**
+>   	 * @default_priolist: priority list for I915_PRIORITY_NORMAL
+>   	 */
+> @@ -153,6 +158,11 @@ struct i915_sched_engine {
+>   	 */
+>   	bool no_priolist;
+>   
+> +	/**
+> +	 * @private_data: private data of the submission backend
+> +	 */
+> +	void *private_data;
+> +
+>   	/**
+>   	 * @kick_backend: kick backend after a request's priority has changed
+>   	 */
 
