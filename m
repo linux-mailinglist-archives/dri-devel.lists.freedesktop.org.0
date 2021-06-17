@@ -1,51 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A8CF3AB38C
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Jun 2021 14:27:30 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C2B53AB404
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Jun 2021 14:50:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 900596E0CB;
-	Thu, 17 Jun 2021 12:27:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9F2D76E0F5;
+	Thu, 17 Jun 2021 12:49:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 377 seconds by postgrey-1.36 at gabe;
- Thu, 17 Jun 2021 09:54:03 UTC
-Received: from lucky1.263xmail.com (lucky1.263xmail.com [211.157.147.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5C8CA6E8D2
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Jun 2021 09:54:03 +0000 (UTC)
-Received: from localhost (unknown [192.168.167.13])
- by lucky1.263xmail.com (Postfix) with ESMTP id 59324D1E8B;
- Thu, 17 Jun 2021 17:47:41 +0800 (CST)
-X-MAIL-GRAY: 0
-X-MAIL-DELIVERY: 1
-X-ADDR-CHECKED4: 1
-X-SKE-CHECKED: 1
-X-ANTISPAM-LEVEL: 2
-Received: from localhost.localdomain (unknown [111.207.172.18])
- by smtp.263.net (postfix) whith ESMTP id
- P5456T140566025205504S1623923255883568_; 
- Thu, 17 Jun 2021 17:47:42 +0800 (CST)
-X-IP-DOMAINF: 1
-X-UNIQUE-TAG: <a357138165591929524564ebbd2486a8>
-X-RL-SENDER: maqianga@uniontech.com
-X-SENDER: maqianga@uniontech.com
-X-LOGIN-NAME: maqianga@uniontech.com
-X-FST-TO: maarten.lankhorst@linux.intel.com
-X-RCPT-COUNT: 8
-X-SENDER-IP: 111.207.172.18
-X-ATTACHMENT-NUM: 0
-X-System-Flag: 0
-From: Qiang Ma <maqianga@uniontech.com>
-To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@linux.ie, daniel@ffwll.ch
-Subject: [PATCH] drm/auth: Move master pointer from drm_device to drm_file
-Date: Thu, 17 Jun 2021 17:47:33 +0800
-Message-Id: <20210617094733.8429-1-maqianga@uniontech.com>
-X-Mailer: git-send-email 2.20.1
+Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 48DB66E0F5
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Jun 2021 12:49:56 +0000 (UTC)
+Received: from [IPv6:::1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
+ (No client certificate requested)
+ (Authenticated sender: marex@denx.de)
+ by phobos.denx.de (Postfix) with ESMTPSA id C4816829FC;
+ Thu, 17 Jun 2021 14:49:53 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+ s=phobos-20191101; t=1623934194;
+ bh=Dtqg3l61I/gmYm7TbcR8sP9/Lbw3U1Y0YsrSuDuMyOQ=;
+ h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+ b=wfBPqfmyLiYjB5PE8vFJMQRA+lfjCL8os+SHPtvoaN5tC3AcXRjP42ZPLh6kuYBe8
+ xId+iZeIGqHEau3CjdyWehMMR57wQTGJZR9mtnEKjyEjFDFr8mTxEs7SXQiAocu5fh
+ TxUrsm7x5cOs44qOEUBe/oZjZwNSdxBuM+iftd4ERSzC/1L3N7p4jDN/Q/Am4XVDFm
+ Crz32AP8bDQyb26NVw//hxhnek3c7JbTIlFGtNp5fmAYRJQukRXOD+CVZUzgaTc8eX
+ RmwVdLS6HZKnfFmFDVrIC0pQS4dmT8/yblzHCiI+SK6aF4pHg7CHYaLOWFDWXDl7BS
+ xQjojvy+XXNww==
+Subject: Re: [PATCH] drm/bridge: ti-sn65dsi83: Fix null pointer dereference in
+ remove callback
+To: Jonathan Liu <net147@gmail.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+References: <20210617111925.162120-1-net147@gmail.com>
+From: Marek Vasut <marex@denx.de>
+Message-ID: <99e8032d-9a40-77a2-51a2-14bd8c3913cd@denx.de>
+Date: Thu, 17 Jun 2021 14:49:53 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Thu, 17 Jun 2021 12:27:25 +0000
+In-Reply-To: <20210617111925.162120-1-net147@gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Virus-Scanned: clamav-milter 0.103.2 at phobos.denx.de
+X-Virus-Status: Clean
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,34 +57,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Qiang Ma <maqianga@uniontech.com>
+Cc: Jonas Karlman <jonas@kwiboo.se>, David Airlie <airlied@linux.ie>,
+ Robert Foss <robert.foss@linaro.org>, Neil Armstrong <narmstrong@baylibre.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Frieder Schrempf <frieder.schrempf@kontron.de>,
+ Andrzej Hajda <a.hajda@samsung.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The drm_file pointer clears to zero during multi-user switching,
-so it needs to call drm_new_set_master for master pointer from drm_file.
+On 6/17/21 1:19 PM, Jonathan Liu wrote:
+> If attach has not been called, unloading the driver can result in a null
+> pointer dereference in mipi_dsi_detach as ctx->dsi has not been assigned
+> yet.
+> 
+> Fixes: ceb515ba29ba6b ("drm/bridge: ti-sn65dsi83: Add TI SN65DSI83 and SN65DSI84 driver")
+> Signed-off-by: Jonathan Liu <net147@gmail.com>
+> ---
+>   drivers/gpu/drm/bridge/ti-sn65dsi83.c | 7 +++++--
+>   1 file changed, 5 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi83.c b/drivers/gpu/drm/bridge/ti-sn65dsi83.c
+> index 750f2172ef08..8e9f45c5c7c1 100644
+> --- a/drivers/gpu/drm/bridge/ti-sn65dsi83.c
+> +++ b/drivers/gpu/drm/bridge/ti-sn65dsi83.c
+> @@ -671,8 +671,11 @@ static int sn65dsi83_remove(struct i2c_client *client)
+>   {
+>   	struct sn65dsi83 *ctx = i2c_get_clientdata(client);
+>   
+> -	mipi_dsi_detach(ctx->dsi);
+> -	mipi_dsi_device_unregister(ctx->dsi);
+> +	if (ctx->dsi) {
+> +		mipi_dsi_detach(ctx->dsi);
+> +		mipi_dsi_device_unregister(ctx->dsi);
+> +	}
+> +
+>   	drm_bridge_remove(&ctx->bridge);
+>   	of_node_put(ctx->host_node);
 
-Signed-off-by: Qiang Ma <maqianga@uniontech.com>
----
- drivers/gpu/drm/drm_auth.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Looks OK to me.
 
-diff --git a/drivers/gpu/drm/drm_auth.c b/drivers/gpu/drm/drm_auth.c
-index f2d46b7ac6f9..02431af6d0c5 100644
---- a/drivers/gpu/drm/drm_auth.c
-+++ b/drivers/gpu/drm/drm_auth.c
-@@ -302,7 +302,7 @@ int drm_master_open(struct drm_file *file_priv)
- 	/* if there is no current master make this fd it, but do not create
- 	 * any master object for render clients */
- 	mutex_lock(&dev->master_mutex);
--	if (!dev->master)
-+	if (!file_priv->master)
- 		ret = drm_new_set_master(dev, file_priv);
- 	else
- 		file_priv->master = drm_master_get(dev->master);
--- 
-2.20.1
+Reviewed-by: Marek Vasut <marex@denx.de>
 
-
-
+Thanks !
