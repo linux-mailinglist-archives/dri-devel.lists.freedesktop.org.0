@@ -1,41 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75C463AA8D0
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Jun 2021 03:57:51 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CB7B3AA8F6
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Jun 2021 04:30:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 054C26E7D0;
-	Thu, 17 Jun 2021 01:57:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5D17A6E7DD;
+	Thu, 17 Jun 2021 02:30:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1E2BD6E7D0
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Jun 2021 01:57:45 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
- [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 06283E53;
- Thu, 17 Jun 2021 03:57:42 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1623895063;
- bh=Z2N2k77gMr7nNxeA63YorzCdihQE805EO/4rjphda/Y=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=QhrGW8xJk6uG4Qp+7P1PILIBKn7UU21vAVLfq/RoU/V8qiVOAwSG3e0INOVv/nZKU
- fH4dIQCXPgRr2ZGxqzw43vZyCWyhOZ0d8dXa7M5Y7rqDe2P/ndQO0SOA8vwG3O4rGz
- 6HY8FGkFjrL8oqtbHYbFQ4aeQ6+ErqcaYvNagSgI=
-Date: Thu, 17 Jun 2021 04:57:22 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: Re: [PATCH] dt-bindings: display: renesas,du: Make resets optional
- on R-Car H1
-Message-ID: <YMqsAkFfAU02t4oD@pendragon.ideasonboard.com>
-References: <2da75fd2e971dfab8dd05a2a28bb1d6d9cbe5adb.1619700420.git.geert+renesas@glider.be>
- <YIrU+tdcfQ/6ODRz@pendragon.ideasonboard.com>
+Received: from szxga03-in.huawei.com (szxga03-in.huawei.com [45.249.212.189])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B3B6E6E7DD
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Jun 2021 02:30:21 +0000 (UTC)
+Received: from dggemv703-chm.china.huawei.com (unknown [172.30.72.57])
+ by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4G55XB3lMfz6ySF;
+ Thu, 17 Jun 2021 10:26:18 +0800 (CST)
+Received: from dggpemm500019.china.huawei.com (7.185.36.180) by
+ dggemv703-chm.china.huawei.com (10.3.19.46) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2176.2; Thu, 17 Jun 2021 10:30:17 +0800
+Received: from ubuntu1804.huawei.com (10.67.174.98) by
+ dggpemm500019.china.huawei.com (7.185.36.180) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2176.2; Thu, 17 Jun 2021 10:30:17 +0800
+From: Pu Lehui <pulehui@huawei.com>
+To: <harry.wentland@amd.com>, <sunpeng.li@amd.com>,
+ <alexander.deucher@amd.com>, <christian.koenig@amd.com>,
+ <Xinhui.Pan@amd.com>, <airlied@linux.ie>, <daniel@ffwll.ch>,
+ <Jun.Lei@amd.com>, <wenjing.liu@amd.com>, <Anson.Jacob@amd.com>,
+ <qingqing.zhuo@amd.com>, <Wesley.Chalmers@amd.com>, <Jimmy.Kizito@amd.com>,
+ <aric.cyr@amd.com>, <martin.tsai@amd.com>, <jinlong.zhang@amd.com>
+Subject: [PATCH -next] drm/amd/display: Fix gcc unused variable warning
+Date: Thu, 17 Jun 2021 10:31:09 +0800
+Message-ID: <20210617023109.204591-1-pulehui@huawei.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <YIrU+tdcfQ/6ODRz@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.67.174.98]
+X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
+ dggpemm500019.china.huawei.com (7.185.36.180)
+X-CFilter-Loop: Reflected
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,58 +53,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
- dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
- Rob Herring <robh+dt@kernel.org>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Cc: zhangjinhao2@huawei.com, pulehui@huawei.com,
+ dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Geert,
+GCC reports the following warning with W=1:
 
-On Thu, Apr 29, 2021 at 06:47:06PM +0300, Laurent Pinchart wrote:
-> On Thu, Apr 29, 2021 at 02:47:31PM +0200, Geert Uytterhoeven wrote:
-> > The "resets" property is not present on R-Car Gen1 SoCs.
-> > Supporting it would require migrating from renesas,cpg-clocks to
-> > renesas,cpg-mssr.
-> > 
-> > Reflect this in the DT bindings by removing the global "required:
-> > resets".  All SoCs that do have "resets" properties already have
-> > SoC-specific rules making it required.
-> 
-> Should we drop the
-> 
->         resets:
-> 	  maxItems: 1
-> 
-> from renesas,du-r8a7779 then ? And maybe the
-> 
->   resets: true
-> 
-> in the general case ?
+drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_link_dp.c:3635:17:
+warning:
+ variable ‘status’ set but not used [-Wunused-but-set-variable]
+  3635 |  enum dc_status status = DC_ERROR_UNEXPECTED;
+       |                 ^~~~~~
 
-Any opinion on this ?
+The variable should be used for error check, let's fix it.
 
-> > Fixes: 99d66127fad25ebb ("dt-bindings: display: renesas,du: Convert binding to YAML")
-> > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> > ---
-> >  Documentation/devicetree/bindings/display/renesas,du.yaml | 1 -
-> >  1 file changed, 1 deletion(-)
-> > 
-> > diff --git a/Documentation/devicetree/bindings/display/renesas,du.yaml b/Documentation/devicetree/bindings/display/renesas,du.yaml
-> > index 552a99ce4f1280d7..e955034da53b86e2 100644
-> > --- a/Documentation/devicetree/bindings/display/renesas,du.yaml
-> > +++ b/Documentation/devicetree/bindings/display/renesas,du.yaml
-> > @@ -89,7 +89,6 @@ required:
-> >    - reg
-> >    - clocks
-> >    - interrupts
-> > -  - resets
-> >    - ports
-> >  
-> >  allOf:
+Signed-off-by: Pu Lehui <pulehui@huawei.com>
+---
+ drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
+diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c b/drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c
+index fcb635c85330..cf29265870c8 100644
+--- a/drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c
++++ b/drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c
+@@ -3681,6 +3681,10 @@ bool dp_retrieve_lttpr_cap(struct dc_link *link)
+ 				DP_LT_TUNABLE_PHY_REPEATER_FIELD_DATA_STRUCTURE_REV,
+ 				lttpr_dpcd_data,
+ 				sizeof(lttpr_dpcd_data));
++		if (status != DC_OK) {
++			dm_error("%s: Read LTTPR caps data failed.\n", __func__);
++			return false;
++		}
+ 
+ 		link->dpcd_caps.lttpr_caps.revision.raw =
+ 				lttpr_dpcd_data[DP_LT_TUNABLE_PHY_REPEATER_FIELD_DATA_STRUCTURE_REV -
 -- 
-Regards,
+2.17.1
 
-Laurent Pinchart
