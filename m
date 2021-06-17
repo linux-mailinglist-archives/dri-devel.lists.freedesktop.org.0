@@ -2,61 +2,99 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D6A73ABC70
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Jun 2021 21:13:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D9C93ABC76
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Jun 2021 21:16:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1E5856E985;
-	Thu, 17 Jun 2021 19:13:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5BF046E99F;
+	Thu, 17 Jun 2021 19:16:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com
- [IPv6:2a00:1450:4864:20::42d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4489F6E983
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Jun 2021 19:13:46 +0000 (UTC)
-Received: by mail-wr1-x42d.google.com with SMTP id n7so7982003wri.3
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Jun 2021 12:13:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=YJbKmlvWf4NhCvnJSCLMTpvoMWnm+Ap9HocEZxA+clo=;
- b=Hly9ul7kmsczgAeS6+B8D8eRJ9SRMAz/ciNqRqzLXBWHbQCbfi+M1QXms4osL6vC2S
- mZ5Pt+f9lZ7ztthAlC1SYwNKb3mTX3xgwNz0u3pXKZGMEQU0uXIig/v6aq7r3EvXod56
- aTtOmmiZWGSiJ1CaonNLvlU8YgGtQpetDW3Jc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=YJbKmlvWf4NhCvnJSCLMTpvoMWnm+Ap9HocEZxA+clo=;
- b=OvDMpj1TxS8DaJpHGb3XO2d1nBq9I8D4/LwNkOGo8PjEgsYIVKE7bncftwkNm4L1ES
- kon7j4aCKUREoOAKb7mAnDQ3sHbVb9j4/1+kDrF9KDBdZNwh0ooK8110e+lWbv5vn/AO
- y1IImCM5F34paYsydnCbj/TpUobB2Jedw13Ppsg/EZ3HJFuaDaLGO85gbSCrszrt3RLe
- p6Fsvys7MVjK4STFazicMUKJJP9CQcJLWPLsDJ1f44d1p+l0Ex3qOOFA3zA7StFGaJR7
- wS4TaYYCfGUPvBpBd6y7hpRU3o5AoGv1rfYX7Ocxjn6dKkNJ4RniLymJSZy5Wqq1O0CH
- axlQ==
-X-Gm-Message-State: AOAM533cJSYW5Kh31xoIKL0cQCnWTj7Ip2Z6kWHjQmWLeQ5kxi6RjXt8
- qU/QLdJAxxQBHy3IpSCXy0KImZJlGZlX8w==
-X-Google-Smtp-Source: ABdhPJxvnLGl4zoTiXc075/FIedgzII8j7wsAd/q+P0XgapcrH50XEgDF/2IDKIPl3zGPe8IQkmvgQ==
-X-Received: by 2002:adf:cd10:: with SMTP id w16mr7919871wrm.200.1623957224923; 
- Thu, 17 Jun 2021 12:13:44 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id p187sm5344676wmp.28.2021.06.17.12.13.44
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 17 Jun 2021 12:13:44 -0700 (PDT)
-Date: Thu, 17 Jun 2021 21:13:42 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
-Subject: Re: [Intel-gfx] [PATCH v5 01/12] drm/i915: Reference objects on the
- ww object list
-Message-ID: <YMue5i1Gqoo4ERru@phenom.ffwll.local>
-References: <20210617063018.92802-1-thomas.hellstrom@linux.intel.com>
- <20210617063018.92802-2-thomas.hellstrom@linux.intel.com>
+Received: from NAM04-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam08on20615.outbound.protection.outlook.com
+ [IPv6:2a01:111:f400:7e8d::615])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 85EF56E99E;
+ Thu, 17 Jun 2021 19:16:29 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=gmuM5C5XDlyTNwb4KafuYmulLOUhUV1swTehPP0Do+sj9IzyfKEEdsrdKRjtSSVoiYSxVevCbXUfQSYzywB5ATsG44Cnz/SgAaFb/uGaReigaE8r1ibgTmqqYbAgwEpTz+aIXu7EdmUtmoXur7aM98ELENhAeZim1Og0lrbbne5aRwVfiyw/QUb1ZAQJDv7a8vwvBPo1Ys9lnZaFFZjatPBvrYVD7UnToJUUmrV6FmIVKokpzj8BldTAxwTlxfKwisQYpiNEYiXO+xIckoqUZh441h8urmefzNgcqVygQLKsppeJ0F8S9wY7PQuFlIKUqccTYFJij6N425vwwXzVsg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=er6biy0GT/y0hF4WRc+gPEjDNsO1r2+lSw1wRirgPjc=;
+ b=SYI/Pbw8YCAaqxgU1WCpcgeKrTa6gHNVlep55kRHJl6wxeRKZYf/GSngL60WcDasK2zRc/3SNQyP46UELW93DfgpNpGI/gCw60mdfFvbmJKymX8PSI3TCeokiEsLmEXX5O6az6pvOcIuX79inNIifbEHFiA47ajsF0mADlAib88IMM7tURuvLz8XC79Zao12A19eqxgfKRy4qiayy3eFUpJkDb3LK7rIMquuOVI+x2lTvjtbYUanSdjuBdr9CxQ+fIIdYY0uxOjyJww5s0b92OkXijcJ6zUeGm3lgVpqrQtwtJe+KPgy2oPGlpF+qCnMIa+AxvKw2oBb5Ru6LH6n+Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.112.35) smtp.rcpttodomain=kvack.org smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=none sp=none pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=er6biy0GT/y0hF4WRc+gPEjDNsO1r2+lSw1wRirgPjc=;
+ b=CS5XyBIz8csXQ77rM+8jEqELjMPMqnnoffxwUyCI4VZyO94Ep41pGr49X1CmmYUzvbRYQYhRtdqTObdT6OacCTcEvgispQCwiKINVtqMULRYjW9+iNnb309XXuAZFoOhcnS/gZOK/jYWZ+JMmWuaKrtzfMm7ttOgcE5+zyG5zvfWerHOtIgOusYjyeTbhNT/p3u3onVrKKdpPAo75vpb9W2OzeBCiBkhvoXWHGCpXIE7Zv3KT3J38P0FIUA8JeNqLYc4UkGWGJ4EyBzceKPAzSlrdoPqoWtcaEOaTOWH8YZNsqT0DdcHCTEoWI+28mJv9sRwOfKOimGWX5xLEAa6RA==
+Received: from BN0PR04CA0100.namprd04.prod.outlook.com (2603:10b6:408:ec::15)
+ by SA0PR12MB4592.namprd12.prod.outlook.com (2603:10b6:806:9b::16)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4242.19; Thu, 17 Jun
+ 2021 19:16:27 +0000
+Received: from BN8NAM11FT045.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:408:ec:cafe::2c) by BN0PR04CA0100.outlook.office365.com
+ (2603:10b6:408:ec::15) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4242.19 via Frontend
+ Transport; Thu, 17 Jun 2021 19:16:27 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.112.35)
+ smtp.mailfrom=nvidia.com; kvack.org; dkim=none (message not signed)
+ header.d=none;kvack.org; dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.112.35 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.112.35; helo=mail.nvidia.com;
+Received: from mail.nvidia.com (216.228.112.35) by
+ BN8NAM11FT045.mail.protection.outlook.com (10.13.177.47) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.20.4242.16 via Frontend Transport; Thu, 17 Jun 2021 19:16:27 +0000
+Received: from HQMAIL109.nvidia.com (172.20.187.15) by HQMAIL111.nvidia.com
+ (172.20.187.18) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Thu, 17 Jun
+ 2021 19:16:26 +0000
+Received: from rcampbell-test.nvidia.com (172.20.187.5) by mail.nvidia.com
+ (172.20.187.15) with Microsoft SMTP Server (TLS) id 15.0.1497.2 via Frontend
+ Transport; Thu, 17 Jun 2021 12:16:26 -0700
+Subject: Re: [PATCH v3 2/8] mm: remove extra ZONE_DEVICE struct page refcount
+To: Alex Sierra <alex.sierra@amd.com>, <akpm@linux-foundation.org>,
+ <Felix.Kuehling@amd.com>, <linux-mm@kvack.org>, <linux-ext4@vger.kernel.org>, 
+ <linux-xfs@vger.kernel.org>
+References: <20210617151705.15367-1-alex.sierra@amd.com>
+ <20210617151705.15367-3-alex.sierra@amd.com>
+From: Ralph Campbell <rcampbell@nvidia.com>
+Message-ID: <7163dbb6-67b5-6eef-5772-500fd2107e5c@nvidia.com>
+Date: Thu, 17 Jun 2021 12:16:26 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210617063018.92802-2-thomas.hellstrom@linux.intel.com>
-X-Operating-System: Linux phenom 5.10.0-7-amd64 
+In-Reply-To: <20210617151705.15367-3-alex.sierra@amd.com>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 0aaa47cb-8ee0-4aa5-5686-08d931c467cc
+X-MS-TrafficTypeDiagnostic: SA0PR12MB4592:
+X-Microsoft-Antispam-PRVS: <SA0PR12MB459232612EBA33C2C1228452C20E9@SA0PR12MB4592.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: GkH0kOjFsr2wrP5Pf6OjkG52Dg6l0a6IvTPJWJlgbwzB5b5lFwvrJbOWvY31Y7N20pH4lsJqAUO9VbUZdgVDqYRXqELEnHuItbGLN4YB5ku/0UYJT+t8CtWie6/bFBg+cAqNRXb+aYNcwYM+d8+br2S7G17PTaF6VudO1o4kj4gLQYIIuN6chzhoUELUU8d8PaLCJbNbh/ZS4quEAtsr5/1VWf2vGflQS90iJYsY4pu+2s2Mu2B6bTsVAkR4rR+bHjTwc2bZUh/+3Dkq4aTLPQJk2MdEUZY7uRx9f738IN13KwzxwbL0rn/Knv2xUigA8d0e+d7zClCQmoGSRL+Eb3d47XO09/0rkmT5OKSgaOYart90TAnZps7zIk616HH86ZFxP35KSl6wnCpF/RRRNAB/LLHKniA13FHvF7USpsvvUCdEyiijdYTW7v13JsJpDMv6eepHELtnu6510DTaTA4sb32+1kSiuEJt6+cLSo38F+t1NP9Gv1yypWfFB3BW9zsBDkmkzbiyZWSQvdFySgiFYVaXQcsxL12gIksLtmzT4gBs6VvG0lMP0we/Yv46wspzAw7mDwQFIDR7DD9UJsb3vxoCsws224MaOGM2rmsOgUSqrwzp8x8v0NA0NIFYEf81xTfFvm6kxonZDQBrX5v7PaBUQNtWr80NGP1L7rDRF6KwSkumW3tsfn1G+7JjwuhhFUYotdSlvgGAy9v04Q==
+X-Forefront-Antispam-Report: CIP:216.228.112.35; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:mail.nvidia.com; PTR:schybrid02.nvidia.com; CAT:NONE;
+ SFS:(4636009)(39860400002)(396003)(376002)(346002)(136003)(46966006)(36840700001)(36906005)(86362001)(5660300002)(7696005)(2906002)(70206006)(36860700001)(186003)(82740400003)(336012)(70586007)(26005)(54906003)(47076005)(7636003)(53546011)(7416002)(316002)(31686004)(2616005)(426003)(83380400001)(31696002)(8676002)(4326008)(110136005)(36756003)(356005)(478600001)(82310400003)(8936002)(2101003)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Jun 2021 19:16:27.2652 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0aaa47cb-8ee0-4aa5-5686-08d931c467cc
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a; Ip=[216.228.112.35];
+ Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT045.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR12MB4592
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,115 +107,62 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, matthew.auld@intel.com,
- dri-devel@lists.freedesktop.org
+Cc: jglisse@redhat.com, jgg@nvidia.com, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, hch@lst.de
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jun 17, 2021 at 08:30:07AM +0200, Thomas Hellström wrote:
-> Since the ww transaction endpoint easily end up far out-of-scope of
-> the objects on the ww object list, particularly for contending lock
-> objects, make sure we reference objects on the list so they don't
-> disappear under us.
-> 
-> This comes with a performance penalty so it's been debated whether this
-> is really needed. But I think this is motivated by the fact that locking
-> is typically difficult to get right, and whatever we can do to make it
-> simpler for developers moving forward should be done, unless the
-> performance impact is far too high.
-> 
-> Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-> Reviewed-by: Matthew Auld <matthew.auld@intel.com>
 
-Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-
-I've looked the past 2-3 weeks in-depth at our execbuf code. That has
-definitely gone way too far into "very clevery" territory, and safe is so
-much better than clever.
-
-If there's a fundamental performance issue, we need to fix this in a
-fundamental way. E.g. for this one here a possible solution could be
-VM_BIND, at least in the fastpath, where we don't need to look-up any
-objects, nor refcount them, nor anything else (at least that's the goal).
-Only some per vm/request book-keeping and done.
-
-Also I think we can easily claw this back once we get to the cleanup part
-of this work: i915_vma_pin has a bunch of atomics (and lots of locks in
-slow-paths) of its own, which are largely redundant now that object state
-is protected by dma_resv_lock. Once that's cleaned up we can pay our
-atomic inc/dec here with the removed atomic ops from the vma side I think.
-
-Anyway just figured I drop some thoughts and my ack on the direction
-you're pushing here.
--Daniel
-
+On 6/17/21 8:16 AM, Alex Sierra wrote:
+> From: Ralph Campbell <rcampbell@nvidia.com>
+>
+> ZONE_DEVICE struct pages have an extra reference count that complicates the
+> code for put_page() and several places in the kernel that need to check the
+> reference count to see that a page is not being used (gup, compaction,
+> migration, etc.). Clean up the code so the reference count doesn't need to
+> be treated specially for ZONE_DEVICE.
+>
+> v2:
+> AS: merged this patch in linux 5.11 version
+>
+> Signed-off-by: Ralph Campbell <rcampbell@nvidia.com>
+> Signed-off-by: Alex Sierra <alex.sierra@amd.com>
 > ---
->  drivers/gpu/drm/i915/gem/i915_gem_object.h | 8 ++++++--
->  drivers/gpu/drm/i915/i915_gem.c            | 4 ++++
->  2 files changed, 10 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object.h b/drivers/gpu/drm/i915/gem/i915_gem_object.h
-> index d66aa00d023a..241666931945 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_object.h
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_object.h
-> @@ -169,13 +169,17 @@ static inline int __i915_gem_object_lock(struct drm_i915_gem_object *obj,
->  	else
->  		ret = dma_resv_lock(obj->base.resv, ww ? &ww->ctx : NULL);
->  
-> -	if (!ret && ww)
-> +	if (!ret && ww) {
-> +		i915_gem_object_get(obj);
->  		list_add_tail(&obj->obj_link, &ww->obj_list);
-> +	}
->  	if (ret == -EALREADY)
->  		ret = 0;
->  
-> -	if (ret == -EDEADLK)
-> +	if (ret == -EDEADLK) {
-> +		i915_gem_object_get(obj);
->  		ww->contended = obj;
-> +	}
->  
->  	return ret;
->  }
-> diff --git a/drivers/gpu/drm/i915/i915_gem.c b/drivers/gpu/drm/i915/i915_gem.c
-> index 6a0a3f0e36e1..c62dcd0e341a 100644
-> --- a/drivers/gpu/drm/i915/i915_gem.c
-> +++ b/drivers/gpu/drm/i915/i915_gem.c
-> @@ -1222,6 +1222,7 @@ static void i915_gem_ww_ctx_unlock_all(struct i915_gem_ww_ctx *ww)
->  	while ((obj = list_first_entry_or_null(&ww->obj_list, struct drm_i915_gem_object, obj_link))) {
->  		list_del(&obj->obj_link);
->  		i915_gem_object_unlock(obj);
-> +		i915_gem_object_put(obj);
->  	}
->  }
->  
-> @@ -1229,6 +1230,7 @@ void i915_gem_ww_unlock_single(struct drm_i915_gem_object *obj)
->  {
->  	list_del(&obj->obj_link);
->  	i915_gem_object_unlock(obj);
-> +	i915_gem_object_put(obj);
->  }
->  
->  void i915_gem_ww_ctx_fini(struct i915_gem_ww_ctx *ww)
-> @@ -1253,6 +1255,8 @@ int __must_check i915_gem_ww_ctx_backoff(struct i915_gem_ww_ctx *ww)
->  
->  	if (!ret)
->  		list_add_tail(&ww->contended->obj_link, &ww->obj_list);
-> +	else
-> +		i915_gem_object_put(ww->contended);
->  
->  	ww->contended = NULL;
->  
-> -- 
-> 2.31.1
-> 
-> _______________________________________________
-> Intel-gfx mailing list
-> Intel-gfx@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/intel-gfx
+>   arch/powerpc/kvm/book3s_hv_uvmem.c     |  2 +-
+>   drivers/gpu/drm/nouveau/nouveau_dmem.c |  2 +-
+>   fs/dax.c                               |  4 +-
+>   include/linux/dax.h                    |  2 +-
+>   include/linux/memremap.h               |  7 +--
+>   include/linux/mm.h                     | 44 -----------------
+>   lib/test_hmm.c                         |  2 +-
+>   mm/internal.h                          |  8 +++
+>   mm/memremap.c                          | 68 +++++++-------------------
+>   mm/migrate.c                           |  5 --
+>   mm/page_alloc.c                        |  3 ++
+>   mm/swap.c                              | 45 ++---------------
+>   12 files changed, 45 insertions(+), 147 deletions(-)
+>
+I think it is great that you are picking this up and trying to revive it.
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+However, I have a number of concerns about how it affects existing ZONE_DEVICE
+MEMORY_DEVICE_GENERIC and MEMORY_DEVICE_FS_DAX users and I don't see this
+addressing them. For example, dev_dax_probe() allocates MEMORY_DEVICE_GENERIC
+struct pages and then:
+   dev_dax_fault()
+     dev_dax_huge_fault()
+       __dev_dax_pte_fault()
+         vmf_insert_mixed()
+which just inserts the PFN into the CPU page tables without increasing the page
+refcount so it is zero (whereas it was one before). But using get_page() will
+trigger VM_BUG_ON_PAGE() if it is enabled. There isn't any current notion of
+free verses allocated for these struct pages. I suppose init_page_count()
+could be called on all the struct pages in dev_dax_probe() to fix that though.
+
+I'm even less clear about how to fix MEMORY_DEVICE_FS_DAX. File systems have clear
+allocate and free states for backing storage but there are the complications with
+the page cache references, etc. to consider. The >1 to 1 reference count seems to
+be used to tell when a page is idle (no I/O, reclaim scanners) rather than free
+(not allocated to any file) but I'm not 100% sure about that since I don't really
+understand all the issues around why a file system needs to have a DAX mount option
+besides knowing that the storage block size has to be a multiple of the page size.
+
