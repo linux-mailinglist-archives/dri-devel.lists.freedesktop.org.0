@@ -1,43 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72CB23AB06A
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Jun 2021 11:55:21 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1043C3AB0F2
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Jun 2021 12:07:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6DF406E8D5;
-	Thu, 17 Jun 2021 09:55:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 03B8B6E8D6;
+	Thu, 17 Jun 2021 10:07:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C4A826E8D2;
- Thu, 17 Jun 2021 09:55:14 +0000 (UTC)
-IronPort-SDR: cKlFkL0ggHmXe01Bpl/Izejc22dXp4kgqssDiX1N8yUpkxagJ3hZXzJpzr3eTRTm52IE3taJ4h
- ELjJxRh6Ya4Q==
-X-IronPort-AV: E=McAfee;i="6200,9189,10017"; a="206158115"
-X-IronPort-AV: E=Sophos;i="5.83,280,1616482800"; d="scan'208";a="206158115"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Jun 2021 02:54:55 -0700
-IronPort-SDR: 1+4wM5q0fSkC9Ahwg7Q7Vd5xHQCO3NJ9P14blvcmCMyQVBeUk8AIBqu47KoXmkHW1Y1CnLaqyM
- V8nIXnBoSrBw==
-X-IronPort-AV: E=Sophos;i="5.83,280,1616482800"; d="scan'208";a="554351645"
-Received: from ramaling-i9x.iind.intel.com (HELO intel.com) ([10.99.66.205])
- by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Jun 2021 02:54:53 -0700
-Date: Thu, 17 Jun 2021 15:26:20 +0530
-From: Ramalingam C <ramalingam.c@intel.com>
-To: Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
-Subject: Re: [PATCH] drm/i915: Perform execbuffer object locking as a
- separate step
-Message-ID: <20210617095620.GA15664@intel.com>
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0BC146E8D6;
+ Thu, 17 Jun 2021 10:07:35 +0000 (UTC)
+IronPort-SDR: iP3uqxULu0vd8Nwh47IwzaxDC6yOIap6cUnzwOgVs7ZpQCJFB6MtGT1c0GAIbprWfYEpX/FzLr
+ 7Zio126ShvMw==
+X-IronPort-AV: E=McAfee;i="6200,9189,10017"; a="186718326"
+X-IronPort-AV: E=Sophos;i="5.83,280,1616482800"; d="scan'208";a="186718326"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Jun 2021 03:07:35 -0700
+IronPort-SDR: yv6V61+V0GiwDP6Y60tb+NhiQ3lS34yWi8CuEBGdk8gqSQCKUaeEPCF2HAIQnwwVwkSoqYkujF
+ dTd5PDEz3ciQ==
+X-IronPort-AV: E=Sophos;i="5.83,280,1616482800"; d="scan'208";a="404892497"
+Received: from vanderss-mobl.ger.corp.intel.com (HELO [10.249.254.193])
+ ([10.249.254.193])
+ by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Jun 2021 03:07:34 -0700
+Subject: Re: [PATCH] drm/i915: Perform execbuffer object locking as a separate
+ step
+To: Ramalingam C <ramalingam.c@intel.com>
 References: <20210615113600.30660-1-thomas.hellstrom@linux.intel.com>
+ <20210617095620.GA15664@intel.com>
+From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>
+Message-ID: <ee87e13a-4025-5745-28cb-dfc3d170ec64@linux.intel.com>
+Date: Thu, 17 Jun 2021 12:07:31 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+In-Reply-To: <20210617095620.GA15664@intel.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210615113600.30660-1-thomas.hellstrom@linux.intel.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,66 +58,19 @@ Cc: intel-gfx@lists.freedesktop.org, matthew.auld@intel.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2021-06-15 at 13:36:00 +0200, Thomas Hellström wrote:
-> To help avoid evicting already resident buffers from the batch we're
-> processing, perform locking as a separate step.
-> 
-Looks reasonable to me.
 
-Reviewed-by: Ramalingam C <ramalingam.c@intel.com>
+On 6/17/21 11:56 AM, Ramalingam C wrote:
+> On 2021-06-15 at 13:36:00 +0200, Thomas Hellström wrote:
+>> To help avoid evicting already resident buffers from the batch we're
+>> processing, perform locking as a separate step.
+>>
+> Looks reasonable to me.
+>
+> Reviewed-by: Ramalingam C <ramalingam.c@intel.com>
+>
+>
+Thanks for reviewing!
 
-> Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-> ---
->  .../gpu/drm/i915/gem/i915_gem_execbuffer.c    | 25 ++++++++++++++++---
->  1 file changed, 21 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
-> index 201fed19d120..394eb40c95b5 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
-> @@ -922,21 +922,38 @@ static int eb_lookup_vmas(struct i915_execbuffer *eb)
->  	return err;
->  }
->  
-> -static int eb_validate_vmas(struct i915_execbuffer *eb)
-> +static int eb_lock_vmas(struct i915_execbuffer *eb)
->  {
->  	unsigned int i;
->  	int err;
->  
-> -	INIT_LIST_HEAD(&eb->unbound);
-> -
->  	for (i = 0; i < eb->buffer_count; i++) {
-> -		struct drm_i915_gem_exec_object2 *entry = &eb->exec[i];
->  		struct eb_vma *ev = &eb->vma[i];
->  		struct i915_vma *vma = ev->vma;
->  
->  		err = i915_gem_object_lock(vma->obj, &eb->ww);
->  		if (err)
->  			return err;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static int eb_validate_vmas(struct i915_execbuffer *eb)
-> +{
-> +	unsigned int i;
-> +	int err;
-> +
-> +	INIT_LIST_HEAD(&eb->unbound);
-> +
-> +	err = eb_lock_vmas(eb);
-> +	if (err)
-> +		return err;
-> +
-> +	for (i = 0; i < eb->buffer_count; i++) {
-> +		struct drm_i915_gem_exec_object2 *entry = &eb->exec[i];
-> +		struct eb_vma *ev = &eb->vma[i];
-> +		struct i915_vma *vma = ev->vma;
->  
->  		err = eb_pin_vma(eb, entry, ev);
->  		if (err == -EDEADLK)
-> -- 
-> 2.31.1
-> 
+/Thomas
+
+
