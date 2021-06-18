@@ -2,43 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34DF33AD44E
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Jun 2021 23:17:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B05283AD453
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Jun 2021 23:18:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EB6206EA7D;
-	Fri, 18 Jun 2021 21:17:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CB6516EA1F;
+	Fri, 18 Jun 2021 21:18:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 190A56EA7D
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Jun 2021 21:17:53 +0000 (UTC)
-Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
- by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <ukl@pengutronix.de>)
- id 1luLs7-0006kT-D9; Fri, 18 Jun 2021 23:17:51 +0200
-Received: from ukl by ptx.hi.pengutronix.de with local (Exim 4.92)
- (envelope-from <ukl@pengutronix.de>)
- id 1luLs5-0007AJ-Nt; Fri, 18 Jun 2021 23:17:49 +0200
-Date: Fri, 18 Jun 2021 23:17:46 +0200
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Daniel Thompson <daniel.thompson@linaro.org>
-Subject: Re: [PATCH] backlight: lm3630a: convert to atomic PWM API and check
- for errors
-Message-ID: <20210618211746.2kuwm3hlrhefuczl@pengutronix.de>
-References: <20210618085844.231751-1-u.kleine-koenig@pengutronix.de>
- <20210618103109.j7vtuif4taldtt5d@maple.lan>
+Received: from mail-oo1-xc2d.google.com (mail-oo1-xc2d.google.com
+ [IPv6:2607:f8b0:4864:20::c2d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D4E686EA1F;
+ Fri, 18 Jun 2021 21:18:46 +0000 (UTC)
+Received: by mail-oo1-xc2d.google.com with SMTP id
+ r14-20020a4ad4ce0000b029024b4146e2f5so1117306oos.1; 
+ Fri, 18 Jun 2021 14:18:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=i0K+CAkNDpvB9BB97WZi89Hi6upuBxwc1H/Mi+DoJdg=;
+ b=fnkDSVaxmmiYYY7PApmGvgt3XGZMKQQuXdKVCe8SV5LmeC02fsTYaSifl9w/lKEHex
+ 1Z4pBuWzh9z0n4hEZBwZENE71tqMxeS5wpROgfbo1WuaMGjwZPc1kjqx+CjzQMhJysKo
+ wnEN6bmn8EindP4YDnEdnDMtpRivzjOF8QCxsz3woF3poD2CS8v7/1Rv15/ISBXBHxht
+ Q+ec7OplAgnu7st7fbSptLw3eqt+rjdvA3PtcnFCs3mt0lCh1SDD3DboCKfo/cBzTPhU
+ Wd7E19I+l5gfE+AyJC2lQBpO26flNLHi1WG7YivbYHRfepAl0NA1jA/2ZX/E4MEAA6b2
+ Ikdg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=i0K+CAkNDpvB9BB97WZi89Hi6upuBxwc1H/Mi+DoJdg=;
+ b=kv8jB+txElX3DLnSGD0lF5OXq/fCGUvtlFHRq6YKpXsA81PVlrW9KRPChwI7aMeOHj
+ zmROBPmepdb6NxT94gYvglQ+od8H03RI3TfEnlUECp4ODGIPvGQrAqDb8odX7d+8J0cp
+ 0i0TK/Z6ZD3vMNsJgfuIym0mji0VpJVIu0sVp5bajFvpyure18FepJXAYLbPPpmFYZ9z
+ tBjSNc8qFJjyivGdmnv2nb01r2vpd/wO1Lu/MuPzZC0YeTZaowLw7tbe3PSigBOCn+Zd
+ rJTzCbfogw35WWBM0Hfnuw56jsbftIRKnqEs9p1sdoU1fL6TSL/rtbjP8S6qB1GLE5uz
+ QpQg==
+X-Gm-Message-State: AOAM530bS+rbsXq0aaTiokHdee+iJYVDhh023Rsbj7n6UWeVw7ZPKpVr
+ Bqcr3Cd0WM0yS0cyZKpsNOjtXp1S165jaXdSXnM=
+X-Google-Smtp-Source: ABdhPJwAdPB2OKndxiBb3QLHU+rMPZGzghYSrerKY4S9jGUMqziKf7k9wPNnlVoECnFAIi2jVZbvAGsi+JDiVVIGxbk=
+X-Received: by 2002:a4a:2242:: with SMTP id z2mr10559229ooe.90.1624051126161; 
+ Fri, 18 Jun 2021 14:18:46 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="xw5l75a42p7hetib"
-Content-Disposition: inline
-In-Reply-To: <20210618103109.j7vtuif4taldtt5d@maple.lan>
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+References: <YMxbQXg/Wqm0ACxt@mwanda>
+ <fadcee22-d830-c1be-09f0-9788b98c45ec@amd.com>
+ <adee15a2-f531-688c-1121-7504163ae441@amd.com>
+In-Reply-To: <adee15a2-f531-688c-1121-7504163ae441@amd.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Fri, 18 Jun 2021 17:18:34 -0400
+Message-ID: <CADnq5_MtwTXEv=HitiyBfdSyBb-izSRiR3W=zxKNKRNvxdKO1A@mail.gmail.com>
+Subject: Re: [PATCH] drm/amdgpu: fix amdgpu_preempt_mgr_new()
+To: Felix Kuehling <felix.kuehling@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,64 +66,69 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Jingoo Han <jingoohan1@gmail.com>,
- dri-devel@lists.freedesktop.org, Thierry Reding <thierry.reding@gmail.com>,
- kernel@pengutronix.de, Lee Jones <lee.jones@linaro.org>
+Cc: David Airlie <airlied@linux.ie>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
+ kernel-janitors@vger.kernel.org,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ Alex Deucher <alexander.deucher@amd.com>, Dave Airlie <airlied@redhat.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Dan Carpenter <dan.carpenter@oracle.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Fri, Jun 18, 2021 at 11:40 AM Felix Kuehling <felix.kuehling@amd.com> wr=
+ote:
+>
+> Am 2021-06-18 um 4:39 a.m. schrieb Christian K=C3=B6nig:
+> > Am 18.06.21 um 10:37 schrieb Dan Carpenter:
+> >> There is a reversed if statement in amdgpu_preempt_mgr_new() so it
+> >> always returns -ENOMEM.
+> >>
+> >> Fixes: 09b020bb05a5 ("Merge tag 'drm-misc-next-2021-06-09' of
+> >> git://anongit.freedesktop.org/drm/drm-misc into drm-next")
+> >> Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
+> >
+> > Most be some fallout from merging it with the TTM changes.
+> >
+> > Anyway, patch is Reviewed-by: Christian K=C3=B6nig <christian.koenig@am=
+d.com>
+>
+> This is obviously not for amd-staging-drm-next. Christian, are you going
+> to apply it to the relevant branches?
 
---xw5l75a42p7hetib
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+I've applied it to my drm-next branch.
 
-On Fri, Jun 18, 2021 at 11:31:09AM +0100, Daniel Thompson wrote:
-> On Fri, Jun 18, 2021 at 10:58:44AM +0200, Uwe Kleine-K=F6nig wrote:
-> > The practical upside here is that this only needs a single API call to
-> > program the hardware which (depending on the underlaying hardware) can
-> > be more effective and prevents glitches.
-> >=20
-> > Up to now the return value of the pwm functions was ignored. Fix this
-> > and propagate the error to the caller.
-> >=20
-> > Signed-off-by: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de>
->=20
-> New code looks OK but these changes reveal just how crazy the return codes
-> from this driver's update_status() methods are since now the new (PWM) er=
-ror path is
-> structured completely differently to the existing (I2C) error path.
+Alex
 
-Indeed, while working on the patch I noticed that sometimes a positive
-value is returned but failed to note that when I sent out the patch.
 
-> Are you OK to add a patch *before* this one to fix the existing code
-> paths before making the PWM changes?
-
-I didn't do that because I was unsure what is the right thing to do. Now
-that you confirmed the documentation I can add such a patch. Will add
-this to my todo list.
-
-Best regards
-Uwe
-
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
-
---xw5l75a42p7hetib
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmDNDXcACgkQwfwUeK3K
-7Ak+cQf+IAfvHGYaQofmq45aZXwZgNDF6M7Sc8SyxX99h3woKvRWdD21cmkA09j9
-mAVOhOyIbbT2QUl25VRiLlN2ZThcWukxR3dHsM0SSc4ddC2dnRcEG5zHmko3xxCF
-UjGDrG6gL/Opz1gz6XD2sTI3bvc/KkQJ9jTLPW9tQfQ835X+mRYGE6puFyAI4Rf/
-drN5Kzk43O2jJj0VJCxxrrOKG+MmL51KpNuFDOA/AWhIYQkO1S6rKd55SVk/ArJH
-bifTXnodbIFULG1EfQpiDfk2f+uAa0J4jlffhvszlc00jaLU6pUzngchd8dKL6Me
-tGAHDwZGboR9h3unn9iv55I6fx50nw==
-=c04F
------END PGP SIGNATURE-----
-
---xw5l75a42p7hetib--
+>
+> Thanks,
+>   Felix
+>
+>
+> >
+> > Thanks,
+> > Christian.
+> >
+> >> ---
+> >>   drivers/gpu/drm/amd/amdgpu/amdgpu_preempt_mgr.c | 2 +-
+> >>   1 file changed, 1 insertion(+), 1 deletion(-)
+> >>
+> >> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_preempt_mgr.c
+> >> b/drivers/gpu/drm/amd/amdgpu/amdgpu_preempt_mgr.c
+> >> index f6aff7ce5160..d02c8637f909 100644
+> >> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_preempt_mgr.c
+> >> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_preempt_mgr.c
+> >> @@ -71,7 +71,7 @@ static int amdgpu_preempt_mgr_new(struct
+> >> ttm_resource_manager *man,
+> >>       struct amdgpu_preempt_mgr *mgr =3D to_preempt_mgr(man);
+> >>         *res =3D kzalloc(sizeof(**res), GFP_KERNEL);
+> >> -    if (*res)
+> >> +    if (!*res)
+> >>           return -ENOMEM;
+> >>         ttm_resource_init(tbo, place, *res);
+> >
+> _______________________________________________
+> amd-gfx mailing list
+> amd-gfx@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/amd-gfx
