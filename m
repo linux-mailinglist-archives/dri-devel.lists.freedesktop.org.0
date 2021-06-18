@@ -2,48 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0480A3AC533
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Jun 2021 09:46:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 11D323AC625
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Jun 2021 10:31:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E1F656E97B;
-	Fri, 18 Jun 2021 07:46:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6B01D6E987;
+	Fri, 18 Jun 2021 08:31:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6502F6E95F
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Jun 2021 07:46:45 +0000 (UTC)
-Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
- by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <ukl@pengutronix.de>)
- id 1lu9D4-0006eM-Pr; Fri, 18 Jun 2021 09:46:38 +0200
-Received: from ukl by ptx.hi.pengutronix.de with local (Exim 4.92)
- (envelope-from <ukl@pengutronix.de>)
- id 1lu9Cy-0000ol-Ff; Fri, 18 Jun 2021 09:46:32 +0200
-Date: Fri, 18 Jun 2021 09:46:25 +0200
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Bjorn Andersson <bjorn.andersson@linaro.org>
-Subject: Re: [PATCH v2 2/2] drm/bridge: ti-sn65dsi86: Implement the pwm_chip
-Message-ID: <20210618074625.rvw3xe7k2zqeo77z@pengutronix.de>
-References: <20210615231828.835164-1-bjorn.andersson@linaro.org>
- <20210615231828.835164-2-bjorn.andersson@linaro.org>
- <20210616075637.jtoa25uyhnqkctlu@pengutronix.de>
- <YMq/6VhXrYJoTVnj@yoga>
- <20210617062449.qwsjcpkyiwzdyfi3@pengutronix.de>
- <YMt6gvXQKijtPOql@yoga>
- <20210617165433.ltugrrj6ntmc6j57@pengutronix.de>
- <YMuPO3iKRSFNLbNZ@yoga>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D83CE6E841;
+ Fri, 18 Jun 2021 08:31:32 +0000 (UTC)
+IronPort-SDR: /rn+ZTWrPAT38lZcXcqwQKCfCwbs1VQoRaqSKGBGHsi67hA8ew1Ad72xWBFWgjK/8KSFQXz/EA
+ XKmFnYgxDnuw==
+X-IronPort-AV: E=McAfee;i="6200,9189,10018"; a="204689094"
+X-IronPort-AV: E=Sophos;i="5.83,283,1616482800"; d="scan'208";a="204689094"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Jun 2021 01:31:31 -0700
+IronPort-SDR: qu5/NKVZLN2eS0CYpr1BxnA8ENYRLHB/xFhOcb58yhBEbSB3xxTaLLZP4m86G1t7JO+wb+hRWC
+ NezK20j2T1hw==
+X-IronPort-AV: E=Sophos;i="5.83,283,1616482800"; d="scan'208";a="479759540"
+Received: from jhogberg-mobl1.ger.corp.intel.com (HELO
+ thellst-mobl1.intel.com) ([10.249.254.60])
+ by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Jun 2021 01:31:29 -0700
+From: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
+To: intel-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/i915/ttm: Fix incorrect assumptions about
+ ttm_bo_validate() semantics
+Date: Fri, 18 Jun 2021 10:31:17 +0200
+Message-Id: <20210618083117.158081-1-thomas.hellstrom@linux.intel.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="v2mxeqjbbvr4gdw3"
-Content-Disposition: inline
-In-Reply-To: <YMuPO3iKRSFNLbNZ@yoga>
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,165 +49,127 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-pwm@vger.kernel.org, Jonas Karlman <jonas@kwiboo.se>,
- David Airlie <airlied@linux.ie>, Robert Foss <robert.foss@linaro.org>,
- dri-devel@lists.freedesktop.org, Neil Armstrong <narmstrong@baylibre.com>,
- Doug Anderson <dianders@chromium.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, linux-kernel@vger.kernel.org,
- Andrzej Hajda <a.hajda@samsung.com>, Thierry Reding <thierry.reding@gmail.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Lee Jones <lee.jones@linaro.org>
+Cc: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ matthew.auld@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+We have assumed that if the current placement was not the requested
+placement, but instead one of the busy placements, a TTM move would have
+been triggered. That is not the case.
 
---v2mxeqjbbvr4gdw3
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+So when we initially place LMEM objects in "Limbo", (that is system
+placement without any pages allocated), to be able to defer clearing
+objects until first get_pages(), the first get_pages() would happily keep
+objects in system memory if that is one of the allowed placements. And
+since we don't yet support i915 GEM system memory from TTM, everything
+breaks apart.
 
-Hello Bjorn,
+So make sure we try the requested placement first, if no eviction is
+needed. If that fails, retry with all allowed placements also allowing
+evictions. Also make sure we handle TTM failure codes correctly.
 
-On Thu, Jun 17, 2021 at 01:06:51PM -0500, Bjorn Andersson wrote:
-> On Thu 17 Jun 11:54 CDT 2021, Uwe Kleine-K?nig wrote:
-> > On Thu, Jun 17, 2021 at 11:38:26AM -0500, Bjorn Andersson wrote:
-> > > On Thu 17 Jun 01:24 CDT 2021, Uwe Kleine-K?nig wrote:
-> > > > On Wed, Jun 16, 2021 at 10:22:17PM -0500, Bjorn Andersson wrote:
-> > > > > > > +static int ti_sn_pwm_apply(struct pwm_chip *chip, struct pwm=
-_device *pwm,
-> > > > > > > +			   const struct pwm_state *state)
-> > > > > > > +{
-> > > > > > > +	struct ti_sn65dsi86 *pdata =3D pwm_chip_to_ti_sn_bridge(chi=
-p);
-> > > > > > > +	unsigned int pwm_en_inv;
-> > > > > > > +	unsigned int backlight;
-> > > > > > > +	unsigned int pre_div;
-> > > > > > > +	unsigned int scale;
-> > > > > > > +	int ret;
-> > > > > > > +
-> > > > > > > +	if (!pdata->pwm_enabled) {
-> > > > > > > +		ret =3D pm_runtime_get_sync(pdata->dev);
-> > > > > > > +		if (ret < 0)
-> > > > > > > +			return ret;
-> > > > > > > +
-> > > > > > > +		ret =3D regmap_update_bits(pdata->regmap, SN_GPIO_CTRL_REG,
-> > > > > > > +				SN_GPIO_MUX_MASK << (2 * SN_PWM_GPIO_IDX),
-> > > > > > > +				SN_GPIO_MUX_SPECIAL << (2 * SN_PWM_GPIO_IDX));
-> > > > > > > +		if (ret) {
-> > > > > > > +			dev_err(pdata->dev, "failed to mux in PWM function\n");
-> > > > > > > +			goto out;
-> > > > > > > +		}
-> > > > > >=20
-> > > > > > Do you need to do this even if state->enabled is false?
-> > > > >=20
-> > > > > I presume I should be able to explicitly mux in the GPIO function=
- and
-> > > > > configure that to output low. But I am not able to find anything =
-in the
-> > > > > data sheet that would indicate this to be preferred.
-> > > >=20
-> > > > My question targetted a different case. If the PWM is off
-> > > > (!pdata->pwm_enabled) and should remain off (state->enabled is fals=
-e)
-> > > > you can shortcut here, can you not?
-> > >=20
-> > > Right, if we're going off->off then we don't need to touch the hardwa=
-re.
-> > >=20
-> > > But am I expected to -EINVAL improper period and duty cycle even thou=
-gh
-> > > enabled is false?
-> > >=20
-> > > And also, what is the supposed behavior of enabled =3D false? Is it
-> > > supposedly equivalent of asking for a duty_cycle of 0?
-> >=20
-> > In my book enabled =3D false is just syntactic sugar to say:
-> > "duty_cycle=3D0, period=3Dsomething small". So to answer your questions=
-: if
-> > enabled =3D false, the consumer doesn't really care about period and
-> > duty_cycle. Some care that the output becomes inactive, some others
-> > don't, so from my POV just emit the inactive level on the output and
-> > ignore period and duty_cycle.
->=20
-> Giving this some further thought.
+Also temporarily (until we support i915 GEM system on TTM), restrict
+allowed placements to the requested placement to avoid things falling
+apart should LMEM be full.
 
-Very appreciated, still more as you come to the same conclusions as I do
-:-)
+Fixes: 38f28c0695c0 ("drm/i915/ttm: Calculate the object placement at get_pages time)
+Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+---
+ drivers/gpu/drm/i915/gem/i915_gem_ttm.c | 61 +++++++++++++++++++++++--
+ 1 file changed, 58 insertions(+), 3 deletions(-)
 
-> In order to have a known state of the PWM signal we need the sn65dsi86
-> to be powered. The documentation describes a "suspend mode", but this is
-> currently not implemented in the driver, so there's a large power cost
-> coming from just keeping the pin low when disabled.
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+index df46535cca47..4bb0440f693c 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+@@ -64,6 +64,30 @@ static struct ttm_placement i915_sys_placement = {
+ 	.busy_placement = &sys_placement_flags,
+ };
+ 
++static int i915_ttm_err_to_gem(int err)
++{
++	/* Fastpath */
++	if (likely(!err))
++		return 0;
++
++	switch (err) {
++	case -EBUSY:
++		/*
++		 * TTM likes to convert -EDEADLK to -EBUSY, and wants us to
++		 * restart the operation, since we don't record the contending
++		 * lock. We use -EAGAIN to restart.
++		 */
++		return -EAGAIN;
++	case -ENOSPC:
++		/* Memory type / region is full, and we can't evict. */
++		return -ENXIO;
++	default:
++		break;
++	}
++
++	return err;
++}
++
+ static void i915_ttm_adjust_lru(struct drm_i915_gem_object *obj);
+ 
+ static enum ttm_caching
+@@ -522,15 +546,46 @@ static int i915_ttm_get_pages(struct drm_i915_gem_object *obj)
+ 	struct sg_table *st;
+ 	struct ttm_place requested, busy[I915_TTM_MAX_PLACEMENTS];
+ 	struct ttm_placement placement;
++	int real_num_busy;
+ 	int ret;
+ 
+ 	GEM_BUG_ON(obj->mm.n_placements > I915_TTM_MAX_PLACEMENTS);
+ 
+ 	/* Move to the requested placement. */
+ 	i915_ttm_placement_from_obj(obj, &requested, busy, &placement);
++
++	/*
++	 * For now we support LMEM only with TTM.
++	 * TODO: Remove with system support
++	 */
++	GEM_BUG_ON(requested.mem_type < I915_PL_LMEM0 ||
++		   busy[0].mem_type < I915_PL_LMEM0);
++
++	/* First try only the requested placement. No eviction. */
++	real_num_busy = fetch_and_zero(&placement.num_busy_placement);
+ 	ret = ttm_bo_validate(bo, &placement, &ctx);
+-	if (ret)
+-		return ret == -ENOSPC ? -ENXIO : ret;
++	if (ret) {
++		ret = i915_ttm_err_to_gem(ret);
++		/*
++		 * Anything that wants to restart the operation gets to
++		 * do that.
++		 */
++		if (ret == -EDEADLK || ret == -EINTR || ret == -ERESTARTSYS ||
++		    ret == -EAGAIN)
++			return ret;
++
++		/* TODO: Remove this when we support system as TTM. */
++		real_num_busy = 1;
++
++		/*
++		 * If the initial attempt fails, allow all accepted placements,
++		 * evicting if necessary.
++		 */
++		placement.num_busy_placement = real_num_busy;
++		ret = ttm_bo_validate(bo, &placement, &ctx);
++		if (ret)
++			return i915_ttm_err_to_gem(ret);
++	}
+ 
+ 	/* Object either has a page vector or is an iomem object */
+ 	st = bo->ttm ? i915_ttm_tt_get_st(bo->ttm) : obj->ttm.cached_io_st;
+@@ -741,5 +796,5 @@ int __i915_gem_ttm_object_init(struct intel_memory_region *mem,
+ 		obj->ttm.created = true;
+ 
+ 	/* i915 wants -ENXIO when out of memory region space. */
+-	return (ret == -ENOSPC) ? -ENXIO : ret;
++	return i915_ttm_err_to_gem(ret);
+ }
+-- 
+2.31.1
 
-In the past I already promoted the idea that a disabled PWM should give
-no guarantees about the output level. In fact there are several
-offenders, the ones I know off-hand are:
-
- - pwm-imx27 emits a low level independent of the programmed polarity
- - pwm-iqs620a makes the output tristated and so relies on an external
-   pull to give the inactive level.
- - pwm-sl28cpld switches to a GPIO mode on disable which isn't
-   controlled by the driver
-
-and I assume there are more because before no one actively asked for
-and tracked this kind of information.
-
-IMHO a consumer who wants the output to stay inactive should configure
-
-	.enabled =3D true
-	.period =3D DC (or something low to allow quick reprogramming)
-	.duty_cycle =3D 0
-
-, so there is no loss of functionality and enabled=3Dfalse should mean the
-consumer doesn't care about the output which would allow some lowlevel
-drivers to save some more energy. So this makes the API more expressive
-because after dropping "disabled results in an inactive output"
-consumers can differentiate between "I care about the output staying
-inactive" and "I don't care". This in turn allows lowlevel drivers to
-better know when they can more aggressively save power and when they
-don't.
-
-Back then Thierry didn't like that approach though. (The thread started
-with a mail having Message-Id
-20180820144357.7206-1-u.kleine-koenig@pengutronix.de, this is missing on
-lore.kernel.org however and I didn't find it on another mirror.)
-
-Thierry's arguments were:
-
- - "An API whose result is an undefined state is useless in my opinion."
-   (from Message-Id: 20181009073407.GA5565@ulmo)
-   Yes, this is a drawback for some consumers, but it matches reality
-   that disabling the PWM counter on some PWM implementations doesn't
-   result in an inactive level. And if they care about the output, they
-   just use .duty_cycle =3D 0 + .enabled =3D true instead.
-   In my book changing the semantic fixes a bug because the API promises
-   more than some drivers are capable to do (with reasonable effort).
-
- - "[Emitting the inactive level] also matches what all other drivers,
-   and users, assume." (also from Message-Id: 20181009073407.GA5565@ulmo)
-   For the drivers this was an assumption, today we know it's wrong.
-   Users can be fixed.
-
-Best regards
-Uwe
-
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
-
---v2mxeqjbbvr4gdw3
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmDMT04ACgkQwfwUeK3K
-7Amh1AgAn6mO1LK9QNIF7tma6jy27ModENVOazMzlhODRmU/4d8vMESJr7igZ+5D
-w5KftNey5LFHJEvC/qGedlraY6w87XDGW9j8FgATFB8ChpRDupQi9J2Ql+QzBwGW
-rk1KGA2fWmG465rjgg71n13TYmeuUepBW7sSMAdArEV519/l+leUosAJEhwycu8D
-WvUBGTOVyTS8I3E+vCutJ5L7E1PNqbd9ZRPUL/e57aPWeY26EhvkYfg4w9sTwwQA
-wgkQQPkE+46EYNSZT3mLMghswm7P6DJb3K6KGfYn2kr/PAE++pZCPd7ELpt+QX1A
-MPxtxS3M/K9xQjFAm/rr93QGlXuaLA==
-=aXyd
------END PGP SIGNATURE-----
-
---v2mxeqjbbvr4gdw3--
