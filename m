@@ -1,70 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 040703AD0C8
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Jun 2021 18:54:21 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BEDBB3AD112
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Jun 2021 19:21:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2044A6EA42;
-	Fri, 18 Jun 2021 16:54:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9E9696EA49;
+	Fri, 18 Jun 2021 17:20:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x102f.google.com (mail-pj1-x102f.google.com
- [IPv6:2607:f8b0:4864:20::102f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 66AF36EA42
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Jun 2021 16:54:16 +0000 (UTC)
-Received: by mail-pj1-x102f.google.com with SMTP id
- g6-20020a17090adac6b029015d1a9a6f1aso7451752pjx.1
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Jun 2021 09:54:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=Xqb9Co+VDdnzhP4HmuWmFOP87/1Nlp2SE27mSELnEKY=;
- b=rfGV6WIX6p5f8iVX3njmvRVVp651Nn9WjPcdMBErf4I5MsoJaUhmQUEhYXi5nDl2pP
- oPT4VBl4QjZAbOnZ7gJxQ2hTre+u5AWTYpPsNFUEE0dIvA+tlHL7U8Xy7eh4yxPSDFeS
- dG5GKH8AoDrR8e4SinoRGPJYK4/+xYNq91TqfNYZ5aVMXSu4QW4x/TEs0JQc11k/DJk4
- m3j5lbrSgMByCuRQKrXos4Qr59uqV2q8AHtT4RVe+2AmIX+JM2h+IWuGOKoOTAwsxOBA
- mpFQQRAfNKA/rknpPM9Nhc+Ldkb3ai1gq2NiEWeaTSHwcaZ8yg7zDOYr0QAtsuhmZ4ZP
- wXNg==
+Received: from mail-oi1-x233.google.com (mail-oi1-x233.google.com
+ [IPv6:2607:f8b0:4864:20::233])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 52E066EA48
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Jun 2021 17:20:55 +0000 (UTC)
+Received: by mail-oi1-x233.google.com with SMTP id u11so11307933oiv.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Jun 2021 10:20:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=CvyqhDMII1QOdk588HDQ2jYeSW12jnwn2SirorTIh+g=;
+ b=dP4+mpQSjzAFWu32vFN6Ha1chQtRnvewgS/25MsZy6JiU/9+PRfY/I6Q5ThszX/22b
+ ex2dVsOJg0nPNfX5urvGPWjsjI1lZD9Ia0vIhO+/cvFg/egU1R5klS2z01hTmUhcgDRV
+ gCWFH/R/M+gEBlBs9/UC0M2dMwZh9lhe/kX1M=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=Xqb9Co+VDdnzhP4HmuWmFOP87/1Nlp2SE27mSELnEKY=;
- b=ko9RxUBSMrg0/Fdhv2SpiXiLHZFvVhYqru1mcSqXHJmR8VIIN5/GE7TMkVNJK/sUmp
- fsXUM81UHQdH252aQSE2zdehZM5ADNjvfwHeJV/YY2OuG9xM/ZSb8Ho76kky2ybpCRmT
- xVEKyNysVVQxjBFEQb5D2KgnZ60BVuYzVhI0AmcDMlKHOehdFaxAeEWZ22L0HH0q4FU2
- ytLNuvGeju6aEd2OtUu3bdZTMPIzGI9pM5fdCAgrZ7SBmUPEz3mgUtbFAIltu7+ChI7/
- 1H7JhvBLFgagZ4QmXXqqXCBYuCGwtxaVce4w7hzPeH6p/tKNkBc5pT5qSlvvQhkjjkwF
- qAzQ==
-X-Gm-Message-State: AOAM533T6eaxrC5aDuzNGppWfOVpoTQWLLuu3YCEstoWU3JlXaPGGbUl
- cDoLSFlUTNoj/KOcVgQAeM0=
-X-Google-Smtp-Source: ABdhPJzf5vzP9b+X18fG1iHvtzN8o/UKwTq45GhZi2rLxKUgERrbZvVUEL0qTYORWMPbGuSTxbY8yA==
-X-Received: by 2002:a17:90b:393:: with SMTP id
- ga19mr11884428pjb.182.1624035255912; 
- Fri, 18 Jun 2021 09:54:15 -0700 (PDT)
-Received: from [192.168.1.237] ([118.200.190.93])
- by smtp.gmail.com with ESMTPSA id in22sm5090639pjb.57.2021.06.18.09.54.12
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 18 Jun 2021 09:54:15 -0700 (PDT)
-Subject: Re: [PATCH v2 2/2] drm: Protect drm_master pointers in drm_lease.c
-To: Daniel Vetter <daniel@ffwll.ch>
-References: <20210615023645.6535-1-desmondcheongzx@gmail.com>
- <20210615023645.6535-3-desmondcheongzx@gmail.com>
- <YMuCYqLafn5sGcFo@phenom.ffwll.local>
- <c384d835-d910-5b04-e88c-a7878ce6d37d@gmail.com>
- <CAKMK7uE-3S_vOm7DsqFyvHngSTwoc5ibzt46-9FcC550Qd9+jw@mail.gmail.com>
-From: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
-Message-ID: <a43b752e-e823-01ea-9902-1c5e173aa6bf@gmail.com>
-Date: Sat, 19 Jun 2021 00:54:11 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=CvyqhDMII1QOdk588HDQ2jYeSW12jnwn2SirorTIh+g=;
+ b=sIw/fruxTgo+F/4+7QsU4ktKCHRMb0jbSOjrDBs2nqmk9iEy2q+3CATvYvFzqFnTPQ
+ mJ4S5EVcczt9kVs0E295W0+GzBBvvMDtgbr6lRsbbeI0a2dTVWo1J8iBD9iXPmg0ZTN1
+ tZ8hjNSkEvJH68rKSXDpWFN4dKEaIhgXHJwsg3x6d77YaAcX5rtMhrB36Btb39qyaRog
+ WAmSP0z/dRiAQAPluPujUjkN9U1h8iGNNC5zYb9G+C6iCjRxtlUIaPf7pkR4ktX26Cfg
+ cNz8+b9Tz6yKZq2v+u4xEqQaqOAeAn/sLMDHa25rHJX7NrhHQyhgbNuFpZpq1WWCTMdq
+ xFPg==
+X-Gm-Message-State: AOAM533D0DkDQB3o0RDRbzl1cMB2eQ5jRACyLuqskzDz4HvJRGSPKAth
+ zxQJVxdfQZHT+Qf485RGRUou574QNtLtfYiw2zqgow==
+X-Google-Smtp-Source: ABdhPJwv1doaHbr6sSzA/YjQcQMgQgeSHhTcA9asfsA3H5+/hzfoBdLTZy60cdQhKACKwtQIvjrNyl3vtguqUXPcfrc=
+X-Received: by 2002:aca:afc5:: with SMTP id y188mr6282749oie.14.1624036854612; 
+ Fri, 18 Jun 2021 10:20:54 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CAKMK7uE-3S_vOm7DsqFyvHngSTwoc5ibzt46-9FcC550Qd9+jw@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <20210610210925.642582-1-jason@jlekstrand.net>
+ <29e9795e-8ec7-282c-c8ec-413eaed2e4d4@gmail.com>
+ <CAOFGe94oFA9=vy56--hm=9=232+Npnxrpn+6gGFpRM2dmJZh3w@mail.gmail.com>
+ <84135114-71d4-77f0-7a6b-69bb81b7f73c@amd.com>
+ <YMupgTffAfw8xw51@phenom.ffwll.local>
+ <e8fc12a3-42eb-30f9-c6ac-772fbc675678@amd.com>
+ <CAKMK7uH5oW3icBPOPsumRv+LJ-5qCVKgfniXd-J8mnA+JuRq+Q@mail.gmail.com>
+ <53c1c0c2-5e17-a54f-155b-66f3cd4b48a3@amd.com>
+ <CAKMK7uHng_beNWeYa50Nxrz2SQVmjTuuN-cAYz-SQtAymGdH3Q@mail.gmail.com>
+ <b364d818-edeb-a2e9-a3a0-960e2463f086@amd.com>
+In-Reply-To: <b364d818-edeb-a2e9-a3a0-960e2463f086@amd.com>
+From: Daniel Vetter <daniel@ffwll.ch>
+Date: Fri, 18 Jun 2021 19:20:43 +0200
+Message-ID: <CAKMK7uELvm+OFZ_GJT4NnB5xXChUcTEuozz4MTu9KwEne=bzgA@mail.gmail.com>
+Subject: Re: [Mesa-dev] [PATCH 0/6] dma-buf: Add an API for exporting sync
+ files (v12)
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,132 +70,122 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dave Airlie <airlied@linux.ie>, Greg KH <gregkh@linuxfoundation.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+Cc: Daniel Stone <daniels@collabora.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel@daenzer.net>,
  dri-devel <dri-devel@lists.freedesktop.org>,
- Emil Velikov <emil.l.velikov@gmail.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Shuah Khan <skhan@linuxfoundation.org>,
- linux-kernel-mentees@lists.linuxfoundation.org
+ "wayland-devel @ lists . freedesktop . org"
+ <wayland-devel@lists.freedesktop.org>, Jason Ekstrand <jason@jlekstrand.net>,
+ Dave Airlie <airlied@redhat.com>, ML mesa-dev <mesa-dev@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 18/6/21 5:12 pm, Daniel Vetter wrote:
-> On Fri, Jun 18, 2021 at 5:05 AM Desmond Cheong Zhi Xi
-> <desmondcheongzx@gmail.com> wrote:
->> On 18/6/21 1:12 am, Daniel Vetter wrote:
->>> On Tue, Jun 15, 2021 at 10:36:45AM +0800, Desmond Cheong Zhi Xi wrote:
->>>> This patch ensures that the device's master mutex is acquired before
->>>> accessing pointers to struct drm_master that are subsequently
->>>> dereferenced. Without the mutex, the struct drm_master may be freed
->>>> concurrently by another process calling drm_setmaster_ioctl(). This
->>>> could then lead to use-after-free errors.
->>>>
->>>> Reported-by: Daniel Vetter <daniel.vetter@ffwll.ch>
->>>> Signed-off-by: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
->>>> Reviewed-by: Emil Velikov <emil.l.velikov@gmail.com>
->>>> ---
->>>>    drivers/gpu/drm/drm_lease.c | 58 +++++++++++++++++++++++++++----------
->>>>    1 file changed, 43 insertions(+), 15 deletions(-)
->>>>
->>>> diff --git a/drivers/gpu/drm/drm_lease.c b/drivers/gpu/drm/drm_lease.c
->>>> index da4f085fc09e..3e6f689236e5 100644
->>>> --- a/drivers/gpu/drm/drm_lease.c
->>>> +++ b/drivers/gpu/drm/drm_lease.c
->>>> @@ -107,10 +107,16 @@ static bool _drm_has_leased(struct drm_master *master, int id)
->>>>     */
->>>>    bool _drm_lease_held(struct drm_file *file_priv, int id)
->>>>    {
->>>> +    bool ret;
->>>> +
->>>>       if (!file_priv || !file_priv->master)
->>>>               return true;
->>>>
->>>> -    return _drm_lease_held_master(file_priv->master, id);
->>>> +    mutex_lock(&file_priv->master->dev->master_mutex);
->>>
->>> So maybe we have a bug somewhere, and the kerneldoc isn't 100% clear, but
->>> I thought file_priv->master is invariant over the lifetime of file_priv.
->>> So we don't need a lock to check anything here.
->>>
->>> It's the drm_device->master derefence that gets us into trouble. Well also
->>> file_priv->is_owner is protected by dev->master_mutex.
->>>
->>> So I think with your previous patch all the access here in drm_lease.c is
->>> ok and already protected? Or am I missing something?
->>>
->>> Thanks, Daniel
->>>
->>
->> My thinking was that file_priv->master is invariant only if it is the
->> creator of master. If file_priv->is_master is false, then a call to
->> drm_setmaster_ioctl will invoke drm_new_set_master, which then allocates
->> a new master for file_priv, and puts the old master.
->>
->> This could be an issue in _drm_lease_held_master, because we dereference
->> master to get master->dev, master->lessor, and master->leases.
->>
->> With the same reasoning, in other parts of drm_lease.c, if there's an
->> access to drm_file->master that's subsequently dereferenced, I added a
->> lock around them.
->>
->> I could definitely be mistaken on this, so apologies if this scenario
->> doesn't arise.
-> 
-> You're right, I totally missed that setmaster can create a new master
-> instance. And the kerneldoc for drm_file->master doesn't explain this
-> and mention that we must hold drm_device.master_mutex while looking at
-> that pointer. Can you pls do a patch which improves the documentation
-> for that?
-> 
+On Fri, Jun 18, 2021 at 6:43 PM Christian K=C3=B6nig
+<christian.koenig@amd.com> wrote:
+>
+> Am 18.06.21 um 17:17 schrieb Daniel Vetter:
+> > [SNIP]
+> > Ignoring _all_ fences is officially ok for pinned dma-buf. This is
+> > what v4l does. Aside from it's definitely not just i915 that does this
+> > even on the drm side, we have a few more drivers nowadays.
+>
+> No it seriously isn't. If drivers are doing this they are more than broke=
+n.
+>
+> See the comment in dma-resv.h
+>
+>   * Based on bo.c which bears the following copyright notice,
+>   * but is dual licensed:
+> ....
+>
+>
+> The handling in ttm_bo.c is and always was that the exclusive fence is
+> used for buffer moves.
+>
+> As I said multiple times now the *MAIN* purpose of the dma_resv object
+> is memory management and *NOT* synchronization.
+>
+> Those restrictions come from the original design of TTM where the
+> dma_resv object originated from.
+>
+> The resulting consequences are that:
+>
+> a) If you access the buffer without waiting for the exclusive fence you
+> run into a potential information leak.
+>      We kind of let that slip for V4L since they only access the buffers
+> for writes, so you can't do any harm there.
+>
+> b) If you overwrite the exclusive fence with a new one without waiting
+> for the old one to signal you open up the possibility for userspace to
+> access freed up memory.
+>      This is a complete show stopper since it means that taking over the
+> system is just a typing exercise.
+>
+>
+> What you have done by allowing this in is ripping open a major security
+> hole for any DMA-buf import in i915 from all TTM based driver.
+>
+> This needs to be fixed ASAP, either by waiting in i915 and all other
+> drivers doing this for the exclusive fence while importing a DMA-buf or
+> by marking i915 and all other drivers as broken.
+>
+> Sorry, but if you allowed that in you seriously have no idea what you
+> are talking about here and where all of this originated from.
 
-Sounds good, I'll add it to the patch series.
+Dude, get a grip, seriously. dma-buf landed in 2011
 
-> Now for the patch itself I'm not entirely sure what we should do.
-> Leaking the dev->master_mutex into drm_lease.c just because of the
-> setmaster ioctl is kinda unsightly. And we don't really care about the
-> fpriv->master changing under us, we only need to make sure it doesn't
-> get freed. And drm_master is refcounted already.
-> 
-> So alternative solution: We add a drm_file_get_master() function which
-> calls drm_master_get under the lock, and we use that instead of
-> directly derefencing drm_file->master? Ofc then needs drm_master_put
-> instead of mutex_unlock. Kerneldoc should then also point at this new
-> function as the correct way to look at drm_file->master state.
-> 
-> This way it's 100% clear we're dealing with a lifetime issue and not a
-> consistency issues.
-> 
-> What do you think?
-> -Daniel
-> 
+commit d15bd7ee445d0702ad801fdaece348fdb79e6581
+Author: Sumit Semwal <sumit.semwal@ti.com>
+Date:   Mon Dec 26 14:53:15 2011 +0530
 
-Makes sense to me, since the drm master itself holds the lease, as long 
-as it isn't freed while we're using it, there's no need to prevent the 
-value of fpriv->master from changing after we access it in drm_lease.c.
+   dma-buf: Introduce dma buffer sharing mechanism
 
-I was going to say that it may be unclear when to use the
+and drm prime landed in the same year
 
-	master = drm_file_get_master(file_priv);
-	...
-	drm_master_put(&master);
+commit 3248877ea1796915419fba7c89315fdbf00cb56a
+(airlied/drm-prime-dmabuf-initial)
+Author: Dave Airlie <airlied@redhat.com>
+Date:   Fri Nov 25 15:21:02 2011 +0000
 
-pattern, versus when to use
+   drm: base prime/dma-buf support (v5)
 
-	mutex_lock(&dev->master_mutex);
-	master = file_priv->master;
-	...
-	mutex_unlock(&dev->master_mutex);
+dma-resv was extracted much later
 
-. The second pattern, for example, is used in drm_getunique, and also in 
-drm_setversion which calls drm_set_busid.
+commit 786d7257e537da0674c02e16e3b30a44665d1cee
+Author: Maarten Lankhorst <m.b.lankhorst@gmail.com>
+Date:   Thu Jun 27 13:48:16 2013 +0200
 
-But on closer inspection, it's clearer to me now that those functions 
-need the master_mutex because they access protected fields such as 
-unique and unique_len.
+   reservation: cross-device reservation support, v4
 
-Would it then be correct to state in the kerneldoc that 
-drm_file_get_master() should be used to look at drm_file->master only if 
-we aren't already holding master_mutex + have no other need to grab 
-master_mutex?
+Maarten's patch only extracted the dma_resv stuff so it's there,
+optionally. There was never any effort to roll this out to all the
+existing drivers, of which there were plenty.
 
+It is, and has been since 10 years, totally fine to access dma-buf
+without looking at any fences at all. From your pov of a ttm driver
+dma-resv is mainly used for memory management and not sync, but I
+think that's also due to some reinterpretation of the actual sync
+rules on your side. For everyone else the dma_resv attached to a
+dma-buf has been about implicit sync only, nothing else.
+
+_only_ when you have a dynamic importer/exporter can you assume that
+the dma_resv fences must actually be obeyed. That's one of the reasons
+why we had to make this a completely new mode (the other one was
+locking, but they really tie together).
+
+Wrt your problems:
+a) needs to be fixed in drivers exporting buffers and failing to make
+sure the memory is there by the time dma_buf_map_attachment returns.
+b) needs to be fixed in the importers, and there's quite a few of
+those. There's more than i915 here, which is why I think we should
+have the dma_resv_add_shared_exclusive helper extracted from amdgpu.
+Avoids hand-rolling this about 5 times (6 if we include the import
+ioctl from Jason).
+
+Also I've like been trying to explain this ever since the entire
+dynamic dma-buf thing started.
+-Daniel
+--=20
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
