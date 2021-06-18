@@ -1,60 +1,34 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA5A23AD21A
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Jun 2021 20:27:42 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C3AFB3AD240
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Jun 2021 20:35:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9A9CE6EA68;
-	Fri, 18 Jun 2021 18:27:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AA0F06EA69;
+	Fri, 18 Jun 2021 18:35:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0C60E6EA66
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Jun 2021 18:27:39 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPS id D605F613EE
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Jun 2021 18:27:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1624040858;
- bh=56uJz+C4Rm+rIY18hclu4H6x5+9rkitOUCqeR3ebNJw=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=MVaqlAA3i9IVsV2SkpyNQXW8reyT/21NM78odvcytNmVIq2zGOePiABeewEB11N7F
- 929+HGobUt8YU1VqNSHdQ8NxZj3UapKtZOicr93DsP4Qp25EMqaJoXKx7TyrviEFwh
- 8fnnbLG2kyBS0eq87Bjr8YbXXdsWyEko/bWTqLiDvotlxh591VLUx7+ZV5DfNyABNA
- zisF8c3A6jauXp+midjoJzsgGHeMqbBpmeAXL2hbWX0qdN8F5vle6MqwAI8aTtBoJ0
- jcJxfleZu2KUJ7YY38N6s8WEts6Q/7wqoFYUUkZI49KHR5CMOciQheGClFk7NgZ89Q
- ze0cHfNpUx1MA==
-Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
- id D2424611AB; Fri, 18 Jun 2021 18:27:38 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 213391] AMDGPU retries page fault with some specific processes
- amdgpu and sometimes followed [gfxhub0] retry page fault until *ERROR* ring
- gfx timeout, but soft recovered
-Date: Fri, 18 Jun 2021 18:27:38 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: low
-X-Bugzilla-Who: lsrzj@yahoo.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-213391-2300-27eZg35h4E@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-213391-2300@https.bugzilla.kernel.org/>
-References: <bug-213391-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from youngberry.canonical.com (youngberry.canonical.com
+ [91.189.89.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8BA0E6EA69
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Jun 2021 18:35:26 +0000 (UTC)
+Received: from 1.general.cking.uk.vpn ([10.172.193.212] helo=localhost)
+ by youngberry.canonical.com with esmtpsa (TLS1.2) tls
+ TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256 (Exim 4.93)
+ (envelope-from <colin.king@canonical.com>)
+ id 1luJKu-0007Jb-Rj; Fri, 18 Jun 2021 18:35:24 +0000
+From: Colin King <colin.king@canonical.com>
+To: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/gma500/oaktrail_lvds: replace continue with break
+Date: Fri, 18 Jun 2021 19:35:24 +0100
+Message-Id: <20210618183524.590186-1-colin.king@canonical.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,22 +41,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D213391
+From: Colin Ian King <colin.king@canonical.com>
 
---- Comment #18 from Leandro Jacques (lsrzj@yahoo.com) ---
-Created attachment 297467
-  --> https://bugzilla.kernel.org/attachment.cgi?id=3D297467&action=3Dedit
-amdgpu crash log for kernel 5.4.126
+Currently a loop scans through the connector list checking
+for connectors that do not match a specific criteria. The
+use of the continue statement is a little unintuitive and
+can confuse static analysis checking.  Invert the criteria
+matching logic and use a break to terminate the loop once
+the first suitable connector has been found.
 
-Before 5.4.126 I had no issues at all, downgrading to 5.4.123 to check if t=
-he
-problem will be gone.
+Thanks to Patrik Jakobsson for explaining the original
+intent of the code and suggesting this change.
 
---=20
-You may reply to this email to add a comment.
+Addresses-Coverity: ("Continue has no effect")
+Signed-off-by: Colin Ian King <colin.king@canonical.com>
+---
+ drivers/gpu/drm/gma500/oaktrail_lvds.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+diff --git a/drivers/gpu/drm/gma500/oaktrail_lvds.c b/drivers/gpu/drm/gma500/oaktrail_lvds.c
+index 432bdcc57ac9..8541dcf237eb 100644
+--- a/drivers/gpu/drm/gma500/oaktrail_lvds.c
++++ b/drivers/gpu/drm/gma500/oaktrail_lvds.c
+@@ -113,8 +113,8 @@ static void oaktrail_lvds_mode_set(struct drm_encoder *encoder,
+ 
+ 	/* Find the connector we're trying to set up */
+ 	list_for_each_entry(connector, &mode_config->connector_list, head) {
+-		if (!connector->encoder || connector->encoder->crtc != crtc)
+-			continue;
++		if (connector->encoder && connector->encoder->crtc == crtc)
++			break;
+ 	}
+ 
+ 	if (!connector) {
+-- 
+2.31.1
+
