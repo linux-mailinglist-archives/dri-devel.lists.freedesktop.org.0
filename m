@@ -1,65 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A04653AC8D7
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Jun 2021 12:31:18 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E87D3AC8FA
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Jun 2021 12:39:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F0B466E9DE;
-	Fri, 18 Jun 2021 10:31:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 39B8B6E9E4;
+	Fri, 18 Jun 2021 10:39:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com
- [IPv6:2a00:1450:4864:20::32b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EE0236E9CF
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Jun 2021 10:31:13 +0000 (UTC)
-Received: by mail-wm1-x32b.google.com with SMTP id
- n35-20020a05600c3ba3b02901cdecb6bda8so8336032wms.5
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Jun 2021 03:31:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=cihbsgEtYnVxdrkS4r7XcqbH/OKFs8p0aoMVL84XjSk=;
- b=jn08rWVlCC2tifool8RXg8H6TcK5rnvs/9i83KpXjBn/V7wKSTRt4d4gCC15ZrPA1R
- zqTASJnHddIaKZkpsQfHkisMg98pX2HXut6r57aLiy71KLFB7WE7ULWyX2Hk3kEetIfI
- +xLNDKadSPQwD0t2uq4j+EQVYr0634cw7MdOUYBUIXF7mrGozxmqaF7o8unMspfK364j
- ibooPS2lQ+pmsvm/LdNrXzgrhPkO1t7wcigCR5lWzMmQ922nBIiCIk1zIv7kdtPAbooi
- l54z7VS1EfnnXhuMyXaXiSmD4qhFDH9v/VXrIT5xUUPw2n+Dhm6apcQwmVkS1o2LnnU/
- 1FUQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=cihbsgEtYnVxdrkS4r7XcqbH/OKFs8p0aoMVL84XjSk=;
- b=UsMKhIpRXObgwJRu17mUlzSOdzW5MqQKddobp+4hKKCIaRnmqExAcmVQqVRyKD8pBh
- 4BmPVm+QYpldi2X7UCKznFZiAvwDZI2gwYwfBO+Yv9xBMPMvQWTZlWTXH/vgxqlzwc/O
- C51x9DluXvZxgt/NqGNvLYgL8dfjyPRAeu6meumOJPOjckPG//TJTECKABDgVBL4lZE9
- GR19qzpDpidsT/RxNDislFXm4yL1CwGu8Qv7nRpPdz7JCrZ7d9D19ID2ZQL5FYTNQZqT
- 8ulpJk5sch89KsyZW0EXTr4LLrj7dp00MPgYiD0lpoU5vOlCVWpvhJAiFGy5My05xLrD
- +fHg==
-X-Gm-Message-State: AOAM5315QhP/4NvVSQQMECq3Y9rEsvY8/LRhUL1vsrjBgGyzadyxD/mk
- i17UXNAnI9m70drb2GXaMbI9dA==
-X-Google-Smtp-Source: ABdhPJzmVu5eCTgvyPXfWQXhvmtJhz9s0bWfQcET358VEtoRVshPN7UoGYzxW89DWg4X0ZJY398X7Q==
-X-Received: by 2002:a1c:9a8b:: with SMTP id c133mr2457196wme.65.1624012272480; 
- Fri, 18 Jun 2021 03:31:12 -0700 (PDT)
-Received: from maple.lan (cpc141216-aztw34-2-0-cust174.18-1.cable.virginm.net.
- [80.7.220.175])
- by smtp.gmail.com with ESMTPSA id v5sm962817wml.26.2021.06.18.03.31.10
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 18 Jun 2021 03:31:11 -0700 (PDT)
-Date: Fri, 18 Jun 2021 11:31:09 +0100
-From: Daniel Thompson <daniel.thompson@linaro.org>
-To: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-Subject: Re: [PATCH] backlight: lm3630a: convert to atomic PWM API and check
- for errors
-Message-ID: <20210618103109.j7vtuif4taldtt5d@maple.lan>
-References: <20210618085844.231751-1-u.kleine-koenig@pengutronix.de>
+Received: from m43-7.mailgun.net (m43-7.mailgun.net [69.72.43.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B15036E9E4
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Jun 2021 10:39:24 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1624012766; h=Message-ID: References: In-Reply-To: Subject:
+ Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
+ MIME-Version: Sender; bh=4fG1y8WDPrYtBMq9UfTcY0OGD8AEXRPSN4vcguMIVpM=;
+ b=O7zkj0drcVt1dJxTo8Sx7HsQPt76yqSXQ4RiPdHyYUIqApNNpgzWyKnPmfHLbTdSvi/kcB/g
+ CIcgvt0m5t+3A+i3Y83ucYLtTjAbnll1nphqCVesbxTh3tV3ayoyoHyrRVf/u4LlF4W40+Yg
+ vTu5ORQOuPno1qQhjVfy0Ld25UM=
+X-Mailgun-Sending-Ip: 69.72.43.7
+X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n03.prod.us-east-1.postgun.com with SMTP id
+ 60cc77d8e27c0cc77fa0ca0f (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Fri, 18 Jun 2021 10:39:20
+ GMT
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id 8B316C43217; Fri, 18 Jun 2021 10:39:19 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00,
+ URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
+Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
+ (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+ (No client certificate requested) (Authenticated sender: rajeevny)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 4116CC433D3;
+ Fri, 18 Jun 2021 10:39:17 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8;
+ format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210618085844.231751-1-u.kleine-koenig@pengutronix.de>
+Date: Fri, 18 Jun 2021 16:09:17 +0530
+From: rajeevny@codeaurora.org
+To: Jonathan Marek <jonathan@marek.ca>
+Subject: Re: [v1 1/3] dt-bindings: msm/dsi: Add yaml schema for 7nm DSI PHY
+In-Reply-To: <a453734a-ab1f-bf35-9272-0b94c713f05b@marek.ca>
+References: <1622468035-8453-1-git-send-email-rajeevny@codeaurora.org>
+ <1622468035-8453-2-git-send-email-rajeevny@codeaurora.org>
+ <20210601205848.GA1025498@robh.at.kernel.org>
+ <ec1bcb4e734b784ab17c4fc558a5fab9@codeaurora.org>
+ <27dec6f881a3b8bd5e13ba32990f975b@codeaurora.org>
+ <a453734a-ab1f-bf35-9272-0b94c713f05b@marek.ca>
+Message-ID: <a736c5e48907bc2da064f98d94dff9da@codeaurora.org>
+X-Sender: rajeevny@codeaurora.org
+User-Agent: Roundcube Webmail/1.3.9
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,109 +70,109 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Jingoo Han <jingoohan1@gmail.com>,
- dri-devel@lists.freedesktop.org, Thierry Reding <thierry.reding@gmail.com>,
- kernel@pengutronix.de, Lee Jones <lee.jones@linaro.org>
+Cc: sean@poorly.run, mkrishn@codeaurora.org, devicetree@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, robdclark@gmail.com, robh+dt@kernel.org,
+ abhinavk@codeaurora.org, kalyan_t@codeaurora.org,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jun 18, 2021 at 10:58:44AM +0200, Uwe Kleine-K�nig wrote:
-> The practical upside here is that this only needs a single API call to
-> program the hardware which (depending on the underlaying hardware) can
-> be more effective and prevents glitches.
+
+On 17-06-2021 20:37, Jonathan Marek wrote:
+> On 6/16/21 1:50 AM, rajeevny@codeaurora.org wrote:
+>> On 03-06-2021 01:32, rajeevny@codeaurora.org wrote:
+>>> On 02-06-2021 02:28, Rob Herring wrote:
+>>>> On Mon, May 31, 2021 at 07:03:53PM +0530, Rajeev Nandan wrote:
+>>> 
+>>>>> +
+>>>>> +properties:
+>>>>> +  compatible:
+>>>>> +    oneOf:
+>>>>> +      - const: qcom,dsi-phy-7nm
+>>>> 
+>>>> When would one use this?
+>>> This is for SM8250.
+>>> 
+>>>> 
+>>>>> +      - const: qcom,dsi-phy-7nm-7280
+>>>>> +      - const: qcom,dsi-phy-7nm-8150
+>>>> 
+>>>> These don't look like full SoC names (sm8150?) and it's
+>>>> <vendor>,<soc>-<block>.
+>>> 
+>>> Thanks, Rob, for the review.
+>>> 
+>>> I just took the `compatible` property currently used in the DSI PHY 
+>>> driver
+>>> (drivers/gpu/drm/msm/dsi/phy/dsi_phy.c), and added a new entry for 
+>>> sc7280.
+>>> A similar pattern of `compatible` names are used in other variants of 
+>>> the
+>>> DSI PHY driver e.g. qcom,qcom,dsi-phy-10nm-8998, 
+>>> qcom,dsi-phy-14nm-660 etc.
+>>> 
+>>> The existing compatible names "qcom,dsi-phy-7nm-8150" (SoC at the 
+>>> end) make
+>>> some sense, if we look at the organization of the dsi phy driver 
+>>> code.
+>>> I am new to this and don't know the reason behind the current code
+>>> organization and this naming.
+>>> 
+>>> Yes, I agree with you, we should use full SoC names. Adding
+>>> the SoC name at the end does not feel very convincing, so I will 
+>>> change this
+>>> to the suggested format e.g. "qcom,sm8250-dsi-phy-7nm", and will 
+>>> rename the
+>>> occurrences in the driver and device tree accordingly.
+>>> Do I need to make changes for 10nm, 14nm, 20nm, and 28nm DSI PHY too?
+>>> Bindings doc for these PHYs recently got merged to msm-next [1]
+>>> 
+>>> 
+>>> [1]
+>>> https://gitlab.freedesktop.org/drm/msm/-/commit/8fc939e72ff80116c090aaf03952253a124d2a8e
+>> 
+>> Hi Rob,
+>> 
+>> I missed adding "robh+dt@kernel.org" earlier in this thread.
+>> 
+>> Please check my response to your review comments. Regarding your 
+>> suggestion to use <vendor>,<soc>-<block> format for compatible 
+>> property, should I also upload a new patch to make changes in 10nm, 
+>> 14nm, 20nm, and 28nm DSI PHY DT bindings?
+>> 
+>> Thanks,
+>> Rajeev
+>> 
 > 
-> Up to now the return value of the pwm functions was ignored. Fix this
-> and propagate the error to the caller.
+> Hi,
 > 
-> Signed-off-by: Uwe Kleine-K�nig <u.kleine-koenig@pengutronix.de>
-
-New code looks OK but these changes reveal just how crazy the return codes
-from this driver's update_status() methods are since now the new (PWM) error path is
-structured completely differently to the existing (I2C) error path.
-
-update_status() should return 0 on success and a -ve errno otherwise.
-
-Thus the new code to return -errno is correct and so is the I2C success
-code path. However the PWM success path and the I2C error path are both
-broken.
-
-Are you OK to add a patch *before* this one to fix the existing code
-paths before making the PWM changes?
-
-
-Daniel.
-
-> ---
->  drivers/video/backlight/lm3630a_bl.c | 33 +++++++++++++++-------------
->  1 file changed, 18 insertions(+), 15 deletions(-)
+> I missed this and ended up sending a similar patch a week later (as
+> part of my cphy series, because I needed it to add a "phy-type"
+> property).
 > 
-> diff --git a/drivers/video/backlight/lm3630a_bl.c b/drivers/video/backlight/lm3630a_bl.c
-> index e88a2b0e5904..24fa7e6938fa 100644
-> --- a/drivers/video/backlight/lm3630a_bl.c
-> +++ b/drivers/video/backlight/lm3630a_bl.c
-> @@ -52,6 +52,7 @@ struct lm3630a_chip {
->  	struct gpio_desc *enable_gpio;
->  	struct regmap *regmap;
->  	struct pwm_device *pwmd;
-> +	struct pwm_state pwmd_state;
->  };
->  
->  /* i2c access */
-> @@ -167,16 +168,19 @@ static int lm3630a_intr_config(struct lm3630a_chip *pchip)
->  	return rval;
->  }
->  
-> -static void lm3630a_pwm_ctrl(struct lm3630a_chip *pchip, int br, int br_max)
-> +static int lm3630a_pwm_ctrl(struct lm3630a_chip *pchip, int br, int br_max)
->  {
-> -	unsigned int period = pchip->pdata->pwm_period;
-> -	unsigned int duty = br * period / br_max;
-> +	int err;
->  
-> -	pwm_config(pchip->pwmd, duty, period);
-> -	if (duty)
-> -		pwm_enable(pchip->pwmd);
-> -	else
-> -		pwm_disable(pchip->pwmd);
-> +	pchip->pwmd_state.period = pchip->pdata->pwm_period;
-> +
-> +	err = pwm_set_relative_duty_cycle(&pchip->pwmd_state, br, br_max);
-> +	if (err)
-> +		return err;
-> +
-> +	pchip->pwmd_state.enabled = pchip->pwmd_state.duty_cycle ? true : false;
-> +
-> +	return pwm_apply_state(pchip->pwmd, &pchip->pwmd_state);
->  }
->  
->  /* update and get brightness */
-> @@ -188,8 +192,11 @@ static int lm3630a_bank_a_update_status(struct backlight_device *bl)
->  
->  	/* pwm control */
->  	if ((pwm_ctrl & LM3630A_PWM_BANK_A) != 0) {
-> -		lm3630a_pwm_ctrl(pchip, bl->props.brightness,
-> -				 bl->props.max_brightness);
-> +		ret = lm3630a_pwm_ctrl(pchip, bl->props.brightness,
-> +				       bl->props.max_brightness);
-> +		if (ret)
-> +			return ret;
-> +
->  		return bl->props.brightness;
->  	}
->  
-> @@ -563,11 +570,7 @@ static int lm3630a_probe(struct i2c_client *client,
->  			return PTR_ERR(pchip->pwmd);
->  		}
->  
-> -		/*
-> -		 * FIXME: pwm_apply_args() should be removed when switching to
-> -		 * the atomic PWM API.
-> -		 */
-> -		pwm_apply_args(pchip->pwmd);
-> +		pwm_init_state(pchip->pwmd, &pchip->pwmd_state);
->  	}
->  
->  	/* interrupt enable  : irq 0 is not allowed */
-> -- 
-> 2.30.2
+> "qcom,dsi-phy-7nm" and "qcom,dsi-phy-7nm-8150" aren't new compatibles,
+> they were previously documented in the .txt bindings, which are
+> getting removed, but the new .yaml bindings didn't include them.
+> Documenting them is just a fixup to that patch [1] which is already
+> R-B'd by RobH (and has similar compatibles such as "qcom,dsi-phy-10nm"
+> and "qcom,dsi-phy-10nm-8998
+> ").
 > 
+> You can use a different/better naming scheme for sc7280, but changing
+> the others has nothing to do with adding support for sc7280.
+> 
+> [1]
+> https://gitlab.freedesktop.org/drm/msm/-/commit/8fc939e72ff80116c090aaf03952253a124d2a8e
+
+Hi Jonathan,
+
+I will discard this patch and will add the bindings for the sc7280 on 
+top of your patch [1].
+
+[1] 
+https://lore.kernel.org/linux-arm-msm/20210617144349.28448-2-jonathan@marek.ca/
+
+
+Thanks,
+Rajeev
