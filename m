@@ -2,68 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71AD63AC6A5
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Jun 2021 10:58:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CBED3AC6A8
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Jun 2021 10:58:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 368886E99A;
-	Fri, 18 Jun 2021 08:58:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A6D886E99C;
+	Fri, 18 Jun 2021 08:58:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 127216E998;
- Fri, 18 Jun 2021 08:58:14 +0000 (UTC)
-Received: from imap.suse.de (imap-alt.suse-dmz.suse.de [192.168.254.47])
- (using TLSv1.2 with cipher ECDHE-ECDSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id B089621ACA;
- Fri, 18 Jun 2021 08:58:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1624006692; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=yvC5i/r5SAQg9pojYeOAMekoljsB4R2HJiZhKtU+M20=;
- b=zWkZ2W51Rj9l3XzN1HQpULMYBd6dijMNcltmq5xIPYDO6RLipB4jTgTedk69Q/oNlvzqSp
- Vj1qJYPG6gG7/lhNtfiemILCGPQV9+SQ7wDskriTl7Lesz6GaJe6sdZ8NeSVtNc/8MxXUY
- ocLGtUCDlx/+9jcj5bcIzJz8bT8oIJ8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1624006692;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=yvC5i/r5SAQg9pojYeOAMekoljsB4R2HJiZhKtU+M20=;
- b=RNr84aC0ZlOj2k+3q2Vw8xeIQ1YF5rCFKEbcHl0gkrr/9eyvZBLxrPl8IZYLZmdDIvbWSY
- 0guUXGYkMosR58Bw==
-Received: from imap3-int (imap-alt.suse-dmz.suse.de [192.168.254.47])
- by imap.suse.de (Postfix) with ESMTP id 7A5B6118DD;
- Fri, 18 Jun 2021 08:58:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1624006692; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=yvC5i/r5SAQg9pojYeOAMekoljsB4R2HJiZhKtU+M20=;
- b=zWkZ2W51Rj9l3XzN1HQpULMYBd6dijMNcltmq5xIPYDO6RLipB4jTgTedk69Q/oNlvzqSp
- Vj1qJYPG6gG7/lhNtfiemILCGPQV9+SQ7wDskriTl7Lesz6GaJe6sdZ8NeSVtNc/8MxXUY
- ocLGtUCDlx/+9jcj5bcIzJz8bT8oIJ8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1624006692;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=yvC5i/r5SAQg9pojYeOAMekoljsB4R2HJiZhKtU+M20=;
- b=RNr84aC0ZlOj2k+3q2Vw8xeIQ1YF5rCFKEbcHl0gkrr/9eyvZBLxrPl8IZYLZmdDIvbWSY
- 0guUXGYkMosR58Bw==
-Received: from director2.suse.de ([192.168.254.72]) by imap3-int with ESMTPSA
- id 6LTpHCRgzGAdJAAALh3uQQ
- (envelope-from <tzimmermann@suse.de>); Fri, 18 Jun 2021 08:58:12 +0000
-Date: Fri, 18 Jun 2021 10:58:11 +0200
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: [PULL] drm-misc-next-fixes
-Message-ID: <YMxgI1oluBpPyfu6@linux-uq9g.fritz.box>
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 05E506E99C
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Jun 2021 08:58:49 +0000 (UTC)
+Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
+ by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1luAKs-0006sg-K9; Fri, 18 Jun 2021 10:58:46 +0200
+Received: from ukl by ptx.hi.pengutronix.de with local (Exim 4.92)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1luAKs-0004lQ-0i; Fri, 18 Jun 2021 10:58:46 +0200
+From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Lee Jones <lee.jones@linaro.org>,
+ Daniel Thompson <daniel.thompson@linaro.org>,
+ Jingoo Han <jingoohan1@gmail.com>
+Subject: [PATCH] backlight: lm3630a: convert to atomic PWM API and check for
+ errors
+Date: Fri, 18 Jun 2021 10:58:44 +0200
+Message-Id: <20210618085844.231751-1-u.kleine-koenig@pengutronix.de>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,63 +50,90 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Sean Paul <sean@poorly.run>,
- intel-gfx@lists.freedesktop.org
+Cc: linux-fbdev@vger.kernel.org, Thierry Reding <thierry.reding@gmail.com>,
+ kernel@pengutronix.de, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave and Daniel,
+The practical upside here is that this only needs a single API call to
+program the hardware which (depending on the underlaying hardware) can
+be more effective and prevents glitches.
 
-here's the extra PR for drm-misc-next-fixes for this week. In addition
-to the previous fixes, it only contains the dp_mst build fix.
+Up to now the return value of the pwm functions was ignored. Fix this
+and propagate the error to the caller.
 
-Best regards
-Thomas
+Signed-off-by: Uwe Kleine-KÃ¶nig <u.kleine-koenig@pengutronix.de>
+---
+ drivers/video/backlight/lm3630a_bl.c | 33 +++++++++++++++-------------
+ 1 file changed, 18 insertions(+), 15 deletions(-)
 
-drm-misc-next-fixes-2021-06-18:
-Short summary of fixes pull:
+diff --git a/drivers/video/backlight/lm3630a_bl.c b/drivers/video/backlight/lm3630a_bl.c
+index e88a2b0e5904..24fa7e6938fa 100644
+--- a/drivers/video/backlight/lm3630a_bl.c
++++ b/drivers/video/backlight/lm3630a_bl.c
+@@ -52,6 +52,7 @@ struct lm3630a_chip {
+ 	struct gpio_desc *enable_gpio;
+ 	struct regmap *regmap;
+ 	struct pwm_device *pwmd;
++	struct pwm_state pwmd_state;
+ };
+ 
+ /* i2c access */
+@@ -167,16 +168,19 @@ static int lm3630a_intr_config(struct lm3630a_chip *pchip)
+ 	return rval;
+ }
+ 
+-static void lm3630a_pwm_ctrl(struct lm3630a_chip *pchip, int br, int br_max)
++static int lm3630a_pwm_ctrl(struct lm3630a_chip *pchip, int br, int br_max)
+ {
+-	unsigned int period = pchip->pdata->pwm_period;
+-	unsigned int duty = br * period / br_max;
++	int err;
+ 
+-	pwm_config(pchip->pwmd, duty, period);
+-	if (duty)
+-		pwm_enable(pchip->pwmd);
+-	else
+-		pwm_disable(pchip->pwmd);
++	pchip->pwmd_state.period = pchip->pdata->pwm_period;
++
++	err = pwm_set_relative_duty_cycle(&pchip->pwmd_state, br, br_max);
++	if (err)
++		return err;
++
++	pchip->pwmd_state.enabled = pchip->pwmd_state.duty_cycle ? true : false;
++
++	return pwm_apply_state(pchip->pwmd, &pchip->pwmd_state);
+ }
+ 
+ /* update and get brightness */
+@@ -188,8 +192,11 @@ static int lm3630a_bank_a_update_status(struct backlight_device *bl)
+ 
+ 	/* pwm control */
+ 	if ((pwm_ctrl & LM3630A_PWM_BANK_A) != 0) {
+-		lm3630a_pwm_ctrl(pchip, bl->props.brightness,
+-				 bl->props.max_brightness);
++		ret = lm3630a_pwm_ctrl(pchip, bl->props.brightness,
++				       bl->props.max_brightness);
++		if (ret)
++			return ret;
++
+ 		return bl->props.brightness;
+ 	}
+ 
+@@ -563,11 +570,7 @@ static int lm3630a_probe(struct i2c_client *client,
+ 			return PTR_ERR(pchip->pwmd);
+ 		}
+ 
+-		/*
+-		 * FIXME: pwm_apply_args() should be removed when switching to
+-		 * the atomic PWM API.
+-		 */
+-		pwm_apply_args(pchip->pwmd);
++		pwm_init_state(pchip->pwmd, &pchip->pwmd_state);
+ 	}
+ 
+ 	/* interrupt enable  : irq 0 is not allowed */
+-- 
+2.30.2
 
- * hyperv: advertise the correct formatmodifiers for its primary plane
- * dp_mst: VCPI fixes to make it work with StarTech hub; Fix build error
-
-The following changes since commit 1bd8a7dc28c1c410f1ceefae1f2a97c06d1a67c2:
-
-  Merge tag 'exynos-drm-next-for-v5.14' of git://git.kernel.org/pub/scm/linux/kernel/git/daeinki/drm-exynos into drm-next (2021-06-11 14:19:12 +1000)
-
-are available in the Git repository at:
-
-  git://anongit.freedesktop.org/drm/drm-misc tags/drm-misc-next-fixes-2021-06-18
-
-for you to fetch changes up to 24ff3dc18b99c4b912ab1746e803ddb3be5ced4c:
-
-  drm/dp_mst: Add missing drm parameters to recently added call to drm_dbg_kms() (2021-06-16 15:53:15 -0400)
-
-----------------------------------------------------------------
-Short summary of fixes pull:
-
- * hyperv: advertise the correct formatmodifiers for its primary plane
- * dp_mst: VCPI fixes to make it work with StarTech hub; Fix build error
-
-----------------------------------------------------------------
-José Roberto de Souza (1):
-      drm/dp_mst: Add missing drm parameters to recently added call to drm_dbg_kms()
-
-Pu Lehui (1):
-      drm/hyperv: Fix unused const variable 'hyperv_modifiers'
-
-Wayne Lin (2):
-      drm/dp_mst: Do not set proposed vcpi directly
-      drm/dp_mst: Avoid to mess up payload table by ports in stale topology
-
- drivers/gpu/drm/drm_dp_mst_topology.c       | 68 ++++++++++++++++++-----------
- drivers/gpu/drm/hyperv/hyperv_drm_modeset.c |  2 +-
- 2 files changed, 43 insertions(+), 27 deletions(-)
-
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 Nürnberg, Germany
-(HRB 36809, AG Nürnberg)
-Geschäftsführer: Felix Imendörffer
