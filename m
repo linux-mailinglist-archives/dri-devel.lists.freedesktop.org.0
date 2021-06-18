@@ -1,55 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2FA263ACBC9
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Jun 2021 15:10:50 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id AD2B13ACC3D
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Jun 2021 15:32:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ADB6E6EA05;
-	Fri, 18 Jun 2021 13:10:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 961746EA08;
+	Fri, 18 Jun 2021 13:32:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x62d.google.com (mail-pl1-x62d.google.com
- [IPv6:2607:f8b0:4864:20::62d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DD8F16EA05
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Jun 2021 13:10:46 +0000 (UTC)
-Received: by mail-pl1-x62d.google.com with SMTP id v12so4640766plo.10
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Jun 2021 06:10:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=xeflnMpXCc8lQl488t2UyqqllAHiO3IjtrjGZgwxjE8=;
- b=l4JvENXKS+0wuXa9Dd7ASyOi+R2Ra1aLIyA3k6/hFxsit72DMEgc04M2UT1qYk5Sb0
- WspU0VkFFL2rOaKiwcWlw6iLuFtDYrkBFGTYnoWKOx0j5yPXk6liOpjHGfCyYCF/WXSb
- uXLJ80qb0RBPXArA/ItZJI05DK9fbVDKsCbP3OrZS+F9FIA+kjubUgtL33FY+wHQvdqA
- IlUzws0eoYgmiXbL1Aog1Fxp9UDyg8ViwDqml0U9R5abh5W+c3OtLIc3PDV145QF493k
- 5OazSdv+z0dulHEsk7iosWreirruFs8y3ZBkwSFKYQtqA7QikIbxeVkqaV7+ISh+MZWf
- fr6w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=xeflnMpXCc8lQl488t2UyqqllAHiO3IjtrjGZgwxjE8=;
- b=FyIsf3rvNyveL6FIGPLpBbLgn4FNVN5FRxj9cU6gjG9vNVg1SCyELkqavbbaRzWP9z
- dDqg8OtygZtz2vstMoII9Hr2xL0PT7H2VJ31StQmqwfqFKNZDrfWyIHRQu4LakR9qhVA
- +alb1OzUi1BJL1WEfzELyDaSf5vtzgktNl7xKFkdnUc3wMI9D9QOtWqERn98XfnYtHgp
- Cqe9VQWinRxodlOEDYpx+MNSmYrY2okkqFHVKbvep82DKzY4BfWPo128EcD7M5Pds3+Y
- 64U0mhPl8JOLF8eJjkTP8CWHDo5Py8sNF+w70YLqZ//a3j3DdqNuNXd838CJnhJczklz
- nQcw==
-X-Gm-Message-State: AOAM533LtpeIFqb19Zi1ddRjxS/OgSabIh0RRyjr9KDfZQZrnhkr7bBB
- +g2raxpiIgxJ6bNjLeVoLtxCj80dj5vu1o5d0Ss=
-X-Google-Smtp-Source: ABdhPJzcSX6tm09hnesQWqlEKd9p2OWaX9DN17n4s3XcCvm5NLcAdCBgDPUZFvnKjiSXNhS667ToHT0D90tnVJ9s7Nk=
-X-Received: by 2002:a17:90a:880c:: with SMTP id
- s12mr11065571pjn.66.1624021846430; 
- Fri, 18 Jun 2021 06:10:46 -0700 (PDT)
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C85FF6EA08;
+ Fri, 18 Jun 2021 13:32:01 +0000 (UTC)
+IronPort-SDR: RCKIPr9U6S13nZ9cZpfyn5aSFdzJyvLptn6o1jEogO/PmZ9/1HIArJZAvyjb7syNm6fydBMe88
+ Ohq0EXBisMXg==
+X-IronPort-AV: E=McAfee;i="6200,9189,10018"; a="186931270"
+X-IronPort-AV: E=Sophos;i="5.83,283,1616482800"; d="scan'208";a="186931270"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Jun 2021 06:32:01 -0700
+IronPort-SDR: O/5Fab7CjsDFfJnGlkGmPVk4IQo016eePsD/2Gx91rr2BnVcWAcp2Gmu+wzHY6Lqc1sA4FwYaF
+ VtN4STypUtDw==
+X-IronPort-AV: E=Sophos;i="5.83,283,1616482800"; d="scan'208";a="479821220"
+Received: from murphyke-mobl1.ger.corp.intel.com (HELO mwauld-desk1.intel.com)
+ ([10.213.237.184])
+ by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Jun 2021 06:31:59 -0700
+From: Matthew Auld <matthew.auld@intel.com>
+To: intel-gfx@lists.freedesktop.org
+Subject: [PATCH 1/2] drm/i915/selftests: add back the selftest() hook for the
+ buddy
+Date: Fri, 18 Jun 2021 14:31:49 +0100
+Message-Id: <20210618133150.700375-1-matthew.auld@intel.com>
+X-Mailer: git-send-email 2.26.3
 MIME-Version: 1.0
-References: <20210203091306.140518-1-jagan@amarulasolutions.com>
-In-Reply-To: <20210203091306.140518-1-jagan@amarulasolutions.com>
-From: Jonathan Liu <net147@gmail.com>
-Date: Fri, 18 Jun 2021 23:10:33 +1000
-Message-ID: <CANwerB1Bev8Ljta9OyO6vAKsQqHHmaJnjV1YRGmY4bVk_J6xZA@mail.gmail.com>
-Subject: Re: [PATCH] drm/bridge: dw-mipi-dsi: Move drm_bridge_add into probe
-To: Jagan Teki <jagan@amarulasolutions.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,37 +48,30 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jernej Skrabec <jernej.skrabec@siol.net>,
- Neil Armstrong <narmstrong@baylibre.com>, Sam Ravnborg <sam@ravnborg.org>,
- Jonas Karlman <jonas@kwiboo.se>, Sandy Huang <hjc@rock-chips.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Philippe Cornu <philippe.cornu@st.com>, Yannick Fertre <yannick.fertre@st.com>,
- Andrzej Hajda <a.hajda@samsung.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Benjamin Gaignard <benjamin.gaignard@linaro.org>,
- Vincent Abriou <vincent.abriou@st.com>, linux-amarula@amarulasolutions.com,
- linux-kernel <linux-kernel@vger.kernel.org>
+Cc: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ kernel test robot <lkp@intel.com>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Jagan,
+When we resurrected the selftest we forgot to add back the selftest()
+hook, meaning the test is not currently run.
 
-On Wed, 3 Feb 2021 at 09:13, Jagan Teki <jagan@amarulasolutions.com> wrote:
-> @@ -1167,6 +1151,20 @@ __dw_mipi_dsi_probe(struct platform_device *pdev,
->         dw_mipi_dsi_debugfs_init(dsi);
->         pm_runtime_enable(dev);
->
-> +       ret = drm_of_find_panel_or_bridge(dev->of_node, 1, 0,
-> +                                         &panel, &bridge);
-> +       if (ret)
-> +               return ERR_PTR(ret);
+Reported-by: kernel test robot <lkp@intel.com>
+Signed-off-by: Matthew Auld <matthew.auld@intel.com>
+Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+---
+ drivers/gpu/drm/i915/selftests/i915_mock_selftests.h | 1 +
+ 1 file changed, 1 insertion(+)
 
-On RK3399 if the error is EPROBE_DEFER, __dw_mipi_dsi_probe can be
-called again and result in the following errors:
-[    0.717589] debugfs: Directory 'ff960000.mipi' with parent '/'
-already present!
-[    0.717601] dw-mipi-dsi-rockchip ff960000.mipi: failed to create debugfs root
-[    0.717606] dw-mipi-dsi-rockchip ff960000.mipi: Unbalanced pm_runtime_enable!
+diff --git a/drivers/gpu/drm/i915/selftests/i915_mock_selftests.h b/drivers/gpu/drm/i915/selftests/i915_mock_selftests.h
+index 34e5caf38093..6759b56086fb 100644
+--- a/drivers/gpu/drm/i915/selftests/i915_mock_selftests.h
++++ b/drivers/gpu/drm/i915/selftests/i915_mock_selftests.h
+@@ -34,3 +34,4 @@ selftest(gtt, i915_gem_gtt_mock_selftests)
+ selftest(hugepages, i915_gem_huge_page_mock_selftests)
+ selftest(contexts, i915_gem_context_mock_selftests)
+ selftest(memory_region, intel_memory_region_mock_selftests)
++selftest(buddy, i915_buddy_mock_selftests)
+-- 
+2.26.3
 
-Regards,
-Jonathan
