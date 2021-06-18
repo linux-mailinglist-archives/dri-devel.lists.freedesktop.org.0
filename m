@@ -1,36 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 886783AC04C
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Jun 2021 02:49:15 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id EB3953AC04B
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Jun 2021 02:49:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2BFB66E92B;
-	Fri, 18 Jun 2021 00:48:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BAFFE6E927;
+	Fri, 18 Jun 2021 00:48:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9E59B6E84D;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BDF306E853;
  Fri, 18 Jun 2021 00:48:48 +0000 (UTC)
-IronPort-SDR: 1qqhQQzEr6WaY1n+ulkei7PuXthsQ48y3R18u5i5xWWT2qSS2ONR5Yfzcf+8u5e2ZKLMp9/0Np
- lAnrhMK8iCRQ==
-X-IronPort-AV: E=McAfee;i="6200,9189,10018"; a="186853035"
-X-IronPort-AV: E=Sophos;i="5.83,281,1616482800"; d="scan'208";a="186853035"
+IronPort-SDR: E5eB7tqmvwZpzrf6EcYcVn/z9ObGF5x4XRr0alOd/4Kt4wb39x/KjbHu6hMTo98BW27TUL0dWG
+ EFD4Omj2LdSg==
+X-IronPort-AV: E=McAfee;i="6200,9189,10018"; a="186853036"
+X-IronPort-AV: E=Sophos;i="5.83,281,1616482800"; d="scan'208";a="186853036"
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  17 Jun 2021 17:48:47 -0700
-IronPort-SDR: +eLeOMA9iK5XpWVBev9tSDc0MIgZrWrQNjQnirAwr7vKE6YHZJ95FH8z+zvxeRP0zGnD1cLXK2
- 1x+up+dL/eKw==
-X-IronPort-AV: E=Sophos;i="5.83,281,1616482800"; d="scan'208";a="405127011"
+IronPort-SDR: eHikGgQCSnwl8SYAcxPhGw1lZYhgPIQlqGGV6/PQXIrr2g7bR5v6cCZ54tPSeh1gbpqsQ7fgeM
+ ikbzFK6g2vqQ==
+X-IronPort-AV: E=Sophos;i="5.83,281,1616482800"; d="scan'208";a="405127015"
 Received: from dhiatt-server.jf.intel.com ([10.54.81.3])
  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Jun 2021 17:48:46 -0700
+ 17 Jun 2021 17:48:47 -0700
 From: Matthew Brost <matthew.brost@intel.com>
 To: <intel-gfx@lists.freedesktop.org>,
 	<dri-devel@lists.freedesktop.org>
-Subject: [PATCH 5/8] drm/i915: Move engine->schedule to i915_sched_engine
-Date: Thu, 17 Jun 2021 18:06:35 -0700
-Message-Id: <20210618010638.98941-6-matthew.brost@intel.com>
+Subject: [PATCH 6/8] drm/i915: Add kick_backend function to i915_sched_engine
+Date: Thu, 17 Jun 2021 18:06:36 -0700
+Message-Id: <20210618010638.98941-7-matthew.brost@intel.com>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20210618010638.98941-1-matthew.brost@intel.com>
 References: <20210618010638.98941-1-matthew.brost@intel.com>
@@ -52,304 +52,190 @@ Cc: daniele.ceraolospurio@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The schedule function should be in the schedule object.
-
-v3:
- (Jason Ekstrand)
-  Add kernel doc
+Not all back-ends require a kick after a  scheduling update, so make the
+kick a call-back function that the  back-end can opt-in to. Also move
+the current kick function from the scheduler to the execlists file as it
+is specific to that back-end.
 
 Signed-off-by: Matthew Brost <matthew.brost@intel.com>
 Reviewed-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
 ---
- drivers/gpu/drm/i915/gem/i915_gem_wait.c         |  4 ++--
- drivers/gpu/drm/i915/gt/intel_engine_cs.c        |  3 ---
- drivers/gpu/drm/i915/gt/intel_engine_heartbeat.c |  4 ++--
- drivers/gpu/drm/i915/gt/intel_engine_types.h     |  8 --------
- drivers/gpu/drm/i915/gt/intel_engine_user.c      |  2 +-
- .../gpu/drm/i915/gt/intel_execlists_submission.c |  4 ++--
- drivers/gpu/drm/i915/gt/selftest_execlists.c     | 16 ++++++++--------
- drivers/gpu/drm/i915/gt/selftest_hangcheck.c     |  4 ++--
- .../gpu/drm/i915/gt/uc/intel_guc_submission.c    |  2 +-
- drivers/gpu/drm/i915/i915_request.c              | 10 +++++-----
- drivers/gpu/drm/i915/i915_scheduler_types.h      | 10 ++++++++++
- 11 files changed, 33 insertions(+), 34 deletions(-)
+ .../drm/i915/gt/intel_execlists_submission.c  | 52 ++++++++++++++++
+ drivers/gpu/drm/i915/i915_scheduler.c         | 62 +------------------
+ drivers/gpu/drm/i915/i915_scheduler_types.h   |  6 ++
+ 3 files changed, 60 insertions(+), 60 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_wait.c b/drivers/gpu/drm/i915/gem/i915_gem_wait.c
-index 1e97520c62b2..1070d3afdce7 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_wait.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_wait.c
-@@ -104,8 +104,8 @@ static void fence_set_priority(struct dma_fence *fence,
- 	engine = rq->engine;
- 
- 	rcu_read_lock(); /* RCU serialisation for set-wedged protection */
--	if (engine->schedule)
--		engine->schedule(rq, attr);
-+	if (engine->sched_engine->schedule)
-+		engine->sched_engine->schedule(rq, attr);
- 	rcu_read_unlock();
- }
- 
-diff --git a/drivers/gpu/drm/i915/gt/intel_engine_cs.c b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
-index b7efc4e399c5..354c1c260726 100644
---- a/drivers/gpu/drm/i915/gt/intel_engine_cs.c
-+++ b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
-@@ -328,9 +328,6 @@ static int intel_engine_setup(struct intel_gt *gt, enum intel_engine_id id)
- 	if (engine->context_size)
- 		DRIVER_CAPS(i915)->has_logical_contexts = true;
- 
--	/* Nothing to do here, execute in order of dependencies */
--	engine->schedule = NULL;
--
- 	ewma__engine_latency_init(&engine->latency);
- 	seqcount_init(&engine->stats.lock);
- 
-diff --git a/drivers/gpu/drm/i915/gt/intel_engine_heartbeat.c b/drivers/gpu/drm/i915/gt/intel_engine_heartbeat.c
-index b99ac41695f3..b6a305e6a974 100644
---- a/drivers/gpu/drm/i915/gt/intel_engine_heartbeat.c
-+++ b/drivers/gpu/drm/i915/gt/intel_engine_heartbeat.c
-@@ -121,7 +121,7 @@ static void heartbeat(struct work_struct *wrk)
- 			 * but all other contexts, including the kernel
- 			 * context are stuck waiting for the signal.
- 			 */
--		} else if (engine->schedule &&
-+		} else if (engine->sched_engine->schedule &&
- 			   rq->sched.attr.priority < I915_PRIORITY_BARRIER) {
- 			/*
- 			 * Gradually raise the priority of the heartbeat to
-@@ -136,7 +136,7 @@ static void heartbeat(struct work_struct *wrk)
- 				attr.priority = I915_PRIORITY_BARRIER;
- 
- 			local_bh_disable();
--			engine->schedule(rq, &attr);
-+			engine->sched_engine->schedule(rq, &attr);
- 			local_bh_enable();
- 		} else {
- 			if (IS_ENABLED(CONFIG_DRM_I915_DEBUG_GEM))
-diff --git a/drivers/gpu/drm/i915/gt/intel_engine_types.h b/drivers/gpu/drm/i915/gt/intel_engine_types.h
-index 5e0f39d202ef..0bb65c57d274 100644
---- a/drivers/gpu/drm/i915/gt/intel_engine_types.h
-+++ b/drivers/gpu/drm/i915/gt/intel_engine_types.h
-@@ -428,14 +428,6 @@ struct intel_engine_cs {
- 	void            (*bond_execute)(struct i915_request *rq,
- 					struct dma_fence *signal);
- 
--	/*
--	 * Call when the priority on a request has changed and it and its
--	 * dependencies may need rescheduling. Note the request itself may
--	 * not be ready to run!
--	 */
--	void		(*schedule)(struct i915_request *request,
--				    const struct i915_sched_attr *attr);
--
- 	void		(*release)(struct intel_engine_cs *engine);
- 
- 	struct intel_engine_execlists execlists;
-diff --git a/drivers/gpu/drm/i915/gt/intel_engine_user.c b/drivers/gpu/drm/i915/gt/intel_engine_user.c
-index 3cca7ea2d6ea..84142127ebd8 100644
---- a/drivers/gpu/drm/i915/gt/intel_engine_user.c
-+++ b/drivers/gpu/drm/i915/gt/intel_engine_user.c
-@@ -108,7 +108,7 @@ static void set_scheduler_caps(struct drm_i915_private *i915)
- 	for_each_uabi_engine(engine, i915) { /* all engines must agree! */
- 		int i;
- 
--		if (engine->schedule)
-+		if (engine->sched_engine->schedule)
- 			enabled |= (I915_SCHEDULER_CAP_ENABLED |
- 				    I915_SCHEDULER_CAP_PRIORITY);
- 		else
 diff --git a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
-index 0591698573e8..8a3d4014fd2c 100644
+index 8a3d4014fd2c..9487d9e0be62 100644
 --- a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
 +++ b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
-@@ -3119,7 +3119,7 @@ static bool can_preempt(struct intel_engine_cs *engine)
+@@ -3116,10 +3116,61 @@ static bool can_preempt(struct intel_engine_cs *engine)
+ 	return engine->class != RENDER_CLASS;
+ }
+ 
++static void kick_execlists(const struct i915_request *rq, int prio)
++{
++	struct intel_engine_cs *engine = rq->engine;
++	struct i915_sched_engine *sched_engine = engine->sched_engine;
++	const struct i915_request *inflight;
++
++	/*
++	 * We only need to kick the tasklet once for the high priority
++	 * new context we add into the queue.
++	 */
++	if (prio <= sched_engine->queue_priority_hint)
++		return;
++
++	rcu_read_lock();
++
++	/* Nothing currently active? We're overdue for a submission! */
++	inflight = execlists_active(&engine->execlists);
++	if (!inflight)
++		goto unlock;
++
++	/*
++	 * If we are already the currently executing context, don't
++	 * bother evaluating if we should preempt ourselves.
++	 */
++	if (inflight->context == rq->context)
++		goto unlock;
++
++	ENGINE_TRACE(engine,
++		     "bumping queue-priority-hint:%d for rq:%llx:%lld, inflight:%llx:%lld prio %d\n",
++		     prio,
++		     rq->fence.context, rq->fence.seqno,
++		     inflight->fence.context, inflight->fence.seqno,
++		     inflight->sched.attr.priority);
++
++	sched_engine->queue_priority_hint = prio;
++
++	/*
++	 * Allow preemption of low -> normal -> high, but we do
++	 * not allow low priority tasks to preempt other low priority
++	 * tasks under the impression that latency for low priority
++	 * tasks does not matter (as much as background throughput),
++	 * so kiss.
++	 */
++	if (prio >= max(I915_PRIORITY_NORMAL, rq_prio(inflight)))
++		tasklet_hi_schedule(&engine->execlists.tasklet);
++
++unlock:
++	rcu_read_unlock();
++}
++
  static void execlists_set_default_submission(struct intel_engine_cs *engine)
  {
  	engine->submit_request = execlists_submit_request;
--	engine->schedule = i915_schedule;
-+	engine->sched_engine->schedule = i915_schedule;
+ 	engine->sched_engine->schedule = i915_schedule;
++	engine->sched_engine->kick_backend = kick_execlists;
  	engine->execlists.tasklet.callback = execlists_submission_tasklet;
  }
  
-@@ -3701,7 +3701,7 @@ intel_execlists_create_virtual(struct intel_engine_cs **siblings,
- 	ve->base.cops = &virtual_context_ops;
+@@ -3702,6 +3753,7 @@ intel_execlists_create_virtual(struct intel_engine_cs **siblings,
  	ve->base.request_alloc = execlists_request_alloc;
  
--	ve->base.schedule = i915_schedule;
-+	ve->base.sched_engine->schedule = i915_schedule;
+ 	ve->base.sched_engine->schedule = i915_schedule;
++	ve->base.sched_engine->kick_backend = kick_execlists;
  	ve->base.submit_request = virtual_submit_request;
  	ve->base.bond_execute = virtual_bond_execute;
  
-diff --git a/drivers/gpu/drm/i915/gt/selftest_execlists.c b/drivers/gpu/drm/i915/gt/selftest_execlists.c
-index da694bad4683..72f8cc914f4f 100644
---- a/drivers/gpu/drm/i915/gt/selftest_execlists.c
-+++ b/drivers/gpu/drm/i915/gt/selftest_execlists.c
-@@ -273,7 +273,7 @@ static int live_unlite_restore(struct intel_gt *gt, int prio)
- 			};
+diff --git a/drivers/gpu/drm/i915/i915_scheduler.c b/drivers/gpu/drm/i915/i915_scheduler.c
+index 4bc6969f6a97..035b88f2e4aa 100644
+--- a/drivers/gpu/drm/i915/i915_scheduler.c
++++ b/drivers/gpu/drm/i915/i915_scheduler.c
+@@ -157,65 +157,6 @@ sched_lock_engine(const struct i915_sched_node *node,
+ 	return locked;
+ }
  
- 			/* Alternatively preempt the spinner with ce[1] */
--			engine->schedule(rq[1], &attr);
-+			engine->sched_engine->schedule(rq[1], &attr);
+-static inline int rq_prio(const struct i915_request *rq)
+-{
+-	return rq->sched.attr.priority;
+-}
+-
+-static inline bool need_preempt(int prio, int active)
+-{
+-	/*
+-	 * Allow preemption of low -> normal -> high, but we do
+-	 * not allow low priority tasks to preempt other low priority
+-	 * tasks under the impression that latency for low priority
+-	 * tasks does not matter (as much as background throughput),
+-	 * so kiss.
+-	 */
+-	return prio >= max(I915_PRIORITY_NORMAL, active);
+-}
+-
+-static void kick_submission(struct intel_engine_cs *engine,
+-			    const struct i915_request *rq,
+-			    int prio)
+-{
+-	const struct i915_request *inflight;
+-
+-	/*
+-	 * We only need to kick the tasklet once for the high priority
+-	 * new context we add into the queue.
+-	 */
+-	if (prio <= engine->sched_engine->queue_priority_hint)
+-		return;
+-
+-	rcu_read_lock();
+-
+-	/* Nothing currently active? We're overdue for a submission! */
+-	inflight = execlists_active(&engine->execlists);
+-	if (!inflight)
+-		goto unlock;
+-
+-	/*
+-	 * If we are already the currently executing context, don't
+-	 * bother evaluating if we should preempt ourselves.
+-	 */
+-	if (inflight->context == rq->context)
+-		goto unlock;
+-
+-	ENGINE_TRACE(engine,
+-		     "bumping queue-priority-hint:%d for rq:%llx:%lld, inflight:%llx:%lld prio %d\n",
+-		     prio,
+-		     rq->fence.context, rq->fence.seqno,
+-		     inflight->fence.context, inflight->fence.seqno,
+-		     inflight->sched.attr.priority);
+-
+-	engine->sched_engine->queue_priority_hint = prio;
+-	if (need_preempt(prio, rq_prio(inflight)))
+-		tasklet_hi_schedule(&engine->execlists.tasklet);
+-
+-unlock:
+-	rcu_read_unlock();
+-}
+-
+ static void __i915_schedule(struct i915_sched_node *node,
+ 			    const struct i915_sched_attr *attr)
+ {
+@@ -335,7 +276,8 @@ static void __i915_schedule(struct i915_sched_node *node,
  		}
  
- 		/* And switch back to ce[0] for good measure */
-@@ -917,7 +917,7 @@ release_queue(struct intel_engine_cs *engine,
- 	i915_request_add(rq);
- 
- 	local_bh_disable();
--	engine->schedule(rq, &attr);
-+	engine->sched_engine->schedule(rq, &attr);
- 	local_bh_enable(); /* kick tasklet */
- 
- 	i915_request_put(rq);
-@@ -1342,7 +1342,7 @@ static int live_timeslice_queue(void *arg)
- 			err = PTR_ERR(rq);
- 			goto err_heartbeat;
- 		}
--		engine->schedule(rq, &attr);
-+		engine->sched_engine->schedule(rq, &attr);
- 		err = wait_for_submit(engine, rq, HZ / 2);
- 		if (err) {
- 			pr_err("%s: Timed out trying to submit semaphores\n",
-@@ -1884,7 +1884,7 @@ static int live_late_preempt(void *arg)
- 		}
- 
- 		attr.priority = I915_PRIORITY_MAX;
--		engine->schedule(rq, &attr);
-+		engine->sched_engine->schedule(rq, &attr);
- 
- 		if (!igt_wait_for_spinner(&spin_hi, rq)) {
- 			pr_err("High priority context failed to preempt the low priority context\n");
-@@ -2497,7 +2497,7 @@ static int live_suppress_self_preempt(void *arg)
- 			i915_request_add(rq_b);
- 
- 			GEM_BUG_ON(i915_request_completed(rq_a));
--			engine->schedule(rq_a, &attr);
-+			engine->sched_engine->schedule(rq_a, &attr);
- 			igt_spinner_end(&a.spin);
- 
- 			if (!igt_wait_for_spinner(&b.spin, rq_b)) {
-@@ -2629,7 +2629,7 @@ static int live_chain_preempt(void *arg)
- 
- 			i915_request_get(rq);
- 			i915_request_add(rq);
--			engine->schedule(rq, &attr);
-+			engine->sched_engine->schedule(rq, &attr);
- 
- 			igt_spinner_end(&hi.spin);
- 			if (i915_request_wait(rq, 0, HZ / 5) < 0) {
-@@ -2988,7 +2988,7 @@ static int live_preempt_gang(void *arg)
- 				break;
- 
- 			/* Submit each spinner at increasing priority */
--			engine->schedule(rq, &attr);
-+			engine->sched_engine->schedule(rq, &attr);
- 		} while (prio <= I915_PRIORITY_MAX &&
- 			 !__igt_timeout(end_time, NULL));
- 		pr_debug("%s: Preempt chain of %d requests\n",
-@@ -3236,7 +3236,7 @@ static int preempt_user(struct intel_engine_cs *engine,
- 	i915_request_get(rq);
- 	i915_request_add(rq);
- 
--	engine->schedule(rq, &attr);
-+	engine->sched_engine->schedule(rq, &attr);
- 
- 	if (i915_request_wait(rq, 0, HZ / 2) < 0)
- 		err = -ETIME;
-diff --git a/drivers/gpu/drm/i915/gt/selftest_hangcheck.c b/drivers/gpu/drm/i915/gt/selftest_hangcheck.c
-index 853246fad05f..cec4b9977c9b 100644
---- a/drivers/gpu/drm/i915/gt/selftest_hangcheck.c
-+++ b/drivers/gpu/drm/i915/gt/selftest_hangcheck.c
-@@ -858,12 +858,12 @@ static int active_engine(void *data)
- 		rq[idx] = i915_request_get(new);
- 		i915_request_add(new);
- 
--		if (engine->schedule && arg->flags & TEST_PRIORITY) {
-+		if (engine->sched_engine->schedule && arg->flags & TEST_PRIORITY) {
- 			struct i915_sched_attr attr = {
- 				.priority =
- 					i915_prandom_u32_max_state(512, &prng),
- 			};
--			engine->schedule(rq[idx], &attr);
-+			engine->sched_engine->schedule(rq[idx], &attr);
- 		}
- 
- 		err = active_request_put(old);
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-index 6b8f6544d91a..60121809e6e2 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-@@ -615,7 +615,7 @@ static void guc_default_vfuncs(struct intel_engine_cs *engine)
- 	engine->cops = &guc_context_ops;
- 	engine->request_alloc = guc_request_alloc;
- 
--	engine->schedule = i915_schedule;
-+	engine->sched_engine->schedule = i915_schedule;
- 
- 	engine->reset.prepare = guc_reset_prepare;
- 	engine->reset.rewind = guc_reset_rewind;
-diff --git a/drivers/gpu/drm/i915/i915_request.c b/drivers/gpu/drm/i915/i915_request.c
-index bd58198735dc..c5989c0b83d3 100644
---- a/drivers/gpu/drm/i915/i915_request.c
-+++ b/drivers/gpu/drm/i915/i915_request.c
-@@ -1343,7 +1343,7 @@ __i915_request_await_execution(struct i915_request *to,
+ 		/* Defer (tasklet) submission until after all of our updates. */
+-		kick_submission(engine, node_to_request(node), prio);
++		if (engine->sched_engine->kick_backend)
++			engine->sched_engine->kick_backend(node_to_request(node), prio);
  	}
  
- 	/* Couple the dependency tree for PI on this exposed to->fence */
--	if (to->engine->schedule) {
-+	if (to->engine->sched_engine->schedule) {
- 		err = i915_sched_node_add_dependency(&to->sched,
- 						     &from->sched,
- 						     I915_DEPENDENCY_WEAK);
-@@ -1484,7 +1484,7 @@ i915_request_await_request(struct i915_request *to, struct i915_request *from)
- 		return 0;
- 	}
- 
--	if (to->engine->schedule) {
-+	if (to->engine->sched_engine->schedule) {
- 		ret = i915_sched_node_add_dependency(&to->sched,
- 						     &from->sched,
- 						     I915_DEPENDENCY_EXTERNAL);
-@@ -1671,7 +1671,7 @@ __i915_request_add_to_timeline(struct i915_request *rq)
- 			__i915_sw_fence_await_dma_fence(&rq->submit,
- 							&prev->fence,
- 							&rq->dmaq);
--		if (rq->engine->schedule)
-+		if (rq->engine->sched_engine->schedule)
- 			__i915_sched_node_add_dependency(&rq->sched,
- 							 &prev->sched,
- 							 &rq->dep,
-@@ -1743,8 +1743,8 @@ void __i915_request_queue(struct i915_request *rq,
- 	 * decide whether to preempt the entire chain so that it is ready to
- 	 * run at the earliest possible convenience.
- 	 */
--	if (attr && rq->engine->schedule)
--		rq->engine->schedule(rq, attr);
-+	if (attr && rq->engine->sched_engine->schedule)
-+		rq->engine->sched_engine->schedule(rq, attr);
- 
- 	local_bh_disable();
- 	__i915_request_queue_bh(rq);
+ 	spin_unlock(&engine->sched_engine->lock);
 diff --git a/drivers/gpu/drm/i915/i915_scheduler_types.h b/drivers/gpu/drm/i915/i915_scheduler_types.h
-index 74e3bb2b2a65..0c1e417b0164 100644
+index 0c1e417b0164..8bd07d0c27e1 100644
 --- a/drivers/gpu/drm/i915/i915_scheduler_types.h
 +++ b/drivers/gpu/drm/i915/i915_scheduler_types.h
-@@ -152,6 +152,16 @@ struct i915_sched_engine {
- 	 * @no_priolist: priority lists disabled
+@@ -153,6 +153,12 @@ struct i915_sched_engine {
  	 */
  	bool no_priolist;
-+
-+	/**
-+	 * @schedule: adjust priority of request
-+	 *
-+	 * Call when the priority on a request has changed and it and its
-+	 * dependencies may need rescheduling. Note the request itself may
-+	 * not be ready to run!
-+	 */
-+	void	(*schedule)(struct i915_request *request,
-+			    const struct i915_sched_attr *attr);
- };
  
- #endif /* _I915_SCHEDULER_TYPES_H_ */
++	/**
++	 * @kick_backend: kick backend after a request's priority has changed
++	 */
++	void	(*kick_backend)(const struct i915_request *rq,
++				int prio);
++
+ 	/**
+ 	 * @schedule: adjust priority of request
+ 	 *
 -- 
 2.28.0
 
