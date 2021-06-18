@@ -1,77 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 691873AC0CB
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Jun 2021 04:31:03 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F8DC3AC126
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Jun 2021 05:01:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0C2A26E954;
-	Fri, 18 Jun 2021 02:31:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BF1196E0C9;
+	Fri, 18 Jun 2021 03:01:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [216.205.24.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D769A6E952
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Jun 2021 02:30:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623983457;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=75acMXfQufxPOmXT2cEK94W/sSOXGRevSe0lqgsLwk8=;
- b=JE+KikAkhiJl0sYSrgeW2+AKZJKgKtwab3AP2H22Yy0b5Rs3EfOPZE3JKeeC5XHPI535rH
- HMwP2uBCMPDI7RQ2FDwM5jigbKJESJONK0aTXjHn25y/NSi84E3VTNoAGaeywSZLNTOASw
- CcIHJ2fk54Vp/Rde4hUkxjiw2CKqrUI=
-Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
- [209.85.219.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-589-JjJ4C_EYMvyyenzPXxeJvQ-1; Thu, 17 Jun 2021 22:30:56 -0400
-X-MC-Unique: JjJ4C_EYMvyyenzPXxeJvQ-1
-Received: by mail-qv1-f72.google.com with SMTP id
- n3-20020a0cee630000b029020e62abfcbdso4184999qvs.16
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Jun 2021 19:30:56 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
- :references:organization:user-agent:mime-version
- :content-transfer-encoding;
- bh=75acMXfQufxPOmXT2cEK94W/sSOXGRevSe0lqgsLwk8=;
- b=tw33w/EULS607gQhc6aRvRAKyLHjBHk+ro2nOuk3DalsqJSGX4f7/M4+ya0TxpDcDQ
- Rzn9QifFBLWcS+mawxszeb2ytHNcWUK0o6+F5nJ2dp6V9RGwZFo7tORHD10Dl3XpXWUx
- 3OBxllZ/6na6lbyrTtiMuoeAhevknIfC9QpTP3Gv1cgbq/+inzQkYjMycTFk2vzXG1Oq
- ISjCXFB8ZtzjVi/h6stg+gqZ1BBL64/99sMrgqpIIMKrlLxt8mWkDpZx4j03cs5iTnz7
- 4Ia+BhJCRGvXjWC3rw3hqeOuwL/F25UQAd8Q3aBlAexCl/AR1FSh9buIeAYbk9hlbyfa
- pjPw==
-X-Gm-Message-State: AOAM530Rl71XTleWKeu+2U+Xa2thqMEisXc/YUDemRUIOv8shjmXhUM7
- uFu+463CvrvJMRYzSqvXAbcDCgzIXYaFJRch1rso0lJ1Crv+ICnG04PD0sfT+/aOkukOs6Xu1Y9
- GS5SmiKBx9ErGM7ydtNIBL2DftgUb
-X-Received: by 2002:ac8:6686:: with SMTP id d6mr8394820qtp.51.1623983455991;
- Thu, 17 Jun 2021 19:30:55 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJysCoz89mPHqk8CVryIpIqYL1d1sKJ9p1X2NJZ6vFcEV6h4cgTYWVlAVookWqCUFPvdO0y4Og==
-X-Received: by 2002:ac8:6686:: with SMTP id d6mr8394797qtp.51.1623983455735;
- Thu, 17 Jun 2021 19:30:55 -0700 (PDT)
-Received: from Ruby.lyude.net (pool-108-49-102-102.bstnma.fios.verizon.net.
- [108.49.102.102])
- by smtp.gmail.com with ESMTPSA id g82sm3109969qke.119.2021.06.17.19.30.54
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 17 Jun 2021 19:30:55 -0700 (PDT)
-Message-ID: <5d496314e16623b06833e309837019abc411d9a6.camel@redhat.com>
-Subject: Re: [PULL] drm-misc-next-fixes
-From: Lyude Paul <lyude@redhat.com>
-To: Dave Airlie <airlied@gmail.com>, Thomas Zimmermann <tzimmermann@suse.de>
-Date: Thu, 17 Jun 2021 22:30:53 -0400
-In-Reply-To: <CAPM=9tz-8WVAt5r_P+fH+SLnfnaPw-u-u9h8PvcioxVn6Ye_Fg@mail.gmail.com>
-References: <YMpDYfRjFqjfrMke@linux-uq9g.fritz.box>
- <CAPM=9tz-8WVAt5r_P+fH+SLnfnaPw-u-u9h8PvcioxVn6Ye_Fg@mail.gmail.com>
-Organization: Red Hat
-User-Agent: Evolution 3.38.4 (3.38.4-1.fc33)
+X-Greylist: delayed 471 seconds by postgrey-1.36 at gabe;
+ Fri, 18 Jun 2021 03:01:11 UTC
+Received: from smtphy.263.net (sg-smtp01.263.net [54.255.195.220])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A50D06E0C9
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Jun 2021 03:01:11 +0000 (UTC)
+Received: from smtp.263.net (unknown [211.157.147.162])
+ by smtphy.263.net (Postfix) with ESMTPS id C7F25134
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Jun 2021 10:53:17 +0800 (CST)
+Received: from regular1.263xmail.com (unknown [192.168.165.183])
+ by smtp.263.net (Postfix) with ESMTP id 5056D398
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Jun 2021 10:53:14 +0800 (CST)
+Received: from localhost (unknown [192.168.167.219])
+ by regular1.263xmail.com (Postfix) with ESMTP id 5F0D7794;
+ Fri, 18 Jun 2021 10:53:10 +0800 (CST)
+X-MAIL-GRAY: 0
+X-MAIL-DELIVERY: 1
+X-ADDR-CHECKED4: 1
+X-SKE-CHECKED: 1
+X-ABS-CHECKED: 1
+X-ANTISPAM-LEVEL: 2
+Received: from bj-wm-cp-10 (unknown [192.168.167.114])
+ by smtp.263.net (postfix) whith ESMTP id
+ P32628T140072976381696S1623984785675071_; 
+ Fri, 18 Jun 2021 10:53:05 +0800 (CST)
+X-UNIQUE-TAG: <125df9d3329011da87899442e6cbcf73>
+X-RL-SENDER: maqianga@uniontech.com
+X-SENDER: maqianga@uniontech.com
+X-LOGIN-NAME: wmsendmail@net263.com
+X-FST-TO: daniel@ffwll.ch
+X-RCPT-COUNT: 7
+X-SENDER-IP: 192.168.167.114
+X-ATTACHMENT-NUM: 0
+X-System-Flag: 0
+Date: Fri, 18 Jun 2021 10:53:06 +0800 (CST)
+From: =?UTF-8?B?6ams5by6?= <maqianga@uniontech.com>
+To: =?UTF-8?B?RGFuaWVsIFZldHRlciA=?= <daniel@ffwll.ch>
+Message-ID: <1559043481.187223.1623984786515.JavaMail.xmail@bj-wm-cp-10>
+References: <20210617094733.8429-1-maqianga@uniontech.com>,
+ <YMuf3BHk+3ROGJ09@phenom.ffwll.local>
+Subject: =?UTF-8?B?UmU6UmU6IFtQQVRDSF0gZHJtL2F1dGg6IE1vdmUgbWFzdGVyIHBvaW50ZXIgZnJvbSBkcm1fZGV2aWNlIHRvIGRybV9maWxl?=
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lyude@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+Content-Type: text/html;  charset=utf-8
+Content-Transfer-Encoding: base64
+X-Send-Individually: 0
+X-Reply-Previous-EmailId: 
+X-SENDER-IP: 111.207.172.18
+X-Priority: 3
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,149 +68,139 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "DRM maintainer tools announcements,
- discussion, and development" <dim-tools@lists.freedesktop.org>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Sean Paul <sean@poorly.run>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>
+Cc: =?UTF-8?B?dHppbW1lcm1hbm4g?= <tzimmermann@suse.de>,
+ =?UTF-8?B?YWlybGllZCA=?= <airlied@linux.ie>,
+ =?UTF-8?B?bGludXgta2VybmVsIA==?= <linux-kernel@vger.kernel.org>,
+ =?UTF-8?B?ZHJpLWRldmVsIA==?= <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-22:27 <Lyude> airlied: re: the pull, I should have pushed a fix for the
-compilation error today. that was something I pulled in from amd that they
-didn't compile check and I missed :S
-22:28 <Lyude> airlied: 24ff3dc18b99c4b912ab1746e803ddb3be5ced4c in drm-
-misc/drm-misc-next-fixes
+PHN0eWxlPnRhYmxlLmN1c3RvbVRhYmxlQ2xhc3NOYW1lIHttYXJnaW4tYm90dG9tOiAxMHB4O2Jv
+cmRlci1jb2xsYXBzZTogY29sbGFwc2U7ZGlzcGxheTogdGFibGU7fS5jdXN0b21UYWJsZUNsYXNz
+TmFtZSB0ZCwgLmN1c3RvbVRhYmxlQ2xhc3NOYW1lIHRoIHtib3JkZXI6IDFweCBzb2xpZCAjZGRk
+O308L3N0eWxlPjxwIHN0eWxlPSJtYXJnaW46MHB4OyI+PGJyPjxzcGFuIHN0eWxlPSJiYWNrZ3Jv
+dW5kLWNvbG9yOiByZ2IoMjU1LCAyNTUsIDI1NSk7IGNvbG9yOiByZ2IoNTEsIDUxLCA1MSk7IGZv
+bnQtZmFtaWx5OiBIZWx2ZXRpY2EsIEFyaWFsLCAmcXVvdDtQaW5nRmFuZyBTQyZxdW90OywgJnF1
+b3Q7SGlyYWdpbm8gU2FucyBHQiZxdW90OywgJnF1b3Q7U291cmNlIEhhbiBTYW5zIENOJnF1b3Q7
+LCBSb2JvdG8sICZxdW90O0hlaXRpIFNDJnF1b3Q7LCAmcXVvdDtNaWNyb3NvZnQgWWFoZWkmcXVv
+dDssIHNhbnMtc2VyaWY7IGZvbnQtc2l6ZTogMTRweDsiPiZndDsgVGhhdCBzb3VuZHMgbGlrZSBh
+IGJ1Zy4gZHJtX2ZpbGUtJmd0O21hc3RlciBzaG91bGQgYmUgYWx3YXlzIHRoZSBzYW1lIC08YnI+
+PC9zcGFuPjwvcD48ZGl2IHN0eWxlPSJib3gtc2l6aW5nOiBib3JkZXItYm94OyBjb2xvcjogcmdi
+KDUxLCA1MSwgNTEpOyBmb250LWZhbWlseTogSGVsdmV0aWNhLCBBcmlhbCwgJnF1b3Q7UGluZ0Zh
+bmcgU0MmcXVvdDssICZxdW90O0hpcmFnaW5vIFNhbnMgR0ImcXVvdDssICZxdW90O1NvdXJjZSBI
+YW4gU2FucyBDTiZxdW90OywgUm9ib3RvLCAmcXVvdDtIZWl0aSBTQyZxdW90OywgJnF1b3Q7TWlj
+cm9zb2Z0IFlhaGVpJnF1b3Q7LCBzYW5zLXNlcmlmOyBmb250LXNpemU6IDE0cHg7IHdoaXRlLXNw
+YWNlOiBub3JtYWw7IGJhY2tncm91bmQtY29sb3I6IHJnYigyNTUsIDI1NSwgMjU1KTsiPjxzcGFu
+IHN0eWxlPSJmb250LXNpemU6IDE2cHg7Ij4mZ3Q7IGVpdGhlciB5b3UgYmVjb21lIGEgbmV3IHN0
+YW5kLWFsb25lIHRoaW5nLCBvdXIgeW91IGdldCBsaW5rZWQgdG8gdGhlPC9zcGFuPjwvZGl2Pjxk
+aXYgc3R5bGU9ImJveC1zaXppbmc6IGJvcmRlci1ib3g7IGNvbG9yOiByZ2IoNTEsIDUxLCA1MSk7
+IGZvbnQtZmFtaWx5OiBIZWx2ZXRpY2EsIEFyaWFsLCAmcXVvdDtQaW5nRmFuZyBTQyZxdW90Oywg
+JnF1b3Q7SGlyYWdpbm8gU2FucyBHQiZxdW90OywgJnF1b3Q7U291cmNlIEhhbiBTYW5zIENOJnF1
+b3Q7LCBSb2JvdG8sICZxdW90O0hlaXRpIFNDJnF1b3Q7LCAmcXVvdDtNaWNyb3NvZnQgWWFoZWkm
+cXVvdDssIHNhbnMtc2VyaWY7IGZvbnQtc2l6ZTogMTRweDsgd2hpdGUtc3BhY2U6IG5vcm1hbDsg
+YmFja2dyb3VuZC1jb2xvcjogcmdiKDI1NSwgMjU1LCAyNTUpOyI+PHNwYW4gc3R5bGU9ImZvbnQt
+c2l6ZTogMTZweDsiPiZndDsgY3VycmVudCBtYXN0ZXIuPC9zcGFuPjwvZGl2PjxkaXYgc3R5bGU9
+ImJveC1zaXppbmc6IGJvcmRlci1ib3g7IGNvbG9yOiByZ2IoNTEsIDUxLCA1MSk7IGZvbnQtZmFt
+aWx5OiBIZWx2ZXRpY2EsIEFyaWFsLCAmcXVvdDtQaW5nRmFuZyBTQyZxdW90OywgJnF1b3Q7SGly
+YWdpbm8gU2FucyBHQiZxdW90OywgJnF1b3Q7U291cmNlIEhhbiBTYW5zIENOJnF1b3Q7LCBSb2Jv
+dG8sICZxdW90O0hlaXRpIFNDJnF1b3Q7LCAmcXVvdDtNaWNyb3NvZnQgWWFoZWkmcXVvdDssIHNh
+bnMtc2VyaWY7IGZvbnQtc2l6ZTogMTRweDsgd2hpdGUtc3BhY2U6IG5vcm1hbDsgYmFja2dyb3Vu
+ZC1jb2xvcjogcmdiKDI1NSwgMjU1LCAyNTUpOyI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZTogMTZw
+eDsiPiZndDsmbmJzcDs8YnIgc3R5bGU9ImJveC1zaXppbmc6IGJvcmRlci1ib3g7Ij4mZ3Q7IE9y
+IEknbSBjb21wbGV0ZWx5IG1pc3Npbmcgd2hhdCB5b3UncmUgdHJ5aW5nIHRvIGZpeCBoZXJlLjwv
+c3Bhbj48L2Rpdj48ZGl2IHN0eWxlPSJib3gtc2l6aW5nOiBib3JkZXItYm94OyBjb2xvcjogcmdi
+KDUxLCA1MSwgNTEpOyBmb250LWZhbWlseTogSGVsdmV0aWNhLCBBcmlhbCwgJnF1b3Q7UGluZ0Zh
+bmcgU0MmcXVvdDssICZxdW90O0hpcmFnaW5vIFNhbnMgR0ImcXVvdDssICZxdW90O1NvdXJjZSBI
+YW4gU2FucyBDTiZxdW90OywgUm9ib3RvLCAmcXVvdDtIZWl0aSBTQyZxdW90OywgJnF1b3Q7TWlj
+cm9zb2Z0IFlhaGVpJnF1b3Q7LCBzYW5zLXNlcmlmOyBmb250LXNpemU6IDE0cHg7IHdoaXRlLXNw
+YWNlOiBub3JtYWw7IGJhY2tncm91bmQtY29sb3I6IHJnYigyNTUsIDI1NSwgMjU1KTsiPjxzcGFu
+IHN0eWxlPSJmb250LXNpemU6IDE2cHg7Ij5Ob3cgSSBoYXZlIGEgYnVnLCB0aGUgc29mdCBjdXJz
+b3IgZGlzYXBwZWFycyB3aGVuIHN3aXRjaGluZyB1c2Vycy48L3NwYW4+PC9kaXY+PGRpdiBzdHls
+ZT0iYm94LXNpemluZzogYm9yZGVyLWJveDsgY29sb3I6IHJnYig1MSwgNTEsIDUxKTsgZm9udC1m
+YW1pbHk6IEhlbHZldGljYSwgQXJpYWwsICZxdW90O1BpbmdGYW5nIFNDJnF1b3Q7LCAmcXVvdDtI
+aXJhZ2lubyBTYW5zIEdCJnF1b3Q7LCAmcXVvdDtTb3VyY2UgSGFuIFNhbnMgQ04mcXVvdDssIFJv
+Ym90bywgJnF1b3Q7SGVpdGkgU0MmcXVvdDssICZxdW90O01pY3Jvc29mdCBZYWhlaSZxdW90Oywg
+c2Fucy1zZXJpZjsgZm9udC1zaXplOiAxNHB4OyB3aGl0ZS1zcGFjZTogbm9ybWFsOyBiYWNrZ3Jv
+dW5kLWNvbG9yOiByZ2IoMjU1LCAyNTUsIDI1NSk7Ij48c3BhbiBzdHlsZT0iZm9udC1zaXplOiAx
+NnB4OyI+ZGVidWcgaXQsIHRoZSBmcHJpdi0mZ3Q7aXNfbWFzdGVyIGlzIGZvdW5kIHRvIGJlIDAu
+Jm5ic3A7PC9zcGFuPjwvZGl2PjxkaXYgc3R5bGU9ImJveC1zaXppbmc6IGJvcmRlci1ib3g7IGNv
+bG9yOiByZ2IoNTEsIDUxLCA1MSk7IGZvbnQtZmFtaWx5OiBIZWx2ZXRpY2EsIEFyaWFsLCAmcXVv
+dDtQaW5nRmFuZyBTQyZxdW90OywgJnF1b3Q7SGlyYWdpbm8gU2FucyBHQiZxdW90OywgJnF1b3Q7
+U291cmNlIEhhbiBTYW5zIENOJnF1b3Q7LCBSb2JvdG8sICZxdW90O0hlaXRpIFNDJnF1b3Q7LCAm
+cXVvdDtNaWNyb3NvZnQgWWFoZWkmcXVvdDssIHNhbnMtc2VyaWY7IGZvbnQtc2l6ZTogMTRweDsg
+d2hpdGUtc3BhY2U6IG5vcm1hbDsgYmFja2dyb3VuZC1jb2xvcjogcmdiKDI1NSwgMjU1LCAyNTUp
+OyI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZTogMTZweDsiPlRoZSByZWFzb24gaXQgaXMgMCBpcyB0
+aGF0IHN3aXRjaGluZyB0aGUgdXNlciBmcmVlcyBwb2ludGVyIG9mIGRybV9maWxlLCZuYnNwOzwv
+c3Bhbj48L2Rpdj48ZGl2IHN0eWxlPSJib3gtc2l6aW5nOiBib3JkZXItYm94OyBjb2xvcjogcmdi
+KDUxLCA1MSwgNTEpOyBmb250LWZhbWlseTogSGVsdmV0aWNhLCBBcmlhbCwgJnF1b3Q7UGluZ0Zh
+bmcgU0MmcXVvdDssICZxdW90O0hpcmFnaW5vIFNhbnMgR0ImcXVvdDssICZxdW90O1NvdXJjZSBI
+YW4gU2FucyBDTiZxdW90OywgUm9ib3RvLCAmcXVvdDtIZWl0aSBTQyZxdW90OywgJnF1b3Q7TWlj
+cm9zb2Z0IFlhaGVpJnF1b3Q7LCBzYW5zLXNlcmlmOyBmb250LXNpemU6IDE0cHg7IHdoaXRlLXNw
+YWNlOiBub3JtYWw7IGJhY2tncm91bmQtY29sb3I6IHJnYigyNTUsIDI1NSwgMjU1KTsiPjxzcGFu
+IHN0eWxlPSJmb250LXNpemU6IDE2cHg7Ij5hbmQgY3JlYXRpbmcgYSBuZXcgcG9pbnRlciBvZiBk
+cm1fZmlsZSwgYW5kIHNldHRpbmcgbWFzdGVyLiZuYnNwOzwvc3Bhbj48L2Rpdj48ZGl2IHN0eWxl
+PSJib3gtc2l6aW5nOiBib3JkZXItYm94OyBjb2xvcjogcmdiKDUxLCA1MSwgNTEpOyBmb250LWZh
+bWlseTogSGVsdmV0aWNhLCBBcmlhbCwgJnF1b3Q7UGluZ0ZhbmcgU0MmcXVvdDssICZxdW90O0hp
+cmFnaW5vIFNhbnMgR0ImcXVvdDssICZxdW90O1NvdXJjZSBIYW4gU2FucyBDTiZxdW90OywgUm9i
+b3RvLCAmcXVvdDtIZWl0aSBTQyZxdW90OywgJnF1b3Q7TWljcm9zb2Z0IFlhaGVpJnF1b3Q7LCBz
+YW5zLXNlcmlmOyBmb250LXNpemU6IDE0cHg7IHdoaXRlLXNwYWNlOiBub3JtYWw7IGJhY2tncm91
+bmQtY29sb3I6IHJnYigyNTUsIDI1NSwgMjU1KTsiPjxzcGFuIHN0eWxlPSJmb250LXNpemU6IDE2
+cHg7Ij5Ib3dldmVyLCBzaW5jZSBkZXYtJmd0O21hc3RlciBpcyBub24tMCwmbmJzcDs8L3NwYW4+
+PC9kaXY+PGRpdiBzdHlsZT0iYm94LXNpemluZzogYm9yZGVyLWJveDsgY29sb3I6IHJnYig1MSwg
+NTEsIDUxKTsgZm9udC1mYW1pbHk6IEhlbHZldGljYSwgQXJpYWwsICZxdW90O1BpbmdGYW5nIFND
+JnF1b3Q7LCAmcXVvdDtIaXJhZ2lubyBTYW5zIEdCJnF1b3Q7LCAmcXVvdDtTb3VyY2UgSGFuIFNh
+bnMgQ04mcXVvdDssIFJvYm90bywgJnF1b3Q7SGVpdGkgU0MmcXVvdDssICZxdW90O01pY3Jvc29m
+dCBZYWhlaSZxdW90Oywgc2Fucy1zZXJpZjsgZm9udC1zaXplOiAxNHB4OyB3aGl0ZS1zcGFjZTog
+bm9ybWFsOyBiYWNrZ3JvdW5kLWNvbG9yOiByZ2IoMjU1LCAyNTUsIDI1NSk7Ij48c3BhbiBzdHls
+ZT0iZm9udC1zaXplOiAxNnB4OyI+ZHJtX25ld19zZXRfbWFzdGVyKCkgb2YgdGhlIHNldHRpbmcg
+bWFzdGVyIGZ1bmN0aW9uIHdpbGwgbm90IGJlIGV4ZWN1dGVkLjwvc3Bhbj48L2Rpdj48ZGl2IHN0
+eWxlPSJib3gtc2l6aW5nOiBib3JkZXItYm94OyBjb2xvcjogcmdiKDUxLCA1MSwgNTEpOyBmb250
+LWZhbWlseTogSGVsdmV0aWNhLCBBcmlhbCwgJnF1b3Q7UGluZ0ZhbmcgU0MmcXVvdDssICZxdW90
+O0hpcmFnaW5vIFNhbnMgR0ImcXVvdDssICZxdW90O1NvdXJjZSBIYW4gU2FucyBDTiZxdW90Oywg
+Um9ib3RvLCAmcXVvdDtIZWl0aSBTQyZxdW90OywgJnF1b3Q7TWljcm9zb2Z0IFlhaGVpJnF1b3Q7
+LCBzYW5zLXNlcmlmOyBmb250LXNpemU6IDE0cHg7IHdoaXRlLXNwYWNlOiBub3JtYWw7IGJhY2tn
+cm91bmQtY29sb3I6IHJnYigyNTUsIDI1NSwgMjU1KTsiPjxzcGFuIHN0eWxlPSJmb250LXNpemU6
+IDE2cHg7Ij4tLTwvc3Bhbj48L2Rpdj48ZGl2IHN0eWxlPSJib3gtc2l6aW5nOiBib3JkZXItYm94
+OyBjb2xvcjogcmdiKDUxLCA1MSwgNTEpOyBmb250LWZhbWlseTogSGVsdmV0aWNhLCBBcmlhbCwg
+JnF1b3Q7UGluZ0ZhbmcgU0MmcXVvdDssICZxdW90O0hpcmFnaW5vIFNhbnMgR0ImcXVvdDssICZx
+dW90O1NvdXJjZSBIYW4gU2FucyBDTiZxdW90OywgUm9ib3RvLCAmcXVvdDtIZWl0aSBTQyZxdW90
+OywgJnF1b3Q7TWljcm9zb2Z0IFlhaGVpJnF1b3Q7LCBzYW5zLXNlcmlmOyBmb250LXNpemU6IDE0
+cHg7IHdoaXRlLXNwYWNlOiBub3JtYWw7IGJhY2tncm91bmQtY29sb3I6IHJnYigyNTUsIDI1NSwg
+MjU1KTsiPjxzcGFuIHN0eWxlPSJmb250LXNpemU6IDE2cHg7Ij5RaWFuZyBNYTwvc3Bhbj48L2Rp
+dj48cCBzdHlsZT0ibWFyZ2luOjBweDsiPjwvcD48cCBzdHlsZT0ibWFyZ2luOjBweDsiPjxicj48
+L3A+PHAgc3R5bGU9Im1hcmdpbjowcHg7Ij48YnI+PC9wPjxwIHN0eWxlPSJtYXJnaW46MHB4OyI+
+T24gVGh1LCBKdW4gMTcsIDIwMjEgYXQgMDU6NDc6MzNQTSArMDgwMCwgUWlhbmcgTWEgd3JvdGU6
+ICZuYnNwOzxicj4mZ3Q7IFRoZSBkcm1fZmlsZSBwb2ludGVyIGNsZWFycyB0byB6ZXJvIGR1cmlu
+ZyBtdWx0aS11c2VyIHN3aXRjaGluZywgJm5ic3A7PGJyPiZndDsgc28gaXQgbmVlZHMgdG8gY2Fs
+bCBkcm1fbmV3X3NldF9tYXN0ZXIgZm9yIG1hc3RlciBwb2ludGVyIGZyb20gZHJtX2ZpbGUuICZu
+YnNwOzxicj4NCiAmbmJzcDs8YnI+VGhhdCBzb3VuZHMgbGlrZSBhIGJ1Zy4gZHJtX2ZpbGUtJmd0
+O21hc3RlciBzaG91bGQgYmUgYWx3YXlzIHRoZSBzYW1lIC0gJm5ic3A7PGJyPmVpdGhlciB5b3Ug
+YmVjb21lIGEgbmV3IHN0YW5kLWFsb25lIHRoaW5nLCBvdXIgeW91IGdldCBsaW5rZWQgdG8gdGhl
+ICZuYnNwOzxicj5jdXJyZW50IG1hc3Rlci4gJm5ic3A7PGJyPg0KICZuYnNwOzxicj5PciBJJ20g
+Y29tcGxldGVseSBtaXNzaW5nIHdoYXQgeW91J3JlIHRyeWluZyB0byBmaXggaGVyZS4gJm5ic3A7
+PGJyPi1EYW5pZWwgJm5ic3A7PGJyPg0KICZuYnNwOzxicj4mZ3Q7IA0KICZuYnNwOzxicj4mZ3Q7
+IFNpZ25lZC1vZmYtYnk6IFFpYW5nIE1hICZsdDttYXFpYW5nYUB1bmlvbnRlY2guY29tJmd0OyAm
+bmJzcDs8YnI+Jmd0OyAtLS0gJm5ic3A7PGJyPiZndDsgZHJpdmVycy9ncHUvZHJtL2RybV9hdXRo
+LmMgfCAyICstICZuYnNwOzxicj4mZ3Q7IDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwg
+MSBkZWxldGlvbigtKSAmbmJzcDs8YnI+Jmd0OyANCiAmbmJzcDs8YnI+Jmd0OyBkaWZmIC0tZ2l0
+IGEvZHJpdmVycy9ncHUvZHJtL2RybV9hdXRoLmMgYi9kcml2ZXJzL2dwdS9kcm0vZHJtX2F1dGgu
+YyAmbmJzcDs8YnI+Jmd0OyBpbmRleCBmMmQ0NmI3YWM2ZjkuLjAyNDMxYWY2ZDBjNSAxMDA2NDQg
+Jm5ic3A7PGJyPiZndDsgLS0tIGEvZHJpdmVycy9ncHUvZHJtL2RybV9hdXRoLmMgJm5ic3A7PGJy
+PiZndDsgKysrIGIvZHJpdmVycy9ncHUvZHJtL2RybV9hdXRoLmMgJm5ic3A7PGJyPiZndDsgQEAg
+LTMwMiw3ICszMDIsNyBAQCBpbnQgZHJtX21hc3Rlcl9vcGVuKHN0cnVjdCBkcm1fZmlsZSAqZmls
+ZV9wcml2KSAmbmJzcDs8YnI+Jmd0OyAvKiBpZiB0aGVyZSBpcyBubyBjdXJyZW50IG1hc3RlciBt
+YWtlIHRoaXMgZmQgaXQsIGJ1dCBkbyBub3QgY3JlYXRlICZuYnNwOzxicj4mZ3Q7ICogYW55IG1h
+c3RlciBvYmplY3QgZm9yIHJlbmRlciBjbGllbnRzICovICZuYnNwOzxicj4mZ3Q7IG11dGV4X2xv
+Y2soJmFtcDtkZXYtJmd0O21hc3Rlcl9tdXRleCk7ICZuYnNwOzxicj4mZ3Q7IC0gaWYgKCFkZXYt
+Jmd0O21hc3RlcikgJm5ic3A7PGJyPiZndDsgKyBpZiAoIWZpbGVfcHJpdi0mZ3Q7bWFzdGVyKSAm
+bmJzcDs8YnI+Jmd0OyByZXQgPSBkcm1fbmV3X3NldF9tYXN0ZXIoZGV2LCBmaWxlX3ByaXYpOyAm
+bmJzcDs8YnI+Jmd0OyBlbHNlICZuYnNwOzxicj4mZ3Q7IGZpbGVfcHJpdi0mZ3Q7bWFzdGVyID0g
+ZHJtX21hc3Rlcl9nZXQoZGV2LSZndDttYXN0ZXIpOyAmbmJzcDs8YnI+Jmd0OyAtLSANCiAmbmJz
+cDs8YnI+Jmd0OyAyLjIwLjEgJm5ic3A7PGJyPiZndDsgDQogJm5ic3A7PGJyPiZndDsgDQogJm5i
+c3A7PGJyPiZndDsgDQogJm5ic3A7PGJyPg0KICZuYnNwOzxicj4tLSANCiAmbmJzcDs8YnI+RGFu
+aWVsIFZldHRlciAmbmJzcDs8YnI+U29mdHdhcmUgRW5naW5lZXIsIEludGVsIENvcnBvcmF0aW9u
+ICZuYnNwOzxicj48YSBocmVmPSJodHRwOi8vYmxvZy5mZndsbC5jaCIgdGFyZ2V0PSJfYmxhbmsi
+Pmh0dHA6Ly9ibG9nLmZmd2xsLmNoPC9hPg0KICZuYnNwOzxicj4NCiAmbmJzcDs8YnI+DQogJm5i
+c3A7PGJyPg0KIDwvcD4=
 
-sorry about this - I already talked to hwentlan the other day about trying to
-make sure that AMD is more on top of actually making sure things compile
-before submitting them, was my fault for missing this during the initial
-review of that fix.
-
-On Fri, 2021-06-18 at 12:26 +1000, Dave Airlie wrote:
-> when I pulled this in drm-next I got these.
-> 
-> were the mst fixes meant for next or fixes btw? I'm not really sure,
-> but either way I don't think this is a local reason it doesn't build
-> or did I miss something?
-> 
-> Dave.
-> 
-> /home/airlied/devel/kernel/dim/src/drivers/gpu/drm/drm_dp_mst_topology.c:
-> In function ‘drm_dp_update_payload_part1’:
-> /home/airlied/devel/kernel/dim/src/include/drm/drm_print.h:450:27:
-> error: request for member ‘dev’ in something not a structure or union
->   450 |  drm_dev_dbg((drm) ? (drm)->dev : NULL, DRM_UT_KMS, fmt,
-> ##__VA_ARGS__)
->       |                           ^~
-> /home/airlied/devel/kernel/dim/src/drivers/gpu/drm/drm_dp_mst_topology.c:3392:
-> 5:
-> note: in expansion of macro ‘drm_dbg_kms’
->  3392 |     drm_dbg_kms("Virtual channel %d is not in current topology\n", i);
->       |     ^~~~~~~~~~~
-> /home/airlied/devel/kernel/dim/src/drivers/gpu/drm/drm_dp_mst_topology.c:3392:
-> 68:
-> warning: passing argument 3 of ‘drm_dev_dbg’ makes pointer from
-> integer without a cast [-Wint-conversion]
->  3392 |     drm_dbg_kms("Virtual channel %d is not in current topology\n", i);
->       |                                                                    ^
->       |                                                                    |
->       |                                                                    int
-> /home/airlied/devel/kernel/dim/src/include/drm/drm_print.h:450:53:
-> note: in definition of macro ‘drm_dbg_kms’
->   450 |  drm_dev_dbg((drm) ? (drm)->dev : NULL, DRM_UT_KMS, fmt,
-> ##__VA_ARGS__)
->       |                                                     ^~~
-> /home/airlied/devel/kernel/dim/src/include/drm/drm_print.h:338:16:
-> note: expected ‘const char *’ but argument is of type ‘int’
->   338 |    const char *format, ...);
->       |    ~~~~~~~~~~~~^~~~~~
-> /home/airlied/devel/kernel/dim/src/drivers/gpu/drm/drm_dp_mst_topology.c:3407:
-> 53:
-> error: macro "drm_dbg_kms" requires 3 arguments, but only 1 given
->  3407 |       drm_dbg_kms("Fail:set payload to invalid sink");
->       |                                                     ^
-> In file included from
-> /home/airlied/devel/kernel/dim/src/drivers/gpu/drm/drm_dp_mst_topology.c:45:
-> /home/airlied/devel/kernel/dim/src/include/drm/drm_print.h:449: note:
-> macro "drm_dbg_kms" defined here
->   449 | #define drm_dbg_kms(drm, fmt, ...)     \
->       |
-> /home/airlied/devel/kernel/dim/src/drivers/gpu/drm/drm_dp_mst_topology.c:3407:
-> 7:
-> error: ‘drm_dbg_kms’ undeclared (first use in this function)
->  3407 |       drm_dbg_kms("Fail:set payload to invalid sink");
->       |       ^~~~~~~~~~~
-> /home/airlied/devel/kernel/dim/src/drivers/gpu/drm/drm_dp_mst_topology.c:3407:
-> 7:
-> note: each undeclared identifier is reported only once for each
-> function it appears in
-> make[4]: *** [/home/airlied/devel/kernel/dim/src/scripts/Makefile.build:272:
-> drivers/gpu/drm/drm_dp_mst_topology.o] Error 1
-> make[4]: *** Waiting for unfinished jobs....
-> 
-> On Thu, 17 Jun 2021 at 04:30, Thomas Zimmermann <tzimmermann@suse.de> wrote:
-> > 
-> > Hi Dave and Daniel,
-> > 
-> > here's this week's PR for drm-misc-next-fixes.
-> > 
-> > Best regards
-> > Thomas
-> > 
-> > drm-misc-next-fixes-2021-06-16:
-> > Short summary of fixes pull:
-> > 
-> >  * hyperv: advertise the correct formatmodifiers for its primary plane
-> >  * dp_mst: VCPI fixes to make it work with StarTech hub
-> > 
-> > The following changes since commit 1bd8a7dc28c1c410f1ceefae1f2a97c06d1a67c2:
-> > 
-> >   Merge tag 'exynos-drm-next-for-v5.14' of
-> > git://git.kernel.org/pub/scm/linux/kernel/git/daeinki/drm-exynos into drm-
-> > next (2021-06-11 14:19:12 +1000)
-> > 
-> > are available in the Git repository at:
-> > 
-> >   git://anongit.freedesktop.org/drm/drm-misc tags/drm-misc-next-fixes-2021-
-> > 06-16
-> > 
-> > for you to fetch changes up to 3769e4c0af5b82c8ea21d037013cb9564dfaa51f:
-> > 
-> >   drm/dp_mst: Avoid to mess up payload table by ports in stale topology
-> > (2021-06-16 12:57:46 -0400)
-> > 
-> > ----------------------------------------------------------------
-> > Short summary of fixes pull:
-> > 
-> >  * hyperv: advertise the correct formatmodifiers for its primary plane
-> >  * dp_mst: VCPI fixes to make it work with StarTech hub
-> > 
-> > ----------------------------------------------------------------
-> > Pu Lehui (1):
-> >       drm/hyperv: Fix unused const variable 'hyperv_modifiers'
-> > 
-> > Wayne Lin (2):
-> >       drm/dp_mst: Do not set proposed vcpi directly
-> >       drm/dp_mst: Avoid to mess up payload table by ports in stale topology
-> > 
-> >  drivers/gpu/drm/drm_dp_mst_topology.c       | 65 +++++++++++++++++---------
-> > ---
-> >  drivers/gpu/drm/hyperv/hyperv_drm_modeset.c |  2 +-
-> >  2 files changed, 40 insertions(+), 27 deletions(-)
-> > 
-> > --
-> > Thomas Zimmermann
-> > Graphics Driver Developer
-> > SUSE Software Solutions Germany GmbH
-> > Maxfeldstr. 5, 90409 Nürnberg, Germany
-> > (HRB 36809, AG Nürnberg)
-> > Geschäftsführer: Felix Imendörffer
-> 
-
--- 
-Cheers,
- Lyude Paul (she/her)
- Software Engineer at Red Hat
 
