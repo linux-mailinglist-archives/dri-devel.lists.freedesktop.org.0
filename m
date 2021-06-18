@@ -1,39 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CE9E3ACB44
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Jun 2021 14:43:36 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2FA263ACBC9
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Jun 2021 15:10:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 78CA56EA03;
-	Fri, 18 Jun 2021 12:43:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ADB6E6EA05;
+	Fri, 18 Jun 2021 13:10:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id ACC116EA02
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Jun 2021 12:43:28 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 115EB1476;
- Fri, 18 Jun 2021 05:43:28 -0700 (PDT)
-Received: from [192.168.1.179] (unknown [172.31.20.19])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id B4E5C3F85F;
- Fri, 18 Jun 2021 05:43:26 -0700 (PDT)
-Subject: Re: [PATCH] drm/panfrost:modify 'break' to 'continue' to traverse the
- circulation
-To: ChunyouTang <tangchunyou@163.com>, robh@kernel.org,
- tomeu.vizoso@collabora.com, alyssa.rosenzweig@collabora.com,
- airlied@linux.ie, daniel@ffwll.ch
-References: <20210617080414.1940-1-tangchunyou@163.com>
-From: Steven Price <steven.price@arm.com>
-Message-ID: <4d289eed-59f2-161a-40d1-2a434a1955c2@arm.com>
-Date: Fri, 18 Jun 2021 13:43:25 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+Received: from mail-pl1-x62d.google.com (mail-pl1-x62d.google.com
+ [IPv6:2607:f8b0:4864:20::62d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DD8F16EA05
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Jun 2021 13:10:46 +0000 (UTC)
+Received: by mail-pl1-x62d.google.com with SMTP id v12so4640766plo.10
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Jun 2021 06:10:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=xeflnMpXCc8lQl488t2UyqqllAHiO3IjtrjGZgwxjE8=;
+ b=l4JvENXKS+0wuXa9Dd7ASyOi+R2Ra1aLIyA3k6/hFxsit72DMEgc04M2UT1qYk5Sb0
+ WspU0VkFFL2rOaKiwcWlw6iLuFtDYrkBFGTYnoWKOx0j5yPXk6liOpjHGfCyYCF/WXSb
+ uXLJ80qb0RBPXArA/ItZJI05DK9fbVDKsCbP3OrZS+F9FIA+kjubUgtL33FY+wHQvdqA
+ IlUzws0eoYgmiXbL1Aog1Fxp9UDyg8ViwDqml0U9R5abh5W+c3OtLIc3PDV145QF493k
+ 5OazSdv+z0dulHEsk7iosWreirruFs8y3ZBkwSFKYQtqA7QikIbxeVkqaV7+ISh+MZWf
+ fr6w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=xeflnMpXCc8lQl488t2UyqqllAHiO3IjtrjGZgwxjE8=;
+ b=FyIsf3rvNyveL6FIGPLpBbLgn4FNVN5FRxj9cU6gjG9vNVg1SCyELkqavbbaRzWP9z
+ dDqg8OtygZtz2vstMoII9Hr2xL0PT7H2VJ31StQmqwfqFKNZDrfWyIHRQu4LakR9qhVA
+ +alb1OzUi1BJL1WEfzELyDaSf5vtzgktNl7xKFkdnUc3wMI9D9QOtWqERn98XfnYtHgp
+ Cqe9VQWinRxodlOEDYpx+MNSmYrY2okkqFHVKbvep82DKzY4BfWPo128EcD7M5Pds3+Y
+ 64U0mhPl8JOLF8eJjkTP8CWHDo5Py8sNF+w70YLqZ//a3j3DdqNuNXd838CJnhJczklz
+ nQcw==
+X-Gm-Message-State: AOAM533LtpeIFqb19Zi1ddRjxS/OgSabIh0RRyjr9KDfZQZrnhkr7bBB
+ +g2raxpiIgxJ6bNjLeVoLtxCj80dj5vu1o5d0Ss=
+X-Google-Smtp-Source: ABdhPJzcSX6tm09hnesQWqlEKd9p2OWaX9DN17n4s3XcCvm5NLcAdCBgDPUZFvnKjiSXNhS667ToHT0D90tnVJ9s7Nk=
+X-Received: by 2002:a17:90a:880c:: with SMTP id
+ s12mr11065571pjn.66.1624021846430; 
+ Fri, 18 Jun 2021 06:10:46 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210617080414.1940-1-tangchunyou@163.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+References: <20210203091306.140518-1-jagan@amarulasolutions.com>
+In-Reply-To: <20210203091306.140518-1-jagan@amarulasolutions.com>
+From: Jonathan Liu <net147@gmail.com>
+Date: Fri, 18 Jun 2021 23:10:33 +1000
+Message-ID: <CANwerB1Bev8Ljta9OyO6vAKsQqHHmaJnjV1YRGmY4bVk_J6xZA@mail.gmail.com>
+Subject: Re: [PATCH] drm/bridge: dw-mipi-dsi: Move drm_bridge_add into probe
+To: Jagan Teki <jagan@amarulasolutions.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,50 +62,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: ChunyouTang <tangchunyou@icubecorp.cn>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: Jernej Skrabec <jernej.skrabec@siol.net>,
+ Neil Armstrong <narmstrong@baylibre.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Jonas Karlman <jonas@kwiboo.se>, Sandy Huang <hjc@rock-chips.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Philippe Cornu <philippe.cornu@st.com>, Yannick Fertre <yannick.fertre@st.com>,
+ Andrzej Hajda <a.hajda@samsung.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Benjamin Gaignard <benjamin.gaignard@linaro.org>,
+ Vincent Abriou <vincent.abriou@st.com>, linux-amarula@amarulasolutions.com,
+ linux-kernel <linux-kernel@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 17/06/2021 09:04, ChunyouTang wrote:
-> From: ChunyouTang <tangchunyou@icubecorp.cn>
-> 
-> The 'break' can cause 'Memory manager not clean during takedown'
-> 
-> It cannot use break to finish the circulation,it should use
-> 
-> continue to traverse the circulation.it should put every mapping
-> 
-> which is not NULL.
+Hi Jagan,
 
-You don't appear to have answered my question about whether you've
-actually seen this happen (and ideally what circumstances). In my
-previous email[1] I explained why I don't think this is needed. You need
-to convince me that I've overlooked something.
+On Wed, 3 Feb 2021 at 09:13, Jagan Teki <jagan@amarulasolutions.com> wrote:
+> @@ -1167,6 +1151,20 @@ __dw_mipi_dsi_probe(struct platform_device *pdev,
+>         dw_mipi_dsi_debugfs_init(dsi);
+>         pm_runtime_enable(dev);
+>
+> +       ret = drm_of_find_panel_or_bridge(dev->of_node, 1, 0,
+> +                                         &panel, &bridge);
+> +       if (ret)
+> +               return ERR_PTR(ret);
 
-Thanks,
+On RK3399 if the error is EPROBE_DEFER, __dw_mipi_dsi_probe can be
+called again and result in the following errors:
+[    0.717589] debugfs: Directory 'ff960000.mipi' with parent '/'
+already present!
+[    0.717601] dw-mipi-dsi-rockchip ff960000.mipi: failed to create debugfs root
+[    0.717606] dw-mipi-dsi-rockchip ff960000.mipi: Unbalanced pm_runtime_enable!
 
-Steve
-
-[1] https://lore.kernel.org/r/31644881-134a-2d6e-dddf-e658a3a8176b%40arm.com
-
-> Signed-off-by: ChunyouTang <tangchunyou@icubecorp.cn>
-> ---
->  drivers/gpu/drm/panfrost/panfrost_job.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_job.c b/drivers/gpu/drm/panfrost/panfrost_job.c
-> index 6003cfeb1322..52bccc1d2d42 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_job.c
-> +++ b/drivers/gpu/drm/panfrost/panfrost_job.c
-> @@ -281,7 +281,7 @@ static void panfrost_job_cleanup(struct kref *ref)
->  	if (job->mappings) {
->  		for (i = 0; i < job->bo_count; i++) {
->  			if (!job->mappings[i])
-> -				break;
-> +				continue;
->  
->  			atomic_dec(&job->mappings[i]->obj->gpu_usecount);
->  			panfrost_gem_mapping_put(job->mappings[i]);
-> 
-
+Regards,
+Jonathan
