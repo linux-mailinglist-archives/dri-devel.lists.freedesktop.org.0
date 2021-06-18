@@ -2,55 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7B6C3AD41E
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Jun 2021 23:06:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8037F3AD41F
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Jun 2021 23:06:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 00E346EAAB;
-	Fri, 18 Jun 2021 21:06:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 956806EAAE;
+	Fri, 18 Jun 2021 21:06:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-f178.google.com (mail-oi1-f178.google.com
- [209.85.167.178])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DA7166EAAB
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Jun 2021 21:06:20 +0000 (UTC)
-Received: by mail-oi1-f178.google.com with SMTP id t140so12033605oih.0
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Jun 2021 14:06:20 -0700 (PDT)
+Received: from mail-oi1-f171.google.com (mail-oi1-f171.google.com
+ [209.85.167.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3021F6EAB0
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Jun 2021 21:06:39 +0000 (UTC)
+Received: by mail-oi1-f171.google.com with SMTP id u11so11987945oiv.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Jun 2021 14:06:39 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=F22AKDNL3d07Kxi7bAvLGrzvtDt3Ggs0m0nDR4Vfnrk=;
- b=DmSVBEa00E2GcVFIE1Q/KPTkRMlkdxaEYK8fjaV6bfgCphLkfH5GlneptQoo3MedCC
- BMYZTfxW1/ExIpm/0XO0lxImwys1KiTVIJLsj+JwO3/Z79PN95vY2hE9ynxjBLn8S9jK
- 5nfYHJaND9rP69INdh3yqIn8G8RqjK/mFqJVWXI4kWZleKAp93M8CRnP1gvhCxkTgoJb
- 0Hx0DmKf8xfAGAAuF1+AmuIX2981ZB+8K0UzTY0q0iP5an5uLgsnBdvC1fYWTeCTzw4s
- wCjv3vbl2zD9M9g418qo8//sNSVKw5S7x2gFsTdIdAAI2nll1doITCgT+MlbYe+snq1l
- lxUA==
-X-Gm-Message-State: AOAM532x1BaNKoqj5hAahxPQvz5DmOoHKvyc8p1w8QBXulzEydbpTV9E
- SRxieVh6weGgHhJXWSgkYA==
-X-Google-Smtp-Source: ABdhPJxJZLUHgtZu7sTq3PAbrobAWO/1QnPSMepIbgPrF28rW+Vr/C9MDt7TspFK7/RwnzNGmtYu0A==
-X-Received: by 2002:a54:400c:: with SMTP id x12mr15730026oie.89.1624050380272; 
- Fri, 18 Jun 2021 14:06:20 -0700 (PDT)
+ :mime-version:content-disposition:in-reply-to;
+ bh=w7lyGyrFAML0Yig1eUfs9PBn3aotrCMVHhnAEEshvHs=;
+ b=VBs490xJ8qt8EvizIRLtJZU9n6V9cB+cJr/wA9Im/mQPGYPdkPF+Ckvmipwm2BuOww
+ sPnlCJwkA+Y56nxoOunUNaqVimhZiNxk+eH2uRqGzLdtyQaE+nJMK0r75gQjlTvHO9mu
+ q5Mfr8X2/6xRc0R7aD9iB9GTxtusJALiz1d3B8DnPJ0pdjrOSBaEw6wfF+eYrPI0Zzsx
+ kmB4O5SmpQXm+UDyrl8VzzYA8cm81l70MQZvqNF33IW1jAnDaxl2sza4CYlG6VYbw8H6
+ 3i94PGwU+Usb7B3n1gX+oyVRnIyXdl5ARULK7PRRSJHsvAwuh4cWIJMsNsoH43Tz5Mc9
+ Zc4g==
+X-Gm-Message-State: AOAM530EsQOW5F0j0Ni3logvIcJ9icyxH+yWIGaCGdj1scdHmu2vfYJI
+ h/aoyQWkCwGUbqDDEd1YMQ==
+X-Google-Smtp-Source: ABdhPJy9BVM8JnW1fklyNIsJf+HjmUAJv6l+X1dfrWJd5kHxG8MZpWxMuP+Z3rmPjas11wLLEtoWDg==
+X-Received: by 2002:aca:fc91:: with SMTP id a139mr15981093oii.12.1624050398597; 
+ Fri, 18 Jun 2021 14:06:38 -0700 (PDT)
 Received: from robh.at.kernel.org ([64.188.179.248])
- by smtp.gmail.com with ESMTPSA id t3sm1647263oic.48.2021.06.18.14.06.14
+ by smtp.gmail.com with ESMTPSA id 129sm2063231ooq.34.2021.06.18.14.06.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 18 Jun 2021 14:06:19 -0700 (PDT)
-Received: (nullmailer pid 2873797 invoked by uid 1000);
- Fri, 18 Jun 2021 21:06:13 -0000
-Date: Fri, 18 Jun 2021 15:06:13 -0600
+ Fri, 18 Jun 2021 14:06:37 -0700 (PDT)
+Received: (nullmailer pid 2874290 invoked by uid 1000);
+ Fri, 18 Jun 2021 21:06:32 -0000
+Date: Fri, 18 Jun 2021 15:06:32 -0600
 From: Rob Herring <robh@kernel.org>
 To: Oleksij Rempel <o.rempel@pengutronix.de>
-Subject: Re: [PATCH v1 1/4] dt-bindings: display: simple: add some Logic
- Technologies and Multi-Inno panels
-Message-ID: <20210618210613.GA2873750@robh.at.kernel.org>
+Subject: Re: [PATCH v1 2/4] dt-bindings: vendor-prefixes: Add an entry for
+ SKOV A/S
+Message-ID: <20210618210632.GA2874235@robh.at.kernel.org>
 References: <20210609121050.18715-1-o.rempel@pengutronix.de>
- <20210609121050.18715-2-o.rempel@pengutronix.de>
+ <20210609121050.18715-3-o.rempel@pengutronix.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210609121050.18715-2-o.rempel@pengutronix.de>
+In-Reply-To: <20210609121050.18715-3-o.rempel@pengutronix.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,22 +64,20 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Cc: devicetree@vger.kernel.org, Pengutronix Kernel Team <kernel@pengutronix.de>,
  Arnd Bergmann <arnd@arndb.de>, David Airlie <airlied@linux.ie>,
  Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
- linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>, soc@kernel.org,
- Thierry Reding <thierry.reding@gmail.com>, dri-devel@lists.freedesktop.org,
- Sam Ravnborg <sam@ravnborg.org>, linux-arm-kernel@lists.infradead.org
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Sam Ravnborg <sam@ravnborg.org>, Rob Herring <robh+dt@kernel.org>,
+ soc@kernel.org, Thierry Reding <thierry.reding@gmail.com>,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 09 Jun 2021 14:10:47 +0200, Oleksij Rempel wrote:
-> Add Logictechno and Multi-Inno panels:
-> - Logic Technologies LTTD800x480 L2RT 7" 800x480 TFT Resistive Touch Module
-> - Logic Technologies LTTD800480070-L6WH-RT 7” 800x480 TFT Resistive Touch Module
-> - Multi-Inno Technology Co.,Ltd MI1010AIT-1CP 10.1" 1280x800 LVDS IPS Cap Touch Mod.
+On Wed, 09 Jun 2021 14:10:48 +0200, Oleksij Rempel wrote:
+> Add "skov" entry for the SKOV A/S: https://www.skov.com/en/
 > 
 > Signed-off-by: Oleksij Rempel <o.rempel@pengutronix.de>
 > ---
->  .../devicetree/bindings/display/panel/panel-simple.yaml     | 6 ++++++
->  1 file changed, 6 insertions(+)
+>  Documentation/devicetree/bindings/vendor-prefixes.yaml | 2 ++
+>  1 file changed, 2 insertions(+)
 > 
 
 Acked-by: Rob Herring <robh@kernel.org>
