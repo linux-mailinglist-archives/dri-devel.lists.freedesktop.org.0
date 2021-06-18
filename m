@@ -2,55 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0AE253ACAC4
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Jun 2021 14:26:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 810693ACB16
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Jun 2021 14:36:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A3B1E6E9F5;
-	Fri, 18 Jun 2021 12:26:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2DD376E114;
+	Fri, 18 Jun 2021 12:36:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x636.google.com (mail-pl1-x636.google.com
- [IPv6:2607:f8b0:4864:20::636])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 91DD06E9F5
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Jun 2021 12:26:01 +0000 (UTC)
-Received: by mail-pl1-x636.google.com with SMTP id h1so4601858plt.1
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Jun 2021 05:26:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=FtvRSpK7Pxq8m04Oitu7ZY1AFuH4Tsebb6LT2aC3kXk=;
- b=MMbWdywBw/P4HbxDiNgJhorMDPwOu9wbDxQ5Uxfbg0KoNzvKjyMs8UCelWuPXQi7Tg
- k/n4AgTTVfzb5mzdRIBnMQmSVgoRL2ys88LucvNZSvU/dLT3Bh2DIfiBMBkQ9iWU8vER
- fj/VU2fklavyP+QjqM/Tg8ojzn98NguHsBxR6hdokDfsEnBZp6jBrrVEUm4CWWJHaqHO
- SEn4szK6CxGwY6wc/m1TmAgaKYSDE/YtLenunwh0/MptBc9wkkjEUH67PWtZtrmSzKy+
- c0JuOcpbhfgUt4c3DPoxtfCpH0Hlg7iYMrHAnlLv9qg+aXSYiZ45mKlH9Icqv+IuALpA
- pg+g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=FtvRSpK7Pxq8m04Oitu7ZY1AFuH4Tsebb6LT2aC3kXk=;
- b=Q4/NEM3GV2WxrUfk0QSCc5N5NSYvNKGydftjNsm3EkjZX8stfLBKXM4BqtCoKzXjCC
- jLvxJhxSvWr+VKS6XWTvurozJmwU+cO0z0iPxINW+l/4iFHx1CFSNaKF0ev3gLG4lDlJ
- KaBKPyqKxNAeAWzVoy/b0QwOEa1n+AMQ4KkRwHvpMp37svpzsxmBrhvtpmGxBj6ePYxx
- o0/84M9mxzyn0sOzYEb9hAhfdry8K4W1plV+EHcL/2h2DmWclu0WcxojS3upZ0Pyl0Ed
- TsCncBDkYtkXoAJ04CXRWt79HCsJi1GsC6R3NBPxHm/+43NGbHKEW9sEgHg8lDzCW72g
- L2Lw==
-X-Gm-Message-State: AOAM532UvpKcxwU/VXkFyma/Ym6p36Aq+CUoDUbCsTRflqQIoyqfogAc
- 1yb+6j+r0VyHjBPcx33Q8iulPBoE3zPo44W8qlss+g==
-X-Google-Smtp-Source: ABdhPJxmtC/wiE6zI2cJLpRdGM3FaqouAZvoriEKYQhaiLJ8O/RWEvL+Xx961UWRC3wvThhX2uahmDye4vjmobAhwOo=
-X-Received: by 2002:a17:90a:c394:: with SMTP id
- h20mr14178061pjt.222.1624019161098; 
- Fri, 18 Jun 2021 05:26:01 -0700 (PDT)
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4CEE36E114
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Jun 2021 12:36:26 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 93FB8613EC;
+ Fri, 18 Jun 2021 12:36:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1624019785;
+ bh=kKl+dwSE+1mpdV00Nwtq36eOm8r1Np9GR2J4zMKETqw=;
+ h=From:To:Cc:Subject:Date:From;
+ b=k5YrrBAxdE8zUmY8WvvE6MJEHD4yCIfdhvVUBlI/qsUYJjYXfbKU78ApJg64xU1w0
+ 7qVG5t7WmchDe1sFQazK5BroSYVUpuwWCeJQjZKn+NVSZEZR83wuOrbwgzND8hO6xj
+ LeGInqvzq3wnMOuT582NCuDiz8hpEMnM5/fItlJtMGeIUVem4IjyF9PZlr21qPYRcw
+ 1OrO4AmqhBJCzw7ReLn/CQ97OKXWmWIWJekrO+4rgfXkdFWmthIQCpPPjZbYiMWg6S
+ v8GMav3uPaH40/Rv2M1px0v63R1WEz2KC51rodtiVAv48rOedfjrayds0BLFUoeUOa
+ G8T2S2M7U15bw==
+From: Oded Gabbay <ogabbay@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	gregkh@linuxfoundation.org
+Subject: [PATCH v3 1/2] habanalabs: define uAPI to export FD for DMA-BUF
+Date: Fri, 18 Jun 2021 15:36:13 +0300
+Message-Id: <20210618123615.11456-1-ogabbay@kernel.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20210615032937.2328468-1-pihsun@chromium.org>
- <CA+Px+wXsb69fyQ41aX9T0jXzKFoF+6Y0zO+QJcLkxfTJJNa1hQ@mail.gmail.com>
-In-Reply-To: <CA+Px+wXsb69fyQ41aX9T0jXzKFoF+6Y0zO+QJcLkxfTJJNa1hQ@mail.gmail.com>
-From: Robert Foss <robert.foss@linaro.org>
-Date: Fri, 18 Jun 2021 14:25:49 +0200
-Message-ID: <CAG3jFyvNzgmpNYUi0EWocdn9enjNJAwpdBRZEDbL1afTM=59LQ@mail.gmail.com>
-Subject: Re: [PATCH] drm/bridge: anx7625: Make hpd workqueue freezable
-To: Tzung-Bi Shih <tzungbi@google.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,17 +45,91 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jonas Karlman <jonas@kwiboo.se>, David Airlie <airlied@linux.ie>,
- "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
- Neil Armstrong <narmstrong@baylibre.com>,
- open list <linux-kernel@vger.kernel.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Andrzej Hajda <a.hajda@samsung.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Pi-Hsun Shih <pihsun@chromium.org>, Hsin-Yi Wang <hsinyi@chromium.org>,
- Xin Ji <xji@analogixsemi.com>
+Cc: daniel.vetter@ffwll.ch, sleybo@amazon.com, galpress@amazon.com,
+ dri-devel@lists.freedesktop.org, christian.koenig@amd.com,
+ Tomer Tayar <ttayar@habana.ai>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fixed checkpatch --strict issue and pushed to drm-misc-next.
+User process might want to share the device memory with another
+driver/device, and to allow it to access it over PCIe (P2P).
 
-https://cgit.freedesktop.org/drm/drm-misc/commit/?id=f03ab6629c7b410d874151cf1d8570899a65fdda
+To enable this, we utilize the dma-buf mechanism and add a dma-buf
+exporter support, so the other driver can import the device memory and
+access it.
+
+The device memory is allocated using our existing allocation uAPI,
+where the user will get a handle that represents the allocation.
+
+The user will then need to call the new
+uAPI (HL_MEM_OP_EXPORT_DMABUF_FD) and give the handle as a parameter.
+
+The driver will return a FD that represents the DMA-BUF object that
+was created to match that allocation.
+
+Signed-off-by: Oded Gabbay <ogabbay@kernel.org>
+Reviewed-by: Tomer Tayar <ttayar@habana.ai>
+---
+ include/uapi/misc/habanalabs.h | 28 +++++++++++++++++++++++++++-
+ 1 file changed, 27 insertions(+), 1 deletion(-)
+
+diff --git a/include/uapi/misc/habanalabs.h b/include/uapi/misc/habanalabs.h
+index a47a731e4527..aa3d8e0ba060 100644
+--- a/include/uapi/misc/habanalabs.h
++++ b/include/uapi/misc/habanalabs.h
+@@ -808,6 +808,10 @@ union hl_wait_cs_args {
+ #define HL_MEM_OP_UNMAP			3
+ /* Opcode to map a hw block */
+ #define HL_MEM_OP_MAP_BLOCK		4
++/* Opcode to create DMA-BUF object for an existing device memory allocation
++ * and to export an FD of that DMA-BUF back to the caller
++ */
++#define HL_MEM_OP_EXPORT_DMABUF_FD	5
+ 
+ /* Memory flags */
+ #define HL_MEM_CONTIGUOUS	0x1
+@@ -878,11 +882,26 @@ struct hl_mem_in {
+ 			/* Virtual address returned from HL_MEM_OP_MAP */
+ 			__u64 device_virt_addr;
+ 		} unmap;
++
++		/* HL_MEM_OP_EXPORT_DMABUF_FD */
++		struct {
++			/* Handle returned from HL_MEM_OP_ALLOC. In Gaudi,
++			 * where we don't have MMU for the device memory, the
++			 * driver expects a physical address (instead of
++			 * a handle) in the device memory space.
++			 */
++			__u64 handle;
++			/* Size of memory allocation. Relevant only for GAUDI */
++			__u64 mem_size;
++		} export_dmabuf_fd;
+ 	};
+ 
+ 	/* HL_MEM_OP_* */
+ 	__u32 op;
+-	/* HL_MEM_* flags */
++	/* HL_MEM_* flags.
++	 * For the HL_MEM_OP_EXPORT_DMABUF_FD opcode, this field holds the
++	 * DMA-BUF file/FD flags.
++	 */
+ 	__u32 flags;
+ 	/* Context ID - Currently not in use */
+ 	__u32 ctx_id;
+@@ -919,6 +938,13 @@ struct hl_mem_out {
+ 
+ 			__u32 pad;
+ 		};
++
++		/* Returned in HL_MEM_OP_EXPORT_DMABUF_FD. Represents the
++		 * DMA-BUF object that was created to describe a memory
++		 * allocation on the device's memory space. The FD should be
++		 * passed to the importer driver
++		 */
++		__u64 fd;
+ 	};
+ };
+ 
+-- 
+2.25.1
+
