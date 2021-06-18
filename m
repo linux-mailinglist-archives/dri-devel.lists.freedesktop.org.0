@@ -2,123 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 332DE3AC654
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Jun 2021 10:39:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 162743AC69C
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Jun 2021 10:56:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A75E66E981;
-	Fri, 18 Jun 2021 08:39:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AC7566E996;
+	Fri, 18 Jun 2021 08:56:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam12on2054.outbound.protection.outlook.com [40.107.243.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5323C6E841;
- Fri, 18 Jun 2021 08:39:37 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ieQeywPar/1roKOtKXXW1qlxUIjt0Wq055ohJlu1wcCeB07+0JPnbf/gap4osqQV1qthpLwsFb+JgK3W81YHekD/yggkynQjFiM3zWNJcoM8CXcVznx2iH9nbfNiQHTkZeoJl9sbdT72wPtyGlxtesUFzHkSmEfS6/8UdwHoGouLN6+oaW4766ePCWP4fxVDw9rlrBo1XD8dGlUw4BKuEftwlPrImSJ6h3hToNFi9ioLkmrEQem0cIuuJk+poyMZa1VoEBfgreUD60EO//Lb1Sm6P0uFLAYzkDzX4NFNqqHlidWC/RXUnOBPGK+4wE7BU98QLuTxcFWGcW7TDkQuTA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=8iyq7UDVwPmW/KGwqoSNjjPBNMpZNXq9cnHseJWxido=;
- b=bVJvZibfiDBceIELOVwyNugMCAVOEJ7gYIvzK1WMLIubo5D2esfw/rmdy37coTi2gG8HqXDBg2BMO+sdZskWOJGkOVRob0XyOrpHit//PraxN+m5Ui1pYzGS2zwglxYMxBf9wxlkjxL/qL4Tljkc0Ew/J7LMa4qhp5HpeE9CtT1Qd2a/3sKHY2ClzecKhfkMWn/Qkd0UWT5Rq/pFtGf28VfmiVFE3A7iEGSHKmWqCBGyX2rTRnoEXSkWJ2nRfVCuu72KyA+VGRSpcjNRu5I5ioxtWd6XHgOZ90XX8jhPDeKMj4aHrJ2FSShuYmNY7vgnyBrTPPKGFgyLrLbMpsQw+w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=8iyq7UDVwPmW/KGwqoSNjjPBNMpZNXq9cnHseJWxido=;
- b=08jsT68fzglLvUy+ELlTSJMzgVG04BBHD7wl7MW9rSl1l8kv+eGT27cf7JjOC5Wor1zTpJ7Ax7Of33MRygIQsuQ8CooFTrYV1UqXDJD75KQxsI7+1j0n3zNkWKeUnooSdqUO3ycBSVzaCZEXshqNpSneRPEVHYKvYBe8ssq5gQ0=
-Authentication-Results: vger.kernel.org; dkim=none (message not signed)
- header.d=none;vger.kernel.org; dmarc=none action=none header.from=amd.com;
-Received: from MN2PR12MB3775.namprd12.prod.outlook.com (2603:10b6:208:159::19)
- by MN2PR12MB4061.namprd12.prod.outlook.com (2603:10b6:208:19a::18)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4242.19; Fri, 18 Jun
- 2021 08:39:33 +0000
-Received: from MN2PR12MB3775.namprd12.prod.outlook.com
- ([fe80::6c9e:1e08:7617:f756]) by MN2PR12MB3775.namprd12.prod.outlook.com
- ([fe80::6c9e:1e08:7617:f756%5]) with mapi id 15.20.4242.021; Fri, 18 Jun 2021
- 08:39:33 +0000
-Subject: Re: [PATCH] drm/amdgpu: fix amdgpu_preempt_mgr_new()
-To: Dan Carpenter <dan.carpenter@oracle.com>,
- Alex Deucher <alexander.deucher@amd.com>, Dave Airlie <airlied@redhat.com>
-References: <YMxbQXg/Wqm0ACxt@mwanda>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-Message-ID: <fadcee22-d830-c1be-09f0-9788b98c45ec@amd.com>
-Date: Fri, 18 Jun 2021 10:39:26 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
-In-Reply-To: <YMxbQXg/Wqm0ACxt@mwanda>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-Originating-IP: [2a02:908:1252:fb60:c4f2:8f8f:141a:c5fd]
-X-ClientProxiedBy: AM4PR0701CA0029.eurprd07.prod.outlook.com
- (2603:10a6:200:42::39) To MN2PR12MB3775.namprd12.prod.outlook.com
- (2603:10b6:208:159::19)
+Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
+ [IPv6:2a00:1450:4864:20::443])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8156F6E996
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Jun 2021 08:56:18 +0000 (UTC)
+Received: by mail-wr1-x443.google.com with SMTP id c9so9890469wrt.5
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Jun 2021 01:56:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:in-reply-to:references
+ :mime-version; bh=9BBHBKpuIHVNeFNocyi2iDHpvR/2bbHPGbZWJUlqwoI=;
+ b=S09ISTL829LWd712uTVyiCFNwqS/1EQaL6fptcmNVTZWRYi7iy4gWi9Yr+0L9ftcuz
+ 9A39IgVl5i+qEei+60S3Zr5QTfzmmVtWEF0+h2o4ytkp0ZfzSA72paKmZLO4Hvec5kjc
+ FlSsON4grKpyZIQag/zFQD4VM9FMsK2VFT59oycux5WT1IeZy5THo+7opQGccowYCHSb
+ 46xIWkhMozmn2DYJI58qD3VFdl6TNmtN6JwjQUveLUQNPt2X/3+1ymtGqkxMf4vOOO0X
+ Kln7EBS9MaY87CrmtMKv8cDSZ8Hig7gSiN2u2+pWC55OsaSfrba9Zo7TMCwaUvfRomQM
+ VXKw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version;
+ bh=9BBHBKpuIHVNeFNocyi2iDHpvR/2bbHPGbZWJUlqwoI=;
+ b=OZRcupiuQAnkKBD9gbZ2EJZKjqX2ezOSFnX4Bh18g66nmVjPdUAhlogo4lwxEzlYu9
+ SImn2+ztgNCcNBexIa8yG763VGUVq6WKtOZT9ZnjbKSHyXuHwEQtA+ZhqMxA5E4oOXKw
+ ezZJHv1YEnbm8T4XAZutNAjBcmO8d+veIRCxPY5KAM5Nk53ECazDYvghHGnqZdtV0vFh
+ Pp+e2f25xNMiOXN/+5cTKBHh0YT5ovjsRS6nCNF34TqeSHcbiQtf9/NiIR9JT+GU66jP
+ jGy+pUJ4WSKiVlOXS8uHCNDmg/99gU60jDBlpzqvnu+2GLFJnUEx396ObBwnU5l6Fgyv
+ WZsg==
+X-Gm-Message-State: AOAM532Xorb9dy6rpcZ3fGPU9QjC1sWhu8HkceEph+QzVbUqZo7m6BcB
+ aEK9/nHrGH28ZCLmHHZd5Rc=
+X-Google-Smtp-Source: ABdhPJzU5tBXCe1rtBOZNzrps8DEDkD3x2CJOqoCLNcoFWdLDdwmfgtv3i3EzPqSMinWl5IPv6YP2A==
+X-Received: by 2002:a2e:a584:: with SMTP id m4mr8745008ljp.64.1624006565984;
+ Fri, 18 Jun 2021 01:56:05 -0700 (PDT)
+Received: from erebos (85-76-76-133-nat.elisa-mobile.fi. [85.76.76.133])
+ by smtp.gmail.com with ESMTPSA id v22sm305914ljk.51.2021.06.18.01.56.01
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 18 Jun 2021 01:56:05 -0700 (PDT)
+Date: Fri, 18 Jun 2021 11:55:38 +0300
+From: Pekka Paalanen <ppaalanen@gmail.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Subject: Re: [PATCH v3] Documentation: gpu: Mention the requirements for new
+ properties
+Message-ID: <20210618115152.79af3537@erebos>
+In-Reply-To: <YMtQClnvjGNDhn9q@pendragon.ideasonboard.com>
+References: <20210614152413.nguqia3s4tlowio4@e110455-lin.cambridge.arm.com>
+ <YMeE63G+9DSLPB3N@pendragon.ideasonboard.com>
+ <20210615100335.0b8f96d5@eldfell>
+ <ouNaZaqkV1d_wPRESVBQHxvMhmJ53xIrgtPfDs8mB88AN3FEWt7cq031k8ZqCva1Ob0TCNTnsWqNDS0l5NXfejXIL7YUky3XGdjmh1_hefk=@emersion.fr>
+ <YMh21WBrADbZDcbp@pendragon.ideasonboard.com>
+ <20210615131656.2ecefdc4@eldfell>
+ <YMpnlDmzn0Re4Urn@pendragon.ideasonboard.com>
+ <20210617102701.28f820b2@eldfell>
+ <YMskHF8Bo/z3kqxf@pendragon.ideasonboard.com>
+ <20210617143311.19896458@eldfell>
+ <YMtQClnvjGNDhn9q@pendragon.ideasonboard.com>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [IPv6:2a02:908:1252:fb60:c4f2:8f8f:141a:c5fd]
- (2a02:908:1252:fb60:c4f2:8f8f:141a:c5fd) by
- AM4PR0701CA0029.eurprd07.prod.outlook.com (2603:10a6:200:42::39) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4264.7 via Frontend
- Transport; Fri, 18 Jun 2021 08:39:31 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 223b4f05-5dd3-48b5-a879-08d9323498b6
-X-MS-TrafficTypeDiagnostic: MN2PR12MB4061:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <MN2PR12MB40614A0CA08215B66DCBA737830D9@MN2PR12MB4061.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:6430;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: xb1nACwWsGzpzmVFsXVNIir0zGg7AyqbvXJcgYVS2TVJgL4kNcNn/8/9EWDg0aRlUrfin01/InILqm9a+0e5ERb9VTTfhFxaQgtcYqdkljztQ5Yr5wIR2yV8s1OTtvxp7/hF42GP7p1i/j/4vDhR9HMtRdEoZX+WKeQnmlCJ7kWOhu2F5UPFCFJAdEltj8g8BeSf5ITNY7VpsaOsMdbjKi0ZSWTmSP5yByaz7f783co2v8+p/rLrqV/VO+zmXSI1HXXtYBpjE7iYOGnrYX8rzlOKxMhlTaDpKVNrNIQlGAL3412WSKiHBV9NKRKShCpBGQ6ZrTC1AG5Nerh5WpINunCCrgnFUknaxR+T9rOGDPFGb8kq5HhU/c+PWd3DMHOm+4lqtzia9xgG2c3goEYwKImF5BO/Lgu5RUNedKfeqiapWt4L9CJHsM3zCItRDe1/MmlhvvNH2mEmur4VOvpnZ5EP7ewfh+qiql2NxSUha/wpMqXIwZhSiI3FsdRkcEfAidXJ44aP2lcITRjmizAWjijhae0qXhkHsh/wJ/qJ0xnmytiHpwwfC/KU/m5D4VT4mZFtsnCRf30UefuHdggsZjFyEsZ2H60xcCH/beq41P2QYBbTdh/wfJaeRdt/md1tNCFVXPQLLgyL96zv8VfWhPyuVF37lb68whk7xrO6VnOso8KZusNlH/dTWtGKBMmQ
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN2PR12MB3775.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(136003)(396003)(376002)(366004)(39860400002)(346002)(2616005)(6486002)(6666004)(8676002)(86362001)(38100700002)(5660300002)(2906002)(66574015)(8936002)(4326008)(110136005)(478600001)(36756003)(16526019)(83380400001)(54906003)(186003)(66476007)(66556008)(316002)(66946007)(31686004)(31696002)(43740500002)(45980500001);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?K21Ba1RlMEFQQVo5OWd0Y0VlVmx1SitibXNiMVZwOWR0OXBoN2poY2kwa01E?=
- =?utf-8?B?YjhqMHdXbnUrY1k3eGhPTm1WU2Juek0wVXhmeDA5ME4rQlloMUMzTHZLSlRR?=
- =?utf-8?B?aUlzUnRQUTJnTjFLTjE1WjJnWFBTMDFUUWxrd09mS3RBN3hEQ1libDloR0hw?=
- =?utf-8?B?YnFxMENFeUMxbFVDN0NyRDVHWUxqa0ZiaUVZbndNa3NvSE5WbDhWdXRJUkow?=
- =?utf-8?B?NkxLbWtsUFJKUFN2SGpYM1pxSU4vWUM5MTBtV3ZVOWpRblhIUVNKMnRNbXcx?=
- =?utf-8?B?UFVlYU9XcWpXNjVCaVZ4QWxOT0pRRThqczJ5WUFLWGpFWXRFeXViYkNwUm9C?=
- =?utf-8?B?ZWNEWG9sdTA2RXlsYlpKN2cyeVloNUhqeEw4aERhNFVsVnJJdzkxWTlUOVM5?=
- =?utf-8?B?N2I4UllMZDA4eXkzUk56eml2RUN4cURDT2MwVmNQa3BuZG1abkIrMGRFVThL?=
- =?utf-8?B?VDkwc2k4ZkVGcENSdzZieUY4RFVXd3dvWC9xNVo2N3k0V3prUE1rMGxWMTVw?=
- =?utf-8?B?SnZIUlZzZG5jMEFJRVBUNENoNW5lYVMwV3VTSGNEbjdiK2pFQUh3dFpPWDNq?=
- =?utf-8?B?RW9sWlJVNW50a0YzZkhiSi9uY1orTGZ5cWNXTkt4cFp3cExFRWZIOFJjbENW?=
- =?utf-8?B?MDVQQ0wvUW5uVUg0eGdaSXBIWVd0NXVrdHBoU0lrNGh0am9peEx4cXZmMldE?=
- =?utf-8?B?VUxadEVZOGpuMkE4TlpJajhmNm5SQjFSN3ZwUnk2bEZWWm52dTdWQmhLQjlu?=
- =?utf-8?B?RkF6S2xPWWZIamZSSHJrZER3WmdRWmU1bnFERXM5bWpLZEs3clEzWkR0d2RN?=
- =?utf-8?B?cjBjZjMwVHZPSHJKekRUazVHcjI5UVh1MXFMWkM4emlwVm9yaEEvYlpySHdG?=
- =?utf-8?B?SmQ1Z3dONkJ2SzZjeWpiaTNvc1VmTEdQNElOZ3dKV0dlNXNJRWRvUWx4aHBp?=
- =?utf-8?B?WEhaY01OZUNybi9paXY5UkorMFJjNHZFd3IzYVFoM003SHhEWVE5Z3Zwd00w?=
- =?utf-8?B?NEFsUmplMk8zRzMxSklXMVVVc2M1Rk1wS0c5VWM0WGdFQnBQSW9nOEJ2cy93?=
- =?utf-8?B?UVppWTV3Z3U0TDBBaUk5WkVxcERoa0pmdTBtSVJnVHd0c2g1ZlVYTDMvUzZ4?=
- =?utf-8?B?RWlXN2tPMExDdkZ1WVRkOFk2YUoxQmw4c1NFbGhiM0dlNFZyWmRUVzYrbTFC?=
- =?utf-8?B?dVBaR25MRDhCOWJ6WkNWQ2s0dkhUT0dMSTgzOW4vcFhBRWdmQzc5UHdsZExF?=
- =?utf-8?B?akdRUXNabkhaTk5wai81MzhDMHlWc1ZXSE5wZXNhVHBYU0g4RUJMQng1OHNS?=
- =?utf-8?B?YlBjNjJldVV0b1ZDdFp6S1NZaUdUTW9RcTE3RjNtNU1tL0NIR1N3L2JyeVE1?=
- =?utf-8?B?ZjJjaFVYM2o4NHdwNkJYWkpnZHVqeS93SmJFUmxZeXhNQnFVR1JMNXFHbVM1?=
- =?utf-8?B?dXRyRVVFR0dYVVZQYldONTBVRXk5Ymtmd0Q5WHVCRFFCaTkzRCtLWVFOSHZE?=
- =?utf-8?B?bXpTQTRsV085R0RjVHNub2tDMTQ4RXZldTZSMFRPd1VqS3NNeWFpM0RXdUlF?=
- =?utf-8?B?aWZKNGpUM21ycW1zQ0l4K29PSEF6VlRRL3FHR0ErbVRURzcxRzFKZDF1VUda?=
- =?utf-8?B?SGEzQkVlWm92U3BWV3NNRDFjcVlxSklsQ2RueTdhc0lKenRnTmdlYmlWSWky?=
- =?utf-8?B?U3ZRV0daQjFjcm5GZlZTcG9GR1BuYXNxalVhR0hnZ3NtczlwZ2tjczJXMzI0?=
- =?utf-8?B?ZnBOWHc0YUo0R1k4VGRoaHprempmNEsxVXFla0lDRngrS1RDcXB6b25YUnZy?=
- =?utf-8?B?d3VPa2xoMkZ5ZEEvaDhoaFo0TUsvMFpyN2V0eStWdjYwVndJdXR5cVllNTl5?=
- =?utf-8?Q?wlQl1Mg8PeUFJ?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 223b4f05-5dd3-48b5-a879-08d9323498b6
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3775.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Jun 2021 08:39:33.4759 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: GpAXa/iYXrneQbabvzr/DciW6zHkMNBRBwAfkWu72aHRAftTWpgWPVc3f0UVPPZS
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4061
+Content-Type: multipart/signed; boundary="Sig_/FvFnMvh/SbxNwAEjaUh=ULz";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -131,41 +78,318 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Felix Kuehling <Felix.Kuehling@amd.com>,
- "Pan, Xinhui" <Xinhui.Pan@amd.com>, kernel-janitors@vger.kernel.org,
- dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
+Cc: Ludovic Desroches <ludovic.desroches@microchip.com>,
+ Haneen Mohammed <hamohammed.sa@gmail.com>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+ Xinliang Liu <xinliang.liu@linaro.org>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Liviu Dudau <liviu.dudau@arm.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>, Sandy Huang <hjc@rock-chips.com>,
+ Melissa Wen <melissa.srw@gmail.com>, Andrzej Hajda <a.hajda@samsung.com>,
+ Thierry Reding <thierry.reding@gmail.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Benjamin Gaignard <benjamin.gaignard@linaro.org>,
+ Anitha Chrisanthus <anitha.chrisanthus@intel.com>,
+ Daniel Vetter <daniel.vetter@intel.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Jerome Brunet <jbrunet@baylibre.com>, Marek Vasut <marex@denx.de>,
+ Jonathan Corbet <corbet@lwn.net>, Joonyoung Shim <jy0922.shim@samsung.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+ Kevin Hilman <khilman@baylibre.com>, Neil Armstrong <narmstrong@baylibre.com>,
+ Russell King <linux@armlinux.org.uk>, Steven Price <steven.price@arm.com>,
+ David Airlie <airlied@linux.ie>, Xinwei Kong <kong.kongxinwei@hisilicon.com>,
+ Noralf =?UTF-8?B?VHLDuG5uZXM=?= <noralf@tronnes.org>,
+ VMware Graphics <linux-graphics-maintainer@vmware.com>,
+ Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+ Chen Feng <puck.chen@hisilicon.com>, Hyun Kwon <hyun.kwon@xilinx.com>,
+ NXP Linux Team <linux-imx@nxp.com>, Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Tian Tao <tiantao6@hisilicon.com>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Jonas Karlman <jonas@kwiboo.se>,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ Edmund Dea <edmund.j.dea@intel.com>, Sascha Hauer <s.hauer@pengutronix.de>,
+ Alison Wang <alison.wang@nxp.com>, Roland Scheidegger <sroland@vmware.com>,
+ Shawn Guo <shawnguo@kernel.org>, Ben Skeggs <bskeggs@redhat.com>,
+ Maxime Ripard <maxime@cerno.tech>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
+ Sean Paul <sean@poorly.run>, Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Paul Cercueil <paul@crapouillou.net>, Jernej Skrabec <jernej.skrabec@siol.net>,
+ Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+ Tomi Valkeinen <tomba@kernel.org>, Hans de Goede <hdegoede@redhat.com>,
+ Andrew Jeffery <andrew@aj.id.au>, Yannick Fertr e <yannick.fertre@foss.st.com>,
+ Boris Brezillon <bbrezillon@kernel.org>,
+ Seung-Woo Kim <sw0312.kim@samsung.com>,
+ Nicolas Ferre <nicolas.ferre@microchip.com>,
+ Robert Foss <robert.foss@linaro.org>, Joel Stanley <joel@jms.id.au>,
+ Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Qiang Yu <yuq825@gmail.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Alex Deucher <alexander.deucher@amd.com>, Huang Rui <ray.huang@amd.com>,
+ Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>,
+ Philippe Cornu <philippe.cornu@foss.st.com>, Jyri Sarha <jyri.sarha@iki.fi>,
+ Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 18.06.21 um 10:37 schrieb Dan Carpenter:
-> There is a reversed if statement in amdgpu_preempt_mgr_new() so it
-> always returns -ENOMEM.
->
-> Fixes: 09b020bb05a5 ("Merge tag 'drm-misc-next-2021-06-09' of git://anongit.freedesktop.org/drm/drm-misc into drm-next")
-> Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
+--Sig_/FvFnMvh/SbxNwAEjaUh=ULz
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-Most be some fallout from merging it with the TTM changes.
+On Thu, 17 Jun 2021 16:37:14 +0300
+Laurent Pinchart <laurent.pinchart@ideasonboard.com> wrote:
 
-Anyway, patch is Reviewed-by: Christian König <christian.koenig@amd.com>
+> Hi Pekka,
+>=20
+> On Thu, Jun 17, 2021 at 02:33:11PM +0300, Pekka Paalanen wrote:
+> > On Thu, 17 Jun 2021 13:29:48 +0300 Laurent Pinchart wrote: =20
+> > > On Thu, Jun 17, 2021 at 10:27:01AM +0300, Pekka Paalanen wrote: =20
+> > > > On Thu, 17 Jun 2021 00:05:24 +0300 Laurent Pinchart wrote:   =20
+> > > > > On Tue, Jun 15, 2021 at 01:16:56PM +0300, Pekka Paalanen wrote:  =
+ =20
+
+...
+
+> > > > > > That is where the documented tolerances come into play.     =20
+> > > > >=20
+> > > > > This is something I've experimented with a while ago, when develo=
+ping
+> > > > > automated tests for the rcar-du driver. When playing with differe=
+nt
+> > > > > input images we had to constantly increases tolerances, up to a p=
+oint
+> > > > > where the tests started to miss real problems :-(   =20
+> > > >=20
+> > > > What should we infer from that? That the hardware is broken and
+> > > > exposing those KMS properties is a false promise?   =20
+> > >=20
+> > > No, just that the scaler doesn't document the internal hardware
+> > > implementation (number of taps in the filters, coefficients, rounding,
+> > > ...). That's the rule, not the exception, and it doesn't prevent corr=
+ect
+> > > operation, images get scaled in a reproducible way (the same input
+> > > produces the same output).
+> > >  =20
+> > > > If a driver on certain hardware cannot correctly implement a KMS
+> > > > property over the full domain of the input space, should that driver
+> > > > then simply not expose the KMS property at all?   =20
+> > >=20
+> > > The properties involved here would the the SRC and CRTC rectangles for
+> > > the planes. They don't document pixel-perfect scaling :-)
+> > >  =20
+> > > > But I would assume that the vendor still wants to expose the featur=
+es
+> > > > in upstream kernels, yet they cannot use the standard KMS properties
+> > > > for that. Should the driver then expose vendor-specific properties =
+with
+> > > > the disclaimer that the result is not always what one would expect,=
+ so
+> > > > that userspace written and tested explicitly for that hardware can
+> > > > still work?
+> > > >=20
+> > > > That is, a sufficient justification for a vendor-specific KMS prope=
+rty
+> > > > would be that a standard property already exists, but the hardware =
+is
+> > > > too buggy to make it work. IOW, give up trying to make sense.   =20
+> > >=20
+> > > It's not just about buggy hardware, it's also about implementation
+> > > specificities, such as rounding, filters, order of operations in the
+> > > color management pipeline (it's relatively easy when you only have two
+> > > LUTs and a CCM matrix, but if you through 3D LUTs and other tonemappi=
+ng
+> > > features in the mix, not all hardware will implement the same pipelin=
+e),
+> > > or various types of image compression (this device implements a
+> > > "near-lossless" compression scheme that reduces the memory bandwidth =
+by
+> > > 50% for instance). =20
+> >=20
+> > Rounding shouldn't result in needing wide tolerances.
+> >=20
+> > Filters are more difficult, but at least we can factor them out when
+> > testing other things. Filters could be tested in isolation with some
+> > image difference metrics rather than per-pixel independent comparisons.=
+ =20
+>=20
+> The metrics I was using had both a tolerance on the pixel value and on
+> the number of pixels accepted outside of the value tolerance. I'm sure
+> we can improve it (perhaps taking locality into account), but that's
+> heuristics, and keeping heuristics working across a wide variety of use
+> cases is hard.
+
+Hi Laurent,
+
+I was thinking of using a more, um, scientific error measures, e.g.
+sum or squared errors (SSE) or average SSE over the whole
+re-scaled/filtered image result, ignoring pixels outside of that.
+
+What one normally uses when matching images in computer vision, for
+example. Could even add a threshold such that simple rounding-level
+errors would not even register in SSE. I'm sure there is plenty of
+literature on that, but it may be behind a paywall like IEEE.
+
+SSE may or may not need to computed from light-linear pixel values,
+too. If one wanted to go even further, I'm sure there are computational
+models about human color and brightness difference sensitivity that
+could be used to weigh the errors.
+
+
+> The filter I mentioned, by the way, is the scaler filter. Out of
+> curiosity, do any of the devices you work on document with pixel-perfect
+> precision how the hardware scaler is implemented ?
+
+I don't work on drivers, so wouldn't even look for hardware docs. I go
+by what KMS UAPI documents because that is the API I work with and
+nothing else. And yes, I ignore all the scaling filter issues for now.
+
+Because I don't have a way to get feedback (writeback connectors maybe
+not existing and not hooked up in Weston quite yet), testing
+scaling/filtering precision has not been on-topic yet. Right now I'm
+interested in color correctness rather than geometrical filtering. For
+traditional color management, the expected pixel values are quite
+precise.
+
+> > The order of operations in the color management pipeline is very
+> > important. We can't work with "whatever". All the variability in
+> > hardware is exactly why I have been calling out for defined abstract
+> > color pipeline in the DRM UAPI docs, so that drivers would know which
+> > properties to map to their elements, so that userspace can have any
+> > possibility of using them correctly. If the hardware has a block
+> > that doesn't fit in the abstract pipeline, you get to add things to the
+> > abstract pipeline, or invent a whole another abstract pipeline and
+> > document that. =20
+>=20
+> One very typical difference between devices is the order of the
+> processing blocks. By modelling the KMS pipeline as degamma -> ccm ->
+> gamma, we can accommodate hardware that have any combination of
+> [1-2] * 1D LUTs + 1 * CCM. Now, throw one 3D LUT into the mix, at
+
+But you cannot represent pipelines like
+1D LUT -> 1D LUT -> CCM
+because the abstract pipeline just doesn't have the elements for that.
+OTOH, maybe that ordering does not even make sense to have in hardware?
+So maybe not all combinations are actually needed.
+
+> different points in the pipeline depending on the device, and it will
+> start getting complicated, even if the use case is quite simple and
+> common. This is getting a bit out of topic, but how would you solve this
+> one in particular ?
+
+By defining all the points in the abstract color pipeline where a 3D
+LUT could exist. Then each point would probably need its own KMS
+property.
+
+We already have the KMS pipeline exactly as degamma -> ctm -> gamma and
+drivers need to respect that order.
+
+If the combinatorial explosion gets out of hand, maybe we need a KMS
+property to switch to whole another abstract pipeline which defines a
+different ordering on the same and/or different KMS properties.
+
+=46rom what I've learnt recently, if you have a 3D LUT, you want a 1D LUT
+on each side of it for memory vs. precision optimization. And after the
+degamma -> ctm -> gamma pipeline you may want one more ctm for
+RGB-to-YCbCr conversion. So I have hope that the abstract pipeline with
+all actually implemented hardware features might not go totally out of
+hand.
+
+> > Lossy compression needs its own KMS properties to ensure it can be
+> > disabled when necessary. Near-lossless is not lossless, if a difference
+> > can be measured. The driver or hardware cannot guess if the end user is
+> > ok with "near-lossless" or not, so you have to be conservative and
+> > assume not ok, offering an opt-in for lossy. =20
+>=20
+> Sure, but what would be the barrier to entry for such a property that
+> would enable the compression (it could actually be a pixel format
+> modifier) ? Would it only need to be documented ? Would we need a
+> software implementation in VKMS and/or in IGT ? The compression
+> algorithm is proprietary and not documented, so the latter can't be
+> done.
+
+Good questions. Shows that the idea of strictly requiring a VKMS
+implementation won't fly, which is what I expected.
+
+Saying it could be a pixel format modifier is a really good point. A
+modifier cannot be the only thing to control it. Userspace does not
+decode modifiers, so it cannot filter it out when it wants lossless
+pixels. There must be something else to control it.
+
+As a userspace dev, I would be ok with documenting a KMS property as
+"improves blah blah, but also does significant violence to your
+pixels", so I would know that this is something I need to consider.
+
+You could argue that all KMS properties do violence to pixels, but
+that's not a useful definition. It would just mean that in some use
+cases I would never off-load anything to KMS. Depending on the use case
+that might still be true even if the errors were limited to reasonable
+rounding errors. I need an idea of how much error does KMS processing
+do, and ultimately I expect compositors to also need a last resort
+button for "do not trust KMS processing at all" which then makes the
+display server always use the exact same simplest possible KMS
+configuration and let the end user deal with the KMS errors via
+color-profiling his monitor.
+
+It's quite a different thing to have color processing elements in an
+unexpected order in the pipeline than it is to have a scaling filter
+doing slightly unknown operations.
+
+> > ...
+> >  =20
+> > > > My underlying assumption is that generic userspace will not use
+> > > > vendor-specific properties.   =20
+> > >=20
+> > > I expect some amount of device-specific code in userspace, yes.  =20
+> >=20
+> > If we had a reliable way to test device-specific code without the
+> > hardware and automatically in CI, then maybe.
+> >  =20
+> > > There are usually large variations in how the hardware exposes access=
+ to
+> > > a given feature, which leads to code having to convert the standard A=
+PI
+> > > parameters to hardware parameters. To a large extend this can be done=
+ in
+> > > drivers, but for some more complex features, it may put too much burd=
+en
+> > > on the kernel. There's a reason mesa is a userspace stack :-) =20
+> >=20
+> > If we get a Khronos standardised 2D composition API... oh wait.
+> >=20
+> > Nothing wrong with userspace libraries, but it does mean that driver
+> > developers need to contribute to them, like they do to Mesa. Is there
+> > any of that going on for KMS? =20
+>=20
+> Not that I'm aware of, but I think that's a direction we can consider
+> seriously.
+
+That would be awesome if the API is generic.
+
+> > In the mean time, DRM UAPI basically must define a 2D composition API,
+> > or the new KMS properties will not see use outside of vendor trees.
+
 
 Thanks,
-Christian.
+pq
 
-> ---
->   drivers/gpu/drm/amd/amdgpu/amdgpu_preempt_mgr.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_preempt_mgr.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_preempt_mgr.c
-> index f6aff7ce5160..d02c8637f909 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_preempt_mgr.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_preempt_mgr.c
-> @@ -71,7 +71,7 @@ static int amdgpu_preempt_mgr_new(struct ttm_resource_manager *man,
->   	struct amdgpu_preempt_mgr *mgr = to_preempt_mgr(man);
->   
->   	*res = kzalloc(sizeof(**res), GFP_KERNEL);
-> -	if (*res)
-> +	if (!*res)
->   		return -ENOMEM;
->   
->   	ttm_resource_init(tbo, place, *res);
+--Sig_/FvFnMvh/SbxNwAEjaUh=ULz
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
 
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmDMX4oACgkQI1/ltBGq
+qqc91A/9FdlGscfrD5QGvQidCdZbx7tFUQcgjhEQVJmhor/60x/FC4Nih1+a4LSM
+58gkkOkdnmiJU4BBJCoUXP5tCTlxraOfwMRwPY3o0s+UCSg7QBTMdTPF0zcWbd+5
+OAbfpBEivQqrQzSrZw1wYgbv2ZGEELS6hvdL6lcDbfhYoR1r3TZcv3QgZc2/1n8w
+SxgFr5K1KKyW2OhgpNif41p9hdf0VnAI5kjxZr5wZzH4mSvMqSYW2vqhShckfZmu
+WNb0Kc1dJPm2UJRieVOcq0dsLF+PPtr7q4PMQxVR4F6imAYvOLe0Nj5yQFSqZGND
+zFTkQZjfJ9U9qehLvw97PRhTQMysx2ed6C0VPFMA1gb1gEVhwmWLN/uKFnlpxkhe
+sLhHXG/kkq2pF50r+YV/h0Bt5w26Hmo2LI22CU/nv5rChiOltV9wogyL6W0DJ0cu
+pzuS3m1Zk0SjhdDphg2TfmOrD/F0/Ne+yRV7icw3Bk30EPo4hsdrcN4j+bLpfK3S
+PjuVVY2scCuSsGnXlGDAaz8l4DwvJ8apQzxb0SpFyC3pUvLZ3g5k+9ZV5ISdq+V3
+ZDKlHlnhmiy6IwBNlrB0OA6rcnnuB5L2gJTVx+uegPNe4A+uM7cE/feLcaqx8dwP
+XxkH4aeWotLL6pucwSF2oJ3ibpot/jd0rPobHkUfeohOKHlbBvI=
+=FD0J
+-----END PGP SIGNATURE-----
+
+--Sig_/FvFnMvh/SbxNwAEjaUh=ULz--
