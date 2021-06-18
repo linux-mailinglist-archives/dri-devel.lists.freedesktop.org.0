@@ -1,46 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47BFA3ACB3D
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Jun 2021 14:41:16 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 88B9D3ACB43
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Jun 2021 14:43:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EB1566EA01;
-	Fri, 18 Jun 2021 12:41:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 693DB6EA02;
+	Fri, 18 Jun 2021 12:43:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B16A96EA01;
- Fri, 18 Jun 2021 12:41:09 +0000 (UTC)
-IronPort-SDR: VSbJvB8IZlIwGeAKzY1jZNsz+AOJJq7hM9wub2c5zF94TX9r5DwkkxmMEDqYOKyb/Br5k3uDJf
- 8jHP8T5/i3ew==
-X-IronPort-AV: E=McAfee;i="6200,9189,10018"; a="228074011"
-X-IronPort-AV: E=Sophos;i="5.83,283,1616482800"; d="scan'208";a="228074011"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Jun 2021 05:41:09 -0700
-IronPort-SDR: LdxoiOB5mG1nuUjVsKJzLntlYwFWG898j2YBaio6t92PqnSmlQVIoP3S+x+/zT48luJ+cgbMeZ
- hA1+IoEzvnwg==
-X-IronPort-AV: E=Sophos;i="5.83,283,1616482800"; d="scan'208";a="479811139"
-Received: from jhogberg-mobl1.ger.corp.intel.com (HELO [10.249.254.60])
- ([10.249.254.60])
- by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Jun 2021 05:41:08 -0700
-Subject: Re: [Intel-gfx] [PATCH] drm/i915/ttm: Fix incorrect assumptions about
- ttm_bo_validate() semantics
-To: Matthew Auld <matthew.william.auld@gmail.com>
-References: <20210618083117.158081-1-thomas.hellstrom@linux.intel.com>
- <CAM0jSHMLmWGfVQEZu9R__SGsAAjfPMSOHxgyXf8veYVxOOa8Mw@mail.gmail.com>
-From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>
-Message-ID: <e489a32f-198b-2860-8d22-b88a9f51eb2c@linux.intel.com>
-Date: Fri, 18 Jun 2021 14:41:06 +0200
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 609F06EA02
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Jun 2021 12:43:28 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id AB27F1424;
+ Fri, 18 Jun 2021 05:43:27 -0700 (PDT)
+Received: from [192.168.1.179] (unknown [172.31.20.19])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 436BD3F719;
+ Fri, 18 Jun 2021 05:43:26 -0700 (PDT)
+Subject: Re: [PATCH v2] drm/panfrost:report the full raw fault information
+ instead
+To: ChunyouTang <tangchunyou@163.com>, robh@kernel.org,
+ tomeu.vizoso@collabora.com, alyssa.rosenzweig@collabora.com,
+ airlied@linux.ie, daniel@ffwll.ch
+References: <20210617062054.1864-1-tangchunyou@163.com>
+From: Steven Price <steven.price@arm.com>
+Message-ID: <2dcbb36a-b550-4c9d-cff8-73ca4b5abb11@arm.com>
+Date: Fri, 18 Jun 2021 13:43:24 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <CAM0jSHMLmWGfVQEZu9R__SGsAAjfPMSOHxgyXf8veYVxOOa8Mw@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+In-Reply-To: <20210617062054.1864-1-tangchunyou@163.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,75 +46,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- Matthew Auld <matthew.auld@intel.com>,
- ML dri-devel <dri-devel@lists.freedesktop.org>
+Cc: ChunyouTang <tangchunyou@icubecorp.cn>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 17/06/2021 07:20, ChunyouTang wrote:
+> From: ChunyouTang <tangchunyou@icubecorp.cn>
+> 
+> of the low 8 bits.
 
-On 6/18/21 12:53 PM, Matthew Auld wrote:
-> On Fri, 18 Jun 2021 at 09:31, Thomas Hellström
-> <thomas.hellstrom@linux.intel.com> wrote:
->> We have assumed that if the current placement was not the requested
->> placement, but instead one of the busy placements, a TTM move would have
->> been triggered. That is not the case.
->>
->> So when we initially place LMEM objects in "Limbo", (that is system
->> placement without any pages allocated), to be able to defer clearing
->> objects until first get_pages(), the first get_pages() would happily keep
->> objects in system memory if that is one of the allowed placements. And
->> since we don't yet support i915 GEM system memory from TTM, everything
->> breaks apart.
->>
->> So make sure we try the requested placement first, if no eviction is
->> needed. If that fails, retry with all allowed placements also allowing
->> evictions. Also make sure we handle TTM failure codes correctly.
->>
->> Also temporarily (until we support i915 GEM system on TTM), restrict
->> allowed placements to the requested placement to avoid things falling
->> apart should LMEM be full.
->>
->> Fixes: 38f28c0695c0 ("drm/i915/ttm: Calculate the object placement at get_pages time)
->> Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
->> ---
->>   drivers/gpu/drm/i915/gem/i915_gem_ttm.c | 61 +++++++++++++++++++++++--
->>   1 file changed, 58 insertions(+), 3 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
->> index df46535cca47..4bb0440f693c 100644
->> --- a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
->> +++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
->> @@ -64,6 +64,30 @@ static struct ttm_placement i915_sys_placement = {
->>          .busy_placement = &sys_placement_flags,
->>   };
->>
->> +static int i915_ttm_err_to_gem(int err)
->> +{
->> +       /* Fastpath */
->> +       if (likely(!err))
->> +               return 0;
->> +
->> +       switch (err) {
->> +       case -EBUSY:
->> +               /*
->> +                * TTM likes to convert -EDEADLK to -EBUSY, and wants us to
->> +                * restart the operation, since we don't record the contending
->> +                * lock. We use -EAGAIN to restart.
->> +                */
->> +               return -EAGAIN;
->> +       case -ENOSPC:
->> +               /* Memory type / region is full, and we can't evict. */
->> +               return -ENXIO;
-> ttm system will return -ENOMEM right?
->
-> Reviewed-by: Matthew Auld <matthew.auld@intel.com>
+Please don't split the subject like this. The first line of the commit
+should be a (very short) summary of the patch. Then a blank line and
+then a longer description of what the purpose of the patch is and why
+it's needed.
 
-Hmm, Yes, I suppose so. Will that need some mangling before handing over 
-to GEM?
+Also you previously had this as part of a series (the first part adding
+the "& 0xFF" in the panfrost_exception_name() call). I'm not sure we
+need two patches for the single line, but as it stands this patch
+doesn't apply.
 
-Thanks for reviewing!
+Also I'm still not receiving any emails from you directly (only via the
+list), so it's possible I might have missed something you sent.
 
-Thomas
+Steve
 
+> 
+> Signed-off-by: ChunyouTang <tangchunyou@icubecorp.cn>
+> ---
+>  drivers/gpu/drm/panfrost/panfrost_gpu.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/panfrost/panfrost_gpu.c b/drivers/gpu/drm/panfrost/panfrost_gpu.c
+> index 1fffb6a0b24f..d2d287bbf4e7 100644
+> --- a/drivers/gpu/drm/panfrost/panfrost_gpu.c
+> +++ b/drivers/gpu/drm/panfrost/panfrost_gpu.c
+> @@ -33,7 +33,7 @@ static irqreturn_t panfrost_gpu_irq_handler(int irq, void *data)
+>  		address |= gpu_read(pfdev, GPU_FAULT_ADDRESS_LO);
+>  
+>  		dev_warn(pfdev->dev, "GPU Fault 0x%08x (%s) at 0x%016llx\n",
+> -			 fault_status & 0xFF, panfrost_exception_name(pfdev, fault_status & 0xFF),
+> +			 fault_status, panfrost_exception_name(pfdev, fault_status & 0xFF),
+>  			 address);
+>  
+>  		if (state & GPU_IRQ_MULTIPLE_FAULT)
+> 
 
