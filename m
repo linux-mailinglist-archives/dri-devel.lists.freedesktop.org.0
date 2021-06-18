@@ -1,61 +1,122 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A58F3ACE79
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Jun 2021 17:18:18 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B828B3ACF55
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Jun 2021 17:41:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 68B8F6EA37;
-	Fri, 18 Jun 2021 15:18:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0E99E6EA3A;
+	Fri, 18 Jun 2021 15:40:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x232.google.com (mail-oi1-x232.google.com
- [IPv6:2607:f8b0:4864:20::232])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DA5B66EA43
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Jun 2021 15:18:04 +0000 (UTC)
-Received: by mail-oi1-x232.google.com with SMTP id s17so2143217oij.11
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Jun 2021 08:18:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=IziyHqd3ymBUaYPDj2gXxSndSLvv0oXN4pCzhkrliiE=;
- b=LiFRgTXcJNVzjKlBSV9aYnO5k/iFzFmeFmZzH0qMYep3pEDa1QCgwqNEgPzwqE+H2p
- mjL3txCeKSAiE9EWiGle0DJuZ1wgcHsrGVUyYdxdm6ModfOf9T6Obs9lp3XMurkkvN6U
- qNtvm3Hkuots7OZWbpIzTvcms3EDtWXbDSwVQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=IziyHqd3ymBUaYPDj2gXxSndSLvv0oXN4pCzhkrliiE=;
- b=bCPJ+TMnE50hou8joF7ioM7QKwSOafic+nGPGvqXCy/oO4hSv/IwvBE8Fm9NhrT6m7
- 7Je9Pl0SbN5DFvBr978JKgdSmn+itlbfX1xJji42eW3Ezcyii1hR8M4mCyW1rg7c1QNc
- 2tSxmhY02O48MbToyDGOdPdlg+oVPG6XsLeayRVjuJ8h6T//uKvqO7E+lSOxUEXo689g
- X+LmczyHGA0ri12S4fO80palvnxO1cbJ88g9w+51L/RmmKtip6TpmLaUAoOnRFfpIbuh
- hi3ZImegpfkCfOMrAUcc3BHVASQxjrftspTEnNH8IQMKtLtNYnBHSLkk3dnvYljwl67h
- 2jKQ==
-X-Gm-Message-State: AOAM530sznNM/MDfmyiU0nl8XjCBzslSODDKix78lTXHxziZPb3KUVn2
- tdvvWqgvyhB1AG+IeK6+VSFXo3TYy6gbmpkz9SjhQg==
-X-Google-Smtp-Source: ABdhPJyX/g8CXJod1c5Eb8UddmVMBuUXCD+lgoojNlULerp+C2DbHHZ5lFIs0ssol9F4NHYs/z0ALhxG8cXghCTKdpI=
-X-Received: by 2002:aca:afc5:: with SMTP id y188mr5905945oie.14.1624029484016; 
- Fri, 18 Jun 2021 08:18:04 -0700 (PDT)
+Received: from NAM04-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam08on2082.outbound.protection.outlook.com [40.107.101.82])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A48A06EA39;
+ Fri, 18 Jun 2021 15:40:57 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=TWM8ZIM7/UEG1oPmRj/5xdGaGC4bHb0WUK1KW6AZb9n6tKH6AKoEleoBNZN7id8jSaAdu7eZ4TxtJPf6+2zqweOju/Wl86+jVwiYyUTBukdBbIcTCwckdJasWPSz0FRubxJ1GfC/NLv4Ud4nRs4HXzVEeVYEXr/BZpNbpGbLauoJAvy4MmEG0TLtEAJBTiCZoMisRtNwFzW9xK27QFNlGjbikRRgc74r00hYy6WJknb47nHGYSiD5EPTiM23y+/dlwH7tSiHOxcuQYTChKr7E85JpPhYjICzJygMdoCAhF6kL/IOrVyMA4semh20YaJrdcOSD4rK+70dSbgZPKYuhw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=9TAWZOjpT5bucATXH92Xv9rGIe8N6+rs9b9l8UXk9mg=;
+ b=jTTDy6OoWdvC/HmWnkcYERsGoOxpkYErD2UBmBFT+hbl8CVDsLuLb6Sx6lxbqyvwDxm6tqfLkUPjYaxmeGGl7vN/L13MwrmwpaKRhdA5A11bs5bc1ZMX7LQPzQClxGGY5jxl9a0f7oOsxkT8Pxh55PsyDylGgxjzonR2kG08N1M9MxM3hK+8Ya61eu6kq8cNCsjYho1b2tJKRrdjSo/2SvxJw8CsTEo1bYq68SmXTQGElAAJlziOzyrMx1CVMQGSw6XgrUUG2h0dbB4xDUlTXgH7XgB26Jd2hScxyKlmI5/D04ochT+tS2A1NQBMN2esuLPSuRAs+WSIlGoJ7qLY6g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=9TAWZOjpT5bucATXH92Xv9rGIe8N6+rs9b9l8UXk9mg=;
+ b=PTe/Zlww+W56EbHnnciyfpQbA3tIcvfZohcpPkFMsyyYOYFp2rZfD7BeTB/czuwG9tUNVjo5qOosiStSP6iQbgJ9r4/5rMr1uEF+UJfLRyTp7JzaRIEkqQkuNjxtFtMpSjEazs8Z2kMY6SwEFgllVikzGZtVlu0YJBqPJXpXdp0=
+Authentication-Results: vger.kernel.org; dkim=none (message not signed)
+ header.d=none;vger.kernel.org; dmarc=none action=none header.from=amd.com;
+Received: from BN9PR12MB5129.namprd12.prod.outlook.com (2603:10b6:408:136::12)
+ by BN9PR12MB5338.namprd12.prod.outlook.com (2603:10b6:408:103::23)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4242.18; Fri, 18 Jun
+ 2021 15:40:55 +0000
+Received: from BN9PR12MB5129.namprd12.prod.outlook.com
+ ([fe80::3c78:e58b:fba7:b8dd]) by BN9PR12MB5129.namprd12.prod.outlook.com
+ ([fe80::3c78:e58b:fba7:b8dd%6]) with mapi id 15.20.4242.021; Fri, 18 Jun 2021
+ 15:40:55 +0000
+Subject: Re: [PATCH] drm/amdgpu: fix amdgpu_preempt_mgr_new()
+To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ Dan Carpenter <dan.carpenter@oracle.com>,
+ Alex Deucher <alexander.deucher@amd.com>, Dave Airlie <airlied@redhat.com>
+References: <YMxbQXg/Wqm0ACxt@mwanda>
+ <fadcee22-d830-c1be-09f0-9788b98c45ec@amd.com>
+From: Felix Kuehling <felix.kuehling@amd.com>
+Message-ID: <adee15a2-f531-688c-1121-7504163ae441@amd.com>
+Date: Fri, 18 Jun 2021 11:40:53 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
+In-Reply-To: <fadcee22-d830-c1be-09f0-9788b98c45ec@amd.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+X-Originating-IP: [142.186.84.51]
+X-ClientProxiedBy: YT2PR01CA0006.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b01:38::11) To BN9PR12MB5129.namprd12.prod.outlook.com
+ (2603:10b6:408:136::12)
 MIME-Version: 1.0
-References: <20210610210925.642582-1-jason@jlekstrand.net>
- <29e9795e-8ec7-282c-c8ec-413eaed2e4d4@gmail.com>
- <CAOFGe94oFA9=vy56--hm=9=232+Npnxrpn+6gGFpRM2dmJZh3w@mail.gmail.com>
- <84135114-71d4-77f0-7a6b-69bb81b7f73c@amd.com>
- <YMupgTffAfw8xw51@phenom.ffwll.local>
- <e8fc12a3-42eb-30f9-c6ac-772fbc675678@amd.com>
- <CAKMK7uH5oW3icBPOPsumRv+LJ-5qCVKgfniXd-J8mnA+JuRq+Q@mail.gmail.com>
- <53c1c0c2-5e17-a54f-155b-66f3cd4b48a3@amd.com>
-In-Reply-To: <53c1c0c2-5e17-a54f-155b-66f3cd4b48a3@amd.com>
-From: Daniel Vetter <daniel@ffwll.ch>
-Date: Fri, 18 Jun 2021 17:17:52 +0200
-Message-ID: <CAKMK7uHng_beNWeYa50Nxrz2SQVmjTuuN-cAYz-SQtAymGdH3Q@mail.gmail.com>
-Subject: Re: [Mesa-dev] [PATCH 0/6] dma-buf: Add an API for exporting sync
- files (v12)
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.2.100] (142.186.84.51) by
+ YT2PR01CA0006.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:b01:38::11) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4242.18 via Frontend Transport; Fri, 18 Jun 2021 15:40:55 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: aff9dcaf-04de-4c9d-bc5d-08d9326f7632
+X-MS-TrafficTypeDiagnostic: BN9PR12MB5338:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <BN9PR12MB53386073AEC9A26E5D773D0C920D9@BN9PR12MB5338.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: VMeWHzjrHRUAtrU1u1zuKugP6eUZuVI9dqKSBR4Y9jugpo7xM7D0yXEcI9kQPVVuS8esaWMi0MtHs3abZpBUC1B7GPP2MyVr9FPuYWVCzG4vRgXLqHuE2UmBMvMLODgsChHgOX/C4SCz+0DiQBCHWW6UUgVUR8+cY2Da5bxrE1IyA9sZ3oVLVeMZSOaKNsEw2zJwTt8dzYb/Q8pkPAYTdxI8nGM90XkPrJHLXPmRJ6p3lzb5z9yxvKWKF8Q0qDKG6s4dUGVNcLzfHmDgIahb0b9Q+MgVfBrtB8QVXofGcjYZMKZjKUXnxRBXHhCe+8KyCin+Z4hniXXHmxtWoTBCxeaXL4mONZqsw+ynMftEXoG1UU8hR1rm5NbqRLphp2UkSA+EXK79i40T6/2+UYjjBw2v2imEcYSShcMTaFX7dEgH5wCh+vwkxypTYWbnInzDrlnbvb060COSdHIHnPuEy2er3+n81fxza+N0hEbmZZFiPff931lPfvIal9wvHlFYG+YihCnhcyzdLOJ6KvtM8lXA/owz7lpjrztR3FNc4mm2nfY29pyc9Zp/Bj3NJo5bmHThY/ZKEoxn1zWxt/FhucNS3UqtMvVy4o26MezCE36+fp0OaCRoEwaS1IaCATSbxzy/mTsc9sa40QzAYHnFGhUmLOZWOowz4aOJgviHU1juzeM671diddvdEmnzdInP
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BN9PR12MB5129.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(136003)(346002)(376002)(396003)(39860400002)(366004)(110136005)(316002)(38100700002)(54906003)(2906002)(83380400001)(44832011)(478600001)(2616005)(186003)(66946007)(16576012)(66574015)(5660300002)(26005)(86362001)(956004)(6486002)(8676002)(16526019)(4326008)(31696002)(8936002)(31686004)(36756003)(66476007)(66556008)(45980500001)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?WkZuNzEwaEpia0wzNmFlbVFFNDZweHJnRlpUVlEvQUUvTHlvMDl6ZXFlVDd0?=
+ =?utf-8?B?VnhVL1lyRkFTS1VGcDYwTHMxOEUwS2w2Umpwamk1TEhwcmtCYTFLUjNwZU44?=
+ =?utf-8?B?bDB0NU9ZZElVUWU1dGc4T2V3bUZIeXZjNXRUSlpRcnN1OHpCOVhHaE4wZGU5?=
+ =?utf-8?B?TEROQzV5U2NoakdvbXBvU281Mm8yMkpIR2d3ZWdoeUMrQnFGcEkzdFVRM3lX?=
+ =?utf-8?B?bmtsdkEyQy84SkVUc3JqVEJhdklMMml4V1pzZTFvRmN2MWNlNUJvSzNrR1dG?=
+ =?utf-8?B?ZHNGcHVlNVdHRTM4K09pM0syYUJ2YVZ2ZUw0WVhUSkVxMXVxSWpNcm8rT3Fl?=
+ =?utf-8?B?eUtKelJxMEZMNHMwMklyT1FHRm9hSkRnMW9JWkdmaS95bVdlU1FTc1hEOG1L?=
+ =?utf-8?B?WjU2REdDYmhjRm9VaVRvWW1FL1ZRSk8xOURmNkxpbjBxWW5rMFVFWDZaK3Qy?=
+ =?utf-8?B?cHdVbnhOZjE5dDJsQkFyZnNkMjBmWDlsRXFtb21vZk1IaXplZGJVeVRqY3JG?=
+ =?utf-8?B?eEdHUmpYcXNNY2ZBbTlZeEFSYXhwN0szN3hQenk4cEZFWEdwaC9lZzQ2Vy9L?=
+ =?utf-8?B?TDNRbVdoOVFEUFF4K3VYQng2aGV2QnRXcUt2RWRldVB3dVJGWE9uOXFoQzh2?=
+ =?utf-8?B?NHBwRjdoTW1tQytRZUhFL0VoaFlpSFNYWWJ0UVAwc3hOY3p0azVlaDNPRkN4?=
+ =?utf-8?B?Q2FodUpFSTRGd2V0RHVYZVZ4MnVFdE1zZHo5OWpMTzVQb3NtOHMrOUxZOGZQ?=
+ =?utf-8?B?N0lmMCswc2Z2cWJFU3VLYTV0SXMrNWg4MWRFeVp2eWdncUpIZ0htdUZNTDI5?=
+ =?utf-8?B?NXYrbXdvcS9VdkdVcko1YzNNdnE3OVYxT0F6L2ZKNytVRXlkNGFiK2JaYU9L?=
+ =?utf-8?B?SWI0SnpWMDZYYXFaMjNSUWZ2ZmVQQmdWQXpBam1lbEs3WUdMZ1FPOTduU05E?=
+ =?utf-8?B?cXFQRzNsNXFEa0FkU1FzMlZtSWFGTm13RFBpQ0prU3U1TFRGc3p1SXFSSGRW?=
+ =?utf-8?B?MWNzZjdHS3kyalhpSU1waHNiZXI3MmZ5YUZkT0RFdCswY2MzTCtGTVNqQlND?=
+ =?utf-8?B?S0V1NnROekZ2dXJqcHcxWnlINk9GNThKenhRcnJ3VDd5SnJCWUZXZDNldGRs?=
+ =?utf-8?B?MDJja2JwcTFuUnNvcUlCUEtrOVBGVndQUUNlUmFqN2ZIT0lJTjJBOTJyNHNn?=
+ =?utf-8?B?T2swUEI5d1R1TnhISzFHZkZVVHdWSlVad0lCdlJLWTFrQkF2bVJrbjZTQmdQ?=
+ =?utf-8?B?QjBrdHNmbTlZN09idk8wcWEyNUdraU1qZWRST1RPOUVQVGhsZzVLYVVOT0Ra?=
+ =?utf-8?B?Tk1tdlRkczNVbitoRSthbVJzenZ2citQTHdnalQwZGpMVmpPTDdYMjA4WFFr?=
+ =?utf-8?B?SGI4d0dIaExCR3Bxa2VWRHhwak1ZMTNsQXg2MER1UTI3T0lyY00xOTNSc0c0?=
+ =?utf-8?B?djdicHllMk9lY2dIdHdmdmtmSkpaNTR4Mlk0VSt0V0NOcSt4a0hscFptMTFq?=
+ =?utf-8?B?YXhkV0lBek51czU2ZEpKNjBCZUloeHpQTFZJNmRpU1lONm45VEdyd3QwMzVL?=
+ =?utf-8?B?UDlqNFhpM3dhYi9jVkZZR1BEL3lvQUthN1FIZk4yN0xxUi9lcFBXOVd1RnBa?=
+ =?utf-8?B?SElPWEtMV2ZGVGdoMVh1bE1jWGJ2bEY2cGppVEdENHR5UE5URG1CRWVJL2px?=
+ =?utf-8?B?bVhYWUpJZjE3MzV6VjFUengvLytJRFpCbHlQdnRiaFE1cmdpL2ZqMFR4NkNv?=
+ =?utf-8?Q?+WAnkpWWuOOO8Yi1wfa8otoK0Wjra3/7hUTKP0A?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: aff9dcaf-04de-4c9d-bc5d-08d9326f7632
+X-MS-Exchange-CrossTenant-AuthSource: BN9PR12MB5129.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Jun 2021 15:40:55.7163 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: lJBEImjLaKlItBZ4fHMPG0bOw9ZGoUomMdbbEcipRQkUe8jUxsQ1mPur/A8wykKmQ4HIrkcBhAmbgzG0lBwc5Q==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN9PR12MB5338
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,397 +129,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Stone <daniels@collabora.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
- =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel@daenzer.net>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- "wayland-devel @ lists . freedesktop . org"
- <wayland-devel@lists.freedesktop.org>, Jason Ekstrand <jason@jlekstrand.net>,
- Dave Airlie <airlied@redhat.com>, ML mesa-dev <mesa-dev@lists.freedesktop.org>
+Cc: David Airlie <airlied@linux.ie>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
+ kernel-janitors@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jun 18, 2021 at 4:42 PM Christian K=C3=B6nig
-<christian.koenig@amd.com> wrote:
+Am 2021-06-18 um 4:39 a.m. schrieb Christian König:
+> Am 18.06.21 um 10:37 schrieb Dan Carpenter:
+>> There is a reversed if statement in amdgpu_preempt_mgr_new() so it
+>> always returns -ENOMEM.
+>>
+>> Fixes: 09b020bb05a5 ("Merge tag 'drm-misc-next-2021-06-09' of
+>> git://anongit.freedesktop.org/drm/drm-misc into drm-next")
+>> Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
 >
-> Am 18.06.21 um 16:31 schrieb Daniel Vetter:
-> > [SNIP]
-> >> And that drivers choose to ignore the exclusive fence is an absolutely
-> >> no-go from a memory management and security point of view. Exclusive
-> >> access means exclusive access. Ignoring that won't work.
-> > Yeah, this is why I've been going all over the place about lifting
-> > ttm_bo->moving to dma_resv. And also that I flat out don't trust your
-> > audit, if you havent found these drivers then very clearly you didn't
-> > audit much at all :-)
+> Most be some fallout from merging it with the TTM changes.
 >
-> I just didn't though that anybody could be so stupid to allow such a
-> thing in.
->
-> >> The only thing which saved us so far is the fact that drivers doing th=
-is
-> >> are not that complex.
-> >>
-> >> BTW: How does it even work? I mean then you would run into the same
-> >> problem as amdgpu with its page table update fences, e.g. that your
-> >> shared fences might signal before the exclusive one.
-> > So we don't ignore any fences when we rip out the backing storage.
-> >
-> > And yes there's currently a bug in all these drivers that if you set
-> > both the "ignore implicit fences" and the "set the exclusive fence"
-> > flag, then we just break this. Which is why I think we want to have a
-> > dma_fence_add_shared_exclusive() helper extracted from your amdgpu
-> > code, which we can then use everywhere to plug this.
->
-> Daniel are you realizing what you are talking about here? Does that also
-> apply for imported DMA-bufs?
->
-> If yes than that is a security hole you can push an elephant through.
->
-> Can you point me to the code using that?
->
-> >>> For dma-buf this isn't actually a problem, because dma-buf are pinned=
-. You
-> >>> can't move them while other drivers are using them, hence there's not
-> >>> actually a ttm_bo->moving fence we can ignore.
-> >>>
-> >>> p2p dma-buf aka dynamic dma-buf is a different beast, and i915 (and f=
-wiw
-> >>> these other drivers) need to change before they can do dynamic dma-bu=
-f.
-> >>>
-> >>>> Otherwise we have an information leak worth a CVE and that is certai=
-nly not
-> >>>> something we want.
-> >>> Because yes otherwise we get a CVE. But right now I don't think we ha=
-ve
-> >>> one.
-> >> Yeah, agree. But this is just because of coincident and not because of
-> >> good engineering :)
-> > Well the good news is that I think we're now talking slightly less
-> > past each another than the past few weeks :-)
-> >
-> >>> We do have a quite big confusion on what exactly the signaling orderi=
-ng is
-> >>> supposed to be between exclusive and the collective set of shared fen=
-ces,
-> >>> and there's some unifying that needs to happen here. But I think what
-> >>> Jason implements here in the import ioctl is the most defensive versi=
-on
-> >>> possible, so really can't break any driver. It really works like you =
-have
-> >>> an ad-hoc gpu engine that does nothing itself, but waits for the curr=
-ent
-> >>> exclusive fence and then sets the exclusive fence with its "CS" compl=
-etion
-> >>> fence.
-> >>>
-> >>> That's imo perfectly legit use-case.
-> >> The use case is certainly legit, but I'm not sure if merging this at t=
-he
-> >> moment is a good idea.
-> >>
-> >> Your note that drivers are already ignoring the exclusive fence in the
-> >> dma_resv object was eye opening to me. And I now have the very strong
-> >> feeling that the synchronization and the design of the dma_resv object
-> >> is even more messy then I thought it is.
-> >>
-> >> To summarize we can be really lucky that it didn't blow up into our
-> >> faces already.
-> > I don't think there was that much luck involved (ok I did find a
-> > possible bug in i915 already around cpu cache flushing) - for SoC the
-> > exclusive slot in dma_resv really is only used for implicit sync and
-> > nothing else. The fun only starts when you throw in pipelined backing
-> > storage movement.
-> >
-> > I guess this also explains why you just seemed to ignore me when I was
-> > asking for a memory management exclusive fence for the p2p stuff, or
-> > some other way to specifically handling movements (like ttm_bo->moving
-> > or whatever it is). From my pov we clearly needed that to make p2p
-> > dma-buf work well enough, mixing up the memory management exclusive
-> > slot with the implicit sync exclusive slot never looked like a bright
-> > idea to me.
-> >
-> > I think at least we now have some understanding here.
->
-> Well to be honest what you have just told me means that i915 is
-> seriously broken.
->
-> Ignoring the exclusive fence on an imported DMA-buf is an absolutely
-> *NO-GO* even without P2P.
->
-> What you have stitched together here allows anybody to basically read
-> any memory on the system with both i915 and nouveau, radeon or amdgpu.
->
-> We need to fix that ASAP!
+> Anyway, patch is Reviewed-by: Christian König <christian.koenig@amd.com>
 
-Ignoring _all_ fences is officially ok for pinned dma-buf. This is
-what v4l does. Aside from it's definitely not just i915 that does this
-even on the drm side, we have a few more drivers nowadays.
+This is obviously not for amd-staging-drm-next. Christian, are you going
+to apply it to the relevant branches?
 
-The rules are that after you've called dma_buf_map_attachment the
-memory exists, and is _not_ allowed to move, or be uncleared data, or
-anything else. This must be guaranteed until dma_buf_unmap_attachment
-is called.
+Thanks,
+  Felix
 
-Also drivers are not required to even set a dma_fence in the dma_resv
-object for their dma access. Again v4l works like this by design, but
-we've had plenty of drivers who totally ignored dma_resv beforehand
-too.
 
-So if there's a problem, I think you first need to explain what it is.
-Also if you wonder how we got here, that part is easy: dma-buf
-predates dma-resv extraction from ttm by quite some time (years even
-iirc). So the og dma-buf rules really are "fences don't matter, do
-whatever you feel with them". Well you're not allowed to just remove
-them if their not your own, since that could break other drivers :-)
-
-If amdgpu now e.g. pipelines the clearing/moving of
-dma_buf_map_attachment behind an exclusive fence, that would be
-broken. That is _only_ allowed if both exporter and all importers are
-dynamic. I don't think you've done that, but if that's the case then
-the dma_buf_ops->pin callback would need to have a
-dma_fence_wait(exclusive_fence) or something like that to plug that
-gap.
-
-If it's something else, then please walk me through the scenario
-because I'm not seeing a problem here.
--Daniel
-
-> Regards,
+>
+> Thanks,
 > Christian.
 >
-> >>> Same for the export one. Waiting for a previous snapshot of implicit
-> >>> fences is imo perfectly ok use-case and useful for compositors - clie=
-nt
-> >>> might soon start more rendering, and on some drivers that always resu=
-lts
-> >>> in the exclusive slot being set, so if you dont take a snapshot you
-> >>> oversync real bad for your atomic flip.
-> >> The export use case is unproblematic as far as I can see.
-> >>
-> >>>>> Those changes are years in the past.  If we have a real problem her=
-e (not sure on
-> >>>>> that yet), then we'll have to figure out how to fix it without nuki=
-ng
-> >>>>> uAPI.
-> >>>> Well, that was the basic idea of attaching flags to the fences in th=
-e
-> >>>> dma_resv object.
-> >>>>
-> >>>> In other words you clearly denote when you have to wait for a fence =
-before
-> >>>> accessing a buffer or you cause a security issue.
-> >>> Replied somewhere else, and I do kinda like the flag idea. But the pr=
-oblem
-> >>> is we first need a ton more encapsulation and review of drivers befor=
-e we
-> >>> can change the internals. One thing at a time.
-> >> Ok how should we then proceed?
-> >>
-> >> The large patch set I've send out to convert all users of the shared
-> >> fence list to a for_each API is a step into the right direction I thin=
-k,
-> >> but there is still a bit more todo.
-> > Yeah I had noted that as "need to review". But I think we should be
-> > even more aggressive with encapsulation (at least where it doesn't
-> > matter that much from a perf pov). Like my suggestion for dma_buf_poll
-> > to not open-code the entire dance, but just use a snapshot thing. But
-> > I'll check out next week what you cooked up with the iterator.
-> >
-> >>> And yes for amdgpu this gets triple-hard because you both have the
-> >>> ttm_bo->moving fence _and_ the current uapi of using fence ownership =
-_and_
-> >>> you need to figure out how to support vulkan properly with true opt-i=
-n
-> >>> fencing.
-> >> Well I have been pondering on that for a bit and I came to the
-> >> conclusion that it is actually not a problem at all.
-> >>
-> >> See radeon, nouveau, msm etc... all implement functions that they don'=
-t
-> >> wait for fences from the same timeline, context, engine. That amdgpu
-> >> doesn't wait for fences from the same process can be seen as just a
-> >> special case of this.
-> > Oh that part isn't a fundamental design issue, internally you can do
-> > whatever uapi you want. All I meant to say is because you currently
-> > have this uapi, but not yet flags to control things more explicitly,
-> > it's going to be more tricky code for amdgpu than for other drivers to
-> > keep it all working. But not impossible, just more code.
-> >
-> >>>    I'm pretty sure it's doable, I'm just not finding any time
-> >>> anywhere to hack on these patches - too many other fires :-(
-> >> Well I'm here. Let's just agree on the direction and I can do the codi=
-ng.
-> >>
-> >> What I need help with is all the auditing. For example I still haven't
-> >> wrapped my head around how i915 does the synchronization.
-> > Yeah the auditing is annoying, and i915 is definitely butchered in
-> > some ways. I'm currently screaming at silly bugs in the i915
-> > relocation code (it was tuned a bit more than makes sense, and
-> > acquired a pile of bugs due to that), but after that I should have
-> > time to refresh the old series. That one audits the setting of
-> > dma_resv fences fully, and I half-started with the
-> > dependency/scheduler side too. There's going to be a few fixed needed
-> > there.
-> > -Daniel
-> >
-> >> Best regards,
-> >> Christian.
-> >>
-> >>> Cheers, Daniel
-> >>>
-> >>>> Christian.
-> >>>>
-> >>>>> --Jason
-> >>>>>
-> >>>>>
-> >>>>>> Regards,
-> >>>>>> Christian.
-> >>>>>>
-> >>>>>> Am 10.06.21 um 23:09 schrieb Jason Ekstrand:
-> >>>>>>> Modern userspace APIs like Vulkan are built on an explicit
-> >>>>>>> synchronization model.  This doesn't always play nicely with the
-> >>>>>>> implicit synchronization used in the kernel and assumed by X11 an=
-d
-> >>>>>>> Wayland.  The client -> compositor half of the synchronization is=
-n't too
-> >>>>>>> bad, at least on intel, because we can control whether or not i91=
-5
-> >>>>>>> synchronizes on the buffer and whether or not it's considered wri=
-tten.
-> >>>>>>>
-> >>>>>>> The harder part is the compositor -> client synchronization when =
-we get
-> >>>>>>> the buffer back from the compositor.  We're required to be able t=
-o
-> >>>>>>> provide the client with a VkSemaphore and VkFence representing th=
-e point
-> >>>>>>> in time where the window system (compositor and/or display) finis=
-hed
-> >>>>>>> using the buffer.  With current APIs, it's very hard to do this i=
-n such
-> >>>>>>> a way that we don't get confused by the Vulkan driver's access of=
- the
-> >>>>>>> buffer.  In particular, once we tell the kernel that we're render=
-ing to
-> >>>>>>> the buffer again, any CPU waits on the buffer or GPU dependencies=
- will
-> >>>>>>> wait on some of the client rendering and not just the compositor.
-> >>>>>>>
-> >>>>>>> This new IOCTL solves this problem by allowing us to get a snapsh=
-ot of
-> >>>>>>> the implicit synchronization state of a given dma-buf in the form=
- of a
-> >>>>>>> sync file.  It's effectively the same as a poll() or I915_GEM_WAI=
-T only,
-> >>>>>>> instead of CPU waiting directly, it encapsulates the wait operati=
-on, at
-> >>>>>>> the current moment in time, in a sync_file so we can check/wait o=
-n it
-> >>>>>>> later.  As long as the Vulkan driver does the sync_file export fr=
-om the
-> >>>>>>> dma-buf before we re-introduce it for rendering, it will only con=
-tain
-> >>>>>>> fences from the compositor or display.  This allows to accurately=
- turn
-> >>>>>>> it into a VkFence or VkSemaphore without any over- synchronizatio=
-n.
-> >>>>>>>
-> >>>>>>> This patch series actually contains two new ioctls.  There is the=
- export
-> >>>>>>> one mentioned above as well as an RFC for an import ioctl which p=
-rovides
-> >>>>>>> the other half.  The intention is to land the export ioctl since =
-it seems
-> >>>>>>> like there's no real disagreement on that one.  The import ioctl,=
- however,
-> >>>>>>> has a lot of debate around it so it's intended to be RFC-only for=
- now.
-> >>>>>>>
-> >>>>>>> Mesa MR: https://nam11.safelinks.protection.outlook.com/?url=3Dht=
-tps%3A%2F%2Fgitlab.freedesktop.org%2Fmesa%2Fmesa%2F-%2Fmerge_requests%2F403=
-7&amp;data=3D04%7C01%7Cchristian.koenig%40amd.com%7C841231ea3c6e43f2141208d=
-93265bfe7%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637596234879170817%7=
-CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwi=
-LCJXVCI6Mn0%3D%7C1000&amp;sdata=3DkDEQr7d7fbba6938tZoERXN6hlOyKMdVjgY5U4ux4=
-iI%3D&amp;reserved=3D0
-> >>>>>>> IGT tests: https://nam11.safelinks.protection.outlook.com/?url=3D=
-https%3A%2F%2Fpatchwork.freedesktop.org%2Fseries%2F90490%2F&amp;data=3D04%7=
-C01%7Cchristian.koenig%40amd.com%7C841231ea3c6e43f2141208d93265bfe7%7C3dd89=
-61fe4884e608e11a82d994e183d%7C0%7C0%7C637596234879170817%7CUnknown%7CTWFpbG=
-Zsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C=
-1000&amp;sdata=3DMM5c55nspWbUxzajqBv1iNHdz2TYAImG2XPOSnDE6qQ%3D&amp;reserve=
-d=3D0
-> >>>>>>>
-> >>>>>>> v10 (Jason Ekstrand, Daniel Vetter):
-> >>>>>>>      - Add reviews/acks
-> >>>>>>>      - Add a patch to rename _rcu to _unlocked
-> >>>>>>>      - Split things better so import is clearly RFC status
-> >>>>>>>
-> >>>>>>> v11 (Daniel Vetter):
-> >>>>>>>      - Add more CCs to try and get maintainers
-> >>>>>>>      - Add a patch to document DMA_BUF_IOCTL_SYNC
-> >>>>>>>      - Generally better docs
-> >>>>>>>      - Use separate structs for import/export (easier to document=
-)
-> >>>>>>>      - Fix an issue in the import patch
-> >>>>>>>
-> >>>>>>> v12 (Daniel Vetter):
-> >>>>>>>      - Better docs for DMA_BUF_IOCTL_SYNC
-> >>>>>>>
-> >>>>>>> v12 (Christian K=C3=B6nig):
-> >>>>>>>      - Drop the rename patch in favor of Christian's series
-> >>>>>>>      - Add a comment to the commit message for the dma-buf sync_f=
-ile export
-> >>>>>>>        ioctl saying why we made it an ioctl on dma-buf
-> >>>>>>>
-> >>>>>>> Cc: Christian K=C3=B6nig <christian.koenig@amd.com>
-> >>>>>>> Cc: Michel D=C3=A4nzer <michel@daenzer.net>
-> >>>>>>> Cc: Dave Airlie <airlied@redhat.com>
-> >>>>>>> Cc: Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>
-> >>>>>>> Cc: Daniel Stone <daniels@collabora.com>
-> >>>>>>> Cc: mesa-dev@lists.freedesktop.org
-> >>>>>>> Cc: wayland-devel@lists.freedesktop.org
-> >>>>>>> Test-with: 20210524205225.872316-1-jason@jlekstrand.net
-> >>>>>>>
-> >>>>>>> Christian K=C3=B6nig (1):
-> >>>>>>>       dma-buf: Add dma_fence_array_for_each (v2)
-> >>>>>>>
-> >>>>>>> Jason Ekstrand (5):
-> >>>>>>>       dma-buf: Add dma_resv_get_singleton (v6)
-> >>>>>>>       dma-buf: Document DMA_BUF_IOCTL_SYNC (v2)
-> >>>>>>>       dma-buf: Add an API for exporting sync files (v12)
-> >>>>>>>       RFC: dma-buf: Add an extra fence to dma_resv_get_singleton_=
-unlocked
-> >>>>>>>       RFC: dma-buf: Add an API for importing sync files (v7)
-> >>>>>>>
-> >>>>>>>      Documentation/driver-api/dma-buf.rst |   8 ++
-> >>>>>>>      drivers/dma-buf/dma-buf.c            | 103 +++++++++++++++++=
-++++++++
-> >>>>>>>      drivers/dma-buf/dma-fence-array.c    |  27 +++++++
-> >>>>>>>      drivers/dma-buf/dma-resv.c           | 110 +++++++++++++++++=
-++++++++++
-> >>>>>>>      include/linux/dma-fence-array.h      |  17 +++++
-> >>>>>>>      include/linux/dma-resv.h             |   2 +
-> >>>>>>>      include/uapi/linux/dma-buf.h         | 103 +++++++++++++++++=
-+++++++-
-> >>>>>>>      7 files changed, 369 insertions(+), 1 deletion(-)
-> >>>>>>>
-> >>>> _______________________________________________
-> >>>> mesa-dev mailing list
-> >>>> mesa-dev@lists.freedesktop.org
-> >>>> https://nam11.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2F=
-lists.freedesktop.org%2Fmailman%2Flistinfo%2Fmesa-dev&amp;data=3D04%7C01%7C=
-christian.koenig%40amd.com%7C841231ea3c6e43f2141208d93265bfe7%7C3dd8961fe48=
-84e608e11a82d994e183d%7C0%7C0%7C637596234879170817%7CUnknown%7CTWFpbGZsb3d8=
-eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&a=
-mp;sdata=3DiA%2B3ZezHwlfjMMpkf3bVX8M0HUk3lVDm%2F476G1S8yZI%3D&amp;reserved=
-=3D0
-> >
+>> ---
+>>   drivers/gpu/drm/amd/amdgpu/amdgpu_preempt_mgr.c | 2 +-
+>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_preempt_mgr.c
+>> b/drivers/gpu/drm/amd/amdgpu/amdgpu_preempt_mgr.c
+>> index f6aff7ce5160..d02c8637f909 100644
+>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_preempt_mgr.c
+>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_preempt_mgr.c
+>> @@ -71,7 +71,7 @@ static int amdgpu_preempt_mgr_new(struct
+>> ttm_resource_manager *man,
+>>       struct amdgpu_preempt_mgr *mgr = to_preempt_mgr(man);
+>>         *res = kzalloc(sizeof(**res), GFP_KERNEL);
+>> -    if (*res)
+>> +    if (!*res)
+>>           return -ENOMEM;
+>>         ttm_resource_init(tbo, place, *res);
 >
-
-
---=20
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
