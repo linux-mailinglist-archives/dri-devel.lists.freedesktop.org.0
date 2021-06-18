@@ -2,55 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A61E3AD3A6
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Jun 2021 22:33:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C39C13AD3AA
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Jun 2021 22:35:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 40D9789016;
-	Fri, 18 Jun 2021 20:33:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BA0516EA7C;
+	Fri, 18 Jun 2021 20:35:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x32b.google.com (mail-ot1-x32b.google.com
- [IPv6:2607:f8b0:4864:20::32b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4C8B389016;
- Fri, 18 Jun 2021 20:33:37 +0000 (UTC)
-Received: by mail-ot1-x32b.google.com with SMTP id
- h24-20020a9d64180000b029036edcf8f9a6so10953246otl.3; 
- Fri, 18 Jun 2021 13:33:37 -0700 (PDT)
+Received: from mail-oi1-x231.google.com (mail-oi1-x231.google.com
+ [IPv6:2607:f8b0:4864:20::231])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7CF116EA7C;
+ Fri, 18 Jun 2021 20:34:59 +0000 (UTC)
+Received: by mail-oi1-x231.google.com with SMTP id l12so11872855oig.2;
+ Fri, 18 Jun 2021 13:34:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=0lqhtlNOacqNuU9HVlYS2QY7iZE+rcKx/NRXadqAqMk=;
- b=AuSfHwDEDhrhZndV8N8LFsf/T1gLt0SL4Kr2SNUF3Pc/mezMmFtpzDBDHqrAsZUjOm
- IRy03UanKoPueyLJxxyoLwi+7yWLwc1lE2fQ43tMiNmxgh+UQyYW3eDQZEGvBUoTnFoj
- +W3JlBI2s3t6P+TdabfSmM9EOHIXcrktMpAx6Z8ZPVkBgpCN4pW/H43hJYBKtTXrXlNc
- cU0YcDuTzY89LB2/chwHDZe20OZ1MOmyeksmzE80G7z+nWE7K/jmpMIHeolUcG+xslRh
- OdMkZqqVcKl668REH5zuplzsz+5hxYSztvpMIQWLSN9pjFs59J2hBmTmeE+tjuO2FgUP
- 0GAQ==
+ bh=iQNzXJ3TwOzpw9bYBccWuBhdgfIg21YN1ripdW4KJLQ=;
+ b=PXPa92zF007eLHXmzfYr64ztYgQFfHXWc4GdymN1kuuhixG+E9cA8yhyO3w18C/nX3
+ ddmO+aa0Z9iyfg9l4ghcCyLCyeRJmQqtcRr/pBsTkyv92EC6RoB+vt4+O/7uchG95kUI
+ 6QpKN3iVSt9qf2fBybUKzh+86phHmVqgo60hMHQHfbK4ujFZVENAoenDVtbBVKL0pYiB
+ ufyom+qds2k9GgHNAyHxojZX+5iVqRSl8ax3jk48j627JKeXbymhv6LsWcxxiIhqO/DY
+ T+Pklw7VZImai7dpUSXEjcxyiAbmj41WKnjC6O3OYMm61Cceimd4fgkQVCdtMviFM8X+
+ 7G3w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=0lqhtlNOacqNuU9HVlYS2QY7iZE+rcKx/NRXadqAqMk=;
- b=SWMoLh0Nz64HAbJSGXrnuk69GoD2FBfa+A/ttIPW/9lKx8XuUAg19plqKMp6JkqaAM
- 3Kn2FY9en/nwgrLBB03LIxHNZxcbVRxwkD09Goc7oMqvsSkQVLPTUDjBnsMx6sYATiPT
- SHP7TxAAM5uLx9l67JQgeqgSJ4KqM9534+w40bQWZTvumhUtO/4M56cSF0FrMWTNImsz
- 5BSogtYoVccW1PnlU3qa98PiuvgBgYyQbmVE67QpX7M4tDwWlUKaJEfzqCEZKWJY9YUB
- eDHy5V0gL8nSUSOzjJ8v2qX54nyt4OGPBvtK5Cc1Ws5fHGFdPJVvjAhLbAcIgK9xxa8V
- R20A==
-X-Gm-Message-State: AOAM531qkg4WQV7SiMMrjsvOpMrhhXjM4cjtanp7GzQxSiY20YOj4aoV
- PUg4lzU0R8xJrLXnM/1/9lgWEqGSg3qyC9SYuh4=
-X-Google-Smtp-Source: ABdhPJyjQScV8NzchfGaMSY3StM8W4pyefE41t+e7LgjnMwAVnpBNSxJU4R9UsEIdEPTSE9noHheT+zInrDw6nypnQE=
-X-Received: by 2002:a05:6830:33ef:: with SMTP id
- i15mr11028481otu.311.1624048416499; 
- Fri, 18 Jun 2021 13:33:36 -0700 (PDT)
+ bh=iQNzXJ3TwOzpw9bYBccWuBhdgfIg21YN1ripdW4KJLQ=;
+ b=IP+OphwZLJamjkhp/TAKrH7HpmvB1eyy4UGUXHlYGTxKSalPTpKWdpyd2jRBd+EpEw
+ wEFE/b9L1rENLE03PjbAOsT4nfyHqhkJcuQQYlMH8tpRGf2q3SPvSkBW9oj1Xc5077zo
+ tUp1eKc6OYHHlYYhCcqDjqfvzT08SrGrM33PgJP22hxW3kqd4oypw//KU/a1H0rFDzSv
+ BwTyWWKeCHVQ/pXKN7OaXqIaCD1tzmSYDqeo5Zi/hf0E2uNkrFuOKKmlm+rZsF9Hcwwg
+ iL0sXBPrsta3gLRgtHhjMhIqvV7vbVUYYxvxS37y/L8UNUGd8KmZGOQNIGPuLWO6jqKy
+ dbbg==
+X-Gm-Message-State: AOAM530tn8eR/e7Dm2wLVoFQVPMgJhmRlNZixOLDRTRQMeujEhjLsrEy
+ cgYrFmee78Z0QbRS2AQaeIejaWaqr/INj92sNkI=
+X-Google-Smtp-Source: ABdhPJyhSi9zAgTqHX3Mdd5ODSa6ar3uqjpvAyhe4sA58n+09kvDn9XoVr8fFxP2daFSRzmysgT1McWb1Hq+wDrnjq4=
+X-Received: by 2002:a05:6808:c3:: with SMTP id t3mr15182503oic.5.1624048498773; 
+ Fri, 18 Jun 2021 13:34:58 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210617023109.204591-1-pulehui@huawei.com>
- <fa86062f-cb45-245b-1bf0-494ffcd33908@amd.com>
-In-Reply-To: <fa86062f-cb45-245b-1bf0-494ffcd33908@amd.com>
+References: <20210617011632.187690-1-pulehui@huawei.com>
+ <7758a4ef-0b8e-8873-fac0-7db7a2f6402b@amd.com>
+In-Reply-To: <7758a4ef-0b8e-8873-fac0-7db7a2f6402b@amd.com>
 From: Alex Deucher <alexdeucher@gmail.com>
-Date: Fri, 18 Jun 2021 16:33:25 -0400
-Message-ID: <CADnq5_OOQqWf9yTcSwN=U8+1VbyfD-f_RfhQ+Gura_BJkspZmg@mail.gmail.com>
-Subject: Re: [PATCH -next] drm/amd/display: Fix gcc unused variable warning
+Date: Fri, 18 Jun 2021 16:34:47 -0400
+Message-ID: <CADnq5_PJu+ZXWbTVyxRE7vdSfBx7=w_mhtob8+EQUeMfKMJ6bw@mail.gmail.com>
+Subject: Re: [PATCH -next] drm/amd/display: remove unused variable 'dc'
 To: Harry Wentland <harry.wentland@amd.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -66,38 +64,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: jinlong zhang <jinlong.zhang@amd.com>, Anson Jacob <Anson.Jacob@amd.com>,
- Wesley Chalmers <Wesley.Chalmers@amd.com>,
- "Leo \(Sunpeng\) Li" <sunpeng.li@amd.com>,
- Qingqing Zhuo <qingqing.zhuo@amd.com>, xinhui pan <Xinhui.Pan@amd.com>,
- Wenjing Liu <wenjing.liu@amd.com>, LKML <linux-kernel@vger.kernel.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- zhangjinhao2@huawei.com, Dave Airlie <airlied@linux.ie>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>, Pu Lehui <pulehui@huawei.com>,
- "Deucher, Alexander" <alexander.deucher@amd.com>,
- Martin Tsai <martin.tsai@amd.com>, Jun Lei <Jun.Lei@amd.com>,
- Christian Koenig <christian.koenig@amd.com>, Jimmy.Kizito@amd.com
+Cc: Anson Jacob <Anson.Jacob@amd.com>,
+ "Leo \(Sunpeng\) Li" <sunpeng.li@amd.com>, LKML <linux-kernel@vger.kernel.org>,
+ xinhui pan <Xinhui.Pan@amd.com>, Roman Li <roman.li@amd.com>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>, "Kazlauskas,
+ Nicholas" <Nicholas.Kazlauskas@amd.com>, zhangjinhao2@huawei.com,
+ Dave Airlie <airlied@linux.ie>, amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ Pu Lehui <pulehui@huawei.com>, "Deucher,
+ Alexander" <alexander.deucher@amd.com>,
+ Christian Koenig <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Applied.  Thanks!
 
-Alex
-
-On Thu, Jun 17, 2021 at 2:43 PM Harry Wentland <harry.wentland@amd.com> wro=
+On Thu, Jun 17, 2021 at 3:04 PM Harry Wentland <harry.wentland@amd.com> wro=
 te:
 >
-> On 2021-06-16 10:31 p.m., Pu Lehui wrote:
+>
+>
+> On 2021-06-16 9:16 p.m., Pu Lehui wrote:
 > > GCC reports the following warning with W=3D1:
 > >
-> > drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_link_dp.c:3635:17:
+> > drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_psr.c:70:13:
 > > warning:
-> >  variable =E2=80=98status=E2=80=99 set but not used [-Wunused-but-set-v=
-ariable]
-> >   3635 |  enum dc_status status =3D DC_ERROR_UNEXPECTED;
-> >        |                 ^~~~~~
+> >  variable =E2=80=98dc=E2=80=99 set but not used [-Wunused-but-set-varia=
+ble]
+> >     70 |  struct dc *dc =3D NULL;
+> >        |             ^~
 > >
-> > The variable should be used for error check, let's fix it.
+> > This variable is not used in function, this commit remove it to
+> > fix the warning.
 > >
 > > Signed-off-by: Pu Lehui <pulehui@huawei.com>
 >
@@ -106,28 +103,30 @@ ariable]
 > Harry
 >
 > > ---
-> >  drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c | 4 ++++
-> >  1 file changed, 4 insertions(+)
+> >  drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_psr.c | 2 --
+> >  1 file changed, 2 deletions(-)
 > >
-> > diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c b/drivers=
-/gpu/drm/amd/display/dc/core/dc_link_dp.c
-> > index fcb635c85330..cf29265870c8 100644
-> > --- a/drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c
-> > +++ b/drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c
-> > @@ -3681,6 +3681,10 @@ bool dp_retrieve_lttpr_cap(struct dc_link *link)
-> >                               DP_LT_TUNABLE_PHY_REPEATER_FIELD_DATA_STR=
-UCTURE_REV,
-> >                               lttpr_dpcd_data,
-> >                               sizeof(lttpr_dpcd_data));
-> > +             if (status !=3D DC_OK) {
-> > +                     dm_error("%s: Read LTTPR caps data failed.\n", __=
-func__);
-> > +                     return false;
-> > +             }
+> > diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_psr.c b/dr=
+ivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_psr.c
+> > index f7c77ae0d965..70a554f1e725 100644
+> > --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_psr.c
+> > +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_psr.c
+> > @@ -67,14 +67,12 @@ bool amdgpu_dm_link_setup_psr(struct dc_stream_stat=
+e *stream)
+> >       struct dc_link *link =3D NULL;
+> >       struct psr_config psr_config =3D {0};
+> >       struct psr_context psr_context =3D {0};
+> > -     struct dc *dc =3D NULL;
+> >       bool ret =3D false;
 > >
-> >               link->dpcd_caps.lttpr_caps.revision.raw =3D
-> >                               lttpr_dpcd_data[DP_LT_TUNABLE_PHY_REPEATE=
-R_FIELD_DATA_STRUCTURE_REV -
+> >       if (stream =3D=3D NULL)
+> >               return false;
+> >
+> >       link =3D stream->link;
+> > -     dc =3D link->ctx->dc;
+> >
+> >       psr_config.psr_version =3D link->dpcd_caps.psr_caps.psr_version;
+> >
 > >
 >
 > _______________________________________________
