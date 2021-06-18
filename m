@@ -1,55 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA5753AD3B8
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Jun 2021 22:38:11 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D3113AD3B9
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Jun 2021 22:39:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 34B126EA9A;
-	Fri, 18 Jun 2021 20:38:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D44FD6EA9B;
+	Fri, 18 Jun 2021 20:39:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x230.google.com (mail-oi1-x230.google.com
- [IPv6:2607:f8b0:4864:20::230])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D4A3B6EA98;
- Fri, 18 Jun 2021 20:38:05 +0000 (UTC)
-Received: by mail-oi1-x230.google.com with SMTP id s23so11881062oiw.9;
- Fri, 18 Jun 2021 13:38:05 -0700 (PDT)
+Received: from mail-ot1-x334.google.com (mail-ot1-x334.google.com
+ [IPv6:2607:f8b0:4864:20::334])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1798F6EA9B;
+ Fri, 18 Jun 2021 20:39:02 +0000 (UTC)
+Received: by mail-ot1-x334.google.com with SMTP id
+ f3-20020a0568301c23b029044ce5da4794so4331740ote.11; 
+ Fri, 18 Jun 2021 13:39:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=NzQpDhklEQ/5JlkHM/IA/NZF6AkpVhxvXEzA5dRQIjI=;
- b=p70oAnIs6IQq6Ii4vFXv91weYphLY4hkgeFYkNdbJQZ26R/K66sFhdHxqJs4SAkro0
- XaRrirrgceTLhhbdLevolozfeNf2idvkRPM5qqIN5qRf0p+iD0jxmIPVMrPemAhpovbb
- wu34ka+hGc7vqvV6Er3UrxFku3iCwBrRCtC1yYbfYrx0t7KeI2R9TMZ2GRYvZ/pzbtGz
- ctMc97NUhOkBMxgNGPTyslklR/Ggvl8MDJIIK3/HrUAoaR/O1KNlVA3V9YxKHNq4oVLZ
- SUqFtUqA7F+cGhOfTpGCB4mz5f4MFTfnD9yB3qabg5qAmtyB2+3v3cBC7ZziZ1UaXr62
- Pabw==
+ :cc; bh=nD7oBPgnsjHovc35dRV1EnwyKD64NWmMZBEUkjTpRAk=;
+ b=bGHfYJiF4w7UHvnhqHzUBV+Ocgv62RTKy3BxvmluYs4zlE/oYdP/GZh0yLoAUPEWh1
+ A6ZcK/H8jDWibtdxxdXdCkYiAlEShhADL9i2UuTxii+K77qGd67UpmhzRj3UxcAwwchW
+ Q6k+Z/Gfa2zMpoaYir5dJd/i17pGQvvYrIKwpZ37T4jLyREwlDiQUkEY0KkBn1b9CtJj
+ yx381egCru++BfsAG6YSUh9sgwhnS08kk0VeSOvSpnCyUhOg2W8qXXuSoe6xgcbpNVwr
+ /Na7pmK4QRtt7mggyF9Zj4Mn6czrKIyiirzIIH97wQXuopVuLBBUepMk3e0pt3GlCuLt
+ arOQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=NzQpDhklEQ/5JlkHM/IA/NZF6AkpVhxvXEzA5dRQIjI=;
- b=XWmsiephK2ihP2FRb0vmvp2acIbYusBUe49L2HMjuFRXzIcKvGteofzQFLsWeXSlHt
- 946vgkGlZSHWO0qqqVvrEDDnrPDt5zMe3NeQL1PVpRJxNvTm1+ZUBJfOBfdnaXHnMkHz
- MI3DSiaNFl1/QxjxEyVzEbDykEGVd8RgT6ItWhPcjwujhp59Eaxx2lmhpvHYeYgd5zNb
- e9PKWpMWjQBPMiUwBNwIRswIiW3/rjuEBOpaOOG7f1qTV7R+FsJnErW4064+5C21IrsJ
- zUwQqCZob4+jYT5xlEDCgDfxWZi0rTbWWv0SvlKPlmWMe69MxiL+F6PBJy55x4NtswXe
- jH8w==
-X-Gm-Message-State: AOAM531h0BdgvfmqckxHxpRv6VLt/pMyI9JP96LP1VblOLarUyb7sCZD
- 5rnbsjrHCmfkbQlw4H+/s/bbcrNq/e0JPVx463I=
-X-Google-Smtp-Source: ABdhPJwPkOTpTcBJLf0vMYnm7L/iRZoDmTGcxgxVQ2BTrNe/wrDM7fXiHCbU+D1ce1/UDivRGWO3a/Ma2FItssBnnk0=
-X-Received: by 2002:a05:6808:999:: with SMTP id
- a25mr8503622oic.123.1624048685292; 
- Fri, 18 Jun 2021 13:38:05 -0700 (PDT)
+ bh=nD7oBPgnsjHovc35dRV1EnwyKD64NWmMZBEUkjTpRAk=;
+ b=Jx/imcECBJwbaZJIP4P8tOQlLGausOWMiuCXo73qJNfAAU7dK8jc8yyXNiosaAKLhn
+ Vn1+XZpQXT+N+y3XhQwgdaJxB44OQ7ggxvidWOeg8XHVMaZI6zJ3rqxfAni7f8XPrVIl
+ vvNrYkVibDpf8fVHUbp6QvGG5gvtWqTg8SrNrrK64JmEubUqPla0ZSzGIqnpOPhS4Kub
+ 8WepHW+IvVqYDkTaR2Qvbb7S/wi1qVPWyAIqmXYf1dg9LkMOTYkCdh+EYFxJAK/io+jo
+ 2gBTmh4KP9t5YY+BC0Tr/pZsWBn+4ZdvYK71yK3YI/vKGZ+nL7YxGz16W4F38Ufd9GiD
+ vMjw==
+X-Gm-Message-State: AOAM531VvpQReXu61TB+H+rO63LYUoQa0fJ1fIu6GvUJItGVI6xb/4Z5
+ aOYry95Yw+OWGkDHAkKc+h0lFoafLo8nzGNIQDM=
+X-Google-Smtp-Source: ABdhPJxwuxAhIXgJOKbxs/TF2vViARLkV53PxnduNs8KxpXsryq2O+j1c5KXo1dVlz0GX1vgCOd/a6t/8ZOOgIn2y6k=
+X-Received: by 2002:a05:6830:1e64:: with SMTP id
+ m4mr11039021otr.23.1624048741539; 
+ Fri, 18 Jun 2021 13:39:01 -0700 (PDT)
 MIME-Version: 1.0
-References: <1623979403-50239-1-git-send-email-zhangshaokun@hisilicon.com>
- <f934cbe6-369d-a7ad-ac03-3c8dcc6526a2@amd.com>
-In-Reply-To: <f934cbe6-369d-a7ad-ac03-3c8dcc6526a2@amd.com>
+References: <20210616144027.27225-1-wanjiabing@vivo.com>
+ <0c0c719e-d8fe-b548-80cd-c498642a6c3c@amd.com>
+In-Reply-To: <0c0c719e-d8fe-b548-80cd-c498642a6c3c@amd.com>
 From: Alex Deucher <alexdeucher@gmail.com>
-Date: Fri, 18 Jun 2021 16:37:54 -0400
-Message-ID: <CADnq5_MBP_ATmZuNrhLTeOCOkXH1SYet7NmdJcTYCKe6Wa34xg@mail.gmail.com>
-Subject: Re: [PATCH] drm/amd/display: Remove the repeated dpp1_full_bypass
- declaration
+Date: Fri, 18 Jun 2021 16:38:50 -0400
+Message-ID: <CADnq5_M-i-NzvCm5DVaRGsM2G+cR_rRmbisPwbd-4ynM8O3mWQ@mail.gmail.com>
+Subject: Re: [PATCH] drm/display: Fix duplicated argument
 To: Harry Wentland <harry.wentland@amd.com>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -64,52 +64,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Shaokun Zhang <zhangshaokun@hisilicon.com>, Leo Li <sunpeng.li@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>,
+Cc: Wan Jiabing <wanjiabing@vivo.com>, Solomon Chiu <solomon.chiu@amd.com>,
+ Leo Li <sunpeng.li@amd.com>, LKML <linux-kernel@vger.kernel.org>, "Pan,
+ Xinhui" <Xinhui.Pan@amd.com>, Anson Jacob <Anson.Jacob@amd.com>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>,
+ David Airlie <airlied@linux.ie>,
+ Dmytro Laktyushkin <Dmytro.Laktyushkin@amd.com>,
  Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>
+ Alex Deucher <alexander.deucher@amd.com>, kael_w@yeah.net,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Applied.  Thanks!
 
-On Fri, Jun 18, 2021 at 9:48 AM Harry Wentland <harry.wentland@amd.com> wrote:
+On Fri, Jun 18, 2021 at 9:56 AM Harry Wentland <harry.wentland@amd.com> wrote:
 >
->
->
-> On 2021-06-17 9:23 p.m., Shaokun Zhang wrote:
-> > Function 'dpp1_full_bypass' is declared twice, so remove the repeated
-> > declaration and unnessary blank line.
+> On 2021-06-16 10:40 a.m., Wan Jiabing wrote:
+> > Fix coccicheck warning:
 > >
-> > Cc: Harry Wentland <harry.wentland@amd.com>
-> > Cc: Leo Li <sunpeng.li@amd.com>
-> > Cc: Alex Deucher <alexander.deucher@amd.com>
-> > Signed-off-by: Shaokun Zhang <zhangshaokun@hisilicon.com>
+> > ./drivers/gpu/drm/amd/display/dc/dml/dcn31/display_rq_dlg_calc_31.c:
+> > 55:12-42: duplicated argument to && or ||
+> >
+> > Signed-off-by: Wan Jiabing <wanjiabing@vivo.com>
 >
 > Reviewed-by: Harry Wentland <harry.wentland@amd.com>
 >
 > Harry
 >
 > > ---
-> >  drivers/gpu/drm/amd/display/dc/dcn10/dcn10_dpp.h | 2 --
-> >  1 file changed, 2 deletions(-)
+> >  .../gpu/drm/amd/display/dc/dml/dcn31/display_rq_dlg_calc_31.c   | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
 > >
-> > diff --git a/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_dpp.h b/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_dpp.h
-> > index 9a1f40eb5c47..71b3a6949001 100644
-> > --- a/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_dpp.h
-> > +++ b/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_dpp.h
-> > @@ -1497,8 +1497,6 @@ void dpp1_cnv_setup (
-> >               enum dc_color_space input_color_space,
-> >               struct cnv_alpha_2bit_lut *alpha_2bit_lut);
-> >
-> > -void dpp1_full_bypass(struct dpp *dpp_base);
-> > -
-> >  void dpp1_dppclk_control(
-> >               struct dpp *dpp_base,
-> >               bool dppclk_div,
+> > diff --git a/drivers/gpu/drm/amd/display/dc/dml/dcn31/display_rq_dlg_calc_31.c b/drivers/gpu/drm/amd/display/dc/dml/dcn31/display_rq_dlg_calc_31.c
+> > index cb15525ddb49..dc8b3afef301 100644
+> > --- a/drivers/gpu/drm/amd/display/dc/dml/dcn31/display_rq_dlg_calc_31.c
+> > +++ b/drivers/gpu/drm/amd/display/dc/dml/dcn31/display_rq_dlg_calc_31.c
+> > @@ -52,7 +52,7 @@ static bool CalculateBytePerPixelAnd256BBlockSizes(
+> >               *BytePerPixelDETC = 0;
+> >               *BytePerPixelY = 4;
+> >               *BytePerPixelC = 0;
+> > -     } else if (SourcePixelFormat == dm_444_16 || SourcePixelFormat == dm_444_16) {
+> > +     } else if (SourcePixelFormat == dm_444_16) {
+> >               *BytePerPixelDETY = 2;
+> >               *BytePerPixelDETC = 0;
+> >               *BytePerPixelY = 2;
 > >
 >
-> _______________________________________________
-> amd-gfx mailing list
-> amd-gfx@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/amd-gfx
