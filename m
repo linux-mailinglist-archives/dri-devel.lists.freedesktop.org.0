@@ -2,44 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63DFF3AD9AD
-	for <lists+dri-devel@lfdr.de>; Sat, 19 Jun 2021 12:51:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E11393AD9B4
+	for <lists+dri-devel@lfdr.de>; Sat, 19 Jun 2021 12:55:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 72B836EAC4;
-	Sat, 19 Jun 2021 10:51:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2BFFB6EAC1;
+	Sat, 19 Jun 2021 10:55:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9E1806EAC4;
- Sat, 19 Jun 2021 10:51:01 +0000 (UTC)
-IronPort-SDR: v1E4xt88WKHLSgv6wgwz0tmB+ys8MEnaqX1n8D6FdbYFI3JZMi3gUtsEpt8/bNxNPAAwjAKTes
- i80+ZsKfHAXw==
-X-IronPort-AV: E=McAfee;i="6200,9189,10019"; a="206484090"
-X-IronPort-AV: E=Sophos;i="5.83,285,1616482800"; d="scan'208";a="206484090"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Jun 2021 03:51:00 -0700
-IronPort-SDR: +Epd2JPzuQKVgIZ28P0AmJve4W21BtVRQil8JAZ4x25NaABZ5IMUN+kLfhxQCqkPHUVErydyTP
- YarFheC0k7yQ==
-X-IronPort-AV: E=Sophos;i="5.83,285,1616482800"; d="scan'208";a="554979339"
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 718336EAC1;
+ Sat, 19 Jun 2021 10:55:23 +0000 (UTC)
+IronPort-SDR: 4tCpcAUB4LJ06rnKRnHtyJuyP2XYYmL0wnSiiZjZyKY2G2sPiyQX8eNlm6dwnTIjX5VlXnTidv
+ VadkdlBszNOg==
+X-IronPort-AV: E=McAfee;i="6200,9189,10019"; a="267807187"
+X-IronPort-AV: E=Sophos;i="5.83,285,1616482800"; d="scan'208";a="267807187"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Jun 2021 03:55:20 -0700
+IronPort-SDR: shIIIg1/X9y9YzjyUD4diASIuTOccwffi+cXRobJIdn5PTiaDhYgW62q3GSmj5H/kfj4fRXWjk
+ 9a8+0jkpK1KQ==
+X-IronPort-AV: E=Sophos;i="5.83,285,1616482800"; d="scan'208";a="443814730"
 Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
- by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Jun 2021 03:50:55 -0700
+ by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Jun 2021 03:55:15 -0700
 Received: from andy by smile with local (Exim 4.94.2)
  (envelope-from <andriy.shevchenko@linux.intel.com>)
- id 1luYYs-003nwu-RM; Sat, 19 Jun 2021 13:50:50 +0300
-Date: Sat, 19 Jun 2021 13:50:50 +0300
+ id 1luYd4-003nzI-M1; Sat, 19 Jun 2021 13:55:10 +0300
+Date: Sat, 19 Jun 2021 13:55:10 +0300
 From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 To: Yury Norov <yury.norov@gmail.com>
-Subject: Re: [PATCH 1/3] include/linux: move for_each_bit() macros from
- bitops.h to find.h
-Message-ID: <YM3MCrveAlIa1TES@smile.fi.intel.com>
+Subject: Re: [PATCH 3/3] Replace for_each_*_bit_from() with for_each_*_bit()
+ where appropriate
+Message-ID: <YM3NDrgF3znR+/4z@smile.fi.intel.com>
 References: <20210618195735.55933-1-yury.norov@gmail.com>
- <20210618195735.55933-2-yury.norov@gmail.com>
+ <20210618195735.55933-4-yury.norov@gmail.com>
+ <YM3L1kciMw7zqhUp@smile.fi.intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210618195735.55933-2-yury.norov@gmail.com>
+In-Reply-To: <YM3L1kciMw7zqhUp@smile.fi.intel.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -67,110 +68,35 @@ Cc: Wei Yang <richard.weiyang@linux.alibaba.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jun 18, 2021 at 12:57:33PM -0700, Yury Norov wrote:
-> for_each_bit() macros depend on find_bit() machinery, and so the
-> proper place for them is the find.h header.
-
-Fine with me.
-Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-
-> Signed-off-by: Yury Norov <yury.norov@gmail.com>
-> ---
->  include/linux/bitops.h | 34 ----------------------------------
->  include/linux/find.h   | 34 ++++++++++++++++++++++++++++++++++
->  2 files changed, 34 insertions(+), 34 deletions(-)
+On Sat, Jun 19, 2021 at 01:49:58PM +0300, Andy Shevchenko wrote:
+> On Fri, Jun 18, 2021 at 12:57:35PM -0700, Yury Norov wrote:
+> > A couple of kernel functions call for_each_*_bit_from() with start
+> > bit equal to 0. Replace them with for_each_*_bit().
+> > 
+> > No functional changes, but might improve on readability.
 > 
-> diff --git a/include/linux/bitops.h b/include/linux/bitops.h
-> index 26bf15e6cd35..31ae1ae1a974 100644
-> --- a/include/linux/bitops.h
-> +++ b/include/linux/bitops.h
-> @@ -31,40 +31,6 @@ extern unsigned long __sw_hweight64(__u64 w);
->   */
->  #include <asm/bitops.h>
->  
-> -#define for_each_set_bit(bit, addr, size) \
-> -	for ((bit) = find_first_bit((addr), (size));		\
-> -	     (bit) < (size);					\
-> -	     (bit) = find_next_bit((addr), (size), (bit) + 1))
-> -
-> -/* same as for_each_set_bit() but use bit as value to start with */
-> -#define for_each_set_bit_from(bit, addr, size) \
-> -	for ((bit) = find_next_bit((addr), (size), (bit));	\
-> -	     (bit) < (size);					\
-> -	     (bit) = find_next_bit((addr), (size), (bit) + 1))
-> -
-> -#define for_each_clear_bit(bit, addr, size) \
-> -	for ((bit) = find_first_zero_bit((addr), (size));	\
-> -	     (bit) < (size);					\
-> -	     (bit) = find_next_zero_bit((addr), (size), (bit) + 1))
-> -
-> -/* same as for_each_clear_bit() but use bit as value to start with */
-> -#define for_each_clear_bit_from(bit, addr, size) \
-> -	for ((bit) = find_next_zero_bit((addr), (size), (bit));	\
-> -	     (bit) < (size);					\
-> -	     (bit) = find_next_zero_bit((addr), (size), (bit) + 1))
-> -
-> -/**
-> - * for_each_set_clump8 - iterate over bitmap for each 8-bit clump with set bits
-> - * @start: bit offset to start search and to store the current iteration offset
-> - * @clump: location to store copy of current 8-bit clump
-> - * @bits: bitmap address to base the search on
-> - * @size: bitmap size in number of bits
-> - */
-> -#define for_each_set_clump8(start, clump, bits, size) \
-> -	for ((start) = find_first_clump8(&(clump), (bits), (size)); \
-> -	     (start) < (size); \
-> -	     (start) = find_next_clump8(&(clump), (bits), (size), (start) + 8))
-> -
->  static inline int get_bitmask_order(unsigned int count)
->  {
->  	int order;
-> diff --git a/include/linux/find.h b/include/linux/find.h
-> index 6048f8c97418..4500e8ab93e2 100644
-> --- a/include/linux/find.h
-> +++ b/include/linux/find.h
-> @@ -279,4 +279,38 @@ unsigned long find_next_bit_le(const void *addr, unsigned
->  #error "Please fix <asm/byteorder.h>"
->  #endif
->  
-> +#define for_each_set_bit(bit, addr, size) \
-> +	for ((bit) = find_first_bit((addr), (size));		\
-> +	     (bit) < (size);					\
-> +	     (bit) = find_next_bit((addr), (size), (bit) + 1))
-> +
-> +/* same as for_each_set_bit() but use bit as value to start with */
-> +#define for_each_set_bit_from(bit, addr, size) \
-> +	for ((bit) = find_next_bit((addr), (size), (bit));	\
-> +	     (bit) < (size);					\
-> +	     (bit) = find_next_bit((addr), (size), (bit) + 1))
-> +
-> +#define for_each_clear_bit(bit, addr, size) \
-> +	for ((bit) = find_first_zero_bit((addr), (size));	\
-> +	     (bit) < (size);					\
-> +	     (bit) = find_next_zero_bit((addr), (size), (bit) + 1))
-> +
-> +/* same as for_each_clear_bit() but use bit as value to start with */
-> +#define for_each_clear_bit_from(bit, addr, size) \
-> +	for ((bit) = find_next_zero_bit((addr), (size), (bit));	\
-> +	     (bit) < (size);					\
-> +	     (bit) = find_next_zero_bit((addr), (size), (bit) + 1))
-> +
-> +/**
-> + * for_each_set_clump8 - iterate over bitmap for each 8-bit clump with set bits
-> + * @start: bit offset to start search and to store the current iteration offset
-> + * @clump: location to store copy of current 8-bit clump
-> + * @bits: bitmap address to base the search on
-> + * @size: bitmap size in number of bits
-> + */
-> +#define for_each_set_clump8(start, clump, bits, size) \
-> +	for ((start) = find_first_clump8(&(clump), (bits), (size)); \
-> +	     (start) < (size); \
-> +	     (start) = find_next_clump8(&(clump), (bits), (size), (start) + 8))
-> +
->  #endif /*__LINUX_FIND_H_ */
-> -- 
-> 2.30.2
+> ...
 > 
+> > --- a/drivers/hwmon/ltc2992.c
+> > +++ b/drivers/hwmon/ltc2992.c
+> > @@ -248,8 +248,7 @@ static int ltc2992_gpio_get_multiple(struct gpio_chip *chip, unsigned long *mask
+> >  
+> >  	gpio_status = reg;
+> >  
+> > -	gpio_nr = 0;
+> > -	for_each_set_bit_from(gpio_nr, mask, LTC2992_GPIO_NR) {
+> > +	for_each_set_bit(gpio_nr, mask, LTC2992_GPIO_NR) {
+> >  		if (test_bit(LTC2992_GPIO_BIT(gpio_nr), &gpio_status))
+> >  			set_bit(gpio_nr, bits);
+> >  	}
+> 
+> I would replace the entire loop by bitmap_replace() call.
+> 
+> Something like
+> 	bitmap_replace(bits, bits, &gpio_status, mask, LTC2992_GPIO_NR);
+
+Okay, it wouldn't work directly because it involves LTC2992_GPIO_BIT()
+macro. So, it rather some kind of bitmap_remap().
 
 -- 
 With Best Regards,
