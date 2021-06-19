@@ -2,47 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 517313AD715
-	for <lists+dri-devel@lfdr.de>; Sat, 19 Jun 2021 05:41:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FA413AD718
+	for <lists+dri-devel@lfdr.de>; Sat, 19 Jun 2021 05:41:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F0EF76EB11;
-	Sat, 19 Jun 2021 03:41:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F19236EB12;
+	Sat, 19 Jun 2021 03:41:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x62c.google.com (mail-pl1-x62c.google.com
- [IPv6:2607:f8b0:4864:20::62c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ABCE96EB10
- for <dri-devel@lists.freedesktop.org>; Sat, 19 Jun 2021 03:41:03 +0000 (UTC)
-Received: by mail-pl1-x62c.google.com with SMTP id h1so5686086plt.1
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Jun 2021 20:41:03 -0700 (PDT)
+Received: from mail-pg1-x52f.google.com (mail-pg1-x52f.google.com
+ [IPv6:2607:f8b0:4864:20::52f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5794B6EB13
+ for <dri-devel@lists.freedesktop.org>; Sat, 19 Jun 2021 03:41:12 +0000 (UTC)
+Received: by mail-pg1-x52f.google.com with SMTP id q15so9410253pgg.12
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Jun 2021 20:41:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=omy6cCV/mqNeN2Sml+g2G3v+YRTOPwPuj3rsSOaGbf8=;
- b=I5TZjmCgnGS7QCzs+GcKzND2zopF611oSqEk2ecm02oxJXrYZUgoQDr2D20q350b//
- QYtNYWxqxTTaqABZudTjO+NdWbPCAL6S986A1o51hT/KC6Y6jv56Aec5CbBEKD54AZvh
- ONSLv3o8P/DZRDHIEq/KTzFADPEWg4DUzfKuQ=
+ bh=87F32lyNJPVTVtO+0wV8iOXVR4FYPSJ8Efeoe/l3AWY=;
+ b=i1ENWaFNKwGMCMiAeHBUHeHeWCgJo2DMoHTJ8FYIFrvt5MmhJ7OFiSW0SvgsImDco7
+ eyyIqWu+/Z0bEeYC6m5AiJ1SXr0nn6NCHriX3ZUuh6wWoj4iO9mtnXQIU1hsa49/kNzW
+ JSXwJ+CCVTQ+vErOyYxRYe6Lgoq4CUcXaMXXc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=omy6cCV/mqNeN2Sml+g2G3v+YRTOPwPuj3rsSOaGbf8=;
- b=H/i5w6xPudKr1ZvR5/ALF2cJ+9YbzCIeVRoHmRbdoht+nmpFV8V91/M3ul11R5oRo+
- 36N3qY8MTWmqBrBMnM9EU8zUIM72g7hfaBF93GV3dT5qs+7jN9Vf3DPnfVAgH6HBQW9P
- AY61jN4kJyp/Vp/HuLJ2cRDYDUwFoR7zh4W2kznUex9cfSKKd6/UKlK97Kc9nAZACBjS
- Mh7Boh4qUfhwLH1JQyCpLo9BfXob59jlGU0J8fzWnxOIVsIUErGHryduK1QGhwS+WB4I
- hINLdN/HUrMi6QxT3LnxfjbEhydk7TWNZGJktdN3swYtd9BqVgsqWGfYq6b9UUCipFt0
- rDUQ==
-X-Gm-Message-State: AOAM5312hdfKpttbc/h/4gvrySgoYsDN1SZKrKIdoXjzvFH61ZX+kFaG
- Q4CCFrpzvVggvoDwiXZsttBFFQ==
-X-Google-Smtp-Source: ABdhPJxyHWTN70AeFSyU8U3sk1NtIzEKCT9EWu4JIVK1vqFXvWavgzlnfDikinONTGDBOm/HI5iFZg==
-X-Received: by 2002:a17:90a:3c8d:: with SMTP id
- g13mr7572126pjc.229.1624074063342; 
- Fri, 18 Jun 2021 20:41:03 -0700 (PDT)
+ bh=87F32lyNJPVTVtO+0wV8iOXVR4FYPSJ8Efeoe/l3AWY=;
+ b=R7dW50tGVbfm/5GdCmc1EdbmxPXfFX27lTr8svys/WNsc2k/EbkIAEyy65A12BWkyC
+ YaypIex7sYHDG4ZmyxeX9vzY9tjyXGHwtoilS/NMPFAF40Mi2upe8zn7asWlrQN3lIb7
+ asGEvJG/ddHz/Bs9bj7EJWhTCbXxFtQyAIgAoZZMyKSchCioBR0QCGFiqkl5f6dCcODc
+ jWL9+D84NlSd3l5gfiSgG3MLR+8AynkFdl/3CjwXXlFpBpUhbJ2xdsOQ8MKQqhU1T/71
+ barqnVQuzLaFxDzw7J5qTWbT54vl+Hcs6rU5ZUTUTUj/xRCju6WkXr6giQraaO4frpNc
+ EBPg==
+X-Gm-Message-State: AOAM531lQ5FgvsB/hP6k7UJdtL4nJfPljr6SQcIgDGKB/bi49ut1Rzq8
+ bOw7Of9ehxP6VP14+YQAXM8e6w==
+X-Google-Smtp-Source: ABdhPJyiBODmYapISErXaci/paTftzSQoq4G3MHhJ6blBXA4Xk2Rt3t9DUi7Q/sURCxYsvPxcPxH7g==
+X-Received: by 2002:a63:4915:: with SMTP id w21mr13046659pga.363.1624074072021; 
+ Fri, 18 Jun 2021 20:41:12 -0700 (PDT)
 Received: from localhost ([2401:fa00:95:205:4a46:e208:29e8:e076])
- by smtp.gmail.com with UTF8SMTPSA id v15sm10722584pgf.26.2021.06.18.20.40.55
+ by smtp.gmail.com with UTF8SMTPSA id 25sm10160700pgp.51.2021.06.18.20.41.04
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 18 Jun 2021 20:41:02 -0700 (PDT)
+ Fri, 18 Jun 2021 20:41:11 -0700 (PDT)
 From: Claire Chang <tientzu@chromium.org>
 To: Rob Herring <robh+dt@kernel.org>, mpe@ellerman.id.au,
  Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
@@ -50,9 +49,9 @@ To: Rob Herring <robh+dt@kernel.org>, mpe@ellerman.id.au,
  Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>, boris.ostrovsky@oracle.com,
  jgross@suse.com, Christoph Hellwig <hch@lst.de>,
  Marek Szyprowski <m.szyprowski@samsung.com>
-Subject: [PATCH v14 01/12] swiotlb: Refactor swiotlb init functions
-Date: Sat, 19 Jun 2021 11:40:32 +0800
-Message-Id: <20210619034043.199220-2-tientzu@chromium.org>
+Subject: [PATCH v14 02/12] swiotlb: Refactor swiotlb_create_debugfs
+Date: Sat, 19 Jun 2021 11:40:33 +0800
+Message-Id: <20210619034043.199220-3-tientzu@chromium.org>
 X-Mailer: git-send-email 2.32.0.288.g62a8d224e6-goog
 In-Reply-To: <20210619034043.199220-1-tientzu@chromium.org>
 References: <20210619034043.199220-1-tientzu@chromium.org>
@@ -93,103 +92,55 @@ Cc: heikki.krogerus@linux.intel.com, thomas.hellstrom@linux.intel.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add a new function, swiotlb_init_io_tlb_mem, for the io_tlb_mem struct
-initialization to make the code reusable.
+Split the debugfs creation to make the code reusable for supporting
+different bounce buffer pools.
 
 Signed-off-by: Claire Chang <tientzu@chromium.org>
 Reviewed-by: Christoph Hellwig <hch@lst.de>
 Tested-by: Stefano Stabellini <sstabellini@kernel.org>
 Tested-by: Will Deacon <will@kernel.org>
 ---
- kernel/dma/swiotlb.c | 50 ++++++++++++++++++++++----------------------
- 1 file changed, 25 insertions(+), 25 deletions(-)
+ kernel/dma/swiotlb.c | 21 ++++++++++++++-------
+ 1 file changed, 14 insertions(+), 7 deletions(-)
 
 diff --git a/kernel/dma/swiotlb.c b/kernel/dma/swiotlb.c
-index 52e2ac526757..1f9b2b9e7490 100644
+index 1f9b2b9e7490..ede66df6835b 100644
 --- a/kernel/dma/swiotlb.c
 +++ b/kernel/dma/swiotlb.c
-@@ -168,9 +168,28 @@ void __init swiotlb_update_mem_attributes(void)
- 	memset(vaddr, 0, bytes);
- }
+@@ -671,19 +671,26 @@ bool is_swiotlb_active(void)
+ EXPORT_SYMBOL_GPL(is_swiotlb_active);
  
--int __init swiotlb_init_with_tbl(char *tlb, unsigned long nslabs, int verbose)
-+static void swiotlb_init_io_tlb_mem(struct io_tlb_mem *mem, phys_addr_t start,
-+				    unsigned long nslabs, bool late_alloc)
+ #ifdef CONFIG_DEBUG_FS
++static struct dentry *debugfs_dir;
+ 
+-static int __init swiotlb_create_debugfs(void)
++static void swiotlb_create_debugfs_files(struct io_tlb_mem *mem)
  {
-+	void *vaddr = phys_to_virt(start);
- 	unsigned long bytes = nslabs << IO_TLB_SHIFT, i;
-+
-+	mem->nslabs = nslabs;
-+	mem->start = start;
-+	mem->end = mem->start + bytes;
-+	mem->index = 0;
-+	mem->late_alloc = late_alloc;
-+	spin_lock_init(&mem->lock);
-+	for (i = 0; i < mem->nslabs; i++) {
-+		mem->slots[i].list = IO_TLB_SEGSIZE - io_tlb_offset(i);
-+		mem->slots[i].orig_addr = INVALID_PHYS_ADDR;
-+		mem->slots[i].alloc_size = 0;
-+	}
-+	memset(vaddr, 0, bytes);
+-	struct io_tlb_mem *mem = io_tlb_default_mem;
+-
+-	if (!mem)
+-		return 0;
+-	mem->debugfs = debugfs_create_dir("swiotlb", NULL);
+ 	debugfs_create_ulong("io_tlb_nslabs", 0400, mem->debugfs, &mem->nslabs);
+ 	debugfs_create_ulong("io_tlb_used", 0400, mem->debugfs, &mem->used);
 +}
 +
-+int __init swiotlb_init_with_tbl(char *tlb, unsigned long nslabs, int verbose)
++static int __init swiotlb_create_default_debugfs(void)
 +{
- 	struct io_tlb_mem *mem;
- 	size_t alloc_size;
- 
-@@ -186,16 +205,8 @@ int __init swiotlb_init_with_tbl(char *tlb, unsigned long nslabs, int verbose)
- 	if (!mem)
- 		panic("%s: Failed to allocate %zu bytes align=0x%lx\n",
- 		      __func__, alloc_size, PAGE_SIZE);
--	mem->nslabs = nslabs;
--	mem->start = __pa(tlb);
--	mem->end = mem->start + bytes;
--	mem->index = 0;
--	spin_lock_init(&mem->lock);
--	for (i = 0; i < mem->nslabs; i++) {
--		mem->slots[i].list = IO_TLB_SEGSIZE - io_tlb_offset(i);
--		mem->slots[i].orig_addr = INVALID_PHYS_ADDR;
--		mem->slots[i].alloc_size = 0;
--	}
++	struct io_tlb_mem *mem = io_tlb_default_mem;
 +
-+	swiotlb_init_io_tlb_mem(mem, __pa(tlb), nslabs, false);
++	debugfs_dir = debugfs_create_dir("swiotlb", NULL);
++	if (mem) {
++		mem->debugfs = debugfs_dir;
++		swiotlb_create_debugfs_files(mem);
++	}
+ 	return 0;
+ }
  
- 	io_tlb_default_mem = mem;
- 	if (verbose)
-@@ -282,8 +293,8 @@ swiotlb_late_init_with_default_size(size_t default_size)
- int
- swiotlb_late_init_with_tbl(char *tlb, unsigned long nslabs)
- {
--	unsigned long bytes = nslabs << IO_TLB_SHIFT, i;
- 	struct io_tlb_mem *mem;
-+	unsigned long bytes = nslabs << IO_TLB_SHIFT;
+-late_initcall(swiotlb_create_debugfs);
++late_initcall(swiotlb_create_default_debugfs);
  
- 	if (swiotlb_force == SWIOTLB_NO_FORCE)
- 		return 0;
-@@ -297,20 +308,9 @@ swiotlb_late_init_with_tbl(char *tlb, unsigned long nslabs)
- 	if (!mem)
- 		return -ENOMEM;
- 
--	mem->nslabs = nslabs;
--	mem->start = virt_to_phys(tlb);
--	mem->end = mem->start + bytes;
--	mem->index = 0;
--	mem->late_alloc = 1;
--	spin_lock_init(&mem->lock);
--	for (i = 0; i < mem->nslabs; i++) {
--		mem->slots[i].list = IO_TLB_SEGSIZE - io_tlb_offset(i);
--		mem->slots[i].orig_addr = INVALID_PHYS_ADDR;
--		mem->slots[i].alloc_size = 0;
--	}
--
-+	memset(mem, 0, sizeof(*mem));
- 	set_memory_decrypted((unsigned long)tlb, bytes >> PAGE_SHIFT);
--	memset(tlb, 0, bytes);
-+	swiotlb_init_io_tlb_mem(mem, virt_to_phys(tlb), nslabs, true);
- 
- 	io_tlb_default_mem = mem;
- 	swiotlb_print_info();
+ #endif
 -- 
 2.32.0.288.g62a8d224e6-goog
 
