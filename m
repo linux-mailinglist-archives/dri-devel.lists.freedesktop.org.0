@@ -1,55 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA4A43ADBBD
-	for <lists+dri-devel@lfdr.de>; Sat, 19 Jun 2021 22:44:04 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E13AA3ADBC3
+	for <lists+dri-devel@lfdr.de>; Sat, 19 Jun 2021 23:10:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 293376E071;
-	Sat, 19 Jun 2021 20:44:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 587F86E051;
+	Sat, 19 Jun 2021 21:10:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x234.google.com (mail-lj1-x234.google.com
- [IPv6:2a00:1450:4864:20::234])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8CDC96E07F
- for <dri-devel@lists.freedesktop.org>; Sat, 19 Jun 2021 20:44:00 +0000 (UTC)
-Received: by mail-lj1-x234.google.com with SMTP id c11so19127127ljd.6
- for <dri-devel@lists.freedesktop.org>; Sat, 19 Jun 2021 13:44:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=8GbMbqcQNUFvLy7t/rqOVL6WYkEUAA9eyNxHIfi2L94=;
- b=frwKhwlYwORDL90TK5zmJRbWkD2Py/0Uq5CFEXhAasiTywccZx9UJHn0NHo40MWJmb
- tK3jqsOvFXawKzSghYMnb0wGnkn4ZqjBBxZXYnyaV64AtO0rU5aQygcwI7xUD09W5rMl
- cmTxNx6x0AGBNV8qdDi7nDWSRiJFdDqzbcF0xtsHTHQCETUTG3jXGVQZIXU5/Rfdug2n
- FrXIV0hNa3Atx9mt0PWVzBRx8bGGQJ7cg4iQethA5nb7YOBzRHnztmUDc/psuchbTW76
- iShl8BKFIrneAWojK6BKwI+uQLhXzf8nWcG5qfq3YTPhdnp/uGyaPswSD09rG/hNiUoO
- qrXA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=8GbMbqcQNUFvLy7t/rqOVL6WYkEUAA9eyNxHIfi2L94=;
- b=DKJAL8IXKJ5ip3Pmfp00dkHIUbOtvbuOBckdSwMGAx5cpWmGgxhvDngCxt9VkwB7+Y
- yrPjcqvqXl9l2MKa/c6XvxrVutZl05PDsORYglDy8CW3AejV0U7wCQSqByOIOmMCYI2O
- Gr26jy9zFCpMCpNlcl+XdR8rihVpjLWo9+7tqDruiFLteV4JHOQb13PKE2J1+qxZCNXW
- JyYWhKKpdegCp8aJSB9jEbcLaACVStOnuR/JXnLMnL6pQJEH+PxBT0SHmoXxT7IZlJpd
- aIQaecfwF5TgbpaviPuXXiU2LJ8nfCBZFAmisdBIEGXzGQJAvC5HICb528OsgZkHjzPg
- VFjA==
-X-Gm-Message-State: AOAM5312dB55s8NOmTlzErkHIv/8HA40po/b8WrfwCkR9ZTca0emzy6u
- 0F3Y+b59m3Q5YopIRN2zTyqwszxVN4PNcH2o0H0=
-X-Google-Smtp-Source: ABdhPJwSkGENbChwA2P/eGQlExYm0gQQR8dt6/aMVCK5PKYVPF5tvRKmaD8UwMXFCywmsWxNgbZP6GjBY63+y5hdeZM=
-X-Received: by 2002:a2e:b88b:: with SMTP id r11mr14977906ljp.24.1624135438613; 
- Sat, 19 Jun 2021 13:43:58 -0700 (PDT)
+Received: from mx2.smtp.larsendata.com (mx2.smtp.larsendata.com
+ [91.221.196.228])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2B3FB6E051
+ for <dri-devel@lists.freedesktop.org>; Sat, 19 Jun 2021 21:10:49 +0000 (UTC)
+Received: from mail01.mxhotel.dk (mail01.mxhotel.dk [91.221.196.236])
+ by mx2.smtp.larsendata.com (Halon) with ESMTPS
+ id d9baea3a-d142-11eb-a36f-0050568cd888;
+ Sat, 19 Jun 2021 21:11:01 +0000 (UTC)
+Received: from ravnborg.org (80-162-45-141-cable.dk.customer.tdc.net
+ [80.162.45.141])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ (Authenticated sender: sam@ravnborg.org)
+ by mail01.mxhotel.dk (Postfix) with ESMTPSA id 11E31194B13;
+ Sat, 19 Jun 2021 23:10:51 +0200 (CEST)
+Date: Sat, 19 Jun 2021 23:10:45 +0200
+X-Report-Abuse-To: abuse@mxhotel.dk
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Nicolas Ferre <nicolas.ferre@microchip.com>
+Subject: Re: [PATCH] drm/atmel-hlcdc: Allow async page flips
+Message-ID: <20210619211045.GA603275@ravnborg.org>
+References: <20210330151721.6616-1-dan.sneddon@microchip.com>
+ <20210409105816.cfffdr3edzi4yntm@sekiro>
+ <088b0446-85c2-2d87-0439-a0cc14772c6a@microchip.com>
 MIME-Version: 1.0
-References: <20210618183524.590186-1-colin.king@canonical.com>
- <20210619134025.GH1861@kadam>
-In-Reply-To: <20210619134025.GH1861@kadam>
-From: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
-Date: Sat, 19 Jun 2021 22:43:47 +0200
-Message-ID: <CAMeQTsaN-GYzix6X18bWxKY1L13bTrUUYDmp6tFdvaERZEj=3g@mail.gmail.com>
-Subject: Re: [PATCH] drm/gma500/oaktrail_lvds: replace continue with break
-To: Dan Carpenter <dan.carpenter@oracle.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <088b0446-85c2-2d87-0439-a0cc14772c6a@microchip.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,63 +49,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, kernel-janitors@vger.kernel.org,
- linux-kernel <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Colin King <colin.king@canonical.com>
+Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Boris Brezillon <bbrezillon@kernel.org>, David Airlie <airlied@linux.ie>,
+ Dan Sneddon - C50748 <Dan.Sneddon@microchip.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Ludovic Desroches - M43218 <Ludovic.Desroches@microchip.com>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Jun 19, 2021 at 3:40 PM Dan Carpenter <dan.carpenter@oracle.com> wrote:
->
-> On Fri, Jun 18, 2021 at 07:35:24PM +0100, Colin King wrote:
-> > From: Colin Ian King <colin.king@canonical.com>
-> >
-> > Currently a loop scans through the connector list checking
-> > for connectors that do not match a specific criteria. The
-> > use of the continue statement is a little unintuitive and
-> > can confuse static analysis checking.  Invert the criteria
-> > matching logic and use a break to terminate the loop once
-> > the first suitable connector has been found.
-> >
-> > Thanks to Patrik Jakobsson for explaining the original
-> > intent of the code and suggesting this change.
-> >
-> > Addresses-Coverity: ("Continue has no effect")
-> > Signed-off-by: Colin Ian King <colin.king@canonical.com>
-> > ---
-> >  drivers/gpu/drm/gma500/oaktrail_lvds.c | 4 ++--
-> >  1 file changed, 2 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/gma500/oaktrail_lvds.c b/drivers/gpu/drm/gma500/oaktrail_lvds.c
-> > index 432bdcc57ac9..8541dcf237eb 100644
-> > --- a/drivers/gpu/drm/gma500/oaktrail_lvds.c
-> > +++ b/drivers/gpu/drm/gma500/oaktrail_lvds.c
-> > @@ -113,8 +113,8 @@ static void oaktrail_lvds_mode_set(struct drm_encoder *encoder,
-> >
-> >       /* Find the connector we're trying to set up */
-> >       list_for_each_entry(connector, &mode_config->connector_list, head) {
-> > -             if (!connector->encoder || connector->encoder->crtc != crtc)
-> > -                     continue;
-> > +             if (connector->encoder && connector->encoder->crtc == crtc)
-> > +                     break;
-> >       }
-> >
-> >       if (!connector) {
->
-> This test is wrong/impossible.  It should be:
->
->         if (list_entry_is_head(connector, &mode_config->connector_list,
->                                head)) {
+Hi Nicolas, Dan
 
-Right, we should be back at the head if no match was found. Actually,
-when looking closer, we should use drm_for_each_connector_iter() when
-walking the connector list together with proper locking.
+On Tue, May 25, 2021 at 11:29:15AM +0200, Nicolas Ferre wrote:
+> On 09/04/2021 at 12:58, Ludovic Desroches - M43218 wrote:
+> > On Tue, Mar 30, 2021 at 08:17:20AM -0700, Dan Sneddon wrote:
+> > > The driver is capable of doing async page flips so we need to tell the
+> > > core to allow them.
+> > > 
+> > > Signed-off-by: Dan Sneddon <dan.sneddon@microchip.com>
+> > Tested-by: Ludovic Desroches <ludovic.desroches@microchip.com>
+> 
+> Sam,
+> 
+> Do you need more from us or can you queue this patch (aka "ping")?
 
--Patrik
+Thanks, patch pushed to drm-misc-fixes.
+If there are more atmel-hlcdc patches pending please resend as I have
+pruned my inbox.
 
->
-> regards,
-> dan carpenter
->
->
+	Sam
