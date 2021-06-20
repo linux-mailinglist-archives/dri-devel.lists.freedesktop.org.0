@@ -2,59 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B5BA3ADE6E
-	for <lists+dri-devel@lfdr.de>; Sun, 20 Jun 2021 15:02:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DCCF63ADF00
+	for <lists+dri-devel@lfdr.de>; Sun, 20 Jun 2021 16:20:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DC97389C68;
-	Sun, 20 Jun 2021 13:02:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2E63589590;
+	Sun, 20 Jun 2021 14:20:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CFE2D89C68
- for <dri-devel@lists.freedesktop.org>; Sun, 20 Jun 2021 13:02:08 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPS id 8F26D61156
- for <dri-devel@lists.freedesktop.org>; Sun, 20 Jun 2021 13:02:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1624194128;
- bh=OqDDZWYC3edQVGGvF3URBbTFWqKUjbkok6A/8gyRd5o=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=Us8w34oXaFLI/Zd/OJ7vV02vYqDQGVm/PFM7kWjZiulZTE7W6oxuH42myM4g3yZLe
- kUpxyv515PHhHOVQnyVTF7+Zhf1PA+lP1HwQ6PhPsazR/6A4hS/XJn1ta9ctw4DFyT
- OKokpZJK8UStqLc5GMoN5bKe1FPTinQ1tu0Aj/Mkm0Ab2AfnIjtw0FNLMHFL2toIsw
- f2ybsPjmU0IUSjHAW70CbJ2Xp7LWMuicejDc7exNzcGU7TJGzQ3bC30H/spzfPu98f
- 3JBizL4GhDVJTRRmp4hIEAzJbGbphQcD0m2Ls0VdODCX0CJf5p6irWgjoUfPraNW9Y
- TmCwlvj8CbOnQ==
-Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
- id 8BDCE61261; Sun, 20 Jun 2021 13:02:08 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 213391] AMDGPU retries page fault with some specific processes
- amdgpu and sometimes followed [gfxhub0] retry page fault until *ERROR* ring
- gfx timeout, but soft recovered
-Date: Sun, 20 Jun 2021 13:02:08 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: low
-X-Bugzilla-Who: dominic.letz@berlin.de
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-213391-2300-sfecv6n7sC@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-213391-2300@https.bugzilla.kernel.org/>
-References: <bug-213391-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+X-Greylist: delayed 317 seconds by postgrey-1.36 at gabe;
+ Sun, 20 Jun 2021 14:20:18 UTC
+Received: from outgoing.mit.edu (outgoing-auth-1.mit.edu [18.9.28.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2253C89590;
+ Sun, 20 Jun 2021 14:20:18 +0000 (UTC)
+Received: from cwcc.thunk.org (pool-72-74-133-215.bstnma.fios.verizon.net
+ [72.74.133.215]) (authenticated bits=0)
+ (User authenticated as tytso@ATHENA.MIT.EDU)
+ by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 15KEEsxi001510
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Sun, 20 Jun 2021 10:14:55 -0400
+Received: by cwcc.thunk.org (Postfix, from userid 15806)
+ id 4EFFB15C3C9F; Sun, 20 Jun 2021 10:14:54 -0400 (EDT)
+Date: Sun, 20 Jun 2021 10:14:54 -0400
+From: "Theodore Ts'o" <tytso@mit.edu>
+To: Alex Sierra <alex.sierra@amd.com>
+Subject: Re: [PATCH v3 0/8] Support DEVICE_GENERIC memory in migrate_vma_*
+Message-ID: <YM9NXrGlhdp0qb7S@mit.edu>
+References: <20210617151705.15367-1-alex.sierra@amd.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210617151705.15367-1-alex.sierra@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,17 +44,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: rcampbell@nvidia.com, Felix.Kuehling@amd.com, amd-gfx@lists.freedesktop.org,
+ linux-xfs@vger.kernel.org, linux-mm@kvack.org, jglisse@redhat.com,
+ dri-devel@lists.freedesktop.org, jgg@nvidia.com, akpm@linux-foundation.org,
+ linux-ext4@vger.kernel.org, hch@lst.de
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D213391
+On Thu, Jun 17, 2021 at 10:16:57AM -0500, Alex Sierra wrote:
+> v1:
+> AMD is building a system architecture for the Frontier supercomputer with a
+> coherent interconnect between CPUs and GPUs. This hardware architecture allows
+> the CPUs to coherently access GPU device memory. We have hardware in our labs
+> and we are working with our partner HPE on the BIOS, firmware and software
+> for delivery to the DOE.
+> 
+> The system BIOS advertises the GPU device memory (aka VRAM) as SPM
+> (special purpose memory) in the UEFI system address map. The amdgpu driver looks
+> it up with lookup_resource and registers it with devmap as MEMORY_DEVICE_GENERIC
+> using devm_memremap_pages.
+> 
+> Now we're trying to migrate data to and from that memory using the migrate_vma_*
+> helpers so we can support page-based migration in our unified memory allocations,
+> while also supporting CPU access to those pages.
+> 
+> This patch series makes a few changes to make MEMORY_DEVICE_GENERIC pages behave
+> correctly in the migrate_vma_* helpers. We are looking for feedback about this
+> approach. If we're close, what's needed to make our patches acceptable upstream?
+> If we're not close, any suggestions how else to achieve what we are trying to do
+> (i.e. page migration and coherent CPU access to VRAM)?
 
---- Comment #21 from Dominic Letz (dominic.letz@berlin.de) ---
-So I'm running since 16th on 20210315 and it has been stable so far vs.
-multiple freezes a day before.
+Is there a way we can test the codepaths touched by this patchset?  It
+doesn't have to be via a complete qemu simulation of the GPU device
+memory, but some way of creating MEMORY_DEVICE_GENERIC subject to
+migrate_vma_* helpers so we can test for regressions moving forward.
 
---=20
-You may reply to this email to add a comment.
+Thanks,
 
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+					- Ted
