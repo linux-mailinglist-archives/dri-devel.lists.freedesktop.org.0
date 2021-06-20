@@ -1,42 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA2AC3ADFCC
-	for <lists+dri-devel@lfdr.de>; Sun, 20 Jun 2021 20:43:00 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id F1D4B3AE010
+	for <lists+dri-devel@lfdr.de>; Sun, 20 Jun 2021 21:40:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 59E9B89DD2;
-	Sun, 20 Jun 2021 18:42:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7635C89D9A;
+	Sun, 20 Jun 2021 19:40:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7E5E489DD2
- for <dri-devel@lists.freedesktop.org>; Sun, 20 Jun 2021 18:42:54 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
- [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0DBBC29A;
- Sun, 20 Jun 2021 20:42:51 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1624214572;
- bh=LvZUAWriaHo0DLhtpKAS8zjZlU61JfwBr4YsVCduvp0=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=eYEWXoT04QXZicjMCUCevkExmAFrVN4JnMkaQ5+Zir0y2fe4MuETM81UxzuiTYpe3
- Q8g3f2cz4UNOrA6w4yaD9AWVuj0emuoeQ7xJym9swYSNAhxc3r4mTjmbVchUq7riK4
- p7EKcJMLYggmlmTGt4ccHKG/zzx7nnilsgq35UO4=
-Date: Sun, 20 Jun 2021 21:42:26 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Subject: Re: [PATCH] drm/vc4: dsi: Only register our component once a DSI
- device is attached
-Message-ID: <YM+MEsKjdkYAVI5X@pendragon.ideasonboard.com>
-References: <20200707101912.571531-1-maxime@cerno.tech>
- <YM6dgVb12oITNfc0@pendragon.ideasonboard.com>
- <CAPY8ntC+hzmfrJwWW0ytNdHSXruMKMi7N3K6tdJbp9gDBbJ3Qw@mail.gmail.com>
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BC73089D8D
+ for <dri-devel@lists.freedesktop.org>; Sun, 20 Jun 2021 19:40:38 +0000 (UTC)
+Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
+ by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1lv3J5-0001PS-GS; Sun, 20 Jun 2021 21:40:35 +0200
+Received: from ukl by ptx.hi.pengutronix.de with local (Exim 4.92)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1lv3J4-0002I6-8g; Sun, 20 Jun 2021 21:40:34 +0200
+From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Lee Jones <lee.jones@linaro.org>,
+ Daniel Thompson <daniel.thompson@linaro.org>,
+ Jingoo Han <jingoohan1@gmail.com>
+Subject: [PATCH v2 1/2] backlight: lm3630a: fix return code of
+ .update_status() callback
+Date: Sun, 20 Jun 2021 21:39:27 +0200
+Message-Id: <20210620193928.14467-1-u.kleine-koenig@pengutronix.de>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CAPY8ntC+hzmfrJwWW0ytNdHSXruMKMi7N3K6tdJbp9gDBbJ3Qw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,185 +50,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, Tim Gover <tim.gover@raspberrypi.com>,
- Eric Anholt <eric@anholt.net>, linux-arm-kernel@lists.infradead.org,
- LKML <linux-kernel@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Andrzej Hajda <a.hajda@samsung.com>, bcm-kernel-feedback-list@broadcom.com,
- Maxime Ripard <maxime@cerno.tech>, Phil Elwell <phil@raspberrypi.com>,
- Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
- linux-rpi-kernel@lists.infradead.org
+Cc: linux-fbdev@vger.kernel.org, Thierry Reding <thierry.reding@gmail.com>,
+ dri-devel@lists.freedesktop.org, kernel@pengutronix.de
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave,
+According to <linux/backlight.h> .update_status() is supposed to
+return 0 on success and a negative error code otherwise. Adapt
+lm3630a_bank_a_update_status() to actually do it.
 
-On Sun, Jun 20, 2021 at 03:29:03PM +0100, Dave Stevenson wrote:
-> On Sun, 20 Jun 2021 at 04:26, Laurent Pinchart wrote:
-> >
-> > Hi Maxime,
-> >
-> > I'm testing this, and I'm afraid it causes an issue with all the
-> > I2C-controlled bridges. I'm focussing on the newly merged ti-sn65dsi83
-> > driver at the moment, but other are affected the same way.
-> >
-> > With this patch, the DSI component is only added when the DSI device is
-> > attached to the host with mipi_dsi_attach(). In the ti-sn65dsi83 driver,
-> > this happens in the bridge attach callback, which is called when the
-> > bridge is attached by a call to drm_bridge_attach() in vc4_dsi_bind().
-> > This creates a circular dependency, and the DRM/KMS device is never
-> > created.
-> >
-> > How should this be solved ? Dave, I think you have shown an interest in
-> > the sn65dsi83 recently, any help would be appreciated. On a side note,
-> > I've tested the ti-sn65dsi83 driver on a v5.10 RPi kernel, without much
-> > success (on top of commit e1499baa0b0c I get a very weird frame rate -
-> > 147 fps of 99 fps instead of 60 fps - and nothing on the screen, and on
-> > top of the latest v5.10 RPi branch, I get lock-related warnings at every
-> > page flip), which is why I tried v5.12 and noticed this patch. Is it
-> > worth trying to bring up the display on the v5.10 RPi kernel in parallel
-> > to fixing the issue introduced in this patch, or is DSI known to be
-> > broken there ?
-> 
-> I've been looking at SN65DSI83/4, but as I don't have any hardware
-> I've largely been suggesting things to try to those on the forums who
-> do [1].
-> 
-> My branch at https://github.com/6by9/linux/tree/rpi-5.10.y-sn65dsi8x-marek
-> is the latest one I've worked on. It's rpi-5.10.y with Marek's driver
-> cherry-picked, and an overlay and simple-panel definition by others.
-> It also has a rework for vc4_dsi to use pm_runtime, instead of
-> breaking up the DSI bridge chain (which is flawed as it never calls
-> the bridge mode_set or mode_valid functions which sn65dsi83 relies
-> on).
-> 
-> I ran it on Friday in the lab and encountered an issue with vc4_dsi
-> should vc4_dsi_encoder_mode_fixup wish for a divider of 7 (required
-> for this 800x1280 panel over 4 lanes) where it resulted in an invalid
-> mode configuration. That resulted in patch [2] which then gave me
-> sensible numbers.
-> 
-> That branch with dtoverlay=vc4-kms-v3d and
-> dtoverlay=vc4-kms-dsi-ti-sn65dsi83 created all the expected devices,
-> and everything came up normally.
-> It was a busy day, but I think I even stuck a scope on the clock lanes
-> at that point and confirmed that they were at the link frequency
-> expected.
+While touching that also add the error code to the failure message.
 
-Thanks, I'll test your branch and will report the results.
+Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+---
+ drivers/video/backlight/lm3630a_bl.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-> Coming back to this patch though, it isn't in 5.10 so I'm not seeing
-> the issues. As to the exact ordering of attaches, I can't claim
-> sufficient knowledge on that front.
-> I can try a cherry-pick of this patch to see what goes on, but it
-> won't be for a day or two.
+diff --git a/drivers/video/backlight/lm3630a_bl.c b/drivers/video/backlight/lm3630a_bl.c
+index e88a2b0e5904..16a2658a72e1 100644
+--- a/drivers/video/backlight/lm3630a_bl.c
++++ b/drivers/video/backlight/lm3630a_bl.c
+@@ -190,7 +190,7 @@ static int lm3630a_bank_a_update_status(struct backlight_device *bl)
+ 	if ((pwm_ctrl & LM3630A_PWM_BANK_A) != 0) {
+ 		lm3630a_pwm_ctrl(pchip, bl->props.brightness,
+ 				 bl->props.max_brightness);
+-		return bl->props.brightness;
++		return 0;
+ 	}
+ 
+ 	/* disable sleep */
+@@ -210,8 +210,8 @@ static int lm3630a_bank_a_update_status(struct backlight_device *bl)
+ 	return 0;
+ 
+ out_i2c_err:
+-	dev_err(pchip->dev, "i2c failed to access\n");
+-	return bl->props.brightness;
++	dev_err(pchip->dev, "i2c failed to access (%pe)\n", ERR_PTR(ret));
++	return ret;
+ }
+ 
+ static int lm3630a_bank_a_get_brightness(struct backlight_device *bl)
 
-Let's see if Maxime has an opinion :-)
-
-> [1] Largely https://www.raspberrypi.org/forums/viewtopic.php?f=44&t=305690,
-> but ignore about the first 5 pages of the thread as different driver
-> versions were floating about. Most stuff after that is based on
-> Marek's driver.
-> [2] https://github.com/6by9/linux/commit/c3c774136a1e946109048711d16974be8d520aaa
-> 
-> > On Tue, Jul 07, 2020 at 12:19:12PM +0200, Maxime Ripard wrote:
-> > > If the DSI driver is the last to probe, component_add will try to run all
-> > > the bind callbacks straight away and return the error code.
-> > >
-> > > However, since we depend on a power domain, we're pretty much guaranteed to
-> > > be in that case on the BCM2711, and are just lucky on the previous SoCs
-> > > since the v3d also depends on that power domain and is further in the probe
-> > > order.
-> > >
-> > > In that case, the DSI host will not stick around in the system: the DSI
-> > > bind callback will be executed, will not find any DSI device attached and
-> > > will return EPROBE_DEFER, and we will then remove the DSI host and ask to
-> > > be probed later on.
-> > >
-> > > But since that host doesn't stick around, DSI devices like the RaspberryPi
-> > > touchscreen whose probe is not linked to the DSI host (unlike the usual DSI
-> > > devices that will be probed through the call to mipi_dsi_host_register)
-> > > cannot attach to the DSI host, and we thus end up in a situation where the
-> > > DSI host cannot probe because the panel hasn't probed yet, and the panel
-> > > cannot probe because the DSI host hasn't yet.
-> > >
-> > > In order to break this cycle, let's wait until there's a DSI device that
-> > > attaches to the DSI host to register the component and allow to progress
-> > > further.
-> > >
-> > > Suggested-by: Andrzej Hajda <a.hajda@samsung.com>
-> > > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
-> > > ---
-> > >  drivers/gpu/drm/vc4/vc4_dsi.c | 25 ++++++++-----------------
-> > >  1 file changed, 8 insertions(+), 17 deletions(-)
-> > >
-> > > diff --git a/drivers/gpu/drm/vc4/vc4_dsi.c b/drivers/gpu/drm/vc4/vc4_dsi.c
-> > > index eaf276978ee7..19aab4e7e209 100644
-> > > --- a/drivers/gpu/drm/vc4/vc4_dsi.c
-> > > +++ b/drivers/gpu/drm/vc4/vc4_dsi.c
-> > > @@ -1246,10 +1246,12 @@ static ssize_t vc4_dsi_host_transfer(struct mipi_dsi_host *host,
-> > >       return ret;
-> > >  }
-> > >
-> > > +static const struct component_ops vc4_dsi_ops;
-> > >  static int vc4_dsi_host_attach(struct mipi_dsi_host *host,
-> > >                              struct mipi_dsi_device *device)
-> > >  {
-> > >       struct vc4_dsi *dsi = host_to_dsi(host);
-> > > +     int ret;
-> > >
-> > >       dsi->lanes = device->lanes;
-> > >       dsi->channel = device->channel;
-> > > @@ -1284,6 +1286,12 @@ static int vc4_dsi_host_attach(struct mipi_dsi_host *host,
-> > >               return 0;
-> > >       }
-> > >
-> > > +     ret = component_add(&dsi->pdev->dev, &vc4_dsi_ops);
-> > > +     if (ret) {
-> > > +             mipi_dsi_host_unregister(&dsi->dsi_host);
-> > > +             return ret;
-> > > +     }
-> > > +
-> > >       return 0;
-> > >  }
-> > >
-> > > @@ -1662,7 +1670,6 @@ static int vc4_dsi_dev_probe(struct platform_device *pdev)
-> > >  {
-> > >       struct device *dev = &pdev->dev;
-> > >       struct vc4_dsi *dsi;
-> > > -     int ret;
-> > >
-> > >       dsi = devm_kzalloc(dev, sizeof(*dsi), GFP_KERNEL);
-> > >       if (!dsi)
-> > > @@ -1670,26 +1677,10 @@ static int vc4_dsi_dev_probe(struct platform_device *pdev)
-> > >       dev_set_drvdata(dev, dsi);
-> > >
-> > >       dsi->pdev = pdev;
-> > > -
-> > > -     /* Note, the initialization sequence for DSI and panels is
-> > > -      * tricky.  The component bind above won't get past its
-> > > -      * -EPROBE_DEFER until the panel/bridge probes.  The
-> > > -      * panel/bridge will return -EPROBE_DEFER until it has a
-> > > -      * mipi_dsi_host to register its device to.  So, we register
-> > > -      * the host during pdev probe time, so vc4 as a whole can then
-> > > -      * -EPROBE_DEFER its component bind process until the panel
-> > > -      * successfully attaches.
-> > > -      */
-> > >       dsi->dsi_host.ops = &vc4_dsi_host_ops;
-> > >       dsi->dsi_host.dev = dev;
-> > >       mipi_dsi_host_register(&dsi->dsi_host);
-> > >
-> > > -     ret = component_add(&pdev->dev, &vc4_dsi_ops);
-> > > -     if (ret) {
-> > > -             mipi_dsi_host_unregister(&dsi->dsi_host);
-> > > -             return ret;
-> > > -     }
-> > > -
-> > >       return 0;
-> > >  }
-> > >
-
+base-commit: 6efb943b8616ec53a5e444193dccf1af9ad627b5
 -- 
-Regards,
+2.30.2
 
-Laurent Pinchart
