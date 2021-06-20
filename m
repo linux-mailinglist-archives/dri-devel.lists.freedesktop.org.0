@@ -1,40 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23C953AE0FD
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Jun 2021 00:42:45 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E55BB3AE100
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Jun 2021 00:47:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C0D7089C8D;
-	Sun, 20 Jun 2021 22:42:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3899D891C2;
+	Sun, 20 Jun 2021 22:47:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from phobos.denx.de (phobos.denx.de
  [IPv6:2a01:238:438b:c500:173d:9f52:ddab:ee01])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5E6C589C8D
- for <dri-devel@lists.freedesktop.org>; Sun, 20 Jun 2021 22:42:38 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A2B2B891C2
+ for <dri-devel@lists.freedesktop.org>; Sun, 20 Jun 2021 22:47:18 +0000 (UTC)
 Received: from tr.lan (ip-89-176-112-137.net.upcbroadband.cz [89.176.112.137])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
  (No client certificate requested)
  (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id 394E182893;
- Mon, 21 Jun 2021 00:42:35 +0200 (CEST)
+ by phobos.denx.de (Postfix) with ESMTPSA id C767082893;
+ Mon, 21 Jun 2021 00:47:16 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
- s=phobos-20191101; t=1624228955;
- bh=4B/n9ROF8MeqWJjSy9S7tLtV+Jzyc89iKvgTYIVpBcE=;
+ s=phobos-20191101; t=1624229237;
+ bh=bEr9By9V55nACZ9COHJHn7W2H9Tr4h8/XkDVIZ79ZBo=;
  h=From:To:Cc:Subject:Date:From;
- b=voTz9o83Srf4so0/m9Y85EFyOt8IYCRA0kS03lAIJF0eqQQAeOZwIezdTAq0M+klw
- Yf5Mx3QjiKwkpRKuAp4EAKLbEirMmCJ0rclmuUPLb8zHwHyq5rswh6+xX8+lCmi8fI
- hP77CASycoNmsrV+hxfOYWhOYd+VqLEQizxdc0V7t1vR6xX08X4dW4LVdaOnSWeSB5
- 0FnQUmVXsdIfw9dNEpVXb4Hgz4evrmIDNVe4h95R9ZJvxKbnH+nL5AlPTDMScmYxm8
- zLoQsHS/UQGl4XkTtPFgbra2+NFRIIorF0YLoYqiqvwUFpqXwbLUAYBLZ8FW+Djq/Z
- BhMKunnICT1rQ==
+ b=W8kJ3KfK+/5V5C/mkbIIgMy2WgZ7UIukwFiukEhxvbBkiuqI+N5ZN8P9qPUaDIR4/
+ PR4OnpYJxsleFdO4ffAOtFOZP202QSf3NAKE11x7y7iydCM758Zbvix+a49ce8Yi/J
+ 1426XJdvJrlqa0JeQi4vGXCrwhg46COUheNyTeDB872ZV+oDFCDRiCtcSqpIHC8aRU
+ mOszP6KKok0zzPhhLD5fibn1g2Dy3ftVLcFuaO9TiOYZ7RxptQlAALb3SERkWSLw86
+ DU4vXTsdiE7e+qHC357i/JKSFsd8O4HZoydT9F2TfXKYrxl2SQqtEh95eNvJ10yjV4
+ IgGtNAhuh2i8Q==
 From: Marek Vasut <marex@denx.de>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/bridge: ti-sn65dsi83: Replace connector format patching
- with atomic_get_input_bus_fmts
-Date: Mon, 21 Jun 2021 00:42:08 +0200
-Message-Id: <20210620224208.184719-1-marex@denx.de>
+Subject: [PATCH] drm: mxsfb: Enable recovery on underflow
+Date: Mon, 21 Jun 2021 00:47:01 +0200
+Message-Id: <20210620224701.189289-1-marex@denx.de>
 X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -52,108 +51,99 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, Loic Poulain <loic.poulain@linaro.org>,
- ch@denx.de, Sam Ravnborg <sam@ravnborg.org>,
- Robert Foss <robert.foss@linaro.org>, Douglas Anderson <dianders@chromium.org>,
- Frieder Schrempf <frieder.schrempf@kontron.de>,
- Stephen Boyd <swboyd@chromium.org>,
- Philippe Schenker <philippe.schenker@toradex.com>,
- Jagan Teki <jagan@amarulasolutions.com>,
- Valentin Raevsky <valentin@compulab.co.il>, Adam Ford <aford173@gmail.com>,
+Cc: Marek Vasut <marex@denx.de>, ch@denx.de,
+ Emil Velikov <emil.l.velikov@gmail.com>,
+ Daniel Abrecht <public@danielabrecht.ch>,
  Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Patching the connector format is causing various problematic
-side effects. Implement .atomic_get_input_bus_fmts callback
-instead, which sets up the input (DSI-end) format, and that
-format can then be used in pipeline format negotiation between
-the DSI-end of this bridge and the other component closer to
-the scanout engine.
+There is some sort of corner case behavior of the controller,
+which could rarely be triggered at least on i.MX6SX connected
+to 800x480 DPI panel and i.MX8MM connected to DPI->DSI->LVDS
+bridged 1920x1080 panel (and likely on other setups too), where
+the image on the panel shifts to the right and wraps around.
+This happens either when the controller is enabled on boot or
+even later during run time. The condition does not correct
+itself automatically, i.e. the display image remains shifted.
 
+It seems this problem is known and is due to sporadic underflows
+of the LCDIF FIFO. While the LCDIF IP does have underflow/overflow
+IRQs, neither of the IRQs trigger and neither IRQ status bit is
+asserted when this condition occurs.
+
+All known revisions of the LCDIF IP have CTRL1 RECOVER_ON_UNDERFLOW
+bit, which is described in the reference manual since i.MX23 as
+"
+  Set this bit to enable the LCDIF block to recover in the next
+  field/frame if there was an underflow in the current field/frame.
+"
+Enable this bit to mitigate the sporadic underflows.
+
+Fixes: 45d59d704080 ("drm: Add new driver for MXSFB controller")
 Signed-off-by: Marek Vasut <marex@denx.de>
-Cc: Adam Ford <aford173@gmail.com>
-Cc: Douglas Anderson <dianders@chromium.org>
-Cc: Frieder Schrempf <frieder.schrempf@kontron.de>
-Cc: Jagan Teki <jagan@amarulasolutions.com>
+Cc: Daniel Abrecht <public@danielabrecht.ch>
+Cc: Emil Velikov <emil.l.velikov@gmail.com>
 Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Linus Walleij <linus.walleij@linaro.org>
-Cc: Loic Poulain <loic.poulain@linaro.org>
-Cc: Philippe Schenker <philippe.schenker@toradex.com>
-Cc: Robert Foss <robert.foss@linaro.org>
-Cc: Sam Ravnborg <sam@ravnborg.org>
-Cc: Stephen Boyd <swboyd@chromium.org>
-Cc: Valentin Raevsky <valentin@compulab.co.il>
-Cc: dri-devel@lists.freedesktop.org
+Cc: Lucas Stach <l.stach@pengutronix.de>
+Cc: Stefan Agner <stefan@agner.ch>
 ---
- drivers/gpu/drm/bridge/ti-sn65dsi83.c | 35 ++++++++++++++++++++++++---
- 1 file changed, 31 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/mxsfb/mxsfb_kms.c  | 29 +++++++++++++++++++++++++++++
+ drivers/gpu/drm/mxsfb/mxsfb_regs.h |  1 +
+ 2 files changed, 30 insertions(+)
 
-diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi83.c b/drivers/gpu/drm/bridge/ti-sn65dsi83.c
-index 750f2172ef08..32bda20f5dda 100644
---- a/drivers/gpu/drm/bridge/ti-sn65dsi83.c
-+++ b/drivers/gpu/drm/bridge/ti-sn65dsi83.c
-@@ -517,7 +517,6 @@ static bool sn65dsi83_mode_fixup(struct drm_bridge *bridge,
- 				 struct drm_display_mode *adj)
- {
- 	struct sn65dsi83 *ctx = bridge_to_sn65dsi83(bridge);
--	u32 input_bus_format = MEDIA_BUS_FMT_RGB888_1X24;
- 	struct drm_encoder *encoder = bridge->encoder;
- 	struct drm_device *ddev = encoder->dev;
- 	struct drm_connector *connector;
-@@ -550,14 +549,37 @@ static bool sn65dsi83_mode_fixup(struct drm_bridge *bridge,
- 				 connector->display_info.bus_formats[0]);
- 			break;
- 		}
--
--		drm_display_info_set_bus_formats(&connector->display_info,
--						 &input_bus_format, 1);
- 	}
+diff --git a/drivers/gpu/drm/mxsfb/mxsfb_kms.c b/drivers/gpu/drm/mxsfb/mxsfb_kms.c
+index 300e7bab0f43..01e0f525360f 100644
+--- a/drivers/gpu/drm/mxsfb/mxsfb_kms.c
++++ b/drivers/gpu/drm/mxsfb/mxsfb_kms.c
+@@ -115,6 +115,35 @@ static void mxsfb_enable_controller(struct mxsfb_drm_private *mxsfb)
+ 	reg |= VDCTRL4_SYNC_SIGNALS_ON;
+ 	writel(reg, mxsfb->base + LCDC_VDCTRL4);
  
- 	return true;
++	/*
++	 * Enable recovery on underflow.
++	 *
++	 * There is some sort of corner case behavior of the controller,
++	 * which could rarely be triggered at least on i.MX6SX connected
++	 * to 800x480 DPI panel and i.MX8MM connected to DPI->DSI->LVDS
++	 * bridged 1920x1080 panel (and likely on other setups too), where
++	 * the image on the panel shifts to the right and wraps around.
++	 * This happens either when the controller is enabled on boot or
++	 * even later during run time. The condition does not correct
++	 * itself automatically, i.e. the display image remains shifted.
++	 *
++	 * It seems this problem is known and is due to sporadic underflows
++	 * of the LCDIF FIFO. While the LCDIF IP does have underflow/overflow
++	 * IRQs, neither of the IRQs trigger and neither IRQ status bit is
++	 * asserted when this condition occurs.
++	 *
++	 * All known revisions of the LCDIF IP have CTRL1 RECOVER_ON_UNDERFLOW
++	 * bit, which is described in the reference manual since i.MX23 as
++	 * "
++	 *   Set this bit to enable the LCDIF block to recover in the next
++	 *   field/frame if there was an underflow in the current field/frame.
++	 * "
++	 * Enable this bit to mitigate the sporadic underflows.
++	 */
++	reg = readl(mxsfb->base + LCDC_CTRL1);
++	reg |= CTRL1_RECOVER_ON_UNDERFLOW;
++	writel(reg, mxsfb->base + LCDC_CTRL1);
++
+ 	writel(CTRL_RUN, mxsfb->base + LCDC_CTRL + REG_SET);
  }
  
-+#define MAX_INPUT_SEL_FORMATS	1
-+
-+static u32 *
-+sn65dsi83_atomic_get_input_bus_fmts(struct drm_bridge *bridge,
-+				    struct drm_bridge_state *bridge_state,
-+				    struct drm_crtc_state *crtc_state,
-+				    struct drm_connector_state *conn_state,
-+				    u32 output_fmt,
-+				    unsigned int *num_input_fmts)
-+{
-+	u32 *input_fmts;
-+
-+	*num_input_fmts = 0;
-+
-+	input_fmts = kcalloc(MAX_INPUT_SEL_FORMATS, sizeof(*input_fmts),
-+			     GFP_KERNEL);
-+	if (!input_fmts)
-+		return NULL;
-+
-+	/* This is the DSI-end bus format */
-+	input_fmts[0] = MEDIA_BUS_FMT_RGB888_1X24;
-+	*num_input_fmts = 1;
-+
-+	return input_fmts;
-+}
-+
- static const struct drm_bridge_funcs sn65dsi83_funcs = {
- 	.attach		= sn65dsi83_attach,
- 	.pre_enable	= sn65dsi83_pre_enable,
-@@ -567,6 +589,11 @@ static const struct drm_bridge_funcs sn65dsi83_funcs = {
- 	.mode_valid	= sn65dsi83_mode_valid,
- 	.mode_set	= sn65dsi83_mode_set,
- 	.mode_fixup	= sn65dsi83_mode_fixup,
-+
-+	.atomic_duplicate_state = drm_atomic_helper_bridge_duplicate_state,
-+	.atomic_destroy_state = drm_atomic_helper_bridge_destroy_state,
-+	.atomic_reset = drm_atomic_helper_bridge_reset,
-+	.atomic_get_input_bus_fmts = sn65dsi83_atomic_get_input_bus_fmts,
- };
+diff --git a/drivers/gpu/drm/mxsfb/mxsfb_regs.h b/drivers/gpu/drm/mxsfb/mxsfb_regs.h
+index 55d28a27f912..df90e960f495 100644
+--- a/drivers/gpu/drm/mxsfb/mxsfb_regs.h
++++ b/drivers/gpu/drm/mxsfb/mxsfb_regs.h
+@@ -54,6 +54,7 @@
+ #define CTRL_DF24			BIT(1)
+ #define CTRL_RUN			BIT(0)
  
- static int sn65dsi83_parse_dt(struct sn65dsi83 *ctx, enum sn65dsi83_model model)
++#define CTRL1_RECOVER_ON_UNDERFLOW	BIT(24)
+ #define CTRL1_FIFO_CLEAR		BIT(21)
+ #define CTRL1_SET_BYTE_PACKAGING(x)	(((x) & 0xf) << 16)
+ #define CTRL1_GET_BYTE_PACKAGING(x)	(((x) >> 16) & 0xf)
 -- 
 2.30.2
 
