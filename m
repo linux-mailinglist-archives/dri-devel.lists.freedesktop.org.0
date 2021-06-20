@@ -1,37 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E2743ADE23
-	for <lists+dri-devel@lfdr.de>; Sun, 20 Jun 2021 13:20:18 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 249663ADE24
+	for <lists+dri-devel@lfdr.de>; Sun, 20 Jun 2021 13:20:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9B53089F89;
-	Sun, 20 Jun 2021 11:20:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1648089F92;
+	Sun, 20 Jun 2021 11:20:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 302 seconds by postgrey-1.36 at gabe;
- Sun, 20 Jun 2021 11:20:13 UTC
 Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2BF5089F89
- for <dri-devel@lists.freedesktop.org>; Sun, 20 Jun 2021 11:20:13 +0000 (UTC)
-X-UUID: 19cb3f1bdab44152a1812d68f21463a9-20210620
-X-UUID: 19cb3f1bdab44152a1812d68f21463a9-20210620
-Received: from mtkcas06.mediatek.inc [(172.21.101.30)] by mailgw02.mediatek.com
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2702089F92
+ for <dri-devel@lists.freedesktop.org>; Sun, 20 Jun 2021 11:20:16 +0000 (UTC)
+X-UUID: 8663d307b4de445d8b9f75bd9a6f7cc4-20210620
+X-UUID: 8663d307b4de445d8b9f75bd9a6f7cc4-20210620
+Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw02.mediatek.com
  (envelope-from <yongqiang.niu@mediatek.com>)
  (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 1502927123; Sun, 20 Jun 2021 19:15:03 +0800
+ with ESMTP id 76523398; Sun, 20 Jun 2021 19:15:11 +0800
 Received: from mtkcas11.mediatek.inc (172.21.101.40) by
- mtkmbs08n2.mediatek.inc (172.21.101.56) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Sun, 20 Jun 2021 19:15:02 +0800
+ mtkmbs08n1.mediatek.inc (172.21.101.55) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Sun, 20 Jun 2021 19:15:03 +0800
 Received: from localhost.localdomain (10.17.3.153) by mtkcas11.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Sun, 20 Jun 2021 19:15:01 +0800
+ Transport; Sun, 20 Jun 2021 19:15:03 +0800
 From: Yongqiang Niu <yongqiang.niu@mediatek.com>
 To: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Subject: [PATCH v6, 0/2] soc: mediatek: mmsys: add mt8192 mmsys support
-Date: Sun, 20 Jun 2021 19:14:56 +0800
-Message-ID: <1624187698-29040-1-git-send-email-yongqiang.niu@mediatek.com>
+Subject: [PATCH v6, 1/2] soc: mediatek: mmsys: add comp OVL_2L2/POSTMASK/RDMA4
+Date: Sun, 20 Jun 2021 19:14:57 +0800
+Message-ID: <1624187698-29040-2-git-send-email-yongqiang.niu@mediatek.com>
 X-Mailer: git-send-email 1.8.1.1.dirty
+In-Reply-To: <1624187698-29040-1-git-send-email-yongqiang.niu@mediatek.com>
+References: <1624187698-29040-1-git-send-email-yongqiang.niu@mediatek.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-MTK: N
@@ -59,22 +59,41 @@ Cc: devicetree@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-base 5.13-rc1
+This patch add some more ddp component
+OVL_2L2 is ovl which include 2 layers overlay
+POSTMASK control round corner for display frame
+RDMA4 read dma buffer
 
-Change since v5:
-- squash ddp component into one patch
-- add 8192 mmsys compatible data
+Change-Id: I464ea2dce6a312de8fad2cdbd94a4c71ab45af8f
+Signed-off-by: Yongqiang Niu <yongqiang.niu@mediatek.com>
+Reviewed-by: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Reviewed-by: Enric Balletbo i Serra <enric.balletbo@collabora.com>
+Signed-off-by: Yongqiang Niu <yongqiang.niu@mediatek.com>
+---
+ include/linux/soc/mediatek/mtk-mmsys.h | 3 +++
+ 1 file changed, 3 insertions(+)
 
-Yongqiang Niu (2):
-  soc: mediatek: mmsys: add comp OVL_2L2/POSTMASK/RDMA4
-  soc: mediatek: mmsys: Add mt8192 mmsys routing table
-
- drivers/soc/mediatek/mt8192-mmsys.h    | 68 ++++++++++++++++++++++++++++++++++
- drivers/soc/mediatek/mtk-mmsys.c       | 11 ++++++
- include/linux/soc/mediatek/mtk-mmsys.h |  3 ++
- 3 files changed, 82 insertions(+)
- create mode 100644 drivers/soc/mediatek/mt8192-mmsys.h
-
+diff --git a/include/linux/soc/mediatek/mtk-mmsys.h b/include/linux/soc/mediatek/mtk-mmsys.h
+index 2228bf6..4bba275 100644
+--- a/include/linux/soc/mediatek/mtk-mmsys.h
++++ b/include/linux/soc/mediatek/mtk-mmsys.h
+@@ -29,13 +29,16 @@ enum mtk_ddp_comp_id {
+ 	DDP_COMPONENT_OVL0,
+ 	DDP_COMPONENT_OVL_2L0,
+ 	DDP_COMPONENT_OVL_2L1,
++	DDP_COMPONENT_OVL_2L2,
+ 	DDP_COMPONENT_OVL1,
++	DDP_COMPONENT_POSTMASK0,
+ 	DDP_COMPONENT_PWM0,
+ 	DDP_COMPONENT_PWM1,
+ 	DDP_COMPONENT_PWM2,
+ 	DDP_COMPONENT_RDMA0,
+ 	DDP_COMPONENT_RDMA1,
+ 	DDP_COMPONENT_RDMA2,
++	DDP_COMPONENT_RDMA4,
+ 	DDP_COMPONENT_UFOE,
+ 	DDP_COMPONENT_WDMA0,
+ 	DDP_COMPONENT_WDMA1,
 -- 
 1.8.1.1.dirty
 
