@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 880D73AE103
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Jun 2021 00:49:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 213D43AE102
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Jun 2021 00:48:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AF07C89A9A;
-	Sun, 20 Jun 2021 22:49:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4595589755;
+	Sun, 20 Jun 2021 22:48:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8EB4989A9A
- for <dri-devel@lists.freedesktop.org>; Sun, 20 Jun 2021 22:49:01 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
- [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8D57C4AD;
- Mon, 21 Jun 2021 00:48:59 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1624229339;
- bh=kmSu3LEa6aMvbE0WR4w+Ml7wMj6zteyLmKKI93tEbyY=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=JpFaD2+Dn57DcoRdA7IUp0iTIQP/b0prbJRkD8E0ilK/bgaDQyiG0bnnH6B+uBWwB
- fDNka8OHUOXCCiJaGd9U+NBz0rcJB0QptyAHXtv6sBBB9CqmVsuzCuYlDPhRk2HT7G
- EAemH2McYD6ETcU6u7QtyVSTUyDnlug1Jf9EEqbg=
-Date: Mon, 21 Jun 2021 01:48:33 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Subject: Re: [PATCH] drm/vc4: dsi: Only register our component once a DSI
- device is attached
-Message-ID: <YM/FwVkkQXX8VrzV@pendragon.ideasonboard.com>
-References: <20200707101912.571531-1-maxime@cerno.tech>
- <YM6dgVb12oITNfc0@pendragon.ideasonboard.com>
- <CAPY8ntC+hzmfrJwWW0ytNdHSXruMKMi7N3K6tdJbp9gDBbJ3Qw@mail.gmail.com>
- <YM+MEsKjdkYAVI5X@pendragon.ideasonboard.com>
+Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0E2E089755
+ for <dri-devel@lists.freedesktop.org>; Sun, 20 Jun 2021 22:48:39 +0000 (UTC)
+Received: from tr.lan (ip-89-176-112-137.net.upcbroadband.cz [89.176.112.137])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (No client certificate requested)
+ (Authenticated sender: marex@denx.de)
+ by phobos.denx.de (Postfix) with ESMTPSA id 67A2E800BF;
+ Mon, 21 Jun 2021 00:48:37 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+ s=phobos-20191101; t=1624229317;
+ bh=aDQ0+1hZup573im6sTGC9BMFPyDIKuC80w+b6PEIPlQ=;
+ h=From:To:Cc:Subject:Date:From;
+ b=pd1q8/In9dhFP+Xmsurs7P3gnTrEsmqTYdcnoWAXUz9a26sgpM3rvOU0kAmRhXWNU
+ QVcg8qp+AHLoEsQEIvhwv2LkEszWjcsotzr58Kn1zT0tsNAmTv5xIeLf0bnll/NM2y
+ Y5zlubCGlzpZ9ovCmSJkLnTpKSaTr2ZMrjFvRGFG7YleufkpuYaL+X4jrGYNhciyVB
+ 3MJHBDKSaHKRqEeBQtyRp5STML5Ia5cOcndP3wiZSa6J5oIv7ipNLBnoWbip6ctrZJ
+ e5Mn2RLwDVJtdUhVtjwh1tRP02MVIcHRJBjf4ppWW4MR3Xm3JUxUa0YC+EeYh5zOfT
+ y73ksN6yPedPQ==
+From: Marek Vasut <marex@denx.de>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm: mxsfb: Disable overlay plane support for i.MX8MM/i.MX8MN
+Date: Mon, 21 Jun 2021 00:48:34 +0200
+Message-Id: <20210620224834.189411-1-marex@denx.de>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <YM+MEsKjdkYAVI5X@pendragon.ideasonboard.com>
+Content-Transfer-Encoding: 8bit
+X-Virus-Scanned: clamav-milter 0.103.2 at phobos.denx.de
+X-Virus-Status: Clean
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,252 +50,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, Tim Gover <tim.gover@raspberrypi.com>,
- Eric Anholt <eric@anholt.net>, linux-arm-kernel@lists.infradead.org,
- LKML <linux-kernel@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Andrzej Hajda <a.hajda@samsung.com>, bcm-kernel-feedback-list@broadcom.com,
- Maxime Ripard <maxime@cerno.tech>, Phil Elwell <phil@raspberrypi.com>,
- Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
- linux-rpi-kernel@lists.infradead.org
+Cc: Marek Vasut <marex@denx.de>, ch@denx.de,
+ Emil Velikov <emil.l.velikov@gmail.com>,
+ Daniel Abrecht <public@danielabrecht.ch>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave,
+The iMX8MM and iMX8MN do not support the overlay plane, so they
+are MXSFB V4. Add the compatible strings to reflect this. Note
+that iMX8MQ does support the overlay plane, so it is MXSFB V6.
 
-On Sun, Jun 20, 2021 at 09:42:27PM +0300, Laurent Pinchart wrote:
-> On Sun, Jun 20, 2021 at 03:29:03PM +0100, Dave Stevenson wrote:
-> > On Sun, 20 Jun 2021 at 04:26, Laurent Pinchart wrote:
-> > >
-> > > Hi Maxime,
-> > >
-> > > I'm testing this, and I'm afraid it causes an issue with all the
-> > > I2C-controlled bridges. I'm focussing on the newly merged ti-sn65dsi83
-> > > driver at the moment, but other are affected the same way.
-> > >
-> > > With this patch, the DSI component is only added when the DSI device is
-> > > attached to the host with mipi_dsi_attach(). In the ti-sn65dsi83 driver,
-> > > this happens in the bridge attach callback, which is called when the
-> > > bridge is attached by a call to drm_bridge_attach() in vc4_dsi_bind().
-> > > This creates a circular dependency, and the DRM/KMS device is never
-> > > created.
-> > >
-> > > How should this be solved ? Dave, I think you have shown an interest in
-> > > the sn65dsi83 recently, any help would be appreciated. On a side note,
-> > > I've tested the ti-sn65dsi83 driver on a v5.10 RPi kernel, without much
-> > > success (on top of commit e1499baa0b0c I get a very weird frame rate -
-> > > 147 fps of 99 fps instead of 60 fps - and nothing on the screen, and on
-> > > top of the latest v5.10 RPi branch, I get lock-related warnings at every
-> > > page flip), which is why I tried v5.12 and noticed this patch. Is it
-> > > worth trying to bring up the display on the v5.10 RPi kernel in parallel
-> > > to fixing the issue introduced in this patch, or is DSI known to be
-> > > broken there ?
-> > 
-> > I've been looking at SN65DSI83/4, but as I don't have any hardware
-> > I've largely been suggesting things to try to those on the forums who
-> > do [1].
-> > 
-> > My branch at https://github.com/6by9/linux/tree/rpi-5.10.y-sn65dsi8x-marek
-> > is the latest one I've worked on. It's rpi-5.10.y with Marek's driver
-> > cherry-picked, and an overlay and simple-panel definition by others.
-> > It also has a rework for vc4_dsi to use pm_runtime, instead of
-> > breaking up the DSI bridge chain (which is flawed as it never calls
-> > the bridge mode_set or mode_valid functions which sn65dsi83 relies
-> > on).
-> > 
-> > I ran it on Friday in the lab and encountered an issue with vc4_dsi
-> > should vc4_dsi_encoder_mode_fixup wish for a divider of 7 (required
-> > for this 800x1280 panel over 4 lanes) where it resulted in an invalid
-> > mode configuration. That resulted in patch [2] which then gave me
-> > sensible numbers.
-> > 
-> > That branch with dtoverlay=vc4-kms-v3d and
-> > dtoverlay=vc4-kms-dsi-ti-sn65dsi83 created all the expected devices,
-> > and everything came up normally.
-> > It was a busy day, but I think I even stuck a scope on the clock lanes
-> > at that point and confirmed that they were at the link frequency
-> > expected.
-> 
-> Thanks, I'll test your branch and will report the results.
+Signed-off-by: Marek Vasut <marex@denx.de>
+Cc: Daniel Abrecht <public@danielabrecht.ch>
+Cc: Emil Velikov <emil.l.velikov@gmail.com>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Lucas Stach <l.stach@pengutronix.de>
+Cc: Stefan Agner <stefan@agner.ch>
+---
+ drivers/gpu/drm/mxsfb/mxsfb_drv.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-I had to apply the following diff to work around a crash:
-
-diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi83.c b/drivers/gpu/drm/bridge/ti-sn65dsi83.c
-index 55b6c53207f5..647426aa793a 100644
---- a/drivers/gpu/drm/bridge/ti-sn65dsi83.c
-+++ b/drivers/gpu/drm/bridge/ti-sn65dsi83.c
-@@ -525,6 +525,9 @@ static bool sn65dsi83_mode_fixup(struct drm_bridge *bridge,
-
- 	/* The DSI format is always RGB888_1X24 */
- 	list_for_each_entry(connector, &ddev->mode_config.connector_list, head) {
-+		if (!connector->display_info.bus_formats)
-+			continue;
-+
- 		switch (connector->display_info.bus_formats[0]) {
- 		case MEDIA_BUS_FMT_RGB666_1X7X3_SPWG:
- 			ctx->lvds_format_24bpp = false;
-
-connector->display_info.bus_formats is NULL for the HDMI connectors, as
-I have nothing connected to them, as well as for the writeback
-connector.
-
-Then, when running kmstest --flip, I get one warning per frame:
-
-[   29.762089] [drm:vc4_dsi_runtime_resume] *ERROR* vc4_dsi_runtime_resume:
-[   29.763200] [drm:vc4_dsi_runtime_resume] *ERROR* vc4_dsi_runtime_resume: All good
-[   29.793861] ------------[ cut here ]------------
-[   29.798572] WARNING: CPU: 2 PID: 249 at drivers/gpu/drm/drm_modeset_lock.c:246 drm_modeset_lock+0xd0/0x100
-[   29.808365] Modules linked in: ipv6 bcm2835_codec(C) bcm2835_unicam bcm2835_v4l2(C) bcm2835_isp(C) bcm2835_mmal_vchiq(C) v4l2_mem2mem v4l2_dv_timings imx296 rtc_ds1307 videobuf2_vmallom
-[   29.855284] CPU: 2 PID: 249 Comm: kworker/u8:10 Tainted: G         C        5.10.44-v8+ #23
-[   29.863756] Hardware name: Raspberry Pi Compute Module 4 Rev 1.0 (DT)
-[   29.870297] Workqueue: events_unbound commit_work
-[   29.875077] pstate: 80000005 (Nzcv daif -PAN -UAO -TCO BTYPE=--)
-[   29.881172] pc : drm_modeset_lock+0xd0/0x100
-[   29.885506] lr : drm_atomic_get_new_or_current_crtc_state+0x6c/0x110
-[   29.891950] sp : ffffffc011fcbcb0
-[   29.895308] x29: ffffffc011fcbcb0 x28: ffffff80403fe780
-[   29.900705] x27: ffffff80415a2000 x26: ffffffc0106f0000
-[   29.906100] x25: 0000000000000000 x24: ffffff80420d3c80
-[   29.911495] x23: ffffff8042174080 x22: 0000000000000038
-[   29.916890] x21: 0000000000000000 x20: ffffff80421740a8
-[   29.922284] x19: ffffffc011f8bc50 x18: 0000000000000000
-[   29.927678] x17: 0000000000000000 x16: 0000000000000000
-[   29.933072] x15: 0000000000000000 x14: 0000000000000000
-[   29.938466] x13: 0048000000000329 x12: 0326032303290320
-[   29.943860] x11: 03200000020301f4 x10: 00000000000019e0
-[   29.949255] x9 : ffffffc0106efd8c x8 : ffffff804390d5c0
-[   29.954649] x7 : 7fffffffffffffff x6 : 0000000000000001
-[   29.960043] x5 : 0000000000000001 x4 : 0000000000000001
-[   29.965436] x3 : ffffff80415a2000 x2 : ffffff804199b200
-[   29.970830] x1 : 00000000000000bc x0 : ffffffc011f8bc98
-[   29.976225] Call trace:
-[   29.978708]  drm_modeset_lock+0xd0/0x100
-[   29.982687]  drm_atomic_get_new_or_current_crtc_state+0x6c/0x110
-[   29.988781]  vc4_atomic_complete_commit+0x4e4/0x860
-[   29.993729]  commit_work+0x18/0x20
-[   29.997181]  process_one_work+0x1c4/0x4a0
-[   30.001248]  worker_thread+0x50/0x420
-[   30.004965]  kthread+0x11c/0x150
-[   30.008239]  ret_from_fork+0x10/0x20
-[   30.011865] ---[ end trace f44ae6b09cda951a ]---
-
-Does it ring any bell ?
-
-In case this is useful information, the problem didn't occur on top of
-commit e1499baa0b0c.
-
-> > Coming back to this patch though, it isn't in 5.10 so I'm not seeing
-> > the issues. As to the exact ordering of attaches, I can't claim
-> > sufficient knowledge on that front.
-> > I can try a cherry-pick of this patch to see what goes on, but it
-> > won't be for a day or two.
-> 
-> Let's see if Maxime has an opinion :-)
-> 
-> > [1] Largely https://www.raspberrypi.org/forums/viewtopic.php?f=44&t=305690,
-> > but ignore about the first 5 pages of the thread as different driver
-> > versions were floating about. Most stuff after that is based on
-> > Marek's driver.
-> > [2] https://github.com/6by9/linux/commit/c3c774136a1e946109048711d16974be8d520aaa
-> > 
-> > > On Tue, Jul 07, 2020 at 12:19:12PM +0200, Maxime Ripard wrote:
-> > > > If the DSI driver is the last to probe, component_add will try to run all
-> > > > the bind callbacks straight away and return the error code.
-> > > >
-> > > > However, since we depend on a power domain, we're pretty much guaranteed to
-> > > > be in that case on the BCM2711, and are just lucky on the previous SoCs
-> > > > since the v3d also depends on that power domain and is further in the probe
-> > > > order.
-> > > >
-> > > > In that case, the DSI host will not stick around in the system: the DSI
-> > > > bind callback will be executed, will not find any DSI device attached and
-> > > > will return EPROBE_DEFER, and we will then remove the DSI host and ask to
-> > > > be probed later on.
-> > > >
-> > > > But since that host doesn't stick around, DSI devices like the RaspberryPi
-> > > > touchscreen whose probe is not linked to the DSI host (unlike the usual DSI
-> > > > devices that will be probed through the call to mipi_dsi_host_register)
-> > > > cannot attach to the DSI host, and we thus end up in a situation where the
-> > > > DSI host cannot probe because the panel hasn't probed yet, and the panel
-> > > > cannot probe because the DSI host hasn't yet.
-> > > >
-> > > > In order to break this cycle, let's wait until there's a DSI device that
-> > > > attaches to the DSI host to register the component and allow to progress
-> > > > further.
-> > > >
-> > > > Suggested-by: Andrzej Hajda <a.hajda@samsung.com>
-> > > > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
-> > > > ---
-> > > >  drivers/gpu/drm/vc4/vc4_dsi.c | 25 ++++++++-----------------
-> > > >  1 file changed, 8 insertions(+), 17 deletions(-)
-> > > >
-> > > > diff --git a/drivers/gpu/drm/vc4/vc4_dsi.c b/drivers/gpu/drm/vc4/vc4_dsi.c
-> > > > index eaf276978ee7..19aab4e7e209 100644
-> > > > --- a/drivers/gpu/drm/vc4/vc4_dsi.c
-> > > > +++ b/drivers/gpu/drm/vc4/vc4_dsi.c
-> > > > @@ -1246,10 +1246,12 @@ static ssize_t vc4_dsi_host_transfer(struct mipi_dsi_host *host,
-> > > >       return ret;
-> > > >  }
-> > > >
-> > > > +static const struct component_ops vc4_dsi_ops;
-> > > >  static int vc4_dsi_host_attach(struct mipi_dsi_host *host,
-> > > >                              struct mipi_dsi_device *device)
-> > > >  {
-> > > >       struct vc4_dsi *dsi = host_to_dsi(host);
-> > > > +     int ret;
-> > > >
-> > > >       dsi->lanes = device->lanes;
-> > > >       dsi->channel = device->channel;
-> > > > @@ -1284,6 +1286,12 @@ static int vc4_dsi_host_attach(struct mipi_dsi_host *host,
-> > > >               return 0;
-> > > >       }
-> > > >
-> > > > +     ret = component_add(&dsi->pdev->dev, &vc4_dsi_ops);
-> > > > +     if (ret) {
-> > > > +             mipi_dsi_host_unregister(&dsi->dsi_host);
-> > > > +             return ret;
-> > > > +     }
-> > > > +
-> > > >       return 0;
-> > > >  }
-> > > >
-> > > > @@ -1662,7 +1670,6 @@ static int vc4_dsi_dev_probe(struct platform_device *pdev)
-> > > >  {
-> > > >       struct device *dev = &pdev->dev;
-> > > >       struct vc4_dsi *dsi;
-> > > > -     int ret;
-> > > >
-> > > >       dsi = devm_kzalloc(dev, sizeof(*dsi), GFP_KERNEL);
-> > > >       if (!dsi)
-> > > > @@ -1670,26 +1677,10 @@ static int vc4_dsi_dev_probe(struct platform_device *pdev)
-> > > >       dev_set_drvdata(dev, dsi);
-> > > >
-> > > >       dsi->pdev = pdev;
-> > > > -
-> > > > -     /* Note, the initialization sequence for DSI and panels is
-> > > > -      * tricky.  The component bind above won't get past its
-> > > > -      * -EPROBE_DEFER until the panel/bridge probes.  The
-> > > > -      * panel/bridge will return -EPROBE_DEFER until it has a
-> > > > -      * mipi_dsi_host to register its device to.  So, we register
-> > > > -      * the host during pdev probe time, so vc4 as a whole can then
-> > > > -      * -EPROBE_DEFER its component bind process until the panel
-> > > > -      * successfully attaches.
-> > > > -      */
-> > > >       dsi->dsi_host.ops = &vc4_dsi_host_ops;
-> > > >       dsi->dsi_host.dev = dev;
-> > > >       mipi_dsi_host_register(&dsi->dsi_host);
-> > > >
-> > > > -     ret = component_add(&pdev->dev, &vc4_dsi_ops);
-> > > > -     if (ret) {
-> > > > -             mipi_dsi_host_unregister(&dsi->dsi_host);
-> > > > -             return ret;
-> > > > -     }
-> > > > -
-> > > >       return 0;
-> > > >  }
-> > > >
-
+diff --git a/drivers/gpu/drm/mxsfb/mxsfb_drv.c b/drivers/gpu/drm/mxsfb/mxsfb_drv.c
+index c277d3f61a5e..0ae4a3553304 100644
+--- a/drivers/gpu/drm/mxsfb/mxsfb_drv.c
++++ b/drivers/gpu/drm/mxsfb/mxsfb_drv.c
+@@ -308,6 +308,8 @@ static const struct of_device_id mxsfb_dt_ids[] = {
+ 	{ .compatible = "fsl,imx23-lcdif", .data = &mxsfb_devdata[MXSFB_V3], },
+ 	{ .compatible = "fsl,imx28-lcdif", .data = &mxsfb_devdata[MXSFB_V4], },
+ 	{ .compatible = "fsl,imx6sx-lcdif", .data = &mxsfb_devdata[MXSFB_V6], },
++	{ .compatible = "fsl,imx8mm-lcdif", .data = &mxsfb_devdata[MXSFB_V4], },
++	{ .compatible = "fsl,imx8mn-lcdif", .data = &mxsfb_devdata[MXSFB_V4], },
+ 	{ /* sentinel */ }
+ };
+ MODULE_DEVICE_TABLE(of, mxsfb_dt_ids);
 -- 
-Regards,
+2.30.2
 
-Laurent Pinchart
