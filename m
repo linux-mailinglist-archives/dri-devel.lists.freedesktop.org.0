@@ -1,42 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F05D93ADE68
-	for <lists+dri-devel@lfdr.de>; Sun, 20 Jun 2021 14:56:57 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B5BA3ADE6E
+	for <lists+dri-devel@lfdr.de>; Sun, 20 Jun 2021 15:02:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2E3F26E10D;
-	Sun, 20 Jun 2021 12:56:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DC97389C68;
+	Sun, 20 Jun 2021 13:02:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2B03E6E10D
- for <dri-devel@lists.freedesktop.org>; Sun, 20 Jun 2021 12:56:53 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 9B284610CA;
- Sun, 20 Jun 2021 12:56:52 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CFE2D89C68
+ for <dri-devel@lists.freedesktop.org>; Sun, 20 Jun 2021 13:02:08 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id 8F26D61156
+ for <dri-devel@lists.freedesktop.org>; Sun, 20 Jun 2021 13:02:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1624193812;
- bh=bWaVnm+peFovnHMu18RwWDuf3L6KT66p404kqB1aQyk=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=TPScjPmNxSr2YT2IvEKemKWAPgTymLvW3gbEPh9aW2ZDQXmS+k82sz2zrDcuaytnb
- rBC/doh50rFtdR/0+XtqFzla7SsRmcePwtR4NVQiVI2wRrwkuwWUk0kIDbZt05YO5F
- otWCj7/ZGl/i6yRPLueJR+I51Oeuxgq56ZCmvVnERBu1Jeagwv1QgR34hXDqEOxNdu
- O6iNJDRiTJWoEmz1aHW0prY2qr0OlRq0QNb1oovA/uTymM1/lcCzexFgLxMUnazULL
- cu779WiBhiZevR4pqBAFkWuaRwMKt4gDM2Qvxf18HUJcdLDB2FZzz4Jp24gFzRAGSJ
- PJxgmE5aJyK0w==
-Date: Sun, 20 Jun 2021 08:56:51 -0400
-From: Sasha Levin <sashal@kernel.org>
-To: Saravana Kannan <saravanak@google.com>
-Subject: Re: [PATCH AUTOSEL 5.4 07/15] drm/sun4i: dw-hdmi: Make HDMI PHY into
- a platform device
-Message-ID: <YM87E3tYj+awywpN@sashalap>
-References: <20210615154948.62711-1-sashal@kernel.org>
- <20210615154948.62711-7-sashal@kernel.org>
- <CAGETcx95bOAHiOm0MHqFWSbc8ONBPEzXbDyP82pO4B5o2QOX1A@mail.gmail.com>
+ s=k20201202; t=1624194128;
+ bh=OqDDZWYC3edQVGGvF3URBbTFWqKUjbkok6A/8gyRd5o=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=Us8w34oXaFLI/Zd/OJ7vV02vYqDQGVm/PFM7kWjZiulZTE7W6oxuH42myM4g3yZLe
+ kUpxyv515PHhHOVQnyVTF7+Zhf1PA+lP1HwQ6PhPsazR/6A4hS/XJn1ta9ctw4DFyT
+ OKokpZJK8UStqLc5GMoN5bKe1FPTinQ1tu0Aj/Mkm0Ab2AfnIjtw0FNLMHFL2toIsw
+ f2ybsPjmU0IUSjHAW70CbJ2Xp7LWMuicejDc7exNzcGU7TJGzQ3bC30H/spzfPu98f
+ 3JBizL4GhDVJTRRmp4hIEAzJbGbphQcD0m2Ls0VdODCX0CJf5p6irWgjoUfPraNW9Y
+ TmCwlvj8CbOnQ==
+Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
+ id 8BDCE61261; Sun, 20 Jun 2021 13:02:08 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 213391] AMDGPU retries page fault with some specific processes
+ amdgpu and sometimes followed [gfxhub0] retry page fault until *ERROR* ring
+ gfx timeout, but soft recovered
+Date: Sun, 20 Jun 2021 13:02:08 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: low
+X-Bugzilla-Who: dominic.letz@berlin.de
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-213391-2300-sfecv6n7sC@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-213391-2300@https.bugzilla.kernel.org/>
+References: <bug-213391-2300@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-In-Reply-To: <CAGETcx95bOAHiOm0MHqFWSbc8ONBPEzXbDyP82pO4B5o2QOX1A@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,42 +67,17 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Ondrej Jirman <megous@megous.com>, Andre Przywara <andre.przywara@arm.com>,
- LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, stable <stable@vger.kernel.org>,
- "open list:ARM/Allwinner sunXi SoC support" <linux-sunxi@lists.linux.dev>,
- linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
- Maxime Ripard <maxime@cerno.tech>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jun 15, 2021 at 09:26:16AM -0700, Saravana Kannan wrote:
->On Tue, Jun 15, 2021 at 8:50 AM Sasha Levin <sashal@kernel.org> wrote:
->>
->> From: Saravana Kannan <saravanak@google.com>
->>
->> [ Upstream commit 9bf3797796f570b34438235a6a537df85832bdad ]
->>
->> On sunxi boards that use HDMI output, HDMI device probe keeps being
->> avoided indefinitely with these repeated messages in dmesg:
->>
->>   platform 1ee0000.hdmi: probe deferral - supplier 1ef0000.hdmi-phy
->>     not ready
->>
->> There's a fwnode_link being created with fw_devlink=on between hdmi
->> and hdmi-phy nodes, because both nodes have 'compatible' property set.
->>
->> Fw_devlink code assumes that nodes that have compatible property
->> set will also have a device associated with them by some driver
->> eventually. This is not the case with the current sun8i-hdmi
->> driver.
->>
->
->fw_devlink isn't present in 5.4 or earlier. So technically this patch
->isn't needed.
+https://bugzilla.kernel.org/show_bug.cgi?id=3D213391
 
-I'll drop it from <=5.4, thanks!
+--- Comment #21 from Dominic Letz (dominic.letz@berlin.de) ---
+So I'm running since 16th on 20210315 and it has been stable so far vs.
+multiple freezes a day before.
 
--- 
-Thanks,
-Sasha
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
