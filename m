@@ -1,41 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B149D3AECE8
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Jun 2021 17:57:37 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id CEF453AECFE
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Jun 2021 18:03:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 124896E1BB;
-	Mon, 21 Jun 2021 15:57:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 52738898C8;
+	Mon, 21 Jun 2021 16:03:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.smtp.larsendata.com (mx1.smtp.larsendata.com
- [91.221.196.215])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 692BF6E1BB
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Jun 2021 15:57:32 +0000 (UTC)
+Received: from mx2.smtp.larsendata.com (mx2.smtp.larsendata.com
+ [91.221.196.228])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7E20C898C8
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Jun 2021 16:03:12 +0000 (UTC)
 Received: from mail01.mxhotel.dk (mail01.mxhotel.dk [91.221.196.236])
- by mx1.smtp.larsendata.com (Halon) with ESMTPS
- id 6bd8b341-d2a9-11eb-960d-0050568c148b;
- Mon, 21 Jun 2021 15:57:46 +0000 (UTC)
+ by mx2.smtp.larsendata.com (Halon) with ESMTPS
+ id 36076a4c-d2aa-11eb-a36f-0050568cd888;
+ Mon, 21 Jun 2021 16:03:25 +0000 (UTC)
 Received: from ravnborg.org (80-162-45-141-cable.dk.customer.tdc.net
  [80.162.45.141])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
  (Authenticated sender: sam@ravnborg.org)
- by mail01.mxhotel.dk (Postfix) with ESMTPSA id 36FA6194B13;
- Mon, 21 Jun 2021 17:57:35 +0200 (CEST)
-Date: Mon, 21 Jun 2021 17:57:28 +0200
+ by mail01.mxhotel.dk (Postfix) with ESMTPSA id 3675F194B13;
+ Mon, 21 Jun 2021 18:03:15 +0200 (CEST)
+Date: Mon, 21 Jun 2021 18:03:08 +0200
 X-Report-Abuse-To: abuse@mxhotel.dk
 From: Sam Ravnborg <sam@ravnborg.org>
 To: Tomohito Esaki <etom@igel.co.jp>
-Subject: Re: [PATH 2/4] rcar-du: Add support virtual DRM device
-Message-ID: <20210621155728.GC823900@ravnborg.org>
+Subject: Re: [PATH 3/4] dt-bindings: display: Add virtual DRM
+Message-ID: <20210621160308.GD823900@ravnborg.org>
 References: <20210621064403.26663-1-etom@igel.co.jp>
- <20210621064403.26663-3-etom@igel.co.jp>
+ <20210621064403.26663-4-etom@igel.co.jp>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210621064403.26663-3-etom@igel.co.jp>
+In-Reply-To: <20210621064403.26663-4-etom@igel.co.jp>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,72 +57,83 @@ Cc: devicetree@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jun 21, 2021 at 03:44:01PM +0900, Tomohito Esaki wrote:
-> In order to use vDRM, it is necessary that the vDRM device is registered
-> to du decice in the device tree.
-> The "vdrms" key is added in du node and the vDRM device node is specified.
-> For example:
-> ----------
-> & du {
->     ...
->     vdrms = <&vdrm0>;
-> };
-> ----------
-> 
-> Signed-off-by: Tomohito Esaki <etom@igel.co.jp>
-> ---
->  drivers/gpu/drm/rcar-du/Kconfig        |   4 +
->  drivers/gpu/drm/rcar-du/Makefile       |   1 +
->  drivers/gpu/drm/rcar-du/rcar_du_crtc.c |  42 ++++++
->  drivers/gpu/drm/rcar-du/rcar_du_crtc.h |  13 ++
->  drivers/gpu/drm/rcar-du/rcar_du_drv.c  |  13 ++
->  drivers/gpu/drm/rcar-du/rcar_du_drv.h  |   3 +
->  drivers/gpu/drm/rcar-du/rcar_du_vdrm.c | 191 +++++++++++++++++++++++++
->  drivers/gpu/drm/rcar-du/rcar_du_vdrm.h |  67 +++++++++
->  drivers/gpu/drm/rcar-du/rcar_du_vsp.c  |  22 +++
->  drivers/gpu/drm/rcar-du/rcar_du_vsp.h  |   1 +
->  10 files changed, 357 insertions(+)
->  create mode 100644 drivers/gpu/drm/rcar-du/rcar_du_vdrm.c
->  create mode 100644 drivers/gpu/drm/rcar-du/rcar_du_vdrm.h
-> 
-> diff --git a/drivers/gpu/drm/rcar-du/Kconfig b/drivers/gpu/drm/rcar-du/Kconfig
-> index b47e74421e34..6747f69c8593 100644
-> --- a/drivers/gpu/drm/rcar-du/Kconfig
-> +++ b/drivers/gpu/drm/rcar-du/Kconfig
-> @@ -50,3 +50,7 @@ config DRM_RCAR_WRITEBACK
->  	bool
->  	default y if ARM64
->  	depends on DRM_RCAR_DU
-> +
-> +config DRM_RCAR_DU_VDRM
-> +	tristate "Virtual DRM for R-Car DU"
-> +	depends on DRM_RCAR_DU && DRM_VDRM
-> diff --git a/drivers/gpu/drm/rcar-du/Makefile b/drivers/gpu/drm/rcar-du/Makefile
-> index 4d1187ccc3e5..b589b974a9f3 100644
-> --- a/drivers/gpu/drm/rcar-du/Makefile
-> +++ b/drivers/gpu/drm/rcar-du/Makefile
-> @@ -14,6 +14,7 @@ rcar-du-drm-$(CONFIG_DRM_RCAR_LVDS)	+= rcar_du_of.o \
->  					   rcar_du_of_lvds_r8a7796.dtb.o
->  rcar-du-drm-$(CONFIG_DRM_RCAR_VSP)	+= rcar_du_vsp.o
->  rcar-du-drm-$(CONFIG_DRM_RCAR_WRITEBACK) += rcar_du_writeback.o
-> +rcar-du-drm-$(CONFIG_DRM_RCAR_DU_VDRM)	+= rcar_du_vdrm.o
->  
->  obj-$(CONFIG_DRM_RCAR_CMM)		+= rcar_cmm.o
->  obj-$(CONFIG_DRM_RCAR_DU)		+= rcar-du-drm.o
-> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_crtc.c b/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
-> index ea7e39d03545..7d48db24090b 100644
-> --- a/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
-> +++ b/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
-> @@ -32,6 +32,11 @@
->  #include "rcar_du_vsp.h"
->  #include "rcar_lvds.h"
->  
-> +#include "rcar_du_vdrm.h"
-> +#ifdef CONFIG_DRM_RCAR_DU_VDRM
-> +#include "../vdrm/vdrm_api.h"
-> +#endif
+Hi Tomohito
 
-Seems like vdrm_api.h belongs in include/drm/ as we should not pull in
-headers like this.
+> +
+> +description:
+> +  This document defines device tree properties virtual DRM. The initial
+> +  position, size and z-position of the plane used in the virtual DRM is
+> +  specified.
+
+
+> +  The current limitation is that these settings are applied to all crtc.
+This comment (I think) refers to the actual implmentation which is
+irrelevant for the binding. The implementation may refer to the binding,
+but the binding must be implementation agnostic.
+
+> +
+> +properties:
+> +  compatible:
+> +    const: virt-drm
+> +
+> +patternProperties:
+> +  "^plane(@.*)?$":
+> +    description: Information of the planes used in virtual DRM
+> +    type: object
+> +
+> +    properties:
+> +      x:
+> +        type: int
+This syntax looks wrong, I had expected something like:
+	
+	$ref: "/schemas/types.yaml#/definitions/uint32"
+
+> +        description: x-coordinate of the left-top of the plane in pixels
+> +
+> +      y:
+> +        type: int
+> +        description: y-coordinate of the left-top of the plane in pixels
+> +
+> +      width:
+> +        type: int
+> +        description: width of the plane in pixels
+> +
+> +      height:
+> +        type: int
+> +	description: height of the plane in pixels
+> +
+> +      zpos:
+> +        type: int
+> +        description: z-position of the plane
+> +
+> +    required:
+> +      - x
+> +      - y
+> +      - width
+> +      - height
+> +      - zpos
+> +
+> +required:
+> +  - compatible
+
+> +  - "^plane(@.*)?$"
+If there is no node to match this binding does not take effect.
+So I think ^plane... do not need to be specified.
+
+> +
+> +examples:
+> + - |
+> +   vdrm@0 {
+> +       compatible = "virt-drm";
+> +       plane@0 {
+> +           x = <200>;
+> +	   y = <100>;
+> +	   width = <800>;
+> +	   height = <600>;
+> +	   zpos = <1>;
+> +       };
+> +   };
+Do not mix spaces and tabd, be consistent and use 4 spaces as indent in
+all the example.
 
 	Sam
