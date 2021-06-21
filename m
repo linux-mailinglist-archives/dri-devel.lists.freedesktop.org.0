@@ -2,36 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 171C23AE3D7
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Jun 2021 09:08:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB9793AE3D8
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Jun 2021 09:08:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 99A3989D56;
-	Mon, 21 Jun 2021 07:07:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1185C89D77;
+	Mon, 21 Jun 2021 07:07:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 596 seconds by postgrey-1.36 at gabe;
- Mon, 21 Jun 2021 01:10:36 UTC
-Received: from yyz.mikelr.com (yyz.mikelr.com [170.75.163.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4A17A89D84;
- Mon, 21 Jun 2021 01:10:36 +0000 (UTC)
-Received: from glidewell.ykf.mikelr.com (198-84-194-208.cpe.teksavvy.com
- [198.84.194.208])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (Client did not present a certificate)
- by yyz.mikelr.com (Postfix) with ESMTPSA id D6AD84F834;
- Sun, 20 Jun 2021 21:00:38 -0400 (EDT)
-From: Mikel Rychliski <mikel@mikelr.com>
-To: Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- "Pan, Xinhui" <Xinhui.Pan@amd.com>, David Airlie <airlied@linux.ie>,
+Received: from mail-pf1-x433.google.com (mail-pf1-x433.google.com
+ [IPv6:2607:f8b0:4864:20::433])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CDC6F89A35
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Jun 2021 06:44:32 +0000 (UTC)
+Received: by mail-pf1-x433.google.com with SMTP id h26so1762507pfo.5
+ for <dri-devel@lists.freedesktop.org>; Sun, 20 Jun 2021 23:44:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=igel-co-jp.20150623.gappssmtp.com; s=20150623;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=qYWJuyK1bUpXUNYlMG8y+I7VziTPyHJu5fz70XXNt7o=;
+ b=zSsBl46XOGZe6gvr8o3kSN6cTIPzym+tkv/0ToxwVp80014S9cjzeYVaJTe7IchkT3
+ KzO0Rrnnnb0txcx1hIR4xdteZ4vsg1vsE5Y2rnAl/G3FEoMMUe2KYfexSXNGEnx8OtaS
+ ECt8k6XlbFEv1yvP34tPW4y704OmqqlCktx5y0nZXNr5gSEpSpphC9BAjnL5HgbeUDxo
+ TAUXuI8SUtGC7pJsajJykD2gc7WtGj2LQTUZ5G9Rv5/EQwUDJDHyBKw9zMX/1Iq/8Y1Y
+ i7XI+UqHlL1TCvgn8DVn8B21N4EHMGd/uaasHWQaYYI8Ky00kLsBtw7bGJMey2M24OBS
+ 7H9A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=qYWJuyK1bUpXUNYlMG8y+I7VziTPyHJu5fz70XXNt7o=;
+ b=MRIRvgTvBtbYU1fXVwzj5KshputhwZdPho3XmYmzahIPgNH9y3iuq2au18YcKCATBj
+ i6pZDyhF8njvUuE1EOILk0F54BDBofWtiQ8LND2GeQUSw7sUbTuQVFfIxJdIqMcndzp3
+ VhVv1BUw0R7Vfgd/tXM0z1i8JwZnt9ZSUO26DLKUV0IwQmbRRHnnqJTgj/QxtKl/qGGS
+ D8RJ5vjaDIRkW8h1dlWrLWGm+VigksIpeXFA5eBNwuhoamvqJc21Ef/SRRyTUSPIidxT
+ fYk3CWNsYCKw1oHuzD0ddteiMQ/0XTx3w2NAXB5E/vpEa1dOOF5Ewzi4FnrOqox36zC+
+ LLDA==
+X-Gm-Message-State: AOAM533zCm9v6KWZC76ZGwfoa8ILYOaE5fDi+FSuXFW3adbguIkRgDlJ
+ mAY/vqdwpV6m2fTktZr+QP8D6Fzux1JeqqPh
+X-Google-Smtp-Source: ABdhPJyU0p37To1lNBWRzUCiNdn9mBwEeKIBU3xGQdaMaX1k0DNbUC1ZknIAhuYlvctiMOE5qL9jKg==
+X-Received: by 2002:a62:ee16:0:b029:2fe:ffcf:775a with SMTP id
+ e22-20020a62ee160000b02902feffcf775amr17476747pfi.59.1624257872488; 
+ Sun, 20 Jun 2021 23:44:32 -0700 (PDT)
+Received: from localhost.localdomain ([240b:10:c9a0:ca00:61b8:26ec:dc30:8823])
+ by smtp.gmail.com with ESMTPSA id
+ o34sm12744450pgm.6.2021.06.20.23.44.28
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 20 Jun 2021 23:44:32 -0700 (PDT)
+From: Tomohito Esaki <etom@igel.co.jp>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
  Daniel Vetter <daniel@ffwll.ch>,
- =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH] drm/radeon: Fix NULL dereference when updating memory stats
-Date: Sun, 20 Jun 2021 20:59:50 -0400
-Message-Id: <20210621005950.24734-1-mikel@mikelr.com>
-X-Mailer: git-send-email 2.13.7
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Subject: [PATH 0/4] [RFC] Support virtual DRM
+Date: Mon, 21 Jun 2021 15:43:59 +0900
+Message-Id: <20210621064403.26663-1-etom@igel.co.jp>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-Mailman-Approved-At: Mon, 21 Jun 2021 07:07:50 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -45,170 +75,89 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mikel Rychliski <mikel@mikelr.com>
+Cc: devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-renesas-soc@vger.kernel.org, Tomohito Esaki <etom@igel.co.jp>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-radeon_ttm_bo_destroy() is attempting to access the resource object to
-update memory counters. However, the resource object is already freed when
-ttm calls this function via the destroy callback. This causes an oops when
-a bo is freed:
-
-	BUG: kernel NULL pointer dereference, address: 0000000000000010
-	RIP: 0010:radeon_ttm_bo_destroy+0x2c/0x100 [radeon]
-	Call Trace:
-	 radeon_bo_unref+0x1a/0x30 [radeon]
-	 radeon_gem_object_free+0x33/0x50 [radeon]
-	 drm_gem_object_release_handle+0x69/0x70 [drm]
-	 drm_gem_handle_delete+0x62/0xa0 [drm]
-	 ? drm_mode_destroy_dumb+0x40/0x40 [drm]
-	 drm_ioctl_kernel+0xb2/0xf0 [drm]
-	 drm_ioctl+0x30a/0x3c0 [drm]
-	 ? drm_mode_destroy_dumb+0x40/0x40 [drm]
-	 radeon_drm_ioctl+0x49/0x80 [radeon]
-	 __x64_sys_ioctl+0x8e/0xd0
-
-Avoid the issue by updating the counters in the delete_mem_notify callback
-instead. Also, fix memory statistic updating in radeon_bo_move() to
-identify the source type correctly. The source type needs to be saved
-before the move, because the moved from object may be altered by the move.
-
-Fixes: bfa3357ef9ab ("drm/ttm: allocate resource object instead of embedding it v2")
-Signed-off-by: Mikel Rychliski <mikel@mikelr.com>
+Hello
+Sorry, there was a typo in the dri-devel mail address, so I've resend it.
 ---
- drivers/gpu/drm/radeon/radeon_object.c | 23 +++--------------------
- drivers/gpu/drm/radeon/radeon_object.h |  7 ++++---
- drivers/gpu/drm/radeon/radeon_ttm.c    | 20 +++++++++++++++++---
- 3 files changed, 24 insertions(+), 26 deletions(-)
 
-diff --git a/drivers/gpu/drm/radeon/radeon_object.c b/drivers/gpu/drm/radeon/radeon_object.c
-index bfaaa3c969a3..ea34c0661710 100644
---- a/drivers/gpu/drm/radeon/radeon_object.c
-+++ b/drivers/gpu/drm/radeon/radeon_object.c
-@@ -49,8 +49,8 @@ static void radeon_bo_clear_surface_reg(struct radeon_bo *bo);
-  * function are calling it.
-  */
- 
--static void radeon_update_memory_usage(struct radeon_bo *bo,
--				       unsigned mem_type, int sign)
-+void radeon_update_memory_usage(struct radeon_bo *bo,
-+				unsigned int mem_type, int sign)
- {
- 	struct radeon_device *rdev = bo->rdev;
- 
-@@ -76,8 +76,6 @@ static void radeon_ttm_bo_destroy(struct ttm_buffer_object *tbo)
- 
- 	bo = container_of(tbo, struct radeon_bo, tbo);
- 
--	radeon_update_memory_usage(bo, bo->tbo.resource->mem_type, -1);
--
- 	mutex_lock(&bo->rdev->gem.mutex);
- 	list_del_init(&bo->list);
- 	mutex_unlock(&bo->rdev->gem.mutex);
-@@ -726,25 +724,10 @@ int radeon_bo_check_tiling(struct radeon_bo *bo, bool has_moved,
- 	return radeon_bo_get_surface_reg(bo);
- }
- 
--void radeon_bo_move_notify(struct ttm_buffer_object *bo,
--			   bool evict,
--			   struct ttm_resource *new_mem)
-+void radeon_bo_move_notify(struct radeon_bo *rbo)
- {
--	struct radeon_bo *rbo;
--
--	if (!radeon_ttm_bo_is_radeon_bo(bo))
--		return;
--
--	rbo = container_of(bo, struct radeon_bo, tbo);
- 	radeon_bo_check_tiling(rbo, 0, 1);
- 	radeon_vm_bo_invalidate(rbo->rdev, rbo);
--
--	/* update statistics */
--	if (!new_mem)
--		return;
--
--	radeon_update_memory_usage(rbo, bo->resource->mem_type, -1);
--	radeon_update_memory_usage(rbo, new_mem->mem_type, 1);
- }
- 
- vm_fault_t radeon_bo_fault_reserve_notify(struct ttm_buffer_object *bo)
-diff --git a/drivers/gpu/drm/radeon/radeon_object.h b/drivers/gpu/drm/radeon/radeon_object.h
-index 1739c6a142cd..f97a17cce28b 100644
---- a/drivers/gpu/drm/radeon/radeon_object.h
-+++ b/drivers/gpu/drm/radeon/radeon_object.h
-@@ -133,6 +133,9 @@ static inline u64 radeon_bo_mmap_offset(struct radeon_bo *bo)
- 	return drm_vma_node_offset_addr(&bo->tbo.base.vma_node);
- }
- 
-+extern void radeon_update_memory_usage(struct radeon_bo *bo,
-+				       unsigned int mem_type, int sign);
-+
- extern int radeon_bo_create(struct radeon_device *rdev,
- 			    unsigned long size, int byte_align,
- 			    bool kernel, u32 domain, u32 flags,
-@@ -160,9 +163,7 @@ extern void radeon_bo_get_tiling_flags(struct radeon_bo *bo,
- 				u32 *tiling_flags, u32 *pitch);
- extern int radeon_bo_check_tiling(struct radeon_bo *bo, bool has_moved,
- 				bool force_drop);
--extern void radeon_bo_move_notify(struct ttm_buffer_object *bo,
--				  bool evict,
--				  struct ttm_resource *new_mem);
-+extern void radeon_bo_move_notify(struct radeon_bo *rbo);
- extern vm_fault_t radeon_bo_fault_reserve_notify(struct ttm_buffer_object *bo);
- extern int radeon_bo_get_surface_reg(struct radeon_bo *bo);
- extern void radeon_bo_fence(struct radeon_bo *bo, struct radeon_fence *fence,
-diff --git a/drivers/gpu/drm/radeon/radeon_ttm.c b/drivers/gpu/drm/radeon/radeon_ttm.c
-index ad2a5a791bba..c318a80853e5 100644
---- a/drivers/gpu/drm/radeon/radeon_ttm.c
-+++ b/drivers/gpu/drm/radeon/radeon_ttm.c
-@@ -199,7 +199,7 @@ static int radeon_bo_move(struct ttm_buffer_object *bo, bool evict,
- 	struct ttm_resource *old_mem = bo->resource;
- 	struct radeon_device *rdev;
- 	struct radeon_bo *rbo;
--	int r;
-+	int r, old_type;
- 
- 	if (new_mem->mem_type == TTM_PL_TT) {
- 		r = radeon_ttm_tt_bind(bo->bdev, bo->ttm, new_mem);
-@@ -216,6 +216,9 @@ static int radeon_bo_move(struct ttm_buffer_object *bo, bool evict,
- 	if (WARN_ON_ONCE(rbo->tbo.pin_count > 0))
- 		return -EINVAL;
- 
-+	/* Save old type for statistics update */
-+	old_type = old_mem->mem_type;
-+
- 	rdev = radeon_get_rdev(bo->bdev);
- 	if (old_mem->mem_type == TTM_PL_SYSTEM && bo->ttm == NULL) {
- 		ttm_bo_move_null(bo, new_mem);
-@@ -261,7 +264,9 @@ static int radeon_bo_move(struct ttm_buffer_object *bo, bool evict,
- out:
- 	/* update statistics */
- 	atomic64_add(bo->base.size, &rdev->num_bytes_moved);
--	radeon_bo_move_notify(bo, evict, new_mem);
-+	radeon_update_memory_usage(rbo, old_type, -1);
-+	radeon_update_memory_usage(rbo, new_mem->mem_type, 1);
-+	radeon_bo_move_notify(rbo);
- 	return 0;
- }
- 
-@@ -682,7 +687,16 @@ bool radeon_ttm_tt_is_readonly(struct radeon_device *rdev,
- static void
- radeon_bo_delete_mem_notify(struct ttm_buffer_object *bo)
- {
--	radeon_bo_move_notify(bo, false, NULL);
-+	struct radeon_bo *rbo;
-+
-+	if (!radeon_ttm_bo_is_radeon_bo(bo))
-+		return;
-+
-+	rbo = container_of(bo, struct radeon_bo, tbo);
-+
-+	if (bo->resource)
-+		radeon_update_memory_usage(rbo, bo->resource->mem_type, -1);
-+	radeon_bo_move_notify(rbo);
- }
- 
- static struct ttm_device_funcs radeon_bo_driver = {
+Virtual DRM splits the overlay planes of a display controller into multiple
+virtual devices to allow each plane to be accessed by each process.
+
+This makes it possible to overlay images output from multiple processes on a
+display. For example, one process displays the camera image without compositor
+while another process overlays the UI.
+
+Virtual DRM driver doesn’t directly control the display hardware and has no
+access to the physical bus. Instead, the virtual DRM driver issues requests to
+the standard DRM device driver (parent) when the hardware needs to be
+controlled. The parent is modified to notify the virtual DRM driver of
+interruptevents from the display hardware. Therefore, in order to use virtual
+DRM, each DRM device driver needs to add code to support virutal DRM.
+
+The only driver supported in this patch series is rcar-du. This patch series
+is divided into multiple. The first patch adds vDRM feature to DRM, and the
+second patch support vDRM for the rcar-du driver. The other patches add
+documentation.
+
+In particular, I would appreciate your advice on the following points:
+* virtual DRM generalization
+  I've only tested with rcar-du, is there anything I should consider to make
+  virtual DRM work with other drivers?
+
+* Integration to upstream
+  I think it is a good idea to add virtual DRM to the DRM core functionality,
+  but I would appreciate any suggestions on what needs to be improved for
+  integration to upstream.
+
+* dumb_create and fb_create callback
+  I think that the dumb_create and fb_create callbacks need to be done by the
+  parent, and it is preferable to use the parent's callbacks as they are.
+  However, since the dumb buffer needs to be registered in the parent and
+  the fb handle needs to be registered in the drm_file of the vDRM, the
+  dumb_create callbacks from the parent driver cannot be used as is.
+  Therefore, the current implementation of the dumb_create callback is
+  workarround.
+  What do you think is the best way to deal with this issue?
+
+
+Tomohito Esaki (4):
+  Add Virtual DRM device driver
+  rcar-du: Add support virtual DRM device
+  dt-bindings: display: Add virtual DRM
+  doc-rst: Add virtual DRM documentation
+
+ .../devicetree/bindings/display/vdrm.yaml     |  67 ++
+ Documentation/gpu/drivers.rst                 |   1 +
+ Documentation/gpu/vdrm.rst                    |  51 ++
+ drivers/gpu/drm/Kconfig                       |   7 +
+ drivers/gpu/drm/Makefile                      |   1 +
+ drivers/gpu/drm/rcar-du/Kconfig               |   4 +
+ drivers/gpu/drm/rcar-du/Makefile              |   1 +
+ drivers/gpu/drm/rcar-du/rcar_du_crtc.c        |  42 +
+ drivers/gpu/drm/rcar-du/rcar_du_crtc.h        |  13 +
+ drivers/gpu/drm/rcar-du/rcar_du_drv.c         |  13 +
+ drivers/gpu/drm/rcar-du/rcar_du_drv.h         |   3 +
+ drivers/gpu/drm/rcar-du/rcar_du_vdrm.c        | 191 ++++
+ drivers/gpu/drm/rcar-du/rcar_du_vdrm.h        |  67 ++
+ drivers/gpu/drm/rcar-du/rcar_du_vsp.c         |  22 +
+ drivers/gpu/drm/rcar-du/rcar_du_vsp.h         |   1 +
+ drivers/gpu/drm/vdrm/vdrm_api.h               |  68 ++
+ drivers/gpu/drm/vdrm/vdrm_drv.c               | 859 ++++++++++++++++++
+ drivers/gpu/drm/vdrm/vdrm_drv.h               |  80 ++
+ 18 files changed, 1491 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/display/vdrm.yaml
+ create mode 100644 Documentation/gpu/vdrm.rst
+ create mode 100644 drivers/gpu/drm/rcar-du/rcar_du_vdrm.c
+ create mode 100644 drivers/gpu/drm/rcar-du/rcar_du_vdrm.h
+ create mode 100644 drivers/gpu/drm/vdrm/vdrm_api.h
+ create mode 100644 drivers/gpu/drm/vdrm/vdrm_drv.c
+ create mode 100644 drivers/gpu/drm/vdrm/vdrm_drv.h
+
 -- 
-2.13.7
+2.25.1
 
