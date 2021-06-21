@@ -2,36 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0CD33AEBD0
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Jun 2021 16:55:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C56D3AEBD3
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Jun 2021 16:55:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7F7BF6E1A4;
-	Mon, 21 Jun 2021 14:55:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C2BF66E1A7;
+	Mon, 21 Jun 2021 14:55:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 408F06E1A4
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Jun 2021 14:55:28 +0000 (UTC)
-Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
- bits)) (No client certificate requested)
- (Authenticated sender: bbrezillon)
- by bhuna.collabora.co.uk (Postfix) with ESMTPSA id DBB841F41CB7;
- Mon, 21 Jun 2021 15:55:26 +0100 (BST)
-Date: Mon, 21 Jun 2021 16:55:24 +0200
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Steven Price <steven.price@arm.com>
-Subject: Re: [PATCH v2 04/12] drm/panfrost: Expose exception types to userspace
-Message-ID: <20210621165524.57f10780@collabora.com>
-In-Reply-To: <76fe9527-fecd-2271-02a6-60c9b99ab4c2@arm.com>
-References: <20210621133907.1683899-1-boris.brezillon@collabora.com>
- <20210621133907.1683899-5-boris.brezillon@collabora.com>
- <76fe9527-fecd-2271-02a6-60c9b99ab4c2@arm.com>
-Organization: Collabora
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
+Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com
+ [IPv6:2a00:1450:4864:20::42f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C9EC66E1A8
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Jun 2021 14:55:29 +0000 (UTC)
+Received: by mail-wr1-x42f.google.com with SMTP id h11so2543795wrx.5
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Jun 2021 07:55:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=+BK98dz60Wqkdd+SjHG6CssBQDlQ+h0Eq+0db/LD2aQ=;
+ b=CzerPj3Oqquv7JWjdkv7EORCatKpm99O8sCYP/iJiBKYx98rNpDEuyCNhAkmK5xjme
+ Bd6dXbqYhlZD3FqvYivDhfYuEDYJz3CS+gP+CQmU6JYcifmXzXn4ycs2XmCM9vFnpvjd
+ MEJOExnl8EQvDmw1+16Zj51U4BgVub1ZVhS98=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=+BK98dz60Wqkdd+SjHG6CssBQDlQ+h0Eq+0db/LD2aQ=;
+ b=q+HG8GfOtUomz+AGUE+aBNIsvt5AZD/R+g6MmmLyzcI/1g40vAHZ5BfqO5lAcm92yN
+ OsCkUviDyx3NCBwJqADSlJFCaG5h8yrTAU6ZLtcAhpbiq0JQwfWBzsBBVBk3FFbGPTrB
+ YWKSLfdiEKr5YbYt84M9QAntdpYzjILjwJekuNBQITliUwExxxt5qTFDapDgI/ecjk6L
+ WZjG2Au5nDEL240A51L4lXl0RecZAUXhyxyB88SbDDsy90vnYObHo3xJQZigv51HCbyj
+ l8MVmo45CQA4CW//xvBO5afN002zz1CcF10VsU/ZNQN/45cSAb3nFbpfVONo8H4vwU0K
+ KUuw==
+X-Gm-Message-State: AOAM531SavVWUpBt6PZKrfLXQDr9vf+VVZ31pY72iit8UKwcLHPy+/yy
+ A+czs+AEND9fa9RQE7WBFO+q6g==
+X-Google-Smtp-Source: ABdhPJwJgzJ8Ca2T+z9hEf2yvqJqhKN9AFccoQwR1QOhC4Yu0t0AMwcmlSYQmtTb+Hc5rv5qsHAe+g==
+X-Received: by 2002:a5d:6d8a:: with SMTP id l10mr29841764wrs.63.1624287328442; 
+ Mon, 21 Jun 2021 07:55:28 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id o11sm16195097wmq.1.2021.06.21.07.55.27
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 21 Jun 2021 07:55:28 -0700 (PDT)
+Date: Mon, 21 Jun 2021 16:55:26 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>
+Subject: Re: [PATCH 2/3] drm/radeon: wait for moving fence after pinning
+Message-ID: <YNCoXur4q/OCHb4k@phenom.ffwll.local>
+References: <20210621130328.11070-1-christian.koenig@amd.com>
+ <20210621130328.11070-2-christian.koenig@amd.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210621130328.11070-2-christian.koenig@amd.com>
+X-Operating-System: Linux phenom 5.10.0-7-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -44,140 +68,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, Rob Herring <robh+dt@kernel.org>,
- Robin Murphy <robin.murphy@arm.com>,
- Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
- Tomeu Vizoso <tomeu.vizoso@collabora.com>
+Cc: daniel.vetter@ffwll.ch, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 21 Jun 2021 15:49:14 +0100
-Steven Price <steven.price@arm.com> wrote:
+On Mon, Jun 21, 2021 at 03:03:27PM +0200, Christian König wrote:
+> We actually need to wait for the moving fence after pinning
+> the BO to make sure that the pin is completed.
+> 
+> Signed-off-by: Christian König <christian.koenig@amd.com>
+> CC: stable@kernel.org
+> ---
+>  drivers/gpu/drm/radeon/radeon_prime.c | 16 +++++++++++++---
+>  1 file changed, 13 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/radeon/radeon_prime.c b/drivers/gpu/drm/radeon/radeon_prime.c
+> index 42a87948e28c..4a90807351e7 100644
+> --- a/drivers/gpu/drm/radeon/radeon_prime.c
+> +++ b/drivers/gpu/drm/radeon/radeon_prime.c
+> @@ -77,9 +77,19 @@ int radeon_gem_prime_pin(struct drm_gem_object *obj)
+>  
+>  	/* pin buffer into GTT */
+>  	ret = radeon_bo_pin(bo, RADEON_GEM_DOMAIN_GTT, NULL);
+> -	if (likely(ret == 0))
+> -		bo->prime_shared_count++;
+> -
+> +	if (unlikely(ret))
+> +		goto error;
+> +
+> +	if (bo->tbo.moving) {
+> +		ret = dma_fence_wait(bo->tbo.moving, false);
 
-> On 21/06/2021 14:38, Boris Brezillon wrote:
-> > Job headers contain an exception type field which might be read and
-> > converted to a human readable string by tracing tools. Let's expose
-> > the exception type as an enum so we share the same definition.
-> > 
-> > Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
-> > ---
-> >  include/uapi/drm/panfrost_drm.h | 65 +++++++++++++++++++++++++++++++++
-> >  1 file changed, 65 insertions(+)
-> > 
-> > diff --git a/include/uapi/drm/panfrost_drm.h b/include/uapi/drm/panfrost_drm.h
-> > index 061e700dd06c..9a05d57d0118 100644
-> > --- a/include/uapi/drm/panfrost_drm.h
-> > +++ b/include/uapi/drm/panfrost_drm.h
-> > @@ -224,6 +224,71 @@ struct drm_panfrost_madvise {
-> >  	__u32 retained;       /* out, whether backing store still exists */
-> >  };
-> >  
-> > +/* The exception types */
-> > +
-> > +enum drm_panfrost_exception_type {
-> > +	DRM_PANFROST_EXCEPTION_OK = 0x00,
-> > +	DRM_PANFROST_EXCEPTION_DONE = 0x01,  
-> 
-> Any reason to miss INTERRUPTED? Although I don't think you'll ever see it.
+Here we wait whil holding the reservation, so we should be all fine. Maybe
+not the nicest to wait while locked, but also I don't think it'll matter.
 
-Oops, that one is marked 'reserved' on Bifrost. I'll add it.
+Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 
-> 
-> > +	DRM_PANFROST_EXCEPTION_STOPPED = 0x03,
-> > +	DRM_PANFROST_EXCEPTION_TERMINATED = 0x04,
-> > +	DRM_PANFROST_EXCEPTION_KABOOM = 0x05,
-> > +	DRM_PANFROST_EXCEPTION_EUREKA = 0x06,  
-> 
-> Interestingly KABOOM/EUREKA are missing from panfrost_exception_name()
-
-Addressed in patch 8.
-
-> 
-> > +	DRM_PANFROST_EXCEPTION_ACTIVE = 0x08,
-> > +	DRM_PANFROST_EXCEPTION_JOB_CONFIG_FAULT = 0x40,
-> > +	DRM_PANFROST_EXCEPTION_JOB_POWER_FAULT = 0x41,
-> > +	DRM_PANFROST_EXCEPTION_JOB_READ_FAULT = 0x42,
-> > +	DRM_PANFROST_EXCEPTION_JOB_WRITE_FAULT = 0x43,
-> > +	DRM_PANFROST_EXCEPTION_JOB_AFFINITY_FAULT = 0x44,
-> > +	DRM_PANFROST_EXCEPTION_JOB_BUS_FAULT = 0x48,
-> > +	DRM_PANFROST_EXCEPTION_INSTR_INVALID_PC = 0x50,
-> > +	DRM_PANFROST_EXCEPTION_INSTR_INVALID_ENC = 0x51,  
-> 
-> 0x52: INSTR_TYPE_MISMATCH
-> 0x53: INSTR_OPERAND_FAULT
-> 0x54: INSTR_TLS_FAULT
-> 
-> > +	DRM_PANFROST_EXCEPTION_INSTR_BARRIER_FAULT = 0x55,  
-> 
-> 0x56: INSTR_ALIGN_FAULT
-> 
-> By the looks of it this is probably the Bifrost list and missing those
-> codes which are Midgard only, whereas panfrost_exception_name() looks
-> like it's missing some Bifrost status codes.
-
-Yep, I'll add the missing ones.
-
-> 
-> Given this is UAPI there is some argument for missing e.g. INTERRUPTED
-> (I'm not sure it was ever actually implemented in hardware and the term
-> INTERRUPTED might be reused in future), but it seems a bit wrong just to
-> have Bifrost values here.
-
-Definitely, I just didn't notice Midgard and Bifrost had different set
-of exceptions.
-
-> 
-> Steve
-> 
-> > +	DRM_PANFROST_EXCEPTION_DATA_INVALID_FAULT = 0x58,
-> > +	DRM_PANFROST_EXCEPTION_TILE_RANGE_FAULT = 0x59,
-> > +	DRM_PANFROST_EXCEPTION_ADDR_RANGE_FAULT = 0x5a,
-> > +	DRM_PANFROST_EXCEPTION_IMPRECISE_FAULT = 0x5b,
-> > +	DRM_PANFROST_EXCEPTION_OOM = 0x60,
-> > +	DRM_PANFROST_EXCEPTION_UNKNOWN = 0x7f,
-> > +	DRM_PANFROST_EXCEPTION_DELAYED_BUS_FAULT = 0x80,
-> > +	DRM_PANFROST_EXCEPTION_GPU_SHAREABILITY_FAULT = 0x88,
-> > +	DRM_PANFROST_EXCEPTION_SYS_SHAREABILITY_FAULT = 0x89,
-> > +	DRM_PANFROST_EXCEPTION_GPU_CACHEABILITY_FAULT = 0x8a,
-> > +	DRM_PANFROST_EXCEPTION_TRANSLATION_FAULT_0 = 0xc0,
-> > +	DRM_PANFROST_EXCEPTION_TRANSLATION_FAULT_1 = 0xc1,
-> > +	DRM_PANFROST_EXCEPTION_TRANSLATION_FAULT_2 = 0xc2,
-> > +	DRM_PANFROST_EXCEPTION_TRANSLATION_FAULT_3 = 0xc3,
-> > +	DRM_PANFROST_EXCEPTION_TRANSLATION_FAULT_4 = 0xc4,
-> > +	DRM_PANFROST_EXCEPTION_TRANSLATION_FAULT_IDENTITY = 0xc7,
-> > +	DRM_PANFROST_EXCEPTION_PERM_FAULT_0 = 0xc8,
-> > +	DRM_PANFROST_EXCEPTION_PERM_FAULT_1 = 0xc9,
-> > +	DRM_PANFROST_EXCEPTION_PERM_FAULT_2 = 0xca,
-> > +	DRM_PANFROST_EXCEPTION_PERM_FAULT_3 = 0xcb,
-> > +	DRM_PANFROST_EXCEPTION_TRANSTAB_BUS_FAULT_0 = 0xd0,
-> > +	DRM_PANFROST_EXCEPTION_TRANSTAB_BUS_FAULT_1 = 0xd1,
-> > +	DRM_PANFROST_EXCEPTION_TRANSTAB_BUS_FAULT_2 = 0xd2,
-> > +	DRM_PANFROST_EXCEPTION_TRANSTAB_BUS_FAULT_3 = 0xd3,
-> > +	DRM_PANFROST_EXCEPTION_ACCESS_FLAG_0 = 0xd8,
-> > +	DRM_PANFROST_EXCEPTION_ACCESS_FLAG_1 = 0xd9,
-> > +	DRM_PANFROST_EXCEPTION_ACCESS_FLAG_2 = 0xda,
-> > +	DRM_PANFROST_EXCEPTION_ACCESS_FLAG_3 = 0xdb,
-> > +	DRM_PANFROST_EXCEPTION_ADDR_SIZE_FAULT_IN0 = 0xe0,
-> > +	DRM_PANFROST_EXCEPTION_ADDR_SIZE_FAULT_IN1 = 0xe1,
-> > +	DRM_PANFROST_EXCEPTION_ADDR_SIZE_FAULT_IN2 = 0xe2,
-> > +	DRM_PANFROST_EXCEPTION_ADDR_SIZE_FAULT_IN3 = 0xe3,
-> > +	DRM_PANFROST_EXCEPTION_ADDR_SIZE_FAULT_OUT0 = 0xe4,
-> > +	DRM_PANFROST_EXCEPTION_ADDR_SIZE_FAULT_OUT1 = 0xe5,
-> > +	DRM_PANFROST_EXCEPTION_ADDR_SIZE_FAULT_OUT2 = 0xe6,
-> > +	DRM_PANFROST_EXCEPTION_ADDR_SIZE_FAULT_OUT3 = 0xe7,
-> > +	DRM_PANFROST_EXCEPTION_MEM_ATTR_FAULT_0 = 0xe8,
-> > +	DRM_PANFROST_EXCEPTION_MEM_ATTR_FAULT_1 = 0xe9,
-> > +	DRM_PANFROST_EXCEPTION_MEM_ATTR_FAULT_2 = 0xea,
-> > +	DRM_PANFROST_EXCEPTION_MEM_ATTR_FAULT_3 = 0xeb,
-> > +	DRM_PANFROST_EXCEPTION_MEM_ATTR_NONCACHE_0 = 0xec,
-> > +	DRM_PANFROST_EXCEPTION_MEM_ATTR_NONCACHE_1 = 0xed,
-> > +	DRM_PANFROST_EXCEPTION_MEM_ATTR_NONCACHE_2 = 0xee,
-> > +	DRM_PANFROST_EXCEPTION_MEM_ATTR_NONCACHE_3 = 0xef,
-> > +};
-> > +
-> >  #if defined(__cplusplus)
-> >  }
-> >  #endif
-> >   
+> +		if (unlikely(ret)) {
+> +			radeon_bo_unpin(bo);
+> +			goto error;
+> +		}
+> +	}
+> +
+> +	bo->prime_shared_count++;
+> +error:
+>  	radeon_bo_unreserve(bo);
+>  	return ret;
+>  }
+> -- 
+> 2.25.1
 > 
 
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
