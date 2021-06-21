@@ -1,39 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CAA053AE77D
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Jun 2021 12:45:31 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DCEB3AE789
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Jun 2021 12:47:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 40CA189CC1;
-	Mon, 21 Jun 2021 10:45:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4C97B892BD;
+	Mon, 21 Jun 2021 10:47:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 49E1E892BD
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Jun 2021 10:45:23 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A8FD8D6E;
- Mon, 21 Jun 2021 03:45:22 -0700 (PDT)
-Received: from [192.168.1.179] (unknown [172.31.20.19])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 7A09A3F718;
- Mon, 21 Jun 2021 03:45:21 -0700 (PDT)
-Subject: Re: [PATCH v2] drm/panfrost:report the full raw fault information
- instead
-To: Chunyou Tang <tangchunyou@163.com>
-References: <20210617062054.1864-1-tangchunyou@163.com>
- <2dcbb36a-b550-4c9d-cff8-73ca4b5abb11@arm.com>
- <20210619111852.00003e52@163.com>
-From: Steven Price <steven.price@arm.com>
-Message-ID: <23f675e9-698d-840d-104f-33aa594dcb96@arm.com>
-Date: Mon, 21 Jun 2021 11:45:20 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com
+ [IPv6:2a00:1450:4864:20::436])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1A089892BD
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Jun 2021 10:47:44 +0000 (UTC)
+Received: by mail-wr1-x436.google.com with SMTP id h11so1611966wrx.5
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Jun 2021 03:47:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=OdEudXtXjGQN/dt1vAk/VP3YNSIfD82T+dahjF+Eqfk=;
+ b=dLH6co5FAw2vpQG4gb1SLS9vY8cXkvZM2/FHjc14+l3BsqIbMQ8TQqtpqg++4ZC/Lp
+ IQrIkpM29jW9E9jmmIwpJ9diuVUXRBbn36PiKfo8DZ6FoZsZRPx/uOdmNUHiQv/aFJF6
+ IEq1GxQG/OW0OPQoW6DrRB8f2ptle/M14sABxuKrF3oOVsv6FBncAeCp2qoJlIfyIaor
+ 3IylGme4SMO5nn7bNf3PhXi7YThu6vEXL6jtmfYHuubD7j6uqsT+3eYrYfhIyNvZY3jC
+ XMro+fy6BGj/T7mzI+fFaJGGJJxIElWwqDWGgvtb1fAYL+Cf6RxtqHU0Sp/lRYtJCsZq
+ j+dA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=OdEudXtXjGQN/dt1vAk/VP3YNSIfD82T+dahjF+Eqfk=;
+ b=Uwzfs8ergUyVQGDXCToLCWDGGrAZUmob+9ngA2xYbHATb2GnZsLiEihxHxng2nELR3
+ L+j8tnilcsxjPy3hJ6WaQXOrYfC+y1mcKVjYUVRHpY1bcD2YufLe3sl791fQt3m7PxWB
+ NmCiULBNHwlg76hVCXpTaF5VuECu/URjxOP5G8+RtstZS8OfKPrKNRbY10sI1ZlMCtXN
+ 4a51ZFw8QYpN3ywZcBTI4GSor/RrwlPMQDdFzlFGq6bGqdGX3Sdm/EwwLisAFACmj1IQ
+ QFGfj1wvNPHhRfeHa10oRwZcnZf2XmKIR0eouJmJVFMxfZpP088o2Im4/Gmij1n4hEvB
+ KStQ==
+X-Gm-Message-State: AOAM531GhxEIpBS32P+zKJI4JX1laJqhQ6lyn4jlXALpGCfUKyF8Cj18
+ RfWJMRbOp6WNRA5tK/GV70BhYQ==
+X-Google-Smtp-Source: ABdhPJyX5FTE5HVxXFwri17oTsxzpaBpm2xBpLIoni8Bfe8SclKa8ghQphJNAgUVIbnoFs/iX1Wv9g==
+X-Received: by 2002:adf:e110:: with SMTP id t16mr27890314wrz.359.1624272462653; 
+ Mon, 21 Jun 2021 03:47:42 -0700 (PDT)
+Received: from maple.lan (cpc141216-aztw34-2-0-cust174.18-1.cable.virginm.net.
+ [80.7.220.175])
+ by smtp.gmail.com with ESMTPSA id t128sm4241264wma.41.2021.06.21.03.47.42
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 21 Jun 2021 03:47:42 -0700 (PDT)
+Date: Mon, 21 Jun 2021 11:47:40 +0100
+From: Daniel Thompson <daniel.thompson@linaro.org>
+To: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+Subject: Re: [PATCH v2 2/2] backlight: lm3630a: convert to atomic PWM API and
+ check for errors
+Message-ID: <20210621104740.cenlzw2wfy2vacoi@maple.lan>
+References: <20210620193928.14467-1-u.kleine-koenig@pengutronix.de>
+ <20210620193928.14467-2-u.kleine-koenig@pengutronix.de>
 MIME-Version: 1.0
-In-Reply-To: <20210619111852.00003e52@163.com>
-Content-Type: text/plain; charset=gb18030
-Content-Language: en-GB
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210620193928.14467-2-u.kleine-koenig@pengutronix.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,110 +72,81 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: tomeu.vizoso@collabora.com, airlied@linux.ie, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, alyssa.rosenzweig@collabora.com,
- ChunyouTang <tangchunyou@icubecorp.cn>
+Cc: linux-fbdev@vger.kernel.org, Jingoo Han <jingoohan1@gmail.com>,
+ dri-devel@lists.freedesktop.org, Thierry Reding <thierry.reding@gmail.com>,
+ kernel@pengutronix.de, Lee Jones <lee.jones@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 19/06/2021 04:18, Chunyou Tang wrote:
-> Hi Steve,
-> 	1,Now I know how to write the subject
-> 	2,the low 8 bits is the exception type in spec.
+On Sun, Jun 20, 2021 at 09:39:28PM +0200, Uwe Kleine-König wrote:
+> The practical upside here is that this only needs a single API call to
+> program the hardware which (depending on the underlaying hardware) can
+> be more effective and prevents glitches.
 > 
-> and you can see prnfrost_exception_name()
+> Up to now the return value of the pwm functions was ignored. Fix this
+> and propagate the error to the caller.
 > 
-> switch (exception_code) {
->                 /* Non-Fault Status code */
-> case 0x00: return "NOT_STARTED/IDLE/OK";
-> case 0x01: return "DONE";
-> case 0x02: return "INTERRUPTED";
-> case 0x03: return "STOPPED";
-> case 0x04: return "TERMINATED";
-> case 0x08: return "ACTIVE";
-> ........
-> ........
-> case 0xD8: return "ACCESS_FLAG";
-> case 0xD9 ... 0xDF: return "ACCESS_FLAG";
-> case 0xE0 ... 0xE7: return "ADDRESS_SIZE_FAULT";
-> case 0xE8 ... 0xEF: return "MEMORY_ATTRIBUTES_FAULT";
-> }
-> return "UNKNOWN";
-> }
+> Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+> ---
+>  drivers/video/backlight/lm3630a_bl.c | 34 +++++++++++++---------------
+>  1 file changed, 16 insertions(+), 18 deletions(-)
 > 
-> the exception_code in case is only 8 bits,so if fault_status
-> in panfrost_gpu_irq_handler() don't & 0xFF,it can't get correct
-> exception reason,it will be always UNKNOWN.
+> diff --git a/drivers/video/backlight/lm3630a_bl.c b/drivers/video/backlight/lm3630a_bl.c
+> index 16a2658a72e1..99eb8277149b 100644
+> --- a/drivers/video/backlight/lm3630a_bl.c
+> +++ b/drivers/video/backlight/lm3630a_bl.c
+> @@ -52,6 +52,7 @@ struct lm3630a_chip {
+>  	struct gpio_desc *enable_gpio;
+>  	struct regmap *regmap;
+>  	struct pwm_device *pwmd;
+> +	struct pwm_state pwmd_state;
+>  };
+>  
+>  /* i2c access */
+> @@ -167,16 +168,19 @@ static int lm3630a_intr_config(struct lm3630a_chip *pchip)
+>  	return rval;
+>  }
+>  
+> -static void lm3630a_pwm_ctrl(struct lm3630a_chip *pchip, int br, int br_max)
+> +static int lm3630a_pwm_ctrl(struct lm3630a_chip *pchip, int br, int br_max)
+>  {
+> -	unsigned int period = pchip->pdata->pwm_period;
+> -	unsigned int duty = br * period / br_max;
+> +	int err;
+>  
+> -	pwm_config(pchip->pwmd, duty, period);
+> -	if (duty)
+> -		pwm_enable(pchip->pwmd);
+> -	else
+> -		pwm_disable(pchip->pwmd);
+> +	pchip->pwmd_state.period = pchip->pdata->pwm_period;
+> +
+> +	err = pwm_set_relative_duty_cycle(&pchip->pwmd_state, br, br_max);
+> +	if (err)
+> +		return err;
+> +
+> +	pchip->pwmd_state.enabled = pchip->pwmd_state.duty_cycle ? true : false;
+> +
+> +	return pwm_apply_state(pchip->pwmd, &pchip->pwmd_state);
+>  }
+>  
+>  /* update and get brightness */
+> @@ -187,11 +191,9 @@ static int lm3630a_bank_a_update_status(struct backlight_device *bl)
+>  	enum lm3630a_pwm_ctrl pwm_ctrl = pchip->pdata->pwm_ctrl;
+>  
+>  	/* pwm control */
+> -	if ((pwm_ctrl & LM3630A_PWM_BANK_A) != 0) {
+> -		lm3630a_pwm_ctrl(pchip, bl->props.brightness,
+> -				 bl->props.max_brightness);
+> -		return 0;
+> -	}
+> +	if ((pwm_ctrl & LM3630A_PWM_BANK_A) != 0)
+> +		return lm3630a_pwm_ctrl(pchip, bl->props.brightness,
+> +					bl->props.max_brightness);
 
-Yes, I'm happy with the change - I just need a patch that I can apply.
-At the moment this patch only changes the first '0x%08x' output rather
-than the call to panfrost_exception_name() as well. So we just need a
-patch which does:
+My apologies for overlooking this at v1 (and even when reviewing the first of
+the v2 patchs) but...  this fixes the code for bank A. Bank B also requires exactly
+the same set of fixes!
 
-- fault_status & 0xFF, panfrost_exception_name(pfdev, fault_status),
-+ fault_status, panfrost_exception_name(pfdev, fault_status & 0xFF),
 
-along with a suitable subject/commit message describing the change. If
-you can send me that I can apply it.
-
-Thanks,
-
-Steve
-
-PS. Sorry for going round in circles here - I'm trying to help you get
-setup so you'll be able to contribute patches easily in future. An
-important part of that is ensuring you can send a properly formatted
-patch to the list.
-
-PPS. I'm still not receiving your emails directly. I don't think it's a
-problem at my end because I'm receiving other emails, but if you can
-somehow fix the problem you're likely to receive a faster response.
-
-> ÓÚ Fri, 18 Jun 2021 13:43:24 +0100
-> Steven Price <steven.price@arm.com> Ð´µÀ:
-> 
->> On 17/06/2021 07:20, ChunyouTang wrote:
->>> From: ChunyouTang <tangchunyou@icubecorp.cn>
->>>
->>> of the low 8 bits.
->>
->> Please don't split the subject like this. The first line of the commit
->> should be a (very short) summary of the patch. Then a blank line and
->> then a longer description of what the purpose of the patch is and why
->> it's needed.
->>
->> Also you previously had this as part of a series (the first part
->> adding the "& 0xFF" in the panfrost_exception_name() call). I'm not
->> sure we need two patches for the single line, but as it stands this
->> patch doesn't apply.
->>
->> Also I'm still not receiving any emails from you directly (only via
->> the list), so it's possible I might have missed something you sent.
->>
->> Steve
->>
->>>
->>> Signed-off-by: ChunyouTang <tangchunyou@icubecorp.cn>
->>> ---
->>>  drivers/gpu/drm/panfrost/panfrost_gpu.c | 2 +-
->>>  1 file changed, 1 insertion(+), 1 deletion(-)
->>>
->>> diff --git a/drivers/gpu/drm/panfrost/panfrost_gpu.c
->>> b/drivers/gpu/drm/panfrost/panfrost_gpu.c index
->>> 1fffb6a0b24f..d2d287bbf4e7 100644 ---
->>> a/drivers/gpu/drm/panfrost/panfrost_gpu.c +++
->>> b/drivers/gpu/drm/panfrost/panfrost_gpu.c @@ -33,7 +33,7 @@ static
->>> irqreturn_t panfrost_gpu_irq_handler(int irq, void *data) address
->>> |= gpu_read(pfdev, GPU_FAULT_ADDRESS_LO); 
->>>  		dev_warn(pfdev->dev, "GPU Fault 0x%08x (%s) at
->>> 0x%016llx\n",
->>> -			 fault_status & 0xFF,
->>> panfrost_exception_name(pfdev, fault_status & 0xFF),
->>> +			 fault_status,
->>> panfrost_exception_name(pfdev, fault_status & 0xFF), address);
->>>  
->>>  		if (state & GPU_IRQ_MULTIPLE_FAULT)
->>>
-> 
-> 
-
+Daniel.
