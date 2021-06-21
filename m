@@ -1,56 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB0953AE90D
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Jun 2021 14:29:04 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 85CCD3AE916
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Jun 2021 14:30:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 46C1D89FC3;
-	Mon, 21 Jun 2021 12:29:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 620B989FC8;
+	Mon, 21 Jun 2021 12:30:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x32b.google.com (mail-ot1-x32b.google.com
- [IPv6:2607:f8b0:4864:20::32b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E8A5589FC3
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Jun 2021 12:28:59 +0000 (UTC)
-Received: by mail-ot1-x32b.google.com with SMTP id
- g19-20020a9d12930000b0290457fde18ad0so3636313otg.1
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Jun 2021 05:28:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=HHQC6lOkJEn8B4ZK4mW/HBR6aX7M4uga90R1ZErZgKw=;
- b=Td38oUyS/9/MPrT4jo5WsEx4w0MWOF/8bM1XyUzvOBwwzScRQorv0t2fw+zHCf7ir0
- h8zpP6oNobDqmDV0rX43vwv23S4wvsx20o1++gTR06+eOXnxOdhaB+3kQbyaZz/2S0tV
- GQVwEXVWhC4IEfs607x4fPCPD20Mejq78fTdQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=HHQC6lOkJEn8B4ZK4mW/HBR6aX7M4uga90R1ZErZgKw=;
- b=H8d3HVOXm6bQVhLnqeL1RbUaVx1Yp5uyEESGgt0k9nNoByXlBHk3OATE6TGr9dMTpW
- hrbLBsg2WnuzIn3RDB3gwAjXNcMWa+hXqC4QXUZUV3LcT5RQxm7pRNcDt+GOogTexbsv
- rTdhKtOiEbB/HbjFo0n4BpeZg3xqKX6Oe78+6Y72pvogOIWyEqmH9uksSTF52qrqKMOc
- ARqM56pcBQBjPqEMSZPIu6v5ea6IaRTiCY4WVK+RjNM/ojcMy/apejZTEzjwc3PP5gi1
- nNeYQO986Cg54tm0fmij5yPul/tCCB9Tp9j1yIVPAxyWpNJOLO0pCZK4OaV50690kUJV
- 9HFA==
-X-Gm-Message-State: AOAM531F01c1NQvPP5r7Z7x2w54TjEw25PXdOF9XulP8K1m7nhmJacBU
- qfCrw1298tVW7iZltulaOhwhZveFjZ2RPqDudkc4Aw==
-X-Google-Smtp-Source: ABdhPJwD0i9Zn4q4SoQulAg+xyZR3j3c5+btpLl6Z1t9xWUhyH1ThXXNgyVXCPxYSRcrINNnl8lEcpNTDGpjBNUKKJE=
-X-Received: by 2002:a9d:12eb:: with SMTP id g98mr20269296otg.303.1624278539116; 
- Mon, 21 Jun 2021 05:28:59 -0700 (PDT)
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 735F089FC8
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Jun 2021 12:30:47 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
+ [62.78.145.57])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 61E0B21A4;
+ Mon, 21 Jun 2021 14:30:45 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1624278645;
+ bh=mhytmudEVSKLIN6PcacXPcOzqxtrDlHXCQzrQAXWxeE=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=o5DdlrbCKKR2Eou9cupXA86i8szATwT6A5yuV+j+0uUDQk8OPMOcc8SHwigaHlZZa
+ +oB8olF3RSMvxgSoiPDArTq1pGhVNUHYQSX3RIXNfF9AGEkUdzzRN1O0uT4GC/rOF5
+ RzkD4x4FbU4mkL+yUhrPVhN+Oc141ogDYMCm8c2s=
+Date: Mon, 21 Jun 2021 15:30:19 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Marek Vasut <marex@denx.de>
+Subject: Re: [PATCH] drm/bridge: ti-sn65dsi83: Replace connector format
+ patching with atomic_get_input_bus_fmts
+Message-ID: <YNCGW5vQibED5v5V@pendragon.ideasonboard.com>
+References: <20210620224208.184719-1-marex@denx.de>
 MIME-Version: 1.0
-References: <20210618123615.11456-1-ogabbay@kernel.org>
-In-Reply-To: <20210618123615.11456-1-ogabbay@kernel.org>
-From: Daniel Vetter <daniel.vetter@ffwll.ch>
-Date: Mon, 21 Jun 2021 14:28:48 +0200
-Message-ID: <CAKMK7uFOfoxbD2Z5mb-qHFnUe5rObGKQ6Ygh--HSH9M=9bziGg@mail.gmail.com>
-Subject: Re: [PATCH v3 1/2] habanalabs: define uAPI to export FD for DMA-BUF
-To: Oded Gabbay <ogabbay@kernel.org>, Jason Gunthorpe <jgg@ziepe.ca>, 
- linux-rdma <linux-rdma@vger.kernel.org>, 
- "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>,
- Doug Ledford <dledford@redhat.com>, 
- "airlied@gmail.com" <airlied@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20210620224208.184719-1-marex@denx.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,158 +47,119 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Greg KH <gregkh@linuxfoundation.org>, sleybo@amazon.com,
- Christoph Hellwig <hch@lst.de>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Gal Pressman <galpress@amazon.com>,
- "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
- Tomer Tayar <ttayar@habana.ai>, amd-gfx list <amd-gfx@lists.freedesktop.org>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Leon Romanovsky <leonro@nvidia.com>
+Cc: Loic Poulain <loic.poulain@linaro.org>, ch@denx.de,
+ Adam Ford <aford173@gmail.com>, Douglas Anderson <dianders@chromium.org>,
+ Robert Foss <robert.foss@linaro.org>,
+ Frieder Schrempf <frieder.schrempf@kontron.de>,
+ Philippe Schenker <philippe.schenker@toradex.com>,
+ dri-devel@lists.freedesktop.org, Valentin Raevsky <valentin@compulab.co.il>,
+ Stephen Boyd <swboyd@chromium.org>, Sam Ravnborg <sam@ravnborg.org>,
+ Jagan Teki <jagan@amarulasolutions.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jun 18, 2021 at 2:36 PM Oded Gabbay <ogabbay@kernel.org> wrote:
-> User process might want to share the device memory with another
-> driver/device, and to allow it to access it over PCIe (P2P).
->
-> To enable this, we utilize the dma-buf mechanism and add a dma-buf
-> exporter support, so the other driver can import the device memory and
-> access it.
->
-> The device memory is allocated using our existing allocation uAPI,
-> where the user will get a handle that represents the allocation.
->
-> The user will then need to call the new
-> uAPI (HL_MEM_OP_EXPORT_DMABUF_FD) and give the handle as a parameter.
->
-> The driver will return a FD that represents the DMA-BUF object that
-> was created to match that allocation.
->
-> Signed-off-by: Oded Gabbay <ogabbay@kernel.org>
-> Reviewed-by: Tomer Tayar <ttayar@habana.ai>
+Hi Marek,
 
-Mission acomplished, we've gone full circle, and the totally-not-a-gpu
-driver is now trying to use gpu infrastructure. And seems to have
-gained vram meanwhile too. Next up is going to be synchronization
-using dma_fence so you can pass buffers back&forth without stalls
-among drivers.
+Thank you for the patch.
 
-Bonus points for this being at v3 before it shows up on dri-devel and
-cc's dma-buf folks properly (not quite all, I added the missing
-people).
-
-I think we roughly have two options here
-
-a) Greg continues to piss off dri-devel folks while trying to look
-cute&cuddly and steadfastly claiming that this accelator doesn't work
-like any of the other accelerator drivers we have in drivers/gpu/drm.
-All while the driver ever more looks like one of these other accel
-drivers.
-
-b) We finally do what we should have done years back and treat this as
-a proper driver submission and review it on dri-devel instead of
-sneaking it in through other channels because the merge criteria
-dri-devel has are too onerous and people who don't have experience
-with accel stacks for the past 20 years or so don't like them.
-
-"But this probably means a new driver and big disruption!"
-
-Not my problem, I'm not the dude who has to come up with an excuse for
-this because I didn't merge the driver in the first place. I do get to
-throw a "we all told you so" in though, but that's not helping.
-
-Also I'm wondering which is the other driver that we share buffers
-with. The gaudi stuff doesn't have real struct pages as backing
-storage, it only fills out the dma_addr_t. That tends to blow up with
-other drivers, and the only place where this is guaranteed to work is
-if you have a dynamic importer which sets the allow_peer2peer flag.
-Adding maintainers from other subsystems who might want to chime in
-here. So even aside of the big question as-is this is broken.
-
-Currently only 2 drivers set allow_peer2peer, so those are the only
-ones who can consume these buffers from device memory. Pinging those
-folks specifically.
-
-Doug/Jason from infiniband: Should we add linux-rdma to the dma-buf
-wildcard match so that you can catch these next time around too? At
-least when people use scripts/get_maintainers.pl correctly. All the
-other subsystems using dma-buf are on there already (dri-devel,
-linux-media and linaro-mm-sig for android/arm embedded stuff).
-
-Cheers, Daniel
-
-
-
+On Mon, Jun 21, 2021 at 12:42:08AM +0200, Marek Vasut wrote:
+> Patching the connector format is causing various problematic
+> side effects. Implement .atomic_get_input_bus_fmts callback
+> instead, which sets up the input (DSI-end) format, and that
+> format can then be used in pipeline format negotiation between
+> the DSI-end of this bridge and the other component closer to
+> the scanout engine.
+> 
+> Signed-off-by: Marek Vasut <marex@denx.de>
+> Cc: Adam Ford <aford173@gmail.com>
+> Cc: Douglas Anderson <dianders@chromium.org>
+> Cc: Frieder Schrempf <frieder.schrempf@kontron.de>
+> Cc: Jagan Teki <jagan@amarulasolutions.com>
+> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Cc: Linus Walleij <linus.walleij@linaro.org>
+> Cc: Loic Poulain <loic.poulain@linaro.org>
+> Cc: Philippe Schenker <philippe.schenker@toradex.com>
+> Cc: Robert Foss <robert.foss@linaro.org>
+> Cc: Sam Ravnborg <sam@ravnborg.org>
+> Cc: Stephen Boyd <swboyd@chromium.org>
+> Cc: Valentin Raevsky <valentin@compulab.co.il>
+> Cc: dri-devel@lists.freedesktop.org
 > ---
->  include/uapi/misc/habanalabs.h | 28 +++++++++++++++++++++++++++-
->  1 file changed, 27 insertions(+), 1 deletion(-)
->
-> diff --git a/include/uapi/misc/habanalabs.h b/include/uapi/misc/habanalabs.h
-> index a47a731e4527..aa3d8e0ba060 100644
-> --- a/include/uapi/misc/habanalabs.h
-> +++ b/include/uapi/misc/habanalabs.h
-> @@ -808,6 +808,10 @@ union hl_wait_cs_args {
->  #define HL_MEM_OP_UNMAP                        3
->  /* Opcode to map a hw block */
->  #define HL_MEM_OP_MAP_BLOCK            4
-> +/* Opcode to create DMA-BUF object for an existing device memory allocation
-> + * and to export an FD of that DMA-BUF back to the caller
-> + */
-> +#define HL_MEM_OP_EXPORT_DMABUF_FD     5
->
->  /* Memory flags */
->  #define HL_MEM_CONTIGUOUS      0x1
-> @@ -878,11 +882,26 @@ struct hl_mem_in {
->                         /* Virtual address returned from HL_MEM_OP_MAP */
->                         __u64 device_virt_addr;
->                 } unmap;
+>  drivers/gpu/drm/bridge/ti-sn65dsi83.c | 35 ++++++++++++++++++++++++---
+>  1 file changed, 31 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi83.c b/drivers/gpu/drm/bridge/ti-sn65dsi83.c
+> index 750f2172ef08..32bda20f5dda 100644
+> --- a/drivers/gpu/drm/bridge/ti-sn65dsi83.c
+> +++ b/drivers/gpu/drm/bridge/ti-sn65dsi83.c
+> @@ -517,7 +517,6 @@ static bool sn65dsi83_mode_fixup(struct drm_bridge *bridge,
+>  				 struct drm_display_mode *adj)
+>  {
+>  	struct sn65dsi83 *ctx = bridge_to_sn65dsi83(bridge);
+> -	u32 input_bus_format = MEDIA_BUS_FMT_RGB888_1X24;
+>  	struct drm_encoder *encoder = bridge->encoder;
+>  	struct drm_device *ddev = encoder->dev;
+>  	struct drm_connector *connector;
+> @@ -550,14 +549,37 @@ static bool sn65dsi83_mode_fixup(struct drm_bridge *bridge,
+>  				 connector->display_info.bus_formats[0]);
+>  			break;
+>  		}
+> -
+> -		drm_display_info_set_bus_formats(&connector->display_info,
+> -						 &input_bus_format, 1);
+>  	}
+>  
+>  	return true;
+>  }
+>  
+> +#define MAX_INPUT_SEL_FORMATS	1
 > +
-> +               /* HL_MEM_OP_EXPORT_DMABUF_FD */
-> +               struct {
-> +                       /* Handle returned from HL_MEM_OP_ALLOC. In Gaudi,
-> +                        * where we don't have MMU for the device memory, the
-> +                        * driver expects a physical address (instead of
-> +                        * a handle) in the device memory space.
-> +                        */
-> +                       __u64 handle;
-> +                       /* Size of memory allocation. Relevant only for GAUDI */
-> +                       __u64 mem_size;
-> +               } export_dmabuf_fd;
->         };
->
->         /* HL_MEM_OP_* */
->         __u32 op;
-> -       /* HL_MEM_* flags */
-> +       /* HL_MEM_* flags.
-> +        * For the HL_MEM_OP_EXPORT_DMABUF_FD opcode, this field holds the
-> +        * DMA-BUF file/FD flags.
-> +        */
->         __u32 flags;
->         /* Context ID - Currently not in use */
->         __u32 ctx_id;
-> @@ -919,6 +938,13 @@ struct hl_mem_out {
->
->                         __u32 pad;
->                 };
+> +static u32 *
+> +sn65dsi83_atomic_get_input_bus_fmts(struct drm_bridge *bridge,
+> +				    struct drm_bridge_state *bridge_state,
+> +				    struct drm_crtc_state *crtc_state,
+> +				    struct drm_connector_state *conn_state,
+> +				    u32 output_fmt,
+> +				    unsigned int *num_input_fmts)
+> +{
+> +	u32 *input_fmts;
 > +
-> +               /* Returned in HL_MEM_OP_EXPORT_DMABUF_FD. Represents the
-> +                * DMA-BUF object that was created to describe a memory
-> +                * allocation on the device's memory space. The FD should be
-> +                * passed to the importer driver
-> +                */
-> +               __u64 fd;
->         };
+> +	*num_input_fmts = 0;
+> +
+> +	input_fmts = kcalloc(MAX_INPUT_SEL_FORMATS, sizeof(*input_fmts),
+> +			     GFP_KERNEL);
+> +	if (!input_fmts)
+> +		return NULL;
+> +
+> +	/* This is the DSI-end bus format */
+> +	input_fmts[0] = MEDIA_BUS_FMT_RGB888_1X24;
+> +	*num_input_fmts = 1;
+> +
+> +	return input_fmts;
+> +}
+
+Perfect :-)
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+> +
+>  static const struct drm_bridge_funcs sn65dsi83_funcs = {
+>  	.attach		= sn65dsi83_attach,
+>  	.pre_enable	= sn65dsi83_pre_enable,
+> @@ -567,6 +589,11 @@ static const struct drm_bridge_funcs sn65dsi83_funcs = {
+>  	.mode_valid	= sn65dsi83_mode_valid,
+>  	.mode_set	= sn65dsi83_mode_set,
+>  	.mode_fixup	= sn65dsi83_mode_fixup,
+> +
+> +	.atomic_duplicate_state = drm_atomic_helper_bridge_duplicate_state,
+> +	.atomic_destroy_state = drm_atomic_helper_bridge_destroy_state,
+> +	.atomic_reset = drm_atomic_helper_bridge_reset,
+> +	.atomic_get_input_bus_fmts = sn65dsi83_atomic_get_input_bus_fmts,
 >  };
->
-> --
-> 2.25.1
->
+>  
+>  static int sn65dsi83_parse_dt(struct sn65dsi83 *ctx, enum sn65dsi83_model model)
 
+-- 
+Regards,
 
---
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Laurent Pinchart
