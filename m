@@ -2,65 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BFF373AE849
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Jun 2021 13:42:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A92F13AE84D
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Jun 2021 13:44:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CC13189DFB;
-	Mon, 21 Jun 2021 11:41:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DD72B8991E;
+	Mon, 21 Jun 2021 11:44:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com
- [IPv6:2a00:1450:4864:20::32a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3B39389DFB
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Jun 2021 11:41:57 +0000 (UTC)
-Received: by mail-wm1-x32a.google.com with SMTP id
- y13-20020a1c4b0d0000b02901c20173e165so10510988wma.0
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Jun 2021 04:41:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=DaXulPBTPL9u5MFTn3K/5r+5fkI2NXf7vuuT8zNWvU4=;
- b=MFcLKXwlro4GFxU2xiNWqSqBqzohDuy7UxT1eGY4HP91ZA+xSw+cllZqUjalFK+jGR
- mtrNlzENAWzge4UICMdRY01qgjBN6GIVFS7fBSoQZA7yQnRvZOfqr0+u4lsHk2+bLyaA
- T6uqHGCUs2JLNuDZQvqG/H/Q0i1yTYPxUNzDnRlTsnX61ZvjoJKRw9tHLJE0y298st+P
- JDgd7KdKJCxD28hDvY2B7QXo4tPvrbUZ/hKw6Qeroj4KyoPRSF6j7Xm0kRvwtUem6jjM
- QxBpx6xuicCo7cFA4EWR4AxvBu7pg7MefuMJgk2ptCCaCJ4clzkIAX8Nkozbqql26FAM
- EOzg==
+Received: from mail-lj1-x236.google.com (mail-lj1-x236.google.com
+ [IPv6:2a00:1450:4864:20::236])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3358A8991E
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Jun 2021 11:44:21 +0000 (UTC)
+Received: by mail-lj1-x236.google.com with SMTP id q23so14269268ljh.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Jun 2021 04:44:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=TvnTnGnSvT/wzcRtCIQ6B7dOOoTU5ysPY7rP65LBPcY=;
+ b=NXGg0c7craxUcqNhRaT+jQw2x5ROQqdt5x2dBCqXs2jNFOEy/YGap3LnXP1YwcUAjM
+ 5G01dyQKmz25sWNdAzoECLk94HKhYL3CSlwl8Sb8Cr9/Z0uIcXA+uKLE2DXZ7xzJGgCh
+ LpexwTncTGfEFCD0q83Dbcor+Aao2Jhbtym/jCGzjruRUIg3QuWH5NboNFiUrYIoVAwS
+ QALcOuU0LGWRYtO5ZSu1YTuK0vb0SsavpdHeIWe3owroU6nnG93Oc0/DWQ1hga5vuhod
+ NU/eTkw/kA3mLYrsFDCJqSfxEQNpeBZEQpZwvqyDS/vaIJtMJ+IuIpl0bSd4qj0nex/T
+ JDjw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=DaXulPBTPL9u5MFTn3K/5r+5fkI2NXf7vuuT8zNWvU4=;
- b=EgjwDzjMhVUnkAYbeKXQbJqOgBClvYeewGlY6RvCicVORRrk/FL43vBe2X+2ssacr/
- BSrF3aLYgcF47ji1T5GmY/uNwyhew2GRymkz/uxw+ub+0feW6b1ZSMGC+uZQvyrV7slf
- j4RjfNzUgER+YRyQ4pycvc1OJQtM/0LtX9ggmR5s/rQ3ISoAJKZ0z3LPY/xcsJkAVlzU
- KNorkki9/lWwSMSRfSHJsmekfNeKrFqRdRao/TxIgShpDApH+ZkfBuujOsZ8mi2ckaQl
- KisZ7v3IE9yyju7vfZBs7mC6ICkkfOOZCm00TuRBKuKu2U+24lhJAuK7cABIiW9Mifdj
- jb8w==
-X-Gm-Message-State: AOAM531JrSPPBfBrkD2baQlf+XwYHW77/nwPRnBLBJf5v7TlP3dKqOdb
- qmKBb3sbPGPSAJUgortEzdZjbA==
-X-Google-Smtp-Source: ABdhPJw80ECoMJiUu4h1kyUH0DdbCSQayz7j+0/CmynOfR2sPAfIA2tYvKtdQoEgI21Oz3HbKQ9zSw==
-X-Received: by 2002:a1c:c90c:: with SMTP id f12mr11667719wmb.80.1624275715786; 
- Mon, 21 Jun 2021 04:41:55 -0700 (PDT)
-Received: from maple.lan (cpc141216-aztw34-2-0-cust174.18-1.cable.virginm.net.
- [80.7.220.175])
- by smtp.gmail.com with ESMTPSA id q19sm18910431wmc.44.2021.06.21.04.41.55
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 21 Jun 2021 04:41:55 -0700 (PDT)
-Date: Mon, 21 Jun 2021 12:41:53 +0100
-From: Daniel Thompson <daniel.thompson@linaro.org>
-To: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-Subject: Re: [PATCH v2 1/2] backlight: lm3630a: fix return code of
- .update_status() callback
-Message-ID: <20210621114153.jg5hll46xj2unin5@maple.lan>
-References: <20210620193928.14467-1-u.kleine-koenig@pengutronix.de>
- <20210621102351.45m2oznsmg5nfv6t@maple.lan>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=TvnTnGnSvT/wzcRtCIQ6B7dOOoTU5ysPY7rP65LBPcY=;
+ b=BEY+MnSW2gPZeOr5eeN0ZGQ1/VPWgKYjP/7hhHQJz6bn8RjKUu4x0CaYI7pqPkgmwy
+ nDGwVVSHz+hN0qPqeGyRF1Fx2kRDfoN6Eu0H36QPrKyqR4f1lGiM/jwc5gY3fo/A52Ee
+ SyV1ya3crDatOjVyiFAdFC2PkqDDAaEAqwSOi54Js+bFIc+57CExw1dX6OmTOJoTc95h
+ 3mbnFTFfYhd8t+meCci6MV04bUQpmmpb5yVk5/7Qs0nK7oXUr3Bj7gkDom46nqgQwVBr
+ 9wUu1uhG3vbZh7hNI9NPi6qzrinIJS1ZCvXKzum/3er9xtjKavusS9kVPG4TGzn2pS2C
+ //Yg==
+X-Gm-Message-State: AOAM532WxV/uw+3Iie1+c+5hmvRmzc8FaKarL9RSTOsQ3uohfZus6u0h
+ g7UYF6hfv1Mc6PkYj+VFQMQ=
+X-Google-Smtp-Source: ABdhPJzZqNE1v82IJt68up+rW8SvYARB7SxPKZ+9ubQvwMGy0eOKEOsPIa0ETY98RpNKHEL+/717Ng==
+X-Received: by 2002:a05:651c:236:: with SMTP id
+ z22mr5920364ljn.106.1624275859324; 
+ Mon, 21 Jun 2021 04:44:19 -0700 (PDT)
+Received: from [192.168.2.145] (94-29-29-31.dynamic.spd-mgts.ru. [94.29.29.31])
+ by smtp.googlemail.com with ESMTPSA id z4sm2085643lji.61.2021.06.21.04.44.18
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 21 Jun 2021 04:44:19 -0700 (PDT)
+Subject: Re: [PATCH v18 0/2] Add memory bandwidth management to NVIDIA Tegra
+ DRM driver
+To: Thierry Reding <thierry.reding@gmail.com>
+References: <20210601042108.1942-1-digetx@gmail.com>
+ <8accfe1e-fc48-21ca-f7c6-bd2d60162e6d@gmail.com>
+ <50912a57-aa43-58b0-02d2-6928578d6286@gmail.com>
+ <YNBxiFXMS9rfT93c@orome.fritz.box>
+From: Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <af058fc3-8696-a8f9-b52d-8e1b2ee760c3@gmail.com>
+Date: Mon, 21 Jun 2021 14:43:06 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+In-Reply-To: <YNBxiFXMS9rfT93c@orome.fritz.box>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210621102351.45m2oznsmg5nfv6t@maple.lan>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,73 +76,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Jingoo Han <jingoohan1@gmail.com>,
- dri-devel@lists.freedesktop.org, Thierry Reding <thierry.reding@gmail.com>,
- kernel@pengutronix.de, Lee Jones <lee.jones@linaro.org>
+Cc: linux-pm@vger.kernel.org, Nicolas Chauvet <kwizart@gmail.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Jonathan Hunter <jonathanh@nvidia.com>,
+ Matt Merhar <mattmerhar@protonmail.com>, Peter Geis <pgwipeout@gmail.com>,
+ linux-tegra@vger.kernel.org,
+ =?UTF-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jun 21, 2021 at 11:23:51AM +0100, Daniel Thompson wrote:
-> On Sun, Jun 20, 2021 at 09:39:27PM +0200, Uwe Kleine-K�nig wrote:
-> > According to <linux/backlight.h> .update_status() is supposed to
-> > return 0 on success and a negative error code otherwise. Adapt
-> > lm3630a_bank_a_update_status() to actually do it.
-> > 
-> > While touching that also add the error code to the failure message.
-> > 
-> > Signed-off-by: Uwe Kleine-K�nig <u.kleine-koenig@pengutronix.de>
+21.06.2021 14:01, Thierry Reding пишет:
+> On Mon, Jun 21, 2021 at 07:19:15AM +0300, Dmitry Osipenko wrote:
+>> 07.06.2021 01:40, Dmitry Osipenko пишет:
+>>> 01.06.2021 07:21, Dmitry Osipenko пишет:
+>>>> This series adds memory bandwidth management to the NVIDIA Tegra DRM driver,
+>>>> which is done using interconnect framework. It fixes display corruption that
+>>>> happens due to insufficient memory bandwidth.
+>>>>
+>>>> Changelog:
+>>>>
+>>>> v18: - Moved total peak bandwidth from CRTC state to plane state and removed
+>>>>        dummy plane bandwidth state initialization from T186+ plane hub. This
+>>>>        was suggested by Thierry Reding to v17.
+>>>>
+>>>>      - I haven't done anything about the cursor's plane bandwidth which
+>>>>        doesn't contribute to overlapping bandwidths for a small sized
+>>>>        window because it works okay as-is.
+>>>
+>>> Thierry, will you take these patches for 5.14?
+>>>
+>>
+>> The display controller does _NOT_WORK_ properly without bandwidth
+>> management.
 > 
-> Thanks for this!
+> That's surprising. So either it has never worked before (which I think
+> I'd know) or something has caused this regression recently. In the
+> latter case we need to identify what that was and revert (or fix) it.
+
+The problem is caused by the support of dynamic memory frequency scaling
+which does a good job at keeping memory in a low power state during idle
+time. So display controller may not get enough bandwidth at the start of
+scanout if it won't request BW beforehand. This problem existed for many
+years on T124 and now T20/30 are also affected. The DC of T20 is the
+least tolerant to memory bandwidth troubles.
+
+This problem is not critical, but it hurts user experience since high
+resolution modes may not work at all and display output may become
+distorted, requiring a DC reset.
+
+>> Can we get this patch into 5.14? What is the problem?
 > 
-> Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
+> There was not enough time to review and test this, so I didn't feel
+> comfortable picking it up so close to the -rc6 cut-off. I plan to pick
+> this up early in the v5.14 release cycle and target v5.15.
 
-Sorry... looks like I was a little hasty here.
-
-As mentioned in https://marc.info/?l=linux-fbdev&m=162427245024751&w=2
-when lm3630a_bank_b_update_status() needs similar fixes.
-
-Just wanted to put something in the ML record so Lee doesn't pick this
-patch based on my R-b above...
-
-
-Danieo.
-
-
-> 
-> 
-> Daniel.
-> 
-> 
-> > ---
-> >  drivers/video/backlight/lm3630a_bl.c | 6 +++---
-> >  1 file changed, 3 insertions(+), 3 deletions(-)
-> > 
-> > diff --git a/drivers/video/backlight/lm3630a_bl.c b/drivers/video/backlight/lm3630a_bl.c
-> > index e88a2b0e5904..16a2658a72e1 100644
-> > --- a/drivers/video/backlight/lm3630a_bl.c
-> > +++ b/drivers/video/backlight/lm3630a_bl.c
-> > @@ -190,7 +190,7 @@ static int lm3630a_bank_a_update_status(struct backlight_device *bl)
-> >  	if ((pwm_ctrl & LM3630A_PWM_BANK_A) != 0) {
-> >  		lm3630a_pwm_ctrl(pchip, bl->props.brightness,
-> >  				 bl->props.max_brightness);
-> > -		return bl->props.brightness;
-> > +		return 0;
-> >  	}
-> >  
-> >  	/* disable sleep */
-> > @@ -210,8 +210,8 @@ static int lm3630a_bank_a_update_status(struct backlight_device *bl)
-> >  	return 0;
-> >  
-> >  out_i2c_err:
-> > -	dev_err(pchip->dev, "i2c failed to access\n");
-> > -	return bl->props.brightness;
-> > +	dev_err(pchip->dev, "i2c failed to access (%pe)\n", ERR_PTR(ret));
-> > +	return ret;
-> >  }
-> >  
-> >  static int lm3630a_bank_a_get_brightness(struct backlight_device *bl)
-> > 
-> > base-commit: 6efb943b8616ec53a5e444193dccf1af9ad627b5
-> > -- 
-> > 2.30.2
-> > 
+Thank you for the explanation! It's not uncommon to forget about
+patches, so the silence worries me. I hoped that both the dynamic freq
+scaling and display BW support would be merged around the same time, but
+apparently we got a disconnect here.
