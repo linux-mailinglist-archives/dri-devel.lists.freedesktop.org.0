@@ -2,36 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72B703AE996
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Jun 2021 15:02:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 741E63AE99D
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Jun 2021 15:03:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DCC8289FE3;
-	Mon, 21 Jun 2021 13:02:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6261C89FDD;
+	Mon, 21 Jun 2021 13:03:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BB4E289FDD;
- Mon, 21 Jun 2021 13:02:13 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id A8026600D4;
- Mon, 21 Jun 2021 13:02:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1624280533;
- bh=i0BoGd9phtcsE2N4w5S/NNcCyOLvsVmvubKDwfPIMew=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=N9ZvxmN6kzyMcupSt5ch1urOqDBkE0Yg6zpYbUkiJjCrqT/WAfP0GZcwtdCxyIhN5
- VJf2oNP6LasPeV9faVnguB0ItTYTqoiIi/KT6Spd+x7CVZUlDVNtQ1gqJ8z8De0PSa
- aehoznUR6BHHlVGF7/uMhhG8Rm1/YXbxpCs5Xms4=
-Date: Mon, 21 Jun 2021 15:02:10 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: Re: [PATCH v3 1/2] habanalabs: define uAPI to export FD for DMA-BUF
-Message-ID: <YNCN0ulL6DQiRJaB@kroah.com>
-References: <20210618123615.11456-1-ogabbay@kernel.org>
- <CAKMK7uFOfoxbD2Z5mb-qHFnUe5rObGKQ6Ygh--HSH9M=9bziGg@mail.gmail.com>
+Received: from mail-ej1-x632.google.com (mail-ej1-x632.google.com
+ [IPv6:2a00:1450:4864:20::632])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0FD2D89E19;
+ Mon, 21 Jun 2021 13:03:31 +0000 (UTC)
+Received: by mail-ej1-x632.google.com with SMTP id gt18so28630322ejc.11;
+ Mon, 21 Jun 2021 06:03:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=RDB5CnfFEe47+mMXBp9Dz9bs9wkTyMiKMUMfQmnPkdA=;
+ b=WR353TOhVbhUbwxifGbxF46swF8OjFP9AncMpa3BdLeaOaKmCC2JUPhfNq5ftHnCRA
+ wJSciJAf74yi9I+tpRRf69CFh6veUmtotXAtQ8UU23pD44PDQpoIkkT0xqs7GCJgiWS0
+ Cs8+p3f4TveJtviHTeX/x1i2lqWtVY7+5um78oLjUZxPU31vRst2MtoHcmAUEfUcWSed
+ zsSsir/TTo5nihKfOV8svkZrcPwAyuKRYZLu59yi31wRB3sJ89TBW8g8g0ua1oaAb+I/
+ FhvFvFD5A1/Dvhu3zvG45Wn4DpHpZNc7dmNEW1D74SJsKE909VJhGJDqYljTyohu6cER
+ T8mg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=RDB5CnfFEe47+mMXBp9Dz9bs9wkTyMiKMUMfQmnPkdA=;
+ b=a5G2JS3YtAgZ2/Ig6ClM2ognQ/buV5L/82yfMyU7vHhC8ZGZXm4d47BTTxuzJS9SZp
+ TtfB/j5QAPtD1EE8oqeQn2yRvuSxkQYYzVDDZjugHGxirty4qd+vQdPvlt0DjzI2b85v
+ gpIDg5oKeaMJXY8M7jRuB48I1JWBpeKViD+MmEN8MxwQxg0BukiS1tR3EMrI2HWkyjry
+ JRqG0wZe8KR2FgF35WpKrnLRuvLFgZjL1DmxibxJmlH06qEdE7my7qrpnqeg+PLHC8yl
+ ts2rdUUz1/vPEH4OcK1OVb3Zex+mcGDczZqg89yunApFZWCV2i4YD1Kk0ZKsyEwVxiuS
+ eigw==
+X-Gm-Message-State: AOAM532DOhwCiGw3xdgifXn8u/AEbfppC5y6f/eO3ygn69xcxnKDr30A
+ z2tnAPPUF8VGZkf0TU/Z385w/SEXDBc=
+X-Google-Smtp-Source: ABdhPJx8rX2dsSHDFdrnDvkrCbn9ozA0vl2/NcMUSoVpCD4/a/DBP8O2n1xUvpst062j7W2k2UJ2hQ==
+X-Received: by 2002:a17:906:6c92:: with SMTP id
+ s18mr24282658ejr.246.1624280609659; 
+ Mon, 21 Jun 2021 06:03:29 -0700 (PDT)
+Received: from abel.fritz.box ([2a02:908:1252:fb60:bd92:da7:4d23:8910])
+ by smtp.gmail.com with ESMTPSA id w10sm5322375edv.34.2021.06.21.06.03.28
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 21 Jun 2021 06:03:29 -0700 (PDT)
+From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
+X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
+ <christian.koenig@amd.com>
+To: dri-devel@lists.freedesktop.org, daniel.vetter@ffwll.ch,
+ nouveau@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
+Subject: [PATCH 1/3] drm/nouveau: wait for moving fence after pinning
+Date: Mon, 21 Jun 2021 15:03:26 +0200
+Message-Id: <20210621130328.11070-1-christian.koenig@amd.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAKMK7uFOfoxbD2Z5mb-qHFnUe5rObGKQ6Ygh--HSH9M=9bziGg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -44,74 +70,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Gal Pressman <galpress@amazon.com>, sleybo@amazon.com,
- linux-rdma <linux-rdma@vger.kernel.org>, Leon Romanovsky <leonro@nvidia.com>,
- Oded Gabbay <ogabbay@kernel.org>, Christoph Hellwig <hch@lst.de>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
- Jason Gunthorpe <jgg@ziepe.ca>, Doug Ledford <dledford@redhat.com>,
- Tomer Tayar <ttayar@habana.ai>, amd-gfx list <amd-gfx@lists.freedesktop.org>,
- Alex Deucher <alexander.deucher@amd.com>,
- "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jun 21, 2021 at 02:28:48PM +0200, Daniel Vetter wrote:
-> On Fri, Jun 18, 2021 at 2:36 PM Oded Gabbay <ogabbay@kernel.org> wrote:
-> > User process might want to share the device memory with another
-> > driver/device, and to allow it to access it over PCIe (P2P).
-> >
-> > To enable this, we utilize the dma-buf mechanism and add a dma-buf
-> > exporter support, so the other driver can import the device memory and
-> > access it.
-> >
-> > The device memory is allocated using our existing allocation uAPI,
-> > where the user will get a handle that represents the allocation.
-> >
-> > The user will then need to call the new
-> > uAPI (HL_MEM_OP_EXPORT_DMABUF_FD) and give the handle as a parameter.
-> >
-> > The driver will return a FD that represents the DMA-BUF object that
-> > was created to match that allocation.
-> >
-> > Signed-off-by: Oded Gabbay <ogabbay@kernel.org>
-> > Reviewed-by: Tomer Tayar <ttayar@habana.ai>
-> 
-> Mission acomplished, we've gone full circle, and the totally-not-a-gpu
-> driver is now trying to use gpu infrastructure. And seems to have
-> gained vram meanwhile too. Next up is going to be synchronization
-> using dma_fence so you can pass buffers back&forth without stalls
-> among drivers.
+We actually need to wait for the moving fence after pinning
+the BO to make sure that the pin is completed.
 
-What's wrong with other drivers using dmabufs and even dma_fence?  It's
-a common problem when shuffling memory around systems, why is that
-somehow only allowed for gpu drivers?
+Signed-off-by: Christian König <christian.koenig@amd.com>
+CC: stable@kernel.org
+---
+ drivers/gpu/drm/nouveau/nouveau_prime.c | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
 
-There are many users of these structures in the kernel today that are
-not gpu drivers (tee, fastrpc, virtio, xen, IB, etc) as this is a common
-thing that drivers want to do (throw chunks of memory around from
-userspace to hardware).
+diff --git a/drivers/gpu/drm/nouveau/nouveau_prime.c b/drivers/gpu/drm/nouveau/nouveau_prime.c
+index 347488685f74..591738545eba 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_prime.c
++++ b/drivers/gpu/drm/nouveau/nouveau_prime.c
+@@ -93,7 +93,13 @@ int nouveau_gem_prime_pin(struct drm_gem_object *obj)
+ 	if (ret)
+ 		return -EINVAL;
+ 
+-	return 0;
++	if (nvbo->bo.moving) {
++		ret = dma_fence_wait(nvbo->bo.moving, true);
++		if (ret)
++			nouveau_bo_unpin(nvbo);
++	}
++
++	return ret;
+ }
+ 
+ void nouveau_gem_prime_unpin(struct drm_gem_object *obj)
+-- 
+2.25.1
 
-I'm not trying to be a pain here, but I really do not understand why
-this is a problem.  A kernel api is present, why not use it by other
-in-kernel drivers?  We had the problem in the past where subsystems were
-trying to create their own interfaces for the same thing, which is why
-you all created the dmabuf api to help unify this.
-
-> Also I'm wondering which is the other driver that we share buffers
-> with. The gaudi stuff doesn't have real struct pages as backing
-> storage, it only fills out the dma_addr_t. That tends to blow up with
-> other drivers, and the only place where this is guaranteed to work is
-> if you have a dynamic importer which sets the allow_peer2peer flag.
-> Adding maintainers from other subsystems who might want to chime in
-> here. So even aside of the big question as-is this is broken.
-
-From what I can tell this driver is sending the buffers to other
-instances of the same hardware, as that's what is on the other "end" of
-the network connection.  No different from IB's use of RDMA, right?
-
-thanks,
-
-greg k-h
